@@ -1,2 +1,5 @@
 bin/
 input/
+data/
+node_modules/
+package-lock.json
