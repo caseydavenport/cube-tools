@@ -13,8 +13,9 @@ type Deck struct {
 	// archetype, playstyle, etc.
 	Labels []string `json:"labels"`
 
-	// Who build the deck.
-	Player string
+	// Who built the deck.
+	Player string `json:"player"`
+	Date   string `json:"date"`
 
 	// Performance data in terms of raw games won, lost, or tied.
 	Wins   int `json:"wins"`
