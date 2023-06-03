@@ -23,5 +23,12 @@ Build all tools with `make`
 To parse a deck:
 
 ```
-./bin/parser -deck input.csv -who player_name -wins 2 -losses 2 -labels aggro,sacrifice date 2023-05-31
+./bin/parser -deck input.csv \
+    -who player_name \
+    -wins 2 \
+    -losses 2 \
+    -labels aggro,sacrifice
+    -date YYYY-MM-DD
 ```
+
+The resulting files will be stored at `drafts/YYYY-MM-DD/player_name.json`
