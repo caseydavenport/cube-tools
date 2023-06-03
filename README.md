@@ -27,7 +27,7 @@ To parse a deck:
     -who player_name \
     -wins 2 \
     -losses 2 \
-    -labels aggro,sacrifice
+    -labels aggro,sacrifice \
     -date YYYY-MM-DD
 ```
 
