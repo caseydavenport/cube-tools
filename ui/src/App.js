@@ -19,8 +19,8 @@ export default function Main() {
   // For now, drafts need to be manually added here in order to show up in the UI.
   // Eventually, this should be determined dynamically.
   const drafts = [
-    { label: "1", value: "2023-05-31" },
-    { label: "2", value: "2023-05-31" },
+    { label: "", value: "" },
+    { label: "", value: "2023-05-31" },
   ]
 
   useEffect(() => {
