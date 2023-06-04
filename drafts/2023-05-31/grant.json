@@ -205,19 +205,18 @@
   {
    "name": "Llanowar Elves",
    "types": [
-    "Token",
     "Creature"
    ],
    "sub_types": [
     "Elf",
     "Druid"
    ],
-   "cmc": 0,
+   "cmc": 1,
    "image": "",
    "colors": [
     "G"
    ],
-   "url": "https://scryfall.com/card/ttsr/12/llanowar-elves?utm_source=api"
+   "url": "https://scryfall.com/card/gnt/46/llanowar-elves?utm_source=api"
   },
   {
    "name": "Silver Myr",

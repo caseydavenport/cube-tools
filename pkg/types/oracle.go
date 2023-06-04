@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"io/ioutil"
 	"os"
+	"strings"
 )
 
 var oracleCards map[string]OracleCard
@@ -27,6 +28,11 @@ func init() {
 		panic(err)
 	}
 	for _, card := range oracleList {
+		// Skip tokens. Sometimes they have the same name
+		// as real cards, but they never actually belong in a deck.
+		if strings.Contains(card.TypeLine, "Token") {
+			continue
+		}
 		oracleCards[card.Name] = card
 	}
 }

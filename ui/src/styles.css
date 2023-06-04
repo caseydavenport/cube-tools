@@ -87,13 +87,11 @@ ul {
 .decklist {
   background: #AE6989;
   color: #FFF;
-  border: 0px solid #999;
+  border: none;
   float: left;
   font-size: 18px;
-  font-weight: bold;
   line-height: 34px;
   height: 34px;
-  margin-right: -1px;
   margin-top: 20px;
   margin-left: 15px;
   padding: 0px;
@@ -101,8 +99,16 @@ ul {
   min-width: 300px;
 }
 
+.table-header {
+  background: #888;
+  font-weight: bold;
+  padding: 0px;
+  margin: 0px;
+}
+
 .card {
-  padding: -0px;
+  padding: 0px;
+  margin: 0px;
 }
 
 .card:hover {

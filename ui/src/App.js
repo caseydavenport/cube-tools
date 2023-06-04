@@ -155,20 +155,52 @@ function DisplayDeck({deck}) {
       </tbody>
     </table>
 
-    <table key={deck.player} className="decklist">
+    <CardList player={deck.player} cards={deck.mainboard} opts={{cmc: 0}} />
+    <CardList player={deck.player} cards={deck.mainboard} opts={{cmc: 1}} />
+    <CardList player={deck.player} cards={deck.mainboard} opts={{cmc: 2}} />
+    <CardList player={deck.player} cards={deck.mainboard} opts={{cmc: 3}} />
+    <CardList player={deck.player} cards={deck.mainboard} opts={{cmc: 4}} />
+    <CardList player={deck.player} cards={deck.mainboard} opts={{cmc: 5}} />
+    <CardList player={deck.player} cards={deck.mainboard} opts={{cmc: 6}} />
+    <CardList player={deck.player} cards={deck.mainboard} opts={{cmc: 7}} />
+    <CardList player={deck.player} cards={deck.mainboard} opts={{cmc: 8}} />
+    </>
+  );
+}
+
+function CardList({ player, cards, opts }) {
+  // Figure out how many of this CMC there are.
+  let num = 0
+  for (var i in cards) {
+    if (cards[i].cmc == opts.cmc) {
+      num += 1
+    }
+  }
+  if (num == 0) {
+    return null
+  }
+
+  // Generate the key for this table.
+  let key = {player} + opts.cmc
+  return (
+    <table key={player} className="decklist">
+      <thead className="table-header">
+        CMC: {opts.cmc} ({num})
+      </thead>
       <tbody>
       {
-        deck.mainboard.map(function(item) {
-          return (
-            <tr className="card" key={item.name}>
-              <td><a href={item.url} target="_blank">{item.name}</a></td>
-            </tr>
-          )
+        cards.map(function(item) {
+          if (item.cmc == opts.cmc) {
+            return (
+              <tr className="card" key={item.name}>
+                <td><a href={item.url} target="_blank">{item.name}</a></td>
+              </tr>
+            )
+          }
         })
       }
       </tbody>
     </table>
-    </>
   );
 }
 
