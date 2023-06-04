@@ -161,9 +161,7 @@ function DisplayDeck({deck}) {
     <CardList player={deck.player} cards={deck.mainboard} opts={{cmc: 3}} />
     <CardList player={deck.player} cards={deck.mainboard} opts={{cmc: 4}} />
     <CardList player={deck.player} cards={deck.mainboard} opts={{cmc: 5}} />
-    <CardList player={deck.player} cards={deck.mainboard} opts={{cmc: 6}} />
-    <CardList player={deck.player} cards={deck.mainboard} opts={{cmc: 7}} />
-    <CardList player={deck.player} cards={deck.mainboard} opts={{cmc: 8}} />
+    <CardList player={deck.player} cards={deck.mainboard} opts={{cmc: 6, gt: true}} />
     </>
   );
 }
@@ -172,7 +170,9 @@ function CardList({ player, cards, opts }) {
   // Figure out how many of this CMC there are.
   let num = 0
   for (var i in cards) {
-    if (cards[i].cmc == opts.cmc) {
+    // Count the card if it matches the CMC, or if options specify to include
+    // all cards greater than the given value.
+    if (opts.gt && cards[i].cmc >= opts.cmc || cards[i].cmc == opts.cmc) {
       num += 1
     }
   }
@@ -180,17 +180,20 @@ function CardList({ player, cards, opts }) {
     return null
   }
 
+  let title = "CMC: " + opts.cmc + " (" + num + ")"
+  if (opts.gt) {
+    title = "CMC: " + opts.cmc + "+ (" + num + ")"
+  }
+
   // Generate the key for this table.
   let key = {player} + opts.cmc
   return (
     <table key={player} className="decklist">
-      <thead className="table-header">
-        CMC: {opts.cmc} ({num})
-      </thead>
+      <thead className="table-header">{title}</thead>
       <tbody>
       {
         cards.map(function(item) {
-          if (item.cmc == opts.cmc) {
+          if (opts.gt && item.cmc >= opts.cmc || item.cmc == opts.cmc) {
             return (
               <tr className="card" key={item.name}>
                 <td><a href={item.url} target="_blank">{item.name}</a></td>
