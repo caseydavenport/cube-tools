@@ -6,6 +6,7 @@ body {
   font-family: sans-serif;
   margin: 20px;
   padding: 0;
+  background: #040926;
 }
 
 h1 {
@@ -50,55 +51,62 @@ ul {
   box-sizing: border-box;
 }
 
-body {
-  font-family: sans-serif;
-  margin: 20px;
-  padding: 0;
-}
-
 .player-frame {
-  background: #BBB;
-  border: 1px solid #999;
+  background: #AE6989;
+  color: #FFF;
+  border: 0px solid #999;
   float: left;
   font-size: 24px;
   font-weight: bold;
   line-height: 34px;
   height: 34px;
   margin-right: -1px;
-  margin-top: -1px;
-  padding: 0;
+  margin-top: 20px;
+  padding: 5px;
   text-align: center;
   width: 400px;
 }
 
 .decklist {
-  background: #DDD;
-  border: 1px solid #999;
+  background: #AE6989;
+  color: #FFF;
+  border: 0px solid #999;
   float: left;
   font-size: 18px;
   font-weight: bold;
+  line-height: 34px;
+  height: 34px;
   margin-right: -1px;
-  margin-top: -1px;
-  padding: 0;
-  text-align: left;
-  width: 400px;
+  margin-top: 20px;
+  margin-left: 15px;
+  padding: 0px;
+  text-align: center;
+  min-width: 300px;
 }
 
-
-.board-row:after {
-  clear: both;
-  content: '';
-  display: table;
+.card {
+  padding: -0px;
 }
 
-.status {
-  margin-bottom: 10px;
-}
-.game {
-  display: flex;
-  flex-direction: row;
+.card:hover {
+  background: #C97B84;
 }
 
-.game-info {
-  margin-left: 20px;
+.dropdown {
+  color: #FFF;
+  background: #C97B84;
+  padding: 25px;
+  border: 0px solid #FFF
+}
+
+.select {
+  color: #FFF;
+  padding: 2px;
+  margin: 10px;
+  background: #AE6989;
+}
+
+.select-option {
+  color: #FFF;
+  background: #AE6989;
 }
