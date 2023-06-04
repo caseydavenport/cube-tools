@@ -56,6 +56,23 @@ ul {
   box-sizing: border-box;
 }
 
+.main-nav {
+  background: #AE6989;
+  color: #FFF;
+  border: 0px solid #999;
+  float: left;
+  font-size: 18px;
+  line-height: 34px;
+  height: 24px;
+  padding: 0px;
+  text-align: center;
+  min-width: 300px;
+}
+
+.nav-button:hover {
+  background: #C97B84;
+}
+
 .player-frame {
   background: #AE6989;
   color: #FFF;
