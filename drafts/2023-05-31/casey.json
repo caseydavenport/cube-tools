@@ -9,127 +9,591 @@
  "ties": 0,
  "mainboard": [
   {
-   "name": "Darksteel Colossus"
+   "name": "Darksteel Colossus",
+   "types": [
+    "Artifact",
+    "Creature"
+   ],
+   "sub_types": [
+    "Golem"
+   ],
+   "cmc": 11,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/m10/208/darksteel-colossus?utm_source=api"
   },
   {
-   "name": "Groundswell"
+   "name": "Groundswell",
+   "types": [
+    "Instant"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [
+    "G"
+   ],
+   "url": "https://scryfall.com/card/ddp/15/groundswell?utm_source=api"
   },
   {
-   "name": "Lightning Bolt"
+   "name": "Lightning Bolt",
+   "types": [
+    "Instant"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [
+    "R"
+   ],
+   "url": "https://scryfall.com/card/2x2/117/lightning-bolt?utm_source=api"
   },
   {
-   "name": "Reclamation Sage"
+   "name": "Reclamation Sage",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Elf",
+    "Shaman"
+   ],
+   "cmc": 3,
+   "image": "",
+   "colors": [
+    "G"
+   ],
+   "url": "https://scryfall.com/card/khc/72/reclamation-sage?utm_source=api"
   },
   {
-   "name": "Vines of Vastwood"
+   "name": "Vines of Vastwood",
+   "types": [
+    "Instant"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [
+    "G"
+   ],
+   "url": "https://scryfall.com/card/mm2/168/vines-of-vastwood?utm_source=api"
   },
   {
-   "name": "Catalyst Elemental"
+   "name": "Catalyst Elemental",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Elemental"
+   ],
+   "cmc": 3,
+   "image": "",
+   "colors": [
+    "R"
+   ],
+   "url": "https://scryfall.com/card/m19/132/catalyst-elemental?utm_source=api"
   },
   {
-   "name": "Serpent-Blade Assailant"
+   "name": "Serpent-Blade Assailant",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Elf",
+    "Warrior"
+   ],
+   "cmc": 3,
+   "image": "",
+   "colors": [
+    "G"
+   ],
+   "url": "https://scryfall.com/card/mom/205/serpent-blade-assailant?utm_source=api"
   },
   {
-   "name": "Recross the Paths"
+   "name": "Recross the Paths",
+   "types": [
+    "Sorcery"
+   ],
+   "cmc": 3,
+   "image": "",
+   "colors": [
+    "G"
+   ],
+   "url": "https://scryfall.com/card/mor/133/recross-the-paths?utm_source=api"
   },
   {
-   "name": "Spellbreaker Behemoth"
+   "name": "Spellbreaker Behemoth",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Beast"
+   ],
+   "cmc": 4,
+   "image": "",
+   "colors": [
+    "G",
+    "R"
+   ],
+   "url": "https://scryfall.com/card/c13/216/spellbreaker-behemoth?utm_source=api"
   },
   {
-   "name": "Lightning Greaves"
+   "name": "Lightning Greaves",
+   "types": [
+    "Artifact"
+   ],
+   "sub_types": [
+    "Equipment"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/clb/864/lightning-greaves?utm_source=api"
   },
   {
-   "name": "Wickerbough Elder"
+   "name": "Wickerbough Elder",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Treefolk",
+    "Shaman"
+   ],
+   "cmc": 4,
+   "image": "",
+   "colors": [
+    "G"
+   ],
+   "url": "https://scryfall.com/card/ncc/320/wickerbough-elder?utm_source=api"
   },
   {
-   "name": "Forest"
+   "name": "Forest",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Forest"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/who/205/forest?utm_source=api"
   },
   {
-   "name": "Forest"
+   "name": "Forest",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Forest"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/who/205/forest?utm_source=api"
   },
   {
-   "name": "Forest"
+   "name": "Forest",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Forest"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/who/205/forest?utm_source=api"
   },
   {
-   "name": "Forest"
+   "name": "Forest",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Forest"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/who/205/forest?utm_source=api"
   },
   {
-   "name": "Forest"
+   "name": "Forest",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Forest"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/who/205/forest?utm_source=api"
   },
   {
-   "name": "Forest"
+   "name": "Forest",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Forest"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/who/205/forest?utm_source=api"
   },
   {
-   "name": "Forest"
+   "name": "Forest",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Forest"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/who/205/forest?utm_source=api"
   },
   {
-   "name": "Forest"
+   "name": "Forest",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Forest"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/who/205/forest?utm_source=api"
   },
   {
-   "name": "Forest"
+   "name": "Forest",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Forest"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/who/205/forest?utm_source=api"
   },
   {
-   "name": "Mountain"
+   "name": "Mountain",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Mountain"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/who/203/mountain?utm_source=api"
   },
   {
-   "name": "Mountain"
+   "name": "Mountain",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Mountain"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/who/203/mountain?utm_source=api"
   },
   {
-   "name": "Mountain"
+   "name": "Mountain",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Mountain"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/who/203/mountain?utm_source=api"
   },
   {
-   "name": "Mountain"
+   "name": "Mountain",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Mountain"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/who/203/mountain?utm_source=api"
   },
   {
-   "name": "Mountain"
+   "name": "Mountain",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Mountain"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/who/203/mountain?utm_source=api"
   },
   {
-   "name": "Mountain"
+   "name": "Mountain",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Mountain"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/who/203/mountain?utm_source=api"
   },
   {
-   "name": "Mountain"
+   "name": "Mountain",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Mountain"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/who/203/mountain?utm_source=api"
   },
   {
-   "name": "Rabbit Battery"
+   "name": "Rabbit Battery",
+   "types": [
+    "Artifact",
+    "Creature"
+   ],
+   "sub_types": [
+    "Equipment",
+    "Rabbit"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [
+    "R"
+   ],
+   "url": "https://scryfall.com/card/neo/157/rabbit-battery?utm_source=api"
   },
   {
-   "name": "Acidic Slime"
+   "name": "Acidic Slime",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Ooze"
+   ],
+   "cmc": 5,
+   "image": "",
+   "colors": [
+    "G"
+   ],
+   "url": "https://scryfall.com/card/nec/112/acidic-slime?utm_source=api"
   },
   {
-   "name": "Iron Myr"
+   "name": "Iron Myr",
+   "types": [
+    "Artifact",
+    "Creature"
+   ],
+   "sub_types": [
+    "Myr"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/som/168/iron-myr?utm_source=api"
   },
   {
-   "name": "Rootbound Crag"
+   "name": "Rootbound Crag",
+   "types": [
+    "Land"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/xln/256/rootbound-crag?utm_source=api"
   },
   {
-   "name": "Cankerbloom"
+   "name": "Cankerbloom",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Phyrexian",
+    "Fungus"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "G"
+   ],
+   "url": "https://scryfall.com/card/one/161/cankerbloom?utm_source=api"
   },
   {
-   "name": "Domri"
+   "name": "Domri, Anarch of Bolas",
+   "types": [
+    "Legendary",
+    "Planeswalker"
+   ],
+   "sub_types": [
+    "Domri"
+   ],
+   "cmc": 3,
+   "image": "",
+   "colors": [
+    "G",
+    "R"
+   ],
+   "url": "https://scryfall.com/card/war/191/domri-anarch-of-bolas?utm_source=api"
   },
   {
-   "name": "Utopia Sprawl"
+   "name": "Utopia Sprawl",
+   "types": [
+    "Enchantment"
+   ],
+   "sub_types": [
+    "Aura"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [
+    "G"
+   ],
+   "url": "https://scryfall.com/card/afc/172/utopia-sprawl?utm_source=api"
   },
   {
-   "name": "Kronch Wrangler"
+   "name": "Kronch Wrangler",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Human",
+    "Warrior"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "G"
+   ],
+   "url": "https://scryfall.com/card/war/166/kronch-wrangler?utm_source=api"
   },
   {
-   "name": "Skarrgan Hellkite"
+   "name": "Skarrgan Hellkite",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Dragon"
+   ],
+   "cmc": 5,
+   "image": "",
+   "colors": [
+    "R"
+   ],
+   "url": "https://scryfall.com/card/rna/114/skarrgan-hellkite?utm_source=api"
   },
   {
-   "name": "Witherscale Wurm"
+   "name": "Witherscale Wurm",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Wurm"
+   ],
+   "cmc": 6,
+   "image": "",
+   "colors": [
+    "G"
+   ],
+   "url": "https://scryfall.com/card/shm/134/witherscale-wurm?utm_source=api"
   },
   {
-   "name": "Domri's Ambush"
+   "name": "Domri's Ambush",
+   "types": [
+    "Sorcery"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "G",
+    "R"
+   ],
+   "url": "https://scryfall.com/card/war/192/domris-ambush?utm_source=api"
   },
   {
-   "name": "Summit Apes"
+   "name": "Summit Apes",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Ape"
+   ],
+   "cmc": 4,
+   "image": "",
+   "colors": [
+    "G"
+   ],
+   "url": "https://scryfall.com/card/wwk/114/summit-apes?utm_source=api"
   },
   {
-   "name": "Untamed Kavu"
+   "name": "Untamed Kavu",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Kavu"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "G"
+   ],
+   "url": "https://scryfall.com/card/dom/186/untamed-kavu?utm_source=api"
   },
   {
-   "name": "Tilling Treefolk"
+   "name": "Tilling Treefolk",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Treefolk",
+    "Druid"
+   ],
+   "cmc": 3,
+   "image": "",
+   "colors": [
+    "G"
+   ],
+   "url": "https://scryfall.com/card/eve/78/tilling-treefolk?utm_source=api"
   }
  ],
  "sideboard": []

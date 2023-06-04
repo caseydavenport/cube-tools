@@ -1,6 +1,6 @@
 {
  "labels": [
-  "goodstuff"
+  "stuff"
  ],
  "player": "matt",
  "date": "2023-05-31",
@@ -9,124 +9,569 @@
  "ties": 0,
  "mainboard": [
   {
-   "name": "Dreadmalkin"
+   "name": "Dreadmalkin",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Zombie",
+    "Cat"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [
+    "B"
+   ],
+   "url": "https://scryfall.com/card/war/87/dreadmalkin?utm_source=api"
   },
   {
-   "name": "Swamp"
+   "name": "Swamp",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Swamp"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/who/201/swamp?utm_source=api"
   },
   {
-   "name": "Swamp"
+   "name": "Swamp",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Swamp"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/who/201/swamp?utm_source=api"
   },
   {
-   "name": "Swamp"
+   "name": "Swamp",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Swamp"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/who/201/swamp?utm_source=api"
   },
   {
-   "name": "Swamp"
+   "name": "Swamp",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Swamp"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/who/201/swamp?utm_source=api"
   },
   {
-   "name": "Swamp"
+   "name": "Swamp",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Swamp"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/who/201/swamp?utm_source=api"
   },
   {
-   "name": "Swamp"
+   "name": "Swamp",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Swamp"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/who/201/swamp?utm_source=api"
   },
   {
-   "name": "Swamp"
+   "name": "Swamp",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Swamp"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/who/201/swamp?utm_source=api"
   },
   {
-   "name": "Swamp"
+   "name": "Swamp",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Swamp"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/who/201/swamp?utm_source=api"
   },
   {
-   "name": "Swamp"
+   "name": "Swamp",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Swamp"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/who/201/swamp?utm_source=api"
   },
   {
-   "name": "Vampire of the Dire Moon"
+   "name": "Vampire of the Dire Moon",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Vampire"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [
+    "B"
+   ],
+   "url": "https://scryfall.com/card/m20/120/vampire-of-the-dire-moon?utm_source=api"
   },
   {
-   "name": "Fateful End"
+   "name": "Fateful End",
+   "types": [
+    "Instant"
+   ],
+   "cmc": 3,
+   "image": "",
+   "colors": [
+    "R"
+   ],
+   "url": "https://scryfall.com/card/thb/133/fateful-end?utm_source=api"
   },
   {
-   "name": "Liliana"
+   "name": "Liliana, Death's Majesty",
+   "types": [
+    "Legendary",
+    "Planeswalker"
+   ],
+   "sub_types": [
+    "Liliana"
+   ],
+   "cmc": 5,
+   "image": "",
+   "colors": [
+    "B"
+   ],
+   "url": "https://scryfall.com/card/mic/121/liliana-deaths-majesty?utm_source=api"
   },
   {
-   "name": "Kalastria Highborn"
+   "name": "Kalastria Highborn",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Vampire",
+    "Shaman"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "B"
+   ],
+   "url": "https://scryfall.com/card/wwk/59/kalastria-highborn?utm_source=api"
   },
   {
-   "name": "Bloodghast"
+   "name": "Bloodghast",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Vampire",
+    "Spirit"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "B"
+   ],
+   "url": "https://scryfall.com/card/ima/82/bloodghast?utm_source=api"
   },
   {
-   "name": "Warcry Phoenix"
+   "name": "Warcry Phoenix",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Phoenix"
+   ],
+   "cmc": 4,
+   "image": "",
+   "colors": [
+    "R"
+   ],
+   "url": "https://scryfall.com/card/dom/150/warcry-phoenix?utm_source=api"
   },
   {
-   "name": "Mountain"
+   "name": "Mountain",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Mountain"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/who/203/mountain?utm_source=api"
   },
   {
-   "name": "Mountain"
+   "name": "Mountain",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Mountain"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/who/203/mountain?utm_source=api"
   },
   {
-   "name": "Mountain"
+   "name": "Mountain",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Mountain"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/who/203/mountain?utm_source=api"
   },
   {
-   "name": "Mountain"
+   "name": "Mountain",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Mountain"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/who/203/mountain?utm_source=api"
   },
   {
-   "name": "Mountain"
+   "name": "Mountain",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Mountain"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/who/203/mountain?utm_source=api"
   },
   {
-   "name": "Mountain"
+   "name": "Mountain",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Mountain"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/who/203/mountain?utm_source=api"
   },
   {
-   "name": "Mountain"
+   "name": "Mountain",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Mountain"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/who/203/mountain?utm_source=api"
   },
   {
-   "name": "Mountain"
+   "name": "Mountain",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Mountain"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/who/203/mountain?utm_source=api"
   },
   {
-   "name": "Hellkite Charger"
+   "name": "Hellkite Charger",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Dragon"
+   ],
+   "cmc": 6,
+   "image": "",
+   "colors": [
+    "R"
+   ],
+   "url": "https://scryfall.com/card/c17/138/hellkite-charger?utm_source=api"
   },
   {
-   "name": "Grim Initiate"
+   "name": "Grim Initiate",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Zombie",
+    "Warrior"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [
+    "R"
+   ],
+   "url": "https://scryfall.com/card/war/130/grim-initiate?utm_source=api"
   },
   {
-   "name": "Manabarbs"
+   "name": "Manabarbs",
+   "types": [
+    "Enchantment"
+   ],
+   "cmc": 4,
+   "image": "",
+   "colors": [
+    "R"
+   ],
+   "url": "https://scryfall.com/card/m12/150/manabarbs?utm_source=api"
   },
   {
-   "name": "Aphemia"
+   "name": "Aphemia, the Cacophony",
+   "types": [
+    "Legendary",
+    "Enchantment",
+    "Creature"
+   ],
+   "sub_types": [
+    "Harpy"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "B"
+   ],
+   "url": "https://scryfall.com/card/thb/84/aphemia-the-cacophony?utm_source=api"
   },
   {
-   "name": "Quietus Spike"
+   "name": "Quietus Spike",
+   "types": [
+    "Artifact"
+   ],
+   "sub_types": [
+    "Equipment"
+   ],
+   "cmc": 3,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/ncc/377/quietus-spike?utm_source=api"
   },
   {
-   "name": "Mark of Mutiny"
+   "name": "Mark of Mutiny",
+   "types": [
+    "Sorcery"
+   ],
+   "cmc": 3,
+   "image": "",
+   "colors": [
+    "R"
+   ],
+   "url": "https://scryfall.com/card/ima/139/mark-of-mutiny?utm_source=api"
   },
   {
-   "name": "Chandra"
+   "name": "Chandra, Hope's Beacon",
+   "types": [
+    "Legendary",
+    "Planeswalker"
+   ],
+   "sub_types": [
+    "Chandra"
+   ],
+   "cmc": 6,
+   "image": "",
+   "colors": [
+    "R"
+   ],
+   "url": "https://scryfall.com/card/mom/134/chandra-hopes-beacon?utm_source=api"
   },
   {
-   "name": "Magma Phoenix"
+   "name": "Magma Phoenix",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Phoenix"
+   ],
+   "cmc": 5,
+   "image": "",
+   "colors": [
+    "R"
+   ],
+   "url": "https://scryfall.com/card/m11/150/magma-phoenix?utm_source=api"
   },
   {
-   "name": "Coat of Arms"
+   "name": "Coat of Arms",
+   "types": [
+    "Artifact"
+   ],
+   "cmc": 5,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/dds/58/coat-of-arms?utm_source=api"
   },
   {
-   "name": "Archfiend of Ifnir"
+   "name": "Archfiend of Ifnir",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Demon"
+   ],
+   "cmc": 5,
+   "image": "",
+   "colors": [
+    "B"
+   ],
+   "url": "https://scryfall.com/card/akh/78/archfiend-of-ifnir?utm_source=api"
   },
   {
-   "name": "Malakir Bloodwitch"
+   "name": "Malakir Bloodwitch",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Vampire",
+    "Shaman"
+   ],
+   "cmc": 5,
+   "image": "",
+   "colors": [
+    "B"
+   ],
+   "url": "https://scryfall.com/card/voc/131/malakir-bloodwitch?utm_source=api"
   },
   {
-   "name": "Comet Storm"
+   "name": "Comet Storm",
+   "types": [
+    "Instant"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "R"
+   ],
+   "url": "https://scryfall.com/card/cmr/411/comet-storm?utm_source=api"
   },
   {
-   "name": "Panharmonicon"
+   "name": "Panharmonicon",
+   "types": [
+    "Artifact"
+   ],
+   "cmc": 4,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/2x2/310/panharmonicon?utm_source=api"
   },
   {
-   "name": "Sanctum Seeker"
+   "name": "Sanctum Seeker",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Vampire",
+    "Knight"
+   ],
+   "cmc": 4,
+   "image": "",
+   "colors": [
+    "B"
+   ],
+   "url": "https://scryfall.com/card/voc/136/sanctum-seeker?utm_source=api"
   },
   {
-   "name": "Cunning Sparkmage"
+   "name": "Cunning Sparkmage",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Human",
+    "Shaman"
+   ],
+   "cmc": 3,
+   "image": "",
+   "colors": [
+    "R"
+   ],
+   "url": "https://scryfall.com/card/wwk/79/cunning-sparkmage?utm_source=api"
   },
   {
-   "name": "Jinxed Idol"
+   "name": "Jinxed Idol",
+   "types": [
+    "Artifact"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/tpr/224/jinxed-idol?utm_source=api"
   }
  ],
  "sideboard": []

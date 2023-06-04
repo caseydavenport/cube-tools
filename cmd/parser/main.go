@@ -86,9 +86,8 @@ func loadFile() (*types.Deck, error) {
 	for _, l := range strings.Split(string(bytes), "\n") {
 		count, name := parseLine(l)
 		for i := 0; i < count; i++ {
-			d.Mainboard = append(d.Mainboard, types.Card{
-				Name: name,
-			})
+			oracleData := types.GetOracleData(name)
+			d.Mainboard = append(d.Mainboard, types.FromOracle(oracleData))
 		}
 	}
 
@@ -154,7 +153,7 @@ func parseLine(l string) (int, string) {
 	}
 	// Lines are formatted like this:
 	// "1,","cardname"
-	splits := strings.Split(l, ",")
+	splits := strings.SplitN(l, ",", 2)
 	count, err := strconv.ParseInt(strings.Trim(splits[0], "\""), 10, 32)
 	if err != nil {
 		panic(err)

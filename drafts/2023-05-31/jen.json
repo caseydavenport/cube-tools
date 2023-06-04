@@ -10,124 +10,571 @@
  "ties": 0,
  "mainboard": [
   {
-   "name": "Cloudgoat Ranger"
+   "name": "Cloudgoat Ranger",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Giant",
+    "Warrior",
+    "Ranger"
+   ],
+   "cmc": 5,
+   "image": "",
+   "colors": [
+    "W"
+   ],
+   "url": "https://scryfall.com/card/khc/21/cloudgoat-ranger?utm_source=api"
   },
   {
-   "name": "Jiang Yanggu"
+   "name": "Jiang Yanggu, Wildcrafter",
+   "types": [
+    "Legendary",
+    "Planeswalker"
+   ],
+   "sub_types": [
+    "Yanggu"
+   ],
+   "cmc": 3,
+   "image": "",
+   "colors": [
+    "G"
+   ],
+   "url": "https://scryfall.com/card/war/164/jiang-yanggu-wildcrafter?utm_source=api"
   },
   {
-   "name": "Paladin of the Bloodstained"
+   "name": "Paladin of the Bloodstained",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Vampire",
+    "Knight"
+   ],
+   "cmc": 4,
+   "image": "",
+   "colors": [
+    "W"
+   ],
+   "url": "https://scryfall.com/card/xln/25/paladin-of-the-bloodstained?utm_source=api"
   },
   {
-   "name": "Pledge of Unity"
+   "name": "Pledge of Unity",
+   "types": [
+    "Instant"
+   ],
+   "cmc": 3,
+   "image": "",
+   "colors": [
+    "G",
+    "W"
+   ],
+   "url": "https://scryfall.com/card/war/210/pledge-of-unity?utm_source=api"
   },
   {
-   "name": "Fortified Village"
+   "name": "Fortified Village",
+   "types": [
+    "Land"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/moc/401/fortified-village?utm_source=api"
   },
   {
-   "name": "Doomgape"
+   "name": "Doomgape",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Elemental"
+   ],
+   "cmc": 7,
+   "image": "",
+   "colors": [
+    "B",
+    "G"
+   ],
+   "url": "https://scryfall.com/card/ddj/65/doomgape?utm_source=api"
   },
   {
-   "name": "Blinding Mage"
+   "name": "Blinding Mage",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Human",
+    "Wizard"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "W"
+   ],
+   "url": "https://scryfall.com/card/ima/13/blinding-mage?utm_source=api"
   },
   {
-   "name": "Cloudshift"
+   "name": "Cloudshift",
+   "types": [
+    "Instant"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [
+    "W"
+   ],
+   "url": "https://scryfall.com/card/jmp/97/cloudshift?utm_source=api"
   },
   {
-   "name": "Sprouting Renewal"
+   "name": "Sprouting Renewal",
+   "types": [
+    "Sorcery"
+   ],
+   "cmc": 3,
+   "image": "",
+   "colors": [
+    "G"
+   ],
+   "url": "https://scryfall.com/card/grn/145/sprouting-renewal?utm_source=api"
   },
   {
-   "name": "Galepowder Mage"
+   "name": "Galepowder Mage",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Kithkin",
+    "Wizard"
+   ],
+   "cmc": 4,
+   "image": "",
+   "colors": [
+    "W"
+   ],
+   "url": "https://scryfall.com/card/clb/694/galepowder-mage?utm_source=api"
   },
   {
-   "name": "Chatter of the Squirrel"
+   "name": "Chatter of the Squirrel",
+   "types": [
+    "Sorcery"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [
+    "G"
+   ],
+   "url": "https://scryfall.com/card/2xm/157/chatter-of-the-squirrel?utm_source=api"
   },
   {
-   "name": "Dawn Charm"
+   "name": "Dawn Charm",
+   "types": [
+    "Instant"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "W"
+   ],
+   "url": "https://scryfall.com/card/cmr/371/dawn-charm?utm_source=api"
   },
   {
-   "name": "Raise the Alarm"
+   "name": "Raise the Alarm",
+   "types": [
+    "Instant"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "W"
+   ],
+   "url": "https://scryfall.com/card/cmr/41/raise-the-alarm?utm_source=api"
   },
   {
-   "name": "Forest"
+   "name": "Forest",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Forest"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/who/205/forest?utm_source=api"
   },
   {
-   "name": "Forest"
+   "name": "Forest",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Forest"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/who/205/forest?utm_source=api"
   },
   {
-   "name": "Forest"
+   "name": "Forest",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Forest"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/who/205/forest?utm_source=api"
   },
   {
-   "name": "Forest"
+   "name": "Forest",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Forest"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/who/205/forest?utm_source=api"
   },
   {
-   "name": "Forest"
+   "name": "Forest",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Forest"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/who/205/forest?utm_source=api"
   },
   {
-   "name": "Forest"
+   "name": "Forest",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Forest"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/who/205/forest?utm_source=api"
   },
   {
-   "name": "Shanna"
+   "name": "Shanna, Sisay's Legacy",
+   "types": [
+    "Legendary",
+    "Creature"
+   ],
+   "sub_types": [
+    "Human",
+    "Warrior"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "G",
+    "W"
+   ],
+   "url": "https://scryfall.com/card/dom/204/shanna-sisays-legacy?utm_source=api"
   },
   {
-   "name": "Sparring Construct"
+   "name": "Sparring Construct",
+   "types": [
+    "Artifact",
+    "Creature"
+   ],
+   "sub_types": [
+    "Construct"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/dom/232/sparring-construct?utm_source=api"
   },
   {
-   "name": "Soul Warden"
+   "name": "Soul Warden",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Human",
+    "Cleric"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [
+    "W"
+   ],
+   "url": "https://scryfall.com/card/mm3/24/soul-warden?utm_source=api"
   },
   {
-   "name": "Woodland Champion"
+   "name": "Woodland Champion",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Elf",
+    "Scout"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "G"
+   ],
+   "url": "https://scryfall.com/card/2xm/188/woodland-champion?utm_source=api"
   },
   {
-   "name": "Plains"
+   "name": "Plains",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Plains"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/who/197/plains?utm_source=api"
   },
   {
-   "name": "Plains"
+   "name": "Plains",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Plains"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/who/197/plains?utm_source=api"
   },
   {
-   "name": "Plains"
+   "name": "Plains",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Plains"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/who/197/plains?utm_source=api"
   },
   {
-   "name": "Plains"
+   "name": "Plains",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Plains"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/who/197/plains?utm_source=api"
   },
   {
-   "name": "Plains"
+   "name": "Plains",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Plains"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/who/197/plains?utm_source=api"
   },
   {
-   "name": "Plains"
+   "name": "Plains",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Plains"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/who/197/plains?utm_source=api"
   },
   {
-   "name": "Plains"
+   "name": "Plains",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Plains"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/who/197/plains?utm_source=api"
   },
   {
-   "name": "Plains"
+   "name": "Plains",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Plains"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/who/197/plains?utm_source=api"
   },
   {
-   "name": "Plains"
+   "name": "Plains",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Plains"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/who/197/plains?utm_source=api"
   },
   {
-   "name": "Patrol Signaler"
+   "name": "Patrol Signaler",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Kithkin",
+    "Soldier"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "W"
+   ],
+   "url": "https://scryfall.com/card/eve/12/patrol-signaler?utm_source=api"
   },
   {
-   "name": "Throne of the God-Pharaoh"
+   "name": "Throne of the God-Pharaoh",
+   "types": [
+    "Legendary",
+    "Artifact"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/akh/237/throne-of-the-god-pharaoh?utm_source=api"
   },
   {
-   "name": "Gwyllion Hedge-Mage"
+   "name": "Gwyllion Hedge-Mage",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Hag",
+    "Wizard"
+   ],
+   "cmc": 3,
+   "image": "",
+   "colors": [
+    "B",
+    "W"
+   ],
+   "url": "https://scryfall.com/card/cma/201/gwyllion-hedge-mage?utm_source=api"
   },
   {
-   "name": "Tukatongue Thallid"
+   "name": "Tukatongue Thallid",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Fungus"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [
+    "G"
+   ],
+   "url": "https://scryfall.com/card/pca/79/tukatongue-thallid?utm_source=api"
   },
   {
-   "name": "Anointed Procession"
+   "name": "Anointed Procession",
+   "types": [
+    "Enchantment"
+   ],
+   "cmc": 4,
+   "image": "",
+   "colors": [
+    "W"
+   ],
+   "url": "https://scryfall.com/card/akh/2/anointed-procession?utm_source=api"
   },
   {
-   "name": "Verdant Force"
+   "name": "Verdant Force",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Elemental"
+   ],
+   "cmc": 8,
+   "image": "",
+   "colors": [
+    "G"
+   ],
+   "url": "https://scryfall.com/card/dom/187/verdant-force?utm_source=api"
   },
   {
-   "name": "Journey to Nowhere"
+   "name": "Journey to Nowhere",
+   "types": [
+    "Enchantment"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "W"
+   ],
+   "url": "https://scryfall.com/card/cmd/17/journey-to-nowhere?utm_source=api"
   },
   {
-   "name": "Restoration Angel"
+   "name": "Restoration Angel",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Angel"
+   ],
+   "cmc": 4,
+   "image": "",
+   "colors": [
+    "W"
+   ],
+   "url": "https://scryfall.com/card/moc/201/restoration-angel?utm_source=api"
   }
  ],
  "sideboard": []

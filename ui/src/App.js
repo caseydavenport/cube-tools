@@ -10,11 +10,14 @@ export default function Main() {
   // TODO: Load this dynamically.
   const decklist = [
     { label: "", value: "" },
-    { label: "casey", value: "drafts/2023-05-31/casey.json" },
-    { label: "jen", value: "drafts/2023-05-31/jen.json" },
-    { label: "grant", value: "drafts/2023-05-31/grant.json" },
-    { label: "matt", value: "drafts/2023-05-31/matt.json" },
+    { label: "casey", value: "casey.json" },
+    { label: "jen", value: "jen.json" },
+    { label: "grant", value: "grant.json" },
+    { label: "matt", value: "matt.json" },
   ]
+
+  // For now, drafts need to be manually added here in order to show up in the UI.
+  // Eventually, this should be determined dynamically.
   const drafts = [
     { label: "1", value: "2023-05-31" },
     { label: "2", value: "2023-05-31" },
@@ -29,11 +32,10 @@ export default function Main() {
   function onDeckSelected(event) {
     // Log the update, and store the currently selected deck.
     console.log("Deck selected: " + event.target.value)
-    console.log("Selected deck is new?")
-    console.log(event.target.value != selectedDeck)
     setSelectedDeck(event.target.value)
   }
   function onDraftSelected(event) {
+    console.log("Draft selected: " + event.target.value)
     console.log(event.target.value);
     setSelectedDraft(event.target.value)
   }
@@ -43,8 +45,6 @@ export default function Main() {
   function onFetch(d) {
     const newdeck = {...d}
     console.log("onFetch called");
-    console.log("Deck is new?")
-    console.log(newdeck != deck);
     setDeck(newdeck);
 
     fetched.set(selectedDeck, newdeck)
@@ -61,9 +61,10 @@ export default function Main() {
       setDeck({})
       return
     }
+    let path = "drafts/" + selectedDraft + "/" + selectedDeck
 
     // Check if we need to fetch the deck, and if needed do so.
-    const cached = fetched.get(selectedDeck)
+    const cached = fetched.get(path)
     if (cached) {
       // We've already fetched and cached this deck.
       console.log("deck is cached")
@@ -72,7 +73,7 @@ export default function Main() {
       // Fetch the deck, since this is the first time
       // we've triggered this.
       console.log("need to fetch deck")
-      FetchDeck(selectedDeck, onFetch)
+      FetchDeck(path, onFetch)
     }
   }, [selectedDeck])
 
@@ -125,21 +126,45 @@ function DisplayDeck({deck}) {
     console.log("no deck");
     return null;
   }
-  console.log("DisplayDeck")
+
+  // Create the labels to display.
+  let labels = deck.labels.join(', ')
+  let acmc = AverageCMC({deck})
+
   console.log(deck)
   return (
     <>
     <table className="player-frame">
       <tbody>
-      <tr className="board-row">Player: {deck.player}</tr>
-      <tr className="board-row">Deck type(s): {deck.labels}</tr>
-      <tr className="board-row">Record:  {deck.wins}-{deck.losses}-{deck.ties}</tr>
+      <tr className="player-frame-row">
+        <td className="player-frame-title">Player:</td>
+        <td className="player-frame-value">{deck.player}</td>
+      </tr>
+      <tr className="player-frame-row">
+        <td className="player-frame-title">Deck type(s):</td>
+        <td className="player-frame-value">{labels}</td>
+      </tr>
+      <tr className="player-frame-row">
+        <td className="player-frame-title">Record:</td>
+        <td className="player-frame-value">{deck.wins}-{deck.losses}-{deck.ties}</td>
+      </tr>
+      <tr className="player-frame-row">
+        <td className="player-frame-title">Average CMC:</td>
+        <td className="player-frame-value">{acmc}</td>
+      </tr>
       </tbody>
     </table>
+
     <table key={deck.player} className="decklist">
       <tbody>
       {
-        deck.mainboard.map(item => (<tr className="card" key={item.name}><td>{item.name}</td></tr>))
+        deck.mainboard.map(function(item) {
+          return (
+            <tr className="card" key={item.name}>
+              <td><a href={item.url} target="_blank">{item.name}</a></td>
+            </tr>
+          )
+        })
       }
       </tbody>
     </table>
@@ -153,4 +178,33 @@ async function FetchDeck(file, onFetch) {
   const resp = await fetch(file);
   const deckData = await resp.json();
   onFetch(deckData);
+}
+
+// Returns the average CMC of of cards in the deck,
+// excluding basic lands.
+function AverageCMC({deck}) {
+  if (!deck || !deck.mainboard) {
+    return 0;
+  }
+  let i = 0
+  let t = 0
+  let c = 0
+  while (i < deck.mainboard.length) {
+    i++
+    // Skip basic lands.
+    let card = deck.mainboard[i]
+    if (card && !IsBasicLand({card})) {
+      t += card.cmc
+      c++
+    }
+  }
+  return parseFloat(t / c).toFixed(2)
+}
+
+// Returns true if the card is a basic land, and false otherwise.
+function IsBasicLand({card}) {
+  if (card.types && card.types.includes("Basic")) {
+    return true
+  }
+  return false
 }
