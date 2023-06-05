@@ -5,7 +5,7 @@
 a, a:hover, a:visited, a:active {
   color: inherit;
   text-decoration: none;
- }
+}
 
 body {
   font-family: sans-serif;
@@ -54,23 +54,6 @@ ul {
 
 * {
   box-sizing: border-box;
-}
-
-.main-nav {
-  background: #AE6989;
-  color: #FFF;
-  border: 0px solid #999;
-  float: left;
-  font-size: 18px;
-  line-height: 34px;
-  height: 24px;
-  padding: 0px;
-  text-align: center;
-  min-width: 300px;
-}
-
-.nav-button:hover {
-  background: #C97B84;
 }
 
 .player-frame {
@@ -151,3 +134,32 @@ ul {
   color: #FFF;
   background: #AE6989;
 }
+
+.winrate-table {
+  background: #AE6989;
+  color: #FFF;
+  border: none;
+  font-size: 18px;
+  line-height: 34px;
+  height: 34px;
+  margin-top: 20px;
+  margin-left: 0px;
+  padding: 0px;
+  text-align: center;
+  min-width: 300px;
+}
+
+.winrate-row {
+  background: #AE6989;
+  color: #FFF;
+  border: none;
+  font-size: 18px;
+  line-height: 34px;
+  height: 34px;
+  margin-top: 0px;
+  margin-left: 0px;
+  padding: 0px;
+  text-align: center;
+  min-width: 300px;
+}
+

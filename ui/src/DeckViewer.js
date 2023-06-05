@@ -46,10 +46,6 @@ export default function DeckViewer() {
   // This function updates the UI with the deck's contents.
   function onFetch(d) {
     console.log("onFetch called");
-
-    // Populate the deck with calculated fields and then save the deck.
-    d.avg_cmc = AverageCMC({deck: d})
-    d.colors = ExtractColors({deck: d})
     const newdeck = {...d}
     setDeck(newdeck);
 
@@ -108,7 +104,7 @@ export default function DeckViewer() {
   );
 }
 
-function DropdownSelector({ label, value, options, onChange }) {
+export function DropdownSelector({ label, value, options, onChange }) {
   return (
    <label className="dropdown">
     {label}
@@ -221,13 +217,18 @@ function CardList({ player, cards, opts }) {
 // calls 'onFetch' upon receipt.
 async function FetchDeck(file, onFetch) {
   const resp = await fetch(file);
-  const deckData = await resp.json();
-  onFetch(deckData);
+  let d = await resp.json();
+
+  // Populate the deck with calculated fields and then save the deck.
+  d.avg_cmc = AverageCMC({deck: d})
+  d.colors = ExtractColors({deck: d})
+
+  onFetch(d);
 }
 
 // Returns the average CMC of of cards in the deck,
 // excluding basic lands.
-function AverageCMC({deck}) {
+export function AverageCMC({deck}) {
   if (!deck || !deck.mainboard) {
     return 0;
   }
@@ -248,7 +249,7 @@ function AverageCMC({deck}) {
 
 // Returns the average CMC of of cards in the deck,
 // excluding basic lands.
-function ExtractColors({deck}) {
+export function ExtractColors({deck}) {
   if (!deck || !deck.mainboard) {
     return null;
   }
