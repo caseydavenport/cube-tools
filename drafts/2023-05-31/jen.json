@@ -8,6 +8,7 @@
  "wins": 2,
  "losses": 3,
  "ties": 0,
+ "colors": ["W", "G"],
  "mainboard": [
   {
    "name": "Cloudgoat Ranger",

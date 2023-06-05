@@ -278,6 +278,15 @@ export function ExtractColors({deck}) {
   if (!deck || !deck.mainboard) {
     return null;
   }
+  if (deck.colors) {
+    // Decks can override auto-detection by specifying
+    // colors explicitly. This is useful if, for example, they only
+    // have a single hybrid card and we don't want this deck to count towards that
+    // card's colors.
+    return deck.colors
+  }
+
+  // Calculate the colors based on the card list.
   let i = 0
   let colors = new Map()
   while (i < deck.mainboard.length) {
