@@ -10,15 +10,23 @@ export default function DeckViewer() {
   const [fetched, setFetched] = useState(new Map());
   const [deck, setDeck] = useState("");
   const [draftDropdownOptions, setDraftDropdownOptions] = useState([]);
+  const [decklist, setDecklist] = useState([]);
 
-  // TODO: Load this dynamically.
-  const decklist = [
-    { label: "", value: "" },
-    { label: "casey", value: "casey.json" },
-    { label: "jen", value: "jen.json" },
-    { label: "grant", value: "grant.json" },
-    { label: "matt", value: "matt.json" },
-  ]
+  // Called when we successfully fetch the deck list from the selected draft.
+  function onDeckIndexFetched(idx) {
+    console.log("Fetched deck index")
+    const d = [
+      { label: "", value: "" },
+    ]
+    for (var i in idx) {
+      let ref = idx[i]
+      d.push(
+        { label: ref.deck, value: ref.deck }
+      )
+    }
+    setDecklist(d)
+  }
+
 
   // This function is called when the draft index is loaded.
   // It converts the draft index into an array of dropdown menu options
@@ -49,8 +57,13 @@ export default function DeckViewer() {
     setSelectedDeck(event.target.value)
   }
   function onDraftSelected(event) {
+    // Set the selected draft, and update the list of decks.
     console.log("Draft selected: " + event.target.value)
     setSelectedDraft(event.target.value)
+    FetchDeckIndex(event.target.value, onDeckIndexFetched)
+
+    // Clear any selected deck, as it is no longer valid.
+    setSelectedDeck("")
   }
 
   // Callback for sucessfully fetching a Deck.
@@ -250,6 +263,16 @@ export async function FetchDraftIndex(onFetch) {
   return idx
 }
 
+// FetchDeckIndex loads the deck index file from the server.
+export async function FetchDeckIndex(draft, onFetch) {
+  const resp = await fetch('drafts/' + draft + '/index.json');
+  let idx = await resp.json();
+  if (onFetch != null) {
+    onFetch(idx);
+    return
+  }
+  return idx
+}
 
 // Returns the average CMC of of cards in the deck,
 // excluding basic lands.

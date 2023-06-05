@@ -2,7 +2,7 @@ import React from 'react'
 import { useState } from "react";
 import { useEffect } from "react";
 import { AverageCMC, ExtractColors, DropdownSelector } from "../DeckViewer.js"
-import { FetchDraftIndex } from "../DeckViewer.js"
+import { FetchDraftIndex, FetchDeckIndex } from "../DeckViewer.js"
 
 // StatsViewer displays stats spanning the selected drafts.
 export default function StatsViewer() {
@@ -17,12 +17,9 @@ export default function StatsViewer() {
 
   function onLoad(d) {
     setDecks({...d})
-    console.log("Load complete!")
-    console.log(d)
   }
 
   useEffect(() => {
-    console.log("decks changed, recalculate")
     if (decks != null) {
       let w = GetWinrates(decks)
       setWinrates(w)
@@ -54,6 +51,8 @@ export default function StatsViewer() {
 }
 
 async function LoadCube(onLoad) {
+  console.log("Loading cube data")
+
   // First, fetch the draft index. We'll use this to find
   // all the drafts and decks therein.
   let idx = await FetchDraftIndex(null)
@@ -61,16 +60,17 @@ async function LoadCube(onLoad) {
   // Combine
   let deckNames = []
   for (var i in idx) {
+    // Get the decks for this draft.
     let draft = idx[i]
-    deckNames.push(
-      // TODO: Don't hardcode this.
-      "drafts/" + draft.name + "/casey.json",
-      "drafts/" + draft.name + "/jen.json",
-      "drafts/" + draft.name + "/grant.json",
-      "drafts/" + draft.name + "/matt.json",
-    )
+    let deckIdx = await FetchDeckIndex(draft.name, null)
+    for (var j in deckIdx) {
+      // For each deck in the draft, add it to the total.
+      let deck = deckIdx[j]
+      deckNames.push(
+        "drafts/" + draft.name + "/" + deck.deck,
+      )
+    }
   }
-  console.log(deckNames)
 
   let decks = []
   for (var i in deckNames) {
