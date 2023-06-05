@@ -9,6 +9,7 @@ export default function DeckViewer() {
   const [selectedDraft, setSelectedDraft] = useState("");
   const [fetched, setFetched] = useState(new Map());
   const [deck, setDeck] = useState("");
+  const [draftDropdownOptions, setDraftDropdownOptions] = useState([]);
 
   // TODO: Load this dynamically.
   const decklist = [
@@ -19,17 +20,27 @@ export default function DeckViewer() {
     { label: "matt", value: "matt.json" },
   ]
 
-  // For now, drafts need to be manually added here in order to show up in the UI.
-  // Eventually, this should be determined dynamically.
-  const drafts = [
-    { label: "", value: "" },
-    { label: "", value: "2023-05-31" },
-  ]
+  // This function is called when the draft index is loaded.
+  // It converts the draft index into an array of dropdown menu options
+  // and updates the page's state.
+  function onDraftIndexFetched(idx) {
+    const d = [
+      { label: "", value: "" },
+    ]
+    for (var i in idx) {
+      let ref = idx[i]
+      d.push(
+        { label: ref.name, value: ref.name }
+      )
+    }
+    setDraftDropdownOptions(d)
+  }
 
+  // Start of day load the draft index.
+  // This is used to populate the drafts dropdown menu.
   useEffect(() => {
-    console.log("Deck updated")
-    console.log(deck)
-  }, [deck])
+    FetchDraftIndex(onDraftIndexFetched)
+  }, [])
 
   // Handle changes to the draft and deck selection dropdowns.
   function onDeckSelected(event) {
@@ -84,7 +95,7 @@ export default function DeckViewer() {
       <div>
         <DropdownSelector
           label="Select a draft"
-          options={drafts}
+          options={draftDropdownOptions}
           value={selectedDraft}
           onChange={onDraftSelected}
         />
@@ -225,6 +236,20 @@ async function FetchDeck(file, onFetch) {
 
   onFetch(d);
 }
+
+// FetchDraftIndex loads the draft index file from the server.
+// The draft index file is an index of all the available drafts
+// available on the server.
+export async function FetchDraftIndex(onFetch) {
+  const resp = await fetch('drafts/index.json');
+  let idx = await resp.json();
+  if (onFetch != null) {
+    onFetch(idx);
+    return
+  }
+  return idx
+}
+
 
 // Returns the average CMC of of cards in the deck,
 // excluding basic lands.

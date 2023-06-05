@@ -1,7 +1,8 @@
 import React from 'react'
 import { useState } from "react";
 import { useEffect } from "react";
-import {AverageCMC, ExtractColors, DropdownSelector} from "../DeckViewer.js"
+import { AverageCMC, ExtractColors, DropdownSelector } from "../DeckViewer.js"
+import { FetchDraftIndex } from "../DeckViewer.js"
 
 // StatsViewer displays stats spanning the selected drafts.
 export default function StatsViewer() {
@@ -53,12 +54,23 @@ export default function StatsViewer() {
 }
 
 async function LoadCube(onLoad) {
-  let deckNames = [
-    "drafts/2023-05-31/casey.json",
-    "drafts/2023-05-31/grant.json",
-    "drafts/2023-05-31/jen.json",
-    "drafts/2023-05-31/matt.json",
-  ]
+  // First, fetch the draft index. We'll use this to find
+  // all the drafts and decks therein.
+  let idx = await FetchDraftIndex(null)
+
+  // Combine
+  let deckNames = []
+  for (var i in idx) {
+    let draft = idx[i]
+    deckNames.push(
+      // TODO: Don't hardcode this.
+      "drafts/" + draft.name + "/casey.json",
+      "drafts/" + draft.name + "/jen.json",
+      "drafts/" + draft.name + "/grant.json",
+      "drafts/" + draft.name + "/matt.json",
+    )
+  }
+  console.log(deckNames)
 
   let decks = []
   for (var i in deckNames) {
@@ -158,18 +170,19 @@ function GetWinrates(decks) {
     tracker[c] = {wins: 0, losses: 0, color: c}
     for (var j in colors) {
       let c2 = colors[j]
+      let pair = c + c2
       if (c == c2) {
         // Skip color pairing with itself.
         continue
       }
       // Add the color pair.
-      let pair = c + c2
       tracker[pair] = {wins: 0, losses: 0, color: pair}
     }
   }
 
   for (var i in decks) {
     let d = decks[i]
+    let done = new Map()
     for (var j in d.colors) {
       let c = d.colors[j]
       tracker[c].wins += d.wins
@@ -178,13 +191,15 @@ function GetWinrates(decks) {
       // Add in dual-color winrates as well.
       for (var k in d.colors) {
         let c2 = d.colors[k]
-        if (c == c2) {
-          // Skip color pairing with itself.
+        let pair = ColorPair(c, c2)
+        if (c == c2 || done.get(pair)) {
+          // Skip color pairing with itself, or if we've already
+          // handled this color pair.
           continue
         }
-        let pair = ColorPair(c, c2)
         tracker[pair].wins += d.wins
         tracker[pair].losses += d.losses
+        done.set(pair, true)
       }
     }
   }
