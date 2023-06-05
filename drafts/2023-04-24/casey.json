@@ -5,6 +5,7 @@
  "wins": 1,
  "losses": 2,
  "ties": 0,
+ "colors": ["B", "U", "G"],
  "mainboard": [
   {
    "name": "Dreadmalkin",
