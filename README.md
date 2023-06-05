@@ -32,3 +32,25 @@ To parse a deck:
 ```
 
 The resulting files will be stored at `drafts/YYYY-MM-DD/player_name.json`
+
+## Running the UI
+
+Right now, the UI learns about draft data from index JSON files that are programmatically
+generated. To regenerate them:
+
+```
+make index
+```
+
+If you haven't already, install node dependencies:
+
+```
+cd ui
+npm install
+```
+
+Then, you can start the UI by running the following in the `ui` directory:
+
+```
+npm start
+```
