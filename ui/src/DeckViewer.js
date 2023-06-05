@@ -310,16 +310,31 @@ export function ExtractColors({deck}) {
   }
 
   // Calculate the colors based on the card list.
+  // Use the basic land types to determine what colors this deck is.
+  // This is generally more accurate than basing it off of cards, because oftentimes
+  // hybrid cards incorrectly lead the code into thinking a two-color deck is actually three-color.
   let i = 0
   let colors = new Map()
   while (i < deck.mainboard.length) {
     i++
-    // Skip basic lands.
     let card = deck.mainboard[i];
-    if (card && !IsBasicLand({card})) {
-      for (var j in card.colors) {
-        let c = card.colors[j];
-        colors.set(c, true);
+    if (card && IsBasicLand({card})) {
+      switch (card.name) {
+        case "Forest":
+          colors.set("G", true);
+          break;
+        case "Swamp":
+          colors.set("B", true);
+          break;
+        case "Island":
+          colors.set("U", true);
+          break;
+        case "Plains":
+          colors.set("W", true);
+          break;
+        case "Mountain":
+          colors.set("R", true);
+          break;
       }
     }
   }

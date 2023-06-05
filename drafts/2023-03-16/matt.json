@@ -7,6 +7,7 @@
  "wins": 1,
  "losses": 2,
  "ties": 0,
+ "colors": ["B", "W"],
  "mainboard": [
   {
    "name": "Swamp",

@@ -5,6 +5,7 @@
  "wins": 1,
  "losses": 4,
  "ties": 0,
+ "colors": ["W", "B"],
  "mainboard": [
   {
    "name": "Vampire of the Dire Moon",
