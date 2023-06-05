@@ -22,6 +22,10 @@ var (
 	date   string
 	csvdir string
 
+	// If set, runs in index mode which indexes
+	// the data set.
+	reindex bool
+
 	// Calculated internal state.
 	outdir string
 )
@@ -34,6 +38,8 @@ func init() {
 	flag.StringVar(&labels, "labels", "", "Labels describing the deck. e.g., aggro,sacrifice")
 	flag.StringVar(&date, "date", "", "Date, in YYYY-MM-DD format")
 	flag.StringVar(&csvdir, "csv-dir", "", "Directory containing CSV files to parse. Alternative to -deck.")
+
+	flag.BoolVar(&reindex, "index", false, "Create index files for the drafts directory")
 }
 
 func main() {
@@ -41,6 +47,18 @@ func main() {
 	// with the rest of the tooling in this repository.
 	parseFlags()
 
+	if reindex {
+		index()
+	} else {
+		parseFiles()
+	}
+}
+
+func index() {
+	// Read all the drafts and build the main draft index.
+}
+
+func parseFiles() {
 	// Make sure the output directory exists.
 	err := os.MkdirAll(outdir, os.ModePerm)
 	if err != nil {
