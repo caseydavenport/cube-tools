@@ -20,6 +20,7 @@ var (
 	labels string
 	who    string
 	date   string
+	csvdir string
 
 	// Calculated internal state.
 	outdir string
@@ -32,25 +33,57 @@ func init() {
 	flag.IntVar(&losses, "losses", 0, "Number of losses")
 	flag.StringVar(&labels, "labels", "", "Labels describing the deck. e.g., aggro,sacrifice")
 	flag.StringVar(&date, "date", "", "Date, in YYYY-MM-DD format")
+	flag.StringVar(&csvdir, "csv-dir", "", "Directory containing CSV files to parse. Alternative to -deck.")
 }
 
 func main() {
 	// Parser parses a text representation of a deck and turns it into a Deck compatible
 	// with the rest of the tooling in this repository.
 	parseFlags()
-	d, err := loadFile()
-	if err != nil {
-		panic(err)
-	}
 
 	// Make sure the output directory exists.
-	err = os.MkdirAll(outdir, os.ModePerm)
+	err := os.MkdirAll(outdir, os.ModePerm)
 	if err != nil {
 		panic(err)
 	}
 
-	// Write the deck for storage.
-	writeDeck(d)
+	type work struct {
+		player string
+		path   string
+	}
+
+	// Gather files to load.
+	files := []work{}
+	if deck != "" {
+		files = append(files, work{player: who, path: deck})
+	} else {
+		// Load files from CSV dir.
+		fileNames, err := os.ReadDir(csvdir)
+		if err != nil {
+			panic(err)
+		}
+		for _, f := range fileNames {
+			if strings.HasSuffix(f.Name(), ".csv") {
+				// Add the file, using the file name as the player name (minus the filetype)
+				files = append(files, work{
+					player: strings.Split(f.Name(), ".")[0],
+					path:   fmt.Sprintf("%s/%s", csvdir, f.Name()),
+				})
+			}
+		}
+	}
+	fmt.Printf("Processing file(s): %s\n", files)
+
+	// Determine if we need to auto-name the file.
+	for _, f := range files {
+		d, err := loadFile(f.path, f.player)
+		if err != nil {
+			panic(err)
+		}
+
+		// Write the deck for storage.
+		writeDeck(d, f.path, f.player)
+	}
 }
 
 func parseFlags() error {
@@ -58,18 +91,18 @@ func parseFlags() error {
 	if date == "" {
 		panic(fmt.Errorf("Missing required flag: -date"))
 	}
-	if deck == "" {
-		panic(fmt.Errorf("Missing required flag: -deck"))
+	if deck == "" && csvdir == "" {
+		panic(fmt.Errorf("Missing required flag: -deck or -csv-dir"))
 	}
-	if who == "" {
+	if deck != "" && who == "" {
 		panic(fmt.Errorf("Missing required flag: -who"))
 	}
 	outdir = fmt.Sprintf("drafts/%s", date)
 	return nil
 }
 
-func loadFile() (*types.Deck, error) {
-	f, err := os.Open(deck)
+func loadFile(deckFile string, player string) (*types.Deck, error) {
+	f, err := os.Open(deckFile)
 	defer f.Close()
 	if err != nil {
 		panic(err)
@@ -97,25 +130,31 @@ func loadFile() (*types.Deck, error) {
 	}
 	d.Wins = wins
 	d.Losses = losses
-	d.Player = who
+	d.Player = player
 	d.Date = date
 
 	return d, nil
 }
 
-func writeDeck(d *types.Deck) error {
+func writeDeck(d *types.Deck, srcFile string, player string) error {
 	// First, write the canonical deck file in our format.
 	bs, err := json.MarshalIndent(d, "", " ")
 	if err != nil {
 		panic(err)
 	}
-	err = os.WriteFile(fmt.Sprintf("%s/%s.json", outdir, who), bs, os.ModePerm)
+	fmt.Printf("Writing deck for player %s in %s\n", player, outdir)
+
+	// Write the parsed deck.
+	fn := fmt.Sprintf("%s/%s.json", outdir, player)
+	fmt.Printf("Writing parsed file: %s\n", fn)
+	err = os.WriteFile(fn, bs, os.ModePerm)
 	if err != nil {
 		panic(err)
 	}
 
 	// Also write the original "raw" decklist for posterity.
-	f, err := os.Open(deck)
+	fmt.Printf("Writing source file: %s\n", srcFile)
+	f, err := os.Open(srcFile)
 	defer f.Close()
 	if err != nil {
 		panic(err)
@@ -124,14 +163,15 @@ func writeDeck(d *types.Deck) error {
 	if err != nil {
 		panic(err)
 	}
-	err = os.WriteFile(fmt.Sprintf("%s/%s.csv", outdir, who), bytes, os.ModePerm)
+	err = os.WriteFile(fmt.Sprintf("%s/%s.csv", outdir, player), bytes, os.ModePerm)
 	if err != nil {
 		panic(err)
 	}
 
 	// Write it out as a simple text file with one card per line - useful to importing into cubecobra
 	// and other tools that accept decklists.
-	f2, err := os.Create(fmt.Sprintf("%s/%s.cubecobra.txt", outdir, who))
+	fmt.Printf("Writing kubecobra file")
+	f2, err := os.Create(fmt.Sprintf("%s/%s.cubecobra.txt", outdir, player))
 	defer f2.Close()
 	if err != nil {
 		panic(err)
