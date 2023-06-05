@@ -9,5 +9,8 @@ data/oracle-cards.json:
 	mkdir -p data
 	wget https://data.scryfall.io/oracle-cards/oracle-cards-20230602210313.json -O $@
 
+index:
+	go run ./cmd/parser/main.go -index
+
 clean:
 	rm -f data/oracle-cards.json

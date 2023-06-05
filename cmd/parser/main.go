@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"os"
+	"path/filepath"
 	"strconv"
 	"strings"
 
@@ -55,7 +56,118 @@ func main() {
 }
 
 func index() {
-	// Read all the drafts and build the main draft index.
+	// Specify the directory that holds the drafts.
+	directory := "./drafts"
+
+	// Get a list of sub-directories in the directory
+	// each subdir represents a draft.
+	subDirs, err := getSubDirectories(directory)
+	if err != nil {
+		fmt.Println("Error:", err)
+		return
+	}
+
+	// Create a slice to store the maps
+	var dirs []map[string]string
+
+	// Iterate over the sub-directories and create maps
+	for _, dir := range subDirs {
+		// Create a map with "name" as the key and the directory name as the value
+		dirMap := map[string]string{
+			"name": dir,
+		}
+
+		dirs = append(dirs, dirMap)
+	}
+
+	// Create the index file
+	indexFile := filepath.Join(directory, "index.json")
+
+	// Create and open the file for writing
+	file, err := os.Create(indexFile)
+	if err != nil {
+		fmt.Println("Error:", err)
+		return
+	}
+	defer file.Close()
+
+	// Encode the directories to JSON
+	fileData, err := json.MarshalIndent(dirs, "", " ")
+	if err != nil {
+		fmt.Println("Error:", err)
+		return
+	}
+
+	// Write the JSON data to the file
+	_, err = file.Write(fileData)
+	if err != nil {
+		fmt.Println("Error:", err)
+		return
+	}
+
+	// For each draft, we should also index the decks within it.
+	for _, draft := range dirs {
+		indexDraft("drafts/" + draft["name"])
+	}
+
+	fmt.Println("Finished indexing all drafts")
+}
+
+func indexDraft(directory string) {
+	// Get a list of all JSON files in the directory
+	jsonFiles, err := filepath.Glob(filepath.Join(directory, "*.json"))
+	if err != nil {
+		fmt.Println("Error:", err)
+		return
+	}
+
+	// Create a slice to store the maps
+	var decks []map[string]string
+
+	// Iterate over the JSON files and create maps
+	for _, file := range jsonFiles {
+		// Get only the base name of the file
+		fileName := filepath.Base(file)
+
+		// Skip index.json files.
+		if fileName == "index.json" {
+			continue
+		}
+
+		// Create a map with "deck" as the key and the file name as the value
+		deck := map[string]string{
+			"deck": fileName,
+		}
+
+		decks = append(decks, deck)
+	}
+
+	// Create the index file
+	indexFile := filepath.Join(directory, "index.json")
+
+	// Create and open the file for writing
+	file, err := os.Create(indexFile)
+	if err != nil {
+		fmt.Println("Error:", err)
+		return
+	}
+	defer file.Close()
+
+	// Encode the decks to JSON
+	fileData, err := json.MarshalIndent(decks, "", " ")
+	if err != nil {
+		fmt.Println("Error:", err)
+		return
+	}
+
+	// Write the JSON data to the file
+	_, err = file.Write(fileData)
+	if err != nil {
+		fmt.Println("Error:", err)
+		return
+	}
+
+	fmt.Println(fmt.Sprintf("%s/index.json created", directory))
 }
 
 func parseFiles() {
@@ -106,16 +218,18 @@ func parseFiles() {
 
 func parseFlags() error {
 	flag.Parse()
-	if date == "" {
-		panic(fmt.Errorf("Missing required flag: -date"))
+	if !reindex {
+		if date == "" {
+			panic(fmt.Errorf("Missing required flag: -date"))
+		}
+		if deck == "" && csvdir == "" {
+			panic(fmt.Errorf("Missing required flag: -deck or -csv-dir"))
+		}
+		if deck != "" && who == "" {
+			panic(fmt.Errorf("Missing required flag: -who"))
+		}
+		outdir = fmt.Sprintf("drafts/%s", date)
 	}
-	if deck == "" && csvdir == "" {
-		panic(fmt.Errorf("Missing required flag: -deck or -csv-dir"))
-	}
-	if deck != "" && who == "" {
-		panic(fmt.Errorf("Missing required flag: -who"))
-	}
-	outdir = fmt.Sprintf("drafts/%s", date)
 	return nil
 }
 
@@ -218,4 +332,25 @@ func parseLine(l string) (int, string) {
 	}
 	name := strings.Trim(splits[1], "\"")
 	return int(count), name
+}
+
+// getSubDirectories returns a list of sub-directories in the given directory
+func getSubDirectories(directory string) ([]string, error) {
+	// Read the directory content
+	files, err := ioutil.ReadDir(directory)
+	if err != nil {
+		return nil, err
+	}
+
+	// Create a slice to store the sub-directory names
+	var subDirs []string
+
+	// Iterate over the directory content
+	for _, file := range files {
+		if file.IsDir() {
+			subDirs = append(subDirs, file.Name())
+		}
+	}
+
+	return subDirs, nil
 }
