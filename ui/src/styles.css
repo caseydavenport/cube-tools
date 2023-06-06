@@ -118,9 +118,19 @@ ul {
 .dropdown {
   color: #FFF;
   background: #C97B84;
-  padding: 25px;
-  border: 0px solid #FFF;
+  padding: 20px;
+  border: 0px;
   min-width: 300px;
+}
+
+.dropdown-header {
+  color: #FFF;
+  text-align: center;
+  background: #C97B84;
+  padding: 0px;
+  border: 0px;
+  min-width: 300px;
+  width: 300px;
 }
 
 .select {
@@ -135,6 +145,10 @@ ul {
   background: #AE6989;
 }
 
+.widget {
+  margin-top: 20px;
+}
+
 .winrate-table {
   background: #AE6989;
   color: #FFF;
@@ -142,7 +156,7 @@ ul {
   font-size: 18px;
   line-height: 34px;
   height: 34px;
-  margin-top: 20px;
+  margin-top: 0px;
   margin-left: 0px;
   padding: 0px;
   text-align: center;

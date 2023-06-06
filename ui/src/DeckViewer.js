@@ -128,6 +128,7 @@ export default function DeckViewer() {
   );
 }
 
+// DropdownSelector is a dropdown selector that sits right below the main navbar.
 export function DropdownSelector({ label, value, options, onChange }) {
   return (
    <label className="dropdown">
@@ -142,6 +143,23 @@ export function DropdownSelector({ label, value, options, onChange }) {
    </label>
   )
 }
+
+// DropdownHeader is a dropdown selector that sits on top of a widget.
+export function DropdownHeader({ label, value, options, onChange }) {
+  return (
+   <div className="dropdown-header">
+    {label}
+     <select className="select" value={value} onChange={onChange}>
+       {
+         options.map((option) => (
+           <option key={option.label} className="select-option" file={option.value}>{option.value}</option>
+         ))
+       }
+     </select>
+   </div>
+  )
+}
+
 
 
 // DisplayDeck prints out the given deck.
