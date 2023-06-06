@@ -161,7 +161,6 @@ export function DropdownHeader({ label, value, options, onChange }) {
 }
 
 
-
 // DisplayDeck prints out the given deck.
 function DisplayDeck({deck}) {
   // The deck mainboard may not always be set, so we need
@@ -361,7 +360,7 @@ export function ExtractColors({deck}) {
 
 
 // Returns true if the card is a basic land, and false otherwise.
-function IsBasicLand({card}) {
+export function IsBasicLand({card}) {
   if (card.types && card.types.includes("Basic")) {
     return true
   }
