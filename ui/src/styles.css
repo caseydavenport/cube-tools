@@ -137,6 +137,15 @@ ul {
   border: 0px;
 }
 
+.dropdown-header-side-by-side{
+  color: #FFF;
+  background: #C97B84;
+  text-align: center;
+  padding: 0px;
+  border: 0px;
+  float: left;
+  width: 50%
+}
 
 .select {
   color: #FFF;

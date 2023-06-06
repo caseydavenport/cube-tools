@@ -145,9 +145,12 @@ export function DropdownSelector({ label, value, options, onChange }) {
 }
 
 // DropdownHeader is a dropdown selector that sits on top of a widget.
-export function DropdownHeader({ label, value, options, onChange }) {
+export function DropdownHeader({ label, value, options, onChange, className }) {
+  if (className == null) {
+    className = "dropdown-header"
+  }
   return (
-   <div className="dropdown-header">
+   <div className={className}>
     {label}
      <select className="select" value={value} onChange={onChange}>
        {

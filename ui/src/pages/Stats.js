@@ -144,19 +144,23 @@ function CardWidget(input) {
   if (input.dropdownSelection == "Pick rate") {
     return (
       <div className="widget">
-        <DropdownHeader
-          label="Stats type"
-          options={input.cardWidgetOpts}
-          value={input.colorTypeSelection}
-          onChange={input.onSelected}
-        />
+        <div className="dropdown-header">
+          <DropdownHeader
+            label="Stats type"
+            options={input.cardWidgetOpts}
+            value={input.colorTypeSelection}
+            onChange={input.onSelected}
+            className="dropdown-header-side-by-side"
+          />
 
-        <DropdownHeader
-          label="Min drafts"
-          options={input.minDraftsOpts}
-          value={input.minDrafts}
-          onChange={input.onMinDraftsSelected}
-        />
+          <DropdownHeader
+            label="Min drafts"
+            options={input.minDraftsOpts}
+            value={input.minDrafts}
+            onChange={input.onMinDraftsSelected}
+            className="dropdown-header-side-by-side"
+          />
+        </div>
 
         <table className="winrate-table">
           <thead className="table-header">
