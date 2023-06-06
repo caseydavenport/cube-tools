@@ -163,7 +163,6 @@ export function DropdownHeader({ label, value, options, onChange, className }) {
   )
 }
 
-
 // DisplayDeck prints out the given deck.
 function DisplayDeck({deck}) {
   // The deck mainboard may not always be set, so we need

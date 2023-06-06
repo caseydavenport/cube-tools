@@ -123,6 +123,7 @@ ul {
 .dropdown {
   color: #FFF;
   background: #C97B84;
+  font-weight: bold;
   text-align: center;
   padding: 20px;
   border: 0px;
@@ -147,6 +148,16 @@ ul {
   width: 50%
 }
 
+.date-selector {
+  color: #FFF;
+  background: #C97B84;
+  text-align: center;
+  padding: 20px;
+  border: 0px;
+  float: left;
+  width: 250px;
+}
+
 .select {
   color: #FFF;
   padding: 2px;
@@ -160,7 +171,7 @@ ul {
 }
 
 .widget {
-  margin-top: 20px;
+  margin-top: 25px;
   margin-right: 10px;
   width: max-content;
   min-width: 300px;

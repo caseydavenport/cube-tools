@@ -37,11 +37,22 @@ export default function StatsViewer() {
     setMinDrafts(event.target.value)
   }
 
+  ///////////////////////////////////////////////////////////////////////////////
+  // State used for time selection.
+  ///////////////////////////////////////////////////////////////////////////////
+  const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
+  function onStartSelected(event) {
+    setStartDate(event.target.value)
+  }
+  function onEndSelected(event) {
+    setEndDate(event.target.value)
+  }
 
-  // Load the decks on startup, just once.
+  // Load the decks on startup and whenever the dates change.
   useEffect(() => {
-    LoadCube(onLoad)
-  }, [])
+    LoadCube(onLoad, startDate, endDate)
+  }, [startDate, endDate])
   function onLoad(d) {
     setDecks({...d})
   }
@@ -57,6 +68,22 @@ export default function StatsViewer() {
 
   return (
     <div>
+      <div float="left">
+        <DateSelector
+          label="From: "
+          id="from"
+          value={startDate}
+          onChange={onStartSelected}
+        />
+        <DateSelector
+          label="To: "
+          id="to"
+          value={endDate}
+          onChange={onEndSelected}
+        />
+        <Overview decks={decks} />
+      </div>
+
       <ColorWidget
         ddOpts={ddOpts}
         colorTypeSelection={colorTypeSelection}
@@ -138,6 +165,42 @@ function PopularArchetypeWidget(input) {
       </div>
   );
 }
+
+function Overview(input) {
+  if (input.decks == null) {
+    return null
+  }
+  // Figure out how many decks and drafts we're looking at.
+  let numDecks = 0
+  let numDrafts = 0
+  let drafts = new Map()
+  for (var i in input.decks) {
+    numDecks += 1
+    drafts.set(input.decks[i].draft, true)
+  }
+  numDrafts = drafts.size
+
+  return (
+    <label className="dropdown">
+      <label>Displaying stats for {numDrafts} drafts, {numDecks} decks</label>
+    </label>
+  )
+}
+
+function DateSelector(input) {
+  return (
+    <label className="dropdown">
+      <label for="start">{input.label}</label>
+      <input
+        type="date"
+        id={input.id}
+        value={input.value}
+        onChange={input.onChange}
+      />
+    </label>
+  )
+}
+
 
 function CardWidget(input) {
   let data = CardData(input.decks, input.minDrafts)
@@ -533,7 +596,18 @@ function CombineColors(colors) {
   return colors.join('')
 }
 
-async function LoadCube(onLoad) {
+function isDateBetween(dateString, startDateString, endDateString) {
+  if (startDateString == null || endDateString == null) {
+    return true
+  }
+  const date = new Date(dateString);
+  const startDate = new Date(startDateString);
+  const endDate = new Date(endDateString);
+  return date >= startDate && date <= endDate;
+}
+
+
+async function LoadCube(onLoad, start, end) {
   console.log("Loading cube data")
 
   // First, fetch the draft index. We'll use this to find
@@ -545,6 +619,9 @@ async function LoadCube(onLoad) {
   for (var i in idx) {
     // Get the decks for this draft.
     let draft = idx[i]
+    if (!isDateBetween(draft.name, start, end)) {
+      continue
+    }
     let deckIdx = await FetchDeckIndex(draft.name, null)
     for (var j in deckIdx) {
       // For each deck in the draft, add it to the total.
