@@ -24,10 +24,19 @@ export default function StatsViewer() {
   // State used for the card widget.
   ///////////////////////////////////////////////////////////////////////////////
   const [cardWidgetSelection, setCardWidgetSelection] = useState("Pick rate");
+  const [minDrafts, setMinDrafts] = useState(0);
   const cardWidgetOpts =  [{ label: "Pick rate", value: "Pick rate" }, { label: "Win rate", value: "Win rate" }]
+  const minDraftsOpts =  [
+    { label: "0", value: 0 }, { label: "1", value: "1" }, { label: "2", value: "2" }, { label: "3", value: "3" },
+    { label: "4", value: 4 }, { label: "5", value: "5" }, { label: "6", value: "6" }, { label: "7", value: "7" },
+  ]
   function onCardWidgetSelected(event) {
     setCardWidgetSelection(event.target.value)
   }
+  function onMinDraftsSelected(event) {
+    setMinDrafts(event.target.value)
+  }
+
 
   // Load the decks on startup, just once.
   useEffect(() => {
@@ -70,8 +79,11 @@ export default function StatsViewer() {
       <CardWidget
         decks={decks}
         dropdownSelection={cardWidgetSelection}
-        ddOpts={cardWidgetOpts}
+        cardWidgetOpts={cardWidgetOpts}
         onSelected={onCardWidgetSelected}
+        minDrafts={minDrafts}
+        minDraftsOpts={minDraftsOpts}
+        onMinDraftsSelected={onMinDraftsSelected}
       />
 
     </div>
@@ -128,15 +140,22 @@ function PopularArchetypeWidget(input) {
 }
 
 function CardWidget(input) {
-  let data = CardData(input.decks)
+  let data = CardData(input.decks, input.minDrafts)
   if (input.dropdownSelection == "Pick rate") {
     return (
       <div className="widget">
         <DropdownHeader
           label="Stats type"
-          options={input.ddOpts}
+          options={input.cardWidgetOpts}
           value={input.colorTypeSelection}
           onChange={input.onSelected}
+        />
+
+        <DropdownHeader
+          label="Min drafts"
+          options={input.minDraftsOpts}
+          value={input.minDrafts}
+          onChange={input.onMinDraftsSelected}
         />
 
         <table className="winrate-table">
@@ -148,11 +167,17 @@ function CardWidget(input) {
             </tr>
           </thead>
           <tbody>
-            {
-              data.map((t) => (
-                <PrintRow color={t.name} value={t.count} p={t.pick_percent}/>
-              )).sort(comparePercentages)
-            }
+          {
+            data.map(function(item) {
+             return (
+               <tr p={item.pick_percent} className="card" key={item.name}>
+                 <td>{item.pick_percent}%</td>
+                 <td><a href={item.url} target="_blank">{item.name}</a></td>
+                 <td>{item.count}</td>
+               </tr>
+             )
+            }).sort(comparePercentages)
+          }
           </tbody>
         </table>
         </div>
@@ -162,10 +187,18 @@ function CardWidget(input) {
       <div className="widget">
         <DropdownHeader
           label="Stats type"
-          options={input.ddOpts}
+          options={input.cardWidgetOpts}
           value={input.colorTypeSelection}
           onChange={input.onSelected}
         />
+
+        <DropdownHeader
+          label="Min drafts"
+          options={input.minDraftsOpts}
+          value={input.minDrafts}
+          onChange={input.onMinDraftsSelected}
+        />
+
 
         <table className="winrate-table">
           <thead className="table-header">
@@ -177,9 +210,15 @@ function CardWidget(input) {
           </thead>
           <tbody>
             {
-              data.map((t) => (
-                <PrintRow color={t.name} value={t.count} p={t.win_percent}/>
-              )).sort(comparePercentages)
+              data.map(function(item) {
+               return (
+                 <tr p={item.win_percent} className="card" key={item.name}>
+                   <td>{item.win_percent}%</td>
+                   <td><a href={item.url} target="_blank">{item.name}</a></td>
+                   <td>{item.count}</td>
+                 </tr>
+               )
+              }).sort(comparePercentages)
             }
           </tbody>
         </table>
@@ -189,12 +228,17 @@ function CardWidget(input) {
 }
 
 
-function CardData(decks) {
+function CardData(decks, minDrafts) {
   let tracker = {}
   let totalDecks = 0
+  let drafts = new Map()
   for (var i in decks) {
     totalDecks += 1
     let deck = decks[i]
+
+    // Keep track of the total number of drafts.
+    drafts.set(deck.draft, true)
+
     let cards = deck.mainboard
     for (var j in cards) {
       let card = cards[j]
@@ -203,7 +247,7 @@ function CardData(decks) {
         continue
       }
       if (tracker[card.name] == null) {
-        tracker[card.name] = {name: card.name, count: 0, wins: 0, losses: 0}
+        tracker[card.name] = {name: card.name, count: 0, wins: 0, losses: 0, url: card.url}
       }
       tracker[card.name].count += 1
       tracker[card.name].wins += decks[i].wins
@@ -211,11 +255,18 @@ function CardData(decks) {
     }
   }
 
+  // Convert total number of drafts.
+  let totalDrafts = drafts.size
+
   // Convert to a list for sorting.
   let data = []
   for (var c in tracker) {
+    // Skip any cards that have only played in a single deck.
     let card = tracker[c]
-    tracker[c].pick_percent = Math.round(card.count / totalDecks * 100)
+    if (card.count < minDrafts) {
+      continue
+    }
+    tracker[c].pick_percent = Math.round(card.count / totalDrafts * 100)
     tracker[c].win_percent = Math.round(card.wins / (card.wins + card.losses) * 100)
     tracker[c].record = card.wins + "-" + card.losses + "-" + 0
     data.push(tracker[c])
@@ -485,7 +536,7 @@ async function LoadCube(onLoad) {
   // all the drafts and decks therein.
   let idx = await FetchDraftIndex(null)
 
-  // Combine
+  // Combine to find all of the decknames.
   let deckNames = []
   for (var i in idx) {
     // Get the decks for this draft.
@@ -495,20 +546,25 @@ async function LoadCube(onLoad) {
       // For each deck in the draft, add it to the total.
       let deck = deckIdx[j]
       deckNames.push(
-        "drafts/" + draft.name + "/" + deck.deck,
+        {
+          draft: draft.name,
+          deck: deck.deck,
+          file: "drafts/" + draft.name + "/" + deck.deck,
+        }
       )
     }
   }
 
   let decks = []
   for (var i in deckNames) {
-    let file = deckNames[i]
-    const resp = await fetch(file);
+    let info = deckNames[i]
+    const resp = await fetch(info.file);
     let d = await resp.json();
 
     // Populate the deck with calculated fields and then save the deck.
     d.avg_cmc = AverageCMC({deck: d})
     d.colors = ExtractColors({deck: d})
+    d.draft = info.draft
     decks.push(d)
   }
 

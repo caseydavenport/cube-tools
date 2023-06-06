@@ -115,6 +115,11 @@ ul {
   background: #C97B84;
 }
 
+.winrate-row:hover {
+  background: #C97B84;
+}
+
+
 .dropdown {
   color: #FFF;
   background: #C97B84;
