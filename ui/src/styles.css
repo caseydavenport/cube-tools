@@ -115,12 +115,47 @@ ul {
   background: #C97B84;
 }
 
+.winrate-row:hover {
+  background: #C97B84;
+}
+
+
 .dropdown {
   color: #FFF;
   background: #C97B84;
-  padding: 25px;
-  border: 0px solid #FFF;
+  font-weight: bold;
+  text-align: center;
+  padding: 20px;
+  border: 0px;
   min-width: 300px;
+}
+
+.dropdown-header {
+  color: #FFF;
+  background: #C97B84;
+  text-align: center;
+  padding: 0px;
+  border: 0px;
+}
+
+.dropdown-header-side-by-side{
+  color: #FFF;
+  background: #C97B84;
+  text-align: center;
+  padding: 0px;
+  border: 0px;
+  float: left;
+  width: 50%
+}
+
+.date-selector {
+  color: #FFF;
+  background: #C97B84;
+  text-align: center;
+  padding: 20px;
+  border: 0px;
+  float: left;
+  width: 250px;
 }
 
 .select {
@@ -135,15 +170,25 @@ ul {
   background: #AE6989;
 }
 
+.widget {
+  margin-top: 25px;
+  margin-right: 10px;
+  width: max-content;
+  min-width: 300px;
+  float: left;
+}
+
 .winrate-table {
   background: #AE6989;
   color: #FFF;
   border: none;
+  float: left;
   font-size: 18px;
   line-height: 34px;
   height: 34px;
-  margin-top: 20px;
+  margin-top: 0px;
   margin-left: 0px;
+  margin-right: 0px;
   padding: 0px;
   text-align: center;
   min-width: 300px;

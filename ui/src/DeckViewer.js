@@ -128,6 +128,7 @@ export default function DeckViewer() {
   );
 }
 
+// DropdownSelector is a dropdown selector that sits right below the main navbar.
 export function DropdownSelector({ label, value, options, onChange }) {
   return (
    <label className="dropdown">
@@ -143,6 +144,24 @@ export function DropdownSelector({ label, value, options, onChange }) {
   )
 }
 
+// DropdownHeader is a dropdown selector that sits on top of a widget.
+export function DropdownHeader({ label, value, options, onChange, className }) {
+  if (className == null) {
+    className = "dropdown-header"
+  }
+  return (
+   <div className={className}>
+    {label}
+     <select className="select" value={value} onChange={onChange}>
+       {
+         options.map((option) => (
+           <option key={option.label} className="select-option" file={option.value}>{option.value}</option>
+         ))
+       }
+     </select>
+   </div>
+  )
+}
 
 // DisplayDeck prints out the given deck.
 function DisplayDeck({deck}) {
@@ -343,7 +362,7 @@ export function ExtractColors({deck}) {
 
 
 // Returns true if the card is a basic land, and false otherwise.
-function IsBasicLand({card}) {
+export function IsBasicLand({card}) {
   if (card.types && card.types.includes("Basic")) {
     return true
   }
