@@ -110,6 +110,20 @@ func index() {
 		indexDraft("drafts/" + draft["name"])
 	}
 
+	// As part of re-indexing, parse the cube.csv and convert it to json so
+	// that it's more easily read by the UI code.
+	cube := types.Cube{
+		Cards: cardsFromCSV("cube.csv"),
+	}
+	bytes, err := json.MarshalIndent(cube, "", " ")
+	if err != nil {
+		panic(err)
+	}
+	err = os.WriteFile("cube.json", bytes, os.ModePerm)
+	if err != nil {
+		panic(err)
+	}
+
 	fmt.Println("Finished indexing all drafts")
 }
 
@@ -206,7 +220,7 @@ func parseFiles() {
 
 	// Determine if we need to auto-name the file.
 	for _, f := range files {
-		d, err := loadFile(f.path, f.player)
+		d, err := loadDeckFile(f.path, f.player)
 		if err != nil {
 			panic(err)
 		}
@@ -233,28 +247,12 @@ func parseFlags() error {
 	return nil
 }
 
-func loadFile(deckFile string, player string) (*types.Deck, error) {
-	f, err := os.Open(deckFile)
-	defer f.Close()
-	if err != nil {
-		panic(err)
-	}
-	bytes, err := ioutil.ReadAll(f)
-	if err != nil {
-		panic(err)
-	}
-
+func loadDeckFile(deckFile string, player string) (*types.Deck, error) {
 	// Build the deck struct.
 	d := types.NewDeck()
 
-	// Add in cards.
-	for _, l := range strings.Split(string(bytes), "\n") {
-		count, name := parseLine(l)
-		for i := 0; i < count; i++ {
-			oracleData := types.GetOracleData(name)
-			d.Mainboard = append(d.Mainboard, types.FromOracle(oracleData))
-		}
-	}
+	// Get the cards from the file.
+	d.Mainboard = cardsFromCSV(deckFile)
 
 	// Add other metadata.
 	if len(labels) > 0 {
@@ -266,6 +264,59 @@ func loadFile(deckFile string, player string) (*types.Deck, error) {
 	d.Date = date
 
 	return d, nil
+}
+
+func cardsFromCSV(csv string) []types.Card {
+	f, err := os.Open(csv)
+	defer f.Close()
+	if err != nil {
+		panic(err)
+	}
+	bytes, err := ioutil.ReadAll(f)
+	if err != nil {
+		panic(err)
+	}
+
+	// Add in cards.
+	lines := strings.Split(string(bytes), "\n")
+
+	// Use the first line to determine which indices have the quanity
+	// and card name.
+	quantityIdx := -1
+	nameIdx := -1
+	for i, header := range strings.Split(lines[0], ",") {
+		if strings.EqualFold(header, "Quantity") || strings.EqualFold(header, "Count") {
+			quantityIdx = i
+		}
+		if strings.EqualFold(header, "Name") {
+			nameIdx = i
+		}
+	}
+	if quantityIdx < 0 || nameIdx < 0 {
+		panic("Failed to find quanity / name indices")
+	}
+
+	// Now go through each line and extract the card, skipping the first line
+	// which only contains the header.
+	cards := []types.Card{}
+	for _, l := range lines[1:] {
+		if len(l) == 0 {
+			continue
+		}
+		parsed := cardsFromLine(l, quantityIdx, nameIdx)
+		cards = append(cards, parsed...)
+	}
+	return cards
+}
+
+func cardsFromLine(line string, quantityIdx, nameIdx int) []types.Card {
+	cards := []types.Card{}
+	count, name := parseLine(line, quantityIdx, nameIdx)
+	for i := 0; i < count; i++ {
+		oracleData := types.GetOracleData(name)
+		cards = append(cards, types.FromOracle(oracleData))
+	}
+	return cards
 }
 
 func writeDeck(d *types.Deck, srcFile string, player string) error {
@@ -315,22 +366,26 @@ func writeDeck(d *types.Deck, srcFile string, player string) error {
 	return nil
 }
 
-func parseLine(l string) (int, string) {
-	if strings.Contains(l, "Quantity") {
-		// Skip the header.
-		return 0, ""
-	} else if len(strings.TrimSpace(l)) == 0 {
-		// Skip empty lines.
-		return 0, ""
-	}
-	// Lines are formatted like this:
-	// "1,","cardname"
+func parseLine(l string, qIdx, nIdx int) (int, string) {
+	// Lines are generally formatted like this:
+	// Deck lists: "1,","card, name"
+	// Cube list: 1,"card, name",main
+	//
+	// So, we need to be able to handle card names with commas in them!
+
+	// For now, this is a bit of a hack. Ideally we'd parse this more intelligently, but
+	// since we know what limited inputs we might see here we can just cut off this suffix.
+	// We don't need to build a fully functional CSV parser.
+	l = strings.TrimSuffix(l, ",main")
+
+	// Parse the line. There should only be two columns. Each column's value may or may not
+	// be wrapped in quotes.
 	splits := strings.SplitN(l, ",", 2)
-	count, err := strconv.ParseInt(strings.Trim(splits[0], "\""), 10, 32)
+	count, err := strconv.ParseInt(strings.Trim(splits[qIdx], "\""), 10, 32)
 	if err != nil {
-		panic(err)
+		panic(fmt.Errorf("Error parsing line: %s: %s", l, err))
 	}
-	name := strings.Trim(splits[1], "\"")
+	name := strings.Trim(splits[nIdx], "\"")
 	return int(count), name
 }
 
