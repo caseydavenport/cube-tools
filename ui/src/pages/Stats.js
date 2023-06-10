@@ -7,8 +7,9 @@ import { IsBasicLand } from "../DeckViewer.js"
 
 // StatsViewer displays stats spanning the selected drafts.
 export default function StatsViewer() {
-  // Store all of the decks.
+  // Store all of the decks, and the cube.
   const [decks, setDecks] = useState(null);
+  const [cube, setCube] = useState(null);
 
   ///////////////////////////////////////////////////////////////////////////////
   // State used for the color / color pair win rate widget.
@@ -75,10 +76,16 @@ export default function StatsViewer() {
 
   // Load the decks on startup and whenever the dates change.
   useEffect(() => {
-    LoadCube(onLoad, startDate, endDate)
+    LoadDecks(onLoad, startDate, endDate)
   }, [startDate, endDate])
+  useEffect(() => {
+    LoadCube(onCubeLoad)
+  }, [])
   function onLoad(d) {
     setDecks({...d})
+  }
+  function onCubeLoad(c) {
+    setCube({...c})
   }
 
   // When the deck list changes, recalculate.
@@ -157,6 +164,8 @@ export default function StatsViewer() {
         onMinDraftsSelected={onMinDraftsSelected}
         show={display[2]}
       />
+
+      <UndraftedWidget cube={cube} decks={decks} show={display[2]}/>
 
     </div>
   );
@@ -261,6 +270,56 @@ function DateSelector(input) {
   )
 }
 
+function UndraftedWidget(input) {
+  if (!input.show) {
+    return null
+  }
+  let draftData = CardData(input.decks, input.minDrafts)
+
+  // Build a map of all the cards in the cube so we can
+  // easily discard cards that have been drafted before.
+  let cards = new Map()
+  for (var i in input.cube.cards) {
+    cards.set(input.cube.cards[i].name, input.cube.cards[i])
+  }
+
+  // Discard any cards that have been drafted.
+  for (var i in draftData) {
+    cards.delete(draftData[i].name)
+  }
+
+  // All that's left are cards that have never been drafted.
+  // Display them in a table. Make them an array first so we can sort.
+  let cardArray = new Array()
+  let num = 0
+  cards.forEach(function(i) {
+    cardArray.push(i)
+    num += 1
+  })
+  return (
+    <div className="widget">
+    <table className="winrate-table">
+      <thead className="table-header">
+        <tr>
+          <td>{num} undrafted cards</td>
+        </tr>
+      </thead>
+      <tbody>
+      {
+        cardArray.map(function(item) {
+         return (
+           <tr p={item.pick_percent} className="card" key={item.name}>
+             <td><a href={item.url} target="_blank">{item.name}</a></td>
+           </tr>
+         )
+        })
+      }
+      </tbody>
+    </table>
+    </div>
+  );
+}
+
 
 function CardWidget(input) {
   if (!input.show) {
@@ -359,7 +418,6 @@ function CardWidget(input) {
     );
   }
 }
-
 
 function CardData(decks, minDrafts) {
   let tracker = {}
@@ -675,9 +733,18 @@ function isDateBetween(dateString, startDateString, endDateString) {
   return date >= startDate && date <= endDate;
 }
 
+async function LoadCube(onFetch) {
+  const resp = await fetch('cube.json');
+  let cube = await resp.json();
+  if (onFetch != null) {
+    onFetch(cube);
+    return
+  }
+  return cube
+}
 
-async function LoadCube(onLoad, start, end) {
-  console.log("Loading cube data")
+async function LoadDecks(onLoad, start, end) {
+  console.log("Loading deck data")
 
   // First, fetch the draft index. We'll use this to find
   // all the drafts and decks therein.

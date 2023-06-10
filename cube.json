@@ -236,17 +236,21 @@
    "url": "https://scryfall.com/card/csp/143/arctic-flats?utm_source=api"
   },
   {
-   "name": "Ardent Plea",
+   "name": "Mistmeadow Witch",
    "types": [
-    "Enchantment"
+    "Creature"
    ],
-   "cmc": 3,
+   "sub_types": [
+    "Kithkin",
+    "Wizard"
+   ],
+   "cmc": 2,
    "image": "",
    "colors": [
     "U",
     "W"
    ],
-   "url": "https://scryfall.com/card/arb/1/ardent-plea?utm_source=api"
+   "url": "https://scryfall.com/card/2x2/256/mistmeadow-witch?utm_source=api"
   },
   {
    "name": "Ashes of the Abhorrent",
@@ -617,19 +621,20 @@
    "url": "https://scryfall.com/card/dom/239/clifftop-retreat?utm_source=api"
   },
   {
-   "name": "Clone",
+   "name": "Fatestitcher",
    "types": [
     "Creature"
    ],
    "sub_types": [
-    "Shapeshifter"
+    "Zombie",
+    "Wizard"
    ],
    "cmc": 4,
    "image": "",
    "colors": [
     "U"
    ],
-   "url": "https://scryfall.com/card/m14/47/clone?utm_source=api"
+   "url": "https://scryfall.com/card/ala/43/fatestitcher?utm_source=api"
   },
   {
    "name": "Cloudgoat Ranger",
@@ -3072,20 +3077,19 @@
    "url": "https://scryfall.com/card/mm2/29/oblivion-ring?utm_source=api"
   },
   {
-   "name": "Ogre Sentry",
+   "name": "Tibalt's Rager",
    "types": [
     "Creature"
    ],
    "sub_types": [
-    "Ogre",
-    "Warrior"
+    "Devil"
    ],
    "cmc": 2,
    "image": "",
    "colors": [
     "R"
    ],
-   "url": "https://scryfall.com/card/cn2/168/ogre-sentry?utm_source=api"
+   "url": "https://scryfall.com/card/jmp/366/tibalts-rager?utm_source=api"
   },
   {
    "name": "Opt",
@@ -4955,21 +4959,17 @@
    "url": "https://scryfall.com/card/2x2/131/young-pyromancer?utm_source=api"
   },
   {
-   "name": "Zealous Guardian",
+   "name": "Turn to Mist",
    "types": [
-    "Creature"
+    "Instant"
    ],
-   "sub_types": [
-    "Kithkin",
-    "Soldier"
-   ],
-   "cmc": 1,
+   "cmc": 2,
    "image": "",
    "colors": [
     "U",
     "W"
    ],
-   "url": "https://scryfall.com/card/shm/157/zealous-guardian?utm_source=api"
+   "url": "https://scryfall.com/card/uma/224/turn-to-mist?utm_source=api"
   },
   {
    "name": "Zulaport Cutthroat",
