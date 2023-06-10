@@ -49,6 +49,30 @@ export default function StatsViewer() {
     setEndDate(event.target.value)
   }
 
+  ///////////////////////////////////////////////////////////////////////////////
+  // State used for tracking which widgets to display.
+  // Each widget is represented as an element in the array, and defaulted here.
+  ///////////////////////////////////////////////////////////////////////////////
+  const [display, setDisplay] = useState(new Array(true, true, false));
+  function onCheckbox(idx) {
+    let d = {...display}
+    if (d[idx]) {
+      d[idx] = false
+    } else {
+      d[idx] = true
+    }
+    setDisplay(d)
+  }
+  function onColorCheckbox() {
+    onCheckbox(0)
+  }
+  function onArchetypeCheckbox() {
+    onCheckbox(1)
+  }
+  function onCardCheckbox() {
+    onCheckbox(2)
+  }
+
   // Load the decks on startup and whenever the dates change.
   useEffect(() => {
     LoadCube(onLoad, startDate, endDate)
@@ -81,7 +105,24 @@ export default function StatsViewer() {
           value={endDate}
           onChange={onEndSelected}
         />
+
         <Overview decks={decks} />
+
+        <Checkbox
+          text="Colors"
+          checked={display[0]}
+          onChange={onColorCheckbox}
+        />
+        <Checkbox
+          text="Types"
+          checked={display[1]}
+          onChange={onArchetypeCheckbox}
+        />
+        <Checkbox
+          text="Cards"
+          checked={display[2]}
+          onChange={onCardCheckbox}
+        />
       </div>
 
       <ColorWidget
@@ -91,16 +132,19 @@ export default function StatsViewer() {
         decks={decks}
         colorTypeSelection={colorTypeSelection}
         winrates={winrates}
+        show={display[0]}
       />
 
       <PopularArchetypeWidget
         decks={decks}
         dropdownSelection={colorTypeSelection}
+        show={display[1]}
       />
 
       <SuccessfulArchetypeWidget
         decks={decks}
         dropdownSelection={colorTypeSelection}
+        show={display[1]}
       />
 
       <CardWidget
@@ -111,13 +155,26 @@ export default function StatsViewer() {
         minDrafts={minDrafts}
         minDraftsOpts={minDraftsOpts}
         onMinDraftsSelected={onMinDraftsSelected}
+        show={display[2]}
       />
 
     </div>
   );
 }
 
+function Checkbox(input) {
+  return (
+      <label className="dropdown">
+        {input.text}
+        <input checked={input.checked} onChange={input.onChange} type="checkbox" />
+      </label>
+  );
+}
+
 function SuccessfulArchetypeWidget(input) {
+  if (!input.show) {
+    return null
+  }
   let data = ArchetypeData(input.decks)
   return (
     <div className="widget">
@@ -143,6 +200,9 @@ function SuccessfulArchetypeWidget(input) {
 
 
 function PopularArchetypeWidget(input) {
+  if (!input.show) {
+    return null
+  }
   let data = ArchetypeData(input.decks)
   return (
     <div className="widget">
@@ -203,6 +263,9 @@ function DateSelector(input) {
 
 
 function CardWidget(input) {
+  if (!input.show) {
+    return null
+  }
   let data = CardData(input.decks, input.minDrafts)
   if (input.dropdownSelection == "Pick rate") {
     return (
@@ -433,6 +496,9 @@ function PopularColorsWidget(input) {
 }
 
 function ColorWidget(input) {
+  if (!input.show) {
+    return null
+  }
   return (
       <div className="widget">
         <DropdownHeader
