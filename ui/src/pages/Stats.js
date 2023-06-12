@@ -16,10 +16,15 @@ export default function StatsViewer() {
   ///////////////////////////////////////////////////////////////////////////////
   const [winrates, setWinrates] = useState(null);
   const [colorTypeSelection, setColorTypeSelection] = useState("Mono");
+  const [colorSortBy, setColorSortBy] = useState("win");
   const ddOpts =  [{ label: "Mono", value: "Mono" }, { label: "Dual", value: "Dual" }, { label: "Trio", value: "Trio" }]
   function onSelected(event) {
     setColorTypeSelection(event.target.value)
   }
+  function onHeaderClicked(event) {
+    setColorSortBy(event.target.id)
+  }
+
 
   ///////////////////////////////////////////////////////////////////////////////
   // State used for the card widget.
@@ -139,6 +144,8 @@ export default function StatsViewer() {
         decks={decks}
         colorTypeSelection={colorTypeSelection}
         winrates={winrates}
+        onHeaderClick={onHeaderClicked}
+        colorSortBy={colorSortBy}
         show={display[0]}
       />
 
@@ -198,8 +205,13 @@ function SuccessfulArchetypeWidget(input) {
         <tbody>
           {
             data.map((t) => (
-              <PrintRow color={t.type} value={t.record} p={t.win_percent}/>
-            )).sort(comparePercentages)
+              <PrintRow
+                k={t.type}
+                value={t.record}
+                p={t.win_percent}
+                sort={t.win_percent}
+              />
+            )).sort(sortFunc)
           }
         </tbody>
       </table>
@@ -226,8 +238,13 @@ function PopularArchetypeWidget(input) {
         <tbody>
           {
             data.map((t) => (
-              <PrintRow color={t.type} value={t.count} p={t.build_percent}/>
-            )).sort(comparePercentages)
+              <PrintRow
+                k={t.type}
+                value={t.count}
+                p={t.build_percent}
+                sort={t.build_percent}
+              />
+            )).sort(sortFunc)
           }
         </tbody>
       </table>
@@ -308,7 +325,7 @@ function UndraftedWidget(input) {
       {
         cardArray.map(function(item) {
          return (
-           <tr p={item.pick_percent} className="card" key={item.name}>
+           <tr sort={item.pick_percent} className="card" key={item.name}>
              <td><a href={item.url} target="_blank">{item.name}</a></td>
            </tr>
          )
@@ -350,22 +367,22 @@ function CardWidget(input) {
         <table className="winrate-table">
           <thead className="table-header">
             <tr>
-              <td>Pick rate</td>
-              <td>Card</td>
-              <td># Decks</td>
+              <td className="header-cell">Pick rate</td>
+              <td className="header-cell">Card</td>
+              <td className="header-cell"># Decks</td>
             </tr>
           </thead>
           <tbody>
           {
             data.map(function(item) {
              return (
-               <tr p={item.pick_percent} className="card" key={item.name}>
+               <tr sort={item.pick_percent} className="card" key={item.name}>
                  <td>{item.pick_percent}%</td>
                  <td><a href={item.url} target="_blank">{item.name}</a></td>
                  <td>{item.count}</td>
                </tr>
              )
-            }).sort(comparePercentages)
+            }).sort(sortFunc)
           }
           </tbody>
         </table>
@@ -404,13 +421,13 @@ function CardWidget(input) {
             {
               data.map(function(item) {
                return (
-                 <tr p={item.win_percent} className="card" key={item.name}>
+                 <tr sort={item.win_percent} className="card" key={item.name}>
                    <td>{item.win_percent}%</td>
                    <td><a href={item.url} target="_blank">{item.name}</a></td>
                    <td>{item.count}</td>
                  </tr>
                )
-              }).sort(comparePercentages)
+              }).sort(sortFunc)
             }
           </tbody>
         </table>
@@ -495,9 +512,38 @@ function ArchetypeData(decks) {
   return data
 }
 
+function ColorWidget(input) {
+  if (!input.show) {
+    return null
+  }
+  return (
+      <div className="widget">
+        <DropdownHeader
+          label="Select color type"
+          options={input.ddOpts}
+          value={input.colorTypeSelection}
+          onChange={input.onSelected}
+        />
 
-// The PopularColorsWidget shows which colors are drafted the most.
-function PopularColorsWidget(input) {
+        <ColorWinratesWidget
+          winrates={input.winrates}
+          ddOpts={input.ddOpts}
+          dropdownSelection={input.colorTypeSelection}
+          decks={input.decks}
+          onSelected={input.onSelected}
+          onClick={input.onHeaderClick}
+          sortBy={input.colorSortBy}
+        />
+      </div>
+  );
+}
+
+// ColorWinratesWidget displays the win percentages and records by color.
+function ColorWinratesWidget(input) {
+  if (input == null || input.winrates == null) {
+    return null
+  }
+
   // First, determine the popularity of each color by iterating all decks
   // and counting the instances of each color, pair, and triome.
   let tracker = {}
@@ -514,78 +560,11 @@ function PopularColorsWidget(input) {
       tracker[color].count += 1
     }
   }
-
-  // Convert to a list for sorting.
-  let data = []
   for (var color in tracker) {
-    // If dual is set, only show dual colors.
-    // Otherwise, only show single colors.
-    // `color` here is a string made of one or more characters - e.g., W or UB.
-    if (input.dropdownSelection == "Dual" && color.length != 2) {
-      continue
-    } else if (input.dropdownSelection == "Mono" && color.length != 1 ) {
-      continue
-    } else if (input.dropdownSelection == "Trio" && color.length != 3) {
-      continue
-    }
-
     tracker[color].percent = Math.round(tracker[color].count / totalDecks * 100)
-    data.push(tracker[color])
   }
 
-  return (
-    <table className="winrate-table">
-      <thead className="table-header">
-        <tr>
-          <td>Build rate</td>
-          <td>Color</td>
-          <td># Decks</td>
-        </tr>
-      </thead>
-      <tbody>
-        {
-          data.map((color) => (
-            <PrintRow color={color.color} value={color.count} p={color.percent}/>
-          )).sort(comparePercentages)
-        }
-      </tbody>
-    </table>
-  );
-}
 
-function ColorWidget(input) {
-  if (!input.show) {
-    return null
-  }
-  return (
-      <div className="widget">
-        <DropdownHeader
-          label="Select color type"
-          options={input.ddOpts}
-          value={input.colorTypeSelection}
-          onChange={input.onSelected}
-        />
-
-        <PopularColorsWidget
-          decks={input.decks}
-          dropdownSelection={input.colorTypeSelection}
-        />
-
-        <ColorWinratesWidget
-          winrates={input.winrates}
-          ddOpts={input.ddOpts}
-          dropdownSelection={input.colorTypeSelection}
-          onSelected={input.onSelected}
-        />
-      </div>
-  );
-}
-
-// ColorWinratesWidget displays the win percentages and records by color.
-function ColorWinratesWidget(input) {
-  if (input == null || input.winrates == null) {
-    return null
-  }
 
   // Iterate and calculate the actual win percentage for each.
   // Also, convert from a map to a list at this point so that we can
@@ -609,8 +588,22 @@ function ColorWinratesWidget(input) {
     if ((wins + losses) == 0) {
       p = 0
     }
-    ratesForColor.percent = p
-    ratesForColor.value = wins + "-" + losses + "-" + 0
+    ratesForColor.win_percent = p
+    ratesForColor.build_percent = tracker[color].percent
+    ratesForColor.num_decks = tracker[color].count
+    ratesForColor.record = wins + "-" + losses + "-" + 0
+
+    // Determine what we're sorting by. Default to sorting by win percentage.
+    ratesForColor.sort = ratesForColor.win_percent
+    if (input.sortBy === "build") {
+      ratesForColor.sort = ratesForColor.build_percent
+    } else if (input.sortBy === "decks") {
+      ratesForColor.sort = ratesForColor.num_decks
+    } else if (input.sortBy === "color") {
+      ratesForColor.sort = ratesForColor.color
+    }
+
+    // Add it to the list.
     wr.push(ratesForColor)
   }
 
@@ -618,39 +611,47 @@ function ColorWinratesWidget(input) {
     <table className="winrate-table">
       <thead className="table-header">
         <tr>
-          <td>Win rate</td>
-          <td>Color</td>
-          <td>Record</td>
+          <td onClick={input.onClick} id="color" className="header-cell">Color</td>
+          <td onClick={input.onClick} id="win" className="header-cell">Win rate</td>
+          <td onClick={input.onClick} id="build" className="header-cell">Build rate</td>
+          <td onClick={input.onClick} id="record" className="header-cell">Record</td>
+          <td onClick={input.onClick} id="decks" className="header-cell"># Decks</td>
         </tr>
       </thead>
       <tbody>
         {
           wr.map((rates) => (
-            <PrintRow color={rates.color} value={rates.value} p={rates.percent}/>
-          )).sort(comparePercentages)
+            <tr key={rates.color} sort={rates.sort} className="winrate-row">
+              <td>{rates.color}</td>
+              <td>{rates.win_percent}%</td>
+              <td>{rates.build_percent}%</td>
+              <td>{rates.record}</td>
+              <td>{rates.num_decks}</td>
+            </tr>
+          )).sort(sortFunc)
         }
       </tbody>
     </table>
   );
 }
 
-// comparePercentages compares winrates in order to
+// sortFunc compares winrates in order to
 // sort the winrates table from most winning to least winning.
-function comparePercentages(a, b) {
-  if (a.props.p > b.props.p) {
+function sortFunc(a, b) {
+  if (a.props.sort > b.props.sort) {
     return -1
-  } else if (a.props.p < b.props.p) {
+  } else if (a.props.sort < b.props.sort) {
     return 1
   }
   return 0
 }
 
-function PrintRow({ color, value, p }) {
+function PrintRow({ k, value, p }) {
   return (
-      <tr key={color} className="winrate-row">
-        <td>{p}%</td>
-        <td>{color}</td>
-        <td>{value}</td>
+    <tr key={k} className="winrate-row">
+      <td>{k}</td>
+      <td>{p}%</td>
+      <td>{value}</td>
     </tr>
   );
 }

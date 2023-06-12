@@ -106,6 +106,12 @@ ul {
   margin: 0px;
 }
 
+.header-cell {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+
 .card {
   padding: 0px;
   margin: 0px;
