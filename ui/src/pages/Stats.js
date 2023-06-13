@@ -96,7 +96,7 @@ export default function StatsViewer() {
   // When the deck list changes, recalculate.
   useEffect(() => {
     if (decks != null) {
-      let w = GetWinrates(decks)
+      let w = GetColorStats(decks)
       setWinrates(w)
     }
   }, [decks])
@@ -549,7 +549,7 @@ function ColorWidget(input) {
           onChange={input.onSelected}
         />
 
-        <ColorWinratesWidget
+        <ColorStatsWidget
           winrates={input.winrates}
           ddOpts={input.ddOpts}
           dropdownSelection={input.colorTypeSelection}
@@ -562,8 +562,8 @@ function ColorWidget(input) {
   );
 }
 
-// ColorWinratesWidget displays the win percentages and records by color.
-function ColorWinratesWidget(input) {
+// ColorStatsWidget displays the win percentages and records by color.
+function ColorStatsWidget(input) {
   if (input == null || input.winrates == null) {
     return null
   }
@@ -587,8 +587,6 @@ function ColorWinratesWidget(input) {
   for (var color in tracker) {
     tracker[color].percent = Math.round(tracker[color].count / totalDecks * 100)
   }
-
-
 
   // Iterate and calculate the actual win percentage for each.
   // Also, convert from a map to a list at this point so that we can
@@ -625,6 +623,10 @@ function ColorWinratesWidget(input) {
       ratesForColor.sort = ratesForColor.num_decks
     } else if (input.sortBy === "color") {
       ratesForColor.sort = ratesForColor.color
+    } else if (input.sortBy === "picks") {
+      ratesForColor.sort = ratesForColor.total_pick_percentage
+    } else if (input.sortBy === "splash") {
+      ratesForColor.sort = ratesForColor.average_deck_percentage
     }
 
     // Add it to the list.
@@ -636,10 +638,12 @@ function ColorWinratesWidget(input) {
       <thead className="table-header">
         <tr>
           <td onClick={input.onClick} id="color" className="header-cell">Color</td>
-          <td onClick={input.onClick} id="win" className="header-cell">Win rate</td>
-          <td onClick={input.onClick} id="build" className="header-cell">Build rate</td>
+          <td onClick={input.onClick} id="win" className="header-cell">Deck win rate</td>
+          <td onClick={input.onClick} id="build" className="header-cell">Deck build rate</td>
           <td onClick={input.onClick} id="record" className="header-cell">Record</td>
           <td onClick={input.onClick} id="decks" className="header-cell"># Decks</td>
+          <td onClick={input.onClick} id="picks" className="header-cell">% of picks</td>
+          <td onClick={input.onClick} id="splash" className="header-cell">% of deck</td>
         </tr>
       </thead>
       <tbody>
@@ -651,6 +655,8 @@ function ColorWinratesWidget(input) {
               <td>{rates.build_percent}%</td>
               <td>{rates.record}</td>
               <td>{rates.num_decks}</td>
+              <td>{rates.total_pick_percentage}%</td>
+              <td>{rates.average_deck_percentage}%</td>
             </tr>
           )).sort(sortFunc)
         }
@@ -680,20 +686,75 @@ function PrintRow({ k, value, p }) {
   );
 }
 
-function GetWinrates(decks) {
+function GetColorStats(decks) {
   // Go through each deck, and add its winrates to the color count.
   // Initialize winrates to zero first.
   let tracker = {}
+  let totalCards = 0 // Count of all cards ever drafted.
   for (var i in decks) {
+
+    // Start by adding metrics at the deck scope for color identity.
+    // Calculate wins and losses for each color / color pair within the deck.
     let colors = GetColorIdentity(decks[i])
     for (var j in colors) {
       let color = colors[j]
       if (tracker[color] == null) {
-        tracker[color] = {wins: 0, losses: 0, color: color}
+        tracker[color] = {
+          color: color,
+          wins: 0,
+          losses: 0,
+          cards: 0,
+          // Each element represents a deck, with value equal to the
+          // percentage of cards in that deck with this color.
+          deck_percentages: [],
+          // The average percentage of non-land cards in a deck that are this color.
+          average_deck_percentage: 0,
+          // The percentage of all drafted cards that are this color.
+          total_pick_percentage: 0,
+        }
       }
       tracker[color].wins += decks[i].wins
       tracker[color].losses += decks[i].losses
     }
+
+    // Add metrics to the color based on card scope statistics.
+    // Calculate the total number of cards drafted of the color across
+    // all drafts, as well as the percentage of that color within the deck, which we'll
+    // use to calculate an indicator of which colors are primary and whicn are splashed.
+    let totalCardsInDeck = 0
+    let cardsPerColorInDeck = {}
+    for (j in decks[i].mainboard) {
+      let card = decks[i].mainboard[j]
+      for (var k in card.colors) { // TODO: Include hybrid color identities.
+        let color = card.colors[k]
+        tracker[color].cards += 1
+        totalCards += 1
+        totalCardsInDeck += 1
+        if (!cardsPerColorInDeck[color]) {
+          cardsPerColorInDeck[color] = 0
+        }
+        cardsPerColorInDeck[color] += 1
+      }
+    }
+    for (var color in cardsPerColorInDeck) {
+      let num = cardsPerColorInDeck[color]
+      tracker[color].deck_percentages.push(num / totalCardsInDeck)
+    }
+  }
+
+  // Summarize tracker stats and calculate percentages.
+  for (var color in tracker) {
+    // First, calculate the average color devotion of each deck based on card count.
+    // This is a measure of, on average, how many cards of a given color appear in
+    // decks with that color identity. A lower percentage means a splash, a higher percentage
+    // means it is a primary staple.
+    const density_sum = tracker[color].deck_percentages.reduce((sum, a) => sum + a, 0);
+    const density_count = tracker[color].deck_percentages.length;
+    console.log(density_sum + " " + density_count)
+    tracker[color].average_deck_percentage = Math.round(100 * density_sum / density_count);
+
+    // Calculate the percentage of all cards drafted that are this color.
+    tracker[color].total_pick_percentage = Math.round(100 * tracker[color].cards / totalCards);
   }
   return tracker
 }
