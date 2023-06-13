@@ -1,6 +1,8 @@
 {
  "labels": [
-  "sacrifice"
+  "sacrifice",
+  "control",
+  "aggro"
  ],
  "player": "casey",
  "date": "2023-04-19",
