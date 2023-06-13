@@ -203,11 +203,11 @@ function CardList({ player, cards, opts }) {
   for (var i in cards) {
     // Count the card if it matches the CMC, or if options specify to include
     // all cards greater than the given value.
-    if (opts.gt && cards[i].cmc >= opts.cmc || cards[i].cmc == opts.cmc) {
+    if (opts.gt && cards[i].cmc >= opts.cmc || cards[i].cmc === opts.cmc) {
       num += 1
     }
   }
-  if (num == 0) {
+  if (num === 0) {
     return null
   }
 
@@ -217,20 +217,20 @@ function CardList({ player, cards, opts }) {
   }
 
   // Generate the key for this table.
-  let key = {player} + opts.cmc
   return (
     <table key={player} className="decklist">
       <thead className="table-header">{title}</thead>
       <tbody>
       {
         cards.map(function(item) {
-          if (opts.gt && item.cmc >= opts.cmc || item.cmc == opts.cmc) {
+          if (opts.gt && item.cmc >= opts.cmc || item.cmc === opts.cmc) {
             return (
               <tr className="card" key={item.name}>
-                <td><a href={item.url} target="_blank">{item.name}</a></td>
+                <td><a href={item.url} target="_blank" rel="noopener noreferrer">{item.name}</a></td>
               </tr>
             )
           }
+          return null
         })
       }
       </tbody>

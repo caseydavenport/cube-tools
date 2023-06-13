@@ -187,6 +187,7 @@ ul {
 
 .house-for-widgets {
   float: left;
+  width: 100%;
 }
 
 .winrate-table {

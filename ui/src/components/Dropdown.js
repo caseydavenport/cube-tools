@@ -31,7 +31,7 @@ export function Checkbox(input) {
 export function DateSelector(input) {
   return (
     <div className="dropdown">
-      <label for="start">{input.label}</label>
+      <label>{input.label}</label>
       <input
         type="date"
         id={input.id}

@@ -2,10 +2,8 @@ import React from 'react'
 import { useState } from "react";
 import { useEffect } from "react";
 import { LoadCube, LoadDecks, IsBasicLand } from "../utils/Fetch.js"
-import { AverageCMC, ExtractColors } from "../utils/Fetch.js"
-import { FetchDraftIndex, FetchDeckIndex } from "../utils/Fetch.js"
 import { DropdownHeader, Checkbox, DateSelector } from "../components/Dropdown.js"
-import { CombineColors, GetColorIdentity } from "../utils/Colors.js"
+import { GetColorIdentity } from "../utils/Colors.js"
 
 // StatsViewer displays stats spanning the selected drafts.
 export default function StatsViewer() {
@@ -61,7 +59,7 @@ export default function StatsViewer() {
   // State used for tracking which widgets to display.
   // Each widget is represented as an element in the array, and defaulted here.
   ///////////////////////////////////////////////////////////////////////////////
-  const [display, setDisplay] = useState(new Array(true, true, false));
+  const [display, setDisplay] = useState([true, true, false]);
   function onCheckbox(idx) {
     let d = {...display}
     if (d[idx]) {
@@ -145,7 +143,6 @@ export default function StatsViewer() {
           colorTypeSelection={colorTypeSelection}
           onSelected={onSelected}
           decks={decks}
-          colorTypeSelection={colorTypeSelection}
           winrates={winrates}
           onHeaderClick={onHeaderClicked}
           colorSortBy={colorSortBy}
@@ -174,9 +171,9 @@ export default function StatsViewer() {
           onMinDraftsSelected={onMinDraftsSelected}
           show={display[2]}
         />
-      </div>
 
-      <UndraftedWidget cube={cube} decks={decks} show={display[2]}/>
+        <UndraftedWidget cube={cube} decks={decks} show={display[2]}/>
+      </div>
 
     </div>
   );
@@ -201,6 +198,7 @@ function SuccessfulArchetypeWidget(input) {
           {
             data.map((t) => (
               <PrintRow
+                key={t.type}
                 k={t.type}
                 value={t.record}
                 p={t.win_percent}
@@ -234,6 +232,7 @@ function PopularArchetypeWidget(input) {
           {
             data.map((t) => (
               <PrintRow
+                key={t.type}
                 k={t.type}
                 value={t.count}
                 p={t.build_percent}
@@ -282,13 +281,13 @@ function UndraftedWidget(input) {
   }
 
   // Discard any cards that have been drafted.
-  for (var i in draftData) {
+  for (i in draftData) {
     cards.delete(draftData[i].name)
   }
 
   // All that's left are cards that have never been drafted.
   // Display them in a table. Make them an array first so we can sort.
-  let cardArray = new Array()
+  let cardArray = []
   let num = 0
   cards.forEach(function(i) {
     cardArray.push(i)
@@ -307,7 +306,7 @@ function UndraftedWidget(input) {
         cardArray.map(function(item) {
          return (
            <tr sort={item.pick_percent} className="card" key={item.name}>
-             <td><a href={item.url} target="_blank">{item.name}</a></td>
+             <td><a href={item.url} target="_blank" rel="noopener noreferrer">{item.name}</a></td>
            </tr>
          )
         })
@@ -324,7 +323,7 @@ function CardWidget(input) {
     return null
   }
   let data = CardData(input.decks, input.minDrafts)
-  if (input.dropdownSelection == "Pick rate") {
+  if (input.dropdownSelection === "Pick rate") {
     return (
       <div className="widget">
         <div className="dropdown-header">
@@ -359,7 +358,7 @@ function CardWidget(input) {
              return (
                <tr sort={item.pick_percent} className="card" key={item.name}>
                  <td>{item.pick_percent}%</td>
-                 <td><a href={item.url} target="_blank">{item.name}</a></td>
+                 <td><a href={item.url} target="_blank" rel="noopener noreferrer">{item.name}</a></td>
                  <td>{item.count}</td>
                </tr>
              )
@@ -367,7 +366,7 @@ function CardWidget(input) {
           }
           </tbody>
         </table>
-        </div>
+      </div>
     );
   } else {
         return (
@@ -404,7 +403,7 @@ function CardWidget(input) {
                return (
                  <tr sort={item.win_percent} className="card" key={item.name}>
                    <td>{item.win_percent}%</td>
-                   <td><a href={item.url} target="_blank">{item.name}</a></td>
+                   <td><a href={item.url} target="_blank" rel="noopener noreferrer">{item.name}</a></td>
                    <td>{item.count}</td>
                  </tr>
                )
@@ -412,17 +411,15 @@ function CardWidget(input) {
             }
           </tbody>
         </table>
-        </div>
+      </div>
     );
   }
 }
 
 function CardData(decks, minDrafts) {
   let tracker = {}
-  let totalDecks = 0
   let drafts = new Map()
   for (var i in decks) {
-    totalDecks += 1
     let deck = decks[i]
 
     // Keep track of the total number of drafts.
@@ -437,10 +434,21 @@ function CardData(decks, minDrafts) {
       }
       if (tracker[card.name] == null) {
         tracker[card.name] = {name: card.name, count: 0, wins: 0, losses: 0, url: card.url}
+        tracker[card.name].archetypes = {}
       }
       tracker[card.name].count += 1
       tracker[card.name].wins += decks[i].wins
       tracker[card.name].losses += decks[i].losses
+
+      // Include archetype data for this card, which allows us to map cards to archetypes
+      // and compare their performance to other cards in the same archetype.
+      for (var k in deck.labels) {
+        const arch = deck.labels[k]
+        if (!tracker[card.name].archetypes[arch]) {
+          tracker[card.name].archetypes[arch] = 0
+        }
+        tracker[card.name].archetypes[arch] += 1
+      }
     }
   }
 
@@ -551,22 +559,22 @@ function ColorWinratesWidget(input) {
   // Also, convert from a map to a list at this point so that we can
   // sort by win percentage.
   let wr = []
-  for (var color in input.winrates) {
+  for (color in input.winrates) {
     // If dual is set, only show dual colors.
     // Otherwise, only show single colors.
     // `color` here is a string made of one or more characters - e.g., W or UB.
-    if (input.dropdownSelection == "Dual" && color.length != 2) {
+    if (input.dropdownSelection === "Dual" && color.length !== 2) {
       continue
-    } else if (input.dropdownSelection == "Mono" && color.length != 1 ) {
+    } else if (input.dropdownSelection === "Mono" && color.length !== 1 ) {
       continue
-    } else if (input.dropdownSelection == "Trio" && color.length != 3) {
+    } else if (input.dropdownSelection === "Trio" && color.length !== 3) {
       continue
     }
     let ratesForColor = input.winrates[color]
     let wins = ratesForColor.wins
     let losses = ratesForColor.losses
     let p = Math.round(wins / (wins + losses) * 100)
-    if ((wins + losses) == 0) {
+    if ((wins + losses) === 0) {
       p = 0
     }
     ratesForColor.win_percent = p
@@ -630,9 +638,9 @@ function sortFunc(a, b) {
 function PrintRow({ k, value, p }) {
   return (
     <tr key={k} className="winrate-row">
-      <td>{k}</td>
-      <td>{p}%</td>
-      <td>{value}</td>
+      <td key="k">{k}</td>
+      <td key="p">{p}%</td>
+      <td key="value">{value}</td>
     </tr>
   );
 }

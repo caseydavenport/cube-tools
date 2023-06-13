@@ -1,5 +1,3 @@
-import React from 'react'
-
 export async function LoadCube(onFetch) {
   const resp = await fetch('cube.json');
   let cube = await resp.json();
@@ -40,7 +38,7 @@ export async function LoadDecks(onLoad, start, end) {
   }
 
   let decks = []
-  for (var i in deckNames) {
+  for (i in deckNames) {
     let info = deckNames[i]
     const resp = await fetch(info.file);
     let d = await resp.json();
@@ -164,6 +162,8 @@ export function ExtractColors({deck}) {
         case "Mountain":
           colors.set("R", true);
           break;
+        default:
+          console.log("Unexpected basic land: " + card.name)
       }
     }
   }

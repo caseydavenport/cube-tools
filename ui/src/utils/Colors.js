@@ -10,7 +10,7 @@ export function GetColorIdentity(deck) {
       for (var k in deck.colors) {
         let c2 = deck.colors[k]
         let pair = CombineColors([c, c2])
-        if (c == c2) {
+        if (c === c2) {
           continue
         }
         allColors.set(pair, true)
@@ -19,7 +19,7 @@ export function GetColorIdentity(deck) {
         for (var l in deck.colors) {
           let c3 = deck.colors[l]
           let trio = CombineColors([c, c2, c3])
-          if (c3 == c || c3 == c2) {
+          if (c3 === c || c3 === c2) {
             continue
           }
           allColors.set(trio, true)
