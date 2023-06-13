@@ -760,7 +760,6 @@ function GetColorStats(decks) {
     for (var color in cardsPerColorInDeck) {
       let num = cardsPerColorInDeck[color]
       tracker[color].deck_percentages.push(num / totalCardsInDeck)
-      console.log(tracker[color].deck_percentages)
     }
   }
 
@@ -772,7 +771,6 @@ function GetColorStats(decks) {
     // means it is a primary staple.
     const density_sum = tracker[color].deck_percentages.reduce((sum, a) => sum + a, 0);
     const density_count = tracker[color].deck_percentages.length;
-    console.log(density_sum + " " + density_count)
     tracker[color].average_deck_percentage = Math.round(100 * density_sum / density_count);
 
     // Calculate the percentage of all cards drafted that are this color.
