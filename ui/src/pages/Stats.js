@@ -701,7 +701,7 @@ function GetColorStats(decks) {
   for (var i in decks) {
 
     // Start by adding metrics at the deck scope for color identity.
-    // Calculate wins and losses for each color / color pair within the deck.
+    // Add wins and losses contributed for each color / color combination within this deck.
     let colors = GetColorIdentity(decks[i])
     for (var j in colors) {
       let color = colors[j]
@@ -732,11 +732,25 @@ function GetColorStats(decks) {
     let cardsPerColorInDeck = {}
     for (j in decks[i].mainboard) {
       let card = decks[i].mainboard[j]
-      for (var k in card.colors) { // TODO: Include hybrid color identities.
+      // Skip basic lands, since they just dilute the percentages.
+      if (IsBasicLand({card})) {
+        continue
+      }
+
+      // Note: This calculation excludes colorless cards, meaning percentages for colors
+      // will not add up to 100%. This is OK specifically for my cube though, since there
+      // isn't really a colorless archtetype available.
+      totalCards += 1
+      totalCardsInDeck += 1
+      for (var k in card.colors) { // TODO: Include hybrid color identities?
         let color = card.colors[k]
+        // Skip any card colors that aren't a part of the deck's color
+        // identity. This helps prevent hybrid cards accidentally bringing down
+        // a given color's play rate.
+        if (!decks[i].colors.includes(color)) {
+          continue
+        }
         tracker[color].cards += 1
-        totalCards += 1
-        totalCardsInDeck += 1
         if (!cardsPerColorInDeck[color]) {
           cardsPerColorInDeck[color] = 0
         }
@@ -746,6 +760,7 @@ function GetColorStats(decks) {
     for (var color in cardsPerColorInDeck) {
       let num = cardsPerColorInDeck[color]
       tracker[color].deck_percentages.push(num / totalCardsInDeck)
+      console.log(tracker[color].deck_percentages)
     }
   }
 
