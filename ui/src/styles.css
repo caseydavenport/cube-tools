@@ -125,7 +125,6 @@ ul {
   background: #C97B84;
 }
 
-
 .dropdown {
   color: #FFF;
   background: #C97B84;
@@ -133,7 +132,9 @@ ul {
   text-align: center;
   padding: 20px;
   border: 0px;
-  min-width: 300px;
+  min-width: 100px;
+  min-height: 70px;
+  float: left;
 }
 
 .dropdown-header {
@@ -177,10 +178,14 @@ ul {
 }
 
 .widget {
-  margin-top: 25px;
+  margin-top: 30px;
   margin-right: 10px;
   width: max-content;
   min-width: 300px;
+  float: left;
+}
+
+.house-for-widgets {
   float: left;
 }
 
@@ -213,4 +218,3 @@ ul {
   text-align: center;
   min-width: 300px;
 }
-

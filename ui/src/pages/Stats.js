@@ -1,9 +1,11 @@
 import React from 'react'
 import { useState } from "react";
 import { useEffect } from "react";
-import { AverageCMC, ExtractColors, DropdownHeader} from "../DeckViewer.js"
-import { FetchDraftIndex, FetchDeckIndex } from "../DeckViewer.js"
-import { IsBasicLand } from "../DeckViewer.js"
+import { LoadCube, LoadDecks, IsBasicLand } from "../utils/Fetch.js"
+import { AverageCMC, ExtractColors } from "../utils/Fetch.js"
+import { FetchDraftIndex, FetchDeckIndex } from "../utils/Fetch.js"
+import { DropdownHeader, Checkbox, DateSelector } from "../components/Dropdown.js"
+import { CombineColors, GetColorIdentity } from "../utils/Colors.js"
 
 // StatsViewer displays stats spanning the selected drafts.
 export default function StatsViewer() {
@@ -104,7 +106,7 @@ export default function StatsViewer() {
 
   return (
     <div>
-      <div float="left">
+      <div>
         <DateSelector
           label="From: "
           id="from"
@@ -137,53 +139,46 @@ export default function StatsViewer() {
         />
       </div>
 
-      <ColorWidget
-        ddOpts={ddOpts}
-        colorTypeSelection={colorTypeSelection}
-        onSelected={onSelected}
-        decks={decks}
-        colorTypeSelection={colorTypeSelection}
-        winrates={winrates}
-        onHeaderClick={onHeaderClicked}
-        colorSortBy={colorSortBy}
-        show={display[0]}
-      />
+      <div className="house-for-widgets">
+        <ColorWidget
+          ddOpts={ddOpts}
+          colorTypeSelection={colorTypeSelection}
+          onSelected={onSelected}
+          decks={decks}
+          colorTypeSelection={colorTypeSelection}
+          winrates={winrates}
+          onHeaderClick={onHeaderClicked}
+          colorSortBy={colorSortBy}
+          show={display[0]}
+        />
 
-      <PopularArchetypeWidget
-        decks={decks}
-        dropdownSelection={colorTypeSelection}
-        show={display[1]}
-      />
+        <PopularArchetypeWidget
+          decks={decks}
+          dropdownSelection={colorTypeSelection}
+          show={display[1]}
+        />
 
-      <SuccessfulArchetypeWidget
-        decks={decks}
-        dropdownSelection={colorTypeSelection}
-        show={display[1]}
-      />
+        <SuccessfulArchetypeWidget
+          decks={decks}
+          dropdownSelection={colorTypeSelection}
+          show={display[1]}
+        />
 
-      <CardWidget
-        decks={decks}
-        dropdownSelection={cardWidgetSelection}
-        cardWidgetOpts={cardWidgetOpts}
-        onSelected={onCardWidgetSelected}
-        minDrafts={minDrafts}
-        minDraftsOpts={minDraftsOpts}
-        onMinDraftsSelected={onMinDraftsSelected}
-        show={display[2]}
-      />
+        <CardWidget
+          decks={decks}
+          dropdownSelection={cardWidgetSelection}
+          cardWidgetOpts={cardWidgetOpts}
+          onSelected={onCardWidgetSelected}
+          minDrafts={minDrafts}
+          minDraftsOpts={minDraftsOpts}
+          onMinDraftsSelected={onMinDraftsSelected}
+          show={display[2]}
+        />
+      </div>
 
       <UndraftedWidget cube={cube} decks={decks} show={display[2]}/>
 
     </div>
-  );
-}
-
-function Checkbox(input) {
-  return (
-      <label className="dropdown">
-        {input.text}
-        <input checked={input.checked} onChange={input.onChange} type="checkbox" />
-      </label>
   );
 }
 
@@ -269,20 +264,6 @@ function Overview(input) {
   return (
     <label className="dropdown">
       <label>Displaying stats for {numDrafts} drafts, {numDecks} decks</label>
-    </label>
-  )
-}
-
-function DateSelector(input) {
-  return (
-    <label className="dropdown">
-      <label for="start">{input.label}</label>
-      <input
-        type="date"
-        id={input.id}
-        value={input.value}
-        onChange={input.onChange}
-      />
     </label>
   )
 }
@@ -656,7 +637,6 @@ function PrintRow({ k, value, p }) {
   );
 }
 
-
 function GetWinrates(decks) {
   // Go through each deck, and add its winrates to the color count.
   // Initialize winrates to zero first.
@@ -673,119 +653,4 @@ function GetWinrates(decks) {
     }
   }
   return tracker
-}
-
-// GetColorIdentity returns all the color identities of this deck.
-// e.g., a WUG deck will return [W, U, G, WU, WG, UG, WUG]
-function GetColorIdentity(deck) {
-    let allColors = new Map()
-    for (var j in deck.colors) {
-      let c = deck.colors[j]
-      allColors.set(c, true)
-
-      // Dual-colors.
-      for (var k in deck.colors) {
-        let c2 = deck.colors[k]
-        let pair = CombineColors([c, c2])
-        if (c == c2) {
-          continue
-        }
-        allColors.set(pair, true)
-
-        // Triomes.
-        for (var l in deck.colors) {
-          let c3 = deck.colors[l]
-          let trio = CombineColors([c, c2, c3])
-          if (c3 == c || c3 == c2) {
-            continue
-          }
-          allColors.set(trio, true)
-        }
-      }
-    }
-    return Array.from(allColors.keys())
-}
-
-// CombineColors returns the canonical name for the color pairing,
-// so that we don't double count. e.g., UB and BU.
-function CombineColors(colors) {
-  colors.sort(function(a,b) {
-    let order = {
-      "W": 0,
-      "U": 1,
-      "B": 2,
-      "R": 3,
-      "G": 4,
-    }
-    let orderA = order[a]
-    let orderB = order[b]
-    return orderA - orderB
-  })
-  return colors.join('')
-}
-
-function isDateBetween(dateString, startDateString, endDateString) {
-  if (startDateString == null || endDateString == null) {
-    return true
-  }
-  const date = new Date(dateString);
-  const startDate = new Date(startDateString);
-  const endDate = new Date(endDateString);
-  return date >= startDate && date <= endDate;
-}
-
-async function LoadCube(onFetch) {
-  const resp = await fetch('cube.json');
-  let cube = await resp.json();
-  if (onFetch != null) {
-    onFetch(cube);
-    return
-  }
-  return cube
-}
-
-async function LoadDecks(onLoad, start, end) {
-  console.log("Loading deck data")
-
-  // First, fetch the draft index. We'll use this to find
-  // all the drafts and decks therein.
-  let idx = await FetchDraftIndex(null)
-
-  // Combine to find all of the decknames.
-  let deckNames = []
-  for (var i in idx) {
-    // Get the decks for this draft.
-    let draft = idx[i]
-    if (!isDateBetween(draft.name, start, end)) {
-      continue
-    }
-    let deckIdx = await FetchDeckIndex(draft.name, null)
-    for (var j in deckIdx) {
-      // For each deck in the draft, add it to the total.
-      let deck = deckIdx[j]
-      deckNames.push(
-        {
-          draft: draft.name,
-          deck: deck.deck,
-          file: "drafts/" + draft.name + "/" + deck.deck,
-        }
-      )
-    }
-  }
-
-  let decks = []
-  for (var i in deckNames) {
-    let info = deckNames[i]
-    const resp = await fetch(info.file);
-    let d = await resp.json();
-
-    // Populate the deck with calculated fields and then save the deck.
-    d.avg_cmc = AverageCMC({deck: d})
-    d.colors = ExtractColors({deck: d})
-    d.draft = info.draft
-    decks.push(d)
-  }
-
-  // Callback with all of the loaded decks.
-  onLoad(decks)
 }

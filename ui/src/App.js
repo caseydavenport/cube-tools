@@ -1,6 +1,6 @@
 import React from 'react'
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import DeckViewer from './DeckViewer'
+import DeckViewer from './pages/DeckViewer.js'
 import NavBar from './components/navbar.js'
 import Dogs from './pages/Dogs.js'
 import StatsViewer from './pages/Stats.js'
