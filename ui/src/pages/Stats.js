@@ -633,6 +633,13 @@ function ColorStatsWidget(input) {
     wr.push(ratesForColor)
   }
 
+  // We conditionally show / hide a few of the columns, because they are only
+  // applicable when mono-color is displayed.
+  let headerStyleFields = {}
+  if (input.dropdownSelection !== "Mono") {
+    headerStyleFields.display = "none"
+  }
+
   return (
     <table className="winrate-table">
       <thead className="table-header">
@@ -642,8 +649,8 @@ function ColorStatsWidget(input) {
           <td onClick={input.onClick} id="build" className="header-cell">Deck build rate</td>
           <td onClick={input.onClick} id="record" className="header-cell">Record</td>
           <td onClick={input.onClick} id="decks" className="header-cell"># Decks</td>
-          <td onClick={input.onClick} id="picks" className="header-cell">% of picks</td>
-          <td onClick={input.onClick} id="splash" className="header-cell">% of deck</td>
+          <td onClick={input.onClick} id="picks" className="header-cell" style={headerStyleFields}>% of picks</td>
+          <td onClick={input.onClick} id="splash" className="header-cell" style={headerStyleFields}>% of deck</td>
         </tr>
       </thead>
       <tbody>
@@ -655,8 +662,8 @@ function ColorStatsWidget(input) {
               <td>{rates.build_percent}%</td>
               <td>{rates.record}</td>
               <td>{rates.num_decks}</td>
-              <td>{rates.total_pick_percentage}%</td>
-              <td>{rates.average_deck_percentage}%</td>
+              <td style={headerStyleFields}>{rates.total_pick_percentage}%</td>
+              <td style={headerStyleFields}>{rates.average_deck_percentage}%</td>
             </tr>
           )).sort(sortFunc)
         }
