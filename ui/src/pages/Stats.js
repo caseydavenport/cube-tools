@@ -189,8 +189,8 @@ function SuccessfulArchetypeWidget(input) {
       <table className="winrate-table">
         <thead className="table-header">
           <tr>
-            <td>Win rate</td>
             <td>Archetype</td>
+            <td>Win rate</td>
             <td>Record</td>
           </tr>
         </thead>
@@ -223,8 +223,8 @@ function PopularArchetypeWidget(input) {
       <table className="winrate-table">
         <thead className="table-header">
           <tr>
-            <td>Build rate</td>
             <td>Archetype</td>
+            <td>Build rate</td>
             <td># Decks</td>
           </tr>
         </thead>
@@ -355,13 +355,13 @@ function CardWidget(input) {
           <tbody>
           {
             data.map(function(item) {
-             return (
-               <tr sort={item.pick_percent} className="card" key={item.name}>
-                 <td>{item.pick_percent}%</td>
-                 <td><a href={item.url} target="_blank" rel="noopener noreferrer">{item.name}</a></td>
-                 <td>{item.count}</td>
-               </tr>
-             )
+              return (
+                <tr sort={item.pick_percent} className="card" key={item.name}>
+                  <td>{item.pick_percent}%</td>
+                  <td><a href={item.url} target="_blank" rel="noopener noreferrer">{item.name}</a></td>
+                  <td>{item.count}</td>
+                </tr>
+              )
             }).sort(sortFunc)
           }
           </tbody>
@@ -369,50 +369,85 @@ function CardWidget(input) {
       </div>
     );
   } else {
+        let archetypeData = ArchetypeData(input.decks)
         return (
-      <div className="widget">
-        <div className="dropdown-header">
-          <DropdownHeader
-            label="Stats type"
-            options={input.cardWidgetOpts}
-            value={input.colorTypeSelection}
-            onChange={input.onSelected}
-            className="dropdown-header-side-by-side"
-          />
+          <div className="widget">
+            <div className="dropdown-header">
+              <DropdownHeader
+                label="Stats type"
+                options={input.cardWidgetOpts}
+                value={input.colorTypeSelection}
+                onChange={input.onSelected}
+                className="dropdown-header-side-by-side"
+              />
 
-          <DropdownHeader
-            label="Min drafts"
-            options={input.minDraftsOpts}
-            value={input.minDrafts}
-            onChange={input.onMinDraftsSelected}
-            className="dropdown-header-side-by-side"
-          />
-        </div>
+              <DropdownHeader
+                label="Min drafts"
+                options={input.minDraftsOpts}
+                value={input.minDrafts}
+                onChange={input.onMinDraftsSelected}
+                className="dropdown-header-side-by-side"
+              />
+            </div>
 
-        <table className="winrate-table">
-          <thead className="table-header">
-            <tr>
-              <td>Win rate</td>
-              <td>Card</td>
-              <td># Decks</td>
-            </tr>
-          </thead>
-          <tbody>
-            {
-              data.map(function(item) {
-               return (
-                 <tr sort={item.win_percent} className="card" key={item.name}>
-                   <td>{item.win_percent}%</td>
-                   <td><a href={item.url} target="_blank" rel="noopener noreferrer">{item.name}</a></td>
-                   <td>{item.count}</td>
-                 </tr>
-               )
-              }).sort(sortFunc)
-            }
-          </tbody>
-        </table>
-      </div>
-    );
+            <table className="winrate-table">
+              <thead className="table-header">
+                <tr>
+                  <td className="header-cell">Win rate</td>
+                  <td className="header-cell">Card</td>
+                  <td className="header-cell"># Decks</td>
+                  <td className="header-cell">Normalized</td>
+                </tr>
+              </thead>
+              <tbody>
+                {
+                  data.map(function(item) {
+                    // For each card, determine the weighted average of the archetype win rates for the
+                    // archetypes that it sees play in. We'll use this to normalize the card's win rate compared
+                    // to its own archetype win rates.
+                    let weightedBaseRate = 0
+
+                    // Determine the total number of instances of all archetypes this card has to use as the denominator when
+                    // calculating weighted averages below.
+                    let totalPicks = 0
+                    for (var arch in item.archetypes) {
+                      totalPicks += item.archetypes[arch]
+                    }
+
+                    // For each archetype, use the number of times it shows up for this card, the total number of instances of archetypes
+                    // this card belongs to, and each archetype's average win rate in order to calculate a weighted average
+                    // representing the expected win rate of the card.
+                    for (arch in item.archetypes) {
+                      let numArchDecks = item.archetypes[arch]
+                      let archWinRate = 0
+                      for (var i in archetypeData) {
+                        if (archetypeData[i].type === arch) {
+                          archWinRate = archetypeData[i].win_percent
+                          break
+                        }
+                      }
+                      let weight = numArchDecks / totalPicks
+                      weightedBaseRate += weight * archWinRate
+                    }
+
+                    // Now, normalize the card's win rate vs. the expected win rate based on its archetypes.
+                    let normalized = Math.round(item.win_percent / weightedBaseRate * 100) / 100
+
+                    // Return the row.
+                    return (
+                      <tr sort={item.win_percent} className="card" key={item.name}>
+                        <td>{item.win_percent}%</td>
+                        <td><a href={item.url} target="_blank" rel="noopener noreferrer">{item.name}</a></td>
+                        <td>{item.count}</td>
+                        <td>{normalized}</td>
+                      </tr>
+                    )
+                  }).sort(sortFunc)
+                }
+              </tbody>
+            </table>
+          </div>
+        );
   }
 }
 
