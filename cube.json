@@ -236,23 +236,6 @@
    "url": "https://scryfall.com/card/csp/143/arctic-flats?utm_source=api"
   },
   {
-   "name": "Mistmeadow Witch",
-   "types": [
-    "Creature"
-   ],
-   "sub_types": [
-    "Kithkin",
-    "Wizard"
-   ],
-   "cmc": 2,
-   "image": "",
-   "colors": [
-    "U",
-    "W"
-   ],
-   "url": "https://scryfall.com/card/2x2/256/mistmeadow-witch?utm_source=api"
-  },
-  {
    "name": "Ashes of the Abhorrent",
    "types": [
     "Enchantment"
@@ -621,22 +604,6 @@
    "url": "https://scryfall.com/card/dom/239/clifftop-retreat?utm_source=api"
   },
   {
-   "name": "Fatestitcher",
-   "types": [
-    "Creature"
-   ],
-   "sub_types": [
-    "Zombie",
-    "Wizard"
-   ],
-   "cmc": 4,
-   "image": "",
-   "colors": [
-    "U"
-   ],
-   "url": "https://scryfall.com/card/ala/43/fatestitcher?utm_source=api"
-  },
-  {
    "name": "Cloudgoat Ranger",
    "types": [
     "Creature"
@@ -754,6 +721,18 @@
     "R"
    ],
    "url": "https://scryfall.com/card/wwk/79/cunning-sparkmage?utm_source=api"
+  },
+  {
+   "name": "Cut Down",
+   "types": [
+    "Instant"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [
+    "B"
+   ],
+   "url": "https://scryfall.com/card/dmu/89/cut-down?utm_source=api"
   },
   {
    "name": "Daring Saboteur",
@@ -1368,6 +1347,22 @@
    "url": "https://scryfall.com/card/thb/133/fateful-end?utm_source=api"
   },
   {
+   "name": "Fatestitcher",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Zombie",
+    "Wizard"
+   ],
+   "cmc": 4,
+   "image": "",
+   "colors": [
+    "U"
+   ],
+   "url": "https://scryfall.com/card/ala/43/fatestitcher?utm_source=api"
+  },
+  {
    "name": "Ferocious Pup",
    "types": [
     "Creature"
@@ -1864,20 +1859,6 @@
    "url": "https://scryfall.com/card/znc/69/harrow?utm_source=api"
   },
   {
-   "name": "Heap Doll",
-   "types": [
-    "Artifact",
-    "Creature"
-   ],
-   "sub_types": [
-    "Scarecrow"
-   ],
-   "cmc": 1,
-   "image": "",
-   "colors": [],
-   "url": "https://scryfall.com/card/uma/228/heap-doll?utm_source=api"
-  },
-  {
    "name": "Hedron Crab",
    "types": [
     "Creature"
@@ -1985,6 +1966,18 @@
     "R"
    ],
    "url": "https://scryfall.com/card/thb/139/impending-doom?utm_source=api"
+  },
+  {
+   "name": "Incinerate",
+   "types": [
+    "Instant"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "R"
+   ],
+   "url": "https://scryfall.com/card/jvc/51/incinerate?utm_source=api"
   },
   {
    "name": "Inevitable End",
@@ -2862,6 +2855,23 @@
    "url": "https://scryfall.com/card/shm/14/mistmeadow-skulk?utm_source=api"
   },
   {
+   "name": "Mistmeadow Witch",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Kithkin",
+    "Wizard"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "U",
+    "W"
+   ],
+   "url": "https://scryfall.com/card/2x2/256/mistmeadow-witch?utm_source=api"
+  },
+  {
    "name": "Mizzium Tank",
    "types": [
     "Artifact"
@@ -3077,21 +3087,6 @@
    "url": "https://scryfall.com/card/mm2/29/oblivion-ring?utm_source=api"
   },
   {
-   "name": "Tibalt's Rager",
-   "types": [
-    "Creature"
-   ],
-   "sub_types": [
-    "Devil"
-   ],
-   "cmc": 2,
-   "image": "",
-   "colors": [
-    "R"
-   ],
-   "url": "https://scryfall.com/card/jmp/366/tibalts-rager?utm_source=api"
-  },
-  {
    "name": "Opt",
    "types": [
     "Instant"
@@ -3208,6 +3203,21 @@
     "W"
    ],
    "url": "https://scryfall.com/card/eve/12/patrol-signaler?utm_source=api"
+  },
+  {
+   "name": "Perilous Myr",
+   "types": [
+    "Artifact",
+    "Creature"
+   ],
+   "sub_types": [
+    "Phyrexian",
+    "Myr"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/cmr/330/perilous-myr?utm_source=api"
   },
   {
    "name": "Pharika's Spawn",
@@ -3559,18 +3569,6 @@
     "B"
    ],
    "url": "https://scryfall.com/card/cma/64/reiver-demon?utm_source=api"
-  },
-  {
-   "name": "Release the Ants",
-   "types": [
-    "Instant"
-   ],
-   "cmc": 2,
-   "image": "",
-   "colors": [
-    "R"
-   ],
-   "url": "https://scryfall.com/card/mor/98/release-the-ants?utm_source=api"
   },
   {
    "name": "Remove Soul",
@@ -3935,18 +3933,6 @@
     "R"
    ],
    "url": "https://scryfall.com/card/ori/163/smash-to-smithereens?utm_source=api"
-  },
-  {
-   "name": "Smother",
-   "types": [
-    "Instant"
-   ],
-   "cmc": 2,
-   "image": "",
-   "colors": [
-    "B"
-   ],
-   "url": "https://scryfall.com/card/ddp/57/smother?utm_source=api"
   },
   {
    "name": "Snapping Sailback",
@@ -4409,6 +4395,21 @@
    "url": "https://scryfall.com/card/war/146/tibalt-rakish-instigator?utm_source=api"
   },
   {
+   "name": "Tibalt's Rager",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Devil"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "R"
+   ],
+   "url": "https://scryfall.com/card/jmp/366/tibalts-rager?utm_source=api"
+  },
+  {
    "name": "Tidehollow Strix",
    "types": [
     "Artifact",
@@ -4519,6 +4520,19 @@
     "G"
    ],
    "url": "https://scryfall.com/card/pca/79/tukatongue-thallid?utm_source=api"
+  },
+  {
+   "name": "Turn to Mist",
+   "types": [
+    "Instant"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "U",
+    "W"
+   ],
+   "url": "https://scryfall.com/card/uma/224/turn-to-mist?utm_source=api"
   },
   {
    "name": "Twinblade Slasher",
@@ -4957,19 +4971,6 @@
     "R"
    ],
    "url": "https://scryfall.com/card/2x2/131/young-pyromancer?utm_source=api"
-  },
-  {
-   "name": "Turn to Mist",
-   "types": [
-    "Instant"
-   ],
-   "cmc": 2,
-   "image": "",
-   "colors": [
-    "U",
-    "W"
-   ],
-   "url": "https://scryfall.com/card/uma/224/turn-to-mist?utm_source=api"
   },
   {
    "name": "Zulaport Cutthroat",

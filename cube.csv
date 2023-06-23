@@ -15,7 +15,6 @@ Count,Name,Section
 1,Arbor Elf,main
 1,Archfiend of Ifnir,main
 1,Arctic Flats,main
-1,Mistmeadow Witch,main
 1,Ashes of the Abhorrent,main
 1,Azorius Guildgate,main
 1,Bankrupt in Blood,main
@@ -44,7 +43,6 @@ Count,Name,Section
 1,Choked Estuary,main
 1,Cinder Barrens,main
 1,Clifftop Retreat,main
-1,Fatestitcher,main
 1,Cloudgoat Ranger,main
 1,Cloudshift,main
 1,Coat of Arms,main
@@ -54,6 +52,7 @@ Count,Name,Section
 1,Copper Myr,main
 1,Counterspell,main
 1,Cunning Sparkmage,main
+1,Cut Down,main
 1,Daring Saboteur,main
 1,Dark Ritual,main
 1,Darksteel Colossus,main
@@ -99,6 +98,7 @@ Count,Name,Section
 1,Fall of the Thran,main
 1,Fate Transfer,main
 1,Fateful End,main
+1,Fatestitcher,main
 1,Ferocious Pup,main
 1,Festering Mummy,main
 1,Field of Ruin,main
@@ -136,7 +136,6 @@ Count,Name,Section
 1,Gwyllion Hedge-Mage,main
 1,Harm's Way,main
 1,Harrow,main
-1,Heap Doll,main
 1,Hedron Crab,main
 1,Hellion Eruption,main
 1,Hellkite Charger,main
@@ -145,6 +144,7 @@ Count,Name,Section
 1,Hunting Triad,main
 1,Hypersonic Dragon,main
 1,Impending Doom,main
+1,Incinerate,main
 1,Inevitable End,main
 1,Infuriate,main
 1,Inspiring Cleric,main
@@ -206,6 +206,7 @@ Count,Name,Section
 1,Miraculous Recovery,main
 1,Mischievous Chimera,main
 1,Mistmeadow Skulk,main
+1,Mistmeadow Witch,main
 1,Mizzium Tank,main
 1,Morbid Bloom,main
 1,Mosquito Guard,main
@@ -221,7 +222,6 @@ Count,Name,Section
 1,Oathsworn Vampire,main
 1,"Ob Nixilis, the Hate-Twisted",main
 1,Oblivion Ring,main
-1,Tibalt's Rager,main
 1,Opt,main
 1,Orim's Thunder,main
 1,Orzhov Racketeers,main
@@ -231,6 +231,7 @@ Count,Name,Section
 1,Panic Attack,main
 1,Path to Exile,main
 1,Patrol Signaler,main
+1,Perilous Myr,main
 1,Pharika's Spawn,main
 1,Pitiless Pontiff,main
 1,Pledge of Unity,main
@@ -256,7 +257,6 @@ Count,Name,Section
 1,Recross the Paths,main
 1,Reinforced Ronin,main
 1,Reiver Demon,main
-1,Release the Ants,main
 1,Remove Soul,main
 1,Restoration Angel,main
 1,Reveillark,main
@@ -283,7 +283,6 @@ Count,Name,Section
 1,Siren Stormtamer,main
 1,Skarrgan Hellkite,main
 1,Smash to Smithereens,main
-1,Smother,main
 1,Snapping Sailback,main
 1,Soul Warden,main
 1,Soul-Scar Mage,main
@@ -317,6 +316,7 @@ Count,Name,Section
 1,Thornling,main
 1,Throne of the God-Pharaoh,main
 1,"Tibalt, Rakish Instigator",main
+1,Tibalt's Rager,main
 1,Tidehollow Strix,main
 1,Tilling Treefolk,main
 1,Titanic Brawl,main
@@ -325,6 +325,7 @@ Count,Name,Section
 1,Travel Preparations,main
 1,Triskelion,main
 1,Tukatongue Thallid,main
+1,Turn to Mist,main
 1,Twinblade Slasher,main
 1,Umbral Mantle,main
 1,Uncharted Haven,main
@@ -357,5 +358,6 @@ Count,Name,Section
 1,Woodland Cemetery,main
 1,Woodland Champion,main
 1,Young Pyromancer,main
-1,Turn to Mist,main
 1,Zulaport Cutthroat,main
+
+
