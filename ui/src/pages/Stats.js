@@ -172,7 +172,17 @@ export default function StatsViewer() {
           show={display[2]}
         />
 
-        <UndraftedWidget cube={cube} decks={decks} show={display[2]}/>
+        <UndraftedWidget
+          cube={cube}
+          decks={decks}
+          show={display[2]}
+        />
+
+        <BestCombosWidget
+          cube={cube}
+          decks={decks}
+          show={display[2]}
+        />
       </div>
 
     </div>
@@ -317,6 +327,94 @@ function UndraftedWidget(input) {
   );
 }
 
+function BestCombosWidget(input) {
+  if (!input.show) {
+    return null
+  }
+
+  let combos = new Map()
+
+  // Build up all of the two-card combinations across all decks.
+  let alreadyCounted = {}
+  for (var i in input.decks) {
+    let deck = input.decks[i]
+    let cards = deck.mainboard
+    for (var j in cards) {
+      let card = cards[j]
+      if (IsBasicLand(card)) {
+        continue
+      }
+
+      for (var k in cards) {
+        let cardtwo = cards[k]
+        if (IsBasicLand(cardtwo)) {
+          continue
+        }
+        if (cardtwo === card) {
+          continue
+        }
+
+        // Add this decks stats to the pairing.
+        let key = [card.name, cardtwo.name].sort().join(" + ")
+        if (!combos[key]) {
+          combos[key] = {key: key, wins: 0, losses: 0, decks: 0}
+        }
+
+        // Skip this deck if we've already counted this combo within it.
+        let deckKey = deck.file + key
+        if (alreadyCounted[deckKey]) {
+          continue
+        }
+        combos[key].wins += deck.wins
+        combos[key].losses += deck.losses
+        combos[key].decks += 1
+        alreadyCounted[deckKey] = true
+      }
+    }
+  }
+
+
+  // Go through all the pairs and calculate additional stats, now that we've aggregated them.
+  // We only include combinations that meet number-of-decks minimum, to ensure we're looking at
+  // combintations that are commonly drafted together.
+  let cardArray = []
+  let num = 0
+  for (i in combos) {
+    let combo = combos[i]
+    if (combo.decks >= 5) {
+      combos[i].win_pct = Math.round(100 * combos[i].wins / (combos[i].wins + combos[i].losses))
+      cardArray.push(combos[i])
+      num += 1
+    }
+  }
+  return (
+    <div className="widget">
+    <table className="winrate-table">
+      <thead className="table-header">
+        <tr>
+          <td className="header-cell">{num} combos</td>
+          <td className="header-cell">Win rate</td>
+          <td className="header-cell"># Decks</td>
+        </tr>
+      </thead>
+      <tbody>
+      {
+        cardArray.map(function(item) {
+         return (
+           <tr sort={item.win_pct} className="card" key={item.key}>
+             <td>{item.key}</td>
+             <td>{item.win_pct}%</td>
+             <td>{item.decks}</td>
+           </tr>
+         )
+        }).sort(sortFunc)
+      }
+      </tbody>
+    </table>
+    </div>
+  );
+
+}
 
 function CardWidget(input) {
   if (!input.show) {
@@ -464,7 +562,7 @@ function CardData(decks, minDrafts) {
     for (var j in cards) {
       let card = cards[j]
       // Skip basic lands.
-      if (IsBasicLand({card})) {
+      if (IsBasicLand(card)) {
         continue
       }
       if (tracker[card.name] == null) {
@@ -733,7 +831,7 @@ function GetColorStats(decks) {
     for (j in decks[i].mainboard) {
       let card = decks[i].mainboard[j]
       // Skip basic lands, since they just dilute the percentages.
-      if (IsBasicLand({card})) {
+      if (IsBasicLand(card)) {
         continue
       }
 

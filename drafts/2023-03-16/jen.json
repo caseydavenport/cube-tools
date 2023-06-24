@@ -39,16 +39,6 @@
    "url": "https://scryfall.com/card/thb/223/mischievous-chimera?utm_source=api"
   },
   {
-   "name": "",
-   "types": [
-    ""
-   ],
-   "cmc": 0,
-   "image": "",
-   "colors": null,
-   "url": ""
-  },
-  {
    "name": "Puncture Blast",
    "types": [
     "Instant"
@@ -224,26 +214,6 @@
    "image": "",
    "colors": [],
    "url": "https://scryfall.com/card/who/199/island?utm_source=api"
-  },
-  {
-   "name": "",
-   "types": [
-    ""
-   ],
-   "cmc": 0,
-   "image": "",
-   "colors": null,
-   "url": ""
-  },
-  {
-   "name": "",
-   "types": [
-    ""
-   ],
-   "cmc": 0,
-   "image": "",
-   "colors": null,
-   "url": ""
   },
   {
    "name": "Capricious Efreet",

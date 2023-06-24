@@ -47,6 +47,7 @@ export async function LoadDecks(onLoad, start, end) {
     d.avg_cmc = AverageCMC({deck: d})
     d.colors = ExtractColors({deck: d})
     d.draft = info.draft
+    d.file = info.file
     decks.push(d)
   }
 
@@ -114,7 +115,7 @@ export function AverageCMC({deck}) {
     i++
     // Skip basic lands.
     let card = deck.mainboard[i]
-    if (card && !IsBasicLand({card})) {
+    if (card && !IsBasicLand(card)) {
       t += card.cmc
       c++
     }
@@ -145,7 +146,7 @@ export function ExtractColors({deck}) {
   while (i < deck.mainboard.length) {
     i++
     let card = deck.mainboard[i];
-    if (card && IsBasicLand({card})) {
+    if (card && IsBasicLand(card)) {
       switch (card.name) {
         case "Forest":
           colors.set("G", true);
@@ -171,7 +172,7 @@ export function ExtractColors({deck}) {
 }
 
 // Returns true if the card is a basic land, and false otherwise.
-export function IsBasicLand({card}) {
+export function IsBasicLand(card) {
   if (card.types && card.types.includes("Basic")) {
     return true
   }
