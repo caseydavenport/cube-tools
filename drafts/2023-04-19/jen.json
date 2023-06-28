@@ -1,7 +1,5 @@
 {
- "labels": [
-  "graveyard", "midrange"
- ],
+ "labels": ["reanimate", "midrange"],
  "player": "jen",
  "date": "2023-04-19",
  "wins": 1,
