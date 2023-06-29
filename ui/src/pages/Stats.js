@@ -249,6 +249,8 @@ function TopCardsInArchetypeWidget(input) {
             <td className="header-cell">#1</td>
             <td className="header-cell">#2</td>
             <td className="header-cell">#3</td>
+            <td className="header-cell">#4</td>
+            <td className="header-cell">#5</td>
           </tr>
         </thead>
         <tbody>
@@ -265,19 +267,14 @@ function TopCardsInArchetypeWidget(input) {
                 }
                 return -1
               })
-              let cardone = cards[0].card
-              let numone = cards[0].num
-              let cardtwo = cards[1].card
-              let numtwo = cards[1].num
-              let cardthree = cards[2].card
-              let numthree = cards[2].num
-
               return (
                 <tr sort={item.win_percent} className="card" key={item.key}>
                   <td>{item.type}</td>
-                  <td><a href={cardone.url} target="_blank" rel="noopener noreferrer">{cardone.name} ({numone})</a></td>
-                  <td><a href={cardtwo.url} target="_blank" rel="noopener noreferrer">{cardtwo.name} ({numtwo})</a></td>
-                  <td><a href={cardthree.url} target="_blank" rel="noopener noreferrer">{cardthree.name} ({numthree})</a></td>
+                  <td><a href={cards[0].card.url} target="_blank" rel="noopener noreferrer">{cards[0].card.name} ({cards[0].num})</a></td>
+                  <td><a href={cards[1].card.url} target="_blank" rel="noopener noreferrer">{cards[1].card.name} ({cards[1].num})</a></td>
+                  <td><a href={cards[2].card.url} target="_blank" rel="noopener noreferrer">{cards[2].card.name} ({cards[2].num})</a></td>
+                  <td><a href={cards[3].card.url} target="_blank" rel="noopener noreferrer">{cards[3].card.name} ({cards[3].num})</a></td>
+                  <td><a href={cards[4].card.url} target="_blank" rel="noopener noreferrer">{cards[4].card.name} ({cards[4].num})</a></td>
                 </tr>
             )}).sort(sortFunc)
           }
