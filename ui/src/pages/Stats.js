@@ -59,13 +59,20 @@ export default function StatsViewer() {
   // State used for tracking which widgets to display.
   // Each widget is represented as an element in the array, and defaulted here.
   ///////////////////////////////////////////////////////////////////////////////
-  const [display, setDisplay] = useState([true, true, false]);
+  const [display, setDisplay] = useState([true, false, false]);
   function onCheckbox(idx) {
     let d = {...display}
     if (d[idx]) {
       d[idx] = false
     } else {
       d[idx] = true
+    }
+    // Uncheck any other boxes to make sure we're only displaying
+    // one widget set at a time.
+    for (var i in d) {
+      if (i != idx) {
+        d[i] = false
+      }
     }
     setDisplay(d)
   }
