@@ -270,11 +270,11 @@ function TopCardsInArchetypeWidget(input) {
               return (
                 <tr sort={item.win_percent} className="card" key={item.key}>
                   <td>{item.type}</td>
-                  <td><a href={cards[0].card.url} target="_blank" rel="noopener noreferrer">{cards[0].card.name} ({cards[0].num})</a></td>
-                  <td><a href={cards[1].card.url} target="_blank" rel="noopener noreferrer">{cards[1].card.name} ({cards[1].num})</a></td>
-                  <td><a href={cards[2].card.url} target="_blank" rel="noopener noreferrer">{cards[2].card.name} ({cards[2].num})</a></td>
-                  <td><a href={cards[3].card.url} target="_blank" rel="noopener noreferrer">{cards[3].card.name} ({cards[3].num})</a></td>
-                  <td><a href={cards[4].card.url} target="_blank" rel="noopener noreferrer">{cards[4].card.name} ({cards[4].num})</a></td>
+                  <td className="card"><a href={cards[0].card.url} target="_blank" rel="noopener noreferrer">{cards[0].card.name} ({cards[0].num})</a></td>
+                  <td className="card"><a href={cards[1].card.url} target="_blank" rel="noopener noreferrer">{cards[1].card.name} ({cards[1].num})</a></td>
+                  <td className="card"><a href={cards[2].card.url} target="_blank" rel="noopener noreferrer">{cards[2].card.name} ({cards[2].num})</a></td>
+                  <td className="card"><a href={cards[3].card.url} target="_blank" rel="noopener noreferrer">{cards[3].card.name} ({cards[3].num})</a></td>
+                  <td className="card"><a href={cards[4].card.url} target="_blank" rel="noopener noreferrer">{cards[4].card.name} ({cards[4].num})</a></td>
                 </tr>
             )}).sort(sortFunc)
           }
@@ -518,7 +518,7 @@ function CardWidget(input) {
               return (
                 <tr sort={item.pick_percent} className="card" key={item.name}>
                   <td>{item.pick_percent}%</td>
-                  <td><a href={item.url} target="_blank" rel="noopener noreferrer">{item.name}</a></td>
+                  <td className="card"><a href={item.url} target="_blank" rel="noopener noreferrer">{item.name}</a></td>
                   <td>{item.count}</td>
                 </tr>
               )
@@ -597,7 +597,7 @@ function CardWidget(input) {
                     return (
                       <tr sort={item.win_percent} className="card" key={item.name}>
                         <td>{item.win_percent}%</td>
-                        <td><a href={item.url} target="_blank" rel="noopener noreferrer">{item.name}</a></td>
+                        <td className="card"><a href={item.url} target="_blank" rel="noopener noreferrer">{item.name}</a></td>
                         <td>{item.count}</td>
                         <td>{normalized}</td>
                       </tr>
