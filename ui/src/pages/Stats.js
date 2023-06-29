@@ -168,6 +168,12 @@ export default function StatsViewer() {
           show={display[1]}
         />
 
+        <TopCardsInArchetypeWidget
+          decks={decks}
+          dropdownSelection={colorTypeSelection}
+          show={display[1]}
+        />
+
         <CardWidget
           decks={decks}
           dropdownSelection={cardWidgetSelection}
@@ -222,6 +228,58 @@ function SuccessfulArchetypeWidget(input) {
                 sort={t.win_percent}
               />
             )).sort(sortFunc)
+          }
+        </tbody>
+      </table>
+      </div>
+  );
+}
+
+function TopCardsInArchetypeWidget(input) {
+  if (!input.show) {
+    return null
+  }
+  let data = ArchetypeData(input.decks)
+  return (
+    <div className="widget">
+      <table className="winrate-table">
+        <thead className="table-header">
+          <tr>
+            <td className="header-cell">Archetype</td>
+            <td className="header-cell">#1</td>
+            <td className="header-cell">#2</td>
+            <td className="header-cell">#3</td>
+          </tr>
+        </thead>
+        <tbody>
+          {
+            data.map(function(item) {
+              // Get the top cards in the archetype by sorting.
+              let cards = new Array()
+              for (var i in item.cards) {
+                cards.push(item.cards[i])
+              }
+              cards.sort(function(a, b) {
+                if (a.num < b.num) {
+                  return 1
+                }
+                return -1
+              })
+              let cardone = cards[0].card
+              let numone = cards[0].num
+              let cardtwo = cards[1].card
+              let numtwo = cards[1].num
+              let cardthree = cards[2].card
+              let numthree = cards[2].num
+
+              return (
+                <tr sort={item.win_percent} className="card" key={item.key}>
+                  <td>{item.type}</td>
+                  <td><a href={cardone.url} target="_blank" rel="noopener noreferrer">{cardone.name} ({numone})</a></td>
+                  <td><a href={cardtwo.url} target="_blank" rel="noopener noreferrer">{cardtwo.name} ({numtwo})</a></td>
+                  <td><a href={cardthree.url} target="_blank" rel="noopener noreferrer">{cardthree.name} ({numthree})</a></td>
+                </tr>
+            )}).sort(sortFunc)
           }
         </tbody>
       </table>
@@ -622,11 +680,25 @@ function ArchetypeData(decks) {
     for (var j in types) {
       let type = types[j]
       if (tracker[type] == null) {
-        tracker[type] = {type: type, count: 0, wins: 0, losses: 0}
+        let m = new Map()
+        tracker[type] = {type: type, count: 0, wins: 0, losses: 0, cards: m}
       }
       tracker[type].count += 1
       tracker[type].wins += decks[i].wins
       tracker[type].losses += decks[i].losses
+
+      // Include cards from this deck in the archetype for calculating the top
+      // cards in each archetype.
+      for (var k in decks[i].mainboard) {
+        let card = decks[i].mainboard[k]
+        if (IsBasicLand(card)) {
+          continue
+        }
+        if (!tracker[type].cards[card.name]) {
+          tracker[type].cards[card.name] = {card: card, num: 0}
+        }
+        tracker[type].cards[card.name].num += 1
+      }
     }
   }
 
