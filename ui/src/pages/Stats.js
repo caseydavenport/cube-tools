@@ -59,7 +59,7 @@ export default function StatsViewer() {
   // State used for tracking which widgets to display.
   // Each widget is represented as an element in the array, and defaulted here.
   ///////////////////////////////////////////////////////////////////////////////
-  const [display, setDisplay] = useState([true, false, false]);
+  const [display, setDisplay] = useState([true, false, false, false]);
   function onCheckbox(idx) {
     let d = {...display}
     if (d[idx]) {
@@ -85,6 +85,10 @@ export default function StatsViewer() {
   function onCardCheckbox() {
     onCheckbox(2)
   }
+  function onDeckCheckbox() {
+    onCheckbox(3)
+  }
+
 
   // Load the decks on startup and whenever the dates change.
   useEffect(() => {
@@ -142,6 +146,11 @@ export default function StatsViewer() {
           checked={display[2]}
           onChange={onCardCheckbox}
         />
+        <Checkbox
+          text="Decks"
+          checked={display[3]}
+          onChange={onDeckCheckbox}
+        />
       </div>
 
       <div className="house-for-widgets">
@@ -196,11 +205,122 @@ export default function StatsViewer() {
           decks={decks}
           show={display[2]}
         />
+
+        <DeckAnalyzerWidget
+          decks={decks}
+          show={display[3]}
+          />
       </div>
 
     </div>
   );
 }
+
+// DeckAnalyzerWidget goes through all of the decks and finds decks that share a large number
+// of cards in order to determine how many different decks have been built across a series of drafts.
+// Decks that share enough cards get counted as the same deck.
+function DeckAnalyzerWidget(input) {
+  if (!input.show) {
+    return null
+  }
+  let decks = new Map()
+  let decklist = []
+
+  // Pre-seed the decks map. This map will contain the final result of canonical decks.
+  for (var i in input.decks) {
+    let deck = input.decks[i]
+    deck.count = 1
+    deck.matches = new Array()
+    decks.set(deck.file, deck)
+  }
+
+  // Compare each deck to the set of decks we've already looked at to see
+  // if it matches sufficiently to be considered the same deck.
+  for (i in input.decks) {
+    let deck = input.decks[i]
+
+    // Compare to existing decks.
+    for (let deckTwo of decks.values()) {
+      if (deck.file == deckTwo.file) {
+        continue
+      }
+
+      // Track matches and total cards.
+      let hits = 0
+      let total = 0
+
+      // Go through each card in the deck, and compare to the decklist in the existing set.
+      // If more than 75% of non-land cards match, it's considered the same deck.
+      for (var k in deck.mainboard) {
+        let card = deck.mainboard[k]
+        if (IsBasicLand(card)) {
+          continue
+        }
+
+        total += 1
+
+        // Check if this card is in the deck we're comparing it to.
+        for (var l in deckTwo.mainboard) {
+          let cardTwo = deckTwo.mainboard[l]
+          if (IsBasicLand(card)) {
+            continue
+          }
+
+          if (cardTwo.name == card.name) {
+            // Same card. Increment the match counter.
+            hits += 1
+          }
+        }
+      }
+
+      // If more than 75% match, mark it as a match and increment the counter for this deck.
+      let matchiness = hits / total
+      if (matchiness > .5) {
+        // Increment the first deck by the second deck's count, and delete the second deck.
+        // Essentially, aggregate the decks into one entry.
+        if (!deckTwo.matches.includes(deck.file) && !deck.matches.includes(deckTwo.file)) {
+          deck.count += 1
+          deck.matches.push(deckTwo.file)
+          deckTwo.matches.push(deck.file)
+          decks.set(deck.file, deck)
+        }
+      }
+    }
+  }
+
+  // Convert to a list for sorting purposes.
+  for (let aggDeck of decks.values()) {
+    if (aggDeck.count > 1 ) {
+      decklist.push(aggDeck)
+    }
+  }
+
+  return (
+    <div className="widget">
+      <table className="winrate-table">
+        <thead className="table-header">
+          <tr>
+            <td>{decklist.length} commonly built</td>
+            <td># Builds</td>
+            <td>Similar</td>
+          </tr>
+        </thead>
+        <tbody>
+          {
+            decklist.map((deck) => (
+                <tr sort={deck.count} className="card" key={deck.file}>
+                  <td>{deck.file}</td>
+                  <td>{deck.count}</td>
+                  <td>{deck.matches}</td>
+                </tr>
+            )).sort(sortFunc)
+          }
+        </tbody>
+      </table>
+      </div>
+  );
+}
+
 
 function SuccessfulArchetypeWidget(input) {
   if (!input.show) {
