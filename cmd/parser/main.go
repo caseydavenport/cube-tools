@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"os"
+	"os/exec"
 	"path/filepath"
 	"strconv"
 	"strings"
@@ -229,6 +230,16 @@ func parseFiles() {
 
 		// Write the deck for storage.
 		writeDeck(d, f.path, f.player)
+	}
+
+	// Write the cube-snapshot file to the draft directory.
+	// This ensures we have a snapshot of the cube as it was on this date
+	// for historical tracking and comparisons.
+	// TODO: This is a bit of a hack, and assumes this command is being run
+	// within the root of this project. That's OK for now since I am the only user.
+	cmd := exec.Command("cp", "cube.json", fmt.Sprintf("%s/cube-snapshot.json", outdir))
+	if err := cmd.Run(); err != nil {
+		panic(err)
 	}
 }
 
