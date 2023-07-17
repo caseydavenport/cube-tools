@@ -15,13 +15,14 @@ import (
 
 var (
 	// User input.
-	deck   string
-	wins   int
-	losses int
-	labels string
-	who    string
-	date   string
-	csvdir string
+	deck     string
+	wins     int
+	losses   int
+	labels   string
+	who      string
+	date     string
+	deckDir  string
+	fileType string
 
 	// If set, runs in index mode which indexes
 	// the data set.
@@ -38,7 +39,8 @@ func init() {
 	flag.IntVar(&losses, "losses", 0, "Number of losses")
 	flag.StringVar(&labels, "labels", "", "Labels describing the deck. e.g., aggro,sacrifice")
 	flag.StringVar(&date, "date", "", "Date, in YYYY-MM-DD format")
-	flag.StringVar(&csvdir, "csv-dir", "", "Directory containing CSV files to parse. Alternative to -deck.")
+	flag.StringVar(&deckDir, "deck-dir", "", "Directory containing deck files to parse. Alternative to -deck.")
+	flag.StringVar(&fileType, "filetype", ".csv", "File type to look for in the deck-dir.")
 
 	flag.BoolVar(&reindex, "index", false, "Create index files for the drafts directory")
 }
@@ -202,16 +204,16 @@ func parseFiles() {
 		files = append(files, work{player: who, path: deck})
 	} else {
 		// Load files from CSV dir.
-		fileNames, err := os.ReadDir(csvdir)
+		fileNames, err := os.ReadDir(deckDir)
 		if err != nil {
 			panic(err)
 		}
 		for _, f := range fileNames {
-			if strings.HasSuffix(f.Name(), ".csv") {
+			if strings.HasSuffix(f.Name(), fileType) {
 				// Add the file, using the file name as the player name (minus the filetype)
 				files = append(files, work{
 					player: strings.Split(f.Name(), ".")[0],
-					path:   fmt.Sprintf("%s/%s", csvdir, f.Name()),
+					path:   fmt.Sprintf("%s/%s", deckDir, f.Name()),
 				})
 			}
 		}
@@ -236,8 +238,8 @@ func parseFlags() error {
 		if date == "" {
 			panic(fmt.Errorf("Missing required flag: -date"))
 		}
-		if deck == "" && csvdir == "" {
-			panic(fmt.Errorf("Missing required flag: -deck or -csv-dir"))
+		if deck == "" && deckDir == "" {
+			panic(fmt.Errorf("Missing required flag: -deck or -deck-dir"))
 		}
 		if deck != "" && who == "" {
 			panic(fmt.Errorf("Missing required flag: -who"))
@@ -252,7 +254,11 @@ func loadDeckFile(deckFile string, player string) (*types.Deck, error) {
 	d := types.NewDeck()
 
 	// Get the cards from the file.
-	d.Mainboard = cardsFromCSV(deckFile)
+	if strings.HasSuffix(deckFile, ".csv") {
+		d.Mainboard = cardsFromCSV(deckFile)
+	} else if strings.HasSuffix(deckFile, ".txt") {
+		d.Mainboard, d.Sideboard = cardsFromTXT(deckFile)
+	}
 
 	// Add other metadata.
 	if len(labels) > 0 {
@@ -309,6 +315,55 @@ func cardsFromCSV(csv string) []types.Card {
 	return cards
 }
 
+// cardsFromTXT imports cards from a .txt file, where the format is
+// as produced by draftmancer.com - i.e, each line is:
+//
+//	1 <Cardname>
+//
+// Newlines used to separate mainboard and sideboard.
+func cardsFromTXT(txt string) ([]types.Card, []types.Card) {
+	f, err := os.Open(txt)
+	defer f.Close()
+	if err != nil {
+		panic(err)
+	}
+	bytes, err := ioutil.ReadAll(f)
+	if err != nil {
+		panic(err)
+	}
+
+	// Add in cards.
+	lines := strings.Split(string(bytes), "\n")
+
+	mainboard := true
+
+	// The first character is always the number.
+	mb := []types.Card{}
+	sb := []types.Card{}
+	for _, l := range lines {
+		if len(l) == 0 {
+			mainboard = false
+			continue
+		}
+		splits := strings.SplitN(l, " ", 2)
+		count, err := strconv.ParseInt(splits[0], 10, 32)
+		if err != nil {
+			panic(err)
+		}
+		name := splits[1]
+		for i := 0; i < int(count); i++ {
+			oracleData := types.GetOracleData(name)
+			if mainboard {
+				mb = append(mb, types.FromOracle(oracleData))
+			} else {
+				sb = append(sb, types.FromOracle(oracleData))
+			}
+
+		}
+	}
+	return mb, sb
+}
+
 func cardsFromLine(line string, quantityIdx, nameIdx int) []types.Card {
 	cards := []types.Card{}
 	count, name := parseLine(line, quantityIdx, nameIdx)
@@ -346,7 +401,12 @@ func writeDeck(d *types.Deck, srcFile string, player string) error {
 	if err != nil {
 		panic(err)
 	}
-	err = os.WriteFile(fmt.Sprintf("%s/%s.csv", outdir, player), bytes, os.ModePerm)
+
+	suffix := ".csv"
+	if strings.HasSuffix(srcFile, ".txt") {
+		suffix = ".txt"
+	}
+	err = os.WriteFile(fmt.Sprintf("%s/%s%s", outdir, player, suffix), bytes, os.ModePerm)
 	if err != nil {
 		panic(err)
 	}
