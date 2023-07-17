@@ -241,7 +241,7 @@ function DeckAnalyzerWidget(input) {
 
     // Compare to existing decks.
     for (let deckTwo of decks.values()) {
-      if (deck.file == deckTwo.file) {
+      if (deck.file === deckTwo.file) {
         continue
       }
 
@@ -267,7 +267,7 @@ function DeckAnalyzerWidget(input) {
             continue
           }
 
-          if (cardTwo.name == card.name) {
+          if (cardTwo.name === card.name) {
             // Same card. Increment the match counter.
             hits += 1
             sharedCards.push(card)
@@ -506,7 +506,7 @@ function UndraftedWidget(input) {
     <table className="winrate-table">
       <thead className="table-header">
         <tr>
-          <td>{num} undrafted cards</td>
+          <td>{num} cards never seen in a deck</td>
         </tr>
       </thead>
       <tbody>
@@ -590,7 +590,7 @@ function BestCombosWidget(input) {
     <table className="winrate-table">
       <thead className="table-header">
         <tr>
-          <td className="header-cell">{num} combos</td>
+          <td className="header-cell">{num} commonly seen combos</td>
           <td className="header-cell">Win rate</td>
           <td className="header-cell"># Decks</td>
         </tr>
@@ -632,7 +632,7 @@ function CardWidget(input) {
           />
 
           <DropdownHeader
-            label="Min drafts"
+            label="Min #decks"
             options={input.minDraftsOpts}
             value={input.minDrafts}
             onChange={input.onMinDraftsSelected}
@@ -959,8 +959,8 @@ function ColorStatsWidget(input) {
           <td onClick={input.onClick} id="build" className="header-cell">Deck build rate</td>
           <td onClick={input.onClick} id="record" className="header-cell">Record</td>
           <td onClick={input.onClick} id="decks" className="header-cell"># Decks</td>
-          <td onClick={input.onClick} id="picks" className="header-cell" style={headerStyleFields}>% of picks</td>
-          <td onClick={input.onClick} id="splash" className="header-cell" style={headerStyleFields}>% of deck</td>
+          <td onClick={input.onClick} id="picks" className="header-cell" style={headerStyleFields}>% of mainboard picks</td>
+          <td onClick={input.onClick} id="splash" className="header-cell" style={headerStyleFields}>Avg % of deck</td>
         </tr>
       </thead>
       <tbody>
@@ -1074,7 +1074,7 @@ function GetColorStats(decks) {
   }
 
   // Summarize tracker stats and calculate percentages.
-  for (var color in tracker) {
+  for (color in tracker) {
     // First, calculate the average color devotion of each deck based on card count.
     // This is a measure of, on average, how many cards of a given color appear in
     // decks with that color identity. A lower percentage means a splash, a higher percentage
