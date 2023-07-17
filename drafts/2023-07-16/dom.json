@@ -132,14 +132,19 @@
    "url": "https://scryfall.com/card/snc/44/faerie-vandal?utm_source=api"
   },
   {
-   "name": "",
+   "name": "Thing in the Ice // Awoken Horror",
    "types": [
-    ""
+    "Creature"
    ],
-   "cmc": 0,
+   "sub_types": [
+    "Horror",
+    "//",
+    "Creature"
+   ],
+   "cmc": 2,
    "image": "",
    "colors": null,
-   "url": ""
+   "url": "https://scryfall.com/card/soi/92/thing-in-the-ice-awoken-horror?utm_source=api"
   },
   {
    "name": "Unsummon",
