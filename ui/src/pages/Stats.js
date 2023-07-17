@@ -248,6 +248,7 @@ function DeckAnalyzerWidget(input) {
       // Track matches and total cards.
       let hits = 0
       let total = 0
+      let sharedCards = new Array()
 
       // Go through each card in the deck, and compare to the decklist in the existing set.
       // If more than 75% of non-land cards match, it's considered the same deck.
@@ -269,20 +270,26 @@ function DeckAnalyzerWidget(input) {
           if (cardTwo.name == card.name) {
             // Same card. Increment the match counter.
             hits += 1
+            sharedCards.push(card)
           }
         }
       }
 
       // If more than 75% match, mark it as a match and increment the counter for this deck.
       let matchiness = hits / total
-      if (matchiness > .5) {
+      if (matchiness > .4) {
         // Increment the first deck by the second deck's count, and delete the second deck.
         // Essentially, aggregate the decks into one entry.
         if (!deckTwo.matches.includes(deck.file) && !deck.matches.includes(deckTwo.file)) {
           deck.count += 1
           deck.matches.push(deckTwo.file)
-          deckTwo.matches.push(deck.file)
+          deck.sharedCards = sharedCards // TODO: Per matching deck...
           decks.set(deck.file, deck)
+
+          deckTwo.count += 1
+          deckTwo.sharedCards = sharedCards // TODO: Per matching deck...
+          deckTwo.matches.push(deck.file)
+          decks.set(deckTwo.file, deckTwo)
         }
       }
     }
@@ -303,17 +310,26 @@ function DeckAnalyzerWidget(input) {
             <td>{decklist.length} commonly built</td>
             <td># Builds</td>
             <td>Similar</td>
+            <td>Core</td>
           </tr>
         </thead>
         <tbody>
           {
-            decklist.map((deck) => (
+            decklist.map(function(deck) {
+
+              let cards = []
+              for (var c of deck.sharedCards.values()) {
+                cards.push(c.name)
+              }
+
+              return (
                 <tr sort={deck.count} className="card" key={deck.file}>
                   <td>{deck.file}</td>
                   <td>{deck.count}</td>
                   <td>{deck.matches}</td>
+                  <td>{cards}</td>
                 </tr>
-            )).sort(sortFunc)
+            )}).sort(sortFunc)
           }
         </tbody>
       </table>
