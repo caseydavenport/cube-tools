@@ -160,23 +160,6 @@
    "url": "https://scryfall.com/card/akh/2/anointed-procession?utm_source=api"
   },
   {
-   "name": "Aphemia, the Cacophony",
-   "types": [
-    "Legendary",
-    "Enchantment",
-    "Creature"
-   ],
-   "sub_types": [
-    "Harpy"
-   ],
-   "cmc": 2,
-   "image": "",
-   "colors": [
-    "B"
-   ],
-   "url": "https://scryfall.com/card/thb/84/aphemia-the-cacophony?utm_source=api"
-  },
-  {
    "name": "Arasta of the Endless Web",
    "types": [
     "Legendary",
@@ -248,6 +231,21 @@
    "url": "https://scryfall.com/card/xln/2/ashes-of-the-abhorrent?utm_source=api"
   },
   {
+   "name": "Avenger of Zendikar",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Elemental"
+   ],
+   "cmc": 7,
+   "image": "",
+   "colors": [
+    "G"
+   ],
+   "url": "https://scryfall.com/card/ncc/280/avenger-of-zendikar?utm_source=api"
+  },
+  {
    "name": "Azorius Guildgate",
    "types": [
     "Land"
@@ -259,31 +257,6 @@
    "image": "",
    "colors": [],
    "url": "https://scryfall.com/card/khc/107/azorius-guildgate?utm_source=api"
-  },
-  {
-   "name": "Bankrupt in Blood",
-   "types": [
-    "Sorcery"
-   ],
-   "cmc": 2,
-   "image": "",
-   "colors": [
-    "B"
-   ],
-   "url": "https://scryfall.com/card/rna/62/bankrupt-in-blood?utm_source=api"
-  },
-  {
-   "name": "Batwing Brume",
-   "types": [
-    "Instant"
-   ],
-   "cmc": 2,
-   "image": "",
-   "colors": [
-    "B",
-    "W"
-   ],
-   "url": "https://scryfall.com/card/arc/80/batwing-brume?utm_source=api"
   },
   {
    "name": "Beacon of Unrest",
@@ -323,19 +296,6 @@
    "url": "https://scryfall.com/card/c17/204/blade-of-the-bloodchief?utm_source=api"
   },
   {
-   "name": "Blight Sickle",
-   "types": [
-    "Artifact"
-   ],
-   "sub_types": [
-    "Equipment"
-   ],
-   "cmc": 2,
-   "image": "",
-   "colors": [],
-   "url": "https://scryfall.com/card/shm/247/blight-sickle?utm_source=api"
-  },
-  {
    "name": "Blinding Mage",
    "types": [
     "Creature"
@@ -368,6 +328,19 @@
    "url": "https://scryfall.com/card/ima/82/bloodghast?utm_source=api"
   },
   {
+   "name": "Bolas's Citadel",
+   "types": [
+    "Legendary",
+    "Artifact"
+   ],
+   "cmc": 6,
+   "image": "",
+   "colors": [
+    "B"
+   ],
+   "url": "https://scryfall.com/card/war/79/bolass-citadel?utm_source=api"
+  },
+  {
    "name": "Bolt Bend",
    "types": [
     "Instant"
@@ -390,6 +363,19 @@
     "U"
    ],
    "url": "https://scryfall.com/card/war/43/bond-of-insight?utm_source=api"
+  },
+  {
+   "name": "Bonesplitter",
+   "types": [
+    "Artifact"
+   ],
+   "sub_types": [
+    "Equipment"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/cmr/458/bonesplitter?utm_source=api"
   },
   {
    "name": "Brainstorm",
@@ -420,6 +406,22 @@
    "url": "https://scryfall.com/card/m20/50/brineborn-cutthroat?utm_source=api"
   },
   {
+   "name": "Butcher of Malakir",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Vampire",
+    "Warrior"
+   ],
+   "cmc": 7,
+   "image": "",
+   "colors": [
+    "B"
+   ],
+   "url": "https://scryfall.com/card/pctb/15/butcher-of-malakir?utm_source=api"
+  },
+  {
    "name": "Cankerbloom",
    "types": [
     "Creature"
@@ -434,21 +436,6 @@
     "G"
    ],
    "url": "https://scryfall.com/card/one/161/cankerbloom?utm_source=api"
-  },
-  {
-   "name": "Canopy Cover",
-   "types": [
-    "Enchantment"
-   ],
-   "sub_types": [
-    "Aura"
-   ],
-   "cmc": 2,
-   "image": "",
-   "colors": [
-    "G"
-   ],
-   "url": "https://scryfall.com/card/wwk/98/canopy-cover?utm_source=api"
   },
   {
    "name": "Capricious Efreet",
@@ -707,6 +694,22 @@
    "url": "https://scryfall.com/card/phed/33/counterspell?utm_source=api"
   },
   {
+   "name": "Cruel Celebrant",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Vampire"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "B",
+    "W"
+   ],
+   "url": "https://scryfall.com/card/war/188/cruel-celebrant?utm_source=api"
+  },
+  {
    "name": "Cunning Sparkmage",
    "types": [
     "Creature"
@@ -721,6 +724,21 @@
     "R"
    ],
    "url": "https://scryfall.com/card/wwk/79/cunning-sparkmage?utm_source=api"
+  },
+  {
+   "name": "Curator of Mysteries",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Sphinx"
+   ],
+   "cmc": 4,
+   "image": "",
+   "colors": [
+    "U"
+   ],
+   "url": "https://scryfall.com/card/afc/81/curator-of-mysteries?utm_source=api"
   },
   {
    "name": "Cut Down",
@@ -803,18 +821,6 @@
     "W"
    ],
    "url": "https://scryfall.com/card/cmr/371/dawn-charm?utm_source=api"
-  },
-  {
-   "name": "Day of Judgment",
-   "types": [
-    "Sorcery"
-   ],
-   "cmc": 4,
-   "image": "",
-   "colors": [
-    "W"
-   ],
-   "url": "https://scryfall.com/card/m12/12/day-of-judgment?utm_source=api"
   },
   {
    "name": "Deathsprout",
@@ -916,18 +922,6 @@
    "url": "https://scryfall.com/card/war/124/devouring-hellion?utm_source=api"
   },
   {
-   "name": "Diabolic Tutor",
-   "types": [
-    "Sorcery"
-   ],
-   "cmc": 4,
-   "image": "",
-   "colors": [
-    "B"
-   ],
-   "url": "https://scryfall.com/card/cma/54/diabolic-tutor?utm_source=api"
-  },
-  {
    "name": "Discover the Impossible",
    "types": [
     "Instant"
@@ -950,6 +944,23 @@
     "B"
    ],
    "url": "https://scryfall.com/card/bro/91/disfigure?utm_source=api"
+  },
+  {
+   "name": "Dockside Chef",
+   "types": [
+    "Enchantment",
+    "Creature"
+   ],
+   "sub_types": [
+    "Human",
+    "Citizen"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [
+    "B"
+   ],
+   "url": "https://scryfall.com/card/neo/93/dockside-chef?utm_source=api"
   },
   {
    "name": "Domri, Anarch of Bolas",
@@ -1022,16 +1033,6 @@
    "url": "https://scryfall.com/card/m13/48/downpour?utm_source=api"
   },
   {
-   "name": "Dragon's Claw",
-   "types": [
-    "Artifact"
-   ],
-   "cmc": 2,
-   "image": "",
-   "colors": [],
-   "url": "https://scryfall.com/card/m12/206/dragons-claw?utm_source=api"
-  },
-  {
    "name": "Dragonskull Summit",
    "types": [
     "Land"
@@ -1068,22 +1069,6 @@
    "url": "https://scryfall.com/card/war/125/dreadhorde-arcanist?utm_source=api"
   },
   {
-   "name": "Dreadmalkin",
-   "types": [
-    "Creature"
-   ],
-   "sub_types": [
-    "Zombie",
-    "Cat"
-   ],
-   "cmc": 1,
-   "image": "",
-   "colors": [
-    "B"
-   ],
-   "url": "https://scryfall.com/card/war/87/dreadmalkin?utm_source=api"
-  },
-  {
    "name": "Dream Trawler",
    "types": [
     "Creature"
@@ -1110,23 +1095,6 @@
    "url": "https://scryfall.com/card/xln/253/drowned-catacomb?utm_source=api"
   },
   {
-   "name": "Duergar Assailant",
-   "types": [
-    "Creature"
-   ],
-   "sub_types": [
-    "Dwarf",
-    "Soldier"
-   ],
-   "cmc": 1,
-   "image": "",
-   "colors": [
-    "R",
-    "W"
-   ],
-   "url": "https://scryfall.com/card/eve/136/duergar-assailant?utm_source=api"
-  },
-  {
    "name": "Earthquake",
    "types": [
     "Sorcery"
@@ -1137,6 +1105,18 @@
     "R"
    ],
    "url": "https://scryfall.com/card/cm2/95/earthquake?utm_source=api"
+  },
+  {
+   "name": "Edge of Autumn",
+   "types": [
+    "Sorcery"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "G"
+   ],
+   "url": "https://scryfall.com/card/tsr/201/edge-of-autumn?utm_source=api"
   },
   {
    "name": "Eidolon of Obstruction",
@@ -1401,6 +1381,18 @@
    "image": "",
    "colors": [],
    "url": "https://scryfall.com/card/ltc/308/field-of-ruin?utm_source=api"
+  },
+  {
+   "name": "Flame Jab",
+   "types": [
+    "Sorcery"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [
+    "R"
+   ],
+   "url": "https://scryfall.com/card/ema/131/flame-jab?utm_source=api"
   },
   {
    "name": "Flickerwisp",
@@ -2166,23 +2158,6 @@
    "url": "https://scryfall.com/card/mom/270/jungle-hollow?utm_source=api"
   },
   {
-   "name": "Kairi, the Swirling Sky",
-   "types": [
-    "Legendary",
-    "Creature"
-   ],
-   "sub_types": [
-    "Dragon",
-    "Spirit"
-   ],
-   "cmc": 6,
-   "image": "",
-   "colors": [
-    "U"
-   ],
-   "url": "https://scryfall.com/card/neo/60/kairi-the-swirling-sky?utm_source=api"
-  },
-  {
    "name": "Kalastria Highborn",
    "types": [
     "Creature"
@@ -2213,21 +2188,6 @@
     "U"
    ],
    "url": "https://scryfall.com/card/war/56/kasmina-enigmatic-mentor?utm_source=api"
-  },
-  {
-   "name": "Kasmina's Transmutation",
-   "types": [
-    "Enchantment"
-   ],
-   "sub_types": [
-    "Aura"
-   ],
-   "cmc": 2,
-   "image": "",
-   "colors": [
-    "U"
-   ],
-   "url": "https://scryfall.com/card/2x2/54/kasminas-transmutation?utm_source=api"
   },
   {
    "name": "Kathari Bomber",
@@ -2289,7 +2249,23 @@
    "url": "https://scryfall.com/card/mom/24/kithkin-billyrider?utm_source=api"
   },
   {
-   "name": "Knight of Glory",
+   "name": "Knight of the Ebon Legion",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Vampire",
+    "Knight"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [
+    "B"
+   ],
+   "url": "https://scryfall.com/card/m20/105/knight-of-the-ebon-legion?utm_source=api"
+  },
+  {
+   "name": "Knight of the Reliquary",
    "types": [
     "Creature"
    ],
@@ -2297,12 +2273,13 @@
     "Human",
     "Knight"
    ],
-   "cmc": 2,
+   "cmc": 3,
    "image": "",
    "colors": [
+    "G",
     "W"
    ],
-   "url": "https://scryfall.com/card/m13/21/knight-of-glory?utm_source=api"
+   "url": "https://scryfall.com/card/ima/203/knight-of-the-reliquary?utm_source=api"
   },
   {
    "name": "Kor Duelist",
@@ -2351,16 +2328,6 @@
     "W"
    ],
    "url": "https://scryfall.com/card/mm3/11/kor-skyfisher?utm_source=api"
-  },
-  {
-   "name": "Kraken's Eye",
-   "types": [
-    "Artifact"
-   ],
-   "cmc": 2,
-   "image": "",
-   "colors": [],
-   "url": "https://scryfall.com/card/m12/211/krakens-eye?utm_source=api"
   },
   {
    "name": "Krenko, Tin Street Kingpin",
@@ -2822,6 +2789,22 @@
    "url": "https://scryfall.com/card/uma/26/miraculous-recovery?utm_source=api"
   },
   {
+   "name": "Mire Triton",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Zombie",
+    "Merfolk"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "B"
+   ],
+   "url": "https://scryfall.com/card/jmp/257/mire-triton?utm_source=api"
+  },
+  {
    "name": "Mischievous Chimera",
    "types": [
     "Enchantment",
@@ -2885,6 +2868,22 @@
     "R"
    ],
    "url": "https://scryfall.com/card/war/138/mizzium-tank?utm_source=api"
+  },
+  {
+   "name": "Mogg War Marshal",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Goblin",
+    "Warrior"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "R"
+   ],
+   "url": "https://scryfall.com/card/tsr/176/mogg-war-marshal?utm_source=api"
   },
   {
    "name": "Morbid Bloom",
@@ -3163,18 +3162,6 @@
    "image": "",
    "colors": [],
    "url": "https://scryfall.com/card/2x2/310/panharmonicon?utm_source=api"
-  },
-  {
-   "name": "Panic Attack",
-   "types": [
-    "Sorcery"
-   ],
-   "cmc": 3,
-   "image": "",
-   "colors": [
-    "R"
-   ],
-   "url": "https://scryfall.com/card/m10/150/panic-attack?utm_source=api"
   },
   {
    "name": "Path to Exile",
@@ -3483,6 +3470,18 @@
    "url": "https://scryfall.com/card/c21/203/rampaging-baloths?utm_source=api"
   },
   {
+   "name": "Raven's Crime",
+   "types": [
+    "Sorcery"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [
+    "B"
+   ],
+   "url": "https://scryfall.com/card/mma/95/ravens-crime?utm_source=api"
+  },
+  {
    "name": "Ravenous Squirrel",
    "types": [
     "Creature"
@@ -3527,18 +3526,6 @@
    "url": "https://scryfall.com/card/khc/72/reclamation-sage?utm_source=api"
   },
   {
-   "name": "Recross the Paths",
-   "types": [
-    "Sorcery"
-   ],
-   "cmc": 3,
-   "image": "",
-   "colors": [
-    "G"
-   ],
-   "url": "https://scryfall.com/card/mor/133/recross-the-paths?utm_source=api"
-  },
-  {
    "name": "Reinforced Ronin",
    "types": [
     "Artifact",
@@ -3554,21 +3541,6 @@
     "R"
    ],
    "url": "https://scryfall.com/card/neo/158/reinforced-ronin?utm_source=api"
-  },
-  {
-   "name": "Reiver Demon",
-   "types": [
-    "Creature"
-   ],
-   "sub_types": [
-    "Demon"
-   ],
-   "cmc": 8,
-   "image": "",
-   "colors": [
-    "B"
-   ],
-   "url": "https://scryfall.com/card/cma/64/reiver-demon?utm_source=api"
   },
   {
    "name": "Remove Soul",
@@ -3668,6 +3640,18 @@
    "url": "https://scryfall.com/card/c19/93/river-kelpie?utm_source=api"
   },
   {
+   "name": "Roaring Earth",
+   "types": [
+    "Enchantment"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "G"
+   ],
+   "url": "https://scryfall.com/card/neo/204/roaring-earth?utm_source=api"
+  },
+  {
    "name": "Rockslide Elemental",
    "types": [
     "Creature"
@@ -3724,6 +3708,23 @@
    "url": "https://scryfall.com/card/neo/257/runaway-trash-bot?utm_source=api"
   },
   {
+   "name": "Saheeli, Sublime Artificer",
+   "types": [
+    "Legendary",
+    "Planeswalker"
+   ],
+   "sub_types": [
+    "Saheeli"
+   ],
+   "cmc": 3,
+   "image": "",
+   "colors": [
+    "R",
+    "U"
+   ],
+   "url": "https://scryfall.com/card/moc/338/saheeli-sublime-artificer?utm_source=api"
+  },
+  {
    "name": "Sai of the Shinobi",
    "types": [
     "Artifact"
@@ -3768,6 +3769,21 @@
    "url": "https://scryfall.com/card/mm2/93/scavenger-drake?utm_source=api"
   },
   {
+   "name": "Scavenging Ooze",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Ooze"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "G"
+   ],
+   "url": "https://scryfall.com/card/ncc/309/scavenging-ooze?utm_source=api"
+  },
+  {
    "name": "Scoured Barrens",
    "types": [
     "Land"
@@ -3804,6 +3820,23 @@
     "B"
    ],
    "url": "https://scryfall.com/card/2x2/88/severed-strands?utm_source=api"
+  },
+  {
+   "name": "Shadowstorm Vizier",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Human",
+    "Cleric"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "B",
+    "U"
+   ],
+   "url": "https://scryfall.com/card/akh/206/shadowstorm-vizier?utm_source=api"
   },
   {
    "name": "Shanna, Sisay's Legacy",
@@ -3980,19 +4013,6 @@
     "R"
    ],
    "url": "https://scryfall.com/card/akh/148/soul-scar-mage?utm_source=api"
-  },
-  {
-   "name": "Soulquake",
-   "types": [
-    "Sorcery"
-   ],
-   "cmc": 7,
-   "image": "",
-   "colors": [
-    "B",
-    "U"
-   ],
-   "url": "https://scryfall.com/card/arb/30/soulquake?utm_source=api"
   },
   {
    "name": "Spark Harvest",
@@ -4352,6 +4372,21 @@
    "url": "https://scryfall.com/card/neo/74/the-reality-chip?utm_source=api"
   },
   {
+   "name": "Thing in the Ice // Awoken Horror",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Horror",
+    "//",
+    "Creature"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": null,
+   "url": "https://scryfall.com/card/soi/92/thing-in-the-ice-awoken-horror?utm_source=api"
+  },
+  {
    "name": "Thornling",
    "types": [
     "Creature"
@@ -4481,16 +4516,14 @@
    "url": "https://scryfall.com/card/neo/262/towashi-guide-bot?utm_source=api"
   },
   {
-   "name": "Travel Preparations",
+   "name": "Trading Post",
    "types": [
-    "Sorcery"
+    "Artifact"
    ],
-   "cmc": 2,
+   "cmc": 4,
    "image": "",
-   "colors": [
-    "G"
-   ],
-   "url": "https://scryfall.com/card/2x2/162/travel-preparations?utm_source=api"
+   "colors": [],
+   "url": "https://scryfall.com/card/cm2/225/trading-post?utm_source=api"
   },
   {
    "name": "Triskelion",
@@ -4713,21 +4746,6 @@
    "url": "https://scryfall.com/card/xln/43/vampires-zeal?utm_source=api"
   },
   {
-   "name": "Verdant Force",
-   "types": [
-    "Creature"
-   ],
-   "sub_types": [
-    "Elemental"
-   ],
-   "cmc": 8,
-   "image": "",
-   "colors": [
-    "G"
-   ],
-   "url": "https://scryfall.com/card/dom/187/verdant-force?utm_source=api"
-  },
-  {
    "name": "Vexing Gull",
    "types": [
     "Creature"
@@ -4803,18 +4821,6 @@
     "W"
    ],
    "url": "https://scryfall.com/card/uma/210/warleaders-helix?utm_source=api"
-  },
-  {
-   "name": "Warp World",
-   "types": [
-    "Sorcery"
-   ],
-   "cmc": 8,
-   "image": "",
-   "colors": [
-    "R"
-   ],
-   "url": "https://scryfall.com/card/m10/163/warp-world?utm_source=api"
   },
   {
    "name": "Whisper Agent",
@@ -4955,6 +4961,18 @@
     "G"
    ],
    "url": "https://scryfall.com/card/2xm/188/woodland-champion?utm_source=api"
+  },
+  {
+   "name": "Wrath of God",
+   "types": [
+    "Sorcery"
+   ],
+   "cmc": 4,
+   "image": "",
+   "colors": [
+    "W"
+   ],
+   "url": "https://scryfall.com/card/2xm/39/wrath-of-god?utm_source=api"
   },
   {
    "name": "Young Pyromancer",

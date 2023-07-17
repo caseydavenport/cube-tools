@@ -10,27 +10,26 @@ Count,Name,Section
 1,Angel of Salvation,main
 1,Angelic Intervention,main
 1,Anointed Procession,main
-1,"Aphemia, the Cacophony",main
 1,Arasta of the Endless Web,main
 1,Arbor Elf,main
 1,Archfiend of Ifnir,main
 1,Arctic Flats,main
 1,Ashes of the Abhorrent,main
+1,Avenger of Zendikar,main
 1,Azorius Guildgate,main
-1,Bankrupt in Blood,main
-1,Batwing Brume,main
 1,Beacon of Unrest,main
 1,Benefaction of Rhonas,main
 1,Blade of the Bloodchief,main
-1,Blight Sickle,main
 1,Blinding Mage,main
 1,Bloodghast,main
+1,Bolas's Citadel,main
 1,Bolt Bend,main
 1,Bond of Insight,main
+1,Bonesplitter,main
 1,Brainstorm,main
 1,Brineborn Cutthroat,main
+1,Butcher of Malakir,main
 1,Cankerbloom,main
-1,Canopy Cover,main
 1,Capricious Efreet,main
 1,Cartouche of Solidarity,main
 1,Catalyst Elemental,main
@@ -51,14 +50,15 @@ Count,Name,Section
 1,Containment Construct,main
 1,Copper Myr,main
 1,Counterspell,main
+1,Cruel Celebrant,main
 1,Cunning Sparkmage,main
+1,Curator of Mysteries,main
 1,Cut Down,main
 1,Daring Saboteur,main
 1,Dark Ritual,main
 1,Darksteel Colossus,main
 1,Dauntless Bodyguard,main
 1,Dawn Charm,main
-1,Day of Judgment,main
 1,Deathsprout,main
 1,Delay,main
 1,Demonic Vigor,main
@@ -66,23 +66,21 @@ Count,Name,Section
 1,Devoted Crop-Mate,main
 1,Devoted Druid,main
 1,Devouring Hellion,main
-1,Diabolic Tutor,main
 1,Discover the Impossible,main
 1,Disfigure,main
+1,Dockside Chef,main
 1,"Domri, Anarch of Bolas",main
 1,Domri's Ambush,main
 1,Doom Blade,main
 1,Doomgape,main
 1,Downpour,main
-1,Dragon's Claw,main
 1,Dragonskull Summit,main
 1,Dread Statuary,main
 1,Dreadhorde Arcanist,main
-1,Dreadmalkin,main
 1,Dream Trawler,main
 1,Drowned Catacomb,main
-1,Duergar Assailant,main
 1,Earthquake,main
+1,Edge of Autumn,main
 1,Eidolon of Obstruction,main
 1,Emergence Zone,main
 1,Empty the Warrens,main
@@ -102,6 +100,7 @@ Count,Name,Section
 1,Ferocious Pup,main
 1,Festering Mummy,main
 1,Field of Ruin,main
+1,Flame Jab,main
 1,Flickerwisp,main
 1,Flux Channeler,main
 1,Fog,main
@@ -159,19 +158,17 @@ Count,Name,Section
 1,Jinxed Idol,main
 1,Journey to Nowhere,main
 1,Jungle Hollow,main
-1,"Kairi, the Swirling Sky",main
 1,Kalastria Highborn,main
 1,"Kasmina, Enigmatic Mentor",main
-1,Kasmina's Transmutation,main
 1,Kathari Bomber,main
 1,Kazandu Refuge,main
 1,Kitchen Finks,main
 1,Kithkin Billyrider,main
-1,Knight of Glory,main
+1,Knight of the Ebon Legion,main
+1,Knight of the Reliquary,main
 1,Kor Duelist,main
 1,Kor Sanctifiers,main
 1,Kor Skyfisher,main
-1,Kraken's Eye,main
 1,"Krenko, Tin Street Kingpin",main
 1,Kronch Wrangler,main
 1,Leaden Myr,main
@@ -204,10 +201,12 @@ Count,Name,Section
 1,Mesmerizing Benthid,main
 1,Mindslaver,main
 1,Miraculous Recovery,main
+1,Mire Triton,main
 1,Mischievous Chimera,main
 1,Mistmeadow Skulk,main
 1,Mistmeadow Witch,main
 1,Mizzium Tank,main
+1,Mogg War Marshal,main
 1,Morbid Bloom,main
 1,Mosquito Guard,main
 1,Mulldrifter,main
@@ -228,7 +227,6 @@ Count,Name,Section
 1,Overrun,main
 1,Paladin of the Bloodstained,main
 1,Panharmonicon,main
-1,Panic Attack,main
 1,Path to Exile,main
 1,Patrol Signaler,main
 1,Perilous Myr,main
@@ -251,12 +249,11 @@ Count,Name,Section
 1,Raise the Alarm,main
 1,"Ral, Storm Conduit",main
 1,Rampaging Baloths,main
+1,Raven's Crime,main
 1,Ravenous Squirrel,main
 1,Reckless Rage,main
 1,Reclamation Sage,main
-1,Recross the Paths,main
 1,Reinforced Ronin,main
-1,Reiver Demon,main
 1,Remove Soul,main
 1,Restoration Angel,main
 1,Reveillark,main
@@ -264,16 +261,20 @@ Count,Name,Section
 1,Rise from the Grave,main
 1,Rite of Replication,main
 1,River Kelpie,main
+1,Roaring Earth,main
 1,Rockslide Elemental,main
 1,Rootbound Crag,main
 1,Rubblebelt Rioters,main
 1,Runaway Trash-Bot,main
+1,"Saheeli, Sublime Artificer",main
 1,Sai of the Shinobi,main
 1,Sanctum Seeker,main
 1,Scavenger Drake,main
+1,Scavenging Ooze,main
 1,Scoured Barrens,main
 1,Serpent-Blade Assailant,main
 1,Severed Strands,main
+1,Shadowstorm Vizier,main
 1,"Shanna, Sisay's Legacy",main
 1,Shineshadow Snarl,main
 1,Shinewend,main
@@ -286,7 +287,6 @@ Count,Name,Section
 1,Snapping Sailback,main
 1,Soul Warden,main
 1,Soul-Scar Mage,main
-1,Soulquake,main
 1,Spark Harvest,main
 1,Sparring Construct,main
 1,Spellbreaker Behemoth,main
@@ -313,6 +313,7 @@ Count,Name,Section
 1,The Binding of the Titans,main
 1,The Long Reach of Night // Animus of Night's Reach,main
 1,The Reality Chip,main
+1,Thing in the Ice // Awoken Horror,main
 1,Thornling,main
 1,Throne of the God-Pharaoh,main
 1,"Tibalt, Rakish Instigator",main
@@ -322,7 +323,7 @@ Count,Name,Section
 1,Titanic Brawl,main
 1,Touch the Spirit Realm,main
 1,Towashi Guide-Bot,main
-1,Travel Preparations,main
+1,Trading Post,main
 1,Triskelion,main
 1,Tukatongue Thallid,main
 1,Turn to Mist,main
@@ -339,14 +340,12 @@ Count,Name,Section
 1,Vampire of the Dire Moon,main
 1,Vampire's Bite,main
 1,Vampire's Zeal,main
-1,Verdant Force,main
 1,Vexing Gull,main
 1,Vineglimmer Snarl,main
 1,Vines of Vastwood,main
 1,Vona's Hunger,main
 1,Warcry Phoenix,main
 1,Warleader's Helix,main
-1,Warp World,main
 1,Whisper Agent,main
 1,"Whisper, Blood Liturgist",main
 1,Wickerbough Elder,main
@@ -357,6 +356,7 @@ Count,Name,Section
 1,Witherscale Wurm,main
 1,Woodland Cemetery,main
 1,Woodland Champion,main
+1,Wrath of God,main
 1,Young Pyromancer,main
 1,Zulaport Cutthroat,main
 
