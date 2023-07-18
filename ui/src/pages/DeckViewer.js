@@ -12,6 +12,7 @@ export default function DeckViewer() {
   const [deck, setDeck] = useState("");
   const [draftDropdownOptions, setDraftDropdownOptions] = useState([]);
   const [decklist, setDecklist] = useState([]);
+  const [mainboardSideboard, setMainboardSideboard] = useState("Mainboard");
 
   // Called when we successfully fetch the deck list from the selected draft.
   function onDeckIndexFetched(idx) {
@@ -66,6 +67,14 @@ export default function DeckViewer() {
     // Clear any selected deck, as it is no longer valid.
     setSelectedDeck("")
   }
+  function onBoardSelected(event) {
+    setMainboardSideboard(event.target.value)
+  }
+  let boardOptions = [
+    { label: "Mainboard", value: "Mainboard" },
+    { label: "Sideboard", value: "Sideboard" },
+  ]
+
 
   // Callback for sucessfully fetching a Deck.
   // This function updates the UI with the deck's contents.
@@ -120,10 +129,21 @@ export default function DeckViewer() {
           value={selectedDeck}
           onChange={onDeckSelected}
         />
+
+        <DropdownSelector
+          label="Board"
+          options={boardOptions}
+          value={mainboardSideboard}
+          onChange={onBoardSelected}
+        />
+
       </div>
 
       <div className="house-for-widgets">
-        <DisplayDeck deck={deck} />
+        <DisplayDeck
+          deck={deck}
+          mbsb={mainboardSideboard}
+        />
       </div>
     </div>
   );
@@ -146,18 +166,26 @@ export function DropdownSelector({ label, value, options, onChange }) {
 }
 
 // DisplayDeck prints out the given deck.
-function DisplayDeck({deck}) {
+function DisplayDeck({deck, mbsb}) {
   // The deck mainboard may not always be set, so we need
   // to initialize to an empty slice.
-  if (!deck || !deck.mainboard) {
+  let missing = (mbsb == "Mainboard" && !deck.mainboard)
+  missing = missing || (mbsb == "Sideboard" && !deck.sideboard)
+  if (!deck || missing) {
     console.log("no deck");
     return null;
+  }
+
+  let cards = deck.mainboard
+  if (mbsb == "Sideboard") {
+    cards = deck.sideboard
   }
 
   // Get fields to display.
   let labels = deck.labels.join(', ')
   let acmc = deck.avg_cmc
   let colors = deck.colors
+  let cardCount = cards.length
 
   return (
     <div>
@@ -183,16 +211,20 @@ function DisplayDeck({deck}) {
         <td className="player-frame-title">Colors:</td>
         <td className="player-frame-value">{colors}</td>
       </tr>
+      <tr className="player-frame-row">
+        <td className="player-frame-title"># Cards:</td>
+        <td className="player-frame-value">{cardCount}</td>
+      </tr>
       </tbody>
     </table>
 
-    <CardList player={deck.player} cards={deck.mainboard} opts={{cmc: 0}} />
-    <CardList player={deck.player} cards={deck.mainboard} opts={{cmc: 1}} />
-    <CardList player={deck.player} cards={deck.mainboard} opts={{cmc: 2}} />
-    <CardList player={deck.player} cards={deck.mainboard} opts={{cmc: 3}} />
-    <CardList player={deck.player} cards={deck.mainboard} opts={{cmc: 4}} />
-    <CardList player={deck.player} cards={deck.mainboard} opts={{cmc: 5}} />
-    <CardList player={deck.player} cards={deck.mainboard} opts={{cmc: 6, gt: true}} />
+    <CardList player={deck.player} cards={cards} opts={{cmc: 0}} />
+    <CardList player={deck.player} cards={cards} opts={{cmc: 1}} />
+    <CardList player={deck.player} cards={cards} opts={{cmc: 2}} />
+    <CardList player={deck.player} cards={cards} opts={{cmc: 3}} />
+    <CardList player={deck.player} cards={cards} opts={{cmc: 4}} />
+    <CardList player={deck.player} cards={cards} opts={{cmc: 5}} />
+    <CardList player={deck.player} cards={cards} opts={{cmc: 6, gt: true}} />
     </div>
   );
 }
@@ -216,16 +248,19 @@ function CardList({ player, cards, opts }) {
     title = "CMC: " + opts.cmc + "+ (" + num + ")"
   }
 
+  let key = player + opts.cmc
+
   // Generate the key for this table.
   return (
-    <table key={player} className="decklist">
+    <table key={key} className="decklist">
       <thead className="table-header">{title}</thead>
       <tbody>
       {
         cards.map(function(item) {
           if (opts.gt && item.cmc >= opts.cmc || item.cmc === opts.cmc) {
+            let key = item.name + cards.indexOf(item)
             return (
-              <tr className="card" key={item.name}>
+              <tr className="card" key={key}>
                 <td><a href={item.url} target="_blank" rel="noopener noreferrer">{item.name}</a></td>
               </tr>
             )

@@ -1,9 +1,9 @@
 {
- "labels": [],
+ "labels": ["spells"],
  "player": "xander",
  "date": "2023-07-16",
  "wins": 0,
- "losses": 0,
+ "losses": 1,
  "ties": 0,
  "mainboard": [
   {

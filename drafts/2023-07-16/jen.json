@@ -1,9 +1,9 @@
 {
- "labels": [],
+ "labels": ["+1/+1", "token"],
  "player": "jen",
  "date": "2023-07-16",
- "wins": 0,
- "losses": 0,
+ "wins": 1,
+ "losses": 1,
  "ties": 0,
  "mainboard": [
   {
