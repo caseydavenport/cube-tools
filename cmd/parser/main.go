@@ -16,14 +16,22 @@ import (
 
 var (
 	// User input.
+
+	// Mutually exclusive options for specifying a file or files
+	// to parse.
 	deck     string
-	wins     int
-	losses   int
-	labels   string
-	who      string
-	date     string
 	deckDir  string
+	draftLog string
+
+	// Configures the deck file extension to look for.
 	fileType string
+
+	// Options applicable when parsing a single deck file.
+	wins   int
+	losses int
+	labels string
+	who    string
+	date   string
 
 	// If set, runs in index mode which indexes
 	// the data set.
@@ -35,6 +43,7 @@ var (
 
 func init() {
 	flag.StringVar(&deck, "deck", "", "Path to the deck file to import")
+	flag.StringVar(&draftLog, "draft-log", "", "Path to a draft log to parse. NOTE: Basic lands not included!")
 	flag.StringVar(&who, "who", "", "Who made the deck")
 	flag.IntVar(&wins, "wins", 0, "Number of wins")
 	flag.IntVar(&losses, "losses", 0, "Number of losses")
@@ -53,7 +62,11 @@ func main() {
 
 	if reindex {
 		index()
+	} else if draftLog != "" {
+		// Parse a draft log.
+		parseDraftLog()
 	} else {
+		// Parse a single file or directory of files.
 		parseFiles()
 	}
 }
@@ -243,14 +256,32 @@ func parseFiles() {
 	}
 }
 
+func parseDraftLog() {
+	// Make sure the output directory exists.
+	err := os.MkdirAll(outdir, os.ModePerm)
+	if err != nil {
+		panic(err)
+	}
+
+	fmt.Printf("Processing draft log: %s\n", draftLog)
+
+	log := loadDraftLog(draftLog)
+
+	// Determine if we need to auto-name the file.
+	for _, d := range decksFromDraftLog(log) {
+		// Write the deck for storage.
+		writeDeck(&d, "", d.Player)
+	}
+}
+
 func parseFlags() error {
 	flag.Parse()
 	if !reindex {
 		if date == "" {
 			panic(fmt.Errorf("Missing required flag: -date"))
 		}
-		if deck == "" && deckDir == "" {
-			panic(fmt.Errorf("Missing required flag: -deck or -deck-dir"))
+		if deck == "" && deckDir == "" && draftLog == "" {
+			panic(fmt.Errorf("Missing required flag: -deck, -deck-dir, or -draft-log"))
 		}
 		if deck != "" && who == "" {
 			panic(fmt.Errorf("Missing required flag: -who"))
@@ -402,24 +433,26 @@ func writeDeck(d *types.Deck, srcFile string, player string) error {
 	}
 
 	// Also write the original "raw" decklist for posterity.
-	fmt.Printf("Writing source file: %s\n", srcFile)
-	f, err := os.Open(srcFile)
-	defer f.Close()
-	if err != nil {
-		panic(err)
-	}
-	bytes, err := ioutil.ReadAll(f)
-	if err != nil {
-		panic(err)
-	}
+	if srcFile != "" {
+		fmt.Printf("Writing source file: %s\n", srcFile)
+		f, err := os.Open(srcFile)
+		defer f.Close()
+		if err != nil {
+			panic(err)
+		}
+		bytes, err := ioutil.ReadAll(f)
+		if err != nil {
+			panic(err)
+		}
 
-	suffix := ".csv"
-	if strings.HasSuffix(srcFile, ".txt") {
-		suffix = ".txt"
-	}
-	err = os.WriteFile(fmt.Sprintf("%s/%s%s", outdir, player, suffix), bytes, os.ModePerm)
-	if err != nil {
-		panic(err)
+		suffix := ".csv"
+		if strings.HasSuffix(srcFile, ".txt") {
+			suffix = ".txt"
+		}
+		err = os.WriteFile(fmt.Sprintf("%s/%s%s", outdir, player, suffix), bytes, os.ModePerm)
+		if err != nil {
+			panic(err)
+		}
 	}
 
 	// Write it out as a simple text file with one card per line - useful to importing into cubecobra
@@ -479,4 +512,40 @@ func getSubDirectories(directory string) ([]string, error) {
 	}
 
 	return subDirs, nil
+}
+
+func loadDraftLog(file string) *types.DraftLog {
+	f, err := os.Open(file)
+	defer f.Close()
+	if err != nil {
+		panic(err)
+	}
+	bytes, err := ioutil.ReadAll(f)
+	if err != nil {
+		panic(err)
+	}
+	draftLog := types.DraftLog{}
+	json.Unmarshal(bytes, &draftLog)
+	return &draftLog
+}
+
+func decksFromDraftLog(log *types.DraftLog) []types.Deck {
+	// Go through each user and build a deck for them.
+	decks := []types.Deck{}
+	for _, user := range log.Users {
+		deck := types.Deck{
+			Date: date,
+		}
+		deck.Player = strings.ToLower(user.UserName)
+		for _, id := range user.Decklist.Main {
+			oracleData := types.GetOracleData(log.Card(id).Name)
+			deck.Mainboard = append(deck.Mainboard, types.FromOracle(oracleData))
+		}
+		for _, id := range user.Decklist.Side {
+			oracleData := types.GetOracleData(log.Card(id).Name)
+			deck.Sideboard = append(deck.Sideboard, types.FromOracle(oracleData))
+		}
+		decks = append(decks, deck)
+	}
+	return decks
 }
