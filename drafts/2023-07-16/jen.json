@@ -1,9 +1,9 @@
 {
- "labels": ["+1/+1", "token"],
+ "labels": ["+1/+1", "token", "midrange"],
  "player": "jen",
  "date": "2023-07-16",
  "wins": 1,
- "losses": 2,
+ "losses": 3,
  "ties": 0,
  "mainboard": [
   {

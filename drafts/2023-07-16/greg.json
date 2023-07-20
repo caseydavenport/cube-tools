@@ -1,9 +1,9 @@
 {
- "labels": ["sacrifice"],
+ "labels": ["sacrifice", "midrange", "goodstuff"],
  "player": "greg",
  "date": "2023-07-16",
  "wins": 0,
- "losses": 2,
+ "losses": 3,
  "ties": 0,
  "mainboard": [
   {
