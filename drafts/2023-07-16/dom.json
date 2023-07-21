@@ -1,8 +1,8 @@
 {
- "labels": ["spells"],
+ "labels": ["spells", "+1/+1", "control", "card draw"],
  "player": "dom",
  "date": "2023-07-16",
- "wins": 1,
+ "wins": 3,
  "losses": 0,
  "ties": 0,
  "mainboard": [

@@ -1,9 +1,9 @@
 {
- "labels": ["vampire"],
+ "labels": ["vampire", "midrange"],
  "player": "james",
  "date": "2023-07-16",
  "wins": 2,
- "losses": 1,
+ "losses": 2,
  "ties": 0,
  "mainboard": [
   {
