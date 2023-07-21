@@ -55,6 +55,43 @@ export async function LoadDecks(onLoad, start, end) {
   onLoad(decks)
 }
 
+export async function LoadDrafts(onLoad, start, end) {
+  console.log("Loading draft data")
+
+  // First, fetch the draft index. We'll use this to find
+  // all the drafts and decks therein.
+  let idx = await FetchDraftIndex(null)
+
+  let drafts = []
+  for (var i in idx) {
+    let draft = idx[i]
+    if (!isDateBetween(draft.name, start, end)) {
+      continue
+    }
+
+    let draftFile = "drafts/" + draft.name + "/draft-log.json";
+    const resp = await fetch(draftFile);
+    if (!resp.ok) {
+      continue
+    }
+
+    let d = null
+    try {
+      d = await resp.json();
+    } catch (error) {
+      continue
+    }
+
+    if (d) {
+      drafts.push(d)
+    }
+  }
+
+
+  // Callback with all of the loaded decks.
+  onLoad(drafts)
+}
+
 // FetchDeck fetches the deck from the given file and
 // calls 'onFetch' upon receipt.
 export async function FetchDeck(file, onFetch) {

@@ -1,9 +1,10 @@
 import React from 'react'
 import { useState } from "react";
 import { useEffect } from "react";
-import { LoadCube, LoadDecks, IsBasicLand } from "../utils/Fetch.js"
+import { LoadCube, LoadDecks, LoadDrafts, IsBasicLand } from "../utils/Fetch.js"
 import { DropdownHeader, Checkbox, DateSelector } from "../components/Dropdown.js"
 import { GetColorIdentity } from "../utils/Colors.js"
+import { AllPicks, Pick } from "../utils/DraftLog.js"
 
 // StatsViewer displays stats spanning the selected drafts.
 export default function StatsViewer() {
@@ -56,6 +57,12 @@ export default function StatsViewer() {
   }
 
   ///////////////////////////////////////////////////////////////////////////////
+  // State used for the draft states tab.
+  ///////////////////////////////////////////////////////////////////////////////
+  const [drafts, setDrafts] = useState(null);
+
+
+  ///////////////////////////////////////////////////////////////////////////////
   // State used for tracking which widgets to display.
   // Each widget is represented as an element in the array, and defaulted here.
   ///////////////////////////////////////////////////////////////////////////////
@@ -90,9 +97,10 @@ export default function StatsViewer() {
   }
 
 
-  // Load the decks on startup and whenever the dates change.
+  // Load the decks and drafts on startup and whenever the dates change.
   useEffect(() => {
     LoadDecks(onLoad, startDate, endDate)
+    LoadDrafts(onDraftsLoaded, startDate, endDate)
   }, [startDate, endDate])
   useEffect(() => {
     LoadCube(onCubeLoad)
@@ -103,6 +111,10 @@ export default function StatsViewer() {
   function onCubeLoad(c) {
     setCube({...c})
   }
+  function onDraftsLoaded(d) {
+    setDrafts({...d})
+  }
+
 
   // When the deck list changes, recalculate.
   useEffect(() => {
@@ -200,6 +212,12 @@ export default function StatsViewer() {
           show={display[2]}
         />
 
+        <DraftOrderWidget
+          decks={decks}
+          drafts={drafts}
+          show={display[2]} // TODO
+        />
+
         <BestCombosWidget
           cube={cube}
           decks={decks}
@@ -209,9 +227,9 @@ export default function StatsViewer() {
         <DeckAnalyzerWidget
           decks={decks}
           show={display[3]}
-          />
-      </div>
+        />
 
+      </div>
     </div>
   );
 }
@@ -413,6 +431,58 @@ function TopCardsInArchetypeWidget(input) {
                   <td className="card"><a href={cards[4].card.url} target="_blank" rel="noopener noreferrer">{cards[4].card.name} ({cards[4].num})</a></td>
                 </tr>
             )}).sort(sortFunc)
+          }
+        </tbody>
+      </table>
+      </div>
+  );
+}
+
+function DraftOrderWidget(input) {
+  if (!input.show) {
+    return null
+  }
+  if (input.drafts == null) {
+    return null
+  }
+  let picks = AllPicks(input.drafts)
+  let pickList = []
+  for (let [name, pick] of picks) {
+    pickList.push(pick)
+  }
+
+  return (
+    <div className="widget">
+      <table className="winrate-table">
+        <thead className="table-header">
+          <tr>
+            <td>Card</td>
+            <td># first picks</td>
+            <td>Avg. P1 pick</td>
+            <td>Avg. pack pick</td>
+          </tr>
+        </thead>
+        <tbody>
+          {
+            pickList.map(function(pick) {
+              let avgPackPick = pick.pickNumSum / pick.count
+              let avgPack1Pick = 0
+              if (pick.p1count > 0 ) {
+                avgPack1Pick = pick.p1PickNumSum / pick.p1count
+              }
+
+              // TODO: Support sorting on other columns.
+              let sort = avgPackPick
+
+              return (
+                <tr sort={sort}>
+                  <td>{pick.name}</td>
+                  <td>{pick.firstPicks}</td>
+                  <td>{avgPack1Pick}</td>
+                  <td>{avgPackPick}</td>
+                </tr>
+              )
+            }).sort(sortFunc)
           }
         </tbody>
       </table>
