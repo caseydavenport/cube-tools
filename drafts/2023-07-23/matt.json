@@ -373,7 +373,7 @@
    "url": "https://scryfall.com/card/pctb/15/butcher-of-malakir?utm_source=api"
   },
   {
-   "name": "Urborg Syphon-Mage",
+   "name": "Executioner's Capsule",
    "types": [
     "Creature"
    ],
@@ -386,7 +386,7 @@
    "colors": [
     "B"
    ],
-   "url": "https://scryfall.com/card/tsr/148/urborg-syphon-mage?utm_source=api"
+   "url": "https://scryfall.com/card/2xm/92/executioners-capsule"
   },
   {
    "name": "Serpent-Blade Assailant",
@@ -833,7 +833,7 @@
    "url": "https://scryfall.com/card/m11/1/ajani-goldmane?utm_source=api"
   },
   {
-   "name": "Scathe Zombies",
+   "name": "Dark Ritual",
    "types": [
     "Creature"
    ],
@@ -845,7 +845,7 @@
    "colors": [
     "B"
    ],
-   "url": "https://scryfall.com/card/10e/175/scathe-zombies?utm_source=api"
+   "url": "https://scryfall.com/card/a25/82/dark-ritual"
   }
  ]
 }
