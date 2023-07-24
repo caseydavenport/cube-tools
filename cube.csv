@@ -12,12 +12,13 @@ Count,Name,Section
 1,Anointed Procession,main
 1,Arasta of the Endless Web,main
 1,Arbor Elf,main
+1,Arcbound Tracker,main
 1,Archfiend of Ifnir,main
 1,Arctic Flats,main
-1,Ashes of the Abhorrent,main
 1,Avenger of Zendikar,main
 1,Azorius Guildgate,main
 1,Beacon of Unrest,main
+1,Beast Within,main
 1,Benefaction of Rhonas,main
 1,Blade of the Bloodchief,main
 1,Blinding Mage,main
@@ -30,7 +31,6 @@ Count,Name,Section
 1,Brineborn Cutthroat,main
 1,Butcher of Malakir,main
 1,Cankerbloom,main
-1,Capricious Efreet,main
 1,Cartouche of Solidarity,main
 1,Catalyst Elemental,main
 1,Cauldron of Souls,main
@@ -56,12 +56,10 @@ Count,Name,Section
 1,Cut Down,main
 1,Daring Saboteur,main
 1,Dark Ritual,main
-1,Darksteel Colossus,main
 1,Dauntless Bodyguard,main
 1,Dawn Charm,main
 1,Deathsprout,main
 1,Delay,main
-1,Demonic Vigor,main
 1,Deprive,main
 1,Devoted Crop-Mate,main
 1,Devoted Druid,main
@@ -88,6 +86,7 @@ Count,Name,Section
 1,Essence Capture,main
 1,Eternal Witness,main
 1,Exclusion Mage,main
+1,Executioner's Capsule,main
 1,Experiment Kraj,main
 1,Eyes Everywhere,main
 1,Fact or Fiction,main
@@ -103,13 +102,13 @@ Count,Name,Section
 1,Flame Jab,main
 1,Flickerwisp,main
 1,Flux Channeler,main
-1,Fog,main
 1,Foreboding Ruins,main
 1,Forsaken Drifters,main
 1,Fortified Village,main
 1,Frilled Mystic,main
 1,Frost Marsh,main
 1,Frostboil Snarl,main
+1,Fungal Infection,main
 1,Fury Charm,main
 1,Furycalm Snarl,main
 1,Galepowder Mage,main
@@ -126,11 +125,11 @@ Count,Name,Section
 1,Gold Myr,main
 1,Goldenglow Moth,main
 1,Gomazoa,main
+1,Grateful Apparition,main
 1,Gravedigger,main
 1,Grim Discovery,main
 1,Grim Initiate,main
 1,Groundswell,main
-1,"Growing Rites of Itlimoc // Itlimoc, Cradle of the Sun",main
 1,Guttersnipe,main
 1,Gwyllion Hedge-Mage,main
 1,Harm's Way,main
@@ -141,15 +140,12 @@ Count,Name,Section
 1,Highland Lake,main
 1,Hinterland Harbor,main
 1,Hunting Triad,main
-1,Hypersonic Dragon,main
-1,Impending Doom,main
 1,Incinerate,main
 1,Inevitable End,main
 1,Infuriate,main
 1,Inspiring Cleric,main
 1,Into the Roil,main
 1,Inventive Iteration // Living Breakthrough,main
-1,Iona's Judgment,main
 1,Iron Myr,main
 1,Isolated Chapel,main
 1,"Jace, Arcane Strategist",main
@@ -180,6 +176,7 @@ Count,Name,Section
 1,Liliana's Mastery,main
 1,Lion Sash,main
 1,Llanowar Elves,main
+1,Lodestone Myr,main
 1,Loxodon Warhammer,main
 1,Magma Phoenix,main
 1,Makeshift Munitions,main
@@ -190,6 +187,7 @@ Count,Name,Section
 1,Mark of Mutiny,main
 1,Marshal's Anthem,main
 1,"Marwyn, the Nurturer",main
+1,Master of Etherium,main
 1,"Mavren Fein, Dusk Apostle",main
 1,Mayhem Devil,main
 1,Maze of Ith,main
@@ -216,11 +214,11 @@ Count,Name,Section
 1,Narrow Escape,main
 1,Necroblossom Snarl,main
 1,"Nissa, Who Shakes the World",main
-1,No Rest for the Wicked,main
 1,Nobilis of War,main
 1,Oathsworn Vampire,main
 1,"Ob Nixilis, the Hate-Twisted",main
 1,Oblivion Ring,main
+1,Ogre-Head Helm,main
 1,Opt,main
 1,Orim's Thunder,main
 1,Orzhov Racketeers,main
@@ -262,7 +260,6 @@ Count,Name,Section
 1,Rite of Replication,main
 1,River Kelpie,main
 1,Roaring Earth,main
-1,Rockslide Elemental,main
 1,Rootbound Crag,main
 1,Rubblebelt Rioters,main
 1,Runaway Trash-Bot,main
@@ -283,6 +280,7 @@ Count,Name,Section
 1,Simic Guildgate,main
 1,Siren Stormtamer,main
 1,Skarrgan Hellkite,main
+1,"Slimefoot, the Stowaway",main
 1,Smash to Smithereens,main
 1,Snapping Sailback,main
 1,Soul Warden,main
@@ -290,16 +288,16 @@ Count,Name,Section
 1,Spark Harvest,main
 1,Sparring Construct,main
 1,Spellbreaker Behemoth,main
-1,Spellgorger Weird,main
 1,Sphinx of Lost Truths,main
+1,Spirited Companion,main
 1,Sprout Swarm,main
 1,Sprouting Renewal,main
-1,Starlit Mantle,main
 1,Stealth Mission,main
 1,Stingerfling Spider,main
 1,Stinging Lionfish,main
 1,Stitch Together,main
 1,Stitcher's Supplier,main
+1,Stormclaw Rager,main
 1,Sulfur Falls,main
 1,Summit Apes,main
 1,Summoner's Egg,main
@@ -321,6 +319,7 @@ Count,Name,Section
 1,Tidehollow Strix,main
 1,Tilling Treefolk,main
 1,Titanic Brawl,main
+1,Topan Ascetic,main
 1,Touch the Spirit Realm,main
 1,Towashi Guide-Bot,main
 1,Trading Post,main
@@ -343,6 +342,7 @@ Count,Name,Section
 1,Vexing Gull,main
 1,Vineglimmer Snarl,main
 1,Vines of Vastwood,main
+1,Viscera Seer,main
 1,Vona's Hunger,main
 1,Warcry Phoenix,main
 1,Warleader's Helix,main
