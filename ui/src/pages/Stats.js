@@ -295,7 +295,7 @@ function DeckAnalyzerWidget(input) {
 
       // If more than 75% match, mark it as a match and increment the counter for this deck.
       let matchiness = hits / total
-      if (matchiness > .4) {
+      if (matchiness > .40) {
         // Increment the first deck by the second deck's count, and delete the second deck.
         // Essentially, aggregate the decks into one entry.
         if (!deckTwo.matches.includes(deck.file) && !deck.matches.includes(deckTwo.file)) {
@@ -337,15 +337,16 @@ function DeckAnalyzerWidget(input) {
 
               let cards = []
               for (var c of deck.sharedCards.values()) {
-                cards.push(c.name)
+                cards.push(c.name.substring(0, 20))
               }
+              let cardString = cards.slice(0, 10).join(" / ")
 
               return (
                 <tr sort={deck.count} className="card" key={deck.file}>
                   <td>{deck.file}</td>
                   <td>{deck.count}</td>
-                  <td>{deck.matches}</td>
-                  <td>{cards}</td>
+                  <td>{deck.matches.join(" -- ").substring(0, 60)}</td>
+                  <td>{cardString}</td>
                 </tr>
             )}).sort(sortFunc)
           }
@@ -456,10 +457,10 @@ function DraftOrderWidget(input) {
       <table className="winrate-table">
         <thead className="table-header">
           <tr>
-            <td>Card</td>
-            <td># first picks</td>
-            <td>Avg. P1 pick</td>
-            <td>Avg. pack pick</td>
+            <td className="header-cell">Card name</td>
+            <td className="header-cell"># P1P1</td>
+            <td className="header-cell">Avg. p1 pick</td>
+            <td className="header-cell">Avg. pick</td>
           </tr>
         </thead>
         <tbody>
@@ -475,8 +476,8 @@ function DraftOrderWidget(input) {
               let sort = avgPackPick
 
               return (
-                <tr sort={sort}>
-                  <td>{pick.name}</td>
+                <tr sort={sort} className="card" key={pick.name}>
+                  <td className="card">{pick.name}</td>
                   <td>{pick.firstPicks}</td>
                   <td>{avgPack1Pick}</td>
                   <td>{avgPackPick}</td>

@@ -44,11 +44,14 @@ export function AllPicks(logs) {
         })
       }
 
+      // Use 1 to start, since humans think in terms of 1 being first.
+      let pickNumHumanReadable = p.pick + 1
+
       allPicks.get(p.name).count += 1
-      allPicks.get(p.name).pickNumSum += p.pick
+      allPicks.get(p.name).pickNumSum += pickNumHumanReadable
       if (p.pack == 0) {
         allPicks.get(p.name).p1count += 1
-        allPicks.get(p.name).p1PickNumSum += p.pick
+        allPicks.get(p.name).p1PickNumSum += pickNumHumanReadable
         if (p.pick == 0 ) {
           allPicks.get(p.name).firstPicks += 1
         }
