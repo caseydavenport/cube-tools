@@ -22,7 +22,7 @@ export default function StatsViewer() {
   function onSelected(event) {
     setColorTypeSelection(event.target.value)
   }
-  function onHeaderClicked(event) {
+  function onColorHeaderClicked(event) {
     setColorSortBy(event.target.id)
   }
 
@@ -60,13 +60,18 @@ export default function StatsViewer() {
   // State used for the draft states tab.
   ///////////////////////////////////////////////////////////////////////////////
   const [drafts, setDrafts] = useState(null);
+  const [draftSortBy, setDraftSortBy] = useState("p1p1");
+  function onDraftHeaderClicked(event) {
+    setDraftSortBy(event.target.id)
+  }
+
 
 
   ///////////////////////////////////////////////////////////////////////////////
   // State used for tracking which widgets to display.
   // Each widget is represented as an element in the array, and defaulted here.
   ///////////////////////////////////////////////////////////////////////////////
-  const [display, setDisplay] = useState([true, false, false, false]);
+  const [display, setDisplay] = useState([true, false, false, false, false]);
   function onCheckbox(idx) {
     let d = {...display}
     if (d[idx]) {
@@ -95,7 +100,9 @@ export default function StatsViewer() {
   function onDeckCheckbox() {
     onCheckbox(3)
   }
-
+  function onDraftCheckbox() {
+    onCheckbox(4)
+  }
 
   // Load the decks and drafts on startup and whenever the dates change.
   useEffect(() => {
@@ -163,6 +170,11 @@ export default function StatsViewer() {
           checked={display[3]}
           onChange={onDeckCheckbox}
         />
+        <Checkbox
+          text="Drafts"
+          checked={display[4]}
+          onChange={onDraftCheckbox}
+        />
       </div>
 
       <div className="house-for-widgets">
@@ -172,7 +184,7 @@ export default function StatsViewer() {
           onSelected={onSelected}
           decks={decks}
           winrates={winrates}
-          onHeaderClick={onHeaderClicked}
+          onHeaderClick={onColorHeaderClicked}
           colorSortBy={colorSortBy}
           show={display[0]}
         />
@@ -215,7 +227,9 @@ export default function StatsViewer() {
         <DraftOrderWidget
           decks={decks}
           drafts={drafts}
-          show={display[2]} // TODO
+          sortBy={draftSortBy}
+          onHeaderClick={onDraftHeaderClicked}
+          show={display[4]} // TODO
         />
 
         <BestCombosWidget
@@ -457,30 +471,66 @@ function DraftOrderWidget(input) {
       <table className="winrate-table">
         <thead className="table-header">
           <tr>
-            <td className="header-cell">Card name</td>
-            <td className="header-cell"># P1P1</td>
-            <td className="header-cell">Avg. p1 pick</td>
-            <td className="header-cell">Avg. pick</td>
+            <td onClick={input.onHeaderClick} id="name" className="header-cell">Card name</td>
+            <td onClick={input.onHeaderClick} id="p1p1" className="header-cell"># P1P1</td>
+            <td onClick={input.onHeaderClick} id="avgp1pick" className="header-cell">Avg. p1 pick</td>
+            <td onClick={input.onHeaderClick} id="avgpick" className="header-cell">Avg. pick</td>
+            <td onClick={input.onHeaderClick} id="p1burn" className="header-cell"># P1 Burns</td>
+            <td onClick={input.onHeaderClick} id="burn" className="header-cell"># Burns</td>
           </tr>
         </thead>
         <tbody>
           {
             pickList.map(function(pick) {
-              let avgPackPick = pick.pickNumSum / pick.count
-              let avgPack1Pick = 0
-              if (pick.p1count > 0 ) {
+              let avgPackPick = "-"
+              if (pick.count > 0) {
+                avgPackPick = pick.pickNumSum / pick.count
+              }
+
+              let avgPack1Pick = "-"
+              if (pick.p1count > 0) {
                 avgPack1Pick = pick.p1PickNumSum / pick.p1count
               }
 
-              // TODO: Support sorting on other columns.
+              let firstPicks = "-"
+              if (pick.firstPicks > 0) {
+                firstPicks = pick.firstPicks
+              }
+
+              let burns = "-"
+              if (pick.burns > 0) {
+                burns = pick.burns
+              }
+
+              let p1burns = "-"
+              if (pick.p1burns > 0) {
+                p1burns = pick.p1burns
+              }
+
+
               let sort = avgPackPick
+              if (input.sortBy === "p1p1") {
+                sort = pick.p1count
+              } else if (input.sortBy === "avgp1pick") {
+                sort = avgPack1Pick
+              } else if (input.sortBy === "avgpick") {
+                sort = avgPackPick
+              } else if (input.sortBy === "burn") {
+                sort = pick.burns
+              } else if (input.sortBy === "p1burn") {
+                sort = pick.p1burns
+              } else if (input.sortBy === "name") {
+                sort = pick.name
+              }
 
               return (
                 <tr sort={sort} className="card" key={pick.name}>
                   <td className="card">{pick.name}</td>
-                  <td>{pick.firstPicks}</td>
+                  <td>{firstPicks}</td>
                   <td>{avgPack1Pick}</td>
                   <td>{avgPackPick}</td>
+                  <td>{p1burns}</td>
+                  <td>{burns}</td>
                 </tr>
               )
             }).sort(sortFunc)
