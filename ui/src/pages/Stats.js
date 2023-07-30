@@ -47,8 +47,9 @@ export default function StatsViewer() {
   ///////////////////////////////////////////////////////////////////////////////
   // State used for time selection.
   ///////////////////////////////////////////////////////////////////////////////
-  const [startDate, setStartDate] = useState(null);
-  const [endDate, setEndDate] = useState(null);
+  let [start, end ] = InitialDates()
+  const [startDate, setStartDate] = useState(start);
+  const [endDate, setEndDate] = useState(end);
   function onStartSelected(event) {
     setStartDate(event.target.value)
   }
@@ -246,6 +247,23 @@ export default function StatsViewer() {
       </div>
     </div>
   );
+}
+
+function InitialDates() {
+  // Create a new Date object for today to represent the end date.
+  const today = new Date();
+  let year = today.getFullYear();
+  let month = today.getMonth() + 1; // Months are 0-indexed, so we add 1
+  let day = today.getDate();
+  const end = `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
+
+  // Now build the start date, which is minus 4 months.
+  let startDate = new Date(today);
+  startDate.setMonth(month - 4)
+  month = startDate.getMonth() + 1
+  const start = `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
+
+  return [start, end]
 }
 
 // DeckAnalyzerWidget goes through all of the decks and finds decks that share a large number
