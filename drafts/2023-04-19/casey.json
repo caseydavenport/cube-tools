@@ -1,9 +1,5 @@
 {
- "labels": [
-  "sacrifice",
-  "control",
-  "aggro"
- ],
+ "labels": ["sacrifice", "midrange"],
  "player": "casey",
  "date": "2023-04-19",
  "wins": 1,
