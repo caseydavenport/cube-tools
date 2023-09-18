@@ -33,19 +33,6 @@
    "url": "https://scryfall.com/card/thb/206/acolyte-of-affliction?utm_source=api"
   },
   {
-   "name": "Adventuring Gear",
-   "types": [
-    "Artifact"
-   ],
-   "sub_types": [
-    "Equipment"
-   ],
-   "cmc": 1,
-   "image": "",
-   "colors": [],
-   "url": "https://scryfall.com/card/zen/195/adventuring-gear?utm_source=api"
-  },
-  {
    "name": "Aether Figment",
    "types": [
     "Creature"
@@ -71,6 +58,18 @@
     "U"
    ],
    "url": "https://scryfall.com/card/kld/38/aether-tradewinds?utm_source=api"
+  },
+  {
+   "name": "Agonizing Remorse",
+   "types": [
+    "Sorcery"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "B"
+   ],
+   "url": "https://scryfall.com/card/thb/83/agonizing-remorse?utm_source=api"
   },
   {
    "name": "Ajani Goldmane",
@@ -224,15 +223,14 @@
    "url": "https://scryfall.com/card/akh/78/archfiend-of-ifnir?utm_source=api"
   },
   {
-   "name": "Arctic Flats",
+   "name": "Arid Mesa",
    "types": [
-    "Snow",
     "Land"
    ],
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/csp/143/arctic-flats?utm_source=api"
+   "url": "https://scryfall.com/card/mh2/244/arid-mesa?utm_source=api"
   },
   {
    "name": "Atris, Oracle of Half-Truths",
@@ -266,19 +264,6 @@
     "G"
    ],
    "url": "https://scryfall.com/card/ncc/280/avenger-of-zendikar?utm_source=api"
-  },
-  {
-   "name": "Azorius Guildgate",
-   "types": [
-    "Land"
-   ],
-   "sub_types": [
-    "Gate"
-   ],
-   "cmc": 0,
-   "image": "",
-   "colors": [],
-   "url": "https://scryfall.com/card/khc/107/azorius-guildgate?utm_source=api"
   },
   {
    "name": "Beacon of Unrest",
@@ -364,6 +349,32 @@
    "url": "https://scryfall.com/card/ima/82/bloodghast?utm_source=api"
   },
   {
+   "name": "Bloodsoaked Champion",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Human",
+    "Warrior"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [
+    "B"
+   ],
+   "url": "https://scryfall.com/card/clb/740/bloodsoaked-champion?utm_source=api"
+  },
+  {
+   "name": "Bloodstained Mire",
+   "types": [
+    "Land"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/ktk/230/bloodstained-mire?utm_source=api"
+  },
+  {
    "name": "Bolas's Citadel",
    "types": [
     "Legendary",
@@ -426,6 +437,17 @@
    "url": "https://scryfall.com/card/cmr/458/bonesplitter?utm_source=api"
   },
   {
+   "name": "Boseiju, Who Endures",
+   "types": [
+    "Legendary",
+    "Land"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/neo/266/boseiju-who-endures?utm_source=api"
+  },
+  {
    "name": "Brainstorm",
    "types": [
     "Instant"
@@ -436,6 +458,20 @@
     "U"
    ],
    "url": "https://scryfall.com/card/afc/79/brainstorm?utm_source=api"
+  },
+  {
+   "name": "Breeding Pool",
+   "types": [
+    "Land"
+   ],
+   "sub_types": [
+    "Forest",
+    "Island"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/rna/246/breeding-pool?utm_source=api"
   },
   {
    "name": "Brineborn Cutthroat",
@@ -484,22 +520,6 @@
     "G"
    ],
    "url": "https://scryfall.com/card/one/161/cankerbloom?utm_source=api"
-  },
-  {
-   "name": "Cartouche of Solidarity",
-   "types": [
-    "Enchantment"
-   ],
-   "sub_types": [
-    "Aura",
-    "Cartouche"
-   ],
-   "cmc": 1,
-   "image": "",
-   "colors": [
-    "W"
-   ],
-   "url": "https://scryfall.com/card/akh/7/cartouche-of-solidarity?utm_source=api"
   },
   {
    "name": "Catalyst Elemental",
@@ -604,14 +624,29 @@
    "url": "https://scryfall.com/card/moc/394/choked-estuary?utm_source=api"
   },
   {
-   "name": "Cinder Barrens",
+   "name": "Chromatic Sphere",
    "types": [
-    "Land"
+    "Artifact"
    ],
-   "cmc": 0,
+   "cmc": 1,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/c19/235/cinder-barrens?utm_source=api"
+   "url": "https://scryfall.com/card/jmp/462/chromatic-sphere?utm_source=api"
+  },
+  {
+   "name": "Clarion Spirit",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Spirit"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "W"
+   ],
+   "url": "https://scryfall.com/card/khm/6/clarion-spirit?utm_source=api"
   },
   {
    "name": "Clifftop Retreat",
@@ -790,22 +825,6 @@
    "url": "https://scryfall.com/card/dmu/89/cut-down?utm_source=api"
   },
   {
-   "name": "Daring Saboteur",
-   "types": [
-    "Creature"
-   ],
-   "sub_types": [
-    "Human",
-    "Pirate"
-   ],
-   "cmc": 2,
-   "image": "",
-   "colors": [
-    "U"
-   ],
-   "url": "https://scryfall.com/card/ncc/217/daring-saboteur?utm_source=api"
-  },
-  {
    "name": "Dark Ritual",
    "types": [
     "Instant"
@@ -888,22 +907,6 @@
     "G"
    ],
    "url": "https://scryfall.com/card/2x2/143/devoted-druid?utm_source=api"
-  },
-  {
-   "name": "Devourer of Memory",
-   "types": [
-    "Creature"
-   ],
-   "sub_types": [
-    "Nightmare"
-   ],
-   "cmc": 2,
-   "image": "",
-   "colors": [
-    "B",
-    "U"
-   ],
-   "url": "https://scryfall.com/card/thb/213/devourer-of-memory?utm_source=api"
   },
   {
    "name": "Devouring Hellion",
@@ -1090,6 +1093,18 @@
    "url": "https://scryfall.com/card/thb/214/dream-trawler?utm_source=api"
   },
   {
+   "name": "Dress Down",
+   "types": [
+    "Enchantment"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "U"
+   ],
+   "url": "https://scryfall.com/card/mh2/39/dress-down?utm_source=api"
+  },
+  {
    "name": "Drowned Catacomb",
    "types": [
     "Land"
@@ -1162,22 +1177,6 @@
    "url": "https://scryfall.com/card/tsr/162/empty-the-warrens?utm_source=api"
   },
   {
-   "name": "Enigma Drake",
-   "types": [
-    "Creature"
-   ],
-   "sub_types": [
-    "Drake"
-   ],
-   "cmc": 3,
-   "image": "",
-   "colors": [
-    "R",
-    "U"
-   ],
-   "url": "https://scryfall.com/card/m19/216/enigma-drake?utm_source=api"
-  },
-  {
    "name": "Ephemerate",
    "types": [
     "Instant"
@@ -1188,18 +1187,6 @@
     "W"
    ],
    "url": "https://scryfall.com/card/mh1/7/ephemerate?utm_source=api"
-  },
-  {
-   "name": "Essence Capture",
-   "types": [
-    "Instant"
-   ],
-   "cmc": 2,
-   "image": "",
-   "colors": [
-    "U"
-   ],
-   "url": "https://scryfall.com/card/neo/52/essence-capture?utm_source=api"
   },
   {
    "name": "Eternal Witness",
@@ -1412,6 +1399,16 @@
    "url": "https://scryfall.com/card/2x2/11/flickerwisp?utm_source=api"
   },
   {
+   "name": "Flooded Strand",
+   "types": [
+    "Land"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/ktk/233/flooded-strand?utm_source=api"
+  },
+  {
    "name": "Flux Channeler",
    "types": [
     "Creature"
@@ -1428,19 +1425,14 @@
    "url": "https://scryfall.com/card/war/52/flux-channeler?utm_source=api"
   },
   {
-   "name": "Forsaken Drifters",
+   "name": "Foreboding Ruins",
    "types": [
-    "Creature"
+    "Land"
    ],
-   "sub_types": [
-    "Zombie"
-   ],
-   "cmc": 4,
+   "cmc": 0,
    "image": "",
-   "colors": [
-    "B"
-   ],
-   "url": "https://scryfall.com/card/bng/72/forsaken-drifters?utm_source=api"
+   "colors": [],
+   "url": "https://scryfall.com/card/dmc/211/foreboding-ruins?utm_source=api"
   },
   {
    "name": "Fortified Village",
@@ -1451,17 +1443,6 @@
    "image": "",
    "colors": [],
    "url": "https://scryfall.com/card/moc/401/fortified-village?utm_source=api"
-  },
-  {
-   "name": "Frost Marsh",
-   "types": [
-    "Snow",
-    "Land"
-   ],
-   "cmc": 0,
-   "image": "",
-   "colors": [],
-   "url": "https://scryfall.com/card/csp/146/frost-marsh?utm_source=api"
   },
   {
    "name": "Frostboil Snarl",
@@ -1544,18 +1525,6 @@
     "U"
    ],
    "url": "https://scryfall.com/card/khc/39/ghostly-flicker?utm_source=api"
-  },
-  {
-   "name": "Giant Growth",
-   "types": [
-    "Instant"
-   ],
-   "cmc": 1,
-   "image": "",
-   "colors": [
-    "G"
-   ],
-   "url": "https://scryfall.com/card/bro/183/giant-growth?utm_source=api"
   },
   {
    "name": "Gilded Goose",
@@ -1641,6 +1610,32 @@
     "R"
    ],
    "url": "https://scryfall.com/card/m21/147/goblin-arsonist?utm_source=api"
+  },
+  {
+   "name": "Goblin Bombardment",
+   "types": [
+    "Enchantment"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "R"
+   ],
+   "url": "https://scryfall.com/card/mh2/279/goblin-bombardment?utm_source=api"
+  },
+  {
+   "name": "Godless Shrine",
+   "types": [
+    "Land"
+   ],
+   "sub_types": [
+    "Plains",
+    "Swamp"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/rna/248/godless-shrine?utm_source=api"
   },
   {
    "name": "Gold Myr",
@@ -1856,16 +1851,6 @@
    "url": "https://scryfall.com/card/c17/138/hellkite-charger?utm_source=api"
   },
   {
-   "name": "Highland Lake",
-   "types": [
-    "Land"
-   ],
-   "cmc": 0,
-   "image": "",
-   "colors": [],
-   "url": "https://scryfall.com/card/c19/251/highland-lake?utm_source=api"
-  },
-  {
    "name": "Hinterland Harbor",
    "types": [
     "Land"
@@ -1919,21 +1904,6 @@
     "R"
    ],
    "url": "https://scryfall.com/card/jvc/51/incinerate?utm_source=api"
-  },
-  {
-   "name": "Inevitable End",
-   "types": [
-    "Enchantment"
-   ],
-   "sub_types": [
-    "Aura"
-   ],
-   "cmc": 3,
-   "image": "",
-   "colors": [
-    "B"
-   ],
-   "url": "https://scryfall.com/card/thb/102/inevitable-end?utm_source=api"
   },
   {
    "name": "Infuriate",
@@ -2006,6 +1976,20 @@
    "url": "https://scryfall.com/card/som/168/iron-myr?utm_source=api"
   },
   {
+   "name": "Irrigated Farmland",
+   "types": [
+    "Land"
+   ],
+   "sub_types": [
+    "Plains",
+    "Island"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/c20/282/irrigated-farmland?utm_source=api"
+  },
+  {
    "name": "Isolated Chapel",
    "types": [
     "Land"
@@ -2069,16 +2053,6 @@
    "url": "https://scryfall.com/card/cmd/17/journey-to-nowhere?utm_source=api"
   },
   {
-   "name": "Jungle Hollow",
-   "types": [
-    "Land"
-   ],
-   "cmc": 0,
-   "image": "",
-   "colors": [],
-   "url": "https://scryfall.com/card/mom/270/jungle-hollow?utm_source=api"
-  },
-  {
    "name": "Kalastria Highborn",
    "types": [
     "Creature"
@@ -2093,22 +2067,6 @@
     "B"
    ],
    "url": "https://scryfall.com/card/wwk/59/kalastria-highborn?utm_source=api"
-  },
-  {
-   "name": "Kasmina, Enigmatic Mentor",
-   "types": [
-    "Legendary",
-    "Planeswalker"
-   ],
-   "sub_types": [
-    "Kasmina"
-   ],
-   "cmc": 4,
-   "image": "",
-   "colors": [
-    "U"
-   ],
-   "url": "https://scryfall.com/card/war/56/kasmina-enigmatic-mentor?utm_source=api"
   },
   {
    "name": "Kathari Bomber",
@@ -2128,16 +2086,6 @@
    "url": "https://scryfall.com/card/mm3/172/kathari-bomber?utm_source=api"
   },
   {
-   "name": "Kazandu Refuge",
-   "types": [
-    "Land"
-   ],
-   "cmc": 0,
-   "image": "",
-   "colors": [],
-   "url": "https://scryfall.com/card/c19/256/kazandu-refuge?utm_source=api"
-  },
-  {
    "name": "Kitchen Finks",
    "types": [
     "Creature"
@@ -2152,22 +2100,6 @@
     "W"
    ],
    "url": "https://scryfall.com/card/uma/216/kitchen-finks?utm_source=api"
-  },
-  {
-   "name": "Kithkin Billyrider",
-   "types": [
-    "Creature"
-   ],
-   "sub_types": [
-    "Kithkin",
-    "Knight"
-   ],
-   "cmc": 3,
-   "image": "",
-   "colors": [
-    "W"
-   ],
-   "url": "https://scryfall.com/card/mom/24/kithkin-billyrider?utm_source=api"
   },
   {
    "name": "Knight of the Ebon Legion",
@@ -2313,6 +2245,20 @@
    "url": "https://scryfall.com/card/shm/43/leech-bonder?utm_source=api"
   },
   {
+   "name": "Legion's Landing // Adanto, the First Fort",
+   "types": [
+    "Legendary",
+    "Enchantment",
+    "//",
+    "Legendary",
+    "Land"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": null,
+   "url": "https://scryfall.com/card/pctb/2/legions-landing-adanto-the-first-fort?utm_source=api"
+  },
+  {
    "name": "Lightning Bolt",
    "types": [
     "Instant"
@@ -2336,21 +2282,6 @@
    "image": "",
    "colors": [],
    "url": "https://scryfall.com/card/clb/864/lightning-greaves?utm_source=api"
-  },
-  {
-   "name": "Lightning Talons",
-   "types": [
-    "Enchantment"
-   ],
-   "sub_types": [
-    "Aura"
-   ],
-   "cmc": 3,
-   "image": "",
-   "colors": [
-    "R"
-   ],
-   "url": "https://scryfall.com/card/bbd/180/lightning-talons?utm_source=api"
   },
   {
    "name": "Liliana, Death's Majesty",
@@ -2396,6 +2327,23 @@
     "W"
    ],
    "url": "https://scryfall.com/card/neo/26/lion-sash?utm_source=api"
+  },
+  {
+   "name": "Lizard Blades",
+   "types": [
+    "Artifact",
+    "Creature"
+   ],
+   "sub_types": [
+    "Equipment",
+    "Lizard"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "R"
+   ],
+   "url": "https://scryfall.com/card/neo/153/lizard-blades?utm_source=api"
   },
   {
    "name": "Llanowar Elves",
@@ -2471,18 +2419,6 @@
    "url": "https://scryfall.com/card/m11/150/magma-phoenix?utm_source=api"
   },
   {
-   "name": "Makeshift Munitions",
-   "types": [
-    "Enchantment"
-   ],
-   "cmc": 2,
-   "image": "",
-   "colors": [
-    "R"
-   ],
-   "url": "https://scryfall.com/card/cmr/191/makeshift-munitions?utm_source=api"
-  },
-  {
    "name": "Malakir Bloodwitch",
    "types": [
     "Creature"
@@ -2551,6 +2487,16 @@
     "R"
    ],
    "url": "https://scryfall.com/card/ima/139/mark-of-mutiny?utm_source=api"
+  },
+  {
+   "name": "Marsh Flats",
+   "types": [
+    "Land"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/mh2/248/marsh-flats?utm_source=api"
   },
   {
    "name": "Marshal's Anthem",
@@ -2718,32 +2664,6 @@
    "url": "https://scryfall.com/card/a25/97/mesmeric-fiend?utm_source=api"
   },
   {
-   "name": "Mesmerizing Benthid",
-   "types": [
-    "Creature"
-   ],
-   "sub_types": [
-    "Octopus"
-   ],
-   "cmc": 5,
-   "image": "",
-   "colors": [
-    "U"
-   ],
-   "url": "https://scryfall.com/card/rna/43/mesmerizing-benthid?utm_source=api"
-  },
-  {
-   "name": "Mindslaver",
-   "types": [
-    "Legendary",
-    "Artifact"
-   ],
-   "cmc": 6,
-   "image": "",
-   "colors": [],
-   "url": "https://scryfall.com/card/som/176/mindslaver?utm_source=api"
-  },
-  {
    "name": "Miraculous Recovery",
    "types": [
     "Instant"
@@ -2822,6 +2742,16 @@
    "url": "https://scryfall.com/card/2x2/256/mistmeadow-witch?utm_source=api"
   },
   {
+   "name": "Misty Rainforest",
+   "types": [
+    "Land"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/mh2/250/misty-rainforest?utm_source=api"
+  },
+  {
    "name": "Mizzium Tank",
    "types": [
     "Artifact"
@@ -2851,6 +2781,23 @@
     "R"
    ],
    "url": "https://scryfall.com/card/tsr/176/mogg-war-marshal?utm_source=api"
+  },
+  {
+   "name": "Moon-Circuit Hacker",
+   "types": [
+    "Enchantment",
+    "Creature"
+   ],
+   "sub_types": [
+    "Human",
+    "Ninja"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "U"
+   ],
+   "url": "https://scryfall.com/card/neo/67/moon-circuit-hacker?utm_source=api"
   },
   {
    "name": "Mosquito Guard",
@@ -2951,6 +2898,18 @@
    "url": "https://scryfall.com/card/stx/269/necroblossom-snarl?utm_source=api"
   },
   {
+   "name": "Negate",
+   "types": [
+    "Instant"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "U"
+   ],
+   "url": "https://scryfall.com/card/mom/68/negate?utm_source=api"
+  },
+  {
    "name": "Nissa, Who Shakes the World",
    "types": [
     "Legendary",
@@ -3000,22 +2959,6 @@
    "url": "https://scryfall.com/card/rix/80/oathsworn-vampire?utm_source=api"
   },
   {
-   "name": "Ob Nixilis, the Hate-Twisted",
-   "types": [
-    "Legendary",
-    "Planeswalker"
-   ],
-   "sub_types": [
-    "Nixilis"
-   ],
-   "cmc": 5,
-   "image": "",
-   "colors": [
-    "B"
-   ],
-   "url": "https://scryfall.com/card/war/100/ob-nixilis-the-hate-twisted?utm_source=api"
-  },
-  {
    "name": "Oblivion Ring",
    "types": [
     "Enchantment"
@@ -3057,32 +3000,18 @@
    "url": "https://scryfall.com/card/m21/59/opt?utm_source=api"
   },
   {
-   "name": "Orim's Thunder",
+   "name": "Overgrown Tomb",
    "types": [
-    "Instant"
-   ],
-   "cmc": 3,
-   "image": "",
-   "colors": [
-    "W"
-   ],
-   "url": "https://scryfall.com/card/cm2/33/orims-thunder?utm_source=api"
-  },
-  {
-   "name": "Orzhov Racketeers",
-   "types": [
-    "Creature"
+    "Land"
    ],
    "sub_types": [
-    "Human",
-    "Rogue"
+    "Swamp",
+    "Forest"
    ],
-   "cmc": 5,
+   "cmc": 0,
    "image": "",
-   "colors": [
-    "B"
-   ],
-   "url": "https://scryfall.com/card/rna/80/orzhov-racketeers?utm_source=api"
+   "colors": [],
+   "url": "https://scryfall.com/card/grn/253/overgrown-tomb?utm_source=api"
   },
   {
    "name": "Overrun",
@@ -3166,6 +3095,18 @@
    "url": "https://scryfall.com/card/cmr/330/perilous-myr?utm_source=api"
   },
   {
+   "name": "Persist",
+   "types": [
+    "Sorcery"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "B"
+   ],
+   "url": "https://scryfall.com/card/mh2/96/persist?utm_source=api"
+  },
+  {
    "name": "Pharika's Spawn",
    "types": [
     "Creature"
@@ -3198,19 +3139,6 @@
    "url": "https://scryfall.com/card/rna/194/pitiless-pontiff?utm_source=api"
   },
   {
-   "name": "Pledge of Unity",
-   "types": [
-    "Instant"
-   ],
-   "cmc": 3,
-   "image": "",
-   "colors": [
-    "G",
-    "W"
-   ],
-   "url": "https://scryfall.com/card/war/210/pledge-of-unity?utm_source=api"
-  },
-  {
    "name": "Pollenbright Druid",
    "types": [
     "Creature"
@@ -3225,6 +3153,16 @@
     "G"
    ],
    "url": "https://scryfall.com/card/war/173/pollenbright-druid?utm_source=api"
+  },
+  {
+   "name": "Polluted Delta",
+   "types": [
+    "Land"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/ktk/239/polluted-delta?utm_source=api"
   },
   {
    "name": "Ponder",
@@ -3262,6 +3200,16 @@
     "W"
    ],
    "url": "https://scryfall.com/card/cmd/27/prison-term?utm_source=api"
+  },
+  {
+   "name": "Prophetic Prism",
+   "types": [
+    "Artifact"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/one/238/prophetic-prism?utm_source=api"
   },
   {
    "name": "Pteramander",
@@ -3302,6 +3250,22 @@
     "R"
    ],
    "url": "https://scryfall.com/card/cmd/131/punishing-fire?utm_source=api"
+  },
+  {
+   "name": "Puppeteer Clique",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Faerie",
+    "Wizard"
+   ],
+   "cmc": 5,
+   "image": "",
+   "colors": [
+    "B"
+   ],
+   "url": "https://scryfall.com/card/clb/769/puppeteer-clique?utm_source=api"
   },
   {
    "name": "Pyroclasm",
@@ -3518,18 +3482,6 @@
    "url": "https://scryfall.com/card/neo/158/reinforced-ronin?utm_source=api"
   },
   {
-   "name": "Remove Soul",
-   "types": [
-    "Instant"
-   ],
-   "cmc": 2,
-   "image": "",
-   "colors": [
-    "U"
-   ],
-   "url": "https://scryfall.com/card/me3/47/remove-soul?utm_source=api"
-  },
-  {
    "name": "Reprieve",
    "types": [
     "Instant"
@@ -3570,6 +3522,24 @@
     "W"
    ],
    "url": "https://scryfall.com/card/2x2/26/reveillark?utm_source=api"
+  },
+  {
+   "name": "Rielle, the Everwise",
+   "types": [
+    "Legendary",
+    "Creature"
+   ],
+   "sub_types": [
+    "Human",
+    "Wizard"
+   ],
+   "cmc": 3,
+   "image": "",
+   "colors": [
+    "R",
+    "U"
+   ],
+   "url": "https://scryfall.com/card/iko/203/rielle-the-everwise?utm_source=api"
   },
   {
    "name": "Rigging Runner",
@@ -3680,6 +3650,20 @@
    "url": "https://scryfall.com/card/neo/257/runaway-trash-bot?utm_source=api"
   },
   {
+   "name": "Sacred Foundry",
+   "types": [
+    "Land"
+   ],
+   "sub_types": [
+    "Mountain",
+    "Plains"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/grn/254/sacred-foundry?utm_source=api"
+  },
+  {
    "name": "Saheeli, Sublime Artificer",
    "types": [
     "Legendary",
@@ -3753,6 +3737,16 @@
    "url": "https://scryfall.com/card/znc/81/satyr-wayfinder?utm_source=api"
   },
   {
+   "name": "Scalding Tarn",
+   "types": [
+    "Land"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/mh2/254/scalding-tarn?utm_source=api"
+  },
+  {
    "name": "Scavenger Drake",
    "types": [
     "Creature"
@@ -3781,16 +3775,6 @@
     "G"
    ],
    "url": "https://scryfall.com/card/ncc/309/scavenging-ooze?utm_source=api"
-  },
-  {
-   "name": "Scoured Barrens",
-   "types": [
-    "Land"
-   ],
-   "cmc": 0,
-   "image": "",
-   "colors": [],
-   "url": "https://scryfall.com/card/mom/272/scoured-barrens?utm_source=api"
   },
   {
    "name": "Severed Strands",
@@ -3838,6 +3822,20 @@
     "W"
    ],
    "url": "https://scryfall.com/card/dom/204/shanna-sisays-legacy?utm_source=api"
+  },
+  {
+   "name": "Sheltered Thicket",
+   "types": [
+    "Land"
+   ],
+   "sub_types": [
+    "Mountain",
+    "Forest"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/pctb/84/sheltered-thicket?utm_source=api"
   },
   {
    "name": "Shineshadow Snarl",
@@ -3892,19 +3890,6 @@
    "image": "",
    "colors": [],
    "url": "https://scryfall.com/card/nec/158/silver-myr?utm_source=api"
-  },
-  {
-   "name": "Simic Guildgate",
-   "types": [
-    "Land"
-   ],
-   "sub_types": [
-    "Gate"
-   ],
-   "cmc": 0,
-   "image": "",
-   "colors": [],
-   "url": "https://scryfall.com/card/cmr/493/simic-guildgate?utm_source=api"
   },
   {
    "name": "Siren Stormtamer",
@@ -3966,33 +3951,6 @@
     "G"
    ],
    "url": "https://scryfall.com/card/dom/205/slimefoot-the-stowaway?utm_source=api"
-  },
-  {
-   "name": "Smash to Smithereens",
-   "types": [
-    "Instant"
-   ],
-   "cmc": 2,
-   "image": "",
-   "colors": [
-    "R"
-   ],
-   "url": "https://scryfall.com/card/ori/163/smash-to-smithereens?utm_source=api"
-  },
-  {
-   "name": "Snapping Sailback",
-   "types": [
-    "Creature"
-   ],
-   "sub_types": [
-    "Dinosaur"
-   ],
-   "cmc": 5,
-   "image": "",
-   "colors": [
-    "G"
-   ],
-   "url": "https://scryfall.com/card/xln/208/snapping-sailback?utm_source=api"
   },
   {
    "name": "Soul Warden",
@@ -4112,16 +4070,18 @@
    "url": "https://scryfall.com/card/grn/145/sprouting-renewal?utm_source=api"
   },
   {
-   "name": "Stealth Mission",
+   "name": "Steam Vents",
    "types": [
-    "Sorcery"
+    "Land"
    ],
-   "cmc": 3,
+   "sub_types": [
+    "Island",
+    "Mountain"
+   ],
+   "cmc": 0,
    "image": "",
-   "colors": [
-    "U"
-   ],
-   "url": "https://scryfall.com/card/war/70/stealth-mission?utm_source=api"
+   "colors": [],
+   "url": "https://scryfall.com/card/grn/257/steam-vents?utm_source=api"
   },
   {
    "name": "Stingerfling Spider",
@@ -4224,32 +4184,6 @@
    "url": "https://scryfall.com/card/wwk/114/summit-apes?utm_source=api"
   },
   {
-   "name": "Summoner's Egg",
-   "types": [
-    "Artifact",
-    "Creature"
-   ],
-   "sub_types": [
-    "Egg"
-   ],
-   "cmc": 4,
-   "image": "",
-   "colors": [],
-   "url": "https://scryfall.com/card/5dn/157/summoners-egg?utm_source=api"
-  },
-  {
-   "name": "Sunbird's Invocation",
-   "types": [
-    "Enchantment"
-   ],
-   "cmc": 6,
-   "image": "",
-   "colors": [
-    "R"
-   ],
-   "url": "https://scryfall.com/card/c21/180/sunbirds-invocation?utm_source=api"
-  },
-  {
    "name": "Sunpetal Grove",
    "types": [
     "Land"
@@ -4306,16 +4240,18 @@
    "url": "https://scryfall.com/card/neo/238/tamiyo-compleated-sage?utm_source=api"
   },
   {
-   "name": "Teferi's Time Twist",
+   "name": "Temple Garden",
    "types": [
-    "Instant"
+    "Land"
    ],
-   "cmc": 2,
+   "sub_types": [
+    "Forest",
+    "Plains"
+   ],
+   "cmc": 0,
    "image": "",
-   "colors": [
-    "U"
-   ],
-   "url": "https://scryfall.com/card/war/72/teferis-time-twist?utm_source=api"
+   "colors": [],
+   "url": "https://scryfall.com/card/grn/258/temple-garden?utm_source=api"
   },
   {
    "name": "Terramorphic Expanse",
@@ -4341,6 +4277,22 @@
     "G"
    ],
    "url": "https://scryfall.com/card/dom/184/territorial-allosaurus?utm_source=api"
+  },
+  {
+   "name": "Tezzeret, Betrayer of Flesh",
+   "types": [
+    "Legendary",
+    "Planeswalker"
+   ],
+   "sub_types": [
+    "Tezzeret"
+   ],
+   "cmc": 4,
+   "image": "",
+   "colors": [
+    "U"
+   ],
+   "url": "https://scryfall.com/card/neo/84/tezzeret-betrayer-of-flesh?utm_source=api"
   },
   {
    "name": "The Binding of the Titans",
@@ -4392,6 +4344,19 @@
    "url": "https://scryfall.com/card/neo/74/the-reality-chip?utm_source=api"
   },
   {
+   "name": "The Wandering Emperor",
+   "types": [
+    "Legendary",
+    "Planeswalker"
+   ],
+   "cmc": 4,
+   "image": "",
+   "colors": [
+    "W"
+   ],
+   "url": "https://scryfall.com/card/neo/42/the-wandering-emperor?utm_source=api"
+  },
+  {
    "name": "Thing in the Ice // Awoken Horror",
    "types": [
     "Creature"
@@ -4432,22 +4397,6 @@
    "image": "",
    "colors": [],
    "url": "https://scryfall.com/card/akh/237/throne-of-the-god-pharaoh?utm_source=api"
-  },
-  {
-   "name": "Tibalt, Rakish Instigator",
-   "types": [
-    "Legendary",
-    "Planeswalker"
-   ],
-   "sub_types": [
-    "Tibalt"
-   ],
-   "cmc": 3,
-   "image": "",
-   "colors": [
-    "R"
-   ],
-   "url": "https://scryfall.com/card/war/146/tibalt-rakish-instigator?utm_source=api"
   },
   {
    "name": "Tibalt's Rager",
@@ -4603,6 +4552,23 @@
    "url": "https://scryfall.com/card/eve/79/twinblade-slasher?utm_source=api"
   },
   {
+   "name": "Twinshot Sniper",
+   "types": [
+    "Artifact",
+    "Creature"
+   ],
+   "sub_types": [
+    "Goblin",
+    "Archer"
+   ],
+   "cmc": 4,
+   "image": "",
+   "colors": [
+    "R"
+   ],
+   "url": "https://scryfall.com/card/neo/168/twinshot-sniper?utm_source=api"
+  },
+  {
    "name": "Umbral Mantle",
    "types": [
     "Artifact"
@@ -4753,16 +4719,14 @@
    "url": "https://scryfall.com/card/ddk/19/vampires-bite?utm_source=api"
   },
   {
-   "name": "Vampire's Zeal",
+   "name": "Verdant Catacombs",
    "types": [
-    "Instant"
+    "Land"
    ],
-   "cmc": 1,
+   "cmc": 0,
    "image": "",
-   "colors": [
-    "W"
-   ],
-   "url": "https://scryfall.com/card/xln/43/vampires-zeal?utm_source=api"
+   "colors": [],
+   "url": "https://scryfall.com/card/mh2/260/verdant-catacombs?utm_source=api"
   },
   {
    "name": "Vexing Gull",
@@ -4858,6 +4822,35 @@
    "url": "https://scryfall.com/card/uma/210/warleaders-helix?utm_source=api"
   },
   {
+   "name": "Watery Grave",
+   "types": [
+    "Land"
+   ],
+   "sub_types": [
+    "Island",
+    "Swamp"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/grn/259/watery-grave?utm_source=api"
+  },
+  {
+   "name": "Welcoming Vampire",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Vampire"
+   ],
+   "cmc": 3,
+   "image": "",
+   "colors": [
+    "W"
+   ],
+   "url": "https://scryfall.com/card/vow/46/welcoming-vampire?utm_source=api"
+  },
+  {
    "name": "Whisper, Blood Liturgist",
    "types": [
     "Legendary",
@@ -4903,31 +4896,6 @@
    "url": "https://scryfall.com/card/c20/196/wilderness-reclamation?utm_source=api"
   },
   {
-   "name": "Will-o'-the-Wisp",
-   "types": [
-    "Creature"
-   ],
-   "sub_types": [
-    "Spirit"
-   ],
-   "cmc": 1,
-   "image": "",
-   "colors": [
-    "B"
-   ],
-   "url": "https://scryfall.com/card/a25/115/will-o-the-wisp?utm_source=api"
-  },
-  {
-   "name": "Wind-Scarred Crag",
-   "types": [
-    "Land"
-   ],
-   "cmc": 0,
-   "image": "",
-   "colors": [],
-   "url": "https://scryfall.com/card/mom/276/wind-scarred-crag?utm_source=api"
-  },
-  {
    "name": "Winds of Rebuke",
    "types": [
     "Instant"
@@ -4938,6 +4906,16 @@
     "U"
    ],
    "url": "https://scryfall.com/card/akh/76/winds-of-rebuke?utm_source=api"
+  },
+  {
+   "name": "Windswept Heath",
+   "types": [
+    "Land"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/ktk/248/windswept-heath?utm_source=api"
   },
   {
    "name": "Witch's Mist",
@@ -4965,6 +4943,16 @@
     "G"
    ],
    "url": "https://scryfall.com/card/shm/134/witherscale-wurm?utm_source=api"
+  },
+  {
+   "name": "Wooded Foothills",
+   "types": [
+    "Land"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/ktk/249/wooded-foothills?utm_source=api"
   },
   {
    "name": "Woodland Cemetery",
