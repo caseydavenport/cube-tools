@@ -1,0 +1,52 @@
+1 Lightning Bolt
+1 Journey to Nowhere
+1 Bone Shards
+1 Sacred Foundry
+1 Perilous Myr
+1 Swans of Bryn Argoll
+1 Foreboding Ruins
+1 Quest for the Gravelord
+1 Vampire Aristocrat
+1 Path to Exile
+1 Reckless Rage
+1 Punishing Fire
+1 Dragonskull Summit
+1 Mavren Fein, Dusk Apostle
+1 Blood Crypt
+1 Paladin of the Bloodstained
+1 Unearth
+1 Reinforced Ronin
+1 Doom Blade
+1 Pitiless Pontiff
+1 Knight of the Ebon Legion
+1 Faithless Looting
+1 Agonizing Remorse
+1 Eidolon of Obstruction
+1 Chain Lightning
+1 Bloodstained Mire
+1 Furycalm Snarl
+1 Earthquake
+1 Restoration Angel
+1 Flickerwisp
+1 Evolving Wilds
+1 Vampire of the Dire Moon
+2 Plains
+3 Swamp
+3 Mountain
+
+1 Cauldron of Souls
+1 Scalding Tarn
+1 Field of Ruin
+1 Fungal Infection
+1 Witch's Mist
+1 Oathsworn Vampire
+1 Leaden Myr
+1 Executioner's Capsule
+1 Ravenous Squirrel
+1 Kathari Bomber
+1 Liliana, Death's Majesty
+1 Mizzium Tank
+1 Arcbound Tracker
+1 Puncture Blast
+1 Mogg War Marshal
+1 Patrol Signaler

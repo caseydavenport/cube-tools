@@ -159,8 +159,14 @@ func indexDraft(directory string) {
 		// Get only the base name of the file
 		fileName := filepath.Base(file)
 
-		// Skip index.json files.
+		// Skip index.json and cube snapshot files.
 		if fileName == "index.json" {
+			continue
+		}
+		if strings.Contains(file, "snapshot") {
+			continue
+		}
+		if strings.Contains(file, "draft-log") {
 			continue
 		}
 
@@ -390,11 +396,15 @@ func cardsFromTXT(txt string) ([]types.Card, []types.Card) {
 		splits := strings.SplitN(l, " ", 2)
 		count, err := strconv.ParseInt(splits[0], 10, 32)
 		if err != nil {
-			panic(err)
+			panic(fmt.Errorf("Error parsing %s as int: %s", splits[0], err))
 		}
 		name := splits[1]
 		for i := 0; i < int(count); i++ {
 			oracleData := types.GetOracleData(name)
+			if oracleData.Name == "" {
+				fmt.Printf("=== ERROR: Failed to find oracle data for: %s ===\n", name)
+				continue
+			}
 			if mainboard {
 				mb = append(mb, types.FromOracle(oracleData))
 			} else {
@@ -411,6 +421,10 @@ func cardsFromLine(line string, quantityIdx, nameIdx int) []types.Card {
 	count, name := parseLine(line, quantityIdx, nameIdx)
 	for i := 0; i < count; i++ {
 		oracleData := types.GetOracleData(name)
+		if oracleData.Name == "" {
+			fmt.Printf("=== ERROR: Failed to find oracle data for: %s ===\n", name)
+			continue
+		}
 		cards = append(cards, types.FromOracle(oracleData))
 	}
 	return cards

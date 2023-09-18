@@ -33,7 +33,20 @@ func init() {
 		if strings.Contains(card.TypeLine, "Token") {
 			continue
 		}
+
+		// Skip art cards as well.
+		if card.Layout == "art_series" {
+			continue
+		}
+
 		oracleCards[card.Name] = card
+		if strings.Contains(card.Name, "//") {
+			// Dual-cards with // in the name can be tricky. We store them both with the slashes
+			// and without, so that we can find them when parsing decks no matter how they're written.
+			trimmed := strings.TrimSpace(strings.Split(card.Name, "//")[0])
+			oracleCards[trimmed] = card
+		} else {
+		}
 	}
 }
 
@@ -167,4 +180,5 @@ type OracleCard struct {
 	Colors      []string          `json:"colors"`
 	Keywords    []string          `json:"keywords"`
 	RelatedURLs map[string]string `json:"related_ur_ls"`
+	Layout      string            `json:"layout"`
 }
