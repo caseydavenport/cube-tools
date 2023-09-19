@@ -30,9 +30,13 @@ export default function StatsViewer() {
   ///////////////////////////////////////////////////////////////////////////////
   // State used for the card widget.
   ///////////////////////////////////////////////////////////////////////////////
-  const [cardWidgetSelection, setCardWidgetSelection] = useState("Pick rate");
+  const [cardWidgetSelection, setCardWidgetSelection] = useState("Mainboard rate");
   const [minDrafts, setMinDrafts] = useState(0);
-  const cardWidgetOpts =  [{ label: "Pick rate", value: "Pick rate" }, { label: "Win rate", value: "Win rate" }]
+  const cardWidgetOpts =  [
+    { label: "Mainboard rate", value: "Mainboard rate" },
+    { label: "Win rate", value: "Win rate" },
+    { label: "Sideboard rate", value: "Sideboard rate" },
+  ]
   const minDraftsOpts =  [
     { label: "0", value: 0 }, { label: "1", value: "1" }, { label: "2", value: "2" }, { label: "3", value: "3" },
     { label: "4", value: 4 }, { label: "5", value: "5" }, { label: "6", value: "6" }, { label: "7", value: "7" },
@@ -62,7 +66,15 @@ export default function StatsViewer() {
   ///////////////////////////////////////////////////////////////////////////////
   const [drafts, setDrafts] = useState(null);
   const [draftSortBy, setDraftSortBy] = useState("p1p1");
+  const [draftSortInvert, setDraftSortInvert] = useState(false);
   function onDraftHeaderClicked(event) {
+    if (draftSortBy == event.target.id) {
+      // The same header was clicked again. Invert the sorting.
+      setDraftSortInvert(!draftSortInvert)
+    } else {
+      // A new header was clicked - default to non-inverted.
+      setDraftSortInvert(false)
+    }
     setDraftSortBy(event.target.id)
   }
 
@@ -229,6 +241,7 @@ export default function StatsViewer() {
           decks={decks}
           drafts={drafts}
           sortBy={draftSortBy}
+          invertSort={draftSortInvert}
           onHeaderClick={onDraftHeaderClicked}
           show={display[4]} // TODO
         />
@@ -528,7 +541,7 @@ function DraftOrderWidget(input) {
 
               let sort = avgPackPick
               if (input.sortBy === "p1p1") {
-                sort = pick.p1count
+                sort = pick.firstPicks
               } else if (input.sortBy === "avgp1pick") {
                 sort = avgPack1Pick
               } else if (input.sortBy === "avgpick") {
@@ -540,6 +553,16 @@ function DraftOrderWidget(input) {
               } else if (input.sortBy === "name") {
                 sort = pick.name
               }
+
+              if (input.invertSort) {
+                sort = 1000 - sort
+              }
+              if (sort == "-") {
+                // Treat empty values as last always.
+                sort = -1
+              }
+
+
 
               return (
                 <tr sort={sort} className="card" key={pick.name}>
@@ -629,7 +652,9 @@ function UndraftedWidget(input) {
 
   // Discard any cards that have been drafted.
   for (i in draftData) {
-    cards.delete(draftData[i].name)
+    if (draftData[i].count > 0) {
+      cards.delete(draftData[i].name)
+    }
   }
 
   // All that's left are cards that have never been drafted.
@@ -645,14 +670,14 @@ function UndraftedWidget(input) {
     <table className="winrate-table">
       <thead className="table-header">
         <tr>
-          <td>{num} cards never seen in a deck</td>
+          <td>{num} cards never mainboarded</td>
         </tr>
       </thead>
       <tbody>
       {
         cardArray.map(function(item) {
          return (
-           <tr sort={item.pick_percent} className="card" key={item.name}>
+           <tr sort={item.mainboard_percent} className="card" key={item.name}>
              <td><a href={item.url} target="_blank" rel="noopener noreferrer">{item.name}</a></td>
            </tr>
          )
@@ -758,7 +783,7 @@ function CardWidget(input) {
     return null
   }
   let data = CardData(input.decks, input.minDrafts)
-  if (input.dropdownSelection === "Pick rate") {
+  if (input.dropdownSelection === "Mainboard rate") {
     return (
       <div className="widget">
         <div className="dropdown-header">
@@ -771,7 +796,7 @@ function CardWidget(input) {
           />
 
           <DropdownHeader
-            label="Min #decks"
+            label="Min #picks"
             options={input.minDraftsOpts}
             value={input.minDrafts}
             onChange={input.onMinDraftsSelected}
@@ -782,7 +807,7 @@ function CardWidget(input) {
         <table className="winrate-table">
           <thead className="table-header">
             <tr>
-              <td className="header-cell">Pick rate</td>
+              <td className="header-cell">Mainboard rate</td>
               <td className="header-cell">Card</td>
               <td className="header-cell"># Decks</td>
             </tr>
@@ -791,10 +816,55 @@ function CardWidget(input) {
           {
             data.map(function(item) {
               return (
-                <tr sort={item.pick_percent} className="card" key={item.name}>
-                  <td>{item.pick_percent}%</td>
+                <tr sort={item.mainboard_percent} className="card" key={item.name}>
+                  <td>{item.mainboard_percent}%</td>
                   <td className="card"><a href={item.url} target="_blank" rel="noopener noreferrer">{item.name}</a></td>
                   <td>{item.count}</td>
+                </tr>
+              )
+            }).sort(sortFunc)
+          }
+          </tbody>
+        </table>
+      </div>
+    );
+  } else if (input.dropdownSelection === "Sideboard rate") {
+    return (
+      <div className="widget">
+        <div className="dropdown-header">
+          <DropdownHeader
+            label="Stats type"
+            options={input.cardWidgetOpts}
+            value={input.colorTypeSelection}
+            onChange={input.onSelected}
+            className="dropdown-header-side-by-side"
+          />
+
+          <DropdownHeader
+            label="Min #picks"
+            options={input.minDraftsOpts}
+            value={input.minDrafts}
+            onChange={input.onMinDraftsSelected}
+            className="dropdown-header-side-by-side"
+          />
+        </div>
+
+        <table className="winrate-table">
+          <thead className="table-header">
+            <tr>
+              <td className="header-cell">Sideboard rate</td>
+              <td className="header-cell">Card</td>
+              <td className="header-cell">#sb / #picked</td>
+            </tr>
+          </thead>
+          <tbody>
+          {
+            data.map(function(item) {
+              return (
+                <tr sort={item.sideboard_percent} className="card" key={item.name}>
+                  <td>{item.sideboard_percent}%</td>
+                  <td className="card"><a href={item.url} target="_blank" rel="noopener noreferrer">{item.name}</a></td>
+                  <td>{item.sideboard} / {item.count + item.sideboard}</td>
                 </tr>
               )
             }).sort(sortFunc)
@@ -903,7 +973,14 @@ function CardData(decks, minDrafts) {
         continue
       }
       if (tracker[card.name] == null) {
-        tracker[card.name] = {name: card.name, count: 0, wins: 0, losses: 0, url: card.url}
+        tracker[card.name] = {
+          name: card.name,
+          count: 0, // Number of times this card has been mainboarded.
+          sideboard: 0, // Number of times this card has been sideboarded.
+          wins: 0, // Does not include sideboard.
+          losses: 0, // Does not include sideboard.
+          url: card.url,
+        }
         tracker[card.name].archetypes = {}
       }
       tracker[card.name].count += 1
@@ -920,6 +997,27 @@ function CardData(decks, minDrafts) {
         tracker[card.name].archetypes[arch] += 1
       }
     }
+
+    // Go through the sideboard and increment the counter. Not every deck has a sideboard since
+    // that data isn't always collected, so this information is only partly reliable. It's still nice to see.
+    for (j in deck.sideboard) {
+      let card = deck.sideboard[j]
+      if (IsBasicLand(card)) {
+        continue
+      }
+      if (tracker[card.name] == null) {
+        tracker[card.name] = {
+          name: card.name,
+          count: 0, // Number of times this card has been mainboarded.
+          sideboard: 0, // Number of times this card has been sideboarded.
+          wins: 0, // Does not include sideboard.
+          losses: 0, // Does not include sideboard.
+          url: card.url,
+        }
+        tracker[card.name].archetypes = {}
+      }
+      tracker[card.name].sideboard += 1
+    }
   }
 
   // Convert total number of drafts.
@@ -928,12 +1026,14 @@ function CardData(decks, minDrafts) {
   // Convert to a list for sorting.
   let data = []
   for (var c in tracker) {
-    // Skip any cards that have only played in a single deck.
+    // Skip any cards that haven't been seen in the selected minimum drafts.
     let card = tracker[c]
-    if (card.count < minDrafts) {
+    if ((card.count + card.sideboard) < minDrafts) {
       continue
     }
-    tracker[c].pick_percent = Math.round(card.count / totalDrafts * 100)
+    tracker[c].pick_percent = Math.round((card.count + card.sideboard) / totalDrafts * 100)
+    tracker[c].mainboard_percent = Math.round(card.count / totalDrafts * 100)
+    tracker[c].sideboard_percent = Math.round(card.sideboard / (card.count + card.sideboard) * 100)
     tracker[c].win_percent = Math.round(card.wins / (card.wins + card.losses) * 100)
     tracker[c].record = card.wins + "-" + card.losses + "-" + 0
     data.push(tracker[c])

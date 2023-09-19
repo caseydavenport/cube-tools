@@ -48,7 +48,6 @@ Count,Name,Section
 1,Clarion Spirit,main
 1,Clifftop Retreat,main
 1,Cloudgoat Ranger,main
-1,Coat of Arms,main
 1,Comet Storm,main
 1,Condescend,main
 1,Containment Construct,main
@@ -87,10 +86,12 @@ Count,Name,Section
 1,Empty the Warrens,main
 1,Ephemerate,main
 1,Eternal Witness,main
+1,Evolving Wilds,main
 1,Exclusion Mage,main
 1,Executioner's Capsule,main
 1,Experiment Kraj,main
 1,Fact or Fiction,main
+1,Faerie Dreamthief,main
 1,Faerie Vandal,main
 1,Faithless Looting,main
 1,Fall of the Thran,main
@@ -152,6 +153,7 @@ Count,Name,Section
 1,Journey to Nowhere,main
 1,Kalastria Highborn,main
 1,Kathari Bomber,main
+1,"Kellan, the Fae-Blooded // Birthright Boon",main
 1,Kitchen Finks,main
 1,Knight of the Ebon Legion,main
 1,Knight of the Reliquary,main
@@ -303,7 +305,6 @@ Count,Name,Section
 1,Swords to Plowshares,main
 1,"Tamiyo, Compleated Sage",main
 1,Temple Garden,main
-1,Terramorphic Expanse,main
 1,Territorial Allosaurus,main
 1,"Tezzeret, Betrayer of Flesh",main
 1,The Binding of the Titans,main
@@ -343,7 +344,6 @@ Count,Name,Section
 1,Viscera Seer,main
 1,Vona's Hunger,main
 1,Warcry Phoenix,main
-1,Warleader's Helix,main
 1,Watery Grave,main
 1,Welcoming Vampire,main
 1,"Whisper, Blood Liturgist",main
@@ -359,5 +359,4 @@ Count,Name,Section
 1,Wrath of God,main
 1,Young Pyromancer,main
 1,Zulaport Cutthroat,main
-
 

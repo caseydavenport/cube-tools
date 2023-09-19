@@ -676,16 +676,6 @@
    "url": "https://scryfall.com/card/khc/21/cloudgoat-ranger?utm_source=api"
   },
   {
-   "name": "Coat of Arms",
-   "types": [
-    "Artifact"
-   ],
-   "cmc": 5,
-   "image": "",
-   "colors": [],
-   "url": "https://scryfall.com/card/dds/58/coat-of-arms?utm_source=api"
-  },
-  {
    "name": "Comet Storm",
    "types": [
     "Instant"
@@ -1205,6 +1195,16 @@
    "url": "https://scryfall.com/card/cmm/286/eternal-witness?utm_source=api"
   },
   {
+   "name": "Evolving Wilds",
+   "types": [
+    "Land"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/woe/256/evolving-wilds?utm_source=api"
+  },
+  {
    "name": "Exclusion Mage",
    "types": [
     "Creature"
@@ -1261,6 +1261,22 @@
     "U"
    ],
    "url": "https://scryfall.com/card/cmm/91/fact-or-fiction?utm_source=api"
+  },
+  {
+   "name": "Faerie Dreamthief",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Faerie",
+    "Warlock"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [
+    "B"
+   ],
+   "url": "https://scryfall.com/card/woe/89/faerie-dreamthief?utm_source=api"
   },
   {
    "name": "Faerie Vandal",
@@ -2084,6 +2100,25 @@
     "R"
    ],
    "url": "https://scryfall.com/card/mm3/172/kathari-bomber?utm_source=api"
+  },
+  {
+   "name": "Kellan, the Fae-Blooded // Birthright Boon",
+   "types": [
+    "Legendary",
+    "Creature"
+   ],
+   "sub_types": [
+    "Human",
+    "Faerie",
+    "//",
+    "Sorcery"
+   ],
+   "cmc": 3,
+   "image": "",
+   "colors": [
+    "R"
+   ],
+   "url": "https://scryfall.com/card/woe/230/kellan-the-fae-blooded-birthright-boon?utm_source=api"
   },
   {
    "name": "Kitchen Finks",
@@ -4254,16 +4289,6 @@
    "url": "https://scryfall.com/card/grn/258/temple-garden?utm_source=api"
   },
   {
-   "name": "Terramorphic Expanse",
-   "types": [
-    "Land"
-   ],
-   "cmc": 0,
-   "image": "",
-   "colors": [],
-   "url": "https://scryfall.com/card/cmm/428/terramorphic-expanse?utm_source=api"
-  },
-  {
    "name": "Territorial Allosaurus",
    "types": [
     "Creature"
@@ -4807,19 +4832,6 @@
     "R"
    ],
    "url": "https://scryfall.com/card/dom/150/warcry-phoenix?utm_source=api"
-  },
-  {
-   "name": "Warleader's Helix",
-   "types": [
-    "Instant"
-   ],
-   "cmc": 4,
-   "image": "",
-   "colors": [
-    "R",
-    "W"
-   ],
-   "url": "https://scryfall.com/card/uma/210/warleaders-helix?utm_source=api"
   },
   {
    "name": "Watery Grave",

@@ -52,7 +52,7 @@ export function AllPicks(logs) {
     // Add the picks from this log.
     for (var i in picks) {
       let p = picks[i]
-      if (!allPicks[p.name]) {
+      if (!allPicks.get(p.name)) {
         allPicks.set(p.name, {
           name: p.name,
 
@@ -81,21 +81,36 @@ export function AllPicks(logs) {
           allPicks.get(p.name).firstPicks += 1
         }
       }
+
     }
 
     // Add in burn count without incrementing average numbers.
     for (i in burns) {
       let b = burns[i]
-      if (!allPicks[b.name]) {
+      if (!allPicks.get(b.name)) {
         allPicks.set(b.name, {
           name: b.name,
+
+          // Empty defaults.
+          count: 0,
+          pickNumSum: 0,
           burns: 0,
+          p1count: 0,
           p1burns: 0,
+          p1PickNumSum: 0,
+          firstPicks: 0,
         })
       }
+
+      // Increment the number of burns, but also count this as a "last pick" for
+      // pick tracking.
+      allPicks.get(b.name).count += 1
+      allPicks.get(b.name).pickNumSum += 15 // TODO: This assumes a pack size of 15.
       allPicks.get(b.name).burns += 1
       if (b.pack == 0) {
         allPicks.get(b.name).p1burns += 1
+        allPicks.get(b.name).p1count += 1
+        allPicks.get(b.name).p1PickNumSum += 15
       }
     }
   }
@@ -123,7 +138,6 @@ export function AllPicksFromLog(log) {
         // cards as burns, since they won't get selected.
         if (pickNum == packInfo.picks - 1) {
           let burned = Burned(log, player, packNum, pickNum)
-          console.log(burned)
           burns = burns.concat(burned)
         }
       }
