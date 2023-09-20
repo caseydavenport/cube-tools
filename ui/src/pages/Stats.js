@@ -1031,7 +1031,7 @@ function CardData(decks, minDrafts) {
     if ((card.count + card.sideboard) < minDrafts) {
       continue
     }
-    tracker[c].pick_percent = Math.round((card.count + card.sideboard) / totalDrafts * 100)
+    tracker[c].pick_percent = Math.round((card.count + card.sideboard) / totalDrafts * 100) // TODO: Unused
     tracker[c].mainboard_percent = Math.round(card.count / totalDrafts * 100)
     tracker[c].sideboard_percent = Math.round(card.sideboard / (card.count + card.sideboard) * 100)
     tracker[c].win_percent = Math.round(card.wins / (card.wins + card.losses) * 100)
