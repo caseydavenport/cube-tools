@@ -1,9 +1,9 @@
 {
- "labels": [],
+ "labels": ["control", "removal", "vampire"],
  "player": "mattd",
  "date": "2023-09-17",
- "wins": 0,
- "losses": 0,
+ "wins": 1,
+ "losses": 2,
  "ties": 0,
  "mainboard": [
   {

@@ -1,9 +1,9 @@
 {
- "labels": [],
+ "labels": ["control"],
  "player": "dom",
  "date": "2023-09-17",
- "wins": 0,
- "losses": 0,
+ "wins": 2,
+ "losses": 1,
  "ties": 0,
  "mainboard": [
   {
