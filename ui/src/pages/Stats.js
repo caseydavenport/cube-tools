@@ -37,12 +37,24 @@ export default function StatsViewer() {
     { label: "Win rate", value: "Win rate" },
     { label: "Sideboard rate", value: "Sideboard rate" },
   ]
+  const [cardWidgetColorSelection, setCardWidgetColorSelection] = useState("");
+  const cardWidgetColorOpts = [
+    { label: "", value: "" },
+    { label: "Red", value: "R" },
+    { label: "Blue", value: "U" },
+    { label: "Green", value: "G" },
+    { label: "Black", value: "B" },
+    { label: "White", value: "W" },
+  ]
   const minDraftsOpts =  [
     { label: "0", value: 0 }, { label: "1", value: "1" }, { label: "2", value: "2" }, { label: "3", value: "3" },
     { label: "4", value: 4 }, { label: "5", value: "5" }, { label: "6", value: "6" }, { label: "7", value: "7" },
   ]
   function onCardWidgetSelected(event) {
     setCardWidgetSelection(event.target.value)
+  }
+  function onCardWidgetColorSelected(event) {
+    setCardWidgetColorSelection(event.target.value)
   }
   function onMinDraftsSelected(event) {
     setMinDrafts(event.target.value)
@@ -225,9 +237,13 @@ export default function StatsViewer() {
           dropdownSelection={cardWidgetSelection}
           cardWidgetOpts={cardWidgetOpts}
           onSelected={onCardWidgetSelected}
+          colorWidgetOpts={cardWidgetColorOpts}
+          colorSelection={cardWidgetColorSelection}
+          onColorSelected={onCardWidgetColorSelected}
           minDrafts={minDrafts}
           minDraftsOpts={minDraftsOpts}
           onMinDraftsSelected={onMinDraftsSelected}
+          cube={cube}
           show={display[2]}
         />
 
@@ -641,7 +657,7 @@ function UndraftedWidget(input) {
   if (!input.show) {
     return null
   }
-  let draftData = CardData(input.decks, input.minDrafts)
+  let draftData = CardData(input.decks, input.minDrafts, input.cube, "")
 
   // Build a map of all the cards in the cube so we can
   // easily discard cards that have been drafted before.
@@ -782,7 +798,8 @@ function CardWidget(input) {
   if (!input.show) {
     return null
   }
-  let data = CardData(input.decks, input.minDrafts)
+  let data = CardData(input.decks, input.minDrafts, input.cube, input.colorSelection)
+
   if (input.dropdownSelection === "Mainboard rate") {
     return (
       <div className="widget">
@@ -792,6 +809,14 @@ function CardWidget(input) {
             options={input.cardWidgetOpts}
             value={input.colorTypeSelection}
             onChange={input.onSelected}
+            className="dropdown-header-side-by-side"
+          />
+
+          <DropdownHeader
+            label="Color"
+            options={input.colorWidgetOpts}
+            value={input.colorSelection}
+            onChange={input.onColorSelected}
             className="dropdown-header-side-by-side"
           />
 
@@ -956,9 +981,19 @@ function CardWidget(input) {
   }
 }
 
-function CardData(decks, minDrafts) {
+// CardData returns data for each card that matches the given minimum number of drafts. The provided
+// cube list is used to filter cards no longer in the cube.
+function CardData(decks, minDrafts, cube, color) {
   let tracker = {}
   let drafts = new Map()
+
+  // Build a map of all the cards in the cube so we can
+  // easily skip any cards not currently in the cube.
+  let cubeCards = new Map()
+  for (var i in cube.cards) {
+    cubeCards.set(cube.cards[i].name, cube.cards[i])
+  }
+
   for (var i in decks) {
     let deck = decks[i]
 
@@ -968,10 +1003,26 @@ function CardData(decks, minDrafts) {
     let cards = deck.mainboard
     for (var j in cards) {
       let card = cards[j]
-      // Skip basic lands.
+
+      // First thing - skip the card if it's not currently in the cube, or if it's a basic land.
+      if (!cubeCards.has(card.name)) {
+        continue
+      }
       if (IsBasicLand(card)) {
         continue
       }
+      if (color != "") {
+        let match = false
+        for (var k in card.colors) {
+          if (card.colors[k] == color) {
+            match = true
+          }
+        }
+        if (!match) {
+          continue
+        }
+      }
+
       if (tracker[card.name] == null) {
         tracker[card.name] = {
           name: card.name,
@@ -1002,9 +1053,26 @@ function CardData(decks, minDrafts) {
     // that data isn't always collected, so this information is only partly reliable. It's still nice to see.
     for (j in deck.sideboard) {
       let card = deck.sideboard[j]
+
+      // First thing - skip the card if it's not currently in the cube, or if it's a basic land.
+      if (!cubeCards.has(card.name)) {
+        continue
+      }
       if (IsBasicLand(card)) {
         continue
       }
+      if (color != "") {
+        let match = false
+        for (var k in card.colors) {
+          if (card.colors[k] == color) {
+            match = true
+          }
+        }
+        if (!match) {
+          continue
+        }
+      }
+
       if (tracker[card.name] == null) {
         tracker[card.name] = {
           name: card.name,
