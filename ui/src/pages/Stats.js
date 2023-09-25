@@ -936,6 +936,7 @@ function CardWidget(input) {
                     // archetypes that it sees play in. We'll use this to normalize the card's win rate compared
                     // to its own archetype win rates.
                     let weightedBaseRate = 0
+                    let normalized = 0
 
                     // Determine the total number of instances of all archetypes this card has to use as the denominator when
                     // calculating weighted averages below.
@@ -960,8 +961,10 @@ function CardWidget(input) {
                       weightedBaseRate += weight * archWinRate
                     }
 
-                    // Now, normalize the card's win rate vs. the expected win rate based on its archetypes.
-                    let normalized = Math.round(item.win_percent / weightedBaseRate * 100) / 100
+                    if (item.count > 0) {
+                      // Assuming this card has been played, normalize the card's win rate vs. the expected win rate based on its archetypes.
+                      normalized = Math.round(item.win_percent / weightedBaseRate * 100) / 100
+                    }
 
                     // Return the row.
                     return (
@@ -1102,8 +1105,14 @@ function CardData(decks, minDrafts, cube, color) {
     tracker[c].pick_percent = Math.round((card.count + card.sideboard) / totalDrafts * 100) // TODO: Unused
     tracker[c].mainboard_percent = Math.round(card.count / totalDrafts * 100)
     tracker[c].sideboard_percent = Math.round(card.sideboard / (card.count + card.sideboard) * 100)
-    tracker[c].win_percent = Math.round(card.wins / (card.wins + card.losses) * 100)
     tracker[c].record = card.wins + "-" + card.losses + "-" + 0
+    if (card.wins + card.losses > 0) {
+      // Calculate win percentage for cards that have been mainboarded before.
+      tracker[c].win_percent = Math.round(card.wins / (card.wins + card.losses) * 100)
+    } else {
+      // Otherwise, set win percentage to 0.
+      tracker[c].win_percent = 0
+    }
     data.push(tracker[c])
   }
   return data
