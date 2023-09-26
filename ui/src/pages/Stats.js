@@ -866,6 +866,14 @@ function CardWidget(input) {
           />
 
           <DropdownHeader
+            label="Color"
+            options={input.colorWidgetOpts}
+            value={input.colorSelection}
+            onChange={input.onColorSelected}
+            className="dropdown-header-side-by-side"
+          />
+
+          <DropdownHeader
             label="Min #picks"
             options={input.minDraftsOpts}
             value={input.minDrafts}
@@ -908,6 +916,14 @@ function CardWidget(input) {
                 options={input.cardWidgetOpts}
                 value={input.colorTypeSelection}
                 onChange={input.onSelected}
+                className="dropdown-header-side-by-side"
+              />
+
+              <DropdownHeader
+                label="Color"
+                options={input.colorWidgetOpts}
+                value={input.colorSelection}
+                onChange={input.onColorSelected}
                 className="dropdown-header-side-by-side"
               />
 
