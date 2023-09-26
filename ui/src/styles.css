@@ -156,8 +156,27 @@ ul {
   padding: 0px;
   border: 0px;
   float: left;
-  width: 50%
+  min-width: 50%;
 }
+
+.numeric-input-side-by-side{
+  color: #FFF;
+  background: #C97B84;
+  text-align: center;
+  padding: 0px;
+  border: 0px;
+  float: left;
+  min-width: 50%;
+}
+
+.numeric-input{
+  color: #FFF;
+  padding: 2px;
+  margin: 10px;
+  width: 50px;
+  background: #AE6989;
+}
+
 
 .date-selector {
   color: #FFF;

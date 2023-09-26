@@ -28,6 +28,15 @@ export function Checkbox(input) {
   );
 }
 
+export function NumericInput(input) {
+  return (
+    <label className="numeric-input-side-by-side">
+      {input.label}
+      <input onChange={input.onChange} className="numeric-input" type="number" />
+    </label>
+  );
+}
+
 export function DateSelector(input) {
   return (
     <div className="dropdown">

@@ -2,7 +2,7 @@ import React from 'react'
 import { useState } from "react";
 import { useEffect } from "react";
 import { LoadCube, LoadDecks, LoadDrafts, IsBasicLand } from "../utils/Fetch.js"
-import { DropdownHeader, Checkbox, DateSelector } from "../components/Dropdown.js"
+import { DropdownHeader, NumericInput, Checkbox, DateSelector } from "../components/Dropdown.js"
 import { GetColorIdentity } from "../utils/Colors.js"
 import { AllPicks, Pick } from "../utils/DraftLog.js"
 
@@ -32,6 +32,7 @@ export default function StatsViewer() {
   ///////////////////////////////////////////////////////////////////////////////
   const [cardWidgetSelection, setCardWidgetSelection] = useState("Mainboard rate");
   const [minDrafts, setMinDrafts] = useState(0);
+  const [minGames, setMinGames] = useState(0);
   const cardWidgetOpts =  [
     { label: "Mainboard rate", value: "Mainboard rate" },
     { label: "Win rate", value: "Win rate" },
@@ -46,10 +47,6 @@ export default function StatsViewer() {
     { label: "Black", value: "B" },
     { label: "White", value: "W" },
   ]
-  const minDraftsOpts =  [
-    { label: "0", value: 0 }, { label: "1", value: "1" }, { label: "2", value: "2" }, { label: "3", value: "3" },
-    { label: "4", value: 4 }, { label: "5", value: "5" }, { label: "6", value: "6" }, { label: "7", value: "7" },
-  ]
   function onCardWidgetSelected(event) {
     setCardWidgetSelection(event.target.value)
   }
@@ -58,6 +55,9 @@ export default function StatsViewer() {
   }
   function onMinDraftsSelected(event) {
     setMinDrafts(event.target.value)
+  }
+  function onMinGamesSelected(event) {
+    setMinGames(event.target.value)
   }
 
   ///////////////////////////////////////////////////////////////////////////////
@@ -264,8 +264,9 @@ export default function StatsViewer() {
           colorSelection={cardWidgetColorSelection}
           onColorSelected={onCardWidgetColorSelected}
           minDrafts={minDrafts}
-          minDraftsOpts={minDraftsOpts}
           onMinDraftsSelected={onMinDraftsSelected}
+          minGames={minGames}
+          onMinGamesSelected={onMinGamesSelected}
           cube={cube}
           show={display[2]}
         />
@@ -828,7 +829,7 @@ function UndraftedWidget(input) {
   if (!input.show) {
     return null
   }
-  let draftData = CardData(input.decks, input.minDrafts, input.cube, "")
+  let draftData = CardData(input.decks, input.minDrafts, input.minGames, input.cube, "")
 
   // Build a map of all the cards in the cube so we can
   // easily discard cards that have been drafted before.
@@ -837,9 +838,9 @@ function UndraftedWidget(input) {
     cards.set(input.cube.cards[i].name, input.cube.cards[i])
   }
 
-  // Discard any cards that have been drafted.
+  // Discard any cards that have been mainboarded.
   for (i in draftData) {
-    if (draftData[i].count > 0) {
+    if (draftData[i].mainboard > 0) {
       cards.delete(draftData[i].name)
     }
   }
@@ -965,47 +966,58 @@ function BestCombosWidget(input) {
 
 }
 
+function CardWidgetOptions(input) {
+  console.log(input)
+  return (
+    <div className="dropdown-header">
+      <DropdownHeader
+        label="Stats type"
+        options={input.cardWidgetOpts}
+        value={input.colorTypeSelection}
+        onChange={input.onSelected}
+        className="dropdown-header-side-by-side"
+      />
+
+      <DropdownHeader
+        label="Color"
+        options={input.colorWidgetOpts}
+        value={input.colorSelection}
+        onChange={input.onColorSelected}
+        className="dropdown-header-side-by-side"
+      />
+
+      <NumericInput
+        label="Min #picks"
+        value={input.minDrafts}
+        onChange={input.onMinDraftsSelected}
+      />
+
+      <NumericInput
+        label="Min #games"
+        value={input.minGames}
+        onChange={input.onMinGamesSelected}
+      />
+    </div>
+  );
+}
+
 function CardWidget(input) {
   if (!input.show) {
     return null
   }
-  let data = CardData(input.decks, input.minDrafts, input.cube, input.colorSelection)
+  let data = CardData(input.decks, input.minDrafts, input.minGames, input.cube, input.colorSelection)
 
   if (input.dropdownSelection === "Mainboard rate") {
     return (
       <div className="widget">
-        <div className="dropdown-header">
-          <DropdownHeader
-            label="Stats type"
-            options={input.cardWidgetOpts}
-            value={input.colorTypeSelection}
-            onChange={input.onSelected}
-            className="dropdown-header-side-by-side"
-          />
-
-          <DropdownHeader
-            label="Color"
-            options={input.colorWidgetOpts}
-            value={input.colorSelection}
-            onChange={input.onColorSelected}
-            className="dropdown-header-side-by-side"
-          />
-
-          <DropdownHeader
-            label="Min #picks"
-            options={input.minDraftsOpts}
-            value={input.minDrafts}
-            onChange={input.onMinDraftsSelected}
-            className="dropdown-header-side-by-side"
-          />
-        </div>
-
+        <CardWidgetOptions {...input} />
         <table className="winrate-table">
           <thead className="table-header">
             <tr>
               <td className="header-cell">Mainboard rate</td>
               <td className="header-cell">Card</td>
               <td className="header-cell"># Decks</td>
+              <td className="header-cell"># Games</td>
             </tr>
           </thead>
           <tbody>
@@ -1015,7 +1027,8 @@ function CardWidget(input) {
                 <tr sort={item.mainboard_percent} className="card" key={item.name}>
                   <td>{item.mainboard_percent}%</td>
                   <td className="card"><a href={item.url} target="_blank" rel="noopener noreferrer">{item.name}</a></td>
-                  <td>{item.count}</td>
+                  <td>{item.mainboard}</td>
+                  <td>{item.total_games}</td>
                 </tr>
               )
             }).sort(sortFunc)
@@ -1027,38 +1040,14 @@ function CardWidget(input) {
   } else if (input.dropdownSelection === "Sideboard rate") {
     return (
       <div className="widget">
-        <div className="dropdown-header">
-          <DropdownHeader
-            label="Stats type"
-            options={input.cardWidgetOpts}
-            value={input.colorTypeSelection}
-            onChange={input.onSelected}
-            className="dropdown-header-side-by-side"
-          />
-
-          <DropdownHeader
-            label="Color"
-            options={input.colorWidgetOpts}
-            value={input.colorSelection}
-            onChange={input.onColorSelected}
-            className="dropdown-header-side-by-side"
-          />
-
-          <DropdownHeader
-            label="Min #picks"
-            options={input.minDraftsOpts}
-            value={input.minDrafts}
-            onChange={input.onMinDraftsSelected}
-            className="dropdown-header-side-by-side"
-          />
-        </div>
-
+        <CardWidgetOptions {...input} />
         <table className="winrate-table">
           <thead className="table-header">
             <tr>
               <td className="header-cell">Sideboard rate</td>
               <td className="header-cell">Card</td>
               <td className="header-cell">#sb / #picked</td>
+              <td className="header-cell"># Games</td>
             </tr>
           </thead>
           <tbody>
@@ -1068,7 +1057,8 @@ function CardWidget(input) {
                 <tr sort={item.sideboard_percent} className="card" key={item.name}>
                   <td>{item.sideboard_percent}%</td>
                   <td className="card"><a href={item.url} target="_blank" rel="noopener noreferrer">{item.name}</a></td>
-                  <td>{item.sideboard} / {item.count + item.sideboard}</td>
+                  <td>{item.sideboard} / {item.mainboard + item.sideboard}</td>
+                  <td>{item.total_games}</td>
                 </tr>
               )
             }).sort(sortFunc)
@@ -1078,102 +1068,79 @@ function CardWidget(input) {
       </div>
     );
   } else {
-        let archetypeData = ArchetypeData(input.decks)
-        return (
-          <div className="widget">
-            <div className="dropdown-header">
-              <DropdownHeader
-                label="Stats type"
-                options={input.cardWidgetOpts}
-                value={input.colorTypeSelection}
-                onChange={input.onSelected}
-                className="dropdown-header-side-by-side"
-              />
+    let archetypeData = ArchetypeData(input.decks)
+    return (
+      <div className="widget">
+        <CardWidgetOptions {...input} />
+        <table className="winrate-table">
+          <thead className="table-header">
+            <tr>
+              <td className="header-cell">Win rate</td>
+              <td className="header-cell">Card</td>
+              <td className="header-cell"># Decks</td>
+              <td className="header-cell"># Games</td>
+              <td className="header-cell">Normalized</td>
+            </tr>
+          </thead>
+          <tbody>
+            {
+              data.map(function(item) {
+                // For each card, determine the weighted average of the archetype win rates for the
+                // archetypes that it sees play in. We'll use this to normalize the card's win rate compared
+                // to its own archetype win rates.
+                let weightedBaseRate = 0
+                let normalized = 0
 
-              <DropdownHeader
-                label="Color"
-                options={input.colorWidgetOpts}
-                value={input.colorSelection}
-                onChange={input.onColorSelected}
-                className="dropdown-header-side-by-side"
-              />
-
-              <DropdownHeader
-                label="Min drafts"
-                options={input.minDraftsOpts}
-                value={input.minDrafts}
-                onChange={input.onMinDraftsSelected}
-                className="dropdown-header-side-by-side"
-              />
-            </div>
-
-            <table className="winrate-table">
-              <thead className="table-header">
-                <tr>
-                  <td className="header-cell">Win rate</td>
-                  <td className="header-cell">Card</td>
-                  <td className="header-cell"># Decks</td>
-                  <td className="header-cell">Normalized</td>
-                </tr>
-              </thead>
-              <tbody>
-                {
-                  data.map(function(item) {
-                    // For each card, determine the weighted average of the archetype win rates for the
-                    // archetypes that it sees play in. We'll use this to normalize the card's win rate compared
-                    // to its own archetype win rates.
-                    let weightedBaseRate = 0
-                    let normalized = 0
-
-                    // Determine the total number of instances of all archetypes this card has to use as the denominator when
-                    // calculating weighted averages below.
-                    let totalPicks = 0
-                    for (var arch in item.archetypes) {
-                      totalPicks += item.archetypes[arch]
-                    }
-
-                    // For each archetype, use the number of times it shows up for this card, the total number of instances of archetypes
-                    // this card belongs to, and each archetype's average win rate in order to calculate a weighted average
-                    // representing the expected win rate of the card.
-                    for (arch in item.archetypes) {
-                      let numArchDecks = item.archetypes[arch]
-                      let archWinRate = 0
-                      for (var i in archetypeData) {
-                        if (archetypeData[i].type === arch) {
-                          archWinRate = archetypeData[i].win_percent
-                          break
-                        }
-                      }
-                      let weight = numArchDecks / totalPicks
-                      weightedBaseRate += weight * archWinRate
-                    }
-
-                    if (item.count > 0) {
-                      // Assuming this card has been played, normalize the card's win rate vs. the expected win rate based on its archetypes.
-                      normalized = Math.round(item.win_percent / weightedBaseRate * 100) / 100
-                    }
-
-                    // Return the row.
-                    return (
-                      <tr sort={item.win_percent} className="card" key={item.name}>
-                        <td>{item.win_percent}%</td>
-                        <td className="card"><a href={item.url} target="_blank" rel="noopener noreferrer">{item.name}</a></td>
-                        <td>{item.count}</td>
-                        <td>{normalized}</td>
-                      </tr>
-                    )
-                  }).sort(sortFunc)
+                // Determine the total number of instances of all archetypes this card has to use as the denominator when
+                // calculating weighted averages below.
+                let totalPicks = 0
+                for (var arch in item.archetypes) {
+                  totalPicks += item.archetypes[arch]
                 }
-              </tbody>
-            </table>
-          </div>
-        );
+
+                // For each archetype, use the number of times it shows up for this card, the total number of instances of archetypes
+                // this card belongs to, and each archetype's average win rate in order to calculate a weighted average
+                // representing the expected win rate of the card.
+                for (arch in item.archetypes) {
+                  let numArchDecks = item.archetypes[arch]
+                  let archWinRate = 0
+                  for (var i in archetypeData) {
+                    if (archetypeData[i].type === arch) {
+                      archWinRate = archetypeData[i].win_percent
+                      break
+                    }
+                  }
+                  let weight = numArchDecks / totalPicks
+                  weightedBaseRate += weight * archWinRate
+                }
+
+                if (item.mainboard > 0) {
+                  // Assuming this card has been played, normalize the card's win rate vs. the expected win rate based on its archetypes.
+                  normalized = Math.round(item.win_percent / weightedBaseRate * 100) / 100
+                }
+
+                // Return the row.
+                return (
+                  <tr sort={item.win_percent} className="card" key={item.name}>
+                    <td>{item.win_percent}%</td>
+                    <td className="card"><a href={item.url} target="_blank" rel="noopener noreferrer">{item.name}</a></td>
+                    <td>{item.mainboard}</td>
+                    <td>{item.total_games}</td>
+                    <td>{normalized}</td>
+                  </tr>
+                )
+              }).sort(sortFunc)
+            }
+          </tbody>
+        </table>
+      </div>
+    );
   }
 }
 
 // CardData returns data for each card that matches the given minimum number of drafts. The provided
 // cube list is used to filter cards no longer in the cube.
-function CardData(decks, minDrafts, cube, color) {
+function CardData(decks, minDrafts, minGames, cube, color) {
   let tracker = {}
   let drafts = new Map()
 
@@ -1216,7 +1183,7 @@ function CardData(decks, minDrafts, cube, color) {
       if (tracker[card.name] == null) {
         tracker[card.name] = {
           name: card.name,
-          count: 0, // Number of times this card has been mainboarded.
+          mainboard: 0, // Number of times this card has been mainboarded.
           sideboard: 0, // Number of times this card has been sideboarded.
           wins: 0, // Does not include sideboard.
           losses: 0, // Does not include sideboard.
@@ -1224,7 +1191,7 @@ function CardData(decks, minDrafts, cube, color) {
         }
         tracker[card.name].archetypes = {}
       }
-      tracker[card.name].count += 1
+      tracker[card.name].mainboard += 1
       tracker[card.name].wins += decks[i].wins
       tracker[card.name].losses += decks[i].losses
 
@@ -1266,7 +1233,7 @@ function CardData(decks, minDrafts, cube, color) {
       if (tracker[card.name] == null) {
         tracker[card.name] = {
           name: card.name,
-          count: 0, // Number of times this card has been mainboarded.
+          mainboard: 0, // Number of times this card has been mainboarded.
           sideboard: 0, // Number of times this card has been sideboarded.
           wins: 0, // Does not include sideboard.
           losses: 0, // Does not include sideboard.
@@ -1284,15 +1251,23 @@ function CardData(decks, minDrafts, cube, color) {
   // Convert to a list for sorting.
   let data = []
   for (var c in tracker) {
-    // Skip any cards that haven't been seen in the selected minimum drafts.
     let card = tracker[c]
-    if ((card.count + card.sideboard) < minDrafts) {
+    if ((card.mainboard + card.sideboard) < minDrafts) {
+      // Skip any cards that haven't been picked enough - this is an approximation of
+      // the number of drafts the card has appeared in. There is some fuzziness because not all drafts
+      // record sideboards, and so it is possible that a card has been in more drafts than we know about.
+      continue
+    } else if ((card.wins + card.losses) < minGames) {
+      // Filter out cards that haven't seen enough total games. This allows filtering based on the actual
+      // amount of play a card may have seen, although we don't know if the card was actually ever drawn in these games.
       continue
     }
-    tracker[c].pick_percent = Math.round((card.count + card.sideboard) / totalDrafts * 100) // TODO: Unused
-    tracker[c].mainboard_percent = Math.round(card.count / totalDrafts * 100)
-    tracker[c].sideboard_percent = Math.round(card.sideboard / (card.count + card.sideboard) * 100)
+    tracker[c].pick_percent = Math.round((card.mainboard + card.sideboard) / totalDrafts * 100) // TODO: Unused
+    tracker[c].mainboard_percent = Math.round(card.mainboard / totalDrafts * 100)
+    tracker[c].sideboard_percent = Math.round(card.sideboard / (card.mainboard + card.sideboard) * 100)
     tracker[c].record = card.wins + "-" + card.losses + "-" + 0
+    tracker[c].total_games = card.wins + card.losses
+
     if (card.wins + card.losses > 0) {
       // Calculate win percentage for cards that have been mainboarded before.
       tracker[c].win_percent = Math.round(card.wins / (card.wins + card.losses) * 100)
