@@ -96,7 +96,7 @@ export default function StatsViewer() {
   // State used for tracking which widgets to display.
   // Each widget is represented as an element in the array, and defaulted here.
   ///////////////////////////////////////////////////////////////////////////////
-  const [display, setDisplay] = useState([true, false, false, false, false]);
+  const [display, setDisplay] = useState([true, false, false, false, false, false]);
   function onCheckbox(idx) {
     let d = {...display}
     if (d[idx]) {
@@ -128,6 +128,10 @@ export default function StatsViewer() {
   function onDraftCheckbox() {
     onCheckbox(4)
   }
+  function onPlayersCheckbox() {
+    onCheckbox(5)
+  }
+
 
   // Load the decks and drafts on startup and whenever the dates change.
   useEffect(() => {
@@ -199,6 +203,11 @@ export default function StatsViewer() {
           text="Drafts"
           checked={display[4]}
           onChange={onDraftCheckbox}
+        />
+        <Checkbox
+          text="Players"
+          checked={display[5]}
+          onChange={onPlayersCheckbox}
         />
       </div>
 
@@ -273,6 +282,11 @@ export default function StatsViewer() {
           show={display[3]}
         />
 
+        <PlayerWidget
+          decks={decks}
+          show={display[5]}
+        />
+
       </div>
     </div>
   );
@@ -293,6 +307,118 @@ function InitialDates() {
   const start = `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
 
   return [start, end]
+}
+
+function PlayerWidget(input) {
+  if (!input.show) {
+    return null
+  }
+
+  // Test data
+
+  // Go through each deck and build up information about what each player picks.
+  let map = new Map()
+  for (var i in input.decks) {
+    let deck = input.decks[i]
+    let player = deck.player
+    if (!map.has(player)) {
+      // Player not seen yet - initialize.
+      map.set(player, {
+          name: player,
+          totalPicks: 0,
+          whitePicks: 0,
+          bluePicks: 0,
+          greenPicks: 0,
+          blackPicks: 0,
+          redPicks: 0,
+          wins: 0,
+          losses: 0,
+      })
+    }
+
+    // Add per-deck data here. Like win / loss count.
+    map.get(player).wins += deck.wins
+    map.get(player).losses += deck.losses
+
+    // Go through each card and increase the player's per-card stats.
+    for (var j in deck.mainboard) {
+      let card = deck.mainboard[j]
+      for (var c in card.colors) {
+        map.get(player).totalPicks += 1
+
+        let color = card.colors[c]
+        switch(color) {
+          case "W":
+            map.get(player).whitePicks += 1
+            break;
+          case "U":
+            map.get(player).bluePicks += 1
+            break;
+          case "B":
+            map.get(player).blackPicks += 1
+            break;
+          case "R":
+            map.get(player).redPicks += 1
+            break;
+          case "G":
+            map.get(player).greenPicks += 1
+            break;
+        }
+      }
+    }
+  }
+
+  // Convert the mapped data into a list of rows to display - one per player.
+  let data = []
+  for (let row of map.values()) {
+    // First, calculate a percentage of this player's total picks for each color.
+    row.whitePercent = Math.round(row.whitePicks / row.totalPicks * 100)
+    row.bluePercent = Math.round(row.bluePicks / row.totalPicks * 100)
+    row.blackPercent = Math.round(row.blackPicks / row.totalPicks * 100)
+    row.redPercent = Math.round(row.redPicks / row.totalPicks * 100)
+    row.greenPercent = Math.round(row.greenPicks / row.totalPicks * 100)
+    row.winPercent = Math.round(row.wins / (row.wins + row.losses) * 100)
+    row.lossPercent = Math.round(row.losses / (row.wins + row.losses) * 100)
+    data.push(row)
+  }
+
+  return (
+    <div className="widget">
+      <table className="winrate-table">
+        <thead className="table-header">
+          <tr>
+            <td className="header-cell">Player</td>
+            <td className="header-cell">Wins (%)</td>
+            <td className="header-cell">Losses (%)</td>
+            <td className="header-cell">White (%)</td>
+            <td className="header-cell">Blue (%)</td>
+            <td className="header-cell">Black (%)</td>
+            <td className="header-cell">Red (%)</td>
+            <td className="header-cell">Green (%)</td>
+          </tr>
+        </thead>
+        <tbody>
+        {
+          data.map(function(row) {
+            return (
+              <tr sort={row.winPercent} className="card" key={row.name}>
+                <td>{row.name}</td>
+                <td>{row.wins} ({row.winPercent}%)</td>
+                <td>{row.losses} ({row.lossPercent}%)</td>
+                <td>{row.whitePicks} ({row.whitePercent}%)</td>
+                <td>{row.bluePicks} ({row.bluePercent}%)</td>
+                <td>{row.blackPicks} ({row.blackPercent}%)</td>
+                <td>{row.redPicks} ({row.redPercent}%)</td>
+                <td>{row.greenPicks} ({row.greenPercent}%)</td>
+              </tr>
+            )
+          }).sort(sortFunc)
+        }
+        </tbody>
+      </table>
+    </div>
+  );
+
 }
 
 // DeckAnalyzerWidget goes through all of the decks and finds decks that share a large number
