@@ -90,7 +90,21 @@ export default function StatsViewer() {
     setDraftSortBy(event.target.id)
   }
 
-
+  ///////////////////////////////////////////////////////////////////////////////
+  // State used for the player stats tab.
+  ///////////////////////////////////////////////////////////////////////////////
+  const [playerSortBy, setPlayerSortBy] = useState("");
+  const [playerSortInvert, setPlayerSortInvert] = useState(false);
+  function onPlayerHeaderClicked(event) {
+    if (playerSortBy == event.target.id) {
+      // The same header was clicked again. Invert the sorting.
+      setPlayerSortInvert(!playerSortInvert)
+    } else {
+      // A new header was clicked - default to non-inverted.
+      setPlayerSortInvert(false)
+    }
+    setPlayerSortBy(event.target.id)
+  }
 
   ///////////////////////////////////////////////////////////////////////////////
   // State used for tracking which widgets to display.
@@ -284,6 +298,9 @@ export default function StatsViewer() {
 
         <PlayerWidget
           decks={decks}
+          sortBy={playerSortBy}
+          invertSort={playerSortInvert}
+          onHeaderClick={onPlayerHeaderClicked}
           show={display[5]}
         />
 
@@ -387,21 +404,49 @@ function PlayerWidget(input) {
       <table className="winrate-table">
         <thead className="table-header">
           <tr>
-            <td className="header-cell">Player</td>
-            <td className="header-cell">Wins (%)</td>
-            <td className="header-cell">Losses (%)</td>
-            <td className="header-cell">White (%)</td>
-            <td className="header-cell">Blue (%)</td>
-            <td className="header-cell">Black (%)</td>
-            <td className="header-cell">Red (%)</td>
-            <td className="header-cell">Green (%)</td>
+            <td onClick={input.onHeaderClick} id="name" className="header-cell">Player</td>
+            <td onClick={input.onHeaderClick} id="wins" className="header-cell">Wins (%)</td>
+            <td onClick={input.onHeaderClick} id="losses" className="header-cell">Losses (%)</td>
+            <td onClick={input.onHeaderClick} id="W" className="header-cell">White (%)</td>
+            <td onClick={input.onHeaderClick} id="U" className="header-cell">Blue (%)</td>
+            <td onClick={input.onHeaderClick} id="B" className="header-cell">Black (%)</td>
+            <td onClick={input.onHeaderClick} id="R" className="header-cell">Red (%)</td>
+            <td onClick={input.onHeaderClick} id="G" className="header-cell">Green (%)</td>
           </tr>
         </thead>
         <tbody>
         {
           data.map(function(row) {
+            // Determine sort value for this row.
+            let sort = row.name
+            switch(input.sortBy) {
+              case "wins":
+                sort = row.winPercent
+                break;
+              case "losses":
+                sort = row.lossPercent
+                break;
+              case "W":
+                sort = row.whitePercent
+                break
+              case "U":
+                sort = row.bluePercent
+                break
+              case "B":
+                sort = row.blackPercent
+                break
+              case "R":
+                sort = row.redPercent
+                break
+              case "G":
+                sort = row.greenPercent
+                break
+            }
+            if (input.invertSort) {
+              sort = -1 * sort
+            }
             return (
-              <tr sort={row.winPercent} className="card" key={row.name}>
+              <tr sort={sort} className="card" key={row.name}>
                 <td>{row.name}</td>
                 <td>{row.wins} ({row.winPercent}%)</td>
                 <td>{row.losses} ({row.lossPercent}%)</td>
