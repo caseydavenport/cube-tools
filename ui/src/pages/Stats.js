@@ -332,8 +332,6 @@ function PlayerWidget(input) {
     return null
   }
 
-  // Test data
-
   // Go through each deck and build up information about what each player picks.
   let map = new Map()
   for (var i in input.decks) {
@@ -342,28 +340,44 @@ function PlayerWidget(input) {
     if (!map.has(player)) {
       // Player not seen yet - initialize.
       map.set(player, {
-          name: player,
-          totalPicks: 0,
-          whitePicks: 0,
-          bluePicks: 0,
-          greenPicks: 0,
-          blackPicks: 0,
-          redPicks: 0,
-          wins: 0,
-          losses: 0,
+        name: player,
+        numDecks: 0,
+        cards: new Map(),
+        totalPicks: 0,
+        whitePicks: 0,
+        bluePicks: 0,
+        greenPicks: 0,
+        blackPicks: 0,
+        redPicks: 0,
+        wins: 0,
+        losses: 0,
       })
     }
 
     // Add per-deck data here. Like win / loss count.
     map.get(player).wins += deck.wins
     map.get(player).losses += deck.losses
+    map.get(player).numDecks += 1
 
     // Go through each card and increase the player's per-card stats.
     for (var j in deck.mainboard) {
       let card = deck.mainboard[j]
-      for (var c in card.colors) {
-        map.get(player).totalPicks += 1
+      if (IsBasicLand(card)) {
+        continue
+      }
 
+      // Add this card to the player.
+      if (!map.get(player).cards.has(card.name)) {
+        map.get(player).cards.set(card.name, {
+          name: card.name,
+          count: 0
+        })
+      }
+      map.get(player).cards.get(card.name).count += 1
+      map.get(player).totalPicks += 1
+
+      // Perform per-color per-card actions.
+      for (var c in card.colors) {
         let color = card.colors[c]
         switch(color) {
           case "W":
@@ -395,8 +409,17 @@ function PlayerWidget(input) {
     row.blackPercent = Math.round(row.blackPicks / row.totalPicks * 100)
     row.redPercent = Math.round(row.redPicks / row.totalPicks * 100)
     row.greenPercent = Math.round(row.greenPicks / row.totalPicks * 100)
+
+    // Add in win and loss percentages.
     row.winPercent = Math.round(row.wins / (row.wins + row.losses) * 100)
     row.lossPercent = Math.round(row.losses / (row.wins + row.losses) * 100)
+
+    // Calculate the average re-pick value for this player by summing up the total
+    // number of unique cards mainboarded by the player, divided by the total number cards picked. This is
+    // a representation of how diverse this player's card selection is. A higher number indicates a propensity
+    // to pick unique cards. A value of 1 means they have never picked the same card twice.
+    row.spread = Math.round(row.cards.size / row.totalPicks * 100) / 100
+
     data.push(row)
   }
 
@@ -406,6 +429,7 @@ function PlayerWidget(input) {
         <thead className="table-header">
           <tr>
             <td onClick={input.onHeaderClick} id="name" className="header-cell">Player</td>
+            <td onClick={input.onHeaderClick} id="decks" className="header-cell"># Decks</td>
             <td onClick={input.onHeaderClick} id="wins" className="header-cell">Wins (%)</td>
             <td onClick={input.onHeaderClick} id="losses" className="header-cell">Losses (%)</td>
             <td onClick={input.onHeaderClick} id="W" className="header-cell">White (%)</td>
@@ -413,6 +437,7 @@ function PlayerWidget(input) {
             <td onClick={input.onHeaderClick} id="B" className="header-cell">Black (%)</td>
             <td onClick={input.onHeaderClick} id="R" className="header-cell">Red (%)</td>
             <td onClick={input.onHeaderClick} id="G" className="header-cell">Green (%)</td>
+            <td onClick={input.onHeaderClick} id="spread" className="header-cell">Spread</td>
           </tr>
         </thead>
         <tbody>
@@ -442,6 +467,10 @@ function PlayerWidget(input) {
               case "G":
                 sort = row.greenPercent
                 break
+              case "spread":
+                sort = row.spread
+              case "decks":
+                sort = row.numDecks
             }
             if (input.invertSort) {
               sort = -1 * sort
@@ -449,6 +478,7 @@ function PlayerWidget(input) {
             return (
               <tr sort={sort} className="card" key={row.name}>
                 <td>{row.name}</td>
+                <td>{row.numDecks}</td>
                 <td>{row.wins} ({row.winPercent}%)</td>
                 <td>{row.losses} ({row.lossPercent}%)</td>
                 <td>{row.whitePicks} ({row.whitePercent}%)</td>
@@ -456,6 +486,7 @@ function PlayerWidget(input) {
                 <td>{row.blackPicks} ({row.blackPercent}%)</td>
                 <td>{row.redPicks} ({row.redPercent}%)</td>
                 <td>{row.greenPicks} ({row.greenPercent}%)</td>
+                <td>{row.cards.size} / {row.totalPicks} ({row.spread})</td>
               </tr>
             )
           }).sort(sortFunc)
