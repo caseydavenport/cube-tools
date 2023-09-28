@@ -47,6 +47,10 @@ export default function StatsViewer() {
     { label: "Black", value: "B" },
     { label: "White", value: "W" },
   ]
+  const [cardWidgetSortBy, setCardWidgetSortBy] = useState("");
+  function onCardWidgetHeaderClicked(event) {
+    setCardWidgetSortBy(event.target.id)
+  }
   function onCardWidgetSelected(event) {
     setCardWidgetSelection(event.target.value)
   }
@@ -267,6 +271,8 @@ export default function StatsViewer() {
           onMinDraftsSelected={onMinDraftsSelected}
           minGames={minGames}
           onMinGamesSelected={onMinGamesSelected}
+          onHeaderClick={onCardWidgetHeaderClicked}
+          sortBy={cardWidgetSortBy}
           cube={cube}
           show={display[2]}
         />
@@ -1106,11 +1112,11 @@ function CardWidget(input) {
         <table className="winrate-table">
           <thead className="table-header">
             <tr>
-              <td className="header-cell">Win rate</td>
-              <td className="header-cell">Card</td>
-              <td className="header-cell"># Decks</td>
-              <td className="header-cell"># Games</td>
-              <td className="header-cell">Normalized</td>
+              <td onClick={input.onHeaderClick} id="wins" className="header-cell">Win rate</td>
+              <td onClick={input.onHeaderClick} id="card" className="header-cell">Card</td>
+              <td onClick={input.onHeaderClick} id="decks" className="header-cell"># Decks</td>
+              <td onClick={input.onHeaderClick} id="games" className="header-cell"># Games</td>
+              <td onClick={input.onHeaderClick} id="norm" className="header-cell">Normalized</td>
             </tr>
           </thead>
           <tbody>
@@ -1150,9 +1156,16 @@ function CardWidget(input) {
                   normalized = Math.round(item.win_percent / weightedBaseRate * 100) / 100
                 }
 
+                // Determine sort value. Default to win percentage.
+                let sort = item.win_percent
+                switch (input.sortBy) {
+                  case "norm":
+                    sort = normalized
+                }
+
                 // Return the row.
                 return (
-                  <tr sort={item.win_percent} className="card" key={item.name}>
+                  <tr sort={sort} className="card" key={item.name}>
                     <td>{item.win_percent}%</td>
                     <td className="card"><a href={item.url} target="_blank" rel="noopener noreferrer">{item.name}</a></td>
                     <td>{item.mainboard}</td>
