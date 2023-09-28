@@ -1,7 +1,7 @@
 Count,Name,Section
+1,Abrade,main
 1,Acidic Slime,main
 1,Acolyte of Affliction,main
-1,Aether Figment,main
 1,Aether Tradewinds,main
 1,Agonizing Remorse,main
 1,Ajani Goldmane,main
@@ -26,7 +26,6 @@ Count,Name,Section
 1,Bloodsoaked Champion,main
 1,Bloodstained Mire,main
 1,Bolas's Citadel,main
-1,Bolt Bend,main
 1,Bond of Insight,main
 1,Bone Shards,main
 1,Bonesplitter,main
@@ -36,13 +35,14 @@ Count,Name,Section
 1,Brineborn Cutthroat,main
 1,Butcher of Malakir,main
 1,Cankerbloom,main
-1,Catalyst Elemental,main
 1,Cauldron of Souls,main
+1,Censor,main
 1,Chain Lightning,main
 1,Chainweb Aracnir,main
 1,"Chandra, Hope's Beacon",main
 1,Chart a Course,main
 1,Chatter of the Squirrel,main
+1,Cheeky House-Mouse // Squeak By,main
 1,Choked Estuary,main
 1,Chromatic Sphere,main
 1,Clarion Spirit,main
@@ -60,13 +60,11 @@ Count,Name,Section
 1,Cut Down,main
 1,Dark Ritual,main
 1,Dauntless Bodyguard,main
+1,Day of Judgment,main
 1,Delay,main
 1,Deprive,main
-1,Devoted Crop-Mate,main
 1,Devoted Druid,main
-1,Devouring Hellion,main
 1,"Dina, Soul Steeper",main
-1,Discover the Impossible,main
 1,Disfigure,main
 1,Dockside Chef,main
 1,"Domri, Anarch of Bolas",main
@@ -74,22 +72,22 @@ Count,Name,Section
 1,Doom Blade,main
 1,Doomgape,main
 1,Dragonskull Summit,main
-1,Dread Statuary,main
 1,Dreadhorde Arcanist,main
+1,Dreadhorde Butcher,main
 1,Dream Trawler,main
 1,Dress Down,main
 1,Drowned Catacomb,main
 1,Earthquake,main
 1,Edge of Autumn,main
 1,Eidolon of Obstruction,main
+1,Embereth Veteran,main
 1,Emergence Zone,main
 1,Empty the Warrens,main
+1,Ephara's Dispersal,main
 1,Ephemerate,main
 1,Eternal Witness,main
 1,Evolving Wilds,main
 1,Exclusion Mage,main
-1,Executioner's Capsule,main
-1,Experiment Kraj,main
 1,Fact or Fiction,main
 1,Faerie Dreamthief,main
 1,Faerie Vandal,main
@@ -101,6 +99,7 @@ Count,Name,Section
 1,Festering Mummy,main
 1,Field of Ruin,main
 1,Flame Jab,main
+1,Flames of the Firebrand,main
 1,Flickerwisp,main
 1,Flooded Strand,main
 1,Flux Channeler,main
@@ -120,6 +119,7 @@ Count,Name,Section
 1,Gluttonous Slime,main
 1,Goblin Arsonist,main
 1,Goblin Bombardment,main
+1,Goblin Guide,main
 1,Godless Shrine,main
 1,Gold Myr,main
 1,Goldenglow Moth,main
@@ -128,9 +128,7 @@ Count,Name,Section
 1,Gravedigger,main
 1,Grim Discovery,main
 1,Grim Initiate,main
-1,Groundswell,main
 1,Guttersnipe,main
-1,Gwyllion Hedge-Mage,main
 1,Harm's Way,main
 1,Harrow,main
 1,Hedron Crab,main
@@ -140,6 +138,7 @@ Count,Name,Section
 1,Hostage Taker,main
 1,Hunting Triad,main
 1,Incinerate,main
+1,Inexorable Blob,main
 1,Infuriate,main
 1,Inspiring Cleric,main
 1,Into the Roil,main
@@ -148,7 +147,6 @@ Count,Name,Section
 1,Irrigated Farmland,main
 1,Isolated Chapel,main
 1,"Jace, Arcane Strategist",main
-1,Jaddi Lifestrider,main
 1,Jinxed Idol,main
 1,Journey to Nowhere,main
 1,Kalastria Highborn,main
@@ -162,9 +160,11 @@ Count,Name,Section
 1,Kor Skyfisher,main
 1,"Krenko, Tin Street Kingpin",main
 1,Kronch Wrangler,main
+1,Languish,main
 1,Leaden Myr,main
 1,Leech Bonder,main
 1,"Legion's Landing // Adanto, the First Fort",main
+1,Life from the Loam,main
 1,Lightning Bolt,main
 1,Lightning Greaves,main
 1,"Liliana, Death's Majesty",main
@@ -183,7 +183,6 @@ Count,Name,Section
 1,Mark of Mutiny,main
 1,Marsh Flats,main
 1,Marshal's Anthem,main
-1,"Marwyn, the Nurturer",main
 1,Master of Etherium,main
 1,"Mavren Fein, Dusk Apostle",main
 1,Mayhem Devil,main
@@ -193,7 +192,6 @@ Count,Name,Section
 1,Merfolk Looter,main
 1,Merfolk Skydiver,main
 1,Mesmeric Fiend,main
-1,Miraculous Recovery,main
 1,Mire Triton,main
 1,Mischievous Chimera,main
 1,Mistmeadow Skulk,main
@@ -203,10 +201,10 @@ Count,Name,Section
 1,Mogg War Marshal,main
 1,Moon-Circuit Hacker,main
 1,Mosquito Guard,main
+1,Mosswood Dreadknight // Dread Whispers,main
 1,Mulldrifter,main
 1,Murderous Redcap,main
 1,Nahiri's Stoneblades,main
-1,Naiad of Hidden Coves,main
 1,Narrow Escape,main
 1,Necroblossom Snarl,main
 1,Negate,main
@@ -215,13 +213,14 @@ Count,Name,Section
 1,Oathsworn Vampire,main
 1,Oblivion Ring,main
 1,Ogre-Head Helm,main
+1,Oona's Grace,main
 1,Opt,main
 1,Overgrown Tomb,main
 1,Overrun,main
 1,Paladin of the Bloodstained,main
 1,Panharmonicon,main
+1,Parallel Lives,main
 1,Path to Exile,main
-1,Patrol Signaler,main
 1,Perilous Myr,main
 1,Persist,main
 1,Pharika's Spawn,main
@@ -252,6 +251,8 @@ Count,Name,Section
 1,Reclamation Sage,main
 1,Reinforced Ronin,main
 1,Reprieve,main
+1,Restless Fortress,main
+1,Restless Vinestalk,main
 1,Restoration Angel,main
 1,Reveillark,main
 1,"Rielle, the Everwise",main
@@ -262,7 +263,6 @@ Count,Name,Section
 1,Roaring Earth,main
 1,Rootbound Crag,main
 1,Rubblebelt Rioters,main
-1,Runaway Trash-Bot,main
 1,Sacred Foundry,main
 1,"Saheeli, Sublime Artificer",main
 1,Sai of the Shinobi,main
@@ -272,11 +272,11 @@ Count,Name,Section
 1,Scalding Tarn,main
 1,Scavenger Drake,main
 1,Scavenging Ooze,main
+1,Serum Visions,main
 1,Severed Strands,main
 1,Shadowstorm Vizier,main
 1,"Shanna, Sisay's Legacy",main
 1,Sheltered Thicket,main
-1,Shineshadow Snarl,main
 1,Shinewend,main
 1,Siege-Gang Commander,main
 1,Silver Myr,main
@@ -287,6 +287,8 @@ Count,Name,Section
 1,Soul Warden,main
 1,Soul-Scar Mage,main
 1,Sparring Construct,main
+1,Specter of Mortality,main
+1,Spell Pierce,main
 1,Spellbreaker Behemoth,main
 1,Sphinx of Lost Truths,main
 1,Spirited Companion,main
@@ -297,17 +299,18 @@ Count,Name,Section
 1,Stinging Lionfish,main
 1,Stitch Together,main
 1,Stitcher's Supplier,main
-1,Stormclaw Rager,main
 1,Sulfur Falls,main
-1,Summit Apes,main
 1,Sunpetal Grove,main
 1,Swans of Bryn Argoll,main
 1,Swords to Plowshares,main
+1,Tail Swipe,main
 1,"Tamiyo, Compleated Sage",main
+1,Tangled Colony,main
 1,Temple Garden,main
 1,Territorial Allosaurus,main
 1,"Tezzeret, Betrayer of Flesh",main
 1,The Binding of the Titans,main
+1,The Goose Mother,main
 1,The Long Reach of Night // Animus of Night's Reach,main
 1,The Reality Chip,main
 1,The Wandering Emperor,main
@@ -316,15 +319,14 @@ Count,Name,Section
 1,Throne of the God-Pharaoh,main
 1,Tibalt's Rager,main
 1,Tilling Treefolk,main
-1,Titanic Brawl,main
 1,Topan Ascetic,main
 1,Touch the Spirit Realm,main
 1,Towashi Guide-Bot,main
 1,Trading Post,main
+1,Treasure Cruise,main
 1,Triskelion,main
 1,Tukatongue Thallid,main
 1,Turn to Mist,main
-1,Twinblade Slasher,main
 1,Twinshot Sniper,main
 1,Umbral Mantle,main
 1,Uncharted Haven,main
@@ -336,11 +338,10 @@ Count,Name,Section
 1,Vampire Aristocrat,main
 1,Vampire Hexmage,main
 1,Vampire of the Dire Moon,main
-1,Vampire's Bite,main
 1,Verdant Catacombs,main
 1,Vexing Gull,main
-1,Vineglimmer Snarl,main
 1,Vines of Vastwood,main
+1,Virtue of Persistence // Locthwain Scorn,main
 1,Viscera Seer,main
 1,Vona's Hunger,main
 1,Warcry Phoenix,main
@@ -351,7 +352,6 @@ Count,Name,Section
 1,Wilderness Reclamation,main
 1,Winds of Rebuke,main
 1,Windswept Heath,main
-1,Witch's Mist,main
 1,Witherscale Wurm,main
 1,Wooded Foothills,main
 1,Woodland Cemetery,main
