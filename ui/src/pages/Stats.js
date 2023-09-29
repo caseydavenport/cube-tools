@@ -111,6 +111,15 @@ export default function StatsViewer() {
   }
 
   ///////////////////////////////////////////////////////////////////////////////
+  // State for the "top cards in archetype" widget.
+  ///////////////////////////////////////////////////////////////////////////////
+  const [selectedArchetype, setSelectedArchetype] = useState("aggro");
+  const [archetypeDropdownOptions, setArchetypeDropdownOptions] = useState([]);
+  function onArchetypeSelected(event) {
+    setSelectedArchetype(event.target.value)
+  }
+
+  ///////////////////////////////////////////////////////////////////////////////
   // State used for tracking which widgets to display.
   // Each widget is represented as an element in the array, and defaulted here.
   ///////////////////////////////////////////////////////////////////////////////
@@ -161,6 +170,21 @@ export default function StatsViewer() {
   }, [])
   function onLoad(d) {
     setDecks({...d})
+
+    // Build option for the archetype dropdown.
+    let archetypes = new Map()
+    for (var i in d) {
+      let deck = d[i]
+      for (var j in deck.labels) {
+        let arch = deck.labels[j]
+        archetypes.set(arch, 0)
+      }
+    }
+    let opts = []
+    for (let arch of archetypes.keys()) {
+      opts.push({label: arch, value: arch})
+    }
+    setArchetypeDropdownOptions(opts)
   }
   function onCubeLoad(c) {
     setCube({...c})
@@ -255,8 +279,25 @@ export default function StatsViewer() {
 
         <TopCardsInArchetypeWidget
           decks={decks}
+          colorSelection={cardWidgetColorSelection}
+          minDecksInArch={minGames} // We overload the use of minGames here.
+          minDrafts={minDrafts}
           dropdownSelection={colorTypeSelection}
+          cube={cube}
           show={display[1]}
+
+          archetypeDropdownOptions={archetypeDropdownOptions}
+          selectedArchetype={selectedArchetype}
+          onArchetypeSelected={onArchetypeSelected}
+
+          dropdownSelection={cardWidgetSelection}
+          cardWidgetOpts={cardWidgetOpts}
+          onSelected={onCardWidgetSelected}
+          colorWidgetOpts={cardWidgetColorOpts}
+          colorSelection={cardWidgetColorSelection}
+          onColorSelected={onCardWidgetColorSelected}
+          onMinDraftsSelected={onMinDraftsSelected}
+          onMinGamesSelected={onMinGamesSelected}
         />
 
         <CardWidget
@@ -631,7 +672,8 @@ function SuccessfulArchetypeWidget(input) {
   if (!input.show) {
     return null
   }
-  let data = ArchetypeData(input.decks)
+  let archetypes = ArchetypeData(input.decks)
+  let data = [...archetypes.values()]
   return (
     <div className="widget">
       <table className="winrate-table">
@@ -664,42 +706,51 @@ function TopCardsInArchetypeWidget(input) {
   if (!input.show) {
     return null
   }
-  let data = ArchetypeData(input.decks)
+
+  // Get all cards that are currently active.
+  let data = CardData(input.decks, input.minDrafts, 0, input.cube, input.colorSelection)
+  let archetypes = ArchetypeData(input.decks)
+
+  // Filter out cards that don't match the given archetype, or don't meet minimum
+  // requirements.
+  let filtered = new Array()
+  data.map(function(card) {
+    if (!card.archetypes.has(input.selectedArchetype)) {
+      return
+    }
+    if (card.archetypes.get(input.selectedArchetype) < input.minDecksInArch) {
+      return
+    }
+    filtered.push(card)
+  })
+
   return (
     <div className="widget">
+      <TopCardsInArchetypeWidgetOptions {...input} />
       <table className="winrate-table">
         <thead className="table-header">
           <tr>
-            <td className="header-cell">Archetype</td>
-            <td className="header-cell">#1</td>
-            <td className="header-cell">#2</td>
-            <td className="header-cell">#3</td>
-            <td className="header-cell">#4</td>
-            <td className="header-cell">#5</td>
+            <td className="header-cell">Card</td>
+            <td className="header-cell"># decks in arch</td>
+            <td className="header-cell">% of decks</td>
+            <td className="header-cell">correlation</td>
           </tr>
         </thead>
         <tbody>
           {
-            data.map(function(item) {
-              // Get the top cards in the archetype by sorting.
-              let cards = new Array()
-              for (var i in item.cards) {
-                cards.push(item.cards[i])
-              }
-              cards.sort(function(a, b) {
-                if (a.num < b.num) {
-                  return 1
-                }
-                return -1
-              })
+            filtered.map(function(card) {
+              // Determine what percentage of decks in the archetype this card has been in.
+              let percentage = Math.round(card.archetypes.get(input.selectedArchetype) / archetypes.get(input.selectedArchetype).count * 100)
+
+              // Determine how tightly bound this card is to the archetype - is it 1:1? Or does it share its time in
+              // other decks.
+              let correlation = Math.round(card.archetypes.get(input.selectedArchetype) / card.mainboard * 100)
               return (
-                <tr sort={item.win_percent} className="card" key={item.key}>
-                  <td>{item.type}</td>
-                  <td className="card"><a href={cards[0].card.url} target="_blank" rel="noopener noreferrer">{cards[0].card.name} ({cards[0].num})</a></td>
-                  <td className="card"><a href={cards[1].card.url} target="_blank" rel="noopener noreferrer">{cards[1].card.name} ({cards[1].num})</a></td>
-                  <td className="card"><a href={cards[2].card.url} target="_blank" rel="noopener noreferrer">{cards[2].card.name} ({cards[2].num})</a></td>
-                  <td className="card"><a href={cards[3].card.url} target="_blank" rel="noopener noreferrer">{cards[3].card.name} ({cards[3].num})</a></td>
-                  <td className="card"><a href={cards[4].card.url} target="_blank" rel="noopener noreferrer">{cards[4].card.name} ({cards[4].num})</a></td>
+                <tr sort={correlation} className="card" key={card.name}>
+                  <td className="card"><a href={card.url} target="_blank" rel="noopener noreferrer">{card.name}</a></td>
+                  <td >{card.archetypes.get(input.selectedArchetype)}</td>
+                  <td >{percentage}%</td>
+                  <td >{correlation}%</td>
                 </tr>
             )}).sort(sortFunc)
           }
@@ -812,7 +863,8 @@ function PopularArchetypeWidget(input) {
   if (!input.show) {
     return null
   }
-  let data = ArchetypeData(input.decks)
+  let archetypes = ArchetypeData(input.decks)
+  let data = [...archetypes.values()]
   return (
     <div className="widget">
       <table className="winrate-table">
@@ -1003,6 +1055,42 @@ function BestCombosWidget(input) {
 
 }
 
+function TopCardsInArchetypeWidgetOptions(input) {
+  console.log(input)
+  return (
+    <div className="dropdown-header">
+      <DropdownHeader
+        label="Archetype"
+        options={input.archetypeDropdownOptions}
+        value={input.selectedArchetype}
+        onChange={input.onArchetypeSelected}
+        className="dropdown-header-side-by-side"
+      />
+
+      <DropdownHeader
+        label="Color"
+        options={input.colorWidgetOpts}
+        value={input.colorSelection}
+        onChange={input.onColorSelected}
+        className="dropdown-header-side-by-side"
+      />
+
+      <NumericInput
+        label="Min #picks"
+        value={input.minDrafts}
+        onChange={input.onMinDraftsSelected}
+      />
+
+      <NumericInput
+        label="Decks in arch"
+        value={input.minDecksInArch}
+        onChange={input.onMinGamesSelected}
+      />
+    </div>
+  );
+}
+
+
 function CardWidgetOptions(input) {
   console.log(input)
   return (
@@ -1132,20 +1220,18 @@ function CardWidget(input) {
                 // calculating weighted averages below.
                 let totalPicks = 0
                 for (var arch in item.archetypes) {
-                  totalPicks += item.archetypes[arch]
+                  totalPicks += item.archetypes.get(arch)
                 }
 
                 // For each archetype, use the number of times it shows up for this card, the total number of instances of archetypes
                 // this card belongs to, and each archetype's average win rate in order to calculate a weighted average
                 // representing the expected win rate of the card.
                 for (arch in item.archetypes) {
-                  let numArchDecks = item.archetypes[arch]
+                  let numArchDecks = item.archetypes.get(arch)
                   let archWinRate = 0
-                  for (var i in archetypeData) {
-                    if (archetypeData[i].type === arch) {
-                      archWinRate = archetypeData[i].win_percent
-                      break
-                    }
+
+                  if (archetypeData.has(arch)) {
+                    archWinRate = archetypeData.get(arch).win_percent
                   }
                   let weight = numArchDecks / totalPicks
                   weightedBaseRate += weight * archWinRate
@@ -1188,6 +1274,20 @@ function CardData(decks, minDrafts, minGames, cube, color) {
   let tracker = {}
   let drafts = new Map()
 
+  // Define a helper function for initializing a new empty card.
+  let newCard = function(card) {
+    let c = {
+      name: card.name,
+      mainboard: 0, // Number of times this card has been mainboarded.
+      sideboard: 0, // Number of times this card has been sideboarded.
+      wins: 0, // Does not include sideboard.
+      losses: 0, // Does not include sideboard.
+      url: card.url,
+      archetypes: new Map(),
+    }
+    return c
+  }
+
   // Build a map of all the cards in the cube so we can
   // easily skip any cards not currently in the cube.
   let cubeCards = new Map()
@@ -1225,16 +1325,10 @@ function CardData(decks, minDrafts, minGames, cube, color) {
       }
 
       if (tracker[card.name] == null) {
-        tracker[card.name] = {
-          name: card.name,
-          mainboard: 0, // Number of times this card has been mainboarded.
-          sideboard: 0, // Number of times this card has been sideboarded.
-          wins: 0, // Does not include sideboard.
-          losses: 0, // Does not include sideboard.
-          url: card.url,
-        }
-        tracker[card.name].archetypes = {}
+        tracker[card.name] = newCard(card)
       }
+
+      // Increment basic stats for this card.
       tracker[card.name].mainboard += 1
       tracker[card.name].wins += decks[i].wins
       tracker[card.name].losses += decks[i].losses
@@ -1243,10 +1337,9 @@ function CardData(decks, minDrafts, minGames, cube, color) {
       // and compare their performance to other cards in the same archetype.
       for (var k in deck.labels) {
         const arch = deck.labels[k]
-        if (!tracker[card.name].archetypes[arch]) {
-          tracker[card.name].archetypes[arch] = 0
-        }
-        tracker[card.name].archetypes[arch] += 1
+        let cardData = tracker[card.name]
+        cardData.archetypes.has(arch) || cardData.archetypes.set(arch, 0)
+        cardData.archetypes.set(arch, cardData.archetypes.get(arch) + 1)
       }
     }
 
@@ -1275,15 +1368,7 @@ function CardData(decks, minDrafts, minGames, cube, color) {
       }
 
       if (tracker[card.name] == null) {
-        tracker[card.name] = {
-          name: card.name,
-          mainboard: 0, // Number of times this card has been mainboarded.
-          sideboard: 0, // Number of times this card has been sideboarded.
-          wins: 0, // Does not include sideboard.
-          losses: 0, // Does not include sideboard.
-          url: card.url,
-        }
-        tracker[card.name].archetypes = {}
+        tracker[card.name] = newCard(card)
       }
       tracker[card.name].sideboard += 1
     }
@@ -1311,13 +1396,10 @@ function CardData(decks, minDrafts, minGames, cube, color) {
     tracker[c].sideboard_percent = Math.round(card.sideboard / (card.mainboard + card.sideboard) * 100)
     tracker[c].record = card.wins + "-" + card.losses + "-" + 0
     tracker[c].total_games = card.wins + card.losses
-
+    tracker[c].win_percent = 0
     if (card.wins + card.losses > 0) {
       // Calculate win percentage for cards that have been mainboarded before.
       tracker[c].win_percent = Math.round(card.wins / (card.wins + card.losses) * 100)
-    } else {
-      // Otherwise, set win percentage to 0.
-      tracker[c].win_percent = 0
     }
     data.push(tracker[c])
   }
@@ -1327,45 +1409,30 @@ function CardData(decks, minDrafts, minGames, cube, color) {
 function ArchetypeData(decks) {
   // First, determine the popularity of each archetype by iterating all decks
   // and counting the instances of each.
-  let tracker = {}
+  let tracker = new Map()
   let totalDecks = 0
   for (var i in decks) {
     totalDecks += 1
     let types = decks[i].labels
     for (var j in types) {
       let type = types[j]
-      if (tracker[type] == null) {
+      if (!tracker.has(type)) {
         let m = new Map()
-        tracker[type] = {type: type, count: 0, wins: 0, losses: 0, cards: m}
+        tracker.set(type, {type: type, count: 0, wins: 0, losses: 0, cards: m})
       }
-      tracker[type].count += 1
-      tracker[type].wins += decks[i].wins
-      tracker[type].losses += decks[i].losses
-
-      // Include cards from this deck in the archetype for calculating the top
-      // cards in each archetype.
-      for (var k in decks[i].mainboard) {
-        let card = decks[i].mainboard[k]
-        if (IsBasicLand(card)) {
-          continue
-        }
-        if (!tracker[type].cards[card.name]) {
-          tracker[type].cards[card.name] = {card: card, num: 0}
-        }
-        tracker[type].cards[card.name].num += 1
-      }
+      tracker.get(type).count += 1
+      tracker.get(type).wins += decks[i].wins
+      tracker.get(type).losses += decks[i].losses
     }
   }
 
-  // Convert to a list for sorting.
-  let data = []
-  for (var type in tracker) {
-    tracker[type].build_percent = Math.round(tracker[type].count / totalDecks * 100)
-    tracker[type].win_percent = Math.round(tracker[type].wins / (tracker[type].wins + tracker[type].losses) * 100)
-    tracker[type].record = tracker[type].wins + "-" + tracker[type].losses + "-" + 0
-    data.push(tracker[type])
-  }
-  return data
+  // Perform calculation on each entry.
+  tracker.forEach(function(archetype) {
+    archetype.build_percent = Math.round(archetype.count / totalDecks * 100)
+    archetype.win_percent = Math.round(archetype.wins / (archetype.wins + archetype.losses) * 100)
+    archetype.record = archetype.wins + "-" + archetype.losses + "-" + 0
+  })
+  return tracker
 }
 
 function ColorWidget(input) {
