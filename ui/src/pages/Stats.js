@@ -1056,7 +1056,6 @@ function BestCombosWidget(input) {
 }
 
 function TopCardsInArchetypeWidgetOptions(input) {
-  console.log(input)
   return (
     <div className="dropdown-header">
       <DropdownHeader
@@ -1092,7 +1091,6 @@ function TopCardsInArchetypeWidgetOptions(input) {
 
 
 function CardWidgetOptions(input) {
-  console.log(input)
   return (
     <div className="dropdown-header">
       <DropdownHeader
@@ -1209,7 +1207,7 @@ function CardWidget(input) {
           </thead>
           <tbody>
             {
-              data.map(function(item) {
+              data.map(function(card) {
                 // For each card, determine the weighted average of the archetype win rates for the
                 // archetypes that it sees play in. We'll use this to normalize the card's win rate compared
                 // to its own archetype win rates.
@@ -1217,17 +1215,17 @@ function CardWidget(input) {
                 let normalized = 0
 
                 // Determine the total number of instances of all archetypes this card has to use as the denominator when
-                // calculating weighted averages below.
+                // calculating weighted averages below. The card.archetypes map has keys of the archetype name, and values of
+                // the number of times it was seen in a deck of that archetype.
                 let totalPicks = 0
-                for (var arch in item.archetypes) {
-                  totalPicks += item.archetypes.get(arch)
+                for (let num of card.archetypes.values()) {
+                  totalPicks += num
                 }
 
                 // For each archetype, use the number of times it shows up for this card, the total number of instances of archetypes
                 // this card belongs to, and each archetype's average win rate in order to calculate a weighted average
                 // representing the expected win rate of the card.
-                for (arch in item.archetypes) {
-                  let numArchDecks = item.archetypes.get(arch)
+                for (let [arch, numArchDecks] of card.archetypes) {
                   let archWinRate = 0
 
                   if (archetypeData.has(arch)) {
@@ -1237,13 +1235,13 @@ function CardWidget(input) {
                   weightedBaseRate += weight * archWinRate
                 }
 
-                if (item.mainboard > 0) {
+                if (card.mainboard > 0) {
                   // Assuming this card has been played, normalize the card's win rate vs. the expected win rate based on its archetypes.
-                  normalized = Math.round(item.win_percent / weightedBaseRate * 100) / 100
+                  normalized = Math.round(card.win_percent / weightedBaseRate * 100) / 100
                 }
 
                 // Determine sort value. Default to win percentage.
-                let sort = item.win_percent
+                let sort = card.win_percent
                 switch (input.sortBy) {
                   case "norm":
                     sort = normalized
@@ -1251,11 +1249,11 @@ function CardWidget(input) {
 
                 // Return the row.
                 return (
-                  <tr sort={sort} className="card" key={item.name}>
-                    <td>{item.win_percent}%</td>
-                    <td className="card"><a href={item.url} target="_blank" rel="noopener noreferrer">{item.name}</a></td>
-                    <td>{item.mainboard}</td>
-                    <td>{item.total_games}</td>
+                  <tr sort={sort} className="card" key={card.name}>
+                    <td>{card.win_percent}%</td>
+                    <td className="card"><a href={card.url} target="_blank" rel="noopener noreferrer">{card.name}</a></td>
+                    <td>{card.mainboard}</td>
+                    <td>{card.total_games}</td>
                     <td>{normalized}</td>
                   </tr>
                 )
