@@ -6,6 +6,8 @@ import { DropdownHeader, NumericInput, Checkbox, DateSelector } from "../compone
 import { GetColorIdentity } from "../utils/Colors.js"
 import { AllPicks, Pick } from "../utils/DraftLog.js"
 
+
+
 // StatsViewer displays stats spanning the selected drafts.
 export default function StatsViewer() {
   // Store all of the decks, and the cube.
@@ -115,9 +117,15 @@ export default function StatsViewer() {
   ///////////////////////////////////////////////////////////////////////////////
   const [selectedArchetype, setSelectedArchetype] = useState("aggro");
   const [archetypeDropdownOptions, setArchetypeDropdownOptions] = useState([]);
+  const [sortBy, setSortBy] = useState("");
   function onArchetypeSelected(event) {
     setSelectedArchetype(event.target.value)
+    setShowPopup(event.target.value);
   }
+  function onHeaderClick(event) {
+    setSortBy(event.target.id)
+  }
+
 
   ///////////////////////////////////////////////////////////////////////////////
   // State used for tracking which widgets to display.
@@ -159,6 +167,19 @@ export default function StatsViewer() {
     onCheckbox(5)
   }
 
+
+  ///////////////////////////////////////////////////////////////////////////////
+  // State used for popup windows
+  ///////////////////////////////////////////////////////////////////////////////
+  const [showPopup, setShowPopup] = React.useState("");
+  const handleRowClick = (event) => {
+    if (event.target.id == showPopup) {
+      setShowPopup("")
+    } else {
+      setShowPopup(event.target.id);
+      setSelectedArchetype(event.target.id)
+    }
+  };
 
   // Load the decks and drafts on startup and whenever the dates change.
   useEffect(() => {
@@ -265,16 +286,14 @@ export default function StatsViewer() {
           show={display[0]}
         />
 
-        <PopularArchetypeWidget
+        <ArchetypeWidget
           decks={decks}
           dropdownSelection={colorTypeSelection}
           show={display[1]}
-        />
-
-        <SuccessfulArchetypeWidget
-          decks={decks}
-          dropdownSelection={colorTypeSelection}
-          show={display[1]}
+          sortBy={sortBy}
+          onHeaderClick={onHeaderClick}
+          handleRowClick={handleRowClick}
+          showPopup={showPopup}
         />
 
         <TopCardsInArchetypeWidget
@@ -298,6 +317,12 @@ export default function StatsViewer() {
           onColorSelected={onCardWidgetColorSelected}
           onMinDraftsSelected={onMinDraftsSelected}
           onMinGamesSelected={onMinGamesSelected}
+        />
+
+        <ArchetypeDetailsPanel
+          show={display[1]}
+          decks={decks}
+          showPopup={showPopup}
         />
 
         <CardWidget
@@ -667,41 +692,6 @@ function DeckAnalyzerWidget(input) {
   );
 }
 
-
-function SuccessfulArchetypeWidget(input) {
-  if (!input.show) {
-    return null
-  }
-  let archetypes = ArchetypeData(input.decks)
-  let data = [...archetypes.values()]
-  return (
-    <div className="widget">
-      <table className="winrate-table">
-        <thead className="table-header">
-          <tr>
-            <td>Archetype</td>
-            <td>Win rate</td>
-            <td>Record</td>
-          </tr>
-        </thead>
-        <tbody>
-          {
-            data.map((t) => (
-              <PrintRow
-                key={t.type}
-                k={t.type}
-                value={t.record}
-                p={t.win_percent}
-                sort={t.win_percent}
-              />
-            )).sort(sortFunc)
-          }
-        </tbody>
-      </table>
-      </div>
-  );
-}
-
 function TopCardsInArchetypeWidget(input) {
   if (!input.show) {
     return null
@@ -859,38 +849,136 @@ function DraftOrderWidget(input) {
 }
 
 
-function PopularArchetypeWidget(input) {
+function ArchetypeWidget(input) {
   if (!input.show) {
     return null
   }
   let archetypes = ArchetypeData(input.decks)
-  let data = [...archetypes.values()]
+  let data = []
+  for (let arch of archetypes.values()) {
+    if (arch.build_percent > 5) {
+      data.push(arch)
+    }
+  }
+
   return (
     <div className="widget">
       <table className="winrate-table">
         <thead className="table-header">
           <tr>
-            <td>Archetype</td>
-            <td>Build rate</td>
-            <td># Decks</td>
+            <td onClick={input.onHeaderClick} id="type" className="header-cell">Archetype</td>
+            <td onClick={input.onHeaderClick} id="build_percent" className="header-cell">Build %</td>
+            <td onClick={input.onHeaderClick} id="win_percent" className="header-cell">Win %</td>
+            <td onClick={input.onHeaderClick} id="num" className="header-cell"># Decks</td>
+            <td onClick={input.onHeaderClick} id="record" className="header-cell">Record</td>
+            <td onClick={input.onHeaderClick} id="shared" className="header-cell">Avg other types</td>
           </tr>
         </thead>
         <tbody>
           {
-            data.map((t) => (
-              <PrintRow
-                key={t.type}
-                k={t.type}
-                value={t.count}
-                p={t.build_percent}
-                sort={t.build_percent}
-              />
-            )).sort(sortFunc)
+            data.map(function(t) {
+              let sort = t.build_percent
+              switch (input.sortBy) {
+                case "type":
+                  sort = t.type
+                  break
+                case "win_percent":
+                  sort = t.win_percent
+                  break
+                case "shared":
+                  sort = t.avg_shared
+                  break
+                case "num":
+                  sort = t.count
+                  break
+              }
+              return (
+                <tr key={t.type} sort={sort} className="winrate-row">
+                  <td id={t.type} onClick={input.handleRowClick} key="type">{t.type}</td>
+                  <td key="build_percent">{t.build_percent}%</td>
+                  <td key="win_percent">{t.win_percent}%</td>
+                  <td key="num">{t.count}</td>
+                  <td key="record">{t.record}</td>
+                  <td key="shared">{t.avg_shared}</td>
+                </tr>
+              )
+            }).sort(sortFunc)
           }
         </tbody>
       </table>
+
       </div>
   );
+}
+
+function ArchetypeDetailsPanel(input) {
+  if (!input.show) {
+    return null
+  }
+  if (input.showPopup == "") {
+    return null
+  }
+
+  // Get the archetype data for the selected archetype.
+  let archetypeData = ArchetypeData(input.decks)
+  let arch = archetypeData.get(input.showPopup)
+  let sharedData = []
+  arch.sharedWith.forEach(function(num, name) {
+    sharedData.push({"name": name, "num": num})
+  })
+  let playerData = []
+  arch.players.forEach(function(num, name) {
+    playerData.push({"name": name, "num": num})
+  })
+  return (
+    <div className="widget">
+      <table className="winrate-table">
+        <thead className="table-header">
+          <tr>
+            <td onClick={input.onHeaderClick} id="name" className="header-cell">Paired with</td>
+            <td onClick={input.onHeaderClick} id="num" className="header-cell">#</td>
+          </tr>
+        </thead>
+        <tbody>
+          {
+            sharedData.map(function(arch) {
+              return (
+                <tr key={arch.name} sort={arch.num} className="winrate-row">
+                  <td key="name">{arch.name}</td>
+                  <td key="num">{arch.num}</td>
+                </tr>
+              )
+            }).sort(sortFunc)
+          }
+        </tbody>
+      </table>
+
+      <br></br>
+
+      <table className="winrate-table">
+        <thead className="table-header">
+          <tr>
+            <td onClick={input.onHeaderClick} id="name" className="header-cell">Played by</td>
+            <td onClick={input.onHeaderClick} id="num" className="header-cell">#</td>
+          </tr>
+        </thead>
+        <tbody>
+          {
+            playerData.map(function(player) {
+              return (
+                <tr key={player.name} sort={player.num} className="winrate-row">
+                  <td key="name">{player.name}</td>
+                  <td key="num">{player.num}</td>
+                </tr>
+              )
+            }).sort(sortFunc)
+          }
+        </tbody>
+      </table>
+
+    </div>
+
+  )
 }
 
 function Overview(input) {
@@ -1415,12 +1503,42 @@ function ArchetypeData(decks) {
     for (var j in types) {
       let type = types[j]
       if (!tracker.has(type)) {
-        let m = new Map()
-        tracker.set(type, {type: type, count: 0, wins: 0, losses: 0, cards: m})
+        tracker.set(type, {
+          type: type,
+          count: 0,
+          wins: 0,
+          losses: 0,
+          sharedWith: new Map(),
+          numSharedWith: 0,
+          players: new Map(),
+        })
       }
       tracker.get(type).count += 1
       tracker.get(type).wins += decks[i].wins
       tracker.get(type).losses += decks[i].losses
+
+      // Track who plays this archetype, and how often.
+      if (!tracker.get(type).players.has(decks[i].player)) {
+        tracker.get(type).players.set(decks[i].player, 0)
+      }
+      tracker.get(type).players.set(decks[i].player, tracker.get(type).players.get(decks[i].player) + 1)
+
+
+      // Track other types shared with this one, and how frequent.
+      for (var k in types) {
+        // Skip aggro / control / midrange since those are applied to every deck.
+        if (types[k] == "aggro" || types[k] == "midrange" || types[k] == "control") {
+          continue
+        }
+        if (types[k] != type) {
+          // Skip itself.
+          if (!tracker.get(type).sharedWith.has(types[k])) {
+            tracker.get(type).sharedWith.set(types[k], 0)
+          }
+          tracker.get(type).sharedWith.set(types[k], tracker.get(type).sharedWith.get(types[k]) + 1)
+          tracker.get(type).numSharedWith += 1
+        }
+      }
     }
   }
 
@@ -1429,6 +1547,7 @@ function ArchetypeData(decks) {
     archetype.build_percent = Math.round(archetype.count / totalDecks * 100)
     archetype.win_percent = Math.round(archetype.wins / (archetype.wins + archetype.losses) * 100)
     archetype.record = archetype.wins + "-" + archetype.losses + "-" + 0
+    archetype.avg_shared = Math.round(archetype.numSharedWith / archetype.count * 100) / 100
   })
   return tracker
 }

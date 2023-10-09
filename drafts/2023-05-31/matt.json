@@ -1,9 +1,5 @@
 {
- "labels": [
-  "vampire",
-  "goodstuff",
-  "midrange"
- ],
+ "labels": ["vampire", "goodstuff", "midrange"],
  "player": "matt",
  "date": "2023-05-31",
  "wins": 1,

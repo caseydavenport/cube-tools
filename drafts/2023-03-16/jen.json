@@ -1,8 +1,5 @@
 {
- "labels": [
-  "spells",
-  "control"
- ],
+ "labels": ["spells" , "control"],
  "player": "jen",
  "date": "2023-03-16",
  "wins": 1,
