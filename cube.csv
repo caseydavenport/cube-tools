@@ -1,7 +1,6 @@
 Count,Name,Section
 1,Abrade,main
 1,Acidic Slime,main
-1,Acolyte of Affliction,main
 1,Aether Tradewinds,main
 1,Agonizing Remorse,main
 1,Ajani Goldmane,main
@@ -33,11 +32,11 @@ Count,Name,Section
 1,Brainstorm,main
 1,Breeding Pool,main
 1,Brineborn Cutthroat,main
+1,Burst Lightning,main
 1,Butcher of Malakir,main
 1,Cankerbloom,main
 1,Cauldron of Souls,main
 1,Censor,main
-1,Chain Lightning,main
 1,Chainweb Aracnir,main
 1,"Chandra, Hope's Beacon",main
 1,Chart a Course,main
@@ -69,7 +68,6 @@ Count,Name,Section
 1,Dockside Chef,main
 1,"Domri, Anarch of Bolas",main
 1,Domri's Ambush,main
-1,Doom Blade,main
 1,Doomgape,main
 1,Dragonskull Summit,main
 1,Dreadhorde Arcanist,main
@@ -96,6 +94,7 @@ Count,Name,Section
 1,Fate Transfer,main
 1,Fateful End,main
 1,Fatestitcher,main
+1,Feed the Cauldron,main
 1,Festering Mummy,main
 1,Field of Ruin,main
 1,Flame Jab,main
@@ -107,7 +106,6 @@ Count,Name,Section
 1,Fortified Village,main
 1,Frostboil Snarl,main
 1,Fungal Infection,main
-1,Fury Charm,main
 1,Furycalm Snarl,main
 1,Galepowder Mage,main
 1,Game Trail,main
@@ -115,8 +113,8 @@ Count,Name,Section
 1,Gilded Goose,main
 1,Gilder Bairn,main
 1,Glacial Fortress,main
+1,Glass Casket,main
 1,Glory of Warfare,main
-1,Gluttonous Slime,main
 1,Goblin Arsonist,main
 1,Goblin Bombardment,main
 1,Goblin Guide,main
@@ -126,9 +124,12 @@ Count,Name,Section
 1,Gomazoa,main
 1,Grateful Apparition,main
 1,Gravedigger,main
+1,"Greta, Sweettooth Scourge",main
 1,Grim Discovery,main
 1,Grim Initiate,main
+1,Gruff Triplets,main
 1,Guttersnipe,main
+1,Hardened Scales,main
 1,Harm's Way,main
 1,Harrow,main
 1,Hedron Crab,main
@@ -141,16 +142,17 @@ Count,Name,Section
 1,Inexorable Blob,main
 1,Infuriate,main
 1,Inspiring Cleric,main
+1,Intangible Virtue,main
 1,Into the Roil,main
-1,Inventive Iteration // Living Breakthrough,main
+1,Intrepid Trufflesnout // Go Hog Wild,main
 1,Iron Myr,main
 1,Irrigated Farmland,main
 1,Isolated Chapel,main
 1,"Jace, Arcane Strategist",main
 1,Jinxed Idol,main
+1,"Jolrael, Mwonvuli Recluse",main
 1,Journey to Nowhere,main
 1,Kalastria Highborn,main
-1,Kathari Bomber,main
 1,"Kellan, the Fae-Blooded // Birthright Boon",main
 1,Kitchen Finks,main
 1,Knight of the Ebon Legion,main
@@ -159,7 +161,6 @@ Count,Name,Section
 1,Kor Sanctifiers,main
 1,Kor Skyfisher,main
 1,"Krenko, Tin Street Kingpin",main
-1,Kronch Wrangler,main
 1,Languish,main
 1,Leaden Myr,main
 1,Leech Bonder,main
@@ -168,18 +169,16 @@ Count,Name,Section
 1,Lightning Bolt,main
 1,Lightning Greaves,main
 1,"Liliana, Death's Majesty",main
-1,Liliana's Mastery,main
 1,Lion Sash,main
 1,Lizard Blades,main
 1,Llanowar Elves,main
 1,Lodestone Myr,main
 1,Lotus Cobra,main
-1,Loxodon Warhammer,main
 1,Magma Phoenix,main
-1,Malakir Bloodwitch,main
 1,Malfegor,main
 1,Mana Leak,main
 1,Manabarbs,main
+1,Manamorphose,main
 1,Mark of Mutiny,main
 1,Marsh Flats,main
 1,Marshal's Anthem,main
@@ -203,6 +202,7 @@ Count,Name,Section
 1,Mosquito Guard,main
 1,Mosswood Dreadknight // Dread Whispers,main
 1,Mulldrifter,main
+1,"Multani, Yavimaya's Avatar",main
 1,Murderous Redcap,main
 1,Nahiri's Stoneblades,main
 1,Narrow Escape,main
@@ -215,6 +215,7 @@ Count,Name,Section
 1,Ogre-Head Helm,main
 1,Oona's Grace,main
 1,Opt,main
+1,Oracle of Mul Daya,main
 1,Overgrown Tomb,main
 1,Overrun,main
 1,Paladin of the Bloodstained,main
@@ -229,15 +230,16 @@ Count,Name,Section
 1,Polluted Delta,main
 1,Ponder,main
 1,Port Town,main
-1,Prison Term,main
 1,Prophetic Prism,main
 1,Pteramander,main
 1,Puncture Blast,main
 1,Punishing Fire,main
 1,Puppeteer Clique,main
+1,Pyrite Spellbomb,main
 1,Pyroclasm,main
 1,Quest for the Gemblades,main
 1,Quest for the Gravelord,main
+1,Quicken,main
 1,Quietus Spike,main
 1,Quillspike,main
 1,Rabbit Battery,main
@@ -253,7 +255,6 @@ Count,Name,Section
 1,Reprieve,main
 1,Restless Fortress,main
 1,Restless Vinestalk,main
-1,Restoration Angel,main
 1,Reveillark,main
 1,"Rielle, the Everwise",main
 1,Rigging Runner,main
@@ -267,6 +268,7 @@ Count,Name,Section
 1,"Saheeli, Sublime Artificer",main
 1,Sai of the Shinobi,main
 1,Sanctum Seeker,main
+1,Sanguine Bond,main
 1,Saproling Migration,main
 1,Satyr Wayfinder,main
 1,Scalding Tarn,main
@@ -283,26 +285,21 @@ Count,Name,Section
 1,Siren Stormtamer,main
 1,Skarrgan Hellkite,main
 1,Sleep of the Dead,main
-1,"Slimefoot, the Stowaway",main
 1,Soul Warden,main
 1,Soul-Scar Mage,main
 1,Sparring Construct,main
 1,Specter of Mortality,main
 1,Spell Pierce,main
-1,Spellbreaker Behemoth,main
 1,Sphinx of Lost Truths,main
+1,Spider Food,main
 1,Spirited Companion,main
 1,Sprout Swarm,main
-1,Sprouting Renewal,main
 1,Steam Vents,main
-1,Stingerfling Spider,main
 1,Stinging Lionfish,main
 1,Stitch Together,main
 1,Stitcher's Supplier,main
 1,Sulfur Falls,main
 1,Sunpetal Grove,main
-1,Swans of Bryn Argoll,main
-1,Swords to Plowshares,main
 1,Tail Swipe,main
 1,"Tamiyo, Compleated Sage",main
 1,Tangled Colony,main
@@ -315,11 +312,10 @@ Count,Name,Section
 1,The Reality Chip,main
 1,The Wandering Emperor,main
 1,Thing in the Ice // Awoken Horror,main
-1,Thornling,main
 1,Throne of the God-Pharaoh,main
 1,Tibalt's Rager,main
 1,Tilling Treefolk,main
-1,Topan Ascetic,main
+1,"Titania, Protector of Argoth",main
 1,Touch the Spirit Realm,main
 1,Towashi Guide-Bot,main
 1,Trading Post,main
@@ -328,6 +324,7 @@ Count,Name,Section
 1,Tukatongue Thallid,main
 1,Turn to Mist,main
 1,Twinshot Sniper,main
+1,Ulcerate,main
 1,Umbral Mantle,main
 1,Uncharted Haven,main
 1,Unearth,main
@@ -343,19 +340,22 @@ Count,Name,Section
 1,Vines of Vastwood,main
 1,Virtue of Persistence // Locthwain Scorn,main
 1,Viscera Seer,main
-1,Vona's Hunger,main
 1,Warcry Phoenix,main
 1,Watery Grave,main
 1,Welcoming Vampire,main
+1,Werefox Bodyguard,main
 1,"Whisper, Blood Liturgist",main
 1,Wickerbough Elder,main
 1,Wilderness Reclamation,main
 1,Winds of Rebuke,main
 1,Windswept Heath,main
 1,Witherscale Wurm,main
+1,Woe Strider,main
 1,Wooded Foothills,main
+1,Woodfall Primus,main
 1,Woodland Cemetery,main
 1,Woodland Champion,main
+1,Worm Harvest,main
 1,Wrath of God,main
 1,Young Pyromancer,main
 1,Zulaport Cutthroat,main

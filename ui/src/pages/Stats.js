@@ -35,6 +35,8 @@ export default function StatsViewer() {
   const [cardWidgetSelection, setCardWidgetSelection] = useState("Mainboard rate");
   const [minDrafts, setMinDrafts] = useState(0);
   const [minGames, setMinGames] = useState(0);
+  const [minPlayers, setMinPlayers] = useState(0);
+  const [maxPlayers, setMaxPlayers] = useState(0);
   const cardWidgetOpts =  [
     { label: "Mainboard rate", value: "Mainboard rate" },
     { label: "Win rate", value: "Win rate" },
@@ -65,6 +67,13 @@ export default function StatsViewer() {
   function onMinGamesSelected(event) {
     setMinGames(event.target.value)
   }
+  function onMinPlayersSelected(event) {
+    setMinPlayers(event.target.value)
+  }
+  function onMaxPlayersSelected(event) {
+    setMaxPlayers(event.target.value)
+  }
+
 
   ///////////////////////////////////////////////////////////////////////////////
   // State used for time selection.
@@ -337,6 +346,10 @@ export default function StatsViewer() {
           onMinDraftsSelected={onMinDraftsSelected}
           minGames={minGames}
           onMinGamesSelected={onMinGamesSelected}
+          minPlayers={minPlayers}
+          maxPlayers={maxPlayers}
+          onMinPlayersSelected={onMinPlayersSelected}
+          onMaxPlayersSelected={onMaxPlayersSelected}
           onHeaderClick={onCardWidgetHeaderClicked}
           sortBy={cardWidgetSortBy}
           cube={cube}
@@ -1196,6 +1209,7 @@ function CardWidgetOptions(input) {
         onChange={input.onColorSelected}
         className="dropdown-header-side-by-side"
       />
+      <br></br>
 
       <NumericInput
         label="Min #picks"
@@ -1208,6 +1222,19 @@ function CardWidgetOptions(input) {
         value={input.minGames}
         onChange={input.onMinGamesSelected}
       />
+      <br></br>
+
+      <NumericInput
+        label="Min #players"
+        value={input.minPlayers}
+        onChange={input.onMinPlayersSelected}
+      />
+
+      <NumericInput
+        label="Max #players"
+        value={input.maxPlayers}
+        onChange={input.onMaxPlayersSelected}
+      />
     </div>
   );
 }
@@ -1216,7 +1243,17 @@ function CardWidget(input) {
   if (!input.show) {
     return null
   }
-  let data = CardData(input.decks, input.minDrafts, input.minGames, input.cube, input.colorSelection)
+  let data =[]
+  let raw = CardData(input.decks, input.minDrafts, input.minGames, input.cube, input.colorSelection)
+  raw.map(function(card) {
+    if (card.players.size < input.minPlayers) {
+      return
+    }
+    if (input.maxPlayers != 0 && card.players.size > input.maxPlayers) {
+      return
+    }
+    data.push(card)
+  })
 
   if (input.dropdownSelection === "Mainboard rate") {
     return (
@@ -1233,13 +1270,14 @@ function CardWidget(input) {
           </thead>
           <tbody>
           {
-            data.map(function(item) {
+            data.map(function(card) {
+              let hidden = Test(card)
               return (
-                <tr sort={item.mainboard_percent} className="card" key={item.name}>
-                  <td>{item.mainboard_percent}%</td>
-                  <td className="card"><a href={item.url} target="_blank" rel="noopener noreferrer">{item.name}</a></td>
-                  <td>{item.mainboard}</td>
-                  <td>{item.total_games}</td>
+                <tr sort={card.mainboard_percent} className="card" key={card.name}>
+                  <td>{card.mainboard_percent}%</td>
+                  <td className="card"><a href={card.url} target="_blank" rel="noopener noreferrer">{card.name}</a></td>
+                  <td><Tooltip text={card.mainboard} hidden={hidden}/></td>
+                  <td>{card.total_games}</td>
                 </tr>
               )
             }).sort(sortFunc)
@@ -1368,8 +1406,9 @@ function CardData(decks, minDrafts, minGames, cube, color) {
       sideboard: 0, // Number of times this card has been sideboarded.
       wins: 0, // Does not include sideboard.
       losses: 0, // Does not include sideboard.
+      archetypes: new Map(), // Map of archetype to times played in that archetype.
+      players: new Map(), // Who has played this card, and how often.
       url: card.url,
-      archetypes: new Map(),
     }
     return c
   }
@@ -1418,6 +1457,12 @@ function CardData(decks, minDrafts, minGames, cube, color) {
       tracker[card.name].mainboard += 1
       tracker[card.name].wins += decks[i].wins
       tracker[card.name].losses += decks[i].losses
+
+      // Increment player count.
+      if (!tracker[card.name].players.has(deck.player)) {
+        tracker[card.name].players.set(deck.player, 0)
+      }
+      tracker[card.name].players.set(deck.player, tracker[card.name].players.get(deck.player) + 1)
 
       // Include archetype data for this card, which allows us to map cards to archetypes
       // and compare their performance to other cards in the same archetype.
@@ -1793,4 +1838,46 @@ function GetColorStats(decks) {
     tracker[color].total_pick_percentage = Math.round(100 * tracker[color].cards / totalCards);
   }
   return tracker
+}
+
+function Test(card) {
+  let data = []
+  card.players.forEach(function(num, name) {
+    data.push({name: name, num: num})
+  })
+  return (
+    <div>
+      <table>
+        <thead className="table-header">
+          <tr>
+            <td id="name" className="header-cell">Player</td>
+            <td id="num" className="header-cell">#</td>
+          </tr>
+        </thead>
+        <tbody>
+        {
+          data.map(function(row) {
+            return (
+              <tr sort={row.num} key={row.name}>
+                <td>{row.name}</td>
+                <td>{row.num}</td>
+              </tr>
+            )
+          }).sort(sortFunc)
+        }
+        </tbody>
+      </table>
+    </div>
+  )
+}
+
+function Tooltip(input){
+    return(
+      <div className="tooltip-trigger">
+        {input.text}
+        <span className='tooltip'>
+          {input.hidden}
+        </span>
+      </div>
+    )
 }

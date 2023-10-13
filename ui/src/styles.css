@@ -242,3 +242,41 @@ ul {
   text-align: center;
   min-width: 300px;
 }
+
+.tooltip{
+  left: 300%;
+}
+
+.tooltip-trigger .tooltip::after{
+    content: " ";
+    position: absolute;
+    top: 10%;
+    right: 100%;
+    margin-top: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent black transparent transparent;
+}
+
+.tooltip-trigger {
+  position: relative;
+  display: inline;
+}
+
+.tooltip-trigger .tooltip{
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px;
+  padding-left: 20px;
+  padding-right: 20px;
+  opacity: 0;
+  transition: opacity .5s;
+  position: absolute;
+  z-index: 100;
+}
+
+.tooltip-trigger:hover .tooltip {
+    opacity:1;
+}
