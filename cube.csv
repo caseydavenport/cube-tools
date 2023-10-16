@@ -5,7 +5,6 @@ Count,Name,Section
 1,Agonizing Remorse,main
 1,Ajani Goldmane,main
 1,Ajani's Pridemate,main
-1,Alseid of Life's Bounty,main
 1,Angel of Salvation,main
 1,Angelic Intervention,main
 1,Anointed Procession,main
@@ -52,6 +51,7 @@ Count,Name,Section
 1,Containment Construct,main
 1,Copper Myr,main
 1,Counterspell,main
+1,Crimson Wisps,main
 1,Cruel Celebrant,main
 1,Cunning Lethemancer,main
 1,Cunning Sparkmage,main
@@ -92,7 +92,6 @@ Count,Name,Section
 1,Faithless Looting,main
 1,Fall of the Thran,main
 1,Fate Transfer,main
-1,Fateful End,main
 1,Fatestitcher,main
 1,Feed the Cauldron,main
 1,Festering Mummy,main
@@ -140,7 +139,7 @@ Count,Name,Section
 1,Hunting Triad,main
 1,Incinerate,main
 1,Inexorable Blob,main
-1,Infuriate,main
+1,Infernal Grasp,main
 1,Inspiring Cleric,main
 1,Intangible Virtue,main
 1,Into the Roil,main
@@ -163,7 +162,6 @@ Count,Name,Section
 1,"Krenko, Tin Street Kingpin",main
 1,Languish,main
 1,Leaden Myr,main
-1,Leech Bonder,main
 1,"Legion's Landing // Adanto, the First Fort",main
 1,Life from the Loam,main
 1,Lightning Bolt,main
@@ -174,6 +172,7 @@ Count,Name,Section
 1,Llanowar Elves,main
 1,Lodestone Myr,main
 1,Lotus Cobra,main
+1,Magma Jet,main
 1,Magma Phoenix,main
 1,Malfegor,main
 1,Mana Leak,main
@@ -201,10 +200,10 @@ Count,Name,Section
 1,Moon-Circuit Hacker,main
 1,Mosquito Guard,main
 1,Mosswood Dreadknight // Dread Whispers,main
+1,Mother of Runes,main
 1,Mulldrifter,main
 1,"Multani, Yavimaya's Avatar",main
 1,Murderous Redcap,main
-1,Nahiri's Stoneblades,main
 1,Narrow Escape,main
 1,Necroblossom Snarl,main
 1,Negate,main
@@ -216,12 +215,12 @@ Count,Name,Section
 1,Oona's Grace,main
 1,Opt,main
 1,Oracle of Mul Daya,main
+1,Oust,main
 1,Overgrown Tomb,main
 1,Overrun,main
 1,Paladin of the Bloodstained,main
 1,Panharmonicon,main
 1,Parallel Lives,main
-1,Path to Exile,main
 1,Perilous Myr,main
 1,Persist,main
 1,Pharika's Spawn,main
@@ -230,6 +229,7 @@ Count,Name,Section
 1,Polluted Delta,main
 1,Ponder,main
 1,Port Town,main
+1,Portable Hole,main
 1,Prophetic Prism,main
 1,Pteramander,main
 1,Puncture Blast,main

@@ -1,0 +1,926 @@
+{
+ "labels": ["control", "reanimate"],
+ "player": "casey",
+ "date": "2023-10-15",
+ "wins": 1,
+ "losses": 1,
+ "ties": 0,
+ "mainboard": [
+  {
+   "name": "Glass Casket",
+   "types": [
+    "Artifact"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "W"
+   ],
+   "url": "https://scryfall.com/card/woe/16/glass-casket?utm_source=api"
+  },
+  {
+   "name": "Restless Fortress",
+   "types": [
+    "Land"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/woe/259/restless-fortress?utm_source=api"
+  },
+  {
+   "name": "Virtue of Persistence // Locthwain Scorn",
+   "types": [
+    "Enchantment",
+    "//",
+    "Sorcery"
+   ],
+   "sub_types": [
+    "Adventure"
+   ],
+   "cmc": 7,
+   "image": "",
+   "colors": [
+    "B"
+   ],
+   "url": "https://scryfall.com/card/woe/115/virtue-of-persistence-locthwain-scorn?utm_source=api"
+  },
+  {
+   "name": "Feed the Cauldron",
+   "types": [
+    "Instant"
+   ],
+   "cmc": 3,
+   "image": "",
+   "colors": [
+    "B"
+   ],
+   "url": "https://scryfall.com/card/woe/91/feed-the-cauldron?utm_source=api"
+  },
+  {
+   "name": "Uncharted Haven",
+   "types": [
+    "Land"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/neo/281/uncharted-haven?utm_source=api"
+  },
+  {
+   "name": "Merfolk Looter",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Merfolk",
+    "Rogue"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "U"
+   ],
+   "url": "https://scryfall.com/card/afc/86/merfolk-looter?utm_source=api"
+  },
+  {
+   "name": "Gomazoa",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Jellyfish"
+   ],
+   "cmc": 3,
+   "image": "",
+   "colors": [
+    "U"
+   ],
+   "url": "https://scryfall.com/card/cmd/48/gomazoa?utm_source=api"
+  },
+  {
+   "name": "Mavren Fein, Dusk Apostle",
+   "types": [
+    "Legendary",
+    "Creature"
+   ],
+   "sub_types": [
+    "Vampire",
+    "Cleric"
+   ],
+   "cmc": 3,
+   "image": "",
+   "colors": [
+    "W"
+   ],
+   "url": "https://scryfall.com/card/xln/24/mavren-fein-dusk-apostle?utm_source=api"
+  },
+  {
+   "name": "Faerie Vandal",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Faerie",
+    "Rogue"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "U"
+   ],
+   "url": "https://scryfall.com/card/snc/44/faerie-vandal?utm_source=api"
+  },
+  {
+   "name": "Kor Sanctifiers",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Kor",
+    "Cleric"
+   ],
+   "cmc": 3,
+   "image": "",
+   "colors": [
+    "W"
+   ],
+   "url": "https://scryfall.com/card/c15/73/kor-sanctifiers?utm_source=api"
+  },
+  {
+   "name": "Godless Shrine",
+   "types": [
+    "Land"
+   ],
+   "sub_types": [
+    "Plains",
+    "Swamp"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/rna/248/godless-shrine?utm_source=api"
+  },
+  {
+   "name": "Fact or Fiction",
+   "types": [
+    "Instant"
+   ],
+   "cmc": 4,
+   "image": "",
+   "colors": [
+    "U"
+   ],
+   "url": "https://scryfall.com/card/cmm/91/fact-or-fiction?utm_source=api"
+  },
+  {
+   "name": "Flickerwisp",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Elemental"
+   ],
+   "cmc": 3,
+   "image": "",
+   "colors": [
+    "W"
+   ],
+   "url": "https://scryfall.com/card/2x2/11/flickerwisp?utm_source=api"
+  },
+  {
+   "name": "Dark Ritual",
+   "types": [
+    "Instant"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [
+    "B"
+   ],
+   "url": "https://scryfall.com/card/a25/82/dark-ritual?utm_source=api"
+  },
+  {
+   "name": "Wrath of God",
+   "types": [
+    "Sorcery"
+   ],
+   "cmc": 4,
+   "image": "",
+   "colors": [
+    "W"
+   ],
+   "url": "https://scryfall.com/card/cmm/70/wrath-of-god?utm_source=api"
+  },
+  {
+   "name": "Thing in the Ice // Awoken Horror",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Horror",
+    "//",
+    "Creature"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": null,
+   "url": "https://scryfall.com/card/soi/92/thing-in-the-ice-awoken-horror?utm_source=api"
+  },
+  {
+   "name": "Glacial Fortress",
+   "types": [
+    "Land"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/xln/255/glacial-fortress?utm_source=api"
+  },
+  {
+   "name": "Kor Skyfisher",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Kor",
+    "Soldier"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "W"
+   ],
+   "url": "https://scryfall.com/card/mm3/11/kor-skyfisher?utm_source=api"
+  },
+  {
+   "name": "Day of Judgment",
+   "types": [
+    "Sorcery"
+   ],
+   "cmc": 4,
+   "image": "",
+   "colors": [
+    "W"
+   ],
+   "url": "https://scryfall.com/card/m12/12/day-of-judgment?utm_source=api"
+  },
+  {
+   "name": "The Long Reach of Night // Animus of Night's Reach",
+   "types": [
+    "Enchantment"
+   ],
+   "sub_types": [
+    "Saga",
+    "//",
+    "Enchantment",
+    "Creature"
+   ],
+   "cmc": 4,
+   "image": "",
+   "colors": null,
+   "url": "https://scryfall.com/card/neo/109/the-long-reach-of-night-animus-of-nights-reach?utm_source=api"
+  },
+  {
+   "name": "Brainstorm",
+   "types": [
+    "Instant"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [
+    "U"
+   ],
+   "url": "https://scryfall.com/card/afc/79/brainstorm?utm_source=api"
+  },
+  {
+   "name": "Welcoming Vampire",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Vampire"
+   ],
+   "cmc": 3,
+   "image": "",
+   "colors": [
+    "W"
+   ],
+   "url": "https://scryfall.com/card/vow/46/welcoming-vampire?utm_source=api"
+  },
+  {
+   "name": "Clarion Spirit",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Spirit"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "W"
+   ],
+   "url": "https://scryfall.com/card/khm/6/clarion-spirit?utm_source=api"
+  },
+  {
+   "name": "Unmake",
+   "types": [
+    "Instant"
+   ],
+   "cmc": 3,
+   "image": "",
+   "colors": [
+    "B",
+    "W"
+   ],
+   "url": "https://scryfall.com/card/ddk/27/unmake?utm_source=api"
+  },
+  {
+   "name": "Serum Visions",
+   "types": [
+    "Sorcery"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [
+    "U"
+   ],
+   "url": "https://scryfall.com/card/afc/94/serum-visions?utm_source=api"
+  },
+  {
+   "name": "Pteramander",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Salamander",
+    "Drake"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [
+    "U"
+   ],
+   "url": "https://scryfall.com/card/rna/47/pteramander?utm_source=api"
+  },
+  {
+   "name": "Curator of Mysteries",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Sphinx"
+   ],
+   "cmc": 4,
+   "image": "",
+   "colors": [
+    "U"
+   ],
+   "url": "https://scryfall.com/card/afc/81/curator-of-mysteries?utm_source=api"
+  },
+  {
+   "name": "Raven's Crime",
+   "types": [
+    "Sorcery"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [
+    "B"
+   ],
+   "url": "https://scryfall.com/card/mma/95/ravens-crime?utm_source=api"
+  },
+  {
+   "name": "Plains",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Plains"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/woe/267/plains?utm_source=api"
+  },
+  {
+   "name": "Plains",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Plains"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/woe/267/plains?utm_source=api"
+  },
+  {
+   "name": "Plains",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Plains"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/woe/267/plains?utm_source=api"
+  },
+  {
+   "name": "Plains",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Plains"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/woe/267/plains?utm_source=api"
+  },
+  {
+   "name": "Island",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Island"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/woe/269/island?utm_source=api"
+  },
+  {
+   "name": "Island",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Island"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/woe/269/island?utm_source=api"
+  },
+  {
+   "name": "Island",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Island"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/woe/269/island?utm_source=api"
+  },
+  {
+   "name": "Island",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Island"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/woe/269/island?utm_source=api"
+  },
+  {
+   "name": "Swamp",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Swamp"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/woe/271/swamp?utm_source=api"
+  },
+  {
+   "name": "Swamp",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Swamp"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/woe/271/swamp?utm_source=api"
+  },
+  {
+   "name": "Swamp",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Swamp"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/woe/271/swamp?utm_source=api"
+  },
+  {
+   "name": "Swamp",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Swamp"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/woe/271/swamp?utm_source=api"
+  }
+ ],
+ "sideboard": [
+  {
+   "name": "Siege-Gang Commander",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Goblin"
+   ],
+   "cmc": 5,
+   "image": "",
+   "colors": [
+    "R"
+   ],
+   "url": "https://scryfall.com/card/gnt/42/siege-gang-commander?utm_source=api"
+  },
+  {
+   "name": "Cunning Sparkmage",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Human",
+    "Shaman"
+   ],
+   "cmc": 3,
+   "image": "",
+   "colors": [
+    "R"
+   ],
+   "url": "https://scryfall.com/card/wwk/79/cunning-sparkmage?utm_source=api"
+  },
+  {
+   "name": "Moon-Circuit Hacker",
+   "types": [
+    "Enchantment",
+    "Creature"
+   ],
+   "sub_types": [
+    "Human",
+    "Ninja"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "U"
+   ],
+   "url": "https://scryfall.com/card/neo/67/moon-circuit-hacker?utm_source=api"
+  },
+  {
+   "name": "Sulfur Falls",
+   "types": [
+    "Land"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/dom/247/sulfur-falls?utm_source=api"
+  },
+  {
+   "name": "Flame Jab",
+   "types": [
+    "Sorcery"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [
+    "R"
+   ],
+   "url": "https://scryfall.com/card/ema/131/flame-jab?utm_source=api"
+  },
+  {
+   "name": "Grim Initiate",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Zombie",
+    "Warrior"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [
+    "R"
+   ],
+   "url": "https://scryfall.com/card/war/130/grim-initiate?utm_source=api"
+  },
+  {
+   "name": "Avenger of Zendikar",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Elemental"
+   ],
+   "cmc": 7,
+   "image": "",
+   "colors": [
+    "G"
+   ],
+   "url": "https://scryfall.com/card/ncc/280/avenger-of-zendikar?utm_source=api"
+  },
+  {
+   "name": "Reclamation Sage",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Elf",
+    "Shaman"
+   ],
+   "cmc": 3,
+   "image": "",
+   "colors": [
+    "G"
+   ],
+   "url": "https://scryfall.com/card/khc/72/reclamation-sage?utm_source=api"
+  },
+  {
+   "name": "Mayhem Devil",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Devil"
+   ],
+   "cmc": 3,
+   "image": "",
+   "colors": [
+    "B",
+    "R"
+   ],
+   "url": "https://scryfall.com/card/war/204/mayhem-devil?utm_source=api"
+  },
+  {
+   "name": "Glory of Warfare",
+   "types": [
+    "Enchantment"
+   ],
+   "cmc": 4,
+   "image": "",
+   "colors": [
+    "R",
+    "W"
+   ],
+   "url": "https://scryfall.com/card/hop/88/glory-of-warfare?utm_source=api"
+  },
+  {
+   "name": "Persist",
+   "types": [
+    "Sorcery"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "B"
+   ],
+   "url": "https://scryfall.com/card/mh2/96/persist?utm_source=api"
+  },
+  {
+   "name": "Ephemerate",
+   "types": [
+    "Instant"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [
+    "W"
+   ],
+   "url": "https://scryfall.com/card/mh1/7/ephemerate?utm_source=api"
+  },
+  {
+   "name": "Umbral Mantle",
+   "types": [
+    "Artifact"
+   ],
+   "sub_types": [
+    "Equipment"
+   ],
+   "cmc": 3,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/shm/267/umbral-mantle?utm_source=api"
+  },
+  {
+   "name": "Sai of the Shinobi",
+   "types": [
+    "Artifact"
+   ],
+   "sub_types": [
+    "Equipment"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/a25/230/sai-of-the-shinobi?utm_source=api"
+  },
+  {
+   "name": "Cruel Celebrant",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Vampire"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "B",
+    "W"
+   ],
+   "url": "https://scryfall.com/card/war/188/cruel-celebrant?utm_source=api"
+  },
+  {
+   "name": "Liliana, Death's Majesty",
+   "types": [
+    "Legendary",
+    "Planeswalker"
+   ],
+   "sub_types": [
+    "Liliana"
+   ],
+   "cmc": 5,
+   "image": "",
+   "colors": [
+    "B"
+   ],
+   "url": "https://scryfall.com/card/mic/121/liliana-deaths-majesty?utm_source=api"
+  },
+  {
+   "name": "Rise from the Grave",
+   "types": [
+    "Sorcery"
+   ],
+   "cmc": 5,
+   "image": "",
+   "colors": [
+    "B"
+   ],
+   "url": "https://scryfall.com/card/znc/53/rise-from-the-grave?utm_source=api"
+  },
+  {
+   "name": "Grateful Apparition",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Spirit"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "W"
+   ],
+   "url": "https://scryfall.com/card/cmm/824/grateful-apparition?utm_source=api"
+  },
+  {
+   "name": "Quicken",
+   "types": [
+    "Instant"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [
+    "U"
+   ],
+   "url": "https://scryfall.com/card/dds/6/quicken?utm_source=api"
+  },
+  {
+   "name": "Turn to Mist",
+   "types": [
+    "Instant"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "U",
+    "W"
+   ],
+   "url": "https://scryfall.com/card/uma/224/turn-to-mist?utm_source=api"
+  },
+  {
+   "name": "Fall of the Thran",
+   "types": [
+    "Enchantment"
+   ],
+   "sub_types": [
+    "Saga"
+   ],
+   "cmc": 6,
+   "image": "",
+   "colors": [
+    "W"
+   ],
+   "url": "https://scryfall.com/card/dom/18/fall-of-the-thran?utm_source=api"
+  },
+  {
+   "name": "Vampire Hexmage",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Vampire",
+    "Shaman"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "B"
+   ],
+   "url": "https://scryfall.com/card/2xm/112/vampire-hexmage?utm_source=api"
+  },
+  {
+   "name": "Field of Ruin",
+   "types": [
+    "Land"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/moc/400/field-of-ruin?utm_source=api"
+  },
+  {
+   "name": "Silver Myr",
+   "types": [
+    "Artifact",
+    "Creature"
+   ],
+   "sub_types": [
+    "Myr"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/nec/158/silver-myr?utm_source=api"
+  },
+  {
+   "name": "Gold Myr",
+   "types": [
+    "Artifact",
+    "Creature"
+   ],
+   "sub_types": [
+    "Myr"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/nec/153/gold-myr?utm_source=api"
+  },
+  {
+   "name": "Aether Tradewinds",
+   "types": [
+    "Instant"
+   ],
+   "cmc": 3,
+   "image": "",
+   "colors": [
+    "U"
+   ],
+   "url": "https://scryfall.com/card/kld/38/aether-tradewinds?utm_source=api"
+  }
+ ]
+}
