@@ -1296,6 +1296,7 @@ function CardWidget(input) {
               <td className="header-cell">Sideboard rate</td>
               <td className="header-cell">Card</td>
               <td className="header-cell">#sb / #picked</td>
+              <td className="header-cell"># in-color sb</td>
               <td className="header-cell"># Games</td>
             </tr>
           </thead>
@@ -1307,6 +1308,7 @@ function CardWidget(input) {
                   <td>{item.sideboard_percent}%</td>
                   <td className="card"><a href={item.url} target="_blank" rel="noopener noreferrer">{item.name}</a></td>
                   <td>{item.sideboard} / {item.mainboard + item.sideboard}</td>
+                  <td>{item.inColorSideboard}</td>
                   <td>{item.total_games}</td>
                 </tr>
               )
@@ -1404,6 +1406,7 @@ function CardData(decks, minDrafts, minGames, cube, color) {
       name: card.name,
       mainboard: 0, // Number of times this card has been mainboarded.
       sideboard: 0, // Number of times this card has been sideboarded.
+      inColorSideboard: 0, // Number of times this card was in deck color(s), and sideboarded.
       wins: 0, // Does not include sideboard.
       losses: 0, // Does not include sideboard.
       archetypes: new Map(), // Map of archetype to times played in that archetype.
@@ -1411,6 +1414,18 @@ function CardData(decks, minDrafts, minGames, cube, color) {
       url: card.url,
     }
     return c
+  }
+
+  // Define a helper function for determining if a card is within a given deck's colors.
+  let inDeckColor = function(card, deck) {
+    for (var k in card.colors) {
+      for (var j in deck.colors) {
+        if (card.colors[k] == deck.colors[j]) {
+          return true
+        }
+      }
+    }
+    return false
   }
 
   // Build a map of all the cards in the cube so we can
@@ -1502,6 +1517,9 @@ function CardData(decks, minDrafts, minGames, cube, color) {
         tracker[card.name] = newCard(card)
       }
       tracker[card.name].sideboard += 1
+      if (inDeckColor(card, deck)) {
+        tracker[card.name].inColorSideboard += 1
+      }
     }
   }
 
