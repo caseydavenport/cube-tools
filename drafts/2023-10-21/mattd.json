@@ -1,9 +1,9 @@
 {
- "labels": [],
+ "labels": ["aggro"],
  "player": "mattd",
  "date": "2023-10-21",
- "wins": 0,
- "losses": 0,
+ "wins": 1,
+ "losses": 1,
  "ties": 0,
  "mainboard": [
   {
