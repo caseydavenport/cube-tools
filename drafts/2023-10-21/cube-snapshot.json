@@ -13,18 +13,6 @@
    "url": "https://scryfall.com/card/cmm/203/abrade?utm_source=api"
   },
   {
-   "name": "Abundant Harvest",
-   "types": [
-    "Sorcery"
-   ],
-   "cmc": 1,
-   "image": "",
-   "colors": [
-    "G"
-   ],
-   "url": "https://scryfall.com/card/cmm/269/abundant-harvest?utm_source=api"
-  },
-  {
    "name": "Acidic Slime",
    "types": [
     "Creature"
@@ -123,6 +111,18 @@
    "url": "https://scryfall.com/card/mom/5/angelic-intervention?utm_source=api"
   },
   {
+   "name": "Anointed Procession",
+   "types": [
+    "Enchantment"
+   ],
+   "cmc": 4,
+   "image": "",
+   "colors": [
+    "W"
+   ],
+   "url": "https://scryfall.com/card/akh/2/anointed-procession?utm_source=api"
+  },
+  {
    "name": "Arasta of the Endless Web",
    "types": [
     "Legendary",
@@ -197,6 +197,39 @@
    "url": "https://scryfall.com/card/mh2/244/arid-mesa?utm_source=api"
   },
   {
+   "name": "Atris, Oracle of Half-Truths",
+   "types": [
+    "Legendary",
+    "Creature"
+   ],
+   "sub_types": [
+    "Human",
+    "Advisor"
+   ],
+   "cmc": 4,
+   "image": "",
+   "colors": [
+    "B",
+    "U"
+   ],
+   "url": "https://scryfall.com/card/thb/209/atris-oracle-of-half-truths?utm_source=api"
+  },
+  {
+   "name": "Avenger of Zendikar",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Elemental"
+   ],
+   "cmc": 7,
+   "image": "",
+   "colors": [
+    "G"
+   ],
+   "url": "https://scryfall.com/card/ncc/280/avenger-of-zendikar?utm_source=api"
+  },
+  {
    "name": "Beacon of Unrest",
    "types": [
     "Sorcery"
@@ -219,18 +252,6 @@
     "G"
    ],
    "url": "https://scryfall.com/card/dmc/129/beast-within?utm_source=api"
-  },
-  {
-   "name": "Black Sun's Zenith",
-   "types": [
-    "Sorcery"
-   ],
-   "cmc": 2,
-   "image": "",
-   "colors": [
-    "B"
-   ],
-   "url": "https://scryfall.com/card/c14/136/black-suns-zenith?utm_source=api"
   },
   {
    "name": "Blade of the Bloodchief",
@@ -433,6 +454,22 @@
    "url": "https://scryfall.com/card/mm2/109/burst-lightning?utm_source=api"
   },
   {
+   "name": "Butcher of Malakir",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Vampire",
+    "Warrior"
+   ],
+   "cmc": 7,
+   "image": "",
+   "colors": [
+    "B"
+   ],
+   "url": "https://scryfall.com/card/clb/741/butcher-of-malakir?utm_source=api"
+  },
+  {
    "name": "Cankerbloom",
    "types": [
     "Creature"
@@ -447,18 +484,6 @@
     "G"
    ],
    "url": "https://scryfall.com/card/one/161/cankerbloom?utm_source=api"
-  },
-  {
-   "name": "Careful Study",
-   "types": [
-    "Sorcery"
-   ],
-   "cmc": 1,
-   "image": "",
-   "colors": [
-    "U"
-   ],
-   "url": "https://scryfall.com/card/ody/70/careful-study?utm_source=api"
   },
   {
    "name": "Cauldron of Souls",
@@ -1022,16 +1047,16 @@
    "url": "https://scryfall.com/card/xln/253/drowned-catacomb?utm_source=api"
   },
   {
-   "name": "Duress",
+   "name": "Earthquake",
    "types": [
     "Sorcery"
    ],
    "cmc": 1,
    "image": "",
    "colors": [
-    "B"
+    "R"
    ],
-   "url": "https://scryfall.com/card/one/92/duress?utm_source=api"
+   "url": "https://scryfall.com/card/cm2/95/earthquake?utm_source=api"
   },
   {
    "name": "Edge of Autumn",
@@ -1166,18 +1191,6 @@
    "url": "https://scryfall.com/card/jmp/153/exclusion-mage?utm_source=api"
   },
   {
-   "name": "Explore",
-   "types": [
-    "Sorcery"
-   ],
-   "cmc": 2,
-   "image": "",
-   "colors": [
-    "G"
-   ],
-   "url": "https://scryfall.com/card/dmc/131/explore?utm_source=api"
-  },
-  {
    "name": "Fact or Fiction",
    "types": [
     "Instant"
@@ -1278,18 +1291,6 @@
    "url": "https://scryfall.com/card/ala/43/fatestitcher?utm_source=api"
   },
   {
-   "name": "Fecundity",
-   "types": [
-    "Enchantment"
-   ],
-   "cmc": 3,
-   "image": "",
-   "colors": [
-    "G"
-   ],
-   "url": "https://scryfall.com/card/uma/165/fecundity?utm_source=api"
-  },
-  {
    "name": "Feed the Cauldron",
    "types": [
     "Instant"
@@ -1337,18 +1338,6 @@
     "R"
    ],
    "url": "https://scryfall.com/card/ema/131/flame-jab?utm_source=api"
-  },
-  {
-   "name": "Flame Slash",
-   "types": [
-    "Sorcery"
-   ],
-   "cmc": 1,
-   "image": "",
-   "colors": [
-    "R"
-   ],
-   "url": "https://scryfall.com/card/cn2/157/flame-slash?utm_source=api"
   },
   {
    "name": "Flames of the Firebrand",
@@ -1470,6 +1459,16 @@
     "W"
    ],
    "url": "https://scryfall.com/card/clb/694/galepowder-mage?utm_source=api"
+  },
+  {
+   "name": "Game Trail",
+   "types": [
+    "Land"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/moc/405/game-trail?utm_source=api"
   },
   {
    "name": "Ghostly Flicker",
@@ -1760,23 +1759,6 @@
    "url": "https://scryfall.com/card/cmm/229/guttersnipe?utm_source=api"
   },
   {
-   "name": "Halo Forager",
-   "types": [
-    "Creature"
-   ],
-   "sub_types": [
-    "Faerie",
-    "Rogue"
-   ],
-   "cmc": 3,
-   "image": "",
-   "colors": [
-    "B",
-    "U"
-   ],
-   "url": "https://scryfall.com/card/mom/227/halo-forager?utm_source=api"
-  },
-  {
    "name": "Hardened Scales",
    "types": [
     "Enchantment"
@@ -1896,22 +1878,6 @@
     "G"
    ],
    "url": "https://scryfall.com/card/cma/116/hunting-triad?utm_source=api"
-  },
-  {
-   "name": "Ignoble Hierarch",
-   "types": [
-    "Creature"
-   ],
-   "sub_types": [
-    "Goblin",
-    "Shaman"
-   ],
-   "cmc": 1,
-   "image": "",
-   "colors": [
-    "G"
-   ],
-   "url": "https://scryfall.com/card/mh2/166/ignoble-hierarch?utm_source=api"
   },
   {
    "name": "Incinerate",
@@ -2233,22 +2199,6 @@
     "W"
    ],
    "url": "https://scryfall.com/card/mm3/11/kor-skyfisher?utm_source=api"
-  },
-  {
-   "name": "Kraul Harpooner",
-   "types": [
-    "Creature"
-   ],
-   "sub_types": [
-    "Insect",
-    "Warrior"
-   ],
-   "cmc": 2,
-   "image": "",
-   "colors": [
-    "G"
-   ],
-   "url": "https://scryfall.com/card/grn/136/kraul-harpooner?utm_source=api"
   },
   {
    "name": "Krenko, Tin Street Kingpin",
@@ -2948,6 +2898,22 @@
    "url": "https://scryfall.com/card/mom/68/negate?utm_source=api"
   },
   {
+   "name": "Nissa, Who Shakes the World",
+   "types": [
+    "Legendary",
+    "Planeswalker"
+   ],
+   "sub_types": [
+    "Nissa"
+   ],
+   "cmc": 5,
+   "image": "",
+   "colors": [
+    "G"
+   ],
+   "url": "https://scryfall.com/card/war/169/nissa-who-shakes-the-world?utm_source=api"
+  },
+  {
    "name": "Nobilis of War",
    "types": [
     "Creature"
@@ -3048,21 +3014,6 @@
     "G"
    ],
    "url": "https://scryfall.com/card/2x2/154/oracle-of-mul-daya?utm_source=api"
-  },
-  {
-   "name": "Orcish Lumberjack",
-   "types": [
-    "Creature"
-   ],
-   "sub_types": [
-    "Orc"
-   ],
-   "cmc": 1,
-   "image": "",
-   "colors": [
-    "R"
-   ],
-   "url": "https://scryfall.com/card/vma/179/orcish-lumberjack?utm_source=api"
   },
   {
    "name": "Oust",
@@ -4067,6 +4018,21 @@
    "url": "https://scryfall.com/card/dom/232/sparring-construct?utm_source=api"
   },
   {
+   "name": "Specter of Mortality",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Specter"
+   ],
+   "cmc": 5,
+   "image": "",
+   "colors": [
+    "B"
+   ],
+   "url": "https://scryfall.com/card/woe/107/specter-of-mortality?utm_source=api"
+  },
+  {
    "name": "Spell Pierce",
    "types": [
     "Instant"
@@ -4189,20 +4155,6 @@
     "B"
    ],
    "url": "https://scryfall.com/card/m19/121/stitchers-supplier?utm_source=api"
-  },
-  {
-   "name": "Stomping Ground",
-   "types": [
-    "Land"
-   ],
-   "sub_types": [
-    "Mountain",
-    "Forest"
-   ],
-   "cmc": 0,
-   "image": "",
-   "colors": [],
-   "url": "https://scryfall.com/card/rna/259/stomping-ground?utm_source=api"
   },
   {
    "name": "Sulfur Falls",
@@ -4347,6 +4299,22 @@
    "url": "https://scryfall.com/card/woe/204/the-goose-mother?utm_source=api"
   },
   {
+   "name": "The Long Reach of Night // Animus of Night's Reach",
+   "types": [
+    "Enchantment"
+   ],
+   "sub_types": [
+    "Saga",
+    "//",
+    "Enchantment",
+    "Creature"
+   ],
+   "cmc": 4,
+   "image": "",
+   "colors": null,
+   "url": "https://scryfall.com/card/neo/109/the-long-reach-of-night-animus-of-nights-reach?utm_source=api"
+  },
+  {
    "name": "The Reality Chip",
    "types": [
     "Legendary",
@@ -4463,6 +4431,20 @@
    "url": "https://scryfall.com/card/neo/40/touch-the-spirit-realm?utm_source=api"
   },
   {
+   "name": "Towashi Guide-Bot",
+   "types": [
+    "Artifact",
+    "Creature"
+   ],
+   "sub_types": [
+    "Construct"
+   ],
+   "cmc": 4,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/neo/262/towashi-guide-bot?utm_source=api"
+  },
+  {
    "name": "Trading Post",
    "types": [
     "Artifact"
@@ -4483,6 +4465,35 @@
     "U"
    ],
    "url": "https://scryfall.com/card/ncc/237/treasure-cruise?utm_source=api"
+  },
+  {
+   "name": "Triskelion",
+   "types": [
+    "Artifact",
+    "Creature"
+   ],
+   "sub_types": [
+    "Construct"
+   ],
+   "cmc": 6,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/moc/387/triskelion?utm_source=api"
+  },
+  {
+   "name": "Tukatongue Thallid",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Fungus"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [
+    "G"
+   ],
+   "url": "https://scryfall.com/card/pca/79/tukatongue-thallid?utm_source=api"
   },
   {
    "name": "Turn to Mist",
@@ -4735,22 +4746,6 @@
    "url": "https://scryfall.com/card/cmr/158/viscera-seer?utm_source=api"
   },
   {
-   "name": "Vivien, Champion of the Wilds",
-   "types": [
-    "Legendary",
-    "Planeswalker"
-   ],
-   "sub_types": [
-    "Vivien"
-   ],
-   "cmc": 3,
-   "image": "",
-   "colors": [
-    "G"
-   ],
-   "url": "https://scryfall.com/card/clb/838/vivien-champion-of-the-wilds?utm_source=api"
-  },
-  {
    "name": "Warcry Phoenix",
    "types": [
     "Creature"
@@ -4877,6 +4872,21 @@
    "image": "",
    "colors": [],
    "url": "https://scryfall.com/card/ktk/248/windswept-heath?utm_source=api"
+  },
+  {
+   "name": "Witherscale Wurm",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Wurm"
+   ],
+   "cmc": 6,
+   "image": "",
+   "colors": [
+    "G"
+   ],
+   "url": "https://scryfall.com/card/shm/134/witherscale-wurm?utm_source=api"
   },
   {
    "name": "Woe Strider",

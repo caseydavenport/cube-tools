@@ -1,5 +1,6 @@
 Count,Name,Section
 1,Abrade,main
+1,Abundant Harvest,main
 1,Acidic Slime,main
 1,Aether Tradewinds,main
 1,Agonizing Remorse,main
@@ -7,16 +8,14 @@ Count,Name,Section
 1,Ajani's Pridemate,main
 1,Angel of Salvation,main
 1,Angelic Intervention,main
-1,Anointed Procession,main
 1,Arasta of the Endless Web,main
 1,Arbor Elf,main
 1,Arcbound Tracker,main
 1,Archfiend of Ifnir,main
 1,Arid Mesa,main
-1,"Atris, Oracle of Half-Truths",main
-1,Avenger of Zendikar,main
 1,Beacon of Unrest,main
 1,Beast Within,main
+1,Black Sun's Zenith,main
 1,Blade of the Bloodchief,main
 1,Blinding Mage,main
 1,Blood Crypt,main
@@ -32,8 +31,8 @@ Count,Name,Section
 1,Breeding Pool,main
 1,Brineborn Cutthroat,main
 1,Burst Lightning,main
-1,Butcher of Malakir,main
 1,Cankerbloom,main
+1,Careful Study,main
 1,Cauldron of Souls,main
 1,Censor,main
 1,Chainweb Aracnir,main
@@ -75,7 +74,7 @@ Count,Name,Section
 1,Dream Trawler,main
 1,Dress Down,main
 1,Drowned Catacomb,main
-1,Earthquake,main
+1,Duress,main
 1,Edge of Autumn,main
 1,Eidolon of Obstruction,main
 1,Embereth Veteran,main
@@ -86,6 +85,7 @@ Count,Name,Section
 1,Eternal Witness,main
 1,Evolving Wilds,main
 1,Exclusion Mage,main
+1,Explore,main
 1,Fact or Fiction,main
 1,Faerie Dreamthief,main
 1,Faerie Vandal,main
@@ -93,10 +93,12 @@ Count,Name,Section
 1,Fall of the Thran,main
 1,Fate Transfer,main
 1,Fatestitcher,main
+1,Fecundity,main
 1,Feed the Cauldron,main
 1,Festering Mummy,main
 1,Field of Ruin,main
 1,Flame Jab,main
+1,Flame Slash,main
 1,Flames of the Firebrand,main
 1,Flickerwisp,main
 1,Flooded Strand,main
@@ -107,7 +109,6 @@ Count,Name,Section
 1,Fungal Infection,main
 1,Furycalm Snarl,main
 1,Galepowder Mage,main
-1,Game Trail,main
 1,Ghostly Flicker,main
 1,Gilded Goose,main
 1,Gilder Bairn,main
@@ -128,6 +129,7 @@ Count,Name,Section
 1,Grim Initiate,main
 1,Gruff Triplets,main
 1,Guttersnipe,main
+1,Halo Forager,main
 1,Hardened Scales,main
 1,Harm's Way,main
 1,Harrow,main
@@ -137,6 +139,7 @@ Count,Name,Section
 1,Hinterland Harbor,main
 1,Hostage Taker,main
 1,Hunting Triad,main
+1,Ignoble Hierarch,main
 1,Incinerate,main
 1,Inexorable Blob,main
 1,Infernal Grasp,main
@@ -159,6 +162,7 @@ Count,Name,Section
 1,Kor Duelist,main
 1,Kor Sanctifiers,main
 1,Kor Skyfisher,main
+1,Kraul Harpooner,main
 1,"Krenko, Tin Street Kingpin",main
 1,Languish,main
 1,Leaden Myr,main
@@ -207,7 +211,6 @@ Count,Name,Section
 1,Narrow Escape,main
 1,Necroblossom Snarl,main
 1,Negate,main
-1,"Nissa, Who Shakes the World",main
 1,Nobilis of War,main
 1,Oathsworn Vampire,main
 1,Oblivion Ring,main
@@ -215,6 +218,7 @@ Count,Name,Section
 1,Oona's Grace,main
 1,Opt,main
 1,Oracle of Mul Daya,main
+1,Orcish Lumberjack,main
 1,Oust,main
 1,Overgrown Tomb,main
 1,Overrun,main
@@ -288,7 +292,6 @@ Count,Name,Section
 1,Soul Warden,main
 1,Soul-Scar Mage,main
 1,Sparring Construct,main
-1,Specter of Mortality,main
 1,Spell Pierce,main
 1,Sphinx of Lost Truths,main
 1,Spider Food,main
@@ -298,6 +301,7 @@ Count,Name,Section
 1,Stinging Lionfish,main
 1,Stitch Together,main
 1,Stitcher's Supplier,main
+1,Stomping Ground,main
 1,Sulfur Falls,main
 1,Sunpetal Grove,main
 1,Tail Swipe,main
@@ -308,7 +312,6 @@ Count,Name,Section
 1,"Tezzeret, Betrayer of Flesh",main
 1,The Binding of the Titans,main
 1,The Goose Mother,main
-1,The Long Reach of Night // Animus of Night's Reach,main
 1,The Reality Chip,main
 1,The Wandering Emperor,main
 1,Thing in the Ice // Awoken Horror,main
@@ -317,11 +320,8 @@ Count,Name,Section
 1,Tilling Treefolk,main
 1,"Titania, Protector of Argoth",main
 1,Touch the Spirit Realm,main
-1,Towashi Guide-Bot,main
 1,Trading Post,main
 1,Treasure Cruise,main
-1,Triskelion,main
-1,Tukatongue Thallid,main
 1,Turn to Mist,main
 1,Twinshot Sniper,main
 1,Ulcerate,main
@@ -340,6 +340,7 @@ Count,Name,Section
 1,Vines of Vastwood,main
 1,Virtue of Persistence // Locthwain Scorn,main
 1,Viscera Seer,main
+1,"Vivien, Champion of the Wilds",main
 1,Warcry Phoenix,main
 1,Watery Grave,main
 1,Welcoming Vampire,main
@@ -349,7 +350,6 @@ Count,Name,Section
 1,Wilderness Reclamation,main
 1,Winds of Rebuke,main
 1,Windswept Heath,main
-1,Witherscale Wurm,main
 1,Woe Strider,main
 1,Wooded Foothills,main
 1,Woodfall Primus,main

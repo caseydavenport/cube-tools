@@ -1,0 +1,776 @@
+{
+ "labels": [],
+ "player": "xander",
+ "date": "2023-10-21",
+ "wins": 0,
+ "losses": 0,
+ "ties": 0,
+ "mainboard": [
+  {
+   "name": "Greta, Sweettooth Scourge",
+   "types": [
+    "Legendary",
+    "Creature"
+   ],
+   "sub_types": [
+    "Human",
+    "Warrior"
+   ],
+   "cmc": 3,
+   "image": "",
+   "colors": [
+    "B",
+    "G"
+   ],
+   "url": "https://scryfall.com/card/woe/205/greta-sweettooth-scourge?utm_source=api"
+  },
+  {
+   "name": "Beast Within",
+   "types": [
+    "Instant"
+   ],
+   "cmc": 3,
+   "image": "",
+   "colors": [
+    "G"
+   ],
+   "url": "https://scryfall.com/card/dmc/129/beast-within?utm_source=api"
+  },
+  {
+   "name": "Quillspike",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Beast"
+   ],
+   "cmc": 3,
+   "image": "",
+   "colors": [
+    "B",
+    "G"
+   ],
+   "url": "https://scryfall.com/card/eve/126/quillspike?utm_source=api"
+  },
+  {
+   "name": "Overgrown Tomb",
+   "types": [
+    "Land"
+   ],
+   "sub_types": [
+    "Swamp",
+    "Forest"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/grn/253/overgrown-tomb?utm_source=api"
+  },
+  {
+   "name": "Tezzeret, Betrayer of Flesh",
+   "types": [
+    "Legendary",
+    "Planeswalker"
+   ],
+   "sub_types": [
+    "Tezzeret"
+   ],
+   "cmc": 4,
+   "image": "",
+   "colors": [
+    "U"
+   ],
+   "url": "https://scryfall.com/card/neo/84/tezzeret-betrayer-of-flesh?utm_source=api"
+  },
+  {
+   "name": "Woodland Cemetery",
+   "types": [
+    "Land"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/dom/248/woodland-cemetery?utm_source=api"
+  },
+  {
+   "name": "Choked Estuary",
+   "types": [
+    "Land"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/moc/394/choked-estuary?utm_source=api"
+  },
+  {
+   "name": "Black Sun's Zenith",
+   "types": [
+    "Sorcery"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "B"
+   ],
+   "url": "https://scryfall.com/card/c14/136/black-suns-zenith?utm_source=api"
+  },
+  {
+   "name": "The Goose Mother",
+   "types": [
+    "Legendary",
+    "Creature"
+   ],
+   "sub_types": [
+    "Bird",
+    "Hydra"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "G",
+    "U"
+   ],
+   "url": "https://scryfall.com/card/woe/204/the-goose-mother?utm_source=api"
+  },
+  {
+   "name": "Master of Etherium",
+   "types": [
+    "Artifact",
+    "Creature"
+   ],
+   "sub_types": [
+    "Vedalken",
+    "Wizard"
+   ],
+   "cmc": 3,
+   "image": "",
+   "colors": [
+    "U"
+   ],
+   "url": "https://scryfall.com/card/moc/226/master-of-etherium?utm_source=api"
+  },
+  {
+   "name": "Gruff Triplets",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Satyr",
+    "Warrior"
+   ],
+   "cmc": 6,
+   "image": "",
+   "colors": [
+    "G"
+   ],
+   "url": "https://scryfall.com/card/woe/172/gruff-triplets?utm_source=api"
+  },
+  {
+   "name": "Lodestone Myr",
+   "types": [
+    "Artifact",
+    "Creature"
+   ],
+   "sub_types": [
+    "Myr"
+   ],
+   "cmc": 4,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/mm2/220/lodestone-myr?utm_source=api"
+  },
+  {
+   "name": "Woodland Champion",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Elf",
+    "Scout"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "G"
+   ],
+   "url": "https://scryfall.com/card/2xm/188/woodland-champion?utm_source=api"
+  },
+  {
+   "name": "Disfigure",
+   "types": [
+    "Instant"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [
+    "B"
+   ],
+   "url": "https://scryfall.com/card/bro/91/disfigure?utm_source=api"
+  },
+  {
+   "name": "Marsh Flats",
+   "types": [
+    "Land"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/mh2/248/marsh-flats?utm_source=api"
+  },
+  {
+   "name": "Devoted Druid",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Elf",
+    "Druid"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "G"
+   ],
+   "url": "https://scryfall.com/card/2x2/143/devoted-druid?utm_source=api"
+  },
+  {
+   "name": "Persist",
+   "types": [
+    "Sorcery"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "B"
+   ],
+   "url": "https://scryfall.com/card/mh2/96/persist?utm_source=api"
+  },
+  {
+   "name": "Spider Food",
+   "types": [
+    "Sorcery"
+   ],
+   "cmc": 3,
+   "image": "",
+   "colors": [
+    "G"
+   ],
+   "url": "https://scryfall.com/card/woe/186/spider-food?utm_source=api"
+  },
+  {
+   "name": "Ravenous Squirrel",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Squirrel"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [
+    "B",
+    "G"
+   ],
+   "url": "https://scryfall.com/card/mh2/211/ravenous-squirrel?utm_source=api"
+  },
+  {
+   "name": "Drowned Catacomb",
+   "types": [
+    "Land"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/xln/253/drowned-catacomb?utm_source=api"
+  },
+  {
+   "name": "Utopia Sprawl",
+   "types": [
+    "Enchantment"
+   ],
+   "sub_types": [
+    "Aura"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [
+    "G"
+   ],
+   "url": "https://scryfall.com/card/afc/172/utopia-sprawl?utm_source=api"
+  },
+  {
+   "name": "Ulcerate",
+   "types": [
+    "Instant"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [
+    "B"
+   ],
+   "url": "https://scryfall.com/card/ima/112/ulcerate?utm_source=api"
+  },
+  {
+   "name": "Infernal Grasp",
+   "types": [
+    "Instant"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "B"
+   ],
+   "url": "https://scryfall.com/card/mid/107/infernal-grasp?utm_source=api"
+  },
+  {
+   "name": "Breeding Pool",
+   "types": [
+    "Land"
+   ],
+   "sub_types": [
+    "Forest",
+    "Island"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/rna/246/breeding-pool?utm_source=api"
+  },
+  {
+   "name": "Ignoble Hierarch",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Goblin",
+    "Shaman"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [
+    "G"
+   ],
+   "url": "https://scryfall.com/card/mh2/166/ignoble-hierarch?utm_source=api"
+  },
+  {
+   "name": "Virtue of Persistence // Locthwain Scorn",
+   "types": [
+    "Enchantment",
+    "//",
+    "Sorcery"
+   ],
+   "sub_types": [
+    "Adventure"
+   ],
+   "cmc": 7,
+   "image": "",
+   "colors": [
+    "B"
+   ],
+   "url": "https://scryfall.com/card/woe/115/virtue-of-persistence-locthwain-scorn?utm_source=api"
+  },
+  {
+   "name": "Necroblossom Snarl",
+   "types": [
+    "Land"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/cmm/1015/necroblossom-snarl?utm_source=api"
+  },
+  {
+   "name": "Feed the Cauldron",
+   "types": [
+    "Instant"
+   ],
+   "cmc": 3,
+   "image": "",
+   "colors": [
+    "B"
+   ],
+   "url": "https://scryfall.com/card/woe/91/feed-the-cauldron?utm_source=api"
+  },
+  {
+   "name": "Sanguine Bond",
+   "types": [
+    "Enchantment"
+   ],
+   "cmc": 5,
+   "image": "",
+   "colors": [
+    "B"
+   ],
+   "url": "https://scryfall.com/card/c21/153/sanguine-bond?utm_source=api"
+  },
+  {
+   "name": "Mulldrifter",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Elemental"
+   ],
+   "cmc": 5,
+   "image": "",
+   "colors": [
+    "U"
+   ],
+   "url": "https://scryfall.com/card/2x2/60/mulldrifter?utm_source=api"
+  },
+  {
+   "name": "Arbor Elf",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Elf",
+    "Druid"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [
+    "G"
+   ],
+   "url": "https://scryfall.com/card/a25/160/arbor-elf?utm_source=api"
+  },
+  {
+   "name": "Watery Grave",
+   "types": [
+    "Land"
+   ],
+   "sub_types": [
+    "Island",
+    "Swamp"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/grn/259/watery-grave?utm_source=api"
+  },
+  {
+   "name": "Swamp",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Swamp"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/woe/271/swamp?utm_source=api"
+  },
+  {
+   "name": "Swamp",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Swamp"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/woe/271/swamp?utm_source=api"
+  },
+  {
+   "name": "Swamp",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Swamp"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/woe/271/swamp?utm_source=api"
+  },
+  {
+   "name": "Forest",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Forest"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/woe/275/forest?utm_source=api"
+  },
+  {
+   "name": "Forest",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Forest"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/woe/275/forest?utm_source=api"
+  },
+  {
+   "name": "Forest",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Forest"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/woe/275/forest?utm_source=api"
+  },
+  {
+   "name": "Forest",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Forest"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/woe/275/forest?utm_source=api"
+  },
+  {
+   "name": "Forest",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Forest"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/woe/275/forest?utm_source=api"
+  }
+ ],
+ "sideboard": [
+  {
+   "name": "Puncture Blast",
+   "types": [
+    "Instant"
+   ],
+   "cmc": 3,
+   "image": "",
+   "colors": [
+    "R"
+   ],
+   "url": "https://scryfall.com/card/eve/60/puncture-blast?utm_source=api"
+  },
+  {
+   "name": "Jolrael, Mwonvuli Recluse",
+   "types": [
+    "Legendary",
+    "Creature"
+   ],
+   "sub_types": [
+    "Human",
+    "Druid"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "G"
+   ],
+   "url": "https://scryfall.com/card/cmm/299/jolrael-mwonvuli-recluse?utm_source=api"
+  },
+  {
+   "name": "Reclamation Sage",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Elf",
+    "Shaman"
+   ],
+   "cmc": 3,
+   "image": "",
+   "colors": [
+    "G"
+   ],
+   "url": "https://scryfall.com/card/khc/72/reclamation-sage?utm_source=api"
+  },
+  {
+   "name": "Panharmonicon",
+   "types": [
+    "Artifact"
+   ],
+   "cmc": 4,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/2x2/310/panharmonicon?utm_source=api"
+  },
+  {
+   "name": "Bloodsoaked Champion",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Human",
+    "Warrior"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [
+    "B"
+   ],
+   "url": "https://scryfall.com/card/clb/740/bloodsoaked-champion?utm_source=api"
+  },
+  {
+   "name": "Turn to Mist",
+   "types": [
+    "Instant"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "U",
+    "W"
+   ],
+   "url": "https://scryfall.com/card/uma/224/turn-to-mist?utm_source=api"
+  },
+  {
+   "name": "Throne of the God-Pharaoh",
+   "types": [
+    "Legendary",
+    "Artifact"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/akh/237/throne-of-the-god-pharaoh?utm_source=api"
+  },
+  {
+   "name": "Scavenger Drake",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Drake"
+   ],
+   "cmc": 4,
+   "image": "",
+   "colors": [
+    "B"
+   ],
+   "url": "https://scryfall.com/card/mm2/93/scavenger-drake?utm_source=api"
+  },
+  {
+   "name": "Delay",
+   "types": [
+    "Instant"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "U"
+   ],
+   "url": "https://scryfall.com/card/tsr/61/delay?utm_source=api"
+  },
+  {
+   "name": "Treasure Cruise",
+   "types": [
+    "Sorcery"
+   ],
+   "cmc": 8,
+   "image": "",
+   "colors": [
+    "U"
+   ],
+   "url": "https://scryfall.com/card/ncc/237/treasure-cruise?utm_source=api"
+  },
+  {
+   "name": "Bone Shards",
+   "types": [
+    "Sorcery"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [
+    "B"
+   ],
+   "url": "https://scryfall.com/card/mh2/76/bone-shards?utm_source=api"
+  },
+  {
+   "name": "Vines of Vastwood",
+   "types": [
+    "Instant"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [
+    "G"
+   ],
+   "url": "https://scryfall.com/card/mm2/168/vines-of-vastwood?utm_source=api"
+  },
+  {
+   "name": "Winds of Rebuke",
+   "types": [
+    "Instant"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "U"
+   ],
+   "url": "https://scryfall.com/card/akh/76/winds-of-rebuke?utm_source=api"
+  },
+  {
+   "name": "Languish",
+   "types": [
+    "Sorcery"
+   ],
+   "cmc": 4,
+   "image": "",
+   "colors": [
+    "B"
+   ],
+   "url": "https://scryfall.com/card/jmp/246/languish?utm_source=api"
+  },
+  {
+   "name": "Stitch Together",
+   "types": [
+    "Sorcery"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "B"
+   ],
+   "url": "https://scryfall.com/card/c18/119/stitch-together?utm_source=api"
+  },
+  {
+   "name": "Wickerbough Elder",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Treefolk",
+    "Shaman"
+   ],
+   "cmc": 4,
+   "image": "",
+   "colors": [
+    "G"
+   ],
+   "url": "https://scryfall.com/card/ncc/320/wickerbough-elder?utm_source=api"
+  }
+ ]
+}

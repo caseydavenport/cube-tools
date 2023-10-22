@@ -1,0 +1,878 @@
+{
+ "labels": [],
+ "player": "jen",
+ "date": "2023-10-21",
+ "wins": 0,
+ "losses": 0,
+ "ties": 0,
+ "mainboard": [
+  {
+   "name": "Mana Leak",
+   "types": [
+    "Instant"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "U"
+   ],
+   "url": "https://scryfall.com/card/2x2/58/mana-leak?utm_source=api"
+  },
+  {
+   "name": "Vexing Gull",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Bird"
+   ],
+   "cmc": 3,
+   "image": "",
+   "colors": [
+    "U"
+   ],
+   "url": "https://scryfall.com/card/thb/79/vexing-gull?utm_source=api"
+  },
+  {
+   "name": "Roaring Earth",
+   "types": [
+    "Enchantment"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "G"
+   ],
+   "url": "https://scryfall.com/card/neo/204/roaring-earth?utm_source=api"
+  },
+  {
+   "name": "Cankerbloom",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Phyrexian",
+    "Fungus"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "G"
+   ],
+   "url": "https://scryfall.com/card/one/161/cankerbloom?utm_source=api"
+  },
+  {
+   "name": "Fatestitcher",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Zombie",
+    "Wizard"
+   ],
+   "cmc": 4,
+   "image": "",
+   "colors": [
+    "U"
+   ],
+   "url": "https://scryfall.com/card/ala/43/fatestitcher?utm_source=api"
+  },
+  {
+   "name": "Wilderness Reclamation",
+   "types": [
+    "Enchantment"
+   ],
+   "cmc": 4,
+   "image": "",
+   "colors": [
+    "G"
+   ],
+   "url": "https://scryfall.com/card/c20/196/wilderness-reclamation?utm_source=api"
+  },
+  {
+   "name": "Evolving Wilds",
+   "types": [
+    "Land"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/woe/256/evolving-wilds?utm_source=api"
+  },
+  {
+   "name": "Ephara's Dispersal",
+   "types": [
+    "Instant"
+   ],
+   "cmc": 3,
+   "image": "",
+   "colors": [
+    "U"
+   ],
+   "url": "https://scryfall.com/card/mom/55/epharas-dispersal?utm_source=api"
+  },
+  {
+   "name": "Hinterland Harbor",
+   "types": [
+    "Land"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/dom/240/hinterland-harbor?utm_source=api"
+  },
+  {
+   "name": "Rite of Replication",
+   "types": [
+    "Sorcery"
+   ],
+   "cmc": 4,
+   "image": "",
+   "colors": [
+    "U"
+   ],
+   "url": "https://scryfall.com/card/c21/128/rite-of-replication?utm_source=api"
+  },
+  {
+   "name": "Pollenbright Druid",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Elf",
+    "Druid"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "G"
+   ],
+   "url": "https://scryfall.com/card/cmm/312/pollenbright-druid?utm_source=api"
+  },
+  {
+   "name": "Gilder Bairn",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Ouphe"
+   ],
+   "cmc": 3,
+   "image": "",
+   "colors": [
+    "G",
+    "U"
+   ],
+   "url": "https://scryfall.com/card/eve/152/gilder-bairn?utm_source=api"
+  },
+  {
+   "name": "Oracle of Mul Daya",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Elf",
+    "Shaman"
+   ],
+   "cmc": 4,
+   "image": "",
+   "colors": [
+    "G"
+   ],
+   "url": "https://scryfall.com/card/2x2/154/oracle-of-mul-daya?utm_source=api"
+  },
+  {
+   "name": "Hardened Scales",
+   "types": [
+    "Enchantment"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [
+    "G"
+   ],
+   "url": "https://scryfall.com/card/2x2/151/hardened-scales?utm_source=api"
+  },
+  {
+   "name": "Fate Transfer",
+   "types": [
+    "Instant"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "B",
+    "U"
+   ],
+   "url": "https://scryfall.com/card/shm/161/fate-transfer?utm_source=api"
+  },
+  {
+   "name": "Untamed Kavu",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Kavu"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "G"
+   ],
+   "url": "https://scryfall.com/card/dom/186/untamed-kavu?utm_source=api"
+  },
+  {
+   "name": "Faerie Vandal",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Faerie",
+    "Rogue"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "U"
+   ],
+   "url": "https://scryfall.com/card/snc/44/faerie-vandal?utm_source=api"
+  },
+  {
+   "name": "Brineborn Cutthroat",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Merfolk",
+    "Pirate"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "U"
+   ],
+   "url": "https://scryfall.com/card/m20/50/brineborn-cutthroat?utm_source=api"
+  },
+  {
+   "name": "Rampaging Baloths",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Beast"
+   ],
+   "cmc": 6,
+   "image": "",
+   "colors": [
+    "G"
+   ],
+   "url": "https://scryfall.com/card/c21/203/rampaging-baloths?utm_source=api"
+  },
+  {
+   "name": "Deprive",
+   "types": [
+    "Instant"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "U"
+   ],
+   "url": "https://scryfall.com/card/roe/59/deprive?utm_source=api"
+  },
+  {
+   "name": "Flux Channeler",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Human",
+    "Wizard"
+   ],
+   "cmc": 3,
+   "image": "",
+   "colors": [
+    "U"
+   ],
+   "url": "https://scryfall.com/card/cmm/847/flux-channeler?utm_source=api"
+  },
+  {
+   "name": "Chainweb Aracnir",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Spider"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [
+    "G"
+   ],
+   "url": "https://scryfall.com/card/thb/167/chainweb-aracnir?utm_source=api"
+  },
+  {
+   "name": "Merfolk Skydiver",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Merfolk",
+    "Mutant"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "G",
+    "U"
+   ],
+   "url": "https://scryfall.com/card/war/205/merfolk-skydiver?utm_source=api"
+  },
+  {
+   "name": "Opt",
+   "types": [
+    "Instant"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [
+    "U"
+   ],
+   "url": "https://scryfall.com/card/m21/59/opt?utm_source=api"
+  },
+  {
+   "name": "Llanowar Elves",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Elf",
+    "Druid"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [
+    "G"
+   ],
+   "url": "https://scryfall.com/card/gnt/46/llanowar-elves?utm_source=api"
+  },
+  {
+   "name": "Tamiyo, Compleated Sage",
+   "types": [
+    "Legendary",
+    "Planeswalker"
+   ],
+   "sub_types": [
+    "Tamiyo"
+   ],
+   "cmc": 5,
+   "image": "",
+   "colors": [
+    "G",
+    "U"
+   ],
+   "url": "https://scryfall.com/card/neo/238/tamiyo-compleated-sage?utm_source=api"
+  },
+  {
+   "name": "Explore",
+   "types": [
+    "Sorcery"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "G"
+   ],
+   "url": "https://scryfall.com/card/dmc/131/explore?utm_source=api"
+  },
+  {
+   "name": "Island",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Island"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/woe/269/island?utm_source=api"
+  },
+  {
+   "name": "Island",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Island"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/woe/269/island?utm_source=api"
+  },
+  {
+   "name": "Island",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Island"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/woe/269/island?utm_source=api"
+  },
+  {
+   "name": "Island",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Island"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/woe/269/island?utm_source=api"
+  },
+  {
+   "name": "Island",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Island"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/woe/269/island?utm_source=api"
+  },
+  {
+   "name": "Island",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Island"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/woe/269/island?utm_source=api"
+  },
+  {
+   "name": "Island",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Island"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/woe/269/island?utm_source=api"
+  },
+  {
+   "name": "Forest",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Forest"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/woe/275/forest?utm_source=api"
+  },
+  {
+   "name": "Forest",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Forest"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/woe/275/forest?utm_source=api"
+  },
+  {
+   "name": "Forest",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Forest"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/woe/275/forest?utm_source=api"
+  },
+  {
+   "name": "Forest",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Forest"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/woe/275/forest?utm_source=api"
+  },
+  {
+   "name": "Forest",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Forest"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/woe/275/forest?utm_source=api"
+  },
+  {
+   "name": "Forest",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Forest"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/woe/275/forest?utm_source=api"
+  },
+  {
+   "name": "Forest",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Forest"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/woe/275/forest?utm_source=api"
+  }
+ ],
+ "sideboard": [
+  {
+   "name": "Hostage Taker",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Human",
+    "Pirate"
+   ],
+   "cmc": 4,
+   "image": "",
+   "colors": [
+    "B",
+    "U"
+   ],
+   "url": "https://scryfall.com/card/2x2/227/hostage-taker?utm_source=api"
+  },
+  {
+   "name": "Bonesplitter",
+   "types": [
+    "Artifact"
+   ],
+   "sub_types": [
+    "Equipment"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/cmr/458/bonesplitter?utm_source=api"
+  },
+  {
+   "name": "Intrepid Trufflesnout // Go Hog Wild",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Boar",
+    "//",
+    "Instant"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "G"
+   ],
+   "url": "https://scryfall.com/card/woe/320/intrepid-trufflesnout-go-hog-wild?utm_source=api"
+  },
+  {
+   "name": "Shadowstorm Vizier",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Human",
+    "Cleric"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "B",
+    "U"
+   ],
+   "url": "https://scryfall.com/card/akh/206/shadowstorm-vizier?utm_source=api"
+  },
+  {
+   "name": "Saproling Migration",
+   "types": [
+    "Sorcery"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "G"
+   ],
+   "url": "https://scryfall.com/card/dom/178/saproling-migration?utm_source=api"
+  },
+  {
+   "name": "Umbral Mantle",
+   "types": [
+    "Artifact"
+   ],
+   "sub_types": [
+    "Equipment"
+   ],
+   "cmc": 3,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/shm/267/umbral-mantle?utm_source=api"
+  },
+  {
+   "name": "Ghostly Flicker",
+   "types": [
+    "Instant"
+   ],
+   "cmc": 3,
+   "image": "",
+   "colors": [
+    "U"
+   ],
+   "url": "https://scryfall.com/card/cmm/98/ghostly-flicker?utm_source=api"
+  },
+  {
+   "name": "Trading Post",
+   "types": [
+    "Artifact"
+   ],
+   "cmc": 4,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/cm2/225/trading-post?utm_source=api"
+  },
+  {
+   "name": "Negate",
+   "types": [
+    "Instant"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "U"
+   ],
+   "url": "https://scryfall.com/card/mom/68/negate?utm_source=api"
+  },
+  {
+   "name": "Quest for the Gemblades",
+   "types": [
+    "Enchantment"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "G"
+   ],
+   "url": "https://scryfall.com/card/zen/177/quest-for-the-gemblades?utm_source=api"
+  },
+  {
+   "name": "Aether Tradewinds",
+   "types": [
+    "Instant"
+   ],
+   "cmc": 3,
+   "image": "",
+   "colors": [
+    "U"
+   ],
+   "url": "https://scryfall.com/card/kld/38/aether-tradewinds?utm_source=api"
+  },
+  {
+   "name": "Arasta of the Endless Web",
+   "types": [
+    "Legendary",
+    "Enchantment",
+    "Creature"
+   ],
+   "sub_types": [
+    "Spider"
+   ],
+   "cmc": 4,
+   "image": "",
+   "colors": [
+    "G"
+   ],
+   "url": "https://scryfall.com/card/cmm/885/arasta-of-the-endless-web?utm_source=api"
+  },
+  {
+   "name": "Territorial Allosaurus",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Dinosaur"
+   ],
+   "cmc": 4,
+   "image": "",
+   "colors": [
+    "G"
+   ],
+   "url": "https://scryfall.com/card/dom/184/territorial-allosaurus?utm_source=api"
+  },
+  {
+   "name": "Overrun",
+   "types": [
+    "Sorcery"
+   ],
+   "cmc": 5,
+   "image": "",
+   "colors": [
+    "G"
+   ],
+   "url": "https://scryfall.com/card/cma/130/overrun?utm_source=api"
+  },
+  {
+   "name": "Woodfall Primus",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Treefolk",
+    "Shaman"
+   ],
+   "cmc": 8,
+   "image": "",
+   "colors": [
+    "G"
+   ],
+   "url": "https://scryfall.com/card/ncc/322/woodfall-primus?utm_source=api"
+  },
+  {
+   "name": "Sleep of the Dead",
+   "types": [
+    "Sorcery"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [
+    "U"
+   ],
+   "url": "https://scryfall.com/card/thb/66/sleep-of-the-dead?utm_source=api"
+  },
+  {
+   "name": "Hunting Triad",
+   "types": [
+    "Tribal",
+    "Sorcery"
+   ],
+   "sub_types": [
+    "Elf"
+   ],
+   "cmc": 4,
+   "image": "",
+   "colors": [
+    "G"
+   ],
+   "url": "https://scryfall.com/card/cma/116/hunting-triad?utm_source=api"
+  },
+  {
+   "name": "Gilded Goose",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Bird"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [
+    "G"
+   ],
+   "url": "https://scryfall.com/card/moc/299/gilded-goose?utm_source=api"
+  },
+  {
+   "name": "Oona's Grace",
+   "types": [
+    "Instant"
+   ],
+   "cmc": 3,
+   "image": "",
+   "colors": [
+    "U"
+   ],
+   "url": "https://scryfall.com/card/c19/91/oonas-grace?utm_source=api"
+  },
+  {
+   "name": "Moon-Circuit Hacker",
+   "types": [
+    "Enchantment",
+    "Creature"
+   ],
+   "sub_types": [
+    "Human",
+    "Ninja"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "U"
+   ],
+   "url": "https://scryfall.com/card/neo/67/moon-circuit-hacker?utm_source=api"
+  },
+  {
+   "name": "Quicken",
+   "types": [
+    "Instant"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [
+    "U"
+   ],
+   "url": "https://scryfall.com/card/dds/6/quicken?utm_source=api"
+  }
+ ]
+}
