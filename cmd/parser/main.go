@@ -27,8 +27,6 @@ var (
 	fileType string
 
 	// Options applicable when parsing a single deck file.
-	wins   int
-	losses int
 	labels string
 	who    string
 	date   string
@@ -45,8 +43,6 @@ func init() {
 	flag.StringVar(&deck, "deck", "", "Path to the deck file to import")
 	flag.StringVar(&draftLog, "draft-log", "", "Path to a draft log to parse. NOTE: Basic lands not included!")
 	flag.StringVar(&who, "who", "", "Who made the deck")
-	flag.IntVar(&wins, "wins", 0, "Number of wins")
-	flag.IntVar(&losses, "losses", 0, "Number of losses")
 	flag.StringVar(&labels, "labels", "", "Labels describing the deck. e.g., aggro,sacrifice")
 	flag.StringVar(&date, "date", "", "Date, in YYYY-MM-DD format")
 	flag.StringVar(&deckDir, "deck-dir", "", "Directory containing deck files to parse. Alternative to -deck.")
@@ -312,8 +308,6 @@ func loadDeckFile(deckFile string, player string) (*types.Deck, error) {
 	if len(labels) > 0 {
 		d.Labels = strings.Split(labels, ",")
 	}
-	d.Wins = wins
-	d.Losses = losses
 	d.Player = player
 	d.Date = date
 

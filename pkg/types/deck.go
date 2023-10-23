@@ -17,12 +17,6 @@ type Deck struct {
 	Player string `json:"player"`
 	Date   string `json:"date"`
 
-	// Performance data in terms of raw games won, lost, or tied.
-	// Deprecated: Use the games field instead for new decks.
-	Wins   int `json:"wins"`
-	Losses int `json:"losses"`
-	Ties   int `json:"ties"`
-
 	// Games played with this deck.
 	Games []Game `json:"games"`
 
