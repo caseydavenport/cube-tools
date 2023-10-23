@@ -2,6 +2,7 @@ import React from 'react'
 import { useState } from "react";
 import { useEffect } from "react";
 import { FetchDraftIndex, FetchDeckIndex, FetchDeck } from "../utils/Fetch.js"
+import { Wins, Losses } from "../utils/Deck.js"
 
 // This function builds the DeckViewer widget for selecting and viewing statistics
 // about a particular deck.
@@ -186,6 +187,8 @@ function DisplayDeck({deck, mbsb}) {
   let acmc = deck.avg_cmc
   let colors = deck.colors
   let cardCount = cards.length
+  let wins = Wins(deck)
+  let losses = Losses(deck)
 
   return (
     <div>
@@ -201,7 +204,7 @@ function DisplayDeck({deck, mbsb}) {
       </tr>
       <tr className="player-frame-row">
         <td className="player-frame-title">Record:</td>
-        <td className="player-frame-value">{deck.wins}-{deck.losses}-{deck.ties}</td>
+        <td className="player-frame-value">{wins}-{losses}</td>
       </tr>
       <tr className="player-frame-row">
         <td className="player-frame-title">Average CMC:</td>

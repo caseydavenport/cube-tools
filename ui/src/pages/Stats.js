@@ -5,6 +5,7 @@ import { LoadCube, LoadDecks, LoadDrafts, IsBasicLand } from "../utils/Fetch.js"
 import { DropdownHeader, NumericInput, Checkbox, DateSelector } from "../components/Dropdown.js"
 import { GetColorIdentity } from "../utils/Colors.js"
 import { AllPicks, Pick } from "../utils/DraftLog.js"
+import { Wins, Losses } from "../utils/Deck.js"
 
 
 
@@ -440,8 +441,8 @@ function PlayerWidget(input) {
     }
 
     // Add per-deck data here. Like win / loss count.
-    map.get(player).wins += deck.wins
-    map.get(player).losses += deck.losses
+    map.get(player).wins += Wins(deck)
+    map.get(player).losses += Losses(deck)
     map.get(player).numDecks += 1
 
     // Go through each card and increase the player's per-card stats.
@@ -1105,8 +1106,8 @@ function BestCombosWidget(input) {
         if (alreadyCounted[deckKey]) {
           continue
         }
-        combos[key].wins += deck.wins
-        combos[key].losses += deck.losses
+        combos[key].wins += Wins(deck)
+        combos[key].losses += Losses(deck)
         combos[key].decks += 1
         alreadyCounted[deckKey] = true
       }
@@ -1470,8 +1471,8 @@ function CardData(decks, minDrafts, minGames, cube, color) {
 
       // Increment basic stats for this card.
       tracker[card.name].mainboard += 1
-      tracker[card.name].wins += decks[i].wins
-      tracker[card.name].losses += decks[i].losses
+      tracker[card.name].wins += Wins(decks[i])
+      tracker[card.name].losses += Losses(decks[i])
 
       // Increment player count.
       if (!tracker[card.name].players.has(deck.player)) {
@@ -1577,8 +1578,8 @@ function ArchetypeData(decks) {
         })
       }
       tracker.get(type).count += 1
-      tracker.get(type).wins += decks[i].wins
-      tracker.get(type).losses += decks[i].losses
+      tracker.get(type).wins += Wins(decks[i])
+      tracker.get(type).losses += Losses(decks[i])
 
       // Track who plays this archetype, and how often.
       if (!tracker.get(type).players.has(decks[i].player)) {
@@ -1799,8 +1800,8 @@ function GetColorStats(decks) {
           total_pick_percentage: 0,
         }
       }
-      tracker[color].wins += decks[i].wins
-      tracker[color].losses += decks[i].losses
+      tracker[color].wins += Wins(decks[i])
+      tracker[color].losses += Losses(decks[i])
     }
 
     // Add metrics to the color based on card scope statistics.

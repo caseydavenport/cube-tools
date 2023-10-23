@@ -2,9 +2,11 @@
  "labels": ["control", "reanimate"],
  "player": "casey",
  "date": "2023-10-15",
- "wins": 2,
- "losses": 1,
- "ties": 0,
+ "games": [
+   {"opponent": "dom", "winner": "dom"},
+   {"opponent": "dom", "winner": "casey"},
+   {"opponent": "dom", "winner": "casey"}
+ ],
  "mainboard": [
   {
    "name": "Glass Casket",
