@@ -200,7 +200,7 @@ export default function StatsViewer() {
     LoadCube(onCubeLoad)
   }, [])
   function onLoad(d) {
-    setDecks({...d})
+    setDecks([...d])
 
     // Build option for the archetype dropdown.
     let archetypes = new Map()
@@ -1572,9 +1572,7 @@ function ArchetypeData(decks) {
   // First, determine the popularity of each archetype by iterating all decks
   // and counting the instances of each.
   let tracker = new Map()
-  let totalDecks = 0
   for (var i in decks) {
-    totalDecks += 1
     let types = decks[i].labels
     for (var j in types) {
       let type = types[j]
@@ -1620,7 +1618,7 @@ function ArchetypeData(decks) {
 
   // Perform calculation on each entry.
   tracker.forEach(function(archetype) {
-    archetype.build_percent = Math.round(archetype.count / totalDecks * 100)
+    archetype.build_percent = Math.round(archetype.count / decks.length * 100)
     archetype.win_percent = Math.round(archetype.wins / (archetype.wins + archetype.losses) * 100)
     archetype.record = archetype.wins + "-" + archetype.losses + "-" + 0
     archetype.avg_shared = Math.round(archetype.numSharedWith / archetype.count * 100) / 100
@@ -1660,69 +1658,13 @@ function ColorStatsWidget(input) {
     return null
   }
 
-  // First, determine the popularity of each color by iterating all decks
-  // and counting the instances of each color, pair, and triome.
-  let tracker = {}
-  let totalDecks = 0
-  let decks = input.decks
-  for (var i in decks) {
-    totalDecks += 1
-    let colors = GetColorIdentity(decks[i])
-    for (var j in colors) {
-      let color = colors[j]
-      if (tracker[color] == null) {
-        tracker[color] = {color: color, count: 0}
-      }
-      tracker[color].count += 1
-    }
-  }
-  for (var color in tracker) {
-    tracker[color].percent = Math.round(tracker[color].count / totalDecks * 100)
-  }
-
   // Iterate and calculate the actual win percentage for each.
   // Also, convert from a map to a list at this point so that we can
   // sort by win percentage.
   let wr = []
-  for (color in input.winrates) {
-    // If dual is set, only show dual colors.
-    // Otherwise, only show single colors.
-    // `color` here is a string made of one or more characters - e.g., W or UB.
-    if (input.dropdownSelection === "Dual" && color.length !== 2) {
-      continue
-    } else if (input.dropdownSelection === "Mono" && color.length !== 1 ) {
-      continue
-    } else if (input.dropdownSelection === "Trio" && color.length !== 3) {
-      continue
-    }
-    let ratesForColor = input.winrates[color]
-    let wins = ratesForColor.wins
-    let losses = ratesForColor.losses
-    let p = Math.round(wins / (wins + losses) * 100)
-    if ((wins + losses) === 0) {
-      p = 0
-    }
-    ratesForColor.win_percent = p
-    ratesForColor.build_percent = tracker[color].percent
-    ratesForColor.num_decks = tracker[color].count
-    ratesForColor.record = wins + "-" + losses + "-" + 0
-
-    // Determine what we're sorting by. Default to sorting by win percentage.
-    ratesForColor.sort = ratesForColor.win_percent
-    if (input.sortBy === "build") {
-      ratesForColor.sort = ratesForColor.build_percent
-    } else if (input.sortBy === "decks") {
-      ratesForColor.sort = ratesForColor.num_decks
-    } else if (input.sortBy === "color") {
-      ratesForColor.sort = ratesForColor.color
-    } else if (input.sortBy === "picks") {
-      ratesForColor.sort = ratesForColor.total_pick_percentage
-    } else if (input.sortBy === "splash") {
-      ratesForColor.sort = ratesForColor.average_deck_percentage
-    }
-
+  for (var color in input.winrates) {
     // Add it to the list.
-    wr.push(ratesForColor)
+    wr.push(input.winrates[color])
   }
 
   // We conditionally show / hide a few of the columns, because they are only
@@ -1747,21 +1689,55 @@ function ColorStatsWidget(input) {
       </thead>
       <tbody>
         {
-          wr.map((rates) => (
-            <tr key={rates.color} sort={rates.sort} className="winrate-row">
-              <td>{rates.color}</td>
-              <td>{rates.win_percent}%</td>
-              <td>{rates.build_percent}%</td>
-              <td>{rates.record}</td>
-              <td>{rates.num_decks}</td>
-              <td style={headerStyleFields}>{rates.total_pick_percentage}%</td>
-              <td style={headerStyleFields}>{rates.average_deck_percentage}%</td>
-            </tr>
-          )).sort(sortFunc)
+          wr.map(function(rates) {
+            // If dual is set, only show dual colors.
+            // Otherwise, only show single colors.
+            // `color` here is a string made of one or more characters - e.g., W or UB.
+            if (input.dropdownSelection === "Dual" && rates.color.length !== 2) {
+              return
+            } else if (input.dropdownSelection === "Mono" && rates.color.length !== 1 ) {
+              return
+            } else if (input.dropdownSelection === "Trio" && rates.color.length !== 3) {
+              return
+            }
+
+            let record = rates.wins + "-" + rates.losses + "-" + 0
+
+            // Determine what we're sorting by. Default to sorting by win percentage.
+            let sort = rates.win_percent
+            if (input.sortBy === "build") {
+              sort = rates.build_percent
+            } else if (input.sortBy === "decks") {
+              sort = rates.num_decks
+            } else if (input.sortBy === "color") {
+              sort = rates.color
+            } else if (input.sortBy === "picks") {
+              sort = rates.total_pick_percentage
+            } else if (input.sortBy === "splash") {
+              sort = rates.average_deck_percentage
+            }
+
+            return (
+              <tr key={rates.color} sort={sort} className="winrate-row">
+                <td>{rates.color}</td>
+                <td>{rates.win_percent}%</td>
+                <td>{rates.build_percent}%</td>
+                <td>{record}</td>
+                <td>{rates.num_decks}</td>
+                <td style={headerStyleFields}>{rates.total_pick_percentage}%</td>
+                <td style={headerStyleFields}>{rates.average_deck_percentage}%</td>
+              </tr>
+            );
+          }).sort(sortFunc)
         }
       </tbody>
     </table>
   );
+}
+
+function ColorsOverTimeWidget(input) {
+  let buckets = DeckBuckets(input.decks, 5)
+
 }
 
 // sortFunc compares winrates in order to
@@ -1785,35 +1761,56 @@ function PrintRow({ k, value, p }) {
   );
 }
 
+// GetColorStats collects statistics aggregated by color and color pair based on the given decks.
 function GetColorStats(decks) {
   // Go through each deck, and add its winrates to the color count.
   // Initialize winrates to zero first.
   let tracker = {}
-  let totalCards = 0 // Count of all cards ever drafted.
-  for (var i in decks) {
 
+  // Count of all cards ever drafted. This will be used to calculate pick percentages per-color.
+  let totalCards = 0
+
+  // Function for initializing an empty color.
+  let newColor = function(color) {
+    return {
+      color: color,
+      wins: 0,
+      losses: 0,
+      cards: 0,
+
+      // Each element represents a deck, with value equal to the
+      // percentage of cards in that deck with this color.
+      deck_percentages: [],
+
+      // The average percentage of non-land cards in a deck that are this color.
+      average_deck_percentage: 0,
+
+      // The percentage of all drafted cards that are this color.
+      total_pick_percentage: 0,
+
+      // Win percentage of decks including this color.
+      win_percent: 0,
+
+      // Percentage of all decks that have included this color.
+      build_percent: 0,
+
+      // Total number of decks that included this color.
+      num_decks: 0,
+    }
+  }
+
+  for (var i in decks) {
     // Start by adding metrics at the deck scope for color identity.
     // Add wins and losses contributed for each color / color combination within this deck.
     let colors = GetColorIdentity(decks[i])
     for (var j in colors) {
       let color = colors[j]
       if (tracker[color] == null) {
-        tracker[color] = {
-          color: color,
-          wins: 0,
-          losses: 0,
-          cards: 0,
-          // Each element represents a deck, with value equal to the
-          // percentage of cards in that deck with this color.
-          deck_percentages: [],
-          // The average percentage of non-land cards in a deck that are this color.
-          average_deck_percentage: 0,
-          // The percentage of all drafted cards that are this color.
-          total_pick_percentage: 0,
-        }
+        tracker[color] = newColor(color)
       }
       tracker[color].wins += Wins(decks[i])
       tracker[color].losses += Losses(decks[i])
+      tracker[color].num_decks += 1
     }
 
     // Add metrics to the color based on card scope statistics.
@@ -1824,18 +1821,19 @@ function GetColorStats(decks) {
     let cardsPerColorInDeck = {}
     for (j in decks[i].mainboard) {
       let card = decks[i].mainboard[j]
+
       // Skip basic lands, since they just dilute the percentages.
       if (IsBasicLand(card)) {
         continue
       }
 
-      // Note: This calculation excludes colorless cards, meaning percentages for colors
-      // will not add up to 100%. This is OK specifically for my cube though, since there
-      // isn't really a colorless archtetype available.
+      // TODO: This calculation excludes colorless cards, meaning percentages for colors
+      // will not add up to 100%.
       totalCards += 1
       totalCardsInDeck += 1
       for (var k in card.colors) { // TODO: Include hybrid color identities?
         let color = card.colors[k]
+
         // Skip any card colors that aren't a part of the deck's color
         // identity. This helps prevent hybrid cards accidentally bringing down
         // a given color's play rate.
@@ -1867,6 +1865,8 @@ function GetColorStats(decks) {
 
     // Calculate the percentage of all cards drafted that are this color.
     tracker[color].total_pick_percentage = Math.round(100 * tracker[color].cards / totalCards);
+    tracker[color].build_percent = Math.round(tracker[color].num_decks / decks.length * 100)
+    tracker[color].win_percent = Math.round(100 * tracker[color].wins / (tracker[color].wins + tracker[color].losses))
   }
   return tracker
 }
