@@ -221,18 +221,36 @@ function DisplayDeck({deck, mbsb}) {
       </tbody>
     </table>
 
-    <CardList player={deck.player} cards={cards} opts={{cmc: 0}} />
-    <CardList player={deck.player} cards={cards} opts={{cmc: 1}} />
-    <CardList player={deck.player} cards={cards} opts={{cmc: 2}} />
-    <CardList player={deck.player} cards={cards} opts={{cmc: 3}} />
-    <CardList player={deck.player} cards={cards} opts={{cmc: 4}} />
-    <CardList player={deck.player} cards={cards} opts={{cmc: 5}} />
-    <CardList player={deck.player} cards={cards} opts={{cmc: 6, gt: true}} />
+    <table>
+      <tbody>
+
+        <tr>
+          <td rowspan="3">
+            <CardList player={deck.player} cards={cards} opts={{cmc: 0}} />
+          </td>
+        </tr>
+
+        <tr>
+          <CardList player={deck.player} cards={cards} opts={{cmc: 1}} />
+          <CardList player={deck.player} cards={cards} opts={{cmc: 2}} />
+          <CardList player={deck.player} cards={cards} opts={{cmc: 3}} />
+        </tr>
+
+        <tr>
+          <CardList player={deck.player} cards={cards} opts={{cmc: 4}} />
+          <CardList player={deck.player} cards={cards} opts={{cmc: 5}} />
+          <CardList player={deck.player} cards={cards} opts={{cmc: 6, gt: true}} />
+        </tr>
+
+      </tbody>
+    </table>
+
+
     </div>
   );
 }
 
-function CardList({ player, cards, opts }) {
+function CardList({player, cards, opts}) {
   // Figure out how many of this CMC there are.
   let num = 0
   for (var i in cards) {
@@ -256,22 +274,62 @@ function CardList({ player, cards, opts }) {
   // Generate the key for this table.
   return (
     <table key={key} className="decklist">
-      <thead className="table-header">{title}</thead>
+      <thead className="table-header">
+        <tr>
+          <td className="header-cell">Type</td>
+          <td className="header-cell">{title}</td>
+        </tr>
+      </thead>
       <tbody>
       {
-        cards.map(function(item) {
-          if (opts.gt && item.cmc >= opts.cmc || item.cmc === opts.cmc) {
-            let key = item.name + cards.indexOf(item)
+        cards.map(function(card) {
+          if (opts.gt && card.cmc >= opts.cmc || card.cmc === opts.cmc) {
+            // Card matches the criteria to display.
+            let key = card.name + cards.indexOf(card)
+            let type = getType(card)
             return (
-              <tr className="card" key={key}>
-                <td><a href={item.url} target="_blank" rel="noopener noreferrer">{item.name}</a></td>
+              <tr className="card" key={key} card={card}>
+                <td><a href={card.url} target="_blank" rel="noopener noreferrer">{type}</a></td>
+                <td><a href={card.url} target="_blank" rel="noopener noreferrer">{card.name}</a></td>
               </tr>
             )
           }
-          return null
-        })
+        }).sort(cardSort)
       }
       </tbody>
     </table>
   );
+}
+
+// cardSort sorts cards by type, followed by card name.
+function cardSort(a, b) {
+  // Top level is sorted by card type.
+  let typeA = getType(a.props.card)
+  let typeB = getType(b.props.card)
+  if (typeA == typeB) {
+    // They are the same type. Compare based on name.
+    if (a.props.card.name < b.props.card.name) {
+      return -1
+    } else {
+     return 1
+   }
+  }
+
+  // Cards are not the same type. Sort based on card type.
+  if (typeA < typeB) {
+    return -1
+  } else if (typeA > typeB) {
+    return 1
+  }
+  return 0
+}
+
+function getType(card) {
+  if (card.types.includes("Creature")) {
+    return "Creature"
+  }
+  if (card.types.includes("Planeswalker")) {
+    return "Planeswalker"
+  }
+  return card.types[0]
 }
