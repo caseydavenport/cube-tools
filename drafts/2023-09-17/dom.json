@@ -2,9 +2,11 @@
  "labels": ["control"],
  "player": "dom",
  "date": "2023-09-17",
- "wins": 2,
- "losses": 1,
- "ties": 0,
+ "games": [
+    {"opponent": "paul", "winner": "dom"},
+    {"opponent": "jen", "winner": "jen"},
+    {"opponent": "james", "winner": "dom"}
+  ],
  "mainboard": [
   {
    "name": "Archfiend of Ifnir",

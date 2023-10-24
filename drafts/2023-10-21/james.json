@@ -2,9 +2,7 @@
  "labels": [],
  "player": "james",
  "date": "2023-10-21",
- "wins": 0,
- "losses": 0,
- "ties": 0,
+ "games": [],
  "mainboard": [
   {
    "name": "Dream Trawler",

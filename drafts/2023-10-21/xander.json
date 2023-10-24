@@ -2,9 +2,10 @@
  "labels": ["midrange", "artifact", "food"],
  "player": "xander",
  "date": "2023-10-21",
- "wins": 1,
- "losses": 1,
- "ties": 0,
+ "games": [
+    {"opponent": "casey", "winner": "xander"},
+    {"opponent": "mattd", "winner": "mattd"}
+  ],
  "mainboard": [
   {
    "name": "Greta, Sweettooth Scourge",

@@ -2,9 +2,11 @@
  "labels": ["control", "removal", "vampire"],
  "player": "mattd",
  "date": "2023-09-17",
- "wins": 1,
- "losses": 2,
- "ties": 0,
+ "games": [
+    {"opponent": "paul", "winner": "paul"},
+    {"opponent": "jen", "winner": "mattd"},
+    {"opponent": "james", "winner": "james"}
+  ],
  "mainboard": [
   {
    "name": "Angel of Salvation",

@@ -2,9 +2,10 @@
  "labels": ["aggro"],
  "player": "mattd",
  "date": "2023-10-21",
- "wins": 1,
- "losses": 1,
- "ties": 0,
+ "games": [
+    {"opponent": "dom", "winner": "dom"},
+    {"opponent": "xander", "winner": "mattd"}
+  ],
  "mainboard": [
   {
    "name": "Nobilis of War",

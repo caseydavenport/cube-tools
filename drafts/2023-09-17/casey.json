@@ -2,9 +2,11 @@
  "labels": ["control", "+1/+1", "spells"],
  "player": "casey",
  "date": "2023-09-17",
- "wins": 2,
- "losses": 1,
- "ties": 0,
+ "games": [
+    {"opponent": "paul", "winner": "casey"},
+    {"opponent": "jen", "winner": "casey"},
+    {"opponent": "james", "winner": "james"}
+  ],
  "mainboard": [
   {
    "name": "The Wandering Emperor",

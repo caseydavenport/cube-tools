@@ -2,9 +2,11 @@
  "labels": ["midrange", "+1/+1", "stomp", "token", "equipment"],
  "player": "jen",
  "date": "2023-09-17",
- "wins": 1,
- "losses": 2,
- "ties": 0,
+ "games": [
+    {"opponent": "casey", "winner": "casey"},
+    {"opponent": "dom", "winner": "jen"},
+    {"opponent": "mattd", "winner": "mattd"}
+  ],
  "mainboard": [
   {
    "name": "Clifftop Retreat",

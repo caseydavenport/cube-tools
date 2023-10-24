@@ -2,9 +2,9 @@
  "labels": ["midrange", "+1/+1", "spells"],
  "player": "jen",
  "date": "2023-10-21",
- "wins": 0,
- "losses": 1,
- "ties": 0,
+ "games": [
+    {"opponent": "dom", "winner": "dom"}
+  ],
  "mainboard": [
   {
    "name": "Mana Leak",

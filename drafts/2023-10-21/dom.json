@@ -2,9 +2,10 @@
  "labels": ["midrange", "lands"],
  "player": "dom",
  "date": "2023-10-21",
- "wins": 2,
- "losses": 0,
- "ties": 0,
+ "games": [
+    {"opponent": "jen", "winner": "dom"},
+    {"opponent": "mattd", "winner": "dom"}
+  ],
  "mainboard": [
   {
    "name": "Lion Sash",
