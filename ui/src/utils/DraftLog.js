@@ -43,8 +43,16 @@ export function Burned(log, player, pack, pick) {
 }
 
 
-export function AllPicks(logs) {
+export function AllPicks(logs, cube) {
   let allPicks = new Map()
+
+  // Build a map of all the cards in the cube so we can
+  // easily skip any cards not currently in the cube.
+  let cubeCards = new Map()
+  for (var i in cube.cards) {
+    cubeCards.set(cube.cards[i].name, cube.cards[i])
+  }
+
   for (var l in logs) {
     let log = logs[l]
     let [picks, burns] = AllPicksFromLog(log)
@@ -52,6 +60,12 @@ export function AllPicks(logs) {
     // Add the picks from this log.
     for (var i in picks) {
       let p = picks[i]
+
+      // Skip cards not currently in cube.
+      if (!cubeCards.has(p.name)) {
+        continue
+      }
+
       if (!allPicks.get(p.name)) {
         allPicks.set(p.name, {
           name: p.name,

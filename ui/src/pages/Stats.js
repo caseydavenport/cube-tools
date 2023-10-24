@@ -366,10 +366,11 @@ export default function StatsViewer() {
         <DraftOrderWidget
           decks={decks}
           drafts={drafts}
+          cube={cube}
           sortBy={draftSortBy}
           invertSort={draftSortInvert}
           onHeaderClick={onDraftHeaderClicked}
-          show={display[4]} // TODO
+          show={display[4]}
         />
 
         <BestCombosWidget
@@ -504,7 +505,7 @@ function PlayerWidget(input) {
     // number of unique cards mainboarded by the player, divided by the total number cards picked. This is
     // a representation of how diverse this player's card selection is. A higher number indicates a propensity
     // to pick unique cards. A value of 1 means they have never picked the same card twice.
-    row.spread = Math.round(row.cards.size / row.totalPicks * 100) / 100
+    row.uniqueness = Math.round(row.cards.size / row.totalPicks * 100)
 
     data.push(row)
   }
@@ -523,7 +524,7 @@ function PlayerWidget(input) {
             <td onClick={input.onHeaderClick} id="B" className="header-cell">Black (%)</td>
             <td onClick={input.onHeaderClick} id="R" className="header-cell">Red (%)</td>
             <td onClick={input.onHeaderClick} id="G" className="header-cell">Green (%)</td>
-            <td onClick={input.onHeaderClick} id="spread" className="header-cell">Spread</td>
+            <td onClick={input.onHeaderClick} id="unique" className="header-cell">Uniqueness (%)</td>
           </tr>
         </thead>
         <tbody>
@@ -553,8 +554,8 @@ function PlayerWidget(input) {
               case "G":
                 sort = row.greenPercent
                 break
-              case "spread":
-                sort = row.spread
+              case "unique":
+                sort = row.uniqueness
               case "decks":
                 sort = row.numDecks
             }
@@ -572,7 +573,7 @@ function PlayerWidget(input) {
                 <td>{row.blackPicks} ({row.blackPercent}%)</td>
                 <td>{row.redPicks} ({row.redPercent}%)</td>
                 <td>{row.greenPicks} ({row.greenPercent}%)</td>
-                <td>{row.cards.size} / {row.totalPicks} ({row.spread})</td>
+                <td>{row.cards.size} / {row.totalPicks} ({row.uniqueness}%)</td>
               </tr>
             )
           }).sort(sortFunc)
@@ -771,7 +772,7 @@ function DraftOrderWidget(input) {
   if (input.drafts == null) {
     return null
   }
-  let picks = AllPicks(input.drafts)
+  let picks = AllPicks(input.drafts, input.cube)
   let pickList = []
   for (let [name, pick] of picks) {
     pickList.push(pick)
@@ -783,6 +784,7 @@ function DraftOrderWidget(input) {
         <thead className="table-header">
           <tr>
             <td onClick={input.onHeaderClick} id="name" className="header-cell">Card name</td>
+            <td onClick={input.onHeaderClick} id="count" className="header-cell"># Drafts</td>
             <td onClick={input.onHeaderClick} id="p1p1" className="header-cell"># P1P1</td>
             <td onClick={input.onHeaderClick} id="avgp1pick" className="header-cell">Avg. p1 pick</td>
             <td onClick={input.onHeaderClick} id="avgpick" className="header-cell">Avg. pick</td>
@@ -795,12 +797,12 @@ function DraftOrderWidget(input) {
             pickList.map(function(pick) {
               let avgPackPick = "-"
               if (pick.count > 0) {
-                avgPackPick = pick.pickNumSum / pick.count
+                avgPackPick = Math.round(pick.pickNumSum / pick.count * 100) / 100
               }
 
               let avgPack1Pick = "-"
               if (pick.p1count > 0) {
-                avgPack1Pick = pick.p1PickNumSum / pick.p1count
+                avgPack1Pick = Math.round(pick.p1PickNumSum / pick.p1count * 100) / 100
               }
 
               let firstPicks = "-"
@@ -819,7 +821,7 @@ function DraftOrderWidget(input) {
               }
 
 
-              let sort = avgPackPick
+              let sort = pick.count
               if (input.sortBy === "p1p1") {
                 sort = pick.firstPicks
               } else if (input.sortBy === "avgp1pick") {
@@ -832,14 +834,21 @@ function DraftOrderWidget(input) {
                 sort = pick.p1burns
               } else if (input.sortBy === "name") {
                 sort = pick.name
+              } else if (input.sortBy === "count") {
+                sort = pick.count
+              }
+
+              if (sort == "-") {
+                // Treat empty values as last always. That means a negataive number
+                // for normal sorting, and a big positive one for inverted sorting.
+                sort = -1
+                if (input.invertSort) {
+                  sort = 100000
+                }
               }
 
               if (input.invertSort) {
-                sort = 1000 - sort
-              }
-              if (sort == "-") {
-                // Treat empty values as last always.
-                sort = -1
+                sort = -1 * sort
               }
 
 
@@ -847,6 +856,7 @@ function DraftOrderWidget(input) {
               return (
                 <tr sort={sort} className="card" key={pick.name}>
                   <td className="card">{pick.name}</td>
+                  <td>{pick.count}</td>
                   <td>{firstPicks}</td>
                   <td>{avgPack1Pick}</td>
                   <td>{avgPackPick}</td>
@@ -1272,7 +1282,7 @@ function CardWidget(input) {
           <tbody>
           {
             data.map(function(card) {
-              let hidden = Test(card)
+              let hidden = Tooltip(card)
               return (
                 <tr sort={card.mainboard_percent} className="card" key={card.name}>
                   <td>{card.mainboard_percent}%</td>
@@ -1760,7 +1770,7 @@ function sortFunc(a, b) {
   } else if (a.props.sort < b.props.sort) {
     return 1
   }
-  return 0
+  return 1
 }
 
 function PrintRow({ k, value, p }) {
@@ -1859,7 +1869,7 @@ function GetColorStats(decks) {
   return tracker
 }
 
-function Test(card) {
+function Tooltip(card) {
   let data = []
   card.players.forEach(function(num, name) {
     data.push({name: name, num: num})
