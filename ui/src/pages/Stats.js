@@ -556,8 +556,10 @@ function PlayerWidget(input) {
                 break
               case "unique":
                 sort = row.uniqueness
+                break
               case "decks":
                 sort = row.numDecks
+                break
             }
             if (input.invertSort) {
               sort = -1 * sort
@@ -1766,11 +1768,11 @@ function ColorStatsWidget(input) {
 // sort the winrates table from most winning to least winning.
 function sortFunc(a, b) {
   if (a.props.sort > b.props.sort) {
-    return -1
-  } else if (a.props.sort < b.props.sort) {
     return 1
+  } else if (a.props.sort < b.props.sort) {
+    return -1
   }
-  return 1
+  return 0
 }
 
 function PrintRow({ k, value, p }) {
