@@ -1284,7 +1284,7 @@ function CardWidget(input) {
           <tbody>
           {
             data.map(function(card) {
-              let hidden = Tooltip(card)
+              let hidden = TooltipContent(card)
               return (
                 <tr sort={card.mainboard_percent} className="card" key={card.name}>
                   <td>{card.mainboard_percent}%</td>
@@ -1871,7 +1871,7 @@ function GetColorStats(decks) {
   return tracker
 }
 
-function Tooltip(card) {
+function TooltipContent(card) {
   let data = []
   card.players.forEach(function(num, name) {
     data.push({name: name, num: num})
