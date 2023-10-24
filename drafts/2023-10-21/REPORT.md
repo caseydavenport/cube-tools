@@ -23,3 +23,12 @@ presented that it was able to win on the very last turn with 0 cards remaining i
 to eat away graveyards and swing for big damage before being milled.
 
 # +1/+1 counters
+
+# Other notes / summary
+
+- Drafters continue to get really strong red/blue spells-matter signals throughout the draft. Might want to tone those down a tiny bit.
+- [[Lion Sash]] has yet again proved its ability to take over games.
+
+# Changes to consider
+
+- [[Call of the Herd]] as another great green option with flashback.
