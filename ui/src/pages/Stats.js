@@ -1768,9 +1768,9 @@ function ColorStatsWidget(input) {
 // sort the winrates table from most winning to least winning.
 function sortFunc(a, b) {
   if (a.props.sort > b.props.sort) {
-    return 1
-  } else if (a.props.sort < b.props.sort) {
     return -1
+  } else if (a.props.sort < b.props.sort) {
+    return 1
   }
   return 0
 }
