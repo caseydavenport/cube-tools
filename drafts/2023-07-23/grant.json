@@ -2,9 +2,11 @@
  "labels": ["midrange", "+1/+1", "stomp"],
  "player": "grant",
  "date": "2023-07-07",
- "wins": 2,
- "losses": 1,
- "ties": 0,
+ "games": [
+    {"opponent": "casey", "winner": "casey"},
+    {"opponent": "jen", "winner": "grant"},
+    {"opponent": "matt", "winner": "grant"}
+  ],
  "mainboard": [
   {
    "name": "Arbor Elf",

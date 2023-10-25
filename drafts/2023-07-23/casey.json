@@ -2,9 +2,11 @@
  "labels": ["aggro", "equipment"],
  "player": "casey",
  "date": "2023-07-07",
- "wins": 3,
- "losses": 0,
- "ties": 0,
+ "games": [
+    {"opponent": "grant", "winner": "casey"},
+    {"opponent": "jen", "winner": "casey"},
+    {"opponent": "matt", "winner": "casey"}
+  ],
  "mainboard": [
   {
    "name": "Tibalt's Rager",
