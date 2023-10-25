@@ -6,7 +6,7 @@ import { IsBasicLand, SortFunc } from "../utils/Utils.js"
 import { DropdownHeader, NumericInput, Checkbox, DateSelector } from "../components/Dropdown.js"
 import { AllPicks, Pick } from "../utils/DraftLog.js"
 import { Wins, Losses } from "../utils/Deck.js"
-import { GetColorStats, ColorWidget, ColorChart } from "./Colors.js"
+import { GetColorStats, ColorWidget} from "./Colors.js"
 
 // StatsViewer displays stats spanning the selected drafts.
 export default function StatsViewer() {
@@ -290,12 +290,6 @@ export default function StatsViewer() {
           colorData={colorData}
           onHeaderClick={onColorHeaderClicked}
           colorSortBy={colorSortBy}
-          show={display[0]}
-        />
-
-        <ColorChart
-          colorData={colorData}
-          decks={decks}
           show={display[0]}
         />
 

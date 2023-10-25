@@ -50,6 +50,11 @@ export function ColorWidget(input) {
           onClick={input.onHeaderClick}
           sortBy={input.colorSortBy}
         />
+
+        <ColorChart
+          colorData={input.colorData}
+          decks={input.decks}
+        />
       </div>
   );
 }
@@ -246,10 +251,6 @@ export function GetColorStats(decks) {
 }
 
 export function ColorChart(input) {
-  if (!input.show) {
-    return null
-  }
-
   // Split the given decks into buckets of size 5.
   // Each bucket will contain 5 drafts worth of deck information.
   let buckets = DeckBuckets(input.decks, 5)
@@ -264,7 +265,10 @@ export function ColorChart(input) {
 
   // Parse the buckets into color data.
   let allColors = ["W", "U", "B", "R", "G"]
-  let colorDatasets = new Map(Object.entries({"W": [],"U": [],"B": [],"R": [],"G": []}))
+  let colorDatasets = new Map()
+  for (let color of allColors) {
+    colorDatasets.set(color, [])
+  }
   for (let bucket of buckets) {
     // Aggregate all decks from within this bucket.
     let decks = new Array()
@@ -327,7 +331,7 @@ export function ColorChart(input) {
     ],
   };
   return (
-    <div style={{"height":"500px", "width":"900px"}}>
+    <div style={{"height":"500px", "width":"100%"}}>
       <Line height={"300px"} width={"300px"} options={options} data={data} />;
     </div>
   );

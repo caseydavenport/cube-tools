@@ -223,7 +223,6 @@ function DisplayDeck({deck, mbsb}) {
 
     <table>
       <tbody>
-
         <tr>
           <td rowspan="3">
             <CardList player={deck.player} cards={cards} opts={{cmc: 0}} />
