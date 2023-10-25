@@ -6,8 +6,28 @@ import { DropdownHeader, NumericInput, Checkbox, DateSelector } from "../compone
 import { GetColorIdentity } from "../utils/Colors.js"
 import { AllPicks, Pick } from "../utils/DraftLog.js"
 import { Wins, Losses } from "../utils/Deck.js"
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend,
+} from 'chart.js';
+import { Line, Bar } from 'react-chartjs-2';
 
-
+// Register chart JS objects that we need to use.
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend
+);
 
 // StatsViewer displays stats spanning the selected drafts.
 export default function StatsViewer() {
@@ -18,7 +38,7 @@ export default function StatsViewer() {
   ///////////////////////////////////////////////////////////////////////////////
   // State used for the color / color pair win rate widget.
   ///////////////////////////////////////////////////////////////////////////////
-  const [winrates, setWinrates] = useState(null);
+  const [colorData, setColorData] = useState(null);
   const [colorTypeSelection, setColorTypeSelection] = useState("Mono");
   const [colorSortBy, setColorSortBy] = useState("win");
   const ddOpts =  [{ label: "Mono", value: "Mono" }, { label: "Dual", value: "Dual" }, { label: "Trio", value: "Trio" }]
@@ -224,19 +244,17 @@ export default function StatsViewer() {
     setDrafts({...d})
   }
 
-
   // When the deck list changes, recalculate.
   useEffect(() => {
     if (decks != null) {
       let w = GetColorStats(decks)
-      setWinrates(w)
+      setColorData(w)
     }
   }, [decks])
 
-
   return (
-    <div>
-      <div>
+    <div id="root">
+      <div id="selectorbar">
         <DateSelector
           label="From: "
           id="from"
@@ -284,15 +302,21 @@ export default function StatsViewer() {
         />
       </div>
 
-      <div className="house-for-widgets">
+      <div id="widgets" className="house-for-widgets">
         <ColorWidget
           ddOpts={ddOpts}
           colorTypeSelection={colorTypeSelection}
           onSelected={onSelected}
           decks={decks}
-          winrates={winrates}
+          colorData={colorData}
           onHeaderClick={onColorHeaderClicked}
           colorSortBy={colorSortBy}
+          show={display[0]}
+        />
+
+        <ColorChart
+          colorData={colorData}
+          decks={decks}
           show={display[0]}
         />
 
@@ -1289,7 +1313,7 @@ function CardWidget(input) {
                 <tr sort={card.mainboard_percent} className="card" key={card.name}>
                   <td>{card.mainboard_percent}%</td>
                   <td className="card"><a href={card.url} target="_blank" rel="noopener noreferrer">{card.name}</a></td>
-                  <td><Tooltip text={card.mainboard} hidden={hidden}/></td>
+                  <td><ApplyTooltip text={card.mainboard} hidden={hidden}/></td>
                   <td>{card.total_games}</td>
                 </tr>
               )
@@ -1640,7 +1664,7 @@ function ColorWidget(input) {
         />
 
         <ColorStatsWidget
-          winrates={input.winrates}
+          colorData={input.colorData}
           ddOpts={input.ddOpts}
           dropdownSelection={input.colorTypeSelection}
           decks={input.decks}
@@ -1654,7 +1678,7 @@ function ColorWidget(input) {
 
 // ColorStatsWidget displays the win percentages and records by color.
 function ColorStatsWidget(input) {
-  if (input == null || input.winrates == null) {
+  if (input == null || input.colorData == null) {
     return null
   }
 
@@ -1662,9 +1686,9 @@ function ColorStatsWidget(input) {
   // Also, convert from a map to a list at this point so that we can
   // sort by win percentage.
   let wr = []
-  for (var color in input.winrates) {
+  for (var color in input.colorData) {
     // Add it to the list.
-    wr.push(input.winrates[color])
+    wr.push(input.colorData[color])
   }
 
   // We conditionally show / hide a few of the columns, because they are only
@@ -1735,13 +1759,6 @@ function ColorStatsWidget(input) {
   );
 }
 
-function ColorsOverTimeWidget(input) {
-  let buckets = DeckBuckets(input.decks, 5)
-
-}
-
-// sortFunc compares winrates in order to
-// sort the winrates table from most winning to least winning.
 function sortFunc(a, b) {
   if (a.props.sort > b.props.sort) {
     return -1
@@ -1763,8 +1780,6 @@ function PrintRow({ k, value, p }) {
 
 // GetColorStats collects statistics aggregated by color and color pair based on the given decks.
 function GetColorStats(decks) {
-  // Go through each deck, and add its winrates to the color count.
-  // Initialize winrates to zero first.
   let tracker = {}
 
   // Count of all cards ever drafted. This will be used to calculate pick percentages per-color.
@@ -1902,7 +1917,7 @@ function TooltipContent(card) {
   )
 }
 
-function Tooltip(input){
+function ApplyTooltip(input){
     return(
       <div className="tooltip-trigger">
         {input.text}
@@ -1945,4 +1960,92 @@ function DeckBuckets(decks, bucketSize) {
     buckets.push(bucket)
   }
   return buckets
+}
+
+function ColorChart(input) {
+  if (!input.show) {
+    return null
+  }
+
+  // Split the given decks into buckets of size 5.
+  // Each bucket will contain 5 drafts worth of deck information.
+  let buckets = DeckBuckets(input.decks, 5)
+
+  // Use the starting date of the bucket as the label. This is just an approximation,
+  // as the bucket really includes a variable set of dates, but it allows the viewer to
+  // at least place some sense of time to the chart.
+  const labels = []
+  for (let bucket of buckets) {
+    labels.push(bucket[0].name)
+  }
+
+  // Parse the buckets into color data.
+  let allColors = ["W", "U", "B", "R", "G"]
+  let colorDatasets = new Map(Object.entries({"W": [],"U": [],"B": [],"R": [],"G": []}))
+  for (let bucket of buckets) {
+    // Aggregate all decks from within this bucket.
+    let decks = new Array()
+    for (let draft of bucket) {
+      decks.push(...draft.decks)
+    }
+
+    // Parse the color stats of the decks.
+    let stats = GetColorStats(decks)
+    for (let color of allColors) {
+      colorDatasets.get(color).push(stats[color].build_percent)
+    }
+  }
+
+  const options = {
+    responsive: true,
+    maintainAspectRatio: false,
+    scales: {y: {min: 0}},
+    plugins: {
+      title: {
+        display: true,
+        text: 'Build % (bucket=5)',
+      },
+    },
+  };
+
+  const data = {
+    labels,
+    datasets: [
+      {
+        label: 'White',
+        data: colorDatasets.get("W"),
+        borderColor: "#dce312",
+        backgroundColor: "#dce312",
+      },
+      {
+        label: 'Blue',
+        data: colorDatasets.get("U"),
+        borderColor: "#00F",
+        backgroundColor: '#00F',
+      },
+      {
+        label: 'Black',
+        data: colorDatasets.get("B"),
+        borderColor: "#888",
+        backgroundColor: '#888',
+      },
+      {
+        label: 'Red',
+        data: colorDatasets.get("R"),
+        borderColor: "#F00",
+        backgroundColor: '#F00',
+      },
+      {
+        label: 'Green',
+        data: colorDatasets.get("G"),
+        borderColor: "#0F0",
+        backgroundColor: '#0F0',
+      },
+    ],
+  };
+  return (
+    <div style={{"height":"500px", "width":"900px"}}>
+      <Line height={"300px"} width={"300px"} options={options} data={data} />;
+    </div>
+  );
 }

@@ -9,7 +9,11 @@ module.exports = {
     path: path.resolve(__dirname, "public"),
     filename: "index_bundle.js",
   },
-  plugins: [new HtmlWebpackPlugin()],
+  plugins: [
+    new HtmlWebpackPlugin({
+      title: 'Cube Tools',
+    }),
+  ],
   module: {
     rules: [
       {
