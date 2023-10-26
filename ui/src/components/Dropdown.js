@@ -5,6 +5,9 @@ export function DropdownHeader({ label, value, options, onChange, className }) {
   if (className == null) {
     className = "dropdown-header"
   }
+  if (options == null) {
+    options = []
+  }
   return (
    <div className={className}>
     {label}

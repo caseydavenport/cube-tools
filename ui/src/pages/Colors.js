@@ -51,14 +51,14 @@ export function ColorWidget(input) {
       </tr>
 
       <tr>
-        <td style={{"padding-top": "50px"}}>
+        <td style={{"paddingTop": "50px"}}>
           <ColorRateChart
             colorData={input.colorData}
             decks={input.decks}
             dataset="builds"
           />
         </td>
-        <td style={{"padding-top": "50px"}}>
+        <td style={{"paddingTop": "50px"}}>
           <ColorRateChart
             colorData={input.colorData}
             decks={input.decks}
@@ -68,7 +68,7 @@ export function ColorWidget(input) {
       </tr>
 
       <tr>
-        <td style={{"padding-top": "50px"}}>
+        <td style={{"paddingTop": "50px"}}>
           <ColorRateChart
             colorData={input.colorData}
             decks={input.decks}
@@ -76,7 +76,7 @@ export function ColorWidget(input) {
             colorMode="dual"
           />
         </td>
-        <td style={{"padding-top": "50px"}}>
+        <td style={{"paddingTop": "50px"}}>
           <ColorRateChart
             colorData={input.colorData}
             decks={input.decks}

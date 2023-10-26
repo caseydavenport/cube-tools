@@ -6,7 +6,9 @@ import { IsBasicLand, SortFunc } from "../utils/Utils.js"
 import { DropdownHeader, NumericInput, Checkbox, DateSelector } from "../components/Dropdown.js"
 import { AllPicks, Pick } from "../utils/DraftLog.js"
 import { Wins, Losses } from "../utils/Deck.js"
+import { CardData } from "../utils/Cards.js"
 import { GetColorStats, ColorWidget} from "./Colors.js"
+import { ArchetypeWidget, ArchetypeData } from "./Types.js"
 
 // StatsViewer displays stats spanning the selected drafts.
 export default function StatsViewer() {
@@ -294,41 +296,33 @@ export default function StatsViewer() {
         />
 
         <ArchetypeWidget
-          decks={decks}
-          dropdownSelection={colorTypeSelection}
-          show={display[1]}
-          sortBy={sortBy}
-          onHeaderClick={onHeaderClick}
-          handleRowClick={handleRowClick}
-          showPopup={showPopup}
-        />
-
-        <TopCardsInArchetypeWidget
-          decks={decks}
-          colorSelection={cardWidgetColorSelection}
-          minDecksInArch={minGames} // We overload the use of minGames here.
-          minDrafts={minDrafts}
-          dropdownSelection={colorTypeSelection}
           cube={cube}
+          decks={decks}
           show={display[1]}
+
+          dropdownSelection={colorTypeSelection}
+          cardWidgetSelection={cardWidgetSelection}
+
+          cardWidgetOpts={cardWidgetOpts}
+          onSelected={onCardWidgetSelected}
+
+          colorWidgetOpts={cardWidgetColorOpts}
+          colorSelection={cardWidgetColorSelection}
+          onColorSelected={onCardWidgetColorSelected}
 
           archetypeDropdownOptions={archetypeDropdownOptions}
           selectedArchetype={selectedArchetype}
           onArchetypeSelected={onArchetypeSelected}
 
-          dropdownSelection={cardWidgetSelection}
-          cardWidgetOpts={cardWidgetOpts}
-          onSelected={onCardWidgetSelected}
-          colorWidgetOpts={cardWidgetColorOpts}
-          colorSelection={cardWidgetColorSelection}
-          onColorSelected={onCardWidgetColorSelected}
-          onMinDraftsSelected={onMinDraftsSelected}
-          onMinGamesSelected={onMinGamesSelected}
-        />
 
-        <ArchetypeDetailsPanel
-          show={display[1]}
-          decks={decks}
+          onMinDraftsSelected={onMinDraftsSelected}
+          minDrafts={minDrafts}
+          onMinGamesSelected={onMinGamesSelected}
+          minDecksInArch={minGames} // We overload the use of minGames here.
+
+          sortBy={sortBy}
+          onHeaderClick={onHeaderClick}
+          handleRowClick={handleRowClick}
           showPopup={showPopup}
         />
 
@@ -706,63 +700,6 @@ function DeckAnalyzerWidget(input) {
   );
 }
 
-function TopCardsInArchetypeWidget(input) {
-  if (!input.show) {
-    return null
-  }
-
-  // Get all cards that are currently active.
-  let data = CardData(input.decks, input.minDrafts, 0, input.cube, input.colorSelection)
-  let archetypes = ArchetypeData(input.decks)
-
-  // Filter out cards that don't match the given archetype, or don't meet minimum
-  // requirements.
-  let filtered = new Array()
-  data.map(function(card) {
-    if (!card.archetypes.has(input.selectedArchetype)) {
-      return
-    }
-    if (card.archetypes.get(input.selectedArchetype) < input.minDecksInArch) {
-      return
-    }
-    filtered.push(card)
-  })
-
-  return (
-    <div className="widget">
-      <TopCardsInArchetypeWidgetOptions {...input} />
-      <table className="winrate-table">
-        <thead className="table-header">
-          <tr>
-            <td className="header-cell">Card</td>
-            <td className="header-cell"># decks in arch</td>
-            <td className="header-cell">% of decks</td>
-            <td className="header-cell">correlation</td>
-          </tr>
-        </thead>
-        <tbody>
-          {
-            filtered.map(function(card) {
-              // Determine what percentage of decks in the archetype this card has been in.
-              let percentage = Math.round(card.archetypes.get(input.selectedArchetype) / archetypes.get(input.selectedArchetype).count * 100)
-
-              // Determine how tightly bound this card is to the archetype - is it 1:1? Or does it share its time in
-              // other decks.
-              let correlation = Math.round(card.archetypes.get(input.selectedArchetype) / card.mainboard * 100)
-              return (
-                <tr sort={correlation} className="card" key={card.name}>
-                  <td className="card"><a href={card.url} target="_blank" rel="noopener noreferrer">{card.name}</a></td>
-                  <td >{card.archetypes.get(input.selectedArchetype)}</td>
-                  <td >{percentage}%</td>
-                  <td >{correlation}%</td>
-                </tr>
-            )}).sort(SortFunc)
-          }
-        </tbody>
-      </table>
-      </div>
-  );
-}
 
 function DraftOrderWidget(input) {
   if (!input.show) {
@@ -869,139 +806,6 @@ function DraftOrderWidget(input) {
       </table>
       </div>
   );
-}
-
-
-function ArchetypeWidget(input) {
-  if (!input.show) {
-    return null
-  }
-  let archetypes = ArchetypeData(input.decks)
-  let data = []
-  for (let arch of archetypes.values()) {
-    if (arch.build_percent > 5) {
-      data.push(arch)
-    }
-  }
-
-  return (
-    <div className="widget">
-      <table className="winrate-table">
-        <thead className="table-header">
-          <tr>
-            <td onClick={input.onHeaderClick} id="type" className="header-cell">Archetype</td>
-            <td onClick={input.onHeaderClick} id="build_percent" className="header-cell">Build %</td>
-            <td onClick={input.onHeaderClick} id="win_percent" className="header-cell">Win %</td>
-            <td onClick={input.onHeaderClick} id="num" className="header-cell"># Decks</td>
-            <td onClick={input.onHeaderClick} id="record" className="header-cell">Record</td>
-            <td onClick={input.onHeaderClick} id="shared" className="header-cell">Avg other types</td>
-          </tr>
-        </thead>
-        <tbody>
-          {
-            data.map(function(t) {
-              let sort = t.build_percent
-              switch (input.sortBy) {
-                case "type":
-                  sort = t.type
-                  break
-                case "win_percent":
-                  sort = t.win_percent
-                  break
-                case "shared":
-                  sort = t.avg_shared
-                  break
-                case "num":
-                  sort = t.count
-                  break
-              }
-              return (
-                <tr key={t.type} sort={sort} className="winrate-row">
-                  <td id={t.type} onClick={input.handleRowClick} key="type">{t.type}</td>
-                  <td key="build_percent">{t.build_percent}%</td>
-                  <td key="win_percent">{t.win_percent}%</td>
-                  <td key="num">{t.count}</td>
-                  <td key="record">{t.record}</td>
-                  <td key="shared">{t.avg_shared}</td>
-                </tr>
-              )
-            }).sort(SortFunc)
-          }
-        </tbody>
-      </table>
-
-      </div>
-  );
-}
-
-function ArchetypeDetailsPanel(input) {
-  if (!input.show) {
-    return null
-  }
-  if (input.showPopup == "") {
-    return null
-  }
-
-  // Get the archetype data for the selected archetype.
-  let archetypeData = ArchetypeData(input.decks)
-  let arch = archetypeData.get(input.showPopup)
-  let sharedData = []
-  arch.sharedWith.forEach(function(num, name) {
-    sharedData.push({"name": name, "num": num})
-  })
-  let playerData = []
-  arch.players.forEach(function(num, name) {
-    playerData.push({"name": name, "num": num})
-  })
-  return (
-    <div className="widget">
-      <table className="winrate-table">
-        <thead className="table-header">
-          <tr>
-            <td onClick={input.onHeaderClick} id="name" className="header-cell">Paired with</td>
-            <td onClick={input.onHeaderClick} id="num" className="header-cell">#</td>
-          </tr>
-        </thead>
-        <tbody>
-          {
-            sharedData.map(function(arch) {
-              return (
-                <tr key={arch.name} sort={arch.num} className="winrate-row">
-                  <td key="name">{arch.name}</td>
-                  <td key="num">{arch.num}</td>
-                </tr>
-              )
-            }).sort(SortFunc)
-          }
-        </tbody>
-      </table>
-
-      <br></br>
-
-      <table className="winrate-table">
-        <thead className="table-header">
-          <tr>
-            <td onClick={input.onHeaderClick} id="name" className="header-cell">Played by</td>
-            <td onClick={input.onHeaderClick} id="num" className="header-cell">#</td>
-          </tr>
-        </thead>
-        <tbody>
-          {
-            playerData.map(function(player) {
-              return (
-                <tr key={player.name} sort={player.num} className="winrate-row">
-                  <td key="name">{player.name}</td>
-                  <td key="num">{player.num}</td>
-                </tr>
-              )
-            }).sort(SortFunc)
-          }
-        </tbody>
-      </table>
-
-    </div>
-
-  )
 }
 
 function Overview(input) {
@@ -1164,40 +968,6 @@ function BestCombosWidget(input) {
     </div>
   );
 
-}
-
-function TopCardsInArchetypeWidgetOptions(input) {
-  return (
-    <div className="dropdown-header">
-      <DropdownHeader
-        label="Archetype"
-        options={input.archetypeDropdownOptions}
-        value={input.selectedArchetype}
-        onChange={input.onArchetypeSelected}
-        className="dropdown-header-side-by-side"
-      />
-
-      <DropdownHeader
-        label="Color"
-        options={input.colorWidgetOpts}
-        value={input.colorSelection}
-        onChange={input.onColorSelected}
-        className="dropdown-header-side-by-side"
-      />
-
-      <NumericInput
-        label="Min #picks"
-        value={input.minDrafts}
-        onChange={input.onMinDraftsSelected}
-      />
-
-      <NumericInput
-        label="Decks in arch"
-        value={input.minDecksInArch}
-        onChange={input.onMinGamesSelected}
-      />
-    </div>
-  );
 }
 
 
@@ -1402,225 +1172,6 @@ function CardWidget(input) {
       </div>
     );
   }
-}
-
-// CardData returns data for each card that matches the given minimum number of drafts. The provided
-// cube list is used to filter cards no longer in the cube.
-function CardData(decks, minDrafts, minGames, cube, color) {
-  let tracker = {}
-  let drafts = new Map()
-
-  // Define a helper function for initializing a new empty card.
-  let newCard = function(card) {
-    let c = {
-      name: card.name,
-      mainboard: 0, // Number of times this card has been mainboarded.
-      sideboard: 0, // Number of times this card has been sideboarded.
-      inColorSideboard: 0, // Number of times this card was in deck color(s), and sideboarded.
-      wins: 0, // Does not include sideboard.
-      losses: 0, // Does not include sideboard.
-      archetypes: new Map(), // Map of archetype to times played in that archetype.
-      players: new Map(), // Who has played this card, and how often.
-      url: card.url,
-    }
-    return c
-  }
-
-  // Define a helper function for determining if a card is within a given deck's colors.
-  let inDeckColor = function(card, deck) {
-    for (var k in card.colors) {
-      for (var j in deck.colors) {
-        if (card.colors[k] == deck.colors[j]) {
-          return true
-        }
-      }
-    }
-    return false
-  }
-
-  // Build a map of all the cards in the cube so we can
-  // easily skip any cards not currently in the cube.
-  let cubeCards = new Map()
-  for (var i in cube.cards) {
-    cubeCards.set(cube.cards[i].name, cube.cards[i])
-  }
-
-  for (var i in decks) {
-    let deck = decks[i]
-
-    // Keep track of the total number of drafts.
-    drafts.set(deck.draft, true)
-
-    let cards = deck.mainboard
-    for (var j in cards) {
-      let card = cards[j]
-
-      // First thing - skip the card if it's not currently in the cube, or if it's a basic land.
-      if (!cubeCards.has(card.name)) {
-        continue
-      }
-      if (IsBasicLand(card)) {
-        continue
-      }
-      if (color != "") {
-        let match = false
-        for (var k in card.colors) {
-          if (card.colors[k] == color) {
-            match = true
-          }
-        }
-        if (!match) {
-          continue
-        }
-      }
-
-      if (tracker[card.name] == null) {
-        tracker[card.name] = newCard(card)
-      }
-
-      // Increment basic stats for this card.
-      tracker[card.name].mainboard += 1
-      tracker[card.name].wins += Wins(decks[i])
-      tracker[card.name].losses += Losses(decks[i])
-
-      // Increment player count.
-      if (!tracker[card.name].players.has(deck.player)) {
-        tracker[card.name].players.set(deck.player, 0)
-      }
-      tracker[card.name].players.set(deck.player, tracker[card.name].players.get(deck.player) + 1)
-
-      // Include archetype data for this card, which allows us to map cards to archetypes
-      // and compare their performance to other cards in the same archetype.
-      for (var k in deck.labels) {
-        const arch = deck.labels[k]
-        let cardData = tracker[card.name]
-        cardData.archetypes.has(arch) || cardData.archetypes.set(arch, 0)
-        cardData.archetypes.set(arch, cardData.archetypes.get(arch) + 1)
-      }
-    }
-
-    // Go through the sideboard and increment the counter. Not every deck has a sideboard since
-    // that data isn't always collected, so this information is only partly reliable. It's still nice to see.
-    for (j in deck.sideboard) {
-      let card = deck.sideboard[j]
-
-      // First thing - skip the card if it's not currently in the cube, or if it's a basic land.
-      if (!cubeCards.has(card.name)) {
-        continue
-      }
-      if (IsBasicLand(card)) {
-        continue
-      }
-      if (color != "") {
-        let match = false
-        for (var k in card.colors) {
-          if (card.colors[k] == color) {
-            match = true
-          }
-        }
-        if (!match) {
-          continue
-        }
-      }
-
-      if (tracker[card.name] == null) {
-        tracker[card.name] = newCard(card)
-      }
-      tracker[card.name].sideboard += 1
-      if (inDeckColor(card, deck)) {
-        tracker[card.name].inColorSideboard += 1
-      }
-    }
-  }
-
-  // Convert total number of drafts.
-  let totalDrafts = drafts.size
-
-  // Convert to a list for sorting.
-  let data = []
-  for (var c in tracker) {
-    let card = tracker[c]
-    if ((card.mainboard + card.sideboard) < minDrafts) {
-      // Skip any cards that haven't been picked enough - this is an approximation of
-      // the number of drafts the card has appeared in. There is some fuzziness because not all drafts
-      // record sideboards, and so it is possible that a card has been in more drafts than we know about.
-      continue
-    } else if ((card.wins + card.losses) < minGames) {
-      // Filter out cards that haven't seen enough total games. This allows filtering based on the actual
-      // amount of play a card may have seen, although we don't know if the card was actually ever drawn in these games.
-      continue
-    }
-    tracker[c].pick_percent = Math.round((card.mainboard + card.sideboard) / totalDrafts * 100) // TODO: Unused
-    tracker[c].mainboard_percent = Math.round(card.mainboard / totalDrafts * 100)
-    tracker[c].sideboard_percent = Math.round(card.sideboard / (card.mainboard + card.sideboard) * 100)
-    tracker[c].record = card.wins + "-" + card.losses + "-" + 0
-    tracker[c].total_games = card.wins + card.losses
-    tracker[c].win_percent = 0
-    if (card.wins + card.losses > 0) {
-      // Calculate win percentage for cards that have been mainboarded before.
-      tracker[c].win_percent = Math.round(card.wins / (card.wins + card.losses) * 100)
-    }
-    data.push(tracker[c])
-  }
-  return data
-}
-
-function ArchetypeData(decks) {
-  // First, determine the popularity of each archetype by iterating all decks
-  // and counting the instances of each.
-  let tracker = new Map()
-  for (var i in decks) {
-    let types = decks[i].labels
-    for (var j in types) {
-      let type = types[j]
-      if (!tracker.has(type)) {
-        tracker.set(type, {
-          type: type,
-          count: 0,
-          wins: 0,
-          losses: 0,
-          sharedWith: new Map(),
-          numSharedWith: 0,
-          players: new Map(),
-        })
-      }
-      tracker.get(type).count += 1
-      tracker.get(type).wins += Wins(decks[i])
-      tracker.get(type).losses += Losses(decks[i])
-
-      // Track who plays this archetype, and how often.
-      if (!tracker.get(type).players.has(decks[i].player)) {
-        tracker.get(type).players.set(decks[i].player, 0)
-      }
-      tracker.get(type).players.set(decks[i].player, tracker.get(type).players.get(decks[i].player) + 1)
-
-
-      // Track other types shared with this one, and how frequent.
-      for (var k in types) {
-        // Skip aggro / control / midrange since those are applied to every deck.
-        if (types[k] == "aggro" || types[k] == "midrange" || types[k] == "control") {
-          continue
-        }
-        if (types[k] != type) {
-          // Skip itself.
-          if (!tracker.get(type).sharedWith.has(types[k])) {
-            tracker.get(type).sharedWith.set(types[k], 0)
-          }
-          tracker.get(type).sharedWith.set(types[k], tracker.get(type).sharedWith.get(types[k]) + 1)
-          tracker.get(type).numSharedWith += 1
-        }
-      }
-    }
-  }
-
-  // Perform calculation on each entry.
-  tracker.forEach(function(archetype) {
-    archetype.build_percent = Math.round(archetype.count / decks.length * 100)
-    archetype.win_percent = Math.round(archetype.wins / (archetype.wins + archetype.losses) * 100)
-    archetype.record = archetype.wins + "-" + archetype.losses + "-" + 0
-    archetype.avg_shared = Math.round(archetype.numSharedWith / archetype.count * 100) / 100
-  })
-  return tracker
 }
 
 function PrintRow({ k, value, p }) {
