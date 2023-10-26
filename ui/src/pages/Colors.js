@@ -417,7 +417,7 @@ function ColorRateChart(input) {
   const data = {labels, datasets: dataset};
   return (
     <div style={{"height":"500px", "width":"100%"}}>
-      <Line height={"300px"} width={"300px"} options={options} data={data} />;
+      <Line height={"300px"} width={"300px"} options={options} data={data} />
     </div>
   );
 }
