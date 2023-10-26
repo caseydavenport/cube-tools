@@ -17,7 +17,6 @@ export default function DeckViewer() {
 
   // Called when we successfully fetch the deck list from the selected draft.
   function onDeckIndexFetched(idx) {
-    console.log("Fetched deck index")
     const d = [
       { label: "", value: "" },
     ]
@@ -56,12 +55,10 @@ export default function DeckViewer() {
   // Handle changes to the draft and deck selection dropdowns.
   function onDeckSelected(event) {
     // Log the update, and store the currently selected deck.
-    console.log("Deck selected: " + event.target.value)
     setSelectedDeck(event.target.value)
   }
   function onDraftSelected(event) {
     // Set the selected draft, and update the list of decks.
-    console.log("Draft selected: " + event.target.value)
     setSelectedDraft(event.target.value)
     FetchDeckIndex(event.target.value, onDeckIndexFetched)
 
@@ -80,21 +77,18 @@ export default function DeckViewer() {
   // Callback for sucessfully fetching a Deck.
   // This function updates the UI with the deck's contents.
   function onFetch(d) {
-    console.log("onFetch called");
     const newdeck = {...d}
     setDeck(newdeck);
 
     // Update cache.
     fetched.set(selectedDeck, newdeck)
     setFetched(new Map(fetched))
-    console.log("fetch complete")
   }
 
   // Whenever the selected deck is updated.
   useEffect(() => {
     if (!selectedDeck || !selectedDraft) {
       // On page load, selected deck will be empty.
-      console.log("No selected deck")
       setDeck({})
       return
     }
@@ -104,12 +98,10 @@ export default function DeckViewer() {
     const cached = fetched.get(path)
     if (cached) {
       // We've already fetched and cached this deck.
-      console.log("deck is cached")
       onFetch(cached)
     } else {
       // Fetch the deck, since this is the first time
       // we've triggered this.
-      console.log("need to fetch deck")
       FetchDeck(path, onFetch)
     }
   }, [selectedDeck, selectedDraft])
@@ -173,7 +165,6 @@ function DisplayDeck({deck, mbsb}) {
   let missing = (mbsb == "Mainboard" && !deck.mainboard)
   missing = missing || (mbsb == "Sideboard" && !deck.sideboard)
   if (!deck || missing) {
-    console.log("no deck");
     return null;
   }
 

@@ -32,35 +32,66 @@ export function ColorWidget(input) {
   if (!input.show) {
     return null
   }
+
   return (
-      <div className="widget">
-        <DropdownHeader
-          label="Select color type"
-          options={input.ddOpts}
-          value={input.colorTypeSelection}
-          onChange={input.onSelected}
-        />
+    <table style={{"width": "100%"}}>
+      <tr>
+        <td style={{"width": "50%"}}>
+          <ColorStatsTable
+            colorData={input.colorData}
+            ddOpts={input.ddOpts}
+            dropdownSelection={input.colorTypeSelection}
+            decks={input.decks}
+            onSelected={input.onSelected}
+            onClick={input.onHeaderClick}
+            sortBy={input.colorSortBy}
+          />
+        </td>
+        <td style={{"width": "50%"}}> </td>
+      </tr>
 
-        <ColorStatsWidget
-          colorData={input.colorData}
-          ddOpts={input.ddOpts}
-          dropdownSelection={input.colorTypeSelection}
-          decks={input.decks}
-          onSelected={input.onSelected}
-          onClick={input.onHeaderClick}
-          sortBy={input.colorSortBy}
-        />
+      <tr>
+        <td style={{"padding-top": "50px"}}>
+          <ColorRateChart
+            colorData={input.colorData}
+            decks={input.decks}
+            dataset="builds"
+          />
+        </td>
+        <td style={{"padding-top": "50px"}}>
+          <ColorRateChart
+            colorData={input.colorData}
+            decks={input.decks}
+            dataset="wins"
+          />
+        </td>
+      </tr>
 
-        <ColorChart
-          colorData={input.colorData}
-          decks={input.decks}
-        />
-      </div>
+      <tr>
+        <td style={{"padding-top": "50px"}}>
+          <ColorRateChart
+            colorData={input.colorData}
+            decks={input.decks}
+            dataset="builds"
+            colorMode="dual"
+          />
+        </td>
+        <td style={{"padding-top": "50px"}}>
+          <ColorRateChart
+            colorData={input.colorData}
+            decks={input.decks}
+            dataset="wins"
+            colorMode="dual"
+          />
+        </td>
+      </tr>
+
+    </table>
   );
 }
 
-// ColorStatsWidget displays the win percentages and records by color.
-export function ColorStatsWidget(input) {
+// ColorStatsTable displays the win percentages and records by color.
+function ColorStatsTable(input) {
   if (input == null || input.colorData == null) {
     return null
   }
@@ -82,63 +113,72 @@ export function ColorStatsWidget(input) {
   }
 
   return (
-    <table className="winrate-table">
-      <thead className="table-header">
-        <tr>
-          <td onClick={input.onClick} id="color" className="header-cell">Color</td>
-          <td onClick={input.onClick} id="win" className="header-cell">Deck win rate</td>
-          <td onClick={input.onClick} id="build" className="header-cell">Deck build rate</td>
-          <td onClick={input.onClick} id="record" className="header-cell">Record</td>
-          <td onClick={input.onClick} id="decks" className="header-cell"># Decks</td>
-          <td onClick={input.onClick} id="picks" className="header-cell" style={headerStyleFields}>% of mainboard picks</td>
-          <td onClick={input.onClick} id="splash" className="header-cell" style={headerStyleFields}>Avg % of deck</td>
-        </tr>
-      </thead>
-      <tbody>
-        {
-          wr.map(function(rates) {
-            // If dual is set, only show dual colors.
-            // Otherwise, only show single colors.
-            // `color` here is a string made of one or more characters - e.g., W or UB.
-            if (input.dropdownSelection === "Dual" && rates.color.length !== 2) {
-              return
-            } else if (input.dropdownSelection === "Mono" && rates.color.length !== 1 ) {
-              return
-            } else if (input.dropdownSelection === "Trio" && rates.color.length !== 3) {
-              return
-            }
+    <div>
+      <DropdownHeader
+        label="Select color type"
+        options={input.ddOpts}
+        value={input.colorTypeSelection}
+        onChange={input.onSelected}
+      />
 
-            let record = rates.wins + "-" + rates.losses + "-" + 0
+      <table className="winrate-table">
+        <thead className="table-header">
+          <tr>
+            <td onClick={input.onClick} id="color" className="header-cell">Color</td>
+            <td onClick={input.onClick} id="win" className="header-cell">Deck win rate</td>
+            <td onClick={input.onClick} id="build" className="header-cell">Deck build rate</td>
+            <td onClick={input.onClick} id="record" className="header-cell">Record</td>
+            <td onClick={input.onClick} id="decks" className="header-cell"># Decks</td>
+            <td onClick={input.onClick} id="picks" className="header-cell" style={headerStyleFields}>% of mainboard picks</td>
+            <td onClick={input.onClick} id="splash" className="header-cell" style={headerStyleFields}>Avg % of deck</td>
+          </tr>
+        </thead>
+        <tbody>
+          {
+            wr.map(function(rates) {
+              // If dual is set, only show dual colors.
+              // Otherwise, only show single colors.
+              // `color` here is a string made of one or more characters - e.g., W or UB.
+              if (input.dropdownSelection === "Dual" && rates.color.length !== 2) {
+                return
+              } else if (input.dropdownSelection === "Mono" && rates.color.length !== 1 ) {
+                return
+              } else if (input.dropdownSelection === "Trio" && rates.color.length !== 3) {
+                return
+              }
 
-            // Determine what we're sorting by. Default to sorting by win percentage.
-            let sort = rates.win_percent
-            if (input.sortBy === "build") {
-              sort = rates.build_percent
-            } else if (input.sortBy === "decks") {
-              sort = rates.num_decks
-            } else if (input.sortBy === "color") {
-              sort = rates.color
-            } else if (input.sortBy === "picks") {
-              sort = rates.total_pick_percentage
-            } else if (input.sortBy === "splash") {
-              sort = rates.average_deck_percentage
-            }
+              let record = rates.wins + "-" + rates.losses + "-" + 0
 
-            return (
-              <tr key={rates.color} sort={sort} className="winrate-row">
-                <td>{rates.color}</td>
-                <td>{rates.win_percent}%</td>
-                <td>{rates.build_percent}%</td>
-                <td>{record}</td>
-                <td>{rates.num_decks}</td>
-                <td style={headerStyleFields}>{rates.total_pick_percentage}%</td>
-                <td style={headerStyleFields}>{rates.average_deck_percentage}%</td>
-              </tr>
-            );
-          }).sort(SortFunc)
-        }
-      </tbody>
-    </table>
+              // Determine what we're sorting by. Default to sorting by win percentage.
+              let sort = rates.win_percent
+              if (input.sortBy === "build") {
+                sort = rates.build_percent
+              } else if (input.sortBy === "decks") {
+                sort = rates.num_decks
+              } else if (input.sortBy === "color") {
+                sort = rates.color
+              } else if (input.sortBy === "picks") {
+                sort = rates.total_pick_percentage
+              } else if (input.sortBy === "splash") {
+                sort = rates.average_deck_percentage
+              }
+
+              return (
+                <tr key={rates.color} sort={sort} className="winrate-row">
+                  <td>{rates.color}</td>
+                  <td>{rates.win_percent}%</td>
+                  <td>{rates.build_percent}%</td>
+                  <td>{record}</td>
+                  <td>{rates.num_decks}</td>
+                  <td style={headerStyleFields}>{rates.total_pick_percentage}%</td>
+                  <td style={headerStyleFields}>{rates.average_deck_percentage}%</td>
+                </tr>
+              );
+            }).sort(SortFunc)
+          }
+        </tbody>
+      </table>
+    </div>
   );
 }
 
@@ -250,10 +290,11 @@ export function GetColorStats(decks) {
   return tracker
 }
 
-export function ColorChart(input) {
-  // Split the given decks into buckets of size 5.
-  // Each bucket will contain 5 drafts worth of deck information.
-  let buckets = DeckBuckets(input.decks, 5)
+function ColorRateChart(input) {
+  // Split the given decks into fixed-size buckets.
+  // Each bucket will contain N drafts worth of deck information.
+  let numBuckets = 8
+  let buckets = DeckBuckets(input.decks, numBuckets)
 
   // Use the starting date of the bucket as the label. This is just an approximation,
   // as the bucket really includes a variable set of dates, but it allows the viewer to
@@ -264,7 +305,9 @@ export function ColorChart(input) {
   }
 
   // Parse the buckets into color data.
-  let allColors = ["W", "U", "B", "R", "G"]
+  let monoColors = ["W", "U", "B", "R", "G"]
+  let dualColors = ["WU", "WB", "WR", "WG", "UB", "UR", "UG", "BR", "BG", "RG"]
+  let allColors = [...monoColors, ...dualColors]
   let colorDatasets = new Map()
   for (let color of allColors) {
     colorDatasets.set(color, [])
@@ -279,25 +322,15 @@ export function ColorChart(input) {
     // Parse the color stats of the decks.
     let stats = GetColorStats(decks)
     for (let color of allColors) {
-      colorDatasets.get(color).push(stats[color].build_percent)
+      if (input.dataset === "wins") {
+        colorDatasets.get(color).push(stats[color].win_percent)
+      } else {
+        colorDatasets.get(color).push(stats[color].build_percent)
+      }
     }
   }
 
-  const options = {
-    responsive: true,
-    maintainAspectRatio: false,
-    scales: {y: {min: 0}},
-    plugins: {
-      title: {
-        display: true,
-        text: 'Build % (bucket=5)',
-      },
-    },
-  };
-
-  const data = {
-    labels,
-    datasets: [
+  let monoColorDatasets = [
       {
         label: 'White',
         data: colorDatasets.get("W"),
@@ -328,8 +361,60 @@ export function ColorChart(input) {
         borderColor: "#0F0",
         backgroundColor: '#0F0',
       },
-    ],
+  ]
+
+  // Generate a dual-color dataset as well.
+  let dualColorDatasets = []
+  for (let color of dualColors) {
+    // A hacky way to get a deterministic color for each pair.
+    // Might just be better to define a lookup table, but lazy.
+    var n = (color.charCodeAt(0) + color.charCodeAt(1)) / 250
+    var randomColor = Math.floor(n*16777215).toString(16);
+    dualColorDatasets.push({
+      label: color,
+      data: colorDatasets.get(color),
+      borderColor: "#" + randomColor,
+      backgroundColor: "#" + randomColor,
+    })
+  }
+
+  let dataset = monoColorDatasets
+  switch (input.colorMode) {
+    case "dual":
+      dataset = dualColorDatasets
+  }
+
+  let title = `Build rate (buckets=${numBuckets})`
+  switch (input.dataset) {
+    case "wins":
+      title = `Win rate (buckets=${numBuckets})`
+  }
+
+  const options = {
+    responsive: true,
+    maintainAspectRatio: false,
+    scales: {y: {min: 0}},
+    plugins: {
+      title: {
+        display: true,
+        text: title,
+        color: "#FFF",
+        font: {
+          size: "16pt",
+        },
+      },
+      legend: {
+        labels: {
+          color: "#FFF",
+          font: {
+            size: "16pt",
+          },
+        },
+      },
+    },
   };
+
+  const data = {labels, datasets: dataset};
   return (
     <div style={{"height":"500px", "width":"100%"}}>
       <Line height={"300px"} width={"300px"} options={options} data={data} />;

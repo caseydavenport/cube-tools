@@ -53,6 +53,24 @@ export function AllPicks(logs, cube) {
     cubeCards.set(cube.cards[i].name, cube.cards[i])
   }
 
+  // Define a local function for initializing a blank pick.
+  let newPick = function(name) {
+    return {
+      name: name,
+
+      // Track total number of picks, and pick number in pack.
+      count: 0,
+      pickNumSum: 0,
+      burns: 0,
+
+      // Specifically track pack one as a separate stat.
+      p1count: 0,
+      p1burns: 0,
+      p1PickNumSum: 0,
+      firstPicks: 0,
+    }
+  }
+
   for (var l in logs) {
     let log = logs[l]
     let [picks, burns] = AllPicksFromLog(log)
@@ -67,20 +85,7 @@ export function AllPicks(logs, cube) {
       }
 
       if (!allPicks.get(p.name)) {
-        allPicks.set(p.name, {
-          name: p.name,
-
-          // Track total number of picks, and pick number in pack.
-          count: 0,
-          pickNumSum: 0,
-          burns: 0,
-
-          // Specifically track pack one as a separate stat.
-          p1count: 0,
-          p1burns: 0,
-          p1PickNumSum: 0,
-          firstPicks: 0,
-        })
+        allPicks.set(p.name, newPick(p.name))
       }
 
       // Use 1 to start, since humans think in terms of 1 being first.
@@ -101,19 +106,14 @@ export function AllPicks(logs, cube) {
     // Add in burn count without incrementing average numbers.
     for (i in burns) {
       let b = burns[i]
-      if (!allPicks.get(b.name)) {
-        allPicks.set(b.name, {
-          name: b.name,
 
-          // Empty defaults.
-          count: 0,
-          pickNumSum: 0,
-          burns: 0,
-          p1count: 0,
-          p1burns: 0,
-          p1PickNumSum: 0,
-          firstPicks: 0,
-        })
+      // Skip cards not currently in cube.
+      if (!cubeCards.has(b.name)) {
+        continue
+      }
+
+      if (!allPicks.get(b.name)) {
+        allPicks.set(b.name, newPick(b.name))
       }
 
       // Increment the number of burns, but also count this as a "last pick" for
