@@ -1,9 +1,10 @@
 {
- "labels": ["midrange", "lands", "retrace"],
+ "labels": ["midrange", "lands", "retrace", "spells"],
  "player": "casey",
  "date": "2023-10-21",
  "games": [
-    {"opponent": "xander", "winner": "xander"}
+    {"opponent": "xander", "winner": "xander"},
+    {"opponent": "james", "winner": "james"}
   ],
  "mainboard": [
   {

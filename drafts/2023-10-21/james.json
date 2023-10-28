@@ -1,9 +1,165 @@
 {
- "labels": [],
+ "labels": ["midrange", "goodstuff"],
  "player": "james",
  "date": "2023-10-21",
- "games": [],
+ "games": [
+    {"opponent": "casey", "winner": "james"}
+  ],
  "mainboard": [
+  {
+   "name": "Island",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Island"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/woe/269/island?utm_source=api"
+  },
+  {
+   "name": "Island",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Island"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/woe/269/island?utm_source=api"
+  },
+  {
+   "name": "Island",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Island"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/woe/269/island?utm_source=api"
+  },
+  {
+   "name": "Plains",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Plains"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/woe/267/plains?utm_source=api"
+  },
+  {
+   "name": "Plains",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Plains"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/woe/267/plains?utm_source=api"
+  },
+  {
+   "name": "Plains",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Plains"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/woe/267/plains?utm_source=api"
+  },
+  {
+   "name": "Plains",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Plains"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/woe/267/plains?utm_source=api"
+  },
+  {
+   "name": "Mountain",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Mountain"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/woe/273/mountain?utm_source=api"
+  },
+  {
+   "name": "Mountain",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Mountain"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/woe/273/mountain?utm_source=api"
+  },
+  {
+   "name": "Mountain",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Mountain"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/woe/273/mountain?utm_source=api"
+  },
+  {
+   "name": "Mountain",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Mountain"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/woe/273/mountain?utm_source=api"
+  },
   {
    "name": "Dream Trawler",
    "types": [
@@ -79,75 +235,6 @@
    "url": "https://scryfall.com/card/ncc/229/ponder?utm_source=api"
   },
   {
-   "name": "Dauntless Bodyguard",
-   "types": [
-    "Creature"
-   ],
-   "sub_types": [
-    "Human",
-    "Knight"
-   ],
-   "cmc": 1,
-   "image": "",
-   "colors": [
-    "W"
-   ],
-   "url": "https://scryfall.com/card/dom/14/dauntless-bodyguard?utm_source=api"
-  },
-  {
-   "name": "Isolated Chapel",
-   "types": [
-    "Land"
-   ],
-   "cmc": 0,
-   "image": "",
-   "colors": [],
-   "url": "https://scryfall.com/card/dom/241/isolated-chapel?utm_source=api"
-  },
-  {
-   "name": "Legion's Landing // Adanto, the First Fort",
-   "types": [
-    "Legendary",
-    "Enchantment",
-    "//",
-    "Legendary",
-    "Land"
-   ],
-   "cmc": 1,
-   "image": "",
-   "colors": null,
-   "url": "https://scryfall.com/card/xln/22/legions-landing-adanto-the-first-fort?utm_source=api"
-  },
-  {
-   "name": "Mistmeadow Skulk",
-   "types": [
-    "Creature"
-   ],
-   "sub_types": [
-    "Kithkin",
-    "Rogue"
-   ],
-   "cmc": 2,
-   "image": "",
-   "colors": [
-    "W"
-   ],
-   "url": "https://scryfall.com/card/shm/14/mistmeadow-skulk?utm_source=api"
-  },
-  {
-   "name": "Sai of the Shinobi",
-   "types": [
-    "Artifact"
-   ],
-   "sub_types": [
-    "Equipment"
-   ],
-   "cmc": 1,
-   "image": "",
-   "colors": [],
-   "url": "https://scryfall.com/card/a25/230/sai-of-the-shinobi?utm_source=api"
-  },
-  {
    "name": "Spell Pierce",
    "types": [
     "Instant"
@@ -173,49 +260,6 @@
     "W"
    ],
    "url": "https://scryfall.com/card/vow/46/welcoming-vampire?utm_source=api"
-  },
-  {
-   "name": "Intangible Virtue",
-   "types": [
-    "Enchantment"
-   ],
-   "cmc": 2,
-   "image": "",
-   "colors": [
-    "W"
-   ],
-   "url": "https://scryfall.com/card/cmm/31/intangible-virtue?utm_source=api"
-  },
-  {
-   "name": "Merfolk Looter",
-   "types": [
-    "Creature"
-   ],
-   "sub_types": [
-    "Merfolk",
-    "Rogue"
-   ],
-   "cmc": 2,
-   "image": "",
-   "colors": [
-    "U"
-   ],
-   "url": "https://scryfall.com/card/afc/86/merfolk-looter?utm_source=api"
-  },
-  {
-   "name": "Grateful Apparition",
-   "types": [
-    "Creature"
-   ],
-   "sub_types": [
-    "Spirit"
-   ],
-   "cmc": 2,
-   "image": "",
-   "colors": [
-    "W"
-   ],
-   "url": "https://scryfall.com/card/cmm/824/grateful-apparition?utm_source=api"
   },
   {
    "name": "Exclusion Mage",
@@ -250,19 +294,6 @@
    "url": "https://scryfall.com/card/c15/73/kor-sanctifiers?utm_source=api"
   },
   {
-   "name": "Lightning Greaves",
-   "types": [
-    "Artifact"
-   ],
-   "sub_types": [
-    "Equipment"
-   ],
-   "cmc": 2,
-   "image": "",
-   "colors": [],
-   "url": "https://scryfall.com/card/cmm/398/lightning-greaves?utm_source=api"
-  },
-  {
    "name": "Serum Visions",
    "types": [
     "Sorcery"
@@ -275,22 +306,6 @@
    "url": "https://scryfall.com/card/afc/94/serum-visions?utm_source=api"
   },
   {
-   "name": "Kor Duelist",
-   "types": [
-    "Creature"
-   ],
-   "sub_types": [
-    "Kor",
-    "Soldier"
-   ],
-   "cmc": 1,
-   "image": "",
-   "colors": [
-    "W"
-   ],
-   "url": "https://scryfall.com/card/mm2/22/kor-duelist?utm_source=api"
-  },
-  {
    "name": "Furycalm Snarl",
    "types": [
     "Land"
@@ -299,16 +314,6 @@
    "image": "",
    "colors": [],
    "url": "https://scryfall.com/card/cmm/999/furycalm-snarl?utm_source=api"
-  },
-  {
-   "name": "Prophetic Prism",
-   "types": [
-    "Artifact"
-   ],
-   "cmc": 2,
-   "image": "",
-   "colors": [],
-   "url": "https://scryfall.com/card/woe/249/prophetic-prism?utm_source=api"
   },
   {
    "name": "Oblivion Ring",
@@ -414,48 +419,6 @@
    "url": "https://scryfall.com/card/neo/42/the-wandering-emperor?utm_source=api"
   },
   {
-   "name": "Silver Myr",
-   "types": [
-    "Artifact",
-    "Creature"
-   ],
-   "sub_types": [
-    "Myr"
-   ],
-   "cmc": 2,
-   "image": "",
-   "colors": [],
-   "url": "https://scryfall.com/card/nec/158/silver-myr?utm_source=api"
-  },
-  {
-   "name": "Mosquito Guard",
-   "types": [
-    "Creature"
-   ],
-   "sub_types": [
-    "Kithkin",
-    "Soldier"
-   ],
-   "cmc": 1,
-   "image": "",
-   "colors": [
-    "W"
-   ],
-   "url": "https://scryfall.com/card/ddf/6/mosquito-guard?utm_source=api"
-  },
-  {
-   "name": "Portable Hole",
-   "types": [
-    "Artifact"
-   ],
-   "cmc": 1,
-   "image": "",
-   "colors": [
-    "W"
-   ],
-   "url": "https://scryfall.com/card/afr/33/portable-hole?utm_source=api"
-  },
-  {
    "name": "Sulfur Falls",
    "types": [
     "Land"
@@ -503,18 +466,6 @@
    "url": "https://scryfall.com/card/cmr/330/perilous-myr?utm_source=api"
   },
   {
-   "name": "Into the Roil",
-   "types": [
-    "Instant"
-   ],
-   "cmc": 2,
-   "image": "",
-   "colors": [
-    "U"
-   ],
-   "url": "https://scryfall.com/card/cmr/397/into-the-roil?utm_source=api"
-  },
-  {
    "name": "Ogre-Head Helm",
    "types": [
     "Artifact",
@@ -556,18 +507,6 @@
    "url": "https://scryfall.com/card/afc/79/brainstorm?utm_source=api"
   },
   {
-   "name": "Angelic Intervention",
-   "types": [
-    "Instant"
-   ],
-   "cmc": 2,
-   "image": "",
-   "colors": [
-    "W"
-   ],
-   "url": "https://scryfall.com/card/mom/5/angelic-intervention?utm_source=api"
-  },
-  {
    "name": "Kor Skyfisher",
    "types": [
     "Creature"
@@ -584,22 +523,6 @@
    "url": "https://scryfall.com/card/mm3/11/kor-skyfisher?utm_source=api"
   },
   {
-   "name": "Cunning Sparkmage",
-   "types": [
-    "Creature"
-   ],
-   "sub_types": [
-    "Human",
-    "Shaman"
-   ],
-   "cmc": 3,
-   "image": "",
-   "colors": [
-    "R"
-   ],
-   "url": "https://scryfall.com/card/wwk/79/cunning-sparkmage?utm_source=api"
-  },
-  {
    "name": "Reprieve",
    "types": [
     "Instant"
@@ -610,16 +533,6 @@
     "W"
    ],
    "url": "https://scryfall.com/card/ltr/26/reprieve?utm_source=api"
-  },
-  {
-   "name": "Chromatic Sphere",
-   "types": [
-    "Artifact"
-   ],
-   "cmc": 1,
-   "image": "",
-   "colors": [],
-   "url": "https://scryfall.com/card/jmp/462/chromatic-sphere?utm_source=api"
   },
   {
    "name": "Embereth Veteran",
@@ -653,6 +566,249 @@
   }
  ],
  "sideboard": [
+  {
+   "name": "Chromatic Sphere",
+   "types": [
+    "Artifact"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/jmp/462/chromatic-sphere?utm_source=api"
+  },
+  {
+   "name": "Lightning Greaves",
+   "types": [
+    "Artifact"
+   ],
+   "sub_types": [
+    "Equipment"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/cmm/398/lightning-greaves?utm_source=api"
+  },
+  {
+   "name": "Portable Hole",
+   "types": [
+    "Artifact"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [
+    "W"
+   ],
+   "url": "https://scryfall.com/card/afr/33/portable-hole?utm_source=api"
+  },
+  {
+   "name": "Prophetic Prism",
+   "types": [
+    "Artifact"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/woe/249/prophetic-prism?utm_source=api"
+  },
+  {
+   "name": "Sai of the Shinobi",
+   "types": [
+    "Artifact"
+   ],
+   "sub_types": [
+    "Equipment"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/a25/230/sai-of-the-shinobi?utm_source=api"
+  },
+  {
+   "name": "Cunning Sparkmage",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Human",
+    "Shaman"
+   ],
+   "cmc": 3,
+   "image": "",
+   "colors": [
+    "R"
+   ],
+   "url": "https://scryfall.com/card/wwk/79/cunning-sparkmage?utm_source=api"
+  },
+  {
+   "name": "Dauntless Bodyguard",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Human",
+    "Knight"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [
+    "W"
+   ],
+   "url": "https://scryfall.com/card/dom/14/dauntless-bodyguard?utm_source=api"
+  },
+  {
+   "name": "Grateful Apparition",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Spirit"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "W"
+   ],
+   "url": "https://scryfall.com/card/cmm/824/grateful-apparition?utm_source=api"
+  },
+  {
+   "name": "Kor Duelist",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Kor",
+    "Soldier"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [
+    "W"
+   ],
+   "url": "https://scryfall.com/card/mm2/22/kor-duelist?utm_source=api"
+  },
+  {
+   "name": "Merfolk Looter",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Merfolk",
+    "Rogue"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "U"
+   ],
+   "url": "https://scryfall.com/card/afc/86/merfolk-looter?utm_source=api"
+  },
+  {
+   "name": "Mistmeadow Skulk",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Kithkin",
+    "Rogue"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "W"
+   ],
+   "url": "https://scryfall.com/card/shm/14/mistmeadow-skulk?utm_source=api"
+  },
+  {
+   "name": "Mosquito Guard",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Kithkin",
+    "Soldier"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [
+    "W"
+   ],
+   "url": "https://scryfall.com/card/ddf/6/mosquito-guard?utm_source=api"
+  },
+  {
+   "name": "Silver Myr",
+   "types": [
+    "Artifact",
+    "Creature"
+   ],
+   "sub_types": [
+    "Myr"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/nec/158/silver-myr?utm_source=api"
+  },
+  {
+   "name": "Intangible Virtue",
+   "types": [
+    "Enchantment"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "W"
+   ],
+   "url": "https://scryfall.com/card/cmm/31/intangible-virtue?utm_source=api"
+  },
+  {
+   "name": "Legion's Landing // Adanto, the First Fort",
+   "types": [
+    "Legendary",
+    "Enchantment",
+    "//",
+    "Legendary",
+    "Land"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": null,
+   "url": "https://scryfall.com/card/xln/22/legions-landing-adanto-the-first-fort?utm_source=api"
+  },
+  {
+   "name": "Angelic Intervention",
+   "types": [
+    "Instant"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "W"
+   ],
+   "url": "https://scryfall.com/card/mom/5/angelic-intervention?utm_source=api"
+  },
+  {
+   "name": "Into the Roil",
+   "types": [
+    "Instant"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "U"
+   ],
+   "url": "https://scryfall.com/card/cmr/397/into-the-roil?utm_source=api"
+  },
+  {
+   "name": "Isolated Chapel",
+   "types": [
+    "Land"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/dom/241/isolated-chapel?utm_source=api"
+  },
   {
    "name": "Parallel Lives",
    "types": [

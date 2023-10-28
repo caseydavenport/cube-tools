@@ -209,6 +209,13 @@ ul {
   float: left;
 }
 
+.widget-scroll {
+  vertical-align: top;
+  max-height: 700px;
+  overflow:auto;
+}
+
+
 .house-for-widgets {
   float: left;
   width: 100%;

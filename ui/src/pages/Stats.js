@@ -131,12 +131,13 @@ export default function StatsViewer() {
   const [sortBy, setSortBy] = useState("");
   function onArchetypeSelected(event) {
     setSelectedArchetype(event.target.value)
-    setShowPopup(event.target.value);
   }
   function onHeaderClick(event) {
     setSortBy(event.target.id)
   }
-
+  function handleRowClick(event) {
+      setSelectedArchetype(event.target.id)
+  }
 
   ///////////////////////////////////////////////////////////////////////////////
   // State used for tracking which widgets to display.
@@ -177,20 +178,6 @@ export default function StatsViewer() {
   function onPlayersCheckbox() {
     onCheckbox(5)
   }
-
-
-  ///////////////////////////////////////////////////////////////////////////////
-  // State used for popup windows
-  ///////////////////////////////////////////////////////////////////////////////
-  const [showPopup, setShowPopup] = React.useState("");
-  const handleRowClick = (event) => {
-    if (event.target.id == showPopup) {
-      setShowPopup("")
-    } else {
-      setShowPopup(event.target.id);
-      setSelectedArchetype(event.target.id)
-    }
-  };
 
   // Load the decks and drafts on startup and whenever the dates change.
   useEffect(() => {
@@ -323,7 +310,6 @@ export default function StatsViewer() {
           sortBy={sortBy}
           onHeaderClick={onHeaderClick}
           handleRowClick={handleRowClick}
-          showPopup={showPopup}
         />
 
         <CardWidget

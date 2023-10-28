@@ -3,6 +3,31 @@ import { CardData } from "../utils/Cards.js"
 import { IsBasicLand, SortFunc } from "../utils/Utils.js"
 import { Wins, Losses } from "../utils/Deck.js"
 import { DropdownHeader, NumericInput, Checkbox, DateSelector } from "../components/Dropdown.js"
+import { DeckBuckets } from "../utils/Buckets.js"
+
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend,
+} from 'chart.js';
+import { Line, Bar } from 'react-chartjs-2';
+
+// Register chart JS objects that we need to use.
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend
+);
+
 
 export function ArchetypeWidget(input) {
   if (!input.show) {
@@ -10,39 +35,54 @@ export function ArchetypeWidget(input) {
   }
 
   return (
-    <div>
-      <ArchetypeStatsTable
-        decks={input.decks}
-        dropdownSelection={input.colorTypeSelection}
-        sortBy={input.sortBy}
-        onHeaderClick={input.onHeaderClick}
-        handleRowClick={input.handleRowClick}
-        showPopup={input.showPopup}
-      />
+    <table style={{"width": "100%"}}>
+      <tr style={{"height": "800px"}}>
+        <td style={{"vertical-align": "top", "width": "50%"}}>
+          <ArchetypeStatsTable
+            decks={input.decks}
+            dropdownSelection={input.colorTypeSelection}
+            sortBy={input.sortBy}
+            onHeaderClick={input.onHeaderClick}
+            handleRowClick={input.handleRowClick}
+            selectedArchetype={input.selectedArchetype}
+          />
+        </td>
+        <td style={{"vertical-align": "top"}}>
+          <TopCardsInArchetypeWidget
+            decks={input.decks}
+            minDrafts={input.minDrafts}
+            cube={input.cube}
+            minDecksInArch={input.minDecksInArch}
+            archetypeDropdownOptions={input.archetypeDropdownOptions}
+            selectedArchetype={input.selectedArchetype}
+            onArchetypeSelected={input.onArchetypeSelected}
+            dropdownSelection={input.cardWidgetSelection}
+            cardWidgetOpts={input.cardWidgetOpts}
+            onSelected={input.onCardWidgetSelected}
+            colorWidgetOpts={input.colorWidgetOpts}
+            onColorSelected={input.onColorSelected}
+            colorSelection={input.colorSelection}
+            onMinDraftsSelected={input.onMinDraftsSelected}
+            onMinGamesSelected={input.onMinGamesSelected}
+          />
+        </td>
+        <td style={{"vertical-align":"top"}}>
+          <ArchetypeDetailsPanel
+            decks={input.decks}
+            selectedArchetype={input.selectedArchetype}
+          />
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <MacroArchetypesChart
+            decks={input.decks}
+            dataset="builds"
+          />
+        </td>
+      </tr>
 
-      <TopCardsInArchetypeWidget
-        decks={input.decks}
-        minDrafts={input.minDrafts}
-        cube={input.cube}
-        minDecksInArch={input.minGames} // We overload the use of minGames here.
-        archetypeDropdownOptions={input.archetypeDropdownOptions}
-        selectedArchetype={input.selectedArchetype}
-        onArchetypeSelected={input.onArchetypeSelected}
-        dropdownSelection={input.cardWidgetSelection}
-        cardWidgetOpts={input.cardWidgetOpts}
-        onSelected={input.onCardWidgetSelected}
-        colorWidgetOpts={input.colorWidgetOpts}
-        onColorSelected={input.onColorSelected}
-        colorSelection={input.colorSelection}
-        onMinDraftsSelected={input.onMinDraftsSelected}
-        onMinGamesSelected={input.onMinGamesSelected}
-      />
-
-      <ArchetypeDetailsPanel
-        decks={input.decks}
-        showPopup={input.showPopup}
-      />
-    </div>
+    </table>
   );
 }
 
@@ -56,52 +96,49 @@ function ArchetypeStatsTable(input) {
   }
 
   return (
-    <div className="widget">
-      <table className="winrate-table">
-        <thead className="table-header">
-          <tr>
-            <td onClick={input.onHeaderClick} id="type" className="header-cell">Archetype</td>
-            <td onClick={input.onHeaderClick} id="build_percent" className="header-cell">Build %</td>
-            <td onClick={input.onHeaderClick} id="win_percent" className="header-cell">Win %</td>
-            <td onClick={input.onHeaderClick} id="num" className="header-cell"># Decks</td>
-            <td onClick={input.onHeaderClick} id="record" className="header-cell">Record</td>
-            <td onClick={input.onHeaderClick} id="shared" className="header-cell">Avg other types</td>
-          </tr>
-        </thead>
-        <tbody>
-          {
-            data.map(function(t) {
-              let sort = t.build_percent
-              switch (input.sortBy) {
-                case "type":
-                  sort = t.type
-                  break
-                case "win_percent":
-                  sort = t.win_percent
-                  break
-                case "shared":
-                  sort = t.avg_shared
-                  break
-                case "num":
-                  sort = t.count
-                  break
-              }
-              return (
-                <tr key={t.type} sort={sort} className="winrate-row">
-                  <td id={t.type} onClick={input.handleRowClick} key="type">{t.type}</td>
-                  <td key="build_percent">{t.build_percent}%</td>
-                  <td key="win_percent">{t.win_percent}%</td>
-                  <td key="num">{t.count}</td>
-                  <td key="record">{t.record}</td>
-                  <td key="shared">{t.avg_shared}</td>
-                </tr>
-              )
-            }).sort(SortFunc)
-          }
-        </tbody>
-      </table>
-
-      </div>
+    <table className="winrate-table">
+      <thead className="table-header">
+        <tr>
+          <td onClick={input.onHeaderClick} id="type" className="header-cell">Archetype</td>
+          <td onClick={input.onHeaderClick} id="build_percent" className="header-cell">Build %</td>
+          <td onClick={input.onHeaderClick} id="win_percent" className="header-cell">Win %</td>
+          <td onClick={input.onHeaderClick} id="num" className="header-cell"># Decks</td>
+          <td onClick={input.onHeaderClick} id="record" className="header-cell">Record</td>
+          <td onClick={input.onHeaderClick} id="shared" className="header-cell">Avg other types</td>
+        </tr>
+      </thead>
+      <tbody>
+        {
+          data.map(function(t) {
+            let sort = t.build_percent
+            switch (input.sortBy) {
+              case "type":
+                sort = t.type
+                break
+              case "win_percent":
+                sort = t.win_percent
+                break
+              case "shared":
+                sort = t.avg_shared
+                break
+              case "num":
+                sort = t.count
+                break
+            }
+            return (
+              <tr key={t.type} sort={sort} className="winrate-row">
+                <td id={t.type} onClick={input.handleRowClick} key="type">{t.type}</td>
+                <td key="build_percent">{t.build_percent}%</td>
+                <td key="win_percent">{t.win_percent}%</td>
+                <td key="num">{t.count}</td>
+                <td key="record">{t.record}</td>
+                <td key="shared">{t.avg_shared}</td>
+              </tr>
+            )
+          }).sort(SortFunc)
+        }
+      </tbody>
+    </table>
   );
 }
 
@@ -159,7 +196,7 @@ function TopCardsInArchetypeWidget(input) {
   })
 
   return (
-    <div className="widget">
+    <div className="widget-scroll">
       <TopCardsInArchetypeWidgetOptions {...input} />
       <table className="winrate-table">
         <thead className="table-header">
@@ -196,13 +233,9 @@ function TopCardsInArchetypeWidget(input) {
 
 
 function ArchetypeDetailsPanel(input) {
-  if (input.showPopup == "") {
-    return null
-  }
-
   // Get the archetype data for the selected archetype.
   let archetypeData = ArchetypeData(input.decks)
-  let arch = archetypeData.get(input.showPopup)
+  let arch = archetypeData.get(input.selectedArchetype)
   let sharedData = []
   arch.sharedWith.forEach(function(num, name) {
     sharedData.push({"name": name, "num": num})
@@ -212,7 +245,7 @@ function ArchetypeDetailsPanel(input) {
     playerData.push({"name": name, "num": num})
   })
   return (
-    <div className="widget">
+    <div>
       <table className="winrate-table">
         <thead className="table-header">
           <tr>
@@ -256,20 +289,17 @@ function ArchetypeDetailsPanel(input) {
           }
         </tbody>
       </table>
-
     </div>
-
-  )
+  );
 }
 
 export function ArchetypeData(decks) {
   // First, determine the popularity of each archetype by iterating all decks
   // and counting the instances of each.
   let tracker = new Map()
-  for (var i in decks) {
-    let types = decks[i].labels
-    for (var j in types) {
-      let type = types[j]
+  for (let deck of decks) {
+    let types = deck.labels
+    for (let type of types) {
       if (!tracker.has(type)) {
         tracker.set(type, {
           type: type,
@@ -279,17 +309,20 @@ export function ArchetypeData(decks) {
           sharedWith: new Map(),
           numSharedWith: 0,
           players: new Map(),
+          build_percent: 0,
+          win_percent: 0,
+          avg_shared: 0,
         })
       }
       tracker.get(type).count += 1
-      tracker.get(type).wins += Wins(decks[i])
-      tracker.get(type).losses += Losses(decks[i])
+      tracker.get(type).wins += Wins(deck)
+      tracker.get(type).losses += Losses(deck)
 
       // Track who plays this archetype, and how often.
-      if (!tracker.get(type).players.has(decks[i].player)) {
-        tracker.get(type).players.set(decks[i].player, 0)
+      if (!tracker.get(type).players.has(deck.player)) {
+        tracker.get(type).players.set(deck.player, 0)
       }
-      tracker.get(type).players.set(decks[i].player, tracker.get(type).players.get(decks[i].player) + 1)
+      tracker.get(type).players.set(deck.player, tracker.get(type).players.get(deck.player) + 1)
 
 
       // Track other types shared with this one, and how frequent.
@@ -320,3 +353,95 @@ export function ArchetypeData(decks) {
   return tracker
 }
 
+function MacroArchetypesChart(input) {
+  // Split the given decks into fixed-size buckets.
+  // Each bucket will contain N drafts worth of deck information.
+  let numBuckets = 8
+  let buckets = DeckBuckets(input.decks, numBuckets)
+
+  // Use the starting date of the bucket as the label. This is just an approximation,
+  // as the bucket really includes a variable set of dates, but it allows the viewer to
+  // at least place some sense of time to the chart.
+  const labels = []
+  for (let bucket of buckets) {
+    labels.push(bucket[0].name)
+  }
+
+  // Parse the buckets.
+  let archs = ["aggro", "midrange", "control"]
+  let datasets = new Map()
+  for (let arch of archs) {
+    datasets.set(arch, [])
+  }
+  for (let bucket of buckets) {
+    // Aggregate all decks from within this bucket.
+    let decks = new Array()
+    for (let draft of bucket) {
+      decks.push(...draft.decks)
+    }
+
+    // Parse the stats of the decks.
+    let stats = ArchetypeData(decks)
+    for (let archetype of archs) {
+        datasets.get(archetype).push(stats.get(archetype).build_percent)
+    }
+  }
+
+  let chartDataset = [
+      {
+        label: 'Aggro',
+        data: datasets.get("aggro"),
+        borderColor: "#F00",
+        backgroundColor: '#F00',
+      },
+      {
+        label: 'Midrange',
+        data: datasets.get("midrange"),
+        borderColor: "#0F0",
+        backgroundColor: "#0F0",
+      },
+      {
+        label: 'Control',
+        data: datasets.get("control"),
+        borderColor: "#00F",
+        backgroundColor: '#00F',
+      },
+  ]
+
+  let title = `Build rate (buckets=${numBuckets})`
+  switch (input.dataset) {
+    case "wins":
+      title = `Win rate (buckets=${numBuckets})`
+  }
+
+  const options = {
+    responsive: true,
+    maintainAspectRatio: false,
+    scales: {y: {min: 0}},
+    plugins: {
+      title: {
+        display: true,
+        text: title,
+        color: "#FFF",
+        font: {
+          size: "16pt",
+        },
+      },
+      legend: {
+        labels: {
+          color: "#FFF",
+          font: {
+            size: "16pt",
+          },
+        },
+      },
+    },
+  };
+
+  const data = {labels, datasets: chartDataset};
+  return (
+    <div style={{"height":"500px", "width":"100%"}}>
+      <Line height={"300px"} width={"300px"} options={options} data={data} />
+    </div>
+  );
+}
