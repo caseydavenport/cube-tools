@@ -293,7 +293,7 @@ export function GetColorStats(decks) {
 function ColorRateChart(input) {
   // Split the given decks into fixed-size buckets.
   // Each bucket will contain N drafts worth of deck information.
-  let numBuckets = 8
+  let numBuckets = 10
   let buckets = DeckBuckets(input.decks, numBuckets)
 
   // Use the starting date of the bucket as the label. This is just an approximation,

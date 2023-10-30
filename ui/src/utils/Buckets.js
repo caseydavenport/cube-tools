@@ -24,7 +24,7 @@ export function DeckBuckets(decks, bucketSize) {
   // Now build up an array of rolling buckets. Each bucket contains bucketSize drafts.
   var i = 0;
   let buckets = new Array()
-  for (i = 0; i < drafts.length-bucketSize; i++) {
+  for (i = 0; i <= drafts.length-bucketSize; i++) {
     let bucket = new Array()
     for (var j = 0; j < bucketSize; j++) {
       bucket.push(drafts[i+j])

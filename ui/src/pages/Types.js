@@ -80,6 +80,12 @@ export function ArchetypeWidget(input) {
             dataset="builds"
           />
         </td>
+        <td colspan="2">
+          <MacroArchetypesChart
+            decks={input.decks}
+            dataset="wins"
+          />
+        </td>
       </tr>
 
     </table>
@@ -356,7 +362,7 @@ export function ArchetypeData(decks) {
 function MacroArchetypesChart(input) {
   // Split the given decks into fixed-size buckets.
   // Each bucket will contain N drafts worth of deck information.
-  let numBuckets = 8
+  let numBuckets = 10
   let buckets = DeckBuckets(input.decks, numBuckets)
 
   // Use the starting date of the bucket as the label. This is just an approximation,
@@ -383,7 +389,11 @@ function MacroArchetypesChart(input) {
     // Parse the stats of the decks.
     let stats = ArchetypeData(decks)
     for (let archetype of archs) {
+      if (input.dataset == "wins") {
+        datasets.get(archetype).push(stats.get(archetype).win_percent)
+      } else {
         datasets.get(archetype).push(stats.get(archetype).build_percent)
+      }
     }
   }
 
