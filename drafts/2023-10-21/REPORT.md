@@ -26,7 +26,8 @@ strong of a card advantage engine for me to overcome and it resulted in a [[Drea
   Fall of the Thran in the same turn, swinging me with a dozen 5/3s.
 
 In each of these matchups, my deck seemed like it was doing well and had a good chance of winning, up until a certain point in the late-game
-where the opoonent managed to claw back at the final moment. So, nothing especially dire, but this flavor of midrange might need some tuning.
+where the opoonent managed to claw back at the final moment. So, nothing especially dire, but this flavor of midrange might need some tuning. Specifically,
+better removal options and ways to increase aggression.
 
 There was also a WUG land sacrifice deck built around [[Titania, Protector of Argoth]], [[Knight of the Reliquary]], and [[Fall of the Thran]]. This felt
 more of a control deck with a multi-card finisher. In the aggro matchup, it was on the back foot the whole game but had sufficient answers to the threats
@@ -53,3 +54,4 @@ This was a UG counters deck with [[Wilderness Reclamation]].
 - [[Tough Cookie]] would really bolster the Food and artifact animation themes.
 - [[Elvish Reclaimer]] might help make the retrace deck more aggressive.
 - [[Grim Flayer]] is another option for the graveyard-matters theme.
+- [[Dragon's Rage Channeler]] and [[Unholy Heat]] hit some of the deficiencies of the RG graveyard deck mentioned above.
