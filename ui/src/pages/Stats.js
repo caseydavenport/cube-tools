@@ -477,6 +477,7 @@ function PlayerWidget(input) {
     // Add in win and loss percentages.
     row.winPercent = Math.round(row.wins / (row.wins + row.losses) * 100)
     row.lossPercent = Math.round(row.losses / (row.wins + row.losses) * 100)
+    row.games = row.wins + row.losses
 
     // Calculate the average re-pick value for this player by summing up the total
     // number of unique cards mainboarded by the player, divided by the total number cards picked. This is
@@ -494,6 +495,7 @@ function PlayerWidget(input) {
           <tr>
             <td onClick={input.onHeaderClick} id="name" className="header-cell">Player</td>
             <td onClick={input.onHeaderClick} id="decks" className="header-cell"># Decks</td>
+            <td onClick={input.onHeaderClick} id="games" className="header-cell"># Games</td>
             <td onClick={input.onHeaderClick} id="wins" className="header-cell">Wins (%)</td>
             <td onClick={input.onHeaderClick} id="losses" className="header-cell">Losses (%)</td>
             <td onClick={input.onHeaderClick} id="W" className="header-cell">White (%)</td>
@@ -515,6 +517,9 @@ function PlayerWidget(input) {
                 break;
               case "losses":
                 sort = row.lossPercent
+                break;
+              case "games":
+                sort = row.games
                 break;
               case "W":
                 sort = row.whitePercent
@@ -545,13 +550,14 @@ function PlayerWidget(input) {
               <tr sort={sort} className="card" key={row.name}>
                 <td>{row.name}</td>
                 <td>{row.numDecks}</td>
-                <td>{row.wins} ({row.winPercent}%)</td>
-                <td>{row.losses} ({row.lossPercent}%)</td>
-                <td>{row.whitePicks} ({row.whitePercent}%)</td>
-                <td>{row.bluePicks} ({row.bluePercent}%)</td>
-                <td>{row.blackPicks} ({row.blackPercent}%)</td>
-                <td>{row.redPicks} ({row.redPercent}%)</td>
-                <td>{row.greenPicks} ({row.greenPercent}%)</td>
+                <td>{row.games}</td>
+                <td>{row.winPercent}%</td>
+                <td>{row.lossPercent}%</td>
+                <td>{row.whitePercent}%</td>
+                <td>{row.bluePercent}%</td>
+                <td>{row.blackPercent}%</td>
+                <td>{row.redPercent}%</td>
+                <td>{row.greenPercent}%</td>
                 <td>{row.cards.size} / {row.totalPicks} ({row.uniqueness}%)</td>
               </tr>
             )
