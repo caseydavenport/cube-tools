@@ -1043,12 +1043,11 @@ function CardWidget(input) {
           <tbody>
           {
             data.map(function(card) {
-              let hidden = TooltipContent(card)
               return (
                 <tr sort={card.mainboard_percent} className="card" key={card.name}>
                   <td>{card.mainboard_percent}%</td>
                   <td className="card"><a href={card.url} target="_blank" rel="noopener noreferrer">{card.name}</a></td>
-                  <td><ApplyTooltip text={card.mainboard} hidden={hidden}/></td>
+                  <td><ApplyTooltip text={card.mainboard} hidden={TooltipContent(card)}/></td>
                   <td>{card.total_games}</td>
                 </tr>
               )
@@ -1153,7 +1152,7 @@ function CardWidget(input) {
                     <td>{card.win_percent}%</td>
                     <td className="card"><a href={card.url} target="_blank" rel="noopener noreferrer">{card.name}</a></td>
                     <td>{card.mainboard}</td>
-                    <td>{card.total_games}</td>
+                    <td><ApplyTooltip text={card.total_games} hidden={TooltipContent(card)}/></td>
                     <td>{normalized}</td>
                   </tr>
                 )

@@ -38,6 +38,14 @@ to eat away graveyards and swing for big damage just before being milled. [[Rest
 
 This was a UG counters deck with [[Wilderness Reclamation]].
 
+# Aggro
+
+A RW aggro deck was drafted this time around. It didn't pick up on some of the more synergistic elements of the equipment theme, but
+still managed to be solidly threatening. I think within this draft, the balance seemed pretty good. It certainly punished slower decks enough to
+make it a viable strategy, but control still had a fighting chance.
+
+There was also a WUR deck with some aggro elements, but that was more of an aggro / control hybrid than anything else.
+
 # Other notes / summary
 
 - Drafters continue to get really strong red/blue spells-matter signals throughout the draft. Might want to tone those down a tiny bit.
