@@ -3,13 +3,10 @@ Orcish Lumberjack
 Abundant Harvest
 Life from the Loam
 Multani, Yavimaya's Avatar
-Tibalt's Rager
 Scalding Tarn
-Grim Discovery
 Harrow
 Magma Jet
 Flame Jab
-Liliana, Death's Majesty
 Verdant Catacombs
 Soul-Scar Mage
 Burst Lightning
@@ -29,8 +26,11 @@ Foreboding Ruins
 Blood Crypt
 Rootbound Crag
 Sheltered Thicket
-Dreadhorde Arcanist
-Swamp
+Guttersnipe
+Saheeli, Sublime Artificer
+Faithless Looting
+Chandra, Hope's Beacon
+Island
 Swamp
 Mountain
 Mountain

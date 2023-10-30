@@ -3,13 +3,10 @@
 1 Abundant Harvest
 1 Life from the Loam
 1 Multani, Yavimaya's Avatar
-1 Tibalt's Rager
 1 Scalding Tarn
-1 Grim Discovery
 1 Harrow
 1 Magma Jet
 1 Flame Jab
-1 Liliana, Death's Majesty
 1 Verdant Catacombs
 1 Soul-Scar Mage
 1 Burst Lightning
@@ -29,18 +26,19 @@
 1 Blood Crypt
 1 Rootbound Crag
 1 Sheltered Thicket
-1 Dreadhorde Arcanist
-2 Swamp
+1 Guttersnipe
+1 Saheeli, Sublime Artificer
+1 Faithless Looting
+1 Chandra, Hope's Beacon
+1 Island
+1 Swamp
 3 Mountain
 3 Forest
 
-1 Chandra, Hope's Beacon
 1 Vivien, Champion of the Wilds
-1 Saheeli, Sublime Artificer
 1 Pyroclasm
 1 Dark Ritual
 1 Rubblebelt Rioters
-1 Guttersnipe
 1 Iron Myr
 1 Grim Initiate
 1 Satyr Wayfinder
@@ -48,5 +46,8 @@
 1 Beacon of Unrest
 1 Edge of Autumn
 1 Raven's Crime
-1 Faithless Looting
 1 Eternal Witness
+1 Dreadhorde Arcanist
+1 Tibalt's Rager
+1 Grim Discovery
+1 Liliana, Death's Majesty
