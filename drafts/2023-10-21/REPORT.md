@@ -54,6 +54,7 @@ There was also a WUR deck with some aggro elements, but that was more of an aggr
 - [[Dream Trawler]] is on watch. I need control finishers, but this one feels potentially too oppressive. I didn't enjoy playing it in my deck, and I certainly didn't enjoy playing against it. I wish it didn't have one of lifelink or hexproof.
 - [[The Binding of Titans]] is a bit of a feelbad. I still like the card, but it feels bad when it misses. It milled my opponent's wrath early-game.
 - [[Wilderness Reclamation]] is pretty cool. I should spend some time thinking about it as a build around.
+- Could use a few more typed dual lands to make [[Knight of the Reliquary]] more useful. In decks that want to run him, a lot of the lands also want to be nonbasic.
 
 # Changes to consider
 
@@ -63,3 +64,5 @@ There was also a WUR deck with some aggro elements, but that was more of an aggr
 - [[Elvish Reclaimer]] might help make the retrace deck more aggressive.
 - [[Grim Flayer]] is another option for the graveyard-matters theme.
 - [[Dragon's Rage Channeler]] and [[Unholy Heat]] hit some of the deficiencies of the RG graveyard deck mentioned above.
+- Add more WG typed dual lands (and WX in general)
+- Replace WU dual lands with always tapped, to slow down the WU control deck.
