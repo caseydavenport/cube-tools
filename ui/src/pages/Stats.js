@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { LoadCube, LoadDecks, LoadDrafts} from "../utils/Fetch.js"
 import { IsBasicLand, SortFunc } from "../utils/Utils.js"
 import { DropdownHeader, NumericInput, Checkbox, DateSelector } from "../components/Dropdown.js"
-import { AllPicks, Pick } from "../utils/DraftLog.js"
+import { AggregatedPickInfo } from "../utils/DraftLog.js"
 import { Wins, Losses } from "../utils/Deck.js"
 import { CardData } from "../utils/Cards.js"
 import { GetColorStats, ColorWidget} from "./Colors.js"
@@ -700,7 +700,7 @@ function DraftOrderWidget(input) {
   if (input.drafts == null) {
     return null
   }
-  let picks = AllPicks(input.drafts, input.cube)
+  let picks = AggregatedPickInfo(input.drafts, input.cube)
   let pickList = []
   for (let [name, pick] of picks) {
     pickList.push(pick)
@@ -779,12 +779,10 @@ function DraftOrderWidget(input) {
                 sort = -1 * sort
               }
 
-
-
               return (
                 <tr sort={sort} className="card" key={pick.name}>
                   <td className="card">{pick.name}</td>
-                  <td>{pick.count}</td>
+                  <td><ApplyTooltip text={pick.count} hidden={DraftPickTooltipContent(pick)}/></td>
                   <td>{firstPicks}</td>
                   <td>{avgPack1Pick}</td>
                   <td>{avgPackPick}</td>
@@ -1047,7 +1045,7 @@ function CardWidget(input) {
                 <tr sort={card.mainboard_percent} className="card" key={card.name}>
                   <td>{card.mainboard_percent}%</td>
                   <td className="card"><a href={card.url} target="_blank" rel="noopener noreferrer">{card.name}</a></td>
-                  <td><ApplyTooltip text={card.mainboard} hidden={TooltipContent(card)}/></td>
+                  <td><ApplyTooltip text={card.mainboard} hidden={CardMainboardTooltipContent(card)}/></td>
                   <td>{card.total_games}</td>
                 </tr>
               )
@@ -1152,7 +1150,7 @@ function CardWidget(input) {
                     <td>{card.win_percent}%</td>
                     <td className="card"><a href={card.url} target="_blank" rel="noopener noreferrer">{card.name}</a></td>
                     <td>{card.mainboard}</td>
-                    <td><ApplyTooltip text={card.total_games} hidden={TooltipContent(card)}/></td>
+                    <td><ApplyTooltip text={card.total_games} hidden={CardMainboardTooltipContent(card)}/></td>
                     <td>{normalized}</td>
                   </tr>
                 )
@@ -1175,7 +1173,7 @@ function PrintRow({ k, value, p }) {
   );
 }
 
-function TooltipContent(card) {
+function CardMainboardTooltipContent(card) {
   let data = []
   card.players.forEach(function(num, name) {
     data.push({name: name, num: num})
@@ -1205,6 +1203,38 @@ function TooltipContent(card) {
     </div>
   )
 }
+
+function DraftPickTooltipContent(pick) {
+  let k = 0
+  return (
+    <div>
+      <table>
+        <thead className="table-header">
+          <tr>
+            <td id="name" className="header-cell">Player</td>
+            <td id="pack" className="header-cell">Pack</td>
+            <td id="pick" className="header-cell">Pick</td>
+          </tr>
+        </thead>
+        <tbody>
+        {
+          pick.picks.map(function(pick) {
+            k += 1
+            return (
+              <tr key={k}>
+                <td>{pick.player}</td>
+                <td>{pick.pack + 1}</td>
+                <td>{pick.pick + 1}</td>
+              </tr>
+            )
+          })
+        }
+        </tbody>
+      </table>
+    </div>
+  )
+}
+
 
 function ApplyTooltip(input){
     return(

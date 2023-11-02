@@ -2,6 +2,10 @@ export function IDToName(log, id) {
   return log.carddata[id].name
 }
 
+function PlayerIDToName(log, id) {
+  return log.users[id].userName
+}
+
 export function Drafters(log) {
   let players = new Array()
   for (var userID in log.users) {
@@ -16,7 +20,12 @@ export function Pick(log, player, pack, pick) {
     if (p.packNum == pack && p.pickNum == pick) {
       // TODO: This assumes one pick per-pack, which isn't necessarily true!
       let cardName = IDToName(log, p.booster[p.pick[0]])
-      return {name: cardName, player: player, pack: pack, pick: pick}
+      return {
+        name: cardName,
+        player: PlayerIDToName(log, player),
+        pack: pack,
+        pick: pick,
+      }
     }
   }
   return null
@@ -43,8 +52,8 @@ export function Burned(log, player, pack, pick) {
 }
 
 
-export function AllPicks(logs, cube) {
-  let allPicks = new Map()
+export function AggregatedPickInfo(logs, cube) {
+  let pickInfo = new Map()
 
   // Build a map of all the cards in the cube so we can
   // easily skip any cards not currently in the cube.
@@ -54,26 +63,31 @@ export function AllPicks(logs, cube) {
   }
 
   // Define a local function for initializing a blank pick.
-  let newPick = function(name) {
+  let newPickInfoEntry = function(name) {
     return {
+      // The card name.
       name: name,
 
       // Track total number of picks, and pick number in pack.
       count: 0,
-      pickNumSum: 0,
       burns: 0,
+      pickNumSum: 0,
 
       // Specifically track pack one as a separate stat.
       p1count: 0,
       p1burns: 0,
       p1PickNumSum: 0,
       firstPicks: 0,
+
+      // Include raw pick information in addition to aggregated
+      // statistics.
+      picks: new Array()
     }
   }
 
   for (var l in logs) {
     let log = logs[l]
-    let [picks, burns] = AllPicksFromLog(log)
+    let [picks, burns, packInfo] = AllPicksFromLog(log)
 
     // Add the picks from this log.
     for (var i in picks) {
@@ -84,23 +98,25 @@ export function AllPicks(logs, cube) {
         continue
       }
 
-      if (!allPicks.get(p.name)) {
-        allPicks.set(p.name, newPick(p.name))
+      if (!pickInfo.get(p.name)) {
+        pickInfo.set(p.name, newPickInfoEntry(p.name))
       }
+
+      // Add this particular pick to the aggregated data for this card.
+      pickInfo.get(p.name).picks.push(p)
 
       // Use 1 to start, since humans think in terms of 1 being first.
       let pickNumHumanReadable = p.pick + 1
 
-      allPicks.get(p.name).count += 1
-      allPicks.get(p.name).pickNumSum += pickNumHumanReadable
+      pickInfo.get(p.name).count += 1
+      pickInfo.get(p.name).pickNumSum += pickNumHumanReadable
       if (p.pack == 0) {
-        allPicks.get(p.name).p1count += 1
-        allPicks.get(p.name).p1PickNumSum += pickNumHumanReadable
+        pickInfo.get(p.name).p1count += 1
+        pickInfo.get(p.name).p1PickNumSum += pickNumHumanReadable
         if (p.pick == 0 ) {
-          allPicks.get(p.name).firstPicks += 1
+          pickInfo.get(p.name).firstPicks += 1
         }
       }
-
     }
 
     // Add in burn count without incrementing average numbers.
@@ -112,23 +128,23 @@ export function AllPicks(logs, cube) {
         continue
       }
 
-      if (!allPicks.get(b.name)) {
-        allPicks.set(b.name, newPick(b.name))
+      if (!pickInfo.get(b.name)) {
+        pickInfo.set(b.name, newPickInfoEntry(b.name))
       }
 
       // Increment the number of burns, but also count this as a "last pick" for
       // pick tracking.
-      allPicks.get(b.name).count += 1
-      allPicks.get(b.name).pickNumSum += 15 // TODO: This assumes a pack size of 15.
-      allPicks.get(b.name).burns += 1
+      pickInfo.get(b.name).count += 1
+      pickInfo.get(b.name).pickNumSum += packInfo.cardsPerPack
+      pickInfo.get(b.name).burns += 1
       if (b.pack == 0) {
-        allPicks.get(b.name).p1burns += 1
-        allPicks.get(b.name).p1count += 1
-        allPicks.get(b.name).p1PickNumSum += 15
+        pickInfo.get(b.name).p1burns += 1
+        pickInfo.get(b.name).p1count += 1
+        pickInfo.get(b.name).p1PickNumSum += 15
       }
     }
   }
-  return allPicks
+  return pickInfo
 }
 
 export function AllPicksFromLog(log) {
@@ -158,7 +174,7 @@ export function AllPicksFromLog(log) {
     }
   }
 
-  return [picks, burns]
+  return [picks, burns, packInfo]
 }
 
 export function NumPacks(log) {
