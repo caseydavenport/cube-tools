@@ -256,6 +256,7 @@ export function GetColorStats(decks) {
     for (var color in cardsPerColorInDeck) {
       let num = cardsPerColorInDeck[color]
       tracker[color].deck_percentages.push(num / totalCardsInDeck)
+      tracker[color].cards += num
     }
   }
 
