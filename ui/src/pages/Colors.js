@@ -56,6 +56,7 @@ export function ColorWidget(input) {
             colorData={input.colorData}
             decks={input.decks}
             dataset="builds"
+            colorMode={input.colorTypeSelection}
           />
         </td>
         <td style={{"paddingTop": "50px"}}>
@@ -63,25 +64,7 @@ export function ColorWidget(input) {
             colorData={input.colorData}
             decks={input.decks}
             dataset="wins"
-          />
-        </td>
-      </tr>
-
-      <tr>
-        <td style={{"paddingTop": "50px"}}>
-          <ColorRateChart
-            colorData={input.colorData}
-            decks={input.decks}
-            dataset="builds"
-            colorMode="dual"
-          />
-        </td>
-        <td style={{"paddingTop": "50px"}}>
-          <ColorRateChart
-            colorData={input.colorData}
-            decks={input.decks}
-            dataset="wins"
-            colorMode="dual"
+            colorMode={input.colorTypeSelection}
           />
         </td>
       </tr>
@@ -130,7 +113,7 @@ function ColorStatsTable(input) {
             <td onClick={input.onClick} id="record" className="header-cell">Record</td>
             <td onClick={input.onClick} id="decks" className="header-cell"># Decks</td>
             <td onClick={input.onClick} id="picks" className="header-cell" style={headerStyleFields}>% of mainboard picks</td>
-            <td onClick={input.onClick} id="splash" className="header-cell" style={headerStyleFields}>Avg % of deck</td>
+            <td onClick={input.onClick} id="splash" className="header-cell">Avg % of deck</td>
           </tr>
         </thead>
         <tbody>
@@ -171,7 +154,7 @@ function ColorStatsTable(input) {
                   <td>{record}</td>
                   <td>{rates.num_decks}</td>
                   <td style={headerStyleFields}>{rates.total_pick_percentage}%</td>
-                  <td style={headerStyleFields}>{rates.average_deck_percentage}%</td>
+                  <td>{rates.average_deck_percentage}%</td>
                 </tr>
               );
             }).sort(SortFunc)
@@ -237,35 +220,39 @@ export function GetColorStats(decks) {
     // all drafts, as well as the percentage of that color within the deck, which we'll
     // use to calculate an indicator of which colors are primary and whicn are splashed.
     let totalCardsInDeck = 0
-    let cardsPerColorInDeck = {}
-    for (j in decks[i].mainboard) {
-      let card = decks[i].mainboard[j]
-
+    for (let card of decks[i].mainboard) {
       // Skip basic lands, since they just dilute the percentages.
       if (IsBasicLand(card)) {
         continue
       }
-
-      // TODO: This calculation excludes colorless cards, meaning percentages for colors
-      // will not add up to 100%.
       totalCards += 1
       totalCardsInDeck += 1
-      for (var k in card.colors) { // TODO: Include hybrid color identities?
-        let color = card.colors[k]
+    }
+    let cardsPerColorInDeck = {}
 
-        // Skip any card colors that aren't a part of the deck's color
-        // identity. This helps prevent hybrid cards accidentally bringing down
-        // a given color's play rate.
-        if (!decks[i].colors.includes(color)) {
+    // Go through each color in the deck's color identity, and increment
+    // the count of cards within the deck that match that color identity.
+    // TODO: This calculation excludes colorless cards, meaning percentages for colors
+    // will not add up to 100%.
+    for (let deckColor of colors) {
+      for (let card of decks[i].mainboard) {
+        // Skip basic lands, since they just dilute the percentages.
+        if (IsBasicLand(card)) {
           continue
         }
-        tracker[color].cards += 1
-        if (!cardsPerColorInDeck[color]) {
-          cardsPerColorInDeck[color] = 0
+        for (var k in card.colors) {
+          let cardColor = card.colors[k]
+          if (!deckColor.includes(cardColor)) {
+            continue
+          }
+          if (!cardsPerColorInDeck[deckColor]) {
+            cardsPerColorInDeck[deckColor] = 0
+          }
+          cardsPerColorInDeck[deckColor] += 1
         }
-        cardsPerColorInDeck[color] += 1
       }
     }
+
     for (var color in cardsPerColorInDeck) {
       let num = cardsPerColorInDeck[color]
       tracker[color].deck_percentages.push(num / totalCardsInDeck)
@@ -380,7 +367,7 @@ function ColorRateChart(input) {
 
   let dataset = monoColorDatasets
   switch (input.colorMode) {
-    case "dual":
+    case "Dual":
       dataset = dualColorDatasets
   }
 
