@@ -11,8 +11,6 @@ export async function LoadCube(onFetch) {
 }
 
 export async function LoadDecks(onLoad, start, end) {
-  console.log("Loading deck data")
-
   // First, fetch the draft index. We'll use this to find
   // all the drafts and decks therein.
   let idx = await FetchDraftIndex(null)
@@ -58,8 +56,6 @@ export async function LoadDecks(onLoad, start, end) {
 }
 
 export async function LoadDrafts(onLoad, start, end) {
-  console.log("Loading draft data")
-
   // First, fetch the draft index. We'll use this to find
   // all the drafts and decks therein.
   let idx = await FetchDraftIndex(null)

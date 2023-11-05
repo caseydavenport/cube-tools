@@ -108,11 +108,13 @@ function ColorStatsTable(input) {
         <thead className="table-header">
           <tr>
             <td onClick={input.onClick} id="color" className="header-cell">Color</td>
-            <td onClick={input.onClick} id="win" className="header-cell">Deck win rate</td>
-            <td onClick={input.onClick} id="build" className="header-cell">Deck build rate</td>
+            <td onClick={input.onClick} id="win" className="header-cell">Win %</td>
+            <td onClick={input.onClick} id="build" className="header-cell">Build %</td>
+            <td onClick={input.onClick} id="pwin" className="header-cell">% of wins</td>
+            <td onClick={input.onClick} id="shares" className="header-cell">Shares</td>
             <td onClick={input.onClick} id="record" className="header-cell">Record</td>
             <td onClick={input.onClick} id="decks" className="header-cell"># Decks</td>
-            <td onClick={input.onClick} id="picks" className="header-cell" style={headerStyleFields}>% of mainboard picks</td>
+            <td onClick={input.onClick} id="picks" className="header-cell" style={headerStyleFields}>% picks</td>
             <td onClick={input.onClick} id="splash" className="header-cell">Avg % of deck</td>
           </tr>
         </thead>
@@ -144,6 +146,10 @@ function ColorStatsTable(input) {
                 sort = rates.total_pick_percentage
               } else if (input.sortBy === "splash") {
                 sort = rates.average_deck_percentage
+              } else if (input.sortBy === "pwin") {
+                sort = rates.percent_of_wins
+              } else if (input.sortBy === "shares") {
+                sort = rates.win_share
               }
 
               return (
@@ -151,6 +157,8 @@ function ColorStatsTable(input) {
                   <td>{rates.color}</td>
                   <td>{rates.win_percent}%</td>
                   <td>{rates.build_percent}%</td>
+                  <td>{rates.percent_of_wins}%</td>
+                  <td>{rates.win_share}</td>
                   <td>{record}</td>
                   <td>{rates.num_decks}</td>
                   <td style={headerStyleFields}>{rates.total_pick_percentage}%</td>
@@ -198,10 +206,20 @@ export function GetColorStats(decks) {
 
       // Total number of decks that included this color.
       num_decks: 0,
+
+      // Win shares is the percentage of the deck that is this color
+      // combined with the win percentage of the deck, to approximate the impact this color
+      // had on winning.
+      win_shares: [],
+      win_share: 0,
     }
   }
 
+  let totalWins = 0
   for (var i in decks) {
+    // Add this deck's wins to the total count of games.
+    totalWins += Wins(decks[i])
+
     // Start by adding metrics at the deck scope for color identity.
     // Add wins and losses contributed for each color / color combination within this deck.
     let colors = GetColorIdentity(decks[i])
@@ -256,6 +274,7 @@ export function GetColorStats(decks) {
     for (var color in cardsPerColorInDeck) {
       let num = cardsPerColorInDeck[color]
       tracker[color].deck_percentages.push(num / totalCardsInDeck)
+      tracker[color].win_shares.push(num / totalCardsInDeck * Wins(decks[i]))
       tracker[color].cards += num
     }
   }
@@ -269,11 +288,13 @@ export function GetColorStats(decks) {
     const density_sum = tracker[color].deck_percentages.reduce((sum, a) => sum + a, 0);
     const density_count = tracker[color].deck_percentages.length;
     tracker[color].average_deck_percentage = Math.round(100 * density_sum / density_count);
+    tracker[color].win_share = Math.round(10 * tracker[color].win_shares.reduce((sum, a) => sum + a, 0)) / 10;
 
     // Calculate the percentage of all cards drafted that are this color.
     tracker[color].total_pick_percentage = Math.round(100 * tracker[color].cards / totalCards);
     tracker[color].build_percent = Math.round(tracker[color].num_decks / decks.length * 100)
     tracker[color].win_percent = Math.round(100 * tracker[color].wins / (tracker[color].wins + tracker[color].losses))
+    tracker[color].percent_of_wins = Math.round(100 * tracker[color].wins / totalWins)
   }
   return tracker
 }
@@ -295,7 +316,8 @@ function ColorRateChart(input) {
   // Parse the buckets into color data.
   let monoColors = ["W", "U", "B", "R", "G"]
   let dualColors = ["WU", "WB", "WR", "WG", "UB", "UR", "UG", "BR", "BG", "RG"]
-  let allColors = [...monoColors, ...dualColors]
+  let triColors = ["WUG", "WUB", "UBR", "BRG", "WRG", "WBG", "WUR", "UBG", "WBR", "URG"]
+  let allColors = [...monoColors, ...dualColors, ...triColors]
   let colorDatasets = new Map()
   for (let color of allColors) {
     colorDatasets.set(color, [])
@@ -310,6 +332,9 @@ function ColorRateChart(input) {
     // Parse the color stats of the decks.
     let stats = GetColorStats(decks)
     for (let color of allColors) {
+      if (stats[color] == null) {
+        continue
+      }
       if (input.dataset === "wins") {
         colorDatasets.get(color).push(stats[color].win_percent)
       } else {
@@ -366,16 +391,33 @@ function ColorRateChart(input) {
     })
   }
 
+  let triColorDatasets = []
+  for (let color of triColors) {
+    // A hacky way to get a deterministic color for each pair.
+    // Might just be better to define a lookup table, but lazy.
+    var n = (color.charCodeAt(0) + color.charCodeAt(1) + color.charCodeAt(2)) / 250
+    var randomColor = Math.floor(n*16777215).toString(16);
+    triColorDatasets.push({
+      label: color,
+      data: colorDatasets.get(color),
+      borderColor: "#" + randomColor,
+      backgroundColor: "#" + randomColor,
+    })
+  }
+
   let dataset = monoColorDatasets
   switch (input.colorMode) {
     case "Dual":
       dataset = dualColorDatasets
+      break;
+    case "Trio":
+      dataset = triColorDatasets
   }
 
-  let title = `Build rate (buckets=${numBuckets})`
+  let title = `Build % (buckets=${numBuckets})`
   switch (input.dataset) {
     case "wins":
-      title = `Win rate (buckets=${numBuckets})`
+      title = `Win % (buckets=${numBuckets})`
   }
 
   const options = {

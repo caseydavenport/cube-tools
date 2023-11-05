@@ -9,6 +9,7 @@ import { Wins, Losses } from "../utils/Deck.js"
 import { CardData } from "../utils/Cards.js"
 import { GetColorStats, ColorWidget} from "./Colors.js"
 import { ArchetypeWidget, ArchetypeData } from "./Types.js"
+import { DeckWidget } from "./Decks.js"
 
 // StatsViewer displays stats spanning the selected drafts.
 export default function StatsViewer() {
@@ -356,7 +357,7 @@ export default function StatsViewer() {
           show={display[2]}
         />
 
-        <DeckAnalyzerWidget
+        <DeckWidget
           decks={decks}
           show={display[3]}
         />
@@ -567,131 +568,7 @@ function PlayerWidget(input) {
       </table>
     </div>
   );
-
 }
-
-// DeckAnalyzerWidget goes through all of the decks and finds decks that share a large number
-// of cards in order to determine how many different decks have been built across a series of drafts.
-// Decks that share enough cards get counted as the same deck.
-function DeckAnalyzerWidget(input) {
-  if (!input.show) {
-    return null
-  }
-  let decks = new Map()
-  let decklist = []
-
-  // Pre-seed the decks map. This map will contain the final result of canonical decks.
-  for (var i in input.decks) {
-    let deck = input.decks[i]
-    deck.count = 1
-    deck.matches = new Array()
-    decks.set(deck.file, deck)
-  }
-
-  // Compare each deck to the set of decks we've already looked at to see
-  // if it matches sufficiently to be considered the same deck.
-  for (i in input.decks) {
-    let deck = input.decks[i]
-
-    // Compare to existing decks.
-    for (let deckTwo of decks.values()) {
-      if (deck.file === deckTwo.file) {
-        continue
-      }
-
-      // Track matches and total cards.
-      let hits = 0
-      let total = 0
-      let sharedCards = new Array()
-
-      // Go through each card in the deck, and compare to the decklist in the existing set.
-      // If more than 75% of non-land cards match, it's considered the same deck.
-      for (var k in deck.mainboard) {
-        let card = deck.mainboard[k]
-        if (IsBasicLand(card)) {
-          continue
-        }
-
-        total += 1
-
-        // Check if this card is in the deck we're comparing it to.
-        for (var l in deckTwo.mainboard) {
-          let cardTwo = deckTwo.mainboard[l]
-          if (IsBasicLand(card)) {
-            continue
-          }
-
-          if (cardTwo.name === card.name) {
-            // Same card. Increment the match counter.
-            hits += 1
-            sharedCards.push(card)
-          }
-        }
-      }
-
-      // If more than 75% match, mark it as a match and increment the counter for this deck.
-      let matchiness = hits / total
-      if (matchiness > .40) {
-        // Increment the first deck by the second deck's count, and delete the second deck.
-        // Essentially, aggregate the decks into one entry.
-        if (!deckTwo.matches.includes(deck.file) && !deck.matches.includes(deckTwo.file)) {
-          deck.count += 1
-          deck.matches.push(deckTwo.file)
-          deck.sharedCards = sharedCards // TODO: Per matching deck...
-          decks.set(deck.file, deck)
-
-          deckTwo.count += 1
-          deckTwo.sharedCards = sharedCards // TODO: Per matching deck...
-          deckTwo.matches.push(deck.file)
-          decks.set(deckTwo.file, deckTwo)
-        }
-      }
-    }
-  }
-
-  // Convert to a list for sorting purposes.
-  for (let aggDeck of decks.values()) {
-    if (aggDeck.count > 1 ) {
-      decklist.push(aggDeck)
-    }
-  }
-
-  return (
-    <div className="widget">
-      <table className="winrate-table">
-        <thead className="table-header">
-          <tr>
-            <td>{decklist.length} commonly built</td>
-            <td># Builds</td>
-            <td>Similar</td>
-            <td>Core</td>
-          </tr>
-        </thead>
-        <tbody>
-          {
-            decklist.map(function(deck) {
-
-              let cards = []
-              for (var c of deck.sharedCards.values()) {
-                cards.push(c.name.substring(0, 20))
-              }
-              let cardString = cards.slice(0, 10).join(" / ")
-
-              return (
-                <tr sort={deck.count} className="card" key={deck.file}>
-                  <td>{deck.file}</td>
-                  <td>{deck.count}</td>
-                  <td>{deck.matches.join(" -- ").substring(0, 60)}</td>
-                  <td>{cardString}</td>
-                </tr>
-            )}).sort(SortFunc)
-          }
-        </tbody>
-      </table>
-      </div>
-  );
-}
-
 
 function DraftOrderWidget(input) {
   if (!input.show) {

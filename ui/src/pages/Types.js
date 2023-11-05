@@ -14,11 +14,13 @@ import {
   Title,
   Tooltip,
   Legend,
+  ArcElement,
 } from 'chart.js';
-import { Line, Bar } from 'react-chartjs-2';
+import { Line, Bar, Pie } from 'react-chartjs-2';
 
 // Register chart JS objects that we need to use.
 ChartJS.register(
+  ArcElement,
   CategoryScale,
   LinearScale,
   PointElement,
@@ -88,6 +90,22 @@ export function ArchetypeWidget(input) {
         </td>
       </tr>
 
+      <tr>
+        <td>
+          <MacroArchetypesPieChart
+            decks={input.decks}
+            dataset="builds"
+          />
+        </td>
+        <td colspan="2">
+          <MacroArchetypesPieChart
+            decks={input.decks}
+            dataset="wins"
+          />
+        </td>
+      </tr>
+
+
     </table>
   );
 }
@@ -108,6 +126,7 @@ function ArchetypeStatsTable(input) {
           <td onClick={input.onHeaderClick} id="type" className="header-cell">Archetype</td>
           <td onClick={input.onHeaderClick} id="build_percent" className="header-cell">Build %</td>
           <td onClick={input.onHeaderClick} id="win_percent" className="header-cell">Win %</td>
+          <td onClick={input.onHeaderClick} id="pwin" className="header-cell">% of wins</td>
           <td onClick={input.onHeaderClick} id="num" className="header-cell"># Decks</td>
           <td onClick={input.onHeaderClick} id="record" className="header-cell">Record</td>
           <td onClick={input.onHeaderClick} id="shared" className="header-cell">Avg other types</td>
@@ -119,16 +138,19 @@ function ArchetypeStatsTable(input) {
             let sort = t.build_percent
             switch (input.sortBy) {
               case "type":
-                sort = t.type
+                sort = t.type;
                 break
               case "win_percent":
-                sort = t.win_percent
+                sort = t.win_percent;
                 break
               case "shared":
-                sort = t.avg_shared
+                sort = t.avg_shared;
                 break
               case "num":
-                sort = t.count
+                sort = t.count;
+                break
+              case "pwin":
+                sort = t.percent_of_wins;
                 break
             }
             return (
@@ -136,6 +158,7 @@ function ArchetypeStatsTable(input) {
                 <td id={t.type} onClick={input.handleRowClick} key="type">{t.type}</td>
                 <td key="build_percent">{t.build_percent}%</td>
                 <td key="win_percent">{t.win_percent}%</td>
+                <td key="pwin">{t.percent_of_wins}%</td>
                 <td key="num">{t.count}</td>
                 <td key="record">{t.record}</td>
                 <td key="shared">{t.avg_shared}</td>
@@ -302,9 +325,11 @@ function ArchetypeDetailsPanel(input) {
 export function ArchetypeData(decks) {
   // First, determine the popularity of each archetype by iterating all decks
   // and counting the instances of each.
+  let totalWins = 0
   let tracker = new Map()
   for (let deck of decks) {
     let types = deck.labels
+    totalWins += Wins(deck)
     for (let type of types) {
       if (!tracker.has(type)) {
         tracker.set(type, {
@@ -353,6 +378,7 @@ export function ArchetypeData(decks) {
   tracker.forEach(function(archetype) {
     archetype.build_percent = Math.round(archetype.count / decks.length * 100)
     archetype.win_percent = Math.round(archetype.wins / (archetype.wins + archetype.losses) * 100)
+    archetype.percent_of_wins = Math.round(archetype.wins / totalWins * 100)
     archetype.record = archetype.wins + "-" + archetype.losses + "-" + 0
     archetype.avg_shared = Math.round(archetype.numSharedWith / archetype.count * 100) / 100
   })
@@ -452,6 +478,78 @@ function MacroArchetypesChart(input) {
   return (
     <div style={{"height":"500px", "width":"100%"}}>
       <Line height={"300px"} width={"300px"} options={options} data={data} />
+    </div>
+  );
+}
+
+function MacroArchetypesPieChart(input) {
+  let stats = ArchetypeData(input.decks)
+
+  let title = `Decks`
+  let graphData = [
+    stats.get("aggro").count,
+    stats.get("midrange").count,
+    stats.get("control").count,
+  ]
+
+  switch (input.dataset) {
+    case "wins":
+      title = `Wins`
+      graphData = [
+        stats.get("aggro").wins,
+        stats.get("midrange").wins,
+        stats.get("control").wins,
+      ]
+  }
+
+  let data = {
+    labels: ['Aggro', 'Midrange', 'Control'],
+    datasets: [
+      {
+        label: title,
+        data: graphData,
+        backgroundColor: [
+          'rgba(255, 99, 132, 0.2)',
+          'rgba(255, 206, 86, 0.2)',
+          'rgba(54, 162, 235, 0.2)',
+        ],
+        borderColor: [
+          'rgba(255, 99, 132, 1)',
+          'rgba(255, 206, 86, 1)',
+          'rgba(54, 162, 235, 1)',
+        ],
+        borderWidth: 1,
+      },
+    ],
+  };
+
+  const options = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      title: {
+        display: true,
+        text: title,
+        color: "#FFF",
+        font: {
+          size: "16pt",
+        },
+      },
+      legend: {
+        labels: {
+          color: "#FFF",
+          font: {
+            size: "16pt",
+          },
+        },
+      },
+    },
+  };
+
+
+  return (
+    <div style={{"height":"500px", "width":"100%"}}>
+      <Pie height={"300px"} width={"300px"} options={options} data={data} />
     </div>
   );
 }
