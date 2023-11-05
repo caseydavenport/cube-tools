@@ -1,10 +1,11 @@
 {
- "labels": ["control"],
+ "labels": [
+  "control"
+ ],
  "player": "paul",
  "date": "2023-04-27",
- "wins": 0,
+ "games": null,
  "losses": 1,
- "ties": 0,
  "mainboard": [
   {
    "name": "Beacon of Unrest",
@@ -16,7 +17,8 @@
    "colors": [
     "B"
    ],
-   "url": "https://scryfall.com/card/2xm/77/beacon-of-unrest?utm_source=api"
+   "url": "https://scryfall.com/card/2xm/77/beacon-of-unrest?utm_source=api",
+   "oracle_text": "Put target artifact or creature card from a graveyard onto the battlefield under your control. Shuffle Beacon of Unrest into its owner's library."
   },
   {
    "name": "Ajani Goldmane",
@@ -32,7 +34,8 @@
    "colors": [
     "W"
    ],
-   "url": "https://scryfall.com/card/m11/1/ajani-goldmane?utm_source=api"
+   "url": "https://scryfall.com/card/m11/1/ajani-goldmane?utm_source=api",
+   "oracle_text": "+1: You gain 2 life.\n−1: Put a +1/+1 counter on each creature you control. Those creatures gain vigilance until end of turn.\n−6: Create a white Avatar creature token. It has \"This creature's power and toughness are each equal to your life total.\""
   },
   {
    "name": "Vampire of the Dire Moon",
@@ -47,7 +50,8 @@
    "colors": [
     "B"
    ],
-   "url": "https://scryfall.com/card/m20/120/vampire-of-the-dire-moon?utm_source=api"
+   "url": "https://scryfall.com/card/m20/120/vampire-of-the-dire-moon?utm_source=api",
+   "oracle_text": "Deathtouch (Any amount of damage this deals to a creature is enough to destroy it.)\nLifelink (Damage dealt by this creature also causes you to gain that much life.)"
   },
   {
    "name": "Quest for the Gravelord",
@@ -59,7 +63,8 @@
    "colors": [
     "B"
    ],
-   "url": "https://scryfall.com/card/bbd/156/quest-for-the-gravelord?utm_source=api"
+   "url": "https://scryfall.com/card/bbd/156/quest-for-the-gravelord?utm_source=api",
+   "oracle_text": "Whenever a creature dies, you may put a quest counter on Quest for the Gravelord.\nRemove three quest counters from Quest for the Gravelord and sacrifice it: Create a 5/5 black Zombie Giant creature token."
   },
   {
    "name": "Liliana, Death's Majesty",
@@ -75,7 +80,8 @@
    "colors": [
     "B"
    ],
-   "url": "https://scryfall.com/card/mic/121/liliana-deaths-majesty?utm_source=api"
+   "url": "https://scryfall.com/card/mic/121/liliana-deaths-majesty?utm_source=api",
+   "oracle_text": "+1: Create a 2/2 black Zombie creature token. Mill two cards.\n−3: Return target creature card from your graveyard to the battlefield. That creature is a black Zombie in addition to its other colors and types.\n−7: Destroy all non-Zombie creatures."
   },
   {
    "name": "Vampire's Bite",
@@ -87,7 +93,8 @@
    "colors": [
     "B"
    ],
-   "url": "https://scryfall.com/card/ddk/19/vampires-bite?utm_source=api"
+   "url": "https://scryfall.com/card/ddk/19/vampires-bite?utm_source=api",
+   "oracle_text": "Kicker {2}{B} (You may pay an additional {2}{B} as you cast this spell.)\nTarget creature gets +3/+0 until end of turn. If this spell was kicked, that creature gains lifelink until end of turn. (Damage dealt by the creature also causes its controller to gain that much life.)"
   },
   {
    "name": "Mesmeric Fiend",
@@ -103,7 +110,8 @@
    "colors": [
     "B"
    ],
-   "url": "https://scryfall.com/card/a25/97/mesmeric-fiend?utm_source=api"
+   "url": "https://scryfall.com/card/a25/97/mesmeric-fiend?utm_source=api",
+   "oracle_text": "When Mesmeric Fiend enters the battlefield, target opponent reveals their hand and you choose a nonland card from it. Exile that card.\nWhen Mesmeric Fiend leaves the battlefield, return the exiled card to its owner's hand."
   },
   {
    "name": "Swans of Bryn Argoll",
@@ -120,7 +128,8 @@
     "U",
     "W"
    ],
-   "url": "https://scryfall.com/card/mm2/199/swans-of-bryn-argoll?utm_source=api"
+   "url": "https://scryfall.com/card/mm2/199/swans-of-bryn-argoll?utm_source=api",
+   "oracle_text": "Flying\nIf a source would deal damage to Swans of Bryn Argoll, prevent that damage. The source's controller draws cards equal to the damage prevented this way."
   },
   {
    "name": "Mindslaver",
@@ -131,7 +140,8 @@
    "cmc": 6,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/som/176/mindslaver?utm_source=api"
+   "url": "https://scryfall.com/card/som/176/mindslaver?utm_source=api",
+   "oracle_text": "{4}, {T}, Sacrifice Mindslaver: You control target player during that player's next turn. (You see all cards that player could see and make all decisions for the player.)"
   },
   {
    "name": "Witch's Mist",
@@ -143,7 +153,8 @@
    "colors": [
     "B"
    ],
-   "url": "https://scryfall.com/card/fut/92/witchs-mist?utm_source=api"
+   "url": "https://scryfall.com/card/fut/92/witchs-mist?utm_source=api",
+   "oracle_text": "{2}{B}, {T}: Destroy target creature that was dealt damage this turn."
   },
   {
    "name": "Restoration Angel",
@@ -158,7 +169,8 @@
    "colors": [
     "W"
    ],
-   "url": "https://scryfall.com/card/moc/201/restoration-angel?utm_source=api"
+   "url": "https://scryfall.com/card/moc/201/restoration-angel?utm_source=api",
+   "oracle_text": "Flash\nFlying\nWhen Restoration Angel enters the battlefield, you may exile target non-Angel creature you control, then return that card to the battlefield under your control."
   },
   {
    "name": "Lightning Greaves",
@@ -171,7 +183,8 @@
    "cmc": 2,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/clb/864/lightning-greaves?utm_source=api"
+   "url": "https://scryfall.com/card/cmm/398/lightning-greaves?utm_source=api",
+   "oracle_text": "Equipped creature has haste and shroud. (It can't be the target of spells or abilities.)\nEquip {0}"
   },
   {
    "name": "Assassinate",
@@ -183,7 +196,8 @@
    "colors": [
     "B"
    ],
-   "url": "https://scryfall.com/card/tsr/101/assassinate?utm_source=api"
+   "url": "https://scryfall.com/card/tsr/101/assassinate?utm_source=api",
+   "oracle_text": "Destroy target tapped creature."
   },
   {
    "name": "Alseid of Life's Bounty",
@@ -199,7 +213,8 @@
    "colors": [
     "W"
    ],
-   "url": "https://scryfall.com/card/thb/1/alseid-of-lifes-bounty?utm_source=api"
+   "url": "https://scryfall.com/card/thb/1/alseid-of-lifes-bounty?utm_source=api",
+   "oracle_text": "Lifelink\n{1}, Sacrifice Alseid of Life's Bounty: Target creature or enchantment you control gains protection from the color of your choice until end of turn."
   },
   {
    "name": "Battlegrace Angel",
@@ -214,7 +229,8 @@
    "colors": [
     "W"
    ],
-   "url": "https://scryfall.com/card/mm2/10/battlegrace-angel?utm_source=api"
+   "url": "https://scryfall.com/card/mm2/10/battlegrace-angel?utm_source=api",
+   "oracle_text": "Flying\nExalted (Whenever a creature you control attacks alone, that creature gets +1/+1 until end of turn.)\nWhenever a creature you control attacks alone, it gains lifelink until end of turn."
   },
   {
    "name": "Marshal's Anthem",
@@ -226,7 +242,8 @@
    "colors": [
     "W"
    ],
-   "url": "https://scryfall.com/card/khc/29/marshals-anthem?utm_source=api"
+   "url": "https://scryfall.com/card/khc/29/marshals-anthem?utm_source=api",
+   "oracle_text": "Multikicker {1}{W} (You may pay an additional {1}{W} any number of times as you cast this spell.)\nCreatures you control get +1/+1.\nWhen Marshal's Anthem enters the battlefield, return up to X target creature cards from your graveyard to the battlefield, where X is the number of times Marshal's Anthem was kicked."
   },
   {
    "name": "Mistmeadow Skulk",
@@ -242,7 +259,8 @@
    "colors": [
     "W"
    ],
-   "url": "https://scryfall.com/card/shm/14/mistmeadow-skulk?utm_source=api"
+   "url": "https://scryfall.com/card/shm/14/mistmeadow-skulk?utm_source=api",
+   "oracle_text": "Lifelink, protection from mana value 3 or greater"
   },
   {
    "name": "Will-o'-the-Wisp",
@@ -257,7 +275,8 @@
    "colors": [
     "B"
    ],
-   "url": "https://scryfall.com/card/a25/115/will-o-the-wisp?utm_source=api"
+   "url": "https://scryfall.com/card/a25/115/will-o-the-wisp?utm_source=api",
+   "oracle_text": "Flying (This creature can't be blocked except by creatures with flying or reach.)\n{B}: Regenerate Will-o'-the-Wisp. (The next time this creature would be destroyed this turn, it isn't. Instead tap it, remove all damage from it, and remove it from combat.)"
   },
   {
    "name": "Malakir Bloodwitch",
@@ -273,7 +292,8 @@
    "colors": [
     "B"
    ],
-   "url": "https://scryfall.com/card/voc/131/malakir-bloodwitch?utm_source=api"
+   "url": "https://scryfall.com/card/voc/131/malakir-bloodwitch?utm_source=api",
+   "oracle_text": "Flying, protection from white\nWhen Malakir Bloodwitch enters the battlefield, each opponent loses life equal to the number of Vampires you control. You gain life equal to the life lost this way."
   },
   {
    "name": "Unmake",
@@ -286,7 +306,8 @@
     "B",
     "W"
    ],
-   "url": "https://scryfall.com/card/ddk/27/unmake?utm_source=api"
+   "url": "https://scryfall.com/card/ddk/27/unmake?utm_source=api",
+   "oracle_text": "Exile target creature."
   },
   {
    "name": "Swamp",
@@ -300,7 +321,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/201/swamp?utm_source=api"
+   "url": "https://scryfall.com/card/woe/271/swamp?utm_source=api",
+   "oracle_text": "({T}: Add {B}.)"
   },
   {
    "name": "Swamp",
@@ -314,7 +336,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/201/swamp?utm_source=api"
+   "url": "https://scryfall.com/card/woe/271/swamp?utm_source=api",
+   "oracle_text": "({T}: Add {B}.)"
   },
   {
    "name": "Swamp",
@@ -328,7 +351,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/201/swamp?utm_source=api"
+   "url": "https://scryfall.com/card/woe/271/swamp?utm_source=api",
+   "oracle_text": "({T}: Add {B}.)"
   },
   {
    "name": "Swamp",
@@ -342,7 +366,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/201/swamp?utm_source=api"
+   "url": "https://scryfall.com/card/woe/271/swamp?utm_source=api",
+   "oracle_text": "({T}: Add {B}.)"
   },
   {
    "name": "Swamp",
@@ -356,7 +381,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/201/swamp?utm_source=api"
+   "url": "https://scryfall.com/card/woe/271/swamp?utm_source=api",
+   "oracle_text": "({T}: Add {B}.)"
   },
   {
    "name": "Swamp",
@@ -370,7 +396,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/201/swamp?utm_source=api"
+   "url": "https://scryfall.com/card/woe/271/swamp?utm_source=api",
+   "oracle_text": "({T}: Add {B}.)"
   },
   {
    "name": "Swamp",
@@ -384,7 +411,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/201/swamp?utm_source=api"
+   "url": "https://scryfall.com/card/woe/271/swamp?utm_source=api",
+   "oracle_text": "({T}: Add {B}.)"
   },
   {
    "name": "Swamp",
@@ -398,7 +426,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/201/swamp?utm_source=api"
+   "url": "https://scryfall.com/card/woe/271/swamp?utm_source=api",
+   "oracle_text": "({T}: Add {B}.)"
   },
   {
    "name": "The Long Reach of Night // Animus of Night's Reach",
@@ -414,7 +443,8 @@
    "cmc": 4,
    "image": "",
    "colors": null,
-   "url": "https://scryfall.com/card/neo/109/the-long-reach-of-night-animus-of-nights-reach?utm_source=api"
+   "url": "https://scryfall.com/card/neo/109/the-long-reach-of-night-animus-of-nights-reach?utm_source=api",
+   "oracle_text": ""
   },
   {
    "name": "Day of Judgment",
@@ -426,7 +456,8 @@
    "colors": [
     "W"
    ],
-   "url": "https://scryfall.com/card/m12/12/day-of-judgment?utm_source=api"
+   "url": "https://scryfall.com/card/m12/12/day-of-judgment?utm_source=api",
+   "oracle_text": "Destroy all creatures."
   },
   {
    "name": "Plains",
@@ -440,7 +471,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/197/plains?utm_source=api"
+   "url": "https://scryfall.com/card/woe/267/plains?utm_source=api",
+   "oracle_text": "({T}: Add {W}.)"
   },
   {
    "name": "Plains",
@@ -454,7 +486,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/197/plains?utm_source=api"
+   "url": "https://scryfall.com/card/woe/267/plains?utm_source=api",
+   "oracle_text": "({T}: Add {W}.)"
   },
   {
    "name": "Plains",
@@ -468,7 +501,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/197/plains?utm_source=api"
+   "url": "https://scryfall.com/card/woe/267/plains?utm_source=api",
+   "oracle_text": "({T}: Add {W}.)"
   },
   {
    "name": "Plains",
@@ -482,7 +516,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/197/plains?utm_source=api"
+   "url": "https://scryfall.com/card/woe/267/plains?utm_source=api",
+   "oracle_text": "({T}: Add {W}.)"
   },
   {
    "name": "Plains",
@@ -496,7 +531,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/197/plains?utm_source=api"
+   "url": "https://scryfall.com/card/woe/267/plains?utm_source=api",
+   "oracle_text": "({T}: Add {W}.)"
   },
   {
    "name": "Plains",
@@ -510,7 +546,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/197/plains?utm_source=api"
+   "url": "https://scryfall.com/card/woe/267/plains?utm_source=api",
+   "oracle_text": "({T}: Add {W}.)"
   },
   {
    "name": "Plains",
@@ -524,7 +561,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/197/plains?utm_source=api"
+   "url": "https://scryfall.com/card/woe/267/plains?utm_source=api",
+   "oracle_text": "({T}: Add {W}.)"
   },
   {
    "name": "Plains",
@@ -538,7 +576,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/197/plains?utm_source=api"
+   "url": "https://scryfall.com/card/woe/267/plains?utm_source=api",
+   "oracle_text": "({T}: Add {W}.)"
   },
   {
    "name": "Plains",
@@ -552,7 +591,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/197/plains?utm_source=api"
+   "url": "https://scryfall.com/card/woe/267/plains?utm_source=api",
+   "oracle_text": "({T}: Add {W}.)"
   },
   {
    "name": "Ob Nixilis, the Hate-Twisted",
@@ -568,7 +608,8 @@
    "colors": [
     "B"
    ],
-   "url": "https://scryfall.com/card/war/100/ob-nixilis-the-hate-twisted?utm_source=api"
+   "url": "https://scryfall.com/card/war/100/ob-nixilis-the-hate-twisted?utm_source=api",
+   "oracle_text": "Whenever an opponent draws a card, Ob Nixilis, the Hate-Twisted deals 1 damage to that player.\n−2: Destroy target creature. Its controller draws two cards."
   }
  ],
  "sideboard": []

@@ -1,11 +1,14 @@
 {
- "labels": ["midrange", "sacrifice", "graveyard"],
+ "labels": [
+  "midrange",
+  "sacrifice",
+  "graveyard"
+ ],
  "player": "paul",
  "date": "2023-06-17",
- "notes": "star magic - died. three for all - won",
+ "games": null,
  "wins": 2,
  "losses": 1,
- "ties": 0,
  "mainboard": [
   {
    "name": "Beacon of Unrest",
@@ -17,7 +20,8 @@
    "colors": [
     "B"
    ],
-   "url": "https://scryfall.com/card/2xm/77/beacon-of-unrest?utm_source=api"
+   "url": "https://scryfall.com/card/2xm/77/beacon-of-unrest?utm_source=api",
+   "oracle_text": "Put target artifact or creature card from a graveyard onto the battlefield under your control. Shuffle Beacon of Unrest into its owner's library."
   },
   {
    "name": "Reiver Demon",
@@ -32,7 +36,8 @@
    "colors": [
     "B"
    ],
-   "url": "https://scryfall.com/card/cma/64/reiver-demon?utm_source=api"
+   "url": "https://scryfall.com/card/cma/64/reiver-demon?utm_source=api",
+   "oracle_text": "Flying\nWhen Reiver Demon enters the battlefield, if you cast it from your hand, destroy all nonartifact, nonblack creatures. They can't be regenerated."
   },
   {
    "name": "Quest for the Gravelord",
@@ -44,7 +49,8 @@
    "colors": [
     "B"
    ],
-   "url": "https://scryfall.com/card/bbd/156/quest-for-the-gravelord?utm_source=api"
+   "url": "https://scryfall.com/card/bbd/156/quest-for-the-gravelord?utm_source=api",
+   "oracle_text": "Whenever a creature dies, you may put a quest counter on Quest for the Gravelord.\nRemove three quest counters from Quest for the Gravelord and sacrifice it: Create a 5/5 black Zombie Giant creature token."
   },
   {
    "name": "Liliana, Death's Majesty",
@@ -60,7 +66,8 @@
    "colors": [
     "B"
    ],
-   "url": "https://scryfall.com/card/mic/121/liliana-deaths-majesty?utm_source=api"
+   "url": "https://scryfall.com/card/mic/121/liliana-deaths-majesty?utm_source=api",
+   "oracle_text": "+1: Create a 2/2 black Zombie creature token. Mill two cards.\n−3: Return target creature card from your graveyard to the battlefield. That creature is a black Zombie in addition to its other colors and types.\n−7: Destroy all non-Zombie creatures."
   },
   {
    "name": "Stitcher's Supplier",
@@ -75,7 +82,8 @@
    "colors": [
     "B"
    ],
-   "url": "https://scryfall.com/card/m19/121/stitchers-supplier?utm_source=api"
+   "url": "https://scryfall.com/card/m19/121/stitchers-supplier?utm_source=api",
+   "oracle_text": "When Stitcher's Supplier enters the battlefield or dies, mill three cards."
   },
   {
    "name": "Kalastria Highborn",
@@ -91,7 +99,8 @@
    "colors": [
     "B"
    ],
-   "url": "https://scryfall.com/card/wwk/59/kalastria-highborn?utm_source=api"
+   "url": "https://scryfall.com/card/wwk/59/kalastria-highborn?utm_source=api",
+   "oracle_text": "Whenever Kalastria Highborn or another Vampire you control dies, you may pay {B}. If you do, target player loses 2 life and you gain 2 life."
   },
   {
    "name": "Bloodghast",
@@ -107,7 +116,8 @@
    "colors": [
     "B"
    ],
-   "url": "https://scryfall.com/card/ima/82/bloodghast?utm_source=api"
+   "url": "https://scryfall.com/card/ima/82/bloodghast?utm_source=api",
+   "oracle_text": "Bloodghast can't block.\nBloodghast has haste as long as an opponent has 10 or less life.\nLandfall — Whenever a land enters the battlefield under your control, you may return Bloodghast from your graveyard to the battlefield."
   },
   {
    "name": "Gravedigger",
@@ -122,7 +132,8 @@
    "colors": [
     "B"
    ],
-   "url": "https://scryfall.com/card/m20/103/gravedigger?utm_source=api"
+   "url": "https://scryfall.com/card/m20/103/gravedigger?utm_source=api",
+   "oracle_text": "When Gravedigger enters the battlefield, you may return target creature card from your graveyard to your hand."
   },
   {
    "name": "Vampire Hexmage",
@@ -138,7 +149,8 @@
    "colors": [
     "B"
    ],
-   "url": "https://scryfall.com/card/2xm/112/vampire-hexmage?utm_source=api"
+   "url": "https://scryfall.com/card/2xm/112/vampire-hexmage?utm_source=api",
+   "oracle_text": "First strike\nSacrifice Vampire Hexmage: Remove all counters from target permanent."
   },
   {
    "name": "Mindslaver",
@@ -149,7 +161,8 @@
    "cmc": 6,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/som/176/mindslaver?utm_source=api"
+   "url": "https://scryfall.com/card/som/176/mindslaver?utm_source=api",
+   "oracle_text": "{4}, {T}, Sacrifice Mindslaver: You control target player during that player's next turn. (You see all cards that player could see and make all decisions for the player.)"
   },
   {
    "name": "Diabolic Tutor",
@@ -161,7 +174,8 @@
    "colors": [
     "B"
    ],
-   "url": "https://scryfall.com/card/cma/54/diabolic-tutor?utm_source=api"
+   "url": "https://scryfall.com/card/cma/54/diabolic-tutor?utm_source=api",
+   "oracle_text": "Search your library for a card, put that card into your hand, then shuffle."
   },
   {
    "name": "Dread Statuary",
@@ -171,7 +185,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/cn2/217/dread-statuary?utm_source=api"
+   "url": "https://scryfall.com/card/cn2/217/dread-statuary?utm_source=api",
+   "oracle_text": "{T}: Add {C}.\n{4}: Dread Statuary becomes a 4/2 Golem artifact creature until end of turn. It's still a land."
   },
   {
    "name": "Zulaport Cutthroat",
@@ -188,7 +203,8 @@
    "colors": [
     "B"
    ],
-   "url": "https://scryfall.com/card/clb/775/zulaport-cutthroat?utm_source=api"
+   "url": "https://scryfall.com/card/clb/775/zulaport-cutthroat?utm_source=api",
+   "oracle_text": "Whenever Zulaport Cutthroat or another creature you control dies, each opponent loses 1 life and you gain 1 life."
   },
   {
    "name": "Disfigure",
@@ -200,7 +216,8 @@
    "colors": [
     "B"
    ],
-   "url": "https://scryfall.com/card/bro/91/disfigure?utm_source=api"
+   "url": "https://scryfall.com/card/bro/91/disfigure?utm_source=api",
+   "oracle_text": "Target creature gets -2/-2 until end of turn."
   },
   {
    "name": "Rise from the Grave",
@@ -212,7 +229,8 @@
    "colors": [
     "B"
    ],
-   "url": "https://scryfall.com/card/znc/53/rise-from-the-grave?utm_source=api"
+   "url": "https://scryfall.com/card/znc/53/rise-from-the-grave?utm_source=api",
+   "oracle_text": "Put target creature card from a graveyard onto the battlefield under your control. That creature is a black Zombie in addition to its other colors and types."
   },
   {
    "name": "Whisper, Blood Liturgist",
@@ -229,7 +247,8 @@
    "colors": [
     "B"
    ],
-   "url": "https://scryfall.com/card/dom/111/whisper-blood-liturgist?utm_source=api"
+   "url": "https://scryfall.com/card/cmm/198/whisper-blood-liturgist?utm_source=api",
+   "oracle_text": "{T}, Sacrifice two creatures: Return target creature card from your graveyard to the battlefield."
   },
   {
    "name": "Quietus Spike",
@@ -242,7 +261,8 @@
    "cmc": 3,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/ncc/377/quietus-spike?utm_source=api"
+   "url": "https://scryfall.com/card/ncc/377/quietus-spike?utm_source=api",
+   "oracle_text": "Equipped creature has deathtouch.\nWhenever equipped creature deals combat damage to a player, that player loses half their life, rounded up.\nEquip {3}"
   },
   {
    "name": "Will-o'-the-Wisp",
@@ -257,7 +277,8 @@
    "colors": [
     "B"
    ],
-   "url": "https://scryfall.com/card/a25/115/will-o-the-wisp?utm_source=api"
+   "url": "https://scryfall.com/card/a25/115/will-o-the-wisp?utm_source=api",
+   "oracle_text": "Flying (This creature can't be blocked except by creatures with flying or reach.)\n{B}: Regenerate Will-o'-the-Wisp. (The next time this creature would be destroyed this turn, it isn't. Instead tap it, remove all damage from it, and remove it from combat.)"
   },
   {
    "name": "Archfiend of Ifnir",
@@ -272,7 +293,8 @@
    "colors": [
     "B"
    ],
-   "url": "https://scryfall.com/card/akh/78/archfiend-of-ifnir?utm_source=api"
+   "url": "https://scryfall.com/card/akh/78/archfiend-of-ifnir?utm_source=api",
+   "oracle_text": "Flying\nWhenever you cycle or discard another card, put a -1/-1 counter on each creature your opponents control.\nCycling {2} ({2}, Discard this card: Draw a card.)"
   },
   {
    "name": "Unmake",
@@ -285,7 +307,8 @@
     "B",
     "W"
    ],
-   "url": "https://scryfall.com/card/ddk/27/unmake?utm_source=api"
+   "url": "https://scryfall.com/card/ddk/27/unmake?utm_source=api",
+   "oracle_text": "Exile target creature."
   },
   {
    "name": "Swamp",
@@ -299,7 +322,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/201/swamp?utm_source=api"
+   "url": "https://scryfall.com/card/woe/271/swamp?utm_source=api",
+   "oracle_text": "({T}: Add {B}.)"
   },
   {
    "name": "Swamp",
@@ -313,7 +337,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/201/swamp?utm_source=api"
+   "url": "https://scryfall.com/card/woe/271/swamp?utm_source=api",
+   "oracle_text": "({T}: Add {B}.)"
   },
   {
    "name": "Swamp",
@@ -327,7 +352,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/201/swamp?utm_source=api"
+   "url": "https://scryfall.com/card/woe/271/swamp?utm_source=api",
+   "oracle_text": "({T}: Add {B}.)"
   },
   {
    "name": "Swamp",
@@ -341,7 +367,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/201/swamp?utm_source=api"
+   "url": "https://scryfall.com/card/woe/271/swamp?utm_source=api",
+   "oracle_text": "({T}: Add {B}.)"
   },
   {
    "name": "Swamp",
@@ -355,7 +382,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/201/swamp?utm_source=api"
+   "url": "https://scryfall.com/card/woe/271/swamp?utm_source=api",
+   "oracle_text": "({T}: Add {B}.)"
   },
   {
    "name": "Swamp",
@@ -369,7 +397,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/201/swamp?utm_source=api"
+   "url": "https://scryfall.com/card/woe/271/swamp?utm_source=api",
+   "oracle_text": "({T}: Add {B}.)"
   },
   {
    "name": "Swamp",
@@ -383,7 +412,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/201/swamp?utm_source=api"
+   "url": "https://scryfall.com/card/woe/271/swamp?utm_source=api",
+   "oracle_text": "({T}: Add {B}.)"
   },
   {
    "name": "Swamp",
@@ -397,7 +427,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/201/swamp?utm_source=api"
+   "url": "https://scryfall.com/card/woe/271/swamp?utm_source=api",
+   "oracle_text": "({T}: Add {B}.)"
   },
   {
    "name": "Swamp",
@@ -411,7 +442,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/201/swamp?utm_source=api"
+   "url": "https://scryfall.com/card/woe/271/swamp?utm_source=api",
+   "oracle_text": "({T}: Add {B}.)"
   },
   {
    "name": "Swamp",
@@ -425,7 +457,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/201/swamp?utm_source=api"
+   "url": "https://scryfall.com/card/woe/271/swamp?utm_source=api",
+   "oracle_text": "({T}: Add {B}.)"
   },
   {
    "name": "Swamp",
@@ -439,7 +472,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/201/swamp?utm_source=api"
+   "url": "https://scryfall.com/card/woe/271/swamp?utm_source=api",
+   "oracle_text": "({T}: Add {B}.)"
   },
   {
    "name": "Swamp",
@@ -453,7 +487,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/201/swamp?utm_source=api"
+   "url": "https://scryfall.com/card/woe/271/swamp?utm_source=api",
+   "oracle_text": "({T}: Add {B}.)"
   },
   {
    "name": "Swamp",
@@ -467,7 +502,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/201/swamp?utm_source=api"
+   "url": "https://scryfall.com/card/woe/271/swamp?utm_source=api",
+   "oracle_text": "({T}: Add {B}.)"
   },
   {
    "name": "Swamp",
@@ -481,7 +517,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/201/swamp?utm_source=api"
+   "url": "https://scryfall.com/card/woe/271/swamp?utm_source=api",
+   "oracle_text": "({T}: Add {B}.)"
   },
   {
    "name": "Swamp",
@@ -495,7 +532,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/201/swamp?utm_source=api"
+   "url": "https://scryfall.com/card/woe/271/swamp?utm_source=api",
+   "oracle_text": "({T}: Add {B}.)"
   },
   {
    "name": "Swamp",
@@ -509,7 +547,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/201/swamp?utm_source=api"
+   "url": "https://scryfall.com/card/woe/271/swamp?utm_source=api",
+   "oracle_text": "({T}: Add {B}.)"
   },
   {
    "name": "Swamp",
@@ -523,7 +562,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/201/swamp?utm_source=api"
+   "url": "https://scryfall.com/card/woe/271/swamp?utm_source=api",
+   "oracle_text": "({T}: Add {B}.)"
   },
   {
    "name": "Throne of the God-Pharaoh",
@@ -534,7 +574,8 @@
    "cmc": 2,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/akh/237/throne-of-the-god-pharaoh?utm_source=api"
+   "url": "https://scryfall.com/card/akh/237/throne-of-the-god-pharaoh?utm_source=api",
+   "oracle_text": "At the beginning of your end step, each opponent loses life equal to the number of tapped creatures you control."
   },
   {
    "name": "The Long Reach of Night // Animus of Night's Reach",
@@ -550,7 +591,8 @@
    "cmc": 4,
    "image": "",
    "colors": null,
-   "url": "https://scryfall.com/card/neo/109/the-long-reach-of-night-animus-of-nights-reach?utm_source=api"
+   "url": "https://scryfall.com/card/neo/109/the-long-reach-of-night-animus-of-nights-reach?utm_source=api",
+   "oracle_text": ""
   },
   {
    "name": "Pharika's Spawn",
@@ -565,7 +607,8 @@
    "colors": [
     "B"
    ],
-   "url": "https://scryfall.com/card/thb/112/pharikas-spawn?utm_source=api"
+   "url": "https://scryfall.com/card/thb/112/pharikas-spawn?utm_source=api",
+   "oracle_text": "Escape—{5}{B}, Exile three other cards from your graveyard. (You may cast this card from your graveyard for its escape cost.)\nPharika's Spawn escapes with two +1/+1 counters on it. When it enters the battlefield this way, each opponent sacrifices a non-Gorgon creature."
   },
   {
    "name": "Sanctum Seeker",
@@ -581,7 +624,8 @@
    "colors": [
     "B"
    ],
-   "url": "https://scryfall.com/card/voc/136/sanctum-seeker?utm_source=api"
+   "url": "https://scryfall.com/card/voc/136/sanctum-seeker?utm_source=api",
+   "oracle_text": "Whenever a Vampire you control attacks, each opponent loses 1 life and you gain 1 life."
   },
   {
    "name": "Severed Strands",
@@ -593,7 +637,8 @@
    "colors": [
     "B"
    ],
-   "url": "https://scryfall.com/card/2x2/88/severed-strands?utm_source=api"
+   "url": "https://scryfall.com/card/2x2/88/severed-strands?utm_source=api",
+   "oracle_text": "As an additional cost to cast this spell, sacrifice a creature.\nYou gain life equal to the sacrificed creature's toughness. Destroy target creature an opponent controls."
   }
  ],
  "sideboard": []

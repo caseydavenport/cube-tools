@@ -1,12 +1,27 @@
 {
- "labels": ["midrange", "+1/+1", "stomp", "token", "equipment"],
+ "labels": [
+  "midrange",
+  "+1/+1",
+  "stomp",
+  "token",
+  "equipment"
+ ],
  "player": "jen",
  "date": "2023-09-17",
  "games": [
-    {"opponent": "casey", "winner": "casey"},
-    {"opponent": "dom", "winner": "jen"},
-    {"opponent": "mattd", "winner": "mattd"}
-  ],
+  {
+   "opponent": "casey",
+   "winner": "casey"
+  },
+  {
+   "opponent": "dom",
+   "winner": "jen"
+  },
+  {
+   "opponent": "mattd",
+   "winner": "mattd"
+  }
+ ],
  "mainboard": [
   {
    "name": "Clifftop Retreat",
@@ -16,7 +31,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/dom/239/clifftop-retreat?utm_source=api"
+   "url": "https://scryfall.com/card/dom/239/clifftop-retreat?utm_source=api",
+   "oracle_text": "Clifftop Retreat enters the battlefield tapped unless you control a Mountain or a Plains.\n{T}: Add {R} or {W}."
   },
   {
    "name": "Sunpetal Grove",
@@ -26,7 +42,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/xln/257/sunpetal-grove?utm_source=api"
+   "url": "https://scryfall.com/card/xln/257/sunpetal-grove?utm_source=api",
+   "oracle_text": "Sunpetal Grove enters the battlefield tapped unless you control a Forest or a Plains.\n{T}: Add {G} or {W}."
   },
   {
    "name": "Windswept Heath",
@@ -36,7 +53,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/ktk/248/windswept-heath?utm_source=api"
+   "url": "https://scryfall.com/card/ktk/248/windswept-heath?utm_source=api",
+   "oracle_text": "{T}, Pay 1 life, Sacrifice Windswept Heath: Search your library for a Forest or Plains card, put it onto the battlefield, then shuffle."
   },
   {
    "name": "Wooded Foothills",
@@ -46,7 +64,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/ktk/249/wooded-foothills?utm_source=api"
+   "url": "https://scryfall.com/card/ktk/249/wooded-foothills?utm_source=api",
+   "oracle_text": "{T}, Pay 1 life, Sacrifice Wooded Foothills: Search your library for a Mountain or Forest card, put it onto the battlefield, then shuffle."
   },
   {
    "name": "Lion Sash",
@@ -63,7 +82,8 @@
    "colors": [
     "W"
    ],
-   "url": "https://scryfall.com/card/neo/26/lion-sash?utm_source=api"
+   "url": "https://scryfall.com/card/neo/26/lion-sash?utm_source=api",
+   "oracle_text": "{W}: Exile target card from a graveyard. If it was a permanent card, put a +1/+1 counter on Lion Sash.\nEquipped creature gets +1/+1 for each +1/+1 counter on Lion Sash.\nReconfigure {2} ({2}: Attach to target creature you control; or unattach from a creature. Reconfigure only as a sorcery. While attached, this isn't a creature.)"
   },
   {
    "name": "Kor Duelist",
@@ -79,7 +99,8 @@
    "colors": [
     "W"
    ],
-   "url": "https://scryfall.com/card/mm2/22/kor-duelist?utm_source=api"
+   "url": "https://scryfall.com/card/mm2/22/kor-duelist?utm_source=api",
+   "oracle_text": "As long as Kor Duelist is equipped, it has double strike. (It deals both first-strike and regular combat damage.)"
   },
   {
    "name": "Soul Warden",
@@ -95,7 +116,8 @@
    "colors": [
     "W"
    ],
-   "url": "https://scryfall.com/card/mm3/24/soul-warden?utm_source=api"
+   "url": "https://scryfall.com/card/mm3/24/soul-warden?utm_source=api",
+   "oracle_text": "Whenever another creature enters the battlefield, you gain 1 life."
   },
   {
    "name": "Goblin Arsonist",
@@ -111,7 +133,8 @@
    "colors": [
     "R"
    ],
-   "url": "https://scryfall.com/card/m21/147/goblin-arsonist?utm_source=api"
+   "url": "https://scryfall.com/card/m21/147/goblin-arsonist?utm_source=api",
+   "oracle_text": "When Goblin Arsonist dies, you may have it deal 1 damage to any target."
   },
   {
    "name": "Grim Initiate",
@@ -127,7 +150,8 @@
    "colors": [
     "R"
    ],
-   "url": "https://scryfall.com/card/war/130/grim-initiate?utm_source=api"
+   "url": "https://scryfall.com/card/war/130/grim-initiate?utm_source=api",
+   "oracle_text": "First strike\nWhen Grim Initiate dies, amass Zombies 1. (Put a +1/+1 counter on an Army you control. It's also a Zombie. If you don't control an Army, create a 0/0 black Zombie Army creature token first.)"
   },
   {
    "name": "Rigging Runner",
@@ -143,7 +167,8 @@
    "colors": [
     "R"
    ],
-   "url": "https://scryfall.com/card/xln/157/rigging-runner?utm_source=api"
+   "url": "https://scryfall.com/card/xln/157/rigging-runner?utm_source=api",
+   "oracle_text": "First strike\nRaid — Rigging Runner enters the battlefield with a +1/+1 counter on it if you attacked this turn."
   },
   {
    "name": "Chainweb Aracnir",
@@ -158,7 +183,8 @@
    "colors": [
     "G"
    ],
-   "url": "https://scryfall.com/card/thb/167/chainweb-aracnir?utm_source=api"
+   "url": "https://scryfall.com/card/thb/167/chainweb-aracnir?utm_source=api",
+   "oracle_text": "Reach\nWhen Chainweb Aracnir enters the battlefield, it deals damage equal to its power to target creature with flying an opponent controls.\nEscape—{3}{G}{G}, Exile four other cards from your graveyard. (You may cast this card from your graveyard for its escape cost.)\nChainweb Aracnir escapes with three +1/+1 counters on it."
   },
   {
    "name": "Shinewend",
@@ -173,7 +199,8 @@
    "colors": [
     "W"
    ],
-   "url": "https://scryfall.com/card/mor/23/shinewend?utm_source=api"
+   "url": "https://scryfall.com/card/mor/23/shinewend?utm_source=api",
+   "oracle_text": "Flying\nShinewend enters the battlefield with a +1/+1 counter on it.\n{1}{W}, Remove a +1/+1 counter from Shinewend: Destroy target enchantment."
   },
   {
    "name": "Lizard Blades",
@@ -190,7 +217,8 @@
    "colors": [
     "R"
    ],
-   "url": "https://scryfall.com/card/neo/153/lizard-blades?utm_source=api"
+   "url": "https://scryfall.com/card/neo/153/lizard-blades?utm_source=api",
+   "oracle_text": "Double strike\nEquipped creature has double strike.\nReconfigure {2} ({2}: Attach to target creature you control; or unattach from a creature. Reconfigure only as a sorcery. While attached, this isn't a creature.)"
   },
   {
    "name": "Ogre-Head Helm",
@@ -207,7 +235,8 @@
    "colors": [
     "R"
    ],
-   "url": "https://scryfall.com/card/neo/155/ogre-head-helm?utm_source=api"
+   "url": "https://scryfall.com/card/neo/155/ogre-head-helm?utm_source=api",
+   "oracle_text": "Equipped creature gets +2/+2.\nWhenever Ogre-Head Helm or equipped creature deals combat damage to a player, you may sacrifice it. If you do, discard your hand, then draw three cards.\nReconfigure {3} ({3}: Attach to target creature you control; or unattach from a creature. Reconfigure only as a sorcery. While attached, this isn't a creature.)"
   },
   {
    "name": "Cankerbloom",
@@ -223,7 +252,8 @@
    "colors": [
     "G"
    ],
-   "url": "https://scryfall.com/card/one/161/cankerbloom?utm_source=api"
+   "url": "https://scryfall.com/card/one/161/cankerbloom?utm_source=api",
+   "oracle_text": "{1}, Sacrifice Cankerbloom: Choose one —\n• Destroy target artifact.\n• Destroy target enchantment.\n• Proliferate. (Choose any number of permanents and/or players, then give each another counter of each kind already there.)"
   },
   {
    "name": "Pollenbright Druid",
@@ -239,7 +269,8 @@
    "colors": [
     "G"
    ],
-   "url": "https://scryfall.com/card/cmm/312/pollenbright-druid?utm_source=api"
+   "url": "https://scryfall.com/card/cmm/312/pollenbright-druid?utm_source=api",
+   "oracle_text": "When Pollenbright Druid enters the battlefield, choose one —\n• Put a +1/+1 counter on target creature.\n• Proliferate. (Choose any number of permanents and/or players, then give each another counter of each kind already there.)"
   },
   {
    "name": "Woodland Champion",
@@ -255,7 +286,8 @@
    "colors": [
     "G"
    ],
-   "url": "https://scryfall.com/card/2xm/188/woodland-champion?utm_source=api"
+   "url": "https://scryfall.com/card/2xm/188/woodland-champion?utm_source=api",
+   "oracle_text": "Whenever one or more tokens enter the battlefield under your control, put that many +1/+1 counters on Woodland Champion."
   },
   {
    "name": "Kellan, the Fae-Blooded // Birthright Boon",
@@ -274,7 +306,8 @@
    "colors": [
     "R"
    ],
-   "url": "https://scryfall.com/card/woe/230/kellan-the-fae-blooded-birthright-boon?utm_source=api"
+   "url": "https://scryfall.com/card/woe/230/kellan-the-fae-blooded-birthright-boon?utm_source=api",
+   "oracle_text": ""
   },
   {
    "name": "Krenko, Tin Street Kingpin",
@@ -290,7 +323,8 @@
    "colors": [
     "R"
    ],
-   "url": "https://scryfall.com/card/moc/287/krenko-tin-street-kingpin?utm_source=api"
+   "url": "https://scryfall.com/card/moc/287/krenko-tin-street-kingpin?utm_source=api",
+   "oracle_text": "Whenever Krenko, Tin Street Kingpin attacks, put a +1/+1 counter on it, then create a number of 1/1 red Goblin creature tokens equal to Krenko's power."
   },
   {
    "name": "Gilder Bairn",
@@ -306,7 +340,8 @@
     "G",
     "U"
    ],
-   "url": "https://scryfall.com/card/eve/152/gilder-bairn?utm_source=api"
+   "url": "https://scryfall.com/card/eve/152/gilder-bairn?utm_source=api",
+   "oracle_text": "{2}{G/U}, {Q}: Double the number of each kind of counter on target permanent. ({Q} is the untap symbol.)"
   },
   {
    "name": "Meadowboon",
@@ -321,7 +356,8 @@
    "colors": [
     "W"
    ],
-   "url": "https://scryfall.com/card/mma/22/meadowboon?utm_source=api"
+   "url": "https://scryfall.com/card/mma/22/meadowboon?utm_source=api",
+   "oracle_text": "When Meadowboon leaves the battlefield, put a +1/+1 counter on each creature target player controls.\nEvoke {3}{W} (You may cast this spell for its evoke cost. If you do, it's sacrificed when it enters the battlefield.)"
   },
   {
    "name": "Cloudgoat Ranger",
@@ -338,7 +374,8 @@
    "colors": [
     "W"
    ],
-   "url": "https://scryfall.com/card/khc/21/cloudgoat-ranger?utm_source=api"
+   "url": "https://scryfall.com/card/khc/21/cloudgoat-ranger?utm_source=api",
+   "oracle_text": "When Cloudgoat Ranger enters the battlefield, create three 1/1 white Kithkin Soldier creature tokens.\nTap three untapped Kithkin you control: Cloudgoat Ranger gets +2/+0 and gains flying until end of turn."
   },
   {
    "name": "Skarrgan Hellkite",
@@ -353,7 +390,8 @@
    "colors": [
     "R"
    ],
-   "url": "https://scryfall.com/card/rna/114/skarrgan-hellkite?utm_source=api"
+   "url": "https://scryfall.com/card/rna/114/skarrgan-hellkite?utm_source=api",
+   "oracle_text": "Riot (This creature enters the battlefield with your choice of a +1/+1 counter or haste.)\nFlying\n{3}{R}: Skarrgan Hellkite deals 2 damage divided as you choose among one or two targets. Activate only if Skarrgan Hellkite has a +1/+1 counter on it."
   },
   {
    "name": "Rampaging Baloths",
@@ -368,7 +406,8 @@
    "colors": [
     "G"
    ],
-   "url": "https://scryfall.com/card/c21/203/rampaging-baloths?utm_source=api"
+   "url": "https://scryfall.com/card/c21/203/rampaging-baloths?utm_source=api",
+   "oracle_text": "Trample\nLandfall — Whenever a land enters the battlefield under your control, you may create a 4/4 green Beast creature token."
   },
   {
    "name": "Anointed Procession",
@@ -380,7 +419,8 @@
    "colors": [
     "W"
    ],
-   "url": "https://scryfall.com/card/akh/2/anointed-procession?utm_source=api"
+   "url": "https://scryfall.com/card/akh/2/anointed-procession?utm_source=api",
+   "oracle_text": "If an effect would create one or more tokens under your control, it creates twice that many of those tokens instead."
   },
   {
    "name": "Empty the Warrens",
@@ -392,7 +432,8 @@
    "colors": [
     "R"
    ],
-   "url": "https://scryfall.com/card/tsr/162/empty-the-warrens?utm_source=api"
+   "url": "https://scryfall.com/card/tsr/162/empty-the-warrens?utm_source=api",
+   "oracle_text": "Create two 1/1 red Goblin creature tokens.\nStorm (When you cast this spell, copy it for each spell cast before it this turn.)"
   },
   {
    "name": "Roaring Earth",
@@ -404,7 +445,8 @@
    "colors": [
     "G"
    ],
-   "url": "https://scryfall.com/card/neo/204/roaring-earth?utm_source=api"
+   "url": "https://scryfall.com/card/neo/204/roaring-earth?utm_source=api",
+   "oracle_text": "Landfall — Whenever a land enters the battlefield under your control, put a +1/+1 counter on target creature or Vehicle you control.\nChannel — {X}{G}{G}, Discard Roaring Earth: Put X +1/+1 counters on target land you control. It becomes a 0/0 green Spirit creature with haste. It's still a land."
   },
   {
    "name": "Incinerate",
@@ -416,7 +458,8 @@
    "colors": [
     "R"
    ],
-   "url": "https://scryfall.com/card/jvc/51/incinerate?utm_source=api"
+   "url": "https://scryfall.com/card/jvc/51/incinerate?utm_source=api",
+   "oracle_text": "Incinerate deals 3 damage to any target. A creature dealt damage this way can't be regenerated this turn."
   },
   {
    "name": "Blade of the Bloodchief",
@@ -429,7 +472,8 @@
    "cmc": 1,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/c17/204/blade-of-the-bloodchief?utm_source=api"
+   "url": "https://scryfall.com/card/c17/204/blade-of-the-bloodchief?utm_source=api",
+   "oracle_text": "Whenever a creature dies, put a +1/+1 counter on equipped creature. If equipped creature is a Vampire, put two +1/+1 counters on it instead.\nEquip {1}"
   },
   {
    "name": "Plains",
@@ -443,7 +487,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/woe/267/plains?utm_source=api"
+   "url": "https://scryfall.com/card/woe/267/plains?utm_source=api",
+   "oracle_text": "({T}: Add {W}.)"
   },
   {
    "name": "Plains",
@@ -457,7 +502,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/woe/267/plains?utm_source=api"
+   "url": "https://scryfall.com/card/woe/267/plains?utm_source=api",
+   "oracle_text": "({T}: Add {W}.)"
   },
   {
    "name": "Plains",
@@ -471,7 +517,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/woe/267/plains?utm_source=api"
+   "url": "https://scryfall.com/card/woe/267/plains?utm_source=api",
+   "oracle_text": "({T}: Add {W}.)"
   },
   {
    "name": "Plains",
@@ -485,7 +532,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/woe/267/plains?utm_source=api"
+   "url": "https://scryfall.com/card/woe/267/plains?utm_source=api",
+   "oracle_text": "({T}: Add {W}.)"
   },
   {
    "name": "Mountain",
@@ -499,7 +547,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/woe/273/mountain?utm_source=api"
+   "url": "https://scryfall.com/card/woe/273/mountain?utm_source=api",
+   "oracle_text": "({T}: Add {R}.)"
   },
   {
    "name": "Mountain",
@@ -513,7 +562,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/woe/273/mountain?utm_source=api"
+   "url": "https://scryfall.com/card/woe/273/mountain?utm_source=api",
+   "oracle_text": "({T}: Add {R}.)"
   },
   {
    "name": "Mountain",
@@ -527,7 +577,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/woe/273/mountain?utm_source=api"
+   "url": "https://scryfall.com/card/woe/273/mountain?utm_source=api",
+   "oracle_text": "({T}: Add {R}.)"
   },
   {
    "name": "Mountain",
@@ -541,7 +592,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/woe/273/mountain?utm_source=api"
+   "url": "https://scryfall.com/card/woe/273/mountain?utm_source=api",
+   "oracle_text": "({T}: Add {R}.)"
   },
   {
    "name": "Forest",
@@ -555,7 +607,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/woe/275/forest?utm_source=api"
+   "url": "https://scryfall.com/card/woe/275/forest?utm_source=api",
+   "oracle_text": "({T}: Add {G}.)"
   },
   {
    "name": "Forest",
@@ -569,7 +622,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/woe/275/forest?utm_source=api"
+   "url": "https://scryfall.com/card/woe/275/forest?utm_source=api",
+   "oracle_text": "({T}: Add {G}.)"
   },
   {
    "name": "Forest",
@@ -583,7 +637,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/woe/275/forest?utm_source=api"
+   "url": "https://scryfall.com/card/woe/275/forest?utm_source=api",
+   "oracle_text": "({T}: Add {G}.)"
   },
   {
    "name": "Forest",
@@ -597,7 +652,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/woe/275/forest?utm_source=api"
+   "url": "https://scryfall.com/card/woe/275/forest?utm_source=api",
+   "oracle_text": "({T}: Add {G}.)"
   }
  ],
  "sideboard": [
@@ -613,7 +669,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/rna/248/godless-shrine?utm_source=api"
+   "url": "https://scryfall.com/card/rna/248/godless-shrine?utm_source=api",
+   "oracle_text": "({T}: Add {W} or {B}.)\nAs Godless Shrine enters the battlefield, you may pay 2 life. If you don't, it enters the battlefield tapped."
   },
   {
    "name": "Kor Skyfisher",
@@ -629,7 +686,8 @@
    "colors": [
     "W"
    ],
-   "url": "https://scryfall.com/card/mm3/11/kor-skyfisher?utm_source=api"
+   "url": "https://scryfall.com/card/mm3/11/kor-skyfisher?utm_source=api",
+   "oracle_text": "Flying\nWhen Kor Skyfisher enters the battlefield, return a permanent you control to its owner's hand."
   },
   {
    "name": "Dreadhorde Arcanist",
@@ -645,7 +703,8 @@
    "colors": [
     "R"
    ],
-   "url": "https://scryfall.com/card/war/125/dreadhorde-arcanist?utm_source=api"
+   "url": "https://scryfall.com/card/war/125/dreadhorde-arcanist?utm_source=api",
+   "oracle_text": "Trample\nWhenever Dreadhorde Arcanist attacks, you may cast target instant or sorcery card with mana value less than or equal to Dreadhorde Arcanist's power from your graveyard without paying its mana cost. If that spell would be put into your graveyard, exile it instead."
   },
   {
    "name": "Young Pyromancer",
@@ -661,7 +720,8 @@
    "colors": [
     "R"
    ],
-   "url": "https://scryfall.com/card/2x2/131/young-pyromancer?utm_source=api"
+   "url": "https://scryfall.com/card/2x2/131/young-pyromancer?utm_source=api",
+   "oracle_text": "Whenever you cast an instant or sorcery spell, create a 1/1 red Elemental creature token."
   },
   {
    "name": "Devoted Crop-Mate",
@@ -677,7 +737,8 @@
    "colors": [
     "W"
    ],
-   "url": "https://scryfall.com/card/akh/10/devoted-crop-mate?utm_source=api"
+   "url": "https://scryfall.com/card/akh/10/devoted-crop-mate?utm_source=api",
+   "oracle_text": "You may exert Devoted Crop-Mate as it attacks. When you do, return target creature card with mana value 2 or less from your graveyard to the battlefield. (An exerted creature won't untap during your next untap step.)"
   },
   {
    "name": "Devouring Hellion",
@@ -692,7 +753,8 @@
    "colors": [
     "R"
    ],
-   "url": "https://scryfall.com/card/war/124/devouring-hellion?utm_source=api"
+   "url": "https://scryfall.com/card/war/124/devouring-hellion?utm_source=api",
+   "oracle_text": "As Devouring Hellion enters the battlefield, you may sacrifice any number of creatures and/or planeswalkers. If you do, it enters with twice that many +1/+1 counters on it."
   },
   {
    "name": "Runaway Trash-Bot",
@@ -706,7 +768,8 @@
    "cmc": 3,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/neo/257/runaway-trash-bot?utm_source=api"
+   "url": "https://scryfall.com/card/neo/257/runaway-trash-bot?utm_source=api",
+   "oracle_text": "Trample\nRunaway Trash-Bot gets +1/+0 for each artifact and/or enchantment card in your graveyard."
   },
   {
    "name": "Knight of the Reliquary",
@@ -723,7 +786,8 @@
     "G",
     "W"
    ],
-   "url": "https://scryfall.com/card/ima/203/knight-of-the-reliquary?utm_source=api"
+   "url": "https://scryfall.com/card/ima/203/knight-of-the-reliquary?utm_source=api",
+   "oracle_text": "Knight of the Reliquary gets +1/+1 for each land card in your graveyard.\n{T}, Sacrifice a Forest or Plains: Search your library for a land card, put it onto the battlefield, then shuffle."
   },
   {
    "name": "Towashi Guide-Bot",
@@ -737,7 +801,8 @@
    "cmc": 4,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/neo/262/towashi-guide-bot?utm_source=api"
+   "url": "https://scryfall.com/card/neo/262/towashi-guide-bot?utm_source=api",
+   "oracle_text": "When Towashi Guide-Bot enters the battlefield, put a +1/+1 counter on target creature you control.\n{4}, {T}: Draw a card. This ability costs {1} less to activate for each modified creature you control. (Equipment, Auras you control, and counters are modifications.)"
   },
   {
    "name": "Domri, Anarch of Bolas",
@@ -754,7 +819,8 @@
     "G",
     "R"
    ],
-   "url": "https://scryfall.com/card/war/191/domri-anarch-of-bolas?utm_source=api"
+   "url": "https://scryfall.com/card/war/191/domri-anarch-of-bolas?utm_source=api",
+   "oracle_text": "Creatures you control get +1/+0.\n+1: Add {R} or {G}. Creature spells you cast this turn can't be countered.\n−2: Target creature you control fights target creature you don't control."
   },
   {
    "name": "Quietus Spike",
@@ -767,7 +833,8 @@
    "cmc": 3,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/ncc/377/quietus-spike?utm_source=api"
+   "url": "https://scryfall.com/card/ncc/377/quietus-spike?utm_source=api",
+   "oracle_text": "Equipped creature has deathtouch.\nWhenever equipped creature deals combat damage to a player, that player loses half their life, rounded up.\nEquip {3}"
   },
   {
    "name": "Goblin Bombardment",
@@ -779,7 +846,8 @@
    "colors": [
     "R"
    ],
-   "url": "https://scryfall.com/card/mh2/279/goblin-bombardment?utm_source=api"
+   "url": "https://scryfall.com/card/mh2/279/goblin-bombardment?utm_source=api",
+   "oracle_text": "Sacrifice a creature: Goblin Bombardment deals 1 damage to any target."
   },
   {
    "name": "Comet Storm",
@@ -791,7 +859,8 @@
    "colors": [
     "R"
    ],
-   "url": "https://scryfall.com/card/cmr/411/comet-storm?utm_source=api"
+   "url": "https://scryfall.com/card/cmr/411/comet-storm?utm_source=api",
+   "oracle_text": "Multikicker {1} (You may pay an additional {1} any number of times as you cast this spell.)\nChoose any target, then choose another target for each time this spell was kicked. Comet Storm deals X damage to each of them."
   },
   {
    "name": "Prophetic Prism",
@@ -801,7 +870,8 @@
    "cmc": 2,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/woe/249/prophetic-prism?utm_source=api"
+   "url": "https://scryfall.com/card/woe/249/prophetic-prism?utm_source=api",
+   "oracle_text": "When Prophetic Prism enters the battlefield, draw a card.\n{1}, {T}: Add one mana of any color."
   },
   {
    "name": "Kor Sanctifiers",
@@ -817,7 +887,8 @@
    "colors": [
     "W"
    ],
-   "url": "https://scryfall.com/card/c15/73/kor-sanctifiers?utm_source=api"
+   "url": "https://scryfall.com/card/c15/73/kor-sanctifiers?utm_source=api",
+   "oracle_text": "Kicker {W} (You may pay an additional {W} as you cast this spell.)\nWhen Kor Sanctifiers enters the battlefield, if it was kicked, destroy target artifact or enchantment."
   },
   {
    "name": "Domri's Ambush",
@@ -830,7 +901,8 @@
     "G",
     "R"
    ],
-   "url": "https://scryfall.com/card/war/192/domris-ambush?utm_source=api"
+   "url": "https://scryfall.com/card/war/192/domris-ambush?utm_source=api",
+   "oracle_text": "Put a +1/+1 counter on target creature you control. Then that creature deals damage equal to its power to target creature or planeswalker you don't control."
   },
   {
    "name": "Wilderness Reclamation",
@@ -842,7 +914,8 @@
    "colors": [
     "G"
    ],
-   "url": "https://scryfall.com/card/c20/196/wilderness-reclamation?utm_source=api"
+   "url": "https://scryfall.com/card/c20/196/wilderness-reclamation?utm_source=api",
+   "oracle_text": "At the beginning of your end step, untap all lands you control."
   },
   {
    "name": "Throne of the God-Pharaoh",
@@ -853,7 +926,8 @@
    "cmc": 2,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/akh/237/throne-of-the-god-pharaoh?utm_source=api"
+   "url": "https://scryfall.com/card/akh/237/throne-of-the-god-pharaoh?utm_source=api",
+   "oracle_text": "At the beginning of your end step, each opponent loses life equal to the number of tapped creatures you control."
   },
   {
    "name": "Magma Phoenix",
@@ -868,7 +942,8 @@
    "colors": [
     "R"
    ],
-   "url": "https://scryfall.com/card/m11/150/magma-phoenix?utm_source=api"
+   "url": "https://scryfall.com/card/m11/150/magma-phoenix?utm_source=api",
+   "oracle_text": "Flying\nWhen Magma Phoenix dies, it deals 3 damage to each creature and each player.\n{3}{R}{R}: Return Magma Phoenix from your graveyard to your hand."
   }
  ]
 }

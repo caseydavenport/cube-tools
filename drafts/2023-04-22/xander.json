@@ -1,10 +1,13 @@
 {
- "labels": ["control", "spells"],
+ "labels": [
+  "control",
+  "spells"
+ ],
  "player": "xander",
  "date": "2023-04-22",
+ "games": null,
  "wins": 5,
  "losses": 2,
- "ties": 0,
  "mainboard": [
   {
    "name": "Merfolk Looter",
@@ -20,7 +23,8 @@
    "colors": [
     "U"
    ],
-   "url": "https://scryfall.com/card/afc/86/merfolk-looter?utm_source=api"
+   "url": "https://scryfall.com/card/afc/86/merfolk-looter?utm_source=api",
+   "oracle_text": "{T}: Draw a card, then discard a card."
   },
   {
    "name": "The Reality Chip",
@@ -38,7 +42,8 @@
    "colors": [
     "U"
    ],
-   "url": "https://scryfall.com/card/neo/74/the-reality-chip?utm_source=api"
+   "url": "https://scryfall.com/card/neo/74/the-reality-chip?utm_source=api",
+   "oracle_text": "You may look at the top card of your library any time.\nAs long as The Reality Chip is attached to a creature, you may play lands and cast spells from the top of your library.\nReconfigure {2}{U} ({2}{U}: Attach to target creature you control; or unattach from a creature. Reconfigure only as a sorcery. While attached, this isn't a creature.)"
   },
   {
    "name": "Puncture Blast",
@@ -50,7 +55,8 @@
    "colors": [
     "R"
    ],
-   "url": "https://scryfall.com/card/eve/60/puncture-blast?utm_source=api"
+   "url": "https://scryfall.com/card/eve/60/puncture-blast?utm_source=api",
+   "oracle_text": "Wither (This deals damage to creatures in the form of -1/-1 counters.)\nPuncture Blast deals 3 damage to any target."
   },
   {
    "name": "Clifftop Retreat",
@@ -60,7 +66,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/dom/239/clifftop-retreat?utm_source=api"
+   "url": "https://scryfall.com/card/dom/239/clifftop-retreat?utm_source=api",
+   "oracle_text": "Clifftop Retreat enters the battlefield tapped unless you control a Mountain or a Plains.\n{T}: Add {R} or {W}."
   },
   {
    "name": "Sunbird's Invocation",
@@ -72,7 +79,8 @@
    "colors": [
     "R"
    ],
-   "url": "https://scryfall.com/card/c21/180/sunbirds-invocation?utm_source=api"
+   "url": "https://scryfall.com/card/c21/180/sunbirds-invocation?utm_source=api",
+   "oracle_text": "Whenever you cast a spell from your hand, reveal the top X cards of your library, where X is that spell's mana value. You may cast a spell with mana value X or less from among cards revealed this way without paying its mana cost. Put the rest on the bottom of your library in a random order."
   },
   {
    "name": "Stinging Lionfish",
@@ -88,7 +96,8 @@
    "colors": [
     "U"
    ],
-   "url": "https://scryfall.com/card/thb/69/stinging-lionfish?utm_source=api"
+   "url": "https://scryfall.com/card/thb/69/stinging-lionfish?utm_source=api",
+   "oracle_text": "Whenever you cast your first spell during each opponent's turn, you may tap or untap target nonland permanent."
   },
   {
    "name": "Angel of Salvation",
@@ -103,7 +112,8 @@
    "colors": [
     "W"
    ],
-   "url": "https://scryfall.com/card/moc/170/angel-of-salvation?utm_source=api"
+   "url": "https://scryfall.com/card/moc/170/angel-of-salvation?utm_source=api",
+   "oracle_text": "Flash; convoke (Your creatures can help cast this spell. Each creature you tap while casting this spell pays for {1} or one mana of that creature's color.)\nFlying\nWhen Angel of Salvation enters the battlefield, prevent the next 5 damage that would be dealt this turn to any number of targets, divided as you choose."
   },
   {
    "name": "Warcry Phoenix",
@@ -118,7 +128,8 @@
    "colors": [
     "R"
    ],
-   "url": "https://scryfall.com/card/dom/150/warcry-phoenix?utm_source=api"
+   "url": "https://scryfall.com/card/dom/150/warcry-phoenix?utm_source=api",
+   "oracle_text": "Flying, haste\nWhenever you attack with three or more creatures, you may pay {2}{R}. If you do, return Warcry Phoenix from your graveyard to the battlefield tapped and attacking."
   },
   {
    "name": "Hypersonic Dragon",
@@ -134,7 +145,8 @@
     "R",
     "U"
    ],
-   "url": "https://scryfall.com/card/ima/201/hypersonic-dragon?utm_source=api"
+   "url": "https://scryfall.com/card/ima/201/hypersonic-dragon?utm_source=api",
+   "oracle_text": "Flying, haste\nYou may cast sorcery spells as though they had flash. (You may cast them any time you could cast an instant.)"
   },
   {
    "name": "Terramorphic Expanse",
@@ -144,7 +156,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/pctb/85/terramorphic-expanse?utm_source=api"
+   "url": "https://scryfall.com/card/cmm/428/terramorphic-expanse?utm_source=api",
+   "oracle_text": "{T}, Sacrifice Terramorphic Expanse: Search your library for a basic land card, put it onto the battlefield tapped, then shuffle."
   },
   {
    "name": "Swans of Bryn Argoll",
@@ -161,7 +174,8 @@
     "U",
     "W"
    ],
-   "url": "https://scryfall.com/card/mm2/199/swans-of-bryn-argoll?utm_source=api"
+   "url": "https://scryfall.com/card/mm2/199/swans-of-bryn-argoll?utm_source=api",
+   "oracle_text": "Flying\nIf a source would deal damage to Swans of Bryn Argoll, prevent that damage. The source's controller draws cards equal to the damage prevented this way."
   },
   {
    "name": "Mistmeadow Witch",
@@ -178,7 +192,8 @@
     "U",
     "W"
    ],
-   "url": "https://scryfall.com/card/2x2/256/mistmeadow-witch?utm_source=api"
+   "url": "https://scryfall.com/card/2x2/256/mistmeadow-witch?utm_source=api",
+   "oracle_text": "{2}{W}{U}: Exile target creature. Return that card to the battlefield under its owner's control at the beginning of the next end step."
   },
   {
    "name": "Turn to Mist",
@@ -191,7 +206,8 @@
     "U",
     "W"
    ],
-   "url": "https://scryfall.com/card/uma/224/turn-to-mist?utm_source=api"
+   "url": "https://scryfall.com/card/uma/224/turn-to-mist?utm_source=api",
+   "oracle_text": "Exile target creature. Return that card to the battlefield under its owner's control at the beginning of the next end step."
   },
   {
    "name": "Sleight of Hand",
@@ -203,7 +219,8 @@
    "colors": [
     "U"
    ],
-   "url": "https://scryfall.com/card/uma/70/sleight-of-hand?utm_source=api"
+   "url": "https://scryfall.com/card/woe/67/sleight-of-hand?utm_source=api",
+   "oracle_text": "Look at the top two cards of your library. Put one of them into your hand and the other on the bottom of your library."
   },
   {
    "name": "Dawn Charm",
@@ -215,7 +232,8 @@
    "colors": [
     "W"
    ],
-   "url": "https://scryfall.com/card/cmr/371/dawn-charm?utm_source=api"
+   "url": "https://scryfall.com/card/cmr/371/dawn-charm?utm_source=api",
+   "oracle_text": "Choose one —\n• Prevent all combat damage that would be dealt this turn.\n• Regenerate target creature.\n• Counter target spell that targets you."
   },
   {
    "name": "Mountain",
@@ -229,7 +247,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/203/mountain?utm_source=api"
+   "url": "https://scryfall.com/card/woe/273/mountain?utm_source=api",
+   "oracle_text": "({T}: Add {R}.)"
   },
   {
    "name": "Mountain",
@@ -243,7 +262,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/203/mountain?utm_source=api"
+   "url": "https://scryfall.com/card/woe/273/mountain?utm_source=api",
+   "oracle_text": "({T}: Add {R}.)"
   },
   {
    "name": "Mountain",
@@ -257,7 +277,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/203/mountain?utm_source=api"
+   "url": "https://scryfall.com/card/woe/273/mountain?utm_source=api",
+   "oracle_text": "({T}: Add {R}.)"
   },
   {
    "name": "Plains",
@@ -271,7 +292,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/197/plains?utm_source=api"
+   "url": "https://scryfall.com/card/woe/267/plains?utm_source=api",
+   "oracle_text": "({T}: Add {W}.)"
   },
   {
    "name": "Plains",
@@ -285,7 +307,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/197/plains?utm_source=api"
+   "url": "https://scryfall.com/card/woe/267/plains?utm_source=api",
+   "oracle_text": "({T}: Add {W}.)"
   },
   {
    "name": "Plains",
@@ -299,7 +322,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/197/plains?utm_source=api"
+   "url": "https://scryfall.com/card/woe/267/plains?utm_source=api",
+   "oracle_text": "({T}: Add {W}.)"
   },
   {
    "name": "Fact or Fiction",
@@ -311,7 +335,8 @@
    "colors": [
     "U"
    ],
-   "url": "https://scryfall.com/card/clb/720/fact-or-fiction?utm_source=api"
+   "url": "https://scryfall.com/card/cmm/91/fact-or-fiction?utm_source=api",
+   "oracle_text": "Reveal the top five cards of your library. An opponent separates those cards into two piles. Put one pile into your hand and the other into your graveyard."
   },
   {
    "name": "Rite of Replication",
@@ -323,7 +348,8 @@
    "colors": [
     "U"
    ],
-   "url": "https://scryfall.com/card/c21/128/rite-of-replication?utm_source=api"
+   "url": "https://scryfall.com/card/c21/128/rite-of-replication?utm_source=api",
+   "oracle_text": "Kicker {5} (You may pay an additional {5} as you cast this spell.)\nCreate a token that's a copy of target creature. If this spell was kicked, create five of those tokens instead."
   },
   {
    "name": "Highland Lake",
@@ -333,7 +359,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/c19/251/highland-lake?utm_source=api"
+   "url": "https://scryfall.com/card/c19/251/highland-lake?utm_source=api",
+   "oracle_text": "Highland Lake enters the battlefield tapped.\n{T}: Add {U} or {R}."
   },
   {
    "name": "Port Town",
@@ -343,7 +370,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/moc/419/port-town?utm_source=api"
+   "url": "https://scryfall.com/card/cmm/1019/port-town?utm_source=api",
+   "oracle_text": "As Port Town enters the battlefield, you may reveal a Plains or Island card from your hand. If you don't, Port Town enters the battlefield tapped.\n{T}: Add {W} or {U}."
   },
   {
    "name": "Magma Phoenix",
@@ -358,7 +386,8 @@
    "colors": [
     "R"
    ],
-   "url": "https://scryfall.com/card/m11/150/magma-phoenix?utm_source=api"
+   "url": "https://scryfall.com/card/m11/150/magma-phoenix?utm_source=api",
+   "oracle_text": "Flying\nWhen Magma Phoenix dies, it deals 3 damage to each creature and each player.\n{3}{R}{R}: Return Magma Phoenix from your graveyard to your hand."
   },
   {
    "name": "Delay",
@@ -370,7 +399,8 @@
    "colors": [
     "U"
    ],
-   "url": "https://scryfall.com/card/tsr/61/delay?utm_source=api"
+   "url": "https://scryfall.com/card/tsr/61/delay?utm_source=api",
+   "oracle_text": "Counter target spell. If the spell is countered this way, exile it with three time counters on it instead of putting it into its owner's graveyard. If it doesn't have suspend, it gains suspend. (At the beginning of its owner's upkeep, remove a time counter from that card. When the last is removed, the player plays it without paying its mana cost. If it's a creature, it has haste.)"
   },
   {
    "name": "Frostboil Snarl",
@@ -380,7 +410,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/moc/403/frostboil-snarl?utm_source=api"
+   "url": "https://scryfall.com/card/cmm/998/frostboil-snarl?utm_source=api",
+   "oracle_text": "As Frostboil Snarl enters the battlefield, you may reveal an Island or Mountain card from your hand. If you don't, Frostboil Snarl enters the battlefield tapped.\n{T}: Add {U} or {R}."
   },
   {
    "name": "Enigma Drake",
@@ -396,7 +427,8 @@
     "R",
     "U"
    ],
-   "url": "https://scryfall.com/card/m19/216/enigma-drake?utm_source=api"
+   "url": "https://scryfall.com/card/m19/216/enigma-drake?utm_source=api",
+   "oracle_text": "Flying\nEnigma Drake's power is equal to the number of instant and sorcery cards in your graveyard."
   },
   {
    "name": "Azorius Guildgate",
@@ -409,7 +441,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/khc/107/azorius-guildgate?utm_source=api"
+   "url": "https://scryfall.com/card/khc/107/azorius-guildgate?utm_source=api",
+   "oracle_text": "Azorius Guildgate enters the battlefield tapped.\n{T}: Add {W} or {U}."
   },
   {
    "name": "Dispel",
@@ -421,7 +454,8 @@
    "colors": [
     "U"
    ],
-   "url": "https://scryfall.com/card/bfz/76/dispel?utm_source=api"
+   "url": "https://scryfall.com/card/bfz/76/dispel?utm_source=api",
+   "oracle_text": "Counter target instant spell."
   },
   {
    "name": "Island",
@@ -435,7 +469,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/199/island?utm_source=api"
+   "url": "https://scryfall.com/card/woe/269/island?utm_source=api",
+   "oracle_text": "({T}: Add {U}.)"
   },
   {
    "name": "Island",
@@ -449,7 +484,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/199/island?utm_source=api"
+   "url": "https://scryfall.com/card/woe/269/island?utm_source=api",
+   "oracle_text": "({T}: Add {U}.)"
   },
   {
    "name": "Island",
@@ -463,7 +499,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/199/island?utm_source=api"
+   "url": "https://scryfall.com/card/woe/269/island?utm_source=api",
+   "oracle_text": "({T}: Add {U}.)"
   },
   {
    "name": "Vexing Gull",
@@ -478,7 +515,8 @@
    "colors": [
     "U"
    ],
-   "url": "https://scryfall.com/card/thb/79/vexing-gull?utm_source=api"
+   "url": "https://scryfall.com/card/thb/79/vexing-gull?utm_source=api",
+   "oracle_text": "Flash\nFlying"
   },
   {
    "name": "Journey to Nowhere",
@@ -490,7 +528,8 @@
    "colors": [
     "W"
    ],
-   "url": "https://scryfall.com/card/cmd/17/journey-to-nowhere?utm_source=api"
+   "url": "https://scryfall.com/card/cmd/17/journey-to-nowhere?utm_source=api",
+   "oracle_text": "When Journey to Nowhere enters the battlefield, exile target creature.\nWhen Journey to Nowhere leaves the battlefield, return the exiled card to the battlefield under its owner's control."
   },
   {
    "name": "Lion Sash",
@@ -507,7 +546,8 @@
    "colors": [
     "W"
    ],
-   "url": "https://scryfall.com/card/neo/26/lion-sash?utm_source=api"
+   "url": "https://scryfall.com/card/neo/26/lion-sash?utm_source=api",
+   "oracle_text": "{W}: Exile target card from a graveyard. If it was a permanent card, put a +1/+1 counter on Lion Sash.\nEquipped creature gets +1/+1 for each +1/+1 counter on Lion Sash.\nReconfigure {2} ({2}: Attach to target creature you control; or unattach from a creature. Reconfigure only as a sorcery. While attached, this isn't a creature.)"
   },
   {
    "name": "Kairi, the Swirling Sky",
@@ -524,7 +564,8 @@
    "colors": [
     "U"
    ],
-   "url": "https://scryfall.com/card/neo/60/kairi-the-swirling-sky?utm_source=api"
+   "url": "https://scryfall.com/card/neo/60/kairi-the-swirling-sky?utm_source=api",
+   "oracle_text": "Flying, ward {3}\nWhen Kairi, the Swirling Sky dies, choose one —\n• Return any number of target nonland permanents with total mana value 6 or less to their owners' hands.\n• Mill six cards, then return up to two instant and/or sorcery cards from your graveyard to your hand."
   },
   {
    "name": "Impending Doom",
@@ -539,7 +580,8 @@
    "colors": [
     "R"
    ],
-   "url": "https://scryfall.com/card/thb/139/impending-doom?utm_source=api"
+   "url": "https://scryfall.com/card/thb/139/impending-doom?utm_source=api",
+   "oracle_text": "Enchant creature\nEnchanted creature gets +3/+3 and attacks each combat if able.\nWhen enchanted creature dies, Impending Doom deals 3 damage to that creature's controller."
   }
  ],
  "sideboard": []

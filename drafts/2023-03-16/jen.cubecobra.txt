@@ -1,6 +1,6 @@
 Remove Soul
 Mischievous Chimera
-
+Island
 Puncture Blast
 Fateful End
 Sunbird's Invocation
@@ -14,8 +14,8 @@ Mountain
 Island
 Raging Goblin
 Island
-
-
+Mountain
+Island
 Capricious Efreet
 Rabbit Battery
 Mountain

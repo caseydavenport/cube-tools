@@ -1,10 +1,13 @@
 {
- "labels": ["sacrifice", "aggro"],
+ "labels": [
+  "sacrifice",
+  "aggro"
+ ],
  "player": "casey",
  "date": "2023-07-16",
+ "games": null,
  "wins": 3,
  "losses": 2,
- "ties": 0,
  "mainboard": [
   {
    "name": "Siege-Gang Commander",
@@ -19,7 +22,8 @@
    "colors": [
     "R"
    ],
-   "url": "https://scryfall.com/card/gnt/42/siege-gang-commander?utm_source=api"
+   "url": "https://scryfall.com/card/gnt/42/siege-gang-commander?utm_source=api",
+   "oracle_text": "When Siege-Gang Commander enters the battlefield, create three 1/1 red Goblin creature tokens.\n{1}{R}, Sacrifice a Goblin: Siege-Gang Commander deals 2 damage to any target."
   },
   {
    "name": "Perilous Myr",
@@ -34,7 +38,8 @@
    "cmc": 2,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/cmr/330/perilous-myr?utm_source=api"
+   "url": "https://scryfall.com/card/cmr/330/perilous-myr?utm_source=api",
+   "oracle_text": "When Perilous Myr dies, it deals 2 damage to any target."
   },
   {
    "name": "Mogg War Marshal",
@@ -50,7 +55,8 @@
    "colors": [
     "R"
    ],
-   "url": "https://scryfall.com/card/tsr/176/mogg-war-marshal?utm_source=api"
+   "url": "https://scryfall.com/card/tsr/176/mogg-war-marshal?utm_source=api",
+   "oracle_text": "Echo {1}{R} (At the beginning of your upkeep, if this came under your control since the beginning of your last upkeep, sacrifice it unless you pay its echo cost.)\nWhen Mogg War Marshal enters the battlefield or dies, create a 1/1 red Goblin creature token."
   },
   {
    "name": "Makeshift Munitions",
@@ -62,7 +68,8 @@
    "colors": [
     "R"
    ],
-   "url": "https://scryfall.com/card/cmr/191/makeshift-munitions?utm_source=api"
+   "url": "https://scryfall.com/card/cmm/242/makeshift-munitions?utm_source=api",
+   "oracle_text": "{1}, Sacrifice an artifact or creature: Makeshift Munitions deals 1 damage to any target."
   },
   {
    "name": "Scavenger Drake",
@@ -77,7 +84,8 @@
    "colors": [
     "B"
    ],
-   "url": "https://scryfall.com/card/mm2/93/scavenger-drake?utm_source=api"
+   "url": "https://scryfall.com/card/mm2/93/scavenger-drake?utm_source=api",
+   "oracle_text": "Flying\nWhenever another creature dies, you may put a +1/+1 counter on Scavenger Drake."
   },
   {
    "name": "Tibalt's Rager",
@@ -92,7 +100,8 @@
    "colors": [
     "R"
    ],
-   "url": "https://scryfall.com/card/jmp/366/tibalts-rager?utm_source=api"
+   "url": "https://scryfall.com/card/jmp/366/tibalts-rager?utm_source=api",
+   "oracle_text": "When Tibalt's Rager dies, it deals 1 damage to any target.\n{1}{R}: Tibalt's Rager gets +2/+0 until end of turn."
   },
   {
    "name": "Fateful End",
@@ -104,7 +113,8 @@
    "colors": [
     "R"
    ],
-   "url": "https://scryfall.com/card/thb/133/fateful-end?utm_source=api"
+   "url": "https://scryfall.com/card/thb/133/fateful-end?utm_source=api",
+   "oracle_text": "Fateful End deals 3 damage to any target. Scry 1."
   },
   {
    "name": "Reckless Rage",
@@ -116,7 +126,8 @@
    "colors": [
     "R"
    ],
-   "url": "https://scryfall.com/card/rix/110/reckless-rage?utm_source=api"
+   "url": "https://scryfall.com/card/rix/110/reckless-rage?utm_source=api",
+   "oracle_text": "Reckless Rage deals 4 damage to target creature you don't control and 2 damage to target creature you control."
   },
   {
    "name": "Unearth",
@@ -128,7 +139,8 @@
    "colors": [
     "B"
    ],
-   "url": "https://scryfall.com/card/2x2/96/unearth?utm_source=api"
+   "url": "https://scryfall.com/card/2x2/96/unearth?utm_source=api",
+   "oracle_text": "Return target creature card with mana value 3 or less from your graveyard to the battlefield.\nCycling {2} ({2}, Discard this card: Draw a card.)"
   },
   {
    "name": "Grim Initiate",
@@ -144,7 +156,8 @@
    "colors": [
     "R"
    ],
-   "url": "https://scryfall.com/card/war/130/grim-initiate?utm_source=api"
+   "url": "https://scryfall.com/card/war/130/grim-initiate?utm_source=api",
+   "oracle_text": "First strike\nWhen Grim Initiate dies, amass Zombies 1. (Put a +1/+1 counter on an Army you control. It's also a Zombie. If you don't control an Army, create a 0/0 black Zombie Army creature token first.)"
   },
   {
    "name": "Marsh Flats",
@@ -154,7 +167,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/mh2/248/marsh-flats?utm_source=api"
+   "url": "https://scryfall.com/card/mh2/248/marsh-flats?utm_source=api",
+   "oracle_text": "{T}, Pay 1 life, Sacrifice Marsh Flats: Search your library for a Plains or Swamp card, put it onto the battlefield, then shuffle."
   },
   {
    "name": "Zulaport Cutthroat",
@@ -171,7 +185,8 @@
    "colors": [
     "B"
    ],
-   "url": "https://scryfall.com/card/clb/775/zulaport-cutthroat?utm_source=api"
+   "url": "https://scryfall.com/card/clb/775/zulaport-cutthroat?utm_source=api",
+   "oracle_text": "Whenever Zulaport Cutthroat or another creature you control dies, each opponent loses 1 life and you gain 1 life."
   },
   {
    "name": "Murderous Redcap",
@@ -188,7 +203,8 @@
     "B",
     "R"
    ],
-   "url": "https://scryfall.com/card/uma/217/murderous-redcap?utm_source=api"
+   "url": "https://scryfall.com/card/uma/217/murderous-redcap?utm_source=api",
+   "oracle_text": "When Murderous Redcap enters the battlefield, it deals damage equal to its power to any target.\nPersist (When this creature dies, if it had no -1/-1 counters on it, return it to the battlefield under its owner's control with a -1/-1 counter on it.)"
   },
   {
    "name": "Rigging Runner",
@@ -204,7 +220,8 @@
    "colors": [
     "R"
    ],
-   "url": "https://scryfall.com/card/xln/157/rigging-runner?utm_source=api"
+   "url": "https://scryfall.com/card/xln/157/rigging-runner?utm_source=api",
+   "oracle_text": "First strike\nRaid — Rigging Runner enters the battlefield with a +1/+1 counter on it if you attacked this turn."
   },
   {
    "name": "Quest for the Gravelord",
@@ -216,7 +233,8 @@
    "colors": [
     "B"
    ],
-   "url": "https://scryfall.com/card/bbd/156/quest-for-the-gravelord?utm_source=api"
+   "url": "https://scryfall.com/card/bbd/156/quest-for-the-gravelord?utm_source=api",
+   "oracle_text": "Whenever a creature dies, you may put a quest counter on Quest for the Gravelord.\nRemove three quest counters from Quest for the Gravelord and sacrifice it: Create a 5/5 black Zombie Giant creature token."
   },
   {
    "name": "Severed Strands",
@@ -228,7 +246,8 @@
    "colors": [
     "B"
    ],
-   "url": "https://scryfall.com/card/2x2/88/severed-strands?utm_source=api"
+   "url": "https://scryfall.com/card/2x2/88/severed-strands?utm_source=api",
+   "oracle_text": "As an additional cost to cast this spell, sacrifice a creature.\nYou gain life equal to the sacrificed creature's toughness. Destroy target creature an opponent controls."
   },
   {
    "name": "Devouring Hellion",
@@ -243,7 +262,8 @@
    "colors": [
     "R"
    ],
-   "url": "https://scryfall.com/card/war/124/devouring-hellion?utm_source=api"
+   "url": "https://scryfall.com/card/war/124/devouring-hellion?utm_source=api",
+   "oracle_text": "As Devouring Hellion enters the battlefield, you may sacrifice any number of creatures and/or planeswalkers. If you do, it enters with twice that many +1/+1 counters on it."
   },
   {
    "name": "Arid Mesa",
@@ -253,7 +273,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/mh2/244/arid-mesa?utm_source=api"
+   "url": "https://scryfall.com/card/mh2/244/arid-mesa?utm_source=api",
+   "oracle_text": "{T}, Pay 1 life, Sacrifice Arid Mesa: Search your library for a Mountain or Plains card, put it onto the battlefield, then shuffle."
   },
   {
    "name": "Bloodstained Mire",
@@ -263,7 +284,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/ktk/230/bloodstained-mire?utm_source=api"
+   "url": "https://scryfall.com/card/ktk/230/bloodstained-mire?utm_source=api",
+   "oracle_text": "{T}, Pay 1 life, Sacrifice Bloodstained Mire: Search your library for a Swamp or Mountain card, put it onto the battlefield, then shuffle."
   },
   {
    "name": "Pyroclasm",
@@ -275,7 +297,8 @@
    "colors": [
     "R"
    ],
-   "url": "https://scryfall.com/card/a25/146/pyroclasm?utm_source=api"
+   "url": "https://scryfall.com/card/a25/146/pyroclasm?utm_source=api",
+   "oracle_text": "Pyroclasm deals 2 damage to each creature."
   },
   {
    "name": "Blade of the Bloodchief",
@@ -288,7 +311,8 @@
    "cmc": 1,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/c17/204/blade-of-the-bloodchief?utm_source=api"
+   "url": "https://scryfall.com/card/c17/204/blade-of-the-bloodchief?utm_source=api",
+   "oracle_text": "Whenever a creature dies, put a +1/+1 counter on equipped creature. If equipped creature is a Vampire, put two +1/+1 counters on it instead.\nEquip {1}"
   },
   {
    "name": "Bloodghast",
@@ -304,7 +328,8 @@
    "colors": [
     "B"
    ],
-   "url": "https://scryfall.com/card/ima/82/bloodghast?utm_source=api"
+   "url": "https://scryfall.com/card/ima/82/bloodghast?utm_source=api",
+   "oracle_text": "Bloodghast can't block.\nBloodghast has haste as long as an opponent has 10 or less life.\nLandfall — Whenever a land enters the battlefield under your control, you may return Bloodghast from your graveyard to the battlefield."
   },
   {
    "name": "Festering Mummy",
@@ -319,7 +344,8 @@
    "colors": [
     "B"
    ],
-   "url": "https://scryfall.com/card/akh/91/festering-mummy?utm_source=api"
+   "url": "https://scryfall.com/card/akh/91/festering-mummy?utm_source=api",
+   "oracle_text": "When Festering Mummy dies, you may put a -1/-1 counter on target creature."
   },
   {
    "name": "Punishing Fire",
@@ -331,7 +357,8 @@
    "colors": [
     "R"
    ],
-   "url": "https://scryfall.com/card/cmd/131/punishing-fire?utm_source=api"
+   "url": "https://scryfall.com/card/cmd/131/punishing-fire?utm_source=api",
+   "oracle_text": "Punishing Fire deals 2 damage to any target.\nWhenever an opponent gains life, you may pay {R}. If you do, return Punishing Fire from your graveyard to your hand."
   },
   {
    "name": "Hellion Eruption",
@@ -343,7 +370,8 @@
    "colors": [
     "R"
    ],
-   "url": "https://scryfall.com/card/pca/45/hellion-eruption?utm_source=api"
+   "url": "https://scryfall.com/card/pca/45/hellion-eruption?utm_source=api",
+   "oracle_text": "Sacrifice all creatures you control, then create that many 4/4 red Hellion creature tokens."
   },
   {
    "name": "Rabbit Battery",
@@ -360,7 +388,8 @@
    "colors": [
     "R"
    ],
-   "url": "https://scryfall.com/card/neo/157/rabbit-battery?utm_source=api"
+   "url": "https://scryfall.com/card/neo/157/rabbit-battery?utm_source=api",
+   "oracle_text": "Haste\nEquipped creature gets +1/+1 and has haste.\nReconfigure {R} ({R}: Attach to target creature you control; or unattach from a creature. Reconfigure only as a sorcery. While attached, this isn't a creature.)"
   },
   {
    "name": "Bolas's Citadel",
@@ -373,7 +402,8 @@
    "colors": [
     "B"
    ],
-   "url": "https://scryfall.com/card/war/79/bolass-citadel?utm_source=api"
+   "url": "https://scryfall.com/card/war/79/bolass-citadel?utm_source=api",
+   "oracle_text": "You may look at the top card of your library any time.\nYou may play lands and cast spells from the top of your library. If you cast a spell this way, pay life equal to its mana value rather than pay its mana cost.\n{T}, Sacrifice ten nonland permanents: Each opponent loses 10 life."
   },
   {
    "name": "Swamp",
@@ -387,7 +417,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/201/swamp?utm_source=api"
+   "url": "https://scryfall.com/card/woe/271/swamp?utm_source=api",
+   "oracle_text": "({T}: Add {B}.)"
   },
   {
    "name": "Swamp",
@@ -401,7 +432,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/201/swamp?utm_source=api"
+   "url": "https://scryfall.com/card/woe/271/swamp?utm_source=api",
+   "oracle_text": "({T}: Add {B}.)"
   },
   {
    "name": "Swamp",
@@ -415,7 +447,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/201/swamp?utm_source=api"
+   "url": "https://scryfall.com/card/woe/271/swamp?utm_source=api",
+   "oracle_text": "({T}: Add {B}.)"
   },
   {
    "name": "Swamp",
@@ -429,7 +462,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/201/swamp?utm_source=api"
+   "url": "https://scryfall.com/card/woe/271/swamp?utm_source=api",
+   "oracle_text": "({T}: Add {B}.)"
   },
   {
    "name": "Swamp",
@@ -443,7 +477,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/201/swamp?utm_source=api"
+   "url": "https://scryfall.com/card/woe/271/swamp?utm_source=api",
+   "oracle_text": "({T}: Add {B}.)"
   },
   {
    "name": "Swamp",
@@ -457,7 +492,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/201/swamp?utm_source=api"
+   "url": "https://scryfall.com/card/woe/271/swamp?utm_source=api",
+   "oracle_text": "({T}: Add {B}.)"
   },
   {
    "name": "Swamp",
@@ -471,7 +507,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/201/swamp?utm_source=api"
+   "url": "https://scryfall.com/card/woe/271/swamp?utm_source=api",
+   "oracle_text": "({T}: Add {B}.)"
   },
   {
    "name": "Mountain",
@@ -485,7 +522,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/203/mountain?utm_source=api"
+   "url": "https://scryfall.com/card/woe/273/mountain?utm_source=api",
+   "oracle_text": "({T}: Add {R}.)"
   },
   {
    "name": "Mountain",
@@ -499,7 +537,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/203/mountain?utm_source=api"
+   "url": "https://scryfall.com/card/woe/273/mountain?utm_source=api",
+   "oracle_text": "({T}: Add {R}.)"
   },
   {
    "name": "Mountain",
@@ -513,7 +552,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/203/mountain?utm_source=api"
+   "url": "https://scryfall.com/card/woe/273/mountain?utm_source=api",
+   "oracle_text": "({T}: Add {R}.)"
   },
   {
    "name": "Mountain",
@@ -527,7 +567,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/203/mountain?utm_source=api"
+   "url": "https://scryfall.com/card/woe/273/mountain?utm_source=api",
+   "oracle_text": "({T}: Add {R}.)"
   },
   {
    "name": "Mountain",
@@ -541,7 +582,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/203/mountain?utm_source=api"
+   "url": "https://scryfall.com/card/woe/273/mountain?utm_source=api",
+   "oracle_text": "({T}: Add {R}.)"
   },
   {
    "name": "Mountain",
@@ -555,7 +597,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/203/mountain?utm_source=api"
+   "url": "https://scryfall.com/card/woe/273/mountain?utm_source=api",
+   "oracle_text": "({T}: Add {R}.)"
   },
   {
    "name": "Mountain",
@@ -569,7 +612,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/203/mountain?utm_source=api"
+   "url": "https://scryfall.com/card/woe/273/mountain?utm_source=api",
+   "oracle_text": "({T}: Add {R}.)"
   }
  ],
  "sideboard": [
@@ -587,7 +631,8 @@
    "colors": [
     "U"
    ],
-   "url": "https://scryfall.com/card/afc/86/merfolk-looter?utm_source=api"
+   "url": "https://scryfall.com/card/afc/86/merfolk-looter?utm_source=api",
+   "oracle_text": "{T}: Draw a card, then discard a card."
   },
   {
    "name": "Devoted Crop-Mate",
@@ -603,7 +648,8 @@
    "colors": [
     "W"
    ],
-   "url": "https://scryfall.com/card/akh/10/devoted-crop-mate?utm_source=api"
+   "url": "https://scryfall.com/card/akh/10/devoted-crop-mate?utm_source=api",
+   "oracle_text": "You may exert Devoted Crop-Mate as it attacks. When you do, return target creature card with mana value 2 or less from your graveyard to the battlefield. (An exerted creature won't untap during your next untap step.)"
   },
   {
    "name": "Raise the Alarm",
@@ -615,7 +661,8 @@
    "colors": [
     "W"
    ],
-   "url": "https://scryfall.com/card/cmr/41/raise-the-alarm?utm_source=api"
+   "url": "https://scryfall.com/card/cmr/41/raise-the-alarm?utm_source=api",
+   "oracle_text": "Create two 1/1 white Soldier creature tokens."
   },
   {
    "name": "Furycalm Snarl",
@@ -625,7 +672,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/moc/404/furycalm-snarl?utm_source=api"
+   "url": "https://scryfall.com/card/cmm/999/furycalm-snarl?utm_source=api",
+   "oracle_text": "As Furycalm Snarl enters the battlefield, you may reveal a Mountain or Plains card from your hand. If you don't, Furycalm Snarl enters the battlefield tapped.\n{T}: Add {R} or {W}."
   },
   {
    "name": "Isolated Chapel",
@@ -635,7 +683,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/dom/241/isolated-chapel?utm_source=api"
+   "url": "https://scryfall.com/card/dom/241/isolated-chapel?utm_source=api",
+   "oracle_text": "Isolated Chapel enters the battlefield tapped unless you control a Plains or a Swamp.\n{T}: Add {W} or {B}."
   },
   {
    "name": "Patrol Signaler",
@@ -651,7 +700,8 @@
    "colors": [
     "W"
    ],
-   "url": "https://scryfall.com/card/eve/12/patrol-signaler?utm_source=api"
+   "url": "https://scryfall.com/card/eve/12/patrol-signaler?utm_source=api",
+   "oracle_text": "{1}{W}, {Q}: Create a 1/1 white Kithkin Soldier creature token. ({Q} is the untap symbol.)"
   },
   {
    "name": "Leaden Myr",
@@ -665,7 +715,8 @@
    "cmc": 2,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/som/170/leaden-myr?utm_source=api"
+   "url": "https://scryfall.com/card/som/170/leaden-myr?utm_source=api",
+   "oracle_text": "{T}: Add {B}."
   },
   {
    "name": "Catalyst Elemental",
@@ -680,7 +731,8 @@
    "colors": [
     "R"
    ],
-   "url": "https://scryfall.com/card/m19/132/catalyst-elemental?utm_source=api"
+   "url": "https://scryfall.com/card/m19/132/catalyst-elemental?utm_source=api",
+   "oracle_text": "Sacrifice Catalyst Elemental: Add {R}{R}."
   },
   {
    "name": "Nobilis of War",
@@ -697,7 +749,8 @@
     "R",
     "W"
    ],
-   "url": "https://scryfall.com/card/mm2/195/nobilis-of-war?utm_source=api"
+   "url": "https://scryfall.com/card/mm2/195/nobilis-of-war?utm_source=api",
+   "oracle_text": "Flying\nAttacking creatures you control get +2/+0."
   },
   {
    "name": "Summoner's Egg",
@@ -711,7 +764,8 @@
    "cmc": 4,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/5dn/157/summoners-egg?utm_source=api"
+   "url": "https://scryfall.com/card/5dn/157/summoners-egg?utm_source=api",
+   "oracle_text": "Imprint — When Summoner's Egg enters the battlefield, you may exile a card from your hand face down.\nWhen Summoner's Egg dies, turn the exiled card face up. If it's a creature card, put it onto the battlefield under your control."
   },
   {
    "name": "Glory of Warfare",
@@ -724,7 +778,8 @@
     "R",
     "W"
    ],
-   "url": "https://scryfall.com/card/hop/88/glory-of-warfare?utm_source=api"
+   "url": "https://scryfall.com/card/hop/88/glory-of-warfare?utm_source=api",
+   "oracle_text": "As long as it's your turn, creatures you control get +2/+0.\nAs long as it's not your turn, creatures you control get +0/+2."
   },
   {
    "name": "Lightning Talons",
@@ -739,7 +794,8 @@
    "colors": [
     "R"
    ],
-   "url": "https://scryfall.com/card/bbd/180/lightning-talons?utm_source=api"
+   "url": "https://scryfall.com/card/bbd/180/lightning-talons?utm_source=api",
+   "oracle_text": "Enchant creature\nEnchanted creature gets +3/+0 and has first strike. (It deals combat damage before creatures without first strike.)"
   },
   {
    "name": "Trading Post",
@@ -749,7 +805,8 @@
    "cmc": 4,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/cm2/225/trading-post?utm_source=api"
+   "url": "https://scryfall.com/card/cm2/225/trading-post?utm_source=api",
+   "oracle_text": "{1}, {T}, Discard a card: You gain 4 life.\n{1}, {T}, Pay 1 life: Create a 0/1 white Goat creature token.\n{1}, {T}, Sacrifice a creature: Return target artifact card from your graveyard to your hand.\n{1}, {T}, Sacrifice an artifact: Draw a card."
   },
   {
    "name": "Angelic Intervention",
@@ -761,7 +818,8 @@
    "colors": [
     "W"
    ],
-   "url": "https://scryfall.com/card/mom/5/angelic-intervention?utm_source=api"
+   "url": "https://scryfall.com/card/mom/5/angelic-intervention?utm_source=api",
+   "oracle_text": "Target creature or planeswalker you control gains protection from colorless or from the color of your choice until end of turn. If it's a creature, put a +1/+1 counter on it. (It can't be blocked, targeted, dealt damage, enchanted, or equipped by anything with that quality.)"
   },
   {
    "name": "Chatter of the Squirrel",
@@ -773,7 +831,8 @@
    "colors": [
     "G"
    ],
-   "url": "https://scryfall.com/card/2xm/157/chatter-of-the-squirrel?utm_source=api"
+   "url": "https://scryfall.com/card/2xm/157/chatter-of-the-squirrel?utm_source=api",
+   "oracle_text": "Create a 1/1 green Squirrel creature token.\nFlashback {1}{G} (You may cast this card from your graveyard for its flashback cost. Then exile it.)"
   },
   {
    "name": "Archfiend of Ifnir",
@@ -788,7 +847,8 @@
    "colors": [
     "B"
    ],
-   "url": "https://scryfall.com/card/akh/78/archfiend-of-ifnir?utm_source=api"
+   "url": "https://scryfall.com/card/akh/78/archfiend-of-ifnir?utm_source=api",
+   "oracle_text": "Flying\nWhenever you cycle or discard another card, put a -1/-1 counter on each creature your opponents control.\nCycling {2} ({2}, Discard this card: Draw a card.)"
   },
   {
    "name": "Raven's Crime",
@@ -800,7 +860,8 @@
    "colors": [
     "B"
    ],
-   "url": "https://scryfall.com/card/mma/95/ravens-crime?utm_source=api"
+   "url": "https://scryfall.com/card/mma/95/ravens-crime?utm_source=api",
+   "oracle_text": "Target player discards a card.\nRetrace (You may cast this card from your graveyard by discarding a land card in addition to paying its other costs.)"
   },
   {
    "name": "Malfegor",
@@ -818,7 +879,8 @@
     "B",
     "R"
    ],
-   "url": "https://scryfall.com/card/ima/205/malfegor?utm_source=api"
+   "url": "https://scryfall.com/card/ima/205/malfegor?utm_source=api",
+   "oracle_text": "Flying\nWhen Malfegor enters the battlefield, discard your hand. Each opponent sacrifices a creature for each card discarded this way."
   },
   {
    "name": "Jinxed Idol",
@@ -828,7 +890,8 @@
    "cmc": 2,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/tpr/224/jinxed-idol?utm_source=api"
+   "url": "https://scryfall.com/card/tpr/224/jinxed-idol?utm_source=api",
+   "oracle_text": "At the beginning of your upkeep, Jinxed Idol deals 2 damage to you.\nSacrifice a creature: Target opponent gains control of Jinxed Idol."
   },
   {
    "name": "Flame Jab",
@@ -840,7 +903,8 @@
    "colors": [
     "R"
    ],
-   "url": "https://scryfall.com/card/ema/131/flame-jab?utm_source=api"
+   "url": "https://scryfall.com/card/ema/131/flame-jab?utm_source=api",
+   "oracle_text": "Flame Jab deals 1 damage to any target.\nRetrace (You may cast this card from your graveyard by discarding a land card in addition to paying its other costs.)"
   },
   {
    "name": "Infuriate",
@@ -852,7 +916,8 @@
    "colors": [
     "R"
    ],
-   "url": "https://scryfall.com/card/thb/141/infuriate?utm_source=api"
+   "url": "https://scryfall.com/card/thb/141/infuriate?utm_source=api",
+   "oracle_text": "Target creature gets +3/+2 until end of turn."
   }
  ]
 }

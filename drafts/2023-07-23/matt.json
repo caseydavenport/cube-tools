@@ -1,12 +1,26 @@
 {
- "labels": ["midrange", "sacrifice", "graveyard", "vampire"],
+ "labels": [
+  "midrange",
+  "sacrifice",
+  "graveyard",
+  "vampire"
+ ],
  "player": "matt",
- "date": "2023-07-07",
+ "date": "2023-07-23",
  "games": [
-    {"opponent": "casey", "winner": "casey"},
-    {"opponent": "grant", "winner": "grant"},
-    {"opponent": "jen", "winner": "jen"}
-  ],
+  {
+   "opponent": "casey",
+   "winner": "casey"
+  },
+  {
+   "opponent": "grant",
+   "winner": "grant"
+  },
+  {
+   "opponent": "jen",
+   "winner": "jen"
+  }
+ ],
  "mainboard": [
   {
    "name": "Mountain",
@@ -20,7 +34,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/203/mountain?utm_source=api"
+   "url": "https://scryfall.com/card/woe/273/mountain?utm_source=api",
+   "oracle_text": "({T}: Add {R}.)"
   },
   {
    "name": "Mountain",
@@ -34,7 +49,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/203/mountain?utm_source=api"
+   "url": "https://scryfall.com/card/woe/273/mountain?utm_source=api",
+   "oracle_text": "({T}: Add {R}.)"
   },
   {
    "name": "Sanctum Seeker",
@@ -50,7 +66,8 @@
    "colors": [
     "B"
    ],
-   "url": "https://scryfall.com/card/voc/136/sanctum-seeker?utm_source=api"
+   "url": "https://scryfall.com/card/voc/136/sanctum-seeker?utm_source=api",
+   "oracle_text": "Whenever a Vampire you control attacks, each opponent loses 1 life and you gain 1 life."
   },
   {
    "name": "Pharika's Spawn",
@@ -65,7 +82,8 @@
    "colors": [
     "B"
    ],
-   "url": "https://scryfall.com/card/thb/112/pharikas-spawn?utm_source=api"
+   "url": "https://scryfall.com/card/thb/112/pharikas-spawn?utm_source=api",
+   "oracle_text": "Escape—{5}{B}, Exile three other cards from your graveyard. (You may cast this card from your graveyard for its escape cost.)\nPharika's Spawn escapes with two +1/+1 counters on it. When it enters the battlefield this way, each opponent sacrifices a non-Gorgon creature."
   },
   {
    "name": "Verdant Catacombs",
@@ -75,7 +93,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/mh2/260/verdant-catacombs?utm_source=api"
+   "url": "https://scryfall.com/card/mh2/260/verdant-catacombs?utm_source=api",
+   "oracle_text": "{T}, Pay 1 life, Sacrifice Verdant Catacombs: Search your library for a Swamp or Forest card, put it onto the battlefield, then shuffle."
   },
   {
    "name": "The Long Reach of Night // Animus of Night's Reach",
@@ -91,7 +110,8 @@
    "cmc": 4,
    "image": "",
    "colors": null,
-   "url": "https://scryfall.com/card/neo/109/the-long-reach-of-night-animus-of-nights-reach?utm_source=api"
+   "url": "https://scryfall.com/card/neo/109/the-long-reach-of-night-animus-of-nights-reach?utm_source=api",
+   "oracle_text": ""
   },
   {
    "name": "Forest",
@@ -105,7 +125,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/205/forest?utm_source=api"
+   "url": "https://scryfall.com/card/woe/275/forest?utm_source=api",
+   "oracle_text": "({T}: Add {G}.)"
   },
   {
    "name": "Forest",
@@ -119,7 +140,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/205/forest?utm_source=api"
+   "url": "https://scryfall.com/card/woe/275/forest?utm_source=api",
+   "oracle_text": "({T}: Add {G}.)"
   },
   {
    "name": "Forest",
@@ -133,7 +155,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/205/forest?utm_source=api"
+   "url": "https://scryfall.com/card/woe/275/forest?utm_source=api",
+   "oracle_text": "({T}: Add {G}.)"
   },
   {
    "name": "Forest",
@@ -147,7 +170,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/205/forest?utm_source=api"
+   "url": "https://scryfall.com/card/woe/275/forest?utm_source=api",
+   "oracle_text": "({T}: Add {G}.)"
   },
   {
    "name": "Forest",
@@ -161,7 +185,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/205/forest?utm_source=api"
+   "url": "https://scryfall.com/card/woe/275/forest?utm_source=api",
+   "oracle_text": "({T}: Add {G}.)"
   },
   {
    "name": "Malakir Bloodwitch",
@@ -177,7 +202,8 @@
    "colors": [
     "B"
    ],
-   "url": "https://scryfall.com/card/voc/131/malakir-bloodwitch?utm_source=api"
+   "url": "https://scryfall.com/card/voc/131/malakir-bloodwitch?utm_source=api",
+   "oracle_text": "Flying, protection from white\nWhen Malakir Bloodwitch enters the battlefield, each opponent loses life equal to the number of Vampires you control. You gain life equal to the life lost this way."
   },
   {
    "name": "Chainweb Aracnir",
@@ -192,7 +218,8 @@
    "colors": [
     "G"
    ],
-   "url": "https://scryfall.com/card/thb/167/chainweb-aracnir?utm_source=api"
+   "url": "https://scryfall.com/card/thb/167/chainweb-aracnir?utm_source=api",
+   "oracle_text": "Reach\nWhen Chainweb Aracnir enters the battlefield, it deals damage equal to its power to target creature with flying an opponent controls.\nEscape—{3}{G}{G}, Exile four other cards from your graveyard. (You may cast this card from your graveyard for its escape cost.)\nChainweb Aracnir escapes with three +1/+1 counters on it."
   },
   {
    "name": "Cankerbloom",
@@ -208,7 +235,8 @@
    "colors": [
     "G"
    ],
-   "url": "https://scryfall.com/card/one/161/cankerbloom?utm_source=api"
+   "url": "https://scryfall.com/card/one/161/cankerbloom?utm_source=api",
+   "oracle_text": "{1}, Sacrifice Cankerbloom: Choose one —\n• Destroy target artifact.\n• Destroy target enchantment.\n• Proliferate. (Choose any number of permanents and/or players, then give each another counter of each kind already there.)"
   },
   {
    "name": "Uncharted Haven",
@@ -218,7 +246,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/neo/281/uncharted-haven?utm_source=api"
+   "url": "https://scryfall.com/card/neo/281/uncharted-haven?utm_source=api",
+   "oracle_text": "Uncharted Haven enters the battlefield tapped.\nAs Uncharted Haven enters the battlefield, choose a color.\n{T}: Add one mana of the chosen color."
   },
   {
    "name": "Rise from the Grave",
@@ -230,7 +259,8 @@
    "colors": [
     "B"
    ],
-   "url": "https://scryfall.com/card/znc/53/rise-from-the-grave?utm_source=api"
+   "url": "https://scryfall.com/card/znc/53/rise-from-the-grave?utm_source=api",
+   "oracle_text": "Put target creature card from a graveyard onto the battlefield under your control. That creature is a black Zombie in addition to its other colors and types."
   },
   {
    "name": "Acidic Slime",
@@ -245,7 +275,8 @@
    "colors": [
     "G"
    ],
-   "url": "https://scryfall.com/card/nec/112/acidic-slime?utm_source=api"
+   "url": "https://scryfall.com/card/cmm/270/acidic-slime?utm_source=api",
+   "oracle_text": "Deathtouch (Any amount of damage this deals to a creature is enough to destroy it.)\nWhen Acidic Slime enters the battlefield, destroy target artifact, enchantment, or land."
   },
   {
    "name": "Swamp",
@@ -259,7 +290,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/201/swamp?utm_source=api"
+   "url": "https://scryfall.com/card/woe/271/swamp?utm_source=api",
+   "oracle_text": "({T}: Add {B}.)"
   },
   {
    "name": "Swamp",
@@ -273,7 +305,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/201/swamp?utm_source=api"
+   "url": "https://scryfall.com/card/woe/271/swamp?utm_source=api",
+   "oracle_text": "({T}: Add {B}.)"
   },
   {
    "name": "Swamp",
@@ -287,7 +320,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/201/swamp?utm_source=api"
+   "url": "https://scryfall.com/card/woe/271/swamp?utm_source=api",
+   "oracle_text": "({T}: Add {B}.)"
   },
   {
    "name": "Swamp",
@@ -301,7 +335,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/201/swamp?utm_source=api"
+   "url": "https://scryfall.com/card/woe/271/swamp?utm_source=api",
+   "oracle_text": "({T}: Add {B}.)"
   },
   {
    "name": "Swamp",
@@ -315,7 +350,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/201/swamp?utm_source=api"
+   "url": "https://scryfall.com/card/woe/271/swamp?utm_source=api",
+   "oracle_text": "({T}: Add {B}.)"
   },
   {
    "name": "Swamp",
@@ -329,7 +365,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/201/swamp?utm_source=api"
+   "url": "https://scryfall.com/card/woe/271/swamp?utm_source=api",
+   "oracle_text": "({T}: Add {B}.)"
   },
   {
    "name": "Swamp",
@@ -343,7 +380,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/201/swamp?utm_source=api"
+   "url": "https://scryfall.com/card/woe/271/swamp?utm_source=api",
+   "oracle_text": "({T}: Add {B}.)"
   },
   {
    "name": "Blade of the Bloodchief",
@@ -356,7 +394,8 @@
    "cmc": 1,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/c17/204/blade-of-the-bloodchief?utm_source=api"
+   "url": "https://scryfall.com/card/c17/204/blade-of-the-bloodchief?utm_source=api",
+   "oracle_text": "Whenever a creature dies, put a +1/+1 counter on equipped creature. If equipped creature is a Vampire, put two +1/+1 counters on it instead.\nEquip {1}"
   },
   {
    "name": "Butcher of Malakir",
@@ -372,23 +411,21 @@
    "colors": [
     "B"
    ],
-   "url": "https://scryfall.com/card/pctb/15/butcher-of-malakir?utm_source=api"
+   "url": "https://scryfall.com/card/clb/741/butcher-of-malakir?utm_source=api",
+   "oracle_text": "Flying\nWhenever Butcher of Malakir or another creature you control dies, each opponent sacrifices a creature."
   },
   {
    "name": "Executioner's Capsule",
    "types": [
-    "Creature"
+    "Artifact"
    ],
-   "sub_types": [
-    "Human",
-    "Spellshaper"
-   ],
-   "cmc": 3,
+   "cmc": 1,
    "image": "",
    "colors": [
     "B"
    ],
-   "url": "https://scryfall.com/card/2xm/92/executioners-capsule"
+   "url": "https://scryfall.com/card/2xm/92/executioners-capsule?utm_source=api",
+   "oracle_text": "{1}{B}, {T}, Sacrifice Executioner's Capsule: Destroy target nonblack creature."
   },
   {
    "name": "Serpent-Blade Assailant",
@@ -404,7 +441,8 @@
    "colors": [
     "G"
    ],
-   "url": "https://scryfall.com/card/mom/205/serpent-blade-assailant?utm_source=api"
+   "url": "https://scryfall.com/card/mom/205/serpent-blade-assailant?utm_source=api",
+   "oracle_text": "Backup 1 (When this creature enters the battlefield, put a +1/+1 counter on target creature. If that's another creature, it gains the following ability until end of turn.)\nDeathtouch"
   },
   {
    "name": "Cut Down",
@@ -416,7 +454,8 @@
    "colors": [
     "B"
    ],
-   "url": "https://scryfall.com/card/dmu/89/cut-down?utm_source=api"
+   "url": "https://scryfall.com/card/dmu/89/cut-down?utm_source=api",
+   "oracle_text": "Destroy target creature with total power and toughness 5 or less."
   },
   {
    "name": "Mayhem Devil",
@@ -432,7 +471,8 @@
     "B",
     "R"
    ],
-   "url": "https://scryfall.com/card/war/204/mayhem-devil?utm_source=api"
+   "url": "https://scryfall.com/card/war/204/mayhem-devil?utm_source=api",
+   "oracle_text": "Whenever a player sacrifices a permanent, Mayhem Devil deals 1 damage to any target."
   },
   {
    "name": "Doomgape",
@@ -448,7 +488,8 @@
     "B",
     "G"
    ],
-   "url": "https://scryfall.com/card/ddj/65/doomgape?utm_source=api"
+   "url": "https://scryfall.com/card/ddj/65/doomgape?utm_source=api",
+   "oracle_text": "Trample\nAt the beginning of your upkeep, sacrifice a creature. You gain life equal to that creature's toughness."
   },
   {
    "name": "Grim Discovery",
@@ -460,7 +501,8 @@
    "colors": [
     "B"
    ],
-   "url": "https://scryfall.com/card/ddr/51/grim-discovery?utm_source=api"
+   "url": "https://scryfall.com/card/ddr/51/grim-discovery?utm_source=api",
+   "oracle_text": "Choose one or both —\n• Return target creature card from your graveyard to your hand.\n• Return target land card from your graveyard to your hand."
   },
   {
    "name": "Woodland Cemetery",
@@ -470,7 +512,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/dom/248/woodland-cemetery?utm_source=api"
+   "url": "https://scryfall.com/card/dom/248/woodland-cemetery?utm_source=api",
+   "oracle_text": "Woodland Cemetery enters the battlefield tapped unless you control a Swamp or a Forest.\n{T}: Add {B} or {G}."
   },
   {
    "name": "Nissa, Who Shakes the World",
@@ -486,7 +529,8 @@
    "colors": [
     "G"
    ],
-   "url": "https://scryfall.com/card/war/169/nissa-who-shakes-the-world?utm_source=api"
+   "url": "https://scryfall.com/card/war/169/nissa-who-shakes-the-world?utm_source=api",
+   "oracle_text": "Whenever you tap a Forest for mana, add an additional {G}.\n+1: Put three +1/+1 counters on up to one target noncreature land you control. Untap it. It becomes a 0/0 Elemental creature with vigilance and haste that's still a land.\n−8: You get an emblem with \"Lands you control have indestructible.\" Search your library for any number of Forest cards, put them onto the battlefield tapped, then shuffle."
   },
   {
    "name": "Liliana, Death's Majesty",
@@ -502,7 +546,8 @@
    "colors": [
     "B"
    ],
-   "url": "https://scryfall.com/card/mic/121/liliana-deaths-majesty?utm_source=api"
+   "url": "https://scryfall.com/card/mic/121/liliana-deaths-majesty?utm_source=api",
+   "oracle_text": "+1: Create a 2/2 black Zombie creature token. Mill two cards.\n−3: Return target creature card from your graveyard to the battlefield. That creature is a black Zombie in addition to its other colors and types.\n−7: Destroy all non-Zombie creatures."
   },
   {
    "name": "Sprout Swarm",
@@ -514,7 +559,8 @@
    "colors": [
     "G"
    ],
-   "url": "https://scryfall.com/card/fut/138/sprout-swarm?utm_source=api"
+   "url": "https://scryfall.com/card/fut/138/sprout-swarm?utm_source=api",
+   "oracle_text": "Convoke (Your creatures can help cast this spell. Each creature you tap while casting this spell pays for {1} or one mana of that creature's color.)\nBuyback {3} (You may pay an additional {3} as you cast this spell. If you do, put this card into your hand as it resolves.)\nCreate a 1/1 green Saproling creature token."
   },
   {
    "name": "Vampire Aristocrat",
@@ -531,7 +577,8 @@
    "colors": [
     "B"
    ],
-   "url": "https://scryfall.com/card/mm3/86/vampire-aristocrat?utm_source=api"
+   "url": "https://scryfall.com/card/mm3/86/vampire-aristocrat?utm_source=api",
+   "oracle_text": "Sacrifice a creature: Vampire Aristocrat gets +2/+2 until end of turn."
   },
   {
    "name": "Stitch Together",
@@ -543,7 +590,8 @@
    "colors": [
     "B"
    ],
-   "url": "https://scryfall.com/card/c18/119/stitch-together?utm_source=api"
+   "url": "https://scryfall.com/card/c18/119/stitch-together?utm_source=api",
+   "oracle_text": "Return target creature card from your graveyard to your hand.\nThreshold — Return that card from your graveyard to the battlefield instead if seven or more cards are in your graveyard."
   },
   {
    "name": "Slimefoot, the Stowaway",
@@ -560,7 +608,8 @@
     "B",
     "G"
    ],
-   "url": "https://scryfall.com/card/dom/205/slimefoot-the-stowaway?utm_source=api"
+   "url": "https://scryfall.com/card/cmm/356/slimefoot-the-stowaway?utm_source=api",
+   "oracle_text": "Whenever a Saproling you control dies, Slimefoot, the Stowaway deals 1 damage to each opponent and you gain 1 life.\n{4}: Create a 1/1 green Saproling creature token."
   },
   {
    "name": "Knight of the Ebon Legion",
@@ -576,278 +625,9 @@
    "colors": [
     "B"
    ],
-   "url": "https://scryfall.com/card/m20/105/knight-of-the-ebon-legion?utm_source=api"
+   "url": "https://scryfall.com/card/m20/105/knight-of-the-ebon-legion?utm_source=api",
+   "oracle_text": "{2}{B}: Knight of the Ebon Legion gets +3/+3 and gains deathtouch until end of turn.\nAt the beginning of your end step, if a player lost 4 or more life this turn, put a +1/+1 counter on Knight of the Ebon Legion. (Damage causes loss of life.)"
   }
  ],
- "sideboard": [
-  {
-   "name": "Avenger of Zendikar",
-   "types": [
-    "Creature"
-   ],
-   "sub_types": [
-    "Elemental"
-   ],
-   "cmc": 7,
-   "image": "",
-   "colors": [
-    "G"
-   ],
-   "url": "https://scryfall.com/card/ncc/280/avenger-of-zendikar?utm_source=api"
-  },
-  {
-   "name": "Vona's Hunger",
-   "types": [
-    "Instant"
-   ],
-   "cmc": 3,
-   "image": "",
-   "colors": [
-    "B"
-   ],
-   "url": "https://scryfall.com/card/rix/90/vonas-hunger?utm_source=api"
-  },
-  {
-   "name": "Panharmonicon",
-   "types": [
-    "Artifact"
-   ],
-   "cmc": 4,
-   "image": "",
-   "colors": [],
-   "url": "https://scryfall.com/card/2x2/310/panharmonicon?utm_source=api"
-  },
-  {
-   "name": "Jaddi Lifestrider",
-   "types": [
-    "Creature"
-   ],
-   "sub_types": [
-    "Elemental"
-   ],
-   "cmc": 5,
-   "image": "",
-   "colors": [
-    "G"
-   ],
-   "url": "https://scryfall.com/card/ddr/12/jaddi-lifestrider?utm_source=api"
-  },
-  {
-   "name": "Scavenger Drake",
-   "types": [
-    "Creature"
-   ],
-   "sub_types": [
-    "Drake"
-   ],
-   "cmc": 4,
-   "image": "",
-   "colors": [
-    "B"
-   ],
-   "url": "https://scryfall.com/card/mm2/93/scavenger-drake?utm_source=api"
-  },
-  {
-   "name": "Kronch Wrangler",
-   "types": [
-    "Creature"
-   ],
-   "sub_types": [
-    "Human",
-    "Warrior"
-   ],
-   "cmc": 2,
-   "image": "",
-   "colors": [
-    "G"
-   ],
-   "url": "https://scryfall.com/card/war/166/kronch-wrangler?utm_source=api"
-  },
-  {
-   "name": "Deathsprout",
-   "types": [
-    "Instant"
-   ],
-   "cmc": 4,
-   "image": "",
-   "colors": [
-    "B",
-    "G"
-   ],
-   "url": "https://scryfall.com/card/c20/208/deathsprout?utm_source=api"
-  },
-  {
-   "name": "Will-o'-the-Wisp",
-   "types": [
-    "Creature"
-   ],
-   "sub_types": [
-    "Spirit"
-   ],
-   "cmc": 1,
-   "image": "",
-   "colors": [
-    "B"
-   ],
-   "url": "https://scryfall.com/card/a25/115/will-o-the-wisp?utm_source=api"
-  },
-  {
-   "name": "Inspiring Cleric",
-   "types": [
-    "Creature"
-   ],
-   "sub_types": [
-    "Vampire",
-    "Cleric"
-   ],
-   "cmc": 3,
-   "image": "",
-   "colors": [
-    "W"
-   ],
-   "url": "https://scryfall.com/card/xln/16/inspiring-cleric?utm_source=api"
-  },
-  {
-   "name": "Experiment Kraj",
-   "types": [
-    "Legendary",
-    "Creature"
-   ],
-   "sub_types": [
-    "Ooze",
-    "Mutant"
-   ],
-   "cmc": 6,
-   "image": "",
-   "colors": [
-    "G",
-    "U"
-   ],
-   "url": "https://scryfall.com/card/dis/110/experiment-kraj?utm_source=api"
-  },
-  {
-   "name": "Copper Myr",
-   "types": [
-    "Artifact",
-    "Creature"
-   ],
-   "sub_types": [
-    "Myr"
-   ],
-   "cmc": 2,
-   "image": "",
-   "colors": [],
-   "url": "https://scryfall.com/card/som/146/copper-myr?utm_source=api"
-  },
-  {
-   "name": "Disfigure",
-   "types": [
-    "Instant"
-   ],
-   "cmc": 1,
-   "image": "",
-   "colors": [
-    "B"
-   ],
-   "url": "https://scryfall.com/card/bro/91/disfigure?utm_source=api"
-  },
-  {
-   "name": "Edge of Autumn",
-   "types": [
-    "Sorcery"
-   ],
-   "cmc": 2,
-   "image": "",
-   "colors": [
-    "G"
-   ],
-   "url": "https://scryfall.com/card/tsr/201/edge-of-autumn?utm_source=api"
-  },
-  {
-   "name": "Giant Growth",
-   "types": [
-    "Instant"
-   ],
-   "cmc": 1,
-   "image": "",
-   "colors": [
-    "G"
-   ],
-   "url": "https://scryfall.com/card/bro/183/giant-growth?utm_source=api"
-  },
-  {
-   "name": "Mesmeric Fiend",
-   "types": [
-    "Creature"
-   ],
-   "sub_types": [
-    "Nightmare",
-    "Horror"
-   ],
-   "cmc": 2,
-   "image": "",
-   "colors": [
-    "B"
-   ],
-   "url": "https://scryfall.com/card/a25/97/mesmeric-fiend?utm_source=api"
-  },
-  {
-   "name": "Bloodstained Mire",
-   "types": [
-    "Land"
-   ],
-   "cmc": 0,
-   "image": "",
-   "colors": [],
-   "url": "https://scryfall.com/card/ktk/230/bloodstained-mire?utm_source=api"
-  },
-  {
-   "name": "Kathari Bomber",
-   "types": [
-    "Creature"
-   ],
-   "sub_types": [
-    "Bird",
-    "Shaman"
-   ],
-   "cmc": 3,
-   "image": "",
-   "colors": [
-    "B",
-    "R"
-   ],
-   "url": "https://scryfall.com/card/mm3/172/kathari-bomber?utm_source=api"
-  },
-  {
-   "name": "Ajani Goldmane",
-   "types": [
-    "Legendary",
-    "Planeswalker"
-   ],
-   "sub_types": [
-    "Ajani"
-   ],
-   "cmc": 4,
-   "image": "",
-   "colors": [
-    "W"
-   ],
-   "url": "https://scryfall.com/card/m11/1/ajani-goldmane?utm_source=api"
-  },
-  {
-   "name": "Dark Ritual",
-   "types": [
-    "Creature"
-   ],
-   "sub_types": [
-    "Zombie"
-   ],
-   "cmc": 3,
-   "image": "",
-   "colors": [
-    "B"
-   ],
-   "url": "https://scryfall.com/card/a25/82/dark-ritual"
-  }
- ]
+ "sideboard": []
 }

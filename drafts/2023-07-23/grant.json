@@ -1,12 +1,25 @@
 {
- "labels": ["midrange", "+1/+1", "stomp"],
+ "labels": [
+  "midrange",
+  "+1/+1",
+  "stomp"
+ ],
  "player": "grant",
- "date": "2023-07-07",
+ "date": "2023-07-23",
  "games": [
-    {"opponent": "casey", "winner": "casey"},
-    {"opponent": "jen", "winner": "grant"},
-    {"opponent": "matt", "winner": "grant"}
-  ],
+  {
+   "opponent": "casey",
+   "winner": "casey"
+  },
+  {
+   "opponent": "jen",
+   "winner": "grant"
+  },
+  {
+   "opponent": "matt",
+   "winner": "grant"
+  }
+ ],
  "mainboard": [
   {
    "name": "Arbor Elf",
@@ -22,7 +35,8 @@
    "colors": [
     "G"
    ],
-   "url": "https://scryfall.com/card/a25/160/arbor-elf?utm_source=api"
+   "url": "https://scryfall.com/card/a25/160/arbor-elf?utm_source=api",
+   "oracle_text": "{T}: Untap target Forest."
   },
   {
    "name": "Untamed Kavu",
@@ -37,7 +51,8 @@
    "colors": [
     "G"
    ],
-   "url": "https://scryfall.com/card/dom/186/untamed-kavu?utm_source=api"
+   "url": "https://scryfall.com/card/dom/186/untamed-kavu?utm_source=api",
+   "oracle_text": "Kicker {3} (You may pay an additional {3} as you cast this spell.)\nVigilance, trample\nIf Untamed Kavu was kicked, it enters the battlefield with three +1/+1 counters on it."
   },
   {
    "name": "Domri's Ambush",
@@ -50,7 +65,8 @@
     "G",
     "R"
    ],
-   "url": "https://scryfall.com/card/war/192/domris-ambush?utm_source=api"
+   "url": "https://scryfall.com/card/war/192/domris-ambush?utm_source=api",
+   "oracle_text": "Put a +1/+1 counter on target creature you control. Then that creature deals damage equal to its power to target creature or planeswalker you don't control."
   },
   {
    "name": "Swords to Plowshares",
@@ -62,7 +78,8 @@
    "colors": [
     "W"
    ],
-   "url": "https://scryfall.com/card/moc/211/swords-to-plowshares?utm_source=api"
+   "url": "https://scryfall.com/card/cmm/841/swords-to-plowshares?utm_source=api",
+   "oracle_text": "Exile target creature. Its controller gains life equal to its power."
   },
   {
    "name": "Titanic Brawl",
@@ -74,7 +91,8 @@
    "colors": [
     "G"
    ],
-   "url": "https://scryfall.com/card/rna/146/titanic-brawl?utm_source=api"
+   "url": "https://scryfall.com/card/rna/146/titanic-brawl?utm_source=api",
+   "oracle_text": "This spell costs {1} less to cast if it targets a creature you control with a +1/+1 counter on it.\nTarget creature you control fights target creature you don't control. (Each deals damage equal to its power to the other.)"
   },
   {
    "name": "Mountain",
@@ -88,7 +106,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/203/mountain?utm_source=api"
+   "url": "https://scryfall.com/card/woe/273/mountain?utm_source=api",
+   "oracle_text": "({T}: Add {R}.)"
   },
   {
    "name": "Mountain",
@@ -102,7 +121,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/203/mountain?utm_source=api"
+   "url": "https://scryfall.com/card/woe/273/mountain?utm_source=api",
+   "oracle_text": "({T}: Add {R}.)"
   },
   {
    "name": "Mountain",
@@ -116,7 +136,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/203/mountain?utm_source=api"
+   "url": "https://scryfall.com/card/woe/273/mountain?utm_source=api",
+   "oracle_text": "({T}: Add {R}.)"
   },
   {
    "name": "Mountain",
@@ -130,7 +151,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/203/mountain?utm_source=api"
+   "url": "https://scryfall.com/card/woe/273/mountain?utm_source=api",
+   "oracle_text": "({T}: Add {R}.)"
   },
   {
    "name": "Misty Rainforest",
@@ -140,7 +162,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/mh2/250/misty-rainforest?utm_source=api"
+   "url": "https://scryfall.com/card/mh2/250/misty-rainforest?utm_source=api",
+   "oracle_text": "{T}, Pay 1 life, Sacrifice Misty Rainforest: Search your library for a Forest or Island card, put it onto the battlefield, then shuffle."
   },
   {
    "name": "Utopia Sprawl",
@@ -155,7 +178,8 @@
    "colors": [
     "G"
    ],
-   "url": "https://scryfall.com/card/afc/172/utopia-sprawl?utm_source=api"
+   "url": "https://scryfall.com/card/afc/172/utopia-sprawl?utm_source=api",
+   "oracle_text": "Enchant Forest\nAs Utopia Sprawl enters the battlefield, choose a color.\nWhenever enchanted Forest is tapped for mana, its controller adds an additional one mana of the chosen color."
   },
   {
    "name": "Forest",
@@ -169,7 +193,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/205/forest?utm_source=api"
+   "url": "https://scryfall.com/card/woe/275/forest?utm_source=api",
+   "oracle_text": "({T}: Add {G}.)"
   },
   {
    "name": "Forest",
@@ -183,7 +208,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/205/forest?utm_source=api"
+   "url": "https://scryfall.com/card/woe/275/forest?utm_source=api",
+   "oracle_text": "({T}: Add {G}.)"
   },
   {
    "name": "Forest",
@@ -197,7 +223,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/205/forest?utm_source=api"
+   "url": "https://scryfall.com/card/woe/275/forest?utm_source=api",
+   "oracle_text": "({T}: Add {G}.)"
   },
   {
    "name": "Forest",
@@ -211,7 +238,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/205/forest?utm_source=api"
+   "url": "https://scryfall.com/card/woe/275/forest?utm_source=api",
+   "oracle_text": "({T}: Add {G}.)"
   },
   {
    "name": "Forest",
@@ -225,7 +253,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/205/forest?utm_source=api"
+   "url": "https://scryfall.com/card/woe/275/forest?utm_source=api",
+   "oracle_text": "({T}: Add {G}.)"
   },
   {
    "name": "Domri, Anarch of Bolas",
@@ -242,7 +271,8 @@
     "G",
     "R"
    ],
-   "url": "https://scryfall.com/card/war/191/domri-anarch-of-bolas?utm_source=api"
+   "url": "https://scryfall.com/card/war/191/domri-anarch-of-bolas?utm_source=api",
+   "oracle_text": "Creatures you control get +1/+0.\n+1: Add {R} or {G}. Creature spells you cast this turn can't be countered.\n−2: Target creature you control fights target creature you don't control."
   },
   {
    "name": "Arid Mesa",
@@ -252,7 +282,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/mh2/244/arid-mesa?utm_source=api"
+   "url": "https://scryfall.com/card/mh2/244/arid-mesa?utm_source=api",
+   "oracle_text": "{T}, Pay 1 life, Sacrifice Arid Mesa: Search your library for a Mountain or Plains card, put it onto the battlefield, then shuffle."
   },
   {
    "name": "Chandra, Hope's Beacon",
@@ -268,7 +299,8 @@
    "colors": [
     "R"
    ],
-   "url": "https://scryfall.com/card/mom/134/chandra-hopes-beacon?utm_source=api"
+   "url": "https://scryfall.com/card/mom/134/chandra-hopes-beacon?utm_source=api",
+   "oracle_text": "Whenever you cast an instant or sorcery spell, copy it. You may choose new targets for the copy. This ability triggers only once each turn.\n+2: Add two mana in any combination of colors.\n+1: Exile the top five cards of your library. Until the end of your next turn, you may cast an instant or sorcery spell from among those exiled cards.\n−X: Chandra, Hope's Beacon deals X damage to each of up to two targets."
   },
   {
    "name": "Knight of the Reliquary",
@@ -285,7 +317,8 @@
     "G",
     "W"
    ],
-   "url": "https://scryfall.com/card/ima/203/knight-of-the-reliquary?utm_source=api"
+   "url": "https://scryfall.com/card/ima/203/knight-of-the-reliquary?utm_source=api",
+   "oracle_text": "Knight of the Reliquary gets +1/+1 for each land card in your graveyard.\n{T}, Sacrifice a Forest or Plains: Search your library for a land card, put it onto the battlefield, then shuffle."
   },
   {
    "name": "Pollenbright Druid",
@@ -301,7 +334,8 @@
    "colors": [
     "G"
    ],
-   "url": "https://scryfall.com/card/war/173/pollenbright-druid?utm_source=api"
+   "url": "https://scryfall.com/card/cmm/312/pollenbright-druid?utm_source=api",
+   "oracle_text": "When Pollenbright Druid enters the battlefield, choose one —\n• Put a +1/+1 counter on target creature.\n• Proliferate. (Choose any number of permanents and/or players, then give each another counter of each kind already there.)"
   },
   {
    "name": "Gilded Goose",
@@ -316,7 +350,8 @@
    "colors": [
     "G"
    ],
-   "url": "https://scryfall.com/card/moc/299/gilded-goose?utm_source=api"
+   "url": "https://scryfall.com/card/moc/299/gilded-goose?utm_source=api",
+   "oracle_text": "Flying\nWhen Gilded Goose enters the battlefield, create a Food token. (It's an artifact with \"{2}, {T}, Sacrifice this artifact: You gain 3 life.\")\n{1}{G}, {T}: Create a Food token.\n{T}, Sacrifice a Food: Add one mana of any color."
   },
   {
    "name": "Llanowar Elves",
@@ -332,7 +367,8 @@
    "colors": [
     "G"
    ],
-   "url": "https://scryfall.com/card/gnt/46/llanowar-elves?utm_source=api"
+   "url": "https://scryfall.com/card/gnt/46/llanowar-elves?utm_source=api",
+   "oracle_text": "{T}: Add {G}."
   },
   {
    "name": "Gold Myr",
@@ -346,7 +382,8 @@
    "cmc": 2,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/nec/153/gold-myr?utm_source=api"
+   "url": "https://scryfall.com/card/nec/153/gold-myr?utm_source=api",
+   "oracle_text": "{T}: Add {W}."
   },
   {
    "name": "Beast Within",
@@ -358,7 +395,8 @@
    "colors": [
     "G"
    ],
-   "url": "https://scryfall.com/card/pctb/26/beast-within?utm_source=api"
+   "url": "https://scryfall.com/card/dmc/129/beast-within?utm_source=api",
+   "oracle_text": "Destroy target permanent. Its controller creates a 3/3 green Beast creature token."
   },
   {
    "name": "Galepowder Mage",
@@ -374,7 +412,8 @@
    "colors": [
     "W"
    ],
-   "url": "https://scryfall.com/card/clb/694/galepowder-mage?utm_source=api"
+   "url": "https://scryfall.com/card/clb/694/galepowder-mage?utm_source=api",
+   "oracle_text": "Flying\nWhenever Galepowder Mage attacks, exile another target creature. Return that card to the battlefield under its owner's control at the beginning of the next end step."
   },
   {
    "name": "Sunpetal Grove",
@@ -384,7 +423,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/xln/257/sunpetal-grove?utm_source=api"
+   "url": "https://scryfall.com/card/xln/257/sunpetal-grove?utm_source=api",
+   "oracle_text": "Sunpetal Grove enters the battlefield tapped unless you control a Forest or a Plains.\n{T}: Add {G} or {W}."
   },
   {
    "name": "Spellbreaker Behemoth",
@@ -400,7 +440,8 @@
     "G",
     "R"
    ],
-   "url": "https://scryfall.com/card/c13/216/spellbreaker-behemoth?utm_source=api"
+   "url": "https://scryfall.com/card/c13/216/spellbreaker-behemoth?utm_source=api",
+   "oracle_text": "This spell can't be countered.\nCreature spells you control with power 5 or greater can't be countered."
   },
   {
    "name": "Dreadhorde Arcanist",
@@ -416,7 +457,8 @@
    "colors": [
     "R"
    ],
-   "url": "https://scryfall.com/card/war/125/dreadhorde-arcanist?utm_source=api"
+   "url": "https://scryfall.com/card/war/125/dreadhorde-arcanist?utm_source=api",
+   "oracle_text": "Trample\nWhenever Dreadhorde Arcanist attacks, you may cast target instant or sorcery card with mana value less than or equal to Dreadhorde Arcanist's power from your graveyard without paying its mana cost. If that spell would be put into your graveyard, exile it instead."
   },
   {
    "name": "Plains",
@@ -430,7 +472,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/197/plains?utm_source=api"
+   "url": "https://scryfall.com/card/woe/267/plains?utm_source=api",
+   "oracle_text": "({T}: Add {W}.)"
   },
   {
    "name": "Devoted Druid",
@@ -446,7 +489,8 @@
    "colors": [
     "G"
    ],
-   "url": "https://scryfall.com/card/2x2/143/devoted-druid?utm_source=api"
+   "url": "https://scryfall.com/card/2x2/143/devoted-druid?utm_source=api",
+   "oracle_text": "{T}: Add {G}.\nPut a -1/-1 counter on Devoted Druid: Untap Devoted Druid."
   },
   {
    "name": "Terramorphic Expanse",
@@ -456,7 +500,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/pctb/85/terramorphic-expanse?utm_source=api"
+   "url": "https://scryfall.com/card/cmm/428/terramorphic-expanse?utm_source=api",
+   "oracle_text": "{T}, Sacrifice Terramorphic Expanse: Search your library for a basic land card, put it onto the battlefield tapped, then shuffle."
   },
   {
    "name": "Scavenging Ooze",
@@ -471,7 +516,8 @@
    "colors": [
     "G"
    ],
-   "url": "https://scryfall.com/card/ncc/309/scavenging-ooze?utm_source=api"
+   "url": "https://scryfall.com/card/ncc/309/scavenging-ooze?utm_source=api",
+   "oracle_text": "{G}: Exile target card from a graveyard. If it was a creature card, put a +1/+1 counter on Scavenging Ooze and you gain 1 life."
   },
   {
    "name": "Fortified Village",
@@ -481,7 +527,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/moc/401/fortified-village?utm_source=api"
+   "url": "https://scryfall.com/card/cmm/996/fortified-village?utm_source=api",
+   "oracle_text": "As Fortified Village enters the battlefield, you may reveal a Forest or Plains card from your hand. If you don't, Fortified Village enters the battlefield tapped.\n{T}: Add {G} or {W}."
   },
   {
    "name": "Siege-Gang Commander",
@@ -496,7 +543,8 @@
    "colors": [
     "R"
    ],
-   "url": "https://scryfall.com/card/gnt/42/siege-gang-commander?utm_source=api"
+   "url": "https://scryfall.com/card/gnt/42/siege-gang-commander?utm_source=api",
+   "oracle_text": "When Siege-Gang Commander enters the battlefield, create three 1/1 red Goblin creature tokens.\n{1}{R}, Sacrifice a Goblin: Siege-Gang Commander deals 2 damage to any target."
   },
   {
    "name": "Marwyn, the Nurturer",
@@ -513,7 +561,8 @@
    "colors": [
     "G"
    ],
-   "url": "https://scryfall.com/card/khc/68/marwyn-the-nurturer?utm_source=api"
+   "url": "https://scryfall.com/card/khc/68/marwyn-the-nurturer?utm_source=api",
+   "oracle_text": "Whenever another Elf enters the battlefield under your control, put a +1/+1 counter on Marwyn, the Nurturer.\n{T}: Add an amount of {G} equal to Marwyn's power."
   },
   {
    "name": "Groundswell",
@@ -525,7 +574,8 @@
    "colors": [
     "G"
    ],
-   "url": "https://scryfall.com/card/ddp/15/groundswell?utm_source=api"
+   "url": "https://scryfall.com/card/ddp/15/groundswell?utm_source=api",
+   "oracle_text": "Target creature gets +2/+2 until end of turn.\nLandfall — If you had a land enter the battlefield under your control this turn, that creature gets +4/+4 until end of turn instead."
   },
   {
    "name": "Overrun",
@@ -537,7 +587,8 @@
    "colors": [
     "G"
    ],
-   "url": "https://scryfall.com/card/cma/130/overrun?utm_source=api"
+   "url": "https://scryfall.com/card/cma/130/overrun?utm_source=api",
+   "oracle_text": "Creatures you control get +3/+3 and gain trample until end of turn."
   },
   {
    "name": "Jiang Yanggu, Wildcrafter",
@@ -553,7 +604,8 @@
    "colors": [
     "G"
    ],
-   "url": "https://scryfall.com/card/war/164/jiang-yanggu-wildcrafter?utm_source=api"
+   "url": "https://scryfall.com/card/war/164/jiang-yanggu-wildcrafter?utm_source=api",
+   "oracle_text": "Each creature you control with a +1/+1 counter on it has \"{T}: Add one mana of any color.\"\n−1: Put a +1/+1 counter on target creature."
   },
   {
    "name": "Flooded Strand",
@@ -563,216 +615,9 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/ktk/233/flooded-strand?utm_source=api"
+   "url": "https://scryfall.com/card/ktk/233/flooded-strand?utm_source=api",
+   "oracle_text": "{T}, Pay 1 life, Sacrifice Flooded Strand: Search your library for a Plains or Island card, put it onto the battlefield, then shuffle."
   }
  ],
- "sideboard": [
-  {
-   "name": "Anointed Procession",
-   "types": [
-    "Enchantment"
-   ],
-   "cmc": 4,
-   "image": "",
-   "colors": [
-    "W"
-   ],
-   "url": "https://scryfall.com/card/akh/2/anointed-procession?utm_source=api"
-  },
-  {
-   "name": "Bolt Bend",
-   "types": [
-    "Instant"
-   ],
-   "cmc": 4,
-   "image": "",
-   "colors": [
-    "R"
-   ],
-   "url": "https://scryfall.com/card/war/115/bolt-bend?utm_source=api"
-  },
-  {
-   "name": "Reckless Rage",
-   "types": [
-    "Instant"
-   ],
-   "cmc": 1,
-   "image": "",
-   "colors": [
-    "R"
-   ],
-   "url": "https://scryfall.com/card/rix/110/reckless-rage?utm_source=api"
-  },
-  {
-   "name": "Bolas's Citadel",
-   "types": [
-    "Legendary",
-    "Artifact"
-   ],
-   "cmc": 6,
-   "image": "",
-   "colors": [
-    "B"
-   ],
-   "url": "https://scryfall.com/card/war/79/bolass-citadel?utm_source=api"
-  },
-  {
-   "name": "Port Town",
-   "types": [
-    "Land"
-   ],
-   "cmc": 0,
-   "image": "",
-   "colors": [],
-   "url": "https://scryfall.com/card/moc/419/port-town?utm_source=api"
-  },
-  {
-   "name": "Leaden Myr",
-   "types": [
-    "Artifact",
-    "Creature"
-   ],
-   "sub_types": [
-    "Myr"
-   ],
-   "cmc": 2,
-   "image": "",
-   "colors": [],
-   "url": "https://scryfall.com/card/som/170/leaden-myr?utm_source=api"
-  },
-  {
-   "name": "Kitchen Finks",
-   "types": [
-    "Creature"
-   ],
-   "sub_types": [
-    "Ouphe"
-   ],
-   "cmc": 3,
-   "image": "",
-   "colors": [
-    "G",
-    "W"
-   ],
-   "url": "https://scryfall.com/card/uma/216/kitchen-finks?utm_source=api"
-  },
-  {
-   "name": "Containment Construct",
-   "types": [
-    "Artifact",
-    "Creature"
-   ],
-   "sub_types": [
-    "Construct"
-   ],
-   "cmc": 2,
-   "image": "",
-   "colors": [],
-   "url": "https://scryfall.com/card/neo/243/containment-construct?utm_source=api"
-  },
-  {
-   "name": "Chatter of the Squirrel",
-   "types": [
-    "Sorcery"
-   ],
-   "cmc": 1,
-   "image": "",
-   "colors": [
-    "G"
-   ],
-   "url": "https://scryfall.com/card/2xm/157/chatter-of-the-squirrel?utm_source=api"
-  },
-  {
-   "name": "Catalyst Elemental",
-   "types": [
-    "Creature"
-   ],
-   "sub_types": [
-    "Elemental"
-   ],
-   "cmc": 3,
-   "image": "",
-   "colors": [
-    "R"
-   ],
-   "url": "https://scryfall.com/card/m19/132/catalyst-elemental?utm_source=api"
-  },
-  {
-   "name": "Kor Sanctifiers",
-   "types": [
-    "Creature"
-   ],
-   "sub_types": [
-    "Kor",
-    "Cleric"
-   ],
-   "cmc": 3,
-   "image": "",
-   "colors": [
-    "W"
-   ],
-   "url": "https://scryfall.com/card/c15/73/kor-sanctifiers?utm_source=api"
-  },
-  {
-   "name": "Angel of Salvation",
-   "types": [
-    "Creature"
-   ],
-   "sub_types": [
-    "Angel"
-   ],
-   "cmc": 8,
-   "image": "",
-   "colors": [
-    "W"
-   ],
-   "url": "https://scryfall.com/card/moc/170/angel-of-salvation?utm_source=api"
-  },
-  {
-   "name": "Mana Leak",
-   "types": [
-    "Instant"
-   ],
-   "cmc": 2,
-   "image": "",
-   "colors": [
-    "U"
-   ],
-   "url": "https://scryfall.com/card/2x2/58/mana-leak?utm_source=api"
-  },
-  {
-   "name": "Lightning Bolt",
-   "types": [
-    "Instant"
-   ],
-   "cmc": 1,
-   "image": "",
-   "colors": [
-    "R"
-   ],
-   "url": "https://scryfall.com/card/2x2/117/lightning-bolt?utm_source=api"
-  },
-  {
-   "name": "Puncture Blast",
-   "types": [
-    "Instant"
-   ],
-   "cmc": 3,
-   "image": "",
-   "colors": [
-    "R"
-   ],
-   "url": "https://scryfall.com/card/eve/60/puncture-blast?utm_source=api"
-  },
-  {
-   "name": "Flooded Strand",
-   "types": [
-    "Land"
-   ],
-   "cmc": 0,
-   "image": "",
-   "colors": [],
-   "url": "https://scryfall.com/card/ktk/233/flooded-strand?utm_source=api"
-  }
- ]
+ "sideboard": []
 }

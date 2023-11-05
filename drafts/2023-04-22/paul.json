@@ -1,10 +1,13 @@
 {
- "labels": ["stomp", "midrange"],
+ "labels": [
+  "stomp",
+  "midrange"
+ ],
  "player": "paul",
  "date": "2023-04-22",
+ "games": null,
  "wins": 1,
  "losses": 1,
- "ties": 0,
  "mainboard": [
   {
    "name": "Darksteel Colossus",
@@ -18,7 +21,8 @@
    "cmc": 11,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/m10/208/darksteel-colossus?utm_source=api"
+   "url": "https://scryfall.com/card/m10/208/darksteel-colossus?utm_source=api",
+   "oracle_text": "Trample, indestructible\nIf Darksteel Colossus would be put into a graveyard from anywhere, reveal Darksteel Colossus and shuffle it into its owner's library instead."
   },
   {
    "name": "Marwyn, the Nurturer",
@@ -35,7 +39,8 @@
    "colors": [
     "G"
    ],
-   "url": "https://scryfall.com/card/khc/68/marwyn-the-nurturer?utm_source=api"
+   "url": "https://scryfall.com/card/khc/68/marwyn-the-nurturer?utm_source=api",
+   "oracle_text": "Whenever another Elf enters the battlefield under your control, put a +1/+1 counter on Marwyn, the Nurturer.\n{T}: Add an amount of {G} equal to Marwyn's power."
   },
   {
    "name": "Obstinate Baloth",
@@ -50,7 +55,8 @@
    "colors": [
     "G"
    ],
-   "url": "https://scryfall.com/card/bro/187/obstinate-baloth?utm_source=api"
+   "url": "https://scryfall.com/card/bro/187/obstinate-baloth?utm_source=api",
+   "oracle_text": "When Obstinate Baloth enters the battlefield, you gain 4 life.\nIf a spell or ability an opponent controls causes you to discard Obstinate Baloth, put it onto the battlefield instead of putting it into your graveyard."
   },
   {
    "name": "Nissa, Who Shakes the World",
@@ -66,7 +72,8 @@
    "colors": [
     "G"
    ],
-   "url": "https://scryfall.com/card/war/169/nissa-who-shakes-the-world?utm_source=api"
+   "url": "https://scryfall.com/card/war/169/nissa-who-shakes-the-world?utm_source=api",
+   "oracle_text": "Whenever you tap a Forest for mana, add an additional {G}.\n+1: Put three +1/+1 counters on up to one target noncreature land you control. Untap it. It becomes a 0/0 Elemental creature with vigilance and haste that's still a land.\n−8: You get an emblem with \"Lands you control have indestructible.\" Search your library for any number of Forest cards, put them onto the battlefield tapped, then shuffle."
   },
   {
    "name": "Ward of Bones",
@@ -76,7 +83,8 @@
    "cmc": 6,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/eve/174/ward-of-bones?utm_source=api"
+   "url": "https://scryfall.com/card/eve/174/ward-of-bones?utm_source=api",
+   "oracle_text": "Each opponent who controls more creatures than you can't cast creature spells. The same is true for artifacts and enchantments.\nEach opponent who controls more lands than you can't play lands."
   },
   {
    "name": "Oblivion Ring",
@@ -88,7 +96,8 @@
    "colors": [
     "W"
    ],
-   "url": "https://scryfall.com/card/mm2/29/oblivion-ring?utm_source=api"
+   "url": "https://scryfall.com/card/mm2/29/oblivion-ring?utm_source=api",
+   "oracle_text": "When Oblivion Ring enters the battlefield, exile another target nonland permanent.\nWhen Oblivion Ring leaves the battlefield, return the exiled card to the battlefield under its owner's control."
   },
   {
    "name": "Mindslaver",
@@ -99,7 +108,8 @@
    "cmc": 6,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/som/176/mindslaver?utm_source=api"
+   "url": "https://scryfall.com/card/som/176/mindslaver?utm_source=api",
+   "oracle_text": "{4}, {T}, Sacrifice Mindslaver: You control target player during that player's next turn. (You see all cards that player could see and make all decisions for the player.)"
   },
   {
    "name": "Turntimber Basilisk",
@@ -114,7 +124,8 @@
    "colors": [
     "G"
    ],
-   "url": "https://scryfall.com/card/e01/76/turntimber-basilisk?utm_source=api"
+   "url": "https://scryfall.com/card/e01/76/turntimber-basilisk?utm_source=api",
+   "oracle_text": "Deathtouch (Any amount of damage this deals to a creature is enough to destroy it.)\nLandfall — Whenever a land enters the battlefield under your control, you may have target creature block Turntimber Basilisk this turn if able."
   },
   {
    "name": "Growing Rites of Itlimoc // Itlimoc, Cradle of the Sun",
@@ -128,7 +139,8 @@
    "cmc": 3,
    "image": "",
    "colors": null,
-   "url": "https://scryfall.com/card/xln/191/growing-rites-of-itlimoc-itlimoc-cradle-of-the-sun?utm_source=api"
+   "url": "https://scryfall.com/card/xln/191/growing-rites-of-itlimoc-itlimoc-cradle-of-the-sun?utm_source=api",
+   "oracle_text": ""
   },
   {
    "name": "Loxodon Warhammer",
@@ -141,7 +153,8 @@
    "cmc": 3,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/c21/249/loxodon-warhammer?utm_source=api"
+   "url": "https://scryfall.com/card/c21/249/loxodon-warhammer?utm_source=api",
+   "oracle_text": "Equipped creature gets +3/+0 and has trample and lifelink.\nEquip {3}"
   },
   {
    "name": "Acidic Slime",
@@ -156,7 +169,8 @@
    "colors": [
     "G"
    ],
-   "url": "https://scryfall.com/card/nec/112/acidic-slime?utm_source=api"
+   "url": "https://scryfall.com/card/cmm/270/acidic-slime?utm_source=api",
+   "oracle_text": "Deathtouch (Any amount of damage this deals to a creature is enough to destroy it.)\nWhen Acidic Slime enters the battlefield, destroy target artifact, enchantment, or land."
   },
   {
    "name": "Kitchen Finks",
@@ -172,7 +186,8 @@
     "G",
     "W"
    ],
-   "url": "https://scryfall.com/card/uma/216/kitchen-finks?utm_source=api"
+   "url": "https://scryfall.com/card/uma/216/kitchen-finks?utm_source=api",
+   "oracle_text": "When Kitchen Finks enters the battlefield, you gain 2 life.\nPersist (When this creature dies, if it had no -1/-1 counters on it, return it to the battlefield under its owner's control with a -1/-1 counter on it.)"
   },
   {
    "name": "Llanowar Elves",
@@ -188,7 +203,8 @@
    "colors": [
     "G"
    ],
-   "url": "https://scryfall.com/card/gnt/46/llanowar-elves?utm_source=api"
+   "url": "https://scryfall.com/card/gnt/46/llanowar-elves?utm_source=api",
+   "oracle_text": "{T}: Add {G}."
   },
   {
    "name": "Uncharted Haven",
@@ -198,7 +214,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/neo/281/uncharted-haven?utm_source=api"
+   "url": "https://scryfall.com/card/neo/281/uncharted-haven?utm_source=api",
+   "oracle_text": "Uncharted Haven enters the battlefield tapped.\nAs Uncharted Haven enters the battlefield, choose a color.\n{T}: Add one mana of the chosen color."
   },
   {
    "name": "Plains",
@@ -212,7 +229,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/197/plains?utm_source=api"
+   "url": "https://scryfall.com/card/woe/267/plains?utm_source=api",
+   "oracle_text": "({T}: Add {W}.)"
   },
   {
    "name": "Plains",
@@ -226,7 +244,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/197/plains?utm_source=api"
+   "url": "https://scryfall.com/card/woe/267/plains?utm_source=api",
+   "oracle_text": "({T}: Add {W}.)"
   },
   {
    "name": "Plains",
@@ -240,7 +259,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/197/plains?utm_source=api"
+   "url": "https://scryfall.com/card/woe/267/plains?utm_source=api",
+   "oracle_text": "({T}: Add {W}.)"
   },
   {
    "name": "Plains",
@@ -254,7 +274,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/197/plains?utm_source=api"
+   "url": "https://scryfall.com/card/woe/267/plains?utm_source=api",
+   "oracle_text": "({T}: Add {W}.)"
   },
   {
    "name": "Plains",
@@ -268,7 +289,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/197/plains?utm_source=api"
+   "url": "https://scryfall.com/card/woe/267/plains?utm_source=api",
+   "oracle_text": "({T}: Add {W}.)"
   },
   {
    "name": "Plains",
@@ -282,7 +304,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/197/plains?utm_source=api"
+   "url": "https://scryfall.com/card/woe/267/plains?utm_source=api",
+   "oracle_text": "({T}: Add {W}.)"
   },
   {
    "name": "Plains",
@@ -296,7 +319,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/197/plains?utm_source=api"
+   "url": "https://scryfall.com/card/woe/267/plains?utm_source=api",
+   "oracle_text": "({T}: Add {W}.)"
   },
   {
    "name": "Plains",
@@ -310,7 +334,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/197/plains?utm_source=api"
+   "url": "https://scryfall.com/card/woe/267/plains?utm_source=api",
+   "oracle_text": "({T}: Add {W}.)"
   },
   {
    "name": "Plains",
@@ -324,7 +349,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/197/plains?utm_source=api"
+   "url": "https://scryfall.com/card/woe/267/plains?utm_source=api",
+   "oracle_text": "({T}: Add {W}.)"
   },
   {
    "name": "Grappling Hook",
@@ -337,7 +363,8 @@
    "cmc": 4,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/c17/212/grappling-hook?utm_source=api"
+   "url": "https://scryfall.com/card/c17/212/grappling-hook?utm_source=api",
+   "oracle_text": "Equipped creature has double strike.\nWhenever equipped creature attacks, you may have target creature block it this turn if able.\nEquip {4}"
   },
   {
    "name": "Forest",
@@ -351,7 +378,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/205/forest?utm_source=api"
+   "url": "https://scryfall.com/card/woe/275/forest?utm_source=api",
+   "oracle_text": "({T}: Add {G}.)"
   },
   {
    "name": "Forest",
@@ -365,7 +393,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/205/forest?utm_source=api"
+   "url": "https://scryfall.com/card/woe/275/forest?utm_source=api",
+   "oracle_text": "({T}: Add {G}.)"
   },
   {
    "name": "Forest",
@@ -379,7 +408,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/205/forest?utm_source=api"
+   "url": "https://scryfall.com/card/woe/275/forest?utm_source=api",
+   "oracle_text": "({T}: Add {G}.)"
   },
   {
    "name": "Forest",
@@ -393,7 +423,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/205/forest?utm_source=api"
+   "url": "https://scryfall.com/card/woe/275/forest?utm_source=api",
+   "oracle_text": "({T}: Add {G}.)"
   },
   {
    "name": "Forest",
@@ -407,7 +438,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/205/forest?utm_source=api"
+   "url": "https://scryfall.com/card/woe/275/forest?utm_source=api",
+   "oracle_text": "({T}: Add {G}.)"
   },
   {
    "name": "Forest",
@@ -421,7 +453,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/205/forest?utm_source=api"
+   "url": "https://scryfall.com/card/woe/275/forest?utm_source=api",
+   "oracle_text": "({T}: Add {G}.)"
   },
   {
    "name": "Forest",
@@ -435,7 +468,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/205/forest?utm_source=api"
+   "url": "https://scryfall.com/card/woe/275/forest?utm_source=api",
+   "oracle_text": "({T}: Add {G}.)"
   },
   {
    "name": "Forest",
@@ -449,7 +483,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/205/forest?utm_source=api"
+   "url": "https://scryfall.com/card/woe/275/forest?utm_source=api",
+   "oracle_text": "({T}: Add {G}.)"
   },
   {
    "name": "Forest",
@@ -463,7 +498,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/205/forest?utm_source=api"
+   "url": "https://scryfall.com/card/woe/275/forest?utm_source=api",
+   "oracle_text": "({T}: Add {G}.)"
   },
   {
    "name": "Soul Warden",
@@ -479,7 +515,8 @@
    "colors": [
     "W"
    ],
-   "url": "https://scryfall.com/card/mm3/24/soul-warden?utm_source=api"
+   "url": "https://scryfall.com/card/mm3/24/soul-warden?utm_source=api",
+   "oracle_text": "Whenever another creature enters the battlefield, you gain 1 life."
   },
   {
    "name": "Arasta of the Endless Web",
@@ -496,7 +533,8 @@
    "colors": [
     "G"
    ],
-   "url": "https://scryfall.com/card/clb/817/arasta-of-the-endless-web?utm_source=api"
+   "url": "https://scryfall.com/card/cmm/885/arasta-of-the-endless-web?utm_source=api",
+   "oracle_text": "Reach\nWhenever an opponent casts an instant or sorcery spell, create a 1/2 green Spider creature token with reach."
   },
   {
    "name": "Unmake",
@@ -509,7 +547,8 @@
     "B",
     "W"
    ],
-   "url": "https://scryfall.com/card/ddk/27/unmake?utm_source=api"
+   "url": "https://scryfall.com/card/ddk/27/unmake?utm_source=api",
+   "oracle_text": "Exile target creature."
   },
   {
    "name": "Swords to Plowshares",
@@ -521,7 +560,8 @@
    "colors": [
     "W"
    ],
-   "url": "https://scryfall.com/card/moc/211/swords-to-plowshares?utm_source=api"
+   "url": "https://scryfall.com/card/cmm/841/swords-to-plowshares?utm_source=api",
+   "oracle_text": "Exile target creature. Its controller gains life equal to its power."
   },
   {
    "name": "Day of Judgment",
@@ -533,7 +573,8 @@
    "colors": [
     "W"
    ],
-   "url": "https://scryfall.com/card/m12/12/day-of-judgment?utm_source=api"
+   "url": "https://scryfall.com/card/m12/12/day-of-judgment?utm_source=api",
+   "oracle_text": "Destroy all creatures."
   },
   {
    "name": "Prison Term",
@@ -548,7 +589,8 @@
    "colors": [
     "W"
    ],
-   "url": "https://scryfall.com/card/cmd/27/prison-term?utm_source=api"
+   "url": "https://scryfall.com/card/cmd/27/prison-term?utm_source=api",
+   "oracle_text": "Enchant creature\nEnchanted creature can't attack or block, and its activated abilities can't be activated.\nWhenever a creature enters the battlefield under an opponent's control, you may attach Prison Term to that creature."
   },
   {
    "name": "Arbor Elf",
@@ -564,7 +606,8 @@
    "colors": [
     "G"
    ],
-   "url": "https://scryfall.com/card/a25/160/arbor-elf?utm_source=api"
+   "url": "https://scryfall.com/card/a25/160/arbor-elf?utm_source=api",
+   "oracle_text": "{T}: Untap target Forest."
   }
  ],
  "sideboard": []

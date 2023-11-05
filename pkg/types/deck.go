@@ -20,6 +20,10 @@ type Deck struct {
 	// Games played with this deck.
 	Games []Game `json:"games"`
 
+	// Legacy fields.
+	Wins   int `json:"wins,omitempty"`
+	Losses int `json:"losses,omitempty"`
+
 	// Cards in the mainboard.
 	Mainboard []Card `json:"mainboard"`
 	Sideboard []Card `json:"sideboard"`

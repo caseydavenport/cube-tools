@@ -4,13 +4,14 @@ import "strings"
 
 // Basic representation of a card.
 type Card struct {
-	Name     string   `json:"name"`
-	Types    []string `json:"types,omitempty"`
-	SubTypes []string `json:"sub_types,omitempty"`
-	CMC      int      `json:"cmc"`
-	Image    string   `json:"image"`
-	Colors   []string `json:"colors"`
-	URL      string   `json:"url"`
+	Name       string   `json:"name"`
+	Types      []string `json:"types,omitempty"`
+	SubTypes   []string `json:"sub_types,omitempty"`
+	CMC        int      `json:"cmc"`
+	Image      string   `json:"image"`
+	Colors     []string `json:"colors"`
+	URL        string   `json:"url"`
+	OracleText string   `json:"oracle_text"`
 }
 
 func FromOracle(o OracleCard) Card {
@@ -30,6 +31,7 @@ func FromOracle(o OracleCard) Card {
 
 	c.Colors = o.Colors
 	c.URL = o.ScryfallURI
+	c.OracleText = o.OracleText
 
 	return c
 }

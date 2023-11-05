@@ -1,10 +1,12 @@
 {
- "labels": ["control"],
+ "labels": [
+  "control"
+ ],
  "player": "paul",
  "date": "2023-04-24",
+ "games": null,
  "wins": 2,
  "losses": 1,
- "ties": 0,
  "mainboard": [
   {
    "name": "Tibalt, Rakish Instigator",
@@ -20,7 +22,8 @@
    "colors": [
     "R"
    ],
-   "url": "https://scryfall.com/card/war/146/tibalt-rakish-instigator?utm_source=api"
+   "url": "https://scryfall.com/card/war/146/tibalt-rakish-instigator?utm_source=api",
+   "oracle_text": "Your opponents can't gain life.\n−2: Create a 1/1 red Devil creature token with \"When this creature dies, it deals 1 damage to any target.\""
   },
   {
    "name": "Doom Blade",
@@ -32,7 +35,8 @@
    "colors": [
     "B"
    ],
-   "url": "https://scryfall.com/card/ima/87/doom-blade?utm_source=api"
+   "url": "https://scryfall.com/card/ima/87/doom-blade?utm_source=api",
+   "oracle_text": "Destroy target nonblack creature."
   },
   {
    "name": "Fateful End",
@@ -44,7 +48,8 @@
    "colors": [
     "R"
    ],
-   "url": "https://scryfall.com/card/thb/133/fateful-end?utm_source=api"
+   "url": "https://scryfall.com/card/thb/133/fateful-end?utm_source=api",
+   "oracle_text": "Fateful End deals 3 damage to any target. Scry 1."
   },
   {
    "name": "Liliana, Death's Majesty",
@@ -60,7 +65,8 @@
    "colors": [
     "B"
    ],
-   "url": "https://scryfall.com/card/mic/121/liliana-deaths-majesty?utm_source=api"
+   "url": "https://scryfall.com/card/mic/121/liliana-deaths-majesty?utm_source=api",
+   "oracle_text": "+1: Create a 2/2 black Zombie creature token. Mill two cards.\n−3: Return target creature card from your graveyard to the battlefield. That creature is a black Zombie in addition to its other colors and types.\n−7: Destroy all non-Zombie creatures."
   },
   {
    "name": "Punishing Fire",
@@ -72,7 +78,8 @@
    "colors": [
     "R"
    ],
-   "url": "https://scryfall.com/card/cmd/131/punishing-fire?utm_source=api"
+   "url": "https://scryfall.com/card/cmd/131/punishing-fire?utm_source=api",
+   "oracle_text": "Punishing Fire deals 2 damage to any target.\nWhenever an opponent gains life, you may pay {R}. If you do, return Punishing Fire from your graveyard to your hand."
   },
   {
    "name": "Siege-Gang Commander",
@@ -87,7 +94,8 @@
    "colors": [
     "R"
    ],
-   "url": "https://scryfall.com/card/gnt/42/siege-gang-commander?utm_source=api"
+   "url": "https://scryfall.com/card/gnt/42/siege-gang-commander?utm_source=api",
+   "oracle_text": "When Siege-Gang Commander enters the battlefield, create three 1/1 red Goblin creature tokens.\n{1}{R}, Sacrifice a Goblin: Siege-Gang Commander deals 2 damage to any target."
   },
   {
    "name": "Dark Ritual",
@@ -99,7 +107,8 @@
    "colors": [
     "B"
    ],
-   "url": "https://scryfall.com/card/a25/82/dark-ritual?utm_source=api"
+   "url": "https://scryfall.com/card/a25/82/dark-ritual?utm_source=api",
+   "oracle_text": "Add {B}{B}{B}."
   },
   {
    "name": "Murderous Redcap",
@@ -116,7 +125,8 @@
     "B",
     "R"
    ],
-   "url": "https://scryfall.com/card/uma/217/murderous-redcap?utm_source=api"
+   "url": "https://scryfall.com/card/uma/217/murderous-redcap?utm_source=api",
+   "oracle_text": "When Murderous Redcap enters the battlefield, it deals damage equal to its power to any target.\nPersist (When this creature dies, if it had no -1/-1 counters on it, return it to the battlefield under its owner's control with a -1/-1 counter on it.)"
   },
   {
    "name": "Catalyst Elemental",
@@ -131,7 +141,8 @@
    "colors": [
     "R"
    ],
-   "url": "https://scryfall.com/card/m19/132/catalyst-elemental?utm_source=api"
+   "url": "https://scryfall.com/card/m19/132/catalyst-elemental?utm_source=api",
+   "oracle_text": "Sacrifice Catalyst Elemental: Add {R}{R}."
   },
   {
    "name": "Vampire Hexmage",
@@ -147,7 +158,8 @@
    "colors": [
     "B"
    ],
-   "url": "https://scryfall.com/card/2xm/112/vampire-hexmage?utm_source=api"
+   "url": "https://scryfall.com/card/2xm/112/vampire-hexmage?utm_source=api",
+   "oracle_text": "First strike\nSacrifice Vampire Hexmage: Remove all counters from target permanent."
   },
   {
    "name": "Witch's Mist",
@@ -159,7 +171,8 @@
    "colors": [
     "B"
    ],
-   "url": "https://scryfall.com/card/fut/92/witchs-mist?utm_source=api"
+   "url": "https://scryfall.com/card/fut/92/witchs-mist?utm_source=api",
+   "oracle_text": "{2}{B}, {T}: Destroy target creature that was dealt damage this turn."
   },
   {
    "name": "Hellkite Charger",
@@ -174,7 +187,8 @@
    "colors": [
     "R"
    ],
-   "url": "https://scryfall.com/card/c17/138/hellkite-charger?utm_source=api"
+   "url": "https://scryfall.com/card/cmm/232/hellkite-charger?utm_source=api",
+   "oracle_text": "Flying, haste\nWhenever Hellkite Charger attacks, you may pay {5}{R}{R}. If you do, untap all attacking creatures and after this phase, there is an additional combat phase."
   },
   {
    "name": "Malfegor",
@@ -192,7 +206,8 @@
     "B",
     "R"
    ],
-   "url": "https://scryfall.com/card/ima/205/malfegor?utm_source=api"
+   "url": "https://scryfall.com/card/ima/205/malfegor?utm_source=api",
+   "oracle_text": "Flying\nWhen Malfegor enters the battlefield, discard your hand. Each opponent sacrifices a creature for each card discarded this way."
   },
   {
    "name": "Loxodon Warhammer",
@@ -205,7 +220,8 @@
    "cmc": 3,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/c21/249/loxodon-warhammer?utm_source=api"
+   "url": "https://scryfall.com/card/c21/249/loxodon-warhammer?utm_source=api",
+   "oracle_text": "Equipped creature gets +3/+0 and has trample and lifelink.\nEquip {3}"
   },
   {
    "name": "Fury Charm",
@@ -217,7 +233,8 @@
    "colors": [
     "R"
    ],
-   "url": "https://scryfall.com/card/ima/130/fury-charm?utm_source=api"
+   "url": "https://scryfall.com/card/ima/130/fury-charm?utm_source=api",
+   "oracle_text": "Choose one —\n• Destroy target artifact.\n• Target creature gets +1/+1 and gains trample until end of turn.\n• Remove two time counters from target permanent or suspended card."
   },
   {
    "name": "Assassinate",
@@ -229,7 +246,8 @@
    "colors": [
     "B"
    ],
-   "url": "https://scryfall.com/card/tsr/101/assassinate?utm_source=api"
+   "url": "https://scryfall.com/card/tsr/101/assassinate?utm_source=api",
+   "oracle_text": "Destroy target tapped creature."
   },
   {
    "name": "Swamp",
@@ -243,7 +261,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/201/swamp?utm_source=api"
+   "url": "https://scryfall.com/card/woe/271/swamp?utm_source=api",
+   "oracle_text": "({T}: Add {B}.)"
   },
   {
    "name": "Swamp",
@@ -257,7 +276,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/201/swamp?utm_source=api"
+   "url": "https://scryfall.com/card/woe/271/swamp?utm_source=api",
+   "oracle_text": "({T}: Add {B}.)"
   },
   {
    "name": "Swamp",
@@ -271,7 +291,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/201/swamp?utm_source=api"
+   "url": "https://scryfall.com/card/woe/271/swamp?utm_source=api",
+   "oracle_text": "({T}: Add {B}.)"
   },
   {
    "name": "Swamp",
@@ -285,7 +306,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/201/swamp?utm_source=api"
+   "url": "https://scryfall.com/card/woe/271/swamp?utm_source=api",
+   "oracle_text": "({T}: Add {B}.)"
   },
   {
    "name": "Swamp",
@@ -299,7 +321,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/201/swamp?utm_source=api"
+   "url": "https://scryfall.com/card/woe/271/swamp?utm_source=api",
+   "oracle_text": "({T}: Add {B}.)"
   },
   {
    "name": "Swamp",
@@ -313,7 +336,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/201/swamp?utm_source=api"
+   "url": "https://scryfall.com/card/woe/271/swamp?utm_source=api",
+   "oracle_text": "({T}: Add {B}.)"
   },
   {
    "name": "Swamp",
@@ -327,7 +351,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/201/swamp?utm_source=api"
+   "url": "https://scryfall.com/card/woe/271/swamp?utm_source=api",
+   "oracle_text": "({T}: Add {B}.)"
   },
   {
    "name": "Swamp",
@@ -341,7 +366,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/201/swamp?utm_source=api"
+   "url": "https://scryfall.com/card/woe/271/swamp?utm_source=api",
+   "oracle_text": "({T}: Add {B}.)"
   },
   {
    "name": "Mountain",
@@ -355,7 +381,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/203/mountain?utm_source=api"
+   "url": "https://scryfall.com/card/woe/273/mountain?utm_source=api",
+   "oracle_text": "({T}: Add {R}.)"
   },
   {
    "name": "Mountain",
@@ -369,7 +396,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/203/mountain?utm_source=api"
+   "url": "https://scryfall.com/card/woe/273/mountain?utm_source=api",
+   "oracle_text": "({T}: Add {R}.)"
   },
   {
    "name": "Mountain",
@@ -383,7 +411,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/203/mountain?utm_source=api"
+   "url": "https://scryfall.com/card/woe/273/mountain?utm_source=api",
+   "oracle_text": "({T}: Add {R}.)"
   },
   {
    "name": "Mountain",
@@ -397,7 +426,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/203/mountain?utm_source=api"
+   "url": "https://scryfall.com/card/woe/273/mountain?utm_source=api",
+   "oracle_text": "({T}: Add {R}.)"
   },
   {
    "name": "Mountain",
@@ -411,7 +441,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/203/mountain?utm_source=api"
+   "url": "https://scryfall.com/card/woe/273/mountain?utm_source=api",
+   "oracle_text": "({T}: Add {R}.)"
   },
   {
    "name": "Mountain",
@@ -425,7 +456,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/203/mountain?utm_source=api"
+   "url": "https://scryfall.com/card/woe/273/mountain?utm_source=api",
+   "oracle_text": "({T}: Add {R}.)"
   },
   {
    "name": "Mountain",
@@ -439,7 +471,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/203/mountain?utm_source=api"
+   "url": "https://scryfall.com/card/woe/273/mountain?utm_source=api",
+   "oracle_text": "({T}: Add {R}.)"
   },
   {
    "name": "Mountain",
@@ -453,7 +486,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/203/mountain?utm_source=api"
+   "url": "https://scryfall.com/card/woe/273/mountain?utm_source=api",
+   "oracle_text": "({T}: Add {R}.)"
   },
   {
    "name": "Mark of Mutiny",
@@ -465,7 +499,8 @@
    "colors": [
     "R"
    ],
-   "url": "https://scryfall.com/card/ima/139/mark-of-mutiny?utm_source=api"
+   "url": "https://scryfall.com/card/ima/139/mark-of-mutiny?utm_source=api",
+   "oracle_text": "Gain control of target creature until end of turn. Put a +1/+1 counter on it and untap it. That creature gains haste until end of turn. (It can attack and {T} this turn.)"
   },
   {
    "name": "Malakir Bloodwitch",
@@ -481,7 +516,8 @@
    "colors": [
     "B"
    ],
-   "url": "https://scryfall.com/card/voc/131/malakir-bloodwitch?utm_source=api"
+   "url": "https://scryfall.com/card/voc/131/malakir-bloodwitch?utm_source=api",
+   "oracle_text": "Flying, protection from white\nWhen Malakir Bloodwitch enters the battlefield, each opponent loses life equal to the number of Vampires you control. You gain life equal to the life lost this way."
   },
   {
    "name": "Reckless Rage",
@@ -493,7 +529,8 @@
    "colors": [
     "R"
    ],
-   "url": "https://scryfall.com/card/rix/110/reckless-rage?utm_source=api"
+   "url": "https://scryfall.com/card/rix/110/reckless-rage?utm_source=api",
+   "oracle_text": "Reckless Rage deals 4 damage to target creature you don't control and 2 damage to target creature you control."
   },
   {
    "name": "Soul-Scar Mage",
@@ -509,7 +546,8 @@
    "colors": [
     "R"
    ],
-   "url": "https://scryfall.com/card/akh/148/soul-scar-mage?utm_source=api"
+   "url": "https://scryfall.com/card/akh/148/soul-scar-mage?utm_source=api",
+   "oracle_text": "Prowess\nIf a source you control would deal noncombat damage to a creature an opponent controls, put that many -1/-1 counters on that creature instead."
   },
   {
    "name": "Guttersnipe",
@@ -525,7 +563,8 @@
    "colors": [
     "R"
    ],
-   "url": "https://scryfall.com/card/c19/145/guttersnipe?utm_source=api"
+   "url": "https://scryfall.com/card/cmm/229/guttersnipe?utm_source=api",
+   "oracle_text": "Whenever you cast an instant or sorcery spell, Guttersnipe deals 2 damage to each opponent."
   },
   {
    "name": "Skarrgan Hellkite",
@@ -540,7 +579,8 @@
    "colors": [
     "R"
    ],
-   "url": "https://scryfall.com/card/rna/114/skarrgan-hellkite?utm_source=api"
+   "url": "https://scryfall.com/card/rna/114/skarrgan-hellkite?utm_source=api",
+   "oracle_text": "Riot (This creature enters the battlefield with your choice of a +1/+1 counter or haste.)\nFlying\n{3}{R}: Skarrgan Hellkite deals 2 damage divided as you choose among one or two targets. Activate only if Skarrgan Hellkite has a +1/+1 counter on it."
   },
   {
    "name": "Cinder Barrens",
@@ -550,7 +590,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/c19/235/cinder-barrens?utm_source=api"
+   "url": "https://scryfall.com/card/c19/235/cinder-barrens?utm_source=api",
+   "oracle_text": "Cinder Barrens enters the battlefield tapped.\n{T}: Add {B} or {R}."
   },
   {
    "name": "Cunning Sparkmage",
@@ -566,7 +607,8 @@
    "colors": [
     "R"
    ],
-   "url": "https://scryfall.com/card/wwk/79/cunning-sparkmage?utm_source=api"
+   "url": "https://scryfall.com/card/wwk/79/cunning-sparkmage?utm_source=api",
+   "oracle_text": "Haste\n{T}: Cunning Sparkmage deals 1 damage to any target."
   },
   {
    "name": "Ob Nixilis, the Hate-Twisted",
@@ -582,7 +624,8 @@
    "colors": [
     "B"
    ],
-   "url": "https://scryfall.com/card/war/100/ob-nixilis-the-hate-twisted?utm_source=api"
+   "url": "https://scryfall.com/card/war/100/ob-nixilis-the-hate-twisted?utm_source=api",
+   "oracle_text": "Whenever an opponent draws a card, Ob Nixilis, the Hate-Twisted deals 1 damage to that player.\n−2: Destroy target creature. Its controller draws two cards."
   }
  ],
  "sideboard": []

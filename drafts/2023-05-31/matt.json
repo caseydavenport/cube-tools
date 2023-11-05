@@ -1,10 +1,14 @@
 {
- "labels": ["vampire", "goodstuff", "midrange"],
+ "labels": [
+  "vampire",
+  "goodstuff",
+  "midrange"
+ ],
  "player": "matt",
  "date": "2023-05-31",
+ "games": null,
  "wins": 1,
  "losses": 4,
- "ties": 0,
  "mainboard": [
   {
    "name": "Dreadmalkin",
@@ -20,7 +24,8 @@
    "colors": [
     "B"
    ],
-   "url": "https://scryfall.com/card/war/87/dreadmalkin?utm_source=api"
+   "url": "https://scryfall.com/card/war/87/dreadmalkin?utm_source=api",
+   "oracle_text": "Menace (This creature can't be blocked except by two or more creatures.)\n{2}{B}, Sacrifice another creature or planeswalker: Put two +1/+1 counters on Dreadmalkin."
   },
   {
    "name": "Swamp",
@@ -34,7 +39,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/201/swamp?utm_source=api"
+   "url": "https://scryfall.com/card/woe/271/swamp?utm_source=api",
+   "oracle_text": "({T}: Add {B}.)"
   },
   {
    "name": "Swamp",
@@ -48,7 +54,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/201/swamp?utm_source=api"
+   "url": "https://scryfall.com/card/woe/271/swamp?utm_source=api",
+   "oracle_text": "({T}: Add {B}.)"
   },
   {
    "name": "Swamp",
@@ -62,7 +69,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/201/swamp?utm_source=api"
+   "url": "https://scryfall.com/card/woe/271/swamp?utm_source=api",
+   "oracle_text": "({T}: Add {B}.)"
   },
   {
    "name": "Swamp",
@@ -76,7 +84,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/201/swamp?utm_source=api"
+   "url": "https://scryfall.com/card/woe/271/swamp?utm_source=api",
+   "oracle_text": "({T}: Add {B}.)"
   },
   {
    "name": "Swamp",
@@ -90,7 +99,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/201/swamp?utm_source=api"
+   "url": "https://scryfall.com/card/woe/271/swamp?utm_source=api",
+   "oracle_text": "({T}: Add {B}.)"
   },
   {
    "name": "Swamp",
@@ -104,7 +114,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/201/swamp?utm_source=api"
+   "url": "https://scryfall.com/card/woe/271/swamp?utm_source=api",
+   "oracle_text": "({T}: Add {B}.)"
   },
   {
    "name": "Swamp",
@@ -118,7 +129,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/201/swamp?utm_source=api"
+   "url": "https://scryfall.com/card/woe/271/swamp?utm_source=api",
+   "oracle_text": "({T}: Add {B}.)"
   },
   {
    "name": "Swamp",
@@ -132,7 +144,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/201/swamp?utm_source=api"
+   "url": "https://scryfall.com/card/woe/271/swamp?utm_source=api",
+   "oracle_text": "({T}: Add {B}.)"
   },
   {
    "name": "Swamp",
@@ -146,7 +159,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/201/swamp?utm_source=api"
+   "url": "https://scryfall.com/card/woe/271/swamp?utm_source=api",
+   "oracle_text": "({T}: Add {B}.)"
   },
   {
    "name": "Vampire of the Dire Moon",
@@ -161,7 +175,8 @@
    "colors": [
     "B"
    ],
-   "url": "https://scryfall.com/card/m20/120/vampire-of-the-dire-moon?utm_source=api"
+   "url": "https://scryfall.com/card/m20/120/vampire-of-the-dire-moon?utm_source=api",
+   "oracle_text": "Deathtouch (Any amount of damage this deals to a creature is enough to destroy it.)\nLifelink (Damage dealt by this creature also causes you to gain that much life.)"
   },
   {
    "name": "Fateful End",
@@ -173,7 +188,8 @@
    "colors": [
     "R"
    ],
-   "url": "https://scryfall.com/card/thb/133/fateful-end?utm_source=api"
+   "url": "https://scryfall.com/card/thb/133/fateful-end?utm_source=api",
+   "oracle_text": "Fateful End deals 3 damage to any target. Scry 1."
   },
   {
    "name": "Liliana, Death's Majesty",
@@ -189,7 +205,8 @@
    "colors": [
     "B"
    ],
-   "url": "https://scryfall.com/card/mic/121/liliana-deaths-majesty?utm_source=api"
+   "url": "https://scryfall.com/card/mic/121/liliana-deaths-majesty?utm_source=api",
+   "oracle_text": "+1: Create a 2/2 black Zombie creature token. Mill two cards.\n−3: Return target creature card from your graveyard to the battlefield. That creature is a black Zombie in addition to its other colors and types.\n−7: Destroy all non-Zombie creatures."
   },
   {
    "name": "Kalastria Highborn",
@@ -205,7 +222,8 @@
    "colors": [
     "B"
    ],
-   "url": "https://scryfall.com/card/wwk/59/kalastria-highborn?utm_source=api"
+   "url": "https://scryfall.com/card/wwk/59/kalastria-highborn?utm_source=api",
+   "oracle_text": "Whenever Kalastria Highborn or another Vampire you control dies, you may pay {B}. If you do, target player loses 2 life and you gain 2 life."
   },
   {
    "name": "Bloodghast",
@@ -221,7 +239,8 @@
    "colors": [
     "B"
    ],
-   "url": "https://scryfall.com/card/ima/82/bloodghast?utm_source=api"
+   "url": "https://scryfall.com/card/ima/82/bloodghast?utm_source=api",
+   "oracle_text": "Bloodghast can't block.\nBloodghast has haste as long as an opponent has 10 or less life.\nLandfall — Whenever a land enters the battlefield under your control, you may return Bloodghast from your graveyard to the battlefield."
   },
   {
    "name": "Warcry Phoenix",
@@ -236,7 +255,8 @@
    "colors": [
     "R"
    ],
-   "url": "https://scryfall.com/card/dom/150/warcry-phoenix?utm_source=api"
+   "url": "https://scryfall.com/card/dom/150/warcry-phoenix?utm_source=api",
+   "oracle_text": "Flying, haste\nWhenever you attack with three or more creatures, you may pay {2}{R}. If you do, return Warcry Phoenix from your graveyard to the battlefield tapped and attacking."
   },
   {
    "name": "Mountain",
@@ -250,7 +270,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/203/mountain?utm_source=api"
+   "url": "https://scryfall.com/card/woe/273/mountain?utm_source=api",
+   "oracle_text": "({T}: Add {R}.)"
   },
   {
    "name": "Mountain",
@@ -264,7 +285,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/203/mountain?utm_source=api"
+   "url": "https://scryfall.com/card/woe/273/mountain?utm_source=api",
+   "oracle_text": "({T}: Add {R}.)"
   },
   {
    "name": "Mountain",
@@ -278,7 +300,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/203/mountain?utm_source=api"
+   "url": "https://scryfall.com/card/woe/273/mountain?utm_source=api",
+   "oracle_text": "({T}: Add {R}.)"
   },
   {
    "name": "Mountain",
@@ -292,7 +315,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/203/mountain?utm_source=api"
+   "url": "https://scryfall.com/card/woe/273/mountain?utm_source=api",
+   "oracle_text": "({T}: Add {R}.)"
   },
   {
    "name": "Mountain",
@@ -306,7 +330,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/203/mountain?utm_source=api"
+   "url": "https://scryfall.com/card/woe/273/mountain?utm_source=api",
+   "oracle_text": "({T}: Add {R}.)"
   },
   {
    "name": "Mountain",
@@ -320,7 +345,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/203/mountain?utm_source=api"
+   "url": "https://scryfall.com/card/woe/273/mountain?utm_source=api",
+   "oracle_text": "({T}: Add {R}.)"
   },
   {
    "name": "Mountain",
@@ -334,7 +360,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/203/mountain?utm_source=api"
+   "url": "https://scryfall.com/card/woe/273/mountain?utm_source=api",
+   "oracle_text": "({T}: Add {R}.)"
   },
   {
    "name": "Mountain",
@@ -348,7 +375,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/203/mountain?utm_source=api"
+   "url": "https://scryfall.com/card/woe/273/mountain?utm_source=api",
+   "oracle_text": "({T}: Add {R}.)"
   },
   {
    "name": "Hellkite Charger",
@@ -363,7 +391,8 @@
    "colors": [
     "R"
    ],
-   "url": "https://scryfall.com/card/c17/138/hellkite-charger?utm_source=api"
+   "url": "https://scryfall.com/card/cmm/232/hellkite-charger?utm_source=api",
+   "oracle_text": "Flying, haste\nWhenever Hellkite Charger attacks, you may pay {5}{R}{R}. If you do, untap all attacking creatures and after this phase, there is an additional combat phase."
   },
   {
    "name": "Grim Initiate",
@@ -379,7 +408,8 @@
    "colors": [
     "R"
    ],
-   "url": "https://scryfall.com/card/war/130/grim-initiate?utm_source=api"
+   "url": "https://scryfall.com/card/war/130/grim-initiate?utm_source=api",
+   "oracle_text": "First strike\nWhen Grim Initiate dies, amass Zombies 1. (Put a +1/+1 counter on an Army you control. It's also a Zombie. If you don't control an Army, create a 0/0 black Zombie Army creature token first.)"
   },
   {
    "name": "Manabarbs",
@@ -391,7 +421,8 @@
    "colors": [
     "R"
    ],
-   "url": "https://scryfall.com/card/m12/150/manabarbs?utm_source=api"
+   "url": "https://scryfall.com/card/m12/150/manabarbs?utm_source=api",
+   "oracle_text": "Whenever a player taps a land for mana, Manabarbs deals 1 damage to that player."
   },
   {
    "name": "Aphemia, the Cacophony",
@@ -408,7 +439,8 @@
    "colors": [
     "B"
    ],
-   "url": "https://scryfall.com/card/thb/84/aphemia-the-cacophony?utm_source=api"
+   "url": "https://scryfall.com/card/thb/84/aphemia-the-cacophony?utm_source=api",
+   "oracle_text": "Flying\nAt the beginning of your end step, you may exile an enchantment card from your graveyard. If you do, create a 2/2 black Zombie creature token."
   },
   {
    "name": "Quietus Spike",
@@ -421,7 +453,8 @@
    "cmc": 3,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/ncc/377/quietus-spike?utm_source=api"
+   "url": "https://scryfall.com/card/ncc/377/quietus-spike?utm_source=api",
+   "oracle_text": "Equipped creature has deathtouch.\nWhenever equipped creature deals combat damage to a player, that player loses half their life, rounded up.\nEquip {3}"
   },
   {
    "name": "Mark of Mutiny",
@@ -433,7 +466,8 @@
    "colors": [
     "R"
    ],
-   "url": "https://scryfall.com/card/ima/139/mark-of-mutiny?utm_source=api"
+   "url": "https://scryfall.com/card/ima/139/mark-of-mutiny?utm_source=api",
+   "oracle_text": "Gain control of target creature until end of turn. Put a +1/+1 counter on it and untap it. That creature gains haste until end of turn. (It can attack and {T} this turn.)"
   },
   {
    "name": "Chandra, Hope's Beacon",
@@ -449,7 +483,8 @@
    "colors": [
     "R"
    ],
-   "url": "https://scryfall.com/card/mom/134/chandra-hopes-beacon?utm_source=api"
+   "url": "https://scryfall.com/card/mom/134/chandra-hopes-beacon?utm_source=api",
+   "oracle_text": "Whenever you cast an instant or sorcery spell, copy it. You may choose new targets for the copy. This ability triggers only once each turn.\n+2: Add two mana in any combination of colors.\n+1: Exile the top five cards of your library. Until the end of your next turn, you may cast an instant or sorcery spell from among those exiled cards.\n−X: Chandra, Hope's Beacon deals X damage to each of up to two targets."
   },
   {
    "name": "Magma Phoenix",
@@ -464,7 +499,8 @@
    "colors": [
     "R"
    ],
-   "url": "https://scryfall.com/card/m11/150/magma-phoenix?utm_source=api"
+   "url": "https://scryfall.com/card/m11/150/magma-phoenix?utm_source=api",
+   "oracle_text": "Flying\nWhen Magma Phoenix dies, it deals 3 damage to each creature and each player.\n{3}{R}{R}: Return Magma Phoenix from your graveyard to your hand."
   },
   {
    "name": "Coat of Arms",
@@ -474,7 +510,8 @@
    "cmc": 5,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/dds/58/coat-of-arms?utm_source=api"
+   "url": "https://scryfall.com/card/dds/58/coat-of-arms?utm_source=api",
+   "oracle_text": "Each creature gets +1/+1 for each other creature on the battlefield that shares at least one creature type with it. (For example, if two Goblin Warriors and a Goblin Shaman are on the battlefield, each gets +2/+2.)"
   },
   {
    "name": "Archfiend of Ifnir",
@@ -489,7 +526,8 @@
    "colors": [
     "B"
    ],
-   "url": "https://scryfall.com/card/akh/78/archfiend-of-ifnir?utm_source=api"
+   "url": "https://scryfall.com/card/akh/78/archfiend-of-ifnir?utm_source=api",
+   "oracle_text": "Flying\nWhenever you cycle or discard another card, put a -1/-1 counter on each creature your opponents control.\nCycling {2} ({2}, Discard this card: Draw a card.)"
   },
   {
    "name": "Malakir Bloodwitch",
@@ -505,7 +543,8 @@
    "colors": [
     "B"
    ],
-   "url": "https://scryfall.com/card/voc/131/malakir-bloodwitch?utm_source=api"
+   "url": "https://scryfall.com/card/voc/131/malakir-bloodwitch?utm_source=api",
+   "oracle_text": "Flying, protection from white\nWhen Malakir Bloodwitch enters the battlefield, each opponent loses life equal to the number of Vampires you control. You gain life equal to the life lost this way."
   },
   {
    "name": "Comet Storm",
@@ -517,7 +556,8 @@
    "colors": [
     "R"
    ],
-   "url": "https://scryfall.com/card/cmr/411/comet-storm?utm_source=api"
+   "url": "https://scryfall.com/card/cmr/411/comet-storm?utm_source=api",
+   "oracle_text": "Multikicker {1} (You may pay an additional {1} any number of times as you cast this spell.)\nChoose any target, then choose another target for each time this spell was kicked. Comet Storm deals X damage to each of them."
   },
   {
    "name": "Panharmonicon",
@@ -527,7 +567,8 @@
    "cmc": 4,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/2x2/310/panharmonicon?utm_source=api"
+   "url": "https://scryfall.com/card/2x2/310/panharmonicon?utm_source=api",
+   "oracle_text": "If an artifact or creature entering the battlefield causes a triggered ability of a permanent you control to trigger, that ability triggers an additional time."
   },
   {
    "name": "Sanctum Seeker",
@@ -543,7 +584,8 @@
    "colors": [
     "B"
    ],
-   "url": "https://scryfall.com/card/voc/136/sanctum-seeker?utm_source=api"
+   "url": "https://scryfall.com/card/voc/136/sanctum-seeker?utm_source=api",
+   "oracle_text": "Whenever a Vampire you control attacks, each opponent loses 1 life and you gain 1 life."
   },
   {
    "name": "Cunning Sparkmage",
@@ -559,7 +601,8 @@
    "colors": [
     "R"
    ],
-   "url": "https://scryfall.com/card/wwk/79/cunning-sparkmage?utm_source=api"
+   "url": "https://scryfall.com/card/wwk/79/cunning-sparkmage?utm_source=api",
+   "oracle_text": "Haste\n{T}: Cunning Sparkmage deals 1 damage to any target."
   },
   {
    "name": "Jinxed Idol",
@@ -569,7 +612,8 @@
    "cmc": 2,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/tpr/224/jinxed-idol?utm_source=api"
+   "url": "https://scryfall.com/card/tpr/224/jinxed-idol?utm_source=api",
+   "oracle_text": "At the beginning of your upkeep, Jinxed Idol deals 2 damage to you.\nSacrifice a creature: Target opponent gains control of Jinxed Idol."
   }
  ],
  "sideboard": []

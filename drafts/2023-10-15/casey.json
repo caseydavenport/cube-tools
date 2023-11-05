@@ -1,11 +1,23 @@
 {
- "labels": ["control", "graveyard"],
+ "labels": [
+  "control",
+  "graveyard"
+ ],
  "player": "casey",
  "date": "2023-10-15",
  "games": [
-   {"opponent": "dom", "winner": "dom"},
-   {"opponent": "dom", "winner": "casey"},
-   {"opponent": "dom", "winner": "casey"}
+  {
+   "opponent": "dom",
+   "winner": "dom"
+  },
+  {
+   "opponent": "dom",
+   "winner": "casey"
+  },
+  {
+   "opponent": "dom",
+   "winner": "casey"
+  }
  ],
  "mainboard": [
   {
@@ -18,7 +30,8 @@
    "colors": [
     "W"
    ],
-   "url": "https://scryfall.com/card/woe/16/glass-casket?utm_source=api"
+   "url": "https://scryfall.com/card/woe/16/glass-casket?utm_source=api",
+   "oracle_text": "When Glass Casket enters the battlefield, exile target creature an opponent controls with mana value 3 or less until Glass Casket leaves the battlefield."
   },
   {
    "name": "Restless Fortress",
@@ -28,7 +41,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/woe/259/restless-fortress?utm_source=api"
+   "url": "https://scryfall.com/card/woe/259/restless-fortress?utm_source=api",
+   "oracle_text": "Restless Fortress enters the battlefield tapped.\n{T}: Add {W} or {B}.\n{2}{W}{B}: Restless Fortress becomes a 1/4 white and black Nightmare creature until end of turn. It's still a land.\nWhenever Restless Fortress attacks, defending player loses 2 life and you gain 2 life."
   },
   {
    "name": "Virtue of Persistence // Locthwain Scorn",
@@ -45,7 +59,8 @@
    "colors": [
     "B"
    ],
-   "url": "https://scryfall.com/card/woe/115/virtue-of-persistence-locthwain-scorn?utm_source=api"
+   "url": "https://scryfall.com/card/woe/115/virtue-of-persistence-locthwain-scorn?utm_source=api",
+   "oracle_text": ""
   },
   {
    "name": "Feed the Cauldron",
@@ -57,7 +72,8 @@
    "colors": [
     "B"
    ],
-   "url": "https://scryfall.com/card/woe/91/feed-the-cauldron?utm_source=api"
+   "url": "https://scryfall.com/card/woe/91/feed-the-cauldron?utm_source=api",
+   "oracle_text": "Destroy target creature with mana value 3 or less. If it's your turn, create a Food token. (It's an artifact with \"{2}, {T}, Sacrifice this artifact: You gain 3 life.\")"
   },
   {
    "name": "Uncharted Haven",
@@ -67,7 +83,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/neo/281/uncharted-haven?utm_source=api"
+   "url": "https://scryfall.com/card/neo/281/uncharted-haven?utm_source=api",
+   "oracle_text": "Uncharted Haven enters the battlefield tapped.\nAs Uncharted Haven enters the battlefield, choose a color.\n{T}: Add one mana of the chosen color."
   },
   {
    "name": "Merfolk Looter",
@@ -83,7 +100,8 @@
    "colors": [
     "U"
    ],
-   "url": "https://scryfall.com/card/afc/86/merfolk-looter?utm_source=api"
+   "url": "https://scryfall.com/card/afc/86/merfolk-looter?utm_source=api",
+   "oracle_text": "{T}: Draw a card, then discard a card."
   },
   {
    "name": "Gomazoa",
@@ -98,7 +116,8 @@
    "colors": [
     "U"
    ],
-   "url": "https://scryfall.com/card/cmd/48/gomazoa?utm_source=api"
+   "url": "https://scryfall.com/card/cmd/48/gomazoa?utm_source=api",
+   "oracle_text": "Defender, flying\n{T}: Put Gomazoa and each creature it's blocking on top of their owners' libraries, then those players shuffle."
   },
   {
    "name": "Mavren Fein, Dusk Apostle",
@@ -115,7 +134,8 @@
    "colors": [
     "W"
    ],
-   "url": "https://scryfall.com/card/xln/24/mavren-fein-dusk-apostle?utm_source=api"
+   "url": "https://scryfall.com/card/xln/24/mavren-fein-dusk-apostle?utm_source=api",
+   "oracle_text": "Whenever one or more nontoken Vampires you control attack, create a 1/1 white Vampire creature token with lifelink."
   },
   {
    "name": "Faerie Vandal",
@@ -131,7 +151,8 @@
    "colors": [
     "U"
    ],
-   "url": "https://scryfall.com/card/snc/44/faerie-vandal?utm_source=api"
+   "url": "https://scryfall.com/card/snc/44/faerie-vandal?utm_source=api",
+   "oracle_text": "Flash\nFlying\nWhenever you draw your second card each turn, put a +1/+1 counter on Faerie Vandal."
   },
   {
    "name": "Kor Sanctifiers",
@@ -147,7 +168,8 @@
    "colors": [
     "W"
    ],
-   "url": "https://scryfall.com/card/c15/73/kor-sanctifiers?utm_source=api"
+   "url": "https://scryfall.com/card/c15/73/kor-sanctifiers?utm_source=api",
+   "oracle_text": "Kicker {W} (You may pay an additional {W} as you cast this spell.)\nWhen Kor Sanctifiers enters the battlefield, if it was kicked, destroy target artifact or enchantment."
   },
   {
    "name": "Godless Shrine",
@@ -161,7 +183,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/rna/248/godless-shrine?utm_source=api"
+   "url": "https://scryfall.com/card/rna/248/godless-shrine?utm_source=api",
+   "oracle_text": "({T}: Add {W} or {B}.)\nAs Godless Shrine enters the battlefield, you may pay 2 life. If you don't, it enters the battlefield tapped."
   },
   {
    "name": "Fact or Fiction",
@@ -173,7 +196,8 @@
    "colors": [
     "U"
    ],
-   "url": "https://scryfall.com/card/cmm/91/fact-or-fiction?utm_source=api"
+   "url": "https://scryfall.com/card/cmm/91/fact-or-fiction?utm_source=api",
+   "oracle_text": "Reveal the top five cards of your library. An opponent separates those cards into two piles. Put one pile into your hand and the other into your graveyard."
   },
   {
    "name": "Flickerwisp",
@@ -188,7 +212,8 @@
    "colors": [
     "W"
    ],
-   "url": "https://scryfall.com/card/2x2/11/flickerwisp?utm_source=api"
+   "url": "https://scryfall.com/card/2x2/11/flickerwisp?utm_source=api",
+   "oracle_text": "Flying\nWhen Flickerwisp enters the battlefield, exile another target permanent. Return that card to the battlefield under its owner's control at the beginning of the next end step."
   },
   {
    "name": "Dark Ritual",
@@ -200,7 +225,8 @@
    "colors": [
     "B"
    ],
-   "url": "https://scryfall.com/card/a25/82/dark-ritual?utm_source=api"
+   "url": "https://scryfall.com/card/a25/82/dark-ritual?utm_source=api",
+   "oracle_text": "Add {B}{B}{B}."
   },
   {
    "name": "Wrath of God",
@@ -212,7 +238,8 @@
    "colors": [
     "W"
    ],
-   "url": "https://scryfall.com/card/cmm/70/wrath-of-god?utm_source=api"
+   "url": "https://scryfall.com/card/cmm/70/wrath-of-god?utm_source=api",
+   "oracle_text": "Destroy all creatures. They can't be regenerated."
   },
   {
    "name": "Thing in the Ice // Awoken Horror",
@@ -227,7 +254,8 @@
    "cmc": 2,
    "image": "",
    "colors": null,
-   "url": "https://scryfall.com/card/soi/92/thing-in-the-ice-awoken-horror?utm_source=api"
+   "url": "https://scryfall.com/card/soi/92/thing-in-the-ice-awoken-horror?utm_source=api",
+   "oracle_text": ""
   },
   {
    "name": "Glacial Fortress",
@@ -237,7 +265,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/xln/255/glacial-fortress?utm_source=api"
+   "url": "https://scryfall.com/card/xln/255/glacial-fortress?utm_source=api",
+   "oracle_text": "Glacial Fortress enters the battlefield tapped unless you control a Plains or an Island.\n{T}: Add {W} or {U}."
   },
   {
    "name": "Kor Skyfisher",
@@ -253,7 +282,8 @@
    "colors": [
     "W"
    ],
-   "url": "https://scryfall.com/card/mm3/11/kor-skyfisher?utm_source=api"
+   "url": "https://scryfall.com/card/mm3/11/kor-skyfisher?utm_source=api",
+   "oracle_text": "Flying\nWhen Kor Skyfisher enters the battlefield, return a permanent you control to its owner's hand."
   },
   {
    "name": "Day of Judgment",
@@ -265,7 +295,8 @@
    "colors": [
     "W"
    ],
-   "url": "https://scryfall.com/card/m12/12/day-of-judgment?utm_source=api"
+   "url": "https://scryfall.com/card/m12/12/day-of-judgment?utm_source=api",
+   "oracle_text": "Destroy all creatures."
   },
   {
    "name": "The Long Reach of Night // Animus of Night's Reach",
@@ -281,7 +312,8 @@
    "cmc": 4,
    "image": "",
    "colors": null,
-   "url": "https://scryfall.com/card/neo/109/the-long-reach-of-night-animus-of-nights-reach?utm_source=api"
+   "url": "https://scryfall.com/card/neo/109/the-long-reach-of-night-animus-of-nights-reach?utm_source=api",
+   "oracle_text": ""
   },
   {
    "name": "Brainstorm",
@@ -293,7 +325,8 @@
    "colors": [
     "U"
    ],
-   "url": "https://scryfall.com/card/afc/79/brainstorm?utm_source=api"
+   "url": "https://scryfall.com/card/afc/79/brainstorm?utm_source=api",
+   "oracle_text": "Draw three cards, then put two cards from your hand on top of your library in any order."
   },
   {
    "name": "Welcoming Vampire",
@@ -308,7 +341,8 @@
    "colors": [
     "W"
    ],
-   "url": "https://scryfall.com/card/vow/46/welcoming-vampire?utm_source=api"
+   "url": "https://scryfall.com/card/vow/46/welcoming-vampire?utm_source=api",
+   "oracle_text": "Flying\nWhenever one or more other creatures with power 2 or less enter the battlefield under your control, draw a card. This ability triggers only once each turn."
   },
   {
    "name": "Clarion Spirit",
@@ -323,7 +357,8 @@
    "colors": [
     "W"
    ],
-   "url": "https://scryfall.com/card/khm/6/clarion-spirit?utm_source=api"
+   "url": "https://scryfall.com/card/khm/6/clarion-spirit?utm_source=api",
+   "oracle_text": "Whenever you cast your second spell each turn, create a 1/1 white Spirit creature token with flying."
   },
   {
    "name": "Unmake",
@@ -336,7 +371,8 @@
     "B",
     "W"
    ],
-   "url": "https://scryfall.com/card/ddk/27/unmake?utm_source=api"
+   "url": "https://scryfall.com/card/ddk/27/unmake?utm_source=api",
+   "oracle_text": "Exile target creature."
   },
   {
    "name": "Serum Visions",
@@ -348,7 +384,8 @@
    "colors": [
     "U"
    ],
-   "url": "https://scryfall.com/card/afc/94/serum-visions?utm_source=api"
+   "url": "https://scryfall.com/card/afc/94/serum-visions?utm_source=api",
+   "oracle_text": "Draw a card. Scry 2."
   },
   {
    "name": "Pteramander",
@@ -364,7 +401,8 @@
    "colors": [
     "U"
    ],
-   "url": "https://scryfall.com/card/rna/47/pteramander?utm_source=api"
+   "url": "https://scryfall.com/card/rna/47/pteramander?utm_source=api",
+   "oracle_text": "Flying\n{7}{U}: Adapt 4. This ability costs {1} less to activate for each instant and sorcery card in your graveyard. (If this creature has no +1/+1 counters on it, put four +1/+1 counters on it.)"
   },
   {
    "name": "Curator of Mysteries",
@@ -379,7 +417,8 @@
    "colors": [
     "U"
    ],
-   "url": "https://scryfall.com/card/afc/81/curator-of-mysteries?utm_source=api"
+   "url": "https://scryfall.com/card/afc/81/curator-of-mysteries?utm_source=api",
+   "oracle_text": "Flying\nWhenever you cycle or discard another card, scry 1.\nCycling {U} ({U}, Discard this card: Draw a card.)"
   },
   {
    "name": "Raven's Crime",
@@ -391,7 +430,8 @@
    "colors": [
     "B"
    ],
-   "url": "https://scryfall.com/card/mma/95/ravens-crime?utm_source=api"
+   "url": "https://scryfall.com/card/mma/95/ravens-crime?utm_source=api",
+   "oracle_text": "Target player discards a card.\nRetrace (You may cast this card from your graveyard by discarding a land card in addition to paying its other costs.)"
   },
   {
    "name": "Plains",
@@ -405,7 +445,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/woe/267/plains?utm_source=api"
+   "url": "https://scryfall.com/card/woe/267/plains?utm_source=api",
+   "oracle_text": "({T}: Add {W}.)"
   },
   {
    "name": "Plains",
@@ -419,7 +460,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/woe/267/plains?utm_source=api"
+   "url": "https://scryfall.com/card/woe/267/plains?utm_source=api",
+   "oracle_text": "({T}: Add {W}.)"
   },
   {
    "name": "Plains",
@@ -433,7 +475,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/woe/267/plains?utm_source=api"
+   "url": "https://scryfall.com/card/woe/267/plains?utm_source=api",
+   "oracle_text": "({T}: Add {W}.)"
   },
   {
    "name": "Plains",
@@ -447,7 +490,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/woe/267/plains?utm_source=api"
+   "url": "https://scryfall.com/card/woe/267/plains?utm_source=api",
+   "oracle_text": "({T}: Add {W}.)"
   },
   {
    "name": "Island",
@@ -461,7 +505,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/woe/269/island?utm_source=api"
+   "url": "https://scryfall.com/card/woe/269/island?utm_source=api",
+   "oracle_text": "({T}: Add {U}.)"
   },
   {
    "name": "Island",
@@ -475,7 +520,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/woe/269/island?utm_source=api"
+   "url": "https://scryfall.com/card/woe/269/island?utm_source=api",
+   "oracle_text": "({T}: Add {U}.)"
   },
   {
    "name": "Island",
@@ -489,7 +535,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/woe/269/island?utm_source=api"
+   "url": "https://scryfall.com/card/woe/269/island?utm_source=api",
+   "oracle_text": "({T}: Add {U}.)"
   },
   {
    "name": "Island",
@@ -503,7 +550,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/woe/269/island?utm_source=api"
+   "url": "https://scryfall.com/card/woe/269/island?utm_source=api",
+   "oracle_text": "({T}: Add {U}.)"
   },
   {
    "name": "Swamp",
@@ -517,7 +565,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/woe/271/swamp?utm_source=api"
+   "url": "https://scryfall.com/card/woe/271/swamp?utm_source=api",
+   "oracle_text": "({T}: Add {B}.)"
   },
   {
    "name": "Swamp",
@@ -531,7 +580,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/woe/271/swamp?utm_source=api"
+   "url": "https://scryfall.com/card/woe/271/swamp?utm_source=api",
+   "oracle_text": "({T}: Add {B}.)"
   },
   {
    "name": "Swamp",
@@ -545,7 +595,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/woe/271/swamp?utm_source=api"
+   "url": "https://scryfall.com/card/woe/271/swamp?utm_source=api",
+   "oracle_text": "({T}: Add {B}.)"
   },
   {
    "name": "Swamp",
@@ -559,7 +610,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/woe/271/swamp?utm_source=api"
+   "url": "https://scryfall.com/card/woe/271/swamp?utm_source=api",
+   "oracle_text": "({T}: Add {B}.)"
   }
  ],
  "sideboard": [
@@ -576,7 +628,8 @@
    "colors": [
     "R"
    ],
-   "url": "https://scryfall.com/card/gnt/42/siege-gang-commander?utm_source=api"
+   "url": "https://scryfall.com/card/gnt/42/siege-gang-commander?utm_source=api",
+   "oracle_text": "When Siege-Gang Commander enters the battlefield, create three 1/1 red Goblin creature tokens.\n{1}{R}, Sacrifice a Goblin: Siege-Gang Commander deals 2 damage to any target."
   },
   {
    "name": "Cunning Sparkmage",
@@ -592,7 +645,8 @@
    "colors": [
     "R"
    ],
-   "url": "https://scryfall.com/card/wwk/79/cunning-sparkmage?utm_source=api"
+   "url": "https://scryfall.com/card/wwk/79/cunning-sparkmage?utm_source=api",
+   "oracle_text": "Haste\n{T}: Cunning Sparkmage deals 1 damage to any target."
   },
   {
    "name": "Moon-Circuit Hacker",
@@ -609,7 +663,8 @@
    "colors": [
     "U"
    ],
-   "url": "https://scryfall.com/card/neo/67/moon-circuit-hacker?utm_source=api"
+   "url": "https://scryfall.com/card/neo/67/moon-circuit-hacker?utm_source=api",
+   "oracle_text": "Ninjutsu {U} ({U}, Return an unblocked attacker you control to hand: Put this card onto the battlefield from your hand tapped and attacking.)\nWhenever Moon-Circuit Hacker deals combat damage to a player, you may draw a card. If you do, discard a card unless Moon-Circuit Hacker entered the battlefield this turn."
   },
   {
    "name": "Sulfur Falls",
@@ -619,7 +674,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/dom/247/sulfur-falls?utm_source=api"
+   "url": "https://scryfall.com/card/dom/247/sulfur-falls?utm_source=api",
+   "oracle_text": "Sulfur Falls enters the battlefield tapped unless you control an Island or a Mountain.\n{T}: Add {U} or {R}."
   },
   {
    "name": "Flame Jab",
@@ -631,7 +687,8 @@
    "colors": [
     "R"
    ],
-   "url": "https://scryfall.com/card/ema/131/flame-jab?utm_source=api"
+   "url": "https://scryfall.com/card/ema/131/flame-jab?utm_source=api",
+   "oracle_text": "Flame Jab deals 1 damage to any target.\nRetrace (You may cast this card from your graveyard by discarding a land card in addition to paying its other costs.)"
   },
   {
    "name": "Grim Initiate",
@@ -647,7 +704,8 @@
    "colors": [
     "R"
    ],
-   "url": "https://scryfall.com/card/war/130/grim-initiate?utm_source=api"
+   "url": "https://scryfall.com/card/war/130/grim-initiate?utm_source=api",
+   "oracle_text": "First strike\nWhen Grim Initiate dies, amass Zombies 1. (Put a +1/+1 counter on an Army you control. It's also a Zombie. If you don't control an Army, create a 0/0 black Zombie Army creature token first.)"
   },
   {
    "name": "Avenger of Zendikar",
@@ -662,7 +720,8 @@
    "colors": [
     "G"
    ],
-   "url": "https://scryfall.com/card/ncc/280/avenger-of-zendikar?utm_source=api"
+   "url": "https://scryfall.com/card/ncc/280/avenger-of-zendikar?utm_source=api",
+   "oracle_text": "When Avenger of Zendikar enters the battlefield, create a 0/1 green Plant creature token for each land you control.\nLandfall — Whenever a land enters the battlefield under your control, you may put a +1/+1 counter on each Plant creature you control."
   },
   {
    "name": "Reclamation Sage",
@@ -678,7 +737,8 @@
    "colors": [
     "G"
    ],
-   "url": "https://scryfall.com/card/khc/72/reclamation-sage?utm_source=api"
+   "url": "https://scryfall.com/card/khc/72/reclamation-sage?utm_source=api",
+   "oracle_text": "When Reclamation Sage enters the battlefield, you may destroy target artifact or enchantment."
   },
   {
    "name": "Mayhem Devil",
@@ -694,7 +754,8 @@
     "B",
     "R"
    ],
-   "url": "https://scryfall.com/card/war/204/mayhem-devil?utm_source=api"
+   "url": "https://scryfall.com/card/war/204/mayhem-devil?utm_source=api",
+   "oracle_text": "Whenever a player sacrifices a permanent, Mayhem Devil deals 1 damage to any target."
   },
   {
    "name": "Glory of Warfare",
@@ -707,7 +768,8 @@
     "R",
     "W"
    ],
-   "url": "https://scryfall.com/card/hop/88/glory-of-warfare?utm_source=api"
+   "url": "https://scryfall.com/card/hop/88/glory-of-warfare?utm_source=api",
+   "oracle_text": "As long as it's your turn, creatures you control get +2/+0.\nAs long as it's not your turn, creatures you control get +0/+2."
   },
   {
    "name": "Persist",
@@ -719,7 +781,8 @@
    "colors": [
     "B"
    ],
-   "url": "https://scryfall.com/card/mh2/96/persist?utm_source=api"
+   "url": "https://scryfall.com/card/mh2/96/persist?utm_source=api",
+   "oracle_text": "Return target nonlegendary creature card from your graveyard to the battlefield with a -1/-1 counter on it."
   },
   {
    "name": "Ephemerate",
@@ -731,7 +794,8 @@
    "colors": [
     "W"
    ],
-   "url": "https://scryfall.com/card/mh1/7/ephemerate?utm_source=api"
+   "url": "https://scryfall.com/card/mh1/7/ephemerate?utm_source=api",
+   "oracle_text": "Exile target creature you control, then return it to the battlefield under its owner's control.\nRebound (If you cast this spell from your hand, exile it as it resolves. At the beginning of your next upkeep, you may cast this card from exile without paying its mana cost.)"
   },
   {
    "name": "Umbral Mantle",
@@ -744,7 +808,8 @@
    "cmc": 3,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/shm/267/umbral-mantle?utm_source=api"
+   "url": "https://scryfall.com/card/shm/267/umbral-mantle?utm_source=api",
+   "oracle_text": "Equipped creature has \"{3}, {Q}: This creature gets +2/+2 until end of turn.\" ({Q} is the untap symbol.)\nEquip {0}"
   },
   {
    "name": "Sai of the Shinobi",
@@ -757,7 +822,8 @@
    "cmc": 1,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/a25/230/sai-of-the-shinobi?utm_source=api"
+   "url": "https://scryfall.com/card/a25/230/sai-of-the-shinobi?utm_source=api",
+   "oracle_text": "Equipped creature gets +1/+1.\nWhenever a creature enters the battlefield under your control, you may attach Sai of the Shinobi to it.\nEquip {2}"
   },
   {
    "name": "Cruel Celebrant",
@@ -773,7 +839,8 @@
     "B",
     "W"
    ],
-   "url": "https://scryfall.com/card/war/188/cruel-celebrant?utm_source=api"
+   "url": "https://scryfall.com/card/war/188/cruel-celebrant?utm_source=api",
+   "oracle_text": "Whenever Cruel Celebrant or another creature or planeswalker you control dies, each opponent loses 1 life and you gain 1 life."
   },
   {
    "name": "Liliana, Death's Majesty",
@@ -789,7 +856,8 @@
    "colors": [
     "B"
    ],
-   "url": "https://scryfall.com/card/mic/121/liliana-deaths-majesty?utm_source=api"
+   "url": "https://scryfall.com/card/mic/121/liliana-deaths-majesty?utm_source=api",
+   "oracle_text": "+1: Create a 2/2 black Zombie creature token. Mill two cards.\n−3: Return target creature card from your graveyard to the battlefield. That creature is a black Zombie in addition to its other colors and types.\n−7: Destroy all non-Zombie creatures."
   },
   {
    "name": "Rise from the Grave",
@@ -801,7 +869,8 @@
    "colors": [
     "B"
    ],
-   "url": "https://scryfall.com/card/znc/53/rise-from-the-grave?utm_source=api"
+   "url": "https://scryfall.com/card/znc/53/rise-from-the-grave?utm_source=api",
+   "oracle_text": "Put target creature card from a graveyard onto the battlefield under your control. That creature is a black Zombie in addition to its other colors and types."
   },
   {
    "name": "Grateful Apparition",
@@ -816,7 +885,8 @@
    "colors": [
     "W"
    ],
-   "url": "https://scryfall.com/card/cmm/824/grateful-apparition?utm_source=api"
+   "url": "https://scryfall.com/card/cmm/824/grateful-apparition?utm_source=api",
+   "oracle_text": "Flying\nWhenever Grateful Apparition deals combat damage to a player or planeswalker, proliferate. (Choose any number of permanents and/or players, then give each another counter of each kind already there.)"
   },
   {
    "name": "Quicken",
@@ -828,7 +898,8 @@
    "colors": [
     "U"
    ],
-   "url": "https://scryfall.com/card/dds/6/quicken?utm_source=api"
+   "url": "https://scryfall.com/card/dds/6/quicken?utm_source=api",
+   "oracle_text": "The next sorcery spell you cast this turn can be cast as though it had flash. (It can be cast any time you could cast an instant.)\nDraw a card."
   },
   {
    "name": "Turn to Mist",
@@ -841,7 +912,8 @@
     "U",
     "W"
    ],
-   "url": "https://scryfall.com/card/uma/224/turn-to-mist?utm_source=api"
+   "url": "https://scryfall.com/card/uma/224/turn-to-mist?utm_source=api",
+   "oracle_text": "Exile target creature. Return that card to the battlefield under its owner's control at the beginning of the next end step."
   },
   {
    "name": "Fall of the Thran",
@@ -856,7 +928,8 @@
    "colors": [
     "W"
    ],
-   "url": "https://scryfall.com/card/dom/18/fall-of-the-thran?utm_source=api"
+   "url": "https://scryfall.com/card/dom/18/fall-of-the-thran?utm_source=api",
+   "oracle_text": "(As this Saga enters and after your draw step, add a lore counter. Sacrifice after III.)\nI — Destroy all lands.\nII, III — Each player returns two land cards from their graveyard to the battlefield."
   },
   {
    "name": "Vampire Hexmage",
@@ -872,7 +945,8 @@
    "colors": [
     "B"
    ],
-   "url": "https://scryfall.com/card/2xm/112/vampire-hexmage?utm_source=api"
+   "url": "https://scryfall.com/card/2xm/112/vampire-hexmage?utm_source=api",
+   "oracle_text": "First strike\nSacrifice Vampire Hexmage: Remove all counters from target permanent."
   },
   {
    "name": "Field of Ruin",
@@ -882,7 +956,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/moc/400/field-of-ruin?utm_source=api"
+   "url": "https://scryfall.com/card/moc/400/field-of-ruin?utm_source=api",
+   "oracle_text": "{T}: Add {C}.\n{2}, {T}, Sacrifice Field of Ruin: Destroy target nonbasic land an opponent controls. Each player searches their library for a basic land card, puts it onto the battlefield, then shuffles."
   },
   {
    "name": "Silver Myr",
@@ -896,7 +971,8 @@
    "cmc": 2,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/nec/158/silver-myr?utm_source=api"
+   "url": "https://scryfall.com/card/nec/158/silver-myr?utm_source=api",
+   "oracle_text": "{T}: Add {U}."
   },
   {
    "name": "Gold Myr",
@@ -910,7 +986,8 @@
    "cmc": 2,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/nec/153/gold-myr?utm_source=api"
+   "url": "https://scryfall.com/card/nec/153/gold-myr?utm_source=api",
+   "oracle_text": "{T}: Add {W}."
   },
   {
    "name": "Aether Tradewinds",
@@ -922,7 +999,8 @@
    "colors": [
     "U"
    ],
-   "url": "https://scryfall.com/card/kld/38/aether-tradewinds?utm_source=api"
+   "url": "https://scryfall.com/card/kld/38/aether-tradewinds?utm_source=api",
+   "oracle_text": "Return target permanent you control and target permanent you don't control to their owners' hands."
   }
  ]
 }

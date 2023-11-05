@@ -1,11 +1,11 @@
 {
- "labels": ["midrange", "goodstuff"],
+ "labels": [
+  "midrange",
+  "goodstuff"
+ ],
  "player": "dom",
  "date": "2023-06-17",
- "notes": "star magic, didn't defeat anyone and wasn't defeated.",
- "wins": 0,
- "losses": 0,
- "ties": 0,
+ "games": null,
  "mainboard": [
   {
    "name": "Infuriate",
@@ -17,7 +17,8 @@
    "colors": [
     "R"
    ],
-   "url": "https://scryfall.com/card/thb/141/infuriate?utm_source=api"
+   "url": "https://scryfall.com/card/thb/141/infuriate?utm_source=api",
+   "oracle_text": "Target creature gets +3/+2 until end of turn."
   },
   {
    "name": "Puncture Blast",
@@ -29,7 +30,8 @@
    "colors": [
     "R"
    ],
-   "url": "https://scryfall.com/card/eve/60/puncture-blast?utm_source=api"
+   "url": "https://scryfall.com/card/eve/60/puncture-blast?utm_source=api",
+   "oracle_text": "Wither (This deals damage to creatures in the form of -1/-1 counters.)\nPuncture Blast deals 3 damage to any target."
   },
   {
    "name": "Doom Blade",
@@ -41,7 +43,8 @@
    "colors": [
     "B"
    ],
-   "url": "https://scryfall.com/card/ima/87/doom-blade?utm_source=api"
+   "url": "https://scryfall.com/card/ima/87/doom-blade?utm_source=api",
+   "oracle_text": "Destroy target nonblack creature."
   },
   {
    "name": "Starlit Mantle",
@@ -56,7 +59,8 @@
    "colors": [
     "U"
    ],
-   "url": "https://scryfall.com/card/thb/67/starlit-mantle?utm_source=api"
+   "url": "https://scryfall.com/card/thb/67/starlit-mantle?utm_source=api",
+   "oracle_text": "Flash\nEnchant creature you control\nWhen Starlit Mantle enters the battlefield, enchanted creature gains hexproof until end of turn. (It can't be the target of spells or abilities your opponents control.)\nEnchanted creature gets +1/+1."
   },
   {
    "name": "Fateful End",
@@ -68,7 +72,8 @@
    "colors": [
     "R"
    ],
-   "url": "https://scryfall.com/card/thb/133/fateful-end?utm_source=api"
+   "url": "https://scryfall.com/card/thb/133/fateful-end?utm_source=api",
+   "oracle_text": "Fateful End deals 3 damage to any target. Scry 1."
   },
   {
    "name": "Sulfur Falls",
@@ -78,7 +83,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/phed/79/sulfur-falls?utm_source=api"
+   "url": "https://scryfall.com/card/dom/247/sulfur-falls?utm_source=api",
+   "oracle_text": "Sulfur Falls enters the battlefield tapped unless you control an Island or a Mountain.\n{T}: Add {U} or {R}."
   },
   {
    "name": "Tidehollow Strix",
@@ -95,7 +101,8 @@
     "B",
     "U"
    ],
-   "url": "https://scryfall.com/card/c13/222/tidehollow-strix?utm_source=api"
+   "url": "https://scryfall.com/card/c13/222/tidehollow-strix?utm_source=api",
+   "oracle_text": "Flying\nDeathtouch (Any amount of damage this deals to a creature is enough to destroy it.)"
   },
   {
    "name": "Warcry Phoenix",
@@ -110,7 +117,8 @@
    "colors": [
     "R"
    ],
-   "url": "https://scryfall.com/card/dom/150/warcry-phoenix?utm_source=api"
+   "url": "https://scryfall.com/card/dom/150/warcry-phoenix?utm_source=api",
+   "oracle_text": "Flying, haste\nWhenever you attack with three or more creatures, you may pay {2}{R}. If you do, return Warcry Phoenix from your graveyard to the battlefield tapped and attacking."
   },
   {
    "name": "Murderous Redcap",
@@ -127,7 +135,8 @@
     "B",
     "R"
    ],
-   "url": "https://scryfall.com/card/uma/217/murderous-redcap?utm_source=api"
+   "url": "https://scryfall.com/card/uma/217/murderous-redcap?utm_source=api",
+   "oracle_text": "When Murderous Redcap enters the battlefield, it deals damage equal to its power to any target.\nPersist (When this creature dies, if it had no -1/-1 counters on it, return it to the battlefield under its owner's control with a -1/-1 counter on it.)"
   },
   {
    "name": "Fatestitcher",
@@ -143,7 +152,8 @@
    "colors": [
     "U"
    ],
-   "url": "https://scryfall.com/card/ala/43/fatestitcher?utm_source=api"
+   "url": "https://scryfall.com/card/ala/43/fatestitcher?utm_source=api",
+   "oracle_text": "{T}: You may tap or untap another target permanent.\nUnearth {U} ({U}: Return this card from your graveyard to the battlefield. It gains haste. Exile it at the beginning of the next end step or if it would leave the battlefield. Unearth only as a sorcery.)"
   },
   {
    "name": "Deprive",
@@ -155,7 +165,8 @@
    "colors": [
     "U"
    ],
-   "url": "https://scryfall.com/card/roe/59/deprive?utm_source=api"
+   "url": "https://scryfall.com/card/roe/59/deprive?utm_source=api",
+   "oracle_text": "As an additional cost to cast this spell, return a land you control to its owner's hand.\nCounter target spell."
   },
   {
    "name": "Hellkite Charger",
@@ -170,7 +181,8 @@
    "colors": [
     "R"
    ],
-   "url": "https://scryfall.com/card/c17/138/hellkite-charger?utm_source=api"
+   "url": "https://scryfall.com/card/cmm/232/hellkite-charger?utm_source=api",
+   "oracle_text": "Flying, haste\nWhenever Hellkite Charger attacks, you may pay {5}{R}{R}. If you do, untap all attacking creatures and after this phase, there is an additional combat phase."
   },
   {
    "name": "Rabbit Battery",
@@ -187,7 +199,8 @@
    "colors": [
     "R"
    ],
-   "url": "https://scryfall.com/card/neo/157/rabbit-battery?utm_source=api"
+   "url": "https://scryfall.com/card/neo/157/rabbit-battery?utm_source=api",
+   "oracle_text": "Haste\nEquipped creature gets +1/+1 and has haste.\nReconfigure {R} ({R}: Attach to target creature you control; or unattach from a creature. Reconfigure only as a sorcery. While attached, this isn't a creature.)"
   },
   {
    "name": "Mountain",
@@ -201,7 +214,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/203/mountain?utm_source=api"
+   "url": "https://scryfall.com/card/woe/273/mountain?utm_source=api",
+   "oracle_text": "({T}: Add {R}.)"
   },
   {
    "name": "Mountain",
@@ -215,7 +229,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/203/mountain?utm_source=api"
+   "url": "https://scryfall.com/card/woe/273/mountain?utm_source=api",
+   "oracle_text": "({T}: Add {R}.)"
   },
   {
    "name": "Mountain",
@@ -229,7 +244,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/203/mountain?utm_source=api"
+   "url": "https://scryfall.com/card/woe/273/mountain?utm_source=api",
+   "oracle_text": "({T}: Add {R}.)"
   },
   {
    "name": "Mountain",
@@ -243,7 +259,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/203/mountain?utm_source=api"
+   "url": "https://scryfall.com/card/woe/273/mountain?utm_source=api",
+   "oracle_text": "({T}: Add {R}.)"
   },
   {
    "name": "Mountain",
@@ -257,7 +274,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/203/mountain?utm_source=api"
+   "url": "https://scryfall.com/card/woe/273/mountain?utm_source=api",
+   "oracle_text": "({T}: Add {R}.)"
   },
   {
    "name": "Mountain",
@@ -271,7 +289,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/203/mountain?utm_source=api"
+   "url": "https://scryfall.com/card/woe/273/mountain?utm_source=api",
+   "oracle_text": "({T}: Add {R}.)"
   },
   {
    "name": "Mesmerizing Benthid",
@@ -286,7 +305,8 @@
    "colors": [
     "U"
    ],
-   "url": "https://scryfall.com/card/rna/43/mesmerizing-benthid?utm_source=api"
+   "url": "https://scryfall.com/card/rna/43/mesmerizing-benthid?utm_source=api",
+   "oracle_text": "When Mesmerizing Benthid enters the battlefield, create two 0/2 blue Illusion creature tokens with \"Whenever this creature blocks a creature, that creature doesn't untap during its controller's next untap step.\"\nMesmerizing Benthid has hexproof as long as you control an Illusion."
   },
   {
    "name": "Spark Harvest",
@@ -298,7 +318,8 @@
    "colors": [
     "B"
    ],
-   "url": "https://scryfall.com/card/cmr/150/spark-harvest?utm_source=api"
+   "url": "https://scryfall.com/card/cmr/150/spark-harvest?utm_source=api",
+   "oracle_text": "As an additional cost to cast this spell, sacrifice a creature or pay {3}{B}.\nDestroy target creature or planeswalker."
   },
   {
    "name": "Maze of Ith",
@@ -308,7 +329,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/2xm/322/maze-of-ith?utm_source=api"
+   "url": "https://scryfall.com/card/2xm/322/maze-of-ith?utm_source=api",
+   "oracle_text": "{T}: Untap target attacking creature. Prevent all combat damage that would be dealt to and dealt by that creature this turn."
   },
   {
    "name": "Mark of Mutiny",
@@ -320,7 +342,8 @@
    "colors": [
     "R"
    ],
-   "url": "https://scryfall.com/card/ima/139/mark-of-mutiny?utm_source=api"
+   "url": "https://scryfall.com/card/ima/139/mark-of-mutiny?utm_source=api",
+   "oracle_text": "Gain control of target creature until end of turn. Put a +1/+1 counter on it and untap it. That creature gains haste until end of turn. (It can attack and {T} this turn.)"
   },
   {
    "name": "Island",
@@ -334,7 +357,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/199/island?utm_source=api"
+   "url": "https://scryfall.com/card/woe/269/island?utm_source=api",
+   "oracle_text": "({T}: Add {U}.)"
   },
   {
    "name": "Island",
@@ -348,7 +372,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/199/island?utm_source=api"
+   "url": "https://scryfall.com/card/woe/269/island?utm_source=api",
+   "oracle_text": "({T}: Add {U}.)"
   },
   {
    "name": "Island",
@@ -362,7 +387,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/199/island?utm_source=api"
+   "url": "https://scryfall.com/card/woe/269/island?utm_source=api",
+   "oracle_text": "({T}: Add {U}.)"
   },
   {
    "name": "Island",
@@ -376,7 +402,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/199/island?utm_source=api"
+   "url": "https://scryfall.com/card/woe/269/island?utm_source=api",
+   "oracle_text": "({T}: Add {U}.)"
   },
   {
    "name": "Island",
@@ -390,7 +417,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/199/island?utm_source=api"
+   "url": "https://scryfall.com/card/woe/269/island?utm_source=api",
+   "oracle_text": "({T}: Add {U}.)"
   },
   {
    "name": "Enigma Drake",
@@ -406,7 +434,8 @@
     "R",
     "U"
    ],
-   "url": "https://scryfall.com/card/m19/216/enigma-drake?utm_source=api"
+   "url": "https://scryfall.com/card/m19/216/enigma-drake?utm_source=api",
+   "oracle_text": "Flying\nEnigma Drake's power is equal to the number of instant and sorcery cards in your graveyard."
   },
   {
    "name": "Skarrgan Hellkite",
@@ -421,7 +450,8 @@
    "colors": [
     "R"
    ],
-   "url": "https://scryfall.com/card/rna/114/skarrgan-hellkite?utm_source=api"
+   "url": "https://scryfall.com/card/rna/114/skarrgan-hellkite?utm_source=api",
+   "oracle_text": "Riot (This creature enters the battlefield with your choice of a +1/+1 counter or haste.)\nFlying\n{3}{R}: Skarrgan Hellkite deals 2 damage divided as you choose among one or two targets. Activate only if Skarrgan Hellkite has a +1/+1 counter on it."
   },
   {
    "name": "Swamp",
@@ -435,7 +465,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/201/swamp?utm_source=api"
+   "url": "https://scryfall.com/card/woe/271/swamp?utm_source=api",
+   "oracle_text": "({T}: Add {B}.)"
   },
   {
    "name": "Swamp",
@@ -449,7 +480,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/201/swamp?utm_source=api"
+   "url": "https://scryfall.com/card/woe/271/swamp?utm_source=api",
+   "oracle_text": "({T}: Add {B}.)"
   },
   {
    "name": "Swamp",
@@ -463,7 +495,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/201/swamp?utm_source=api"
+   "url": "https://scryfall.com/card/woe/271/swamp?utm_source=api",
+   "oracle_text": "({T}: Add {B}.)"
   },
   {
    "name": "Swamp",
@@ -477,7 +510,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/201/swamp?utm_source=api"
+   "url": "https://scryfall.com/card/woe/271/swamp?utm_source=api",
+   "oracle_text": "({T}: Add {B}.)"
   },
   {
    "name": "Swamp",
@@ -491,7 +525,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/201/swamp?utm_source=api"
+   "url": "https://scryfall.com/card/woe/271/swamp?utm_source=api",
+   "oracle_text": "({T}: Add {B}.)"
   },
   {
    "name": "Vexing Gull",
@@ -506,7 +541,8 @@
    "colors": [
     "U"
    ],
-   "url": "https://scryfall.com/card/thb/79/vexing-gull?utm_source=api"
+   "url": "https://scryfall.com/card/thb/79/vexing-gull?utm_source=api",
+   "oracle_text": "Flash\nFlying"
   },
   {
    "name": "Cunning Sparkmage",
@@ -522,7 +558,8 @@
    "colors": [
     "R"
    ],
-   "url": "https://scryfall.com/card/wwk/79/cunning-sparkmage?utm_source=api"
+   "url": "https://scryfall.com/card/wwk/79/cunning-sparkmage?utm_source=api",
+   "oracle_text": "Haste\n{T}: Cunning Sparkmage deals 1 damage to any target."
   },
   {
    "name": "Ob Nixilis, the Hate-Twisted",
@@ -538,7 +575,8 @@
    "colors": [
     "B"
    ],
-   "url": "https://scryfall.com/card/war/100/ob-nixilis-the-hate-twisted?utm_source=api"
+   "url": "https://scryfall.com/card/war/100/ob-nixilis-the-hate-twisted?utm_source=api",
+   "oracle_text": "Whenever an opponent draws a card, Ob Nixilis, the Hate-Twisted deals 1 damage to that player.\n−2: Destroy target creature. Its controller draws two cards."
   },
   {
    "name": "Tibalt's Rager",
@@ -553,7 +591,8 @@
    "colors": [
     "R"
    ],
-   "url": "https://scryfall.com/card/jmp/366/tibalts-rager?utm_source=api"
+   "url": "https://scryfall.com/card/jmp/366/tibalts-rager?utm_source=api",
+   "oracle_text": "When Tibalt's Rager dies, it deals 1 damage to any target.\n{1}{R}: Tibalt's Rager gets +2/+0 until end of turn."
   },
   {
    "name": "Counterspell",
@@ -565,7 +604,8 @@
    "colors": [
     "U"
    ],
-   "url": "https://scryfall.com/card/phed/33/counterspell?utm_source=api"
+   "url": "https://scryfall.com/card/cmm/81/counterspell?utm_source=api",
+   "oracle_text": "Counter target spell."
   }
  ],
  "sideboard": []

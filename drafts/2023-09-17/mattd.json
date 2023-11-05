@@ -1,12 +1,25 @@
 {
- "labels": ["control", "removal", "vampire"],
+ "labels": [
+  "control",
+  "removal",
+  "vampire"
+ ],
  "player": "mattd",
  "date": "2023-09-17",
  "games": [
-    {"opponent": "paul", "winner": "paul"},
-    {"opponent": "jen", "winner": "mattd"},
-    {"opponent": "james", "winner": "james"}
-  ],
+  {
+   "opponent": "paul",
+   "winner": "paul"
+  },
+  {
+   "opponent": "jen",
+   "winner": "mattd"
+  },
+  {
+   "opponent": "james",
+   "winner": "james"
+  }
+ ],
  "mainboard": [
   {
    "name": "Angel of Salvation",
@@ -21,7 +34,8 @@
    "colors": [
     "W"
    ],
-   "url": "https://scryfall.com/card/moc/170/angel-of-salvation?utm_source=api"
+   "url": "https://scryfall.com/card/moc/170/angel-of-salvation?utm_source=api",
+   "oracle_text": "Flash; convoke (Your creatures can help cast this spell. Each creature you tap while casting this spell pays for {1} or one mana of that creature's color.)\nFlying\nWhen Angel of Salvation enters the battlefield, prevent the next 5 damage that would be dealt this turn to any number of targets, divided as you choose."
   },
   {
    "name": "Ajani Goldmane",
@@ -37,7 +51,8 @@
    "colors": [
     "W"
    ],
-   "url": "https://scryfall.com/card/m11/1/ajani-goldmane?utm_source=api"
+   "url": "https://scryfall.com/card/m11/1/ajani-goldmane?utm_source=api",
+   "oracle_text": "+1: You gain 2 life.\n−1: Put a +1/+1 counter on each creature you control. Those creatures gain vigilance until end of turn.\n−6: Create a white Avatar creature token. It has \"This creature's power and toughness are each equal to your life total.\""
   },
   {
    "name": "Glory of Warfare",
@@ -50,7 +65,8 @@
     "R",
     "W"
    ],
-   "url": "https://scryfall.com/card/hop/88/glory-of-warfare?utm_source=api"
+   "url": "https://scryfall.com/card/hop/88/glory-of-warfare?utm_source=api",
+   "oracle_text": "As long as it's your turn, creatures you control get +2/+0.\nAs long as it's not your turn, creatures you control get +0/+2."
   },
   {
    "name": "Mire Triton",
@@ -66,7 +82,8 @@
    "colors": [
     "B"
    ],
-   "url": "https://scryfall.com/card/cmm/174/mire-triton?utm_source=api"
+   "url": "https://scryfall.com/card/cmm/174/mire-triton?utm_source=api",
+   "oracle_text": "Deathtouch\nWhen Mire Triton enters the battlefield, mill two cards and you gain 2 life."
   },
   {
    "name": "Infuriate",
@@ -78,7 +95,8 @@
    "colors": [
     "R"
    ],
-   "url": "https://scryfall.com/card/thb/141/infuriate?utm_source=api"
+   "url": "https://scryfall.com/card/thb/141/infuriate?utm_source=api",
+   "oracle_text": "Target creature gets +3/+2 until end of turn."
   },
   {
    "name": "Cruel Celebrant",
@@ -94,7 +112,8 @@
     "B",
     "W"
    ],
-   "url": "https://scryfall.com/card/war/188/cruel-celebrant?utm_source=api"
+   "url": "https://scryfall.com/card/war/188/cruel-celebrant?utm_source=api",
+   "oracle_text": "Whenever Cruel Celebrant or another creature or planeswalker you control dies, each opponent loses 1 life and you gain 1 life."
   },
   {
    "name": "Inspiring Cleric",
@@ -110,7 +129,8 @@
    "colors": [
     "W"
    ],
-   "url": "https://scryfall.com/card/xln/16/inspiring-cleric?utm_source=api"
+   "url": "https://scryfall.com/card/xln/16/inspiring-cleric?utm_source=api",
+   "oracle_text": "When Inspiring Cleric enters the battlefield, you gain 4 life."
   },
   {
    "name": "Legion's Landing // Adanto, the First Fort",
@@ -124,7 +144,8 @@
    "cmc": 1,
    "image": "",
    "colors": null,
-   "url": "https://scryfall.com/card/xln/22/legions-landing-adanto-the-first-fort?utm_source=api"
+   "url": "https://scryfall.com/card/xln/22/legions-landing-adanto-the-first-fort?utm_source=api",
+   "oracle_text": ""
   },
   {
    "name": "Welcoming Vampire",
@@ -139,7 +160,8 @@
    "colors": [
     "W"
    ],
-   "url": "https://scryfall.com/card/vow/46/welcoming-vampire?utm_source=api"
+   "url": "https://scryfall.com/card/vow/46/welcoming-vampire?utm_source=api",
+   "oracle_text": "Flying\nWhenever one or more other creatures with power 2 or less enter the battlefield under your control, draw a card. This ability triggers only once each turn."
   },
   {
    "name": "Frostboil Snarl",
@@ -149,7 +171,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/cmm/998/frostboil-snarl?utm_source=api"
+   "url": "https://scryfall.com/card/cmm/998/frostboil-snarl?utm_source=api",
+   "oracle_text": "As Frostboil Snarl enters the battlefield, you may reveal an Island or Mountain card from your hand. If you don't, Frostboil Snarl enters the battlefield tapped.\n{T}: Add {U} or {R}."
   },
   {
    "name": "Irrigated Farmland",
@@ -163,7 +186,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/cmm/1005/irrigated-farmland?utm_source=api"
+   "url": "https://scryfall.com/card/cmm/1005/irrigated-farmland?utm_source=api",
+   "oracle_text": "({T}: Add {W} or {U}.)\nIrrigated Farmland enters the battlefield tapped.\nCycling {2} ({2}, Discard this card: Draw a card.)"
   },
   {
    "name": "Bloodghast",
@@ -179,7 +203,8 @@
    "colors": [
     "B"
    ],
-   "url": "https://scryfall.com/card/ima/82/bloodghast?utm_source=api"
+   "url": "https://scryfall.com/card/ima/82/bloodghast?utm_source=api",
+   "oracle_text": "Bloodghast can't block.\nBloodghast has haste as long as an opponent has 10 or less life.\nLandfall — Whenever a land enters the battlefield under your control, you may return Bloodghast from your graveyard to the battlefield."
   },
   {
    "name": "Faerie Dreamthief",
@@ -195,7 +220,8 @@
    "colors": [
     "B"
    ],
-   "url": "https://scryfall.com/card/woe/89/faerie-dreamthief?utm_source=api"
+   "url": "https://scryfall.com/card/woe/89/faerie-dreamthief?utm_source=api",
+   "oracle_text": "Flying\nWhen Faerie Dreamthief enters the battlefield, surveil 1. (Look at the top card of your library. You may put it into your graveyard.)\n{2}{B}, Exile Faerie Dreamthief from your graveyard: You draw a card and you lose 1 life."
   },
   {
    "name": "Goldenglow Moth",
@@ -210,7 +236,8 @@
    "colors": [
     "W"
    ],
-   "url": "https://scryfall.com/card/m11/15/goldenglow-moth?utm_source=api"
+   "url": "https://scryfall.com/card/m11/15/goldenglow-moth?utm_source=api",
+   "oracle_text": "Flying\nWhenever Goldenglow Moth blocks, you may gain 4 life."
   },
   {
    "name": "Isolated Chapel",
@@ -220,7 +247,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/dom/241/isolated-chapel?utm_source=api"
+   "url": "https://scryfall.com/card/dom/241/isolated-chapel?utm_source=api",
+   "oracle_text": "Isolated Chapel enters the battlefield tapped unless you control a Plains or a Swamp.\n{T}: Add {W} or {B}."
   },
   {
    "name": "Sparring Construct",
@@ -234,7 +262,8 @@
    "cmc": 1,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/dom/232/sparring-construct?utm_source=api"
+   "url": "https://scryfall.com/card/dom/232/sparring-construct?utm_source=api",
+   "oracle_text": "When Sparring Construct dies, put a +1/+1 counter on target creature you control."
   },
   {
    "name": "Polluted Delta",
@@ -244,7 +273,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/ktk/239/polluted-delta?utm_source=api"
+   "url": "https://scryfall.com/card/ktk/239/polluted-delta?utm_source=api",
+   "oracle_text": "{T}, Pay 1 life, Sacrifice Polluted Delta: Search your library for an Island or Swamp card, put it onto the battlefield, then shuffle."
   },
   {
    "name": "Touch the Spirit Realm",
@@ -256,7 +286,8 @@
    "colors": [
     "W"
    ],
-   "url": "https://scryfall.com/card/neo/40/touch-the-spirit-realm?utm_source=api"
+   "url": "https://scryfall.com/card/neo/40/touch-the-spirit-realm?utm_source=api",
+   "oracle_text": "When Touch the Spirit Realm enters the battlefield, exile up to one target artifact or creature until Touch the Spirit Realm leaves the battlefield.\nChannel — {1}{W}, Discard Touch the Spirit Realm: Exile target artifact or creature. Return it to the battlefield under its owner's control at the beginning of the next end step."
   },
   {
    "name": "Uncharted Haven",
@@ -266,7 +297,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/neo/281/uncharted-haven?utm_source=api"
+   "url": "https://scryfall.com/card/neo/281/uncharted-haven?utm_source=api",
+   "oracle_text": "Uncharted Haven enters the battlefield tapped.\nAs Uncharted Haven enters the battlefield, choose a color.\n{T}: Add one mana of the chosen color."
   },
   {
    "name": "Kitchen Finks",
@@ -282,7 +314,8 @@
     "G",
     "W"
    ],
-   "url": "https://scryfall.com/card/uma/216/kitchen-finks?utm_source=api"
+   "url": "https://scryfall.com/card/uma/216/kitchen-finks?utm_source=api",
+   "oracle_text": "When Kitchen Finks enters the battlefield, you gain 2 life.\nPersist (When this creature dies, if it had no -1/-1 counters on it, return it to the battlefield under its owner's control with a -1/-1 counter on it.)"
   },
   {
    "name": "Clarion Spirit",
@@ -297,7 +330,8 @@
    "colors": [
     "W"
    ],
-   "url": "https://scryfall.com/card/khm/6/clarion-spirit?utm_source=api"
+   "url": "https://scryfall.com/card/khm/6/clarion-spirit?utm_source=api",
+   "oracle_text": "Whenever you cast your second spell each turn, create a 1/1 white Spirit creature token with flying."
   },
   {
    "name": "Mulldrifter",
@@ -312,7 +346,8 @@
    "colors": [
     "U"
    ],
-   "url": "https://scryfall.com/card/2x2/60/mulldrifter?utm_source=api"
+   "url": "https://scryfall.com/card/2x2/60/mulldrifter?utm_source=api",
+   "oracle_text": "Flying\nWhen Mulldrifter enters the battlefield, draw two cards.\nEvoke {2}{U} (You may cast this spell for its evoke cost. If you do, it's sacrificed when it enters the battlefield.)"
   },
   {
    "name": "Shineshadow Snarl",
@@ -322,7 +357,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/cmm/1033/shineshadow-snarl?utm_source=api"
+   "url": "https://scryfall.com/card/cmm/1033/shineshadow-snarl?utm_source=api",
+   "oracle_text": "As Shineshadow Snarl enters the battlefield, you may reveal a Plains or Swamp card from your hand. If you don't, Shineshadow Snarl enters the battlefield tapped.\n{T}: Add {W} or {B}."
   },
   {
    "name": "Glacial Fortress",
@@ -332,7 +368,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/xln/255/glacial-fortress?utm_source=api"
+   "url": "https://scryfall.com/card/xln/255/glacial-fortress?utm_source=api",
+   "oracle_text": "Glacial Fortress enters the battlefield tapped unless you control a Plains or an Island.\n{T}: Add {W} or {U}."
   },
   {
    "name": "Malfegor",
@@ -350,7 +387,8 @@
     "B",
     "R"
    ],
-   "url": "https://scryfall.com/card/ima/205/malfegor?utm_source=api"
+   "url": "https://scryfall.com/card/ima/205/malfegor?utm_source=api",
+   "oracle_text": "Flying\nWhen Malfegor enters the battlefield, discard your hand. Each opponent sacrifices a creature for each card discarded this way."
   },
   {
    "name": "Hostage Taker",
@@ -367,7 +405,8 @@
     "B",
     "U"
    ],
-   "url": "https://scryfall.com/card/2x2/227/hostage-taker?utm_source=api"
+   "url": "https://scryfall.com/card/2x2/227/hostage-taker?utm_source=api",
+   "oracle_text": "When Hostage Taker enters the battlefield, exile another target creature or artifact until Hostage Taker leaves the battlefield. You may cast that card for as long as it remains exiled, and mana of any type can be spent to cast it."
   },
   {
    "name": "Kalastria Highborn",
@@ -383,7 +422,8 @@
    "colors": [
     "B"
    ],
-   "url": "https://scryfall.com/card/wwk/59/kalastria-highborn?utm_source=api"
+   "url": "https://scryfall.com/card/wwk/59/kalastria-highborn?utm_source=api",
+   "oracle_text": "Whenever Kalastria Highborn or another Vampire you control dies, you may pay {B}. If you do, target player loses 2 life and you gain 2 life."
   },
   {
    "name": "Blinding Mage",
@@ -399,7 +439,8 @@
    "colors": [
     "W"
    ],
-   "url": "https://scryfall.com/card/ima/13/blinding-mage?utm_source=api"
+   "url": "https://scryfall.com/card/ima/13/blinding-mage?utm_source=api",
+   "oracle_text": "{W}, {T}: Tap target creature."
   },
   {
    "name": "Prison Term",
@@ -414,7 +455,8 @@
    "colors": [
     "W"
    ],
-   "url": "https://scryfall.com/card/cmd/27/prison-term?utm_source=api"
+   "url": "https://scryfall.com/card/cmd/27/prison-term?utm_source=api",
+   "oracle_text": "Enchant creature\nEnchanted creature can't attack or block, and its activated abilities can't be activated.\nWhenever a creature enters the battlefield under an opponent's control, you may attach Prison Term to that creature."
   },
   {
    "name": "Marsh Flats",
@@ -424,7 +466,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/mh2/248/marsh-flats?utm_source=api"
+   "url": "https://scryfall.com/card/mh2/248/marsh-flats?utm_source=api",
+   "oracle_text": "{T}, Pay 1 life, Sacrifice Marsh Flats: Search your library for a Plains or Swamp card, put it onto the battlefield, then shuffle."
   },
   {
    "name": "Harm's Way",
@@ -436,7 +479,8 @@
    "colors": [
     "W"
    ],
-   "url": "https://scryfall.com/card/ddg/23/harms-way?utm_source=api"
+   "url": "https://scryfall.com/card/ddg/23/harms-way?utm_source=api",
+   "oracle_text": "The next 2 damage that a source of your choice would deal to you and/or permanents you control this turn is dealt to any target instead."
   },
   {
    "name": "Severed Strands",
@@ -448,7 +492,8 @@
    "colors": [
     "B"
    ],
-   "url": "https://scryfall.com/card/2x2/88/severed-strands?utm_source=api"
+   "url": "https://scryfall.com/card/2x2/88/severed-strands?utm_source=api",
+   "oracle_text": "As an additional cost to cast this spell, sacrifice a creature.\nYou gain life equal to the sacrificed creature's toughness. Destroy target creature an opponent controls."
   },
   {
    "name": "Atris, Oracle of Half-Truths",
@@ -466,7 +511,8 @@
     "B",
     "U"
    ],
-   "url": "https://scryfall.com/card/thb/209/atris-oracle-of-half-truths?utm_source=api"
+   "url": "https://scryfall.com/card/thb/209/atris-oracle-of-half-truths?utm_source=api",
+   "oracle_text": "Menace\nWhen Atris, Oracle of Half-Truths enters the battlefield, target opponent looks at the top three cards of your library and separates them into a face-down pile and a face-up pile. Put one pile into your hand and the other into your graveyard."
   },
   {
    "name": "Plains",
@@ -480,7 +526,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/woe/267/plains?utm_source=api"
+   "url": "https://scryfall.com/card/woe/267/plains?utm_source=api",
+   "oracle_text": "({T}: Add {W}.)"
   },
   {
    "name": "Plains",
@@ -494,7 +541,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/woe/267/plains?utm_source=api"
+   "url": "https://scryfall.com/card/woe/267/plains?utm_source=api",
+   "oracle_text": "({T}: Add {W}.)"
   },
   {
    "name": "Plains",
@@ -508,7 +556,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/woe/267/plains?utm_source=api"
+   "url": "https://scryfall.com/card/woe/267/plains?utm_source=api",
+   "oracle_text": "({T}: Add {W}.)"
   },
   {
    "name": "Island",
@@ -522,7 +571,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/woe/269/island?utm_source=api"
+   "url": "https://scryfall.com/card/woe/269/island?utm_source=api",
+   "oracle_text": "({T}: Add {U}.)"
   },
   {
    "name": "Swamp",
@@ -536,7 +586,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/woe/271/swamp?utm_source=api"
+   "url": "https://scryfall.com/card/woe/271/swamp?utm_source=api",
+   "oracle_text": "({T}: Add {B}.)"
   },
   {
    "name": "Swamp",
@@ -550,7 +601,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/woe/271/swamp?utm_source=api"
+   "url": "https://scryfall.com/card/woe/271/swamp?utm_source=api",
+   "oracle_text": "({T}: Add {B}.)"
   },
   {
    "name": "Mountain",
@@ -564,7 +616,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/woe/273/mountain?utm_source=api"
+   "url": "https://scryfall.com/card/woe/273/mountain?utm_source=api",
+   "oracle_text": "({T}: Add {R}.)"
   }
  ],
  "sideboard": [
@@ -581,7 +634,8 @@
    "colors": [
     "W"
    ],
-   "url": "https://scryfall.com/card/dom/18/fall-of-the-thran?utm_source=api"
+   "url": "https://scryfall.com/card/dom/18/fall-of-the-thran?utm_source=api",
+   "oracle_text": "(As this Saga enters and after your draw step, add a lore counter. Sacrifice after III.)\nI — Destroy all lands.\nII, III — Each player returns two land cards from their graveyard to the battlefield."
   },
   {
    "name": "Merfolk Skydiver",
@@ -598,7 +652,8 @@
     "G",
     "U"
    ],
-   "url": "https://scryfall.com/card/war/205/merfolk-skydiver?utm_source=api"
+   "url": "https://scryfall.com/card/war/205/merfolk-skydiver?utm_source=api",
+   "oracle_text": "Flying\nWhen Merfolk Skydiver enters the battlefield, put a +1/+1 counter on target creature you control.\n{3}{G}{U}: Proliferate. (Choose any number of permanents and/or players, then give each another counter of each kind already there.)"
   },
   {
    "name": "Trading Post",
@@ -608,7 +663,8 @@
    "cmc": 4,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/cm2/225/trading-post?utm_source=api"
+   "url": "https://scryfall.com/card/cm2/225/trading-post?utm_source=api",
+   "oracle_text": "{1}, {T}, Discard a card: You gain 4 life.\n{1}, {T}, Pay 1 life: Create a 0/1 white Goat creature token.\n{1}, {T}, Sacrifice a creature: Return target artifact card from your graveyard to your hand.\n{1}, {T}, Sacrifice an artifact: Draw a card."
   },
   {
    "name": "Pteramander",
@@ -624,7 +680,8 @@
    "colors": [
     "U"
    ],
-   "url": "https://scryfall.com/card/rna/47/pteramander?utm_source=api"
+   "url": "https://scryfall.com/card/rna/47/pteramander?utm_source=api",
+   "oracle_text": "Flying\n{7}{U}: Adapt 4. This ability costs {1} less to activate for each instant and sorcery card in your graveyard. (If this creature has no +1/+1 counters on it, put four +1/+1 counters on it.)"
   },
   {
    "name": "Gold Myr",
@@ -638,7 +695,8 @@
    "cmc": 2,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/nec/153/gold-myr?utm_source=api"
+   "url": "https://scryfall.com/card/nec/153/gold-myr?utm_source=api",
+   "oracle_text": "{T}: Add {W}."
   },
   {
    "name": "Mischievous Chimera",
@@ -655,7 +713,8 @@
     "R",
     "U"
    ],
-   "url": "https://scryfall.com/card/thb/223/mischievous-chimera?utm_source=api"
+   "url": "https://scryfall.com/card/thb/223/mischievous-chimera?utm_source=api",
+   "oracle_text": "Flying\nWhenever you cast your first spell during each opponent's turn, Mischievous Chimera deals 1 damage to each opponent. Scry 1."
   },
   {
    "name": "Narrow Escape",
@@ -667,7 +726,8 @@
    "colors": [
     "W"
    ],
-   "url": "https://scryfall.com/card/dde/55/narrow-escape?utm_source=api"
+   "url": "https://scryfall.com/card/dde/55/narrow-escape?utm_source=api",
+   "oracle_text": "Return target permanent you control to its owner's hand. You gain 4 life."
   },
   {
    "name": "Stormclaw Rager",
@@ -684,7 +744,8 @@
     "B",
     "R"
    ],
-   "url": "https://scryfall.com/card/mom/254/stormclaw-rager?utm_source=api"
+   "url": "https://scryfall.com/card/mom/254/stormclaw-rager?utm_source=api",
+   "oracle_text": "{1}, Sacrifice another creature or artifact: Put a +1/+1 counter on Stormclaw Rager and draw a card. Activate only as a sorcery."
   },
   {
    "name": "Twinshot Sniper",
@@ -701,7 +762,8 @@
    "colors": [
     "R"
    ],
-   "url": "https://scryfall.com/card/neo/168/twinshot-sniper?utm_source=api"
+   "url": "https://scryfall.com/card/neo/168/twinshot-sniper?utm_source=api",
+   "oracle_text": "Reach\nWhen Twinshot Sniper enters the battlefield, it deals 2 damage to any target.\nChannel — {1}{R}, Discard Twinshot Sniper: It deals 2 damage to any target."
   },
   {
    "name": "Bonesplitter",
@@ -714,7 +776,8 @@
    "cmc": 1,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/cmr/458/bonesplitter?utm_source=api"
+   "url": "https://scryfall.com/card/cmr/458/bonesplitter?utm_source=api",
+   "oracle_text": "Equipped creature gets +2/+0.\nEquip {1}"
   },
   {
    "name": "Dauntless Bodyguard",
@@ -730,7 +793,8 @@
    "colors": [
     "W"
    ],
-   "url": "https://scryfall.com/card/dom/14/dauntless-bodyguard?utm_source=api"
+   "url": "https://scryfall.com/card/dom/14/dauntless-bodyguard?utm_source=api",
+   "oracle_text": "As Dauntless Bodyguard enters the battlefield, choose another creature you control.\nSacrifice Dauntless Bodyguard: The chosen creature gains indestructible until end of turn."
   },
   {
    "name": "Gwyllion Hedge-Mage",
@@ -747,7 +811,8 @@
     "B",
     "W"
    ],
-   "url": "https://scryfall.com/card/cma/201/gwyllion-hedge-mage?utm_source=api"
+   "url": "https://scryfall.com/card/cma/201/gwyllion-hedge-mage?utm_source=api",
+   "oracle_text": "When Gwyllion Hedge-Mage enters the battlefield, if you control two or more Plains, you may create a 1/1 white Kithkin Soldier creature token.\nWhen Gwyllion Hedge-Mage enters the battlefield, if you control two or more Swamps, you may put a -1/-1 counter on target creature."
   },
   {
    "name": "Merfolk Looter",
@@ -763,7 +828,8 @@
    "colors": [
     "U"
    ],
-   "url": "https://scryfall.com/card/afc/86/merfolk-looter?utm_source=api"
+   "url": "https://scryfall.com/card/afc/86/merfolk-looter?utm_source=api",
+   "oracle_text": "{T}: Draw a card, then discard a card."
   },
   {
    "name": "Sai of the Shinobi",
@@ -776,7 +842,8 @@
    "cmc": 1,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/a25/230/sai-of-the-shinobi?utm_source=api"
+   "url": "https://scryfall.com/card/a25/230/sai-of-the-shinobi?utm_source=api",
+   "oracle_text": "Equipped creature gets +1/+1.\nWhenever a creature enters the battlefield under your control, you may attach Sai of the Shinobi to it.\nEquip {2}"
   },
   {
    "name": "Reprieve",
@@ -788,7 +855,8 @@
    "colors": [
     "W"
    ],
-   "url": "https://scryfall.com/card/ltr/26/reprieve?utm_source=api"
+   "url": "https://scryfall.com/card/ltr/26/reprieve?utm_source=api",
+   "oracle_text": "Return target spell to its owner's hand.\nDraw a card."
   }
  ]
 }

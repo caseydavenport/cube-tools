@@ -1,10 +1,12 @@
 {
- "labels": ["sacrifice", "control"],
+ "labels": [
+  "sacrifice",
+  "control"
+ ],
  "player": "xander",
  "date": "2023-04-27",
+ "games": null,
  "wins": 1,
- "losses": 0,
- "ties": 0,
  "mainboard": [
   {
    "name": "Foreboding Ruins",
@@ -14,7 +16,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/dmc/211/foreboding-ruins?utm_source=api"
+   "url": "https://scryfall.com/card/dmc/211/foreboding-ruins?utm_source=api",
+   "oracle_text": "As Foreboding Ruins enters the battlefield, you may reveal a Swamp or Mountain card from your hand. If you don't, Foreboding Ruins enters the battlefield tapped.\n{T}: Add {B} or {R}."
   },
   {
    "name": "Dragonskull Summit",
@@ -24,7 +27,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/dmc/207/dragonskull-summit?utm_source=api"
+   "url": "https://scryfall.com/card/dmc/207/dragonskull-summit?utm_source=api",
+   "oracle_text": "Dragonskull Summit enters the battlefield tapped unless you control a Swamp or a Mountain.\n{T}: Add {B} or {R}."
   },
   {
    "name": "Hellion Eruption",
@@ -36,7 +40,8 @@
    "colors": [
     "R"
    ],
-   "url": "https://scryfall.com/card/pca/45/hellion-eruption?utm_source=api"
+   "url": "https://scryfall.com/card/pca/45/hellion-eruption?utm_source=api",
+   "oracle_text": "Sacrifice all creatures you control, then create that many 4/4 red Hellion creature tokens."
   },
   {
    "name": "Vampire Aristocrat",
@@ -53,7 +58,8 @@
    "colors": [
     "B"
    ],
-   "url": "https://scryfall.com/card/mm3/86/vampire-aristocrat?utm_source=api"
+   "url": "https://scryfall.com/card/mm3/86/vampire-aristocrat?utm_source=api",
+   "oracle_text": "Sacrifice a creature: Vampire Aristocrat gets +2/+2 until end of turn."
   },
   {
    "name": "Paladin of the Bloodstained",
@@ -69,7 +75,8 @@
    "colors": [
     "W"
    ],
-   "url": "https://scryfall.com/card/xln/25/paladin-of-the-bloodstained?utm_source=api"
+   "url": "https://scryfall.com/card/xln/25/paladin-of-the-bloodstained?utm_source=api",
+   "oracle_text": "When Paladin of the Bloodstained enters the battlefield, create a 1/1 white Vampire creature token with lifelink."
   },
   {
    "name": "Kathari Bomber",
@@ -86,7 +93,8 @@
     "B",
     "R"
    ],
-   "url": "https://scryfall.com/card/mm3/172/kathari-bomber?utm_source=api"
+   "url": "https://scryfall.com/card/mm3/172/kathari-bomber?utm_source=api",
+   "oracle_text": "Flying\nWhen Kathari Bomber deals combat damage to a player, create two 1/1 red Goblin creature tokens and sacrifice Kathari Bomber.\nUnearth {3}{B}{R} ({3}{B}{R}: Return this card from your graveyard to the battlefield. It gains haste. Exile it at the beginning of the next end step or if it would leave the battlefield. Unearth only as a sorcery.)"
   },
   {
    "name": "Clifftop Retreat",
@@ -96,7 +104,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/dom/239/clifftop-retreat?utm_source=api"
+   "url": "https://scryfall.com/card/dom/239/clifftop-retreat?utm_source=api",
+   "oracle_text": "Clifftop Retreat enters the battlefield tapped unless you control a Mountain or a Plains.\n{T}: Add {R} or {W}."
   },
   {
    "name": "Lightning Bolt",
@@ -108,7 +117,8 @@
    "colors": [
     "R"
    ],
-   "url": "https://scryfall.com/card/2x2/117/lightning-bolt?utm_source=api"
+   "url": "https://scryfall.com/card/2x2/117/lightning-bolt?utm_source=api",
+   "oracle_text": "Lightning Bolt deals 3 damage to any target."
   },
   {
    "name": "Isolated Chapel",
@@ -118,7 +128,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/dom/241/isolated-chapel?utm_source=api"
+   "url": "https://scryfall.com/card/dom/241/isolated-chapel?utm_source=api",
+   "oracle_text": "Isolated Chapel enters the battlefield tapped unless you control a Plains or a Swamp.\n{T}: Add {W} or {B}."
   },
   {
    "name": "Mavren Fein, Dusk Apostle",
@@ -135,7 +146,8 @@
    "colors": [
     "W"
    ],
-   "url": "https://scryfall.com/card/xln/24/mavren-fein-dusk-apostle?utm_source=api"
+   "url": "https://scryfall.com/card/xln/24/mavren-fein-dusk-apostle?utm_source=api",
+   "oracle_text": "Whenever one or more nontoken Vampires you control attack, create a 1/1 white Vampire creature token with lifelink."
   },
   {
    "name": "Terramorphic Expanse",
@@ -145,7 +157,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/pctb/85/terramorphic-expanse?utm_source=api"
+   "url": "https://scryfall.com/card/cmm/428/terramorphic-expanse?utm_source=api",
+   "oracle_text": "{T}, Sacrifice Terramorphic Expanse: Search your library for a basic land card, put it onto the battlefield tapped, then shuffle."
   },
   {
    "name": "Orzhov Racketeers",
@@ -161,7 +174,8 @@
    "colors": [
     "B"
    ],
-   "url": "https://scryfall.com/card/rna/80/orzhov-racketeers?utm_source=api"
+   "url": "https://scryfall.com/card/rna/80/orzhov-racketeers?utm_source=api",
+   "oracle_text": "Whenever Orzhov Racketeers deals combat damage to a player, that player discards a card.\nAfterlife 2 (When this creature dies, create two 1/1 white and black Spirit creature tokens with flying.)"
   },
   {
    "name": "Gravedigger",
@@ -176,7 +190,8 @@
    "colors": [
     "B"
    ],
-   "url": "https://scryfall.com/card/m20/103/gravedigger?utm_source=api"
+   "url": "https://scryfall.com/card/m20/103/gravedigger?utm_source=api",
+   "oracle_text": "When Gravedigger enters the battlefield, you may return target creature card from your graveyard to your hand."
   },
   {
    "name": "Blinding Mage",
@@ -192,7 +207,8 @@
    "colors": [
     "W"
    ],
-   "url": "https://scryfall.com/card/ima/13/blinding-mage?utm_source=api"
+   "url": "https://scryfall.com/card/ima/13/blinding-mage?utm_source=api",
+   "oracle_text": "{W}, {T}: Tap target creature."
   },
   {
    "name": "Vampire Hexmage",
@@ -208,7 +224,8 @@
    "colors": [
     "B"
    ],
-   "url": "https://scryfall.com/card/2xm/112/vampire-hexmage?utm_source=api"
+   "url": "https://scryfall.com/card/2xm/112/vampire-hexmage?utm_source=api",
+   "oracle_text": "First strike\nSacrifice Vampire Hexmage: Remove all counters from target permanent."
   },
   {
    "name": "Scoured Barrens",
@@ -218,7 +235,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/mom/272/scoured-barrens?utm_source=api"
+   "url": "https://scryfall.com/card/mom/272/scoured-barrens?utm_source=api",
+   "oracle_text": "Scoured Barrens enters the battlefield tapped.\nWhen Scoured Barrens enters the battlefield, you gain 1 life.\n{T}: Add {W} or {B}."
   },
   {
    "name": "Makeshift Munitions",
@@ -230,7 +248,8 @@
    "colors": [
     "R"
    ],
-   "url": "https://scryfall.com/card/cmr/191/makeshift-munitions?utm_source=api"
+   "url": "https://scryfall.com/card/cmm/242/makeshift-munitions?utm_source=api",
+   "oracle_text": "{1}, Sacrifice an artifact or creature: Makeshift Munitions deals 1 damage to any target."
   },
   {
    "name": "Rockslide Elemental",
@@ -245,7 +264,8 @@
    "colors": [
     "R"
    ],
-   "url": "https://scryfall.com/card/hop/63/rockslide-elemental?utm_source=api"
+   "url": "https://scryfall.com/card/hop/63/rockslide-elemental?utm_source=api",
+   "oracle_text": "First strike\nWhenever another creature dies, you may put a +1/+1 counter on Rockslide Elemental."
   },
   {
    "name": "Disfigure",
@@ -257,7 +277,8 @@
    "colors": [
     "B"
    ],
-   "url": "https://scryfall.com/card/bro/91/disfigure?utm_source=api"
+   "url": "https://scryfall.com/card/bro/91/disfigure?utm_source=api",
+   "oracle_text": "Target creature gets -2/-2 until end of turn."
   },
   {
    "name": "Liliana's Mastery",
@@ -269,7 +290,8 @@
    "colors": [
     "B"
    ],
-   "url": "https://scryfall.com/card/mic/123/lilianas-mastery?utm_source=api"
+   "url": "https://scryfall.com/card/mic/123/lilianas-mastery?utm_source=api",
+   "oracle_text": "Zombies you control get +1/+1.\nWhen Liliana's Mastery enters the battlefield, create two 2/2 black Zombie creature tokens."
   },
   {
    "name": "Plains",
@@ -283,7 +305,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/197/plains?utm_source=api"
+   "url": "https://scryfall.com/card/woe/267/plains?utm_source=api",
+   "oracle_text": "({T}: Add {W}.)"
   },
   {
    "name": "Plains",
@@ -297,7 +320,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/197/plains?utm_source=api"
+   "url": "https://scryfall.com/card/woe/267/plains?utm_source=api",
+   "oracle_text": "({T}: Add {W}.)"
   },
   {
    "name": "Plains",
@@ -311,7 +335,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/197/plains?utm_source=api"
+   "url": "https://scryfall.com/card/woe/267/plains?utm_source=api",
+   "oracle_text": "({T}: Add {W}.)"
   },
   {
    "name": "Iona's Judgment",
@@ -323,7 +348,8 @@
    "colors": [
     "W"
    ],
-   "url": "https://scryfall.com/card/cmr/25/ionas-judgment?utm_source=api"
+   "url": "https://scryfall.com/card/cmr/25/ionas-judgment?utm_source=api",
+   "oracle_text": "Exile target creature or enchantment."
   },
   {
    "name": "Soul Warden",
@@ -339,7 +365,8 @@
    "colors": [
     "W"
    ],
-   "url": "https://scryfall.com/card/mm3/24/soul-warden?utm_source=api"
+   "url": "https://scryfall.com/card/mm3/24/soul-warden?utm_source=api",
+   "oracle_text": "Whenever another creature enters the battlefield, you gain 1 life."
   },
   {
    "name": "Pacifism",
@@ -354,7 +381,8 @@
    "colors": [
     "W"
    ],
-   "url": "https://scryfall.com/card/jmp/125/pacifism?utm_source=api"
+   "url": "https://scryfall.com/card/jmp/125/pacifism?utm_source=api",
+   "oracle_text": "Enchant creature\nEnchanted creature can't attack or block."
   },
   {
    "name": "Furycalm Snarl",
@@ -364,7 +392,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/moc/404/furycalm-snarl?utm_source=api"
+   "url": "https://scryfall.com/card/cmm/999/furycalm-snarl?utm_source=api",
+   "oracle_text": "As Furycalm Snarl enters the battlefield, you may reveal a Mountain or Plains card from your hand. If you don't, Furycalm Snarl enters the battlefield tapped.\n{T}: Add {R} or {W}."
   },
   {
    "name": "Ajani's Pridemate",
@@ -380,7 +409,8 @@
    "colors": [
     "W"
    ],
-   "url": "https://scryfall.com/card/war/4/ajanis-pridemate?utm_source=api"
+   "url": "https://scryfall.com/card/war/4/ajanis-pridemate?utm_source=api",
+   "oracle_text": "Whenever you gain life, put a +1/+1 counter on Ajani's Pridemate."
   },
   {
    "name": "Mountain",
@@ -394,7 +424,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/203/mountain?utm_source=api"
+   "url": "https://scryfall.com/card/woe/273/mountain?utm_source=api",
+   "oracle_text": "({T}: Add {R}.)"
   },
   {
    "name": "Mountain",
@@ -408,7 +439,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/203/mountain?utm_source=api"
+   "url": "https://scryfall.com/card/woe/273/mountain?utm_source=api",
+   "oracle_text": "({T}: Add {R}.)"
   },
   {
    "name": "Cinder Barrens",
@@ -418,7 +450,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/c19/235/cinder-barrens?utm_source=api"
+   "url": "https://scryfall.com/card/c19/235/cinder-barrens?utm_source=api",
+   "oracle_text": "Cinder Barrens enters the battlefield tapped.\n{T}: Add {B} or {R}."
   },
   {
    "name": "Gwyllion Hedge-Mage",
@@ -435,7 +468,8 @@
     "B",
     "W"
    ],
-   "url": "https://scryfall.com/card/cma/201/gwyllion-hedge-mage?utm_source=api"
+   "url": "https://scryfall.com/card/cma/201/gwyllion-hedge-mage?utm_source=api",
+   "oracle_text": "When Gwyllion Hedge-Mage enters the battlefield, if you control two or more Plains, you may create a 1/1 white Kithkin Soldier creature token.\nWhen Gwyllion Hedge-Mage enters the battlefield, if you control two or more Swamps, you may put a -1/-1 counter on target creature."
   },
   {
    "name": "Scavenger Drake",
@@ -450,7 +484,8 @@
    "colors": [
     "B"
    ],
-   "url": "https://scryfall.com/card/mm2/93/scavenger-drake?utm_source=api"
+   "url": "https://scryfall.com/card/mm2/93/scavenger-drake?utm_source=api",
+   "oracle_text": "Flying\nWhenever another creature dies, you may put a +1/+1 counter on Scavenger Drake."
   },
   {
    "name": "Swamp",
@@ -464,7 +499,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/201/swamp?utm_source=api"
+   "url": "https://scryfall.com/card/woe/271/swamp?utm_source=api",
+   "oracle_text": "({T}: Add {B}.)"
   },
   {
    "name": "Swamp",
@@ -478,7 +514,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/201/swamp?utm_source=api"
+   "url": "https://scryfall.com/card/woe/271/swamp?utm_source=api",
+   "oracle_text": "({T}: Add {B}.)"
   },
   {
    "name": "Swamp",
@@ -492,7 +529,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/201/swamp?utm_source=api"
+   "url": "https://scryfall.com/card/woe/271/swamp?utm_source=api",
+   "oracle_text": "({T}: Add {B}.)"
   },
   {
    "name": "Goblin Arsonist",
@@ -508,7 +546,8 @@
    "colors": [
     "R"
    ],
-   "url": "https://scryfall.com/card/m21/147/goblin-arsonist?utm_source=api"
+   "url": "https://scryfall.com/card/m21/147/goblin-arsonist?utm_source=api",
+   "oracle_text": "When Goblin Arsonist dies, you may have it deal 1 damage to any target."
   },
   {
    "name": "Pitiless Pontiff",
@@ -525,7 +564,8 @@
     "B",
     "W"
    ],
-   "url": "https://scryfall.com/card/rna/194/pitiless-pontiff?utm_source=api"
+   "url": "https://scryfall.com/card/rna/194/pitiless-pontiff?utm_source=api",
+   "oracle_text": "{1}, Sacrifice another creature: Pitiless Pontiff gains deathtouch and indestructible until end of turn. (Damage and effects that say \"destroy\" don't destroy it.)"
   },
   {
    "name": "Hordeling Outburst",
@@ -537,7 +577,8 @@
    "colors": [
     "R"
    ],
-   "url": "https://scryfall.com/card/a25/134/hordeling-outburst?utm_source=api"
+   "url": "https://scryfall.com/card/a25/134/hordeling-outburst?utm_source=api",
+   "oracle_text": "Create three 1/1 red Goblin creature tokens."
   },
   {
    "name": "Jinxed Idol",
@@ -547,7 +588,8 @@
    "cmc": 2,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/tpr/224/jinxed-idol?utm_source=api"
+   "url": "https://scryfall.com/card/tpr/224/jinxed-idol?utm_source=api",
+   "oracle_text": "At the beginning of your upkeep, Jinxed Idol deals 2 damage to you.\nSacrifice a creature: Target opponent gains control of Jinxed Idol."
   }
  ],
  "sideboard": []

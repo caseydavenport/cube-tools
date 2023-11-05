@@ -1,10 +1,13 @@
 {
- "labels": ["sacrifice", "midrange"],
+ "labels": [
+  "sacrifice",
+  "midrange"
+ ],
  "player": "casey",
  "date": "2023-04-22",
+ "games": null,
  "wins": 3,
  "losses": 3,
- "ties": 0,
  "mainboard": [
   {
    "name": "Foreboding Ruins",
@@ -14,7 +17,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/dmc/211/foreboding-ruins?utm_source=api"
+   "url": "https://scryfall.com/card/dmc/211/foreboding-ruins?utm_source=api",
+   "oracle_text": "As Foreboding Ruins enters the battlefield, you may reveal a Swamp or Mountain card from your hand. If you don't, Foreboding Ruins enters the battlefield tapped.\n{T}: Add {B} or {R}."
   },
   {
    "name": "Swamp",
@@ -28,7 +32,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/201/swamp?utm_source=api"
+   "url": "https://scryfall.com/card/woe/271/swamp?utm_source=api",
+   "oracle_text": "({T}: Add {B}.)"
   },
   {
    "name": "Swamp",
@@ -42,7 +47,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/201/swamp?utm_source=api"
+   "url": "https://scryfall.com/card/woe/271/swamp?utm_source=api",
+   "oracle_text": "({T}: Add {B}.)"
   },
   {
    "name": "Swamp",
@@ -56,7 +62,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/201/swamp?utm_source=api"
+   "url": "https://scryfall.com/card/woe/271/swamp?utm_source=api",
+   "oracle_text": "({T}: Add {B}.)"
   },
   {
    "name": "Swamp",
@@ -70,7 +77,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/201/swamp?utm_source=api"
+   "url": "https://scryfall.com/card/woe/271/swamp?utm_source=api",
+   "oracle_text": "({T}: Add {B}.)"
   },
   {
    "name": "Dragonskull Summit",
@@ -80,7 +88,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/dmc/207/dragonskull-summit?utm_source=api"
+   "url": "https://scryfall.com/card/dmc/207/dragonskull-summit?utm_source=api",
+   "oracle_text": "Dragonskull Summit enters the battlefield tapped unless you control a Swamp or a Mountain.\n{T}: Add {B} or {R}."
   },
   {
    "name": "Vampire Aristocrat",
@@ -97,7 +106,8 @@
    "colors": [
     "B"
    ],
-   "url": "https://scryfall.com/card/mm3/86/vampire-aristocrat?utm_source=api"
+   "url": "https://scryfall.com/card/mm3/86/vampire-aristocrat?utm_source=api",
+   "oracle_text": "Sacrifice a creature: Vampire Aristocrat gets +2/+2 until end of turn."
   },
   {
    "name": "Kathari Bomber",
@@ -114,7 +124,8 @@
     "B",
     "R"
    ],
-   "url": "https://scryfall.com/card/mm3/172/kathari-bomber?utm_source=api"
+   "url": "https://scryfall.com/card/mm3/172/kathari-bomber?utm_source=api",
+   "oracle_text": "Flying\nWhen Kathari Bomber deals combat damage to a player, create two 1/1 red Goblin creature tokens and sacrifice Kathari Bomber.\nUnearth {3}{B}{R} ({3}{B}{R}: Return this card from your graveyard to the battlefield. It gains haste. Exile it at the beginning of the next end step or if it would leave the battlefield. Unearth only as a sorcery.)"
   },
   {
    "name": "Tibalt, Rakish Instigator",
@@ -130,7 +141,8 @@
    "colors": [
     "R"
    ],
-   "url": "https://scryfall.com/card/war/146/tibalt-rakish-instigator?utm_source=api"
+   "url": "https://scryfall.com/card/war/146/tibalt-rakish-instigator?utm_source=api",
+   "oracle_text": "Your opponents can't gain life.\n−2: Create a 1/1 red Devil creature token with \"When this creature dies, it deals 1 damage to any target.\""
   },
   {
    "name": "Liliana, Death's Majesty",
@@ -146,7 +158,8 @@
    "colors": [
     "B"
    ],
-   "url": "https://scryfall.com/card/mic/121/liliana-deaths-majesty?utm_source=api"
+   "url": "https://scryfall.com/card/mic/121/liliana-deaths-majesty?utm_source=api",
+   "oracle_text": "+1: Create a 2/2 black Zombie creature token. Mill two cards.\n−3: Return target creature card from your graveyard to the battlefield. That creature is a black Zombie in addition to its other colors and types.\n−7: Destroy all non-Zombie creatures."
   },
   {
    "name": "Siege-Gang Commander",
@@ -161,7 +174,8 @@
    "colors": [
     "R"
    ],
-   "url": "https://scryfall.com/card/gnt/42/siege-gang-commander?utm_source=api"
+   "url": "https://scryfall.com/card/gnt/42/siege-gang-commander?utm_source=api",
+   "oracle_text": "When Siege-Gang Commander enters the battlefield, create three 1/1 red Goblin creature tokens.\n{1}{R}, Sacrifice a Goblin: Siege-Gang Commander deals 2 damage to any target."
   },
   {
    "name": "Vampire's Bite",
@@ -173,7 +187,8 @@
    "colors": [
     "B"
    ],
-   "url": "https://scryfall.com/card/ddk/19/vampires-bite?utm_source=api"
+   "url": "https://scryfall.com/card/ddk/19/vampires-bite?utm_source=api",
+   "oracle_text": "Kicker {2}{B} (You may pay an additional {2}{B} as you cast this spell.)\nTarget creature gets +3/+0 until end of turn. If this spell was kicked, that creature gains lifelink until end of turn. (Damage dealt by the creature also causes its controller to gain that much life.)"
   },
   {
    "name": "Orzhov Racketeers",
@@ -189,7 +204,8 @@
    "colors": [
     "B"
    ],
-   "url": "https://scryfall.com/card/rna/80/orzhov-racketeers?utm_source=api"
+   "url": "https://scryfall.com/card/rna/80/orzhov-racketeers?utm_source=api",
+   "oracle_text": "Whenever Orzhov Racketeers deals combat damage to a player, that player discards a card.\nAfterlife 2 (When this creature dies, create two 1/1 white and black Spirit creature tokens with flying.)"
   },
   {
    "name": "Makeshift Munitions",
@@ -201,7 +217,8 @@
    "colors": [
     "R"
    ],
-   "url": "https://scryfall.com/card/cmr/191/makeshift-munitions?utm_source=api"
+   "url": "https://scryfall.com/card/cmm/242/makeshift-munitions?utm_source=api",
+   "oracle_text": "{1}, Sacrifice an artifact or creature: Makeshift Munitions deals 1 damage to any target."
   },
   {
    "name": "Faithless Looting",
@@ -213,7 +230,8 @@
    "colors": [
     "R"
    ],
-   "url": "https://scryfall.com/card/dmc/122/faithless-looting?utm_source=api"
+   "url": "https://scryfall.com/card/cmm/220/faithless-looting?utm_source=api",
+   "oracle_text": "Draw two cards, then discard two cards.\nFlashback {2}{R} (You may cast this card from your graveyard for its flashback cost. Then exile it.)"
   },
   {
    "name": "Grim Initiate",
@@ -229,7 +247,8 @@
    "colors": [
     "R"
    ],
-   "url": "https://scryfall.com/card/war/130/grim-initiate?utm_source=api"
+   "url": "https://scryfall.com/card/war/130/grim-initiate?utm_source=api",
+   "oracle_text": "First strike\nWhen Grim Initiate dies, amass Zombies 1. (Put a +1/+1 counter on an Army you control. It's also a Zombie. If you don't control an Army, create a 0/0 black Zombie Army creature token first.)"
   },
   {
    "name": "Zulaport Cutthroat",
@@ -246,7 +265,8 @@
    "colors": [
     "B"
    ],
-   "url": "https://scryfall.com/card/clb/775/zulaport-cutthroat?utm_source=api"
+   "url": "https://scryfall.com/card/clb/775/zulaport-cutthroat?utm_source=api",
+   "oracle_text": "Whenever Zulaport Cutthroat or another creature you control dies, each opponent loses 1 life and you gain 1 life."
   },
   {
    "name": "Lightning Greaves",
@@ -259,7 +279,8 @@
    "cmc": 2,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/clb/864/lightning-greaves?utm_source=api"
+   "url": "https://scryfall.com/card/cmm/398/lightning-greaves?utm_source=api",
+   "oracle_text": "Equipped creature has haste and shroud. (It can't be the target of spells or abilities.)\nEquip {0}"
   },
   {
    "name": "Fury Charm",
@@ -271,7 +292,8 @@
    "colors": [
     "R"
    ],
-   "url": "https://scryfall.com/card/ima/130/fury-charm?utm_source=api"
+   "url": "https://scryfall.com/card/ima/130/fury-charm?utm_source=api",
+   "oracle_text": "Choose one —\n• Destroy target artifact.\n• Target creature gets +1/+1 and gains trample until end of turn.\n• Remove two time counters from target permanent or suspended card."
   },
   {
    "name": "Disfigure",
@@ -283,7 +305,8 @@
    "colors": [
     "B"
    ],
-   "url": "https://scryfall.com/card/bro/91/disfigure?utm_source=api"
+   "url": "https://scryfall.com/card/bro/91/disfigure?utm_source=api",
+   "oracle_text": "Target creature gets -2/-2 until end of turn."
   },
   {
    "name": "Leaden Myr",
@@ -297,7 +320,8 @@
    "cmc": 2,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/som/170/leaden-myr?utm_source=api"
+   "url": "https://scryfall.com/card/som/170/leaden-myr?utm_source=api",
+   "oracle_text": "{T}: Add {B}."
   },
   {
    "name": "Sparring Construct",
@@ -311,7 +335,8 @@
    "cmc": 1,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/dom/232/sparring-construct?utm_source=api"
+   "url": "https://scryfall.com/card/dom/232/sparring-construct?utm_source=api",
+   "oracle_text": "When Sparring Construct dies, put a +1/+1 counter on target creature you control."
   },
   {
    "name": "Bankrupt in Blood",
@@ -323,7 +348,8 @@
    "colors": [
     "B"
    ],
-   "url": "https://scryfall.com/card/rna/62/bankrupt-in-blood?utm_source=api"
+   "url": "https://scryfall.com/card/rna/62/bankrupt-in-blood?utm_source=api",
+   "oracle_text": "As an additional cost to cast this spell, sacrifice two creatures.\nDraw three cards."
   },
   {
    "name": "Soul-Scar Mage",
@@ -339,7 +365,8 @@
    "colors": [
     "R"
    ],
-   "url": "https://scryfall.com/card/akh/148/soul-scar-mage?utm_source=api"
+   "url": "https://scryfall.com/card/akh/148/soul-scar-mage?utm_source=api",
+   "oracle_text": "Prowess\nIf a source you control would deal noncombat damage to a creature an opponent controls, put that many -1/-1 counters on that creature instead."
   },
   {
    "name": "Guttersnipe",
@@ -355,7 +382,8 @@
    "colors": [
     "R"
    ],
-   "url": "https://scryfall.com/card/c19/145/guttersnipe?utm_source=api"
+   "url": "https://scryfall.com/card/cmm/229/guttersnipe?utm_source=api",
+   "oracle_text": "Whenever you cast an instant or sorcery spell, Guttersnipe deals 2 damage to each opponent."
   },
   {
    "name": "Mountain",
@@ -369,7 +397,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/203/mountain?utm_source=api"
+   "url": "https://scryfall.com/card/woe/273/mountain?utm_source=api",
+   "oracle_text": "({T}: Add {R}.)"
   },
   {
    "name": "Mountain",
@@ -383,7 +412,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/203/mountain?utm_source=api"
+   "url": "https://scryfall.com/card/woe/273/mountain?utm_source=api",
+   "oracle_text": "({T}: Add {R}.)"
   },
   {
    "name": "Mountain",
@@ -397,7 +427,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/203/mountain?utm_source=api"
+   "url": "https://scryfall.com/card/woe/273/mountain?utm_source=api",
+   "oracle_text": "({T}: Add {R}.)"
   },
   {
    "name": "Mountain",
@@ -411,7 +442,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/203/mountain?utm_source=api"
+   "url": "https://scryfall.com/card/woe/273/mountain?utm_source=api",
+   "oracle_text": "({T}: Add {R}.)"
   },
   {
    "name": "Mountain",
@@ -425,7 +457,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/203/mountain?utm_source=api"
+   "url": "https://scryfall.com/card/woe/273/mountain?utm_source=api",
+   "oracle_text": "({T}: Add {R}.)"
   },
   {
    "name": "Mountain",
@@ -439,7 +472,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/203/mountain?utm_source=api"
+   "url": "https://scryfall.com/card/woe/273/mountain?utm_source=api",
+   "oracle_text": "({T}: Add {R}.)"
   },
   {
    "name": "Bolt Bend",
@@ -451,7 +485,8 @@
    "colors": [
     "R"
    ],
-   "url": "https://scryfall.com/card/war/115/bolt-bend?utm_source=api"
+   "url": "https://scryfall.com/card/war/115/bolt-bend?utm_source=api",
+   "oracle_text": "This spell costs {3} less to cast if you control a creature with power 4 or greater.\nChange the target of target spell or ability with a single target."
   },
   {
    "name": "Skarrgan Hellkite",
@@ -466,7 +501,8 @@
    "colors": [
     "R"
    ],
-   "url": "https://scryfall.com/card/rna/114/skarrgan-hellkite?utm_source=api"
+   "url": "https://scryfall.com/card/rna/114/skarrgan-hellkite?utm_source=api",
+   "oracle_text": "Riot (This creature enters the battlefield with your choice of a +1/+1 counter or haste.)\nFlying\n{3}{R}: Skarrgan Hellkite deals 2 damage divided as you choose among one or two targets. Activate only if Skarrgan Hellkite has a +1/+1 counter on it."
   },
   {
    "name": "Comet Storm",
@@ -478,7 +514,8 @@
    "colors": [
     "R"
    ],
-   "url": "https://scryfall.com/card/cmr/411/comet-storm?utm_source=api"
+   "url": "https://scryfall.com/card/cmr/411/comet-storm?utm_source=api",
+   "oracle_text": "Multikicker {1} (You may pay an additional {1} any number of times as you cast this spell.)\nChoose any target, then choose another target for each time this spell was kicked. Comet Storm deals X damage to each of them."
   },
   {
    "name": "Goblin Arsonist",
@@ -494,7 +531,8 @@
    "colors": [
     "R"
    ],
-   "url": "https://scryfall.com/card/m21/147/goblin-arsonist?utm_source=api"
+   "url": "https://scryfall.com/card/m21/147/goblin-arsonist?utm_source=api",
+   "oracle_text": "When Goblin Arsonist dies, you may have it deal 1 damage to any target."
   },
   {
    "name": "Tibalt's Rager",
@@ -509,7 +547,8 @@
    "colors": [
     "R"
    ],
-   "url": "https://scryfall.com/card/jmp/366/tibalts-rager?utm_source=api"
+   "url": "https://scryfall.com/card/jmp/366/tibalts-rager?utm_source=api",
+   "oracle_text": "When Tibalt's Rager dies, it deals 1 damage to any target.\n{1}{R}: Tibalt's Rager gets +2/+0 until end of turn."
   }
  ],
  "sideboard": []

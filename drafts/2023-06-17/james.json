@@ -1,10 +1,12 @@
 {
- "labels": ["midrange", "flicker"],
+ "labels": [
+  "midrange",
+  "flicker"
+ ],
  "player": "james",
  "date": "2023-06-17",
- "wins": 0,
+ "games": null,
  "losses": 1,
- "ties": 0,
  "mainboard": [
   {
    "name": "Cloudgoat Ranger",
@@ -21,7 +23,8 @@
    "colors": [
     "W"
    ],
-   "url": "https://scryfall.com/card/khc/21/cloudgoat-ranger?utm_source=api"
+   "url": "https://scryfall.com/card/khc/21/cloudgoat-ranger?utm_source=api",
+   "oracle_text": "When Cloudgoat Ranger enters the battlefield, create three 1/1 white Kithkin Soldier creature tokens.\nTap three untapped Kithkin you control: Cloudgoat Ranger gets +2/+0 and gains flying until end of turn."
   },
   {
    "name": "Merfolk Looter",
@@ -37,7 +40,8 @@
    "colors": [
     "U"
    ],
-   "url": "https://scryfall.com/card/afc/86/merfolk-looter?utm_source=api"
+   "url": "https://scryfall.com/card/afc/86/merfolk-looter?utm_source=api",
+   "oracle_text": "{T}: Draw a card, then discard a card."
   },
   {
    "name": "Angelic Intervention",
@@ -49,7 +53,8 @@
    "colors": [
     "W"
    ],
-   "url": "https://scryfall.com/card/mom/5/angelic-intervention?utm_source=api"
+   "url": "https://scryfall.com/card/mom/5/angelic-intervention?utm_source=api",
+   "oracle_text": "Target creature or planeswalker you control gains protection from colorless or from the color of your choice until end of turn. If it's a creature, put a +1/+1 counter on it. (It can't be blocked, targeted, dealt damage, enchanted, or equipped by anything with that quality.)"
   },
   {
    "name": "Paladin of the Bloodstained",
@@ -65,7 +70,8 @@
    "colors": [
     "W"
    ],
-   "url": "https://scryfall.com/card/xln/25/paladin-of-the-bloodstained?utm_source=api"
+   "url": "https://scryfall.com/card/xln/25/paladin-of-the-bloodstained?utm_source=api",
+   "oracle_text": "When Paladin of the Bloodstained enters the battlefield, create a 1/1 white Vampire creature token with lifelink."
   },
   {
    "name": "Mental Note",
@@ -77,7 +83,8 @@
    "colors": [
     "U"
    ],
-   "url": "https://scryfall.com/card/jud/46/mental-note?utm_source=api"
+   "url": "https://scryfall.com/card/jud/46/mental-note?utm_source=api",
+   "oracle_text": "Mill two cards.\nDraw a card."
   },
   {
    "name": "Harm's Way",
@@ -89,7 +96,8 @@
    "colors": [
     "W"
    ],
-   "url": "https://scryfall.com/card/ddg/23/harms-way?utm_source=api"
+   "url": "https://scryfall.com/card/ddg/23/harms-way?utm_source=api",
+   "oracle_text": "The next 2 damage that a source of your choice would deal to you and/or permanents you control this turn is dealt to any target instead."
   },
   {
    "name": "Ponder",
@@ -101,7 +109,8 @@
    "colors": [
     "U"
    ],
-   "url": "https://scryfall.com/card/ncc/229/ponder?utm_source=api"
+   "url": "https://scryfall.com/card/ncc/229/ponder?utm_source=api",
+   "oracle_text": "Look at the top three cards of your library, then put them back in any order. You may shuffle.\nDraw a card."
   },
   {
    "name": "Mulldrifter",
@@ -116,7 +125,8 @@
    "colors": [
     "U"
    ],
-   "url": "https://scryfall.com/card/2x2/60/mulldrifter?utm_source=api"
+   "url": "https://scryfall.com/card/2x2/60/mulldrifter?utm_source=api",
+   "oracle_text": "Flying\nWhen Mulldrifter enters the battlefield, draw two cards.\nEvoke {2}{U} (You may cast this spell for its evoke cost. If you do, it's sacrificed when it enters the battlefield.)"
   },
   {
    "name": "Oblivion Ring",
@@ -128,7 +138,8 @@
    "colors": [
     "W"
    ],
-   "url": "https://scryfall.com/card/mm2/29/oblivion-ring?utm_source=api"
+   "url": "https://scryfall.com/card/mm2/29/oblivion-ring?utm_source=api",
+   "oracle_text": "When Oblivion Ring enters the battlefield, exile another target nonland permanent.\nWhen Oblivion Ring leaves the battlefield, return the exiled card to the battlefield under its owner's control."
   },
   {
    "name": "Plains",
@@ -142,7 +153,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/197/plains?utm_source=api"
+   "url": "https://scryfall.com/card/woe/267/plains?utm_source=api",
+   "oracle_text": "({T}: Add {W}.)"
   },
   {
    "name": "Plains",
@@ -156,7 +168,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/197/plains?utm_source=api"
+   "url": "https://scryfall.com/card/woe/267/plains?utm_source=api",
+   "oracle_text": "({T}: Add {W}.)"
   },
   {
    "name": "Plains",
@@ -170,7 +183,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/197/plains?utm_source=api"
+   "url": "https://scryfall.com/card/woe/267/plains?utm_source=api",
+   "oracle_text": "({T}: Add {W}.)"
   },
   {
    "name": "Plains",
@@ -184,7 +198,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/197/plains?utm_source=api"
+   "url": "https://scryfall.com/card/woe/267/plains?utm_source=api",
+   "oracle_text": "({T}: Add {W}.)"
   },
   {
    "name": "Plains",
@@ -198,7 +213,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/197/plains?utm_source=api"
+   "url": "https://scryfall.com/card/woe/267/plains?utm_source=api",
+   "oracle_text": "({T}: Add {W}.)"
   },
   {
    "name": "Plains",
@@ -212,7 +228,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/197/plains?utm_source=api"
+   "url": "https://scryfall.com/card/woe/267/plains?utm_source=api",
+   "oracle_text": "({T}: Add {W}.)"
   },
   {
    "name": "Plains",
@@ -226,7 +243,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/197/plains?utm_source=api"
+   "url": "https://scryfall.com/card/woe/267/plains?utm_source=api",
+   "oracle_text": "({T}: Add {W}.)"
   },
   {
    "name": "Plains",
@@ -240,7 +258,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/197/plains?utm_source=api"
+   "url": "https://scryfall.com/card/woe/267/plains?utm_source=api",
+   "oracle_text": "({T}: Add {W}.)"
   },
   {
    "name": "Plains",
@@ -254,7 +273,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/197/plains?utm_source=api"
+   "url": "https://scryfall.com/card/woe/267/plains?utm_source=api",
+   "oracle_text": "({T}: Add {W}.)"
   },
   {
    "name": "Turn to Mist",
@@ -267,7 +287,8 @@
     "U",
     "W"
    ],
-   "url": "https://scryfall.com/card/uma/224/turn-to-mist?utm_source=api"
+   "url": "https://scryfall.com/card/uma/224/turn-to-mist?utm_source=api",
+   "oracle_text": "Exile target creature. Return that card to the battlefield under its owner's control at the beginning of the next end step."
   },
   {
    "name": "Faerie Vandal",
@@ -283,7 +304,8 @@
    "colors": [
     "U"
    ],
-   "url": "https://scryfall.com/card/snc/44/faerie-vandal?utm_source=api"
+   "url": "https://scryfall.com/card/snc/44/faerie-vandal?utm_source=api",
+   "oracle_text": "Flash\nFlying\nWhenever you draw your second card each turn, put a +1/+1 counter on Faerie Vandal."
   },
   {
    "name": "Flickerwisp",
@@ -298,7 +320,8 @@
    "colors": [
     "W"
    ],
-   "url": "https://scryfall.com/card/2x2/11/flickerwisp?utm_source=api"
+   "url": "https://scryfall.com/card/2x2/11/flickerwisp?utm_source=api",
+   "oracle_text": "Flying\nWhen Flickerwisp enters the battlefield, exile another target permanent. Return that card to the battlefield under its owner's control at the beginning of the next end step."
   },
   {
    "name": "Galepowder Mage",
@@ -314,7 +337,8 @@
    "colors": [
     "W"
    ],
-   "url": "https://scryfall.com/card/clb/694/galepowder-mage?utm_source=api"
+   "url": "https://scryfall.com/card/clb/694/galepowder-mage?utm_source=api",
+   "oracle_text": "Flying\nWhenever Galepowder Mage attacks, exile another target creature. Return that card to the battlefield under its owner's control at the beginning of the next end step."
   },
   {
    "name": "Island",
@@ -328,7 +352,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/199/island?utm_source=api"
+   "url": "https://scryfall.com/card/woe/269/island?utm_source=api",
+   "oracle_text": "({T}: Add {U}.)"
   },
   {
    "name": "Island",
@@ -342,7 +367,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/199/island?utm_source=api"
+   "url": "https://scryfall.com/card/woe/269/island?utm_source=api",
+   "oracle_text": "({T}: Add {U}.)"
   },
   {
    "name": "Island",
@@ -356,7 +382,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/199/island?utm_source=api"
+   "url": "https://scryfall.com/card/woe/269/island?utm_source=api",
+   "oracle_text": "({T}: Add {U}.)"
   },
   {
    "name": "Island",
@@ -370,7 +397,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/199/island?utm_source=api"
+   "url": "https://scryfall.com/card/woe/269/island?utm_source=api",
+   "oracle_text": "({T}: Add {U}.)"
   },
   {
    "name": "Island",
@@ -384,7 +412,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/199/island?utm_source=api"
+   "url": "https://scryfall.com/card/woe/269/island?utm_source=api",
+   "oracle_text": "({T}: Add {U}.)"
   },
   {
    "name": "Island",
@@ -398,7 +427,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/199/island?utm_source=api"
+   "url": "https://scryfall.com/card/woe/269/island?utm_source=api",
+   "oracle_text": "({T}: Add {U}.)"
   },
   {
    "name": "Island",
@@ -412,7 +442,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/199/island?utm_source=api"
+   "url": "https://scryfall.com/card/woe/269/island?utm_source=api",
+   "oracle_text": "({T}: Add {U}.)"
   },
   {
    "name": "Island",
@@ -426,7 +457,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/199/island?utm_source=api"
+   "url": "https://scryfall.com/card/woe/269/island?utm_source=api",
+   "oracle_text": "({T}: Add {U}.)"
   },
   {
    "name": "Narrow Escape",
@@ -438,7 +470,8 @@
    "colors": [
     "W"
    ],
-   "url": "https://scryfall.com/card/dde/55/narrow-escape?utm_source=api"
+   "url": "https://scryfall.com/card/dde/55/narrow-escape?utm_source=api",
+   "oracle_text": "Return target permanent you control to its owner's hand. You gain 4 life."
   },
   {
    "name": "Touch the Spirit Realm",
@@ -450,7 +483,8 @@
    "colors": [
     "W"
    ],
-   "url": "https://scryfall.com/card/neo/40/touch-the-spirit-realm?utm_source=api"
+   "url": "https://scryfall.com/card/neo/40/touch-the-spirit-realm?utm_source=api",
+   "oracle_text": "When Touch the Spirit Realm enters the battlefield, exile up to one target artifact or creature until Touch the Spirit Realm leaves the battlefield.\nChannel — {1}{W}, Discard Touch the Spirit Realm: Exile target artifact or creature. Return it to the battlefield under its owner's control at the beginning of the next end step."
   },
   {
    "name": "Inspiring Cleric",
@@ -466,7 +500,8 @@
    "colors": [
     "W"
    ],
-   "url": "https://scryfall.com/card/xln/16/inspiring-cleric?utm_source=api"
+   "url": "https://scryfall.com/card/xln/16/inspiring-cleric?utm_source=api",
+   "oracle_text": "When Inspiring Cleric enters the battlefield, you gain 4 life."
   },
   {
    "name": "Soul Warden",
@@ -482,7 +517,8 @@
    "colors": [
     "W"
    ],
-   "url": "https://scryfall.com/card/mm3/24/soul-warden?utm_source=api"
+   "url": "https://scryfall.com/card/mm3/24/soul-warden?utm_source=api",
+   "oracle_text": "Whenever another creature enters the battlefield, you gain 1 life."
   },
   {
    "name": "Meadowboon",
@@ -497,7 +533,8 @@
    "colors": [
     "W"
    ],
-   "url": "https://scryfall.com/card/mma/22/meadowboon?utm_source=api"
+   "url": "https://scryfall.com/card/mma/22/meadowboon?utm_source=api",
+   "oracle_text": "When Meadowboon leaves the battlefield, put a +1/+1 counter on each creature target player controls.\nEvoke {3}{W} (You may cast this spell for its evoke cost. If you do, it's sacrificed when it enters the battlefield.)"
   },
   {
    "name": "Day of Judgment",
@@ -509,7 +546,8 @@
    "colors": [
     "W"
    ],
-   "url": "https://scryfall.com/card/m12/12/day-of-judgment?utm_source=api"
+   "url": "https://scryfall.com/card/m12/12/day-of-judgment?utm_source=api",
+   "oracle_text": "Destroy all creatures."
   },
   {
    "name": "Panharmonicon",
@@ -519,7 +557,8 @@
    "cmc": 4,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/2x2/310/panharmonicon?utm_source=api"
+   "url": "https://scryfall.com/card/2x2/310/panharmonicon?utm_source=api",
+   "oracle_text": "If an artifact or creature entering the battlefield causes a triggered ability of a permanent you control to trigger, that ability triggers an additional time."
   },
   {
    "name": "Journey to Nowhere",
@@ -531,7 +570,8 @@
    "colors": [
     "W"
    ],
-   "url": "https://scryfall.com/card/cmd/17/journey-to-nowhere?utm_source=api"
+   "url": "https://scryfall.com/card/cmd/17/journey-to-nowhere?utm_source=api",
+   "oracle_text": "When Journey to Nowhere enters the battlefield, exile target creature.\nWhen Journey to Nowhere leaves the battlefield, return the exiled card to the battlefield under its owner's control."
   },
   {
    "name": "Restoration Angel",
@@ -546,7 +586,8 @@
    "colors": [
     "W"
    ],
-   "url": "https://scryfall.com/card/moc/201/restoration-angel?utm_source=api"
+   "url": "https://scryfall.com/card/moc/201/restoration-angel?utm_source=api",
+   "oracle_text": "Flash\nFlying\nWhen Restoration Angel enters the battlefield, you may exile target non-Angel creature you control, then return that card to the battlefield under your control."
   },
   {
    "name": "Devoted Crop-Mate",
@@ -562,7 +603,8 @@
    "colors": [
     "W"
    ],
-   "url": "https://scryfall.com/card/akh/10/devoted-crop-mate?utm_source=api"
+   "url": "https://scryfall.com/card/akh/10/devoted-crop-mate?utm_source=api",
+   "oracle_text": "You may exert Devoted Crop-Mate as it attacks. When you do, return target creature card with mana value 2 or less from your graveyard to the battlefield. (An exerted creature won't untap during your next untap step.)"
   }
  ],
  "sideboard": []

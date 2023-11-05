@@ -6,9 +6,9 @@
  ],
  "player": "grant",
  "date": "2023-05-31",
+ "games": null,
  "wins": 4,
  "losses": 1,
- "ties": 0,
  "mainboard": [
   {
    "name": "Brineborn Cutthroat",
@@ -24,7 +24,8 @@
    "colors": [
     "U"
    ],
-   "url": "https://scryfall.com/card/m20/50/brineborn-cutthroat?utm_source=api"
+   "url": "https://scryfall.com/card/m20/50/brineborn-cutthroat?utm_source=api",
+   "oracle_text": "Flash (You may cast this spell any time you could cast an instant.)\nWhenever you cast a spell during an opponent's turn, put a +1/+1 counter on Brineborn Cutthroat."
   },
   {
    "name": "Nissa, Who Shakes the World",
@@ -40,7 +41,8 @@
    "colors": [
     "G"
    ],
-   "url": "https://scryfall.com/card/war/169/nissa-who-shakes-the-world?utm_source=api"
+   "url": "https://scryfall.com/card/war/169/nissa-who-shakes-the-world?utm_source=api",
+   "oracle_text": "Whenever you tap a Forest for mana, add an additional {G}.\n+1: Put three +1/+1 counters on up to one target noncreature land you control. Untap it. It becomes a 0/0 Elemental creature with vigilance and haste that's still a land.\n−8: You get an emblem with \"Lands you control have indestructible.\" Search your library for any number of Forest cards, put them onto the battlefield tapped, then shuffle."
   },
   {
    "name": "Exclusion Mage",
@@ -56,7 +58,8 @@
    "colors": [
     "U"
    ],
-   "url": "https://scryfall.com/card/jmp/153/exclusion-mage?utm_source=api"
+   "url": "https://scryfall.com/card/jmp/153/exclusion-mage?utm_source=api",
+   "oracle_text": "When Exclusion Mage enters the battlefield, return target creature an opponent controls to its owner's hand."
   },
   {
    "name": "Terramorphic Expanse",
@@ -66,7 +69,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/pctb/85/terramorphic-expanse?utm_source=api"
+   "url": "https://scryfall.com/card/cmm/428/terramorphic-expanse?utm_source=api",
+   "oracle_text": "{T}, Sacrifice Terramorphic Expanse: Search your library for a basic land card, put it onto the battlefield tapped, then shuffle."
   },
   {
    "name": "Hinterland Harbor",
@@ -76,7 +80,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/dom/240/hinterland-harbor?utm_source=api"
+   "url": "https://scryfall.com/card/dom/240/hinterland-harbor?utm_source=api",
+   "oracle_text": "Hinterland Harbor enters the battlefield tapped unless you control a Forest or an Island.\n{T}: Add {G} or {U}."
   },
   {
    "name": "Devoted Druid",
@@ -92,7 +97,8 @@
    "colors": [
     "G"
    ],
-   "url": "https://scryfall.com/card/2x2/143/devoted-druid?utm_source=api"
+   "url": "https://scryfall.com/card/2x2/143/devoted-druid?utm_source=api",
+   "oracle_text": "{T}: Add {G}.\nPut a -1/-1 counter on Devoted Druid: Untap Devoted Druid."
   },
   {
    "name": "Mulldrifter",
@@ -107,7 +113,8 @@
    "colors": [
     "U"
    ],
-   "url": "https://scryfall.com/card/2x2/60/mulldrifter?utm_source=api"
+   "url": "https://scryfall.com/card/2x2/60/mulldrifter?utm_source=api",
+   "oracle_text": "Flying\nWhen Mulldrifter enters the battlefield, draw two cards.\nEvoke {2}{U} (You may cast this spell for its evoke cost. If you do, it's sacrificed when it enters the battlefield.)"
   },
   {
    "name": "Faerie Vandal",
@@ -123,7 +130,8 @@
    "colors": [
     "U"
    ],
-   "url": "https://scryfall.com/card/snc/44/faerie-vandal?utm_source=api"
+   "url": "https://scryfall.com/card/snc/44/faerie-vandal?utm_source=api",
+   "oracle_text": "Flash\nFlying\nWhenever you draw your second card each turn, put a +1/+1 counter on Faerie Vandal."
   },
   {
    "name": "Unsummon",
@@ -135,7 +143,8 @@
    "colors": [
     "U"
    ],
-   "url": "https://scryfall.com/card/m20/78/unsummon?utm_source=api"
+   "url": "https://scryfall.com/card/m20/78/unsummon?utm_source=api",
+   "oracle_text": "Return target creature to its owner's hand."
   },
   {
    "name": "Chart a Course",
@@ -147,7 +156,8 @@
    "colors": [
     "U"
    ],
-   "url": "https://scryfall.com/card/jmp/142/chart-a-course?utm_source=api"
+   "url": "https://scryfall.com/card/jmp/142/chart-a-course?utm_source=api",
+   "oracle_text": "Draw two cards. Then discard a card unless you attacked this turn."
   },
   {
    "name": "Arctic Flats",
@@ -158,7 +168,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/csp/143/arctic-flats?utm_source=api"
+   "url": "https://scryfall.com/card/csp/143/arctic-flats?utm_source=api",
+   "oracle_text": "Arctic Flats enters the battlefield tapped.\n{T}: Add {G} or {W}."
   },
   {
    "name": "Territorial Allosaurus",
@@ -173,7 +184,8 @@
    "colors": [
     "G"
    ],
-   "url": "https://scryfall.com/card/dom/184/territorial-allosaurus?utm_source=api"
+   "url": "https://scryfall.com/card/dom/184/territorial-allosaurus?utm_source=api",
+   "oracle_text": "Kicker {2}{G} (You may pay an additional {2}{G} as you cast this spell.)\nWhen Territorial Allosaurus enters the battlefield, if it was kicked, it fights another target creature."
   },
   {
    "name": "Copper Myr",
@@ -187,7 +199,8 @@
    "cmc": 2,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/som/146/copper-myr?utm_source=api"
+   "url": "https://scryfall.com/card/som/146/copper-myr?utm_source=api",
+   "oracle_text": "{T}: Add {G}."
   },
   {
    "name": "Gold Myr",
@@ -201,7 +214,8 @@
    "cmc": 2,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/nec/153/gold-myr?utm_source=api"
+   "url": "https://scryfall.com/card/nec/153/gold-myr?utm_source=api",
+   "oracle_text": "{T}: Add {W}."
   },
   {
    "name": "Llanowar Elves",
@@ -217,7 +231,8 @@
    "colors": [
     "G"
    ],
-   "url": "https://scryfall.com/card/gnt/46/llanowar-elves?utm_source=api"
+   "url": "https://scryfall.com/card/gnt/46/llanowar-elves?utm_source=api",
+   "oracle_text": "{T}: Add {G}."
   },
   {
    "name": "Silver Myr",
@@ -231,7 +246,8 @@
    "cmc": 2,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/nec/158/silver-myr?utm_source=api"
+   "url": "https://scryfall.com/card/nec/158/silver-myr?utm_source=api",
+   "oracle_text": "{T}: Add {U}."
   },
   {
    "name": "Into the Roil",
@@ -243,7 +259,8 @@
    "colors": [
     "U"
    ],
-   "url": "https://scryfall.com/card/cmr/397/into-the-roil?utm_source=api"
+   "url": "https://scryfall.com/card/cmr/397/into-the-roil?utm_source=api",
+   "oracle_text": "Kicker {1}{U} (You may pay an additional {1}{U} as you cast this spell.)\nReturn target nonland permanent to its owner's hand. If this spell was kicked, draw a card."
   },
   {
    "name": "Jace, Arcane Strategist",
@@ -259,7 +276,8 @@
    "colors": [
     "U"
    ],
-   "url": "https://scryfall.com/card/war/270/jace-arcane-strategist?utm_source=api"
+   "url": "https://scryfall.com/card/war/270/jace-arcane-strategist?utm_source=api",
+   "oracle_text": "Whenever you draw your second card each turn, put a +1/+1 counter on target creature you control.\n+1: Draw a card.\n−7: Creatures you control can't be blocked this turn."
   },
   {
    "name": "Touch the Spirit Realm",
@@ -271,7 +289,8 @@
    "colors": [
     "W"
    ],
-   "url": "https://scryfall.com/card/neo/40/touch-the-spirit-realm?utm_source=api"
+   "url": "https://scryfall.com/card/neo/40/touch-the-spirit-realm?utm_source=api",
+   "oracle_text": "When Touch the Spirit Realm enters the battlefield, exile up to one target artifact or creature until Touch the Spirit Realm leaves the battlefield.\nChannel — {1}{W}, Discard Touch the Spirit Realm: Exile target artifact or creature. Return it to the battlefield under its owner's control at the beginning of the next end step."
   },
   {
    "name": "Plains",
@@ -285,7 +304,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/197/plains?utm_source=api"
+   "url": "https://scryfall.com/card/woe/267/plains?utm_source=api",
+   "oracle_text": "({T}: Add {W}.)"
   },
   {
    "name": "Island",
@@ -299,7 +319,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/199/island?utm_source=api"
+   "url": "https://scryfall.com/card/woe/269/island?utm_source=api",
+   "oracle_text": "({T}: Add {U}.)"
   },
   {
    "name": "Island",
@@ -313,7 +334,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/199/island?utm_source=api"
+   "url": "https://scryfall.com/card/woe/269/island?utm_source=api",
+   "oracle_text": "({T}: Add {U}.)"
   },
   {
    "name": "Island",
@@ -327,7 +349,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/199/island?utm_source=api"
+   "url": "https://scryfall.com/card/woe/269/island?utm_source=api",
+   "oracle_text": "({T}: Add {U}.)"
   },
   {
    "name": "Island",
@@ -341,7 +364,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/199/island?utm_source=api"
+   "url": "https://scryfall.com/card/woe/269/island?utm_source=api",
+   "oracle_text": "({T}: Add {U}.)"
   },
   {
    "name": "Vineglimmer Snarl",
@@ -351,7 +375,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/moc/444/vineglimmer-snarl?utm_source=api"
+   "url": "https://scryfall.com/card/moc/444/vineglimmer-snarl?utm_source=api",
+   "oracle_text": "As Vineglimmer Snarl enters the battlefield, you may reveal a Forest or Island card from your hand. If you don't, Vineglimmer Snarl enters the battlefield tapped.\n{T}: Add {G} or {U}."
   },
   {
    "name": "Arasta of the Endless Web",
@@ -368,7 +393,8 @@
    "colors": [
     "G"
    ],
-   "url": "https://scryfall.com/card/clb/817/arasta-of-the-endless-web?utm_source=api"
+   "url": "https://scryfall.com/card/cmm/885/arasta-of-the-endless-web?utm_source=api",
+   "oracle_text": "Reach\nWhenever an opponent casts an instant or sorcery spell, create a 1/2 green Spider creature token with reach."
   },
   {
    "name": "Merfolk Skydiver",
@@ -385,7 +411,8 @@
     "G",
     "U"
    ],
-   "url": "https://scryfall.com/card/war/205/merfolk-skydiver?utm_source=api"
+   "url": "https://scryfall.com/card/war/205/merfolk-skydiver?utm_source=api",
+   "oracle_text": "Flying\nWhen Merfolk Skydiver enters the battlefield, put a +1/+1 counter on target creature you control.\n{3}{G}{U}: Proliferate. (Choose any number of permanents and/or players, then give each another counter of each kind already there.)"
   },
   {
    "name": "Rampaging Baloths",
@@ -400,7 +427,8 @@
    "colors": [
     "G"
    ],
-   "url": "https://scryfall.com/card/c21/203/rampaging-baloths?utm_source=api"
+   "url": "https://scryfall.com/card/c21/203/rampaging-baloths?utm_source=api",
+   "oracle_text": "Trample\nLandfall — Whenever a land enters the battlefield under your control, you may create a 4/4 green Beast creature token."
   },
   {
    "name": "Titanic Brawl",
@@ -412,7 +440,8 @@
    "colors": [
     "G"
    ],
-   "url": "https://scryfall.com/card/rna/146/titanic-brawl?utm_source=api"
+   "url": "https://scryfall.com/card/rna/146/titanic-brawl?utm_source=api",
+   "oracle_text": "This spell costs {1} less to cast if it targets a creature you control with a +1/+1 counter on it.\nTarget creature you control fights target creature you don't control. (Each deals damage equal to its power to the other.)"
   },
   {
    "name": "Swords to Plowshares",
@@ -424,7 +453,8 @@
    "colors": [
     "W"
    ],
-   "url": "https://scryfall.com/card/moc/211/swords-to-plowshares?utm_source=api"
+   "url": "https://scryfall.com/card/cmm/841/swords-to-plowshares?utm_source=api",
+   "oracle_text": "Exile target creature. Its controller gains life equal to its power."
   },
   {
    "name": "Azorius Guildgate",
@@ -437,7 +467,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/khc/107/azorius-guildgate?utm_source=api"
+   "url": "https://scryfall.com/card/khc/107/azorius-guildgate?utm_source=api",
+   "oracle_text": "Azorius Guildgate enters the battlefield tapped.\n{T}: Add {W} or {U}."
   },
   {
    "name": "Path to Exile",
@@ -449,7 +480,8 @@
    "colors": [
     "W"
    ],
-   "url": "https://scryfall.com/card/moc/198/path-to-exile?utm_source=api"
+   "url": "https://scryfall.com/card/cmm/49/path-to-exile?utm_source=api",
+   "oracle_text": "Exile target creature. Its controller may search their library for a basic land card, put that card onto the battlefield tapped, then shuffle."
   },
   {
    "name": "Lion Sash",
@@ -466,7 +498,8 @@
    "colors": [
     "W"
    ],
-   "url": "https://scryfall.com/card/neo/26/lion-sash?utm_source=api"
+   "url": "https://scryfall.com/card/neo/26/lion-sash?utm_source=api",
+   "oracle_text": "{W}: Exile target card from a graveyard. If it was a permanent card, put a +1/+1 counter on Lion Sash.\nEquipped creature gets +1/+1 for each +1/+1 counter on Lion Sash.\nReconfigure {2} ({2}: Attach to target creature you control; or unattach from a creature. Reconfigure only as a sorcery. While attached, this isn't a creature.)"
   },
   {
    "name": "Forest",
@@ -480,7 +513,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/205/forest?utm_source=api"
+   "url": "https://scryfall.com/card/woe/275/forest?utm_source=api",
+   "oracle_text": "({T}: Add {G}.)"
   },
   {
    "name": "Forest",
@@ -494,7 +528,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/205/forest?utm_source=api"
+   "url": "https://scryfall.com/card/woe/275/forest?utm_source=api",
+   "oracle_text": "({T}: Add {G}.)"
   },
   {
    "name": "Forest",
@@ -508,7 +543,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/205/forest?utm_source=api"
+   "url": "https://scryfall.com/card/woe/275/forest?utm_source=api",
+   "oracle_text": "({T}: Add {G}.)"
   },
   {
    "name": "Forest",
@@ -522,7 +558,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/205/forest?utm_source=api"
+   "url": "https://scryfall.com/card/woe/275/forest?utm_source=api",
+   "oracle_text": "({T}: Add {G}.)"
   },
   {
    "name": "Forest",
@@ -536,7 +573,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/205/forest?utm_source=api"
+   "url": "https://scryfall.com/card/woe/275/forest?utm_source=api",
+   "oracle_text": "({T}: Add {G}.)"
   },
   {
    "name": "Forest",
@@ -550,7 +588,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/205/forest?utm_source=api"
+   "url": "https://scryfall.com/card/woe/275/forest?utm_source=api",
+   "oracle_text": "({T}: Add {G}.)"
   },
   {
    "name": "Arbor Elf",
@@ -566,7 +605,8 @@
    "colors": [
     "G"
    ],
-   "url": "https://scryfall.com/card/a25/160/arbor-elf?utm_source=api"
+   "url": "https://scryfall.com/card/a25/160/arbor-elf?utm_source=api",
+   "oracle_text": "{T}: Untap target Forest."
   }
  ],
  "sideboard": []

@@ -1,10 +1,12 @@
 {
- "labels": ["graveyard", "midrange"],
+ "labels": [
+  "graveyard",
+  "midrange"
+ ],
  "player": "jen",
  "date": "2023-04-19",
+ "games": null,
  "wins": 1,
- "losses": 0,
- "ties": 0,
  "mainboard": [
   {
    "name": "The Binding of the Titans",
@@ -19,7 +21,8 @@
    "colors": [
     "G"
    ],
-   "url": "https://scryfall.com/card/thb/166/the-binding-of-the-titans?utm_source=api"
+   "url": "https://scryfall.com/card/cmm/886/the-binding-of-the-titans?utm_source=api",
+   "oracle_text": "(As this Saga enters and after your draw step, add a lore counter. Sacrifice after III.)\nI — Each player mills three cards.\nII — Exile up to two target cards from graveyards. For each creature card exiled this way, you gain 1 life.\nIII — Return target creature or land card from your graveyard to your hand."
   },
   {
    "name": "Beacon of Unrest",
@@ -31,7 +34,8 @@
    "colors": [
     "B"
    ],
-   "url": "https://scryfall.com/card/2xm/77/beacon-of-unrest?utm_source=api"
+   "url": "https://scryfall.com/card/2xm/77/beacon-of-unrest?utm_source=api",
+   "oracle_text": "Put target artifact or creature card from a graveyard onto the battlefield under your control. Shuffle Beacon of Unrest into its owner's library."
   },
   {
    "name": "Webspinner Cuff",
@@ -48,7 +52,8 @@
    "colors": [
     "G"
    ],
-   "url": "https://scryfall.com/card/neo/214/webspinner-cuff?utm_source=api"
+   "url": "https://scryfall.com/card/neo/214/webspinner-cuff?utm_source=api",
+   "oracle_text": "Reach\nEquipped creature gets +1/+4 and has reach.\nReconfigure {4} ({4}: Attach to target creature you control; or unattach from a creature. Reconfigure only as a sorcery. While attached, this isn't a creature.)"
   },
   {
    "name": "Vampire Aristocrat",
@@ -65,7 +70,8 @@
    "colors": [
     "B"
    ],
-   "url": "https://scryfall.com/card/mm3/86/vampire-aristocrat?utm_source=api"
+   "url": "https://scryfall.com/card/mm3/86/vampire-aristocrat?utm_source=api",
+   "oracle_text": "Sacrifice a creature: Vampire Aristocrat gets +2/+2 until end of turn."
   },
   {
    "name": "Acolyte of Affliction",
@@ -82,7 +88,8 @@
     "B",
     "G"
    ],
-   "url": "https://scryfall.com/card/thb/206/acolyte-of-affliction?utm_source=api"
+   "url": "https://scryfall.com/card/thb/206/acolyte-of-affliction?utm_source=api",
+   "oracle_text": "When Acolyte of Affliction enters the battlefield, mill two cards, then you may return a permanent card from your graveyard to your hand."
   },
   {
    "name": "Liliana, Death's Majesty",
@@ -98,7 +105,8 @@
    "colors": [
     "B"
    ],
-   "url": "https://scryfall.com/card/mic/121/liliana-deaths-majesty?utm_source=api"
+   "url": "https://scryfall.com/card/mic/121/liliana-deaths-majesty?utm_source=api",
+   "oracle_text": "+1: Create a 2/2 black Zombie creature token. Mill two cards.\n−3: Return target creature card from your graveyard to the battlefield. That creature is a black Zombie in addition to its other colors and types.\n−7: Destroy all non-Zombie creatures."
   },
   {
    "name": "Stitcher's Supplier",
@@ -113,7 +121,8 @@
    "colors": [
     "B"
    ],
-   "url": "https://scryfall.com/card/m19/121/stitchers-supplier?utm_source=api"
+   "url": "https://scryfall.com/card/m19/121/stitchers-supplier?utm_source=api",
+   "oracle_text": "When Stitcher's Supplier enters the battlefield or dies, mill three cards."
   },
   {
    "name": "Grim Discovery",
@@ -125,7 +134,8 @@
    "colors": [
     "B"
    ],
-   "url": "https://scryfall.com/card/ddr/51/grim-discovery?utm_source=api"
+   "url": "https://scryfall.com/card/ddr/51/grim-discovery?utm_source=api",
+   "oracle_text": "Choose one or both —\n• Return target creature card from your graveyard to your hand.\n• Return target land card from your graveyard to your hand."
   },
   {
    "name": "Doomgape",
@@ -141,7 +151,8 @@
     "B",
     "G"
    ],
-   "url": "https://scryfall.com/card/ddj/65/doomgape?utm_source=api"
+   "url": "https://scryfall.com/card/ddj/65/doomgape?utm_source=api",
+   "oracle_text": "Trample\nAt the beginning of your upkeep, sacrifice a creature. You gain life equal to that creature's toughness."
   },
   {
    "name": "Stingerfling Spider",
@@ -156,7 +167,8 @@
    "colors": [
     "G"
    ],
-   "url": "https://scryfall.com/card/cmr/258/stingerfling-spider?utm_source=api"
+   "url": "https://scryfall.com/card/cmr/258/stingerfling-spider?utm_source=api",
+   "oracle_text": "Reach\nWhen Stingerfling Spider enters the battlefield, you may destroy target creature with flying."
   },
   {
    "name": "Gravedigger",
@@ -171,7 +183,8 @@
    "colors": [
     "B"
    ],
-   "url": "https://scryfall.com/card/m20/103/gravedigger?utm_source=api"
+   "url": "https://scryfall.com/card/m20/103/gravedigger?utm_source=api",
+   "oracle_text": "When Gravedigger enters the battlefield, you may return target creature card from your graveyard to your hand."
   },
   {
    "name": "Oathsworn Vampire",
@@ -187,7 +200,8 @@
    "colors": [
     "B"
    ],
-   "url": "https://scryfall.com/card/rix/80/oathsworn-vampire?utm_source=api"
+   "url": "https://scryfall.com/card/rix/80/oathsworn-vampire?utm_source=api",
+   "oracle_text": "Oathsworn Vampire enters the battlefield tapped.\nYou may cast Oathsworn Vampire from your graveyard if you gained life this turn."
   },
   {
    "name": "Unearth",
@@ -199,7 +213,8 @@
    "colors": [
     "B"
    ],
-   "url": "https://scryfall.com/card/2x2/96/unearth?utm_source=api"
+   "url": "https://scryfall.com/card/2x2/96/unearth?utm_source=api",
+   "oracle_text": "Return target creature card with mana value 3 or less from your graveyard to the battlefield.\nCycling {2} ({2}, Discard this card: Draw a card.)"
   },
   {
    "name": "Swamp",
@@ -213,7 +228,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/201/swamp?utm_source=api"
+   "url": "https://scryfall.com/card/woe/271/swamp?utm_source=api",
+   "oracle_text": "({T}: Add {B}.)"
   },
   {
    "name": "Swamp",
@@ -227,7 +243,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/201/swamp?utm_source=api"
+   "url": "https://scryfall.com/card/woe/271/swamp?utm_source=api",
+   "oracle_text": "({T}: Add {B}.)"
   },
   {
    "name": "Swamp",
@@ -241,7 +258,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/201/swamp?utm_source=api"
+   "url": "https://scryfall.com/card/woe/271/swamp?utm_source=api",
+   "oracle_text": "({T}: Add {B}.)"
   },
   {
    "name": "Swamp",
@@ -255,7 +273,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/201/swamp?utm_source=api"
+   "url": "https://scryfall.com/card/woe/271/swamp?utm_source=api",
+   "oracle_text": "({T}: Add {B}.)"
   },
   {
    "name": "Swamp",
@@ -269,7 +288,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/201/swamp?utm_source=api"
+   "url": "https://scryfall.com/card/woe/271/swamp?utm_source=api",
+   "oracle_text": "({T}: Add {B}.)"
   },
   {
    "name": "Swamp",
@@ -283,7 +303,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/201/swamp?utm_source=api"
+   "url": "https://scryfall.com/card/woe/271/swamp?utm_source=api",
+   "oracle_text": "({T}: Add {B}.)"
   },
   {
    "name": "Swamp",
@@ -297,7 +318,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/201/swamp?utm_source=api"
+   "url": "https://scryfall.com/card/woe/271/swamp?utm_source=api",
+   "oracle_text": "({T}: Add {B}.)"
   },
   {
    "name": "Swamp",
@@ -311,7 +333,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/201/swamp?utm_source=api"
+   "url": "https://scryfall.com/card/woe/271/swamp?utm_source=api",
+   "oracle_text": "({T}: Add {B}.)"
   },
   {
    "name": "Inevitable End",
@@ -326,7 +349,8 @@
    "colors": [
     "B"
    ],
-   "url": "https://scryfall.com/card/thb/102/inevitable-end?utm_source=api"
+   "url": "https://scryfall.com/card/thb/102/inevitable-end?utm_source=api",
+   "oracle_text": "Enchant creature\nEnchanted creature has \"At the beginning of your upkeep, sacrifice a creature.\""
   },
   {
    "name": "Rise from the Grave",
@@ -338,7 +362,8 @@
    "colors": [
     "B"
    ],
-   "url": "https://scryfall.com/card/znc/53/rise-from-the-grave?utm_source=api"
+   "url": "https://scryfall.com/card/znc/53/rise-from-the-grave?utm_source=api",
+   "oracle_text": "Put target creature card from a graveyard onto the battlefield under your control. That creature is a black Zombie in addition to its other colors and types."
   },
   {
    "name": "Whisper, Blood Liturgist",
@@ -355,7 +380,8 @@
    "colors": [
     "B"
    ],
-   "url": "https://scryfall.com/card/dom/111/whisper-blood-liturgist?utm_source=api"
+   "url": "https://scryfall.com/card/cmm/198/whisper-blood-liturgist?utm_source=api",
+   "oracle_text": "{T}, Sacrifice two creatures: Return target creature card from your graveyard to the battlefield."
   },
   {
    "name": "Forest",
@@ -369,7 +395,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/205/forest?utm_source=api"
+   "url": "https://scryfall.com/card/woe/275/forest?utm_source=api",
+   "oracle_text": "({T}: Add {G}.)"
   },
   {
    "name": "Forest",
@@ -383,7 +410,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/205/forest?utm_source=api"
+   "url": "https://scryfall.com/card/woe/275/forest?utm_source=api",
+   "oracle_text": "({T}: Add {G}.)"
   },
   {
    "name": "Forest",
@@ -397,7 +425,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/205/forest?utm_source=api"
+   "url": "https://scryfall.com/card/woe/275/forest?utm_source=api",
+   "oracle_text": "({T}: Add {G}.)"
   },
   {
    "name": "Forest",
@@ -411,7 +440,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/205/forest?utm_source=api"
+   "url": "https://scryfall.com/card/woe/275/forest?utm_source=api",
+   "oracle_text": "({T}: Add {G}.)"
   },
   {
    "name": "Forest",
@@ -425,7 +455,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/205/forest?utm_source=api"
+   "url": "https://scryfall.com/card/woe/275/forest?utm_source=api",
+   "oracle_text": "({T}: Add {G}.)"
   },
   {
    "name": "Forest",
@@ -439,7 +470,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/205/forest?utm_source=api"
+   "url": "https://scryfall.com/card/woe/275/forest?utm_source=api",
+   "oracle_text": "({T}: Add {G}.)"
   },
   {
    "name": "Forest",
@@ -453,7 +485,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/205/forest?utm_source=api"
+   "url": "https://scryfall.com/card/woe/275/forest?utm_source=api",
+   "oracle_text": "({T}: Add {G}.)"
   },
   {
    "name": "Forest",
@@ -467,7 +500,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/205/forest?utm_source=api"
+   "url": "https://scryfall.com/card/woe/275/forest?utm_source=api",
+   "oracle_text": "({T}: Add {G}.)"
   },
   {
    "name": "Forsaken Drifters",
@@ -482,7 +516,8 @@
    "colors": [
     "B"
    ],
-   "url": "https://scryfall.com/card/bng/72/forsaken-drifters?utm_source=api"
+   "url": "https://scryfall.com/card/bng/72/forsaken-drifters?utm_source=api",
+   "oracle_text": "When Forsaken Drifters dies, mill four cards."
   },
   {
    "name": "River Boa",
@@ -497,7 +532,8 @@
    "colors": [
     "G"
    ],
-   "url": "https://scryfall.com/card/ddm/49/river-boa?utm_source=api"
+   "url": "https://scryfall.com/card/ddm/49/river-boa?utm_source=api",
+   "oracle_text": "Islandwalk (This creature can't be blocked as long as defending player controls an Island.)\n{G}: Regenerate River Boa."
   },
   {
    "name": "Necroblossom Snarl",
@@ -507,7 +543,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/stx/269/necroblossom-snarl?utm_source=api"
+   "url": "https://scryfall.com/card/cmm/1015/necroblossom-snarl?utm_source=api",
+   "oracle_text": "As Necroblossom Snarl enters the battlefield, you may reveal a Swamp or Forest card from your hand. If you don't, Necroblossom Snarl enters the battlefield tapped.\n{T}: Add {B} or {G}."
   },
   {
    "name": "Deathsprout",
@@ -520,7 +557,8 @@
     "B",
     "G"
    ],
-   "url": "https://scryfall.com/card/c20/208/deathsprout?utm_source=api"
+   "url": "https://scryfall.com/card/c20/208/deathsprout?utm_source=api",
+   "oracle_text": "Destroy target creature. Search your library for a basic land card, put it onto the battlefield tapped, then shuffle."
   },
   {
    "name": "Malakir Bloodwitch",
@@ -536,7 +574,8 @@
    "colors": [
     "B"
    ],
-   "url": "https://scryfall.com/card/voc/131/malakir-bloodwitch?utm_source=api"
+   "url": "https://scryfall.com/card/voc/131/malakir-bloodwitch?utm_source=api",
+   "oracle_text": "Flying, protection from white\nWhen Malakir Bloodwitch enters the battlefield, each opponent loses life equal to the number of Vampires you control. You gain life equal to the life lost this way."
   },
   {
    "name": "Morbid Bloom",
@@ -549,7 +588,8 @@
     "B",
     "G"
    ],
-   "url": "https://scryfall.com/card/arb/94/morbid-bloom?utm_source=api"
+   "url": "https://scryfall.com/card/arb/94/morbid-bloom?utm_source=api",
+   "oracle_text": "Exile target creature card from a graveyard, then create X 1/1 green Saproling creature tokens, where X is the exiled card's toughness."
   },
   {
    "name": "Tukatongue Thallid",
@@ -564,7 +604,8 @@
    "colors": [
     "G"
    ],
-   "url": "https://scryfall.com/card/pca/79/tukatongue-thallid?utm_source=api"
+   "url": "https://scryfall.com/card/pca/79/tukatongue-thallid?utm_source=api",
+   "oracle_text": "When Tukatongue Thallid dies, create a 1/1 green Saproling creature token."
   },
   {
    "name": "Tilling Treefolk",
@@ -580,7 +621,8 @@
    "colors": [
     "G"
    ],
-   "url": "https://scryfall.com/card/eve/78/tilling-treefolk?utm_source=api"
+   "url": "https://scryfall.com/card/eve/78/tilling-treefolk?utm_source=api",
+   "oracle_text": "When Tilling Treefolk enters the battlefield, you may return up to two target land cards from your graveyard to your hand."
   }
  ],
  "sideboard": []

@@ -1,10 +1,13 @@
 {
- "labels": ["midrange", "token"],
+ "labels": [
+  "midrange",
+  "token"
+ ],
  "player": "dom",
  "date": "2023-04-24",
+ "games": null,
  "wins": 2,
  "losses": 1,
- "ties": 0,
  "mainboard": [
   {
    "name": "Foreboding Ruins",
@@ -14,7 +17,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/dmc/211/foreboding-ruins?utm_source=api"
+   "url": "https://scryfall.com/card/dmc/211/foreboding-ruins?utm_source=api",
+   "oracle_text": "As Foreboding Ruins enters the battlefield, you may reveal a Swamp or Mountain card from your hand. If you don't, Foreboding Ruins enters the battlefield tapped.\n{T}: Add {B} or {R}."
   },
   {
    "name": "Cloudgoat Ranger",
@@ -31,7 +35,8 @@
    "colors": [
     "W"
    ],
-   "url": "https://scryfall.com/card/khc/21/cloudgoat-ranger?utm_source=api"
+   "url": "https://scryfall.com/card/khc/21/cloudgoat-ranger?utm_source=api",
+   "oracle_text": "When Cloudgoat Ranger enters the battlefield, create three 1/1 white Kithkin Soldier creature tokens.\nTap three untapped Kithkin you control: Cloudgoat Ranger gets +2/+0 and gains flying until end of turn."
   },
   {
    "name": "Dragonskull Summit",
@@ -41,7 +46,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/dmc/207/dragonskull-summit?utm_source=api"
+   "url": "https://scryfall.com/card/dmc/207/dragonskull-summit?utm_source=api",
+   "oracle_text": "Dragonskull Summit enters the battlefield tapped unless you control a Swamp or a Mountain.\n{T}: Add {B} or {R}."
   },
   {
    "name": "Hellion Eruption",
@@ -53,7 +59,8 @@
    "colors": [
     "R"
    ],
-   "url": "https://scryfall.com/card/pca/45/hellion-eruption?utm_source=api"
+   "url": "https://scryfall.com/card/pca/45/hellion-eruption?utm_source=api",
+   "oracle_text": "Sacrifice all creatures you control, then create that many 4/4 red Hellion creature tokens."
   },
   {
    "name": "Devouring Hellion",
@@ -68,7 +75,8 @@
    "colors": [
     "R"
    ],
-   "url": "https://scryfall.com/card/war/124/devouring-hellion?utm_source=api"
+   "url": "https://scryfall.com/card/war/124/devouring-hellion?utm_source=api",
+   "oracle_text": "As Devouring Hellion enters the battlefield, you may sacrifice any number of creatures and/or planeswalkers. If you do, it enters with twice that many +1/+1 counters on it."
   },
   {
    "name": "Devouring Hellion",
@@ -83,7 +91,8 @@
    "colors": [
     "R"
    ],
-   "url": "https://scryfall.com/card/war/124/devouring-hellion?utm_source=api"
+   "url": "https://scryfall.com/card/war/124/devouring-hellion?utm_source=api",
+   "oracle_text": "As Devouring Hellion enters the battlefield, you may sacrifice any number of creatures and/or planeswalkers. If you do, it enters with twice that many +1/+1 counters on it."
   },
   {
    "name": "Kathari Bomber",
@@ -100,7 +109,8 @@
     "B",
     "R"
    ],
-   "url": "https://scryfall.com/card/mm3/172/kathari-bomber?utm_source=api"
+   "url": "https://scryfall.com/card/mm3/172/kathari-bomber?utm_source=api",
+   "oracle_text": "Flying\nWhen Kathari Bomber deals combat damage to a player, create two 1/1 red Goblin creature tokens and sacrifice Kathari Bomber.\nUnearth {3}{B}{R} ({3}{B}{R}: Return this card from your graveyard to the battlefield. It gains haste. Exile it at the beginning of the next end step or if it would leave the battlefield. Unearth only as a sorcery.)"
   },
   {
    "name": "Puncture Blast",
@@ -112,7 +122,8 @@
    "colors": [
     "R"
    ],
-   "url": "https://scryfall.com/card/eve/60/puncture-blast?utm_source=api"
+   "url": "https://scryfall.com/card/eve/60/puncture-blast?utm_source=api",
+   "oracle_text": "Wither (This deals damage to creatures in the form of -1/-1 counters.)\nPuncture Blast deals 3 damage to any target."
   },
   {
    "name": "Nobilis of War",
@@ -129,7 +140,8 @@
     "R",
     "W"
    ],
-   "url": "https://scryfall.com/card/mm2/195/nobilis-of-war?utm_source=api"
+   "url": "https://scryfall.com/card/mm2/195/nobilis-of-war?utm_source=api",
+   "oracle_text": "Flying\nAttacking creatures you control get +2/+0."
   },
   {
    "name": "Isolated Chapel",
@@ -139,7 +151,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/dom/241/isolated-chapel?utm_source=api"
+   "url": "https://scryfall.com/card/dom/241/isolated-chapel?utm_source=api",
+   "oracle_text": "Isolated Chapel enters the battlefield tapped unless you control a Plains or a Swamp.\n{T}: Add {W} or {B}."
   },
   {
    "name": "Angel of Salvation",
@@ -154,7 +167,8 @@
    "colors": [
     "W"
    ],
-   "url": "https://scryfall.com/card/moc/170/angel-of-salvation?utm_source=api"
+   "url": "https://scryfall.com/card/moc/170/angel-of-salvation?utm_source=api",
+   "oracle_text": "Flash; convoke (Your creatures can help cast this spell. Each creature you tap while casting this spell pays for {1} or one mana of that creature's color.)\nFlying\nWhen Angel of Salvation enters the battlefield, prevent the next 5 damage that would be dealt this turn to any number of targets, divided as you choose."
   },
   {
    "name": "Warcry Phoenix",
@@ -169,7 +183,8 @@
    "colors": [
     "R"
    ],
-   "url": "https://scryfall.com/card/dom/150/warcry-phoenix?utm_source=api"
+   "url": "https://scryfall.com/card/dom/150/warcry-phoenix?utm_source=api",
+   "oracle_text": "Flying, haste\nWhenever you attack with three or more creatures, you may pay {2}{R}. If you do, return Warcry Phoenix from your graveyard to the battlefield tapped and attacking."
   },
   {
    "name": "Blinding Mage",
@@ -185,7 +200,8 @@
    "colors": [
     "W"
    ],
-   "url": "https://scryfall.com/card/ima/13/blinding-mage?utm_source=api"
+   "url": "https://scryfall.com/card/ima/13/blinding-mage?utm_source=api",
+   "oracle_text": "{W}, {T}: Tap target creature."
   },
   {
    "name": "Makeshift Munitions",
@@ -197,7 +213,8 @@
    "colors": [
     "R"
    ],
-   "url": "https://scryfall.com/card/cmr/191/makeshift-munitions?utm_source=api"
+   "url": "https://scryfall.com/card/cmm/242/makeshift-munitions?utm_source=api",
+   "oracle_text": "{1}, Sacrifice an artifact or creature: Makeshift Munitions deals 1 damage to any target."
   },
   {
    "name": "Mountain",
@@ -211,7 +228,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/203/mountain?utm_source=api"
+   "url": "https://scryfall.com/card/woe/273/mountain?utm_source=api",
+   "oracle_text": "({T}: Add {R}.)"
   },
   {
    "name": "Mountain",
@@ -225,7 +243,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/203/mountain?utm_source=api"
+   "url": "https://scryfall.com/card/woe/273/mountain?utm_source=api",
+   "oracle_text": "({T}: Add {R}.)"
   },
   {
    "name": "Mountain",
@@ -239,7 +258,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/203/mountain?utm_source=api"
+   "url": "https://scryfall.com/card/woe/273/mountain?utm_source=api",
+   "oracle_text": "({T}: Add {R}.)"
   },
   {
    "name": "Spectral Procession",
@@ -251,7 +271,8 @@
    "colors": [
     "W"
    ],
-   "url": "https://scryfall.com/card/mm2/33/spectral-procession?utm_source=api"
+   "url": "https://scryfall.com/card/mm2/33/spectral-procession?utm_source=api",
+   "oracle_text": "Create three 1/1 white Spirit creature tokens with flying."
   },
   {
    "name": "Raise the Alarm",
@@ -263,7 +284,8 @@
    "colors": [
     "W"
    ],
-   "url": "https://scryfall.com/card/cmr/41/raise-the-alarm?utm_source=api"
+   "url": "https://scryfall.com/card/cmr/41/raise-the-alarm?utm_source=api",
+   "oracle_text": "Create two 1/1 white Soldier creature tokens."
   },
   {
    "name": "Swamp",
@@ -277,7 +299,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/201/swamp?utm_source=api"
+   "url": "https://scryfall.com/card/woe/271/swamp?utm_source=api",
+   "oracle_text": "({T}: Add {B}.)"
   },
   {
    "name": "Swamp",
@@ -291,7 +314,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/201/swamp?utm_source=api"
+   "url": "https://scryfall.com/card/woe/271/swamp?utm_source=api",
+   "oracle_text": "({T}: Add {B}.)"
   },
   {
    "name": "Marshal's Anthem",
@@ -303,7 +327,8 @@
    "colors": [
     "W"
    ],
-   "url": "https://scryfall.com/card/khc/29/marshals-anthem?utm_source=api"
+   "url": "https://scryfall.com/card/khc/29/marshals-anthem?utm_source=api",
+   "oracle_text": "Multikicker {1}{W} (You may pay an additional {1}{W} any number of times as you cast this spell.)\nCreatures you control get +1/+1.\nWhen Marshal's Anthem enters the battlefield, return up to X target creature cards from your graveyard to the battlefield, where X is the number of times Marshal's Anthem was kicked."
   },
   {
    "name": "Plains",
@@ -317,7 +342,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/197/plains?utm_source=api"
+   "url": "https://scryfall.com/card/woe/267/plains?utm_source=api",
+   "oracle_text": "({T}: Add {W}.)"
   },
   {
    "name": "Plains",
@@ -331,7 +357,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/197/plains?utm_source=api"
+   "url": "https://scryfall.com/card/woe/267/plains?utm_source=api",
+   "oracle_text": "({T}: Add {W}.)"
   },
   {
    "name": "Plains",
@@ -345,7 +372,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/197/plains?utm_source=api"
+   "url": "https://scryfall.com/card/woe/267/plains?utm_source=api",
+   "oracle_text": "({T}: Add {W}.)"
   },
   {
    "name": "Plains",
@@ -359,7 +387,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/197/plains?utm_source=api"
+   "url": "https://scryfall.com/card/woe/267/plains?utm_source=api",
+   "oracle_text": "({T}: Add {W}.)"
   },
   {
    "name": "Plains",
@@ -373,7 +402,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/197/plains?utm_source=api"
+   "url": "https://scryfall.com/card/woe/267/plains?utm_source=api",
+   "oracle_text": "({T}: Add {W}.)"
   },
   {
    "name": "Plains",
@@ -387,7 +417,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/197/plains?utm_source=api"
+   "url": "https://scryfall.com/card/woe/267/plains?utm_source=api",
+   "oracle_text": "({T}: Add {W}.)"
   },
   {
    "name": "Plains",
@@ -401,7 +432,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/who/197/plains?utm_source=api"
+   "url": "https://scryfall.com/card/woe/267/plains?utm_source=api",
+   "oracle_text": "({T}: Add {W}.)"
   },
   {
    "name": "Glory of Warfare",
@@ -414,7 +446,8 @@
     "R",
     "W"
    ],
-   "url": "https://scryfall.com/card/hop/88/glory-of-warfare?utm_source=api"
+   "url": "https://scryfall.com/card/hop/88/glory-of-warfare?utm_source=api",
+   "oracle_text": "As long as it's your turn, creatures you control get +2/+0.\nAs long as it's not your turn, creatures you control get +0/+2."
   },
   {
    "name": "Soul Warden",
@@ -430,7 +463,8 @@
    "colors": [
     "W"
    ],
-   "url": "https://scryfall.com/card/mm3/24/soul-warden?utm_source=api"
+   "url": "https://scryfall.com/card/mm3/24/soul-warden?utm_source=api",
+   "oracle_text": "Whenever another creature enters the battlefield, you gain 1 life."
   },
   {
    "name": "Shineshadow Snarl",
@@ -440,7 +474,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/moc/422/shineshadow-snarl?utm_source=api"
+   "url": "https://scryfall.com/card/cmm/1033/shineshadow-snarl?utm_source=api",
+   "oracle_text": "As Shineshadow Snarl enters the battlefield, you may reveal a Plains or Swamp card from your hand. If you don't, Shineshadow Snarl enters the battlefield tapped.\n{T}: Add {W} or {B}."
   },
   {
    "name": "Meadowboon",
@@ -455,7 +490,8 @@
    "colors": [
     "W"
    ],
-   "url": "https://scryfall.com/card/mma/22/meadowboon?utm_source=api"
+   "url": "https://scryfall.com/card/mma/22/meadowboon?utm_source=api",
+   "oracle_text": "When Meadowboon leaves the battlefield, put a +1/+1 counter on each creature target player controls.\nEvoke {3}{W} (You may cast this spell for its evoke cost. If you do, it's sacrificed when it enters the battlefield.)"
   },
   {
    "name": "Unmake",
@@ -468,7 +504,8 @@
     "B",
     "W"
    ],
-   "url": "https://scryfall.com/card/ddk/27/unmake?utm_source=api"
+   "url": "https://scryfall.com/card/ddk/27/unmake?utm_source=api",
+   "oracle_text": "Exile target creature."
   },
   {
    "name": "Swords to Plowshares",
@@ -480,7 +517,8 @@
    "colors": [
     "W"
    ],
-   "url": "https://scryfall.com/card/moc/211/swords-to-plowshares?utm_source=api"
+   "url": "https://scryfall.com/card/cmm/841/swords-to-plowshares?utm_source=api",
+   "oracle_text": "Exile target creature. Its controller gains life equal to its power."
   },
   {
    "name": "Gwyllion Hedge-Mage",
@@ -497,7 +535,8 @@
     "B",
     "W"
    ],
-   "url": "https://scryfall.com/card/cma/201/gwyllion-hedge-mage?utm_source=api"
+   "url": "https://scryfall.com/card/cma/201/gwyllion-hedge-mage?utm_source=api",
+   "oracle_text": "When Gwyllion Hedge-Mage enters the battlefield, if you control two or more Plains, you may create a 1/1 white Kithkin Soldier creature token.\nWhen Gwyllion Hedge-Mage enters the battlefield, if you control two or more Swamps, you may put a -1/-1 counter on target creature."
   },
   {
    "name": "Anointed Procession",
@@ -509,7 +548,8 @@
    "colors": [
     "W"
    ],
-   "url": "https://scryfall.com/card/akh/2/anointed-procession?utm_source=api"
+   "url": "https://scryfall.com/card/akh/2/anointed-procession?utm_source=api",
+   "oracle_text": "If an effect would create one or more tokens under your control, it creates twice that many of those tokens instead."
   },
   {
    "name": "Vona's Hunger",
@@ -521,7 +561,8 @@
    "colors": [
     "B"
    ],
-   "url": "https://scryfall.com/card/rix/90/vonas-hunger?utm_source=api"
+   "url": "https://scryfall.com/card/rix/90/vonas-hunger?utm_source=api",
+   "oracle_text": "Ascend (If you control ten or more permanents, you get the city's blessing for the rest of the game.)\nEach opponent sacrifices a creature. If you have the city's blessing, instead each opponent sacrifices half the creatures they control, rounded up."
   },
   {
    "name": "Hordeling Outburst",
@@ -533,7 +574,8 @@
    "colors": [
     "R"
    ],
-   "url": "https://scryfall.com/card/a25/134/hordeling-outburst?utm_source=api"
+   "url": "https://scryfall.com/card/a25/134/hordeling-outburst?utm_source=api",
+   "oracle_text": "Create three 1/1 red Goblin creature tokens."
   }
  ],
  "sideboard": []
