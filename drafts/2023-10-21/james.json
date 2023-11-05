@@ -3,7 +3,8 @@
  "player": "james",
  "date": "2023-10-21",
  "games": [
-    {"opponent": "casey", "winner": "james"}
+    {"opponent": "casey", "winner": "james"},
+    {"opponent": "mattd", "winner": "mattd"}
   ],
  "mainboard": [
   {

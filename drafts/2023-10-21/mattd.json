@@ -4,7 +4,8 @@
  "date": "2023-10-21",
  "games": [
     {"opponent": "dom", "winner": "dom"},
-    {"opponent": "xander", "winner": "mattd"}
+    {"opponent": "xander", "winner": "mattd"},
+    {"opponent": "james", "winner": "mattd"}
   ],
  "mainboard": [
   {
