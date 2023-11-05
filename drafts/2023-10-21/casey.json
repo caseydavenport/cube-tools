@@ -492,19 +492,19 @@
    "oracle_text": "Whenever you cast an instant or sorcery spell, copy it. You may choose new targets for the copy. This ability triggers only once each turn.\n+2: Add two mana in any combination of colors.\n+1: Exile the top five cards of your library. Until the end of your next turn, you may cast an instant or sorcery spell from among those exiled cards.\n−X: Chandra, Hope's Beacon deals X damage to each of up to two targets."
   },
   {
-   "name": "Island",
+   "name": "Swamp",
    "types": [
     "Basic",
     "Land"
    ],
    "sub_types": [
-    "Island"
+    "Swamp"
    ],
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/woe/269/island?utm_source=api",
-   "oracle_text": "({T}: Add {U}.)"
+   "url": "https://scryfall.com/card/woe/271/swamp?utm_source=api",
+   "oracle_text": "({T}: Add {B}.)"
   },
   {
    "name": "Swamp",

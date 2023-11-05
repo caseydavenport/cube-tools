@@ -30,8 +30,7 @@
 1 Saheeli, Sublime Artificer
 1 Faithless Looting
 1 Chandra, Hope's Beacon
-1 Island
-1 Swamp
+2 Swamp
 3 Mountain
 3 Forest
 
