@@ -6,9 +6,12 @@
  ],
  "player": "jen",
  "date": "2023-07-16",
- "games": null,
- "wins": 1,
- "losses": 3,
+ "games": [
+    {"opponent": "dom", "winner": "dom"},
+    {"opponent": "greg", "winner": "jen"},
+    {"opponent": "xander", "winner": "xander"},
+    {"opponent": "casey", "winner": "casey"}
+  ],
  "mainboard": [
   {
    "name": "Arasta of the Endless Web",

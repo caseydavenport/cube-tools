@@ -5,9 +5,12 @@
  ],
  "player": "james",
  "date": "2023-07-16",
- "games": null,
- "wins": 2,
- "losses": 2,
+ "games": [
+    {"opponent": "casey", "winner": "casey"},
+    {"opponent": "dom", "winner": "dom"},
+    {"opponent": "greg", "winner": "greg"},
+    {"opponent": "xander", "winner": "james"}
+  ],
  "mainboard": [
   {
    "name": "Wrath of God",

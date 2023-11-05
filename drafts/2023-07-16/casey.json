@@ -5,9 +5,13 @@
  ],
  "player": "casey",
  "date": "2023-07-16",
- "games": null,
- "wins": 3,
- "losses": 2,
+ "games": [
+    {"opponent": "jen", "winner": "casey"},
+    {"opponent": "greg", "winner": "casey"},
+    {"opponent": "xander", "winner": "xander"},
+    {"opponent": "dom", "winner": "dom"},
+    {"opponent": "james", "winner": "casey"}
+  ],
  "mainboard": [
   {
    "name": "Siege-Gang Commander",

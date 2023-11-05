@@ -5,7 +5,11 @@
  ],
  "player": "greg",
  "date": "2023-07-16",
- "games": null,
+ "games": [
+    {"opponent": "casey", "winner": "casey"},
+    {"opponent": "jen", "winner": "jen"},
+    {"opponent": "james", "winner": "james"}
+  ],
  "losses": 3,
  "mainboard": [
   {

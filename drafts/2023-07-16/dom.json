@@ -6,8 +6,11 @@
  ],
  "player": "dom",
  "date": "2023-07-16",
- "games": null,
- "wins": 3,
+ "games": [
+    {"opponent": "casey", "winner": "dom"},
+    {"opponent": "james", "winner": "dom"},
+    {"opponent": "jen", "winner": "dom"}
+  ],
  "mainboard": [
   {
    "name": "Sphinx of Lost Truths",

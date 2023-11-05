@@ -6,8 +6,8 @@
  "player": "paul",
  "date": "2023-04-22",
  "games": null,
- "wins": 1,
- "losses": 1,
+ "wins": 0,
+ "losses": 0,
  "mainboard": [
   {
    "name": "Darksteel Colossus",
