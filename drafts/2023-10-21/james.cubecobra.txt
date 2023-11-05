@@ -3,23 +3,12 @@ Siren Stormtamer
 Unmake
 Mother of Runes
 Ponder
-Dauntless Bodyguard
-Isolated Chapel
-Legion's Landing // Adanto, the First Fort
-Mistmeadow Skulk
-Sai of the Shinobi
 Spell Pierce
 Welcoming Vampire
-Intangible Virtue
-Merfolk Looter
-Grateful Apparition
 Exclusion Mage
 Kor Sanctifiers
-Lightning Greaves
 Serum Visions
-Kor Duelist
 Furycalm Snarl
-Prophetic Prism
 Oblivion Ring
 Werefox Bodyguard
 Kitchen Finks
@@ -27,21 +16,25 @@ Goblin Guide
 Flame Slash
 Rabbit Battery
 The Wandering Emperor
-Silver Myr
-Mosquito Guard
-Portable Hole
 Sulfur Falls
 Port Town
 Abrade
 Perilous Myr
-Into the Roil
 Ogre-Head Helm
 Unsummon
 Brainstorm
-Angelic Intervention
 Kor Skyfisher
-Cunning Sparkmage
 Reprieve
-Chromatic Sphere
 Embereth Veteran
 Steam Vents
+Island
+Island
+Island
+Mountain
+Mountain
+Mountain
+Mountain
+Plains
+Plains
+Plains
+Plains
