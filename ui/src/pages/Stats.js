@@ -114,6 +114,7 @@ export default function StatsViewer() {
   ///////////////////////////////////////////////////////////////////////////////
   const [playerSortBy, setPlayerSortBy] = useState("");
   const [playerSortInvert, setPlayerSortInvert] = useState(false);
+  const [selectedPlayer, setSelectedPlayer] = useState("");
   function onPlayerHeaderClicked(event) {
     if (playerSortBy == event.target.id) {
       // The same header was clicked again. Invert the sorting.
@@ -124,6 +125,10 @@ export default function StatsViewer() {
     }
     setPlayerSortBy(event.target.id)
   }
+  function handlePlayerClick(event) {
+      setSelectedPlayer(event.target.id)
+  }
+
 
   ///////////////////////////////////////////////////////////////////////////////
   // State for the "top cards in archetype" widget.
@@ -368,6 +373,8 @@ export default function StatsViewer() {
           sortBy={playerSortBy}
           invertSort={playerSortInvert}
           onHeaderClick={onPlayerHeaderClicked}
+          handleRowClick={handlePlayerClick}
+          player={selectedPlayer}
           show={display[5]}
         />
 

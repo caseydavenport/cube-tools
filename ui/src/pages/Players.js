@@ -9,10 +9,12 @@ export function PlayerWidget(input) {
   return (
     <table style={{"width": "100%"}}>
       <tr>
-        <td style={{"width": "50%"}}>
+        <td style={{"vertical-align": "top", "width": "50%"}}>
           <PlayerTable {...input} />
         </td>
-        <td style={{"width": "50%"}}> </td>
+        <td style={{"vertical-align":"top"}}>
+          <PlayerDetailsPanel {...input} />
+        </td>
       </tr>
     </table>
   );
@@ -113,7 +115,7 @@ function PlayerTable(input) {
   }
 
   return (
-    <div className="widget">
+    <div>
       <table className="winrate-table">
         <thead className="table-header">
           <tr>
@@ -172,7 +174,7 @@ function PlayerTable(input) {
             }
             return (
               <tr sort={sort} className="card" key={row.name}>
-                <td>{row.name}</td>
+                <td id={row.name} onClick={input.handleRowClick}>{row.name}</td>
                 <td>{row.numDecks}</td>
                 <td>{row.games}</td>
                 <td>{row.winPercent}%</td>
@@ -187,6 +189,73 @@ function PlayerTable(input) {
             )
           }).sort(SortFunc)
         }
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
+function PlayerDetailsPanel(input) {
+  // Iterate the selected players games and build up record
+  // against each opponent.
+  let decks = []
+  for (let deck of input.decks) {
+    if (deck.player == input.player) {
+      decks.push(deck)
+    }
+  }
+
+  let recordByOpponent = new Map()
+  for (let deck of decks) {
+    if (deck.games == null) {
+      continue
+    }
+    for (let game of deck.games) {
+      if (!recordByOpponent.has(game.opponent)) {
+        recordByOpponent.set(game.opponent, {
+          "name": game.opponent,
+          "wins": 0,
+          "losses": 0,
+        })
+      }
+      let r = recordByOpponent.get(game.opponent)
+      if (game.opponent == game.winner) {
+        r.losses += 1
+      } else {
+        r.wins += 1
+      }
+      recordByOpponent.set(game.opponent, r)
+    }
+  }
+
+  let data = Array.from(recordByOpponent.values())
+  return (
+    <div>
+      <table className="winrate-table">
+        <thead className="table-header">
+          <tr>
+            <td onClick={input.onHeaderClick} id="name" className="header-cell">Opponent</td>
+            <td onClick={input.onHeaderClick} id="num" className="header-cell">Win %</td>
+            <td onClick={input.onHeaderClick} id="num" className="header-cell">Games</td>
+          </tr>
+        </thead>
+        <tbody>
+          {
+            data.map(function(opponent) {
+              // Filter out any opponent that doesn't meet the minimum games requirement.
+              if (opponent.wins + opponent.losses < 10) {
+                return
+              }
+              let win_pct = Math.round(opponent.wins / (opponent.wins + opponent.losses) * 100)
+              return (
+                <tr key={opponent.name} sort={win_pct} className="winrate-row">
+                  <td key="name">{opponent.name}</td>
+                  <td key="num">{win_pct}</td>
+                  <td key="num">{opponent.wins + opponent.losses}</td>
+                </tr>
+              )
+            }).sort(SortFunc)
+          }
         </tbody>
       </table>
     </div>
