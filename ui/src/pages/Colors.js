@@ -33,12 +33,14 @@ export function ColorWidget(input) {
     return null
   }
 
+  let colorData = GetColorStats(input.decks)
+
   return (
     <table style={{"width": "100%"}}>
       <tr>
         <td style={{"width": "50%"}}>
           <ColorStatsTable
-            colorData={input.colorData}
+            colorData={colorData}
             ddOpts={input.ddOpts}
             dropdownSelection={input.colorTypeSelection}
             decks={input.decks}
@@ -53,7 +55,7 @@ export function ColorWidget(input) {
       <tr>
         <td style={{"paddingTop": "50px"}}>
           <ColorRateChart
-            colorData={input.colorData}
+            colorData={colorData}
             decks={input.decks}
             dataset="builds"
             colorMode={input.colorTypeSelection}
@@ -61,7 +63,6 @@ export function ColorWidget(input) {
         </td>
         <td style={{"paddingTop": "50px"}}>
           <ColorRateChart
-            colorData={input.colorData}
             decks={input.decks}
             dataset="wins"
             colorMode={input.colorTypeSelection}
@@ -82,11 +83,7 @@ function ColorStatsTable(input) {
   // Iterate and calculate the actual win percentage for each.
   // Also, convert from a map to a list at this point so that we can
   // sort by win percentage.
-  let wr = []
-  for (var color in input.colorData) {
-    // Add it to the list.
-    wr.push(input.colorData[color])
-  }
+  let wr = Array.from(input.colorData.values())
 
   // We conditionally show / hide a few of the columns, because they are only
   // applicable when mono-color is displayed.
@@ -175,7 +172,7 @@ function ColorStatsTable(input) {
 
 // GetColorStats collects statistics aggregated by color and color pair based on the given decks.
 export function GetColorStats(decks) {
-  let tracker = {}
+  let tracker = new Map()
 
   // Count of all cards ever drafted. This will be used to calculate pick percentages per-color.
   let totalCards = 0
@@ -225,12 +222,12 @@ export function GetColorStats(decks) {
     let colors = GetColorIdentity(decks[i])
     for (var j in colors) {
       let color = colors[j]
-      if (tracker[color] == null) {
-        tracker[color] = newColor(color)
+      if (!tracker.has(color)) {
+        tracker.set(color, newColor(color))
       }
-      tracker[color].wins += Wins(decks[i])
-      tracker[color].losses += Losses(decks[i])
-      tracker[color].num_decks += 1
+      tracker.get(color).wins += Wins(decks[i])
+      tracker.get(color).losses += Losses(decks[i])
+      tracker.get(color).num_decks += 1
     }
 
     // Add metrics to the color based on card scope statistics.
@@ -273,28 +270,28 @@ export function GetColorStats(decks) {
 
     for (var color in cardsPerColorInDeck) {
       let num = cardsPerColorInDeck[color]
-      tracker[color].deck_percentages.push(num / totalCardsInDeck)
-      tracker[color].win_shares.push(num / totalCardsInDeck * Wins(decks[i]))
-      tracker[color].cards += num
+      tracker.get(color).deck_percentages.push(num / totalCardsInDeck)
+      tracker.get(color).win_shares.push(num / totalCardsInDeck * Wins(decks[i]))
+      tracker.get(color).cards += num
     }
   }
 
   // Summarize tracker stats and calculate percentages.
-  for (color in tracker) {
+  for (let color of tracker.values()) {
     // First, calculate the average color devotion of each deck based on card count.
     // This is a measure of, on average, how many cards of a given color appear in
     // decks with that color identity. A lower percentage means a splash, a higher percentage
     // means it is a primary staple.
-    const density_sum = tracker[color].deck_percentages.reduce((sum, a) => sum + a, 0);
-    const density_count = tracker[color].deck_percentages.length;
-    tracker[color].average_deck_percentage = Math.round(100 * density_sum / density_count);
-    tracker[color].win_share = Math.round(10 * tracker[color].win_shares.reduce((sum, a) => sum + a, 0)) / 10;
+    const density_sum = color.deck_percentages.reduce((sum, a) => sum + a, 0);
+    const density_count = color.deck_percentages.length;
+    color.average_deck_percentage = Math.round(100 * density_sum / density_count);
+    color.win_share = Math.round(10 * color.win_shares.reduce((sum, a) => sum + a, 0)) / 10;
 
     // Calculate the percentage of all cards drafted that are this color.
-    tracker[color].total_pick_percentage = Math.round(100 * tracker[color].cards / totalCards);
-    tracker[color].build_percent = Math.round(tracker[color].num_decks / decks.length * 100)
-    tracker[color].win_percent = Math.round(100 * tracker[color].wins / (tracker[color].wins + tracker[color].losses))
-    tracker[color].percent_of_wins = Math.round(100 * tracker[color].wins / totalWins)
+    color.total_pick_percentage = Math.round(100 * color.cards / totalCards);
+    color.build_percent = Math.round(color.num_decks / decks.length * 100)
+    color.win_percent = Math.round(100 * color.wins / (color.wins + color.losses))
+    color.percent_of_wins = Math.round(100 * color.wins / totalWins)
   }
   return tracker
 }
@@ -332,13 +329,13 @@ function ColorRateChart(input) {
     // Parse the color stats of the decks.
     let stats = GetColorStats(decks)
     for (let color of allColors) {
-      if (stats[color] == null) {
+      if (!stats.has(color)) {
         continue
       }
       if (input.dataset === "wins") {
-        colorDatasets.get(color).push(stats[color].win_percent)
+        colorDatasets.get(color).push(stats.get(color).win_percent)
       } else {
-        colorDatasets.get(color).push(stats[color].build_percent)
+        colorDatasets.get(color).push(stats.get(color).build_percent)
       }
     }
   }

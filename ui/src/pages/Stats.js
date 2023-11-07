@@ -7,7 +7,7 @@ import { DropdownHeader, NumericInput, Checkbox, DateSelector } from "../compone
 import { AggregatedPickInfo } from "../utils/DraftLog.js"
 import { Wins, Losses } from "../utils/Deck.js"
 import { CardData } from "../utils/Cards.js"
-import { GetColorStats, ColorWidget} from "./Colors.js"
+import { ColorWidget} from "./Colors.js"
 import { ArchetypeWidget, ArchetypeData } from "./Types.js"
 import { DeckWidget } from "./Decks.js"
 import { PlayerWidget } from "./Players.js"
@@ -21,7 +21,6 @@ export default function StatsViewer() {
   ///////////////////////////////////////////////////////////////////////////////
   // State used for the color / color pair win rate widget.
   ///////////////////////////////////////////////////////////////////////////////
-  const [colorData, setColorData] = useState(null);
   const [colorTypeSelection, setColorTypeSelection] = useState("Mono");
   const [colorSortBy, setColorSortBy] = useState("win");
   const ddOpts =  [{ label: "Mono", value: "Mono" }, { label: "Dual", value: "Dual" }, { label: "Trio", value: "Trio" }]
@@ -219,14 +218,6 @@ export default function StatsViewer() {
     setDrafts({...d})
   }
 
-  // When the deck list changes, recalculate.
-  useEffect(() => {
-    if (decks != null) {
-      let w = GetColorStats(decks)
-      setColorData(w)
-    }
-  }, [decks])
-
   return (
     <div id="root">
       <div id="selectorbar">
@@ -283,7 +274,6 @@ export default function StatsViewer() {
           colorTypeSelection={colorTypeSelection}
           onSelected={onSelected}
           decks={decks}
-          colorData={colorData}
           onHeaderClick={onColorHeaderClicked}
           colorSortBy={colorSortBy}
           show={display[0]}
@@ -918,6 +908,7 @@ function DraftPickTooltipContent(pick) {
       <table>
         <thead className="table-header">
           <tr>
+            <td id="name" className="header-cell">Date</td>
             <td id="name" className="header-cell">Player</td>
             <td id="pack" className="header-cell">Pack</td>
             <td id="pick" className="header-cell">Pick</td>
@@ -929,6 +920,7 @@ function DraftPickTooltipContent(pick) {
             k += 1
             return (
               <tr key={k}>
+                <td>{pick.date}</td>
                 <td>{pick.player}</td>
                 <td>{pick.pack + 1}</td>
                 <td>{pick.pick + 1}</td>

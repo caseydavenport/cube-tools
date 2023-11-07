@@ -80,6 +80,9 @@ export async function LoadDrafts(onLoad, start, end) {
       continue
     }
 
+    // Add the date as a field so it can be used in the UI.
+    d.date = draft.name
+
     if (d) {
       drafts.push(d)
     }

@@ -1,6 +1,8 @@
 import React from 'react'
 import { IsBasicLand, SortFunc } from "../utils/Utils.js"
 import { Wins, Losses } from "../utils/Deck.js"
+import { ArchetypeData } from "./Types.js"
+import { GetColorStats } from "./Colors.js"
 
 export function PlayerWidget(input) {
   if (!input.show) {
@@ -120,16 +122,16 @@ function PlayerTable(input) {
         <thead className="table-header">
           <tr>
             <td onClick={input.onHeaderClick} id="name" className="header-cell">Player</td>
-            <td onClick={input.onHeaderClick} id="decks" className="header-cell"># Decks</td>
-            <td onClick={input.onHeaderClick} id="games" className="header-cell"># Games</td>
-            <td onClick={input.onHeaderClick} id="wins" className="header-cell">Wins (%)</td>
-            <td onClick={input.onHeaderClick} id="losses" className="header-cell">Losses (%)</td>
-            <td onClick={input.onHeaderClick} id="W" className="header-cell">White (%)</td>
-            <td onClick={input.onHeaderClick} id="U" className="header-cell">Blue (%)</td>
-            <td onClick={input.onHeaderClick} id="B" className="header-cell">Black (%)</td>
-            <td onClick={input.onHeaderClick} id="R" className="header-cell">Red (%)</td>
-            <td onClick={input.onHeaderClick} id="G" className="header-cell">Green (%)</td>
-            <td onClick={input.onHeaderClick} id="unique" className="header-cell">Uniqueness (%)</td>
+            <td onClick={input.onHeaderClick} id="decks" className="header-cell">Decks</td>
+            <td onClick={input.onHeaderClick} id="games" className="header-cell">Games</td>
+            <td onClick={input.onHeaderClick} id="wins" className="header-cell">Won</td>
+            <td onClick={input.onHeaderClick} id="losses" className="header-cell">Lost</td>
+            <td onClick={input.onHeaderClick} id="W" className="header-cell">White</td>
+            <td onClick={input.onHeaderClick} id="U" className="header-cell">Blue</td>
+            <td onClick={input.onHeaderClick} id="B" className="header-cell">Black</td>
+            <td onClick={input.onHeaderClick} id="R" className="header-cell">Red</td>
+            <td onClick={input.onHeaderClick} id="G" className="header-cell">Green</td>
+            <td onClick={input.onHeaderClick} id="unique" className="header-cell">Uniq</td>
           </tr>
         </thead>
         <tbody>
@@ -184,7 +186,7 @@ function PlayerTable(input) {
                 <td>{row.blackPercent}%</td>
                 <td>{row.redPercent}%</td>
                 <td>{row.greenPercent}%</td>
-                <td>{row.cards.size} / {row.totalPicks} ({row.uniqueness}%)</td>
+                <td>{row.uniqueness}%</td>
               </tr>
             )
           }).sort(SortFunc)
@@ -194,6 +196,11 @@ function PlayerTable(input) {
     </div>
   );
 }
+
+function MacroArchetype(deck) {
+  return ""
+}
+
 
 function PlayerDetailsPanel(input) {
   // Iterate the selected players games and build up record
@@ -205,43 +212,77 @@ function PlayerDetailsPanel(input) {
     }
   }
 
+  let newTracker = function(n) {
+    let m = new Map()
+    m.set("name", n)
+    m.set("wins", 0)
+    m.set("losses", 0)
+    return m
+  }
+
   let recordByOpponent = new Map()
+  let recordByColor = new Map()
   for (let deck of decks) {
-    if (deck.games == null) {
-      continue
-    }
-    for (let game of deck.games) {
-      if (!recordByOpponent.has(game.opponent)) {
-        recordByOpponent.set(game.opponent, {
-          "name": game.opponent,
-          "wins": 0,
-          "losses": 0,
-        })
+    if (deck.games != null) {
+      // Include per-game stats.
+      for (let game of deck.games) {
+        if (!recordByOpponent.has(game.opponent)) {
+          recordByOpponent.set(game.opponent, {
+            "name": game.opponent,
+            "wins": 0,
+            "losses": 0,
+          })
+        }
+        let r = recordByOpponent.get(game.opponent)
+        if (game.opponent == game.winner) {
+          r.losses += 1
+        } else {
+          r.wins += 1
+        }
+        recordByOpponent.set(game.opponent, r)
       }
-      let r = recordByOpponent.get(game.opponent)
-      if (game.opponent == game.winner) {
-        r.losses += 1
-      } else {
-        r.wins += 1
-      }
-      recordByOpponent.set(game.opponent, r)
     }
   }
 
-  let data = Array.from(recordByOpponent.values())
+  // Add archetype data from the given player's decks.
+  let archData = ArchetypeData(decks)
+  let archRows = [newTracker("aggro"), newTracker("control"), newTracker("midrange")]
+  for (let a of archRows) {
+    let name = a.get("name")
+    if (archData.has(name)) {
+      a.set("wins", archData.get(name).wins)
+      a.set("losses", archData.get(name).losses)
+      a.set("count", archData.get(name).count)
+      console.log(archData)
+    }
+  }
+
+  // Add color data.
+  let colorData = GetColorStats(decks)
+  let colorRows = [newTracker("W"), newTracker("U"), newTracker("B"), newTracker("R"), newTracker("G")]
+  for (let c of colorRows) {
+    let color = c.get("name")
+    if (colorData.has(color)) {
+      c.set("wins", colorData.get(color).wins)
+      c.set("losses", colorData.get(color).losses)
+      c.set("count", colorData.get(color).num_decks)
+    }
+  }
+
+  let oppRows = Array.from(recordByOpponent.values())
   return (
     <div>
       <table className="winrate-table">
         <thead className="table-header">
           <tr>
-            <td onClick={input.onHeaderClick} id="name" className="header-cell">Opponent</td>
+            <td onClick={input.onHeaderClick} id="name" className="header-cell">Opponent (min 10 games)</td>
             <td onClick={input.onHeaderClick} id="num" className="header-cell">Win %</td>
             <td onClick={input.onHeaderClick} id="num" className="header-cell">Games</td>
           </tr>
         </thead>
         <tbody>
           {
-            data.map(function(opponent) {
+            oppRows.map(function(opponent) {
               // Filter out any opponent that doesn't meet the minimum games requirement.
               if (opponent.wins + opponent.losses < 10) {
                 return
@@ -258,6 +299,82 @@ function PlayerDetailsPanel(input) {
           }
         </tbody>
       </table>
+
+      <table className="winrate-table">
+        <thead className="table-header">
+          <tr>
+            <td onClick={input.onHeaderClick} id="name" className="header-cell">Arch</td>
+            <td onClick={input.onHeaderClick} id="num" className="header-cell">Build %</td>
+            <td onClick={input.onHeaderClick} id="num" className="header-cell">Win %</td>
+            <td onClick={input.onHeaderClick} id="num" className="header-cell">Wins</td>
+            <td onClick={input.onHeaderClick} id="num" className="header-cell">Losses</td>
+          </tr>
+        </thead>
+        <tbody>
+          {
+            archRows.map(function(arch) {
+              let wins = arch.get("wins")
+              let loss = arch.get("losses")
+              let name = arch.get("name")
+              let count = arch.get("count")
+              let win_pct = 0
+              let bld_pct = 0
+              if (wins + loss > 0) {
+                win_pct = Math.round(100 * wins / (wins + loss))
+                bld_pct = Math.round(100 * count / decks.length)
+              }
+              return (
+                <tr key={name} sort={bld_pct} className="winrate-row">
+                  <td key="name">{name}</td>
+                  <td key="num">{bld_pct}%</td>
+                  <td key="num">{win_pct}%</td>
+                  <td key="num">{wins}</td>
+                  <td key="num">{loss}</td>
+                </tr>
+              )
+            }).sort(SortFunc)
+          }
+        </tbody>
+      </table>
+
+      <table className="winrate-table">
+        <thead className="table-header">
+          <tr>
+            <td onClick={input.onHeaderClick} id="name" className="header-cell">Color</td>
+            <td onClick={input.onHeaderClick} id="num" className="header-cell">Build %</td>
+            <td onClick={input.onHeaderClick} id="num" className="header-cell">Win %</td>
+            <td onClick={input.onHeaderClick} id="num" className="header-cell">Wins</td>
+            <td onClick={input.onHeaderClick} id="num" className="header-cell">Losses</td>
+          </tr>
+        </thead>
+        <tbody>
+          {
+            colorRows.map(function(arch) {
+              let wins = arch.get("wins")
+              let loss = arch.get("losses")
+              let name = arch.get("name")
+              let count = arch.get("count")
+              let win_pct = 0
+              let bld_pct = 0
+              if (wins + loss > 0) {
+                win_pct = Math.round(100 * wins / (wins + loss))
+                bld_pct = Math.round(100 * count / decks.length)
+              }
+              return (
+                <tr key={name} sort={bld_pct} className="winrate-row">
+                  <td key="name">{name}</td>
+                  <td key="num">{bld_pct}%</td>
+                  <td key="num">{win_pct}%</td>
+                  <td key="num">{wins}</td>
+                  <td key="num">{loss}</td>
+                </tr>
+              )
+            }).sort(SortFunc)
+          }
+        </tbody>
+      </table>
+
+
     </div>
   );
 }

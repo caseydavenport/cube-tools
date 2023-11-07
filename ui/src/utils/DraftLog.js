@@ -25,6 +25,7 @@ export function Pick(log, player, pack, pick) {
         player: PlayerIDToName(log, player),
         pack: pack,
         pick: pick,
+        date: log.date,
       }
     }
   }
