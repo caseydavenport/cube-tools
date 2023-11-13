@@ -74,7 +74,7 @@ function WinsByManaCost(input) {
   let winsByCMC = new Map()
   let lossesByCMC = new Map()
   for (let deck of input.decks) {
-    let cmc = Math.ceil(2 * deck.avg_cmc) / 2
+    let cmc = Math.round(4 * deck.avg_cmc) / 4
     if (!winsByCMC.has(cmc)) {
       winsByCMC.set(cmc, 0)
       lossesByCMC.set(cmc, 0)
