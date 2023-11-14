@@ -99,6 +99,22 @@ ul {
   min-width: 300px;
 }
 
+.full-options-header {
+  background: #C97B84;
+  color: #FFF;
+  border: none;
+  float: left;
+  font-size: 18px;
+  line-height: 34px;
+  margin-top: 0px;
+  margin-left: 0px;
+  margin-right: 0px;
+  padding: 0px;
+  text-align: center;
+  min-width: 300px;
+  width: 100%;
+}
+
 .table-header {
   background: #888;
   font-weight: bold;
@@ -215,7 +231,6 @@ ul {
   overflow:auto;
 }
 
-
 .house-for-widgets {
   float: left;
   width: 100%;
@@ -228,7 +243,6 @@ ul {
   float: left;
   font-size: 18px;
   line-height: 34px;
-  height: 34px;
   margin-top: 0px;
   margin-left: 0px;
   margin-right: 0px;

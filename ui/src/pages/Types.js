@@ -168,62 +168,62 @@ function ArchetypeStatsTable(input) {
 
   return (
     <div>
-    <ColorPickerHeader display={input.colorCheckboxes} onChecked={input.onColorChecked} />
-    <table className="winrate-table">
-      <thead className="table-header">
-        <tr>
-          <td onClick={input.onHeaderClick} id="type" className="header-cell">Archetype</td>
-          <td onClick={input.onHeaderClick} id="build_percent" className="header-cell">Build %</td>
-          <td onClick={input.onHeaderClick} id="win_percent" className="header-cell">Win %</td>
-          <td onClick={input.onHeaderClick} id="pwin" className="header-cell">% of wins</td>
-          <td onClick={input.onHeaderClick} id="num" className="header-cell"># Decks</td>
-          <td onClick={input.onHeaderClick} id="record" className="header-cell">Record</td>
-          <td onClick={input.onHeaderClick} id="shared" className="header-cell">Avg other types</td>
-        </tr>
-      </thead>
-      <tbody>
-        {
-          data.map(function(t) {
-            let sort = t.build_percent
-            switch (input.sortBy) {
-              case "type":
-                sort = t.type;
-                break
-              case "win_percent":
-                sort = t.win_percent;
-                break
-              case "shared":
-                sort = t.avg_shared;
-                break
-              case "num":
-                sort = t.count;
-                break
-              case "pwin":
-                sort = t.percent_of_wins;
-                break
-            }
-            return (
-              <tr key={t.type} sort={sort} className="winrate-row">
-                <td id={t.type} onClick={input.handleRowClick} key="type">{t.type}</td>
-                <td key="build_percent">{t.build_percent}%</td>
-                <td key="win_percent">{t.win_percent}%</td>
-                <td key="pwin">{t.percent_of_wins}%</td>
-                <td key="num">{t.count}</td>
-                <td key="record">{t.record}</td>
-                <td key="shared">{t.avg_shared}</td>
-              </tr>
-            )
-          }).sort(SortFunc)
-        }
-      </tbody>
-    </table>
+      <ColorPickerHeader display={input.colorCheckboxes} onChecked={input.onColorChecked} />
+      <table className="winrate-table">
+        <thead className="table-header">
+          <tr>
+            <td onClick={input.onHeaderClick} id="type" className="header-cell">Archetype</td>
+            <td onClick={input.onHeaderClick} id="build_percent" className="header-cell">Build %</td>
+            <td onClick={input.onHeaderClick} id="win_percent" className="header-cell">Win %</td>
+            <td onClick={input.onHeaderClick} id="pwin" className="header-cell">% of wins</td>
+            <td onClick={input.onHeaderClick} id="num" className="header-cell"># Decks</td>
+            <td onClick={input.onHeaderClick} id="record" className="header-cell">Record</td>
+            <td onClick={input.onHeaderClick} id="shared" className="header-cell">Avg other types</td>
+          </tr>
+        </thead>
+        <tbody>
+          {
+            data.map(function(t) {
+              let sort = t.build_percent
+              switch (input.sortBy) {
+                case "type":
+                  sort = t.type;
+                  break
+                case "win_percent":
+                  sort = t.win_percent;
+                  break
+                case "shared":
+                  sort = t.avg_shared;
+                  break
+                case "num":
+                  sort = t.count;
+                  break
+                case "pwin":
+                  sort = t.percent_of_wins;
+                  break
+              }
+              return (
+                <tr key={t.type} sort={sort} className="winrate-row">
+                  <td id={t.type} onClick={input.handleRowClick} key="type">{t.type}</td>
+                  <td key="build_percent">{t.build_percent}%</td>
+                  <td key="win_percent">{t.win_percent}%</td>
+                  <td key="pwin">{t.percent_of_wins}%</td>
+                  <td key="num">{t.count}</td>
+                  <td key="record">{t.record}</td>
+                  <td key="shared">{t.avg_shared}</td>
+                </tr>
+              )
+            }).sort(SortFunc)
+          }
+        </tbody>
+      </table>
     </div>
   );
 }
 
 function ColorPickerHeader(input) {
   return (
-    <div className="dropdown-header">
+    <div className="full-options-header">
       <Checkbox
         text="W"
         id="W"
