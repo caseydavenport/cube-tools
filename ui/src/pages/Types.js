@@ -36,22 +36,47 @@ export function ArchetypeWidget(input) {
     return null
   }
 
+  // Filter decks based on selected colors. This enables us to view data for a subset of colors.
+  // Combine the colors using a logical AND to enable us to view two-color decks. If no colors are selected,
+  // then use all decks.
+  let decks = input.decks
+  let filterByColor = input.colorCheckboxes.some(function(element) {return element})
+  if (filterByColor) {
+    decks = []
+    let enabledColors = checkboxesToColors(input.colorCheckboxes)
+    for (let deck of input.decks) {
+      let deckMatches = true
+      for (let color of enabledColors) {
+        if (!deck.colors.includes(color)) {
+          deckMatches = false
+          break
+        }
+      }
+      if (deckMatches) {
+        decks.push(deck)
+      }
+    }
+  }
+
+
   return (
     <table style={{"width": "100%"}}>
       <tr style={{"height": "800px"}}>
-        <td style={{"vertical-align": "top", "width": "50%"}}>
+        <td style={{"verticalAlign": "top", "width": "50%"}}>
           <ArchetypeStatsTable
-            decks={input.decks}
+            decks={decks}
             dropdownSelection={input.colorTypeSelection}
             sortBy={input.sortBy}
             onHeaderClick={input.onHeaderClick}
             handleRowClick={input.handleRowClick}
             selectedArchetype={input.selectedArchetype}
+            colorCheckboxes={input.colorCheckboxes}
+            onColorChecked={input.onColorChecked}
           />
         </td>
-        <td style={{"vertical-align": "top"}}>
+        <td style={{"verticalAlign": "top"}}>
           <TopCardsInArchetypeWidget
-            decks={input.decks}
+            decks={decks}
             minDrafts={input.minDrafts}
             cube={input.cube}
             minDecksInArch={input.minDecksInArch}
@@ -68,9 +93,9 @@ export function ArchetypeWidget(input) {
             onMinGamesSelected={input.onMinGamesSelected}
           />
         </td>
-        <td style={{"vertical-align":"top"}}>
+        <td style={{"verticalAlign":"top"}}>
           <ArchetypeDetailsPanel
-            decks={input.decks}
+            decks={decks}
             selectedArchetype={input.selectedArchetype}
           />
         </td>
@@ -78,13 +103,15 @@ export function ArchetypeWidget(input) {
       <tr>
         <td>
           <MacroArchetypesChart
-            decks={input.decks}
+            decks={decks}
+            numBuckets={10}
             dataset="builds"
           />
         </td>
-        <td colspan="2">
+        <td colSpan="2">
           <MacroArchetypesChart
-            decks={input.decks}
+            decks={decks}
+            numBuckets={10}
             dataset="wins"
           />
         </td>
@@ -93,13 +120,13 @@ export function ArchetypeWidget(input) {
       <tr>
         <td>
           <MacroArchetypesPieChart
-            decks={input.decks}
+            decks={decks}
             dataset="builds"
           />
         </td>
-        <td colspan="2">
+        <td colSpan="2">
           <MacroArchetypesPieChart
-            decks={input.decks}
+            decks={decks}
             dataset="wins"
           />
         </td>
@@ -108,6 +135,26 @@ export function ArchetypeWidget(input) {
 
     </table>
   );
+}
+
+function checkboxesToColors(checkboxes) {
+  let colors = []
+  if (checkboxes[0]) {
+    colors.push("W")
+  }
+  if (checkboxes[1]) {
+    colors.push("U")
+  }
+  if (checkboxes[2]) {
+    colors.push("B")
+  }
+  if (checkboxes[3]) {
+    colors.push("R")
+  }
+  if (checkboxes[4]) {
+    colors.push("G")
+  }
+  return colors
 }
 
 function ArchetypeStatsTable(input) {
@@ -120,6 +167,8 @@ function ArchetypeStatsTable(input) {
   }
 
   return (
+    <div>
+    <ColorPickerHeader display={input.colorCheckboxes} onChecked={input.onColorChecked} />
     <table className="winrate-table">
       <thead className="table-header">
         <tr>
@@ -168,6 +217,44 @@ function ArchetypeStatsTable(input) {
         }
       </tbody>
     </table>
+    </div>
+  );
+}
+
+function ColorPickerHeader(input) {
+  return (
+    <div className="dropdown-header">
+      <Checkbox
+        text="W"
+        id="W"
+        checked={input.display[0]}
+        onChange={input.onChecked}
+      />
+      <Checkbox
+        text="U"
+        id="U"
+        checked={input.display[1]}
+        onChange={input.onChecked}
+      />
+      <Checkbox
+        text="B"
+        id="B"
+        checked={input.display[2]}
+        onChange={input.onChecked}
+      />
+      <Checkbox
+        text="R"
+        id="R"
+        checked={input.display[3]}
+        onChange={input.onChecked}
+      />
+      <Checkbox
+        text="G"
+        id="G"
+        checked={input.display[4]}
+        onChange={input.onChecked}
+      />
+    </div>
   );
 }
 
@@ -264,15 +351,17 @@ function TopCardsInArchetypeWidget(input) {
 function ArchetypeDetailsPanel(input) {
   // Get the archetype data for the selected archetype.
   let archetypeData = ArchetypeData(input.decks)
-  let arch = archetypeData.get(input.selectedArchetype)
   let sharedData = []
-  arch.sharedWith.forEach(function(num, name) {
-    sharedData.push({"name": name, "num": num})
-  })
   let playerData = []
-  arch.players.forEach(function(num, name) {
-    playerData.push({"name": name, "num": num})
-  })
+  let arch = archetypeData.get(input.selectedArchetype)
+  if (arch != null) {
+    arch.sharedWith.forEach(function(num, name) {
+      sharedData.push({"name": name, "num": num})
+    })
+    arch.players.forEach(function(num, name) {
+      playerData.push({"name": name, "num": num})
+    })
+  }
   return (
     <div>
       <table className="winrate-table">
@@ -323,27 +412,38 @@ function ArchetypeDetailsPanel(input) {
 }
 
 export function ArchetypeData(decks) {
+  let newType = function(type) {
+    return {
+      type: type,
+      count: 0,
+      wins: 0,
+      losses: 0,
+      sharedWith: new Map(),
+      numSharedWith: 0,
+      players: new Map(),
+      build_percent: 0,
+      win_percent: 0,
+      avg_shared: 0,
+    }
+  }
+
   // First, determine the popularity of each archetype by iterating all decks
   // and counting the instances of each.
   let totalWins = 0
   let tracker = new Map()
+
+  // We set aggro/midrange/control for every set of decks, even if they are
+  // zeroed out. This enables graphs that expect these to exist.
+  tracker.set("aggro", newType("aggro"))
+  tracker.set("midrange", newType("midrage"))
+  tracker.set("control", newType("control"))
+
   for (let deck of decks) {
     let types = deck.labels
     totalWins += Wins(deck)
     for (let type of types) {
       if (!tracker.has(type)) {
-        tracker.set(type, {
-          type: type,
-          count: 0,
-          wins: 0,
-          losses: 0,
-          sharedWith: new Map(),
-          numSharedWith: 0,
-          players: new Map(),
-          build_percent: 0,
-          win_percent: 0,
-          avg_shared: 0,
-        })
+        tracker.set(type, newType(type))
       }
       tracker.get(type).count += 1
       tracker.get(type).wins += Wins(deck)
@@ -388,8 +488,7 @@ export function ArchetypeData(decks) {
 function MacroArchetypesChart(input) {
   // Split the given decks into fixed-size buckets.
   // Each bucket will contain N drafts worth of deck information.
-  let numBuckets = 10
-  let buckets = DeckBuckets(input.decks, numBuckets)
+  let buckets = DeckBuckets(input.decks, input.numBuckets)
 
   // Use the starting date of the bucket as the label. This is just an approximation,
   // as the bucket really includes a variable set of dates, but it allows the viewer to
@@ -415,10 +514,14 @@ function MacroArchetypesChart(input) {
     // Parse the stats of the decks.
     let stats = ArchetypeData(decks)
     for (let archetype of archs) {
+      let archetypeStats = stats.get(archetype)
+      if (archetypeStats == null) {
+        continue
+      }
       if (input.dataset == "wins") {
-        datasets.get(archetype).push(stats.get(archetype).win_percent)
+        datasets.get(archetype).push(archetypeStats.win_percent)
       } else {
-        datasets.get(archetype).push(stats.get(archetype).build_percent)
+        datasets.get(archetype).push(archetypeStats.build_percent)
       }
     }
   }
@@ -444,10 +547,10 @@ function MacroArchetypesChart(input) {
       },
   ]
 
-  let title = `Build rate (buckets=${numBuckets})`
+  let title = `Build rate (buckets=${input.numBuckets})`
   switch (input.dataset) {
     case "wins":
-      title = `Win rate (buckets=${numBuckets})`
+      title = `Win rate (buckets=${input.numBuckets})`
   }
 
   const options = {

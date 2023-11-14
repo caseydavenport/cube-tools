@@ -23,12 +23,35 @@ export default function StatsViewer() {
   ///////////////////////////////////////////////////////////////////////////////
   const [colorTypeSelection, setColorTypeSelection] = useState("Mono");
   const [colorSortBy, setColorSortBy] = useState("win");
+  const [colorCheckboxes, setColorCheckboxes] = useState([false, false, false, false, false]);
   const ddOpts =  [{ label: "Mono", value: "Mono" }, { label: "Dual", value: "Dual" }, { label: "Trio", value: "Trio" }]
   function onSelected(event) {
     setColorTypeSelection(event.target.value)
   }
   function onColorHeaderClicked(event) {
     setColorSortBy(event.target.id)
+  }
+  function onColorSelectionCheckbox(event) {
+    let updated = [...colorCheckboxes]
+    switch (event.target.id) {
+      case "W":
+        updated[0] = !colorCheckboxes[0];
+        break;
+      case "U":
+        updated[1] = !colorCheckboxes[1];
+        break;
+      case "B":
+        updated[2] = !colorCheckboxes[2];
+        break;
+      case "R":
+        updated[3] = !colorCheckboxes[3];
+        break;
+      case "G":
+        updated[4] = !colorCheckboxes[4];
+        break;
+    }
+    const newboxes = [...updated]
+    setColorCheckboxes(newboxes)
   }
 
 
@@ -298,6 +321,8 @@ export default function StatsViewer() {
           selectedArchetype={selectedArchetype}
           onArchetypeSelected={onArchetypeSelected}
 
+          onColorChecked={onColorSelectionCheckbox}
+          colorCheckboxes={colorCheckboxes}
 
           onMinDraftsSelected={onMinDraftsSelected}
           minDrafts={minDrafts}

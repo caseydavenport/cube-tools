@@ -26,7 +26,7 @@ export function Checkbox(input) {
   return (
       <label className="dropdown">
         {input.text}
-        <input checked={input.checked} onChange={input.onChange} type="checkbox" />
+        <input id={input.id} checked={input.checked} onChange={input.onChange} type="checkbox" />
       </label>
   );
 }
