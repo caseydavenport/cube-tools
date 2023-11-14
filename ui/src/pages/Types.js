@@ -435,7 +435,7 @@ export function ArchetypeData(decks) {
   // We set aggro/midrange/control for every set of decks, even if they are
   // zeroed out. This enables graphs that expect these to exist.
   tracker.set("aggro", newType("aggro"))
-  tracker.set("midrange", newType("midrage"))
+  tracker.set("midrange", newType("midrange"))
   tracker.set("control", newType("control"))
 
   for (let deck of decks) {
