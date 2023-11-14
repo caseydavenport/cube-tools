@@ -149,6 +149,7 @@ function WinsByCreatureDensity(input) {
   // of the deck. We round num to create buckets.
   let wins = new Map()
   let losses = new Map()
+  let bucketSize = 3
   for (let deck of input.decks) {
     // Count the number of creatures in this deck.
     let num = 0
@@ -158,12 +159,14 @@ function WinsByCreatureDensity(input) {
       }
     }
 
-    if (!wins.has(num)) {
-      wins.set(num, 0)
-      losses.set(num, 0)
+    // Create buckets of creature amounts and put this into it.
+    let bucket = Math.round(num/bucketSize) * bucketSize
+    if (!wins.has(bucket)) {
+      wins.set(bucket, 0)
+      losses.set(bucket, 0)
     }
-    wins.set(num, wins.get(num) + Wins(deck))
-    losses.set(num, losses.get(num) + Losses(deck))
+    wins.set(bucket, wins.get(bucket) + Wins(deck))
+    losses.set(bucket, losses.get(bucket) + Losses(deck))
   }
 
   const options = {
@@ -193,13 +196,17 @@ function WinsByCreatureDensity(input) {
     },
   };
 
-  const labels = [...wins.keys()].sort(function(a, b) {return a - b})
+  const sorted = [...wins.keys()].sort(function(a, b) {return a - b})
+  var labels = []
+  for (let start of sorted) {
+    labels.push(`${start}-${start+bucketSize}`)
+  }
   let winsData= []
-  for (let l of labels) {
+  for (let l of sorted ) {
     winsData.push(wins.get(l))
   }
   let lossData = []
-  for (let l of labels) {
+  for (let l of sorted) {
     lossData.push(losses.get(l))
   }
 
@@ -230,6 +237,7 @@ function WinsByCreatureDensity(input) {
 function WinsByNonBasicDensity(input) {
   let wins = new Map()
   let losses = new Map()
+  let bucketSize = 2
   for (let deck of input.decks) {
     let num = 0
     for (let card of deck.mainboard) {
@@ -238,12 +246,13 @@ function WinsByNonBasicDensity(input) {
       }
     }
 
-    if (!wins.has(num)) {
-      wins.set(num, 0)
-      losses.set(num, 0)
+    let bucket = Math.round(num/bucketSize) * bucketSize
+    if (!wins.has(bucket)) {
+      wins.set(bucket, 0)
+      losses.set(bucket, 0)
     }
-    wins.set(num, wins.get(num) + Wins(deck))
-    losses.set(num, losses.get(num) + Losses(deck))
+    wins.set(bucket, wins.get(bucket) + Wins(deck))
+    losses.set(bucket, losses.get(bucket) + Losses(deck))
   }
 
   const options = {
@@ -273,13 +282,17 @@ function WinsByNonBasicDensity(input) {
     },
   };
 
-  const labels = [...wins.keys()].sort(function(a, b) {return a - b})
+  const sorted = [...wins.keys()].sort(function(a, b) {return a - b})
+  let labels = []
+  for (let start of sorted) {
+    labels.push(`${start}-${start+bucketSize}`)
+  }
   let winsData= []
-  for (let l of labels) {
+  for (let l of sorted) {
     winsData.push(wins.get(l))
   }
   let lossData = []
-  for (let l of labels) {
+  for (let l of sorted) {
     lossData.push(losses.get(l))
   }
 
