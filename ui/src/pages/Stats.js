@@ -438,6 +438,7 @@ function DraftOrderWidget(input) {
             <td onClick={input.onHeaderClick} id="p1p1" className="header-cell"># P1P1</td>
             <td onClick={input.onHeaderClick} id="avgp1pick" className="header-cell">Avg. p1 pick</td>
             <td onClick={input.onHeaderClick} id="avgpick" className="header-cell">Avg. pick</td>
+            <td onClick={input.onHeaderClick} id="stddev" className="header-cell">Pick deviation</td>
             <td onClick={input.onHeaderClick} id="p1burn" className="header-cell"># P1 Burns</td>
             <td onClick={input.onHeaderClick} id="burn" className="header-cell"># Burns</td>
           </tr>
@@ -470,6 +471,13 @@ function DraftOrderWidget(input) {
                 p1burns = pick.p1burns
               }
 
+              // Calculate the standard deviation for this card.
+              let sumOfSquares = 0
+              for (let p of pick.picks) {
+                let diff = avgPackPick - p.pick
+                sumOfSquares += diff*diff
+              }
+              let stddev = Math.round(Math.sqrt(sumOfSquares / pick.count)*10) / 10
 
               let sort = pick.count
               if (input.sortBy === "p1p1") {
@@ -486,6 +494,8 @@ function DraftOrderWidget(input) {
                 sort = pick.name
               } else if (input.sortBy === "count") {
                 sort = pick.count
+              } else if (input.sortBy === "stddev") {
+                sort = stddev
               }
 
               if (sort == "-") {
@@ -508,6 +518,7 @@ function DraftOrderWidget(input) {
                   <td>{firstPicks}</td>
                   <td>{avgPack1Pick}</td>
                   <td>{avgPackPick}</td>
+                  <td>{stddev}</td>
                   <td>{p1burns}</td>
                   <td>{burns}</td>
                 </tr>
