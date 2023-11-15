@@ -347,7 +347,8 @@ function WinsByOracleText(input) {
 
     "fight",
     "target player sacrifices",
-    "return target creature",
+    "return target creature to its owner's hand",
+    "tap target",
   ]
 
   let bucketSize = 3
