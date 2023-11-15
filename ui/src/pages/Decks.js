@@ -321,27 +321,56 @@ function WinsByNonBasicDensity(input) {
 }
 
 function WinsByOracleText(input) {
-  let matches = ["Destroy target", "Exile target", "destroy target", "exile target"]
+  // This is imperfect, but matches most removal spells.
+  // Will need to keep this up to date with the cube as it evolves, or find
+  // a more generic way.
+  let matches = [
+    "destroy target",
+    "destroy up to",
+    "destroy all creatures",
 
+    "exile target",
+    "exile another target",
+    "exile up to one target",
+
+    "target creature gets -",
+    "all creatures get -",
+    "black sun's zenith",
+
+    "put target creature",
+
+    "to any target",
+    "target creature or player",
+    "target creature or planeswalker",
+    "destroy target planeswalker",
+    "damage divided as you choose",
+
+    "fight",
+    "target player sacrifices",
+    "return target creature",
+  ]
+
+  let bucketSize = 3
   let wins = new Map()
   let losses = new Map()
   for (let deck of input.decks) {
     let num = 0
     for (let card of deck.mainboard) {
       for (let match of matches) {
-        if (card.oracle_text.includes(match)){
+        if (card.oracle_text.toLowerCase().includes(match)){
           num += 1
           break
         }
       }
     }
 
-    if (!wins.has(num)) {
-      wins.set(num, 0)
-      losses.set(num, 0)
+    let bucket = Math.round(num/bucketSize)*bucketSize
+    if (!wins.has(bucket)) {
+      wins.set(bucket, 0)
+      losses.set(bucket, 0)
     }
-    wins.set(num, wins.get(num) + Wins(deck))
-    losses.set(num, losses.get(num) + Losses(deck))
+    wins.set(bucket, wins.get(bucket) + Wins(deck))
+    losses.set(bucket, losses.get(bucket) + Losses(deck))
   }
 
   const options = {
@@ -371,13 +400,17 @@ function WinsByOracleText(input) {
     },
   };
 
-  const labels = [...wins.keys()].sort(function(a, b) {return a - b})
+  const sorted = [...wins.keys()].sort(function(a, b) {return a - b})
+  let labels = []
+  for (let start of sorted) {
+    labels.push(`${start}-${start+bucketSize}`)
+  }
   let winsData= []
-  for (let l of labels) {
+  for (let l of sorted) {
     winsData.push(wins.get(l))
   }
   let lossData = []
-  for (let l of labels) {
+  for (let l of sorted) {
     lossData.push(losses.get(l))
   }
 
