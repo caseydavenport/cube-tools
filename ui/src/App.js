@@ -7,7 +7,6 @@ import StatsViewer from './pages/Stats.js'
 
 // This is the main entrypoint into the app. Allows for navigation through widgets.
 export default function Main() {
-  // return DeckViewer()
    return (
     <Router>
       <NavBar />

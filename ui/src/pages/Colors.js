@@ -37,39 +37,40 @@ export function ColorWidget(input) {
 
   return (
     <table style={{"width": "100%"}}>
-      <tr>
-        <td style={{"width": "50%"}}>
-          <ColorStatsTable
-            colorData={colorData}
-            ddOpts={input.ddOpts}
-            dropdownSelection={input.colorTypeSelection}
-            decks={input.decks}
-            onSelected={input.onSelected}
-            onClick={input.onHeaderClick}
-            sortBy={input.colorSortBy}
-          />
-        </td>
-        <td style={{"width": "50%"}}> </td>
-      </tr>
+      <tbody>
+        <tr>
+          <td style={{"width": "50%"}}>
+            <ColorStatsTable
+              colorData={colorData}
+              ddOpts={input.ddOpts}
+              dropdownSelection={input.colorTypeSelection}
+              decks={input.decks}
+              onSelected={input.onSelected}
+              onClick={input.onHeaderClick}
+              sortBy={input.colorSortBy}
+            />
+          </td>
+          <td style={{"width": "50%"}}> </td>
+        </tr>
 
-      <tr>
-        <td style={{"paddingTop": "50px"}}>
-          <ColorRateChart
-            colorData={colorData}
-            decks={input.decks}
-            dataset="builds"
-            colorMode={input.colorTypeSelection}
-          />
-        </td>
-        <td style={{"paddingTop": "50px"}}>
-          <ColorRateChart
-            decks={input.decks}
-            dataset="wins"
-            colorMode={input.colorTypeSelection}
-          />
-        </td>
-      </tr>
-
+        <tr>
+          <td style={{"paddingTop": "50px"}}>
+            <ColorRateChart
+              colorData={colorData}
+              decks={input.decks}
+              dataset="builds"
+              colorMode={input.colorTypeSelection}
+            />
+          </td>
+          <td style={{"paddingTop": "50px"}}>
+            <ColorRateChart
+              decks={input.decks}
+              dataset="wins"
+              colorMode={input.colorTypeSelection}
+            />
+          </td>
+        </tr>
+      </tbody>
     </table>
   );
 }
@@ -83,13 +84,29 @@ function ColorStatsTable(input) {
   // Iterate and calculate the actual win percentage for each.
   // Also, convert from a map to a list at this point so that we can
   // sort by win percentage.
-  let wr = Array.from(input.colorData.values())
+  let colorData = Array.from(input.colorData.values())
 
   // We conditionally show / hide a few of the columns, because they are only
   // applicable when mono-color is displayed.
   let headerStyleFields = {}
   if (input.dropdownSelection !== "Mono") {
     headerStyleFields.display = "none"
+  }
+
+  // Determine which rates to show.
+  let filtered = new Array()
+  for (let d of colorData) {
+    // If dual is set, only show dual colors.
+    // Otherwise, only show single colors.
+    // `color` here is a string made of one or more characters - e.g., W or UB.
+    if (input.dropdownSelection === "Dual" && d.color.length !== 2) {
+      continue
+    } else if (input.dropdownSelection === "Mono" && d.color.length !== 1 ) {
+      continue
+    } else if (input.dropdownSelection === "Trio" && d.color.length !== 3) {
+      continue
+    }
+    filtered.push(d)
   }
 
   return (
@@ -117,18 +134,7 @@ function ColorStatsTable(input) {
         </thead>
         <tbody>
           {
-            wr.map(function(rates) {
-              // If dual is set, only show dual colors.
-              // Otherwise, only show single colors.
-              // `color` here is a string made of one or more characters - e.g., W or UB.
-              if (input.dropdownSelection === "Dual" && rates.color.length !== 2) {
-                return
-              } else if (input.dropdownSelection === "Mono" && rates.color.length !== 1 ) {
-                return
-              } else if (input.dropdownSelection === "Trio" && rates.color.length !== 3) {
-                return
-              }
-
+            filtered.map(function(rates) {
               let record = rates.wins + "-" + rates.losses + "-" + 0
 
               // Determine what we're sorting by. Default to sorting by win percentage.
@@ -146,7 +152,7 @@ function ColorStatsTable(input) {
               } else if (input.sortBy === "pwin") {
                 sort = rates.percent_of_wins
               } else if (input.sortBy === "shares") {
-                sort = rates.win_share
+                sort = rates.win_shares
               }
 
               return (
@@ -155,7 +161,7 @@ function ColorStatsTable(input) {
                   <td>{rates.win_percent}%</td>
                   <td>{rates.build_percent}%</td>
                   <td>{rates.percent_of_wins}%</td>
-                  <td>{rates.win_share}</td>
+                  <td>{rates.win_shares}</td>
                   <td>{record}</td>
                   <td>{rates.num_decks}</td>
                   <td style={headerStyleFields}>{rates.total_pick_percentage}%</td>
@@ -207,8 +213,8 @@ export function GetColorStats(decks) {
       // Win shares is the percentage of the deck that is this color
       // combined with the win percentage of the deck, to approximate the impact this color
       // had on winning.
-      win_shares: [],
-      win_share: 0,
+      deck_win_shares: [],
+      win_shares: 0,
     }
   }
 
@@ -271,7 +277,7 @@ export function GetColorStats(decks) {
     for (var color in cardsPerColorInDeck) {
       let num = cardsPerColorInDeck[color]
       tracker.get(color).deck_percentages.push(num / totalCardsInDeck)
-      tracker.get(color).win_shares.push(num / totalCardsInDeck * Wins(decks[i]))
+      tracker.get(color).deck_win_shares.push(num / totalCardsInDeck * Wins(decks[i]))
       tracker.get(color).cards += num
     }
   }
@@ -285,7 +291,7 @@ export function GetColorStats(decks) {
     const density_sum = color.deck_percentages.reduce((sum, a) => sum + a, 0);
     const density_count = color.deck_percentages.length;
     color.average_deck_percentage = Math.round(100 * density_sum / density_count);
-    color.win_share = Math.round(10 * color.win_shares.reduce((sum, a) => sum + a, 0)) / 10;
+    color.win_shares = Math.round(10 * color.deck_win_shares.reduce((sum, a) => sum + a, 0)) / 10;
 
     // Calculate the percentage of all cards drafted that are this color.
     color.total_pick_percentage = Math.round(100 * color.cards / totalCards);
