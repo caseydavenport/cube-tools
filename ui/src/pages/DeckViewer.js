@@ -181,6 +181,14 @@ function DisplayDeck({deck, mbsb}) {
   let wins = Wins(deck)
   let losses = Losses(deck)
 
+  // Count the number of creatures.
+  let creatures = 0
+  for (let card of cards) {
+    if (card.types.includes("Creature")) {
+      creatures += 1
+    }
+  }
+
   return (
     <div>
     <table className="player-frame">
@@ -208,6 +216,10 @@ function DisplayDeck({deck, mbsb}) {
       <tr className="player-frame-row">
         <td className="player-frame-title"># Cards:</td>
         <td className="player-frame-value">{cardCount}</td>
+      </tr>
+      <tr className="player-frame-row">
+        <td className="player-frame-title"># Creatures:</td>
+        <td className="player-frame-value">{creatures}</td>
       </tr>
       </tbody>
     </table>
