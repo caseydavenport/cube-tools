@@ -72,6 +72,17 @@ export function ColorWidget(input) {
             />
           </td>
         </tr>
+        <tr>
+          <td style={{"paddingTop": "50px"}}>
+            <ColorRateChart
+              colorData={colorData}
+              decks={input.decks}
+              dataset="shares"
+              colorMode={input.colorTypeSelection}
+              numBuckets={input.numBuckets}
+            />
+          </td>
+        </tr>
       </tbody>
     </table>
   );
@@ -341,6 +352,8 @@ function ColorRateChart(input) {
       }
       if (input.dataset === "wins") {
         colorDatasets.get(color).push(stats.get(color).win_percent)
+      } else if (input.dataset === "shares") {
+        colorDatasets.get(color).push(stats.get(color).win_shares)
       } else {
         colorDatasets.get(color).push(stats.get(color).build_percent)
       }
@@ -422,12 +435,16 @@ function ColorRateChart(input) {
   switch (input.dataset) {
     case "wins":
       title = `Win % (buckets=${input.numBuckets})`
+      break
+    case "shares":
+      title = `Win shares (buckets=${input.numBuckets})`
+      break
   }
 
   const options = {
     responsive: true,
     maintainAspectRatio: false,
-    scales: {y: {min: 0}},
+    // scales: {y: {min: 0}},
     plugins: {
       title: {
         display: true,
