@@ -19,6 +19,11 @@ export default function StatsViewer() {
   const [cube, setCube] = useState(null);
 
   ///////////////////////////////////////////////////////////////////////////////
+  // State used for all widgets.
+  ///////////////////////////////////////////////////////////////////////////////
+  const [numBuckets, setNumBuckets] = useState(5);
+
+  ///////////////////////////////////////////////////////////////////////////////
   // State used for the color / color pair win rate widget.
   ///////////////////////////////////////////////////////////////////////////////
   const [colorTypeSelection, setColorTypeSelection] = useState("Mono");
@@ -299,6 +304,7 @@ export default function StatsViewer() {
           decks={decks}
           onHeaderClick={onColorHeaderClicked}
           colorSortBy={colorSortBy}
+          numBuckets={numBuckets}
           show={display[0]}
         />
 
@@ -306,6 +312,7 @@ export default function StatsViewer() {
           cube={cube}
           decks={decks}
           show={display[1]}
+          numBuckets={numBuckets}
 
           dropdownSelection={colorTypeSelection}
           cardWidgetSelection={cardWidgetSelection}
@@ -381,6 +388,7 @@ export default function StatsViewer() {
         <DeckWidget
           decks={decks}
           show={display[3]}
+          numBuckets={numBuckets}
         />
 
         <PlayerWidget

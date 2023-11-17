@@ -60,6 +60,7 @@ export function ColorWidget(input) {
               decks={input.decks}
               dataset="builds"
               colorMode={input.colorTypeSelection}
+              numBuckets={input.numBuckets}
             />
           </td>
           <td style={{"paddingTop": "50px"}}>
@@ -67,6 +68,7 @@ export function ColorWidget(input) {
               decks={input.decks}
               dataset="wins"
               colorMode={input.colorTypeSelection}
+              numBuckets={input.numBuckets}
             />
           </td>
         </tr>
@@ -305,8 +307,7 @@ export function GetColorStats(decks) {
 function ColorRateChart(input) {
   // Split the given decks into fixed-size buckets.
   // Each bucket will contain N drafts worth of deck information.
-  let numBuckets = 10
-  let buckets = DeckBuckets(input.decks, numBuckets)
+  let buckets = DeckBuckets(input.decks, input.numBuckets)
 
   // Use the starting date of the bucket as the label. This is just an approximation,
   // as the bucket really includes a variable set of dates, but it allows the viewer to
@@ -417,10 +418,10 @@ function ColorRateChart(input) {
       dataset = triColorDatasets
   }
 
-  let title = `Build % (buckets=${numBuckets})`
+  let title = `Build % (buckets=${input.numBuckets})`
   switch (input.dataset) {
     case "wins":
-      title = `Win % (buckets=${numBuckets})`
+      title = `Win % (buckets=${input.numBuckets})`
   }
 
   const options = {

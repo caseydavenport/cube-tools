@@ -16,7 +16,7 @@ export function AverageCMC({deck}) {
       c++
     }
   }
-  return parseFloat(t / c).toFixed(2)
+  return Math.round(t / c * 100) / 100
 }
 
 // Returns the average CMC of of cards in the deck,

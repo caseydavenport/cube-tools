@@ -1,6 +1,7 @@
 import React from 'react'
 import { IsBasicLand, SortFunc } from "../utils/Utils.js"
 import { Wins, Losses } from "../utils/Deck.js"
+import { DeckBuckets } from "../utils/Buckets.js"
 
 import {
   Chart as ChartJS,
@@ -60,6 +61,7 @@ export function DeckWidget(input) {
           <WinsByNumberOfColors decks={input.decks} />
         </td>
         <td style={{"vertical-align": "top"}}>
+          <DeckManaValueChart decks={input.decks} numBuckets={input.numBuckets} />
         </td>
       </tr>
 
@@ -444,9 +446,6 @@ function WinsByNumberOfColors(input) {
   let losses = new Map()
   for (let deck of input.decks) {
     let num = deck.colors.length
-    if (num == 0) {
-      console.log(deck)
-    }
 
     if (!wins.has(num)) {
       wins.set(num, 0)
@@ -513,6 +512,79 @@ function WinsByNumberOfColors(input) {
   return (
     <div style={{"height":"500px", "width":"100%"}}>
       <Bar height={"300px"} width={"300px"} options={options} data={data} />;
+    </div>
+  );
+}
+
+function DeckManaValueChart(input) {
+  // Split the given decks into fixed-size buckets.
+  // Each bucket will contain N drafts worth of deck information.
+  let buckets = DeckBuckets(input.decks, input.numBuckets)
+
+  // Use the starting date of the bucket as the label. This is just an approximation,
+  // as the bucket really includes a variable set of dates, but it allows the viewer to
+  // at least place some sense of time to the chart.
+  const labels = []
+  for (let bucket of buckets) {
+    labels.push(bucket[0].name)
+  }
+
+  // Parse the buckets into color data.
+  let mana_values = []
+  for (let bucket of buckets) {
+    // Aggregate all decks from within this bucket.
+    let decks = new Array()
+    for (let draft of bucket) {
+      decks.push(...draft.decks)
+    }
+
+    // Calculate the average CMC of this bucket.
+    let total = 0
+    for (let deck of decks) {
+      total += deck.avg_cmc
+    }
+    mana_values.push(total / decks.length)
+  }
+
+  let dataset = [
+      {
+        label: 'Average Mana Value',
+        data: mana_values,
+        borderColor: "#dce312",
+        backgroundColor: "#dce312",
+      },
+  ]
+
+  let title = `Deck Avg. Mana Value (buckets=${input.numBuckets})`
+
+  const options = {
+    responsive: true,
+    maintainAspectRatio: false,
+    scales: {y: {min: 0}},
+    plugins: {
+      title: {
+        display: true,
+        text: title,
+        color: "#FFF",
+        font: {
+          size: "16pt",
+        },
+      },
+      legend: {
+        labels: {
+          color: "#FFF",
+          font: {
+            size: "16pt",
+          },
+        },
+      },
+    },
+  };
+
+  const data = {labels, datasets: dataset};
+  return (
+    <div style={{"height":"500px", "width":"100%"}}>
+      <Line height={"300px"} width={"300px"} options={options} data={data} />
     </div>
   );
 }

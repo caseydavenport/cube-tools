@@ -104,14 +104,14 @@ export function ArchetypeWidget(input) {
         <td>
           <MacroArchetypesChart
             decks={decks}
-            numBuckets={10}
+            numBuckets={input.numBuckets}
             dataset="builds"
           />
         </td>
         <td colSpan="2">
           <MacroArchetypesChart
             decks={decks}
-            numBuckets={10}
+            numBuckets={input.numBuckets}
             dataset="wins"
           />
         </td>
@@ -518,8 +518,10 @@ function MacroArchetypesChart(input) {
       if (archetypeStats == null) {
         continue
       }
-      if (input.dataset == "wins") {
+      if (input.dataset === "wins") {
         datasets.get(archetype).push(archetypeStats.win_percent)
+      } else if (input.dataset === "cmc") {
+        datasets.get(archetype).push(archetypeStats.avg_cmc)
       } else {
         datasets.get(archetype).push(archetypeStats.build_percent)
       }
@@ -551,6 +553,10 @@ function MacroArchetypesChart(input) {
   switch (input.dataset) {
     case "wins":
       title = `Win rate (buckets=${input.numBuckets})`
+      break;
+    case "cmc":
+      title = `Avg. mana value (buckets=${input.numBuckets})`
+      break
   }
 
   const options = {
