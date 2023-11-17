@@ -840,17 +840,17 @@ function CardWidget(input) {
               <td onClick={input.onHeaderClick} id="card" className="header-cell">Card</td>
               <td onClick={input.onHeaderClick} id="decks" className="header-cell"># Decks</td>
               <td onClick={input.onHeaderClick} id="games" className="header-cell"># Games</td>
-              <td onClick={input.onHeaderClick} id="norm" className="header-cell">Normalized</td>
+              <td onClick={input.onHeaderClick} id="perf" className="header-cell">Performance</td>
             </tr>
           </thead>
           <tbody>
             {
               data.map(function(card) {
                 // For each card, determine the weighted average of the archetype win rates for the
-                // archetypes that it sees play in. We'll use this to normalize the card's win rate compared
+                // archetypes that it sees play in. We'll use this to calculate the card's win rate compared
                 // to its own archetype win rates.
                 let weightedBaseRate = 0
-                let normalized = 0
+                let relativePerf = 0
 
                 // Determine the total number of instances of all archetypes this card has to use as the denominator when
                 // calculating weighted averages below. The card.archetypes map has keys of the archetype name, and values of
@@ -874,15 +874,15 @@ function CardWidget(input) {
                 }
 
                 if (card.mainboard > 0) {
-                  // Assuming this card has been played, normalize the card's win rate vs. the expected win rate based on its archetypes.
-                  normalized = Math.round(card.win_percent / weightedBaseRate * 100) / 100
+                  // Assuming this card has been played, calculate the card's win rate vs. the expected win rate based on its archetypes.
+                  relativePerf = Math.round(card.win_percent / weightedBaseRate * 100) / 100
                 }
 
                 // Determine sort value. Default to win percentage.
                 let sort = card.win_percent
                 switch (input.sortBy) {
-                  case "norm":
-                    sort = normalized
+                  case "perf":
+                    sort = relativePerf
                 }
 
                 // Return the row.
@@ -892,7 +892,7 @@ function CardWidget(input) {
                     <td className="card"><a href={card.url} target="_blank" rel="noopener noreferrer">{card.name}</a></td>
                     <td>{card.mainboard}</td>
                     <td><ApplyTooltip text={card.total_games} hidden={CardMainboardTooltipContent(card)}/></td>
-                    <td>{normalized}</td>
+                    <td>{relativePerf}</td>
                   </tr>
                 )
               }).sort(SortFunc)
