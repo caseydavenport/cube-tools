@@ -72,7 +72,39 @@ export function ColorWidget(input) {
             />
           </td>
         </tr>
+
         <tr>
+          <td style={{"paddingTop": "50px"}}>
+            <ColorRateChart
+              colorData={colorData}
+              decks={input.decks}
+              dataset="pick_percentage"
+              colorMode={input.colorTypeSelection}
+              bucketSize={input.bucketSize}
+            />
+          </td>
+          <td style={{"paddingTop": "50px"}}>
+            <ColorRateChart
+              colorData={colorData}
+              decks={input.decks}
+              dataset="splash"
+              colorMode={input.colorTypeSelection}
+              bucketSize={input.bucketSize}
+            />
+          </td>
+        </tr>
+
+
+        <tr>
+          <td style={{"paddingTop": "50px"}}>
+            <ColorRateChart
+              colorData={colorData}
+              decks={input.decks}
+              dataset="possible_shares"
+              colorMode={input.colorTypeSelection}
+              bucketSize={input.bucketSize}
+            />
+          </td>
           <td style={{"paddingTop": "50px"}}>
             <ColorRateChart
               colorData={colorData}
@@ -227,6 +259,7 @@ export function GetColorStats(decks) {
       // combined with the win percentage of the deck, to approximate the impact this color
       // had on winning.
       deck_win_shares: [],
+      possible_win_shares: 0,
       win_shares: 0,
     }
   }
@@ -297,7 +330,10 @@ export function GetColorStats(decks) {
       tracker.get(color).deck_percentages.push(num / totalCardsInDeck)
       let winFrac = num / totalCardsInDeck * Wins(decks[i])
       let lossFrac = num / totalCardsInDeck * Losses(decks[i])
-      tracker.get(color).deck_win_shares.push(winFrac - lossFrac)
+      tracker.get(color).deck_win_shares.push(winFrac)
+      if (winFrac + lossFrac > 0) {
+        tracker.get(color).possible_win_shares += (winFrac + lossFrac)
+      }
       tracker.get(color).cards += num
     }
   }
@@ -361,6 +397,12 @@ function ColorRateChart(input) {
         colorDatasets.get(color).push(stats.get(color).win_percent)
       } else if (input.dataset === "shares") {
         colorDatasets.get(color).push(stats.get(color).win_shares)
+      } else if (input.dataset === "possible_shares") {
+        colorDatasets.get(color).push(stats.get(color).possible_win_shares)
+      } else if (input.dataset === "pick_percentage") {
+        colorDatasets.get(color).push(stats.get(color).total_pick_percentage)
+      } else if (input.dataset === "splash") {
+        colorDatasets.get(color).push(stats.get(color).average_deck_percentage)
       } else {
         colorDatasets.get(color).push(stats.get(color).build_percent)
       }
@@ -446,12 +488,21 @@ function ColorRateChart(input) {
     case "shares":
       title = `Win shares (bucket size = ${input.bucketSize} drafts)`
       break
+    case "possible_shares":
+      title = `Possible win shares (bucket size = ${input.bucketSize} drafts)`
+      break
+    case "pick_percentage":
+      title = `Percentage of mainboard picks (bucket size = ${input.bucketSize} drafts)`
+      break
+    case "splash":
+      title = `Avg. percentage of decks (bucket size = ${input.bucketSize} drafts)`
+      break
   }
 
   const options = {
     responsive: true,
     maintainAspectRatio: false,
-    // scales: {y: {min: 0}},
+    scales: {y: {min: 0}},
     plugins: {
       title: {
         display: true,
