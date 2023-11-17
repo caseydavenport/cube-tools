@@ -13,6 +13,7 @@ Count,Name,Section
 1,Arcbound Tracker,main
 1,Archfiend of Ifnir,main
 1,Arid Mesa,main
+1,Battlefield Forge,main
 1,Beacon of Unrest,main
 1,Beast Within,main
 1,Black Sun's Zenith,main
@@ -32,6 +33,8 @@ Count,Name,Section
 1,Brineborn Cutthroat,main
 1,Burst Lightning,main
 1,Cankerbloom,main
+1,Canopy Vista,main
+1,Canyon Slough,main
 1,Careful Study,main
 1,Cauldron of Souls,main
 1,Censor,main
@@ -40,7 +43,6 @@ Count,Name,Section
 1,Chart a Course,main
 1,Chatter of the Squirrel,main
 1,Cheeky House-Mouse // Squeak By,main
-1,Choked Estuary,main
 1,Chromatic Sphere,main
 1,Clarion Spirit,main
 1,Clifftop Retreat,main
@@ -51,6 +53,7 @@ Count,Name,Section
 1,Copper Myr,main
 1,Counterspell,main
 1,Crimson Wisps,main
+1,Crop Rotation,main
 1,Cruel Celebrant,main
 1,Cunning Lethemancer,main
 1,Cunning Sparkmage,main
@@ -68,12 +71,9 @@ Count,Name,Section
 1,"Domri, Anarch of Bolas",main
 1,Domri's Ambush,main
 1,Doomgape,main
-1,Dragonskull Summit,main
 1,Dreadhorde Arcanist,main
 1,Dreadhorde Butcher,main
-1,Dream Trawler,main
 1,Dress Down,main
-1,Drowned Catacomb,main
 1,Duress,main
 1,Edge of Autumn,main
 1,Eidolon of Obstruction,main
@@ -96,6 +96,7 @@ Count,Name,Section
 1,Fecundity,main
 1,Feed the Cauldron,main
 1,Festering Mummy,main
+1,Fetid Pools,main
 1,Field of Ruin,main
 1,Flame Jab,main
 1,Flame Slash,main
@@ -103,16 +104,12 @@ Count,Name,Section
 1,Flickerwisp,main
 1,Flooded Strand,main
 1,Flux Channeler,main
-1,Foreboding Ruins,main
-1,Fortified Village,main
 1,Frostboil Snarl,main
 1,Fungal Infection,main
-1,Furycalm Snarl,main
 1,Galepowder Mage,main
 1,Ghostly Flicker,main
 1,Gilded Goose,main
 1,Gilder Bairn,main
-1,Glacial Fortress,main
 1,Glass Casket,main
 1,Glory of Warfare,main
 1,Goblin Arsonist,main
@@ -121,6 +118,7 @@ Count,Name,Section
 1,Godless Shrine,main
 1,Gold Myr,main
 1,Goldenglow Moth,main
+1,Golgari Rot Farm,main
 1,Gomazoa,main
 1,Grateful Apparition,main
 1,Gravedigger,main
@@ -129,6 +127,7 @@ Count,Name,Section
 1,Grim Initiate,main
 1,Gruff Triplets,main
 1,Guttersnipe,main
+1,Hallowed Fountain,main
 1,Halo Forager,main
 1,Hardened Scales,main
 1,Harm's Way,main
@@ -209,7 +208,6 @@ Count,Name,Section
 1,"Multani, Yavimaya's Avatar",main
 1,Murderous Redcap,main
 1,Narrow Escape,main
-1,Necroblossom Snarl,main
 1,Negate,main
 1,Nobilis of War,main
 1,Oathsworn Vampire,main
@@ -232,7 +230,6 @@ Count,Name,Section
 1,Pollenbright Druid,main
 1,Polluted Delta,main
 1,Ponder,main
-1,Port Town,main
 1,Portable Hole,main
 1,Prophetic Prism,main
 1,Pteramander,main
@@ -276,6 +273,7 @@ Count,Name,Section
 1,Saproling Migration,main
 1,Satyr Wayfinder,main
 1,Scalding Tarn,main
+1,Scattered Groves,main
 1,Scavenger Drake,main
 1,Scavenging Ooze,main
 1,Serum Visions,main
@@ -303,12 +301,14 @@ Count,Name,Section
 1,Stitcher's Supplier,main
 1,Stomping Ground,main
 1,Sulfur Falls,main
-1,Sunpetal Grove,main
+1,Sulfurous Springs,main
+1,Sunken Ruins,main
 1,Tail Swipe,main
+1,"Takenuma, Abandoned Mire",main
 1,"Tamiyo, Compleated Sage",main
 1,Tangled Colony,main
 1,Temple Garden,main
-1,Territorial Allosaurus,main
+1,Temple of Enlightenment,main
 1,"Tezzeret, Betrayer of Flesh",main
 1,The Binding of the Titans,main
 1,The Goose Mother,main
