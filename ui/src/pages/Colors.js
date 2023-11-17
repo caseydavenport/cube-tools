@@ -60,7 +60,7 @@ export function ColorWidget(input) {
               decks={input.decks}
               dataset="builds"
               colorMode={input.colorTypeSelection}
-              numBuckets={input.numBuckets}
+              bucketSize={input.bucketSize}
             />
           </td>
           <td style={{"paddingTop": "50px"}}>
@@ -68,7 +68,7 @@ export function ColorWidget(input) {
               decks={input.decks}
               dataset="wins"
               colorMode={input.colorTypeSelection}
-              numBuckets={input.numBuckets}
+              bucketSize={input.bucketSize}
             />
           </td>
         </tr>
@@ -79,7 +79,7 @@ export function ColorWidget(input) {
               decks={input.decks}
               dataset="shares"
               colorMode={input.colorTypeSelection}
-              numBuckets={input.numBuckets}
+              bucketSize={input.bucketSize}
             />
           </td>
         </tr>
@@ -252,7 +252,7 @@ export function GetColorStats(decks) {
     // Add metrics to the color based on card scope statistics.
     // Calculate the total number of cards drafted of the color across
     // all drafts, as well as the percentage of that color within the deck, which we'll
-    // use to calculate an indicator of which colors are primary and whicn are splashed.
+    // use to calculate an indicator of which colors are primary and which are splashed.
     let totalCardsInDeck = 0
     for (let card of decks[i].mainboard) {
       // Skip basic lands, since they just dilute the percentages.
@@ -262,12 +262,12 @@ export function GetColorStats(decks) {
       totalCards += 1
       totalCardsInDeck += 1
     }
-    let cardsPerColorInDeck = {}
 
     // Go through each color in the deck's color identity, and increment
     // the count of cards within the deck that match that color identity.
     // TODO: This calculation excludes colorless cards, meaning percentages for colors
     // will not add up to 100%.
+    let cardsPerColorInDeck = {}
     for (let deckColor of colors) {
       for (let card of decks[i].mainboard) {
         // Skip basic lands, since they just dilute the percentages.
@@ -283,6 +283,11 @@ export function GetColorStats(decks) {
             cardsPerColorInDeck[deckColor] = 0
           }
           cardsPerColorInDeck[deckColor] += 1
+
+          // Once we count a card as counting towards this part of the deck's identity,
+          // we don't need to count the same card twice (e.g., if it is multi-color and matches
+          // the deck twice).
+          break
         }
       }
     }
@@ -290,7 +295,9 @@ export function GetColorStats(decks) {
     for (var color in cardsPerColorInDeck) {
       let num = cardsPerColorInDeck[color]
       tracker.get(color).deck_percentages.push(num / totalCardsInDeck)
-      tracker.get(color).deck_win_shares.push(num / totalCardsInDeck * Wins(decks[i]))
+      let winFrac = num / totalCardsInDeck * Wins(decks[i])
+      let lossFrac = num / totalCardsInDeck * Losses(decks[i])
+      tracker.get(color).deck_win_shares.push(winFrac - lossFrac)
       tracker.get(color).cards += num
     }
   }
@@ -304,7 +311,7 @@ export function GetColorStats(decks) {
     const density_sum = color.deck_percentages.reduce((sum, a) => sum + a, 0);
     const density_count = color.deck_percentages.length;
     color.average_deck_percentage = Math.round(100 * density_sum / density_count);
-    color.win_shares = Math.round(10 * color.deck_win_shares.reduce((sum, a) => sum + a, 0)) / 10;
+    color.win_shares = Math.round(100 * color.deck_win_shares.reduce((sum, a) => sum + a, 0)) / 100;
 
     // Calculate the percentage of all cards drafted that are this color.
     color.total_pick_percentage = Math.round(100 * color.cards / totalCards);
@@ -318,7 +325,7 @@ export function GetColorStats(decks) {
 function ColorRateChart(input) {
   // Split the given decks into fixed-size buckets.
   // Each bucket will contain N drafts worth of deck information.
-  let buckets = DeckBuckets(input.decks, input.numBuckets)
+  let buckets = DeckBuckets(input.decks, input.bucketSize)
 
   // Use the starting date of the bucket as the label. This is just an approximation,
   // as the bucket really includes a variable set of dates, but it allows the viewer to
@@ -431,13 +438,13 @@ function ColorRateChart(input) {
       dataset = triColorDatasets
   }
 
-  let title = `Build % (buckets=${input.numBuckets})`
+  let title = `Build % (bucket size = ${input.bucketSize} drafts)`
   switch (input.dataset) {
     case "wins":
-      title = `Win % (buckets=${input.numBuckets})`
+      title = `Win % (buckets size = ${input.bucketSize} drafts)`
       break
     case "shares":
-      title = `Win shares (buckets=${input.numBuckets})`
+      title = `Win shares (bucket size = ${input.bucketSize} drafts)`
       break
   }
 

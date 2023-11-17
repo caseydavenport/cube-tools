@@ -104,14 +104,14 @@ export function ArchetypeWidget(input) {
         <td>
           <MacroArchetypesChart
             decks={decks}
-            numBuckets={input.numBuckets}
+            bucketSize={input.bucketSize}
             dataset="builds"
           />
         </td>
         <td colSpan="2">
           <MacroArchetypesChart
             decks={decks}
-            numBuckets={input.numBuckets}
+            bucketSize={input.bucketSize}
             dataset="wins"
           />
         </td>
@@ -132,6 +132,15 @@ export function ArchetypeWidget(input) {
         </td>
       </tr>
 
+      <tr>
+        <td style={{"paddingTop": "100px"}}>
+          <MacroArchetypesChart
+            decks={decks}
+            bucketSize={input.bucketSize}
+            dataset="cmc"
+          />
+        </td>
+      </tr>
 
     </table>
   );
@@ -281,12 +290,14 @@ function TopCardsInArchetypeWidgetOptions(input) {
         label="Min #picks"
         value={input.minDrafts}
         onChange={input.onMinDraftsSelected}
+        className="dropdown-header-side-by-side"
       />
 
       <NumericInput
         label="Decks in arch"
         value={input.minDecksInArch}
         onChange={input.onMinGamesSelected}
+        className="dropdown-header-side-by-side"
       />
     </div>
   );
@@ -424,6 +435,7 @@ export function ArchetypeData(decks) {
       build_percent: 0,
       win_percent: 0,
       avg_shared: 0,
+      avg_cmc: 0,
     }
   }
 
@@ -448,6 +460,9 @@ export function ArchetypeData(decks) {
       tracker.get(type).count += 1
       tracker.get(type).wins += Wins(deck)
       tracker.get(type).losses += Losses(deck)
+
+      // Sum the values here, and divide them after we iterate all decks.
+      tracker.get(type).avg_cmc += deck.avg_cmc
 
       // Track who plays this archetype, and how often.
       if (!tracker.get(type).players.has(deck.player)) {
@@ -481,6 +496,7 @@ export function ArchetypeData(decks) {
     archetype.percent_of_wins = Math.round(archetype.wins / totalWins * 100)
     archetype.record = archetype.wins + "-" + archetype.losses + "-" + 0
     archetype.avg_shared = Math.round(archetype.numSharedWith / archetype.count * 100) / 100
+    archetype.avg_cmc = Math.round(archetype.avg_cmc / archetype.count * 100) / 100
   })
   return tracker
 }
@@ -488,7 +504,7 @@ export function ArchetypeData(decks) {
 function MacroArchetypesChart(input) {
   // Split the given decks into fixed-size buckets.
   // Each bucket will contain N drafts worth of deck information.
-  let buckets = DeckBuckets(input.decks, input.numBuckets)
+  let buckets = DeckBuckets(input.decks, input.bucketSize)
 
   // Use the starting date of the bucket as the label. This is just an approximation,
   // as the bucket really includes a variable set of dates, but it allows the viewer to
@@ -549,13 +565,13 @@ function MacroArchetypesChart(input) {
       },
   ]
 
-  let title = `Build rate (buckets=${input.numBuckets})`
+  let title = `Build rate (bucket size = ${input.bucketSize} drafts)`
   switch (input.dataset) {
     case "wins":
-      title = `Win rate (buckets=${input.numBuckets})`
+      title = `Win rate (bucket size = ${input.bucketSize} drafts)`
       break;
     case "cmc":
-      title = `Avg. mana value (buckets=${input.numBuckets})`
+      title = `Avg. mana value (bucket size = ${input.bucketSize} drafts)`
       break
   }
 

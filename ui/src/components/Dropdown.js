@@ -32,8 +32,12 @@ export function Checkbox(input) {
 }
 
 export function NumericInput(input) {
+  let className = "dropdown-header-side-by-side"
+  if (input.className != "") {
+    className = input.className
+  }
   return (
-    <label className="numeric-input-side-by-side">
+    <label className={className}>
       {input.label}
       <input onChange={input.onChange} className="numeric-input" type="number" />
     </label>

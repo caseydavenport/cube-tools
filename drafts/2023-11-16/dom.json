@@ -3,7 +3,7 @@
  "player": "dom",
  "date": "2023-11-16",
  "games": [
-    {"opponent": "dom", "winner": "casey"}
+    {"opponent": "casey", "winner": "casey"}
  ],
  "mainboard": [
   {

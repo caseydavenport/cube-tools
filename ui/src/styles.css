@@ -127,6 +127,13 @@ ul {
   padding-right: 10px;
 }
 
+.selection-cell {
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  float: center;
+}
 
 .card {
   padding: 0px;
@@ -176,20 +183,10 @@ ul {
   min-width: 50%;
 }
 
-.numeric-input-side-by-side{
-  color: #FFF;
-  background: #C97B84;
-  text-align: center;
-  padding: 0px;
-  border: 0px;
-  float: left;
-  min-width: 50%;
-}
-
 .numeric-input{
   color: #FFF;
   padding: 2px;
-  margin: 10px;
+  margin-left: 10px;
   width: 50px;
   background: #AE6989;
 }

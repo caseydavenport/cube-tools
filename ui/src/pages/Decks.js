@@ -61,7 +61,7 @@ export function DeckWidget(input) {
           <WinsByNumberOfColors decks={input.decks} />
         </td>
         <td style={{"vertical-align": "top"}}>
-          <DeckManaValueChart decks={input.decks} numBuckets={input.numBuckets} />
+          <DeckManaValueChart decks={input.decks} bucketSize={input.bucketSize} />
         </td>
       </tr>
 
@@ -519,7 +519,7 @@ function WinsByNumberOfColors(input) {
 function DeckManaValueChart(input) {
   // Split the given decks into fixed-size buckets.
   // Each bucket will contain N drafts worth of deck information.
-  let buckets = DeckBuckets(input.decks, input.numBuckets)
+  let buckets = DeckBuckets(input.decks, input.bucketSize)
 
   // Use the starting date of the bucket as the label. This is just an approximation,
   // as the bucket really includes a variable set of dates, but it allows the viewer to
@@ -555,7 +555,7 @@ function DeckManaValueChart(input) {
       },
   ]
 
-  let title = `Deck Avg. Mana Value (buckets=${input.numBuckets})`
+  let title = `Deck Avg. Mana Value (bucket size = ${input.bucketSize} drafts)`
 
   const options = {
     responsive: true,

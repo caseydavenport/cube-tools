@@ -21,7 +21,14 @@ export default function StatsViewer() {
   ///////////////////////////////////////////////////////////////////////////////
   // State used for all widgets.
   ///////////////////////////////////////////////////////////////////////////////
-  const [numBuckets, setNumBuckets] = useState(5);
+  const [bucketSize, setNumBuckets] = useState(5);
+  function onBucketsChanged(event) {
+    let num = event.target.value
+    if (num < 1) {
+      num = 1
+    }
+    setNumBuckets(num)
+  }
 
   ///////////////////////////////////////////////////////////////////////////////
   // State used for the color / color pair win rate widget.
@@ -262,6 +269,8 @@ export default function StatsViewer() {
           onChange={onEndSelected}
         />
 
+        <NumericInput className="dropdown" label="Bucket size" value={bucketSize} onChange={onBucketsChanged} />
+
         <Overview decks={decks} />
 
         <Checkbox
@@ -304,7 +313,7 @@ export default function StatsViewer() {
           decks={decks}
           onHeaderClick={onColorHeaderClicked}
           colorSortBy={colorSortBy}
-          numBuckets={numBuckets}
+          bucketSize={bucketSize}
           show={display[0]}
         />
 
@@ -312,7 +321,7 @@ export default function StatsViewer() {
           cube={cube}
           decks={decks}
           show={display[1]}
-          numBuckets={numBuckets}
+          bucketSize={bucketSize}
 
           dropdownSelection={colorTypeSelection}
           cardWidgetSelection={cardWidgetSelection}
@@ -388,7 +397,7 @@ export default function StatsViewer() {
         <DeckWidget
           decks={decks}
           show={display[3]}
-          numBuckets={numBuckets}
+          bucketSize={bucketSize}
         />
 
         <PlayerWidget
@@ -704,49 +713,71 @@ function BestCombosWidget(input) {
 
 function CardWidgetOptions(input) {
   return (
-    <div className="dropdown-header">
-      <DropdownHeader
-        label="Stats type"
-        options={input.cardWidgetOpts}
-        value={input.colorTypeSelection}
-        onChange={input.onSelected}
-        className="dropdown-header-side-by-side"
-      />
+    <table className="dropdown-header">
+      <tbody>
+        <tr>
+          <td className="selection-cell">
+            <DropdownHeader
+              label="Stats type"
+              options={input.cardWidgetOpts}
+              value={input.colorTypeSelection}
+              onChange={input.onSelected}
+              className="dropdown-header-side-by-side"
+            />
+          </td>
 
-      <DropdownHeader
-        label="Color"
-        options={input.colorWidgetOpts}
-        value={input.colorSelection}
-        onChange={input.onColorSelected}
-        className="dropdown-header-side-by-side"
-      />
-      <br></br>
+          <td className="selection-cell">
+            <DropdownHeader
+              label="Color"
+              options={input.colorWidgetOpts}
+              value={input.colorSelection}
+              onChange={input.onColorSelected}
+              className="dropdown-header-side-by-side"
+            />
+          </td>
+        </tr>
 
-      <NumericInput
-        label="Min #picks"
-        value={input.minDrafts}
-        onChange={input.onMinDraftsSelected}
-      />
+        <tr>
+          <td className="selection-cell">
+            <NumericInput
+              label="Min #picks"
+              value={input.minDrafts}
+              onChange={input.onMinDraftsSelected}
+              className="dropdown-header-side-by-side"
+            />
+          </td>
 
-      <NumericInput
-        label="Min #games"
-        value={input.minGames}
-        onChange={input.onMinGamesSelected}
-      />
-      <br></br>
+          <td className="selection-cell">
+            <NumericInput
+              label="Min #games"
+              value={input.minGames}
+              onChange={input.onMinGamesSelected}
+              className="dropdown-header-side-by-side"
+            />
+          </td>
+        </tr>
 
-      <NumericInput
-        label="Min #players"
-        value={input.minPlayers}
-        onChange={input.onMinPlayersSelected}
-      />
+        <tr>
+          <td className="selection-cell">
+            <NumericInput
+              label="Min #players"
+              value={input.minPlayers}
+              onChange={input.onMinPlayersSelected}
+              className="dropdown-header-side-by-side"
+            />
+          </td>
 
-      <NumericInput
-        label="Max #players"
-        value={input.maxPlayers}
-        onChange={input.onMaxPlayersSelected}
-      />
-    </div>
+          <td className="selection-cell">
+            <NumericInput
+              label="Max #players"
+              value={input.maxPlayers}
+              onChange={input.onMaxPlayersSelected}
+              className="dropdown-header-side-by-side"
+            />
+          </td>
+        </tr>
+      </tbody>
+    </table>
   );
 }
 
