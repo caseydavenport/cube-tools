@@ -3,7 +3,7 @@ import { DropdownHeader, NumericInput, Checkbox, DateSelector } from "../compone
 import { DeckBuckets } from "../utils/Buckets.js"
 import { GetColorIdentity } from "../utils/Colors.js"
 import { Wins, Losses } from "../utils/Deck.js"
-import { IsBasicLand, SortFunc } from "../utils/Utils.js"
+import { IsBasicLand, SortFunc, StringToColor } from "../utils/Utils.js"
 
 import {
   Chart as ChartJS,
@@ -445,29 +445,21 @@ function ColorRateChart(input) {
   // Generate a dual-color dataset as well.
   let dualColorDatasets = []
   for (let color of dualColors) {
-    // A hacky way to get a deterministic color for each pair.
-    // Might just be better to define a lookup table, but lazy.
-    var n = (color.charCodeAt(0) + color.charCodeAt(1)) / 250
-    var randomColor = Math.floor(n*16777215).toString(16);
     dualColorDatasets.push({
       label: color,
       data: colorDatasets.get(color),
-      borderColor: "#" + randomColor,
-      backgroundColor: "#" + randomColor,
+      borderColor: StringToColor(color),
+      backgroundColor: StringToColor(color),
     })
   }
 
   let triColorDatasets = []
   for (let color of triColors) {
-    // A hacky way to get a deterministic color for each pair.
-    // Might just be better to define a lookup table, but lazy.
-    var n = (color.charCodeAt(0) + color.charCodeAt(1) + color.charCodeAt(2)) / 250
-    var randomColor = Math.floor(n*16777215).toString(16);
     triColorDatasets.push({
       label: color,
       data: colorDatasets.get(color),
-      borderColor: "#" + randomColor,
-      backgroundColor: "#" + randomColor,
+      borderColor: StringToColor(color),
+      backgroundColor: StringToColor(color),
     })
   }
 

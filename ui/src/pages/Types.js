@@ -1,6 +1,6 @@
 import React from 'react'
 import { CardData } from "../utils/Cards.js"
-import { IsBasicLand, SortFunc } from "../utils/Utils.js"
+import { IsBasicLand, SortFunc, StringToColor } from "../utils/Utils.js"
 import { Wins, Losses } from "../utils/Deck.js"
 import { DropdownHeader, NumericInput, Checkbox, DateSelector } from "../components/Dropdown.js"
 import { DeckBuckets } from "../utils/Buckets.js"
@@ -133,7 +133,7 @@ export function ArchetypeWidget(input) {
       </tr>
 
       <tr>
-        <td style={{"paddingTop": "100px"}}>
+        <td colSpan="2" style={{"paddingTop": "100px"}}>
           <MacroArchetypesChart
             decks={decks}
             bucketSize={input.bucketSize}
@@ -141,6 +141,27 @@ export function ArchetypeWidget(input) {
           />
         </td>
       </tr>
+
+      <tr>
+        <td colSpan="2" style={{"paddingTop": "100px"}}>
+          <MicroArchetypesChart
+            decks={decks}
+            bucketSize={input.bucketSize}
+            dataset="builds"
+          />
+        </td>
+      </tr>
+
+      <tr>
+        <td colSpan="2" style={{"paddingTop": "100px"}}>
+          <MicroArchetypesChart
+            decks={decks}
+            bucketSize={input.bucketSize}
+            dataset="wins"
+          />
+        </td>
+      </tr>
+
 
     </table>
   );
@@ -501,6 +522,120 @@ export function ArchetypeData(decks) {
   return tracker
 }
 
+function MicroArchetypesChart(input) {
+  // Split the given decks into fixed-size buckets.
+  // Each bucket will contain N drafts worth of deck information.
+  let buckets = DeckBuckets(input.decks, input.bucketSize)
+
+  // Use the starting date of the bucket as the label. This is just an approximation,
+  // as the bucket really includes a variable set of dates, but it allows the viewer to
+  // at least place some sense of time to the chart.
+  const labels = []
+  for (let bucket of buckets) {
+    labels.push(bucket[0].name)
+  }
+
+  // Parse the buckets. First, build up all of the archetypes we're going to display.
+  let archSet = new Map()
+  for (let bucket of buckets) {
+    for (let draft of bucket) {
+      for (let deck of draft.decks) {
+        for (let a of deck.labels) {
+          if (a === "lands") {
+            console.log(bucket[0].name)
+          }
+          archSet.set(a, true)
+        }
+      }
+    }
+  }
+  archSet.delete("aggro")
+  archSet.delete("midrange")
+  archSet.delete("control")
+  let archs = [...archSet.keys()]
+
+  let datasets = new Map()
+  for (let arch of archs) {
+    datasets.set(arch, [])
+  }
+  for (let bucket of buckets) {
+    // Aggregate all decks from within this bucket.
+    let decks = new Array()
+    for (let draft of bucket) {
+      decks.push(...draft.decks)
+    }
+
+    // Parse the stats of the decks.
+    let stats = ArchetypeData(decks)
+    for (let archetype of archs) {
+      let archetypeStats = stats.get(archetype)
+      if (archetypeStats == null) {
+        datasets.get(archetype).push(0)
+        continue
+      }
+      if (input.dataset === "wins") {
+        datasets.get(archetype).push(archetypeStats.win_percent)
+      } else if (input.dataset === "cmc") {
+        datasets.get(archetype).push(archetypeStats.avg_cmc)
+      } else {
+        datasets.get(archetype).push(archetypeStats.build_percent)
+      }
+    }
+  }
+
+  let chartDataset = []
+  for (let [arch, data] of datasets) {
+    chartDataset.push({
+      label: arch,
+      data: data,
+      borderColor: StringToColor(arch),
+      backgroundColor: StringToColor(arch),
+    })
+  }
+
+  let title = `Build rate (bucket size = ${input.bucketSize} drafts)`
+  switch (input.dataset) {
+    case "wins":
+      title = `Win rate (bucket size = ${input.bucketSize} drafts)`
+      break;
+    case "cmc":
+      title = `Avg. mana value (bucket size = ${input.bucketSize} drafts)`
+      break
+  }
+
+  const options = {
+    responsive: true,
+    maintainAspectRatio: false,
+    scales: {y: {min: 0}},
+    plugins: {
+      title: {
+        display: true,
+        text: title,
+        color: "#FFF",
+        font: {
+          size: "16pt",
+        },
+      },
+      legend: {
+        labels: {
+          color: "#FFF",
+          font: {
+            size: "16pt",
+          },
+        },
+      },
+    },
+  };
+
+  const data = {labels, datasets: chartDataset};
+  return (
+    <div style={{"height":"800px", "width":"100%"}}>
+      <Line height={"300px"} width={"300px"} options={options} data={data} />
+    </div>
+  );
+}
+
+
 function MacroArchetypesChart(input) {
   // Split the given decks into fixed-size buckets.
   // Each bucket will contain N drafts worth of deck information.
@@ -532,6 +667,7 @@ function MacroArchetypesChart(input) {
     for (let archetype of archs) {
       let archetypeStats = stats.get(archetype)
       if (archetypeStats == null) {
+        datasets.get(archetype).push(0)
         continue
       }
       if (input.dataset === "wins") {
