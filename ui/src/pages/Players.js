@@ -269,29 +269,34 @@ function PlayerDetailsPanel(input) {
     }
   }
 
+  let minGames = 5
+
   let oppRows = Array.from(recordByOpponent.values())
   return (
     <div>
       <table className="winrate-table">
         <thead className="table-header">
           <tr>
-            <td onClick={input.onHeaderClick} id="name" className="header-cell">Opponent (min 10 games)</td>
-            <td onClick={input.onHeaderClick} id="num" className="header-cell">Win %</td>
-            <td onClick={input.onHeaderClick} id="num" className="header-cell">Games</td>
+            <td colSpan="3" id="who" className="header-cell">Selected player: {input.player}</td>
+          </tr>
+          <tr>
+            <td id="name" className="header-cell">Opponent (min {minGames} games)</td>
+            <td id="num" className="header-cell">Win %</td>
+            <td id="num" className="header-cell">Games</td>
           </tr>
         </thead>
         <tbody>
           {
             oppRows.map(function(opponent) {
               // Filter out any opponent that doesn't meet the minimum games requirement.
-              if (opponent.wins + opponent.losses < 10) {
+              if (opponent.wins + opponent.losses < minGames) {
                 return
               }
               let win_pct = Math.round(opponent.wins / (opponent.wins + opponent.losses) * 100)
               return (
                 <tr key={opponent.name} sort={win_pct} className="winrate-row">
                   <td key="name">{opponent.name}</td>
-                  <td key="num">{win_pct}</td>
+                  <td key="num">{win_pct}%</td>
                   <td key="num">{opponent.wins + opponent.losses}</td>
                 </tr>
               )

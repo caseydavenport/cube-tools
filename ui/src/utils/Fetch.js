@@ -49,10 +49,21 @@ export async function LoadDecks(onLoad, start, end) {
     d.draft = info.draft
     d.file = info.file
     decks.push(d)
+
+    // Capitalize player names, since they are varying cases.
+    d.player = capitalize(d.player)
+    for (let g of d.games) {
+      g.opponent = capitalize(g.opponent)
+      g.winner = capitalize(g.winner)
+    }
   }
 
   // Callback with all of the loaded decks.
   onLoad(decks)
+}
+
+function capitalize(word) {
+  return word[0].toUpperCase() + word.slice(1);
 }
 
 export async function LoadDrafts(onLoad, start, end) {
