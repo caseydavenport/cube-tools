@@ -52,9 +52,11 @@ export async function LoadDecks(onLoad, start, end) {
 
     // Capitalize player names, since they are varying cases.
     d.player = capitalize(d.player)
-    for (let g of d.games) {
-      g.opponent = capitalize(g.opponent)
-      g.winner = capitalize(g.winner)
+    if (d.games != null ) {
+      for (let g of d.games) {
+        g.opponent = capitalize(g.opponent)
+        g.winner = capitalize(g.winner)
+      }
     }
   }
 
