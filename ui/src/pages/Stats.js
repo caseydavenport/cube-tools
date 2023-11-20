@@ -808,6 +808,7 @@ function CardWidget(input) {
               <td className="header-cell">Card</td>
               <td className="header-cell"># Decks</td>
               <td className="header-cell"># Games</td>
+              <td className="header-cell">ELO</td>
             </tr>
           </thead>
           <tbody>
@@ -819,6 +820,7 @@ function CardWidget(input) {
                   <td className="card"><a href={card.url} target="_blank" rel="noopener noreferrer">{card.name}</a></td>
                   <td><ApplyTooltip text={card.mainboard} hidden={CardMainboardTooltipContent(card)}/></td>
                   <td>{card.total_games}</td>
+                  <td>{card.elo}</td>
                 </tr>
               )
             }).sort(SortFunc)

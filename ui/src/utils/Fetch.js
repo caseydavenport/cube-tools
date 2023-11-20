@@ -1,4 +1,5 @@
 import { AverageCMC, ExtractColors } from "../utils/Utils.js"
+import { IsBasicLand } from "../utils/Utils.js"
 
 export async function LoadCube(onFetch) {
   const resp = await fetch('cube.json');
@@ -100,7 +101,6 @@ export async function LoadDrafts(onLoad, start, end) {
       drafts.push(d)
     }
   }
-
 
   // Callback with all of the loaded decks.
   onLoad(drafts)

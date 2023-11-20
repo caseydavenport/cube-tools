@@ -118,6 +118,16 @@ export function ArchetypeWidget(input) {
       </tr>
 
       <tr>
+        <td colSpan="3">
+          <MacroArchetypesChart
+            decks={decks}
+            bucketSize={input.bucketSize}
+            dataset="percent_of_wins"
+          />
+        </td>
+      </tr>
+
+      <tr>
         <td>
           <MacroArchetypesPieChart
             decks={decks}
@@ -133,7 +143,7 @@ export function ArchetypeWidget(input) {
       </tr>
 
       <tr>
-        <td colSpan="2" style={{"paddingTop": "100px"}}>
+        <td colSpan="3" style={{"paddingTop": "100px"}}>
           <MacroArchetypesChart
             decks={decks}
             bucketSize={input.bucketSize}
@@ -143,7 +153,7 @@ export function ArchetypeWidget(input) {
       </tr>
 
       <tr>
-        <td colSpan="2" style={{"paddingTop": "100px"}}>
+        <td colSpan="3" style={{"paddingTop": "100px"}}>
           <MicroArchetypesChart
             decks={decks}
             bucketSize={input.bucketSize}
@@ -462,7 +472,7 @@ export function ArchetypeData(decks) {
 
   // First, determine the popularity of each archetype by iterating all decks
   // and counting the instances of each.
-  let totalWins = 0
+  let totalGames = 0
   let tracker = new Map()
 
   // We set aggro/midrange/control for every set of decks, even if they are
@@ -472,8 +482,10 @@ export function ArchetypeData(decks) {
   tracker.set("control", newType("control"))
 
   for (let deck of decks) {
+    // We only need to count wins, because every loss is counted in another deck as a win.
+    totalGames += Wins(deck)
+
     let types = deck.labels
-    totalWins += Wins(deck)
     for (let type of types) {
       if (!tracker.has(type)) {
         tracker.set(type, newType(type))
@@ -514,7 +526,7 @@ export function ArchetypeData(decks) {
   tracker.forEach(function(archetype) {
     archetype.build_percent = Math.round(archetype.count / decks.length * 100)
     archetype.win_percent = Math.round(archetype.wins / (archetype.wins + archetype.losses) * 100)
-    archetype.percent_of_wins = Math.round(archetype.wins / totalWins * 100)
+    archetype.percent_of_wins = Math.round(archetype.wins / totalGames * 100)
     archetype.record = archetype.wins + "-" + archetype.losses + "-" + 0
     archetype.avg_shared = Math.round(archetype.numSharedWith / archetype.count * 100) / 100
     archetype.avg_cmc = Math.round(archetype.avg_cmc / archetype.count * 100) / 100
@@ -672,6 +684,8 @@ function MacroArchetypesChart(input) {
       }
       if (input.dataset === "wins") {
         datasets.get(archetype).push(archetypeStats.win_percent)
+      } else if (input.dataset === "percent_of_wins") {
+        datasets.get(archetype).push(archetypeStats.percent_of_wins)
       } else if (input.dataset === "cmc") {
         datasets.get(archetype).push(archetypeStats.avg_cmc)
       } else {
@@ -708,6 +722,9 @@ function MacroArchetypesChart(input) {
       break;
     case "cmc":
       title = `Avg. mana value (bucket size = ${input.bucketSize} drafts)`
+      break
+    case "percent_of_wins":
+      title = `Percent of all wins (bucket size = ${input.bucketSize} drafts)`
       break
   }
 
