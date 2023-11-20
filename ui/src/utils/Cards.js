@@ -23,18 +23,6 @@ export function CardData(decks, minDrafts, minGames, cube, color) {
     return c
   }
 
-  // Define a helper function for determining if a card is within a given deck's colors.
-  let inDeckColor = function(card, deck) {
-    for (var k in card.colors) {
-      for (var j in deck.colors) {
-        if (card.colors[k] == deck.colors[j]) {
-          return true
-        }
-      }
-    }
-    return false
-  }
-
   // Build a map of all the cards in the cube so we can
   // easily skip any cards not currently in the cube.
   let cubeCards = new Map()
@@ -167,6 +155,19 @@ export function CardData(decks, minDrafts, minGames, cube, color) {
   return data
 }
 
+// Helper function for determining if a card is within a given deck's colors.
+function inDeckColor(card, deck) {
+  for (var k in card.colors) {
+    for (var j in deck.colors) {
+      if (card.colors[k] == deck.colors[j]) {
+        return true
+      }
+    }
+  }
+  return false
+}
+
+
 function ELOData(decks) {
   let cards = new Map()
 
@@ -201,11 +202,19 @@ function ELOData(decks) {
           continue
         }
 
+        // Skip sideboard cards that just don't match the deck's colors. These shouldn't be
+        // penalized since they don't have any place in the deck.
+        if (!inDeckColor(c2, deck)) {
+          continue
+        }
+
         // How much c1 wins is based on various criteria. i.g., it's more meaningful
         // when a card wins vs. another card of the same type, color, and CMC.
         let winValue = 1
         if (c1.cmc != c2.cmc) {
-          winValue = winValue - .1
+          // More meaningful the closer the cards are in CMC, since they are more likely
+          // competing for the same slot in the deck.
+          winValue = winValue - .05*Math.abs(c1.cmc - c2.cmc)
         }
 
         // This treats colorless cards as matching, which is fair enough given what we're really
@@ -221,10 +230,15 @@ function ELOData(decks) {
           }
         }
         if (!colorMatch) {
-          winValue = winValue - .2
+          winValue = winValue - .1
         }
         if (c1.types.includes("Creature") && !c2.types.includes("Creature") || !c1.types.includes("Creature") && c2.types.includes("Creature")) {
           winValue = winValue - .1
+        }
+
+        // The mainboarded card should always win, so limit the winValue to .55
+        if (winValue < .55) {
+          winValue = .55
         }
 
 
