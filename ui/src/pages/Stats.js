@@ -804,18 +804,35 @@ function CardWidget(input) {
         <table className="winrate-table">
           <thead className="table-header">
             <tr>
-              <td className="header-cell">Mainboard rate</td>
+              <td onClick={input.onHeaderClick} id="mainboarded" className="header-cell">Mainboard rate</td>
               <td className="header-cell">Card</td>
-              <td className="header-cell"># Decks</td>
-              <td className="header-cell"># Games</td>
-              <td className="header-cell">ELO</td>
+              <td onClick={input.onHeaderClick} id="decks" className="header-cell"># Decks</td>
+              <td onClick={input.onHeaderClick} id="games" className="header-cell"># Games</td>
+              <td onClick={input.onHeaderClick} id="elo" className="header-cell">ELO</td>
             </tr>
           </thead>
           <tbody>
           {
             data.map(function(card) {
+              // Determine sort order.
+              let sort = card.mainboard_percent
+              switch (input.sortBy) {
+                case "mainboarded":
+                  sort = card.mainboard_percent
+                  break
+                case "games":
+                  sort = card.total_games
+                  break
+                case "decks":
+                  sort = card.mainboard
+                  break
+                case "elo":
+                  sort = card.elo
+                  break
+              }
+
               return (
-                <tr sort={card.mainboard_percent} className="card" key={card.name}>
+                <tr sort={sort} className="card" key={card.name}>
                   <td>{card.mainboard_percent}%</td>
                   <td className="card"><a href={card.url} target="_blank" rel="noopener noreferrer">{card.name}</a></td>
                   <td><ApplyTooltip text={card.mainboard} hidden={CardMainboardTooltipContent(card)}/></td>
@@ -836,23 +853,40 @@ function CardWidget(input) {
         <table className="winrate-table">
           <thead className="table-header">
             <tr>
-              <td className="header-cell">Sideboard rate</td>
+              <td onClick={input.onHeaderClick} id="sideboarded" className="header-cell">Sideboard rate</td>
               <td className="header-cell">Card</td>
-              <td className="header-cell">#sb / #picked</td>
-              <td className="header-cell"># in-color sb</td>
-              <td className="header-cell"># Games</td>
+              <td onClick={input.onHeaderClick} id="sideboarded" className="header-cell">#sb / #picked</td>
+              <td onClick={input.onHeaderClick} id="in-color-sb" className="header-cell"># in-color sb</td>
+              <td onClick={input.onHeaderClick} id="games" className="header-cell"># Games</td>
             </tr>
           </thead>
           <tbody>
           {
-            data.map(function(item) {
+            data.map(function(card) {
+              // Determine sort order.
+              let sort = card.sideboard_percent
+              switch (input.sortBy) {
+                case "sideboarded":
+                  sort = card.sideboard_percent
+                  break
+                case "games":
+                  sort = card.total_games
+                  break
+                case "in-color-sb":
+                  sort = card.inColorSideboard
+                  break
+                case "elo":
+                  sort = card.elo
+                  break
+              }
+
               return (
-                <tr sort={item.sideboard_percent} className="card" key={item.name}>
-                  <td>{item.sideboard_percent}%</td>
-                  <td className="card"><a href={item.url} target="_blank" rel="noopener noreferrer">{item.name}</a></td>
-                  <td>{item.sideboard} / {item.mainboard + item.sideboard}</td>
-                  <td>{item.inColorSideboard}</td>
-                  <td>{item.total_games}</td>
+                <tr sort={sort} className="card" key={card.name}>
+                  <td>{card.sideboard_percent}%</td>
+                  <td className="card"><a href={card.url} target="_blank" rel="noopener noreferrer">{card.name}</a></td>
+                  <td>{card.sideboard} / {card.mainboard + card.sideboard}</td>
+                  <td>{card.inColorSideboard}</td>
+                  <td>{card.total_games}</td>
                 </tr>
               )
             }).sort(SortFunc)
@@ -874,6 +908,7 @@ function CardWidget(input) {
               <td onClick={input.onHeaderClick} id="decks" className="header-cell"># Decks</td>
               <td onClick={input.onHeaderClick} id="games" className="header-cell"># Games</td>
               <td onClick={input.onHeaderClick} id="perf" className="header-cell">Performance</td>
+              <td onClick={input.onHeaderClick} id="elo" className="header-cell">ELO</td>
             </tr>
           </thead>
           <tbody>
@@ -916,6 +951,16 @@ function CardWidget(input) {
                 switch (input.sortBy) {
                   case "perf":
                     sort = relativePerf
+                    break;
+                  case "elo":
+                    sort = card.elo
+                    break;
+                  case "games":
+                    sort = card.total_games
+                    break
+                  case "decks":
+                    sort = card.mainboarded
+                    break
                 }
 
                 // Return the row.
@@ -926,6 +971,7 @@ function CardWidget(input) {
                     <td>{card.mainboard}</td>
                     <td><ApplyTooltip text={card.total_games} hidden={CardMainboardTooltipContent(card)}/></td>
                     <td>{relativePerf}</td>
+                    <td>{card.elo}</td>
                   </tr>
                 )
               }).sort(SortFunc)
