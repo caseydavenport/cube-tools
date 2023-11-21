@@ -30,6 +30,49 @@ ChartJS.register(
   Legend
 );
 
+// This is imperfect, but matches most removal spells.
+// Will need to keep this up to date with the cube as it evolves, or find
+// a more generic way.
+const removalMatches = [
+  "destroy target",
+  "destroy up to",
+  "destroy all creatures",
+
+  "exile target",
+  "exile another target",
+  "exile up to one target",
+
+  "target creature gets -",
+  "all creatures get -",
+  "black sun's zenith",
+
+  "put target creature",
+
+  "to any target",
+  "target creature or player",
+  "target creature or planeswalker",
+  "destroy target planeswalker",
+  "damage divided as you choose",
+
+  "fight",
+  "target player sacrifices",
+  "return target creature to its owner's hand",
+  "tap target",
+]
+
+const counterspellMatches = [
+  "counter target",
+  "return target spell",
+]
+
+const cardDrawMatches = [
+  "draw a card",
+]
+
+const lifegainMatches = [
+  "gain . life",
+  "lifelink",
+]
 
 export function DeckWidget(input) {
   if (!input.show) {
@@ -43,16 +86,35 @@ export function DeckWidget(input) {
           <WinsByManaCost decks={input.decks} />
         </td>
         <td style={{"vertical-align": "top"}}>
-          <WinsByCreatureDensity decks={input.decks} />
+          <WinsByCardType type="Creature" decks={input.decks} />
         </td>
       </tr>
 
       <tr style={{"height": "300px"}}>
         <td style={{"vertical-align": "top", "width": "50%"}}>
-          <WinsByNonBasicDensity decks={input.decks} />
+          <WinsByCardType type="Sorcery" decks={input.decks} />
         </td>
         <td style={{"vertical-align": "top"}}>
-          <WinsByOracleText decks={input.decks} />
+          <WinsByCardType type="Instant" decks={input.decks} />
+        </td>
+      </tr>
+
+      <tr style={{"height": "300px"}}>
+        <td style={{"vertical-align": "top", "width": "50%"}}>
+          <WinsByCardType type="Planeswalker" bucketSize={1} decks={input.decks} />
+        </td>
+        <td style={{"vertical-align": "top"}}>
+          <WinsByCardType type="Enchantment" decks={input.decks} />
+        </td>
+      </tr>
+
+      <tr style={{"height": "300px"}}>
+        <td style={{"vertical-align": "top"}}>
+          <WinsByCardType type="Land" decks={input.decks} />
+        </td>
+
+        <td style={{"vertical-align": "top", "width": "50%"}}>
+          <WinsByNonBasicDensity decks={input.decks} />
         </td>
       </tr>
 
@@ -62,6 +124,57 @@ export function DeckWidget(input) {
         </td>
         <td style={{"vertical-align": "top"}}>
           <DeckManaValueChart decks={input.decks} bucketSize={input.bucketSize} />
+        </td>
+      </tr>
+
+      <tr style={{"height": "300px"}}>
+        <td style={{"vertical-align": "top", "width": "50%"}}>
+          <WinsByOracleText
+            title="Wins by # counterspells"
+            decks={input.decks}
+            matches={counterspellMatches}
+          />
+        </td>
+        <td style={{"vertical-align": "top"}}>
+          <WinsByOracleText
+            title="Wins by # removal spells"
+            decks={input.decks}
+            matches={removalMatches}
+          />
+        </td>
+      </tr>
+
+      <tr style={{"height": "300px"}}>
+        <td style={{"vertical-align": "top", "width": "50%"}}>
+          <WinsByOracleText
+            title="Wins by # card draw spells"
+            decks={input.decks}
+            matches={cardDrawMatches}
+          />
+        </td>
+        <td style={{"vertical-align": "top"}}>
+          <WinsByOracleText
+            title="Wins by # lifegain spells"
+            decks={input.decks}
+            matches={lifegainMatches}
+          />
+        </td>
+      </tr>
+
+      <tr style={{"height": "300px"}}>
+        <td style={{"vertical-align": "top", "width": "50%"}}>
+          <WinsByOracleText
+            title="Wins by graveyard interaction"
+            decks={input.decks}
+            matches={["graveyard"]}
+          />
+        </td>
+        <td style={{"vertical-align": "top"}}>
+          <WinsByOracleText
+            title="Wins by # discard spells"
+            decks={input.decks}
+            matches={["discard"]}
+          />
         </td>
       </tr>
 
@@ -121,11 +234,21 @@ function WinsByManaCost(input) {
   for (let l of labels) {
     lossData.push(lossesByCMC.get(l))
   }
-
+  let percentages = []
+  for (let l of labels) {
+    percentages.push(Math.round(100 * winsByCMC.get(l) / (winsByCMC.get(l) + lossesByCMC.get(l))))
+  }
 
   const data = {
     labels,
     datasets: [
+      {
+        type: "line",
+        label: 'Win %',
+        data: percentages,
+        borderColor: "#F00",
+        backgroundColor: "#F00",
+      },
       {
         label: 'Wins',
         data: winsData,
@@ -146,17 +269,20 @@ function WinsByManaCost(input) {
   );
 }
 
-function WinsByCreatureDensity(input) {
+function WinsByCardType(input) {
   // Go through all the decks, and build up a map of wins by averge num
   // of the deck. We round num to create buckets.
   let wins = new Map()
   let losses = new Map()
   let bucketSize = 3
+  if (input.bucketSize != null) {
+    bucketSize = input.bucketSize
+  }
   for (let deck of input.decks) {
     // Count the number of creatures in this deck.
     let num = 0
     for (let card of deck.mainboard) {
-      if (card.types.includes("Creature")) {
+      if (card.types.includes(input.type)) {
         num += 1
       }
     }
@@ -181,7 +307,7 @@ function WinsByCreatureDensity(input) {
     plugins: {
       title: {
         display: true,
-        text: "Wins by # creatures",
+        text: "Wins by # " + input.type,
         color: "#FFF",
         font: {
           size: "16pt",
@@ -201,7 +327,11 @@ function WinsByCreatureDensity(input) {
   const sorted = [...wins.keys()].sort(function(a, b) {return a - b})
   var labels = []
   for (let start of sorted) {
-    labels.push(`${start}-${start+bucketSize}`)
+    if (bucketSize == 1) {
+      labels.push(`${start}`)
+    } else {
+      labels.push(`${start}-${start+bucketSize}`)
+    }
   }
   let winsData= []
   for (let l of sorted ) {
@@ -211,10 +341,21 @@ function WinsByCreatureDensity(input) {
   for (let l of sorted) {
     lossData.push(losses.get(l))
   }
+  let percentages = []
+  for (let l of sorted) {
+    percentages.push(Math.round(100 * wins.get(l) / (wins.get(l) + losses.get(l))))
+  }
 
   const data = {
     labels,
     datasets: [
+      {
+        type: "line",
+        label: 'Win %',
+        data: percentages,
+        borderColor: "#F00",
+        backgroundColor: "#F00",
+      },
       {
         label: 'Wins',
         data: winsData,
@@ -297,10 +438,21 @@ function WinsByNonBasicDensity(input) {
   for (let l of sorted) {
     lossData.push(losses.get(l))
   }
+  let percentages = []
+  for (let l of sorted) {
+    percentages.push(Math.round(100 * wins.get(l) / (wins.get(l) + losses.get(l))))
+  }
 
   const data = {
     labels,
     datasets: [
+      {
+        type: "line",
+        label: 'Win %',
+        data: percentages,
+        borderColor: "#F00",
+        backgroundColor: "#F00",
+      },
       {
         label: 'Wins',
         data: winsData,
@@ -323,44 +475,14 @@ function WinsByNonBasicDensity(input) {
 }
 
 function WinsByOracleText(input) {
-  // This is imperfect, but matches most removal spells.
-  // Will need to keep this up to date with the cube as it evolves, or find
-  // a more generic way.
-  let matches = [
-    "destroy target",
-    "destroy up to",
-    "destroy all creatures",
-
-    "exile target",
-    "exile another target",
-    "exile up to one target",
-
-    "target creature gets -",
-    "all creatures get -",
-    "black sun's zenith",
-
-    "put target creature",
-
-    "to any target",
-    "target creature or player",
-    "target creature or planeswalker",
-    "destroy target planeswalker",
-    "damage divided as you choose",
-
-    "fight",
-    "target player sacrifices",
-    "return target creature to its owner's hand",
-    "tap target",
-  ]
-
   let bucketSize = 3
   let wins = new Map()
   let losses = new Map()
   for (let deck of input.decks) {
     let num = 0
     for (let card of deck.mainboard) {
-      for (let match of matches) {
-        if (card.oracle_text.toLowerCase().includes(match)){
+      for (let match of input.matches) {
+        if (card.oracle_text.toLowerCase().match(match)){
           num += 1
           break
         }
@@ -386,7 +508,7 @@ function WinsByOracleText(input) {
     plugins: {
       title: {
         display: true,
-        text: "Wins by # removal spells",
+        text: input.title,
         color: "#FFF",
         font: {
           size: "16pt",
@@ -416,10 +538,21 @@ function WinsByOracleText(input) {
   for (let l of sorted) {
     lossData.push(losses.get(l))
   }
+  let percentages = []
+  for (let l of sorted) {
+    percentages.push(Math.round(100 * wins.get(l) / (wins.get(l) + losses.get(l))))
+  }
 
   const data = {
     labels,
     datasets: [
+      {
+        type: "line",
+        label: 'Win %',
+        data: percentages,
+        borderColor: "#F00",
+        backgroundColor: "#F00",
+      },
       {
         label: 'Wins',
         data: winsData,
@@ -491,21 +624,33 @@ function WinsByNumberOfColors(input) {
   for (let l of labels) {
     lossData.push(losses.get(l))
   }
+  let percentages = []
+  for (let l of labels) {
+    percentages.push(Math.round(100 * wins.get(l) / (wins.get(l) + losses.get(l))))
+  }
 
   const data = {
     labels,
     datasets: [
       {
+        type: "line",
+        label: 'Win %',
+        data: percentages,
+        borderColor: "#F00",
+        backgroundColor: "#F00",
+      },
+      {
+        type: "bar",
         label: 'Wins',
         data: winsData,
         backgroundColor: 'rgba(255, 99, 132, 0.5)',
       },
       {
+        type: "bar",
         label: 'Losses',
         data: lossData,
         backgroundColor: '#Fa7',
       },
-
     ],
   };
 
