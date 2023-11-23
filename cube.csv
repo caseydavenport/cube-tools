@@ -59,6 +59,7 @@ Count,Name,Section
 1,Cunning Sparkmage,main
 1,Curator of Mysteries,main
 1,Cut Down,main
+1,Dark Confidant,main
 1,Dark Ritual,main
 1,Dauntless Bodyguard,main
 1,Day of Judgment,main
@@ -70,7 +71,7 @@ Count,Name,Section
 1,Dockside Chef,main
 1,"Domri, Anarch of Bolas",main
 1,Domri's Ambush,main
-1,Doomgape,main
+1,Dragon's Rage Channeler,main
 1,Dreadhorde Arcanist,main
 1,Dreadhorde Butcher,main
 1,Dress Down,main
@@ -91,6 +92,7 @@ Count,Name,Section
 1,Faerie Vandal,main
 1,Faithless Looting,main
 1,Fall of the Thran,main
+1,Farsight Ritual,main
 1,Fate Transfer,main
 1,Fatestitcher,main
 1,Fecundity,main
@@ -98,13 +100,13 @@ Count,Name,Section
 1,Festering Mummy,main
 1,Fetid Pools,main
 1,Field of Ruin,main
+1,Fiery Islet,main
 1,Flame Jab,main
 1,Flame Slash,main
 1,Flames of the Firebrand,main
 1,Flickerwisp,main
 1,Flooded Strand,main
 1,Flux Channeler,main
-1,Frostboil Snarl,main
 1,Fungal Infection,main
 1,Galepowder Mage,main
 1,Ghostly Flicker,main
@@ -134,15 +136,14 @@ Count,Name,Section
 1,Harrow,main
 1,Hedron Crab,main
 1,Hellion Eruption,main
-1,Hellkite Charger,main
 1,Hinterland Harbor,main
+1,Horizon Canopy,main
 1,Hostage Taker,main
 1,Hunting Triad,main
 1,Ignoble Hierarch,main
 1,Incinerate,main
 1,Inexorable Blob,main
 1,Infernal Grasp,main
-1,Inspiring Cleric,main
 1,Intangible Virtue,main
 1,Into the Roil,main
 1,Intrepid Trufflesnout // Go Hog Wild,main
@@ -189,6 +190,7 @@ Count,Name,Section
 1,Mayhem Devil,main
 1,Maze of Ith,main
 1,Meadowboon,main
+1,Memory Lapse,main
 1,Mental Note,main
 1,Merfolk Looter,main
 1,Merfolk Skydiver,main
@@ -207,9 +209,9 @@ Count,Name,Section
 1,Mulldrifter,main
 1,"Multani, Yavimaya's Avatar",main
 1,Murderous Redcap,main
-1,Narrow Escape,main
 1,Negate,main
 1,Nobilis of War,main
+1,Nurturing Peatland,main
 1,Oathsworn Vampire,main
 1,Oblivion Ring,main
 1,Ogre-Head Helm,main
@@ -219,13 +221,13 @@ Count,Name,Section
 1,Orcish Lumberjack,main
 1,Oust,main
 1,Overgrown Tomb,main
-1,Overrun,main
 1,Paladin of the Bloodstained,main
 1,Panharmonicon,main
 1,Parallel Lives,main
 1,Perilous Myr,main
 1,Persist,main
 1,Pharika's Spawn,main
+1,Phoenix Chick,main
 1,Pitiless Pontiff,main
 1,Pollenbright Druid,main
 1,Polluted Delta,main
@@ -253,13 +255,13 @@ Count,Name,Section
 1,Reckless Rage,main
 1,Reclamation Sage,main
 1,Reinforced Ronin,main
+1,Remand,main
 1,Reprieve,main
 1,Restless Fortress,main
 1,Restless Vinestalk,main
 1,Reveillark,main
 1,"Rielle, the Everwise",main
 1,Rigging Runner,main
-1,Rise from the Grave,main
 1,Rite of Replication,main
 1,River Kelpie,main
 1,Roaring Earth,main
@@ -284,7 +286,6 @@ Count,Name,Section
 1,Shinewend,main
 1,Siege-Gang Commander,main
 1,Silver Myr,main
-1,Siren Stormtamer,main
 1,Skarrgan Hellkite,main
 1,Sleep of the Dead,main
 1,Soul Warden,main
@@ -296,12 +297,12 @@ Count,Name,Section
 1,Spirited Companion,main
 1,Sprout Swarm,main
 1,Steam Vents,main
-1,Stinging Lionfish,main
 1,Stitch Together,main
 1,Stitcher's Supplier,main
 1,Stomping Ground,main
 1,Sulfur Falls,main
 1,Sulfurous Springs,main
+1,Sunbaked Canyon,main
 1,Sunken Ruins,main
 1,Tail Swipe,main
 1,"Takenuma, Abandoned Mire",main
@@ -326,8 +327,8 @@ Count,Name,Section
 1,Twinshot Sniper,main
 1,Ulcerate,main
 1,Umbral Mantle,main
-1,Uncharted Haven,main
 1,Unearth,main
+1,Unholy Heat,main
 1,Unmake,main
 1,Unsummon,main
 1,Untamed Kavu,main
@@ -341,7 +342,6 @@ Count,Name,Section
 1,Virtue of Persistence // Locthwain Scorn,main
 1,Viscera Seer,main
 1,"Vivien, Champion of the Wilds",main
-1,Warcry Phoenix,main
 1,Watery Grave,main
 1,Welcoming Vampire,main
 1,Werefox Bodyguard,main
