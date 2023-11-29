@@ -553,9 +553,6 @@ function MicroArchetypesChart(input) {
     for (let draft of bucket) {
       for (let deck of draft.decks) {
         for (let a of deck.labels) {
-          if (a === "lands") {
-            console.log(bucket[0].name)
-          }
           archSet.set(a, true)
         }
       }

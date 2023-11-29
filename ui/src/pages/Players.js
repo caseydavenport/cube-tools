@@ -253,7 +253,6 @@ function PlayerDetailsPanel(input) {
       a.set("wins", archData.get(name).wins)
       a.set("losses", archData.get(name).losses)
       a.set("count", archData.get(name).count)
-      console.log(archData)
     }
   }
 
@@ -282,7 +281,7 @@ function PlayerDetailsPanel(input) {
           <tr>
             <td id="name" className="header-cell">Opponent (min {minGames} games)</td>
             <td id="num" className="header-cell">Win %</td>
-            <td id="num" className="header-cell">Games</td>
+            <td id="games" className="header-cell">Games</td>
           </tr>
         </thead>
         <tbody>
@@ -309,10 +308,10 @@ function PlayerDetailsPanel(input) {
         <thead className="table-header">
           <tr>
             <td onClick={input.onHeaderClick} id="name" className="header-cell">Arch</td>
-            <td onClick={input.onHeaderClick} id="num" className="header-cell">Build %</td>
-            <td onClick={input.onHeaderClick} id="num" className="header-cell">Win %</td>
-            <td onClick={input.onHeaderClick} id="num" className="header-cell">Wins</td>
-            <td onClick={input.onHeaderClick} id="num" className="header-cell">Losses</td>
+            <td onClick={input.onHeaderClick} id="build" className="header-cell">Build %</td>
+            <td onClick={input.onHeaderClick} id="win_pct" className="header-cell">Win %</td>
+            <td onClick={input.onHeaderClick} id="wins" className="header-cell">Wins</td>
+            <td onClick={input.onHeaderClick} id="losses" className="header-cell">Losses</td>
           </tr>
         </thead>
         <tbody>
@@ -331,10 +330,10 @@ function PlayerDetailsPanel(input) {
               return (
                 <tr key={name} sort={bld_pct} className="winrate-row">
                   <td key="name">{name}</td>
-                  <td key="num">{bld_pct}%</td>
-                  <td key="num">{win_pct}%</td>
-                  <td key="num">{wins}</td>
-                  <td key="num">{loss}</td>
+                  <td key="bld_pct">{bld_pct}%</td>
+                  <td key="win_pct">{win_pct}%</td>
+                  <td key="wins">{wins}</td>
+                  <td key="losses">{loss}</td>
                 </tr>
               )
             }).sort(SortFunc)
@@ -346,10 +345,10 @@ function PlayerDetailsPanel(input) {
         <thead className="table-header">
           <tr>
             <td onClick={input.onHeaderClick} id="name" className="header-cell">Color</td>
-            <td onClick={input.onHeaderClick} id="num" className="header-cell">Build %</td>
-            <td onClick={input.onHeaderClick} id="num" className="header-cell">Win %</td>
-            <td onClick={input.onHeaderClick} id="num" className="header-cell">Wins</td>
-            <td onClick={input.onHeaderClick} id="num" className="header-cell">Losses</td>
+            <td onClick={input.onHeaderClick} id="build_pct" className="header-cell">Build %</td>
+            <td onClick={input.onHeaderClick} id="win_pct" className="header-cell">Win %</td>
+            <td onClick={input.onHeaderClick} id="wins" className="header-cell">Wins</td>
+            <td onClick={input.onHeaderClick} id="losses" className="header-cell">Losses</td>
           </tr>
         </thead>
         <tbody>
@@ -368,10 +367,10 @@ function PlayerDetailsPanel(input) {
               return (
                 <tr key={name} sort={bld_pct} className="winrate-row">
                   <td key="name">{name}</td>
-                  <td key="num">{bld_pct}%</td>
-                  <td key="num">{win_pct}%</td>
-                  <td key="num">{wins}</td>
-                  <td key="num">{loss}</td>
+                  <td key="bld_pct">{bld_pct}%</td>
+                  <td key="win_pct">{win_pct}%</td>
+                  <td key="wins">{wins}</td>
+                  <td key="losses">{loss}</td>
                 </tr>
               )
             }).sort(SortFunc)
