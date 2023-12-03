@@ -10,7 +10,7 @@
    "colors": [
     "R"
    ],
-   "url": "https://scryfall.com/card/cmm/203/abrade?utm_source=api",
+   "url": "https://scryfall.com/card/lci/131/abrade?utm_source=api",
    "oracle_text": "Choose one —\n• Abrade deals 3 damage to target creature.\n• Destroy target artifact."
   },
   {
@@ -244,7 +244,7 @@
    "colors": [
     "G"
    ],
-   "url": "https://scryfall.com/card/dmc/129/beast-within?utm_source=api",
+   "url": "https://scryfall.com/card/lcc/233/beast-within?utm_source=api",
    "oracle_text": "Destroy target permanent. Its controller creates a 3/3 green Beast creature token."
   },
   {
@@ -271,7 +271,7 @@
    "cmc": 1,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/c17/204/blade-of-the-bloodchief?utm_source=api",
+   "url": "https://scryfall.com/card/lcc/300/blade-of-the-bloodchief?utm_source=api",
    "oracle_text": "Whenever a creature dies, put a +1/+1 counter on equipped creature. If equipped creature is a Vampire, put two +1/+1 counters on it instead.\nEquip {1}"
   },
   {
@@ -320,7 +320,7 @@
    "colors": [
     "B"
    ],
-   "url": "https://scryfall.com/card/ima/82/bloodghast?utm_source=api",
+   "url": "https://scryfall.com/card/lcc/184/bloodghast?utm_source=api",
    "oracle_text": "Bloodghast can't block.\nBloodghast has haste as long as an opponent has 10 or less life.\nLandfall — Whenever a land enters the battlefield under your control, you may return Bloodghast from your graveyard to the battlefield."
   },
   {
@@ -364,19 +364,6 @@
    ],
    "url": "https://scryfall.com/card/war/79/bolass-citadel?utm_source=api",
    "oracle_text": "You may look at the top card of your library any time.\nYou may play lands and cast spells from the top of your library. If you cast a spell this way, pay life equal to its mana value rather than pay its mana cost.\n{T}, Sacrifice ten nonland permanents: Each opponent loses 10 life."
-  },
-  {
-   "name": "Bond of Insight",
-   "types": [
-    "Sorcery"
-   ],
-   "cmc": 4,
-   "image": "",
-   "colors": [
-    "U"
-   ],
-   "url": "https://scryfall.com/card/war/43/bond-of-insight?utm_source=api",
-   "oracle_text": "Each player mills four cards. Return up to two instant and/or sorcery cards from your graveyard to your hand. Exile Bond of Insight."
   },
   {
    "name": "Bone Shards",
@@ -476,6 +463,19 @@
    "oracle_text": "Kicker {4} (You may pay an additional {4} as you cast this spell.)\nBurst Lightning deals 2 damage to any target. If this spell was kicked, it deals 4 damage instead."
   },
   {
+   "name": "Call of the Herd",
+   "types": [
+    "Sorcery"
+   ],
+   "cmc": 3,
+   "image": "",
+   "colors": [
+    "G"
+   ],
+   "url": "https://scryfall.com/card/dds/44/call-of-the-herd?utm_source=api",
+   "oracle_text": "Create a 3/3 green Elephant creature token.\nFlashback {3}{G} (You may cast this card from your graveyard for its flashback cost. Then exile it.)"
+  },
+  {
    "name": "Cankerbloom",
    "types": [
     "Creature"
@@ -504,7 +504,7 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/cmm/989/canopy-vista?utm_source=api",
+   "url": "https://scryfall.com/card/lcc/321/canopy-vista?utm_source=api",
    "oracle_text": "({T}: Add {G} or {W}.)\nCanopy Vista enters the battlefield tapped unless you control two or more basic lands."
   },
   {
@@ -534,6 +534,22 @@
    ],
    "url": "https://scryfall.com/card/ody/70/careful-study?utm_source=api",
    "oracle_text": "Draw two cards, then discard two cards."
+  },
+  {
+   "name": "Carrion Feeder",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Zombie"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [
+    "B"
+   ],
+   "url": "https://scryfall.com/card/mh1/81/carrion-feeder?utm_source=api",
+   "oracle_text": "Carrion Feeder can't block.\nSacrifice a creature: Put a +1/+1 counter on Carrion Feeder."
   },
   {
    "name": "Cauldron of Souls",
@@ -602,7 +618,7 @@
    "colors": [
     "U"
    ],
-   "url": "https://scryfall.com/card/jmp/142/chart-a-course?utm_source=api",
+   "url": "https://scryfall.com/card/lci/48/chart-a-course?utm_source=api",
    "oracle_text": "Draw two cards. Then discard a card unless you attacked this turn."
   },
   {
@@ -671,7 +687,7 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/dom/239/clifftop-retreat?utm_source=api",
+   "url": "https://scryfall.com/card/lcc/324/clifftop-retreat?utm_source=api",
    "oracle_text": "Clifftop Retreat enters the battlefield tapped unless you control a Mountain or a Plains.\n{T}: Add {R} or {W}."
   },
   {
@@ -801,7 +817,7 @@
     "B",
     "W"
    ],
-   "url": "https://scryfall.com/card/war/188/cruel-celebrant?utm_source=api",
+   "url": "https://scryfall.com/card/lcc/267/cruel-celebrant?utm_source=api",
    "oracle_text": "Whenever Cruel Celebrant or another creature or planeswalker you control dies, each opponent loses 1 life and you gain 1 life."
   },
   {
@@ -820,23 +836,6 @@
    ],
    "url": "https://scryfall.com/card/ala/69/cunning-lethemancer?utm_source=api",
    "oracle_text": "At the beginning of your upkeep, each player discards a card."
-  },
-  {
-   "name": "Cunning Sparkmage",
-   "types": [
-    "Creature"
-   ],
-   "sub_types": [
-    "Human",
-    "Shaman"
-   ],
-   "cmc": 3,
-   "image": "",
-   "colors": [
-    "R"
-   ],
-   "url": "https://scryfall.com/card/wwk/79/cunning-sparkmage?utm_source=api",
-   "oracle_text": "Haste\n{T}: Cunning Sparkmage deals 1 damage to any target."
   },
   {
    "name": "Curator of Mysteries",
@@ -1001,24 +1000,6 @@
    ],
    "url": "https://scryfall.com/card/bro/91/disfigure?utm_source=api",
    "oracle_text": "Target creature gets -2/-2 until end of turn."
-  },
-  {
-   "name": "Dockside Chef",
-   "types": [
-    "Enchantment",
-    "Creature"
-   ],
-   "sub_types": [
-    "Human",
-    "Citizen"
-   ],
-   "cmc": 1,
-   "image": "",
-   "colors": [
-    "B"
-   ],
-   "url": "https://scryfall.com/card/neo/93/dockside-chef?utm_source=api",
-   "oracle_text": "{1}{B}, Sacrifice an artifact or creature: Draw a card."
   },
   {
    "name": "Domri, Anarch of Bolas",
@@ -1252,7 +1233,7 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/woe/256/evolving-wilds?utm_source=api",
+   "url": "https://scryfall.com/card/lcc/328/evolving-wilds?utm_source=api",
    "oracle_text": "{T}, Sacrifice Evolving Wilds: Search your library for a basic land card, put it onto the battlefield tapped, then shuffle."
   },
   {
@@ -1282,7 +1263,7 @@
    "colors": [
     "G"
    ],
-   "url": "https://scryfall.com/card/dmc/131/explore?utm_source=api",
+   "url": "https://scryfall.com/card/lcc/241/explore?utm_source=api",
    "oracle_text": "You may play an additional land this turn.\nDraw a card."
   },
   {
@@ -1342,7 +1323,7 @@
    "colors": [
     "R"
    ],
-   "url": "https://scryfall.com/card/cmm/220/faithless-looting?utm_source=api",
+   "url": "https://scryfall.com/card/lcc/225/faithless-looting?utm_source=api",
    "oracle_text": "Draw two cards, then discard two cards.\nFlashback {2}{R} (You may cast this card from your graveyard for its flashback cost. Then exile it.)"
   },
   {
@@ -1404,6 +1385,22 @@
    ],
    "url": "https://scryfall.com/card/ala/43/fatestitcher?utm_source=api",
    "oracle_text": "{T}: You may tap or untap another target permanent.\nUnearth {U} ({U}: Return this card from your graveyard to the battlefield. It gains haste. Exile it at the beginning of the next end step or if it would leave the battlefield. Unearth only as a sorcery.)"
+  },
+  {
+   "name": "Fearless Fledgling",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Griffin"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "W"
+   ],
+   "url": "https://scryfall.com/card/znr/15/fearless-fledgling?utm_source=api",
+   "oracle_text": "Landfall — Whenever a land enters the battlefield under your control, put a +1/+1 counter on Fearless Fledgling. It gains flying until end of turn."
   },
   {
    "name": "Fecundity",
@@ -1948,7 +1945,7 @@
    "colors": [
     "G"
    ],
-   "url": "https://scryfall.com/card/2x2/151/hardened-scales?utm_source=api",
+   "url": "https://scryfall.com/card/lcc/243/hardened-scales?utm_source=api",
    "oracle_text": "If one or more +1/+1 counters would be put on a creature you control, that many plus one +1/+1 counters are put on it instead."
   },
   {
@@ -2014,7 +2011,7 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/dom/240/hinterland-harbor?utm_source=api",
+   "url": "https://scryfall.com/card/lcc/336/hinterland-harbor?utm_source=api",
    "oracle_text": "Hinterland Harbor enters the battlefield tapped unless you control a Forest or an Island.\n{T}: Add {G} or {U}."
   },
   {
@@ -2043,7 +2040,7 @@
     "B",
     "U"
    ],
-   "url": "https://scryfall.com/card/2x2/227/hostage-taker?utm_source=api",
+   "url": "https://scryfall.com/card/lcc/271/hostage-taker?utm_source=api",
    "oracle_text": "When Hostage Taker enters the battlefield, exile another target creature or artifact until Hostage Taker leaves the battlefield. You may cast that card for as long as it remains exiled, and mana of any type can be spent to cast it."
   },
   {
@@ -2136,6 +2133,24 @@
    "oracle_text": "Creature tokens you control get +1/+1 and have vigilance."
   },
   {
+   "name": "Inti, Seneschal of the Sun",
+   "types": [
+    "Legendary",
+    "Creature"
+   ],
+   "sub_types": [
+    "Human",
+    "Knight"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "R"
+   ],
+   "url": "https://scryfall.com/card/lci/156/inti-seneschal-of-the-sun?utm_source=api",
+   "oracle_text": "Whenever you attack, you may discard a card. When you do, put a +1/+1 counter on target attacking creature. It gains trample until end of turn.\nWhenever you discard one or more cards, exile the top card of your library. You may play that card until your next end step."
+  },
+  {
    "name": "Into the Roil",
    "types": [
     "Instant"
@@ -2204,7 +2219,7 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/dom/241/isolated-chapel?utm_source=api",
+   "url": "https://scryfall.com/card/lcc/337/isolated-chapel?utm_source=api",
    "oracle_text": "Isolated Chapel enters the battlefield tapped unless you control a Plains or a Swamp.\n{T}: Add {W} or {B}."
   },
   {
@@ -2452,6 +2467,19 @@
    ],
    "url": "https://scryfall.com/card/jmp/246/languish?utm_source=api",
    "oracle_text": "All creatures get -4/-4 until end of turn."
+  },
+  {
+   "name": "Lava Dart",
+   "types": [
+    "Instant"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [
+    "R"
+   ],
+   "url": "https://scryfall.com/card/mh1/134/lava-dart?utm_source=api",
+   "oracle_text": "Lava Dart deals 1 damage to any target.\nFlashback—Sacrifice a Mountain. (You may cast this card from your graveyard for its flashback cost. Then exile it.)"
   },
   {
    "name": "Leaden Myr",
@@ -2782,7 +2810,7 @@
    "colors": [
     "W"
    ],
-   "url": "https://scryfall.com/card/xln/24/mavren-fein-dusk-apostle?utm_source=api",
+   "url": "https://scryfall.com/card/lcc/133/mavren-fein-dusk-apostle?utm_source=api",
    "oracle_text": "Whenever one or more nontoken Vampires you control attack, create a 1/1 white Vampire creature token with lifelink."
   },
   {
@@ -2887,7 +2915,7 @@
     "G",
     "U"
    ],
-   "url": "https://scryfall.com/card/war/205/merfolk-skydiver?utm_source=api",
+   "url": "https://scryfall.com/card/lcc/277/merfolk-skydiver?utm_source=api",
    "oracle_text": "Flying\nWhen Merfolk Skydiver enters the battlefield, put a +1/+1 counter on target creature you control.\n{3}{G}{U}: Proliferate. (Choose any number of permanents and/or players, then give each another counter of each kind already there.)"
   },
   {
@@ -2958,24 +2986,6 @@
    ],
    "url": "https://scryfall.com/card/shm/14/mistmeadow-skulk?utm_source=api",
    "oracle_text": "Lifelink, protection from mana value 3 or greater"
-  },
-  {
-   "name": "Mistmeadow Witch",
-   "types": [
-    "Creature"
-   ],
-   "sub_types": [
-    "Kithkin",
-    "Wizard"
-   ],
-   "cmc": 2,
-   "image": "",
-   "colors": [
-    "U",
-    "W"
-   ],
-   "url": "https://scryfall.com/card/2x2/256/mistmeadow-witch?utm_source=api",
-   "oracle_text": "{2}{W}{U}: Exile target creature. Return that card to the battlefield under its owner's control at the beginning of the next end step."
   },
   {
    "name": "Misty Rainforest",
@@ -3200,7 +3210,7 @@
    "colors": [
     "B"
    ],
-   "url": "https://scryfall.com/card/rix/80/oathsworn-vampire?utm_source=api",
+   "url": "https://scryfall.com/card/lcc/204/oathsworn-vampire?utm_source=api",
    "oracle_text": "Oathsworn Vampire enters the battlefield tapped.\nYou may cast Oathsworn Vampire from your graveyard if you gained life this turn."
   },
   {
@@ -3630,20 +3640,6 @@
    "oracle_text": "The next sorcery spell you cast this turn can be cast as though it had flash. (It can be cast any time you could cast an instant.)\nDraw a card."
   },
   {
-   "name": "Quietus Spike",
-   "types": [
-    "Artifact"
-   ],
-   "sub_types": [
-    "Equipment"
-   ],
-   "cmc": 3,
-   "image": "",
-   "colors": [],
-   "url": "https://scryfall.com/card/ncc/377/quietus-spike?utm_source=api",
-   "oracle_text": "Equipped creature has deathtouch.\nWhenever equipped creature deals combat damage to a player, that player loses half their life, rounded up.\nEquip {3}"
-  },
-  {
    "name": "Quillspike",
    "types": [
     "Creature"
@@ -3726,22 +3722,6 @@
    "oracle_text": "Whenever you cast or copy an instant or sorcery spell, Ral, Storm Conduit deals 1 damage to target opponent or planeswalker.\n+2: Scry 1.\n−2: When you cast your next instant or sorcery spell this turn, copy that spell. You may choose new targets for the copy."
   },
   {
-   "name": "Rampaging Baloths",
-   "types": [
-    "Creature"
-   ],
-   "sub_types": [
-    "Beast"
-   ],
-   "cmc": 6,
-   "image": "",
-   "colors": [
-    "G"
-   ],
-   "url": "https://scryfall.com/card/c21/203/rampaging-baloths?utm_source=api",
-   "oracle_text": "Trample\nLandfall — Whenever a land enters the battlefield under your control, you may create a 4/4 green Beast creature token."
-  },
-  {
    "name": "Raven's Crime",
    "types": [
     "Sorcery"
@@ -3770,6 +3750,19 @@
    ],
    "url": "https://scryfall.com/card/mh2/211/ravenous-squirrel?utm_source=api",
    "oracle_text": "Whenever you sacrifice an artifact or creature, put a +1/+1 counter on Ravenous Squirrel.\n{1}{B}{G}, Sacrifice an artifact or creature: You gain 1 life and draw a card."
+  },
+  {
+   "name": "Read the Bones",
+   "types": [
+    "Sorcery"
+   ],
+   "cmc": 3,
+   "image": "",
+   "colors": [
+    "B"
+   ],
+   "url": "https://scryfall.com/card/cmm/182/read-the-bones?utm_source=api",
+   "oracle_text": "Scry 2, then draw two cards. You lose 2 life."
   },
   {
    "name": "Reckless Rage",
@@ -4051,7 +4044,7 @@
    "colors": [
     "B"
    ],
-   "url": "https://scryfall.com/card/voc/136/sanctum-seeker?utm_source=api",
+   "url": "https://scryfall.com/card/lcc/209/sanctum-seeker?utm_source=api",
    "oracle_text": "Whenever a Vampire you control attacks, each opponent loses 1 life and you gain 1 life."
   },
   {
@@ -4309,6 +4302,23 @@
    "oracle_text": "Tap target creature. It doesn't untap during its controller's next untap step.\nEscape—{2}{U}, Exile three other cards from your graveyard. (You may cast this card from your graveyard for its escape cost.)"
   },
   {
+   "name": "Snapcaster Mage",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Human",
+    "Wizard"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "U"
+   ],
+   "url": "https://scryfall.com/card/uma/71/snapcaster-mage?utm_source=api",
+   "oracle_text": "Flash\nWhen Snapcaster Mage enters the battlefield, target instant or sorcery card in your graveyard gains flashback until end of turn. The flashback cost is equal to its mana cost. (You may cast that card from your graveyard for its flashback cost. Then exile it.)"
+  },
+  {
    "name": "Soul Warden",
    "types": [
     "Creature"
@@ -4496,7 +4506,7 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/dom/247/sulfur-falls?utm_source=api",
+   "url": "https://scryfall.com/card/lcc/354/sulfur-falls?utm_source=api",
    "oracle_text": "Sulfur Falls enters the battlefield tapped unless you control an Island or a Mountain.\n{T}: Add {U} or {R}."
   },
   {
@@ -4590,6 +4600,22 @@
    ],
    "url": "https://scryfall.com/card/woe/113/tangled-colony?utm_source=api",
    "oracle_text": "Tangled Colony can't block.\nWhen Tangled Colony dies, create X 1/1 black Rat creature tokens with \"This creature can't block,\" where X is the amount of damage dealt to it this turn."
+  },
+  {
+   "name": "Tarmogoyf",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Lhurgoyf"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "G"
+   ],
+   "url": "https://scryfall.com/card/tsr/235/tarmogoyf?utm_source=api",
+   "oracle_text": "Tarmogoyf's power is equal to the number of card types among cards in all graveyards and its toughness is equal to that number plus 1."
   },
   {
    "name": "Temple Garden",
@@ -4745,23 +4771,6 @@
    ],
    "url": "https://scryfall.com/card/jmp/366/tibalts-rager?utm_source=api",
    "oracle_text": "When Tibalt's Rager dies, it deals 1 damage to any target.\n{1}{R}: Tibalt's Rager gets +2/+0 until end of turn."
-  },
-  {
-   "name": "Tilling Treefolk",
-   "types": [
-    "Creature"
-   ],
-   "sub_types": [
-    "Treefolk",
-    "Druid"
-   ],
-   "cmc": 3,
-   "image": "",
-   "colors": [
-    "G"
-   ],
-   "url": "https://scryfall.com/card/eve/78/tilling-treefolk?utm_source=api",
-   "oracle_text": "When Tilling Treefolk enters the battlefield, you may return up to two target land cards from your graveyard to your hand."
   },
   {
    "name": "Titania, Protector of Argoth",
@@ -5084,7 +5093,7 @@
    "colors": [
     "B"
    ],
-   "url": "https://scryfall.com/card/cmr/158/viscera-seer?utm_source=api",
+   "url": "https://scryfall.com/card/lcc/213/viscera-seer?utm_source=api",
    "oracle_text": "Sacrifice a creature: Scry 1. (Look at the top card of your library. You may put that card on the bottom of your library.)"
   },
   {
@@ -5132,7 +5141,7 @@
    "colors": [
     "W"
    ],
-   "url": "https://scryfall.com/card/vow/46/welcoming-vampire?utm_source=api",
+   "url": "https://scryfall.com/card/lcc/140/welcoming-vampire?utm_source=api",
    "oracle_text": "Flying\nWhenever one or more other creatures with power 2 or less enter the battlefield under your control, draw a card. This ability triggers only once each turn."
   },
   {
@@ -5251,23 +5260,6 @@
    "colors": [],
    "url": "https://scryfall.com/card/ktk/249/wooded-foothills?utm_source=api",
    "oracle_text": "{T}, Pay 1 life, Sacrifice Wooded Foothills: Search your library for a Mountain or Forest card, put it onto the battlefield, then shuffle."
-  },
-  {
-   "name": "Woodfall Primus",
-   "types": [
-    "Creature"
-   ],
-   "sub_types": [
-    "Treefolk",
-    "Shaman"
-   ],
-   "cmc": 8,
-   "image": "",
-   "colors": [
-    "G"
-   ],
-   "url": "https://scryfall.com/card/ncc/322/woodfall-primus?utm_source=api",
-   "oracle_text": "Trample\nWhen Woodfall Primus enters the battlefield, destroy target noncreature permanent.\nPersist (When this creature dies, if it had no -1/-1 counters on it, return it to the battlefield under its owner's control with a -1/-1 counter on it.)"
   },
   {
    "name": "Woodland Cemetery",

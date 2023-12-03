@@ -24,7 +24,6 @@ Count,Name,Section
 1,Bloodsoaked Champion,main
 1,Bloodstained Mire,main
 1,Bolas's Citadel,main
-1,Bond of Insight,main
 1,Bone Shards,main
 1,Bonesplitter,main
 1,"Boseiju, Who Endures",main
@@ -32,10 +31,12 @@ Count,Name,Section
 1,Breeding Pool,main
 1,Brineborn Cutthroat,main
 1,Burst Lightning,main
+1,Call of the Herd,main
 1,Cankerbloom,main
 1,Canopy Vista,main
 1,Canyon Slough,main
 1,Careful Study,main
+1,Carrion Feeder,main
 1,Cauldron of Souls,main
 1,Censor,main
 1,Chainweb Aracnir,main
@@ -56,7 +57,6 @@ Count,Name,Section
 1,Crop Rotation,main
 1,Cruel Celebrant,main
 1,Cunning Lethemancer,main
-1,Cunning Sparkmage,main
 1,Curator of Mysteries,main
 1,Cut Down,main
 1,Dark Confidant,main
@@ -68,7 +68,6 @@ Count,Name,Section
 1,Devoted Druid,main
 1,"Dina, Soul Steeper",main
 1,Disfigure,main
-1,Dockside Chef,main
 1,"Domri, Anarch of Bolas",main
 1,Domri's Ambush,main
 1,Dragon's Rage Channeler,main
@@ -95,6 +94,7 @@ Count,Name,Section
 1,Farsight Ritual,main
 1,Fate Transfer,main
 1,Fatestitcher,main
+1,Fearless Fledgling,main
 1,Fecundity,main
 1,Feed the Cauldron,main
 1,Festering Mummy,main
@@ -145,6 +145,7 @@ Count,Name,Section
 1,Inexorable Blob,main
 1,Infernal Grasp,main
 1,Intangible Virtue,main
+1,"Inti, Seneschal of the Sun",main
 1,Into the Roil,main
 1,Intrepid Trufflesnout // Go Hog Wild,main
 1,Iron Myr,main
@@ -165,6 +166,7 @@ Count,Name,Section
 1,Kraul Harpooner,main
 1,"Krenko, Tin Street Kingpin",main
 1,Languish,main
+1,Lava Dart,main
 1,Leaden Myr,main
 1,"Legion's Landing // Adanto, the First Fort",main
 1,Life from the Loam,main
@@ -198,7 +200,6 @@ Count,Name,Section
 1,Mire Triton,main
 1,Mischievous Chimera,main
 1,Mistmeadow Skulk,main
-1,Mistmeadow Witch,main
 1,Misty Rainforest,main
 1,Mizzium Tank,main
 1,Mogg War Marshal,main
@@ -243,15 +244,14 @@ Count,Name,Section
 1,Quest for the Gemblades,main
 1,Quest for the Gravelord,main
 1,Quicken,main
-1,Quietus Spike,main
 1,Quillspike,main
 1,Rabbit Battery,main
 1,Rage Nimbus,main
 1,Raise the Alarm,main
 1,"Ral, Storm Conduit",main
-1,Rampaging Baloths,main
 1,Raven's Crime,main
 1,Ravenous Squirrel,main
+1,Read the Bones,main
 1,Reckless Rage,main
 1,Reclamation Sage,main
 1,Reinforced Ronin,main
@@ -288,6 +288,7 @@ Count,Name,Section
 1,Silver Myr,main
 1,Skarrgan Hellkite,main
 1,Sleep of the Dead,main
+1,Snapcaster Mage,main
 1,Soul Warden,main
 1,Soul-Scar Mage,main
 1,Sparring Construct,main
@@ -308,6 +309,7 @@ Count,Name,Section
 1,"Takenuma, Abandoned Mire",main
 1,"Tamiyo, Compleated Sage",main
 1,Tangled Colony,main
+1,Tarmogoyf,main
 1,Temple Garden,main
 1,Temple of Enlightenment,main
 1,"Tezzeret, Betrayer of Flesh",main
@@ -318,7 +320,6 @@ Count,Name,Section
 1,Thing in the Ice // Awoken Horror,main
 1,Throne of the God-Pharaoh,main
 1,Tibalt's Rager,main
-1,Tilling Treefolk,main
 1,"Titania, Protector of Argoth",main
 1,Touch the Spirit Realm,main
 1,Trading Post,main
@@ -352,7 +353,6 @@ Count,Name,Section
 1,Windswept Heath,main
 1,Woe Strider,main
 1,Wooded Foothills,main
-1,Woodfall Primus,main
 1,Woodland Cemetery,main
 1,Woodland Champion,main
 1,Worm Harvest,main
