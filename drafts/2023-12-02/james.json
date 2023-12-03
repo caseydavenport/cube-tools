@@ -1,0 +1,678 @@
+{
+ "labels": [],
+ "player": "james",
+ "date": "2023-12-02",
+ "games": [],
+ "mainboard": [
+  {
+   "name": "Infernal Grasp",
+   "types": [
+    "Instant"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "B"
+   ],
+   "url": "https://scryfall.com/card/mid/107/infernal-grasp?utm_source=api",
+   "oracle_text": "Destroy target creature. You lose 2 life."
+  },
+  {
+   "name": "Persist",
+   "types": [
+    "Sorcery"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "B"
+   ],
+   "url": "https://scryfall.com/card/mh2/96/persist?utm_source=api",
+   "oracle_text": "Return target nonlegendary creature card from your graveyard to the battlefield with a -1/-1 counter on it."
+  },
+  {
+   "name": "Archfiend of Ifnir",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Demon"
+   ],
+   "cmc": 5,
+   "image": "",
+   "colors": [
+    "B"
+   ],
+   "url": "https://scryfall.com/card/akh/78/archfiend-of-ifnir?utm_source=api",
+   "oracle_text": "Flying\nWhenever you cycle or discard another card, put a -1/-1 counter on each creature your opponents control.\nCycling {2} ({2}, Discard this card: Draw a card.)"
+  },
+  {
+   "name": "Severed Strands",
+   "types": [
+    "Sorcery"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "B"
+   ],
+   "url": "https://scryfall.com/card/2x2/88/severed-strands?utm_source=api",
+   "oracle_text": "As an additional cost to cast this spell, sacrifice a creature.\nYou gain life equal to the sacrificed creature's toughness. Destroy target creature an opponent controls."
+  },
+  {
+   "name": "Embereth Veteran",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Human",
+    "Knight"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [
+    "R"
+   ],
+   "url": "https://scryfall.com/card/woe/127/embereth-veteran?utm_source=api",
+   "oracle_text": "{1}, Sacrifice Embereth Veteran: Create a Young Hero Role token attached to another target creature. (If you control another Role on it, put that one into the graveyard. Enchanted creature has \"Whenever this creature attacks, if its toughness is 3 or less, put a +1/+1 counter on it.\")"
+  },
+  {
+   "name": "Reckless Rage",
+   "types": [
+    "Instant"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [
+    "R"
+   ],
+   "url": "https://scryfall.com/card/rix/110/reckless-rage?utm_source=api",
+   "oracle_text": "Reckless Rage deals 4 damage to target creature you don't control and 2 damage to target creature you control."
+  },
+  {
+   "name": "Woe Strider",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Horror"
+   ],
+   "cmc": 3,
+   "image": "",
+   "colors": [
+    "B"
+   ],
+   "url": "https://scryfall.com/card/clb/774/woe-strider?utm_source=api",
+   "oracle_text": "When Woe Strider enters the battlefield, create a 0/1 white Goat creature token.\nSacrifice another creature: Scry 1.\nEscape—{3}{B}{B}, Exile four other cards from your graveyard. (You may cast this card from your graveyard for its escape cost.)\nWoe Strider escapes with two +1/+1 counters on it."
+  },
+  {
+   "name": "Guttersnipe",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Goblin",
+    "Shaman"
+   ],
+   "cmc": 3,
+   "image": "",
+   "colors": [
+    "R"
+   ],
+   "url": "https://scryfall.com/card/cmm/229/guttersnipe?utm_source=api",
+   "oracle_text": "Whenever you cast an instant or sorcery spell, Guttersnipe deals 2 damage to each opponent."
+  },
+  {
+   "name": "Stitch Together",
+   "types": [
+    "Sorcery"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "B"
+   ],
+   "url": "https://scryfall.com/card/c18/119/stitch-together?utm_source=api",
+   "oracle_text": "Return target creature card from your graveyard to your hand.\nThreshold — Return that card from your graveyard to the battlefield instead if seven or more cards are in your graveyard."
+  },
+  {
+   "name": "Mogg War Marshal",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Goblin",
+    "Warrior"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "R"
+   ],
+   "url": "https://scryfall.com/card/tsr/176/mogg-war-marshal?utm_source=api",
+   "oracle_text": "Echo {1}{R} (At the beginning of your upkeep, if this came under your control since the beginning of your last upkeep, sacrifice it unless you pay its echo cost.)\nWhen Mogg War Marshal enters the battlefield or dies, create a 1/1 red Goblin creature token."
+  },
+  {
+   "name": "Containment Construct",
+   "types": [
+    "Artifact",
+    "Creature"
+   ],
+   "sub_types": [
+    "Construct"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/neo/243/containment-construct?utm_source=api",
+   "oracle_text": "Whenever you discard a card, you may exile that card from your graveyard. If you do, you may play that card this turn."
+  },
+  {
+   "name": "Perilous Myr",
+   "types": [
+    "Artifact",
+    "Creature"
+   ],
+   "sub_types": [
+    "Phyrexian",
+    "Myr"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/cmr/330/perilous-myr?utm_source=api",
+   "oracle_text": "When Perilous Myr dies, it deals 2 damage to any target."
+  },
+  {
+   "name": "Virtue of Persistence // Locthwain Scorn",
+   "types": [
+    "Enchantment",
+    "//",
+    "Sorcery"
+   ],
+   "sub_types": [
+    "Adventure"
+   ],
+   "cmc": 7,
+   "image": "",
+   "colors": [
+    "B"
+   ],
+   "url": "https://scryfall.com/card/woe/115/virtue-of-persistence-locthwain-scorn?utm_source=api",
+   "oracle_text": ""
+  },
+  {
+   "name": "Pyroclasm",
+   "types": [
+    "Sorcery"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "R"
+   ],
+   "url": "https://scryfall.com/card/a25/146/pyroclasm?utm_source=api",
+   "oracle_text": "Pyroclasm deals 2 damage to each creature."
+  },
+  {
+   "name": "Bloodghast",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Vampire",
+    "Spirit"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "B"
+   ],
+   "url": "https://scryfall.com/card/lcc/184/bloodghast?utm_source=api",
+   "oracle_text": "Bloodghast can't block.\nBloodghast has haste as long as an opponent has 10 or less life.\nLandfall — Whenever a land enters the battlefield under your control, you may return Bloodghast from your graveyard to the battlefield."
+  },
+  {
+   "name": "Agonizing Remorse",
+   "types": [
+    "Sorcery"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "B"
+   ],
+   "url": "https://scryfall.com/card/thb/83/agonizing-remorse?utm_source=api",
+   "oracle_text": "Target opponent reveals their hand. You choose a nonland card from it or a card from their graveyard. Exile that card. You lose 1 life."
+  },
+  {
+   "name": "Iron Myr",
+   "types": [
+    "Artifact",
+    "Creature"
+   ],
+   "sub_types": [
+    "Myr"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/som/168/iron-myr?utm_source=api",
+   "oracle_text": "{T}: Add {R}."
+  },
+  {
+   "name": "Skarrgan Hellkite",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Dragon"
+   ],
+   "cmc": 5,
+   "image": "",
+   "colors": [
+    "R"
+   ],
+   "url": "https://scryfall.com/card/rna/114/skarrgan-hellkite?utm_source=api",
+   "oracle_text": "Riot (This creature enters the battlefield with your choice of a +1/+1 counter or haste.)\nFlying\n{3}{R}: Skarrgan Hellkite deals 2 damage divided as you choose among one or two targets. Activate only if Skarrgan Hellkite has a +1/+1 counter on it."
+  },
+  {
+   "name": "Flame Jab",
+   "types": [
+    "Sorcery"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [
+    "R"
+   ],
+   "url": "https://scryfall.com/card/ema/131/flame-jab?utm_source=api",
+   "oracle_text": "Flame Jab deals 1 damage to any target.\nRetrace (You may cast this card from your graveyard by discarding a land card in addition to paying its other costs.)"
+  },
+  {
+   "name": "Isolated Chapel",
+   "types": [
+    "Land"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/lcc/337/isolated-chapel?utm_source=api",
+   "oracle_text": "Isolated Chapel enters the battlefield tapped unless you control a Plains or a Swamp.\n{T}: Add {W} or {B}."
+  },
+  {
+   "name": "Pharika's Spawn",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Gorgon"
+   ],
+   "cmc": 4,
+   "image": "",
+   "colors": [
+    "B"
+   ],
+   "url": "https://scryfall.com/card/thb/112/pharikas-spawn?utm_source=api",
+   "oracle_text": "Escape—{5}{B}, Exile three other cards from your graveyard. (You may cast this card from your graveyard for its escape cost.)\nPharika's Spawn escapes with two +1/+1 counters on it. When it enters the battlefield this way, each opponent sacrifices a non-Gorgon creature."
+  },
+  {
+   "name": "Orcish Lumberjack",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Orc"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [
+    "R"
+   ],
+   "url": "https://scryfall.com/card/vma/179/orcish-lumberjack?utm_source=api",
+   "oracle_text": "{T}, Sacrifice a Forest: Add three mana in any combination of {R} and/or {G}."
+  },
+  {
+   "name": "Ravenous Squirrel",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Squirrel"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [
+    "B",
+    "G"
+   ],
+   "url": "https://scryfall.com/card/mh2/211/ravenous-squirrel?utm_source=api",
+   "oracle_text": "Whenever you sacrifice an artifact or creature, put a +1/+1 counter on Ravenous Squirrel.\n{1}{B}{G}, Sacrifice an artifact or creature: You gain 1 life and draw a card."
+  },
+  {
+   "name": "Restless Fortress",
+   "types": [
+    "Land"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/woe/259/restless-fortress?utm_source=api",
+   "oracle_text": "Restless Fortress enters the battlefield tapped.\n{T}: Add {W} or {B}.\n{2}{W}{B}: Restless Fortress becomes a 1/4 white and black Nightmare creature until end of turn. It's still a land.\nWhenever Restless Fortress attacks, defending player loses 2 life and you gain 2 life."
+  },
+  {
+   "name": "Bone Shards",
+   "types": [
+    "Sorcery"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [
+    "B"
+   ],
+   "url": "https://scryfall.com/card/mh2/76/bone-shards?utm_source=api",
+   "oracle_text": "As an additional cost to cast this spell, sacrifice a creature or discard a card.\nDestroy target creature or planeswalker."
+  },
+  {
+   "name": "Knight of the Ebon Legion",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Vampire",
+    "Knight"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [
+    "B"
+   ],
+   "url": "https://scryfall.com/card/m20/105/knight-of-the-ebon-legion?utm_source=api",
+   "oracle_text": "{2}{B}: Knight of the Ebon Legion gets +3/+3 and gains deathtouch until end of turn.\nAt the beginning of your end step, if a player lost 4 or more life this turn, put a +1/+1 counter on Knight of the Ebon Legion. (Damage causes loss of life.)"
+  },
+  {
+   "name": "Journey to Nowhere",
+   "types": [
+    "Enchantment"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "W"
+   ],
+   "url": "https://scryfall.com/card/cmd/17/journey-to-nowhere?utm_source=api",
+   "oracle_text": "When Journey to Nowhere enters the battlefield, exile target creature.\nWhen Journey to Nowhere leaves the battlefield, return the exiled card to the battlefield under its owner's control."
+  },
+  {
+   "name": "Flame Slash",
+   "types": [
+    "Sorcery"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [
+    "R"
+   ],
+   "url": "https://scryfall.com/card/cn2/157/flame-slash?utm_source=api",
+   "oracle_text": "Flame Slash deals 4 damage to target creature."
+  },
+  {
+   "name": "Unholy Heat",
+   "types": [
+    "Instant"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [
+    "R"
+   ],
+   "url": "https://scryfall.com/card/mh2/145/unholy-heat?utm_source=api",
+   "oracle_text": "Unholy Heat deals 2 damage to target creature or planeswalker.\nDelirium — Unholy Heat deals 6 damage instead if there are four or more card types among cards in your graveyard."
+  },
+  {
+   "name": "Incinerate",
+   "types": [
+    "Instant"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "R"
+   ],
+   "url": "https://scryfall.com/card/jvc/51/incinerate?utm_source=api",
+   "oracle_text": "Incinerate deals 3 damage to any target. A creature dealt damage this way can't be regenerated this turn."
+  },
+  {
+   "name": "Black Sun's Zenith",
+   "types": [
+    "Sorcery"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "B"
+   ],
+   "url": "https://scryfall.com/card/c14/136/black-suns-zenith?utm_source=api",
+   "oracle_text": "Put X -1/-1 counters on each creature. Shuffle Black Sun's Zenith into its owner's library."
+  },
+  {
+   "name": "Goblin Guide",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Goblin",
+    "Scout"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [
+    "R"
+   ],
+   "url": "https://scryfall.com/card/2xm/127/goblin-guide?utm_source=api",
+   "oracle_text": "Haste\nWhenever Goblin Guide attacks, defending player reveals the top card of their library. If it's a land card, that player puts it into their hand."
+  },
+  {
+   "name": "Kalastria Highborn",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Vampire",
+    "Shaman"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "B"
+   ],
+   "url": "https://scryfall.com/card/wwk/59/kalastria-highborn?utm_source=api",
+   "oracle_text": "Whenever Kalastria Highborn or another Vampire you control dies, you may pay {B}. If you do, target player loses 2 life and you gain 2 life."
+  },
+  {
+   "name": "Quest for the Gravelord",
+   "types": [
+    "Enchantment"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [
+    "B"
+   ],
+   "url": "https://scryfall.com/card/bbd/156/quest-for-the-gravelord?utm_source=api",
+   "oracle_text": "Whenever a creature dies, you may put a quest counter on Quest for the Gravelord.\nRemove three quest counters from Quest for the Gravelord and sacrifice it: Create a 5/5 black Zombie Giant creature token."
+  },
+  {
+   "name": "Pitiless Pontiff",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Vampire",
+    "Cleric"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "B",
+    "W"
+   ],
+   "url": "https://scryfall.com/card/rna/194/pitiless-pontiff?utm_source=api",
+   "oracle_text": "{1}, Sacrifice another creature: Pitiless Pontiff gains deathtouch and indestructible until end of turn. (Damage and effects that say \"destroy\" don't destroy it.)"
+  },
+  {
+   "name": "Dreadhorde Arcanist",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Zombie",
+    "Wizard"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "R"
+   ],
+   "url": "https://scryfall.com/card/war/125/dreadhorde-arcanist?utm_source=api",
+   "oracle_text": "Trample\nWhenever Dreadhorde Arcanist attacks, you may cast target instant or sorcery card with mana value less than or equal to Dreadhorde Arcanist's power from your graveyard without paying its mana cost. If that spell would be put into your graveyard, exile it instead."
+  },
+  {
+   "name": "Lava Dart",
+   "types": [
+    "Instant"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [
+    "R"
+   ],
+   "url": "https://scryfall.com/card/mh1/134/lava-dart?utm_source=api",
+   "oracle_text": "Lava Dart deals 1 damage to any target.\nFlashback—Sacrifice a Mountain. (You may cast this card from your graveyard for its flashback cost. Then exile it.)"
+  },
+  {
+   "name": "Faithless Looting",
+   "types": [
+    "Sorcery"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [
+    "R"
+   ],
+   "url": "https://scryfall.com/card/lcc/225/faithless-looting?utm_source=api",
+   "oracle_text": "Draw two cards, then discard two cards.\nFlashback {2}{R} (You may cast this card from your graveyard for its flashback cost. Then exile it.)"
+  },
+  {
+   "name": "Pteramander",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Salamander",
+    "Drake"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [
+    "U"
+   ],
+   "url": "https://scryfall.com/card/rna/47/pteramander?utm_source=api",
+   "oracle_text": "Flying\n{7}{U}: Adapt 4. This ability costs {1} less to activate for each instant and sorcery card in your graveyard. (If this creature has no +1/+1 counters on it, put four +1/+1 counters on it.)"
+  },
+  {
+   "name": "Mayhem Devil",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Devil"
+   ],
+   "cmc": 3,
+   "image": "",
+   "colors": [
+    "B",
+    "R"
+   ],
+   "url": "https://scryfall.com/card/war/204/mayhem-devil?utm_source=api",
+   "oracle_text": "Whenever a player sacrifices a permanent, Mayhem Devil deals 1 damage to any target."
+  },
+  {
+   "name": "Condescend",
+   "types": [
+    "Instant"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [
+    "U"
+   ],
+   "url": "https://scryfall.com/card/ima/46/condescend?utm_source=api",
+   "oracle_text": "Counter target spell unless its controller pays {X}. Scry 2. (Look at the top two cards of your library, then put any number of them on the bottom of your library and the rest on top in any order.)"
+  }
+ ],
+ "sideboard": [
+  {
+   "name": "Fecundity",
+   "types": [
+    "Enchantment"
+   ],
+   "cmc": 3,
+   "image": "",
+   "colors": [
+    "G"
+   ],
+   "url": "https://scryfall.com/card/uma/165/fecundity?utm_source=api",
+   "oracle_text": "Whenever a creature dies, that creature's controller may draw a card."
+  },
+  {
+   "name": "Halo Forager",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Faerie",
+    "Rogue"
+   ],
+   "cmc": 3,
+   "image": "",
+   "colors": [
+    "B",
+    "U"
+   ],
+   "url": "https://scryfall.com/card/mom/227/halo-forager?utm_source=api",
+   "oracle_text": "Flying\nWhen Halo Forager enters the battlefield, you may pay {X}. When you do, you may cast target instant or sorcery card with mana value X from a graveyard without paying its mana cost. If that spell would be put into a graveyard, exile it instead."
+  },
+  {
+   "name": "Whisper, Blood Liturgist",
+   "types": [
+    "Legendary",
+    "Creature"
+   ],
+   "sub_types": [
+    "Human",
+    "Cleric"
+   ],
+   "cmc": 4,
+   "image": "",
+   "colors": [
+    "B"
+   ],
+   "url": "https://scryfall.com/card/cmm/198/whisper-blood-liturgist?utm_source=api",
+   "oracle_text": "{T}, Sacrifice two creatures: Return target creature card from your graveyard to the battlefield."
+  },
+  {
+   "name": "Bolas's Citadel",
+   "types": [
+    "Legendary",
+    "Artifact"
+   ],
+   "cmc": 6,
+   "image": "",
+   "colors": [
+    "B"
+   ],
+   "url": "https://scryfall.com/card/war/79/bolass-citadel?utm_source=api",
+   "oracle_text": "You may look at the top card of your library any time.\nYou may play lands and cast spells from the top of your library. If you cast a spell this way, pay life equal to its mana value rather than pay its mana cost.\n{T}, Sacrifice ten nonland permanents: Each opponent loses 10 life."
+  }
+ ]
+}

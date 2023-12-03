@@ -1,0 +1,788 @@
+{
+ "labels": [
+  "midrange",
+  "lands",
+  "graveyard"
+ ],
+ "player": "casey",
+ "date": "2023-12-02",
+ "games": [
+  {
+   "opponent": "dom",
+   "winner": "dom"
+  },
+  {
+   "opponent": "dom",
+   "winner": "casey"
+  },
+  {
+   "opponent": "dom",
+   "winner": "casey"
+  },
+  {
+   "opponent": "greg",
+   "winner": "greg"
+  },
+  {
+   "opponent": "greg",
+   "winner": "greg"
+  }
+ ],
+ "mainboard": [
+  {
+   "name": "Puppeteer Clique",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Faerie",
+    "Wizard"
+   ],
+   "cmc": 5,
+   "image": "",
+   "colors": [
+    "B"
+   ],
+   "url": "https://scryfall.com/card/clb/769/puppeteer-clique?utm_source=api",
+   "oracle_text": "Flying\nWhen Puppeteer Clique enters the battlefield, put target creature card from an opponent's graveyard onto the battlefield under your control. It gains haste. At the beginning of your next end step, exile it.\nPersist (When this creature dies, if it had no -1/-1 counters on it, return it to the battlefield under its owner's control with a -1/-1 counter on it.)"
+  },
+  {
+   "name": "Ulcerate",
+   "types": [
+    "Instant"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [
+    "B"
+   ],
+   "url": "https://scryfall.com/card/ima/112/ulcerate?utm_source=api",
+   "oracle_text": "Target creature gets -3/-3 until end of turn. You lose 3 life."
+  },
+  {
+   "name": "Titania, Protector of Argoth",
+   "types": [
+    "Legendary",
+    "Creature"
+   ],
+   "sub_types": [
+    "Elemental"
+   ],
+   "cmc": 5,
+   "image": "",
+   "colors": [
+    "G"
+   ],
+   "url": "https://scryfall.com/card/mh2/287/titania-protector-of-argoth?utm_source=api",
+   "oracle_text": "When Titania, Protector of Argoth enters the battlefield, return target land card from your graveyard to the battlefield.\nWhenever a land you control is put into a graveyard from the battlefield, create a 5/3 green Elemental creature token."
+  },
+  {
+   "name": "Wooded Foothills",
+   "types": [
+    "Land"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/ktk/249/wooded-foothills?utm_source=api",
+   "oracle_text": "{T}, Pay 1 life, Sacrifice Wooded Foothills: Search your library for a Mountain or Forest card, put it onto the battlefield, then shuffle."
+  },
+  {
+   "name": "Utopia Sprawl",
+   "types": [
+    "Enchantment"
+   ],
+   "sub_types": [
+    "Aura"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [
+    "G"
+   ],
+   "url": "https://scryfall.com/card/afc/172/utopia-sprawl?utm_source=api",
+   "oracle_text": "Enchant Forest\nAs Utopia Sprawl enters the battlefield, choose a color.\nWhenever enchanted Forest is tapped for mana, its controller adds an additional one mana of the chosen color."
+  },
+  {
+   "name": "Windswept Heath",
+   "types": [
+    "Land"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/ktk/248/windswept-heath?utm_source=api",
+   "oracle_text": "{T}, Pay 1 life, Sacrifice Windswept Heath: Search your library for a Forest or Plains card, put it onto the battlefield, then shuffle."
+  },
+  {
+   "name": "Arasta of the Endless Web",
+   "types": [
+    "Legendary",
+    "Enchantment",
+    "Creature"
+   ],
+   "sub_types": [
+    "Spider"
+   ],
+   "cmc": 4,
+   "image": "",
+   "colors": [
+    "G"
+   ],
+   "url": "https://scryfall.com/card/cmm/885/arasta-of-the-endless-web?utm_source=api",
+   "oracle_text": "Reach\nWhenever an opponent casts an instant or sorcery spell, create a 1/2 green Spider creature token with reach."
+  },
+  {
+   "name": "Crop Rotation",
+   "types": [
+    "Instant"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [
+    "G"
+   ],
+   "url": "https://scryfall.com/card/2xm/161/crop-rotation?utm_source=api",
+   "oracle_text": "As an additional cost to cast this spell, sacrifice a land.\nSearch your library for a land card, put that card onto the battlefield, then shuffle."
+  },
+  {
+   "name": "Faerie Dreamthief",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Faerie",
+    "Warlock"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [
+    "B"
+   ],
+   "url": "https://scryfall.com/card/woe/89/faerie-dreamthief?utm_source=api",
+   "oracle_text": "Flying\nWhen Faerie Dreamthief enters the battlefield, surveil 1. (Look at the top card of your library. You may put it into your graveyard.)\n{2}{B}, Exile Faerie Dreamthief from your graveyard: You draw a card and you lose 1 life."
+  },
+  {
+   "name": "Spider Food",
+   "types": [
+    "Sorcery"
+   ],
+   "cmc": 3,
+   "image": "",
+   "colors": [
+    "G"
+   ],
+   "url": "https://scryfall.com/card/woe/186/spider-food?utm_source=api",
+   "oracle_text": "Destroy up to one target artifact, enchantment, or creature with flying. Create a Food token. (It's an artifact with \"{2}, {T}, Sacrifice this artifact: You gain 3 life.\")"
+  },
+  {
+   "name": "Sulfurous Springs",
+   "types": [
+    "Land"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/dmu/256/sulfurous-springs?utm_source=api",
+   "oracle_text": "{T}: Add {C}.\n{T}: Add {B} or {R}. Sulfurous Springs deals 1 damage to you."
+  },
+  {
+   "name": "Golgari Rot Farm",
+   "types": [
+    "Land"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/cmm/1001/golgari-rot-farm?utm_source=api",
+   "oracle_text": "Golgari Rot Farm enters the battlefield tapped.\nWhen Golgari Rot Farm enters the battlefield, return a land you control to its owner's hand.\n{T}: Add {B}{G}."
+  },
+  {
+   "name": "Feed the Cauldron",
+   "types": [
+    "Instant"
+   ],
+   "cmc": 3,
+   "image": "",
+   "colors": [
+    "B"
+   ],
+   "url": "https://scryfall.com/card/woe/91/feed-the-cauldron?utm_source=api",
+   "oracle_text": "Destroy target creature with mana value 3 or less. If it's your turn, create a Food token. (It's an artifact with \"{2}, {T}, Sacrifice this artifact: You gain 3 life.\")"
+  },
+  {
+   "name": "Kraul Harpooner",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Insect",
+    "Warrior"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "G"
+   ],
+   "url": "https://scryfall.com/card/grn/136/kraul-harpooner?utm_source=api",
+   "oracle_text": "Reach\nUndergrowth — When Kraul Harpooner enters the battlefield, choose up to one target creature with flying you don't control. Kraul Harpooner gets +X/+0 until end of turn, where X is the number of creature cards in your graveyard, then you may have Kraul Harpooner fight that creature."
+  },
+  {
+   "name": "Edge of Autumn",
+   "types": [
+    "Sorcery"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "G"
+   ],
+   "url": "https://scryfall.com/card/tsr/201/edge-of-autumn?utm_source=api",
+   "oracle_text": "If you control four or fewer lands, search your library for a basic land card, put it onto the battlefield tapped, then shuffle.\nCycling—Sacrifice a land. (Sacrifice a land, Discard this card: Draw a card.)"
+  },
+  {
+   "name": "Nurturing Peatland",
+   "types": [
+    "Land"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/mh1/243/nurturing-peatland?utm_source=api",
+   "oracle_text": "{T}, Pay 1 life: Add {B} or {G}.\n{1}, {T}, Sacrifice Nurturing Peatland: Draw a card."
+  },
+  {
+   "name": "Scavenging Ooze",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Ooze"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "G"
+   ],
+   "url": "https://scryfall.com/card/ncc/309/scavenging-ooze?utm_source=api",
+   "oracle_text": "{G}: Exile target card from a graveyard. If it was a creature card, put a +1/+1 counter on Scavenging Ooze and you gain 1 life."
+  },
+  {
+   "name": "Boseiju, Who Endures",
+   "types": [
+    "Legendary",
+    "Land"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/neo/266/boseiju-who-endures?utm_source=api",
+   "oracle_text": "{T}: Add {G}.\nChannel — {1}{G}, Discard Boseiju, Who Endures: Destroy target artifact, enchantment, or nonbasic land an opponent controls. That player may search their library for a land card with a basic land type, put it onto the battlefield, then shuffle. This ability costs {1} less to activate for each legendary creature you control."
+  },
+  {
+   "name": "Chromatic Sphere",
+   "types": [
+    "Artifact"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/jmp/462/chromatic-sphere?utm_source=api",
+   "oracle_text": "{1}, {T}, Sacrifice Chromatic Sphere: Add one mana of any color. Draw a card."
+  },
+  {
+   "name": "Greta, Sweettooth Scourge",
+   "types": [
+    "Legendary",
+    "Creature"
+   ],
+   "sub_types": [
+    "Human",
+    "Warrior"
+   ],
+   "cmc": 3,
+   "image": "",
+   "colors": [
+    "B",
+    "G"
+   ],
+   "url": "https://scryfall.com/card/woe/205/greta-sweettooth-scourge?utm_source=api",
+   "oracle_text": "When Greta, Sweettooth Scourge enters the battlefield, create a Food token. (It's an artifact with \"{2}, {T}, Sacrifice this artifact: You gain 3 life.\")\n{G}, Sacrifice a Food: Put a +1/+1 counter on target creature. Activate only as a sorcery.\n{1}{B}, Sacrifice a Food: You draw a card and you lose 1 life."
+  },
+  {
+   "name": "Dina, Soul Steeper",
+   "types": [
+    "Legendary",
+    "Creature"
+   ],
+   "sub_types": [
+    "Dryad",
+    "Druid"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "B",
+    "G"
+   ],
+   "url": "https://scryfall.com/card/stx/178/dina-soul-steeper?utm_source=api",
+   "oracle_text": "Whenever you gain life, each opponent loses 1 life.\n{1}, Sacrifice another creature: Dina, Soul Steeper gets +X/+0 until end of turn, where X is the sacrificed creature's power."
+  },
+  {
+   "name": "Call of the Herd",
+   "types": [
+    "Sorcery"
+   ],
+   "cmc": 3,
+   "image": "",
+   "colors": [
+    "G"
+   ],
+   "url": "https://scryfall.com/card/dds/44/call-of-the-herd?utm_source=api",
+   "oracle_text": "Create a 3/3 green Elephant creature token.\nFlashback {3}{G} (You may cast this card from your graveyard for its flashback cost. Then exile it.)"
+  },
+  {
+   "name": "Eternal Witness",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Human",
+    "Shaman"
+   ],
+   "cmc": 3,
+   "image": "",
+   "colors": [
+    "G"
+   ],
+   "url": "https://scryfall.com/card/cmm/286/eternal-witness?utm_source=api",
+   "oracle_text": "When Eternal Witness enters the battlefield, you may return target card from your graveyard to your hand."
+  },
+  {
+   "name": "Inexorable Blob",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Ooze"
+   ],
+   "cmc": 3,
+   "image": "",
+   "colors": [
+    "G"
+   ],
+   "url": "https://scryfall.com/card/soi/212/inexorable-blob?utm_source=api",
+   "oracle_text": "Delirium — Whenever Inexorable Blob attacks, if there are four or more card types among cards in your graveyard, create a 3/3 green Ooze creature token that's tapped and attacking."
+  },
+  {
+   "name": "Maze of Ith",
+   "types": [
+    "Land"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/2xm/322/maze-of-ith?utm_source=api",
+   "oracle_text": "{T}: Untap target attacking creature. Prevent all combat damage that would be dealt to and dealt by that creature this turn."
+  },
+  {
+   "name": "Cankerbloom",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Phyrexian",
+    "Fungus"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "G"
+   ],
+   "url": "https://scryfall.com/card/one/161/cankerbloom?utm_source=api",
+   "oracle_text": "{1}, Sacrifice Cankerbloom: Choose one —\n• Destroy target artifact.\n• Destroy target enchantment.\n• Proliferate. (Choose any number of permanents and/or players, then give each another counter of each kind already there.)"
+  },
+  {
+   "name": "Woodland Cemetery",
+   "types": [
+    "Land"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/dom/248/woodland-cemetery?utm_source=api",
+   "oracle_text": "Woodland Cemetery enters the battlefield tapped unless you control a Swamp or a Forest.\n{T}: Add {B} or {G}."
+  },
+  {
+   "name": "Mosswood Dreadknight // Dread Whispers",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Human",
+    "Knight",
+    "//",
+    "Sorcery"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "G"
+   ],
+   "url": "https://scryfall.com/card/woe/231/mosswood-dreadknight-dread-whispers?utm_source=api",
+   "oracle_text": ""
+  },
+  {
+   "name": "Pyrite Spellbomb",
+   "types": [
+    "Artifact"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/2xm/283/pyrite-spellbomb?utm_source=api",
+   "oracle_text": "{R}, Sacrifice Pyrite Spellbomb: It deals 2 damage to any target.\n{1}, Sacrifice Pyrite Spellbomb: Draw a card."
+  },
+  {
+   "name": "Bloodstained Mire",
+   "types": [
+    "Land"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/ktk/230/bloodstained-mire?utm_source=api",
+   "oracle_text": "{T}, Pay 1 life, Sacrifice Bloodstained Mire: Search your library for a Swamp or Mountain card, put it onto the battlefield, then shuffle."
+  },
+  {
+   "name": "Reclamation Sage",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Elf",
+    "Shaman"
+   ],
+   "cmc": 3,
+   "image": "",
+   "colors": [
+    "G"
+   ],
+   "url": "https://scryfall.com/card/khc/72/reclamation-sage?utm_source=api",
+   "oracle_text": "When Reclamation Sage enters the battlefield, you may destroy target artifact or enchantment."
+  },
+  {
+   "name": "Abundant Harvest",
+   "types": [
+    "Sorcery"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [
+    "G"
+   ],
+   "url": "https://scryfall.com/card/cmm/269/abundant-harvest?utm_source=api",
+   "oracle_text": "Choose land or nonland. Reveal cards from the top of your library until you reveal a card of the chosen kind. Put that card into your hand and the rest on the bottom of your library in a random order."
+  },
+  {
+   "name": "Swamp",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Swamp"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/lci/397/swamp?utm_source=api",
+   "oracle_text": "({T}: Add {B}.)"
+  },
+  {
+   "name": "Swamp",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Swamp"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/lci/397/swamp?utm_source=api",
+   "oracle_text": "({T}: Add {B}.)"
+  },
+  {
+   "name": "Forest",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Forest"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/lci/401/forest?utm_source=api",
+   "oracle_text": "({T}: Add {G}.)"
+  },
+  {
+   "name": "Forest",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Forest"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/lci/401/forest?utm_source=api",
+   "oracle_text": "({T}: Add {G}.)"
+  },
+  {
+   "name": "Forest",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Forest"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/lci/401/forest?utm_source=api",
+   "oracle_text": "({T}: Add {G}.)"
+  },
+  {
+   "name": "Forest",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Forest"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/lci/401/forest?utm_source=api",
+   "oracle_text": "({T}: Add {G}.)"
+  },
+  {
+   "name": "Forest",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Forest"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/lci/401/forest?utm_source=api",
+   "oracle_text": "({T}: Add {G}.)"
+  },
+  {
+   "name": "Forest",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Forest"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/lci/401/forest?utm_source=api",
+   "oracle_text": "({T}: Add {G}.)"
+  }
+ ],
+ "sideboard": [
+  {
+   "name": "Temple of Enlightenment",
+   "types": [
+    "Land"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/cmm/1041/temple-of-enlightenment?utm_source=api",
+   "oracle_text": "Temple of Enlightenment enters the battlefield tapped.\nWhen Temple of Enlightenment enters the battlefield, scry 1.\n{T}: Add {W} or {U}."
+  },
+  {
+   "name": "Vivien, Champion of the Wilds",
+   "types": [
+    "Legendary",
+    "Planeswalker"
+   ],
+   "sub_types": [
+    "Vivien"
+   ],
+   "cmc": 3,
+   "image": "",
+   "colors": [
+    "G"
+   ],
+   "url": "https://scryfall.com/card/clb/838/vivien-champion-of-the-wilds?utm_source=api",
+   "oracle_text": "You may cast creature spells as though they had flash.\n+1: Until your next turn, up to one target creature gains vigilance and reach.\n−2: Look at the top three cards of your library. Exile one face down and put the rest on the bottom of your library in any order. For as long as it remains exiled, you may look at that card and you may cast it if it's a creature spell."
+  },
+  {
+   "name": "Oathsworn Vampire",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Vampire",
+    "Knight"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "B"
+   ],
+   "url": "https://scryfall.com/card/lcc/204/oathsworn-vampire?utm_source=api",
+   "oracle_text": "Oathsworn Vampire enters the battlefield tapped.\nYou may cast Oathsworn Vampire from your graveyard if you gained life this turn."
+  },
+  {
+   "name": "Sprout Swarm",
+   "types": [
+    "Instant"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "G"
+   ],
+   "url": "https://scryfall.com/card/fut/138/sprout-swarm?utm_source=api",
+   "oracle_text": "Convoke (Your creatures can help cast this spell. Each creature you tap while casting this spell pays for {1} or one mana of that creature's color.)\nBuyback {3} (You may pay an additional {3} as you cast this spell. If you do, put this card into your hand as it resolves.)\nCreate a 1/1 green Saproling creature token."
+  },
+  {
+   "name": "Restless Vinestalk",
+   "types": [
+    "Land"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/woe/261/restless-vinestalk?utm_source=api",
+   "oracle_text": "Restless Vinestalk enters the battlefield tapped.\n{T}: Add {G} or {U}.\n{3}{G}{U}: Until end of turn, Restless Vinestalk becomes a 5/5 green and blue Plant creature with trample. It's still a land.\nWhenever Restless Vinestalk attacks, up to one other target creature has base power and toughness 3/3 until end of turn."
+  },
+  {
+   "name": "Bonesplitter",
+   "types": [
+    "Artifact"
+   ],
+   "sub_types": [
+    "Equipment"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/cmr/458/bonesplitter?utm_source=api",
+   "oracle_text": "Equipped creature gets +2/+0.\nEquip {1}"
+  },
+  {
+   "name": "Duress",
+   "types": [
+    "Sorcery"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [
+    "B"
+   ],
+   "url": "https://scryfall.com/card/one/92/duress?utm_source=api",
+   "oracle_text": "Target opponent reveals their hand. You choose a noncreature, nonland card from it. That player discards that card."
+  },
+  {
+   "name": "Raven's Crime",
+   "types": [
+    "Sorcery"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [
+    "B"
+   ],
+   "url": "https://scryfall.com/card/mma/95/ravens-crime?utm_source=api",
+   "oracle_text": "Target player discards a card.\nRetrace (You may cast this card from your graveyard by discarding a land card in addition to paying its other costs.)"
+  },
+  {
+   "name": "Wickerbough Elder",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Treefolk",
+    "Shaman"
+   ],
+   "cmc": 4,
+   "image": "",
+   "colors": [
+    "G"
+   ],
+   "url": "https://scryfall.com/card/ncc/320/wickerbough-elder?utm_source=api",
+   "oracle_text": "Wickerbough Elder enters the battlefield with a -1/-1 counter on it.\n{G}, Remove a -1/-1 counter from Wickerbough Elder: Destroy target artifact or enchantment."
+  },
+  {
+   "name": "Evolving Wilds",
+   "types": [
+    "Land"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/lcc/328/evolving-wilds?utm_source=api",
+   "oracle_text": "{T}, Sacrifice Evolving Wilds: Search your library for a basic land card, put it onto the battlefield tapped, then shuffle."
+  },
+  {
+   "name": "Sheltered Thicket",
+   "types": [
+    "Land"
+   ],
+   "sub_types": [
+    "Mountain",
+    "Forest"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/cmm/1032/sheltered-thicket?utm_source=api",
+   "oracle_text": "({T}: Add {R} or {G}.)\nSheltered Thicket enters the battlefield tapped.\nCycling {2} ({2}, Discard this card: Draw a card.)"
+  },
+  {
+   "name": "Life from the Loam",
+   "types": [
+    "Sorcery"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "G"
+   ],
+   "url": "https://scryfall.com/card/uma/172/life-from-the-loam?utm_source=api",
+   "oracle_text": "Return up to three target land cards from your graveyard to your hand.\nDredge 3 (If you would draw a card, you may mill three cards instead. If you do, return this card from your graveyard to your hand.)"
+  },
+  {
+   "name": "Explore",
+   "types": [
+    "Sorcery"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "G"
+   ],
+   "url": "https://scryfall.com/card/lcc/241/explore?utm_source=api",
+   "oracle_text": "You may play an additional land this turn.\nDraw a card."
+  }
+ ]
+}

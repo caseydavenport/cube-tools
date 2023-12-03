@@ -1,0 +1,980 @@
+{
+ "labels": [],
+ "player": "paul",
+ "date": "2023-12-02",
+ "games": [
+  {
+   "opponent": "cara",
+   "winner": "paul"
+  },
+  {
+   "opponent": "cara",
+   "winner": "cara"
+  },
+  {
+   "opponent": "cara",
+   "winner": "cara"
+  }
+ ],
+ "mainboard": [
+  {
+   "name": "Oblivion Ring",
+   "types": [
+    "Enchantment"
+   ],
+   "cmc": 3,
+   "image": "",
+   "colors": [
+    "W"
+   ],
+   "url": "https://scryfall.com/card/mm2/29/oblivion-ring?utm_source=api",
+   "oracle_text": "When Oblivion Ring enters the battlefield, exile another target nonland permanent.\nWhen Oblivion Ring leaves the battlefield, return the exiled card to the battlefield under its owner's control."
+  },
+  {
+   "name": "Day of Judgment",
+   "types": [
+    "Sorcery"
+   ],
+   "cmc": 4,
+   "image": "",
+   "colors": [
+    "W"
+   ],
+   "url": "https://scryfall.com/card/m12/12/day-of-judgment?utm_source=api",
+   "oracle_text": "Destroy all creatures."
+  },
+  {
+   "name": "Mistmeadow Skulk",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Kithkin",
+    "Rogue"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "W"
+   ],
+   "url": "https://scryfall.com/card/shm/14/mistmeadow-skulk?utm_source=api",
+   "oracle_text": "Lifelink, protection from mana value 3 or greater"
+  },
+  {
+   "name": "Throne of the God-Pharaoh",
+   "types": [
+    "Legendary",
+    "Artifact"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/akh/237/throne-of-the-god-pharaoh?utm_source=api",
+   "oracle_text": "At the beginning of your end step, each opponent loses life equal to the number of tapped creatures you control."
+  },
+  {
+   "name": "Clarion Spirit",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Spirit"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "W"
+   ],
+   "url": "https://scryfall.com/card/khm/6/clarion-spirit?utm_source=api",
+   "oracle_text": "Whenever you cast your second spell each turn, create a 1/1 white Spirit creature token with flying."
+  },
+  {
+   "name": "Galepowder Mage",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Kithkin",
+    "Wizard"
+   ],
+   "cmc": 4,
+   "image": "",
+   "colors": [
+    "W"
+   ],
+   "url": "https://scryfall.com/card/clb/694/galepowder-mage?utm_source=api",
+   "oracle_text": "Flying\nWhenever Galepowder Mage attacks, exile another target creature. Return that card to the battlefield under its owner's control at the beginning of the next end step."
+  },
+  {
+   "name": "Reveillark",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Elemental"
+   ],
+   "cmc": 5,
+   "image": "",
+   "colors": [
+    "W"
+   ],
+   "url": "https://scryfall.com/card/2x2/26/reveillark?utm_source=api",
+   "oracle_text": "Flying\nWhen Reveillark leaves the battlefield, return up to two target creature cards with power 2 or less from your graveyard to the battlefield.\nEvoke {5}{W} (You may cast this spell for its evoke cost. If you do, it's sacrificed when it enters the battlefield.)"
+  },
+  {
+   "name": "Wrath of God",
+   "types": [
+    "Sorcery"
+   ],
+   "cmc": 4,
+   "image": "",
+   "colors": [
+    "W"
+   ],
+   "url": "https://scryfall.com/card/cmm/70/wrath-of-god?utm_source=api",
+   "oracle_text": "Destroy all creatures. They can't be regenerated."
+  },
+  {
+   "name": "Lightning Greaves",
+   "types": [
+    "Artifact"
+   ],
+   "sub_types": [
+    "Equipment"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/cmm/398/lightning-greaves?utm_source=api",
+   "oracle_text": "Equipped creature has haste and shroud. (It can't be the target of spells or abilities.)\nEquip {0}"
+  },
+  {
+   "name": "Portable Hole",
+   "types": [
+    "Artifact"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [
+    "W"
+   ],
+   "url": "https://scryfall.com/card/afr/33/portable-hole?utm_source=api",
+   "oracle_text": "When Portable Hole enters the battlefield, exile target nonland permanent an opponent controls with mana value 2 or less until Portable Hole leaves the battlefield."
+  },
+  {
+   "name": "Eidolon of Obstruction",
+   "types": [
+    "Enchantment",
+    "Creature"
+   ],
+   "sub_types": [
+    "Spirit"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "W"
+   ],
+   "url": "https://scryfall.com/card/thb/12/eidolon-of-obstruction?utm_source=api",
+   "oracle_text": "First strike\nLoyalty abilities of planeswalkers your opponents control cost {1} more to activate."
+  },
+  {
+   "name": "Sai of the Shinobi",
+   "types": [
+    "Artifact"
+   ],
+   "sub_types": [
+    "Equipment"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/a25/230/sai-of-the-shinobi?utm_source=api",
+   "oracle_text": "Equipped creature gets +1/+1.\nWhenever a creature enters the battlefield under your control, you may attach Sai of the Shinobi to it.\nEquip {2}"
+  },
+  {
+   "name": "Mother of Runes",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Human",
+    "Cleric"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [
+    "W"
+   ],
+   "url": "https://scryfall.com/card/clb/702/mother-of-runes?utm_source=api",
+   "oracle_text": "{T}: Target creature you control gains protection from the color of your choice until end of turn."
+  },
+  {
+   "name": "Mosquito Guard",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Kithkin",
+    "Soldier"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [
+    "W"
+   ],
+   "url": "https://scryfall.com/card/ddf/6/mosquito-guard?utm_source=api",
+   "oracle_text": "First strike\nReinforce 1—{1}{W} ({1}{W}, Discard this card: Put a +1/+1 counter on target creature.)"
+  },
+  {
+   "name": "Legion's Landing // Adanto, the First Fort",
+   "types": [
+    "Legendary",
+    "Enchantment",
+    "//",
+    "Legendary",
+    "Land"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": null,
+   "url": "https://scryfall.com/card/xln/22/legions-landing-adanto-the-first-fort?utm_source=api",
+   "oracle_text": ""
+  },
+  {
+   "name": "Unmake",
+   "types": [
+    "Instant"
+   ],
+   "cmc": 3,
+   "image": "",
+   "colors": [
+    "B",
+    "W"
+   ],
+   "url": "https://scryfall.com/card/ddk/27/unmake?utm_source=api",
+   "oracle_text": "Exile target creature."
+  },
+  {
+   "name": "Saproling Migration",
+   "types": [
+    "Sorcery"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "G"
+   ],
+   "url": "https://scryfall.com/card/dom/178/saproling-migration?utm_source=api",
+   "oracle_text": "Kicker {4} (You may pay an additional {4} as you cast this spell.)\nCreate two 1/1 green Saproling creature tokens. If this spell was kicked, create four of those tokens instead."
+  },
+  {
+   "name": "Quest for the Gemblades",
+   "types": [
+    "Enchantment"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "G"
+   ],
+   "url": "https://scryfall.com/card/zen/177/quest-for-the-gemblades?utm_source=api",
+   "oracle_text": "Whenever a creature you control deals combat damage to a creature, you may put a quest counter on Quest for the Gemblades.\nRemove a quest counter from Quest for the Gemblades and sacrifice it: Put four +1/+1 counters on target creature."
+  },
+  {
+   "name": "Shanna, Sisay's Legacy",
+   "types": [
+    "Legendary",
+    "Creature"
+   ],
+   "sub_types": [
+    "Human",
+    "Warrior"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "G",
+    "W"
+   ],
+   "url": "https://scryfall.com/card/dom/204/shanna-sisays-legacy?utm_source=api",
+   "oracle_text": "Shanna, Sisay's Legacy can't be the target of abilities your opponents control.\nShanna gets +1/+1 for each creature you control."
+  },
+  {
+   "name": "Untamed Kavu",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Kavu"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "G"
+   ],
+   "url": "https://scryfall.com/card/dom/186/untamed-kavu?utm_source=api",
+   "oracle_text": "Kicker {3} (You may pay an additional {3} as you cast this spell.)\nVigilance, trample\nIf Untamed Kavu was kicked, it enters the battlefield with three +1/+1 counters on it."
+  },
+  {
+   "name": "Tarmogoyf",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Lhurgoyf"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "G"
+   ],
+   "url": "https://scryfall.com/card/tsr/235/tarmogoyf?utm_source=api",
+   "oracle_text": "Tarmogoyf's power is equal to the number of card types among cards in all graveyards and its toughness is equal to that number plus 1."
+  },
+  {
+   "name": "Jolrael, Mwonvuli Recluse",
+   "types": [
+    "Legendary",
+    "Creature"
+   ],
+   "sub_types": [
+    "Human",
+    "Druid"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "G"
+   ],
+   "url": "https://scryfall.com/card/cmm/299/jolrael-mwonvuli-recluse?utm_source=api",
+   "oracle_text": "Whenever you draw your second card each turn, create a 2/2 green Cat creature token.\n{4}{G}{G}: Until end of turn, creatures you control have base power and toughness X/X, where X is the number of cards in your hand."
+  },
+  {
+   "name": "Intrepid Trufflesnout // Go Hog Wild",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Boar",
+    "//",
+    "Instant"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "G"
+   ],
+   "url": "https://scryfall.com/card/woe/320/intrepid-trufflesnout-go-hog-wild?utm_source=api",
+   "oracle_text": ""
+  },
+  {
+   "name": "Plains",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Plains"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/lci/393/plains?utm_source=api",
+   "oracle_text": "({T}: Add {W}.)"
+  },
+  {
+   "name": "Plains",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Plains"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/lci/393/plains?utm_source=api",
+   "oracle_text": "({T}: Add {W}.)"
+  },
+  {
+   "name": "Plains",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Plains"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/lci/393/plains?utm_source=api",
+   "oracle_text": "({T}: Add {W}.)"
+  },
+  {
+   "name": "Plains",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Plains"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/lci/393/plains?utm_source=api",
+   "oracle_text": "({T}: Add {W}.)"
+  },
+  {
+   "name": "Plains",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Plains"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/lci/393/plains?utm_source=api",
+   "oracle_text": "({T}: Add {W}.)"
+  },
+  {
+   "name": "Plains",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Plains"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/lci/393/plains?utm_source=api",
+   "oracle_text": "({T}: Add {W}.)"
+  },
+  {
+   "name": "Plains",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Plains"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/lci/393/plains?utm_source=api",
+   "oracle_text": "({T}: Add {W}.)"
+  },
+  {
+   "name": "Plains",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Plains"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/lci/393/plains?utm_source=api",
+   "oracle_text": "({T}: Add {W}.)"
+  },
+  {
+   "name": "Plains",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Plains"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/lci/393/plains?utm_source=api",
+   "oracle_text": "({T}: Add {W}.)"
+  },
+  {
+   "name": "Plains",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Plains"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/lci/393/plains?utm_source=api",
+   "oracle_text": "({T}: Add {W}.)"
+  },
+  {
+   "name": "Plains",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Plains"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/lci/393/plains?utm_source=api",
+   "oracle_text": "({T}: Add {W}.)"
+  },
+  {
+   "name": "Forest",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Forest"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/lci/401/forest?utm_source=api",
+   "oracle_text": "({T}: Add {G}.)"
+  },
+  {
+   "name": "Forest",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Forest"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/lci/401/forest?utm_source=api",
+   "oracle_text": "({T}: Add {G}.)"
+  },
+  {
+   "name": "Forest",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Forest"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/lci/401/forest?utm_source=api",
+   "oracle_text": "({T}: Add {G}.)"
+  },
+  {
+   "name": "Forest",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Forest"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/lci/401/forest?utm_source=api",
+   "oracle_text": "({T}: Add {G}.)"
+  },
+  {
+   "name": "Forest",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Forest"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/lci/401/forest?utm_source=api",
+   "oracle_text": "({T}: Add {G}.)"
+  },
+  {
+   "name": "Forest",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Forest"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/lci/401/forest?utm_source=api",
+   "oracle_text": "({T}: Add {G}.)"
+  }
+ ],
+ "sideboard": [
+  {
+   "name": "Watery Grave",
+   "types": [
+    "Land"
+   ],
+   "sub_types": [
+    "Island",
+    "Swamp"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/grn/259/watery-grave?utm_source=api",
+   "oracle_text": "({T}: Add {U} or {B}.)\nAs Watery Grave enters the battlefield, you may pay 2 life. If you don't, it enters the battlefield tapped."
+  },
+  {
+   "name": "Beacon of Unrest",
+   "types": [
+    "Sorcery"
+   ],
+   "cmc": 5,
+   "image": "",
+   "colors": [
+    "B"
+   ],
+   "url": "https://scryfall.com/card/2xm/77/beacon-of-unrest?utm_source=api",
+   "oracle_text": "Put target artifact or creature card from a graveyard onto the battlefield under your control. Shuffle Beacon of Unrest into its owner's library."
+  },
+  {
+   "name": "Stitcher's Supplier",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Zombie"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [
+    "B"
+   ],
+   "url": "https://scryfall.com/card/m19/121/stitchers-supplier?utm_source=api",
+   "oracle_text": "When Stitcher's Supplier enters the battlefield or dies, mill three cards."
+  },
+  {
+   "name": "Shadowstorm Vizier",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Human",
+    "Cleric"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "B",
+    "U"
+   ],
+   "url": "https://scryfall.com/card/akh/206/shadowstorm-vizier?utm_source=api",
+   "oracle_text": "Flying\nWhenever you cycle or discard a card, Shadowstorm Vizier gets +1/+1 until end of turn."
+  },
+  {
+   "name": "Acidic Slime",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Ooze"
+   ],
+   "cmc": 5,
+   "image": "",
+   "colors": [
+    "G"
+   ],
+   "url": "https://scryfall.com/card/cmm/270/acidic-slime?utm_source=api",
+   "oracle_text": "Deathtouch (Any amount of damage this deals to a creature is enough to destroy it.)\nWhen Acidic Slime enters the battlefield, destroy target artifact, enchantment, or land."
+  },
+  {
+   "name": "Oracle of Mul Daya",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Elf",
+    "Shaman"
+   ],
+   "cmc": 4,
+   "image": "",
+   "colors": [
+    "G"
+   ],
+   "url": "https://scryfall.com/card/2x2/154/oracle-of-mul-daya?utm_source=api",
+   "oracle_text": "You may play an additional land on each of your turns.\nPlay with the top card of your library revealed.\nYou may play lands from the top of your library."
+  },
+  {
+   "name": "Lodestone Myr",
+   "types": [
+    "Artifact",
+    "Creature"
+   ],
+   "sub_types": [
+    "Myr"
+   ],
+   "cmc": 4,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/mm2/220/lodestone-myr?utm_source=api",
+   "oracle_text": "Trample\nTap an untapped artifact you control: Lodestone Myr gets +1/+1 until end of turn."
+  },
+  {
+   "name": "Kellan, the Fae-Blooded // Birthright Boon",
+   "types": [
+    "Legendary",
+    "Creature"
+   ],
+   "sub_types": [
+    "Human",
+    "Faerie",
+    "//",
+    "Sorcery"
+   ],
+   "cmc": 3,
+   "image": "",
+   "colors": [
+    "R"
+   ],
+   "url": "https://scryfall.com/card/woe/230/kellan-the-fae-blooded-birthright-boon?utm_source=api",
+   "oracle_text": ""
+  },
+  {
+   "name": "Hunting Triad",
+   "types": [
+    "Tribal",
+    "Sorcery"
+   ],
+   "sub_types": [
+    "Elf"
+   ],
+   "cmc": 4,
+   "image": "",
+   "colors": [
+    "G"
+   ],
+   "url": "https://scryfall.com/card/cma/116/hunting-triad?utm_source=api",
+   "oracle_text": "Create three 1/1 green Elf Warrior creature tokens.\nReinforce 3—{3}{G} ({3}{G}, Discard this card: Put three +1/+1 counters on target creature.)"
+  },
+  {
+   "name": "Gilder Bairn",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Ouphe"
+   ],
+   "cmc": 3,
+   "image": "",
+   "colors": [
+    "G",
+    "U"
+   ],
+   "url": "https://scryfall.com/card/eve/152/gilder-bairn?utm_source=api",
+   "oracle_text": "{2}{G/U}, {Q}: Double the number of each kind of counter on target permanent. ({Q} is the untap symbol.)"
+  },
+  {
+   "name": "Vampire Hexmage",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Vampire",
+    "Shaman"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "B"
+   ],
+   "url": "https://scryfall.com/card/2xm/112/vampire-hexmage?utm_source=api",
+   "oracle_text": "First strike\nSacrifice Vampire Hexmage: Remove all counters from target permanent."
+  },
+  {
+   "name": "Canopy Vista",
+   "types": [
+    "Land"
+   ],
+   "sub_types": [
+    "Forest",
+    "Plains"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/lcc/321/canopy-vista?utm_source=api",
+   "oracle_text": "({T}: Add {G} or {W}.)\nCanopy Vista enters the battlefield tapped unless you control two or more basic lands."
+  },
+  {
+   "name": "Scattered Groves",
+   "types": [
+    "Land"
+   ],
+   "sub_types": [
+    "Forest",
+    "Plains"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/cmm/1026/scattered-groves?utm_source=api",
+   "oracle_text": "({T}: Add {G} or {W}.)\nScattered Groves enters the battlefield tapped.\nCycling {2} ({2}, Discard this card: Draw a card.)"
+  },
+  {
+   "name": "Llanowar Elves",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Elf",
+    "Druid"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [
+    "G"
+   ],
+   "url": "https://scryfall.com/card/gnt/46/llanowar-elves?utm_source=api",
+   "oracle_text": "{T}: Add {G}."
+  },
+  {
+   "name": "Arbor Elf",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Elf",
+    "Druid"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [
+    "G"
+   ],
+   "url": "https://scryfall.com/card/a25/160/arbor-elf?utm_source=api",
+   "oracle_text": "{T}: Untap target Forest."
+  },
+  {
+   "name": "Gold Myr",
+   "types": [
+    "Artifact",
+    "Creature"
+   ],
+   "sub_types": [
+    "Myr"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/nec/153/gold-myr?utm_source=api",
+   "oracle_text": "{T}: Add {W}."
+  },
+  {
+   "name": "Turn to Mist",
+   "types": [
+    "Instant"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "U",
+    "W"
+   ],
+   "url": "https://scryfall.com/card/uma/224/turn-to-mist?utm_source=api",
+   "oracle_text": "Exile target creature. Return that card to the battlefield under its owner's control at the beginning of the next end step."
+  },
+  {
+   "name": "Parallel Lives",
+   "types": [
+    "Enchantment"
+   ],
+   "cmc": 4,
+   "image": "",
+   "colors": [
+    "G"
+   ],
+   "url": "https://scryfall.com/card/isd/199/parallel-lives?utm_source=api",
+   "oracle_text": "If an effect would create one or more tokens under your control, it creates twice that many of those tokens instead."
+  },
+  {
+   "name": "Goldenglow Moth",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Insect"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [
+    "W"
+   ],
+   "url": "https://scryfall.com/card/m11/15/goldenglow-moth?utm_source=api",
+   "oracle_text": "Flying\nWhenever Goldenglow Moth blocks, you may gain 4 life."
+  },
+  {
+   "name": "Oust",
+   "types": [
+    "Sorcery"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [
+    "W"
+   ],
+   "url": "https://scryfall.com/card/ddp/7/oust?utm_source=api",
+   "oracle_text": "Put target creature into its owner's library second from the top. Its controller gains 3 life."
+  },
+  {
+   "name": "Mavren Fein, Dusk Apostle",
+   "types": [
+    "Legendary",
+    "Creature"
+   ],
+   "sub_types": [
+    "Vampire",
+    "Cleric"
+   ],
+   "cmc": 3,
+   "image": "",
+   "colors": [
+    "W"
+   ],
+   "url": "https://scryfall.com/card/lcc/133/mavren-fein-dusk-apostle?utm_source=api",
+   "oracle_text": "Whenever one or more nontoken Vampires you control attack, create a 1/1 white Vampire creature token with lifelink."
+  },
+  {
+   "name": "Kor Sanctifiers",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Kor",
+    "Cleric"
+   ],
+   "cmc": 3,
+   "image": "",
+   "colors": [
+    "W"
+   ],
+   "url": "https://scryfall.com/card/c15/73/kor-sanctifiers?utm_source=api",
+   "oracle_text": "Kicker {W} (You may pay an additional {W} as you cast this spell.)\nWhen Kor Sanctifiers enters the battlefield, if it was kicked, destroy target artifact or enchantment."
+  }
+ ]
+}

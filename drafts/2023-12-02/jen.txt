@@ -1,0 +1,48 @@
+1 Scalding Tarn
+1 Spell Pierce
+1 Chandra, Hope's Beacon
+1 Saheeli, Sublime Artificer
+1 Emergence Zone
+1 Quicken
+1 Jace, Arcane Strategist
+1 Steam Vents
+1 Unsummon
+1 Comet Storm
+1 Brineborn Cutthroat
+1 Arcbound Tracker
+1 Empty the Warrens
+1 Faerie Vandal
+1 Opt
+1 Brainstorm
+1 The Reality Chip
+1 Flux Channeler
+1 Young Pyromancer
+1 Snapcaster Mage
+1 Fiery Islet
+1 Mizzium Tank
+1 Aether Tradewinds
+1 Gomazoa
+1 Serum Visions
+1 Winds of Rebuke
+1 Mischievous Chimera
+1 Careful Study
+7 Island
+5 Mountain
+
+1 Carrion Feeder
+1 Mesmeric Fiend
+1 Flooded Strand
+1 Tezzeret, Betrayer of Flesh
+1 Hellion Eruption
+1 Hedron Crab
+1 Silver Myr
+1 Master of Etherium
+1 Rigging Runner
+1 Grim Initiate
+1 Fatestitcher
+1 Dress Down
+1 Sleep of the Dead
+1 Vexing Gull
+1 Ral, Storm Conduit
+1 Crimson Wisps
+1 Rite of Replication

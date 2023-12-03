@@ -1,0 +1,839 @@
+{
+ "labels": [
+  "midrange", "goodstuff"
+ ],
+ "player": "greg",
+ "date": "2023-12-02",
+ "games": [
+  {
+   "opponent": "casey",
+   "winner": "greg"
+  },
+  {
+   "opponent": "casey",
+   "winner": "greg"
+  },
+  {
+   "opponent": "dom",
+   "winner": "dom"
+  },
+  {
+   "opponent": "dom",
+   "winner": "dom"
+  }
+ ],
+ "mainboard": [
+  {
+   "name": "Marshal's Anthem",
+   "types": [
+    "Enchantment"
+   ],
+   "cmc": 4,
+   "image": "",
+   "colors": [
+    "W"
+   ],
+   "url": "https://scryfall.com/card/khc/29/marshals-anthem?utm_source=api",
+   "oracle_text": "Multikicker {1}{W} (You may pay an additional {1}{W} any number of times as you cast this spell.)\nCreatures you control get +1/+1.\nWhen Marshal's Anthem enters the battlefield, return up to X target creature cards from your graveyard to the battlefield, where X is the number of times Marshal's Anthem was kicked."
+  },
+  {
+   "name": "Angel of Salvation",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Angel"
+   ],
+   "cmc": 8,
+   "image": "",
+   "colors": [
+    "W"
+   ],
+   "url": "https://scryfall.com/card/moc/170/angel-of-salvation?utm_source=api",
+   "oracle_text": "Flash; convoke (Your creatures can help cast this spell. Each creature you tap while casting this spell pays for {1} or one mana of that creature's color.)\nFlying\nWhen Angel of Salvation enters the battlefield, prevent the next 5 damage that would be dealt this turn to any number of targets, divided as you choose."
+  },
+  {
+   "name": "The Wandering Emperor",
+   "types": [
+    "Legendary",
+    "Planeswalker"
+   ],
+   "cmc": 4,
+   "image": "",
+   "colors": [
+    "W"
+   ],
+   "url": "https://scryfall.com/card/neo/42/the-wandering-emperor?utm_source=api",
+   "oracle_text": "Flash\nAs long as The Wandering Emperor entered the battlefield this turn, you may activate her loyalty abilities any time you could cast an instant.\n+1: Put a +1/+1 counter on up to one target creature. It gains first strike until end of turn.\n−1: Create a 2/2 white Samurai creature token with vigilance.\n−2: Exile target tapped creature. You gain 2 life."
+  },
+  {
+   "name": "Werefox Bodyguard",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Elf",
+    "Fox",
+    "Knight"
+   ],
+   "cmc": 3,
+   "image": "",
+   "colors": [
+    "W"
+   ],
+   "url": "https://scryfall.com/card/woe/39/werefox-bodyguard?utm_source=api",
+   "oracle_text": "Flash\nWhen Werefox Bodyguard enters the battlefield, exile up to one other target non-Fox creature until Werefox Bodyguard leaves the battlefield.\n{1}{W}, Sacrifice Werefox Bodyguard: You gain 2 life."
+  },
+  {
+   "name": "Clifftop Retreat",
+   "types": [
+    "Land"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/lcc/324/clifftop-retreat?utm_source=api",
+   "oracle_text": "Clifftop Retreat enters the battlefield tapped unless you control a Mountain or a Plains.\n{T}: Add {R} or {W}."
+  },
+  {
+   "name": "Cheeky House-Mouse // Squeak By",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Mouse",
+    "//",
+    "Sorcery"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [
+    "W"
+   ],
+   "url": "https://scryfall.com/card/woe/7/cheeky-house-mouse-squeak-by?utm_source=api",
+   "oracle_text": ""
+  },
+  {
+   "name": "Sacred Foundry",
+   "types": [
+    "Land"
+   ],
+   "sub_types": [
+    "Mountain",
+    "Plains"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/grn/254/sacred-foundry?utm_source=api",
+   "oracle_text": "({T}: Add {R} or {W}.)\nAs Sacred Foundry enters the battlefield, you may pay 2 life. If you don't, it enters the battlefield tapped."
+  },
+  {
+   "name": "Meadowboon",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Elemental"
+   ],
+   "cmc": 4,
+   "image": "",
+   "colors": [
+    "W"
+   ],
+   "url": "https://scryfall.com/card/mma/22/meadowboon?utm_source=api",
+   "oracle_text": "When Meadowboon leaves the battlefield, put a +1/+1 counter on each creature target player controls.\nEvoke {3}{W} (You may cast this spell for its evoke cost. If you do, it's sacrificed when it enters the battlefield.)"
+  },
+  {
+   "name": "Cloudgoat Ranger",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Giant",
+    "Warrior",
+    "Ranger"
+   ],
+   "cmc": 5,
+   "image": "",
+   "colors": [
+    "W"
+   ],
+   "url": "https://scryfall.com/card/khc/21/cloudgoat-ranger?utm_source=api",
+   "oracle_text": "When Cloudgoat Ranger enters the battlefield, create three 1/1 white Kithkin Soldier creature tokens.\nTap three untapped Kithkin you control: Cloudgoat Ranger gets +2/+0 and gains flying until end of turn."
+  },
+  {
+   "name": "Nobilis of War",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Spirit",
+    "Avatar"
+   ],
+   "cmc": 5,
+   "image": "",
+   "colors": [
+    "R",
+    "W"
+   ],
+   "url": "https://scryfall.com/card/mm2/195/nobilis-of-war?utm_source=api",
+   "oracle_text": "Flying\nAttacking creatures you control get +2/+0."
+  },
+  {
+   "name": "Reprieve",
+   "types": [
+    "Instant"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "W"
+   ],
+   "url": "https://scryfall.com/card/ltr/26/reprieve?utm_source=api",
+   "oracle_text": "Return target spell to its owner's hand.\nDraw a card."
+  },
+  {
+   "name": "Lizard Blades",
+   "types": [
+    "Artifact",
+    "Creature"
+   ],
+   "sub_types": [
+    "Equipment",
+    "Lizard"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "R"
+   ],
+   "url": "https://scryfall.com/card/neo/153/lizard-blades?utm_source=api",
+   "oracle_text": "Double strike\nEquipped creature has double strike.\nReconfigure {2} ({2}: Attach to target creature you control; or unattach from a creature. Reconfigure only as a sorcery. While attached, this isn't a creature.)"
+  },
+  {
+   "name": "Welcoming Vampire",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Vampire"
+   ],
+   "cmc": 3,
+   "image": "",
+   "colors": [
+    "W"
+   ],
+   "url": "https://scryfall.com/card/lcc/140/welcoming-vampire?utm_source=api",
+   "oracle_text": "Flying\nWhenever one or more other creatures with power 2 or less enter the battlefield under your control, draw a card. This ability triggers only once each turn."
+  },
+  {
+   "name": "Fearless Fledgling",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Griffin"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "W"
+   ],
+   "url": "https://scryfall.com/card/znr/15/fearless-fledgling?utm_source=api",
+   "oracle_text": "Landfall — Whenever a land enters the battlefield under your control, put a +1/+1 counter on Fearless Fledgling. It gains flying until end of turn."
+  },
+  {
+   "name": "Ajani's Pridemate",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Cat",
+    "Soldier"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "W"
+   ],
+   "url": "https://scryfall.com/card/war/4/ajanis-pridemate?utm_source=api",
+   "oracle_text": "Whenever you gain life, put a +1/+1 counter on Ajani's Pridemate."
+  },
+  {
+   "name": "Sunbaked Canyon",
+   "types": [
+    "Land"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/mh1/247/sunbaked-canyon?utm_source=api",
+   "oracle_text": "{T}, Pay 1 life: Add {R} or {W}.\n{1}, {T}, Sacrifice Sunbaked Canyon: Draw a card."
+  },
+  {
+   "name": "Angelic Intervention",
+   "types": [
+    "Instant"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "W"
+   ],
+   "url": "https://scryfall.com/card/mom/5/angelic-intervention?utm_source=api",
+   "oracle_text": "Target creature or planeswalker you control gains protection from colorless or from the color of your choice until end of turn. If it's a creature, put a +1/+1 counter on it. (It can't be blocked, targeted, dealt damage, enchanted, or equipped by anything with that quality.)"
+  },
+  {
+   "name": "Kor Skyfisher",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Kor",
+    "Soldier"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "W"
+   ],
+   "url": "https://scryfall.com/card/mm3/11/kor-skyfisher?utm_source=api",
+   "oracle_text": "Flying\nWhen Kor Skyfisher enters the battlefield, return a permanent you control to its owner's hand."
+  },
+  {
+   "name": "Harm's Way",
+   "types": [
+    "Instant"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [
+    "W"
+   ],
+   "url": "https://scryfall.com/card/ddg/23/harms-way?utm_source=api",
+   "oracle_text": "The next 2 damage that a source of your choice would deal to you and/or permanents you control this turn is dealt to any target instead."
+  },
+  {
+   "name": "Glory of Warfare",
+   "types": [
+    "Enchantment"
+   ],
+   "cmc": 4,
+   "image": "",
+   "colors": [
+    "R",
+    "W"
+   ],
+   "url": "https://scryfall.com/card/hop/88/glory-of-warfare?utm_source=api",
+   "oracle_text": "As long as it's your turn, creatures you control get +2/+0.\nAs long as it's not your turn, creatures you control get +0/+2."
+  },
+  {
+   "name": "Arid Mesa",
+   "types": [
+    "Land"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/mh2/244/arid-mesa?utm_source=api",
+   "oracle_text": "{T}, Pay 1 life, Sacrifice Arid Mesa: Search your library for a Mountain or Plains card, put it onto the battlefield, then shuffle."
+  },
+  {
+   "name": "Sparring Construct",
+   "types": [
+    "Artifact",
+    "Creature"
+   ],
+   "sub_types": [
+    "Construct"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/dom/232/sparring-construct?utm_source=api",
+   "oracle_text": "When Sparring Construct dies, put a +1/+1 counter on target creature you control."
+  },
+  {
+   "name": "Dauntless Bodyguard",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Human",
+    "Knight"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [
+    "W"
+   ],
+   "url": "https://scryfall.com/card/dom/14/dauntless-bodyguard?utm_source=api",
+   "oracle_text": "As Dauntless Bodyguard enters the battlefield, choose another creature you control.\nSacrifice Dauntless Bodyguard: The chosen creature gains indestructible until end of turn."
+  },
+  {
+   "name": "Domri, Anarch of Bolas",
+   "types": [
+    "Legendary",
+    "Planeswalker"
+   ],
+   "sub_types": [
+    "Domri"
+   ],
+   "cmc": 3,
+   "image": "",
+   "colors": [
+    "G",
+    "R"
+   ],
+   "url": "https://scryfall.com/card/war/191/domri-anarch-of-bolas?utm_source=api",
+   "oracle_text": "Creatures you control get +1/+0.\n+1: Add {R} or {G}. Creature spells you cast this turn can't be countered.\n−2: Target creature you control fights target creature you don't control."
+  },
+  {
+   "name": "Rubblebelt Rioters",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Human",
+    "Berserker"
+   ],
+   "cmc": 3,
+   "image": "",
+   "colors": [
+    "G",
+    "R"
+   ],
+   "url": "https://scryfall.com/card/war/215/rubblebelt-rioters?utm_source=api",
+   "oracle_text": "Haste\nWhenever Rubblebelt Rioters attacks, it gets +X/+0 until end of turn, where X is the greatest power among creatures you control."
+  },
+  {
+   "name": "Beast Within",
+   "types": [
+    "Instant"
+   ],
+   "cmc": 3,
+   "image": "",
+   "colors": [
+    "G"
+   ],
+   "url": "https://scryfall.com/card/lcc/233/beast-within?utm_source=api",
+   "oracle_text": "Destroy target permanent. Its controller creates a 3/3 green Beast creature token."
+  },
+  {
+   "name": "Lotus Cobra",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Snake"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "G"
+   ],
+   "url": "https://scryfall.com/card/znr/193/lotus-cobra?utm_source=api",
+   "oracle_text": "Landfall — Whenever a land enters the battlefield under your control, add one mana of any color."
+  },
+  {
+   "name": "Gilded Goose",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Bird"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [
+    "G"
+   ],
+   "url": "https://scryfall.com/card/moc/299/gilded-goose?utm_source=api",
+   "oracle_text": "Flying\nWhen Gilded Goose enters the battlefield, create a Food token. (It's an artifact with \"{2}, {T}, Sacrifice this artifact: You gain 3 life.\")\n{1}{G}, {T}: Create a Food token.\n{T}, Sacrifice a Food: Add one mana of any color."
+  },
+  {
+   "name": "Rootbound Crag",
+   "types": [
+    "Land"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/xln/256/rootbound-crag?utm_source=api",
+   "oracle_text": "Rootbound Crag enters the battlefield tapped unless you control a Mountain or a Forest.\n{T}: Add {R} or {G}."
+  },
+  {
+   "name": "Horizon Canopy",
+   "types": [
+    "Land"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/ima/240/horizon-canopy?utm_source=api",
+   "oracle_text": "{T}, Pay 1 life: Add {G} or {W}.\n{1}, {T}, Sacrifice Horizon Canopy: Draw a card."
+  },
+  {
+   "name": "Plains",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Plains"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/lci/393/plains?utm_source=api",
+   "oracle_text": "({T}: Add {W}.)"
+  },
+  {
+   "name": "Plains",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Plains"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/lci/393/plains?utm_source=api",
+   "oracle_text": "({T}: Add {W}.)"
+  },
+  {
+   "name": "Plains",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Plains"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/lci/393/plains?utm_source=api",
+   "oracle_text": "({T}: Add {W}.)"
+  },
+  {
+   "name": "Plains",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Plains"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/lci/393/plains?utm_source=api",
+   "oracle_text": "({T}: Add {W}.)"
+  },
+  {
+   "name": "Plains",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Plains"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/lci/393/plains?utm_source=api",
+   "oracle_text": "({T}: Add {W}.)"
+  },
+  {
+   "name": "Plains",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Plains"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/lci/393/plains?utm_source=api",
+   "oracle_text": "({T}: Add {W}.)"
+  },
+  {
+   "name": "Mountain",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Mountain"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/lci/399/mountain?utm_source=api",
+   "oracle_text": "({T}: Add {R}.)"
+  },
+  {
+   "name": "Mountain",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Mountain"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/lci/399/mountain?utm_source=api",
+   "oracle_text": "({T}: Add {R}.)"
+  },
+  {
+   "name": "Forest",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Forest"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/lci/401/forest?utm_source=api",
+   "oracle_text": "({T}: Add {G}.)"
+  },
+  {
+   "name": "Forest",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Forest"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/lci/401/forest?utm_source=api",
+   "oracle_text": "({T}: Add {G}.)"
+  }
+ ],
+ "sideboard": [
+  {
+   "name": "Rielle, the Everwise",
+   "types": [
+    "Legendary",
+    "Creature"
+   ],
+   "sub_types": [
+    "Human",
+    "Wizard"
+   ],
+   "cmc": 3,
+   "image": "",
+   "colors": [
+    "R",
+    "U"
+   ],
+   "url": "https://scryfall.com/card/iko/203/rielle-the-everwise?utm_source=api",
+   "oracle_text": "Rielle, the Everwise gets +1/+0 for each instant and sorcery card in your graveyard.\nWhenever you discard one or more cards for the first time each turn, draw that many cards."
+  },
+  {
+   "name": "Merfolk Skydiver",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Merfolk",
+    "Mutant"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "G",
+    "U"
+   ],
+   "url": "https://scryfall.com/card/lcc/277/merfolk-skydiver?utm_source=api",
+   "oracle_text": "Flying\nWhen Merfolk Skydiver enters the battlefield, put a +1/+1 counter on target creature you control.\n{3}{G}{U}: Proliferate. (Choose any number of permanents and/or players, then give each another counter of each kind already there.)"
+  },
+  {
+   "name": "Trading Post",
+   "types": [
+    "Artifact"
+   ],
+   "cmc": 4,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/cm2/225/trading-post?utm_source=api",
+   "oracle_text": "{1}, {T}, Discard a card: You gain 4 life.\n{1}, {T}, Pay 1 life: Create a 0/1 white Goat creature token.\n{1}, {T}, Sacrifice a creature: Return target artifact card from your graveyard to your hand.\n{1}, {T}, Sacrifice an artifact: Draw a card."
+  },
+  {
+   "name": "Cauldron of Souls",
+   "types": [
+    "Artifact"
+   ],
+   "cmc": 5,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/cm2/180/cauldron-of-souls?utm_source=api",
+   "oracle_text": "{T}: Choose any number of target creatures. Each of those creatures gains persist until end of turn. (When it dies, if it had no -1/-1 counters on it, return it to the battlefield under its owner's control with a -1/-1 counter on it.)"
+  },
+  {
+   "name": "Panharmonicon",
+   "types": [
+    "Artifact"
+   ],
+   "cmc": 4,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/2x2/310/panharmonicon?utm_source=api",
+   "oracle_text": "If an artifact or creature entering the battlefield causes a triggered ability of a permanent you control to trigger, that ability triggers an additional time."
+  },
+  {
+   "name": "Sulfur Falls",
+   "types": [
+    "Land"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/lcc/354/sulfur-falls?utm_source=api",
+   "oracle_text": "Sulfur Falls enters the battlefield tapped unless you control an Island or a Mountain.\n{T}: Add {U} or {R}."
+  },
+  {
+   "name": "Leaden Myr",
+   "types": [
+    "Artifact",
+    "Creature"
+   ],
+   "sub_types": [
+    "Myr"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/som/170/leaden-myr?utm_source=api",
+   "oracle_text": "{T}: Add {B}."
+  },
+  {
+   "name": "Fall of the Thran",
+   "types": [
+    "Enchantment"
+   ],
+   "sub_types": [
+    "Saga"
+   ],
+   "cmc": 6,
+   "image": "",
+   "colors": [
+    "W"
+   ],
+   "url": "https://scryfall.com/card/dom/18/fall-of-the-thran?utm_source=api",
+   "oracle_text": "(As this Saga enters and after your draw step, add a lore counter. Sacrifice after III.)\nI — Destroy all lands.\nII, III — Each player returns two land cards from their graveyard to the battlefield."
+  },
+  {
+   "name": "Chart a Course",
+   "types": [
+    "Sorcery"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "U"
+   ],
+   "url": "https://scryfall.com/card/lci/48/chart-a-course?utm_source=api",
+   "oracle_text": "Draw two cards. Then discard a card unless you attacked this turn."
+  },
+  {
+   "name": "Prophetic Prism",
+   "types": [
+    "Artifact"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [],
+   "url": "https://scryfall.com/card/woe/249/prophetic-prism?utm_source=api",
+   "oracle_text": "When Prophetic Prism enters the battlefield, draw a card.\n{1}, {T}: Add one mana of any color."
+  },
+  {
+   "name": "Soul Warden",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Human",
+    "Cleric"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [
+    "W"
+   ],
+   "url": "https://scryfall.com/card/mm3/24/soul-warden?utm_source=api",
+   "oracle_text": "Whenever another creature enters the battlefield, you gain 1 life."
+  },
+  {
+   "name": "Dragon's Rage Channeler",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Human",
+    "Shaman"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [
+    "R"
+   ],
+   "url": "https://scryfall.com/card/mh2/121/dragons-rage-channeler?utm_source=api",
+   "oracle_text": "Whenever you cast a noncreature spell, surveil 1. (Look at the top card of your library. You may put that card into your graveyard.)\nDelirium — As long as there are four or more card types among cards in your graveyard, Dragon's Rage Channeler gets +2/+2, has flying, and attacks each combat if able."
+  },
+  {
+   "name": "Vines of Vastwood",
+   "types": [
+    "Instant"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [
+    "G"
+   ],
+   "url": "https://scryfall.com/card/mm2/168/vines-of-vastwood?utm_source=api",
+   "oracle_text": "Kicker {G} (You may pay an additional {G} as you cast this spell.)\nTarget creature can't be the target of spells or abilities your opponents control this turn. If this spell was kicked, that creature gets +4/+4 until end of turn."
+  },
+  {
+   "name": "Chatter of the Squirrel",
+   "types": [
+    "Sorcery"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [
+    "G"
+   ],
+   "url": "https://scryfall.com/card/2xm/157/chatter-of-the-squirrel?utm_source=api",
+   "oracle_text": "Create a 1/1 green Squirrel creature token.\nFlashback {1}{G} (You may cast this card from your graveyard for its flashback cost. Then exile it.)"
+  },
+  {
+   "name": "Raise the Alarm",
+   "types": [
+    "Instant"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "W"
+   ],
+   "url": "https://scryfall.com/card/cmr/41/raise-the-alarm?utm_source=api",
+   "oracle_text": "Create two 1/1 white Soldier creature tokens."
+  }
+ ]
+}
