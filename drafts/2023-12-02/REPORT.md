@@ -1,32 +1,48 @@
 ## Draft report 12/02/2023
 
+This was an 8-player online draft done using Draftmancer.
+
 ### Cards that played well
+
+>>> <<[[!Moon-Circuit Hacker]][[!Fungal Infection]][[!Call of the Herd]][[!Phoenix Chick]]>> <<<
 
 These are mostly from my own deck or decks that I played against or have first-hand experience with from this draft:
 
 - [[Fungal Infection]] - was great in the aggro deck. Consistently removed blockers and generated a body.
 - [[Phoenix Chick]] - was even recurred from the graveyard, really enjoyed seeing this one succeed.
+- [[Call of the Herd]] - Solid bodies. Exactly what green was missing. Very happy with the value provided here, even without seeing it in a GY synergy deck yet.
+- [[Moon-Circuit Hacker]] - First time seeing play, and a lot of generated value.
+
+>>> <<[[!Mosswood Dreadknight]][[!Fearless Fledgling]][[!Kor Skyfisher]][[!Faerie Dreamthief]]>> <<<
+
 - [[Mosswood Dreadknight]] - good body, recurring, improved deck consistency.
 - [[Fearless Fledgling]] - got big as expected. Not always having flying was confusing, as expected.
 - [[Kor Skyfisher]] - continues to shine as a synergy piece / enabler. Returns cycling lands, returns ETB threats like [[The Wandering Emperor]], etc.
-- [[The Wandering Emperor]] - surprisingly didn't feel overwhelming, but still pushing power level a bit.
 - [[Faerie Dreamthief]] - Good card selection / advantage. Will work well in the aggro deck also when it comes together.
+
+>>> <<[[!The Wandering Emperor]][[!Angel of Salvation]][[!Snapcaster Mage]][[!Titania, Protector of Argoth]]>> <<<
+
+- [[The Wandering Emperor]] - surprisingly didn't feel overwhelming, but still pushing power level a bit.
+- [[Angel of Salvation]] - First time she showed up in a while, but was very impactful and felt fair. Flash / convoke combination is fun.
+- [[Snapcaster Mage]] - First time seeing play, wasn't overwhelming but did win a very close game.
+- [[Titania, Protector of Argoth]] - I need to not forget about her ETB. Otherwise solid. Usually earns her value due to an immediate fetch.
+
+>>> <<[[!Scavenging Ooze]][[!Eternal Witness]][[!Empty the Warrens]][[!Inexorable Blog]]>> <<<
+
 - [[Scavenging Ooze]] - Life gain was key in the aggro matchup in a way [[Lion Sash]] would not have helped.
 - [[Eternal Witness]] - I just feel safe when I have this card in my hand.
-- [[Call of the Herd]] - Solid bodies. Exactly what green was missing. Very happy with the value provided here, even without seeing it in a GY synergy deck yet.
-- [[Angel of Salvation]] - First time she showed up in a while, but was very impactful and felt fair. Flash / convoke combination is fun.
-- [[Empty the Warrens]] - Always surprises me. In the right deck, this is pumping out 4-12 tokens even without any other storm support. It's not an aggro card like other token generators, rather it's a control payoff.
-- [[Snapcaster Mage]] - First time seeing play, wasn't overwhelming but did win a very close game.
-- [[Moon-Circuit Hacker]] - First time seeing play, and a lot of generated value.
-- [[Titania, Protector of Argoth]] - I need to not forget about her ETB. Otherwise solid. Usually earns her value due to an immediate fetch.
+- [[Empty the Warrens]] - Always surprises me. In the right deck, this is pumping out 4-12 tokens even without any other storm support. It's not as aggressive as other token generators, more a control payoff.
+- [[Inexorable Blob]] - I didn't have a perfect delirium deck, but he still managed to be a solid threat that was fun to play with / build around. First time trying delirium in the cube and I enjoyed the challenge.
 
 ### Cards to watch
 
+>>> <<[[!Dark Confidant]][[!Nobilis of War]][[!Glory of Warfare]][[!Gruff Triplets]]>> <<<
+
 These are mostly from my own deck or decks that I played against or have first-hand experience with from this draft:
 
-- [[Dark Confidant]] is powerful and might need to come out. BR aggro could use some more card draw though, and I like the deck-building constraint that confidant puts on the drafter. I am thinking I should add another 1-2 impulsive draw abilities to red, as well as perhaps a bit more scry, and look again at the RB lands. I may also try out [[Blood Scrivener]] in this spot for a similar but less potent ability. The thing is, [[Dark Confidant]] is a huge draft-time signal for aggro that I am hesitant to lose. It really impacts draft time decision making, even if when it hits the field it's a bit of a power outlier. I think it deserves a few more test runs to see how it impacts the environment before cutting it.
-- [[Ulcerate]] felt _really_ bad when playing against aggro. I think this is a good thing - I want each removal spell to be better in some matchups and worse in others, rather than generically good. Need to see how [[Ulcerate]] handles in other matchups.
+- [[Dark Confidant]] is really powerful and might need to come out. BR aggro could use some more card draw though, and I like the deck-building constraint that confidant puts on the drafter. I am thinking I should add another 1-2 impulsive draw abilities to red, as well as perhaps a bit more scry, and look again at the RB lands. I may also try out [[Blood Scrivener]] in this spot for a similar but less potent ability. The thing is, [[Dark Confidant]] is a huge draft-time signal for aggro that I am hesitant to lose. It really impacts draft time decision making, even if when it hits the field it's a bit of a power outlier. I think it deserves a few more test runs to see how it impacts the environment before cutting it.
 - Not so much an individual card, but there's some amount of "goodstuff piles" showing up. TBD how successful those decks are, but I think cards like [[Nobilis of War]], [[Glory of Warfare]] and similarly powerful gold cards that come without a big enough deck-building cost encourage this style of deck. I am not against supporting "goodstuff" decks in general, but I think the should be at a disadvantage against a really tightly-crafted synergy deck. So, something to keep an eye on. I did enjoy the synergies with the Gruul cards such as [[Rubblebelt Rioters]], though. One or both of those Boros cards may be on the chopping block to pull in other more narrow gold cards (or even just more lands) I've had my eye on, such as [[Akiri, Fearless Voyager]] and [[Hero of the Nyxborn]]. Decidedly lower floors on these cards, but the ceiling has potential to be pushed a bit.
+- [[Gruff Triplets]] were always going to be powerful. They have won all games they have been cast so far, this time beating a deck with both [[Wrath of God]] and [[Day of Judgment]] in it - two of the best answers available. Considering I am also trying to drop the average mana value of the cube, these guys seem like their time is short. The battle bewteen [[Gruff Triplets]] and [[Multani, Yavamaya's Avatar]] comes closer to an end.
 
 ### Notes from the draft
 
@@ -40,6 +56,9 @@ Strongly considering breaking singleton and going double-fetch lands to increase
 
 The spells-matter deck is loaded with Planeswalker options. Chandra, Saheeli, Jace, and Ral. We really don't need so many of them. I think to start, [[Ral, Storm Conduit]] is on the chopping block. He's probably my favorite of the bunch as far as power-level and abilities, but he's also the most narrow - only working in an Izzet deck, whereas the others can all find themselves in a variety of decks. Least likely to cut is [[Saheeli, Sublime Artificer]] who is such a fun card promoting a diverse set of synergies - tokens, artifacts, spells - and fitting in any deck that runs blue _or_ red due to the hybrid cost.
 
+Lands are an area of limited interaction. Cards like [[Restless Vinestalk]] and [[Maze of Ith]] are especially powerful because they are hard for your opponent to interact with. I think some small amount of additional land-interaction is probably a good thing to make these cards less of a sure-thing. The cube already has a few options here - [[Field of Ruin]], [[Acidic Slime]], [[Boseiju, Who Endures]] - but a handful of other options would be nice - especially if they can be added without being too narrow / parasitic. [[Rishadan Port]] is a good example of a card that would shine against [[Maze of Ith]], but is also just generically viable for resource denial. [[Wasteland]] might be too strong, but would seriously buff aggro decks who don't need the mana as much as they want to deny their opponent of it.
+
+[[Ulcerate]] felt _really_ bad when playing against aggro. I think this is a good thing - I want most removal spells to be better in some matchups and worse in others, rather than generically good. Need to see how [[Ulcerate]] handles in other matchups.
 
 ### Cards to consider
 
@@ -58,3 +77,10 @@ The spells-matter deck is loaded with Planeswalker options. Chandra, Saheeli, Ja
 
 - [[Akiri, Fearless Voyager]]
 - [[Hero of the Nyxborn]]
+
+**Lands and land interaction**
+
+- [[Rishadan Port]]
+- [[Mutavault]]
+- [[Wasteland]]
+- Additional horizon lands and/or fetch lands
