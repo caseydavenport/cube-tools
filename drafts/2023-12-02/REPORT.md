@@ -1,12 +1,22 @@
 ## Draft report 12/02/2023
 
-This was an 8-player online draft done using Draftmancer.
+This was an 8-player online draft done using Draftmancer. Drafted decks included:
+
+- BG Titania / lands / graveyard midrange
+- RB aggro
+- UR spells-matter
+- WUB flicker / control
+- WRG power matters / anthem midrange
+- RG +1/+1 counters + ramp midrange
+- WR aggro
+- WG good stuff
 
 ### Cards that played well
 
+These are mostly from my own deck or decks that I played against or have first-hand experience with from this draft:
+
 >>> <<[[!Moon-Circuit Hacker]][[!Fungal Infection]][[!Call of the Herd]][[!Phoenix Chick]]>> <<<
 
-These are mostly from my own deck or decks that I played against or have first-hand experience with from this draft:
 
 - [[Fungal Infection]] - was great in the aggro deck. Consistently removed blockers and generated a body.
 - [[Phoenix Chick]] - was even recurred from the graveyard, really enjoyed seeing this one succeed.
@@ -36,13 +46,14 @@ These are mostly from my own deck or decks that I played against or have first-h
 
 ### Cards to watch
 
+These are mostly from my own deck or decks that I played against or have first-hand experience with from this draft:
+
 >>> <<[[!Dark Confidant]][[!Nobilis of War]][[!Glory of Warfare]][[!Gruff Triplets]]>> <<<
 
-These are mostly from my own deck or decks that I played against or have first-hand experience with from this draft:
 
 - [[Dark Confidant]] is really powerful and might need to come out. BR aggro could use some more card draw though, and I like the deck-building constraint that confidant puts on the drafter. I am thinking I should add another 1-2 impulsive draw abilities to red, as well as perhaps a bit more scry, and look again at the RB lands. I may also try out [[Blood Scrivener]] in this spot for a similar but less potent ability. The thing is, [[Dark Confidant]] is a huge draft-time signal for aggro that I am hesitant to lose. It really impacts draft time decision making, even if when it hits the field it's a bit of a power outlier. I think it deserves a few more test runs to see how it impacts the environment before cutting it.
 - Not so much an individual card, but there's some amount of "goodstuff piles" showing up. TBD how successful those decks are, but I think cards like [[Nobilis of War]], [[Glory of Warfare]] and similarly powerful gold cards that come without a big enough deck-building cost encourage this style of deck. I am not against supporting "goodstuff" decks in general, but like the tightly-crafted synergy decks, I want to make sure they are balanced and only show up occasionally. So, something to keep an eye on. I did enjoy the synergies between the Boros gold cards and Gruul cards such as [[Rubblebelt Rioters]], though. One or both of those Boros cards may be on the chopping block to pull in more fetches, or "power matters" cards that require a bit more build-around.
-- [[Gruff Triplets]] were always going to be powerful. They have won all games they have been cast so far, this time beating a deck with both [[Wrath of God]] and [[Day of Judgment]] in it - two of the best answers available. Considering I am also trying to drop the average mana value of the cube, these guys seem like their time is short. The battle bewteen [[Gruff Triplets]] and [[Multani, Yavamaya's Avatar]] comes closer to an end. I may cut both.
+- [[Gruff Triplets]] were always going to be powerful. They have won all games they have been cast so far, this time beating a deck with both [[Wrath of God]] and [[Day of Judgment]] in it - two of the best answers available. Considering I am also trying to drop the average mana value of the cube, these guys seem like their time is short. The battle bewteen [[Gruff Triplets]] and [[Multani, Yavamaya's Avatar]] comes closer to an end. I may cut both - the more I lower the mana value of the cube, the more I enjoy the gameplay. [[Esika's Chariot]] fills a similar role as a midrange top-end that is hard to remove, but at a lower cost and with less of a "bomb" impact on the game.
 
 ### Notes from the draft (in no particular order)
 
