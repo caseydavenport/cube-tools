@@ -55,11 +55,19 @@ These are mostly from my own deck or decks that I played against or have first-h
 - Not so much an individual card, but there's some amount of "goodstuff piles" showing up. TBD how successful those decks are, but I think cards like [[Nobilis of War]], [[Glory of Warfare]] and similarly powerful gold cards that come without a big enough deck-building cost encourage this style of deck. I am not against supporting "goodstuff" decks in general, but like the tightly-crafted synergy decks, I want to make sure they are balanced and only show up occasionally. So, something to keep an eye on. I did enjoy the synergies between the Boros gold cards and Gruul cards such as [[Rubblebelt Rioters]], though. One or both of those Boros cards may be on the chopping block to pull in more fetches, or "power matters" cards that require a bit more build-around.
 - [[Gruff Triplets]] were always going to be powerful. They have won all games they have been cast so far, this time beating a deck with both [[Wrath of God]] and [[Day of Judgment]] in it - two of the best answers available. Considering I am also trying to drop the average mana value of the cube, these guys seem like their time is short. The battle bewteen [[Gruff Triplets]] and [[Multani, Yavamaya's Avatar]] comes closer to an end. I may cut both - the more I lower the mana value of the cube, the more I enjoy the gameplay. [[Esika's Chariot]] fills a similar role as a midrange top-end that is hard to remove, but at a lower cost and with less of a "bomb" impact on the game.
 
+>>> <<[[!Reckless Rage]][[!Severed Strands]][[!Dark Ritual]]>> <<<
+
+- [[Reckless Rage]]. I finally witnessed the failure case of not having a creature in play, and it felt bad. Would much rather have a [[Thrill of Possibility]], [[Forked Bolt]], etc. here.
+- [[Severed Strands]] for much the same reason - it's useless if you have no board, and that's often when you really need a removal spell.
+- [[Dark Ritual]] is too often a dead draw in the late game, and can be pretty swingy early game. Either you out-resource your opponent to great effect, or you go down a card and effectively two-for-one yourself when your threat is removed. It's a classic card and I love that, but with so many more interesting effects in demand this one might not meet the bar any more.
+
 ### Notes from the draft (in no particular order)
 
 My recent tweaks to removal definitely helped aggro in my matchup, which is great! It's not desirable trading life or tempo in these matchups. Usually I feel pretty good about casting [[Spider Food]] or [[Ulcerate]] in my midrange deck, but it's a sad moment casting it against [[Phoenix Chick]] for a sizable tempo / life loss. [[Ulcerate]] felt _really_ bad when playing against aggro. I think this is a good thing - it's the type of tension I was trying to add and that wouldn't exist if aggro wasn't supported well enough. I want most removal spells to be better in some matchups and worse in others, rather than generically good in order to force decision making and make sure the right removal finds the drafter who needs it. Need to see how [[Ulcerate]] handles in other matchups.
 
 I really enjoy the higher land density. When the draft is over and it comes time to deck-build, it means way more of my drafted cards are actually playable. I will likely add more.
+
+There's a small power-matters theme emerging from the set with cards like [[Dreadhorde Butcher]], [[Marshal's Anthem]], [[Dreadhorde Arcanist]], [[Rubblebelt Rioters]], [[Domri's Ambush]], [[Krenko, Tin Street Kingpin]], [[Domri, Anarch of Bolas]], and [[Ignoble Hierarch]] that can either synergize with +1/+1 counters, equipment, and abilities like _exalted_, or go-wide strategies like tokens and sacrifice. I like this incremental build rather than a "greater than power X" model. While I'm likely pulling [[Glory of Warfare]] for being a bit boring, I think cards like [[Qasali Pridemage]] fit nicely here - the payoff isn't as high, but it's cheaper, provides flexibility through interaction with artifacts and enchantments, and presents interesting game-time decisions. I had previously been off of exalted as an ability due to the tension it introduces in some board states, but I think combined with some of the above cards it actually provides some pretty interesting choices. [[Ignoble Hierarch]] into [[Qasali Pridemage]] into [[Krenko, Tin Street Kingpin]] would be very cool.
 
 Strongly considering breaking singleton and going double-fetch lands to increase availability. I ended up having enough for my Titania deck, but a few more would have been better. They fuel all sorts of synergies I care about - _delerium_, _sacrifice_, _delve_. [[Worm Harvest]], [[Titania, Protector of Argoth]], [[Knight of the Reliquary]], [[Grim Discovery]], [[Dragon's Rage Channeler]], [[Treasure Cruise]] etc. More horizon lands besides the ones already there feel like a great option for similar reasons, also mixing well with draw-twice synercies. If only they were a full cycle - Rakdos especially could use one.
 
@@ -72,6 +80,7 @@ Lands are an area of limited interaction. Cards like [[Restless Vinestalk]] and 
 **Removal**
 
 - [[Bitter Triumph]]
+- [[Forked Bolt]]
 
 **Rakdos aggro buffs**
 
@@ -79,6 +88,10 @@ Lands are an area of limited interaction. Cards like [[Restless Vinestalk]] and 
 - [[Anje's Ravager]]
 - [[Transmogrant's Crown]]
 - [[Night's Whisper]]
+- [[Thrill of Possibility]]
+- [[Experimental Synthesizer]]
+- [[Blazing Rootwalla]]
+- [[Cathartic Pyre]]
 
 **Lands and land interaction**
 
@@ -87,3 +100,7 @@ Lands are an area of limited interaction. Cards like [[Restless Vinestalk]] and 
 - [[Wasteland]]
 - [[Prismatic Vista]]
 - Additional horizon lands and/or hybrid fetch lands
+
+**Power matters**
+
+- [[Qasali Pridemage]]
