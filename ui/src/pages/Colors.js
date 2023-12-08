@@ -391,6 +391,7 @@ function ColorRateChart(input) {
     let stats = GetColorStats(decks)
     for (let color of allColors) {
       if (!stats.has(color)) {
+        colorDatasets.get(color).push(0)
         continue
       }
       if (input.dataset === "wins") {

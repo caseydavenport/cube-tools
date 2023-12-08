@@ -1,8 +1,11 @@
 {
- "labels": [],
+ "labels": ["aggro"],
  "player": "james",
  "date": "2023-12-02",
- "games": [],
+ "games": [
+    {"opponent": "dom", "winner": "dom"},
+    {"opponent": "dom", "winner": "dom"}
+  ],
  "mainboard": [
   {
    "name": "Infernal Grasp",
