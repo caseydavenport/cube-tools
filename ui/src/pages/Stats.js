@@ -78,7 +78,6 @@ export default function StatsViewer() {
   const cardWidgetOpts =  [
     { label: "Mainboard rate", value: "Mainboard rate" },
     { label: "Win rate", value: "Win rate" },
-    { label: "Sideboard rate", value: "Sideboard rate" },
   ]
   const [cardWidgetColorSelection, setCardWidgetColorSelection] = useState("");
   const cardWidgetColorOpts = [
@@ -804,9 +803,11 @@ function CardWidget(input) {
         <table className="winrate-table">
           <thead className="table-header">
             <tr>
-              <td onClick={input.onHeaderClick} id="mainboarded" className="header-cell">Mainboard rate</td>
+              <td onClick={input.onHeaderClick} id="mainboarded" className="header-cell">Mainboard %</td>
               <td className="header-cell">Card</td>
-              <td onClick={input.onHeaderClick} id="decks" className="header-cell"># Decks</td>
+              <td onClick={input.onHeaderClick} id="mb" className="header-cell"># mb</td>
+              <td onClick={input.onHeaderClick} id="sb" className="header-cell"># sb</td>
+              <td onClick={input.onHeaderClick} id="in-color-sb" className="header-cell"># playable sb</td>
               <td onClick={input.onHeaderClick} id="games" className="header-cell"># Games</td>
               <td onClick={input.onHeaderClick} id="elo" className="header-cell">ELO</td>
             </tr>
@@ -823,11 +824,17 @@ function CardWidget(input) {
                 case "games":
                   sort = card.total_games
                   break
-                case "decks":
+                case "mb":
                   sort = card.mainboard
+                  break
+                case "sb":
+                  sort = card.sideboard
                   break
                 case "elo":
                   sort = card.elo
+                  break
+                case "in-color-sb":
+                  sort = card.inColorSideboard
                   break
               }
 
@@ -836,57 +843,10 @@ function CardWidget(input) {
                   <td>{card.mainboard_percent}%</td>
                   <td className="card"><a href={card.url} target="_blank" rel="noopener noreferrer">{card.name}</a></td>
                   <td><ApplyTooltip text={card.mainboard} hidden={CardMainboardTooltipContent(card)}/></td>
-                  <td>{card.total_games}</td>
-                  <td>{card.elo}</td>
-                </tr>
-              )
-            }).sort(SortFunc)
-          }
-          </tbody>
-        </table>
-      </div>
-    );
-  } else if (input.dropdownSelection === "Sideboard rate") {
-    return (
-      <div className="widget">
-        <CardWidgetOptions {...input} />
-        <table className="winrate-table">
-          <thead className="table-header">
-            <tr>
-              <td onClick={input.onHeaderClick} id="sideboarded" className="header-cell">Sideboard rate</td>
-              <td className="header-cell">Card</td>
-              <td onClick={input.onHeaderClick} id="sideboarded" className="header-cell">#sb / #picked</td>
-              <td onClick={input.onHeaderClick} id="in-color-sb" className="header-cell"># in-color sb</td>
-              <td onClick={input.onHeaderClick} id="games" className="header-cell"># Games</td>
-            </tr>
-          </thead>
-          <tbody>
-          {
-            data.map(function(card) {
-              // Determine sort order.
-              let sort = card.sideboard_percent
-              switch (input.sortBy) {
-                case "sideboarded":
-                  sort = card.sideboard_percent
-                  break
-                case "games":
-                  sort = card.total_games
-                  break
-                case "in-color-sb":
-                  sort = card.inColorSideboard
-                  break
-                case "elo":
-                  sort = card.elo
-                  break
-              }
-
-              return (
-                <tr sort={sort} className="card" key={card.name}>
-                  <td>{card.sideboard_percent}%</td>
-                  <td className="card"><a href={card.url} target="_blank" rel="noopener noreferrer">{card.name}</a></td>
-                  <td>{card.sideboard} / {card.mainboard + card.sideboard}</td>
+                  <td>{card.sideboard}</td>
                   <td>{card.inColorSideboard}</td>
                   <td>{card.total_games}</td>
+                  <td>{card.elo}</td>
                 </tr>
               )
             }).sort(SortFunc)

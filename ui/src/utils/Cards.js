@@ -140,7 +140,7 @@ export function CardData(decks, minDrafts, minGames, cube, color) {
       continue
     }
     tracker[c].pick_percent = Math.round((card.mainboard + card.sideboard) / totalDrafts * 100) // TODO: Unused
-    tracker[c].mainboard_percent = Math.round(card.mainboard / totalDrafts * 100)
+    tracker[c].mainboard_percent = Math.round(card.mainboard / (card.mainboard + card.sideboard) * 100)
     tracker[c].sideboard_percent = Math.round(card.sideboard / (card.mainboard + card.sideboard) * 100)
     tracker[c].record = card.wins + "-" + card.losses + "-" + 0
     tracker[c].total_games = card.wins + card.losses

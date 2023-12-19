@@ -4,7 +4,12 @@
  "date": "2023-12-02",
  "games": [
     {"opponent": "dom", "winner": "dom"},
-    {"opponent": "dom", "winner": "dom"}
+    {"opponent": "dom", "winner": "dom"},
+    {"opponent": "greg", "winner": "greg"},
+    {"opponent": "greg", "winner": "greg"},
+    {"opponent": "greg", "winner": "james"},
+    {"opponent": "casey", "winner": "casey"},
+    {"opponent": "casey", "winner": "casey"}
   ],
  "mainboard": [
   {

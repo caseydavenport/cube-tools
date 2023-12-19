@@ -20,6 +20,18 @@
   {
    "opponent": "dom",
    "winner": "dom"
+  },
+  {
+   "opponent": "james",
+   "winner": "greg"
+  },
+  {
+   "opponent": "james",
+   "winner": "james"
+  },
+  {
+   "opponent": "james",
+   "winner": "greg"
   }
  ],
  "mainboard": [

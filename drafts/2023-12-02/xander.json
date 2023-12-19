@@ -25,6 +25,18 @@
   {
    "opponent": "cara",
    "winner": "xander"
+  },
+  {
+   "opponent": "paul",
+   "winner": "xander"
+  },
+  {
+   "opponent": "paul",
+   "winner": "paul"
+  },
+  {
+   "opponent": "paul",
+   "winner": "xander"
   }
  ],
  "mainboard": [
