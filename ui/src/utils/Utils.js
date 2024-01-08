@@ -11,7 +11,7 @@ export function AverageCMC({deck}) {
     i++
     // Skip basic lands.
     let card = deck.mainboard[i]
-    if (card && !IsBasicLand(card)) {
+    if (card && !card.types.includes("Land")) {
       t += card.cmc
       c++
     }

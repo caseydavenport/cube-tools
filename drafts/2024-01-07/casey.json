@@ -1,8 +1,11 @@
 {
- "labels": [],
+ "labels": ["midrange", "draw"],
  "player": "casey",
  "date": "2024-01-07",
- "games": null,
+ "games": [
+    {"opponent": "xander", "winner": "xander"},
+    {"opponent": "xander", "winner": "xander"}
+  ],
  "mainboard": [
   {
    "name": "Tarmogoyf",

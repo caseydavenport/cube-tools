@@ -1,8 +1,11 @@
 {
- "labels": [],
+ "labels": ["midrange", "+1/+1", "token"],
  "player": "jen",
  "date": "2024-01-07",
- "games": null,
+ "games": [
+    {"opponent": "greg", "winner": "jen"},
+    {"opponent": "dom", "winner": "dom"}
+  ],
  "mainboard": [
   {
    "name": "Flickerwisp",

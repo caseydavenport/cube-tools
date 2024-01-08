@@ -1,8 +1,10 @@
 {
- "labels": [],
+ "labels": ["midrange", "discard"],
  "player": "dom",
  "date": "2024-01-07",
- "games": null,
+ "games": [
+    {"opponent": "jen", "winner": "dom"}
+  ],
  "mainboard": [
   {
    "name": "Thing in the Ice // Awoken Horror",
