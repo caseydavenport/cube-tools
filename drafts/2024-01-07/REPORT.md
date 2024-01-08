@@ -1,0 +1,1 @@
+- Fight spells are confusing when one of the targets is removed in response. They are also a good way to 2-for-1 yourself. Despite reading about this many times, I've finally witnessed it in a way that makes me need to reconsider fight a bit. Nothing major, but might want to think about cards like [[Tail Swipe]]
