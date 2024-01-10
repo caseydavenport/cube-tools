@@ -5,7 +5,9 @@
  "games": [
     {"opponent": "xander", "winner": "xander"},
     {"opponent": "xander", "winner": "xander"},
-    {"opponent": "dom", "winner": "dom"}
+    {"opponent": "dom", "winner": "dom"},
+    {"opponent": "jen", "winner": "casey"},
+    {"opponent": "jen", "winner": "jen"}
   ],
  "mainboard": [
   {

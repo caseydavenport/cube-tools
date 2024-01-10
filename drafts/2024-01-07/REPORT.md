@@ -20,13 +20,19 @@
 
 - [[Halo Forager]] is _sometimes_ even better than [[Snapcaster Mage]]. A 3/1 flier is great, and it can target your opponent's graveyard - providing potentially a lot more options.
 
->>> <<[[!Remand]][[!Sparring Construct]][[!Throne of the God-Pharoh]]>> <<<
+>>> <<[[!Remand]][[!Sparring Construct]][[!Throne of the God-Pharoh]][[!Parallel Lives]]>> <<<
 
 - [[Remand]], [[Memory Lapse]], [[Reprieve]], and [[Delay]] all worked wonders this round. Each plays differently, but the tempo advantage is real and that's the sort of environment I want. It would be a problem if a turn or two of tempo gained at the right moment wasn't impactful.
 
 - [[Sparring Construct]] continues to over perform my expectations. It's freeing to willingly chump block in order to get a counter, or force a difficult blocking decision for your opponent. Very similar to [[Perilous Myr]] in that regard.
 
 - [[Throne of the God-Pharoh]] is especially good in an aggro deck, but brings surprising value with even just a small handful of creatures.
+
+- [[Parallel Lives]] is not too much of a surprise. But it can get pretty bonkers with cards like [[Saproling Migration]]. Enjoy that it's a dead card in many decks, and very very powerful in others.
+
+>>> <<[[!Galepowder Mage]]>> <<<
+
+- [[Galepowder Mage]] is one that I've been considering cutting due to repetitive play patterns. However, it is uniquely positioned as both a synergistic threat (flying, flickering your own dudes) and a solid answer to some of the more powerful cards in the cube. It handily deals with cards like [[The Goose Mother]], [[Gruff Triplets]], and decks that rely on things like equipment and +1/+1 counters.
 
 # Cards to monitor
 
