@@ -1,10 +1,12 @@
 {
- "labels": ["control", "spells"],
+ "labels": ["aggro", "control", "spells"],
  "player": "xander",
  "date": "2024-01-07",
  "games": [
     {"opponent": "casey", "winner": "xander"},
-    {"opponent": "casey", "winner": "xander"}
+    {"opponent": "casey", "winner": "xander"},
+    {"opponent": "dom", "winner": "xander"},
+    {"opponent": "dom", "winner": "xander"}
   ],
  "mainboard": [
   {

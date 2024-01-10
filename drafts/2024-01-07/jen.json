@@ -4,6 +4,7 @@
  "date": "2024-01-07",
  "games": [
     {"opponent": "greg", "winner": "jen"},
+    {"opponent": "dom", "winner": "dom"},
     {"opponent": "dom", "winner": "dom"}
   ],
  "mainboard": [

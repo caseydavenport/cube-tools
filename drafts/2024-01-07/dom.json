@@ -1,9 +1,13 @@
 {
- "labels": ["midrange", "discard"],
+ "labels": ["control", "discard"],
  "player": "dom",
  "date": "2024-01-07",
  "games": [
-    {"opponent": "jen", "winner": "dom"}
+    {"opponent": "jen", "winner": "dom"},
+    {"opponent": "jen", "winner": "dom"},
+    {"opponent": "casey", "winner": "dom"},
+    {"opponent": "xander", "winner": "xander"},
+    {"opponent": "xander", "winner": "xander"}
   ],
  "mainboard": [
   {
@@ -241,52 +245,6 @@
    "oracle_text": "Defender, flying\n{1}{R}: Target creature attacks this turn if able."
   },
   {
-   "name": "Magma Phoenix",
-   "types": [
-    "Creature"
-   ],
-   "sub_types": [
-    "Phoenix"
-   ],
-   "cmc": 5,
-   "image": "",
-   "colors": [
-    "R"
-   ],
-   "url": "https://scryfall.com/card/m11/150/magma-phoenix?utm_source=api",
-   "oracle_text": "Flying\nWhen Magma Phoenix dies, it deals 3 damage to each creature and each player.\n{3}{R}{R}: Return Magma Phoenix from your graveyard to your hand."
-  },
-  {
-   "name": "Fatestitcher",
-   "types": [
-    "Creature"
-   ],
-   "sub_types": [
-    "Zombie",
-    "Wizard"
-   ],
-   "cmc": 4,
-   "image": "",
-   "colors": [
-    "U"
-   ],
-   "url": "https://scryfall.com/card/ala/43/fatestitcher?utm_source=api",
-   "oracle_text": "{T}: You may tap or untap another target permanent.\nUnearth {U} ({U}: Return this card from your graveyard to the battlefield. It gains haste. Exile it at the beginning of the next end step or if it would leave the battlefield. Unearth only as a sorcery.)"
-  },
-  {
-   "name": "Chart a Course",
-   "types": [
-    "Sorcery"
-   ],
-   "cmc": 2,
-   "image": "",
-   "colors": [
-    "U"
-   ],
-   "url": "https://scryfall.com/card/lci/48/chart-a-course?utm_source=api",
-   "oracle_text": "Draw two cards. Then discard a card unless you attacked this turn."
-  },
-  {
    "name": "Negate",
    "types": [
     "Instant"
@@ -431,23 +389,6 @@
    ],
    "url": "https://scryfall.com/card/woe/115/virtue-of-persistence-locthwain-scorn?utm_source=api",
    "oracle_text": ""
-  },
-  {
-   "name": "Liliana, Death's Majesty",
-   "types": [
-    "Legendary",
-    "Planeswalker"
-   ],
-   "sub_types": [
-    "Liliana"
-   ],
-   "cmc": 5,
-   "image": "",
-   "colors": [
-    "B"
-   ],
-   "url": "https://scryfall.com/card/mic/121/liliana-deaths-majesty?utm_source=api",
-   "oracle_text": "+1: Create a 2/2 black Zombie creature token. Mill two cards.\n−3: Return target creature card from your graveyard to the battlefield. That creature is a black Zombie in addition to its other colors and types.\n−7: Destroy all non-Zombie creatures."
   },
   {
    "name": "Shadowstorm Vizier",
@@ -845,6 +786,69 @@
    ],
    "url": "https://scryfall.com/card/cmm/98/ghostly-flicker?utm_source=api",
    "oracle_text": "Exile two target artifacts, creatures, and/or lands you control, then return those cards to the battlefield under your control."
+  },
+  {
+   "name": "Chart a Course",
+   "types": [
+    "Sorcery"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "U"
+   ],
+   "url": "https://scryfall.com/card/lci/48/chart-a-course?utm_source=api",
+   "oracle_text": "Draw two cards. Then discard a card unless you attacked this turn."
+  },
+  {
+   "name": "Liliana, Death's Majesty",
+   "types": [
+    "Legendary",
+    "Planeswalker"
+   ],
+   "sub_types": [
+    "Liliana"
+   ],
+   "cmc": 5,
+   "image": "",
+   "colors": [
+    "B"
+   ],
+   "url": "https://scryfall.com/card/mic/121/liliana-deaths-majesty?utm_source=api",
+   "oracle_text": "+1: Create a 2/2 black Zombie creature token. Mill two cards.\n−3: Return target creature card from your graveyard to the battlefield. That creature is a black Zombie in addition to its other colors and types.\n−7: Destroy all non-Zombie creatures."
+  },
+  {
+   "name": "Magma Phoenix",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Phoenix"
+   ],
+   "cmc": 5,
+   "image": "",
+   "colors": [
+    "R"
+   ],
+   "url": "https://scryfall.com/card/m11/150/magma-phoenix?utm_source=api",
+   "oracle_text": "Flying\nWhen Magma Phoenix dies, it deals 3 damage to each creature and each player.\n{3}{R}{R}: Return Magma Phoenix from your graveyard to your hand."
+  },
+  {
+   "name": "Fatestitcher",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Zombie",
+    "Wizard"
+   ],
+   "cmc": 4,
+   "image": "",
+   "colors": [
+    "U"
+   ],
+   "url": "https://scryfall.com/card/ala/43/fatestitcher?utm_source=api",
+   "oracle_text": "{T}: You may tap or untap another target permanent.\nUnearth {U} ({U}: Return this card from your graveyard to the battlefield. It gains haste. Exile it at the beginning of the next end step or if it would leave the battlefield. Unearth only as a sorcery.)"
   },
   {
    "name": "Counterspell",
