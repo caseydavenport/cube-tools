@@ -6,7 +6,10 @@
     {"opponent": "casey", "winner": "xander"},
     {"opponent": "casey", "winner": "xander"},
     {"opponent": "dom", "winner": "xander"},
-    {"opponent": "dom", "winner": "xander"}
+    {"opponent": "dom", "winner": "xander"},
+    {"opponent": "greg", "winner": "greg"},
+    {"opponent": "greg", "winner": "greg"}
+
   ],
  "mainboard": [
   {

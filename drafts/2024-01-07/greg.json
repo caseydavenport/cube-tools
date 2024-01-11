@@ -3,7 +3,9 @@
  "player": "greg",
  "date": "2024-01-07",
  "games": [
-    {"opponent": "jen", "winner": "jen"}
+    {"opponent": "jen", "winner": "jen"},
+    {"opponent": "xander", "winner": "greg"},
+    {"opponent": "xander", "winner": "greg"}
   ],
  "mainboard": [
   {
