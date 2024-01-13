@@ -15,9 +15,8 @@ index:
 clean:
 	rm -f data/oracle-cards.json
 
-DRAFTS=$(ls drafts/)
 reparse:
-	for dir in $(shell ls drafts/); do \
+	for dir in $(shell ls -d drafts/*/ | cut -f2 -d'/'); do \
 		echo "Processing $${dir}"; \
 		./bin/parser -deck-dir drafts/$${dir}  -date $${dir} -filetype ".txt"; \
 		./bin/parser -deck-dir drafts/$${dir}  -date $${dir} -filetype ".csv"; \

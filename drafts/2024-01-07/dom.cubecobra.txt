@@ -14,9 +14,6 @@ Flames of the Firebrand
 Mark of Mutiny
 Rielle, the Everwise
 Rage Nimbus
-Magma Phoenix
-Fatestitcher
-Chart a Course
 Negate
 Sulfurous Springs
 Takenuma, Abandoned Mire
@@ -27,7 +24,6 @@ Unearth
 Mesmeric Fiend
 Archfiend of Ifnir
 Virtue of Persistence // Locthwain Scorn
-Liliana, Death's Majesty
 Shadowstorm Vizier
 Malfegor
 Island

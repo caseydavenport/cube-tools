@@ -22,7 +22,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/woe/275/forest?utm_source=api",
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/lci/401/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)"
   },
   {
@@ -36,6 +37,7 @@
    "cmc": 0,
    "image": "",
    "colors": [],
+   "mana_cost": "",
    "url": "https://scryfall.com/card/cmr/493/simic-guildgate?utm_source=api",
    "oracle_text": "Simic Guildgate enters the battlefield tapped.\n{T}: Add {G} or {U}."
   },
@@ -51,7 +53,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/woe/269/island?utm_source=api",
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/lci/395/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)"
   },
   {
@@ -69,6 +72,7 @@
    "colors": [
     "G"
    ],
+   "mana_cost": "{2}{G}",
    "url": "https://scryfall.com/card/khc/68/marwyn-the-nurturer?utm_source=api",
    "oracle_text": "Whenever another Elf enters the battlefield under your control, put a +1/+1 counter on Marwyn, the Nurturer.\n{T}: Add an amount of {G} equal to Marwyn's power."
   },
@@ -86,6 +90,7 @@
    "colors": [
     "G"
    ],
+   "mana_cost": "{3}{G}{G}",
    "url": "https://scryfall.com/card/war/169/nissa-who-shakes-the-world?utm_source=api",
    "oracle_text": "Whenever you tap a Forest for mana, add an additional {G}.\n+1: Put three +1/+1 counters on up to one target noncreature land you control. Untap it. It becomes a 0/0 Elemental creature with vigilance and haste that's still a land.\n−8: You get an emblem with \"Lands you control have indestructible.\" Search your library for any number of Forest cards, put them onto the battlefield tapped, then shuffle."
   },
@@ -103,6 +108,7 @@
    "colors": [
     "U"
    ],
+   "mana_cost": "{2}{U}",
    "url": "https://scryfall.com/card/jmp/153/exclusion-mage?utm_source=api",
    "oracle_text": "When Exclusion Mage enters the battlefield, return target creature an opponent controls to its owner's hand."
   },
@@ -116,6 +122,7 @@
    "colors": [
     "G"
    ],
+   "mana_cost": "{G}",
    "url": "https://scryfall.com/card/mm2/168/vines-of-vastwood?utm_source=api",
    "oracle_text": "Kicker {G} (You may pay an additional {G} as you cast this spell.)\nTarget creature can't be the target of spells or abilities your opponents control this turn. If this spell was kicked, that creature gets +4/+4 until end of turn."
   },
@@ -131,7 +138,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/woe/275/forest?utm_source=api",
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/lci/401/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)"
   },
   {
@@ -147,6 +155,7 @@
    "colors": [
     "U"
    ],
+   "mana_cost": "{4}{U}",
    "url": "https://scryfall.com/card/2x2/60/mulldrifter?utm_source=api",
    "oracle_text": "Flying\nWhen Mulldrifter enters the battlefield, draw two cards.\nEvoke {2}{U} (You may cast this spell for its evoke cost. If you do, it's sacrificed when it enters the battlefield.)"
   },
@@ -164,6 +173,7 @@
    "colors": [
     "U"
    ],
+   "mana_cost": "{2}{U}",
    "url": "https://scryfall.com/card/cmm/847/flux-channeler?utm_source=api",
    "oracle_text": "Whenever you cast a noncreature spell, proliferate. (Choose any number of permanents and/or players, then give each another counter of each kind already there.)"
   },
@@ -177,7 +187,8 @@
    "colors": [
     "U"
    ],
-   "url": "https://scryfall.com/card/jmp/142/chart-a-course?utm_source=api",
+   "mana_cost": "{1}{U}",
+   "url": "https://scryfall.com/card/lci/48/chart-a-course?utm_source=api",
    "oracle_text": "Draw two cards. Then discard a card unless you attacked this turn."
   },
   {
@@ -190,6 +201,7 @@
    "colors": [
     "U"
    ],
+   "mana_cost": "{1}{U}",
    "url": "https://scryfall.com/card/mom/68/negate?utm_source=api",
    "oracle_text": "Counter target noncreature spell."
   },
@@ -203,6 +215,7 @@
    "colors": [
     "G"
    ],
+   "mana_cost": "{G}",
    "url": "https://scryfall.com/card/2xm/157/chatter-of-the-squirrel?utm_source=api",
    "oracle_text": "Create a 1/1 green Squirrel creature token.\nFlashback {1}{G} (You may cast this card from your graveyard for its flashback cost. Then exile it.)"
   },
@@ -218,7 +231,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/woe/275/forest?utm_source=api",
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/lci/401/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)"
   },
   {
@@ -235,6 +249,7 @@
    "colors": [
     "G"
    ],
+   "mana_cost": "{3}{G}",
    "url": "https://scryfall.com/card/cma/116/hunting-triad?utm_source=api",
    "oracle_text": "Create three 1/1 green Elf Warrior creature tokens.\nReinforce 3—{3}{G} ({3}{G}, Discard this card: Put three +1/+1 counters on target creature.)"
   },
@@ -250,7 +265,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/woe/275/forest?utm_source=api",
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/lci/401/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)"
   },
   {
@@ -265,7 +281,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/woe/269/island?utm_source=api",
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/lci/395/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)"
   },
   {
@@ -280,7 +297,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/woe/269/island?utm_source=api",
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/lci/395/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)"
   },
   {
@@ -295,7 +313,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/woe/269/island?utm_source=api",
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/lci/395/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)"
   },
   {
@@ -310,7 +329,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/woe/269/island?utm_source=api",
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/lci/395/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)"
   },
   {
@@ -325,7 +345,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/woe/269/island?utm_source=api",
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/lci/395/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)"
   },
   {
@@ -340,7 +361,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/woe/275/forest?utm_source=api",
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/lci/401/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)"
   },
   {
@@ -358,7 +380,8 @@
    "colors": [
     "U"
    ],
-   "url": "https://scryfall.com/card/cmr/96/siren-stormtamer?utm_source=api",
+   "mana_cost": "{U}",
+   "url": "https://scryfall.com/card/lcc/171/siren-stormtamer?utm_source=api",
    "oracle_text": "Flying\n{U}, Sacrifice Siren Stormtamer: Counter target spell or ability that targets you or a creature you control."
   },
   {
@@ -374,6 +397,7 @@
    "colors": [
     "U"
    ],
+   "mana_cost": "{1}{U}",
    "url": "https://scryfall.com/card/dtk/69/palace-familiar?utm_source=api",
    "oracle_text": "Flying\nWhen Palace Familiar dies, draw a card."
   },
@@ -389,7 +413,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/woe/275/forest?utm_source=api",
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/lci/401/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)"
   },
   {
@@ -402,6 +427,7 @@
    "colors": [
     "U"
    ],
+   "mana_cost": "{3}{U}",
    "url": "https://scryfall.com/card/cmm/91/fact-or-fiction?utm_source=api",
    "oracle_text": "Reveal the top five cards of your library. An opponent separates those cards into two piles. Put one pile into your hand and the other into your graveyard."
   },
@@ -419,6 +445,7 @@
    "cmc": 4,
    "image": "",
    "colors": null,
+   "mana_cost": "",
    "url": "https://scryfall.com/card/neo/57/inventive-iteration-living-breakthrough?utm_source=api",
    "oracle_text": ""
   },
@@ -432,6 +459,7 @@
    "colors": [
     "U"
    ],
+   "mana_cost": "{1}{U}",
    "url": "https://scryfall.com/card/war/72/teferis-time-twist?utm_source=api",
    "oracle_text": "Exile target permanent you control. Return that card to the battlefield under its owner's control at the beginning of the next end step. If it enters the battlefield as a creature, it enters with an additional +1/+1 counter on it."
   },
@@ -449,6 +477,7 @@
    "colors": [
     "G"
    ],
+   "mana_cost": "{1}{G}",
    "url": "https://scryfall.com/card/2xm/188/woodland-champion?utm_source=api",
    "oracle_text": "Whenever one or more tokens enter the battlefield under your control, put that many +1/+1 counters on Woodland Champion."
   },
@@ -465,6 +494,7 @@
    "colors": [
     "G"
    ],
+   "mana_cost": "{2}{G}",
    "url": "https://scryfall.com/card/m20/171/ferocious-pup?utm_source=api",
    "oracle_text": "When Ferocious Pup enters the battlefield, create a 2/2 green Wolf creature token."
   },
@@ -476,7 +506,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/moc/444/vineglimmer-snarl?utm_source=api",
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/lcc/368/vineglimmer-snarl?utm_source=api",
    "oracle_text": "As Vineglimmer Snarl enters the battlefield, you may reveal a Forest or Island card from your hand. If you don't, Vineglimmer Snarl enters the battlefield tapped.\n{T}: Add {G} or {U}."
   },
   {
@@ -494,6 +525,7 @@
    "colors": [
     "G"
    ],
+   "mana_cost": "{2}{G}{G}",
    "url": "https://scryfall.com/card/cmm/885/arasta-of-the-endless-web?utm_source=api",
    "oracle_text": "Reach\nWhenever an opponent casts an instant or sorcery spell, create a 1/2 green Spider creature token with reach."
   },
@@ -512,7 +544,8 @@
     "G",
     "U"
    ],
-   "url": "https://scryfall.com/card/war/205/merfolk-skydiver?utm_source=api",
+   "mana_cost": "{G}{U}",
+   "url": "https://scryfall.com/card/lcc/277/merfolk-skydiver?utm_source=api",
    "oracle_text": "Flying\nWhen Merfolk Skydiver enters the battlefield, put a +1/+1 counter on target creature you control.\n{3}{G}{U}: Proliferate. (Choose any number of permanents and/or players, then give each another counter of each kind already there.)"
   },
   {
@@ -527,7 +560,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/woe/275/forest?utm_source=api",
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/lci/401/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)"
   },
   {
@@ -542,7 +576,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/woe/269/island?utm_source=api",
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/lci/395/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)"
   },
   {
@@ -558,6 +593,7 @@
    "colors": [
     "G"
    ],
+   "mana_cost": "{G}",
    "url": "https://scryfall.com/card/xln/199/old-growth-dryads?utm_source=api",
    "oracle_text": "When Old-Growth Dryads enters the battlefield, each opponent may search their library for a basic land card, put it onto the battlefield tapped, then shuffle."
   },
@@ -574,6 +610,7 @@
    "colors": [
     "G"
    ],
+   "mana_cost": "{1}{G}",
    "url": "https://scryfall.com/card/dom/186/untamed-kavu?utm_source=api",
    "oracle_text": "Kicker {3} (You may pay an additional {3} as you cast this spell.)\nVigilance, trample\nIf Untamed Kavu was kicked, it enters the battlefield with three +1/+1 counters on it."
   },
@@ -592,6 +629,7 @@
    "colors": [
     "U"
    ],
+   "mana_cost": "{4}{U}{U}",
    "url": "https://scryfall.com/card/neo/60/kairi-the-swirling-sky?utm_source=api",
    "oracle_text": "Flying, ward {3}\nWhen Kairi, the Swirling Sky dies, choose one —\n• Return any number of target nonland permanents with total mana value 6 or less to their owners' hands.\n• Mill six cards, then return up to two instant and/or sorcery cards from your graveyard to your hand."
   },
@@ -605,6 +643,7 @@
    "colors": [
     "U"
    ],
+   "mana_cost": "{U}{U}",
    "url": "https://scryfall.com/card/cmm/81/counterspell?utm_source=api",
    "oracle_text": "Counter target spell."
   },
@@ -622,6 +661,7 @@
    "colors": [
     "G"
    ],
+   "mana_cost": "{G}",
    "url": "https://scryfall.com/card/a25/160/arbor-elf?utm_source=api",
    "oracle_text": "{T}: Untap target Forest."
   }

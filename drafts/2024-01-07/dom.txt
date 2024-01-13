@@ -14,9 +14,6 @@
 1 Mark of Mutiny
 1 Rielle, the Everwise
 1 Rage Nimbus
-1 Magma Phoenix
-1 Fatestitcher
-1 Chart a Course
 1 Negate
 1 Sulfurous Springs
 1 Takenuma, Abandoned Mire
@@ -27,13 +24,16 @@
 1 Mesmeric Fiend
 1 Archfiend of Ifnir
 1 Virtue of Persistence
-1 Liliana, Death's Majesty
 1 Shadowstorm Vizier
 1 Malfegor
 4 Island
 4 Swamp
 4 Mountain
 
+1 Chart a Course
+1 Liliana, Death's Majesty
+1 Fatestitcher
+1 Magma Phoenix
 1 Ajani's Pridemate
 1 Blinding Mage
 1 Lion Sash

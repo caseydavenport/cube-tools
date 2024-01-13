@@ -19,6 +19,7 @@
    "colors": [
     "G"
    ],
+   "mana_cost": "{G}",
    "url": "https://scryfall.com/card/mm2/168/vines-of-vastwood?utm_source=api",
    "oracle_text": "Kicker {G} (You may pay an additional {G} as you cast this spell.)\nTarget creature can't be the target of spells or abilities your opponents control this turn. If this spell was kicked, that creature gets +4/+4 until end of turn."
   },
@@ -30,7 +31,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/cmm/996/fortified-village?utm_source=api",
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/lcc/331/fortified-village?utm_source=api",
    "oracle_text": "As Fortified Village enters the battlefield, you may reveal a Forest or Plains card from your hand. If you don't, Fortified Village enters the battlefield tapped.\n{T}: Add {G} or {W}."
   },
   {
@@ -48,6 +50,7 @@
    "colors": [
     "W"
    ],
+   "mana_cost": "{2}{W}",
    "url": "https://scryfall.com/card/tsr/30/outrider-en-kor?utm_source=api",
    "oracle_text": "Flanking (Whenever a creature without flanking blocks this creature, the blocking creature gets -1/-1 until end of turn.)\n{0}: The next 1 damage that would be dealt to Outrider en-Kor this turn is dealt to target creature you control instead."
   },
@@ -59,7 +62,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/cmm/428/terramorphic-expanse?utm_source=api",
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/lcc/360/terramorphic-expanse?utm_source=api",
    "oracle_text": "{T}, Sacrifice Terramorphic Expanse: Search your library for a basic land card, put it onto the battlefield tapped, then shuffle."
   },
   {
@@ -70,6 +74,7 @@
    "cmc": 6,
    "image": "",
    "colors": [],
+   "mana_cost": "{6}",
    "url": "https://scryfall.com/card/eve/174/ward-of-bones?utm_source=api",
    "oracle_text": "Each opponent who controls more creatures than you can't cast creature spells. The same is true for artifacts and enchantments.\nEach opponent who controls more lands than you can't play lands."
   },
@@ -88,6 +93,7 @@
     "U",
     "W"
    ],
+   "mana_cost": "{2}{W/U}{W/U}",
    "url": "https://scryfall.com/card/mm2/199/swans-of-bryn-argoll?utm_source=api",
    "oracle_text": "Flying\nIf a source would deal damage to Swans of Bryn Argoll, prevent that damage. The source's controller draws cards equal to the damage prevented this way."
   },
@@ -104,6 +110,7 @@
    "colors": [
     "G"
    ],
+   "mana_cost": "{1}{G}",
    "url": "https://scryfall.com/card/wwk/98/canopy-cover?utm_source=api",
    "oracle_text": "Enchant creature\nEnchanted creature can't be blocked except by creatures with flying or reach.\nEnchanted creature can't be the target of spells or abilities your opponents control."
   },
@@ -115,6 +122,7 @@
    "cmc": 0,
    "image": "",
    "colors": [],
+   "mana_cost": "",
    "url": "https://scryfall.com/card/xln/257/sunpetal-grove?utm_source=api",
    "oracle_text": "Sunpetal Grove enters the battlefield tapped unless you control a Forest or a Plains.\n{T}: Add {G} or {W}."
   },
@@ -131,6 +139,7 @@
    "colors": [
     "W"
    ],
+   "mana_cost": "{1}{W}{W}",
    "url": "https://scryfall.com/card/2x2/11/flickerwisp?utm_source=api",
    "oracle_text": "Flying\nWhen Flickerwisp enters the battlefield, exile another target permanent. Return that card to the battlefield under its owner's control at the beginning of the next end step."
   },
@@ -148,6 +157,7 @@
    "colors": [
     "W"
    ],
+   "mana_cost": "{3}{W}",
    "url": "https://scryfall.com/card/clb/694/galepowder-mage?utm_source=api",
    "oracle_text": "Flying\nWhenever Galepowder Mage attacks, exile another target creature. Return that card to the battlefield under its owner's control at the beginning of the next end step."
   },
@@ -162,6 +172,7 @@
    "cmc": 2,
    "image": "",
    "colors": [],
+   "mana_cost": "{2}",
    "url": "https://scryfall.com/card/cmm/398/lightning-greaves?utm_source=api",
    "oracle_text": "Equipped creature has haste and shroud. (It can't be the target of spells or abilities.)\nEquip {0}"
   },
@@ -179,6 +190,7 @@
    "colors": [
     "G"
    ],
+   "mana_cost": "{3}{G}",
    "url": "https://scryfall.com/card/ncc/320/wickerbough-elder?utm_source=api",
    "oracle_text": "Wickerbough Elder enters the battlefield with a -1/-1 counter on it.\n{G}, Remove a -1/-1 counter from Wickerbough Elder: Destroy target artifact or enchantment."
   },
@@ -196,6 +208,7 @@
    "colors": [
     "G"
    ],
+   "mana_cost": "{3}{G}",
    "url": "https://scryfall.com/card/cma/116/hunting-triad?utm_source=api",
    "oracle_text": "Create three 1/1 green Elf Warrior creature tokens.\nReinforce 3—{3}{G} ({3}{G}, Discard this card: Put three +1/+1 counters on target creature.)"
   },
@@ -208,6 +221,7 @@
    "cmc": 0,
    "image": "",
    "colors": [],
+   "mana_cost": "",
    "url": "https://scryfall.com/card/csp/143/arctic-flats?utm_source=api",
    "oracle_text": "Arctic Flats enters the battlefield tapped.\n{T}: Add {G} or {W}."
   },
@@ -221,6 +235,7 @@
    "colors": [
     "W"
    ],
+   "mana_cost": "{1}{W}",
    "url": "https://scryfall.com/card/cmr/371/dawn-charm?utm_source=api",
    "oracle_text": "Choose one —\n• Prevent all combat damage that would be dealt this turn.\n• Regenerate target creature.\n• Counter target spell that targets you."
   },
@@ -232,6 +247,7 @@
    "cmc": 0,
    "image": "",
    "colors": [],
+   "mana_cost": "",
    "url": "https://scryfall.com/card/war/245/emergence-zone?utm_source=api",
    "oracle_text": "{T}: Add {C}.\n{1}, {T}, Sacrifice Emergence Zone: You may cast spells this turn as though they had flash."
   },
@@ -249,6 +265,7 @@
    "colors": [
     "W"
    ],
+   "mana_cost": "{W}",
    "url": "https://scryfall.com/card/thb/1/alseid-of-lifes-bounty?utm_source=api",
    "oracle_text": "Lifelink\n{1}, Sacrifice Alseid of Life's Bounty: Target creature or enchantment you control gains protection from the color of your choice until end of turn."
   },
@@ -263,6 +280,7 @@
    "cmc": 3,
    "image": "",
    "colors": [],
+   "mana_cost": "{3}",
    "url": "https://scryfall.com/card/ncc/377/quietus-spike?utm_source=api",
    "oracle_text": "Equipped creature has deathtouch.\nWhenever equipped creature deals combat damage to a player, that player loses half their life, rounded up.\nEquip {3}"
   },
@@ -279,6 +297,7 @@
    "colors": [
     "W"
    ],
+   "mana_cost": "{3}{W}{W}",
    "url": "https://scryfall.com/card/mm2/10/battlegrace-angel?utm_source=api",
    "oracle_text": "Flying\nExalted (Whenever a creature you control attacks alone, that creature gets +1/+1 until end of turn.)\nWhenever a creature you control attacks alone, it gains lifelink until end of turn."
   },
@@ -296,6 +315,7 @@
    "colors": [
     "W"
    ],
+   "mana_cost": "{1}{W}",
    "url": "https://scryfall.com/card/m13/21/knight-of-glory?utm_source=api",
    "oracle_text": "Protection from black (This creature can't be blocked, targeted, dealt damage, or enchanted by anything black.)\nExalted (Whenever a creature you control attacks alone, that creature gets +1/+1 until end of turn.)"
   },
@@ -314,6 +334,7 @@
    "colors": [
     "G"
    ],
+   "mana_cost": "{2}{G}{G}",
    "url": "https://scryfall.com/card/cmm/885/arasta-of-the-endless-web?utm_source=api",
    "oracle_text": "Reach\nWhenever an opponent casts an instant or sorcery spell, create a 1/2 green Spider creature token with reach."
   },
@@ -329,7 +350,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/woe/275/forest?utm_source=api",
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/lci/401/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)"
   },
   {
@@ -344,7 +366,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/woe/275/forest?utm_source=api",
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/lci/401/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)"
   },
   {
@@ -359,7 +382,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/woe/275/forest?utm_source=api",
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/lci/401/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)"
   },
   {
@@ -374,7 +398,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/woe/275/forest?utm_source=api",
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/lci/401/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)"
   },
   {
@@ -389,7 +414,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/woe/275/forest?utm_source=api",
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/lci/401/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)"
   },
   {
@@ -404,7 +430,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/woe/275/forest?utm_source=api",
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/lci/401/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)"
   },
   {
@@ -419,7 +446,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/woe/275/forest?utm_source=api",
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/lci/401/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)"
   },
   {
@@ -435,6 +463,7 @@
    "colors": [
     "W"
    ],
+   "mana_cost": "{1}{W}",
    "url": "https://scryfall.com/card/mor/23/shinewend?utm_source=api",
    "oracle_text": "Flying\nShinewend enters the battlefield with a +1/+1 counter on it.\n{1}{W}, Remove a +1/+1 counter from Shinewend: Destroy target enchantment."
   },
@@ -452,6 +481,7 @@
    "colors": [
     "G"
    ],
+   "mana_cost": "{G}",
    "url": "https://scryfall.com/card/eve/79/twinblade-slasher?utm_source=api",
    "oracle_text": "Wither (This deals damage to creatures in the form of -1/-1 counters.)\n{1}{G}: Twinblade Slasher gets +2/+2 until end of turn. Activate only once each turn."
   },
@@ -465,6 +495,7 @@
    "colors": [
     "W"
    ],
+   "mana_cost": "{1}{W}",
    "url": "https://scryfall.com/card/cmd/17/journey-to-nowhere?utm_source=api",
    "oracle_text": "When Journey to Nowhere enters the battlefield, exile target creature.\nWhen Journey to Nowhere leaves the battlefield, return the exiled card to the battlefield under its owner's control."
   },
@@ -479,6 +510,7 @@
    "colors": [
     "W"
    ],
+   "mana_cost": "{3}{W}",
    "url": "https://scryfall.com/card/cmm/843/the-wanderer?utm_source=api",
    "oracle_text": "Prevent all noncombat damage that would be dealt to you and other permanents you control.\n−2: Exile target creature with power 4 or greater."
   },
@@ -497,6 +529,7 @@
    "colors": [
     "W"
    ],
+   "mana_cost": "{1}{W}",
    "url": "https://scryfall.com/card/neo/26/lion-sash?utm_source=api",
    "oracle_text": "{W}: Exile target card from a graveyard. If it was a permanent card, put a +1/+1 counter on Lion Sash.\nEquipped creature gets +1/+1 for each +1/+1 counter on Lion Sash.\nReconfigure {2} ({2}: Attach to target creature you control; or unattach from a creature. Reconfigure only as a sorcery. While attached, this isn't a creature.)"
   },
@@ -513,6 +546,7 @@
    "colors": [
     "G"
    ],
+   "mana_cost": "{1}{G}",
    "url": "https://scryfall.com/card/dom/186/untamed-kavu?utm_source=api",
    "oracle_text": "Kicker {3} (You may pay an additional {3} as you cast this spell.)\nVigilance, trample\nIf Untamed Kavu was kicked, it enters the battlefield with three +1/+1 counters on it."
   },
@@ -529,6 +563,7 @@
    "colors": [
     "G"
    ],
+   "mana_cost": "{G}",
    "url": "https://scryfall.com/card/akh/187/sixth-sense?utm_source=api",
    "oracle_text": "Enchant creature\nEnchanted creature has \"Whenever this creature deals combat damage to a player, you may draw a card.\""
   },
@@ -544,7 +579,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/woe/267/plains?utm_source=api",
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/lci/393/plains?utm_source=api",
    "oracle_text": "({T}: Add {W}.)"
   },
   {
@@ -559,7 +595,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/woe/267/plains?utm_source=api",
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/lci/393/plains?utm_source=api",
    "oracle_text": "({T}: Add {W}.)"
   },
   {
@@ -574,7 +611,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/woe/267/plains?utm_source=api",
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/lci/393/plains?utm_source=api",
    "oracle_text": "({T}: Add {W}.)"
   },
   {
@@ -589,7 +627,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/woe/267/plains?utm_source=api",
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/lci/393/plains?utm_source=api",
    "oracle_text": "({T}: Add {W}.)"
   },
   {
@@ -604,7 +643,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/woe/267/plains?utm_source=api",
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/lci/393/plains?utm_source=api",
    "oracle_text": "({T}: Add {W}.)"
   },
   {
@@ -619,7 +659,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/woe/267/plains?utm_source=api",
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/lci/393/plains?utm_source=api",
    "oracle_text": "({T}: Add {W}.)"
   },
   {
@@ -635,6 +676,7 @@
    "colors": [
     "W"
    ],
+   "mana_cost": "{1}{W}{W}",
    "url": "https://scryfall.com/card/cmd/27/prison-term?utm_source=api",
    "oracle_text": "Enchant creature\nEnchanted creature can't attack or block, and its activated abilities can't be activated.\nWhenever a creature enters the battlefield under an opponent's control, you may attach Prison Term to that creature."
   }

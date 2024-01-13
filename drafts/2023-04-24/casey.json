@@ -23,6 +23,7 @@
    "colors": [
     "B"
    ],
+   "mana_cost": "{B}",
    "url": "https://scryfall.com/card/war/87/dreadmalkin?utm_source=api",
    "oracle_text": "Menace (This creature can't be blocked except by two or more creatures.)\n{2}{B}, Sacrifice another creature or planeswalker: Put two +1/+1 counters on Dreadmalkin."
   },
@@ -36,6 +37,7 @@
    "colors": [
     "B"
    ],
+   "mana_cost": "{3}{B}{B}",
    "url": "https://scryfall.com/card/2xm/77/beacon-of-unrest?utm_source=api",
    "oracle_text": "Put target artifact or creature card from a graveyard onto the battlefield under your control. Shuffle Beacon of Unrest into its owner's library."
   },
@@ -53,6 +55,7 @@
    "colors": [
     "U"
    ],
+   "mana_cost": "{1}{U}",
    "url": "https://scryfall.com/card/afc/86/merfolk-looter?utm_source=api",
    "oracle_text": "{T}: Draw a card, then discard a card."
   },
@@ -71,6 +74,7 @@
     "B",
     "G"
    ],
+   "mana_cost": "{2}{B}{G}",
    "url": "https://scryfall.com/card/thb/206/acolyte-of-affliction?utm_source=api",
    "oracle_text": "When Acolyte of Affliction enters the battlefield, mill two cards, then you may return a permanent card from your graveyard to your hand."
   },
@@ -87,6 +91,7 @@
    "colors": [
     "U"
    ],
+   "mana_cost": "{2}{U}",
    "url": "https://scryfall.com/card/cmd/48/gomazoa?utm_source=api",
    "oracle_text": "Defender, flying\n{T}: Put Gomazoa and each creature it's blocking on top of their owners' libraries, then those players shuffle."
   },
@@ -103,6 +108,7 @@
    "colors": [
     "B"
    ],
+   "mana_cost": "{B}",
    "url": "https://scryfall.com/card/m19/121/stitchers-supplier?utm_source=api",
    "oracle_text": "When Stitcher's Supplier enters the battlefield or dies, mill three cards."
   },
@@ -120,6 +126,7 @@
    "colors": [
     "G"
    ],
+   "mana_cost": "{2}{G}",
    "url": "https://scryfall.com/card/khc/72/reclamation-sage?utm_source=api",
    "oracle_text": "When Reclamation Sage enters the battlefield, you may destroy target artifact or enchantment."
   },
@@ -137,7 +144,8 @@
    "colors": [
     "B"
    ],
-   "url": "https://scryfall.com/card/ima/82/bloodghast?utm_source=api",
+   "mana_cost": "{B}{B}",
+   "url": "https://scryfall.com/card/lcc/184/bloodghast?utm_source=api",
    "oracle_text": "Bloodghast can't block.\nBloodghast has haste as long as an opponent has 10 or less life.\nLandfall — Whenever a land enters the battlefield under your control, you may return Bloodghast from your graveyard to the battlefield."
   },
   {
@@ -154,6 +162,7 @@
    "colors": [
     "B"
    ],
+   "mana_cost": "{1}{B}",
    "url": "https://scryfall.com/card/a25/97/mesmeric-fiend?utm_source=api",
    "oracle_text": "When Mesmeric Fiend enters the battlefield, target opponent reveals their hand and you choose a nonland card from it. Exile that card.\nWhen Mesmeric Fiend leaves the battlefield, return the exiled card to its owner's hand."
   },
@@ -165,7 +174,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/dom/240/hinterland-harbor?utm_source=api",
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/lcc/336/hinterland-harbor?utm_source=api",
    "oracle_text": "Hinterland Harbor enters the battlefield tapped unless you control a Forest or an Island.\n{T}: Add {G} or {U}."
   },
   {
@@ -182,6 +192,7 @@
     "B",
     "G"
    ],
+   "mana_cost": "{4}{B/G}{B/G}{B/G}",
    "url": "https://scryfall.com/card/ddj/65/doomgape?utm_source=api",
    "oracle_text": "Trample\nAt the beginning of your upkeep, sacrifice a creature. You gain life equal to that creature's toughness."
   },
@@ -193,6 +204,7 @@
    "cmc": 0,
    "image": "",
    "colors": [],
+   "mana_cost": "",
    "url": "https://scryfall.com/card/xln/253/drowned-catacomb?utm_source=api",
    "oracle_text": "Drowned Catacomb enters the battlefield tapped unless you control an Island or a Swamp.\n{T}: Add {U} or {B}."
   },
@@ -211,6 +223,7 @@
     "B",
     "U"
    ],
+   "mana_cost": "{1}{U/B}{U/B}",
    "url": "https://scryfall.com/card/grn/220/whisper-agent?utm_source=api",
    "oracle_text": "Flash\nWhen Whisper Agent enters the battlefield, surveil 1. (Look at the top card of your library. You may put it into your graveyard.)"
   },
@@ -225,6 +238,7 @@
     "U",
     "W"
    ],
+   "mana_cost": "{1}{W/U}",
    "url": "https://scryfall.com/card/uma/224/turn-to-mist?utm_source=api",
    "oracle_text": "Exile target creature. Return that card to the battlefield under its owner's control at the beginning of the next end step."
   },
@@ -238,6 +252,7 @@
    "colors": [
     "U"
    ],
+   "mana_cost": "{1}{U}",
    "url": "https://scryfall.com/card/2x2/58/mana-leak?utm_source=api",
    "oracle_text": "Counter target spell unless its controller pays {3}."
   },
@@ -254,6 +269,7 @@
    "colors": [
     "U"
    ],
+   "mana_cost": "{3}{U}{U}",
    "url": "https://scryfall.com/card/c19/93/river-kelpie?utm_source=api",
    "oracle_text": "Whenever River Kelpie or another permanent enters the battlefield from a graveyard, draw a card.\nWhenever a player casts a spell from a graveyard, draw a card.\nPersist (When this creature dies, if it had no -1/-1 counters on it, return it to the battlefield under its owner's control with a -1/-1 counter on it.)"
   },
@@ -267,6 +283,7 @@
    "colors": [
     "B"
    ],
+   "mana_cost": "{B}",
    "url": "https://scryfall.com/card/2x2/96/unearth?utm_source=api",
    "oracle_text": "Return target creature card with mana value 3 or less from your graveyard to the battlefield.\nCycling {2} ({2}, Discard this card: Draw a card.)"
   },
@@ -282,7 +299,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/woe/271/swamp?utm_source=api",
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/lci/397/swamp?utm_source=api",
    "oracle_text": "({T}: Add {B}.)"
   },
   {
@@ -297,7 +315,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/woe/271/swamp?utm_source=api",
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/lci/397/swamp?utm_source=api",
    "oracle_text": "({T}: Add {B}.)"
   },
   {
@@ -312,7 +331,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/woe/271/swamp?utm_source=api",
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/lci/397/swamp?utm_source=api",
    "oracle_text": "({T}: Add {B}.)"
   },
   {
@@ -327,7 +347,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/woe/271/swamp?utm_source=api",
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/lci/397/swamp?utm_source=api",
    "oracle_text": "({T}: Add {B}.)"
   },
   {
@@ -342,7 +363,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/woe/271/swamp?utm_source=api",
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/lci/397/swamp?utm_source=api",
    "oracle_text": "({T}: Add {B}.)"
   },
   {
@@ -357,7 +379,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/woe/271/swamp?utm_source=api",
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/lci/397/swamp?utm_source=api",
    "oracle_text": "({T}: Add {B}.)"
   },
   {
@@ -375,7 +398,8 @@
    "colors": [
     "U"
    ],
-   "url": "https://scryfall.com/card/cmr/96/siren-stormtamer?utm_source=api",
+   "mana_cost": "{U}",
+   "url": "https://scryfall.com/card/lcc/171/siren-stormtamer?utm_source=api",
    "oracle_text": "Flying\n{U}, Sacrifice Siren Stormtamer: Counter target spell or ability that targets you or a creature you control."
   },
   {
@@ -390,7 +414,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/woe/269/island?utm_source=api",
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/lci/395/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)"
   },
   {
@@ -405,7 +430,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/woe/269/island?utm_source=api",
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/lci/395/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)"
   },
   {
@@ -420,7 +446,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/woe/269/island?utm_source=api",
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/lci/395/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)"
   },
   {
@@ -435,7 +462,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/woe/269/island?utm_source=api",
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/lci/395/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)"
   },
   {
@@ -450,7 +478,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/woe/269/island?utm_source=api",
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/lci/395/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)"
   },
   {
@@ -461,6 +490,7 @@
    "cmc": 0,
    "image": "",
    "colors": [],
+   "mana_cost": "",
    "url": "https://scryfall.com/card/neo/281/uncharted-haven?utm_source=api",
    "oracle_text": "Uncharted Haven enters the battlefield tapped.\nAs Uncharted Haven enters the battlefield, choose a color.\n{T}: Add one mana of the chosen color."
   },
@@ -472,6 +502,7 @@
    "cmc": 0,
    "image": "",
    "colors": [],
+   "mana_cost": "",
    "url": "https://scryfall.com/card/mom/270/jungle-hollow?utm_source=api",
    "oracle_text": "Jungle Hollow enters the battlefield tapped.\nWhen Jungle Hollow enters the battlefield, you gain 1 life.\n{T}: Add {B} or {G}."
   },
@@ -487,7 +518,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/woe/275/forest?utm_source=api",
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/lci/401/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)"
   },
   {
@@ -502,7 +534,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/woe/275/forest?utm_source=api",
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/lci/401/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)"
   },
   {
@@ -517,7 +550,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/woe/275/forest?utm_source=api",
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/lci/401/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)"
   },
   {
@@ -532,7 +566,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/woe/275/forest?utm_source=api",
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/lci/401/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)"
   },
   {
@@ -547,7 +582,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/woe/275/forest?utm_source=api",
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/lci/401/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)"
   },
   {
@@ -560,6 +596,7 @@
    "colors": [
     "U"
    ],
+   "mana_cost": "{3}{U}",
    "url": "https://scryfall.com/card/cmm/91/fact-or-fiction?utm_source=api",
    "oracle_text": "Reveal the top five cards of your library. An opponent separates those cards into two piles. Put one pile into your hand and the other into your graveyard."
   },
@@ -577,6 +614,7 @@
    "cmc": 4,
    "image": "",
    "colors": null,
+   "mana_cost": "",
    "url": "https://scryfall.com/card/neo/57/inventive-iteration-living-breakthrough?utm_source=api",
    "oracle_text": ""
   },
@@ -588,7 +626,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/moc/444/vineglimmer-snarl?utm_source=api",
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/lcc/368/vineglimmer-snarl?utm_source=api",
    "oracle_text": "As Vineglimmer Snarl enters the battlefield, you may reveal a Forest or Island card from your hand. If you don't, Vineglimmer Snarl enters the battlefield tapped.\n{T}: Add {G} or {U}."
   },
   {
@@ -602,6 +641,7 @@
     "B",
     "G"
    ],
+   "mana_cost": "{1}{B}{B}{G}",
    "url": "https://scryfall.com/card/c20/208/deathsprout?utm_source=api",
    "oracle_text": "Destroy target creature. Search your library for a basic land card, put it onto the battlefield tapped, then shuffle."
   },
@@ -619,6 +659,7 @@
    "colors": [
     "G"
    ],
+   "mana_cost": "{1}{G}{G}",
    "url": "https://scryfall.com/card/cmm/286/eternal-witness?utm_source=api",
    "oracle_text": "When Eternal Witness enters the battlefield, you may return target card from your graveyard to your hand."
   },
@@ -636,6 +677,7 @@
    "cmc": 4,
    "image": "",
    "colors": null,
+   "mana_cost": "",
    "url": "https://scryfall.com/card/neo/109/the-long-reach-of-night-animus-of-nights-reach?utm_source=api",
    "oracle_text": ""
   },
@@ -653,7 +695,8 @@
    "colors": [
     "U"
    ],
-   "url": "https://scryfall.com/card/ncc/217/daring-saboteur?utm_source=api",
+   "mana_cost": "{1}{U}",
+   "url": "https://scryfall.com/card/lcc/151/daring-saboteur?utm_source=api",
    "oracle_text": "{2}{U}: Daring Saboteur can't be blocked this turn.\nWhenever Daring Saboteur deals combat damage to a player, you may draw a card. If you do, discard a card."
   },
   {
@@ -669,6 +712,7 @@
    "colors": [
     "B"
    ],
+   "mana_cost": "{3}{B}",
    "url": "https://scryfall.com/card/thb/112/pharikas-spawn?utm_source=api",
    "oracle_text": "Escape—{5}{B}, Exile three other cards from your graveyard. (You may cast this card from your graveyard for its escape cost.)\nPharika's Spawn escapes with two +1/+1 counters on it. When it enters the battlefield this way, each opponent sacrifices a non-Gorgon creature."
   },
@@ -686,6 +730,7 @@
    "colors": [
     "G"
    ],
+   "mana_cost": "{2}{G}",
    "url": "https://scryfall.com/card/eve/78/tilling-treefolk?utm_source=api",
    "oracle_text": "When Tilling Treefolk enters the battlefield, you may return up to two target land cards from your graveyard to your hand."
   }

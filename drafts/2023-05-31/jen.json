@@ -25,6 +25,7 @@
    "colors": [
     "W"
    ],
+   "mana_cost": "{3}{W}{W}",
    "url": "https://scryfall.com/card/khc/21/cloudgoat-ranger?utm_source=api",
    "oracle_text": "When Cloudgoat Ranger enters the battlefield, create three 1/1 white Kithkin Soldier creature tokens.\nTap three untapped Kithkin you control: Cloudgoat Ranger gets +2/+0 and gains flying until end of turn."
   },
@@ -42,6 +43,7 @@
    "colors": [
     "G"
    ],
+   "mana_cost": "{2}{G}",
    "url": "https://scryfall.com/card/war/164/jiang-yanggu-wildcrafter?utm_source=api",
    "oracle_text": "Each creature you control with a +1/+1 counter on it has \"{T}: Add one mana of any color.\"\n−1: Put a +1/+1 counter on target creature."
   },
@@ -59,6 +61,7 @@
    "colors": [
     "W"
    ],
+   "mana_cost": "{3}{W}",
    "url": "https://scryfall.com/card/xln/25/paladin-of-the-bloodstained?utm_source=api",
    "oracle_text": "When Paladin of the Bloodstained enters the battlefield, create a 1/1 white Vampire creature token with lifelink."
   },
@@ -73,6 +76,7 @@
     "G",
     "W"
    ],
+   "mana_cost": "{1}{G}{W}",
    "url": "https://scryfall.com/card/war/210/pledge-of-unity?utm_source=api",
    "oracle_text": "Put a +1/+1 counter on each creature you control. You gain 1 life for each creature you control."
   },
@@ -84,7 +88,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/cmm/996/fortified-village?utm_source=api",
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/lcc/331/fortified-village?utm_source=api",
    "oracle_text": "As Fortified Village enters the battlefield, you may reveal a Forest or Plains card from your hand. If you don't, Fortified Village enters the battlefield tapped.\n{T}: Add {G} or {W}."
   },
   {
@@ -101,6 +106,7 @@
     "B",
     "G"
    ],
+   "mana_cost": "{4}{B/G}{B/G}{B/G}",
    "url": "https://scryfall.com/card/ddj/65/doomgape?utm_source=api",
    "oracle_text": "Trample\nAt the beginning of your upkeep, sacrifice a creature. You gain life equal to that creature's toughness."
   },
@@ -118,6 +124,7 @@
    "colors": [
     "W"
    ],
+   "mana_cost": "{1}{W}",
    "url": "https://scryfall.com/card/ima/13/blinding-mage?utm_source=api",
    "oracle_text": "{W}, {T}: Tap target creature."
   },
@@ -131,6 +138,7 @@
    "colors": [
     "W"
    ],
+   "mana_cost": "{W}",
    "url": "https://scryfall.com/card/jmp/97/cloudshift?utm_source=api",
    "oracle_text": "Exile target creature you control, then return that card to the battlefield under your control."
   },
@@ -144,6 +152,7 @@
    "colors": [
     "G"
    ],
+   "mana_cost": "{2}{G}",
    "url": "https://scryfall.com/card/grn/145/sprouting-renewal?utm_source=api",
    "oracle_text": "Convoke (Your creatures can help cast this spell. Each creature you tap while casting this spell pays for {1} or one mana of that creature's color.)\nChoose one —\n• Create a 2/2 green and white Elf Knight creature token with vigilance.\n• Destroy target artifact or enchantment."
   },
@@ -161,6 +170,7 @@
    "colors": [
     "W"
    ],
+   "mana_cost": "{3}{W}",
    "url": "https://scryfall.com/card/clb/694/galepowder-mage?utm_source=api",
    "oracle_text": "Flying\nWhenever Galepowder Mage attacks, exile another target creature. Return that card to the battlefield under its owner's control at the beginning of the next end step."
   },
@@ -174,6 +184,7 @@
    "colors": [
     "G"
    ],
+   "mana_cost": "{G}",
    "url": "https://scryfall.com/card/2xm/157/chatter-of-the-squirrel?utm_source=api",
    "oracle_text": "Create a 1/1 green Squirrel creature token.\nFlashback {1}{G} (You may cast this card from your graveyard for its flashback cost. Then exile it.)"
   },
@@ -187,6 +198,7 @@
    "colors": [
     "W"
    ],
+   "mana_cost": "{1}{W}",
    "url": "https://scryfall.com/card/cmr/371/dawn-charm?utm_source=api",
    "oracle_text": "Choose one —\n• Prevent all combat damage that would be dealt this turn.\n• Regenerate target creature.\n• Counter target spell that targets you."
   },
@@ -200,6 +212,7 @@
    "colors": [
     "W"
    ],
+   "mana_cost": "{1}{W}",
    "url": "https://scryfall.com/card/cmr/41/raise-the-alarm?utm_source=api",
    "oracle_text": "Create two 1/1 white Soldier creature tokens."
   },
@@ -215,7 +228,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/woe/275/forest?utm_source=api",
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/lci/401/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)"
   },
   {
@@ -230,7 +244,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/woe/275/forest?utm_source=api",
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/lci/401/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)"
   },
   {
@@ -245,7 +260,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/woe/275/forest?utm_source=api",
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/lci/401/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)"
   },
   {
@@ -260,7 +276,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/woe/275/forest?utm_source=api",
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/lci/401/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)"
   },
   {
@@ -275,7 +292,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/woe/275/forest?utm_source=api",
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/lci/401/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)"
   },
   {
@@ -290,7 +308,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/woe/275/forest?utm_source=api",
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/lci/401/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)"
   },
   {
@@ -309,6 +328,7 @@
     "G",
     "W"
    ],
+   "mana_cost": "{G}{W}",
    "url": "https://scryfall.com/card/dom/204/shanna-sisays-legacy?utm_source=api",
    "oracle_text": "Shanna, Sisay's Legacy can't be the target of abilities your opponents control.\nShanna gets +1/+1 for each creature you control."
   },
@@ -324,6 +344,7 @@
    "cmc": 1,
    "image": "",
    "colors": [],
+   "mana_cost": "{1}",
    "url": "https://scryfall.com/card/dom/232/sparring-construct?utm_source=api",
    "oracle_text": "When Sparring Construct dies, put a +1/+1 counter on target creature you control."
   },
@@ -341,6 +362,7 @@
    "colors": [
     "W"
    ],
+   "mana_cost": "{W}",
    "url": "https://scryfall.com/card/mm3/24/soul-warden?utm_source=api",
    "oracle_text": "Whenever another creature enters the battlefield, you gain 1 life."
   },
@@ -358,6 +380,7 @@
    "colors": [
     "G"
    ],
+   "mana_cost": "{1}{G}",
    "url": "https://scryfall.com/card/2xm/188/woodland-champion?utm_source=api",
    "oracle_text": "Whenever one or more tokens enter the battlefield under your control, put that many +1/+1 counters on Woodland Champion."
   },
@@ -373,7 +396,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/woe/267/plains?utm_source=api",
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/lci/393/plains?utm_source=api",
    "oracle_text": "({T}: Add {W}.)"
   },
   {
@@ -388,7 +412,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/woe/267/plains?utm_source=api",
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/lci/393/plains?utm_source=api",
    "oracle_text": "({T}: Add {W}.)"
   },
   {
@@ -403,7 +428,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/woe/267/plains?utm_source=api",
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/lci/393/plains?utm_source=api",
    "oracle_text": "({T}: Add {W}.)"
   },
   {
@@ -418,7 +444,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/woe/267/plains?utm_source=api",
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/lci/393/plains?utm_source=api",
    "oracle_text": "({T}: Add {W}.)"
   },
   {
@@ -433,7 +460,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/woe/267/plains?utm_source=api",
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/lci/393/plains?utm_source=api",
    "oracle_text": "({T}: Add {W}.)"
   },
   {
@@ -448,7 +476,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/woe/267/plains?utm_source=api",
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/lci/393/plains?utm_source=api",
    "oracle_text": "({T}: Add {W}.)"
   },
   {
@@ -463,7 +492,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/woe/267/plains?utm_source=api",
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/lci/393/plains?utm_source=api",
    "oracle_text": "({T}: Add {W}.)"
   },
   {
@@ -478,7 +508,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/woe/267/plains?utm_source=api",
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/lci/393/plains?utm_source=api",
    "oracle_text": "({T}: Add {W}.)"
   },
   {
@@ -493,7 +524,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/woe/267/plains?utm_source=api",
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/lci/393/plains?utm_source=api",
    "oracle_text": "({T}: Add {W}.)"
   },
   {
@@ -510,6 +542,7 @@
    "colors": [
     "W"
    ],
+   "mana_cost": "{1}{W}",
    "url": "https://scryfall.com/card/eve/12/patrol-signaler?utm_source=api",
    "oracle_text": "{1}{W}, {Q}: Create a 1/1 white Kithkin Soldier creature token. ({Q} is the untap symbol.)"
   },
@@ -522,6 +555,7 @@
    "cmc": 2,
    "image": "",
    "colors": [],
+   "mana_cost": "{2}",
    "url": "https://scryfall.com/card/akh/237/throne-of-the-god-pharaoh?utm_source=api",
    "oracle_text": "At the beginning of your end step, each opponent loses life equal to the number of tapped creatures you control."
   },
@@ -540,6 +574,7 @@
     "B",
     "W"
    ],
+   "mana_cost": "{2}{W/B}",
    "url": "https://scryfall.com/card/cma/201/gwyllion-hedge-mage?utm_source=api",
    "oracle_text": "When Gwyllion Hedge-Mage enters the battlefield, if you control two or more Plains, you may create a 1/1 white Kithkin Soldier creature token.\nWhen Gwyllion Hedge-Mage enters the battlefield, if you control two or more Swamps, you may put a -1/-1 counter on target creature."
   },
@@ -556,6 +591,7 @@
    "colors": [
     "G"
    ],
+   "mana_cost": "{G}",
    "url": "https://scryfall.com/card/pca/79/tukatongue-thallid?utm_source=api",
    "oracle_text": "When Tukatongue Thallid dies, create a 1/1 green Saproling creature token."
   },
@@ -569,6 +605,7 @@
    "colors": [
     "W"
    ],
+   "mana_cost": "{3}{W}",
    "url": "https://scryfall.com/card/akh/2/anointed-procession?utm_source=api",
    "oracle_text": "If an effect would create one or more tokens under your control, it creates twice that many of those tokens instead."
   },
@@ -585,6 +622,7 @@
    "colors": [
     "G"
    ],
+   "mana_cost": "{5}{G}{G}{G}",
    "url": "https://scryfall.com/card/dom/187/verdant-force?utm_source=api",
    "oracle_text": "At the beginning of each upkeep, create a 1/1 green Saproling creature token."
   },
@@ -598,6 +636,7 @@
    "colors": [
     "W"
    ],
+   "mana_cost": "{1}{W}",
    "url": "https://scryfall.com/card/cmd/17/journey-to-nowhere?utm_source=api",
    "oracle_text": "When Journey to Nowhere enters the battlefield, exile target creature.\nWhen Journey to Nowhere leaves the battlefield, return the exiled card to the battlefield under its owner's control."
   },
@@ -614,6 +653,7 @@
    "colors": [
     "W"
    ],
+   "mana_cost": "{3}{W}",
    "url": "https://scryfall.com/card/moc/201/restoration-angel?utm_source=api",
    "oracle_text": "Flash\nFlying\nWhen Restoration Angel enters the battlefield, you may exile target non-Angel creature you control, then return that card to the battlefield under your control."
   }

@@ -21,6 +21,7 @@
    "cmc": 11,
    "image": "",
    "colors": [],
+   "mana_cost": "{11}",
    "url": "https://scryfall.com/card/m10/208/darksteel-colossus?utm_source=api",
    "oracle_text": "Trample, indestructible\nIf Darksteel Colossus would be put into a graveyard from anywhere, reveal Darksteel Colossus and shuffle it into its owner's library instead."
   },
@@ -34,6 +35,7 @@
    "colors": [
     "G"
    ],
+   "mana_cost": "{G}",
    "url": "https://scryfall.com/card/ddp/15/groundswell?utm_source=api",
    "oracle_text": "Target creature gets +2/+2 until end of turn.\nLandfall — If you had a land enter the battlefield under your control this turn, that creature gets +4/+4 until end of turn instead."
   },
@@ -47,6 +49,7 @@
    "colors": [
     "R"
    ],
+   "mana_cost": "{R}",
    "url": "https://scryfall.com/card/2x2/117/lightning-bolt?utm_source=api",
    "oracle_text": "Lightning Bolt deals 3 damage to any target."
   },
@@ -64,6 +67,7 @@
    "colors": [
     "G"
    ],
+   "mana_cost": "{2}{G}",
    "url": "https://scryfall.com/card/khc/72/reclamation-sage?utm_source=api",
    "oracle_text": "When Reclamation Sage enters the battlefield, you may destroy target artifact or enchantment."
   },
@@ -77,6 +81,7 @@
    "colors": [
     "G"
    ],
+   "mana_cost": "{G}",
    "url": "https://scryfall.com/card/mm2/168/vines-of-vastwood?utm_source=api",
    "oracle_text": "Kicker {G} (You may pay an additional {G} as you cast this spell.)\nTarget creature can't be the target of spells or abilities your opponents control this turn. If this spell was kicked, that creature gets +4/+4 until end of turn."
   },
@@ -93,6 +98,7 @@
    "colors": [
     "R"
    ],
+   "mana_cost": "{2}{R}",
    "url": "https://scryfall.com/card/m19/132/catalyst-elemental?utm_source=api",
    "oracle_text": "Sacrifice Catalyst Elemental: Add {R}{R}."
   },
@@ -110,6 +116,7 @@
    "colors": [
     "G"
    ],
+   "mana_cost": "{2}{G}",
    "url": "https://scryfall.com/card/mom/205/serpent-blade-assailant?utm_source=api",
    "oracle_text": "Backup 1 (When this creature enters the battlefield, put a +1/+1 counter on target creature. If that's another creature, it gains the following ability until end of turn.)\nDeathtouch"
   },
@@ -123,6 +130,7 @@
    "colors": [
     "G"
    ],
+   "mana_cost": "{2}{G}",
    "url": "https://scryfall.com/card/mor/133/recross-the-paths?utm_source=api",
    "oracle_text": "Reveal cards from the top of your library until you reveal a land card. Put that card onto the battlefield and the rest on the bottom of your library in any order. Clash with an opponent. If you win, return Recross the Paths to its owner's hand. (Each clashing player reveals the top card of their library, then puts that card on the top or bottom. A player wins if their card had a higher mana value.)"
   },
@@ -140,6 +148,7 @@
     "G",
     "R"
    ],
+   "mana_cost": "{1}{R}{G}{G}",
    "url": "https://scryfall.com/card/c13/216/spellbreaker-behemoth?utm_source=api",
    "oracle_text": "This spell can't be countered.\nCreature spells you control with power 5 or greater can't be countered."
   },
@@ -154,6 +163,7 @@
    "cmc": 2,
    "image": "",
    "colors": [],
+   "mana_cost": "{2}",
    "url": "https://scryfall.com/card/cmm/398/lightning-greaves?utm_source=api",
    "oracle_text": "Equipped creature has haste and shroud. (It can't be the target of spells or abilities.)\nEquip {0}"
   },
@@ -171,6 +181,7 @@
    "colors": [
     "G"
    ],
+   "mana_cost": "{3}{G}",
    "url": "https://scryfall.com/card/ncc/320/wickerbough-elder?utm_source=api",
    "oracle_text": "Wickerbough Elder enters the battlefield with a -1/-1 counter on it.\n{G}, Remove a -1/-1 counter from Wickerbough Elder: Destroy target artifact or enchantment."
   },
@@ -186,7 +197,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/woe/275/forest?utm_source=api",
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/lci/401/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)"
   },
   {
@@ -201,7 +213,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/woe/275/forest?utm_source=api",
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/lci/401/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)"
   },
   {
@@ -216,7 +229,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/woe/275/forest?utm_source=api",
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/lci/401/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)"
   },
   {
@@ -231,7 +245,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/woe/275/forest?utm_source=api",
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/lci/401/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)"
   },
   {
@@ -246,7 +261,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/woe/275/forest?utm_source=api",
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/lci/401/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)"
   },
   {
@@ -261,7 +277,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/woe/275/forest?utm_source=api",
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/lci/401/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)"
   },
   {
@@ -276,7 +293,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/woe/275/forest?utm_source=api",
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/lci/401/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)"
   },
   {
@@ -291,7 +309,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/woe/275/forest?utm_source=api",
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/lci/401/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)"
   },
   {
@@ -306,7 +325,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/woe/275/forest?utm_source=api",
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/lci/401/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)"
   },
   {
@@ -321,7 +341,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/woe/273/mountain?utm_source=api",
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/lci/399/mountain?utm_source=api",
    "oracle_text": "({T}: Add {R}.)"
   },
   {
@@ -336,7 +357,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/woe/273/mountain?utm_source=api",
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/lci/399/mountain?utm_source=api",
    "oracle_text": "({T}: Add {R}.)"
   },
   {
@@ -351,7 +373,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/woe/273/mountain?utm_source=api",
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/lci/399/mountain?utm_source=api",
    "oracle_text": "({T}: Add {R}.)"
   },
   {
@@ -366,7 +389,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/woe/273/mountain?utm_source=api",
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/lci/399/mountain?utm_source=api",
    "oracle_text": "({T}: Add {R}.)"
   },
   {
@@ -381,7 +405,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/woe/273/mountain?utm_source=api",
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/lci/399/mountain?utm_source=api",
    "oracle_text": "({T}: Add {R}.)"
   },
   {
@@ -396,7 +421,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/woe/273/mountain?utm_source=api",
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/lci/399/mountain?utm_source=api",
    "oracle_text": "({T}: Add {R}.)"
   },
   {
@@ -411,7 +437,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/woe/273/mountain?utm_source=api",
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/lci/399/mountain?utm_source=api",
    "oracle_text": "({T}: Add {R}.)"
   },
   {
@@ -429,6 +456,7 @@
    "colors": [
     "R"
    ],
+   "mana_cost": "{R}",
    "url": "https://scryfall.com/card/neo/157/rabbit-battery?utm_source=api",
    "oracle_text": "Haste\nEquipped creature gets +1/+1 and has haste.\nReconfigure {R} ({R}: Attach to target creature you control; or unattach from a creature. Reconfigure only as a sorcery. While attached, this isn't a creature.)"
   },
@@ -445,6 +473,7 @@
    "colors": [
     "G"
    ],
+   "mana_cost": "{3}{G}{G}",
    "url": "https://scryfall.com/card/cmm/270/acidic-slime?utm_source=api",
    "oracle_text": "Deathtouch (Any amount of damage this deals to a creature is enough to destroy it.)\nWhen Acidic Slime enters the battlefield, destroy target artifact, enchantment, or land."
   },
@@ -460,6 +489,7 @@
    "cmc": 2,
    "image": "",
    "colors": [],
+   "mana_cost": "{2}",
    "url": "https://scryfall.com/card/som/168/iron-myr?utm_source=api",
    "oracle_text": "{T}: Add {R}."
   },
@@ -471,6 +501,7 @@
    "cmc": 0,
    "image": "",
    "colors": [],
+   "mana_cost": "",
    "url": "https://scryfall.com/card/xln/256/rootbound-crag?utm_source=api",
    "oracle_text": "Rootbound Crag enters the battlefield tapped unless you control a Mountain or a Forest.\n{T}: Add {R} or {G}."
   },
@@ -488,6 +519,7 @@
    "colors": [
     "G"
    ],
+   "mana_cost": "{1}{G}",
    "url": "https://scryfall.com/card/one/161/cankerbloom?utm_source=api",
    "oracle_text": "{1}, Sacrifice Cankerbloom: Choose one —\n• Destroy target artifact.\n• Destroy target enchantment.\n• Proliferate. (Choose any number of permanents and/or players, then give each another counter of each kind already there.)"
   },
@@ -506,6 +538,7 @@
     "G",
     "R"
    ],
+   "mana_cost": "{1}{R}{G}",
    "url": "https://scryfall.com/card/war/191/domri-anarch-of-bolas?utm_source=api",
    "oracle_text": "Creatures you control get +1/+0.\n+1: Add {R} or {G}. Creature spells you cast this turn can't be countered.\n−2: Target creature you control fights target creature you don't control."
   },
@@ -522,6 +555,7 @@
    "colors": [
     "G"
    ],
+   "mana_cost": "{G}",
    "url": "https://scryfall.com/card/afc/172/utopia-sprawl?utm_source=api",
    "oracle_text": "Enchant Forest\nAs Utopia Sprawl enters the battlefield, choose a color.\nWhenever enchanted Forest is tapped for mana, its controller adds an additional one mana of the chosen color."
   },
@@ -539,6 +573,7 @@
    "colors": [
     "G"
    ],
+   "mana_cost": "{1}{G}",
    "url": "https://scryfall.com/card/war/166/kronch-wrangler?utm_source=api",
    "oracle_text": "Trample\nWhenever a creature with power 4 or greater enters the battlefield under your control, put a +1/+1 counter on Kronch Wrangler."
   },
@@ -555,6 +590,7 @@
    "colors": [
     "R"
    ],
+   "mana_cost": "{3}{R}{R}",
    "url": "https://scryfall.com/card/rna/114/skarrgan-hellkite?utm_source=api",
    "oracle_text": "Riot (This creature enters the battlefield with your choice of a +1/+1 counter or haste.)\nFlying\n{3}{R}: Skarrgan Hellkite deals 2 damage divided as you choose among one or two targets. Activate only if Skarrgan Hellkite has a +1/+1 counter on it."
   },
@@ -571,6 +607,7 @@
    "colors": [
     "G"
    ],
+   "mana_cost": "{4}{G}{G}",
    "url": "https://scryfall.com/card/shm/134/witherscale-wurm?utm_source=api",
    "oracle_text": "Whenever Witherscale Wurm blocks or becomes blocked by a creature, that creature gains wither until end of turn. (It deals damage to creatures in the form of -1/-1 counters.)\nWhenever Witherscale Wurm deals damage to an opponent, remove all -1/-1 counters from it."
   },
@@ -585,6 +622,7 @@
     "G",
     "R"
    ],
+   "mana_cost": "{R}{G}",
    "url": "https://scryfall.com/card/war/192/domris-ambush?utm_source=api",
    "oracle_text": "Put a +1/+1 counter on target creature you control. Then that creature deals damage equal to its power to target creature or planeswalker you don't control."
   },
@@ -601,6 +639,7 @@
    "colors": [
     "G"
    ],
+   "mana_cost": "{3}{G}",
    "url": "https://scryfall.com/card/wwk/114/summit-apes?utm_source=api",
    "oracle_text": "As long as you control a Mountain, Summit Apes has menace. (It can't be blocked except by two or more creatures.)"
   },
@@ -617,6 +656,7 @@
    "colors": [
     "G"
    ],
+   "mana_cost": "{1}{G}",
    "url": "https://scryfall.com/card/dom/186/untamed-kavu?utm_source=api",
    "oracle_text": "Kicker {3} (You may pay an additional {3} as you cast this spell.)\nVigilance, trample\nIf Untamed Kavu was kicked, it enters the battlefield with three +1/+1 counters on it."
   },
@@ -634,6 +674,7 @@
    "colors": [
     "G"
    ],
+   "mana_cost": "{2}{G}",
    "url": "https://scryfall.com/card/eve/78/tilling-treefolk?utm_source=api",
    "oracle_text": "When Tilling Treefolk enters the battlefield, you may return up to two target land cards from your graveyard to your hand."
   }

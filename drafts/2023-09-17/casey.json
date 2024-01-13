@@ -32,6 +32,7 @@
    "colors": [
     "W"
    ],
+   "mana_cost": "{2}{W}{W}",
    "url": "https://scryfall.com/card/neo/42/the-wandering-emperor?utm_source=api",
    "oracle_text": "Flash\nAs long as The Wandering Emperor entered the battlefield this turn, you may activate her loyalty abilities any time you could cast an instant.\n+1: Put a +1/+1 counter on up to one target creature. It gains first strike until end of turn.\n−1: Create a 2/2 white Samurai creature token with vigilance.\n−2: Exile target tapped creature. You gain 2 life."
   },
@@ -49,6 +50,7 @@
     "U",
     "W"
    ],
+   "mana_cost": "{2}{W}{W}{U}{U}",
    "url": "https://scryfall.com/card/thb/214/dream-trawler?utm_source=api",
    "oracle_text": "Flying, lifelink\nWhenever you draw a card, Dream Trawler gets +1/+0 until end of turn.\nWhenever Dream Trawler attacks, draw a card.\nDiscard a card: Dream Trawler gains hexproof until end of turn. Tap it."
   },
@@ -62,6 +64,7 @@
    "colors": [
     "U"
    ],
+   "mana_cost": "{U}",
    "url": "https://scryfall.com/card/m21/59/opt?utm_source=api",
    "oracle_text": "Scry 1.\nDraw a card."
   },
@@ -73,6 +76,7 @@
    "cmc": 0,
    "image": "",
    "colors": [],
+   "mana_cost": "",
    "url": "https://scryfall.com/card/ktk/233/flooded-strand?utm_source=api",
    "oracle_text": "{T}, Pay 1 life, Sacrifice Flooded Strand: Search your library for a Plains or Island card, put it onto the battlefield, then shuffle."
   },
@@ -86,6 +90,7 @@
    "colors": [
     "U"
    ],
+   "mana_cost": "{U}{U}",
    "url": "https://scryfall.com/card/cmm/81/counterspell?utm_source=api",
    "oracle_text": "Counter target spell."
   },
@@ -103,6 +108,7 @@
    "colors": [
     "U"
    ],
+   "mana_cost": "{1}{U}",
    "url": "https://scryfall.com/card/snc/44/faerie-vandal?utm_source=api",
    "oracle_text": "Flash\nFlying\nWhenever you draw your second card each turn, put a +1/+1 counter on Faerie Vandal."
   },
@@ -119,6 +125,7 @@
    "colors": [
     "U"
    ],
+   "mana_cost": "{2}{U}",
    "url": "https://scryfall.com/card/cmd/48/gomazoa?utm_source=api",
    "oracle_text": "Defender, flying\n{T}: Put Gomazoa and each creature it's blocking on top of their owners' libraries, then those players shuffle."
   },
@@ -132,6 +139,7 @@
    "colors": [
     "U"
    ],
+   "mana_cost": "{2}{U}",
    "url": "https://scryfall.com/card/kld/38/aether-tradewinds?utm_source=api",
    "oracle_text": "Return target permanent you control and target permanent you don't control to their owners' hands."
   },
@@ -143,6 +151,7 @@
    "cmc": 0,
    "image": "",
    "colors": [],
+   "mana_cost": "",
    "url": "https://scryfall.com/card/cmm/1019/port-town?utm_source=api",
    "oracle_text": "As Port Town enters the battlefield, you may reveal a Plains or Island card from your hand. If you don't, Port Town enters the battlefield tapped.\n{T}: Add {W} or {U}."
   },
@@ -160,6 +169,7 @@
    "colors": [
     "U"
    ],
+   "mana_cost": "{1}{U}",
    "url": "https://scryfall.com/card/m20/50/brineborn-cutthroat?utm_source=api",
    "oracle_text": "Flash (You may cast this spell any time you could cast an instant.)\nWhenever you cast a spell during an opponent's turn, put a +1/+1 counter on Brineborn Cutthroat."
   },
@@ -173,6 +183,7 @@
    "colors": [
     "W"
    ],
+   "mana_cost": "{2}{W}",
    "url": "https://scryfall.com/card/mm2/29/oblivion-ring?utm_source=api",
    "oracle_text": "When Oblivion Ring enters the battlefield, exile another target nonland permanent.\nWhen Oblivion Ring leaves the battlefield, return the exiled card to the battlefield under its owner's control."
   },
@@ -190,6 +201,7 @@
    "colors": [
     "W"
    ],
+   "mana_cost": "{1}{W}",
    "url": "https://scryfall.com/card/cmm/838/spirited-companion?utm_source=api",
    "oracle_text": "When Spirited Companion enters the battlefield, draw a card."
   },
@@ -207,6 +219,7 @@
    "colors": [
     "W"
    ],
+   "mana_cost": "{W}",
    "url": "https://scryfall.com/card/ddf/6/mosquito-guard?utm_source=api",
    "oracle_text": "First strike\nReinforce 1—{1}{W} ({1}{W}, Discard this card: Put a +1/+1 counter on target creature.)"
   },
@@ -226,6 +239,7 @@
    "colors": [
     "U"
    ],
+   "mana_cost": "{1}{U}",
    "url": "https://scryfall.com/card/neo/74/the-reality-chip?utm_source=api",
    "oracle_text": "You may look at the top card of your library any time.\nAs long as The Reality Chip is attached to a creature, you may play lands and cast spells from the top of your library.\nReconfigure {2}{U} ({2}{U}: Attach to target creature you control; or unattach from a creature. Reconfigure only as a sorcery. While attached, this isn't a creature.)"
   },
@@ -239,6 +253,7 @@
    "colors": [
     "W"
    ],
+   "mana_cost": "{W}",
    "url": "https://scryfall.com/card/mh1/7/ephemerate?utm_source=api",
    "oracle_text": "Exile target creature you control, then return it to the battlefield under its owner's control.\nRebound (If you cast this spell from your hand, exile it as it resolves. At the beginning of your next upkeep, you may cast this card from exile without paying its mana cost.)"
   },
@@ -256,6 +271,7 @@
    "colors": [
     "W"
    ],
+   "mana_cost": "{W}",
    "url": "https://scryfall.com/card/thb/1/alseid-of-lifes-bounty?utm_source=api",
    "oracle_text": "Lifelink\n{1}, Sacrifice Alseid of Life's Bounty: Target creature or enchantment you control gains protection from the color of your choice until end of turn."
   },
@@ -273,6 +289,7 @@
    "colors": [
     "U"
    ],
+   "mana_cost": "{2}{U}",
    "url": "https://scryfall.com/card/cmm/847/flux-channeler?utm_source=api",
    "oracle_text": "Whenever you cast a noncreature spell, proliferate. (Choose any number of permanents and/or players, then give each another counter of each kind already there.)"
   },
@@ -289,6 +306,7 @@
    "colors": [
     "U"
    ],
+   "mana_cost": "{3}{U}{U}",
    "url": "https://scryfall.com/card/zen/69/sphinx-of-lost-truths?utm_source=api",
    "oracle_text": "Kicker {1}{U} (You may pay an additional {1}{U} as you cast this spell.)\nFlying\nWhen Sphinx of Lost Truths enters the battlefield, draw three cards. Then if it wasn't kicked, discard three cards."
   },
@@ -306,6 +324,7 @@
    "colors": [
     "U"
    ],
+   "mana_cost": "{2}{U}",
    "url": "https://scryfall.com/card/thb/56/naiad-of-hidden-coves?utm_source=api",
    "oracle_text": "As long as it's not your turn, spells you cast cost {1} less to cast."
   },
@@ -322,6 +341,7 @@
    "colors": [
     "W"
    ],
+   "mana_cost": "{4}{W}",
    "url": "https://scryfall.com/card/2x2/26/reveillark?utm_source=api",
    "oracle_text": "Flying\nWhen Reveillark leaves the battlefield, return up to two target creature cards with power 2 or less from your graveyard to the battlefield.\nEvoke {5}{W} (You may cast this spell for its evoke cost. If you do, it's sacrificed when it enters the battlefield.)"
   },
@@ -335,6 +355,7 @@
    "colors": [
     "W"
    ],
+   "mana_cost": "{1}{W}",
    "url": "https://scryfall.com/card/cmr/41/raise-the-alarm?utm_source=api",
    "oracle_text": "Create two 1/1 white Soldier creature tokens."
   },
@@ -348,6 +369,7 @@
    "colors": [
     "U"
    ],
+   "mana_cost": "{1}{U}",
    "url": "https://scryfall.com/card/mh2/39/dress-down?utm_source=api",
    "oracle_text": "Flash\nWhen Dress Down enters the battlefield, draw a card.\nCreatures lose all abilities.\nAt the beginning of the end step, sacrifice Dress Down."
   },
@@ -361,6 +383,7 @@
    "colors": [
     "U"
    ],
+   "mana_cost": "{U}",
    "url": "https://scryfall.com/card/ncc/229/ponder?utm_source=api",
    "oracle_text": "Look at the top three cards of your library, then put them back in any order. You may shuffle.\nDraw a card."
   },
@@ -377,6 +400,7 @@
    "colors": [
     "W"
    ],
+   "mana_cost": "{1}{W}",
    "url": "https://scryfall.com/card/cmm/824/grateful-apparition?utm_source=api",
    "oracle_text": "Flying\nWhenever Grateful Apparition deals combat damage to a player or planeswalker, proliferate. (Choose any number of permanents and/or players, then give each another counter of each kind already there.)"
   },
@@ -390,7 +414,8 @@
    "colors": [
     "U"
    ],
-   "url": "https://scryfall.com/card/jmp/142/chart-a-course?utm_source=api",
+   "mana_cost": "{1}{U}",
+   "url": "https://scryfall.com/card/lci/48/chart-a-course?utm_source=api",
    "oracle_text": "Draw two cards. Then discard a card unless you attacked this turn."
   },
   {
@@ -405,7 +430,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/woe/267/plains?utm_source=api",
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/lci/393/plains?utm_source=api",
    "oracle_text": "({T}: Add {W}.)"
   },
   {
@@ -420,7 +446,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/woe/267/plains?utm_source=api",
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/lci/393/plains?utm_source=api",
    "oracle_text": "({T}: Add {W}.)"
   },
   {
@@ -435,7 +462,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/woe/267/plains?utm_source=api",
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/lci/393/plains?utm_source=api",
    "oracle_text": "({T}: Add {W}.)"
   },
   {
@@ -450,7 +478,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/woe/267/plains?utm_source=api",
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/lci/393/plains?utm_source=api",
    "oracle_text": "({T}: Add {W}.)"
   },
   {
@@ -465,7 +494,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/woe/267/plains?utm_source=api",
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/lci/393/plains?utm_source=api",
    "oracle_text": "({T}: Add {W}.)"
   },
   {
@@ -480,7 +510,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/woe/267/plains?utm_source=api",
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/lci/393/plains?utm_source=api",
    "oracle_text": "({T}: Add {W}.)"
   },
   {
@@ -495,7 +526,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/woe/267/plains?utm_source=api",
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/lci/393/plains?utm_source=api",
    "oracle_text": "({T}: Add {W}.)"
   },
   {
@@ -510,7 +542,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/woe/267/plains?utm_source=api",
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/lci/393/plains?utm_source=api",
    "oracle_text": "({T}: Add {W}.)"
   },
   {
@@ -525,7 +558,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/woe/269/island?utm_source=api",
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/lci/395/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)"
   },
   {
@@ -540,7 +574,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/woe/269/island?utm_source=api",
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/lci/395/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)"
   },
   {
@@ -555,7 +590,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/woe/269/island?utm_source=api",
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/lci/395/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)"
   },
   {
@@ -570,7 +606,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/woe/269/island?utm_source=api",
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/lci/395/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)"
   },
   {
@@ -585,7 +622,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/woe/269/island?utm_source=api",
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/lci/395/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)"
   },
   {
@@ -600,7 +638,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/woe/269/island?utm_source=api",
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/lci/395/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)"
   },
   {
@@ -615,7 +654,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/woe/269/island?utm_source=api",
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/lci/395/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)"
   }
  ],
@@ -630,6 +670,7 @@
    "colors": [
     "R"
    ],
+   "mana_cost": "{1}{R}",
    "url": "https://scryfall.com/card/a25/146/pyroclasm?utm_source=api",
    "oracle_text": "Pyroclasm deals 2 damage to each creature."
   },
@@ -648,6 +689,7 @@
     "R",
     "W"
    ],
+   "mana_cost": "{R/W}{R/W}{R/W}{R/W}{R/W}",
    "url": "https://scryfall.com/card/mm2/195/nobilis-of-war?utm_source=api",
    "oracle_text": "Flying\nAttacking creatures you control get +2/+0."
   },
@@ -664,6 +706,7 @@
    "colors": [
     "G"
    ],
+   "mana_cost": "{4}{G}{G}",
    "url": "https://scryfall.com/card/shm/134/witherscale-wurm?utm_source=api",
    "oracle_text": "Whenever Witherscale Wurm blocks or becomes blocked by a creature, that creature gains wither until end of turn. (It deals damage to creatures in the form of -1/-1 counters.)\nWhenever Witherscale Wurm deals damage to an opponent, remove all -1/-1 counters from it."
   },
@@ -680,6 +723,7 @@
    "colors": [
     "U"
    ],
+   "mana_cost": "{3}{U}{U}",
    "url": "https://scryfall.com/card/c19/93/river-kelpie?utm_source=api",
    "oracle_text": "Whenever River Kelpie or another permanent enters the battlefield from a graveyard, draw a card.\nWhenever a player casts a spell from a graveyard, draw a card.\nPersist (When this creature dies, if it had no -1/-1 counters on it, return it to the battlefield under its owner's control with a -1/-1 counter on it.)"
   },
@@ -696,6 +740,7 @@
    "colors": [
     "G"
    ],
+   "mana_cost": "{4}{G}",
    "url": "https://scryfall.com/card/ddr/12/jaddi-lifestrider?utm_source=api",
    "oracle_text": "When Jaddi Lifestrider enters the battlefield, you may tap any number of untapped creatures you control. You gain 2 life for each creature tapped this way."
   },
@@ -712,6 +757,7 @@
    "colors": [
     "G"
    ],
+   "mana_cost": "{G}",
    "url": "https://scryfall.com/card/moc/299/gilded-goose?utm_source=api",
    "oracle_text": "Flying\nWhen Gilded Goose enters the battlefield, create a Food token. (It's an artifact with \"{2}, {T}, Sacrifice this artifact: You gain 3 life.\")\n{1}{G}, {T}: Create a Food token.\n{T}, Sacrifice a Food: Add one mana of any color."
   },
@@ -729,6 +775,7 @@
    "colors": [
     "G"
    ],
+   "mana_cost": "{1}{G}",
    "url": "https://scryfall.com/card/2x2/143/devoted-druid?utm_source=api",
    "oracle_text": "{T}: Add {G}.\nPut a -1/-1 counter on Devoted Druid: Untap Devoted Druid."
   },
@@ -745,6 +792,7 @@
    "colors": [
     "G"
    ],
+   "mana_cost": "{1}{G}",
    "url": "https://scryfall.com/card/znr/193/lotus-cobra?utm_source=api",
    "oracle_text": "Landfall — Whenever a land enters the battlefield under your control, add one mana of any color."
   },
@@ -762,6 +810,7 @@
    "colors": [
     "G"
    ],
+   "mana_cost": "{2}{G}",
    "url": "https://scryfall.com/card/khc/72/reclamation-sage?utm_source=api",
    "oracle_text": "When Reclamation Sage enters the battlefield, you may destroy target artifact or enchantment."
   },
@@ -780,6 +829,7 @@
    "colors": [
     "G"
    ],
+   "mana_cost": "{2}{G}{G}",
    "url": "https://scryfall.com/card/cmm/885/arasta-of-the-endless-web?utm_source=api",
    "oracle_text": "Reach\nWhenever an opponent casts an instant or sorcery spell, create a 1/2 green Spider creature token with reach."
   },
@@ -796,6 +846,7 @@
    "colors": [
     "G"
    ],
+   "mana_cost": "{3}{G}{G}",
    "url": "https://scryfall.com/card/cmm/270/acidic-slime?utm_source=api",
    "oracle_text": "Deathtouch (Any amount of damage this deals to a creature is enough to destroy it.)\nWhen Acidic Slime enters the battlefield, destroy target artifact, enchantment, or land."
   },
@@ -814,6 +865,7 @@
     "G",
     "U"
    ],
+   "mana_cost": "{2}{G}{G/U/P}{U}",
    "url": "https://scryfall.com/card/neo/238/tamiyo-compleated-sage?utm_source=api",
    "oracle_text": "Compleated ({G/U/P} can be paid with {G}, {U}, or 2 life. If life was paid, this planeswalker enters with two fewer loyalty counters.)\n+1: Tap up to one target artifact or creature. It doesn't untap during its controller's next untap step.\n−X: Exile target nonland permanent card with mana value X from your graveyard. Create a token that's a copy of that card.\n−7: Create Tamiyo's Notebook, a legendary colorless artifact token with \"Spells you cast cost {2} less to cast\" and \"{T}: Draw a card.\""
   },
@@ -831,6 +883,7 @@
    "colors": [
     "G"
    ],
+   "mana_cost": "{3}{G}{G}",
    "url": "https://scryfall.com/card/war/169/nissa-who-shakes-the-world?utm_source=api",
    "oracle_text": "Whenever you tap a Forest for mana, add an additional {G}.\n+1: Put three +1/+1 counters on up to one target noncreature land you control. Untap it. It becomes a 0/0 Elemental creature with vigilance and haste that's still a land.\n−8: You get an emblem with \"Lands you control have indestructible.\" Search your library for any number of Forest cards, put them onto the battlefield tapped, then shuffle."
   },
@@ -847,6 +900,7 @@
    "colors": [
     "G"
    ],
+   "mana_cost": "{G}",
    "url": "https://scryfall.com/card/afc/172/utopia-sprawl?utm_source=api",
    "oracle_text": "Enchant Forest\nAs Utopia Sprawl enters the battlefield, choose a color.\nWhenever enchanted Forest is tapped for mana, its controller adds an additional one mana of the chosen color."
   },
@@ -860,6 +914,7 @@
    "colors": [
     "G"
    ],
+   "mana_cost": "{G}",
    "url": "https://scryfall.com/card/ddp/15/groundswell?utm_source=api",
    "oracle_text": "Target creature gets +2/+2 until end of turn.\nLandfall — If you had a land enter the battlefield under your control this turn, that creature gets +4/+4 until end of turn instead."
   },
@@ -873,6 +928,7 @@
    "colors": [
     "G"
    ],
+   "mana_cost": "{G}",
    "url": "https://scryfall.com/card/mm2/168/vines-of-vastwood?utm_source=api",
    "oracle_text": "Kicker {G} (You may pay an additional {G} as you cast this spell.)\nTarget creature can't be the target of spells or abilities your opponents control this turn. If this spell was kicked, that creature gets +4/+4 until end of turn."
   },
@@ -886,7 +942,8 @@
    "colors": [
     "G"
    ],
-   "url": "https://scryfall.com/card/dmc/129/beast-within?utm_source=api",
+   "mana_cost": "{2}{G}",
+   "url": "https://scryfall.com/card/lcc/233/beast-within?utm_source=api",
    "oracle_text": "Destroy target permanent. Its controller creates a 3/3 green Beast creature token."
   },
   {
@@ -903,6 +960,7 @@
    "colors": [
     "G"
    ],
+   "mana_cost": "{3}{G}",
    "url": "https://scryfall.com/card/cma/116/hunting-triad?utm_source=api",
    "oracle_text": "Create three 1/1 green Elf Warrior creature tokens.\nReinforce 3—{3}{G} ({3}{G}, Discard this card: Put three +1/+1 counters on target creature.)"
   },
@@ -916,6 +974,7 @@
    "colors": [
     "G"
    ],
+   "mana_cost": "{1}{G}",
    "url": "https://scryfall.com/card/dom/178/saproling-migration?utm_source=api",
    "oracle_text": "Kicker {4} (You may pay an additional {4} as you cast this spell.)\nCreate two 1/1 green Saproling creature tokens. If this spell was kicked, create four of those tokens instead."
   },
@@ -928,6 +987,7 @@
    "cmc": 0,
    "image": "",
    "colors": [],
+   "mana_cost": "",
    "url": "https://scryfall.com/card/neo/266/boseiju-who-endures?utm_source=api",
    "oracle_text": "{T}: Add {G}.\nChannel — {1}{G}, Discard Boseiju, Who Endures: Destroy target artifact, enchantment, or nonbasic land an opponent controls. That player may search their library for a land card with a basic land type, put it onto the battlefield, then shuffle. This ability costs {1} less to activate for each legendary creature you control."
   },
@@ -939,7 +999,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/dom/240/hinterland-harbor?utm_source=api",
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/lcc/336/hinterland-harbor?utm_source=api",
    "oracle_text": "Hinterland Harbor enters the battlefield tapped unless you control a Forest or an Island.\n{T}: Add {G} or {U}."
   },
   {
@@ -950,7 +1011,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/cmm/996/fortified-village?utm_source=api",
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/lcc/331/fortified-village?utm_source=api",
    "oracle_text": "As Fortified Village enters the battlefield, you may reveal a Forest or Plains card from your hand. If you don't, Fortified Village enters the battlefield tapped.\n{T}: Add {G} or {W}."
   },
   {
@@ -965,6 +1027,7 @@
    "cmc": 0,
    "image": "",
    "colors": [],
+   "mana_cost": "",
    "url": "https://scryfall.com/card/rna/246/breeding-pool?utm_source=api",
    "oracle_text": "({T}: Add {G} or {U}.)\nAs Breeding Pool enters the battlefield, you may pay 2 life. If you don't, it enters the battlefield tapped."
   }

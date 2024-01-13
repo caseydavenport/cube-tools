@@ -10,6 +10,7 @@ type Card struct {
 	CMC        int      `json:"cmc"`
 	Image      string   `json:"image"`
 	Colors     []string `json:"colors"`
+	ManaCost   string   `json:"mana_cost"`
 	URL        string   `json:"url"`
 	OracleText string   `json:"oracle_text"`
 }
@@ -26,12 +27,11 @@ func FromOracle(o OracleCard) Card {
 		c.SubTypes = strings.Split(strings.TrimSpace(splits[1]), " ")
 	}
 
-	// Add in image.
 	c.Image = o.ImageURLs["normal"]
-
 	c.Colors = o.Colors
 	c.URL = o.ScryfallURI
 	c.OracleText = o.OracleText
+	c.ManaCost = o.ManaCost
 
 	return c
 }

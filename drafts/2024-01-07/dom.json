@@ -1,14 +1,33 @@
 {
- "labels": ["midrange", "control", "discard"],
+ "labels": [
+  "midrange",
+  "control",
+  "discard"
+ ],
  "player": "dom",
  "date": "2024-01-07",
  "games": [
-    {"opponent": "jen", "winner": "dom"},
-    {"opponent": "jen", "winner": "dom"},
-    {"opponent": "casey", "winner": "dom"},
-    {"opponent": "xander", "winner": "xander"},
-    {"opponent": "xander", "winner": "xander"}
-  ],
+  {
+   "opponent": "jen",
+   "winner": "dom"
+  },
+  {
+   "opponent": "jen",
+   "winner": "dom"
+  },
+  {
+   "opponent": "casey",
+   "winner": "dom"
+  },
+  {
+   "opponent": "xander",
+   "winner": "xander"
+  },
+  {
+   "opponent": "xander",
+   "winner": "xander"
+  }
+ ],
  "mainboard": [
   {
    "name": "Thing in the Ice // Awoken Horror",
@@ -23,6 +42,7 @@
    "cmc": 2,
    "image": "",
    "colors": null,
+   "mana_cost": "",
    "url": "https://scryfall.com/card/soi/92/thing-in-the-ice-awoken-horror?utm_source=api",
    "oracle_text": ""
   },
@@ -39,6 +59,7 @@
    "colors": [
     "U"
    ],
+   "mana_cost": "{4}{U}",
    "url": "https://scryfall.com/card/2x2/60/mulldrifter?utm_source=api",
    "oracle_text": "Flying\nWhen Mulldrifter enters the battlefield, draw two cards.\nEvoke {2}{U} (You may cast this spell for its evoke cost. If you do, it's sacrificed when it enters the battlefield.)"
   },
@@ -55,6 +76,7 @@
    "colors": [
     "U"
    ],
+   "mana_cost": "{2}{U}",
    "url": "https://scryfall.com/card/thb/79/vexing-gull?utm_source=api",
    "oracle_text": "Flash\nFlying"
   },
@@ -68,6 +90,7 @@
    "colors": [
     "U"
    ],
+   "mana_cost": "{2}{U}",
    "url": "https://scryfall.com/card/kld/38/aether-tradewinds?utm_source=api",
    "oracle_text": "Return target permanent you control and target permanent you don't control to their owners' hands."
   },
@@ -84,6 +107,7 @@
    "colors": [
     "U"
    ],
+   "mana_cost": "{2}{U}{U}",
    "url": "https://scryfall.com/card/afc/81/curator-of-mysteries?utm_source=api",
    "oracle_text": "Flying\nWhenever you cycle or discard another card, scry 1.\nCycling {U} ({U}, Discard this card: Draw a card.)"
   },
@@ -101,6 +125,7 @@
    "colors": [
     "U"
    ],
+   "mana_cost": "{1}{U}",
    "url": "https://scryfall.com/card/uma/71/snapcaster-mage?utm_source=api",
    "oracle_text": "Flash\nWhen Snapcaster Mage enters the battlefield, target instant or sorcery card in your graveyard gains flashback until end of turn. The flashback cost is equal to its mana cost. (You may cast that card from your graveyard for its flashback cost. Then exile it.)"
   },
@@ -114,6 +139,7 @@
    "colors": [
     "U"
    ],
+   "mana_cost": "{1}{U}",
    "url": "https://scryfall.com/card/cmr/397/into-the-roil?utm_source=api",
    "oracle_text": "Kicker {1}{U} (You may pay an additional {1}{U} as you cast this spell.)\nReturn target nonland permanent to its owner's hand. If this spell was kicked, draw a card."
   },
@@ -127,6 +153,7 @@
    "colors": [
     "U"
    ],
+   "mana_cost": "{1}{U}",
    "url": "https://scryfall.com/card/akh/76/winds-of-rebuke?utm_source=api",
    "oracle_text": "Return target nonland permanent to its owner's hand. Each player mills two cards."
   },
@@ -138,6 +165,7 @@
    "cmc": 0,
    "image": "",
    "colors": [],
+   "mana_cost": "",
    "url": "https://scryfall.com/card/lcc/354/sulfur-falls?utm_source=api",
    "oracle_text": "Sulfur Falls enters the battlefield tapped unless you control an Island or a Mountain.\n{T}: Add {U} or {R}."
   },
@@ -149,6 +177,7 @@
    "cmc": 0,
    "image": "",
    "colors": [],
+   "mana_cost": "",
    "url": "https://scryfall.com/card/mh1/238/fiery-islet?utm_source=api",
    "oracle_text": "{T}, Pay 1 life: Add {U} or {R}.\n{1}, {T}, Sacrifice Fiery Islet: Draw a card."
   },
@@ -162,6 +191,7 @@
    "colors": [
     "R"
    ],
+   "mana_cost": "{R}",
    "url": "https://scryfall.com/card/2x2/117/lightning-bolt?utm_source=api",
    "oracle_text": "Lightning Bolt deals 3 damage to any target."
   },
@@ -180,6 +210,7 @@
     "R",
     "U"
    ],
+   "mana_cost": "{2}{U}{R}",
    "url": "https://scryfall.com/card/war/211/ral-storm-conduit?utm_source=api",
    "oracle_text": "Whenever you cast or copy an instant or sorcery spell, Ral, Storm Conduit deals 1 damage to target opponent or planeswalker.\n+2: Scry 1.\n−2: When you cast your next instant or sorcery spell this turn, copy that spell. You may choose new targets for the copy."
   },
@@ -193,6 +224,7 @@
    "colors": [
     "R"
    ],
+   "mana_cost": "{2}{R}",
    "url": "https://scryfall.com/card/jmp/317/flames-of-the-firebrand?utm_source=api",
    "oracle_text": "Flames of the Firebrand deals 3 damage divided as you choose among one, two, or three targets."
   },
@@ -206,6 +238,7 @@
    "colors": [
     "R"
    ],
+   "mana_cost": "{2}{R}",
    "url": "https://scryfall.com/card/ima/139/mark-of-mutiny?utm_source=api",
    "oracle_text": "Gain control of target creature until end of turn. Put a +1/+1 counter on it and untap it. That creature gains haste until end of turn. (It can attack and {T} this turn.)"
   },
@@ -225,6 +258,7 @@
     "R",
     "U"
    ],
+   "mana_cost": "{1}{U}{R}",
    "url": "https://scryfall.com/card/iko/203/rielle-the-everwise?utm_source=api",
    "oracle_text": "Rielle, the Everwise gets +1/+0 for each instant and sorcery card in your graveyard.\nWhenever you discard one or more cards for the first time each turn, draw that many cards."
   },
@@ -241,6 +275,7 @@
    "colors": [
     "R"
    ],
+   "mana_cost": "{2}{R}",
    "url": "https://scryfall.com/card/roe/160/rage-nimbus?utm_source=api",
    "oracle_text": "Defender, flying\n{1}{R}: Target creature attacks this turn if able."
   },
@@ -254,6 +289,7 @@
    "colors": [
     "U"
    ],
+   "mana_cost": "{1}{U}",
    "url": "https://scryfall.com/card/mom/68/negate?utm_source=api",
    "oracle_text": "Counter target noncreature spell."
   },
@@ -265,6 +301,7 @@
    "cmc": 0,
    "image": "",
    "colors": [],
+   "mana_cost": "",
    "url": "https://scryfall.com/card/dmu/256/sulfurous-springs?utm_source=api",
    "oracle_text": "{T}: Add {C}.\n{T}: Add {B} or {R}. Sulfurous Springs deals 1 damage to you."
   },
@@ -277,6 +314,7 @@
    "cmc": 0,
    "image": "",
    "colors": [],
+   "mana_cost": "",
    "url": "https://scryfall.com/card/neo/278/takenuma-abandoned-mire?utm_source=api",
    "oracle_text": "{T}: Add {B}.\nChannel — {3}{B}, Discard Takenuma, Abandoned Mire: Mill three cards, then return a creature or planeswalker card from your graveyard to your hand. This ability costs {1} less to activate for each legendary creature you control."
   },
@@ -292,6 +330,7 @@
    "cmc": 0,
    "image": "",
    "colors": [],
+   "mana_cost": "",
    "url": "https://scryfall.com/card/grn/259/watery-grave?utm_source=api",
    "oracle_text": "({T}: Add {U} or {B}.)\nAs Watery Grave enters the battlefield, you may pay 2 life. If you don't, it enters the battlefield tapped."
   },
@@ -310,6 +349,7 @@
     "B",
     "U"
    ],
+   "mana_cost": "{2}{U}{B}",
    "url": "https://scryfall.com/card/lcc/271/hostage-taker?utm_source=api",
    "oracle_text": "When Hostage Taker enters the battlefield, exile another target creature or artifact until Hostage Taker leaves the battlefield. You may cast that card for as long as it remains exiled, and mana of any type can be spent to cast it."
   },
@@ -323,6 +363,7 @@
    "colors": [
     "B"
    ],
+   "mana_cost": "{B}",
    "url": "https://scryfall.com/card/mma/95/ravens-crime?utm_source=api",
    "oracle_text": "Target player discards a card.\nRetrace (You may cast this card from your graveyard by discarding a land card in addition to paying its other costs.)"
   },
@@ -336,6 +377,7 @@
    "colors": [
     "B"
    ],
+   "mana_cost": "{B}",
    "url": "https://scryfall.com/card/2x2/96/unearth?utm_source=api",
    "oracle_text": "Return target creature card with mana value 3 or less from your graveyard to the battlefield.\nCycling {2} ({2}, Discard this card: Draw a card.)"
   },
@@ -353,6 +395,7 @@
    "colors": [
     "B"
    ],
+   "mana_cost": "{1}{B}",
    "url": "https://scryfall.com/card/a25/97/mesmeric-fiend?utm_source=api",
    "oracle_text": "When Mesmeric Fiend enters the battlefield, target opponent reveals their hand and you choose a nonland card from it. Exile that card.\nWhen Mesmeric Fiend leaves the battlefield, return the exiled card to its owner's hand."
   },
@@ -369,6 +412,7 @@
    "colors": [
     "B"
    ],
+   "mana_cost": "{3}{B}{B}",
    "url": "https://scryfall.com/card/akh/78/archfiend-of-ifnir?utm_source=api",
    "oracle_text": "Flying\nWhenever you cycle or discard another card, put a -1/-1 counter on each creature your opponents control.\nCycling {2} ({2}, Discard this card: Draw a card.)"
   },
@@ -387,6 +431,7 @@
    "colors": [
     "B"
    ],
+   "mana_cost": "{5}{B}{B} // {1}{B}",
    "url": "https://scryfall.com/card/woe/115/virtue-of-persistence-locthwain-scorn?utm_source=api",
    "oracle_text": ""
   },
@@ -405,6 +450,7 @@
     "B",
     "U"
    ],
+   "mana_cost": "{U}{B}",
    "url": "https://scryfall.com/card/akh/206/shadowstorm-vizier?utm_source=api",
    "oracle_text": "Flying\nWhenever you cycle or discard a card, Shadowstorm Vizier gets +1/+1 until end of turn."
   },
@@ -424,6 +470,7 @@
     "B",
     "R"
    ],
+   "mana_cost": "{2}{B}{B}{R}{R}",
    "url": "https://scryfall.com/card/ima/205/malfegor?utm_source=api",
    "oracle_text": "Flying\nWhen Malfegor enters the battlefield, discard your hand. Each opponent sacrifices a creature for each card discarded this way."
   },
@@ -439,6 +486,7 @@
    "cmc": 0,
    "image": "",
    "colors": [],
+   "mana_cost": "",
    "url": "https://scryfall.com/card/lci/395/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)"
   },
@@ -454,6 +502,7 @@
    "cmc": 0,
    "image": "",
    "colors": [],
+   "mana_cost": "",
    "url": "https://scryfall.com/card/lci/395/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)"
   },
@@ -469,6 +518,7 @@
    "cmc": 0,
    "image": "",
    "colors": [],
+   "mana_cost": "",
    "url": "https://scryfall.com/card/lci/395/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)"
   },
@@ -484,6 +534,7 @@
    "cmc": 0,
    "image": "",
    "colors": [],
+   "mana_cost": "",
    "url": "https://scryfall.com/card/lci/395/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)"
   },
@@ -499,6 +550,7 @@
    "cmc": 0,
    "image": "",
    "colors": [],
+   "mana_cost": "",
    "url": "https://scryfall.com/card/lci/397/swamp?utm_source=api",
    "oracle_text": "({T}: Add {B}.)"
   },
@@ -514,6 +566,7 @@
    "cmc": 0,
    "image": "",
    "colors": [],
+   "mana_cost": "",
    "url": "https://scryfall.com/card/lci/397/swamp?utm_source=api",
    "oracle_text": "({T}: Add {B}.)"
   },
@@ -529,6 +582,7 @@
    "cmc": 0,
    "image": "",
    "colors": [],
+   "mana_cost": "",
    "url": "https://scryfall.com/card/lci/397/swamp?utm_source=api",
    "oracle_text": "({T}: Add {B}.)"
   },
@@ -544,6 +598,7 @@
    "cmc": 0,
    "image": "",
    "colors": [],
+   "mana_cost": "",
    "url": "https://scryfall.com/card/lci/397/swamp?utm_source=api",
    "oracle_text": "({T}: Add {B}.)"
   },
@@ -559,6 +614,7 @@
    "cmc": 0,
    "image": "",
    "colors": [],
+   "mana_cost": "",
    "url": "https://scryfall.com/card/lci/399/mountain?utm_source=api",
    "oracle_text": "({T}: Add {R}.)"
   },
@@ -574,6 +630,7 @@
    "cmc": 0,
    "image": "",
    "colors": [],
+   "mana_cost": "",
    "url": "https://scryfall.com/card/lci/399/mountain?utm_source=api",
    "oracle_text": "({T}: Add {R}.)"
   },
@@ -589,6 +646,7 @@
    "cmc": 0,
    "image": "",
    "colors": [],
+   "mana_cost": "",
    "url": "https://scryfall.com/card/lci/399/mountain?utm_source=api",
    "oracle_text": "({T}: Add {R}.)"
   },
@@ -604,11 +662,79 @@
    "cmc": 0,
    "image": "",
    "colors": [],
+   "mana_cost": "",
    "url": "https://scryfall.com/card/lci/399/mountain?utm_source=api",
    "oracle_text": "({T}: Add {R}.)"
   }
  ],
  "sideboard": [
+  {
+   "name": "Chart a Course",
+   "types": [
+    "Sorcery"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "U"
+   ],
+   "mana_cost": "{1}{U}",
+   "url": "https://scryfall.com/card/lci/48/chart-a-course?utm_source=api",
+   "oracle_text": "Draw two cards. Then discard a card unless you attacked this turn."
+  },
+  {
+   "name": "Liliana, Death's Majesty",
+   "types": [
+    "Legendary",
+    "Planeswalker"
+   ],
+   "sub_types": [
+    "Liliana"
+   ],
+   "cmc": 5,
+   "image": "",
+   "colors": [
+    "B"
+   ],
+   "mana_cost": "{3}{B}{B}",
+   "url": "https://scryfall.com/card/mic/121/liliana-deaths-majesty?utm_source=api",
+   "oracle_text": "+1: Create a 2/2 black Zombie creature token. Mill two cards.\n−3: Return target creature card from your graveyard to the battlefield. That creature is a black Zombie in addition to its other colors and types.\n−7: Destroy all non-Zombie creatures."
+  },
+  {
+   "name": "Fatestitcher",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Zombie",
+    "Wizard"
+   ],
+   "cmc": 4,
+   "image": "",
+   "colors": [
+    "U"
+   ],
+   "mana_cost": "{3}{U}",
+   "url": "https://scryfall.com/card/ala/43/fatestitcher?utm_source=api",
+   "oracle_text": "{T}: You may tap or untap another target permanent.\nUnearth {U} ({U}: Return this card from your graveyard to the battlefield. It gains haste. Exile it at the beginning of the next end step or if it would leave the battlefield. Unearth only as a sorcery.)"
+  },
+  {
+   "name": "Magma Phoenix",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Phoenix"
+   ],
+   "cmc": 5,
+   "image": "",
+   "colors": [
+    "R"
+   ],
+   "mana_cost": "{3}{R}{R}",
+   "url": "https://scryfall.com/card/m11/150/magma-phoenix?utm_source=api",
+   "oracle_text": "Flying\nWhen Magma Phoenix dies, it deals 3 damage to each creature and each player.\n{3}{R}{R}: Return Magma Phoenix from your graveyard to your hand."
+  },
   {
    "name": "Ajani's Pridemate",
    "types": [
@@ -623,6 +749,7 @@
    "colors": [
     "W"
    ],
+   "mana_cost": "{1}{W}",
    "url": "https://scryfall.com/card/war/4/ajanis-pridemate?utm_source=api",
    "oracle_text": "Whenever you gain life, put a +1/+1 counter on Ajani's Pridemate."
   },
@@ -640,6 +767,7 @@
    "colors": [
     "W"
    ],
+   "mana_cost": "{1}{W}",
    "url": "https://scryfall.com/card/ima/13/blinding-mage?utm_source=api",
    "oracle_text": "{W}, {T}: Tap target creature."
   },
@@ -658,6 +786,7 @@
    "colors": [
     "W"
    ],
+   "mana_cost": "{1}{W}",
    "url": "https://scryfall.com/card/neo/26/lion-sash?utm_source=api",
    "oracle_text": "{W}: Exile target card from a graveyard. If it was a permanent card, put a +1/+1 counter on Lion Sash.\nEquipped creature gets +1/+1 for each +1/+1 counter on Lion Sash.\nReconfigure {2} ({2}: Attach to target creature you control; or unattach from a creature. Reconfigure only as a sorcery. While attached, this isn't a creature.)"
   },
@@ -673,6 +802,7 @@
    "cmc": 2,
    "image": "",
    "colors": [],
+   "mana_cost": "{2}",
    "url": "https://scryfall.com/card/som/170/leaden-myr?utm_source=api",
    "oracle_text": "{T}: Add {B}."
   },
@@ -687,6 +817,7 @@
     "U",
     "W"
    ],
+   "mana_cost": "{1}{W/U}",
    "url": "https://scryfall.com/card/uma/224/turn-to-mist?utm_source=api",
    "oracle_text": "Exile target creature. Return that card to the battlefield under its owner's control at the beginning of the next end step."
   },
@@ -700,6 +831,7 @@
    "colors": [
     "B"
    ],
+   "mana_cost": "{1}{B}",
    "url": "https://scryfall.com/card/ddr/51/grim-discovery?utm_source=api",
    "oracle_text": "Choose one or both —\n• Return target creature card from your graveyard to your hand.\n• Return target land card from your graveyard to your hand."
   },
@@ -716,6 +848,7 @@
    "colors": [
     "B"
    ],
+   "mana_cost": "{3}{B}",
    "url": "https://scryfall.com/card/m20/103/gravedigger?utm_source=api",
    "oracle_text": "When Gravedigger enters the battlefield, you may return target creature card from your graveyard to your hand."
   },
@@ -729,6 +862,7 @@
    "colors": [
     "U"
    ],
+   "mana_cost": "{7}{U}",
    "url": "https://scryfall.com/card/ncc/237/treasure-cruise?utm_source=api",
    "oracle_text": "Delve (Each card you exile from your graveyard while casting this spell pays for {1}.)\nDraw three cards."
   },
@@ -745,6 +879,7 @@
    "colors": [
     "B"
    ],
+   "mana_cost": "{3}{B}",
    "url": "https://scryfall.com/card/thb/112/pharikas-spawn?utm_source=api",
    "oracle_text": "Escape—{5}{B}, Exile three other cards from your graveyard. (You may cast this card from your graveyard for its escape cost.)\nPharika's Spawn escapes with two +1/+1 counters on it. When it enters the battlefield this way, each opponent sacrifices a non-Gorgon creature."
   },
@@ -758,6 +893,7 @@
    "colors": [
     "R"
    ],
+   "mana_cost": "{R}",
    "url": "https://scryfall.com/card/shm/88/crimson-wisps?utm_source=api",
    "oracle_text": "Target creature becomes red and gains haste until end of turn.\nDraw a card."
   },
@@ -771,6 +907,7 @@
    "colors": [
     "R"
    ],
+   "mana_cost": "{R}",
    "url": "https://scryfall.com/card/mh1/134/lava-dart?utm_source=api",
    "oracle_text": "Lava Dart deals 1 damage to any target.\nFlashback—Sacrifice a Mountain. (You may cast this card from your graveyard for its flashback cost. Then exile it.)"
   },
@@ -784,71 +921,9 @@
    "colors": [
     "U"
    ],
+   "mana_cost": "{2}{U}",
    "url": "https://scryfall.com/card/cmm/98/ghostly-flicker?utm_source=api",
    "oracle_text": "Exile two target artifacts, creatures, and/or lands you control, then return those cards to the battlefield under your control."
-  },
-  {
-   "name": "Chart a Course",
-   "types": [
-    "Sorcery"
-   ],
-   "cmc": 2,
-   "image": "",
-   "colors": [
-    "U"
-   ],
-   "url": "https://scryfall.com/card/lci/48/chart-a-course?utm_source=api",
-   "oracle_text": "Draw two cards. Then discard a card unless you attacked this turn."
-  },
-  {
-   "name": "Liliana, Death's Majesty",
-   "types": [
-    "Legendary",
-    "Planeswalker"
-   ],
-   "sub_types": [
-    "Liliana"
-   ],
-   "cmc": 5,
-   "image": "",
-   "colors": [
-    "B"
-   ],
-   "url": "https://scryfall.com/card/mic/121/liliana-deaths-majesty?utm_source=api",
-   "oracle_text": "+1: Create a 2/2 black Zombie creature token. Mill two cards.\n−3: Return target creature card from your graveyard to the battlefield. That creature is a black Zombie in addition to its other colors and types.\n−7: Destroy all non-Zombie creatures."
-  },
-  {
-   "name": "Magma Phoenix",
-   "types": [
-    "Creature"
-   ],
-   "sub_types": [
-    "Phoenix"
-   ],
-   "cmc": 5,
-   "image": "",
-   "colors": [
-    "R"
-   ],
-   "url": "https://scryfall.com/card/m11/150/magma-phoenix?utm_source=api",
-   "oracle_text": "Flying\nWhen Magma Phoenix dies, it deals 3 damage to each creature and each player.\n{3}{R}{R}: Return Magma Phoenix from your graveyard to your hand."
-  },
-  {
-   "name": "Fatestitcher",
-   "types": [
-    "Creature"
-   ],
-   "sub_types": [
-    "Zombie",
-    "Wizard"
-   ],
-   "cmc": 4,
-   "image": "",
-   "colors": [
-    "U"
-   ],
-   "url": "https://scryfall.com/card/ala/43/fatestitcher?utm_source=api",
-   "oracle_text": "{T}: You may tap or untap another target permanent.\nUnearth {U} ({U}: Return this card from your graveyard to the battlefield. It gains haste. Exile it at the beginning of the next end step or if it would leave the battlefield. Unearth only as a sorcery.)"
   },
   {
    "name": "Counterspell",
@@ -860,6 +935,7 @@
    "colors": [
     "U"
    ],
+   "mana_cost": "{U}{U}",
    "url": "https://scryfall.com/card/cmm/81/counterspell?utm_source=api",
    "oracle_text": "Counter target spell."
   }

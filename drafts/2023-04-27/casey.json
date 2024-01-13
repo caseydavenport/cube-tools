@@ -23,6 +23,7 @@
    "colors": [
     "W"
    ],
+   "mana_cost": "{3}{W}{W}",
    "url": "https://scryfall.com/card/khc/21/cloudgoat-ranger?utm_source=api",
    "oracle_text": "When Cloudgoat Ranger enters the battlefield, create three 1/1 white Kithkin Soldier creature tokens.\nTap three untapped Kithkin you control: Cloudgoat Ranger gets +2/+0 and gains flying until end of turn."
   },
@@ -40,6 +41,7 @@
    "colors": [
     "U"
    ],
+   "mana_cost": "{1}{U}",
    "url": "https://scryfall.com/card/m20/50/brineborn-cutthroat?utm_source=api",
    "oracle_text": "Flash (You may cast this spell any time you could cast an instant.)\nWhenever you cast a spell during an opponent's turn, put a +1/+1 counter on Brineborn Cutthroat."
   },
@@ -53,6 +55,7 @@
    "colors": [
     "U"
    ],
+   "mana_cost": "{U}{U}",
    "url": "https://scryfall.com/card/neo/52/essence-capture?utm_source=api",
    "oracle_text": "Counter target creature spell. Put a +1/+1 counter on up to one target creature you control."
   },
@@ -72,6 +75,7 @@
    "colors": [
     "U"
    ],
+   "mana_cost": "{1}{U}",
    "url": "https://scryfall.com/card/neo/74/the-reality-chip?utm_source=api",
    "oracle_text": "You may look at the top card of your library any time.\nAs long as The Reality Chip is attached to a creature, you may play lands and cast spells from the top of your library.\nReconfigure {2}{U} ({2}{U}: Attach to target creature you control; or unattach from a creature. Reconfigure only as a sorcery. While attached, this isn't a creature.)"
   },
@@ -89,6 +93,7 @@
    "colors": [
     "G"
    ],
+   "mana_cost": "{2}{G}",
    "url": "https://scryfall.com/card/khc/72/reclamation-sage?utm_source=api",
    "oracle_text": "When Reclamation Sage enters the battlefield, you may destroy target artifact or enchantment."
   },
@@ -102,6 +107,7 @@
    "colors": [
     "U"
    ],
+   "mana_cost": "{1}{U}",
    "url": "https://scryfall.com/card/2x2/58/mana-leak?utm_source=api",
    "oracle_text": "Counter target spell unless its controller pays {3}."
   },
@@ -118,6 +124,7 @@
    "colors": [
     "W"
    ],
+   "mana_cost": "{6}{W}{W}",
    "url": "https://scryfall.com/card/moc/170/angel-of-salvation?utm_source=api",
    "oracle_text": "Flash; convoke (Your creatures can help cast this spell. Each creature you tap while casting this spell pays for {1} or one mana of that creature's color.)\nFlying\nWhen Angel of Salvation enters the battlefield, prevent the next 5 damage that would be dealt this turn to any number of targets, divided as you choose."
   },
@@ -135,6 +142,7 @@
    "colors": [
     "W"
    ],
+   "mana_cost": "{2}{W}",
    "url": "https://scryfall.com/card/c15/73/kor-sanctifiers?utm_source=api",
    "oracle_text": "Kicker {W} (You may pay an additional {W} as you cast this spell.)\nWhen Kor Sanctifiers enters the battlefield, if it was kicked, destroy target artifact or enchantment."
   },
@@ -152,6 +160,7 @@
    "colors": [
     "U"
    ],
+   "mana_cost": "{2}{U}",
    "url": "https://scryfall.com/card/shm/43/leech-bonder?utm_source=api",
    "oracle_text": "Leech Bonder enters the battlefield with two -1/-1 counters on it.\n{U}, {Q}: Move a counter from target creature onto a second target creature. ({Q} is the untap symbol.)"
   },
@@ -168,6 +177,7 @@
    "colors": [
     "U"
    ],
+   "mana_cost": "{4}{U}",
    "url": "https://scryfall.com/card/2x2/60/mulldrifter?utm_source=api",
    "oracle_text": "Flying\nWhen Mulldrifter enters the battlefield, draw two cards.\nEvoke {2}{U} (You may cast this spell for its evoke cost. If you do, it's sacrificed when it enters the battlefield.)"
   },
@@ -182,6 +192,7 @@
     "U",
     "W"
    ],
+   "mana_cost": "{1}{W/U}",
    "url": "https://scryfall.com/card/uma/224/turn-to-mist?utm_source=api",
    "oracle_text": "Exile target creature. Return that card to the battlefield under its owner's control at the beginning of the next end step."
   },
@@ -195,6 +206,7 @@
    "colors": [
     "G"
    ],
+   "mana_cost": "{2}{G}",
    "url": "https://scryfall.com/card/grn/145/sprouting-renewal?utm_source=api",
    "oracle_text": "Convoke (Your creatures can help cast this spell. Each creature you tap while casting this spell pays for {1} or one mana of that creature's color.)\nChoose one —\n• Create a 2/2 green and white Elf Knight creature token with vigilance.\n• Destroy target artifact or enchantment."
   },
@@ -206,6 +218,7 @@
    "cmc": 0,
    "image": "",
    "colors": [],
+   "mana_cost": "",
    "url": "https://scryfall.com/card/xln/257/sunpetal-grove?utm_source=api",
    "oracle_text": "Sunpetal Grove enters the battlefield tapped unless you control a Forest or a Plains.\n{T}: Add {G} or {W}."
   },
@@ -223,6 +236,7 @@
     "G",
     "W"
    ],
+   "mana_cost": "{1}{G/W}{G/W}",
    "url": "https://scryfall.com/card/uma/216/kitchen-finks?utm_source=api",
    "oracle_text": "When Kitchen Finks enters the battlefield, you gain 2 life.\nPersist (When this creature dies, if it had no -1/-1 counters on it, return it to the battlefield under its owner's control with a -1/-1 counter on it.)"
   },
@@ -238,6 +252,7 @@
    "cmc": 2,
    "image": "",
    "colors": [],
+   "mana_cost": "{2}",
    "url": "https://scryfall.com/card/nec/158/silver-myr?utm_source=api",
    "oracle_text": "{T}: Add {U}."
   },
@@ -253,7 +268,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/woe/275/forest?utm_source=api",
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/lci/401/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)"
   },
   {
@@ -268,7 +284,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/woe/275/forest?utm_source=api",
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/lci/401/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)"
   },
   {
@@ -283,7 +300,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/woe/275/forest?utm_source=api",
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/lci/401/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)"
   },
   {
@@ -298,7 +316,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/woe/275/forest?utm_source=api",
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/lci/401/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)"
   },
   {
@@ -311,6 +330,7 @@
    "colors": [
     "U"
    ],
+   "mana_cost": "{3}{U}",
    "url": "https://scryfall.com/card/cmm/91/fact-or-fiction?utm_source=api",
    "oracle_text": "Reveal the top five cards of your library. An opponent separates those cards into two piles. Put one pile into your hand and the other into your graveyard."
   },
@@ -328,6 +348,7 @@
     "G",
     "U"
    ],
+   "mana_cost": "{1}{G/U}{G/U}",
    "url": "https://scryfall.com/card/eve/152/gilder-bairn?utm_source=api",
    "oracle_text": "{2}{G/U}, {Q}: Double the number of each kind of counter on target permanent. ({Q} is the untap symbol.)"
   },
@@ -339,6 +360,7 @@
    "cmc": 0,
    "image": "",
    "colors": [],
+   "mana_cost": "",
    "url": "https://scryfall.com/card/cmm/1019/port-town?utm_source=api",
    "oracle_text": "As Port Town enters the battlefield, you may reveal a Plains or Island card from your hand. If you don't, Port Town enters the battlefield tapped.\n{T}: Add {W} or {U}."
   },
@@ -355,6 +377,7 @@
    "colors": [
     "G"
    ],
+   "mana_cost": "{1}{G}",
    "url": "https://scryfall.com/card/ddm/49/river-boa?utm_source=api",
    "oracle_text": "Islandwalk (This creature can't be blocked as long as defending player controls an Island.)\n{G}: Regenerate River Boa."
   },
@@ -368,6 +391,7 @@
    "colors": [
     "U"
    ],
+   "mana_cost": "{1}{U}",
    "url": "https://scryfall.com/card/war/72/teferis-time-twist?utm_source=api",
    "oracle_text": "Exile target permanent you control. Return that card to the battlefield under its owner's control at the beginning of the next end step. If it enters the battlefield as a creature, it enters with an additional +1/+1 counter on it."
   },
@@ -385,6 +409,7 @@
    "colors": [
     "W"
    ],
+   "mana_cost": "{2}{W}",
    "url": "https://scryfall.com/card/xln/16/inspiring-cleric?utm_source=api",
    "oracle_text": "When Inspiring Cleric enters the battlefield, you gain 4 life."
   },
@@ -398,6 +423,7 @@
    "colors": [
     "U"
    ],
+   "mana_cost": "{2}{U}",
    "url": "https://scryfall.com/card/cmm/98/ghostly-flicker?utm_source=api",
    "oracle_text": "Exile two target artifacts, creatures, and/or lands you control, then return those cards to the battlefield under your control."
   },
@@ -413,7 +439,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/woe/267/plains?utm_source=api",
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/lci/393/plains?utm_source=api",
    "oracle_text": "({T}: Add {W}.)"
   },
   {
@@ -428,7 +455,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/woe/267/plains?utm_source=api",
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/lci/393/plains?utm_source=api",
    "oracle_text": "({T}: Add {W}.)"
   },
   {
@@ -443,7 +471,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/woe/267/plains?utm_source=api",
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/lci/393/plains?utm_source=api",
    "oracle_text": "({T}: Add {W}.)"
   },
   {
@@ -458,7 +487,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/woe/267/plains?utm_source=api",
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/lci/393/plains?utm_source=api",
    "oracle_text": "({T}: Add {W}.)"
   },
   {
@@ -473,7 +503,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/woe/267/plains?utm_source=api",
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/lci/393/plains?utm_source=api",
    "oracle_text": "({T}: Add {W}.)"
   },
   {
@@ -488,7 +519,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/woe/269/island?utm_source=api",
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/lci/395/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)"
   },
   {
@@ -503,7 +535,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/woe/269/island?utm_source=api",
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/lci/395/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)"
   },
   {
@@ -518,7 +551,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/woe/269/island?utm_source=api",
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/lci/395/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)"
   },
   {
@@ -533,7 +567,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/woe/269/island?utm_source=api",
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/lci/395/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)"
   },
   {
@@ -548,7 +583,8 @@
    "cmc": 0,
    "image": "",
    "colors": [],
-   "url": "https://scryfall.com/card/woe/269/island?utm_source=api",
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/lci/395/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)"
   },
   {
@@ -564,6 +600,7 @@
    "colors": [
     "W"
    ],
+   "mana_cost": "{2}{W}{W}",
    "url": "https://scryfall.com/card/mma/22/meadowboon?utm_source=api",
    "oracle_text": "When Meadowboon leaves the battlefield, put a +1/+1 counter on each creature target player controls.\nEvoke {3}{W} (You may cast this spell for its evoke cost. If you do, it's sacrificed when it enters the battlefield.)"
   },
@@ -580,6 +617,7 @@
    "colors": [
     "W"
    ],
+   "mana_cost": "{1}{W}",
    "url": "https://scryfall.com/card/mor/23/shinewend?utm_source=api",
    "oracle_text": "Flying\nShinewend enters the battlefield with a +1/+1 counter on it.\n{1}{W}, Remove a +1/+1 counter from Shinewend: Destroy target enchantment."
   },
@@ -593,7 +631,8 @@
    "colors": [
     "W"
    ],
-   "url": "https://scryfall.com/card/cmm/841/swords-to-plowshares?utm_source=api",
+   "mana_cost": "{W}",
+   "url": "https://scryfall.com/card/lcc/137/swords-to-plowshares?utm_source=api",
    "oracle_text": "Exile target creature. Its controller gains life equal to its power."
   },
   {
@@ -607,6 +646,7 @@
    "cmc": 0,
    "image": "",
    "colors": [],
+   "mana_cost": "",
    "url": "https://scryfall.com/card/khc/107/azorius-guildgate?utm_source=api",
    "oracle_text": "Azorius Guildgate enters the battlefield tapped.\n{T}: Add {W} or {U}."
   },
@@ -623,6 +663,7 @@
    "colors": [
     "G"
    ],
+   "mana_cost": "{4}{G}",
    "url": "https://scryfall.com/card/ddr/12/jaddi-lifestrider?utm_source=api",
    "oracle_text": "When Jaddi Lifestrider enters the battlefield, you may tap any number of untapped creatures you control. You gain 2 life for each creature tapped this way."
   },
@@ -634,6 +675,7 @@
    "cmc": 4,
    "image": "",
    "colors": [],
+   "mana_cost": "{4}",
    "url": "https://scryfall.com/card/2x2/310/panharmonicon?utm_source=api",
    "oracle_text": "If an artifact or creature entering the battlefield causes a triggered ability of a permanent you control to trigger, that ability triggers an additional time."
   },
@@ -650,6 +692,7 @@
    "colors": [
     "W"
    ],
+   "mana_cost": "{1}{W}{W}",
    "url": "https://scryfall.com/card/cmd/27/prison-term?utm_source=api",
    "oracle_text": "Enchant creature\nEnchanted creature can't attack or block, and its activated abilities can't be activated.\nWhenever a creature enters the battlefield under an opponent's control, you may attach Prison Term to that creature."
   }

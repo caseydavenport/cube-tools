@@ -19,8 +19,9 @@ export function AverageCMC({deck}) {
   return Math.round(t / c * 100) / 100
 }
 
-// Returns the average CMC of of cards in the deck,
-// excluding basic lands.
+// Returns the colors that make up this deck. We use a couple of measures to determine this.
+// - Looking at the basic lands within the deck to determine which colors are being run.
+// - Counting the number of cards of a certain color (excluding hybrids).
 export function ExtractColors({deck}) {
   if (!deck || !deck.mainboard) {
     return null;
@@ -33,16 +34,18 @@ export function ExtractColors({deck}) {
     return deck.colors
   }
 
+  // Check individual card colors.
+
   // Calculate the colors based on the card list.
-  // Use the basic land types to determine what colors this deck is.
-  // This is generally more accurate than basing it off of cards, because oftentimes
-  // hybrid cards incorrectly lead the code into thinking a two-color deck is actually three-color.
   let i = 0
   let colors = new Map()
   while (i < deck.mainboard.length) {
     i++
     let card = deck.mainboard[i];
     if (card && IsBasicLand(card)) {
+      // Use the basic land types to determine what colors this deck is.
+      // This is generally more accurate than basing it off of cards, because oftentimes
+      // hybrid cards incorrectly lead the code into thinking a two-color deck is actually three-color.
       switch (card.name) {
         case "Forest":
           colors.set("G", true);
@@ -61,6 +64,16 @@ export function ExtractColors({deck}) {
           break;
         default:
           console.log("Unexpected basic land: " + card.name)
+      }
+    } else if (card && !IsBasicLand(card)) {
+      // Skip hybrid cards, as we can't determine if the deck is running one color, the other, or both.
+      if (card.colors == null || card.mana_cost.includes("/")) {
+        continue
+      }
+
+      // Otherwise, include all the card's colors.
+      for (let i in card.colors) {
+        colors.set(card.colors[i], true)
       }
     }
   }
