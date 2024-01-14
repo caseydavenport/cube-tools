@@ -7,13 +7,31 @@
  "player": "cara",
  "date": "2024-01-07",
  "games": [
-    {"opponent": "casey", "winner": "casey"},
-    {"opponent": "casey", "winner": "cara"},
-    {"opponent": "casey", "winner": "cara"},
-    {"opponent": "dom", "winner": "cara"},
-    {"opponent": "dom", "winner": "dom"},
-    {"opponent": "dom", "winner": "cara"}
-  ],
+  {
+   "opponent": "casey",
+   "winner": "casey"
+  },
+  {
+   "opponent": "casey",
+   "winner": "cara"
+  },
+  {
+   "opponent": "casey",
+   "winner": "cara"
+  },
+  {
+   "opponent": "dom",
+   "winner": "cara"
+  },
+  {
+   "opponent": "dom",
+   "winner": "dom"
+  },
+  {
+   "opponent": "dom",
+   "winner": "cara"
+  }
+ ],
  "mainboard": [
   {
    "name": "Knight of the Ebon Legion",

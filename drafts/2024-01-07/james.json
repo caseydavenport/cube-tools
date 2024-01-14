@@ -5,10 +5,19 @@
  "player": "james",
  "date": "2024-01-07",
  "games": [
-    {"opponent": "jen", "winner": "jen"},
-    {"opponent": "jen", "winner": "james"},
-    {"opponent": "jen", "winner": "james"}
-  ],
+  {
+   "opponent": "jen",
+   "winner": "jen"
+  },
+  {
+   "opponent": "jen",
+   "winner": "james"
+  },
+  {
+   "opponent": "jen",
+   "winner": "james"
+  }
+ ],
  "mainboard": [
   {
    "name": "Puppeteer Clique",
