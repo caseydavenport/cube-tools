@@ -4,7 +4,7 @@
  ],
  "player": "paul",
  "date": "2024-01-07",
- "games":
+ "games": [
     {"opponent": "greg", "winner": "paul"},
     {"opponent": "greg", "winner": "paul"}
   ],

@@ -4,7 +4,7 @@
  ],
  "player": "james",
  "date": "2024-01-07",
- "games":
+ "games": [
     {"opponent": "jen", "winner": "jen"},
     {"opponent": "jen", "winner": "james"},
     {"opponent": "jen", "winner": "james"}
