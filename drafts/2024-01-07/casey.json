@@ -2,7 +2,8 @@
  "labels": [
   "midrange",
   "control",
-  "graveyard"
+  "graveyard",
+  "draw-twice"
  ],
  "player": "casey",
  "date": "2024-01-07",
@@ -26,7 +27,10 @@
   {
    "opponent": "jen",
    "winner": "jen"
-  }
+  },
+  {"opponent": "cara", "winner": "casey"},
+  {"opponent": "cara", "winner": "cara"},
+  {"opponent": "cara", "winner": "cara"}
  ],
  "mainboard": [
   {

@@ -110,7 +110,7 @@ export function DeckWidget(input) {
 
       <tr style={{"height": "300px"}}>
         <td style={{"vertical-align": "top"}}>
-          <WinsByCardType type="Land" decks={input.decks} />
+          <WinsByCardType type="Land" bucketSize={1} decks={input.decks} />
         </td>
 
         <td style={{"vertical-align": "top", "width": "50%"}}>

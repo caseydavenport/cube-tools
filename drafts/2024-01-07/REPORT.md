@@ -30,19 +30,29 @@
 
 - [[Parallel Lives]] is not too much of a surprise. But it can get pretty bonkers with cards like [[Saproling Migration]]. Enjoy that it's a dead card in many decks, and very very powerful in others.
 
->>> <<[[!Galepowder Mage]]>> <<<
+>>> <<[[!Galepowder Mage]][[!Acidic Slime]][[!Jolrael, Mwonvuli Recluse]][[!Bloodsoaked Champion]]>> <<<
 
 - [[Galepowder Mage]] is one that I've been considering cutting due to repetitive play patterns. However, it is uniquely positioned as both a synergistic threat (flying, flickering your own dudes) and a solid answer to some of the more powerful cards in the cube. It handily deals with cards like [[The Goose Mother]], [[Gruff Triplets]], and decks that rely on things like equipment and +1/+1 counters.
 
+- [[Acidic Slime]] has been on my list to cut for a bit since it's not picked up very often. A 5 mana 2/2 isn't great, but I think drafters might be underestimating the value of destroying a land and having deathtouch. The two times I played it, it was very effective. There aren't many answers to cards like [[Restless Vinestalk]], which left unanswered will win games quickly. This makes [[Acidic Slime]] one to take a second look at.
+
+- [[Jolrael, Mwonvuli Recluse]] has been _fine_. Not great, just fine. The fact that you can get at most one token per-turn is pretty limiting, and makes it a bit challenging to keep up with more aggresive strategies. It requires a lot of build-around, but it's also pretty fun when it does pay off. I am hoping / expecting that the "OK" gameplay I've seen so far is closer to her floor than her ceiling.
+
+- [[Bloodsoaked Champion]] did _major_ work this draft. It's so good at being aggresive, and the play pattern of attacking to take out a blocker, then re-casting him is so relentless and oppressive, and I love it. I might need to think about answers for this type of card, though. Perhaps a touch more graveyard hate, exile removal, or creatures with 3+ toughness.
+
 # Cards to monitor
 
->>> <<[[!Fatestitcher]][[!Magma Phoenix]][[!Jace, Arcane Strategist]]>> <<<
+>>> <<[[!Fatestitcher]][[!Magma Phoenix]][[!Jace, Arcane Strategist]][[!River Kelpie]]>> <<<
 
 These cards all fall into a category of "priced out" - they are a bit too expensive for what they bring to the table at this point.
 
->>> <<[[!Hostage Taker]]>> <<<
+[[River Kelpie]] in particular is one that I am feeling sad about, as it's a card that I want to succeed. I still feel it has potential, but need to think carefully about how much I want to invest in making it shine. I will give it a few more tries to see if I can make it work.
+
+>>> <<[[!Hostage Taker]][[!Oona's Grace]]>> <<<
 
 - [[Hostage Taker]] is really powerful. One thing I like is the tension about when to cast [[Hostage Taker]] - can you make it another turn before it's removed or do you need to steal something cheaper that you can play right away? I want to let him play out a bit more to see what sorts of counter-play show up. I can imagine things like flicker, counterspells, instant-speed removal all work well here.
+
+- [[Oona's Grace]] might be too "cute" at this point. 3-mana to draw a card is a rather bad base rate. And while there are plenty of ways to add upside ([[Jolrael, Mwonvuli Recluse]], [[Rielle, the Everwise]], [[Faerie Vandal]], etc.), I am not sure they do enough to make it worth keeping.
 
 # General notes
 
@@ -55,6 +65,10 @@ These cards all fall into a category of "priced out" - they are a bit too expens
 - Love that [[Virtue of Persistence]] forecasts itself to your opponent. It's really powerful, but gives your opponent a chance to dig for or save enchantment removal to prepare.
 
 - The "discard matters" deck didn't come together in its best form this draft, so it's hard to draw too many conclusions. One thing that I think I can conclude is that it could use a bit more in the way of relevant early-game play. Cards like [[Ruthless Sniper]] and [[Bitter Triumph]] will fill these holes well, as will [[Blazing Rootwalla]] and other cheap madness cards. I still have faith in [[Malfegor]].
+
+- My UG counterspells / threats / draw-twice deck was a bit of a miss. It was somewhat competitive at times, but laregely outclassed by every other deck in some way or another. I suspect I might have just drafted this one poorly, and that not much is needed to "fix" this, but I'll be keeping an eye on it. I'd like to introduce some more _flash_ across W/U/G any way, which should buff this incidentally.
+
+- The BR sacrifice / aggro deck came together better than it ever has before. Probably about as strong as this can possibly be in this cube. I need to watch and see how often this happens. There's a spectrum of ways this deck might manifest itself, and if this is the average then I think it's too much better than the other available strategies. If it's towards the top-end, then I think this is great and pretty close to where I want it to be. The prospect of matching against this sort of aggro deck should be on every drafter's mind. One thing is that red burn has lots of options for killing creatures with 3 or less toughness, and most mid-range decks top out at creatures with 3 toughness. This means it's really hard for decks to stabilize at all against aggressive red decks. I think I will look at keeping most of red's burn in the 2-damage range, and ever-so-slightly increase the number of less aggresive cards with 3 or 4 toughness to balance this a bit better.
 
 # Cards to consider
 

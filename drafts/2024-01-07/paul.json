@@ -4,7 +4,10 @@
  ],
  "player": "paul",
  "date": "2024-01-07",
- "games": null,
+ "games":
+    {"opponent": "greg", "winner": "paul"},
+    {"opponent": "greg", "winner": "paul"}
+  ],
  "mainboard": [
   {
    "name": "Maze of Ith",
