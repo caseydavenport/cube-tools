@@ -50,7 +50,7 @@ Draft logs are found at `drafts/YYYY-MM-DD/draft-log.json`
 
 ## Running the UI
 
-Right now, the UI learns about the existency of draft data from index JSON files that are programmatically
+Right now, the UI learns about the existence of draft data from index JSON files that are programmatically
 generated. To regenerate them after adding a new draft:
 
 ```
