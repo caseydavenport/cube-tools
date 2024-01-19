@@ -10,10 +10,8 @@ Moon-Circuit Hacker
 Call of the Herd
 Memory Lapse
 Mana Leak
-Sleep of the Dead
 Chainweb Aracnir
 Ephara's Dispersal
-River Kelpie
 Gomazoa
 Jolrael, Mwonvuli Recluse
 Beast Within
@@ -27,6 +25,8 @@ Ponder
 Hinterland Harbor
 Merfolk Looter
 Brineborn Cutthroat
+Deprive
+Dress Down
 Island
 Island
 Island

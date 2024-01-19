@@ -10,10 +10,8 @@
 1 Call of the Herd
 1 Memory Lapse
 1 Mana Leak
-1 Sleep of the Dead
 1 Chainweb Aracnir
 1 Ephara's Dispersal
-1 River Kelpie
 1 Gomazoa
 1 Jolrael, Mwonvuli Recluse
 1 Beast Within
@@ -27,21 +25,23 @@
 1 Hinterland Harbor
 1 Merfolk Looter
 1 Brineborn Cutthroat
+1 Deprive
+1 Dress Down
 7 Island
 4 Forest
 
 1 Wrath of God
 1 Horizon Canopy
 1 Irrigated Farmland
+1 Sleep of the Dead
+1 River Kelpie
 1 Read the Bones
 1 Bolas's Citadel
 1 Sunken Ruins
 1 Feed the Cauldron
 1 Silver Myr
 1 Rite of Replication
-1 Deprive
 1 Oona's Grace
-1 Dress Down
 1 Reclamation Sage
 1 Manamorphose
 1 Careful Study
