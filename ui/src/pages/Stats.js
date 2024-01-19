@@ -954,9 +954,13 @@ function PrintRow({ k, value, p }) {
 }
 
 function CardMainboardTooltipContent(card) {
-  let data = []
+  let mainboarders = []
   card.players.forEach(function(num, name) {
-    data.push({name: name, num: num})
+    mainboarders.push({name: name, num: num})
+  })
+  let sideboarders = []
+  card.sideboarders.forEach(function(num, name) {
+    sideboarders.push({name: name, num: num})
   })
   return (
     <div>
@@ -969,7 +973,27 @@ function CardMainboardTooltipContent(card) {
         </thead>
         <tbody>
         {
-          data.map(function(row) {
+          mainboarders.map(function(row) {
+            return (
+              <tr sort={row.num} key={row.name}>
+                <td>{row.name}</td>
+                <td>{row.num}</td>
+              </tr>
+            )
+          }).sort(SortFunc)
+        }
+        </tbody>
+      </table>
+      <table>
+        <thead className="table-header">
+          <tr>
+            <td id="name" className="header-cell">Player</td>
+            <td id="num" className="header-cell">#</td>
+          </tr>
+        </thead>
+        <tbody>
+        {
+          sideboarders.map(function(row) {
             return (
               <tr sort={row.num} key={row.name}>
                 <td>{row.name}</td>

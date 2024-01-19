@@ -18,6 +18,7 @@ export function CardData(decks, minDrafts, minGames, cube, color) {
       losses: 0, // Does not include sideboard.
       archetypes: new Map(), // Map of archetype to times played in that archetype.
       players: new Map(), // Who has played this card, and how often.
+      sideboarders: new Map(), // Who has sideboarded this card, and how often.
       url: card.url,
     }
     return c
@@ -115,6 +116,12 @@ export function CardData(decks, minDrafts, minGames, cube, color) {
       if (inDeckColor(card, deck)) {
         tracker[card.name].inColorSideboard += 1
       }
+
+      // Increment count of players who sideboarded this card.
+      if (!tracker[card.name].sideboarders.has(deck.player)) {
+        tracker[card.name].sideboarders.set(deck.player, 0)
+      }
+      tracker[card.name].sideboarders.set(deck.player, tracker[card.name].sideboarders.get(deck.player) + 1)
     }
   }
 

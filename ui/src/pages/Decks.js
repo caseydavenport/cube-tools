@@ -33,7 +33,7 @@ ChartJS.register(
 // This is imperfect, but matches most removal spells.
 // Will need to keep this up to date with the cube as it evolves, or find
 // a more generic way.
-const removalMatches = [
+export const RemovalMatches = [
   "destroy target",
   "destroy up to",
   "destroy all creatures",
@@ -139,7 +139,7 @@ export function DeckWidget(input) {
           <WinsByOracleText
             title="Wins by # removal spells"
             decks={input.decks}
-            matches={removalMatches}
+            matches={RemovalMatches}
           />
         </td>
       </tr>

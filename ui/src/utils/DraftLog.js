@@ -1,3 +1,5 @@
+import { RemovalMatches } from "../pages/Decks.js"
+
 export function IDToName(log, id) {
   return log.carddata[id].name
 }
@@ -69,6 +71,9 @@ export function AggregatedPickInfo(logs, cube) {
       // The card name.
       name: name,
 
+      // The actual card.
+      card: null,
+
       // Track total number of picks, and pick number in pack.
       count: 0,
       burns: 0,
@@ -99,9 +104,26 @@ export function AggregatedPickInfo(logs, cube) {
         continue
       }
 
+      // Check if the card matches the given filter, and skip if not.
+      // TODO: Make this configurable in the UI.
+      // let card = cubeCards.get(p.name)
+      // let matched = false
+      // for (let match of RemovalMatches) {
+      //   if (card.oracle_text.toLowerCase().match(match)){
+      //     matched = true
+      //     break
+      //   }
+      // }
+      // if (!matched) {
+      //   continue
+      // }
+
       if (!pickInfo.get(p.name)) {
         pickInfo.set(p.name, newPickInfoEntry(p.name))
       }
+
+      // Merge in the card data itself to the pick structure.
+      pickInfo.get(p.name).card = cubeCards.get(p.name)
 
       // Add this particular pick to the aggregated data for this card.
       pickInfo.get(p.name).picks.push(p)
