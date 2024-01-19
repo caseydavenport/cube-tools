@@ -178,6 +178,13 @@ export function DeckWidget(input) {
         </td>
       </tr>
 
+      <tr style={{"height": "300px"}}>
+        <td style={{"vertical-align": "top"}}>
+          <DeckBasicLandCountChart decks={input.decks} bucketSize={input.bucketSize} />
+        </td>
+      </tr>
+
+
     </table>
 
   )
@@ -701,6 +708,115 @@ function DeckManaValueChart(input) {
   ]
 
   let title = `Deck Avg. Mana Value (bucket size = ${input.bucketSize} drafts)`
+
+  const options = {
+    responsive: true,
+    maintainAspectRatio: false,
+    scales: {y: {min: 0}},
+    plugins: {
+      title: {
+        display: true,
+        text: title,
+        color: "#FFF",
+        font: {
+          size: "16pt",
+        },
+      },
+      legend: {
+        labels: {
+          color: "#FFF",
+          font: {
+            size: "16pt",
+          },
+        },
+      },
+    },
+  };
+
+  const data = {labels, datasets: dataset};
+  return (
+    <div style={{"height":"500px", "width":"100%"}}>
+      <Line height={"300px"} width={"300px"} options={options} data={data} />
+    </div>
+  );
+}
+
+function DeckBasicLandCountChart(input) {
+  // Split the given decks into fixed-size buckets.
+  // Each bucket will contain N drafts worth of deck information.
+  let buckets = DeckBuckets(input.decks, input.bucketSize)
+
+  // Use the starting date of the bucket as the label. This is just an approximation,
+  // as the bucket really includes a variable set of dates, but it allows the viewer to
+  // at least place some sense of time to the chart.
+  const labels = []
+  for (let bucket of buckets) {
+    labels.push(bucket[0].name)
+  }
+
+  // Parse the buckets into color data.
+  let lands = new Map()
+  lands.set("Plains", new Array())
+  lands.set("Island", new Array())
+  lands.set("Mountain", new Array())
+  lands.set("Swamp", new Array())
+  lands.set("Forest", new Array())
+  for (let bucket of buckets) {
+    // Aggregate all decks from within this bucket.
+    let decks = new Array()
+    for (let draft of bucket) {
+      decks.push(...draft.decks)
+    }
+
+    // Calculate the number of basics per-draft in this bucket.
+    for (let [landName, values] of lands) {
+      let total = 0
+      for (let deck of decks) {
+        for (let card of deck.mainboard) {
+          switch (card.name) {
+            case landName:
+              total += 1
+          }
+        }
+      }
+      values.push(total / buckets[0].length)
+    }
+  }
+
+  let dataset = [
+      {
+        label: 'Plains',
+        data: lands.get("Plains"),
+        borderColor: "#FFFF00",
+        backgroundColor: "#FFFF00",
+      },
+      {
+        label: 'Islands',
+        data: lands.get("Island"),
+        borderColor: "#0000FF",
+        backgroundColor: "#0000FF",
+      },
+      {
+        label: 'Swamps',
+        data: lands.get("Swamp"),
+        borderColor: "#DDDDDD",
+        backgroundColor: "#DDDDDD",
+      },
+      {
+        label: 'Mountains',
+        data: lands.get("Mountain"),
+        borderColor: "#FF0000",
+        backgroundColor: "#FF0000",
+      },
+      {
+        label: 'Forests',
+        data: lands.get("Forest"),
+        borderColor: "#00FF00",
+        backgroundColor: "#00FF00",
+      },
+  ]
+
+  let title = `Total basics used (bucket size = ${input.bucketSize} drafts)`
 
   const options = {
     responsive: true,
