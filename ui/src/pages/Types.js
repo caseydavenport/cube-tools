@@ -30,7 +30,6 @@ ChartJS.register(
   Legend
 );
 
-
 export function ArchetypeWidget(input) {
   if (!input.show) {
     return null
@@ -57,7 +56,6 @@ export function ArchetypeWidget(input) {
       }
     }
   }
-
 
   return (
     <table style={{"width": "100%"}}>
@@ -172,7 +170,15 @@ export function ArchetypeWidget(input) {
         </td>
       </tr>
 
-
+      <tr>
+        <td colSpan="3">
+          <MicroArchetypesChart
+            decks={decks}
+            bucketSize={input.bucketSize}
+            dataset="percent_of_wins"
+          />
+        </td>
+      </tr>
     </table>
   );
 }
@@ -334,7 +340,6 @@ function TopCardsInArchetypeWidgetOptions(input) {
   );
 }
 
-
 function TopCardsInArchetypeWidget(input) {
   // Get all cards that are currently active.
   let data = CardData(input.decks, input.minDrafts, 0, input.cube, input.colorSelection)
@@ -388,7 +393,6 @@ function TopCardsInArchetypeWidget(input) {
       </div>
   );
 }
-
 
 function ArchetypeDetailsPanel(input) {
   // Get the archetype data for the selected archetype.
@@ -503,7 +507,6 @@ export function ArchetypeData(decks) {
       }
       tracker.get(type).players.set(deck.player, tracker.get(type).players.get(deck.player) + 1)
 
-
       // Track other types shared with this one, and how frequent.
       for (var k in types) {
         // Skip aggro / control / midrange since those are applied to every deck.
@@ -586,6 +589,8 @@ function MicroArchetypesChart(input) {
         datasets.get(archetype).push(archetypeStats.win_percent)
       } else if (input.dataset === "cmc") {
         datasets.get(archetype).push(archetypeStats.avg_cmc)
+      } else if (input.dataset === "percent_of_wins") {
+        datasets.get(archetype).push(archetypeStats.percent_of_wins)
       } else {
         datasets.get(archetype).push(archetypeStats.build_percent)
       }
@@ -610,6 +615,9 @@ function MicroArchetypesChart(input) {
     case "cmc":
       title = `Avg. mana value (bucket size = ${input.bucketSize} drafts)`
       break
+    case "percent_of_wins":
+      title = `Percent of wins (bucket size = ${input.bucketSize} drafts)`
+      break;
   }
 
   const options = {
@@ -643,7 +651,6 @@ function MicroArchetypesChart(input) {
     </div>
   );
 }
-
 
 function MacroArchetypesChart(input) {
   // Split the given decks into fixed-size buckets.
@@ -820,7 +827,6 @@ function MacroArchetypesPieChart(input) {
       },
     },
   };
-
 
   return (
     <div style={{"height":"500px", "width":"100%"}}>

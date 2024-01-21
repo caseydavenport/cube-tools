@@ -261,6 +261,7 @@ export function GetColorStats(decks) {
       deck_win_shares: [],
       possible_win_shares: 0,
       win_shares: 0,
+      win_shares_converterd: 0,
     }
   }
 
@@ -348,6 +349,7 @@ export function GetColorStats(decks) {
     const density_count = color.deck_percentages.length;
     color.average_deck_percentage = Math.round(100 * density_sum / density_count);
     color.win_shares = Math.round(100 * color.deck_win_shares.reduce((sum, a) => sum + a, 0)) / 100;
+    color.win_shares_converterd = Math.round(color.win_shares / color.possible_win_shares)
 
     // Calculate the percentage of all cards drafted that are this color.
     color.total_pick_percentage = Math.round(100 * color.cards / totalCards);
@@ -355,6 +357,7 @@ export function GetColorStats(decks) {
     color.win_percent = Math.round(100 * color.wins / (color.wins + color.losses))
     color.percent_of_wins = Math.round(100 * color.wins / totalWins)
   }
+
   return tracker
 }
 
@@ -400,6 +403,8 @@ function ColorRateChart(input) {
         colorDatasets.get(color).push(stats.get(color).win_shares)
       } else if (input.dataset === "possible_shares") {
         colorDatasets.get(color).push(stats.get(color).possible_win_shares)
+      } else if (input.dataset === "shares_converted") {
+        colorDatasets.get(color).push(stats.get(color).win_shares_converterd)
       } else if (input.dataset === "pick_percentage") {
         colorDatasets.get(color).push(stats.get(color).total_pick_percentage)
       } else if (input.dataset === "splash") {
@@ -483,6 +488,9 @@ function ColorRateChart(input) {
       break
     case "possible_shares":
       title = `Possible win shares (bucket size = ${input.bucketSize} drafts)`
+      break
+    case "shares_converted":
+      title = `Win shares converted (bucket size = ${input.bucketSize} drafts)`
       break
     case "pick_percentage":
       title = `Percentage of mainboard picks (bucket size = ${input.bucketSize} drafts)`
