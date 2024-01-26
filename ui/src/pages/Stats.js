@@ -529,7 +529,7 @@ function DraftOrderWidget(input) {
 
               return (
                 <tr sort={sort} className="card" key={pick.name}>
-                  <td className="card">{pick.name}</td>
+                  <td className="card"><a href={pick.card.url} target="_blank" rel="noopener noreferrer">{pick.name}</a></td>
                   <td><ApplyTooltip text={pick.count} hidden={DraftPickTooltipContent(pick)}/></td>
                   <td>{firstPicks}</td>
                   <td>{avgPack1Pick}</td>

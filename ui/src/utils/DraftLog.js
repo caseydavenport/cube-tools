@@ -155,6 +155,9 @@ export function AggregatedPickInfo(logs, cube) {
         pickInfo.set(b.name, newPickInfoEntry(b.name))
       }
 
+      // Merge in the card data itself to the pick structure.
+      pickInfo.get(b.name).card = cubeCards.get(b.name)
+
       // Increment the number of burns, but also count this as a "last pick" for
       // pick tracking.
       pickInfo.get(b.name).count += 1
