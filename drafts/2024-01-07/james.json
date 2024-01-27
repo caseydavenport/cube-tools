@@ -16,6 +16,14 @@
   {
    "opponent": "jen",
    "winner": "james"
+  },
+  {
+   "opponent": "paul",
+   "winner": "james"
+  },
+  {
+   "opponent": "paul",
+   "winner": "paul"
   }
  ],
  "mainboard": [
