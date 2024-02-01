@@ -88,7 +88,6 @@ export function CardWidget(input) {
     // Build a map of player name -> win rate. We'll use this to compare card performance
     // to the average performance of players who have played it.
     let playerData = PlayerData(input.decks)
-    console.log(playerData)
 
     return (
       <div className="widget">

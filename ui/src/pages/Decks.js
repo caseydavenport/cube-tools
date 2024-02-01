@@ -83,130 +83,130 @@ export function DeckWidget(input) {
 
   return (
     <table style={{"width": "100%"}}>
-      <tr style={{"height": "300px"}}>
-        <td style={{"vertical-align": "top", "width": "50%"}}>
-          <WinsByManaCost decks={input.decks} />
-        </td>
-        <td style={{"vertical-align": "top"}}>
-          <WinsByCardType type="Creature" decks={input.decks} />
-        </td>
-      </tr>
+      <tbody>
+        <tr style={{"height": "300px"}}>
+          <td style={{"verticalAlign": "top", "width": "50%"}}>
+            <WinsByManaCost decks={input.decks} />
+          </td>
+          <td style={{"verticalAlign": "top"}}>
+            <WinsByCardType type="Creature" decks={input.decks} />
+          </td>
+        </tr>
 
-      <tr style={{"height": "300px"}}>
-        <td style={{"vertical-align": "top", "width": "50%"}}>
-          <WinsByCardType type="Sorcery" decks={input.decks} />
-        </td>
-        <td style={{"vertical-align": "top"}}>
-          <WinsByCardType type="Instant" decks={input.decks} />
-        </td>
-      </tr>
+        <tr style={{"height": "300px"}}>
+          <td style={{"verticalAlign": "top", "width": "50%"}}>
+            <WinsByCardType type="Sorcery" decks={input.decks} />
+          </td>
+          <td style={{"verticalAlign": "top"}}>
+            <WinsByCardType type="Instant" decks={input.decks} />
+          </td>
+        </tr>
 
-      <tr style={{"height": "300px"}}>
-        <td style={{"vertical-align": "top", "width": "50%"}}>
-          <WinsByCardType type="Planeswalker" bucketSize={1} decks={input.decks} />
-        </td>
-        <td style={{"vertical-align": "top"}}>
-          <WinsByCardType type="Enchantment" decks={input.decks} />
-        </td>
-      </tr>
+        <tr style={{"height": "300px"}}>
+          <td style={{"verticalAlign": "top", "width": "50%"}}>
+            <WinsByCardType type="Planeswalker" bucketSize={1} decks={input.decks} />
+          </td>
+          <td style={{"verticalAlign": "top"}}>
+            <WinsByCardType type="Enchantment" decks={input.decks} />
+          </td>
+        </tr>
 
-      <tr style={{"height": "300px"}}>
-        <td style={{"vertical-align": "top"}}>
-          <WinsByCardType type="Land" bucketSize={1} decks={input.decks} />
-        </td>
+        <tr style={{"height": "300px"}}>
+          <td style={{"verticalAlign": "top"}}>
+            <WinsByCardType type="Land" bucketSize={1} decks={input.decks} />
+          </td>
 
-        <td style={{"vertical-align": "top", "width": "50%"}}>
-          <WinsByNonBasicDensity decks={input.decks} />
-        </td>
-      </tr>
+          <td style={{"verticalAlign": "top", "width": "50%"}}>
+            <WinsByNonBasicDensity decks={input.decks} />
+          </td>
+        </tr>
 
-      <tr style={{"height": "300px"}}>
-        <td style={{"vertical-align": "top", "width": "50%"}}>
-          <WinsByNumberOfColors decks={input.decks} />
-        </td>
-        <td style={{"vertical-align": "top"}}>
-          <DeckManaValueChart decks={input.decks} bucketSize={input.bucketSize} />
-        </td>
-      </tr>
+        <tr style={{"height": "300px"}}>
+          <td style={{"verticalAlign": "top", "width": "50%"}}>
+            <WinsByNumberOfColors decks={input.decks} />
+          </td>
+          <td style={{"verticalAlign": "top"}}>
+            <DeckManaValueChart decks={input.decks} bucketSize={input.bucketSize} />
+          </td>
+        </tr>
 
-      <tr style={{"height": "300px"}}>
-        <td style={{"vertical-align": "top", "width": "50%"}}>
-          <WinsByOracleText
-            title="Wins by # counterspells"
-            decks={input.decks}
-            matches={counterspellMatches}
-          />
-        </td>
-        <td style={{"vertical-align": "top"}}>
-          <WinsByOracleText
-            title="Wins by # removal spells"
-            decks={input.decks}
-            matches={RemovalMatches}
-          />
-        </td>
-      </tr>
+        <tr style={{"height": "300px"}}>
+          <td style={{"verticalAlign": "top", "width": "50%"}}>
+            <WinsByOracleText
+              title="Wins by # counterspells"
+              decks={input.decks}
+              matches={counterspellMatches}
+            />
+          </td>
+          <td style={{"verticalAlign": "top"}}>
+            <WinsByOracleText
+              title="Wins by # removal spells"
+              decks={input.decks}
+              matches={RemovalMatches}
+            />
+          </td>
+        </tr>
 
-      <tr style={{"height": "300px"}}>
-        <td style={{"vertical-align": "top", "width": "50%"}}>
-          <WinsByOracleText
-            title="Wins by # card draw spells"
-            decks={input.decks}
-            matches={cardDrawMatches}
-          />
-        </td>
-        <td style={{"vertical-align": "top"}}>
-          <WinsByOracleText
-            title="Wins by # lifegain spells"
-            decks={input.decks}
-            matches={lifegainMatches}
-          />
-        </td>
-      </tr>
+        <tr style={{"height": "300px"}}>
+          <td style={{"verticalAlign": "top", "width": "50%"}}>
+            <WinsByOracleText
+              title="Wins by # card draw spells"
+              decks={input.decks}
+              matches={cardDrawMatches}
+            />
+          </td>
+          <td style={{"verticalAlign": "top"}}>
+            <WinsByOracleText
+              title="Wins by # lifegain spells"
+              decks={input.decks}
+              matches={lifegainMatches}
+            />
+          </td>
+        </tr>
 
-      <tr style={{"height": "300px"}}>
-        <td style={{"vertical-align": "top", "width": "50%"}}>
-          <WinsByOracleText
-            title="Wins by graveyard interaction"
-            decks={input.decks}
-            matches={["graveyard"]}
-          />
-        </td>
-        <td style={{"vertical-align": "top"}}>
-          <WinsByOracleText
-            title="Wins by # discard spells"
-            decks={input.decks}
-            matches={["discard"]}
-          />
-        </td>
-      </tr>
+        <tr style={{"height": "300px"}}>
+          <td style={{"verticalAlign": "top", "width": "50%"}}>
+            <WinsByOracleText
+              title="Wins by graveyard interaction"
+              decks={input.decks}
+              matches={["graveyard"]}
+            />
+          </td>
+          <td style={{"verticalAlign": "top"}}>
+            <WinsByOracleText
+              title="Wins by # discard spells"
+              decks={input.decks}
+              matches={["discard"]}
+            />
+          </td>
+        </tr>
 
-      <tr style={{"height": "300px"}}>
-        <td style={{"vertical-align": "top"}} colspan="2">
-          <DeckBasicLandCountChart decks={input.decks} bucketSize={input.bucketSize} />
-        </td>
-      </tr>
+        <tr style={{"height": "300px"}}>
+          <td style={{"verticalAlign": "top"}} colSpan="2">
+            <DeckBasicLandCountChart decks={input.decks} bucketSize={input.bucketSize} />
+          </td>
+        </tr>
 
-      <tr style={{"height": "300px"}}>
-        <td style={{"vertical-align": "top", "width": "50%"}}>
-          <OracleTextOverTimeChart
-            title="Avg. removal per-deck"
-            decks={input.decks}
-            bucketSize={input.bucketSize}
-            matches={RemovalMatches}
-          />
-        </td>
-        <td style={{"vertical-align": "top"}}>
-          <OracleTextOverTimeChart
-            title="Avg. counterspells per-deck"
-            decks={input.decks}
-            bucketSize={input.bucketSize}
-            matches={counterspellMatches}
-          />
-        </td>
-      </tr>
+        <tr style={{"height": "300px"}}>
+          <td style={{"verticalAlign": "top", "width": "50%"}}>
+            <OracleTextOverTimeChart
+              title="Avg. removal per-deck"
+              decks={input.decks}
+              bucketSize={input.bucketSize}
+              matches={RemovalMatches}
+            />
+          </td>
+          <td style={{"verticalAlign": "top"}}>
+            <OracleTextOverTimeChart
+              title="Avg. counterspells per-deck"
+              decks={input.decks}
+              bucketSize={input.bucketSize}
+              matches={counterspellMatches}
+            />
+          </td>
+        </tr>
 
-
-
+      </tbody>
     </table>
 
   )

@@ -10,14 +10,16 @@ export function PlayerWidget(input) {
   }
   return (
     <table style={{"width": "100%"}}>
-      <tr>
-        <td style={{"vertical-align": "top", "width": "50%"}}>
-          <PlayerTable {...input} />
-        </td>
-        <td style={{"vertical-align":"top"}}>
-          <PlayerDetailsPanel {...input} />
-        </td>
-      </tr>
+      <tbody>
+        <tr>
+          <td style={{"verticalAlign": "top", "width": "50%"}}>
+            <PlayerTable {...input} />
+          </td>
+          <td style={{"verticalAlign":"top"}}>
+            <PlayerDetailsPanel {...input} />
+          </td>
+        </tr>
+      </tbody>
     </table>
   );
 }

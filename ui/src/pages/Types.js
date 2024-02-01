@@ -59,126 +59,128 @@ export function ArchetypeWidget(input) {
 
   return (
     <table style={{"width": "100%"}}>
-      <tr style={{"height": "800px"}}>
-        <td style={{"verticalAlign": "top", "width": "50%"}}>
-          <ArchetypeStatsTable
-            decks={decks}
-            dropdownSelection={input.colorTypeSelection}
-            sortBy={input.sortBy}
-            onHeaderClick={input.onHeaderClick}
-            handleRowClick={input.handleRowClick}
-            selectedArchetype={input.selectedArchetype}
-            colorCheckboxes={input.colorCheckboxes}
-            onColorChecked={input.onColorChecked}
-          />
-        </td>
-        <td style={{"verticalAlign": "top"}}>
-          <TopCardsInArchetypeWidget
-            decks={decks}
-            minDrafts={input.minDrafts}
-            cube={input.cube}
-            minDecksInArch={input.minDecksInArch}
-            archetypeDropdownOptions={input.archetypeDropdownOptions}
-            selectedArchetype={input.selectedArchetype}
-            onArchetypeSelected={input.onArchetypeSelected}
-            dropdownSelection={input.cardWidgetSelection}
-            cardWidgetOpts={input.cardWidgetOpts}
-            onSelected={input.onCardWidgetSelected}
-            colorWidgetOpts={input.colorWidgetOpts}
-            onColorSelected={input.onColorSelected}
-            colorSelection={input.colorSelection}
-            onMinDraftsSelected={input.onMinDraftsSelected}
-            onMinGamesSelected={input.onMinGamesSelected}
-          />
-        </td>
-        <td style={{"verticalAlign":"top"}}>
-          <ArchetypeDetailsPanel
-            decks={decks}
-            selectedArchetype={input.selectedArchetype}
-          />
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <MacroArchetypesChart
-            decks={decks}
-            bucketSize={input.bucketSize}
-            dataset="builds"
-          />
-        </td>
-        <td colSpan="2">
-          <MacroArchetypesChart
-            decks={decks}
-            bucketSize={input.bucketSize}
-            dataset="wins"
-          />
-        </td>
-      </tr>
+      <tbody>
+        <tr style={{"height": "800px"}}>
+          <td style={{"verticalAlign": "top", "width": "50%"}}>
+            <ArchetypeStatsTable
+              decks={decks}
+              dropdownSelection={input.colorTypeSelection}
+              sortBy={input.sortBy}
+              onHeaderClick={input.onHeaderClick}
+              handleRowClick={input.handleRowClick}
+              selectedArchetype={input.selectedArchetype}
+              colorCheckboxes={input.colorCheckboxes}
+              onColorChecked={input.onColorChecked}
+            />
+          </td>
+          <td style={{"verticalAlign": "top"}}>
+            <TopCardsInArchetypeWidget
+              decks={decks}
+              minDrafts={input.minDrafts}
+              cube={input.cube}
+              minDecksInArch={input.minDecksInArch}
+              archetypeDropdownOptions={input.archetypeDropdownOptions}
+              selectedArchetype={input.selectedArchetype}
+              onArchetypeSelected={input.onArchetypeSelected}
+              dropdownSelection={input.cardWidgetSelection}
+              cardWidgetOpts={input.cardWidgetOpts}
+              onSelected={input.onCardWidgetSelected}
+              colorWidgetOpts={input.colorWidgetOpts}
+              onColorSelected={input.onColorSelected}
+              colorSelection={input.colorSelection}
+              onMinDraftsSelected={input.onMinDraftsSelected}
+              onMinGamesSelected={input.onMinGamesSelected}
+            />
+          </td>
+          <td style={{"verticalAlign":"top"}}>
+            <ArchetypeDetailsPanel
+              decks={decks}
+              selectedArchetype={input.selectedArchetype}
+            />
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <MacroArchetypesChart
+              decks={decks}
+              bucketSize={input.bucketSize}
+              dataset="builds"
+            />
+          </td>
+          <td colSpan="2">
+            <MacroArchetypesChart
+              decks={decks}
+              bucketSize={input.bucketSize}
+              dataset="wins"
+            />
+          </td>
+        </tr>
 
-      <tr>
-        <td colSpan="3">
-          <MacroArchetypesChart
-            decks={decks}
-            bucketSize={input.bucketSize}
-            dataset="percent_of_wins"
-          />
-        </td>
-      </tr>
+        <tr>
+          <td colSpan="3">
+            <MacroArchetypesChart
+              decks={decks}
+              bucketSize={input.bucketSize}
+              dataset="percent_of_wins"
+            />
+          </td>
+        </tr>
 
-      <tr>
-        <td>
-          <MacroArchetypesPieChart
-            decks={decks}
-            dataset="builds"
-          />
-        </td>
-        <td colSpan="2">
-          <MacroArchetypesPieChart
-            decks={decks}
-            dataset="wins"
-          />
-        </td>
-      </tr>
+        <tr>
+          <td>
+            <MacroArchetypesPieChart
+              decks={decks}
+              dataset="builds"
+            />
+          </td>
+          <td colSpan="2">
+            <MacroArchetypesPieChart
+              decks={decks}
+              dataset="wins"
+            />
+          </td>
+        </tr>
 
-      <tr>
-        <td colSpan="3" style={{"paddingTop": "100px"}}>
-          <MacroArchetypesChart
-            decks={decks}
-            bucketSize={input.bucketSize}
-            dataset="cmc"
-          />
-        </td>
-      </tr>
+        <tr>
+          <td colSpan="3" style={{"paddingTop": "100px"}}>
+            <MacroArchetypesChart
+              decks={decks}
+              bucketSize={input.bucketSize}
+              dataset="cmc"
+            />
+          </td>
+        </tr>
 
-      <tr>
-        <td colSpan="3" style={{"paddingTop": "100px"}}>
-          <MicroArchetypesChart
-            decks={decks}
-            bucketSize={input.bucketSize}
-            dataset="builds"
-          />
-        </td>
-      </tr>
+        <tr>
+          <td colSpan="3" style={{"paddingTop": "100px"}}>
+            <MicroArchetypesChart
+              decks={decks}
+              bucketSize={input.bucketSize}
+              dataset="builds"
+            />
+          </td>
+        </tr>
 
-      <tr>
-        <td colSpan="2" style={{"paddingTop": "100px"}}>
-          <MicroArchetypesChart
-            decks={decks}
-            bucketSize={input.bucketSize}
-            dataset="wins"
-          />
-        </td>
-      </tr>
+        <tr>
+          <td colSpan="2" style={{"paddingTop": "100px"}}>
+            <MicroArchetypesChart
+              decks={decks}
+              bucketSize={input.bucketSize}
+              dataset="wins"
+            />
+          </td>
+        </tr>
 
-      <tr>
-        <td colSpan="3">
-          <MicroArchetypesChart
-            decks={decks}
-            bucketSize={input.bucketSize}
-            dataset="percent_of_wins"
-          />
-        </td>
-      </tr>
+        <tr>
+          <td colSpan="3">
+            <MicroArchetypesChart
+              decks={decks}
+              bucketSize={input.bucketSize}
+              dataset="percent_of_wins"
+            />
+          </td>
+        </tr>
+      </tbody>
     </table>
   );
 }
