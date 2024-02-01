@@ -41,10 +41,12 @@ export const RemovalMatches = [
   "exile target",
   "exile another target",
   "exile up to one target",
+  "exile that card",
 
   "target creature gets -",
   "all creatures get -",
   "black sun's zenith",
+  "put a -1/-1",
 
   "put target creature",
 
@@ -179,10 +181,30 @@ export function DeckWidget(input) {
       </tr>
 
       <tr style={{"height": "300px"}}>
-        <td style={{"vertical-align": "top"}}>
+        <td style={{"vertical-align": "top"}} colspan="2">
           <DeckBasicLandCountChart decks={input.decks} bucketSize={input.bucketSize} />
         </td>
       </tr>
+
+      <tr style={{"height": "300px"}}>
+        <td style={{"vertical-align": "top", "width": "50%"}}>
+          <OracleTextOverTimeChart
+            title="Avg. removal per-deck"
+            decks={input.decks}
+            bucketSize={input.bucketSize}
+            matches={RemovalMatches}
+          />
+        </td>
+        <td style={{"vertical-align": "top"}}>
+          <OracleTextOverTimeChart
+            title="Avg. counterspells per-deck"
+            decks={input.decks}
+            bucketSize={input.bucketSize}
+            matches={counterspellMatches}
+          />
+        </td>
+      </tr>
+
 
 
     </table>
@@ -664,6 +686,84 @@ function WinsByNumberOfColors(input) {
   return (
     <div style={{"height":"500px", "width":"100%"}}>
       <Bar height={"300px"} width={"300px"} options={options} data={data} />;
+    </div>
+  );
+}
+
+function OracleTextOverTimeChart(input) {
+  // Split the given decks into fixed-size buckets.
+  // Each bucket will contain N drafts worth of deck information.
+  let buckets = DeckBuckets(input.decks, input.bucketSize)
+
+  // Use the starting date of the bucket as the label. This is just an approximation,
+  // as the bucket really includes a variable set of dates, but it allows the viewer to
+  // at least place some sense of time to the chart.
+  const labels = []
+  for (let bucket of buckets) {
+    labels.push(bucket[0].name)
+  }
+
+  // Parse the buckets into color data.
+  let values = []
+  for (let bucket of buckets) {
+    // Aggregate all decks from within this bucket.
+    let decks = new Array()
+    for (let draft of bucket) {
+      decks.push(...draft.decks)
+    }
+
+    // Calculate the average value for this bucket.
+    let total = 0
+    for (let deck of decks) {
+      for (let card of deck.mainboard) {
+        for (let match of input.matches) {
+          if (card.oracle_text.toLowerCase().match(match)){
+            total += 1
+            break
+          }
+        }
+      }
+    }
+    values.push(total / decks.length)
+  }
+
+  let dataset = [
+      {
+        label: 'Avg. per-deck',
+        data: values,
+        borderColor: "#dce312",
+        backgroundColor: "#dce312",
+      },
+  ]
+
+  const options = {
+    responsive: true,
+    maintainAspectRatio: false,
+    scales: {y: {min: 0}},
+    plugins: {
+      title: {
+        display: true,
+        text: input.title,
+        color: "#FFF",
+        font: {
+          size: "16pt",
+        },
+      },
+      legend: {
+        labels: {
+          color: "#FFF",
+          font: {
+            size: "16pt",
+          },
+        },
+      },
+    },
+  };
+
+  const data = {labels, datasets: dataset};
+  return (
+    <div style={{"height":"500px", "width":"100%"}}>
+      <Line height={"300px"} width={"300px"} options={options} data={data} />
     </div>
   );
 }
