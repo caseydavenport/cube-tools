@@ -10,7 +10,7 @@ import { CardData } from "../utils/Cards.js"
 import { ColorWidget} from "./Colors.js"
 import { ArchetypeWidget, ArchetypeData } from "./Types.js"
 import { DeckWidget } from "./Decks.js"
-import { PlayerWidget } from "./Players.js"
+import { PlayerData, PlayerWidget } from "./Players.js"
 
 // StatsViewer displays stats spanning the selected drafts.
 export default function StatsViewer() {
@@ -857,6 +857,12 @@ function CardWidget(input) {
     );
   } else {
     let archetypeData = ArchetypeData(input.decks)
+
+    // Build a map of player name -> win rate. We'll use this to compare card performance
+    // to the average performance of players who have played it.
+    let playerData = PlayerData(input.decks)
+    console.log(playerData)
+
     return (
       <div className="widget">
         <CardWidgetOptions {...input} />
@@ -867,7 +873,9 @@ function CardWidget(input) {
               <td onClick={input.onHeaderClick} id="card" className="header-cell">Card</td>
               <td onClick={input.onHeaderClick} id="decks" className="header-cell"># Decks</td>
               <td onClick={input.onHeaderClick} id="games" className="header-cell"># Games</td>
-              <td onClick={input.onHeaderClick} id="perf" className="header-cell">Performance</td>
+              <td onClick={input.onHeaderClick} id="relativePerfArch" className="header-cell">Perf (arch)</td>
+              <td onClick={input.onHeaderClick} id="relativePerfPlayer" className="header-cell">Perf (player)</td>
+              <td onClick={input.onHeaderClick} id="playerPerf" className="header-cell">Player perf.</td>
               <td onClick={input.onHeaderClick} id="elo" className="header-cell">ELO</td>
             </tr>
           </thead>
@@ -877,8 +885,10 @@ function CardWidget(input) {
                 // For each card, determine the weighted average of the archetype win rates for the
                 // archetypes that it sees play in. We'll use this to calculate the card's win rate compared
                 // to its own archetype win rates.
-                let weightedBaseRate = 0
-                let relativePerf = 0
+
+                // relativePerfArch is the performance of this card relative to the expected performance of
+                // all of the archetypes that this card has played in.
+                let relativePerfArch = 0
 
                 // Determine the total number of instances of all archetypes this card has to use as the denominator when
                 // calculating weighted averages below. The card.archetypes map has keys of the archetype name, and values of
@@ -891,6 +901,7 @@ function CardWidget(input) {
                 // For each archetype, use the number of times it shows up for this card, the total number of instances of archetypes
                 // this card belongs to, and each archetype's average win rate in order to calculate a weighted average
                 // representing the expected win rate of the card.
+                let weightedBaseRate = 0
                 for (let [arch, numArchDecks] of card.archetypes) {
                   let archWinRate = 0
 
@@ -903,14 +914,39 @@ function CardWidget(input) {
 
                 if (card.mainboard > 0) {
                   // Assuming this card has been played, calculate the card's win rate vs. the expected win rate based on its archetypes.
-                  relativePerf = Math.round(card.win_percent / weightedBaseRate * 100) / 100
+                  relativePerfArch = Math.round(card.win_percent / weightedBaseRate * 100) / 100
+                }
+
+                // Determine the card's performance compared to the players who have played it.
+                // relativePerfPlayer is the performance of this card relative to the expected performance of the card
+                // based on the win rate of all the players that have played this card.
+                let relativePerfPlayer = 0
+
+                // expectedRate is the expected performance of the card based on the players who have played this card. A higher value means
+                // that this card is played on average by players who win more.
+                let expectedRate = 0
+
+                let playCount = 0
+                for (let [player, count] of card.players) {
+                  expectedRate += count * playerData.get(player).winPercent / 100
+                  playCount += count
+                }
+                if (playCount > 0) {
+                  expectedRate = Math.round(100 * expectedRate / playCount) / 100
+                  relativePerfPlayer = Math.round(card.win_percent / expectedRate) / 100
                 }
 
                 // Determine sort value. Default to win percentage.
                 let sort = card.win_percent
                 switch (input.sortBy) {
-                  case "perf":
-                    sort = relativePerf
+                  case "relativePerfArch":
+                    sort = relativePerfArch
+                    break;
+                  case "relativePerfPlayer":
+                    sort = relativePerfPlayer
+                    break;
+                  case "playerPerf":
+                    sort = expectedRate
                     break;
                   case "elo":
                     sort = card.elo
@@ -930,7 +966,9 @@ function CardWidget(input) {
                     <td className="card"><a href={card.url} target="_blank" rel="noopener noreferrer">{card.name}</a></td>
                     <td>{card.mainboard}</td>
                     <td><ApplyTooltip text={card.total_games} hidden={CardMainboardTooltipContent(card)}/></td>
-                    <td>{relativePerf}</td>
+                    <td>{relativePerfArch}</td>
+                    <td>{relativePerfPlayer}</td>
+                    <td>{expectedRate}</td>
                     <td>{card.elo}</td>
                   </tr>
                 )

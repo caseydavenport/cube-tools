@@ -22,12 +22,11 @@ export function PlayerWidget(input) {
   );
 }
 
-function PlayerTable(input) {
-
+export function PlayerData(decks) {
   // Go through each deck and build up information about what each player picks.
   let map = new Map()
-  for (var i in input.decks) {
-    let deck = input.decks[i]
+  for (var i in decks) {
+    let deck = decks[i]
     let player = deck.player
     if (!map.has(player)) {
       // Player not seen yet - initialize.
@@ -93,7 +92,6 @@ function PlayerTable(input) {
   }
 
   // Convert the mapped data into a list of rows to display - one per player.
-  let data = []
   for (let row of map.values()) {
     // First, calculate a percentage of this player's total picks for each color.
     row.whitePercent = Math.round(row.whitePicks / row.totalPicks * 100)
@@ -112,7 +110,14 @@ function PlayerTable(input) {
     // a representation of how diverse this player's card selection is. A higher number indicates a propensity
     // to pick unique cards. A value of 1 means they have never picked the same card twice.
     row.uniqueness = Math.round(row.cards.size / row.totalPicks * 100)
+  }
+  return map
+}
 
+function PlayerTable(input) {
+  let pd = PlayerData(input.decks)
+  let data = []
+  for (let row of pd.values()) {
     data.push(row)
   }
 
