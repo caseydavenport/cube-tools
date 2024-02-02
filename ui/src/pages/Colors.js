@@ -96,7 +96,6 @@ export function ColorWidget(input) {
           </td>
         </tr>
 
-
         <tr>
           <td style={{"paddingTop": "50px"}}>
             <ColorRateChart
@@ -119,6 +118,21 @@ export function ColorWidget(input) {
             />
           </td>
         </tr>
+
+        <tr>
+          <td colSpan="3">
+            <ColorRateChart
+              parsed={input.parsed}
+              colorData={input.parsed.colorData}
+              decks={input.decks}
+              dataset="percent_of_wins"
+              colorMode={input.colorTypeSelection}
+              bucketSize={input.bucketSize}
+            />
+            />
+          </td>
+        </tr>
+
       </tbody>
     </table>
   );
@@ -406,6 +420,8 @@ function ColorRateChart(input) {
         colorDatasets.get(color).push(stats.get(color).total_pick_percentage)
       } else if (input.dataset === "splash") {
         colorDatasets.get(color).push(stats.get(color).average_deck_percentage)
+      } else if (input.dataset === "percent_of_wins") {
+        colorDatasets.get(color).push(stats.get(color).percent_of_wins)
       } else {
         colorDatasets.get(color).push(stats.get(color).build_percent)
       }
@@ -495,6 +511,9 @@ function ColorRateChart(input) {
     case "splash":
       title = `Avg. percentage of decks (bucket size = ${input.bucketSize} drafts)`
       break
+    case "percent_of_wins":
+      title = `Percent of wins (bucket size = ${input.bucketSize} drafts)`
+      break;
   }
 
   const options = {

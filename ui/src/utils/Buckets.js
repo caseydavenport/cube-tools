@@ -2,10 +2,10 @@ import React from 'react'
 
 // Split the given drafts into rolling buckets of the given size.
 export function DeckBuckets(decks, bucketSize) {
-  return deckBucketsSliding(decks, bucketSize)
+  // return deckBucketsSliding(decks, bucketSize)
   // Alternative implementation that doesn't use a sliding window.
   // TODO: Make this configurable in the UI
-  // return deckBucketsDiscrete(decks, bucketSize)
+  return deckBucketsDiscrete(decks, bucketSize)
 }
 
 function deckBucketsDiscrete(decks, bucketSize) {
