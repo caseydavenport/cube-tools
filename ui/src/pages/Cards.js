@@ -34,6 +34,7 @@ export function CardWidget(input) {
               <td onClick={input.onHeaderClick} id="in-color-sb" className="header-cell"># playable sb</td>
               <td onClick={input.onHeaderClick} id="games" className="header-cell"># Games</td>
               <td onClick={input.onHeaderClick} id="elo" className="header-cell">ELO</td>
+              <td onClick={input.onHeaderClick} id="lastPlayed" className="header-cell">Last played</td>
             </tr>
           </thead>
           <tbody>
@@ -64,6 +65,9 @@ export function CardWidget(input) {
                 case "in-color-sb":
                   sort = card.inColorSideboard
                   break
+                case "lastPlayed":
+                  sort = card.lastMainboarded
+                  break
               }
 
               return (
@@ -75,6 +79,7 @@ export function CardWidget(input) {
                   <td>{card.inColorSideboard}</td>
                   <td>{card.total_games}</td>
                   <td>{card.elo}</td>
+                    <td>{card.lastMainboarded}</td>
                 </tr>
               )
             }).sort(SortFunc)
@@ -98,6 +103,7 @@ export function CardWidget(input) {
               <td onClick={input.onHeaderClick} id="relativePerfPlayer" className="header-cell">Perf (player)</td>
               <td onClick={input.onHeaderClick} id="playerPerf" className="header-cell">Player perf.</td>
               <td onClick={input.onHeaderClick} id="elo" className="header-cell">ELO</td>
+              <td onClick={input.onHeaderClick} id="lastPlayed" className="header-cell">Last played</td>
             </tr>
           </thead>
           <tbody>
@@ -186,6 +192,9 @@ export function CardWidget(input) {
                   case "decks":
                     sort = card.mainboarded
                     break
+                  case "lastPlayed":
+                    sort = card.lastMainboarded
+                    break
                 }
 
                 // Return the row.
@@ -199,6 +208,7 @@ export function CardWidget(input) {
                     <td>{relativePerfPlayer}</td>
                     <td>{expectedRate}%</td>
                     <td>{card.elo}</td>
+                    <td>{card.lastMainboarded}</td>
                   </tr>
                 )
               }).sort(SortFunc)

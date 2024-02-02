@@ -20,6 +20,7 @@ export function CardData(decks, minDrafts, minGames, cube, color) {
       players: new Map(), // Who has played this card, and how often.
       sideboarders: new Map(), // Who has sideboarded this card, and how often.
       url: card.url,
+      lastMainboarded: "", // The last date that this card was mainboarded.
     }
     return c
   }
@@ -68,6 +69,9 @@ export function CardData(decks, minDrafts, minGames, cube, color) {
       tracker[card.name].mainboard += 1
       tracker[card.name].wins += Wins(decks[i])
       tracker[card.name].losses += Losses(decks[i])
+
+      // Update the last date that this card was put in a mainboard.
+      tracker[card.name].lastMainboarded = compareDates(decks[i].draft, tracker[card.name].lastMainboarded)
 
       // Increment player count.
       if (!tracker[card.name].players.has(deck.player)) {
@@ -286,4 +290,26 @@ function ELOData(decks) {
 
   }
   return cards
+}
+
+function compareDates(dateString1, dateString2) {
+    const date1 = new Date(dateString1);
+    const date2 = new Date(dateString2);
+
+    if (isNaN(date1) && !isNaN(date2)) {
+      return dateString2
+    } else if (isNaN(date2) && !isNaN(date1)) {
+      return dateString1
+    } else if (isNaN(date2) && isNaN(date1)) {
+      console.log("Invalid date format")
+      return ""
+    }
+
+    if (date1 > date2) {
+        return dateString1;
+    } else if (date2 > date1) {
+        return dateString2;
+    } else {
+      return dateString1
+    }
 }
