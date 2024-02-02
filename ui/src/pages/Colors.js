@@ -1,6 +1,5 @@
 import React from 'react'
 import { DropdownHeader, NumericInput, Checkbox, DateSelector } from "../components/Dropdown.js"
-import { DeckBuckets } from "../utils/Buckets.js"
 import { GetColorIdentity } from "../utils/Colors.js"
 import { Wins, Losses } from "../utils/Deck.js"
 import { IsBasicLand, SortFunc, StringToColor } from "../utils/Utils.js"
@@ -33,15 +32,14 @@ export function ColorWidget(input) {
     return null
   }
 
-  let colorData = GetColorStats(input.decks)
-
   return (
     <table style={{"width": "100%"}}>
       <tbody>
         <tr>
           <td style={{"width": "50%"}}>
             <ColorStatsTable
-              colorData={colorData}
+              parsed={input.parsed}
+              colorData={input.parsed.colorData}
               ddOpts={input.ddOpts}
               dropdownSelection={input.colorTypeSelection}
               decks={input.decks}
@@ -56,7 +54,8 @@ export function ColorWidget(input) {
         <tr>
           <td style={{"paddingTop": "50px"}}>
             <ColorRateChart
-              colorData={colorData}
+              parsed={input.parsed}
+              colorData={input.parsed.colorData}
               decks={input.decks}
               dataset="builds"
               colorMode={input.colorTypeSelection}
@@ -65,6 +64,7 @@ export function ColorWidget(input) {
           </td>
           <td style={{"paddingTop": "50px"}}>
             <ColorRateChart
+              parsed={input.parsed}
               decks={input.decks}
               dataset="wins"
               colorMode={input.colorTypeSelection}
@@ -76,7 +76,8 @@ export function ColorWidget(input) {
         <tr>
           <td style={{"paddingTop": "50px"}}>
             <ColorRateChart
-              colorData={colorData}
+              parsed={input.parsed}
+              colorData={input.parsed.colorData}
               decks={input.decks}
               dataset="pick_percentage"
               colorMode={input.colorTypeSelection}
@@ -85,7 +86,8 @@ export function ColorWidget(input) {
           </td>
           <td style={{"paddingTop": "50px"}}>
             <ColorRateChart
-              colorData={colorData}
+              parsed={input.parsed}
+              colorData={input.parsed.colorData}
               decks={input.decks}
               dataset="splash"
               colorMode={input.colorTypeSelection}
@@ -98,7 +100,8 @@ export function ColorWidget(input) {
         <tr>
           <td style={{"paddingTop": "50px"}}>
             <ColorRateChart
-              colorData={colorData}
+              parsed={input.parsed}
+              colorData={input.parsed.colorData}
               decks={input.decks}
               dataset="possible_shares"
               colorMode={input.colorTypeSelection}
@@ -107,7 +110,8 @@ export function ColorWidget(input) {
           </td>
           <td style={{"paddingTop": "50px"}}>
             <ColorRateChart
-              colorData={colorData}
+              parsed={input.parsed}
+              colorData={input.parsed.colorData}
               decks={input.decks}
               dataset="shares"
               colorMode={input.colorTypeSelection}
@@ -364,7 +368,7 @@ export function GetColorStats(decks) {
 function ColorRateChart(input) {
   // Split the given decks into fixed-size buckets.
   // Each bucket will contain N drafts worth of deck information.
-  let buckets = DeckBuckets(input.decks, input.bucketSize)
+  let buckets = input.parsed.deckBuckets
 
   // Use the starting date of the bucket as the label. This is just an approximation,
   // as the bucket really includes a variable set of dates, but it allows the viewer to
@@ -384,14 +388,7 @@ function ColorRateChart(input) {
     colorDatasets.set(color, [])
   }
   for (let bucket of buckets) {
-    // Aggregate all decks from within this bucket.
-    let decks = new Array()
-    for (let draft of bucket) {
-      decks.push(...draft.decks)
-    }
-
-    // Parse the color stats of the decks.
-    let stats = GetColorStats(decks)
+    let stats = bucket.colorData
     for (let color of allColors) {
       if (!stats.has(color)) {
         colorDatasets.get(color).push(0)

@@ -1,8 +1,6 @@
 import React from 'react'
 import { IsBasicLand, SortFunc } from "../utils/Utils.js"
 import { Wins, Losses } from "../utils/Deck.js"
-import { ArchetypeData } from "./Types.js"
-import { GetColorStats } from "./Colors.js"
 
 export function PlayerWidget(input) {
   if (!input.show) {
@@ -35,6 +33,7 @@ export function PlayerData(decks) {
       map.set(player, {
         name: player,
         numDecks: 0,
+        decks: new Array(),
         cards: new Map(),
         totalPicks: 0,
         whitePicks: 0,
@@ -51,6 +50,7 @@ export function PlayerData(decks) {
     map.get(player).wins += Wins(deck)
     map.get(player).losses += Losses(deck)
     map.get(player).numDecks += 1
+    map.get(player).decks.push(deck)
 
     // Go through each card and increase the player's per-card stats.
     for (var j in deck.mainboard) {
@@ -117,9 +117,8 @@ export function PlayerData(decks) {
 }
 
 function PlayerTable(input) {
-  let pd = PlayerData(input.decks)
   let data = []
-  for (let row of pd.values()) {
+  for (let row of input.parsed.playerData.values()) {
     data.push(row)
   }
 
@@ -204,11 +203,6 @@ function PlayerTable(input) {
   );
 }
 
-function MacroArchetype(deck) {
-  return ""
-}
-
-
 function PlayerDetailsPanel(input) {
   // Iterate the selected players games and build up record
   // against each opponent.
@@ -252,7 +246,10 @@ function PlayerDetailsPanel(input) {
   }
 
   // Add archetype data from the given player's decks.
-  let archData = ArchetypeData(decks)
+  if (!input.parsed.playerData.has(input.player)) {
+    return null
+  }
+  let archData = input.parsed.playerData.get(input.player).archetypeData
   let archRows = [newTracker("aggro"), newTracker("control"), newTracker("midrange")]
   for (let a of archRows) {
     let name = a.get("name")
@@ -264,7 +261,7 @@ function PlayerDetailsPanel(input) {
   }
 
   // Add color data.
-  let colorData = GetColorStats(decks)
+  let colorData = input.parsed.playerData.get(input.player).colorData
   let colorRows = [newTracker("W"), newTracker("U"), newTracker("B"), newTracker("R"), newTracker("G")]
   for (let c of colorRows) {
     let color = c.get("name")
@@ -302,8 +299,8 @@ function PlayerDetailsPanel(input) {
               return (
                 <tr key={opponent.name} sort={win_pct} className="winrate-row">
                   <td key="name">{opponent.name}</td>
-                  <td key="num">{win_pct}%</td>
-                  <td key="num">{opponent.wins + opponent.losses}</td>
+                  <td key="win_pct">{win_pct}%</td>
+                  <td key="total">{opponent.wins + opponent.losses}</td>
                 </tr>
               )
             }).sort(SortFunc)

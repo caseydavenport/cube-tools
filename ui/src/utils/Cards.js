@@ -27,8 +27,8 @@ export function CardData(decks, minDrafts, minGames, cube, color) {
   // Build a map of all the cards in the cube so we can
   // easily skip any cards not currently in the cube.
   let cubeCards = new Map()
-  for (var i in cube.cards) {
-    cubeCards.set(cube.cards[i].name, cube.cards[i])
+  for (let card of cube.cards) {
+    cubeCards.set(card.name, card)
   }
 
   for (var i in decks) {

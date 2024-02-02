@@ -13,12 +13,15 @@ import { DeckWidget } from "./Decks.js"
 import { PlayerWidget } from "./Players.js"
 import { CardWidget } from "./Cards.js"
 import { ApplyTooltip } from "../utils/Tooltip.js"
+import { DeckBuckets } from "../utils/Buckets.js"
+import { GetColorStats } from "./Colors.js"
+import { PlayerData } from "./Players.js"
 
 // StatsViewer displays stats spanning the selected drafts.
 export default function StatsViewer() {
   // Store all of the decks, and the cube.
-  const [decks, setDecks] = useState(null);
-  const [cube, setCube] = useState(null);
+  const [decks, setDecks] = useState([]);
+  const [cube, setCube] = useState({"cards": []});
 
   ///////////////////////////////////////////////////////////////////////////////
   // State used for all widgets.
@@ -201,6 +204,14 @@ export default function StatsViewer() {
       }
     }
     setDisplay(d)
+
+    // Clear any state that may have been set on a previous page to avoid
+    // accidental filtering of data based on invisible UI elements.
+    setColorCheckboxes([false, false, false, false, false])
+    setMinGames(0)
+    setMinPlayers(0)
+    setMaxPlayers(0)
+    setMinDrafts(0)
   }
   function onColorCheckbox() {
     onCheckbox(0)
@@ -228,7 +239,8 @@ export default function StatsViewer() {
   }, [startDate, endDate])
   useEffect(() => {
     LoadCube(onCubeLoad)
-  }, [])
+  }, [decks])
+
   function onLoad(d) {
     setDecks([...d])
 
@@ -254,6 +266,81 @@ export default function StatsViewer() {
     setDrafts({...d})
   }
 
+  ///////////////////////////////////////////////////////////////////////////////
+  // Perform occasional calculation up-front.
+  // Build a bundle of parsed data to pass to widgets so that we only need
+  // to calculate it once.
+  ///////////////////////////////////////////////////////////////////////////////
+  const defaultParsed = {
+    "filteredDecks": [],
+    "archetypeData": [],
+    "colorData": [],
+    "deckBuckets": [],
+    "playerData": [],
+    "cardData": []
+  }
+  const [parsed, setParsedData] = useState(defaultParsed);
+  function parse() {
+    // Filter decks based on selected colors. This enables us to view data for a subset of colors.
+    // Combine the colors using a logical AND to enable us to view two-color decks. If no colors are selected,
+    // then use all decks.
+    let f = decks
+    let filterByColor = colorCheckboxes.some(function(element) {return element})
+    if (filterByColor) {
+      f = []
+      let enabledColors = checkboxesToColors(colorCheckboxes)
+      for (let deck of decks) {
+        let deckMatches = true
+        for (let color of enabledColors) {
+          if (!deck.colors.includes(color)) {
+            deckMatches = false
+            break
+          }
+        }
+        if (deckMatches) {
+          f.push(deck)
+        }
+      }
+    }
+
+    // Build the parsed data structure.
+    let p = {}
+    p.filteredDecks = f
+    p.archetypeData = ArchetypeData(f)
+    p.colorData = GetColorStats(f)
+    p.playerData = PlayerData(f)
+    p.cardData = CardData(f, minDrafts, minGames, cube, cardWidgetColorSelection)
+
+    // Split the given decks into fixed-size buckets.
+    // Each bucket will contain N drafts worth of deck information. We'll parse each bucket
+    // individually, which is used by other pages to plot stats over time.
+    p.deckBuckets = DeckBuckets(f, bucketSize)
+    for (let b of p.deckBuckets) {
+      // Determine all of the decks in this bucket.
+      let bucketDecks = new Array()
+      for (let draft of b) {
+        bucketDecks = bucketDecks.concat(draft.decks)
+      }
+
+      // Add per-bucket parsed data.
+      b.archetypeData = ArchetypeData(bucketDecks)
+      b.colorData = GetColorStats(bucketDecks)
+      b.playerData = PlayerData(f)
+    }
+
+    // Also go through each player and parse stats individually for them.
+    for (let d of p.playerData.values()) {
+      d.archetypeData = ArchetypeData(d.decks)
+      d.colorData = GetColorStats(d.decks)
+    }
+
+    setParsedData(p)
+  }
+  useEffect(() => {
+    console.log("Parsing the loaded data")
+    parse()
+  }, [decks, bucketSize, minDrafts, minGames, cube, cardWidgetColorSelection, colorCheckboxes])
+
   return (
     <div id="root">
       <div id="selectorbar">
@@ -272,7 +359,7 @@ export default function StatsViewer() {
 
         <NumericInput className="dropdown" label="Bucket size" value={bucketSize} onChange={onBucketsChanged} />
 
-        <Overview decks={decks} />
+        <Overview decks={parsed.filteredDecks} />
 
         <Checkbox
           text="Colors"
@@ -308,10 +395,11 @@ export default function StatsViewer() {
 
       <div id="widgets" className="house-for-widgets">
         <ColorWidget
+          parsed={parsed}
           ddOpts={ddOpts}
           colorTypeSelection={colorTypeSelection}
           onSelected={onSelected}
-          decks={decks}
+          decks={parsed.filteredDecks}
           onHeaderClick={onColorHeaderClicked}
           colorSortBy={colorSortBy}
           bucketSize={bucketSize}
@@ -319,8 +407,9 @@ export default function StatsViewer() {
         />
 
         <ArchetypeWidget
-          cube={cube}
+          parsed={parsed}
           decks={decks}
+          cube={cube}
           show={display[1]}
           bucketSize={bucketSize}
 
@@ -352,7 +441,8 @@ export default function StatsViewer() {
         />
 
         <CardWidget
-          decks={decks}
+          parsed={parsed}
+          decks={parsed.filteredDecks}
           dropdownSelection={cardWidgetSelection}
           cardWidgetOpts={cardWidgetOpts}
           onSelected={onCardWidgetSelected}
@@ -374,13 +464,15 @@ export default function StatsViewer() {
         />
 
         <UndraftedWidget
+          parsed={parsed}
           cube={cube}
-          decks={decks}
+          decks={parsed.filteredDecks}
           show={display[2]}
         />
 
         <DraftOrderWidget
-          decks={decks}
+          parsed={parsed}
+          decks={parsed.filteredDecks}
           drafts={drafts}
           cube={cube}
           sortBy={draftSortBy}
@@ -390,13 +482,15 @@ export default function StatsViewer() {
         />
 
         <DeckWidget
-          decks={decks}
+          parsed={parsed}
+          decks={parsed.filteredDecks}
           show={display[3]}
           bucketSize={bucketSize}
         />
 
         <PlayerWidget
-          decks={decks}
+          parsed={parsed}
+          decks={parsed.filteredDecks}
           sortBy={playerSortBy}
           invertSort={playerSortInvert}
           onHeaderClick={onPlayerHeaderClicked}
@@ -658,3 +752,24 @@ function DraftPickTooltipContent(pick) {
     </div>
   )
 }
+
+function checkboxesToColors(checkboxes) {
+  let colors = []
+  if (checkboxes[0]) {
+    colors.push("W")
+  }
+  if (checkboxes[1]) {
+    colors.push("U")
+  }
+  if (checkboxes[2]) {
+    colors.push("B")
+  }
+  if (checkboxes[3]) {
+    colors.push("R")
+  }
+  if (checkboxes[4]) {
+    colors.push("G")
+  }
+  return colors
+}
+

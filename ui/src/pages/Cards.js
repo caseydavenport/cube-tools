@@ -2,26 +2,23 @@ import React from 'react'
 import { IsBasicLand, SortFunc } from "../utils/Utils.js"
 import { DropdownHeader, NumericInput, Checkbox, DateSelector } from "../components/Dropdown.js"
 import { Wins, Losses } from "../utils/Deck.js"
-import { CardData } from "../utils/Cards.js"
-import { ArchetypeData } from "./Types.js"
-import { PlayerData } from "./Players.js"
 import { ApplyTooltip } from "../utils/Tooltip.js"
 
 export function CardWidget(input) {
   if (!input.show) {
     return null
   }
-  let data =[]
-  let raw = CardData(input.decks, input.minDrafts, input.minGames, input.cube, input.colorSelection)
-  raw.map(function(card) {
+
+  // shouldSkip returns true if the card should be skipped, and false otherwise.
+  function shouldSkip(card) {
     if (card.players.size < input.minPlayers) {
-      return
+      return true
     }
     if (input.maxPlayers != 0 && card.players.size > input.maxPlayers) {
-      return
+      return true
     }
-    data.push(card)
-  })
+    return false
+  }
 
   if (input.dropdownSelection === "Mainboard rate") {
     return (
@@ -41,7 +38,11 @@ export function CardWidget(input) {
           </thead>
           <tbody>
           {
-            data.map(function(card) {
+            input.parsed.cardData.map(function(card) {
+              if (shouldSkip(card)) {
+                return
+              }
+
               // Determine sort order.
               let sort = card.mainboard_percent
               switch (input.sortBy) {
@@ -83,12 +84,6 @@ export function CardWidget(input) {
       </div>
     );
   } else {
-    let archetypeData = ArchetypeData(input.decks)
-
-    // Build a map of player name -> win rate. We'll use this to compare card performance
-    // to the average performance of players who have played it.
-    let playerData = PlayerData(input.decks)
-
     return (
       <div className="widget">
         <CardWidgetOptions {...input} />
@@ -107,7 +102,11 @@ export function CardWidget(input) {
           </thead>
           <tbody>
             {
-              data.map(function(card) {
+              input.parsed.cardData.map(function(card) {
+                if (shouldSkip(card)) {
+                  return
+                }
+
                 // For each card, determine the weighted average of the archetype win rates for the
                 // archetypes that it sees play in. We'll use this to calculate the card's win rate compared
                 // to its own archetype win rates.
@@ -127,6 +126,7 @@ export function CardWidget(input) {
                 // For each archetype, use the number of times it shows up for this card, the total number of instances of archetypes
                 // this card belongs to, and each archetype's average win rate in order to calculate a weighted average
                 // representing the expected win rate of the card.
+                let archetypeData = input.parsed.archetypeData
                 let weightedBaseRate = 0
                 for (let [arch, numArchDecks] of card.archetypes) {
                   let archWinRate = 0
@@ -154,7 +154,7 @@ export function CardWidget(input) {
 
                 let playCount = 0
                 for (let [player, count] of card.players) {
-                  expectedRate += count * playerData.get(player).winPercent / 100
+                  expectedRate += count * input.parsed.playerData.get(player).winPercent / 100
                   playCount += count
                 }
                 if (playCount > 0) {
@@ -334,4 +334,3 @@ function CardMainboardTooltipContent(card) {
     </div>
   )
 }
-
