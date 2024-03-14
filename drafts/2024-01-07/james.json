@@ -61,7 +61,8 @@
    ],
    "mana_cost": "{3}{G}{G}{G}",
    "url": "https://scryfall.com/card/woe/172/gruff-triplets?utm_source=api",
-   "oracle_text": "Trample\nWhen Gruff Triplets enters the battlefield, if it isn't a token, create two tokens that are copies of it.\nWhen Gruff Triplets dies, put a number of +1/+1 counters equal to its power on each creature you control named Gruff Triplets."
+   "oracle_text": "Trample\nWhen Gruff Triplets enters the battlefield, if it isn't a token, create two tokens that are copies of it.\nWhen Gruff Triplets dies, put a number of +1/+1 counters equal to its power on each creature you control named Gruff Triplets.",
+   "appearances": 4
   },
   {
    "name": "Arbor Elf",
@@ -79,7 +80,8 @@
    ],
    "mana_cost": "{G}",
    "url": "https://scryfall.com/card/a25/160/arbor-elf?utm_source=api",
-   "oracle_text": "{T}: Untap target Forest."
+   "oracle_text": "{T}: Untap target Forest.",
+   "appearances": 1
   },
   {
    "name": "Arasta of the Endless Web",
@@ -98,7 +100,8 @@
    ],
    "mana_cost": "{2}{G}{G}",
    "url": "https://scryfall.com/card/cmm/885/arasta-of-the-endless-web?utm_source=api",
-   "oracle_text": "Reach\nWhenever an opponent casts an instant or sorcery spell, create a 1/2 green Spider creature token with reach."
+   "oracle_text": "Reach\nWhenever an opponent casts an instant or sorcery spell, create a 1/2 green Spider creature token with reach.",
+   "appearances": 3
   },
   {
    "name": "Infernal Grasp",
@@ -112,7 +115,8 @@
    ],
    "mana_cost": "{1}{B}",
    "url": "https://scryfall.com/card/mid/107/infernal-grasp?utm_source=api",
-   "oracle_text": "Destroy target creature. You lose 2 life."
+   "oracle_text": "Destroy target creature. You lose 2 life.",
+   "appearances": 2
   },
   {
    "name": "Woodland Cemetery",
@@ -141,7 +145,8 @@
    ],
    "mana_cost": "{1}{G}",
    "url": "https://scryfall.com/card/dom/186/untamed-kavu?utm_source=api",
-   "oracle_text": "Kicker {3} (You may pay an additional {3} as you cast this spell.)\nVigilance, trample\nIf Untamed Kavu was kicked, it enters the battlefield with three +1/+1 counters on it."
+   "oracle_text": "Kicker {3} (You may pay an additional {3} as you cast this spell.)\nVigilance, trample\nIf Untamed Kavu was kicked, it enters the battlefield with three +1/+1 counters on it.",
+   "appearances": 2
   },
   {
    "name": "Disfigure",
@@ -155,7 +160,8 @@
    ],
    "mana_cost": "{B}",
    "url": "https://scryfall.com/card/bro/91/disfigure?utm_source=api",
-   "oracle_text": "Target creature gets -2/-2 until end of turn."
+   "oracle_text": "Target creature gets -2/-2 until end of turn.",
+   "appearances": 3
   },
   {
    "name": "Ignoble Hierarch",
@@ -185,7 +191,8 @@
    "colors": [],
    "mana_cost": "",
    "url": "https://scryfall.com/card/mh2/260/verdant-catacombs?utm_source=api",
-   "oracle_text": "{T}, Pay 1 life, Sacrifice Verdant Catacombs: Search your library for a Swamp or Forest card, put it onto the battlefield, then shuffle."
+   "oracle_text": "{T}, Pay 1 life, Sacrifice Verdant Catacombs: Search your library for a Swamp or Forest card, put it onto the battlefield, then shuffle.",
+   "appearances": 3
   },
   {
    "name": "Gilded Goose",
@@ -202,7 +209,8 @@
    ],
    "mana_cost": "{G}",
    "url": "https://scryfall.com/card/moc/299/gilded-goose?utm_source=api",
-   "oracle_text": "Flying\nWhen Gilded Goose enters the battlefield, create a Food token. (It's an artifact with \"{2}, {T}, Sacrifice this artifact: You gain 3 life.\")\n{1}{G}, {T}: Create a Food token.\n{T}, Sacrifice a Food: Add one mana of any color."
+   "oracle_text": "Flying\nWhen Gilded Goose enters the battlefield, create a Food token. (It's an artifact with \"{2}, {T}, Sacrifice this artifact: You gain 3 life.\")\n{1}{G}, {T}: Create a Food token.\n{T}, Sacrifice a Food: Add one mana of any color.",
+   "appearances": 2
   },
   {
    "name": "Scavenging Ooze",
@@ -219,7 +227,8 @@
    ],
    "mana_cost": "{1}{G}",
    "url": "https://scryfall.com/card/ncc/309/scavenging-ooze?utm_source=api",
-   "oracle_text": "{G}: Exile target card from a graveyard. If it was a creature card, put a +1/+1 counter on Scavenging Ooze and you gain 1 life."
+   "oracle_text": "{G}: Exile target card from a graveyard. If it was a creature card, put a +1/+1 counter on Scavenging Ooze and you gain 1 life.",
+   "appearances": 4
   },
   {
    "name": "Mosswood Dreadknight // Dread Whispers",
@@ -239,7 +248,8 @@
    ],
    "mana_cost": "{1}{G} // {1}{B}",
    "url": "https://scryfall.com/card/woe/231/mosswood-dreadknight-dread-whispers?utm_source=api",
-   "oracle_text": ""
+   "oracle_text": "",
+   "appearances": 3
   },
   {
    "name": "Temple Garden",
@@ -255,7 +265,8 @@
    "colors": [],
    "mana_cost": "",
    "url": "https://scryfall.com/card/grn/258/temple-garden?utm_source=api",
-   "oracle_text": "({T}: Add {G} or {W}.)\nAs Temple Garden enters the battlefield, you may pay 2 life. If you don't, it enters the battlefield tapped."
+   "oracle_text": "({T}: Add {G} or {W}.)\nAs Temple Garden enters the battlefield, you may pay 2 life. If you don't, it enters the battlefield tapped.",
+   "appearances": 2
   },
   {
    "name": "Canopy Vista",
@@ -271,7 +282,8 @@
    "colors": [],
    "mana_cost": "",
    "url": "https://scryfall.com/card/lcc/321/canopy-vista?utm_source=api",
-   "oracle_text": "({T}: Add {G} or {W}.)\nCanopy Vista enters the battlefield tapped unless you control two or more basic lands."
+   "oracle_text": "({T}: Add {G} or {W}.)\nCanopy Vista enters the battlefield tapped unless you control two or more basic lands.",
+   "appearances": 4
   },
   {
    "name": "Godless Shrine",
@@ -287,7 +299,8 @@
    "colors": [],
    "mana_cost": "",
    "url": "https://scryfall.com/card/rna/248/godless-shrine?utm_source=api",
-   "oracle_text": "({T}: Add {W} or {B}.)\nAs Godless Shrine enters the battlefield, you may pay 2 life. If you don't, it enters the battlefield tapped."
+   "oracle_text": "({T}: Add {W} or {B}.)\nAs Godless Shrine enters the battlefield, you may pay 2 life. If you don't, it enters the battlefield tapped.",
+   "appearances": 1
   },
   {
    "name": "Journey to Nowhere",
@@ -301,7 +314,8 @@
    ],
    "mana_cost": "{1}{W}",
    "url": "https://scryfall.com/card/cmd/17/journey-to-nowhere?utm_source=api",
-   "oracle_text": "When Journey to Nowhere enters the battlefield, exile target creature.\nWhen Journey to Nowhere leaves the battlefield, return the exiled card to the battlefield under its owner's control."
+   "oracle_text": "When Journey to Nowhere enters the battlefield, exile target creature.\nWhen Journey to Nowhere leaves the battlefield, return the exiled card to the battlefield under its owner's control.",
+   "appearances": 2
   },
   {
    "name": "Oblivion Ring",
@@ -315,7 +329,8 @@
    ],
    "mana_cost": "{2}{W}",
    "url": "https://scryfall.com/card/mm2/29/oblivion-ring?utm_source=api",
-   "oracle_text": "When Oblivion Ring enters the battlefield, exile another target nonland permanent.\nWhen Oblivion Ring leaves the battlefield, return the exiled card to the battlefield under its owner's control."
+   "oracle_text": "When Oblivion Ring enters the battlefield, exile another target nonland permanent.\nWhen Oblivion Ring leaves the battlefield, return the exiled card to the battlefield under its owner's control.",
+   "appearances": 2
   },
   {
    "name": "Copper Myr",
@@ -331,7 +346,8 @@
    "colors": [],
    "mana_cost": "{2}",
    "url": "https://scryfall.com/card/som/146/copper-myr?utm_source=api",
-   "oracle_text": "{T}: Add {G}."
+   "oracle_text": "{T}: Add {G}.",
+   "appearances": 2
   },
   {
    "name": "Abundant Harvest",
@@ -345,7 +361,8 @@
    ],
    "mana_cost": "{G}",
    "url": "https://scryfall.com/card/cmm/269/abundant-harvest?utm_source=api",
-   "oracle_text": "Choose land or nonland. Reveal cards from the top of your library until you reveal a card of the chosen kind. Put that card into your hand and the rest on the bottom of your library in a random order."
+   "oracle_text": "Choose land or nonland. Reveal cards from the top of your library until you reveal a card of the chosen kind. Put that card into your hand and the rest on the bottom of your library in a random order.",
+   "appearances": 3
   },
   {
    "name": "Mire Triton",
@@ -363,7 +380,8 @@
    ],
    "mana_cost": "{1}{B}",
    "url": "https://scryfall.com/card/cmm/174/mire-triton?utm_source=api",
-   "oracle_text": "Deathtouch\nWhen Mire Triton enters the battlefield, mill two cards and you gain 2 life."
+   "oracle_text": "Deathtouch\nWhen Mire Triton enters the battlefield, mill two cards and you gain 2 life.",
+   "appearances": 1
   },
   {
    "name": "Languish",
@@ -377,7 +395,8 @@
    ],
    "mana_cost": "{2}{B}{B}",
    "url": "https://scryfall.com/card/jmp/246/languish?utm_source=api",
-   "oracle_text": "All creatures get -4/-4 until end of turn."
+   "oracle_text": "All creatures get -4/-4 until end of turn.",
+   "appearances": 3
   },
   {
    "name": "Agonizing Remorse",
@@ -391,7 +410,8 @@
    ],
    "mana_cost": "{1}{B}",
    "url": "https://scryfall.com/card/thb/83/agonizing-remorse?utm_source=api",
-   "oracle_text": "Target opponent reveals their hand. You choose a nonland card from it or a card from their graveyard. Exile that card. You lose 1 life."
+   "oracle_text": "Target opponent reveals their hand. You choose a nonland card from it or a card from their graveyard. Exile that card. You lose 1 life.",
+   "appearances": 2
   },
   {
    "name": "Utopia Sprawl",
@@ -408,7 +428,8 @@
    ],
    "mana_cost": "{G}",
    "url": "https://scryfall.com/card/afc/172/utopia-sprawl?utm_source=api",
-   "oracle_text": "Enchant Forest\nAs Utopia Sprawl enters the battlefield, choose a color.\nWhenever enchanted Forest is tapped for mana, its controller adds an additional one mana of the chosen color."
+   "oracle_text": "Enchant Forest\nAs Utopia Sprawl enters the battlefield, choose a color.\nWhenever enchanted Forest is tapped for mana, its controller adds an additional one mana of the chosen color.",
+   "appearances": 3
   },
   {
    "name": "Vivien, Champion of the Wilds",
@@ -426,7 +447,8 @@
    ],
    "mana_cost": "{2}{G}",
    "url": "https://scryfall.com/card/clb/838/vivien-champion-of-the-wilds?utm_source=api",
-   "oracle_text": "You may cast creature spells as though they had flash.\n+1: Until your next turn, up to one target creature gains vigilance and reach.\n−2: Look at the top three cards of your library. Exile one face down and put the rest on the bottom of your library in any order. For as long as it remains exiled, you may look at that card and you may cast it if it's a creature spell."
+   "oracle_text": "You may cast creature spells as though they had flash.\n+1: Until your next turn, up to one target creature gains vigilance and reach.\n−2: Look at the top three cards of your library. Exile one face down and put the rest on the bottom of your library in any order. For as long as it remains exiled, you may look at that card and you may cast it if it's a creature spell.",
+   "appearances": 2
   },
   {
    "name": "Persist",
@@ -440,7 +462,8 @@
    ],
    "mana_cost": "{1}{B}",
    "url": "https://scryfall.com/card/mh2/96/persist?utm_source=api",
-   "oracle_text": "Return target nonlegendary creature card from your graveyard to the battlefield with a -1/-1 counter on it."
+   "oracle_text": "Return target nonlegendary creature card from your graveyard to the battlefield with a -1/-1 counter on it.",
+   "appearances": 8
   },
   {
    "name": "Bonesplitter",
@@ -455,7 +478,8 @@
    "colors": [],
    "mana_cost": "{1}",
    "url": "https://scryfall.com/card/cmr/458/bonesplitter?utm_source=api",
-   "oracle_text": "Equipped creature gets +2/+0.\nEquip {1}"
+   "oracle_text": "Equipped creature gets +2/+0.\nEquip {1}",
+   "appearances": 2
   },
   {
    "name": "Greta, Sweettooth Scourge",
@@ -475,7 +499,8 @@
    ],
    "mana_cost": "{1}{B}{G}",
    "url": "https://scryfall.com/card/woe/205/greta-sweettooth-scourge?utm_source=api",
-   "oracle_text": "When Greta, Sweettooth Scourge enters the battlefield, create a Food token. (It's an artifact with \"{2}, {T}, Sacrifice this artifact: You gain 3 life.\")\n{G}, Sacrifice a Food: Put a +1/+1 counter on target creature. Activate only as a sorcery.\n{1}{B}, Sacrifice a Food: You draw a card and you lose 1 life."
+   "oracle_text": "When Greta, Sweettooth Scourge enters the battlefield, create a Food token. (It's an artifact with \"{2}, {T}, Sacrifice this artifact: You gain 3 life.\")\n{G}, Sacrifice a Food: Put a +1/+1 counter on target creature. Activate only as a sorcery.\n{1}{B}, Sacrifice a Food: You draw a card and you lose 1 life.",
+   "appearances": 2
   },
   {
    "name": "Quest for the Gravelord",
@@ -489,7 +514,8 @@
    ],
    "mana_cost": "{B}",
    "url": "https://scryfall.com/card/bbd/156/quest-for-the-gravelord?utm_source=api",
-   "oracle_text": "Whenever a creature dies, you may put a quest counter on Quest for the Gravelord.\nRemove three quest counters from Quest for the Gravelord and sacrifice it: Create a 5/5 black Zombie Giant creature token."
+   "oracle_text": "Whenever a creature dies, you may put a quest counter on Quest for the Gravelord.\nRemove three quest counters from Quest for the Gravelord and sacrifice it: Create a 5/5 black Zombie Giant creature token.",
+   "appearances": 2
   },
   {
    "name": "Swamp",
@@ -505,7 +531,8 @@
    "colors": [],
    "mana_cost": "",
    "url": "https://scryfall.com/card/lci/397/swamp?utm_source=api",
-   "oracle_text": "({T}: Add {B}.)"
+   "oracle_text": "({T}: Add {B}.)",
+   "appearances": 22
   },
   {
    "name": "Swamp",
@@ -521,7 +548,8 @@
    "colors": [],
    "mana_cost": "",
    "url": "https://scryfall.com/card/lci/397/swamp?utm_source=api",
-   "oracle_text": "({T}: Add {B}.)"
+   "oracle_text": "({T}: Add {B}.)",
+   "appearances": 22
   },
   {
    "name": "Swamp",
@@ -537,7 +565,8 @@
    "colors": [],
    "mana_cost": "",
    "url": "https://scryfall.com/card/lci/397/swamp?utm_source=api",
-   "oracle_text": "({T}: Add {B}.)"
+   "oracle_text": "({T}: Add {B}.)",
+   "appearances": 22
   },
   {
    "name": "Swamp",
@@ -553,7 +582,8 @@
    "colors": [],
    "mana_cost": "",
    "url": "https://scryfall.com/card/lci/397/swamp?utm_source=api",
-   "oracle_text": "({T}: Add {B}.)"
+   "oracle_text": "({T}: Add {B}.)",
+   "appearances": 22
   },
   {
    "name": "Swamp",
@@ -569,7 +599,8 @@
    "colors": [],
    "mana_cost": "",
    "url": "https://scryfall.com/card/lci/397/swamp?utm_source=api",
-   "oracle_text": "({T}: Add {B}.)"
+   "oracle_text": "({T}: Add {B}.)",
+   "appearances": 22
   },
   {
    "name": "Forest",
@@ -585,7 +616,8 @@
    "colors": [],
    "mana_cost": "",
    "url": "https://scryfall.com/card/lci/401/forest?utm_source=api",
-   "oracle_text": "({T}: Add {G}.)"
+   "oracle_text": "({T}: Add {G}.)",
+   "appearances": 23
   },
   {
    "name": "Forest",
@@ -601,7 +633,8 @@
    "colors": [],
    "mana_cost": "",
    "url": "https://scryfall.com/card/lci/401/forest?utm_source=api",
-   "oracle_text": "({T}: Add {G}.)"
+   "oracle_text": "({T}: Add {G}.)",
+   "appearances": 23
   },
   {
    "name": "Forest",
@@ -617,7 +650,8 @@
    "colors": [],
    "mana_cost": "",
    "url": "https://scryfall.com/card/lci/401/forest?utm_source=api",
-   "oracle_text": "({T}: Add {G}.)"
+   "oracle_text": "({T}: Add {G}.)",
+   "appearances": 23
   },
   {
    "name": "Forest",
@@ -633,7 +667,8 @@
    "colors": [],
    "mana_cost": "",
    "url": "https://scryfall.com/card/lci/401/forest?utm_source=api",
-   "oracle_text": "({T}: Add {G}.)"
+   "oracle_text": "({T}: Add {G}.)",
+   "appearances": 23
   },
   {
    "name": "Forest",
@@ -649,7 +684,8 @@
    "colors": [],
    "mana_cost": "",
    "url": "https://scryfall.com/card/lci/401/forest?utm_source=api",
-   "oracle_text": "({T}: Add {G}.)"
+   "oracle_text": "({T}: Add {G}.)",
+   "appearances": 23
   },
   {
    "name": "Forest",
@@ -665,7 +701,8 @@
    "colors": [],
    "mana_cost": "",
    "url": "https://scryfall.com/card/lci/401/forest?utm_source=api",
-   "oracle_text": "({T}: Add {G}.)"
+   "oracle_text": "({T}: Add {G}.)",
+   "appearances": 23
   }
  ],
  "sideboard": [

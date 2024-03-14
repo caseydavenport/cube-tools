@@ -464,7 +464,8 @@
    "colors": [],
    "mana_cost": "",
    "url": "https://scryfall.com/card/lci/395/island?utm_source=api",
-   "oracle_text": "({T}: Add {U}.)"
+   "oracle_text": "({T}: Add {U}.)",
+   "appearances": 4
   },
   {
    "name": "Island",
@@ -480,7 +481,8 @@
    "colors": [],
    "mana_cost": "",
    "url": "https://scryfall.com/card/lci/395/island?utm_source=api",
-   "oracle_text": "({T}: Add {U}.)"
+   "oracle_text": "({T}: Add {U}.)",
+   "appearances": 4
   },
   {
    "name": "Island",
@@ -496,7 +498,8 @@
    "colors": [],
    "mana_cost": "",
    "url": "https://scryfall.com/card/lci/395/island?utm_source=api",
-   "oracle_text": "({T}: Add {U}.)"
+   "oracle_text": "({T}: Add {U}.)",
+   "appearances": 4
   },
   {
    "name": "Island",
@@ -512,7 +515,8 @@
    "colors": [],
    "mana_cost": "",
    "url": "https://scryfall.com/card/lci/395/island?utm_source=api",
-   "oracle_text": "({T}: Add {U}.)"
+   "oracle_text": "({T}: Add {U}.)",
+   "appearances": 4
   },
   {
    "name": "Island",
@@ -528,7 +532,8 @@
    "colors": [],
    "mana_cost": "",
    "url": "https://scryfall.com/card/lci/395/island?utm_source=api",
-   "oracle_text": "({T}: Add {U}.)"
+   "oracle_text": "({T}: Add {U}.)",
+   "appearances": 4
   },
   {
    "name": "Island",
@@ -544,7 +549,8 @@
    "colors": [],
    "mana_cost": "",
    "url": "https://scryfall.com/card/lci/395/island?utm_source=api",
-   "oracle_text": "({T}: Add {U}.)"
+   "oracle_text": "({T}: Add {U}.)",
+   "appearances": 4
   },
   {
    "name": "Island",
@@ -560,7 +566,8 @@
    "colors": [],
    "mana_cost": "",
    "url": "https://scryfall.com/card/lci/395/island?utm_source=api",
-   "oracle_text": "({T}: Add {U}.)"
+   "oracle_text": "({T}: Add {U}.)",
+   "appearances": 4
   },
   {
    "name": "Forest",
@@ -576,7 +583,8 @@
    "colors": [],
    "mana_cost": "",
    "url": "https://scryfall.com/card/lci/401/forest?utm_source=api",
-   "oracle_text": "({T}: Add {G}.)"
+   "oracle_text": "({T}: Add {G}.)",
+   "appearances": 5
   },
   {
    "name": "Forest",
@@ -592,7 +600,8 @@
    "colors": [],
    "mana_cost": "",
    "url": "https://scryfall.com/card/lci/401/forest?utm_source=api",
-   "oracle_text": "({T}: Add {G}.)"
+   "oracle_text": "({T}: Add {G}.)",
+   "appearances": 5
   },
   {
    "name": "Forest",
@@ -608,7 +617,8 @@
    "colors": [],
    "mana_cost": "",
    "url": "https://scryfall.com/card/lci/401/forest?utm_source=api",
-   "oracle_text": "({T}: Add {G}.)"
+   "oracle_text": "({T}: Add {G}.)",
+   "appearances": 5
   },
   {
    "name": "Forest",
@@ -624,7 +634,8 @@
    "colors": [],
    "mana_cost": "",
    "url": "https://scryfall.com/card/lci/401/forest?utm_source=api",
-   "oracle_text": "({T}: Add {G}.)"
+   "oracle_text": "({T}: Add {G}.)",
+   "appearances": 5
   },
   {
    "name": "Forest",
@@ -640,7 +651,8 @@
    "colors": [],
    "mana_cost": "",
    "url": "https://scryfall.com/card/lci/401/forest?utm_source=api",
-   "oracle_text": "({T}: Add {G}.)"
+   "oracle_text": "({T}: Add {G}.)",
+   "appearances": 5
   },
   {
    "name": "Forest",
@@ -656,7 +668,8 @@
    "colors": [],
    "mana_cost": "",
    "url": "https://scryfall.com/card/lci/401/forest?utm_source=api",
-   "oracle_text": "({T}: Add {G}.)"
+   "oracle_text": "({T}: Add {G}.)",
+   "appearances": 5
   },
   {
    "name": "Forest",
@@ -672,7 +685,8 @@
    "colors": [],
    "mana_cost": "",
    "url": "https://scryfall.com/card/lci/401/forest?utm_source=api",
-   "oracle_text": "({T}: Add {G}.)"
+   "oracle_text": "({T}: Add {G}.)",
+   "appearances": 5
   }
  ],
  "sideboard": [

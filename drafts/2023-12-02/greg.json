@@ -48,7 +48,8 @@
    ],
    "mana_cost": "{2}{W}{W}",
    "url": "https://scryfall.com/card/khc/29/marshals-anthem?utm_source=api",
-   "oracle_text": "Multikicker {1}{W} (You may pay an additional {1}{W} any number of times as you cast this spell.)\nCreatures you control get +1/+1.\nWhen Marshal's Anthem enters the battlefield, return up to X target creature cards from your graveyard to the battlefield, where X is the number of times Marshal's Anthem was kicked."
+   "oracle_text": "Multikicker {1}{W} (You may pay an additional {1}{W} any number of times as you cast this spell.)\nCreatures you control get +1/+1.\nWhen Marshal's Anthem enters the battlefield, return up to X target creature cards from your graveyard to the battlefield, where X is the number of times Marshal's Anthem was kicked.",
+   "appearances": 7
   },
   {
    "name": "Angel of Salvation",
@@ -65,7 +66,8 @@
    ],
    "mana_cost": "{6}{W}{W}",
    "url": "https://scryfall.com/card/moc/170/angel-of-salvation?utm_source=api",
-   "oracle_text": "Flash; convoke (Your creatures can help cast this spell. Each creature you tap while casting this spell pays for {1} or one mana of that creature's color.)\nFlying\nWhen Angel of Salvation enters the battlefield, prevent the next 5 damage that would be dealt this turn to any number of targets, divided as you choose."
+   "oracle_text": "Flash; convoke (Your creatures can help cast this spell. Each creature you tap while casting this spell pays for {1} or one mana of that creature's color.)\nFlying\nWhen Angel of Salvation enters the battlefield, prevent the next 5 damage that would be dealt this turn to any number of targets, divided as you choose.",
+   "appearances": 4
   },
   {
    "name": "The Wandering Emperor",
@@ -80,7 +82,8 @@
    ],
    "mana_cost": "{2}{W}{W}",
    "url": "https://scryfall.com/card/neo/42/the-wandering-emperor?utm_source=api",
-   "oracle_text": "Flash\nAs long as The Wandering Emperor entered the battlefield this turn, you may activate her loyalty abilities any time you could cast an instant.\n+1: Put a +1/+1 counter on up to one target creature. It gains first strike until end of turn.\n−1: Create a 2/2 white Samurai creature token with vigilance.\n−2: Exile target tapped creature. You gain 2 life."
+   "oracle_text": "Flash\nAs long as The Wandering Emperor entered the battlefield this turn, you may activate her loyalty abilities any time you could cast an instant.\n+1: Put a +1/+1 counter on up to one target creature. It gains first strike until end of turn.\n−1: Create a 2/2 white Samurai creature token with vigilance.\n−2: Exile target tapped creature. You gain 2 life.",
+   "appearances": 5
   },
   {
    "name": "Werefox Bodyguard",
@@ -99,7 +102,8 @@
    ],
    "mana_cost": "{1}{W}{W}",
    "url": "https://scryfall.com/card/woe/39/werefox-bodyguard?utm_source=api",
-   "oracle_text": "Flash\nWhen Werefox Bodyguard enters the battlefield, exile up to one other target non-Fox creature until Werefox Bodyguard leaves the battlefield.\n{1}{W}, Sacrifice Werefox Bodyguard: You gain 2 life."
+   "oracle_text": "Flash\nWhen Werefox Bodyguard enters the battlefield, exile up to one other target non-Fox creature until Werefox Bodyguard leaves the battlefield.\n{1}{W}, Sacrifice Werefox Bodyguard: You gain 2 life.",
+   "appearances": 2
   },
   {
    "name": "Clifftop Retreat",
@@ -111,7 +115,8 @@
    "colors": [],
    "mana_cost": "",
    "url": "https://scryfall.com/card/lcc/324/clifftop-retreat?utm_source=api",
-   "oracle_text": "Clifftop Retreat enters the battlefield tapped unless you control a Mountain or a Plains.\n{T}: Add {R} or {W}."
+   "oracle_text": "Clifftop Retreat enters the battlefield tapped unless you control a Mountain or a Plains.\n{T}: Add {R} or {W}.",
+   "appearances": 6
   },
   {
    "name": "Cheeky House-Mouse // Squeak By",
@@ -130,7 +135,8 @@
    ],
    "mana_cost": "{W} // {W}",
    "url": "https://scryfall.com/card/woe/7/cheeky-house-mouse-squeak-by?utm_source=api",
-   "oracle_text": ""
+   "oracle_text": "",
+   "appearances": 3
   },
   {
    "name": "Sacred Foundry",
@@ -146,7 +152,8 @@
    "colors": [],
    "mana_cost": "",
    "url": "https://scryfall.com/card/grn/254/sacred-foundry?utm_source=api",
-   "oracle_text": "({T}: Add {R} or {W}.)\nAs Sacred Foundry enters the battlefield, you may pay 2 life. If you don't, it enters the battlefield tapped."
+   "oracle_text": "({T}: Add {R} or {W}.)\nAs Sacred Foundry enters the battlefield, you may pay 2 life. If you don't, it enters the battlefield tapped.",
+   "appearances": 4
   },
   {
    "name": "Meadowboon",
@@ -163,7 +170,8 @@
    ],
    "mana_cost": "{2}{W}{W}",
    "url": "https://scryfall.com/card/mma/22/meadowboon?utm_source=api",
-   "oracle_text": "When Meadowboon leaves the battlefield, put a +1/+1 counter on each creature target player controls.\nEvoke {3}{W} (You may cast this spell for its evoke cost. If you do, it's sacrificed when it enters the battlefield.)"
+   "oracle_text": "When Meadowboon leaves the battlefield, put a +1/+1 counter on each creature target player controls.\nEvoke {3}{W} (You may cast this spell for its evoke cost. If you do, it's sacrificed when it enters the battlefield.)",
+   "appearances": 5
   },
   {
    "name": "Cloudgoat Ranger",
@@ -182,7 +190,8 @@
    ],
    "mana_cost": "{3}{W}{W}",
    "url": "https://scryfall.com/card/khc/21/cloudgoat-ranger?utm_source=api",
-   "oracle_text": "When Cloudgoat Ranger enters the battlefield, create three 1/1 white Kithkin Soldier creature tokens.\nTap three untapped Kithkin you control: Cloudgoat Ranger gets +2/+0 and gains flying until end of turn."
+   "oracle_text": "When Cloudgoat Ranger enters the battlefield, create three 1/1 white Kithkin Soldier creature tokens.\nTap three untapped Kithkin you control: Cloudgoat Ranger gets +2/+0 and gains flying until end of turn.",
+   "appearances": 4
   },
   {
    "name": "Nobilis of War",
@@ -201,7 +210,8 @@
    ],
    "mana_cost": "{R/W}{R/W}{R/W}{R/W}{R/W}",
    "url": "https://scryfall.com/card/mm2/195/nobilis-of-war?utm_source=api",
-   "oracle_text": "Flying\nAttacking creatures you control get +2/+0."
+   "oracle_text": "Flying\nAttacking creatures you control get +2/+0.",
+   "appearances": 5
   },
   {
    "name": "Reprieve",
@@ -215,7 +225,8 @@
    ],
    "mana_cost": "{1}{W}",
    "url": "https://scryfall.com/card/ltr/26/reprieve?utm_source=api",
-   "oracle_text": "Return target spell to its owner's hand.\nDraw a card."
+   "oracle_text": "Return target spell to its owner's hand.\nDraw a card.",
+   "appearances": 2
   },
   {
    "name": "Lizard Blades",
@@ -234,7 +245,8 @@
    ],
    "mana_cost": "{1}{R}",
    "url": "https://scryfall.com/card/neo/153/lizard-blades?utm_source=api",
-   "oracle_text": "Double strike\nEquipped creature has double strike.\nReconfigure {2} ({2}: Attach to target creature you control; or unattach from a creature. Reconfigure only as a sorcery. While attached, this isn't a creature.)"
+   "oracle_text": "Double strike\nEquipped creature has double strike.\nReconfigure {2} ({2}: Attach to target creature you control; or unattach from a creature. Reconfigure only as a sorcery. While attached, this isn't a creature.)",
+   "appearances": 4
   },
   {
    "name": "Welcoming Vampire",
@@ -251,7 +263,8 @@
    ],
    "mana_cost": "{2}{W}",
    "url": "https://scryfall.com/card/lcc/140/welcoming-vampire?utm_source=api",
-   "oracle_text": "Flying\nWhenever one or more other creatures with power 2 or less enter the battlefield under your control, draw a card. This ability triggers only once each turn."
+   "oracle_text": "Flying\nWhenever one or more other creatures with power 2 or less enter the battlefield under your control, draw a card. This ability triggers only once each turn.",
+   "appearances": 2
   },
   {
    "name": "Fearless Fledgling",
@@ -268,7 +281,8 @@
    ],
    "mana_cost": "{1}{W}",
    "url": "https://scryfall.com/card/znr/15/fearless-fledgling?utm_source=api",
-   "oracle_text": "Landfall — Whenever a land enters the battlefield under your control, put a +1/+1 counter on Fearless Fledgling. It gains flying until end of turn."
+   "oracle_text": "Landfall — Whenever a land enters the battlefield under your control, put a +1/+1 counter on Fearless Fledgling. It gains flying until end of turn.",
+   "appearances": 4
   },
   {
    "name": "Ajani's Pridemate",
@@ -286,7 +300,8 @@
    ],
    "mana_cost": "{1}{W}",
    "url": "https://scryfall.com/card/war/4/ajanis-pridemate?utm_source=api",
-   "oracle_text": "Whenever you gain life, put a +1/+1 counter on Ajani's Pridemate."
+   "oracle_text": "Whenever you gain life, put a +1/+1 counter on Ajani's Pridemate.",
+   "appearances": 3
   },
   {
    "name": "Sunbaked Canyon",
@@ -298,7 +313,8 @@
    "colors": [],
    "mana_cost": "",
    "url": "https://scryfall.com/card/mh1/247/sunbaked-canyon?utm_source=api",
-   "oracle_text": "{T}, Pay 1 life: Add {R} or {W}.\n{1}, {T}, Sacrifice Sunbaked Canyon: Draw a card."
+   "oracle_text": "{T}, Pay 1 life: Add {R} or {W}.\n{1}, {T}, Sacrifice Sunbaked Canyon: Draw a card.",
+   "appearances": 4
   },
   {
    "name": "Angelic Intervention",
@@ -312,7 +328,8 @@
    ],
    "mana_cost": "{1}{W}",
    "url": "https://scryfall.com/card/mom/5/angelic-intervention?utm_source=api",
-   "oracle_text": "Target creature or planeswalker you control gains protection from colorless or from the color of your choice until end of turn. If it's a creature, put a +1/+1 counter on it. (It can't be blocked, targeted, dealt damage, enchanted, or equipped by anything with that quality.)"
+   "oracle_text": "Target creature or planeswalker you control gains protection from colorless or from the color of your choice until end of turn. If it's a creature, put a +1/+1 counter on it. (It can't be blocked, targeted, dealt damage, enchanted, or equipped by anything with that quality.)",
+   "appearances": 4
   },
   {
    "name": "Kor Skyfisher",
@@ -330,7 +347,8 @@
    ],
    "mana_cost": "{1}{W}",
    "url": "https://scryfall.com/card/mm3/11/kor-skyfisher?utm_source=api",
-   "oracle_text": "Flying\nWhen Kor Skyfisher enters the battlefield, return a permanent you control to its owner's hand."
+   "oracle_text": "Flying\nWhen Kor Skyfisher enters the battlefield, return a permanent you control to its owner's hand.",
+   "appearances": 6
   },
   {
    "name": "Harm's Way",
@@ -344,7 +362,8 @@
    ],
    "mana_cost": "{W}",
    "url": "https://scryfall.com/card/ddg/23/harms-way?utm_source=api",
-   "oracle_text": "The next 2 damage that a source of your choice would deal to you and/or permanents you control this turn is dealt to any target instead."
+   "oracle_text": "The next 2 damage that a source of your choice would deal to you and/or permanents you control this turn is dealt to any target instead.",
+   "appearances": 4
   },
   {
    "name": "Glory of Warfare",
@@ -359,7 +378,8 @@
    ],
    "mana_cost": "{2}{R}{W}",
    "url": "https://scryfall.com/card/hop/88/glory-of-warfare?utm_source=api",
-   "oracle_text": "As long as it's your turn, creatures you control get +2/+0.\nAs long as it's not your turn, creatures you control get +0/+2."
+   "oracle_text": "As long as it's your turn, creatures you control get +2/+0.\nAs long as it's not your turn, creatures you control get +0/+2.",
+   "appearances": 2
   },
   {
    "name": "Arid Mesa",
@@ -371,7 +391,8 @@
    "colors": [],
    "mana_cost": "",
    "url": "https://scryfall.com/card/mh2/244/arid-mesa?utm_source=api",
-   "oracle_text": "{T}, Pay 1 life, Sacrifice Arid Mesa: Search your library for a Mountain or Plains card, put it onto the battlefield, then shuffle."
+   "oracle_text": "{T}, Pay 1 life, Sacrifice Arid Mesa: Search your library for a Mountain or Plains card, put it onto the battlefield, then shuffle.",
+   "appearances": 4
   },
   {
    "name": "Sparring Construct",
@@ -387,7 +408,8 @@
    "colors": [],
    "mana_cost": "{1}",
    "url": "https://scryfall.com/card/dom/232/sparring-construct?utm_source=api",
-   "oracle_text": "When Sparring Construct dies, put a +1/+1 counter on target creature you control."
+   "oracle_text": "When Sparring Construct dies, put a +1/+1 counter on target creature you control.",
+   "appearances": 3
   },
   {
    "name": "Dauntless Bodyguard",
@@ -405,7 +427,8 @@
    ],
    "mana_cost": "{W}",
    "url": "https://scryfall.com/card/dom/14/dauntless-bodyguard?utm_source=api",
-   "oracle_text": "As Dauntless Bodyguard enters the battlefield, choose another creature you control.\nSacrifice Dauntless Bodyguard: The chosen creature gains indestructible until end of turn."
+   "oracle_text": "As Dauntless Bodyguard enters the battlefield, choose another creature you control.\nSacrifice Dauntless Bodyguard: The chosen creature gains indestructible until end of turn.",
+   "appearances": 3
   },
   {
    "name": "Domri, Anarch of Bolas",
@@ -424,7 +447,8 @@
    ],
    "mana_cost": "{1}{R}{G}",
    "url": "https://scryfall.com/card/war/191/domri-anarch-of-bolas?utm_source=api",
-   "oracle_text": "Creatures you control get +1/+0.\n+1: Add {R} or {G}. Creature spells you cast this turn can't be countered.\n−2: Target creature you control fights target creature you don't control."
+   "oracle_text": "Creatures you control get +1/+0.\n+1: Add {R} or {G}. Creature spells you cast this turn can't be countered.\n−2: Target creature you control fights target creature you don't control.",
+   "appearances": 2
   },
   {
    "name": "Rubblebelt Rioters",
@@ -443,7 +467,8 @@
    ],
    "mana_cost": "{1}{R}{G}",
    "url": "https://scryfall.com/card/war/215/rubblebelt-rioters?utm_source=api",
-   "oracle_text": "Haste\nWhenever Rubblebelt Rioters attacks, it gets +X/+0 until end of turn, where X is the greatest power among creatures you control."
+   "oracle_text": "Haste\nWhenever Rubblebelt Rioters attacks, it gets +X/+0 until end of turn, where X is the greatest power among creatures you control.",
+   "appearances": 2
   },
   {
    "name": "Beast Within",
@@ -457,7 +482,8 @@
    ],
    "mana_cost": "{2}{G}",
    "url": "https://scryfall.com/card/lcc/233/beast-within?utm_source=api",
-   "oracle_text": "Destroy target permanent. Its controller creates a 3/3 green Beast creature token."
+   "oracle_text": "Destroy target permanent. Its controller creates a 3/3 green Beast creature token.",
+   "appearances": 3
   },
   {
    "name": "Lotus Cobra",
@@ -474,7 +500,8 @@
    ],
    "mana_cost": "{1}{G}",
    "url": "https://scryfall.com/card/znr/193/lotus-cobra?utm_source=api",
-   "oracle_text": "Landfall — Whenever a land enters the battlefield under your control, add one mana of any color."
+   "oracle_text": "Landfall — Whenever a land enters the battlefield under your control, add one mana of any color.",
+   "appearances": 5
   },
   {
    "name": "Gilded Goose",
@@ -491,7 +518,8 @@
    ],
    "mana_cost": "{G}",
    "url": "https://scryfall.com/card/moc/299/gilded-goose?utm_source=api",
-   "oracle_text": "Flying\nWhen Gilded Goose enters the battlefield, create a Food token. (It's an artifact with \"{2}, {T}, Sacrifice this artifact: You gain 3 life.\")\n{1}{G}, {T}: Create a Food token.\n{T}, Sacrifice a Food: Add one mana of any color."
+   "oracle_text": "Flying\nWhen Gilded Goose enters the battlefield, create a Food token. (It's an artifact with \"{2}, {T}, Sacrifice this artifact: You gain 3 life.\")\n{1}{G}, {T}: Create a Food token.\n{T}, Sacrifice a Food: Add one mana of any color.",
+   "appearances": 3
   },
   {
    "name": "Rootbound Crag",
@@ -503,7 +531,8 @@
    "colors": [],
    "mana_cost": "",
    "url": "https://scryfall.com/card/xln/256/rootbound-crag?utm_source=api",
-   "oracle_text": "Rootbound Crag enters the battlefield tapped unless you control a Mountain or a Forest.\n{T}: Add {R} or {G}."
+   "oracle_text": "Rootbound Crag enters the battlefield tapped unless you control a Mountain or a Forest.\n{T}: Add {R} or {G}.",
+   "appearances": 4
   },
   {
    "name": "Horizon Canopy",
@@ -515,7 +544,8 @@
    "colors": [],
    "mana_cost": "",
    "url": "https://scryfall.com/card/ima/240/horizon-canopy?utm_source=api",
-   "oracle_text": "{T}, Pay 1 life: Add {G} or {W}.\n{1}, {T}, Sacrifice Horizon Canopy: Draw a card."
+   "oracle_text": "{T}, Pay 1 life: Add {G} or {W}.\n{1}, {T}, Sacrifice Horizon Canopy: Draw a card.",
+   "appearances": 3
   },
   {
    "name": "Plains",
@@ -531,7 +561,8 @@
    "colors": [],
    "mana_cost": "",
    "url": "https://scryfall.com/card/lci/393/plains?utm_source=api",
-   "oracle_text": "({T}: Add {W}.)"
+   "oracle_text": "({T}: Add {W}.)",
+   "appearances": 21
   },
   {
    "name": "Plains",
@@ -547,7 +578,8 @@
    "colors": [],
    "mana_cost": "",
    "url": "https://scryfall.com/card/lci/393/plains?utm_source=api",
-   "oracle_text": "({T}: Add {W}.)"
+   "oracle_text": "({T}: Add {W}.)",
+   "appearances": 21
   },
   {
    "name": "Plains",
@@ -563,7 +595,8 @@
    "colors": [],
    "mana_cost": "",
    "url": "https://scryfall.com/card/lci/393/plains?utm_source=api",
-   "oracle_text": "({T}: Add {W}.)"
+   "oracle_text": "({T}: Add {W}.)",
+   "appearances": 21
   },
   {
    "name": "Plains",
@@ -579,7 +612,8 @@
    "colors": [],
    "mana_cost": "",
    "url": "https://scryfall.com/card/lci/393/plains?utm_source=api",
-   "oracle_text": "({T}: Add {W}.)"
+   "oracle_text": "({T}: Add {W}.)",
+   "appearances": 21
   },
   {
    "name": "Plains",
@@ -595,7 +629,8 @@
    "colors": [],
    "mana_cost": "",
    "url": "https://scryfall.com/card/lci/393/plains?utm_source=api",
-   "oracle_text": "({T}: Add {W}.)"
+   "oracle_text": "({T}: Add {W}.)",
+   "appearances": 21
   },
   {
    "name": "Plains",
@@ -611,7 +646,8 @@
    "colors": [],
    "mana_cost": "",
    "url": "https://scryfall.com/card/lci/393/plains?utm_source=api",
-   "oracle_text": "({T}: Add {W}.)"
+   "oracle_text": "({T}: Add {W}.)",
+   "appearances": 21
   },
   {
    "name": "Mountain",
@@ -627,7 +663,8 @@
    "colors": [],
    "mana_cost": "",
    "url": "https://scryfall.com/card/lci/399/mountain?utm_source=api",
-   "oracle_text": "({T}: Add {R}.)"
+   "oracle_text": "({T}: Add {R}.)",
+   "appearances": 25
   },
   {
    "name": "Mountain",
@@ -643,7 +680,8 @@
    "colors": [],
    "mana_cost": "",
    "url": "https://scryfall.com/card/lci/399/mountain?utm_source=api",
-   "oracle_text": "({T}: Add {R}.)"
+   "oracle_text": "({T}: Add {R}.)",
+   "appearances": 25
   },
   {
    "name": "Forest",
@@ -659,7 +697,8 @@
    "colors": [],
    "mana_cost": "",
    "url": "https://scryfall.com/card/lci/401/forest?utm_source=api",
-   "oracle_text": "({T}: Add {G}.)"
+   "oracle_text": "({T}: Add {G}.)",
+   "appearances": 20
   },
   {
    "name": "Forest",
@@ -675,7 +714,8 @@
    "colors": [],
    "mana_cost": "",
    "url": "https://scryfall.com/card/lci/401/forest?utm_source=api",
-   "oracle_text": "({T}: Add {G}.)"
+   "oracle_text": "({T}: Add {G}.)",
+   "appearances": 20
   }
  ],
  "sideboard": [

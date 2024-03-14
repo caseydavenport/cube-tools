@@ -53,7 +53,8 @@
    ],
    "mana_cost": "{2}{W}{W}",
    "url": "https://scryfall.com/card/m11/1/ajani-goldmane?utm_source=api",
-   "oracle_text": "+1: You gain 2 life.\n−1: Put a +1/+1 counter on each creature you control. Those creatures gain vigilance until end of turn.\n−6: Create a white Avatar creature token. It has \"This creature's power and toughness are each equal to your life total.\""
+   "oracle_text": "+1: You gain 2 life.\n−1: Put a +1/+1 counter on each creature you control. Those creatures gain vigilance until end of turn.\n−6: Create a white Avatar creature token. It has \"This creature's power and toughness are each equal to your life total.\"",
+   "appearances": 1
   },
   {
    "name": "Glory of Warfare",
@@ -68,7 +69,8 @@
    ],
    "mana_cost": "{2}{R}{W}",
    "url": "https://scryfall.com/card/hop/88/glory-of-warfare?utm_source=api",
-   "oracle_text": "As long as it's your turn, creatures you control get +2/+0.\nAs long as it's not your turn, creatures you control get +0/+2."
+   "oracle_text": "As long as it's your turn, creatures you control get +2/+0.\nAs long as it's not your turn, creatures you control get +0/+2.",
+   "appearances": 1
   },
   {
    "name": "Mire Triton",
@@ -152,7 +154,8 @@
    "colors": null,
    "mana_cost": "",
    "url": "https://scryfall.com/card/xln/22/legions-landing-adanto-the-first-fort?utm_source=api",
-   "oracle_text": ""
+   "oracle_text": "",
+   "appearances": 1
   },
   {
    "name": "Welcoming Vampire",
@@ -169,7 +172,8 @@
    ],
    "mana_cost": "{2}{W}",
    "url": "https://scryfall.com/card/lcc/140/welcoming-vampire?utm_source=api",
-   "oracle_text": "Flying\nWhenever one or more other creatures with power 2 or less enter the battlefield under your control, draw a card. This ability triggers only once each turn."
+   "oracle_text": "Flying\nWhenever one or more other creatures with power 2 or less enter the battlefield under your control, draw a card. This ability triggers only once each turn.",
+   "appearances": 1
   },
   {
    "name": "Frostboil Snarl",
@@ -181,7 +185,8 @@
    "colors": [],
    "mana_cost": "",
    "url": "https://scryfall.com/card/lcc/332/frostboil-snarl?utm_source=api",
-   "oracle_text": "As Frostboil Snarl enters the battlefield, you may reveal an Island or Mountain card from your hand. If you don't, Frostboil Snarl enters the battlefield tapped.\n{T}: Add {U} or {R}."
+   "oracle_text": "As Frostboil Snarl enters the battlefield, you may reveal an Island or Mountain card from your hand. If you don't, Frostboil Snarl enters the battlefield tapped.\n{T}: Add {U} or {R}.",
+   "appearances": 1
   },
   {
    "name": "Irrigated Farmland",
@@ -197,7 +202,8 @@
    "colors": [],
    "mana_cost": "",
    "url": "https://scryfall.com/card/cmm/1005/irrigated-farmland?utm_source=api",
-   "oracle_text": "({T}: Add {W} or {U}.)\nIrrigated Farmland enters the battlefield tapped.\nCycling {2} ({2}, Discard this card: Draw a card.)"
+   "oracle_text": "({T}: Add {W} or {U}.)\nIrrigated Farmland enters the battlefield tapped.\nCycling {2} ({2}, Discard this card: Draw a card.)",
+   "appearances": 1
   },
   {
    "name": "Bloodghast",
@@ -215,7 +221,8 @@
    ],
    "mana_cost": "{B}{B}",
    "url": "https://scryfall.com/card/lcc/184/bloodghast?utm_source=api",
-   "oracle_text": "Bloodghast can't block.\nBloodghast has haste as long as an opponent has 10 or less life.\nLandfall — Whenever a land enters the battlefield under your control, you may return Bloodghast from your graveyard to the battlefield."
+   "oracle_text": "Bloodghast can't block.\nBloodghast has haste as long as an opponent has 10 or less life.\nLandfall — Whenever a land enters the battlefield under your control, you may return Bloodghast from your graveyard to the battlefield.",
+   "appearances": 1
   },
   {
    "name": "Faerie Dreamthief",
@@ -304,7 +311,8 @@
    ],
    "mana_cost": "{2}{W}",
    "url": "https://scryfall.com/card/neo/40/touch-the-spirit-realm?utm_source=api",
-   "oracle_text": "When Touch the Spirit Realm enters the battlefield, exile up to one target artifact or creature until Touch the Spirit Realm leaves the battlefield.\nChannel — {1}{W}, Discard Touch the Spirit Realm: Exile target artifact or creature. Return it to the battlefield under its owner's control at the beginning of the next end step."
+   "oracle_text": "When Touch the Spirit Realm enters the battlefield, exile up to one target artifact or creature until Touch the Spirit Realm leaves the battlefield.\nChannel — {1}{W}, Discard Touch the Spirit Realm: Exile target artifact or creature. Return it to the battlefield under its owner's control at the beginning of the next end step.",
+   "appearances": 1
   },
   {
    "name": "Uncharted Haven",
@@ -368,7 +376,8 @@
    ],
    "mana_cost": "{4}{U}",
    "url": "https://scryfall.com/card/2x2/60/mulldrifter?utm_source=api",
-   "oracle_text": "Flying\nWhen Mulldrifter enters the battlefield, draw two cards.\nEvoke {2}{U} (You may cast this spell for its evoke cost. If you do, it's sacrificed when it enters the battlefield.)"
+   "oracle_text": "Flying\nWhen Mulldrifter enters the battlefield, draw two cards.\nEvoke {2}{U} (You may cast this spell for its evoke cost. If you do, it's sacrificed when it enters the battlefield.)",
+   "appearances": 1
   },
   {
    "name": "Shineshadow Snarl",
@@ -392,7 +401,8 @@
    "colors": [],
    "mana_cost": "",
    "url": "https://scryfall.com/card/xln/255/glacial-fortress?utm_source=api",
-   "oracle_text": "Glacial Fortress enters the battlefield tapped unless you control a Plains or an Island.\n{T}: Add {W} or {U}."
+   "oracle_text": "Glacial Fortress enters the battlefield tapped unless you control a Plains or an Island.\n{T}: Add {W} or {U}.",
+   "appearances": 1
   },
   {
    "name": "Malfegor",
@@ -449,7 +459,8 @@
    ],
    "mana_cost": "{B}{B}",
    "url": "https://scryfall.com/card/wwk/59/kalastria-highborn?utm_source=api",
-   "oracle_text": "Whenever Kalastria Highborn or another Vampire you control dies, you may pay {B}. If you do, target player loses 2 life and you gain 2 life."
+   "oracle_text": "Whenever Kalastria Highborn or another Vampire you control dies, you may pay {B}. If you do, target player loses 2 life and you gain 2 life.",
+   "appearances": 1
   },
   {
    "name": "Blinding Mage",
@@ -467,7 +478,8 @@
    ],
    "mana_cost": "{1}{W}",
    "url": "https://scryfall.com/card/ima/13/blinding-mage?utm_source=api",
-   "oracle_text": "{W}, {T}: Tap target creature."
+   "oracle_text": "{W}, {T}: Tap target creature.",
+   "appearances": 1
   },
   {
    "name": "Prison Term",
@@ -484,7 +496,8 @@
    ],
    "mana_cost": "{1}{W}{W}",
    "url": "https://scryfall.com/card/cmd/27/prison-term?utm_source=api",
-   "oracle_text": "Enchant creature\nEnchanted creature can't attack or block, and its activated abilities can't be activated.\nWhenever a creature enters the battlefield under an opponent's control, you may attach Prison Term to that creature."
+   "oracle_text": "Enchant creature\nEnchanted creature can't attack or block, and its activated abilities can't be activated.\nWhenever a creature enters the battlefield under an opponent's control, you may attach Prison Term to that creature.",
+   "appearances": 1
   },
   {
    "name": "Marsh Flats",
@@ -496,7 +509,8 @@
    "colors": [],
    "mana_cost": "",
    "url": "https://scryfall.com/card/mh2/248/marsh-flats?utm_source=api",
-   "oracle_text": "{T}, Pay 1 life, Sacrifice Marsh Flats: Search your library for a Plains or Swamp card, put it onto the battlefield, then shuffle."
+   "oracle_text": "{T}, Pay 1 life, Sacrifice Marsh Flats: Search your library for a Plains or Swamp card, put it onto the battlefield, then shuffle.",
+   "appearances": 1
   },
   {
    "name": "Harm's Way",
@@ -510,7 +524,8 @@
    ],
    "mana_cost": "{W}",
    "url": "https://scryfall.com/card/ddg/23/harms-way?utm_source=api",
-   "oracle_text": "The next 2 damage that a source of your choice would deal to you and/or permanents you control this turn is dealt to any target instead."
+   "oracle_text": "The next 2 damage that a source of your choice would deal to you and/or permanents you control this turn is dealt to any target instead.",
+   "appearances": 1
   },
   {
    "name": "Severed Strands",
@@ -544,7 +559,8 @@
    ],
    "mana_cost": "{2}{U}{B}",
    "url": "https://scryfall.com/card/thb/209/atris-oracle-of-half-truths?utm_source=api",
-   "oracle_text": "Menace\nWhen Atris, Oracle of Half-Truths enters the battlefield, target opponent looks at the top three cards of your library and separates them into a face-down pile and a face-up pile. Put one pile into your hand and the other into your graveyard."
+   "oracle_text": "Menace\nWhen Atris, Oracle of Half-Truths enters the battlefield, target opponent looks at the top three cards of your library and separates them into a face-down pile and a face-up pile. Put one pile into your hand and the other into your graveyard.",
+   "appearances": 1
   },
   {
    "name": "Plains",
@@ -560,7 +576,8 @@
    "colors": [],
    "mana_cost": "",
    "url": "https://scryfall.com/card/lci/393/plains?utm_source=api",
-   "oracle_text": "({T}: Add {W}.)"
+   "oracle_text": "({T}: Add {W}.)",
+   "appearances": 4
   },
   {
    "name": "Plains",
@@ -576,7 +593,8 @@
    "colors": [],
    "mana_cost": "",
    "url": "https://scryfall.com/card/lci/393/plains?utm_source=api",
-   "oracle_text": "({T}: Add {W}.)"
+   "oracle_text": "({T}: Add {W}.)",
+   "appearances": 4
   },
   {
    "name": "Plains",
@@ -592,7 +610,8 @@
    "colors": [],
    "mana_cost": "",
    "url": "https://scryfall.com/card/lci/393/plains?utm_source=api",
-   "oracle_text": "({T}: Add {W}.)"
+   "oracle_text": "({T}: Add {W}.)",
+   "appearances": 4
   },
   {
    "name": "Island",
@@ -608,7 +627,8 @@
    "colors": [],
    "mana_cost": "",
    "url": "https://scryfall.com/card/lci/395/island?utm_source=api",
-   "oracle_text": "({T}: Add {U}.)"
+   "oracle_text": "({T}: Add {U}.)",
+   "appearances": 3
   },
   {
    "name": "Swamp",
@@ -624,7 +644,8 @@
    "colors": [],
    "mana_cost": "",
    "url": "https://scryfall.com/card/lci/397/swamp?utm_source=api",
-   "oracle_text": "({T}: Add {B}.)"
+   "oracle_text": "({T}: Add {B}.)",
+   "appearances": 3
   },
   {
    "name": "Swamp",
@@ -640,7 +661,8 @@
    "colors": [],
    "mana_cost": "",
    "url": "https://scryfall.com/card/lci/397/swamp?utm_source=api",
-   "oracle_text": "({T}: Add {B}.)"
+   "oracle_text": "({T}: Add {B}.)",
+   "appearances": 3
   },
   {
    "name": "Mountain",
@@ -656,7 +678,8 @@
    "colors": [],
    "mana_cost": "",
    "url": "https://scryfall.com/card/lci/399/mountain?utm_source=api",
-   "oracle_text": "({T}: Add {R}.)"
+   "oracle_text": "({T}: Add {R}.)",
+   "appearances": 4
   }
  ],
  "sideboard": [

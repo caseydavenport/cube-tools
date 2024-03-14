@@ -64,7 +64,8 @@
    ],
    "mana_cost": "{1}{W}{W}",
    "url": "https://scryfall.com/card/2x2/11/flickerwisp?utm_source=api",
-   "oracle_text": "Flying\nWhen Flickerwisp enters the battlefield, exile another target permanent. Return that card to the battlefield under its owner's control at the beginning of the next end step."
+   "oracle_text": "Flying\nWhen Flickerwisp enters the battlefield, exile another target permanent. Return that card to the battlefield under its owner's control at the beginning of the next end step.",
+   "appearances": 3
   },
   {
    "name": "The Wandering Emperor",
@@ -79,7 +80,8 @@
    ],
    "mana_cost": "{2}{W}{W}",
    "url": "https://scryfall.com/card/neo/42/the-wandering-emperor?utm_source=api",
-   "oracle_text": "Flash\nAs long as The Wandering Emperor entered the battlefield this turn, you may activate her loyalty abilities any time you could cast an instant.\n+1: Put a +1/+1 counter on up to one target creature. It gains first strike until end of turn.\n−1: Create a 2/2 white Samurai creature token with vigilance.\n−2: Exile target tapped creature. You gain 2 life."
+   "oracle_text": "Flash\nAs long as The Wandering Emperor entered the battlefield this turn, you may activate her loyalty abilities any time you could cast an instant.\n+1: Put a +1/+1 counter on up to one target creature. It gains first strike until end of turn.\n−1: Create a 2/2 white Samurai creature token with vigilance.\n−2: Exile target tapped creature. You gain 2 life.",
+   "appearances": 4
   },
   {
    "name": "Tail Swipe",
@@ -93,7 +95,8 @@
    ],
    "mana_cost": "{G}",
    "url": "https://scryfall.com/card/dmu/182/tail-swipe?utm_source=api",
-   "oracle_text": "Choose target creature you control and target creature you don't control. If you cast this spell during your main phase, the creature you control gets +1/+1 until end of turn. Then those creatures fight each other. (Each deals damage equal to its power to the other.)"
+   "oracle_text": "Choose target creature you control and target creature you don't control. If you cast this spell during your main phase, the creature you control gets +1/+1 until end of turn. Then those creatures fight each other. (Each deals damage equal to its power to the other.)",
+   "appearances": 3
   },
   {
    "name": "Shanna, Sisay's Legacy",
@@ -113,7 +116,8 @@
    ],
    "mana_cost": "{G}{W}",
    "url": "https://scryfall.com/card/dom/204/shanna-sisays-legacy?utm_source=api",
-   "oracle_text": "Shanna, Sisay's Legacy can't be the target of abilities your opponents control.\nShanna gets +1/+1 for each creature you control."
+   "oracle_text": "Shanna, Sisay's Legacy can't be the target of abilities your opponents control.\nShanna gets +1/+1 for each creature you control.",
+   "appearances": 3
   },
   {
    "name": "Galepowder Mage",
@@ -131,7 +135,8 @@
    ],
    "mana_cost": "{3}{W}",
    "url": "https://scryfall.com/card/clb/694/galepowder-mage?utm_source=api",
-   "oracle_text": "Flying\nWhenever Galepowder Mage attacks, exile another target creature. Return that card to the battlefield under its owner's control at the beginning of the next end step."
+   "oracle_text": "Flying\nWhenever Galepowder Mage attacks, exile another target creature. Return that card to the battlefield under its owner's control at the beginning of the next end step.",
+   "appearances": 5
   },
   {
    "name": "Meadowboon",
@@ -148,7 +153,8 @@
    ],
    "mana_cost": "{2}{W}{W}",
    "url": "https://scryfall.com/card/mma/22/meadowboon?utm_source=api",
-   "oracle_text": "When Meadowboon leaves the battlefield, put a +1/+1 counter on each creature target player controls.\nEvoke {3}{W} (You may cast this spell for its evoke cost. If you do, it's sacrificed when it enters the battlefield.)"
+   "oracle_text": "When Meadowboon leaves the battlefield, put a +1/+1 counter on each creature target player controls.\nEvoke {3}{W} (You may cast this spell for its evoke cost. If you do, it's sacrificed when it enters the battlefield.)",
+   "appearances": 4
   },
   {
    "name": "Parallel Lives",
@@ -162,7 +168,8 @@
    ],
    "mana_cost": "{3}{G}",
    "url": "https://scryfall.com/card/isd/199/parallel-lives?utm_source=api",
-   "oracle_text": "If an effect would create one or more tokens under your control, it creates twice that many of those tokens instead."
+   "oracle_text": "If an effect would create one or more tokens under your control, it creates twice that many of those tokens instead.",
+   "appearances": 3
   },
   {
    "name": "Hardened Scales",
@@ -176,7 +183,8 @@
    ],
    "mana_cost": "{G}",
    "url": "https://scryfall.com/card/lcc/243/hardened-scales?utm_source=api",
-   "oracle_text": "If one or more +1/+1 counters would be put on a creature you control, that many plus one +1/+1 counters are put on it instead."
+   "oracle_text": "If one or more +1/+1 counters would be put on a creature you control, that many plus one +1/+1 counters are put on it instead.",
+   "appearances": 3
   },
   {
    "name": "Saproling Migration",
@@ -190,7 +198,8 @@
    ],
    "mana_cost": "{1}{G}",
    "url": "https://scryfall.com/card/dom/178/saproling-migration?utm_source=api",
-   "oracle_text": "Kicker {4} (You may pay an additional {4} as you cast this spell.)\nCreate two 1/1 green Saproling creature tokens. If this spell was kicked, create four of those tokens instead."
+   "oracle_text": "Kicker {4} (You may pay an additional {4} as you cast this spell.)\nCreate two 1/1 green Saproling creature tokens. If this spell was kicked, create four of those tokens instead.",
+   "appearances": 5
   },
   {
    "name": "Roaring Earth",
@@ -204,7 +213,8 @@
    ],
    "mana_cost": "{1}{G}",
    "url": "https://scryfall.com/card/neo/204/roaring-earth?utm_source=api",
-   "oracle_text": "Landfall — Whenever a land enters the battlefield under your control, put a +1/+1 counter on target creature or Vehicle you control.\nChannel — {X}{G}{G}, Discard Roaring Earth: Put X +1/+1 counters on target land you control. It becomes a 0/0 green Spirit creature with haste. It's still a land."
+   "oracle_text": "Landfall — Whenever a land enters the battlefield under your control, put a +1/+1 counter on target creature or Vehicle you control.\nChannel — {X}{G}{G}, Discard Roaring Earth: Put X +1/+1 counters on target land you control. It becomes a 0/0 green Spirit creature with haste. It's still a land.",
+   "appearances": 5
   },
   {
    "name": "Cloudgoat Ranger",
@@ -223,7 +233,8 @@
    ],
    "mana_cost": "{3}{W}{W}",
    "url": "https://scryfall.com/card/khc/21/cloudgoat-ranger?utm_source=api",
-   "oracle_text": "When Cloudgoat Ranger enters the battlefield, create three 1/1 white Kithkin Soldier creature tokens.\nTap three untapped Kithkin you control: Cloudgoat Ranger gets +2/+0 and gains flying until end of turn."
+   "oracle_text": "When Cloudgoat Ranger enters the battlefield, create three 1/1 white Kithkin Soldier creature tokens.\nTap three untapped Kithkin you control: Cloudgoat Ranger gets +2/+0 and gains flying until end of turn.",
+   "appearances": 5
   },
   {
    "name": "Throne of the God-Pharaoh",
@@ -236,7 +247,8 @@
    "colors": [],
    "mana_cost": "{2}",
    "url": "https://scryfall.com/card/akh/237/throne-of-the-god-pharaoh?utm_source=api",
-   "oracle_text": "At the beginning of your end step, each opponent loses life equal to the number of tapped creatures you control."
+   "oracle_text": "At the beginning of your end step, each opponent loses life equal to the number of tapped creatures you control.",
+   "appearances": 6
   },
   {
    "name": "Soul Warden",
@@ -254,7 +266,8 @@
    ],
    "mana_cost": "{W}",
    "url": "https://scryfall.com/card/mm3/24/soul-warden?utm_source=api",
-   "oracle_text": "Whenever another creature enters the battlefield, you gain 1 life."
+   "oracle_text": "Whenever another creature enters the battlefield, you gain 1 life.",
+   "appearances": 4
   },
   {
    "name": "Panharmonicon",
@@ -266,7 +279,8 @@
    "colors": [],
    "mana_cost": "{4}",
    "url": "https://scryfall.com/card/2x2/310/panharmonicon?utm_source=api",
-   "oracle_text": "If an artifact or creature entering the battlefield causes a triggered ability of a permanent you control to trigger, that ability triggers an additional time."
+   "oracle_text": "If an artifact or creature entering the battlefield causes a triggered ability of a permanent you control to trigger, that ability triggers an additional time.",
+   "appearances": 2
   },
   {
    "name": "Hunting Triad",
@@ -284,7 +298,8 @@
    ],
    "mana_cost": "{3}{G}",
    "url": "https://scryfall.com/card/cma/116/hunting-triad?utm_source=api",
-   "oracle_text": "Create three 1/1 green Elf Warrior creature tokens.\nReinforce 3—{3}{G} ({3}{G}, Discard this card: Put three +1/+1 counters on target creature.)"
+   "oracle_text": "Create three 1/1 green Elf Warrior creature tokens.\nReinforce 3—{3}{G} ({3}{G}, Discard this card: Put three +1/+1 counters on target creature.)",
+   "appearances": 6
   },
   {
    "name": "Pollenbright Druid",
@@ -302,7 +317,8 @@
    ],
    "mana_cost": "{1}{G}",
    "url": "https://scryfall.com/card/cmm/312/pollenbright-druid?utm_source=api",
-   "oracle_text": "When Pollenbright Druid enters the battlefield, choose one —\n• Put a +1/+1 counter on target creature.\n• Proliferate. (Choose any number of permanents and/or players, then give each another counter of each kind already there.)"
+   "oracle_text": "When Pollenbright Druid enters the battlefield, choose one —\n• Put a +1/+1 counter on target creature.\n• Proliferate. (Choose any number of permanents and/or players, then give each another counter of each kind already there.)",
+   "appearances": 4
   },
   {
    "name": "Glass Casket",
@@ -316,7 +332,8 @@
    ],
    "mana_cost": "{1}{W}",
    "url": "https://scryfall.com/card/woe/16/glass-casket?utm_source=api",
-   "oracle_text": "When Glass Casket enters the battlefield, exile target creature an opponent controls with mana value 3 or less until Glass Casket leaves the battlefield."
+   "oracle_text": "When Glass Casket enters the battlefield, exile target creature an opponent controls with mana value 3 or less until Glass Casket leaves the battlefield.",
+   "appearances": 5
   },
   {
    "name": "Windswept Heath",
@@ -328,7 +345,8 @@
    "colors": [],
    "mana_cost": "",
    "url": "https://scryfall.com/card/ktk/248/windswept-heath?utm_source=api",
-   "oracle_text": "{T}, Pay 1 life, Sacrifice Windswept Heath: Search your library for a Forest or Plains card, put it onto the battlefield, then shuffle."
+   "oracle_text": "{T}, Pay 1 life, Sacrifice Windswept Heath: Search your library for a Forest or Plains card, put it onto the battlefield, then shuffle.",
+   "appearances": 6
   },
   {
    "name": "Scattered Groves",
@@ -344,7 +362,8 @@
    "colors": [],
    "mana_cost": "",
    "url": "https://scryfall.com/card/cmm/1026/scattered-groves?utm_source=api",
-   "oracle_text": "({T}: Add {G} or {W}.)\nScattered Groves enters the battlefield tapped.\nCycling {2} ({2}, Discard this card: Draw a card.)"
+   "oracle_text": "({T}: Add {G} or {W}.)\nScattered Groves enters the battlefield tapped.\nCycling {2} ({2}, Discard this card: Draw a card.)",
+   "appearances": 1
   },
   {
    "name": "Mistmeadow Skulk",
@@ -362,7 +381,8 @@
    ],
    "mana_cost": "{1}{W}",
    "url": "https://scryfall.com/card/shm/14/mistmeadow-skulk?utm_source=api",
-   "oracle_text": "Lifelink, protection from mana value 3 or greater"
+   "oracle_text": "Lifelink, protection from mana value 3 or greater",
+   "appearances": 4
   },
   {
    "name": "Blade of the Bloodchief",
@@ -377,7 +397,8 @@
    "colors": [],
    "mana_cost": "{1}",
    "url": "https://scryfall.com/card/lcc/300/blade-of-the-bloodchief?utm_source=api",
-   "oracle_text": "Whenever a creature dies, put a +1/+1 counter on equipped creature. If equipped creature is a Vampire, put two +1/+1 counters on it instead.\nEquip {1}"
+   "oracle_text": "Whenever a creature dies, put a +1/+1 counter on equipped creature. If equipped creature is a Vampire, put two +1/+1 counters on it instead.\nEquip {1}",
+   "appearances": 5
   },
   {
    "name": "Kor Sanctifiers",
@@ -395,7 +416,8 @@
    ],
    "mana_cost": "{2}{W}",
    "url": "https://scryfall.com/card/c15/73/kor-sanctifiers?utm_source=api",
-   "oracle_text": "Kicker {W} (You may pay an additional {W} as you cast this spell.)\nWhen Kor Sanctifiers enters the battlefield, if it was kicked, destroy target artifact or enchantment."
+   "oracle_text": "Kicker {W} (You may pay an additional {W} as you cast this spell.)\nWhen Kor Sanctifiers enters the battlefield, if it was kicked, destroy target artifact or enchantment.",
+   "appearances": 5
   },
   {
    "name": "Werefox Bodyguard",
@@ -414,7 +436,8 @@
    ],
    "mana_cost": "{1}{W}{W}",
    "url": "https://scryfall.com/card/woe/39/werefox-bodyguard?utm_source=api",
-   "oracle_text": "Flash\nWhen Werefox Bodyguard enters the battlefield, exile up to one other target non-Fox creature until Werefox Bodyguard leaves the battlefield.\n{1}{W}, Sacrifice Werefox Bodyguard: You gain 2 life."
+   "oracle_text": "Flash\nWhen Werefox Bodyguard enters the battlefield, exile up to one other target non-Fox creature until Werefox Bodyguard leaves the battlefield.\n{1}{W}, Sacrifice Werefox Bodyguard: You gain 2 life.",
+   "appearances": 2
   },
   {
    "name": "Reprieve",
@@ -428,7 +451,8 @@
    ],
    "mana_cost": "{1}{W}",
    "url": "https://scryfall.com/card/ltr/26/reprieve?utm_source=api",
-   "oracle_text": "Return target spell to its owner's hand.\nDraw a card."
+   "oracle_text": "Return target spell to its owner's hand.\nDraw a card.",
+   "appearances": 2
   },
   {
    "name": "Spirited Companion",
@@ -446,7 +470,8 @@
    ],
    "mana_cost": "{1}{W}",
    "url": "https://scryfall.com/card/cmm/838/spirited-companion?utm_source=api",
-   "oracle_text": "When Spirited Companion enters the battlefield, draw a card."
+   "oracle_text": "When Spirited Companion enters the battlefield, draw a card.",
+   "appearances": 1
   },
   {
    "name": "Sparring Construct",
@@ -462,7 +487,8 @@
    "colors": [],
    "mana_cost": "{1}",
    "url": "https://scryfall.com/card/dom/232/sparring-construct?utm_source=api",
-   "oracle_text": "When Sparring Construct dies, put a +1/+1 counter on target creature you control."
+   "oracle_text": "When Sparring Construct dies, put a +1/+1 counter on target creature you control.",
+   "appearances": 3
   },
   {
    "name": "Plains",
@@ -478,7 +504,8 @@
    "colors": [],
    "mana_cost": "",
    "url": "https://scryfall.com/card/lci/393/plains?utm_source=api",
-   "oracle_text": "({T}: Add {W}.)"
+   "oracle_text": "({T}: Add {W}.)",
+   "appearances": 13
   },
   {
    "name": "Plains",
@@ -494,7 +521,8 @@
    "colors": [],
    "mana_cost": "",
    "url": "https://scryfall.com/card/lci/393/plains?utm_source=api",
-   "oracle_text": "({T}: Add {W}.)"
+   "oracle_text": "({T}: Add {W}.)",
+   "appearances": 13
   },
   {
    "name": "Plains",
@@ -510,7 +538,8 @@
    "colors": [],
    "mana_cost": "",
    "url": "https://scryfall.com/card/lci/393/plains?utm_source=api",
-   "oracle_text": "({T}: Add {W}.)"
+   "oracle_text": "({T}: Add {W}.)",
+   "appearances": 13
   },
   {
    "name": "Plains",
@@ -526,7 +555,8 @@
    "colors": [],
    "mana_cost": "",
    "url": "https://scryfall.com/card/lci/393/plains?utm_source=api",
-   "oracle_text": "({T}: Add {W}.)"
+   "oracle_text": "({T}: Add {W}.)",
+   "appearances": 13
   },
   {
    "name": "Plains",
@@ -542,7 +572,8 @@
    "colors": [],
    "mana_cost": "",
    "url": "https://scryfall.com/card/lci/393/plains?utm_source=api",
-   "oracle_text": "({T}: Add {W}.)"
+   "oracle_text": "({T}: Add {W}.)",
+   "appearances": 13
   },
   {
    "name": "Plains",
@@ -558,7 +589,8 @@
    "colors": [],
    "mana_cost": "",
    "url": "https://scryfall.com/card/lci/393/plains?utm_source=api",
-   "oracle_text": "({T}: Add {W}.)"
+   "oracle_text": "({T}: Add {W}.)",
+   "appearances": 13
   },
   {
    "name": "Plains",
@@ -574,7 +606,8 @@
    "colors": [],
    "mana_cost": "",
    "url": "https://scryfall.com/card/lci/393/plains?utm_source=api",
-   "oracle_text": "({T}: Add {W}.)"
+   "oracle_text": "({T}: Add {W}.)",
+   "appearances": 13
   },
   {
    "name": "Plains",
@@ -590,7 +623,8 @@
    "colors": [],
    "mana_cost": "",
    "url": "https://scryfall.com/card/lci/393/plains?utm_source=api",
-   "oracle_text": "({T}: Add {W}.)"
+   "oracle_text": "({T}: Add {W}.)",
+   "appearances": 13
   },
   {
    "name": "Forest",
@@ -606,7 +640,8 @@
    "colors": [],
    "mana_cost": "",
    "url": "https://scryfall.com/card/lci/401/forest?utm_source=api",
-   "oracle_text": "({T}: Add {G}.)"
+   "oracle_text": "({T}: Add {G}.)",
+   "appearances": 23
   },
   {
    "name": "Forest",
@@ -622,7 +657,8 @@
    "colors": [],
    "mana_cost": "",
    "url": "https://scryfall.com/card/lci/401/forest?utm_source=api",
-   "oracle_text": "({T}: Add {G}.)"
+   "oracle_text": "({T}: Add {G}.)",
+   "appearances": 23
   },
   {
    "name": "Forest",
@@ -638,7 +674,8 @@
    "colors": [],
    "mana_cost": "",
    "url": "https://scryfall.com/card/lci/401/forest?utm_source=api",
-   "oracle_text": "({T}: Add {G}.)"
+   "oracle_text": "({T}: Add {G}.)",
+   "appearances": 23
   },
   {
    "name": "Forest",
@@ -654,7 +691,8 @@
    "colors": [],
    "mana_cost": "",
    "url": "https://scryfall.com/card/lci/401/forest?utm_source=api",
-   "oracle_text": "({T}: Add {G}.)"
+   "oracle_text": "({T}: Add {G}.)",
+   "appearances": 23
   },
   {
    "name": "Forest",
@@ -670,7 +708,8 @@
    "colors": [],
    "mana_cost": "",
    "url": "https://scryfall.com/card/lci/401/forest?utm_source=api",
-   "oracle_text": "({T}: Add {G}.)"
+   "oracle_text": "({T}: Add {G}.)",
+   "appearances": 23
   },
   {
    "name": "Forest",
@@ -686,7 +725,8 @@
    "colors": [],
    "mana_cost": "",
    "url": "https://scryfall.com/card/lci/401/forest?utm_source=api",
-   "oracle_text": "({T}: Add {G}.)"
+   "oracle_text": "({T}: Add {G}.)",
+   "appearances": 23
   },
   {
    "name": "Forest",
@@ -702,7 +742,8 @@
    "colors": [],
    "mana_cost": "",
    "url": "https://scryfall.com/card/lci/401/forest?utm_source=api",
-   "oracle_text": "({T}: Add {G}.)"
+   "oracle_text": "({T}: Add {G}.)",
+   "appearances": 23
   }
  ],
  "sideboard": [

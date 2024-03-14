@@ -34,7 +34,8 @@
    ],
    "mana_cost": "{2}{W}{W}",
    "url": "https://scryfall.com/card/neo/42/the-wandering-emperor?utm_source=api",
-   "oracle_text": "Flash\nAs long as The Wandering Emperor entered the battlefield this turn, you may activate her loyalty abilities any time you could cast an instant.\n+1: Put a +1/+1 counter on up to one target creature. It gains first strike until end of turn.\n−1: Create a 2/2 white Samurai creature token with vigilance.\n−2: Exile target tapped creature. You gain 2 life."
+   "oracle_text": "Flash\nAs long as The Wandering Emperor entered the battlefield this turn, you may activate her loyalty abilities any time you could cast an instant.\n+1: Put a +1/+1 counter on up to one target creature. It gains first strike until end of turn.\n−1: Create a 2/2 white Samurai creature token with vigilance.\n−2: Exile target tapped creature. You gain 2 life.",
+   "appearances": 1
   },
   {
    "name": "Dream Trawler",
@@ -52,7 +53,8 @@
    ],
    "mana_cost": "{2}{W}{W}{U}{U}",
    "url": "https://scryfall.com/card/thb/214/dream-trawler?utm_source=api",
-   "oracle_text": "Flying, lifelink\nWhenever you draw a card, Dream Trawler gets +1/+0 until end of turn.\nWhenever Dream Trawler attacks, draw a card.\nDiscard a card: Dream Trawler gains hexproof until end of turn. Tap it."
+   "oracle_text": "Flying, lifelink\nWhenever you draw a card, Dream Trawler gets +1/+0 until end of turn.\nWhenever Dream Trawler attacks, draw a card.\nDiscard a card: Dream Trawler gains hexproof until end of turn. Tap it.",
+   "appearances": 2
   },
   {
    "name": "Opt",
@@ -66,7 +68,8 @@
    ],
    "mana_cost": "{U}",
    "url": "https://scryfall.com/card/m21/59/opt?utm_source=api",
-   "oracle_text": "Scry 1.\nDraw a card."
+   "oracle_text": "Scry 1.\nDraw a card.",
+   "appearances": 2
   },
   {
    "name": "Flooded Strand",
@@ -78,7 +81,8 @@
    "colors": [],
    "mana_cost": "",
    "url": "https://scryfall.com/card/ktk/233/flooded-strand?utm_source=api",
-   "oracle_text": "{T}, Pay 1 life, Sacrifice Flooded Strand: Search your library for a Plains or Island card, put it onto the battlefield, then shuffle."
+   "oracle_text": "{T}, Pay 1 life, Sacrifice Flooded Strand: Search your library for a Plains or Island card, put it onto the battlefield, then shuffle.",
+   "appearances": 1
   },
   {
    "name": "Counterspell",
@@ -92,7 +96,8 @@
    ],
    "mana_cost": "{U}{U}",
    "url": "https://scryfall.com/card/cmm/81/counterspell?utm_source=api",
-   "oracle_text": "Counter target spell."
+   "oracle_text": "Counter target spell.",
+   "appearances": 2
   },
   {
    "name": "Faerie Vandal",
@@ -110,7 +115,8 @@
    ],
    "mana_cost": "{1}{U}",
    "url": "https://scryfall.com/card/snc/44/faerie-vandal?utm_source=api",
-   "oracle_text": "Flash\nFlying\nWhenever you draw your second card each turn, put a +1/+1 counter on Faerie Vandal."
+   "oracle_text": "Flash\nFlying\nWhenever you draw your second card each turn, put a +1/+1 counter on Faerie Vandal.",
+   "appearances": 2
   },
   {
    "name": "Gomazoa",
@@ -127,7 +133,8 @@
    ],
    "mana_cost": "{2}{U}",
    "url": "https://scryfall.com/card/cmd/48/gomazoa?utm_source=api",
-   "oracle_text": "Defender, flying\n{T}: Put Gomazoa and each creature it's blocking on top of their owners' libraries, then those players shuffle."
+   "oracle_text": "Defender, flying\n{T}: Put Gomazoa and each creature it's blocking on top of their owners' libraries, then those players shuffle.",
+   "appearances": 3
   },
   {
    "name": "Aether Tradewinds",
@@ -141,7 +148,8 @@
    ],
    "mana_cost": "{2}{U}",
    "url": "https://scryfall.com/card/kld/38/aether-tradewinds?utm_source=api",
-   "oracle_text": "Return target permanent you control and target permanent you don't control to their owners' hands."
+   "oracle_text": "Return target permanent you control and target permanent you don't control to their owners' hands.",
+   "appearances": 2
   },
   {
    "name": "Port Town",
@@ -153,7 +161,8 @@
    "colors": [],
    "mana_cost": "",
    "url": "https://scryfall.com/card/cmm/1019/port-town?utm_source=api",
-   "oracle_text": "As Port Town enters the battlefield, you may reveal a Plains or Island card from your hand. If you don't, Port Town enters the battlefield tapped.\n{T}: Add {W} or {U}."
+   "oracle_text": "As Port Town enters the battlefield, you may reveal a Plains or Island card from your hand. If you don't, Port Town enters the battlefield tapped.\n{T}: Add {W} or {U}.",
+   "appearances": 1
   },
   {
    "name": "Brineborn Cutthroat",
@@ -171,7 +180,8 @@
    ],
    "mana_cost": "{1}{U}",
    "url": "https://scryfall.com/card/m20/50/brineborn-cutthroat?utm_source=api",
-   "oracle_text": "Flash (You may cast this spell any time you could cast an instant.)\nWhenever you cast a spell during an opponent's turn, put a +1/+1 counter on Brineborn Cutthroat."
+   "oracle_text": "Flash (You may cast this spell any time you could cast an instant.)\nWhenever you cast a spell during an opponent's turn, put a +1/+1 counter on Brineborn Cutthroat.",
+   "appearances": 2
   },
   {
    "name": "Oblivion Ring",
@@ -185,7 +195,8 @@
    ],
    "mana_cost": "{2}{W}",
    "url": "https://scryfall.com/card/mm2/29/oblivion-ring?utm_source=api",
-   "oracle_text": "When Oblivion Ring enters the battlefield, exile another target nonland permanent.\nWhen Oblivion Ring leaves the battlefield, return the exiled card to the battlefield under its owner's control."
+   "oracle_text": "When Oblivion Ring enters the battlefield, exile another target nonland permanent.\nWhen Oblivion Ring leaves the battlefield, return the exiled card to the battlefield under its owner's control.",
+   "appearances": 3
   },
   {
    "name": "Spirited Companion",
@@ -203,7 +214,8 @@
    ],
    "mana_cost": "{1}{W}",
    "url": "https://scryfall.com/card/cmm/838/spirited-companion?utm_source=api",
-   "oracle_text": "When Spirited Companion enters the battlefield, draw a card."
+   "oracle_text": "When Spirited Companion enters the battlefield, draw a card.",
+   "appearances": 1
   },
   {
    "name": "Mosquito Guard",
@@ -221,7 +233,8 @@
    ],
    "mana_cost": "{W}",
    "url": "https://scryfall.com/card/ddf/6/mosquito-guard?utm_source=api",
-   "oracle_text": "First strike\nReinforce 1—{1}{W} ({1}{W}, Discard this card: Put a +1/+1 counter on target creature.)"
+   "oracle_text": "First strike\nReinforce 1—{1}{W} ({1}{W}, Discard this card: Put a +1/+1 counter on target creature.)",
+   "appearances": 2
   },
   {
    "name": "The Reality Chip",
@@ -241,7 +254,8 @@
    ],
    "mana_cost": "{1}{U}",
    "url": "https://scryfall.com/card/neo/74/the-reality-chip?utm_source=api",
-   "oracle_text": "You may look at the top card of your library any time.\nAs long as The Reality Chip is attached to a creature, you may play lands and cast spells from the top of your library.\nReconfigure {2}{U} ({2}{U}: Attach to target creature you control; or unattach from a creature. Reconfigure only as a sorcery. While attached, this isn't a creature.)"
+   "oracle_text": "You may look at the top card of your library any time.\nAs long as The Reality Chip is attached to a creature, you may play lands and cast spells from the top of your library.\nReconfigure {2}{U} ({2}{U}: Attach to target creature you control; or unattach from a creature. Reconfigure only as a sorcery. While attached, this isn't a creature.)",
+   "appearances": 1
   },
   {
    "name": "Ephemerate",
@@ -255,7 +269,8 @@
    ],
    "mana_cost": "{W}",
    "url": "https://scryfall.com/card/mh1/7/ephemerate?utm_source=api",
-   "oracle_text": "Exile target creature you control, then return it to the battlefield under its owner's control.\nRebound (If you cast this spell from your hand, exile it as it resolves. At the beginning of your next upkeep, you may cast this card from exile without paying its mana cost.)"
+   "oracle_text": "Exile target creature you control, then return it to the battlefield under its owner's control.\nRebound (If you cast this spell from your hand, exile it as it resolves. At the beginning of your next upkeep, you may cast this card from exile without paying its mana cost.)",
+   "appearances": 3
   },
   {
    "name": "Alseid of Life's Bounty",
@@ -273,7 +288,8 @@
    ],
    "mana_cost": "{W}",
    "url": "https://scryfall.com/card/thb/1/alseid-of-lifes-bounty?utm_source=api",
-   "oracle_text": "Lifelink\n{1}, Sacrifice Alseid of Life's Bounty: Target creature or enchantment you control gains protection from the color of your choice until end of turn."
+   "oracle_text": "Lifelink\n{1}, Sacrifice Alseid of Life's Bounty: Target creature or enchantment you control gains protection from the color of your choice until end of turn.",
+   "appearances": 3
   },
   {
    "name": "Flux Channeler",
@@ -291,7 +307,8 @@
    ],
    "mana_cost": "{2}{U}",
    "url": "https://scryfall.com/card/cmm/847/flux-channeler?utm_source=api",
-   "oracle_text": "Whenever you cast a noncreature spell, proliferate. (Choose any number of permanents and/or players, then give each another counter of each kind already there.)"
+   "oracle_text": "Whenever you cast a noncreature spell, proliferate. (Choose any number of permanents and/or players, then give each another counter of each kind already there.)",
+   "appearances": 2
   },
   {
    "name": "Sphinx of Lost Truths",
@@ -308,7 +325,8 @@
    ],
    "mana_cost": "{3}{U}{U}",
    "url": "https://scryfall.com/card/zen/69/sphinx-of-lost-truths?utm_source=api",
-   "oracle_text": "Kicker {1}{U} (You may pay an additional {1}{U} as you cast this spell.)\nFlying\nWhen Sphinx of Lost Truths enters the battlefield, draw three cards. Then if it wasn't kicked, discard three cards."
+   "oracle_text": "Kicker {1}{U} (You may pay an additional {1}{U} as you cast this spell.)\nFlying\nWhen Sphinx of Lost Truths enters the battlefield, draw three cards. Then if it wasn't kicked, discard three cards.",
+   "appearances": 2
   },
   {
    "name": "Naiad of Hidden Coves",
@@ -326,7 +344,8 @@
    ],
    "mana_cost": "{2}{U}",
    "url": "https://scryfall.com/card/thb/56/naiad-of-hidden-coves?utm_source=api",
-   "oracle_text": "As long as it's not your turn, spells you cast cost {1} less to cast."
+   "oracle_text": "As long as it's not your turn, spells you cast cost {1} less to cast.",
+   "appearances": 3
   },
   {
    "name": "Reveillark",
@@ -343,7 +362,8 @@
    ],
    "mana_cost": "{4}{W}",
    "url": "https://scryfall.com/card/2x2/26/reveillark?utm_source=api",
-   "oracle_text": "Flying\nWhen Reveillark leaves the battlefield, return up to two target creature cards with power 2 or less from your graveyard to the battlefield.\nEvoke {5}{W} (You may cast this spell for its evoke cost. If you do, it's sacrificed when it enters the battlefield.)"
+   "oracle_text": "Flying\nWhen Reveillark leaves the battlefield, return up to two target creature cards with power 2 or less from your graveyard to the battlefield.\nEvoke {5}{W} (You may cast this spell for its evoke cost. If you do, it's sacrificed when it enters the battlefield.)",
+   "appearances": 1
   },
   {
    "name": "Raise the Alarm",
@@ -357,7 +377,8 @@
    ],
    "mana_cost": "{1}{W}",
    "url": "https://scryfall.com/card/cmr/41/raise-the-alarm?utm_source=api",
-   "oracle_text": "Create two 1/1 white Soldier creature tokens."
+   "oracle_text": "Create two 1/1 white Soldier creature tokens.",
+   "appearances": 2
   },
   {
    "name": "Dress Down",
@@ -371,7 +392,8 @@
    ],
    "mana_cost": "{1}{U}",
    "url": "https://scryfall.com/card/mh2/39/dress-down?utm_source=api",
-   "oracle_text": "Flash\nWhen Dress Down enters the battlefield, draw a card.\nCreatures lose all abilities.\nAt the beginning of the end step, sacrifice Dress Down."
+   "oracle_text": "Flash\nWhen Dress Down enters the battlefield, draw a card.\nCreatures lose all abilities.\nAt the beginning of the end step, sacrifice Dress Down.",
+   "appearances": 2
   },
   {
    "name": "Ponder",
@@ -385,7 +407,8 @@
    ],
    "mana_cost": "{U}",
    "url": "https://scryfall.com/card/ncc/229/ponder?utm_source=api",
-   "oracle_text": "Look at the top three cards of your library, then put them back in any order. You may shuffle.\nDraw a card."
+   "oracle_text": "Look at the top three cards of your library, then put them back in any order. You may shuffle.\nDraw a card.",
+   "appearances": 2
   },
   {
    "name": "Grateful Apparition",
@@ -402,7 +425,8 @@
    ],
    "mana_cost": "{1}{W}",
    "url": "https://scryfall.com/card/cmm/824/grateful-apparition?utm_source=api",
-   "oracle_text": "Flying\nWhenever Grateful Apparition deals combat damage to a player or planeswalker, proliferate. (Choose any number of permanents and/or players, then give each another counter of each kind already there.)"
+   "oracle_text": "Flying\nWhenever Grateful Apparition deals combat damage to a player or planeswalker, proliferate. (Choose any number of permanents and/or players, then give each another counter of each kind already there.)",
+   "appearances": 2
   },
   {
    "name": "Chart a Course",
@@ -416,7 +440,8 @@
    ],
    "mana_cost": "{1}{U}",
    "url": "https://scryfall.com/card/lci/48/chart-a-course?utm_source=api",
-   "oracle_text": "Draw two cards. Then discard a card unless you attacked this turn."
+   "oracle_text": "Draw two cards. Then discard a card unless you attacked this turn.",
+   "appearances": 2
   },
   {
    "name": "Plains",
@@ -432,7 +457,8 @@
    "colors": [],
    "mana_cost": "",
    "url": "https://scryfall.com/card/lci/393/plains?utm_source=api",
-   "oracle_text": "({T}: Add {W}.)"
+   "oracle_text": "({T}: Add {W}.)",
+   "appearances": 4
   },
   {
    "name": "Plains",
@@ -448,7 +474,8 @@
    "colors": [],
    "mana_cost": "",
    "url": "https://scryfall.com/card/lci/393/plains?utm_source=api",
-   "oracle_text": "({T}: Add {W}.)"
+   "oracle_text": "({T}: Add {W}.)",
+   "appearances": 4
   },
   {
    "name": "Plains",
@@ -464,7 +491,8 @@
    "colors": [],
    "mana_cost": "",
    "url": "https://scryfall.com/card/lci/393/plains?utm_source=api",
-   "oracle_text": "({T}: Add {W}.)"
+   "oracle_text": "({T}: Add {W}.)",
+   "appearances": 4
   },
   {
    "name": "Plains",
@@ -480,7 +508,8 @@
    "colors": [],
    "mana_cost": "",
    "url": "https://scryfall.com/card/lci/393/plains?utm_source=api",
-   "oracle_text": "({T}: Add {W}.)"
+   "oracle_text": "({T}: Add {W}.)",
+   "appearances": 4
   },
   {
    "name": "Plains",
@@ -496,7 +525,8 @@
    "colors": [],
    "mana_cost": "",
    "url": "https://scryfall.com/card/lci/393/plains?utm_source=api",
-   "oracle_text": "({T}: Add {W}.)"
+   "oracle_text": "({T}: Add {W}.)",
+   "appearances": 4
   },
   {
    "name": "Plains",
@@ -512,7 +542,8 @@
    "colors": [],
    "mana_cost": "",
    "url": "https://scryfall.com/card/lci/393/plains?utm_source=api",
-   "oracle_text": "({T}: Add {W}.)"
+   "oracle_text": "({T}: Add {W}.)",
+   "appearances": 4
   },
   {
    "name": "Plains",
@@ -528,7 +559,8 @@
    "colors": [],
    "mana_cost": "",
    "url": "https://scryfall.com/card/lci/393/plains?utm_source=api",
-   "oracle_text": "({T}: Add {W}.)"
+   "oracle_text": "({T}: Add {W}.)",
+   "appearances": 4
   },
   {
    "name": "Plains",
@@ -544,7 +576,8 @@
    "colors": [],
    "mana_cost": "",
    "url": "https://scryfall.com/card/lci/393/plains?utm_source=api",
-   "oracle_text": "({T}: Add {W}.)"
+   "oracle_text": "({T}: Add {W}.)",
+   "appearances": 4
   },
   {
    "name": "Island",
@@ -560,7 +593,8 @@
    "colors": [],
    "mana_cost": "",
    "url": "https://scryfall.com/card/lci/395/island?utm_source=api",
-   "oracle_text": "({T}: Add {U}.)"
+   "oracle_text": "({T}: Add {U}.)",
+   "appearances": 3
   },
   {
    "name": "Island",
@@ -576,7 +610,8 @@
    "colors": [],
    "mana_cost": "",
    "url": "https://scryfall.com/card/lci/395/island?utm_source=api",
-   "oracle_text": "({T}: Add {U}.)"
+   "oracle_text": "({T}: Add {U}.)",
+   "appearances": 3
   },
   {
    "name": "Island",
@@ -592,7 +627,8 @@
    "colors": [],
    "mana_cost": "",
    "url": "https://scryfall.com/card/lci/395/island?utm_source=api",
-   "oracle_text": "({T}: Add {U}.)"
+   "oracle_text": "({T}: Add {U}.)",
+   "appearances": 3
   },
   {
    "name": "Island",
@@ -608,7 +644,8 @@
    "colors": [],
    "mana_cost": "",
    "url": "https://scryfall.com/card/lci/395/island?utm_source=api",
-   "oracle_text": "({T}: Add {U}.)"
+   "oracle_text": "({T}: Add {U}.)",
+   "appearances": 3
   },
   {
    "name": "Island",
@@ -624,7 +661,8 @@
    "colors": [],
    "mana_cost": "",
    "url": "https://scryfall.com/card/lci/395/island?utm_source=api",
-   "oracle_text": "({T}: Add {U}.)"
+   "oracle_text": "({T}: Add {U}.)",
+   "appearances": 3
   },
   {
    "name": "Island",
@@ -640,7 +678,8 @@
    "colors": [],
    "mana_cost": "",
    "url": "https://scryfall.com/card/lci/395/island?utm_source=api",
-   "oracle_text": "({T}: Add {U}.)"
+   "oracle_text": "({T}: Add {U}.)",
+   "appearances": 3
   },
   {
    "name": "Island",
@@ -656,7 +695,8 @@
    "colors": [],
    "mana_cost": "",
    "url": "https://scryfall.com/card/lci/395/island?utm_source=api",
-   "oracle_text": "({T}: Add {U}.)"
+   "oracle_text": "({T}: Add {U}.)",
+   "appearances": 3
   }
  ],
  "sideboard": [
