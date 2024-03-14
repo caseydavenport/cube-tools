@@ -248,6 +248,18 @@ func parseFiles() {
 			panic(err)
 		}
 
+		// For each card in the draft pool, add up how many times it appeared in game replays.
+		// This can help us approximate the impact of a particular card in a deck.
+		draftDir := fmt.Sprintf("drafts/%s", date)
+		if _, err = os.Stat(fmt.Sprintf("%s/replays", draftDir)); err == nil {
+			for ii := range d.Mainboard {
+				d.Mainboard[ii].Appearances = cardAppearances(d.Mainboard[ii], draftDir)
+			}
+			for ii := range d.Sideboard {
+				d.Sideboard[ii].Appearances = cardAppearances(d.Sideboard[ii], draftDir)
+			}
+		}
+
 		// Write the deck for storage.
 		writeDeck(d, f.path, f.player)
 	}
@@ -265,6 +277,19 @@ func parseFiles() {
 			panic(err)
 		}
 	}
+}
+
+// cardAppearences returns the number of times the given card is referenced in
+// the replays from the given draft.
+func cardAppearances(card types.Card, draft string) int {
+	// If the card is a split card, we only want to count the first half.
+	cardName := strings.TrimSpace(strings.Split(card.Name, " // ")[0])
+	out, err := exec.Command("grep", "-r", cardName, fmt.Sprintf("%s/replays", draft)).Output()
+	if err != nil {
+		fmt.Printf("Error determining appearances for card '%s': %s\n", cardName, err)
+		return 0
+	}
+	return len(strings.Split(strings.TrimSpace(string(out)), "\n"))
 }
 
 func parseDraftLog() {
