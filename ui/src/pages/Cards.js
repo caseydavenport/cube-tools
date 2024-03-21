@@ -32,6 +32,7 @@ export function CardWidget(input) {
               <td onClick={input.onHeaderClick} id="mb" className="header-cell"># mb</td>
               <td onClick={input.onHeaderClick} id="sb" className="header-cell"># sb</td>
               <td onClick={input.onHeaderClick} id="in-color-sb" className="header-cell"># playable sb</td>
+              <td onClick={input.onHeaderClick} id="appearances" className="header-cell"># replay</td>
               <td onClick={input.onHeaderClick} id="games" className="header-cell"># Games</td>
               <td onClick={input.onHeaderClick} id="elo" className="header-cell">ELO</td>
               <td onClick={input.onHeaderClick} id="lastPlayed" className="header-cell">Last played</td>
@@ -68,6 +69,9 @@ export function CardWidget(input) {
                 case "lastPlayed":
                   sort = card.lastMainboarded
                   break
+                case "appearances":
+                  sort = card.appearances
+                  break
               }
 
               return (
@@ -77,6 +81,7 @@ export function CardWidget(input) {
                   <td><ApplyTooltip text={card.mainboard} hidden={CardMainboardTooltipContent(card)}/></td>
                   <td>{card.sideboard}</td>
                   <td>{card.inColorSideboard}</td>
+                  <td>{card.appearances}</td>
                   <td>{card.total_games}</td>
                   <td>{card.elo}</td>
                     <td>{card.lastMainboarded}</td>

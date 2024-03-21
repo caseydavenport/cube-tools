@@ -21,6 +21,7 @@ export function CardData(decks, minDrafts, minGames, cube, color) {
       sideboarders: new Map(), // Who has sideboarded this card, and how often.
       url: card.url,
       lastMainboarded: "", // The last date that this card was mainboarded.
+      appearances: 0, // Number of times the card appears in a replay.
     }
     return c
   }
@@ -69,6 +70,10 @@ export function CardData(decks, minDrafts, minGames, cube, color) {
       tracker[card.name].mainboard += 1
       tracker[card.name].wins += Wins(decks[i])
       tracker[card.name].losses += Losses(decks[i])
+
+      if (card.appearances) {
+        tracker[card.name].appearances += card.appearances
+      }
 
       // Update the last date that this card was put in a mainboard.
       tracker[card.name].lastMainboarded = compareDates(decks[i].draft, tracker[card.name].lastMainboarded)
