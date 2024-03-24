@@ -7,7 +7,7 @@ bin/parser: $(shell find ./pkg -type f) $(shell find ./cmd -type f)
 data/oracle-cards.json:
 	# TODO: Automatically fetch the latest, using the API.
 	mkdir -p data
-	wget https://data.scryfall.io/oracle-cards/oracle-cards-20231201220150.json -O $@
+	wget https://data.scryfall.io/oracle-cards/oracle-cards-20240323210217.json -O $@
 
 index:
 	go run ./cmd/parser/main.go -index

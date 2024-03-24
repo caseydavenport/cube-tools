@@ -44,14 +44,13 @@ Count,Name,Section
 1,Chart a Course,main
 1,Chatter of the Squirrel,main
 1,Cheeky House-Mouse // Squeak By,main
-1,Chromatic Sphere,main
+1,Chromatic Star,main
 1,Clarion Spirit,main
-1,Clifftop Retreat,main
 1,Cloudgoat Ranger,main
 1,Comet Storm,main
 1,Condescend,main
+1,Consider,main
 1,Containment Construct,main
-1,Copper Myr,main
 1,Counterspell,main
 1,Courser of Kruphix,main
 1,Crimson Wisps,main
@@ -65,6 +64,7 @@ Count,Name,Section
 1,Day of Judgment,main
 1,Daze,main
 1,Delay,main
+1,Demand Answers,main
 1,Deprive,main
 1,Devoted Druid,main
 1,"Dina, Soul Steeper",main
@@ -77,6 +77,7 @@ Count,Name,Section
 1,Duress,main
 1,Edge of Autumn,main
 1,Eidolon of Obstruction,main
+1,"Eiganjo, Seat of the Empire",main
 1,Emergence Zone,main
 1,Empty the Warrens,main
 1,Ephara's Dispersal,main
@@ -91,7 +92,6 @@ Count,Name,Section
 1,Faithless Looting,main
 1,Fall of the Thran,main
 1,Farsight Ritual,main
-1,Fate Transfer,main
 1,Fearless Fledgling,main
 1,Feat of Resistance,main
 1,Fecundity,main
@@ -117,13 +117,10 @@ Count,Name,Section
 1,Goblin Bombardment,main
 1,Goblin Guide,main
 1,Godless Shrine,main
-1,Gold Myr,main
 1,Goldenglow Moth,main
 1,Goldmeadow Harrier,main
-1,Golgari Rot Farm,main
 1,Gomazoa,main
 1,Grateful Apparition,main
-1,Gravedigger,main
 1,"Greta, Sweettooth Scourge",main
 1,Grim Discovery,main
 1,Grim Initiate,main
@@ -134,6 +131,7 @@ Count,Name,Section
 1,Hardened Scales,main
 1,Harm's Way,main
 1,Harrow,main
+1,Hedge Maze,main
 1,Hinterland Harbor,main
 1,Horizon Canopy,main
 1,Hostage Taker,main
@@ -145,7 +143,6 @@ Count,Name,Section
 1,"Inti, Seneschal of the Sun",main
 1,Into the Roil,main
 1,Intrepid Trufflesnout // Go Hog Wild,main
-1,Iron Myr,main
 1,Irrigated Farmland,main
 1,Isolated Chapel,main
 1,Jinxed Idol,main
@@ -163,7 +160,6 @@ Count,Name,Section
 1,"Krenko, Tin Street Kingpin",main
 1,Languish,main
 1,Lava Dart,main
-1,Leaden Myr,main
 1,"Legion's Landing // Adanto, the First Fort",main
 1,Life from the Loam,main
 1,Lightning Bolt,main
@@ -184,12 +180,11 @@ Count,Name,Section
 1,Master of Etherium,main
 1,"Mavren Fein, Dusk Apostle",main
 1,Mayhem Devil,main
-1,Maze of Ith,main
 1,Meadowboon,main
 1,Memory Lapse,main
-1,Mental Note,main
 1,Merfolk Looter,main
 1,Mesmeric Fiend,main
+1,Meticulous Archive,main
 1,Mire Triton,main
 1,Mistmeadow Skulk,main
 2,Misty Rainforest,main
@@ -209,6 +204,7 @@ Count,Name,Section
 1,Ogre-Head Helm,main
 1,Opt,main
 1,Orcish Lumberjack,main
+1,"Otawara, Soaring City",main
 1,Oust,main
 1,Overgrown Tomb,main
 1,Panharmonicon,main
@@ -243,11 +239,13 @@ Count,Name,Section
 1,Reclamation Sage,main
 1,Reinforced Ronin,main
 1,Remand,main
+1,"Renata, Called to the Hunt",main
 1,Repeal,main
 1,Reprieve,main
 1,Resolute Reinforcements,main
 1,Restless Fortress,main
 1,Restless Vinestalk,main
+1,Return from the Wilds,main
 1,Reveillark,main
 1,"Rielle, the Everwise",main
 1,Rigging Runner,main
@@ -256,7 +254,7 @@ Count,Name,Section
 1,Rootbound Crag,main
 1,Rubblebelt Rioters,main
 1,Ruthless Sniper,main
-1,Sacred Foundry,main
+2,Sacred Foundry,main
 1,"Saheeli, Sublime Artificer",main
 1,Sai of the Shinobi,main
 1,Sanctum Seeker,main
@@ -270,12 +268,11 @@ Count,Name,Section
 1,Seal of Fire,main
 1,Serum Visions,main
 1,Setessan Champion,main
+1,Sevinne's Reclamation,main
 1,Shadowstorm Vizier,main
 1,Shelldock Isle,main
 1,Sheltered Thicket,main
-1,Shinewend,main
 1,Siege-Gang Commander,main
-1,Silver Myr,main
 1,Skarrgan Hellkite,main
 1,Sleep of the Dead,main
 1,Snapcaster Mage,main
@@ -304,7 +301,6 @@ Count,Name,Section
 1,Tarmogoyf,main
 1,Tectonic Reformation,main
 1,Temple Garden,main
-1,Temple of Enlightenment,main
 1,"Tezzeret, Betrayer of Flesh",main
 1,The Binding of the Titans,main
 1,The Goose Mother,main
@@ -320,6 +316,8 @@ Count,Name,Section
 1,Turn to Mist,main
 1,Twinshot Sniper,main
 1,Ulcerate,main
+1,Undercity Sewers,main
+1,Underground Mortuary,main
 1,Unearth,main
 1,Unholy Heat,main
 1,Unmake,main
@@ -335,6 +333,7 @@ Count,Name,Section
 1,Virtue of Persistence // Locthwain Scorn,main
 1,Viscera Seer,main
 1,"Vivien, Champion of the Wilds",main
+1,Warden of the Inner Sky,main
 1,Watery Grave,main
 1,Welcoming Vampire,main
 1,Werefox Bodyguard,main
