@@ -13,7 +13,7 @@ index:
 	go run ./cmd/parser/main.go -index
 
 clean:
-	rm -f data/oracle-cards.json
+	rm -f data/oracle-cards.json bin/parser
 
 DRAFTS:=$(shell ls -d drafts/*/ | cut -f2 -d'/')
 reparse:
