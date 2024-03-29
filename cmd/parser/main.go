@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"flag"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"os"
 	"os/exec"
 	"path/filepath"
@@ -124,9 +124,8 @@ func index() {
 
 	// As part of re-indexing, parse the cube.csv and convert it to json so
 	// that it's more easily read by the UI code.
-	cube := types.Cube{
-		Cards: cardsFromCSV("cube.csv"),
-	}
+	cards, _ := cardsFromCSV("cube.csv")
+	cube := types.Cube{Cards: cards}
 	bytes, err := json.MarshalIndent(cube, "", " ")
 	if err != nil {
 		panic(err)
@@ -333,7 +332,7 @@ func loadDeckFile(deckFile string, player string) (*types.Deck, error) {
 
 	// Get the cards from the file.
 	if strings.HasSuffix(deckFile, ".csv") {
-		d.Mainboard = cardsFromCSV(deckFile)
+		d.Mainboard, d.Sideboard = cardsFromCSV(deckFile)
 	} else if strings.HasSuffix(deckFile, ".txt") {
 		d.Mainboard, d.Sideboard = cardsFromTXT(deckFile)
 	}
@@ -348,13 +347,13 @@ func loadDeckFile(deckFile string, player string) (*types.Deck, error) {
 	return d, nil
 }
 
-func cardsFromCSV(csv string) []types.Card {
+func cardsFromCSV(csv string) ([]types.Card, []types.Card) {
 	f, err := os.Open(csv)
 	defer f.Close()
 	if err != nil {
 		panic(err)
 	}
-	bytes, err := ioutil.ReadAll(f)
+	bytes, err := io.ReadAll(f)
 	if err != nil {
 		panic(err)
 	}
@@ -380,15 +379,26 @@ func cardsFromCSV(csv string) []types.Card {
 
 	// Now go through each line and extract the card, skipping the first line
 	// which only contains the header.
-	cards := []types.Card{}
+	mb := []types.Card{}
+	sb := []types.Card{}
+	sideboard := false
 	for _, l := range lines[1:] {
 		if len(l) == 0 {
 			continue
 		}
+		if strings.Contains(l, "Sideboard") || strings.Contains(l, "sideboard") {
+			sideboard = true
+			continue
+		}
 		parsed := cardsFromLine(l, quantityIdx, nameIdx)
-		cards = append(cards, parsed...)
+
+		if sideboard {
+			sb = append(sb, parsed...)
+		} else {
+			mb = append(mb, parsed...)
+		}
 	}
-	return cards
+	return mb, sb
 }
 
 // cardsFromTXT imports cards from a .txt file, where the format is
@@ -403,7 +413,7 @@ func cardsFromTXT(txt string) ([]types.Card, []types.Card) {
 	if err != nil {
 		panic(err)
 	}
-	bytes, err := ioutil.ReadAll(f)
+	bytes, err := io.ReadAll(f)
 	if err != nil {
 		panic(err)
 	}
@@ -465,7 +475,7 @@ func loadDeckFromFile(filename string) *types.Deck {
 		panic(err)
 	}
 
-	bytes, err := ioutil.ReadAll(f)
+	bytes, err := io.ReadAll(f)
 	if err != nil {
 		panic(err)
 	}
@@ -514,7 +524,7 @@ func writeDeck(d *types.Deck, srcFile string, player string) error {
 		if err != nil {
 			panic(err)
 		}
-		bytes, err := ioutil.ReadAll(f)
+		bytes, err := io.ReadAll(f)
 		if err != nil {
 			panic(err)
 		}
@@ -570,7 +580,7 @@ func parseLine(l string, qIdx, nIdx int) (int, string) {
 // getSubDirectories returns a list of sub-directories in the given directory
 func getSubDirectories(directory string) ([]string, error) {
 	// Read the directory content
-	files, err := ioutil.ReadDir(directory)
+	files, err := os.ReadDir(directory)
 	if err != nil {
 		return nil, err
 	}
@@ -594,7 +604,7 @@ func loadDraftLog(file string) *types.DraftLog {
 	if err != nil {
 		panic(err)
 	}
-	bytes, err := ioutil.ReadAll(f)
+	bytes, err := io.ReadAll(f)
 	if err != nil {
 		panic(err)
 	}

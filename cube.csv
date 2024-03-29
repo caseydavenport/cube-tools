@@ -8,6 +8,7 @@ Count,Name,Section
 1,Ajani Goldmane,main
 1,Ajani's Pridemate,main
 1,Angel of Salvation,main
+1,Anje's Ravager,main
 1,Arasta of the Endless Web,main
 1,Arbor Elf,main
 1,Arcbound Tracker,main
@@ -19,7 +20,7 @@ Count,Name,Section
 1,Black Sun's Zenith,main
 1,Blade of the Bloodchief,main
 1,Blazing Rootwalla,main
-1,Blood Crypt,main
+2,Blood Crypt,main
 1,Bloodghast,main
 1,Bloodsoaked Champion,main
 2,Bloodstained Mire,main
@@ -48,6 +49,7 @@ Count,Name,Section
 1,Clarion Spirit,main
 1,Cloudgoat Ranger,main
 1,Comet Storm,main
+1,Commercial District,main
 1,Condescend,main
 1,Consider,main
 1,Containment Construct,main
@@ -125,7 +127,6 @@ Count,Name,Section
 1,Grim Discovery,main
 1,Grim Initiate,main
 1,Gruff Triplets,main
-1,Guttersnipe,main
 1,Hallowed Fountain,main
 1,Halo Forager,main
 1,Hardened Scales,main
@@ -186,7 +187,6 @@ Count,Name,Section
 1,Mesmeric Fiend,main
 1,Meticulous Archive,main
 1,Mire Triton,main
-1,Mistmeadow Skulk,main
 2,Misty Rainforest,main
 1,Mizzium Tank,main
 1,Mogg War Marshal,main
@@ -229,6 +229,7 @@ Count,Name,Section
 1,Qasali Pridemage,main
 1,Quest for the Gemblades,main
 1,Quest for the Gravelord,main
+1,Questing Druid // Seek the Beast,main
 1,Quicken,main
 1,Rabbit Battery,main
 1,Rage Nimbus,main
@@ -252,7 +253,6 @@ Count,Name,Section
 1,River Kelpie,main
 1,Roaring Earth,main
 1,Rootbound Crag,main
-1,Rubblebelt Rioters,main
 1,Ruthless Sniper,main
 2,Sacred Foundry,main
 1,"Saheeli, Sublime Artificer",main
@@ -320,7 +320,6 @@ Count,Name,Section
 1,Underground Mortuary,main
 1,Unearth,main
 1,Unholy Heat,main
-1,Unmake,main
 1,Unsummon,main
 1,Untamed Kavu,main
 1,Utopia Sprawl,main
