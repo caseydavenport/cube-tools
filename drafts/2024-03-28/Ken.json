@@ -1,10 +1,13 @@
 {
- "labels": ["midrange", "sacrifice"],
+ "labels": [
+  "midrange",
+  "sacrifice"
+ ],
  "player": "Ken",
  "date": "2024-03-28",
+ "games": [],
  "wins": 2,
  "losses": 1,
- "games": [],
  "mainboard": [
   {
    "name": "Battlefield Forge",

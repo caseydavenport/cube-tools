@@ -1,10 +1,12 @@
 {
- "labels": ["aggro", "control"],
+ "labels": [
+  "aggro",
+  "control"
+ ],
  "player": "MatthewBk",
  "date": "2024-03-28",
- "wins": 3,
- "losses": 0,
  "games": [],
+ "wins": 3,
  "mainboard": [
   {
    "name": "Arasta of the Endless Web",

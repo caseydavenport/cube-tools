@@ -1,10 +1,12 @@
 {
- "labels": ["control"],
+ "labels": [
+  "control"
+ ],
  "player": "Jan",
  "date": "2024-03-28",
+ "games": [],
  "wins": 1,
  "losses": 2,
- "games": [],
  "mainboard": [
   {
    "name": "Abrade",

@@ -1,10 +1,15 @@
 {
- "labels": ["midrange", "lands", "field-of-the-dead", "titania"],
+ "labels": [
+  "midrange",
+  "lands",
+  "field-of-the-dead",
+  "titania"
+ ],
  "player": "Parker",
  "date": "2024-03-28",
+ "games": [],
  "wins": 2,
  "losses": 1,
- "games": [],
  "mainboard": [
   {
    "name": "Arid Mesa",
