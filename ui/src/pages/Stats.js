@@ -263,6 +263,7 @@ export default function StatsViewer() {
       // If we just loaded the web page, start date will be null.
       // Now that we have loaded all decks, we can default to the last draft.
       setStartDate(d[d.length - 1].draft)
+      setEndDate(d[d.length - 1].draft)
     }
   }
   function onCubeLoad(c) {
