@@ -99,7 +99,7 @@
    ],
    "mana_cost": "{1}{U}",
    "url": "https://scryfall.com/card/tsr/61/delay?utm_source=api",
-   "oracle_text": "Counter target spell. If the spell is countered this way, exile it with three time counters on it instead of putting it into its owner's graveyard. If it doesn't have suspend, it gains suspend. (At the beginning of its owner's upkeep, remove a time counter from that card. When the last is removed, the player plays it without paying its mana cost. If it's a creature, it has haste.)"
+   "oracle_text": "Counter target spell. If the spell is countered this way, exile it with three time counters on it instead of putting it into its owner's graveyard. If it doesn't have suspend, it gains suspend. (At the beginning of its owner's upkeep, they remove a time counter. When the last is removed, they may play it without paying its mana cost. If it's a creature, it has haste.)"
   },
   {
    "name": "Fact or Fiction",
@@ -231,7 +231,7 @@
     "U"
    ],
    "mana_cost": "{U}",
-   "url": "https://scryfall.com/card/afc/79/brainstorm?utm_source=api",
+   "url": "https://scryfall.com/card/mkc/96/brainstorm?utm_source=api",
    "oracle_text": "Draw three cards, then put two cards from your hand on top of your library in any order."
   },
   {
@@ -384,7 +384,7 @@
    "image": "",
    "colors": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/2xm/322/maze-of-ith?utm_source=api",
+   "url": "https://scryfall.com/card/dmr/250/maze-of-ith?utm_source=api",
    "oracle_text": "{T}: Untap target attacking creature. Prevent all combat damage that would be dealt to and dealt by that creature this turn."
   },
   {
@@ -412,7 +412,7 @@
    "image": "",
    "colors": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/grn/259/watery-grave?utm_source=api",
+   "url": "https://scryfall.com/card/rvr/291/watery-grave?utm_source=api",
    "oracle_text": "({T}: Add {U} or {B}.)\nAs Watery Grave enters the battlefield, you may pay 2 life. If you don't, it enters the battlefield tapped."
   },
   {
@@ -428,7 +428,7 @@
    "image": "",
    "colors": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/lci/395/island?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/305/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)",
    "appearances": 3
   },
@@ -445,7 +445,7 @@
    "image": "",
    "colors": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/lci/395/island?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/305/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)",
    "appearances": 3
   },
@@ -462,7 +462,7 @@
    "image": "",
    "colors": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/lci/395/island?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/305/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)",
    "appearances": 3
   },
@@ -479,7 +479,7 @@
    "image": "",
    "colors": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/lci/395/island?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/305/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)",
    "appearances": 3
   },
@@ -496,7 +496,7 @@
    "image": "",
    "colors": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/lci/395/island?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/305/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)",
    "appearances": 3
   },
@@ -513,7 +513,7 @@
    "image": "",
    "colors": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/lci/395/island?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/305/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)",
    "appearances": 3
   },
@@ -530,7 +530,7 @@
    "image": "",
    "colors": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/lci/395/island?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/305/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)",
    "appearances": 3
   },
@@ -547,7 +547,7 @@
    "image": "",
    "colors": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/lci/395/island?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/305/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)",
    "appearances": 3
   },
@@ -564,7 +564,7 @@
    "image": "",
    "colors": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/lci/395/island?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/305/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)",
    "appearances": 3
   },
@@ -581,7 +581,7 @@
    "image": "",
    "colors": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/lci/395/island?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/305/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)",
    "appearances": 3
   },
@@ -598,7 +598,7 @@
    "image": "",
    "colors": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/lci/397/swamp?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/306/swamp?utm_source=api",
    "oracle_text": "({T}: Add {B}.)",
    "appearances": 3
   },
@@ -615,7 +615,7 @@
    "image": "",
    "colors": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/lci/397/swamp?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/306/swamp?utm_source=api",
    "oracle_text": "({T}: Add {B}.)",
    "appearances": 3
   },
@@ -632,7 +632,7 @@
    "image": "",
    "colors": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/lci/397/swamp?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/306/swamp?utm_source=api",
    "oracle_text": "({T}: Add {B}.)",
    "appearances": 3
   },
@@ -649,7 +649,7 @@
    "image": "",
    "colors": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/lci/397/swamp?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/306/swamp?utm_source=api",
    "oracle_text": "({T}: Add {B}.)",
    "appearances": 3
   },
@@ -666,7 +666,7 @@
    "image": "",
    "colors": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/lci/397/swamp?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/306/swamp?utm_source=api",
    "oracle_text": "({T}: Add {B}.)",
    "appearances": 3
   }

@@ -138,7 +138,7 @@
     "U"
    ],
    "mana_cost": "{U}",
-   "url": "https://scryfall.com/card/rna/47/pteramander?utm_source=api",
+   "url": "https://scryfall.com/card/rvr/54/pteramander?utm_source=api",
    "oracle_text": "Flying\n{7}{U}: Adapt 4. This ability costs {1} less to activate for each instant and sorcery card in your graveyard. (If this creature has no +1/+1 counters on it, put four +1/+1 counters on it.)",
    "appearances": 2
   },
@@ -234,7 +234,7 @@
    "image": "",
    "colors": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/ktk/233/flooded-strand?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/220/flooded-strand?utm_source=api",
    "oracle_text": "{T}, Pay 1 life, Sacrifice Flooded Strand: Search your library for a Plains or Island card, put it onto the battlefield, then shuffle.",
    "appearances": 2
   },
@@ -277,7 +277,7 @@
    "image": "",
    "colors": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/cmm/1005/irrigated-farmland?utm_source=api",
+   "url": "https://scryfall.com/card/mkc/267/irrigated-farmland?utm_source=api",
    "oracle_text": "({T}: Add {W} or {U}.)\nIrrigated Farmland enters the battlefield tapped.\nCycling {2} ({2}, Discard this card: Draw a card.)",
    "appearances": 2
   },
@@ -323,7 +323,7 @@
     "W"
    ],
    "mana_cost": "{W}",
-   "url": "https://scryfall.com/card/ddp/7/oust?utm_source=api",
+   "url": "https://scryfall.com/card/clu/67/oust?utm_source=api",
    "oracle_text": "Put target creature into its owner's library second from the top. Its controller gains 3 life.",
    "appearances": 2
   },
@@ -336,7 +336,7 @@
    "image": "",
    "colors": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/lcc/331/fortified-village?utm_source=api",
+   "url": "https://scryfall.com/card/mkc/262/fortified-village?utm_source=api",
    "oracle_text": "As Fortified Village enters the battlefield, you may reveal a Forest or Plains card from your hand. If you don't, Fortified Village enters the battlefield tapped.\n{T}: Add {G} or {W}.",
    "appearances": 2
   },
@@ -444,7 +444,7 @@
    "image": "",
    "colors": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/ktk/248/windswept-heath?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/235/windswept-heath?utm_source=api",
    "oracle_text": "{T}, Pay 1 life, Sacrifice Windswept Heath: Search your library for a Forest or Plains card, put it onto the battlefield, then shuffle.",
    "appearances": 2
   },
@@ -558,7 +558,7 @@
    "image": "",
    "colors": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/lci/393/plains?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/304/plains?utm_source=api",
    "oracle_text": "({T}: Add {W}.)",
    "appearances": 5
   },
@@ -575,7 +575,7 @@
    "image": "",
    "colors": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/lci/393/plains?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/304/plains?utm_source=api",
    "oracle_text": "({T}: Add {W}.)",
    "appearances": 5
   },
@@ -592,7 +592,7 @@
    "image": "",
    "colors": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/lci/393/plains?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/304/plains?utm_source=api",
    "oracle_text": "({T}: Add {W}.)",
    "appearances": 5
   },
@@ -609,7 +609,7 @@
    "image": "",
    "colors": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/lci/395/island?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/305/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)",
    "appearances": 4
   },
@@ -626,7 +626,7 @@
    "image": "",
    "colors": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/lci/395/island?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/305/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)",
    "appearances": 4
   },
@@ -643,7 +643,7 @@
    "image": "",
    "colors": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/lci/395/island?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/305/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)",
    "appearances": 4
   },
@@ -660,7 +660,7 @@
    "image": "",
    "colors": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/lci/401/forest?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/308/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)",
    "appearances": 5
   }
@@ -710,7 +710,7 @@
    "image": "",
    "colors": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/ktk/239/polluted-delta?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/224/polluted-delta?utm_source=api",
    "oracle_text": "{T}, Pay 1 life, Sacrifice Polluted Delta: Search your library for an Island or Swamp card, put it onto the battlefield, then shuffle."
   },
   {

@@ -109,7 +109,7 @@
     "G"
    ],
    "mana_cost": "{3}{G}",
-   "url": "https://scryfall.com/card/c20/196/wilderness-reclamation?utm_source=api",
+   "url": "https://scryfall.com/card/mkc/196/wilderness-reclamation?utm_source=api",
    "oracle_text": "At the beginning of your end step, untap all lands you control."
   },
   {
@@ -135,7 +135,7 @@
     "U"
    ],
    "mana_cost": "{2}{U}",
-   "url": "https://scryfall.com/card/mom/55/epharas-dispersal?utm_source=api",
+   "url": "https://scryfall.com/card/mkc/103/epharas-dispersal?utm_source=api",
    "oracle_text": "This spell costs {2} less to cast if it targets an attacking creature.\nReturn target creature to its owner's hand. Surveil 2. (Look at the top two cards of your library, then put any number of them into your graveyard and the rest on top of your library in any order.)"
   },
   {
@@ -463,7 +463,7 @@
    "image": "",
    "colors": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/lci/395/island?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/305/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)",
    "appearances": 4
   },
@@ -480,7 +480,7 @@
    "image": "",
    "colors": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/lci/395/island?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/305/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)",
    "appearances": 4
   },
@@ -497,7 +497,7 @@
    "image": "",
    "colors": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/lci/395/island?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/305/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)",
    "appearances": 4
   },
@@ -514,7 +514,7 @@
    "image": "",
    "colors": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/lci/395/island?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/305/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)",
    "appearances": 4
   },
@@ -531,7 +531,7 @@
    "image": "",
    "colors": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/lci/395/island?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/305/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)",
    "appearances": 4
   },
@@ -548,7 +548,7 @@
    "image": "",
    "colors": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/lci/395/island?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/305/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)",
    "appearances": 4
   },
@@ -565,7 +565,7 @@
    "image": "",
    "colors": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/lci/395/island?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/305/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)",
    "appearances": 4
   },
@@ -582,7 +582,7 @@
    "image": "",
    "colors": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/lci/401/forest?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/308/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)",
    "appearances": 5
   },
@@ -599,7 +599,7 @@
    "image": "",
    "colors": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/lci/401/forest?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/308/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)",
    "appearances": 5
   },
@@ -616,7 +616,7 @@
    "image": "",
    "colors": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/lci/401/forest?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/308/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)",
    "appearances": 5
   },
@@ -633,7 +633,7 @@
    "image": "",
    "colors": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/lci/401/forest?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/308/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)",
    "appearances": 5
   },
@@ -650,7 +650,7 @@
    "image": "",
    "colors": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/lci/401/forest?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/308/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)",
    "appearances": 5
   },
@@ -667,7 +667,7 @@
    "image": "",
    "colors": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/lci/401/forest?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/308/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)",
    "appearances": 5
   },
@@ -684,7 +684,7 @@
    "image": "",
    "colors": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/lci/401/forest?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/308/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)",
    "appearances": 5
   }
@@ -707,7 +707,7 @@
    ],
    "mana_cost": "{2}{U}{B}",
    "url": "https://scryfall.com/card/lcc/271/hostage-taker?utm_source=api",
-   "oracle_text": "When Hostage Taker enters the battlefield, exile another target creature or artifact until Hostage Taker leaves the battlefield. You may cast that card for as long as it remains exiled, and mana of any type can be spent to cast it."
+   "oracle_text": "When Hostage Taker enters the battlefield, exile another target creature or artifact until Hostage Taker leaves the battlefield. You may cast that card for as long as it remains exiled, and mana of any type can be spent to cast that spell."
   },
   {
    "name": "Bonesplitter",
@@ -1020,7 +1020,7 @@
     "U"
    ],
    "mana_cost": "{U}",
-   "url": "https://scryfall.com/card/dds/6/quicken?utm_source=api",
+   "url": "https://scryfall.com/card/rvr/57/quicken?utm_source=api",
    "oracle_text": "The next sorcery spell you cast this turn can be cast as though it had flash. (It can be cast any time you could cast an instant.)\nDraw a card."
   }
  ]

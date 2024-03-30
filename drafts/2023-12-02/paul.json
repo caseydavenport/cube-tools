@@ -417,7 +417,7 @@
     "G"
    ],
    "mana_cost": "{1}{G}",
-   "url": "https://scryfall.com/card/cmm/299/jolrael-mwonvuli-recluse?utm_source=api",
+   "url": "https://scryfall.com/card/mkc/173/jolrael-mwonvuli-recluse?utm_source=api",
    "oracle_text": "Whenever you draw your second card each turn, create a 2/2 green Cat creature token.\n{4}{G}{G}: Until end of turn, creatures you control have base power and toughness X/X, where X is the number of cards in your hand.",
    "appearances": 7
   },
@@ -454,7 +454,7 @@
    "image": "",
    "colors": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/lci/393/plains?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/304/plains?utm_source=api",
    "oracle_text": "({T}: Add {W}.)",
    "appearances": 21
   },
@@ -471,7 +471,7 @@
    "image": "",
    "colors": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/lci/393/plains?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/304/plains?utm_source=api",
    "oracle_text": "({T}: Add {W}.)",
    "appearances": 21
   },
@@ -488,7 +488,7 @@
    "image": "",
    "colors": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/lci/393/plains?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/304/plains?utm_source=api",
    "oracle_text": "({T}: Add {W}.)",
    "appearances": 21
   },
@@ -505,7 +505,7 @@
    "image": "",
    "colors": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/lci/393/plains?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/304/plains?utm_source=api",
    "oracle_text": "({T}: Add {W}.)",
    "appearances": 21
   },
@@ -522,7 +522,7 @@
    "image": "",
    "colors": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/lci/393/plains?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/304/plains?utm_source=api",
    "oracle_text": "({T}: Add {W}.)",
    "appearances": 21
   },
@@ -539,7 +539,7 @@
    "image": "",
    "colors": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/lci/393/plains?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/304/plains?utm_source=api",
    "oracle_text": "({T}: Add {W}.)",
    "appearances": 21
   },
@@ -556,7 +556,7 @@
    "image": "",
    "colors": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/lci/393/plains?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/304/plains?utm_source=api",
    "oracle_text": "({T}: Add {W}.)",
    "appearances": 21
   },
@@ -573,7 +573,7 @@
    "image": "",
    "colors": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/lci/393/plains?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/304/plains?utm_source=api",
    "oracle_text": "({T}: Add {W}.)",
    "appearances": 21
   },
@@ -590,7 +590,7 @@
    "image": "",
    "colors": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/lci/393/plains?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/304/plains?utm_source=api",
    "oracle_text": "({T}: Add {W}.)",
    "appearances": 21
   },
@@ -607,7 +607,7 @@
    "image": "",
    "colors": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/lci/393/plains?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/304/plains?utm_source=api",
    "oracle_text": "({T}: Add {W}.)",
    "appearances": 21
   },
@@ -624,7 +624,7 @@
    "image": "",
    "colors": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/lci/393/plains?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/304/plains?utm_source=api",
    "oracle_text": "({T}: Add {W}.)",
    "appearances": 21
   },
@@ -641,7 +641,7 @@
    "image": "",
    "colors": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/lci/401/forest?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/308/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)",
    "appearances": 20
   },
@@ -658,7 +658,7 @@
    "image": "",
    "colors": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/lci/401/forest?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/308/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)",
    "appearances": 20
   },
@@ -675,7 +675,7 @@
    "image": "",
    "colors": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/lci/401/forest?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/308/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)",
    "appearances": 20
   },
@@ -692,7 +692,7 @@
    "image": "",
    "colors": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/lci/401/forest?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/308/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)",
    "appearances": 20
   },
@@ -709,7 +709,7 @@
    "image": "",
    "colors": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/lci/401/forest?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/308/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)",
    "appearances": 20
   },
@@ -726,7 +726,7 @@
    "image": "",
    "colors": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/lci/401/forest?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/308/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)",
    "appearances": 20
   }
@@ -745,7 +745,7 @@
    "image": "",
    "colors": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/grn/259/watery-grave?utm_source=api",
+   "url": "https://scryfall.com/card/rvr/291/watery-grave?utm_source=api",
    "oracle_text": "({T}: Add {U} or {B}.)\nAs Watery Grave enters the battlefield, you may pay 2 life. If you don't, it enters the battlefield tapped."
   },
   {
@@ -937,7 +937,7 @@
    "image": "",
    "colors": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/lcc/321/canopy-vista?utm_source=api",
+   "url": "https://scryfall.com/card/mkc/252/canopy-vista?utm_source=api",
    "oracle_text": "({T}: Add {G} or {W}.)\nCanopy Vista enters the battlefield tapped unless you control two or more basic lands."
   },
   {
@@ -953,7 +953,7 @@
    "image": "",
    "colors": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/cmm/1026/scattered-groves?utm_source=api",
+   "url": "https://scryfall.com/card/mkc/286/scattered-groves?utm_source=api",
    "oracle_text": "({T}: Add {G} or {W}.)\nScattered Groves enters the battlefield tapped.\nCycling {2} ({2}, Discard this card: Draw a card.)"
   },
   {
@@ -1020,7 +1020,7 @@
     "W"
    ],
    "mana_cost": "{1}{W/U}",
-   "url": "https://scryfall.com/card/uma/224/turn-to-mist?utm_source=api",
+   "url": "https://scryfall.com/card/clu/214/turn-to-mist?utm_source=api",
    "oracle_text": "Exile target creature. Return that card to the battlefield under its owner's control at the beginning of the next end step."
   },
   {
@@ -1065,7 +1065,7 @@
     "W"
    ],
    "mana_cost": "{W}",
-   "url": "https://scryfall.com/card/ddp/7/oust?utm_source=api",
+   "url": "https://scryfall.com/card/clu/67/oust?utm_source=api",
    "oracle_text": "Put target creature into its owner's library second from the top. Its controller gains 3 life."
   },
   {

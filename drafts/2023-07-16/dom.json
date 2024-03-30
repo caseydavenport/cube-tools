@@ -67,7 +67,7 @@
     "U"
    ],
    "mana_cost": "{3}{U}{R}",
-   "url": "https://scryfall.com/card/ima/201/hypersonic-dragon?utm_source=api",
+   "url": "https://scryfall.com/card/clu/196/hypersonic-dragon?utm_source=api",
    "oracle_text": "Flying, haste\nYou may cast sorcery spells as though they had flash. (You may cast them any time you could cast an instant.)"
   },
   {
@@ -210,7 +210,7 @@
     "R"
    ],
    "mana_cost": "{2}{R}",
-   "url": "https://scryfall.com/card/cmm/229/guttersnipe?utm_source=api",
+   "url": "https://scryfall.com/card/rvr/110/guttersnipe?utm_source=api",
    "oracle_text": "Whenever you cast an instant or sorcery spell, Guttersnipe deals 2 damage to each opponent."
   },
   {
@@ -311,7 +311,7 @@
     "U"
    ],
    "mana_cost": "{U}",
-   "url": "https://scryfall.com/card/rna/47/pteramander?utm_source=api",
+   "url": "https://scryfall.com/card/rvr/54/pteramander?utm_source=api",
    "oracle_text": "Flying\n{7}{U}: Adapt 4. This ability costs {1} less to activate for each instant and sorcery card in your graveyard. (If this creature has no +1/+1 counters on it, put four +1/+1 counters on it.)"
   },
   {
@@ -339,7 +339,7 @@
     "U"
    ],
    "mana_cost": "{U}",
-   "url": "https://scryfall.com/card/afc/79/brainstorm?utm_source=api",
+   "url": "https://scryfall.com/card/mkc/96/brainstorm?utm_source=api",
    "oracle_text": "Draw three cards, then put two cards from your hand on top of your library in any order."
   },
   {
@@ -431,7 +431,7 @@
    "image": "",
    "colors": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/lci/395/island?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/305/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)"
   },
   {
@@ -447,7 +447,7 @@
    "image": "",
    "colors": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/lci/395/island?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/305/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)"
   },
   {
@@ -463,7 +463,7 @@
    "image": "",
    "colors": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/lci/395/island?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/305/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)"
   },
   {
@@ -479,7 +479,7 @@
    "image": "",
    "colors": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/lci/395/island?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/305/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)"
   },
   {
@@ -495,7 +495,7 @@
    "image": "",
    "colors": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/lci/395/island?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/305/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)"
   },
   {
@@ -511,7 +511,7 @@
    "image": "",
    "colors": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/lci/395/island?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/305/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)"
   },
   {
@@ -527,7 +527,7 @@
    "image": "",
    "colors": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/lci/395/island?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/305/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)"
   },
   {
@@ -543,7 +543,7 @@
    "image": "",
    "colors": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/lci/395/island?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/305/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)"
   },
   {
@@ -559,7 +559,7 @@
    "image": "",
    "colors": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/lci/395/island?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/305/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)"
   },
   {
@@ -575,7 +575,7 @@
    "image": "",
    "colors": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/lci/395/island?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/305/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)"
   },
   {
@@ -591,7 +591,7 @@
    "image": "",
    "colors": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/lci/395/island?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/305/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)"
   },
   {
@@ -607,7 +607,7 @@
    "image": "",
    "colors": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/lci/399/mountain?utm_source=api",
+   "url": "https://scryfall.com/card/blb/274/mountain?utm_source=api",
    "oracle_text": "({T}: Add {R}.)"
   },
   {
@@ -623,7 +623,7 @@
    "image": "",
    "colors": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/lci/399/mountain?utm_source=api",
+   "url": "https://scryfall.com/card/blb/274/mountain?utm_source=api",
    "oracle_text": "({T}: Add {R}.)"
   },
   {
@@ -639,7 +639,7 @@
    "image": "",
    "colors": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/lci/399/mountain?utm_source=api",
+   "url": "https://scryfall.com/card/blb/274/mountain?utm_source=api",
    "oracle_text": "({T}: Add {R}.)"
   },
   {
@@ -655,7 +655,7 @@
    "image": "",
    "colors": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/lci/399/mountain?utm_source=api",
+   "url": "https://scryfall.com/card/blb/274/mountain?utm_source=api",
    "oracle_text": "({T}: Add {R}.)"
   }
  ],
@@ -701,7 +701,7 @@
    "image": "",
    "colors": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/lcc/322/choked-estuary?utm_source=api",
+   "url": "https://scryfall.com/card/mkc/254/choked-estuary?utm_source=api",
    "oracle_text": "As Choked Estuary enters the battlefield, you may reveal an Island or Swamp card from your hand. If you don't, Choked Estuary enters the battlefield tapped.\n{T}: Add {U} or {B}."
   },
   {
@@ -802,7 +802,7 @@
     "U"
    ],
    "mana_cost": "{1}{U/B}{U/B}",
-   "url": "https://scryfall.com/card/grn/220/whisper-agent?utm_source=api",
+   "url": "https://scryfall.com/card/clu/218/whisper-agent?utm_source=api",
    "oracle_text": "Flash\nWhen Whisper Agent enters the battlefield, surveil 1. (Look at the top card of your library. You may put it into your graveyard.)"
   },
   {

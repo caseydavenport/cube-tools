@@ -108,7 +108,7 @@
     "R"
    ],
    "mana_cost": "{1}{B}{R}",
-   "url": "https://scryfall.com/card/war/204/mayhem-devil?utm_source=api",
+   "url": "https://scryfall.com/card/rvr/199/mayhem-devil?utm_source=api",
    "oracle_text": "Whenever a player sacrifices a permanent, Mayhem Devil deals 1 damage to any target.",
    "appearances": 4
   },
@@ -280,7 +280,7 @@
    "image": "",
    "colors": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/ktk/230/bloodstained-mire?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/216/bloodstained-mire?utm_source=api",
    "oracle_text": "{T}, Pay 1 life, Sacrifice Bloodstained Mire: Search your library for a Swamp or Mountain card, put it onto the battlefield, then shuffle.",
    "appearances": 2
   },
@@ -299,7 +299,7 @@
     "R"
    ],
    "mana_cost": "{1}{R}",
-   "url": "https://scryfall.com/card/tsr/176/mogg-war-marshal?utm_source=api",
+   "url": "https://scryfall.com/card/dmr/131/mogg-war-marshal?utm_source=api",
    "oracle_text": "Echo {1}{R} (At the beginning of your upkeep, if this came under your control since the beginning of your last upkeep, sacrifice it unless you pay its echo cost.)\nWhen Mogg War Marshal enters the battlefield or dies, create a 1/1 red Goblin creature token.",
    "appearances": 1
   },
@@ -365,7 +365,7 @@
     "R"
    ],
    "mana_cost": "{2}{R}",
-   "url": "https://scryfall.com/card/cmm/229/guttersnipe?utm_source=api",
+   "url": "https://scryfall.com/card/rvr/110/guttersnipe?utm_source=api",
    "oracle_text": "Whenever you cast an instant or sorcery spell, Guttersnipe deals 2 damage to each opponent."
   },
   {
@@ -503,9 +503,9 @@
    "image": "",
    "colors": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/lci/397/swamp?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/306/swamp?utm_source=api",
    "oracle_text": "({T}: Add {B}.)",
-   "appearances": 22
+   "appearances": 26
   },
   {
    "name": "Swamp",
@@ -520,9 +520,9 @@
    "image": "",
    "colors": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/lci/397/swamp?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/306/swamp?utm_source=api",
    "oracle_text": "({T}: Add {B}.)",
-   "appearances": 22
+   "appearances": 26
   },
   {
    "name": "Swamp",
@@ -537,9 +537,9 @@
    "image": "",
    "colors": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/lci/397/swamp?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/306/swamp?utm_source=api",
    "oracle_text": "({T}: Add {B}.)",
-   "appearances": 22
+   "appearances": 26
   },
   {
    "name": "Swamp",
@@ -554,9 +554,9 @@
    "image": "",
    "colors": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/lci/397/swamp?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/306/swamp?utm_source=api",
    "oracle_text": "({T}: Add {B}.)",
-   "appearances": 22
+   "appearances": 26
   },
   {
    "name": "Swamp",
@@ -571,8 +571,25 @@
    "image": "",
    "colors": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/lci/397/swamp?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/306/swamp?utm_source=api",
    "oracle_text": "({T}: Add {B}.)",
+   "appearances": 26
+  },
+  {
+   "name": "Mountain",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Mountain"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/blb/274/mountain?utm_source=api",
+   "oracle_text": "({T}: Add {R}.)",
    "appearances": 22
   },
   {
@@ -588,9 +605,9 @@
    "image": "",
    "colors": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/lci/399/mountain?utm_source=api",
+   "url": "https://scryfall.com/card/blb/274/mountain?utm_source=api",
    "oracle_text": "({T}: Add {R}.)",
-   "appearances": 21
+   "appearances": 22
   },
   {
    "name": "Mountain",
@@ -605,9 +622,9 @@
    "image": "",
    "colors": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/lci/399/mountain?utm_source=api",
+   "url": "https://scryfall.com/card/blb/274/mountain?utm_source=api",
    "oracle_text": "({T}: Add {R}.)",
-   "appearances": 21
+   "appearances": 22
   },
   {
    "name": "Mountain",
@@ -622,9 +639,9 @@
    "image": "",
    "colors": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/lci/399/mountain?utm_source=api",
+   "url": "https://scryfall.com/card/blb/274/mountain?utm_source=api",
    "oracle_text": "({T}: Add {R}.)",
-   "appearances": 21
+   "appearances": 22
   },
   {
    "name": "Mountain",
@@ -639,9 +656,9 @@
    "image": "",
    "colors": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/lci/399/mountain?utm_source=api",
+   "url": "https://scryfall.com/card/blb/274/mountain?utm_source=api",
    "oracle_text": "({T}: Add {R}.)",
-   "appearances": 21
+   "appearances": 22
   },
   {
    "name": "Mountain",
@@ -656,9 +673,9 @@
    "image": "",
    "colors": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/lci/399/mountain?utm_source=api",
+   "url": "https://scryfall.com/card/blb/274/mountain?utm_source=api",
    "oracle_text": "({T}: Add {R}.)",
-   "appearances": 21
+   "appearances": 22
   },
   {
    "name": "Mountain",
@@ -673,9 +690,9 @@
    "image": "",
    "colors": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/lci/399/mountain?utm_source=api",
+   "url": "https://scryfall.com/card/blb/274/mountain?utm_source=api",
    "oracle_text": "({T}: Add {R}.)",
-   "appearances": 21
+   "appearances": 22
   },
   {
    "name": "Mountain",
@@ -690,9 +707,9 @@
    "image": "",
    "colors": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/lci/399/mountain?utm_source=api",
+   "url": "https://scryfall.com/card/blb/274/mountain?utm_source=api",
    "oracle_text": "({T}: Add {R}.)",
-   "appearances": 21
+   "appearances": 22
   },
   {
    "name": "Mountain",
@@ -707,26 +724,9 @@
    "image": "",
    "colors": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/lci/399/mountain?utm_source=api",
+   "url": "https://scryfall.com/card/blb/274/mountain?utm_source=api",
    "oracle_text": "({T}: Add {R}.)",
-   "appearances": 21
-  },
-  {
-   "name": "Mountain",
-   "types": [
-    "Basic",
-    "Land"
-   ],
-   "sub_types": [
-    "Mountain"
-   ],
-   "cmc": 0,
-   "image": "",
-   "colors": [],
-   "mana_cost": "",
-   "url": "https://scryfall.com/card/lci/399/mountain?utm_source=api",
-   "oracle_text": "({T}: Add {R}.)",
-   "appearances": 21
+   "appearances": 22
   }
  ],
  "sideboard": [
@@ -745,7 +745,7 @@
     "U"
    ],
    "mana_cost": "{2}{U}{U}",
-   "url": "https://scryfall.com/card/neo/84/tezzeret-betrayer-of-flesh?utm_source=api",
+   "url": "https://scryfall.com/card/mkc/120/tezzeret-betrayer-of-flesh?utm_source=api",
    "oracle_text": "The first activated ability of an artifact you activate each turn costs {2} less to activate.\n+1: Draw two cards. Then discard two cards unless you discard an artifact card.\n−2: Target artifact becomes an artifact creature. If it isn't a Vehicle, it has base power and toughness 4/4.\n−6: You get an emblem with \"Whenever an artifact you control becomes tapped, draw a card.\""
   },
   {

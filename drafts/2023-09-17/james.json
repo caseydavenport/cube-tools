@@ -31,7 +31,7 @@
     "R"
    ],
    "mana_cost": "{R}",
-   "url": "https://scryfall.com/card/2x2/117/lightning-bolt?utm_source=api",
+   "url": "https://scryfall.com/card/clu/141/lightning-bolt?utm_source=api",
    "oracle_text": "Lightning Bolt deals 3 damage to any target."
   },
   {
@@ -77,7 +77,7 @@
    "image": "",
    "colors": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/grn/254/sacred-foundry?utm_source=api",
+   "url": "https://scryfall.com/card/rvr/285/sacred-foundry?utm_source=api",
    "oracle_text": "({T}: Add {R} or {W}.)\nAs Sacred Foundry enters the battlefield, you may pay 2 life. If you don't, it enters the battlefield tapped.",
    "appearances": 1
   },
@@ -176,7 +176,7 @@
     "W"
    ],
    "mana_cost": "{W}",
-   "url": "https://scryfall.com/card/lcc/134/path-to-exile?utm_source=api",
+   "url": "https://scryfall.com/card/mkc/78/path-to-exile?utm_source=api",
    "oracle_text": "Exile target creature. Its controller may search their library for a basic land card, put that card onto the battlefield tapped, then shuffle."
   },
   {
@@ -251,7 +251,7 @@
    "image": "",
    "colors": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/rna/245/blood-crypt?utm_source=api",
+   "url": "https://scryfall.com/card/rvr/273/blood-crypt?utm_source=api",
    "oracle_text": "({T}: Add {B} or {R}.)\nAs Blood Crypt enters the battlefield, you may pay 2 life. If you don't, it enters the battlefield tapped.",
    "appearances": 1
   },
@@ -418,7 +418,7 @@
     "R"
    ],
    "mana_cost": "{R}",
-   "url": "https://scryfall.com/card/jmp/302/chain-lightning?utm_source=api",
+   "url": "https://scryfall.com/card/dmr/113/chain-lightning?utm_source=api",
    "oracle_text": "Chain Lightning deals 3 damage to any target. Then that player or that permanent's controller may pay {R}{R}. If the player does, they may copy this spell and may choose a new target for that copy.",
    "appearances": 1
   },
@@ -431,7 +431,7 @@
    "image": "",
    "colors": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/ktk/230/bloodstained-mire?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/216/bloodstained-mire?utm_source=api",
    "oracle_text": "{T}, Pay 1 life, Sacrifice Bloodstained Mire: Search your library for a Swamp or Mountain card, put it onto the battlefield, then shuffle."
   },
   {
@@ -443,7 +443,7 @@
    "image": "",
    "colors": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/lcc/333/furycalm-snarl?utm_source=api",
+   "url": "https://scryfall.com/card/mkc/263/furycalm-snarl?utm_source=api",
    "oracle_text": "As Furycalm Snarl enters the battlefield, you may reveal a Mountain or Plains card from your hand. If you don't, Furycalm Snarl enters the battlefield tapped.\n{T}: Add {R} or {W}.",
    "appearances": 1
   },
@@ -538,7 +538,7 @@
    "image": "",
    "colors": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/lci/393/plains?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/304/plains?utm_source=api",
    "oracle_text": "({T}: Add {W}.)",
    "appearances": 4
   },
@@ -555,7 +555,7 @@
    "image": "",
    "colors": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/lci/393/plains?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/304/plains?utm_source=api",
    "oracle_text": "({T}: Add {W}.)",
    "appearances": 4
   },
@@ -572,7 +572,7 @@
    "image": "",
    "colors": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/lci/397/swamp?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/306/swamp?utm_source=api",
    "oracle_text": "({T}: Add {B}.)",
    "appearances": 3
   },
@@ -589,7 +589,7 @@
    "image": "",
    "colors": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/lci/397/swamp?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/306/swamp?utm_source=api",
    "oracle_text": "({T}: Add {B}.)",
    "appearances": 3
   },
@@ -606,7 +606,7 @@
    "image": "",
    "colors": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/lci/397/swamp?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/306/swamp?utm_source=api",
    "oracle_text": "({T}: Add {B}.)",
    "appearances": 3
   },
@@ -623,7 +623,7 @@
    "image": "",
    "colors": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/lci/399/mountain?utm_source=api",
+   "url": "https://scryfall.com/card/blb/274/mountain?utm_source=api",
    "oracle_text": "({T}: Add {R}.)",
    "appearances": 4
   },
@@ -640,7 +640,7 @@
    "image": "",
    "colors": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/lci/399/mountain?utm_source=api",
+   "url": "https://scryfall.com/card/blb/274/mountain?utm_source=api",
    "oracle_text": "({T}: Add {R}.)",
    "appearances": 4
   },
@@ -657,7 +657,7 @@
    "image": "",
    "colors": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/lci/399/mountain?utm_source=api",
+   "url": "https://scryfall.com/card/blb/274/mountain?utm_source=api",
    "oracle_text": "({T}: Add {R}.)",
    "appearances": 4
   }
@@ -894,7 +894,7 @@
     "R"
    ],
    "mana_cost": "{1}{R}",
-   "url": "https://scryfall.com/card/tsr/176/mogg-war-marshal?utm_source=api",
+   "url": "https://scryfall.com/card/dmr/131/mogg-war-marshal?utm_source=api",
    "oracle_text": "Echo {1}{R} (At the beginning of your upkeep, if this came under your control since the beginning of your last upkeep, sacrifice it unless you pay its echo cost.)\nWhen Mogg War Marshal enters the battlefield or dies, create a 1/1 red Goblin creature token."
   },
   {

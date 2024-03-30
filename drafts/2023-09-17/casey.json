@@ -80,7 +80,7 @@
    "image": "",
    "colors": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/ktk/233/flooded-strand?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/220/flooded-strand?utm_source=api",
    "oracle_text": "{T}, Pay 1 life, Sacrifice Flooded Strand: Search your library for a Plains or Island card, put it onto the battlefield, then shuffle.",
    "appearances": 1
   },
@@ -456,7 +456,7 @@
    "image": "",
    "colors": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/lci/393/plains?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/304/plains?utm_source=api",
    "oracle_text": "({T}: Add {W}.)",
    "appearances": 4
   },
@@ -473,7 +473,7 @@
    "image": "",
    "colors": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/lci/393/plains?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/304/plains?utm_source=api",
    "oracle_text": "({T}: Add {W}.)",
    "appearances": 4
   },
@@ -490,7 +490,7 @@
    "image": "",
    "colors": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/lci/393/plains?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/304/plains?utm_source=api",
    "oracle_text": "({T}: Add {W}.)",
    "appearances": 4
   },
@@ -507,7 +507,7 @@
    "image": "",
    "colors": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/lci/393/plains?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/304/plains?utm_source=api",
    "oracle_text": "({T}: Add {W}.)",
    "appearances": 4
   },
@@ -524,7 +524,7 @@
    "image": "",
    "colors": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/lci/393/plains?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/304/plains?utm_source=api",
    "oracle_text": "({T}: Add {W}.)",
    "appearances": 4
   },
@@ -541,7 +541,7 @@
    "image": "",
    "colors": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/lci/393/plains?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/304/plains?utm_source=api",
    "oracle_text": "({T}: Add {W}.)",
    "appearances": 4
   },
@@ -558,7 +558,7 @@
    "image": "",
    "colors": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/lci/393/plains?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/304/plains?utm_source=api",
    "oracle_text": "({T}: Add {W}.)",
    "appearances": 4
   },
@@ -575,7 +575,7 @@
    "image": "",
    "colors": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/lci/393/plains?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/304/plains?utm_source=api",
    "oracle_text": "({T}: Add {W}.)",
    "appearances": 4
   },
@@ -592,7 +592,7 @@
    "image": "",
    "colors": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/lci/395/island?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/305/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)",
    "appearances": 3
   },
@@ -609,7 +609,7 @@
    "image": "",
    "colors": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/lci/395/island?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/305/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)",
    "appearances": 3
   },
@@ -626,7 +626,7 @@
    "image": "",
    "colors": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/lci/395/island?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/305/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)",
    "appearances": 3
   },
@@ -643,7 +643,7 @@
    "image": "",
    "colors": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/lci/395/island?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/305/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)",
    "appearances": 3
   },
@@ -660,7 +660,7 @@
    "image": "",
    "colors": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/lci/395/island?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/305/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)",
    "appearances": 3
   },
@@ -677,7 +677,7 @@
    "image": "",
    "colors": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/lci/395/island?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/305/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)",
    "appearances": 3
   },
@@ -694,7 +694,7 @@
    "image": "",
    "colors": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/lci/395/island?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/305/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)",
    "appearances": 3
   }
@@ -941,7 +941,7 @@
     "G"
    ],
    "mana_cost": "{G}",
-   "url": "https://scryfall.com/card/afc/172/utopia-sprawl?utm_source=api",
+   "url": "https://scryfall.com/card/rvr/159/utopia-sprawl?utm_source=api",
    "oracle_text": "Enchant Forest\nAs Utopia Sprawl enters the battlefield, choose a color.\nWhenever enchanted Forest is tapped for mana, its controller adds an additional one mana of the chosen color."
   },
   {
@@ -1052,7 +1052,7 @@
    "image": "",
    "colors": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/lcc/331/fortified-village?utm_source=api",
+   "url": "https://scryfall.com/card/mkc/262/fortified-village?utm_source=api",
    "oracle_text": "As Fortified Village enters the battlefield, you may reveal a Forest or Plains card from your hand. If you don't, Fortified Village enters the battlefield tapped.\n{T}: Add {G} or {W}."
   },
   {
@@ -1068,7 +1068,7 @@
    "image": "",
    "colors": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/rna/246/breeding-pool?utm_source=api",
+   "url": "https://scryfall.com/card/rvr/275/breeding-pool?utm_source=api",
    "oracle_text": "({T}: Add {G} or {U}.)\nAs Breeding Pool enters the battlefield, you may pay 2 life. If you don't, it enters the battlefield tapped."
   }
  ]

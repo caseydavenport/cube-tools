@@ -37,7 +37,7 @@
     "G"
    ],
    "mana_cost": "{3}{G}",
-   "url": "https://scryfall.com/card/c20/196/wilderness-reclamation?utm_source=api",
+   "url": "https://scryfall.com/card/mkc/196/wilderness-reclamation?utm_source=api",
    "oracle_text": "At the beginning of your end step, untap all lands you control."
   },
   {
@@ -172,7 +172,7 @@
    "image": "",
    "colors": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/cmm/1005/irrigated-farmland?utm_source=api",
+   "url": "https://scryfall.com/card/mkc/267/irrigated-farmland?utm_source=api",
    "oracle_text": "({T}: Add {W} or {U}.)\nIrrigated Farmland enters the battlefield tapped.\nCycling {2} ({2}, Discard this card: Draw a card.)"
   },
   {
@@ -186,7 +186,7 @@
     "W"
    ],
    "mana_cost": "{W}",
-   "url": "https://scryfall.com/card/ddp/7/oust?utm_source=api",
+   "url": "https://scryfall.com/card/clu/67/oust?utm_source=api",
    "oracle_text": "Put target creature into its owner's library second from the top. Its controller gains 3 life."
   },
   {
@@ -285,7 +285,7 @@
     "U"
    ],
    "mana_cost": "{U}",
-   "url": "https://scryfall.com/card/afc/79/brainstorm?utm_source=api",
+   "url": "https://scryfall.com/card/mkc/96/brainstorm?utm_source=api",
    "oracle_text": "Draw three cards, then put two cards from your hand on top of your library in any order."
   },
   {
@@ -367,7 +367,7 @@
    ],
    "mana_cost": "{1}{U}",
    "url": "https://scryfall.com/card/tsr/61/delay?utm_source=api",
-   "oracle_text": "Counter target spell. If the spell is countered this way, exile it with three time counters on it instead of putting it into its owner's graveyard. If it doesn't have suspend, it gains suspend. (At the beginning of its owner's upkeep, remove a time counter from that card. When the last is removed, the player plays it without paying its mana cost. If it's a creature, it has haste.)"
+   "oracle_text": "Counter target spell. If the spell is countered this way, exile it with three time counters on it instead of putting it into its owner's graveyard. If it doesn't have suspend, it gains suspend. (At the beginning of its owner's upkeep, they remove a time counter. When the last is removed, they may play it without paying its mana cost. If it's a creature, it has haste.)"
   },
   {
    "name": "Reveillark",
@@ -475,7 +475,7 @@
    "image": "",
    "colors": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/lci/393/plains?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/304/plains?utm_source=api",
    "oracle_text": "({T}: Add {W}.)"
   },
   {
@@ -491,7 +491,7 @@
    "image": "",
    "colors": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/lci/393/plains?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/304/plains?utm_source=api",
    "oracle_text": "({T}: Add {W}.)"
   },
   {
@@ -507,7 +507,7 @@
    "image": "",
    "colors": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/lci/393/plains?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/304/plains?utm_source=api",
    "oracle_text": "({T}: Add {W}.)"
   },
   {
@@ -523,7 +523,7 @@
    "image": "",
    "colors": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/lci/393/plains?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/304/plains?utm_source=api",
    "oracle_text": "({T}: Add {W}.)"
   },
   {
@@ -539,7 +539,7 @@
    "image": "",
    "colors": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/lci/395/island?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/305/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)"
   },
   {
@@ -555,7 +555,7 @@
    "image": "",
    "colors": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/lci/395/island?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/305/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)"
   },
   {
@@ -571,7 +571,7 @@
    "image": "",
    "colors": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/lci/395/island?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/305/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)"
   },
   {
@@ -587,7 +587,7 @@
    "image": "",
    "colors": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/lci/395/island?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/305/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)"
   },
   {
@@ -603,7 +603,7 @@
    "image": "",
    "colors": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/lci/401/forest?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/308/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)"
   },
   {
@@ -619,7 +619,7 @@
    "image": "",
    "colors": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/lci/401/forest?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/308/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)"
   },
   {
@@ -635,7 +635,7 @@
    "image": "",
    "colors": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/lci/401/forest?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/308/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)"
   },
   {
@@ -651,7 +651,7 @@
    "image": "",
    "colors": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/lci/401/forest?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/308/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)"
   }
  ],
@@ -770,7 +770,7 @@
    "image": "",
    "colors": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/dom/248/woodland-cemetery?utm_source=api",
+   "url": "https://scryfall.com/card/dmr/261/woodland-cemetery?utm_source=api",
    "oracle_text": "Woodland Cemetery enters the battlefield tapped unless you control a Swamp or a Forest.\n{T}: Add {B} or {G}."
   },
   {
@@ -786,7 +786,7 @@
    "image": "",
    "colors": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/rna/248/godless-shrine?utm_source=api",
+   "url": "https://scryfall.com/card/rvr/277/godless-shrine?utm_source=api",
    "oracle_text": "({T}: Add {W} or {B}.)\nAs Godless Shrine enters the battlefield, you may pay 2 life. If you don't, it enters the battlefield tapped."
   },
   {
@@ -952,7 +952,7 @@
     "W"
    ],
    "mana_cost": "{1}{W}",
-   "url": "https://scryfall.com/card/war/4/ajanis-pridemate?utm_source=api",
+   "url": "https://scryfall.com/card/clu/52/ajanis-pridemate?utm_source=api",
    "oracle_text": "Whenever you gain life, put a +1/+1 counter on Ajani's Pridemate."
   },
   {
@@ -998,7 +998,7 @@
     "G"
    ],
    "mana_cost": "{G}",
-   "url": "https://scryfall.com/card/2xm/161/crop-rotation?utm_source=api",
+   "url": "https://scryfall.com/card/dmr/154/crop-rotation?utm_source=api",
    "oracle_text": "As an additional cost to cast this spell, sacrifice a land.\nSearch your library for a land card, put that card onto the battlefield, then shuffle."
   }
  ]

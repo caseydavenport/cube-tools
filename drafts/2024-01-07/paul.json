@@ -48,7 +48,7 @@
    "image": "",
    "colors": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/2xm/322/maze-of-ith?utm_source=api",
+   "url": "https://scryfall.com/card/dmr/250/maze-of-ith?utm_source=api",
    "oracle_text": "{T}: Untap target attacking creature. Prevent all combat damage that would be dealt to and dealt by that creature this turn.",
    "appearances": 5
   },
@@ -83,7 +83,7 @@
    "image": "",
    "colors": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/rna/259/stomping-ground?utm_source=api",
+   "url": "https://scryfall.com/card/rvr/289/stomping-ground?utm_source=api",
    "oracle_text": "({T}: Add {R} or {G}.)\nAs Stomping Ground enters the battlefield, you may pay 2 life. If you don't, it enters the battlefield tapped.",
    "appearances": 4
   },
@@ -135,7 +135,7 @@
    "image": "",
    "colors": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/cmm/1032/sheltered-thicket?utm_source=api",
+   "url": "https://scryfall.com/card/mkc/291/sheltered-thicket?utm_source=api",
    "oracle_text": "({T}: Add {R} or {G}.)\nSheltered Thicket enters the battlefield tapped.\nCycling {2} ({2}, Discard this card: Draw a card.)",
    "appearances": 3
   },
@@ -192,7 +192,7 @@
    "mana_cost": "{R}",
    "url": "https://scryfall.com/card/neo/158/reinforced-ronin?utm_source=api",
    "oracle_text": "Haste\nAt the beginning of your end step, return Reinforced Ronin to its owner's hand.\nChannel — {1}{R}, Discard Reinforced Ronin: Draw a card.",
-   "appearances": 4
+   "appearances": 5
   },
   {
    "name": "Wooded Foothills",
@@ -203,7 +203,7 @@
    "image": "",
    "colors": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/ktk/249/wooded-foothills?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/236/wooded-foothills?utm_source=api",
    "oracle_text": "{T}, Pay 1 life, Sacrifice Wooded Foothills: Search your library for a Mountain or Forest card, put it onto the battlefield, then shuffle.",
    "appearances": 4
   },
@@ -225,7 +225,7 @@
    "mana_cost": "{3}{R}",
    "url": "https://scryfall.com/card/neo/168/twinshot-sniper?utm_source=api",
    "oracle_text": "Reach\nWhen Twinshot Sniper enters the battlefield, it deals 2 damage to any target.\nChannel — {1}{R}, Discard Twinshot Sniper: It deals 2 damage to any target.",
-   "appearances": 5
+   "appearances": 6
   },
   {
    "name": "Goblin Guide",
@@ -264,7 +264,7 @@
    "mana_cost": "{1}{R}{G}",
    "url": "https://scryfall.com/card/war/215/rubblebelt-rioters?utm_source=api",
    "oracle_text": "Haste\nWhenever Rubblebelt Rioters attacks, it gets +X/+0 until end of turn, where X is the greatest power among creatures you control.",
-   "appearances": 3
+   "appearances": 4
   },
   {
    "name": "Skarrgan Hellkite",
@@ -295,7 +295,7 @@
    "mana_cost": "",
    "url": "https://scryfall.com/card/mh2/244/arid-mesa?utm_source=api",
    "oracle_text": "{T}, Pay 1 life, Sacrifice Arid Mesa: Search your library for a Mountain or Plains card, put it onto the battlefield, then shuffle.",
-   "appearances": 5
+   "appearances": 6
   },
   {
    "name": "Flame Jab",
@@ -325,7 +325,7 @@
    "mana_cost": "{X}{R}{R}",
    "url": "https://scryfall.com/card/cmr/411/comet-storm?utm_source=api",
    "oracle_text": "Multikicker {1} (You may pay an additional {1} any number of times as you cast this spell.)\nChoose any target, then choose another target for each time this spell was kicked. Comet Storm deals X damage to each of them.",
-   "appearances": 5
+   "appearances": 6
   },
   {
    "name": "Perilous Myr",
@@ -400,7 +400,7 @@
     "G"
    ],
    "mana_cost": "{1}{G}",
-   "url": "https://scryfall.com/card/grn/136/kraul-harpooner?utm_source=api",
+   "url": "https://scryfall.com/card/clu/167/kraul-harpooner?utm_source=api",
    "oracle_text": "Reach\nUndergrowth — When Kraul Harpooner enters the battlefield, choose up to one target creature with flying you don't control. Kraul Harpooner gets +X/+0 until end of turn, where X is the number of creature cards in your graveyard, then you may have Kraul Harpooner fight that creature.",
    "appearances": 7
   },
@@ -424,7 +424,7 @@
    "mana_cost": "{2}{R} // {1}{W}",
    "url": "https://scryfall.com/card/woe/230/kellan-the-fae-blooded-birthright-boon?utm_source=api",
    "oracle_text": "",
-   "appearances": 6
+   "appearances": 7
   },
   {
    "name": "Grim Initiate",
@@ -477,7 +477,7 @@
    "mana_cost": "{2}{G}",
    "url": "https://scryfall.com/card/woe/186/spider-food?utm_source=api",
    "oracle_text": "Destroy up to one target artifact, enchantment, or creature with flying. Create a Food token. (It's an artifact with \"{2}, {T}, Sacrifice this artifact: You gain 3 life.\")",
-   "appearances": 3
+   "appearances": 4
   },
   {
    "name": "Siege-Gang Commander",
@@ -493,7 +493,7 @@
     "R"
    ],
    "mana_cost": "{3}{R}{R}",
-   "url": "https://scryfall.com/card/gnt/42/siege-gang-commander?utm_source=api",
+   "url": "https://scryfall.com/card/dmr/136/siege-gang-commander?utm_source=api",
    "oracle_text": "When Siege-Gang Commander enters the battlefield, create three 1/1 red Goblin creature tokens.\n{1}{R}, Sacrifice a Goblin: Siege-Gang Commander deals 2 damage to any target.",
    "appearances": 2
   },
@@ -510,7 +510,7 @@
    "mana_cost": "{3}{R}",
    "url": "https://scryfall.com/card/m12/150/manabarbs?utm_source=api",
    "oracle_text": "Whenever a player taps a land for mana, Manabarbs deals 1 damage to that player.",
-   "appearances": 4
+   "appearances": 5
   },
   {
    "name": "Mountain",
@@ -525,9 +525,9 @@
    "image": "",
    "colors": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/lci/399/mountain?utm_source=api",
+   "url": "https://scryfall.com/card/blb/274/mountain?utm_source=api",
    "oracle_text": "({T}: Add {R}.)",
-   "appearances": 21
+   "appearances": 22
   },
   {
    "name": "Mountain",
@@ -542,9 +542,9 @@
    "image": "",
    "colors": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/lci/399/mountain?utm_source=api",
+   "url": "https://scryfall.com/card/blb/274/mountain?utm_source=api",
    "oracle_text": "({T}: Add {R}.)",
-   "appearances": 21
+   "appearances": 22
   },
   {
    "name": "Mountain",
@@ -559,9 +559,9 @@
    "image": "",
    "colors": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/lci/399/mountain?utm_source=api",
+   "url": "https://scryfall.com/card/blb/274/mountain?utm_source=api",
    "oracle_text": "({T}: Add {R}.)",
-   "appearances": 21
+   "appearances": 22
   },
   {
    "name": "Mountain",
@@ -576,9 +576,9 @@
    "image": "",
    "colors": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/lci/399/mountain?utm_source=api",
+   "url": "https://scryfall.com/card/blb/274/mountain?utm_source=api",
    "oracle_text": "({T}: Add {R}.)",
-   "appearances": 21
+   "appearances": 22
   },
   {
    "name": "Mountain",
@@ -593,9 +593,9 @@
    "image": "",
    "colors": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/lci/399/mountain?utm_source=api",
+   "url": "https://scryfall.com/card/blb/274/mountain?utm_source=api",
    "oracle_text": "({T}: Add {R}.)",
-   "appearances": 21
+   "appearances": 22
   },
   {
    "name": "Mountain",
@@ -610,9 +610,9 @@
    "image": "",
    "colors": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/lci/399/mountain?utm_source=api",
+   "url": "https://scryfall.com/card/blb/274/mountain?utm_source=api",
    "oracle_text": "({T}: Add {R}.)",
-   "appearances": 21
+   "appearances": 22
   },
   {
    "name": "Mountain",
@@ -627,9 +627,9 @@
    "image": "",
    "colors": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/lci/399/mountain?utm_source=api",
+   "url": "https://scryfall.com/card/blb/274/mountain?utm_source=api",
    "oracle_text": "({T}: Add {R}.)",
-   "appearances": 21
+   "appearances": 22
   },
   {
    "name": "Forest",
@@ -644,9 +644,9 @@
    "image": "",
    "colors": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/lci/401/forest?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/308/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)",
-   "appearances": 23
+   "appearances": 27
   },
   {
    "name": "Forest",
@@ -661,9 +661,9 @@
    "image": "",
    "colors": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/lci/401/forest?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/308/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)",
-   "appearances": 23
+   "appearances": 27
   },
   {
    "name": "Forest",
@@ -678,9 +678,9 @@
    "image": "",
    "colors": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/lci/401/forest?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/308/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)",
-   "appearances": 23
+   "appearances": 27
   },
   {
    "name": "Forest",
@@ -695,9 +695,9 @@
    "image": "",
    "colors": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/lci/401/forest?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/308/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)",
-   "appearances": 23
+   "appearances": 27
   },
   {
    "name": "Forest",
@@ -712,9 +712,9 @@
    "image": "",
    "colors": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/lci/401/forest?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/308/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)",
-   "appearances": 23
+   "appearances": 27
   },
   {
    "name": "Forest",
@@ -729,9 +729,9 @@
    "image": "",
    "colors": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/lci/401/forest?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/308/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)",
-   "appearances": 23
+   "appearances": 27
   }
  ],
  "sideboard": [
@@ -973,7 +973,7 @@
     "G"
    ],
    "mana_cost": "{G}",
-   "url": "https://scryfall.com/card/2xm/161/crop-rotation?utm_source=api",
+   "url": "https://scryfall.com/card/dmr/154/crop-rotation?utm_source=api",
    "oracle_text": "As an additional cost to cast this spell, sacrifice a land.\nSearch your library for a land card, put that card onto the battlefield, then shuffle."
   },
   {

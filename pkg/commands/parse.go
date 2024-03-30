@@ -366,11 +366,16 @@ func getSubDirectories(directory string) ([]string, error) {
 // cardAppearences returns the number of times the given card is referenced in
 // the replays from the given draft.
 func cardAppearances(card types.Card, draft string) int {
+	// Check if there is a replays directory. If not, we can't determine appearances.
+	if _, err := os.Stat(fmt.Sprintf("%s/replays", draft)); err != nil {
+		logrus.Debug("No replays directory found. Skipping card appearance count.")
+		return 0
+	}
+
 	// If the card is a split card, we only want to count the first half.
 	cardName := strings.TrimSpace(strings.Split(card.Name, " // ")[0])
 	out, err := exec.Command("grep", "-r", cardName, fmt.Sprintf("%s/replays", draft)).Output()
 	if err != nil {
-		logrus.Errorf("Error determining appearances for card '%s': %s", cardName, err)
 		return 0
 	}
 	return len(strings.Split(strings.TrimSpace(string(out)), "\n"))

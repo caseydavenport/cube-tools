@@ -40,6 +40,11 @@ type work struct {
 }
 
 func parseDeckDir(deckDir, fileType, date string) {
+	logc := logrus.WithFields(logrus.Fields{
+		"directory": deckDir,
+		"filetype":  fileType,
+	})
+
 	// Make sure the output directory exists.
 	outdir := fmt.Sprintf("drafts/%s", date)
 	err := os.MkdirAll(outdir, os.ModePerm)
@@ -71,11 +76,10 @@ func parseDeckDir(deckDir, fileType, date string) {
 	}
 
 	if len(files) == 0 {
-		logrus.WithField("filetype", fileType).Info("No file to process.")
+		logc.Info("No files to process.")
 		return
-	} else {
-		logrus.Infof("Processing files: %s", files)
 	}
+	logc.WithField("num", len(files)).Info("Processing deck files.")
 
 	// Determine if we need to auto-name the file.
 	for _, f := range files {

@@ -18,7 +18,6 @@ clean:
 DRAFTS:=$(shell ls -d drafts/*/ | cut -f2 -d'/')
 reparse:
 	for dir in ${DRAFTS}; do \
-		echo "Processing $${dir}"; \
 		./bin/parser parse-dir --deck-dir drafts/$${dir} --date $${dir} --filetype ".txt"; \
 		./bin/parser parse-dir --deck-dir drafts/$${dir} --date $${dir} --filetype ".csv"; \
 	done
