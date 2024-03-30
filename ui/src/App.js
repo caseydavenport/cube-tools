@@ -1,5 +1,5 @@
 import React from 'react'
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { HashRouter as Router, Routes, Route } from "react-router-dom";
 import DeckViewer from './pages/DeckViewer.js'
 import NavBar from './components/navbar.js'
 import Dogs from './pages/Dogs.js'
@@ -11,7 +11,7 @@ export default function Main() {
     <Router>
       <NavBar />
       <Routes>
-        <Route path='/' exact element={<StatsViewer />} />
+        <Route path='/stats' element={<StatsViewer />} />
         <Route path='/decks' element={<DeckViewer />} />
         <Route path='/dogs' element={<Dogs />} />
       </Routes>
