@@ -118,7 +118,18 @@ export function PlayerData(decks) {
 
 function PlayerTable(input) {
   let data = []
+  let maxGames = 0
   for (let row of input.parsed.playerData.values()) {
+    if (row.wins + row.losses > maxGames) {
+      maxGames = row.wins + row.losses
+    }
+  }
+  for (let row of input.parsed.playerData.values()) {
+    // Skip any players with fewer than half the max games over the period. This heuristic filters out
+    // players who haven't met an arbitrary minimum game requirement for more table clarity.
+    if (row.wins + row.losses < maxGames/2) {
+      continue
+    }
     data.push(row)
   }
 

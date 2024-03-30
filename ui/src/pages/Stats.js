@@ -234,7 +234,8 @@ export default function StatsViewer() {
 
   // Load the decks and drafts on startup and whenever the dates change.
   useEffect(() => {
-    LoadDecks(onDecksLoaded, startDate, endDate)
+    let minDraftSize = 6 // TODO: Make the min draft size configurable
+    LoadDecks(onDecksLoaded, startDate, endDate, minDraftSize)
     LoadDrafts(onDraftsLoaded, startDate, endDate)
   }, [startDate, endDate])
   useEffect(() => {

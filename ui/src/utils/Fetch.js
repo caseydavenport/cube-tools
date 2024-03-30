@@ -11,7 +11,7 @@ export async function LoadCube(onFetch) {
   return cube
 }
 
-export async function LoadDecks(onLoad, start, end) {
+export async function LoadDecks(onLoad, start, end, draftSize) {
   // First, fetch the draft index. We'll use this to find
   // all the drafts and decks therein.
   let idx = await FetchDraftIndex(null)
@@ -25,6 +25,13 @@ export async function LoadDecks(onLoad, start, end) {
       continue
     }
     let deckIdx = await FetchDeckIndex(draft.name, null)
+
+    // Skip any drafts with fewer than the number of requested decks.
+    // This allows skipping of e.g., 2 player grid drafts.
+    if (deckIdx.length < draftSize) {
+      continue
+    }
+
     for (var j in deckIdx) {
       // For each deck in the draft, add it to the total.
       let deck = deckIdx[j]

@@ -60,6 +60,8 @@ export const RemovalMatches = [
   "target player sacrifices",
   "return target creature to its owner's hand",
   "tap target",
+
+  "is a colorless forest",
 ]
 
 const counterspellMatches = [
@@ -203,6 +205,14 @@ export function DeckWidget(input) {
               bucketSize={input.bucketSize}
               matches={counterspellMatches}
             />
+          </td>
+        </tr>
+
+        <tr style={{"height": "300px"}}>
+          <td style={{"verticalAlign": "top", "width": "50%"}}>
+            <SideboardSizeOverTimeChart decks={input.decks} bucketSize={input.bucketSize} />
+          </td>
+          <td style={{"verticalAlign": "top"}}>
           </td>
         </tr>
 
@@ -703,8 +713,8 @@ function OracleTextOverTimeChart(input) {
     labels.push(bucket[0].name)
   }
 
-  // Parse the buckets into color data.
-  let values = []
+  let mbValues = []
+  let sbValues = []
   for (let bucket of buckets) {
     // Aggregate all decks from within this bucket.
     let decks = new Array()
@@ -713,26 +723,42 @@ function OracleTextOverTimeChart(input) {
     }
 
     // Calculate the average value for this bucket.
-    let total = 0
+    let mbTotal = 0
+    let sbTotal = 0
     for (let deck of decks) {
       for (let card of deck.mainboard) {
         for (let match of input.matches) {
           if (card.oracle_text.toLowerCase().match(match)){
-            total += 1
+            mbTotal += 1
+            break
+          }
+        }
+      }
+      for (let card of deck.sideboard) {
+        for (let match of input.matches) {
+          if (card.oracle_text.toLowerCase().match(match)){
+            sbTotal += 1
             break
           }
         }
       }
     }
-    values.push(total / decks.length)
+    mbValues.push(mbTotal / decks.length)
+    sbValues.push(sbTotal / decks.length)
   }
 
   let dataset = [
       {
         label: 'Avg. per-deck',
-        data: values,
+        data: mbValues,
         borderColor: "#dce312",
         backgroundColor: "#dce312",
+      },
+      {
+        label: 'Avg. per-sideboard',
+        data: sbValues,
+        borderColor: "#ffaf12",
+        backgroundColor: "#ecaf00",
       },
   ]
 
@@ -926,6 +952,84 @@ function DeckBasicLandCountChart(input) {
       title: {
         display: true,
         text: title,
+        color: "#FFF",
+        font: {
+          size: "16pt",
+        },
+      },
+      legend: {
+        labels: {
+          color: "#FFF",
+          font: {
+            size: "16pt",
+          },
+        },
+      },
+    },
+  };
+
+  const data = {labels, datasets: dataset};
+  return (
+    <div style={{"height":"500px", "width":"100%"}}>
+      <Line height={"300px"} width={"300px"} options={options} data={data} />
+    </div>
+  );
+}
+
+function SideboardSizeOverTimeChart(input) {
+  // Split the given decks into fixed-size buckets.
+  // Each bucket will contain N drafts worth of deck information.
+  let buckets = DeckBuckets(input.decks, input.bucketSize)
+
+  // Use the starting date of the bucket as the label. This is just an approximation,
+  // as the bucket really includes a variable set of dates, but it allows the viewer to
+  // at least place some sense of time to the chart.
+  const labels = []
+  for (let bucket of buckets) {
+    labels.push(bucket[0].name)
+  }
+
+  let sizes = []
+  for (let bucket of buckets) {
+    // Aggregate all decks from within this bucket.
+    let decks = new Array()
+    for (let draft of bucket) {
+      decks.push(...draft.decks)
+    }
+
+    // Not every deck has a sideboard recorded. Ignore those.
+    let numDecks = 0
+
+    // Calculate the average value for this bucket.
+    let total = 0
+    for (let deck of decks) {
+      if (deck.sideboard.length == 0) {
+        continue
+      }
+
+      total += deck.sideboard.length
+      numDecks += 1
+    }
+    sizes.push(total / numDecks)
+  }
+
+  let dataset = [
+      {
+        label: 'Avg. sideboard size',
+        data: sizes,
+        borderColor: "#dce312",
+        backgroundColor: "#dce312",
+      },
+  ]
+
+  const options = {
+    responsive: true,
+    maintainAspectRatio: false,
+    scales: {y: {min: 0}},
+    plugins: {
+      title: {
+        display: true,
+        text: input.title,
         color: "#FFF",
         font: {
           size: "16pt",
