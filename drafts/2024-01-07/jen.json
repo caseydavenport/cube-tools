@@ -8,7 +8,11 @@
  "date": "2024-01-07",
  "games": [
   {
-   "opponent": "greg",
+   "opponent": "casey",
+   "winner": "casey"
+  },
+  {
+   "opponent": "casey",
    "winner": "jen"
   },
   {
@@ -20,11 +24,7 @@
    "winner": "dom"
   },
   {
-   "opponent": "casey",
-   "winner": "casey"
-  },
-  {
-   "opponent": "casey",
+   "opponent": "greg",
    "winner": "jen"
   },
   {
@@ -42,6 +42,20 @@
   {
    "opponent": "james",
    "winner": "james"
+  },
+  {
+   "opponent": "james",
+   "winner": "james"
+  }
+ ],
+ "matches": [
+  {
+   "opponent": "dom",
+   "winner": "dom"
+  },
+  {
+   "opponent": "greg",
+   "winner": "greg"
   },
   {
    "opponent": "james",

@@ -32,6 +32,20 @@
    "winner": "greg"
   }
  ],
+ "matches": [
+  {
+   "opponent": "casey",
+   "winner": "xander"
+  },
+  {
+   "opponent": "dom",
+   "winner": "xander"
+  },
+  {
+   "opponent": "greg",
+   "winner": "greg"
+  }
+ ],
  "mainboard": [
   {
    "name": "Incinerate",

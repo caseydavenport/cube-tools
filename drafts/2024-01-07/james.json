@@ -6,16 +6,28 @@
  "date": "2024-01-07",
  "games": [
   {
+   "opponent": "cara",
+   "winner": "james"
+  },
+  {
+   "opponent": "cara",
+   "winner": "cara"
+  },
+  {
+   "opponent": "cara",
+   "winner": "cara"
+  },
+  {
+   "opponent": "jen",
+   "winner": "james"
+  },
+  {
+   "opponent": "jen",
+   "winner": "james"
+  },
+  {
    "opponent": "jen",
    "winner": "jen"
-  },
-  {
-   "opponent": "jen",
-   "winner": "james"
-  },
-  {
-   "opponent": "jen",
-   "winner": "james"
   },
   {
    "opponent": "paul",
@@ -28,18 +40,20 @@
   {
    "opponent": "paul",
    "winner": "paul"
-  },
+  }
+ ],
+ "matches": [
   {
    "opponent": "cara",
+   "winner": "cara"
+  },
+  {
+   "opponent": "jen",
    "winner": "james"
   },
   {
-   "opponent": "cara",
-   "winner": "cara"
-  },
-  {
-   "opponent": "cara",
-   "winner": "cara"
+   "opponent": "paul",
+   "winner": "james"
   }
  ],
  "mainboard": [

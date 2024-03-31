@@ -8,40 +8,54 @@
  "date": "2024-01-07",
  "games": [
   {
-   "opponent": "jen",
+   "opponent": "cara",
    "winner": "dom"
   },
   {
-   "opponent": "jen",
-   "winner": "dom"
+   "opponent": "cara",
+   "winner": "cara"
+  },
+  {
+   "opponent": "cara",
+   "winner": "cara"
   },
   {
    "opponent": "casey",
    "winner": "dom"
   },
   {
-   "opponent": "xander",
-   "winner": "xander"
-  },
-  {
-   "opponent": "xander",
-   "winner": "xander"
-  },
-  {
    "opponent": "greg",
    "winner": "dom"
   },
   {
-   "opponent": "cara",
-   "winner": "cara"
-  },
-  {
-   "opponent": "cara",
+   "opponent": "jen",
    "winner": "dom"
   },
   {
+   "opponent": "jen",
+   "winner": "dom"
+  },
+  {
+   "opponent": "xander",
+   "winner": "xander"
+  },
+  {
+   "opponent": "xander",
+   "winner": "xander"
+  }
+ ],
+ "matches": [
+  {
    "opponent": "cara",
    "winner": "cara"
+  },
+  {
+   "opponent": "jen",
+   "winner": "dom"
+  },
+  {
+   "opponent": "xander",
+   "winner": "xander"
   }
  ],
  "mainboard": [
