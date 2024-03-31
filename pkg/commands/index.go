@@ -142,3 +142,24 @@ func indexDraft(directory string) {
 
 	logrus.WithField("directory", directory).Info("Wrote index file")
 }
+
+// getSubDirectories returns a list of sub-directories in the given directory
+func getSubDirectories(directory string) ([]string, error) {
+	// Read the directory content
+	files, err := os.ReadDir(directory)
+	if err != nil {
+		return nil, err
+	}
+
+	// Create a slice to store the sub-directory names
+	var subDirs []string
+
+	// Iterate over the directory content
+	for _, file := range files {
+		if file.IsDir() {
+			subDirs = append(subDirs, file.Name())
+		}
+	}
+
+	return subDirs, nil
+}

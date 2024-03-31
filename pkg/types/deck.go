@@ -55,6 +55,17 @@ func (d *Deck) RemoveMatchesForOpponent(opponent string) {
 	d.Matches = newMatches
 }
 
+// GamesForOpponent returns all games against the given opponent.
+func (d *Deck) GamesForOpponent(opponent string) []Game {
+	games := make([]Game, 0)
+	for _, g := range d.Games {
+		if g.Opponent == opponent {
+			games = append(games, g)
+		}
+	}
+	return games
+}
+
 // RemoveGamesForOpponent removes all games against the given opponent from the deck.
 func (d *Deck) RemoveGamesForOpponent(opponent string) {
 	newGames := make([]Game, 0)

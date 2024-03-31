@@ -51,6 +51,7 @@ var (
 	opp    string
 	date   string
 	record string
+	force  bool
 )
 
 func init() {
@@ -60,6 +61,7 @@ func init() {
 	flag.StringVarP(flags, &opp, "opponent", "o", "OPPONENT", "", "The opponent of the player who played the match")
 	flag.StringVarP(flags, &date, "date", "d", "DATE", "", "The date of the draft.")
 	flag.StringVarP(flags, &record, "record", "r", "RECORD", "", "The record of the player passed to 'who', formatted as 'W-L'")
+	flag.BoolVarP(flags, &force, "force", "", "FORCE", false, "Force overwrite of any existing games against the opponent")
 }
 
 // parseRecord parses a record string into wins and losses.
@@ -88,6 +90,12 @@ func parseRecord(record string) (wins, losses int, err error) {
 func addMatchToPlayer(player, opponent string, date string, wins, losses int) error {
 	// First, load the player's deck file from the draft.
 	deck := commands.LoadParsedDeckFile(date, player)
+
+	// Check if there are already games against this opponent. If there are, cowardly refuse to overwrite them
+	// with the new match unless override is given.
+	if !force && len(deck.GamesForOpponent(opponent)) > 0 {
+		return fmt.Errorf("games against opponent already exist, cowardly refusing to overwrite")
+	}
 
 	// First, remove any games against this opponent, as we're going to write the new ones.
 	deck.RemoveGamesForOpponent(opponent)
