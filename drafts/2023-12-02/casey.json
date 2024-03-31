@@ -11,15 +11,15 @@
  "games": [
   {
    "opponent": "dom",
+   "winner": "casey"
+  },
+  {
+   "opponent": "dom",
+   "winner": "casey"
+  },
+  {
+   "opponent": "dom",
    "winner": "dom"
-  },
-  {
-   "opponent": "dom",
-   "winner": "casey"
-  },
-  {
-   "opponent": "dom",
-   "winner": "casey"
   },
   {
    "opponent": "greg",
@@ -32,6 +32,20 @@
   {
    "opponent": "james",
    "winner": "casey"
+  },
+  {
+   "opponent": "james",
+   "winner": "casey"
+  }
+ ],
+ "matches": [
+  {
+   "opponent": "dom",
+   "winner": "casey"
+  },
+  {
+   "opponent": "greg",
+   "winner": "greg"
   },
   {
    "opponent": "james",

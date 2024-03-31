@@ -6,32 +6,46 @@
  "date": "2023-12-02",
  "games": [
   {
-   "opponent": "dom",
-   "winner": "dom"
+   "opponent": "casey",
+   "winner": "casey"
+  },
+  {
+   "opponent": "casey",
+   "winner": "casey"
   },
   {
    "opponent": "dom",
    "winner": "dom"
   },
   {
-   "opponent": "greg",
-   "winner": "greg"
-  },
-  {
-   "opponent": "greg",
-   "winner": "greg"
+   "opponent": "dom",
+   "winner": "dom"
   },
   {
    "opponent": "greg",
    "winner": "james"
   },
   {
+   "opponent": "greg",
+   "winner": "greg"
+  },
+  {
+   "opponent": "greg",
+   "winner": "greg"
+  }
+ ],
+ "matches": [
+  {
    "opponent": "casey",
    "winner": "casey"
   },
   {
-   "opponent": "casey",
-   "winner": "casey"
+   "opponent": "dom",
+   "winner": "dom"
+  },
+  {
+   "opponent": "greg",
+   "winner": "greg"
   }
  ],
  "mainboard": [

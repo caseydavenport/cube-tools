@@ -7,23 +7,15 @@
  "date": "2023-12-02",
  "games": [
   {
-   "opponent": "xander",
-   "winner": "xander"
-  },
-  {
-   "opponent": "xander",
+   "opponent": "cara",
    "winner": "jen"
-  },
-  {
-   "opponent": "xander",
-   "winner": "xander"
   },
   {
    "opponent": "cara",
    "winner": "jen"
   },
   {
-   "opponent": "cara",
+   "opponent": "paul",
    "winner": "jen"
   },
   {
@@ -35,8 +27,26 @@
    "winner": "paul"
   },
   {
+   "opponent": "xander",
+   "winner": "xander"
+  },
+  {
+   "opponent": "xander",
+   "winner": "xander"
+  }
+ ],
+ "matches": [
+  {
+   "opponent": "cara",
+   "winner": "jen"
+  },
+  {
    "opponent": "paul",
    "winner": "jen"
+  },
+  {
+   "opponent": "xander",
+   "winner": "xander"
   }
  ],
  "mainboard": [

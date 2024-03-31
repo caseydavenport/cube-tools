@@ -28,7 +28,21 @@
   },
   {
    "opponent": "james",
+   "winner": "greg"
+  },
+  {
+   "opponent": "james",
    "winner": "james"
+  }
+ ],
+ "matches": [
+  {
+   "opponent": "casey",
+   "winner": "greg"
+  },
+  {
+   "opponent": "dom",
+   "winner": "dom"
   },
   {
    "opponent": "james",
