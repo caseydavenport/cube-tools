@@ -31,3 +31,33 @@ export function Losses(deck) {
   }
   return losses
 }
+
+export function MatchWins(deck) {
+  if (deck.matches == null) {
+    return 0
+  }
+
+  let wins = 0
+  for (var i in deck.matches) {
+    let match = deck.matches[i]
+    if (match.winner != match.opponent) {
+      wins += 1
+    }
+  }
+  return wins
+}
+
+export function MatchLosses(deck) {
+  if (deck.matches == null) {
+    return 0
+  }
+
+  let losses = 0
+  for (var i in deck.matches) {
+    let match = deck.matches[i]
+    if (match.winner == match.opponent) {
+      losses += 1
+    }
+  }
+  return losses
+}

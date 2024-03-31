@@ -4,9 +4,46 @@
  ],
  "player": "Jan",
  "date": "2024-03-28",
- "games": [],
- "wins": 1,
- "losses": 2,
+ "games": [
+  {
+   "opponent": "ken",
+   "winner": "jan"
+  },
+  {
+   "opponent": "ken",
+   "winner": "jan"
+  },
+  {
+   "opponent": "matthewbk",
+   "winner": "matthewbk"
+  },
+  {
+   "opponent": "matthewbk",
+   "winner": "matthewbk"
+  },
+  {
+   "opponent": "parker",
+   "winner": "parker"
+  },
+  {
+   "opponent": "parker",
+   "winner": "parker"
+  }
+ ],
+ "matches": [
+  {
+   "opponent": "ken",
+   "winner": "jan"
+  },
+  {
+   "opponent": "matthewbk",
+   "winner": "matthewbk"
+  },
+  {
+   "opponent": "parker",
+   "winner": "parker"
+  }
+ ],
  "mainboard": [
   {
    "name": "Abrade",

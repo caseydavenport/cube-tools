@@ -9,7 +9,11 @@
  "date": "2024-03-28",
  "games": [
   {
-   "opponent": "casey",
+   "opponent": "alexs",
+   "winner": "parker"
+  },
+  {
+   "opponent": "alexs",
    "winner": "parker"
   },
   {
@@ -19,6 +23,32 @@
   {
    "opponent": "casey",
    "winner": "casey"
+  },
+  {
+   "opponent": "casey",
+   "winner": "casey"
+  },
+  {
+   "opponent": "jan",
+   "winner": "parker"
+  },
+  {
+   "opponent": "jan",
+   "winner": "parker"
+  }
+ ],
+ "matches": [
+  {
+   "opponent": "alexs",
+   "winner": "parker"
+  },
+  {
+   "opponent": "casey",
+   "winner": "casey"
+  },
+  {
+   "opponent": "jan",
+   "winner": "parker"
   }
  ],
  "mainboard": [

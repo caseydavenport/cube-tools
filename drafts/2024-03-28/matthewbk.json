@@ -7,12 +7,42 @@
  "date": "2024-03-28",
  "games": [
   {
-   "opponent": "casey",
-   "winner": "matthew"
+   "opponent": "alexs",
+   "winner": "matthewbk"
+  },
+  {
+   "opponent": "alexs",
+   "winner": "matthewbk"
   },
   {
    "opponent": "casey",
-   "winner": "matthew"
+   "winner": "matthewbk"
+  },
+  {
+   "opponent": "casey",
+   "winner": "matthewbk"
+  },
+  {
+   "opponent": "jan",
+   "winner": "matthewbk"
+  },
+  {
+   "opponent": "jan",
+   "winner": "matthewbk"
+  }
+ ],
+ "matches": [
+  {
+   "opponent": "alexs",
+   "winner": "matthewbk"
+  },
+  {
+   "opponent": "casey",
+   "winner": "matthewbk"
+  },
+  {
+   "opponent": "jan",
+   "winner": "matthewbk"
   }
  ],
  "mainboard": [

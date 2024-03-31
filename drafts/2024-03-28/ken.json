@@ -5,9 +5,46 @@
  ],
  "player": "Ken",
  "date": "2024-03-28",
- "games": [],
- "wins": 2,
- "losses": 1,
+ "games": [
+  {
+   "opponent": "alexs",
+   "winner": "ken"
+  },
+  {
+   "opponent": "alexs",
+   "winner": "ken"
+  },
+  {
+   "opponent": "casey",
+   "winner": "ken"
+  },
+  {
+   "opponent": "casey",
+   "winner": "ken"
+  },
+  {
+   "opponent": "jan",
+   "winner": "jan"
+  },
+  {
+   "opponent": "jan",
+   "winner": "jan"
+  }
+ ],
+ "matches": [
+  {
+   "opponent": "alexs",
+   "winner": "ken"
+  },
+  {
+   "opponent": "casey",
+   "winner": "ken"
+  },
+  {
+   "opponent": "jan",
+   "winner": "jan"
+  }
+ ],
  "mainboard": [
   {
    "name": "Battlefield Forge",
