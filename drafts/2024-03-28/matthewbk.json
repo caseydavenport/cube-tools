@@ -5,8 +5,16 @@
  ],
  "player": "MatthewBk",
  "date": "2024-03-28",
- "games": [],
- "wins": 3,
+ "games": [
+  {
+   "opponent": "casey",
+   "winner": "matthew"
+  },
+  {
+   "opponent": "casey",
+   "winner": "matthew"
+  }
+ ],
  "mainboard": [
   {
    "name": "Arasta of the Endless Web",

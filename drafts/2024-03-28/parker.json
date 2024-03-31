@@ -7,9 +7,20 @@
  ],
  "player": "Parker",
  "date": "2024-03-28",
- "games": [],
- "wins": 2,
- "losses": 1,
+ "games": [
+  {
+   "opponent": "casey",
+   "winner": "parker"
+  },
+  {
+   "opponent": "casey",
+   "winner": "parker"
+  },
+  {
+   "opponent": "casey",
+   "winner": "casey"
+  }
+ ],
  "mainboard": [
   {
    "name": "Arid Mesa",

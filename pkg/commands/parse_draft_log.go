@@ -2,7 +2,6 @@ package commands
 
 import (
 	"encoding/json"
-	"fmt"
 	"io"
 	"os"
 	"strings"
@@ -29,20 +28,13 @@ func init() {
 }
 
 func parseDraftLog(draftLog string, date string) {
-	// Make sure the output directory exists.
-	outdir := fmt.Sprintf("drafts/%s", date)
-	err := os.MkdirAll(outdir, os.ModePerm)
-	if err != nil {
-		panic(err)
-	}
-
 	logrus.Infof("Parsing draft log: %s", draftLog)
 	log := loadDraftLog(draftLog)
 
 	// Determine if we need to auto-name the file.
 	for _, d := range decksFromDraftLog(log, date) {
 		// Write the deck for storage.
-		writeDeck(&d, "", d.Player, outdir)
+		writeDeck(&d, "", d.Player, date)
 	}
 }
 

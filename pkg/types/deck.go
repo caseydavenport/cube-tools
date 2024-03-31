@@ -33,3 +33,19 @@ type Game struct {
 	Opponent string `json:"opponent"`
 	Winner   string `json:"winner"`
 }
+
+// RemoveGamesForOpponent removes all games against the given opponent from the deck.
+func (d *Deck) RemoveGamesForOpponent(opponent string) {
+	newGames := make([]Game, 0)
+	for _, g := range d.Games {
+		if g.Opponent != opponent {
+			newGames = append(newGames, g)
+		}
+	}
+	d.Games = newGames
+}
+
+// AddGame adds a game to the deck.
+func (d *Deck) AddGame(opponent, winner string) {
+	d.Games = append(d.Games, Game{Opponent: opponent, Winner: winner})
+}

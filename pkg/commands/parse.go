@@ -58,13 +58,6 @@ func init() {
 
 // parseSingleDeck parses a single deck file and writes the output to the given directory.
 func parseSingleDeck(deck, who, labels, date string) {
-	// Make sure the output directory exists.
-	outdir := fmt.Sprintf("drafts/%s", date)
-	err := os.MkdirAll(outdir, os.ModePerm)
-	if err != nil {
-		panic(err)
-	}
-
 	// Parse the file.
 	d, err := parseRawDeckFile(deck, who, labels, date)
 	if err != nil {
@@ -84,7 +77,7 @@ func parseSingleDeck(deck, who, labels, date string) {
 	}
 
 	// Write the deck for storage.
-	writeDeck(d, deck, who, outdir)
+	writeDeck(d, deck, who, date)
 }
 
 // parseRawDeckFile parses a raw input deck file and returns a Deck struct.
@@ -230,7 +223,12 @@ func cardsFromLine(line string, quantityIdx, nameIdx int) []types.Card {
 	return cards
 }
 
-func loadParsedDeckFile(filename string) *types.Deck {
+func DeckFilepath(date, player string) string {
+	return fmt.Sprintf("drafts/%s/%s.json", date, strings.ToLower(player))
+}
+
+func LoadParsedDeckFile(date, player string) *types.Deck {
+	filename := DeckFilepath(date, player)
 	f, err := os.Open(filename)
 	defer f.Close()
 	if err != nil {
@@ -242,11 +240,35 @@ func loadParsedDeckFile(filename string) *types.Deck {
 		panic(err)
 	}
 	deck := types.Deck{}
-	json.Unmarshal(bytes, &deck)
+	if err = json.Unmarshal(bytes, &deck); err != nil {
+		logrus.Fatal("Failed to unmarshal deck file")
+	}
 	return &deck
 }
 
-func writeDeck(d *types.Deck, srcFile string, player string, outdir string) error {
+func SaveDeck(d *types.Deck) error {
+	bs, err := json.MarshalIndent(d, "", " ")
+	if err != nil {
+		return err
+	}
+
+	// Write the parsed deck.
+	fn := DeckFilepath(d.Date, d.Player)
+	err = os.WriteFile(fn, bs, os.ModePerm)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func writeDeck(d *types.Deck, srcFile string, player string, date string) error {
+	// Make sure the output directory exists.
+	outdir := fmt.Sprintf("drafts/%s", date)
+	err := os.MkdirAll(outdir, os.ModePerm)
+	if err != nil {
+		panic(err)
+	}
+
 	logc := logrus.WithFields(logrus.Fields{
 		"player": player,
 		"outdir": outdir,
@@ -256,10 +278,10 @@ func writeDeck(d *types.Deck, srcFile string, player string, outdir string) erro
 	// If the file already exists, load it and save some fields.
 	// This allows us to re-run this script without overwriting manually
 	// captured metadata.
-	fn := fmt.Sprintf("%s/%s.json", outdir, player)
+	fn := fmt.Sprintf("%s/%s.json", outdir, strings.ToLower(player))
 	if _, err := os.Stat(fn); err == nil {
 		logc.WithField("file", fn).Debug("File already exists, loading and updating")
-		existing := loadParsedDeckFile(fn)
+		existing := LoadParsedDeckFile(date, player)
 		d.Player = existing.Player
 		d.Labels = existing.Labels
 		d.Games = existing.Games
@@ -268,16 +290,9 @@ func writeDeck(d *types.Deck, srcFile string, player string, outdir string) erro
 	}
 
 	// First, write the canonical deck file in our format.
-	bs, err := json.MarshalIndent(d, "", " ")
-	if err != nil {
-		panic(err)
-	}
-
-	// Write the parsed deck.
-	logc.WithField("file", fn).Debug("Writing parsed file")
-	err = os.WriteFile(fn, bs, os.ModePerm)
-	if err != nil {
-		panic(err)
+	logc.WithField("file", fn).Debug("Writing canonical deck file")
+	if err := SaveDeck(d); err != nil {
+		logrus.WithError(err).Fatal("Failed to save deck")
 	}
 
 	// Also write the original "raw" decklist for posterity.

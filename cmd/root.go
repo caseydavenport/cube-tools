@@ -4,6 +4,7 @@ import (
 	"os"
 
 	"github.com/caseydavenport/cube-tools/pkg/commands"
+	"github.com/caseydavenport/cube-tools/pkg/commands/edit"
 	"github.com/spf13/cobra"
 )
 
@@ -29,4 +30,5 @@ func init() {
 	rootCmd.AddCommand(commands.ParseDirectoryCmd)
 	rootCmd.AddCommand(commands.IndexCmd)
 	rootCmd.AddCommand(commands.DraftLogCmd)
+	rootCmd.AddCommand(edit.EditRoot)
 }

@@ -7,9 +7,28 @@
  ],
  "player": "Casey",
  "date": "2024-03-28",
- "games": [],
- "wins": 1,
- "losses": 2,
+ "games": [
+  {
+   "opponent": "parker",
+   "winner": "casey"
+  },
+  {
+   "opponent": "parker",
+   "winner": "parker"
+  },
+  {
+   "opponent": "parker",
+   "winner": "parker"
+  },
+  {
+   "opponent": "matthew",
+   "winner": "matthew"
+  },
+  {
+   "opponent": "matthew",
+   "winner": "matthew"
+  }
+ ],
  "mainboard": [
   {
    "name": "Aether Spellbomb",
