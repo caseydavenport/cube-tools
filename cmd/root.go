@@ -31,4 +31,5 @@ func init() {
 	rootCmd.AddCommand(commands.IndexCmd)
 	rootCmd.AddCommand(commands.DraftLogCmd)
 	rootCmd.AddCommand(edit.EditRoot)
+	rootCmd.AddCommand(commands.DiffCubeCmd)
 }
