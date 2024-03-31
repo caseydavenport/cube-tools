@@ -98,6 +98,14 @@ func addMatchToPlayer(player, opponent string, date string, wins, losses int) er
 		deck.AddGame(opponent, opponent)
 	}
 
+	// Remove any matches against this opponent, as we're going to write the new one.
+	deck.RemoveMatchesForOpponent(opponent)
+	if wins > losses {
+		deck.AddMatch(opponent, player)
+	} else {
+		deck.AddMatch(opponent, opponent)
+	}
+
 	// Clear our the legacy win / loss fields, if set.
 	deck.Wins = 0
 	deck.Losses = 0
