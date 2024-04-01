@@ -1,9 +1,27 @@
 {
- "labels": [],
+ "labels": ["control"],
  "player": "dom",
  "date": "2024-03-31",
- "games": null,
- "matches": null,
+ "games": [
+  {
+   "opponent": "casey",
+   "winner": "dom"
+  },
+  {
+   "opponent": "casey",
+   "winner": "casey"
+  },
+  {
+   "opponent": "casey",
+   "winner": "casey"
+  }
+ ],
+ "matches": [
+  {
+   "opponent": "casey",
+   "winner": "casey"
+  }
+ ],
  "mainboard": [
   {
    "name": "Aether Tradewinds",

@@ -1,9 +1,27 @@
 {
- "labels": [],
+ "labels": ["aggro"],
  "player": "casey",
  "date": "2024-03-31",
- "games": null,
- "matches": null,
+ "games": [
+  {
+   "opponent": "dom",
+   "winner": "casey"
+  },
+  {
+   "opponent": "dom",
+   "winner": "casey"
+  },
+  {
+   "opponent": "dom",
+   "winner": "dom"
+  }
+ ],
+ "matches": [
+  {
+   "opponent": "dom",
+   "winner": "casey"
+  }
+ ],
  "mainboard": [
   {
    "name": "Verdant Catacombs",
