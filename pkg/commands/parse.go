@@ -23,6 +23,7 @@ var (
 	labels   string
 	who      string
 	date     string
+	prefix   string
 )
 
 // Define a cobra command for parsing a single deck file.
@@ -124,6 +125,7 @@ func writeDeck(d *types.Deck, srcFile string, player string, date string) error 
 		existing := LoadParsedDeckFile(date, player)
 		d.Player = existing.Player
 		d.Labels = existing.Labels
+		d.Matches = existing.Matches
 		d.Games = existing.Games
 		d.Wins = existing.Wins
 		d.Losses = existing.Losses

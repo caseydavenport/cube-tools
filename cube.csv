@@ -92,7 +92,6 @@ Count,Name,Section
 1,Faerie Duelist,main
 1,Faerie Vandal,main
 1,Faithless Looting,main
-1,Fall of the Thran,main
 1,Farsight Ritual,main
 1,Fearless Fledgling,main
 1,Feat of Resistance,main
@@ -122,12 +121,11 @@ Count,Name,Section
 1,Goldenglow Moth,main
 1,Goldmeadow Harrier,main
 1,Gomazoa,main
-1,Grateful Apparition,main
 1,"Greta, Sweettooth Scourge",main
 1,Grim Discovery,main
 1,Grim Initiate,main
 1,Gruff Triplets,main
-1,Hallowed Fountain,main
+2,Hallowed Fountain,main
 1,Halo Forager,main
 1,Hardened Scales,main
 1,Harm's Way,main
@@ -246,7 +244,6 @@ Count,Name,Section
 1,Resolute Reinforcements,main
 1,Restless Fortress,main
 1,Restless Vinestalk,main
-1,Return from the Wilds,main
 1,Reveillark,main
 1,"Rielle, the Everwise",main
 1,Rigging Runner,main
@@ -270,6 +267,7 @@ Count,Name,Section
 1,Setessan Champion,main
 1,Sevinne's Reclamation,main
 1,Shadowstorm Vizier,main
+1,Shadowy Backstreet,main
 1,Shelldock Isle,main
 1,Sheltered Thicket,main
 1,Siege-Gang Commander,main
@@ -309,9 +307,11 @@ Count,Name,Section
 1,The Wandering Emperor,main
 1,Thing in the Ice // Awoken Horror,main
 1,Throne of the God-Pharaoh,main
+1,Thundering Falls,main
 1,Tibalt's Rager,main
 1,"Titania, Protector of Argoth",main
 1,Touch the Spirit Realm,main
+1,Traverse the Ulvenwald,main
 1,Treasure Cruise,main
 1,Turn to Mist,main
 1,Twinshot Sniper,main
@@ -342,7 +342,6 @@ Count,Name,Section
 1,Woe Strider,main
 2,Wooded Foothills,main
 1,Woodland Cemetery,main
-1,Woodland Champion,main
 1,Worm Harvest,main
 1,Wrath of God,main
 1,Young Pyromancer,main

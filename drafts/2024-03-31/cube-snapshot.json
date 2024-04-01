@@ -1498,6 +1498,23 @@
    "oracle_text": "Draw two cards, then discard two cards.\nFlashback {2}{R} (You may cast this card from your graveyard for its flashback cost. Then exile it.)"
   },
   {
+   "name": "Fall of the Thran",
+   "types": [
+    "Enchantment"
+   ],
+   "sub_types": [
+    "Saga"
+   ],
+   "cmc": 6,
+   "image": "",
+   "colors": [
+    "W"
+   ],
+   "mana_cost": "{5}{W}",
+   "url": "https://scryfall.com/card/dom/18/fall-of-the-thran?utm_source=api",
+   "oracle_text": "(As this Saga enters and after your draw step, add a lore counter. Sacrifice after III.)\nI — Destroy all lands.\nII, III — Each player returns two land cards from their graveyard to the battlefield."
+  },
+  {
    "name": "Farsight Ritual",
    "types": [
     "Instant"
@@ -1950,6 +1967,23 @@
    "oracle_text": "Defender, flying\n{T}: Put Gomazoa and each creature it's blocking on top of their owners' libraries, then those players shuffle."
   },
   {
+   "name": "Grateful Apparition",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Spirit"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "W"
+   ],
+   "mana_cost": "{1}{W}",
+   "url": "https://scryfall.com/card/cmm/824/grateful-apparition?utm_source=api",
+   "oracle_text": "Flying\nWhenever Grateful Apparition deals combat damage to a player or planeswalker, proliferate. (Choose any number of permanents and/or players, then give each another counter of each kind already there.)"
+  },
+  {
    "name": "Greta, Sweettooth Scourge",
    "types": [
     "Legendary",
@@ -2018,22 +2052,6 @@
    "mana_cost": "{3}{G}{G}{G}",
    "url": "https://scryfall.com/card/woe/172/gruff-triplets?utm_source=api",
    "oracle_text": "Trample\nWhen Gruff Triplets enters the battlefield, if it isn't a token, create two tokens that are copies of it.\nWhen Gruff Triplets dies, put a number of +1/+1 counters equal to its power on each creature you control named Gruff Triplets."
-  },
-  {
-   "name": "Hallowed Fountain",
-   "types": [
-    "Land"
-   ],
-   "sub_types": [
-    "Plains",
-    "Island"
-   ],
-   "cmc": 0,
-   "image": "",
-   "colors": [],
-   "mana_cost": "",
-   "url": "https://scryfall.com/card/rvr/280/hallowed-fountain?utm_source=api",
-   "oracle_text": "({T}: Add {W} or {U}.)\nAs Hallowed Fountain enters the battlefield, you may pay 2 life. If you don't, it enters the battlefield tapped."
   },
   {
    "name": "Hallowed Fountain",
@@ -3979,6 +3997,20 @@
    "oracle_text": "Restless Vinestalk enters the battlefield tapped.\n{T}: Add {G} or {U}.\n{3}{G}{U}: Until end of turn, Restless Vinestalk becomes a 5/5 green and blue Plant creature with trample. It's still a land.\nWhenever Restless Vinestalk attacks, up to one other target creature has base power and toughness 3/3 until end of turn."
   },
   {
+   "name": "Return from the Wilds",
+   "types": [
+    "Sorcery"
+   ],
+   "cmc": 3,
+   "image": "",
+   "colors": [
+    "G"
+   ],
+   "mana_cost": "{2}{G}",
+   "url": "https://scryfall.com/card/woe/181/return-from-the-wilds?utm_source=api",
+   "oracle_text": "Choose two —\n• Search your library for a basic land card, put it onto the battlefield tapped, then shuffle.\n• Create a 1/1 white Human creature token.\n• Create a Food token. (It's an artifact with \"{2}, {T}, Sacrifice this artifact: You gain 3 life.\")"
+  },
+  {
    "name": "Reveillark",
    "types": [
     "Creature"
@@ -4376,22 +4408,6 @@
    "mana_cost": "{U}{B}",
    "url": "https://scryfall.com/card/akh/206/shadowstorm-vizier?utm_source=api",
    "oracle_text": "Flying\nWhenever you cycle or discard a card, Shadowstorm Vizier gets +1/+1 until end of turn."
-  },
-  {
-   "name": "Shadowy Backstreet",
-   "types": [
-    "Land"
-   ],
-   "sub_types": [
-    "Plains",
-    "Swamp"
-   ],
-   "cmc": 0,
-   "image": "",
-   "colors": [],
-   "mana_cost": "",
-   "url": "https://scryfall.com/card/mkm/268/shadowy-backstreet?utm_source=api",
-   "oracle_text": "({T}: Add {W} or {B}.)\nShadowy Backstreet enters the battlefield tapped.\nWhen Shadowy Backstreet enters the battlefield, surveil 1. (Look at the top card of your library. You may put it into your graveyard.)"
   },
   {
    "name": "Shelldock Isle",
@@ -5011,22 +5027,6 @@
    "oracle_text": "At the beginning of your end step, each opponent loses life equal to the number of tapped creatures you control."
   },
   {
-   "name": "Thundering Falls",
-   "types": [
-    "Land"
-   ],
-   "sub_types": [
-    "Island",
-    "Mountain"
-   ],
-   "cmc": 0,
-   "image": "",
-   "colors": [],
-   "mana_cost": "",
-   "url": "https://scryfall.com/card/mkm/269/thundering-falls?utm_source=api",
-   "oracle_text": "({T}: Add {U} or {R}.)\nThundering Falls enters the battlefield tapped.\nWhen Thundering Falls enters the battlefield, surveil 1. (Look at the top card of your library. You may put it into your graveyard.)"
-  },
-  {
    "name": "Tibalt's Rager",
    "types": [
     "Creature"
@@ -5074,20 +5074,6 @@
    "mana_cost": "{2}{W}",
    "url": "https://scryfall.com/card/neo/40/touch-the-spirit-realm?utm_source=api",
    "oracle_text": "When Touch the Spirit Realm enters the battlefield, exile up to one target artifact or creature until Touch the Spirit Realm leaves the battlefield.\nChannel — {1}{W}, Discard Touch the Spirit Realm: Exile target artifact or creature. Return it to the battlefield under its owner's control at the beginning of the next end step."
-  },
-  {
-   "name": "Traverse the Ulvenwald",
-   "types": [
-    "Sorcery"
-   ],
-   "cmc": 1,
-   "image": "",
-   "colors": [
-    "G"
-   ],
-   "mana_cost": "{G}",
-   "url": "https://scryfall.com/card/soi/234/traverse-the-ulvenwald?utm_source=api",
-   "oracle_text": "Search your library for a basic land card, reveal it, put it into your hand, then shuffle.\nDelirium — If there are four or more card types among cards in your graveyard, instead search your library for a creature or land card, reveal it, put it into your hand, then shuffle."
   },
   {
    "name": "Treasure Cruise",
@@ -5597,6 +5583,24 @@
    "mana_cost": "",
    "url": "https://scryfall.com/card/dmr/261/woodland-cemetery?utm_source=api",
    "oracle_text": "Woodland Cemetery enters the battlefield tapped unless you control a Swamp or a Forest.\n{T}: Add {B} or {G}."
+  },
+  {
+   "name": "Woodland Champion",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Elf",
+    "Scout"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "G"
+   ],
+   "mana_cost": "{1}{G}",
+   "url": "https://scryfall.com/card/2xm/188/woodland-champion?utm_source=api",
+   "oracle_text": "Whenever one or more tokens enter the battlefield under your control, put that many +1/+1 counters on Woodland Champion."
   },
   {
    "name": "Worm Harvest",
