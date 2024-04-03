@@ -1,9 +1,23 @@
 {
- "labels": [],
+ "labels": ["lands", "graveyard", "titania"],
  "player": "greg",
  "date": "2024-03-31",
- "games": null,
- "matches": null,
+ "games": [
+  {
+   "opponent": "casey",
+   "winner": "greg"
+  },
+  {
+   "opponent": "casey",
+   "winner": "greg"
+  }
+ ],
+ "matches": [
+  {
+   "opponent": "casey",
+   "winner": "greg"
+  }
+ ],
  "mainboard": [
   {
    "name": "Bloodghast",
