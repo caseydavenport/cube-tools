@@ -1,5 +1,5 @@
 {
- "labels": [],
+ "labels": ["aggro", "midrange", "spells"],
  "player": "james",
  "date": "2024-03-31",
  "games": null,
