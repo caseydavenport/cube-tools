@@ -127,7 +127,7 @@ function PlayerTable(input) {
   for (let row of input.parsed.playerData.values()) {
     // Skip any players with fewer than half the max games over the period. This heuristic filters out
     // players who haven't met an arbitrary minimum game requirement for more table clarity.
-    if (row.wins + row.losses < maxGames/2) {
+    if (row.wins + row.losses < maxGames/3) {
       continue
     }
     data.push(row)
