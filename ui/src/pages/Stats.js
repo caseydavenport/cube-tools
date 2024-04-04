@@ -42,7 +42,7 @@ export default function StatsViewer() {
   const [colorSortBy, setColorSortBy] = useState("win");
   const [colorCheckboxes, setColorCheckboxes] = useState([false, false, false, false, false]);
   const ddOpts =  [{ label: "Mono", value: "Mono" }, { label: "Dual", value: "Dual" }, { label: "Trio", value: "Trio" }]
-  function onSelected(event) {
+  function onColorTypeSelected(event) {
     setColorTypeSelection(event.target.value)
   }
   function onColorHeaderClicked(event) {
@@ -131,11 +131,17 @@ export default function StatsViewer() {
   }
 
   ///////////////////////////////////////////////////////////////////////////////
-  // State used for the draft states tab.
+  // State used for the draft stats tab.
   ///////////////////////////////////////////////////////////////////////////////
   const [drafts, setDrafts] = useState(null);
   const [draftSortBy, setDraftSortBy] = useState("p1p1");
   const [draftSortInvert, setDraftSortInvert] = useState(false);
+  const [minDeviation, setMinDeviation] = useState(0);
+  const [maxDeviation, setMaxDeviation] = useState(100);
+  function onMinDeviationSelected(event) {
+    setMinDeviation(event.target.value)
+  }
+
   function onDraftHeaderClicked(event) {
     if (draftSortBy == event.target.id) {
       // The same header was clicked again. Invert the sorting.
@@ -406,7 +412,7 @@ export default function StatsViewer() {
           parsed={parsed}
           ddOpts={ddOpts}
           colorTypeSelection={colorTypeSelection}
-          onSelected={onSelected}
+          onSelected={onColorTypeSelected}
           decks={parsed.filteredDecks}
           onHeaderClick={onColorHeaderClicked}
           colorSortBy={colorSortBy}
@@ -486,6 +492,10 @@ export default function StatsViewer() {
           sortBy={draftSortBy}
           invertSort={draftSortInvert}
           onHeaderClick={onDraftHeaderClicked}
+          minDrafts={minDrafts}
+          onMinDraftsSelected={onMinDraftsSelected}
+          minDeviation={minDeviation}
+          onMinDeviationChanged={onMinDeviationSelected}
           show={display[4]}
         />
 
@@ -527,6 +537,34 @@ function InitialDates() {
   return [start, end]
 }
 
+function DraftOrderWidgetOptions(input) {
+  return (
+    <table className="dropdown-header">
+      <tbody>
+        <tr>
+          <td className="selection-cell">
+            <NumericInput
+              label="Min # drafts"
+              value={input.minDrafts}
+              onChange={input.onMinDraftsSelected}
+            />
+          </td>
+
+          <td className="selection-cell">
+            <NumericInput
+              label="Min deviation"
+              value={input.minDeviation}
+              onChange={input.onMinDeviationChanged}
+              className="dropdown-header-side-by-side"
+            />
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  );
+}
+
+
 function DraftOrderWidget(input) {
   if (!input.show) {
     return null
@@ -542,6 +580,9 @@ function DraftOrderWidget(input) {
 
   return (
     <div className="widget">
+
+      <DraftOrderWidgetOptions {...input} />
+
       <table className="winrate-table">
         <thead className="table-header">
           <tr>
@@ -558,6 +599,11 @@ function DraftOrderWidget(input) {
         <tbody>
           {
             pickList.map(function(pick) {
+              // Filter out any picks that don't meet the filter criteria.
+              if (input.minDrafts > 0 && pick.count < input.minDrafts) {
+                return
+              }
+
               let avgPackPick = "-"
               if (pick.count > 0) {
                 avgPackPick = Math.round(pick.pickNumSum / pick.count * 100) / 100
@@ -590,6 +636,11 @@ function DraftOrderWidget(input) {
                 sumOfSquares += diff*diff
               }
               let stddev = Math.round(Math.sqrt(sumOfSquares / pick.count)*10) / 10
+
+              // Filter out if the pick doesn't meet deviation filter.
+              if (input.minDeviation > 0 && stddev < input.minDeviation) {
+                return
+              }
 
               let sort = pick.count
               if (input.sortBy === "p1p1") {
