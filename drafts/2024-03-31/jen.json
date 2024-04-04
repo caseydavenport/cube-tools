@@ -1,9 +1,27 @@
 {
- "labels": ["aggro", "token", "vampire"],
+ "labels": [
+  "aggro",
+  "token",
+  "vampire"
+ ],
  "player": "jen",
  "date": "2024-03-31",
- "games": null,
- "matches": null,
+ "games": [
+  {
+   "opponent": "xander",
+   "winner": "xander"
+  },
+  {
+   "opponent": "xander",
+   "winner": "xander"
+  }
+ ],
+ "matches": [
+  {
+   "opponent": "xander",
+   "winner": "xander"
+  }
+ ],
  "mainboard": [
   {
    "name": "Kalastria Highborn",
