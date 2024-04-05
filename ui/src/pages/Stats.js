@@ -137,9 +137,20 @@ export default function StatsViewer() {
   const [draftSortBy, setDraftSortBy] = useState("p1p1");
   const [draftSortInvert, setDraftSortInvert] = useState(false);
   const [minDeviation, setMinDeviation] = useState(0);
-  const [maxDeviation, setMaxDeviation] = useState(100);
+  const [maxDeviation, setMaxDeviation] = useState(0);
+  const [minAvgPick, setMinAvgPick] = useState(0);
+  const [maxAvgPick, setMaxAvgPick] = useState(0);
   function onMinDeviationSelected(event) {
     setMinDeviation(event.target.value)
+  }
+  function onMaxDeviationSelected(event) {
+    setMaxDeviation(event.target.value)
+  }
+  function onMinAvgPickSelected(event) {
+    setMinAvgPick(event.target.value)
+  }
+  function onMaxAvgPickSelected(event) {
+    setMaxAvgPick(event.target.value)
   }
 
   function onDraftHeaderClicked(event) {
@@ -496,6 +507,12 @@ export default function StatsViewer() {
           onMinDraftsSelected={onMinDraftsSelected}
           minDeviation={minDeviation}
           onMinDeviationChanged={onMinDeviationSelected}
+          maxDeviation={maxDeviation}
+          onMaxDeviationChanged={onMaxDeviationSelected}
+          minAvgPick={minAvgPick}
+          onMinAvgPickSelected={onMinAvgPickSelected}
+          maxAvgPick={maxAvgPick}
+          onMaxAvgPickSelected={onMaxAvgPickSelected}
           show={display[4]}
         />
 
@@ -544,18 +561,43 @@ function DraftOrderWidgetOptions(input) {
         <tr>
           <td className="selection-cell">
             <NumericInput
-              label="Min # drafts"
-              value={input.minDrafts}
-              onChange={input.onMinDraftsSelected}
+              label="Min deviation"
+              value={input.minDeviation}
+              onChange={input.onMinDeviationChanged}
             />
           </td>
 
           <td className="selection-cell">
             <NumericInput
-              label="Min deviation"
-              value={input.minDeviation}
-              onChange={input.onMinDeviationChanged}
-              className="dropdown-header-side-by-side"
+              label="Max deviation"
+              value={input.maxDeviation}
+              onChange={input.onMaxDeviationChanged}
+            />
+          </td>
+
+          <td className="selection-cell">
+            <NumericInput
+              label="Min # drafts"
+              value={input.minDrafts}
+              onChange={input.onMinDraftsSelected}
+            />
+          </td>
+        </tr>
+
+        <tr>
+          <td className="selection-cell">
+            <NumericInput
+              label="Min avg. pick"
+              value={input.minAvgPick}
+              onChange={input.onMinAvgPickSelected}
+            />
+          </td>
+
+          <td className="selection-cell">
+            <NumericInput
+              label="Max avg. pick"
+              value={input.maxAvgPick}
+              onChange={input.onMaxAvgPickSelected}
             />
           </td>
         </tr>
@@ -609,6 +651,14 @@ function DraftOrderWidget(input) {
                 avgPackPick = Math.round(pick.pickNumSum / pick.count * 100) / 100
               }
 
+              // Filter based on average pack pick.
+              if (input.minAvgPick > 0 && avgPackPick < input.minAvgPick) {
+                return
+              }
+              if (input.maxAvgPick > 0 && avgPackPick > input.maxAvgPick) {
+                return
+              }
+
               let avgPack1Pick = "-"
               if (pick.p1count > 0) {
                 avgPack1Pick = Math.round(pick.p1PickNumSum / pick.p1count * 100) / 100
@@ -641,6 +691,10 @@ function DraftOrderWidget(input) {
               if (input.minDeviation > 0 && stddev < input.minDeviation) {
                 return
               }
+              if (input.maxDeviation > 0 && stddev > input.maxDeviation) {
+                return
+              }
+
 
               let sort = pick.count
               if (input.sortBy === "p1p1") {
