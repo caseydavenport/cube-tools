@@ -192,7 +192,6 @@ function DisplayDeck({deck, mbsb}) {
     // Interaction - removal and counterspells.
     for (let match of RemovalMatches.concat(CounterspellMatches)) {
       if (card.oracle_text.toLowerCase().match(match)){
-        console.log("Interaction: " + card.name)
         interaction += 1
         break
       }

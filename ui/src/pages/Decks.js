@@ -767,7 +767,7 @@ function OracleTextByColor(input) {
       }
       let v = valuesByColor.get(color)
       if (numByColor.has(color)) {
-        v.push(numByColor.get(color))
+        v.push(numByColor.get(color) / input.bucketSize)
       } else {
         v.push(0)
       }
