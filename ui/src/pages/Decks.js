@@ -38,7 +38,10 @@ export const RemovalMatches = [
   "destroy up to",
   "destroy all creatures",
 
-  "exile target",
+  "exile target creature",
+  "exile target permanent",
+  "exile target nonland permanent",
+  "exile target artifact",
   "exile another target",
   "exile up to one target",
   "exile that card",
@@ -46,9 +49,9 @@ export const RemovalMatches = [
   "target creature gets -",
   "all creatures get -",
   "black sun's zenith",
-  "put a -1/-1",
+  "-1/-1 on target",
 
-  "put target creature",
+  "put target creature into its owner",
 
   "to any target",
   "target creature or player",
@@ -58,13 +61,22 @@ export const RemovalMatches = [
 
   "fight",
   "target player sacrifices",
+  "target permanent you don't control to",
+  "target creature with flying",
+  "opponent sacrifices a",
+  "return target creature an opponent controls to its owner's hand",
   "return target creature to its owner's hand",
-  "tap target",
+  "return target nonland permanent",
+  "otawara",
+  "tap target creature",
+  "tap target permanent",
+  "tap target nonland",
+  "tap target artifact",
 
   "is a colorless forest",
 ]
 
-const counterspellMatches = [
+export const CounterspellMatches = [
   "counter target",
   "return target spell",
 ]
@@ -137,7 +149,7 @@ export function DeckWidget(input) {
             <WinsByOracleText
               title="Wins by # counterspells"
               decks={input.decks}
-              matches={counterspellMatches}
+              matches={CounterspellMatches}
             />
           </td>
           <td style={{"verticalAlign": "top"}}>
@@ -203,7 +215,7 @@ export function DeckWidget(input) {
               title="Avg. counterspells per-deck"
               decks={input.decks}
               bucketSize={input.bucketSize}
-              matches={counterspellMatches}
+              matches={CounterspellMatches}
             />
           </td>
         </tr>
@@ -213,6 +225,12 @@ export function DeckWidget(input) {
             <SideboardSizeOverTimeChart decks={input.decks} bucketSize={input.bucketSize} />
           </td>
           <td style={{"verticalAlign": "top"}}>
+            <OracleTextByColor
+              title="Interaction by color"
+              decks={input.decks}
+              matches={RemovalMatches.concat(CounterspellMatches)}
+              bucketSize={input.bucketSize}
+            />
           </td>
         </tr>
 
@@ -696,6 +714,128 @@ function WinsByNumberOfColors(input) {
   return (
     <div style={{"height":"500px", "width":"100%"}}>
       <Bar height={"300px"} width={"300px"} options={options} data={data} />;
+    </div>
+  );
+}
+
+function OracleTextByColor(input) {
+  // Split the given decks into fixed-size buckets.
+  // Each bucket will contain N drafts worth of deck information.
+  let buckets = DeckBuckets(input.decks, input.bucketSize)
+
+  // Use the starting date of the bucket as the label. This is just an approximation,
+  // as the bucket really includes a variable set of dates, but it allows the viewer to
+  // at least place some sense of time to the chart.
+  const labels = []
+  for (let bucket of buckets) {
+    labels.push(bucket[0].name)
+  }
+
+
+  let colors = ["W", "U", "B", "R", "G"]
+
+  let valuesByColor = new Map()
+  for (let bucket of buckets) {
+    // Aggregate all decks from within this bucket.
+    let decks = new Array()
+    for (let draft of bucket) {
+      decks.push(...draft.decks)
+    }
+
+    // Calculate the average value for this bucket.
+    let numByColor = new Map()
+    for (let deck of decks) {
+      for (let card of deck.mainboard) {
+        for (let match of input.matches) {
+          if (card.oracle_text.toLowerCase().match(match)){
+            for (let color of card.colors) {
+              if (!numByColor.has(color)) {
+                numByColor.set(color, 0)
+              }
+              numByColor.set(color, numByColor.get(color) + 1)
+            }
+            break
+          }
+        }
+      }
+    }
+
+    // Add this bucket's values.
+    for (let color of colors) {
+      if (!valuesByColor.has(color)) {
+        valuesByColor.set(color, new Array())
+      }
+      let v = valuesByColor.get(color)
+      if (numByColor.has(color)) {
+        v.push(numByColor.get(color))
+      } else {
+        v.push(0)
+      }
+      valuesByColor.set(color, v)
+    }
+  }
+
+  let dataset = [
+      {
+        label: 'W',
+        data: valuesByColor.get("W"),
+        borderColor: "#dce312",
+        backgroundColor: "#dce312",
+      },
+      {
+        label: 'U',
+        data: valuesByColor.get("U"),
+        borderColor: "#0000FF",
+        backgroundColor: "#0000FF",
+      },
+      {
+        label: 'B',
+        data: valuesByColor.get("B"),
+        borderColor: "#888",
+        backgroundColor: "#888",
+      },
+      {
+        label: 'R',
+        data: valuesByColor.get("R"),
+        borderColor: "#F00",
+        backgroundColor: '#F00',
+      },
+      {
+        label: 'G',
+        data: valuesByColor.get("G"),
+        borderColor: "#0F0",
+        backgroundColor: '#0F0',
+      },
+  ]
+
+  const options = {
+    responsive: true,
+    maintainAspectRatio: false,
+    scales: {y: {min: 0}},
+    plugins: {
+      title: {
+        display: true,
+        text: input.title,
+        color: "#FFF",
+        font: {
+          size: "16pt",
+        },
+      },
+      legend: {
+        labels: {
+          color: "#FFF",
+          font: {
+            size: "16pt",
+          },
+        },
+      },
+    },
+  };
+
+  const data = {labels, datasets: dataset};
+  return (
+    <div style={{"height":"500px", "width":"100%"}}>
+      <Line height={"300px"} width={"300px"} options={options} data={data} />
     </div>
   );
 }

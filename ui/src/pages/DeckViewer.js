@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { FetchDraftIndex, FetchDeckIndex, FetchDeck } from "../utils/Fetch.js"
 import { Wins, Losses, MatchWins, MatchLosses } from "../utils/Deck.js"
+import { RemovalMatches, CounterspellMatches } from "../pages/Decks.js"
 
 // This function builds the DeckViewer widget for selecting and viewing statistics
 // about a particular deck.
@@ -179,11 +180,22 @@ function DisplayDeck({deck, mbsb}) {
   let colors = deck.colors
   let cardCount = cards.length
 
-  // Count the number of creatures.
+  // Count the number of different types of spells.
   let creatures = 0
+  let interaction = 0
   for (let card of cards) {
+    // Creature
     if (card.types.includes("Creature")) {
       creatures += 1
+    }
+
+    // Interaction - removal and counterspells.
+    for (let match of RemovalMatches.concat(CounterspellMatches)) {
+      if (card.oracle_text.toLowerCase().match(match)){
+        console.log("Interaction: " + card.name)
+        interaction += 1
+        break
+      }
     }
   }
 
@@ -222,6 +234,10 @@ function DisplayDeck({deck, mbsb}) {
       <tr className="player-frame-row">
         <td className="player-frame-title"># Creatures:</td>
         <td className="player-frame-value">{creatures}</td>
+      </tr>
+      <tr className="player-frame-row">
+        <td className="player-frame-title"># Interaction:</td>
+        <td className="player-frame-value">{interaction}</td>
       </tr>
       </tbody>
     </table>
