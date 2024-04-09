@@ -8,6 +8,18 @@
  "date": "2024-03-31",
  "games": [
   {
+   "opponent": "paul",
+   "winner": "jen"
+  },
+  {
+   "opponent": "paul",
+   "winner": "paul"
+  },
+  {
+   "opponent": "paul",
+   "winner": "paul"
+  },
+  {
    "opponent": "xander",
    "winner": "xander"
   },
@@ -17,6 +29,10 @@
   }
  ],
  "matches": [
+  {
+   "opponent": "paul",
+   "winner": "paul"
+  },
   {
    "opponent": "xander",
    "winner": "xander"

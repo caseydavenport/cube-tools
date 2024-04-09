@@ -1,9 +1,31 @@
 {
- "labels": ["sacrifice", "graveyard", "midrange"],
+ "labels": [
+  "sacrifice",
+  "graveyard",
+  "midrange"
+ ],
  "player": "paul",
  "date": "2024-03-31",
- "games": null,
- "matches": null,
+ "games": [
+  {
+   "opponent": "jen",
+   "winner": "paul"
+  },
+  {
+   "opponent": "jen",
+   "winner": "paul"
+  },
+  {
+   "opponent": "jen",
+   "winner": "jen"
+  }
+ ],
+ "matches": [
+  {
+   "opponent": "jen",
+   "winner": "paul"
+  }
+ ],
  "mainboard": [
   {
    "name": "Bitter Triumph",
