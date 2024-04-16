@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { LoadCube, LoadDecks, LoadDrafts} from "../utils/Fetch.js"
 import { IsBasicLand, SortFunc } from "../utils/Utils.js"
-import { DropdownHeader, NumericInput, Checkbox, DateSelector } from "../components/Dropdown.js"
+import { TextInput, DropdownHeader, NumericInput, Checkbox, DateSelector } from "../components/Dropdown.js"
 import { AggregatedPickInfo } from "../utils/DraftLog.js"
 import { Wins, Losses } from "../utils/Deck.js"
 import { CardData } from "../utils/Cards.js"
@@ -388,6 +388,13 @@ export default function StatsViewer() {
 
         <NumericInput className="dropdown" label="Bucket size" value={bucketSize} onChange={onBucketsChanged} />
 
+        <TextInput
+          className="dropdown"
+          label="Player"
+          value={playerMatch}
+          onChange={onPlayerMatchChanged}
+        />
+
         <Overview decks={parsed.filteredDecks} />
 
         <Checkbox
@@ -486,8 +493,6 @@ export default function StatsViewer() {
           maxPlayers={maxPlayers}
           onMinPlayersSelected={onMinPlayersSelected}
           onMaxPlayersSelected={onMaxPlayersSelected}
-          onPlayerMatchChanged={onPlayerMatchChanged}
-          playerMatch={playerMatch}
           onHeaderClick={onCardWidgetHeaderClicked}
           sortBy={cardWidgetSortBy}
           cube={cube}

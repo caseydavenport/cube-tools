@@ -1,6 +1,6 @@
 import React from 'react'
 import { IsBasicLand, SortFunc } from "../utils/Utils.js"
-import { DropdownHeader, NumericInput, TextInput, Checkbox, DateSelector } from "../components/Dropdown.js"
+import { DropdownHeader, NumericInput, Checkbox, DateSelector } from "../components/Dropdown.js"
 import { Wins, Losses } from "../utils/Deck.js"
 import { ApplyTooltip } from "../utils/Tooltip.js"
 
@@ -245,14 +245,6 @@ function CardWidgetOptions(input) {
               options={input.colorWidgetOpts}
               value={input.colorSelection}
               onChange={input.onColorSelected}
-            />
-          </td>
-
-          <td className="selection-cell">
-            <TextInput
-              label="Player"
-              value={input.playerMatch}
-              onChange={input.onPlayerMatchChanged}
             />
           </td>
         </tr>
