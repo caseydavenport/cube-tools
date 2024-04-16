@@ -44,6 +44,19 @@ export function NumericInput(input) {
   );
 }
 
+export function TextInput(input) {
+  let className = "dropdown-header-side-by-side"
+  if (input.className != "") {
+    className = input.className
+  }
+  return (
+    <label className={className}>
+      {input.label}
+      <input onChange={input.onChange} className="text-input" type="text" />
+    </label>
+  );
+}
+
 export function DateSelector(input) {
   return (
     <div className="dropdown">

@@ -191,6 +191,13 @@ ul {
   background: #AE6989;
 }
 
+.text-input{
+  color: #FFF;
+  padding: 2px;
+  margin-left: 10px;
+  width: 150px;
+  background: #AE6989;
+}
 
 .date-selector {
   color: #FFF;

@@ -27,6 +27,8 @@ export default function StatsViewer() {
   // State used for all widgets.
   ///////////////////////////////////////////////////////////////////////////////
   const [bucketSize, setNumBuckets] = useState(5);
+  const [playerMatch, setPlayerMatch] = useState("");
+  const [minDraftSize, setMinDraftSize] = useState(6); // TODO: Make the min draft size configurable
   function onBucketsChanged(event) {
     let num = event.target.value
     if (num < 1) {
@@ -34,6 +36,10 @@ export default function StatsViewer() {
     }
     setNumBuckets(num)
   }
+  function onPlayerMatchChanged(event) {
+    setPlayerMatch(event.target.value)
+  }
+
 
   ///////////////////////////////////////////////////////////////////////////////
   // State used for the color / color pair win rate widget.
@@ -115,7 +121,6 @@ export default function StatsViewer() {
   function onMaxPlayersSelected(event) {
     setMaxPlayers(event.target.value)
   }
-
 
   ///////////////////////////////////////////////////////////////////////////////
   // State used for time selection.
@@ -251,10 +256,9 @@ export default function StatsViewer() {
 
   // Load the decks and drafts on startup and whenever the dates change.
   useEffect(() => {
-    let minDraftSize = 6 // TODO: Make the min draft size configurable
-    LoadDecks(onDecksLoaded, startDate, endDate, minDraftSize)
+    LoadDecks(onDecksLoaded, startDate, endDate, minDraftSize, playerMatch)
     LoadDrafts(onDraftsLoaded, startDate, endDate)
-  }, [startDate, endDate])
+  }, [startDate, endDate, playerMatch])
   useEffect(() => {
     LoadCube(onCubeLoad)
   }, [decks])
@@ -482,6 +486,8 @@ export default function StatsViewer() {
           maxPlayers={maxPlayers}
           onMinPlayersSelected={onMinPlayersSelected}
           onMaxPlayersSelected={onMaxPlayersSelected}
+          onPlayerMatchChanged={onPlayerMatchChanged}
+          playerMatch={playerMatch}
           onHeaderClick={onCardWidgetHeaderClicked}
           sortBy={cardWidgetSortBy}
           cube={cube}

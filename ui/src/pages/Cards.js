@@ -1,6 +1,6 @@
 import React from 'react'
 import { IsBasicLand, SortFunc } from "../utils/Utils.js"
-import { DropdownHeader, NumericInput, Checkbox, DateSelector } from "../components/Dropdown.js"
+import { DropdownHeader, NumericInput, TextInput, Checkbox, DateSelector } from "../components/Dropdown.js"
 import { Wins, Losses } from "../utils/Deck.js"
 import { ApplyTooltip } from "../utils/Tooltip.js"
 
@@ -236,7 +236,6 @@ function CardWidgetOptions(input) {
               options={input.cardWidgetOpts}
               value={input.colorTypeSelection}
               onChange={input.onSelected}
-              className="dropdown-header-side-by-side"
             />
           </td>
 
@@ -246,7 +245,14 @@ function CardWidgetOptions(input) {
               options={input.colorWidgetOpts}
               value={input.colorSelection}
               onChange={input.onColorSelected}
-              className="dropdown-header-side-by-side"
+            />
+          </td>
+
+          <td className="selection-cell">
+            <TextInput
+              label="Player"
+              value={input.playerMatch}
+              onChange={input.onPlayerMatchChanged}
             />
           </td>
         </tr>
@@ -257,7 +263,6 @@ function CardWidgetOptions(input) {
               label="Min #picks"
               value={input.minDrafts}
               onChange={input.onMinDraftsSelected}
-              className="dropdown-header-side-by-side"
             />
           </td>
 
@@ -266,18 +271,14 @@ function CardWidgetOptions(input) {
               label="Min #games"
               value={input.minGames}
               onChange={input.onMinGamesSelected}
-              className="dropdown-header-side-by-side"
             />
           </td>
-        </tr>
 
-        <tr>
           <td className="selection-cell">
             <NumericInput
               label="Min #players"
               value={input.minPlayers}
               onChange={input.onMinPlayersSelected}
-              className="dropdown-header-side-by-side"
             />
           </td>
 
@@ -286,7 +287,6 @@ function CardWidgetOptions(input) {
               label="Max #players"
               value={input.maxPlayers}
               onChange={input.onMaxPlayersSelected}
-              className="dropdown-header-side-by-side"
             />
           </td>
         </tr>

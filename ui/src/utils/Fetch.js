@@ -11,7 +11,7 @@ export async function LoadCube(onFetch) {
   return cube
 }
 
-export async function LoadDecks(onLoad, start, end, draftSize) {
+export async function LoadDecks(onLoad, start, end, draftSize, playerMatch) {
   // First, fetch the draft index. We'll use this to find
   // all the drafts and decks therein.
   let idx = await FetchDraftIndex(null)
@@ -52,14 +52,26 @@ export async function LoadDecks(onLoad, start, end, draftSize) {
     let d = await resp.json();
 
     // Populate the deck with calculated fields and then save the deck.
+
+    // Capitalize player names, since they are varying cases.
+    d.player = capitalize(d.player)
+
+    // Skip decks that don't belong to the specified player name match.
+    // This allows us to filter down to a single player's history and perform calculations
+    // ignoring decks from any other player.
+    if (playerMatch != "") {
+      if (!d.player.includes(playerMatch)) {
+        continue
+      }
+    }
+
     d.avg_cmc = AverageCMC({deck: d})
     d.colors = ExtractColors({deck: d})
     d.draft = info.draft
     d.file = info.file
+
     decks.push(d)
 
-    // Capitalize player names, since they are varying cases.
-    d.player = capitalize(d.player)
     if (d.games != null ) {
       for (let g of d.games) {
         g.opponent = capitalize(g.opponent)
