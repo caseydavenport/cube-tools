@@ -1,6 +1,7 @@
 {
  "labels": [
   "aggro",
+  "parallel-lives",
   "token"
  ],
  "player": "dom",

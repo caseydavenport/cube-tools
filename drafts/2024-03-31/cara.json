@@ -1,6 +1,9 @@
 {
  "labels": [
-  "midrange"
+  "midrange",
+  "token",
+  "spells",
+  "parallel-lives"
  ],
  "player": "cara",
  "date": "2024-03-31",
