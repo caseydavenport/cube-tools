@@ -1,9 +1,29 @@
 {
- "labels": ["midrange"],
+ "labels": [
+  "midrange"
+ ],
  "player": "cara",
  "date": "2024-03-31",
- "games": null,
- "matches": null,
+ "games": [
+  {
+   "opponent": "xander",
+   "winner": "cara"
+  },
+  {
+   "opponent": "xander",
+   "winner": "cara"
+  },
+  {
+   "opponent": "xander",
+   "winner": "xander"
+  }
+ ],
+ "matches": [
+  {
+   "opponent": "xander",
+   "winner": "cara"
+  }
+ ],
  "mainboard": [
   {
    "name": "Monastery Swiftspear",
