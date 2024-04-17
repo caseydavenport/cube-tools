@@ -1,9 +1,30 @@
 {
- "labels": ["aggro", "midrange", "spells"],
+ "labels": [
+  "aggro",
+  "midrange"
+ ],
  "player": "james",
  "date": "2024-03-31",
- "games": null,
- "matches": null,
+ "games": [
+  {
+   "opponent": "greg",
+   "winner": "james"
+  },
+  {
+   "opponent": "greg",
+   "winner": "greg"
+  },
+  {
+   "opponent": "greg",
+   "winner": "greg"
+  }
+ ],
+ "matches": [
+  {
+   "opponent": "greg",
+   "winner": "greg"
+  }
+ ],
  "mainboard": [
   {
    "name": "Boseiju, Who Endures",

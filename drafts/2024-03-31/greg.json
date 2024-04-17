@@ -1,5 +1,10 @@
 {
- "labels": ["midrange", "lands", "graveyard", "titania"],
+ "labels": [
+  "midrange",
+  "lands",
+  "graveyard",
+  "titania"
+ ],
  "player": "greg",
  "date": "2024-03-31",
  "games": [
@@ -10,11 +15,27 @@
   {
    "opponent": "casey",
    "winner": "greg"
+  },
+  {
+   "opponent": "james",
+   "winner": "greg"
+  },
+  {
+   "opponent": "james",
+   "winner": "greg"
+  },
+  {
+   "opponent": "james",
+   "winner": "james"
   }
  ],
  "matches": [
   {
    "opponent": "casey",
+   "winner": "greg"
+  },
+  {
+   "opponent": "james",
    "winner": "greg"
   }
  ],
