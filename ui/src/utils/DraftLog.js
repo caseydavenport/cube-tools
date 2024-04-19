@@ -55,7 +55,7 @@ export function Burned(log, player, pack, pick) {
 }
 
 
-export function AggregatedPickInfo(logs, cube) {
+export function AggregatedPickInfo(logs, cube, playerMatch) {
   let pickInfo = new Map()
 
   // Build a map of all the cards in the cube so we can
@@ -104,6 +104,13 @@ export function AggregatedPickInfo(logs, cube) {
         continue
       }
 
+      if (playerMatch != "") {
+        if (!p.player.match(playerMatch)) {
+          continue
+        }
+      }
+
+
       // Check if the card matches the given filter, and skip if not.
       // TODO: Make this configurable in the UI.
       // let card = cubeCards.get(p.name)
@@ -148,6 +155,11 @@ export function AggregatedPickInfo(logs, cube) {
 
       // Skip cards not currently in cube.
       if (!cubeCards.has(b.name)) {
+        continue
+      }
+
+      // Burned cards have no player, so skip them if we're filtering on a player.
+      if (playerMatch != "") {
         continue
       }
 

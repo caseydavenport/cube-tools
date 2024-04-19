@@ -524,6 +524,7 @@ export default function StatsViewer() {
           onMinAvgPickSelected={onMinAvgPickSelected}
           maxAvgPick={maxAvgPick}
           onMaxAvgPickSelected={onMaxAvgPickSelected}
+          playerMatch={playerMatch}
           show={display[4]}
         />
 
@@ -625,7 +626,7 @@ function DraftOrderWidget(input) {
   if (input.drafts == null) {
     return null
   }
-  let picks = AggregatedPickInfo(input.drafts, input.cube)
+  let picks = AggregatedPickInfo(input.drafts, input.cube, input.playerMatch)
   let pickList = []
   for (let [name, pick] of picks) {
     pickList.push(pick)
