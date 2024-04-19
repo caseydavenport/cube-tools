@@ -79,6 +79,10 @@ export function AggregatedPickInfo(logs, cube, playerMatch) {
       burns: 0,
       pickNumSum: 0,
 
+      // Track absolute data in addition to per-pack data. This
+      // let's us track total pick order (e.g., p1p15 vs p3p15).
+      pickNumSumAbs: 0,
+
       // Specifically track pack one as a separate stat.
       p1count: 0,
       p1burns: 0,
@@ -140,6 +144,7 @@ export function AggregatedPickInfo(logs, cube, playerMatch) {
 
       pickInfo.get(p.name).count += 1
       pickInfo.get(p.name).pickNumSum += pickNumHumanReadable
+      pickInfo.get(p.name).pickNumSumAbs += pickNumHumanReadable + (p.pack * packInfo.cardsPerPack)
       if (p.pack == 0) {
         pickInfo.get(p.name).p1count += 1
         pickInfo.get(p.name).p1PickNumSum += pickNumHumanReadable
@@ -174,6 +179,7 @@ export function AggregatedPickInfo(logs, cube, playerMatch) {
       // pick tracking.
       pickInfo.get(b.name).count += 1
       pickInfo.get(b.name).pickNumSum += packInfo.cardsPerPack
+      pickInfo.get(b.name).pickNumSumAbs += packInfo.cardsPerPack + (b.pack * packInfo.cardsPerPack)
       pickInfo.get(b.name).burns += 1
       if (b.pack == 0) {
         pickInfo.get(b.name).p1burns += 1

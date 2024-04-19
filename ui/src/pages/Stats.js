@@ -645,6 +645,7 @@ function DraftOrderWidget(input) {
             <td onClick={input.onHeaderClick} id="p1p1" className="header-cell"># P1P1</td>
             <td onClick={input.onHeaderClick} id="avgp1pick" className="header-cell">Avg. p1 pick</td>
             <td onClick={input.onHeaderClick} id="avgpick" className="header-cell">Avg. pick</td>
+            <td onClick={input.onHeaderClick} id="avgpickabs" className="header-cell">Avg. pick (abs)</td>
             <td onClick={input.onHeaderClick} id="stddev" className="header-cell">Pick deviation</td>
             <td onClick={input.onHeaderClick} id="p1burn" className="header-cell"># P1 Burns</td>
             <td onClick={input.onHeaderClick} id="burn" className="header-cell"># Burns</td>
@@ -659,8 +660,10 @@ function DraftOrderWidget(input) {
               }
 
               let avgPackPick = "-"
+              let avgPackPickAbsolute = "-"
               if (pick.count > 0) {
-                avgPackPick = Math.round(pick.pickNumSum / pick.count * 100) / 100
+                avgPackPick = Math.round(pick.pickNumSum / pick.count * 10) / 10
+                avgPackPickAbsolute = Math.round(pick.pickNumSumAbs / pick.count * 10) / 10
               }
 
               // Filter based on average pack pick.
@@ -715,6 +718,8 @@ function DraftOrderWidget(input) {
                 sort = avgPack1Pick
               } else if (input.sortBy === "avgpick") {
                 sort = avgPackPick
+              } else if (input.sortBy === "avgpickabs") {
+                sort = avgPackPickAbsolute
               } else if (input.sortBy === "burn") {
                 sort = pick.burns
               } else if (input.sortBy === "p1burn") {
@@ -747,6 +752,7 @@ function DraftOrderWidget(input) {
                   <td>{firstPicks}</td>
                   <td>{avgPack1Pick}</td>
                   <td>{avgPackPick}</td>
+                  <td>{avgPackPickAbsolute}</td>
                   <td>{stddev}</td>
                   <td>{p1burns}</td>
                   <td>{burns}</td>
