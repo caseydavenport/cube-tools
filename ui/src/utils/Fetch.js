@@ -60,7 +60,7 @@ export async function LoadDecks(onLoad, start, end, draftSize, playerMatch) {
     // This allows us to filter down to a single player's history and perform calculations
     // ignoring decks from any other player.
     if (playerMatch != "") {
-      if (!d.player.includes(playerMatch)) {
+      if (!d.player.match(playerMatch)) {
         continue
       }
     }
