@@ -1,5 +1,7 @@
 {
- "labels": ["control"],
+ "labels": [
+  "control"
+ ],
  "player": "dom",
  "date": "2024-03-31",
  "games": [
@@ -14,12 +16,28 @@
   {
    "opponent": "casey",
    "winner": "casey"
+  },
+  {
+   "opponent": "greg",
+   "winner": "dom"
+  },
+  {
+   "opponent": "greg",
+   "winner": "greg"
+  },
+  {
+   "opponent": "greg",
+   "winner": "greg"
   }
  ],
  "matches": [
   {
    "opponent": "casey",
    "winner": "casey"
+  },
+  {
+   "opponent": "greg",
+   "winner": "greg"
   }
  ],
  "mainboard": [

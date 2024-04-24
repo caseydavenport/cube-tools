@@ -7,6 +7,18 @@
  "date": "2024-03-31",
  "games": [
   {
+   "opponent": "casey",
+   "winner": "james"
+  },
+  {
+   "opponent": "casey",
+   "winner": "james"
+  },
+  {
+   "opponent": "casey",
+   "winner": "casey"
+  },
+  {
    "opponent": "greg",
    "winner": "james"
   },
@@ -20,6 +32,10 @@
   }
  ],
  "matches": [
+  {
+   "opponent": "casey",
+   "winner": "james"
+  },
   {
    "opponent": "greg",
    "winner": "greg"
