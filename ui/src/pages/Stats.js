@@ -28,7 +28,7 @@ export default function StatsViewer() {
   ///////////////////////////////////////////////////////////////////////////////
   const [bucketSize, setNumBuckets] = useState(5);
   const [playerMatch, setPlayerMatch] = useState("");
-  const [minDraftSize, setMinDraftSize] = useState(6); // TODO: Make the min draft size configurable
+  const [minDraftSize, setMinDraftSize] = useState(0);
   function onBucketsChanged(event) {
     let num = event.target.value
     if (num < 1) {
@@ -39,7 +39,9 @@ export default function StatsViewer() {
   function onPlayerMatchChanged(event) {
     setPlayerMatch(event.target.value)
   }
-
+  function onMinDraftSizeChanged(event) {
+    setMinDraftSize(event.target.value)
+  }
 
   ///////////////////////////////////////////////////////////////////////////////
   // State used for the color / color pair win rate widget.
@@ -258,7 +260,7 @@ export default function StatsViewer() {
   useEffect(() => {
     LoadDecks(onDecksLoaded, startDate, endDate, minDraftSize, playerMatch)
     LoadDrafts(onDraftsLoaded, startDate, endDate)
-  }, [startDate, endDate, playerMatch])
+  }, [startDate, endDate, playerMatch, minDraftSize])
   useEffect(() => {
     LoadCube(onCubeLoad)
   }, [decks])
@@ -387,6 +389,7 @@ export default function StatsViewer() {
         />
 
         <NumericInput className="dropdown" label="Bucket size" value={bucketSize} onChange={onBucketsChanged} />
+        <NumericInput className="dropdown" label="Draft size" value={minDraftSize} onChange={onMinDraftSizeChanged} />
 
         <TextInput
           className="dropdown"
