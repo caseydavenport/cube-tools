@@ -52,13 +52,17 @@ There are also a number of cards acting as strong enablers in these decks:
 - A bit more targeted creature removal across the board. I think I could easily support up to 10 more removal spells in the cube, but may start with fewer.
 - Perhaps even remove a few of the extra land sac outlets that were originally added before 2x fetches.
 
+I've already added some graveyard hate, and there are a couple more pieces coming in soon. Most importantly, [[Scrabbling Claws]].
+
+Something like [[Engineered Explosives]] is also a very powerful answer to the tokens Titania creates.
+
 ## Tectonic Reformation
 
 This was a new addition this draft, and I think it performed OK. It's a bit slow for an aggro deck, but it does manage to accrue a LOT of value if your mana curve is sufficiently low. I managed to cycle 5 lands on it easily some games, which kept my aggressive deck fed with threats. I think this one still needs some time to soak though before I decide if it's a good fit. There were definitely times I felt I'd rather not have drawn it, even with the _cycling_ mode on it.
 
 ## Many, many, tokens
 
-There are some pretty insane plays that can be made regarding tokens. This time, I was lucky enough to witness a [[Chandra, Hope's Beacon]] helping pay for a [[Parallel Lives]] --> [[Empty the Warrens]] and it was glorious. A bit more of a swingy play than I really want to run rampant in this cube, but also pretty cool that it might happen sometimes. It does feel a little bit like [[Parallel Lives]] doesn't fit the mold of the rest of the cube, but maybe that's an OK thing. This is one to keep an eye on though - if it turns out there are no real ways to interact with this strategy then it will need tuning.
+There are some pretty insane plays that can be made regarding tokens. This time, I was lucky enough to witness a [[Chandra, Hope's Beacon]] helping pay for a [[Parallel Lives]] --> [[Empty the Warrens]] and it was glorious. A bit more of a swingy play than I really want to run rampant in this cube, but also pretty cool that it might happen sometimes. It does feel a little bit like [[Parallel Lives]] doesn't fit the mold of the rest of the cube, but maybe that's an OK thing. This is one to keep an eye on though - if it turns out there are no real ways to interact with this strategy then it will need tuning. I mentioned it earlier, but [[Engineered Explosives]] seems like a slam dunk option for interacting with these strategies.
 
 ## Wilderness Reclamation
 
@@ -70,4 +74,4 @@ This card proved to be fairly useful even in a deck with a limited number of ins
 
 ## Gruff Triplets
 
-Such a swingy card, still. I had said several releases ago that I was going to replace this one, and I think I still probably will. The problem with [[Gruff Triplets]] is that he's a win-in-a-can. You can go from no board presence, 5 life, to winning in two turns. I have my eyes on [[Esika's Chariot]] as one potential replacement. I think my green finishers need to have some value in the face of removal, but [[Gruff Triplets]] might go too far.
+Such a swingy card, still. I had said several drafts ago that I was going to replace this one, and I still think I will. The problem with [[Gruff Triplets]] is that he's a win-in-a-can. You can go from no board presence, 5 life, to winning in two turns with very little that can be done about it unless your opponent has the perfect hand (board wipe, or several bounce / flicker spells and a removal spell). I have my eyes on [[Esika's Chariot]] as one potential replacement. I think my green finishers need to have some value in the face of removal, but [[Gruff Triplets]] goes too far.
