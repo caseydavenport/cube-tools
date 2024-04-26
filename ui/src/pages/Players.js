@@ -2,6 +2,29 @@ import React from 'react'
 import { IsBasicLand, SortFunc } from "../utils/Utils.js"
 import { Wins, Losses } from "../utils/Deck.js"
 
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend,
+} from 'chart.js';
+import { Line, Bar } from 'react-chartjs-2';
+
+// Register chart JS objects that we need to use.
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend
+);
+
 export function PlayerWidget(input) {
   if (!input.show) {
     return null
@@ -393,8 +416,81 @@ function PlayerDetailsPanel(input) {
         </tbody>
       </table>
 
+      <WinRateChart dataset="wins" {...input} />
 
     </div>
   );
 }
 
+function WinRateChart(input) {
+  // Split the given decks into fixed-size buckets.
+  // Each bucket will contain N drafts worth of deck information.
+  let buckets = input.parsed.deckBuckets
+
+  // Use the starting date of the bucket as the label. This is just an approximation,
+  // as the bucket really includes a variable set of dates, but it allows the viewer to
+  // at least place some sense of time to the chart.
+  const labels = []
+  for (let bucket of buckets) {
+    labels.push(bucket[0].name)
+  }
+
+  var values = []
+  for (let bucket of buckets) {
+    let stats = bucket.playerData.get(input.player)
+    if (stats != null) {
+      values.push(stats.winPercent)
+    } else {
+      // Player was not in this bucket.
+      values.push(null)
+    }
+  }
+
+  let dataset = [
+      {
+        label: 'Win %',
+        data: values,
+        borderColor: "#FFF",
+        backgroundColor: "#FFF",
+      },
+  ]
+
+
+  let title = `Build % (bucket size = ${input.bucketSize} drafts)`
+  switch (input.dataset) {
+    case "wins":
+      title = `Win % (buckets size = ${input.bucketSize} drafts)`
+      break
+  }
+
+  const options = {
+    responsive: true,
+    maintainAspectRatio: false,
+    scales: {y: {min: 0, max: 100}},
+    plugins: {
+      title: {
+        display: true,
+        text: title,
+        color: "#FFF",
+        font: {
+          size: "16pt",
+        },
+      },
+      legend: {
+        labels: {
+          color: "#FFF",
+          font: {
+            size: "16pt",
+          },
+        },
+      },
+    },
+  };
+
+  const data = {labels, datasets: dataset};
+  return (
+    <div style={{"height":"500px", "width":"100%"}}>
+      <Line height={"300px"} width={"300px"} options={options} data={data} />
+    </div>
+  );
+}

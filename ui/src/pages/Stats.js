@@ -356,7 +356,7 @@ export default function StatsViewer() {
       // Add per-bucket parsed data.
       b.archetypeData = ArchetypeData(bucketDecks)
       b.colorData = GetColorStats(bucketDecks)
-      b.playerData = PlayerData(f)
+      b.playerData = PlayerData(bucketDecks)
     }
 
     // Also go through each player and parse stats individually for them.
@@ -541,6 +541,7 @@ export default function StatsViewer() {
         <PlayerWidget
           parsed={parsed}
           decks={parsed.filteredDecks}
+          bucketSize={bucketSize}
           sortBy={playerSortBy}
           invertSort={playerSortInvert}
           onHeaderClick={onPlayerHeaderClicked}
