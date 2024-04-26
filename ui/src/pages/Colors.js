@@ -367,7 +367,7 @@ export function GetColorStats(decks) {
     const density_count = color.deck_percentages.length;
     color.average_deck_percentage = Math.round(100 * density_sum / density_count);
     color.win_shares = Math.round(100 * color.deck_win_shares.reduce((sum, a) => sum + a, 0)) / 100;
-    color.win_shares_converterd = Math.round(color.win_shares / color.possible_win_shares)
+    color.win_shares_converterd = Math.round(100 * color.win_shares / color.possible_win_shares) / 100;
 
     // Calculate the percentage of all cards drafted that are this color.
     color.total_pick_percentage = Math.round(100 * color.cards / totalCards);
