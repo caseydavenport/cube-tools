@@ -318,7 +318,7 @@ function TopCardsInArchetypeWidget(input) {
   // Filter out cards that don't match the given archetype, or don't meet minimum
   // requirements.
   let filtered = new Array()
-  data.map(function(card) {
+  data.forEach(function(card, name) {
     if (!card.archetypes.has(input.selectedArchetype)) {
       return
     }

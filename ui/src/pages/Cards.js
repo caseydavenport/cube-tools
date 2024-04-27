@@ -3,11 +3,56 @@ import { IsBasicLand, SortFunc } from "../utils/Utils.js"
 import { DropdownHeader, NumericInput, Checkbox, DateSelector } from "../components/Dropdown.js"
 import { Wins, Losses } from "../utils/Deck.js"
 import { ApplyTooltip } from "../utils/Tooltip.js"
+import { CardData } from "../utils/Cards.js"
+
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend,
+} from 'chart.js';
+import { Line, Bar } from 'react-chartjs-2';
+
+// Register chart JS objects that we need to use.
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend
+);
 
 export function CardWidget(input) {
   if (!input.show) {
     return null
   }
+
+  return (
+    <table style={{"width": "100%"}}>
+      <tbody>
+        <tr style={{"height": "800px"}}>
+          <td style={{"width": "45%", "verticalAlign": "top"}}>
+            <CardWidgetTable {...input} />
+          </td>
+          <td style={{"width": "10%", "verticalAlign": "top"}}>
+            <UndraftedWidget {...input} />
+          </td>
+          <td style={{"width": "40%", "position": "fixed", "verticalAlign": "top"}}>
+            <PlayRateChart {...input} />
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  );
+}
+
+function CardWidgetTable(input) {
 
   // shouldSkip returns true if the card should be skipped, and false otherwise.
   function shouldSkip(card) {
@@ -20,9 +65,15 @@ export function CardWidget(input) {
     return false
   }
 
+  // Convert the cardData map to a list for sorting purposes.
+  let cards = []
+  for (let [name, card] of input.parsed.cardData) {
+    cards.push(card)
+  }
+
   if (input.dropdownSelection === "Mainboard rate") {
     return (
-      <div className="widget">
+      <div>
         <CardWidgetOptions {...input} />
         <table className="winrate-table">
           <thead className="table-header">
@@ -40,7 +91,7 @@ export function CardWidget(input) {
           </thead>
           <tbody>
           {
-            input.parsed.cardData.map(function(card) {
+            cards.map(function(card) {
               if (shouldSkip(card)) {
                 return
               }
@@ -64,7 +115,7 @@ export function CardWidget(input) {
                   sort = card.elo
                   break
                 case "in-color-sb":
-                  sort = card.inColorSideboard
+                  sort = card.playableSideboard
                   break
                 case "lastPlayed":
                   sort = card.lastMainboarded
@@ -76,11 +127,11 @@ export function CardWidget(input) {
 
               return (
                 <tr sort={sort} className="card" key={card.name}>
-                  <td>{card.mainboard_percent}%</td>
+                  <td id={card.name} onClick={input.onCardSelected} key="name">{card.mainboard_percent}%</td>
                   <td className="card"><a href={card.url} target="_blank" rel="noopener noreferrer">{card.name}</a></td>
                   <td><ApplyTooltip text={card.mainboard} hidden={CardMainboardTooltipContent(card)}/></td>
                   <td>{card.sideboard}</td>
-                  <td>{card.inColorSideboard}</td>
+                  <td>{card.playableSideboard}</td>
                   <td>{card.appearances}</td>
                   <td>{card.total_games}</td>
                   <td>{card.elo}</td>
@@ -113,7 +164,7 @@ export function CardWidget(input) {
           </thead>
           <tbody>
             {
-              input.parsed.cardData.map(function(card) {
+              cards.map(function(card) {
                 if (shouldSkip(card)) {
                   return
                 }
@@ -287,6 +338,56 @@ function CardWidgetOptions(input) {
   );
 }
 
+function UndraftedWidget(input) {
+  let draftData = CardData(input.decks, input.minDrafts, input.minGames, input.cube, "")
+
+  // Build a map of all the cards in the cube so we can
+  // easily discard cards that have been drafted before.
+  let cards = new Map()
+  for (var i in input.cube.cards) {
+    cards.set(input.cube.cards[i].name, input.cube.cards[i])
+  }
+
+  // Discard any cards that have been mainboarded.
+  for (let [name, card] of draftData) {
+    if (card.mainboard > 0) {
+      cards.delete(card.name)
+    }
+  }
+
+  // All that's left are cards that have never been drafted.
+  // Display them in a table. Make them an array first so we can sort.
+  let cardArray = []
+  let num = 0
+  cards.forEach(function(i) {
+    cardArray.push(i)
+    num += 1
+  })
+  return (
+    <div>
+    <table className="winrate-table">
+      <thead className="table-header">
+        <tr>
+          <td>{num} cards never mainboarded</td>
+        </tr>
+      </thead>
+      <tbody>
+      {
+        cardArray.map(function(item) {
+         return (
+           <tr sort={item.mainboard_percent} className="card" key={item.name}>
+             <td><a href={item.url} target="_blank" rel="noopener noreferrer">{item.name}</a></td>
+           </tr>
+         )
+        })
+      }
+      </tbody>
+    </table>
+    </div>
+  );
+}
+
+
 function CardMainboardTooltipContent(card) {
   let mainboarders = []
   card.players.forEach(function(num, name) {
@@ -339,5 +440,98 @@ function CardMainboardTooltipContent(card) {
         </tbody>
       </table>
     </div>
-  )
+  );
+}
+
+function PlayRateChart(input) {
+  // Split the given decks into fixed-size buckets.
+  // Each bucket will contain N drafts worth of deck information.
+  let buckets = input.parsed.deckBuckets
+
+  // Use the starting date of the bucket as the label. This is just an approximation,
+  // as the bucket really includes a variable set of dates, but it allows the viewer to
+  // at least place some sense of time to the chart.
+  const labels = []
+  for (let bucket of buckets) {
+    labels.push(bucket[0].name)
+  }
+
+  let name = input.selectedCard
+
+  var mb = []
+  var sb = []
+  var playableSb = []
+  for (let bucket of buckets) {
+    let stats = bucket.cardData.get(name)
+    if (stats != null) {
+      mb.push(stats.mainboard_percent)
+      sb.push(stats.sideboard_percent)
+      playableSb.push(stats.playable_sideboard_percent)
+    } else {
+      // Player was not in this bucket.
+      mb.push(null)
+      sb.push(null)
+      playableSb.push(null)
+    }
+  }
+
+  let dataset = [
+      {
+        label: 'Mainboard %',
+        data: mb,
+        borderColor: "#0F0",
+        backgroundColor: "#0F0",
+      },
+      {
+        label: 'Sideboard %',
+        data: sb,
+        borderColor: "#FF0",
+        backgroundColor: "#FF0",
+      },
+      {
+        label: 'Playable sb %',
+        data: playableSb,
+        borderColor: "#F00",
+        backgroundColor: "#F00",
+      },
+  ]
+
+
+  let title = `${name} mainboard % (bucket size = ${input.bucketSize} drafts)`
+  switch (input.dataset) {
+    case "wins":
+      title = `${name} win % (buckets size = ${input.bucketSize} drafts)`
+      break
+  }
+
+  const options = {
+    responsive: true,
+    maintainAspectRatio: false,
+    scales: {y: {min: 0, max: 100}},
+    plugins: {
+      title: {
+        display: true,
+        text: title,
+        color: "#FFF",
+        font: {
+          size: "16pt",
+        },
+      },
+      legend: {
+        labels: {
+          color: "#FFF",
+          font: {
+            size: "16pt",
+          },
+        },
+      },
+    },
+  };
+
+  const data = {labels, datasets: dataset};
+  return (
+    <div height={"500px"} width={"300px"}>
+      <Line height={"500px"} width={"300px"} options={options} data={data} />
+    </div>
+  );
 }

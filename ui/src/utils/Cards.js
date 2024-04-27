@@ -4,7 +4,7 @@ import { Wins, Losses } from "../utils/Deck.js"
 // CardData returns data for each card that matches the given minimum number of drafts. The provided
 // cube list is used to filter cards no longer in the cube.
 export function CardData(decks, minDrafts, minGames, cube, color) {
-  let tracker = {}
+  let cardsByName = new Map()
   let drafts = new Map()
 
   // Define a helper function for initializing a new empty card.
@@ -13,7 +13,7 @@ export function CardData(decks, minDrafts, minGames, cube, color) {
       name: card.name,
       mainboard: 0, // Number of times this card has been mainboarded.
       sideboard: 0, // Number of times this card has been sideboarded.
-      inColorSideboard: 0, // Number of times this card was in deck color(s), and sideboarded.
+      playableSideboard: 0, // Number of times this card was in deck color(s), and sideboarded.
       wins: 0, // Does not include sideboard.
       losses: 0, // Does not include sideboard.
       archetypes: new Map(), // Map of archetype to times played in that archetype.
@@ -62,33 +62,33 @@ export function CardData(decks, minDrafts, minGames, cube, color) {
         }
       }
 
-      if (tracker[card.name] == null) {
-        tracker[card.name] = newCard(card)
+      if (!cardsByName.has(card.name)) {
+        cardsByName.set(card.name, newCard(card))
       }
 
       // Increment basic stats for this card.
-      tracker[card.name].mainboard += 1
-      tracker[card.name].wins += Wins(decks[i])
-      tracker[card.name].losses += Losses(decks[i])
+      cardsByName.get(card.name).mainboard += 1
+      cardsByName.get(card.name).wins += Wins(decks[i])
+      cardsByName.get(card.name).losses += Losses(decks[i])
 
       if (card.appearances) {
-        tracker[card.name].appearances += card.appearances
+        cardsByName.get(card.name).appearances += card.appearances
       }
 
       // Update the last date that this card was put in a mainboard.
-      tracker[card.name].lastMainboarded = compareDates(decks[i].draft, tracker[card.name].lastMainboarded)
+      cardsByName.get(card.name).lastMainboarded = compareDates(decks[i].draft, cardsByName.get(card.name).lastMainboarded)
 
       // Increment player count.
-      if (!tracker[card.name].players.has(deck.player)) {
-        tracker[card.name].players.set(deck.player, 0)
+      if (!cardsByName.get(card.name).players.has(deck.player)) {
+        cardsByName.get(card.name).players.set(deck.player, 0)
       }
-      tracker[card.name].players.set(deck.player, tracker[card.name].players.get(deck.player) + 1)
+      cardsByName.get(card.name).players.set(deck.player, cardsByName.get(card.name).players.get(deck.player) + 1)
 
       // Include archetype data for this card, which allows us to map cards to archetypes
       // and compare their performance to other cards in the same archetype.
       for (var k in deck.labels) {
         const arch = deck.labels[k]
-        let cardData = tracker[card.name]
+        let cardData = cardsByName.get(card.name)
         cardData.archetypes.has(arch) || cardData.archetypes.set(arch, 0)
         cardData.archetypes.set(arch, cardData.archetypes.get(arch) + 1)
       }
@@ -118,19 +118,19 @@ export function CardData(decks, minDrafts, minGames, cube, color) {
         }
       }
 
-      if (tracker[card.name] == null) {
-        tracker[card.name] = newCard(card)
+      if (!cardsByName.has(card.name)) {
+        cardsByName.set(card.name, newCard(card))
       }
-      tracker[card.name].sideboard += 1
+      cardsByName.get(card.name).sideboard += 1
       if (inDeckColor(card, deck)) {
-        tracker[card.name].inColorSideboard += 1
+        cardsByName.get(card.name).playableSideboard += 1
       }
 
       // Increment count of players who sideboarded this card.
-      if (!tracker[card.name].sideboarders.has(deck.player)) {
-        tracker[card.name].sideboarders.set(deck.player, 0)
+      if (!cardsByName.get(card.name).sideboarders.has(deck.player)) {
+        cardsByName.get(card.name).sideboarders.set(deck.player, 0)
       }
-      tracker[card.name].sideboarders.set(deck.player, tracker[card.name].sideboarders.get(deck.player) + 1)
+      cardsByName.get(card.name).sideboarders.set(deck.player, cardsByName.get(card.name).sideboarders.get(deck.player) + 1)
     }
   }
 
@@ -141,10 +141,7 @@ export function CardData(decks, minDrafts, minGames, cube, color) {
   // Calculate ELO data, which we'll merge in below.
   let eloData = ELOData(decks)
 
-  // Convert to a list for sorting.
-  let data = []
-  for (var c in tracker) {
-    let card = tracker[c]
+  for (let [c, card] of cardsByName) {
     if ((card.mainboard + card.sideboard) < minDrafts) {
       // Skip any cards that haven't been picked enough - this is an approximation of
       // the number of drafts the card has appeared in. There is some fuzziness because not all drafts
@@ -155,20 +152,20 @@ export function CardData(decks, minDrafts, minGames, cube, color) {
       // amount of play a card may have seen, although we don't know if the card was actually ever drawn in these games.
       continue
     }
-    tracker[c].pick_percent = Math.round((card.mainboard + card.sideboard) / totalDrafts * 100) // TODO: Unused
-    tracker[c].mainboard_percent = Math.round(card.mainboard / (card.mainboard + card.sideboard) * 100)
-    tracker[c].sideboard_percent = Math.round(card.sideboard / (card.mainboard + card.sideboard) * 100)
-    tracker[c].record = card.wins + "-" + card.losses + "-" + 0
-    tracker[c].total_games = card.wins + card.losses
-    tracker[c].elo = eloData.get(card.name).elo
-    tracker[c].win_percent = 0
+    cardsByName.get(c).pick_percent = Math.round((card.mainboard + card.sideboard) / totalDrafts * 100) // TODO: Unused
+    cardsByName.get(c).mainboard_percent = Math.round(card.mainboard / (card.mainboard + card.sideboard) * 100)
+    cardsByName.get(c).sideboard_percent = Math.round(card.sideboard / (card.mainboard + card.sideboard) * 100)
+    cardsByName.get(c).playable_sideboard_percent = Math.round(card.playableSideboard / (card.mainboard + card.sideboard) * 100)
+    cardsByName.get(c).record = card.wins + "-" + card.losses + "-" + 0
+    cardsByName.get(c).total_games = card.wins + card.losses
+    cardsByName.get(c).elo = eloData.get(card.name).elo
+    cardsByName.get(c).win_percent = 0
     if (card.wins + card.losses > 0) {
       // Calculate win percentage for cards that have been mainboarded before.
-      tracker[c].win_percent = Math.round(card.wins / (card.wins + card.losses) * 100)
+      cardsByName.get(c).win_percent = Math.round(card.wins / (card.wins + card.losses) * 100)
     }
-    data.push(tracker[c])
   }
-  return data
+  return cardsByName
 }
 
 // Helper function for determining if a card is within a given deck's colors.

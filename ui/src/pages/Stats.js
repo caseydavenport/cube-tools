@@ -88,6 +88,7 @@ export default function StatsViewer() {
   const [minGames, setMinGames] = useState(0);
   const [minPlayers, setMinPlayers] = useState(0);
   const [maxPlayers, setMaxPlayers] = useState(0);
+  const [selectedCard, setSelectedCard] = useState("");
   const cardWidgetOpts =  [
     { label: "Mainboard rate", value: "Mainboard rate" },
     { label: "Win rate", value: "Win rate" },
@@ -122,6 +123,9 @@ export default function StatsViewer() {
   }
   function onMaxPlayersSelected(event) {
     setMaxPlayers(event.target.value)
+  }
+  function onCardSelected(event) {
+    setSelectedCard(event.target.id)
   }
 
   ///////////////////////////////////////////////////////////////////////////////
@@ -308,7 +312,7 @@ export default function StatsViewer() {
     "colorData": [],
     "deckBuckets": [],
     "playerData": [],
-    "cardData": []
+    "cardData": {}
   }
   const [parsed, setParsedData] = useState(defaultParsed);
   function parse() {
@@ -357,6 +361,7 @@ export default function StatsViewer() {
       b.archetypeData = ArchetypeData(bucketDecks)
       b.colorData = GetColorStats(bucketDecks)
       b.playerData = PlayerData(bucketDecks)
+      b.cardData = CardData(bucketDecks, minDrafts, minGames, cube, cardWidgetColorSelection)
     }
 
     // Also go through each player and parse stats individually for them.
@@ -485,6 +490,8 @@ export default function StatsViewer() {
           dropdownSelection={cardWidgetSelection}
           cardWidgetOpts={cardWidgetOpts}
           onSelected={onCardWidgetSelected}
+          onCardSelected={onCardSelected}
+          selectedCard={selectedCard}
           colorWidgetOpts={cardWidgetColorOpts}
           colorSelection={cardWidgetColorSelection}
           onColorSelected={onCardWidgetColorSelected}
@@ -498,14 +505,8 @@ export default function StatsViewer() {
           onMaxPlayersSelected={onMaxPlayersSelected}
           onHeaderClick={onCardWidgetHeaderClicked}
           sortBy={cardWidgetSortBy}
+          bucketSize={bucketSize}
           cube={cube}
-          show={display[2]}
-        />
-
-        <UndraftedWidget
-          parsed={parsed}
-          cube={cube}
-          decks={parsed.filteredDecks}
           show={display[2]}
         />
 
@@ -789,58 +790,6 @@ function Overview(input) {
       <label>Displaying stats for {numDrafts} drafts, {numDecks} decks</label>
     </label>
   )
-}
-
-function UndraftedWidget(input) {
-  if (!input.show) {
-    return null
-  }
-  let draftData = CardData(input.decks, input.minDrafts, input.minGames, input.cube, "")
-
-  // Build a map of all the cards in the cube so we can
-  // easily discard cards that have been drafted before.
-  let cards = new Map()
-  for (var i in input.cube.cards) {
-    cards.set(input.cube.cards[i].name, input.cube.cards[i])
-  }
-
-  // Discard any cards that have been mainboarded.
-  for (i in draftData) {
-    if (draftData[i].mainboard > 0) {
-      cards.delete(draftData[i].name)
-    }
-  }
-
-  // All that's left are cards that have never been drafted.
-  // Display them in a table. Make them an array first so we can sort.
-  let cardArray = []
-  let num = 0
-  cards.forEach(function(i) {
-    cardArray.push(i)
-    num += 1
-  })
-  return (
-    <div className="widget">
-    <table className="winrate-table">
-      <thead className="table-header">
-        <tr>
-          <td>{num} cards never mainboarded</td>
-        </tr>
-      </thead>
-      <tbody>
-      {
-        cardArray.map(function(item) {
-         return (
-           <tr sort={item.mainboard_percent} className="card" key={item.name}>
-             <td><a href={item.url} target="_blank" rel="noopener noreferrer">{item.name}</a></td>
-           </tr>
-         )
-        })
-      }
-      </tbody>
-    </table>
-    </div>
-  );
 }
 
 function PrintRow({ k, value, p }) {
