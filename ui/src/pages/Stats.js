@@ -361,7 +361,7 @@ export default function StatsViewer() {
       b.archetypeData = ArchetypeData(bucketDecks)
       b.colorData = GetColorStats(bucketDecks)
       b.playerData = PlayerData(bucketDecks)
-      b.cardData = CardData(bucketDecks, minDrafts, minGames, cube, cardWidgetColorSelection)
+      b.cardData = CardData(bucketDecks, 0, 0, cube, "")
     }
 
     // Also go through each player and parse stats individually for them.

@@ -28,6 +28,9 @@ ChartJS.register(
   Legend
 );
 
+const chartHeight = "425px"
+const chartWidth = "300px"
+
 export function CardWidget(input) {
   if (!input.show) {
     return null
@@ -45,6 +48,8 @@ export function CardWidget(input) {
           </td>
           <td style={{"width": "40%", "position": "fixed", "verticalAlign": "top"}}>
             <PlayRateChart {...input} />
+            <ELOChart {...input} />
+            <WinrateChart {...input} />
           </td>
         </tr>
       </tbody>
@@ -146,7 +151,7 @@ function CardWidgetTable(input) {
     );
   } else {
     return (
-      <div className="widget">
+      <div>
         <CardWidgetOptions {...input} />
         <table className="winrate-table">
           <thead className="table-header">
@@ -256,7 +261,7 @@ function CardWidgetTable(input) {
                 // Return the row.
                 return (
                   <tr sort={sort} className="card" key={card.name}>
-                    <td>{card.win_percent}%</td>
+                    <td id={card.name} onClick={input.onCardSelected} key="name">{card.win_percent}%</td>
                     <td className="card"><a href={card.url} target="_blank" rel="noopener noreferrer">{card.name}</a></td>
                     <td>{card.mainboard}</td>
                     <td><ApplyTooltip text={card.total_games} hidden={CardMainboardTooltipContent(card)}/></td>
@@ -497,12 +502,7 @@ function PlayRateChart(input) {
   ]
 
 
-  let title = `${name} mainboard % (bucket size = ${input.bucketSize} drafts)`
-  switch (input.dataset) {
-    case "wins":
-      title = `${name} win % (buckets size = ${input.bucketSize} drafts)`
-      break
-  }
+  let title = `${name} % (bucket size = ${input.bucketSize} drafts)`
 
   const options = {
     responsive: true,
@@ -530,8 +530,148 @@ function PlayRateChart(input) {
 
   const data = {labels, datasets: dataset};
   return (
-    <div height={"500px"} width={"300px"}>
-      <Line height={"500px"} width={"300px"} options={options} data={data} />
+    <div height={chartHeight} width={chartWidth}>
+      <Line height={chartHeight} width={chartWidth} options={options} data={data} />
+    </div>
+  );
+}
+
+function ELOChart(input) {
+  // Split the given decks into fixed-size buckets.
+  // Each bucket will contain N drafts worth of deck information.
+  let buckets = input.parsed.deckBuckets
+
+  // Use the starting date of the bucket as the label. This is just an approximation,
+  // as the bucket really includes a variable set of dates, but it allows the viewer to
+  // at least place some sense of time to the chart.
+  const labels = []
+  for (let bucket of buckets) {
+    labels.push(bucket[0].name)
+  }
+
+  let name = input.selectedCard
+
+  var elo = []
+  for (let bucket of buckets) {
+    let stats = bucket.cardData.get(name)
+    if (stats != null) {
+      elo.push(stats.elo)
+    } else {
+      // Player was not in this bucket.
+      elo.push(null)
+    }
+  }
+
+  let dataset = [
+      {
+        label: 'ELO',
+        data: elo,
+        borderColor: "#F0F",
+        backgroundColor: "#F0F",
+      },
+  ]
+
+
+  let title = `${name} ELO (bucket size = ${input.bucketSize} drafts)`
+
+  const options = {
+    responsive: true,
+    maintainAspectRatio: false,
+    scales: {y: {min: 900, max: 1500}},
+    plugins: {
+      title: {
+        display: true,
+        text: title,
+        color: "#FFF",
+        font: {
+          size: "16pt",
+        },
+      },
+      legend: {
+        labels: {
+          color: "#FFF",
+          font: {
+            size: "16pt",
+          },
+        },
+      },
+    },
+  };
+
+  const data = {labels, datasets: dataset};
+  return (
+    <div height={chartHeight} width={chartWidth}>
+      <Line height={chartHeight} width={chartWidth} options={options} data={data} />
+    </div>
+  );
+}
+
+function WinrateChart(input) {
+  // Split the given decks into fixed-size buckets.
+  // Each bucket will contain N drafts worth of deck information.
+  let buckets = input.parsed.deckBuckets
+
+  // Use the starting date of the bucket as the label. This is just an approximation,
+  // as the bucket really includes a variable set of dates, but it allows the viewer to
+  // at least place some sense of time to the chart.
+  const labels = []
+  for (let bucket of buckets) {
+    labels.push(bucket[0].name)
+  }
+
+  let name = input.selectedCard
+
+  var wins = []
+  for (let bucket of buckets) {
+    let card = bucket.cardData.get(name)
+    if (card != null) {
+      wins.push(card.win_percent)
+    } else {
+      // Player was not in this bucket.
+      wins.push(null)
+    }
+  }
+
+  let dataset = [
+      {
+        label: 'Win %',
+        data: wins,
+        borderColor: "#0F0",
+        backgroundColor: "#0F0",
+      },
+  ]
+
+
+  let title = `${name} win % (bucket size = ${input.bucketSize} drafts)`
+
+  const options = {
+    responsive: true,
+    maintainAspectRatio: false,
+    scales: {y: {min: 0, max: 100}},
+    plugins: {
+      title: {
+        display: true,
+        text: title,
+        color: "#FFF",
+        font: {
+          size: "16pt",
+        },
+      },
+      legend: {
+        labels: {
+          color: "#FFF",
+          font: {
+            size: "16pt",
+          },
+        },
+      },
+    },
+  };
+
+  const data = {labels, datasets: dataset};
+  return (
+    <div height={chartHeight} width={chartWidth}>
+      <Line height={chartHeight} width={chartWidth} options={options} data={data} />
     </div>
   );
 }

@@ -16,6 +16,9 @@ export function CardData(decks, minDrafts, minGames, cube, color) {
       playableSideboard: 0, // Number of times this card was in deck color(s), and sideboarded.
       wins: 0, // Does not include sideboard.
       losses: 0, // Does not include sideboard.
+      win_percent: 0,
+      mainboard_percent: 0,
+      sideboard_percent: 0,
       archetypes: new Map(), // Map of archetype to times played in that archetype.
       players: new Map(), // Who has played this card, and how often.
       sideboarders: new Map(), // Who has sideboarded this card, and how often.
@@ -146,10 +149,12 @@ export function CardData(decks, minDrafts, minGames, cube, color) {
       // Skip any cards that haven't been picked enough - this is an approximation of
       // the number of drafts the card has appeared in. There is some fuzziness because not all drafts
       // record sideboards, and so it is possible that a card has been in more drafts than we know about.
+      cardsByName.delete(c)
       continue
     } else if ((card.wins + card.losses) < minGames) {
       // Filter out cards that haven't seen enough total games. This allows filtering based on the actual
       // amount of play a card may have seen, although we don't know if the card was actually ever drawn in these games.
+      cardsByName.delete(c)
       continue
     }
     cardsByName.get(c).pick_percent = Math.round((card.mainboard + card.sideboard) / totalDrafts * 100) // TODO: Unused
@@ -221,13 +226,13 @@ function ELOData(decks) {
           continue
         }
 
-        // How much c1 wins is based on various criteria. i.g., it's more meaningful
+        // How much c1 wins is based on various criteria. i.e., it's more meaningful
         // when a card wins vs. another card of the same type, color, and CMC.
         let winValue = 1
         if (c1.cmc != c2.cmc) {
           // More meaningful the closer the cards are in CMC, since they are more likely
           // competing for the same slot in the deck.
-          winValue = winValue - .05*Math.abs(c1.cmc - c2.cmc)
+          winValue = winValue - .025*Math.abs(c1.cmc - c2.cmc)
         }
 
         // This treats colorless cards as matching, which is fair enough given what we're really
@@ -243,8 +248,10 @@ function ELOData(decks) {
           }
         }
         if (!colorMatch) {
-          winValue = winValue - .1
+          winValue = winValue - .05
         }
+
+        // Creature vs. Creature counts more than creature vs. noncreature. This is all of course a rough appoximation.
         if (c1.types.includes("Creature") && !c2.types.includes("Creature") || !c1.types.includes("Creature") && c2.types.includes("Creature")) {
           winValue = winValue - .1
         }
