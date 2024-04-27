@@ -71,3 +71,11 @@ export function DateSelector(input) {
   )
 }
 
+
+export function Button(input) {
+  return (
+    <div className="dropdown">
+      <button onClick={input.onClick}>{input.text}</button>
+    </div>
+  )
+}

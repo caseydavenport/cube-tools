@@ -551,10 +551,19 @@ function ELOChart(input) {
 
   let name = input.selectedCard
 
+  let min = 850
+  let max = 1450
+
   var elo = []
   for (let bucket of buckets) {
     let stats = bucket.cardData.get(name)
     if (stats != null) {
+      if (stats.elo > max) {
+        max = stats.elo
+      }
+      if (stats.elo < min) {
+        min = stats.elo
+      }
       elo.push(stats.elo)
     } else {
       // Player was not in this bucket.
@@ -577,7 +586,7 @@ function ELOChart(input) {
   const options = {
     responsive: true,
     maintainAspectRatio: false,
-    scales: {y: {min: 900, max: 1500}},
+    scales: {y: {min: min-50, max: max+50}},
     plugins: {
       title: {
         display: true,
@@ -624,7 +633,7 @@ function WinrateChart(input) {
   var wins = []
   for (let bucket of buckets) {
     let card = bucket.cardData.get(name)
-    if (card != null) {
+    if (card != null && card.mainboard_percent > 0) {
       wins.push(card.win_percent)
     } else {
       // Player was not in this bucket.

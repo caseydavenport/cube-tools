@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { LoadCube, LoadDecks, LoadDrafts} from "../utils/Fetch.js"
 import { IsBasicLand, SortFunc } from "../utils/Utils.js"
-import { TextInput, DropdownHeader, NumericInput, Checkbox, DateSelector } from "../components/Dropdown.js"
+import { Button, TextInput, DropdownHeader, NumericInput, Checkbox, DateSelector } from "../components/Dropdown.js"
 import { AggregatedPickInfo } from "../utils/DraftLog.js"
 import { Wins, Losses } from "../utils/Deck.js"
 import { CardData } from "../utils/Cards.js"
@@ -22,6 +22,12 @@ export default function StatsViewer() {
   // Store all of the decks, and the cube.
   const [decks, setDecks] = useState([]);
   const [cube, setCube] = useState({"cards": []});
+
+  // Triggers a refresh.
+  const [refresh, setRefresh] = useState(0);
+  function triggerRefresh(event) {
+    setRefresh(refresh + 1)
+  }
 
   ///////////////////////////////////////////////////////////////////////////////
   // State used for all widgets.
@@ -264,7 +270,7 @@ export default function StatsViewer() {
   useEffect(() => {
     LoadDecks(onDecksLoaded, startDate, endDate, minDraftSize, playerMatch)
     LoadDrafts(onDraftsLoaded, startDate, endDate)
-  }, [startDate, endDate, playerMatch, minDraftSize])
+  }, [refresh])
   useEffect(() => {
     LoadCube(onCubeLoad)
   }, [decks])
@@ -380,6 +386,11 @@ export default function StatsViewer() {
   return (
     <div id="root">
       <div id="selectorbar">
+        <Button
+          text="Refresh"
+          onClick={triggerRefresh}
+        />
+
         <DateSelector
           label="From: "
           id="from"
