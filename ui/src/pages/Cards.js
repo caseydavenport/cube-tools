@@ -4,6 +4,7 @@ import { DropdownHeader, NumericInput, Checkbox, DateSelector } from "../compone
 import { Wins, Losses } from "../utils/Deck.js"
 import { ApplyTooltip } from "../utils/Tooltip.js"
 import { CardData } from "../utils/Cards.js"
+import { BucketName } from "../utils/Buckets.js"
 
 import {
   Chart as ChartJS,
@@ -458,7 +459,7 @@ function PlayRateChart(input) {
   // at least place some sense of time to the chart.
   const labels = []
   for (let bucket of buckets) {
-    labels.push(bucket[0].name)
+    labels.push(BucketName(bucket))
   }
 
   let name = input.selectedCard
@@ -546,7 +547,7 @@ function ELOChart(input) {
   // at least place some sense of time to the chart.
   const labels = []
   for (let bucket of buckets) {
-    labels.push(bucket[0].name)
+    labels.push(BucketName(bucket))
   }
 
   let name = input.selectedCard
@@ -625,7 +626,7 @@ function WinrateChart(input) {
   // at least place some sense of time to the chart.
   const labels = []
   for (let bucket of buckets) {
-    labels.push(bucket[0].name)
+    labels.push(BucketName(bucket))
   }
 
   let name = input.selectedCard

@@ -1,7 +1,7 @@
 import React from 'react'
 import { IsBasicLand, SortFunc } from "../utils/Utils.js"
 import { Wins, Losses } from "../utils/Deck.js"
-import { DeckBuckets } from "../utils/Buckets.js"
+import { BucketName, DeckBuckets } from "../utils/Buckets.js"
 
 import {
   Chart as ChartJS,
@@ -196,8 +196,17 @@ export function DeckWidget(input) {
         </tr>
 
         <tr style={{"height": "300px"}}>
-          <td style={{"verticalAlign": "top"}} colSpan="2">
+          <td style={{"verticalAlign": "top", "width": "50%"}}>
             <DeckBasicLandCountChart decks={input.decks} bucketSize={input.bucketSize} />
+          </td>
+
+          <td style={{"verticalAlign": "top", "width": "50%"}}>
+            <ManaCostByOracleTextOverTime
+              title="Removal mana cost"
+              decks={input.decks}
+              bucketSize={input.bucketSize}
+              matches={RemovalMatches}
+            />
           </td>
         </tr>
 
@@ -728,7 +737,7 @@ function OracleTextByColor(input) {
   // at least place some sense of time to the chart.
   const labels = []
   for (let bucket of buckets) {
-    labels.push(bucket[0].name)
+    labels.push(BucketName(bucket))
   }
 
 
@@ -845,12 +854,9 @@ function OracleTextOverTimeChart(input) {
   // Each bucket will contain N drafts worth of deck information.
   let buckets = DeckBuckets(input.decks, input.bucketSize)
 
-  // Use the starting date of the bucket as the label. This is just an approximation,
-  // as the bucket really includes a variable set of dates, but it allows the viewer to
-  // at least place some sense of time to the chart.
   const labels = []
   for (let bucket of buckets) {
-    labels.push(bucket[0].name)
+    labels.push(BucketName(bucket))
   }
 
   let mbValues = []
@@ -944,7 +950,7 @@ function DeckManaValueChart(input) {
   // at least place some sense of time to the chart.
   const labels = []
   for (let bucket of buckets) {
-    labels.push(bucket[0].name)
+    labels.push(BucketName(bucket))
   }
 
   // Parse the buckets into color data.
@@ -1017,7 +1023,7 @@ function DeckBasicLandCountChart(input) {
   // at least place some sense of time to the chart.
   const labels = []
   for (let bucket of buckets) {
-    labels.push(bucket[0].name)
+    labels.push(BucketName(bucket))
   }
 
   // Parse the buckets into color data.
@@ -1126,7 +1132,7 @@ function SideboardSizeOverTimeChart(input) {
   // at least place some sense of time to the chart.
   const labels = []
   for (let bucket of buckets) {
-    labels.push(bucket[0].name)
+    labels.push(BucketName(bucket))
   }
 
   let sizes = []
@@ -1159,6 +1165,101 @@ function SideboardSizeOverTimeChart(input) {
         data: sizes,
         borderColor: "#dce312",
         backgroundColor: "#dce312",
+      },
+  ]
+
+  const options = {
+    responsive: true,
+    maintainAspectRatio: false,
+    scales: {y: {min: 0}},
+    plugins: {
+      title: {
+        display: true,
+        text: input.title,
+        color: "#FFF",
+        font: {
+          size: "16pt",
+        },
+      },
+      legend: {
+        labels: {
+          color: "#FFF",
+          font: {
+            size: "16pt",
+          },
+        },
+      },
+    },
+  };
+
+  const data = {labels, datasets: dataset};
+  return (
+    <div style={{"height":"500px", "width":"100%"}}>
+      <Line height={"300px"} width={"300px"} options={options} data={data} />
+    </div>
+  );
+}
+
+function ManaCostByOracleTextOverTime(input) {
+  // Split the given decks into fixed-size buckets.
+  // Each bucket will contain N drafts worth of deck information.
+  let buckets = DeckBuckets(input.decks, input.bucketSize)
+
+  const labels = []
+  for (let bucket of buckets) {
+    labels.push(BucketName(bucket))
+  }
+
+  let mbValues = []
+  let sbValues = []
+  for (let bucket of buckets) {
+    // Aggregate all decks from within this bucket.
+    let decks = new Array()
+    for (let draft of bucket) {
+      decks.push(...draft.decks)
+    }
+
+    // Calculate the average value for this bucket.
+    let mbTotal = 0
+    let sbTotal = 0
+    let mbCount = 0
+    let sbCount = 0
+    for (let deck of decks) {
+      for (let card of deck.mainboard) {
+        for (let match of input.matches) {
+          if (card.oracle_text.toLowerCase().match(match)){
+            mbTotal += card.cmc
+            mbCount += 1
+            break
+          }
+        }
+      }
+      for (let card of deck.sideboard) {
+        for (let match of input.matches) {
+          if (card.oracle_text.toLowerCase().match(match)){
+            sbTotal += card.cmc
+            sbCount += 1
+            break
+          }
+        }
+      }
+    }
+    mbValues.push(mbTotal / mbCount)
+    sbValues.push(sbTotal / sbCount)
+  }
+
+  let dataset = [
+      {
+        label: 'Avg. in-deck',
+        data: mbValues,
+        borderColor: "#dce312",
+        backgroundColor: "#dce312",
+      },
+      {
+        label: 'Avg. in-sideboard',
+        data: sbValues,
+        borderColor: "#ffaf12",
+        backgroundColor: "#ecaf00",
       },
   ]
 

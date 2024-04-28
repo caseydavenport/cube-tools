@@ -2,6 +2,7 @@ import React from 'react'
 import { IsBasicLand, SortFunc, StringToColor } from "../utils/Utils.js"
 import { Wins, Losses } from "../utils/Deck.js"
 import { DropdownHeader, NumericInput, Checkbox, DateSelector } from "../components/Dropdown.js"
+import { BucketName } from "../utils/Buckets.js"
 
 import {
   Chart as ChartJS,
@@ -513,7 +514,7 @@ function MicroArchetypesChart(input) {
   // at least place some sense of time to the chart.
   const labels = []
   for (let bucket of input.parsed.deckBuckets) {
-    labels.push(bucket[0].name)
+    labels.push(BucketName(bucket))
   }
 
   // Parse the buckets. First, build up all of the archetypes we're going to display.
@@ -617,7 +618,7 @@ function MacroArchetypesChart(input) {
   // at least place some sense of time to the chart.
   const labels = []
   for (let bucket of input.parsed.deckBuckets) {
-    labels.push(bucket[0].name)
+    labels.push(BucketName(bucket))
   }
 
   // Parse the buckets.

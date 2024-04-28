@@ -74,3 +74,12 @@ function deckBucketsSliding(decks, bucketSize) {
   }
   return buckets
 }
+
+export function BucketName(bucket) {
+  // A bucket is an array of decks. The name is the interval from the first
+  // to the last.
+  if (bucket.length == 1) {
+    return bucket[0].name
+  }
+  return bucket[0].name + " - " + bucket[bucket.length-1].name
+}

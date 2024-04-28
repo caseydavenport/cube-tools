@@ -1,6 +1,7 @@
 import React from 'react'
 import { IsBasicLand, SortFunc } from "../utils/Utils.js"
 import { Wins, Losses } from "../utils/Deck.js"
+import { BucketName } from "../utils/Buckets.js"
 
 import {
   Chart as ChartJS,
@@ -432,7 +433,7 @@ function WinRateChart(input) {
   // at least place some sense of time to the chart.
   const labels = []
   for (let bucket of buckets) {
-    labels.push(bucket[0].name)
+    labels.push(BucketName(bucket))
   }
 
   var values = []
