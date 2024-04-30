@@ -26,6 +26,18 @@
   {
    "opponent": "jen",
    "winner": "xander"
+  },
+  {
+   "opponent": "paul",
+   "winner": "xander"
+  },
+  {
+   "opponent": "paul",
+   "winner": "xander"
+  },
+  {
+   "opponent": "paul",
+   "winner": "paul"
   }
  ],
  "matches": [
@@ -35,6 +47,10 @@
   },
   {
    "opponent": "jen",
+   "winner": "xander"
+  },
+  {
+   "opponent": "paul",
    "winner": "xander"
   }
  ],
