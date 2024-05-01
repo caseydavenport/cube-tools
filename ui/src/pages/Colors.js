@@ -3,6 +3,7 @@ import { DropdownHeader, NumericInput, Checkbox, DateSelector } from "../compone
 import { GetColorIdentity } from "../utils/Colors.js"
 import { Wins, Losses } from "../utils/Deck.js"
 import { IsBasicLand, SortFunc, StringToColor } from "../utils/Utils.js"
+import { BucketName } from "../utils/Buckets.js"
 
 import {
   Chart as ChartJS,
@@ -389,7 +390,7 @@ function ColorRateChart(input) {
   // at least place some sense of time to the chart.
   const labels = []
   for (let bucket of buckets) {
-    labels.push(bucket[0].name)
+    labels.push(BucketName(bucket))
   }
 
   // Parse the buckets into color data.
