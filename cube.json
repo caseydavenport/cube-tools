@@ -324,21 +324,6 @@
    "oracle_text": "Target player reveals three cards from their hand and you choose one of them. That player discards that card."
   },
   {
-   "name": "Blade of the Bloodchief",
-   "types": [
-    "Artifact"
-   ],
-   "sub_types": [
-    "Equipment"
-   ],
-   "cmc": 1,
-   "image": "",
-   "colors": [],
-   "mana_cost": "{1}",
-   "url": "https://scryfall.com/card/lcc/300/blade-of-the-bloodchief?utm_source=api",
-   "oracle_text": "Whenever a creature dies, put a +1/+1 counter on equipped creature. If equipped creature is a Vampire, put two +1/+1 counters on it instead.\nEquip {1}"
-  },
-  {
    "name": "Blazing Rootwalla",
    "types": [
     "Creature"
@@ -386,6 +371,20 @@
    "mana_cost": "",
    "url": "https://scryfall.com/card/rvr/273/blood-crypt?utm_source=api",
    "oracle_text": "({T}: Add {B} or {R}.)\nAs Blood Crypt enters the battlefield, you may pay 2 life. If you don't, it enters the battlefield tapped."
+  },
+  {
+   "name": "Bloodchief's Thirst",
+   "types": [
+    "Sorcery"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [
+    "B"
+   ],
+   "mana_cost": "{B}",
+   "url": "https://scryfall.com/card/znr/94/bloodchiefs-thirst?utm_source=api",
+   "oracle_text": "Kicker {2}{B} (You may pay an additional {2}{B} as you cast this spell.)\nDestroy target creature or planeswalker with mana value 2 or less. If this spell was kicked, instead destroy target creature or planeswalker."
   },
   {
    "name": "Bloodghast",
@@ -551,6 +550,22 @@
    "oracle_text": "({T}: Add {G} or {U}.)\nAs Breeding Pool enters the battlefield, you may pay 2 life. If you don't, it enters the battlefield tapped."
   },
   {
+   "name": "Breeding Pool",
+   "types": [
+    "Land"
+   ],
+   "sub_types": [
+    "Forest",
+    "Island"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/rvr/275/breeding-pool?utm_source=api",
+   "oracle_text": "({T}: Add {G} or {U}.)\nAs Breeding Pool enters the battlefield, you may pay 2 life. If you don't, it enters the battlefield tapped."
+  },
+  {
    "name": "Brineborn Cutthroat",
    "types": [
     "Creature"
@@ -631,22 +646,6 @@
    "oracle_text": "{1}, Sacrifice Cankerbloom: Choose one —\n• Destroy target artifact.\n• Destroy target enchantment.\n• Proliferate. (Choose any number of permanents and/or players, then give each another counter of each kind already there.)"
   },
   {
-   "name": "Canopy Vista",
-   "types": [
-    "Land"
-   ],
-   "sub_types": [
-    "Forest",
-    "Plains"
-   ],
-   "cmc": 0,
-   "image": "",
-   "colors": [],
-   "mana_cost": "",
-   "url": "https://scryfall.com/card/mkc/252/canopy-vista?utm_source=api",
-   "oracle_text": "({T}: Add {G} or {W}.)\nCanopy Vista enters the battlefield tapped unless you control two or more basic lands."
-  },
-  {
    "name": "Canyon Slough",
    "types": [
     "Land"
@@ -710,6 +709,35 @@
    "mana_cost": "{1}{W}",
    "url": "https://scryfall.com/card/mid/10/cathar-commando?utm_source=api",
    "oracle_text": "Flash\n{1}, Sacrifice Cathar Commando: Destroy target artifact or enchantment."
+  },
+  {
+   "name": "Celestial Colonnade",
+   "types": [
+    "Land"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/uma/238/celestial-colonnade?utm_source=api",
+   "oracle_text": "Celestial Colonnade enters the battlefield tapped.\n{T}: Add {W} or {U}.\n{3}{W}{U}: Until end of turn, Celestial Colonnade becomes a 4/4 white and blue Elemental creature with flying and vigilance. It's still a land."
+  },
+  {
+   "name": "Cemetery Gatekeeper",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Vampire"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "R"
+   ],
+   "mana_cost": "{1}{R}",
+   "url": "https://scryfall.com/card/vow/148/cemetery-gatekeeper?utm_source=api",
+   "oracle_text": "First strike\nWhen Cemetery Gatekeeper enters the battlefield, exile a card from a graveyard.\nWhenever a player plays a land or casts a spell, if it shares a card type with the exiled card, Cemetery Gatekeeper deals 2 damage to that player."
   },
   {
    "name": "Censor",
@@ -1400,6 +1428,18 @@
    "oracle_text": "Create two 1/1 red Goblin creature tokens.\nStorm (When you cast this spell, copy it for each spell cast before it this turn.)"
   },
   {
+   "name": "Engineered Explosives",
+   "types": [
+    "Artifact"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "mana_cost": "{X}",
+   "url": "https://scryfall.com/card/2xm/252/engineered-explosives?utm_source=api",
+   "oracle_text": "Sunburst (This enters the battlefield with a charge counter on it for each color of mana spent to cast it.)\n{2}, Sacrifice Engineered Explosives: Destroy each nonland permanent with mana value equal to the number of charge counters on Engineered Explosives."
+  },
+  {
    "name": "Ephara's Dispersal",
    "types": [
     "Instant"
@@ -1528,6 +1568,25 @@
    "oracle_text": "Flash\nFlying\nWhen Faerie Duelist enters the battlefield, target creature an opponent controls gets -2/-0 until end of turn."
   },
   {
+   "name": "Faerie Guidemother // Gift of the Fae",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Faerie",
+    "//",
+    "Sorcery"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [
+    "W"
+   ],
+   "mana_cost": "{W} // {1}{W}",
+   "url": "https://scryfall.com/card/eld/11/faerie-guidemother-gift-of-the-fae?utm_source=api",
+   "oracle_text": ""
+  },
+  {
    "name": "Faerie Vandal",
    "types": [
     "Creature"
@@ -1574,6 +1633,20 @@
    "oracle_text": "Bargain (You may sacrifice an artifact, enchantment, or token as you cast this spell.)\nLook at the top four cards of your library. If this spell was bargained, look at the top eight cards of your library instead. Put two of them into your hand and the rest on the bottom of your library in a random order."
   },
   {
+   "name": "Fatal Push",
+   "types": [
+    "Instant"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [
+    "B"
+   ],
+   "mana_cost": "{B}",
+   "url": "https://scryfall.com/card/2xm/93/fatal-push?utm_source=api",
+   "oracle_text": "Destroy target creature if it has mana value 2 or less.\nRevolt — Destroy that creature if it has mana value 4 or less instead if a permanent you controlled left the battlefield this turn."
+  },
+  {
    "name": "Fearless Fledgling",
    "types": [
     "Creature"
@@ -1603,20 +1676,6 @@
    "mana_cost": "{2}{G}",
    "url": "https://scryfall.com/card/uma/165/fecundity?utm_source=api",
    "oracle_text": "Whenever a creature dies, that creature's controller may draw a card."
-  },
-  {
-   "name": "Feed the Cauldron",
-   "types": [
-    "Instant"
-   ],
-   "cmc": 3,
-   "image": "",
-   "colors": [
-    "B"
-   ],
-   "mana_cost": "{2}{B}",
-   "url": "https://scryfall.com/card/woe/91/feed-the-cauldron?utm_source=api",
-   "oracle_text": "Destroy target creature with mana value 3 or less. If it's your turn, create a Food token. (It's an artifact with \"{2}, {T}, Sacrifice this artifact: You gain 3 life.\")"
   },
   {
    "name": "Festering Mummy",
@@ -1959,6 +2018,22 @@
    "oracle_text": "({T}: Add {W} or {B}.)\nAs Godless Shrine enters the battlefield, you may pay 2 life. If you don't, it enters the battlefield tapped."
   },
   {
+   "name": "Godless Shrine",
+   "types": [
+    "Land"
+   ],
+   "sub_types": [
+    "Plains",
+    "Swamp"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/rvr/277/godless-shrine?utm_source=api",
+   "oracle_text": "({T}: Add {W} or {B}.)\nAs Godless Shrine enters the battlefield, you may pay 2 life. If you don't, it enters the battlefield tapped."
+  },
+  {
    "name": "Goldmeadow Harrier",
    "types": [
     "Creature"
@@ -1975,23 +2050,6 @@
    "mana_cost": "{W}",
    "url": "https://scryfall.com/card/ddf/3/goldmeadow-harrier?utm_source=api",
    "oracle_text": "{W}, {T}: Tap target creature."
-  },
-  {
-   "name": "Gomazoa",
-   "types": [
-    "Creature"
-   ],
-   "sub_types": [
-    "Jellyfish"
-   ],
-   "cmc": 3,
-   "image": "",
-   "colors": [
-    "U"
-   ],
-   "mana_cost": "{2}{U}",
-   "url": "https://scryfall.com/card/cmd/48/gomazoa?utm_source=api",
-   "oracle_text": "Defender, flying\n{T}: Put Gomazoa and each creature it's blocking on top of their owners' libraries, then those players shuffle."
   },
   {
    "name": "Greta, Sweettooth Scourge",
@@ -2192,16 +2250,18 @@
    "oracle_text": "({T}: Add {G} or {U}.)\nHedge Maze enters the battlefield tapped.\nWhen Hedge Maze enters the battlefield, surveil 1. (Look at the top card of your library. You may put it into your graveyard.)"
   },
   {
-   "name": "Hinterland Harbor",
+   "name": "Helping Hand",
    "types": [
-    "Land"
+    "Sorcery"
    ],
-   "cmc": 0,
+   "cmc": 1,
    "image": "",
-   "colors": [],
-   "mana_cost": "",
-   "url": "https://scryfall.com/card/lcc/336/hinterland-harbor?utm_source=api",
-   "oracle_text": "Hinterland Harbor enters the battlefield tapped unless you control a Forest or an Island.\n{T}: Add {G} or {U}."
+   "colors": [
+    "W"
+   ],
+   "mana_cost": "{W}",
+   "url": "https://scryfall.com/card/lci/17/helping-hand?utm_source=api",
+   "oracle_text": "Return target creature card with mana value 3 or less from your graveyard to the battlefield tapped."
   },
   {
    "name": "Horizon Canopy",
@@ -2368,34 +2428,6 @@
    "oracle_text": ""
   },
   {
-   "name": "Irrigated Farmland",
-   "types": [
-    "Land"
-   ],
-   "sub_types": [
-    "Plains",
-    "Island"
-   ],
-   "cmc": 0,
-   "image": "",
-   "colors": [],
-   "mana_cost": "",
-   "url": "https://scryfall.com/card/mkc/267/irrigated-farmland?utm_source=api",
-   "oracle_text": "({T}: Add {W} or {U}.)\nIrrigated Farmland enters the battlefield tapped.\nCycling {2} ({2}, Discard this card: Draw a card.)"
-  },
-  {
-   "name": "Isolated Chapel",
-   "types": [
-    "Land"
-   ],
-   "cmc": 0,
-   "image": "",
-   "colors": [],
-   "mana_cost": "",
-   "url": "https://scryfall.com/card/lcc/337/isolated-chapel?utm_source=api",
-   "oracle_text": "Isolated Chapel enters the battlefield tapped unless you control a Plains or a Swamp.\n{T}: Add {W} or {B}."
-  },
-  {
    "name": "Jolrael, Mwonvuli Recluse",
    "types": [
     "Legendary",
@@ -2521,24 +2553,6 @@
    "mana_cost": "{1}{G}{W}",
    "url": "https://scryfall.com/card/ima/203/knight-of-the-reliquary?utm_source=api",
    "oracle_text": "Knight of the Reliquary gets +1/+1 for each land card in your graveyard.\n{T}, Sacrifice a Forest or Plains: Search your library for a land card, put it onto the battlefield, then shuffle."
-  },
-  {
-   "name": "Kor Duelist",
-   "types": [
-    "Creature"
-   ],
-   "sub_types": [
-    "Kor",
-    "Soldier"
-   ],
-   "cmc": 1,
-   "image": "",
-   "colors": [
-    "W"
-   ],
-   "mana_cost": "{W}",
-   "url": "https://scryfall.com/card/mm2/22/kor-duelist?utm_source=api",
-   "oracle_text": "As long as Kor Duelist is equipped, it has double strike. (It deals both first-strike and regular combat damage.)"
   },
   {
    "name": "Kor Skyfisher",
@@ -2741,22 +2755,6 @@
    "oracle_text": "{T}: Add {G}."
   },
   {
-   "name": "Lodestone Myr",
-   "types": [
-    "Artifact",
-    "Creature"
-   ],
-   "sub_types": [
-    "Myr"
-   ],
-   "cmc": 4,
-   "image": "",
-   "colors": [],
-   "mana_cost": "{4}",
-   "url": "https://scryfall.com/card/mm2/220/lodestone-myr?utm_source=api",
-   "oracle_text": "Trample\nTap an untapped artifact you control: Lodestone Myr gets +1/+1 until end of turn."
-  },
-  {
    "name": "Lord Skitter, Sewer King",
    "types": [
     "Legendary",
@@ -2886,39 +2884,6 @@
    "mana_cost": "",
    "url": "https://scryfall.com/card/mh2/248/marsh-flats?utm_source=api",
    "oracle_text": "{T}, Pay 1 life, Sacrifice Marsh Flats: Search your library for a Plains or Swamp card, put it onto the battlefield, then shuffle."
-  },
-  {
-   "name": "Marshal's Anthem",
-   "types": [
-    "Enchantment"
-   ],
-   "cmc": 4,
-   "image": "",
-   "colors": [
-    "W"
-   ],
-   "mana_cost": "{2}{W}{W}",
-   "url": "https://scryfall.com/card/khc/29/marshals-anthem?utm_source=api",
-   "oracle_text": "Multikicker {1}{W} (You may pay an additional {1}{W} any number of times as you cast this spell.)\nCreatures you control get +1/+1.\nWhen Marshal's Anthem enters the battlefield, return up to X target creature cards from your graveyard to the battlefield, where X is the number of times Marshal's Anthem was kicked."
-  },
-  {
-   "name": "Mavren Fein, Dusk Apostle",
-   "types": [
-    "Legendary",
-    "Creature"
-   ],
-   "sub_types": [
-    "Vampire",
-    "Cleric"
-   ],
-   "cmc": 3,
-   "image": "",
-   "colors": [
-    "W"
-   ],
-   "mana_cost": "{2}{W}",
-   "url": "https://scryfall.com/card/lcc/133/mavren-fein-dusk-apostle?utm_source=api",
-   "oracle_text": "Whenever one or more nontoken Vampires you control attack, create a 1/1 white Vampire creature token with lifelink."
   },
   {
    "name": "Mayhem Devil",
@@ -3356,20 +3321,6 @@
    "oracle_text": "{T}, Pay 1 life: Add {B} or {G}.\n{1}, {T}, Sacrifice Nurturing Peatland: Draw a card."
   },
   {
-   "name": "Oblivion Ring",
-   "types": [
-    "Enchantment"
-   ],
-   "cmc": 3,
-   "image": "",
-   "colors": [
-    "W"
-   ],
-   "mana_cost": "{2}{W}",
-   "url": "https://scryfall.com/card/mm2/29/oblivion-ring?utm_source=api",
-   "oracle_text": "When Oblivion Ring enters the battlefield, exile another target nonland permanent.\nWhen Oblivion Ring leaves the battlefield, return the exiled card to the battlefield under its owner's control."
-  },
-  {
    "name": "Ogre-Head Helm",
    "types": [
     "Artifact",
@@ -3446,6 +3397,22 @@
    "oracle_text": "({T}: Add {B} or {G}.)\nAs Overgrown Tomb enters the battlefield, you may pay 2 life. If you don't, it enters the battlefield tapped."
   },
   {
+   "name": "Overgrown Tomb",
+   "types": [
+    "Land"
+   ],
+   "sub_types": [
+    "Swamp",
+    "Forest"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/rvr/283/overgrown-tomb?utm_source=api",
+   "oracle_text": "({T}: Add {B} or {G}.)\nAs Overgrown Tomb enters the battlefield, you may pay 2 life. If you don't, it enters the battlefield tapped."
+  },
+  {
    "name": "Panharmonicon",
    "types": [
     "Artifact"
@@ -3487,20 +3454,6 @@
    "mana_cost": "{2}",
    "url": "https://scryfall.com/card/cmr/330/perilous-myr?utm_source=api",
    "oracle_text": "When Perilous Myr dies, it deals 2 damage to any target."
-  },
-  {
-   "name": "Persist",
-   "types": [
-    "Sorcery"
-   ],
-   "cmc": 2,
-   "image": "",
-   "colors": [
-    "B"
-   ],
-   "mana_cost": "{1}{B}",
-   "url": "https://scryfall.com/card/mh2/96/persist?utm_source=api",
-   "oracle_text": "Return target nonlegendary creature card from your graveyard to the battlefield with a -1/-1 counter on it."
   },
   {
    "name": "Phoenix Chick",
@@ -4015,18 +3968,6 @@
    "oracle_text": "Landfall — Whenever a land enters the battlefield under your control, put a +1/+1 counter on target creature or Vehicle you control.\nChannel — {X}{G}{G}, Discard Roaring Earth: Put X +1/+1 counters on target land you control. It becomes a 0/0 green Spirit creature with haste. It's still a land."
   },
   {
-   "name": "Rootbound Crag",
-   "types": [
-    "Land"
-   ],
-   "cmc": 0,
-   "image": "",
-   "colors": [],
-   "mana_cost": "",
-   "url": "https://scryfall.com/card/xln/256/rootbound-crag?utm_source=api",
-   "oracle_text": "Rootbound Crag enters the battlefield tapped unless you control a Mountain or a Forest.\n{T}: Add {R} or {G}."
-  },
-  {
    "name": "Sacred Foundry",
    "types": [
     "Land"
@@ -4181,6 +4122,18 @@
    "oracle_text": "{G}: Exile target card from a graveyard. If it was a creature card, put a +1/+1 counter on Scavenging Ooze and you gain 1 life."
   },
   {
+   "name": "Scrabbling Claws",
+   "types": [
+    "Artifact"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [],
+   "mana_cost": "{1}",
+   "url": "https://scryfall.com/card/rna/238/scrabbling-claws?utm_source=api",
+   "oracle_text": "{T}: Target player exiles a card from their graveyard.\n{1}, Sacrifice Scrabbling Claws: Exile target card from a graveyard. Draw a card."
+  },
+  {
    "name": "Scrapwork Mutt",
    "types": [
     "Artifact",
@@ -4309,6 +4262,20 @@
    "oracle_text": "({T}: Add {W} or {B}.)\nShadowy Backstreet enters the battlefield tapped.\nWhen Shadowy Backstreet enters the battlefield, surveil 1. (Look at the top card of your library. You may put it into your graveyard.)"
   },
   {
+   "name": "Shark Typhoon",
+   "types": [
+    "Enchantment"
+   ],
+   "cmc": 6,
+   "image": "",
+   "colors": [
+    "U"
+   ],
+   "mana_cost": "{5}{U}",
+   "url": "https://scryfall.com/card/iko/67/shark-typhoon?utm_source=api",
+   "oracle_text": "Whenever you cast a noncreature spell, create an X/X blue Shark creature token with flying, where X is that spell's mana value.\nCycling {X}{1}{U} ({X}{1}{U}, Discard this card: Draw a card.)\nWhen you cycle Shark Typhoon, create an X/X blue Shark creature token with flying."
+  },
+  {
    "name": "Shelldock Isle",
    "types": [
     "Land"
@@ -4418,6 +4385,20 @@
    "mana_cost": "{1}{W}",
    "url": "https://scryfall.com/card/bro/26/soul-partition?utm_source=api",
    "oracle_text": "Exile target nonland permanent. For as long as that card remains exiled, its owner may play it. A spell cast by an opponent this way costs {2} more to cast."
+  },
+  {
+   "name": "Soul Snare",
+   "types": [
+    "Enchantment"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [
+    "W"
+   ],
+   "mana_cost": "{W}",
+   "url": "https://scryfall.com/card/mkc/85/soul-snare?utm_source=api",
+   "oracle_text": "{W}, Sacrifice Soul Snare: Exile target creature that's attacking you or a planeswalker you control."
   },
   {
    "name": "Soul Warden",
@@ -4583,6 +4564,22 @@
    "oracle_text": "({T}: Add {U} or {R}.)\nAs Steam Vents enters the battlefield, you may pay 2 life. If you don't, it enters the battlefield tapped."
   },
   {
+   "name": "Steam Vents",
+   "types": [
+    "Land"
+   ],
+   "sub_types": [
+    "Island",
+    "Mountain"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/rvr/288/steam-vents?utm_source=api",
+   "oracle_text": "({T}: Add {U} or {R}.)\nAs Steam Vents enters the battlefield, you may pay 2 life. If you don't, it enters the battlefield tapped."
+  },
+  {
    "name": "Steppe Lynx",
    "types": [
     "Creature"
@@ -4647,16 +4644,20 @@
    "oracle_text": "({T}: Add {R} or {G}.)\nAs Stomping Ground enters the battlefield, you may pay 2 life. If you don't, it enters the battlefield tapped."
   },
   {
-   "name": "Sulfur Falls",
+   "name": "Stomping Ground",
    "types": [
     "Land"
+   ],
+   "sub_types": [
+    "Mountain",
+    "Forest"
    ],
    "cmc": 0,
    "image": "",
    "colors": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/lcc/354/sulfur-falls?utm_source=api",
-   "oracle_text": "Sulfur Falls enters the battlefield tapped unless you control an Island or a Mountain.\n{T}: Add {U} or {R}."
+   "url": "https://scryfall.com/card/rvr/289/stomping-ground?utm_source=api",
+   "oracle_text": "({T}: Add {R} or {G}.)\nAs Stomping Ground enters the battlefield, you may pay 2 life. If you don't, it enters the battlefield tapped."
   },
   {
    "name": "Sulfurous Springs",
@@ -4681,18 +4682,6 @@
    "mana_cost": "",
    "url": "https://scryfall.com/card/mh1/247/sunbaked-canyon?utm_source=api",
    "oracle_text": "{T}, Pay 1 life: Add {R} or {W}.\n{1}, {T}, Sacrifice Sunbaked Canyon: Draw a card."
-  },
-  {
-   "name": "Sunken Ruins",
-   "types": [
-    "Land"
-   ],
-   "cmc": 0,
-   "image": "",
-   "colors": [],
-   "mana_cost": "",
-   "url": "https://scryfall.com/card/2xm/326/sunken-ruins?utm_source=api",
-   "oracle_text": "{T}: Add {C}.\n{U/B}, {T}: Add {U}{U}, {U}{B}, or {B}{B}."
   },
   {
    "name": "Takenuma, Abandoned Mire",
@@ -4792,6 +4781,22 @@
    "mana_cost": "{1}{R}",
    "url": "https://scryfall.com/card/c20/162/tectonic-reformation?utm_source=api",
    "oracle_text": "Each land card in your hand has cycling {R}.\nCycling {2} ({2}, Discard this card: Draw a card.)"
+  },
+  {
+   "name": "Temple Garden",
+   "types": [
+    "Land"
+   ],
+   "sub_types": [
+    "Forest",
+    "Plains"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/rvr/290/temple-garden?utm_source=api",
+   "oracle_text": "({T}: Add {G} or {W}.)\nAs Temple Garden enters the battlefield, you may pay 2 life. If you don't, it enters the battlefield tapped."
   },
   {
    "name": "Temple Garden",
@@ -5438,6 +5443,22 @@
    "oracle_text": "({T}: Add {U} or {B}.)\nAs Watery Grave enters the battlefield, you may pay 2 life. If you don't, it enters the battlefield tapped."
   },
   {
+   "name": "Watery Grave",
+   "types": [
+    "Land"
+   ],
+   "sub_types": [
+    "Island",
+    "Swamp"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/rvr/291/watery-grave?utm_source=api",
+   "oracle_text": "({T}: Add {U} or {B}.)\nAs Watery Grave enters the battlefield, you may pay 2 life. If you don't, it enters the battlefield tapped."
+  },
+  {
    "name": "Welcoming Vampire",
    "types": [
     "Creature"
@@ -5565,18 +5586,6 @@
    "mana_cost": "",
    "url": "https://scryfall.com/card/mh3/236/wooded-foothills?utm_source=api",
    "oracle_text": "{T}, Pay 1 life, Sacrifice Wooded Foothills: Search your library for a Mountain or Forest card, put it onto the battlefield, then shuffle."
-  },
-  {
-   "name": "Woodland Cemetery",
-   "types": [
-    "Land"
-   ],
-   "cmc": 0,
-   "image": "",
-   "colors": [],
-   "mana_cost": "",
-   "url": "https://scryfall.com/card/dmr/261/woodland-cemetery?utm_source=api",
-   "oracle_text": "Woodland Cemetery enters the battlefield tapped unless you control a Swamp or a Forest.\n{T}: Add {B} or {G}."
   },
   {
    "name": "Worm Harvest",

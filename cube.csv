@@ -19,9 +19,9 @@ Count,Name,Section
 1,Bitter Triumph,main
 1,Black Sun's Zenith,main
 1,Blackmail,main
-1,Blade of the Bloodchief,main
 1,Blazing Rootwalla,main
 2,Blood Crypt,main
+1,Bloodchief's Thirst,main
 1,Bloodghast,main
 1,Bloodsoaked Champion,main
 2,Bloodstained Mire,main
@@ -31,17 +31,18 @@ Count,Name,Section
 1,Bonesplitter,main
 1,"Boseiju, Who Endures",main
 1,Brainstorm,main
-1,Breeding Pool,main
+2,Breeding Pool,main
 1,Brineborn Cutthroat,main
 1,Burst Lightning,main
 1,Call of the Herd,main
 1,Candy Trail,main
 1,Cankerbloom,main
-1,Canopy Vista,main
 1,Canyon Slough,main
 1,Careful Study,main
 1,Carrion Feeder,main
 1,Cathar Commando,main
+1,Celestial Colonnade,main
+1,Cemetery Gatekeeper,main
 1,Censor,main
 1,Chainweb Aracnir,main
 1,"Chandra, Hope's Beacon",main
@@ -86,6 +87,7 @@ Count,Name,Section
 1,"Eiganjo, Seat of the Empire",main
 1,Elspeth's Smite,main
 1,Empty the Warrens,main
+1,Engineered Explosives,main
 1,Ephara's Dispersal,main
 1,Ephemerate,main
 1,Eternal Witness,main
@@ -94,12 +96,13 @@ Count,Name,Section
 1,Fact or Fiction,main
 1,Faerie Dreamthief,main
 1,Faerie Duelist,main
+1,Faerie Guidemother // Gift of the Fae,main
 1,Faerie Vandal,main
 1,Faithless Looting,main
 1,Farsight Ritual,main
+1,Fatal Push,main
 1,Fearless Fledgling,main
 1,Fecundity,main
-1,Feed the Cauldron,main
 1,Festering Mummy,main
 1,Fetid Pools,main
 1,Field of Ruin,main
@@ -121,9 +124,8 @@ Count,Name,Section
 1,Goblin Arsonist,main
 1,Goblin Bombardment,main
 1,Goblin Guide,main
-1,Godless Shrine,main
+2,Godless Shrine,main
 1,Goldmeadow Harrier,main
-1,Gomazoa,main
 1,"Greta, Sweettooth Scourge",main
 1,Grim Discovery,main
 1,Grim Flayer,main
@@ -135,7 +137,7 @@ Count,Name,Section
 1,Harm's Way,main
 1,Harrow,main
 1,Hedge Maze,main
-1,Hinterland Harbor,main
+1,Helping Hand,main
 1,Horizon Canopy,main
 1,Hostage Taker,main
 1,Hunting Triad,main
@@ -146,8 +148,6 @@ Count,Name,Section
 1,"Inti, Seneschal of the Sun",main
 1,Into the Roil,main
 1,Intrepid Trufflesnout // Go Hog Wild,main
-1,Irrigated Farmland,main
-1,Isolated Chapel,main
 1,"Jolrael, Mwonvuli Recluse",main
 1,Journey to Nowhere,main
 1,"Kellan, the Fae-Blooded // Birthright Boon",main
@@ -155,7 +155,6 @@ Count,Name,Section
 1,Kitesail Freebooter,main
 1,Knight of the Ebon Legion,main
 1,Knight of the Reliquary,main
-1,Kor Duelist,main
 1,Kor Skyfisher,main
 1,Kraul Harpooner,main
 1,"Krenko, Tin Street Kingpin",main
@@ -168,7 +167,6 @@ Count,Name,Section
 1,Lion Sash,main
 1,Lizard Blades,main
 1,Llanowar Elves,main
-1,Lodestone Myr,main
 1,"Lord Skitter, Sewer King",main
 1,Lórien Revealed,main
 1,Lotus Cobra,main
@@ -177,8 +175,6 @@ Count,Name,Section
 1,Manamorphose,main
 1,Mark of Mutiny,main
 2,Marsh Flats,main
-1,Marshal's Anthem,main
-1,"Mavren Fein, Dusk Apostle",main
 1,Mayhem Devil,main
 1,Meadowboon,main
 1,Memory Lapse,main
@@ -205,16 +201,14 @@ Count,Name,Section
 1,Negate,main
 1,No More Lies,main
 1,Nurturing Peatland,main
-1,Oblivion Ring,main
 1,Ogre-Head Helm,main
 1,Opt,main
 1,"Otawara, Soaring City",main
 1,Oust,main
-1,Overgrown Tomb,main
+2,Overgrown Tomb,main
 1,Panharmonicon,main
 1,Parallel Lives,main
 1,Perilous Myr,main
-1,Persist,main
 1,Phoenix Chick,main
 1,Pollenbright Druid,main
 2,Polluted Delta,main
@@ -247,7 +241,6 @@ Count,Name,Section
 1,Reveillark,main
 1,"Rielle, the Everwise",main
 1,Roaring Earth,main
-1,Rootbound Crag,main
 2,Sacred Foundry,main
 1,"Saheeli, Sublime Artificer",main
 1,Sai of the Shinobi,main
@@ -256,6 +249,7 @@ Count,Name,Section
 2,Scalding Tarn,main
 1,Scattered Groves,main
 1,Scavenging Ooze,main
+1,Scrabbling Claws,main
 1,Scrapwork Mutt,main
 1,Scryb Ranger,main
 1,Seal of Fire,main
@@ -264,6 +258,7 @@ Count,Name,Section
 1,Serum Visions,main
 1,Sevinne's Reclamation,main
 1,Shadowy Backstreet,main
+1,Shark Typhoon,main
 1,Shelldock Isle,main
 1,Sheltered Thicket,main
 1,Siege-Gang Commander,main
@@ -271,6 +266,7 @@ Count,Name,Section
 1,Snapcaster Mage,main
 1,Song of the Dryads,main
 1,Soul Partition,main
+1,Soul Snare,main
 1,Soul Warden,main
 1,Soul-Scar Mage,main
 1,Sparring Construct,main
@@ -280,22 +276,20 @@ Count,Name,Section
 1,Spider Food,main
 1,Spirited Companion,main
 1,Sprout Swarm,main
-1,Steam Vents,main
+2,Steam Vents,main
 1,Steppe Lynx,main
 1,Stern Scolding,main
 1,Stitcher's Supplier,main
-1,Stomping Ground,main
-1,Sulfur Falls,main
+2,Stomping Ground,main
 1,Sulfurous Springs,main
 1,Sunbaked Canyon,main
-1,Sunken Ruins,main
 1,"Takenuma, Abandoned Mire",main
 1,"Tameshi, Reality Architect",main
 1,"Tamiyo, Compleated Sage",main
 1,Tangled Colony,main
 1,Tarmogoyf,main
 1,Tectonic Reformation,main
-1,Temple Garden,main
+2,Temple Garden,main
 1,Territorial Kavu,main
 1,"Tezzeret, Betrayer of Flesh",main
 1,The Binding of the Titans,main
@@ -333,7 +327,7 @@ Count,Name,Section
 1,Viscera Seer,main
 1,"Vivien, Champion of the Wilds",main
 1,Warden of the Inner Sky,main
-1,Watery Grave,main
+2,Watery Grave,main
 1,Welcoming Vampire,main
 1,Werefox Bodyguard,main
 1,Wilderness Reclamation,main
@@ -341,7 +335,6 @@ Count,Name,Section
 2,Windswept Heath,main
 1,Woe Strider,main
 2,Wooded Foothills,main
-1,Woodland Cemetery,main
 1,Worm Harvest,main
 1,Wrath of God,main
 1,Young Pyromancer,main
