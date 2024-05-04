@@ -5,8 +5,6 @@ Count,Name,Section
 1,Aether Spellbomb,main
 1,Aether Tradewinds,main
 1,Agonizing Remorse,main
-1,Ajani Goldmane,main
-1,Angel of Salvation,main
 1,Anje's Ravager,main
 1,Arasta of the Endless Web,main
 1,Arbor Elf,main
@@ -74,7 +72,6 @@ Count,Name,Section
 1,Delay,main
 1,Demand Answers,main
 1,Deprive,main
-1,Devoted Druid,main
 1,Disfigure,main
 1,"Domri, Anarch of Bolas",main
 1,Dragon's Rage Channeler,main
@@ -91,6 +88,7 @@ Count,Name,Section
 1,Ephara's Dispersal,main
 1,Ephemerate,main
 1,Eternal Witness,main
+1,Ethereal Forager,main
 1,Exclusion Mage,main
 1,Explore,main
 1,Fact or Fiction,main
@@ -108,6 +106,7 @@ Count,Name,Section
 1,Field of Ruin,main
 1,Field of the Dead,main
 1,Fiery Islet,main
+1,Fire // Ice,main
 1,Firebolt,main
 1,Flame Jab,main
 1,Flame Slash,main
@@ -135,7 +134,6 @@ Count,Name,Section
 1,Halo Forager,main
 1,Hardened Scales,main
 1,Harm's Way,main
-1,Harrow,main
 1,Hedge Maze,main
 1,Helping Hand,main
 1,Horizon Canopy,main
@@ -197,6 +195,7 @@ Count,Name,Section
 1,Murder,main
 1,Murderous Cut,main
 1,Murderous Redcap,main
+1,Mystic Confluence,main
 1,Mystic Sanctuary,main
 1,Negate,main
 1,No More Lies,main
@@ -214,6 +213,7 @@ Count,Name,Section
 2,Polluted Delta,main
 1,Ponder,main
 1,Portable Hole,main
+1,Preordain,main
 1,Prismatic Ending,main
 1,Prismatic Vista,main
 1,Pteramander,main
@@ -235,16 +235,15 @@ Count,Name,Section
 1,"Renata, Called to the Hunt",main
 1,Repeal,main
 1,Reprieve,main
-1,Resolute Reinforcements,main
 1,Restless Fortress,main
 1,Restless Vinestalk,main
 1,Reveillark,main
 1,"Rielle, the Everwise",main
+1,Rishadan Port,main
 1,Roaring Earth,main
 2,Sacred Foundry,main
 1,"Saheeli, Sublime Artificer",main
 1,Sai of the Shinobi,main
-1,Saproling Migration,main
 1,Satyr Wayfinder,main
 2,Scalding Tarn,main
 1,Scattered Groves,main
@@ -253,6 +252,7 @@ Count,Name,Section
 1,Scrapwork Mutt,main
 1,Scryb Ranger,main
 1,Seal of Fire,main
+1,Seasoned Hallowblade,main
 1,Seasoned Pyromancer,main
 1,Sedgemoor Witch,main
 1,Serum Visions,main
@@ -275,11 +275,10 @@ Count,Name,Section
 1,Sphinx of Lost Truths,main
 1,Spider Food,main
 1,Spirited Companion,main
-1,Sprout Swarm,main
+1,Stalactite Stalker,main
 2,Steam Vents,main
 1,Steppe Lynx,main
 1,Stern Scolding,main
-1,Stitcher's Supplier,main
 2,Stomping Ground,main
 1,Sulfurous Springs,main
 1,Sunbaked Canyon,main
@@ -287,11 +286,13 @@ Count,Name,Section
 1,"Tameshi, Reality Architect",main
 1,"Tamiyo, Compleated Sage",main
 1,Tangled Colony,main
+1,Tarfire,main
 1,Tarmogoyf,main
 1,Tectonic Reformation,main
 2,Temple Garden,main
 1,Territorial Kavu,main
 1,"Tezzeret, Betrayer of Flesh",main
+1,"Thalia, Guardian of Thraben",main
 1,The Binding of the Titans,main
 1,The Goose Mother,main
 1,The Huntsman's Redemption,main
@@ -317,7 +318,6 @@ Count,Name,Section
 1,Unexpectedly Absent,main
 1,Unholy Heat,main
 1,Unsummon,main
-1,Untamed Kavu,main
 1,Utopia Sprawl,main
 1,Vampire Hexmage,main
 1,Vampire of the Dire Moon,main
@@ -335,7 +335,6 @@ Count,Name,Section
 2,Windswept Heath,main
 1,Woe Strider,main
 2,Wooded Foothills,main
-1,Worm Harvest,main
 1,Wrath of God,main
 1,Young Pyromancer,main
 1,Zulaport Cutthroat,main
