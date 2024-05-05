@@ -23,8 +23,13 @@ export function DropdownHeader({ label, value, options, onChange, className }) {
 }
 
 export function Checkbox(input) {
+  let className = "dropdown"
+  if (input.className != null) {
+    className = input.className
+  }
+
   return (
-      <label className="dropdown">
+      <label className={className}>
         {input.text}
         <input id={input.id} checked={input.checked} onChange={input.onChange} type="checkbox" />
       </label>

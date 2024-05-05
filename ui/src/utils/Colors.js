@@ -15,7 +15,7 @@ export function GetColorIdentity(deck) {
         }
         allColors.set(pair, true)
 
-        // Triomes.
+        // Trios.
         for (var l in deck.colors) {
           let c3 = deck.colors[l]
           let trio = CombineColors([c, c2, c3])

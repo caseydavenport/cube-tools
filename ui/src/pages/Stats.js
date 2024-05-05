@@ -54,6 +54,7 @@ export default function StatsViewer() {
   ///////////////////////////////////////////////////////////////////////////////
   const [colorTypeSelection, setColorTypeSelection] = useState("Mono");
   const [colorSortBy, setColorSortBy] = useState("win");
+  const [strictColors, setStrictColors] = useState(false);
   const [colorCheckboxes, setColorCheckboxes] = useState([false, false, false, false, false]);
   const ddOpts =  [{ label: "Mono", value: "Mono" }, { label: "Dual", value: "Dual" }, { label: "Trio", value: "Trio" }]
   function onColorTypeSelected(event) {
@@ -61,6 +62,9 @@ export default function StatsViewer() {
   }
   function onColorHeaderClicked(event) {
     setColorSortBy(event.target.id)
+  }
+  function onStrictCheckbox(event) {
+    setStrictColors(!strictColors)
   }
   function onColorSelectionCheckbox(event) {
     let updated = [...colorCheckboxes]
@@ -348,7 +352,7 @@ export default function StatsViewer() {
     let p = {}
     p.filteredDecks = f
     p.archetypeData = ArchetypeData(f)
-    p.colorData = GetColorStats(f)
+    p.colorData = GetColorStats(f, strictColors)
     p.playerData = PlayerData(f)
     p.cardData = CardData(f, minDrafts, minGames, cube, cardWidgetColorSelection)
 
@@ -365,7 +369,7 @@ export default function StatsViewer() {
 
       // Add per-bucket parsed data.
       b.archetypeData = ArchetypeData(bucketDecks)
-      b.colorData = GetColorStats(bucketDecks)
+      b.colorData = GetColorStats(bucketDecks, strictColors)
       b.playerData = PlayerData(bucketDecks)
       b.cardData = CardData(bucketDecks, 0, 0, cube, "")
     }
@@ -373,7 +377,7 @@ export default function StatsViewer() {
     // Also go through each player and parse stats individually for them.
     for (let d of p.playerData.values()) {
       d.archetypeData = ArchetypeData(d.decks)
-      d.colorData = GetColorStats(d.decks)
+      d.colorData = GetColorStats(d.decks, strictColors)
     }
 
     setParsedData(p)
@@ -381,7 +385,7 @@ export default function StatsViewer() {
   useEffect(() => {
     console.log("Parsing the loaded data")
     parse()
-  }, [decks, bucketSize, minDrafts, minGames, cube, cardWidgetColorSelection, colorCheckboxes])
+  }, [decks, bucketSize, minDrafts, minGames, cube, cardWidgetColorSelection, colorCheckboxes, strictColors])
 
   return (
     <div id="root">
@@ -458,6 +462,8 @@ export default function StatsViewer() {
           onHeaderClick={onColorHeaderClicked}
           colorSortBy={colorSortBy}
           bucketSize={bucketSize}
+          strictColors={strictColors}
+          onStrictCheckbox={onStrictCheckbox}
           show={display[0]}
         />
 

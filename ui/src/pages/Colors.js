@@ -47,6 +47,8 @@ export function ColorWidget(input) {
               onSelected={input.onSelected}
               onClick={input.onHeaderClick}
               sortBy={input.colorSortBy}
+              strictColors={input.strictColors}
+              onStrictCheckbox={input.onStrictCheckbox}
             />
           </td>
           <td style={{"width": "50%"}}> </td>
@@ -175,12 +177,7 @@ function ColorStatsTable(input) {
 
   return (
     <div>
-      <DropdownHeader
-        label="Select color type"
-        options={input.ddOpts}
-        value={input.colorTypeSelection}
-        onChange={input.onSelected}
-      />
+      <TableHeader {...input} />
 
       <table className="winrate-table">
         <thead className="table-header">
@@ -240,8 +237,29 @@ function ColorStatsTable(input) {
   );
 }
 
+function TableHeader(input) {
+  return (
+    <div className="full-options-header">
+      <DropdownHeader
+        label="Select color type"
+        className="dropdown-header-side-by-side"
+        options={input.ddOpts}
+        value={input.colorTypeSelection}
+        onChange={input.onSelected}
+      />
+
+      <Checkbox
+        text="Strict"
+        className="dropdown-header-side-by-side"
+        checked={input.strictColors}
+        onChange={input.onStrictCheckbox}
+      />
+    </div>
+  )
+}
+
 // GetColorStats collects statistics aggregated by color and color pair based on the given decks.
-export function GetColorStats(decks) {
+export function GetColorStats(decks, strictColors) {
   let tracker = new Map()
 
   // Count of all cards ever drafted. This will be used to calculate pick percentages per-color.
@@ -291,9 +309,24 @@ export function GetColorStats(decks) {
 
     // Start by adding metrics at the deck scope for color identity.
     // Add wins and losses contributed for each color / color combination within this deck.
-    let colors = GetColorIdentity(decks[i])
+    let colorIdentity = GetColorIdentity(decks[i])
+
+    // If we're in strict mode, ignore any color that isn't strictly the color ideneity of
+    // the deck. For example, a WG deck will only count as WG in strict mode, where as it would
+    // count as W, G, and WG norally.
+    let colors = new Array()
+    for (let color of colorIdentity) {
+      if (strictColors) {
+        if (decks[i].colors.length != color.length) {
+          continue
+        }
+      }
+      colors.push(color)
+    }
+
     for (var j in colors) {
       let color = colors[j]
+
       if (!tracker.has(color)) {
         tracker.set(color, newColor(color))
       }
