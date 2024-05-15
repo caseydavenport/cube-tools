@@ -1,5 +1,5 @@
 {
- "labels": [],
+ "labels": ["aggro", "control", "taxes"],
  "player": "casey",
  "date": "2024-05-14",
  "games": [
