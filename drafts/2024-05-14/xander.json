@@ -1,5 +1,9 @@
 {
- "labels": ["control", "spells", "lands"],
+ "labels": [
+  "control",
+  "spells",
+  "lands"
+ ],
  "player": "xander",
  "date": "2024-05-14",
  "games": [

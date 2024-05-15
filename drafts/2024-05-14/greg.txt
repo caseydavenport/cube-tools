@@ -1,49 +1,49 @@
-1 Day of Judgment
-1 Virtue of Persistence
-1 Marsh Flats
-1 Mother of Runes
 1 Panharmonicon
-1 Shadowy Backstreet
-1 Takenuma, Abandoned Mire
-1 Infernal Grasp
 1 Spirited Companion
 1 Flickerwisp
 1 Meadowboon
 1 Welcoming Vampire
 1 Hostage Taker
 1 Snapcaster Mage
-1 Unearth
-1 Grim Discovery
 1 Faerie Dreamthief
 1 Soul Warden
-1 Goldmeadow Harrier
-1 Sphinx of Lost Truths
-1 Polluted Delta
-1 Shark Typhoon
 1 Mulldrifter
 1 Moon-Circuit Hacker
-1 Repeal
 1 Puppeteer Clique
+1 Halo Forager
+1 Kor Skyfisher
+1 Shark Typhoon
+1 Infernal Grasp
+1 Ghostly Flicker
+1 Repeal
+1 Marsh Flats
+1 Shadowy Backstreet
+1 Takenuma, Abandoned Mire
+1 Polluted Delta
 1 Godless Shrine
+1 Undercity Sewers
+1 Meticulous Archive
+4 Plains
+3 Island
+3 Swamp
+1 Virtue of Persistence // Locthwain Scorn
+1 Unearth
+1 Grim Discovery
 1 Preordain
 1 Wrath of God
-1 Undercity Sewers
-1 Halo Forager
-1 Ghostly Flicker
-1 Meticulous Archive
-1 Kor Skyfisher
-1 Condescend
-3 Plains
-4 Island
-3 Swamp
 
-1 Rielle, the Everwise
-1 Qasali Pridemage
 1 Aether Spellbomb
 1 Sai of the Shinobi
-1 Kellan, the Fae-Blooded
+1 Rielle, the Everwise
+1 Qasali Pridemage
 1 Seasoned Hallowblade
+1 Sphinx of Lost Truths
+1 Goldmeadow Harrier
+1 Mother of Runes
 1 Dress Down
 1 Comet Storm
 1 Deprive
 1 Remand
+1 Condescend
+1 Kellan, the Fae-Blooded // Birthright Boon
+1 Day of Judgment
