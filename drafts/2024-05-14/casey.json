@@ -8,6 +8,22 @@
  "date": "2024-05-14",
  "games": [
   {
+   "opponent": "greg",
+   "winner": "greg"
+  },
+  {
+   "opponent": "paul",
+   "winner": "casey"
+  },
+  {
+   "opponent": "paul",
+   "winner": "paul"
+  },
+  {
+   "opponent": "paul",
+   "winner": "paul"
+  },
+  {
    "opponent": "xander",
    "winner": "casey"
   },
@@ -21,6 +37,10 @@
   }
  ],
  "matches": [
+  {
+   "opponent": "paul",
+   "winner": "paul"
+  },
   {
    "opponent": "xander",
    "winner": "casey"

@@ -4,8 +4,26 @@
  ],
  "player": "paul",
  "date": "2024-05-14",
- "games": null,
- "matches": null,
+ "games": [
+  {
+   "opponent": "casey",
+   "winner": "paul"
+  },
+  {
+   "opponent": "casey",
+   "winner": "paul"
+  },
+  {
+   "opponent": "casey",
+   "winner": "casey"
+  }
+ ],
+ "matches": [
+  {
+   "opponent": "casey",
+   "winner": "paul"
+  }
+ ],
  "mainboard": [
   {
    "name": "Goblin Guide",
@@ -122,20 +140,6 @@
    "oracle_text": "When Tibalt's Rager dies, it deals 1 damage to any target.\n{1}{R}: Tibalt's Rager gets +2/+0 until end of turn."
   },
   {
-   "name": "Lórien Revealed",
-   "types": [
-    "Sorcery"
-   ],
-   "cmc": 5,
-   "image": "",
-   "colors": [
-    "U"
-   ],
-   "mana_cost": "{3}{U}{U}",
-   "url": "https://scryfall.com/card/ltr/60/l%C3%B3rien-revealed?utm_source=api",
-   "oracle_text": "Draw three cards.\nIslandcycling {1} ({1}, Discard this card: Search your library for an Island card, reveal it, put it into your hand, then shuffle.)"
-  },
-  {
    "name": "Cemetery Gatekeeper",
    "types": [
     "Creature"
@@ -231,20 +235,6 @@
    "mana_cost": "{2}",
    "url": "https://scryfall.com/card/cmr/330/perilous-myr?utm_source=api",
    "oracle_text": "When Perilous Myr dies, it deals 2 damage to any target."
-  },
-  {
-   "name": "Unsummon",
-   "types": [
-    "Instant"
-   ],
-   "cmc": 1,
-   "image": "",
-   "colors": [
-    "U"
-   ],
-   "mana_cost": "{U}",
-   "url": "https://scryfall.com/card/m20/78/unsummon?utm_source=api",
-   "oracle_text": "Return target creature to its owner's hand."
   },
   {
    "name": "Blood Crypt",
@@ -359,20 +349,6 @@
    "mana_cost": "{2}{B/R}{B/R}",
    "url": "https://scryfall.com/card/uma/217/murderous-redcap?utm_source=api",
    "oracle_text": "When Murderous Redcap enters the battlefield, it deals damage equal to its power to any target.\nPersist (When this creature dies, if it had no -1/-1 counters on it, return it to the battlefield under its owner's control with a -1/-1 counter on it.)"
-  },
-  {
-   "name": "Fecundity",
-   "types": [
-    "Enchantment"
-   ],
-   "cmc": 3,
-   "image": "",
-   "colors": [
-    "G"
-   ],
-   "mana_cost": "{2}{G}",
-   "url": "https://scryfall.com/card/uma/165/fecundity?utm_source=api",
-   "oracle_text": "Whenever a creature dies, that creature's controller may draw a card."
   },
   {
    "name": "Siege-Gang Commander",
@@ -958,6 +934,48 @@
    "mana_cost": "{1}{B}{B}",
    "url": "https://scryfall.com/card/mkm/95/murder?utm_source=api",
    "oracle_text": "Destroy target creature."
+  },
+  {
+   "name": "Fecundity",
+   "types": [
+    "Enchantment"
+   ],
+   "cmc": 3,
+   "image": "",
+   "colors": [
+    "G"
+   ],
+   "mana_cost": "{2}{G}",
+   "url": "https://scryfall.com/card/uma/165/fecundity?utm_source=api",
+   "oracle_text": "Whenever a creature dies, that creature's controller may draw a card."
+  },
+  {
+   "name": "Lórien Revealed",
+   "types": [
+    "Sorcery"
+   ],
+   "cmc": 5,
+   "image": "",
+   "colors": [
+    "U"
+   ],
+   "mana_cost": "{3}{U}{U}",
+   "url": "https://scryfall.com/card/ltr/60/l%C3%B3rien-revealed?utm_source=api",
+   "oracle_text": "Draw three cards.\nIslandcycling {1} ({1}, Discard this card: Search your library for an Island card, reveal it, put it into your hand, then shuffle.)"
+  },
+  {
+   "name": "Unsummon",
+   "types": [
+    "Instant"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [
+    "U"
+   ],
+   "mana_cost": "{U}",
+   "url": "https://scryfall.com/card/m20/78/unsummon?utm_source=api",
+   "oracle_text": "Return target creature to its owner's hand."
   }
  ]
 }

@@ -1,9 +1,31 @@
 {
- "labels": [],
+ "labels": [
+  "control",
+  "flicker",
+  "graveyard"
+ ],
  "player": "greg",
  "date": "2024-05-14",
- "games": null,
- "matches": null,
+ "games": [
+  {
+   "opponent": "casey",
+   "winner": "greg"
+  },
+  {
+   "opponent": "jen",
+   "winner": "greg"
+  },
+  {
+   "opponent": "jen",
+   "winner": "greg"
+  }
+ ],
+ "matches": [
+  {
+   "opponent": "jen",
+   "winner": "greg"
+  }
+ ],
  "mainboard": [
   {
    "name": "Panharmonicon",

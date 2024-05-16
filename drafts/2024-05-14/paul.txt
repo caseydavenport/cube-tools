@@ -5,14 +5,12 @@
 1 Sulfurous Springs
 1 Lizard Blades
 1 Tibalt's Rager
-1 Lórien Revealed
 1 Cemetery Gatekeeper
 1 Vampire of the Dire Moon
 1 Flame Slash
 1 Seasoned Pyromancer
 1 Flame Jab
 1 Perilous Myr
-1 Unsummon
 1 Blood Crypt
 1 Reinforced Ronin
 1 Torch the Tower
@@ -20,7 +18,6 @@
 1 Bloodsoaked Champion
 1 Firebolt
 1 Murderous Redcap
-1 Fecundity
 1 Siege-Gang Commander
 1 Burst Lightning
 1 Grim Lavamancer
@@ -46,3 +43,6 @@
 1 Liliana, Death's Majesty
 1 Vampire Hexmage
 1 Murder
+1 Fecundity
+1 Lórien Revealed
+1 Unsummon

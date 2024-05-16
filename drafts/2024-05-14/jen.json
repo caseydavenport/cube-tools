@@ -18,12 +18,24 @@
   {
    "opponent": "dom",
    "winner": "dom"
+  },
+  {
+   "opponent": "greg",
+   "winner": "greg"
+  },
+  {
+   "opponent": "greg",
+   "winner": "greg"
   }
  ],
  "matches": [
   {
    "opponent": "dom",
    "winner": "jen"
+  },
+  {
+   "opponent": "greg",
+   "winner": "greg"
   }
  ],
  "mainboard": [
