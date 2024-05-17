@@ -6,6 +6,18 @@
  "date": "2024-05-14",
  "games": [
   {
+   "opponent": "cara",
+   "winner": "dom"
+  },
+  {
+   "opponent": "cara",
+   "winner": "dom"
+  },
+  {
+   "opponent": "cara",
+   "winner": "cara"
+  },
+  {
    "opponent": "jen",
    "winner": "dom"
   },
@@ -19,6 +31,10 @@
   }
  ],
  "matches": [
+  {
+   "opponent": "cara",
+   "winner": "dom"
+  },
   {
    "opponent": "jen",
    "winner": "jen"

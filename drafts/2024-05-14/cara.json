@@ -1,9 +1,31 @@
 {
- "labels": [],
+ "labels": [
+  "graveyard",
+  "midrange",
+  "delirium"
+ ],
  "player": "cara",
  "date": "2024-05-14",
- "games": null,
- "matches": null,
+ "games": [
+  {
+   "opponent": "dom",
+   "winner": "cara"
+  },
+  {
+   "opponent": "dom",
+   "winner": "dom"
+  },
+  {
+   "opponent": "dom",
+   "winner": "dom"
+  }
+ ],
+ "matches": [
+  {
+   "opponent": "dom",
+   "winner": "dom"
+  }
+ ],
  "mainboard": [
   {
    "name": "Knight of the Ebon Legion",
@@ -24,107 +46,6 @@
    "oracle_text": "{2}{B}: Knight of the Ebon Legion gets +3/+3 and gains deathtouch until end of turn.\nAt the beginning of your end step, if a player lost 4 or more life this turn, put a +1/+1 counter on Knight of the Ebon Legion. (Damage causes loss of life.)"
   },
   {
-   "name": "Quest for the Gravelord",
-   "types": [
-    "Enchantment"
-   ],
-   "cmc": 1,
-   "image": "",
-   "colors": [
-    "B"
-   ],
-   "mana_cost": "{B}",
-   "url": "https://scryfall.com/card/bbd/156/quest-for-the-gravelord?utm_source=api",
-   "oracle_text": "Whenever a creature dies, you may put a quest counter on Quest for the Gravelord.\nRemove three quest counters from Quest for the Gravelord and sacrifice it: Create a 5/5 black Zombie Giant creature token."
-  },
-  {
-   "name": "Traverse the Ulvenwald",
-   "types": [
-    "Sorcery"
-   ],
-   "cmc": 1,
-   "image": "",
-   "colors": [
-    "G"
-   ],
-   "mana_cost": "{G}",
-   "url": "https://scryfall.com/card/soi/234/traverse-the-ulvenwald?utm_source=api",
-   "oracle_text": "Search your library for a basic land card, reveal it, put it into your hand, then shuffle.\nDelirium — If there are four or more card types among cards in your graveyard, instead search your library for a creature or land card, reveal it, put it into your hand, then shuffle."
-  },
-  {
-   "name": "Explore",
-   "types": [
-    "Sorcery"
-   ],
-   "cmc": 2,
-   "image": "",
-   "colors": [
-    "G"
-   ],
-   "mana_cost": "{1}{G}",
-   "url": "https://scryfall.com/card/lcc/241/explore?utm_source=api",
-   "oracle_text": "You may play an additional land this turn.\nDraw a card."
-  },
-  {
-   "name": "Stomping Ground",
-   "types": [
-    "Land"
-   ],
-   "sub_types": [
-    "Mountain",
-    "Forest"
-   ],
-   "cmc": 0,
-   "image": "",
-   "colors": [],
-   "mana_cost": "",
-   "url": "https://scryfall.com/card/rvr/289/stomping-ground?utm_source=api",
-   "oracle_text": "({T}: Add {R} or {G}.)\nAs Stomping Ground enters the battlefield, you may pay 2 life. If you don't, it enters the battlefield tapped."
-  },
-  {
-   "name": "Utopia Sprawl",
-   "types": [
-    "Enchantment"
-   ],
-   "sub_types": [
-    "Aura"
-   ],
-   "cmc": 1,
-   "image": "",
-   "colors": [
-    "G"
-   ],
-   "mana_cost": "{G}",
-   "url": "https://scryfall.com/card/rvr/159/utopia-sprawl?utm_source=api",
-   "oracle_text": "Enchant Forest\nAs Utopia Sprawl enters the battlefield, choose a color.\nWhenever enchanted Forest is tapped for mana, its controller adds an additional one mana of the chosen color."
-  },
-  {
-   "name": "Edge of Autumn",
-   "types": [
-    "Sorcery"
-   ],
-   "cmc": 2,
-   "image": "",
-   "colors": [
-    "G"
-   ],
-   "mana_cost": "{1}{G}",
-   "url": "https://scryfall.com/card/tsr/201/edge-of-autumn?utm_source=api",
-   "oracle_text": "If you control four or fewer lands, search your library for a basic land card, put it onto the battlefield tapped, then shuffle.\nCycling—Sacrifice a land. (Sacrifice a land, Discard this card: Draw a card.)"
-  },
-  {
-   "name": "Verdant Catacombs",
-   "types": [
-    "Land"
-   ],
-   "cmc": 0,
-   "image": "",
-   "colors": [],
-   "mana_cost": "",
-   "url": "https://scryfall.com/card/mh2/260/verdant-catacombs?utm_source=api",
-   "oracle_text": "{T}, Pay 1 life, Sacrifice Verdant Catacombs: Search your library for a Swamp or Forest card, put it onto the battlefield, then shuffle."
-  },
-  {
    "name": "Ignoble Hierarch",
    "types": [
     "Creature"
@@ -141,20 +62,6 @@
    "mana_cost": "{G}",
    "url": "https://scryfall.com/card/mh2/166/ignoble-hierarch?utm_source=api",
    "oracle_text": "Exalted (Whenever a creature you control attacks alone, that creature gets +1/+1 until end of turn.)\n{T}: Add {B}, {R}, or {G}."
-  },
-  {
-   "name": "Life from the Loam",
-   "types": [
-    "Sorcery"
-   ],
-   "cmc": 2,
-   "image": "",
-   "colors": [
-    "G"
-   ],
-   "mana_cost": "{1}{G}",
-   "url": "https://scryfall.com/card/rvr/148/life-from-the-loam?utm_source=api",
-   "oracle_text": "Return up to three target land cards from your graveyard to your hand.\nDredge 3 (If you would draw a card, you may mill three cards instead. If you do, return this card from your graveyard to your hand.)"
   },
   {
    "name": "Bloodghast",
@@ -192,69 +99,6 @@
    "oracle_text": "Landfall — Whenever a land enters the battlefield under your control, add one mana of any color."
   },
   {
-   "name": "Ulcerate",
-   "types": [
-    "Instant"
-   ],
-   "cmc": 1,
-   "image": "",
-   "colors": [
-    "B"
-   ],
-   "mana_cost": "{B}",
-   "url": "https://scryfall.com/card/ima/112/ulcerate?utm_source=api",
-   "oracle_text": "Target creature gets -3/-3 until end of turn. You lose 3 life."
-  },
-  {
-   "name": "The Binding of the Titans",
-   "types": [
-    "Enchantment"
-   ],
-   "sub_types": [
-    "Saga"
-   ],
-   "cmc": 2,
-   "image": "",
-   "colors": [
-    "G"
-   ],
-   "mana_cost": "{1}{G}",
-   "url": "https://scryfall.com/card/cmm/886/the-binding-of-the-titans?utm_source=api",
-   "oracle_text": "(As this Saga enters and after your draw step, add a lore counter. Sacrifice after III.)\nI — Each player mills three cards.\nII — Exile up to two target cards from graveyards. For each creature card exiled this way, you gain 1 life.\nIII — Return target creature or land card from your graveyard to your hand."
-  },
-  {
-   "name": "Black Sun's Zenith",
-   "types": [
-    "Sorcery"
-   ],
-   "cmc": 2,
-   "image": "",
-   "colors": [
-    "B"
-   ],
-   "mana_cost": "{X}{B}{B}",
-   "url": "https://scryfall.com/card/mkc/126/black-suns-zenith?utm_source=api",
-   "oracle_text": "Put X -1/-1 counters on each creature. Shuffle Black Sun's Zenith into its owner's library."
-  },
-  {
-   "name": "Dreadhorde Arcanist",
-   "types": [
-    "Creature"
-   ],
-   "sub_types": [
-    "Zombie",
-    "Wizard"
-   ],
-   "cmc": 2,
-   "image": "",
-   "colors": [
-    "R"
-   ],
-   "mana_cost": "{1}{R}",
-   "url": "https://scryfall.com/card/war/125/dreadhorde-arcanist?utm_source=api",
-   "oracle_text": "Trample\nWhenever Dreadhorde Arcanist attacks, you may cast target instant or sorcery card with mana value less than or equal to Dreadhorde Arcanist's power from your graveyard without paying its mana cost. If that spell would be put into your graveyard, exile it instead."
-  },
-  {
    "name": "Tarmogoyf",
    "types": [
     "Creature"
@@ -287,26 +131,6 @@
    "mana_cost": "{2}{G}",
    "url": "https://scryfall.com/card/soi/212/inexorable-blob?utm_source=api",
    "oracle_text": "Delirium — Whenever Inexorable Blob attacks, if there are four or more card types among cards in your graveyard, create a 3/3 green Ooze creature token that's tapped and attacking."
-  },
-  {
-   "name": "Mosswood Dreadknight // Dread Whispers",
-   "types": [
-    "Creature"
-   ],
-   "sub_types": [
-    "Human",
-    "Knight",
-    "//",
-    "Sorcery"
-   ],
-   "cmc": 2,
-   "image": "",
-   "colors": [
-    "G"
-   ],
-   "mana_cost": "{1}{G} // {1}{B}",
-   "url": "https://scryfall.com/card/woe/231/mosswood-dreadknight-dread-whispers?utm_source=api",
-   "oracle_text": ""
   },
   {
    "name": "Stalactite Stalker",
@@ -398,22 +222,6 @@
    "oracle_text": "Deathtouch\nWhen Mire Triton enters the battlefield, mill two cards and you gain 2 life."
   },
   {
-   "name": "Overgrown Tomb",
-   "types": [
-    "Land"
-   ],
-   "sub_types": [
-    "Swamp",
-    "Forest"
-   ],
-   "cmc": 0,
-   "image": "",
-   "colors": [],
-   "mana_cost": "",
-   "url": "https://scryfall.com/card/rvr/283/overgrown-tomb?utm_source=api",
-   "oracle_text": "({T}: Add {B} or {G}.)\nAs Overgrown Tomb enters the battlefield, you may pay 2 life. If you don't, it enters the battlefield tapped."
-  },
-  {
    "name": "Arasta of the Endless Web",
    "types": [
     "Legendary",
@@ -451,24 +259,6 @@
    "oracle_text": "Reach\nUndergrowth — When Kraul Harpooner enters the battlefield, choose up to one target creature with flying you don't control. Kraul Harpooner gets +X/+0 until end of turn, where X is the number of creature cards in your graveyard, then you may have Kraul Harpooner fight that creature."
   },
   {
-   "name": "Krenko, Tin Street Kingpin",
-   "types": [
-    "Legendary",
-    "Creature"
-   ],
-   "sub_types": [
-    "Goblin"
-   ],
-   "cmc": 3,
-   "image": "",
-   "colors": [
-    "R"
-   ],
-   "mana_cost": "{2}{R}",
-   "url": "https://scryfall.com/card/moc/287/krenko-tin-street-kingpin?utm_source=api",
-   "oracle_text": "Whenever Krenko, Tin Street Kingpin attacks, put a +1/+1 counter on it, then create a number of 1/1 red Goblin creature tokens equal to Krenko's power."
-  },
-  {
    "name": "Cunning Lethemancer",
    "types": [
     "Creature"
@@ -487,6 +277,394 @@
    "oracle_text": "At the beginning of your upkeep, each player discards a card."
   },
   {
+   "name": "Quest for the Gravelord",
+   "types": [
+    "Enchantment"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [
+    "B"
+   ],
+   "mana_cost": "{B}",
+   "url": "https://scryfall.com/card/bbd/156/quest-for-the-gravelord?utm_source=api",
+   "oracle_text": "Whenever a creature dies, you may put a quest counter on Quest for the Gravelord.\nRemove three quest counters from Quest for the Gravelord and sacrifice it: Create a 5/5 black Zombie Giant creature token."
+  },
+  {
+   "name": "Utopia Sprawl",
+   "types": [
+    "Enchantment"
+   ],
+   "sub_types": [
+    "Aura"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [
+    "G"
+   ],
+   "mana_cost": "{G}",
+   "url": "https://scryfall.com/card/rvr/159/utopia-sprawl?utm_source=api",
+   "oracle_text": "Enchant Forest\nAs Utopia Sprawl enters the battlefield, choose a color.\nWhenever enchanted Forest is tapped for mana, its controller adds an additional one mana of the chosen color."
+  },
+  {
+   "name": "The Binding of the Titans",
+   "types": [
+    "Enchantment"
+   ],
+   "sub_types": [
+    "Saga"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "G"
+   ],
+   "mana_cost": "{1}{G}",
+   "url": "https://scryfall.com/card/cmm/886/the-binding-of-the-titans?utm_source=api",
+   "oracle_text": "(As this Saga enters and after your draw step, add a lore counter. Sacrifice after III.)\nI — Each player mills three cards.\nII — Exile up to two target cards from graveyards. For each creature card exiled this way, you gain 1 life.\nIII — Return target creature or land card from your graveyard to your hand."
+  },
+  {
+   "name": "Ulcerate",
+   "types": [
+    "Instant"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [
+    "B"
+   ],
+   "mana_cost": "{B}",
+   "url": "https://scryfall.com/card/ima/112/ulcerate?utm_source=api",
+   "oracle_text": "Target creature gets -3/-3 until end of turn. You lose 3 life."
+  },
+  {
+   "name": "Verdant Catacombs",
+   "types": [
+    "Land"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/mh2/260/verdant-catacombs?utm_source=api",
+   "oracle_text": "{T}, Pay 1 life, Sacrifice Verdant Catacombs: Search your library for a Swamp or Forest card, put it onto the battlefield, then shuffle."
+  },
+  {
+   "name": "Overgrown Tomb",
+   "types": [
+    "Land"
+   ],
+   "sub_types": [
+    "Swamp",
+    "Forest"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/rvr/283/overgrown-tomb?utm_source=api",
+   "oracle_text": "({T}: Add {B} or {G}.)\nAs Overgrown Tomb enters the battlefield, you may pay 2 life. If you don't, it enters the battlefield tapped."
+  },
+  {
+   "name": "Swamp",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Swamp"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/mh3/306/swamp?utm_source=api",
+   "oracle_text": "({T}: Add {B}.)"
+  },
+  {
+   "name": "Swamp",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Swamp"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/mh3/306/swamp?utm_source=api",
+   "oracle_text": "({T}: Add {B}.)"
+  },
+  {
+   "name": "Swamp",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Swamp"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/mh3/306/swamp?utm_source=api",
+   "oracle_text": "({T}: Add {B}.)"
+  },
+  {
+   "name": "Swamp",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Swamp"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/mh3/306/swamp?utm_source=api",
+   "oracle_text": "({T}: Add {B}.)"
+  },
+  {
+   "name": "Swamp",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Swamp"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/mh3/306/swamp?utm_source=api",
+   "oracle_text": "({T}: Add {B}.)"
+  },
+  {
+   "name": "Forest",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Forest"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/mh3/308/forest?utm_source=api",
+   "oracle_text": "({T}: Add {G}.)"
+  },
+  {
+   "name": "Forest",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Forest"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/mh3/308/forest?utm_source=api",
+   "oracle_text": "({T}: Add {G}.)"
+  },
+  {
+   "name": "Forest",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Forest"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/mh3/308/forest?utm_source=api",
+   "oracle_text": "({T}: Add {G}.)"
+  },
+  {
+   "name": "Forest",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Forest"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/mh3/308/forest?utm_source=api",
+   "oracle_text": "({T}: Add {G}.)"
+  },
+  {
+   "name": "Forest",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Forest"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/mh3/308/forest?utm_source=api",
+   "oracle_text": "({T}: Add {G}.)"
+  },
+  {
+   "name": "Forest",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Forest"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/mh3/308/forest?utm_source=api",
+   "oracle_text": "({T}: Add {G}.)"
+  },
+  {
+   "name": "Forest",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Forest"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/mh3/308/forest?utm_source=api",
+   "oracle_text": "({T}: Add {G}.)"
+  },
+  {
+   "name": "Forest",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Forest"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/mh3/308/forest?utm_source=api",
+   "oracle_text": "({T}: Add {G}.)"
+  },
+  {
+   "name": "Traverse the Ulvenwald",
+   "types": [
+    "Sorcery"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [
+    "G"
+   ],
+   "mana_cost": "{G}",
+   "url": "https://scryfall.com/card/soi/234/traverse-the-ulvenwald?utm_source=api",
+   "oracle_text": "Search your library for a basic land card, reveal it, put it into your hand, then shuffle.\nDelirium — If there are four or more card types among cards in your graveyard, instead search your library for a creature or land card, reveal it, put it into your hand, then shuffle."
+  },
+  {
+   "name": "Explore",
+   "types": [
+    "Sorcery"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "G"
+   ],
+   "mana_cost": "{1}{G}",
+   "url": "https://scryfall.com/card/lcc/241/explore?utm_source=api",
+   "oracle_text": "You may play an additional land this turn.\nDraw a card."
+  },
+  {
+   "name": "Edge of Autumn",
+   "types": [
+    "Sorcery"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "G"
+   ],
+   "mana_cost": "{1}{G}",
+   "url": "https://scryfall.com/card/tsr/201/edge-of-autumn?utm_source=api",
+   "oracle_text": "If you control four or fewer lands, search your library for a basic land card, put it onto the battlefield tapped, then shuffle.\nCycling—Sacrifice a land. (Sacrifice a land, Discard this card: Draw a card.)"
+  },
+  {
+   "name": "Life from the Loam",
+   "types": [
+    "Sorcery"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "G"
+   ],
+   "mana_cost": "{1}{G}",
+   "url": "https://scryfall.com/card/rvr/148/life-from-the-loam?utm_source=api",
+   "oracle_text": "Return up to three target land cards from your graveyard to your hand.\nDredge 3 (If you would draw a card, you may mill three cards instead. If you do, return this card from your graveyard to your hand.)"
+  },
+  {
+   "name": "Black Sun's Zenith",
+   "types": [
+    "Sorcery"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "B"
+   ],
+   "mana_cost": "{X}{B}{B}",
+   "url": "https://scryfall.com/card/mkc/126/black-suns-zenith?utm_source=api",
+   "oracle_text": "Put X -1/-1 counters on each creature. Shuffle Black Sun's Zenith into its owner's library."
+  },
+  {
+   "name": "Mosswood Dreadknight // Dread Whispers",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Human",
+    "Knight",
+    "//",
+    "Sorcery"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "G"
+   ],
+   "mana_cost": "{1}{G} // {1}{B}",
+   "url": "https://scryfall.com/card/woe/231/mosswood-dreadknight-dread-whispers?utm_source=api",
+   "oracle_text": ""
+  },
+  {
    "name": "Bone Shards",
    "types": [
     "Sorcery"
@@ -499,166 +677,6 @@
    "mana_cost": "{B}",
    "url": "https://scryfall.com/card/mh2/76/bone-shards?utm_source=api",
    "oracle_text": "As an additional cost to cast this spell, sacrifice a creature or discard a card.\nDestroy target creature or planeswalker."
-  },
-  {
-   "name": "Swamp",
-   "types": [
-    "Basic",
-    "Land"
-   ],
-   "sub_types": [
-    "Swamp"
-   ],
-   "cmc": 0,
-   "image": "",
-   "colors": [],
-   "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/306/swamp?utm_source=api",
-   "oracle_text": "({T}: Add {B}.)"
-  },
-  {
-   "name": "Swamp",
-   "types": [
-    "Basic",
-    "Land"
-   ],
-   "sub_types": [
-    "Swamp"
-   ],
-   "cmc": 0,
-   "image": "",
-   "colors": [],
-   "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/306/swamp?utm_source=api",
-   "oracle_text": "({T}: Add {B}.)"
-  },
-  {
-   "name": "Swamp",
-   "types": [
-    "Basic",
-    "Land"
-   ],
-   "sub_types": [
-    "Swamp"
-   ],
-   "cmc": 0,
-   "image": "",
-   "colors": [],
-   "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/306/swamp?utm_source=api",
-   "oracle_text": "({T}: Add {B}.)"
-  },
-  {
-   "name": "Swamp",
-   "types": [
-    "Basic",
-    "Land"
-   ],
-   "sub_types": [
-    "Swamp"
-   ],
-   "cmc": 0,
-   "image": "",
-   "colors": [],
-   "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/306/swamp?utm_source=api",
-   "oracle_text": "({T}: Add {B}.)"
-  },
-  {
-   "name": "Mountain",
-   "types": [
-    "Basic",
-    "Land"
-   ],
-   "sub_types": [
-    "Mountain"
-   ],
-   "cmc": 0,
-   "image": "",
-   "colors": [],
-   "mana_cost": "",
-   "url": "https://scryfall.com/card/blb/274/mountain?utm_source=api",
-   "oracle_text": "({T}: Add {R}.)"
-  },
-  {
-   "name": "Forest",
-   "types": [
-    "Basic",
-    "Land"
-   ],
-   "sub_types": [
-    "Forest"
-   ],
-   "cmc": 0,
-   "image": "",
-   "colors": [],
-   "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/308/forest?utm_source=api",
-   "oracle_text": "({T}: Add {G}.)"
-  },
-  {
-   "name": "Forest",
-   "types": [
-    "Basic",
-    "Land"
-   ],
-   "sub_types": [
-    "Forest"
-   ],
-   "cmc": 0,
-   "image": "",
-   "colors": [],
-   "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/308/forest?utm_source=api",
-   "oracle_text": "({T}: Add {G}.)"
-  },
-  {
-   "name": "Forest",
-   "types": [
-    "Basic",
-    "Land"
-   ],
-   "sub_types": [
-    "Forest"
-   ],
-   "cmc": 0,
-   "image": "",
-   "colors": [],
-   "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/308/forest?utm_source=api",
-   "oracle_text": "({T}: Add {G}.)"
-  },
-  {
-   "name": "Forest",
-   "types": [
-    "Basic",
-    "Land"
-   ],
-   "sub_types": [
-    "Forest"
-   ],
-   "cmc": 0,
-   "image": "",
-   "colors": [],
-   "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/308/forest?utm_source=api",
-   "oracle_text": "({T}: Add {G}.)"
-  },
-  {
-   "name": "Forest",
-   "types": [
-    "Basic",
-    "Land"
-   ],
-   "sub_types": [
-    "Forest"
-   ],
-   "cmc": 0,
-   "image": "",
-   "colors": [],
-   "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/308/forest?utm_source=api",
-   "oracle_text": "({T}: Add {G}.)"
   }
  ],
  "sideboard": [
@@ -680,18 +698,76 @@
    "oracle_text": "Flash\nFlying"
   },
   {
-   "name": "Spider Food",
+   "name": "Llanowar Elves",
    "types": [
-    "Sorcery"
+    "Creature"
    ],
-   "cmc": 3,
+   "sub_types": [
+    "Elf",
+    "Druid"
+   ],
+   "cmc": 1,
    "image": "",
    "colors": [
     "G"
    ],
-   "mana_cost": "{2}{G}",
-   "url": "https://scryfall.com/card/woe/186/spider-food?utm_source=api",
-   "oracle_text": "Destroy up to one target artifact, enchantment, or creature with flying. Create a Food token. (It's an artifact with \"{2}, {T}, Sacrifice this artifact: You gain 3 life.\")"
+   "mana_cost": "{G}",
+   "url": "https://scryfall.com/card/gnt/46/llanowar-elves?utm_source=api",
+   "oracle_text": "{T}: Add {G}."
+  },
+  {
+   "name": "Mayhem Devil",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Devil"
+   ],
+   "cmc": 3,
+   "image": "",
+   "colors": [
+    "B",
+    "R"
+   ],
+   "mana_cost": "{1}{B}{R}",
+   "url": "https://scryfall.com/card/rvr/199/mayhem-devil?utm_source=api",
+   "oracle_text": "Whenever a player sacrifices a permanent, Mayhem Devil deals 1 damage to any target."
+  },
+  {
+   "name": "Dreadhorde Arcanist",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Zombie",
+    "Wizard"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "R"
+   ],
+   "mana_cost": "{1}{R}",
+   "url": "https://scryfall.com/card/war/125/dreadhorde-arcanist?utm_source=api",
+   "oracle_text": "Trample\nWhenever Dreadhorde Arcanist attacks, you may cast target instant or sorcery card with mana value less than or equal to Dreadhorde Arcanist's power from your graveyard without paying its mana cost. If that spell would be put into your graveyard, exile it instead."
+  },
+  {
+   "name": "Krenko, Tin Street Kingpin",
+   "types": [
+    "Legendary",
+    "Creature"
+   ],
+   "sub_types": [
+    "Goblin"
+   ],
+   "cmc": 3,
+   "image": "",
+   "colors": [
+    "R"
+   ],
+   "mana_cost": "{2}{R}",
+   "url": "https://scryfall.com/card/moc/287/krenko-tin-street-kingpin?utm_source=api",
+   "oracle_text": "Whenever Krenko, Tin Street Kingpin attacks, put a +1/+1 counter on it, then create a number of 1/1 red Goblin creature tokens equal to Krenko's power."
   },
   {
    "name": "Song of the Dryads",
@@ -709,24 +785,6 @@
    "mana_cost": "{2}{G}",
    "url": "https://scryfall.com/card/cmm/324/song-of-the-dryads?utm_source=api",
    "oracle_text": "Enchant permanent\nEnchanted permanent is a colorless Forest land."
-  },
-  {
-   "name": "Tezzeret, Betrayer of Flesh",
-   "types": [
-    "Legendary",
-    "Planeswalker"
-   ],
-   "sub_types": [
-    "Tezzeret"
-   ],
-   "cmc": 4,
-   "image": "",
-   "colors": [
-    "U"
-   ],
-   "mana_cost": "{2}{U}{U}",
-   "url": "https://scryfall.com/card/mkc/120/tezzeret-betrayer-of-flesh?utm_source=api",
-   "oracle_text": "The first activated ability of an artifact you activate each turn costs {2} less to activate.\n+1: Draw two cards. Then discard two cards unless you discard an artifact card.\n−2: Target artifact becomes an artifact creature. If it isn't a Vehicle, it has base power and toughness 4/4.\n−6: You get an emblem with \"Whenever an artifact you control becomes tapped, draw a card.\""
   },
   {
    "name": "Wilderness Reclamation",
@@ -757,6 +815,20 @@
    "oracle_text": "Scry 1.\nDraw a card."
   },
   {
+   "name": "Crop Rotation",
+   "types": [
+    "Instant"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [
+    "G"
+   ],
+   "mana_cost": "{G}",
+   "url": "https://scryfall.com/card/dmr/154/crop-rotation?utm_source=api",
+   "oracle_text": "As an additional cost to cast this spell, sacrifice a land.\nSearch your library for a land card, put that card onto the battlefield, then shuffle."
+  },
+  {
    "name": "Shelldock Isle",
    "types": [
     "Land"
@@ -785,6 +857,54 @@
    "oracle_text": "({T}: Add {G} or {W}.)\nAs Temple Garden enters the battlefield, you may pay 2 life. If you don't, it enters the battlefield tapped."
   },
   {
+   "name": "Stomping Ground",
+   "types": [
+    "Land"
+   ],
+   "sub_types": [
+    "Mountain",
+    "Forest"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/rvr/289/stomping-ground?utm_source=api",
+   "oracle_text": "({T}: Add {R} or {G}.)\nAs Stomping Ground enters the battlefield, you may pay 2 life. If you don't, it enters the battlefield tapped."
+  },
+  {
+   "name": "Tezzeret, Betrayer of Flesh",
+   "types": [
+    "Legendary",
+    "Planeswalker"
+   ],
+   "sub_types": [
+    "Tezzeret"
+   ],
+   "cmc": 4,
+   "image": "",
+   "colors": [
+    "U"
+   ],
+   "mana_cost": "{2}{U}{U}",
+   "url": "https://scryfall.com/card/mkc/120/tezzeret-betrayer-of-flesh?utm_source=api",
+   "oracle_text": "The first activated ability of an artifact you activate each turn costs {2} less to activate.\n+1: Draw two cards. Then discard two cards unless you discard an artifact card.\n−2: Target artifact becomes an artifact creature. If it isn't a Vehicle, it has base power and toughness 4/4.\n−6: You get an emblem with \"Whenever an artifact you control becomes tapped, draw a card.\""
+  },
+  {
+   "name": "Spider Food",
+   "types": [
+    "Sorcery"
+   ],
+   "cmc": 3,
+   "image": "",
+   "colors": [
+    "G"
+   ],
+   "mana_cost": "{2}{G}",
+   "url": "https://scryfall.com/card/woe/186/spider-food?utm_source=api",
+   "oracle_text": "Destroy up to one target artifact, enchantment, or creature with flying. Create a Food token. (It's an artifact with \"{2}, {T}, Sacrifice this artifact: You gain 3 life.\")"
+  },
+  {
    "name": "Blackmail",
    "types": [
     "Sorcery"
@@ -799,24 +919,6 @@
    "oracle_text": "Target player reveals three cards from their hand and you choose one of them. That player discards that card."
   },
   {
-   "name": "Llanowar Elves",
-   "types": [
-    "Creature"
-   ],
-   "sub_types": [
-    "Elf",
-    "Druid"
-   ],
-   "cmc": 1,
-   "image": "",
-   "colors": [
-    "G"
-   ],
-   "mana_cost": "{G}",
-   "url": "https://scryfall.com/card/gnt/46/llanowar-elves?utm_source=api",
-   "oracle_text": "{T}: Add {G}."
-  },
-  {
    "name": "Call of the Herd",
    "types": [
     "Sorcery"
@@ -829,20 +931,6 @@
    "mana_cost": "{2}{G}",
    "url": "https://scryfall.com/card/dmr/153/call-of-the-herd?utm_source=api",
    "oracle_text": "Create a 3/3 green Elephant creature token.\nFlashback {3}{G} (You may cast this card from your graveyard for its flashback cost. Then exile it.)"
-  },
-  {
-   "name": "Crop Rotation",
-   "types": [
-    "Instant"
-   ],
-   "cmc": 1,
-   "image": "",
-   "colors": [
-    "G"
-   ],
-   "mana_cost": "{G}",
-   "url": "https://scryfall.com/card/dmr/154/crop-rotation?utm_source=api",
-   "oracle_text": "As an additional cost to cast this spell, sacrifice a land.\nSearch your library for a land card, put that card onto the battlefield, then shuffle."
   },
   {
    "name": "Raven's Crime",
@@ -871,24 +959,6 @@
    "mana_cost": "{G}",
    "url": "https://scryfall.com/card/cmm/269/abundant-harvest?utm_source=api",
    "oracle_text": "Choose land or nonland. Reveal cards from the top of your library until you reveal a card of the chosen kind. Put that card into your hand and the rest on the bottom of your library in a random order."
-  },
-  {
-   "name": "Mayhem Devil",
-   "types": [
-    "Creature"
-   ],
-   "sub_types": [
-    "Devil"
-   ],
-   "cmc": 3,
-   "image": "",
-   "colors": [
-    "B",
-    "R"
-   ],
-   "mana_cost": "{1}{B}{R}",
-   "url": "https://scryfall.com/card/rvr/199/mayhem-devil?utm_source=api",
-   "oracle_text": "Whenever a player sacrifices a permanent, Mayhem Devil deals 1 damage to any target."
   }
  ]
 }

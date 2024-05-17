@@ -1,40 +1,40 @@
 Knight of the Ebon Legion
-Quest for the Gravelord
-Traverse the Ulvenwald
-Explore
-Stomping Ground
-Utopia Sprawl
-Edge of Autumn
-Verdant Catacombs
 Ignoble Hierarch
-Life from the Loam
 Bloodghast
 Lotus Cobra
-Ulcerate
-The Binding of the Titans
-Black Sun's Zenith
-Dreadhorde Arcanist
 Tarmogoyf
 Inexorable Blob
-Mosswood Dreadknight // Dread Whispers
 Stalactite Stalker
 Viscera Seer
 Satyr Wayfinder
 Eternal Witness
 Mire Triton
-Overgrown Tomb
 Arasta of the Endless Web
 Kraul Harpooner
-Krenko, Tin Street Kingpin
 Cunning Lethemancer
+Quest for the Gravelord
+Utopia Sprawl
+The Binding of the Titans
+Ulcerate
+Verdant Catacombs
+Overgrown Tomb
+Swamp
+Swamp
+Swamp
+Swamp
+Swamp
+Forest
+Forest
+Forest
+Forest
+Forest
+Forest
+Forest
+Forest
+Traverse the Ulvenwald
+Explore
+Edge of Autumn
+Life from the Loam
+Black Sun's Zenith
+Mosswood Dreadknight // Dread Whispers
 Bone Shards
-Swamp
-Swamp
-Swamp
-Swamp
-Mountain
-Forest
-Forest
-Forest
-Forest
-Forest
