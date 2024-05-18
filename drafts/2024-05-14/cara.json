@@ -8,6 +8,18 @@
  "date": "2024-05-14",
  "games": [
   {
+   "opponent": "casey",
+   "winner": "cara"
+  },
+  {
+   "opponent": "casey",
+   "winner": "casey"
+  },
+  {
+   "opponent": "casey",
+   "winner": "casey"
+  },
+  {
    "opponent": "dom",
    "winner": "cara"
   },
@@ -21,6 +33,10 @@
   }
  ],
  "matches": [
+  {
+   "opponent": "casey",
+   "winner": "casey"
+  },
   {
    "opponent": "dom",
    "winner": "dom"

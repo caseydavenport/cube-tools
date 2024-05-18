@@ -1,0 +1,44 @@
+## {w}{b} "Squeeze"
+
+I built this deck primarily around an early [[Thalia, Guardian of Thraben]]. It's meant to be fairly aggressive, while also squeezing your opponent with creature-based removal and hand interaction. It struggled a bit against the really low to the ground aggressive decks, but I think a slightly better version of it would stood a better chance. I think I could use one more really solid taxing creature that either acts as removal (in the mold of [[Werefox Bodyguard]]) or splash red for something like [[Cemetery Gatekeeper]], which is what I wanted to do but I never found the right cards.
+
+I think it's worth calling out:
+
+- [[Thalia, Guardian of Thraben]] felt great. Not too oppressive, but definitely powerful.
+- [[Tidehollow Sculler]], [[Kitesail Freebooter]], and other hand-hate was awesome. It didn't always win me the game, but it went a long way towards it and helped make this deck play in a unique way comparatively.
+- [[Agonizing Remorse]] in particular is great because of its late-game relevance.
+- [[Faerie Guidemother // Gift of the Fae]] was great, and felt better as a late-game draw than an early game flier.
+- [[Helping Hand]] was solid as well. The tapped ETB was noticebly painful at times, but I was still happy to have it. Pulling back [[Werefox Bodyguard]] was a delight.
+- [[The Wandering Emperor]] is so fun to play with. She no longer feels like so much of a power outlier these days and seems more balanced, which is also nice as it means the strategic choices that she provides are more relevant.
+
+## {w}{b}{g} +1/+1 counters midrange
+
+This deck went pretty large as far as decks go in this cube, but still managed to have early game presence. I think it was quite powerful. It handily dealt with one of the {b}{r} aggro decks, and held its own pretty well against another rather big {u}{b} control deck with [[Panharmonicon]], but ultimately succumbed to the overwhelming weight of having [[Hostage Taker]] cast against you twice in one game.
+
+- [[Warden of the Inner Sky]] is fantastic in conjunction with food and other trinket token makers. It allows you to get the benefits of the tap ability without sacrificing your ability to attack. [[Gilded Goose]], [[Greta, Sweettooth Scourge]], and [[Tireless Tracker]] being examples of cards that pair exceptionally well (as will [[Thraben Inspector]] when he appears in a future update).
+- [[Courser of Kruphix]] is also very strong and provides green with much-needed card advantage.
+- [[Roaring Earth]] is another that is sneaky good. It's hard to interact with, and it plays really well with fetch lands.
+- [[Cankerbloom]] is great but even with so many counters flying around, the _proliferate_ is almost never the mode you want to pick. Sort of a bummer.
+- I like [[Sevinne's Reclamation]] more each time I see it. Pulling back two fetch lands in a deck with abundant _landfall_ triggers is a totally valid use for it here.
+- [[Pollenbright Druid]] always managed to do something, but is pretty mediocre still. The ceiling seems to be helping [[Warden of the Inner Sky]], and I think there are probably better options for that.
+- [[Horizon Canopy]] can be painful, but the ability to sacrifice for a card late game is really really good even in "big" decks like this one.
+
+## {u}{b} flicker control
+
+This deck leaned into [[Panharmonicon]]. It's been a while since we've seen a deck built like this, but when it shows up it's very strong.
+
+Key cards included:
+
+- [[Hostage Taker]], who is so brutal when the ETB is doubled up. Even managing to steal and deal with a resolved [[Gruff Triplets]].
+- [[Soul Warden]], who was just oppressive and will likely finally be coming out of the cube. I was already eyeing this one for being a feels-bad card, but it probably generated 30+ life across two games and so I feel confident in removing it now.
+- [[Panharmonicon]], which is often looked over in drafts but has a lot of potential clearly.
+- [[Halo Forager]] and [[Snapcaster Mage]], which allowed for awesome graveyard shenanigans like flashing back [[Wrath of God]] and [[Unearth]] in the same turn.
+
+## {b}{r} aggro
+
+There were two of these that showed up this time. This also isn't the first time this has happened, so I do wonder if this archetype might be over-supported or at least over-signaled. Both decks seemed to do fairly well, although one ended up being less aggressive than originally intended. One knob I am considering is cutting down on the number of black "can't block" creatures, as these are mostly unwanted by midrange and control strategies, and I currently have quite a few. I'll be looking for cards that play nicely in more than on strategy, while also working in an aggressive deck.
+
+Notable cards:
+
+- [[Anje's Ravager]] finally saw play and was very strong. It's also just a very fun card, providing a bit of a gamble, a lot of card advantage, and some interesting strategic decisions on both sides. It rarely came out on turn three though, since the deck that had it wasn't able to empty its hand quick enough for it to feel worth it. I suspect we haven't yet witnessed it at its best, and I am a little bit afraid as a result.
+- [[Seasoned Pyromancer]] was also very good, creating three bodies was very relevant in my matchup.
