@@ -18,11 +18,23 @@
   {
    "opponent": "jen",
    "winner": "greg"
+  },
+  {
+   "opponent": "xander",
+   "winner": "greg"
+  },
+  {
+   "opponent": "xander",
+   "winner": "greg"
   }
  ],
  "matches": [
   {
    "opponent": "jen",
+   "winner": "greg"
+  },
+  {
+   "opponent": "xander",
    "winner": "greg"
   }
  ],
