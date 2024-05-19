@@ -1,3 +1,14 @@
+## TL;DR
+
+Aggro / midrange / control feel pretty even right now! Each draft seems to have a different strategy rise to the top. Only minor adjustments needed.
+
+- Does the cube really need both [[Snapcaster]] and [[Halo Forager]]? I think I would like one [[Snapcaster]], and then something more diverse for the other slot.
+- [[Soul Warden]] makes games drag out. It's plenty powerful, but I don't want cards that don't progress the game in some way.
+- [[Panharmonicon]] is still very strong, perhaps stronger than it ever was. I think I will swap it for [[Virtue of Knowledge]] for the fun landfall synergies (surveil, [[Field of the Dead]], etc.) and the extra mana to play it.
+- {b}{r} aggro might have too many signpost cards, or maybe we just have a couple of players who have a tendency to play it...
+- Hand interaction is awesome.
+- [[Satyr Wayfinder]] and [[Mire Triton]] are the last self-mill cards in the cube, and I don't trust them to not mill my good stuff into the graveyard. So they are probably coming out.
+
 ## {w}{b} "Squeeze" (2-1)
 
 I built this deck primarily around an early [[Thalia, Guardian of Thraben]]. It's meant to be fairly aggressive, while also squeezing your opponent with creature-based removal and hand interaction. It struggled a bit against the really low to the ground aggressive decks, but I think a slightly better version of it would stood a better chance. I think I could use one more really solid taxing creature that either acts as removal (in the mold of [[Werefox Bodyguard]]) or splash red for something like [[Cemetery Gatekeeper]], which is what I wanted to do but I never found the right cards.
@@ -33,7 +44,7 @@ This deck leaned into [[Panharmonicon]]. It's been a while since we've seen a de
 
 Key cards included:
 
-- [[Hostage Taker]], who is so brutal when the ETB is doubled up. Even managing to steal and deal with a resolved [[Gruff Triplets]].
+- [[Hostage Taker]], who is so brutal when the ETB is doubled up. Even managed to steal and deal with a resolved [[Gruff Triplets]].
 - [[Soul Warden]], who was just oppressive and will likely finally be coming out of the cube. I was already eyeing this one for being a feels-bad card, but it probably generated 30+ life across two games and so I feel confident in removing it now.
 - [[Panharmonicon]], which is often looked over in drafts but has a lot of potential clearly.
 - [[Halo Forager]] and [[Snapcaster Mage]], which allowed for awesome graveyard shenanigans like flashing back [[Wrath of God]] and [[Unearth]] in the same turn.
@@ -61,7 +72,7 @@ Discussing this one, I think the main issue was that it was lacking some focus -
 
 ## {w}{u}{b}{r}{g} Spells and lands
 
-This deck was gunning for the "Win a match with no basic lands" achievement.
+This deck was gunning for the "Win a match with no basic lands" achievement. And while it didn't succeed in that regard, it was a very cool deck and was still pretty competitive.
 
 Some learnings:
 
@@ -69,7 +80,7 @@ Some learnings:
 - The mana base is painful, or slow, or both, so decks that go this direction need to be prepared for that with lots of ways to delay the game, pushing them pretty hard into controlling strategies.
 - [[Field of the Dead]] is a scary card. I don't think it was showcased especially well here since there wasn't any sort of ramp or other landfall synergies, but it still is scary seeing it come out.
 - [[Murderous Cut]] played pretty well the time I saw it. A one mana "Destroy target creature" was totally achievable.
-- [[Ethereal Forager]] is a huge target, but if it sticks it's very strong. Even if it doesn't a 3/3 flier for {u}{u} is pretty reasonable and even thought it can be case cheaply, its expensive mana value means it dodges removal like [[Glass Casket]] that threats like [[Tarmogoyf]] wouldn't.
+- [[Ethereal Forager]] is a huge target, and eats removal most of the time. But, if it sticks it's pretty strong. Even if it doesn't stick, a 3/3 flier for {u}{u} is pretty reasonable and even thought it can be case cheaply, its expensive mana value means it dodges removal like [[Glass Casket]] that threats like [[Tarmogoyf]] wouldn't.
 - [[Empty the Warrens]] is still good. I am not sure how much I like the board states that come from it though - they can be pretty tough to navigate and can slow down the game. Need to think about this one. It's a unique card (the only one with storm) which is both a positive in terms of diverse win conditions, and a negative in terms of keyword complexity. I am of two minds about it right now.
 
 ## {w}{u} control
