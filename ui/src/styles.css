@@ -64,8 +64,6 @@ ul {
   font-size: 18px;
   line-height: 34px;
   height: 34px;
-  margin-right: -1px;
-  margin-top: 20px;
   padding: 5px;
   text-align: center;
   min-width: 300px;
@@ -92,8 +90,7 @@ ul {
   font-size: 18px;
   line-height: 34px;
   height: 34px;
-  margin-top: 20px;
-  margin-left: 15px;
+  margin-left: 5px;
   padding: 0px;
   text-align: center;
   min-width: 300px;
@@ -148,6 +145,10 @@ ul {
   background: #C97B84;
 }
 
+.card-highlight {
+  background: #C97BF4;
+}
+
 .winrate-row:hover {
   background: #C97B84;
 }
@@ -177,7 +178,7 @@ ul {
   color: #FFF;
   background: #C97B84;
   text-align: center;
-  padding: 0px;
+  padding: 5px;
   border: 0px;
   float: left;
   min-width: 50%;
@@ -209,13 +210,6 @@ ul {
   width: 250px;
 }
 
-.select {
-  color: #FFF;
-  padding: 2px;
-  margin: 10px;
-  background: #AE6989;
-}
-
 .select-option {
   color: #FFF;
   background: #AE6989;
@@ -236,8 +230,14 @@ ul {
 }
 
 .house-for-widgets {
-  float: left;
+  display: flex;
+  flex-direction: row;
   width: 100%;
+  padding-top: 5px;
+}
+
+.deck-view {
+  padding-left: 5px;
 }
 
 .winrate-table {
@@ -255,6 +255,23 @@ ul {
   min-width: 300px;
   width: 100%;
 }
+
+.deck-meta-table {
+  background: #AE6989;
+  color: #FFF;
+  border: none;
+  float: left;
+  font-size: 18px;
+  line-height: 34px;
+  margin-top: 0px;
+  margin-left: 0px;
+  margin-right: 0px;
+  padding: 0px;
+  text-align: left;
+  min-width: 200px;
+  width: 100%;
+}
+
 
 .winrate-row {
   background: #AE6989;

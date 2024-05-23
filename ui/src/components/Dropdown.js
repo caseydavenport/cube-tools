@@ -11,7 +11,7 @@ export function DropdownHeader({ label, value, options, onChange, className }) {
   return (
    <div className={className}>
     {label}
-     <select className="select" value={value} onChange={onChange}>
+     <select className="text-input" value={value} onChange={onChange}>
        {
          options.map((option) => (
            <option key={option.label} className="select-option" file={option.value}>{option.value}</option>
@@ -37,7 +37,7 @@ export function Checkbox(input) {
 }
 
 export function NumericInput(input) {
-  let className = "dropdown-header-side-by-side"
+  let className = "dropdown"
   if (input.className != "") {
     className = input.className
   }
@@ -50,15 +50,15 @@ export function NumericInput(input) {
 }
 
 export function TextInput(input) {
-  let className = "dropdown-header-side-by-side"
+  let className = "dropdown"
   if (input.className != "") {
     className = input.className
   }
   return (
-    <label className={className}>
+    <div className={className}>
       {input.label}
       <input onChange={input.onChange} className="text-input" type="text" />
-    </label>
+    </div>
   );
 }
 

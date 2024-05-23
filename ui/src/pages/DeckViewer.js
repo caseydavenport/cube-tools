@@ -1,69 +1,83 @@
 import React from 'react'
 import { useState } from "react";
 import { useEffect } from "react";
-import { FetchDraftIndex, FetchDeckIndex, FetchDeck } from "../utils/Fetch.js"
+import { LoadDecks, FetchDraftIndex, FetchDeckIndex, FetchDeck } from "../utils/Fetch.js"
 import { Wins, Losses, MatchWins, MatchLosses } from "../utils/Deck.js"
 import { RemovalMatches, CounterspellMatches } from "../pages/Decks.js"
+import { SortFunc } from "../utils/Utils.js"
+import { Button, TextInput, DropdownHeader, NumericInput, Checkbox, DateSelector } from "../components/Dropdown.js"
 
 // This function builds the DeckViewer widget for selecting and viewing statistics
 // about a particular deck.
 export default function DeckViewer() {
+  // We keep two sets of variables - one for the dropdown values,
+  // and another for the actual deck we want to display.
+  // The dropdown values are just for filtering the deck list.
   const [selectedDeck, setSelectedDeck] = useState("");
   const [selectedDraft, setSelectedDraft] = useState("");
+  const [draftDropdown, setDraftDropdown] = useState("");
+
+  // The cache of loaded deck.
   const [fetched, setFetched] = useState(new Map());
+
+  // The deck currently being displayed.
   const [deck, setDeck] = useState("");
+
+  // Options for the draft dropdown.
   const [draftDropdownOptions, setDraftDropdownOptions] = useState([]);
-  const [decklist, setDecklist] = useState([]);
+
+  // Dropdown for mainboard vs. sideboard.
   const [mainboardSideboard, setMainboardSideboard] = useState("Mainboard");
 
-  // Called when we successfully fetch the deck list from the selected draft.
-  function onDeckIndexFetched(idx) {
-    const d = [
-      { label: "", value: "" },
-    ]
-    for (var i in idx) {
-      let ref = idx[i]
-      d.push(
-        { label: ref.deck, value: ref.deck }
-      )
+  // Store all decks.
+  const [decks, setDecks] = useState([]);
+  function onDecksLoaded(d) {
+    setDecks([...d])
+
+    // Populate the draft dropdown options with all drafts.
+    const draftOpts = [{ label: "", value: "" }]
+    let seenDrafts = new Map()
+    for (let deck of d) {
+      if (!seenDrafts.has(deck.draft)) {
+        draftOpts.push({ label: deck.draft, value: deck.draft })
+        seenDrafts.set(deck.draft, true)
+      }
     }
-    setDecklist(d)
+    setDraftDropdownOptions(draftOpts)
   }
 
+  function onDeckClicked(event) {
+    // The ID is the full path to the deck, of the form
+    // drafts/<draft>/<deck>.
 
-  // This function is called when the draft index is loaded.
-  // It converts the draft index into an array of dropdown menu options
-  // and updates the page's state.
-  function onDraftIndexFetched(idx) {
-    const d = [
-      { label: "", value: "" },
-    ]
-    for (var i in idx) {
-      let ref = idx[i]
-      d.push(
-        { label: ref.name, value: ref.name }
-      )
-    }
-    setDraftDropdownOptions(d)
+    // Parse the draft and deck, and update the dropdowns.
+    let splits = event.target.id.split("/")
+    setSelectedDraft(splits[1])
+    setSelectedDeck(splits[2])
+  }
+
+  // For matching decks.
+  const [matchStr, setMatchStr] = useState("");
+  function onMatchUpdated(event) {
+    setMatchStr(event.target.value)
   }
 
   // Start of day load the draft index.
   // This is used to populate the drafts dropdown menu.
   useEffect(() => {
-    FetchDraftIndex(onDraftIndexFetched)
+    LoadDecks(onDecksLoaded, null, null, 0, "")
   }, [])
 
   // Handle changes to the draft and deck selection dropdowns.
   function onDeckSelected(event) {
-    // Log the update, and store the currently selected deck.
     setSelectedDeck(event.target.value)
   }
   function onDraftSelected(event) {
     // Set the selected draft, and update the list of decks.
+    setDraftDropdown(event.target.value)
     setSelectedDraft(event.target.value)
-    FetchDeckIndex(event.target.value, onDeckIndexFetched)
 
-    // Clear any selected deck, as it is no longer valid.
+    // Clear out the selected deck if a new draft is picked.
     setSelectedDeck("")
   }
   function onBoardSelected(event) {
@@ -73,7 +87,6 @@ export default function DeckViewer() {
     { label: "Mainboard", value: "Mainboard" },
     { label: "Sideboard", value: "Sideboard" },
   ]
-
 
   // Callback for sucessfully fetching a Deck.
   // This function updates the UI with the deck's contents.
@@ -93,50 +106,57 @@ export default function DeckViewer() {
       setDeck({})
       return
     }
-    let path = "drafts/" + selectedDraft + "/" + selectedDeck
 
-    // Check if we need to fetch the deck, and if needed do so.
-    const cached = fetched.get(path)
-    if (cached) {
-      // We've already fetched and cached this deck.
-      onFetch(cached)
-    } else {
-      // Fetch the deck, since this is the first time
-      // we've triggered this.
-      FetchDeck(path, onFetch)
+    // Find the deck based on the selected draft and player,
+    // and set the active deck.
+    for (let deck of decks) {
+      if (deck.draft == selectedDraft && deck.file.endsWith(selectedDeck)) {
+        setDeck(deck)
+        return
+      }
     }
   }, [selectedDeck, selectedDraft])
 
   return (
     <div>
       <div>
-        <DropdownSelector
+        <DropdownHeader
+          className="dropdown"
           label="Select a draft"
           options={draftDropdownOptions}
           value={selectedDraft}
           onChange={onDraftSelected}
         />
 
-        <DropdownSelector
-          label="Select a deck"
-          options={decklist}
-          value={selectedDeck}
-          onChange={onDeckSelected}
-        />
-
-        <DropdownSelector
+        <DropdownHeader
+          className="dropdown"
           label="Board"
           options={boardOptions}
           value={mainboardSideboard}
           onChange={onBoardSelected}
         />
 
+        <TextInput
+          className="dropdown"
+          label="Fuzzy"
+          value={matchStr}
+          onChange={onMatchUpdated}
+        />
+
       </div>
 
       <div className="house-for-widgets">
+        <FilteredDecks
+          decks={decks}
+          selectedDraft={draftDropdown}
+          matchStr={matchStr}
+          onDeckClicked={onDeckClicked}
+        />
+
         <DisplayDeck
           deck={deck}
           mbsb={mainboardSideboard}
+          matchStr={matchStr}
         />
       </div>
     </div>
@@ -159,8 +179,86 @@ export function DropdownSelector({ label, value, options, onChange }) {
   )
 }
 
+function FilteredDecks(input) {
+  let decks = []
+  for (let d of input.decks) {
+    // Perform filtering of decks we want to display.
+    if (input.selectedDraft != "" && input.selectedDraft != d.date) {
+      continue
+    }
+
+    // Do fuzzy matching on the string, including player, cards, etc.
+    if (input.matchStr != "") {
+      for (let card of d.mainboard) {
+        if (card.name.toLowerCase().match(input.matchStr.toLowerCase())) {
+          // Card matches string - include the deck.
+          decks.push(d)
+          break
+        }
+        if (d.player.toLowerCase().match(input.matchStr.toLowerCase())) {
+          // Player matches - include.
+          decks.push(d)
+          break
+        }
+      }
+    } else {
+      // No match string - just add the deck.
+      decks.push(d)
+    }
+  }
+
+  return (
+    <div style={{"width": "500px"}}>
+    <table className="winrate-table">
+    <thead className="table-header">
+      <tr>
+        <td onClick={input.onHeaderClick} id="decklist" className="header-cell">Decks</td>
+      </tr>
+    </thead>
+    <tbody>
+      {
+        decks.map(function(deck, idx) {
+          let sort=deck.date
+          return (
+            <tr sort={sort} className="card" key={idx}>
+              <DeckTableCell
+                deck={deck}
+                onDeckClicked={input.onDeckClicked}
+              />
+            </tr>
+          )
+        }).sort(SortFunc)
+      }
+    </tbody>
+  </table>
+
+    </div>
+  );
+}
+
+function DeckTableCell(input) {
+  let deck = input.deck
+  let record = Wins(input.deck) + "-" + Losses(input.deck)
+  let win_percent = Math.round(100 * Wins(input.deck) / (Wins(input.deck) + Losses(input.deck)))
+  return (
+      <table className="deck-meta-table">
+      <tbody>
+        <tr className="card">
+          <td style={{"width": "20%"}} id={deck.file} onClick={input.onDeckClicked} key="date">{deck.date}</td>
+          <td style={{"width": "30%"}} id={deck.file} onClick={input.onDeckClicked} key="player">{deck.player}</td>
+          <td style={{"width": "30%"}} id={deck.file} onClick={input.onDeckClicked} key="wins">{win_percent}% ({record})</td>
+        </tr>
+      </tbody>
+      </table>
+  );
+}
+
+
 // DisplayDeck prints out the given deck.
-function DisplayDeck({deck, mbsb}) {
+function DisplayDeck(input) {
+  let deck = input.deck
+  let mbsb = input.mbsb
+
   // The deck mainboard may not always be set, so we need
   // to initialize to an empty slice.
   let missing = (mbsb == "Mainboard" && !deck.mainboard)
@@ -196,75 +294,79 @@ function DisplayDeck({deck, mbsb}) {
         break
       }
     }
+
+    // If the card matches the string, we will highlight it.
+    card.highlight = false
+    if (input.matchStr && card.name.toLowerCase().match(input.matchStr.toLowerCase())) {
+      card.highlight = true
+    }
   }
 
   return (
-    <div>
-    <table className="player-frame">
-      <tbody>
-      <tr className="player-frame-row">
-        <td className="player-frame-title">Player:</td>
-        <td className="player-frame-value">{deck.player}</td>
-      </tr>
-      <tr className="player-frame-row">
-        <td className="player-frame-title">Deck type(s):</td>
-        <td className="player-frame-value">{labels}</td>
-      </tr>
-      <tr className="player-frame-row">
-        <td className="player-frame-title">Match record:</td>
-        <td className="player-frame-value">{MatchWins(deck)}-{MatchLosses(deck)}</td>
-      </tr>
-      <tr className="player-frame-row">
-        <td className="player-frame-title">Game record:</td>
-        <td className="player-frame-value">{Wins(deck)}-{Losses(deck)}</td>
-      </tr>
-      <tr className="player-frame-row">
-        <td className="player-frame-title">Average CMC:</td>
-        <td className="player-frame-value">{acmc}</td>
-      </tr>
-      <tr className="player-frame-row">
-        <td className="player-frame-title">Colors:</td>
-        <td className="player-frame-value">{colors}</td>
-      </tr>
-      <tr className="player-frame-row">
-        <td className="player-frame-title"># Cards:</td>
-        <td className="player-frame-value">{cardCount}</td>
-      </tr>
-      <tr className="player-frame-row">
-        <td className="player-frame-title"># Creatures:</td>
-        <td className="player-frame-value">{creatures}</td>
-      </tr>
-      <tr className="player-frame-row">
-        <td className="player-frame-title"># Interaction:</td>
-        <td className="player-frame-value">{interaction}</td>
-      </tr>
-      </tbody>
-    </table>
-
-    <table>
-      <tbody>
-        <tr>
-          <td rowspan="3">
-            <CardList player={deck.player} cards={cards} opts={{cmc: 0}} />
-          </td>
+    <div className="deck-view">
+      <table className="player-frame">
+        <tbody>
+        <tr className="player-frame-row">
+          <td className="player-frame-title">Player:</td>
+          <td className="player-frame-value">{deck.player}</td>
         </tr>
-
-        <tr>
-          <CardList player={deck.player} cards={cards} opts={{cmc: 1}} />
-          <CardList player={deck.player} cards={cards} opts={{cmc: 2}} />
-          <CardList player={deck.player} cards={cards} opts={{cmc: 3}} />
+        <tr className="player-frame-row">
+          <td className="player-frame-title">Deck type(s):</td>
+          <td className="player-frame-value">{labels}</td>
         </tr>
-
-        <tr>
-          <CardList player={deck.player} cards={cards} opts={{cmc: 4}} />
-          <CardList player={deck.player} cards={cards} opts={{cmc: 5}} />
-          <CardList player={deck.player} cards={cards} opts={{cmc: 6, gt: true}} />
+        <tr className="player-frame-row">
+          <td className="player-frame-title">Match record:</td>
+          <td className="player-frame-value">{MatchWins(deck)}-{MatchLosses(deck)}</td>
         </tr>
+        <tr className="player-frame-row">
+          <td className="player-frame-title">Game record:</td>
+          <td className="player-frame-value">{Wins(deck)}-{Losses(deck)}</td>
+        </tr>
+        <tr className="player-frame-row">
+          <td className="player-frame-title">Average CMC:</td>
+          <td className="player-frame-value">{acmc}</td>
+        </tr>
+        <tr className="player-frame-row">
+          <td className="player-frame-title">Colors:</td>
+          <td className="player-frame-value">{colors}</td>
+        </tr>
+        <tr className="player-frame-row">
+          <td className="player-frame-title"># Cards:</td>
+          <td className="player-frame-value">{cardCount}</td>
+        </tr>
+        <tr className="player-frame-row">
+          <td className="player-frame-title"># Creatures:</td>
+          <td className="player-frame-value">{creatures}</td>
+        </tr>
+        <tr className="player-frame-row">
+          <td className="player-frame-title"># Interaction:</td>
+          <td className="player-frame-value">{interaction}</td>
+        </tr>
+        </tbody>
+      </table>
 
-      </tbody>
-    </table>
+      <table>
+        <tbody>
+          <tr>
+            <td rowSpan="3">
+              <CardList player={deck.player} cards={cards} opts={{cmc: 0}} />
+            </td>
+          </tr>
 
+          <tr>
+            <CardList player={deck.player} cards={cards} opts={{cmc: 1}} />
+            <CardList player={deck.player} cards={cards} opts={{cmc: 2}} />
+            <CardList player={deck.player} cards={cards} opts={{cmc: 3}} />
+          </tr>
 
+          <tr>
+            <CardList player={deck.player} cards={cards} opts={{cmc: 4}} />
+            <CardList player={deck.player} cards={cards} opts={{cmc: 5}} />
+            <CardList player={deck.player} cards={cards} opts={{cmc: 6, gt: true}} />
+          </tr>
+
+        </tbody>
+      </table>
     </div>
   );
 }
@@ -306,10 +408,15 @@ function CardList({player, cards, opts}) {
             // Card matches the criteria to display.
             let key = card.name + cards.indexOf(card)
             let type = getType(card)
+            let text = card.name
+            let className = "card"
+            if (card.highlight) {
+              className = "card-highlight"
+            }
             return (
-              <tr className="card" key={key} card={card}>
+              <tr className={className} key={key} card={card}>
                 <td><a href={card.url} target="_blank" rel="noopener noreferrer">{type}</a></td>
-                <td><a href={card.url} target="_blank" rel="noopener noreferrer">{card.name}</a></td>
+                <td><a href={card.url} target="_blank" rel="noopener noreferrer">{text}</a></td>
               </tr>
             )
           }
