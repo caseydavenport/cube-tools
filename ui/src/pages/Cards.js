@@ -81,7 +81,7 @@ function CardWidgetTable(input) {
     return (
       <div>
         <CardWidgetOptions {...input} />
-        <table className="winrate-table">
+        <table className="widget-table">
           <thead className="table-header">
             <tr>
               <td onClick={input.onHeaderClick} id="mainboarded" className="header-cell">Mainboard %</td>
@@ -154,7 +154,7 @@ function CardWidgetTable(input) {
     return (
       <div>
         <CardWidgetOptions {...input} />
-        <table className="winrate-table">
+        <table className="widget-table">
           <thead className="table-header">
             <tr>
               <td onClick={input.onHeaderClick} id="wins" className="header-cell">Win rate</td>
@@ -371,7 +371,7 @@ function UndraftedWidget(input) {
   })
   return (
     <div>
-    <table className="winrate-table">
+    <table className="widget-table">
       <thead className="table-header">
         <tr>
           <td>{num} cards never mainboarded</td>

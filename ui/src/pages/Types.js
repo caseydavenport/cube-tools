@@ -186,7 +186,7 @@ function ArchetypeStatsTable(input) {
   return (
     <div>
       <ColorPickerHeader display={input.colorCheckboxes} onChecked={input.onColorChecked} />
-      <table className="winrate-table">
+      <table className="widget-table">
         <thead className="table-header">
           <tr>
             <td onClick={input.onHeaderClick} id="type" className="header-cell">Archetype</td>
@@ -220,7 +220,7 @@ function ArchetypeStatsTable(input) {
                   break
               }
               return (
-                <tr key={t.type} sort={sort} className="winrate-row">
+                <tr key={t.type} sort={sort} className="widget-table-row">
                   <td id={t.type} onClick={input.handleRowClick} key="type">{t.type}</td>
                   <td key="build_percent">{t.build_percent}%</td>
                   <td key="win_percent">{t.win_percent}%</td>
@@ -332,7 +332,7 @@ function TopCardsInArchetypeWidget(input) {
   return (
     <div className="widget-scroll">
       <TopCardsInArchetypeWidgetOptions {...input} />
-      <table className="winrate-table">
+      <table className="widget-table">
         <thead className="table-header">
           <tr>
             <td className="header-cell">Card</td>
@@ -381,7 +381,7 @@ function ArchetypeDetailsPanel(input) {
   }
   return (
     <div>
-      <table className="winrate-table">
+      <table className="widget-table">
         <thead className="table-header">
           <tr>
             <td onClick={input.onHeaderClick} id="name" className="header-cell">Paired with</td>
@@ -392,7 +392,7 @@ function ArchetypeDetailsPanel(input) {
           {
             sharedData.map(function(arch) {
               return (
-                <tr key={arch.name} sort={arch.num} className="winrate-row">
+                <tr key={arch.name} sort={arch.num} className="widget-table-row">
                   <td key="name">{arch.name}</td>
                   <td key="num">{arch.num}</td>
                 </tr>
@@ -404,7 +404,7 @@ function ArchetypeDetailsPanel(input) {
 
       <br></br>
 
-      <table className="winrate-table">
+      <table className="widget-table">
         <thead className="table-header">
           <tr>
             <td onClick={input.onHeaderClick} id="name" className="header-cell">Played by</td>
@@ -415,7 +415,7 @@ function ArchetypeDetailsPanel(input) {
           {
             playerData.map(function(player) {
               return (
-                <tr key={player.name} sort={player.num} className="winrate-row">
+                <tr key={player.name} sort={player.num} className="widget-table-row">
                   <td key="name">{player.name}</td>
                   <td key="num">{player.num}</td>
                 </tr>

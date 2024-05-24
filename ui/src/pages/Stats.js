@@ -654,11 +654,11 @@ function DraftOrderWidget(input) {
   }
 
   return (
-    <div className="widget">
+    <div>
 
       <DraftOrderWidgetOptions {...input} />
 
-      <table className="winrate-table">
+      <table className="widget-table">
         <thead className="table-header">
           <tr>
             <td onClick={input.onHeaderClick} id="name" className="header-cell">Card name</td>
@@ -810,7 +810,7 @@ function Overview(input) {
 
 function PrintRow({ k, value, p }) {
   return (
-    <tr key={k} className="winrate-row">
+    <tr key={k} className="widget-table-row">
       <td key="k">{k}</td>
       <td key="p">{p}%</td>
       <td key="value">{value}</td>

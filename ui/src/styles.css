@@ -1,3 +1,14 @@
+:root {
+  --page-background: #222629;
+  --table-background: #474b4f;
+  --table-row-selected: #6b6e70;
+  --table-header-background: #61892f;
+  --misc: #86c232;
+  --highlight: #C97BF4;
+  --white: #FFF;
+  --black: #000;
+}
+
 * {
   box-sizing: border-box;
 }
@@ -11,7 +22,7 @@ body {
   font-family: sans-serif;
   margin: 20px;
   padding: 0;
-  background: #040926;
+  background: var(--page-background);
 }
 
 h1 {
@@ -57,34 +68,36 @@ ul {
 }
 
 .player-frame {
-  background: #AE6989;
-  color: #FFF;
-  border: 0px solid #999;
+  background: var(--table-background);
+  color: var(--white);
+  border: 0px solid var(--table-header-background);
   float: left;
   font-size: 18px;
   line-height: 34px;
   height: 34px;
-  padding: 5px;
+  padding: 0px;
   text-align: center;
   min-width: 300px;
 }
 
-.player-frame-row {
-}
-
 .player-frame-title {
+  background: var(--table-header-background);
+  padding-right: 10px;
   text-align: right;
   font-weight: bold;
 }
 
 .player-frame-value {
+  background: var(--table-row-selected);
+  padding-left: 10px;
+  padding-right: 10px;
   text-align: left;
   font-size: 18px;
 }
 
 .decklist {
-  background: #AE6989;
-  color: #FFF;
+  background: var(--table-background);
+  color: var(--white);
   border: none;
   float: left;
   font-size: 18px;
@@ -97,8 +110,8 @@ ul {
 }
 
 .full-options-header {
-  background: #C97B84;
-  color: #FFF;
+  background: var(--table-row-selected);
+  color: var(--white);
   border: none;
   float: left;
   font-size: 18px;
@@ -113,7 +126,7 @@ ul {
 }
 
 .table-header {
-  background: #888;
+  background: var(--table-header-background);
   font-weight: bold;
   padding: 0px;
   margin: 0px;
@@ -142,11 +155,11 @@ ul {
 }
 
 .card:hover {
-  background: #C97B84;
+  background: var(--table-row-selected);
 }
 
 .card-highlight {
-  background: #C97BF4;
+  background: var(--highlight);
 }
 
 .deck-entry {
@@ -160,16 +173,12 @@ ul {
 }
 
 .deck-entry:hover {
-  background: #C97B84;
-}
-
-.winrate-row:hover {
-  background: #C97B84;
+  background: var(--table-row-selected);
 }
 
 .dropdown {
-  color: #FFF;
-  background: #C97B84;
+  color: var(--white);
+  background: var(--table-row-selected);
   font-weight: bold;
   text-align: center;
   padding: 20px;
@@ -180,8 +189,8 @@ ul {
 }
 
 .dropdown-header {
-  color: #FFF;
-  background: #C97B84;
+  color: var(--white);
+  background: var(--table-row-selected);
   text-align: center;
   padding: 0px;
   border: 0px;
@@ -189,8 +198,8 @@ ul {
 }
 
 .dropdown-header-side-by-side{
-  color: #FFF;
-  background: #C97B84;
+  color: var(--white);
+  background: var(--table-row-selected);
   text-align: center;
   padding: 5px;
   border: 0px;
@@ -199,24 +208,24 @@ ul {
 }
 
 .numeric-input{
-  color: #FFF;
+  color: var(--white);
   padding: 2px;
   margin-left: 10px;
   width: 50px;
-  background: #AE6989;
+  background: var(--table-background);
 }
 
 .text-input{
-  color: #FFF;
+  color: var(--white);
   padding: 2px;
   margin-left: 10px;
   width: 150px;
-  background: #AE6989;
+  background: var(--table-background);
 }
 
 .date-selector {
-  color: #FFF;
-  background: #C97B84;
+  color: var(--white);
+  background: var(--table-row-selected);
   text-align: center;
   padding: 20px;
   border: 0px;
@@ -225,16 +234,8 @@ ul {
 }
 
 .select-option {
-  color: #FFF;
-  background: #AE6989;
-}
-
-.widget {
-  margin-top: 30px;
-  margin-right: 10px;
-  width: max-content;
-  min-width: 300px;
-  float: left;
+  color: var(--white);
+  background: var(--table-background);
 }
 
 .widget-scroll {
@@ -251,12 +252,13 @@ ul {
 }
 
 .deck-view {
+  padding-top: 0px;
   padding-left: 5px;
 }
 
-.winrate-table {
-  background: #AE6989;
-  color: #FFF;
+.widget-table {
+  background: var(--table-background);
+  color: var(--white);
   border: none;
   float: left;
   font-size: 18px;
@@ -270,9 +272,27 @@ ul {
   width: 100%;
 }
 
+.widget-table-row {
+  background: var(--table-background);
+  color: var(--white);
+  border: none;
+  font-size: 18px;
+  line-height: 34px;
+  height: 34px;
+  margin-top: 0px;
+  margin-left: 0px;
+  padding: 0px;
+  text-align: center;
+  min-width: 300px;
+}
+
+.widget-table-row:hover {
+  background: var(--table-row-selected);
+}
+
 .deck-meta-table {
-  background: #AE6989;
-  color: #FFF;
+  background: var(--table-background);
+  color: var(--white);
   border: none;
   float: left;
   font-size: 18px;
@@ -284,21 +304,6 @@ ul {
   text-align: left;
   min-width: 200px;
   width: 100%;
-}
-
-
-.winrate-row {
-  background: #AE6989;
-  color: #FFF;
-  border: none;
-  font-size: 18px;
-  line-height: 34px;
-  height: 34px;
-  margin-top: 0px;
-  margin-left: 0px;
-  padding: 0px;
-  text-align: center;
-  min-width: 300px;
 }
 
 .tooltip{
@@ -313,7 +318,7 @@ ul {
     margin-top: -5px;
     border-width: 5px;
     border-style: solid;
-    border-color: transparent black transparent transparent;
+    border-color: transparent var(--black) transparent transparent;
 }
 
 .tooltip-trigger {
@@ -322,8 +327,8 @@ ul {
 }
 
 .tooltip-trigger .tooltip{
-  background-color: black;
-  color: #fff;
+  background-color: var(--black);
+  color: var(--white);
   text-align: center;
   border-radius: 6px;
   padding: 5px;

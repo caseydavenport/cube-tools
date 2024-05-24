@@ -30,6 +30,10 @@ ChartJS.register(
   Legend
 );
 
+const winPctColor = "#fff"
+const winColor = "#86c232"
+const lossColor = "#61892f"
+
 // This is imperfect, but matches most removal spells.
 // Will need to keep this up to date with the cube as it evolves, or find
 // a more generic way.
@@ -312,18 +316,18 @@ function WinsByManaCost(input) {
         type: "line",
         label: 'Win %',
         data: percentages,
-        borderColor: "#F00",
-        backgroundColor: "#F00",
+        borderColor: winPctColor,
+        backgroundColor: winPctColor,
       },
       {
         label: 'Wins',
         data: winsData,
-        backgroundColor: 'rgba(255, 99, 132, 0.5)',
+        backgroundColor: winColor,
       },
       {
         label: 'Losses',
         data: lossData,
-        backgroundColor: '#Fa7',
+        backgroundColor: lossColor,
       },
     ],
   };
@@ -419,18 +423,18 @@ function WinsByCardType(input) {
         type: "line",
         label: 'Win %',
         data: percentages,
-        borderColor: "#F00",
-        backgroundColor: "#F00",
+        borderColor: winPctColor,
+        backgroundColor: winPctColor,
       },
       {
         label: 'Wins',
         data: winsData,
-        backgroundColor: 'rgba(255, 99, 132, 0.5)',
+        backgroundColor: winColor,
       },
       {
         label: 'Losses',
         data: lossData,
-        backgroundColor: '#Fa7',
+        backgroundColor: lossColor,
       },
 
     ],
@@ -516,18 +520,18 @@ function WinsByNonBasicDensity(input) {
         type: "line",
         label: 'Win %',
         data: percentages,
-        borderColor: "#F00",
-        backgroundColor: "#F00",
+        borderColor: winPctColor,
+        backgroundColor: winPctColor,
       },
       {
         label: 'Wins',
         data: winsData,
-        backgroundColor: 'rgba(255, 99, 132, 0.5)',
+        backgroundColor: winColor,
       },
       {
         label: 'Losses',
         data: lossData,
-        backgroundColor: '#Fa7',
+        backgroundColor: lossColor,
       },
 
     ],
@@ -616,18 +620,18 @@ function WinsByOracleText(input) {
         type: "line",
         label: 'Win %',
         data: percentages,
-        borderColor: "#F00",
-        backgroundColor: "#F00",
+        borderColor: winPctColor,
+        backgroundColor: winPctColor,
       },
       {
         label: 'Wins',
         data: winsData,
-        backgroundColor: 'rgba(255, 99, 132, 0.5)',
+        backgroundColor: winColor,
       },
       {
         label: 'Losses',
         data: lossData,
-        backgroundColor: '#Fa7',
+        backgroundColor: lossColor,
       },
 
     ],
@@ -702,20 +706,20 @@ function WinsByNumberOfColors(input) {
         type: "line",
         label: 'Win %',
         data: percentages,
-        borderColor: "#F00",
-        backgroundColor: "#F00",
+        borderColor: winPctColor,
+        backgroundColor: winPctColor,
       },
       {
         type: "bar",
         label: 'Wins',
         data: winsData,
-        backgroundColor: 'rgba(255, 99, 132, 0.5)',
+        backgroundColor: winColor,
       },
       {
         type: "bar",
         label: 'Losses',
         data: lossData,
-        backgroundColor: '#Fa7',
+        backgroundColor: lossColor,
       },
     ],
   };
@@ -800,13 +804,13 @@ function OracleTextByColor(input) {
       {
         label: 'B',
         data: valuesByColor.get("B"),
-        borderColor: "#888",
-        backgroundColor: "#888",
+        borderColor: "#AAA",
+        backgroundColor: "#AAA",
       },
       {
         label: 'R',
         data: valuesByColor.get("R"),
-        borderColor: "#F00",
+        borderColor: "#f00",
         backgroundColor: '#F00',
       },
       {
@@ -974,8 +978,8 @@ function DeckManaValueChart(input) {
       {
         label: 'Average Mana Value',
         data: mana_values,
-        borderColor: "#dce312",
-        backgroundColor: "#dce312",
+        borderColor: winPctColor,
+        backgroundColor: winPctColor,
       },
   ]
 

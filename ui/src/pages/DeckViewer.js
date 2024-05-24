@@ -61,6 +61,14 @@ export default function DeckViewer() {
   function onMatchUpdated(event) {
     setMatchStr(event.target.value)
   }
+  const [minCMC, setMinCMC] = useState(0);
+  const [maxCMC, setMaxCMC] = useState(0);
+  function onMinCMCUpdated(event) {
+    setMinCMC(event.target.value)
+  }
+  function onMaxCMCUpdated(event) {
+    setMaxCMC(event.target.value)
+  }
 
   // Start of day load the draft index.
   // This is used to populate the drafts dropdown menu.
@@ -143,14 +151,30 @@ export default function DeckViewer() {
           onChange={onMatchUpdated}
         />
 
+        <NumericInput
+          className="dropdown"
+          label="Min. cmc"
+          value={minCMC}
+          onChange={onMinCMCUpdated}
+        />
+
+        <NumericInput
+          className="dropdown"
+          label="Max. cmc"
+          value={maxCMC}
+          onChange={onMaxCMCUpdated}
+        />
+
       </div>
 
       <div className="house-for-widgets">
         <FilteredDecks
           decks={decks}
+          onDeckClicked={onDeckClicked}
           selectedDraft={draftDropdown}
           matchStr={matchStr}
-          onDeckClicked={onDeckClicked}
+          minCMC={minCMC}
+          maxCMC={maxCMC}
         />
 
         <DisplayDeck
@@ -199,6 +223,12 @@ function FilteredDecks(input) {
     if (input.selectedDraft != "" && input.selectedDraft != d.date) {
       continue
     }
+    if (input.minCMC > 0 && d.avg_cmc < input.minCMC) {
+      continue
+    }
+    if (input.maxCMC > 0 && d.avg_cmc > input.maxCMC) {
+      continue
+    }
 
     if (!draftToColor.has(d.draft)) {
       draftToColor.set(d.draft, colors[idx % colors.length])
@@ -227,30 +257,29 @@ function FilteredDecks(input) {
 
   return (
     <div style={{"width": "500px"}}>
-    <table className="winrate-table">
-    <thead className="table-header">
-      <tr>
-        <td onClick={input.onHeaderClick} id="decklist" className="header-cell">Decks</td>
-      </tr>
-    </thead>
-    <tbody>
-      {
-        decks.map(function(deck, idx) {
-          let sort=deck.date
-          return (
-            <tr sort={sort} className="card" key={idx}>
-              <DeckTableCell
-                color={draftToColor.get(deck.draft)}
-                deck={deck}
-                onDeckClicked={input.onDeckClicked}
-              />
-            </tr>
-          )
-        }).sort(SortFunc)
-      }
-    </tbody>
-  </table>
-
+      <table className="widget-table">
+        <thead className="table-header">
+          <tr>
+            <td onClick={input.onHeaderClick} id="decklist" className="header-cell">Decks</td>
+          </tr>
+        </thead>
+        <tbody>
+          {
+            decks.map(function(deck, idx) {
+              let sort=deck.date
+              return (
+                <tr sort={sort} className="card" key={idx}>
+                  <DeckTableCell
+                    color={draftToColor.get(deck.draft)}
+                    deck={deck}
+                    onDeckClicked={input.onDeckClicked}
+                  />
+                </tr>
+              )
+            }).sort(SortFunc)
+          }
+        </tbody>
+      </table>
     </div>
   );
 }
@@ -325,39 +354,39 @@ function DisplayDeck(input) {
     <div className="deck-view">
       <table className="player-frame">
         <tbody>
-        <tr className="player-frame-row">
+        <tr>
           <td className="player-frame-title">Player:</td>
           <td className="player-frame-value">{deck.player}</td>
         </tr>
-        <tr className="player-frame-row">
+        <tr>
           <td className="player-frame-title">Deck type(s):</td>
           <td className="player-frame-value">{labels}</td>
         </tr>
-        <tr className="player-frame-row">
+        <tr>
           <td className="player-frame-title">Match record:</td>
           <td className="player-frame-value">{MatchWins(deck)}-{MatchLosses(deck)}</td>
         </tr>
-        <tr className="player-frame-row">
+        <tr>
           <td className="player-frame-title">Game record:</td>
           <td className="player-frame-value">{Wins(deck)}-{Losses(deck)}</td>
         </tr>
-        <tr className="player-frame-row">
+        <tr>
           <td className="player-frame-title">Average CMC:</td>
           <td className="player-frame-value">{acmc}</td>
         </tr>
-        <tr className="player-frame-row">
+        <tr>
           <td className="player-frame-title">Colors:</td>
           <td className="player-frame-value">{colors}</td>
         </tr>
-        <tr className="player-frame-row">
+        <tr>
           <td className="player-frame-title"># Cards:</td>
           <td className="player-frame-value">{cardCount}</td>
         </tr>
-        <tr className="player-frame-row">
+        <tr>
           <td className="player-frame-title"># Creatures:</td>
           <td className="player-frame-value">{creatures}</td>
         </tr>
-        <tr className="player-frame-row">
+        <tr>
           <td className="player-frame-title"># Interaction:</td>
           <td className="player-frame-value">{interaction}</td>
         </tr>

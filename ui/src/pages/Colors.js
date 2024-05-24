@@ -179,7 +179,7 @@ function ColorStatsTable(input) {
     <div>
       <TableHeader {...input} />
 
-      <table className="winrate-table">
+      <table className="widget-table">
         <thead className="table-header">
           <tr>
             <td onClick={input.onClick} id="color" className="header-cell">Color</td>
@@ -217,7 +217,7 @@ function ColorStatsTable(input) {
               }
 
               return (
-                <tr key={rates.color} sort={sort} className="winrate-row">
+                <tr key={rates.color} sort={sort} className="widget-table-row">
                   <td>{rates.color}</td>
                   <td>{rates.win_percent}%</td>
                   <td>{rates.build_percent}%</td>

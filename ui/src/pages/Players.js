@@ -159,7 +159,7 @@ function PlayerTable(input) {
 
   return (
     <div>
-      <table className="winrate-table">
+      <table className="widget-table">
         <thead className="table-header">
           <tr>
             <td onClick={input.onHeaderClick} id="name" className="header-cell">Player</td>
@@ -312,7 +312,7 @@ function PlayerDetailsPanel(input) {
   let oppRows = Array.from(recordByOpponent.values())
   return (
     <div>
-      <table className="winrate-table">
+      <table className="widget-table">
         <thead className="table-header">
           <tr>
             <td colSpan="3" id="who" className="header-cell">Selected player: {input.player}</td>
@@ -332,7 +332,7 @@ function PlayerDetailsPanel(input) {
               }
               let win_pct = Math.round(opponent.wins / (opponent.wins + opponent.losses) * 100)
               return (
-                <tr key={opponent.name} sort={win_pct} className="winrate-row">
+                <tr key={opponent.name} sort={win_pct} className="widget-table-row">
                   <td key="name">{opponent.name}</td>
                   <td key="win_pct">{win_pct}%</td>
                   <td key="total">{opponent.wins + opponent.losses}</td>
@@ -343,7 +343,7 @@ function PlayerDetailsPanel(input) {
         </tbody>
       </table>
 
-      <table className="winrate-table">
+      <table className="widget-table">
         <thead className="table-header">
           <tr>
             <td onClick={input.onHeaderClick} id="name" className="header-cell">Arch</td>
@@ -367,7 +367,7 @@ function PlayerDetailsPanel(input) {
                 bld_pct = Math.round(100 * count / decks.length)
               }
               return (
-                <tr key={name} sort={bld_pct} className="winrate-row">
+                <tr key={name} sort={bld_pct} className="widget-table-row">
                   <td key="name">{name}</td>
                   <td key="bld_pct">{bld_pct}%</td>
                   <td key="win_pct">{win_pct}%</td>
@@ -380,7 +380,7 @@ function PlayerDetailsPanel(input) {
         </tbody>
       </table>
 
-      <table className="winrate-table">
+      <table className="widget-table">
         <thead className="table-header">
           <tr>
             <td onClick={input.onHeaderClick} id="name" className="header-cell">Color</td>
@@ -404,7 +404,7 @@ function PlayerDetailsPanel(input) {
                 bld_pct = Math.round(100 * count / decks.length)
               }
               return (
-                <tr key={name} sort={bld_pct} className="winrate-row">
+                <tr key={name} sort={bld_pct} className="widget-table-row">
                   <td key="name">{name}</td>
                   <td key="bld_pct">{bld_pct}%</td>
                   <td key="win_pct">{win_pct}%</td>
