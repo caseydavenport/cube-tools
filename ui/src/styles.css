@@ -149,6 +149,20 @@ ul {
   background: #C97BF4;
 }
 
+.deck-entry {
+  background-color: var(--background-color);
+  padding: 0px;
+  margin: 0px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  max-width: 300px;
+}
+
+.deck-entry:hover {
+  background: #C97B84;
+}
+
 .winrate-row:hover {
   background: #C97B84;
 }

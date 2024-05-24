@@ -181,10 +181,28 @@ export function DropdownSelector({ label, value, options, onChange }) {
 
 function FilteredDecks(input) {
   let decks = []
+
+  // Each draft gets assigned a color from a pre-determined bucket.
+  let draftToColor = new Map()
+  let colors = [
+    "#AE6989",
+    "#CE6989",
+    "#EE6989",
+    "#AEA989",
+    "#AEC989",
+    "#AE69F9",
+  ]
+  let idx = 0
+
   for (let d of input.decks) {
     // Perform filtering of decks we want to display.
     if (input.selectedDraft != "" && input.selectedDraft != d.date) {
       continue
+    }
+
+    if (!draftToColor.has(d.draft)) {
+      draftToColor.set(d.draft, colors[idx % colors.length])
+      idx += 1
     }
 
     // Do fuzzy matching on the string, including player, cards, etc.
@@ -222,6 +240,7 @@ function FilteredDecks(input) {
           return (
             <tr sort={sort} className="card" key={idx}>
               <DeckTableCell
+                color={draftToColor.get(deck.draft)}
                 deck={deck}
                 onDeckClicked={input.onDeckClicked}
               />
@@ -243,7 +262,7 @@ function DeckTableCell(input) {
   return (
       <table className="deck-meta-table">
       <tbody>
-        <tr className="card">
+        <tr className="deck-entry" style={{"--background-color": input.color}}>
           <td style={{"width": "20%"}} id={deck.file} onClick={input.onDeckClicked} key="date">{deck.date}</td>
           <td style={{"width": "30%"}} id={deck.file} onClick={input.onDeckClicked} key="player">{deck.player}</td>
           <td style={{"width": "30%"}} id={deck.file} onClick={input.onDeckClicked} key="wins">{win_percent}% ({record})</td>
