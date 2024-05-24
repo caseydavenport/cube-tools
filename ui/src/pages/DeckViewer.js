@@ -260,7 +260,7 @@ function FilteredDecks(input) {
   }
 
   return (
-    <div style={{"width": "500px"}}>
+    <div className="filtered-decks">
       <table className="widget-table">
         <thead className="table-header">
           <tr>
@@ -296,9 +296,9 @@ function DeckTableCell(input) {
       <table className="deck-meta-table">
       <tbody>
         <tr className="deck-entry" style={{"--background-color": input.color}}>
-          <td style={{"width": "20%"}} id={deck.file} onClick={input.onDeckClicked} key="date">{deck.date}</td>
-          <td style={{"width": "30%"}} id={deck.file} onClick={input.onDeckClicked} key="player">{deck.player}</td>
-          <td style={{"width": "30%"}} id={deck.file} onClick={input.onDeckClicked} key="wins">{win_percent}% ({record})</td>
+          <td style={{"width": "20%", "padding-left": "10px"}} id={deck.file} onClick={input.onDeckClicked} key="date">{deck.date}</td>
+          <td style={{"width": "30%", "padding-left": "0px"}} id={deck.file} onClick={input.onDeckClicked} key="player">{deck.player}</td>
+          <td style={{"width": "30%", "padding-left": "0px"}} id={deck.file} onClick={input.onDeckClicked} key="wins">{win_percent}% ({record})</td>
         </tr>
       </tbody>
       </table>

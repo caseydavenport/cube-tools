@@ -33,6 +33,8 @@ ChartJS.register(
 const winPctColor = "#fff"
 const winColor = "#86c232"
 const lossColor = "#61892f"
+const inDeckColor = "#C97BF4"
+const inSideboardColor = "#ffaf12"
 
 // This is imperfect, but matches most removal spells.
 // Will need to keep this up to date with the cube as it evolves, or find
@@ -204,14 +206,15 @@ export function DeckWidget(input) {
             <DeckBasicLandCountChart decks={input.decks} bucketSize={input.bucketSize} />
           </td>
 
-          <td style={{"verticalAlign": "top", "width": "50%"}}>
-            <ManaCostByOracleTextOverTime
-              title="Removal mana cost"
+          <td style={{"verticalAlign": "top"}}>
+            <OracleTextByColor
+              title="Interaction by color"
               decks={input.decks}
+              matches={RemovalMatches.concat(CounterspellMatches)}
               bucketSize={input.bucketSize}
-              matches={RemovalMatches}
             />
           </td>
+
         </tr>
 
         <tr style={{"height": "300px"}}>
@@ -237,14 +240,16 @@ export function DeckWidget(input) {
           <td style={{"verticalAlign": "top", "width": "50%"}}>
             <SideboardSizeOverTimeChart decks={input.decks} bucketSize={input.bucketSize} />
           </td>
-          <td style={{"verticalAlign": "top"}}>
-            <OracleTextByColor
-              title="Interaction by color"
+
+          <td style={{"verticalAlign": "top", "width": "50%"}}>
+            <ManaCostByOracleTextOverTime
+              title="Removal mana cost"
               decks={input.decks}
-              matches={RemovalMatches.concat(CounterspellMatches)}
               bucketSize={input.bucketSize}
+              matches={RemovalMatches}
             />
           </td>
+
         </tr>
 
       </tbody>
@@ -901,14 +906,14 @@ function OracleTextOverTimeChart(input) {
       {
         label: 'Avg. per-deck',
         data: mbValues,
-        borderColor: "#dce312",
-        backgroundColor: "#dce312",
+        borderColor: inDeckColor,
+        backgroundColor: inDeckColor,
       },
       {
         label: 'Avg. per-sideboard',
         data: sbValues,
-        borderColor: "#ffaf12",
-        backgroundColor: "#ecaf00",
+        borderColor: inSideboardColor,
+        backgroundColor: inSideboardColor,
       },
   ]
 
@@ -1167,8 +1172,8 @@ function SideboardSizeOverTimeChart(input) {
       {
         label: 'Avg. sideboard size',
         data: sizes,
-        borderColor: "#dce312",
-        backgroundColor: "#dce312",
+        borderColor: inSideboardColor,
+        backgroundColor: inSideboardColor,
       },
   ]
 
@@ -1256,14 +1261,14 @@ function ManaCostByOracleTextOverTime(input) {
       {
         label: 'Avg. in-deck',
         data: mbValues,
-        borderColor: "#dce312",
-        backgroundColor: "#dce312",
+        borderColor: inDeckColor,
+        backgroundColor: inDeckColor,
       },
       {
         label: 'Avg. in-sideboard',
         data: sbValues,
-        borderColor: "#ffaf12",
-        backgroundColor: "#ecaf00",
+        borderColor: inSideboardColor,
+        backgroundColor: inSideboardColor,
       },
   ]
 

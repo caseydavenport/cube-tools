@@ -254,6 +254,11 @@ table {
   overflow:auto;
 }
 
+/* Hide scrollbar for Chrome, Safari and Opera */
+.widget-scroll::-webkit-scrollbar {
+  display: none;
+}
+
 .house-for-widgets {
   display: flex;
   flex-direction: row;
@@ -264,6 +269,17 @@ table {
 .deck-view {
   padding-top: 0px;
   padding-left: 5px;
+}
+
+.filtered-decks {
+  width: 500px;
+  overflow: auto;
+  max-height: 1200px;
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.filtered-decks::-webkit-scrollbar {
+  display: none;
 }
 
 .widget-table {
