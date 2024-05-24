@@ -67,6 +67,10 @@ ul {
   box-sizing: border-box;
 }
 
+table {
+  border-collapse:collapse;
+}
+
 .player-frame {
   background: var(--table-background);
   color: var(--white);
@@ -127,6 +131,7 @@ ul {
 
 .table-header {
   background: var(--table-header-background);
+  border: var(--table-header-background);
   font-weight: bold;
   padding: 0px;
   margin: 0px;
@@ -143,6 +148,11 @@ ul {
   padding-top: 5px;
   padding-bottom: 5px;
   float: center;
+}
+
+.padded {
+  padding-left: 5px;
+  padding-right: 5px;
 }
 
 .card {

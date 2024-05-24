@@ -209,12 +209,16 @@ function FilteredDecks(input) {
   // Each draft gets assigned a color from a pre-determined bucket.
   let draftToColor = new Map()
   let colors = [
-    "#AE6989",
-    "#CE6989",
-    "#EE6989",
-    "#AEA989",
-    "#AEC989",
-    "#AE69F9",
+    "#474b4f",
+    "#777b7f",
+
+    // Uncomment if you want a colorful time.
+    // "#AE6989",
+    // "#0E6989",
+    // "#EE6989",
+    // "#FEA989",
+    // "#6EA579",
+    // "#AE69F9",
   ]
   let idx = 0
 
@@ -463,8 +467,8 @@ function CardList({player, cards, opts}) {
             }
             return (
               <tr className={className} key={key} card={card}>
-                <td><a href={card.url} target="_blank" rel="noopener noreferrer">{type}</a></td>
-                <td><a href={card.url} target="_blank" rel="noopener noreferrer">{text}</a></td>
+                <td className="padded"><a href={card.url} target="_blank" rel="noopener noreferrer">{type}</a></td>
+                <td className="padded"><a href={card.url} target="_blank" rel="noopener noreferrer">{text}</a></td>
               </tr>
             )
           }
