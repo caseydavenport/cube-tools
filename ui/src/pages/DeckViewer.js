@@ -252,6 +252,19 @@ function FilteredDecks(input) {
           decks.push(d)
           break
         }
+
+
+        let labelMatch = false
+        for (let label of d.labels) {
+          if (label.toLowerCase().match(input.matchStr.toLowerCase())) {
+            decks.push(d)
+            labelMatch = true
+            break
+          }
+        }
+        if (labelMatch) {
+          break
+        }
       }
     } else {
       // No match string - just add the deck.
@@ -264,7 +277,7 @@ function FilteredDecks(input) {
       <table className="widget-table">
         <thead className="table-header">
           <tr>
-            <td onClick={input.onHeaderClick} id="decklist" className="header-cell">Decks</td>
+            <td onClick={input.onHeaderClick} id="decklist" className="header-cell">{decks.length} Decks</td>
           </tr>
         </thead>
         <tbody>

@@ -1,9 +1,7 @@
 {
  "labels": [
-  "midrange",
   "control",
-  "graveyard",
-  "draw-twice"
+  "graveyard"
  ],
  "player": "casey",
  "date": "2024-01-07",
