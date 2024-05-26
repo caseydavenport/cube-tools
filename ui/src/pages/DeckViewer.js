@@ -322,18 +322,39 @@ function DeckTableCell(input) {
 // DisplayDeck prints out the given deck.
 function DisplayDeck(input) {
   let deck = input.deck
-  let mbsb = input.mbsb
 
   // The deck mainboard may not always be set, so we need
   // to initialize to an empty slice.
-  let missing = (mbsb == "Mainboard" && !deck.mainboard)
-  missing = missing || (mbsb == "Sideboard" && !deck.sideboard)
+  let missing = (input.mbsb == "Mainboard" && !deck.mainboard)
+  missing = missing || (input.mbsb == "Sideboard" && !deck.sideboard)
   if (!deck || missing) {
     return null;
   }
 
   let cards = deck.mainboard
-  if (mbsb == "Sideboard") {
+  if (input.mbsb == "Sideboard") {
+    cards = deck.sideboard
+  }
+
+  return (
+    <div className="deck-view">
+      <PlayerFrame {...input} />
+      <div className="flexhouse">
+        <CardList player={deck.player} cards={cards} opts={{cmc: 0}} />
+        <CardList player={deck.player} cards={cards} opts={{cmc: 1}} />
+        <CardList player={deck.player} cards={cards} opts={{cmc: 2}} />
+        <CardList player={deck.player} cards={cards} opts={{cmc: 3}} />
+        <CardList player={deck.player} cards={cards} opts={{cmc: 4}} />
+        <CardList player={deck.player} cards={cards} opts={{cmc: 5, gt: true}} />
+      </div>
+    </div>
+  );
+}
+
+function PlayerFrame(input) {
+  let deck = input.deck
+  let cards = deck.mainboard
+  if (input.mbsb == "Sideboard") {
     cards = deck.sideboard
   }
 
@@ -368,71 +389,46 @@ function DisplayDeck(input) {
   }
 
   return (
-    <div className="deck-view">
-      <table className="player-frame">
-        <tbody>
-        <tr>
-          <td className="player-frame-title">Player:</td>
-          <td className="player-frame-value">{deck.player}</td>
-        </tr>
-        <tr>
-          <td className="player-frame-title">Deck type(s):</td>
-          <td className="player-frame-value">{labels}</td>
-        </tr>
-        <tr>
-          <td className="player-frame-title">Match record:</td>
-          <td className="player-frame-value">{MatchWins(deck)}-{MatchLosses(deck)}</td>
-        </tr>
-        <tr>
-          <td className="player-frame-title">Game record:</td>
-          <td className="player-frame-value">{Wins(deck)}-{Losses(deck)}</td>
-        </tr>
-        <tr>
-          <td className="player-frame-title">Average CMC:</td>
-          <td className="player-frame-value">{acmc}</td>
-        </tr>
-        <tr>
-          <td className="player-frame-title">Colors:</td>
-          <td className="player-frame-value">{colors}</td>
-        </tr>
-        <tr>
-          <td className="player-frame-title"># Cards:</td>
-          <td className="player-frame-value">{cardCount}</td>
-        </tr>
-        <tr>
-          <td className="player-frame-title"># Creatures:</td>
-          <td className="player-frame-value">{creatures}</td>
-        </tr>
-        <tr>
-          <td className="player-frame-title"># Interaction:</td>
-          <td className="player-frame-value">{interaction}</td>
-        </tr>
-        </tbody>
-      </table>
-
-      <table>
-        <tbody>
-          <tr>
-            <td rowSpan="3">
-              <CardList player={deck.player} cards={cards} opts={{cmc: 0}} />
-            </td>
-          </tr>
-
-          <tr>
-            <CardList player={deck.player} cards={cards} opts={{cmc: 1}} />
-            <CardList player={deck.player} cards={cards} opts={{cmc: 2}} />
-            <CardList player={deck.player} cards={cards} opts={{cmc: 3}} />
-          </tr>
-
-          <tr>
-            <CardList player={deck.player} cards={cards} opts={{cmc: 4}} />
-            <CardList player={deck.player} cards={cards} opts={{cmc: 5}} />
-            <CardList player={deck.player} cards={cards} opts={{cmc: 6, gt: true}} />
-          </tr>
-
-        </tbody>
-      </table>
-    </div>
+    <table className="player-frame">
+      <tbody>
+      <tr>
+        <td className="player-frame-title">Player:</td>
+        <td className="player-frame-value">{deck.player}</td>
+      </tr>
+      <tr>
+        <td className="player-frame-title">Deck type(s):</td>
+        <td className="player-frame-value">{labels}</td>
+      </tr>
+      <tr>
+        <td className="player-frame-title">Match record:</td>
+        <td className="player-frame-value">{MatchWins(deck)}-{MatchLosses(deck)}</td>
+      </tr>
+      <tr>
+        <td className="player-frame-title">Game record:</td>
+        <td className="player-frame-value">{Wins(deck)}-{Losses(deck)}</td>
+      </tr>
+      <tr>
+        <td className="player-frame-title">Average CMC:</td>
+        <td className="player-frame-value">{acmc}</td>
+      </tr>
+      <tr>
+        <td className="player-frame-title">Colors:</td>
+        <td className="player-frame-value">{colors}</td>
+      </tr>
+      <tr>
+        <td className="player-frame-title"># Cards:</td>
+        <td className="player-frame-value">{cardCount}</td>
+      </tr>
+      <tr>
+        <td className="player-frame-title"># Creatures:</td>
+        <td className="player-frame-value">{creatures}</td>
+      </tr>
+      <tr>
+        <td className="player-frame-title"># Interaction:</td>
+        <td className="player-frame-value">{interaction}</td>
+      </tr>
+      </tbody>
+    </table>
   );
 }
 
@@ -450,27 +446,33 @@ function CardList({player, cards, opts}) {
     return null
   }
 
-  let title = "CMC: " + opts.cmc + " (" + num + ")"
+  let title = "CMC=" + opts.cmc + " (" + num + " cards)"
   if (opts.gt) {
-    title = "CMC: " + opts.cmc + "+ (" + num + ")"
+    title = "CMC=" + opts.cmc + "+ (" + num + " cards)"
   }
 
   let key = player + opts.cmc
 
+  let toDisplay = new Array()
+  for (let card of cards) {
+    if (opts.gt && card.cmc >= opts.cmc || card.cmc === opts.cmc) {
+      // Card matches the criteria to display.
+      toDisplay.push(card)
+    }
+  }
+
   // Generate the key for this table.
   return (
-    <table key={key} className="decklist">
-      <thead className="table-header">
-        <tr>
-          <td className="header-cell">Type</td>
-          <td className="header-cell">{title}</td>
-        </tr>
-      </thead>
-      <tbody>
-      {
-        cards.map(function(card) {
-          if (opts.gt && card.cmc >= opts.cmc || card.cmc === opts.cmc) {
-            // Card matches the criteria to display.
+    <div className="decklist-wrapper">
+      <table key={key} className="decklist">
+        <thead className="table-header">
+          <tr>
+            <td colSpan="2" className="header-cell">{title}</td>
+          </tr>
+        </thead>
+        <tbody>
+        {
+          toDisplay.map(function(card) {
             let key = card.name + cards.indexOf(card)
             let type = getType(card)
             let text = card.name
@@ -484,11 +486,11 @@ function CardList({player, cards, opts}) {
                 <td className="padded"><a href={card.url} target="_blank" rel="noopener noreferrer">{text}</a></td>
               </tr>
             )
-          }
-        }).sort(cardSort)
-      }
-      </tbody>
-    </table>
+          }).sort(cardSort)
+        }
+        </tbody>
+      </table>
+    </div>
   );
 }
 

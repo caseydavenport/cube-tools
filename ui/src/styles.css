@@ -75,13 +75,13 @@ table {
   background: var(--table-background);
   color: var(--white);
   border: 0px solid var(--table-header-background);
+  width: 400px;
   float: left;
   font-size: 18px;
   line-height: 34px;
   height: 34px;
   padding: 0px;
   text-align: center;
-  min-width: 300px;
 }
 
 .player-frame-title {
@@ -89,6 +89,7 @@ table {
   padding-right: 10px;
   text-align: right;
   font-weight: bold;
+  width: 40%;
 }
 
 .player-frame-value {
@@ -99,6 +100,13 @@ table {
   font-size: 18px;
 }
 
+.decklist-wrapper {
+  background: var(--table-background);
+  min-height: 600px;
+  margin-left: 5px;
+  margin-bottom: 5px;
+}
+
 .decklist {
   background: var(--table-background);
   color: var(--white);
@@ -107,10 +115,9 @@ table {
   font-size: 18px;
   line-height: 34px;
   height: 34px;
-  margin-left: 5px;
   padding: 0px;
   text-align: center;
-  min-width: 300px;
+  width: 400px;
 }
 
 .full-options-header {
@@ -266,9 +273,21 @@ table {
   padding-top: 5px;
 }
 
+.flexhouse {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 80%;
+  align-content: flex-start;
+}
+
 .deck-view {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
   padding-top: 0px;
-  padding-left: 5px;
+  margin-left: 5px;
+  width: 100%;
 }
 
 .filtered-decks {

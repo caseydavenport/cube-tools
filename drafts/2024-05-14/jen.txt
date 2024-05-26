@@ -1,49 +1,49 @@
-1 Intrepid Trufflesnout
 1 Ravenous Squirrel
-1 Clarion Spirit
 1 Warden of the Inner Sky
-1 Hunting Triad
 1 Gilded Goose
-1 Verdant Catacombs
-1 Elspeth's Smite
-1 Questing Druid
 1 Cankerbloom
-1 Scrapwork Mutt
 1 Titania, Protector of Argoth
 1 Gruff Triplets
-1 Wooded Foothills
 1 Grim Flayer
-1 Parallel Lives
 1 Arbor Elf
 1 Scavenging Ooze
 1 Renata, Called to the Hunt
-1 Scrabbling Claws
-1 Hardened Scales
 1 Greta, Sweettooth Scourge
-1 Sedgemoor Witch
-1 Roaring Earth
-1 The Huntsman's Redemption
-1 Knight of the Reliquary
 1 Tireless Tracker
 1 Courser of Kruphix
-1 Intangible Virtue
 1 Pollenbright Druid
+1 Parallel Lives
+1 Hardened Scales
+1 Roaring Earth
+1 The Huntsman's Redemption
+1 Intangible Virtue
 1 Quest for the Gemblades
-1 Sevinne's Reclamation
-1 Horizon Canopy
+1 Intrepid Trufflesnout // Go Hog Wild
+1 Elspeth's Smite
+1 Verdant Catacombs
 1 Arid Mesa
-1 Plains
-1 Swamp
-4 Forest
+1 Wooded Foothills
+1 Horizon Canopy
+3 Plains
+3 Swamp
+7 Forest
+1 Hunting Triad
+1 Sevinne's Reclamation
 
-1 Tamiyo, Compleated Sage
-1 Careful Study
-1 Merfolk Looter
+1 Scrabbling Claws
 1 Faerie Duelist
-1 Farsight Ritual
-1 Demand Answers
-1 Abrade
+1 Merfolk Looter
 1 Baird, Argivian Recruiter
+1 Sedgemoor Witch
+1 Scrapwork Mutt
+1 Clarion Spirit
+1 Knight of the Reliquary
+1 Farsight Ritual
 1 Lava Dart
 1 Crimson Wisps
+1 Demand Answers
+1 Abrade
+1 Questing Druid // Seek the Beast
 1 Steam Vents
+1 Tamiyo, Compleated Sage
+1 Careful Study

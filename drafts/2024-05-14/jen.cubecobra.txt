@@ -1,40 +1,41 @@
-Intrepid Trufflesnout // Go Hog Wild
 Ravenous Squirrel
-Clarion Spirit
 Warden of the Inner Sky
-Hunting Triad
 Gilded Goose
-Verdant Catacombs
-Elspeth's Smite
-Questing Druid // Seek the Beast
 Cankerbloom
-Scrapwork Mutt
 Titania, Protector of Argoth
 Gruff Triplets
-Wooded Foothills
 Grim Flayer
-Parallel Lives
 Arbor Elf
 Scavenging Ooze
 Renata, Called to the Hunt
-Scrabbling Claws
-Hardened Scales
 Greta, Sweettooth Scourge
-Sedgemoor Witch
-Roaring Earth
-The Huntsman's Redemption
-Knight of the Reliquary
 Tireless Tracker
 Courser of Kruphix
-Intangible Virtue
 Pollenbright Druid
+Parallel Lives
+Hardened Scales
+Roaring Earth
+The Huntsman's Redemption
+Intangible Virtue
 Quest for the Gemblades
-Sevinne's Reclamation
-Horizon Canopy
+Intrepid Trufflesnout // Go Hog Wild
+Elspeth's Smite
+Verdant Catacombs
 Arid Mesa
+Wooded Foothills
+Horizon Canopy
 Plains
+Plains
+Plains
+Swamp
+Swamp
 Swamp
 Forest
 Forest
 Forest
 Forest
+Forest
+Forest
+Forest
+Hunting Triad
+Sevinne's Reclamation
