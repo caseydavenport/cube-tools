@@ -134,7 +134,7 @@ function CardWidgetTable(input) {
               return (
                 <tr sort={sort} className="card" key={card.name}>
                   <td id={card.name} onClick={input.onCardSelected} key="name">{card.mainboard_percent}%</td>
-                  <td className="card"><a href={card.url} target="_blank" rel="noopener noreferrer">{card.name}</a></td>
+                  <td id={card.name} onClick={input.onCardSelected} className="card"><a href={card.url} target="_blank" rel="noopener noreferrer">{card.name}</a></td>
                   <td><ApplyTooltip text={card.mainboard} hidden={CardMainboardTooltipContent(card)}/></td>
                   <td>{card.sideboard}</td>
                   <td>{card.playableSideboard}</td>
@@ -263,7 +263,7 @@ function CardWidgetTable(input) {
                 return (
                   <tr sort={sort} className="card" key={card.name}>
                     <td id={card.name} onClick={input.onCardSelected} key="name">{card.win_percent}%</td>
-                    <td className="card"><a href={card.url} target="_blank" rel="noopener noreferrer">{card.name}</a></td>
+                    <td id={card.name} onClick={input.onCardSelected} className="card"><a href={card.url} target="_blank" rel="noopener noreferrer">{card.name}</a></td>
                     <td>{card.mainboard}</td>
                     <td><ApplyTooltip text={card.total_games} hidden={CardMainboardTooltipContent(card)}/></td>
                     <td>{relativePerfArch}</td>
