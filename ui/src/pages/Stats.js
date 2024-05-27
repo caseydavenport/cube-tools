@@ -34,6 +34,7 @@ export default function StatsViewer() {
   const [bucketSize, setNumBuckets] = useState(5);
   const [playerMatch, setPlayerMatch] = useState("");
   const [minDraftSize, setMinDraftSize] = useState(0);
+  const [manaValue, setManaValue] = useState(-1);
   function onBucketsChanged(event) {
     let num = event.target.value
     if (num < 1) {
@@ -46,6 +47,9 @@ export default function StatsViewer() {
   }
   function onMinDraftSizeChanged(event) {
     setMinDraftSize(event.target.value)
+  }
+  function onManaValueChanged(event) {
+    setManaValue(event.target.value)
   }
 
   ///////////////////////////////////////////////////////////////////////////////
@@ -520,6 +524,8 @@ export default function StatsViewer() {
           onMinPlayersSelected={onMinPlayersSelected}
           onMaxPlayersSelected={onMaxPlayersSelected}
           onHeaderClick={onCardWidgetHeaderClicked}
+          manaValue={manaValue}
+          onManaValueSelected={onManaValueChanged}
           sortBy={cardWidgetSortBy}
           bucketSize={bucketSize}
           cube={cube}

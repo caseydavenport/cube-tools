@@ -25,6 +25,7 @@ export function CardData(decks, minDrafts, minGames, cube, color) {
       url: card.url,
       lastMainboarded: "", // The last date that this card was mainboarded.
       appearances: 0, // Number of times the card appears in a replay.
+      cmc: card.cmc, // Mana value
     }
     return c
   }

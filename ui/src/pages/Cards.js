@@ -68,6 +68,9 @@ function CardWidgetTable(input) {
     if (input.maxPlayers != 0 && card.players.size > input.maxPlayers) {
       return true
     }
+    if (input.manaValue >=0 && card.cmc != input.manaValue) {
+      return true
+    }
     return false
   }
 
@@ -302,6 +305,14 @@ function CardWidgetOptions(input) {
               options={input.colorWidgetOpts}
               value={input.colorSelection}
               onChange={input.onColorSelected}
+            />
+          </td>
+
+          <td>
+            <NumericInput
+              label="Mana value"
+              value={input.manaValue}
+              onChange={input.onManaValueSelected}
             />
           </td>
         </tr>
