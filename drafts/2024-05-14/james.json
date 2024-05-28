@@ -2,8 +2,22 @@
  "labels": [],
  "player": "james",
  "date": "2024-05-14",
- "games": null,
- "matches": null,
+ "games": [
+  {
+   "opponent": "jen",
+   "winner": "jen"
+  },
+  {
+   "opponent": "jen",
+   "winner": "jen"
+  }
+ ],
+ "matches": [
+  {
+   "opponent": "jen",
+   "winner": "jen"
+  }
+ ],
  "mainboard": [
   {
    "name": "Soul Snare",
