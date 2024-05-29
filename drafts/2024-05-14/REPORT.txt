@@ -26,7 +26,7 @@ I think it's worth calling out:
 
 The way the hand interaction played out really made me want to double down - it was a strong, interesting to play, and unique strategy. It's possible something like [[Inquisition of Kozilek]] or even [[Thoughtsieze]] could make an appearance in the future.
 
-## {w}{b}{g} +1/+1 counters midrange
+## {w}{b}{g} +1/+1 counters and lands midrange (2-1)
 
 This deck went pretty large as far as decks go in this cube, but still managed to have early game presence. I think it was quite powerful. It handily dealt with one of the {b}{r} aggro decks, and held its own pretty well against another rather big {u}{b} control deck with [[Panharmonicon]], but ultimately succumbed to the overwhelming weight of having [[Hostage Taker]] cast against you twice in one game.
 
@@ -36,7 +36,8 @@ This deck went pretty large as far as decks go in this cube, but still managed t
 - [[Cankerbloom]] is great but even with so many counters flying around, the _proliferate_ is almost never the mode you want to pick. Sort of a bummer.
 - I like [[Sevinne's Reclamation]] more each time I see it. Pulling back two fetch lands in a deck with abundant _landfall_ triggers is a totally valid use for it here.
 - [[Pollenbright Druid]] always managed to do something, but is pretty mediocre still. The ceiling seems to be helping [[Warden of the Inner Sky]], and I think there are probably better options for that.
-- [[Horizon Canopy]] can be painful, but the ability to sacrifice for a card late game is really really good even in "big" decks like this one.
+- [[Horizon Canopy]] can be painful, but the ability to sacrifice for a card late game is really really good even in "big" decks like this one. Very convinced on keeping the horizon lands at this point.
+- [[Titania, Protector of Argoth]] may be the most threatening creature in the cube at this point. This deck got her out with [[Parallel Lives]] and it was a real problem.
 
 ## {u}{b} flicker control
 
@@ -51,7 +52,7 @@ Key cards included:
 
 ## {b}{r} aggro (2-1 and )
 
-There were two of these that showed up this time. This also isn't the first time this has happened, so I do wonder if this archetype might be over-supported or at least over-signaled. Both decks seemed to do fairly well, although one ended up being less aggressive than originally intended. One knob I am considering is cutting down on the number of black "can't block" creatures, as these are mostly unwanted by midrange and control strategies, and I currently have quite a few. I'll be looking for cards that play nicely in more than on strategy, while also working in an aggressive deck.
+There were two of these that showed up this time. This also isn't the first time this has happened, so I do wonder if this archetype might be over-supported or at least over-signaled. Both decks seemed to do fairly well, although one ended up being less aggressive than originally intended. One knob I am considering is cutting down on the number of black "can't block" creatures, as these are mostly unwanted by midrange and control strategies, and I currently have quite a few. I'll be looking for cards that play nicely in more than on strategy, while also working in an aggressive deck. I've got my eye on [[Bloodsky Berserker]] as an option that's aggressive, but I think could also see play in control and (to an extent) midrange decks.
 
 Notable cards:
 
@@ -70,7 +71,7 @@ Discussing this one, I think the main issue was that it was lacking some focus -
 - [[Satyr Wayfinder]] is always underwhelming. Even in this deck which ostensibly wants cards in the yard, it feels bad to mill your gas. I think this needs to become [[Deeproot Wayfinder]] instead - a bit more pricey, but a might higher floor and I think more interesting gameplay decisions as well. Deeproot should also fit into a wider variety of decks than Satyr.
 - [[Cunning Lethemancer]] made an appearance, but didn't get a ton of playing time. He looked interesting for the couple of turns he was alive.
 
-## {w}{u}{b}{r}{g} Spells and lands
+## {w}{u}{b}{r}{g} Spells and lands (0-3)
 
 This deck was gunning for the "Win a match with no basic lands" achievement. And while it didn't succeed in that regard, it was a very cool deck and was still pretty competitive.
 
@@ -83,4 +84,11 @@ Some learnings:
 - [[Ethereal Forager]] is a huge target, and eats removal most of the time. But, if it sticks it's pretty strong. Even if it doesn't stick, a 3/3 flier for {u}{u} is pretty reasonable and even thought it can be case cheaply, its expensive mana value means it dodges removal like [[Glass Casket]] that threats like [[Tarmogoyf]] wouldn't.
 - [[Empty the Warrens]] is still good. I am not sure how much I like the board states that come from it though - they can be pretty tough to navigate and can slow down the game. Need to think about this one. It's a unique card (the only one with storm) which is both a positive in terms of diverse win conditions, and a negative in terms of keyword complexity. I am of two minds about it right now.
 
-## {w}{u} control
+## {w}{u} control/spells (0-1)
+
+Lost against the midrage deck, although got mana screwed in the second game and was almost able to stabilize in the first.
+
+Of note:
+
+- [[Thing in the Ice]] is still very fun, but it does often take a while to flip. Even so, considering there are only 6 creatures in the cube with power >3, the 4 toughness on Thing is very relevant in slower control decks.
+-
