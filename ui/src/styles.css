@@ -301,6 +301,11 @@ table {
   display: none;
 }
 
+.mana-symbol {
+  vertical-align: middle;
+  margin-right: 3px;
+}
+
 .widget-table {
   background: var(--table-background);
   color: var(--white);

@@ -1,5 +1,6 @@
 import React from 'react'
 import { IsBasicLand, SortFunc } from "../utils/Utils.js"
+import { ColorImages } from "../utils/Colors.js"
 import { Wins, Losses } from "../utils/Deck.js"
 import { BucketName } from "../utils/Buckets.js"
 
@@ -167,11 +168,11 @@ function PlayerTable(input) {
             <td onClick={input.onHeaderClick} id="games" className="header-cell">Games</td>
             <td onClick={input.onHeaderClick} id="wins" className="header-cell">Won</td>
             <td onClick={input.onHeaderClick} id="losses" className="header-cell">Lost</td>
-            <td onClick={input.onHeaderClick} id="W" className="header-cell">White</td>
-            <td onClick={input.onHeaderClick} id="U" className="header-cell">Blue</td>
-            <td onClick={input.onHeaderClick} id="B" className="header-cell">Black</td>
-            <td onClick={input.onHeaderClick} id="R" className="header-cell">Red</td>
-            <td onClick={input.onHeaderClick} id="G" className="header-cell">Green</td>
+            <td onClick={input.onHeaderClick} id="W" className="header-cell">{ColorImages("W")}</td>
+            <td onClick={input.onHeaderClick} id="U" className="header-cell">{ColorImages("U")}</td>
+            <td onClick={input.onHeaderClick} id="B" className="header-cell">{ColorImages("B")}</td>
+            <td onClick={input.onHeaderClick} id="R" className="header-cell">{ColorImages("R")}</td>
+            <td onClick={input.onHeaderClick} id="G" className="header-cell">{ColorImages("G")}</td>
             <td onClick={input.onHeaderClick} id="unique" className="header-cell">Uniq</td>
           </tr>
         </thead>

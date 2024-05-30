@@ -1,5 +1,6 @@
 import React from 'react'
 import { IsBasicLand, SortFunc, StringToColor } from "../utils/Utils.js"
+import { Colors, ColorImages } from "../utils/Colors.js"
 import { Wins, Losses } from "../utils/Deck.js"
 import { DropdownHeader, NumericInput, Checkbox, DateSelector } from "../components/Dropdown.js"
 import { BucketName } from "../utils/Buckets.js"
@@ -242,31 +243,31 @@ function ColorPickerHeader(input) {
   return (
     <div className="full-options-header">
       <Checkbox
-        text="W"
+        text={ColorImages("W")}
         id="W"
         checked={input.display[0]}
         onChange={input.onChecked}
       />
       <Checkbox
-        text="U"
+        text={ColorImages("U")}
         id="U"
         checked={input.display[1]}
         onChange={input.onChecked}
       />
       <Checkbox
-        text="B"
+        text={ColorImages("B")}
         id="B"
         checked={input.display[2]}
         onChange={input.onChecked}
       />
       <Checkbox
-        text="R"
+        text={ColorImages("R")}
         id="R"
         checked={input.display[3]}
         onChange={input.onChecked}
       />
       <Checkbox
-        text="G"
+        text={ColorImages("G")}
         id="G"
         checked={input.display[4]}
         onChange={input.onChecked}
@@ -651,20 +652,20 @@ function MacroArchetypesChart(input) {
       {
         label: 'Aggro',
         data: datasets.get("aggro"),
-        borderColor: "#F00",
-        backgroundColor: '#F00',
+        borderColor: Colors.get("R"),
+        backgroundColor: Colors.get("R"),
       },
       {
         label: 'Midrange',
         data: datasets.get("midrange"),
-        borderColor: "#0F0",
-        backgroundColor: "#0F0",
+        borderColor: Colors.get("G"),
+        backgroundColor: Colors.get("G"),
       },
       {
         label: 'Control',
         data: datasets.get("control"),
-        borderColor: "#00F",
-        backgroundColor: '#00F',
+        borderColor: Colors.get("U"),
+        backgroundColor: Colors.get("U"),
       },
   ]
 

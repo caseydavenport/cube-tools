@@ -1,6 +1,6 @@
 import React from 'react'
 import { DropdownHeader, NumericInput, Checkbox, DateSelector } from "../components/Dropdown.js"
-import { GetColorIdentity } from "../utils/Colors.js"
+import { Colors, ColorImages, GetColorIdentity } from "../utils/Colors.js"
 import { Wins, Losses } from "../utils/Deck.js"
 import { IsBasicLand, SortFunc, StringToColor } from "../utils/Utils.js"
 import { BucketName } from "../utils/Buckets.js"
@@ -216,9 +216,11 @@ function ColorStatsTable(input) {
                 sort = rates.win_shares
               }
 
+              let img = ColorImages(rates.color)
+
               return (
                 <tr key={rates.color} sort={sort} className="widget-table-row">
-                  <td>{rates.color}</td>
+                  <td>{img}</td>
                   <td>{rates.win_percent}%</td>
                   <td>{rates.build_percent}%</td>
                   <td>{rates.percent_of_wins}%</td>
@@ -466,32 +468,32 @@ function ColorRateChart(input) {
       {
         label: 'White',
         data: colorDatasets.get("W"),
-        borderColor: "#dce312",
-        backgroundColor: "#dce312",
+        borderColor: Colors.get("W"),
+        backgroundColor: Colors.get("W"),
       },
       {
         label: 'Blue',
         data: colorDatasets.get("U"),
-        borderColor: "#00F",
-        backgroundColor: '#00F',
+        borderColor: Colors.get("U"),
+        backgroundColor: Colors.get("U"),
       },
       {
         label: 'Black',
         data: colorDatasets.get("B"),
-        borderColor: "#888",
-        backgroundColor: '#888',
+        borderColor: Colors.get("B"),
+        backgroundColor: Colors.get("B"),
       },
       {
         label: 'Red',
         data: colorDatasets.get("R"),
-        borderColor: "#F00",
-        backgroundColor: '#F00',
+        borderColor: Colors.get("R"),
+        backgroundColor: Colors.get("R"),
       },
       {
         label: 'Green',
         data: colorDatasets.get("G"),
-        borderColor: "#0F0",
-        backgroundColor: '#0F0',
+        borderColor: Colors.get("G"),
+        backgroundColor: Colors.get("G"),
       },
   ]
 
@@ -558,14 +560,14 @@ function ColorRateChart(input) {
       title: {
         display: true,
         text: title,
-        color: "#FFF",
+        color: Colors.get("W"),
         font: {
           size: "16pt",
         },
       },
       legend: {
         labels: {
-          color: "#FFF",
+          color: Colors.get("W"),
           font: {
             size: "16pt",
           },

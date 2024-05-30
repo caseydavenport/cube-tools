@@ -1,5 +1,6 @@
 import React from 'react'
 import { IsBasicLand, SortFunc } from "../utils/Utils.js"
+import { Red, Green, Black, White, Blue, Colors } from "../utils/Colors.js"
 import { Wins, Losses } from "../utils/Deck.js"
 import { BucketName, DeckBuckets } from "../utils/Buckets.js"
 
@@ -31,8 +32,8 @@ ChartJS.register(
 );
 
 const winPctColor = "#fff"
-const winColor = "#86c232"
-const lossColor = "#61892f"
+const winColor = Green
+const lossColor = Black // "#61892f"
 const inDeckColor = "#C97BF4"
 const inSideboardColor = "#ffaf12"
 
@@ -797,32 +798,32 @@ function OracleTextByColor(input) {
       {
         label: 'W',
         data: valuesByColor.get("W"),
-        borderColor: "#dce312",
-        backgroundColor: "#dce312",
+        borderColor: White,
+        backgroundColor: White,
       },
       {
         label: 'U',
         data: valuesByColor.get("U"),
-        borderColor: "#0000FF",
-        backgroundColor: "#0000FF",
+        borderColor: Blue,
+        backgroundColor: Blue,
       },
       {
         label: 'B',
         data: valuesByColor.get("B"),
-        borderColor: "#AAA",
-        backgroundColor: "#AAA",
+        borderColor: Black,
+        backgroundColor: Black,
       },
       {
         label: 'R',
         data: valuesByColor.get("R"),
-        borderColor: "#f00",
-        backgroundColor: '#F00',
+        borderColor: Red,
+        backgroundColor: Red,
       },
       {
         label: 'G',
         data: valuesByColor.get("G"),
-        borderColor: "#0F0",
-        backgroundColor: '#0F0',
+        borderColor: Green,
+        backgroundColor: Green,
       },
   ]
 
@@ -1068,32 +1069,32 @@ function DeckBasicLandCountChart(input) {
       {
         label: 'Plains',
         data: lands.get("Plains"),
-        borderColor: "#FFFF00",
-        backgroundColor: "#FFFF00",
+        borderColor: White,
+        backgroundColor: White,
       },
       {
         label: 'Islands',
         data: lands.get("Island"),
-        borderColor: "#0000FF",
-        backgroundColor: "#0000FF",
+        borderColor: Blue,
+        backgroundColor: Blue,
       },
       {
         label: 'Swamps',
         data: lands.get("Swamp"),
-        borderColor: "#DDDDDD",
-        backgroundColor: "#DDDDDD",
+        borderColor: Black,
+        backgroundColor: Black,
       },
       {
         label: 'Mountains',
         data: lands.get("Mountain"),
-        borderColor: "#FF0000",
-        backgroundColor: "#FF0000",
+        borderColor: Red,
+        backgroundColor: Red,
       },
       {
         label: 'Forests',
         data: lands.get("Forest"),
-        borderColor: "#00FF00",
-        backgroundColor: "#00FF00",
+        borderColor: Green,
+        backgroundColor: Green,
       },
   ]
 

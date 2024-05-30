@@ -5,6 +5,7 @@ import { LoadDecks, FetchDraftIndex, FetchDeckIndex, FetchDeck } from "../utils/
 import { Wins, Losses, MatchWins, MatchLosses } from "../utils/Deck.js"
 import { RemovalMatches, CounterspellMatches } from "../pages/Decks.js"
 import { SortFunc } from "../utils/Utils.js"
+import { ColorImages, CombineColors } from "../utils/Colors.js"
 import { Button, TextInput, DropdownHeader, NumericInput, Checkbox, DateSelector } from "../components/Dropdown.js"
 
 // This function builds the DeckViewer widget for selecting and viewing statistics
@@ -14,6 +15,7 @@ export default function DeckViewer() {
   // and another for the actual deck we want to display.
   // The dropdown values are just for filtering the deck list.
   const [selectedDeck, setSelectedDeck] = useState("");
+  const [highlightedDeck, setHighlightedDeck] = useState("");
   const [selectedDraft, setSelectedDraft] = useState("");
   const [draftDropdown, setDraftDropdown] = useState("");
 
@@ -28,6 +30,15 @@ export default function DeckViewer() {
 
   // Dropdown for mainboard vs. sideboard.
   const [mainboardSideboard, setMainboardSideboard] = useState("Mainboard");
+
+  // What to sort the deck list by.
+  const sortOptions = [
+    "Date", "Wins"
+  ]
+  const [deckSort, setDeckSort] = useState("date");
+  function onDeckSort(event) {
+    setDeckSort(event.target.id)
+  }
 
   // Store all decks.
   const [decks, setDecks] = useState([]);
@@ -54,6 +65,10 @@ export default function DeckViewer() {
     let splits = event.target.id.split("/")
     setSelectedDraft(splits[1])
     setSelectedDeck(splits[2])
+
+    // Highlight the deck in the side bar.
+    console.log(event)
+    setHighlightedDeck(event.target.id)
   }
 
   // For matching decks.
@@ -170,8 +185,11 @@ export default function DeckViewer() {
       <div className="house-for-widgets">
         <FilteredDecks
           decks={decks}
+          highlight={highlightedDeck}
           onDeckClicked={onDeckClicked}
           selectedDraft={draftDropdown}
+          onSortHeader={onDeckSort}
+          deckSort={deckSort}
           matchStr={matchStr}
           minCMC={minCMC}
           maxCMC={maxCMC}
@@ -277,20 +295,44 @@ function FilteredDecks(input) {
       <table className="widget-table">
         <thead className="table-header">
           <tr>
-            <td onClick={input.onHeaderClick} id="decklist" className="header-cell">{decks.length} Decks</td>
+            <td colSpan="3" onClick={input.onHeaderClick} id="decklist-title" className="header-cell">{decks.length} Decks</td>
+          </tr>
+          <tr>
+            <td style={{"width": "20%", "padding-left": "10px"}} onClick={input.onSortHeader} id="date" className="header-cell">Date</td>
+            <td style={{"width": "30%", "padding-left": "0px"}} onClick={input.onSortHeader} id="player" className="header-cell">Player</td>
+            <td style={{"width": "30%", "padding-left": "0px"}} onClick={input.onSortHeader} id="wins" className="header-cell">Record</td>
           </tr>
         </thead>
         <tbody>
           {
             decks.map(function(deck, idx) {
               let sort=deck.date
+              switch (input.deckSort) {
+                case "wins":
+                  // We sort here by match record, even though we display game record.
+                  // Mostly because we don't have match records for all of history.
+                  // Might change the whole system to prioritize MatchWins eventually, though.
+                  sort = MatchWins(deck);
+                  break;
+                case "player":
+                  sort = deck.player;
+                  break;
+              }
+              let className = "widget-table-row"
+              console.log(input.highlight)
+              if (input.highlight === idx) {
+                className = "card-highlight"
+              }
               return (
-                <tr sort={sort} className="card" key={idx}>
-                  <DeckTableCell
-                    color={draftToColor.get(deck.draft)}
-                    deck={deck}
-                    onDeckClicked={input.onDeckClicked}
-                  />
+                <tr sort={sort} className={className} key={idx}>
+                  <td className="widget-table-row" colSpan="3">
+                    <DeckTableCell
+                      color={draftToColor.get(deck.draft)}
+                      deck={deck}
+                      idx={idx}
+                      onDeckClicked={input.onDeckClicked}
+                    />
+                  </td>
                 </tr>
               )
             }).sort(SortFunc)
@@ -309,9 +351,9 @@ function DeckTableCell(input) {
       <table className="deck-meta-table">
       <tbody>
         <tr className="deck-entry" style={{"--background-color": input.color}}>
-          <td style={{"width": "20%", "padding-left": "10px"}} id={deck.file} onClick={input.onDeckClicked} key="date">{deck.date}</td>
-          <td style={{"width": "30%", "padding-left": "0px"}} id={deck.file} onClick={input.onDeckClicked} key="player">{deck.player}</td>
-          <td style={{"width": "30%", "padding-left": "0px"}} id={deck.file} onClick={input.onDeckClicked} key="wins">{win_percent}% ({record})</td>
+          <td style={{"width": "20%", "padding-left": "10px"}} id={deck.file} idx={input.idx} onClick={input.onDeckClicked} key="date">{deck.date}</td>
+          <td style={{"width": "30%", "padding-left": "0px"}} id={deck.file} idx={input.idx} onClick={input.onDeckClicked} key="player">{deck.player}</td>
+          <td style={{"width": "30%", "padding-left": "0px"}} id={deck.file} idx={input.idx} onClick={input.onDeckClicked} key="wins">{win_percent}% ({record})</td>
         </tr>
       </tbody>
       </table>
@@ -361,7 +403,7 @@ function PlayerFrame(input) {
   // Get fields to display.
   let labels = deck.labels.join(', ')
   let acmc = deck.avg_cmc
-  let colors = deck.colors
+  let colors = ColorImages(deck.colors)
   let cardCount = cards.length
 
   // Count the number of different types of spells.
