@@ -406,7 +406,7 @@ function PlayerDetailsPanel(input) {
               }
               return (
                 <tr key={name} sort={bld_pct} className="widget-table-row">
-                  <td key="name">{name}</td>
+                  <td key="name">{ColorImages(name)}</td>
                   <td key="bld_pct">{bld_pct}%</td>
                   <td key="win_pct">{win_pct}%</td>
                   <td key="wins">{wins}</td>
