@@ -73,7 +73,7 @@ export function ColorImages(colors) {
   colors = CombineColors(canoncialized)
 
   return (
-    <div>
+    <div id={colors}>
       {
         colors.split('').map(function(color) {
           let img = "img/mountain.png"
@@ -95,7 +95,7 @@ export function ColorImages(colors) {
               break;
           }
           return (
-            <img className="mana-symbol" width="24px" height="24px" src={img} />
+            <img id={color} key={color} className="mana-symbol" width="24px" height="24px" src={img} />
           )
         }).sort(function(a, b) {
           let orderA = order[a]

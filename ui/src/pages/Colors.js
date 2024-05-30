@@ -30,13 +30,13 @@ ChartJS.register(
 
 export function ColorWidget(input) {
   if (!input.show) {
-    return null
+    return
   }
 
   return (
     <table style={{"width": "100%"}}>
       <tbody>
-        <tr>
+        <tr key="1">
           <td style={{"width": "50%"}}>
             <ColorStatsTable
               parsed={input.parsed}
@@ -54,7 +54,7 @@ export function ColorWidget(input) {
           <td style={{"width": "50%"}}> </td>
         </tr>
 
-        <tr>
+        <tr key="2">
           <td style={{"paddingTop": "50px"}}>
             <ColorRateChart
               parsed={input.parsed}
@@ -76,7 +76,7 @@ export function ColorWidget(input) {
           </td>
         </tr>
 
-        <tr>
+        <tr key="3">
           <td style={{"paddingTop": "50px"}}>
             <ColorRateChart
               parsed={input.parsed}
@@ -99,7 +99,7 @@ export function ColorWidget(input) {
           </td>
         </tr>
 
-        <tr>
+        <tr key="4">
           <td style={{"paddingTop": "50px"}}>
             <ColorRateChart
               parsed={input.parsed}
@@ -122,7 +122,7 @@ export function ColorWidget(input) {
           </td>
         </tr>
 
-        <tr>
+        <tr key="5">
           <td colSpan="3">
             <ColorRateChart
               parsed={input.parsed}
@@ -181,7 +181,7 @@ function ColorStatsTable(input) {
 
       <table className="widget-table">
         <thead className="table-header">
-          <tr>
+          <tr key="header">
             <td onClick={input.onClick} id="color" className="header-cell">Color</td>
             <td onClick={input.onClick} id="win" className="header-cell">Win %</td>
             <td onClick={input.onClick} id="build" className="header-cell">Build %</td>
@@ -195,7 +195,7 @@ function ColorStatsTable(input) {
         </thead>
         <tbody>
           {
-            filtered.map(function(rates) {
+            filtered.map(function(rates, idx) {
               let record = rates.wins + "-" + rates.losses + "-" + 0
 
               // Determine what we're sorting by. Default to sorting by win percentage.
@@ -219,7 +219,7 @@ function ColorStatsTable(input) {
               let img = ColorImages(rates.color)
 
               return (
-                <tr key={rates.color} sort={sort} className="widget-table-row">
+                <tr key={idx} sort={sort} className="widget-table-row">
                   <td>{img}</td>
                   <td>{rates.win_percent}%</td>
                   <td>{rates.build_percent}%</td>
