@@ -552,10 +552,29 @@ function ColorRateChart(input) {
       break;
   }
 
+  // Calculate the max based on our data set, which structured as an array of dictionary objects
+  // each with a data field that is itself an array of values.
+  let max = 0
+  let min = 100
+  for (let set of dataset) {
+    let values = set.data
+    let colorMax = Math.max(...values)
+    let colorMin = Math.min(...values)
+    if (colorMax > max) {
+      max = colorMax
+    }
+    if (colorMin < min) {
+      min = colorMin
+    }
+  }
+  // Round things.
+  max = Math.ceil(max / 20) * 20
+  min = Math.floor(min / 20) * 20
+
   const options = {
     responsive: true,
     maintainAspectRatio: false,
-    scales: {y: {min: 0}},
+    scales: {y: {min: min, max: max}},
     plugins: {
       title: {
         display: true,
