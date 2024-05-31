@@ -579,14 +579,14 @@ function ColorRateChart(input) {
       title: {
         display: true,
         text: title,
-        color: Colors.get("W"),
+        color: "#FFF",
         font: {
           size: "16pt",
         },
       },
       legend: {
         labels: {
-          color: Colors.get("W"),
+          color: "#FFF",
           font: {
             size: "16pt",
           },
