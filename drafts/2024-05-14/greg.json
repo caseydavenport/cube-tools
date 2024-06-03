@@ -20,6 +20,14 @@
    "winner": "greg"
   },
   {
+   "opponent": "paul",
+   "winner": "greg"
+  },
+  {
+   "opponent": "paul",
+   "winner": "greg"
+  },
+  {
    "opponent": "xander",
    "winner": "greg"
   },
@@ -31,6 +39,10 @@
  "matches": [
   {
    "opponent": "jen",
+   "winner": "greg"
+  },
+  {
+   "opponent": "paul",
    "winner": "greg"
   },
   {

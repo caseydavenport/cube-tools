@@ -16,12 +16,24 @@
   {
    "opponent": "casey",
    "winner": "casey"
+  },
+  {
+   "opponent": "greg",
+   "winner": "greg"
+  },
+  {
+   "opponent": "greg",
+   "winner": "greg"
   }
  ],
  "matches": [
   {
    "opponent": "casey",
    "winner": "paul"
+  },
+  {
+   "opponent": "greg",
+   "winner": "greg"
   }
  ],
  "mainboard": [
