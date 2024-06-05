@@ -147,7 +147,10 @@ export function DeckWidget(input) {
             <WinsByNumberOfColors decks={input.decks} />
           </td>
           <td style={{"verticalAlign": "top"}}>
-            <DeckManaValueChart decks={input.decks} bucketSize={input.bucketSize} />
+            <DeckManaValueChart
+              decks={input.decks}
+              parsed={input.parsed}
+            />
           </td>
         </tr>
 
@@ -155,6 +158,7 @@ export function DeckWidget(input) {
           <td style={{"verticalAlign": "top", "width": "50%"}}>
             <WinsByOracleText
               title="Wins by # counterspells"
+              parsed={input.parsed}
               decks={input.decks}
               matches={CounterspellMatches}
             />
@@ -162,6 +166,7 @@ export function DeckWidget(input) {
           <td style={{"verticalAlign": "top"}}>
             <WinsByOracleText
               title="Wins by # removal spells"
+              parsed={input.parsed}
               decks={input.decks}
               matches={RemovalMatches}
             />
@@ -172,6 +177,7 @@ export function DeckWidget(input) {
           <td style={{"verticalAlign": "top", "width": "50%"}}>
             <WinsByOracleText
               title="Wins by # card draw spells"
+              parsed={input.parsed}
               decks={input.decks}
               matches={cardDrawMatches}
             />
@@ -179,6 +185,7 @@ export function DeckWidget(input) {
           <td style={{"verticalAlign": "top"}}>
             <WinsByOracleText
               title="Wins by # lifegain spells"
+              parsed={input.parsed}
               decks={input.decks}
               matches={lifegainMatches}
             />
@@ -189,6 +196,7 @@ export function DeckWidget(input) {
           <td style={{"verticalAlign": "top", "width": "50%"}}>
             <WinsByOracleText
               title="Wins by graveyard interaction"
+              parsed={input.parsed}
               decks={input.decks}
               matches={["graveyard"]}
             />
@@ -196,6 +204,7 @@ export function DeckWidget(input) {
           <td style={{"verticalAlign": "top"}}>
             <WinsByOracleText
               title="Wins by # discard spells"
+              parsed={input.parsed}
               decks={input.decks}
               matches={["discard"]}
             />
@@ -204,15 +213,18 @@ export function DeckWidget(input) {
 
         <tr style={{"height": "300px"}}>
           <td style={{"verticalAlign": "top", "width": "50%"}}>
-            <DeckBasicLandCountChart decks={input.decks} bucketSize={input.bucketSize} />
+            <DeckBasicLandCountChart
+              decks={input.decks}
+              parsed={input.parsed}
+            />
           </td>
 
           <td style={{"verticalAlign": "top"}}>
             <OracleTextByColor
               title="Interaction by color"
+              parsed={input.parsed}
               decks={input.decks}
               matches={RemovalMatches.concat(CounterspellMatches)}
-              bucketSize={input.bucketSize}
             />
           </td>
 
@@ -222,16 +234,16 @@ export function DeckWidget(input) {
           <td style={{"verticalAlign": "top", "width": "50%"}}>
             <OracleTextOverTimeChart
               title="Avg. removal per-deck"
+              parsed={input.parsed}
               decks={input.decks}
-              bucketSize={input.bucketSize}
               matches={RemovalMatches}
             />
           </td>
           <td style={{"verticalAlign": "top"}}>
             <OracleTextOverTimeChart
               title="Avg. counterspells per-deck"
+              parsed={input.parsed}
               decks={input.decks}
-              bucketSize={input.bucketSize}
               matches={CounterspellMatches}
             />
           </td>
@@ -239,14 +251,17 @@ export function DeckWidget(input) {
 
         <tr style={{"height": "300px"}}>
           <td style={{"verticalAlign": "top", "width": "50%"}}>
-            <SideboardSizeOverTimeChart decks={input.decks} bucketSize={input.bucketSize} />
+            <SideboardSizeOverTimeChart
+              decks={input.decks}
+              parsed={input.parsed}
+            />
           </td>
 
           <td style={{"verticalAlign": "top", "width": "50%"}}>
             <ManaCostByOracleTextOverTime
               title="Removal mana cost"
+              parsed={input.parsed}
               decks={input.decks}
-              bucketSize={input.bucketSize}
               matches={RemovalMatches}
             />
           </td>
@@ -738,9 +753,7 @@ function WinsByNumberOfColors(input) {
 }
 
 function OracleTextByColor(input) {
-  // Split the given decks into fixed-size buckets.
-  // Each bucket will contain N drafts worth of deck information.
-  let buckets = DeckBuckets(input.decks, input.bucketSize)
+  let buckets = input.parsed.deckBuckets
 
   // Use the starting date of the bucket as the label. This is just an approximation,
   // as the bucket really includes a variable set of dates, but it allows the viewer to
@@ -786,7 +799,7 @@ function OracleTextByColor(input) {
       }
       let v = valuesByColor.get(color)
       if (numByColor.has(color)) {
-        v.push(numByColor.get(color) / input.bucketSize)
+        v.push(numByColor.get(color) / input.parsed.bucketSize)
       } else {
         v.push(0)
       }
@@ -834,7 +847,7 @@ function OracleTextByColor(input) {
     plugins: {
       title: {
         display: true,
-        text: input.title,
+        text: input.title + ` (bucket size = ${input.parsed.bucketSize} drafts)`,
         color: "#FFF",
         font: {
           size: "16pt",
@@ -860,9 +873,7 @@ function OracleTextByColor(input) {
 }
 
 function OracleTextOverTimeChart(input) {
-  // Split the given decks into fixed-size buckets.
-  // Each bucket will contain N drafts worth of deck information.
-  let buckets = DeckBuckets(input.decks, input.bucketSize)
+  let buckets = input.parsed.deckBuckets
 
   const labels = []
   for (let bucket of buckets) {
@@ -925,7 +936,7 @@ function OracleTextOverTimeChart(input) {
     plugins: {
       title: {
         display: true,
-        text: input.title,
+        text: input.title + ` (bucket size = ${input.parsed.bucketSize} drafts)`,
         color: "#FFF",
         font: {
           size: "16pt",
@@ -951,9 +962,7 @@ function OracleTextOverTimeChart(input) {
 }
 
 function DeckManaValueChart(input) {
-  // Split the given decks into fixed-size buckets.
-  // Each bucket will contain N drafts worth of deck information.
-  let buckets = DeckBuckets(input.decks, input.bucketSize)
+  let buckets = input.parsed.deckBuckets
 
   // Use the starting date of the bucket as the label. This is just an approximation,
   // as the bucket really includes a variable set of dates, but it allows the viewer to
@@ -989,8 +998,6 @@ function DeckManaValueChart(input) {
       },
   ]
 
-  let title = `Deck Avg. Mana Value (bucket size = ${input.bucketSize} drafts)`
-
   const options = {
     responsive: true,
     maintainAspectRatio: false,
@@ -998,7 +1005,7 @@ function DeckManaValueChart(input) {
     plugins: {
       title: {
         display: true,
-        text: title,
+        text: `Deck Avg. Mana Value (bucket size = ${input.parsed.bucketSize} drafts)`,
         color: "#FFF",
         font: {
           size: "16pt",
@@ -1024,9 +1031,7 @@ function DeckManaValueChart(input) {
 }
 
 function DeckBasicLandCountChart(input) {
-  // Split the given decks into fixed-size buckets.
-  // Each bucket will contain N drafts worth of deck information.
-  let buckets = DeckBuckets(input.decks, input.bucketSize)
+  let buckets = input.parsed.deckBuckets
 
   // Use the starting date of the bucket as the label. This is just an approximation,
   // as the bucket really includes a variable set of dates, but it allows the viewer to
@@ -1098,8 +1103,6 @@ function DeckBasicLandCountChart(input) {
       },
   ]
 
-  let title = `Total basics used (bucket size = ${input.bucketSize} drafts)`
-
   const options = {
     responsive: true,
     maintainAspectRatio: false,
@@ -1107,7 +1110,7 @@ function DeckBasicLandCountChart(input) {
     plugins: {
       title: {
         display: true,
-        text: title,
+        text: `Total basics used (bucket size = ${input.parsed.bucketSize} drafts)`,
         color: "#FFF",
         font: {
           size: "16pt",
@@ -1133,9 +1136,7 @@ function DeckBasicLandCountChart(input) {
 }
 
 function SideboardSizeOverTimeChart(input) {
-  // Split the given decks into fixed-size buckets.
-  // Each bucket will contain N drafts worth of deck information.
-  let buckets = DeckBuckets(input.decks, input.bucketSize)
+  let buckets = input.parsed.deckBuckets
 
   // Use the starting date of the bucket as the label. This is just an approximation,
   // as the bucket really includes a variable set of dates, but it allows the viewer to
@@ -1185,7 +1186,7 @@ function SideboardSizeOverTimeChart(input) {
     plugins: {
       title: {
         display: true,
-        text: input.title,
+        text: `Sideboard size (bucket size = ${input.parsed.bucketSize} drafts)`,
         color: "#FFF",
         font: {
           size: "16pt",
@@ -1211,9 +1212,7 @@ function SideboardSizeOverTimeChart(input) {
 }
 
 function ManaCostByOracleTextOverTime(input) {
-  // Split the given decks into fixed-size buckets.
-  // Each bucket will contain N drafts worth of deck information.
-  let buckets = DeckBuckets(input.decks, input.bucketSize)
+  let buckets = input.parsed.deckBuckets
 
   const labels = []
   for (let bucket of buckets) {
@@ -1280,7 +1279,7 @@ function ManaCostByOracleTextOverTime(input) {
     plugins: {
       title: {
         display: true,
-        text: input.title,
+        text: input.title + ` (bucket size = ${input.parsed.bucketSize} drafts)`,
         color: "#FFF",
         font: {
           size: "16pt",

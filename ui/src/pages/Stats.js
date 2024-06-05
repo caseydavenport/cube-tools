@@ -358,11 +358,12 @@ export default function StatsViewer() {
     p.colorData = GetColorStats(f, strictColors)
     p.playerData = PlayerData(f)
     p.cardData = CardData(f, minDrafts, minGames, cube, cardWidgetColorSelection)
+    p.bucketSize = bucketSize
 
     // Split the given decks into fixed-size buckets.
     // Each bucket will contain N drafts worth of deck information. We'll parse each bucket
     // individually, which is used by other pages to plot stats over time.
-    p.deckBuckets = DeckBuckets(f, bucketSize)
+    p.deckBuckets = DeckBuckets(f, bucketSize, true)
     for (let b of p.deckBuckets) {
       // Determine all of the decks in this bucket.
       let bucketDecks = new Array()
