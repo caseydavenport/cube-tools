@@ -281,6 +281,23 @@ table {
   align-content: flex-start;
 }
 
+.cardimage {
+  padding-top: 5px;
+  padding-right: 5px;
+  padding-left: 5px;
+  padding-bottom: 5px;
+  width: 200px;
+}
+
+.cardimage-selected {
+  padding-top: 5px;
+  padding-right: 5px;
+  padding-left: 5px;
+  padding-bottom: 5px;
+  width: 200px;
+  background: var(--highlight);
+}
+
 .deck-view {
   display: flex;
   flex-direction: row;
@@ -304,6 +321,20 @@ table {
 .mana-symbol {
   vertical-align: middle;
   margin-right: 3px;
+}
+
+.draft-widget {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  padding-top: 0px;
+  margin-left: 0px;
+  width: 100%;
+}
+
+.pack-view {
+  width: 50%;
+  padding-left: 5px;
 }
 
 .widget-table {

@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { LoadCube, LoadDecks, LoadDrafts} from "../utils/Fetch.js"
 import { IsBasicLand, SortFunc } from "../utils/Utils.js"
-import { Button, TextInput, DropdownHeader, NumericInput, Checkbox, DateSelector } from "../components/Dropdown.js"
+import { Button, TextInput, NumericInput, Checkbox, DateSelector } from "../components/Dropdown.js"
 import { CardData } from "../utils/Cards.js"
 import { ColorWidget} from "./Colors.js"
 import { ArchetypeWidget, ArchetypeData } from "./Types.js"
@@ -13,7 +13,7 @@ import { CardWidget } from "./Cards.js"
 import { DeckBuckets } from "../utils/Buckets.js"
 import { GetColorStats } from "./Colors.js"
 import { PlayerData } from "./Players.js"
-import { DraftOrderWidget } from "./Drafts.js"
+import { DraftWidget } from "./Drafts.js"
 
 // StatsViewer displays stats spanning the selected drafts.
 export default function StatsViewer() {
@@ -188,6 +188,33 @@ export default function StatsViewer() {
   }
 
   ///////////////////////////////////////////////////////////////////////////////
+  // State used for the draft pack display widget.
+  ///////////////////////////////////////////////////////////////////////////////
+  const [draftLogs, setDraftLogs] = useState([]);
+  const [draftPlayers, setDraftPlayers] = useState([]);
+  const [draftPacks, setDraftPacks] = useState([])
+
+  const [selectedDraftLog, setSelectedDraftLog] = useState("");
+  function onDraftLogSelected(event) {
+    // Set the selected draft log, and load players.
+    setSelectedDraftLog(event.target.value)
+
+    // Set players from the selected draft.
+    let users = [{label: "", value: ""}]
+    for (let [idx, draft] of Object.entries(drafts)) {
+      if (draft.date == event.target.value) {
+        for (let [userID, user] of Object.entries(draft.users)) {
+          users.push({
+            label: userID,
+            value: user.userName,
+          })
+        }
+      }
+    }
+    setDraftPlayers(users)
+  }
+
+  ///////////////////////////////////////////////////////////////////////////////
   // State used for the player stats tab.
   ///////////////////////////////////////////////////////////////////////////////
   const [playerSortBy, setPlayerSortBy] = useState("");
@@ -310,7 +337,24 @@ export default function StatsViewer() {
     setCube({...c})
   }
   function onDraftsLoaded(d) {
+    // Save the drafts.
     setDrafts({...d})
+
+    // Update the draft dropdown.
+    let draftDates = [{label: "", value: ""}]
+    for (let draft of d) {
+      if (draft.type != "Draft") {
+        // Skip drafts that we don't know how to parse for now.
+        // e.g., Grid drafts.
+        continue
+      }
+
+      draftDates.push({
+        label: draft.date,
+        value: draft.date,
+      })
+    }
+    setDraftLogs(draftDates)
   }
 
   ///////////////////////////////////////////////////////////////////////////////
@@ -532,7 +576,7 @@ export default function StatsViewer() {
           show={display[2]}
         />
 
-        <DraftOrderWidget
+        <DraftWidget
           parsed={parsed}
           decks={parsed.filteredDecks}
           drafts={drafts}
@@ -551,6 +595,13 @@ export default function StatsViewer() {
           maxAvgPick={maxAvgPick}
           onMaxAvgPickSelected={onMaxAvgPickSelected}
           playerMatch={playerMatch}
+
+          draftLogs={draftLogs}
+          selectedDraftLog={selectedDraftLog}
+          onDraftLogSelected={onDraftLogSelected}
+
+          draftPlayers={draftPlayers}
+          draftPacks={draftPacks}
           show={display[4]}
         />
 
