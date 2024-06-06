@@ -233,17 +233,15 @@ function DraftPackWidgetOptions(input) {
             <DropdownHeader
               label="Player"
               options={input.draftPlayers}
-              value={input.maxDeviation}
-              onChange={input.onMaxDeviationChanged}
+              onChange={input.onDraftPlayerSelected}
             />
           </td>
 
           <td className="selection-cell">
             <DropdownHeader
-              label="Pack #"
+              label="Pick #"
               options={input.draftPacks}
-              value={input.minDrafts}
-              onChange={input.onMinDraftsSelected}
+              onChange={input.onPackSelected}
             />
           </td>
         </tr>
@@ -254,22 +252,30 @@ function DraftPackWidgetOptions(input) {
 
 
 export function DraftPackWidget(input) {
-  let draft = input.drafts[0]
-
-  let player = null
-  for (var [userID, user] of Object.entries(draft.users)) {
-    player = user
-    break
+  let draft = {users: []};
+  for (var [idx, log] of Object.entries(input.drafts)) {
+    if (log.date === input.selectedDraftLog) {
+      draft = log;
+      break;
+    }
   }
 
-  // Determine the pack.
-  let pack = player.picks[0]
+  let player = null
+  let pack = {booster: new Array()}
+  let selectedCard = ""
 
-  // Determine which card this player picked from the pack.
-  let selectedCard = pack.booster[pack.pick]
+  for (var [userID, user] of Object.entries(draft.users)) {
+    if (user.userName == input.selectedPlayer) {
+      player = user
+      break
+    }
+  }
+  if (player) {
+    // Determine the pack. The dropdown starts from 1, but the array is zero-indexed.
+    pack = player.picks[input.selectedPack-1]
 
-  if (pack == null) {
-    return
+    // Determine which card this player picked from the pack.
+    selectedCard = pack.booster[pack.pick]
   }
 
   return (

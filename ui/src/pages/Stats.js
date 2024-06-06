@@ -191,8 +191,6 @@ export default function StatsViewer() {
   // State used for the draft pack display widget.
   ///////////////////////////////////////////////////////////////////////////////
   const [draftLogs, setDraftLogs] = useState([]);
-  const [draftPlayers, setDraftPlayers] = useState([]);
-  const [draftPacks, setDraftPacks] = useState([])
 
   const [selectedDraftLog, setSelectedDraftLog] = useState("");
   function onDraftLogSelected(event) {
@@ -212,6 +210,30 @@ export default function StatsViewer() {
       }
     }
     setDraftPlayers(users)
+  }
+
+  const [selectedDraftPlayer, setSelectedDraftPlayer] = useState("");
+  const [draftPlayers, setDraftPlayers] = useState([]);
+  const [draftPacks, setDraftPacks] = useState([])
+  function onDraftPlayerSelected(event) {
+    // Set the selected player.
+    setSelectedDraftPlayer(event.target.value);
+
+    // Update the packs dropdown.
+    let pickOpts = []
+    for (var i=1; i<=45; i++) {
+      pickOpts.push({
+        label: i,
+        value: i,
+      })
+
+    }
+    setDraftPacks(pickOpts)
+  }
+
+  const [selectedPack, setSelectedPack] = useState(1)
+  function onPackSelected(event) {
+    setSelectedPack(event.target.value)
   }
 
   ///////////////////////////////////////////////////////////////////////////////
@@ -601,7 +623,13 @@ export default function StatsViewer() {
           onDraftLogSelected={onDraftLogSelected}
 
           draftPlayers={draftPlayers}
+          onDraftPlayerSelected={onDraftPlayerSelected}
+          selectedPlayer={selectedDraftPlayer}
+
           draftPacks={draftPacks}
+          onPackSelected={onPackSelected}
+          selectedPack={selectedPack}
+
           show={display[4]}
         />
 
