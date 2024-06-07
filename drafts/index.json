@@ -1,65 +1,421 @@
-[
- {
-  "name": "2023-03-16"
- },
- {
-  "name": "2023-04-19"
- },
- {
-  "name": "2023-04-22"
- },
- {
-  "name": "2023-04-24"
- },
- {
-  "name": "2023-04-27"
- },
- {
-  "name": "2023-05-31"
- },
- {
-  "name": "2023-06-17"
- },
- {
-  "name": "2023-07-16"
- },
- {
-  "name": "2023-07-23"
- },
- {
-  "name": "2023-09-17"
- },
- {
-  "name": "2023-10-15"
- },
- {
-  "name": "2023-10-21"
- },
- {
-  "name": "2023-11-16"
- },
- {
-  "name": "2023-12-02"
- },
- {
-  "name": "2024-01-07"
- },
- {
-  "name": "2024-03-23"
- },
- {
-  "name": "2024-03-28"
- },
- {
-  "name": "2024-03-31"
- },
- {
-  "name": "2024-04-24"
- },
- {
-  "name": "2024-05-03"
- },
- {
-  "name": "2024-05-14"
- }
-]
+{
+ "drafts": [
+  {
+   "date": "2023-03-16",
+   "draft_log": "",
+   "decks": [
+    {
+     "path": "drafts/2023-03-16/casey.json"
+    },
+    {
+     "path": "drafts/2023-03-16/jen.json"
+    },
+    {
+     "path": "drafts/2023-03-16/matt.json"
+    }
+   ]
+  },
+  {
+   "date": "2023-04-19",
+   "draft_log": "",
+   "decks": [
+    {
+     "path": "drafts/2023-04-19/casey.json"
+    },
+    {
+     "path": "drafts/2023-04-19/jen.json"
+    },
+    {
+     "path": "drafts/2023-04-19/matt.json"
+    }
+   ]
+  },
+  {
+   "date": "2023-04-22",
+   "draft_log": "",
+   "decks": [
+    {
+     "path": "drafts/2023-04-22/casey.json"
+    },
+    {
+     "path": "drafts/2023-04-22/dom.json"
+    },
+    {
+     "path": "drafts/2023-04-22/paul.json"
+    },
+    {
+     "path": "drafts/2023-04-22/xander.json"
+    }
+   ]
+  },
+  {
+   "date": "2023-04-24",
+   "draft_log": "",
+   "decks": [
+    {
+     "path": "drafts/2023-04-24/casey.json"
+    },
+    {
+     "path": "drafts/2023-04-24/dom.json"
+    },
+    {
+     "path": "drafts/2023-04-24/paul.json"
+    },
+    {
+     "path": "drafts/2023-04-24/xander.json"
+    }
+   ]
+  },
+  {
+   "date": "2023-04-27",
+   "draft_log": "",
+   "decks": [
+    {
+     "path": "drafts/2023-04-27/casey.json"
+    },
+    {
+     "path": "drafts/2023-04-27/dom.json"
+    },
+    {
+     "path": "drafts/2023-04-27/paul.json"
+    },
+    {
+     "path": "drafts/2023-04-27/xander.json"
+    }
+   ]
+  },
+  {
+   "date": "2023-05-31",
+   "draft_log": "",
+   "decks": [
+    {
+     "path": "drafts/2023-05-31/casey.json"
+    },
+    {
+     "path": "drafts/2023-05-31/grant.json"
+    },
+    {
+     "path": "drafts/2023-05-31/jen.json"
+    },
+    {
+     "path": "drafts/2023-05-31/matt.json"
+    }
+   ]
+  },
+  {
+   "date": "2023-06-17",
+   "draft_log": "",
+   "decks": [
+    {
+     "path": "drafts/2023-06-17/casey.json"
+    },
+    {
+     "path": "drafts/2023-06-17/dom.json"
+    },
+    {
+     "path": "drafts/2023-06-17/james.json"
+    },
+    {
+     "path": "drafts/2023-06-17/paul.json"
+    },
+    {
+     "path": "drafts/2023-06-17/xander.json"
+    }
+   ]
+  },
+  {
+   "date": "2023-07-16",
+   "draft_log": "drafts/2023-07-16/draft-log.json",
+   "decks": [
+    {
+     "path": "drafts/2023-07-16/casey.json"
+    },
+    {
+     "path": "drafts/2023-07-16/dom.json"
+    },
+    {
+     "path": "drafts/2023-07-16/greg.json"
+    },
+    {
+     "path": "drafts/2023-07-16/james.json"
+    },
+    {
+     "path": "drafts/2023-07-16/jen.json"
+    },
+    {
+     "path": "drafts/2023-07-16/xander.json"
+    }
+   ]
+  },
+  {
+   "date": "2023-07-23",
+   "draft_log": "",
+   "decks": [
+    {
+     "path": "drafts/2023-07-23/casey.json"
+    },
+    {
+     "path": "drafts/2023-07-23/grant.json"
+    },
+    {
+     "path": "drafts/2023-07-23/jen.json"
+    },
+    {
+     "path": "drafts/2023-07-23/matt.json"
+    }
+   ]
+  },
+  {
+   "date": "2023-09-17",
+   "draft_log": "drafts/2023-09-17/draft-log.json",
+   "decks": [
+    {
+     "path": "drafts/2023-09-17/casey.json"
+    },
+    {
+     "path": "drafts/2023-09-17/dom.json"
+    },
+    {
+     "path": "drafts/2023-09-17/james.json"
+    },
+    {
+     "path": "drafts/2023-09-17/jen.json"
+    },
+    {
+     "path": "drafts/2023-09-17/mattd.json"
+    },
+    {
+     "path": "drafts/2023-09-17/paul.json"
+    }
+   ]
+  },
+  {
+   "date": "2023-10-15",
+   "draft_log": "",
+   "decks": [
+    {
+     "path": "drafts/2023-10-15/casey.json"
+    },
+    {
+     "path": "drafts/2023-10-15/dom.json"
+    }
+   ]
+  },
+  {
+   "date": "2023-10-21",
+   "draft_log": "drafts/2023-10-21/draft-log.json",
+   "decks": [
+    {
+     "path": "drafts/2023-10-21/casey.json"
+    },
+    {
+     "path": "drafts/2023-10-21/dom.json"
+    },
+    {
+     "path": "drafts/2023-10-21/james.json"
+    },
+    {
+     "path": "drafts/2023-10-21/jen.json"
+    },
+    {
+     "path": "drafts/2023-10-21/mattd.json"
+    },
+    {
+     "path": "drafts/2023-10-21/xander.json"
+    }
+   ]
+  },
+  {
+   "date": "2023-11-16",
+   "draft_log": "",
+   "decks": [
+    {
+     "path": "drafts/2023-11-16/casey.json"
+    },
+    {
+     "path": "drafts/2023-11-16/dom.json"
+    }
+   ]
+  },
+  {
+   "date": "2023-12-02",
+   "draft_log": "drafts/2023-12-02/draft-log.json",
+   "decks": [
+    {
+     "path": "drafts/2023-12-02/cara.json"
+    },
+    {
+     "path": "drafts/2023-12-02/casey.json"
+    },
+    {
+     "path": "drafts/2023-12-02/dom.json"
+    },
+    {
+     "path": "drafts/2023-12-02/greg.json"
+    },
+    {
+     "path": "drafts/2023-12-02/james.json"
+    },
+    {
+     "path": "drafts/2023-12-02/jen.json"
+    },
+    {
+     "path": "drafts/2023-12-02/paul.json"
+    },
+    {
+     "path": "drafts/2023-12-02/xander.json"
+    }
+   ]
+  },
+  {
+   "date": "2024-01-07",
+   "draft_log": "drafts/2024-01-07/draft-log.json",
+   "decks": [
+    {
+     "path": "drafts/2024-01-07/cara.json"
+    },
+    {
+     "path": "drafts/2024-01-07/casey.json"
+    },
+    {
+     "path": "drafts/2024-01-07/dom.json"
+    },
+    {
+     "path": "drafts/2024-01-07/greg.json"
+    },
+    {
+     "path": "drafts/2024-01-07/james.json"
+    },
+    {
+     "path": "drafts/2024-01-07/jen.json"
+    },
+    {
+     "path": "drafts/2024-01-07/paul.json"
+    },
+    {
+     "path": "drafts/2024-01-07/xander.json"
+    }
+   ]
+  },
+  {
+   "date": "2024-03-23",
+   "draft_log": "drafts/2024-03-23/draft-log.json",
+   "decks": [
+    {
+     "path": "drafts/2024-03-23/casey.json"
+    },
+    {
+     "path": "drafts/2024-03-23/dom.json"
+    }
+   ]
+  },
+  {
+   "date": "2024-03-28",
+   "draft_log": "",
+   "decks": [
+    {
+     "path": "drafts/2024-03-28/alexs.json"
+    },
+    {
+     "path": "drafts/2024-03-28/casey.json"
+    },
+    {
+     "path": "drafts/2024-03-28/jan.json"
+    },
+    {
+     "path": "drafts/2024-03-28/ken.json"
+    },
+    {
+     "path": "drafts/2024-03-28/matthewbk.json"
+    },
+    {
+     "path": "drafts/2024-03-28/parker.json"
+    }
+   ]
+  },
+  {
+   "date": "2024-03-31",
+   "draft_log": "drafts/2024-03-31/draft-log.json",
+   "decks": [
+    {
+     "path": "drafts/2024-03-31/cara.json"
+    },
+    {
+     "path": "drafts/2024-03-31/casey.json"
+    },
+    {
+     "path": "drafts/2024-03-31/dom.json"
+    },
+    {
+     "path": "drafts/2024-03-31/greg.json"
+    },
+    {
+     "path": "drafts/2024-03-31/james.json"
+    },
+    {
+     "path": "drafts/2024-03-31/jen.json"
+    },
+    {
+     "path": "drafts/2024-03-31/paul.json"
+    },
+    {
+     "path": "drafts/2024-03-31/xander.json"
+    }
+   ]
+  },
+  {
+   "date": "2024-04-24",
+   "draft_log": "drafts/2024-04-24/draft-log.json",
+   "decks": [
+    {
+     "path": "drafts/2024-04-24/casey.json"
+    },
+    {
+     "path": "drafts/2024-04-24/dom.json"
+    }
+   ]
+  },
+  {
+   "date": "2024-05-03",
+   "draft_log": "drafts/2024-05-03/draft-log.json",
+   "decks": [
+    {
+     "path": "drafts/2024-05-03/casey.json"
+    },
+    {
+     "path": "drafts/2024-05-03/dom.json"
+    }
+   ]
+  },
+  {
+   "date": "2024-05-14",
+   "draft_log": "drafts/2024-05-14/draft-log.json",
+   "decks": [
+    {
+     "path": "drafts/2024-05-14/cara.json"
+    },
+    {
+     "path": "drafts/2024-05-14/casey.json"
+    },
+    {
+     "path": "drafts/2024-05-14/dom.json"
+    },
+    {
+     "path": "drafts/2024-05-14/greg.json"
+    },
+    {
+     "path": "drafts/2024-05-14/james.json"
+    },
+    {
+     "path": "drafts/2024-05-14/jen.json"
+    },
+    {
+     "path": "drafts/2024-05-14/paul.json"
+    },
+    {
+     "path": "drafts/2024-05-14/xander.json"
+    }
+   ]
+  }
+ ]
+}

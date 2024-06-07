@@ -19,6 +19,20 @@ var IndexCmd = &cobra.Command{
 	},
 }
 
+type MainIndex struct {
+	Drafts []Draft `json:"drafts"`
+}
+
+type Draft struct {
+	Date     string `json:"date"`
+	DraftLog string `json:"draft_log"`
+	Decks    []Path `json:"decks"`
+}
+
+type Path struct {
+	Path string `json:"path"`
+}
+
 func index() {
 	// Specify the directory that holds the drafts.
 	directory := "./drafts"
@@ -31,14 +45,27 @@ func index() {
 		return
 	}
 
-	// Create a slice to store the maps
-	var dirs []map[string]string
+	index := MainIndex{}
 
 	// Iterate over the sub-directories and create maps
 	for _, dir := range subDirs {
-		// Create a map with "name" as the key and the directory name as the value
-		dirMap := map[string]string{"name": dir}
-		dirs = append(dirs, dirMap)
+		// Determine if there is a draft log.
+		draftLogPath := filepath.Join(directory, dir, "draft-log.json")
+		if _, err := os.Stat(draftLogPath); os.IsNotExist(err) {
+			draftLogPath = ""
+		}
+
+		// Construct the draft.
+		draft := Draft{
+			Date:     dir,
+			DraftLog: draftLogPath,
+		}
+
+		// Add decks to the draft.
+		draft.Decks = decksInDraft("drafts/" + draft.Date)
+
+		// Add this draft to the main index.
+		index.Drafts = append(index.Drafts, draft)
 	}
 
 	// Create the index file
@@ -52,7 +79,7 @@ func index() {
 	defer file.Close()
 
 	// Encode the directories to JSON
-	fileData, err := json.MarshalIndent(dirs, "", " ")
+	fileData, err := json.MarshalIndent(index, "", " ")
 	if err != nil {
 		logrus.WithError(err).Fatal("Failed to marshal directories to JSON")
 	}
@@ -61,11 +88,6 @@ func index() {
 	_, err = file.Write(fileData)
 	if err != nil {
 		logrus.WithError(err).Fatal("Failed to write JSON data to file")
-	}
-
-	// For each draft, we should also index the decks within it.
-	for _, draft := range dirs {
-		indexDraft("drafts/" + draft["name"])
 	}
 
 	// As part of re-indexing, parse the cube.csv and convert it to json so
@@ -84,7 +106,8 @@ func index() {
 	logrus.Debug("Finished indexing all drafts")
 }
 
-func indexDraft(directory string) {
+// decksInDraft returns a []Path pointing to all the decks in the given directory.
+func decksInDraft(directory string) []Path {
 	// Get a list of all JSON files in the directory
 	jsonFiles, err := filepath.Glob(filepath.Join(directory, "*.json"))
 	if err != nil {
@@ -92,7 +115,7 @@ func indexDraft(directory string) {
 	}
 
 	// Create a slice to store the maps
-	var decks []map[string]string
+	var decks []Path
 
 	// Iterate over the JSON files and create maps
 	for _, file := range jsonFiles {
@@ -109,38 +132,9 @@ func indexDraft(directory string) {
 		if strings.Contains(file, "draft-log") {
 			continue
 		}
-
-		// Create a map with "deck" as the key and the file name as the value
-		deck := map[string]string{
-			"deck": fileName,
-		}
-
-		decks = append(decks, deck)
+		decks = append(decks, Path{Path: file})
 	}
-
-	// Create the index file
-	indexFile := filepath.Join(directory, "index.json")
-
-	// Create and open the file for writing
-	file, err := os.Create(indexFile)
-	if err != nil {
-		logrus.WithError(err).Fatal("Failed to create index file")
-	}
-	defer file.Close()
-
-	// Encode the decks to JSON
-	fileData, err := json.MarshalIndent(decks, "", " ")
-	if err != nil {
-		logrus.WithError(err).Fatal("Failed to marshal decks to JSON")
-	}
-
-	// Write the JSON data to the file
-	_, err = file.Write(fileData)
-	if err != nil {
-		logrus.WithError(err).Fatal("Failed to write JSON data to file")
-	}
-
-	logrus.WithField("directory", directory).Info("Wrote index file")
+	return decks
 }
 
 // getSubDirectories returns a list of sub-directories in the given directory

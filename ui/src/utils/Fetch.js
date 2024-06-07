@@ -18,58 +18,35 @@ export async function LoadDecks(onLoad, start, end, draftSize, playerMatch) {
 
   // First, fetch the draft index. We'll use this to find
   // all the drafts and decks therein.
-  let idx = await FetchDraftIndex(null)
+  let idx = await FetchIndex(null)
 
-  // Fetch all of the deck indicies in parallel.
-  let idxURLs = new Array()
-  let drafts = new Array()
-  for (var i in idx) {
-    // Get the decks for this draft.
-    let draft = idx[i]
-    if (!isDateBetween(draft.name, start, end)) {
-      continue
+  let urls = []
+  idx.drafts.forEach(function(draft, i) {
+    if (!isDateBetween(draft.date, start, end)) {
+      return
     }
-    idxURLs.push('drafts/' + draft.name + '/index.json');
-    drafts.push(draft.name)
-  }
-  let requests = idxURLs.map((url) => fetch(url));
+
+    // Skip any drafts with fewer than the number of requested decks.
+    // This allows skipping of e.g., 2 player grid drafts.
+    if (draft.decks.length < draftSize) {
+      return
+    }
+
+    draft.decks.forEach(function(deck, j) {
+      // Track the file we need to query.
+      urls.push(deck.path)
+    })
+  })
+
+  let requests = urls.map((url) => fetch(url));
   let responses = await Promise.all(requests);
   let errors = responses.filter((response) => !response.ok);
   if (errors.length > 0) {
       throw errors.map((response) => Error(response.statusText));
   }
-  let json = responses.map((response) => response.json());
-  let deckIndicies = await Promise.all(json);
-
-  let urls = []
-  // for (let deckIdx of deckIndicies) {
-  deckIndicies.forEach(function(deckIdx, idx) {
-    // Skip any drafts with fewer than the number of requested decks.
-    // This allows skipping of e.g., 2 player grid drafts.
-    if (deckIdx.length < draftSize) {
-      return
-    }
-
-    for (var j in deckIdx) {
-      // For each deck in the draft, add it to the total.
-      let deck = deckIdx[j]
-      let date = drafts[idx]
-      let file = "drafts/" + date + "/" + deck.deck
-
-      // Track the file we need to query.
-      urls.push(file)
-    }
-  })
-
-  requests = urls.map((url) => fetch(url));
-  responses = await Promise.all(requests);
-  errors = responses.filter((response) => !response.ok);
-  if (errors.length > 0) {
-      throw errors.map((response) => Error(response.statusText));
-  }
 
   // Do some cleanup on each loaded deck object.
-  json = responses.map((response) => response.json());
+  let json = responses.map((response) => response.json());
   let decks = await Promise.all(json);
 
   let filtered = new Array()
@@ -115,44 +92,33 @@ export async function LoadDrafts(onLoad, start, end) {
 
   // First, fetch the draft index. We'll use this to find
   // all the drafts and decks therein.
-  let idx = await FetchDraftIndex(null)
+  let idx = await FetchIndex(null)
 
   let urls = []
   let dates = []
-  for (var i in idx) {
-    let draft = idx[i]
-    if (!isDateBetween(draft.name, start, end)) {
-      continue
+  idx.drafts.forEach(function(draft, i) {
+    if (!isDateBetween(draft.date, start, end)) {
+      return
     }
-
-    urls.push("drafts/" + draft.name + "/draft-log.json");
+    if (draft.draft_log === "") {
+      return
+    }
+    urls.push(draft.draft_log)
     dates.push(draft.name)
-  }
+  })
 
   // Query URLs in parallel.
   let requests = urls.map((url) => fetch(url));
   let responses = await Promise.all(requests);
   let errors = responses.filter((response) => !response.ok);
   if (errors.length > 0) {
-    console.log("Failed to load one or more draft logs");
+      throw errors.map((response) => Error(response.statusText));
   }
-  let json = responses.map(function(response) {
-    if (!response.ok) {
-      // We don't expect every request to succeed. We don't want to filter these out though,
-      // so that the response array lines up with the dates array calcualted earlier.
-      return {error: true};
-    }
-    return response.json()
-  });
+  let json = responses.map(function(response) { return response.json() });
   let draftResponses = await Promise.all(json);
 
   let drafts = []
   draftResponses.forEach(function(resp, idx) {
-    if (resp.error) {
-      // Skip any responses that errored.
-      return
-    }
-
     // Add the date as a field so it can be used in the UI.
     resp.date = dates[idx]
     drafts.push(resp)
@@ -163,18 +129,16 @@ export async function LoadDrafts(onLoad, start, end) {
   onLoad(drafts)
 }
 
-// FetchDraftIndex loads the draft index file from the server.
+// FetchIndex loads the draft index file from the server.
 // The draft index file is an index of all the available drafts
 // available on the server.
-export async function FetchDraftIndex(onFetch) {
-  console.time("FetchDraftIndex()")
+export async function FetchIndex(onFetch) {
   const resp = await fetch('drafts/index.json');
   let idx = await resp.json();
   if (onFetch != null) {
     onFetch(idx);
     return
   }
-  console.timeEnd("FetchDraftIndex()")
   return idx
 }
 
