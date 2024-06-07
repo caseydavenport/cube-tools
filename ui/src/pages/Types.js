@@ -62,9 +62,6 @@ export function ArchetypeWidget(input) {
               archetypeDropdownOptions={input.archetypeDropdownOptions}
               selectedArchetype={input.selectedArchetype}
               onArchetypeSelected={input.onArchetypeSelected}
-              dropdownSelection={input.cardWidgetSelection}
-              cardWidgetOpts={input.cardWidgetOpts}
-              onSelected={input.onCardWidgetSelected}
               colorWidgetOpts={input.colorWidgetOpts}
               onColorSelected={input.onColorSelected}
               colorSelection={input.colorSelection}

@@ -549,7 +549,6 @@ export default function StatsViewer() {
           bucketSize={bucketSize}
 
           dropdownSelection={colorTypeSelection}
-          cardWidgetSelection={cardWidgetSelection}
 
           cardWidgetOpts={cardWidgetOpts}
           onSelected={onCardWidgetSelected}
