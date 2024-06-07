@@ -289,11 +289,13 @@ export function DraftPackWidget(input) {
             let card = draft.carddata[cardID]
             let img = card.image_uris.en
             let className = "cardimage"
+            let sort = "a"
             if (cardID === selectedCard) {
               className = "cardimage-selected"
+              sort = "b"
             }
             return (
-                <img src={img} className={className}/>
+                <img sort={sort} src={img} className={className}/>
             )
           }).sort(SortFunc)
         }
