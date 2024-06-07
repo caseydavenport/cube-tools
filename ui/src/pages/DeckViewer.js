@@ -14,7 +14,7 @@ export default function DeckViewer() {
   // We keep two sets of variables - one for the dropdown values,
   // and another for the actual deck we want to display.
   // The dropdown values are just for filtering the deck list.
-  const [selectedDeck, setSelectedDeck] = useState("");
+  const [selectedPlayer, setSelectedPlayer] = useState("");
   const [highlightedDeck, setHighlightedDeck] = useState("");
   const [selectedDraft, setSelectedDraft] = useState("");
   const [draftDropdown, setDraftDropdown] = useState("");
@@ -59,15 +59,14 @@ export default function DeckViewer() {
 
   function onDeckClicked(event) {
     // The ID is the full path to the deck, of the form
-    // drafts/<draft>/<deck>.
+    // <draft>/<player>.
 
     // Parse the draft and deck, and update the dropdowns.
     let splits = event.target.id.split("/")
-    setSelectedDraft(splits[1])
-    setSelectedDeck(splits[2])
+    setSelectedDraft(splits[0])
+    setSelectedPlayer(splits[1])
 
     // Highlight the deck in the side bar.
-    console.log(event)
     setHighlightedDeck(event.target.id)
   }
 
@@ -93,7 +92,7 @@ export default function DeckViewer() {
 
   // Handle changes to the draft and deck selection dropdowns.
   function onDeckSelected(event) {
-    setSelectedDeck(event.target.value)
+    setSelectedPlayer(event.target.value)
   }
   function onDraftSelected(event) {
     // Set the selected draft, and update the list of decks.
@@ -101,7 +100,7 @@ export default function DeckViewer() {
     setSelectedDraft(event.target.value)
 
     // Clear out the selected deck if a new draft is picked.
-    setSelectedDeck("")
+    setSelectedPlayer("")
   }
   function onBoardSelected(event) {
     setMainboardSideboard(event.target.value)
@@ -118,13 +117,13 @@ export default function DeckViewer() {
     setDeck(newdeck);
 
     // Update cache.
-    fetched.set(selectedDeck, newdeck)
+    fetched.set(selectedPlayer, newdeck)
     setFetched(new Map(fetched))
   }
 
   // Whenever the selected deck is updated.
   useEffect(() => {
-    if (!selectedDeck || !selectedDraft) {
+    if (!selectedPlayer || !selectedDraft) {
       // On page load, selected deck will be empty.
       setDeck({})
       return
@@ -133,12 +132,12 @@ export default function DeckViewer() {
     // Find the deck based on the selected draft and player,
     // and set the active deck.
     for (let deck of decks) {
-      if (deck.draft == selectedDraft && deck.file.endsWith(selectedDeck)) {
+      if (deck.draft == selectedDraft && deck.player == selectedPlayer) {
         setDeck(deck)
         return
       }
     }
-  }, [selectedDeck, selectedDraft])
+  }, [selectedPlayer, selectedDraft])
 
   return (
     <div>
@@ -347,13 +346,14 @@ function DeckTableCell(input) {
   let deck = input.deck
   let record = Wins(input.deck) + "-" + Losses(input.deck)
   let win_percent = Math.round(100 * Wins(input.deck) / (Wins(input.deck) + Losses(input.deck)))
+  let deckID = deck.date + "/" + deck.player
   return (
       <table className="deck-meta-table">
       <tbody>
         <tr className="deck-entry" style={{"--background-color": input.color}}>
-          <td style={{"width": "20%", "padding-left": "10px"}} id={deck.file} idx={input.idx} onClick={input.onDeckClicked} key="date">{deck.date}</td>
-          <td style={{"width": "30%", "padding-left": "0px"}} id={deck.file} idx={input.idx} onClick={input.onDeckClicked} key="player">{deck.player}</td>
-          <td style={{"width": "30%", "padding-left": "0px"}} id={deck.file} idx={input.idx} onClick={input.onDeckClicked} key="wins">{win_percent}% ({record})</td>
+          <td style={{"width": "20%", "padding-left": "10px"}} id={deckID} idx={input.idx} onClick={input.onDeckClicked} key="date">{deck.date}</td>
+          <td style={{"width": "30%", "padding-left": "0px"}} id={deckID} idx={input.idx} onClick={input.onDeckClicked} key="player">{deck.player}</td>
+          <td style={{"width": "30%", "padding-left": "0px"}} id={deckID} idx={input.idx} onClick={input.onDeckClicked} key="wins">{win_percent}% ({record})</td>
         </tr>
       </tbody>
       </table>

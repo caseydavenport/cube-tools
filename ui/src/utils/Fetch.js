@@ -16,8 +16,7 @@ export async function LoadDecks(onLoad, start, end, draftSize, playerMatch) {
   // all the drafts and decks therein.
   let idx = await FetchDraftIndex(null)
 
-  // Combine to find all of the decknames.
-  let deckNames = []
+  let urls = []
   for (var i in idx) {
     // Get the decks for this draft.
     let draft = idx[i]
@@ -35,27 +34,27 @@ export async function LoadDecks(onLoad, start, end, draftSize, playerMatch) {
     for (var j in deckIdx) {
       // For each deck in the draft, add it to the total.
       let deck = deckIdx[j]
-      deckNames.push(
-        {
-          draft: draft.name,
-          deck: deck.deck,
-          file: "drafts/" + draft.name + "/" + deck.deck,
-        }
-      )
+      let file = "drafts/" + draft.name + "/" + deck.deck
+      let draftName = draft.name
+
+      // Track the file we need to query.
+      urls.push(file)
     }
   }
 
-  let decks = []
-  for (i in deckNames) {
-    let info = deckNames[i]
-    const resp = await fetch(info.file);
-    let d = await resp.json();
+  const requests = urls.map((url) => fetch(url));
+  const responses = await Promise.all(requests);
+  const errors = responses.filter((response) => !response.ok);
+  if (errors.length > 0) {
+      throw errors.map((response) => Error(response.statusText));
+  }
 
-    // Populate the deck with calculated fields and then save the deck.
+  // Do some cleanup on each loaded deck object.
+  const json = responses.map((response) => response.json());
+  const decks = await Promise.all(json);
 
-    // Capitalize player names, since they are varying cases.
-    d.player = capitalize(d.player)
-
+  let filtered = new Array()
+  for (let d of decks) {
     // Skip decks that don't belong to the specified player name match.
     // This allows us to filter down to a single player's history and perform calculations
     // ignoring decks from any other player.
@@ -67,21 +66,24 @@ export async function LoadDecks(onLoad, start, end, draftSize, playerMatch) {
 
     d.avg_cmc = AverageCMC({deck: d})
     d.colors = ExtractColors({deck: d})
-    d.draft = info.draft
-    d.file = info.file
 
-    decks.push(d)
+    // TODO: For historical purposes. We don't actually need both of these fields.
+    d.draft = d.date
 
+    // Capitalize player names, since they are varying cases.
+    d.player = capitalize(d.player)
     if (d.games != null ) {
       for (let g of d.games) {
         g.opponent = capitalize(g.opponent)
         g.winner = capitalize(g.winner)
       }
     }
+
+    filtered.push(d)
   }
 
   // Callback with all of the loaded decks.
-  onLoad(decks)
+  onLoad(filtered)
 }
 
 function capitalize(word) {
