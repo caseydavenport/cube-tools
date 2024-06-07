@@ -318,7 +318,6 @@ function FilteredDecks(input) {
                   break;
               }
               let className = "widget-table-row"
-              console.log(input.highlight)
               if (input.highlight === idx) {
                 className = "card-highlight"
               }

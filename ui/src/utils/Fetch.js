@@ -16,42 +16,57 @@ export async function LoadDecks(onLoad, start, end, draftSize, playerMatch) {
   // all the drafts and decks therein.
   let idx = await FetchDraftIndex(null)
 
-  let urls = []
+  // Fetch all of the deck indicies in parallel.
+  let idxURLs = new Array()
+  let drafts = new Array()
   for (var i in idx) {
     // Get the decks for this draft.
     let draft = idx[i]
     if (!isDateBetween(draft.name, start, end)) {
       continue
     }
-    let deckIdx = await FetchDeckIndex(draft.name, null)
+    idxURLs.push('drafts/' + draft.name + '/index.json');
+    drafts.push(draft.name)
+  }
+  let requests = idxURLs.map((url) => fetch(url));
+  let responses = await Promise.all(requests);
+  let errors = responses.filter((response) => !response.ok);
+  if (errors.length > 0) {
+      throw errors.map((response) => Error(response.statusText));
+  }
+  let json = responses.map((response) => response.json());
+  let deckIndicies = await Promise.all(json);
 
+  let urls = []
+  // for (let deckIdx of deckIndicies) {
+  deckIndicies.forEach(function(deckIdx, idx) {
     // Skip any drafts with fewer than the number of requested decks.
     // This allows skipping of e.g., 2 player grid drafts.
     if (deckIdx.length < draftSize) {
-      continue
+      return
     }
 
     for (var j in deckIdx) {
       // For each deck in the draft, add it to the total.
       let deck = deckIdx[j]
-      let file = "drafts/" + draft.name + "/" + deck.deck
-      let draftName = draft.name
+      let date = drafts[idx]
+      let file = "drafts/" + date + "/" + deck.deck
 
       // Track the file we need to query.
       urls.push(file)
     }
-  }
+  })
 
-  const requests = urls.map((url) => fetch(url));
-  const responses = await Promise.all(requests);
-  const errors = responses.filter((response) => !response.ok);
+  requests = urls.map((url) => fetch(url));
+  responses = await Promise.all(requests);
+  errors = responses.filter((response) => !response.ok);
   if (errors.length > 0) {
       throw errors.map((response) => Error(response.statusText));
   }
 
   // Do some cleanup on each loaded deck object.
-  const json = responses.map((response) => response.json());
-  const decks = await Promise.all(json);
+  json = responses.map((response) => response.json());
+  let decks = await Promise.all(json);
 
   let filtered = new Array()
   for (let d of decks) {
@@ -95,33 +110,46 @@ export async function LoadDrafts(onLoad, start, end) {
   // all the drafts and decks therein.
   let idx = await FetchDraftIndex(null)
 
-  let drafts = []
+  let urls = []
+  let dates = []
   for (var i in idx) {
     let draft = idx[i]
     if (!isDateBetween(draft.name, start, end)) {
       continue
     }
 
-    let draftFile = "drafts/" + draft.name + "/draft-log.json";
-    const resp = await fetch(draftFile);
-    if (!resp.ok) {
-      continue
-    }
+    urls.push("drafts/" + draft.name + "/draft-log.json");
+    dates.push(draft.name)
+  }
 
-    let d = null
-    try {
-      d = await resp.json();
-    } catch (error) {
-      continue
+  // Query URLs in parallel.
+  let requests = urls.map((url) => fetch(url));
+  let responses = await Promise.all(requests);
+  let errors = responses.filter((response) => !response.ok);
+  if (errors.length > 0) {
+    console.log("Failed to load one or more draft logs");
+  }
+  let json = responses.map(function(response) {
+    if (!response.ok) {
+      // We don't expect every request to succeed. We don't want to filter these out though,
+      // so that the response array lines up with the dates array calcualted earlier.
+      return {error: true};
+    }
+    return response.json()
+  });
+  let draftResponses = await Promise.all(json);
+
+  let drafts = []
+  draftResponses.forEach(function(resp, idx) {
+    if (resp.error) {
+      // Skip any responses that errored.
+      return
     }
 
     // Add the date as a field so it can be used in the UI.
-    d.date = draft.name
-
-    if (d) {
-      drafts.push(d)
-    }
-  }
+    resp.date = dates[idx]
+    drafts.push(resp)
+  })
 
   // Callback with all of the loaded decks.
   onLoad(drafts)

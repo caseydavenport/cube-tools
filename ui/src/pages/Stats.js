@@ -325,10 +325,8 @@ export default function StatsViewer() {
   useEffect(() => {
     LoadDecks(onDecksLoaded, startDate, endDate, minDraftSize, playerMatch)
     LoadDrafts(onDraftsLoaded, startDate, endDate)
-  }, [refresh])
-  useEffect(() => {
     LoadCube(onCubeLoad)
-  }, [decks])
+  }, [refresh])
 
   function onDecksLoaded(d) {
     setDecks([...d])
