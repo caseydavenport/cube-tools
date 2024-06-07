@@ -153,6 +153,9 @@ export default function StatsViewer() {
     setEndDate(event.target.value)
   }
 
+  // Track whether we have completed initial loading of data on page refresh.
+  const [awaitingLoad, setAwaitingLoad] = useState(true);
+
   ///////////////////////////////////////////////////////////////////////////////
   // State used for the draft stats tab.
   ///////////////////////////////////////////////////////////////////////////////
@@ -323,9 +326,11 @@ export default function StatsViewer() {
 
   // Load the decks and drafts on startup and whenever the dates change.
   useEffect(() => {
-    LoadDecks(onDecksLoaded, startDate, endDate, minDraftSize, playerMatch)
-    LoadDrafts(onDraftsLoaded, startDate, endDate)
-    LoadCube(onCubeLoad)
+    Promise.all([
+      LoadDecks(onDecksLoaded, startDate, endDate, minDraftSize, playerMatch),
+      LoadDrafts(onDraftsLoaded, startDate, endDate),
+      LoadCube(onCubeLoad),
+    ])
   }, [refresh])
 
   function onDecksLoaded(d) {
@@ -346,11 +351,12 @@ export default function StatsViewer() {
     }
     setArchetypeDropdownOptions(opts)
 
-    if (startDate == null) {
-      // If we just loaded the web page, start date will be null.
-      // Now that we have loaded all decks, we can default to the last draft.
-      setStartDate(d[d.length - 1].draft)
+    if (awaitingLoad) {
+      // Now that we have loaded all decks for the first time, we can default the
+      // start date to the first draft, and the end date to the latest draft.
+      setStartDate(d[0].draft)
       setEndDate(d[d.length - 1].draft)
+      setAwaitingLoad(false)
     }
   }
   function onCubeLoad(c) {
@@ -450,8 +456,9 @@ export default function StatsViewer() {
     setParsedData(p)
   }
   useEffect(() => {
-    console.log("Parsing the loaded data")
+    console.time('parse()')
     parse()
+    console.timeEnd('parse()')
   }, [decks, bucketSize, minDrafts, minGames, cube, cardWidgetColorSelection, colorCheckboxes, strictColors])
 
   return (
@@ -663,9 +670,8 @@ function InitialDates() {
   let day = today.getDate();
   const end = `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
 
-  // Start with a null date, which will trigger setting the start date to the date
-  // of the last draft once decks have been loaded.
-  const start = null
+  // Just need some date prior to the first draft. This will get overwritten as soon as decks are loaded.
+  const start = "1990-09-15"
 
   return [start, end]
 }

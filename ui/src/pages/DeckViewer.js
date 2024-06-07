@@ -1,7 +1,7 @@
 import React from 'react'
 import { useState } from "react";
 import { useEffect } from "react";
-import { LoadDecks, FetchDraftIndex, FetchDeckIndex, FetchDeck } from "../utils/Fetch.js"
+import { LoadDecks } from "../utils/Fetch.js"
 import { Wins, Losses, MatchWins, MatchLosses } from "../utils/Deck.js"
 import { RemovalMatches, CounterspellMatches } from "../pages/Decks.js"
 import { SortFunc } from "../utils/Utils.js"

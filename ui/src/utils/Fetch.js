@@ -2,8 +2,10 @@ import { AverageCMC, ExtractColors } from "../utils/Utils.js"
 import { IsBasicLand } from "../utils/Utils.js"
 
 export async function LoadCube(onFetch) {
+  console.time("LoadCube()")
   const resp = await fetch('cube.json');
   let cube = await resp.json();
+  console.timeEnd("LoadCube()")
   if (onFetch != null) {
     onFetch(cube);
     return
@@ -12,6 +14,8 @@ export async function LoadCube(onFetch) {
 }
 
 export async function LoadDecks(onLoad, start, end, draftSize, playerMatch) {
+  console.time("LoadDecks()")
+
   // First, fetch the draft index. We'll use this to find
   // all the drafts and decks therein.
   let idx = await FetchDraftIndex(null)
@@ -98,6 +102,7 @@ export async function LoadDecks(onLoad, start, end, draftSize, playerMatch) {
   }
 
   // Callback with all of the loaded decks.
+  console.timeEnd("LoadDecks()")
   onLoad(filtered)
 }
 
@@ -106,6 +111,8 @@ function capitalize(word) {
 }
 
 export async function LoadDrafts(onLoad, start, end) {
+  console.time("LoadDrafts()")
+
   // First, fetch the draft index. We'll use this to find
   // all the drafts and decks therein.
   let idx = await FetchDraftIndex(null)
@@ -152,43 +159,22 @@ export async function LoadDrafts(onLoad, start, end) {
   })
 
   // Callback with all of the loaded decks.
+  console.timeEnd("LoadDrafts()")
   onLoad(drafts)
-}
-
-// FetchDeck fetches the deck from the given file and
-// calls 'onFetch' upon receipt.
-export async function FetchDeck(file, onFetch) {
-  const resp = await fetch(file);
-  let d = await resp.json();
-
-  // Populate the deck with calculated fields and then save the deck.
-  d.avg_cmc = AverageCMC({deck: d})
-  d.colors = ExtractColors({deck: d})
-
-  onFetch(d);
 }
 
 // FetchDraftIndex loads the draft index file from the server.
 // The draft index file is an index of all the available drafts
 // available on the server.
 export async function FetchDraftIndex(onFetch) {
+  console.time("FetchDraftIndex()")
   const resp = await fetch('drafts/index.json');
   let idx = await resp.json();
   if (onFetch != null) {
     onFetch(idx);
     return
   }
-  return idx
-}
-
-// FetchDeckIndex loads the deck index file from the server.
-export async function FetchDeckIndex(draft, onFetch) {
-  const resp = await fetch('drafts/' + draft + '/index.json');
-  let idx = await resp.json();
-  if (onFetch != null) {
-    onFetch(idx);
-    return
-  }
+  console.timeEnd("FetchDraftIndex()")
   return idx
 }
 
