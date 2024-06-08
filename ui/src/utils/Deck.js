@@ -1,4 +1,8 @@
 export function Wins(deck) {
+  return gameWins(deck)
+}
+
+function gameWins(deck) {
   if (deck.wins != null) {
     // Handle the legacy field, if set.
     return deck.wins
@@ -16,6 +20,10 @@ export function Wins(deck) {
 }
 
 export function Losses(deck) {
+  return gameLosses(deck)
+}
+
+function gameLosses(deck) {
   if (deck.losses != null) {
     // Handle the legacy field, if set.
     return deck.losses

@@ -312,6 +312,12 @@ function FilteredDecks(input) {
                   // Mostly because we don't have match records for all of history.
                   // Might change the whole system to prioritize MatchWins eventually, though.
                   sort = MatchWins(deck);
+
+                  // If the deck has no match wins and no match losses, it means they weren't recorded.
+                  // Just place it at the bottom.
+                  if (MatchWins(deck) == 0 && MatchLosses(deck) == 0) {
+                    sort = -1
+                  }
                   break;
                 case "player":
                   sort = deck.player;
@@ -343,7 +349,11 @@ function FilteredDecks(input) {
 
 function DeckTableCell(input) {
   let deck = input.deck
-  let record = Wins(input.deck) + "-" + Losses(input.deck)
+  let record = MatchWins(input.deck) + "-" + MatchLosses(input.deck)
+  if (MatchWins(deck) == 0 && MatchLosses(deck) == 0) {
+    record = "N/A"
+  }
+
   let win_percent = Math.round(100 * Wins(input.deck) / (Wins(input.deck) + Losses(input.deck)))
   let deckID = deck.date + "/" + deck.player
   return (
@@ -352,7 +362,7 @@ function DeckTableCell(input) {
         <tr className="deck-entry" style={{"--background-color": input.color}}>
           <td style={{"width": "20%", "padding-left": "10px"}} id={deckID} idx={input.idx} onClick={input.onDeckClicked} key="date">{deck.date}</td>
           <td style={{"width": "30%", "padding-left": "0px"}} id={deckID} idx={input.idx} onClick={input.onDeckClicked} key="player">{deck.player}</td>
-          <td style={{"width": "30%", "padding-left": "0px"}} id={deckID} idx={input.idx} onClick={input.onDeckClicked} key="wins">{win_percent}% ({record})</td>
+          <td style={{"width": "30%", "padding-left": "0px"}} id={deckID} idx={input.idx} onClick={input.onDeckClicked} key="wins">{record} ({win_percent}%)</td>
         </tr>
       </tbody>
       </table>
