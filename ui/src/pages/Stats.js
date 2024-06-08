@@ -222,14 +222,27 @@ export default function StatsViewer() {
     // Set the selected player.
     setSelectedDraftPlayer(event.target.value);
 
+    // Get the selected draft.
+    let numPicks = 0
+    for (let [idx, draft] of Object.entries(drafts)) {
+      if (draft.date != selectedDraftLog) {
+        continue
+      }
+
+      // Got it. Figure out how many picks this player had.
+      for (let [id, user] of Object.entries(draft.users)) {
+        if (user.userName === event.target.value) {
+          numPicks = user.picks.length
+          break
+        }
+      }
+      break
+    }
+
     // Update the packs dropdown.
     let pickOpts = []
-    for (var i=1; i<=45; i++) {
-      pickOpts.push({
-        label: i,
-        value: i,
-      })
-
+    for (var i=1; i<=numPicks; i++) {
+      pickOpts.push({label: i, value: i})
     }
     setDraftPacks(pickOpts)
   }

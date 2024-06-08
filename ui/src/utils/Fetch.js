@@ -104,7 +104,7 @@ export async function LoadDrafts(onLoad, start, end) {
       return
     }
     urls.push(draft.draft_log)
-    dates.push(draft.name)
+    dates.push(draft.date)
   })
 
   // Query URLs in parallel.
