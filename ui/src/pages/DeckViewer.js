@@ -308,16 +308,7 @@ function FilteredDecks(input) {
               let sort=deck.date
               switch (input.deckSort) {
                 case "wins":
-                  // We sort here by match record, even though we display game record.
-                  // Mostly because we don't have match records for all of history.
-                  // Might change the whole system to prioritize MatchWins eventually, though.
-                  sort = MatchWins(deck);
-
-                  // If the deck has no match wins and no match losses, it means they weren't recorded.
-                  // Just place it at the bottom.
-                  if (MatchWins(deck) == 0 && MatchLosses(deck) == 0) {
-                    sort = -1
-                  }
+                  sort = DeckSortWins(deck)
                   break;
                 case "player":
                   sort = deck.player;
@@ -346,6 +337,31 @@ function FilteredDecks(input) {
     </div>
   );
 }
+
+function DeckSortWins(deck) {
+  // Primary sort by number of match wins, secondary by game win percentage.
+  let gameWin = GameWinPercent(deck)
+  let sort = MatchWins(deck) + gameWin
+
+  // If there are any matches at all, rank this deck first.
+  if (MatchWins(deck) || MatchLosses(deck)) {
+    sort += 100
+  }
+
+  // If the deck has no matches and no games, just put it at the bottom.
+  if (!MatchWins(deck) && !MatchLosses(deck) && !Wins(deck) && !Losses(deck)) {
+    sort = -1
+  }
+  return sort
+}
+
+function GameWinPercent(deck) {
+  if (Wins(deck) == 0 && Losses(deck) == 0) {
+    return 0
+  }
+  return Wins(deck) / (Wins(deck) + Losses(deck))
+}
+
 
 function DeckTableCell(input) {
   let deck = input.deck
