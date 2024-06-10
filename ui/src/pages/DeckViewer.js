@@ -187,6 +187,7 @@ export default function DeckViewer() {
           highlight={highlightedDeck}
           onDeckClicked={onDeckClicked}
           selectedDraft={draftDropdown}
+          selectedPlayer={selectedPlayer}
           onSortHeader={onDeckSort}
           deckSort={deckSort}
           matchStr={matchStr}
@@ -314,15 +315,19 @@ function FilteredDecks(input) {
                   sort = deck.player;
                   break;
               }
+
+              let color = draftToColor.get(deck.draft)
               let className = "widget-table-row"
-              if (input.highlight === idx) {
+              if (input.highlight === deck.date + "/" + deck.player) {
                 className = "card-highlight"
+                color = "#6EA579"
               }
+
               return (
                 <tr sort={sort} className={className} key={idx}>
                   <td className="widget-table-row" colSpan="3">
                     <DeckTableCell
-                      color={draftToColor.get(deck.draft)}
+                      color={color}
                       deck={deck}
                       idx={idx}
                       onDeckClicked={input.onDeckClicked}
