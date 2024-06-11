@@ -51,6 +51,7 @@ Count,Name,Section
 1,Clarion Spirit,main
 1,Cling to Dust,main
 1,Cloudgoat Ranger,main
+1,Collected Company,main
 1,Comet Storm,main
 1,Commercial District,main
 1,Condescend,main
@@ -71,6 +72,7 @@ Count,Name,Section
 1,Death's Shadow,main
 1,Delay,main
 1,Demand Answers,main
+1,Den of the Bugbear,main
 1,Deprive,main
 1,Disfigure,main
 1,"Domri, Anarch of Bolas",main
@@ -100,7 +102,6 @@ Count,Name,Section
 1,Farsight Ritual,main
 1,Fatal Push,main
 1,Fearless Fledgling,main
-1,Fecundity,main
 1,Festering Mummy,main
 1,Fetid Pools,main
 1,Field of Ruin,main
@@ -115,23 +116,22 @@ Count,Name,Section
 2,Flooded Strand,main
 1,Fungal Infection,main
 1,Galepowder Mage,main
-1,Ghostly Flicker,main
 1,Gilded Goose,main
 1,Gitaxian Probe,main
 1,Glass Casket,main
 1,Glimmer Lens,main
-1,Goblin Arsonist,main
 1,Goblin Bombardment,main
 1,Goblin Guide,main
 2,Godless Shrine,main
+1,Goldhound,main
 1,Goldmeadow Harrier,main
+1,"Golos, Tireless Pilgrim",main
 1,"Greta, Sweettooth Scourge",main
 1,Grim Discovery,main
 1,Grim Flayer,main
 1,Grim Lavamancer,main
 1,Gruff Triplets,main
 2,Hallowed Fountain,main
-1,Halo Forager,main
 1,Hardened Scales,main
 1,Harm's Way,main
 1,Hedge Maze,main
@@ -161,7 +161,7 @@ Count,Name,Section
 1,"Legion's Landing // Adanto, the First Fort",main
 1,Life from the Loam,main
 1,Lightning Bolt,main
-1,"Liliana, Death's Majesty",main
+1,Liliana of the Veil,main
 1,Lion Sash,main
 1,Lizard Blades,main
 1,Llanowar Elves,main
@@ -171,6 +171,7 @@ Count,Name,Section
 1,Magma Jet,main
 1,Mana Leak,main
 1,Manamorphose,main
+1,March of Otherworldly Light,main
 1,Mark of Mutiny,main
 2,Marsh Flats,main
 1,Mayhem Devil,main
@@ -192,7 +193,6 @@ Count,Name,Section
 1,Mosswood Dreadknight // Dread Whispers,main
 1,Mother of Runes,main
 1,Mulldrifter,main
-1,Murder,main
 1,Murderous Cut,main
 1,Murderous Redcap,main
 1,Mystic Confluence,main
@@ -205,10 +205,10 @@ Count,Name,Section
 1,"Otawara, Soaring City",main
 1,Oust,main
 2,Overgrown Tomb,main
-1,Panharmonicon,main
 1,Parallel Lives,main
 1,Perilous Myr,main
 1,Phoenix Chick,main
+1,Pile On,main
 1,Pollenbright Druid,main
 2,Polluted Delta,main
 1,Ponder,main
@@ -229,7 +229,6 @@ Count,Name,Section
 1,Raven's Crime,main
 1,Ravenous Squirrel,main
 1,Read the Bones,main
-1,Reclamation Sage,main
 1,Reinforced Ronin,main
 1,Remand,main
 1,"Renata, Called to the Hunt",main
@@ -244,8 +243,8 @@ Count,Name,Section
 2,Sacred Foundry,main
 1,"Saheeli, Sublime Artificer",main
 1,Sai of the Shinobi,main
-1,Satyr Wayfinder,main
 2,Scalding Tarn,main
+1,Scalding Viper // Steam Clean,main
 1,Scattered Groves,main
 1,Scavenging Ooze,main
 1,Scrabbling Claws,main
@@ -267,7 +266,6 @@ Count,Name,Section
 1,Song of the Dryads,main
 1,Soul Partition,main
 1,Soul Snare,main
-1,Soul Warden,main
 1,Soul-Scar Mage,main
 1,Sparring Construct,main
 1,Spell Pierce,main
@@ -299,6 +297,7 @@ Count,Name,Section
 1,The Huntsman's Redemption,main
 1,The Wandering Emperor,main
 1,Thing in the Ice // Awoken Horror,main
+1,Thraben Inspector,main
 1,Throne of the God-Pharaoh,main
 1,Thundering Falls,main
 1,Tibalt's Rager,main
@@ -324,6 +323,7 @@ Count,Name,Section
 1,Vampire of the Dire Moon,main
 2,Verdant Catacombs,main
 1,Vexing Gull,main
+1,Virtue of Knowledge // Vantress Visions,main
 1,Virtue of Persistence // Locthwain Scorn,main
 1,Viscera Seer,main
 1,"Vivien, Champion of the Wilds",main

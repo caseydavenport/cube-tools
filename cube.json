@@ -863,6 +863,20 @@
    "oracle_text": "When Cloudgoat Ranger enters the battlefield, create three 1/1 white Kithkin Soldier creature tokens.\nTap three untapped Kithkin you control: Cloudgoat Ranger gets +2/+0 and gains flying until end of turn."
   },
   {
+   "name": "Collected Company",
+   "types": [
+    "Instant"
+   ],
+   "cmc": 4,
+   "image": "",
+   "colors": [
+    "G"
+   ],
+   "mana_cost": "{3}{G}",
+   "url": "https://scryfall.com/card/dtk/177/collected-company?utm_source=api",
+   "oracle_text": "Look at the top six cards of your library. Put up to two creature cards with mana value 3 or less from among them onto the battlefield. Put the rest on the bottom of your library in any order."
+  },
+  {
    "name": "Comet Storm",
    "types": [
     "Instant"
@@ -1170,6 +1184,18 @@
    "mana_cost": "{1}{R}",
    "url": "https://scryfall.com/card/mkm/122/demand-answers?utm_source=api",
    "oracle_text": "As an additional cost to cast this spell, sacrifice an artifact or discard a card.\nDraw two cards."
+  },
+  {
+   "name": "Den of the Bugbear",
+   "types": [
+    "Land"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/afr/254/den-of-the-bugbear?utm_source=api",
+   "oracle_text": "If you control two or more other lands, Den of the Bugbear enters the battlefield tapped.\n{T}: Add {R}.\n{3}{R}: Until end of turn, Den of the Bugbear becomes a 3/2 red Goblin creature with \"Whenever this creature attacks, create a 1/1 red Goblin creature token that's tapped and attacking.\" It's still a land."
   },
   {
    "name": "Deprive",
@@ -1629,20 +1655,6 @@
    "oracle_text": "Landfall — Whenever a land enters the battlefield under your control, put a +1/+1 counter on Fearless Fledgling. It gains flying until end of turn."
   },
   {
-   "name": "Fecundity",
-   "types": [
-    "Enchantment"
-   ],
-   "cmc": 3,
-   "image": "",
-   "colors": [
-    "G"
-   ],
-   "mana_cost": "{2}{G}",
-   "url": "https://scryfall.com/card/uma/165/fecundity?utm_source=api",
-   "oracle_text": "Whenever a creature dies, that creature's controller may draw a card."
-  },
-  {
    "name": "Festering Mummy",
    "types": [
     "Creature"
@@ -1858,20 +1870,6 @@
    "oracle_text": "Flying\nWhenever Galepowder Mage attacks, exile another target creature. Return that card to the battlefield under its owner's control at the beginning of the next end step."
   },
   {
-   "name": "Ghostly Flicker",
-   "types": [
-    "Instant"
-   ],
-   "cmc": 3,
-   "image": "",
-   "colors": [
-    "U"
-   ],
-   "mana_cost": "{2}{U}",
-   "url": "https://scryfall.com/card/cmm/98/ghostly-flicker?utm_source=api",
-   "oracle_text": "Exile two target artifacts, creatures, and/or lands you control, then return those cards to the battlefield under your control."
-  },
-  {
    "name": "Gilded Goose",
    "types": [
     "Creature"
@@ -1932,24 +1930,6 @@
    "mana_cost": "{1}{W}",
    "url": "https://scryfall.com/card/onc/6/glimmer-lens?utm_source=api",
    "oracle_text": "For Mirrodin! (When this Equipment enters the battlefield, create a 2/2 red Rebel creature token, then attach this to it.)\nWhenever equipped creature and at least one other creature attack, draw a card.\nEquip {1}{W}"
-  },
-  {
-   "name": "Goblin Arsonist",
-   "types": [
-    "Creature"
-   ],
-   "sub_types": [
-    "Goblin",
-    "Shaman"
-   ],
-   "cmc": 1,
-   "image": "",
-   "colors": [
-    "R"
-   ],
-   "mana_cost": "{R}",
-   "url": "https://scryfall.com/card/m21/147/goblin-arsonist?utm_source=api",
-   "oracle_text": "When Goblin Arsonist dies, you may have it deal 1 damage to any target."
   },
   {
    "name": "Goblin Bombardment",
@@ -2016,6 +1996,25 @@
    "oracle_text": "({T}: Add {W} or {B}.)\nAs Godless Shrine enters the battlefield, you may pay 2 life. If you don't, it enters the battlefield tapped."
   },
   {
+   "name": "Goldhound",
+   "types": [
+    "Artifact",
+    "Creature"
+   ],
+   "sub_types": [
+    "Treasure",
+    "Dog"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [
+    "R"
+   ],
+   "mana_cost": "{R}",
+   "url": "https://scryfall.com/card/snc/108/goldhound?utm_source=api",
+   "oracle_text": "First strike\nMenace (This creature can't be blocked except by two or more creatures.)\n{T}, Sacrifice Goldhound: Add one mana of any color."
+  },
+  {
    "name": "Goldmeadow Harrier",
    "types": [
     "Creature"
@@ -2032,6 +2031,23 @@
    "mana_cost": "{W}",
    "url": "https://scryfall.com/card/ddf/3/goldmeadow-harrier?utm_source=api",
    "oracle_text": "{W}, {T}: Tap target creature."
+  },
+  {
+   "name": "Golos, Tireless Pilgrim",
+   "types": [
+    "Legendary",
+    "Artifact",
+    "Creature"
+   ],
+   "sub_types": [
+    "Scout"
+   ],
+   "cmc": 5,
+   "image": "",
+   "colors": [],
+   "mana_cost": "{5}",
+   "url": "https://scryfall.com/card/m20/226/golos-tireless-pilgrim?utm_source=api",
+   "oracle_text": "When Golos, Tireless Pilgrim enters the battlefield, you may search your library for a land card, put that card onto the battlefield tapped, then shuffle.\n{2}{W}{U}{B}{R}{G}: Exile the top three cards of your library. You may play them this turn without paying their mana costs."
   },
   {
    "name": "Greta, Sweettooth Scourge",
@@ -2153,25 +2169,6 @@
    "mana_cost": "",
    "url": "https://scryfall.com/card/rvr/280/hallowed-fountain?utm_source=api",
    "oracle_text": "({T}: Add {W} or {U}.)\nAs Hallowed Fountain enters the battlefield, you may pay 2 life. If you don't, it enters the battlefield tapped."
-  },
-  {
-   "name": "Halo Forager",
-   "types": [
-    "Creature"
-   ],
-   "sub_types": [
-    "Faerie",
-    "Rogue"
-   ],
-   "cmc": 3,
-   "image": "",
-   "colors": [
-    "B",
-    "U"
-   ],
-   "mana_cost": "{1}{U}{B}",
-   "url": "https://scryfall.com/card/mom/227/halo-forager?utm_source=api",
-   "oracle_text": "Flying\nWhen Halo Forager enters the battlefield, you may pay {X}. When you do, you may cast target instant or sorcery card with mana value X from a graveyard without paying its mana cost. If that spell would be put into a graveyard, exile it instead."
   },
   {
    "name": "Hardened Scales",
@@ -2649,7 +2646,7 @@
    "oracle_text": "Lightning Bolt deals 3 damage to any target."
   },
   {
-   "name": "Liliana, Death's Majesty",
+   "name": "Liliana of the Veil",
    "types": [
     "Legendary",
     "Planeswalker"
@@ -2657,14 +2654,14 @@
    "sub_types": [
     "Liliana"
    ],
-   "cmc": 5,
+   "cmc": 3,
    "image": "",
    "colors": [
     "B"
    ],
-   "mana_cost": "{3}{B}{B}",
-   "url": "https://scryfall.com/card/mic/121/liliana-deaths-majesty?utm_source=api",
-   "oracle_text": "+1: Create a 2/2 black Zombie creature token. Mill two cards.\n−3: Return target creature card from your graveyard to the battlefield. That creature is a black Zombie in addition to its other colors and types.\n−7: Destroy all non-Zombie creatures."
+   "mana_cost": "{1}{B}{B}",
+   "url": "https://scryfall.com/card/dmu/97/liliana-of-the-veil?utm_source=api",
+   "oracle_text": "+1: Each player discards a card.\n−2: Target player sacrifices a creature.\n−6: Separate all permanents target player controls into two piles. That player sacrifices all permanents in the pile of their choice."
   },
   {
    "name": "Lion Sash",
@@ -2814,6 +2811,20 @@
    "mana_cost": "{1}{R/G}",
    "url": "https://scryfall.com/card/2xm/208/manamorphose?utm_source=api",
    "oracle_text": "Add two mana in any combination of colors.\nDraw a card."
+  },
+  {
+   "name": "March of Otherworldly Light",
+   "types": [
+    "Instant"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [
+    "W"
+   ],
+   "mana_cost": "{X}{W}",
+   "url": "https://scryfall.com/card/neo/28/march-of-otherworldly-light?utm_source=api",
+   "oracle_text": "As an additional cost to cast this spell, you may exile any number of white cards from your hand. This spell costs {2} less to cast for each card exiled this way.\nExile target artifact, creature, or enchantment with mana value X or less."
   },
   {
    "name": "Mark of Mutiny",
@@ -3186,20 +3197,6 @@
    "oracle_text": "Flying\nWhen Mulldrifter enters the battlefield, draw two cards.\nEvoke {2}{U} (You may cast this spell for its evoke cost. If you do, it's sacrificed when it enters the battlefield.)"
   },
   {
-   "name": "Murder",
-   "types": [
-    "Instant"
-   ],
-   "cmc": 3,
-   "image": "",
-   "colors": [
-    "B"
-   ],
-   "mana_cost": "{1}{B}{B}",
-   "url": "https://scryfall.com/card/mkm/95/murder?utm_source=api",
-   "oracle_text": "Destroy target creature."
-  },
-  {
    "name": "Murderous Cut",
    "types": [
     "Instant"
@@ -3395,18 +3392,6 @@
    "oracle_text": "({T}: Add {B} or {G}.)\nAs Overgrown Tomb enters the battlefield, you may pay 2 life. If you don't, it enters the battlefield tapped."
   },
   {
-   "name": "Panharmonicon",
-   "types": [
-    "Artifact"
-   ],
-   "cmc": 4,
-   "image": "",
-   "colors": [],
-   "mana_cost": "{4}",
-   "url": "https://scryfall.com/card/2x2/310/panharmonicon?utm_source=api",
-   "oracle_text": "If an artifact or creature entering the battlefield causes a triggered ability of a permanent you control to trigger, that ability triggers an additional time."
-  },
-  {
    "name": "Parallel Lives",
    "types": [
     "Enchantment"
@@ -3453,6 +3438,20 @@
    "mana_cost": "{R}",
    "url": "https://scryfall.com/card/dmu/140/phoenix-chick?utm_source=api",
    "oracle_text": "Flying, haste\nPhoenix Chick can't block.\nWhenever you attack with three or more creatures, you may pay {R}{R}. If you do, return Phoenix Chick from your graveyard to the battlefield tapped and attacking with a +1/+1 counter on it."
+  },
+  {
+   "name": "Pile On",
+   "types": [
+    "Instant"
+   ],
+   "cmc": 4,
+   "image": "",
+   "colors": [
+    "B"
+   ],
+   "mana_cost": "{3}{B}",
+   "url": "https://scryfall.com/card/mkc/134/pile-on?utm_source=api",
+   "oracle_text": "Convoke (Your creatures can help cast this spell. Each creature you tap while casting this spell pays for {1} or one mana of that creature's color.)\nDestroy target creature or planeswalker. Surveil 2. (Look at the top two cards of your library, then put any number of them into your graveyard and the rest on top of your library in any order.)"
   },
   {
    "name": "Pollenbright Druid",
@@ -3773,24 +3772,6 @@
    "oracle_text": "Scry 2, then draw two cards. You lose 2 life."
   },
   {
-   "name": "Reclamation Sage",
-   "types": [
-    "Creature"
-   ],
-   "sub_types": [
-    "Elf",
-    "Shaman"
-   ],
-   "cmc": 3,
-   "image": "",
-   "colors": [
-    "G"
-   ],
-   "mana_cost": "{2}{G}",
-   "url": "https://scryfall.com/card/khc/72/reclamation-sage?utm_source=api",
-   "oracle_text": "When Reclamation Sage enters the battlefield, you may destroy target artifact or enchantment."
-  },
-  {
    "name": "Reinforced Ronin",
    "types": [
     "Artifact",
@@ -4024,45 +4005,48 @@
    "oracle_text": "Equipped creature gets +1/+1.\nWhenever a creature enters the battlefield under your control, you may attach Sai of the Shinobi to it.\nEquip {2}"
   },
   {
-   "name": "Satyr Wayfinder",
+   "name": "Scalding Tarn",
+   "types": [
+    "Land"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/mh2/254/scalding-tarn?utm_source=api",
+   "oracle_text": "{T}, Pay 1 life, Sacrifice Scalding Tarn: Search your library for an Island or Mountain card, put it onto the battlefield, then shuffle."
+  },
+  {
+   "name": "Scalding Tarn",
+   "types": [
+    "Land"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/mh2/254/scalding-tarn?utm_source=api",
+   "oracle_text": "{T}, Pay 1 life, Sacrifice Scalding Tarn: Search your library for an Island or Mountain card, put it onto the battlefield, then shuffle."
+  },
+  {
+   "name": "Scalding Viper // Steam Clean",
    "types": [
     "Creature"
    ],
    "sub_types": [
-    "Satyr"
+    "Elemental",
+    "Snake",
+    "//",
+    "Sorcery"
    ],
    "cmc": 2,
    "image": "",
    "colors": [
-    "G"
+    "R"
    ],
-   "mana_cost": "{1}{G}",
-   "url": "https://scryfall.com/card/znc/81/satyr-wayfinder?utm_source=api",
-   "oracle_text": "When Satyr Wayfinder enters the battlefield, reveal the top four cards of your library. You may put a land card from among them into your hand. Put the rest into your graveyard."
-  },
-  {
-   "name": "Scalding Tarn",
-   "types": [
-    "Land"
-   ],
-   "cmc": 0,
-   "image": "",
-   "colors": [],
-   "mana_cost": "",
-   "url": "https://scryfall.com/card/mh2/254/scalding-tarn?utm_source=api",
-   "oracle_text": "{T}, Pay 1 life, Sacrifice Scalding Tarn: Search your library for an Island or Mountain card, put it onto the battlefield, then shuffle."
-  },
-  {
-   "name": "Scalding Tarn",
-   "types": [
-    "Land"
-   ],
-   "cmc": 0,
-   "image": "",
-   "colors": [],
-   "mana_cost": "",
-   "url": "https://scryfall.com/card/mh2/254/scalding-tarn?utm_source=api",
-   "oracle_text": "{T}, Pay 1 life, Sacrifice Scalding Tarn: Search your library for an Island or Mountain card, put it onto the battlefield, then shuffle."
+   "mana_cost": "{1}{R} // {1}{U}",
+   "url": "https://scryfall.com/card/woe/235/scalding-viper-steam-clean?utm_source=api",
+   "oracle_text": ""
   },
   {
    "name": "Scattered Groves",
@@ -4393,24 +4377,6 @@
    "mana_cost": "{W}",
    "url": "https://scryfall.com/card/mkc/85/soul-snare?utm_source=api",
    "oracle_text": "{W}, Sacrifice Soul Snare: Exile target creature that's attacking you or a planeswalker you control."
-  },
-  {
-   "name": "Soul Warden",
-   "types": [
-    "Creature"
-   ],
-   "sub_types": [
-    "Human",
-    "Cleric"
-   ],
-   "cmc": 1,
-   "image": "",
-   "colors": [
-    "W"
-   ],
-   "mana_cost": "{W}",
-   "url": "https://scryfall.com/card/mm3/24/soul-warden?utm_source=api",
-   "oracle_text": "Whenever another creature enters the battlefield, you gain 1 life."
   },
   {
    "name": "Soul-Scar Mage",
@@ -4974,6 +4940,24 @@
    "oracle_text": ""
   },
   {
+   "name": "Thraben Inspector",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Human",
+    "Soldier"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [
+    "W"
+   ],
+   "mana_cost": "{W}",
+   "url": "https://scryfall.com/card/cmm/66/thraben-inspector?utm_source=api",
+   "oracle_text": "When Thraben Inspector enters the battlefield, investigate. (Create a Clue token. It's an artifact with \"{2}, Sacrifice this artifact: Draw a card.\")"
+  },
+  {
    "name": "Throne of the God-Pharaoh",
    "types": [
     "Legendary",
@@ -5372,6 +5356,25 @@
    "mana_cost": "{2}{U}",
    "url": "https://scryfall.com/card/thb/79/vexing-gull?utm_source=api",
    "oracle_text": "Flash\nFlying"
+  },
+  {
+   "name": "Virtue of Knowledge // Vantress Visions",
+   "types": [
+    "Enchantment",
+    "//",
+    "Instant"
+   ],
+   "sub_types": [
+    "Adventure"
+   ],
+   "cmc": 5,
+   "image": "",
+   "colors": [
+    "U"
+   ],
+   "mana_cost": "{4}{U} // {1}{U}",
+   "url": "https://scryfall.com/card/woe/76/virtue-of-knowledge-vantress-visions?utm_source=api",
+   "oracle_text": ""
   },
   {
    "name": "Virtue of Persistence // Locthwain Scorn",
