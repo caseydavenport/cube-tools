@@ -82,7 +82,7 @@ function CardWidgetTable(input) {
 
   if (input.dropdownSelection === "Mainboard rate") {
     return (
-      <div className="widget-scroll" style={{"max-height": "1200px"}}>
+      <div className="widget-scroll" style={{"maxHeight": "1200px"}}>
         <CardWidgetOptions {...input} />
         <table className="widget-table">
           <thead className="table-header">
