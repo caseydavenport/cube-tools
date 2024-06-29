@@ -5,6 +5,7 @@
   --table-header-background: #61892f;
   --misc: #86c232;
   --highlight: #C97BF4;
+  --highlight-2: #C97BF444;
   --white: #FFF;
   --black: #000;
 }
@@ -178,6 +179,16 @@ table {
 .card-highlight {
   background: var(--highlight);
 }
+.card-highlight:hover {
+  background: var(--table-row-selected);
+}
+.card-playable-highlight {
+  background: var(--highlight-2);
+}
+.card-playable-highlight:hover {
+  background: var(--table-row-selected);
+}
+
 
 .deck-entry {
   background-color: var(--background-color);

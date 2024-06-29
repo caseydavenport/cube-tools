@@ -2,7 +2,7 @@ import React from 'react'
 import { useState } from "react";
 import { useEffect } from "react";
 import { LoadDecks } from "../utils/Fetch.js"
-import { Wins, Losses, MatchWins, MatchLosses } from "../utils/Deck.js"
+import { Wins, Losses, MatchWins, MatchLosses, InDeckColor } from "../utils/Deck.js"
 import { RemovalMatches, CounterspellMatches } from "../pages/Decks.js"
 import { SortFunc } from "../utils/Utils.js"
 import { ColorImages, CombineColors } from "../utils/Colors.js"
@@ -412,12 +412,12 @@ function DisplayDeck(input) {
     <div className="deck-view">
       <PlayerFrame {...input} />
       <div className="flexhouse">
-        <CardList player={deck.player} cards={cards} opts={{cmc: 0}} />
-        <CardList player={deck.player} cards={cards} opts={{cmc: 1}} />
-        <CardList player={deck.player} cards={cards} opts={{cmc: 2}} />
-        <CardList player={deck.player} cards={cards} opts={{cmc: 3}} />
-        <CardList player={deck.player} cards={cards} opts={{cmc: 4}} />
-        <CardList player={deck.player} cards={cards} opts={{cmc: 5, gt: true}} />
+        <CardList player={deck.player} cards={cards} deck={deck} sb={input.mbsb == "Sideboard"} opts={{cmc: 0}} />
+        <CardList player={deck.player} cards={cards} deck={deck} sb={input.mbsb == "Sideboard"} opts={{cmc: 1}} />
+        <CardList player={deck.player} cards={cards} deck={deck} sb={input.mbsb == "Sideboard"} opts={{cmc: 2}} />
+        <CardList player={deck.player} cards={cards} deck={deck} sb={input.mbsb == "Sideboard"} opts={{cmc: 3}} />
+        <CardList player={deck.player} cards={cards} deck={deck} sb={input.mbsb == "Sideboard"} opts={{cmc: 4}} />
+        <CardList player={deck.player} cards={cards} deck={deck} sb={input.mbsb == "Sideboard"} opts={{cmc: 5, gt: true}} />
       </div>
     </div>
   );
@@ -504,7 +504,7 @@ function PlayerFrame(input) {
   );
 }
 
-function CardList({player, cards, opts}) {
+function CardList({player, cards, deck, sb, opts}) {
   // Figure out how many of this CMC there are.
   let num = 0
   for (var i in cards) {
@@ -551,6 +551,8 @@ function CardList({player, cards, opts}) {
             let className = "card"
             if (card.highlight) {
               className = "card-highlight"
+            } else if (sb && InDeckColor(card, deck)) {
+              className = "card-playable-highlight"
             }
             return (
               <tr className={className} key={key} card={card}>

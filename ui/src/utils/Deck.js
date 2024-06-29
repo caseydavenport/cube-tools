@@ -69,3 +69,19 @@ export function MatchLosses(deck) {
   }
   return losses
 }
+
+// Helper function for determining if a card is within a given deck's colors.
+export function InDeckColor(card, deck) {
+  if (!card.types.includes("Land") && card.colors.length == 0) {
+    return true
+  }
+  for (var k in card.colors) {
+    for (var j in deck.colors) {
+      if (card.colors[k] == deck.colors[j]) {
+        return true
+      }
+    }
+  }
+  return false
+}
+

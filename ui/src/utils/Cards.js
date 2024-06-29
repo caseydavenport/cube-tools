@@ -1,5 +1,5 @@
 import { IsBasicLand} from "../utils/Utils.js"
-import { Wins, Losses } from "../utils/Deck.js"
+import { Wins, Losses, InDeckColor } from "../utils/Deck.js"
 
 // CardData returns data for each card that matches the given minimum number of drafts. The provided
 // cube list is used to filter cards no longer in the cube.
@@ -126,7 +126,7 @@ export function CardData(decks, minDrafts, minGames, cube, color) {
         cardsByName.set(card.name, newCard(card))
       }
       cardsByName.get(card.name).sideboard += 1
-      if (inDeckColor(card, deck)) {
+      if (InDeckColor(card, deck)) {
         cardsByName.get(card.name).playableSideboard += 1
       }
 
@@ -174,19 +174,6 @@ export function CardData(decks, minDrafts, minGames, cube, color) {
   return cardsByName
 }
 
-// Helper function for determining if a card is within a given deck's colors.
-function inDeckColor(card, deck) {
-  for (var k in card.colors) {
-    for (var j in deck.colors) {
-      if (card.colors[k] == deck.colors[j]) {
-        return true
-      }
-    }
-  }
-  return false
-}
-
-
 function ELOData(decks) {
   let cards = new Map()
 
@@ -223,7 +210,7 @@ function ELOData(decks) {
 
         // Skip sideboard cards that just don't match the deck's colors. These shouldn't be
         // penalized since they don't have any place in the deck.
-        if (!inDeckColor(c2, deck)) {
+        if (!InDeckColor(c2, deck)) {
           continue
         }
 
