@@ -148,7 +148,7 @@
     "U"
    ],
    "mana_cost": "{2}{U}{B}",
-   "url": "https://scryfall.com/card/lcc/271/hostage-taker?utm_source=api",
+   "url": "https://scryfall.com/card/otc/231/hostage-taker?utm_source=api",
    "oracle_text": "When Hostage Taker enters the battlefield, exile another target creature or artifact until Hostage Taker leaves the battlefield. You may cast that card for as long as it remains exiled, and mana of any type can be spent to cast that spell."
   },
   {
@@ -307,7 +307,7 @@
     "U"
    ],
    "mana_cost": "{5}{U}",
-   "url": "https://scryfall.com/card/iko/67/shark-typhoon?utm_source=api",
+   "url": "https://scryfall.com/card/otc/113/shark-typhoon?utm_source=api",
    "oracle_text": "Whenever you cast a noncreature spell, create an X/X blue Shark creature token with flying, where X is that spell's mana value.\nCycling {X}{1}{U} ({X}{1}{U}, Discard this card: Draw a card.)\nWhen you cycle Shark Typhoon, create an X/X blue Shark creature token with flying."
   },
   {
@@ -375,7 +375,10 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "B",
+    "W"
+   ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/mkm/268/shadowy-backstreet?utm_source=api",
    "oracle_text": "({T}: Add {W} or {B}.)\nShadowy Backstreet enters the battlefield tapped.\nWhen Shadowy Backstreet enters the battlefield, surveil 1. (Look at the top card of your library. You may put it into your graveyard.)"
@@ -388,7 +391,9 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "B"
+   ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/neo/278/takenuma-abandoned-mire?utm_source=api",
    "oracle_text": "{T}: Add {B}.\nChannel — {3}{B}, Discard Takenuma, Abandoned Mire: Mill three cards, then return a creature or planeswalker card from your graveyard to your hand. This ability costs {1} less to activate for each legendary creature you control."
@@ -416,7 +421,10 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "B",
+    "W"
+   ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/rvr/277/godless-shrine?utm_source=api",
    "oracle_text": "({T}: Add {W} or {B}.)\nAs Godless Shrine enters the battlefield, you may pay 2 life. If you don't, it enters the battlefield tapped."
@@ -432,7 +440,10 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "B",
+    "U"
+   ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/mkm/270/undercity-sewers?utm_source=api",
    "oracle_text": "({T}: Add {U} or {B}.)\nUndercity Sewers enters the battlefield tapped.\nWhen Undercity Sewers enters the battlefield, surveil 1. (Look at the top card of your library. You may put it into your graveyard.)"
@@ -448,7 +459,10 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "U",
+    "W"
+   ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/mkm/264/meticulous-archive?utm_source=api",
    "oracle_text": "({T}: Add {W} or {U}.)\nMeticulous Archive enters the battlefield tapped.\nWhen Meticulous Archive enters the battlefield, surveil 1. (Look at the top card of your library. You may put it into your graveyard.)"
@@ -464,9 +478,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "W"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/304/plains?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/310/plains?utm_source=api",
    "oracle_text": "({T}: Add {W}.)"
   },
   {
@@ -480,9 +496,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "W"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/304/plains?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/310/plains?utm_source=api",
    "oracle_text": "({T}: Add {W}.)"
   },
   {
@@ -496,9 +514,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "W"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/304/plains?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/310/plains?utm_source=api",
    "oracle_text": "({T}: Add {W}.)"
   },
   {
@@ -512,9 +532,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "W"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/304/plains?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/310/plains?utm_source=api",
    "oracle_text": "({T}: Add {W}.)"
   },
   {
@@ -528,9 +550,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "U"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/305/island?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/312/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)"
   },
   {
@@ -544,9 +568,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "U"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/305/island?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/312/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)"
   },
   {
@@ -560,9 +586,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "U"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/305/island?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/312/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)"
   },
   {
@@ -576,9 +604,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "B"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/306/swamp?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/314/swamp?utm_source=api",
    "oracle_text": "({T}: Add {B}.)"
   },
   {
@@ -592,9 +622,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "B"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/306/swamp?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/314/swamp?utm_source=api",
    "oracle_text": "({T}: Add {B}.)"
   },
   {
@@ -608,9 +640,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "B"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/306/swamp?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/314/swamp?utm_source=api",
    "oracle_text": "({T}: Add {B}.)"
   },
   {
@@ -671,7 +705,7 @@
     "U"
    ],
    "mana_cost": "{U}",
-   "url": "https://scryfall.com/card/ncc/230/preordain?utm_source=api",
+   "url": "https://scryfall.com/card/otc/107/preordain?utm_source=api",
    "oracle_text": "Scry 2, then draw a card. (To scry 2, look at the top two cards of your library, then put any number of them on the bottom and the rest on top in any order.)"
   },
   {
@@ -697,7 +731,9 @@
    ],
    "cmc": 1,
    "image": "",
-   "colors": [],
+   "colors": [
+    "U"
+   ],
    "mana_cost": "{1}",
    "url": "https://scryfall.com/card/jmp/456/aether-spellbomb?utm_source=api",
    "oracle_text": "{U}, Sacrifice Aether Spellbomb: Return target creature to its owner's hand.\n{1}, Sacrifice Aether Spellbomb: Draw a card."
@@ -912,7 +948,8 @@
    "cmc": 3,
    "image": "",
    "colors": [
-    "R"
+    "R",
+    "W"
    ],
    "mana_cost": "{2}{R} // {1}{W}",
    "url": "https://scryfall.com/card/woe/230/kellan-the-fae-blooded-birthright-boon?utm_source=api",
@@ -929,7 +966,7 @@
     "W"
    ],
    "mana_cost": "{2}{W}{W}",
-   "url": "https://scryfall.com/card/m12/12/day-of-judgment?utm_source=api",
+   "url": "https://scryfall.com/card/fdn/140/day-of-judgment?utm_source=api",
    "oracle_text": "Destroy all creatures."
   }
  ]

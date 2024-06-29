@@ -6,6 +6,7 @@
  "player": "grant",
  "date": "2023-05-31",
  "games": null,
+ "matches": null,
  "wins": 4,
  "losses": 1,
  "mainboard": [
@@ -72,7 +73,7 @@
    "image": "",
    "colors": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/lcc/360/terramorphic-expanse?utm_source=api",
+   "url": "https://scryfall.com/card/otc/336/terramorphic-expanse?utm_source=api",
    "oracle_text": "{T}, Sacrifice Terramorphic Expanse: Search your library for a basic land card, put it onto the battlefield tapped, then shuffle."
   },
   {
@@ -82,9 +83,12 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "G",
+    "U"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/lcc/336/hinterland-harbor?utm_source=api",
+   "url": "https://scryfall.com/card/otc/300/hinterland-harbor?utm_source=api",
    "oracle_text": "Hinterland Harbor enters the battlefield tapped unless you control a Forest or an Island.\n{T}: Add {G} or {U}."
   },
   {
@@ -176,7 +180,10 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "G",
+    "W"
+   ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/csp/143/arctic-flats?utm_source=api",
    "oracle_text": "Arctic Flats enters the battlefield tapped.\n{T}: Add {G} or {W}."
@@ -209,7 +216,9 @@
    ],
    "cmc": 2,
    "image": "",
-   "colors": [],
+   "colors": [
+    "G"
+   ],
    "mana_cost": "{2}",
    "url": "https://scryfall.com/card/som/146/copper-myr?utm_source=api",
    "oracle_text": "{T}: Add {G}."
@@ -225,7 +234,9 @@
    ],
    "cmc": 2,
    "image": "",
-   "colors": [],
+   "colors": [
+    "W"
+   ],
    "mana_cost": "{2}",
    "url": "https://scryfall.com/card/nec/153/gold-myr?utm_source=api",
    "oracle_text": "{T}: Add {W}."
@@ -245,7 +256,7 @@
     "G"
    ],
    "mana_cost": "{G}",
-   "url": "https://scryfall.com/card/gnt/46/llanowar-elves?utm_source=api",
+   "url": "https://scryfall.com/card/fdn/227/llanowar-elves?utm_source=api",
    "oracle_text": "{T}: Add {G}."
   },
   {
@@ -259,7 +270,9 @@
    ],
    "cmc": 2,
    "image": "",
-   "colors": [],
+   "colors": [
+    "U"
+   ],
    "mana_cost": "{2}",
    "url": "https://scryfall.com/card/nec/158/silver-myr?utm_source=api",
    "oracle_text": "{T}: Add {U}."
@@ -321,9 +334,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "W"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/304/plains?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/310/plains?utm_source=api",
    "oracle_text": "({T}: Add {W}.)"
   },
   {
@@ -337,9 +352,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "U"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/305/island?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/312/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)"
   },
   {
@@ -353,9 +370,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "U"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/305/island?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/312/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)"
   },
   {
@@ -369,9 +388,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "U"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/305/island?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/312/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)"
   },
   {
@@ -385,9 +406,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "U"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/305/island?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/312/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)"
   },
   {
@@ -397,7 +420,10 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "G",
+    "U"
+   ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/lcc/368/vineglimmer-snarl?utm_source=api",
    "oracle_text": "As Vineglimmer Snarl enters the battlefield, you may reveal a Forest or Island card from your hand. If you don't, Vineglimmer Snarl enters the battlefield tapped.\n{T}: Add {G} or {U}."
@@ -495,7 +521,10 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "U",
+    "W"
+   ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/clu/230/azorius-guildgate?utm_source=api",
    "oracle_text": "Azorius Guildgate enters the battlefield tapped.\n{T}: Add {W} or {U}."
@@ -511,7 +540,7 @@
     "W"
    ],
    "mana_cost": "{W}",
-   "url": "https://scryfall.com/card/mkc/78/path-to-exile?utm_source=api",
+   "url": "https://scryfall.com/card/otc/85/path-to-exile?utm_source=api",
    "oracle_text": "Exile target creature. Its controller may search their library for a basic land card, put that card onto the battlefield tapped, then shuffle."
   },
   {
@@ -544,9 +573,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "G"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/308/forest?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/318/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)"
   },
   {
@@ -560,9 +591,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "G"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/308/forest?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/318/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)"
   },
   {
@@ -576,9 +609,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "G"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/308/forest?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/318/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)"
   },
   {
@@ -592,9 +627,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "G"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/308/forest?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/318/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)"
   },
   {
@@ -608,9 +645,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "G"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/308/forest?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/318/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)"
   },
   {
@@ -624,9 +663,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "G"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/308/forest?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/318/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)"
   },
   {

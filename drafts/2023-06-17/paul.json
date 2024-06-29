@@ -7,6 +7,7 @@
  "player": "paul",
  "date": "2023-06-17",
  "games": null,
+ "matches": null,
  "wins": 2,
  "losses": 1,
  "mainboard": [
@@ -341,9 +342,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "B"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/306/swamp?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/314/swamp?utm_source=api",
    "oracle_text": "({T}: Add {B}.)"
   },
   {
@@ -357,9 +360,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "B"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/306/swamp?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/314/swamp?utm_source=api",
    "oracle_text": "({T}: Add {B}.)"
   },
   {
@@ -373,9 +378,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "B"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/306/swamp?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/314/swamp?utm_source=api",
    "oracle_text": "({T}: Add {B}.)"
   },
   {
@@ -389,9 +396,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "B"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/306/swamp?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/314/swamp?utm_source=api",
    "oracle_text": "({T}: Add {B}.)"
   },
   {
@@ -405,9 +414,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "B"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/306/swamp?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/314/swamp?utm_source=api",
    "oracle_text": "({T}: Add {B}.)"
   },
   {
@@ -421,9 +432,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "B"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/306/swamp?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/314/swamp?utm_source=api",
    "oracle_text": "({T}: Add {B}.)"
   },
   {
@@ -437,9 +450,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "B"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/306/swamp?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/314/swamp?utm_source=api",
    "oracle_text": "({T}: Add {B}.)"
   },
   {
@@ -453,9 +468,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "B"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/306/swamp?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/314/swamp?utm_source=api",
    "oracle_text": "({T}: Add {B}.)"
   },
   {
@@ -469,9 +486,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "B"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/306/swamp?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/314/swamp?utm_source=api",
    "oracle_text": "({T}: Add {B}.)"
   },
   {
@@ -485,9 +504,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "B"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/306/swamp?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/314/swamp?utm_source=api",
    "oracle_text": "({T}: Add {B}.)"
   },
   {
@@ -501,9 +522,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "B"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/306/swamp?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/314/swamp?utm_source=api",
    "oracle_text": "({T}: Add {B}.)"
   },
   {
@@ -517,9 +540,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "B"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/306/swamp?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/314/swamp?utm_source=api",
    "oracle_text": "({T}: Add {B}.)"
   },
   {
@@ -533,9 +558,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "B"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/306/swamp?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/314/swamp?utm_source=api",
    "oracle_text": "({T}: Add {B}.)"
   },
   {
@@ -549,9 +576,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "B"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/306/swamp?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/314/swamp?utm_source=api",
    "oracle_text": "({T}: Add {B}.)"
   },
   {
@@ -565,9 +594,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "B"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/306/swamp?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/314/swamp?utm_source=api",
    "oracle_text": "({T}: Add {B}.)"
   },
   {
@@ -581,9 +612,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "B"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/306/swamp?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/314/swamp?utm_source=api",
    "oracle_text": "({T}: Add {B}.)"
   },
   {
@@ -597,9 +630,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "B"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/306/swamp?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/314/swamp?utm_source=api",
    "oracle_text": "({T}: Add {B}.)"
   },
   {
@@ -628,7 +663,9 @@
    ],
    "cmc": 4,
    "image": "",
-   "colors": null,
+   "colors": [
+    "B"
+   ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/neo/109/the-long-reach-of-night-animus-of-nights-reach?utm_source=api",
    "oracle_text": ""

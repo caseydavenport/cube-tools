@@ -66,7 +66,7 @@
     "U"
    ],
    "mana_cost": "{2}{U}{B}",
-   "url": "https://scryfall.com/card/lcc/271/hostage-taker?utm_source=api",
+   "url": "https://scryfall.com/card/otc/231/hostage-taker?utm_source=api",
    "oracle_text": "When Hostage Taker enters the battlefield, exile another target creature or artifact until Hostage Taker leaves the battlefield. You may cast that card for as long as it remains exiled, and mana of any type can be spent to cast that spell.",
    "appearances": 5
   },
@@ -144,7 +144,10 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "B",
+    "W"
+   ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/rvr/277/godless-shrine?utm_source=api",
    "oracle_text": "({T}: Add {W} or {B}.)\nAs Godless Shrine enters the battlefield, you may pay 2 life. If you don't, it enters the battlefield tapped.",
@@ -209,7 +212,9 @@
    ],
    "cmc": 2,
    "image": "",
-   "colors": null,
+   "colors": [
+    "U"
+   ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/soi/92/thing-in-the-ice-awoken-horror?utm_source=api",
    "oracle_text": "",
@@ -289,7 +294,7 @@
     "U"
    ],
    "mana_cost": "{7}{U}",
-   "url": "https://scryfall.com/card/ncc/237/treasure-cruise?utm_source=api",
+   "url": "https://scryfall.com/card/otc/120/treasure-cruise?utm_source=api",
    "oracle_text": "Delve (Each card you exile from your graveyard while casting this spell pays for {1}.)\nDraw three cards.",
    "appearances": 5
   },
@@ -319,7 +324,10 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "B",
+    "U"
+   ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/2xm/326/sunken-ruins?utm_source=api",
    "oracle_text": "{T}: Add {C}.\n{U/B}, {T}: Add {U}{U}, {U}{B}, or {B}{B}.",
@@ -336,9 +344,12 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "B",
+    "U"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mkc/261/fetid-pools?utm_source=api",
+   "url": "https://scryfall.com/card/otc/296/fetid-pools?utm_source=api",
    "oracle_text": "({T}: Add {U} or {B}.)\nFetid Pools enters the battlefield tapped.\nCycling {2} ({2}, Discard this card: Draw a card.)",
    "appearances": 8
   },
@@ -386,7 +397,10 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "U",
+    "W"
+   ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/mkc/267/irrigated-farmland?utm_source=api",
    "oracle_text": "({T}: Add {W} or {U}.)\nIrrigated Farmland enters the battlefield tapped.\nCycling {2} ({2}, Discard this card: Draw a card.)",
@@ -511,7 +525,9 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "B"
+   ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/neo/278/takenuma-abandoned-mire?utm_source=api",
    "oracle_text": "{T}: Add {B}.\nChannel — {3}{B}, Discard Takenuma, Abandoned Mire: Mill three cards, then return a creature or planeswalker card from your graveyard to your hand. This ability costs {1} less to activate for each legendary creature you control.",
@@ -565,7 +581,10 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "U",
+    "W"
+   ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/rvr/280/hallowed-fountain?utm_source=api",
    "oracle_text": "({T}: Add {W} or {U}.)\nAs Hallowed Fountain enters the battlefield, you may pay 2 life. If you don't, it enters the battlefield tapped.",
@@ -582,7 +601,7 @@
     "U"
    ],
    "mana_cost": "{U}",
-   "url": "https://scryfall.com/card/ncc/229/ponder?utm_source=api",
+   "url": "https://scryfall.com/card/otc/105/ponder?utm_source=api",
    "oracle_text": "Look at the top three cards of your library, then put them back in any order. You may shuffle.\nDraw a card.",
    "appearances": 7
   },
@@ -597,9 +616,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "W"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/304/plains?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/310/plains?utm_source=api",
    "oracle_text": "({T}: Add {W}.)",
    "appearances": 21
   },
@@ -614,9 +635,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "W"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/304/plains?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/310/plains?utm_source=api",
    "oracle_text": "({T}: Add {W}.)",
    "appearances": 21
   },
@@ -631,9 +654,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "U"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/305/island?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/312/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)",
    "appearances": 11
   },
@@ -648,9 +673,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "U"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/305/island?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/312/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)",
    "appearances": 11
   },
@@ -665,9 +692,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "U"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/305/island?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/312/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)",
    "appearances": 11
   },
@@ -682,9 +711,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "U"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/305/island?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/312/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)",
    "appearances": 11
   },
@@ -699,9 +730,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "B"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/306/swamp?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/314/swamp?utm_source=api",
    "oracle_text": "({T}: Add {B}.)",
    "appearances": 22
   }
@@ -718,7 +751,10 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "B",
+    "G"
+   ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/rvr/283/overgrown-tomb?utm_source=api",
    "oracle_text": "({T}: Add {B} or {G}.)\nAs Overgrown Tomb enters the battlefield, you may pay 2 life. If you don't, it enters the battlefield tapped."
@@ -758,9 +794,12 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "G",
+    "U"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/lcc/336/hinterland-harbor?utm_source=api",
+   "url": "https://scryfall.com/card/otc/300/hinterland-harbor?utm_source=api",
    "oracle_text": "Hinterland Harbor enters the battlefield tapped unless you control a Forest or an Island.\n{T}: Add {G} or {U}."
   },
   {

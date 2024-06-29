@@ -6,6 +6,7 @@
  "player": "dom",
  "date": "2023-04-24",
  "games": null,
+ "matches": null,
  "wins": 2,
  "losses": 1,
  "mainboard": [
@@ -16,7 +17,10 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "B",
+    "R"
+   ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/lcc/330/foreboding-ruins?utm_source=api",
    "oracle_text": "As Foreboding Ruins enters the battlefield, you may reveal a Swamp or Mountain card from your hand. If you don't, Foreboding Ruins enters the battlefield tapped.\n{T}: Add {B} or {R}."
@@ -47,9 +51,12 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "B",
+    "R"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/dmc/207/dragonskull-summit?utm_source=api",
+   "url": "https://scryfall.com/card/otc/289/dragonskull-summit?utm_source=api",
    "oracle_text": "Dragonskull Summit enters the battlefield tapped unless you control a Swamp or a Mountain.\n{T}: Add {B} or {R}."
   },
   {
@@ -159,9 +166,12 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "B",
+    "W"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/lcc/337/isolated-chapel?utm_source=api",
+   "url": "https://scryfall.com/card/otc/301/isolated-chapel?utm_source=api",
    "oracle_text": "Isolated Chapel enters the battlefield tapped unless you control a Plains or a Swamp.\n{T}: Add {W} or {B}."
   },
   {
@@ -241,9 +251,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "R"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/blb/274/mountain?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/316/mountain?utm_source=api",
    "oracle_text": "({T}: Add {R}.)"
   },
   {
@@ -257,9 +269,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "R"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/blb/274/mountain?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/316/mountain?utm_source=api",
    "oracle_text": "({T}: Add {R}.)"
   },
   {
@@ -273,9 +287,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "R"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/blb/274/mountain?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/316/mountain?utm_source=api",
    "oracle_text": "({T}: Add {R}.)"
   },
   {
@@ -317,9 +333,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "B"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/306/swamp?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/314/swamp?utm_source=api",
    "oracle_text": "({T}: Add {B}.)"
   },
   {
@@ -333,9 +351,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "B"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/306/swamp?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/314/swamp?utm_source=api",
    "oracle_text": "({T}: Add {B}.)"
   },
   {
@@ -349,7 +369,7 @@
     "W"
    ],
    "mana_cost": "{2}{W}{W}",
-   "url": "https://scryfall.com/card/khc/29/marshals-anthem?utm_source=api",
+   "url": "https://scryfall.com/card/otc/82/marshals-anthem?utm_source=api",
    "oracle_text": "Multikicker {1}{W} (You may pay an additional {1}{W} any number of times as you cast this spell.)\nCreatures you control get +1/+1.\nWhen Marshal's Anthem enters the battlefield, return up to X target creature cards from your graveyard to the battlefield, where X is the number of times Marshal's Anthem was kicked."
   },
   {
@@ -363,9 +383,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "W"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/304/plains?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/310/plains?utm_source=api",
    "oracle_text": "({T}: Add {W}.)"
   },
   {
@@ -379,9 +401,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "W"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/304/plains?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/310/plains?utm_source=api",
    "oracle_text": "({T}: Add {W}.)"
   },
   {
@@ -395,9 +419,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "W"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/304/plains?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/310/plains?utm_source=api",
    "oracle_text": "({T}: Add {W}.)"
   },
   {
@@ -411,9 +437,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "W"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/304/plains?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/310/plains?utm_source=api",
    "oracle_text": "({T}: Add {W}.)"
   },
   {
@@ -427,9 +455,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "W"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/304/plains?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/310/plains?utm_source=api",
    "oracle_text": "({T}: Add {W}.)"
   },
   {
@@ -443,9 +473,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "W"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/304/plains?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/310/plains?utm_source=api",
    "oracle_text": "({T}: Add {W}.)"
   },
   {
@@ -459,9 +491,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "W"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/304/plains?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/310/plains?utm_source=api",
    "oracle_text": "({T}: Add {W}.)"
   },
   {
@@ -504,7 +538,10 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "B",
+    "W"
+   ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/lcc/351/shineshadow-snarl?utm_source=api",
    "oracle_text": "As Shineshadow Snarl enters the battlefield, you may reveal a Plains or Swamp card from your hand. If you don't, Shineshadow Snarl enters the battlefield tapped.\n{T}: Add {W} or {B}."

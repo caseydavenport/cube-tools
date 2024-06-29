@@ -71,7 +71,9 @@
    ],
    "cmc": 1,
    "image": "",
-   "colors": [],
+   "colors": [
+    "U"
+   ],
    "mana_cost": "{1}",
    "url": "https://scryfall.com/card/jmp/456/aether-spellbomb?utm_source=api",
    "oracle_text": "{U}, Sacrifice Aether Spellbomb: Return target creature to its owner's hand.\n{1}, Sacrifice Aether Spellbomb: Draw a card."
@@ -262,7 +264,10 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "R",
+    "W"
+   ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/otc/271/battlefield-forge?utm_source=api",
    "oracle_text": "{T}: Add {C}.\n{T}: Add {R} or {W}. Battlefield Forge deals 1 damage to you."
@@ -337,7 +342,10 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "B",
+    "R"
+   ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/rvr/273/blood-crypt?utm_source=api",
    "oracle_text": "({T}: Add {B} or {R}.)\nAs Blood Crypt enters the battlefield, you may pay 2 life. If you don't, it enters the battlefield tapped."
@@ -353,7 +361,10 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "B",
+    "R"
+   ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/rvr/273/blood-crypt?utm_source=api",
    "oracle_text": "({T}: Add {B} or {R}.)\nAs Blood Crypt enters the battlefield, you may pay 2 life. If you don't, it enters the battlefield tapped."
@@ -476,7 +487,9 @@
    ],
    "cmc": 1,
    "image": "",
-   "colors": [],
+   "colors": [
+    "R"
+   ],
    "mana_cost": "{1}",
    "url": "https://scryfall.com/card/kld/199/bomat-courier?utm_source=api",
    "oracle_text": "Haste\nWhenever Bomat Courier attacks, exile the top card of your library face down. (You can't look at it.)\n{R}, Discard your hand, Sacrifice Bomat Courier: Put all cards exiled with Bomat Courier into their owners' hands."
@@ -518,7 +531,9 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "G"
+   ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/neo/266/boseiju-who-endures?utm_source=api",
    "oracle_text": "{T}: Add {G}.\nChannel — {1}{G}, Discard Boseiju, Who Endures: Destroy target artifact, enchantment, or nonbasic land an opponent controls. That player may search their library for a land card with a basic land type, put it onto the battlefield, then shuffle. This ability costs {1} less to activate for each legendary creature you control."
@@ -548,7 +563,10 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "G",
+    "U"
+   ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/rvr/275/breeding-pool?utm_source=api",
    "oracle_text": "({T}: Add {G} or {U}.)\nAs Breeding Pool enters the battlefield, you may pay 2 life. If you don't, it enters the battlefield tapped."
@@ -564,7 +582,10 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "G",
+    "U"
+   ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/rvr/275/breeding-pool?utm_source=api",
    "oracle_text": "({T}: Add {G} or {U}.)\nAs Breeding Pool enters the battlefield, you may pay 2 life. If you don't, it enters the battlefield tapped."
@@ -660,7 +681,10 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "B",
+    "R"
+   ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/otc/275/canyon-slough?utm_source=api",
    "oracle_text": "({T}: Add {B} or {R}.)\nCanyon Slough enters the battlefield tapped.\nCycling {2} ({2}, Discard this card: Draw a card.)"
@@ -721,7 +745,10 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "U",
+    "W"
+   ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/uma/238/celestial-colonnade?utm_source=api",
    "oracle_text": "Celestial Colonnade enters the battlefield tapped.\n{T}: Add {W} or {U}.\n{3}{W}{U}: Until end of turn, Celestial Colonnade becomes a 4/4 white and blue Elemental creature with flying and vigilance. It's still a land."
@@ -940,7 +967,10 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "G",
+    "R"
+   ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/mkm/259/commercial-district?utm_source=api",
    "oracle_text": "({T}: Add {R} or {G}.)\nCommercial District enters the battlefield tapped.\nWhen Commercial District enters the battlefield, surveil 1. (Look at the top card of your library. You may put it into your graveyard.)"
@@ -1231,7 +1261,9 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "R"
+   ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/afr/254/den-of-the-bugbear?utm_source=api",
    "oracle_text": "If you control two or more other lands, Den of the Bugbear enters the battlefield tapped.\n{T}: Add {R}.\n{3}{R}: Until end of turn, Den of the Bugbear becomes a 3/2 red Goblin creature with \"Whenever this creature attacks, create a 1/1 red Goblin creature token that's tapped and attacking.\" It's still a land."
@@ -1422,7 +1454,9 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "W"
+   ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/neo/268/eiganjo-seat-of-the-empire?utm_source=api",
    "oracle_text": "{T}: Add {W}.\nChannel — {2}{W}, Discard Eiganjo, Seat of the Empire: It deals 4 damage to target attacking or blocking creature. This ability costs {1} less to activate for each legendary creature you control."
@@ -1737,7 +1771,10 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "B",
+    "U"
+   ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/otc/296/fetid-pools?utm_source=api",
    "oracle_text": "({T}: Add {U} or {B}.)\nFetid Pools enters the battlefield tapped.\nCycling {2} ({2}, Discard this card: Draw a card.)"
@@ -1773,7 +1810,10 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "R",
+    "U"
+   ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/mh1/238/fiery-islet?utm_source=api",
    "oracle_text": "{T}, Pay 1 life: Add {U} or {R}.\n{1}, {T}, Sacrifice Fiery Islet: Draw a card."
@@ -2011,7 +2051,10 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "B",
+    "W"
+   ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/rvr/277/godless-shrine?utm_source=api",
    "oracle_text": "({T}: Add {W} or {B}.)\nAs Godless Shrine enters the battlefield, you may pay 2 life. If you don't, it enters the battlefield tapped."
@@ -2027,7 +2070,10 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "B",
+    "W"
+   ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/rvr/277/godless-shrine?utm_source=api",
    "oracle_text": "({T}: Add {W} or {B}.)\nAs Godless Shrine enters the battlefield, you may pay 2 life. If you don't, it enters the battlefield tapped."
@@ -2081,7 +2127,13 @@
    ],
    "cmc": 5,
    "image": "",
-   "colors": [],
+   "colors": [
+    "B",
+    "G",
+    "R",
+    "U",
+    "W"
+   ],
    "mana_cost": "{5}",
    "url": "https://scryfall.com/card/m20/226/golos-tireless-pilgrim?utm_source=api",
    "oracle_text": "When Golos, Tireless Pilgrim enters the battlefield, you may search your library for a land card, put that card onto the battlefield tapped, then shuffle.\n{2}{W}{U}{B}{R}{G}: Exile the top three cards of your library. You may play them this turn without paying their mana costs."
@@ -2186,7 +2238,10 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "U",
+    "W"
+   ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/rvr/280/hallowed-fountain?utm_source=api",
    "oracle_text": "({T}: Add {W} or {U}.)\nAs Hallowed Fountain enters the battlefield, you may pay 2 life. If you don't, it enters the battlefield tapped."
@@ -2202,7 +2257,10 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "U",
+    "W"
+   ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/rvr/280/hallowed-fountain?utm_source=api",
    "oracle_text": "({T}: Add {W} or {U}.)\nAs Hallowed Fountain enters the battlefield, you may pay 2 life. If you don't, it enters the battlefield tapped."
@@ -2246,7 +2304,10 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "G",
+    "U"
+   ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/mkm/262/hedge-maze?utm_source=api",
    "oracle_text": "({T}: Add {G} or {U}.)\nHedge Maze enters the battlefield tapped.\nWhen Hedge Maze enters the battlefield, surveil 1. (Look at the top card of your library. You may put it into your graveyard.)"
@@ -2272,7 +2333,10 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "G",
+    "W"
+   ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/ima/240/horizon-canopy?utm_source=api",
    "oracle_text": "{T}, Pay 1 life: Add {G} or {W}.\n{1}, {T}, Sacrifice Horizon Canopy: Draw a card."
@@ -2326,7 +2390,9 @@
    "cmc": 1,
    "image": "",
    "colors": [
-    "G"
+    "B",
+    "G",
+    "R"
    ],
    "mana_cost": "{G}",
    "url": "https://scryfall.com/card/mh2/166/ignoble-hierarch?utm_source=api",
@@ -2481,7 +2547,8 @@
    "cmc": 3,
    "image": "",
    "colors": [
-    "R"
+    "R",
+    "W"
    ],
    "mana_cost": "{2}{R} // {1}{W}",
    "url": "https://scryfall.com/card/woe/230/kellan-the-fae-blooded-birthright-boon?utm_source=api",
@@ -2635,7 +2702,9 @@
    ],
    "cmc": 1,
    "image": "",
-   "colors": null,
+   "colors": [
+    "W"
+   ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/xln/22/legions-landing-adanto-the-first-fort?utm_source=api",
    "oracle_text": ""
@@ -3017,7 +3086,10 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "U",
+    "W"
+   ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/mkm/264/meticulous-archive?utm_source=api",
    "oracle_text": "({T}: Add {W} or {U}.)\nMeticulous Archive enters the battlefield tapped.\nWhen Meticulous Archive enters the battlefield, surveil 1. (Look at the top card of your library. You may put it into your graveyard.)"
@@ -3194,6 +3266,7 @@
    "cmc": 2,
    "image": "",
    "colors": [
+    "B",
     "G"
    ],
    "mana_cost": "{1}{G} // {1}{B}",
@@ -3292,7 +3365,9 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "U"
+   ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/mkc/277/mystic-sanctuary?utm_source=api",
    "oracle_text": "({T}: Add {U}.)\nMystic Sanctuary enters the battlefield tapped unless you control three or more other Islands.\nWhen Mystic Sanctuary enters the battlefield untapped, you may put target instant or sorcery card from your graveyard on top of your library."
@@ -3333,7 +3408,10 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "B",
+    "G"
+   ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/mh1/243/nurturing-peatland?utm_source=api",
    "oracle_text": "{T}, Pay 1 life: Add {B} or {G}.\n{1}, {T}, Sacrifice Nurturing Peatland: Draw a card."
@@ -3379,7 +3457,9 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "U"
+   ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/neo/271/otawara-soaring-city?utm_source=api",
    "oracle_text": "{T}: Add {U}.\nChannel — {3}{U}, Discard Otawara, Soaring City: Return target artifact, creature, enchantment, or planeswalker to its owner's hand. This ability costs {1} less to activate for each legendary creature you control."
@@ -3409,7 +3489,10 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "B",
+    "G"
+   ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/rvr/283/overgrown-tomb?utm_source=api",
    "oracle_text": "({T}: Add {B} or {G}.)\nAs Overgrown Tomb enters the battlefield, you may pay 2 life. If you don't, it enters the battlefield tapped."
@@ -3425,7 +3508,10 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "B",
+    "G"
+   ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/rvr/283/overgrown-tomb?utm_source=api",
    "oracle_text": "({T}: Add {B} or {G}.)\nAs Overgrown Tomb enters the battlefield, you may pay 2 life. If you don't, it enters the battlefield tapped."
@@ -3663,7 +3749,9 @@
    ],
    "cmc": 1,
    "image": "",
-   "colors": [],
+   "colors": [
+    "R"
+   ],
    "mana_cost": "{1}",
    "url": "https://scryfall.com/card/2xm/283/pyrite-spellbomb?utm_source=api",
    "oracle_text": "{R}, Sacrifice Pyrite Spellbomb: It deals 2 damage to any target.\n{1}, Sacrifice Pyrite Spellbomb: Draw a card."
@@ -3743,7 +3831,8 @@
    "cmc": 2,
    "image": "",
    "colors": [
-    "G"
+    "G",
+    "R"
    ],
    "mana_cost": "{1}{G} // {1}{R}",
    "url": "https://scryfall.com/card/woe/234/questing-druid-seek-the-beast?utm_source=api",
@@ -3901,7 +3990,10 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "B",
+    "W"
+   ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/woe/259/restless-fortress?utm_source=api",
    "oracle_text": "Restless Fortress enters the battlefield tapped.\n{T}: Add {W} or {B}.\n{2}{W}{B}: Restless Fortress becomes a 1/4 white and black Nightmare creature until end of turn. It's still a land.\nWhenever Restless Fortress attacks, defending player loses 2 life and you gain 2 life."
@@ -3913,7 +4005,10 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "G",
+    "U"
+   ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/woe/261/restless-vinestalk?utm_source=api",
    "oracle_text": "Restless Vinestalk enters the battlefield tapped.\n{T}: Add {G} or {U}.\n{3}{G}{U}: Until end of turn, Restless Vinestalk becomes a 5/5 green and blue Plant creature with trample. It's still a land.\nWhenever Restless Vinestalk attacks, up to one other target creature has base power and toughness 3/3 until end of turn."
@@ -3992,7 +4087,10 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "R",
+    "W"
+   ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/rvr/285/sacred-foundry?utm_source=api",
    "oracle_text": "({T}: Add {R} or {W}.)\nAs Sacred Foundry enters the battlefield, you may pay 2 life. If you don't, it enters the battlefield tapped."
@@ -4008,7 +4106,10 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "R",
+    "W"
+   ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/rvr/285/sacred-foundry?utm_source=api",
    "oracle_text": "({T}: Add {R} or {W}.)\nAs Sacred Foundry enters the battlefield, you may pay 2 life. If you don't, it enters the battlefield tapped."
@@ -4070,7 +4171,8 @@
    "cmc": 2,
    "image": "",
    "colors": [
-    "R"
+    "R",
+    "U"
    ],
    "mana_cost": "{1}{R} // {1}{U}",
    "url": "https://scryfall.com/card/woe/235/scalding-viper-steam-clean?utm_source=api",
@@ -4087,7 +4189,10 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "G",
+    "W"
+   ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/otc/315/scattered-groves?utm_source=api",
    "oracle_text": "({T}: Add {G} or {W}.)\nScattered Groves enters the battlefield tapped.\nCycling {2} ({2}, Discard this card: Draw a card.)"
@@ -4132,7 +4237,9 @@
    ],
    "cmc": 2,
    "image": "",
-   "colors": [],
+   "colors": [
+    "R"
+   ],
    "mana_cost": "{2}",
    "url": "https://scryfall.com/card/bro/164/scrapwork-mutt?utm_source=api",
    "oracle_text": "When Scrapwork Mutt enters the battlefield, you may discard a card. If you do, draw a card.\nUnearth {1}{R} ({1}{R}: Return this card from your graveyard to the battlefield. It gains haste. Exile it at the beginning of the next end step or if it would leave the battlefield. Unearth only as a sorcery.)"
@@ -4262,7 +4369,10 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "B",
+    "W"
+   ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/mkm/268/shadowy-backstreet?utm_source=api",
    "oracle_text": "({T}: Add {W} or {B}.)\nShadowy Backstreet enters the battlefield tapped.\nWhen Shadowy Backstreet enters the battlefield, surveil 1. (Look at the top card of your library. You may put it into your graveyard.)"
@@ -4288,7 +4398,9 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "U"
+   ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/lrw/272/shelldock-isle?utm_source=api",
    "oracle_text": "Hideaway 4 (When this land enters the battlefield, look at the top four cards of your library, exile one face down, then put the rest on the bottom in a random order.)\nShelldock Isle enters the battlefield tapped.\n{T}: Add {U}.\n{U}, {T}: You may play the exiled card without paying its mana cost if a library has twenty or fewer cards in it."
@@ -4304,7 +4416,10 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "G",
+    "R"
+   ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/otc/319/sheltered-thicket?utm_source=api",
    "oracle_text": "({T}: Add {R} or {G}.)\nSheltered Thicket enters the battlefield tapped.\nCycling {2} ({2}, Discard this card: Draw a card.)"
@@ -4570,7 +4685,10 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "R",
+    "U"
+   ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/rvr/288/steam-vents?utm_source=api",
    "oracle_text": "({T}: Add {U} or {R}.)\nAs Steam Vents enters the battlefield, you may pay 2 life. If you don't, it enters the battlefield tapped."
@@ -4586,7 +4704,10 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "R",
+    "U"
+   ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/rvr/288/steam-vents?utm_source=api",
    "oracle_text": "({T}: Add {U} or {R}.)\nAs Steam Vents enters the battlefield, you may pay 2 life. If you don't, it enters the battlefield tapped."
@@ -4633,7 +4754,10 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "G",
+    "R"
+   ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/rvr/289/stomping-ground?utm_source=api",
    "oracle_text": "({T}: Add {R} or {G}.)\nAs Stomping Ground enters the battlefield, you may pay 2 life. If you don't, it enters the battlefield tapped."
@@ -4649,7 +4773,10 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "G",
+    "R"
+   ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/rvr/289/stomping-ground?utm_source=api",
    "oracle_text": "({T}: Add {R} or {G}.)\nAs Stomping Ground enters the battlefield, you may pay 2 life. If you don't, it enters the battlefield tapped."
@@ -4661,7 +4788,10 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "B",
+    "R"
+   ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/otc/323/sulfurous-springs?utm_source=api",
    "oracle_text": "{T}: Add {C}.\n{T}: Add {B} or {R}. Sulfurous Springs deals 1 damage to you."
@@ -4673,7 +4803,10 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "R",
+    "W"
+   ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/mh1/247/sunbaked-canyon?utm_source=api",
    "oracle_text": "{T}, Pay 1 life: Add {R} or {W}.\n{1}, {T}, Sacrifice Sunbaked Canyon: Draw a card."
@@ -4686,7 +4819,9 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "B"
+   ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/neo/278/takenuma-abandoned-mire?utm_source=api",
    "oracle_text": "{T}: Add {B}.\nChannel — {3}{B}, Discard Takenuma, Abandoned Mire: Mill three cards, then return a creature or planeswalker card from your graveyard to your hand. This ability costs {1} less to activate for each legendary creature you control."
@@ -4704,7 +4839,8 @@
    "cmc": 3,
    "image": "",
    "colors": [
-    "U"
+    "U",
+    "W"
    ],
    "mana_cost": "{2}{U}",
    "url": "https://scryfall.com/card/neo/82/tameshi-reality-architect?utm_source=api",
@@ -4806,7 +4942,10 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "G",
+    "W"
+   ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/rvr/290/temple-garden?utm_source=api",
    "oracle_text": "({T}: Add {G} or {W}.)\nAs Temple Garden enters the battlefield, you may pay 2 life. If you don't, it enters the battlefield tapped."
@@ -4822,7 +4961,10 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "G",
+    "W"
+   ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/rvr/290/temple-garden?utm_source=api",
    "oracle_text": "({T}: Add {G} or {W}.)\nAs Temple Garden enters the battlefield, you may pay 2 life. If you don't, it enters the battlefield tapped."
@@ -4963,7 +5105,9 @@
    ],
    "cmc": 2,
    "image": "",
-   "colors": null,
+   "colors": [
+    "U"
+   ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/soi/92/thing-in-the-ice-awoken-horror?utm_source=api",
    "oracle_text": ""
@@ -5024,7 +5168,10 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "R",
+    "U"
+   ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/mkm/269/thundering-falls?utm_source=api",
    "oracle_text": "({T}: Add {U} or {R}.)\nThundering Falls enters the battlefield tapped.\nWhen Thundering Falls enters the battlefield, surveil 1. (Look at the top card of your library. You may put it into your graveyard.)"
@@ -5263,7 +5410,10 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "B",
+    "U"
+   ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/mkm/270/undercity-sewers?utm_source=api",
    "oracle_text": "({T}: Add {U} or {B}.)\nUndercity Sewers enters the battlefield tapped.\nWhen Undercity Sewers enters the battlefield, surveil 1. (Look at the top card of your library. You may put it into your graveyard.)"
@@ -5279,7 +5429,10 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "B",
+    "G"
+   ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/mkm/271/underground-mortuary?utm_source=api",
    "oracle_text": "({T}: Add {B} or {G}.)\nUnderground Mortuary enters the battlefield tapped.\nWhen Underground Mortuary enters the battlefield, surveil 1. (Look at the top card of your library. You may put it into your graveyard.)"
@@ -5501,7 +5654,10 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "B",
+    "U"
+   ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/rvr/291/watery-grave?utm_source=api",
    "oracle_text": "({T}: Add {U} or {B}.)\nAs Watery Grave enters the battlefield, you may pay 2 life. If you don't, it enters the battlefield tapped."
@@ -5517,7 +5673,10 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "B",
+    "U"
+   ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/rvr/291/watery-grave?utm_source=api",
    "oracle_text": "({T}: Add {U} or {B}.)\nAs Watery Grave enters the battlefield, you may pay 2 life. If you don't, it enters the battlefield tapped."

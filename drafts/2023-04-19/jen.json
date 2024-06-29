@@ -6,6 +6,7 @@
  "player": "jen",
  "date": "2023-04-19",
  "games": null,
+ "matches": null,
  "wins": 1,
  "mainboard": [
   {
@@ -240,9 +241,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "B"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/306/swamp?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/314/swamp?utm_source=api",
    "oracle_text": "({T}: Add {B}.)"
   },
   {
@@ -256,9 +259,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "B"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/306/swamp?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/314/swamp?utm_source=api",
    "oracle_text": "({T}: Add {B}.)"
   },
   {
@@ -272,9 +277,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "B"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/306/swamp?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/314/swamp?utm_source=api",
    "oracle_text": "({T}: Add {B}.)"
   },
   {
@@ -288,9 +295,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "B"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/306/swamp?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/314/swamp?utm_source=api",
    "oracle_text": "({T}: Add {B}.)"
   },
   {
@@ -304,9 +313,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "B"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/306/swamp?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/314/swamp?utm_source=api",
    "oracle_text": "({T}: Add {B}.)"
   },
   {
@@ -320,9 +331,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "B"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/306/swamp?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/314/swamp?utm_source=api",
    "oracle_text": "({T}: Add {B}.)"
   },
   {
@@ -336,9 +349,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "B"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/306/swamp?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/314/swamp?utm_source=api",
    "oracle_text": "({T}: Add {B}.)"
   },
   {
@@ -352,9 +367,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "B"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/306/swamp?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/314/swamp?utm_source=api",
    "oracle_text": "({T}: Add {B}.)"
   },
   {
@@ -418,9 +435,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "G"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/308/forest?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/318/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)"
   },
   {
@@ -434,9 +453,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "G"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/308/forest?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/318/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)"
   },
   {
@@ -450,9 +471,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "G"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/308/forest?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/318/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)"
   },
   {
@@ -466,9 +489,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "G"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/308/forest?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/318/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)"
   },
   {
@@ -482,9 +507,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "G"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/308/forest?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/318/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)"
   },
   {
@@ -498,9 +525,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "G"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/308/forest?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/318/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)"
   },
   {
@@ -514,9 +543,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "G"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/308/forest?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/318/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)"
   },
   {
@@ -530,9 +561,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "G"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/308/forest?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/318/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)"
   },
   {
@@ -576,7 +609,10 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "B",
+    "G"
+   ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/cmm/1015/necroblossom-snarl?utm_source=api",
    "oracle_text": "As Necroblossom Snarl enters the battlefield, you may reveal a Swamp or Forest card from your hand. If you don't, Necroblossom Snarl enters the battlefield tapped.\n{T}: Add {B} or {G}."

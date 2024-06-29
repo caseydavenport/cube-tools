@@ -15,6 +15,7 @@
    "winner": "dom"
   }
  ],
+ "matches": null,
  "mainboard": [
   {
    "name": "Portable Hole",
@@ -37,7 +38,9 @@
    ],
    "cmc": 1,
    "image": "",
-   "colors": [],
+   "colors": [
+    "R"
+   ],
    "mana_cost": "{1}",
    "url": "https://scryfall.com/card/2xm/283/pyrite-spellbomb?utm_source=api",
    "oracle_text": "{R}, Sacrifice Pyrite Spellbomb: It deals 2 damage to any target.\n{1}, Sacrifice Pyrite Spellbomb: Draw a card.",
@@ -272,7 +275,7 @@
   {
    "name": "Hunting Triad",
    "types": [
-    "Tribal",
+    "Kindred",
     "Sorcery"
    ],
    "sub_types": [
@@ -314,9 +317,12 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "G",
+    "R"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mkc/291/sheltered-thicket?utm_source=api",
+   "url": "https://scryfall.com/card/otc/319/sheltered-thicket?utm_source=api",
    "oracle_text": "({T}: Add {R} or {G}.)\nSheltered Thicket enters the battlefield tapped.\nCycling {2} ({2}, Discard this card: Draw a card.)",
    "appearances": 1
   },
@@ -460,7 +466,7 @@
     "G"
    ],
    "mana_cost": "{2}{G}",
-   "url": "https://scryfall.com/card/znc/69/harrow?utm_source=api",
+   "url": "https://scryfall.com/card/otc/194/harrow?utm_source=api",
    "oracle_text": "As an additional cost to cast this spell, sacrifice a land.\nSearch your library for up to two basic land cards, put them onto the battlefield, then shuffle.",
    "appearances": 1
   },
@@ -491,7 +497,10 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "G",
+    "W"
+   ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/mkc/252/canopy-vista?utm_source=api",
    "oracle_text": "({T}: Add {G} or {W}.)\nCanopy Vista enters the battlefield tapped unless you control two or more basic lands.",
@@ -504,9 +513,12 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "B",
+    "R"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/dmu/256/sulfurous-springs?utm_source=api",
+   "url": "https://scryfall.com/card/otc/323/sulfurous-springs?utm_source=api",
    "oracle_text": "{T}: Add {C}.\n{T}: Add {B} or {R}. Sulfurous Springs deals 1 damage to you.",
    "appearances": 1
   },
@@ -521,9 +533,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "W"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/304/plains?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/310/plains?utm_source=api",
    "oracle_text": "({T}: Add {W}.)",
    "appearances": 2
   },
@@ -538,9 +552,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "W"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/304/plains?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/310/plains?utm_source=api",
    "oracle_text": "({T}: Add {W}.)",
    "appearances": 2
   },
@@ -555,9 +571,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "W"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/304/plains?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/310/plains?utm_source=api",
    "oracle_text": "({T}: Add {W}.)",
    "appearances": 2
   },
@@ -572,9 +590,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "W"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/304/plains?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/310/plains?utm_source=api",
    "oracle_text": "({T}: Add {W}.)",
    "appearances": 2
   },
@@ -589,9 +609,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "R"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/blb/274/mountain?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/316/mountain?utm_source=api",
    "oracle_text": "({T}: Add {R}.)",
    "appearances": 1
   },
@@ -606,9 +628,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "G"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/308/forest?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/318/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)",
    "appearances": 2
   },
@@ -623,9 +647,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "G"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/308/forest?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/318/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)",
    "appearances": 2
   },
@@ -640,9 +666,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "G"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/308/forest?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/318/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)",
    "appearances": 2
   },
@@ -657,9 +685,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "G"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/308/forest?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/318/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)",
    "appearances": 2
   },
@@ -674,9 +704,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "G"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/308/forest?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/318/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)",
    "appearances": 2
   }
@@ -999,7 +1031,9 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "B"
+   ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/neo/278/takenuma-abandoned-mire?utm_source=api",
    "oracle_text": "{T}: Add {B}.\nChannel — {3}{B}, Discard Takenuma, Abandoned Mire: Mill three cards, then return a creature or planeswalker card from your graveyard to your hand. This ability costs {1} less to activate for each legendary creature you control.",

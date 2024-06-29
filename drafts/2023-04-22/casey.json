@@ -6,6 +6,7 @@
  "player": "casey",
  "date": "2023-04-22",
  "games": null,
+ "matches": null,
  "mainboard": [
   {
    "name": "Foreboding Ruins",
@@ -14,7 +15,10 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "B",
+    "R"
+   ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/lcc/330/foreboding-ruins?utm_source=api",
    "oracle_text": "As Foreboding Ruins enters the battlefield, you may reveal a Swamp or Mountain card from your hand. If you don't, Foreboding Ruins enters the battlefield tapped.\n{T}: Add {B} or {R}."
@@ -30,9 +34,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "B"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/306/swamp?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/314/swamp?utm_source=api",
    "oracle_text": "({T}: Add {B}.)"
   },
   {
@@ -46,9 +52,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "B"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/306/swamp?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/314/swamp?utm_source=api",
    "oracle_text": "({T}: Add {B}.)"
   },
   {
@@ -62,9 +70,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "B"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/306/swamp?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/314/swamp?utm_source=api",
    "oracle_text": "({T}: Add {B}.)"
   },
   {
@@ -78,9 +88,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "B"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/306/swamp?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/314/swamp?utm_source=api",
    "oracle_text": "({T}: Add {B}.)"
   },
   {
@@ -90,9 +102,12 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "B",
+    "R"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/dmc/207/dragonskull-summit?utm_source=api",
+   "url": "https://scryfall.com/card/otc/289/dragonskull-summit?utm_source=api",
    "oracle_text": "Dragonskull Summit enters the battlefield tapped unless you control a Swamp or a Mountain.\n{T}: Add {B} or {R}."
   },
   {
@@ -243,7 +258,7 @@
     "R"
    ],
    "mana_cost": "{R}",
-   "url": "https://scryfall.com/card/lcc/225/faithless-looting?utm_source=api",
+   "url": "https://scryfall.com/card/otc/165/faithless-looting?utm_source=api",
    "oracle_text": "Draw two cards, then discard two cards.\nFlashback {2}{R} (You may cast this card from your graveyard for its flashback cost. Then exile it.)"
   },
   {
@@ -295,7 +310,7 @@
    "image": "",
    "colors": [],
    "mana_cost": "{2}",
-   "url": "https://scryfall.com/card/cmm/398/lightning-greaves?utm_source=api",
+   "url": "https://scryfall.com/card/otc/260/lightning-greaves?utm_source=api",
    "oracle_text": "Equipped creature has haste and shroud. (It can't be the target of spells or abilities.)\nEquip {0}"
   },
   {
@@ -337,7 +352,9 @@
    ],
    "cmc": 2,
    "image": "",
-   "colors": [],
+   "colors": [
+    "B"
+   ],
    "mana_cost": "{2}",
    "url": "https://scryfall.com/card/som/170/leaden-myr?utm_source=api",
    "oracle_text": "{T}: Add {B}."
@@ -405,7 +422,7 @@
     "R"
    ],
    "mana_cost": "{2}{R}",
-   "url": "https://scryfall.com/card/rvr/110/guttersnipe?utm_source=api",
+   "url": "https://scryfall.com/card/otc/169/guttersnipe?utm_source=api",
    "oracle_text": "Whenever you cast an instant or sorcery spell, Guttersnipe deals 2 damage to each opponent."
   },
   {
@@ -419,9 +436,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "R"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/blb/274/mountain?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/316/mountain?utm_source=api",
    "oracle_text": "({T}: Add {R}.)"
   },
   {
@@ -435,9 +454,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "R"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/blb/274/mountain?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/316/mountain?utm_source=api",
    "oracle_text": "({T}: Add {R}.)"
   },
   {
@@ -451,9 +472,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "R"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/blb/274/mountain?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/316/mountain?utm_source=api",
    "oracle_text": "({T}: Add {R}.)"
   },
   {
@@ -467,9 +490,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "R"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/blb/274/mountain?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/316/mountain?utm_source=api",
    "oracle_text": "({T}: Add {R}.)"
   },
   {
@@ -483,9 +508,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "R"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/blb/274/mountain?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/316/mountain?utm_source=api",
    "oracle_text": "({T}: Add {R}.)"
   },
   {
@@ -499,9 +526,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "R"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/blb/274/mountain?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/316/mountain?utm_source=api",
    "oracle_text": "({T}: Add {R}.)"
   },
   {

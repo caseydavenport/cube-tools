@@ -6,6 +6,7 @@
  "player": "casey",
  "date": "2023-04-27",
  "games": null,
+ "matches": null,
  "wins": 1,
  "mainboard": [
   {
@@ -217,7 +218,10 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "G",
+    "W"
+   ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/xln/257/sunpetal-grove?utm_source=api",
    "oracle_text": "Sunpetal Grove enters the battlefield tapped unless you control a Forest or a Plains.\n{T}: Add {G} or {W}."
@@ -251,7 +255,9 @@
    ],
    "cmc": 2,
    "image": "",
-   "colors": [],
+   "colors": [
+    "U"
+   ],
    "mana_cost": "{2}",
    "url": "https://scryfall.com/card/nec/158/silver-myr?utm_source=api",
    "oracle_text": "{T}: Add {U}."
@@ -267,9 +273,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "G"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/308/forest?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/318/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)"
   },
   {
@@ -283,9 +291,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "G"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/308/forest?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/318/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)"
   },
   {
@@ -299,9 +309,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "G"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/308/forest?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/318/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)"
   },
   {
@@ -315,9 +327,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "G"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/308/forest?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/318/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)"
   },
   {
@@ -359,7 +373,10 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "U",
+    "W"
+   ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/cmm/1019/port-town?utm_source=api",
    "oracle_text": "As Port Town enters the battlefield, you may reveal a Plains or Island card from your hand. If you don't, Port Town enters the battlefield tapped.\n{T}: Add {W} or {U}."
@@ -438,9 +455,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "W"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/304/plains?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/310/plains?utm_source=api",
    "oracle_text": "({T}: Add {W}.)"
   },
   {
@@ -454,9 +473,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "W"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/304/plains?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/310/plains?utm_source=api",
    "oracle_text": "({T}: Add {W}.)"
   },
   {
@@ -470,9 +491,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "W"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/304/plains?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/310/plains?utm_source=api",
    "oracle_text": "({T}: Add {W}.)"
   },
   {
@@ -486,9 +509,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "W"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/304/plains?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/310/plains?utm_source=api",
    "oracle_text": "({T}: Add {W}.)"
   },
   {
@@ -502,9 +527,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "W"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/304/plains?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/310/plains?utm_source=api",
    "oracle_text": "({T}: Add {W}.)"
   },
   {
@@ -518,9 +545,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "U"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/305/island?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/312/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)"
   },
   {
@@ -534,9 +563,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "U"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/305/island?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/312/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)"
   },
   {
@@ -550,9 +581,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "U"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/305/island?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/312/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)"
   },
   {
@@ -566,9 +599,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "U"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/305/island?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/312/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)"
   },
   {
@@ -582,9 +617,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "U"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/305/island?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/312/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)"
   },
   {
@@ -645,7 +682,10 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "U",
+    "W"
+   ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/clu/230/azorius-guildgate?utm_source=api",
    "oracle_text": "Azorius Guildgate enters the battlefield tapped.\n{T}: Add {W} or {U}."

@@ -84,7 +84,7 @@
     "W"
    ],
    "mana_cost": "{2}{W}{W}",
-   "url": "https://scryfall.com/card/m12/12/day-of-judgment?utm_source=api",
+   "url": "https://scryfall.com/card/fdn/140/day-of-judgment?utm_source=api",
    "oracle_text": "Destroy all creatures.",
    "appearances": 3
   },
@@ -103,7 +103,7 @@
     "W"
    ],
    "mana_cost": "{1}{W}",
-   "url": "https://scryfall.com/card/shm/14/mistmeadow-skulk?utm_source=api",
+   "url": "https://scryfall.com/card/otc/84/mistmeadow-skulk?utm_source=api",
    "oracle_text": "Lifelink, protection from mana value 3 or greater",
    "appearances": 5
   },
@@ -203,7 +203,7 @@
    "image": "",
    "colors": [],
    "mana_cost": "{2}",
-   "url": "https://scryfall.com/card/cmm/398/lightning-greaves?utm_source=api",
+   "url": "https://scryfall.com/card/otc/260/lightning-greaves?utm_source=api",
    "oracle_text": "Equipped creature has haste and shroud. (It can't be the target of spells or abilities.)\nEquip {0}",
    "appearances": 4
   },
@@ -306,7 +306,9 @@
    ],
    "cmc": 1,
    "image": "",
-   "colors": null,
+   "colors": [
+    "W"
+   ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/xln/22/legions-landing-adanto-the-first-fort?utm_source=api",
    "oracle_text": "",
@@ -466,9 +468,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "W"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/304/plains?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/310/plains?utm_source=api",
    "oracle_text": "({T}: Add {W}.)",
    "appearances": 21
   },
@@ -483,9 +487,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "W"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/304/plains?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/310/plains?utm_source=api",
    "oracle_text": "({T}: Add {W}.)",
    "appearances": 21
   },
@@ -500,9 +506,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "W"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/304/plains?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/310/plains?utm_source=api",
    "oracle_text": "({T}: Add {W}.)",
    "appearances": 21
   },
@@ -517,9 +525,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "W"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/304/plains?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/310/plains?utm_source=api",
    "oracle_text": "({T}: Add {W}.)",
    "appearances": 21
   },
@@ -534,9 +544,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "W"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/304/plains?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/310/plains?utm_source=api",
    "oracle_text": "({T}: Add {W}.)",
    "appearances": 21
   },
@@ -551,9 +563,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "W"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/304/plains?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/310/plains?utm_source=api",
    "oracle_text": "({T}: Add {W}.)",
    "appearances": 21
   },
@@ -568,9 +582,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "W"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/304/plains?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/310/plains?utm_source=api",
    "oracle_text": "({T}: Add {W}.)",
    "appearances": 21
   },
@@ -585,9 +601,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "W"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/304/plains?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/310/plains?utm_source=api",
    "oracle_text": "({T}: Add {W}.)",
    "appearances": 21
   },
@@ -602,9 +620,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "W"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/304/plains?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/310/plains?utm_source=api",
    "oracle_text": "({T}: Add {W}.)",
    "appearances": 21
   },
@@ -619,9 +639,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "W"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/304/plains?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/310/plains?utm_source=api",
    "oracle_text": "({T}: Add {W}.)",
    "appearances": 21
   },
@@ -636,9 +658,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "W"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/304/plains?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/310/plains?utm_source=api",
    "oracle_text": "({T}: Add {W}.)",
    "appearances": 21
   },
@@ -653,9 +677,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "G"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/308/forest?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/318/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)",
    "appearances": 20
   },
@@ -670,9 +696,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "G"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/308/forest?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/318/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)",
    "appearances": 20
   },
@@ -687,9 +715,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "G"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/308/forest?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/318/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)",
    "appearances": 20
   },
@@ -704,9 +734,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "G"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/308/forest?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/318/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)",
    "appearances": 20
   },
@@ -721,9 +753,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "G"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/308/forest?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/318/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)",
    "appearances": 20
   },
@@ -738,9 +772,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "G"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/308/forest?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/318/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)",
    "appearances": 20
   }
@@ -757,7 +793,10 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "B",
+    "U"
+   ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/rvr/291/watery-grave?utm_source=api",
    "oracle_text": "({T}: Add {U} or {B}.)\nAs Watery Grave enters the battlefield, you may pay 2 life. If you don't, it enters the battlefield tapped."
@@ -844,7 +883,7 @@
     "G"
    ],
    "mana_cost": "{3}{G}",
-   "url": "https://scryfall.com/card/2x2/154/oracle-of-mul-daya?utm_source=api",
+   "url": "https://scryfall.com/card/otc/200/oracle-of-mul-daya?utm_source=api",
    "oracle_text": "You may play an additional land on each of your turns.\nPlay with the top card of your library revealed.\nYou may play lands from the top of your library."
   },
   {
@@ -878,7 +917,8 @@
    "cmc": 3,
    "image": "",
    "colors": [
-    "R"
+    "R",
+    "W"
    ],
    "mana_cost": "{2}{R} // {1}{W}",
    "url": "https://scryfall.com/card/woe/230/kellan-the-fae-blooded-birthright-boon?utm_source=api",
@@ -887,7 +927,7 @@
   {
    "name": "Hunting Triad",
    "types": [
-    "Tribal",
+    "Kindred",
     "Sorcery"
    ],
    "sub_types": [
@@ -949,7 +989,10 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "G",
+    "W"
+   ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/mkc/252/canopy-vista?utm_source=api",
    "oracle_text": "({T}: Add {G} or {W}.)\nCanopy Vista enters the battlefield tapped unless you control two or more basic lands."
@@ -965,9 +1008,12 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "G",
+    "W"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mkc/286/scattered-groves?utm_source=api",
+   "url": "https://scryfall.com/card/otc/315/scattered-groves?utm_source=api",
    "oracle_text": "({T}: Add {G} or {W}.)\nScattered Groves enters the battlefield tapped.\nCycling {2} ({2}, Discard this card: Draw a card.)"
   },
   {
@@ -985,7 +1031,7 @@
     "G"
    ],
    "mana_cost": "{G}",
-   "url": "https://scryfall.com/card/gnt/46/llanowar-elves?utm_source=api",
+   "url": "https://scryfall.com/card/fdn/227/llanowar-elves?utm_source=api",
    "oracle_text": "{T}: Add {G}."
   },
   {
@@ -1017,7 +1063,9 @@
    ],
    "cmc": 2,
    "image": "",
-   "colors": [],
+   "colors": [
+    "W"
+   ],
    "mana_cost": "{2}",
    "url": "https://scryfall.com/card/nec/153/gold-myr?utm_source=api",
    "oracle_text": "{T}: Add {W}."

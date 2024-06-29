@@ -16,6 +16,7 @@
    "winner": "xander"
   }
  ],
+ "matches": null,
  "mainboard": [
   {
    "name": "Mana Leak",
@@ -121,7 +122,7 @@
    "image": "",
    "colors": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/lcc/328/evolving-wilds?utm_source=api",
+   "url": "https://scryfall.com/card/otc/292/evolving-wilds?utm_source=api",
    "oracle_text": "{T}, Sacrifice Evolving Wilds: Search your library for a basic land card, put it onto the battlefield tapped, then shuffle."
   },
   {
@@ -145,9 +146,12 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "G",
+    "U"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/lcc/336/hinterland-harbor?utm_source=api",
+   "url": "https://scryfall.com/card/otc/300/hinterland-harbor?utm_source=api",
    "oracle_text": "Hinterland Harbor enters the battlefield tapped unless you control a Forest or an Island.\n{T}: Add {G} or {U}."
   },
   {
@@ -215,7 +219,7 @@
     "G"
    ],
    "mana_cost": "{3}{G}",
-   "url": "https://scryfall.com/card/2x2/154/oracle-of-mul-daya?utm_source=api",
+   "url": "https://scryfall.com/card/otc/200/oracle-of-mul-daya?utm_source=api",
    "oracle_text": "You may play an additional land on each of your turns.\nPlay with the top card of your library revealed.\nYou may play lands from the top of your library."
   },
   {
@@ -396,7 +400,7 @@
     "U"
    ],
    "mana_cost": "{U}",
-   "url": "https://scryfall.com/card/m21/59/opt?utm_source=api",
+   "url": "https://scryfall.com/card/otc/104/opt?utm_source=api",
    "oracle_text": "Scry 1.\nDraw a card."
   },
   {
@@ -414,7 +418,7 @@
     "G"
    ],
    "mana_cost": "{G}",
-   "url": "https://scryfall.com/card/gnt/46/llanowar-elves?utm_source=api",
+   "url": "https://scryfall.com/card/fdn/227/llanowar-elves?utm_source=api",
    "oracle_text": "{T}: Add {G}."
   },
   {
@@ -447,7 +451,7 @@
     "G"
    ],
    "mana_cost": "{1}{G}",
-   "url": "https://scryfall.com/card/lcc/241/explore?utm_source=api",
+   "url": "https://scryfall.com/card/otc/192/explore?utm_source=api",
    "oracle_text": "You may play an additional land this turn.\nDraw a card."
   },
   {
@@ -461,9 +465,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "U"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/305/island?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/312/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)",
    "appearances": 4
   },
@@ -478,9 +484,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "U"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/305/island?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/312/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)",
    "appearances": 4
   },
@@ -495,9 +503,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "U"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/305/island?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/312/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)",
    "appearances": 4
   },
@@ -512,9 +522,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "U"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/305/island?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/312/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)",
    "appearances": 4
   },
@@ -529,9 +541,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "U"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/305/island?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/312/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)",
    "appearances": 4
   },
@@ -546,9 +560,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "U"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/305/island?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/312/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)",
    "appearances": 4
   },
@@ -563,9 +579,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "U"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/305/island?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/312/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)",
    "appearances": 4
   },
@@ -580,9 +598,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "G"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/308/forest?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/318/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)",
    "appearances": 5
   },
@@ -597,9 +617,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "G"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/308/forest?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/318/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)",
    "appearances": 5
   },
@@ -614,9 +636,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "G"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/308/forest?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/318/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)",
    "appearances": 5
   },
@@ -631,9 +655,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "G"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/308/forest?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/318/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)",
    "appearances": 5
   },
@@ -648,9 +674,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "G"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/308/forest?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/318/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)",
    "appearances": 5
   },
@@ -665,9 +693,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "G"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/308/forest?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/318/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)",
    "appearances": 5
   },
@@ -682,9 +712,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "G"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/308/forest?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/318/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)",
    "appearances": 5
   }
@@ -706,7 +738,7 @@
     "U"
    ],
    "mana_cost": "{2}{U}{B}",
-   "url": "https://scryfall.com/card/lcc/271/hostage-taker?utm_source=api",
+   "url": "https://scryfall.com/card/otc/231/hostage-taker?utm_source=api",
    "oracle_text": "When Hostage Taker enters the battlefield, exile another target creature or artifact until Hostage Taker leaves the battlefield. You may cast that card for as long as it remains exiled, and mana of any type can be spent to cast that spell."
   },
   {
@@ -944,7 +976,7 @@
   {
    "name": "Hunting Triad",
    "types": [
-    "Tribal",
+    "Kindred",
     "Sorcery"
    ],
    "sub_types": [

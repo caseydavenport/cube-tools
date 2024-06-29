@@ -101,7 +101,10 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "B",
+    "R"
+   ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/rvr/273/blood-crypt?utm_source=api",
    "oracle_text": "({T}: Add {B} or {R}.)\nAs Blood Crypt enters the battlefield, you may pay 2 life. If you don't, it enters the battlefield tapped."
@@ -253,7 +256,7 @@
     "U"
    ],
    "mana_cost": "{2}{U}{B}",
-   "url": "https://scryfall.com/card/lcc/271/hostage-taker?utm_source=api",
+   "url": "https://scryfall.com/card/otc/231/hostage-taker?utm_source=api",
    "oracle_text": "When Hostage Taker enters the battlefield, exile another target creature or artifact until Hostage Taker leaves the battlefield. You may cast that card for as long as it remains exiled, and mana of any type can be spent to cast that spell."
   },
   {
@@ -267,9 +270,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "U"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/305/island?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/312/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)"
   },
   {
@@ -283,9 +288,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "U"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/305/island?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/312/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)"
   },
   {
@@ -299,9 +306,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "U"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/305/island?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/312/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)"
   },
   {
@@ -315,9 +324,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "U"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/305/island?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/312/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)"
   },
   {
@@ -331,9 +342,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "U"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/305/island?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/312/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)"
   },
   {
@@ -409,7 +422,7 @@
     "U"
    ],
    "mana_cost": "{U}",
-   "url": "https://scryfall.com/card/rvr/54/pteramander?utm_source=api",
+   "url": "https://scryfall.com/card/otc/109/pteramander?utm_source=api",
    "oracle_text": "Flying\n{7}{U}: Adapt 4. This ability costs {1} less to activate for each instant and sorcery card in your graveyard. (If this creature has no +1/+1 counters on it, put four +1/+1 counters on it.)"
   },
   {
@@ -444,7 +457,8 @@
    "cmc": 2,
    "image": "",
    "colors": [
-    "G"
+    "G",
+    "R"
    ],
    "mana_cost": "{1}{G} // {1}{R}",
    "url": "https://scryfall.com/card/woe/234/questing-druid-seek-the-beast?utm_source=api",
@@ -485,7 +499,10 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "G",
+    "R"
+   ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/xln/256/rootbound-crag?utm_source=api",
    "oracle_text": "Rootbound Crag enters the battlefield tapped unless you control a Mountain or a Forest.\n{T}: Add {R} or {G}."
@@ -516,7 +533,9 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "U"
+   ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/lrw/272/shelldock-isle?utm_source=api",
    "oracle_text": "Hideaway 4 (When this land enters the battlefield, look at the top four cards of your library, exile one face down, then put the rest on the bottom in a random order.)\nShelldock Isle enters the battlefield tapped.\n{T}: Add {U}.\n{U}, {T}: You may play the exiled card without paying its mana cost if a library has twenty or fewer cards in it."
@@ -532,9 +551,12 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "G",
+    "R"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mkc/291/sheltered-thicket?utm_source=api",
+   "url": "https://scryfall.com/card/otc/319/sheltered-thicket?utm_source=api",
    "oracle_text": "({T}: Add {R} or {G}.)\nSheltered Thicket enters the battlefield tapped.\nCycling {2} ({2}, Discard this card: Draw a card.)"
   },
   {
@@ -544,9 +566,12 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "B",
+    "R"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/dmu/256/sulfurous-springs?utm_source=api",
+   "url": "https://scryfall.com/card/otc/323/sulfurous-springs?utm_source=api",
    "oracle_text": "{T}: Add {C}.\n{T}: Add {B} or {R}. Sulfurous Springs deals 1 damage to you."
   },
   {
@@ -560,9 +585,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "B"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/306/swamp?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/314/swamp?utm_source=api",
    "oracle_text": "({T}: Add {B}.)"
   },
   {
@@ -576,9 +603,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "B"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/306/swamp?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/314/swamp?utm_source=api",
    "oracle_text": "({T}: Add {B}.)"
   },
   {
@@ -593,7 +622,9 @@
    ],
    "cmc": 2,
    "image": "",
-   "colors": null,
+   "colors": [
+    "U"
+   ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/soi/92/thing-in-the-ice-awoken-horror?utm_source=api",
    "oracle_text": ""
@@ -609,7 +640,10 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "B",
+    "U"
+   ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/mkm/270/undercity-sewers?utm_source=api",
    "oracle_text": "({T}: Add {U} or {B}.)\nUndercity Sewers enters the battlefield tapped.\nWhen Undercity Sewers enters the battlefield, surveil 1. (Look at the top card of your library. You may put it into your graveyard.)"
@@ -649,7 +683,10 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "B",
+    "U"
+   ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/rvr/291/watery-grave?utm_source=api",
    "oracle_text": "({T}: Add {U} or {B}.)\nAs Watery Grave enters the battlefield, you may pay 2 life. If you don't, it enters the battlefield tapped."
@@ -744,7 +781,10 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "U",
+    "W"
+   ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/rvr/280/hallowed-fountain?utm_source=api",
    "oracle_text": "({T}: Add {W} or {U}.)\nAs Hallowed Fountain enters the battlefield, you may pay 2 life. If you don't, it enters the battlefield tapped."

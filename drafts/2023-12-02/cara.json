@@ -271,7 +271,9 @@
    "cmc": 1,
    "image": "",
    "colors": [
-    "G"
+    "B",
+    "G",
+    "R"
    ],
    "mana_cost": "{G}",
    "url": "https://scryfall.com/card/mh2/166/ignoble-hierarch?utm_source=api",
@@ -307,7 +309,9 @@
    ],
    "cmc": 2,
    "image": "",
-   "colors": [],
+   "colors": [
+    "G"
+   ],
    "mana_cost": "{2}",
    "url": "https://scryfall.com/card/som/146/copper-myr?utm_source=api",
    "oracle_text": "{T}: Add {G}.",
@@ -398,7 +402,7 @@
     "G"
    ],
    "mana_cost": "{1}{G}",
-   "url": "https://scryfall.com/card/znc/81/satyr-wayfinder?utm_source=api",
+   "url": "https://scryfall.com/card/otc/204/satyr-wayfinder?utm_source=api",
    "oracle_text": "When Satyr Wayfinder enters the battlefield, reveal the top four cards of your library. You may put a land card from among them into your hand. Put the rest into your graveyard.",
    "appearances": 3
   },
@@ -448,7 +452,10 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "G",
+    "R"
+   ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/rvr/289/stomping-ground?utm_source=api",
    "oracle_text": "({T}: Add {R} or {G}.)\nAs Stomping Ground enters the battlefield, you may pay 2 life. If you don't, it enters the battlefield tapped.",
@@ -481,9 +488,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "B"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/306/swamp?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/314/swamp?utm_source=api",
    "oracle_text": "({T}: Add {B}.)",
    "appearances": 22
   },
@@ -498,9 +507,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "R"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/blb/274/mountain?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/316/mountain?utm_source=api",
    "oracle_text": "({T}: Add {R}.)",
    "appearances": 25
   },
@@ -515,9 +526,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "R"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/blb/274/mountain?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/316/mountain?utm_source=api",
    "oracle_text": "({T}: Add {R}.)",
    "appearances": 25
   },
@@ -532,9 +545,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "R"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/blb/274/mountain?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/316/mountain?utm_source=api",
    "oracle_text": "({T}: Add {R}.)",
    "appearances": 25
   },
@@ -549,9 +564,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "R"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/blb/274/mountain?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/316/mountain?utm_source=api",
    "oracle_text": "({T}: Add {R}.)",
    "appearances": 25
   },
@@ -566,9 +583,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "R"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/blb/274/mountain?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/316/mountain?utm_source=api",
    "oracle_text": "({T}: Add {R}.)",
    "appearances": 25
   },
@@ -583,9 +602,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "G"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/308/forest?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/318/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)",
    "appearances": 20
   },
@@ -600,9 +621,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "G"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/308/forest?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/318/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)",
    "appearances": 20
   },
@@ -617,9 +640,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "G"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/308/forest?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/318/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)",
    "appearances": 20
   },
@@ -634,9 +659,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "G"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/308/forest?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/318/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)",
    "appearances": 20
   },
@@ -651,9 +678,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "G"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/308/forest?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/318/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)",
    "appearances": 20
   },
@@ -668,9 +697,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "G"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/308/forest?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/318/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)",
    "appearances": 20
   },
@@ -685,9 +716,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "G"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/308/forest?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/318/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)",
    "appearances": 20
   },
@@ -702,9 +735,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "G"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/308/forest?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/318/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)",
    "appearances": 20
   },
@@ -719,9 +754,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "G"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/308/forest?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/318/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)",
    "appearances": 20
   },
@@ -736,9 +773,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "G"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/308/forest?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/318/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)",
    "appearances": 20
   }
@@ -872,7 +911,10 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "G",
+    "W"
+   ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/rvr/290/temple-garden?utm_source=api",
    "oracle_text": "({T}: Add {G} or {W}.)\nAs Temple Garden enters the battlefield, you may pay 2 life. If you don't, it enters the battlefield tapped."
@@ -967,9 +1009,12 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "R",
+    "W"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/bro/257/battlefield-forge?utm_source=api",
+   "url": "https://scryfall.com/card/otc/271/battlefield-forge?utm_source=api",
    "oracle_text": "{T}: Add {C}.\n{T}: Add {R} or {W}. Battlefield Forge deals 1 damage to you."
   },
   {
@@ -983,7 +1028,7 @@
     "G"
    ],
    "mana_cost": "{2}{G}",
-   "url": "https://scryfall.com/card/znc/69/harrow?utm_source=api",
+   "url": "https://scryfall.com/card/otc/194/harrow?utm_source=api",
    "oracle_text": "As an additional cost to cast this spell, sacrifice a land.\nSearch your library for up to two basic land cards, put them onto the battlefield, then shuffle."
   },
   {
@@ -1068,7 +1113,10 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "B",
+    "R"
+   ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/rvr/273/blood-crypt?utm_source=api",
    "oracle_text": "({T}: Add {B} or {R}.)\nAs Blood Crypt enters the battlefield, you may pay 2 life. If you don't, it enters the battlefield tapped."
@@ -1084,9 +1132,12 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "B",
+    "R"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/akh/239/canyon-slough?utm_source=api",
+   "url": "https://scryfall.com/card/otc/275/canyon-slough?utm_source=api",
    "oracle_text": "({T}: Add {B} or {R}.)\nCanyon Slough enters the battlefield tapped.\nCycling {2} ({2}, Discard this card: Draw a card.)"
   }
  ]

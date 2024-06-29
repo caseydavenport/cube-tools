@@ -6,6 +6,7 @@
  "player": "xander",
  "date": "2023-04-22",
  "games": null,
+ "matches": null,
  "mainboard": [
   {
    "name": "Merfolk Looter",
@@ -66,9 +67,12 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "R",
+    "W"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/lcc/324/clifftop-retreat?utm_source=api",
+   "url": "https://scryfall.com/card/otc/278/clifftop-retreat?utm_source=api",
    "oracle_text": "Clifftop Retreat enters the battlefield tapped unless you control a Mountain or a Plains.\n{T}: Add {R} or {W}."
   },
   {
@@ -164,7 +168,7 @@
    "image": "",
    "colors": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/lcc/360/terramorphic-expanse?utm_source=api",
+   "url": "https://scryfall.com/card/otc/336/terramorphic-expanse?utm_source=api",
    "oracle_text": "{T}, Sacrifice Terramorphic Expanse: Search your library for a basic land card, put it onto the battlefield tapped, then shuffle."
   },
   {
@@ -259,9 +263,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "R"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/blb/274/mountain?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/316/mountain?utm_source=api",
    "oracle_text": "({T}: Add {R}.)"
   },
   {
@@ -275,9 +281,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "R"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/blb/274/mountain?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/316/mountain?utm_source=api",
    "oracle_text": "({T}: Add {R}.)"
   },
   {
@@ -291,9 +299,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "R"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/blb/274/mountain?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/316/mountain?utm_source=api",
    "oracle_text": "({T}: Add {R}.)"
   },
   {
@@ -307,9 +317,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "W"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/304/plains?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/310/plains?utm_source=api",
    "oracle_text": "({T}: Add {W}.)"
   },
   {
@@ -323,9 +335,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "W"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/304/plains?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/310/plains?utm_source=api",
    "oracle_text": "({T}: Add {W}.)"
   },
   {
@@ -339,9 +353,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "W"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/304/plains?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/310/plains?utm_source=api",
    "oracle_text": "({T}: Add {W}.)"
   },
   {
@@ -379,7 +395,10 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "R",
+    "U"
+   ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/c19/251/highland-lake?utm_source=api",
    "oracle_text": "Highland Lake enters the battlefield tapped.\n{T}: Add {U} or {R}."
@@ -391,7 +410,10 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "U",
+    "W"
+   ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/cmm/1019/port-town?utm_source=api",
    "oracle_text": "As Port Town enters the battlefield, you may reveal a Plains or Island card from your hand. If you don't, Port Town enters the battlefield tapped.\n{T}: Add {W} or {U}."
@@ -434,9 +456,12 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "R",
+    "U"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/lcc/332/frostboil-snarl?utm_source=api",
+   "url": "https://scryfall.com/card/otc/298/frostboil-snarl?utm_source=api",
    "oracle_text": "As Frostboil Snarl enters the battlefield, you may reveal an Island or Mountain card from your hand. If you don't, Frostboil Snarl enters the battlefield tapped.\n{T}: Add {U} or {R}."
   },
   {
@@ -467,7 +492,10 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "U",
+    "W"
+   ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/clu/230/azorius-guildgate?utm_source=api",
    "oracle_text": "Azorius Guildgate enters the battlefield tapped.\n{T}: Add {W} or {U}."
@@ -497,9 +525,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "U"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/305/island?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/312/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)"
   },
   {
@@ -513,9 +543,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "U"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/305/island?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/312/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)"
   },
   {
@@ -529,9 +561,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "U"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/305/island?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/312/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)"
   },
   {

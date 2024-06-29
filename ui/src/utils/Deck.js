@@ -72,16 +72,23 @@ export function MatchLosses(deck) {
 
 // Helper function for determining if a card is within a given deck's colors.
 export function InDeckColor(card, deck) {
+  if (!card.colors) {
+    return true
+  }
   if (!card.types.includes("Land") && card.colors.length == 0) {
     return true
   }
-  for (var k in card.colors) {
-    for (var j in deck.colors) {
-      if (card.colors[k] == deck.colors[j]) {
-        return true
-      }
+
+  // Only return true if all of the card's colors are in the deck's colors.
+  let deckLookup = new Map()
+  for (let deckColor of deck.colors) {
+    deckLookup.set(deckColor, true)
+  }
+  for (let cardColor of card.colors) {
+    if (!deckLookup.has(cardColor)) {
+      return false
     }
   }
-  return false
+  return true
 }
 

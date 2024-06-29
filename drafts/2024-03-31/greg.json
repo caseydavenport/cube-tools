@@ -71,7 +71,8 @@
    ],
    "mana_cost": "{B}{B}",
    "url": "https://scryfall.com/card/lcc/184/bloodghast?utm_source=api",
-   "oracle_text": "Bloodghast can't block.\nBloodghast has haste as long as an opponent has 10 or less life.\nLandfall — Whenever a land enters the battlefield under your control, you may return Bloodghast from your graveyard to the battlefield."
+   "oracle_text": "Bloodghast can't block.\nBloodghast has haste as long as an opponent has 10 or less life.\nLandfall — Whenever a land enters the battlefield under your control, you may return Bloodghast from your graveyard to the battlefield.",
+   "appearances": 6
   },
   {
    "name": "Stitcher's Supplier",
@@ -88,7 +89,8 @@
    ],
    "mana_cost": "{B}",
    "url": "https://scryfall.com/card/m19/121/stitchers-supplier?utm_source=api",
-   "oracle_text": "When Stitcher's Supplier enters the battlefield or dies, mill three cards."
+   "oracle_text": "When Stitcher's Supplier enters the battlefield or dies, mill three cards.",
+   "appearances": 4
   },
   {
    "name": "Lightning Greaves",
@@ -102,7 +104,7 @@
    "image": "",
    "colors": [],
    "mana_cost": "{2}",
-   "url": "https://scryfall.com/card/cmm/398/lightning-greaves?utm_source=api",
+   "url": "https://scryfall.com/card/otc/260/lightning-greaves?utm_source=api",
    "oracle_text": "Equipped creature has haste and shroud. (It can't be the target of spells or abilities.)\nEquip {0}"
   },
   {
@@ -115,7 +117,8 @@
    "colors": [],
    "mana_cost": "",
    "url": "https://scryfall.com/card/mh2/260/verdant-catacombs?utm_source=api",
-   "oracle_text": "{T}, Pay 1 life, Sacrifice Verdant Catacombs: Search your library for a Swamp or Forest card, put it onto the battlefield, then shuffle."
+   "oracle_text": "{T}, Pay 1 life, Sacrifice Verdant Catacombs: Search your library for a Swamp or Forest card, put it onto the battlefield, then shuffle.",
+   "appearances": 11
   },
   {
    "name": "Life from the Loam",
@@ -129,7 +132,8 @@
    ],
    "mana_cost": "{1}{G}",
    "url": "https://scryfall.com/card/rvr/148/life-from-the-loam?utm_source=api",
-   "oracle_text": "Return up to three target land cards from your graveyard to your hand.\nDredge 3 (If you would draw a card, you may mill three cards instead. If you do, return this card from your graveyard to your hand.)"
+   "oracle_text": "Return up to three target land cards from your graveyard to your hand.\nDredge 3 (If you would draw a card, you may mill three cards instead. If you do, return this card from your graveyard to your hand.)",
+   "appearances": 2
   },
   {
    "name": "Virtue of Persistence // Locthwain Scorn",
@@ -148,7 +152,8 @@
    ],
    "mana_cost": "{5}{B}{B} // {1}{B}",
    "url": "https://scryfall.com/card/woe/115/virtue-of-persistence-locthwain-scorn?utm_source=api",
-   "oracle_text": ""
+   "oracle_text": "",
+   "appearances": 6
   },
   {
    "name": "Satyr Wayfinder",
@@ -164,8 +169,9 @@
     "G"
    ],
    "mana_cost": "{1}{G}",
-   "url": "https://scryfall.com/card/znc/81/satyr-wayfinder?utm_source=api",
-   "oracle_text": "When Satyr Wayfinder enters the battlefield, reveal the top four cards of your library. You may put a land card from among them into your hand. Put the rest into your graveyard."
+   "url": "https://scryfall.com/card/otc/204/satyr-wayfinder?utm_source=api",
+   "oracle_text": "When Satyr Wayfinder enters the battlefield, reveal the top four cards of your library. You may put a land card from among them into your hand. Put the rest into your graveyard.",
+   "appearances": 3
   },
   {
    "name": "Scattered Groves",
@@ -178,10 +184,14 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "G",
+    "W"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mkc/286/scattered-groves?utm_source=api",
-   "oracle_text": "({T}: Add {G} or {W}.)\nScattered Groves enters the battlefield tapped.\nCycling {2} ({2}, Discard this card: Draw a card.)"
+   "url": "https://scryfall.com/card/otc/315/scattered-groves?utm_source=api",
+   "oracle_text": "({T}: Add {G} or {W}.)\nScattered Groves enters the battlefield tapped.\nCycling {2} ({2}, Discard this card: Draw a card.)",
+   "appearances": 5
   },
   {
    "name": "Devoted Druid",
@@ -199,7 +209,8 @@
    ],
    "mana_cost": "{1}{G}",
    "url": "https://scryfall.com/card/2x2/143/devoted-druid?utm_source=api",
-   "oracle_text": "{T}: Add {G}.\nPut a -1/-1 counter on Devoted Druid: Untap Devoted Druid."
+   "oracle_text": "{T}: Add {G}.\nPut a -1/-1 counter on Devoted Druid: Untap Devoted Druid.",
+   "appearances": 2
   },
   {
    "name": "Knight of the Reliquary",
@@ -218,7 +229,8 @@
    ],
    "mana_cost": "{1}{G}{W}",
    "url": "https://scryfall.com/card/ima/203/knight-of-the-reliquary?utm_source=api",
-   "oracle_text": "Knight of the Reliquary gets +1/+1 for each land card in your graveyard.\n{T}, Sacrifice a Forest or Plains: Search your library for a land card, put it onto the battlefield, then shuffle."
+   "oracle_text": "Knight of the Reliquary gets +1/+1 for each land card in your graveyard.\n{T}, Sacrifice a Forest or Plains: Search your library for a land card, put it onto the battlefield, then shuffle.",
+   "appearances": 3
   },
   {
    "name": "Crop Rotation",
@@ -232,7 +244,8 @@
    ],
    "mana_cost": "{G}",
    "url": "https://scryfall.com/card/dmr/154/crop-rotation?utm_source=api",
-   "oracle_text": "As an additional cost to cast this spell, sacrifice a land.\nSearch your library for a land card, put that card onto the battlefield, then shuffle."
+   "oracle_text": "As an additional cost to cast this spell, sacrifice a land.\nSearch your library for a land card, put that card onto the battlefield, then shuffle.",
+   "appearances": 5
   },
   {
    "name": "Edge of Autumn",
@@ -246,7 +259,8 @@
    ],
    "mana_cost": "{1}{G}",
    "url": "https://scryfall.com/card/tsr/201/edge-of-autumn?utm_source=api",
-   "oracle_text": "If you control four or fewer lands, search your library for a basic land card, put it onto the battlefield tapped, then shuffle.\nCycling—Sacrifice a land. (Sacrifice a land, Discard this card: Draw a card.)"
+   "oracle_text": "If you control four or fewer lands, search your library for a basic land card, put it onto the battlefield tapped, then shuffle.\nCycling—Sacrifice a land. (Sacrifice a land, Discard this card: Draw a card.)",
+   "appearances": 5
   },
   {
    "name": "Worm Harvest",
@@ -261,7 +275,8 @@
    ],
    "mana_cost": "{2}{B/G}{B/G}{B/G}",
    "url": "https://scryfall.com/card/c18/194/worm-harvest?utm_source=api",
-   "oracle_text": "Create a 1/1 black and green Worm creature token for each land card in your graveyard.\nRetrace (You may cast this card from your graveyard by discarding a land card in addition to paying its other costs.)"
+   "oracle_text": "Create a 1/1 black and green Worm creature token for each land card in your graveyard.\nRetrace (You may cast this card from your graveyard by discarding a land card in addition to paying its other costs.)",
+   "appearances": 4
   },
   {
    "name": "The Wandering Emperor",
@@ -276,7 +291,8 @@
    ],
    "mana_cost": "{2}{W}{W}",
    "url": "https://scryfall.com/card/neo/42/the-wandering-emperor?utm_source=api",
-   "oracle_text": "Flash\nAs long as The Wandering Emperor entered the battlefield this turn, you may activate her loyalty abilities any time you could cast an instant.\n+1: Put a +1/+1 counter on up to one target creature. It gains first strike until end of turn.\n−1: Create a 2/2 white Samurai creature token with vigilance.\n−2: Exile target tapped creature. You gain 2 life."
+   "oracle_text": "Flash\nAs long as The Wandering Emperor entered the battlefield this turn, you may activate her loyalty abilities any time you could cast an instant.\n+1: Put a +1/+1 counter on up to one target creature. It gains first strike until end of turn.\n−1: Create a 2/2 white Samurai creature token with vigilance.\n−2: Exile target tapped creature. You gain 2 life.",
+   "appearances": 3
   },
   {
    "name": "Prismatic Vista",
@@ -288,7 +304,8 @@
    "colors": [],
    "mana_cost": "",
    "url": "https://scryfall.com/card/mh1/244/prismatic-vista?utm_source=api",
-   "oracle_text": "{T}, Pay 1 life, Sacrifice Prismatic Vista: Search your library for a basic land card, put it onto the battlefield, then shuffle."
+   "oracle_text": "{T}, Pay 1 life, Sacrifice Prismatic Vista: Search your library for a basic land card, put it onto the battlefield, then shuffle.",
+   "appearances": 4
   },
   {
    "name": "Courser of Kruphix",
@@ -306,7 +323,8 @@
    ],
    "mana_cost": "{1}{G}{G}",
    "url": "https://scryfall.com/card/cmm/888/courser-of-kruphix?utm_source=api",
-   "oracle_text": "Play with the top card of your library revealed.\nYou may play lands from the top of your library.\nLandfall — Whenever a land enters the battlefield under your control, you gain 1 life."
+   "oracle_text": "Play with the top card of your library revealed.\nYou may play lands from the top of your library.\nLandfall — Whenever a land enters the battlefield under your control, you gain 1 life.",
+   "appearances": 4
   },
   {
    "name": "Chainweb Aracnir",
@@ -323,7 +341,8 @@
    ],
    "mana_cost": "{G}",
    "url": "https://scryfall.com/card/thb/167/chainweb-aracnir?utm_source=api",
-   "oracle_text": "Reach\nWhen Chainweb Aracnir enters the battlefield, it deals damage equal to its power to target creature with flying an opponent controls.\nEscape—{3}{G}{G}, Exile four other cards from your graveyard. (You may cast this card from your graveyard for its escape cost.)\nChainweb Aracnir escapes with three +1/+1 counters on it."
+   "oracle_text": "Reach\nWhen Chainweb Aracnir enters the battlefield, it deals damage equal to its power to target creature with flying an opponent controls.\nEscape—{3}{G}{G}, Exile four other cards from your graveyard. (You may cast this card from your graveyard for its escape cost.)\nChainweb Aracnir escapes with three +1/+1 counters on it.",
+   "appearances": 6
   },
   {
    "name": "Harrow",
@@ -336,8 +355,9 @@
     "G"
    ],
    "mana_cost": "{2}{G}",
-   "url": "https://scryfall.com/card/znc/69/harrow?utm_source=api",
-   "oracle_text": "As an additional cost to cast this spell, sacrifice a land.\nSearch your library for up to two basic land cards, put them onto the battlefield, then shuffle."
+   "url": "https://scryfall.com/card/otc/194/harrow?utm_source=api",
+   "oracle_text": "As an additional cost to cast this spell, sacrifice a land.\nSearch your library for up to two basic land cards, put them onto the battlefield, then shuffle.",
+   "appearances": 7
   },
   {
    "name": "Nurturing Peatland",
@@ -346,10 +366,14 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "B",
+    "G"
+   ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/mh1/243/nurturing-peatland?utm_source=api",
-   "oracle_text": "{T}, Pay 1 life: Add {B} or {G}.\n{1}, {T}, Sacrifice Nurturing Peatland: Draw a card."
+   "oracle_text": "{T}, Pay 1 life: Add {B} or {G}.\n{1}, {T}, Sacrifice Nurturing Peatland: Draw a card.",
+   "appearances": 6
   },
   {
    "name": "Canopy Vista",
@@ -362,10 +386,14 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "G",
+    "W"
+   ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/mkc/252/canopy-vista?utm_source=api",
-   "oracle_text": "({T}: Add {G} or {W}.)\nCanopy Vista enters the battlefield tapped unless you control two or more basic lands."
+   "oracle_text": "({T}: Add {G} or {W}.)\nCanopy Vista enters the battlefield tapped unless you control two or more basic lands.",
+   "appearances": 5
   },
   {
    "name": "The Binding of the Titans",
@@ -382,7 +410,8 @@
    ],
    "mana_cost": "{1}{G}",
    "url": "https://scryfall.com/card/cmm/886/the-binding-of-the-titans?utm_source=api",
-   "oracle_text": "(As this Saga enters and after your draw step, add a lore counter. Sacrifice after III.)\nI — Each player mills three cards.\nII — Exile up to two target cards from graveyards. For each creature card exiled this way, you gain 1 life.\nIII — Return target creature or land card from your graveyard to your hand."
+   "oracle_text": "(As this Saga enters and after your draw step, add a lore counter. Sacrifice after III.)\nI — Each player mills three cards.\nII — Exile up to two target cards from graveyards. For each creature card exiled this way, you gain 1 life.\nIII — Return target creature or land card from your graveyard to your hand.",
+   "appearances": 5
   },
   {
    "name": "Mosswood Dreadknight // Dread Whispers",
@@ -398,11 +427,13 @@
    "cmc": 2,
    "image": "",
    "colors": [
+    "B",
     "G"
    ],
    "mana_cost": "{1}{G} // {1}{B}",
    "url": "https://scryfall.com/card/woe/231/mosswood-dreadknight-dread-whispers?utm_source=api",
-   "oracle_text": ""
+   "oracle_text": "",
+   "appearances": 3
   },
   {
    "name": "Song of the Dryads",
@@ -419,7 +450,8 @@
    ],
    "mana_cost": "{2}{G}",
    "url": "https://scryfall.com/card/cmm/324/song-of-the-dryads?utm_source=api",
-   "oracle_text": "Enchant permanent\nEnchanted permanent is a colorless Forest land."
+   "oracle_text": "Enchant permanent\nEnchanted permanent is a colorless Forest land.",
+   "appearances": 5
   },
   {
    "name": "Titania, Protector of Argoth",
@@ -436,8 +468,9 @@
     "G"
    ],
    "mana_cost": "{3}{G}{G}",
-   "url": "https://scryfall.com/card/mh2/287/titania-protector-of-argoth?utm_source=api",
-   "oracle_text": "When Titania, Protector of Argoth enters the battlefield, return target land card from your graveyard to the battlefield.\nWhenever a land you control is put into a graveyard from the battlefield, create a 5/3 green Elemental creature token."
+   "url": "https://scryfall.com/card/otc/210/titania-protector-of-argoth?utm_source=api",
+   "oracle_text": "When Titania, Protector of Argoth enters the battlefield, return target land card from your graveyard to the battlefield.\nWhenever a land you control is put into a graveyard from the battlefield, create a 5/3 green Elemental creature token.",
+   "appearances": 5
   },
   {
    "name": "Windswept Heath",
@@ -449,7 +482,8 @@
    "colors": [],
    "mana_cost": "",
    "url": "https://scryfall.com/card/mh3/235/windswept-heath?utm_source=api",
-   "oracle_text": "{T}, Pay 1 life, Sacrifice Windswept Heath: Search your library for a Forest or Plains card, put it onto the battlefield, then shuffle."
+   "oracle_text": "{T}, Pay 1 life, Sacrifice Windswept Heath: Search your library for a Forest or Plains card, put it onto the battlefield, then shuffle.",
+   "appearances": 7
   },
   {
    "name": "Grim Discovery",
@@ -463,7 +497,8 @@
    ],
    "mana_cost": "{1}{B}",
    "url": "https://scryfall.com/card/ddr/51/grim-discovery?utm_source=api",
-   "oracle_text": "Choose one or both —\n• Return target creature card from your graveyard to your hand.\n• Return target land card from your graveyard to your hand."
+   "oracle_text": "Choose one or both —\n• Return target creature card from your graveyard to your hand.\n• Return target land card from your graveyard to your hand.",
+   "appearances": 4
   },
   {
    "name": "Infernal Grasp",
@@ -477,7 +512,8 @@
    ],
    "mana_cost": "{1}{B}",
    "url": "https://scryfall.com/card/mid/107/infernal-grasp?utm_source=api",
-   "oracle_text": "Destroy target creature. You lose 2 life."
+   "oracle_text": "Destroy target creature. You lose 2 life.",
+   "appearances": 4
   },
   {
    "name": "Horizon Canopy",
@@ -486,10 +522,14 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "G",
+    "W"
+   ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/ima/240/horizon-canopy?utm_source=api",
-   "oracle_text": "{T}, Pay 1 life: Add {G} or {W}.\n{1}, {T}, Sacrifice Horizon Canopy: Draw a card."
+   "oracle_text": "{T}, Pay 1 life: Add {G} or {W}.\n{1}, {T}, Sacrifice Horizon Canopy: Draw a card.",
+   "appearances": 4
   },
   {
    "name": "Marshal's Anthem",
@@ -502,8 +542,9 @@
     "W"
    ],
    "mana_cost": "{2}{W}{W}",
-   "url": "https://scryfall.com/card/khc/29/marshals-anthem?utm_source=api",
-   "oracle_text": "Multikicker {1}{W} (You may pay an additional {1}{W} any number of times as you cast this spell.)\nCreatures you control get +1/+1.\nWhen Marshal's Anthem enters the battlefield, return up to X target creature cards from your graveyard to the battlefield, where X is the number of times Marshal's Anthem was kicked."
+   "url": "https://scryfall.com/card/otc/82/marshals-anthem?utm_source=api",
+   "oracle_text": "Multikicker {1}{W} (You may pay an additional {1}{W} any number of times as you cast this spell.)\nCreatures you control get +1/+1.\nWhen Marshal's Anthem enters the battlefield, return up to X target creature cards from your graveyard to the battlefield, where X is the number of times Marshal's Anthem was kicked.",
+   "appearances": 6
   },
   {
    "name": "Arbor Elf",
@@ -521,7 +562,8 @@
    ],
    "mana_cost": "{G}",
    "url": "https://scryfall.com/card/a25/160/arbor-elf?utm_source=api",
-   "oracle_text": "{T}: Untap target Forest."
+   "oracle_text": "{T}: Untap target Forest.",
+   "appearances": 4
   },
   {
    "name": "Eternal Witness",
@@ -539,7 +581,8 @@
    ],
    "mana_cost": "{1}{G}{G}",
    "url": "https://scryfall.com/card/cmm/286/eternal-witness?utm_source=api",
-   "oracle_text": "When Eternal Witness enters the battlefield, you may return target card from your graveyard to your hand."
+   "oracle_text": "When Eternal Witness enters the battlefield, you may return target card from your graveyard to your hand.",
+   "appearances": 4
   },
   {
    "name": "Cloudgoat Ranger",
@@ -558,7 +601,8 @@
    ],
    "mana_cost": "{3}{W}{W}",
    "url": "https://scryfall.com/card/khc/21/cloudgoat-ranger?utm_source=api",
-   "oracle_text": "When Cloudgoat Ranger enters the battlefield, create three 1/1 white Kithkin Soldier creature tokens.\nTap three untapped Kithkin you control: Cloudgoat Ranger gets +2/+0 and gains flying until end of turn."
+   "oracle_text": "When Cloudgoat Ranger enters the battlefield, create three 1/1 white Kithkin Soldier creature tokens.\nTap three untapped Kithkin you control: Cloudgoat Ranger gets +2/+0 and gains flying until end of turn.",
+   "appearances": 4
   },
   {
    "name": "Plains",
@@ -571,10 +615,13 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "W"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/304/plains?utm_source=api",
-   "oracle_text": "({T}: Add {W}.)"
+   "url": "https://scryfall.com/card/mh3/310/plains?utm_source=api",
+   "oracle_text": "({T}: Add {W}.)",
+   "appearances": 22
   },
   {
    "name": "Plains",
@@ -587,10 +634,13 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "W"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/304/plains?utm_source=api",
-   "oracle_text": "({T}: Add {W}.)"
+   "url": "https://scryfall.com/card/mh3/310/plains?utm_source=api",
+   "oracle_text": "({T}: Add {W}.)",
+   "appearances": 22
   },
   {
    "name": "Swamp",
@@ -603,10 +653,13 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "B"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/306/swamp?utm_source=api",
-   "oracle_text": "({T}: Add {B}.)"
+   "url": "https://scryfall.com/card/mh3/314/swamp?utm_source=api",
+   "oracle_text": "({T}: Add {B}.)",
+   "appearances": 25
   },
   {
    "name": "Swamp",
@@ -619,10 +672,13 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "B"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/306/swamp?utm_source=api",
-   "oracle_text": "({T}: Add {B}.)"
+   "url": "https://scryfall.com/card/mh3/314/swamp?utm_source=api",
+   "oracle_text": "({T}: Add {B}.)",
+   "appearances": 25
   },
   {
    "name": "Forest",
@@ -635,10 +691,13 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "G"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/308/forest?utm_source=api",
-   "oracle_text": "({T}: Add {G}.)"
+   "url": "https://scryfall.com/card/mh3/318/forest?utm_source=api",
+   "oracle_text": "({T}: Add {G}.)",
+   "appearances": 22
   },
   {
    "name": "Forest",
@@ -651,10 +710,13 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "G"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/308/forest?utm_source=api",
-   "oracle_text": "({T}: Add {G}.)"
+   "url": "https://scryfall.com/card/mh3/318/forest?utm_source=api",
+   "oracle_text": "({T}: Add {G}.)",
+   "appearances": 22
   },
   {
    "name": "Forest",
@@ -667,10 +729,13 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "G"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/308/forest?utm_source=api",
-   "oracle_text": "({T}: Add {G}.)"
+   "url": "https://scryfall.com/card/mh3/318/forest?utm_source=api",
+   "oracle_text": "({T}: Add {G}.)",
+   "appearances": 22
   },
   {
    "name": "Forest",
@@ -683,10 +748,13 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "G"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/308/forest?utm_source=api",
-   "oracle_text": "({T}: Add {G}.)"
+   "url": "https://scryfall.com/card/mh3/318/forest?utm_source=api",
+   "oracle_text": "({T}: Add {G}.)",
+   "appearances": 22
   }
  ],
  "sideboard": [
@@ -714,7 +782,8 @@
    "colors": [],
    "mana_cost": "",
    "url": "https://scryfall.com/card/mh2/250/misty-rainforest?utm_source=api",
-   "oracle_text": "{T}, Pay 1 life, Sacrifice Misty Rainforest: Search your library for a Forest or Island card, put it onto the battlefield, then shuffle."
+   "oracle_text": "{T}, Pay 1 life, Sacrifice Misty Rainforest: Search your library for a Forest or Island card, put it onto the battlefield, then shuffle.",
+   "appearances": 3
   },
   {
    "name": "Gilder Bairn",
@@ -834,7 +903,8 @@
    ],
    "mana_cost": "{2}{G}",
    "url": "https://scryfall.com/card/khc/72/reclamation-sage?utm_source=api",
-   "oracle_text": "When Reclamation Sage enters the battlefield, you may destroy target artifact or enchantment."
+   "oracle_text": "When Reclamation Sage enters the battlefield, you may destroy target artifact or enchantment.",
+   "appearances": 5
   },
   {
    "name": "Turn to Mist",
@@ -894,7 +964,8 @@
    ],
    "mana_cost": "{G}",
    "url": "https://scryfall.com/card/moc/299/gilded-goose?utm_source=api",
-   "oracle_text": "Flying\nWhen Gilded Goose enters the battlefield, create a Food token. (It's an artifact with \"{2}, {T}, Sacrifice this artifact: You gain 3 life.\")\n{1}{G}, {T}: Create a Food token.\n{T}, Sacrifice a Food: Add one mana of any color."
+   "oracle_text": "Flying\nWhen Gilded Goose enters the battlefield, create a Food token. (It's an artifact with \"{2}, {T}, Sacrifice this artifact: You gain 3 life.\")\n{1}{G}, {T}: Create a Food token.\n{T}, Sacrifice a Food: Add one mana of any color.",
+   "appearances": 1
   }
  ]
 }

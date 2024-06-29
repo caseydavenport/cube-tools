@@ -14,6 +14,7 @@
    "winner": "dom"
   }
  ],
+ "matches": null,
  "mainboard": [
   {
    "name": "Temple Garden",
@@ -26,7 +27,10 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "G",
+    "W"
+   ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/rvr/290/temple-garden?utm_source=api",
    "oracle_text": "({T}: Add {G} or {W}.)\nAs Temple Garden enters the battlefield, you may pay 2 life. If you don't, it enters the battlefield tapped.",
@@ -152,7 +156,10 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "G",
+    "U"
+   ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/mkm/262/hedge-maze?utm_source=api",
    "oracle_text": "({T}: Add {G} or {U}.)\nHedge Maze enters the battlefield tapped.\nWhen Hedge Maze enters the battlefield, surveil 1. (Look at the top card of your library. You may put it into your graveyard.)",
@@ -173,7 +180,7 @@
     "W"
    ],
    "mana_cost": "{1}{W}",
-   "url": "https://scryfall.com/card/shm/14/mistmeadow-skulk?utm_source=api",
+   "url": "https://scryfall.com/card/otc/84/mistmeadow-skulk?utm_source=api",
    "oracle_text": "Lifelink, protection from mana value 3 or greater",
    "appearances": 1
   },
@@ -265,7 +272,10 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "G",
+    "U"
+   ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/woe/261/restless-vinestalk?utm_source=api",
    "oracle_text": "Restless Vinestalk enters the battlefield tapped.\n{T}: Add {G} or {U}.\n{3}{G}{U}: Until end of turn, Restless Vinestalk becomes a 5/5 green and blue Plant creature with trample. It's still a land.\nWhenever Restless Vinestalk attacks, up to one other target creature has base power and toughness 3/3 until end of turn.",
@@ -279,7 +289,9 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "U"
+   ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/neo/271/otawara-soaring-city?utm_source=api",
    "oracle_text": "{T}: Add {U}.\nChannel — {3}{U}, Discard Otawara, Soaring City: Return target artifact, creature, enchantment, or planeswalker to its owner's hand. This ability costs {1} less to activate for each legendary creature you control.",
@@ -298,7 +310,8 @@
    "cmc": 3,
    "image": "",
    "colors": [
-    "U"
+    "U",
+    "W"
    ],
    "mana_cost": "{2}{U}",
    "url": "https://scryfall.com/card/neo/82/tameshi-reality-architect?utm_source=api",
@@ -529,9 +542,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "W"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/304/plains?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/310/plains?utm_source=api",
    "oracle_text": "({T}: Add {W}.)",
    "appearances": 2
   },
@@ -546,9 +561,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "W"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/304/plains?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/310/plains?utm_source=api",
    "oracle_text": "({T}: Add {W}.)",
    "appearances": 2
   },
@@ -563,9 +580,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "W"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/304/plains?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/310/plains?utm_source=api",
    "oracle_text": "({T}: Add {W}.)",
    "appearances": 2
   },
@@ -580,9 +599,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "U"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/305/island?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/312/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)",
    "appearances": 2
   },
@@ -597,9 +618,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "U"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/305/island?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/312/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)",
    "appearances": 2
   },
@@ -614,9 +637,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "U"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/305/island?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/312/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)",
    "appearances": 2
   },
@@ -631,9 +656,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "U"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/305/island?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/312/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)",
    "appearances": 2
   },
@@ -648,9 +675,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "U"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/305/island?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/312/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)",
    "appearances": 2
   },
@@ -665,9 +694,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "G"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/308/forest?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/318/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)",
    "appearances": 2
   },
@@ -682,9 +713,11 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "G"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/308/forest?utm_source=api",
+   "url": "https://scryfall.com/card/mh3/318/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)",
    "appearances": 2
   }
@@ -794,7 +827,7 @@
     "R"
    ],
    "mana_cost": "{R}",
-   "url": "https://scryfall.com/card/lcc/225/faithless-looting?utm_source=api",
+   "url": "https://scryfall.com/card/otc/165/faithless-looting?utm_source=api",
    "oracle_text": "Draw two cards, then discard two cards.\nFlashback {2}{R} (You may cast this card from your graveyard for its flashback cost. Then exile it.)"
   },
   {
@@ -987,6 +1020,7 @@
    "cmc": 2,
    "image": "",
    "colors": [
+    "B",
     "G"
    ],
    "mana_cost": "{1}{G} // {1}{B}",
@@ -1004,7 +1038,7 @@
     "U"
    ],
    "mana_cost": "{7}{U}",
-   "url": "https://scryfall.com/card/ncc/237/treasure-cruise?utm_source=api",
+   "url": "https://scryfall.com/card/otc/120/treasure-cruise?utm_source=api",
    "oracle_text": "Delve (Each card you exile from your graveyard while casting this spell pays for {1}.)\nDraw three cards."
   },
   {

@@ -71,7 +71,8 @@
    ],
    "mana_cost": "{B}{B}",
    "url": "https://scryfall.com/card/wwk/59/kalastria-highborn?utm_source=api",
-   "oracle_text": "Whenever Kalastria Highborn or another Vampire you control dies, you may pay {B}. If you do, target player loses 2 life and you gain 2 life."
+   "oracle_text": "Whenever Kalastria Highborn or another Vampire you control dies, you may pay {B}. If you do, target player loses 2 life and you gain 2 life.",
+   "appearances": 4
   },
   {
    "name": "Zulaport Cutthroat",
@@ -90,7 +91,8 @@
    ],
    "mana_cost": "{1}{B}",
    "url": "https://scryfall.com/card/clb/775/zulaport-cutthroat?utm_source=api",
-   "oracle_text": "Whenever Zulaport Cutthroat or another creature you control dies, each opponent loses 1 life and you gain 1 life."
+   "oracle_text": "Whenever Zulaport Cutthroat or another creature you control dies, each opponent loses 1 life and you gain 1 life.",
+   "appearances": 2
   },
   {
    "name": "Mesmeric Fiend",
@@ -123,7 +125,8 @@
    ],
    "mana_cost": "{3}{B}{B}{B}",
    "url": "https://scryfall.com/card/war/79/bolass-citadel?utm_source=api",
-   "oracle_text": "You may look at the top card of your library any time.\nYou may play lands and cast spells from the top of your library. If you cast a spell this way, pay life equal to its mana value rather than pay its mana cost.\n{T}, Sacrifice ten nonland permanents: Each opponent loses 10 life."
+   "oracle_text": "You may look at the top card of your library any time.\nYou may play lands and cast spells from the top of your library. If you cast a spell this way, pay life equal to its mana value rather than pay its mana cost.\n{T}, Sacrifice ten nonland permanents: Each opponent loses 10 life.",
+   "appearances": 2
   },
   {
    "name": "Viscera Seer",
@@ -141,7 +144,8 @@
    ],
    "mana_cost": "{B}",
    "url": "https://scryfall.com/card/lcc/213/viscera-seer?utm_source=api",
-   "oracle_text": "Sacrifice a creature: Scry 1. (Look at the top card of your library. You may put that card on the bottom of your library.)"
+   "oracle_text": "Sacrifice a creature: Scry 1. (Look at the top card of your library. You may put that card on the bottom of your library.)",
+   "appearances": 1
   },
   {
    "name": "Adanto Vanguard",
@@ -159,7 +163,8 @@
    ],
    "mana_cost": "{1}{W}",
    "url": "https://scryfall.com/card/xln/1/adanto-vanguard?utm_source=api",
-   "oracle_text": "As long as Adanto Vanguard is attacking, it gets +2/+0.\nPay 4 life: Adanto Vanguard gains indestructible until end of turn. (Damage and effects that say \"destroy\" don't destroy it.)"
+   "oracle_text": "As long as Adanto Vanguard is attacking, it gets +2/+0.\nPay 4 life: Adanto Vanguard gains indestructible until end of turn. (Damage and effects that say \"destroy\" don't destroy it.)",
+   "appearances": 2
   },
   {
    "name": "Vampire of the Dire Moon",
@@ -176,7 +181,8 @@
    ],
    "mana_cost": "{B}",
    "url": "https://scryfall.com/card/m20/120/vampire-of-the-dire-moon?utm_source=api",
-   "oracle_text": "Deathtouch (Any amount of damage this deals to a creature is enough to destroy it.)\nLifelink (Damage dealt by this creature also causes you to gain that much life.)"
+   "oracle_text": "Deathtouch (Any amount of damage this deals to a creature is enough to destroy it.)\nLifelink (Damage dealt by this creature also causes you to gain that much life.)",
+   "appearances": 1
   },
   {
    "name": "Meadowboon",
@@ -193,7 +199,8 @@
    ],
    "mana_cost": "{2}{W}{W}",
    "url": "https://scryfall.com/card/mma/22/meadowboon?utm_source=api",
-   "oracle_text": "When Meadowboon leaves the battlefield, put a +1/+1 counter on each creature target player controls.\nEvoke {3}{W} (You may cast this spell for its evoke cost. If you do, it's sacrificed when it enters the battlefield.)"
+   "oracle_text": "When Meadowboon leaves the battlefield, put a +1/+1 counter on each creature target player controls.\nEvoke {3}{W} (You may cast this spell for its evoke cost. If you do, it's sacrificed when it enters the battlefield.)",
+   "appearances": 1
   },
   {
    "name": "Resolute Reinforcements",
@@ -211,7 +218,8 @@
    ],
    "mana_cost": "{1}{W}",
    "url": "https://scryfall.com/card/dmu/29/resolute-reinforcements?utm_source=api",
-   "oracle_text": "Flash\nWhen Resolute Reinforcements enters the battlefield, create a 1/1 white Soldier creature token."
+   "oracle_text": "Flash\nWhen Resolute Reinforcements enters the battlefield, create a 1/1 white Soldier creature token.",
+   "appearances": 3
   },
   {
    "name": "Woodland Cemetery",
@@ -220,9 +228,12 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "B",
+    "G"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/dmr/261/woodland-cemetery?utm_source=api",
+   "url": "https://scryfall.com/card/otc/341/woodland-cemetery?utm_source=api",
    "oracle_text": "Woodland Cemetery enters the battlefield tapped unless you control a Swamp or a Forest.\n{T}: Add {B} or {G}."
   },
   {
@@ -236,10 +247,14 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "U",
+    "W"
+   ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/rvr/280/hallowed-fountain?utm_source=api",
-   "oracle_text": "({T}: Add {W} or {U}.)\nAs Hallowed Fountain enters the battlefield, you may pay 2 life. If you don't, it enters the battlefield tapped."
+   "oracle_text": "({T}: Add {W} or {U}.)\nAs Hallowed Fountain enters the battlefield, you may pay 2 life. If you don't, it enters the battlefield tapped.",
+   "appearances": 3
   },
   {
    "name": "Undercity Sewers",
@@ -252,7 +267,10 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "B",
+    "U"
+   ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/mkm/270/undercity-sewers?utm_source=api",
    "oracle_text": "({T}: Add {U} or {B}.)\nUndercity Sewers enters the battlefield tapped.\nWhen Undercity Sewers enters the battlefield, surveil 1. (Look at the top card of your library. You may put it into your graveyard.)"
@@ -269,7 +287,8 @@
    ],
    "mana_cost": "{B}",
    "url": "https://scryfall.com/card/2x2/96/unearth?utm_source=api",
-   "oracle_text": "Return target creature card with mana value 3 or less from your graveyard to the battlefield.\nCycling {2} ({2}, Discard this card: Draw a card.)"
+   "oracle_text": "Return target creature card with mana value 3 or less from your graveyard to the battlefield.\nCycling {2} ({2}, Discard this card: Draw a card.)",
+   "appearances": 4
   },
   {
    "name": "Soul Warden",
@@ -287,7 +306,8 @@
    ],
    "mana_cost": "{W}",
    "url": "https://scryfall.com/card/mm3/24/soul-warden?utm_source=api",
-   "oracle_text": "Whenever another creature enters the battlefield, you gain 1 life."
+   "oracle_text": "Whenever another creature enters the battlefield, you gain 1 life.",
+   "appearances": 2
   },
   {
    "name": "Welcoming Vampire",
@@ -304,7 +324,8 @@
    ],
    "mana_cost": "{2}{W}",
    "url": "https://scryfall.com/card/mkc/91/welcoming-vampire?utm_source=api",
-   "oracle_text": "Flying\nWhenever one or more other creatures with power 2 or less enter the battlefield under your control, draw a card. This ability triggers only once each turn."
+   "oracle_text": "Flying\nWhenever one or more other creatures with power 2 or less enter the battlefield under your control, draw a card. This ability triggers only once each turn.",
+   "appearances": 3
   },
   {
    "name": "Liliana, Death's Majesty",
@@ -322,7 +343,8 @@
    ],
    "mana_cost": "{3}{B}{B}",
    "url": "https://scryfall.com/card/mic/121/liliana-deaths-majesty?utm_source=api",
-   "oracle_text": "+1: Create a 2/2 black Zombie creature token. Mill two cards.\n−3: Return target creature card from your graveyard to the battlefield. That creature is a black Zombie in addition to its other colors and types.\n−7: Destroy all non-Zombie creatures."
+   "oracle_text": "+1: Create a 2/2 black Zombie creature token. Mill two cards.\n−3: Return target creature card from your graveyard to the battlefield. That creature is a black Zombie in addition to its other colors and types.\n−7: Destroy all non-Zombie creatures.",
+   "appearances": 1
   },
   {
    "name": "Throne of the God-Pharaoh",
@@ -335,7 +357,8 @@
    "colors": [],
    "mana_cost": "{2}",
    "url": "https://scryfall.com/card/akh/237/throne-of-the-god-pharaoh?utm_source=api",
-   "oracle_text": "At the beginning of your end step, each opponent loses life equal to the number of tapped creatures you control."
+   "oracle_text": "At the beginning of your end step, each opponent loses life equal to the number of tapped creatures you control.",
+   "appearances": 3
   },
   {
    "name": "Puppeteer Clique",
@@ -353,7 +376,8 @@
    ],
    "mana_cost": "{3}{B}{B}",
    "url": "https://scryfall.com/card/clb/769/puppeteer-clique?utm_source=api",
-   "oracle_text": "Flying\nWhen Puppeteer Clique enters the battlefield, put target creature card from an opponent's graveyard onto the battlefield under your control. It gains haste. At the beginning of your next end step, exile it.\nPersist (When this creature dies, if it had no -1/-1 counters on it, return it to the battlefield under its owner's control with a -1/-1 counter on it.)"
+   "oracle_text": "Flying\nWhen Puppeteer Clique enters the battlefield, put target creature card from an opponent's graveyard onto the battlefield under your control. It gains haste. At the beginning of your next end step, exile it.\nPersist (When this creature dies, if it had no -1/-1 counters on it, return it to the battlefield under its owner's control with a -1/-1 counter on it.)",
+   "appearances": 4
   },
   {
    "name": "Pitiless Pontiff",
@@ -382,10 +406,13 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "B"
+   ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/neo/278/takenuma-abandoned-mire?utm_source=api",
-   "oracle_text": "{T}: Add {B}.\nChannel — {3}{B}, Discard Takenuma, Abandoned Mire: Mill three cards, then return a creature or planeswalker card from your graveyard to your hand. This ability costs {1} less to activate for each legendary creature you control."
+   "oracle_text": "{T}: Add {B}.\nChannel — {3}{B}, Discard Takenuma, Abandoned Mire: Mill three cards, then return a creature or planeswalker card from your graveyard to your hand. This ability costs {1} less to activate for each legendary creature you control.",
+   "appearances": 2
   },
   {
    "name": "Agonizing Remorse",
@@ -399,7 +426,8 @@
    ],
    "mana_cost": "{1}{B}",
    "url": "https://scryfall.com/card/thb/83/agonizing-remorse?utm_source=api",
-   "oracle_text": "Target opponent reveals their hand. You choose a nonland card from it or a card from their graveyard. Exile that card. You lose 1 life."
+   "oracle_text": "Target opponent reveals their hand. You choose a nonland card from it or a card from their graveyard. Exile that card. You lose 1 life.",
+   "appearances": 4
   },
   {
    "name": "Feat of Resistance",
@@ -413,7 +441,8 @@
    ],
    "mana_cost": "{1}{W}",
    "url": "https://scryfall.com/card/m21/19/feat-of-resistance?utm_source=api",
-   "oracle_text": "Put a +1/+1 counter on target creature you control. It gains protection from the color of your choice until end of turn. (It can't be blocked, targeted, dealt damage, enchanted, or equipped by anything of that color.)"
+   "oracle_text": "Put a +1/+1 counter on target creature you control. It gains protection from the color of your choice until end of turn. (It can't be blocked, targeted, dealt damage, enchanted, or equipped by anything of that color.)",
+   "appearances": 4
   },
   {
    "name": "Field of Ruin",
@@ -425,7 +454,8 @@
    "colors": [],
    "mana_cost": "",
    "url": "https://scryfall.com/card/moc/400/field-of-ruin?utm_source=api",
-   "oracle_text": "{T}: Add {C}.\n{2}, {T}, Sacrifice Field of Ruin: Destroy target nonbasic land an opponent controls. Each player searches their library for a basic land card, puts it onto the battlefield, then shuffles."
+   "oracle_text": "{T}: Add {C}.\n{2}, {T}, Sacrifice Field of Ruin: Destroy target nonbasic land an opponent controls. Each player searches their library for a basic land card, puts it onto the battlefield, then shuffles.",
+   "appearances": 2
   },
   {
    "name": "Isolated Chapel",
@@ -434,10 +464,14 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "B",
+    "W"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/lcc/337/isolated-chapel?utm_source=api",
-   "oracle_text": "Isolated Chapel enters the battlefield tapped unless you control a Plains or a Swamp.\n{T}: Add {W} or {B}."
+   "url": "https://scryfall.com/card/otc/301/isolated-chapel?utm_source=api",
+   "oracle_text": "Isolated Chapel enters the battlefield tapped unless you control a Plains or a Swamp.\n{T}: Add {W} or {B}.",
+   "appearances": 3
   },
   {
    "name": "Flickerwisp",
@@ -454,7 +488,8 @@
    ],
    "mana_cost": "{1}{W}{W}",
    "url": "https://scryfall.com/card/2x2/11/flickerwisp?utm_source=api",
-   "oracle_text": "Flying\nWhen Flickerwisp enters the battlefield, exile another target permanent. Return that card to the battlefield under its owner's control at the beginning of the next end step."
+   "oracle_text": "Flying\nWhen Flickerwisp enters the battlefield, exile another target permanent. Return that card to the battlefield under its owner's control at the beginning of the next end step.",
+   "appearances": 1
   },
   {
    "name": "Legion's Landing // Adanto, the First Fort",
@@ -467,10 +502,13 @@
    ],
    "cmc": 1,
    "image": "",
-   "colors": null,
+   "colors": [
+    "W"
+   ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/xln/22/legions-landing-adanto-the-first-fort?utm_source=api",
-   "oracle_text": ""
+   "oracle_text": "",
+   "appearances": 2
   },
   {
    "name": "Kor Sanctifiers",
@@ -488,7 +526,8 @@
    ],
    "mana_cost": "{2}{W}",
    "url": "https://scryfall.com/card/c15/73/kor-sanctifiers?utm_source=api",
-   "oracle_text": "Kicker {W} (You may pay an additional {W} as you cast this spell.)\nWhen Kor Sanctifiers enters the battlefield, if it was kicked, destroy target artifact or enchantment."
+   "oracle_text": "Kicker {W} (You may pay an additional {W} as you cast this spell.)\nWhen Kor Sanctifiers enters the battlefield, if it was kicked, destroy target artifact or enchantment.",
+   "appearances": 3
   },
   {
    "name": "Goldenglow Moth",
@@ -505,7 +544,8 @@
    ],
    "mana_cost": "{W}",
    "url": "https://scryfall.com/card/m11/15/goldenglow-moth?utm_source=api",
-   "oracle_text": "Flying\nWhenever Goldenglow Moth blocks, you may gain 4 life."
+   "oracle_text": "Flying\nWhenever Goldenglow Moth blocks, you may gain 4 life.",
+   "appearances": 3
   },
   {
    "name": "Restless Fortress",
@@ -514,10 +554,14 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "B",
+    "W"
+   ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/woe/259/restless-fortress?utm_source=api",
-   "oracle_text": "Restless Fortress enters the battlefield tapped.\n{T}: Add {W} or {B}.\n{2}{W}{B}: Restless Fortress becomes a 1/4 white and black Nightmare creature until end of turn. It's still a land.\nWhenever Restless Fortress attacks, defending player loses 2 life and you gain 2 life."
+   "oracle_text": "Restless Fortress enters the battlefield tapped.\n{T}: Add {W} or {B}.\n{2}{W}{B}: Restless Fortress becomes a 1/4 white and black Nightmare creature until end of turn. It's still a land.\nWhenever Restless Fortress attacks, defending player loses 2 life and you gain 2 life.",
+   "appearances": 1
   },
   {
    "name": "Fearless Fledgling",
@@ -534,7 +578,8 @@
    ],
    "mana_cost": "{1}{W}",
    "url": "https://scryfall.com/card/znr/15/fearless-fledgling?utm_source=api",
-   "oracle_text": "Landfall — Whenever a land enters the battlefield under your control, put a +1/+1 counter on Fearless Fledgling. It gains flying until end of turn."
+   "oracle_text": "Landfall — Whenever a land enters the battlefield under your control, put a +1/+1 counter on Fearless Fledgling. It gains flying until end of turn.",
+   "appearances": 3
   },
   {
    "name": "Shadowy Backstreet",
@@ -547,10 +592,14 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "B",
+    "W"
+   ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/mkm/268/shadowy-backstreet?utm_source=api",
-   "oracle_text": "({T}: Add {W} or {B}.)\nShadowy Backstreet enters the battlefield tapped.\nWhen Shadowy Backstreet enters the battlefield, surveil 1. (Look at the top card of your library. You may put it into your graveyard.)"
+   "oracle_text": "({T}: Add {W} or {B}.)\nShadowy Backstreet enters the battlefield tapped.\nWhen Shadowy Backstreet enters the battlefield, surveil 1. (Look at the top card of your library. You may put it into your graveyard.)",
+   "appearances": 2
   },
   {
    "name": "Bone Shards",
@@ -564,7 +613,8 @@
    ],
    "mana_cost": "{B}",
    "url": "https://scryfall.com/card/mh2/76/bone-shards?utm_source=api",
-   "oracle_text": "As an additional cost to cast this spell, sacrifice a creature or discard a card.\nDestroy target creature or planeswalker."
+   "oracle_text": "As an additional cost to cast this spell, sacrifice a creature or discard a card.\nDestroy target creature or planeswalker.",
+   "appearances": 4
   },
   {
    "name": "Plains",
@@ -577,10 +627,13 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "W"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/304/plains?utm_source=api",
-   "oracle_text": "({T}: Add {W}.)"
+   "url": "https://scryfall.com/card/mh3/310/plains?utm_source=api",
+   "oracle_text": "({T}: Add {W}.)",
+   "appearances": 22
   },
   {
    "name": "Plains",
@@ -593,10 +646,13 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "W"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/304/plains?utm_source=api",
-   "oracle_text": "({T}: Add {W}.)"
+   "url": "https://scryfall.com/card/mh3/310/plains?utm_source=api",
+   "oracle_text": "({T}: Add {W}.)",
+   "appearances": 22
   },
   {
    "name": "Plains",
@@ -609,10 +665,13 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "W"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/304/plains?utm_source=api",
-   "oracle_text": "({T}: Add {W}.)"
+   "url": "https://scryfall.com/card/mh3/310/plains?utm_source=api",
+   "oracle_text": "({T}: Add {W}.)",
+   "appearances": 22
   },
   {
    "name": "Plains",
@@ -625,10 +684,13 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "W"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/304/plains?utm_source=api",
-   "oracle_text": "({T}: Add {W}.)"
+   "url": "https://scryfall.com/card/mh3/310/plains?utm_source=api",
+   "oracle_text": "({T}: Add {W}.)",
+   "appearances": 22
   },
   {
    "name": "Swamp",
@@ -641,10 +703,13 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "B"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/306/swamp?utm_source=api",
-   "oracle_text": "({T}: Add {B}.)"
+   "url": "https://scryfall.com/card/mh3/314/swamp?utm_source=api",
+   "oracle_text": "({T}: Add {B}.)",
+   "appearances": 25
   },
   {
    "name": "Swamp",
@@ -657,10 +722,13 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "B"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/306/swamp?utm_source=api",
-   "oracle_text": "({T}: Add {B}.)"
+   "url": "https://scryfall.com/card/mh3/314/swamp?utm_source=api",
+   "oracle_text": "({T}: Add {B}.)",
+   "appearances": 25
   },
   {
    "name": "Swamp",
@@ -673,10 +741,13 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "B"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/306/swamp?utm_source=api",
-   "oracle_text": "({T}: Add {B}.)"
+   "url": "https://scryfall.com/card/mh3/314/swamp?utm_source=api",
+   "oracle_text": "({T}: Add {B}.)",
+   "appearances": 25
   },
   {
    "name": "Swamp",
@@ -689,10 +760,13 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "B"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/306/swamp?utm_source=api",
-   "oracle_text": "({T}: Add {B}.)"
+   "url": "https://scryfall.com/card/mh3/314/swamp?utm_source=api",
+   "oracle_text": "({T}: Add {B}.)",
+   "appearances": 25
   }
  ],
  "sideboard": [
@@ -707,7 +781,7 @@
     "U"
    ],
    "mana_cost": "{U}",
-   "url": "https://scryfall.com/card/afc/94/serum-visions?utm_source=api",
+   "url": "https://scryfall.com/card/otc/112/serum-visions?utm_source=api",
    "oracle_text": "Draw a card. Scry 2."
   },
   {
@@ -767,7 +841,10 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "G",
+    "U"
+   ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/rvr/275/breeding-pool?utm_source=api",
    "oracle_text": "({T}: Add {G} or {U}.)\nAs Breeding Pool enters the battlefield, you may pay 2 life. If you don't, it enters the battlefield tapped."

@@ -55,7 +55,8 @@
    ],
    "mana_cost": "{1}{B}",
    "url": "https://scryfall.com/card/lci/91/bitter-triumph?utm_source=api",
-   "oracle_text": "As an additional cost to cast this spell, discard a card or pay 3 life.\nDestroy target creature or planeswalker."
+   "oracle_text": "As an additional cost to cast this spell, discard a card or pay 3 life.\nDestroy target creature or planeswalker.",
+   "appearances": 1
   },
   {
    "name": "Vampire Hexmage",
@@ -73,7 +74,8 @@
    ],
    "mana_cost": "{B}{B}",
    "url": "https://scryfall.com/card/2xm/112/vampire-hexmage?utm_source=api",
-   "oracle_text": "First strike\nSacrifice Vampire Hexmage: Remove all counters from target permanent."
+   "oracle_text": "First strike\nSacrifice Vampire Hexmage: Remove all counters from target permanent.",
+   "appearances": 2
   },
   {
    "name": "Tarmogoyf",
@@ -90,7 +92,8 @@
    ],
    "mana_cost": "{1}{G}",
    "url": "https://scryfall.com/card/tsr/235/tarmogoyf?utm_source=api",
-   "oracle_text": "Tarmogoyf's power is equal to the number of card types among cards in all graveyards and its toughness is equal to that number plus 1."
+   "oracle_text": "Tarmogoyf's power is equal to the number of card types among cards in all graveyards and its toughness is equal to that number plus 1.",
+   "appearances": 2
   },
   {
    "name": "Fungal Infection",
@@ -104,7 +107,8 @@
    ],
    "mana_cost": "{B}",
    "url": "https://scryfall.com/card/dom/94/fungal-infection?utm_source=api",
-   "oracle_text": "Target creature gets -1/-1 until end of turn. Create a 1/1 green Saproling creature token."
+   "oracle_text": "Target creature gets -1/-1 until end of turn. Create a 1/1 green Saproling creature token.",
+   "appearances": 1
   },
   {
    "name": "Sanctum Seeker",
@@ -122,7 +126,8 @@
    ],
    "mana_cost": "{2}{B}{B}",
    "url": "https://scryfall.com/card/lcc/209/sanctum-seeker?utm_source=api",
-   "oracle_text": "Whenever a Vampire you control attacks, each opponent loses 1 life and you gain 1 life."
+   "oracle_text": "Whenever a Vampire you control attacks, each opponent loses 1 life and you gain 1 life.",
+   "appearances": 2
   },
   {
    "name": "Quest for the Gemblades",
@@ -136,7 +141,8 @@
    ],
    "mana_cost": "{1}{G}",
    "url": "https://scryfall.com/card/zen/177/quest-for-the-gemblades?utm_source=api",
-   "oracle_text": "Whenever a creature you control deals combat damage to a creature, you may put a quest counter on Quest for the Gemblades.\nRemove a quest counter from Quest for the Gemblades and sacrifice it: Put four +1/+1 counters on target creature."
+   "oracle_text": "Whenever a creature you control deals combat damage to a creature, you may put a quest counter on Quest for the Gemblades.\nRemove a quest counter from Quest for the Gemblades and sacrifice it: Put four +1/+1 counters on target creature.",
+   "appearances": 2
   },
   {
    "name": "Duress",
@@ -150,7 +156,8 @@
    ],
    "mana_cost": "{B}",
    "url": "https://scryfall.com/card/one/92/duress?utm_source=api",
-   "oracle_text": "Target opponent reveals their hand. You choose a noncreature, nonland card from it. That player discards that card."
+   "oracle_text": "Target opponent reveals their hand. You choose a noncreature, nonland card from it. That player discards that card.",
+   "appearances": 3
   },
   {
    "name": "Multani, Yavimaya's Avatar",
@@ -197,7 +204,8 @@
    ],
    "mana_cost": "{2}{B}",
    "url": "https://scryfall.com/card/woe/91/feed-the-cauldron?utm_source=api",
-   "oracle_text": "Destroy target creature with mana value 3 or less. If it's your turn, create a Food token. (It's an artifact with \"{2}, {T}, Sacrifice this artifact: You gain 3 life.\")"
+   "oracle_text": "Destroy target creature with mana value 3 or less. If it's your turn, create a Food token. (It's an artifact with \"{2}, {T}, Sacrifice this artifact: You gain 3 life.\")",
+   "appearances": 1
   },
   {
    "name": "Vampire Aristocrat",
@@ -233,7 +241,8 @@
    ],
    "mana_cost": "{2}{B}",
    "url": "https://scryfall.com/card/clb/774/woe-strider?utm_source=api",
-   "oracle_text": "When Woe Strider enters the battlefield, create a 0/1 white Goat creature token.\nSacrifice another creature: Scry 1.\nEscape—{3}{B}{B}, Exile four other cards from your graveyard. (You may cast this card from your graveyard for its escape cost.)\nWoe Strider escapes with two +1/+1 counters on it."
+   "oracle_text": "When Woe Strider enters the battlefield, create a 0/1 white Goat creature token.\nSacrifice another creature: Scry 1.\nEscape—{3}{B}{B}, Exile four other cards from your graveyard. (You may cast this card from your graveyard for its escape cost.)\nWoe Strider escapes with two +1/+1 counters on it.",
+   "appearances": 2
   },
   {
    "name": "Persist",
@@ -247,7 +256,8 @@
    ],
    "mana_cost": "{1}{B}",
    "url": "https://scryfall.com/card/mh2/96/persist?utm_source=api",
-   "oracle_text": "Return target nonlegendary creature card from your graveyard to the battlefield with a -1/-1 counter on it."
+   "oracle_text": "Return target nonlegendary creature card from your graveyard to the battlefield with a -1/-1 counter on it.",
+   "appearances": 7
   },
   {
    "name": "Blade of the Bloodchief",
@@ -277,7 +287,8 @@
    "colors": [],
    "mana_cost": "{1}",
    "url": "https://scryfall.com/card/a25/230/sai-of-the-shinobi?utm_source=api",
-   "oracle_text": "Equipped creature gets +1/+1.\nWhenever a creature enters the battlefield under your control, you may attach Sai of the Shinobi to it.\nEquip {2}"
+   "oracle_text": "Equipped creature gets +1/+1.\nWhenever a creature enters the battlefield under your control, you may attach Sai of the Shinobi to it.\nEquip {2}",
+   "appearances": 1
   },
   {
    "name": "Carrion Feeder",
@@ -294,7 +305,8 @@
    ],
    "mana_cost": "{B}",
    "url": "https://scryfall.com/card/mh1/81/carrion-feeder?utm_source=api",
-   "oracle_text": "Carrion Feeder can't block.\nSacrifice a creature: Put a +1/+1 counter on Carrion Feeder."
+   "oracle_text": "Carrion Feeder can't block.\nSacrifice a creature: Put a +1/+1 counter on Carrion Feeder.",
+   "appearances": 1
   },
   {
    "name": "Intrepid Trufflesnout // Go Hog Wild",
@@ -313,7 +325,8 @@
    ],
    "mana_cost": "{1}{G} // {1}{G}",
    "url": "https://scryfall.com/card/woe/320/intrepid-trufflesnout-go-hog-wild?utm_source=api",
-   "oracle_text": ""
+   "oracle_text": "",
+   "appearances": 1
   },
   {
    "name": "Quest for the Gravelord",
@@ -344,7 +357,8 @@
    ],
    "mana_cost": "{3}{B}{B}",
    "url": "https://scryfall.com/card/akh/78/archfiend-of-ifnir?utm_source=api",
-   "oracle_text": "Flying\nWhenever you cycle or discard another card, put a -1/-1 counter on each creature your opponents control.\nCycling {2} ({2}, Discard this card: Draw a card.)"
+   "oracle_text": "Flying\nWhenever you cycle or discard another card, put a -1/-1 counter on each creature your opponents control.\nCycling {2} ({2}, Discard this card: Draw a card.)",
+   "appearances": 3
   },
   {
    "name": "Disfigure",
@@ -358,7 +372,8 @@
    ],
    "mana_cost": "{B}",
    "url": "https://scryfall.com/card/bro/91/disfigure?utm_source=api",
-   "oracle_text": "Target creature gets -2/-2 until end of turn."
+   "oracle_text": "Target creature gets -2/-2 until end of turn.",
+   "appearances": 1
   },
   {
    "name": "Vines of Vastwood",
@@ -372,7 +387,8 @@
    ],
    "mana_cost": "{G}",
    "url": "https://scryfall.com/card/mm2/168/vines-of-vastwood?utm_source=api",
-   "oracle_text": "Kicker {G} (You may pay an additional {G} as you cast this spell.)\nTarget creature can't be the target of spells or abilities your opponents control this turn. If this spell was kicked, that creature gets +4/+4 until end of turn."
+   "oracle_text": "Kicker {G} (You may pay an additional {G} as you cast this spell.)\nTarget creature can't be the target of spells or abilities your opponents control this turn. If this spell was kicked, that creature gets +4/+4 until end of turn.",
+   "appearances": 2
   },
   {
    "name": "Renata, Called to the Hunt",
@@ -423,7 +439,8 @@
    ],
    "mana_cost": "{2}{G}",
    "url": "https://scryfall.com/card/dmr/153/call-of-the-herd?utm_source=api",
-   "oracle_text": "Create a 3/3 green Elephant creature token.\nFlashback {3}{G} (You may cast this card from your graveyard for its flashback cost. Then exile it.)"
+   "oracle_text": "Create a 3/3 green Elephant creature token.\nFlashback {3}{G} (You may cast this card from your graveyard for its flashback cost. Then exile it.)",
+   "appearances": 3
   },
   {
    "name": "Swamp",
@@ -436,10 +453,13 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "B"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/306/swamp?utm_source=api",
-   "oracle_text": "({T}: Add {B}.)"
+   "url": "https://scryfall.com/card/mh3/314/swamp?utm_source=api",
+   "oracle_text": "({T}: Add {B}.)",
+   "appearances": 25
   },
   {
    "name": "Swamp",
@@ -452,10 +472,13 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "B"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/306/swamp?utm_source=api",
-   "oracle_text": "({T}: Add {B}.)"
+   "url": "https://scryfall.com/card/mh3/314/swamp?utm_source=api",
+   "oracle_text": "({T}: Add {B}.)",
+   "appearances": 25
   },
   {
    "name": "Swamp",
@@ -468,10 +491,13 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "B"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/306/swamp?utm_source=api",
-   "oracle_text": "({T}: Add {B}.)"
+   "url": "https://scryfall.com/card/mh3/314/swamp?utm_source=api",
+   "oracle_text": "({T}: Add {B}.)",
+   "appearances": 25
   },
   {
    "name": "Swamp",
@@ -484,10 +510,13 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "B"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/306/swamp?utm_source=api",
-   "oracle_text": "({T}: Add {B}.)"
+   "url": "https://scryfall.com/card/mh3/314/swamp?utm_source=api",
+   "oracle_text": "({T}: Add {B}.)",
+   "appearances": 25
   },
   {
    "name": "Swamp",
@@ -500,10 +529,13 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "B"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/306/swamp?utm_source=api",
-   "oracle_text": "({T}: Add {B}.)"
+   "url": "https://scryfall.com/card/mh3/314/swamp?utm_source=api",
+   "oracle_text": "({T}: Add {B}.)",
+   "appearances": 25
   },
   {
    "name": "Swamp",
@@ -516,10 +548,13 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "B"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/306/swamp?utm_source=api",
-   "oracle_text": "({T}: Add {B}.)"
+   "url": "https://scryfall.com/card/mh3/314/swamp?utm_source=api",
+   "oracle_text": "({T}: Add {B}.)",
+   "appearances": 25
   },
   {
    "name": "Swamp",
@@ -532,10 +567,13 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "B"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/306/swamp?utm_source=api",
-   "oracle_text": "({T}: Add {B}.)"
+   "url": "https://scryfall.com/card/mh3/314/swamp?utm_source=api",
+   "oracle_text": "({T}: Add {B}.)",
+   "appearances": 25
   },
   {
    "name": "Swamp",
@@ -548,10 +586,13 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "B"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/306/swamp?utm_source=api",
-   "oracle_text": "({T}: Add {B}.)"
+   "url": "https://scryfall.com/card/mh3/314/swamp?utm_source=api",
+   "oracle_text": "({T}: Add {B}.)",
+   "appearances": 25
   },
   {
    "name": "Swamp",
@@ -564,10 +605,13 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "B"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/306/swamp?utm_source=api",
-   "oracle_text": "({T}: Add {B}.)"
+   "url": "https://scryfall.com/card/mh3/314/swamp?utm_source=api",
+   "oracle_text": "({T}: Add {B}.)",
+   "appearances": 25
   },
   {
    "name": "Forest",
@@ -580,10 +624,13 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "G"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/308/forest?utm_source=api",
-   "oracle_text": "({T}: Add {G}.)"
+   "url": "https://scryfall.com/card/mh3/318/forest?utm_source=api",
+   "oracle_text": "({T}: Add {G}.)",
+   "appearances": 22
   },
   {
    "name": "Forest",
@@ -596,10 +643,13 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "G"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/308/forest?utm_source=api",
-   "oracle_text": "({T}: Add {G}.)"
+   "url": "https://scryfall.com/card/mh3/318/forest?utm_source=api",
+   "oracle_text": "({T}: Add {G}.)",
+   "appearances": 22
   },
   {
    "name": "Forest",
@@ -612,10 +662,13 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "G"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/308/forest?utm_source=api",
-   "oracle_text": "({T}: Add {G}.)"
+   "url": "https://scryfall.com/card/mh3/318/forest?utm_source=api",
+   "oracle_text": "({T}: Add {G}.)",
+   "appearances": 22
   },
   {
    "name": "Forest",
@@ -628,10 +681,13 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "G"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/308/forest?utm_source=api",
-   "oracle_text": "({T}: Add {G}.)"
+   "url": "https://scryfall.com/card/mh3/318/forest?utm_source=api",
+   "oracle_text": "({T}: Add {G}.)",
+   "appearances": 22
   },
   {
    "name": "Forest",
@@ -644,10 +700,13 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "G"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/308/forest?utm_source=api",
-   "oracle_text": "({T}: Add {G}.)"
+   "url": "https://scryfall.com/card/mh3/318/forest?utm_source=api",
+   "oracle_text": "({T}: Add {G}.)",
+   "appearances": 22
   },
   {
    "name": "Forest",
@@ -660,10 +719,13 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "G"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/308/forest?utm_source=api",
-   "oracle_text": "({T}: Add {G}.)"
+   "url": "https://scryfall.com/card/mh3/318/forest?utm_source=api",
+   "oracle_text": "({T}: Add {G}.)",
+   "appearances": 22
   },
   {
    "name": "Forest",
@@ -676,10 +738,13 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "G"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/308/forest?utm_source=api",
-   "oracle_text": "({T}: Add {G}.)"
+   "url": "https://scryfall.com/card/mh3/318/forest?utm_source=api",
+   "oracle_text": "({T}: Add {G}.)",
+   "appearances": 22
   }
  ],
  "sideboard": [
@@ -732,7 +797,10 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "B",
+    "U"
+   ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/2xm/326/sunken-ruins?utm_source=api",
    "oracle_text": "{T}: Add {C}.\n{U/B}, {T}: Add {U}{U}, {U}{B}, or {B}{B}."
@@ -747,7 +815,8 @@
    "colors": [],
    "mana_cost": "",
    "url": "https://scryfall.com/card/mh2/254/scalding-tarn?utm_source=api",
-   "oracle_text": "{T}, Pay 1 life, Sacrifice Scalding Tarn: Search your library for an Island or Mountain card, put it onto the battlefield, then shuffle."
+   "oracle_text": "{T}, Pay 1 life, Sacrifice Scalding Tarn: Search your library for an Island or Mountain card, put it onto the battlefield, then shuffle.",
+   "appearances": 4
   },
   {
    "name": "Goldmeadow Harrier",

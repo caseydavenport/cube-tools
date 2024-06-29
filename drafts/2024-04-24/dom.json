@@ -35,7 +35,8 @@
    ],
    "mana_cost": "{1}{U}",
    "url": "https://scryfall.com/card/ulg/36/miscalculation?utm_source=api",
-   "oracle_text": "Counter target spell unless its controller pays {2}.\nCycling {2} ({2}, Discard this card: Draw a card.)"
+   "oracle_text": "Counter target spell unless its controller pays {2}.\nCycling {2} ({2}, Discard this card: Draw a card.)",
+   "appearances": 1
   },
   {
    "name": "Seasoned Pyromancer",
@@ -53,7 +54,8 @@
    ],
    "mana_cost": "{1}{R}{R}",
    "url": "https://scryfall.com/card/2x2/123/seasoned-pyromancer?utm_source=api",
-   "oracle_text": "When Seasoned Pyromancer enters the battlefield, discard two cards, then draw two cards. For each nonland card discarded this way, create a 1/1 red Elemental creature token.\n{3}{R}{R}, Exile Seasoned Pyromancer from your graveyard: Create two 1/1 red Elemental creature tokens."
+   "oracle_text": "When Seasoned Pyromancer enters the battlefield, discard two cards, then draw two cards. For each nonland card discarded this way, create a 1/1 red Elemental creature token.\n{3}{R}{R}, Exile Seasoned Pyromancer from your graveyard: Create two 1/1 red Elemental creature tokens.",
+   "appearances": 2
   },
   {
    "name": "Delay",
@@ -67,7 +69,8 @@
    ],
    "mana_cost": "{1}{U}",
    "url": "https://scryfall.com/card/tsr/61/delay?utm_source=api",
-   "oracle_text": "Counter target spell. If the spell is countered this way, exile it with three time counters on it instead of putting it into its owner's graveyard. If it doesn't have suspend, it gains suspend. (At the beginning of its owner's upkeep, they remove a time counter. When the last is removed, they may play it without paying its mana cost. If it's a creature, it has haste.)"
+   "oracle_text": "Counter target spell. If the spell is countered this way, exile it with three time counters on it instead of putting it into its owner's graveyard. If it doesn't have suspend, it gains suspend. (At the beginning of its owner's upkeep, they remove a time counter. When the last is removed, they may play it without paying its mana cost. If it's a creature, it has haste.)",
+   "appearances": 1
   },
   {
    "name": "Empty the Warrens",
@@ -81,7 +84,8 @@
    ],
    "mana_cost": "{3}{R}",
    "url": "https://scryfall.com/card/dmr/118/empty-the-warrens?utm_source=api",
-   "oracle_text": "Create two 1/1 red Goblin creature tokens.\nStorm (When you cast this spell, copy it for each spell cast before it this turn.)"
+   "oracle_text": "Create two 1/1 red Goblin creature tokens.\nStorm (When you cast this spell, copy it for each spell cast before it this turn.)",
+   "appearances": 1
   },
   {
    "name": "Stomping Ground",
@@ -94,10 +98,14 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "G",
+    "R"
+   ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/rvr/289/stomping-ground?utm_source=api",
-   "oracle_text": "({T}: Add {R} or {G}.)\nAs Stomping Ground enters the battlefield, you may pay 2 life. If you don't, it enters the battlefield tapped."
+   "oracle_text": "({T}: Add {R} or {G}.)\nAs Stomping Ground enters the battlefield, you may pay 2 life. If you don't, it enters the battlefield tapped.",
+   "appearances": 2
   },
   {
    "name": "Thundering Falls",
@@ -110,10 +118,14 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "R",
+    "U"
+   ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/mkm/269/thundering-falls?utm_source=api",
-   "oracle_text": "({T}: Add {U} or {R}.)\nThundering Falls enters the battlefield tapped.\nWhen Thundering Falls enters the battlefield, surveil 1. (Look at the top card of your library. You may put it into your graveyard.)"
+   "oracle_text": "({T}: Add {U} or {R}.)\nThundering Falls enters the battlefield tapped.\nWhen Thundering Falls enters the battlefield, surveil 1. (Look at the top card of your library. You may put it into your graveyard.)",
+   "appearances": 1
   },
   {
    "name": "Young Pyromancer",
@@ -130,8 +142,9 @@
     "R"
    ],
    "mana_cost": "{1}{R}",
-   "url": "https://scryfall.com/card/2x2/131/young-pyromancer?utm_source=api",
-   "oracle_text": "Whenever you cast an instant or sorcery spell, create a 1/1 red Elemental creature token."
+   "url": "https://scryfall.com/card/otc/185/young-pyromancer?utm_source=api",
+   "oracle_text": "Whenever you cast an instant or sorcery spell, create a 1/1 red Elemental creature token.",
+   "appearances": 1
   },
   {
    "name": "Magma Jet",
@@ -145,7 +158,8 @@
    ],
    "mana_cost": "{1}{R}",
    "url": "https://scryfall.com/card/jmp/346/magma-jet?utm_source=api",
-   "oracle_text": "Magma Jet deals 2 damage to any target. Scry 2."
+   "oracle_text": "Magma Jet deals 2 damage to any target. Scry 2.",
+   "appearances": 2
   },
   {
    "name": "Siege-Gang Commander",
@@ -162,7 +176,8 @@
    ],
    "mana_cost": "{3}{R}{R}",
    "url": "https://scryfall.com/card/dmr/136/siege-gang-commander?utm_source=api",
-   "oracle_text": "When Siege-Gang Commander enters the battlefield, create three 1/1 red Goblin creature tokens.\n{1}{R}, Sacrifice a Goblin: Siege-Gang Commander deals 2 damage to any target."
+   "oracle_text": "When Siege-Gang Commander enters the battlefield, create three 1/1 red Goblin creature tokens.\n{1}{R}, Sacrifice a Goblin: Siege-Gang Commander deals 2 damage to any target.",
+   "appearances": 1
   },
   {
    "name": "Misty Rainforest",
@@ -174,7 +189,8 @@
    "colors": [],
    "mana_cost": "",
    "url": "https://scryfall.com/card/mh2/250/misty-rainforest?utm_source=api",
-   "oracle_text": "{T}, Pay 1 life, Sacrifice Misty Rainforest: Search your library for a Forest or Island card, put it onto the battlefield, then shuffle."
+   "oracle_text": "{T}, Pay 1 life, Sacrifice Misty Rainforest: Search your library for a Forest or Island card, put it onto the battlefield, then shuffle.",
+   "appearances": 1
   },
   {
    "name": "Tireless Tracker",
@@ -192,7 +208,8 @@
    ],
    "mana_cost": "{2}{G}",
    "url": "https://scryfall.com/card/mkc/190/tireless-tracker?utm_source=api",
-   "oracle_text": "Landfall — Whenever a land enters the battlefield under your control, investigate. (Create a Clue token. It's an artifact with \"{2}, Sacrifice this artifact: Draw a card.\")\nWhenever you sacrifice a Clue, put a +1/+1 counter on Tireless Tracker."
+   "oracle_text": "Landfall — Whenever a land enters the battlefield under your control, investigate. (Create a Clue token. It's an artifact with \"{2}, Sacrifice this artifact: Draw a card.\")\nWhenever you sacrifice a Clue, put a +1/+1 counter on Tireless Tracker.",
+   "appearances": 2
   },
   {
    "name": "Firebolt",
@@ -206,7 +223,8 @@
    ],
    "mana_cost": "{R}",
    "url": "https://scryfall.com/card/mh1/122/firebolt?utm_source=api",
-   "oracle_text": "Firebolt deals 2 damage to any target.\nFlashback {4}{R} (You may cast this card from your graveyard for its flashback cost. Then exile it.)"
+   "oracle_text": "Firebolt deals 2 damage to any target.\nFlashback {4}{R} (You may cast this card from your graveyard for its flashback cost. Then exile it.)",
+   "appearances": 1
   },
   {
    "name": "Beast Within",
@@ -220,7 +238,8 @@
    ],
    "mana_cost": "{2}{G}",
    "url": "https://scryfall.com/card/lcc/233/beast-within?utm_source=api",
-   "oracle_text": "Destroy target permanent. Its controller creates a 3/3 green Beast creature token."
+   "oracle_text": "Destroy target permanent. Its controller creates a 3/3 green Beast creature token.",
+   "appearances": 1
   },
   {
    "name": "Faithless Looting",
@@ -233,8 +252,9 @@
     "R"
    ],
    "mana_cost": "{R}",
-   "url": "https://scryfall.com/card/lcc/225/faithless-looting?utm_source=api",
-   "oracle_text": "Draw two cards, then discard two cards.\nFlashback {2}{R} (You may cast this card from your graveyard for its flashback cost. Then exile it.)"
+   "url": "https://scryfall.com/card/otc/165/faithless-looting?utm_source=api",
+   "oracle_text": "Draw two cards, then discard two cards.\nFlashback {2}{R} (You may cast this card from your graveyard for its flashback cost. Then exile it.)",
+   "appearances": 1
   },
   {
    "name": "Containment Construct",
@@ -250,7 +270,8 @@
    "colors": [],
    "mana_cost": "{2}",
    "url": "https://scryfall.com/card/neo/243/containment-construct?utm_source=api",
-   "oracle_text": "Whenever you discard a card, you may exile that card from your graveyard. If you do, you may play that card this turn."
+   "oracle_text": "Whenever you discard a card, you may exile that card from your graveyard. If you do, you may play that card this turn.",
+   "appearances": 2
   },
   {
    "name": "Arid Mesa",
@@ -262,7 +283,8 @@
    "colors": [],
    "mana_cost": "",
    "url": "https://scryfall.com/card/mh2/244/arid-mesa?utm_source=api",
-   "oracle_text": "{T}, Pay 1 life, Sacrifice Arid Mesa: Search your library for a Mountain or Plains card, put it onto the battlefield, then shuffle."
+   "oracle_text": "{T}, Pay 1 life, Sacrifice Arid Mesa: Search your library for a Mountain or Plains card, put it onto the battlefield, then shuffle.",
+   "appearances": 1
   },
   {
    "name": "Inti, Seneschal of the Sun",
@@ -281,7 +303,8 @@
    ],
    "mana_cost": "{1}{R}",
    "url": "https://scryfall.com/card/lci/156/inti-seneschal-of-the-sun?utm_source=api",
-   "oracle_text": "Whenever you attack, you may discard a card. When you do, put a +1/+1 counter on target attacking creature. It gains trample until end of turn.\nWhenever you discard one or more cards, exile the top card of your library. You may play that card until your next end step."
+   "oracle_text": "Whenever you attack, you may discard a card. When you do, put a +1/+1 counter on target attacking creature. It gains trample until end of turn.\nWhenever you discard one or more cards, exile the top card of your library. You may play that card until your next end step.",
+   "appearances": 2
   },
   {
    "name": "Inexorable Blob",
@@ -298,7 +321,8 @@
    ],
    "mana_cost": "{2}{G}",
    "url": "https://scryfall.com/card/soi/212/inexorable-blob?utm_source=api",
-   "oracle_text": "Delirium — Whenever Inexorable Blob attacks, if there are four or more card types among cards in your graveyard, create a 3/3 green Ooze creature token that's tapped and attacking."
+   "oracle_text": "Delirium — Whenever Inexorable Blob attacks, if there are four or more card types among cards in your graveyard, create a 3/3 green Ooze creature token that's tapped and attacking.",
+   "appearances": 2
   },
   {
    "name": "Mishra's Bauble",
@@ -310,7 +334,8 @@
    "colors": [],
    "mana_cost": "{0}",
    "url": "https://scryfall.com/card/2xm/274/mishras-bauble?utm_source=api",
-   "oracle_text": "{T}, Sacrifice Mishra's Bauble: Look at the top card of target player's library. Draw a card at the beginning of the next turn's upkeep."
+   "oracle_text": "{T}, Sacrifice Mishra's Bauble: Look at the top card of target player's library. Draw a card at the beginning of the next turn's upkeep.",
+   "appearances": 1
   },
   {
    "name": "Mark of Mutiny",
@@ -324,7 +349,8 @@
    ],
    "mana_cost": "{2}{R}",
    "url": "https://scryfall.com/card/ima/139/mark-of-mutiny?utm_source=api",
-   "oracle_text": "Gain control of target creature until end of turn. Put a +1/+1 counter on it and untap it. That creature gains haste until end of turn. (It can attack and {T} this turn.)"
+   "oracle_text": "Gain control of target creature until end of turn. Put a +1/+1 counter on it and untap it. That creature gains haste until end of turn. (It can attack and {T} this turn.)",
+   "appearances": 1
   },
   {
    "name": "Blazing Rootwalla",
@@ -341,7 +367,8 @@
    ],
    "mana_cost": "{R}",
    "url": "https://scryfall.com/card/mh2/115/blazing-rootwalla?utm_source=api",
-   "oracle_text": "{R}: Blazing Rootwalla gets +2/+0 until end of turn. Activate only once each turn.\nMadness {0} (If you discard this card, discard it into exile. When you do, cast it for its madness cost or put it into your graveyard.)"
+   "oracle_text": "{R}: Blazing Rootwalla gets +2/+0 until end of turn. Activate only once each turn.\nMadness {0} (If you discard this card, discard it into exile. When you do, cast it for its madness cost or put it into your graveyard.)",
+   "appearances": 2
   },
   {
    "name": "Krenko, Tin Street Kingpin",
@@ -359,7 +386,8 @@
    ],
    "mana_cost": "{2}{R}",
    "url": "https://scryfall.com/card/moc/287/krenko-tin-street-kingpin?utm_source=api",
-   "oracle_text": "Whenever Krenko, Tin Street Kingpin attacks, put a +1/+1 counter on it, then create a number of 1/1 red Goblin creature tokens equal to Krenko's power."
+   "oracle_text": "Whenever Krenko, Tin Street Kingpin attacks, put a +1/+1 counter on it, then create a number of 1/1 red Goblin creature tokens equal to Krenko's power.",
+   "appearances": 2
   },
   {
    "name": "Scavenging Ooze",
@@ -376,7 +404,8 @@
    ],
    "mana_cost": "{1}{G}",
    "url": "https://scryfall.com/card/ncc/309/scavenging-ooze?utm_source=api",
-   "oracle_text": "{G}: Exile target card from a graveyard. If it was a creature card, put a +1/+1 counter on Scavenging Ooze and you gain 1 life."
+   "oracle_text": "{G}: Exile target card from a graveyard. If it was a creature card, put a +1/+1 counter on Scavenging Ooze and you gain 1 life.",
+   "appearances": 2
   },
   {
    "name": "Curator of Mysteries",
@@ -393,7 +422,8 @@
    ],
    "mana_cost": "{2}{U}{U}",
    "url": "https://scryfall.com/card/afc/81/curator-of-mysteries?utm_source=api",
-   "oracle_text": "Flying\nWhenever you cycle or discard another card, scry 1.\nCycling {U} ({U}, Discard this card: Draw a card.)"
+   "oracle_text": "Flying\nWhenever you cycle or discard another card, scry 1.\nCycling {U} ({U}, Discard this card: Draw a card.)",
+   "appearances": 1
   },
   {
    "name": "Reinforced Ronin",
@@ -412,7 +442,8 @@
    ],
    "mana_cost": "{R}",
    "url": "https://scryfall.com/card/neo/158/reinforced-ronin?utm_source=api",
-   "oracle_text": "Haste\nAt the beginning of your end step, return Reinforced Ronin to its owner's hand.\nChannel — {1}{R}, Discard Reinforced Ronin: Draw a card."
+   "oracle_text": "Haste\nAt the beginning of your end step, return Reinforced Ronin to its owner's hand.\nChannel — {1}{R}, Discard Reinforced Ronin: Draw a card.",
+   "appearances": 2
   },
   {
    "name": "Restless Vinestalk",
@@ -421,10 +452,14 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "G",
+    "U"
+   ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/woe/261/restless-vinestalk?utm_source=api",
-   "oracle_text": "Restless Vinestalk enters the battlefield tapped.\n{T}: Add {G} or {U}.\n{3}{G}{U}: Until end of turn, Restless Vinestalk becomes a 5/5 green and blue Plant creature with trample. It's still a land.\nWhenever Restless Vinestalk attacks, up to one other target creature has base power and toughness 3/3 until end of turn."
+   "oracle_text": "Restless Vinestalk enters the battlefield tapped.\n{T}: Add {G} or {U}.\n{3}{G}{U}: Until end of turn, Restless Vinestalk becomes a 5/5 green and blue Plant creature with trample. It's still a land.\nWhenever Restless Vinestalk attacks, up to one other target creature has base power and toughness 3/3 until end of turn.",
+   "appearances": 2
   },
   {
    "name": "Windswept Heath",
@@ -436,7 +471,8 @@
    "colors": [],
    "mana_cost": "",
    "url": "https://scryfall.com/card/mh3/235/windswept-heath?utm_source=api",
-   "oracle_text": "{T}, Pay 1 life, Sacrifice Windswept Heath: Search your library for a Forest or Plains card, put it onto the battlefield, then shuffle."
+   "oracle_text": "{T}, Pay 1 life, Sacrifice Windswept Heath: Search your library for a Forest or Plains card, put it onto the battlefield, then shuffle.",
+   "appearances": 1
   },
   {
    "name": "Lórien Revealed",
@@ -450,7 +486,8 @@
    ],
    "mana_cost": "{3}{U}{U}",
    "url": "https://scryfall.com/card/ltr/60/l%C3%B3rien-revealed?utm_source=api",
-   "oracle_text": "Draw three cards.\nIslandcycling {1} ({1}, Discard this card: Search your library for an Island card, reveal it, put it into your hand, then shuffle.)"
+   "oracle_text": "Draw three cards.\nIslandcycling {1} ({1}, Discard this card: Search your library for an Island card, reveal it, put it into your hand, then shuffle.)",
+   "appearances": 2
   },
   {
    "name": "Careful Study",
@@ -464,7 +501,8 @@
    ],
    "mana_cost": "{U}",
    "url": "https://scryfall.com/card/ody/70/careful-study?utm_source=api",
-   "oracle_text": "Draw two cards, then discard two cards."
+   "oracle_text": "Draw two cards, then discard two cards.",
+   "appearances": 1
   },
   {
    "name": "Call of the Herd",
@@ -478,7 +516,8 @@
    ],
    "mana_cost": "{2}{G}",
    "url": "https://scryfall.com/card/dmr/153/call-of-the-herd?utm_source=api",
-   "oracle_text": "Create a 3/3 green Elephant creature token.\nFlashback {3}{G} (You may cast this card from your graveyard for its flashback cost. Then exile it.)"
+   "oracle_text": "Create a 3/3 green Elephant creature token.\nFlashback {3}{G} (You may cast this card from your graveyard for its flashback cost. Then exile it.)",
+   "appearances": 2
   },
   {
    "name": "Island",
@@ -491,10 +530,13 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "U"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/305/island?utm_source=api",
-   "oracle_text": "({T}: Add {U}.)"
+   "url": "https://scryfall.com/card/mh3/312/island?utm_source=api",
+   "oracle_text": "({T}: Add {U}.)",
+   "appearances": 2
   },
   {
    "name": "Island",
@@ -507,10 +549,13 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "U"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/305/island?utm_source=api",
-   "oracle_text": "({T}: Add {U}.)"
+   "url": "https://scryfall.com/card/mh3/312/island?utm_source=api",
+   "oracle_text": "({T}: Add {U}.)",
+   "appearances": 2
   },
   {
    "name": "Island",
@@ -523,10 +568,13 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "U"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/305/island?utm_source=api",
-   "oracle_text": "({T}: Add {U}.)"
+   "url": "https://scryfall.com/card/mh3/312/island?utm_source=api",
+   "oracle_text": "({T}: Add {U}.)",
+   "appearances": 2
   },
   {
    "name": "Mountain",
@@ -539,10 +587,13 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "R"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/blb/274/mountain?utm_source=api",
-   "oracle_text": "({T}: Add {R}.)"
+   "url": "https://scryfall.com/card/mh3/316/mountain?utm_source=api",
+   "oracle_text": "({T}: Add {R}.)",
+   "appearances": 2
   },
   {
    "name": "Mountain",
@@ -555,10 +606,13 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "R"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/blb/274/mountain?utm_source=api",
-   "oracle_text": "({T}: Add {R}.)"
+   "url": "https://scryfall.com/card/mh3/316/mountain?utm_source=api",
+   "oracle_text": "({T}: Add {R}.)",
+   "appearances": 2
   },
   {
    "name": "Mountain",
@@ -571,10 +625,13 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "R"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/blb/274/mountain?utm_source=api",
-   "oracle_text": "({T}: Add {R}.)"
+   "url": "https://scryfall.com/card/mh3/316/mountain?utm_source=api",
+   "oracle_text": "({T}: Add {R}.)",
+   "appearances": 2
   },
   {
    "name": "Mountain",
@@ -587,10 +644,13 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "R"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/blb/274/mountain?utm_source=api",
-   "oracle_text": "({T}: Add {R}.)"
+   "url": "https://scryfall.com/card/mh3/316/mountain?utm_source=api",
+   "oracle_text": "({T}: Add {R}.)",
+   "appearances": 2
   },
   {
    "name": "Mountain",
@@ -603,10 +663,13 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "R"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/blb/274/mountain?utm_source=api",
-   "oracle_text": "({T}: Add {R}.)"
+   "url": "https://scryfall.com/card/mh3/316/mountain?utm_source=api",
+   "oracle_text": "({T}: Add {R}.)",
+   "appearances": 2
   },
   {
    "name": "Forest",
@@ -619,10 +682,13 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "G"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/308/forest?utm_source=api",
-   "oracle_text": "({T}: Add {G}.)"
+   "url": "https://scryfall.com/card/mh3/318/forest?utm_source=api",
+   "oracle_text": "({T}: Add {G}.)",
+   "appearances": 2
   },
   {
    "name": "Forest",
@@ -635,10 +701,13 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "G"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/308/forest?utm_source=api",
-   "oracle_text": "({T}: Add {G}.)"
+   "url": "https://scryfall.com/card/mh3/318/forest?utm_source=api",
+   "oracle_text": "({T}: Add {G}.)",
+   "appearances": 2
   }
  ],
  "sideboard": [
@@ -726,7 +795,7 @@
     "W"
    ],
    "mana_cost": "{2}{W}{W}",
-   "url": "https://scryfall.com/card/khc/29/marshals-anthem?utm_source=api",
+   "url": "https://scryfall.com/card/otc/82/marshals-anthem?utm_source=api",
    "oracle_text": "Multikicker {1}{W} (You may pay an additional {1}{W} any number of times as you cast this spell.)\nCreatures you control get +1/+1.\nWhen Marshal's Anthem enters the battlefield, return up to X target creature cards from your graveyard to the battlefield, where X is the number of times Marshal's Anthem was kicked."
   },
   {
@@ -841,9 +910,12 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "B",
+    "R"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/dmu/256/sulfurous-springs?utm_source=api",
+   "url": "https://scryfall.com/card/otc/323/sulfurous-springs?utm_source=api",
    "oracle_text": "{T}: Add {C}.\n{T}: Add {B} or {R}. Sulfurous Springs deals 1 damage to you."
   },
   {
@@ -857,7 +929,10 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "B",
+    "W"
+   ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/rvr/277/godless-shrine?utm_source=api",
    "oracle_text": "({T}: Add {W} or {B}.)\nAs Godless Shrine enters the battlefield, you may pay 2 life. If you don't, it enters the battlefield tapped."
@@ -890,6 +965,7 @@
    "cmc": 2,
    "image": "",
    "colors": [
+    "B",
     "G"
    ],
    "mana_cost": "{1}{G} // {1}{B}",

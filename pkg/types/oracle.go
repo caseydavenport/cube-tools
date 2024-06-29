@@ -169,16 +169,17 @@ type OracleData []OracleCard
 //	  }
 //	}
 type OracleCard struct {
-	ID          string            `json:"id"`
-	Name        string            `json:"name"`
-	ScryfallURI string            `json:"scryfall_uri"`
-	ImageURLs   map[string]string `json:"image_urls"`
-	ManaCost    string            `json:"mana_cost"`
-	CMC         float64           `json:"cmc"`
-	TypeLine    string            `json:"type_line"`
-	OracleText  string            `json:"oracle_text"`
-	Colors      []string          `json:"colors"`
-	Keywords    []string          `json:"keywords"`
-	RelatedURLs map[string]string `json:"related_ur_ls"`
-	Layout      string            `json:"layout"`
+	ID            string            `json:"id"`
+	Name          string            `json:"name"`
+	ScryfallURI   string            `json:"scryfall_uri"`
+	ImageURLs     map[string]string `json:"image_urls"`
+	ManaCost      string            `json:"mana_cost"`
+	CMC           float64           `json:"cmc"`
+	TypeLine      string            `json:"type_line"`
+	OracleText    string            `json:"oracle_text"`
+	Colors        []string          `json:"colors"`
+	ColorIdentity []string          `json:"color_identity"`
+	Keywords      []string          `json:"keywords"`
+	RelatedURLs   map[string]string `json:"related_ur_ls"`
+	Layout        string            `json:"layout"`
 }

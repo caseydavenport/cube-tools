@@ -1,5 +1,10 @@
 {
- "labels": ["spells", "aggro", "control", "discard"],
+ "labels": [
+  "spells",
+  "aggro",
+  "control",
+  "discard"
+ ],
  "player": "casey",
  "date": "2024-06-28",
  "games": [
@@ -26,7 +31,8 @@
    ],
    "mana_cost": "{1}{R}{R}",
    "url": "https://scryfall.com/card/2x2/123/seasoned-pyromancer?utm_source=api",
-   "oracle_text": "When Seasoned Pyromancer enters the battlefield, discard two cards, then draw two cards. For each nonland card discarded this way, create a 1/1 red Elemental creature token.\n{3}{R}{R}, Exile Seasoned Pyromancer from your graveyard: Create two 1/1 red Elemental creature tokens."
+   "oracle_text": "When Seasoned Pyromancer enters the battlefield, discard two cards, then draw two cards. For each nonland card discarded this way, create a 1/1 red Elemental creature token.\n{3}{R}{R}, Exile Seasoned Pyromancer from your graveyard: Create two 1/1 red Elemental creature tokens.",
+   "appearances": 1
   },
   {
    "name": "Wooded Foothills",
@@ -38,7 +44,8 @@
    "colors": [],
    "mana_cost": "",
    "url": "https://scryfall.com/card/mh3/236/wooded-foothills?utm_source=api",
-   "oracle_text": "{T}, Pay 1 life, Sacrifice Wooded Foothills: Search your library for a Mountain or Forest card, put it onto the battlefield, then shuffle."
+   "oracle_text": "{T}, Pay 1 life, Sacrifice Wooded Foothills: Search your library for a Mountain or Forest card, put it onto the battlefield, then shuffle.",
+   "appearances": 1
   },
   {
    "name": "Misty Rainforest",
@@ -50,7 +57,8 @@
    "colors": [],
    "mana_cost": "",
    "url": "https://scryfall.com/card/mh2/250/misty-rainforest?utm_source=api",
-   "oracle_text": "{T}, Pay 1 life, Sacrifice Misty Rainforest: Search your library for a Forest or Island card, put it onto the battlefield, then shuffle."
+   "oracle_text": "{T}, Pay 1 life, Sacrifice Misty Rainforest: Search your library for a Forest or Island card, put it onto the battlefield, then shuffle.",
+   "appearances": 1
   },
   {
    "name": "Boseiju, Who Endures",
@@ -60,10 +68,13 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "G"
+   ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/neo/266/boseiju-who-endures?utm_source=api",
-   "oracle_text": "{T}: Add {G}.\nChannel — {1}{G}, Discard Boseiju, Who Endures: Destroy target artifact, enchantment, or nonbasic land an opponent controls. That player may search their library for a land card with a basic land type, put it onto the battlefield, then shuffle. This ability costs {1} less to activate for each legendary creature you control."
+   "oracle_text": "{T}: Add {G}.\nChannel — {1}{G}, Discard Boseiju, Who Endures: Destroy target artifact, enchantment, or nonbasic land an opponent controls. That player may search their library for a land card with a basic land type, put it onto the battlefield, then shuffle. This ability costs {1} less to activate for each legendary creature you control.",
+   "appearances": 1
   },
   {
    "name": "Goldhound",
@@ -113,10 +124,14 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "R",
+    "U"
+   ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/rvr/288/steam-vents?utm_source=api",
-   "oracle_text": "({T}: Add {U} or {R}.)\nAs Steam Vents enters the battlefield, you may pay 2 life. If you don't, it enters the battlefield tapped."
+   "oracle_text": "({T}: Add {U} or {R}.)\nAs Steam Vents enters the battlefield, you may pay 2 life. If you don't, it enters the battlefield tapped.",
+   "appearances": 1
   },
   {
    "name": "Scalding Tarn",
@@ -128,7 +143,8 @@
    "colors": [],
    "mana_cost": "",
    "url": "https://scryfall.com/card/mh2/254/scalding-tarn?utm_source=api",
-   "oracle_text": "{T}, Pay 1 life, Sacrifice Scalding Tarn: Search your library for an Island or Mountain card, put it onto the battlefield, then shuffle."
+   "oracle_text": "{T}, Pay 1 life, Sacrifice Scalding Tarn: Search your library for an Island or Mountain card, put it onto the battlefield, then shuffle.",
+   "appearances": 1
   },
   {
    "name": "Young Pyromancer",
@@ -146,7 +162,8 @@
    ],
    "mana_cost": "{1}{R}",
    "url": "https://scryfall.com/card/otc/185/young-pyromancer?utm_source=api",
-   "oracle_text": "Whenever you cast an instant or sorcery spell, create a 1/1 red Elemental creature token."
+   "oracle_text": "Whenever you cast an instant or sorcery spell, create a 1/1 red Elemental creature token.",
+   "appearances": 1
   },
   {
    "name": "Preordain",
@@ -160,7 +177,8 @@
    ],
    "mana_cost": "{U}",
    "url": "https://scryfall.com/card/otc/107/preordain?utm_source=api",
-   "oracle_text": "Scry 2, then draw a card. (To scry 2, look at the top two cards of your library, then put any number of them on the bottom and the rest on top in any order.)"
+   "oracle_text": "Scry 2, then draw a card. (To scry 2, look at the top two cards of your library, then put any number of them on the bottom and the rest on top in any order.)",
+   "appearances": 1
   },
   {
    "name": "Fire // Ice",
@@ -177,7 +195,8 @@
    ],
    "mana_cost": "{1}{R} // {1}{U}",
    "url": "https://scryfall.com/card/dmr/215/fire-ice?utm_source=api",
-   "oracle_text": ""
+   "oracle_text": "",
+   "appearances": 1
   },
   {
    "name": "Flames of the Firebrand",
@@ -191,7 +210,8 @@
    ],
    "mana_cost": "{2}{R}",
    "url": "https://scryfall.com/card/jmp/317/flames-of-the-firebrand?utm_source=api",
-   "oracle_text": "Flames of the Firebrand deals 3 damage divided as you choose among one, two, or three targets."
+   "oracle_text": "Flames of the Firebrand deals 3 damage divided as you choose among one, two, or three targets.",
+   "appearances": 1
   },
   {
    "name": "Den of the Bugbear",
@@ -200,7 +220,9 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "R"
+   ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/afr/254/den-of-the-bugbear?utm_source=api",
    "oracle_text": "If you control two or more other lands, Den of the Bugbear enters the battlefield tapped.\n{T}: Add {R}.\n{3}{R}: Until end of turn, Den of the Bugbear becomes a 3/2 red Goblin creature with \"Whenever this creature attacks, create a 1/1 red Goblin creature token that's tapped and attacking.\" It's still a land."
@@ -216,10 +238,14 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "G",
+    "R"
+   ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/rvr/289/stomping-ground?utm_source=api",
-   "oracle_text": "({T}: Add {R} or {G}.)\nAs Stomping Ground enters the battlefield, you may pay 2 life. If you don't, it enters the battlefield tapped."
+   "oracle_text": "({T}: Add {R} or {G}.)\nAs Stomping Ground enters the battlefield, you may pay 2 life. If you don't, it enters the battlefield tapped.",
+   "appearances": 1
   },
   {
    "name": "Scalding Tarn",
@@ -231,7 +257,8 @@
    "colors": [],
    "mana_cost": "",
    "url": "https://scryfall.com/card/mh2/254/scalding-tarn?utm_source=api",
-   "oracle_text": "{T}, Pay 1 life, Sacrifice Scalding Tarn: Search your library for an Island or Mountain card, put it onto the battlefield, then shuffle."
+   "oracle_text": "{T}, Pay 1 life, Sacrifice Scalding Tarn: Search your library for an Island or Mountain card, put it onto the battlefield, then shuffle.",
+   "appearances": 1
   },
   {
    "name": "Miscalculation",
@@ -245,7 +272,8 @@
    ],
    "mana_cost": "{1}{U}",
    "url": "https://scryfall.com/card/ulg/36/miscalculation?utm_source=api",
-   "oracle_text": "Counter target spell unless its controller pays {2}.\nCycling {2} ({2}, Discard this card: Draw a card.)"
+   "oracle_text": "Counter target spell unless its controller pays {2}.\nCycling {2} ({2}, Discard this card: Draw a card.)",
+   "appearances": 1
   },
   {
    "name": "Faerie Vandal",
@@ -263,7 +291,8 @@
    ],
    "mana_cost": "{1}{U}",
    "url": "https://scryfall.com/card/snc/44/faerie-vandal?utm_source=api",
-   "oracle_text": "Flash\nFlying\nWhenever you draw your second card each turn, put a +1/+1 counter on Faerie Vandal."
+   "oracle_text": "Flash\nFlying\nWhenever you draw your second card each turn, put a +1/+1 counter on Faerie Vandal.",
+   "appearances": 1
   },
   {
    "name": "Ponder",
@@ -277,7 +306,8 @@
    ],
    "mana_cost": "{U}",
    "url": "https://scryfall.com/card/otc/105/ponder?utm_source=api",
-   "oracle_text": "Look at the top three cards of your library, then put them back in any order. You may shuffle.\nDraw a card."
+   "oracle_text": "Look at the top three cards of your library, then put them back in any order. You may shuffle.\nDraw a card.",
+   "appearances": 1
   },
   {
    "name": "The Goose Mother",
@@ -297,7 +327,8 @@
    ],
    "mana_cost": "{X}{G}{U}",
    "url": "https://scryfall.com/card/woe/204/the-goose-mother?utm_source=api",
-   "oracle_text": "Flying\nThe Goose Mother enters the battlefield with X +1/+1 counters on it.\nWhen The Goose Mother enters the battlefield, create half X Food tokens, rounded up.\nWhenever The Goose Mother attacks, you may sacrifice a Food. If you do, draw a card."
+   "oracle_text": "Flying\nThe Goose Mother enters the battlefield with X +1/+1 counters on it.\nWhen The Goose Mother enters the battlefield, create half X Food tokens, rounded up.\nWhenever The Goose Mother attacks, you may sacrifice a Food. If you do, draw a card.",
+   "appearances": 1
   },
   {
    "name": "Spellstutter Sprite",
@@ -315,7 +346,8 @@
    ],
    "mana_cost": "{1}{U}",
    "url": "https://scryfall.com/card/mma/65/spellstutter-sprite?utm_source=api",
-   "oracle_text": "Flash\nFlying\nWhen Spellstutter Sprite enters the battlefield, counter target spell with mana value X or less, where X is the number of Faeries you control."
+   "oracle_text": "Flash\nFlying\nWhen Spellstutter Sprite enters the battlefield, counter target spell with mana value X or less, where X is the number of Faeries you control.",
+   "appearances": 1
   },
   {
    "name": "Inti, Seneschal of the Sun",
@@ -334,7 +366,8 @@
    ],
    "mana_cost": "{1}{R}",
    "url": "https://scryfall.com/card/lci/156/inti-seneschal-of-the-sun?utm_source=api",
-   "oracle_text": "Whenever you attack, you may discard a card. When you do, put a +1/+1 counter on target attacking creature. It gains trample until end of turn.\nWhenever you discard one or more cards, exile the top card of your library. You may play that card until your next end step."
+   "oracle_text": "Whenever you attack, you may discard a card. When you do, put a +1/+1 counter on target attacking creature. It gains trample until end of turn.\nWhenever you discard one or more cards, exile the top card of your library. You may play that card until your next end step.",
+   "appearances": 1
   },
   {
    "name": "Flame Jab",
@@ -348,7 +381,8 @@
    ],
    "mana_cost": "{R}",
    "url": "https://scryfall.com/card/ema/131/flame-jab?utm_source=api",
-   "oracle_text": "Flame Jab deals 1 damage to any target.\nRetrace (You may cast this card from your graveyard by discarding a land card in addition to paying its other costs.)"
+   "oracle_text": "Flame Jab deals 1 damage to any target.\nRetrace (You may cast this card from your graveyard by discarding a land card in addition to paying its other costs.)",
+   "appearances": 1
   },
   {
    "name": "Snapcaster Mage",
@@ -366,7 +400,8 @@
    ],
    "mana_cost": "{1}{U}",
    "url": "https://scryfall.com/card/uma/71/snapcaster-mage?utm_source=api",
-   "oracle_text": "Flash\nWhen Snapcaster Mage enters the battlefield, target instant or sorcery card in your graveyard gains flashback until end of turn. The flashback cost is equal to its mana cost. (You may cast that card from your graveyard for its flashback cost. Then exile it.)"
+   "oracle_text": "Flash\nWhen Snapcaster Mage enters the battlefield, target instant or sorcery card in your graveyard gains flashback until end of turn. The flashback cost is equal to its mana cost. (You may cast that card from your graveyard for its flashback cost. Then exile it.)",
+   "appearances": 1
   },
   {
    "name": "Field of the Dead",
@@ -378,7 +413,8 @@
    "colors": [],
    "mana_cost": "",
    "url": "https://scryfall.com/card/m20/247/field-of-the-dead?utm_source=api",
-   "oracle_text": "Field of the Dead enters the battlefield tapped.\n{T}: Add {C}.\nWhenever Field of the Dead or another land enters the battlefield under your control, if you control seven or more lands with different names, create a 2/2 black Zombie creature token."
+   "oracle_text": "Field of the Dead enters the battlefield tapped.\n{T}: Add {C}.\nWhenever Field of the Dead or another land enters the battlefield under your control, if you control seven or more lands with different names, create a 2/2 black Zombie creature token.",
+   "appearances": 1
   },
   {
    "name": "Dress Down",
@@ -392,7 +428,8 @@
    ],
    "mana_cost": "{1}{U}",
    "url": "https://scryfall.com/card/mh2/39/dress-down?utm_source=api",
-   "oracle_text": "Flash\nWhen Dress Down enters the battlefield, draw a card.\nCreatures lose all abilities.\nAt the beginning of the end step, sacrifice Dress Down."
+   "oracle_text": "Flash\nWhen Dress Down enters the battlefield, draw a card.\nCreatures lose all abilities.\nAt the beginning of the end step, sacrifice Dress Down.",
+   "appearances": 1
   },
   {
    "name": "Dragon's Rage Channeler",
@@ -436,7 +473,8 @@
    ],
    "mana_cost": "{U}",
    "url": "https://scryfall.com/card/otc/104/opt?utm_source=api",
-   "oracle_text": "Scry 1.\nDraw a card."
+   "oracle_text": "Scry 1.\nDraw a card.",
+   "appearances": 1
   },
   {
    "name": "Careful Study",
@@ -450,7 +488,8 @@
    ],
    "mana_cost": "{U}",
    "url": "https://scryfall.com/card/ody/70/careful-study?utm_source=api",
-   "oracle_text": "Draw two cards, then discard two cards."
+   "oracle_text": "Draw two cards, then discard two cards.",
+   "appearances": 1
   },
   {
    "name": "Chart a Course",
@@ -464,7 +503,8 @@
    ],
    "mana_cost": "{1}{U}",
    "url": "https://scryfall.com/card/lci/48/chart-a-course?utm_source=api",
-   "oracle_text": "Draw two cards. Then discard a card unless you attacked this turn."
+   "oracle_text": "Draw two cards. Then discard a card unless you attacked this turn.",
+   "appearances": 1
   },
   {
    "name": "Mizzium Tank",
@@ -481,7 +521,8 @@
    ],
    "mana_cost": "{1}{R}{R}",
    "url": "https://scryfall.com/card/war/138/mizzium-tank?utm_source=api",
-   "oracle_text": "Trample\nWhenever you cast a noncreature spell, Mizzium Tank becomes an artifact creature and gets +1/+1 until end of turn.\nCrew 1 (Tap any number of creatures you control with total power 1 or more: This Vehicle becomes an artifact creature until end of turn.)"
+   "oracle_text": "Trample\nWhenever you cast a noncreature spell, Mizzium Tank becomes an artifact creature and gets +1/+1 until end of turn.\nCrew 1 (Tap any number of creatures you control with total power 1 or more: This Vehicle becomes an artifact creature until end of turn.)",
+   "appearances": 1
   },
   {
    "name": "Thing in the Ice // Awoken Horror",
@@ -495,10 +536,13 @@
    ],
    "cmc": 2,
    "image": "",
-   "colors": null,
+   "colors": [
+    "U"
+   ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/soi/92/thing-in-the-ice-awoken-horror?utm_source=api",
-   "oracle_text": ""
+   "oracle_text": "",
+   "appearances": 1
   },
   {
    "name": "Monastery Swiftspear",
@@ -516,7 +560,8 @@
    ],
    "mana_cost": "{R}",
    "url": "https://scryfall.com/card/bro/144/monastery-swiftspear?utm_source=api",
-   "oracle_text": "Haste\nProwess (Whenever you cast a noncreature spell, this creature gets +1/+1 until end of turn.)"
+   "oracle_text": "Haste\nProwess (Whenever you cast a noncreature spell, this creature gets +1/+1 until end of turn.)",
+   "appearances": 1
   },
   {
    "name": "Containment Construct",
@@ -532,7 +577,8 @@
    "colors": [],
    "mana_cost": "{2}",
    "url": "https://scryfall.com/card/neo/243/containment-construct?utm_source=api",
-   "oracle_text": "Whenever you discard a card, you may exile that card from your graveyard. If you do, you may play that card this turn."
+   "oracle_text": "Whenever you discard a card, you may exile that card from your graveyard. If you do, you may play that card this turn.",
+   "appearances": 1
   },
   {
    "name": "Otawara, Soaring City",
@@ -542,7 +588,9 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "U"
+   ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/neo/271/otawara-soaring-city?utm_source=api",
    "oracle_text": "{T}: Add {U}.\nChannel — {3}{U}, Discard Otawara, Soaring City: Return target artifact, creature, enchantment, or planeswalker to its owner's hand. This ability costs {1} less to activate for each legendary creature you control."
@@ -554,10 +602,14 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "R",
+    "U"
+   ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/mh1/238/fiery-islet?utm_source=api",
-   "oracle_text": "{T}, Pay 1 life: Add {U} or {R}.\n{1}, {T}, Sacrifice Fiery Islet: Draw a card."
+   "oracle_text": "{T}, Pay 1 life: Add {U} or {R}.\n{1}, {T}, Sacrifice Fiery Islet: Draw a card.",
+   "appearances": 1
   },
   {
    "name": "Flame Slash",
@@ -571,7 +623,8 @@
    ],
    "mana_cost": "{R}",
    "url": "https://scryfall.com/card/cn2/157/flame-slash?utm_source=api",
-   "oracle_text": "Flame Slash deals 4 damage to target creature."
+   "oracle_text": "Flame Slash deals 4 damage to target creature.",
+   "appearances": 1
   },
   {
    "name": "Hedge Maze",
@@ -584,10 +637,14 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "G",
+    "U"
+   ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/mkm/262/hedge-maze?utm_source=api",
-   "oracle_text": "({T}: Add {G} or {U}.)\nHedge Maze enters the battlefield tapped.\nWhen Hedge Maze enters the battlefield, surveil 1. (Look at the top card of your library. You may put it into your graveyard.)"
+   "oracle_text": "({T}: Add {G} or {U}.)\nHedge Maze enters the battlefield tapped.\nWhen Hedge Maze enters the battlefield, surveil 1. (Look at the top card of your library. You may put it into your graveyard.)",
+   "appearances": 1
   },
   {
    "name": "Island",
@@ -600,7 +657,9 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "U"
+   ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/mh3/312/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)"
@@ -616,10 +675,13 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "R"
+   ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/mh3/316/mountain?utm_source=api",
-   "oracle_text": "({T}: Add {R}.)"
+   "oracle_text": "({T}: Add {R}.)",
+   "appearances": 1
   }
  ],
  "sideboard": [
@@ -644,7 +706,10 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "R",
+    "W"
+   ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/mh1/247/sunbaked-canyon?utm_source=api",
    "oracle_text": "{T}, Pay 1 life: Add {R} or {W}.\n{1}, {T}, Sacrifice Sunbaked Canyon: Draw a card."
@@ -758,7 +823,10 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "G",
+    "W"
+   ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/ima/240/horizon-canopy?utm_source=api",
    "oracle_text": "{T}, Pay 1 life: Add {G} or {W}.\n{1}, {T}, Sacrifice Horizon Canopy: Draw a card."
@@ -774,10 +842,14 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "G",
+    "W"
+   ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/rvr/290/temple-garden?utm_source=api",
-   "oracle_text": "({T}: Add {G} or {W}.)\nAs Temple Garden enters the battlefield, you may pay 2 life. If you don't, it enters the battlefield tapped."
+   "oracle_text": "({T}: Add {G} or {W}.)\nAs Temple Garden enters the battlefield, you may pay 2 life. If you don't, it enters the battlefield tapped.",
+   "appearances": 1
   },
   {
    "name": "Eiganjo, Seat of the Empire",
@@ -787,7 +859,9 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "W"
+   ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/neo/268/eiganjo-seat-of-the-empire?utm_source=api",
    "oracle_text": "{T}: Add {W}.\nChannel — {2}{W}, Discard Eiganjo, Seat of the Empire: It deals 4 damage to target attacking or blocking creature. This ability costs {1} less to activate for each legendary creature you control."
@@ -799,7 +873,10 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "B",
+    "W"
+   ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/woe/259/restless-fortress?utm_source=api",
    "oracle_text": "Restless Fortress enters the battlefield tapped.\n{T}: Add {W} or {B}.\n{2}{W}{B}: Restless Fortress becomes a 1/4 white and black Nightmare creature until end of turn. It's still a land.\nWhenever Restless Fortress attacks, defending player loses 2 life and you gain 2 life."
@@ -815,7 +892,10 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "B",
+    "G"
+   ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/rvr/283/overgrown-tomb?utm_source=api",
    "oracle_text": "({T}: Add {B} or {G}.)\nAs Overgrown Tomb enters the battlefield, you may pay 2 life. If you don't, it enters the battlefield tapped."
@@ -831,7 +911,10 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "B",
+    "R"
+   ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/rvr/273/blood-crypt?utm_source=api",
    "oracle_text": "({T}: Add {B} or {R}.)\nAs Blood Crypt enters the battlefield, you may pay 2 life. If you don't, it enters the battlefield tapped."
@@ -1061,7 +1144,9 @@
    ],
    "cmc": 2,
    "image": "",
-   "colors": [],
+   "colors": [
+    "R"
+   ],
    "mana_cost": "{2}",
    "url": "https://scryfall.com/card/bro/164/scrapwork-mutt?utm_source=api",
    "oracle_text": "When Scrapwork Mutt enters the battlefield, you may discard a card. If you do, draw a card.\nUnearth {1}{R} ({1}{R}: Return this card from your graveyard to the battlefield. It gains haste. Exile it at the beginning of the next end step or if it would leave the battlefield. Unearth only as a sorcery.)"
@@ -1096,7 +1181,8 @@
    ],
    "mana_cost": "{3}{U}{U}",
    "url": "https://scryfall.com/card/ltr/60/l%C3%B3rien-revealed?utm_source=api",
-   "oracle_text": "Draw three cards.\nIslandcycling {1} ({1}, Discard this card: Search your library for an Island card, reveal it, put it into your hand, then shuffle.)"
+   "oracle_text": "Draw three cards.\nIslandcycling {1} ({1}, Discard this card: Search your library for an Island card, reveal it, put it into your hand, then shuffle.)",
+   "appearances": 1
   },
   {
    "name": "Ethereal Forager",
@@ -1114,7 +1200,8 @@
    ],
    "mana_cost": "{4}{U}{U}",
    "url": "https://scryfall.com/card/c20/34/ethereal-forager?utm_source=api",
-   "oracle_text": "Delve (Each card you exile from your graveyard while casting this spell pays for {1}.)\nFlying\nWhenever Ethereal Forager attacks, you may return an instant or sorcery card exiled with Ethereal Forager to its owner's hand."
+   "oracle_text": "Delve (Each card you exile from your graveyard while casting this spell pays for {1}.)\nFlying\nWhenever Ethereal Forager attacks, you may return an instant or sorcery card exiled with Ethereal Forager to its owner's hand.",
+   "appearances": 1
   }
  ]
 }

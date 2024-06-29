@@ -69,7 +69,8 @@
    ],
    "mana_cost": "{2}{U}",
    "url": "https://scryfall.com/card/kld/38/aether-tradewinds?utm_source=api",
-   "oracle_text": "Return target permanent you control and target permanent you don't control to their owners' hands."
+   "oracle_text": "Return target permanent you control and target permanent you don't control to their owners' hands.",
+   "appearances": 6
   },
   {
    "name": "Reprieve",
@@ -83,7 +84,8 @@
    ],
    "mana_cost": "{1}{W}",
    "url": "https://scryfall.com/card/ltr/26/reprieve?utm_source=api",
-   "oracle_text": "Return target spell to its owner's hand.\nDraw a card."
+   "oracle_text": "Return target spell to its owner's hand.\nDraw a card.",
+   "appearances": 3
   },
   {
    "name": "Daze",
@@ -97,7 +99,8 @@
    ],
    "mana_cost": "{1}{U}",
    "url": "https://scryfall.com/card/ema/44/daze?utm_source=api",
-   "oracle_text": "You may return an Island you control to its owner's hand rather than pay this spell's mana cost.\nCounter target spell unless its controller pays {1}."
+   "oracle_text": "You may return an Island you control to its owner's hand rather than pay this spell's mana cost.\nCounter target spell unless its controller pays {1}.",
+   "appearances": 5
   },
   {
    "name": "Condescend",
@@ -111,7 +114,8 @@
    ],
    "mana_cost": "{X}{U}",
    "url": "https://scryfall.com/card/ima/46/condescend?utm_source=api",
-   "oracle_text": "Counter target spell unless its controller pays {X}. Scry 2. (Look at the top two cards of your library, then put any number of them on the bottom of your library and the rest on top in any order.)"
+   "oracle_text": "Counter target spell unless its controller pays {X}. Scry 2. (Look at the top two cards of your library, then put any number of them on the bottom of your library and the rest on top in any order.)",
+   "appearances": 6
   },
   {
    "name": "Memory Lapse",
@@ -125,7 +129,8 @@
    ],
    "mana_cost": "{1}{U}",
    "url": "https://scryfall.com/card/ema/60/memory-lapse?utm_source=api",
-   "oracle_text": "Counter target spell. If that spell is countered this way, put it on top of its owner's library instead of into that player's graveyard."
+   "oracle_text": "Counter target spell. If that spell is countered this way, put it on top of its owner's library instead of into that player's graveyard.",
+   "appearances": 7
   },
   {
    "name": "Otawara, Soaring City",
@@ -135,10 +140,13 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "U"
+   ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/neo/271/otawara-soaring-city?utm_source=api",
-   "oracle_text": "{T}: Add {U}.\nChannel — {3}{U}, Discard Otawara, Soaring City: Return target artifact, creature, enchantment, or planeswalker to its owner's hand. This ability costs {1} less to activate for each legendary creature you control."
+   "oracle_text": "{T}: Add {U}.\nChannel — {3}{U}, Discard Otawara, Soaring City: Return target artifact, creature, enchantment, or planeswalker to its owner's hand. This ability costs {1} less to activate for each legendary creature you control.",
+   "appearances": 4
   },
   {
    "name": "Day of Judgment",
@@ -151,8 +159,9 @@
     "W"
    ],
    "mana_cost": "{2}{W}{W}",
-   "url": "https://scryfall.com/card/m12/12/day-of-judgment?utm_source=api",
-   "oracle_text": "Destroy all creatures."
+   "url": "https://scryfall.com/card/fdn/140/day-of-judgment?utm_source=api",
+   "oracle_text": "Destroy all creatures.",
+   "appearances": 5
   },
   {
    "name": "Faerie Duelist",
@@ -170,7 +179,8 @@
    ],
    "mana_cost": "{1}{U}",
    "url": "https://scryfall.com/card/rna/39/faerie-duelist?utm_source=api",
-   "oracle_text": "Flash\nFlying\nWhen Faerie Duelist enters the battlefield, target creature an opponent controls gets -2/-0 until end of turn."
+   "oracle_text": "Flash\nFlying\nWhen Faerie Duelist enters the battlefield, target creature an opponent controls gets -2/-0 until end of turn.",
+   "appearances": 6
   },
   {
    "name": "Exclusion Mage",
@@ -188,7 +198,8 @@
    ],
    "mana_cost": "{2}{U}",
    "url": "https://scryfall.com/card/jmp/153/exclusion-mage?utm_source=api",
-   "oracle_text": "When Exclusion Mage enters the battlefield, return target creature an opponent controls to its owner's hand."
+   "oracle_text": "When Exclusion Mage enters the battlefield, return target creature an opponent controls to its owner's hand.",
+   "appearances": 2
   },
   {
    "name": "Flooded Strand",
@@ -200,7 +211,8 @@
    "colors": [],
    "mana_cost": "",
    "url": "https://scryfall.com/card/mh3/220/flooded-strand?utm_source=api",
-   "oracle_text": "{T}, Pay 1 life, Sacrifice Flooded Strand: Search your library for a Plains or Island card, put it onto the battlefield, then shuffle."
+   "oracle_text": "{T}, Pay 1 life, Sacrifice Flooded Strand: Search your library for a Plains or Island card, put it onto the battlefield, then shuffle.",
+   "appearances": 11
   },
   {
    "name": "Curator of Mysteries",
@@ -217,7 +229,8 @@
    ],
    "mana_cost": "{2}{U}{U}",
    "url": "https://scryfall.com/card/afc/81/curator-of-mysteries?utm_source=api",
-   "oracle_text": "Flying\nWhenever you cycle or discard another card, scry 1.\nCycling {U} ({U}, Discard this card: Draw a card.)"
+   "oracle_text": "Flying\nWhenever you cycle or discard another card, scry 1.\nCycling {U} ({U}, Discard this card: Draw a card.)",
+   "appearances": 5
   },
   {
    "name": "Thing in the Ice // Awoken Horror",
@@ -231,10 +244,13 @@
    ],
    "cmc": 2,
    "image": "",
-   "colors": null,
+   "colors": [
+    "U"
+   ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/soi/92/thing-in-the-ice-awoken-horror?utm_source=api",
-   "oracle_text": ""
+   "oracle_text": "",
+   "appearances": 7
   },
   {
    "name": "Sphinx of Lost Truths",
@@ -251,7 +267,8 @@
    ],
    "mana_cost": "{3}{U}{U}",
    "url": "https://scryfall.com/card/zen/69/sphinx-of-lost-truths?utm_source=api",
-   "oracle_text": "Kicker {1}{U} (You may pay an additional {1}{U} as you cast this spell.)\nFlying\nWhen Sphinx of Lost Truths enters the battlefield, draw three cards. Then if it wasn't kicked, discard three cards."
+   "oracle_text": "Kicker {1}{U} (You may pay an additional {1}{U} as you cast this spell.)\nFlying\nWhen Sphinx of Lost Truths enters the battlefield, draw three cards. Then if it wasn't kicked, discard three cards.",
+   "appearances": 6
   },
   {
    "name": "Pteramander",
@@ -268,8 +285,9 @@
     "U"
    ],
    "mana_cost": "{U}",
-   "url": "https://scryfall.com/card/rvr/54/pteramander?utm_source=api",
-   "oracle_text": "Flying\n{7}{U}: Adapt 4. This ability costs {1} less to activate for each instant and sorcery card in your graveyard. (If this creature has no +1/+1 counters on it, put four +1/+1 counters on it.)"
+   "url": "https://scryfall.com/card/otc/109/pteramander?utm_source=api",
+   "oracle_text": "Flying\n{7}{U}: Adapt 4. This ability costs {1} less to activate for each instant and sorcery card in your graveyard. (If this creature has no +1/+1 counters on it, put four +1/+1 counters on it.)",
+   "appearances": 5
   },
   {
    "name": "Snapcaster Mage",
@@ -287,7 +305,8 @@
    ],
    "mana_cost": "{1}{U}",
    "url": "https://scryfall.com/card/uma/71/snapcaster-mage?utm_source=api",
-   "oracle_text": "Flash\nWhen Snapcaster Mage enters the battlefield, target instant or sorcery card in your graveyard gains flashback until end of turn. The flashback cost is equal to its mana cost. (You may cast that card from your graveyard for its flashback cost. Then exile it.)"
+   "oracle_text": "Flash\nWhen Snapcaster Mage enters the battlefield, target instant or sorcery card in your graveyard gains flashback until end of turn. The flashback cost is equal to its mana cost. (You may cast that card from your graveyard for its flashback cost. Then exile it.)",
+   "appearances": 7
   },
   {
    "name": "Wrath of God",
@@ -301,7 +320,8 @@
    ],
    "mana_cost": "{2}{W}{W}",
    "url": "https://scryfall.com/card/cmm/70/wrath-of-god?utm_source=api",
-   "oracle_text": "Destroy all creatures. They can't be regenerated."
+   "oracle_text": "Destroy all creatures. They can't be regenerated.",
+   "appearances": 6
   },
   {
    "name": "Vexing Gull",
@@ -318,7 +338,8 @@
    ],
    "mana_cost": "{2}{U}",
    "url": "https://scryfall.com/card/thb/79/vexing-gull?utm_source=api",
-   "oracle_text": "Flash\nFlying"
+   "oracle_text": "Flash\nFlying",
+   "appearances": 4
   },
   {
    "name": "Touch the Spirit Realm",
@@ -332,7 +353,8 @@
    ],
    "mana_cost": "{2}{W}",
    "url": "https://scryfall.com/card/neo/40/touch-the-spirit-realm?utm_source=api",
-   "oracle_text": "When Touch the Spirit Realm enters the battlefield, exile up to one target artifact or creature until Touch the Spirit Realm leaves the battlefield.\nChannel — {1}{W}, Discard Touch the Spirit Realm: Exile target artifact or creature. Return it to the battlefield under its owner's control at the beginning of the next end step."
+   "oracle_text": "When Touch the Spirit Realm enters the battlefield, exile up to one target artifact or creature until Touch the Spirit Realm leaves the battlefield.\nChannel — {1}{W}, Discard Touch the Spirit Realm: Exile target artifact or creature. Return it to the battlefield under its owner's control at the beginning of the next end step.",
+   "appearances": 7
   },
   {
    "name": "Oblivion Ring",
@@ -346,7 +368,8 @@
    ],
    "mana_cost": "{2}{W}",
    "url": "https://scryfall.com/card/mm2/29/oblivion-ring?utm_source=api",
-   "oracle_text": "When Oblivion Ring enters the battlefield, exile another target nonland permanent.\nWhen Oblivion Ring leaves the battlefield, return the exiled card to the battlefield under its owner's control."
+   "oracle_text": "When Oblivion Ring enters the battlefield, exile another target nonland permanent.\nWhen Oblivion Ring leaves the battlefield, return the exiled card to the battlefield under its owner's control.",
+   "appearances": 4
   },
   {
    "name": "Glass Casket",
@@ -360,7 +383,8 @@
    ],
    "mana_cost": "{1}{W}",
    "url": "https://scryfall.com/card/woe/16/glass-casket?utm_source=api",
-   "oracle_text": "When Glass Casket enters the battlefield, exile target creature an opponent controls with mana value 3 or less until Glass Casket leaves the battlefield."
+   "oracle_text": "When Glass Casket enters the battlefield, exile target creature an opponent controls with mana value 3 or less until Glass Casket leaves the battlefield.",
+   "appearances": 7
   },
   {
    "name": "Meticulous Archive",
@@ -373,10 +397,14 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "U",
+    "W"
+   ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/mkm/264/meticulous-archive?utm_source=api",
-   "oracle_text": "({T}: Add {W} or {U}.)\nMeticulous Archive enters the battlefield tapped.\nWhen Meticulous Archive enters the battlefield, surveil 1. (Look at the top card of your library. You may put it into your graveyard.)"
+   "oracle_text": "({T}: Add {W} or {U}.)\nMeticulous Archive enters the battlefield tapped.\nWhen Meticulous Archive enters the battlefield, surveil 1. (Look at the top card of your library. You may put it into your graveyard.)",
+   "appearances": 6
   },
   {
    "name": "Unsummon",
@@ -390,7 +418,8 @@
    ],
    "mana_cost": "{U}",
    "url": "https://scryfall.com/card/m20/78/unsummon?utm_source=api",
-   "oracle_text": "Return target creature to its owner's hand."
+   "oracle_text": "Return target creature to its owner's hand.",
+   "appearances": 6
   },
   {
    "name": "Gomazoa",
@@ -407,7 +436,8 @@
    ],
    "mana_cost": "{2}{U}",
    "url": "https://scryfall.com/card/cmd/48/gomazoa?utm_source=api",
-   "oracle_text": "Defender, flying\n{T}: Put Gomazoa and each creature it's blocking on top of their owners' libraries, then those players shuffle."
+   "oracle_text": "Defender, flying\n{T}: Put Gomazoa and each creature it's blocking on top of their owners' libraries, then those players shuffle.",
+   "appearances": 3
   },
   {
    "name": "Into the Roil",
@@ -421,7 +451,8 @@
    ],
    "mana_cost": "{1}{U}",
    "url": "https://scryfall.com/card/cmr/397/into-the-roil?utm_source=api",
-   "oracle_text": "Kicker {1}{U} (You may pay an additional {1}{U} as you cast this spell.)\nReturn target nonland permanent to its owner's hand. If this spell was kicked, draw a card."
+   "oracle_text": "Kicker {1}{U} (You may pay an additional {1}{U} as you cast this spell.)\nReturn target nonland permanent to its owner's hand. If this spell was kicked, draw a card.",
+   "appearances": 4
   },
   {
    "name": "Repeal",
@@ -435,7 +466,8 @@
    ],
    "mana_cost": "{X}{U}",
    "url": "https://scryfall.com/card/clu/94/repeal?utm_source=api",
-   "oracle_text": "Return target nonland permanent with mana value X to its owner's hand.\nDraw a card."
+   "oracle_text": "Return target nonland permanent with mana value X to its owner's hand.\nDraw a card.",
+   "appearances": 2
   },
   {
    "name": "Fact or Fiction",
@@ -449,7 +481,8 @@
    ],
    "mana_cost": "{3}{U}",
    "url": "https://scryfall.com/card/cmm/91/fact-or-fiction?utm_source=api",
-   "oracle_text": "Reveal the top five cards of your library. An opponent separates those cards into two piles. Put one pile into your hand and the other into your graveyard."
+   "oracle_text": "Reveal the top five cards of your library. An opponent separates those cards into two piles. Put one pile into your hand and the other into your graveyard.",
+   "appearances": 3
   },
   {
    "name": "Journey to Nowhere",
@@ -463,7 +496,8 @@
    ],
    "mana_cost": "{1}{W}",
    "url": "https://scryfall.com/card/cmd/17/journey-to-nowhere?utm_source=api",
-   "oracle_text": "When Journey to Nowhere enters the battlefield, exile target creature.\nWhen Journey to Nowhere leaves the battlefield, return the exiled card to the battlefield under its owner's control."
+   "oracle_text": "When Journey to Nowhere enters the battlefield, exile target creature.\nWhen Journey to Nowhere leaves the battlefield, return the exiled card to the battlefield under its owner's control.",
+   "appearances": 3
   },
   {
    "name": "Plains",
@@ -476,10 +510,13 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "W"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/304/plains?utm_source=api",
-   "oracle_text": "({T}: Add {W}.)"
+   "url": "https://scryfall.com/card/mh3/310/plains?utm_source=api",
+   "oracle_text": "({T}: Add {W}.)",
+   "appearances": 22
   },
   {
    "name": "Plains",
@@ -492,10 +529,13 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "W"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/304/plains?utm_source=api",
-   "oracle_text": "({T}: Add {W}.)"
+   "url": "https://scryfall.com/card/mh3/310/plains?utm_source=api",
+   "oracle_text": "({T}: Add {W}.)",
+   "appearances": 22
   },
   {
    "name": "Plains",
@@ -508,10 +548,13 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "W"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/304/plains?utm_source=api",
-   "oracle_text": "({T}: Add {W}.)"
+   "url": "https://scryfall.com/card/mh3/310/plains?utm_source=api",
+   "oracle_text": "({T}: Add {W}.)",
+   "appearances": 22
   },
   {
    "name": "Plains",
@@ -524,10 +567,13 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "W"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/304/plains?utm_source=api",
-   "oracle_text": "({T}: Add {W}.)"
+   "url": "https://scryfall.com/card/mh3/310/plains?utm_source=api",
+   "oracle_text": "({T}: Add {W}.)",
+   "appearances": 22
   },
   {
    "name": "Island",
@@ -540,10 +586,13 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "U"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/305/island?utm_source=api",
-   "oracle_text": "({T}: Add {U}.)"
+   "url": "https://scryfall.com/card/mh3/312/island?utm_source=api",
+   "oracle_text": "({T}: Add {U}.)",
+   "appearances": 9
   },
   {
    "name": "Island",
@@ -556,10 +605,13 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "U"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/305/island?utm_source=api",
-   "oracle_text": "({T}: Add {U}.)"
+   "url": "https://scryfall.com/card/mh3/312/island?utm_source=api",
+   "oracle_text": "({T}: Add {U}.)",
+   "appearances": 9
   },
   {
    "name": "Island",
@@ -572,10 +624,13 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "U"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/305/island?utm_source=api",
-   "oracle_text": "({T}: Add {U}.)"
+   "url": "https://scryfall.com/card/mh3/312/island?utm_source=api",
+   "oracle_text": "({T}: Add {U}.)",
+   "appearances": 9
   },
   {
    "name": "Island",
@@ -588,10 +643,13 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "U"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/305/island?utm_source=api",
-   "oracle_text": "({T}: Add {U}.)"
+   "url": "https://scryfall.com/card/mh3/312/island?utm_source=api",
+   "oracle_text": "({T}: Add {U}.)",
+   "appearances": 9
   },
   {
    "name": "Island",
@@ -604,10 +662,13 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "U"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/305/island?utm_source=api",
-   "oracle_text": "({T}: Add {U}.)"
+   "url": "https://scryfall.com/card/mh3/312/island?utm_source=api",
+   "oracle_text": "({T}: Add {U}.)",
+   "appearances": 9
   },
   {
    "name": "Island",
@@ -620,10 +681,13 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "U"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/305/island?utm_source=api",
-   "oracle_text": "({T}: Add {U}.)"
+   "url": "https://scryfall.com/card/mh3/312/island?utm_source=api",
+   "oracle_text": "({T}: Add {U}.)",
+   "appearances": 9
   },
   {
    "name": "Island",
@@ -636,10 +700,13 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "U"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/305/island?utm_source=api",
-   "oracle_text": "({T}: Add {U}.)"
+   "url": "https://scryfall.com/card/mh3/312/island?utm_source=api",
+   "oracle_text": "({T}: Add {U}.)",
+   "appearances": 9
   },
   {
    "name": "Island",
@@ -652,10 +719,13 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "U"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/305/island?utm_source=api",
-   "oracle_text": "({T}: Add {U}.)"
+   "url": "https://scryfall.com/card/mh3/312/island?utm_source=api",
+   "oracle_text": "({T}: Add {U}.)",
+   "appearances": 9
   },
   {
    "name": "Island",
@@ -668,10 +738,13 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "U"
+   ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/305/island?utm_source=api",
-   "oracle_text": "({T}: Add {U}.)"
+   "url": "https://scryfall.com/card/mh3/312/island?utm_source=api",
+   "oracle_text": "({T}: Add {U}.)",
+   "appearances": 9
   }
  ],
  "sideboard": [
@@ -714,7 +787,10 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [],
+   "colors": [
+    "B",
+    "U"
+   ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/rvr/291/watery-grave?utm_source=api",
    "oracle_text": "({T}: Add {U} or {B}.)\nAs Watery Grave enters the battlefield, you may pay 2 life. If you don't, it enters the battlefield tapped."
@@ -746,7 +822,8 @@
    "colors": [],
    "mana_cost": "",
    "url": "https://scryfall.com/card/mh2/250/misty-rainforest?utm_source=api",
-   "oracle_text": "{T}, Pay 1 life, Sacrifice Misty Rainforest: Search your library for a Forest or Island card, put it onto the battlefield, then shuffle."
+   "oracle_text": "{T}, Pay 1 life, Sacrifice Misty Rainforest: Search your library for a Forest or Island card, put it onto the battlefield, then shuffle.",
+   "appearances": 3
   },
   {
    "name": "Bonesplitter",
@@ -774,7 +851,7 @@
     "U"
    ],
    "mana_cost": "{U}",
-   "url": "https://scryfall.com/card/m21/59/opt?utm_source=api",
+   "url": "https://scryfall.com/card/otc/104/opt?utm_source=api",
    "oracle_text": "Scry 1.\nDraw a card."
   },
   {
@@ -946,11 +1023,13 @@
    "cmc": 3,
    "image": "",
    "colors": [
-    "U"
+    "U",
+    "W"
    ],
    "mana_cost": "{2}{U}",
    "url": "https://scryfall.com/card/neo/82/tameshi-reality-architect?utm_source=api",
-   "oracle_text": "Whenever one or more noncreature permanents are returned to hand, draw a card. This ability triggers only once each turn.\n{X}{W}, Return a land you control to its owner's hand: Return target artifact or enchantment card with mana value X or less from your graveyard to the battlefield. Activate only as a sorcery."
+   "oracle_text": "Whenever one or more noncreature permanents are returned to hand, draw a card. This ability triggers only once each turn.\n{X}{W}, Return a land you control to its owner's hand: Return target artifact or enchantment card with mana value X or less from your graveyard to the battlefield. Activate only as a sorcery.",
+   "appearances": 2
   }
  ]
 }

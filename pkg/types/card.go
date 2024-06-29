@@ -32,7 +32,7 @@ func FromOracle(o OracleCard) Card {
 	}
 
 	c.Image = o.ImageURLs["normal"]
-	c.Colors = o.Colors
+	c.Colors = o.ColorIdentity
 	c.URL = o.ScryfallURI
 	c.OracleText = o.OracleText
 	c.ManaCost = o.ManaCost
