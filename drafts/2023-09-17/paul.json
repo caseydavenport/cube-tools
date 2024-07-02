@@ -30,6 +30,9 @@
    "colors": [
     "R"
    ],
+   "color_identity": [
+    "R"
+   ],
    "mana_cost": "{R}",
    "url": "https://scryfall.com/card/ema/131/flame-jab?utm_source=api",
    "oracle_text": "Flame Jab deals 1 damage to any target.\nRetrace (You may cast this card from your graveyard by discarding a land card in addition to paying its other costs.)",
@@ -45,6 +48,9 @@
    "colors": [
     "W"
    ],
+   "color_identity": [
+    "W"
+   ],
    "mana_cost": "{2}{W}{W}",
    "url": "https://scryfall.com/card/cmm/70/wrath-of-god?utm_source=api",
    "oracle_text": "Destroy all creatures. They can't be regenerated.",
@@ -58,6 +64,9 @@
    "cmc": 1,
    "image": "",
    "colors": [
+    "B"
+   ],
+   "color_identity": [
     "B"
    ],
    "mana_cost": "{B}",
@@ -80,6 +89,10 @@
     "B",
     "R"
    ],
+   "color_identity": [
+    "B",
+    "R"
+   ],
    "mana_cost": "{2}{B/R}{B/R}",
    "url": "https://scryfall.com/card/uma/217/murderous-redcap?utm_source=api",
    "oracle_text": "When Murderous Redcap enters the battlefield, it deals damage equal to its power to any target.\nPersist (When this creature dies, if it had no -1/-1 counters on it, return it to the battlefield under its owner's control with a -1/-1 counter on it.)",
@@ -95,6 +108,9 @@
    "colors": [
     "R"
    ],
+   "color_identity": [
+    "R"
+   ],
    "mana_cost": "{2}{R}",
    "url": "https://scryfall.com/card/ima/139/mark-of-mutiny?utm_source=api",
    "oracle_text": "Gain control of target creature until end of turn. Put a +1/+1 counter on it and untap it. That creature gains haste until end of turn. (It can attack and {T} this turn.)",
@@ -108,6 +124,9 @@
    "cmc": 1,
    "image": "",
    "colors": [
+    "W"
+   ],
+   "color_identity": [
     "W"
    ],
    "mana_cost": "{W}",
@@ -129,6 +148,9 @@
    "colors": [
     "R"
    ],
+   "color_identity": [
+    "R"
+   ],
    "mana_cost": "{R}",
    "url": "https://scryfall.com/card/akh/148/soul-scar-mage?utm_source=api",
    "oracle_text": "Prowess\nIf a source you control would deal noncombat damage to a creature an opponent controls, put that many -1/-1 counters on that creature instead.",
@@ -148,6 +170,9 @@
    "colors": [
     "R"
    ],
+   "color_identity": [
+    "R"
+   ],
    "mana_cost": "{2}{R}",
    "url": "https://scryfall.com/card/otc/169/guttersnipe?utm_source=api",
    "oracle_text": "Whenever you cast an instant or sorcery spell, Guttersnipe deals 2 damage to each opponent.",
@@ -164,6 +189,7 @@
    "cmc": 2,
    "image": "",
    "colors": [],
+   "color_identity": [],
    "mana_cost": "{2}",
    "url": "https://scryfall.com/card/otc/260/lightning-greaves?utm_source=api",
    "oracle_text": "Equipped creature has haste and shroud. (It can't be the target of spells or abilities.)\nEquip {0}",
@@ -182,6 +208,9 @@
    "colors": [
     "R"
    ],
+   "color_identity": [
+    "R"
+   ],
    "mana_cost": "{1}{R}",
    "url": "https://scryfall.com/card/jmp/366/tibalts-rager?utm_source=api",
    "oracle_text": "When Tibalt's Rager dies, it deals 1 damage to any target.\n{1}{R}: Tibalt's Rager gets +2/+0 until end of turn.",
@@ -198,6 +227,10 @@
    "cmc": 3,
    "image": "",
    "colors": [
+    "B",
+    "R"
+   ],
+   "color_identity": [
     "B",
     "R"
    ],
@@ -220,6 +253,9 @@
    "colors": [
     "W"
    ],
+   "color_identity": [
+    "W"
+   ],
    "mana_cost": "{1}{W}",
    "url": "https://scryfall.com/card/otc/84/mistmeadow-skulk?utm_source=api",
    "oracle_text": "Lifelink, protection from mana value 3 or greater",
@@ -233,6 +269,9 @@
    "cmc": 3,
    "image": "",
    "colors": [
+    "R"
+   ],
+   "color_identity": [
     "R"
    ],
    "mana_cost": "{2}{R}",
@@ -254,6 +293,9 @@
    "colors": [
     "W"
    ],
+   "color_identity": [
+    "W"
+   ],
    "mana_cost": "{3}{W}",
    "url": "https://scryfall.com/card/clb/694/galepowder-mage?utm_source=api",
    "oracle_text": "Flying\nWhenever Galepowder Mage attacks, exile another target creature. Return that card to the battlefield under its owner's control at the beginning of the next end step.",
@@ -267,6 +309,9 @@
    "cmc": 4,
    "image": "",
    "colors": [
+    "R"
+   ],
+   "color_identity": [
     "R"
    ],
    "mana_cost": "{3}{R}",
@@ -285,6 +330,9 @@
    "cmc": 3,
    "image": "",
    "colors": [
+    "R"
+   ],
+   "color_identity": [
     "R"
    ],
    "mana_cost": "{2}{R}",
@@ -307,6 +355,9 @@
    "colors": [
     "R"
    ],
+   "color_identity": [
+    "R"
+   ],
    "mana_cost": "{R}",
    "url": "https://scryfall.com/card/neo/157/rabbit-battery?utm_source=api",
    "oracle_text": "Haste\nEquipped creature gets +1/+1 and has haste.\nReconfigure {R} ({R}: Attach to target creature you control; or unattach from a creature. Reconfigure only as a sorcery. While attached, this isn't a creature.)",
@@ -323,6 +374,7 @@
    "cmc": 3,
    "image": "",
    "colors": [],
+   "color_identity": [],
    "mana_cost": "{3}",
    "url": "https://scryfall.com/card/c21/249/loxodon-warhammer?utm_source=api",
    "oracle_text": "Equipped creature gets +3/+0 and has trample and lifelink.\nEquip {3}",
@@ -336,6 +388,9 @@
    "cmc": 1,
    "image": "",
    "colors": [
+    "B"
+   ],
+   "color_identity": [
     "B"
    ],
    "mana_cost": "{B}",
@@ -357,6 +412,9 @@
    "colors": [
     "R"
    ],
+   "color_identity": [
+    "R"
+   ],
    "mana_cost": "{2}{R}",
    "url": "https://scryfall.com/card/wwk/79/cunning-sparkmage?utm_source=api",
    "oracle_text": "Haste\n{T}: Cunning Sparkmage deals 1 damage to any target.",
@@ -370,6 +428,9 @@
    "cmc": 1,
    "image": "",
    "colors": [
+    "B"
+   ],
+   "color_identity": [
     "B"
    ],
    "mana_cost": "{B}",
@@ -389,6 +450,9 @@
    "cmc": 2,
    "image": "",
    "colors": [
+    "B"
+   ],
+   "color_identity": [
     "B"
    ],
    "mana_cost": "{B}{B}",
@@ -411,6 +475,9 @@
    "colors": [
     "B"
    ],
+   "color_identity": [
+    "B"
+   ],
    "mana_cost": "{1}{B}",
    "url": "https://scryfall.com/card/clb/775/zulaport-cutthroat?utm_source=api",
    "oracle_text": "Whenever Zulaport Cutthroat or another creature you control dies, each opponent loses 1 life and you gain 1 life.",
@@ -427,7 +494,8 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [
+   "colors": [],
+   "color_identity": [
     "W"
    ],
    "mana_cost": "",
@@ -446,7 +514,8 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [
+   "colors": [],
+   "color_identity": [
     "W"
    ],
    "mana_cost": "",
@@ -465,7 +534,8 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [
+   "colors": [],
+   "color_identity": [
     "W"
    ],
    "mana_cost": "",
@@ -484,7 +554,8 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [
+   "colors": [],
+   "color_identity": [
     "W"
    ],
    "mana_cost": "",
@@ -503,7 +574,8 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [
+   "colors": [],
+   "color_identity": [
     "W"
    ],
    "mana_cost": "",
@@ -522,7 +594,8 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [
+   "colors": [],
+   "color_identity": [
     "B"
    ],
    "mana_cost": "",
@@ -541,7 +614,8 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [
+   "colors": [],
+   "color_identity": [
     "B"
    ],
    "mana_cost": "",
@@ -560,7 +634,8 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [
+   "colors": [],
+   "color_identity": [
     "B"
    ],
    "mana_cost": "",
@@ -579,7 +654,8 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [
+   "colors": [],
+   "color_identity": [
     "B"
    ],
    "mana_cost": "",
@@ -598,7 +674,8 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [
+   "colors": [],
+   "color_identity": [
     "B"
    ],
    "mana_cost": "",
@@ -617,7 +694,8 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [
+   "colors": [],
+   "color_identity": [
     "R"
    ],
    "mana_cost": "",
@@ -636,7 +714,8 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [
+   "colors": [],
+   "color_identity": [
     "R"
    ],
    "mana_cost": "",
@@ -655,7 +734,8 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [
+   "colors": [],
+   "color_identity": [
     "R"
    ],
    "mana_cost": "",
@@ -674,7 +754,8 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [
+   "colors": [],
+   "color_identity": [
     "R"
    ],
    "mana_cost": "",
@@ -693,7 +774,8 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [
+   "colors": [],
+   "color_identity": [
     "R"
    ],
    "mana_cost": "",
@@ -712,7 +794,8 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [
+   "colors": [],
+   "color_identity": [
     "R"
    ],
    "mana_cost": "",
@@ -731,7 +814,8 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [
+   "colors": [],
+   "color_identity": [
     "R"
    ],
    "mana_cost": "",
@@ -757,6 +841,10 @@
     "G",
     "W"
    ],
+   "color_identity": [
+    "G",
+    "W"
+   ],
    "mana_cost": "{G}{W}",
    "url": "https://scryfall.com/card/dom/204/shanna-sisays-legacy?utm_source=api",
    "oracle_text": "Shanna, Sisay's Legacy can't be the target of abilities your opponents control.\nShanna gets +1/+1 for each creature you control."
@@ -772,6 +860,9 @@
    "cmc": 7,
    "image": "",
    "colors": [
+    "G"
+   ],
+   "color_identity": [
     "G"
    ],
    "mana_cost": "{5}{G}{G}",
@@ -792,6 +883,10 @@
     "G",
     "R"
    ],
+   "color_identity": [
+    "G",
+    "R"
+   ],
    "mana_cost": "{1}{R}{G}{G}",
    "url": "https://scryfall.com/card/c13/216/spellbreaker-behemoth?utm_source=api",
    "oracle_text": "This spell can't be countered.\nCreature spells you control with power 5 or greater can't be countered."
@@ -804,6 +899,9 @@
    "cmc": 1,
    "image": "",
    "colors": [
+    "B"
+   ],
+   "color_identity": [
     "B"
    ],
    "mana_cost": "{B}",
@@ -825,6 +923,9 @@
    "colors": [
     "B"
    ],
+   "color_identity": [
+    "B"
+   ],
    "mana_cost": "{B}",
    "url": "https://scryfall.com/card/neo/93/dockside-chef?utm_source=api",
    "oracle_text": "{1}{B}, Sacrifice an artifact or creature: Draw a card."
@@ -843,6 +944,9 @@
    "colors": [
     "W"
    ],
+   "color_identity": [
+    "W"
+   ],
    "mana_cost": "{1}{W}",
    "url": "https://scryfall.com/card/clu/52/ajanis-pridemate?utm_source=api",
    "oracle_text": "Whenever you gain life, put a +1/+1 counter on Ajani's Pridemate."
@@ -855,6 +959,9 @@
    "cmc": 2,
    "image": "",
    "colors": [
+    "B"
+   ],
+   "color_identity": [
     "B"
    ],
    "mana_cost": "{B}{B}",
@@ -872,6 +979,10 @@
     "U",
     "W"
    ],
+   "color_identity": [
+    "U",
+    "W"
+   ],
    "mana_cost": "{1}{W/U}",
    "url": "https://scryfall.com/card/clu/214/turn-to-mist?utm_source=api",
    "oracle_text": "Exile target creature. Return that card to the battlefield under its owner's control at the beginning of the next end step."
@@ -886,6 +997,9 @@
    "colors": [
     "R"
    ],
+   "color_identity": [
+    "R"
+   ],
    "mana_cost": "{1}{R}",
    "url": "https://scryfall.com/card/ima/130/fury-charm?utm_source=api",
    "oracle_text": "Choose one —\n• Destroy target artifact.\n• Target creature gets +1/+1 and gains trample until end of turn.\n• Remove two time counters from target permanent or suspended card."
@@ -898,6 +1012,9 @@
    "cmc": 3,
    "image": "",
    "colors": [
+    "G"
+   ],
+   "color_identity": [
     "G"
    ],
    "mana_cost": "{2}{G}",
@@ -919,6 +1036,10 @@
     "G",
     "R"
    ],
+   "color_identity": [
+    "G",
+    "R"
+   ],
    "mana_cost": "{1}{R}{G}",
    "url": "https://scryfall.com/card/war/215/rubblebelt-rioters?utm_source=api",
    "oracle_text": "Haste\nWhenever Rubblebelt Rioters attacks, it gets +X/+0 until end of turn, where X is the greatest power among creatures you control."
@@ -934,6 +1055,10 @@
    "cmc": 3,
    "image": "",
    "colors": [
+    "B",
+    "G"
+   ],
+   "color_identity": [
     "B",
     "G"
    ],
@@ -954,6 +1079,9 @@
    "colors": [
     "R"
    ],
+   "color_identity": [
+    "R"
+   ],
    "mana_cost": "{2}{R}",
    "url": "https://scryfall.com/card/roe/160/rage-nimbus?utm_source=api",
    "oracle_text": "Defender, flying\n{1}{R}: Target creature attacks this turn if able."
@@ -971,6 +1099,9 @@
    "colors": [
     "R"
    ],
+   "color_identity": [
+    "R"
+   ],
    "mana_cost": "{3}{R}",
    "url": "https://scryfall.com/card/dom/150/warcry-phoenix?utm_source=api",
    "oracle_text": "Flying, haste\nWhenever you attack with three or more creatures, you may pay {2}{R}. If you do, return Warcry Phoenix from your graveyard to the battlefield tapped and attacking."
@@ -983,6 +1114,9 @@
    "cmc": 5,
    "image": "",
    "colors": [
+    "B"
+   ],
+   "color_identity": [
     "B"
    ],
    "mana_cost": "{3}{B}{B}",
@@ -1000,6 +1134,9 @@
    "cmc": 5,
    "image": "",
    "colors": [
+    "R"
+   ],
+   "color_identity": [
     "R"
    ],
    "mana_cost": "{3}{R}{R}",
@@ -1020,6 +1157,9 @@
    "colors": [
     "B"
    ],
+   "color_identity": [
+    "B"
+   ],
    "mana_cost": "{3}{B}{B}",
    "url": "https://scryfall.com/card/voc/131/malakir-bloodwitch?utm_source=api",
    "oracle_text": "Flying, protection from white\nWhen Malakir Bloodwitch enters the battlefield, each opponent loses life equal to the number of Vampires you control. You gain life equal to the life lost this way."
@@ -1032,6 +1172,9 @@
    "cmc": 5,
    "image": "",
    "colors": [
+    "W"
+   ],
+   "color_identity": [
     "W"
    ],
    "mana_cost": "{4}{W}",
@@ -1052,6 +1195,9 @@
    "colors": [
     "B"
    ],
+   "color_identity": [
+    "B"
+   ],
    "mana_cost": "{5}{B}{B}",
    "url": "https://scryfall.com/card/lcc/187/butcher-of-malakir?utm_source=api",
    "oracle_text": "Flying\nWhenever Butcher of Malakir or another creature you control dies, each opponent sacrifices a creature."
@@ -1069,6 +1215,9 @@
    "colors": [
     "R"
    ],
+   "color_identity": [
+    "R"
+   ],
    "mana_cost": "{4}{R}{R}",
    "url": "https://scryfall.com/card/cmm/232/hellkite-charger?utm_source=api",
    "oracle_text": "Flying, haste\nWhenever Hellkite Charger attacks, you may pay {5}{R}{R}. If you do, untap all attacking creatures and after this phase, there is an additional combat phase."
@@ -1083,6 +1232,9 @@
    "colors": [
     "R"
    ],
+   "color_identity": [
+    "R"
+   ],
    "mana_cost": "{5}{R}",
    "url": "https://scryfall.com/card/pca/45/hellion-eruption?utm_source=api",
    "oracle_text": "Sacrifice all creatures you control, then create that many 4/4 red Hellion creature tokens."
@@ -1095,6 +1247,9 @@
    "cmc": 2,
    "image": "",
    "colors": [
+    "W"
+   ],
+   "color_identity": [
     "W"
    ],
    "mana_cost": "{1}{W}",
@@ -1115,6 +1270,9 @@
    "colors": [
     "B"
    ],
+   "color_identity": [
+    "B"
+   ],
    "mana_cost": "{2}{B}{B}",
    "url": "https://scryfall.com/card/lcc/209/sanctum-seeker?utm_source=api",
    "oracle_text": "Whenever a Vampire you control attacks, each opponent loses 1 life and you gain 1 life."
@@ -1127,6 +1285,9 @@
    "cmc": 4,
    "image": "",
    "colors": [
+    "W"
+   ],
+   "color_identity": [
     "W"
    ],
    "mana_cost": "{2}{W}{W}",
@@ -1145,6 +1306,9 @@
    "cmc": 3,
    "image": "",
    "colors": [
+    "B"
+   ],
+   "color_identity": [
     "B"
    ],
    "mana_cost": "{2}{B}",

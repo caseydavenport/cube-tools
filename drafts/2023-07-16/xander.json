@@ -34,6 +34,9 @@
    "colors": [
     "W"
    ],
+   "color_identity": [
+    "W"
+   ],
    "mana_cost": "{W}",
    "url": "https://scryfall.com/card/mkc/88/swords-to-plowshares?utm_source=api",
    "oracle_text": "Exile target creature. Its controller gains life equal to its power."
@@ -48,6 +51,9 @@
    "colors": [
     "R"
    ],
+   "color_identity": [
+    "R"
+   ],
    "mana_cost": "{R}",
    "url": "https://scryfall.com/card/clu/141/lightning-bolt?utm_source=api",
    "oracle_text": "Lightning Bolt deals 3 damage to any target."
@@ -59,7 +65,8 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [
+   "colors": [],
+   "color_identity": [
     "R",
     "U"
    ],
@@ -81,6 +88,9 @@
    "colors": [
     "R"
    ],
+   "color_identity": [
+    "R"
+   ],
    "mana_cost": "{1}{R}",
    "url": "https://scryfall.com/card/otc/185/young-pyromancer?utm_source=api",
    "oracle_text": "Whenever you cast an instant or sorcery spell, create a 1/1 red Elemental creature token."
@@ -95,6 +105,9 @@
    "colors": [
     "U"
    ],
+   "color_identity": [
+    "U"
+   ],
    "mana_cost": "{3}{U}",
    "url": "https://scryfall.com/card/cmm/91/fact-or-fiction?utm_source=api",
    "oracle_text": "Reveal the top five cards of your library. An opponent separates those cards into two piles. Put one pile into your hand and the other into your graveyard."
@@ -107,6 +120,10 @@
    "cmc": 4,
    "image": "",
    "colors": [
+    "R",
+    "W"
+   ],
+   "color_identity": [
     "R",
     "W"
    ],
@@ -127,6 +144,9 @@
    "colors": [
     "R"
    ],
+   "color_identity": [
+    "R"
+   ],
    "mana_cost": "{1}{R}{R}",
    "url": "https://scryfall.com/card/war/138/mizzium-tank?utm_source=api",
    "oracle_text": "Trample\nWhenever you cast a noncreature spell, Mizzium Tank becomes an artifact creature and gets +1/+1 until end of turn.\nCrew 1 (Tap any number of creatures you control with total power 1 or more: This Vehicle becomes an artifact creature until end of turn.)"
@@ -138,7 +158,8 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [
+   "colors": [],
+   "color_identity": [
     "U",
     "W"
    ],
@@ -153,7 +174,8 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [
+   "colors": [],
+   "color_identity": [
     "R",
     "W"
    ],
@@ -172,6 +194,10 @@
    "cmc": 3,
    "image": "",
    "colors": [
+    "R",
+    "U"
+   ],
+   "color_identity": [
     "R",
     "U"
    ],
@@ -194,6 +220,10 @@
     "R",
     "U"
    ],
+   "color_identity": [
+    "R",
+    "U"
+   ],
    "mana_cost": "{2}{U}{R}",
    "url": "https://scryfall.com/card/war/211/ral-storm-conduit?utm_source=api",
    "oracle_text": "Whenever you cast or copy an instant or sorcery spell, Ral, Storm Conduit deals 1 damage to target opponent or planeswalker.\n+2: Scry 1.\n−2: When you next cast an instant or sorcery spell this turn, copy that spell. You may choose new targets for the copy."
@@ -212,6 +242,9 @@
    "colors": [
     "R"
    ],
+   "color_identity": [
+    "R"
+   ],
    "mana_cost": "{1}{R}",
    "url": "https://scryfall.com/card/war/125/dreadhorde-arcanist?utm_source=api",
    "oracle_text": "Trample\nWhenever Dreadhorde Arcanist attacks, you may cast target instant or sorcery card with mana value less than or equal to Dreadhorde Arcanist's power from your graveyard without paying its mana cost. If that spell would be put into your graveyard, exile it instead."
@@ -226,6 +259,9 @@
    "colors": [
     "R"
    ],
+   "color_identity": [
+    "R"
+   ],
    "mana_cost": "{3}{R}",
    "url": "https://scryfall.com/card/dmr/118/empty-the-warrens?utm_source=api",
    "oracle_text": "Create two 1/1 red Goblin creature tokens.\nStorm (When you cast this spell, copy it for each spell cast before it this turn.)"
@@ -238,6 +274,9 @@
    "cmc": 3,
    "image": "",
    "colors": [
+    "R"
+   ],
+   "color_identity": [
     "R"
    ],
    "mana_cost": "{2}{R}",
@@ -258,6 +297,9 @@
    "colors": [
     "U"
    ],
+   "color_identity": [
+    "U"
+   ],
    "mana_cost": "{2}{U}",
    "url": "https://scryfall.com/card/thb/56/naiad-of-hidden-coves?utm_source=api",
    "oracle_text": "As long as it's not your turn, spells you cast cost {1} less to cast."
@@ -270,6 +312,9 @@
    "cmc": 2,
    "image": "",
    "colors": [
+    "U"
+   ],
+   "color_identity": [
     "U"
    ],
    "mana_cost": "{1}{U}",
@@ -290,6 +335,9 @@
    "colors": [
     "R"
    ],
+   "color_identity": [
+    "R"
+   ],
    "mana_cost": "{R}",
    "url": "https://scryfall.com/card/akh/148/soul-scar-mage?utm_source=api",
    "oracle_text": "Prowess\nIf a source you control would deal noncombat damage to a creature an opponent controls, put that many -1/-1 counters on that creature instead."
@@ -304,6 +352,9 @@
    "colors": [
     "R"
    ],
+   "color_identity": [
+    "R"
+   ],
    "mana_cost": "{R}",
    "url": "https://scryfall.com/card/dmr/113/chain-lightning?utm_source=api",
    "oracle_text": "Chain Lightning deals 3 damage to any target. Then that player or that permanent's controller may pay {R}{R}. If the player does, they may copy this spell and may choose a new target for that copy."
@@ -316,6 +367,7 @@
    "cmc": 0,
    "image": "",
    "colors": [],
+   "color_identity": [],
    "mana_cost": "",
    "url": "https://scryfall.com/card/dmr/250/maze-of-ith?utm_source=api",
    "oracle_text": "{T}: Untap target attacking creature. Prevent all combat damage that would be dealt to and dealt by that creature this turn."
@@ -328,6 +380,9 @@
    "cmc": 1,
    "image": "",
    "colors": [
+    "U"
+   ],
+   "color_identity": [
     "U"
    ],
    "mana_cost": "{U}",
@@ -347,6 +402,9 @@
    "colors": [
     "R"
    ],
+   "color_identity": [
+    "R"
+   ],
    "mana_cost": "{2}{R}",
    "url": "https://scryfall.com/card/clu/148/spellgorger-weird?utm_source=api",
    "oracle_text": "Whenever you cast a noncreature spell, put a +1/+1 counter on Spellgorger Weird."
@@ -359,6 +417,7 @@
    "cmc": 0,
    "image": "",
    "colors": [],
+   "color_identity": [],
    "mana_cost": "",
    "url": "https://scryfall.com/card/mh3/220/flooded-strand?utm_source=api",
    "oracle_text": "{T}, Pay 1 life, Sacrifice Flooded Strand: Search your library for a Plains or Island card, put it onto the battlefield, then shuffle."
@@ -371,6 +430,9 @@
    "cmc": 2,
    "image": "",
    "colors": [
+    "U"
+   ],
+   "color_identity": [
     "U"
    ],
    "mana_cost": "{1}{U}",
@@ -392,6 +454,10 @@
     "R",
     "U"
    ],
+   "color_identity": [
+    "R",
+    "U"
+   ],
    "mana_cost": "{1}{U/R}{U/R}",
    "url": "https://scryfall.com/card/cmm/935/saheeli-sublime-artificer?utm_source=api",
    "oracle_text": "Whenever you cast a noncreature spell, create a 1/1 colorless Servo artifact creature token.\n−2: Target artifact you control becomes a copy of another target artifact or creature you control until end of turn, except it's an artifact in addition to its other types."
@@ -403,7 +469,8 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [
+   "colors": [],
+   "color_identity": [
     "U",
     "W"
    ],
@@ -419,6 +486,9 @@
    "cmc": 2,
    "image": "",
    "colors": [
+    "U"
+   ],
+   "color_identity": [
     "U"
    ],
    "mana_cost": "{1}{U}",
@@ -439,6 +509,9 @@
    "colors": [
     "U"
    ],
+   "color_identity": [
+    "U"
+   ],
    "mana_cost": "{1}{U}",
    "url": "https://scryfall.com/card/thb/69/stinging-lionfish?utm_source=api",
    "oracle_text": "Whenever you cast your first spell during each opponent's turn, you may tap or untap target nonland permanent."
@@ -451,6 +524,9 @@
    "cmc": 2,
    "image": "",
    "colors": [
+    "U"
+   ],
+   "color_identity": [
     "U"
    ],
    "mana_cost": "{U}{U}",
@@ -468,6 +544,10 @@
     "U",
     "W"
    ],
+   "color_identity": [
+    "U",
+    "W"
+   ],
    "mana_cost": "{1}{W/U}",
    "url": "https://scryfall.com/card/clu/214/turn-to-mist?utm_source=api",
    "oracle_text": "Exile target creature. Return that card to the battlefield under its owner's control at the beginning of the next end step."
@@ -480,6 +560,9 @@
    "cmc": 1,
    "image": "",
    "colors": [
+    "R"
+   ],
+   "color_identity": [
     "R"
    ],
    "mana_cost": "{R}",
@@ -497,7 +580,8 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [
+   "colors": [],
+   "color_identity": [
     "W"
    ],
    "mana_cost": "",
@@ -515,7 +599,8 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [
+   "colors": [],
+   "color_identity": [
     "U"
    ],
    "mana_cost": "",
@@ -533,7 +618,8 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [
+   "colors": [],
+   "color_identity": [
     "U"
    ],
    "mana_cost": "",
@@ -551,7 +637,8 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [
+   "colors": [],
+   "color_identity": [
     "U"
    ],
    "mana_cost": "",
@@ -569,7 +656,8 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [
+   "colors": [],
+   "color_identity": [
     "U"
    ],
    "mana_cost": "",
@@ -587,7 +675,8 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [
+   "colors": [],
+   "color_identity": [
     "R"
    ],
    "mana_cost": "",
@@ -605,7 +694,8 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [
+   "colors": [],
+   "color_identity": [
     "R"
    ],
    "mana_cost": "",
@@ -623,7 +713,8 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [
+   "colors": [],
+   "color_identity": [
     "R"
    ],
    "mana_cost": "",
@@ -641,7 +732,8 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [
+   "colors": [],
+   "color_identity": [
     "R"
    ],
    "mana_cost": "",
@@ -659,7 +751,8 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [
+   "colors": [],
+   "color_identity": [
     "R"
    ],
    "mana_cost": "",
@@ -678,6 +771,9 @@
    "colors": [
     "U"
    ],
+   "color_identity": [
+    "U"
+   ],
    "mana_cost": "{2}{U}",
    "url": "https://scryfall.com/card/war/70/stealth-mission?utm_source=api",
    "oracle_text": "Put two +1/+1 counters on target creature you control. That creature can't be blocked this turn."
@@ -690,6 +786,9 @@
    "cmc": 2,
    "image": "",
    "colors": [
+    "B"
+   ],
+   "color_identity": [
     "B"
    ],
    "mana_cost": "{B}{B}",
@@ -710,6 +809,9 @@
    "colors": [
     "U"
    ],
+   "color_identity": [
+    "U"
+   ],
    "mana_cost": "{3}{U}",
    "url": "https://scryfall.com/card/ala/43/fatestitcher?utm_source=api",
    "oracle_text": "{T}: You may tap or untap another target permanent.\nUnearth {U} ({U}: Return this card from your graveyard to the battlefield. It gains haste. Exile it at the beginning of the next end step or if it would leave the battlefield. Unearth only as a sorcery.)"
@@ -726,6 +828,9 @@
    "cmc": 1,
    "image": "",
    "colors": [
+    "W"
+   ],
+   "color_identity": [
     "W"
    ],
    "mana_cost": "{W}",
@@ -746,6 +851,10 @@
     "U",
     "W"
    ],
+   "color_identity": [
+    "U",
+    "W"
+   ],
    "mana_cost": "{2}{W}{W}{U}{U}",
    "url": "https://scryfall.com/card/thb/214/dream-trawler?utm_source=api",
    "oracle_text": "Flying, lifelink\nWhenever you draw a card, Dream Trawler gets +1/+0 until end of turn.\nWhenever Dream Trawler attacks, draw a card.\nDiscard a card: Dream Trawler gains hexproof until end of turn. Tap it."
@@ -760,6 +869,9 @@
    "colors": [
     "U"
    ],
+   "color_identity": [
+    "U"
+   ],
    "mana_cost": "{3}{U}",
    "url": "https://scryfall.com/card/war/43/bond-of-insight?utm_source=api",
    "oracle_text": "Each player mills four cards. Return up to two instant and/or sorcery cards from your graveyard to your hand. Exile Bond of Insight."
@@ -772,6 +884,9 @@
    "cmc": 1,
    "image": "",
    "colors": [
+    "U"
+   ],
+   "color_identity": [
     "U"
    ],
    "mana_cost": "{X}{U}",
@@ -789,7 +904,8 @@
    ],
    "cmc": 2,
    "image": "",
-   "colors": [
+   "colors": [],
+   "color_identity": [
     "U"
    ],
    "mana_cost": "{2}",
@@ -807,7 +923,8 @@
    ],
    "cmc": 2,
    "image": "",
-   "colors": [
+   "colors": [],
+   "color_identity": [
     "R"
    ],
    "mana_cost": "{2}",
@@ -825,6 +942,9 @@
    "cmc": 3,
    "image": "",
    "colors": [
+    "W"
+   ],
+   "color_identity": [
     "W"
    ],
    "mana_cost": "{1}{W}{W}",
@@ -846,6 +966,10 @@
     "U",
     "W"
    ],
+   "color_identity": [
+    "U",
+    "W"
+   ],
    "mana_cost": "{2}{W/U}{W/U}",
    "url": "https://scryfall.com/card/mm2/199/swans-of-bryn-argoll?utm_source=api",
    "oracle_text": "Flying\nIf a source would deal damage to Swans of Bryn Argoll, prevent that damage. The source's controller draws cards equal to the damage prevented this way."
@@ -863,7 +987,8 @@
    ],
    "cmc": 4,
    "image": "",
-   "colors": [
+   "colors": null,
+   "color_identity": [
     "U"
    ],
    "mana_cost": "",
@@ -880,6 +1005,9 @@
    "colors": [
     "U"
    ],
+   "color_identity": [
+    "U"
+   ],
    "mana_cost": "{1}{U}",
    "url": "https://scryfall.com/card/war/72/teferis-time-twist?utm_source=api",
    "oracle_text": "Exile target permanent you control. Return that card to the battlefield under its owner's control at the beginning of the next end step. If it enters the battlefield as a creature, it enters with an additional +1/+1 counter on it."
@@ -892,6 +1020,9 @@
    "cmc": 4,
    "image": "",
    "colors": [
+    "W"
+   ],
+   "color_identity": [
     "W"
    ],
    "mana_cost": "{2}{W}{W}",
@@ -911,6 +1042,9 @@
    "colors": [
     "G"
    ],
+   "color_identity": [
+    "G"
+   ],
    "mana_cost": "{4}{G}{G}",
    "url": "https://scryfall.com/card/shm/134/witherscale-wurm?utm_source=api",
    "oracle_text": "Whenever Witherscale Wurm blocks or becomes blocked by a creature, that creature gains wither until end of turn. (It deals damage to creatures in the form of -1/-1 counters.)\nWhenever Witherscale Wurm deals damage to an opponent, remove all -1/-1 counters from it."
@@ -923,6 +1057,9 @@
    "cmc": 3,
    "image": "",
    "colors": [
+    "W"
+   ],
+   "color_identity": [
     "W"
    ],
    "mana_cost": "{2}{W}",
@@ -940,6 +1077,10 @@
     "G",
     "R"
    ],
+   "color_identity": [
+    "G",
+    "R"
+   ],
    "mana_cost": "{R}{G}",
    "url": "https://scryfall.com/card/war/192/domris-ambush?utm_source=api",
    "oracle_text": "Put a +1/+1 counter on target creature you control. Then that creature deals damage equal to its power to target creature or planeswalker you don't control."
@@ -952,6 +1093,9 @@
    "cmc": 5,
    "image": "",
    "colors": [
+    "W"
+   ],
+   "color_identity": [
     "W"
    ],
    "mana_cost": "{4}{W}",

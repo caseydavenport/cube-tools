@@ -1,6 +1,6 @@
 all: data/oracle-cards.json bin/parser
 
-bin/parser: $(shell find ./pkg -type f) $(shell find ./cmd -type f)
+build bin/parser: $(shell find ./pkg -type f) $(shell find ./cmd -type f)
 	mkdir -p bin
 	go build -o bin/parser ./main.go
 

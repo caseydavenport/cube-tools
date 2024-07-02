@@ -41,6 +41,9 @@
    "colors": [
     "G"
    ],
+   "color_identity": [
+    "G"
+   ],
    "mana_cost": "{2}{G}{G}",
    "url": "https://scryfall.com/card/cmm/885/arasta-of-the-endless-web?utm_source=api",
    "oracle_text": "Reach\nWhenever an opponent casts an instant or sorcery spell, create a 1/2 green Spider creature token with reach."
@@ -55,6 +58,9 @@
    "colors": [
     "G"
    ],
+   "color_identity": [
+    "G"
+   ],
    "mana_cost": "{1}{G}",
    "url": "https://scryfall.com/card/zen/177/quest-for-the-gemblades?utm_source=api",
    "oracle_text": "Whenever a creature you control deals combat damage to a creature, you may put a quest counter on Quest for the Gemblades.\nRemove a quest counter from Quest for the Gemblades and sacrifice it: Put four +1/+1 counters on target creature."
@@ -67,6 +73,9 @@
    "cmc": 1,
    "image": "",
    "colors": [
+    "G"
+   ],
+   "color_identity": [
     "G"
    ],
    "mana_cost": "{G}",
@@ -87,6 +96,9 @@
    "colors": [
     "G"
    ],
+   "color_identity": [
+    "G"
+   ],
    "mana_cost": "{1}{G}",
    "url": "https://scryfall.com/card/cmm/312/pollenbright-druid?utm_source=api",
    "oracle_text": "When Pollenbright Druid enters the battlefield, choose one —\n• Put a +1/+1 counter on target creature.\n• Proliferate. (Choose any number of permanents and/or players, then give each another counter of each kind already there.)"
@@ -105,6 +117,10 @@
     "G",
     "U"
    ],
+   "color_identity": [
+    "G",
+    "U"
+   ],
    "mana_cost": "{1}{G/U}{G/U}",
    "url": "https://scryfall.com/card/eve/152/gilder-bairn?utm_source=api",
    "oracle_text": "{2}{G/U}, {Q}: Double the number of each kind of counter on target permanent. ({Q} is the untap symbol.)"
@@ -120,6 +136,10 @@
     "G",
     "W"
    ],
+   "color_identity": [
+    "G",
+    "W"
+   ],
    "mana_cost": "{1}{G}{W}",
    "url": "https://scryfall.com/card/war/210/pledge-of-unity?utm_source=api",
    "oracle_text": "Put a +1/+1 counter on each creature you control. You gain 1 life for each creature you control."
@@ -132,6 +152,9 @@
    "cmc": 3,
    "image": "",
    "colors": [
+    "G"
+   ],
+   "color_identity": [
     "G"
    ],
    "mana_cost": "{2}{G}",
@@ -152,6 +175,9 @@
    "colors": [
     "G"
    ],
+   "color_identity": [
+    "G"
+   ],
    "mana_cost": "{3}{G}",
    "url": "https://scryfall.com/card/cma/116/hunting-triad?utm_source=api",
    "oracle_text": "Create three 1/1 green Elf Warrior creature tokens.\nReinforce 3—{3}{G} ({3}{G}, Discard this card: Put three +1/+1 counters on target creature.)"
@@ -167,6 +193,9 @@
    "cmc": 5,
    "image": "",
    "colors": [
+    "G"
+   ],
+   "color_identity": [
     "G"
    ],
    "mana_cost": "{3}{G}{G}",
@@ -187,6 +216,9 @@
    "colors": [
     "W"
    ],
+   "color_identity": [
+    "W"
+   ],
    "mana_cost": "{1}{W}",
    "url": "https://scryfall.com/card/mm3/11/kor-skyfisher?utm_source=api",
    "oracle_text": "Flying\nWhen Kor Skyfisher enters the battlefield, return a permanent you control to its owner's hand."
@@ -204,6 +236,9 @@
    "colors": [
     "W"
    ],
+   "color_identity": [
+    "W"
+   ],
    "mana_cost": "{2}{W}{W}",
    "url": "https://scryfall.com/card/mma/22/meadowboon?utm_source=api",
    "oracle_text": "When Meadowboon leaves the battlefield, put a +1/+1 counter on each creature target player controls.\nEvoke {3}{W} (You may cast this spell for its evoke cost. If you do, it's sacrificed when it enters the battlefield.)"
@@ -216,6 +251,7 @@
    "cmc": 0,
    "image": "",
    "colors": [],
+   "color_identity": [],
    "mana_cost": "",
    "url": "https://scryfall.com/card/mh2/250/misty-rainforest?utm_source=api",
    "oracle_text": "{T}, Pay 1 life, Sacrifice Misty Rainforest: Search your library for a Forest or Island card, put it onto the battlefield, then shuffle."
@@ -233,6 +269,9 @@
    "colors": [
     "G"
    ],
+   "color_identity": [
+    "G"
+   ],
    "mana_cost": "{4}{G}",
    "url": "https://scryfall.com/card/xln/208/snapping-sailback?utm_source=api",
    "oracle_text": "Flash\nEnrage — Whenever Snapping Sailback is dealt damage, put a +1/+1 counter on it. (It must survive the damage to get the counter.)"
@@ -247,6 +286,9 @@
    "colors": [
     "G"
    ],
+   "color_identity": [
+    "G"
+   ],
    "mana_cost": "{1}{G}",
    "url": "https://scryfall.com/card/neo/204/roaring-earth?utm_source=api",
    "oracle_text": "Landfall — Whenever a land enters the battlefield under your control, put a +1/+1 counter on target creature or Vehicle you control.\nChannel — {X}{G}{G}, Discard Roaring Earth: Put X +1/+1 counters on target land you control. It becomes a 0/0 green Spirit creature with haste. It's still a land."
@@ -259,6 +301,7 @@
    "cmc": 0,
    "image": "",
    "colors": [],
+   "color_identity": [],
    "mana_cost": "",
    "url": "https://scryfall.com/card/mh3/235/windswept-heath?utm_source=api",
    "oracle_text": "{T}, Pay 1 life, Sacrifice Windswept Heath: Search your library for a Forest or Plains card, put it onto the battlefield, then shuffle."
@@ -276,6 +319,9 @@
    "colors": [
     "G"
    ],
+   "color_identity": [
+    "G"
+   ],
    "mana_cost": "{1}{G}",
    "url": "https://scryfall.com/card/ncc/309/scavenging-ooze?utm_source=api",
    "oracle_text": "{G}: Exile target card from a graveyard. If it was a creature card, put a +1/+1 counter on Scavenging Ooze and you gain 1 life."
@@ -287,7 +333,8 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [
+   "colors": [],
+   "color_identity": [
     "G",
     "W"
    ],
@@ -310,6 +357,10 @@
     "G",
     "W"
    ],
+   "color_identity": [
+    "G",
+    "W"
+   ],
    "mana_cost": "{1}{G}{W}",
    "url": "https://scryfall.com/card/ima/203/knight-of-the-reliquary?utm_source=api",
    "oracle_text": "Knight of the Reliquary gets +1/+1 for each land card in your graveyard.\n{T}, Sacrifice a Forest or Plains: Search your library for a land card, put it onto the battlefield, then shuffle."
@@ -326,6 +377,9 @@
    "cmc": 4,
    "image": "",
    "colors": [
+    "W"
+   ],
+   "color_identity": [
     "W"
    ],
    "mana_cost": "{3}{W}",
@@ -346,6 +400,9 @@
    "colors": [
     "G"
    ],
+   "color_identity": [
+    "G"
+   ],
    "mana_cost": "{1}{G}",
    "url": "https://scryfall.com/card/one/161/cankerbloom?utm_source=api",
    "oracle_text": "{1}, Sacrifice Cankerbloom: Choose one —\n• Destroy target artifact.\n• Destroy target enchantment.\n• Proliferate. (Choose any number of permanents and/or players, then give each another counter of each kind already there.)"
@@ -364,6 +421,9 @@
    "colors": [
     "G"
    ],
+   "color_identity": [
+    "G"
+   ],
    "mana_cost": "{G}",
    "url": "https://scryfall.com/card/eve/79/twinblade-slasher?utm_source=api",
    "oracle_text": "Wither (This deals damage to creatures in the form of -1/-1 counters.)\n{1}{G}: Twinblade Slasher gets +2/+2 until end of turn. Activate only once each turn."
@@ -380,6 +440,7 @@
    "cmc": 1,
    "image": "",
    "colors": [],
+   "color_identity": [],
    "mana_cost": "{1}",
    "url": "https://scryfall.com/card/dom/232/sparring-construct?utm_source=api",
    "oracle_text": "When Sparring Construct dies, put a +1/+1 counter on target creature you control."
@@ -399,6 +460,9 @@
    "colors": [
     "G"
    ],
+   "color_identity": [
+    "G"
+   ],
    "mana_cost": "{2}{G}",
    "url": "https://scryfall.com/card/khc/68/marwyn-the-nurturer?utm_source=api",
    "oracle_text": "Whenever another Elf enters the battlefield under your control, put a +1/+1 counter on Marwyn, the Nurturer.\n{T}: Add an amount of {G} equal to Marwyn's power."
@@ -411,6 +475,7 @@
    "cmc": 0,
    "image": "",
    "colors": [],
+   "color_identity": [],
    "mana_cost": "",
    "url": "https://scryfall.com/card/mh2/260/verdant-catacombs?utm_source=api",
    "oracle_text": "{T}, Pay 1 life, Sacrifice Verdant Catacombs: Search your library for a Swamp or Forest card, put it onto the battlefield, then shuffle."
@@ -429,6 +494,9 @@
    "colors": [
     "G"
    ],
+   "color_identity": [
+    "G"
+   ],
    "mana_cost": "{G}",
    "url": "https://scryfall.com/card/fdn/227/llanowar-elves?utm_source=api",
    "oracle_text": "{T}: Add {G}."
@@ -445,6 +513,7 @@
    "cmc": 4,
    "image": "",
    "colors": [],
+   "color_identity": [],
    "mana_cost": "{4}",
    "url": "https://scryfall.com/card/neo/262/towashi-guide-bot?utm_source=api",
    "oracle_text": "When Towashi Guide-Bot enters the battlefield, put a +1/+1 counter on target creature you control.\n{4}, {T}: Draw a card. This ability costs {1} less to activate for each modified creature you control. (Equipment, Auras you control, and counters are modifications.)"
@@ -460,6 +529,9 @@
    "cmc": 6,
    "image": "",
    "colors": [
+    "G"
+   ],
+   "color_identity": [
     "G"
    ],
    "mana_cost": "{4}{G}{G}",
@@ -479,6 +551,9 @@
    "colors": [
     "G"
    ],
+   "color_identity": [
+    "G"
+   ],
    "mana_cost": "{G}",
    "url": "https://scryfall.com/card/rvr/159/utopia-sprawl?utm_source=api",
    "oracle_text": "Enchant Forest\nAs Utopia Sprawl enters the battlefield, choose a color.\nWhenever enchanted Forest is tapped for mana, its controller adds an additional one mana of the chosen color."
@@ -494,7 +569,8 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [
+   "colors": [],
+   "color_identity": [
     "W"
    ],
    "mana_cost": "",
@@ -512,7 +588,8 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [
+   "colors": [],
+   "color_identity": [
     "W"
    ],
    "mana_cost": "",
@@ -530,7 +607,8 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [
+   "colors": [],
+   "color_identity": [
     "W"
    ],
    "mana_cost": "",
@@ -548,7 +626,8 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [
+   "colors": [],
+   "color_identity": [
     "W"
    ],
    "mana_cost": "",
@@ -566,7 +645,8 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [
+   "colors": [],
+   "color_identity": [
     "W"
    ],
    "mana_cost": "",
@@ -584,7 +664,8 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [
+   "colors": [],
+   "color_identity": [
     "G"
    ],
    "mana_cost": "",
@@ -602,7 +683,8 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [
+   "colors": [],
+   "color_identity": [
     "G"
    ],
    "mana_cost": "",
@@ -620,7 +702,8 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [
+   "colors": [],
+   "color_identity": [
     "G"
    ],
    "mana_cost": "",
@@ -638,7 +721,8 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [
+   "colors": [],
+   "color_identity": [
     "G"
    ],
    "mana_cost": "",
@@ -656,7 +740,8 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [
+   "colors": [],
+   "color_identity": [
     "G"
    ],
    "mana_cost": "",
@@ -674,7 +759,8 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [
+   "colors": [],
+   "color_identity": [
     "G"
    ],
    "mana_cost": "",
@@ -692,7 +778,8 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [
+   "colors": [],
+   "color_identity": [
     "G"
    ],
    "mana_cost": "",
@@ -709,6 +796,10 @@
    "cmc": 6,
    "image": "",
    "colors": [
+    "B",
+    "G"
+   ],
+   "color_identity": [
     "B",
     "G"
    ],
@@ -731,6 +822,10 @@
     "B",
     "G"
    ],
+   "color_identity": [
+    "B",
+    "G"
+   ],
    "mana_cost": "{2}{B}{G}",
    "url": "https://scryfall.com/card/thb/206/acolyte-of-affliction?utm_source=api",
    "oracle_text": "When Acolyte of Affliction enters the battlefield, mill two cards, then you may return a permanent card from your graveyard to your hand."
@@ -743,6 +838,10 @@
    "cmc": 2,
    "image": "",
    "colors": [
+    "B",
+    "U"
+   ],
+   "color_identity": [
     "B",
     "U"
    ],
@@ -760,6 +859,9 @@
    "colors": [
     "B"
    ],
+   "color_identity": [
+    "B"
+   ],
    "mana_cost": "{2}{B}",
    "url": "https://scryfall.com/card/fut/92/witchs-mist?utm_source=api",
    "oracle_text": "{2}{B}, {T}: Destroy target creature that was dealt damage this turn."
@@ -771,7 +873,8 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [
+   "colors": [],
+   "color_identity": [
     "B",
     "G"
    ],
@@ -786,7 +889,8 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [
+   "colors": [],
+   "color_identity": [
     "B",
     "G"
    ],
@@ -808,6 +912,10 @@
     "B",
     "W"
    ],
+   "color_identity": [
+    "B",
+    "W"
+   ],
    "mana_cost": "{W}{B}",
    "url": "https://scryfall.com/card/lcc/267/cruel-celebrant?utm_source=api",
    "oracle_text": "Whenever Cruel Celebrant or another creature or planeswalker you control dies, each opponent loses 1 life and you gain 1 life."
@@ -824,6 +932,9 @@
    "cmc": 3,
    "image": "",
    "colors": [
+    "G"
+   ],
+   "color_identity": [
     "G"
    ],
    "mana_cost": "{1}{G}{G}",
@@ -843,6 +954,9 @@
    "colors": [
     "W"
    ],
+   "color_identity": [
+    "W"
+   ],
    "mana_cost": "{4}{W}",
    "url": "https://scryfall.com/card/2x2/26/reveillark?utm_source=api",
    "oracle_text": "Flying\nWhen Reveillark leaves the battlefield, return up to two target creature cards with power 2 or less from your graveyard to the battlefield.\nEvoke {5}{W} (You may cast this spell for its evoke cost. If you do, it's sacrificed when it enters the battlefield.)"
@@ -855,6 +969,9 @@
    "cmc": 4,
    "image": "",
    "colors": [
+    "W"
+   ],
+   "color_identity": [
     "W"
    ],
    "mana_cost": "{3}{W}",
@@ -875,6 +992,9 @@
    "colors": [
     "W"
    ],
+   "color_identity": [
+    "W"
+   ],
    "mana_cost": "{W}",
    "url": "https://scryfall.com/card/ddf/6/mosquito-guard?utm_source=api",
    "oracle_text": "First strike\nReinforce 1—{1}{W} ({1}{W}, Discard this card: Put a +1/+1 counter on target creature.)"
@@ -891,6 +1011,9 @@
    "cmc": 1,
    "image": "",
    "colors": [
+    "G"
+   ],
+   "color_identity": [
     "G"
    ],
    "mana_cost": "{G}",
@@ -911,6 +1034,9 @@
    "colors": [
     "W"
    ],
+   "color_identity": [
+    "W"
+   ],
    "mana_cost": "{1}{W}",
    "url": "https://scryfall.com/card/clu/52/ajanis-pridemate?utm_source=api",
    "oracle_text": "Whenever you gain life, put a +1/+1 counter on Ajani's Pridemate."
@@ -926,6 +1052,9 @@
    "cmc": 3,
    "image": "",
    "colors": [
+    "G"
+   ],
+   "color_identity": [
     "G"
    ],
    "mana_cost": "{2}{G}",
@@ -946,6 +1075,9 @@
    "colors": [
     "G"
    ],
+   "color_identity": [
+    "G"
+   ],
    "mana_cost": "{2}{G}",
    "url": "https://scryfall.com/card/mom/205/serpent-blade-assailant?utm_source=api",
    "oracle_text": "Backup 1 (When this creature enters the battlefield, put a +1/+1 counter on target creature. If that's another creature, it gains the following ability until end of turn.)\nDeathtouch"
@@ -962,6 +1094,9 @@
    "cmc": 2,
    "image": "",
    "colors": [
+    "G"
+   ],
+   "color_identity": [
     "G"
    ],
    "mana_cost": "{1}{G}",
@@ -981,6 +1116,9 @@
    "colors": [
     "G"
    ],
+   "color_identity": [
+    "G"
+   ],
    "mana_cost": "{G}",
    "url": "https://scryfall.com/card/pca/79/tukatongue-thallid?utm_source=api",
    "oracle_text": "When Tukatongue Thallid dies, create a 1/1 green Saproling creature token."
@@ -998,6 +1136,9 @@
    "colors": [
     "W"
    ],
+   "color_identity": [
+    "W"
+   ],
    "mana_cost": "{W}",
    "url": "https://scryfall.com/card/m11/15/goldenglow-moth?utm_source=api",
    "oracle_text": "Flying\nWhenever Goldenglow Moth blocks, you may gain 4 life."
@@ -1010,6 +1151,9 @@
    "cmc": 4,
    "image": "",
    "colors": [
+    "G"
+   ],
+   "color_identity": [
     "G"
    ],
    "mana_cost": "{3}{G}",
@@ -1025,6 +1169,7 @@
    "cmc": 2,
    "image": "",
    "colors": [],
+   "color_identity": [],
    "mana_cost": "{2}",
    "url": "https://scryfall.com/card/akh/237/throne-of-the-god-pharaoh?utm_source=api",
    "oracle_text": "At the beginning of your end step, each opponent loses life equal to the number of tapped creatures you control."

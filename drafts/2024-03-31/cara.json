@@ -57,6 +57,9 @@
    "colors": [
     "R"
    ],
+   "color_identity": [
+    "R"
+   ],
    "mana_cost": "{R}",
    "url": "https://scryfall.com/card/bro/144/monastery-swiftspear?utm_source=api",
    "oracle_text": "Haste\nProwess (Whenever you cast a noncreature spell, this creature gets +1/+1 until end of turn.)",
@@ -74,6 +77,9 @@
    "cmc": 6,
    "image": "",
    "colors": [
+    "R"
+   ],
+   "color_identity": [
     "R"
    ],
    "mana_cost": "{4}{R}{R}",
@@ -95,6 +101,9 @@
    "cmc": 2,
    "image": "",
    "colors": [
+    "G"
+   ],
+   "color_identity": [
     "G",
     "R"
    ],
@@ -110,7 +119,8 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [
+   "colors": [],
+   "color_identity": [
     "G",
     "R"
    ],
@@ -134,6 +144,10 @@
     "B",
     "R"
    ],
+   "color_identity": [
+    "B",
+    "R"
+   ],
    "mana_cost": "{B}{R}",
    "url": "https://scryfall.com/card/war/194/dreadhorde-butcher?utm_source=api",
    "oracle_text": "Haste\nWhenever Dreadhorde Butcher deals combat damage to a player or planeswalker, put a +1/+1 counter on Dreadhorde Butcher.\nWhen Dreadhorde Butcher dies, it deals damage equal to its power to any target.",
@@ -150,7 +164,8 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [
+   "colors": [],
+   "color_identity": [
     "B",
     "G"
    ],
@@ -170,7 +185,8 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [
+   "colors": [],
+   "color_identity": [
     "B",
     "G"
    ],
@@ -187,6 +203,9 @@
    "cmc": 4,
    "image": "",
    "colors": [
+    "G"
+   ],
+   "color_identity": [
     "G"
    ],
    "mana_cost": "{3}{G}",
@@ -206,6 +225,9 @@
    "cmc": 2,
    "image": "",
    "colors": [
+    "G"
+   ],
+   "color_identity": [
     "G"
    ],
    "mana_cost": "{1}{G}",
@@ -229,6 +251,10 @@
     "B",
     "G"
    ],
+   "color_identity": [
+    "B",
+    "G"
+   ],
    "mana_cost": "{1}{B}{G}",
    "url": "https://scryfall.com/card/woe/205/greta-sweettooth-scourge?utm_source=api",
    "oracle_text": "When Greta, Sweettooth Scourge enters the battlefield, create a Food token. (It's an artifact with \"{2}, {T}, Sacrifice this artifact: You gain 3 life.\")\n{G}, Sacrifice a Food: Put a +1/+1 counter on target creature. Activate only as a sorcery.\n{1}{B}, Sacrifice a Food: You draw a card and you lose 1 life.",
@@ -242,6 +268,9 @@
    "cmc": 2,
    "image": "",
    "colors": [
+    "B"
+   ],
+   "color_identity": [
     "B"
    ],
    "mana_cost": "{X}{B}{B}",
@@ -263,6 +292,9 @@
    "colors": [
     "G"
    ],
+   "color_identity": [
+    "G"
+   ],
    "mana_cost": "{2}{G}",
    "url": "https://scryfall.com/card/clb/838/vivien-champion-of-the-wilds?utm_source=api",
    "oracle_text": "You may cast creature spells as though they had flash.\n+1: Until your next turn, up to one target creature gains vigilance and reach.\n−2: Look at the top three cards of your library. Exile one face down and put the rest on the bottom of your library in any order. For as long as it remains exiled, you may look at that card and you may cast it if it's a creature spell.",
@@ -279,6 +311,9 @@
    "cmc": 3,
    "image": "",
    "colors": [
+    "G"
+   ],
+   "color_identity": [
     "G"
    ],
    "mana_cost": "{2}{G}",
@@ -299,6 +334,9 @@
    "colors": [
     "R"
    ],
+   "color_identity": [
+    "R"
+   ],
    "mana_cost": "{3}{R}{R}",
    "url": "https://scryfall.com/card/dmr/136/siege-gang-commander?utm_source=api",
    "oracle_text": "When Siege-Gang Commander enters the battlefield, create three 1/1 red Goblin creature tokens.\n{1}{R}, Sacrifice a Goblin: Siege-Gang Commander deals 2 damage to any target.",
@@ -314,6 +352,9 @@
    "colors": [
     "G"
    ],
+   "color_identity": [
+    "G"
+   ],
    "mana_cost": "{3}{G}",
    "url": "https://scryfall.com/card/isd/199/parallel-lives?utm_source=api",
    "oracle_text": "If an effect would create one or more tokens under your control, it creates twice that many of those tokens instead.",
@@ -327,6 +368,9 @@
    "cmc": 2,
    "image": "",
    "colors": [
+    "G"
+   ],
+   "color_identity": [
     "G"
    ],
    "mana_cost": "{1}{G}",
@@ -348,6 +392,9 @@
    "colors": [
     "G"
    ],
+   "color_identity": [
+    "G"
+   ],
    "mana_cost": "{G}",
    "url": "https://scryfall.com/card/fdn/227/llanowar-elves?utm_source=api",
    "oracle_text": "{T}: Add {G}.",
@@ -366,6 +413,9 @@
    "colors": [
     "G"
    ],
+   "color_identity": [
+    "G"
+   ],
    "mana_cost": "{2}{G}",
    "url": "https://scryfall.com/card/soi/212/inexorable-blob?utm_source=api",
    "oracle_text": "Delirium — Whenever Inexorable Blob attacks, if there are four or more card types among cards in your graveyard, create a 3/3 green Ooze creature token that's tapped and attacking.",
@@ -379,6 +429,7 @@
    "cmc": 1,
    "image": "",
    "colors": [],
+   "color_identity": [],
    "mana_cost": "{1}",
    "url": "https://scryfall.com/card/tsr/263/chromatic-star?utm_source=api",
    "oracle_text": "{1}, {T}, Sacrifice Chromatic Star: Add one mana of any color.\nWhen Chromatic Star is put into a graveyard from the battlefield, draw a card.",
@@ -396,6 +447,9 @@
    "cmc": 1,
    "image": "",
    "colors": [
+    "G"
+   ],
+   "color_identity": [
     "B",
     "G",
     "R"
@@ -419,6 +473,9 @@
    "colors": [
     "R"
    ],
+   "color_identity": [
+    "R"
+   ],
    "mana_cost": "{2}{R}",
    "url": "https://scryfall.com/card/moc/287/krenko-tin-street-kingpin?utm_source=api",
    "oracle_text": "Whenever Krenko, Tin Street Kingpin attacks, put a +1/+1 counter on it, then create a number of 1/1 red Goblin creature tokens equal to Krenko's power.",
@@ -432,6 +489,9 @@
    "cmc": 4,
    "image": "",
    "colors": [
+    "R"
+   ],
+   "color_identity": [
     "R"
    ],
    "mana_cost": "{3}{R}",
@@ -453,6 +513,9 @@
    "colors": [
     "B"
    ],
+   "color_identity": [
+    "B"
+   ],
    "mana_cost": "{B}",
    "url": "https://scryfall.com/card/clb/740/bloodsoaked-champion?utm_source=api",
    "oracle_text": "Bloodsoaked Champion can't block.\nRaid — {1}{B}: Return Bloodsoaked Champion from your graveyard to the battlefield. Activate only if you attacked this turn.",
@@ -471,6 +534,9 @@
    "colors": [
     "R"
    ],
+   "color_identity": [
+    "R"
+   ],
    "mana_cost": "{3}{R}{R}",
    "url": "https://scryfall.com/card/rna/114/skarrgan-hellkite?utm_source=api",
    "oracle_text": "Riot (This creature enters the battlefield with your choice of a +1/+1 counter or haste.)\nFlying\n{3}{R}: Skarrgan Hellkite deals 2 damage divided as you choose among one or two targets. Activate only if Skarrgan Hellkite has a +1/+1 counter on it.",
@@ -484,6 +550,9 @@
    "cmc": 1,
    "image": "",
    "colors": [
+    "G"
+   ],
+   "color_identity": [
     "G"
    ],
    "mana_cost": "{G}",
@@ -502,7 +571,8 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [
+   "colors": [],
+   "color_identity": [
     "G",
     "R"
    ],
@@ -519,6 +589,7 @@
    "cmc": 0,
    "image": "",
    "colors": [],
+   "color_identity": [],
    "mana_cost": "",
    "url": "https://scryfall.com/card/mh3/236/wooded-foothills?utm_source=api",
    "oracle_text": "{T}, Pay 1 life, Sacrifice Wooded Foothills: Search your library for a Mountain or Forest card, put it onto the battlefield, then shuffle.",
@@ -537,6 +608,9 @@
    "colors": [
     "B"
    ],
+   "color_identity": [
+    "B"
+   ],
    "mana_cost": "{3}{B}",
    "url": "https://scryfall.com/card/thb/112/pharikas-spawn?utm_source=api",
    "oracle_text": "Escape—{5}{B}, Exile three other cards from your graveyard. (You may cast this card from your graveyard for its escape cost.)\nPharika's Spawn escapes with two +1/+1 counters on it. When it enters the battlefield this way, each opponent sacrifices a non-Gorgon creature.",
@@ -550,6 +624,10 @@
    "cmc": 2,
    "image": "",
    "colors": [
+    "G",
+    "R"
+   ],
+   "color_identity": [
     "G",
     "R"
    ],
@@ -569,7 +647,8 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [
+   "colors": [],
+   "color_identity": [
     "B"
    ],
    "mana_cost": "",
@@ -588,7 +667,8 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [
+   "colors": [],
+   "color_identity": [
     "B"
    ],
    "mana_cost": "",
@@ -607,7 +687,8 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [
+   "colors": [],
+   "color_identity": [
     "R"
    ],
    "mana_cost": "",
@@ -626,7 +707,8 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [
+   "colors": [],
+   "color_identity": [
     "R"
    ],
    "mana_cost": "",
@@ -645,7 +727,8 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [
+   "colors": [],
+   "color_identity": [
     "R"
    ],
    "mana_cost": "",
@@ -664,7 +747,8 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [
+   "colors": [],
+   "color_identity": [
     "G"
    ],
    "mana_cost": "",
@@ -683,7 +767,8 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [
+   "colors": [],
+   "color_identity": [
     "G"
    ],
    "mana_cost": "",
@@ -702,7 +787,8 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [
+   "colors": [],
+   "color_identity": [
     "G"
    ],
    "mana_cost": "",
@@ -721,7 +807,8 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [
+   "colors": [],
+   "color_identity": [
     "G"
    ],
    "mana_cost": "",
@@ -740,7 +827,8 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [
+   "colors": [],
+   "color_identity": [
     "G"
    ],
    "mana_cost": "",
@@ -759,7 +847,8 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [
+   "colors": [],
+   "color_identity": [
     "G"
    ],
    "mana_cost": "",
@@ -779,6 +868,9 @@
    "colors": [
     "U"
    ],
+   "color_identity": [
+    "U"
+   ],
    "mana_cost": "{U}",
    "url": "https://scryfall.com/card/mkc/96/brainstorm?utm_source=api",
    "oracle_text": "Draw three cards, then put two cards from your hand on top of your library in any order."
@@ -791,6 +883,9 @@
    "cmc": 1,
    "image": "",
    "colors": [
+    "U"
+   ],
+   "color_identity": [
     "U"
    ],
    "mana_cost": "{U}",
@@ -812,6 +907,10 @@
     "G",
     "U"
    ],
+   "color_identity": [
+    "G",
+    "U"
+   ],
    "mana_cost": "{2}{G}{G/U/P}{U}",
    "url": "https://scryfall.com/card/neo/238/tamiyo-compleated-sage?utm_source=api",
    "oracle_text": "Compleated ({G/U/P} can be paid with {G}, {U}, or 2 life. If life was paid, this planeswalker enters with two fewer loyalty counters.)\n+1: Tap up to one target artifact or creature. It doesn't untap during its controller's next untap step.\n−X: Exile target nonland permanent card with mana value X from your graveyard. Create a token that's a copy of that card.\n−7: Create Tamiyo's Notebook, a legendary colorless artifact token with \"Spells you cast cost {2} less to cast\" and \"{T}: Draw a card.\""
@@ -824,6 +923,9 @@
    "cmc": 2,
    "image": "",
    "colors": [
+    "G"
+   ],
+   "color_identity": [
     "G"
    ],
    "mana_cost": "{1}{G}",
@@ -841,6 +943,9 @@
    "colors": [
     "U"
    ],
+   "color_identity": [
+    "U"
+   ],
    "mana_cost": "{U}{U}",
    "url": "https://scryfall.com/card/roe/59/deprive?utm_source=api",
    "oracle_text": "As an additional cost to cast this spell, return a land you control to its owner's hand.\nCounter target spell."
@@ -855,6 +960,9 @@
    "colors": [
     "U"
    ],
+   "color_identity": [
+    "U"
+   ],
    "mana_cost": "{1}{U}",
    "url": "https://scryfall.com/card/tsr/61/delay?utm_source=api",
    "oracle_text": "Counter target spell. If the spell is countered this way, exile it with three time counters on it instead of putting it into its owner's graveyard. If it doesn't have suspend, it gains suspend. (At the beginning of its owner's upkeep, they remove a time counter. When the last is removed, they may play it without paying its mana cost. If it's a creature, it has haste.)"
@@ -866,7 +974,8 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [
+   "colors": [],
+   "color_identity": [
     "R",
     "U"
    ],
@@ -881,7 +990,8 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [
+   "colors": [],
+   "color_identity": [
     "U"
    ],
    "mana_cost": "",
@@ -895,7 +1005,8 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [
+   "colors": [],
+   "color_identity": [
     "G",
     "U"
    ],
@@ -918,6 +1029,10 @@
     "B",
     "U"
    ],
+   "color_identity": [
+    "B",
+    "U"
+   ],
    "mana_cost": "{U}{B}",
    "url": "https://scryfall.com/card/akh/206/shadowstorm-vizier?utm_source=api",
    "oracle_text": "Flying\nWhenever you cycle or discard a card, Shadowstorm Vizier gets +1/+1 until end of turn."
@@ -932,6 +1047,9 @@
    "colors": [
     "R"
    ],
+   "color_identity": [
+    "R"
+   ],
    "mana_cost": "{1}{R}",
    "url": "https://scryfall.com/card/a25/146/pyroclasm?utm_source=api",
    "oracle_text": "Pyroclasm deals 2 damage to each creature."
@@ -944,6 +1062,9 @@
    "cmc": 2,
    "image": "",
    "colors": [
+    "B"
+   ],
+   "color_identity": [
     "B"
    ],
    "mana_cost": "{B}{B}",
@@ -965,6 +1086,9 @@
    "colors": [
     "G"
    ],
+   "color_identity": [
+    "G"
+   ],
    "mana_cost": "{1}{G}",
    "url": "https://scryfall.com/card/mkc/173/jolrael-mwonvuli-recluse?utm_source=api",
    "oracle_text": "Whenever you draw your second card each turn, create a 2/2 green Cat creature token.\n{4}{G}{G}: Until end of turn, creatures you control have base power and toughness X/X, where X is the number of cards in your hand."
@@ -977,6 +1101,9 @@
    "cmc": 2,
    "image": "",
    "colors": [
+    "R"
+   ],
+   "color_identity": [
     "R"
    ],
    "mana_cost": "{1}{R}",
@@ -994,6 +1121,9 @@
    "cmc": 1,
    "image": "",
    "colors": [
+    "R"
+   ],
+   "color_identity": [
     "G",
     "R"
    ],
@@ -1012,6 +1142,10 @@
    "cmc": 1,
    "image": "",
    "colors": [
+    "B",
+    "G"
+   ],
+   "color_identity": [
     "B",
     "G"
    ],

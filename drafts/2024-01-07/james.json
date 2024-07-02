@@ -71,6 +71,9 @@
    "colors": [
     "B"
    ],
+   "color_identity": [
+    "B"
+   ],
    "mana_cost": "{3}{B}{B}",
    "url": "https://scryfall.com/card/clb/769/puppeteer-clique?utm_source=api",
    "oracle_text": "Flying\nWhen Puppeteer Clique enters the battlefield, put target creature card from an opponent's graveyard onto the battlefield under your control. It gains haste. At the beginning of your next end step, exile it.\nPersist (When this creature dies, if it had no -1/-1 counters on it, return it to the battlefield under its owner's control with a -1/-1 counter on it.)",
@@ -90,6 +93,9 @@
    "colors": [
     "G"
    ],
+   "color_identity": [
+    "G"
+   ],
    "mana_cost": "{3}{G}{G}{G}",
    "url": "https://scryfall.com/card/woe/172/gruff-triplets?utm_source=api",
    "oracle_text": "Trample\nWhen Gruff Triplets enters the battlefield, if it isn't a token, create two tokens that are copies of it.\nWhen Gruff Triplets dies, put a number of +1/+1 counters equal to its power on each creature you control named Gruff Triplets.",
@@ -107,6 +113,9 @@
    "cmc": 1,
    "image": "",
    "colors": [
+    "G"
+   ],
+   "color_identity": [
     "G"
    ],
    "mana_cost": "{G}",
@@ -129,6 +138,9 @@
    "colors": [
     "G"
    ],
+   "color_identity": [
+    "G"
+   ],
    "mana_cost": "{2}{G}{G}",
    "url": "https://scryfall.com/card/cmm/885/arasta-of-the-endless-web?utm_source=api",
    "oracle_text": "Reach\nWhenever an opponent casts an instant or sorcery spell, create a 1/2 green Spider creature token with reach.",
@@ -144,6 +156,9 @@
    "colors": [
     "B"
    ],
+   "color_identity": [
+    "B"
+   ],
    "mana_cost": "{1}{B}",
    "url": "https://scryfall.com/card/mid/107/infernal-grasp?utm_source=api",
    "oracle_text": "Destroy target creature. You lose 2 life.",
@@ -156,7 +171,8 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [
+   "colors": [],
+   "color_identity": [
     "B",
     "G"
    ],
@@ -178,6 +194,9 @@
    "colors": [
     "G"
    ],
+   "color_identity": [
+    "G"
+   ],
    "mana_cost": "{1}{G}",
    "url": "https://scryfall.com/card/dom/186/untamed-kavu?utm_source=api",
    "oracle_text": "Kicker {3} (You may pay an additional {3} as you cast this spell.)\nVigilance, trample\nIf Untamed Kavu was kicked, it enters the battlefield with three +1/+1 counters on it.",
@@ -191,6 +210,9 @@
    "cmc": 1,
    "image": "",
    "colors": [
+    "B"
+   ],
+   "color_identity": [
     "B"
    ],
    "mana_cost": "{B}",
@@ -210,6 +232,9 @@
    "cmc": 1,
    "image": "",
    "colors": [
+    "G"
+   ],
+   "color_identity": [
     "B",
     "G",
     "R"
@@ -227,6 +252,7 @@
    "cmc": 0,
    "image": "",
    "colors": [],
+   "color_identity": [],
    "mana_cost": "",
    "url": "https://scryfall.com/card/mh2/260/verdant-catacombs?utm_source=api",
    "oracle_text": "{T}, Pay 1 life, Sacrifice Verdant Catacombs: Search your library for a Swamp or Forest card, put it onto the battlefield, then shuffle.",
@@ -245,6 +271,9 @@
    "colors": [
     "G"
    ],
+   "color_identity": [
+    "G"
+   ],
    "mana_cost": "{G}",
    "url": "https://scryfall.com/card/moc/299/gilded-goose?utm_source=api",
    "oracle_text": "Flying\nWhen Gilded Goose enters the battlefield, create a Food token. (It's an artifact with \"{2}, {T}, Sacrifice this artifact: You gain 3 life.\")\n{1}{G}, {T}: Create a Food token.\n{T}, Sacrifice a Food: Add one mana of any color.",
@@ -261,6 +290,9 @@
    "cmc": 2,
    "image": "",
    "colors": [
+    "G"
+   ],
+   "color_identity": [
     "G"
    ],
    "mana_cost": "{1}{G}",
@@ -282,6 +314,9 @@
    "cmc": 2,
    "image": "",
    "colors": [
+    "G"
+   ],
+   "color_identity": [
     "B",
     "G"
    ],
@@ -301,7 +336,8 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [
+   "colors": [],
+   "color_identity": [
     "G",
     "W"
    ],
@@ -321,7 +357,8 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [
+   "colors": [],
+   "color_identity": [
     "G",
     "W"
    ],
@@ -341,7 +378,8 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [
+   "colors": [],
+   "color_identity": [
     "B",
     "W"
    ],
@@ -360,6 +398,9 @@
    "colors": [
     "W"
    ],
+   "color_identity": [
+    "W"
+   ],
    "mana_cost": "{1}{W}",
    "url": "https://scryfall.com/card/cmd/17/journey-to-nowhere?utm_source=api",
    "oracle_text": "When Journey to Nowhere enters the battlefield, exile target creature.\nWhen Journey to Nowhere leaves the battlefield, return the exiled card to the battlefield under its owner's control.",
@@ -373,6 +414,9 @@
    "cmc": 3,
    "image": "",
    "colors": [
+    "W"
+   ],
+   "color_identity": [
     "W"
    ],
    "mana_cost": "{2}{W}",
@@ -391,7 +435,8 @@
    ],
    "cmc": 2,
    "image": "",
-   "colors": [
+   "colors": [],
+   "color_identity": [
     "G"
    ],
    "mana_cost": "{2}",
@@ -407,6 +452,9 @@
    "cmc": 1,
    "image": "",
    "colors": [
+    "G"
+   ],
+   "color_identity": [
     "G"
    ],
    "mana_cost": "{G}",
@@ -428,6 +476,9 @@
    "colors": [
     "B"
    ],
+   "color_identity": [
+    "B"
+   ],
    "mana_cost": "{1}{B}",
    "url": "https://scryfall.com/card/cmm/174/mire-triton?utm_source=api",
    "oracle_text": "Deathtouch\nWhen Mire Triton enters the battlefield, mill two cards and you gain 2 life.",
@@ -443,6 +494,9 @@
    "colors": [
     "B"
    ],
+   "color_identity": [
+    "B"
+   ],
    "mana_cost": "{2}{B}{B}",
    "url": "https://scryfall.com/card/jmp/246/languish?utm_source=api",
    "oracle_text": "All creatures get -4/-4 until end of turn.",
@@ -456,6 +510,9 @@
    "cmc": 2,
    "image": "",
    "colors": [
+    "B"
+   ],
+   "color_identity": [
     "B"
    ],
    "mana_cost": "{1}{B}",
@@ -474,6 +531,9 @@
    "cmc": 1,
    "image": "",
    "colors": [
+    "G"
+   ],
+   "color_identity": [
     "G"
    ],
    "mana_cost": "{G}",
@@ -495,6 +555,9 @@
    "colors": [
     "G"
    ],
+   "color_identity": [
+    "G"
+   ],
    "mana_cost": "{2}{G}",
    "url": "https://scryfall.com/card/clb/838/vivien-champion-of-the-wilds?utm_source=api",
    "oracle_text": "You may cast creature spells as though they had flash.\n+1: Until your next turn, up to one target creature gains vigilance and reach.\n−2: Look at the top three cards of your library. Exile one face down and put the rest on the bottom of your library in any order. For as long as it remains exiled, you may look at that card and you may cast it if it's a creature spell.",
@@ -508,6 +571,9 @@
    "cmc": 2,
    "image": "",
    "colors": [
+    "B"
+   ],
+   "color_identity": [
     "B"
    ],
    "mana_cost": "{1}{B}",
@@ -526,6 +592,7 @@
    "cmc": 1,
    "image": "",
    "colors": [],
+   "color_identity": [],
    "mana_cost": "{1}",
    "url": "https://scryfall.com/card/cmr/458/bonesplitter?utm_source=api",
    "oracle_text": "Equipped creature gets +2/+0.\nEquip {1}",
@@ -547,6 +614,10 @@
     "B",
     "G"
    ],
+   "color_identity": [
+    "B",
+    "G"
+   ],
    "mana_cost": "{1}{B}{G}",
    "url": "https://scryfall.com/card/woe/205/greta-sweettooth-scourge?utm_source=api",
    "oracle_text": "When Greta, Sweettooth Scourge enters the battlefield, create a Food token. (It's an artifact with \"{2}, {T}, Sacrifice this artifact: You gain 3 life.\")\n{G}, Sacrifice a Food: Put a +1/+1 counter on target creature. Activate only as a sorcery.\n{1}{B}, Sacrifice a Food: You draw a card and you lose 1 life.",
@@ -560,6 +631,9 @@
    "cmc": 1,
    "image": "",
    "colors": [
+    "B"
+   ],
+   "color_identity": [
     "B"
    ],
    "mana_cost": "{B}",
@@ -578,7 +652,8 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [
+   "colors": [],
+   "color_identity": [
     "B"
    ],
    "mana_cost": "",
@@ -597,7 +672,8 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [
+   "colors": [],
+   "color_identity": [
     "B"
    ],
    "mana_cost": "",
@@ -616,7 +692,8 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [
+   "colors": [],
+   "color_identity": [
     "B"
    ],
    "mana_cost": "",
@@ -635,7 +712,8 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [
+   "colors": [],
+   "color_identity": [
     "B"
    ],
    "mana_cost": "",
@@ -654,7 +732,8 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [
+   "colors": [],
+   "color_identity": [
     "B"
    ],
    "mana_cost": "",
@@ -673,7 +752,8 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [
+   "colors": [],
+   "color_identity": [
     "G"
    ],
    "mana_cost": "",
@@ -692,7 +772,8 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [
+   "colors": [],
+   "color_identity": [
     "G"
    ],
    "mana_cost": "",
@@ -711,7 +792,8 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [
+   "colors": [],
+   "color_identity": [
     "G"
    ],
    "mana_cost": "",
@@ -730,7 +812,8 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [
+   "colors": [],
+   "color_identity": [
     "G"
    ],
    "mana_cost": "",
@@ -749,7 +832,8 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [
+   "colors": [],
+   "color_identity": [
     "G"
    ],
    "mana_cost": "",
@@ -768,7 +852,8 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [
+   "colors": [],
+   "color_identity": [
     "G"
    ],
    "mana_cost": "",
@@ -789,6 +874,7 @@
    "cmc": 3,
    "image": "",
    "colors": [],
+   "color_identity": [],
    "mana_cost": "{3}",
    "url": "https://scryfall.com/card/shm/267/umbral-mantle?utm_source=api",
    "oracle_text": "Equipped creature has \"{3}, {Q}: This creature gets +2/+2 until end of turn.\" ({Q} is the untap symbol.)\nEquip {0}"
@@ -807,6 +893,9 @@
    "colors": [
     "B"
    ],
+   "color_identity": [
+    "B"
+   ],
    "mana_cost": "{2}{B}",
    "url": "https://scryfall.com/card/ala/69/cunning-lethemancer?utm_source=api",
    "oracle_text": "At the beginning of your upkeep, each player discards a card."
@@ -822,7 +911,8 @@
    ],
    "cmc": 1,
    "image": "",
-   "colors": [
+   "colors": null,
+   "color_identity": [
     "W"
    ],
    "mana_cost": "",
@@ -839,6 +929,9 @@
    "colors": [
     "U"
    ],
+   "color_identity": [
+    "U"
+   ],
    "mana_cost": "{U}",
    "url": "https://scryfall.com/card/otc/104/opt?utm_source=api",
    "oracle_text": "Scry 1.\nDraw a card."
@@ -851,6 +944,9 @@
    "cmc": 3,
    "image": "",
    "colors": [
+    "G"
+   ],
+   "color_identity": [
     "G"
    ],
    "mana_cost": "{2}{G}",
@@ -870,6 +966,9 @@
    "colors": [
     "W"
    ],
+   "color_identity": [
+    "W"
+   ],
    "mana_cost": "{4}{W}",
    "url": "https://scryfall.com/card/2x2/26/reveillark?utm_source=api",
    "oracle_text": "Flying\nWhen Reveillark leaves the battlefield, return up to two target creature cards with power 2 or less from your graveyard to the battlefield.\nEvoke {5}{W} (You may cast this spell for its evoke cost. If you do, it's sacrificed when it enters the battlefield.)"
@@ -881,7 +980,8 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [
+   "colors": [],
+   "color_identity": [
     "U",
     "W"
    ],
@@ -900,7 +1000,8 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [
+   "colors": [],
+   "color_identity": [
     "B",
     "U"
    ],
@@ -916,6 +1017,7 @@
    "cmc": 0,
    "image": "",
    "colors": [],
+   "color_identity": [],
    "mana_cost": "",
    "url": "https://scryfall.com/card/moc/400/field-of-ruin?utm_source=api",
    "oracle_text": "{T}: Add {C}.\n{2}, {T}, Sacrifice Field of Ruin: Destroy target nonbasic land an opponent controls. Each player searches their library for a basic land card, puts it onto the battlefield, then shuffles."
@@ -931,6 +1033,9 @@
    "cmc": 1,
    "image": "",
    "colors": [
+    "W"
+   ],
+   "color_identity": [
     "W"
    ],
    "mana_cost": "{W}",
@@ -952,6 +1057,10 @@
     "G",
     "U"
    ],
+   "color_identity": [
+    "G",
+    "U"
+   ],
    "mana_cost": "{G}{U}",
    "url": "https://scryfall.com/card/lcc/277/merfolk-skydiver?utm_source=api",
    "oracle_text": "Flying\nWhen Merfolk Skydiver enters the battlefield, put a +1/+1 counter on target creature you control.\n{3}{G}{U}: Proliferate. (Choose any number of permanents and/or players, then give each another counter of each kind already there.)"
@@ -969,6 +1078,9 @@
    "colors": [
     "B"
    ],
+   "color_identity": [
+    "B"
+   ],
    "mana_cost": "{B}",
    "url": "https://scryfall.com/card/akh/91/festering-mummy?utm_source=api",
    "oracle_text": "When Festering Mummy dies, you may put a -1/-1 counter on target creature."
@@ -981,6 +1093,9 @@
    "cmc": 2,
    "image": "",
    "colors": [
+    "G"
+   ],
+   "color_identity": [
     "G"
    ],
    "mana_cost": "{1}{G}",
@@ -1001,6 +1116,9 @@
    "colors": [
     "G"
    ],
+   "color_identity": [
+    "G"
+   ],
    "mana_cost": "{1}{G}{G}",
    "url": "https://scryfall.com/card/cmm/286/eternal-witness?utm_source=api",
    "oracle_text": "When Eternal Witness enters the battlefield, you may return target card from your graveyard to your hand."
@@ -1013,6 +1131,9 @@
    "cmc": 1,
    "image": "",
    "colors": [
+    "B"
+   ],
+   "color_identity": [
     "B"
    ],
    "mana_cost": "{B}",
@@ -1031,6 +1152,9 @@
    "cmc": 4,
    "image": "",
    "colors": [
+    "G"
+   ],
+   "color_identity": [
     "G"
    ],
    "mana_cost": "{3}{G}",

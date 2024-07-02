@@ -32,6 +32,9 @@
    "colors": [
     "W"
    ],
+   "color_identity": [
+    "W"
+   ],
    "mana_cost": "{W}",
    "url": "https://scryfall.com/card/mkc/85/soul-snare?utm_source=api",
    "oracle_text": "{W}, Sacrifice Soul Snare: Exile target creature that's attacking you or a planeswalker you control."
@@ -49,6 +52,9 @@
    "colors": [
     "B"
    ],
+   "color_identity": [
+    "B"
+   ],
    "mana_cost": "{B}",
    "url": "https://scryfall.com/card/lci/99/dead-weight?utm_source=api",
    "oracle_text": "Enchant creature\nEnchanted creature gets -2/-2."
@@ -61,6 +67,9 @@
    "cmc": 1,
    "image": "",
    "colors": [
+    "B"
+   ],
+   "color_identity": [
     "B"
    ],
    "mana_cost": "{B}",
@@ -79,7 +88,8 @@
    ],
    "cmc": 2,
    "image": "",
-   "colors": [
+   "colors": null,
+   "color_identity": [
     "U"
    ],
    "mana_cost": "",
@@ -99,6 +109,9 @@
    "colors": [
     "U"
    ],
+   "color_identity": [
+    "U"
+   ],
    "mana_cost": "{2}{U}{U}",
    "url": "https://scryfall.com/card/afc/81/curator-of-mysteries?utm_source=api",
    "oracle_text": "Flying\nWhenever you cycle or discard another card, scry 1.\nCycling {U} ({U}, Discard this card: Draw a card.)"
@@ -113,6 +126,9 @@
    "colors": [
     "U"
    ],
+   "color_identity": [
+    "U"
+   ],
    "mana_cost": "{1}{U}",
    "url": "https://scryfall.com/card/tsr/61/delay?utm_source=api",
    "oracle_text": "Counter target spell. If the spell is countered this way, exile it with three time counters on it instead of putting it into its owner's graveyard. If it doesn't have suspend, it gains suspend. (At the beginning of its owner's upkeep, they remove a time counter. When the last is removed, they may play it without paying its mana cost. If it's a creature, it has haste.)"
@@ -125,7 +141,8 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [
+   "colors": [],
+   "color_identity": [
     "W"
    ],
    "mana_cost": "",
@@ -143,7 +160,8 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [
+   "colors": [],
+   "color_identity": [
     "B",
     "U"
    ],
@@ -165,6 +183,9 @@
    "colors": [
     "U"
    ],
+   "color_identity": [
+    "U"
+   ],
    "mana_cost": "{1}{U}",
    "url": "https://scryfall.com/card/snc/44/faerie-vandal?utm_source=api",
    "oracle_text": "Flash\nFlying\nWhenever you draw your second card each turn, put a +1/+1 counter on Faerie Vandal."
@@ -179,6 +200,9 @@
    "colors": [
     "U"
    ],
+   "color_identity": [
+    "U"
+   ],
    "mana_cost": "{1}{U}",
    "url": "https://scryfall.com/card/2x2/58/mana-leak?utm_source=api",
    "oracle_text": "Counter target spell unless its controller pays {3}."
@@ -191,6 +215,9 @@
    "cmc": 2,
    "image": "",
    "colors": [
+    "U"
+   ],
+   "color_identity": [
     "U"
    ],
    "mana_cost": "{U}{U}",
@@ -212,6 +239,9 @@
    "colors": [
     "B"
    ],
+   "color_identity": [
+    "B"
+   ],
    "mana_cost": "{2}{B}",
    "url": "https://scryfall.com/card/woe/97/lord-skitter-sewer-king?utm_source=api",
    "oracle_text": "Whenever another Rat enters the battlefield under your control, exile up to one target card from an opponent's graveyard.\nAt the beginning of combat on your turn, create a 1/1 black Rat creature token with \"This creature can't block.\""
@@ -224,6 +254,9 @@
    "cmc": 4,
    "image": "",
    "colors": [
+    "B"
+   ],
+   "color_identity": [
     "B"
    ],
    "mana_cost": "{2}{B}{B}",
@@ -240,6 +273,9 @@
    "colors": [
     "U"
    ],
+   "color_identity": [
+    "U"
+   ],
    "mana_cost": "{1}{U}",
    "url": "https://scryfall.com/card/lci/48/chart-a-course?utm_source=api",
    "oracle_text": "Draw two cards. Then discard a card unless you attacked this turn."
@@ -254,6 +290,9 @@
    "colors": [
     "W"
    ],
+   "color_identity": [
+    "W"
+   ],
    "mana_cost": "{2}{W}",
    "url": "https://scryfall.com/card/neo/40/touch-the-spirit-realm?utm_source=api",
    "oracle_text": "When Touch the Spirit Realm enters the battlefield, exile up to one target artifact or creature until Touch the Spirit Realm leaves the battlefield.\nChannel — {1}{W}, Discard Touch the Spirit Realm: Exile target artifact or creature. Return it to the battlefield under its owner's control at the beginning of the next end step."
@@ -265,7 +304,8 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [
+   "colors": [],
+   "color_identity": [
     "U",
     "W"
    ],
@@ -283,6 +323,9 @@
    "colors": [
     "W"
    ],
+   "color_identity": [
+    "W"
+   ],
    "mana_cost": "{1}{W}",
    "url": "https://scryfall.com/card/cmd/17/journey-to-nowhere?utm_source=api",
    "oracle_text": "When Journey to Nowhere enters the battlefield, exile target creature.\nWhen Journey to Nowhere leaves the battlefield, return the exiled card to the battlefield under its owner's control."
@@ -295,6 +338,7 @@
    "cmc": 0,
    "image": "",
    "colors": [],
+   "color_identity": [],
    "mana_cost": "",
    "url": "https://scryfall.com/card/mh2/248/marsh-flats?utm_source=api",
    "oracle_text": "{T}, Pay 1 life, Sacrifice Marsh Flats: Search your library for a Plains or Swamp card, put it onto the battlefield, then shuffle."
@@ -309,6 +353,9 @@
    "colors": [
     "U"
    ],
+   "color_identity": [
+    "U"
+   ],
    "mana_cost": "{U}",
    "url": "https://scryfall.com/card/ltr/71/stern-scolding?utm_source=api",
    "oracle_text": "Counter target creature spell with power or toughness 2 or less."
@@ -321,6 +368,7 @@
    "cmc": 0,
    "image": "",
    "colors": [],
+   "color_identity": [],
    "mana_cost": "",
    "url": "https://scryfall.com/card/a25/246/rishadan-port?utm_source=api",
    "oracle_text": "{T}: Add {C}.\n{1}, {T}: Tap target land."
@@ -333,6 +381,9 @@
    "cmc": 2,
    "image": "",
    "colors": [
+    "U"
+   ],
+   "color_identity": [
     "U"
    ],
    "mana_cost": "{1}{U}",
@@ -349,7 +400,8 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [
+   "colors": [],
+   "color_identity": [
     "U"
    ],
    "mana_cost": "",
@@ -370,6 +422,9 @@
    "colors": [
     "W"
    ],
+   "color_identity": [
+    "W"
+   ],
    "mana_cost": "{3}{W}",
    "url": "https://scryfall.com/card/clb/694/galepowder-mage?utm_source=api",
    "oracle_text": "Flying\nWhenever Galepowder Mage attacks, exile another target creature. Return that card to the battlefield under its owner's control at the beginning of the next end step."
@@ -385,7 +440,8 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [
+   "colors": [],
+   "color_identity": [
     "B",
     "U"
    ],
@@ -407,6 +463,9 @@
    "colors": [
     "W"
    ],
+   "color_identity": [
+    "W"
+   ],
    "mana_cost": "{2}{W}",
    "url": "https://scryfall.com/card/mom/28/monastery-mentor?utm_source=api",
    "oracle_text": "Prowess (Whenever you cast a noncreature spell, this creature gets +1/+1 until end of turn.)\nWhenever you cast a noncreature spell, create a 1/1 white Monk creature token with prowess."
@@ -425,6 +484,9 @@
    "colors": [
     "U"
    ],
+   "color_identity": [
+    "U"
+   ],
    "mana_cost": "{1}{U}",
    "url": "https://scryfall.com/card/mma/65/spellstutter-sprite?utm_source=api",
    "oracle_text": "Flash\nFlying\nWhen Spellstutter Sprite enters the battlefield, counter target spell with mana value X or less, where X is the number of Faeries you control."
@@ -440,6 +502,9 @@
    "cmc": 3,
    "image": "",
    "colors": [
+    "B"
+   ],
+   "color_identity": [
     "B"
    ],
    "mana_cost": "{2}{B}",
@@ -460,6 +525,9 @@
    "colors": [
     "U"
    ],
+   "color_identity": [
+    "U"
+   ],
    "mana_cost": "{1}{U}",
    "url": "https://scryfall.com/card/m20/50/brineborn-cutthroat?utm_source=api",
    "oracle_text": "Flash (You may cast this spell any time you could cast an instant.)\nWhenever you cast a spell during an opponent's turn, put a +1/+1 counter on Brineborn Cutthroat."
@@ -478,6 +546,9 @@
    "colors": [
     "U"
    ],
+   "color_identity": [
+    "U"
+   ],
    "mana_cost": "{U}",
    "url": "https://scryfall.com/card/otc/109/pteramander?utm_source=api",
    "oracle_text": "Flying\n{7}{U}: Adapt 4. This ability costs {1} less to activate for each instant and sorcery card in your graveyard. (If this creature has no +1/+1 counters on it, put four +1/+1 counters on it.)"
@@ -490,6 +561,9 @@
    "cmc": 2,
    "image": "",
    "colors": [
+    "W"
+   ],
+   "color_identity": [
     "W"
    ],
    "mana_cost": "{1}{W}",
@@ -506,6 +580,9 @@
    "colors": [
     "W"
    ],
+   "color_identity": [
+    "W"
+   ],
    "mana_cost": "{W}",
    "url": "https://scryfall.com/card/clu/67/oust?utm_source=api",
    "oracle_text": "Put target creature into its owner's library second from the top. Its controller gains 3 life."
@@ -518,6 +595,7 @@
    "cmc": 0,
    "image": "",
    "colors": [],
+   "color_identity": [],
    "mana_cost": "",
    "url": "https://scryfall.com/card/mh1/244/prismatic-vista?utm_source=api",
    "oracle_text": "{T}, Pay 1 life, Sacrifice Prismatic Vista: Search your library for a basic land card, put it onto the battlefield, then shuffle."
@@ -530,6 +608,9 @@
    "cmc": 1,
    "image": "",
    "colors": [
+    "U"
+   ],
+   "color_identity": [
     "U"
    ],
    "mana_cost": "{U}",
@@ -547,7 +628,8 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [
+   "colors": [],
+   "color_identity": [
     "W"
    ],
    "mana_cost": "",
@@ -565,7 +647,8 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [
+   "colors": [],
+   "color_identity": [
     "W"
    ],
    "mana_cost": "",
@@ -583,7 +666,8 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [
+   "colors": [],
+   "color_identity": [
     "U"
    ],
    "mana_cost": "",
@@ -601,7 +685,8 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [
+   "colors": [],
+   "color_identity": [
     "U"
    ],
    "mana_cost": "",
@@ -619,7 +704,8 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [
+   "colors": [],
+   "color_identity": [
     "U"
    ],
    "mana_cost": "",
@@ -637,7 +723,8 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [
+   "colors": [],
+   "color_identity": [
     "U"
    ],
    "mana_cost": "",
@@ -655,7 +742,8 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [
+   "colors": [],
+   "color_identity": [
     "B"
    ],
    "mana_cost": "",
@@ -679,6 +767,9 @@
    "colors": [
     "R"
    ],
+   "color_identity": [
+    "R"
+   ],
    "mana_cost": "{1}{R}",
    "url": "https://scryfall.com/card/lci/156/inti-seneschal-of-the-sun?utm_source=api",
    "oracle_text": "Whenever you attack, you may discard a card. When you do, put a +1/+1 counter on target attacking creature. It gains trample until end of turn.\nWhenever you discard one or more cards, exile the top card of your library. You may play that card until your next end step."
@@ -697,6 +788,9 @@
    "colors": [
     "G"
    ],
+   "color_identity": [
+    "G"
+   ],
    "mana_cost": "{2}{G}",
    "url": "https://scryfall.com/card/khc/72/reclamation-sage?utm_source=api",
    "oracle_text": "When Reclamation Sage enters the battlefield, you may destroy target artifact or enchantment."
@@ -712,6 +806,9 @@
    "colors": [
     "B"
    ],
+   "color_identity": [
+    "B"
+   ],
    "mana_cost": "{3}{B}{B}{B}",
    "url": "https://scryfall.com/card/war/79/bolass-citadel?utm_source=api",
    "oracle_text": "You may look at the top card of your library any time.\nYou may play lands and cast spells from the top of your library. If you cast a spell this way, pay life equal to its mana value rather than pay its mana cost.\n{T}, Sacrifice ten nonland permanents: Each opponent loses 10 life."
@@ -724,6 +821,9 @@
    "cmc": 2,
    "image": "",
    "colors": [
+    "R"
+   ],
+   "color_identity": [
     "R"
    ],
    "mana_cost": "{1}{R}",
@@ -745,6 +845,9 @@
    "colors": [
     "G"
    ],
+   "color_identity": [
+    "G"
+   ],
    "mana_cost": "{1}{G}",
    "url": "https://scryfall.com/card/mkc/173/jolrael-mwonvuli-recluse?utm_source=api",
    "oracle_text": "Whenever you draw your second card each turn, create a 2/2 green Cat creature token.\n{4}{G}{G}: Until end of turn, creatures you control have base power and toughness X/X, where X is the number of cards in your hand."
@@ -757,6 +860,9 @@
    "cmc": 1,
    "image": "",
    "colors": [
+    "W"
+   ],
+   "color_identity": [
     "W"
    ],
    "mana_cost": "{W}",
@@ -776,6 +882,9 @@
    "colors": [
     "W"
    ],
+   "color_identity": [
+    "W"
+   ],
    "mana_cost": "{1}{W}",
    "url": "https://scryfall.com/card/onc/6/glimmer-lens?utm_source=api",
    "oracle_text": "For Mirrodin! (When this Equipment enters the battlefield, create a 2/2 red Rebel creature token, then attach this to it.)\nWhenever equipped creature and at least one other creature attack, draw a card.\nEquip {1}{W}"
@@ -790,6 +899,9 @@
    "colors": [
     "U"
    ],
+   "color_identity": [
+    "U"
+   ],
    "mana_cost": "{7}{U}",
    "url": "https://scryfall.com/card/otc/120/treasure-cruise?utm_source=api",
    "oracle_text": "Delve (Each card you exile from your graveyard while casting this spell pays for {1}.)\nDraw three cards."
@@ -802,6 +914,9 @@
    "cmc": 2,
    "image": "",
    "colors": [
+    "U"
+   ],
+   "color_identity": [
     "U"
    ],
    "mana_cost": "{1}{U}",
@@ -821,6 +936,9 @@
    "colors": [
     "B"
    ],
+   "color_identity": [
+    "B"
+   ],
    "mana_cost": "{B}",
    "url": "https://scryfall.com/card/akh/91/festering-mummy?utm_source=api",
    "oracle_text": "When Festering Mummy dies, you may put a -1/-1 counter on target creature."
@@ -833,6 +951,9 @@
    "cmc": 1,
    "image": "",
    "colors": [
+    "U"
+   ],
+   "color_identity": [
     "U"
    ],
    "mana_cost": "{U}",
@@ -852,6 +973,9 @@
    "cmc": 3,
    "image": "",
    "colors": [
+    "U"
+   ],
+   "color_identity": [
     "U",
     "W"
    ],

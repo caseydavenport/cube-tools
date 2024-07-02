@@ -58,7 +58,8 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [
+   "colors": [],
+   "color_identity": [
     "G",
     "U"
    ],
@@ -80,6 +81,9 @@
    "colors": [
     "R"
    ],
+   "color_identity": [
+    "R"
+   ],
    "mana_cost": "{1}{R}",
    "url": "https://scryfall.com/card/otc/185/young-pyromancer?utm_source=api",
    "oracle_text": "Whenever you cast an instant or sorcery spell, create a 1/1 red Elemental creature token."
@@ -99,6 +103,10 @@
     "R",
     "U"
    ],
+   "color_identity": [
+    "R",
+    "U"
+   ],
    "mana_cost": "{1}{U/R}{U/R}",
    "url": "https://scryfall.com/card/cmm/935/saheeli-sublime-artificer?utm_source=api",
    "oracle_text": "Whenever you cast a noncreature spell, create a 1/1 colorless Servo artifact creature token.\n−2: Target artifact you control becomes a copy of another target artifact or creature you control until end of turn, except it's an artifact in addition to its other types."
@@ -111,6 +119,7 @@
    "cmc": 0,
    "image": "",
    "colors": [],
+   "color_identity": [],
    "mana_cost": "",
    "url": "https://scryfall.com/card/mh2/254/scalding-tarn?utm_source=api",
    "oracle_text": "{T}, Pay 1 life, Sacrifice Scalding Tarn: Search your library for an Island or Mountain card, put it onto the battlefield, then shuffle."
@@ -126,7 +135,8 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [
+   "colors": [],
+   "color_identity": [
     "R",
     "W"
    ],
@@ -142,6 +152,7 @@
    "cmc": 0,
    "image": "",
    "colors": [],
+   "color_identity": [],
    "mana_cost": "",
    "url": "https://scryfall.com/card/mh3/224/polluted-delta?utm_source=api",
    "oracle_text": "{T}, Pay 1 life, Sacrifice Polluted Delta: Search your library for an Island or Swamp card, put it onto the battlefield, then shuffle."
@@ -154,6 +165,9 @@
    "cmc": 1,
    "image": "",
    "colors": [
+    "W"
+   ],
+   "color_identity": [
     "W"
    ],
    "mana_cost": "{X}{W}",
@@ -171,7 +185,8 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [
+   "colors": [],
+   "color_identity": [
     "G",
     "W"
    ],
@@ -189,6 +204,9 @@
    "colors": [
     "U"
    ],
+   "color_identity": [
+    "U"
+   ],
    "mana_cost": "{1}{U}",
    "url": "https://scryfall.com/card/mom/68/negate?utm_source=api",
    "oracle_text": "Counter target noncreature spell."
@@ -201,6 +219,9 @@
    "cmc": 2,
    "image": "",
    "colors": [
+    "U"
+   ],
+   "color_identity": [
     "U"
    ],
    "mana_cost": "{1}{U}",
@@ -218,7 +239,8 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [
+   "colors": [],
+   "color_identity": [
     "U",
     "W"
    ],
@@ -236,6 +258,9 @@
    "colors": [
     "U"
    ],
+   "color_identity": [
+    "U"
+   ],
    "mana_cost": "{2}{U}",
    "url": "https://scryfall.com/card/kld/38/aether-tradewinds?utm_source=api",
    "oracle_text": "Return target permanent you control and target permanent you don't control to their owners' hands."
@@ -247,7 +272,8 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [
+   "colors": [],
+   "color_identity": [
     "R",
     "U"
    ],
@@ -266,7 +292,8 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [
+   "colors": [],
+   "color_identity": [
     "G",
     "U"
    ],
@@ -288,6 +315,9 @@
    "colors": [
     "U"
    ],
+   "color_identity": [
+    "U"
+   ],
    "mana_cost": "{2}{U}",
    "url": "https://scryfall.com/card/jmp/153/exclusion-mage?utm_source=api",
    "oracle_text": "When Exclusion Mage enters the battlefield, return target creature an opponent controls to its owner's hand."
@@ -300,6 +330,9 @@
    "cmc": 2,
    "image": "",
    "colors": [
+    "B"
+   ],
+   "color_identity": [
     "B"
    ],
    "mana_cost": "{1}{B}",
@@ -320,6 +353,9 @@
    "colors": [
     "R"
    ],
+   "color_identity": [
+    "R"
+   ],
    "mana_cost": "{R}",
    "url": "https://scryfall.com/card/mh2/121/dragons-rage-channeler?utm_source=api",
    "oracle_text": "Whenever you cast a noncreature spell, surveil 1. (Look at the top card of your library. You may put that card into your graveyard.)\nDelirium — As long as there are four or more card types among cards in your graveyard, Dragon's Rage Channeler gets +2/+2, has flying, and attacks each combat if able."
@@ -332,6 +368,7 @@
    "cmc": 0,
    "image": "",
    "colors": [],
+   "color_identity": [],
    "mana_cost": "",
    "url": "https://scryfall.com/card/m20/247/field-of-the-dead?utm_source=api",
    "oracle_text": "Field of the Dead enters the battlefield tapped.\n{T}: Add {C}.\nWhenever Field of the Dead or another land enters the battlefield under your control, if you control seven or more lands with different names, create a 2/2 black Zombie creature token."
@@ -344,6 +381,9 @@
    "cmc": 4,
    "image": "",
    "colors": [
+    "R"
+   ],
+   "color_identity": [
     "R"
    ],
    "mana_cost": "{3}{R}",
@@ -365,6 +405,10 @@
     "R",
     "U"
    ],
+   "color_identity": [
+    "R",
+    "U"
+   ],
    "mana_cost": "{U}{R}",
    "url": "https://scryfall.com/card/clb/852/sprite-dragon?utm_source=api",
    "oracle_text": "Flying, haste\nWhenever you cast a noncreature spell, put a +1/+1 counter on Sprite Dragon."
@@ -377,6 +421,10 @@
    "cmc": 2,
    "image": "",
    "colors": [
+    "G",
+    "R"
+   ],
+   "color_identity": [
     "G",
     "R"
    ],
@@ -394,6 +442,9 @@
    "colors": [
     "U"
    ],
+   "color_identity": [
+    "U"
+   ],
    "mana_cost": "{1}{U}",
    "url": "https://scryfall.com/card/akh/76/winds-of-rebuke?utm_source=api",
    "oracle_text": "Return target nonland permanent to its owner's hand. Each player mills two cards."
@@ -408,6 +459,9 @@
    "colors": [
     "U"
    ],
+   "color_identity": [
+    "U"
+   ],
    "mana_cost": "{2}{U}",
    "url": "https://scryfall.com/card/mkc/103/epharas-dispersal?utm_source=api",
    "oracle_text": "This spell costs {2} less to cast if it targets an attacking creature.\nReturn target creature to its owner's hand. Surveil 2. (Look at the top two cards of your library, then put any number of them into your graveyard and the rest on top of your library in any order.)"
@@ -420,6 +474,9 @@
    "cmc": 5,
    "image": "",
    "colors": [
+    "B"
+   ],
+   "color_identity": [
     "B"
    ],
    "mana_cost": "{4}{B}",
@@ -440,6 +497,9 @@
    "colors": [
     "U"
    ],
+   "color_identity": [
+    "U"
+   ],
    "mana_cost": "{4}{U}{U}",
    "url": "https://scryfall.com/card/c20/34/ethereal-forager?utm_source=api",
    "oracle_text": "Delve (Each card you exile from your graveyard while casting this spell pays for {1}.)\nFlying\nWhenever Ethereal Forager attacks, you may return an instant or sorcery card exiled with Ethereal Forager to its owner's hand."
@@ -456,6 +516,7 @@
    "cmc": 1,
    "image": "",
    "colors": [],
+   "color_identity": [],
    "mana_cost": "{1}",
    "url": "https://scryfall.com/card/woe/243/candy-trail?utm_source=api",
    "oracle_text": "When Candy Trail enters the battlefield, scry 2.\n{2}, {T}, Sacrifice Candy Trail: You gain 3 life and draw a card."
@@ -471,7 +532,8 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [
+   "colors": [],
+   "color_identity": [
     "B",
     "R"
    ],
@@ -489,6 +551,9 @@
    "colors": [
     "U"
    ],
+   "color_identity": [
+    "U"
+   ],
    "mana_cost": "{U}",
    "url": "https://scryfall.com/card/otc/112/serum-visions?utm_source=api",
    "oracle_text": "Draw a card. Scry 2."
@@ -501,6 +566,9 @@
    "cmc": 1,
    "image": "",
    "colors": [
+    "R"
+   ],
+   "color_identity": [
     "R"
    ],
    "mana_cost": "{R}",
@@ -521,6 +589,9 @@
    "colors": [
     "R"
    ],
+   "color_identity": [
+    "R"
+   ],
    "mana_cost": "{R}",
    "url": "https://scryfall.com/card/akh/148/soul-scar-mage?utm_source=api",
    "oracle_text": "Prowess\nIf a source you control would deal noncombat damage to a creature an opponent controls, put that many -1/-1 counters on that creature instead."
@@ -533,6 +604,9 @@
    "cmc": 1,
    "image": "",
    "colors": [
+    "B"
+   ],
+   "color_identity": [
     "B"
    ],
    "mana_cost": "{B}",
@@ -550,7 +624,8 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [
+   "colors": [],
+   "color_identity": [
     "B",
     "G"
    ],
@@ -566,6 +641,7 @@
    "cmc": 0,
    "image": "",
    "colors": [],
+   "color_identity": [],
    "mana_cost": "",
    "url": "https://scryfall.com/card/mh2/250/misty-rainforest?utm_source=api",
    "oracle_text": "{T}, Pay 1 life, Sacrifice Misty Rainforest: Search your library for a Forest or Island card, put it onto the battlefield, then shuffle."
@@ -578,7 +654,8 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [
+   "colors": [],
+   "color_identity": [
     "G"
    ],
    "mana_cost": "",
@@ -592,7 +669,8 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [
+   "colors": [],
+   "color_identity": [
     "B",
     "W"
    ],
@@ -611,7 +689,8 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [
+   "colors": [],
+   "color_identity": [
     "R",
     "U"
    ],
@@ -629,6 +708,9 @@
    "colors": [
     "G"
    ],
+   "color_identity": [
+    "G"
+   ],
    "mana_cost": "{G}",
    "url": "https://scryfall.com/card/2xm/157/chatter-of-the-squirrel?utm_source=api",
    "oracle_text": "Create a 1/1 green Squirrel creature token.\nFlashback {1}{G} (You may cast this card from your graveyard for its flashback cost. Then exile it.)"
@@ -644,7 +726,8 @@
    ],
    "cmc": 0,
    "image": "",
-   "colors": [
+   "colors": [],
+   "color_identity": [
     "G",
     "U"
    ],
@@ -662,6 +745,9 @@
    "colors": [
     "U"
    ],
+   "color_identity": [
+    "U"
+   ],
    "mana_cost": "{U}",
    "url": "https://scryfall.com/card/clu/84/consider?utm_source=api",
    "oracle_text": "Surveil 1. (Look at the top card of your library. You may put it into your graveyard.)\nDraw a card."
@@ -674,6 +760,9 @@
    "cmc": 2,
    "image": "",
    "colors": [
+    "U"
+   ],
+   "color_identity": [
     "U"
    ],
    "mana_cost": "{1}{U}",
@@ -693,7 +782,8 @@
    ],
    "cmc": 1,
    "image": "",
-   "colors": [
+   "colors": [],
+   "color_identity": [
     "R"
    ],
    "mana_cost": "{1}",
@@ -711,6 +801,10 @@
     "U",
     "W"
    ],
+   "color_identity": [
+    "U",
+    "W"
+   ],
    "mana_cost": "{1}{W/U}",
    "url": "https://scryfall.com/card/clu/214/turn-to-mist?utm_source=api",
    "oracle_text": "Exile target creature. Return that card to the battlefield under its owner's control at the beginning of the next end step."
@@ -723,6 +817,9 @@
    "cmc": 5,
    "image": "",
    "colors": [
+    "U"
+   ],
+   "color_identity": [
     "U"
    ],
    "mana_cost": "{3}{U}{U}",
@@ -739,6 +836,9 @@
    "colors": [
     "R"
    ],
+   "color_identity": [
+    "R"
+   ],
    "mana_cost": "{1}{R}",
    "url": "https://scryfall.com/card/mh2/279/goblin-bombardment?utm_source=api",
    "oracle_text": "Sacrifice a creature: Goblin Bombardment deals 1 damage to any target."
@@ -751,6 +851,9 @@
    "cmc": 4,
    "image": "",
    "colors": [
+    "U"
+   ],
+   "color_identity": [
     "U"
    ],
    "mana_cost": "{3}{U}",

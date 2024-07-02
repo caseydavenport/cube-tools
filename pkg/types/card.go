@@ -4,15 +4,16 @@ import "strings"
 
 // Basic representation of a card.
 type Card struct {
-	Name       string   `json:"name"`
-	Types      []string `json:"types,omitempty"`
-	SubTypes   []string `json:"sub_types,omitempty"`
-	CMC        int      `json:"cmc"`
-	Image      string   `json:"image"`
-	Colors     []string `json:"colors"`
-	ManaCost   string   `json:"mana_cost"`
-	URL        string   `json:"url"`
-	OracleText string   `json:"oracle_text"`
+	Name          string   `json:"name"`
+	Types         []string `json:"types,omitempty"`
+	SubTypes      []string `json:"sub_types,omitempty"`
+	CMC           int      `json:"cmc"`
+	Image         string   `json:"image"`
+	Colors        []string `json:"colors"`
+	ColorIdentity []string `json:"color_identity"`
+	ManaCost      string   `json:"mana_cost"`
+	URL           string   `json:"url"`
+	OracleText    string   `json:"oracle_text"`
 
 	// Determined based on replay data - how many times this card
 	// has appeared in a game. Either in hand, graveyard, battlefield, etc.
@@ -32,7 +33,8 @@ func FromOracle(o OracleCard) Card {
 	}
 
 	c.Image = o.ImageURLs["normal"]
-	c.Colors = o.ColorIdentity
+	c.Colors = o.Colors
+	c.ColorIdentity = o.ColorIdentity
 	c.URL = o.ScryfallURI
 	c.OracleText = o.OracleText
 	c.ManaCost = o.ManaCost

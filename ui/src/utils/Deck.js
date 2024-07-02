@@ -79,12 +79,19 @@ export function InDeckColor(card, deck) {
     return true
   }
 
+  // For most cards, use the card's colors to determine if it's in the deck.
+  // For lands, use the color identity of the card (since lands don't have colors, but do have color identity).
+  let colors = card.colors
+  if (card.types.includes("Land")) {
+    colors = card.color_identity
+  }
+
   // Only return true if all of the card's colors are in the deck's colors.
   let deckLookup = new Map()
   for (let deckColor of deck.colors) {
     deckLookup.set(deckColor, true)
   }
-  for (let cardColor of card.colors) {
+  for (let cardColor of colors) {
     if (!deckLookup.has(cardColor)) {
       return false
     }
