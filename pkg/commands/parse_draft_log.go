@@ -23,7 +23,7 @@ var DraftLogCmd = &cobra.Command{
 func init() {
 	// Add flags for the command to parse a single deck.
 	flags := DraftLogCmd.Flags()
-	flag.StringVarP(flags, &fileType, "log-file", "f", "", "", "Path to the draft log file to parse.")
+	flag.StringVarP(flags, &draftLog, "log-file", "f", "", "", "Path to the draft log file to parse.")
 	flag.StringVarP(flags, &date, "date", "t", "DATE", "", "Date, in YYYY-MM-DD format")
 }
 
