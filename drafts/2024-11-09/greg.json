@@ -2,8 +2,22 @@
  "labels": [],
  "player": "greg",
  "date": "2024-11-09",
- "games": null,
- "matches": null,
+ "games": [
+  {
+   "opponent": "mattd",
+   "winner": "greg"
+  },
+  {
+   "opponent": "mattd",
+   "winner": "greg"
+  }
+ ],
+ "matches": [
+  {
+   "opponent": "mattd",
+   "winner": "greg"
+  }
+ ],
  "mainboard": [
   {
    "name": "Goblin Bombardment",

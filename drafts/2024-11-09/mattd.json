@@ -2,8 +2,22 @@
  "labels": [],
  "player": "mattd",
  "date": "2024-11-09",
- "games": null,
- "matches": null,
+ "games": [
+  {
+   "opponent": "greg",
+   "winner": "greg"
+  },
+  {
+   "opponent": "greg",
+   "winner": "greg"
+  }
+ ],
+ "matches": [
+  {
+   "opponent": "greg",
+   "winner": "greg"
+  }
+ ],
  "mainboard": [
   {
    "name": "The Goose Mother",

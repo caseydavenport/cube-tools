@@ -2,8 +2,22 @@
  "labels": [],
  "player": "cara",
  "date": "2024-11-09",
- "games": null,
- "matches": null,
+ "games": [
+  {
+   "opponent": "jen",
+   "winner": "cara"
+  },
+  {
+   "opponent": "jen",
+   "winner": "cara"
+  }
+ ],
+ "matches": [
+  {
+   "opponent": "jen",
+   "winner": "cara"
+  }
+ ],
  "mainboard": [
   {
    "name": "Soul-Scar Mage",

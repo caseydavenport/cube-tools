@@ -2,8 +2,22 @@
  "labels": [],
  "player": "jen",
  "date": "2024-11-09",
- "games": null,
- "matches": null,
+ "games": [
+  {
+   "opponent": "cara",
+   "winner": "cara"
+  },
+  {
+   "opponent": "cara",
+   "winner": "cara"
+  }
+ ],
+ "matches": [
+  {
+   "opponent": "cara",
+   "winner": "cara"
+  }
+ ],
  "mainboard": [
   {
    "name": "Irencrag Pyromancer",

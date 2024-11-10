@@ -2,8 +2,26 @@
  "labels": [],
  "player": "casey",
  "date": "2024-11-09",
- "games": null,
- "matches": null,
+ "games": [
+  {
+   "opponent": "dom",
+   "winner": "casey"
+  },
+  {
+   "opponent": "dom",
+   "winner": "casey"
+  },
+  {
+   "opponent": "dom",
+   "winner": "dom"
+  }
+ ],
+ "matches": [
+  {
+   "opponent": "dom",
+   "winner": "casey"
+  }
+ ],
  "mainboard": [
   {
    "name": "Languish",
