@@ -1,5 +1,7 @@
 {
- "labels": ["control"],
+ "labels": [
+  "control"
+ ],
  "player": "casey",
  "date": "2024-11-09",
  "games": [
@@ -14,11 +16,27 @@
   {
    "opponent": "dom",
    "winner": "dom"
+  },
+  {
+   "opponent": "greg",
+   "winner": "casey"
+  },
+  {
+   "opponent": "greg",
+   "winner": "casey"
+  },
+  {
+   "opponent": "greg",
+   "winner": "greg"
   }
  ],
  "matches": [
   {
    "opponent": "dom",
+   "winner": "casey"
+  },
+  {
+   "opponent": "greg",
    "winner": "casey"
   }
  ],

@@ -1,8 +1,20 @@
 {
- "labels": [],
+ "labels": ["aggro"],
  "player": "greg",
  "date": "2024-11-09",
  "games": [
+  {
+   "opponent": "casey",
+   "winner": "greg"
+  },
+  {
+   "opponent": "casey",
+   "winner": "casey"
+  },
+  {
+   "opponent": "casey",
+   "winner": "casey"
+  },
   {
    "opponent": "mattd",
    "winner": "greg"
@@ -13,6 +25,10 @@
   }
  ],
  "matches": [
+  {
+   "opponent": "casey",
+   "winner": "casey"
+  },
   {
    "opponent": "mattd",
    "winner": "greg"
