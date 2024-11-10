@@ -13,7 +13,6 @@ Count,Name,Section
 1,Archfiend of Ifnir,main
 2,Arid Mesa,main
 1,Audacity,main
-1,"Baird, Argivian Recruiter",main
 1,Battlefield Forge,main
 1,Beast Within,main
 1,Bitter Triumph,main
@@ -31,6 +30,7 @@ Count,Name,Section
 1,Bonesplitter,main
 1,"Boseiju, Who Endures",main
 1,Brainstorm,main
+1,Brainsurge,main
 2,Breeding Pool,main
 1,Brineborn Cutthroat,main
 1,Burst Lightning,main
@@ -77,7 +77,6 @@ Count,Name,Section
 1,Den of the Bugbear,main
 1,Deprive,main
 1,Disfigure,main
-1,"Domri, Anarch of Bolas",main
 1,Dragon's Rage Channeler,main
 1,Dragonsguard Elite,main
 1,Dreadhorde Arcanist,main
@@ -102,7 +101,6 @@ Count,Name,Section
 1,Faerie Guidemother // Gift of the Fae,main
 1,Faerie Vandal,main
 1,Faithless Looting,main
-1,Farsight Ritual,main
 1,Fatal Push,main
 1,Fearless Fledgling,main
 1,Festering Mummy,main
@@ -216,6 +214,7 @@ Count,Name,Section
 2,Polluted Delta,main
 1,Ponder,main
 1,Portable Hole,main
+1,Portent,main
 1,Preordain,main
 1,Prismatic Ending,main
 1,Prismatic Vista,main
@@ -236,7 +235,6 @@ Count,Name,Section
 1,"Renata, Called to the Hunt",main
 1,Repeal,main
 1,Reprieve,main
-1,Restless Fortress,main
 1,Restless Vinestalk,main
 1,Reveillark,main
 1,"Rielle, the Everwise",main
@@ -262,6 +260,7 @@ Count,Name,Section
 1,Shelldock Isle,main
 1,Sheltered Thicket,main
 1,Siege-Gang Commander,main
+1,Silent Clearing,main
 1,Six,main
 1,Skarrgan Hellkite,main
 1,Snapcaster Mage,main
@@ -291,7 +290,6 @@ Count,Name,Section
 1,Tectonic Reformation,main
 2,Temple Garden,main
 1,Territorial Kavu,main
-1,"Tezzeret, Betrayer of Flesh",main
 1,"Thalia, Guardian of Thraben",main
 1,The Binding of the Titans,main
 1,The Goose Mother,main
@@ -322,6 +320,7 @@ Count,Name,Section
 1,Unexpectedly Absent,main
 1,Unholy Heat,main
 1,Unsummon,main
+1,Urza's Saga,main
 1,Utopia Sprawl,main
 2,Verdant Catacombs,main
 1,Vexing Gull,main
@@ -330,6 +329,7 @@ Count,Name,Section
 1,Viscera Seer,main
 1,"Vivien, Champion of the Wilds",main
 1,Warden of the Inner Sky,main
+1,Warleader's Call,main
 2,Watery Grave,main
 1,Welcoming Vampire,main
 1,Werefox Bodyguard,main

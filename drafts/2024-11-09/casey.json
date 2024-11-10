@@ -1,0 +1,1023 @@
+{
+ "labels": [],
+ "player": "casey",
+ "date": "2024-11-09",
+ "games": null,
+ "matches": null,
+ "mainboard": [
+  {
+   "name": "Languish",
+   "types": [
+    "Sorcery"
+   ],
+   "cmc": 4,
+   "image": "",
+   "colors": [
+    "B"
+   ],
+   "color_identity": [
+    "B"
+   ],
+   "mana_cost": "{2}{B}{B}",
+   "url": "https://scryfall.com/card/jmp/246/languish?utm_source=api",
+   "oracle_text": "All creatures get -4/-4 until end of turn."
+  },
+  {
+   "name": "Virtue of Persistence // Locthwain Scorn",
+   "types": [
+    "Enchantment",
+    "//",
+    "Sorcery"
+   ],
+   "sub_types": [
+    "Adventure"
+   ],
+   "cmc": 7,
+   "image": "",
+   "colors": [
+    "B"
+   ],
+   "color_identity": [
+    "B"
+   ],
+   "mana_cost": "{5}{B}{B} // {1}{B}",
+   "url": "https://scryfall.com/card/woe/115/virtue-of-persistence-locthwain-scorn?utm_source=api",
+   "oracle_text": ""
+  },
+  {
+   "name": "Ponder",
+   "types": [
+    "Sorcery"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [
+    "U"
+   ],
+   "color_identity": [
+    "U"
+   ],
+   "mana_cost": "{U}",
+   "url": "https://scryfall.com/card/otc/105/ponder?utm_source=api",
+   "oracle_text": "Look at the top three cards of your library, then put them back in any order. You may shuffle.\nDraw a card."
+  },
+  {
+   "name": "Delay",
+   "types": [
+    "Instant"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "U"
+   ],
+   "color_identity": [
+    "U"
+   ],
+   "mana_cost": "{1}{U}",
+   "url": "https://scryfall.com/card/tsr/61/delay?utm_source=api",
+   "oracle_text": "Counter target spell. If the spell is countered this way, exile it with three time counters on it instead of putting it into its owner's graveyard. If it doesn't have suspend, it gains suspend. (At the beginning of its owner's upkeep, they remove a time counter. When the last is removed, they may play it without paying its mana cost. If it's a creature, it has haste.)"
+  },
+  {
+   "name": "Murderous Cut",
+   "types": [
+    "Instant"
+   ],
+   "cmc": 5,
+   "image": "",
+   "colors": [
+    "B"
+   ],
+   "color_identity": [
+    "B"
+   ],
+   "mana_cost": "{4}{B}",
+   "url": "https://scryfall.com/card/ktk/81y/murderous-cut?utm_source=api",
+   "oracle_text": "Delve (Each card you exile from your graveyard while casting this spell pays for {1}.)\nDestroy target creature."
+  },
+  {
+   "name": "Bitter Triumph",
+   "types": [
+    "Instant"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "B"
+   ],
+   "color_identity": [
+    "B"
+   ],
+   "mana_cost": "{1}{B}",
+   "url": "https://scryfall.com/card/lci/91/bitter-triumph?utm_source=api",
+   "oracle_text": "As an additional cost to cast this spell, discard a card or pay 3 life.\nDestroy target creature or planeswalker."
+  },
+  {
+   "name": "Stern Scolding",
+   "types": [
+    "Instant"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [
+    "U"
+   ],
+   "color_identity": [
+    "U"
+   ],
+   "mana_cost": "{U}",
+   "url": "https://scryfall.com/card/ltr/71/stern-scolding?utm_source=api",
+   "oracle_text": "Counter target creature spell with power or toughness 2 or less."
+  },
+  {
+   "name": "Takenuma, Abandoned Mire",
+   "types": [
+    "Legendary",
+    "Land"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "color_identity": [
+    "B"
+   ],
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/neo/278/takenuma-abandoned-mire?utm_source=api",
+   "oracle_text": "{T}: Add {B}.\nChannel — {3}{B}, Discard Takenuma, Abandoned Mire: Mill three cards, then return a creature or planeswalker card from your graveyard to your hand. This ability costs {1} less to activate for each legendary creature you control."
+  },
+  {
+   "name": "Treasure Cruise",
+   "types": [
+    "Sorcery"
+   ],
+   "cmc": 8,
+   "image": "",
+   "colors": [
+    "U"
+   ],
+   "color_identity": [
+    "U"
+   ],
+   "mana_cost": "{7}{U}",
+   "url": "https://scryfall.com/card/otc/120/treasure-cruise?utm_source=api",
+   "oracle_text": "Delve (Each card you exile from your graveyard while casting this spell pays for {1}.)\nDraw three cards."
+  },
+  {
+   "name": "Mystic Confluence",
+   "types": [
+    "Instant"
+   ],
+   "cmc": 5,
+   "image": "",
+   "colors": [
+    "U"
+   ],
+   "color_identity": [
+    "U"
+   ],
+   "mana_cost": "{3}{U}{U}",
+   "url": "https://scryfall.com/card/cmm/108/mystic-confluence?utm_source=api",
+   "oracle_text": "Choose three. You may choose the same mode more than once.\n• Counter target spell unless its controller pays {3}.\n• Return target creature to its owner's hand.\n• Draw a card."
+  },
+  {
+   "name": "Polluted Delta",
+   "types": [
+    "Land"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "color_identity": [],
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/mh3/224/polluted-delta?utm_source=api",
+   "oracle_text": "{T}, Pay 1 life, Sacrifice Polluted Delta: Search your library for an Island or Swamp card, put it onto the battlefield, then shuffle."
+  },
+  {
+   "name": "Memory Lapse",
+   "types": [
+    "Instant"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "U"
+   ],
+   "color_identity": [
+    "U"
+   ],
+   "mana_cost": "{1}{U}",
+   "url": "https://scryfall.com/card/ema/60/memory-lapse?utm_source=api",
+   "oracle_text": "Counter target spell. If that spell is countered this way, put it on top of its owner's library instead of into that player's graveyard."
+  },
+  {
+   "name": "Accursed Marauder",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Zombie",
+    "Warrior"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "B"
+   ],
+   "color_identity": [
+    "B"
+   ],
+   "mana_cost": "{1}{B}",
+   "url": "https://scryfall.com/card/mh3/80/accursed-marauder?utm_source=api",
+   "oracle_text": "When Accursed Marauder enters the battlefield, each player sacrifices a nontoken creature."
+  },
+  {
+   "name": "Dead Weight",
+   "types": [
+    "Enchantment"
+   ],
+   "sub_types": [
+    "Aura"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [
+    "B"
+   ],
+   "color_identity": [
+    "B"
+   ],
+   "mana_cost": "{B}",
+   "url": "https://scryfall.com/card/lci/99/dead-weight?utm_source=api",
+   "oracle_text": "Enchant creature\nEnchanted creature gets -2/-2."
+  },
+  {
+   "name": "Fatal Push",
+   "types": [
+    "Instant"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [
+    "B"
+   ],
+   "color_identity": [
+    "B"
+   ],
+   "mana_cost": "{B}",
+   "url": "https://scryfall.com/card/2xm/93/fatal-push?utm_source=api",
+   "oracle_text": "Destroy target creature if it has mana value 2 or less.\nRevolt — Destroy that creature if it has mana value 4 or less instead if a permanent you controlled left the battlefield this turn."
+  },
+  {
+   "name": "Urza's Saga",
+   "types": [
+    "Enchantment",
+    "Land"
+   ],
+   "sub_types": [
+    "Urza's",
+    "Saga"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "color_identity": [],
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/mh2/259/urzas-saga?utm_source=api",
+   "oracle_text": "(As this Saga enters and after your draw step, add a lore counter. Sacrifice after III.)\nI — Urza's Saga gains \"{T}: Add {C}.\"\nII — Urza's Saga gains \"{2}, {T}: Create a 0/0 colorless Construct artifact creature token with 'This creature gets +1/+1 for each artifact you control.'\"\nIII — Search your library for an artifact card with mana cost {0} or {1}, put it onto the battlefield, then shuffle."
+  },
+  {
+   "name": "Rishadan Port",
+   "types": [
+    "Land"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "color_identity": [],
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/a25/246/rishadan-port?utm_source=api",
+   "oracle_text": "{T}: Add {C}.\n{1}, {T}: Tap target land."
+  },
+  {
+   "name": "Condescend",
+   "types": [
+    "Instant"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [
+    "U"
+   ],
+   "color_identity": [
+    "U"
+   ],
+   "mana_cost": "{X}{U}",
+   "url": "https://scryfall.com/card/ima/46/condescend?utm_source=api",
+   "oracle_text": "Counter target spell unless its controller pays {X}. Scry 2. (Look at the top two cards of your library, then put any number of them on the bottom of your library and the rest on top in any order.)"
+  },
+  {
+   "name": "Ephara's Dispersal",
+   "types": [
+    "Instant"
+   ],
+   "cmc": 3,
+   "image": "",
+   "colors": [
+    "U"
+   ],
+   "color_identity": [
+    "U"
+   ],
+   "mana_cost": "{2}{U}",
+   "url": "https://scryfall.com/card/mkc/103/epharas-dispersal?utm_source=api",
+   "oracle_text": "This spell costs {2} less to cast if it targets an attacking creature.\nReturn target creature to its owner's hand. Surveil 2. (Look at the top two cards of your library, then put any number of them into your graveyard and the rest on top of your library in any order.)"
+  },
+  {
+   "name": "Dress Down",
+   "types": [
+    "Enchantment"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "U"
+   ],
+   "color_identity": [
+    "U"
+   ],
+   "mana_cost": "{1}{U}",
+   "url": "https://scryfall.com/card/mh2/39/dress-down?utm_source=api",
+   "oracle_text": "Flash\nWhen Dress Down enters the battlefield, draw a card.\nCreatures lose all abilities.\nAt the beginning of the end step, sacrifice Dress Down."
+  },
+  {
+   "name": "Mana Leak",
+   "types": [
+    "Instant"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "U"
+   ],
+   "color_identity": [
+    "U"
+   ],
+   "mana_cost": "{1}{U}",
+   "url": "https://scryfall.com/card/2x2/58/mana-leak?utm_source=api",
+   "oracle_text": "Counter target spell unless its controller pays {3}."
+  },
+  {
+   "name": "Toxic Deluge",
+   "types": [
+    "Sorcery"
+   ],
+   "cmc": 3,
+   "image": "",
+   "colors": [
+    "B"
+   ],
+   "color_identity": [
+    "B"
+   ],
+   "mana_cost": "{2}{B}",
+   "url": "https://scryfall.com/card/mh3/277/toxic-deluge?utm_source=api",
+   "oracle_text": "As an additional cost to cast this spell, pay X life.\nAll creatures get -X/-X until end of turn."
+  },
+  {
+   "name": "Bloodsky Berserker",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Human",
+    "Berserker"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "B"
+   ],
+   "color_identity": [
+    "B"
+   ],
+   "mana_cost": "{1}{B}",
+   "url": "https://scryfall.com/card/khm/80/bloodsky-berserker?utm_source=api",
+   "oracle_text": "Whenever you cast your second spell each turn, put two +1/+1 counters on Bloodsky Berserker. It gains menace until end of turn. (It can't be blocked except by two or more creatures.)"
+  },
+  {
+   "name": "Preordain",
+   "types": [
+    "Sorcery"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [
+    "U"
+   ],
+   "color_identity": [
+    "U"
+   ],
+   "mana_cost": "{U}",
+   "url": "https://scryfall.com/card/otc/107/preordain?utm_source=api",
+   "oracle_text": "Scry 2, then draw a card. (To scry 2, look at the top two cards of your library, then put any number of them on the bottom and the rest on top in any order.)"
+  },
+  {
+   "name": "Shark Typhoon",
+   "types": [
+    "Enchantment"
+   ],
+   "cmc": 6,
+   "image": "",
+   "colors": [
+    "U"
+   ],
+   "color_identity": [
+    "U"
+   ],
+   "mana_cost": "{5}{U}",
+   "url": "https://scryfall.com/card/otc/113/shark-typhoon?utm_source=api",
+   "oracle_text": "Whenever you cast a noncreature spell, create an X/X blue Shark creature token with flying, where X is that spell's mana value.\nCycling {X}{1}{U} ({X}{1}{U}, Discard this card: Draw a card.)\nWhen you cycle Shark Typhoon, create an X/X blue Shark creature token with flying."
+  },
+  {
+   "name": "Agonizing Remorse",
+   "types": [
+    "Sorcery"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "B"
+   ],
+   "color_identity": [
+    "B"
+   ],
+   "mana_cost": "{1}{B}",
+   "url": "https://scryfall.com/card/thb/83/agonizing-remorse?utm_source=api",
+   "oracle_text": "Target opponent reveals their hand. You choose a nonland card from it or a card from their graveyard. Exile that card. You lose 1 life."
+  },
+  {
+   "name": "Candy Trail",
+   "types": [
+    "Artifact"
+   ],
+   "sub_types": [
+    "Food",
+    "Clue"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [],
+   "color_identity": [],
+   "mana_cost": "{1}",
+   "url": "https://scryfall.com/card/woe/243/candy-trail?utm_source=api",
+   "oracle_text": "When Candy Trail enters the battlefield, scry 2.\n{2}, {T}, Sacrifice Candy Trail: You gain 3 life and draw a card."
+  },
+  {
+   "name": "Otawara, Soaring City",
+   "types": [
+    "Legendary",
+    "Land"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "color_identity": [
+    "U"
+   ],
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/neo/271/otawara-soaring-city?utm_source=api",
+   "oracle_text": "{T}: Add {U}.\nChannel — {3}{U}, Discard Otawara, Soaring City: Return target artifact, creature, enchantment, or planeswalker to its owner's hand. This ability costs {1} less to activate for each legendary creature you control."
+  },
+  {
+   "name": "Blackmail",
+   "types": [
+    "Sorcery"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [
+    "B"
+   ],
+   "color_identity": [
+    "B"
+   ],
+   "mana_cost": "{B}",
+   "url": "https://scryfall.com/card/9ed/115/blackmail?utm_source=api",
+   "oracle_text": "Target player reveals three cards from their hand and you choose one of them. That player discards that card."
+  },
+  {
+   "name": "Island",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Island"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "color_identity": [
+    "U"
+   ],
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/mh3/312/island?utm_source=api",
+   "oracle_text": "({T}: Add {U}.)"
+  },
+  {
+   "name": "Island",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Island"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "color_identity": [
+    "U"
+   ],
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/mh3/312/island?utm_source=api",
+   "oracle_text": "({T}: Add {U}.)"
+  },
+  {
+   "name": "Island",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Island"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "color_identity": [
+    "U"
+   ],
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/mh3/312/island?utm_source=api",
+   "oracle_text": "({T}: Add {U}.)"
+  },
+  {
+   "name": "Island",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Island"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "color_identity": [
+    "U"
+   ],
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/mh3/312/island?utm_source=api",
+   "oracle_text": "({T}: Add {U}.)"
+  },
+  {
+   "name": "Island",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Island"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "color_identity": [
+    "U"
+   ],
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/mh3/312/island?utm_source=api",
+   "oracle_text": "({T}: Add {U}.)"
+  },
+  {
+   "name": "Island",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Island"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "color_identity": [
+    "U"
+   ],
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/mh3/312/island?utm_source=api",
+   "oracle_text": "({T}: Add {U}.)"
+  },
+  {
+   "name": "Swamp",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Swamp"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "color_identity": [
+    "B"
+   ],
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/mh3/314/swamp?utm_source=api",
+   "oracle_text": "({T}: Add {B}.)"
+  },
+  {
+   "name": "Swamp",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Swamp"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "color_identity": [
+    "B"
+   ],
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/mh3/314/swamp?utm_source=api",
+   "oracle_text": "({T}: Add {B}.)"
+  },
+  {
+   "name": "Swamp",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Swamp"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "color_identity": [
+    "B"
+   ],
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/mh3/314/swamp?utm_source=api",
+   "oracle_text": "({T}: Add {B}.)"
+  },
+  {
+   "name": "Swamp",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Swamp"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "color_identity": [
+    "B"
+   ],
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/mh3/314/swamp?utm_source=api",
+   "oracle_text": "({T}: Add {B}.)"
+  },
+  {
+   "name": "Swamp",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Swamp"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "color_identity": [
+    "B"
+   ],
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/mh3/314/swamp?utm_source=api",
+   "oracle_text": "({T}: Add {B}.)"
+  }
+ ],
+ "sideboard": [
+  {
+   "name": "Song of the Dryads",
+   "types": [
+    "Enchantment"
+   ],
+   "sub_types": [
+    "Aura"
+   ],
+   "cmc": 3,
+   "image": "",
+   "colors": [
+    "G"
+   ],
+   "color_identity": [
+    "G"
+   ],
+   "mana_cost": "{2}{G}",
+   "url": "https://scryfall.com/card/cmm/324/song-of-the-dryads?utm_source=api",
+   "oracle_text": "Enchant permanent\nEnchanted permanent is a colorless Forest land."
+  },
+  {
+   "name": "Six",
+   "types": [
+    "Legendary",
+    "Creature"
+   ],
+   "sub_types": [
+    "Treefolk"
+   ],
+   "cmc": 3,
+   "image": "",
+   "colors": [
+    "G"
+   ],
+   "color_identity": [
+    "G"
+   ],
+   "mana_cost": "{2}{G}",
+   "url": "https://scryfall.com/card/mh3/169/six?utm_source=api",
+   "oracle_text": "Reach\nWhenever Six attacks, mill three cards. You may put a land card from among them into your hand.\nAs long as it's your turn, nonland permanent cards in your graveyard have retrace. (You may cast permanent cards from your graveyard by discarding a land card in addition to paying their other costs.)"
+  },
+  {
+   "name": "Overgrown Tomb",
+   "types": [
+    "Land"
+   ],
+   "sub_types": [
+    "Swamp",
+    "Forest"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "color_identity": [
+    "B",
+    "G"
+   ],
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/rvr/283/overgrown-tomb?utm_source=api",
+   "oracle_text": "({T}: Add {B} or {G}.)\nAs Overgrown Tomb enters the battlefield, you may pay 2 life. If you don't, it enters the battlefield tapped."
+  },
+  {
+   "name": "Hedge Maze",
+   "types": [
+    "Land"
+   ],
+   "sub_types": [
+    "Forest",
+    "Island"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "color_identity": [
+    "G",
+    "U"
+   ],
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/mkm/262/hedge-maze?utm_source=api",
+   "oracle_text": "({T}: Add {G} or {U}.)\nHedge Maze enters the battlefield tapped.\nWhen Hedge Maze enters the battlefield, surveil 1. (Look at the top card of your library. You may put it into your graveyard.)"
+  },
+  {
+   "name": "Mosswood Dreadknight // Dread Whispers",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Human",
+    "Knight",
+    "//",
+    "Sorcery"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "G"
+   ],
+   "color_identity": [
+    "B",
+    "G"
+   ],
+   "mana_cost": "{1}{G} // {1}{B}",
+   "url": "https://scryfall.com/card/woe/231/mosswood-dreadknight-dread-whispers?utm_source=api",
+   "oracle_text": ""
+  },
+  {
+   "name": "Parallel Lives",
+   "types": [
+    "Enchantment"
+   ],
+   "cmc": 4,
+   "image": "",
+   "colors": [
+    "G"
+   ],
+   "color_identity": [
+    "G"
+   ],
+   "mana_cost": "{3}{G}",
+   "url": "https://scryfall.com/card/isd/199/parallel-lives?utm_source=api",
+   "oracle_text": "If an effect would create one or more tokens under your control, it creates twice that many of those tokens instead."
+  },
+  {
+   "name": "Edge of Autumn",
+   "types": [
+    "Sorcery"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "G"
+   ],
+   "color_identity": [
+    "G"
+   ],
+   "mana_cost": "{1}{G}",
+   "url": "https://scryfall.com/card/tsr/201/edge-of-autumn?utm_source=api",
+   "oracle_text": "If you control four or fewer lands, search your library for a basic land card, put it onto the battlefield tapped, then shuffle.\nCycling—Sacrifice a land. (Sacrifice a land, Discard this card: Draw a card.)"
+  },
+  {
+   "name": "Perilous Myr",
+   "types": [
+    "Artifact",
+    "Creature"
+   ],
+   "sub_types": [
+    "Phyrexian",
+    "Myr"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [],
+   "color_identity": [],
+   "mana_cost": "{2}",
+   "url": "https://scryfall.com/card/cmr/330/perilous-myr?utm_source=api",
+   "oracle_text": "When Perilous Myr dies, it deals 2 damage to any target."
+  },
+  {
+   "name": "Tarfire",
+   "types": [
+    "Kindred",
+    "Instant"
+   ],
+   "sub_types": [
+    "Goblin"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [
+    "R"
+   ],
+   "color_identity": [
+    "R"
+   ],
+   "mana_cost": "{R}",
+   "url": "https://scryfall.com/card/ddt/55/tarfire?utm_source=api",
+   "oracle_text": "Tarfire deals 2 damage to any target."
+  },
+  {
+   "name": "Thalia, Guardian of Thraben",
+   "types": [
+    "Legendary",
+    "Creature"
+   ],
+   "sub_types": [
+    "Human",
+    "Soldier"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "W"
+   ],
+   "color_identity": [
+    "W"
+   ],
+   "mana_cost": "{1}{W}",
+   "url": "https://scryfall.com/card/vow/38/thalia-guardian-of-thraben?utm_source=api",
+   "oracle_text": "First strike\nNoncreature spells cost {1} more to cast."
+  },
+  {
+   "name": "Pollenbright Druid",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Elf",
+    "Druid"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "G"
+   ],
+   "color_identity": [
+    "G"
+   ],
+   "mana_cost": "{1}{G}",
+   "url": "https://scryfall.com/card/cmm/312/pollenbright-druid?utm_source=api",
+   "oracle_text": "When Pollenbright Druid enters the battlefield, choose one —\n• Put a +1/+1 counter on target creature.\n• Proliferate. (Choose any number of permanents and/or players, then give each another counter of each kind already there.)"
+  },
+  {
+   "name": "Lord Skitter, Sewer King",
+   "types": [
+    "Legendary",
+    "Creature"
+   ],
+   "sub_types": [
+    "Rat",
+    "Noble"
+   ],
+   "cmc": 3,
+   "image": "",
+   "colors": [
+    "B"
+   ],
+   "color_identity": [
+    "B"
+   ],
+   "mana_cost": "{2}{B}",
+   "url": "https://scryfall.com/card/woe/97/lord-skitter-sewer-king?utm_source=api",
+   "oracle_text": "Whenever another Rat enters the battlefield under your control, exile up to one target card from an opponent's graveyard.\nAt the beginning of combat on your turn, create a 1/1 black Rat creature token with \"This creature can't block.\""
+  },
+  {
+   "name": "Censor",
+   "types": [
+    "Instant"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "U"
+   ],
+   "color_identity": [
+    "U"
+   ],
+   "mana_cost": "{1}{U}",
+   "url": "https://scryfall.com/card/akh/46/censor?utm_source=api",
+   "oracle_text": "Counter target spell unless its controller pays {1}.\nCycling {U} ({U}, Discard this card: Draw a card.)"
+  },
+  {
+   "name": "Deprive",
+   "types": [
+    "Instant"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "U"
+   ],
+   "color_identity": [
+    "U"
+   ],
+   "mana_cost": "{U}{U}",
+   "url": "https://scryfall.com/card/roe/59/deprive?utm_source=api",
+   "oracle_text": "As an additional cost to cast this spell, return a land you control to its owner's hand.\nCounter target spell."
+  },
+  {
+   "name": "Flooded Strand",
+   "types": [
+    "Land"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "color_identity": [],
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/mh3/220/flooded-strand?utm_source=api",
+   "oracle_text": "{T}, Pay 1 life, Sacrifice Flooded Strand: Search your library for a Plains or Island card, put it onto the battlefield, then shuffle."
+  },
+  {
+   "name": "Bloodstained Mire",
+   "types": [
+    "Land"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "color_identity": [],
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/mh3/216/bloodstained-mire?utm_source=api",
+   "oracle_text": "{T}, Pay 1 life, Sacrifice Bloodstained Mire: Search your library for a Swamp or Mountain card, put it onto the battlefield, then shuffle."
+  }
+ ]
+}

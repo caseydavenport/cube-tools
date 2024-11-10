@@ -428,6 +428,36 @@
      "path": "drafts/2024-06-28/dom.json"
     }
    ]
+  },
+  {
+   "date": "2024-11-09",
+   "draft_log": "",
+   "decks": [
+    {
+     "path": "drafts/2024-11-09/cara.json"
+    },
+    {
+     "path": "drafts/2024-11-09/casey.json"
+    },
+    {
+     "path": "drafts/2024-11-09/dom.json"
+    },
+    {
+     "path": "drafts/2024-11-09/greg.json"
+    },
+    {
+     "path": "drafts/2024-11-09/jen.json"
+    },
+    {
+     "path": "drafts/2024-11-09/mattd.json"
+    },
+    {
+     "path": "drafts/2024-11-09/paul.json"
+    },
+    {
+     "path": "drafts/2024-11-09/xander.json"
+    }
+   ]
   }
  ]
 }

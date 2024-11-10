@@ -42,12 +42,19 @@ type work struct {
 
 func nameFromDeckFilename(filename string) string {
 	nicknames := map[string]string{
-		"jumms":        "james",
-		"maserstorm":   "dom",
-		"phinsup":      "cara",
+		"jumms":      "james",
+		"maserstorm": "dom",
+		"phinsup":    "cara",
+
+		"pawl noerros": "paul",
 		"pawl nawwwis": "paul",
-		"jenjen":       "jen",
-		"grrg":         "greg",
+
+		"grrg": "greg",
+
+		"jenjen": "jen",
+		"jenno":  "jen",
+
+		"pyrolol": "mattd",
 	}
 	trimmed := strings.ToLower(strings.TrimPrefix(strings.Split(filename, ".")[0], prefix))
 	if name, ok := nicknames[trimmed]; ok {
