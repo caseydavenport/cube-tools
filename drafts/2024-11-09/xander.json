@@ -1,9 +1,39 @@
 {
- "labels": [],
+ "labels": ["control", "discard"],
  "player": "xander",
  "date": "2024-11-09",
- "games": null,
- "matches": null,
+ "games": [
+  {
+   "opponent": "cara",
+   "winner": "xander"
+  },
+  {
+   "opponent": "cara",
+   "winner": "xander"
+  },
+  {
+   "opponent": "jen",
+   "winner": "xander"
+  },
+  {
+   "opponent": "jen",
+   "winner": "xander"
+  },
+  {
+   "opponent": "jen",
+   "winner": "jen"
+  }
+ ],
+ "matches": [
+  {
+   "opponent": "cara",
+   "winner": "xander"
+  },
+  {
+   "opponent": "jen",
+   "winner": "xander"
+  }
+ ],
  "mainboard": [
   {
    "name": "Psychic Frog",

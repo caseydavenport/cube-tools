@@ -1,5 +1,9 @@
 {
- "labels": ["aggro", "control", "spells"],
+ "labels": [
+  "aggro",
+  "control",
+  "spells"
+ ],
  "player": "jen",
  "date": "2024-11-09",
  "games": [
@@ -10,12 +14,28 @@
   {
    "opponent": "cara",
    "winner": "cara"
+  },
+  {
+   "opponent": "xander",
+   "winner": "jen"
+  },
+  {
+   "opponent": "xander",
+   "winner": "xander"
+  },
+  {
+   "opponent": "xander",
+   "winner": "xander"
   }
  ],
  "matches": [
   {
    "opponent": "cara",
    "winner": "cara"
+  },
+  {
+   "opponent": "xander",
+   "winner": "xander"
   }
  ],
  "mainboard": [
