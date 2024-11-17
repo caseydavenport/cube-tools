@@ -265,7 +265,15 @@ export function DeckWidget(input) {
               matches={RemovalMatches}
             />
           </td>
+        </tr>
 
+        <tr style={{"height": "300px"}}>
+          <td style={{"verticalAlign": "top", "width": "50%"}}>
+            <NumColorsOverTimeChart
+              decks={input.decks}
+              parsed={input.parsed}
+            />
+          </td>
         </tr>
 
       </tbody>
@@ -1187,6 +1195,81 @@ function SideboardSizeOverTimeChart(input) {
       title: {
         display: true,
         text: `Sideboard size (bucket size = ${input.parsed.bucketSize} drafts)`,
+        color: "#FFF",
+        font: {
+          size: "16pt",
+        },
+      },
+      legend: {
+        labels: {
+          color: "#FFF",
+          font: {
+            size: "16pt",
+          },
+        },
+      },
+    },
+  };
+
+  const data = {labels, datasets: dataset};
+  return (
+    <div style={{"height":"500px", "width":"100%"}}>
+      <Line height={"300px"} width={"300px"} options={options} data={data} />
+    </div>
+  );
+}
+
+function NumColorsOverTimeChart(input) {
+  let buckets = input.parsed.deckBuckets
+
+  // Use the starting date of the bucket as the label. This is just an approximation,
+  // as the bucket really includes a variable set of dates, but it allows the viewer to
+  // at least place some sense of time to the chart.
+  const labels = []
+  for (let bucket of buckets) {
+    labels.push(BucketName(bucket))
+  }
+
+  let sizes = []
+  for (let bucket of buckets) {
+    // Aggregate all decks from within this bucket.
+    let decks = new Array()
+    for (let draft of bucket) {
+      decks.push(...draft.decks)
+    }
+
+    let numDecks = 0
+
+    // Calculate the average value for this bucket.
+    let total = 0
+    for (let deck of decks) {
+      if (deck.colors.length == 0) {
+        continue
+      }
+
+      total += deck.colors.length
+      numDecks += 1
+    }
+    sizes.push(total / numDecks)
+  }
+
+  let dataset = [
+      {
+        label: 'Avg. # colors',
+        data: sizes,
+        borderColor: inDeckColor,
+        backgroundColor: inDeckColor,
+      },
+  ]
+
+  const options = {
+    responsive: true,
+    maintainAspectRatio: false,
+    scales: {y: {min: 1, max: 5}},
+    plugins: {
+      title: {
+        display: true,
+        text: `# Colors per-deck (bucket size = ${input.parsed.bucketSize} drafts)`,
         color: "#FFF",
         font: {
           size: "16pt",
