@@ -4,7 +4,7 @@ import { DropdownHeader, NumericInput, Checkbox, DateSelector } from "../compone
 import { Wins, Losses } from "../utils/Deck.js"
 import { ApplyTooltip } from "../utils/Tooltip.js"
 import { CardData } from "../utils/Cards.js"
-import { BucketName } from "../utils/Buckets.js"
+import { BucketName, BucketWins } from "../utils/Buckets.js"
 
 import {
   Chart as ChartJS,
@@ -49,8 +49,8 @@ export function CardWidget(input) {
           </td>
           <td style={{"width": "40%", "position": "fixed", "verticalAlign": "top"}}>
             <PlayRateChart {...input} />
-            <ELOChart {...input} />
             <WinrateChart {...input} />
+            <ELOChart {...input} />
           </td>
         </tr>
       </tbody>
@@ -643,13 +643,20 @@ function WinrateChart(input) {
   let name = input.selectedCard
 
   var wins = []
+  var pows = []
   for (let bucket of buckets) {
     let card = bucket.cardData.get(name)
     if (card != null && card.mainboard_percent > 0) {
       wins.push(card.win_percent)
+
+      // Determine % of wins that involved this card from within this bucket.
+      // This is the total number of wins with this card, divided by the total number of
+      // wins in the bucket.
+      pows.push(100 * card.wins / BucketWins(bucket))
     } else {
-      // Player was not in this bucket.
+      // Card was not in this bucket.
       wins.push(null)
+      pows.push(null)
     }
   }
 
@@ -659,6 +666,12 @@ function WinrateChart(input) {
         data: wins,
         borderColor: "#0F0",
         backgroundColor: "#0F0",
+      },
+      {
+        label: '% of all Wins',
+        data: pows,
+        borderColor: "#FF0",
+        backgroundColor: "#FF0",
       },
   ]
 

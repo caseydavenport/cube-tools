@@ -1,4 +1,5 @@
 import React from 'react'
+import { Wins, Losses } from "./Deck.js"
 
 // Split the given drafts into rolling buckets of the given size.
 export function DeckBuckets(decks, bucketSize, discrete) {
@@ -82,4 +83,15 @@ export function BucketName(bucket) {
     return bucket[0].name
   }
   return bucket[0].name + " - " + bucket[bucket.length-1].name
+}
+
+// Wins returns the total number of game wins that occur within the bucket.
+export function BucketWins(bucket) {
+  let wins = 0
+  for (let draft of bucket) {
+    for (let deck of draft.decks) {
+      wins += Wins(deck)
+    }
+  }
+  return wins
 }
