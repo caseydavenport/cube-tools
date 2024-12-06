@@ -30,6 +30,9 @@ ChartJS.register(
   Legend
 );
 
+// The mark an archetype must hit to be included in this page.
+const watermark = 5
+
 export function ArchetypeWidget(input) {
   if (!input.show) {
     return null
@@ -176,7 +179,7 @@ function ArchetypeStatsTable(input) {
   let archetypes = input.parsed.archetypeData
   let data = []
   for (let arch of archetypes.values()) {
-    if (arch.build_percent > 5) {
+    if (arch.build_percent >= watermark) {
       data.push(arch)
     }
   }
@@ -192,7 +195,6 @@ function ArchetypeStatsTable(input) {
             <td onClick={input.onHeaderClick} id="win_percent" className="header-cell">Win %</td>
             <td onClick={input.onHeaderClick} id="pwin" className="header-cell">% of wins</td>
             <td onClick={input.onHeaderClick} id="num" className="header-cell"># Decks</td>
-            <td onClick={input.onHeaderClick} id="record" className="header-cell">Record</td>
             <td onClick={input.onHeaderClick} id="shared" className="header-cell">Avg other types</td>
           </tr>
         </thead>
@@ -224,7 +226,6 @@ function ArchetypeStatsTable(input) {
                   <td key="win_percent">{t.win_percent}%</td>
                   <td key="pwin">{t.percent_of_wins}%</td>
                   <td key="num">{t.count}</td>
-                  <td key="record">{t.record}</td>
                   <td key="shared">{t.avg_shared}</td>
                 </tr>
               )
@@ -526,15 +527,29 @@ function MicroArchetypesChart(input) {
       }
     }
   }
+
+  // Delete macro archetypes, as these plots are specifically about micro archetypes.
   archSet.delete("aggro")
   archSet.delete("midrange")
   archSet.delete("control")
-  let archs = [...archSet.keys()]
 
+  // We want to fitler out any archtetypes that don't meet a minimum
+  // criteria, in order to de-clutter the plots. Use aggregate data across all buckets
+  // to determine the play rate, and delete any archetypes that don't meet the criteria
+  // before doing per-bucket analysis below.
+  input.parsed.archetypeData.forEach((data, arch) => {
+    if (data.build_percent <= watermark) {
+      archSet.delete(arch)
+    }
+  })
+
+  // Initialize datasets for each filtered-in archetype.
+  let archs = [...archSet.keys()]
   let datasets = new Map()
   for (let arch of archs) {
     datasets.set(arch, [])
   }
+
   for (let bucket of input.parsed.deckBuckets) {
     let stats = bucket.archetypeData
     for (let archetype of archs) {

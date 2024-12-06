@@ -82,7 +82,7 @@ function CardWidgetTable(input) {
 
   if (input.dropdownSelection === "Mainboard rate") {
     return (
-      <div className="widget-scroll" style={{"maxHeight": "1200px"}}>
+      <div>
         <CardWidgetOptions {...input} />
         <table className="widget-table">
           <thead className="table-header">
@@ -154,21 +154,24 @@ function CardWidgetTable(input) {
       </div>
     );
   } else {
+    // Calculate total number of "Wins" across all decks. We'll use this to
+    // calculate the percentage of all wins that have included each card.
+    let totalWins = 0
+    for (let deck of input.parsed.filteredDecks) {
+      totalWins += Wins(deck)
+    }
     return (
-      <div className="widget-scroll" style={{"max-height": "1200px"}}>
+      <div className="widget-scroll" style={{"maxHeight": "1200px"}}>
         <CardWidgetOptions {...input} />
         <table className="widget-table">
           <thead className="table-header">
             <tr>
-              <td onClick={input.onHeaderClick} id="wins" className="header-cell">Win rate</td>
+              <td onClick={input.onHeaderClick} id="wins" className="header-cell">Win %</td>
+              <td onClick={input.onHeaderClick} id="pow" className="header-cell">% of Wins</td>
               <td onClick={input.onHeaderClick} id="card" className="header-cell">Card</td>
-              <td onClick={input.onHeaderClick} id="decks" className="header-cell"># Decks</td>
-              <td onClick={input.onHeaderClick} id="games" className="header-cell"># Games</td>
               <td onClick={input.onHeaderClick} id="relativePerfArch" className="header-cell">Perf (arch)</td>
               <td onClick={input.onHeaderClick} id="relativePerfPlayer" className="header-cell">Perf (player)</td>
               <td onClick={input.onHeaderClick} id="playerPerf" className="header-cell">Player perf.</td>
-              <td onClick={input.onHeaderClick} id="elo" className="header-cell">ELO</td>
-              <td onClick={input.onHeaderClick} id="lastPlayed" className="header-cell">Last played</td>
             </tr>
           </thead>
           <tbody>
@@ -236,6 +239,9 @@ function CardWidgetTable(input) {
                   expectedRate = Math.round(expectedRate * 100)
                 }
 
+                // Determine % of all wins including this card.
+                let pow = 100 * Math.round(100 * card.wins / totalWins) / 100
+
                 // Determine sort value. Default to win percentage.
                 let sort = card.win_percent
                 switch (input.sortBy) {
@@ -248,32 +254,23 @@ function CardWidgetTable(input) {
                   case "playerPerf":
                     sort = expectedRate
                     break;
-                  case "elo":
-                    sort = card.elo
+                  case "pow":
+                    sort = pow
                     break;
-                  case "games":
-                    sort = card.total_games
-                    break
-                  case "decks":
-                    sort = card.mainboarded
-                    break
-                  case "lastPlayed":
-                    sort = card.lastMainboarded
-                    break
+                  case "wins":
+                    sort = card.win_percent
+                    break;
                 }
 
                 // Return the row.
                 return (
                   <tr sort={sort} className="card" key={card.name}>
-                    <td id={card.name} onClick={input.onCardSelected} key="name">{card.win_percent}%</td>
+                    <td id={card.name} onClick={input.onCardSelected} key="win_percent">{card.win_percent}%</td>
+                    <td id={card.name} onClick={input.onCardSelected} key="pow">{pow}%</td>
                     <td id={card.name} onClick={input.onCardSelected} className="card"><a href={card.url} target="_blank" rel="noopener noreferrer">{card.name}</a></td>
-                    <td>{card.mainboard}</td>
-                    <td><ApplyTooltip text={card.total_games} hidden={CardMainboardTooltipContent(card)}/></td>
                     <td>{relativePerfArch}</td>
                     <td>{relativePerfPlayer}</td>
                     <td>{expectedRate}%</td>
-                    <td>{card.elo}</td>
-                    <td>{card.lastMainboarded}</td>
                   </tr>
                 )
               }).sort(SortFunc)
