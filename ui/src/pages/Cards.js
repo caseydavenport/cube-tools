@@ -378,7 +378,7 @@ function UndraftedWidget(input) {
     num += 1
   })
   return (
-    <div>
+    <div className="scroll-container-large">
     <table className="widget-table">
       <thead className="table-header">
         <tr>
