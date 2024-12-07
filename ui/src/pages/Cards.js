@@ -82,7 +82,7 @@ function CardWidgetTable(input) {
 
   if (input.dropdownSelection === "Mainboard rate") {
     return (
-      <div>
+      <div className="scroll-container-large">
         <CardWidgetOptions {...input} />
         <table className="widget-table">
           <thead className="table-header">
