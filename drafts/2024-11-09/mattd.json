@@ -1,8 +1,19 @@
 {
- "labels": ["midrange", "lands"],
+ "labels": [
+  "midrange",
+  "lands"
+ ],
  "player": "mattd",
  "date": "2024-11-09",
  "games": [
+  {
+   "opponent": "dom",
+   "winner": "mattd"
+  },
+  {
+   "opponent": "dom",
+   "winner": "mattd"
+  },
   {
    "opponent": "greg",
    "winner": "greg"
@@ -13,6 +24,10 @@
   }
  ],
  "matches": [
+  {
+   "opponent": "dom",
+   "winner": "mattd"
+  },
   {
    "opponent": "greg",
    "winner": "greg"
