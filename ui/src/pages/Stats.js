@@ -4,16 +4,27 @@ import { useEffect } from "react";
 import { LoadCube, LoadDecks, LoadDrafts} from "../utils/Fetch.js"
 import { IsBasicLand, SortFunc } from "../utils/Utils.js"
 import { Button, TextInput, NumericInput, Checkbox, DateSelector } from "../components/Dropdown.js"
-import { CardData } from "../utils/Cards.js"
 import { ColorWidget} from "./Colors.js"
 import { ArchetypeWidget, ArchetypeData } from "./Types.js"
 import { DeckWidget } from "./Decks.js"
 import { PlayerWidget } from "./Players.js"
 import { CardWidget } from "./Cards.js"
+import { CardData } from "../utils/Cards.js"
 import { DeckBuckets } from "../utils/Buckets.js"
 import { GetColorStats } from "./Colors.js"
 import { PlayerData } from "./Players.js"
 import { DraftWidget } from "./Drafts.js"
+
+import {
+  NumDecksOption,
+  MainboardPercentOption,
+  WinPercentOption,
+  ELOOption,
+  NumGamesOption,
+  ManaValueOption,
+  NumPlayersOption,
+} from "./Cards.js"
+
 
 // StatsViewer displays stats spanning the selected drafts.
 export default function StatsViewer() {
@@ -105,6 +116,17 @@ export default function StatsViewer() {
     { label: "Mainboard rate", value: "Mainboard rate" },
     { label: "Win rate", value: "Win rate" },
   ]
+  const cardScatterAxes = [
+    {label: NumDecksOption, value: NumDecksOption},
+    {label: MainboardPercentOption, value: MainboardPercentOption},
+    {label: WinPercentOption, value: WinPercentOption},
+    {label: ELOOption, value: ELOOption},
+    {label: NumGamesOption, value: NumGamesOption},
+    {label: ManaValueOption, value: ManaValueOption},
+    {label: NumPlayersOption, value: NumPlayersOption},
+  ]
+  const [xAxis, setxAxis] = useState(NumDecksOption)
+  const [yAxis, setYAxis] = useState(ELOOption)
   const [cardWidgetColorSelection, setCardWidgetColorSelection] = useState("");
   const cardWidgetColorOpts = [
     { label: "", value: "" },
@@ -138,6 +160,12 @@ export default function StatsViewer() {
   }
   function onCardSelected(event) {
     setSelectedCard(event.target.id)
+  }
+  function onXAxisSelected(event) {
+    setxAxis(event.target.value)
+  }
+  function onYAxisSelected(event) {
+    setYAxis(event.target.value)
   }
 
   ///////////////////////////////////////////////////////////////////////////////
@@ -612,6 +640,11 @@ export default function StatsViewer() {
           sortBy={cardWidgetSortBy}
           bucketSize={bucketSize}
           cube={cube}
+          cardScatterAxes={cardScatterAxes}
+          xAxis={xAxis}
+          yAxis={yAxis}
+          onXAxisSelected={onXAxisSelected}
+          onYAxisSelected={onYAxisSelected}
           show={display[2]}
         />
 

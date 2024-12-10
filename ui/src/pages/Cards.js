@@ -16,7 +16,7 @@ import {
   Tooltip,
   Legend,
 } from 'chart.js';
-import { Line, Bar } from 'react-chartjs-2';
+import { Line, Bar, Scatter } from 'react-chartjs-2';
 
 // Register chart JS objects that we need to use.
 ChartJS.register(
@@ -31,6 +31,14 @@ ChartJS.register(
 
 const chartHeight = "425px"
 const chartWidth = "300px"
+
+export const NumDecksOption = "# Decks"
+export const MainboardPercentOption = "Mainboard %"
+export const WinPercentOption = "Win %"
+export const ELOOption = "Pick ELO"
+export const NumGamesOption = "# Games"
+export const ManaValueOption = "Mana Value"
+export const NumPlayersOption = "# Players"
 
 export function CardWidget(input) {
   if (!input.show) {
@@ -53,6 +61,13 @@ export function CardWidget(input) {
             <ELOChart {...input} />
           </td>
         </tr>
+
+        <tr style={{"height": "800px"}}>
+          <td>
+            <CardGraph {...input} />
+          </td>
+        </tr>
+
       </tbody>
     </table>
   );
@@ -87,12 +102,12 @@ function CardWidgetTable(input) {
         <table className="widget-table">
           <thead className="table-header">
             <tr>
-              <td onClick={input.onHeaderClick} id="mainboarded" className="header-cell">Mainboard %</td>
               <td className="header-cell">Card</td>
-              <td onClick={input.onHeaderClick} id="mb" className="header-cell"># mb</td>
-              <td onClick={input.onHeaderClick} id="sb" className="header-cell"># sb</td>
-              <td onClick={input.onHeaderClick} id="in-color-sb" className="header-cell"># playable sb</td>
-              <td onClick={input.onHeaderClick} id="appearances" className="header-cell"># replay</td>
+              <td onClick={input.onHeaderClick} id="mainboarded" className="header-cell">Deck%</td>
+              <td onClick={input.onHeaderClick} id="wins" className="header-cell">Win%</td>
+              <td onClick={input.onHeaderClick} id="mb" className="header-cell"># M</td>
+              <td onClick={input.onHeaderClick} id="sb" className="header-cell"># S</td>
+              <td onClick={input.onHeaderClick} id="in-color-sb" className="header-cell"># S (playable)</td>
               <td onClick={input.onHeaderClick} id="games" className="header-cell"># Games</td>
               <td onClick={input.onHeaderClick} id="elo" className="header-cell">ELO</td>
               <td onClick={input.onHeaderClick} id="lastPlayed" className="header-cell">Last played</td>
@@ -132,19 +147,22 @@ function CardWidgetTable(input) {
                 case "appearances":
                   sort = card.appearances
                   break
+                case "wins":
+                  sort = card.win_percent
+                  break
               }
 
               return (
                 <tr sort={sort} className="card" key={card.name}>
-                  <td id={card.name} onClick={input.onCardSelected} key="name">{card.mainboard_percent}%</td>
                   <td id={card.name} onClick={input.onCardSelected} className="card"><a href={card.url} target="_blank" rel="noopener noreferrer">{card.name}</a></td>
+                  <td id={card.name} onClick={input.onCardSelected} key="name">{card.mainboard_percent}%</td>
+                  <td id={card.name} onClick={input.onCardSelected} key="win_percent">{card.win_percent}%</td>
                   <td><ApplyTooltip text={card.mainboard} hidden={CardMainboardTooltipContent(card)}/></td>
                   <td>{card.sideboard}</td>
                   <td>{card.playableSideboard}</td>
-                  <td>{card.appearances}</td>
                   <td>{card.total_games}</td>
                   <td>{card.elo}</td>
-                    <td>{card.lastMainboarded}</td>
+                  <td>{card.lastMainboarded}</td>
                 </tr>
               )
             }).sort(SortFunc)
@@ -705,4 +723,114 @@ function WinrateChart(input) {
       <Line height={chartHeight} width={chartWidth} options={options} data={data} />
     </div>
   );
+}
+
+function CardGraph(input) {
+
+  // Determine what to show on each axis.
+  let xAxis = input.xAxis
+  let yAxis = input.yAxis
+
+  // Split the given decks into fixed-size buckets.
+  // Each bucket will contain N drafts worth of deck information.
+  let buckets = input.parsed.deckBuckets
+
+  // Use the starting date of the bucket as the label. This is just an approximation,
+  // as the bucket really includes a variable set of dates, but it allows the viewer to
+  // at least place some sense of time to the chart.
+  const labels = []
+  for (let bucket of buckets) {
+    labels.push(BucketName(bucket))
+  }
+
+  let name = yAxis + " vs. " + xAxis
+
+  // values is an array of maps with keys 'x' and 'y'.
+  var values = []
+  for (let [name, card] of input.parsed.cardData) {
+    var x = null
+    var y = null
+
+    x = getValue(xAxis, card)
+    y = getValue(yAxis, card)
+
+    values.push({"x": x, "y": y})
+  }
+
+  let dataset = [
+      {
+        label: "All cards",
+        data: values,
+        borderColor: "#0F0",
+        backgroundColor: "#0F0",
+      },
+  ]
+
+
+  let title = `${name} (all drafts)`
+
+  const options = {
+    responsive: true,
+    maintainAspectRatio: false,
+    scales: {}, // {y: {min: 0, max: 100}},
+    plugins: {
+      title: {
+        display: true,
+        text: title,
+        color: "#FFF",
+        font: {
+          size: "16pt",
+        },
+      },
+      legend: {
+        labels: {
+          color: "#FFF",
+          font: {
+            size: "16pt",
+          },
+        },
+      },
+    },
+  };
+
+  const data = {labels, datasets: dataset};
+  return (
+    <div>
+      <DropdownHeader
+        label="X Axis"
+        options={input.cardScatterAxes}
+        value={input.xAxis}
+        onChange={input.onXAxisSelected}
+      />
+      <DropdownHeader
+        label="Y Axis"
+        options={input.cardScatterAxes}
+        value={input.yAxis}
+        onChange={input.onYAxisSelected}
+      />
+      <div height={chartHeight} width={chartWidth}>
+        <Scatter height={chartHeight} width={chartWidth} options={options} data={data} />
+      </div>
+    </div>
+  );
+}
+
+function getValue(axis, card) {
+  switch (axis) {
+    case NumGamesOption:
+      return card.total_games
+    case MainboardPercentOption:
+      return card.mainboard_percent
+    case ELOOption:
+      return card.elo
+    case WinPercentOption:
+      return card.win_percent
+    case NumDecksOption:
+      return card.mainboard
+    case ManaValueOption:
+      return card.cmc
+    case NumPlayersOption:
+      return card.players.size
+  }
+  return null
 }
