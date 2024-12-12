@@ -14,6 +14,7 @@ import { DeckBuckets } from "../utils/Buckets.js"
 import { GetColorStats } from "./Colors.js"
 import { PlayerData } from "./Players.js"
 import { DraftWidget } from "./Drafts.js"
+import { AggregatedPickInfo } from "../utils/DraftLog.js"
 
 import {
   NumDecksOption,
@@ -421,7 +422,8 @@ export default function StatsViewer() {
     "colorData": [],
     "deckBuckets": [],
     "playerData": [],
-    "cardData": {}
+    "cardData": {},
+    "pickInfo": {},
   }
   const [parsed, setParsedData] = useState(defaultParsed);
   function parse() {
@@ -455,6 +457,7 @@ export default function StatsViewer() {
     p.playerData = PlayerData(f)
     p.cardData = CardData(f, minDrafts, minGames, cube, cardWidgetColorSelection)
     p.bucketSize = bucketSize
+    p.pickInfo = AggregatedPickInfo(drafts, cube, playerMatch)
 
     // Split the given decks into fixed-size buckets.
     // Each bucket will contain N drafts worth of deck information. We'll parse each bucket

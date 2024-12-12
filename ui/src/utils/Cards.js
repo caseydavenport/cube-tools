@@ -43,10 +43,14 @@ export function CardData(decks, minDrafts, minGames, cube, color) {
     // Keep track of the total number of drafts.
     drafts.set(deck.draft, true)
 
-    let cards = deck.mainboard
-    for (var j in cards) {
-      let card = cards[j]
-
+    // Most cards are singleton in my cube. Except for fetches / shocks, for which it is
+    // very possible there are multiple in the same deck. Create a "set" of all the unique
+    // cards in the deck - this prevents double counting the wins contributed from a deck when there are
+    // two of a card in that deck. This is imperfect - there is some value in knowing that a deck with two Arid Mesas
+    // performed well - but I think without this deduplication we would overstate the importance of Arid Mesa in that decks
+    // more than we understate it now.
+    let cardSet = new Map()
+    for (let card of deck.mainboard) {
       // First thing - skip the card if it's not currently in the cube, or if it's a basic land.
       if (!cubeCards.has(card.name)) {
         continue
@@ -66,6 +70,11 @@ export function CardData(decks, minDrafts, minGames, cube, color) {
         }
       }
 
+      // Add to the card set.
+      cardSet.set(card.name, card)
+    }
+
+    for (let [name, card] of cardSet) {
       if (!cardsByName.has(card.name)) {
         cardsByName.set(card.name, newCard(card))
       }
@@ -100,7 +109,7 @@ export function CardData(decks, minDrafts, minGames, cube, color) {
 
     // Go through the sideboard and increment the counter. Not every deck has a sideboard since
     // that data isn't always collected, so this information is only partly reliable. It's still nice to see.
-    for (j in deck.sideboard) {
+    for (var j in deck.sideboard) {
       let card = deck.sideboard[j]
 
       // First thing - skip the card if it's not currently in the cube, or if it's a basic land.

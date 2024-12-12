@@ -43,18 +43,20 @@ export const ELOOption = "Pick ELO"
 export const NumGamesOption = "# Games"
 export const ManaValueOption = "Mana Value"
 export const NumPlayersOption = "# Players"
+export const DraftOrderOption = "Avg. draft pick"
 export const CardScatterAxes = [
-    {label: NumDecksOption, value: NumDecksOption},
-    {label: NumSideboardOption, value: NumSideboardOption},
-    {label: MainboardPercentOption, value: MainboardPercentOption},
-    {label: SideboardPercentOption, value: SideboardPercentOption},
-    {label: WinPercentOption, value: WinPercentOption},
-    {label: PercentOfWinsOption, value: PercentOfWinsOption},
-    {label: ExpectedWinPercentOption, value: ExpectedWinPercentOption},
-    {label: ELOOption, value: ELOOption},
-    {label: NumGamesOption, value: NumGamesOption},
-    {label: ManaValueOption, value: ManaValueOption},
-    {label: NumPlayersOption, value: NumPlayersOption},
+  {label: NumDecksOption, value: NumDecksOption},
+  {label: NumSideboardOption, value: NumSideboardOption},
+  {label: MainboardPercentOption, value: MainboardPercentOption},
+  {label: SideboardPercentOption, value: SideboardPercentOption},
+  {label: WinPercentOption, value: WinPercentOption},
+  {label: PercentOfWinsOption, value: PercentOfWinsOption},
+  {label: ExpectedWinPercentOption, value: ExpectedWinPercentOption},
+  {label: ELOOption, value: ELOOption},
+  {label: NumGamesOption, value: NumGamesOption},
+  {label: ManaValueOption, value: ManaValueOption},
+  {label: NumPlayersOption, value: NumPlayersOption},
+  {label: DraftOrderOption, value: DraftOrderOption},
 ]
 
 
@@ -706,8 +708,8 @@ function CardGraph(input) {
     var x = null
     var y = null
 
-    x = getValue(xAxis, card, input.parsed.archetypeData, input.parsed.playerData, input.parsed.filteredDecks)
-    y = getValue(yAxis, card, input.parsed.archetypeData, input.parsed.playerData, input.parsed.filteredDecks)
+    x = getValue(xAxis, card, input.parsed.archetypeData, input.parsed.playerData, input.parsed.filteredDecks, input.parsed.pickInfo)
+    y = getValue(yAxis, card, input.parsed.archetypeData, input.parsed.playerData, input.parsed.filteredDecks, input.parsed.pickInfo)
 
     labels.push(card.name)
 
@@ -804,7 +806,7 @@ switch (axis) {
   return [null, null]
 }
 
-function getValue(axis, card, archetypeData, playerData, decks) {
+function getValue(axis, card, archetypeData, playerData, decks, draftData) {
   let [relativePerfPlayer, relativePerfArch, expectedRate, pow] = CardAnalyze(
     card,
     archetypeData,
@@ -835,6 +837,9 @@ function getValue(axis, card, archetypeData, playerData, decks) {
       return card.players.size
     case ExpectedWinPercentOption:
       return expectedRate
+    case DraftOrderOption:
+      let pick = draftData.get(card.name)
+      return Math.round(pick.pickNumSum / pick.count * 10) / 10
   }
   return null
 }
