@@ -3,7 +3,7 @@ import { IsBasicLand, SortFunc } from "../utils/Utils.js"
 import { DropdownHeader, NumericInput, Checkbox, DateSelector } from "../components/Dropdown.js"
 import { Wins, Losses } from "../utils/Deck.js"
 import { ApplyTooltip } from "../utils/Tooltip.js"
-import { CardData } from "../utils/Cards.js"
+import { CardData, CardAnalyze } from "../utils/Cards.js"
 import { BucketName, BucketWins } from "../utils/Buckets.js"
 
 import {
@@ -33,12 +33,30 @@ const chartHeight = "425px"
 const chartWidth = "300px"
 
 export const NumDecksOption = "# Decks"
+export const NumSideboardOption = "# Sideboard"
 export const MainboardPercentOption = "Mainboard %"
+export const SideboardPercentOption = "Sideboard %"
 export const WinPercentOption = "Win %"
+export const PercentOfWinsOption = "% of Wins"
+export const ExpectedWinPercentOption = "Expected Win %"
 export const ELOOption = "Pick ELO"
 export const NumGamesOption = "# Games"
 export const ManaValueOption = "Mana Value"
 export const NumPlayersOption = "# Players"
+export const CardScatterAxes = [
+    {label: NumDecksOption, value: NumDecksOption},
+    {label: NumSideboardOption, value: NumSideboardOption},
+    {label: MainboardPercentOption, value: MainboardPercentOption},
+    {label: SideboardPercentOption, value: SideboardPercentOption},
+    {label: WinPercentOption, value: WinPercentOption},
+    {label: PercentOfWinsOption, value: PercentOfWinsOption},
+    {label: ExpectedWinPercentOption, value: ExpectedWinPercentOption},
+    {label: ELOOption, value: ELOOption},
+    {label: NumGamesOption, value: NumGamesOption},
+    {label: ManaValueOption, value: ManaValueOption},
+    {label: NumPlayersOption, value: NumPlayersOption},
+]
+
 
 export function CardWidget(input) {
   if (!input.show) {
@@ -172,12 +190,6 @@ function CardWidgetTable(input) {
       </div>
     );
   } else {
-    // Calculate total number of "Wins" across all decks. We'll use this to
-    // calculate the percentage of all wins that have included each card.
-    let totalWins = 0
-    for (let deck of input.parsed.filteredDecks) {
-      totalWins += Wins(deck)
-    }
     return (
       <div className="widget-scroll" style={{"maxHeight": "1200px"}}>
         <CardWidgetOptions {...input} />
@@ -199,66 +211,12 @@ function CardWidgetTable(input) {
                   return
                 }
 
-                // For each card, determine the weighted average of the archetype win rates for the
-                // archetypes that it sees play in. We'll use this to calculate the card's win rate compared
-                // to its own archetype win rates.
-
-                // relativePerfArch is the performance of this card relative to the expected performance of
-                // all of the archetypes that this card has played in.
-                let relativePerfArch = 0
-
-                // Determine the total number of instances of all archetypes this card has to use as the denominator when
-                // calculating weighted averages below. The card.archetypes map has keys of the archetype name, and values of
-                // the number of times it was seen in a deck of that archetype.
-                let totalPicks = 0
-                for (let num of card.archetypes.values()) {
-                  totalPicks += num
-                }
-
-                // For each archetype, use the number of times it shows up for this card, the total number of instances of archetypes
-                // this card belongs to, and each archetype's average win rate in order to calculate a weighted average
-                // representing the expected win rate of the card.
-                let archetypeData = input.parsed.archetypeData
-                let weightedBaseRate = 0
-                for (let [arch, numArchDecks] of card.archetypes) {
-                  let archWinRate = 0
-
-                  if (archetypeData.has(arch)) {
-                    archWinRate = archetypeData.get(arch).win_percent
-                  }
-                  let weight = numArchDecks / totalPicks
-                  weightedBaseRate += weight * archWinRate
-                }
-
-                if (card.mainboard > 0) {
-                  // Assuming this card has been played, calculate the card's win rate vs. the expected win rate based on its archetypes.
-                  relativePerfArch = Math.round(card.win_percent / weightedBaseRate * 100) / 100
-                }
-
-                // Determine the card's performance compared to the players who have played it.
-                // relativePerfPlayer is the performance of this card relative to the expected performance of the card
-                // based on the win rate of all the players that have played this card.
-                let relativePerfPlayer = 0
-
-                // expectedRate is the expected performance of the card based on the players who have played this card. A higher value means
-                // that this card is played on average by players who win more.
-                let expectedRate = 0
-
-                let playCount = 0
-                for (let [player, count] of card.players) {
-                  expectedRate += count * input.parsed.playerData.get(player).winPercent / 100
-                  playCount += count
-                }
-                if (playCount > 0) {
-                  expectedRate = Math.round(100 * expectedRate / playCount) / 100
-                  relativePerfPlayer = Math.round(card.win_percent / expectedRate) / 100
-
-                  // Convert to a percentage to display in the UI.
-                  expectedRate = Math.round(expectedRate * 100)
-                }
-
-                // Determine % of all wins including this card.
-                let pow = 100 * Math.round(100 * card.wins / totalWins) / 100
+                let [relativePerfPlayer, relativePerfArch, expectedRate, pow] = CardAnalyze(
+                  card,
+                  input.parsed.archetypeData,
+                  input.parsed.playerData,
+                  input.parsed.filteredDecks,
+                )
 
                 // Determine sort value. Default to win percentage.
                 let sort = card.win_percent
@@ -735,13 +693,10 @@ function CardGraph(input) {
   // Each bucket will contain N drafts worth of deck information.
   let buckets = input.parsed.deckBuckets
 
-  // Use the starting date of the bucket as the label. This is just an approximation,
-  // as the bucket really includes a variable set of dates, but it allows the viewer to
-  // at least place some sense of time to the chart.
-  const labels = []
-  for (let bucket of buckets) {
-    labels.push(BucketName(bucket))
-  }
+  // Labels for each data point.
+  var labels = []
+  var backgroundColors = []
+  var sizes = []
 
   let name = yAxis + " vs. " + xAxis
 
@@ -751,9 +706,19 @@ function CardGraph(input) {
     var x = null
     var y = null
 
-    x = getValue(xAxis, card)
-    y = getValue(yAxis, card)
+    x = getValue(xAxis, card, input.parsed.archetypeData, input.parsed.playerData, input.parsed.filteredDecks)
+    y = getValue(yAxis, card, input.parsed.archetypeData, input.parsed.playerData, input.parsed.filteredDecks)
 
+    labels.push(card.name)
+
+    // Default to green, but highlight in red if it is the selected card.
+    if (card.name === input.selectedCard) {
+      backgroundColors.push("#F00")
+      sizes.push(10)
+    } else {
+      backgroundColors.push("#0F0")
+      sizes.push(3)
+    }
     values.push({"x": x, "y": y})
   }
 
@@ -761,8 +726,9 @@ function CardGraph(input) {
       {
         label: "All cards",
         data: values,
-        borderColor: "#0F0",
-        backgroundColor: "#0F0",
+        pointBackgroundColor: backgroundColors,
+        pointRadius: sizes,
+        pointHoverRadius: 10,
       },
   ]
 
@@ -772,7 +738,19 @@ function CardGraph(input) {
   const options = {
     responsive: true,
     maintainAspectRatio: false,
-    scales: {}, // {y: {min: 0, max: 100}},
+    onClick: function(evt, element) {},
+    scales: {
+      y: {
+        title: {display: true, text: yAxis},
+        min: getScales(yAxis)[0],
+        max: getScales(yAxis)[1],
+      },
+      x: {
+        title: {display: true, text: xAxis},
+        min: getScales(xAxis)[0],
+        max: getScales(xAxis)[1],
+      },
+    },
     plugins: {
       title: {
         display: true,
@@ -798,13 +776,13 @@ function CardGraph(input) {
     <div>
       <DropdownHeader
         label="X Axis"
-        options={input.cardScatterAxes}
+        options={CardScatterAxes}
         value={input.xAxis}
         onChange={input.onXAxisSelected}
       />
       <DropdownHeader
         label="Y Axis"
-        options={input.cardScatterAxes}
+        options={CardScatterAxes}
         value={input.yAxis}
         onChange={input.onYAxisSelected}
       />
@@ -815,22 +793,48 @@ function CardGraph(input) {
   );
 }
 
-function getValue(axis, card) {
+function getScales(axis) {
+switch (axis) {
+    case MainboardPercentOption:
+    case SideboardPercentOption:
+    case WinPercentOption:
+    case ExpectedWinPercentOption:
+      return [0, 100]
+  }
+  return [null, null]
+}
+
+function getValue(axis, card, archetypeData, playerData, decks) {
+  let [relativePerfPlayer, relativePerfArch, expectedRate, pow] = CardAnalyze(
+    card,
+    archetypeData,
+    playerData,
+    decks,
+  )
+
   switch (axis) {
     case NumGamesOption:
       return card.total_games
     case MainboardPercentOption:
       return card.mainboard_percent
+    case SideboardPercentOption:
+      return card.sideboard_percent
     case ELOOption:
       return card.elo
     case WinPercentOption:
       return card.win_percent
+    case PercentOfWinsOption:
+      return pow
     case NumDecksOption:
       return card.mainboard
+    case NumSideboardOption:
+      return card.sideboard
     case ManaValueOption:
       return card.cmc
     case NumPlayersOption:
       return card.players.size
+    case ExpectedWinPercentOption:
+      return expectedRate
   }
   return null
 }

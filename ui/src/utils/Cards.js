@@ -310,3 +310,74 @@ function compareDates(dateString1, dateString2) {
       return dateString1
     }
 }
+
+export function CardAnalyze(card, archetypeData, playerData, decks) {
+ // For this card, determine the weighted average of the archetype win rates for the
+ // archetypes that it sees play in. We'll use this to calculate the card's win rate compared
+ // to its own archetype win rates.
+
+  // Calculate total number of "Wins" across all decks. We'll use this to
+  // calculate the percentage of all wins that have included each card.
+  let totalWins = 0
+  for (let deck of decks) {
+    totalWins += Wins(deck)
+  }
+
+  // relativePerfArch is the performance of this card relative to the expected performance of
+  // all of the archetypes that this card has played in.
+  let relativePerfArch = 0
+
+  // Determine the total number of instances of all archetypes this card has to use as the denominator when
+  // calculating weighted averages below. The card.archetypes map has keys of the archetype name, and values of
+  // the number of times it was seen in a deck of that archetype.
+  let totalPicks = 0
+  for (let num of card.archetypes.values()) {
+    totalPicks += num
+  }
+
+  // For each archetype, use the number of times it shows up for this card, the total number of instances of archetypes
+  // this card belongs to, and each archetype's average win rate in order to calculate a weighted average
+  // representing the expected win rate of the card.
+  let weightedBaseRate = 0
+  for (let [arch, numArchDecks] of card.archetypes) {
+    let archWinRate = 0
+
+    if (archetypeData.has(arch)) {
+      archWinRate = archetypeData.get(arch).win_percent
+    }
+    let weight = numArchDecks / totalPicks
+    weightedBaseRate += weight * archWinRate
+  }
+
+  if (card.mainboard > 0) {
+    // Assuming this card has been played, calculate the card's win rate vs. the expected win rate based on its archetypes.
+    relativePerfArch = Math.round(card.win_percent / weightedBaseRate * 100) / 100
+  }
+
+  // Determine the card's performance compared to the players who have played it.
+  // relativePerfPlayer is the performance of this card relative to the expected performance of the card
+  // based on the win rate of all the players that have played this card.
+  let relativePerfPlayer = 0
+
+  // expectedRate is the expected performance of the card based on the players who have played this card. A higher value means
+  // that this card is played on average by players who win more.
+  let expectedRate = 0
+
+  let playCount = 0
+  for (let [player, count] of card.players) {
+    expectedRate += count * playerData.get(player).winPercent / 100
+    playCount += count
+  }
+  if (playCount > 0) {
+    expectedRate = Math.round(100 * expectedRate / playCount) / 100
+    relativePerfPlayer = Math.round(card.win_percent / expectedRate) / 100
+
+    // Convert to a percentage to display in the UI.
+    expectedRate = Math.round(expectedRate * 100)
+  }
+
+  // Determine % of all wins including this card.
+  let pow = 100 * Math.round(100 * card.wins / totalWins) / 100
+
+  return [relativePerfPlayer, relativePerfArch, expectedRate, pow]
+}

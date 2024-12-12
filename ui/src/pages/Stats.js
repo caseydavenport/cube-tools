@@ -17,12 +17,7 @@ import { DraftWidget } from "./Drafts.js"
 
 import {
   NumDecksOption,
-  MainboardPercentOption,
-  WinPercentOption,
   ELOOption,
-  NumGamesOption,
-  ManaValueOption,
-  NumPlayersOption,
 } from "./Cards.js"
 
 
@@ -115,15 +110,6 @@ export default function StatsViewer() {
   const cardWidgetOpts =  [
     { label: "Mainboard rate", value: "Mainboard rate" },
     { label: "Win rate", value: "Win rate" },
-  ]
-  const cardScatterAxes = [
-    {label: NumDecksOption, value: NumDecksOption},
-    {label: MainboardPercentOption, value: MainboardPercentOption},
-    {label: WinPercentOption, value: WinPercentOption},
-    {label: ELOOption, value: ELOOption},
-    {label: NumGamesOption, value: NumGamesOption},
-    {label: ManaValueOption, value: ManaValueOption},
-    {label: NumPlayersOption, value: NumPlayersOption},
   ]
   const [xAxis, setxAxis] = useState(NumDecksOption)
   const [yAxis, setYAxis] = useState(ELOOption)
@@ -640,7 +626,6 @@ export default function StatsViewer() {
           sortBy={cardWidgetSortBy}
           bucketSize={bucketSize}
           cube={cube}
-          cardScatterAxes={cardScatterAxes}
           xAxis={xAxis}
           yAxis={yAxis}
           onXAxisSelected={onXAxisSelected}
