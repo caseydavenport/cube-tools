@@ -744,13 +744,13 @@ function CardGraph(input) {
     scales: {
       y: {
         title: {display: true, text: yAxis},
-        min: getScales(yAxis)[0],
-        max: getScales(yAxis)[1],
+        min: getScales(yAxis, false)[0],
+        max: getScales(yAxis, false)[1],
       },
       x: {
         title: {display: true, text: xAxis},
-        min: getScales(xAxis)[0],
-        max: getScales(xAxis)[1],
+        min: getScales(xAxis, false)[0],
+        max: getScales(xAxis, false)[1],
       },
     },
     plugins: {
@@ -776,18 +776,20 @@ function CardGraph(input) {
   const data = {labels, datasets: dataset};
   return (
     <div>
-      <DropdownHeader
-        label="X Axis"
-        options={CardScatterAxes}
-        value={input.xAxis}
-        onChange={input.onXAxisSelected}
-      />
-      <DropdownHeader
-        label="Y Axis"
-        options={CardScatterAxes}
-        value={input.yAxis}
-        onChange={input.onYAxisSelected}
-      />
+      <div style={{"display": "flex"}}>
+        <DropdownHeader
+          label="X Axis"
+          options={CardScatterAxes}
+          value={input.xAxis}
+          onChange={input.onXAxisSelected}
+        />
+        <DropdownHeader
+          label="Y Axis"
+          options={CardScatterAxes}
+          value={input.yAxis}
+          onChange={input.onYAxisSelected}
+        />
+      </div>
       <div height={chartHeight} width={chartWidth}>
         <Scatter height={chartHeight} width={chartWidth} options={options} data={data} />
       </div>
@@ -795,13 +797,15 @@ function CardGraph(input) {
   );
 }
 
-function getScales(axis) {
-switch (axis) {
-    case MainboardPercentOption:
-    case SideboardPercentOption:
-    case WinPercentOption:
-    case ExpectedWinPercentOption:
-      return [0, 100]
+function getScales(axis, force) {
+  if (force) {
+    switch (axis) {
+      case MainboardPercentOption:
+      case SideboardPercentOption:
+      case WinPercentOption:
+      case ExpectedWinPercentOption:
+        return [0, 100]
+    }
   }
   return [null, null]
 }
