@@ -1,5 +1,8 @@
 {
- "labels": ["midrange", "graveyard"],
+ "labels": [
+  "midrange",
+  "graveyard"
+ ],
  "player": "cara",
  "date": "2024-11-09",
  "games": [
@@ -10,6 +13,14 @@
   {
    "opponent": "jen",
    "winner": "cara"
+  },
+  {
+   "opponent": "paul",
+   "winner": "cara"
+  },
+  {
+   "opponent": "paul",
+   "winner": "paul"
   },
   {
    "opponent": "xander",
@@ -24,6 +35,10 @@
   {
    "opponent": "jen",
    "winner": "cara"
+  },
+  {
+   "opponent": "paul",
+   "winner": ""
   },
   {
    "opponent": "xander",

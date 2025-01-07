@@ -1,9 +1,37 @@
 {
- "labels": ["aggro"],
+ "labels": [
+  "aggro"
+ ],
  "player": "paul",
  "date": "2024-11-09",
- "games": null,
- "matches": null,
+ "games": [
+  {
+   "opponent": "cara",
+   "winner": "paul"
+  },
+  {
+   "opponent": "cara",
+   "winner": "cara"
+  },
+  {
+   "opponent": "xander",
+   "winner": "paul"
+  },
+  {
+   "opponent": "xander",
+   "winner": "xander"
+  }
+ ],
+ "matches": [
+  {
+   "opponent": "cara",
+   "winner": ""
+  },
+  {
+   "opponent": "xander",
+   "winner": ""
+  }
+ ],
  "mainboard": [
   {
    "name": "Unholy Heat",

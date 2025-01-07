@@ -110,8 +110,12 @@ func addMatchToPlayer(player, opponent string, date string, wins, losses int) er
 	deck.RemoveMatchesForOpponent(opponent)
 	if wins > losses {
 		deck.AddMatch(opponent, player)
-	} else {
+	} else if losses > wins {
 		deck.AddMatch(opponent, opponent)
+	} else {
+		// Match was a draw.
+		logrus.WithFields(logrus.Fields{"player": player, "opponent": opponent}).Info("Match was a draw")
+		deck.AddMatch(opponent, "")
 	}
 
 	// Clear our the legacy win / loss fields, if set.

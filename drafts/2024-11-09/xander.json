@@ -1,5 +1,8 @@
 {
- "labels": ["control", "discard"],
+ "labels": [
+  "control",
+  "discard"
+ ],
  "player": "xander",
  "date": "2024-11-09",
  "games": [
@@ -22,6 +25,14 @@
   {
    "opponent": "jen",
    "winner": "jen"
+  },
+  {
+   "opponent": "paul",
+   "winner": "xander"
+  },
+  {
+   "opponent": "paul",
+   "winner": "paul"
   }
  ],
  "matches": [
@@ -32,6 +43,10 @@
   {
    "opponent": "jen",
    "winner": "xander"
+  },
+  {
+   "opponent": "paul",
+   "winner": ""
   }
  ],
  "mainboard": [
