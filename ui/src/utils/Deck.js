@@ -48,7 +48,7 @@ export function MatchWins(deck) {
   let wins = 0
   for (var i in deck.matches) {
     let match = deck.matches[i]
-    if (match.winner != match.opponent) {
+    if (match.winner != "" && match.winner != match.opponent) {
       wins += 1
     }
   }
@@ -63,11 +63,26 @@ export function MatchLosses(deck) {
   let losses = 0
   for (var i in deck.matches) {
     let match = deck.matches[i]
-    if (match.winner == match.opponent) {
+    if (match.winner != "" && match.winner == match.opponent) {
       losses += 1
     }
   }
   return losses
+}
+
+export function MatchDraws(deck) {
+  if (deck.matches == null) {
+    return 0
+  }
+
+  let draws = 0
+  for (var i in deck.matches) {
+    let match = deck.matches[i]
+    if (match.winner == "") {
+      draws += 1
+    }
+  }
+  return draws
 }
 
 // Helper function for determining if a card is within a given deck's colors.

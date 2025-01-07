@@ -2,7 +2,7 @@ import React from 'react'
 import { useState } from "react";
 import { useEffect } from "react";
 import { LoadDecks } from "../utils/Fetch.js"
-import { Wins, Losses, MatchWins, MatchLosses, InDeckColor } from "../utils/Deck.js"
+import { Wins, Losses, MatchWins, MatchLosses, MatchDraws, InDeckColor } from "../utils/Deck.js"
 import { RemovalMatches, CounterspellMatches } from "../pages/Decks.js"
 import { SortFunc } from "../utils/Utils.js"
 import { ColorImages, CombineColors } from "../utils/Colors.js"
@@ -370,8 +370,8 @@ function GameWinPercent(deck) {
 
 function DeckTableCell(input) {
   let deck = input.deck
-  let record = MatchWins(input.deck) + "-" + MatchLosses(input.deck)
-  if (MatchWins(deck) == 0 && MatchLosses(deck) == 0) {
+  let record = MatchWins(input.deck) + "-" + MatchLosses(input.deck) + "-" + MatchDraws(input.deck)
+  if (MatchWins(deck) == 0 && MatchLosses(deck) == 0 && MatchDraws(deck) == 0) {
     record = "N/A"
   }
 
