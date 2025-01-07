@@ -1,45 +1,48 @@
-1 Phoenix Chick
 1 Unholy Heat
 1 Lightning Bolt
-1 Ogre-Head Helm
 1 Mark of Mutiny
-1 Mogg War Marshal
 1 Pyroclasm
-1 Blood Crypt
-1 Breeding Pool
 1 Quest for the Gravelord
-1 Chatter of the Squirrel
-1 Eternal Witness
-1 Qasali Pridemage
-1 Bolas's Citadel
-1 Renata, Called to the Hunt
 1 Dark Confidant
-1 Inti, Seneschal of the Sun
-1 Siege-Gang Commander
 1 Skarrgan Hellkite
-1 Monastery Swiftspear
 1 Arcbound Tracker
-1 Tarmogoyf
 1 Goblin Guide
-1 Scavenging Ooze
 1 Death's Shadow
 1 Duress
 1 Canyon Slough
-1 Collected Company
-1 Audacity
-1 Mosquito Guard
-1 Boseiju, Who Endures
-1 Seasoned Pyromancer
 1 Tangled Colony
-1 Mesmeric Fiend
-1 Blood Crypt
+2 Blood Crypt
 1 Bone Shards
-1 Kitesail Freebooter
 1 Tibalt's Rager
 1 Bloodstained Mire
 1 Sulfurous Springs
+1 Inti, Seneschal of the Sun
+1 Kitesail Freebooter
+1 Mesmeric Fiend
+1 Mogg War Marshal
+1 Monastery Swiftspear
+1 Ogre-Head Helm
+1 Phoenix Chick
+1 Seasoned Pyromancer
+1 Siege-Gang Commander
+5 Swamp
+6 Mountain
 1 Tectonic Reformation
-1 Quest for the Gemblades
-1 Hunting Triad
+
+1 Qasali Pridemage
+1 Renata, Called to the Hunt
+1 Scavenging Ooze
+1 Eternal Witness
+1 Mosquito Guard
+1 Tarmogoyf
+1 Collected Company
+1 Boseiju, Who Endures
+1 Breeding Pool
 1 Vivien, Champion of the Wilds
+1 Chatter of the Squirrel
+1 Hunting Triad
+1 Bolas's Citadel
+1 Audacity
+1 Quest for the Gemblades
 1 Field of the Dead
+1 Swamp
