@@ -14,6 +14,11 @@ module.exports = {
       title: 'Cube Tools',
     }),
   ],
+  devServer: {
+    allowedHosts: [
+      "cube-tools-344508482023.us-central1.run.app"
+    ],
+  },
   module: {
     rules: [
       {

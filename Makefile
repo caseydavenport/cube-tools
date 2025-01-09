@@ -1,8 +1,14 @@
+GIT_VERSION=$(git describe --tags --dirty --long --always --abbrev=12)
+
 all: data/oracle-cards.json bin/parser
 
 build bin/parser: $(shell find ./pkg -type f) $(shell find ./cmd -type f)
 	mkdir -p bin
 	go build -o bin/parser ./main.go
+
+image:
+	docker build -t caseydavenport/cube-tools .
+	docker tag caseydavenport/cube-tools caseydavenport/cube-tools:$(GIT_VERSION)
 
 data/oracle-cards.json:
 	# TODO: Automatically fetch the latest, using the API.
