@@ -1,9 +1,10 @@
 import React, { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import ReactDOM from "react-dom/client";
-import "./styles.css";
 import App from "./App";
 
+// Importing the Bootstrap CSS
+import 'bootstrap/dist/css/bootstrap.css';
 
 function component() {
   const element = document.createElement('div');

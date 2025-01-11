@@ -350,8 +350,8 @@ function TopCardsInArchetypeWidget(input) {
               // other decks.
               let correlation = Math.round(card.archetypes.get(input.selectedArchetype) / card.mainboard * 100)
               return (
-                <tr sort={card.archetypes.get(input.selectedArchetype)} className="card" key={card.name}>
-                  <td className="card"><a href={card.url} target="_blank" rel="noopener noreferrer">{card.name}</a></td>
+                <tr sort={card.archetypes.get(input.selectedArchetype)} className="widget-table-row" key={card.name}>
+                  <td ><a href={card.url} target="_blank" rel="noopener noreferrer">{card.name}</a></td>
                   <td >{card.archetypes.get(input.selectedArchetype)}</td>
                   <td >{percentage}%</td>
                   <td >{correlation}%</td>

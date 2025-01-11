@@ -5,6 +5,13 @@ import { Wins, Losses } from "../utils/Deck.js"
 import { IsBasicLand, SortFunc, StringToColor } from "../utils/Utils.js"
 import { BucketName } from "../utils/Buckets.js"
 
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
+import Popover from 'react-bootstrap/Popover';
+import {
+  Tooltip as TooltipJS,
+} from 'react-bootstrap';
+
+
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -175,6 +182,66 @@ function ColorStatsTable(input) {
     filtered.push(d)
   }
 
+  const renderTooltip = function(props) {
+
+    // Determine the text to display.
+    var text = "DEFAULT"
+    console.log(props.key)
+    return (
+      <TooltipJS id="button-tooltip" className="table-header" {...props}>
+        {text}
+      </TooltipJS>
+    );
+  }
+
+  let headers = [
+    {
+      id: "color",
+      text: "Color",
+      tip: "The color or colors of the deck. If 'strict' is checked, the row includes data only from decks that are exactly this color. Otherwise, the row includes data from any decks that include this color/colors."
+    },
+    {
+      id: "win",
+      text: "Win %",
+      tip: "Percentages of games played by this color/colors that were wins.",
+    },
+    {
+      id: "build",
+      text: "Build %",
+      tip: "Percentages of all built decks that include this color/colors.",
+    },
+    {
+      id: "pwin",
+      text: "% of wins",
+      tip: "Percentage of all wins across all decks that included this color.",
+    },
+    {
+      id: "shares",
+      text: "Shares",
+      tip: "Wins, weighted by the number of cards of this color that were in the deck.",
+    },
+    {
+      id: "record",
+      text: "Record",
+      tip: "Wins, losses, and draws.",
+    },
+    {
+      id: "decks",
+      text: "# Decks",
+      tip: "Number of decks in this row.",
+    },
+    {
+      id: "picks",
+      text: "% picks",
+      tip: "Percentage of mainboarded cards that are this color (or one of these colors).",
+    },
+    {
+      id: "splash",
+      text: "Avg % of deck",
+      tip: "Percentage of non-land cards in the deck that match this color identity.",
+    },
+  ]
+
   return (
     <div>
       <TableHeader {...input} />
@@ -182,15 +249,26 @@ function ColorStatsTable(input) {
       <table className="widget-table">
         <thead className="table-header">
           <tr key="header">
-            <td onClick={input.onClick} id="color" className="header-cell">Color</td>
-            <td onClick={input.onClick} id="win" className="header-cell">Win %</td>
-            <td onClick={input.onClick} id="build" className="header-cell">Build %</td>
-            <td onClick={input.onClick} id="pwin" className="header-cell">% of wins</td>
-            <td onClick={input.onClick} id="shares" className="header-cell">Shares</td>
-            <td onClick={input.onClick} id="record" className="header-cell">Record</td>
-            <td onClick={input.onClick} id="decks" className="header-cell"># Decks</td>
-            <td onClick={input.onClick} id="picks" className="header-cell" style={headerStyleFields}>% picks</td>
-            <td onClick={input.onClick} id="splash" className="header-cell">Avg % of deck</td>
+            {
+              headers.map(function(hdr, i) {
+                return (
+                  <OverlayTrigger
+                    placement="top"
+                    delay={{ show: 100, hide: 100 }}
+                    overlay={
+                      <Popover id="popover-basic">
+                        <Popover.Header as="h3">{hdr.text}</Popover.Header>
+                        <Popover.Body>
+                          {hdr.tip}
+                        </Popover.Body>
+                      </Popover>
+                    }
+                  >
+                    <td onClick={input.onClick} id={hdr.id} className="header-cell">{hdr.text}</td>
+                  </OverlayTrigger>
+                );
+              })
+            }
           </tr>
         </thead>
         <tbody>

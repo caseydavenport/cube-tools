@@ -217,7 +217,7 @@ function PlayerTable(input) {
               sort = -1 * sort
             }
             return (
-              <tr sort={sort} className="card" key={row.name}>
+              <tr sort={sort} className="widget-table-row" key={row.name}>
                 <td id={row.name} onClick={input.handleRowClick}>{row.name}</td>
                 <td>{row.numDecks}</td>
                 <td>{row.games}</td>

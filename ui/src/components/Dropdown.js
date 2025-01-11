@@ -3,7 +3,7 @@ import React from 'react'
 // DropdownHeader is a dropdown selector that sits on top of a widget.
 export function DropdownHeader({ label, value, options, onChange, className }) {
   if (className == null) {
-    className = "dropdown-header"
+    className = "dropdown"
   }
   if (options == null) {
     options = []
@@ -29,23 +29,27 @@ export function Checkbox(input) {
   }
 
   return (
-      <label className={className}>
+    <div className={className}>
+      <label style={{"padding-right": "10px"}}>
         {input.text}
-        <input id={input.id} checked={input.checked} onChange={input.onChange} type="checkbox" />
       </label>
+      <input id={input.id} checked={input.checked} onChange={input.onChange} type="checkbox" />
+    </div>
   );
 }
 
 export function NumericInput(input) {
   let className = "dropdown"
-  if (input.className != "") {
+  if (input.className != null) {
     className = input.className
   }
   return (
-    <label className={className}>
-      {input.label}
+    <div className={className}>
+      <label style={{"padding-right": "10px"}}>
+        {input.label}
+      </label>
       <input onChange={input.onChange} className="numeric-input" type="number" />
-    </label>
+    </div>
   );
 }
 
@@ -65,7 +69,7 @@ export function TextInput(input) {
 export function DateSelector(input) {
   return (
     <div className="dropdown">
-      <label>{input.label}</label>
+      <label style={{"padding-right": "10px"}}>{input.label}</label>
       <input
         type="date"
         id={input.id}

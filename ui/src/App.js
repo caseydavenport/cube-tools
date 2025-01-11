@@ -5,9 +5,12 @@ import NavBar from './components/navbar.js'
 import Dogs from './pages/Dogs.js'
 import StatsViewer from './pages/Stats.js'
 
+import "./styles.css";
+
 // This is the main entrypoint into the app. Allows for navigation through widgets.
 export default function Main() {
    return (
+    <div>
     <Router>
       <NavBar />
       <Routes>
@@ -16,5 +19,6 @@ export default function Main() {
         <Route path='/dogs' element={<Dogs />} />
       </Routes>
     </Router>
+    </div>
   );
 }

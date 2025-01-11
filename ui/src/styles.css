@@ -14,12 +14,12 @@
   box-sizing: border-box;
 }
 
-a, a:hover, a:visited, a:active {
+html a, a:hover, a:visited, a:active {
   color: inherit;
   text-decoration: none;
 }
 
-body {
+html body {
   font-family: sans-serif;
   margin: 20px;
   padding: 0;
@@ -150,34 +150,21 @@ table {
 }
 
 .header-cell {
-  padding-left: 10px;
-  padding-right: 10px;
+  padding-left: 5px;
+  padding-right: 5px;
 }
 
 .selection-cell {
-  padding-left: 10px;
-  padding-right: 10px;
-  padding-top: 5px;
-  padding-bottom: 5px;
+  padding-left: 0px;
+  padding-right: 0px;
+  padding-top: 0px;
+  padding-bottom: 0px;
   float: center;
 }
 
 .padded {
   padding-left: 5px;
   padding-right: 5px;
-}
-
-.card {
-  padding: 0px;
-  margin: 0px;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  max-width: 300px;
-}
-
-.card:hover {
-  background: var(--table-row-selected);
 }
 
 .card-highlight {
@@ -193,7 +180,6 @@ table {
   background: var(--table-row-selected);
 }
 
-
 .deck-entry {
   background-color: var(--background-color);
   padding: 0px;
@@ -208,21 +194,25 @@ table {
   background: var(--table-row-selected);
 }
 
+.selectorbar {
+  padding: 15px;
+  background: var(--table-row-selected);
+}
+
 .dropdown {
   color: var(--white);
   background: var(--table-row-selected);
   font-weight: bold;
   text-align: center;
-  padding: 20px;
+  padding: 10px;
   border: 0px;
   min-width: 100px;
-  min-height: 70px;
   float: left;
 }
 
 .dropdown-header {
-  color: var(--white);
   background: var(--table-row-selected);
+  color: var(--white);
   text-align: center;
   padding: 0px;
   border: 0px;
@@ -241,7 +231,7 @@ table {
 
 .numeric-input{
   color: var(--white);
-  padding: 2px;
+  padding: 0px;
   margin-left: 10px;
   width: 50px;
   background: var(--table-background);

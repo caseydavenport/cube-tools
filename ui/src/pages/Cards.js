@@ -173,8 +173,8 @@ function CardWidgetTable(input) {
               }
 
               return (
-                <tr sort={sort} className="card" key={card.name}>
-                  <td id={card.name} onClick={input.onCardSelected} className="card"><a href={card.url} target="_blank" rel="noopener noreferrer">{card.name}</a></td>
+                <tr className="widget-table-row" sort={sort} key={card.name}>
+                  <td id={card.name} onClick={input.onCardSelected}><a href={card.url} target="_blank" rel="noopener noreferrer">{card.name}</a></td>
                   <td id={card.name} onClick={input.onCardSelected} key="name">{card.mainboard_percent}%</td>
                   <td id={card.name} onClick={input.onCardSelected} key="win_percent">{card.win_percent}%</td>
                   <td><ApplyTooltip text={card.mainboard} hidden={CardMainboardTooltipContent(card)}/></td>
@@ -242,10 +242,10 @@ function CardWidgetTable(input) {
 
                 // Return the row.
                 return (
-                  <tr sort={sort} className="card" key={card.name}>
+                  <tr sort={sort} className="widget-table-row" key={card.name}>
                     <td id={card.name} onClick={input.onCardSelected} key="win_percent">{card.win_percent}%</td>
                     <td id={card.name} onClick={input.onCardSelected} key="pow">{pow}%</td>
-                    <td id={card.name} onClick={input.onCardSelected} className="card"><a href={card.url} target="_blank" rel="noopener noreferrer">{card.name}</a></td>
+                    <td id={card.name} onClick={input.onCardSelected}><a href={card.url} target="_blank" rel="noopener noreferrer">{card.name}</a></td>
                     <td>{relativePerfArch}</td>
                     <td>{relativePerfPlayer}</td>
                     <td>{expectedRate}%</td>
@@ -283,7 +283,7 @@ function CardWidgetOptions(input) {
             />
           </td>
 
-          <td>
+          <td className="selection-cell">
             <NumericInput
               label="Mana value"
               value={input.manaValue}
@@ -367,7 +367,7 @@ function UndraftedWidget(input) {
       {
         cardArray.map(function(item) {
          return (
-           <tr sort={item.mainboard_percent} className="card" key={item.name}>
+           <tr sort={item.mainboard_percent} className="widget-table-row" key={item.name}>
              <td><a href={item.url} target="_blank" rel="noopener noreferrer">{item.name}</a></td>
            </tr>
          )

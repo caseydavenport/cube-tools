@@ -493,68 +493,28 @@ export default function StatsViewer() {
 
   return (
     <div id="root">
-      <div id="selectorbar">
-        <Button
-          text="Refresh"
-          onClick={triggerRefresh}
-        />
+      <SelectorBar
+        triggerRefresh={triggerRefresh}
+        startDate={startDate}
+        onStartSelected={onStartSelected}
+        endDate={endDate}
+        onEndSelected={onEndSelected}
+        bucketSize={bucketSize}
+        onBucketsChanged={onBucketsChanged}
+        minDrafts={minDrafts}
+        onMinDraftSizeChanged={onMinDraftSizeChanged}
+        playerMatch={playerMatch}
+        onPlayerMatchChanged={onPlayerMatchChanged}
+        parsed={parsed}
+        display={display}
+        onColorCheckbox={onColorCheckbox}
+        onArchetypeCheckbox={onArchetypeCheckbox}
+        onCardCheckbox={onCardCheckbox}
+        onDeckCheckbox={onDeckCheckbox}
+        onDraftCheckbox={onDraftCheckbox}
+        onPlayersCheckbox={onPlayersCheckbox}
+      />
 
-        <DateSelector
-          label="From: "
-          id="from"
-          value={startDate}
-          onChange={onStartSelected}
-        />
-        <DateSelector
-          label="To: "
-          id="to"
-          value={endDate}
-          onChange={onEndSelected}
-        />
-
-        <NumericInput className="dropdown" label="Bucket size" value={bucketSize} onChange={onBucketsChanged} />
-        <NumericInput className="dropdown" label="Draft size" value={minDraftSize} onChange={onMinDraftSizeChanged} />
-
-        <TextInput
-          className="dropdown"
-          label="Player"
-          value={playerMatch}
-          onChange={onPlayerMatchChanged}
-        />
-
-        <Overview decks={parsed.filteredDecks} />
-
-        <Checkbox
-          text="Colors"
-          checked={display[0]}
-          onChange={onColorCheckbox}
-        />
-        <Checkbox
-          text="Types"
-          checked={display[1]}
-          onChange={onArchetypeCheckbox}
-        />
-        <Checkbox
-          text="Cards"
-          checked={display[2]}
-          onChange={onCardCheckbox}
-        />
-        <Checkbox
-          text="Decks"
-          checked={display[3]}
-          onChange={onDeckCheckbox}
-        />
-        <Checkbox
-          text="Drafts"
-          checked={display[4]}
-          onChange={onDraftCheckbox}
-        />
-        <Checkbox
-          text="Players"
-          checked={display[5]}
-          onChange={onPlayersCheckbox}
-        />
-      </div>
 
       <div id="widgets" className="house-for-widgets">
         <ColorWidget
@@ -692,6 +652,79 @@ export default function StatsViewer() {
 
       </div>
     </div>
+  );
+}
+
+function SelectorBar(input) {
+  return (
+  <table id="selectorbar" className="selectorbar">
+    <tbody>
+    <tr>
+      <Button
+        text="Refresh"
+        onClick={input.triggerRefresh}
+      />
+
+      <DateSelector
+        label="From: "
+        id="from"
+        value={input.startDate}
+        onChange={input.onStartSelected}
+      />
+      <DateSelector
+        label="To: "
+        id="to"
+        value={input.endDate}
+        onChange={input.onEndSelected}
+      />
+
+      <NumericInput className="dropdown" label="Bucket size" value={input.bucketSize} onChange={input.onBucketsChanged} />
+      <NumericInput className="dropdown" label="Draft size" value={input.minDraftSize} onChange={input.onMinDraftSizeChanged} />
+
+      <TextInput
+        className="dropdown"
+        label="Player"
+        value={input.playerMatch}
+        onChange={input.onPlayerMatchChanged}
+      />
+    </tr>
+
+    <tr>
+      <Overview decks={input.parsed.filteredDecks} />
+
+      <Checkbox
+        text="Colors"
+        checked={input.display[0]}
+        onChange={input.onColorCheckbox}
+      />
+      <Checkbox
+        text="Types"
+        checked={input.display[1]}
+        onChange={input.onArchetypeCheckbox}
+      />
+      <Checkbox
+        text="Cards"
+        checked={input.display[2]}
+        onChange={input.onCardCheckbox}
+      />
+      <Checkbox
+        text="Decks"
+        checked={input.display[3]}
+        onChange={input.onDeckCheckbox}
+      />
+      <Checkbox
+        text="Drafts"
+        checked={input.display[4]}
+        onChange={input.onDraftCheckbox}
+      />
+      <Checkbox
+        text="Players"
+        checked={input.display[5]}
+        onChange={input.onPlayersCheckbox}
+      />
+    </tr>
+    </tbody>
+  </table>
   );
 }
 
