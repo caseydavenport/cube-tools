@@ -548,7 +548,7 @@ function CardList({player, cards, deck, sb, opts}) {
             let key = card.name + cards.indexOf(card)
             let type = getType(card)
             let text = card.name
-            let className = "card"
+            let className = "widget-table-row"
             if (card.highlight) {
               className = "card-highlight"
             } else if (sb && InDeckColor(card, deck)) {
