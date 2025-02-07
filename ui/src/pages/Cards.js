@@ -6,6 +6,12 @@ import { ApplyTooltip } from "../utils/Tooltip.js"
 import { CardData, CardAnalyze } from "../utils/Cards.js"
 import { BucketName, BucketWins } from "../utils/Buckets.js"
 
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
+import Popover from 'react-bootstrap/Popover';
+import {
+  Tooltip as TooltipJS,
+} from 'react-bootstrap';
+
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -115,6 +121,55 @@ function CardWidgetTable(input) {
     cards.push(card)
   }
 
+  let headers = [
+    {
+      id: "card",
+      text: "Card",
+      tip: "Card name. Click on the cell to focus the card and display it in graphs."
+    },
+    {
+      id: "mainboarded",
+      text: "Deck%",
+      tip: "Percentage of drafts this card is included in a mainboard."
+    },
+    {
+      id: "wins",
+      text: "Win%",
+      tip: "Win percentage of decks that include this card in their mainboard.",
+    },
+    {
+      id: "mb",
+      text: "# M",
+      tip: "Number of times this card has been mainboarded.",
+    },
+    {
+      id: "sb",
+      text: "# S",
+      tip: "Number of times this card has been sideboarded.",
+    },
+    {
+      id: "in-color-sb",
+      text: "# S (playable)",
+      tip: "Number of times this card has been sideboarded but was playable based on the decks color identity.",
+    },
+    {
+      id: "games",
+      text: "# Games",
+      tip: "Number of games played by decks that included this card.",
+    },
+    {
+      id: "elo",
+      text: "ELO",
+      tip: "An ELO ranking based on card pick order in packs, with slight weighting.",
+    },
+    {
+      id: "lastPlayed",
+      text: "Last played",
+      tip: "Date of the draft that this card was last included in a mainboard.",
+    },
+  ]
+
+
   if (input.dropdownSelection === "Mainboard rate") {
     return (
       <div className="scroll-container-large">
@@ -122,15 +177,26 @@ function CardWidgetTable(input) {
         <table className="widget-table">
           <thead className="table-header">
             <tr>
-              <td className="header-cell">Card</td>
-              <td onClick={input.onHeaderClick} id="mainboarded" className="header-cell">Deck%</td>
-              <td onClick={input.onHeaderClick} id="wins" className="header-cell">Win%</td>
-              <td onClick={input.onHeaderClick} id="mb" className="header-cell"># M</td>
-              <td onClick={input.onHeaderClick} id="sb" className="header-cell"># S</td>
-              <td onClick={input.onHeaderClick} id="in-color-sb" className="header-cell"># S (playable)</td>
-              <td onClick={input.onHeaderClick} id="games" className="header-cell"># Games</td>
-              <td onClick={input.onHeaderClick} id="elo" className="header-cell">ELO</td>
-              <td onClick={input.onHeaderClick} id="lastPlayed" className="header-cell">Last played</td>
+            {
+              headers.map(function(hdr, i) {
+                return (
+                  <OverlayTrigger
+                    placement="top"
+                    delay={{ show: 100, hide: 100 }}
+                    overlay={
+                      <Popover id="popover-basic">
+                        <Popover.Header as="h3">{hdr.text}</Popover.Header>
+                        <Popover.Body>
+                          {hdr.tip}
+                        </Popover.Body>
+                      </Popover>
+                    }
+                  >
+                    <td onClick={input.onHeaderClick} id={hdr.id} className="header-cell">{hdr.text}</td>
+                  </OverlayTrigger>
+                );
+              })
+            }
             </tr>
           </thead>
           <tbody>

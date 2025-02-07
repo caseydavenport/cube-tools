@@ -11,7 +11,6 @@ import {
   Tooltip as TooltipJS,
 } from 'react-bootstrap';
 
-
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -180,18 +179,6 @@ function ColorStatsTable(input) {
       continue
     }
     filtered.push(d)
-  }
-
-  const renderTooltip = function(props) {
-
-    // Determine the text to display.
-    var text = "DEFAULT"
-    console.log(props.key)
-    return (
-      <TooltipJS id="button-tooltip" className="table-header" {...props}>
-        {text}
-      </TooltipJS>
-    );
   }
 
   let headers = [

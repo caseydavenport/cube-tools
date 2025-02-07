@@ -4,6 +4,12 @@ import { ApplyTooltip } from "../utils/Tooltip.js"
 import { SortFunc } from "../utils/Utils.js"
 import { Button, TextInput, DropdownHeader, NumericInput, Checkbox, DateSelector } from "../components/Dropdown.js"
 
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
+import Popover from 'react-bootstrap/Popover';
+import {
+  Tooltip as TooltipJS,
+} from 'react-bootstrap';
+
 export function DraftWidget(input) {
   if (!input.show) {
     return
@@ -86,19 +92,77 @@ function DraftOrderWidgetOptions(input) {
 
 
 function DraftOrderWidget(input) {
+  let headers = [
+    {
+      id: "name",
+      text: "Card name",
+      tip: "The card's name."
+    },
+    {
+      id: "count",
+      text: "# Drafts",
+      tip: "Number of drafts that have included this card.",
+    },
+    {
+      id: "p1p1",
+      text: "# P1P1",
+      tip: "Number of times this card has been selected pick 1 of pack 1.",
+    },
+    {
+      id: "avgp1pick",
+      text: "Avg. p1 pick",
+      tip: "Average pick, limited exclusively to instances where this card was present in pack #1.",
+    },
+    {
+      id: "avgpick",
+      text: "Avg. pick",
+      tip: "Average pick for this card within a pack (i.e., out of 15).",
+    },
+    {
+      id: "avgpickabs",
+      text: "Avg. pick (abs)",
+      tip: "Average pick for this card across all packs (i.e., out of 45). Mostly silly, but fun to look at.",
+    },
+    {
+      id: "stddev",
+      text: "Pick deviation",
+      tip: "Pick order standard deviation. A higher number means this card has a higher variance in pick order.",
+    },
+    {
+      id: "p1burn",
+      text: "# P1 Burns",
+      tip: "For drafts that burn cards, the number of times this card was burned in pack #1.",
+    },
+    {
+      id: "burn",
+      text: "# Burns",
+      tip: "For drafts that burn cards, the number of times that this card was burned in total.",
+    },
+  ]
   return (
     <table className="widget-table">
       <thead className="table-header">
         <tr>
-          <td onClick={input.onHeaderClick} id="name" className="header-cell">Card name</td>
-          <td onClick={input.onHeaderClick} id="count" className="header-cell"># Drafts</td>
-          <td onClick={input.onHeaderClick} id="p1p1" className="header-cell"># P1P1</td>
-          <td onClick={input.onHeaderClick} id="avgp1pick" className="header-cell">Avg. p1 pick</td>
-          <td onClick={input.onHeaderClick} id="avgpick" className="header-cell">Avg. pick</td>
-          <td onClick={input.onHeaderClick} id="avgpickabs" className="header-cell">Avg. pick (abs)</td>
-          <td onClick={input.onHeaderClick} id="stddev" className="header-cell">Pick deviation</td>
-          <td onClick={input.onHeaderClick} id="p1burn" className="header-cell"># P1 Burns</td>
-          <td onClick={input.onHeaderClick} id="burn" className="header-cell"># Burns</td>
+          {
+            headers.map(function(hdr, i) {
+              return (
+                <OverlayTrigger
+                  placement="top"
+                  delay={{ show: 100, hide: 100 }}
+                  overlay={
+                    <Popover id="popover-basic">
+                      <Popover.Header as="h3">{hdr.text}</Popover.Header>
+                      <Popover.Body>
+                        {hdr.tip}
+                      </Popover.Body>
+                    </Popover>
+                  }
+                >
+                  <td onClick={input.onHeaderClick} id={hdr.id} className="header-cell">{hdr.text}</td>
+                </OverlayTrigger>
+              );
+            })
+          }
         </tr>
       </thead>
       <tbody>

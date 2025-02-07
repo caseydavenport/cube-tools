@@ -5,6 +5,12 @@ import { Wins, Losses } from "../utils/Deck.js"
 import { DropdownHeader, NumericInput, Checkbox, DateSelector } from "../components/Dropdown.js"
 import { BucketName } from "../utils/Buckets.js"
 
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
+import Popover from 'react-bootstrap/Popover';
+import {
+  Tooltip as TooltipJS,
+} from 'react-bootstrap';
+
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -184,18 +190,65 @@ function ArchetypeStatsTable(input) {
     }
   }
 
+  let headers = [
+    {
+      id: "type",
+      text: "Tag",
+      tip: "Archetype (aggro / midrange / control) or tag applied to a deck. A deck may have multiple tags"
+    },
+    {
+      id: "build_percent",
+      text: "Build %",
+      tip: "Percentage of all built decks that have this archetype / tag.",
+    },
+    {
+      id: "win_percent",
+      text: "Win %",
+      tip: "Win percentage of decks that have this archetype / tag.",
+    },
+    {
+      id: "pwin",
+      text: "% of wins",
+      tip: "Number of wins from decks with this tag, divided by the total number of wins across all decks.",
+    },
+    {
+      id: "num",
+      text: "# Decks",
+      tip: "Total number of decks with this archetype / tag.",
+    },
+    {
+      id: "shared",
+      text: "Avg other types",
+      tip: "Average number of other tags applied to decks with this archetype / tag.",
+    },
+  ]
+
   return (
     <div>
       <ColorPickerHeader display={input.colorCheckboxes} onChecked={input.onColorChecked} />
       <table className="widget-table">
         <thead className="table-header">
           <tr>
-            <td onClick={input.onHeaderClick} id="type" className="header-cell">Archetype</td>
-            <td onClick={input.onHeaderClick} id="build_percent" className="header-cell">Build %</td>
-            <td onClick={input.onHeaderClick} id="win_percent" className="header-cell">Win %</td>
-            <td onClick={input.onHeaderClick} id="pwin" className="header-cell">% of wins</td>
-            <td onClick={input.onHeaderClick} id="num" className="header-cell"># Decks</td>
-            <td onClick={input.onHeaderClick} id="shared" className="header-cell">Avg other types</td>
+            {
+              headers.map(function(hdr, i) {
+                return (
+                  <OverlayTrigger
+                    placement="top"
+                    delay={{ show: 100, hide: 100 }}
+                    overlay={
+                      <Popover id="popover-basic">
+                        <Popover.Header as="h3">{hdr.text}</Popover.Header>
+                        <Popover.Body>
+                          {hdr.tip}
+                        </Popover.Body>
+                      </Popover>
+                    }
+                  >
+                    <td onClick={input.onHeaderClick} id={hdr.id} className="header-cell">{hdr.text}</td>
+                  </OverlayTrigger>
+                );
+              })
+            }
           </tr>
         </thead>
         <tbody>
@@ -328,16 +381,55 @@ function TopCardsInArchetypeWidget(input) {
     filtered.push(card)
   })
 
+  let headers = [
+    {
+      id: "card",
+      text: "Card",
+      tip: "The card's name."
+    },
+    {
+      id: "decks",
+      text: "# Decks",
+      tip: "Number of times this card has been mainboarded in decks with the selected archetype / tag.",
+    },
+    {
+      id: "include_rate",
+      text: "Include rate",
+      tip: "Percentage of decks in the selected archetype / tag that include this card.",
+    },
+    {
+      id: "correlation",
+      text: "Correlation",
+      tip: "How correlated this card is with the selected archetype / tag. Percentage of decks that this card has been mainboarded in that have the selected archetype / tag.",
+    },
+  ]
+
   return (
     <div className="widget-scroll">
       <TopCardsInArchetypeWidgetOptions {...input} />
       <table className="widget-table">
         <thead className="table-header">
           <tr>
-            <td className="header-cell">Card</td>
-            <td className="header-cell"># mb in arch</td>
-            <td className="header-cell">% of decks</td>
-            <td className="header-cell">correlation</td>
+            {
+              headers.map(function(hdr, i) {
+                return (
+                  <OverlayTrigger
+                    placement="top"
+                    delay={{ show: 100, hide: 100 }}
+                    overlay={
+                      <Popover id="popover-basic">
+                        <Popover.Header as="h3">{hdr.text}</Popover.Header>
+                        <Popover.Body>
+                          {hdr.tip}
+                        </Popover.Body>
+                      </Popover>
+                    }
+                  >
+                    <td id={hdr.id} className="header-cell">{hdr.text}</td>
+                  </OverlayTrigger>
+                );
+              })
+            }
           </tr>
         </thead>
         <tbody>
