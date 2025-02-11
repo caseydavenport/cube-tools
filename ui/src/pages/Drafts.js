@@ -261,8 +261,22 @@ function DraftOrderWidget(input) {
 
             return (
               <tr sort={sort} className="widget-table-row" key={pick.name}>
-                <td ><a href={pick.card.url} target="_blank" rel="noopener noreferrer">{pick.name}</a></td>
-                <td><ApplyTooltip text={pick.count} hidden={DraftPickTooltipContent(pick)}/></td>
+                <OverlayTrigger
+                  placement="right"
+                  delay={{ show: 500, hide: 100 }}
+                  overlay={
+                    <Popover id="popover-basic">
+                      <Popover.Header as="h3">Picked by</Popover.Header>
+                      <Popover.Body>
+                        {DraftPickTooltipContent(pick)}
+                      </Popover.Body>
+                    </Popover>
+                  }
+                >
+                  <td ><a href={pick.card.url} target="_blank" rel="noopener noreferrer">{pick.name}</a></td>
+                </OverlayTrigger>
+
+                <td>{pick.count}</td>
                 <td>{firstPicks}</td>
                 <td>{avgPack1Pick}</td>
                 <td>{avgPackPick}</td>

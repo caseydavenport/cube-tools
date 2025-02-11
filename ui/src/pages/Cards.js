@@ -240,10 +240,24 @@ function CardWidgetTable(input) {
 
               return (
                 <tr className="widget-table-row" sort={sort} key={card.name}>
-                  <td id={card.name} onClick={input.onCardSelected}><a href={card.url} target="_blank" rel="noopener noreferrer">{card.name}</a></td>
+                  <OverlayTrigger
+                    placement="top"
+                    delay={{ show: 500, hide: 100 }}
+                    overlay={
+                      <Popover className="wide-pop" id="popover-basic">
+                        <Popover.Header as="h3">Played by</Popover.Header>
+                        <Popover.Body>
+                          {CardMainboardTooltipContent(card)}
+                        </Popover.Body>
+                      </Popover>
+                    }
+                  >
+                    <td id={card.name} onClick={input.onCardSelected}><a href={card.url} target="_blank" rel="noopener noreferrer">{card.name}</a></td>
+                  </OverlayTrigger>
+
                   <td id={card.name} onClick={input.onCardSelected} key="name">{card.mainboard_percent}%</td>
                   <td id={card.name} onClick={input.onCardSelected} key="win_percent">{card.win_percent}%</td>
-                  <td><ApplyTooltip text={card.mainboard} hidden={CardMainboardTooltipContent(card)}/></td>
+                  <td>{card.mainboard}</td>
                   <td>{card.sideboard}</td>
                   <td>{card.playableSideboard}</td>
                   <td>{card.total_games}</td>
@@ -460,8 +474,8 @@ function CardMainboardTooltipContent(card) {
       <table>
         <thead className="table-header">
           <tr>
-            <td id="name" className="header-cell">Player</td>
-            <td id="num" className="header-cell">#</td>
+            <td id="name" className="header-cell">Mainboard</td>
+            <td id="num" className="header-cell">Count</td>
           </tr>
         </thead>
         <tbody>
@@ -480,8 +494,8 @@ function CardMainboardTooltipContent(card) {
       <table>
         <thead className="table-header">
           <tr>
-            <td id="name" className="header-cell">Player</td>
-            <td id="num" className="header-cell">#</td>
+            <td id="name" className="header-cell">Sideboard</td>
+            <td id="num" className="header-cell">Count</td>
           </tr>
         </thead>
         <tbody>

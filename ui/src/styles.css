@@ -354,6 +354,11 @@ table {
   padding-left: 5px;
 }
 
+/* The max width is dependant on the container (more info below) */
+.popover{
+    max-width: 500px ! important; /* Max Width of the popover (depending on the container!) */
+}
+
 .widget-table {
   background: var(--table-background);
   color: var(--white);
