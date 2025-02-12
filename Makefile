@@ -10,6 +10,9 @@ image:
 	docker build -t caseydavenport/cube-tools .
 	docker tag caseydavenport/cube-tools caseydavenport/cube-tools:$(GIT_VERSION)
 
+push:
+	docker push caseydavenport/cube-tools:$(GIT_VERSION)
+
 data/oracle-cards.json:
 	# TODO: Automatically fetch the latest, using the API.
 	mkdir -p data
