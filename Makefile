@@ -1,4 +1,4 @@
-GIT_VERSION=$(git describe --tags --dirty --long --always --abbrev=12)
+GIT_VERSION=$(shell git describe --tags --dirty --long --always --abbrev=12)
 
 all: data/oracle-cards.json bin/parser
 
