@@ -35,8 +35,15 @@ ChartJS.register(
   Legend
 );
 
-const chartHeight = "425px"
+// Chart configuration.
+const chartHeight = "1000px"
 const chartWidth = "300px"
+const ticks = {
+  color: "#FFF",
+  font: {
+    size: 16,
+  },
+}
 
 export const NumDecksOption = "# Decks"
 export const NumSideboardOption = "# Sideboard"
@@ -72,30 +79,14 @@ export function CardWidget(input) {
   }
 
   return (
-    <table style={{"width": "100%"}}>
-      <tbody>
-        <tr style={{"height": "800px"}}>
-          <td style={{"width": "45%", "verticalAlign": "top"}}>
-            <CardWidgetTable {...input} />
-          </td>
-          <td style={{"width": "10%", "verticalAlign": "top"}}>
-            <UndraftedWidget {...input} />
-          </td>
-          <td style={{"width": "40%", "position": "fixed", "verticalAlign": "top"}}>
-            <PlayRateChart {...input} />
-            <WinrateChart {...input} />
-            <ELOChart {...input} />
-          </td>
-        </tr>
-
-        <tr style={{"height": "800px"}}>
-          <td>
-            <CardGraph {...input} />
-          </td>
-        </tr>
-
-      </tbody>
-    </table>
+    <div style={{"width": "100%"}}>
+      <CardWidgetOptions {...input} />
+      <CardWidgetTable {...input} />
+      <WinrateChart {...input} />
+      <PlayRateChart {...input} />
+      <ELOChart {...input} />
+      <CardGraph {...input} />
+    </div>
   );
 }
 
@@ -173,7 +164,6 @@ function CardWidgetTable(input) {
   if (input.dropdownSelection === "Mainboard rate") {
     return (
       <div className="scroll-container-large">
-        <CardWidgetOptions {...input} />
         <table className="widget-table">
           <thead className="table-header">
             <tr>
@@ -241,7 +231,7 @@ function CardWidgetTable(input) {
               return (
                 <tr className="widget-table-row" sort={sort} key={card.name}>
                   <OverlayTrigger
-                    placement="top"
+                    placement="right"
                     delay={{ show: 500, hide: 100 }}
                     overlay={
                       <Popover className="wide-pop" id="popover-basic">
@@ -273,8 +263,7 @@ function CardWidgetTable(input) {
     );
   } else {
     return (
-      <div className="widget-scroll" style={{"maxHeight": "1200px"}}>
-        <CardWidgetOptions {...input} />
+      <div className="scroll-container-large">
         <table className="widget-table">
           <thead className="table-header">
             <tr>
@@ -342,7 +331,8 @@ function CardWidgetTable(input) {
 
 function CardWidgetOptions(input) {
   return (
-    <table className="dropdown-header">
+    <div className="scroll-container-large-header">
+    <table className="scroll-container-large-header">
       <tbody>
         <tr>
           <td className="selection-cell">
@@ -407,58 +397,9 @@ function CardWidgetOptions(input) {
         </tr>
       </tbody>
     </table>
-  );
-}
-
-function UndraftedWidget(input) {
-  let draftData = CardData(input.decks, input.minDrafts, input.minGames, input.cube, "")
-
-  // Build a map of all the cards in the cube so we can
-  // easily discard cards that have been drafted before.
-  let cards = new Map()
-  for (var i in input.cube.cards) {
-    cards.set(input.cube.cards[i].name, input.cube.cards[i])
-  }
-
-  // Discard any cards that have been mainboarded.
-  for (let [name, card] of draftData) {
-    if (card.mainboard > 0) {
-      cards.delete(card.name)
-    }
-  }
-
-  // All that's left are cards that have never been drafted.
-  // Display them in a table. Make them an array first so we can sort.
-  let cardArray = []
-  let num = 0
-  cards.forEach(function(i) {
-    cardArray.push(i)
-    num += 1
-  })
-  return (
-    <div className="scroll-container-large">
-    <table className="widget-table">
-      <thead className="table-header">
-        <tr>
-          <td>{num} cards never mainboarded</td>
-        </tr>
-      </thead>
-      <tbody>
-      {
-        cardArray.map(function(item) {
-         return (
-           <tr sort={item.mainboard_percent} className="widget-table-row" key={item.name}>
-             <td><a href={item.url} target="_blank" rel="noopener noreferrer">{item.name}</a></td>
-           </tr>
-         )
-        })
-      }
-      </tbody>
-    </table>
     </div>
   );
 }
-
 
 function CardMainboardTooltipContent(card) {
   let mainboarders = []
@@ -529,6 +470,9 @@ function PlayRateChart(input) {
   }
 
   let name = input.selectedCard
+  if (name == "") {
+    return
+  }
 
   var mb = []
   var sb = []
@@ -574,7 +518,18 @@ function PlayRateChart(input) {
   const options = {
     responsive: true,
     maintainAspectRatio: false,
-    scales: {y: {min: 0, max: 100}},
+    scales: {
+      y: {
+        min: 0,
+        max: 100,
+        ticks: ticks,
+        title: {display: true, text: "Pick %", font: {size: 20, weight: "bold"}, color: "white"},
+      },
+      x: {
+        title: {display: true, text: "Dates", font: {size: 20, weight: "bold"}, color: "white"},
+        ticks: ticks,
+      },
+    },
     plugins: {
       title: {
         display: true,
@@ -597,8 +552,8 @@ function PlayRateChart(input) {
 
   const data = {labels, datasets: dataset};
   return (
-    <div height={chartHeight} width={chartWidth}>
-      <Line height={chartHeight} width={chartWidth} options={options} data={data} />
+    <div align="center">
+      <Line className="chart" options={options} data={data} />
     </div>
   );
 }
@@ -617,6 +572,9 @@ function ELOChart(input) {
   }
 
   let name = input.selectedCard
+  if (name == "") {
+    return
+  }
 
   let min = 850
   let max = 1450
@@ -653,7 +611,18 @@ function ELOChart(input) {
   const options = {
     responsive: true,
     maintainAspectRatio: false,
-    scales: {y: {min: min-50, max: max+50}},
+    scales: {
+      y: {
+        title: {display: true, text: "Pick ELO", font: {size: 20, weight: "bold"}, color: "white"},
+        min: min-50,
+        max: max+50,
+        ticks: ticks,
+      },
+      x: {
+        title: {display: true, text: "Dates", font: {size: 20, weight: "bold"}, color: "white"},
+        ticks: ticks,
+      },
+    },
     plugins: {
       title: {
         display: true,
@@ -676,8 +645,8 @@ function ELOChart(input) {
 
   const data = {labels, datasets: dataset};
   return (
-    <div height={chartHeight} width={chartWidth}>
-      <Line height={chartHeight} width={chartWidth} options={options} data={data} />
+    <div className="chart-container" align="center">
+      <Line className="chart" options={options} data={data} />
     </div>
   );
 }
@@ -696,6 +665,9 @@ function WinrateChart(input) {
   }
 
   let name = input.selectedCard
+  if (name == "") {
+    return
+  }
 
   var wins = []
   var pows = []
@@ -736,7 +708,18 @@ function WinrateChart(input) {
   const options = {
     responsive: true,
     maintainAspectRatio: false,
-    scales: {y: {min: 0, max: 100}},
+    scales: {
+      y: {
+        title: {display: true, text: "Win %", font: {size: 20, weight: "bold"}, color: "white"},
+        min: 0,
+        max: 100,
+        ticks: ticks,
+      },
+      x: {
+        title: {display: true, text: "Dates", font: {size: 20, weight: "bold"}, color: "white"},
+        ticks: ticks,
+      },
+    },
     plugins: {
       title: {
         display: true,
@@ -759,8 +742,8 @@ function WinrateChart(input) {
 
   const data = {labels, datasets: dataset};
   return (
-    <div height={chartHeight} width={chartWidth}>
-      <Line height={chartHeight} width={chartWidth} options={options} data={data} />
+    <div className="chart-container" align="center">
+      <Line className="chart" options={options} data={data} />
     </div>
   );
 }
@@ -823,14 +806,16 @@ function CardGraph(input) {
     onClick: function(evt, element) {},
     scales: {
       y: {
-        title: {display: true, text: yAxis},
+        title: {display: true, text: yAxis, font: {size: 20, weight: "bold"}, color: "white"},
         min: getScales(yAxis, false)[0],
         max: getScales(yAxis, false)[1],
+        ticks: ticks,
       },
       x: {
-        title: {display: true, text: xAxis},
+        title: {display: true, text: xAxis, font: {size: 20, weight: "bold"}, color: "white"},
         min: getScales(xAxis, false)[0],
         max: getScales(xAxis, false)[1],
+        ticks: ticks,
       },
     },
     plugins: {
@@ -855,23 +840,28 @@ function CardGraph(input) {
 
   const data = {labels, datasets: dataset};
   return (
-    <div>
-      <div style={{"display": "flex"}}>
-        <DropdownHeader
-          label="X Axis"
-          options={CardScatterAxes}
-          value={input.xAxis}
-          onChange={input.onXAxisSelected}
-        />
-        <DropdownHeader
-          label="Y Axis"
-          options={CardScatterAxes}
-          value={input.yAxis}
-          onChange={input.onYAxisSelected}
-        />
-      </div>
-      <div height={chartHeight} width={chartWidth}>
-        <Scatter height={chartHeight} width={chartWidth} options={options} data={data} />
+    <div className="chart-container">
+      <table className="dropdown-header" style={{"width": "75%"}} align="center">
+        <tbody>
+          <tr>
+            <DropdownHeader
+              label="X Axis"
+              options={CardScatterAxes}
+              value={input.xAxis}
+              onChange={input.onXAxisSelected}
+            />
+            <DropdownHeader
+              label="Y Axis"
+              options={CardScatterAxes}
+              value={input.yAxis}
+              onChange={input.onYAxisSelected}
+            />
+          </tr>
+        </tbody>
+      </table>
+
+      <div align="center">
+        <Scatter className="chart" options={options} data={data} />
       </div>
     </div>
   );
