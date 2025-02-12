@@ -12,6 +12,7 @@ image:
 
 push:
 	docker push caseydavenport/cube-tools:$(GIT_VERSION)
+	docker push caseydavenport/cube-tools:latest
 
 data/oracle-cards.json:
 	# TODO: Automatically fetch the latest, using the API.
