@@ -6,7 +6,7 @@ This was the first time a number of cards saw play:
 - [[Rishadan Port]] filled a similar role here - it allowed me to expend mana without expending cards. It was _very_ strong in some situations, like punishing greedier 4 and 5 color decks and delaying creature lands.
 - [[Toxic Deluge]] was great as expected. The life loss cost is definitely a real consideration in this environment, though.
 - [[Accursed Marauder]] was quietly quite solid. I managed to bring it back a few times with [[Virtue of Persistence]] which was great.
-- [[Bloodsky Berserker]] was super fan, and quite strong. It really encourages you to think more carefully about when you're casting your spells, and pays you off handsomely for it.
+- [[Bloodsky Berserker]] was super fun, and quite strong. It really encourages you to think more carefully about when you're casting your spells, and pays you off handsomely for it.
 
 Other notable call outs:
 

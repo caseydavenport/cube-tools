@@ -421,6 +421,14 @@ function DisplayDeck(input) {
     cards = deck.sideboard
   }
 
+  let cardMap = new Map();
+  for (let card of deck.mainboard) {
+    cardMap.set(card.name, card)
+  }
+  for (let card of deck.sideboard) {
+    cardMap.set(card.name, card)
+  }
+
   return (
     <div className="deck-view">
       <PlayerFrame {...input} />
@@ -431,7 +439,7 @@ function DisplayDeck(input) {
         <CardList player={deck.player} cards={cards} deck={deck} sb={input.mbsb == "Sideboard"} opts={{cmc: 3}} />
         <CardList player={deck.player} cards={cards} deck={deck} sb={input.mbsb == "Sideboard"} opts={{cmc: 4}} />
         <CardList player={deck.player} cards={cards} deck={deck} sb={input.mbsb == "Sideboard"} opts={{cmc: 5, gt: true}} />
-        <DeckReport player={deck.player} cards={cards} description={input.description} deck={deck} />
+        <DeckReport player={deck.player} cardMap={cardMap} description={input.description} deck={deck} />
       </div>
     </div>
   );
@@ -441,6 +449,23 @@ function DeckReport(input) {
   if (input.description == "") {
     return;
   }
+
+  // Replace [[cardname]] with links to the card.
+  let description = input.description
+  const match = /\[\[.*\]\]/g
+  let replace = function(val) {
+    // Determine the card name.
+    let cardName = val.replace("[[", "").replace("]]", "")
+
+    if (input.cardMap.has(cardName)) {
+      return "**[" + cardName + "](" + input.cardMap.get(cardName).url + ")**"
+    }
+
+    // No match - return without the link.
+    return cardName
+  }
+  description = description.replace(match, replace)
+
   return (
     <div className="decklist-description">
       <div className="table-header">
@@ -448,7 +473,7 @@ function DeckReport(input) {
       </div>
 
       <ReactMarkdown>
-        {input.description}
+        {description}
       </ReactMarkdown>
     </div>
   );
