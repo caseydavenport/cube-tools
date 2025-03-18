@@ -129,6 +129,20 @@ export async function LoadDrafts(onLoad, start, end) {
   onLoad(drafts)
 }
 
+// FetchFile returns the raw contents of the file.
+export async function FetchFile(path, onFetch) {
+  const resp = await fetch(path);
+  let txt = await resp.text();
+  if (resp.status != 200) {
+    txt = ""
+  }
+  if (onFetch != null) {
+    onFetch(txt);
+    return
+  }
+  return txt;
+}
+
 // FetchIndex loads the draft index file from the server.
 // The draft index file is an index of all the available drafts
 // available on the server.

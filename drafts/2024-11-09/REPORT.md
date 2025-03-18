@@ -73,7 +73,6 @@ Noteworthy:
 - [[Goldmeadow Harrier]] saw some play, which was nice. I think this card is often undervalued, and played pretty well here.
 - [[Puppeteer Clique]] also saw some good action, which was nice. I have been on the verge of cutting it due to underperformance, but this gives it a bit more runway for now.
 - [[Beast Within]] has gotten a lot worse. A 3/3 is a fairly threatening body nowadays. There are still times where you'd prefer a 3/3 with no abilities, but for 3 mana it never really feels good. This one will probably be cut.
-- [[]]
 
 ## {w}{u}{b}{r}{g} 5-color lands / midrange (1-2)
 

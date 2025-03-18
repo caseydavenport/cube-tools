@@ -121,6 +121,22 @@ table {
   width: 400px;
 }
 
+.decklist-description {
+  background: var(--table-background);
+  margin-left: 5px;
+  padding: 15px;
+  color: var(--white);
+  border: none;
+  float: left;
+  font-size: 18px;
+  line-height: 34px;
+  height: 34px;
+  padding: 0px;
+  text-align: left;
+  width: 800px;
+  height: 100%;
+}
+
 .full-options-header {
   background: var(--table-row-selected);
   color: var(--white);
@@ -143,6 +159,8 @@ table {
   font-weight: bold;
   padding: 0px;
   margin: 0px;
+  align: center;
+  text-align: center;
 
   /* Keep table header at the top even when scrolling */
   position: sticky;

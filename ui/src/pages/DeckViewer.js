@@ -1,12 +1,14 @@
 import React from 'react'
 import { useState } from "react";
 import { useEffect } from "react";
-import { LoadDecks } from "../utils/Fetch.js"
+import { LoadDecks, FetchFile } from "../utils/Fetch.js"
 import { Wins, Losses, MatchWins, MatchLosses, MatchDraws, InDeckColor } from "../utils/Deck.js"
 import { RemovalMatches, CounterspellMatches } from "../pages/Decks.js"
 import { SortFunc } from "../utils/Utils.js"
 import { ColorImages, CombineColors } from "../utils/Colors.js"
 import { Button, TextInput, DropdownHeader, NumericInput, Checkbox, DateSelector } from "../components/Dropdown.js"
+import ReactMarkdown from "react-markdown";
+
 
 // This function builds the DeckViewer widget for selecting and viewing statistics
 // about a particular deck.
@@ -84,6 +86,12 @@ export default function DeckViewer() {
     setMaxCMC(event.target.value)
   }
 
+  // Selected description.
+  const [description, setDescription] = useState("");
+  function onDescriptionFetched(f) {
+    setDescription(f)
+  }
+
   // Start of day load the draft index.
   // This is used to populate the drafts dropdown menu.
   useEffect(() => {
@@ -134,6 +142,10 @@ export default function DeckViewer() {
     for (let deck of decks) {
       if (deck.draft == selectedDraft && deck.player == selectedPlayer) {
         setDeck(deck)
+
+        // Load the deck description, if it exists.
+        let f = "drafts/" + deck.draft + "/" + deck.player + ".report.md"
+        FetchFile(f.toLowerCase(), onDescriptionFetched)
         return
       }
     }
@@ -199,6 +211,7 @@ export default function DeckViewer() {
           deck={deck}
           mbsb={mainboardSideboard}
           matchStr={matchStr}
+          description={description}
         />
       </div>
     </div>
@@ -418,7 +431,25 @@ function DisplayDeck(input) {
         <CardList player={deck.player} cards={cards} deck={deck} sb={input.mbsb == "Sideboard"} opts={{cmc: 3}} />
         <CardList player={deck.player} cards={cards} deck={deck} sb={input.mbsb == "Sideboard"} opts={{cmc: 4}} />
         <CardList player={deck.player} cards={cards} deck={deck} sb={input.mbsb == "Sideboard"} opts={{cmc: 5, gt: true}} />
+        <DeckReport player={deck.player} cards={cards} description={input.description} deck={deck} />
       </div>
+    </div>
+  );
+}
+
+function DeckReport(input) {
+  if (input.description == "") {
+    return;
+  }
+  return (
+    <div className="decklist-description">
+      <div className="table-header">
+        Notes from the draft
+      </div>
+
+      <ReactMarkdown>
+        {input.description}
+      </ReactMarkdown>
     </div>
   );
 }
