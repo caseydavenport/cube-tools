@@ -9,12 +9,10 @@ Count,Name,Section
 1,Anje's Ravager,main
 1,Arasta of the Endless Web,main
 1,Arbor Elf,main
-1,Arcbound Tracker,main
 1,Archfiend of Ifnir,main
 2,Arid Mesa,main
 1,Audacity,main
-1,Battlefield Forge,main
-1,Beast Within,main
+1,Barbarian Ring,main
 1,Bitter Triumph,main
 1,Blackmail,main
 1,Blazing Rootwalla,main
@@ -24,7 +22,6 @@ Count,Name,Section
 1,Bloodsky Berserker,main
 1,Bloodsoaked Champion,main
 2,Bloodstained Mire,main
-1,Bolas's Citadel,main
 1,Bomat Courier,main
 1,Bone Shards,main
 1,Bonesplitter,main
@@ -32,7 +29,6 @@ Count,Name,Section
 1,Brainstorm,main
 1,Brainsurge,main
 2,Breeding Pool,main
-1,Brineborn Cutthroat,main
 1,Burst Lightning,main
 1,Call of the Herd,main
 1,Candy Trail,main
@@ -63,7 +59,6 @@ Count,Name,Section
 1,Courser of Kruphix,main
 1,Crimson Wisps,main
 1,Crop Rotation,main
-1,Cunning Lethemancer,main
 1,Curator of Mysteries,main
 1,Cut Down,main
 1,Dark Confidant,main
@@ -75,7 +70,6 @@ Count,Name,Section
 1,Delay,main
 1,Demand Answers,main
 1,Den of the Bugbear,main
-1,Deprive,main
 1,Disfigure,main
 1,Dragon's Rage Channeler,main
 1,Dragonsguard Elite,main
@@ -84,20 +78,22 @@ Count,Name,Section
 1,Dress Down,main
 1,Duress,main
 1,Edge of Autumn,main
-1,Eidolon of Obstruction,main
 1,"Eiganjo, Seat of the Empire",main
+1,Electrostatic Infantry,main
+1,Elegant Parlor,main
 1,Elspeth's Smite,main
+1,Elusive Otter // Grove's Bounty,main
 1,Empty the Warrens,main
 1,Engineered Explosives,main
 1,Ephara's Dispersal,main
-1,Ephemerate,main
+1,Esika's Chariot,main
+1,Esper Sentinel,main
 1,Eternal Witness,main
 1,Ethereal Forager,main
 1,Exclusion Mage,main
 1,Explore,main
 1,Fact or Fiction,main
 1,Faerie Dreamthief,main
-1,Faerie Duelist,main
 1,Faerie Guidemother // Gift of the Fae,main
 1,Faerie Vandal,main
 1,Faithless Looting,main
@@ -119,7 +115,6 @@ Count,Name,Section
 1,Gilded Goose,main
 1,Gitaxian Probe,main
 1,Glass Casket,main
-1,Glimmer Lens,main
 1,Goblin Bombardment,main
 1,Goblin Guide,main
 2,Godless Shrine,main
@@ -127,10 +122,10 @@ Count,Name,Section
 1,Goldmeadow Harrier,main
 1,"Golos, Tireless Pilgrim",main
 1,"Greta, Sweettooth Scourge",main
+1,Grim Bauble,main
 1,Grim Discovery,main
 1,Grim Flayer,main
 1,Grim Lavamancer,main
-1,Gruff Triplets,main
 2,Hallowed Fountain,main
 1,Hardened Scales,main
 1,Harm's Way,main
@@ -144,11 +139,11 @@ Count,Name,Section
 1,Infernal Grasp,main
 1,"Inti, Seneschal of the Sun",main
 1,Into the Roil,main
-1,Intrepid Trufflesnout // Go Hog Wild,main
 1,Irencrag Pyromancer,main
 1,"Jolrael, Mwonvuli Recluse",main
 1,Journey to Nowhere,main
 1,"Kellan, the Fae-Blooded // Birthright Boon",main
+1,"Kiora, the Rising Tide",main
 1,Kitchen Finks,main
 1,Kitesail Freebooter,main
 1,Knight of the Ebon Legion,main
@@ -168,8 +163,11 @@ Count,Name,Section
 1,Lórien Revealed,main
 1,Lost Jitte,main
 1,Lotus Cobra,main
+1,Luminarch Aspirant,main
+1,Lush Portico,main
 1,Magma Jet,main
 1,Mana Leak,main
+1,Mana Tithe,main
 1,Manamorphose,main
 1,March of Otherworldly Light,main
 1,Marionette Apprentice,main
@@ -182,17 +180,16 @@ Count,Name,Section
 1,Mesmeric Fiend,main
 1,Meticulous Archive,main
 1,Miscalculation,main
+1,Mischievous Mystic,main
 1,Mishra's Bauble,main
 2,Misty Rainforest,main
 1,Mizzium Tank,main
-1,Mogg War Marshal,main
 1,Monastery Mentor,main
 1,Monastery Swiftspear,main
 1,Moon-Circuit Hacker,main
 1,Mosquito Guard,main
 1,Mosswood Dreadknight // Dread Whispers,main
 1,Mother of Runes,main
-1,Mulldrifter,main
 1,Murderous Cut,main
 1,Murderous Redcap,main
 1,Mystic Confluence,main
@@ -216,20 +213,23 @@ Count,Name,Section
 1,Portable Hole,main
 1,Portent,main
 1,Preordain,main
+1,Primeval Titan,main
 1,Prismatic Ending,main
 1,Prismatic Vista,main
+1,Proft's Eidetic Memory,main
 1,Psychic Frog,main
 1,Puppeteer Clique,main
 1,Pyrite Spellbomb,main
 1,Pyroclasm,main
 1,Qasali Pridemage,main
 1,Quest for the Gemblades,main
-1,Quest for the Gravelord,main
 1,Questing Druid // Seek the Beast,main
 1,Rabbit Battery,main
 1,Raise the Alarm,main
+1,Raucous Theater,main
 1,Ravenous Squirrel,main
 1,Read the Bones,main
+1,Reckless Pyrosurfer,main
 1,Reinforced Ronin,main
 1,Remand,main
 1,"Renata, Called to the Hunt",main
@@ -244,12 +244,12 @@ Count,Name,Section
 1,"Saheeli, Sublime Artificer",main
 2,Scalding Tarn,main
 1,Scalding Viper // Steam Clean,main
-1,Scattered Groves,main
 1,Scavenging Ooze,main
 1,Scrabbling Claws,main
 1,Scrapwork Mutt,main
 1,Scryb Ranger,main
 1,Seal of Fire,main
+1,Searslicer Goblin,main
 1,Seasoned Hallowblade,main
 1,Seasoned Pyromancer,main
 1,Sedgemoor Witch,main
@@ -259,10 +259,8 @@ Count,Name,Section
 1,Shark Typhoon,main
 1,Shelldock Isle,main
 1,Sheltered Thicket,main
-1,Siege-Gang Commander,main
 1,Silent Clearing,main
 1,Six,main
-1,Skarrgan Hellkite,main
 1,Snapcaster Mage,main
 1,Song of the Dryads,main
 1,Soul Partition,main
@@ -270,17 +268,17 @@ Count,Name,Section
 1,Soul-Scar Mage,main
 1,Sparring Construct,main
 1,Spell Pierce,main
+1,Spell Snare,main
 1,Spellstutter Sprite,main
 1,Spider Food,main
 1,Spirited Companion,main
 1,Sprite Dragon,main
-1,Stalactite Stalker,main
 2,Steam Vents,main
 1,Steppe Lynx,main
 1,Stern Scolding,main
 2,Stomping Ground,main
-1,Sulfurous Springs,main
 1,Sunbaked Canyon,main
+1,Sylvan Library,main
 1,"Takenuma, Abandoned Mire",main
 1,"Tameshi, Reality Architect",main
 1,"Tamiyo, Compleated Sage",main
@@ -298,13 +296,12 @@ Count,Name,Section
 1,Thing in the Ice // Awoken Horror,main
 1,Thoughtseize,main
 1,Thraben Inspector,main
-1,Throne of the God-Pharaoh,main
 1,Thundering Falls,main
 1,Tibalt's Rager,main
 1,Tidehollow Sculler,main
+1,Time Wipe,main
 1,Tireless Tracker,main
 1,"Titania, Protector of Argoth",main
-1,Torch the Tower,main
 1,Touch the Spirit Realm,main
 1,Toxic Deluge,main
 1,Tragic Fall,main
@@ -320,6 +317,7 @@ Count,Name,Section
 1,Unexpectedly Absent,main
 1,Unholy Heat,main
 1,Unsummon,main
+1,Urza's Bauble,main
 1,Urza's Saga,main
 1,Utopia Sprawl,main
 2,Verdant Catacombs,main
@@ -334,9 +332,11 @@ Count,Name,Section
 1,Welcoming Vampire,main
 1,Werefox Bodyguard,main
 1,Wilderness Reclamation,main
+1,Wildfire Wickerfolk,main
 2,Windswept Heath,main
 1,Woe Strider,main
 2,Wooded Foothills,main
 1,Wrath of God,main
+1,Wrenn and Six,main
 1,Young Pyromancer,main
 

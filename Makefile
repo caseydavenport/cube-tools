@@ -14,12 +14,13 @@ push:
 	docker push caseydavenport/cube-tools:$(GIT_VERSION)
 	docker push caseydavenport/cube-tools:latest
 
+ORACLE_URL=https://data.scryfall.io/oracle-cards/oracle-cards-20250405210637.json
 data/oracle-cards.json:
 	# TODO: Automatically fetch the latest, using the API.
 	mkdir -p data
-	wget https://data.scryfall.io/oracle-cards/oracle-cards-20240628210243.json -O $@
+	wget $(ORACLE_URL) -O $@
 
-index:
+index: data/oracle-cards.json
 	go run ./main.go index
 
 clean:
