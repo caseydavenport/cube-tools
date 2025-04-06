@@ -1,0 +1,40 @@
+1 Verdant Catacombs
+1 Scrabbling Claws
+1 Luminarch Aspirant
+1 Primeval Titan
+1 Overgrown Tomb
+1 Abundant Harvest
+1 Polluted Delta
+1 Six
+1 Misty Rainforest
+1 Murderous Cut
+1 Fatal Push
+1 Inexorable Blob
+1 Fearless Fledgling
+1 Phelia, Exuberant Shepherd
+1 Roaring Earth
+1 Tarmogoyf
+1 Urza's Bauble
+1 Arbor Elf
+1 Grim Discovery
+1 Sevinne's Reclamation
+1 Eiganjo, Seat of the Empire
+1 Unearth
+1 Journey to Nowhere
+1 Tragic Fall
+1 Kor Skyfisher
+1 Liliana of the Veil
+1 Temple Garden
+1 Cut Down
+1 Engineered Explosives
+1 Scavenging Ooze
+1 Ulcerate
+1 Werefox Bodyguard
+1 Esika's Chariot
+1 Faerie Dreamthief
+2 Plains
+2 Swamp
+3 Forest
+
+1 Fire
+1 Spellstutter Sprite

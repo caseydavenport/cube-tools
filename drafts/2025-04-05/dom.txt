@@ -1,0 +1,37 @@
+1 Gitaxian Probe
+1 Wooded Foothills
+1 Krenko, Tin Street Kingpin
+1 Dreamtide Whale
+1 Faerie Vandal
+1 Thundering Falls
+1 Fact or Fiction
+1 Burst Lightning
+1 Delay
+1 Scryb Ranger
+1 Territorial Kavu
+1 Man-o'-War
+1 Serum Visions
+1 Breeding Pool
+1 Dragon's Rage Channeler
+1 Into the Roil
+1 Ponder
+1 Saheeli, Sublime Artificer
+1 Parallel Lives
+1 Consider
+1 Condescend
+1 Rielle, the Everwise
+1 Stomping Ground
+1 Seasoned Pyromancer
+1 Boseiju, Who Endures
+1 Kiora, the Rising Tide
+1 Counterspell
+1 Lightning Bolt
+1 Den of the Bugbear
+1 Scalding Tarn
+1 Young Pyromancer
+1 Mark of Mutiny
+1 Spell Snare
+1 Aether Tradewinds
+1 Misty Rainforest
+
+1 Chart a Course

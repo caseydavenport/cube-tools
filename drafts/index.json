@@ -458,6 +458,18 @@
      "path": "drafts/2024-11-09/xander.json"
     }
    ]
+  },
+  {
+   "date": "2025-04-05",
+   "draft_log": "",
+   "decks": [
+    {
+     "path": "drafts/2025-04-05/casey.json"
+    },
+    {
+     "path": "drafts/2025-04-05/dom.json"
+    }
+   ]
   }
  ]
 }
