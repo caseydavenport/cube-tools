@@ -1,0 +1,55 @@
+1 Windswept Heath
+1 Monastery Mentor
+1 Man-o'-War
+1 Mystic Confluence
+1 Collected Company
+1 Careful Study
+1 Eternal Witness
+1 Serum Visions
+1 Jolrael, Mwonvuli Recluse
+1 Flooded Strand
+1 Werefox Bodyguard
+1 Tireless Tracker
+1 Proft's Eidetic Memory
+1 Misty Rainforest
+1 Temple Garden
+1 Lotus Cobra
+1 Lion Sash
+1 Tarmogoyf
+1 Temple Garden
+1 Faerie Vandal
+1 Repeal
+1 Sylvan Library
+1 Mishra's Bauble
+1 Counterspell
+1 Unsummon
+1 Consider
+1 Hallowed Fountain
+1 Otawara, Soaring City
+1 Remand
+1 Opt
+1 Treasure Cruise
+1 Scalding Tarn
+2 Plains
+3 Island
+3 Forest
+
+1 Bloodsoaked Champion
+1 Marionette Apprentice
+1 Tibalt's Rager
+1 Tragic Fall
+1 Bloodstained Mire
+1 Bloodstained Mire
+1 Wildfire Wickerfolk
+1 Mosswood Dreadknight
+1 Edge of Autumn
+1 Agonizing Remorse
+1 Audacity
+1 Cloudgoat Ranger
+1 Overgrown Tomb
+1 Hunting Triad
+1 Containment Construct
+1 Kitchen Finks
+1 Life from the Loam
+1 Curator of Mysteries
+1 Warden of the Inner Sky

@@ -60,8 +60,8 @@ export default function DeckViewer() {
   }
 
   function onDeckClicked(event) {
-    // The ID is the full path to the deck, of the form
-    // <draft>/<player>.
+    // The ID is assigned to each deck on load.
+    // <draft>/<player>/<id>
 
     // Parse the draft and deck, and update the dropdowns.
     let splits = event.target.id.split("/")
@@ -137,10 +137,10 @@ export default function DeckViewer() {
       return
     }
 
-    // Find the deck based on the selected draft and player,
-    // and set the active deck.
+    // Find the deck and set the active deck.
     for (let deck of decks) {
-      if (deck.draft == selectedDraft && deck.player == selectedPlayer) {
+      if (deck.id == highlightedDeck) {
+        console.log("FOUND IT")
         setDeck(deck)
 
         // Load the deck description, if it exists.
@@ -331,7 +331,8 @@ function FilteredDecks(input) {
 
               let color = draftToColor.get(deck.draft)
               let className = "widget-table-row"
-              if (input.highlight === deck.date + "/" + deck.player) {
+
+              if (input.highlight == deck.id) {
                 className = "card-highlight"
                 color = "#6EA579"
               }
@@ -389,14 +390,13 @@ function DeckTableCell(input) {
   }
 
   let win_percent = Math.round(100 * Wins(input.deck) / (Wins(input.deck) + Losses(input.deck)))
-  let deckID = deck.date + "/" + deck.player
   return (
       <table className="deck-meta-table">
       <tbody>
         <tr className="deck-entry" style={{"--background-color": input.color}}>
-          <td style={{"width": "20%", "padding-left": "10px"}} id={deckID} idx={input.idx} onClick={input.onDeckClicked} key="date">{deck.date}</td>
-          <td style={{"width": "30%", "padding-left": "0px"}} id={deckID} idx={input.idx} onClick={input.onDeckClicked} key="player">{deck.player}</td>
-          <td style={{"width": "30%", "padding-left": "0px"}} id={deckID} idx={input.idx} onClick={input.onDeckClicked} key="wins">{record} ({win_percent}%)</td>
+          <td style={{"width": "20%", "padding-left": "10px"}} id={deck.id} idx={input.idx} onClick={input.onDeckClicked} key="date">{deck.date}</td>
+          <td style={{"width": "30%", "padding-left": "0px"}} id={deck.id} idx={input.idx} onClick={input.onDeckClicked} key="player">{deck.player}</td>
+          <td style={{"width": "30%", "padding-left": "0px"}} id={deck.id} idx={input.idx} onClick={input.onDeckClicked} key="wins">{record} ({win_percent}%)</td>
         </tr>
       </tbody>
       </table>

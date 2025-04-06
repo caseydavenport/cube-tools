@@ -461,13 +461,25 @@
   },
   {
    "date": "2025-04-05",
-   "draft_log": "",
+   "draft_log": "drafts/2025-04-05/draft-log.json",
    "decks": [
     {
      "path": "drafts/2025-04-05/casey.json"
     },
     {
      "path": "drafts/2025-04-05/dom.json"
+    }
+   ]
+  },
+  {
+   "date": "2025-04-05_2",
+   "draft_log": "drafts/2025-04-05_2/draft-log.json",
+   "decks": [
+    {
+     "path": "drafts/2025-04-05_2/casey.json"
+    },
+    {
+     "path": "drafts/2025-04-05_2/dom.json"
     }
    ]
   }

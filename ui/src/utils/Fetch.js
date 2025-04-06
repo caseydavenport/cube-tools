@@ -66,6 +66,13 @@ export async function LoadDecks(onLoad, start, end, draftSize, playerMatch) {
     // TODO: For historical purposes. We don't actually need both of these fields.
     d.draft = d.date
 
+    // Trim off any suffix following an `_` - this is used in the filesystem in cases where there are two
+    // drafts on the same date (e.g., 2025-04-05_2 being the second draft on that date).
+    d.date = d.date.split("_")[0]
+
+    // Set a unique ID for this deck.
+    d.id = d.draft + "/" + d.player
+
     // Capitalize player names, since they are varying cases.
     d.player = capitalize(d.player)
     if (d.games != null ) {
