@@ -1,4 +1,8 @@
 {
+ "metadata": {
+  "path": "data/polyverse/2024-03-31/james.json",
+  "draft_id": "2024-03-31"
+ },
  "labels": [
   "aggro",
   "control"
@@ -72,8 +76,8 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/neo/266/boseiju-who-endures?utm_source=api",
-   "oracle_text": "{T}: Add {G}.\nChannel — {1}{G}, Discard Boseiju, Who Endures: Destroy target artifact, enchantment, or nonbasic land an opponent controls. That player may search their library for a land card with a basic land type, put it onto the battlefield, then shuffle. This ability costs {1} less to activate for each legendary creature you control.",
-   "appearances": 5
+   "oracle_text": "{T}: Add {G}.\nChannel — {1}{G}, Discard this card: Destroy target artifact, enchantment, or nonbasic land an opponent controls. That player may search their library for a land card with a basic land type, put it onto the battlefield, then shuffle. This ability costs {1} less to activate for each legendary creature you control.",
+   "appearances": 1
   },
   {
    "name": "Dreadhorde Arcanist",
@@ -94,8 +98,8 @@
    ],
    "mana_cost": "{1}{R}",
    "url": "https://scryfall.com/card/war/125/dreadhorde-arcanist?utm_source=api",
-   "oracle_text": "Trample\nWhenever Dreadhorde Arcanist attacks, you may cast target instant or sorcery card with mana value less than or equal to Dreadhorde Arcanist's power from your graveyard without paying its mana cost. If that spell would be put into your graveyard, exile it instead.",
-   "appearances": 6
+   "oracle_text": "Trample\nWhenever this creature attacks, you may cast target instant or sorcery card with mana value less than or equal to this creature's power from your graveyard without paying its mana cost. If that spell would be put into your graveyard, exile it instead.",
+   "appearances": 1
   },
   {
    "name": "Gruff Triplets",
@@ -116,8 +120,8 @@
    ],
    "mana_cost": "{3}{G}{G}{G}",
    "url": "https://scryfall.com/card/woe/172/gruff-triplets?utm_source=api",
-   "oracle_text": "Trample\nWhen Gruff Triplets enters the battlefield, if it isn't a token, create two tokens that are copies of it.\nWhen Gruff Triplets dies, put a number of +1/+1 counters equal to its power on each creature you control named Gruff Triplets.",
-   "appearances": 8
+   "oracle_text": "Trample\nWhen this creature enters, if it isn't a token, create two tokens that are copies of it.\nWhen this creature dies, put a number of +1/+1 counters equal to its power on each creature you control named Gruff Triplets.",
+   "appearances": 1
   },
   {
    "name": "Stomping Ground",
@@ -137,8 +141,8 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/rvr/289/stomping-ground?utm_source=api",
-   "oracle_text": "({T}: Add {R} or {G}.)\nAs Stomping Ground enters the battlefield, you may pay 2 life. If you don't, it enters the battlefield tapped.",
-   "appearances": 4
+   "oracle_text": "({T}: Add {R} or {G}.)\nAs this land enters, you may pay 2 life. If you don't, it enters tapped.",
+   "appearances": 1
   },
   {
    "name": "Domri, Anarch of Bolas",
@@ -162,7 +166,7 @@
    "mana_cost": "{1}{R}{G}",
    "url": "https://scryfall.com/card/war/191/domri-anarch-of-bolas?utm_source=api",
    "oracle_text": "Creatures you control get +1/+0.\n+1: Add {R} or {G}. Creature spells you cast this turn can't be countered.\n−2: Target creature you control fights target creature you don't control.",
-   "appearances": 5
+   "appearances": 1
   },
   {
    "name": "Abrade",
@@ -178,9 +182,9 @@
     "R"
    ],
    "mana_cost": "{1}{R}",
-   "url": "https://scryfall.com/card/lci/131/abrade?utm_source=api",
+   "url": "https://scryfall.com/card/tdc/203/abrade?utm_source=api",
    "oracle_text": "Choose one —\n• Abrade deals 3 damage to target creature.\n• Destroy target artifact.",
-   "appearances": 4
+   "appearances": 1
   },
   {
    "name": "Flame Slash",
@@ -198,7 +202,7 @@
    "mana_cost": "{R}",
    "url": "https://scryfall.com/card/cn2/157/flame-slash?utm_source=api",
    "oracle_text": "Flame Slash deals 4 damage to target creature.",
-   "appearances": 4
+   "appearances": 1
   },
   {
    "name": "Lotus Cobra",
@@ -218,8 +222,8 @@
    ],
    "mana_cost": "{1}{G}",
    "url": "https://scryfall.com/card/znr/193/lotus-cobra?utm_source=api",
-   "oracle_text": "Landfall — Whenever a land enters the battlefield under your control, add one mana of any color.",
-   "appearances": 4
+   "oracle_text": "Landfall — Whenever a land you control enters, add one mana of any color.",
+   "appearances": 1
   },
   {
    "name": "Firebolt",
@@ -237,7 +241,7 @@
    "mana_cost": "{R}",
    "url": "https://scryfall.com/card/mh1/122/firebolt?utm_source=api",
    "oracle_text": "Firebolt deals 2 damage to any target.\nFlashback {4}{R} (You may cast this card from your graveyard for its flashback cost. Then exile it.)",
-   "appearances": 3
+   "appearances": 1
   },
   {
    "name": "Arasta of the Endless Web",
@@ -258,9 +262,9 @@
     "G"
    ],
    "mana_cost": "{2}{G}{G}",
-   "url": "https://scryfall.com/card/cmm/885/arasta-of-the-endless-web?utm_source=api",
+   "url": "https://scryfall.com/card/tdc/244/arasta-of-the-endless-web?utm_source=api",
    "oracle_text": "Reach\nWhenever an opponent casts an instant or sorcery spell, create a 1/2 green Spider creature token with reach.",
-   "appearances": 3
+   "appearances": 1
   },
   {
    "name": "Beast Within",
@@ -276,9 +280,9 @@
     "G"
    ],
    "mana_cost": "{2}{G}",
-   "url": "https://scryfall.com/card/lcc/233/beast-within?utm_source=api",
+   "url": "https://scryfall.com/card/tdc/249/beast-within?utm_source=api",
    "oracle_text": "Destroy target permanent. Its controller creates a 3/3 green Beast creature token.",
-   "appearances": 2
+   "appearances": 1
   },
   {
    "name": "Blazing Rootwalla",
@@ -298,8 +302,8 @@
    ],
    "mana_cost": "{R}",
    "url": "https://scryfall.com/card/mh2/115/blazing-rootwalla?utm_source=api",
-   "oracle_text": "{R}: Blazing Rootwalla gets +2/+0 until end of turn. Activate only once each turn.\nMadness {0} (If you discard this card, discard it into exile. When you do, cast it for its madness cost or put it into your graveyard.)",
-   "appearances": 3
+   "oracle_text": "{R}: This creature gets +2/+0 until end of turn. Activate only once each turn.\nMadness {0} (If you discard this card, discard it into exile. When you do, cast it for its madness cost or put it into your graveyard.)",
+   "appearances": 1
   },
   {
    "name": "Seal of Fire",
@@ -316,8 +320,8 @@
    ],
    "mana_cost": "{R}",
    "url": "https://scryfall.com/card/jvc/50/seal-of-fire?utm_source=api",
-   "oracle_text": "Sacrifice Seal of Fire: It deals 2 damage to any target.",
-   "appearances": 6
+   "oracle_text": "Sacrifice this enchantment: It deals 2 damage to any target.",
+   "appearances": 1
   },
   {
    "name": "Cankerbloom",
@@ -338,8 +342,8 @@
    ],
    "mana_cost": "{1}{G}",
    "url": "https://scryfall.com/card/one/161/cankerbloom?utm_source=api",
-   "oracle_text": "{1}, Sacrifice Cankerbloom: Choose one —\n• Destroy target artifact.\n• Destroy target enchantment.\n• Proliferate. (Choose any number of permanents and/or players, then give each another counter of each kind already there.)",
-   "appearances": 4
+   "oracle_text": "{1}, Sacrifice this creature: Choose one —\n• Destroy target artifact.\n• Destroy target enchantment.\n• Proliferate. (Choose any number of permanents and/or players, then give each another counter of each kind already there.)",
+   "appearances": 1
   },
   {
    "name": "Kraul Harpooner",
@@ -360,8 +364,8 @@
    ],
    "mana_cost": "{1}{G}",
    "url": "https://scryfall.com/card/clu/167/kraul-harpooner?utm_source=api",
-   "oracle_text": "Reach\nUndergrowth — When Kraul Harpooner enters the battlefield, choose up to one target creature you don't control with flying. Kraul Harpooner gets +X/+0 until end of turn, where X is the number of creature cards in your graveyard, then you may have Kraul Harpooner fight that creature.",
-   "appearances": 4
+   "oracle_text": "Reach\nUndergrowth — When this creature enters, choose up to one target creature you don't control with flying. This creature gets +X/+0 until end of turn, where X is the number of creature cards in your graveyard, then you may have this creature fight that creature.",
+   "appearances": 1
   },
   {
    "name": "Untamed Kavu",
@@ -381,7 +385,7 @@
    ],
    "mana_cost": "{1}{G}",
    "url": "https://scryfall.com/card/dom/186/untamed-kavu?utm_source=api",
-   "oracle_text": "Kicker {3} (You may pay an additional {3} as you cast this spell.)\nVigilance, trample\nIf Untamed Kavu was kicked, it enters the battlefield with three +1/+1 counters on it."
+   "oracle_text": "Kicker {3} (You may pay an additional {3} as you cast this spell.)\nVigilance, trample\nIf this creature was kicked, it enters with three +1/+1 counters on it."
   },
   {
    "name": "Flame Jab",
@@ -399,7 +403,7 @@
    "mana_cost": "{R}",
    "url": "https://scryfall.com/card/ema/131/flame-jab?utm_source=api",
    "oracle_text": "Flame Jab deals 1 damage to any target.\nRetrace (You may cast this card from your graveyard by discarding a land card in addition to paying its other costs.)",
-   "appearances": 7
+   "appearances": 1
   },
   {
    "name": "Goblin Guide",
@@ -420,8 +424,8 @@
    ],
    "mana_cost": "{R}",
    "url": "https://scryfall.com/card/2xm/127/goblin-guide?utm_source=api",
-   "oracle_text": "Haste\nWhenever Goblin Guide attacks, defending player reveals the top card of their library. If it's a land card, that player puts it into their hand.",
-   "appearances": 3
+   "oracle_text": "Haste\nWhenever this creature attacks, defending player reveals the top card of their library. If it's a land card, that player puts it into their hand.",
+   "appearances": 1
   },
   {
    "name": "Roaring Earth",
@@ -438,8 +442,8 @@
    ],
    "mana_cost": "{1}{G}",
    "url": "https://scryfall.com/card/neo/204/roaring-earth?utm_source=api",
-   "oracle_text": "Landfall — Whenever a land enters the battlefield under your control, put a +1/+1 counter on target creature or Vehicle you control.\nChannel — {X}{G}{G}, Discard Roaring Earth: Put X +1/+1 counters on target land you control. It becomes a 0/0 green Spirit creature with haste. It's still a land.",
-   "appearances": 7
+   "oracle_text": "Landfall — Whenever a land you control enters, put a +1/+1 counter on target creature or Vehicle you control.\nChannel — {X}{G}{G}, Discard this card: Put X +1/+1 counters on target land you control. It becomes a 0/0 green Spirit creature with haste. It's still a land.",
+   "appearances": 1
   },
   {
    "name": "Lightning Bolt",
@@ -457,7 +461,7 @@
    "mana_cost": "{R}",
    "url": "https://scryfall.com/card/clu/141/lightning-bolt?utm_source=api",
    "oracle_text": "Lightning Bolt deals 3 damage to any target.",
-   "appearances": 4
+   "appearances": 1
   },
   {
    "name": "Lizard Blades",
@@ -480,7 +484,7 @@
    "mana_cost": "{1}{R}",
    "url": "https://scryfall.com/card/neo/153/lizard-blades?utm_source=api",
    "oracle_text": "Double strike\nEquipped creature has double strike.\nReconfigure {2} ({2}: Attach to target creature you control; or unattach from a creature. Reconfigure only as a sorcery. While attached, this isn't a creature.)",
-   "appearances": 5
+   "appearances": 1
   },
   {
    "name": "Scavenging Ooze",
@@ -499,9 +503,9 @@
     "G"
    ],
    "mana_cost": "{1}{G}",
-   "url": "https://scryfall.com/card/ncc/309/scavenging-ooze?utm_source=api",
-   "oracle_text": "{G}: Exile target card from a graveyard. If it was a creature card, put a +1/+1 counter on Scavenging Ooze and you gain 1 life.",
-   "appearances": 5
+   "url": "https://scryfall.com/card/fdn/232/scavenging-ooze?utm_source=api",
+   "oracle_text": "{G}: Exile target card from a graveyard. If it was a creature card, put a +1/+1 counter on this creature and you gain 1 life.",
+   "appearances": 1
   },
   {
    "name": "Young Pyromancer",
@@ -521,9 +525,9 @@
     "R"
    ],
    "mana_cost": "{1}{R}",
-   "url": "https://scryfall.com/card/otc/185/young-pyromancer?utm_source=api",
+   "url": "https://scryfall.com/card/tdc/95/young-pyromancer?utm_source=api",
    "oracle_text": "Whenever you cast an instant or sorcery spell, create a 1/1 red Elemental creature token.",
-   "appearances": 4
+   "appearances": 1
   },
   {
    "name": "Punishing Fire",
@@ -540,8 +544,8 @@
    ],
    "mana_cost": "{1}{R}",
    "url": "https://scryfall.com/card/cmd/131/punishing-fire?utm_source=api",
-   "oracle_text": "Punishing Fire deals 2 damage to any target.\nWhenever an opponent gains life, you may pay {R}. If you do, return Punishing Fire from your graveyard to your hand.",
-   "appearances": 6
+   "oracle_text": "Punishing Fire deals 2 damage to any target.\nWhenever an opponent gains life, you may pay {R}. If you do, return this card from your graveyard to your hand.",
+   "appearances": 1
   },
   {
    "name": "Burst Lightning",
@@ -557,9 +561,9 @@
     "R"
    ],
    "mana_cost": "{R}",
-   "url": "https://scryfall.com/card/mm2/109/burst-lightning?utm_source=api",
+   "url": "https://scryfall.com/card/fdn/192/burst-lightning?utm_source=api",
    "oracle_text": "Kicker {4} (You may pay an additional {4} as you cast this spell.)\nBurst Lightning deals 2 damage to any target. If this spell was kicked, it deals 4 damage instead.",
-   "appearances": 4
+   "appearances": 1
   },
   {
    "name": "Mizzium Tank",
@@ -579,7 +583,7 @@
    ],
    "mana_cost": "{1}{R}{R}",
    "url": "https://scryfall.com/card/war/138/mizzium-tank?utm_source=api",
-   "oracle_text": "Trample\nWhenever you cast a noncreature spell, Mizzium Tank becomes an artifact creature and gets +1/+1 until end of turn.\nCrew 1 (Tap any number of creatures you control with total power 1 or more: This Vehicle becomes an artifact creature until end of turn.)",
+   "oracle_text": "Trample\nWhenever you cast a noncreature spell, this Vehicle becomes an artifact creature and gets +1/+1 until end of turn.\nCrew 1 (Tap any number of creatures you control with total power 1 or more: This Vehicle becomes an artifact creature until end of turn.)",
    "appearances": 1
   },
   {
@@ -596,9 +600,9 @@
     "R"
    ],
    "mana_cost": "{R}",
-   "url": "https://scryfall.com/card/otc/165/faithless-looting?utm_source=api",
+   "url": "https://scryfall.com/card/tdc/213/faithless-looting?utm_source=api",
    "oracle_text": "Draw two cards, then discard two cards.\nFlashback {2}{R} (You may cast this card from your graveyard for its flashback cost. Then exile it.)",
-   "appearances": 5
+   "appearances": 1
   },
   {
    "name": "Lava Dart",
@@ -616,7 +620,7 @@
    "mana_cost": "{R}",
    "url": "https://scryfall.com/card/mh1/134/lava-dart?utm_source=api",
    "oracle_text": "Lava Dart deals 1 damage to any target.\nFlashback—Sacrifice a Mountain. (You may cast this card from your graveyard for its flashback cost. Then exile it.)",
-   "appearances": 3
+   "appearances": 1
   },
   {
    "name": "Mountain",
@@ -634,9 +638,9 @@
     "R"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/316/mountain?utm_source=api",
+   "url": "https://scryfall.com/card/tdm/283/mountain?utm_source=api",
    "oracle_text": "({T}: Add {R}.)",
-   "appearances": 22
+   "appearances": 1
   },
   {
    "name": "Mountain",
@@ -654,9 +658,9 @@
     "R"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/316/mountain?utm_source=api",
+   "url": "https://scryfall.com/card/tdm/283/mountain?utm_source=api",
    "oracle_text": "({T}: Add {R}.)",
-   "appearances": 22
+   "appearances": 1
   },
   {
    "name": "Mountain",
@@ -674,9 +678,9 @@
     "R"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/316/mountain?utm_source=api",
+   "url": "https://scryfall.com/card/tdm/283/mountain?utm_source=api",
    "oracle_text": "({T}: Add {R}.)",
-   "appearances": 22
+   "appearances": 1
   },
   {
    "name": "Mountain",
@@ -694,9 +698,9 @@
     "R"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/316/mountain?utm_source=api",
+   "url": "https://scryfall.com/card/tdm/283/mountain?utm_source=api",
    "oracle_text": "({T}: Add {R}.)",
-   "appearances": 22
+   "appearances": 1
   },
   {
    "name": "Mountain",
@@ -714,9 +718,9 @@
     "R"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/316/mountain?utm_source=api",
+   "url": "https://scryfall.com/card/tdm/283/mountain?utm_source=api",
    "oracle_text": "({T}: Add {R}.)",
-   "appearances": 22
+   "appearances": 1
   },
   {
    "name": "Mountain",
@@ -734,9 +738,9 @@
     "R"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/316/mountain?utm_source=api",
+   "url": "https://scryfall.com/card/tdm/283/mountain?utm_source=api",
    "oracle_text": "({T}: Add {R}.)",
-   "appearances": 22
+   "appearances": 1
   },
   {
    "name": "Mountain",
@@ -754,9 +758,9 @@
     "R"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/316/mountain?utm_source=api",
+   "url": "https://scryfall.com/card/tdm/283/mountain?utm_source=api",
    "oracle_text": "({T}: Add {R}.)",
-   "appearances": 22
+   "appearances": 1
   },
   {
    "name": "Mountain",
@@ -774,9 +778,9 @@
     "R"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/316/mountain?utm_source=api",
+   "url": "https://scryfall.com/card/tdm/283/mountain?utm_source=api",
    "oracle_text": "({T}: Add {R}.)",
-   "appearances": 22
+   "appearances": 1
   },
   {
    "name": "Forest",
@@ -794,9 +798,9 @@
     "G"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/318/forest?utm_source=api",
+   "url": "https://scryfall.com/card/tdm/285/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)",
-   "appearances": 22
+   "appearances": 1
   },
   {
    "name": "Forest",
@@ -814,9 +818,9 @@
     "G"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/318/forest?utm_source=api",
+   "url": "https://scryfall.com/card/tdm/285/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)",
-   "appearances": 22
+   "appearances": 1
   },
   {
    "name": "Forest",
@@ -834,9 +838,9 @@
     "G"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/318/forest?utm_source=api",
+   "url": "https://scryfall.com/card/tdm/285/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)",
-   "appearances": 22
+   "appearances": 1
   },
   {
    "name": "Forest",
@@ -854,9 +858,9 @@
     "G"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/318/forest?utm_source=api",
+   "url": "https://scryfall.com/card/tdm/285/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)",
-   "appearances": 22
+   "appearances": 1
   },
   {
    "name": "Forest",
@@ -874,9 +878,9 @@
     "G"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/318/forest?utm_source=api",
+   "url": "https://scryfall.com/card/tdm/285/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)",
-   "appearances": 22
+   "appearances": 1
   }
  ],
  "sideboard": [
@@ -956,7 +960,7 @@
    ],
    "mana_cost": "{G}{W}",
    "url": "https://scryfall.com/card/2x2/267/qasali-pridemage?utm_source=api",
-   "oracle_text": "Exalted (Whenever a creature you control attacks alone, that creature gets +1/+1 until end of turn.)\n{1}, Sacrifice Qasali Pridemage: Destroy target artifact or enchantment."
+   "oracle_text": "Exalted (Whenever a creature you control attacks alone, that creature gets +1/+1 until end of turn.)\n{1}, Sacrifice this creature: Destroy target artifact or enchantment."
   },
   {
    "name": "Prophetic Prism",
@@ -969,7 +973,7 @@
    "color_identity": [],
    "mana_cost": "{2}",
    "url": "https://scryfall.com/card/woe/249/prophetic-prism?utm_source=api",
-   "oracle_text": "When Prophetic Prism enters the battlefield, draw a card.\n{1}, {T}: Add one mana of any color."
+   "oracle_text": "When this artifact enters, draw a card.\n{1}, {T}: Add one mana of any color."
   },
   {
    "name": "Steam Vents",
@@ -989,7 +993,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/rvr/288/steam-vents?utm_source=api",
-   "oracle_text": "({T}: Add {U} or {R}.)\nAs Steam Vents enters the battlefield, you may pay 2 life. If you don't, it enters the battlefield tapped."
+   "oracle_text": "({T}: Add {U} or {R}.)\nAs this land enters, you may pay 2 life. If you don't, it enters tapped."
   },
   {
    "name": "Cheeky House-Mouse // Squeak By",
@@ -1026,8 +1030,8 @@
     "U"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/otc/300/hinterland-harbor?utm_source=api",
-   "oracle_text": "Hinterland Harbor enters the battlefield tapped unless you control a Forest or an Island.\n{T}: Add {G} or {U}."
+   "url": "https://scryfall.com/card/tdc/371/hinterland-harbor?utm_source=api",
+   "oracle_text": "This land enters tapped unless you control a Forest or an Island.\n{T}: Add {G} or {U}."
   },
   {
    "name": "Rielle, the Everwise",
@@ -1051,7 +1055,7 @@
    ],
    "mana_cost": "{1}{U}{R}",
    "url": "https://scryfall.com/card/iko/203/rielle-the-everwise?utm_source=api",
-   "oracle_text": "Rielle, the Everwise gets +1/+0 for each instant and sorcery card in your graveyard.\nWhenever you discard one or more cards for the first time each turn, draw that many cards."
+   "oracle_text": "Rielle gets +1/+0 for each instant and sorcery card in your graveyard.\nWhenever you discard one or more cards for the first time each turn, draw that many cards."
   },
   {
    "name": "Ajani's Pridemate",
@@ -1071,8 +1075,8 @@
     "W"
    ],
    "mana_cost": "{1}{W}",
-   "url": "https://scryfall.com/card/clu/52/ajanis-pridemate?utm_source=api",
-   "oracle_text": "Whenever you gain life, put a +1/+1 counter on Ajani's Pridemate."
+   "url": "https://scryfall.com/card/fdn/135/ajanis-pridemate?utm_source=api",
+   "oracle_text": "Whenever you gain life, put a +1/+1 counter on this creature."
   },
   {
    "name": "Sleep of the Dead",
@@ -1109,7 +1113,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/mkm/259/commercial-district?utm_source=api",
-   "oracle_text": "({T}: Add {R} or {G}.)\nCommercial District enters the battlefield tapped.\nWhen Commercial District enters the battlefield, surveil 1. (Look at the top card of your library. You may put it into your graveyard.)"
+   "oracle_text": "({T}: Add {R} or {G}.)\nThis land enters tapped.\nWhen this land enters, surveil 1. (Look at the top card of your library. You may put it into your graveyard.)"
   },
   {
    "name": "Sunbaked Canyon",
@@ -1125,7 +1129,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/mh1/247/sunbaked-canyon?utm_source=api",
-   "oracle_text": "{T}, Pay 1 life: Add {R} or {W}.\n{1}, {T}, Sacrifice Sunbaked Canyon: Draw a card."
+   "oracle_text": "{T}, Pay 1 life: Add {R} or {W}.\n{1}, {T}, Sacrifice this land: Draw a card."
   },
   {
    "name": "Windswept Heath",
@@ -1138,8 +1142,8 @@
    "color_identity": [],
    "mana_cost": "",
    "url": "https://scryfall.com/card/mh3/235/windswept-heath?utm_source=api",
-   "oracle_text": "{T}, Pay 1 life, Sacrifice Windswept Heath: Search your library for a Forest or Plains card, put it onto the battlefield, then shuffle.",
-   "appearances": 7
+   "oracle_text": "{T}, Pay 1 life, Sacrifice this land: Search your library for a Forest or Plains card, put it onto the battlefield, then shuffle.",
+   "appearances": 1
   },
   {
    "name": "Abundant Harvest",
@@ -1176,7 +1180,7 @@
    ],
    "mana_cost": "{G}",
    "url": "https://scryfall.com/card/rvr/159/utopia-sprawl?utm_source=api",
-   "oracle_text": "Enchant Forest\nAs Utopia Sprawl enters the battlefield, choose a color.\nWhenever enchanted Forest is tapped for mana, its controller adds an additional one mana of the chosen color."
+   "oracle_text": "Enchant Forest\nAs this Aura enters, choose a color.\nWhenever enchanted Forest is tapped for mana, its controller adds an additional one mana of the chosen color."
   },
   {
    "name": "Emergence Zone",
@@ -1189,7 +1193,7 @@
    "color_identity": [],
    "mana_cost": "",
    "url": "https://scryfall.com/card/war/245/emergence-zone?utm_source=api",
-   "oracle_text": "{T}: Add {C}.\n{1}, {T}, Sacrifice Emergence Zone: You may cast spells this turn as though they had flash."
+   "oracle_text": "{T}: Add {C}.\n{1}, {T}, Sacrifice this land: You may cast spells this turn as though they had flash."
   }
  ]
 }

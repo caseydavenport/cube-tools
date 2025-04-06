@@ -7,6 +7,7 @@ import (
 	"os/exec"
 	"strconv"
 	"strings"
+	"time"
 
 	"github.com/caseydavenport/cube-tools/pkg/flag"
 	"github.com/caseydavenport/cube-tools/pkg/types"
@@ -37,6 +38,9 @@ var ParseCmd = &cobra.Command{
 		}
 		if date == "" {
 			logrus.Fatal("Must specify a date for the deck.")
+		}
+		if _, err := time.Parse("2006-01-02", date); err != nil {
+			logrus.Fatalf("Invalid date format: %s. Must be YYYY-MM-DD.", date)
 		}
 		if who == "" {
 			logrus.Fatal("Must specify a player name.")
@@ -110,6 +114,13 @@ func writeDeck(d *types.Deck, srcFile string, player string, date string) error 
 		panic(err)
 	}
 
+	// Generate the filename for the deck.
+	path := fmt.Sprintf("%s/%s.json", outdir, strings.ToLower(player))
+
+	// Ensure the correct metadata is set on the deck.
+	d.Metadata.DraftID = date
+	d.Metadata.Path = path
+
 	logc := logrus.WithFields(logrus.Fields{
 		"player": player,
 		"outdir": outdir,
@@ -119,9 +130,8 @@ func writeDeck(d *types.Deck, srcFile string, player string, date string) error 
 	// If the file already exists, load it and save some fields.
 	// This allows us to re-run this script without overwriting manually
 	// captured metadata.
-	fn := fmt.Sprintf("%s/%s.json", outdir, strings.ToLower(player))
-	if _, err := os.Stat(fn); err == nil {
-		logc.WithField("file", fn).Debug("File already exists, loading and updating")
+	if _, err := os.Stat(path); err == nil {
+		logc.WithField("file", path).Debug("File already exists, loading and updating")
 		existing := LoadParsedDeckFile(date, player)
 		d.Player = existing.Player
 		d.Labels = existing.Labels
@@ -132,7 +142,7 @@ func writeDeck(d *types.Deck, srcFile string, player string, date string) error 
 	}
 
 	// First, write the canonical deck file in our format.
-	logc.WithField("file", fn).Debug("Writing canonical deck file")
+	logc.WithField("file", path).Debug("Writing canonical deck file")
 	if err := SaveDeck(d); err != nil {
 		logrus.WithError(err).Fatal("Failed to save deck")
 	}

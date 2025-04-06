@@ -382,8 +382,8 @@ export default function StatsViewer() {
     if (awaitingLoad) {
       // Now that we have loaded all decks for the first time, we can default the
       // start date to the first draft, and the end date to the latest draft.
-      setStartDate(d[0].draft)
-      setEndDate(d[d.length - 1].draft)
+      setStartDate(d[0].date)
+      setEndDate(d[d.length - 1].date)
       setAwaitingLoad(false)
     }
   }
@@ -753,7 +753,7 @@ function Overview(input) {
   let drafts = new Map()
   for (var i in input.decks) {
     numDecks += 1
-    drafts.set(input.decks[i].draft, true)
+    drafts.set(input.decks[i].date, true)
   }
   numDrafts = drafts.size
 

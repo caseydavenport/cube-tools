@@ -1,4 +1,8 @@
 {
+ "metadata": {
+  "path": "data/polyverse/2023-06-17/casey.json",
+  "draft_id": "2023-06-17"
+ },
  "labels": [
   "midrange"
  ],
@@ -61,7 +65,7 @@
    ],
    "mana_cost": "{2}{R}",
    "url": "https://scryfall.com/card/m19/132/catalyst-elemental?utm_source=api",
-   "oracle_text": "Sacrifice Catalyst Elemental: Add {R}{R}."
+   "oracle_text": "Sacrifice this creature: Add {R}{R}."
   },
   {
    "name": "Kazandu Refuge",
@@ -77,7 +81,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/c19/256/kazandu-refuge?utm_source=api",
-   "oracle_text": "Kazandu Refuge enters the battlefield tapped.\nWhen Kazandu Refuge enters the battlefield, you gain 1 life.\n{T}: Add {R} or {G}."
+   "oracle_text": "This land enters tapped.\nWhen this land enters, you gain 1 life.\n{T}: Add {R} or {G}."
   },
   {
    "name": "Grim Initiate",
@@ -98,7 +102,7 @@
    ],
    "mana_cost": "{R}",
    "url": "https://scryfall.com/card/war/130/grim-initiate?utm_source=api",
-   "oracle_text": "First strike\nWhen Grim Initiate dies, amass Zombies 1. (Put a +1/+1 counter on an Army you control. It's also a Zombie. If you don't control an Army, create a 0/0 black Zombie Army creature token first.)"
+   "oracle_text": "First strike\nWhen this creature dies, amass Zombies 1. (Put a +1/+1 counter on an Army you control. It's also a Zombie. If you don't control an Army, create a 0/0 black Zombie Army creature token first.)"
   },
   {
    "name": "Territorial Allosaurus",
@@ -118,7 +122,7 @@
    ],
    "mana_cost": "{2}{G}{G}",
    "url": "https://scryfall.com/card/dom/184/territorial-allosaurus?utm_source=api",
-   "oracle_text": "Kicker {2}{G} (You may pay an additional {2}{G} as you cast this spell.)\nWhen Territorial Allosaurus enters the battlefield, if it was kicked, it fights another target creature."
+   "oracle_text": "Kicker {2}{G} (You may pay an additional {2}{G} as you cast this spell.)\nWhen this creature enters, if it was kicked, it fights another target creature."
   },
   {
    "name": "Capricious Efreet",
@@ -208,8 +212,8 @@
     "R"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/xln/256/rootbound-crag?utm_source=api",
-   "oracle_text": "Rootbound Crag enters the battlefield tapped unless you control a Mountain or a Forest.\n{T}: Add {R} or {G}."
+   "url": "https://scryfall.com/card/tdc/388/rootbound-crag?utm_source=api",
+   "oracle_text": "This land enters tapped unless you control a Mountain or a Forest.\n{T}: Add {R} or {G}."
   },
   {
    "name": "Cankerbloom",
@@ -230,7 +234,7 @@
    ],
    "mana_cost": "{1}{G}",
    "url": "https://scryfall.com/card/one/161/cankerbloom?utm_source=api",
-   "oracle_text": "{1}, Sacrifice Cankerbloom: Choose one —\n• Destroy target artifact.\n• Destroy target enchantment.\n• Proliferate. (Choose any number of permanents and/or players, then give each another counter of each kind already there.)"
+   "oracle_text": "{1}, Sacrifice this creature: Choose one —\n• Destroy target artifact.\n• Destroy target enchantment.\n• Proliferate. (Choose any number of permanents and/or players, then give each another counter of each kind already there.)"
   },
   {
    "name": "Domri, Anarch of Bolas",
@@ -271,7 +275,7 @@
     "G"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/318/forest?utm_source=api",
+   "url": "https://scryfall.com/card/tdm/285/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)"
   },
   {
@@ -290,7 +294,7 @@
     "G"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/318/forest?utm_source=api",
+   "url": "https://scryfall.com/card/tdm/285/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)"
   },
   {
@@ -309,7 +313,7 @@
     "G"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/318/forest?utm_source=api",
+   "url": "https://scryfall.com/card/tdm/285/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)"
   },
   {
@@ -328,7 +332,7 @@
     "G"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/318/forest?utm_source=api",
+   "url": "https://scryfall.com/card/tdm/285/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)"
   },
   {
@@ -347,7 +351,7 @@
     "G"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/318/forest?utm_source=api",
+   "url": "https://scryfall.com/card/tdm/285/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)"
   },
   {
@@ -366,7 +370,7 @@
     "G"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/318/forest?utm_source=api",
+   "url": "https://scryfall.com/card/tdm/285/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)"
   },
   {
@@ -385,7 +389,7 @@
     "G"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/318/forest?utm_source=api",
+   "url": "https://scryfall.com/card/tdm/285/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)"
   },
   {
@@ -404,7 +408,7 @@
     "R"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/316/mountain?utm_source=api",
+   "url": "https://scryfall.com/card/tdm/283/mountain?utm_source=api",
    "oracle_text": "({T}: Add {R}.)"
   },
   {
@@ -423,7 +427,7 @@
     "R"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/316/mountain?utm_source=api",
+   "url": "https://scryfall.com/card/tdm/283/mountain?utm_source=api",
    "oracle_text": "({T}: Add {R}.)"
   },
   {
@@ -442,7 +446,7 @@
     "R"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/316/mountain?utm_source=api",
+   "url": "https://scryfall.com/card/tdm/283/mountain?utm_source=api",
    "oracle_text": "({T}: Add {R}.)"
   },
   {
@@ -461,7 +465,7 @@
     "R"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/316/mountain?utm_source=api",
+   "url": "https://scryfall.com/card/tdm/283/mountain?utm_source=api",
    "oracle_text": "({T}: Add {R}.)"
   },
   {
@@ -480,7 +484,7 @@
     "R"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/316/mountain?utm_source=api",
+   "url": "https://scryfall.com/card/tdm/283/mountain?utm_source=api",
    "oracle_text": "({T}: Add {R}.)"
   },
   {
@@ -499,7 +503,7 @@
     "R"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/316/mountain?utm_source=api",
+   "url": "https://scryfall.com/card/tdm/283/mountain?utm_source=api",
    "oracle_text": "({T}: Add {R}.)"
   },
   {
@@ -518,7 +522,7 @@
     "R"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/316/mountain?utm_source=api",
+   "url": "https://scryfall.com/card/tdm/283/mountain?utm_source=api",
    "oracle_text": "({T}: Add {R}.)"
   },
   {
@@ -537,7 +541,7 @@
     "R"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/316/mountain?utm_source=api",
+   "url": "https://scryfall.com/card/tdm/283/mountain?utm_source=api",
    "oracle_text": "({T}: Add {R}.)"
   },
   {
@@ -558,7 +562,7 @@
    ],
    "mana_cost": "{G}",
    "url": "https://scryfall.com/card/rvr/159/utopia-sprawl?utm_source=api",
-   "oracle_text": "Enchant Forest\nAs Utopia Sprawl enters the battlefield, choose a color.\nWhenever enchanted Forest is tapped for mana, its controller adds an additional one mana of the chosen color."
+   "oracle_text": "Enchant Forest\nAs this Aura enters, choose a color.\nWhenever enchanted Forest is tapped for mana, its controller adds an additional one mana of the chosen color."
   },
   {
    "name": "Rigging Runner",
@@ -579,7 +583,7 @@
    ],
    "mana_cost": "{R}",
    "url": "https://scryfall.com/card/xln/157/rigging-runner?utm_source=api",
-   "oracle_text": "First strike\nRaid — Rigging Runner enters the battlefield with a +1/+1 counter on it if you attacked this turn."
+   "oracle_text": "First strike\nRaid — This creature enters with a +1/+1 counter on it if you attacked this turn."
   },
   {
    "name": "Reckless Rage",
@@ -617,7 +621,7 @@
    ],
    "mana_cost": "{1}{G}",
    "url": "https://scryfall.com/card/clu/169/kronch-wrangler?utm_source=api",
-   "oracle_text": "Trample\nWhenever a creature with power 4 or greater enters the battlefield under your control, put a +1/+1 counter on Kronch Wrangler."
+   "oracle_text": "Trample\nWhenever a creature you control with power 4 or greater enters, put a +1/+1 counter on this creature."
   },
   {
    "name": "Rampaging Baloths",
@@ -636,8 +640,8 @@
     "G"
    ],
    "mana_cost": "{4}{G}{G}",
-   "url": "https://scryfall.com/card/c21/203/rampaging-baloths?utm_source=api",
-   "oracle_text": "Trample\nLandfall — Whenever a land enters the battlefield under your control, you may create a 4/4 green Beast creature token."
+   "url": "https://scryfall.com/card/fdn/645/rampaging-baloths?utm_source=api",
+   "oracle_text": "Trample\nLandfall — Whenever a land you control enters, you may create a 4/4 green Beast creature token."
   },
   {
    "name": "Witherscale Wurm",
@@ -657,7 +661,7 @@
    ],
    "mana_cost": "{4}{G}{G}",
    "url": "https://scryfall.com/card/shm/134/witherscale-wurm?utm_source=api",
-   "oracle_text": "Whenever Witherscale Wurm blocks or becomes blocked by a creature, that creature gains wither until end of turn. (It deals damage to creatures in the form of -1/-1 counters.)\nWhenever Witherscale Wurm deals damage to an opponent, remove all -1/-1 counters from it."
+   "oracle_text": "Whenever this creature blocks or becomes blocked by a creature, that creature gains wither until end of turn. (It deals damage to creatures in the form of -1/-1 counters.)\nWhenever this creature deals damage to an opponent, remove all -1/-1 counters from it."
   },
   {
    "name": "Rubblebelt Rioters",
@@ -680,7 +684,7 @@
    ],
    "mana_cost": "{1}{R}{G}",
    "url": "https://scryfall.com/card/war/215/rubblebelt-rioters?utm_source=api",
-   "oracle_text": "Haste\nWhenever Rubblebelt Rioters attacks, it gets +X/+0 until end of turn, where X is the greatest power among creatures you control."
+   "oracle_text": "Haste\nWhenever this creature attacks, it gets +X/+0 until end of turn, where X is the greatest power among creatures you control."
   },
   {
    "name": "Domri's Ambush",
@@ -739,7 +743,7 @@
    ],
    "mana_cost": "{3}{G}",
    "url": "https://scryfall.com/card/wwk/114/summit-apes?utm_source=api",
-   "oracle_text": "As long as you control a Mountain, Summit Apes has menace. (It can't be blocked except by two or more creatures.)"
+   "oracle_text": "As long as you control a Mountain, this creature has menace. (It can't be blocked except by two or more creatures.)"
   },
   {
    "name": "Impending Doom",
@@ -759,7 +763,7 @@
    ],
    "mana_cost": "{2}{R}",
    "url": "https://scryfall.com/card/thb/139/impending-doom?utm_source=api",
-   "oracle_text": "Enchant creature\nEnchanted creature gets +3/+3 and attacks each combat if able.\nWhen enchanted creature dies, Impending Doom deals 3 damage to that creature's controller."
+   "oracle_text": "Enchant creature\nEnchanted creature gets +3/+3 and attacks each combat if able.\nWhen enchanted creature dies, this Aura deals 3 damage to that creature's controller."
   },
   {
    "name": "Arbor Elf",

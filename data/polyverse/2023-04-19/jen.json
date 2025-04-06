@@ -1,4 +1,8 @@
 {
+ "metadata": {
+  "path": "data/polyverse/2023-04-19/jen.json",
+  "draft_id": "2023-04-19"
+ },
  "labels": [
   "graveyard",
   "midrange"
@@ -88,7 +92,7 @@
    ],
    "mana_cost": "{2}{B}",
    "url": "https://scryfall.com/card/mm3/86/vampire-aristocrat?utm_source=api",
-   "oracle_text": "Sacrifice a creature: Vampire Aristocrat gets +2/+2 until end of turn."
+   "oracle_text": "Sacrifice a creature: This creature gets +2/+2 until end of turn."
   },
   {
    "name": "Acolyte of Affliction",
@@ -111,7 +115,7 @@
    ],
    "mana_cost": "{2}{B}{G}",
    "url": "https://scryfall.com/card/thb/206/acolyte-of-affliction?utm_source=api",
-   "oracle_text": "When Acolyte of Affliction enters the battlefield, mill two cards, then you may return a permanent card from your graveyard to your hand."
+   "oracle_text": "When this creature enters, mill two cards, then you may return a permanent card from your graveyard to your hand."
   },
   {
    "name": "Liliana, Death's Majesty",
@@ -151,8 +155,8 @@
     "B"
    ],
    "mana_cost": "{B}",
-   "url": "https://scryfall.com/card/m19/121/stitchers-supplier?utm_source=api",
-   "oracle_text": "When Stitcher's Supplier enters the battlefield or dies, mill three cards."
+   "url": "https://scryfall.com/card/tdc/196/stitchers-supplier?utm_source=api",
+   "oracle_text": "When this creature enters or dies, mill three cards. (Put the top three cards of your library into your graveyard.)"
   },
   {
    "name": "Grim Discovery",
@@ -211,7 +215,7 @@
    ],
    "mana_cost": "{4}{G}",
    "url": "https://scryfall.com/card/cmr/258/stingerfling-spider?utm_source=api",
-   "oracle_text": "Reach\nWhen Stingerfling Spider enters the battlefield, you may destroy target creature with flying."
+   "oracle_text": "Reach\nWhen this creature enters, you may destroy target creature with flying."
   },
   {
    "name": "Gravedigger",
@@ -231,7 +235,7 @@
    ],
    "mana_cost": "{3}{B}",
    "url": "https://scryfall.com/card/m20/103/gravedigger?utm_source=api",
-   "oracle_text": "When Gravedigger enters the battlefield, you may return target creature card from your graveyard to your hand."
+   "oracle_text": "When this creature enters, you may return target creature card from your graveyard to your hand."
   },
   {
    "name": "Oathsworn Vampire",
@@ -252,7 +256,7 @@
    ],
    "mana_cost": "{1}{B}",
    "url": "https://scryfall.com/card/lcc/204/oathsworn-vampire?utm_source=api",
-   "oracle_text": "Oathsworn Vampire enters the battlefield tapped.\nYou may cast Oathsworn Vampire from your graveyard if you gained life this turn."
+   "oracle_text": "This creature enters tapped.\nYou may cast this card from your graveyard if you gained life this turn."
   },
   {
    "name": "Unearth",
@@ -287,7 +291,7 @@
     "B"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/314/swamp?utm_source=api",
+   "url": "https://scryfall.com/card/tdm/281/swamp?utm_source=api",
    "oracle_text": "({T}: Add {B}.)"
   },
   {
@@ -306,7 +310,7 @@
     "B"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/314/swamp?utm_source=api",
+   "url": "https://scryfall.com/card/tdm/281/swamp?utm_source=api",
    "oracle_text": "({T}: Add {B}.)"
   },
   {
@@ -325,7 +329,7 @@
     "B"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/314/swamp?utm_source=api",
+   "url": "https://scryfall.com/card/tdm/281/swamp?utm_source=api",
    "oracle_text": "({T}: Add {B}.)"
   },
   {
@@ -344,7 +348,7 @@
     "B"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/314/swamp?utm_source=api",
+   "url": "https://scryfall.com/card/tdm/281/swamp?utm_source=api",
    "oracle_text": "({T}: Add {B}.)"
   },
   {
@@ -363,7 +367,7 @@
     "B"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/314/swamp?utm_source=api",
+   "url": "https://scryfall.com/card/tdm/281/swamp?utm_source=api",
    "oracle_text": "({T}: Add {B}.)"
   },
   {
@@ -382,7 +386,7 @@
     "B"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/314/swamp?utm_source=api",
+   "url": "https://scryfall.com/card/tdm/281/swamp?utm_source=api",
    "oracle_text": "({T}: Add {B}.)"
   },
   {
@@ -401,7 +405,7 @@
     "B"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/314/swamp?utm_source=api",
+   "url": "https://scryfall.com/card/tdm/281/swamp?utm_source=api",
    "oracle_text": "({T}: Add {B}.)"
   },
   {
@@ -420,7 +424,7 @@
     "B"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/314/swamp?utm_source=api",
+   "url": "https://scryfall.com/card/tdm/281/swamp?utm_source=api",
    "oracle_text": "({T}: Add {B}.)"
   },
   {
@@ -498,7 +502,7 @@
     "G"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/318/forest?utm_source=api",
+   "url": "https://scryfall.com/card/tdm/285/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)"
   },
   {
@@ -517,7 +521,7 @@
     "G"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/318/forest?utm_source=api",
+   "url": "https://scryfall.com/card/tdm/285/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)"
   },
   {
@@ -536,7 +540,7 @@
     "G"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/318/forest?utm_source=api",
+   "url": "https://scryfall.com/card/tdm/285/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)"
   },
   {
@@ -555,7 +559,7 @@
     "G"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/318/forest?utm_source=api",
+   "url": "https://scryfall.com/card/tdm/285/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)"
   },
   {
@@ -574,7 +578,7 @@
     "G"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/318/forest?utm_source=api",
+   "url": "https://scryfall.com/card/tdm/285/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)"
   },
   {
@@ -593,7 +597,7 @@
     "G"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/318/forest?utm_source=api",
+   "url": "https://scryfall.com/card/tdm/285/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)"
   },
   {
@@ -612,7 +616,7 @@
     "G"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/318/forest?utm_source=api",
+   "url": "https://scryfall.com/card/tdm/285/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)"
   },
   {
@@ -631,7 +635,7 @@
     "G"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/318/forest?utm_source=api",
+   "url": "https://scryfall.com/card/tdm/285/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)"
   },
   {
@@ -652,7 +656,7 @@
    ],
    "mana_cost": "{3}{B}",
    "url": "https://scryfall.com/card/bng/72/forsaken-drifters?utm_source=api",
-   "oracle_text": "When Forsaken Drifters dies, mill four cards."
+   "oracle_text": "When this creature dies, mill four cards."
   },
   {
    "name": "River Boa",
@@ -672,7 +676,7 @@
    ],
    "mana_cost": "{1}{G}",
    "url": "https://scryfall.com/card/ddm/49/river-boa?utm_source=api",
-   "oracle_text": "Islandwalk (This creature can't be blocked as long as defending player controls an Island.)\n{G}: Regenerate River Boa."
+   "oracle_text": "Islandwalk (This creature can't be blocked as long as defending player controls an Island.)\n{G}: Regenerate this creature."
   },
   {
    "name": "Necroblossom Snarl",
@@ -687,8 +691,8 @@
     "G"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/cmm/1015/necroblossom-snarl?utm_source=api",
-   "oracle_text": "As Necroblossom Snarl enters the battlefield, you may reveal a Swamp or Forest card from your hand. If you don't, Necroblossom Snarl enters the battlefield tapped.\n{T}: Add {B} or {G}."
+   "url": "https://scryfall.com/card/dsc/290/necroblossom-snarl?utm_source=api",
+   "oracle_text": "As this land enters, you may reveal a Swamp or Forest card from your hand. If you don't, this land enters tapped.\n{T}: Add {B} or {G}."
   },
   {
    "name": "Deathsprout",
@@ -728,7 +732,7 @@
    ],
    "mana_cost": "{3}{B}{B}",
    "url": "https://scryfall.com/card/voc/131/malakir-bloodwitch?utm_source=api",
-   "oracle_text": "Flying, protection from white\nWhen Malakir Bloodwitch enters the battlefield, each opponent loses life equal to the number of Vampires you control. You gain life equal to the life lost this way."
+   "oracle_text": "Flying, protection from white\nWhen this creature enters, each opponent loses life equal to the number of Vampires you control. You gain life equal to the life lost this way."
   },
   {
    "name": "Morbid Bloom",
@@ -767,7 +771,7 @@
    ],
    "mana_cost": "{G}",
    "url": "https://scryfall.com/card/pca/79/tukatongue-thallid?utm_source=api",
-   "oracle_text": "When Tukatongue Thallid dies, create a 1/1 green Saproling creature token."
+   "oracle_text": "When this creature dies, create a 1/1 green Saproling creature token."
   },
   {
    "name": "Tilling Treefolk",
@@ -788,7 +792,7 @@
    ],
    "mana_cost": "{2}{G}",
    "url": "https://scryfall.com/card/eve/78/tilling-treefolk?utm_source=api",
-   "oracle_text": "When Tilling Treefolk enters the battlefield, you may return up to two target land cards from your graveyard to your hand."
+   "oracle_text": "When this creature enters, you may return up to two target land cards from your graveyard to your hand."
   }
  ],
  "sideboard": []

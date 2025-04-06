@@ -1,4 +1,8 @@
 {
+ "metadata": {
+  "path": "data/polyverse/2023-09-17/dom.json",
+  "draft_id": "2023-09-17"
+ },
  "labels": [
   "control"
  ],
@@ -55,7 +59,7 @@
    ],
    "mana_cost": "{2}{B}",
    "url": "https://scryfall.com/card/rix/90/vonas-hunger?utm_source=api",
-   "oracle_text": "Ascend (If you control ten or more permanents, you get the city's blessing for the rest of the game.)\nEach opponent sacrifices a creature. If you have the city's blessing, instead each opponent sacrifices half the creatures they control, rounded up."
+   "oracle_text": "Ascend (If you control ten or more permanents, you get the city's blessing for the rest of the game.)\nEach opponent sacrifices a creature of their choice. If you have the city's blessing, instead each opponent sacrifices half the creatures they control of their choice, rounded up."
   },
   {
    "name": "Siren Stormtamer",
@@ -77,7 +81,7 @@
    ],
    "mana_cost": "{U}",
    "url": "https://scryfall.com/card/lcc/171/siren-stormtamer?utm_source=api",
-   "oracle_text": "Flying\n{U}, Sacrifice Siren Stormtamer: Counter target spell or ability that targets you or a creature you control."
+   "oracle_text": "Flying\n{U}, Sacrifice this creature: Counter target spell or ability that targets you or a creature you control."
   },
   {
    "name": "Bloodsoaked Champion",
@@ -98,7 +102,7 @@
    ],
    "mana_cost": "{B}",
    "url": "https://scryfall.com/card/clb/740/bloodsoaked-champion?utm_source=api",
-   "oracle_text": "Bloodsoaked Champion can't block.\nRaid — {1}{B}: Return Bloodsoaked Champion from your graveyard to the battlefield. Activate only if you attacked this turn."
+   "oracle_text": "This creature can't block.\nRaid — {1}{B}: Return this card from your graveyard to the battlefield. Activate only if you attacked this turn."
   },
   {
    "name": "Delay",
@@ -153,7 +157,7 @@
    ],
    "mana_cost": "{3}{B}{B}",
    "url": "https://scryfall.com/card/clb/769/puppeteer-clique?utm_source=api",
-   "oracle_text": "Flying\nWhen Puppeteer Clique enters the battlefield, put target creature card from an opponent's graveyard onto the battlefield under your control. It gains haste. At the beginning of your next end step, exile it.\nPersist (When this creature dies, if it had no -1/-1 counters on it, return it to the battlefield under its owner's control with a -1/-1 counter on it.)"
+   "oracle_text": "Flying\nWhen this creature enters, put target creature card from an opponent's graveyard onto the battlefield under your control. It gains haste. At the beginning of your next end step, exile it.\nPersist (When this creature dies, if it had no -1/-1 counters on it, return it to the battlefield under its owner's control with a -1/-1 counter on it.)"
   },
   {
    "name": "Exclusion Mage",
@@ -173,8 +177,8 @@
     "U"
    ],
    "mana_cost": "{2}{U}",
-   "url": "https://scryfall.com/card/jmp/153/exclusion-mage?utm_source=api",
-   "oracle_text": "When Exclusion Mage enters the battlefield, return target creature an opponent controls to its owner's hand."
+   "url": "https://scryfall.com/card/fdn/508/exclusion-mage?utm_source=api",
+   "oracle_text": "When this creature enters, return target creature an opponent controls to its owner's hand."
   },
   {
    "name": "Vexing Gull",
@@ -235,7 +239,7 @@
    ],
    "mana_cost": "{3}{B}",
    "url": "https://scryfall.com/card/mm2/93/scavenger-drake?utm_source=api",
-   "oracle_text": "Flying\nWhenever another creature dies, you may put a +1/+1 counter on Scavenger Drake."
+   "oracle_text": "Flying\nWhenever another creature dies, you may put a +1/+1 counter on this creature."
   },
   {
    "name": "Curator of Mysteries",
@@ -271,7 +275,7 @@
     "U"
    ],
    "mana_cost": "{U}",
-   "url": "https://scryfall.com/card/mkc/96/brainstorm?utm_source=api",
+   "url": "https://scryfall.com/card/dsc/113/brainstorm?utm_source=api",
    "oracle_text": "Draw three cards, then put two cards from your hand on top of your library in any order."
   },
   {
@@ -305,7 +309,7 @@
     "U"
    ],
    "mana_cost": "{U}",
-   "url": "https://scryfall.com/card/m20/78/unsummon?utm_source=api",
+   "url": "https://scryfall.com/card/fdn/599/unsummon?utm_source=api",
    "oracle_text": "Return target creature to its owner's hand."
   },
   {
@@ -329,7 +333,7 @@
    ],
    "mana_cost": "{U}{B}",
    "url": "https://scryfall.com/card/akh/206/shadowstorm-vizier?utm_source=api",
-   "oracle_text": "Flying\nWhenever you cycle or discard a card, Shadowstorm Vizier gets +1/+1 until end of turn."
+   "oracle_text": "Flying\nWhenever you cycle or discard a card, this creature gets +1/+1 until end of turn."
   },
   {
    "name": "Festering Mummy",
@@ -349,7 +353,7 @@
    ],
    "mana_cost": "{B}",
    "url": "https://scryfall.com/card/akh/91/festering-mummy?utm_source=api",
-   "oracle_text": "When Festering Mummy dies, you may put a -1/-1 counter on target creature."
+   "oracle_text": "When this creature dies, you may put a -1/-1 counter on target creature."
   },
   {
    "name": "Into the Roil",
@@ -365,7 +369,7 @@
     "U"
    ],
    "mana_cost": "{1}{U}",
-   "url": "https://scryfall.com/card/cmr/397/into-the-roil?utm_source=api",
+   "url": "https://scryfall.com/card/fdn/509/into-the-roil?utm_source=api",
    "oracle_text": "Kicker {1}{U} (You may pay an additional {1}{U} as you cast this spell.)\nReturn target nonland permanent to its owner's hand. If this spell was kicked, draw a card."
   },
   {
@@ -383,7 +387,7 @@
    ],
    "mana_cost": "{X}{U}",
    "url": "https://scryfall.com/card/ima/46/condescend?utm_source=api",
-   "oracle_text": "Counter target spell unless its controller pays {X}. Scry 2. (Look at the top two cards of your library, then put any number of them on the bottom of your library and the rest on top in any order.)"
+   "oracle_text": "Counter target spell unless its controller pays {X}. Scry 2. (Look at the top two cards of your library, then put any number of them on the bottom and the rest on top in any order.)"
   },
   {
    "name": "Fatestitcher",
@@ -423,7 +427,7 @@
     "U"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/soi/92/thing-in-the-ice-awoken-horror?utm_source=api",
+   "url": "https://scryfall.com/card/inr/91/thing-in-the-ice-awoken-horror?utm_source=api",
    "oracle_text": ""
   },
   {
@@ -440,7 +444,7 @@
     "U"
    ],
    "mana_cost": "{1}{U}",
-   "url": "https://scryfall.com/card/mom/68/negate?utm_source=api",
+   "url": "https://scryfall.com/card/fdn/710/negate?utm_source=api",
    "oracle_text": "Counter target noncreature spell."
   },
   {
@@ -470,7 +474,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/otc/290/drowned-catacomb?utm_source=api",
-   "oracle_text": "Drowned Catacomb enters the battlefield tapped unless you control an Island or a Swamp.\n{T}: Add {U} or {B}."
+   "oracle_text": "This land enters tapped unless you control an Island or a Swamp.\n{T}: Add {U} or {B}."
   },
   {
    "name": "Watery Grave",
@@ -490,7 +494,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/rvr/291/watery-grave?utm_source=api",
-   "oracle_text": "({T}: Add {U} or {B}.)\nAs Watery Grave enters the battlefield, you may pay 2 life. If you don't, it enters the battlefield tapped."
+   "oracle_text": "({T}: Add {U} or {B}.)\nAs this land enters, you may pay 2 life. If you don't, it enters tapped."
   },
   {
    "name": "Island",
@@ -508,9 +512,9 @@
     "U"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/312/island?utm_source=api",
+   "url": "https://scryfall.com/card/tdm/279/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)",
-   "appearances": 3
+   "appearances": 1
   },
   {
    "name": "Island",
@@ -528,9 +532,9 @@
     "U"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/312/island?utm_source=api",
+   "url": "https://scryfall.com/card/tdm/279/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)",
-   "appearances": 3
+   "appearances": 1
   },
   {
    "name": "Island",
@@ -548,9 +552,9 @@
     "U"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/312/island?utm_source=api",
+   "url": "https://scryfall.com/card/tdm/279/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)",
-   "appearances": 3
+   "appearances": 1
   },
   {
    "name": "Island",
@@ -568,9 +572,9 @@
     "U"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/312/island?utm_source=api",
+   "url": "https://scryfall.com/card/tdm/279/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)",
-   "appearances": 3
+   "appearances": 1
   },
   {
    "name": "Island",
@@ -588,9 +592,9 @@
     "U"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/312/island?utm_source=api",
+   "url": "https://scryfall.com/card/tdm/279/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)",
-   "appearances": 3
+   "appearances": 1
   },
   {
    "name": "Island",
@@ -608,9 +612,9 @@
     "U"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/312/island?utm_source=api",
+   "url": "https://scryfall.com/card/tdm/279/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)",
-   "appearances": 3
+   "appearances": 1
   },
   {
    "name": "Island",
@@ -628,9 +632,9 @@
     "U"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/312/island?utm_source=api",
+   "url": "https://scryfall.com/card/tdm/279/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)",
-   "appearances": 3
+   "appearances": 1
   },
   {
    "name": "Island",
@@ -648,9 +652,9 @@
     "U"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/312/island?utm_source=api",
+   "url": "https://scryfall.com/card/tdm/279/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)",
-   "appearances": 3
+   "appearances": 1
   },
   {
    "name": "Island",
@@ -668,9 +672,9 @@
     "U"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/312/island?utm_source=api",
+   "url": "https://scryfall.com/card/tdm/279/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)",
-   "appearances": 3
+   "appearances": 1
   },
   {
    "name": "Island",
@@ -688,9 +692,9 @@
     "U"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/312/island?utm_source=api",
+   "url": "https://scryfall.com/card/tdm/279/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)",
-   "appearances": 3
+   "appearances": 1
   },
   {
    "name": "Swamp",
@@ -708,9 +712,9 @@
     "B"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/314/swamp?utm_source=api",
+   "url": "https://scryfall.com/card/tdm/281/swamp?utm_source=api",
    "oracle_text": "({T}: Add {B}.)",
-   "appearances": 3
+   "appearances": 1
   },
   {
    "name": "Swamp",
@@ -728,9 +732,9 @@
     "B"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/314/swamp?utm_source=api",
+   "url": "https://scryfall.com/card/tdm/281/swamp?utm_source=api",
    "oracle_text": "({T}: Add {B}.)",
-   "appearances": 3
+   "appearances": 1
   },
   {
    "name": "Swamp",
@@ -748,9 +752,9 @@
     "B"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/314/swamp?utm_source=api",
+   "url": "https://scryfall.com/card/tdm/281/swamp?utm_source=api",
    "oracle_text": "({T}: Add {B}.)",
-   "appearances": 3
+   "appearances": 1
   },
   {
    "name": "Swamp",
@@ -768,9 +772,9 @@
     "B"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/314/swamp?utm_source=api",
+   "url": "https://scryfall.com/card/tdm/281/swamp?utm_source=api",
    "oracle_text": "({T}: Add {B}.)",
-   "appearances": 3
+   "appearances": 1
   },
   {
    "name": "Swamp",
@@ -788,9 +792,9 @@
     "B"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/314/swamp?utm_source=api",
+   "url": "https://scryfall.com/card/tdm/281/swamp?utm_source=api",
    "oracle_text": "({T}: Add {B}.)",
-   "appearances": 3
+   "appearances": 1
   }
  ],
  "sideboard": [
@@ -805,7 +809,7 @@
    "color_identity": [],
    "mana_cost": "{1}",
    "url": "https://scryfall.com/card/jmp/462/chromatic-sphere?utm_source=api",
-   "oracle_text": "{1}, {T}, Sacrifice Chromatic Sphere: Add one mana of any color. Draw a card."
+   "oracle_text": "{1}, {T}, Sacrifice this artifact: Add one mana of any color. Draw a card."
   },
   {
    "name": "Vampire's Bite",
@@ -867,7 +871,7 @@
    ],
    "mana_cost": "{B}{G}",
    "url": "https://scryfall.com/card/stx/178/dina-soul-steeper?utm_source=api",
-   "oracle_text": "Whenever you gain life, each opponent loses 1 life.\n{1}, Sacrifice another creature: Dina, Soul Steeper gets +X/+0 until end of turn, where X is the sacrificed creature's power."
+   "oracle_text": "Whenever you gain life, each opponent loses 1 life.\n{1}, Sacrifice another creature: Dina gets +X/+0 until end of turn, where X is the sacrificed creature's power."
   },
   {
    "name": "Unmake",
@@ -920,7 +924,7 @@
    "color_identity": [],
    "mana_cost": "",
    "url": "https://scryfall.com/card/mh2/260/verdant-catacombs?utm_source=api",
-   "oracle_text": "{T}, Pay 1 life, Sacrifice Verdant Catacombs: Search your library for a Swamp or Forest card, put it onto the battlefield, then shuffle."
+   "oracle_text": "{T}, Pay 1 life, Sacrifice this land: Search your library for a Swamp or Forest card, put it onto the battlefield, then shuffle."
   },
   {
    "name": "Misty Rainforest",
@@ -933,7 +937,7 @@
    "color_identity": [],
    "mana_cost": "",
    "url": "https://scryfall.com/card/mh2/250/misty-rainforest?utm_source=api",
-   "oracle_text": "{T}, Pay 1 life, Sacrifice Misty Rainforest: Search your library for a Forest or Island card, put it onto the battlefield, then shuffle."
+   "oracle_text": "{T}, Pay 1 life, Sacrifice this land: Search your library for a Forest or Island card, put it onto the battlefield, then shuffle."
   },
   {
    "name": "Untamed Kavu",
@@ -953,7 +957,7 @@
    ],
    "mana_cost": "{1}{G}",
    "url": "https://scryfall.com/card/dom/186/untamed-kavu?utm_source=api",
-   "oracle_text": "Kicker {3} (You may pay an additional {3} as you cast this spell.)\nVigilance, trample\nIf Untamed Kavu was kicked, it enters the battlefield with three +1/+1 counters on it."
+   "oracle_text": "Kicker {3} (You may pay an additional {3} as you cast this spell.)\nVigilance, trample\nIf this creature was kicked, it enters with three +1/+1 counters on it."
   },
   {
    "name": "Gluttonous Slime",
@@ -973,7 +977,7 @@
    ],
    "mana_cost": "{2}{G}",
    "url": "https://scryfall.com/card/pca/65/gluttonous-slime?utm_source=api",
-   "oracle_text": "Flash\nDevour 1 (As this enters the battlefield, you may sacrifice any number of creatures. This creature enters the battlefield with that many +1/+1 counters on it.)"
+   "oracle_text": "Flash\nDevour 1 (As this creature enters, you may sacrifice any number of creatures. It enters with that many +1/+1 counters on it.)"
   },
   {
    "name": "Thornling",
@@ -994,7 +998,7 @@
    ],
    "mana_cost": "{3}{G}{G}",
    "url": "https://scryfall.com/card/con/95/thornling?utm_source=api",
-   "oracle_text": "{G}: Thornling gains haste until end of turn.\n{G}: Thornling gains trample until end of turn.\n{G}: Thornling gains indestructible until end of turn.\n{1}: Thornling gets +1/-1 until end of turn.\n{1}: Thornling gets -1/+1 until end of turn."
+   "oracle_text": "{G}: This creature gains haste until end of turn.\n{G}: This creature gains trample until end of turn.\n{G}: This creature gains indestructible until end of turn.\n{1}: This creature gets +1/-1 until end of turn.\n{1}: This creature gets -1/+1 until end of turn."
   },
   {
    "name": "Edge of Autumn",
@@ -1028,7 +1032,7 @@
    ],
    "mana_cost": "{1}{G}",
    "url": "https://scryfall.com/card/zen/177/quest-for-the-gemblades?utm_source=api",
-   "oracle_text": "Whenever a creature you control deals combat damage to a creature, you may put a quest counter on Quest for the Gemblades.\nRemove a quest counter from Quest for the Gemblades and sacrifice it: Put four +1/+1 counters on target creature."
+   "oracle_text": "Whenever a creature you control deals combat damage to a creature, you may put a quest counter on this enchantment.\nRemove a quest counter from this enchantment and sacrifice it: Put four +1/+1 counters on target creature."
   },
   {
    "name": "Rite of Replication",
@@ -1044,7 +1048,7 @@
     "U"
    ],
    "mana_cost": "{2}{U}{U}",
-   "url": "https://scryfall.com/card/c21/128/rite-of-replication?utm_source=api",
+   "url": "https://scryfall.com/card/tdc/165/rite-of-replication?utm_source=api",
    "oracle_text": "Kicker {5} (You may pay an additional {5} as you cast this spell.)\nCreate a token that's a copy of target creature. If this spell was kicked, create five of those tokens instead."
   },
   {
@@ -1132,8 +1136,8 @@
     "B"
    ],
    "mana_cost": "{B}",
-   "url": "https://scryfall.com/card/m19/121/stitchers-supplier?utm_source=api",
-   "oracle_text": "When Stitcher's Supplier enters the battlefield or dies, mill three cards."
+   "url": "https://scryfall.com/card/tdc/196/stitchers-supplier?utm_source=api",
+   "oracle_text": "When this creature enters or dies, mill three cards. (Put the top three cards of your library into your graveyard.)"
   },
   {
    "name": "Whisper, Blood Liturgist",

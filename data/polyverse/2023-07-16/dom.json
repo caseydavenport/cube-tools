@@ -1,4 +1,8 @@
 {
+ "metadata": {
+  "path": "data/polyverse/2023-07-16/dom.json",
+  "draft_id": "2023-07-16"
+ },
  "labels": [
   "spells",
   "+1/+1",
@@ -40,7 +44,7 @@
    ],
    "mana_cost": "{3}{U}{U}",
    "url": "https://scryfall.com/card/zen/69/sphinx-of-lost-truths?utm_source=api",
-   "oracle_text": "Kicker {1}{U} (You may pay an additional {1}{U} as you cast this spell.)\nFlying\nWhen Sphinx of Lost Truths enters the battlefield, draw three cards. Then if it wasn't kicked, discard three cards."
+   "oracle_text": "Kicker {1}{U} (You may pay an additional {1}{U} as you cast this spell.)\nFlying\nWhen this creature enters, draw three cards. Then if it wasn't kicked, discard three cards."
   },
   {
    "name": "Mana Leak",
@@ -116,8 +120,8 @@
     "U"
    ],
    "mana_cost": "{1}{U}",
-   "url": "https://scryfall.com/card/m20/50/brineborn-cutthroat?utm_source=api",
-   "oracle_text": "Flash (You may cast this spell any time you could cast an instant.)\nWhenever you cast a spell during an opponent's turn, put a +1/+1 counter on Brineborn Cutthroat."
+   "url": "https://scryfall.com/card/fdn/152/brineborn-cutthroat?utm_source=api",
+   "oracle_text": "Flash (You may cast this spell any time you could cast an instant.)\nWhenever you cast a spell during an opponent's turn, put a +1/+1 counter on this creature."
   },
   {
    "name": "Jace, Arcane Strategist",
@@ -151,7 +155,7 @@
    "color_identity": [],
    "mana_cost": "",
    "url": "https://scryfall.com/card/mh2/254/scalding-tarn?utm_source=api",
-   "oracle_text": "{T}, Pay 1 life, Sacrifice Scalding Tarn: Search your library for an Island or Mountain card, put it onto the battlefield, then shuffle."
+   "oracle_text": "{T}, Pay 1 life, Sacrifice this land: Search your library for an Island or Mountain card, put it onto the battlefield, then shuffle."
   },
   {
    "name": "Deprive",
@@ -189,7 +193,7 @@
    ],
    "mana_cost": "{1}{U}",
    "url": "https://scryfall.com/card/snc/44/faerie-vandal?utm_source=api",
-   "oracle_text": "Flash\nFlying\nWhenever you draw your second card each turn, put a +1/+1 counter on Faerie Vandal."
+   "oracle_text": "Flash (You may cast this spell any time you could cast an instant.)\nFlying\nWhenever you draw your second card each turn, put a +1/+1 counter on this creature."
   },
   {
    "name": "Thing in the Ice // Awoken Horror",
@@ -208,7 +212,7 @@
     "U"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/soi/92/thing-in-the-ice-awoken-horror?utm_source=api",
+   "url": "https://scryfall.com/card/inr/91/thing-in-the-ice-awoken-horror?utm_source=api",
    "oracle_text": ""
   },
   {
@@ -225,7 +229,7 @@
     "U"
    ],
    "mana_cost": "{U}",
-   "url": "https://scryfall.com/card/m20/78/unsummon?utm_source=api",
+   "url": "https://scryfall.com/card/fdn/599/unsummon?utm_source=api",
    "oracle_text": "Return target creature to its owner's hand."
   },
   {
@@ -246,8 +250,8 @@
     "R"
    ],
    "mana_cost": "{2}{R}",
-   "url": "https://scryfall.com/card/otc/169/guttersnipe?utm_source=api",
-   "oracle_text": "Whenever you cast an instant or sorcery spell, Guttersnipe deals 2 damage to each opponent."
+   "url": "https://scryfall.com/card/tdc/217/guttersnipe?utm_source=api",
+   "oracle_text": "Whenever you cast an instant or sorcery spell, this creature deals 2 damage to each opponent."
   },
   {
    "name": "Nahiri's Stoneblades",
@@ -287,7 +291,7 @@
    ],
    "mana_cost": "{U}{R}",
    "url": "https://scryfall.com/card/thb/223/mischievous-chimera?utm_source=api",
-   "oracle_text": "Flying\nWhenever you cast your first spell during each opponent's turn, Mischievous Chimera deals 1 damage to each opponent. Scry 1."
+   "oracle_text": "Flying\nWhenever you cast your first spell during each opponent's turn, this creature deals 1 damage to each opponent. Scry 1."
   },
   {
    "name": "Exclusion Mage",
@@ -307,8 +311,8 @@
     "U"
    ],
    "mana_cost": "{2}{U}",
-   "url": "https://scryfall.com/card/jmp/153/exclusion-mage?utm_source=api",
-   "oracle_text": "When Exclusion Mage enters the battlefield, return target creature an opponent controls to its owner's hand."
+   "url": "https://scryfall.com/card/fdn/508/exclusion-mage?utm_source=api",
+   "oracle_text": "When this creature enters, return target creature an opponent controls to its owner's hand."
   },
   {
    "name": "Chandra, Hope's Beacon",
@@ -329,7 +333,7 @@
    ],
    "mana_cost": "{4}{R}{R}",
    "url": "https://scryfall.com/card/mom/134/chandra-hopes-beacon?utm_source=api",
-   "oracle_text": "Whenever you cast an instant or sorcery spell, copy it. You may choose new targets for the copy. This ability triggers only once each turn.\n+2: Add two mana in any combination of colors.\n+1: Exile the top five cards of your library. Until the end of your next turn, you may cast an instant or sorcery spell from among those exiled cards.\n−X: Chandra, Hope's Beacon deals X damage to each of up to two targets."
+   "oracle_text": "Whenever you cast an instant or sorcery spell, copy it. You may choose new targets for the copy. This ability triggers only once each turn.\n+2: Add two mana in any combination of colors.\n+1: Exile the top five cards of your library. Until the end of your next turn, you may cast an instant or sorcery spell from among those exiled cards.\n−X: Chandra deals X damage to each of up to two targets."
   },
   {
    "name": "Incinerate",
@@ -383,7 +387,7 @@
     "U"
    ],
    "mana_cost": "{U}{U}",
-   "url": "https://scryfall.com/card/cmm/81/counterspell?utm_source=api",
+   "url": "https://scryfall.com/card/dsc/114/counterspell?utm_source=api",
    "oracle_text": "Counter target spell."
   },
   {
@@ -400,7 +404,7 @@
     "U"
    ],
    "mana_cost": "{U}",
-   "url": "https://scryfall.com/card/mkc/96/brainstorm?utm_source=api",
+   "url": "https://scryfall.com/card/dsc/113/brainstorm?utm_source=api",
    "oracle_text": "Draw three cards, then put two cards from your hand on top of your library in any order."
   },
   {
@@ -416,8 +420,8 @@
     "U"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/otc/322/sulfur-falls?utm_source=api",
-   "oracle_text": "Sulfur Falls enters the battlefield tapped unless you control an Island or a Mountain.\n{T}: Add {U} or {R}."
+   "url": "https://scryfall.com/card/tdc/396/sulfur-falls?utm_source=api",
+   "oracle_text": "This land enters tapped unless you control an Island or a Mountain.\n{T}: Add {U} or {R}."
   },
   {
    "name": "Siren Stormtamer",
@@ -439,7 +443,7 @@
    ],
    "mana_cost": "{U}",
    "url": "https://scryfall.com/card/lcc/171/siren-stormtamer?utm_source=api",
-   "oracle_text": "Flying\n{U}, Sacrifice Siren Stormtamer: Counter target spell or ability that targets you or a creature you control."
+   "oracle_text": "Flying\n{U}, Sacrifice this creature: Counter target spell or ability that targets you or a creature you control."
   },
   {
    "name": "Remove Soul",
@@ -476,7 +480,7 @@
    ],
    "mana_cost": "{2}{U}",
    "url": "https://scryfall.com/card/cmd/48/gomazoa?utm_source=api",
-   "oracle_text": "Defender, flying\n{T}: Put Gomazoa and each creature it's blocking on top of their owners' libraries, then those players shuffle."
+   "oracle_text": "Defender, flying\n{T}: Put this creature and each creature it's blocking on top of their owners' libraries, then those players shuffle."
   },
   {
    "name": "Discover the Impossible",
@@ -511,7 +515,7 @@
     "U"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/312/island?utm_source=api",
+   "url": "https://scryfall.com/card/tdm/279/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)"
   },
   {
@@ -530,7 +534,7 @@
     "U"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/312/island?utm_source=api",
+   "url": "https://scryfall.com/card/tdm/279/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)"
   },
   {
@@ -549,7 +553,7 @@
     "U"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/312/island?utm_source=api",
+   "url": "https://scryfall.com/card/tdm/279/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)"
   },
   {
@@ -568,7 +572,7 @@
     "U"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/312/island?utm_source=api",
+   "url": "https://scryfall.com/card/tdm/279/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)"
   },
   {
@@ -587,7 +591,7 @@
     "U"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/312/island?utm_source=api",
+   "url": "https://scryfall.com/card/tdm/279/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)"
   },
   {
@@ -606,7 +610,7 @@
     "U"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/312/island?utm_source=api",
+   "url": "https://scryfall.com/card/tdm/279/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)"
   },
   {
@@ -625,7 +629,7 @@
     "U"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/312/island?utm_source=api",
+   "url": "https://scryfall.com/card/tdm/279/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)"
   },
   {
@@ -644,7 +648,7 @@
     "U"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/312/island?utm_source=api",
+   "url": "https://scryfall.com/card/tdm/279/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)"
   },
   {
@@ -663,7 +667,7 @@
     "U"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/312/island?utm_source=api",
+   "url": "https://scryfall.com/card/tdm/279/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)"
   },
   {
@@ -682,7 +686,7 @@
     "U"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/312/island?utm_source=api",
+   "url": "https://scryfall.com/card/tdm/279/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)"
   },
   {
@@ -701,7 +705,7 @@
     "U"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/312/island?utm_source=api",
+   "url": "https://scryfall.com/card/tdm/279/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)"
   },
   {
@@ -720,7 +724,7 @@
     "R"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/316/mountain?utm_source=api",
+   "url": "https://scryfall.com/card/tdm/283/mountain?utm_source=api",
    "oracle_text": "({T}: Add {R}.)"
   },
   {
@@ -739,7 +743,7 @@
     "R"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/316/mountain?utm_source=api",
+   "url": "https://scryfall.com/card/tdm/283/mountain?utm_source=api",
    "oracle_text": "({T}: Add {R}.)"
   },
   {
@@ -758,7 +762,7 @@
     "R"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/316/mountain?utm_source=api",
+   "url": "https://scryfall.com/card/tdm/283/mountain?utm_source=api",
    "oracle_text": "({T}: Add {R}.)"
   },
   {
@@ -777,7 +781,7 @@
     "R"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/316/mountain?utm_source=api",
+   "url": "https://scryfall.com/card/tdm/283/mountain?utm_source=api",
    "oracle_text": "({T}: Add {R}.)"
   }
  ],
@@ -835,7 +839,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/mkc/254/choked-estuary?utm_source=api",
-   "oracle_text": "As Choked Estuary enters the battlefield, you may reveal an Island or Swamp card from your hand. If you don't, Choked Estuary enters the battlefield tapped.\n{T}: Add {U} or {B}."
+   "oracle_text": "As this land enters, you may reveal an Island or Swamp card from your hand. If you don't, this land enters tapped.\n{T}: Add {U} or {B}."
   },
   {
    "name": "Mistmeadow Skulk",
@@ -875,8 +879,8 @@
     "W"
    ],
    "mana_cost": "{3}{W}",
-   "url": "https://scryfall.com/card/moc/201/restoration-angel?utm_source=api",
-   "oracle_text": "Flash\nFlying\nWhen Restoration Angel enters the battlefield, you may exile target non-Angel creature you control, then return that card to the battlefield under your control."
+   "url": "https://scryfall.com/card/inr/38/restoration-angel?utm_source=api",
+   "oracle_text": "Flash\nFlying\nWhen this creature enters, you may exile target non-Angel creature you control, then return that card to the battlefield under your control."
   },
   {
    "name": "Dawn Charm",
@@ -956,7 +960,7 @@
    ],
    "mana_cost": "{1}{U/B}{U/B}",
    "url": "https://scryfall.com/card/clu/218/whisper-agent?utm_source=api",
-   "oracle_text": "Flash\nWhen Whisper Agent enters the battlefield, surveil 1. (Look at the top card of your library. You may put it into your graveyard.)"
+   "oracle_text": "Flash\nWhen this creature enters, surveil 1. (Look at the top card of your library. You may put it into your graveyard.)"
   },
   {
    "name": "Rockslide Elemental",
@@ -976,7 +980,7 @@
    ],
    "mana_cost": "{2}{R}",
    "url": "https://scryfall.com/card/hop/63/rockslide-elemental?utm_source=api",
-   "oracle_text": "First strike\nWhenever another creature dies, you may put a +1/+1 counter on Rockslide Elemental."
+   "oracle_text": "First strike\nWhenever another creature dies, you may put a +1/+1 counter on this creature."
   },
   {
    "name": "Vexing Gull",
@@ -1016,7 +1020,7 @@
    ],
    "mana_cost": "{3}{R}",
    "url": "https://scryfall.com/card/dom/150/warcry-phoenix?utm_source=api",
-   "oracle_text": "Flying, haste\nWhenever you attack with three or more creatures, you may pay {2}{R}. If you do, return Warcry Phoenix from your graveyard to the battlefield tapped and attacking."
+   "oracle_text": "Flying, haste\nWhenever you attack with three or more creatures, you may pay {2}{R}. If you do, return this card from your graveyard to the battlefield tapped and attacking."
   },
   {
    "name": "Goblin Arsonist",
@@ -1037,7 +1041,7 @@
    ],
    "mana_cost": "{R}",
    "url": "https://scryfall.com/card/m21/147/goblin-arsonist?utm_source=api",
-   "oracle_text": "When Goblin Arsonist dies, you may have it deal 1 damage to any target."
+   "oracle_text": "When this creature dies, you may have it deal 1 damage to any target."
   },
   {
    "name": "Starlit Mantle",
@@ -1057,7 +1061,7 @@
    ],
    "mana_cost": "{1}{U}",
    "url": "https://scryfall.com/card/thb/67/starlit-mantle?utm_source=api",
-   "oracle_text": "Flash\nEnchant creature you control\nWhen Starlit Mantle enters the battlefield, enchanted creature gains hexproof until end of turn. (It can't be the target of spells or abilities your opponents control.)\nEnchanted creature gets +1/+1."
+   "oracle_text": "Flash (You may cast this spell any time you could cast an instant.)\nEnchant creature you control\nWhen this Aura enters, enchanted creature gains hexproof until end of turn. (It can't be the target of spells or abilities your opponents control.)\nEnchanted creature gets +1/+1."
   },
   {
    "name": "Vona's Hunger",
@@ -1074,7 +1078,7 @@
    ],
    "mana_cost": "{2}{B}",
    "url": "https://scryfall.com/card/rix/90/vonas-hunger?utm_source=api",
-   "oracle_text": "Ascend (If you control ten or more permanents, you get the city's blessing for the rest of the game.)\nEach opponent sacrifices a creature. If you have the city's blessing, instead each opponent sacrifices half the creatures they control, rounded up."
+   "oracle_text": "Ascend (If you control ten or more permanents, you get the city's blessing for the rest of the game.)\nEach opponent sacrifices a creature of their choice. If you have the city's blessing, instead each opponent sacrifices half the creatures they control of their choice, rounded up."
   },
   {
    "name": "Umbral Mantle",
@@ -1183,7 +1187,7 @@
    ],
    "mana_cost": "{3}{U}{U}",
    "url": "https://scryfall.com/card/rna/43/mesmerizing-benthid?utm_source=api",
-   "oracle_text": "When Mesmerizing Benthid enters the battlefield, create two 0/2 blue Illusion creature tokens with \"Whenever this creature blocks a creature, that creature doesn't untap during its controller's next untap step.\"\nMesmerizing Benthid has hexproof as long as you control an Illusion."
+   "oracle_text": "When this creature enters, create two 0/2 blue Illusion creature tokens with \"Whenever this token blocks a creature, that creature doesn't untap during its controller's next untap step.\"\nThis creature has hexproof as long as you control an Illusion."
   },
   {
    "name": "Cunning Sparkmage",
@@ -1204,7 +1208,7 @@
    ],
    "mana_cost": "{2}{R}",
    "url": "https://scryfall.com/card/wwk/79/cunning-sparkmage?utm_source=api",
-   "oracle_text": "Haste\n{T}: Cunning Sparkmage deals 1 damage to any target."
+   "oracle_text": "Haste\n{T}: This creature deals 1 damage to any target."
   },
   {
    "name": "Daring Saboteur",
@@ -1225,7 +1229,7 @@
    ],
    "mana_cost": "{1}{U}",
    "url": "https://scryfall.com/card/lcc/151/daring-saboteur?utm_source=api",
-   "oracle_text": "{2}{U}: Daring Saboteur can't be blocked this turn.\nWhenever Daring Saboteur deals combat damage to a player, you may draw a card. If you do, discard a card."
+   "oracle_text": "{2}{U}: This creature can't be blocked this turn.\nWhenever this creature deals combat damage to a player, you may draw a card. If you do, discard a card."
   }
  ]
 }

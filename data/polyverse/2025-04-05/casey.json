@@ -1,5 +1,13 @@
 {
- "labels": ["graveyard", "midrange", "lands"],
+ "metadata": {
+  "path": "data/polyverse/2025-04-05/casey.json",
+  "draft_id": "2025-04-05"
+ },
+ "labels": [
+  "graveyard",
+  "midrange",
+  "lands"
+ ],
  "player": "casey",
  "date": "2025-04-05",
  "games": [

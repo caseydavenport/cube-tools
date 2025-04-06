@@ -1,4 +1,8 @@
 {
+ "metadata": {
+  "path": "data/polyverse/2024-03-28/matthewbk.json",
+  "draft_id": "2024-03-28"
+ },
  "labels": [
   "aggro",
   "control"
@@ -65,7 +69,7 @@
     "G"
    ],
    "mana_cost": "{2}{G}{G}",
-   "url": "https://scryfall.com/card/cmm/885/arasta-of-the-endless-web?utm_source=api",
+   "url": "https://scryfall.com/card/tdc/244/arasta-of-the-endless-web?utm_source=api",
    "oracle_text": "Reach\nWhenever an opponent casts an instant or sorcery spell, create a 1/2 green Spider creature token with reach."
   },
   {
@@ -86,7 +90,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/rvr/273/blood-crypt?utm_source=api",
-   "oracle_text": "({T}: Add {B} or {R}.)\nAs Blood Crypt enters the battlefield, you may pay 2 life. If you don't, it enters the battlefield tapped."
+   "oracle_text": "({T}: Add {B} or {R}.)\nAs this land enters, you may pay 2 life. If you don't, it enters tapped."
   },
   {
    "name": "Bloodstained Mire",
@@ -99,7 +103,7 @@
    "color_identity": [],
    "mana_cost": "",
    "url": "https://scryfall.com/card/mh3/216/bloodstained-mire?utm_source=api",
-   "oracle_text": "{T}, Pay 1 life, Sacrifice Bloodstained Mire: Search your library for a Swamp or Mountain card, put it onto the battlefield, then shuffle."
+   "oracle_text": "{T}, Pay 1 life, Sacrifice this land: Search your library for a Swamp or Mountain card, put it onto the battlefield, then shuffle."
   },
   {
    "name": "Breeding Pool",
@@ -119,7 +123,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/rvr/275/breeding-pool?utm_source=api",
-   "oracle_text": "({T}: Add {G} or {U}.)\nAs Breeding Pool enters the battlefield, you may pay 2 life. If you don't, it enters the battlefield tapped."
+   "oracle_text": "({T}: Add {G} or {U}.)\nAs this land enters, you may pay 2 life. If you don't, it enters tapped."
   },
   {
    "name": "Cankerbloom",
@@ -140,7 +144,7 @@
    ],
    "mana_cost": "{1}{G}",
    "url": "https://scryfall.com/card/one/161/cankerbloom?utm_source=api",
-   "oracle_text": "{1}, Sacrifice Cankerbloom: Choose one —\n• Destroy target artifact.\n• Destroy target enchantment.\n• Proliferate. (Choose any number of permanents and/or players, then give each another counter of each kind already there.)"
+   "oracle_text": "{1}, Sacrifice this creature: Choose one —\n• Destroy target artifact.\n• Destroy target enchantment.\n• Proliferate. (Choose any number of permanents and/or players, then give each another counter of each kind already there.)"
   },
   {
    "name": "Canyon Slough",
@@ -159,8 +163,8 @@
     "R"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/otc/275/canyon-slough?utm_source=api",
-   "oracle_text": "({T}: Add {B} or {R}.)\nCanyon Slough enters the battlefield tapped.\nCycling {2} ({2}, Discard this card: Draw a card.)"
+   "url": "https://scryfall.com/card/tdc/344/canyon-slough?utm_source=api",
+   "oracle_text": "({T}: Add {B} or {R}.)\nThis land enters tapped.\nCycling {2} ({2}, Discard this card: Draw a card.)"
   },
   {
    "name": "Delay",
@@ -193,7 +197,7 @@
     "B"
    ],
    "mana_cost": "{B}",
-   "url": "https://scryfall.com/card/one/92/duress?utm_source=api",
+   "url": "https://scryfall.com/card/fdn/606/duress?utm_source=api",
    "oracle_text": "Target opponent reveals their hand. You choose a noncreature, nonland card from it. That player discards that card."
   },
   {
@@ -215,7 +219,7 @@
    ],
    "mana_cost": "{1}{G}{G}",
    "url": "https://scryfall.com/card/cmm/286/eternal-witness?utm_source=api",
-   "oracle_text": "When Eternal Witness enters the battlefield, you may return target card from your graveyard to your hand."
+   "oracle_text": "When this creature enters, you may return target card from your graveyard to your hand."
   },
   {
    "name": "Faerie Dreamthief",
@@ -236,7 +240,7 @@
    ],
    "mana_cost": "{B}",
    "url": "https://scryfall.com/card/woe/89/faerie-dreamthief?utm_source=api",
-   "oracle_text": "Flying\nWhen Faerie Dreamthief enters the battlefield, surveil 1. (Look at the top card of your library. You may put it into your graveyard.)\n{2}{B}, Exile Faerie Dreamthief from your graveyard: You draw a card and you lose 1 life."
+   "oracle_text": "Flying\nWhen this creature enters, surveil 1. (Look at the top card of your library. You may put it into your graveyard.)\n{2}{B}, Exile this card from your graveyard: You draw a card and you lose 1 life."
   },
   {
    "name": "Fetid Pools",
@@ -255,8 +259,8 @@
     "U"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/otc/296/fetid-pools?utm_source=api",
-   "oracle_text": "({T}: Add {U} or {B}.)\nFetid Pools enters the battlefield tapped.\nCycling {2} ({2}, Discard this card: Draw a card.)"
+   "url": "https://scryfall.com/card/tdc/363/fetid-pools?utm_source=api",
+   "oracle_text": "({T}: Add {U} or {B}.)\nThis land enters tapped.\nCycling {2} ({2}, Discard this card: Draw a card.)"
   },
   {
    "name": "Forest",
@@ -274,7 +278,7 @@
     "G"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/318/forest?utm_source=api",
+   "url": "https://scryfall.com/card/tdm/285/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)"
   },
   {
@@ -293,7 +297,7 @@
     "G"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/318/forest?utm_source=api",
+   "url": "https://scryfall.com/card/tdm/285/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)"
   },
   {
@@ -311,7 +315,7 @@
    ],
    "mana_cost": "{1}{R}",
    "url": "https://scryfall.com/card/mh2/279/goblin-bombardment?utm_source=api",
-   "oracle_text": "Sacrifice a creature: Goblin Bombardment deals 1 damage to any target."
+   "oracle_text": "Sacrifice a creature: This enchantment deals 1 damage to any target."
   },
   {
    "name": "Greta, Sweettooth Scourge",
@@ -335,7 +339,7 @@
    ],
    "mana_cost": "{1}{B}{G}",
    "url": "https://scryfall.com/card/woe/205/greta-sweettooth-scourge?utm_source=api",
-   "oracle_text": "When Greta, Sweettooth Scourge enters the battlefield, create a Food token. (It's an artifact with \"{2}, {T}, Sacrifice this artifact: You gain 3 life.\")\n{G}, Sacrifice a Food: Put a +1/+1 counter on target creature. Activate only as a sorcery.\n{1}{B}, Sacrifice a Food: You draw a card and you lose 1 life."
+   "oracle_text": "When Greta enters, create a Food token. (It's an artifact with \"{2}, {T}, Sacrifice this token: You gain 3 life.\")\n{G}, Sacrifice a Food: Put a +1/+1 counter on target creature. Activate only as a sorcery.\n{1}{B}, Sacrifice a Food: You draw a card and you lose 1 life."
   },
   {
    "name": "Halo Forager",
@@ -358,7 +362,7 @@
    ],
    "mana_cost": "{1}{U}{B}",
    "url": "https://scryfall.com/card/mom/227/halo-forager?utm_source=api",
-   "oracle_text": "Flying\nWhen Halo Forager enters the battlefield, you may pay {X}. When you do, you may cast target instant or sorcery card with mana value X from a graveyard without paying its mana cost. If that spell would be put into a graveyard, exile it instead."
+   "oracle_text": "Flying\nWhen this creature enters, you may pay {X}. When you do, you may cast target instant or sorcery card with mana value X from a graveyard without paying its mana cost. If that spell would be put into a graveyard, exile it instead."
   },
   {
    "name": "Infernal Grasp",
@@ -374,7 +378,7 @@
     "B"
    ],
    "mana_cost": "{1}{B}",
-   "url": "https://scryfall.com/card/mid/107/infernal-grasp?utm_source=api",
+   "url": "https://scryfall.com/card/tdc/182/infernal-grasp?utm_source=api",
    "oracle_text": "Destroy target creature. You lose 2 life."
   },
   {
@@ -393,7 +397,7 @@
     "U"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/312/island?utm_source=api",
+   "url": "https://scryfall.com/card/tdm/279/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)"
   },
   {
@@ -437,7 +441,7 @@
    ],
    "mana_cost": "{B}",
    "url": "https://scryfall.com/card/m20/105/knight-of-the-ebon-legion?utm_source=api",
-   "oracle_text": "{2}{B}: Knight of the Ebon Legion gets +3/+3 and gains deathtouch until end of turn.\nAt the beginning of your end step, if a player lost 4 or more life this turn, put a +1/+1 counter on Knight of the Ebon Legion. (Damage causes loss of life.)"
+   "oracle_text": "{2}{B}: This creature gets +3/+3 and gains deathtouch until end of turn.\nAt the beginning of your end step, if a player lost 4 or more life this turn, put a +1/+1 counter on this creature. (Damage causes loss of life.)"
   },
   {
    "name": "Liliana, Death's Majesty",
@@ -509,7 +513,7 @@
    "color_identity": [],
    "mana_cost": "",
    "url": "https://scryfall.com/card/mh2/248/marsh-flats?utm_source=api",
-   "oracle_text": "{T}, Pay 1 life, Sacrifice Marsh Flats: Search your library for a Plains or Swamp card, put it onto the battlefield, then shuffle."
+   "oracle_text": "{T}, Pay 1 life, Sacrifice this land: Search your library for a Plains or Swamp card, put it onto the battlefield, then shuffle."
   },
   {
    "name": "Mesmeric Fiend",
@@ -530,7 +534,7 @@
    ],
    "mana_cost": "{1}{B}",
    "url": "https://scryfall.com/card/a25/97/mesmeric-fiend?utm_source=api",
-   "oracle_text": "When Mesmeric Fiend enters the battlefield, target opponent reveals their hand and you choose a nonland card from it. Exile that card.\nWhen Mesmeric Fiend leaves the battlefield, return the exiled card to its owner's hand."
+   "oracle_text": "When this creature enters, target opponent reveals their hand and you choose a nonland card from it. Exile that card.\nWhen this creature leaves the battlefield, return the exiled card to its owner's hand."
   },
   {
    "name": "Mosswood Dreadknight // Dread Whispers",
@@ -572,7 +576,7 @@
     "R"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/316/mountain?utm_source=api",
+   "url": "https://scryfall.com/card/tdm/283/mountain?utm_source=api",
    "oracle_text": "({T}: Add {R}.)"
   },
   {
@@ -589,7 +593,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/mh1/243/nurturing-peatland?utm_source=api",
-   "oracle_text": "{T}, Pay 1 life: Add {B} or {G}.\n{1}, {T}, Sacrifice Nurturing Peatland: Draw a card."
+   "oracle_text": "{T}, Pay 1 life: Add {B} or {G}.\n{1}, {T}, Sacrifice this land: Draw a card."
   },
   {
    "name": "Overgrown Tomb",
@@ -609,7 +613,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/rvr/283/overgrown-tomb?utm_source=api",
-   "oracle_text": "({T}: Add {B} or {G}.)\nAs Overgrown Tomb enters the battlefield, you may pay 2 life. If you don't, it enters the battlefield tapped."
+   "oracle_text": "({T}: Add {B} or {G}.)\nAs this land enters, you may pay 2 life. If you don't, it enters tapped."
   },
   {
    "name": "Perilous Myr",
@@ -627,7 +631,7 @@
    "color_identity": [],
    "mana_cost": "{2}",
    "url": "https://scryfall.com/card/cmr/330/perilous-myr?utm_source=api",
-   "oracle_text": "When Perilous Myr dies, it deals 2 damage to any target."
+   "oracle_text": "When this creature dies, it deals 2 damage to any target."
   },
   {
    "name": "Prismatic Vista",
@@ -640,7 +644,7 @@
    "color_identity": [],
    "mana_cost": "",
    "url": "https://scryfall.com/card/mh1/244/prismatic-vista?utm_source=api",
-   "oracle_text": "{T}, Pay 1 life, Sacrifice Prismatic Vista: Search your library for a basic land card, put it onto the battlefield, then shuffle."
+   "oracle_text": "{T}, Pay 1 life, Sacrifice this land: Search your library for a basic land card, put it onto the battlefield, then shuffle."
   },
   {
    "name": "Ravenous Squirrel",
@@ -662,7 +666,7 @@
    ],
    "mana_cost": "{B/G}",
    "url": "https://scryfall.com/card/mh2/211/ravenous-squirrel?utm_source=api",
-   "oracle_text": "Whenever you sacrifice an artifact or creature, put a +1/+1 counter on Ravenous Squirrel.\n{1}{B}{G}, Sacrifice an artifact or creature: You gain 1 life and draw a card."
+   "oracle_text": "Whenever you sacrifice an artifact or creature, put a +1/+1 counter on this creature.\n{1}{B}{G}, Sacrifice an artifact or creature: You gain 1 life and draw a card."
   },
   {
    "name": "Sunken Ruins",
@@ -696,7 +700,7 @@
     "B"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/314/swamp?utm_source=api",
+   "url": "https://scryfall.com/card/tdm/281/swamp?utm_source=api",
    "oracle_text": "({T}: Add {B}.)"
   },
   {
@@ -715,7 +719,7 @@
     "B"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/314/swamp?utm_source=api",
+   "url": "https://scryfall.com/card/tdm/281/swamp?utm_source=api",
    "oracle_text": "({T}: Add {B}.)"
   },
   {
@@ -759,7 +763,7 @@
    ],
    "mana_cost": "{1}{B}",
    "url": "https://scryfall.com/card/woe/113/tangled-colony?utm_source=api",
-   "oracle_text": "Tangled Colony can't block.\nWhen Tangled Colony dies, create X 1/1 black Rat creature tokens with \"This creature can't block,\" where X is the amount of damage dealt to it this turn."
+   "oracle_text": "This creature can't block.\nWhen this creature dies, create X 1/1 black Rat creature tokens with \"This token can't block,\" where X is the amount of damage dealt to it this turn."
   },
   {
    "name": "Treasure Cruise",
@@ -775,7 +779,7 @@
     "U"
    ],
    "mana_cost": "{7}{U}",
-   "url": "https://scryfall.com/card/otc/120/treasure-cruise?utm_source=api",
+   "url": "https://scryfall.com/card/tdc/169/treasure-cruise?utm_source=api",
    "oracle_text": "Delve (Each card you exile from your graveyard while casting this spell pays for {1}.)\nDraw three cards."
   },
   {
@@ -795,8 +799,8 @@
     "B"
    ],
    "mana_cost": "{2}{B}",
-   "url": "https://scryfall.com/card/clb/774/woe-strider?utm_source=api",
-   "oracle_text": "When Woe Strider enters the battlefield, create a 0/1 white Goat creature token.\nSacrifice another creature: Scry 1.\nEscape—{3}{B}{B}, Exile four other cards from your graveyard. (You may cast this card from your graveyard for its escape cost.)\nWoe Strider escapes with two +1/+1 counters on it."
+   "url": "https://scryfall.com/card/tdc/201/woe-strider?utm_source=api",
+   "oracle_text": "When this creature enters, create a 0/1 white Goat creature token.\nSacrifice another creature: Scry 1.\nEscape—{3}{B}{B}, Exile four other cards from your graveyard. (You may cast this card from your graveyard for its escape cost.)\nThis creature escapes with two +1/+1 counters on it."
   },
   {
    "name": "Wooded Foothills",
@@ -809,7 +813,7 @@
    "color_identity": [],
    "mana_cost": "",
    "url": "https://scryfall.com/card/mh3/236/wooded-foothills?utm_source=api",
-   "oracle_text": "{T}, Pay 1 life, Sacrifice Wooded Foothills: Search your library for a Mountain or Forest card, put it onto the battlefield, then shuffle."
+   "oracle_text": "{T}, Pay 1 life, Sacrifice this land: Search your library for a Mountain or Forest card, put it onto the battlefield, then shuffle."
   }
  ],
  "sideboard": [
@@ -882,7 +886,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/ima/240/horizon-canopy?utm_source=api",
-   "oracle_text": "{T}, Pay 1 life: Add {G} or {W}.\n{1}, {T}, Sacrifice Horizon Canopy: Draw a card."
+   "oracle_text": "{T}, Pay 1 life: Add {G} or {W}.\n{1}, {T}, Sacrifice this land: Draw a card."
   },
   {
    "name": "Lightning Greaves",
@@ -897,7 +901,7 @@
    "colors": [],
    "color_identity": [],
    "mana_cost": "{2}",
-   "url": "https://scryfall.com/card/otc/260/lightning-greaves?utm_source=api",
+   "url": "https://scryfall.com/card/tdc/102/lightning-greaves?utm_source=api",
    "oracle_text": "Equipped creature has haste and shroud. (It can't be the target of spells or abilities.)\nEquip {0}"
   },
   {
@@ -952,8 +956,8 @@
     "G"
    ],
    "mana_cost": "{2}{G}",
-   "url": "https://scryfall.com/card/khc/72/reclamation-sage?utm_source=api",
-   "oracle_text": "When Reclamation Sage enters the battlefield, you may destroy target artifact or enchantment."
+   "url": "https://scryfall.com/card/fdn/231/reclamation-sage?utm_source=api",
+   "oracle_text": "When this creature enters, you may destroy target artifact or enchantment."
   },
   {
    "name": "Ruthless Sniper",
@@ -1012,7 +1016,7 @@
    ],
    "mana_cost": "{1}{G}",
    "url": "https://scryfall.com/card/2xm/188/woodland-champion?utm_source=api",
-   "oracle_text": "Whenever one or more tokens enter the battlefield under your control, put that many +1/+1 counters on Woodland Champion."
+   "oracle_text": "Whenever one or more tokens you control enter, put that many +1/+1 counters on this creature."
   }
  ]
 }

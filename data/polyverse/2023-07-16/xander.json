@@ -1,4 +1,8 @@
 {
+ "metadata": {
+  "path": "data/polyverse/2023-07-16/xander.json",
+  "draft_id": "2023-07-16"
+ },
  "labels": [
   "spells",
   "token",
@@ -38,7 +42,7 @@
     "W"
    ],
    "mana_cost": "{W}",
-   "url": "https://scryfall.com/card/mkc/88/swords-to-plowshares?utm_source=api",
+   "url": "https://scryfall.com/card/tdc/134/swords-to-plowshares?utm_source=api",
    "oracle_text": "Exile target creature. Its controller gains life equal to its power."
   },
   {
@@ -72,7 +76,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/otc/298/frostboil-snarl?utm_source=api",
-   "oracle_text": "As Frostboil Snarl enters the battlefield, you may reveal an Island or Mountain card from your hand. If you don't, Frostboil Snarl enters the battlefield tapped.\n{T}: Add {U} or {R}."
+   "oracle_text": "As this land enters, you may reveal an Island or Mountain card from your hand. If you don't, this land enters tapped.\n{T}: Add {U} or {R}."
   },
   {
    "name": "Young Pyromancer",
@@ -92,7 +96,7 @@
     "R"
    ],
    "mana_cost": "{1}{R}",
-   "url": "https://scryfall.com/card/otc/185/young-pyromancer?utm_source=api",
+   "url": "https://scryfall.com/card/tdc/95/young-pyromancer?utm_source=api",
    "oracle_text": "Whenever you cast an instant or sorcery spell, create a 1/1 red Elemental creature token."
   },
   {
@@ -149,7 +153,7 @@
    ],
    "mana_cost": "{1}{R}{R}",
    "url": "https://scryfall.com/card/war/138/mizzium-tank?utm_source=api",
-   "oracle_text": "Trample\nWhenever you cast a noncreature spell, Mizzium Tank becomes an artifact creature and gets +1/+1 until end of turn.\nCrew 1 (Tap any number of creatures you control with total power 1 or more: This Vehicle becomes an artifact creature until end of turn.)"
+   "oracle_text": "Trample\nWhenever you cast a noncreature spell, this Vehicle becomes an artifact creature and gets +1/+1 until end of turn.\nCrew 1 (Tap any number of creatures you control with total power 1 or more: This Vehicle becomes an artifact creature until end of turn.)"
   },
   {
    "name": "Glacial Fortress",
@@ -164,8 +168,8 @@
     "W"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/xln/255/glacial-fortress?utm_source=api",
-   "oracle_text": "Glacial Fortress enters the battlefield tapped unless you control a Plains or an Island.\n{T}: Add {W} or {U}."
+   "url": "https://scryfall.com/card/tdc/367/glacial-fortress?utm_source=api",
+   "oracle_text": "This land enters tapped unless you control a Plains or an Island.\n{T}: Add {W} or {U}."
   },
   {
    "name": "Clifftop Retreat",
@@ -180,8 +184,8 @@
     "W"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/otc/278/clifftop-retreat?utm_source=api",
-   "oracle_text": "Clifftop Retreat enters the battlefield tapped unless you control a Mountain or a Plains.\n{T}: Add {R} or {W}."
+   "url": "https://scryfall.com/card/tdc/351/clifftop-retreat?utm_source=api",
+   "oracle_text": "This land enters tapped unless you control a Mountain or a Plains.\n{T}: Add {R} or {W}."
   },
   {
    "name": "Enigma Drake",
@@ -202,7 +206,7 @@
     "U"
    ],
    "mana_cost": "{1}{U}{R}",
-   "url": "https://scryfall.com/card/m19/216/enigma-drake?utm_source=api",
+   "url": "https://scryfall.com/card/fdn/657/enigma-drake?utm_source=api",
    "oracle_text": "Flying\nEnigma Drake's power is equal to the number of instant and sorcery cards in your graveyard."
   },
   {
@@ -226,7 +230,7 @@
    ],
    "mana_cost": "{2}{U}{R}",
    "url": "https://scryfall.com/card/war/211/ral-storm-conduit?utm_source=api",
-   "oracle_text": "Whenever you cast or copy an instant or sorcery spell, Ral, Storm Conduit deals 1 damage to target opponent or planeswalker.\n+2: Scry 1.\n−2: When you next cast an instant or sorcery spell this turn, copy that spell. You may choose new targets for the copy."
+   "oracle_text": "Whenever you cast or copy an instant or sorcery spell, Ral deals 1 damage to target opponent or planeswalker.\n+2: Scry 1.\n−2: When you next cast an instant or sorcery spell this turn, copy that spell. You may choose new targets for the copy."
   },
   {
    "name": "Dreadhorde Arcanist",
@@ -247,7 +251,7 @@
    ],
    "mana_cost": "{1}{R}",
    "url": "https://scryfall.com/card/war/125/dreadhorde-arcanist?utm_source=api",
-   "oracle_text": "Trample\nWhenever Dreadhorde Arcanist attacks, you may cast target instant or sorcery card with mana value less than or equal to Dreadhorde Arcanist's power from your graveyard without paying its mana cost. If that spell would be put into your graveyard, exile it instead."
+   "oracle_text": "Trample\nWhenever this creature attacks, you may cast target instant or sorcery card with mana value less than or equal to this creature's power from your graveyard without paying its mana cost. If that spell would be put into your graveyard, exile it instead."
   },
   {
    "name": "Empty the Warrens",
@@ -302,7 +306,7 @@
    ],
    "mana_cost": "{2}{U}",
    "url": "https://scryfall.com/card/thb/56/naiad-of-hidden-coves?utm_source=api",
-   "oracle_text": "As long as it's not your turn, spells you cast cost {1} less to cast."
+   "oracle_text": "During turns other than yours, spells you cast cost {1} less to cast."
   },
   {
    "name": "Chart a Course",
@@ -318,7 +322,7 @@
     "U"
    ],
    "mana_cost": "{1}{U}",
-   "url": "https://scryfall.com/card/lci/48/chart-a-course?utm_source=api",
+   "url": "https://scryfall.com/card/fdn/586/chart-a-course?utm_source=api",
    "oracle_text": "Draw two cards. Then discard a card unless you attacked this turn."
   },
   {
@@ -386,7 +390,7 @@
     "U"
    ],
    "mana_cost": "{U}",
-   "url": "https://scryfall.com/card/otc/105/ponder?utm_source=api",
+   "url": "https://scryfall.com/card/tdc/159/ponder?utm_source=api",
    "oracle_text": "Look at the top three cards of your library, then put them back in any order. You may shuffle.\nDraw a card."
   },
   {
@@ -407,7 +411,7 @@
    ],
    "mana_cost": "{2}{R}",
    "url": "https://scryfall.com/card/clu/148/spellgorger-weird?utm_source=api",
-   "oracle_text": "Whenever you cast a noncreature spell, put a +1/+1 counter on Spellgorger Weird."
+   "oracle_text": "Whenever you cast a noncreature spell, put a +1/+1 counter on this creature."
   },
   {
    "name": "Flooded Strand",
@@ -420,7 +424,7 @@
    "color_identity": [],
    "mana_cost": "",
    "url": "https://scryfall.com/card/mh3/220/flooded-strand?utm_source=api",
-   "oracle_text": "{T}, Pay 1 life, Sacrifice Flooded Strand: Search your library for a Plains or Island card, put it onto the battlefield, then shuffle."
+   "oracle_text": "{T}, Pay 1 life, Sacrifice this land: Search your library for a Plains or Island card, put it onto the battlefield, then shuffle."
   },
   {
    "name": "Into the Roil",
@@ -436,7 +440,7 @@
     "U"
    ],
    "mana_cost": "{1}{U}",
-   "url": "https://scryfall.com/card/cmr/397/into-the-roil?utm_source=api",
+   "url": "https://scryfall.com/card/fdn/509/into-the-roil?utm_source=api",
    "oracle_text": "Kicker {1}{U} (You may pay an additional {1}{U} as you cast this spell.)\nReturn target nonland permanent to its owner's hand. If this spell was kicked, draw a card."
   },
   {
@@ -476,7 +480,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/cmm/1019/port-town?utm_source=api",
-   "oracle_text": "As Port Town enters the battlefield, you may reveal a Plains or Island card from your hand. If you don't, Port Town enters the battlefield tapped.\n{T}: Add {W} or {U}."
+   "oracle_text": "As this land enters, you may reveal a Plains or Island card from your hand. If you don't, this land enters tapped.\n{T}: Add {W} or {U}."
   },
   {
    "name": "Delay",
@@ -566,7 +570,7 @@
     "R"
    ],
    "mana_cost": "{R}",
-   "url": "https://scryfall.com/card/otc/165/faithless-looting?utm_source=api",
+   "url": "https://scryfall.com/card/tdc/213/faithless-looting?utm_source=api",
    "oracle_text": "Draw two cards, then discard two cards.\nFlashback {2}{R} (You may cast this card from your graveyard for its flashback cost. Then exile it.)"
   },
   {
@@ -585,7 +589,7 @@
     "W"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/310/plains?utm_source=api",
+   "url": "https://scryfall.com/card/tdm/277/plains?utm_source=api",
    "oracle_text": "({T}: Add {W}.)"
   },
   {
@@ -604,7 +608,7 @@
     "U"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/312/island?utm_source=api",
+   "url": "https://scryfall.com/card/tdm/279/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)"
   },
   {
@@ -623,7 +627,7 @@
     "U"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/312/island?utm_source=api",
+   "url": "https://scryfall.com/card/tdm/279/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)"
   },
   {
@@ -642,7 +646,7 @@
     "U"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/312/island?utm_source=api",
+   "url": "https://scryfall.com/card/tdm/279/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)"
   },
   {
@@ -661,7 +665,7 @@
     "U"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/312/island?utm_source=api",
+   "url": "https://scryfall.com/card/tdm/279/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)"
   },
   {
@@ -680,7 +684,7 @@
     "R"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/316/mountain?utm_source=api",
+   "url": "https://scryfall.com/card/tdm/283/mountain?utm_source=api",
    "oracle_text": "({T}: Add {R}.)"
   },
   {
@@ -699,7 +703,7 @@
     "R"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/316/mountain?utm_source=api",
+   "url": "https://scryfall.com/card/tdm/283/mountain?utm_source=api",
    "oracle_text": "({T}: Add {R}.)"
   },
   {
@@ -718,7 +722,7 @@
     "R"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/316/mountain?utm_source=api",
+   "url": "https://scryfall.com/card/tdm/283/mountain?utm_source=api",
    "oracle_text": "({T}: Add {R}.)"
   },
   {
@@ -737,7 +741,7 @@
     "R"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/316/mountain?utm_source=api",
+   "url": "https://scryfall.com/card/tdm/283/mountain?utm_source=api",
    "oracle_text": "({T}: Add {R}.)"
   },
   {
@@ -756,7 +760,7 @@
     "R"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/316/mountain?utm_source=api",
+   "url": "https://scryfall.com/card/tdm/283/mountain?utm_source=api",
    "oracle_text": "({T}: Add {R}.)"
   }
  ],
@@ -835,7 +839,7 @@
    ],
    "mana_cost": "{W}",
    "url": "https://scryfall.com/card/dom/14/dauntless-bodyguard?utm_source=api",
-   "oracle_text": "As Dauntless Bodyguard enters the battlefield, choose another creature you control.\nSacrifice Dauntless Bodyguard: The chosen creature gains indestructible until end of turn."
+   "oracle_text": "As this creature enters, choose another creature you control.\nSacrifice this creature: The chosen creature gains indestructible until end of turn."
   },
   {
    "name": "Dream Trawler",
@@ -857,7 +861,7 @@
    ],
    "mana_cost": "{2}{W}{W}{U}{U}",
    "url": "https://scryfall.com/card/thb/214/dream-trawler?utm_source=api",
-   "oracle_text": "Flying, lifelink\nWhenever you draw a card, Dream Trawler gets +1/+0 until end of turn.\nWhenever Dream Trawler attacks, draw a card.\nDiscard a card: Dream Trawler gains hexproof until end of turn. Tap it."
+   "oracle_text": "Flying, lifelink\nWhenever you draw a card, this creature gets +1/+0 until end of turn.\nWhenever this creature attacks, draw a card.\nDiscard a card: This creature gains hexproof until end of turn. Tap it."
   },
   {
    "name": "Bond of Insight",
@@ -891,7 +895,7 @@
    ],
    "mana_cost": "{X}{U}",
    "url": "https://scryfall.com/card/ima/46/condescend?utm_source=api",
-   "oracle_text": "Counter target spell unless its controller pays {X}. Scry 2. (Look at the top two cards of your library, then put any number of them on the bottom of your library and the rest on top in any order.)"
+   "oracle_text": "Counter target spell unless its controller pays {X}. Scry 2. (Look at the top two cards of your library, then put any number of them on the bottom and the rest on top in any order.)"
   },
   {
    "name": "Silver Myr",
@@ -949,7 +953,7 @@
    ],
    "mana_cost": "{1}{W}{W}",
    "url": "https://scryfall.com/card/cmd/27/prison-term?utm_source=api",
-   "oracle_text": "Enchant creature\nEnchanted creature can't attack or block, and its activated abilities can't be activated.\nWhenever a creature enters the battlefield under an opponent's control, you may attach Prison Term to that creature."
+   "oracle_text": "Enchant creature\nEnchanted creature can't attack or block, and its activated abilities can't be activated.\nWhenever a creature an opponent controls enters, you may attach this Aura to that creature."
   },
   {
    "name": "Swans of Bryn Argoll",
@@ -972,7 +976,7 @@
    ],
    "mana_cost": "{2}{W/U}{W/U}",
    "url": "https://scryfall.com/card/mm2/199/swans-of-bryn-argoll?utm_source=api",
-   "oracle_text": "Flying\nIf a source would deal damage to Swans of Bryn Argoll, prevent that damage. The source's controller draws cards equal to the damage prevented this way."
+   "oracle_text": "Flying\nIf a source would deal damage to this creature, prevent that damage. The source's controller draws cards equal to the damage prevented this way."
   },
   {
    "name": "Inventive Iteration // Living Breakthrough",
@@ -1010,7 +1014,7 @@
    ],
    "mana_cost": "{1}{U}",
    "url": "https://scryfall.com/card/war/72/teferis-time-twist?utm_source=api",
-   "oracle_text": "Exile target permanent you control. Return that card to the battlefield under its owner's control at the beginning of the next end step. If it enters the battlefield as a creature, it enters with an additional +1/+1 counter on it."
+   "oracle_text": "Exile target permanent you control. Return that card to the battlefield under its owner's control at the beginning of the next end step. If it enters as a creature, it enters with an additional +1/+1 counter on it."
   },
   {
    "name": "Marshal's Anthem",
@@ -1027,7 +1031,7 @@
    ],
    "mana_cost": "{2}{W}{W}",
    "url": "https://scryfall.com/card/otc/82/marshals-anthem?utm_source=api",
-   "oracle_text": "Multikicker {1}{W} (You may pay an additional {1}{W} any number of times as you cast this spell.)\nCreatures you control get +1/+1.\nWhen Marshal's Anthem enters the battlefield, return up to X target creature cards from your graveyard to the battlefield, where X is the number of times Marshal's Anthem was kicked."
+   "oracle_text": "Multikicker {1}{W} (You may pay an additional {1}{W} any number of times as you cast this spell.)\nCreatures you control get +1/+1.\nWhen this enchantment enters, return up to X target creature cards from your graveyard to the battlefield, where X is the number of times this enchantment was kicked."
   },
   {
    "name": "Witherscale Wurm",
@@ -1047,7 +1051,7 @@
    ],
    "mana_cost": "{4}{G}{G}",
    "url": "https://scryfall.com/card/shm/134/witherscale-wurm?utm_source=api",
-   "oracle_text": "Whenever Witherscale Wurm blocks or becomes blocked by a creature, that creature gains wither until end of turn. (It deals damage to creatures in the form of -1/-1 counters.)\nWhenever Witherscale Wurm deals damage to an opponent, remove all -1/-1 counters from it."
+   "oracle_text": "Whenever this creature blocks or becomes blocked by a creature, that creature gains wither until end of turn. (It deals damage to creatures in the form of -1/-1 counters.)\nWhenever this creature deals damage to an opponent, remove all -1/-1 counters from it."
   },
   {
    "name": "Touch the Spirit Realm",
@@ -1064,7 +1068,7 @@
    ],
    "mana_cost": "{2}{W}",
    "url": "https://scryfall.com/card/neo/40/touch-the-spirit-realm?utm_source=api",
-   "oracle_text": "When Touch the Spirit Realm enters the battlefield, exile up to one target artifact or creature until Touch the Spirit Realm leaves the battlefield.\nChannel — {1}{W}, Discard Touch the Spirit Realm: Exile target artifact or creature. Return it to the battlefield under its owner's control at the beginning of the next end step."
+   "oracle_text": "When this enchantment enters, exile up to one target artifact or creature until this enchantment leaves the battlefield.\nChannel — {1}{W}, Discard this card: Exile target artifact or creature. Return it to the battlefield under its owner's control at the beginning of the next end step."
   },
   {
    "name": "Domri's Ambush",

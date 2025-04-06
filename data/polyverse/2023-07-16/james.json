@@ -1,4 +1,8 @@
 {
+ "metadata": {
+  "path": "data/polyverse/2023-07-16/james.json",
+  "draft_id": "2023-07-16"
+ },
  "labels": [
   "vampire",
   "midrange"
@@ -139,7 +143,7 @@
    ],
    "mana_cost": "{2}{W}{W}",
    "url": "https://scryfall.com/card/m11/1/ajani-goldmane?utm_source=api",
-   "oracle_text": "+1: You gain 2 life.\n−1: Put a +1/+1 counter on each creature you control. Those creatures gain vigilance until end of turn.\n−6: Create a white Avatar creature token. It has \"This creature's power and toughness are each equal to your life total.\""
+   "oracle_text": "+1: You gain 2 life.\n−1: Put a +1/+1 counter on each creature you control. Those creatures gain vigilance until end of turn.\n−6: Create a white Avatar creature token. It has \"This token's power and toughness are each equal to your life total.\""
   },
   {
    "name": "Oathsworn Vampire",
@@ -160,7 +164,7 @@
    ],
    "mana_cost": "{1}{B}",
    "url": "https://scryfall.com/card/lcc/204/oathsworn-vampire?utm_source=api",
-   "oracle_text": "Oathsworn Vampire enters the battlefield tapped.\nYou may cast Oathsworn Vampire from your graveyard if you gained life this turn."
+   "oracle_text": "This creature enters tapped.\nYou may cast this card from your graveyard if you gained life this turn."
   },
   {
    "name": "Disfigure",
@@ -197,8 +201,8 @@
     "B"
    ],
    "mana_cost": "{B}{B}",
-   "url": "https://scryfall.com/card/wwk/59/kalastria-highborn?utm_source=api",
-   "oracle_text": "Whenever Kalastria Highborn or another Vampire you control dies, you may pay {B}. If you do, target player loses 2 life and you gain 2 life."
+   "url": "https://scryfall.com/card/fdn/607/kalastria-highborn?utm_source=api",
+   "oracle_text": "Whenever this creature or another Vampire you control dies, you may pay {B}. If you do, target player loses 2 life and you gain 2 life."
   },
   {
    "name": "Mesmeric Fiend",
@@ -219,7 +223,7 @@
    ],
    "mana_cost": "{1}{B}",
    "url": "https://scryfall.com/card/a25/97/mesmeric-fiend?utm_source=api",
-   "oracle_text": "When Mesmeric Fiend enters the battlefield, target opponent reveals their hand and you choose a nonland card from it. Exile that card.\nWhen Mesmeric Fiend leaves the battlefield, return the exiled card to its owner's hand."
+   "oracle_text": "When this creature enters, target opponent reveals their hand and you choose a nonland card from it. Exile that card.\nWhen this creature leaves the battlefield, return the exiled card to its owner's hand."
   },
   {
    "name": "Paladin of the Bloodstained",
@@ -240,7 +244,7 @@
    ],
    "mana_cost": "{3}{W}",
    "url": "https://scryfall.com/card/xln/25/paladin-of-the-bloodstained?utm_source=api",
-   "oracle_text": "When Paladin of the Bloodstained enters the battlefield, create a 1/1 white Vampire creature token with lifelink."
+   "oracle_text": "When this creature enters, create a 1/1 white Vampire creature token with lifelink."
   },
   {
    "name": "Pitiless Pontiff",
@@ -263,7 +267,7 @@
    ],
    "mana_cost": "{W}{B}",
    "url": "https://scryfall.com/card/rna/194/pitiless-pontiff?utm_source=api",
-   "oracle_text": "{1}, Sacrifice another creature: Pitiless Pontiff gains deathtouch and indestructible until end of turn. (Damage and effects that say \"destroy\" don't destroy it.)"
+   "oracle_text": "{1}, Sacrifice another creature: This creature gains deathtouch and indestructible until end of turn. (Damage and effects that say \"destroy\" don't destroy it.)"
   },
   {
    "name": "Mavren Fein, Dusk Apostle",
@@ -306,7 +310,7 @@
    ],
    "mana_cost": "{5}{B}{B}",
    "url": "https://scryfall.com/card/lcc/187/butcher-of-malakir?utm_source=api",
-   "oracle_text": "Flying\nWhenever Butcher of Malakir or another creature you control dies, each opponent sacrifices a creature."
+   "oracle_text": "Flying\nWhenever this creature or another creature you control dies, each opponent sacrifices a creature of their choice."
   },
   {
    "name": "Doom Blade",
@@ -340,7 +344,7 @@
    ],
    "mana_cost": "{1}{W}",
    "url": "https://scryfall.com/card/cmd/17/journey-to-nowhere?utm_source=api",
-   "oracle_text": "When Journey to Nowhere enters the battlefield, exile target creature.\nWhen Journey to Nowhere leaves the battlefield, return the exiled card to the battlefield under its owner's control."
+   "oracle_text": "When this enchantment enters, exile target creature.\nWhen this enchantment leaves the battlefield, return the exiled card to the battlefield under its owner's control."
   },
   {
    "name": "Pharika's Spawn",
@@ -360,7 +364,7 @@
    ],
    "mana_cost": "{3}{B}",
    "url": "https://scryfall.com/card/thb/112/pharikas-spawn?utm_source=api",
-   "oracle_text": "Escape—{5}{B}, Exile three other cards from your graveyard. (You may cast this card from your graveyard for its escape cost.)\nPharika's Spawn escapes with two +1/+1 counters on it. When it enters the battlefield this way, each opponent sacrifices a non-Gorgon creature."
+   "oracle_text": "Escape—{5}{B}, Exile three other cards from your graveyard. (You may cast this card from your graveyard for its escape cost.)\nThis creature escapes with two +1/+1 counters on it. When it enters this way, each opponent sacrifices a non-Gorgon creature of their choice."
   },
   {
    "name": "Oblivion Ring",
@@ -377,7 +381,7 @@
    ],
    "mana_cost": "{2}{W}",
    "url": "https://scryfall.com/card/mm2/29/oblivion-ring?utm_source=api",
-   "oracle_text": "When Oblivion Ring enters the battlefield, exile another target nonland permanent.\nWhen Oblivion Ring leaves the battlefield, return the exiled card to the battlefield under its owner's control."
+   "oracle_text": "When this enchantment enters, exile another target nonland permanent.\nWhen this enchantment leaves the battlefield, return the exiled card to the battlefield under its owner's control."
   },
   {
    "name": "Alseid of Life's Bounty",
@@ -398,7 +402,7 @@
    ],
    "mana_cost": "{W}",
    "url": "https://scryfall.com/card/thb/1/alseid-of-lifes-bounty?utm_source=api",
-   "oracle_text": "Lifelink\n{1}, Sacrifice Alseid of Life's Bounty: Target creature or enchantment you control gains protection from the color of your choice until end of turn."
+   "oracle_text": "Lifelink\n{1}, Sacrifice this creature: Target creature or enchantment you control gains protection from the color of your choice until end of turn."
   },
   {
    "name": "Vampire's Zeal",
@@ -427,8 +431,8 @@
    "colors": [],
    "color_identity": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/otc/336/terramorphic-expanse?utm_source=api",
-   "oracle_text": "{T}, Sacrifice Terramorphic Expanse: Search your library for a basic land card, put it onto the battlefield tapped, then shuffle."
+   "url": "https://scryfall.com/card/tdc/408/terramorphic-expanse?utm_source=api",
+   "oracle_text": "{T}, Sacrifice this land: Search your library for a basic land card, put it onto the battlefield tapped, then shuffle."
   },
   {
    "name": "Harm's Way",
@@ -461,7 +465,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/lcc/351/shineshadow-snarl?utm_source=api",
-   "oracle_text": "As Shineshadow Snarl enters the battlefield, you may reveal a Plains or Swamp card from your hand. If you don't, Shineshadow Snarl enters the battlefield tapped.\n{T}: Add {W} or {B}."
+   "oracle_text": "As this land enters, you may reveal a Plains or Swamp card from your hand. If you don't, this land enters tapped.\n{T}: Add {W} or {B}."
   },
   {
    "name": "Inspiring Cleric",
@@ -482,7 +486,7 @@
    ],
    "mana_cost": "{2}{W}",
    "url": "https://scryfall.com/card/xln/16/inspiring-cleric?utm_source=api",
-   "oracle_text": "When Inspiring Cleric enters the battlefield, you gain 4 life."
+   "oracle_text": "When this creature enters, you gain 4 life."
   },
   {
    "name": "Malakir Bloodwitch",
@@ -503,7 +507,7 @@
    ],
    "mana_cost": "{3}{B}{B}",
    "url": "https://scryfall.com/card/voc/131/malakir-bloodwitch?utm_source=api",
-   "oracle_text": "Flying, protection from white\nWhen Malakir Bloodwitch enters the battlefield, each opponent loses life equal to the number of Vampires you control. You gain life equal to the life lost this way."
+   "oracle_text": "Flying, protection from white\nWhen this creature enters, each opponent loses life equal to the number of Vampires you control. You gain life equal to the life lost this way."
   },
   {
    "name": "Field of Ruin",
@@ -516,7 +520,7 @@
    "color_identity": [],
    "mana_cost": "",
    "url": "https://scryfall.com/card/moc/400/field-of-ruin?utm_source=api",
-   "oracle_text": "{T}: Add {C}.\n{2}, {T}, Sacrifice Field of Ruin: Destroy target nonbasic land an opponent controls. Each player searches their library for a basic land card, puts it onto the battlefield, then shuffles."
+   "oracle_text": "{T}: Add {C}.\n{2}, {T}, Sacrifice this land: Destroy target nonbasic land an opponent controls. Each player searches their library for a basic land card, puts it onto the battlefield, then shuffles."
   },
   {
    "name": "Vampire Aristocrat",
@@ -538,7 +542,7 @@
    ],
    "mana_cost": "{2}{B}",
    "url": "https://scryfall.com/card/mm3/86/vampire-aristocrat?utm_source=api",
-   "oracle_text": "Sacrifice a creature: Vampire Aristocrat gets +2/+2 until end of turn."
+   "oracle_text": "Sacrifice a creature: This creature gets +2/+2 until end of turn."
   },
   {
    "name": "Plains",
@@ -556,7 +560,7 @@
     "W"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/310/plains?utm_source=api",
+   "url": "https://scryfall.com/card/tdm/277/plains?utm_source=api",
    "oracle_text": "({T}: Add {W}.)"
   },
   {
@@ -575,7 +579,7 @@
     "W"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/310/plains?utm_source=api",
+   "url": "https://scryfall.com/card/tdm/277/plains?utm_source=api",
    "oracle_text": "({T}: Add {W}.)"
   },
   {
@@ -594,7 +598,7 @@
     "W"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/310/plains?utm_source=api",
+   "url": "https://scryfall.com/card/tdm/277/plains?utm_source=api",
    "oracle_text": "({T}: Add {W}.)"
   },
   {
@@ -613,7 +617,7 @@
     "W"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/310/plains?utm_source=api",
+   "url": "https://scryfall.com/card/tdm/277/plains?utm_source=api",
    "oracle_text": "({T}: Add {W}.)"
   },
   {
@@ -632,7 +636,7 @@
     "W"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/310/plains?utm_source=api",
+   "url": "https://scryfall.com/card/tdm/277/plains?utm_source=api",
    "oracle_text": "({T}: Add {W}.)"
   },
   {
@@ -651,7 +655,7 @@
     "W"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/310/plains?utm_source=api",
+   "url": "https://scryfall.com/card/tdm/277/plains?utm_source=api",
    "oracle_text": "({T}: Add {W}.)"
   },
   {
@@ -670,7 +674,7 @@
     "W"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/310/plains?utm_source=api",
+   "url": "https://scryfall.com/card/tdm/277/plains?utm_source=api",
    "oracle_text": "({T}: Add {W}.)"
   },
   {
@@ -689,7 +693,7 @@
     "B"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/314/swamp?utm_source=api",
+   "url": "https://scryfall.com/card/tdm/281/swamp?utm_source=api",
    "oracle_text": "({T}: Add {B}.)"
   },
   {
@@ -708,7 +712,7 @@
     "B"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/314/swamp?utm_source=api",
+   "url": "https://scryfall.com/card/tdm/281/swamp?utm_source=api",
    "oracle_text": "({T}: Add {B}.)"
   },
   {
@@ -727,7 +731,7 @@
     "B"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/314/swamp?utm_source=api",
+   "url": "https://scryfall.com/card/tdm/281/swamp?utm_source=api",
    "oracle_text": "({T}: Add {B}.)"
   },
   {
@@ -746,7 +750,7 @@
     "B"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/314/swamp?utm_source=api",
+   "url": "https://scryfall.com/card/tdm/281/swamp?utm_source=api",
    "oracle_text": "({T}: Add {B}.)"
   },
   {
@@ -765,7 +769,7 @@
     "B"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/314/swamp?utm_source=api",
+   "url": "https://scryfall.com/card/tdm/281/swamp?utm_source=api",
    "oracle_text": "({T}: Add {B}.)"
   },
   {
@@ -784,7 +788,7 @@
     "B"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/314/swamp?utm_source=api",
+   "url": "https://scryfall.com/card/tdm/281/swamp?utm_source=api",
    "oracle_text": "({T}: Add {B}.)"
   }
  ],
@@ -803,7 +807,7 @@
     "G"
    ],
    "mana_cost": "{G}",
-   "url": "https://scryfall.com/card/bro/183/giant-growth?utm_source=api",
+   "url": "https://scryfall.com/card/fdn/223/giant-growth?utm_source=api",
    "oracle_text": "Target creature gets +3/+3 until end of turn."
   },
   {
@@ -823,8 +827,8 @@
     "G"
    ],
    "mana_cost": "{5}{G}{G}",
-   "url": "https://scryfall.com/card/otc/187/avenger-of-zendikar?utm_source=api",
-   "oracle_text": "When Avenger of Zendikar enters the battlefield, create a 0/1 green Plant creature token for each land you control.\nLandfall — Whenever a land enters the battlefield under your control, you may put a +1/+1 counter on each Plant creature you control."
+   "url": "https://scryfall.com/card/tdc/247/avenger-of-zendikar?utm_source=api",
+   "oracle_text": "When this creature enters, create a 0/1 green Plant creature token for each land you control.\nLandfall — Whenever a land you control enters, you may put a +1/+1 counter on each Plant creature you control."
   },
   {
    "name": "Hellkite Charger",
@@ -844,7 +848,7 @@
    ],
    "mana_cost": "{4}{R}{R}",
    "url": "https://scryfall.com/card/cmm/232/hellkite-charger?utm_source=api",
-   "oracle_text": "Flying, haste\nWhenever Hellkite Charger attacks, you may pay {5}{R}{R}. If you do, untap all attacking creatures and after this phase, there is an additional combat phase."
+   "oracle_text": "Flying, haste\nWhenever this creature attacks, you may pay {5}{R}{R}. If you do, untap all attacking creatures and after this phase, there is an additional combat phase."
   },
   {
    "name": "Groundswell",
@@ -893,7 +897,7 @@
    "color_identity": [],
    "mana_cost": "{1}",
    "url": "https://scryfall.com/card/a25/230/sai-of-the-shinobi?utm_source=api",
-   "oracle_text": "Equipped creature gets +1/+1.\nWhenever a creature enters the battlefield under your control, you may attach Sai of the Shinobi to it.\nEquip {2}"
+   "oracle_text": "Equipped creature gets +1/+1.\nWhenever a creature you control enters, you may attach this Equipment to it.\nEquip {2}"
   },
   {
    "name": "Vampire's Bite",
@@ -974,7 +978,7 @@
    ],
    "mana_cost": "{1}{W}",
    "url": "https://scryfall.com/card/neo/26/lion-sash?utm_source=api",
-   "oracle_text": "{W}: Exile target card from a graveyard. If it was a permanent card, put a +1/+1 counter on Lion Sash.\nEquipped creature gets +1/+1 for each +1/+1 counter on Lion Sash.\nReconfigure {2} ({2}: Attach to target creature you control; or unattach from a creature. Reconfigure only as a sorcery. While attached, this isn't a creature.)"
+   "oracle_text": "{W}: Exile target card from a graveyard. If it was a permanent card, put a +1/+1 counter on this permanent.\nEquipped creature gets +1/+1 for each +1/+1 counter on this Equipment.\nReconfigure {2} ({2}: Attach to target creature you control; or unattach from a creature. Reconfigure only as a sorcery. While attached, this isn't a creature.)"
   },
   {
    "name": "Darksteel Colossus",
@@ -990,8 +994,8 @@
    "colors": [],
    "color_identity": [],
    "mana_cost": "{11}",
-   "url": "https://scryfall.com/card/m10/208/darksteel-colossus?utm_source=api",
-   "oracle_text": "Trample, indestructible\nIf Darksteel Colossus would be put into a graveyard from anywhere, reveal Darksteel Colossus and shuffle it into its owner's library instead."
+   "url": "https://scryfall.com/card/fdn/671/darksteel-colossus?utm_source=api",
+   "oracle_text": "Trample (This creature can deal excess combat damage to the player or planeswalker it's attacking.)\nIndestructible (Damage and effects that say \"destroy\" don't destroy this creature.)\nIf Darksteel Colossus would be put into a graveyard from anywhere, reveal Darksteel Colossus and shuffle it into its owner's library instead."
   },
   {
    "name": "Liliana's Mastery",
@@ -1008,7 +1012,7 @@
    ],
    "mana_cost": "{3}{B}{B}",
    "url": "https://scryfall.com/card/mic/123/lilianas-mastery?utm_source=api",
-   "oracle_text": "Zombies you control get +1/+1.\nWhen Liliana's Mastery enters the battlefield, create two 2/2 black Zombie creature tokens."
+   "oracle_text": "Zombies you control get +1/+1.\nWhen this enchantment enters, create two 2/2 black Zombie creature tokens."
   },
   {
    "name": "Gwyllion Hedge-Mage",
@@ -1031,7 +1035,7 @@
    ],
    "mana_cost": "{2}{W/B}",
    "url": "https://scryfall.com/card/cma/201/gwyllion-hedge-mage?utm_source=api",
-   "oracle_text": "When Gwyllion Hedge-Mage enters the battlefield, if you control two or more Plains, you may create a 1/1 white Kithkin Soldier creature token.\nWhen Gwyllion Hedge-Mage enters the battlefield, if you control two or more Swamps, you may put a -1/-1 counter on target creature."
+   "oracle_text": "When this creature enters, if you control two or more Plains, you may create a 1/1 white Kithkin Soldier creature token.\nWhen this creature enters, if you control two or more Swamps, you may put a -1/-1 counter on target creature."
   },
   {
    "name": "Ob Nixilis, the Hate-Twisted",
@@ -1052,7 +1056,7 @@
    ],
    "mana_cost": "{3}{B}{B}",
    "url": "https://scryfall.com/card/war/100/ob-nixilis-the-hate-twisted?utm_source=api",
-   "oracle_text": "Whenever an opponent draws a card, Ob Nixilis, the Hate-Twisted deals 1 damage to that player.\n−2: Destroy target creature. Its controller draws two cards."
+   "oracle_text": "Whenever an opponent draws a card, Ob Nixilis deals 1 damage to that player.\n−2: Destroy target creature. Its controller draws two cards."
   },
   {
    "name": "Cartouche of Solidarity",
@@ -1073,7 +1077,7 @@
    ],
    "mana_cost": "{W}",
    "url": "https://scryfall.com/card/akh/7/cartouche-of-solidarity?utm_source=api",
-   "oracle_text": "Enchant creature you control\nWhen Cartouche of Solidarity enters the battlefield, create a 1/1 white Warrior creature token with vigilance.\nEnchanted creature gets +1/+1 and has first strike."
+   "oracle_text": "Enchant creature you control\nWhen this Aura enters, create a 1/1 white Warrior creature token with vigilance.\nEnchanted creature gets +1/+1 and has first strike. (It deals combat damage before creatures without first strike.)"
   },
   {
    "name": "Kor Duelist",
@@ -1094,7 +1098,7 @@
    ],
    "mana_cost": "{W}",
    "url": "https://scryfall.com/card/mm2/22/kor-duelist?utm_source=api",
-   "oracle_text": "As long as Kor Duelist is equipped, it has double strike. (It deals both first-strike and regular combat damage.)"
+   "oracle_text": "As long as this creature is equipped, it has double strike. (It deals both first-strike and regular combat damage.)"
   },
   {
    "name": "Beacon of Unrest",
@@ -1132,7 +1136,7 @@
    ],
    "mana_cost": "{1}{B}",
    "url": "https://scryfall.com/card/cmm/174/mire-triton?utm_source=api",
-   "oracle_text": "Deathtouch\nWhen Mire Triton enters the battlefield, mill two cards and you gain 2 life."
+   "oracle_text": "Deathtouch\nWhen this creature enters, mill two cards and you gain 2 life. (To mill a card, put the top card of your library into your graveyard.)"
   },
   {
    "name": "Inevitable End",
@@ -1173,7 +1177,7 @@
    ],
    "mana_cost": "{W}",
    "url": "https://scryfall.com/card/mm3/24/soul-warden?utm_source=api",
-   "oracle_text": "Whenever another creature enters the battlefield, you gain 1 life."
+   "oracle_text": "Whenever another creature enters, you gain 1 life."
   },
   {
    "name": "Shinewend",
@@ -1193,7 +1197,7 @@
    ],
    "mana_cost": "{1}{W}",
    "url": "https://scryfall.com/card/mor/23/shinewend?utm_source=api",
-   "oracle_text": "Flying\nShinewend enters the battlefield with a +1/+1 counter on it.\n{1}{W}, Remove a +1/+1 counter from Shinewend: Destroy target enchantment."
+   "oracle_text": "Flying\nThis creature enters with a +1/+1 counter on it.\n{1}{W}, Remove a +1/+1 counter from this creature: Destroy target enchantment."
   }
  ]
 }

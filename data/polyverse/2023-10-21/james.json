@@ -1,4 +1,8 @@
 {
+ "metadata": {
+  "path": "data/polyverse/2023-10-21/james.json",
+  "draft_id": "2023-10-21"
+ },
  "labels": [
   "midrange",
   "goodstuff"
@@ -37,7 +41,7 @@
    ],
    "mana_cost": "{2}{W}{W}{U}{U}",
    "url": "https://scryfall.com/card/thb/214/dream-trawler?utm_source=api",
-   "oracle_text": "Flying, lifelink\nWhenever you draw a card, Dream Trawler gets +1/+0 until end of turn.\nWhenever Dream Trawler attacks, draw a card.\nDiscard a card: Dream Trawler gains hexproof until end of turn. Tap it.",
+   "oracle_text": "Flying, lifelink\nWhenever you draw a card, this creature gets +1/+0 until end of turn.\nWhenever this creature attacks, draw a card.\nDiscard a card: This creature gains hexproof until end of turn. Tap it.",
    "appearances": 1
   },
   {
@@ -60,7 +64,7 @@
    ],
    "mana_cost": "{U}",
    "url": "https://scryfall.com/card/lcc/171/siren-stormtamer?utm_source=api",
-   "oracle_text": "Flying\n{U}, Sacrifice Siren Stormtamer: Counter target spell or ability that targets you or a creature you control.",
+   "oracle_text": "Flying\n{U}, Sacrifice this creature: Counter target spell or ability that targets you or a creature you control.",
    "appearances": 1
   },
   {
@@ -118,7 +122,7 @@
     "U"
    ],
    "mana_cost": "{U}",
-   "url": "https://scryfall.com/card/otc/105/ponder?utm_source=api",
+   "url": "https://scryfall.com/card/tdc/159/ponder?utm_source=api",
    "oracle_text": "Look at the top three cards of your library, then put them back in any order. You may shuffle.\nDraw a card."
   },
   {
@@ -135,7 +139,7 @@
     "U"
    ],
    "mana_cost": "{U}",
-   "url": "https://scryfall.com/card/2x2/63/spell-pierce?utm_source=api",
+   "url": "https://scryfall.com/card/dft/64/spell-pierce?utm_source=api",
    "oracle_text": "Counter target noncreature spell unless its controller pays {2}.",
    "appearances": 1
   },
@@ -156,8 +160,8 @@
     "W"
    ],
    "mana_cost": "{2}{W}",
-   "url": "https://scryfall.com/card/mkc/91/welcoming-vampire?utm_source=api",
-   "oracle_text": "Flying\nWhenever one or more other creatures with power 2 or less enter the battlefield under your control, draw a card. This ability triggers only once each turn.",
+   "url": "https://scryfall.com/card/tdc/140/welcoming-vampire?utm_source=api",
+   "oracle_text": "Flying\nWhenever one or more other creatures you control with power 2 or less enter, draw a card. This ability triggers only once each turn.",
    "appearances": 1
   },
   {
@@ -178,8 +182,8 @@
     "U"
    ],
    "mana_cost": "{2}{U}",
-   "url": "https://scryfall.com/card/jmp/153/exclusion-mage?utm_source=api",
-   "oracle_text": "When Exclusion Mage enters the battlefield, return target creature an opponent controls to its owner's hand.",
+   "url": "https://scryfall.com/card/fdn/508/exclusion-mage?utm_source=api",
+   "oracle_text": "When this creature enters, return target creature an opponent controls to its owner's hand.",
    "appearances": 1
   },
   {
@@ -201,7 +205,7 @@
    ],
    "mana_cost": "{2}{W}",
    "url": "https://scryfall.com/card/c15/73/kor-sanctifiers?utm_source=api",
-   "oracle_text": "Kicker {W} (You may pay an additional {W} as you cast this spell.)\nWhen Kor Sanctifiers enters the battlefield, if it was kicked, destroy target artifact or enchantment.",
+   "oracle_text": "Kicker {W} (You may pay an additional {W} as you cast this spell.)\nWhen this creature enters, if it was kicked, destroy target artifact or enchantment.",
    "appearances": 1
   },
   {
@@ -235,7 +239,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/mkc/263/furycalm-snarl?utm_source=api",
-   "oracle_text": "As Furycalm Snarl enters the battlefield, you may reveal a Mountain or Plains card from your hand. If you don't, Furycalm Snarl enters the battlefield tapped.\n{T}: Add {R} or {W}.",
+   "oracle_text": "As this land enters, you may reveal a Mountain or Plains card from your hand. If you don't, this land enters tapped.\n{T}: Add {R} or {W}.",
    "appearances": 1
   },
   {
@@ -253,7 +257,7 @@
    ],
    "mana_cost": "{2}{W}",
    "url": "https://scryfall.com/card/mm2/29/oblivion-ring?utm_source=api",
-   "oracle_text": "When Oblivion Ring enters the battlefield, exile another target nonland permanent.\nWhen Oblivion Ring leaves the battlefield, return the exiled card to the battlefield under its owner's control."
+   "oracle_text": "When this enchantment enters, exile another target nonland permanent.\nWhen this enchantment leaves the battlefield, return the exiled card to the battlefield under its owner's control."
   },
   {
    "name": "Werefox Bodyguard",
@@ -275,7 +279,7 @@
    ],
    "mana_cost": "{1}{W}{W}",
    "url": "https://scryfall.com/card/woe/39/werefox-bodyguard?utm_source=api",
-   "oracle_text": "Flash\nWhen Werefox Bodyguard enters the battlefield, exile up to one other target non-Fox creature until Werefox Bodyguard leaves the battlefield.\n{1}{W}, Sacrifice Werefox Bodyguard: You gain 2 life."
+   "oracle_text": "Flash\nWhen this creature enters, exile up to one other target non-Fox creature until this creature leaves the battlefield.\n{1}{W}, Sacrifice this creature: You gain 2 life."
   },
   {
    "name": "Kitchen Finks",
@@ -297,7 +301,7 @@
    ],
    "mana_cost": "{1}{G/W}{G/W}",
    "url": "https://scryfall.com/card/uma/216/kitchen-finks?utm_source=api",
-   "oracle_text": "When Kitchen Finks enters the battlefield, you gain 2 life.\nPersist (When this creature dies, if it had no -1/-1 counters on it, return it to the battlefield under its owner's control with a -1/-1 counter on it.)"
+   "oracle_text": "When this creature enters, you gain 2 life.\nPersist (When this creature dies, if it had no -1/-1 counters on it, return it to the battlefield under its owner's control with a -1/-1 counter on it.)"
   },
   {
    "name": "Goblin Guide",
@@ -318,7 +322,7 @@
    ],
    "mana_cost": "{R}",
    "url": "https://scryfall.com/card/2xm/127/goblin-guide?utm_source=api",
-   "oracle_text": "Haste\nWhenever Goblin Guide attacks, defending player reveals the top card of their library. If it's a land card, that player puts it into their hand.",
+   "oracle_text": "Haste\nWhenever this creature attacks, defending player reveals the top card of their library. If it's a land card, that player puts it into their hand.",
    "appearances": 1
   },
   {
@@ -377,7 +381,7 @@
    ],
    "mana_cost": "{2}{W}{W}",
    "url": "https://scryfall.com/card/neo/42/the-wandering-emperor?utm_source=api",
-   "oracle_text": "Flash\nAs long as The Wandering Emperor entered the battlefield this turn, you may activate her loyalty abilities any time you could cast an instant.\n+1: Put a +1/+1 counter on up to one target creature. It gains first strike until end of turn.\n−1: Create a 2/2 white Samurai creature token with vigilance.\n−2: Exile target tapped creature. You gain 2 life.",
+   "oracle_text": "Flash\nAs long as The Wandering Emperor entered this turn, you may activate her loyalty abilities any time you could cast an instant.\n+1: Put a +1/+1 counter on up to one target creature. It gains first strike until end of turn.\n−1: Create a 2/2 white Samurai creature token with vigilance.\n−2: Exile target tapped creature. You gain 2 life.",
    "appearances": 1
   },
   {
@@ -393,8 +397,8 @@
     "U"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/otc/322/sulfur-falls?utm_source=api",
-   "oracle_text": "Sulfur Falls enters the battlefield tapped unless you control an Island or a Mountain.\n{T}: Add {U} or {R}.",
+   "url": "https://scryfall.com/card/tdc/396/sulfur-falls?utm_source=api",
+   "oracle_text": "This land enters tapped unless you control an Island or a Mountain.\n{T}: Add {U} or {R}.",
    "appearances": 1
   },
   {
@@ -411,7 +415,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/cmm/1019/port-town?utm_source=api",
-   "oracle_text": "As Port Town enters the battlefield, you may reveal a Plains or Island card from your hand. If you don't, Port Town enters the battlefield tapped.\n{T}: Add {W} or {U}.",
+   "oracle_text": "As this land enters, you may reveal a Plains or Island card from your hand. If you don't, this land enters tapped.\n{T}: Add {W} or {U}.",
    "appearances": 1
   },
   {
@@ -428,7 +432,7 @@
     "R"
    ],
    "mana_cost": "{1}{R}",
-   "url": "https://scryfall.com/card/lci/131/abrade?utm_source=api",
+   "url": "https://scryfall.com/card/tdc/203/abrade?utm_source=api",
    "oracle_text": "Choose one —\n• Abrade deals 3 damage to target creature.\n• Destroy target artifact.",
    "appearances": 1
   },
@@ -448,7 +452,7 @@
    "color_identity": [],
    "mana_cost": "{2}",
    "url": "https://scryfall.com/card/cmr/330/perilous-myr?utm_source=api",
-   "oracle_text": "When Perilous Myr dies, it deals 2 damage to any target.",
+   "oracle_text": "When this creature dies, it deals 2 damage to any target.",
    "appearances": 1
   },
   {
@@ -471,7 +475,7 @@
    ],
    "mana_cost": "{1}{R}",
    "url": "https://scryfall.com/card/neo/155/ogre-head-helm?utm_source=api",
-   "oracle_text": "Equipped creature gets +2/+2.\nWhenever Ogre-Head Helm or equipped creature deals combat damage to a player, you may sacrifice it. If you do, discard your hand, then draw three cards.\nReconfigure {3} ({3}: Attach to target creature you control; or unattach from a creature. Reconfigure only as a sorcery. While attached, this isn't a creature.)"
+   "oracle_text": "Equipped creature gets +2/+2.\nWhenever this creature or equipped creature deals combat damage to a player, you may sacrifice it. If you do, discard your hand, then draw three cards.\nReconfigure {3} ({3}: Attach to target creature you control; or unattach from a creature. Reconfigure only as a sorcery. While attached, this isn't a creature.)"
   },
   {
    "name": "Unsummon",
@@ -487,7 +491,7 @@
     "U"
    ],
    "mana_cost": "{U}",
-   "url": "https://scryfall.com/card/m20/78/unsummon?utm_source=api",
+   "url": "https://scryfall.com/card/fdn/599/unsummon?utm_source=api",
    "oracle_text": "Return target creature to its owner's hand."
   },
   {
@@ -504,7 +508,7 @@
     "U"
    ],
    "mana_cost": "{U}",
-   "url": "https://scryfall.com/card/mkc/96/brainstorm?utm_source=api",
+   "url": "https://scryfall.com/card/dsc/113/brainstorm?utm_source=api",
    "oracle_text": "Draw three cards, then put two cards from your hand on top of your library in any order.",
    "appearances": 1
   },
@@ -527,7 +531,7 @@
    ],
    "mana_cost": "{1}{W}",
    "url": "https://scryfall.com/card/mm3/11/kor-skyfisher?utm_source=api",
-   "oracle_text": "Flying\nWhen Kor Skyfisher enters the battlefield, return a permanent you control to its owner's hand."
+   "oracle_text": "Flying\nWhen this creature enters, return a permanent you control to its owner's hand."
   },
   {
    "name": "Reprieve",
@@ -565,7 +569,7 @@
    ],
    "mana_cost": "{R}",
    "url": "https://scryfall.com/card/woe/127/embereth-veteran?utm_source=api",
-   "oracle_text": "{1}, Sacrifice Embereth Veteran: Create a Young Hero Role token attached to another target creature. (If you control another Role on it, put that one into the graveyard. Enchanted creature has \"Whenever this creature attacks, if its toughness is 3 or less, put a +1/+1 counter on it.\")"
+   "oracle_text": "{1}, Sacrifice this creature: Create a Young Hero Role token attached to another target creature. (If you control another Role on it, put that one into the graveyard. Enchanted creature has \"Whenever this creature attacks, if its toughness is 3 or less, put a +1/+1 counter on it.\")"
   },
   {
    "name": "Steam Vents",
@@ -585,7 +589,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/rvr/288/steam-vents?utm_source=api",
-   "oracle_text": "({T}: Add {U} or {R}.)\nAs Steam Vents enters the battlefield, you may pay 2 life. If you don't, it enters the battlefield tapped."
+   "oracle_text": "({T}: Add {U} or {R}.)\nAs this land enters, you may pay 2 life. If you don't, it enters tapped."
   },
   {
    "name": "Island",
@@ -603,9 +607,9 @@
     "U"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/312/island?utm_source=api",
+   "url": "https://scryfall.com/card/tdm/279/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)",
-   "appearances": 4
+   "appearances": 1
   },
   {
    "name": "Island",
@@ -623,9 +627,9 @@
     "U"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/312/island?utm_source=api",
+   "url": "https://scryfall.com/card/tdm/279/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)",
-   "appearances": 4
+   "appearances": 1
   },
   {
    "name": "Island",
@@ -643,9 +647,9 @@
     "U"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/312/island?utm_source=api",
+   "url": "https://scryfall.com/card/tdm/279/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)",
-   "appearances": 4
+   "appearances": 1
   },
   {
    "name": "Mountain",
@@ -663,9 +667,9 @@
     "R"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/316/mountain?utm_source=api",
+   "url": "https://scryfall.com/card/tdm/283/mountain?utm_source=api",
    "oracle_text": "({T}: Add {R}.)",
-   "appearances": 6
+   "appearances": 1
   },
   {
    "name": "Mountain",
@@ -683,9 +687,9 @@
     "R"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/316/mountain?utm_source=api",
+   "url": "https://scryfall.com/card/tdm/283/mountain?utm_source=api",
    "oracle_text": "({T}: Add {R}.)",
-   "appearances": 6
+   "appearances": 1
   },
   {
    "name": "Mountain",
@@ -703,9 +707,9 @@
     "R"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/316/mountain?utm_source=api",
+   "url": "https://scryfall.com/card/tdm/283/mountain?utm_source=api",
    "oracle_text": "({T}: Add {R}.)",
-   "appearances": 6
+   "appearances": 1
   },
   {
    "name": "Mountain",
@@ -723,9 +727,9 @@
     "R"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/316/mountain?utm_source=api",
+   "url": "https://scryfall.com/card/tdm/283/mountain?utm_source=api",
    "oracle_text": "({T}: Add {R}.)",
-   "appearances": 6
+   "appearances": 1
   },
   {
    "name": "Plains",
@@ -743,9 +747,9 @@
     "W"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/310/plains?utm_source=api",
+   "url": "https://scryfall.com/card/tdm/277/plains?utm_source=api",
    "oracle_text": "({T}: Add {W}.)",
-   "appearances": 5
+   "appearances": 1
   },
   {
    "name": "Plains",
@@ -763,9 +767,9 @@
     "W"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/310/plains?utm_source=api",
+   "url": "https://scryfall.com/card/tdm/277/plains?utm_source=api",
    "oracle_text": "({T}: Add {W}.)",
-   "appearances": 5
+   "appearances": 1
   },
   {
    "name": "Plains",
@@ -783,9 +787,9 @@
     "W"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/310/plains?utm_source=api",
+   "url": "https://scryfall.com/card/tdm/277/plains?utm_source=api",
    "oracle_text": "({T}: Add {W}.)",
-   "appearances": 5
+   "appearances": 1
   },
   {
    "name": "Plains",
@@ -803,9 +807,9 @@
     "W"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/310/plains?utm_source=api",
+   "url": "https://scryfall.com/card/tdm/277/plains?utm_source=api",
    "oracle_text": "({T}: Add {W}.)",
-   "appearances": 5
+   "appearances": 1
   }
  ],
  "sideboard": [
@@ -839,8 +843,8 @@
     "W"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/otc/301/isolated-chapel?utm_source=api",
-   "oracle_text": "Isolated Chapel enters the battlefield tapped unless you control a Plains or a Swamp.\n{T}: Add {W} or {B}."
+   "url": "https://scryfall.com/card/tdc/373/isolated-chapel?utm_source=api",
+   "oracle_text": "This land enters tapped unless you control a Plains or a Swamp.\n{T}: Add {W} or {B}."
   },
   {
    "name": "Chromatic Sphere",
@@ -853,7 +857,7 @@
    "color_identity": [],
    "mana_cost": "{1}",
    "url": "https://scryfall.com/card/jmp/462/chromatic-sphere?utm_source=api",
-   "oracle_text": "{1}, {T}, Sacrifice Chromatic Sphere: Add one mana of any color. Draw a card."
+   "oracle_text": "{1}, {T}, Sacrifice this artifact: Add one mana of any color. Draw a card."
   },
   {
    "name": "Portable Hole",
@@ -870,7 +874,7 @@
    ],
    "mana_cost": "{W}",
    "url": "https://scryfall.com/card/afr/33/portable-hole?utm_source=api",
-   "oracle_text": "When Portable Hole enters the battlefield, exile target nonland permanent an opponent controls with mana value 2 or less until Portable Hole leaves the battlefield."
+   "oracle_text": "When this artifact enters, exile target nonland permanent an opponent controls with mana value 2 or less until this artifact leaves the battlefield."
   },
   {
    "name": "Sai of the Shinobi",
@@ -886,7 +890,7 @@
    "color_identity": [],
    "mana_cost": "{1}",
    "url": "https://scryfall.com/card/a25/230/sai-of-the-shinobi?utm_source=api",
-   "oracle_text": "Equipped creature gets +1/+1.\nWhenever a creature enters the battlefield under your control, you may attach Sai of the Shinobi to it.\nEquip {2}"
+   "oracle_text": "Equipped creature gets +1/+1.\nWhenever a creature you control enters, you may attach this Equipment to it.\nEquip {2}"
   },
   {
    "name": "Dauntless Bodyguard",
@@ -907,7 +911,7 @@
    ],
    "mana_cost": "{W}",
    "url": "https://scryfall.com/card/dom/14/dauntless-bodyguard?utm_source=api",
-   "oracle_text": "As Dauntless Bodyguard enters the battlefield, choose another creature you control.\nSacrifice Dauntless Bodyguard: The chosen creature gains indestructible until end of turn."
+   "oracle_text": "As this creature enters, choose another creature you control.\nSacrifice this creature: The chosen creature gains indestructible until end of turn."
   },
   {
    "name": "Kor Duelist",
@@ -928,7 +932,7 @@
    ],
    "mana_cost": "{W}",
    "url": "https://scryfall.com/card/mm2/22/kor-duelist?utm_source=api",
-   "oracle_text": "As long as Kor Duelist is equipped, it has double strike. (It deals both first-strike and regular combat damage.)"
+   "oracle_text": "As long as this creature is equipped, it has double strike. (It deals both first-strike and regular combat damage.)"
   },
   {
    "name": "Mosquito Guard",
@@ -983,7 +987,7 @@
    "colors": [],
    "color_identity": [],
    "mana_cost": "{2}",
-   "url": "https://scryfall.com/card/otc/260/lightning-greaves?utm_source=api",
+   "url": "https://scryfall.com/card/tdc/102/lightning-greaves?utm_source=api",
    "oracle_text": "Equipped creature has haste and shroud. (It can't be the target of spells or abilities.)\nEquip {0}"
   },
   {
@@ -997,7 +1001,7 @@
    "color_identity": [],
    "mana_cost": "{2}",
    "url": "https://scryfall.com/card/woe/249/prophetic-prism?utm_source=api",
-   "oracle_text": "When Prophetic Prism enters the battlefield, draw a card.\n{1}, {T}: Add one mana of any color."
+   "oracle_text": "When this artifact enters, draw a card.\n{1}, {T}: Add one mana of any color."
   },
   {
    "name": "Grateful Apparition",
@@ -1017,7 +1021,7 @@
    ],
    "mana_cost": "{1}{W}",
    "url": "https://scryfall.com/card/cmm/824/grateful-apparition?utm_source=api",
-   "oracle_text": "Flying\nWhenever Grateful Apparition deals combat damage to a player or planeswalker, proliferate. (Choose any number of permanents and/or players, then give each another counter of each kind already there.)"
+   "oracle_text": "Flying\nWhenever this creature deals combat damage to a player or planeswalker, proliferate. (Choose any number of permanents and/or players, then give each another counter of each kind already there.)"
   },
   {
    "name": "Merfolk Looter",
@@ -1095,7 +1099,7 @@
     "W"
    ],
    "mana_cost": "{1}{W}",
-   "url": "https://scryfall.com/card/cmm/31/intangible-virtue?utm_source=api",
+   "url": "https://scryfall.com/card/inr/29/intangible-virtue?utm_source=api",
    "oracle_text": "Creature tokens you control get +1/+1 and have vigilance."
   },
   {
@@ -1129,7 +1133,7 @@
     "U"
    ],
    "mana_cost": "{1}{U}",
-   "url": "https://scryfall.com/card/cmr/397/into-the-roil?utm_source=api",
+   "url": "https://scryfall.com/card/fdn/509/into-the-roil?utm_source=api",
    "oracle_text": "Kicker {1}{U} (You may pay an additional {1}{U} as you cast this spell.)\nReturn target nonland permanent to its owner's hand. If this spell was kicked, draw a card."
   },
   {
@@ -1151,7 +1155,7 @@
    ],
    "mana_cost": "{2}{R}",
    "url": "https://scryfall.com/card/wwk/79/cunning-sparkmage?utm_source=api",
-   "oracle_text": "Haste\n{T}: Cunning Sparkmage deals 1 damage to any target."
+   "oracle_text": "Haste\n{T}: This creature deals 1 damage to any target."
   }
  ]
 }

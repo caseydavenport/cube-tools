@@ -1,4 +1,8 @@
 {
+ "metadata": {
+  "path": "data/polyverse/2024-03-31/xander.json",
+  "draft_id": "2024-03-31"
+ },
  "labels": [
   "midrange",
   "sacrifice",
@@ -75,8 +79,8 @@
    ],
    "mana_cost": "{3}{R}",
    "url": "https://scryfall.com/card/neo/168/twinshot-sniper?utm_source=api",
-   "oracle_text": "Reach\nWhen Twinshot Sniper enters the battlefield, it deals 2 damage to any target.\nChannel — {1}{R}, Discard Twinshot Sniper: It deals 2 damage to any target.",
-   "appearances": 3
+   "oracle_text": "Reach\nWhen this creature enters, it deals 2 damage to any target.\nChannel — {1}{R}, Discard this card: It deals 2 damage to any target.",
+   "appearances": 1
   },
   {
    "name": "Mayhem Devil",
@@ -97,9 +101,9 @@
     "R"
    ],
    "mana_cost": "{1}{B}{R}",
-   "url": "https://scryfall.com/card/rvr/199/mayhem-devil?utm_source=api",
-   "oracle_text": "Whenever a player sacrifices a permanent, Mayhem Devil deals 1 damage to any target.",
-   "appearances": 6
+   "url": "https://scryfall.com/card/dsc/225/mayhem-devil?utm_source=api",
+   "oracle_text": "Whenever a player sacrifices a permanent, this creature deals 1 damage to any target.",
+   "appearances": 1
   },
   {
    "name": "Prismatic Ending",
@@ -117,7 +121,7 @@
    "mana_cost": "{X}{W}",
    "url": "https://scryfall.com/card/mh2/25/prismatic-ending?utm_source=api",
    "oracle_text": "Converge — Exile target nonland permanent if its mana value is less than or equal to the number of colors of mana spent to cast this spell.",
-   "appearances": 6
+   "appearances": 1
   },
   {
    "name": "Aether Spellbomb",
@@ -132,8 +136,8 @@
    ],
    "mana_cost": "{1}",
    "url": "https://scryfall.com/card/jmp/456/aether-spellbomb?utm_source=api",
-   "oracle_text": "{U}, Sacrifice Aether Spellbomb: Return target creature to its owner's hand.\n{1}, Sacrifice Aether Spellbomb: Draw a card.",
-   "appearances": 3
+   "oracle_text": "{U}, Sacrifice this artifact: Return target creature to its owner's hand.\n{1}, Sacrifice this artifact: Draw a card.",
+   "appearances": 1
   },
   {
    "name": "Reveillark",
@@ -153,8 +157,8 @@
    ],
    "mana_cost": "{4}{W}",
    "url": "https://scryfall.com/card/2x2/26/reveillark?utm_source=api",
-   "oracle_text": "Flying\nWhen Reveillark leaves the battlefield, return up to two target creature cards with power 2 or less from your graveyard to the battlefield.\nEvoke {5}{W} (You may cast this spell for its evoke cost. If you do, it's sacrificed when it enters the battlefield.)",
-   "appearances": 7
+   "oracle_text": "Flying\nWhen this creature leaves the battlefield, return up to two target creature cards with power 2 or less from your graveyard to the battlefield.\nEvoke {5}{W} (You may cast this spell for its evoke cost. If you do, it's sacrificed when it enters.)",
+   "appearances": 1
   },
   {
    "name": "Battlefield Forge",
@@ -169,9 +173,9 @@
     "W"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/otc/271/battlefield-forge?utm_source=api",
-   "oracle_text": "{T}: Add {C}.\n{T}: Add {R} or {W}. Battlefield Forge deals 1 damage to you.",
-   "appearances": 4
+   "url": "https://scryfall.com/card/tdc/340/battlefield-forge?utm_source=api",
+   "oracle_text": "{T}: Add {C}.\n{T}: Add {R} or {W}. This land deals 1 damage to you.",
+   "appearances": 1
   },
   {
    "name": "Sacred Foundry",
@@ -191,8 +195,8 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/rvr/285/sacred-foundry?utm_source=api",
-   "oracle_text": "({T}: Add {R} or {W}.)\nAs Sacred Foundry enters the battlefield, you may pay 2 life. If you don't, it enters the battlefield tapped.",
-   "appearances": 12
+   "oracle_text": "({T}: Add {R} or {W}.)\nAs this land enters, you may pay 2 life. If you don't, it enters tapped.",
+   "appearances": 1
   },
   {
    "name": "Canyon Slough",
@@ -211,9 +215,9 @@
     "R"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/otc/275/canyon-slough?utm_source=api",
-   "oracle_text": "({T}: Add {B} or {R}.)\nCanyon Slough enters the battlefield tapped.\nCycling {2} ({2}, Discard this card: Draw a card.)",
-   "appearances": 4
+   "url": "https://scryfall.com/card/tdc/344/canyon-slough?utm_source=api",
+   "oracle_text": "({T}: Add {B} or {R}.)\nThis land enters tapped.\nCycling {2} ({2}, Discard this card: Draw a card.)",
+   "appearances": 1
   },
   {
    "name": "Sparring Construct",
@@ -230,8 +234,8 @@
    "color_identity": [],
    "mana_cost": "{1}",
    "url": "https://scryfall.com/card/dom/232/sparring-construct?utm_source=api",
-   "oracle_text": "When Sparring Construct dies, put a +1/+1 counter on target creature you control.",
-   "appearances": 2
+   "oracle_text": "When this creature dies, put a +1/+1 counter on target creature you control.",
+   "appearances": 1
   },
   {
    "name": "Jinxed Idol",
@@ -244,8 +248,8 @@
    "color_identity": [],
    "mana_cost": "{2}",
    "url": "https://scryfall.com/card/tpr/224/jinxed-idol?utm_source=api",
-   "oracle_text": "At the beginning of your upkeep, Jinxed Idol deals 2 damage to you.\nSacrifice a creature: Target opponent gains control of Jinxed Idol.",
-   "appearances": 3
+   "oracle_text": "At the beginning of your upkeep, this artifact deals 2 damage to you.\nSacrifice a creature: Target opponent gains control of this artifact.",
+   "appearances": 1
   },
   {
    "name": "Goblin Arsonist",
@@ -266,8 +270,8 @@
    ],
    "mana_cost": "{R}",
    "url": "https://scryfall.com/card/m21/147/goblin-arsonist?utm_source=api",
-   "oracle_text": "When Goblin Arsonist dies, you may have it deal 1 damage to any target.",
-   "appearances": 2
+   "oracle_text": "When this creature dies, you may have it deal 1 damage to any target.",
+   "appearances": 1
   },
   {
    "name": "Fetid Pools",
@@ -286,9 +290,9 @@
     "U"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/otc/296/fetid-pools?utm_source=api",
-   "oracle_text": "({T}: Add {U} or {B}.)\nFetid Pools enters the battlefield tapped.\nCycling {2} ({2}, Discard this card: Draw a card.)",
-   "appearances": 6
+   "url": "https://scryfall.com/card/tdc/363/fetid-pools?utm_source=api",
+   "oracle_text": "({T}: Add {U} or {B}.)\nThis land enters tapped.\nCycling {2} ({2}, Discard this card: Draw a card.)",
+   "appearances": 1
   },
   {
    "name": "Lion Sash",
@@ -310,8 +314,8 @@
    ],
    "mana_cost": "{1}{W}",
    "url": "https://scryfall.com/card/neo/26/lion-sash?utm_source=api",
-   "oracle_text": "{W}: Exile target card from a graveyard. If it was a permanent card, put a +1/+1 counter on Lion Sash.\nEquipped creature gets +1/+1 for each +1/+1 counter on Lion Sash.\nReconfigure {2} ({2}: Attach to target creature you control; or unattach from a creature. Reconfigure only as a sorcery. While attached, this isn't a creature.)",
-   "appearances": 4
+   "oracle_text": "{W}: Exile target card from a graveyard. If it was a permanent card, put a +1/+1 counter on this permanent.\nEquipped creature gets +1/+1 for each +1/+1 counter on this Equipment.\nReconfigure {2} ({2}: Attach to target creature you control; or unattach from a creature. Reconfigure only as a sorcery. While attached, this isn't a creature.)",
+   "appearances": 1
   },
   {
    "name": "Cruel Celebrant",
@@ -333,8 +337,8 @@
    ],
    "mana_cost": "{W}{B}",
    "url": "https://scryfall.com/card/lcc/267/cruel-celebrant?utm_source=api",
-   "oracle_text": "Whenever Cruel Celebrant or another creature or planeswalker you control dies, each opponent loses 1 life and you gain 1 life.",
-   "appearances": 5
+   "oracle_text": "Whenever this creature or another creature or planeswalker you control dies, each opponent loses 1 life and you gain 1 life.",
+   "appearances": 1
   },
   {
    "name": "Bloodstained Mire",
@@ -347,8 +351,8 @@
    "color_identity": [],
    "mana_cost": "",
    "url": "https://scryfall.com/card/mh3/216/bloodstained-mire?utm_source=api",
-   "oracle_text": "{T}, Pay 1 life, Sacrifice Bloodstained Mire: Search your library for a Swamp or Mountain card, put it onto the battlefield, then shuffle.",
-   "appearances": 9
+   "oracle_text": "{T}, Pay 1 life, Sacrifice this land: Search your library for a Swamp or Mountain card, put it onto the battlefield, then shuffle.",
+   "appearances": 1
   },
   {
    "name": "Goblin Bombardment",
@@ -365,8 +369,8 @@
    ],
    "mana_cost": "{1}{R}",
    "url": "https://scryfall.com/card/mh2/279/goblin-bombardment?utm_source=api",
-   "oracle_text": "Sacrifice a creature: Goblin Bombardment deals 1 damage to any target.",
-   "appearances": 5
+   "oracle_text": "Sacrifice a creature: This enchantment deals 1 damage to any target.",
+   "appearances": 1
   },
   {
    "name": "Cut Down",
@@ -384,7 +388,7 @@
    "mana_cost": "{B}",
    "url": "https://scryfall.com/card/dmu/89/cut-down?utm_source=api",
    "oracle_text": "Destroy target creature with total power and toughness 5 or less.",
-   "appearances": 4
+   "appearances": 1
   },
   {
    "name": "Oust",
@@ -402,7 +406,7 @@
    "mana_cost": "{W}",
    "url": "https://scryfall.com/card/clu/67/oust?utm_source=api",
    "oracle_text": "Put target creature into its owner's library second from the top. Its controller gains 3 life.",
-   "appearances": 2
+   "appearances": 1
   },
   {
    "name": "Godless Shrine",
@@ -422,8 +426,8 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/rvr/277/godless-shrine?utm_source=api",
-   "oracle_text": "({T}: Add {W} or {B}.)\nAs Godless Shrine enters the battlefield, you may pay 2 life. If you don't, it enters the battlefield tapped.",
-   "appearances": 4
+   "oracle_text": "({T}: Add {W} or {B}.)\nAs this land enters, you may pay 2 life. If you don't, it enters tapped.",
+   "appearances": 1
   },
   {
    "name": "Clarion Spirit",
@@ -444,7 +448,7 @@
    "mana_cost": "{1}{W}",
    "url": "https://scryfall.com/card/khm/6/clarion-spirit?utm_source=api",
    "oracle_text": "Whenever you cast your second spell each turn, create a 1/1 white Spirit creature token with flying.",
-   "appearances": 4
+   "appearances": 1
   },
   {
    "name": "Mogg War Marshal",
@@ -465,8 +469,8 @@
    ],
    "mana_cost": "{1}{R}",
    "url": "https://scryfall.com/card/dmr/131/mogg-war-marshal?utm_source=api",
-   "oracle_text": "Echo {1}{R} (At the beginning of your upkeep, if this came under your control since the beginning of your last upkeep, sacrifice it unless you pay its echo cost.)\nWhen Mogg War Marshal enters the battlefield or dies, create a 1/1 red Goblin creature token.",
-   "appearances": 4
+   "oracle_text": "Echo {1}{R} (At the beginning of your upkeep, if this came under your control since the beginning of your last upkeep, sacrifice it unless you pay its echo cost.)\nWhen this creature enters or dies, create a 1/1 red Goblin creature token.",
+   "appearances": 1
   },
   {
    "name": "Irrigated Farmland",
@@ -485,9 +489,9 @@
     "W"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mkc/267/irrigated-farmland?utm_source=api",
-   "oracle_text": "({T}: Add {W} or {U}.)\nIrrigated Farmland enters the battlefield tapped.\nCycling {2} ({2}, Discard this card: Draw a card.)",
-   "appearances": 4
+   "url": "https://scryfall.com/card/tdc/372/irrigated-farmland?utm_source=api",
+   "oracle_text": "({T}: Add {W} or {U}.)\nThis land enters tapped.\nCycling {2} ({2}, Discard this card: Draw a card.)",
+   "appearances": 1
   },
   {
    "name": "Fiery Islet",
@@ -503,8 +507,8 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/mh1/238/fiery-islet?utm_source=api",
-   "oracle_text": "{T}, Pay 1 life: Add {U} or {R}.\n{1}, {T}, Sacrifice Fiery Islet: Draw a card.",
-   "appearances": 3
+   "oracle_text": "{T}, Pay 1 life: Add {U} or {R}.\n{1}, {T}, Sacrifice this land: Draw a card.",
+   "appearances": 1
   },
   {
    "name": "Flooded Strand",
@@ -517,8 +521,8 @@
    "color_identity": [],
    "mana_cost": "",
    "url": "https://scryfall.com/card/mh3/220/flooded-strand?utm_source=api",
-   "oracle_text": "{T}, Pay 1 life, Sacrifice Flooded Strand: Search your library for a Plains or Island card, put it onto the battlefield, then shuffle.",
-   "appearances": 11
+   "oracle_text": "{T}, Pay 1 life, Sacrifice this land: Search your library for a Plains or Island card, put it onto the battlefield, then shuffle.",
+   "appearances": 1
   },
   {
    "name": "Sevinne's Reclamation",
@@ -536,7 +540,7 @@
    "mana_cost": "{2}{W}",
    "url": "https://scryfall.com/card/mh3/267/sevinnes-reclamation?utm_source=api",
    "oracle_text": "Return target permanent card with mana value 3 or less from your graveyard to the battlefield. If this spell was cast from a graveyard, you may copy this spell and may choose a new target for the copy.\nFlashback {4}{W} (You may cast this card from your graveyard for its flashback cost. Then exile it.)",
-   "appearances": 2
+   "appearances": 1
   },
   {
    "name": "Mavren Fein, Dusk Apostle",
@@ -559,7 +563,7 @@
    "mana_cost": "{2}{W}",
    "url": "https://scryfall.com/card/lcc/133/mavren-fein-dusk-apostle?utm_source=api",
    "oracle_text": "Whenever one or more nontoken Vampires you control attack, create a 1/1 white Vampire creature token with lifelink.",
-   "appearances": 2
+   "appearances": 1
   },
   {
    "name": "Werefox Bodyguard",
@@ -581,8 +585,8 @@
    ],
    "mana_cost": "{1}{W}{W}",
    "url": "https://scryfall.com/card/woe/39/werefox-bodyguard?utm_source=api",
-   "oracle_text": "Flash\nWhen Werefox Bodyguard enters the battlefield, exile up to one other target non-Fox creature until Werefox Bodyguard leaves the battlefield.\n{1}{W}, Sacrifice Werefox Bodyguard: You gain 2 life.",
-   "appearances": 5
+   "oracle_text": "Flash\nWhen this creature enters, exile up to one other target non-Fox creature until this creature leaves the battlefield.\n{1}{W}, Sacrifice this creature: You gain 2 life.",
+   "appearances": 1
   },
   {
    "name": "Mulldrifter",
@@ -602,8 +606,8 @@
    ],
    "mana_cost": "{4}{U}",
    "url": "https://scryfall.com/card/mkc/111/mulldrifter?utm_source=api",
-   "oracle_text": "Flying\nWhen Mulldrifter enters the battlefield, draw two cards.\nEvoke {2}{U} (You may cast this spell for its evoke cost. If you do, it's sacrificed when it enters the battlefield.)",
-   "appearances": 5
+   "oracle_text": "Flying\nWhen this creature enters, draw two cards.\nEvoke {2}{U} (You may cast this spell for its evoke cost. If you do, it's sacrificed when it enters.)",
+   "appearances": 1
   },
   {
    "name": "Perilous Myr",
@@ -621,8 +625,8 @@
    "color_identity": [],
    "mana_cost": "{2}",
    "url": "https://scryfall.com/card/cmr/330/perilous-myr?utm_source=api",
-   "oracle_text": "When Perilous Myr dies, it deals 2 damage to any target.",
-   "appearances": 6
+   "oracle_text": "When this creature dies, it deals 2 damage to any target.",
+   "appearances": 1
   },
   {
    "name": "Arid Mesa",
@@ -635,8 +639,8 @@
    "color_identity": [],
    "mana_cost": "",
    "url": "https://scryfall.com/card/mh2/244/arid-mesa?utm_source=api",
-   "oracle_text": "{T}, Pay 1 life, Sacrifice Arid Mesa: Search your library for a Mountain or Plains card, put it onto the battlefield, then shuffle.",
-   "appearances": 7
+   "oracle_text": "{T}, Pay 1 life, Sacrifice this land: Search your library for a Mountain or Plains card, put it onto the battlefield, then shuffle.",
+   "appearances": 1
   },
   {
    "name": "Murderous Redcap",
@@ -659,8 +663,8 @@
    ],
    "mana_cost": "{2}{B/R}{B/R}",
    "url": "https://scryfall.com/card/uma/217/murderous-redcap?utm_source=api",
-   "oracle_text": "When Murderous Redcap enters the battlefield, it deals damage equal to its power to any target.\nPersist (When this creature dies, if it had no -1/-1 counters on it, return it to the battlefield under its owner's control with a -1/-1 counter on it.)",
-   "appearances": 6
+   "oracle_text": "When this creature enters, it deals damage equal to its power to any target.\nPersist (When this creature dies, if it had no -1/-1 counters on it, return it to the battlefield under its owner's control with a -1/-1 counter on it.)",
+   "appearances": 1
   },
   {
    "name": "Eiganjo, Seat of the Empire",
@@ -676,8 +680,8 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/neo/268/eiganjo-seat-of-the-empire?utm_source=api",
-   "oracle_text": "{T}: Add {W}.\nChannel — {2}{W}, Discard Eiganjo, Seat of the Empire: It deals 4 damage to target attacking or blocking creature. This ability costs {1} less to activate for each legendary creature you control.",
-   "appearances": 5
+   "oracle_text": "{T}: Add {W}.\nChannel — {2}{W}, Discard this card: It deals 4 damage to target attacking or blocking creature. This ability costs {1} less to activate for each legendary creature you control.",
+   "appearances": 1
   },
   {
    "name": "Raise the Alarm",
@@ -695,7 +699,7 @@
    "mana_cost": "{1}{W}",
    "url": "https://scryfall.com/card/cmr/41/raise-the-alarm?utm_source=api",
    "oracle_text": "Create two 1/1 white Soldier creature tokens.",
-   "appearances": 4
+   "appearances": 1
   },
   {
    "name": "Flames of the Firebrand",
@@ -713,7 +717,7 @@
    "mana_cost": "{2}{R}",
    "url": "https://scryfall.com/card/jmp/317/flames-of-the-firebrand?utm_source=api",
    "oracle_text": "Flames of the Firebrand deals 3 damage divided as you choose among one, two, or three targets.",
-   "appearances": 5
+   "appearances": 1
   },
   {
    "name": "Field of the Dead",
@@ -726,8 +730,8 @@
    "color_identity": [],
    "mana_cost": "",
    "url": "https://scryfall.com/card/m20/247/field-of-the-dead?utm_source=api",
-   "oracle_text": "Field of the Dead enters the battlefield tapped.\n{T}: Add {C}.\nWhenever Field of the Dead or another land enters the battlefield under your control, if you control seven or more lands with different names, create a 2/2 black Zombie creature token.",
-   "appearances": 4
+   "oracle_text": "This land enters tapped.\n{T}: Add {C}.\nWhenever this land or another land you control enters, if you control seven or more lands with different names, create a 2/2 black Zombie creature token.",
+   "appearances": 1
   },
   {
    "name": "Hallowed Fountain",
@@ -747,8 +751,8 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/rvr/280/hallowed-fountain?utm_source=api",
-   "oracle_text": "({T}: Add {W} or {U}.)\nAs Hallowed Fountain enters the battlefield, you may pay 2 life. If you don't, it enters the battlefield tapped.",
-   "appearances": 3
+   "oracle_text": "({T}: Add {W} or {U}.)\nAs this land enters, you may pay 2 life. If you don't, it enters tapped.",
+   "appearances": 1
   },
   {
    "name": "Saheeli, Sublime Artificer",
@@ -772,7 +776,7 @@
    "mana_cost": "{1}{U/R}{U/R}",
    "url": "https://scryfall.com/card/cmm/935/saheeli-sublime-artificer?utm_source=api",
    "oracle_text": "Whenever you cast a noncreature spell, create a 1/1 colorless Servo artifact creature token.\n−2: Target artifact you control becomes a copy of another target artifact or creature you control until end of turn, except it's an artifact in addition to its other types.",
-   "appearances": 6
+   "appearances": 1
   },
   {
    "name": "Plains",
@@ -790,9 +794,9 @@
     "W"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/310/plains?utm_source=api",
+   "url": "https://scryfall.com/card/tdm/277/plains?utm_source=api",
    "oracle_text": "({T}: Add {W}.)",
-   "appearances": 22
+   "appearances": 1
   },
   {
    "name": "Swamp",
@@ -810,9 +814,9 @@
     "B"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/314/swamp?utm_source=api",
+   "url": "https://scryfall.com/card/tdm/281/swamp?utm_source=api",
    "oracle_text": "({T}: Add {B}.)",
-   "appearances": 25
+   "appearances": 1
   },
   {
    "name": "Mountain",
@@ -830,9 +834,9 @@
     "R"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/316/mountain?utm_source=api",
+   "url": "https://scryfall.com/card/tdm/283/mountain?utm_source=api",
    "oracle_text": "({T}: Add {R}.)",
-   "appearances": 22
+   "appearances": 1
   }
  ],
  "sideboard": [
@@ -850,7 +854,7 @@
     "U"
    ],
    "mana_cost": "{U}",
-   "url": "https://scryfall.com/card/clu/84/consider?utm_source=api",
+   "url": "https://scryfall.com/card/tdc/148/consider?utm_source=api",
    "oracle_text": "Surveil 1. (Look at the top card of your library. You may put it into your graveyard.)\nDraw a card."
   },
   {
@@ -872,7 +876,7 @@
    ],
    "mana_cost": "{2}{R}",
    "url": "https://scryfall.com/card/mh2/112/arcbound-tracker?utm_source=api",
-   "oracle_text": "Menace\nModular 2 (This creature enters the battlefield with two +1/+1 counters on it. When it dies, you may put its +1/+1 counters on target artifact creature.)\nWhenever you cast a spell other than your first spell each turn, put a +1/+1 counter on Arcbound Tracker."
+   "oracle_text": "Menace\nModular 2 (This creature enters with two +1/+1 counters on it. When it dies, you may put its +1/+1 counters on target artifact creature.)\nWhenever you cast a spell other than your first spell each turn, put a +1/+1 counter on this creature."
   },
   {
    "name": "Hedge Maze",
@@ -892,7 +896,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/mkm/262/hedge-maze?utm_source=api",
-   "oracle_text": "({T}: Add {G} or {U}.)\nHedge Maze enters the battlefield tapped.\nWhen Hedge Maze enters the battlefield, surveil 1. (Look at the top card of your library. You may put it into your graveyard.)"
+   "oracle_text": "({T}: Add {G} or {U}.)\nThis land enters tapped.\nWhen this land enters, surveil 1. (Look at the top card of your library. You may put it into your graveyard.)"
   },
   {
    "name": "Stern Scolding",
@@ -932,7 +936,7 @@
    ],
    "mana_cost": "{2}{U}{B}",
    "url": "https://scryfall.com/card/otc/231/hostage-taker?utm_source=api",
-   "oracle_text": "When Hostage Taker enters the battlefield, exile another target creature or artifact until Hostage Taker leaves the battlefield. You may cast that card for as long as it remains exiled, and mana of any type can be spent to cast that spell."
+   "oracle_text": "When this creature enters, exile another target creature or artifact until this creature leaves the battlefield. You may cast that card for as long as it remains exiled, and mana of any type can be spent to cast that spell."
   },
   {
    "name": "Dina, Soul Steeper",
@@ -956,7 +960,7 @@
    ],
    "mana_cost": "{B}{G}",
    "url": "https://scryfall.com/card/stx/178/dina-soul-steeper?utm_source=api",
-   "oracle_text": "Whenever you gain life, each opponent loses 1 life.\n{1}, Sacrifice another creature: Dina, Soul Steeper gets +X/+0 until end of turn, where X is the sacrificed creature's power.",
+   "oracle_text": "Whenever you gain life, each opponent loses 1 life.\n{1}, Sacrifice another creature: Dina gets +X/+0 until end of turn, where X is the sacrificed creature's power.",
    "appearances": 1
   },
   {
@@ -974,7 +978,7 @@
    "color_identity": [],
    "mana_cost": "{4}",
    "url": "https://scryfall.com/card/mm2/220/lodestone-myr?utm_source=api",
-   "oracle_text": "Trample\nTap an untapped artifact you control: Lodestone Myr gets +1/+1 until end of turn."
+   "oracle_text": "Trample\nTap an untapped artifact you control: This creature gets +1/+1 until end of turn."
   },
   {
    "name": "Candy Trail",
@@ -991,8 +995,8 @@
    "color_identity": [],
    "mana_cost": "{1}",
    "url": "https://scryfall.com/card/woe/243/candy-trail?utm_source=api",
-   "oracle_text": "When Candy Trail enters the battlefield, scry 2.\n{2}, {T}, Sacrifice Candy Trail: You gain 3 life and draw a card.",
-   "appearances": 2
+   "oracle_text": "When this artifact enters, scry 2.\n{2}, {T}, Sacrifice this artifact: You gain 3 life and draw a card.",
+   "appearances": 1
   }
  ]
 }

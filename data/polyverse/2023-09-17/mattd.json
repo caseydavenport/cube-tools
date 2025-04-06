@@ -1,4 +1,8 @@
 {
+ "metadata": {
+  "path": "data/polyverse/2023-09-17/mattd.json",
+  "draft_id": "2023-09-17"
+ },
  "labels": [
   "control",
   "vampire"
@@ -39,7 +43,7 @@
    ],
    "mana_cost": "{6}{W}{W}",
    "url": "https://scryfall.com/card/moc/170/angel-of-salvation?utm_source=api",
-   "oracle_text": "Flash; convoke (Your creatures can help cast this spell. Each creature you tap while casting this spell pays for {1} or one mana of that creature's color.)\nFlying\nWhen Angel of Salvation enters the battlefield, prevent the next 5 damage that would be dealt this turn to any number of targets, divided as you choose."
+   "oracle_text": "Flash; convoke (Your creatures can help cast this spell. Each creature you tap while casting this spell pays for {1} or one mana of that creature's color.)\nFlying\nWhen this creature enters, prevent the next 5 damage that would be dealt this turn to any number of targets, divided as you choose."
   },
   {
    "name": "Ajani Goldmane",
@@ -60,7 +64,7 @@
    ],
    "mana_cost": "{2}{W}{W}",
    "url": "https://scryfall.com/card/m11/1/ajani-goldmane?utm_source=api",
-   "oracle_text": "+1: You gain 2 life.\n−1: Put a +1/+1 counter on each creature you control. Those creatures gain vigilance until end of turn.\n−6: Create a white Avatar creature token. It has \"This creature's power and toughness are each equal to your life total.\"",
+   "oracle_text": "+1: You gain 2 life.\n−1: Put a +1/+1 counter on each creature you control. Those creatures gain vigilance until end of turn.\n−6: Create a white Avatar creature token. It has \"This token's power and toughness are each equal to your life total.\"",
    "appearances": 1
   },
   {
@@ -80,7 +84,7 @@
    ],
    "mana_cost": "{2}{R}{W}",
    "url": "https://scryfall.com/card/hop/88/glory-of-warfare?utm_source=api",
-   "oracle_text": "As long as it's your turn, creatures you control get +2/+0.\nAs long as it's not your turn, creatures you control get +0/+2.",
+   "oracle_text": "During your turn, creatures you control get +2/+0.\nDuring turns other than yours, creatures you control get +0/+2.",
    "appearances": 1
   },
   {
@@ -102,7 +106,7 @@
    ],
    "mana_cost": "{1}{B}",
    "url": "https://scryfall.com/card/cmm/174/mire-triton?utm_source=api",
-   "oracle_text": "Deathtouch\nWhen Mire Triton enters the battlefield, mill two cards and you gain 2 life."
+   "oracle_text": "Deathtouch\nWhen this creature enters, mill two cards and you gain 2 life. (To mill a card, put the top card of your library into your graveyard.)"
   },
   {
    "name": "Infuriate",
@@ -141,7 +145,7 @@
    ],
    "mana_cost": "{W}{B}",
    "url": "https://scryfall.com/card/lcc/267/cruel-celebrant?utm_source=api",
-   "oracle_text": "Whenever Cruel Celebrant or another creature or planeswalker you control dies, each opponent loses 1 life and you gain 1 life."
+   "oracle_text": "Whenever this creature or another creature or planeswalker you control dies, each opponent loses 1 life and you gain 1 life."
   },
   {
    "name": "Inspiring Cleric",
@@ -162,7 +166,7 @@
    ],
    "mana_cost": "{2}{W}",
    "url": "https://scryfall.com/card/xln/16/inspiring-cleric?utm_source=api",
-   "oracle_text": "When Inspiring Cleric enters the battlefield, you gain 4 life."
+   "oracle_text": "When this creature enters, you gain 4 life."
   },
   {
    "name": "Legion's Landing // Adanto, the First Fort",
@@ -201,8 +205,8 @@
     "W"
    ],
    "mana_cost": "{2}{W}",
-   "url": "https://scryfall.com/card/mkc/91/welcoming-vampire?utm_source=api",
-   "oracle_text": "Flying\nWhenever one or more other creatures with power 2 or less enter the battlefield under your control, draw a card. This ability triggers only once each turn.",
+   "url": "https://scryfall.com/card/tdc/140/welcoming-vampire?utm_source=api",
+   "oracle_text": "Flying\nWhenever one or more other creatures you control with power 2 or less enter, draw a card. This ability triggers only once each turn.",
    "appearances": 1
   },
   {
@@ -219,7 +223,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/otc/298/frostboil-snarl?utm_source=api",
-   "oracle_text": "As Frostboil Snarl enters the battlefield, you may reveal an Island or Mountain card from your hand. If you don't, Frostboil Snarl enters the battlefield tapped.\n{T}: Add {U} or {R}.",
+   "oracle_text": "As this land enters, you may reveal an Island or Mountain card from your hand. If you don't, this land enters tapped.\n{T}: Add {U} or {R}.",
    "appearances": 1
   },
   {
@@ -239,8 +243,8 @@
     "W"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mkc/267/irrigated-farmland?utm_source=api",
-   "oracle_text": "({T}: Add {W} or {U}.)\nIrrigated Farmland enters the battlefield tapped.\nCycling {2} ({2}, Discard this card: Draw a card.)",
+   "url": "https://scryfall.com/card/tdc/372/irrigated-farmland?utm_source=api",
+   "oracle_text": "({T}: Add {W} or {U}.)\nThis land enters tapped.\nCycling {2} ({2}, Discard this card: Draw a card.)",
    "appearances": 1
   },
   {
@@ -261,8 +265,8 @@
     "B"
    ],
    "mana_cost": "{B}{B}",
-   "url": "https://scryfall.com/card/lcc/184/bloodghast?utm_source=api",
-   "oracle_text": "Bloodghast can't block.\nBloodghast has haste as long as an opponent has 10 or less life.\nLandfall — Whenever a land enters the battlefield under your control, you may return Bloodghast from your graveyard to the battlefield.",
+   "url": "https://scryfall.com/card/dft/77/bloodghast?utm_source=api",
+   "oracle_text": "This creature can't block.\nThis creature has haste as long as an opponent has 10 or less life.\nLandfall — Whenever a land you control enters, you may return this card from your graveyard to the battlefield.",
    "appearances": 1
   },
   {
@@ -284,7 +288,7 @@
    ],
    "mana_cost": "{B}",
    "url": "https://scryfall.com/card/woe/89/faerie-dreamthief?utm_source=api",
-   "oracle_text": "Flying\nWhen Faerie Dreamthief enters the battlefield, surveil 1. (Look at the top card of your library. You may put it into your graveyard.)\n{2}{B}, Exile Faerie Dreamthief from your graveyard: You draw a card and you lose 1 life."
+   "oracle_text": "Flying\nWhen this creature enters, surveil 1. (Look at the top card of your library. You may put it into your graveyard.)\n{2}{B}, Exile this card from your graveyard: You draw a card and you lose 1 life."
   },
   {
    "name": "Goldenglow Moth",
@@ -304,7 +308,7 @@
    ],
    "mana_cost": "{W}",
    "url": "https://scryfall.com/card/m11/15/goldenglow-moth?utm_source=api",
-   "oracle_text": "Flying\nWhenever Goldenglow Moth blocks, you may gain 4 life."
+   "oracle_text": "Flying\nWhenever this creature blocks, you may gain 4 life."
   },
   {
    "name": "Isolated Chapel",
@@ -319,8 +323,8 @@
     "W"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/otc/301/isolated-chapel?utm_source=api",
-   "oracle_text": "Isolated Chapel enters the battlefield tapped unless you control a Plains or a Swamp.\n{T}: Add {W} or {B}."
+   "url": "https://scryfall.com/card/tdc/373/isolated-chapel?utm_source=api",
+   "oracle_text": "This land enters tapped unless you control a Plains or a Swamp.\n{T}: Add {W} or {B}."
   },
   {
    "name": "Sparring Construct",
@@ -337,7 +341,7 @@
    "color_identity": [],
    "mana_cost": "{1}",
    "url": "https://scryfall.com/card/dom/232/sparring-construct?utm_source=api",
-   "oracle_text": "When Sparring Construct dies, put a +1/+1 counter on target creature you control."
+   "oracle_text": "When this creature dies, put a +1/+1 counter on target creature you control."
   },
   {
    "name": "Polluted Delta",
@@ -350,7 +354,7 @@
    "color_identity": [],
    "mana_cost": "",
    "url": "https://scryfall.com/card/mh3/224/polluted-delta?utm_source=api",
-   "oracle_text": "{T}, Pay 1 life, Sacrifice Polluted Delta: Search your library for an Island or Swamp card, put it onto the battlefield, then shuffle."
+   "oracle_text": "{T}, Pay 1 life, Sacrifice this land: Search your library for an Island or Swamp card, put it onto the battlefield, then shuffle."
   },
   {
    "name": "Touch the Spirit Realm",
@@ -367,7 +371,7 @@
    ],
    "mana_cost": "{2}{W}",
    "url": "https://scryfall.com/card/neo/40/touch-the-spirit-realm?utm_source=api",
-   "oracle_text": "When Touch the Spirit Realm enters the battlefield, exile up to one target artifact or creature until Touch the Spirit Realm leaves the battlefield.\nChannel — {1}{W}, Discard Touch the Spirit Realm: Exile target artifact or creature. Return it to the battlefield under its owner's control at the beginning of the next end step.",
+   "oracle_text": "When this enchantment enters, exile up to one target artifact or creature until this enchantment leaves the battlefield.\nChannel — {1}{W}, Discard this card: Exile target artifact or creature. Return it to the battlefield under its owner's control at the beginning of the next end step.",
    "appearances": 1
   },
   {
@@ -380,8 +384,8 @@
    "colors": [],
    "color_identity": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/neo/281/uncharted-haven?utm_source=api",
-   "oracle_text": "Uncharted Haven enters the battlefield tapped.\nAs Uncharted Haven enters the battlefield, choose a color.\n{T}: Add one mana of the chosen color."
+   "url": "https://scryfall.com/card/blb/261/uncharted-haven?utm_source=api",
+   "oracle_text": "This land enters tapped. As it enters, choose a color.\n{T}: Add one mana of the chosen color."
   },
   {
    "name": "Kitchen Finks",
@@ -403,7 +407,7 @@
    ],
    "mana_cost": "{1}{G/W}{G/W}",
    "url": "https://scryfall.com/card/uma/216/kitchen-finks?utm_source=api",
-   "oracle_text": "When Kitchen Finks enters the battlefield, you gain 2 life.\nPersist (When this creature dies, if it had no -1/-1 counters on it, return it to the battlefield under its owner's control with a -1/-1 counter on it.)"
+   "oracle_text": "When this creature enters, you gain 2 life.\nPersist (When this creature dies, if it had no -1/-1 counters on it, return it to the battlefield under its owner's control with a -1/-1 counter on it.)"
   },
   {
    "name": "Clarion Spirit",
@@ -443,7 +447,7 @@
    ],
    "mana_cost": "{4}{U}",
    "url": "https://scryfall.com/card/mkc/111/mulldrifter?utm_source=api",
-   "oracle_text": "Flying\nWhen Mulldrifter enters the battlefield, draw two cards.\nEvoke {2}{U} (You may cast this spell for its evoke cost. If you do, it's sacrificed when it enters the battlefield.)",
+   "oracle_text": "Flying\nWhen this creature enters, draw two cards.\nEvoke {2}{U} (You may cast this spell for its evoke cost. If you do, it's sacrificed when it enters.)",
    "appearances": 1
   },
   {
@@ -460,7 +464,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/lcc/351/shineshadow-snarl?utm_source=api",
-   "oracle_text": "As Shineshadow Snarl enters the battlefield, you may reveal a Plains or Swamp card from your hand. If you don't, Shineshadow Snarl enters the battlefield tapped.\n{T}: Add {W} or {B}."
+   "oracle_text": "As this land enters, you may reveal a Plains or Swamp card from your hand. If you don't, this land enters tapped.\n{T}: Add {W} or {B}."
   },
   {
    "name": "Glacial Fortress",
@@ -475,8 +479,8 @@
     "W"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/xln/255/glacial-fortress?utm_source=api",
-   "oracle_text": "Glacial Fortress enters the battlefield tapped unless you control a Plains or an Island.\n{T}: Add {W} or {U}.",
+   "url": "https://scryfall.com/card/tdc/367/glacial-fortress?utm_source=api",
+   "oracle_text": "This land enters tapped unless you control a Plains or an Island.\n{T}: Add {W} or {U}.",
    "appearances": 1
   },
   {
@@ -501,7 +505,7 @@
    ],
    "mana_cost": "{2}{B}{B}{R}{R}",
    "url": "https://scryfall.com/card/ima/205/malfegor?utm_source=api",
-   "oracle_text": "Flying\nWhen Malfegor enters the battlefield, discard your hand. Each opponent sacrifices a creature for each card discarded this way."
+   "oracle_text": "Flying\nWhen Malfegor enters, discard your hand. Each opponent sacrifices a creature of their choice for each card discarded this way."
   },
   {
    "name": "Hostage Taker",
@@ -524,7 +528,7 @@
    ],
    "mana_cost": "{2}{U}{B}",
    "url": "https://scryfall.com/card/otc/231/hostage-taker?utm_source=api",
-   "oracle_text": "When Hostage Taker enters the battlefield, exile another target creature or artifact until Hostage Taker leaves the battlefield. You may cast that card for as long as it remains exiled, and mana of any type can be spent to cast that spell."
+   "oracle_text": "When this creature enters, exile another target creature or artifact until this creature leaves the battlefield. You may cast that card for as long as it remains exiled, and mana of any type can be spent to cast that spell."
   },
   {
    "name": "Kalastria Highborn",
@@ -544,8 +548,8 @@
     "B"
    ],
    "mana_cost": "{B}{B}",
-   "url": "https://scryfall.com/card/wwk/59/kalastria-highborn?utm_source=api",
-   "oracle_text": "Whenever Kalastria Highborn or another Vampire you control dies, you may pay {B}. If you do, target player loses 2 life and you gain 2 life.",
+   "url": "https://scryfall.com/card/fdn/607/kalastria-highborn?utm_source=api",
+   "oracle_text": "Whenever this creature or another Vampire you control dies, you may pay {B}. If you do, target player loses 2 life and you gain 2 life.",
    "appearances": 1
   },
   {
@@ -588,7 +592,7 @@
    ],
    "mana_cost": "{1}{W}{W}",
    "url": "https://scryfall.com/card/cmd/27/prison-term?utm_source=api",
-   "oracle_text": "Enchant creature\nEnchanted creature can't attack or block, and its activated abilities can't be activated.\nWhenever a creature enters the battlefield under an opponent's control, you may attach Prison Term to that creature.",
+   "oracle_text": "Enchant creature\nEnchanted creature can't attack or block, and its activated abilities can't be activated.\nWhenever a creature an opponent controls enters, you may attach this Aura to that creature.",
    "appearances": 1
   },
   {
@@ -602,7 +606,7 @@
    "color_identity": [],
    "mana_cost": "",
    "url": "https://scryfall.com/card/mh2/248/marsh-flats?utm_source=api",
-   "oracle_text": "{T}, Pay 1 life, Sacrifice Marsh Flats: Search your library for a Plains or Swamp card, put it onto the battlefield, then shuffle.",
+   "oracle_text": "{T}, Pay 1 life, Sacrifice this land: Search your library for a Plains or Swamp card, put it onto the battlefield, then shuffle.",
    "appearances": 1
   },
   {
@@ -662,7 +666,7 @@
    ],
    "mana_cost": "{2}{U}{B}",
    "url": "https://scryfall.com/card/thb/209/atris-oracle-of-half-truths?utm_source=api",
-   "oracle_text": "Menace\nWhen Atris, Oracle of Half-Truths enters the battlefield, target opponent looks at the top three cards of your library and separates them into a face-down pile and a face-up pile. Put one pile into your hand and the other into your graveyard.",
+   "oracle_text": "Menace\nWhen Atris enters, target opponent looks at the top three cards of your library and separates them into a face-down pile and a face-up pile. Put one pile into your hand and the other into your graveyard.",
    "appearances": 1
   },
   {
@@ -681,9 +685,9 @@
     "W"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/310/plains?utm_source=api",
+   "url": "https://scryfall.com/card/tdm/277/plains?utm_source=api",
    "oracle_text": "({T}: Add {W}.)",
-   "appearances": 4
+   "appearances": 1
   },
   {
    "name": "Plains",
@@ -701,9 +705,9 @@
     "W"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/310/plains?utm_source=api",
+   "url": "https://scryfall.com/card/tdm/277/plains?utm_source=api",
    "oracle_text": "({T}: Add {W}.)",
-   "appearances": 4
+   "appearances": 1
   },
   {
    "name": "Plains",
@@ -721,9 +725,9 @@
     "W"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/310/plains?utm_source=api",
+   "url": "https://scryfall.com/card/tdm/277/plains?utm_source=api",
    "oracle_text": "({T}: Add {W}.)",
-   "appearances": 4
+   "appearances": 1
   },
   {
    "name": "Island",
@@ -741,9 +745,9 @@
     "U"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/312/island?utm_source=api",
+   "url": "https://scryfall.com/card/tdm/279/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)",
-   "appearances": 3
+   "appearances": 1
   },
   {
    "name": "Swamp",
@@ -761,9 +765,9 @@
     "B"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/314/swamp?utm_source=api",
+   "url": "https://scryfall.com/card/tdm/281/swamp?utm_source=api",
    "oracle_text": "({T}: Add {B}.)",
-   "appearances": 3
+   "appearances": 1
   },
   {
    "name": "Swamp",
@@ -781,9 +785,9 @@
     "B"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/314/swamp?utm_source=api",
+   "url": "https://scryfall.com/card/tdm/281/swamp?utm_source=api",
    "oracle_text": "({T}: Add {B}.)",
-   "appearances": 3
+   "appearances": 1
   },
   {
    "name": "Mountain",
@@ -801,9 +805,9 @@
     "R"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/316/mountain?utm_source=api",
+   "url": "https://scryfall.com/card/tdm/283/mountain?utm_source=api",
    "oracle_text": "({T}: Add {R}.)",
-   "appearances": 4
+   "appearances": 1
   }
  ],
  "sideboard": [
@@ -848,7 +852,7 @@
    ],
    "mana_cost": "{G}{U}",
    "url": "https://scryfall.com/card/lcc/277/merfolk-skydiver?utm_source=api",
-   "oracle_text": "Flying\nWhen Merfolk Skydiver enters the battlefield, put a +1/+1 counter on target creature you control.\n{3}{G}{U}: Proliferate. (Choose any number of permanents and/or players, then give each another counter of each kind already there.)"
+   "oracle_text": "Flying\nWhen this creature enters, put a +1/+1 counter on target creature you control.\n{3}{G}{U}: Proliferate. (Choose any number of permanents and/or players, then give each another counter of each kind already there.)"
   },
   {
    "name": "Trading Post",
@@ -924,7 +928,7 @@
    ],
    "mana_cost": "{U}{R}",
    "url": "https://scryfall.com/card/thb/223/mischievous-chimera?utm_source=api",
-   "oracle_text": "Flying\nWhenever you cast your first spell during each opponent's turn, Mischievous Chimera deals 1 damage to each opponent. Scry 1."
+   "oracle_text": "Flying\nWhenever you cast your first spell during each opponent's turn, this creature deals 1 damage to each opponent. Scry 1."
   },
   {
    "name": "Narrow Escape",
@@ -964,7 +968,7 @@
    ],
    "mana_cost": "{1}{B}{R}",
    "url": "https://scryfall.com/card/mom/254/stormclaw-rager?utm_source=api",
-   "oracle_text": "{1}, Sacrifice another creature or artifact: Put a +1/+1 counter on Stormclaw Rager and draw a card. Activate only as a sorcery."
+   "oracle_text": "{1}, Sacrifice another creature or artifact: Put a +1/+1 counter on this creature and draw a card. Activate only as a sorcery."
   },
   {
    "name": "Twinshot Sniper",
@@ -986,7 +990,7 @@
    ],
    "mana_cost": "{3}{R}",
    "url": "https://scryfall.com/card/neo/168/twinshot-sniper?utm_source=api",
-   "oracle_text": "Reach\nWhen Twinshot Sniper enters the battlefield, it deals 2 damage to any target.\nChannel — {1}{R}, Discard Twinshot Sniper: It deals 2 damage to any target."
+   "oracle_text": "Reach\nWhen this creature enters, it deals 2 damage to any target.\nChannel — {1}{R}, Discard this card: It deals 2 damage to any target."
   },
   {
    "name": "Bonesplitter",
@@ -1023,7 +1027,7 @@
    ],
    "mana_cost": "{W}",
    "url": "https://scryfall.com/card/dom/14/dauntless-bodyguard?utm_source=api",
-   "oracle_text": "As Dauntless Bodyguard enters the battlefield, choose another creature you control.\nSacrifice Dauntless Bodyguard: The chosen creature gains indestructible until end of turn."
+   "oracle_text": "As this creature enters, choose another creature you control.\nSacrifice this creature: The chosen creature gains indestructible until end of turn."
   },
   {
    "name": "Gwyllion Hedge-Mage",
@@ -1046,7 +1050,7 @@
    ],
    "mana_cost": "{2}{W/B}",
    "url": "https://scryfall.com/card/cma/201/gwyllion-hedge-mage?utm_source=api",
-   "oracle_text": "When Gwyllion Hedge-Mage enters the battlefield, if you control two or more Plains, you may create a 1/1 white Kithkin Soldier creature token.\nWhen Gwyllion Hedge-Mage enters the battlefield, if you control two or more Swamps, you may put a -1/-1 counter on target creature."
+   "oracle_text": "When this creature enters, if you control two or more Plains, you may create a 1/1 white Kithkin Soldier creature token.\nWhen this creature enters, if you control two or more Swamps, you may put a -1/-1 counter on target creature."
   },
   {
    "name": "Merfolk Looter",
@@ -1083,7 +1087,7 @@
    "color_identity": [],
    "mana_cost": "{1}",
    "url": "https://scryfall.com/card/a25/230/sai-of-the-shinobi?utm_source=api",
-   "oracle_text": "Equipped creature gets +1/+1.\nWhenever a creature enters the battlefield under your control, you may attach Sai of the Shinobi to it.\nEquip {2}"
+   "oracle_text": "Equipped creature gets +1/+1.\nWhenever a creature you control enters, you may attach this Equipment to it.\nEquip {2}"
   },
   {
    "name": "Reprieve",

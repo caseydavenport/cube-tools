@@ -1,4 +1,8 @@
 {
+ "metadata": {
+  "path": "data/polyverse/2023-04-22/xander.json",
+  "draft_id": "2023-04-22"
+ },
  "labels": [
   "control",
   "spells"
@@ -82,8 +86,8 @@
     "W"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/otc/278/clifftop-retreat?utm_source=api",
-   "oracle_text": "Clifftop Retreat enters the battlefield tapped unless you control a Mountain or a Plains.\n{T}: Add {R} or {W}."
+   "url": "https://scryfall.com/card/tdc/351/clifftop-retreat?utm_source=api",
+   "oracle_text": "This land enters tapped unless you control a Mountain or a Plains.\n{T}: Add {R} or {W}."
   },
   {
    "name": "Sunbird's Invocation",
@@ -141,7 +145,7 @@
    ],
    "mana_cost": "{6}{W}{W}",
    "url": "https://scryfall.com/card/moc/170/angel-of-salvation?utm_source=api",
-   "oracle_text": "Flash; convoke (Your creatures can help cast this spell. Each creature you tap while casting this spell pays for {1} or one mana of that creature's color.)\nFlying\nWhen Angel of Salvation enters the battlefield, prevent the next 5 damage that would be dealt this turn to any number of targets, divided as you choose."
+   "oracle_text": "Flash; convoke (Your creatures can help cast this spell. Each creature you tap while casting this spell pays for {1} or one mana of that creature's color.)\nFlying\nWhen this creature enters, prevent the next 5 damage that would be dealt this turn to any number of targets, divided as you choose."
   },
   {
    "name": "Warcry Phoenix",
@@ -161,7 +165,7 @@
    ],
    "mana_cost": "{3}{R}",
    "url": "https://scryfall.com/card/dom/150/warcry-phoenix?utm_source=api",
-   "oracle_text": "Flying, haste\nWhenever you attack with three or more creatures, you may pay {2}{R}. If you do, return Warcry Phoenix from your graveyard to the battlefield tapped and attacking."
+   "oracle_text": "Flying, haste\nWhenever you attack with three or more creatures, you may pay {2}{R}. If you do, return this card from your graveyard to the battlefield tapped and attacking."
   },
   {
    "name": "Hypersonic Dragon",
@@ -195,8 +199,8 @@
    "colors": [],
    "color_identity": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/otc/336/terramorphic-expanse?utm_source=api",
-   "oracle_text": "{T}, Sacrifice Terramorphic Expanse: Search your library for a basic land card, put it onto the battlefield tapped, then shuffle."
+   "url": "https://scryfall.com/card/tdc/408/terramorphic-expanse?utm_source=api",
+   "oracle_text": "{T}, Sacrifice this land: Search your library for a basic land card, put it onto the battlefield tapped, then shuffle."
   },
   {
    "name": "Swans of Bryn Argoll",
@@ -219,7 +223,7 @@
    ],
    "mana_cost": "{2}{W/U}{W/U}",
    "url": "https://scryfall.com/card/mm2/199/swans-of-bryn-argoll?utm_source=api",
-   "oracle_text": "Flying\nIf a source would deal damage to Swans of Bryn Argoll, prevent that damage. The source's controller draws cards equal to the damage prevented this way."
+   "oracle_text": "Flying\nIf a source would deal damage to this creature, prevent that damage. The source's controller draws cards equal to the damage prevented this way."
   },
   {
    "name": "Mistmeadow Witch",
@@ -313,7 +317,7 @@
     "R"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/316/mountain?utm_source=api",
+   "url": "https://scryfall.com/card/tdm/283/mountain?utm_source=api",
    "oracle_text": "({T}: Add {R}.)"
   },
   {
@@ -332,7 +336,7 @@
     "R"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/316/mountain?utm_source=api",
+   "url": "https://scryfall.com/card/tdm/283/mountain?utm_source=api",
    "oracle_text": "({T}: Add {R}.)"
   },
   {
@@ -351,7 +355,7 @@
     "R"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/316/mountain?utm_source=api",
+   "url": "https://scryfall.com/card/tdm/283/mountain?utm_source=api",
    "oracle_text": "({T}: Add {R}.)"
   },
   {
@@ -370,7 +374,7 @@
     "W"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/310/plains?utm_source=api",
+   "url": "https://scryfall.com/card/tdm/277/plains?utm_source=api",
    "oracle_text": "({T}: Add {W}.)"
   },
   {
@@ -389,7 +393,7 @@
     "W"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/310/plains?utm_source=api",
+   "url": "https://scryfall.com/card/tdm/277/plains?utm_source=api",
    "oracle_text": "({T}: Add {W}.)"
   },
   {
@@ -408,7 +412,7 @@
     "W"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/310/plains?utm_source=api",
+   "url": "https://scryfall.com/card/tdm/277/plains?utm_source=api",
    "oracle_text": "({T}: Add {W}.)"
   },
   {
@@ -442,7 +446,7 @@
     "U"
    ],
    "mana_cost": "{2}{U}{U}",
-   "url": "https://scryfall.com/card/c21/128/rite-of-replication?utm_source=api",
+   "url": "https://scryfall.com/card/tdc/165/rite-of-replication?utm_source=api",
    "oracle_text": "Kicker {5} (You may pay an additional {5} as you cast this spell.)\nCreate a token that's a copy of target creature. If this spell was kicked, create five of those tokens instead."
   },
   {
@@ -459,7 +463,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/c19/251/highland-lake?utm_source=api",
-   "oracle_text": "Highland Lake enters the battlefield tapped.\n{T}: Add {U} or {R}."
+   "oracle_text": "This land enters tapped.\n{T}: Add {U} or {R}."
   },
   {
    "name": "Port Town",
@@ -475,7 +479,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/cmm/1019/port-town?utm_source=api",
-   "oracle_text": "As Port Town enters the battlefield, you may reveal a Plains or Island card from your hand. If you don't, Port Town enters the battlefield tapped.\n{T}: Add {W} or {U}."
+   "oracle_text": "As this land enters, you may reveal a Plains or Island card from your hand. If you don't, this land enters tapped.\n{T}: Add {W} or {U}."
   },
   {
    "name": "Magma Phoenix",
@@ -495,7 +499,7 @@
    ],
    "mana_cost": "{3}{R}{R}",
    "url": "https://scryfall.com/card/m11/150/magma-phoenix?utm_source=api",
-   "oracle_text": "Flying\nWhen Magma Phoenix dies, it deals 3 damage to each creature and each player.\n{3}{R}{R}: Return Magma Phoenix from your graveyard to your hand."
+   "oracle_text": "Flying\nWhen this creature dies, it deals 3 damage to each creature and each player.\n{3}{R}{R}: Return this card from your graveyard to your hand."
   },
   {
    "name": "Delay",
@@ -528,7 +532,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/otc/298/frostboil-snarl?utm_source=api",
-   "oracle_text": "As Frostboil Snarl enters the battlefield, you may reveal an Island or Mountain card from your hand. If you don't, Frostboil Snarl enters the battlefield tapped.\n{T}: Add {U} or {R}."
+   "oracle_text": "As this land enters, you may reveal an Island or Mountain card from your hand. If you don't, this land enters tapped.\n{T}: Add {U} or {R}."
   },
   {
    "name": "Enigma Drake",
@@ -549,7 +553,7 @@
     "U"
    ],
    "mana_cost": "{1}{U}{R}",
-   "url": "https://scryfall.com/card/m19/216/enigma-drake?utm_source=api",
+   "url": "https://scryfall.com/card/fdn/657/enigma-drake?utm_source=api",
    "oracle_text": "Flying\nEnigma Drake's power is equal to the number of instant and sorcery cards in your graveyard."
   },
   {
@@ -568,8 +572,8 @@
     "W"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/clu/230/azorius-guildgate?utm_source=api",
-   "oracle_text": "Azorius Guildgate enters the battlefield tapped.\n{T}: Add {W} or {U}."
+   "url": "https://scryfall.com/card/fdn/683/azorius-guildgate?utm_source=api",
+   "oracle_text": "This land enters tapped.\n{T}: Add {W} or {U}."
   },
   {
    "name": "Dispel",
@@ -604,7 +608,7 @@
     "U"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/312/island?utm_source=api",
+   "url": "https://scryfall.com/card/tdm/279/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)"
   },
   {
@@ -623,7 +627,7 @@
     "U"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/312/island?utm_source=api",
+   "url": "https://scryfall.com/card/tdm/279/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)"
   },
   {
@@ -642,7 +646,7 @@
     "U"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/312/island?utm_source=api",
+   "url": "https://scryfall.com/card/tdm/279/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)"
   },
   {
@@ -680,7 +684,7 @@
    ],
    "mana_cost": "{1}{W}",
    "url": "https://scryfall.com/card/cmd/17/journey-to-nowhere?utm_source=api",
-   "oracle_text": "When Journey to Nowhere enters the battlefield, exile target creature.\nWhen Journey to Nowhere leaves the battlefield, return the exiled card to the battlefield under its owner's control."
+   "oracle_text": "When this enchantment enters, exile target creature.\nWhen this enchantment leaves the battlefield, return the exiled card to the battlefield under its owner's control."
   },
   {
    "name": "Lion Sash",
@@ -702,7 +706,7 @@
    ],
    "mana_cost": "{1}{W}",
    "url": "https://scryfall.com/card/neo/26/lion-sash?utm_source=api",
-   "oracle_text": "{W}: Exile target card from a graveyard. If it was a permanent card, put a +1/+1 counter on Lion Sash.\nEquipped creature gets +1/+1 for each +1/+1 counter on Lion Sash.\nReconfigure {2} ({2}: Attach to target creature you control; or unattach from a creature. Reconfigure only as a sorcery. While attached, this isn't a creature.)"
+   "oracle_text": "{W}: Exile target card from a graveyard. If it was a permanent card, put a +1/+1 counter on this permanent.\nEquipped creature gets +1/+1 for each +1/+1 counter on this Equipment.\nReconfigure {2} ({2}: Attach to target creature you control; or unattach from a creature. Reconfigure only as a sorcery. While attached, this isn't a creature.)"
   },
   {
    "name": "Kairi, the Swirling Sky",
@@ -724,7 +728,7 @@
    ],
    "mana_cost": "{4}{U}{U}",
    "url": "https://scryfall.com/card/neo/60/kairi-the-swirling-sky?utm_source=api",
-   "oracle_text": "Flying, ward {3}\nWhen Kairi, the Swirling Sky dies, choose one —\n• Return any number of target nonland permanents with total mana value 6 or less to their owners' hands.\n• Mill six cards, then return up to two instant and/or sorcery cards from your graveyard to your hand."
+   "oracle_text": "Flying, ward {3}\nWhen Kairi dies, choose one —\n• Return any number of target nonland permanents with total mana value 6 or less to their owners' hands.\n• Mill six cards, then return up to two instant and/or sorcery cards from your graveyard to your hand."
   },
   {
    "name": "Impending Doom",
@@ -744,7 +748,7 @@
    ],
    "mana_cost": "{2}{R}",
    "url": "https://scryfall.com/card/thb/139/impending-doom?utm_source=api",
-   "oracle_text": "Enchant creature\nEnchanted creature gets +3/+3 and attacks each combat if able.\nWhen enchanted creature dies, Impending Doom deals 3 damage to that creature's controller."
+   "oracle_text": "Enchant creature\nEnchanted creature gets +3/+3 and attacks each combat if able.\nWhen enchanted creature dies, this Aura deals 3 damage to that creature's controller."
   }
  ],
  "sideboard": []

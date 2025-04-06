@@ -1,4 +1,8 @@
 {
+ "metadata": {
+  "path": "data/polyverse/2024-03-31/cara.json",
+  "draft_id": "2024-03-31"
+ },
  "labels": [
   "midrange",
   "token",
@@ -63,7 +67,7 @@
    "mana_cost": "{R}",
    "url": "https://scryfall.com/card/bro/144/monastery-swiftspear?utm_source=api",
    "oracle_text": "Haste\nProwess (Whenever you cast a noncreature spell, this creature gets +1/+1 until end of turn.)",
-   "appearances": 4
+   "appearances": 1
   },
   {
    "name": "Chandra, Hope's Beacon",
@@ -84,8 +88,8 @@
    ],
    "mana_cost": "{4}{R}{R}",
    "url": "https://scryfall.com/card/mom/134/chandra-hopes-beacon?utm_source=api",
-   "oracle_text": "Whenever you cast an instant or sorcery spell, copy it. You may choose new targets for the copy. This ability triggers only once each turn.\n+2: Add two mana in any combination of colors.\n+1: Exile the top five cards of your library. Until the end of your next turn, you may cast an instant or sorcery spell from among those exiled cards.\n−X: Chandra, Hope's Beacon deals X damage to each of up to two targets.",
-   "appearances": 3
+   "oracle_text": "Whenever you cast an instant or sorcery spell, copy it. You may choose new targets for the copy. This ability triggers only once each turn.\n+2: Add two mana in any combination of colors.\n+1: Exile the top five cards of your library. Until the end of your next turn, you may cast an instant or sorcery spell from among those exiled cards.\n−X: Chandra deals X damage to each of up to two targets.",
+   "appearances": 1
   },
   {
    "name": "Questing Druid // Seek the Beast",
@@ -110,7 +114,7 @@
    "mana_cost": "{1}{G} // {1}{R}",
    "url": "https://scryfall.com/card/woe/234/questing-druid-seek-the-beast?utm_source=api",
    "oracle_text": "",
-   "appearances": 3
+   "appearances": 1
   },
   {
    "name": "Rootbound Crag",
@@ -125,9 +129,9 @@
     "R"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/xln/256/rootbound-crag?utm_source=api",
-   "oracle_text": "Rootbound Crag enters the battlefield tapped unless you control a Mountain or a Forest.\n{T}: Add {R} or {G}.",
-   "appearances": 3
+   "url": "https://scryfall.com/card/tdc/388/rootbound-crag?utm_source=api",
+   "oracle_text": "This land enters tapped unless you control a Mountain or a Forest.\n{T}: Add {R} or {G}.",
+   "appearances": 1
   },
   {
    "name": "Dreadhorde Butcher",
@@ -150,8 +154,8 @@
    ],
    "mana_cost": "{B}{R}",
    "url": "https://scryfall.com/card/war/194/dreadhorde-butcher?utm_source=api",
-   "oracle_text": "Haste\nWhenever Dreadhorde Butcher deals combat damage to a player or planeswalker, put a +1/+1 counter on Dreadhorde Butcher.\nWhen Dreadhorde Butcher dies, it deals damage equal to its power to any target.",
-   "appearances": 4
+   "oracle_text": "Haste\nWhenever this creature deals combat damage to a player or planeswalker, put a +1/+1 counter on this creature.\nWhen this creature dies, it deals damage equal to its power to any target.",
+   "appearances": 1
   },
   {
    "name": "Underground Mortuary",
@@ -171,8 +175,8 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/mkm/271/underground-mortuary?utm_source=api",
-   "oracle_text": "({T}: Add {B} or {G}.)\nUnderground Mortuary enters the battlefield tapped.\nWhen Underground Mortuary enters the battlefield, surveil 1. (Look at the top card of your library. You may put it into your graveyard.)",
-   "appearances": 4
+   "oracle_text": "({T}: Add {B} or {G}.)\nThis land enters tapped.\nWhen this land enters, surveil 1. (Look at the top card of your library. You may put it into your graveyard.)",
+   "appearances": 1
   },
   {
    "name": "Overgrown Tomb",
@@ -192,8 +196,8 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/rvr/283/overgrown-tomb?utm_source=api",
-   "oracle_text": "({T}: Add {B} or {G}.)\nAs Overgrown Tomb enters the battlefield, you may pay 2 life. If you don't, it enters the battlefield tapped.",
-   "appearances": 4
+   "oracle_text": "({T}: Add {B} or {G}.)\nAs this land enters, you may pay 2 life. If you don't, it enters tapped.",
+   "appearances": 1
   },
   {
    "name": "Wilderness Reclamation",
@@ -209,9 +213,9 @@
     "G"
    ],
    "mana_cost": "{3}{G}",
-   "url": "https://scryfall.com/card/mkc/196/wilderness-reclamation?utm_source=api",
+   "url": "https://scryfall.com/card/dsc/205/wilderness-reclamation?utm_source=api",
    "oracle_text": "At the beginning of your end step, untap all lands you control.",
-   "appearances": 5
+   "appearances": 1
   },
   {
    "name": "Pollenbright Druid",
@@ -232,8 +236,8 @@
    ],
    "mana_cost": "{1}{G}",
    "url": "https://scryfall.com/card/cmm/312/pollenbright-druid?utm_source=api",
-   "oracle_text": "When Pollenbright Druid enters the battlefield, choose one —\n• Put a +1/+1 counter on target creature.\n• Proliferate. (Choose any number of permanents and/or players, then give each another counter of each kind already there.)",
-   "appearances": 4
+   "oracle_text": "When this creature enters, choose one —\n• Put a +1/+1 counter on target creature.\n• Proliferate. (Choose any number of permanents and/or players, then give each another counter of each kind already there.)",
+   "appearances": 1
   },
   {
    "name": "Greta, Sweettooth Scourge",
@@ -257,8 +261,8 @@
    ],
    "mana_cost": "{1}{B}{G}",
    "url": "https://scryfall.com/card/woe/205/greta-sweettooth-scourge?utm_source=api",
-   "oracle_text": "When Greta, Sweettooth Scourge enters the battlefield, create a Food token. (It's an artifact with \"{2}, {T}, Sacrifice this artifact: You gain 3 life.\")\n{G}, Sacrifice a Food: Put a +1/+1 counter on target creature. Activate only as a sorcery.\n{1}{B}, Sacrifice a Food: You draw a card and you lose 1 life.",
-   "appearances": 5
+   "oracle_text": "When Greta enters, create a Food token. (It's an artifact with \"{2}, {T}, Sacrifice this token: You gain 3 life.\")\n{G}, Sacrifice a Food: Put a +1/+1 counter on target creature. Activate only as a sorcery.\n{1}{B}, Sacrifice a Food: You draw a card and you lose 1 life.",
+   "appearances": 1
   },
   {
    "name": "Black Sun's Zenith",
@@ -276,7 +280,7 @@
    "mana_cost": "{X}{B}{B}",
    "url": "https://scryfall.com/card/mkc/126/black-suns-zenith?utm_source=api",
    "oracle_text": "Put X -1/-1 counters on each creature. Shuffle Black Sun's Zenith into its owner's library.",
-   "appearances": 6
+   "appearances": 1
   },
   {
    "name": "Vivien, Champion of the Wilds",
@@ -297,8 +301,8 @@
    ],
    "mana_cost": "{2}{G}",
    "url": "https://scryfall.com/card/clb/838/vivien-champion-of-the-wilds?utm_source=api",
-   "oracle_text": "You may cast creature spells as though they had flash.\n+1: Until your next turn, up to one target creature gains vigilance and reach.\n−2: Look at the top three cards of your library. Exile one face down and put the rest on the bottom of your library in any order. For as long as it remains exiled, you may look at that card and you may cast it if it's a creature spell.",
-   "appearances": 4
+   "oracle_text": "You may cast creature spells as though they had flash.\n+1: Until your next turn, up to one target creature gains vigilance and reach.\n−2: Look at the top three cards of your library. Exile one face down and put the rest on the bottom of your library in any order. For as long as it remains exiled, you may cast it if it's a creature spell.",
+   "appearances": 1
   },
   {
    "name": "The Huntsman's Redemption",
@@ -338,9 +342,9 @@
     "R"
    ],
    "mana_cost": "{3}{R}{R}",
-   "url": "https://scryfall.com/card/dmr/136/siege-gang-commander?utm_source=api",
-   "oracle_text": "When Siege-Gang Commander enters the battlefield, create three 1/1 red Goblin creature tokens.\n{1}{R}, Sacrifice a Goblin: Siege-Gang Commander deals 2 damage to any target.",
-   "appearances": 4
+   "url": "https://scryfall.com/card/tdc/232/siege-gang-commander?utm_source=api",
+   "oracle_text": "When this creature enters, create three 1/1 red Goblin creature tokens.\n{1}{R}, Sacrifice a Goblin: This creature deals 2 damage to any target.",
+   "appearances": 1
   },
   {
    "name": "Parallel Lives",
@@ -358,7 +362,7 @@
    "mana_cost": "{3}{G}",
    "url": "https://scryfall.com/card/isd/199/parallel-lives?utm_source=api",
    "oracle_text": "If an effect would create one or more tokens under your control, it creates twice that many of those tokens instead.",
-   "appearances": 4
+   "appearances": 1
   },
   {
    "name": "Saproling Migration",
@@ -376,7 +380,7 @@
    "mana_cost": "{1}{G}",
    "url": "https://scryfall.com/card/dom/178/saproling-migration?utm_source=api",
    "oracle_text": "Kicker {4} (You may pay an additional {4} as you cast this spell.)\nCreate two 1/1 green Saproling creature tokens. If this spell was kicked, create four of those tokens instead.",
-   "appearances": 2
+   "appearances": 1
   },
   {
    "name": "Llanowar Elves",
@@ -418,8 +422,8 @@
    ],
    "mana_cost": "{2}{G}",
    "url": "https://scryfall.com/card/soi/212/inexorable-blob?utm_source=api",
-   "oracle_text": "Delirium — Whenever Inexorable Blob attacks, if there are four or more card types among cards in your graveyard, create a 3/3 green Ooze creature token that's tapped and attacking.",
-   "appearances": 2
+   "oracle_text": "Delirium — Whenever this creature attacks, if there are four or more card types among cards in your graveyard, create a 3/3 green Ooze creature token that's tapped and attacking.",
+   "appearances": 1
   },
   {
    "name": "Chromatic Star",
@@ -432,8 +436,8 @@
    "color_identity": [],
    "mana_cost": "{1}",
    "url": "https://scryfall.com/card/tsr/263/chromatic-star?utm_source=api",
-   "oracle_text": "{1}, {T}, Sacrifice Chromatic Star: Add one mana of any color.\nWhen Chromatic Star is put into a graveyard from the battlefield, draw a card.",
-   "appearances": 4
+   "oracle_text": "{1}, {T}, Sacrifice this artifact: Add one mana of any color.\nWhen this artifact is put into a graveyard from the battlefield, draw a card.",
+   "appearances": 1
   },
   {
    "name": "Ignoble Hierarch",
@@ -457,7 +461,7 @@
    "mana_cost": "{G}",
    "url": "https://scryfall.com/card/mh2/166/ignoble-hierarch?utm_source=api",
    "oracle_text": "Exalted (Whenever a creature you control attacks alone, that creature gets +1/+1 until end of turn.)\n{T}: Add {B}, {R}, or {G}.",
-   "appearances": 4
+   "appearances": 1
   },
   {
    "name": "Krenko, Tin Street Kingpin",
@@ -478,8 +482,8 @@
    ],
    "mana_cost": "{2}{R}",
    "url": "https://scryfall.com/card/moc/287/krenko-tin-street-kingpin?utm_source=api",
-   "oracle_text": "Whenever Krenko, Tin Street Kingpin attacks, put a +1/+1 counter on it, then create a number of 1/1 red Goblin creature tokens equal to Krenko's power.",
-   "appearances": 3
+   "oracle_text": "Whenever Krenko attacks, put a +1/+1 counter on it, then create a number of 1/1 red Goblin creature tokens equal to Krenko's power.",
+   "appearances": 1
   },
   {
    "name": "Empty the Warrens",
@@ -497,7 +501,7 @@
    "mana_cost": "{3}{R}",
    "url": "https://scryfall.com/card/dmr/118/empty-the-warrens?utm_source=api",
    "oracle_text": "Create two 1/1 red Goblin creature tokens.\nStorm (When you cast this spell, copy it for each spell cast before it this turn.)",
-   "appearances": 3
+   "appearances": 1
   },
   {
    "name": "Bloodsoaked Champion",
@@ -518,8 +522,8 @@
    ],
    "mana_cost": "{B}",
    "url": "https://scryfall.com/card/clb/740/bloodsoaked-champion?utm_source=api",
-   "oracle_text": "Bloodsoaked Champion can't block.\nRaid — {1}{B}: Return Bloodsoaked Champion from your graveyard to the battlefield. Activate only if you attacked this turn.",
-   "appearances": 5
+   "oracle_text": "This creature can't block.\nRaid — {1}{B}: Return this card from your graveyard to the battlefield. Activate only if you attacked this turn.",
+   "appearances": 1
   },
   {
    "name": "Skarrgan Hellkite",
@@ -538,9 +542,9 @@
     "R"
    ],
    "mana_cost": "{3}{R}{R}",
-   "url": "https://scryfall.com/card/rna/114/skarrgan-hellkite?utm_source=api",
-   "oracle_text": "Riot (This creature enters the battlefield with your choice of a +1/+1 counter or haste.)\nFlying\n{3}{R}: Skarrgan Hellkite deals 2 damage divided as you choose among one or two targets. Activate only if Skarrgan Hellkite has a +1/+1 counter on it.",
-   "appearances": 5
+   "url": "https://scryfall.com/card/tdc/233/skarrgan-hellkite?utm_source=api",
+   "oracle_text": "Riot (This creature enters with your choice of a +1/+1 counter or haste.)\nFlying\n{3}{R}: This creature deals 2 damage divided as you choose among one or two targets. Activate only if this creature has a +1/+1 counter on it.",
+   "appearances": 1
   },
   {
    "name": "Chatter of the Squirrel",
@@ -558,7 +562,7 @@
    "mana_cost": "{G}",
    "url": "https://scryfall.com/card/2xm/157/chatter-of-the-squirrel?utm_source=api",
    "oracle_text": "Create a 1/1 green Squirrel creature token.\nFlashback {1}{G} (You may cast this card from your graveyard for its flashback cost. Then exile it.)",
-   "appearances": 3
+   "appearances": 1
   },
   {
    "name": "Sheltered Thicket",
@@ -577,9 +581,9 @@
     "R"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/otc/319/sheltered-thicket?utm_source=api",
-   "oracle_text": "({T}: Add {R} or {G}.)\nSheltered Thicket enters the battlefield tapped.\nCycling {2} ({2}, Discard this card: Draw a card.)",
-   "appearances": 4
+   "url": "https://scryfall.com/card/tdc/392/sheltered-thicket?utm_source=api",
+   "oracle_text": "({T}: Add {R} or {G}.)\nThis land enters tapped.\nCycling {2} ({2}, Discard this card: Draw a card.)",
+   "appearances": 1
   },
   {
    "name": "Wooded Foothills",
@@ -592,8 +596,8 @@
    "color_identity": [],
    "mana_cost": "",
    "url": "https://scryfall.com/card/mh3/236/wooded-foothills?utm_source=api",
-   "oracle_text": "{T}, Pay 1 life, Sacrifice Wooded Foothills: Search your library for a Mountain or Forest card, put it onto the battlefield, then shuffle.",
-   "appearances": 9
+   "oracle_text": "{T}, Pay 1 life, Sacrifice this land: Search your library for a Mountain or Forest card, put it onto the battlefield, then shuffle.",
+   "appearances": 1
   },
   {
    "name": "Pharika's Spawn",
@@ -613,7 +617,7 @@
    ],
    "mana_cost": "{3}{B}",
    "url": "https://scryfall.com/card/thb/112/pharikas-spawn?utm_source=api",
-   "oracle_text": "Escape—{5}{B}, Exile three other cards from your graveyard. (You may cast this card from your graveyard for its escape cost.)\nPharika's Spawn escapes with two +1/+1 counters on it. When it enters the battlefield this way, each opponent sacrifices a non-Gorgon creature.",
+   "oracle_text": "Escape—{5}{B}, Exile three other cards from your graveyard. (You may cast this card from your graveyard for its escape cost.)\nThis creature escapes with two +1/+1 counters on it. When it enters this way, each opponent sacrifices a non-Gorgon creature of their choice.",
    "appearances": 1
   },
   {
@@ -634,7 +638,7 @@
    "mana_cost": "{1}{R/G}",
    "url": "https://scryfall.com/card/2xm/208/manamorphose?utm_source=api",
    "oracle_text": "Add two mana in any combination of colors.\nDraw a card.",
-   "appearances": 6
+   "appearances": 1
   },
   {
    "name": "Swamp",
@@ -652,9 +656,9 @@
     "B"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/314/swamp?utm_source=api",
+   "url": "https://scryfall.com/card/tdm/281/swamp?utm_source=api",
    "oracle_text": "({T}: Add {B}.)",
-   "appearances": 25
+   "appearances": 1
   },
   {
    "name": "Swamp",
@@ -672,9 +676,9 @@
     "B"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/314/swamp?utm_source=api",
+   "url": "https://scryfall.com/card/tdm/281/swamp?utm_source=api",
    "oracle_text": "({T}: Add {B}.)",
-   "appearances": 25
+   "appearances": 1
   },
   {
    "name": "Mountain",
@@ -692,9 +696,9 @@
     "R"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/316/mountain?utm_source=api",
+   "url": "https://scryfall.com/card/tdm/283/mountain?utm_source=api",
    "oracle_text": "({T}: Add {R}.)",
-   "appearances": 22
+   "appearances": 1
   },
   {
    "name": "Mountain",
@@ -712,9 +716,9 @@
     "R"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/316/mountain?utm_source=api",
+   "url": "https://scryfall.com/card/tdm/283/mountain?utm_source=api",
    "oracle_text": "({T}: Add {R}.)",
-   "appearances": 22
+   "appearances": 1
   },
   {
    "name": "Mountain",
@@ -732,9 +736,9 @@
     "R"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/316/mountain?utm_source=api",
+   "url": "https://scryfall.com/card/tdm/283/mountain?utm_source=api",
    "oracle_text": "({T}: Add {R}.)",
-   "appearances": 22
+   "appearances": 1
   },
   {
    "name": "Forest",
@@ -752,9 +756,9 @@
     "G"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/318/forest?utm_source=api",
+   "url": "https://scryfall.com/card/tdm/285/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)",
-   "appearances": 22
+   "appearances": 1
   },
   {
    "name": "Forest",
@@ -772,9 +776,9 @@
     "G"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/318/forest?utm_source=api",
+   "url": "https://scryfall.com/card/tdm/285/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)",
-   "appearances": 22
+   "appearances": 1
   },
   {
    "name": "Forest",
@@ -792,9 +796,9 @@
     "G"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/318/forest?utm_source=api",
+   "url": "https://scryfall.com/card/tdm/285/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)",
-   "appearances": 22
+   "appearances": 1
   },
   {
    "name": "Forest",
@@ -812,9 +816,9 @@
     "G"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/318/forest?utm_source=api",
+   "url": "https://scryfall.com/card/tdm/285/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)",
-   "appearances": 22
+   "appearances": 1
   },
   {
    "name": "Forest",
@@ -832,9 +836,9 @@
     "G"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/318/forest?utm_source=api",
+   "url": "https://scryfall.com/card/tdm/285/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)",
-   "appearances": 22
+   "appearances": 1
   },
   {
    "name": "Forest",
@@ -852,9 +856,9 @@
     "G"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/318/forest?utm_source=api",
+   "url": "https://scryfall.com/card/tdm/285/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)",
-   "appearances": 22
+   "appearances": 1
   }
  ],
  "sideboard": [
@@ -872,7 +876,7 @@
     "U"
    ],
    "mana_cost": "{U}",
-   "url": "https://scryfall.com/card/mkc/96/brainstorm?utm_source=api",
+   "url": "https://scryfall.com/card/dsc/113/brainstorm?utm_source=api",
    "oracle_text": "Draw three cards, then put two cards from your hand on top of your library in any order."
   },
   {
@@ -980,8 +984,8 @@
     "U"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/otc/322/sulfur-falls?utm_source=api",
-   "oracle_text": "Sulfur Falls enters the battlefield tapped unless you control an Island or a Mountain.\n{T}: Add {U} or {R}."
+   "url": "https://scryfall.com/card/tdc/396/sulfur-falls?utm_source=api",
+   "oracle_text": "This land enters tapped unless you control an Island or a Mountain.\n{T}: Add {U} or {R}."
   },
   {
    "name": "Shelldock Isle",
@@ -996,7 +1000,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/lrw/272/shelldock-isle?utm_source=api",
-   "oracle_text": "Hideaway 4 (When this land enters the battlefield, look at the top four cards of your library, exile one face down, then put the rest on the bottom in a random order.)\nShelldock Isle enters the battlefield tapped.\n{T}: Add {U}.\n{U}, {T}: You may play the exiled card without paying its mana cost if a library has twenty or fewer cards in it."
+   "oracle_text": "Hideaway 4 (When this land enters, look at the top four cards of your library, exile one face down, then put the rest on the bottom in a random order.)\nThis land enters tapped.\n{T}: Add {U}.\n{U}, {T}: You may play the exiled card without paying its mana cost if a library has twenty or fewer cards in it."
   },
   {
    "name": "Restless Vinestalk",
@@ -1012,7 +1016,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/woe/261/restless-vinestalk?utm_source=api",
-   "oracle_text": "Restless Vinestalk enters the battlefield tapped.\n{T}: Add {G} or {U}.\n{3}{G}{U}: Until end of turn, Restless Vinestalk becomes a 5/5 green and blue Plant creature with trample. It's still a land.\nWhenever Restless Vinestalk attacks, up to one other target creature has base power and toughness 3/3 until end of turn."
+   "oracle_text": "This land enters tapped.\n{T}: Add {G} or {U}.\n{3}{G}{U}: Until end of turn, this land becomes a 5/5 green and blue Plant creature with trample. It's still a land.\nWhenever this land attacks, up to one other target creature has base power and toughness 3/3 until end of turn."
   },
   {
    "name": "Shadowstorm Vizier",
@@ -1035,7 +1039,7 @@
    ],
    "mana_cost": "{U}{B}",
    "url": "https://scryfall.com/card/akh/206/shadowstorm-vizier?utm_source=api",
-   "oracle_text": "Flying\nWhenever you cycle or discard a card, Shadowstorm Vizier gets +1/+1 until end of turn."
+   "oracle_text": "Flying\nWhenever you cycle or discard a card, this creature gets +1/+1 until end of turn."
   },
   {
    "name": "Pyroclasm",
@@ -1051,7 +1055,7 @@
     "R"
    ],
    "mana_cost": "{1}{R}",
-   "url": "https://scryfall.com/card/a25/146/pyroclasm?utm_source=api",
+   "url": "https://scryfall.com/card/dsk/149/pyroclasm?utm_source=api",
    "oracle_text": "Pyroclasm deals 2 damage to each creature."
   },
   {
@@ -1151,7 +1155,7 @@
    ],
    "mana_cost": "{B/G}",
    "url": "https://scryfall.com/card/mh2/211/ravenous-squirrel?utm_source=api",
-   "oracle_text": "Whenever you sacrifice an artifact or creature, put a +1/+1 counter on Ravenous Squirrel.\n{1}{B}{G}, Sacrifice an artifact or creature: You gain 1 life and draw a card."
+   "oracle_text": "Whenever you sacrifice an artifact or creature, put a +1/+1 counter on this creature.\n{1}{B}{G}, Sacrifice an artifact or creature: You gain 1 life and draw a card."
   }
  ]
 }

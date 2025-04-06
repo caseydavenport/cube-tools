@@ -51,9 +51,9 @@ export default function DeckViewer() {
     const draftOpts = [{ label: "", value: "" }]
     let seenDrafts = new Map()
     for (let deck of d) {
-      if (!seenDrafts.has(deck.draft)) {
-        draftOpts.push({ label: deck.draft, value: deck.draft })
-        seenDrafts.set(deck.draft, true)
+      if (!seenDrafts.has(deck.metadata.draft_id)) {
+        draftOpts.push({ label: deck.metadata.draft_id, value: deck.metadata.draft_id})
+        seenDrafts.set(deck.metadata.draft_id, true)
       }
     }
     setDraftDropdownOptions(draftOpts)
@@ -139,12 +139,11 @@ export default function DeckViewer() {
 
     // Find the deck and set the active deck.
     for (let deck of decks) {
-      if (deck.id == highlightedDeck) {
-        console.log("FOUND IT")
+      if (deck.metadata.path == highlightedDeck) {
         setDeck(deck)
 
         // Load the deck description, if it exists.
-        let f = "data/polyverse/" + deck.draft + "/" + deck.player + ".report.md"
+        let f = "data/polyverse/" + deck.metadata.draft_id + "/" + deck.player + ".report.md"
         FetchFile(f.toLowerCase(), onDescriptionFetched)
         return
       }
@@ -265,8 +264,8 @@ function FilteredDecks(input) {
       continue
     }
 
-    if (!draftToColor.has(d.draft)) {
-      draftToColor.set(d.draft, colors[idx % colors.length])
+    if (!draftToColor.has(d.metadata.draft_id)) {
+      draftToColor.set(d.metadata.draft_id, colors[idx % colors.length])
       idx += 1
     }
 
@@ -319,7 +318,9 @@ function FilteredDecks(input) {
         <tbody>
           {
             decks.map(function(deck, idx) {
-              let sort=deck.date
+              // Sort by both date and draft ID by default. We include the draft ID to ensure
+              // sorting is stable for decks with the same date in different drafts.
+              let sort=deck.date + deck.metadata.draft_id
               switch (input.deckSort) {
                 case "wins":
                   sort = DeckSortWins(deck)
@@ -329,10 +330,10 @@ function FilteredDecks(input) {
                   break;
               }
 
-              let color = draftToColor.get(deck.draft)
+              let color = draftToColor.get(deck.metadata.draft_id)
               let className = "widget-table-row"
 
-              if (input.highlight == deck.id) {
+              if (input.highlight == deck.metadata.path) {
                 className = "card-highlight"
                 color = "#6EA579"
               }
@@ -394,9 +395,9 @@ function DeckTableCell(input) {
       <table className="deck-meta-table">
       <tbody>
         <tr className="deck-entry" style={{"--background-color": input.color}}>
-          <td style={{"width": "20%", "paddingLeft": "10px"}} id={deck.id} idx={input.idx} onClick={input.onDeckClicked} key="date">{deck.date}</td>
-          <td style={{"width": "30%", "paddingLeft": "0px"}} id={deck.id} idx={input.idx} onClick={input.onDeckClicked} key="player">{deck.player}</td>
-          <td style={{"width": "30%", "paddingLeft": "0px"}} id={deck.id} idx={input.idx} onClick={input.onDeckClicked} key="wins">{record} ({win_percent}%)</td>
+          <td style={{"width": "20%", "paddingLeft": "10px"}} id={deck.metadata.path} idx={input.idx} onClick={input.onDeckClicked} key="date">{deck.date}</td>
+          <td style={{"width": "30%", "paddingLeft": "0px"}} id={deck.metadata.path} idx={input.idx} onClick={input.onDeckClicked} key="player">{deck.player}</td>
+          <td style={{"width": "30%", "paddingLeft": "0px"}} id={deck.metadata.path} idx={input.idx} onClick={input.onDeckClicked} key="wins">{record} ({win_percent}%)</td>
         </tr>
       </tbody>
       </table>

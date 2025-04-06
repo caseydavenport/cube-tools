@@ -1,7 +1,7 @@
 {
  "drafts": [
   {
-   "dir": "2023-03-16",
+   "path": "data/polyverse/2023-03-16",
    "date": "2023-03-16",
    "draft_log": "",
    "decks": [
@@ -17,7 +17,7 @@
    ]
   },
   {
-   "dir": "2023-04-19",
+   "path": "data/polyverse/2023-04-19",
    "date": "2023-04-19",
    "draft_log": "",
    "decks": [
@@ -33,7 +33,7 @@
    ]
   },
   {
-   "dir": "2023-04-22",
+   "path": "data/polyverse/2023-04-22",
    "date": "2023-04-22",
    "draft_log": "",
    "decks": [
@@ -52,7 +52,7 @@
    ]
   },
   {
-   "dir": "2023-04-24",
+   "path": "data/polyverse/2023-04-24",
    "date": "2023-04-24",
    "draft_log": "",
    "decks": [
@@ -71,7 +71,7 @@
    ]
   },
   {
-   "dir": "2023-04-27",
+   "path": "data/polyverse/2023-04-27",
    "date": "2023-04-27",
    "draft_log": "",
    "decks": [
@@ -90,7 +90,7 @@
    ]
   },
   {
-   "dir": "2023-05-31",
+   "path": "data/polyverse/2023-05-31",
    "date": "2023-05-31",
    "draft_log": "",
    "decks": [
@@ -109,7 +109,7 @@
    ]
   },
   {
-   "dir": "2023-06-17",
+   "path": "data/polyverse/2023-06-17",
    "date": "2023-06-17",
    "draft_log": "",
    "decks": [
@@ -131,7 +131,7 @@
    ]
   },
   {
-   "dir": "2023-07-16",
+   "path": "data/polyverse/2023-07-16",
    "date": "2023-07-16",
    "draft_log": "data/polyverse/2023-07-16/draft-log.json",
    "decks": [
@@ -156,7 +156,7 @@
    ]
   },
   {
-   "dir": "2023-07-23",
+   "path": "data/polyverse/2023-07-23",
    "date": "2023-07-23",
    "draft_log": "",
    "decks": [
@@ -175,7 +175,7 @@
    ]
   },
   {
-   "dir": "2023-09-17",
+   "path": "data/polyverse/2023-09-17",
    "date": "2023-09-17",
    "draft_log": "data/polyverse/2023-09-17/draft-log.json",
    "decks": [
@@ -200,7 +200,7 @@
    ]
   },
   {
-   "dir": "2023-10-15",
+   "path": "data/polyverse/2023-10-15",
    "date": "2023-10-15",
    "draft_log": "",
    "decks": [
@@ -213,7 +213,7 @@
    ]
   },
   {
-   "dir": "2023-10-21",
+   "path": "data/polyverse/2023-10-21",
    "date": "2023-10-21",
    "draft_log": "data/polyverse/2023-10-21/draft-log.json",
    "decks": [
@@ -238,7 +238,7 @@
    ]
   },
   {
-   "dir": "2023-11-16",
+   "path": "data/polyverse/2023-11-16",
    "date": "2023-11-16",
    "draft_log": "",
    "decks": [
@@ -251,7 +251,7 @@
    ]
   },
   {
-   "dir": "2023-12-02",
+   "path": "data/polyverse/2023-12-02",
    "date": "2023-12-02",
    "draft_log": "data/polyverse/2023-12-02/draft-log.json",
    "decks": [
@@ -282,7 +282,7 @@
    ]
   },
   {
-   "dir": "2024-01-07",
+   "path": "data/polyverse/2024-01-07",
    "date": "2024-01-07",
    "draft_log": "data/polyverse/2024-01-07/draft-log.json",
    "decks": [
@@ -313,7 +313,7 @@
    ]
   },
   {
-   "dir": "2024-03-23",
+   "path": "data/polyverse/2024-03-23",
    "date": "2024-03-23",
    "draft_log": "data/polyverse/2024-03-23/draft-log.json",
    "decks": [
@@ -326,7 +326,7 @@
    ]
   },
   {
-   "dir": "2024-03-28",
+   "path": "data/polyverse/2024-03-28",
    "date": "2024-03-28",
    "draft_log": "",
    "decks": [
@@ -351,7 +351,7 @@
    ]
   },
   {
-   "dir": "2024-03-31",
+   "path": "data/polyverse/2024-03-31",
    "date": "2024-03-31",
    "draft_log": "data/polyverse/2024-03-31/draft-log.json",
    "decks": [
@@ -382,7 +382,7 @@
    ]
   },
   {
-   "dir": "2024-04-24",
+   "path": "data/polyverse/2024-04-24",
    "date": "2024-04-24",
    "draft_log": "data/polyverse/2024-04-24/draft-log.json",
    "decks": [
@@ -395,7 +395,7 @@
    ]
   },
   {
-   "dir": "2024-05-03",
+   "path": "data/polyverse/2024-05-03",
    "date": "2024-05-03",
    "draft_log": "data/polyverse/2024-05-03/draft-log.json",
    "decks": [
@@ -408,7 +408,7 @@
    ]
   },
   {
-   "dir": "2024-05-14",
+   "path": "data/polyverse/2024-05-14",
    "date": "2024-05-14",
    "draft_log": "data/polyverse/2024-05-14/draft-log.json",
    "decks": [
@@ -439,7 +439,7 @@
    ]
   },
   {
-   "dir": "2024-06-28",
+   "path": "data/polyverse/2024-06-28",
    "date": "2024-06-28",
    "draft_log": "",
    "decks": [
@@ -452,7 +452,7 @@
    ]
   },
   {
-   "dir": "2024-11-09",
+   "path": "data/polyverse/2024-11-09",
    "date": "2024-11-09",
    "draft_log": "data/polyverse/2024-11-09/draft-log.json",
    "decks": [
@@ -483,7 +483,7 @@
    ]
   },
   {
-   "dir": "2025-04-05",
+   "path": "data/polyverse/2025-04-05",
    "date": "2025-04-05",
    "draft_log": "data/polyverse/2025-04-05/draft-log.json",
    "decks": [
@@ -496,15 +496,15 @@
    ]
   },
   {
-   "dir": "2025-04-05_2",
+   "path": "data/polyverse/2025-04-05_2",
    "date": "2025-04-05",
    "draft_log": "data/polyverse/2025-04-05_2/draft-log.json",
    "decks": [
     {
-     "path": "data/polyverse/2025-04-05/casey.json"
+     "path": "data/polyverse/2025-04-05_2/casey.json"
     },
     {
-     "path": "data/polyverse/2025-04-05/dom.json"
+     "path": "data/polyverse/2025-04-05_2/dom.json"
     }
    ]
   }

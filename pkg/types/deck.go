@@ -4,13 +4,27 @@ import "sort"
 
 func NewDeck() *Deck {
 	return &Deck{
+		Metadata:  Metadata{},
 		Labels:    make([]string, 0),
 		Mainboard: make([]Card, 0),
 		Sideboard: make([]Card, 0),
 	}
 }
 
+type Metadata struct {
+	// Path is the directory where the deck file is located.
+	Path string `json:"path"`
+
+	// DraftID is a unique identifier for the draft from which this deck was created.
+	// Typically this is the date of the draft, plus another unique identifier in case
+	// there are multiple drafts on the same day.
+	DraftID string `json:"draft_id"`
+}
+
 type Deck struct {
+	// Contains metadata about the deck file itself.
+	Metadata Metadata `json:"metadata"`
+
 	// Tags represents metadata associated with this deck. This could be
 	// archetype, playstyle, etc.
 	Labels []string `json:"labels"`
@@ -18,6 +32,9 @@ type Deck struct {
 	// Who built the deck.
 	Player string `json:"player"`
 	Date   string `json:"date"`
+
+	// Optional user-defined name for the deck.
+	Name string `json:"name,omitempty"`
 
 	// Games played with this deck.
 	Games []Game `json:"games"`

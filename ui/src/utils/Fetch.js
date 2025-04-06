@@ -38,6 +38,7 @@ export async function LoadDecks(onLoad, start, end, draftSize, playerMatch) {
     })
   })
 
+
   let requests = urls.map((url) => fetch(url));
   let responses = await Promise.all(requests);
   let errors = responses.filter((response) => !response.ok);
@@ -48,9 +49,6 @@ export async function LoadDecks(onLoad, start, end, draftSize, playerMatch) {
   // Do some cleanup on each loaded deck object.
   let json = responses.map((response) => response.json());
   let decks = await Promise.all(json);
-
-  // Assign a unique ID to each deck.
-  let id = 0
 
   let filtered = new Array()
   for (let d of decks) {
@@ -65,14 +63,6 @@ export async function LoadDecks(onLoad, start, end, draftSize, playerMatch) {
 
     d.avg_cmc = AverageCMC({deck: d})
     d.colors = ExtractColors({deck: d})
-
-    // TODO: For historical purposes. We don't actually need both of these fields.
-    // TODO: Distinguish between date and draft! Multiple drafts on the same date!
-    d.draft = d.date
-
-    // Set a unique ID for this deck.
-    d.id = d.draft + "/" + d.player + "/" + id
-    id += 1
 
     // Capitalize player names, since they are varying cases.
     d.player = capitalize(d.player)

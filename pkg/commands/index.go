@@ -24,7 +24,7 @@ type MainIndex struct {
 }
 
 type Draft struct {
-	Dir      string `json:"dir"`
+	Path     string `json:"path"`
 	Date     string `json:"date"`
 	DraftLog string `json:"draft_log"`
 	Decks    []Path `json:"decks"`
@@ -58,13 +58,13 @@ func index() {
 
 		// Construct the draft.
 		draft := Draft{
-			Dir:      dir,
+			Path:     filepath.Join(directory, dir),
 			Date:     dateFromDir(dir),
 			DraftLog: draftLogPath,
 		}
 
 		// Add decks to the draft.
-		draft.Decks = decksInDraft("data/polyverse/" + draft.Date)
+		draft.Decks = decksInDraft(draft.Path)
 
 		// Add this draft to the main index.
 		index.Drafts = append(index.Drafts, draft)

@@ -1,7 +1,14 @@
 {
- "labels": ["aggro", "artifact"],
+ "metadata": {
+  "path": "data/polyverse/2025-04-05_2/casey.json",
+  "draft_id": "2025-04-05_2"
+ },
+ "labels": [
+  "aggro",
+  "artifact"
+ ],
  "player": "casey",
- "date": "2025-04-05_2",
+ "date": "2025-04-05",
  "games": [
   {
    "opponent": "dom",

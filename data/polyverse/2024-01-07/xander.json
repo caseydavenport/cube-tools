@@ -1,4 +1,8 @@
 {
+ "metadata": {
+  "path": "data/polyverse/2024-01-07/xander.json",
+  "draft_id": "2024-01-07"
+ },
  "labels": [
   "aggro",
   "control",
@@ -63,7 +67,7 @@
    "mana_cost": "{1}{R}",
    "url": "https://scryfall.com/card/jvc/51/incinerate?utm_source=api",
    "oracle_text": "Incinerate deals 3 damage to any target. A creature dealt damage this way can't be regenerated this turn.",
-   "appearances": 4
+   "appearances": 1
   },
   {
    "name": "Dark Confidant",
@@ -85,7 +89,7 @@
    "mana_cost": "{1}{B}",
    "url": "https://scryfall.com/card/rvr/71/dark-confidant?utm_source=api",
    "oracle_text": "At the beginning of your upkeep, reveal the top card of your library and put that card into your hand. You lose life equal to its mana value.",
-   "appearances": 5
+   "appearances": 1
   },
   {
    "name": "Empty the Warrens",
@@ -103,7 +107,7 @@
    "mana_cost": "{3}{R}",
    "url": "https://scryfall.com/card/dmr/118/empty-the-warrens?utm_source=api",
    "oracle_text": "Create two 1/1 red Goblin creature tokens.\nStorm (When you cast this spell, copy it for each spell cast before it this turn.)",
-   "appearances": 2
+   "appearances": 1
   },
   {
    "name": "Clarion Spirit",
@@ -124,7 +128,7 @@
    "mana_cost": "{1}{W}",
    "url": "https://scryfall.com/card/khm/6/clarion-spirit?utm_source=api",
    "oracle_text": "Whenever you cast your second spell each turn, create a 1/1 white Spirit creature token with flying.",
-   "appearances": 4
+   "appearances": 1
   },
   {
    "name": "Misty Rainforest",
@@ -137,8 +141,8 @@
    "color_identity": [],
    "mana_cost": "",
    "url": "https://scryfall.com/card/mh2/250/misty-rainforest?utm_source=api",
-   "oracle_text": "{T}, Pay 1 life, Sacrifice Misty Rainforest: Search your library for a Forest or Island card, put it onto the battlefield, then shuffle.",
-   "appearances": 3
+   "oracle_text": "{T}, Pay 1 life, Sacrifice this land: Search your library for a Forest or Island card, put it onto the battlefield, then shuffle.",
+   "appearances": 1
   },
   {
    "name": "Magma Jet",
@@ -156,7 +160,7 @@
    "mana_cost": "{1}{R}",
    "url": "https://scryfall.com/card/jmp/346/magma-jet?utm_source=api",
    "oracle_text": "Magma Jet deals 2 damage to any target. Scry 2.",
-   "appearances": 5
+   "appearances": 1
   },
   {
    "name": "Mizzium Tank",
@@ -176,8 +180,8 @@
    ],
    "mana_cost": "{1}{R}{R}",
    "url": "https://scryfall.com/card/war/138/mizzium-tank?utm_source=api",
-   "oracle_text": "Trample\nWhenever you cast a noncreature spell, Mizzium Tank becomes an artifact creature and gets +1/+1 until end of turn.\nCrew 1 (Tap any number of creatures you control with total power 1 or more: This Vehicle becomes an artifact creature until end of turn.)",
-   "appearances": 5
+   "oracle_text": "Trample\nWhenever you cast a noncreature spell, this Vehicle becomes an artifact creature and gets +1/+1 until end of turn.\nCrew 1 (Tap any number of creatures you control with total power 1 or more: This Vehicle becomes an artifact creature until end of turn.)",
+   "appearances": 1
   },
   {
    "name": "Clifftop Retreat",
@@ -192,9 +196,9 @@
     "W"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/otc/278/clifftop-retreat?utm_source=api",
-   "oracle_text": "Clifftop Retreat enters the battlefield tapped unless you control a Mountain or a Plains.\n{T}: Add {R} or {W}.",
-   "appearances": 3
+   "url": "https://scryfall.com/card/tdc/351/clifftop-retreat?utm_source=api",
+   "oracle_text": "This land enters tapped unless you control a Mountain or a Plains.\n{T}: Add {R} or {W}.",
+   "appearances": 1
   },
   {
    "name": "Remand",
@@ -212,7 +216,7 @@
    "mana_cost": "{1}{U}",
    "url": "https://scryfall.com/card/rvr/59/remand?utm_source=api",
    "oracle_text": "Counter target spell. If that spell is countered this way, put it into its owner's hand instead of into that player's graveyard.\nDraw a card.",
-   "appearances": 4
+   "appearances": 1
   },
   {
    "name": "Marsh Flats",
@@ -225,8 +229,8 @@
    "color_identity": [],
    "mana_cost": "",
    "url": "https://scryfall.com/card/mh2/248/marsh-flats?utm_source=api",
-   "oracle_text": "{T}, Pay 1 life, Sacrifice Marsh Flats: Search your library for a Plains or Swamp card, put it onto the battlefield, then shuffle.",
-   "appearances": 3
+   "oracle_text": "{T}, Pay 1 life, Sacrifice this land: Search your library for a Plains or Swamp card, put it onto the battlefield, then shuffle.",
+   "appearances": 1
   },
   {
    "name": "Flooded Strand",
@@ -239,8 +243,8 @@
    "color_identity": [],
    "mana_cost": "",
    "url": "https://scryfall.com/card/mh3/220/flooded-strand?utm_source=api",
-   "oracle_text": "{T}, Pay 1 life, Sacrifice Flooded Strand: Search your library for a Plains or Island card, put it onto the battlefield, then shuffle.",
-   "appearances": 3
+   "oracle_text": "{T}, Pay 1 life, Sacrifice this land: Search your library for a Plains or Island card, put it onto the battlefield, then shuffle.",
+   "appearances": 1
   },
   {
    "name": "Soul-Scar Mage",
@@ -262,7 +266,7 @@
    "mana_cost": "{R}",
    "url": "https://scryfall.com/card/akh/148/soul-scar-mage?utm_source=api",
    "oracle_text": "Prowess\nIf a source you control would deal noncombat damage to a creature an opponent controls, put that many -1/-1 counters on that creature instead.",
-   "appearances": 2
+   "appearances": 1
   },
   {
    "name": "Pyrite Spellbomb",
@@ -277,8 +281,8 @@
    ],
    "mana_cost": "{1}",
    "url": "https://scryfall.com/card/2xm/283/pyrite-spellbomb?utm_source=api",
-   "oracle_text": "{R}, Sacrifice Pyrite Spellbomb: It deals 2 damage to any target.\n{1}, Sacrifice Pyrite Spellbomb: Draw a card.",
-   "appearances": 4
+   "oracle_text": "{R}, Sacrifice this artifact: It deals 2 damage to any target.\n{1}, Sacrifice this artifact: Draw a card.",
+   "appearances": 1
   },
   {
    "name": "Cut Down",
@@ -296,7 +300,7 @@
    "mana_cost": "{B}",
    "url": "https://scryfall.com/card/dmu/89/cut-down?utm_source=api",
    "oracle_text": "Destroy target creature with total power and toughness 5 or less.",
-   "appearances": 6
+   "appearances": 1
   },
   {
    "name": "Polluted Delta",
@@ -309,8 +313,8 @@
    "color_identity": [],
    "mana_cost": "",
    "url": "https://scryfall.com/card/mh3/224/polluted-delta?utm_source=api",
-   "oracle_text": "{T}, Pay 1 life, Sacrifice Polluted Delta: Search your library for an Island or Swamp card, put it onto the battlefield, then shuffle.",
-   "appearances": 2
+   "oracle_text": "{T}, Pay 1 life, Sacrifice this land: Search your library for an Island or Swamp card, put it onto the battlefield, then shuffle.",
+   "appearances": 1
   },
   {
    "name": "Dragon's Rage Channeler",
@@ -331,8 +335,8 @@
    ],
    "mana_cost": "{R}",
    "url": "https://scryfall.com/card/mh2/121/dragons-rage-channeler?utm_source=api",
-   "oracle_text": "Whenever you cast a noncreature spell, surveil 1. (Look at the top card of your library. You may put that card into your graveyard.)\nDelirium — As long as there are four or more card types among cards in your graveyard, Dragon's Rage Channeler gets +2/+2, has flying, and attacks each combat if able.",
-   "appearances": 4
+   "oracle_text": "Whenever you cast a noncreature spell, surveil 1. (Look at the top card of your library. You may put that card into your graveyard.)\nDelirium — As long as there are four or more card types among cards in your graveyard, this creature gets +2/+2, has flying, and attacks each combat if able.",
+   "appearances": 1
   },
   {
    "name": "Dreadhorde Arcanist",
@@ -353,8 +357,8 @@
    ],
    "mana_cost": "{1}{R}",
    "url": "https://scryfall.com/card/war/125/dreadhorde-arcanist?utm_source=api",
-   "oracle_text": "Trample\nWhenever Dreadhorde Arcanist attacks, you may cast target instant or sorcery card with mana value less than or equal to Dreadhorde Arcanist's power from your graveyard without paying its mana cost. If that spell would be put into your graveyard, exile it instead.",
-   "appearances": 5
+   "oracle_text": "Trample\nWhenever this creature attacks, you may cast target instant or sorcery card with mana value less than or equal to this creature's power from your graveyard without paying its mana cost. If that spell would be put into your graveyard, exile it instead.",
+   "appearances": 1
   },
   {
    "name": "Inti, Seneschal of the Sun",
@@ -377,7 +381,7 @@
    "mana_cost": "{1}{R}",
    "url": "https://scryfall.com/card/lci/156/inti-seneschal-of-the-sun?utm_source=api",
    "oracle_text": "Whenever you attack, you may discard a card. When you do, put a +1/+1 counter on target attacking creature. It gains trample until end of turn.\nWhenever you discard one or more cards, exile the top card of your library. You may play that card until your next end step.",
-   "appearances": 3
+   "appearances": 1
   },
   {
    "name": "Saheeli, Sublime Artificer",
@@ -401,7 +405,7 @@
    "mana_cost": "{1}{U/R}{U/R}",
    "url": "https://scryfall.com/card/cmm/935/saheeli-sublime-artificer?utm_source=api",
    "oracle_text": "Whenever you cast a noncreature spell, create a 1/1 colorless Servo artifact creature token.\n−2: Target artifact you control becomes a copy of another target artifact or creature you control until end of turn, except it's an artifact in addition to its other types.",
-   "appearances": 3
+   "appearances": 1
   },
   {
    "name": "Unmake",
@@ -421,7 +425,7 @@
    "mana_cost": "{W/B}{W/B}{W/B}",
    "url": "https://scryfall.com/card/ddk/27/unmake?utm_source=api",
    "oracle_text": "Exile target creature.",
-   "appearances": 4
+   "appearances": 1
   },
   {
    "name": "Isolated Chapel",
@@ -436,9 +440,9 @@
     "W"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/otc/301/isolated-chapel?utm_source=api",
-   "oracle_text": "Isolated Chapel enters the battlefield tapped unless you control a Plains or a Swamp.\n{T}: Add {W} or {B}.",
-   "appearances": 3
+   "url": "https://scryfall.com/card/tdc/373/isolated-chapel?utm_source=api",
+   "oracle_text": "This land enters tapped unless you control a Plains or a Swamp.\n{T}: Add {W} or {B}.",
+   "appearances": 1
   },
   {
    "name": "Burst Lightning",
@@ -454,9 +458,9 @@
     "R"
    ],
    "mana_cost": "{R}",
-   "url": "https://scryfall.com/card/mm2/109/burst-lightning?utm_source=api",
+   "url": "https://scryfall.com/card/fdn/192/burst-lightning?utm_source=api",
    "oracle_text": "Kicker {4} (You may pay an additional {4} as you cast this spell.)\nBurst Lightning deals 2 damage to any target. If this spell was kicked, it deals 4 damage instead.",
-   "appearances": 2
+   "appearances": 1
   },
   {
    "name": "Delay",
@@ -492,7 +496,7 @@
    "mana_cost": "{W}",
    "url": "https://scryfall.com/card/clu/67/oust?utm_source=api",
    "oracle_text": "Put target creature into its owner's library second from the top. Its controller gains 3 life.",
-   "appearances": 6
+   "appearances": 1
   },
   {
    "name": "Sunbaked Canyon",
@@ -508,8 +512,8 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/mh1/247/sunbaked-canyon?utm_source=api",
-   "oracle_text": "{T}, Pay 1 life: Add {R} or {W}.\n{1}, {T}, Sacrifice Sunbaked Canyon: Draw a card.",
-   "appearances": 5
+   "oracle_text": "{T}, Pay 1 life: Add {R} or {W}.\n{1}, {T}, Sacrifice this land: Draw a card.",
+   "appearances": 1
   },
   {
    "name": "Farsight Ritual",
@@ -527,7 +531,7 @@
    "mana_cost": "{2}{U}{U}",
    "url": "https://scryfall.com/card/woe/49/farsight-ritual?utm_source=api",
    "oracle_text": "Bargain (You may sacrifice an artifact, enchantment, or token as you cast this spell.)\nLook at the top four cards of your library. If this spell was bargained, look at the top eight cards of your library instead. Put two of them into your hand and the rest on the bottom of your library in a random order.",
-   "appearances": 4
+   "appearances": 1
   },
   {
    "name": "Steam Vents",
@@ -547,8 +551,8 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/rvr/288/steam-vents?utm_source=api",
-   "oracle_text": "({T}: Add {U} or {R}.)\nAs Steam Vents enters the battlefield, you may pay 2 life. If you don't, it enters the battlefield tapped.",
-   "appearances": 5
+   "oracle_text": "({T}: Add {U} or {R}.)\nAs this land enters, you may pay 2 life. If you don't, it enters tapped.",
+   "appearances": 1
   },
   {
    "name": "Canyon Slough",
@@ -567,8 +571,8 @@
     "R"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/otc/275/canyon-slough?utm_source=api",
-   "oracle_text": "({T}: Add {B} or {R}.)\nCanyon Slough enters the battlefield tapped.\nCycling {2} ({2}, Discard this card: Draw a card.)",
+   "url": "https://scryfall.com/card/tdc/344/canyon-slough?utm_source=api",
+   "oracle_text": "({T}: Add {B} or {R}.)\nThis land enters tapped.\nCycling {2} ({2}, Discard this card: Draw a card.)",
    "appearances": 1
   },
   {
@@ -592,8 +596,8 @@
    ],
    "mana_cost": "{1}{U}{B}",
    "url": "https://scryfall.com/card/mom/227/halo-forager?utm_source=api",
-   "oracle_text": "Flying\nWhen Halo Forager enters the battlefield, you may pay {X}. When you do, you may cast target instant or sorcery card with mana value X from a graveyard without paying its mana cost. If that spell would be put into a graveyard, exile it instead.",
-   "appearances": 3
+   "oracle_text": "Flying\nWhen this creature enters, you may pay {X}. When you do, you may cast target instant or sorcery card with mana value X from a graveyard without paying its mana cost. If that spell would be put into a graveyard, exile it instead.",
+   "appearances": 1
   },
   {
    "name": "Blood Crypt",
@@ -613,8 +617,8 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/rvr/273/blood-crypt?utm_source=api",
-   "oracle_text": "({T}: Add {B} or {R}.)\nAs Blood Crypt enters the battlefield, you may pay 2 life. If you don't, it enters the battlefield tapped.",
-   "appearances": 3
+   "oracle_text": "({T}: Add {B} or {R}.)\nAs this land enters, you may pay 2 life. If you don't, it enters tapped.",
+   "appearances": 1
   },
   {
    "name": "Hallowed Fountain",
@@ -634,8 +638,8 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/rvr/280/hallowed-fountain?utm_source=api",
-   "oracle_text": "({T}: Add {W} or {U}.)\nAs Hallowed Fountain enters the battlefield, you may pay 2 life. If you don't, it enters the battlefield tapped.",
-   "appearances": 3
+   "oracle_text": "({T}: Add {W} or {U}.)\nAs this land enters, you may pay 2 life. If you don't, it enters tapped.",
+   "appearances": 1
   },
   {
    "name": "Dreadhorde Butcher",
@@ -658,8 +662,8 @@
    ],
    "mana_cost": "{B}{R}",
    "url": "https://scryfall.com/card/war/194/dreadhorde-butcher?utm_source=api",
-   "oracle_text": "Haste\nWhenever Dreadhorde Butcher deals combat damage to a player or planeswalker, put a +1/+1 counter on Dreadhorde Butcher.\nWhen Dreadhorde Butcher dies, it deals damage equal to its power to any target.",
-   "appearances": 6
+   "oracle_text": "Haste\nWhenever this creature deals combat damage to a player or planeswalker, put a +1/+1 counter on this creature.\nWhen this creature dies, it deals damage equal to its power to any target.",
+   "appearances": 1
   },
   {
    "name": "Battlefield Forge",
@@ -674,9 +678,9 @@
     "W"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/otc/271/battlefield-forge?utm_source=api",
-   "oracle_text": "{T}: Add {C}.\n{T}: Add {R} or {W}. Battlefield Forge deals 1 damage to you.",
-   "appearances": 2
+   "url": "https://scryfall.com/card/tdc/340/battlefield-forge?utm_source=api",
+   "oracle_text": "{T}: Add {C}.\n{T}: Add {R} or {W}. This land deals 1 damage to you.",
+   "appearances": 1
   },
   {
    "name": "Arcbound Tracker",
@@ -697,8 +701,8 @@
    ],
    "mana_cost": "{2}{R}",
    "url": "https://scryfall.com/card/mh2/112/arcbound-tracker?utm_source=api",
-   "oracle_text": "Menace\nModular 2 (This creature enters the battlefield with two +1/+1 counters on it. When it dies, you may put its +1/+1 counters on target artifact creature.)\nWhenever you cast a spell other than your first spell each turn, put a +1/+1 counter on Arcbound Tracker.",
-   "appearances": 3
+   "oracle_text": "Menace\nModular 2 (This creature enters with two +1/+1 counters on it. When it dies, you may put its +1/+1 counters on target artifact creature.)\nWhenever you cast a spell other than your first spell each turn, put a +1/+1 counter on this creature.",
+   "appearances": 1
   },
   {
    "name": "Exclusion Mage",
@@ -718,9 +722,9 @@
     "U"
    ],
    "mana_cost": "{2}{U}",
-   "url": "https://scryfall.com/card/jmp/153/exclusion-mage?utm_source=api",
-   "oracle_text": "When Exclusion Mage enters the battlefield, return target creature an opponent controls to its owner's hand.",
-   "appearances": 5
+   "url": "https://scryfall.com/card/fdn/508/exclusion-mage?utm_source=api",
+   "oracle_text": "When this creature enters, return target creature an opponent controls to its owner's hand.",
+   "appearances": 1
   },
   {
    "name": "Pteramander",
@@ -742,7 +746,7 @@
    "mana_cost": "{U}",
    "url": "https://scryfall.com/card/otc/109/pteramander?utm_source=api",
    "oracle_text": "Flying\n{7}{U}: Adapt 4. This ability costs {1} less to activate for each instant and sorcery card in your graveyard. (If this creature has no +1/+1 counters on it, put four +1/+1 counters on it.)",
-   "appearances": 3
+   "appearances": 1
   },
   {
    "name": "Sacred Foundry",
@@ -762,8 +766,8 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/rvr/285/sacred-foundry?utm_source=api",
-   "oracle_text": "({T}: Add {R} or {W}.)\nAs Sacred Foundry enters the battlefield, you may pay 2 life. If you don't, it enters the battlefield tapped.",
-   "appearances": 3
+   "oracle_text": "({T}: Add {R} or {W}.)\nAs this land enters, you may pay 2 life. If you don't, it enters tapped.",
+   "appearances": 1
   },
   {
    "name": "Island",
@@ -781,9 +785,9 @@
     "U"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/312/island?utm_source=api",
+   "url": "https://scryfall.com/card/tdm/279/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)",
-   "appearances": 19
+   "appearances": 1
   },
   {
    "name": "Swamp",
@@ -801,9 +805,9 @@
     "B"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/314/swamp?utm_source=api",
+   "url": "https://scryfall.com/card/tdm/281/swamp?utm_source=api",
    "oracle_text": "({T}: Add {B}.)",
-   "appearances": 26
+   "appearances": 1
   },
   {
    "name": "Mountain",
@@ -821,9 +825,9 @@
     "R"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/316/mountain?utm_source=api",
+   "url": "https://scryfall.com/card/tdm/283/mountain?utm_source=api",
    "oracle_text": "({T}: Add {R}.)",
-   "appearances": 22
+   "appearances": 1
   }
  ],
  "sideboard": [
@@ -863,7 +867,7 @@
     "G"
    ],
    "mana_cost": "{1}{G}",
-   "url": "https://scryfall.com/card/rvr/148/life-from-the-loam?utm_source=api",
+   "url": "https://scryfall.com/card/tdc/96/life-from-the-loam?utm_source=api",
    "oracle_text": "Return up to three target land cards from your graveyard to your hand.\nDredge 3 (If you would draw a card, you may mill three cards instead. If you do, return this card from your graveyard to your hand.)"
   },
   {
@@ -942,7 +946,7 @@
    ],
    "mana_cost": "{W}",
    "url": "https://scryfall.com/card/dom/14/dauntless-bodyguard?utm_source=api",
-   "oracle_text": "As Dauntless Bodyguard enters the battlefield, choose another creature you control.\nSacrifice Dauntless Bodyguard: The chosen creature gains indestructible until end of turn."
+   "oracle_text": "As this creature enters, choose another creature you control.\nSacrifice this creature: The chosen creature gains indestructible until end of turn."
   },
   {
    "name": "Spell Pierce",
@@ -958,7 +962,7 @@
     "U"
    ],
    "mana_cost": "{U}",
-   "url": "https://scryfall.com/card/2x2/63/spell-pierce?utm_source=api",
+   "url": "https://scryfall.com/card/dft/64/spell-pierce?utm_source=api",
    "oracle_text": "Counter target noncreature spell unless its controller pays {2}."
   },
   {
@@ -972,7 +976,7 @@
    "color_identity": [],
    "mana_cost": "{2}",
    "url": "https://scryfall.com/card/woe/249/prophetic-prism?utm_source=api",
-   "oracle_text": "When Prophetic Prism enters the battlefield, draw a card.\n{1}, {T}: Add one mana of any color."
+   "oracle_text": "When this artifact enters, draw a card.\n{1}, {T}: Add one mana of any color."
   }
  ]
 }

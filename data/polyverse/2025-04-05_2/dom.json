@@ -1,7 +1,14 @@
 {
- "labels": ["control", "draw"],
+ "metadata": {
+  "path": "data/polyverse/2025-04-05_2/dom.json",
+  "draft_id": "2025-04-05_2"
+ },
+ "labels": [
+  "control",
+  "draw"
+ ],
  "player": "dom",
- "date": "2025-04-05_2",
+ "date": "2025-04-05",
  "games": [
   {
    "opponent": "casey",

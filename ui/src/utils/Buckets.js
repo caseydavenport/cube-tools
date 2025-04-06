@@ -14,13 +14,13 @@ function deckBucketsDiscrete(decks, bucketSize) {
   let draftMap = new Map()
   for (var i in decks) {
     let deck = decks[i]
-    if (!draftMap.has(deck.draft)) {
-      draftMap.set(deck.draft, {
-        name: deck.draft,
+    if (!draftMap.has(deck.metadata.draft_id)) {
+      draftMap.set(deck.metadata.draft_id, {
+        name: deck.metadata.draft_id,
         decks: new Array(),
       })
     }
-    draftMap.get(deck.draft).decks.push(deck)
+    draftMap.get(deck.metadata.draft_id).decks.push(deck)
   }
   // We now have a map of draft -> list of decks within it.
   // Turn this into an ordered array. The name of the draft is its date.
@@ -48,13 +48,13 @@ function deckBucketsSliding(decks, bucketSize) {
   let draftMap = new Map()
   for (var i in decks) {
     let deck = decks[i]
-    if (!draftMap.has(deck.draft)) {
-      draftMap.set(deck.draft, {
-        name: deck.draft,
+    if (!draftMap.has(deck.metadata.draft_id)) {
+      draftMap.set(deck.metadata.draft_id, {
+        name: deck.metadata.draft_id,
         decks: new Array(),
       })
     }
-    draftMap.get(deck.draft).decks.push(deck)
+    draftMap.get(deck.metadata.draft_id).decks.push(deck)
   }
   // We now have a map of draft -> list of decks within it.
   // Turn this into an ordered array. The name of the draft is its date.
