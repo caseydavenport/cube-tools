@@ -28,6 +28,7 @@ func Execute() {
 func init() {
 	rootCmd.AddCommand(commands.ParseCmd)
 	rootCmd.AddCommand(commands.ParseDirectoryCmd)
+	rootCmd.AddCommand(commands.ReparseCmd)
 	rootCmd.AddCommand(commands.IndexCmd)
 	rootCmd.AddCommand(commands.DraftLogCmd)
 	rootCmd.AddCommand(edit.EditRoot)

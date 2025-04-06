@@ -1,7 +1,8 @@
 {
  "metadata": {
   "path": "data/polyverse/2024-01-07/paul.json",
-  "draft_id": "2024-01-07"
+  "draft_id": "2024-01-07",
+  "source_file": "paul.txt"
  },
  "labels": [
   "aggro"

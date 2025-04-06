@@ -24,23 +24,24 @@ type MainIndex struct {
 }
 
 type Draft struct {
-	Path     string `json:"path"`
-	Date     string `json:"date"`
-	DraftLog string `json:"draft_log"`
-	Decks    []Path `json:"decks"`
+	Path     string        `json:"path"`
+	Date     string        `json:"date"`
+	DraftID  string        `json:"draft_id"`
+	DraftLog string        `json:"draft_log"`
+	Decks    []IndexedDeck `json:"decks"`
 }
 
-type Path struct {
+type IndexedDeck struct {
 	Path string `json:"path"`
 }
 
 func index() {
-	// Specify the directory that holds the drafts.
-	directory := "./data/polyverse"
+	// Specify the draftsDirectory that holds the drafts.
+	draftsDirectory := "./data/polyverse"
 
 	// Get a list of sub-directories in the directory
 	// each subdir represents a draft.
-	subDirs, err := getSubDirectories(directory)
+	draftIDs, err := getSubDirectories(draftsDirectory)
 	if err != nil {
 		logrus.WithError(err).Fatal("Failed to get subdirectories")
 		return
@@ -49,17 +50,18 @@ func index() {
 	index := MainIndex{}
 
 	// Iterate over the sub-directories and create maps
-	for _, dir := range subDirs {
+	for _, draftID := range draftIDs {
 		// Determine if there is a draft log.
-		draftLogPath := filepath.Join(directory, dir, "draft-log.json")
+		draftLogPath := filepath.Join(draftsDirectory, draftID, "draft-log.json")
 		if _, err := os.Stat(draftLogPath); os.IsNotExist(err) {
 			draftLogPath = ""
 		}
 
 		// Construct the draft.
 		draft := Draft{
-			Path:     filepath.Join(directory, dir),
-			Date:     dateFromDir(dir),
+			Path:     filepath.Join(draftsDirectory, draftID),
+			DraftID:  draftID,
+			Date:     dateFromDir(draftID),
 			DraftLog: draftLogPath,
 		}
 
@@ -71,7 +73,7 @@ func index() {
 	}
 
 	// Create the index file
-	indexFile := filepath.Join(directory, "index.json")
+	indexFile := filepath.Join(draftsDirectory, "index.json")
 
 	// Create and open the file for writing
 	file, err := os.Create(indexFile)
@@ -109,7 +111,7 @@ func index() {
 }
 
 // decksInDraft returns a []Path pointing to all the decks in the given directory.
-func decksInDraft(directory string) []Path {
+func decksInDraft(directory string) []IndexedDeck {
 	// Get a list of all JSON files in the directory
 	jsonFiles, err := filepath.Glob(filepath.Join(directory, "*.json"))
 	if err != nil {
@@ -117,7 +119,7 @@ func decksInDraft(directory string) []Path {
 	}
 
 	// Create a slice to store the maps
-	var decks []Path
+	var decks []IndexedDeck
 
 	// Iterate over the JSON files and create maps
 	for _, file := range jsonFiles {
@@ -134,7 +136,7 @@ func decksInDraft(directory string) []Path {
 		if strings.Contains(file, "draft-log") {
 			continue
 		}
-		decks = append(decks, Path{Path: file})
+		decks = append(decks, IndexedDeck{Path: file})
 	}
 	return decks
 }

@@ -20,18 +20,22 @@ var ParseDirectoryCmd = &cobra.Command{
 		if date == "" {
 			logrus.Fatal("Must specify a date for the deck.")
 		}
+		if draftID == "" {
+			logrus.Fatal("Must specify a draft ID for the deck.")
+		}
 
-		parseDeckDir(deckDir, fileType, date)
+		parseDeckDir(deckInputDir, fileType, date, draftID)
 	},
 }
 
 func init() {
-	// Add flags for the command to parse a single deck.
+	// Add flags for the command to parse a directory of deck files.
 	flags := ParseDirectoryCmd.Flags()
 	flag.StringVarP(flags, &date, "date", "t", "DATE", "", "Date, in YYYY-MM-DD format")
-	flag.StringVarP(flags, &deckDir, "deck-dir", "d", "DIR", "", "Directory containing deck files to parse.")
+	flag.StringVarP(flags, &deckInputDir, "deck-dir", "d", "DIR", "", "Directory containing deck files to parse.")
 	flag.StringVarP(flags, &fileType, "filetype", "f", "TYPE", ".csv", "File type to look for in the deck-dir.")
 	flag.StringVarP(flags, &prefix, "prefix", "p", "PREFIX", "", "Prefix to match in the deck file names. Stripped before parsing.")
+	flag.StringVarP(flags, &draftID, "draft", "", "DRAFT", "", "Draft ID - used as the output directory")
 }
 
 // work represents a piece of parsing work to be done.
@@ -63,7 +67,7 @@ func nameFromDeckFilename(filename string) string {
 	return trimmed
 }
 
-func parseDeckDir(deckDir, fileType, date string) {
+func parseDeckDir(deckDir, fileType, date, draftID string) {
 	logc := logrus.WithFields(logrus.Fields{
 		"directory": deckDir,
 		"filetype":  fileType,
@@ -111,7 +115,7 @@ func parseDeckDir(deckDir, fileType, date string) {
 
 	// Determine if we need to auto-name the file.
 	for _, f := range files {
-		parseSingleDeck(f.path, f.player, labels, date)
+		parseSingleDeck(f.path, f.player, labels, date, draftID)
 	}
 
 	snaptshotFilename := fmt.Sprintf("%s/cube-snapshot.json", outdir)

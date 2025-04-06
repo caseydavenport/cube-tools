@@ -1,7 +1,8 @@
 {
  "metadata": {
   "path": "data/polyverse/2024-03-31/paul.json",
-  "draft_id": "2024-03-31"
+  "draft_id": "2024-03-31",
+  "source_file": "paul.txt"
  },
  "labels": [
   "sacrifice",

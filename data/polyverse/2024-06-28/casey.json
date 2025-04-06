@@ -1,7 +1,8 @@
 {
  "metadata": {
   "path": "data/polyverse/2024-06-28/casey.json",
-  "draft_id": "2024-06-28"
+  "draft_id": "2024-06-28",
+  "source_file": "casey.txt"
  },
  "labels": [
   "spells",

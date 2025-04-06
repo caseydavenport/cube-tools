@@ -1,7 +1,8 @@
 {
  "metadata": {
   "path": "data/polyverse/2024-03-28/parker.json",
-  "draft_id": "2024-03-28"
+  "draft_id": "2024-03-28",
+  "source_file": "parker.txt"
  },
  "labels": [
   "midrange",

@@ -1,6 +1,11 @@
 package types
 
-import "sort"
+import (
+	"encoding/json"
+	"os"
+	"path/filepath"
+	"sort"
+)
 
 func NewDeck() *Deck {
 	return &Deck{
@@ -11,6 +16,18 @@ func NewDeck() *Deck {
 	}
 }
 
+func LoadDeck(path string) (*Deck, error) {
+	contenats, err := os.ReadFile(path)
+	if err != nil {
+		return nil, err
+	}
+	d := NewDeck()
+	if err := json.Unmarshal(contenats, d); err != nil {
+		return nil, err
+	}
+	return d, nil
+}
+
 type Metadata struct {
 	// Path is the directory where the deck file is located.
 	Path string `json:"path"`
@@ -19,6 +36,14 @@ type Metadata struct {
 	// Typically this is the date of the draft, plus another unique identifier in case
 	// there are multiple drafts on the same day.
 	DraftID string `json:"draft_id"`
+
+	// SourceFile is the path to the source file from which this deck was created, relative
+	// to the deck file.
+	SourceFile string `json:"source_file"`
+}
+
+func (m *Metadata) GetSourceFile() string {
+	return filepath.Join(filepath.Dir(m.Path), m.SourceFile)
 }
 
 type Deck struct {

@@ -1,7 +1,8 @@
 {
  "metadata": {
   "path": "data/polyverse/2023-07-16/dom.json",
-  "draft_id": "2023-07-16"
+  "draft_id": "2023-07-16",
+  "source_file": "dom.txt"
  },
  "labels": [
   "spells",

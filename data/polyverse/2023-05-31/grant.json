@@ -1,7 +1,8 @@
 {
  "metadata": {
   "path": "data/polyverse/2023-05-31/grant.json",
-  "draft_id": "2023-05-31"
+  "draft_id": "2023-05-31",
+  "source_file": "grant.csv"
  },
  "labels": [
   "midrange",

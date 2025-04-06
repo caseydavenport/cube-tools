@@ -1,34 +1,113 @@
 {
  "metadata": {
-  "path": "data/polyverse/2025-04-05/dom.json",
-  "draft_id": "2025-04-05"
+  "path": "data/polyverse/2025-04-05_2/dom.json",
+  "draft_id": "2025-04-05_2",
+  "source_file": "dom.txt"
  },
  "labels": [
-  "tokens",
   "control",
-  "midrange"
+  "draw"
  ],
  "player": "dom",
  "date": "2025-04-05",
  "games": [
   {
    "opponent": "casey",
-   "winner": "casey"
-  },
-  {
-   "opponent": "casey",
-   "winner": "casey"
+   "winner": "dom"
   }
  ],
- "matches": [
-  {
-   "opponent": "casey",
-   "winner": "casey"
-  }
- ],
+ "matches": [],
  "mainboard": [
   {
-   "name": "Gitaxian Probe",
+   "name": "Windswept Heath",
+   "types": [
+    "Land"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "color_identity": [],
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/mh3/235/windswept-heath?utm_source=api",
+   "oracle_text": "{T}, Pay 1 life, Sacrifice this land: Search your library for a Forest or Plains card, put it onto the battlefield, then shuffle."
+  },
+  {
+   "name": "Monastery Mentor",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Human",
+    "Monk"
+   ],
+   "cmc": 3,
+   "image": "",
+   "colors": [
+    "W"
+   ],
+   "color_identity": [
+    "W"
+   ],
+   "mana_cost": "{2}{W}",
+   "url": "https://scryfall.com/card/tdc/125/monastery-mentor?utm_source=api",
+   "oracle_text": "Prowess (Whenever you cast a noncreature spell, this creature gets +1/+1 until end of turn.)\nWhenever you cast a noncreature spell, create a 1/1 white Monk creature token with prowess."
+  },
+  {
+   "name": "Man-o'-War",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Jellyfish"
+   ],
+   "cmc": 3,
+   "image": "",
+   "colors": [
+    "U"
+   ],
+   "color_identity": [
+    "U"
+   ],
+   "mana_cost": "{2}{U}",
+   "url": "https://scryfall.com/card/dmr/58/man-o-war?utm_source=api",
+   "oracle_text": "When this creature enters, return target creature to its owner's hand."
+  },
+  {
+   "name": "Mystic Confluence",
+   "types": [
+    "Instant"
+   ],
+   "cmc": 5,
+   "image": "",
+   "colors": [
+    "U"
+   ],
+   "color_identity": [
+    "U"
+   ],
+   "mana_cost": "{3}{U}{U}",
+   "url": "https://scryfall.com/card/cmm/108/mystic-confluence?utm_source=api",
+   "oracle_text": "Choose three. You may choose the same mode more than once.\n• Counter target spell unless its controller pays {3}.\n• Return target creature to its owner's hand.\n• Draw a card."
+  },
+  {
+   "name": "Collected Company",
+   "types": [
+    "Instant"
+   ],
+   "cmc": 4,
+   "image": "",
+   "colors": [
+    "G"
+   ],
+   "color_identity": [
+    "G"
+   ],
+   "mana_cost": "{3}{G}",
+   "url": "https://scryfall.com/card/dtk/177/collected-company?utm_source=api",
+   "oracle_text": "Look at the top six cards of your library. Put up to two creature cards with mana value 3 or less from among them onto the battlefield. Put the rest on the bottom of your library in any order."
+  },
+  {
+   "name": "Careful Study",
    "types": [
     "Sorcery"
    ],
@@ -40,12 +119,72 @@
    "color_identity": [
     "U"
    ],
-   "mana_cost": "{U/P}",
-   "url": "https://scryfall.com/card/nph/35/gitaxian-probe?utm_source=api",
-   "oracle_text": "({U/P} can be paid with either {U} or 2 life.)\nLook at target player's hand.\nDraw a card."
+   "mana_cost": "{U}",
+   "url": "https://scryfall.com/card/ody/70/careful-study?utm_source=api",
+   "oracle_text": "Draw two cards, then discard two cards."
   },
   {
-   "name": "Wooded Foothills",
+   "name": "Eternal Witness",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Human",
+    "Shaman"
+   ],
+   "cmc": 3,
+   "image": "",
+   "colors": [
+    "G"
+   ],
+   "color_identity": [
+    "G"
+   ],
+   "mana_cost": "{1}{G}{G}",
+   "url": "https://scryfall.com/card/cmm/286/eternal-witness?utm_source=api",
+   "oracle_text": "When this creature enters, you may return target card from your graveyard to your hand."
+  },
+  {
+   "name": "Serum Visions",
+   "types": [
+    "Sorcery"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [
+    "U"
+   ],
+   "color_identity": [
+    "U"
+   ],
+   "mana_cost": "{U}",
+   "url": "https://scryfall.com/card/otc/112/serum-visions?utm_source=api",
+   "oracle_text": "Draw a card. Scry 2."
+  },
+  {
+   "name": "Jolrael, Mwonvuli Recluse",
+   "types": [
+    "Legendary",
+    "Creature"
+   ],
+   "sub_types": [
+    "Human",
+    "Druid"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "G"
+   ],
+   "color_identity": [
+    "G"
+   ],
+   "mana_cost": "{1}{G}",
+   "url": "https://scryfall.com/card/mkc/173/jolrael-mwonvuli-recluse?utm_source=api",
+   "oracle_text": "Whenever you draw your second card each turn, create a 2/2 green Cat creature token.\n{4}{G}{G}: Until end of turn, creatures you control have base power and toughness X/X, where X is the number of cards in your hand."
+  },
+  {
+   "name": "Flooded Strand",
    "types": [
     "Land"
    ],
@@ -54,49 +193,184 @@
    "colors": [],
    "color_identity": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/236/wooded-foothills?utm_source=api",
-   "oracle_text": "{T}, Pay 1 life, Sacrifice this land: Search your library for a Mountain or Forest card, put it onto the battlefield, then shuffle."
+   "url": "https://scryfall.com/card/mh3/220/flooded-strand?utm_source=api",
+   "oracle_text": "{T}, Pay 1 life, Sacrifice this land: Search your library for a Plains or Island card, put it onto the battlefield, then shuffle."
   },
   {
-   "name": "Krenko, Tin Street Kingpin",
+   "name": "Werefox Bodyguard",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Elf",
+    "Fox",
+    "Knight"
+   ],
+   "cmc": 3,
+   "image": "",
+   "colors": [
+    "W"
+   ],
+   "color_identity": [
+    "W"
+   ],
+   "mana_cost": "{1}{W}{W}",
+   "url": "https://scryfall.com/card/woe/39/werefox-bodyguard?utm_source=api",
+   "oracle_text": "Flash\nWhen this creature enters, exile up to one other target non-Fox creature until this creature leaves the battlefield.\n{1}{W}, Sacrifice this creature: You gain 2 life."
+  },
+  {
+   "name": "Tireless Tracker",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Human",
+    "Scout"
+   ],
+   "cmc": 3,
+   "image": "",
+   "colors": [
+    "G"
+   ],
+   "color_identity": [
+    "G"
+   ],
+   "mana_cost": "{2}{G}",
+   "url": "https://scryfall.com/card/inr/219/tireless-tracker?utm_source=api",
+   "oracle_text": "Landfall — Whenever a land you control enters, investigate. (Create a Clue token. It's an artifact with \"{2}, Sacrifice this token: Draw a card.\")\nWhenever you sacrifice a Clue, put a +1/+1 counter on this creature."
+  },
+  {
+   "name": "Proft's Eidetic Memory",
    "types": [
     "Legendary",
-    "Creature"
+    "Enchantment"
    ],
-   "sub_types": [
-    "Goblin"
-   ],
-   "cmc": 3,
+   "cmc": 2,
    "image": "",
    "colors": [
-    "R"
+    "U"
    ],
    "color_identity": [
-    "R"
+    "U"
    ],
-   "mana_cost": "{2}{R}",
-   "url": "https://scryfall.com/card/moc/287/krenko-tin-street-kingpin?utm_source=api",
-   "oracle_text": "Whenever Krenko attacks, put a +1/+1 counter on it, then create a number of 1/1 red Goblin creature tokens equal to Krenko's power."
+   "mana_cost": "{1}{U}",
+   "url": "https://scryfall.com/card/mkm/67/profts-eidetic-memory?utm_source=api",
+   "oracle_text": "When Proft's Eidetic Memory enters, draw a card.\nYou have no maximum hand size.\nAt the beginning of combat on your turn, if you've drawn more than one card this turn, put X +1/+1 counters on target creature you control, where X is the number of cards you've drawn this turn minus one."
   },
   {
-   "name": "Dreamtide Whale",
+   "name": "Misty Rainforest",
+   "types": [
+    "Land"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "color_identity": [],
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/mh2/250/misty-rainforest?utm_source=api",
+   "oracle_text": "{T}, Pay 1 life, Sacrifice this land: Search your library for a Forest or Island card, put it onto the battlefield, then shuffle."
+  },
+  {
+   "name": "Temple Garden",
+   "types": [
+    "Land"
+   ],
+   "sub_types": [
+    "Forest",
+    "Plains"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "color_identity": [
+    "G",
+    "W"
+   ],
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/rvr/290/temple-garden?utm_source=api",
+   "oracle_text": "({T}: Add {G} or {W}.)\nAs this land enters, you may pay 2 life. If you don't, it enters tapped."
+  },
+  {
+   "name": "Lotus Cobra",
    "types": [
     "Creature"
    ],
    "sub_types": [
-    "Whale"
+    "Snake"
    ],
-   "cmc": 3,
+   "cmc": 2,
    "image": "",
    "colors": [
-    "U"
+    "G"
    ],
    "color_identity": [
-    "U"
+    "G"
    ],
-   "mana_cost": "{2}{U}",
-   "url": "https://scryfall.com/card/mh3/59/dreamtide-whale?utm_source=api",
-   "oracle_text": "Vanishing 2 (This creature enters with two time counters on it. At the beginning of your upkeep, remove a time counter from it. When the last is removed, sacrifice it.)\nWhenever a player casts their second spell each turn, proliferate. (Choose any number of permanents and/or players, then give each another counter of each kind already there.)"
+   "mana_cost": "{1}{G}",
+   "url": "https://scryfall.com/card/znr/193/lotus-cobra?utm_source=api",
+   "oracle_text": "Landfall — Whenever a land you control enters, add one mana of any color."
+  },
+  {
+   "name": "Lion Sash",
+   "types": [
+    "Artifact",
+    "Creature"
+   ],
+   "sub_types": [
+    "Equipment",
+    "Cat"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "W"
+   ],
+   "color_identity": [
+    "W"
+   ],
+   "mana_cost": "{1}{W}",
+   "url": "https://scryfall.com/card/neo/26/lion-sash?utm_source=api",
+   "oracle_text": "{W}: Exile target card from a graveyard. If it was a permanent card, put a +1/+1 counter on this permanent.\nEquipped creature gets +1/+1 for each +1/+1 counter on this Equipment.\nReconfigure {2} ({2}: Attach to target creature you control; or unattach from a creature. Reconfigure only as a sorcery. While attached, this isn't a creature.)"
+  },
+  {
+   "name": "Tarmogoyf",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Lhurgoyf"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "G"
+   ],
+   "color_identity": [
+    "G"
+   ],
+   "mana_cost": "{1}{G}",
+   "url": "https://scryfall.com/card/tsr/235/tarmogoyf?utm_source=api",
+   "oracle_text": "Tarmogoyf's power is equal to the number of card types among cards in all graveyards and its toughness is equal to that number plus 1."
+  },
+  {
+   "name": "Temple Garden",
+   "types": [
+    "Land"
+   ],
+   "sub_types": [
+    "Forest",
+    "Plains"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "color_identity": [
+    "G",
+    "W"
+   ],
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/rvr/290/temple-garden?utm_source=api",
+   "oracle_text": "({T}: Add {G} or {W}.)\nAs this land enters, you may pay 2 life. If you don't, it enters tapped."
   },
   {
    "name": "Faerie Vandal",
@@ -120,290 +394,7 @@
    "oracle_text": "Flash (You may cast this spell any time you could cast an instant.)\nFlying\nWhenever you draw your second card each turn, put a +1/+1 counter on this creature."
   },
   {
-   "name": "Thundering Falls",
-   "types": [
-    "Land"
-   ],
-   "sub_types": [
-    "Island",
-    "Mountain"
-   ],
-   "cmc": 0,
-   "image": "",
-   "colors": [],
-   "color_identity": [
-    "R",
-    "U"
-   ],
-   "mana_cost": "",
-   "url": "https://scryfall.com/card/mkm/269/thundering-falls?utm_source=api",
-   "oracle_text": "({T}: Add {U} or {R}.)\nThis land enters tapped.\nWhen this land enters, surveil 1. (Look at the top card of your library. You may put it into your graveyard.)"
-  },
-  {
-   "name": "Fact or Fiction",
-   "types": [
-    "Instant"
-   ],
-   "cmc": 4,
-   "image": "",
-   "colors": [
-    "U"
-   ],
-   "color_identity": [
-    "U"
-   ],
-   "mana_cost": "{3}{U}",
-   "url": "https://scryfall.com/card/cmm/91/fact-or-fiction?utm_source=api",
-   "oracle_text": "Reveal the top five cards of your library. An opponent separates those cards into two piles. Put one pile into your hand and the other into your graveyard."
-  },
-  {
-   "name": "Burst Lightning",
-   "types": [
-    "Instant"
-   ],
-   "cmc": 1,
-   "image": "",
-   "colors": [
-    "R"
-   ],
-   "color_identity": [
-    "R"
-   ],
-   "mana_cost": "{R}",
-   "url": "https://scryfall.com/card/fdn/192/burst-lightning?utm_source=api",
-   "oracle_text": "Kicker {4} (You may pay an additional {4} as you cast this spell.)\nBurst Lightning deals 2 damage to any target. If this spell was kicked, it deals 4 damage instead."
-  },
-  {
-   "name": "Delay",
-   "types": [
-    "Instant"
-   ],
-   "cmc": 2,
-   "image": "",
-   "colors": [
-    "U"
-   ],
-   "color_identity": [
-    "U"
-   ],
-   "mana_cost": "{1}{U}",
-   "url": "https://scryfall.com/card/tsr/61/delay?utm_source=api",
-   "oracle_text": "Counter target spell. If the spell is countered this way, exile it with three time counters on it instead of putting it into its owner's graveyard. If it doesn't have suspend, it gains suspend. (At the beginning of its owner's upkeep, they remove a time counter. When the last is removed, they may play it without paying its mana cost. If it's a creature, it has haste.)"
-  },
-  {
-   "name": "Scryb Ranger",
-   "types": [
-    "Creature"
-   ],
-   "sub_types": [
-    "Faerie",
-    "Ranger"
-   ],
-   "cmc": 2,
-   "image": "",
-   "colors": [
-    "G"
-   ],
-   "color_identity": [
-    "G"
-   ],
-   "mana_cost": "{1}{G}",
-   "url": "https://scryfall.com/card/tsr/227/scryb-ranger?utm_source=api",
-   "oracle_text": "Flash\nFlying, protection from blue\nReturn a Forest you control to its owner's hand: Untap target creature. Activate only once each turn."
-  },
-  {
-   "name": "Territorial Kavu",
-   "types": [
-    "Creature"
-   ],
-   "sub_types": [
-    "Kavu"
-   ],
-   "cmc": 2,
-   "image": "",
-   "colors": [
-    "G",
-    "R"
-   ],
-   "color_identity": [
-    "G",
-    "R"
-   ],
-   "mana_cost": "{R}{G}",
-   "url": "https://scryfall.com/card/mh2/216/territorial-kavu?utm_source=api",
-   "oracle_text": "Domain — Territorial Kavu's power and toughness are each equal to the number of basic land types among lands you control.\nWhenever this creature attacks, choose one —\n• Discard a card. If you do, draw a card.\n• Exile up to one target card from a graveyard."
-  },
-  {
-   "name": "Man-o'-War",
-   "types": [
-    "Creature"
-   ],
-   "sub_types": [
-    "Jellyfish"
-   ],
-   "cmc": 3,
-   "image": "",
-   "colors": [
-    "U"
-   ],
-   "color_identity": [
-    "U"
-   ],
-   "mana_cost": "{2}{U}",
-   "url": "https://scryfall.com/card/dmr/58/man-o-war?utm_source=api",
-   "oracle_text": "When this creature enters, return target creature to its owner's hand."
-  },
-  {
-   "name": "Serum Visions",
-   "types": [
-    "Sorcery"
-   ],
-   "cmc": 1,
-   "image": "",
-   "colors": [
-    "U"
-   ],
-   "color_identity": [
-    "U"
-   ],
-   "mana_cost": "{U}",
-   "url": "https://scryfall.com/card/otc/112/serum-visions?utm_source=api",
-   "oracle_text": "Draw a card. Scry 2."
-  },
-  {
-   "name": "Breeding Pool",
-   "types": [
-    "Land"
-   ],
-   "sub_types": [
-    "Forest",
-    "Island"
-   ],
-   "cmc": 0,
-   "image": "",
-   "colors": [],
-   "color_identity": [
-    "G",
-    "U"
-   ],
-   "mana_cost": "",
-   "url": "https://scryfall.com/card/rvr/275/breeding-pool?utm_source=api",
-   "oracle_text": "({T}: Add {G} or {U}.)\nAs this land enters, you may pay 2 life. If you don't, it enters tapped."
-  },
-  {
-   "name": "Dragon's Rage Channeler",
-   "types": [
-    "Creature"
-   ],
-   "sub_types": [
-    "Human",
-    "Shaman"
-   ],
-   "cmc": 1,
-   "image": "",
-   "colors": [
-    "R"
-   ],
-   "color_identity": [
-    "R"
-   ],
-   "mana_cost": "{R}",
-   "url": "https://scryfall.com/card/mh2/121/dragons-rage-channeler?utm_source=api",
-   "oracle_text": "Whenever you cast a noncreature spell, surveil 1. (Look at the top card of your library. You may put that card into your graveyard.)\nDelirium — As long as there are four or more card types among cards in your graveyard, this creature gets +2/+2, has flying, and attacks each combat if able."
-  },
-  {
-   "name": "Into the Roil",
-   "types": [
-    "Instant"
-   ],
-   "cmc": 2,
-   "image": "",
-   "colors": [
-    "U"
-   ],
-   "color_identity": [
-    "U"
-   ],
-   "mana_cost": "{1}{U}",
-   "url": "https://scryfall.com/card/fdn/509/into-the-roil?utm_source=api",
-   "oracle_text": "Kicker {1}{U} (You may pay an additional {1}{U} as you cast this spell.)\nReturn target nonland permanent to its owner's hand. If this spell was kicked, draw a card."
-  },
-  {
-   "name": "Ponder",
-   "types": [
-    "Sorcery"
-   ],
-   "cmc": 1,
-   "image": "",
-   "colors": [
-    "U"
-   ],
-   "color_identity": [
-    "U"
-   ],
-   "mana_cost": "{U}",
-   "url": "https://scryfall.com/card/tdc/159/ponder?utm_source=api",
-   "oracle_text": "Look at the top three cards of your library, then put them back in any order. You may shuffle.\nDraw a card."
-  },
-  {
-   "name": "Saheeli, Sublime Artificer",
-   "types": [
-    "Legendary",
-    "Planeswalker"
-   ],
-   "sub_types": [
-    "Saheeli"
-   ],
-   "cmc": 3,
-   "image": "",
-   "colors": [
-    "R",
-    "U"
-   ],
-   "color_identity": [
-    "R",
-    "U"
-   ],
-   "mana_cost": "{1}{U/R}{U/R}",
-   "url": "https://scryfall.com/card/cmm/935/saheeli-sublime-artificer?utm_source=api",
-   "oracle_text": "Whenever you cast a noncreature spell, create a 1/1 colorless Servo artifact creature token.\n−2: Target artifact you control becomes a copy of another target artifact or creature you control until end of turn, except it's an artifact in addition to its other types."
-  },
-  {
-   "name": "Parallel Lives",
-   "types": [
-    "Enchantment"
-   ],
-   "cmc": 4,
-   "image": "",
-   "colors": [
-    "G"
-   ],
-   "color_identity": [
-    "G"
-   ],
-   "mana_cost": "{3}{G}",
-   "url": "https://scryfall.com/card/isd/199/parallel-lives?utm_source=api",
-   "oracle_text": "If an effect would create one or more tokens under your control, it creates twice that many of those tokens instead."
-  },
-  {
-   "name": "Consider",
-   "types": [
-    "Instant"
-   ],
-   "cmc": 1,
-   "image": "",
-   "colors": [
-    "U"
-   ],
-   "color_identity": [
-    "U"
-   ],
-   "mana_cost": "{U}",
-   "url": "https://scryfall.com/card/tdc/148/consider?utm_source=api",
-   "oracle_text": "Surveil 1. (Look at the top card of your library. You may put it into your graveyard.)\nDraw a card."
-  },
-  {
-   "name": "Condescend",
+   "name": "Repeal",
    "types": [
     "Instant"
    ],
@@ -416,111 +407,38 @@
     "U"
    ],
    "mana_cost": "{X}{U}",
-   "url": "https://scryfall.com/card/ima/46/condescend?utm_source=api",
-   "oracle_text": "Counter target spell unless its controller pays {X}. Scry 2. (Look at the top two cards of your library, then put any number of them on the bottom and the rest on top in any order.)"
+   "url": "https://scryfall.com/card/clu/94/repeal?utm_source=api",
+   "oracle_text": "Return target nonland permanent with mana value X to its owner's hand.\nDraw a card."
   },
   {
-   "name": "Rielle, the Everwise",
+   "name": "Sylvan Library",
    "types": [
-    "Legendary",
-    "Creature"
+    "Enchantment"
    ],
-   "sub_types": [
-    "Human",
-    "Wizard"
-   ],
-   "cmc": 3,
+   "cmc": 2,
    "image": "",
    "colors": [
-    "R",
-    "U"
+    "G"
    ],
-   "color_identity": [
-    "R",
-    "U"
-   ],
-   "mana_cost": "{1}{U}{R}",
-   "url": "https://scryfall.com/card/iko/203/rielle-the-everwise?utm_source=api",
-   "oracle_text": "Rielle gets +1/+0 for each instant and sorcery card in your graveyard.\nWhenever you discard one or more cards for the first time each turn, draw that many cards."
-  },
-  {
-   "name": "Stomping Ground",
-   "types": [
-    "Land"
-   ],
-   "sub_types": [
-    "Mountain",
-    "Forest"
-   ],
-   "cmc": 0,
-   "image": "",
-   "colors": [],
-   "color_identity": [
-    "G",
-    "R"
-   ],
-   "mana_cost": "",
-   "url": "https://scryfall.com/card/rvr/289/stomping-ground?utm_source=api",
-   "oracle_text": "({T}: Add {R} or {G}.)\nAs this land enters, you may pay 2 life. If you don't, it enters tapped."
-  },
-  {
-   "name": "Seasoned Pyromancer",
-   "types": [
-    "Creature"
-   ],
-   "sub_types": [
-    "Human",
-    "Shaman"
-   ],
-   "cmc": 3,
-   "image": "",
-   "colors": [
-    "R"
-   ],
-   "color_identity": [
-    "R"
-   ],
-   "mana_cost": "{1}{R}{R}",
-   "url": "https://scryfall.com/card/2x2/123/seasoned-pyromancer?utm_source=api",
-   "oracle_text": "When this creature enters, discard two cards, then draw two cards. For each nonland card discarded this way, create a 1/1 red Elemental creature token.\n{3}{R}{R}, Exile this card from your graveyard: Create two 1/1 red Elemental creature tokens."
-  },
-  {
-   "name": "Boseiju, Who Endures",
-   "types": [
-    "Legendary",
-    "Land"
-   ],
-   "cmc": 0,
-   "image": "",
-   "colors": [],
    "color_identity": [
     "G"
    ],
-   "mana_cost": "",
-   "url": "https://scryfall.com/card/neo/266/boseiju-who-endures?utm_source=api",
-   "oracle_text": "{T}: Add {G}.\nChannel — {1}{G}, Discard this card: Destroy target artifact, enchantment, or nonbasic land an opponent controls. That player may search their library for a land card with a basic land type, put it onto the battlefield, then shuffle. This ability costs {1} less to activate for each legendary creature you control."
+   "mana_cost": "{1}{G}",
+   "url": "https://scryfall.com/card/dmr/179/sylvan-library?utm_source=api",
+   "oracle_text": "At the beginning of your draw step, you may draw two additional cards. If you do, choose two cards in your hand drawn this turn. For each of those cards, pay 4 life or put the card on top of your library."
   },
   {
-   "name": "Kiora, the Rising Tide",
+   "name": "Mishra's Bauble",
    "types": [
-    "Legendary",
-    "Creature"
+    "Artifact"
    ],
-   "sub_types": [
-    "Merfolk",
-    "Noble"
-   ],
-   "cmc": 3,
+   "cmc": 0,
    "image": "",
-   "colors": [
-    "U"
-   ],
-   "color_identity": [
-    "U"
-   ],
-   "mana_cost": "{2}{U}",
-   "url": "https://scryfall.com/card/fdn/45/kiora-the-rising-tide?utm_source=api",
-   "oracle_text": "When Kiora enters, draw two cards, then discard two cards.\nThreshold — Whenever Kiora attacks, if there are seven or more cards in your graveyard, you may create Scion of the Deep, a legendary 8/8 blue Octopus creature token."
+   "colors": [],
+   "color_identity": [],
+   "mana_cost": "{0}",
+   "url": "https://scryfall.com/card/2xm/274/mishras-bauble?utm_source=api",
+   "oracle_text": "{T}, Sacrifice this artifact: Look at the top card of target player's library. Draw a card at the beginning of the next turn's upkeep."
   },
   {
    "name": "Counterspell",
@@ -540,36 +458,125 @@
    "oracle_text": "Counter target spell."
   },
   {
-   "name": "Lightning Bolt",
+   "name": "Unsummon",
    "types": [
     "Instant"
    ],
    "cmc": 1,
    "image": "",
    "colors": [
-    "R"
+    "U"
    ],
    "color_identity": [
-    "R"
+    "U"
    ],
-   "mana_cost": "{R}",
-   "url": "https://scryfall.com/card/clu/141/lightning-bolt?utm_source=api",
-   "oracle_text": "Lightning Bolt deals 3 damage to any target."
+   "mana_cost": "{U}",
+   "url": "https://scryfall.com/card/fdn/599/unsummon?utm_source=api",
+   "oracle_text": "Return target creature to its owner's hand."
   },
   {
-   "name": "Den of the Bugbear",
+   "name": "Consider",
    "types": [
+    "Instant"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [
+    "U"
+   ],
+   "color_identity": [
+    "U"
+   ],
+   "mana_cost": "{U}",
+   "url": "https://scryfall.com/card/tdc/148/consider?utm_source=api",
+   "oracle_text": "Surveil 1. (Look at the top card of your library. You may put it into your graveyard.)\nDraw a card."
+  },
+  {
+   "name": "Hallowed Fountain",
+   "types": [
+    "Land"
+   ],
+   "sub_types": [
+    "Plains",
+    "Island"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "color_identity": [
+    "U",
+    "W"
+   ],
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/rvr/280/hallowed-fountain?utm_source=api",
+   "oracle_text": "({T}: Add {W} or {U}.)\nAs this land enters, you may pay 2 life. If you don't, it enters tapped."
+  },
+  {
+   "name": "Otawara, Soaring City",
+   "types": [
+    "Legendary",
     "Land"
    ],
    "cmc": 0,
    "image": "",
    "colors": [],
    "color_identity": [
-    "R"
+    "U"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/afr/254/den-of-the-bugbear?utm_source=api",
-   "oracle_text": "If you control two or more other lands, this land enters tapped.\n{T}: Add {R}.\n{3}{R}: Until end of turn, this land becomes a 3/2 red Goblin creature with \"Whenever this creature attacks, create a 1/1 red Goblin creature token that's tapped and attacking.\" It's still a land."
+   "url": "https://scryfall.com/card/neo/271/otawara-soaring-city?utm_source=api",
+   "oracle_text": "{T}: Add {U}.\nChannel — {3}{U}, Discard this card: Return target artifact, creature, enchantment, or planeswalker to its owner's hand. This ability costs {1} less to activate for each legendary creature you control."
+  },
+  {
+   "name": "Remand",
+   "types": [
+    "Instant"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "U"
+   ],
+   "color_identity": [
+    "U"
+   ],
+   "mana_cost": "{1}{U}",
+   "url": "https://scryfall.com/card/rvr/59/remand?utm_source=api",
+   "oracle_text": "Counter target spell. If that spell is countered this way, put it into its owner's hand instead of into that player's graveyard.\nDraw a card."
+  },
+  {
+   "name": "Opt",
+   "types": [
+    "Instant"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [
+    "U"
+   ],
+   "color_identity": [
+    "U"
+   ],
+   "mana_cost": "{U}",
+   "url": "https://scryfall.com/card/tdc/158/opt?utm_source=api",
+   "oracle_text": "Scry 1. (Look at the top card of your library. You may put that card on the bottom.)\nDraw a card."
+  },
+  {
+   "name": "Treasure Cruise",
+   "types": [
+    "Sorcery"
+   ],
+   "cmc": 8,
+   "image": "",
+   "colors": [
+    "U"
+   ],
+   "color_identity": [
+    "U"
+   ],
+   "mana_cost": "{7}{U}",
+   "url": "https://scryfall.com/card/tdc/169/treasure-cruise?utm_source=api",
+   "oracle_text": "Delve (Each card you exile from your graveyard while casting this spell pays for {1}.)\nDraw three cards."
   },
   {
    "name": "Scalding Tarn",
@@ -585,13 +592,208 @@
    "oracle_text": "{T}, Pay 1 life, Sacrifice this land: Search your library for an Island or Mountain card, put it onto the battlefield, then shuffle."
   },
   {
-   "name": "Young Pyromancer",
+   "name": "Plains",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Plains"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "color_identity": [
+    "W"
+   ],
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/tdm/277/plains?utm_source=api",
+   "oracle_text": "({T}: Add {W}.)"
+  },
+  {
+   "name": "Plains",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Plains"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "color_identity": [
+    "W"
+   ],
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/tdm/277/plains?utm_source=api",
+   "oracle_text": "({T}: Add {W}.)"
+  },
+  {
+   "name": "Island",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Island"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "color_identity": [
+    "U"
+   ],
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/tdm/279/island?utm_source=api",
+   "oracle_text": "({T}: Add {U}.)"
+  },
+  {
+   "name": "Island",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Island"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "color_identity": [
+    "U"
+   ],
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/tdm/279/island?utm_source=api",
+   "oracle_text": "({T}: Add {U}.)"
+  },
+  {
+   "name": "Island",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Island"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "color_identity": [
+    "U"
+   ],
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/tdm/279/island?utm_source=api",
+   "oracle_text": "({T}: Add {U}.)"
+  },
+  {
+   "name": "Forest",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Forest"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "color_identity": [
+    "G"
+   ],
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/tdm/285/forest?utm_source=api",
+   "oracle_text": "({T}: Add {G}.)"
+  },
+  {
+   "name": "Forest",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Forest"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "color_identity": [
+    "G"
+   ],
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/tdm/285/forest?utm_source=api",
+   "oracle_text": "({T}: Add {G}.)"
+  },
+  {
+   "name": "Forest",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Forest"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "color_identity": [
+    "G"
+   ],
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/tdm/285/forest?utm_source=api",
+   "oracle_text": "({T}: Add {G}.)"
+  }
+ ],
+ "sideboard": [
+  {
+   "name": "Bloodsoaked Champion",
    "types": [
     "Creature"
    ],
    "sub_types": [
     "Human",
-    "Shaman"
+    "Warrior"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [
+    "B"
+   ],
+   "color_identity": [
+    "B"
+   ],
+   "mana_cost": "{B}",
+   "url": "https://scryfall.com/card/clb/740/bloodsoaked-champion?utm_source=api",
+   "oracle_text": "This creature can't block.\nRaid — {1}{B}: Return this card from your graveyard to the battlefield. Activate only if you attacked this turn."
+  },
+  {
+   "name": "Marionette Apprentice",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Human",
+    "Artificer"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "B"
+   ],
+   "color_identity": [
+    "B"
+   ],
+   "mana_cost": "{1}{B}",
+   "url": "https://scryfall.com/card/mh3/100/marionette-apprentice?utm_source=api",
+   "oracle_text": "Fabricate 1 (When this creature enters, put a +1/+1 counter on it or create a 1/1 colorless Servo artifact creature token.)\nWhenever another creature or artifact you control is put into a graveyard from the battlefield, each opponent loses 1 life."
+  },
+  {
+   "name": "Tibalt's Rager",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Devil"
    ],
    "cmc": 2,
    "image": "",
@@ -602,62 +804,28 @@
     "R"
    ],
    "mana_cost": "{1}{R}",
-   "url": "https://scryfall.com/card/tdc/95/young-pyromancer?utm_source=api",
-   "oracle_text": "Whenever you cast an instant or sorcery spell, create a 1/1 red Elemental creature token."
+   "url": "https://scryfall.com/card/jmp/366/tibalts-rager?utm_source=api",
+   "oracle_text": "When this creature dies, it deals 1 damage to any target.\n{1}{R}: This creature gets +2/+0 until end of turn."
   },
   {
-   "name": "Mark of Mutiny",
-   "types": [
-    "Sorcery"
-   ],
-   "cmc": 3,
-   "image": "",
-   "colors": [
-    "R"
-   ],
-   "color_identity": [
-    "R"
-   ],
-   "mana_cost": "{2}{R}",
-   "url": "https://scryfall.com/card/ima/139/mark-of-mutiny?utm_source=api",
-   "oracle_text": "Gain control of target creature until end of turn. Put a +1/+1 counter on it and untap it. That creature gains haste until end of turn. (It can attack and {T} this turn.)"
-  },
-  {
-   "name": "Spell Snare",
+   "name": "Tragic Fall",
    "types": [
     "Instant"
    ],
-   "cmc": 1,
+   "cmc": 2,
    "image": "",
    "colors": [
-    "U"
+    "B"
    ],
    "color_identity": [
-    "U"
+    "B"
    ],
-   "mana_cost": "{U}",
-   "url": "https://scryfall.com/card/bbd/132/spell-snare?utm_source=api",
-   "oracle_text": "Counter target spell with mana value 2."
+   "mana_cost": "{1}{B}",
+   "url": "https://scryfall.com/card/mh2/104/tragic-fall?utm_source=api",
+   "oracle_text": "Target creature gets -3/-3 until end of turn.\nHellbent — That creature gets -13/-13 until end of turn instead if you have no cards in hand."
   },
   {
-   "name": "Aether Tradewinds",
-   "types": [
-    "Instant"
-   ],
-   "cmc": 3,
-   "image": "",
-   "colors": [
-    "U"
-   ],
-   "color_identity": [
-    "U"
-   ],
-   "mana_cost": "{2}{U}",
-   "url": "https://scryfall.com/card/kld/38/aether-tradewinds?utm_source=api",
-   "oracle_text": "Return target permanent you control and target permanent you don't control to their owners' hands."
-  },
-  {
-   "name": "Misty Rainforest",
+   "name": "Bloodstained Mire",
    "types": [
     "Land"
    ],
@@ -666,17 +834,251 @@
    "colors": [],
    "color_identity": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/mh2/250/misty-rainforest?utm_source=api",
-   "oracle_text": "{T}, Pay 1 life, Sacrifice this land: Search your library for a Forest or Island card, put it onto the battlefield, then shuffle."
-  }
- ],
- "sideboard": [
+   "url": "https://scryfall.com/card/mh3/216/bloodstained-mire?utm_source=api",
+   "oracle_text": "{T}, Pay 1 life, Sacrifice this land: Search your library for a Swamp or Mountain card, put it onto the battlefield, then shuffle."
+  },
   {
-   "name": "Chart a Course",
+   "name": "Bloodstained Mire",
+   "types": [
+    "Land"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "color_identity": [],
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/mh3/216/bloodstained-mire?utm_source=api",
+   "oracle_text": "{T}, Pay 1 life, Sacrifice this land: Search your library for a Swamp or Mountain card, put it onto the battlefield, then shuffle."
+  },
+  {
+   "name": "Wildfire Wickerfolk",
+   "types": [
+    "Artifact",
+    "Creature"
+   ],
+   "sub_types": [
+    "Scarecrow"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "G",
+    "R"
+   ],
+   "color_identity": [
+    "G",
+    "R"
+   ],
+   "mana_cost": "{R}{G}",
+   "url": "https://scryfall.com/card/dsk/239/wildfire-wickerfolk?utm_source=api",
+   "oracle_text": "Haste\nDelirium — This creature gets +1/+1 and has trample as long as there are four or more card types among cards in your graveyard."
+  },
+  {
+   "name": "Mosswood Dreadknight // Dread Whispers",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Human",
+    "Knight",
+    "//",
+    "Sorcery"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "G"
+   ],
+   "color_identity": [
+    "B",
+    "G"
+   ],
+   "mana_cost": "{1}{G} // {1}{B}",
+   "url": "https://scryfall.com/card/woe/231/mosswood-dreadknight-dread-whispers?utm_source=api",
+   "oracle_text": ""
+  },
+  {
+   "name": "Edge of Autumn",
    "types": [
     "Sorcery"
    ],
    "cmc": 2,
+   "image": "",
+   "colors": [
+    "G"
+   ],
+   "color_identity": [
+    "G"
+   ],
+   "mana_cost": "{1}{G}",
+   "url": "https://scryfall.com/card/tsr/201/edge-of-autumn?utm_source=api",
+   "oracle_text": "If you control four or fewer lands, search your library for a basic land card, put it onto the battlefield tapped, then shuffle.\nCycling—Sacrifice a land. (Sacrifice a land, Discard this card: Draw a card.)"
+  },
+  {
+   "name": "Agonizing Remorse",
+   "types": [
+    "Sorcery"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "B"
+   ],
+   "color_identity": [
+    "B"
+   ],
+   "mana_cost": "{1}{B}",
+   "url": "https://scryfall.com/card/thb/83/agonizing-remorse?utm_source=api",
+   "oracle_text": "Target opponent reveals their hand. You choose a nonland card from it or a card from their graveyard. Exile that card. You lose 1 life."
+  },
+  {
+   "name": "Audacity",
+   "types": [
+    "Enchantment"
+   ],
+   "sub_types": [
+    "Aura"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [
+    "G"
+   ],
+   "color_identity": [
+    "G"
+   ],
+   "mana_cost": "{G}",
+   "url": "https://scryfall.com/card/bro/169/audacity?utm_source=api",
+   "oracle_text": "Enchant creature\nEnchanted creature gets +2/+0 and has trample. (It can deal excess combat damage to the player or planeswalker it's attacking.)\nWhen this Aura is put into a graveyard from the battlefield, draw a card."
+  },
+  {
+   "name": "Cloudgoat Ranger",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Giant",
+    "Warrior",
+    "Ranger"
+   ],
+   "cmc": 5,
+   "image": "",
+   "colors": [
+    "W"
+   ],
+   "color_identity": [
+    "W"
+   ],
+   "mana_cost": "{3}{W}{W}",
+   "url": "https://scryfall.com/card/khc/21/cloudgoat-ranger?utm_source=api",
+   "oracle_text": "When this creature enters, create three 1/1 white Kithkin Soldier creature tokens.\nTap three untapped Kithkin you control: This creature gets +2/+0 and gains flying until end of turn."
+  },
+  {
+   "name": "Overgrown Tomb",
+   "types": [
+    "Land"
+   ],
+   "sub_types": [
+    "Swamp",
+    "Forest"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "color_identity": [
+    "B",
+    "G"
+   ],
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/rvr/283/overgrown-tomb?utm_source=api",
+   "oracle_text": "({T}: Add {B} or {G}.)\nAs this land enters, you may pay 2 life. If you don't, it enters tapped."
+  },
+  {
+   "name": "Hunting Triad",
+   "types": [
+    "Kindred",
+    "Sorcery"
+   ],
+   "sub_types": [
+    "Elf"
+   ],
+   "cmc": 4,
+   "image": "",
+   "colors": [
+    "G"
+   ],
+   "color_identity": [
+    "G"
+   ],
+   "mana_cost": "{3}{G}",
+   "url": "https://scryfall.com/card/cma/116/hunting-triad?utm_source=api",
+   "oracle_text": "Create three 1/1 green Elf Warrior creature tokens.\nReinforce 3—{3}{G} ({3}{G}, Discard this card: Put three +1/+1 counters on target creature.)"
+  },
+  {
+   "name": "Containment Construct",
+   "types": [
+    "Artifact",
+    "Creature"
+   ],
+   "sub_types": [
+    "Construct"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [],
+   "color_identity": [],
+   "mana_cost": "{2}",
+   "url": "https://scryfall.com/card/neo/243/containment-construct?utm_source=api",
+   "oracle_text": "Whenever you discard a card, you may exile that card from your graveyard. If you do, you may play that card this turn."
+  },
+  {
+   "name": "Kitchen Finks",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Ouphe"
+   ],
+   "cmc": 3,
+   "image": "",
+   "colors": [
+    "G",
+    "W"
+   ],
+   "color_identity": [
+    "G",
+    "W"
+   ],
+   "mana_cost": "{1}{G/W}{G/W}",
+   "url": "https://scryfall.com/card/uma/216/kitchen-finks?utm_source=api",
+   "oracle_text": "When this creature enters, you gain 2 life.\nPersist (When this creature dies, if it had no -1/-1 counters on it, return it to the battlefield under its owner's control with a -1/-1 counter on it.)"
+  },
+  {
+   "name": "Life from the Loam",
+   "types": [
+    "Sorcery"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "G"
+   ],
+   "color_identity": [
+    "G"
+   ],
+   "mana_cost": "{1}{G}",
+   "url": "https://scryfall.com/card/tdc/96/life-from-the-loam?utm_source=api",
+   "oracle_text": "Return up to three target land cards from your graveyard to your hand.\nDredge 3 (If you would draw a card, you may mill three cards instead. If you do, return this card from your graveyard to your hand.)"
+  },
+  {
+   "name": "Curator of Mysteries",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Sphinx"
+   ],
+   "cmc": 4,
    "image": "",
    "colors": [
     "U"
@@ -684,9 +1086,30 @@
    "color_identity": [
     "U"
    ],
-   "mana_cost": "{1}{U}",
-   "url": "https://scryfall.com/card/fdn/586/chart-a-course?utm_source=api",
-   "oracle_text": "Draw two cards. Then discard a card unless you attacked this turn."
+   "mana_cost": "{2}{U}{U}",
+   "url": "https://scryfall.com/card/afc/81/curator-of-mysteries?utm_source=api",
+   "oracle_text": "Flying\nWhenever you cycle or discard another card, scry 1.\nCycling {U} ({U}, Discard this card: Draw a card.)"
+  },
+  {
+   "name": "Warden of the Inner Sky",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Human",
+    "Soldier"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [
+    "W"
+   ],
+   "color_identity": [
+    "W"
+   ],
+   "mana_cost": "{W}",
+   "url": "https://scryfall.com/card/lci/43/warden-of-the-inner-sky?utm_source=api",
+   "oracle_text": "As long as this creature has three or more counters on it, it has flying and vigilance.\nTap three untapped artifacts and/or creatures you control: Put a +1/+1 counter on this creature. Scry 1. Activate only as a sorcery."
   }
  ]
 }

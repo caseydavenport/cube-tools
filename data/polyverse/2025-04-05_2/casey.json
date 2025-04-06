@@ -1,7 +1,8 @@
 {
  "metadata": {
   "path": "data/polyverse/2025-04-05_2/casey.json",
-  "draft_id": "2025-04-05_2"
+  "draft_id": "2025-04-05_2",
+  "source_file": "casey.txt"
  },
  "labels": [
   "aggro",

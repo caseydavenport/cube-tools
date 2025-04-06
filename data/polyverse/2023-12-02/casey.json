@@ -1,7 +1,8 @@
 {
  "metadata": {
   "path": "data/polyverse/2023-12-02/casey.json",
-  "draft_id": "2023-12-02"
+  "draft_id": "2023-12-02",
+  "source_file": "casey.txt"
  },
  "labels": [
   "midrange",

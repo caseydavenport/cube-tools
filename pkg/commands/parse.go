@@ -5,6 +5,7 @@ import (
 	"io"
 	"os"
 	"os/exec"
+	"path/filepath"
 	"strconv"
 	"strings"
 	"time"
@@ -17,14 +18,25 @@ import (
 )
 
 var (
-	deck     string
-	deckDir  string
-	draftLog string
-	fileType string
-	labels   string
-	who      string
-	date     string
+	// deckInput is the path to the deck file to parse.
+	deckInput string
+	labels    string
+	who       string
+	date      string
+
+	// draftID is the ID of the draft to which this deck belongs. It
+	// is used to determine the output directory for generated files.
+	draftID string
+
+	// deckInputDir is the path to the directory containing deck files to parse.
+	deckInputDir string
+
+	// prefix and fileType are used to determine which files within the deckInputDir to parse.
 	prefix   string
+	fileType string
+
+	// draftLog is the path to the draft log file.
+	draftLog string
 )
 
 // Define a cobra command for parsing a single deck file.
@@ -33,7 +45,7 @@ var ParseCmd = &cobra.Command{
 	Short: "Parse a single deck file",
 	Run: func(cmd *cobra.Command, args []string) {
 		// Verify input.
-		if deck == "" {
+		if deckInput == "" {
 			logrus.Fatal("Must specify a deck file to parse.")
 		}
 		if date == "" {
@@ -45,32 +57,36 @@ var ParseCmd = &cobra.Command{
 		if who == "" {
 			logrus.Fatal("Must specify a player name.")
 		}
+		if draftID == "" {
+			logrus.Fatal("Must specify a draft ID.")
+		}
 
 		// Parse the deck.
-		parseSingleDeck(deck, who, labels, date)
+		parseSingleDeck(deckInput, who, labels, date, draftID)
 	},
 }
 
 func init() {
 	// Add flags for the command to parse a single deck.
 	flags := ParseCmd.Flags()
-	flag.StringVarP(flags, &deck, "deck", "d", "DECK", "", "Path to the deck file to import")
+	flag.StringVarP(flags, &deckInput, "deck", "d", "DECK", "", "Path to the deck file to import")
 	flag.StringVarP(flags, &who, "who", "w", "WHO", "", "Who made the deck")
 	flag.StringVarP(flags, &labels, "labels", "l", "LABELS", "", "Labels describing the deck. e.g., aggro,sacrifice")
 	flag.StringVarP(flags, &date, "date", "t", "DATE", "", "Date, in YYYY-MM-DD format")
+	flag.StringVarP(flags, &draftID, "draft", "", "DRAFT", "", "Draft ID - used as the output directory")
 }
 
 // parseSingleDeck parses a single deck file and writes the output to the given directory.
-func parseSingleDeck(deck, who, labels, date string) {
+func parseSingleDeck(deck, who, labels, date, draftID string) error {
 	// Parse the file.
-	d, err := parseRawDeckFile(deck, who, labels, date)
+	d, err := parseRawDeckFile(deck, who, labels, date, draftID)
 	if err != nil {
-		panic(err)
+		return err
 	}
 
 	// For each card in the draft pool, add up how many times it appeared in game replays.
 	// This can help us approximate the impact of a particular card in a deck.
-	draftDir := fmt.Sprintf("data/polyverse/%s", date)
+	draftDir := fmt.Sprintf("data/polyverse/%s", draftID)
 	if _, err = os.Stat(fmt.Sprintf("%s/replays", draftDir)); err == nil {
 		for ii := range d.Mainboard {
 			d.Mainboard[ii].Appearances = cardAppearances(d.Mainboard[ii], draftDir)
@@ -81,11 +97,14 @@ func parseSingleDeck(deck, who, labels, date string) {
 	}
 
 	// Write the deck for storage.
-	writeDeck(d, deck, who, date)
+	if err := writeDeck(d, deck, who, draftID); err != nil {
+		return err
+	}
+	return nil
 }
 
 // parseRawDeckFile parses a raw input deck file and returns a Deck struct.
-func parseRawDeckFile(deckFile string, player string, labels string, date string) (*types.Deck, error) {
+func parseRawDeckFile(deckFile, player, labels, date, draftID string) (*types.Deck, error) {
 	// Build the deck struct.
 	d := types.NewDeck()
 
@@ -94,6 +113,8 @@ func parseRawDeckFile(deckFile string, player string, labels string, date string
 		d.Mainboard, d.Sideboard = cardsFromCSV(deckFile)
 	} else if strings.HasSuffix(deckFile, ".txt") {
 		d.Mainboard, d.Sideboard = cardsFromTXT(deckFile)
+	} else {
+		return nil, fmt.Errorf("Unsupported file type: %s", deckFile)
 	}
 
 	// Add other metadata.
@@ -102,37 +123,43 @@ func parseRawDeckFile(deckFile string, player string, labels string, date string
 	}
 	d.Player = player
 	d.Date = date
+	d.Metadata.DraftID = draftID
+	d.Metadata.SourceFile = filepath.Base(deckFile)
 
 	return d, nil
 }
 
-func writeDeck(d *types.Deck, srcFile string, player string, date string) error {
+func writeDeck(d *types.Deck, srcFile string, player string, draftID string) error {
+	// Force lowercase player names for consistency.
+	player = strings.ToLower(player)
+
 	// Make sure the output directory exists.
-	outdir := fmt.Sprintf("data/polyverse/%s", date)
+	outdir := fmt.Sprintf("data/polyverse/%s", draftID)
 	err := os.MkdirAll(outdir, os.ModePerm)
 	if err != nil {
 		panic(err)
 	}
 
+	if len(player) == 0 {
+		return fmt.Errorf("Player name is required to write deck")
+	}
+	if len(draftID) == 0 {
+		return fmt.Errorf("Draft ID is required to write deck")
+	}
+
 	// Generate the filename for the deck.
-	path := fmt.Sprintf("%s/%s.json", outdir, strings.ToLower(player))
+	path := fmt.Sprintf("%s/%s.json", outdir, player)
 
 	// Ensure the correct metadata is set on the deck.
-	d.Metadata.DraftID = date
+	d.Metadata.DraftID = draftID
 	d.Metadata.Path = path
-
-	logc := logrus.WithFields(logrus.Fields{
-		"player": player,
-		"outdir": outdir,
-	})
-	logc.Infof("Writing deck")
 
 	// If the file already exists, load it and save some fields.
 	// This allows us to re-run this script without overwriting manually
 	// captured metadata.
 	if _, err := os.Stat(path); err == nil {
-		logc.WithField("file", path).Debug("File already exists, loading and updating")
-		existing := LoadParsedDeckFile(date, player)
+		logrus.WithField("file", path).Debug("File already exists, loading and updating")
+		existing := LoadParsedDeckFile(draftID, player)
 		d.Player = existing.Player
 		d.Labels = existing.Labels
 		d.Matches = existing.Matches
@@ -140,6 +167,12 @@ func writeDeck(d *types.Deck, srcFile string, player string, date string) error 
 		d.Wins = existing.Wins
 		d.Losses = existing.Losses
 	}
+
+	logc := logrus.WithFields(logrus.Fields{
+		"player": player,
+		"outdir": outdir,
+	})
+	logc.Infof("Writing deck")
 
 	// First, write the canonical deck file in our format.
 	logc.WithField("file", path).Debug("Writing canonical deck file")

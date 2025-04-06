@@ -1,7 +1,8 @@
 {
  "metadata": {
   "path": "data/polyverse/2023-04-22/casey.json",
-  "draft_id": "2023-04-22"
+  "draft_id": "2023-04-22",
+  "source_file": "casey.csv"
  },
  "labels": [
   "sacrifice",
