@@ -1,40 +1,35 @@
-Windswept Heath
-Monastery Mentor
-Man-o'-War
-Mystic Confluence
-Collected Company
-Careful Study
-Eternal Witness
-Serum Visions
-Jolrael, Mwonvuli Recluse
-Flooded Strand
-Werefox Bodyguard
-Tireless Tracker
-Proft's Eidetic Memory
-Misty Rainforest
-Temple Garden
-Lotus Cobra
-Lion Sash
-Tarmogoyf
-Temple Garden
+Gitaxian Probe
+Wooded Foothills
+Krenko, Tin Street Kingpin
+Dreamtide Whale
 Faerie Vandal
-Repeal
-Sylvan Library
-Mishra's Bauble
-Counterspell
-Unsummon
+Thundering Falls
+Fact or Fiction
+Burst Lightning
+Delay
+Scryb Ranger
+Territorial Kavu
+Man-o'-War
+Serum Visions
+Breeding Pool
+Dragon's Rage Channeler
+Into the Roil
+Ponder
+Saheeli, Sublime Artificer
+Parallel Lives
 Consider
-Hallowed Fountain
-Otawara, Soaring City
-Remand
-Opt
-Treasure Cruise
+Condescend
+Rielle, the Everwise
+Stomping Ground
+Seasoned Pyromancer
+Boseiju, Who Endures
+Kiora, the Rising Tide
+Counterspell
+Lightning Bolt
+Den of the Bugbear
 Scalding Tarn
-Plains
-Plains
-Island
-Island
-Island
-Forest
-Forest
-Forest
+Young Pyromancer
+Mark of Mutiny
+Spell Snare
+Aether Tradewinds
+Misty Rainforest

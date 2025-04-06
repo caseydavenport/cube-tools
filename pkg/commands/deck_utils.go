@@ -41,7 +41,7 @@ func SaveDeck(d *types.Deck) error {
 	}
 
 	// Write the parsed deck.
-	fn := DeckFilepath(d.Date, d.Player)
+	fn := DeckFilepath(d.Metadata.DraftID, d.Player)
 	err = os.WriteFile(fn, bs, os.ModePerm)
 	if err != nil {
 		return err
