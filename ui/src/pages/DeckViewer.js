@@ -144,7 +144,7 @@ export default function DeckViewer() {
         setDeck(deck)
 
         // Load the deck description, if it exists.
-        let f = "drafts/" + deck.draft + "/" + deck.player + ".report.md"
+        let f = "data/polyverse/" + deck.draft + "/" + deck.player + ".report.md"
         FetchFile(f.toLowerCase(), onDescriptionFetched)
         return
       }
@@ -311,9 +311,9 @@ function FilteredDecks(input) {
             <td colSpan="3" onClick={input.onHeaderClick} id="decklist-title" className="header-cell">{decks.length} Decks</td>
           </tr>
           <tr>
-            <td style={{"width": "20%", "padding-left": "10px"}} onClick={input.onSortHeader} id="date" className="header-cell">Date</td>
-            <td style={{"width": "30%", "padding-left": "0px"}} onClick={input.onSortHeader} id="player" className="header-cell">Player</td>
-            <td style={{"width": "30%", "padding-left": "0px"}} onClick={input.onSortHeader} id="wins" className="header-cell">Record</td>
+            <td style={{"width": "20%", "paddingLeft": "10px"}} onClick={input.onSortHeader} id="date" className="header-cell">Date</td>
+            <td style={{"width": "30%", "paddingLeft": "0px"}} onClick={input.onSortHeader} id="player" className="header-cell">Player</td>
+            <td style={{"width": "30%", "paddingLeft": "0px"}} onClick={input.onSortHeader} id="wins" className="header-cell">Record</td>
           </tr>
         </thead>
         <tbody>
@@ -394,9 +394,9 @@ function DeckTableCell(input) {
       <table className="deck-meta-table">
       <tbody>
         <tr className="deck-entry" style={{"--background-color": input.color}}>
-          <td style={{"width": "20%", "padding-left": "10px"}} id={deck.id} idx={input.idx} onClick={input.onDeckClicked} key="date">{deck.date}</td>
-          <td style={{"width": "30%", "padding-left": "0px"}} id={deck.id} idx={input.idx} onClick={input.onDeckClicked} key="player">{deck.player}</td>
-          <td style={{"width": "30%", "padding-left": "0px"}} id={deck.id} idx={input.idx} onClick={input.onDeckClicked} key="wins">{record} ({win_percent}%)</td>
+          <td style={{"width": "20%", "paddingLeft": "10px"}} id={deck.id} idx={input.idx} onClick={input.onDeckClicked} key="date">{deck.date}</td>
+          <td style={{"width": "30%", "paddingLeft": "0px"}} id={deck.id} idx={input.idx} onClick={input.onDeckClicked} key="player">{deck.player}</td>
+          <td style={{"width": "30%", "paddingLeft": "0px"}} id={deck.id} idx={input.idx} onClick={input.onDeckClicked} key="wins">{record} ({win_percent}%)</td>
         </tr>
       </tbody>
       </table>

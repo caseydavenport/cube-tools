@@ -3,7 +3,7 @@ import { IsBasicLand } from "../utils/Utils.js"
 
 export async function LoadCube(onFetch) {
   console.time("LoadCube()")
-  const resp = await fetch('cube.json');
+  const resp = await fetch('data/polyverse/cube.json');
   let cube = await resp.json();
   console.timeEnd("LoadCube()")
   if (onFetch != null) {
@@ -65,10 +65,6 @@ export async function LoadDecks(onLoad, start, end, draftSize, playerMatch) {
 
     d.avg_cmc = AverageCMC({deck: d})
     d.colors = ExtractColors({deck: d})
-
-    if (d.date != d.draft) {
-      console.log("Deck date does not match draft date: " + d.date + " != " + d.draft)
-    }
 
     // TODO: For historical purposes. We don't actually need both of these fields.
     // TODO: Distinguish between date and draft! Multiple drafts on the same date!
@@ -159,7 +155,7 @@ export async function FetchFile(path, onFetch) {
 // The draft index file is an index of all the available drafts
 // available on the server.
 export async function FetchIndex(onFetch) {
-  const resp = await fetch('drafts/index.json');
+  const resp = await fetch('data/polyverse/index.json');
   let idx = await resp.json();
   if (onFetch != null) {
     onFetch(idx);

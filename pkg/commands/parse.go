@@ -66,7 +66,7 @@ func parseSingleDeck(deck, who, labels, date string) {
 
 	// For each card in the draft pool, add up how many times it appeared in game replays.
 	// This can help us approximate the impact of a particular card in a deck.
-	draftDir := fmt.Sprintf("drafts/%s", date)
+	draftDir := fmt.Sprintf("data/polyverse/%s", date)
 	if _, err = os.Stat(fmt.Sprintf("%s/replays", draftDir)); err == nil {
 		for ii := range d.Mainboard {
 			d.Mainboard[ii].Appearances = cardAppearances(d.Mainboard[ii], draftDir)
@@ -104,7 +104,7 @@ func parseRawDeckFile(deckFile string, player string, labels string, date string
 
 func writeDeck(d *types.Deck, srcFile string, player string, date string) error {
 	// Make sure the output directory exists.
-	outdir := fmt.Sprintf("drafts/%s", date)
+	outdir := fmt.Sprintf("data/polyverse/%s", date)
 	err := os.MkdirAll(outdir, os.ModePerm)
 	if err != nil {
 		panic(err)

@@ -12,7 +12,7 @@ import (
 )
 
 func DeckFilepath(date, player string) string {
-	return fmt.Sprintf("drafts/%s/%s.json", date, strings.ToLower(player))
+	return fmt.Sprintf("data/polyverse/%s/%s.json", date, strings.ToLower(player))
 }
 
 func LoadParsedDeckFile(date, player string) *types.Deck {

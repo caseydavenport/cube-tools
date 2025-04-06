@@ -1,5 +1,5 @@
 bin/
 input/
-data/
 node_modules/
+data/oracle-cards.json
 package-lock.json

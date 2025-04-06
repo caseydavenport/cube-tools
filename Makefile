@@ -26,9 +26,9 @@ index: data/oracle-cards.json
 clean:
 	rm -f data/oracle-cards.json bin/parser
 
-DRAFTS:=$(shell ls -d drafts/*/ | cut -f2 -d'/')
+DRAFTS:=$(shell ls -d data/polyverse/*/ | cut -f2 -d'/')
 reparse:
 	for dir in ${DRAFTS}; do \
-		./bin/parser parse-dir --deck-dir drafts/$${dir} --date $${dir} --filetype ".txt"; \
-		./bin/parser parse-dir --deck-dir drafts/$${dir} --date $${dir} --filetype ".csv"; \
+		./bin/parser parse-dir --deck-dir data/polyverse/$${dir} --date $${dir} --filetype ".txt"; \
+		./bin/parser parse-dir --deck-dir data/polyverse/$${dir} --date $${dir} --filetype ".csv"; \
 	done

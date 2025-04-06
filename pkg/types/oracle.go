@@ -2,7 +2,7 @@ package types
 
 import (
 	"encoding/json"
-	"io/ioutil"
+	"io"
 	"os"
 	"strings"
 )
@@ -18,7 +18,7 @@ func init() {
 	if err != nil {
 		panic(err)
 	}
-	bytes, err := ioutil.ReadAll(f)
+	bytes, err := io.ReadAll(f)
 	if err != nil {
 		panic(err)
 	}

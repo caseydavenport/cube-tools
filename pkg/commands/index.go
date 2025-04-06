@@ -36,7 +36,7 @@ type Path struct {
 
 func index() {
 	// Specify the directory that holds the drafts.
-	directory := "./drafts"
+	directory := "./data/polyverse"
 
 	// Get a list of sub-directories in the directory
 	// each subdir represents a draft.
@@ -64,7 +64,7 @@ func index() {
 		}
 
 		// Add decks to the draft.
-		draft.Decks = decksInDraft("drafts/" + draft.Date)
+		draft.Decks = decksInDraft("data/polyverse/" + draft.Date)
 
 		// Add this draft to the main index.
 		index.Drafts = append(index.Drafts, draft)
@@ -94,13 +94,13 @@ func index() {
 
 	// As part of re-indexing, parse the cube.csv and convert it to json so
 	// that it's more easily read by the UI code.
-	cards, _ := cardsFromCSV("cube.csv")
+	cards, _ := cardsFromCSV("data/polyverse/cube.csv")
 	cube := types.Cube{Cards: cards}
 	bytes, err := json.MarshalIndent(cube, "", " ")
 	if err != nil {
 		panic(err)
 	}
-	err = os.WriteFile("cube.json", bytes, os.ModePerm)
+	err = os.WriteFile("data/polyverse/cube.json", bytes, os.ModePerm)
 	if err != nil {
 		panic(err)
 	}

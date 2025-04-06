@@ -30,7 +30,7 @@ export function Checkbox(input) {
 
   return (
     <div className={className}>
-      <label style={{"padding-right": "10px"}}>
+      <label style={{"paddingRight": "10px"}}>
         {input.text}
       </label>
       <input id={input.id} checked={input.checked} onChange={input.onChange} type="checkbox" />
@@ -45,7 +45,7 @@ export function NumericInput(input) {
   }
   return (
     <div className={className}>
-      <label style={{"padding-right": "10px"}}>
+      <label style={{"paddingRight": "10px"}}>
         {input.label}
       </label>
       <input onChange={input.onChange} className="numeric-input" type="number" />
@@ -69,7 +69,7 @@ export function TextInput(input) {
 export function DateSelector(input) {
   return (
     <div className="dropdown">
-      <label style={{"padding-right": "10px"}}>{input.label}</label>
+      <label style={{"paddingRight": "10px"}}>{input.label}</label>
       <input
         type="date"
         id={input.id}

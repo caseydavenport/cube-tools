@@ -28,12 +28,12 @@ var DiffCubeCmd = &cobra.Command{
 		if from == "" {
 			logrus.Fatal("Must specify a cube file to diff from.")
 		}
-		fromPath := fmt.Sprintf("drafts/%s/cube-snapshot.json", from)
+		fromPath := fmt.Sprintf("data/polyverse/%s/cube-snapshot.json", from)
 
-		toPath := fmt.Sprintf("drafts/%s/cube-snapshot.json", to)
+		toPath := fmt.Sprintf("data/polyverse/%s/cube-snapshot.json", to)
 		if to == "" {
-			// If no "to" cube is specified, diff against the current cube.
-			toPath = "cube.json"
+			// If no "to" draft is specified, diff against the current cube.
+			toPath = "data/polyverse/cube.json"
 		}
 
 		// Diff the cubes.

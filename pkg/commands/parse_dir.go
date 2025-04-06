@@ -70,7 +70,7 @@ func parseDeckDir(deckDir, fileType, date string) {
 	})
 
 	// Make sure the output directory exists.
-	outdir := fmt.Sprintf("drafts/%s", date)
+	outdir := fmt.Sprintf("data/polyverse/%s", date)
 	err := os.MkdirAll(outdir, os.ModePerm)
 	if err != nil {
 		panic(err)
@@ -122,7 +122,7 @@ func parseDeckDir(deckDir, fileType, date string) {
 		// for historical tracking and comparisons.
 		// TODO: This is a bit of a hack, and assumes this command is being run
 		// within the root of this project. That's OK for now since I am the only user.
-		cmd := exec.Command("cp", "cube.json", snaptshotFilename)
+		cmd := exec.Command("cp", "data/polyverse/cube.json", snaptshotFilename)
 		if err := cmd.Run(); err != nil {
 			panic(err)
 		}
