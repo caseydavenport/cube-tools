@@ -49,6 +49,9 @@ export async function LoadDecks(onLoad, start, end, draftSize, playerMatch) {
   let json = responses.map((response) => response.json());
   let decks = await Promise.all(json);
 
+  // Assign a unique ID to each deck.
+  let id = 0
+
   let filtered = new Array()
   for (let d of decks) {
     // Skip decks that don't belong to the specified player name match.
@@ -63,15 +66,17 @@ export async function LoadDecks(onLoad, start, end, draftSize, playerMatch) {
     d.avg_cmc = AverageCMC({deck: d})
     d.colors = ExtractColors({deck: d})
 
+    if (d.date != d.draft) {
+      console.log("Deck date does not match draft date: " + d.date + " != " + d.draft)
+    }
+
     // TODO: For historical purposes. We don't actually need both of these fields.
+    // TODO: Distinguish between date and draft! Multiple drafts on the same date!
     d.draft = d.date
 
-    // Trim off any suffix following an `_` - this is used in the filesystem in cases where there are two
-    // drafts on the same date (e.g., 2025-04-05_2 being the second draft on that date).
-    d.date = d.date.split("_")[0]
-
     // Set a unique ID for this deck.
-    d.id = d.draft + "/" + d.player
+    d.id = d.draft + "/" + d.player + "/" + id
+    id += 1
 
     // Capitalize player names, since they are varying cases.
     d.player = capitalize(d.player)

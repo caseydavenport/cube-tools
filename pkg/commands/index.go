@@ -24,6 +24,7 @@ type MainIndex struct {
 }
 
 type Draft struct {
+	Dir      string `json:"dir"`
 	Date     string `json:"date"`
 	DraftLog string `json:"draft_log"`
 	Decks    []Path `json:"decks"`
@@ -57,7 +58,8 @@ func index() {
 
 		// Construct the draft.
 		draft := Draft{
-			Date:     dir,
+			Dir:      dir,
+			Date:     dateFromDir(dir),
 			DraftLog: draftLogPath,
 		}
 
@@ -156,4 +158,10 @@ func getSubDirectories(directory string) ([]string, error) {
 	}
 
 	return subDirs, nil
+}
+
+func dateFromDir(dir string) string {
+	// Split the directory name by underscores. Draft directories can have a suffix,
+	// which we need to strip.
+	return strings.Split(dir, "_")[0]
 }

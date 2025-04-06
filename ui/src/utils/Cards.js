@@ -40,9 +40,6 @@ export function CardData(decks, minDrafts, minGames, cube, color) {
   for (var i in decks) {
     let deck = decks[i]
 
-    // Keep track of the total number of drafts.
-    drafts.set(deck.draft, true)
-
     // Most cards are singleton in my cube. Except for fetches / shocks, for which it is
     // very possible there are multiple in the same deck. Create a "set" of all the unique
     // cards in the deck - this prevents double counting the wins contributed from a deck when there are
@@ -89,7 +86,7 @@ export function CardData(decks, minDrafts, minGames, cube, color) {
       }
 
       // Update the last date that this card was put in a mainboard.
-      cardsByName.get(card.name).lastMainboarded = compareDates(decks[i].draft, cardsByName.get(card.name).lastMainboarded)
+      cardsByName.get(card.name).lastMainboarded = compareDates(deck.date, cardsByName.get(card.name).lastMainboarded)
 
       // Increment player count.
       if (!cardsByName.get(card.name).players.has(deck.player)) {

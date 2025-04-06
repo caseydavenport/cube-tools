@@ -149,7 +149,7 @@ export default function DeckViewer() {
         return
       }
     }
-  }, [selectedPlayer, selectedDraft])
+  }, [highlightedDeck])
 
   return (
     <div>
