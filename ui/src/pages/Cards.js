@@ -754,10 +754,6 @@ function CardGraph(input) {
   let xAxis = input.xAxis
   let yAxis = input.yAxis
 
-  // Split the given decks into fixed-size buckets.
-  // Each bucket will contain N drafts worth of deck information.
-  let buckets = input.parsed.deckBuckets
-
   // Labels for each data point.
   var labels = []
   var backgroundColors = []

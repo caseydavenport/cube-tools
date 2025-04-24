@@ -112,8 +112,6 @@ export default function StatsViewer() {
     { label: "Mainboard rate", value: "Mainboard rate" },
     { label: "Win rate", value: "Win rate" },
   ]
-  const [xAxis, setxAxis] = useState(NumDecksOption)
-  const [yAxis, setYAxis] = useState(ELOOption)
   const [cardWidgetColorSelection, setCardWidgetColorSelection] = useState("");
   const cardWidgetColorOpts = [
     { label: "", value: "" },
@@ -148,6 +146,12 @@ export default function StatsViewer() {
   function onCardSelected(event) {
     setSelectedCard(event.target.id)
   }
+
+  ///////////////////////////////////////////////////////////////////////////////
+  // Shared between the Card and Deck widgets.
+  ///////////////////////////////////////////////////////////////////////////////
+  const [xAxis, setxAxis] = useState(NumDecksOption)
+  const [yAxis, setYAxis] = useState(ELOOption)
   function onXAxisSelected(event) {
     setxAxis(event.target.value)
   }
@@ -636,6 +640,11 @@ export default function StatsViewer() {
           decks={parsed.filteredDecks}
           show={display[3]}
           bucketSize={bucketSize}
+
+          xAxis={xAxis}
+          yAxis={yAxis}
+          onXAxisSelected={onXAxisSelected}
+          onYAxisSelected={onYAxisSelected}
         />
 
         <PlayerWidget

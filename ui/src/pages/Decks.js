@@ -1,8 +1,9 @@
 import React from 'react'
-import { IsBasicLand, SortFunc } from "../utils/Utils.js"
+import { AverageCMC, IsBasicLand, SortFunc } from "../utils/Utils.js"
 import { Red, Green, Black, White, Blue, Colors } from "../utils/Colors.js"
 import { Wins, Losses } from "../utils/Deck.js"
 import { BucketName, DeckBuckets } from "../utils/Buckets.js"
+import { DropdownHeader, NumericInput, Checkbox, DateSelector } from "../components/Dropdown.js"
 
 import {
   Chart as ChartJS,
@@ -16,7 +17,7 @@ import {
   ArcElement,
   BarElement,
 } from 'chart.js';
-import { Line, Bar, Pie } from 'react-chartjs-2';
+import { Scatter, Line, Bar, Pie } from 'react-chartjs-2';
 
 // Register chart JS objects that we need to use.
 ChartJS.register(
@@ -36,6 +37,29 @@ const winColor = Green
 const lossColor = Black // "#61892f"
 const inDeckColor = "#C97BF4"
 const inSideboardColor = "#ffaf12"
+
+const NumInteractionOption = "# interaction"
+const NumCreaturesOption = "# creatures"
+const WinPercentOption = "win %"
+const AvgManaValueOption = "avg. mana value"
+export const DeckScatterAxes = [
+  {label: NumInteractionOption, value: NumInteractionOption},
+  {label: NumCreaturesOption, value: NumCreaturesOption},
+  {label: WinPercentOption, value: WinPercentOption},
+  {label: AvgManaValueOption, value: AvgManaValueOption},
+]
+
+// Chart configuration.
+// TODO: Standardize with Cards.js
+const chartHeight = "1000px"
+const chartWidth = "300px"
+const ticks = {
+  color: "#FFF",
+  font: {
+    size: 16,
+  },
+}
+
 
 // This is imperfect, but matches most removal spells.
 // Will need to keep this up to date with the cube as it evolves, or find
@@ -96,6 +120,27 @@ const lifegainMatches = [
   "gain . life",
   "lifelink",
 ]
+
+export function DeckSplits(deck) {
+  let creatures = 0
+  let interaction = 0
+
+  for (let card of deck.mainboard) {
+    if (card.types.includes("Creature")) {
+      creatures += 1
+    }
+
+    // Interaction - removal and counterspells.
+    for (let match of RemovalMatches.concat(CounterspellMatches)) {
+      if (card.oracle_text.toLowerCase().match(match)){
+        interaction += 1
+        break
+      }
+    }
+  }
+
+  return [creatures, interaction]
+}
 
 export function DeckWidget(input) {
   if (!input.show) {
@@ -274,6 +319,10 @@ export function DeckWidget(input) {
               parsed={input.parsed}
             />
           </td>
+        </tr>
+
+        <tr>
+          <DeckGraph {...input} />
         </tr>
 
       </tbody>
@@ -1385,4 +1434,149 @@ function ManaCostByOracleTextOverTime(input) {
       <Line height={"300px"} width={"300px"} options={options} data={data} />
     </div>
   );
+}
+
+
+function DeckGraph(input) {
+
+  // Determine what to show on each axis.
+  let xAxis = input.xAxis
+  let yAxis = input.yAxis
+
+  // Labels for each data point.
+  var labels = []
+  var backgroundColors = []
+  var sizes = []
+
+  let name = yAxis + " vs. " + xAxis
+
+  // values is an array of maps with keys 'x' and 'y'.
+  var values = []
+  for (let deck of input.parsed.filteredDecks) {
+    var x = null
+    var y = null
+
+    x = getValue(xAxis, deck, input.parsed.archetypeData, input.parsed.playerData, input.parsed.filteredDecks, input.parsed.pickInfo)
+    y = getValue(yAxis, deck, input.parsed.archetypeData, input.parsed.playerData, input.parsed.filteredDecks, input.parsed.pickInfo)
+
+    let name = deck.player + " (" + deck.date + ")"
+    labels.push(name)
+
+    // Default to green, but highlight in red if it is the selected card.
+    if (name === input.selectedCard) {
+      backgroundColors.push("#F00")
+      sizes.push(10)
+    } else {
+      backgroundColors.push("#0F0")
+      sizes.push(3)
+    }
+    values.push({"x": x, "y": y})
+  }
+
+  let dataset = [
+      {
+        label: "All decks",
+        data: values,
+        pointBackgroundColor: backgroundColors,
+        pointRadius: sizes,
+        pointHoverRadius: 10,
+      },
+  ]
+
+
+  let title = `${name} (all drafts)`
+
+  const options = {
+    responsive: true,
+    maintainAspectRatio: false,
+    onClick: function(evt, element) {},
+    scales: {
+      y: {
+        title: {display: true, text: yAxis, font: {size: 20, weight: "bold"}, color: "white"},
+        min: getScales(yAxis, false)[0],
+        max: getScales(yAxis, false)[1],
+        ticks: ticks,
+      },
+      x: {
+        title: {display: true, text: xAxis, font: {size: 20, weight: "bold"}, color: "white"},
+        min: getScales(xAxis, false)[0],
+        max: getScales(xAxis, false)[1],
+        ticks: ticks,
+      },
+    },
+    plugins: {
+      title: {
+        display: true,
+        text: title,
+        color: "#FFF",
+        font: {
+          size: "16pt",
+        },
+      },
+      legend: {
+        labels: {
+          color: "#FFF",
+          font: {
+            size: "16pt",
+          },
+        },
+      },
+    },
+  };
+
+  const data = {labels, datasets: dataset};
+  return (
+    <div className="chart-container">
+      <table className="dropdown-header" style={{"width": "75%"}} align="center">
+        <tbody>
+          <tr>
+            <DropdownHeader
+              label="X Axis"
+              options={DeckScatterAxes}
+              value={input.xAxis}
+              onChange={input.onXAxisSelected}
+            />
+            <DropdownHeader
+              label="Y Axis"
+              options={DeckScatterAxes}
+              value={input.yAxis}
+              onChange={input.onYAxisSelected}
+            />
+          </tr>
+        </tbody>
+      </table>
+
+      <div align="center">
+        <Scatter className="chart" options={options} data={data} />
+      </div>
+    </div>
+  );
+}
+
+function getScales(axis, force) {
+  // TODO: Can uncomment this when there are % based stat options.
+  // if (force) {
+  //   switch (axis) {
+  //     case NumInteractionOption:
+  //     case NumCreaturesOption:
+  //       return [0, 100]
+  //   }
+  // }
+  return [null, null]
+}
+
+function getValue(axis, deck, archetypeData, playerData, decks, draftData) {
+  let [creatures, interaction] = DeckSplits(deck)
+
+  switch (axis) {
+    case NumInteractionOption:
+      return interaction
+    case NumCreaturesOption:
+      return creatures
+    case WinPercentOption:
+      return Math.round(100 * Wins(deck) / (Wins(deck) + Losses(deck)))
+    case AvgManaValueOption:
+      return AverageCMC({deck: deck})
+  }
+  return null
 }
