@@ -7,7 +7,7 @@
 
 ## {u}{b} control (3-0)
 
-This was my deck. It's about as close to the prototypical Dimir control deck as I could get it. It comes with a ton of removal, counterspells, and a small handful of hard to interact with threats. It ended up going 3-0, but I wouldn't say comforatably. Regardless, I think this is a really solid piece of evidence that very hard, draw-go control decks are viable in this cube. Each of my matches was won two games to one, and while some games I felt decisively in control, most felt pretty close.
+This was my deck. It's about as close to the prototypical Dimir control deck as I could get it. It comes with a ton of removal, counterspells, and a small handful of hard to interact with threats. It ended up going 3-0, but I wouldn't say comfortably. Regardless, I think this is a really solid piece of evidence that very hard, draw-go control decks are viable in this cube. Each of my matches was won two games to one, and while some games I felt decisively in control, most felt pretty close.
 
 This was the first time a number of cards saw play:
 

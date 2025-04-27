@@ -1,4 +1,4 @@
-Ended up going 3-0, but I wouldn't say comforatably. While some games I felt decisively in control, most felt pretty close.
+Ended up going 3-0, but I wouldn't say comfortably. While some games I felt decisively in control, most felt pretty close.
 
 This was the first time a number of cards saw play:
 

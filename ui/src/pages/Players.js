@@ -1,7 +1,7 @@
 import React from 'react'
 import { IsBasicLand, SortFunc } from "../utils/Utils.js"
 import { ColorImages } from "../utils/Colors.js"
-import { Wins, Losses } from "../utils/Deck.js"
+import { Trophies, LastPlaceFinishes, Wins, Losses } from "../utils/Deck.js"
 import { BucketName } from "../utils/Buckets.js"
 
 import {
@@ -68,6 +68,8 @@ export function PlayerData(decks) {
         redPicks: 0,
         wins: 0,
         losses: 0,
+        threeoh: 0,
+        ohthree: 0,
       })
     }
 
@@ -76,6 +78,8 @@ export function PlayerData(decks) {
     map.get(player).losses += Losses(deck)
     map.get(player).numDecks += 1
     map.get(player).decks.push(deck)
+    map.get(player).threeoh += Trophies(deck)
+    map.get(player).ohthree += LastPlaceFinishes(deck)
 
     // Go through each card and increase the player's per-card stats.
     for (var j in deck.mainboard) {
@@ -168,6 +172,8 @@ function PlayerTable(input) {
             <td onClick={input.onHeaderClick} id="games" className="header-cell">Games</td>
             <td onClick={input.onHeaderClick} id="wins" className="header-cell">Won</td>
             <td onClick={input.onHeaderClick} id="losses" className="header-cell">Lost</td>
+            <td onClick={input.onHeaderClick} id="trophies" className="header-cell">Trophies</td>
+            <td onClick={input.onHeaderClick} id="lastplace" className="header-cell">Last place</td>
             <td onClick={input.onHeaderClick} id="W" className="header-cell">{ColorImages("W")}</td>
             <td onClick={input.onHeaderClick} id="U" className="header-cell">{ColorImages("U")}</td>
             <td onClick={input.onHeaderClick} id="B" className="header-cell">{ColorImages("B")}</td>
@@ -212,6 +218,12 @@ function PlayerTable(input) {
               case "decks":
                 sort = row.numDecks
                 break
+              case "trophies":
+                sort = row.threeoh;
+                break;
+              case "lastplace":
+                sort = row.ohthree;
+                break;
             }
             if (input.invertSort) {
               sort = -1 * sort
@@ -223,6 +235,8 @@ function PlayerTable(input) {
                 <td>{row.games}</td>
                 <td>{row.winPercent}%</td>
                 <td>{row.lossPercent}%</td>
+                <td>{row.threeoh}</td>
+                <td>{row.ohthree}</td>
                 <td>{row.whitePercent}%</td>
                 <td>{row.bluePercent}%</td>
                 <td>{row.blackPercent}%</td>
