@@ -14,9 +14,20 @@ There are a few parts to this repository:
 
 Data for each draft can be found in [data](data). Structure is as follows:
 
-- [data](data): data root directory, with a sub-directory per-cube.
-- [data/<cube>](data/polyverse): cube directory containing a sub-dir per draft, a `cube.json` file, an an `index.json` file.
-- [data/<cube>/<draft>](data/polyverse/2024-11-09): draft directory containing deck files, report information, a cube snapshot, and optional optional replays and draft logs.
+```
+data/                        # data root directory, with a sub-directory per-cube.
+|-- <cube-name>/             # cube directory
+   |-- cube.json             # current cube JSON file.
+   |-- index.json            # auto-generated index file of decks.
+   |-- YYYY-MM-DD/           # draft directory containing per-draft information.
+      |-- player.json        # deck file for <player>
+      |-- player.report.md   # optional report markdown file for this deck.
+      |-- cube-snapshot.json # snapshot of the cube at this date.
+      |-- draft-log.json     # optional draft log from Draftmancer.com
+      |-- replays/           # optional cockatrice replays directory.
+```
+
+The above file structure is largely generated using the Go tool provided.
 
 ## Building the go tool
 
@@ -47,29 +58,37 @@ Flags:
 Use "Parse [command] --help" for more information about a command.
 ```
 
-## Parsing decks
+## Adding draft information
 
-To parse a deck:
+Create a temporary directory and download / create deck files within.
 
-```
-./bin/parser -deck input.csv \
-    -who player_name \
-    -wins 2 \
-    -losses 2 \
-    -labels aggro,sacrifice \
-    -date YYYY-MM-DD
-```
-
-To parse a directory containing multiple decks:
+To parse the decks within the directory:
 
 ```
-/bin/parser \
-    -deck-dir ~/Downloads/draft/ \
-    -date 2024-01-07 \
-    -filetype ".txt"
+./bin/parser \
+    -deck-dir ~/Downloads/draft/ \     # Path to deck files.
+    -date 2024-01-07 \                 # Date to assign.
+    -p Prefix \                        # Optional prefix to match for each deck file.
+    -filetype ".txt"                   # Filetype to check.
 ```
 
-The resulting files will be stored at `drafts/YYYY-MM-DD/player_name.json`
+Optional next steps:
+
+- Add replays to `replays/`
+- Add a `draft-log.json`
+- Update parsed `player.json` files with labels.
+
+You can then add match information. e.g., the following adds a match that was won 2-1 by player1.
+
+```
+DATE=2024-01-07 ./bin/parser edit add-match -p player1 -o player2 -r "2-1"
+```
+
+Finally, index the new draft information so it can be discovered by the UI:
+
+```
+./bin/parser index
+```
 
 ## Updating metadata
 
@@ -86,13 +105,6 @@ Each draft can optionally include a log exported from draftmancer including draf
 Draft logs are found at `drafts/YYYY-MM-DD/draft-log.json`
 
 ## Running the UI
-
-Right now, the UI learns about the existence of draft data from index JSON files that are programmatically
-generated. Eventually, this will be backed by an API instead. To regenerate the index after adding a new draft:
-
-```
-make index
-```
 
 If you haven't already, install node dependencies:
 
