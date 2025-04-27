@@ -98,6 +98,41 @@ export function SortFunc(a, b) {
 }
 
 export function StringToColor(str) {
+  // Use some hard-coded color values for known color pairings.
+  switch (str) {
+    case "WU":
+      return "#03fcf8"
+      break;
+    case "WB":
+      return "#FFFFFF"
+      break;
+    case "WR":
+      return "#ff7a7a"
+      break;
+    case "WG":
+      return "#e0ff7a"
+      break;
+    case "UB":
+      return "#4e5591"
+      break;
+    case "UR":
+      return "#fa2de9"
+      break;
+    case "BR":
+      return "#8a0404"
+      break;
+    case "BG":
+      return "#114a19"
+      break;
+    case "RG":
+      return "#8a560a"
+      break;
+    case "UG":
+      return "#61d491"
+      break;
+  }
+
+  // Not a known string - auto-generate one.
   // If this is a short string, duplicate it for additional color space.
   // Otherwise, we get very similar shades of red.
   if (str.length < 3) {

@@ -70,6 +70,22 @@ export function MatchLosses(deck) {
   return losses
 }
 
+// A deck gets a trophy if it has at least 3 match wins without a match loss.
+export function Trophies(deck) {
+  if (MatchWins(deck) >= 3 && MatchLosses(deck) == 0) {
+    return 1;
+  }
+  return 0
+}
+
+// A deck comes in last place if it has no wins, and at least three losses.
+export function LastPlaceFinishes(deck) {
+  if (MatchWins(deck) == 0 && MatchLosses(deck) >= 3) {
+    return 1;
+  }
+  return 0;
+}
+
 export function MatchDraws(deck) {
   if (deck.matches == null) {
     return 0

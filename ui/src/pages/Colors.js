@@ -1,7 +1,7 @@
 import React from 'react'
 import { DropdownHeader, NumericInput, Checkbox, DateSelector } from "../components/Dropdown.js"
 import { Colors, ColorImages, GetColorIdentity } from "../utils/Colors.js"
-import { Wins, Losses } from "../utils/Deck.js"
+import { Trophies, LastPlaceFinishes, Wins, Losses } from "../utils/Deck.js"
 import { IsBasicLand, SortFunc, StringToColor } from "../utils/Utils.js"
 import { BucketName } from "../utils/Buckets.js"
 
@@ -39,14 +39,33 @@ export function ColorWidget(input) {
     return
   }
 
+  // Calculate the total win shares contributed from the filtered set of data.
+  // This is passed to several sub-widgets.
+  let totalWinShares = 0;
+  for (let d of Array.from(input.parsed.colorData.values())) {
+    // If dual is set, only show dual colors.
+    // Otherwise, only show single colors.
+    // `color` here is a string made of one or more characters - e.g., W or UB.
+    if (input.colorTypeSelection === "Dual" && d.color.length !== 2) {
+      continue
+    } else if (input.colorTypeSelection === "Mono" && d.color.length !== 1 ) {
+      continue
+    } else if (input.colorTypeSelection === "Trio" && d.color.length !== 3) {
+      continue
+    }
+    totalWinShares += d.win_shares
+  }
+
+
   return (
     <table style={{"width": "100%"}}>
       <tbody>
         <tr key="1">
-          <td style={{"width": "50%"}}>
+          <td colSpan="2">
             <ColorStatsTable
               parsed={input.parsed}
               colorData={input.parsed.colorData}
+              totalWinShares={totalWinShares}
               ddOpts={input.ddOpts}
               dropdownSelection={input.colorTypeSelection}
               decks={input.decks}
@@ -57,11 +76,10 @@ export function ColorWidget(input) {
               onStrictCheckbox={input.onStrictCheckbox}
             />
           </td>
-          <td style={{"width": "50%"}}> </td>
         </tr>
 
         <tr key="2">
-          <td style={{"paddingTop": "50px"}}>
+          <td style={{"paddingTop": "50px", "width": "50%"}}>
             <ColorRateChart
               parsed={input.parsed}
               colorData={input.parsed.colorData}
@@ -71,7 +89,7 @@ export function ColorWidget(input) {
               bucketSize={input.bucketSize}
             />
           </td>
-          <td style={{"paddingTop": "50px"}}>
+          <td style={{"paddingTop": "50px", "width": "50%"}}>
             <ColorRateChart
               parsed={input.parsed}
               decks={input.decks}
@@ -129,7 +147,7 @@ export function ColorWidget(input) {
         </tr>
 
         <tr key="5">
-          <td colSpan="3">
+          <td colSpan="2">
             <ColorRateChart
               parsed={input.parsed}
               colorData={input.parsed.colorData}
@@ -166,7 +184,7 @@ function ColorStatsTable(input) {
   }
 
   // Determine which rates to show.
-  let filtered = new Array()
+  let filtered = new Array();
   for (let d of colorData) {
     // If dual is set, only show dual colors.
     // Otherwise, only show single colors.
@@ -200,17 +218,22 @@ function ColorStatsTable(input) {
     {
       id: "pwin",
       text: "% of wins",
-      tip: "Percentage of all wins across all decks that included this color.",
+      tip: "Percentage of all wins by decks that included this color.",
     },
     {
       id: "shares",
       text: "Shares",
-      tip: "Wins, weighted by the number of cards of this color that were in the deck.",
+      tip: "Number of wins weighted by percentage of cards of this color, as a percentage of total.",
     },
     {
-      id: "record",
-      text: "Record",
-      tip: "Wins, losses, and draws.",
+      id: "trophies",
+      text: "Trophies",
+      tip: "Number of 3-0 decks of this color.",
+    },
+    {
+      id: "lastplace",
+      text: "Last place",
+      tip: "Number of 0-3 decks of this color.",
     },
     {
       id: "decks",
@@ -261,7 +284,6 @@ function ColorStatsTable(input) {
         <tbody>
           {
             filtered.map(function(rates, idx) {
-              let record = rates.wins + "-" + rates.losses + "-" + 0
 
               // Determine what we're sorting by. Default to sorting by win percentage.
               let sort = rates.win_percent
@@ -279,9 +301,14 @@ function ColorStatsTable(input) {
                 sort = rates.percent_of_wins
               } else if (input.sortBy === "shares") {
                 sort = rates.win_shares
+              } else if (input.sortBy === "trophies") {
+                sort = rates.threeoh
+              } else if (input.sortBy === "lastplace") {
+                sort = rates.ohthree
               }
 
               let img = ColorImages(rates.color)
+              let winSharesPercentage = Math.round(100 * rates.win_shares / input.totalWinShares)
 
               return (
                 <tr key={idx} sort={sort} className="widget-table-row">
@@ -289,8 +316,9 @@ function ColorStatsTable(input) {
                   <td>{rates.win_percent}%</td>
                   <td>{rates.build_percent}%</td>
                   <td>{rates.percent_of_wins}%</td>
-                  <td>{rates.win_shares}</td>
-                  <td>{record}</td>
+                  <td>{winSharesPercentage}%</td>
+                  <td>{rates.threeoh}</td>
+                  <td>{rates.ohthree}</td>
                   <td>{rates.num_decks}</td>
                   <td style={headerStyleFields}>{rates.total_pick_percentage}%</td>
                   <td>{rates.average_deck_percentage}%</td>
@@ -336,9 +364,17 @@ export function GetColorStats(decks, strictColors) {
   let newColor = function(color) {
     return {
       color: color,
+
+      // Number of game wins, losses.
       wins: 0,
       losses: 0,
+
+      // Number of cards of this color.
       cards: 0,
+
+      // Track the number of 3-0 and 0-3 decks.
+      threeoh: 0,
+      ohthree: 0,
 
       // Each element represents a deck, with value equal to the
       // percentage of cards in that deck with this color.
@@ -365,7 +401,7 @@ export function GetColorStats(decks, strictColors) {
       deck_win_shares: [],
       possible_win_shares: 0,
       win_shares: 0,
-      win_shares_converterd: 0,
+      win_shares_converted: 0,
     }
   }
 
@@ -399,6 +435,8 @@ export function GetColorStats(decks, strictColors) {
       }
       tracker.get(color).wins += Wins(decks[i])
       tracker.get(color).losses += Losses(decks[i])
+      tracker.get(color).threeoh += Trophies(decks[i])
+      tracker.get(color).ohthree += LastPlaceFinishes(decks[i])
       tracker.get(color).num_decks += 1
     }
 
@@ -468,7 +506,7 @@ export function GetColorStats(decks, strictColors) {
     const density_count = color.deck_percentages.length;
     color.average_deck_percentage = Math.round(100 * density_sum / density_count);
     color.win_shares = Math.round(100 * color.deck_win_shares.reduce((sum, a) => sum + a, 0)) / 100;
-    color.win_shares_converterd = Math.round(100 * color.win_shares / color.possible_win_shares) / 100;
+    color.win_shares_converted = Math.round(100 * color.win_shares / color.possible_win_shares) / 100;
 
     // Calculate the percentage of all cards drafted that are this color.
     color.total_pick_percentage = Math.round(100 * color.cards / totalCards);
@@ -483,7 +521,20 @@ export function GetColorStats(decks, strictColors) {
 function ColorRateChart(input) {
   // Split the given decks into fixed-size buckets.
   // Each bucket will contain N drafts worth of deck information.
-  let buckets = input.parsed.deckBuckets
+  let buckets = input.parsed.deckBuckets;
+
+  // Mapping of colors to human-readable names.
+  let colorNames = new Map();
+  colorNames.set("WU", "Azorius")
+  colorNames.set("WB", "Orzhov")
+  colorNames.set("WR", "Boros")
+  colorNames.set("WG", "Selesnya")
+  colorNames.set("UB", "Dimir")
+  colorNames.set("UR", "Izzet")
+  colorNames.set("BR", "Rakdos")
+  colorNames.set("BG", "Golgari")
+  colorNames.set("RG", "Gruul")
+  colorNames.set("UG", "Simic")
 
   // Use the starting date of the bucket as the label. This is just an approximation,
   // as the bucket really includes a variable set of dates, but it allows the viewer to
@@ -516,7 +567,7 @@ function ColorRateChart(input) {
       } else if (input.dataset === "possible_shares") {
         colorDatasets.get(color).push(stats.get(color).possible_win_shares)
       } else if (input.dataset === "shares_converted") {
-        colorDatasets.get(color).push(stats.get(color).win_shares_converterd)
+        colorDatasets.get(color).push(stats.get(color).win_shares_converted)
       } else if (input.dataset === "pick_percentage") {
         colorDatasets.get(color).push(stats.get(color).total_pick_percentage)
       } else if (input.dataset === "splash") {
@@ -529,36 +580,50 @@ function ColorRateChart(input) {
     }
   }
 
+  // Configuration for datasets.
+  let hoverBorderWidth = 4;
+  let hoverBorderColor = "red"
+
   let monoColorDatasets = [
       {
         label: 'White',
         data: colorDatasets.get("W"),
         borderColor: Colors.get("W"),
         backgroundColor: Colors.get("W"),
+        hoverBorderColor: hoverBorderColor,
+        hoverBorderWidth: hoverBorderWidth,
       },
       {
         label: 'Blue',
         data: colorDatasets.get("U"),
         borderColor: Colors.get("U"),
         backgroundColor: Colors.get("U"),
+        hoverBorderColor: hoverBorderColor,
+        hoverBorderWidth: hoverBorderWidth,
       },
       {
         label: 'Black',
         data: colorDatasets.get("B"),
         borderColor: Colors.get("B"),
         backgroundColor: Colors.get("B"),
+        hoverBorderColor: hoverBorderColor,
+        hoverBorderWidth: hoverBorderWidth,
       },
       {
         label: 'Red',
         data: colorDatasets.get("R"),
         borderColor: Colors.get("R"),
         backgroundColor: Colors.get("R"),
+        hoverBorderColor: hoverBorderColor,
+        hoverBorderWidth: hoverBorderWidth,
       },
       {
         label: 'Green',
         data: colorDatasets.get("G"),
         borderColor: Colors.get("G"),
         backgroundColor: Colors.get("G"),
+        hoverBorderColor: hoverBorderColor,
+        hoverBorderWidth: hoverBorderWidth,
       },
   ]
 
@@ -566,20 +631,24 @@ function ColorRateChart(input) {
   let dualColorDatasets = []
   for (let color of dualColors) {
     dualColorDatasets.push({
-      label: color,
+      label: colorNames.get(color) ?? color,
       data: colorDatasets.get(color),
       borderColor: StringToColor(color),
       backgroundColor: StringToColor(color),
+      hoverBorderColor: hoverBorderColor,
+      hoverBorderWidth: hoverBorderWidth,
     })
   }
 
   let triColorDatasets = []
   for (let color of triColors) {
     triColorDatasets.push({
-      label: color,
+      label: colorNames.get(color) ?? color,
       data: colorDatasets.get(color),
       borderColor: StringToColor(color),
       backgroundColor: StringToColor(color),
+      hoverBorderColor: hoverBorderColor,
+      hoverBorderWidth: hoverBorderWidth,
     })
   }
 
@@ -633,13 +702,28 @@ function ColorRateChart(input) {
     }
   }
   // Round things.
-  max = Math.ceil(max / 20) * 20
+  max = Math.ceil(max / 10) * 10
   min = Math.floor(min / 20) * 20
+  if (max >= 90) {
+    max = 100
+  }
+  if (min <= 10) {
+    min = 0
+  }
 
   const options = {
     responsive: true,
+    borderWidth: 3,
     maintainAspectRatio: false,
     scales: {y: {min: min, max: max}},
+    hover: {
+      mode: 'dataset'
+    },
+    elements: {
+      point: {
+        hitRadius: 10
+      }
+    },
     plugins: {
       title: {
         display: true,
@@ -662,8 +746,8 @@ function ColorRateChart(input) {
 
   const data = {labels, datasets: dataset};
   return (
-    <div style={{"height":"500px", "width":"100%"}}>
-      <Line height={"300px"} width={"300px"} options={options} data={data} />
+    <div style={{"height":"500px"}}>
+      <Line height={"300px"} options={options} data={data} />
     </div>
   );
 }

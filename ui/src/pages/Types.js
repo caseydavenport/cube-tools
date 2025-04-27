@@ -1,7 +1,7 @@
 import React from 'react'
 import { IsBasicLand, SortFunc, StringToColor } from "../utils/Utils.js"
 import { Colors, ColorImages } from "../utils/Colors.js"
-import { Wins, Losses } from "../utils/Deck.js"
+import { Trophies, LastPlaceFinishes, Wins, Losses } from "../utils/Deck.js"
 import { DropdownHeader, NumericInput, Checkbox, DateSelector } from "../components/Dropdown.js"
 import { BucketName } from "../utils/Buckets.js"
 
@@ -212,6 +212,16 @@ function ArchetypeStatsTable(input) {
       tip: "Number of wins from decks with this tag, divided by the total number of wins across all decks.",
     },
     {
+      id: "trophies",
+      text: "Trophies",
+      tip: "Number of 3-0 decks of this archetype / tag.",
+    },
+    {
+      id: "lastplace",
+      text: "Last place",
+      tip: "Number of 0-3 decks of this archetype / tag.",
+    },
+    {
       id: "num",
       text: "# Decks",
       tip: "Total number of decks with this archetype / tag.",
@@ -258,19 +268,25 @@ function ArchetypeStatsTable(input) {
               switch (input.sortBy) {
                 case "type":
                   sort = t.type;
-                  break
+                  break;
                 case "win_percent":
                   sort = t.win_percent;
-                  break
+                  break;
                 case "shared":
                   sort = t.avg_shared;
-                  break
+                  break;
                 case "num":
                   sort = t.count;
-                  break
+                  break;
                 case "pwin":
                   sort = t.percent_of_wins;
-                  break
+                  break;
+                case "trophies":
+                  sort = t.threeoh;
+                  break;
+                case "lastplace":
+                  sort = t.ohthree;
+                  break;
               }
               return (
                 <tr key={t.type} sort={sort} className="widget-table-row">
@@ -278,6 +294,8 @@ function ArchetypeStatsTable(input) {
                   <td key="build_percent">{t.build_percent}%</td>
                   <td key="win_percent">{t.win_percent}%</td>
                   <td key="pwin">{t.percent_of_wins}%</td>
+                  <td key="trophies">{t.threeoh}</td>
+                  <td key="lastplace">{t.ohthree}</td>
                   <td key="num">{t.count}</td>
                   <td key="shared">{t.avg_shared}</td>
                 </tr>
@@ -533,6 +551,8 @@ export function ArchetypeData(decks) {
       win_percent: 0,
       avg_shared: 0,
       avg_cmc: 0,
+      threeoh: 0,
+      ohthree: 0,
     }
   }
 
@@ -559,6 +579,8 @@ export function ArchetypeData(decks) {
       tracker.get(type).count += 1
       tracker.get(type).wins += Wins(deck)
       tracker.get(type).losses += Losses(deck)
+      tracker.get(type).threeoh += Trophies(deck)
+      tracker.get(type).ohthree += LastPlaceFinishes(deck)
 
       // Sum the values here, and divide them after we iterate all decks.
       tracker.get(type).avg_cmc += deck.avg_cmc
