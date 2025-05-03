@@ -15,52 +15,11 @@ export async function LoadCube(onFetch) {
 
 export async function LoadDecks(onLoad, start, end, draftSize, playerMatch) {
   console.time("LoadDecks()")
+  const resp = await fetch(`/api/decks?start=${start}&end=${end}&size=${draftSize}&player=${playerMatch}`);
+  let decks = await resp.json();
 
-  // First, fetch the draft index. We'll use this to find
-  // all the drafts and decks therein.
-  let idx = await FetchIndex(null)
-
-  let urls = []
-  idx.drafts.forEach(function(draft, i) {
-    if (!isDateBetween(draft.date, start, end)) {
-      return
-    }
-
-    // Skip any drafts with fewer than the number of requested decks.
-    // This allows skipping of e.g., 2 player grid drafts.
-    if (draft.decks.length < draftSize) {
-      return
-    }
-
-    draft.decks.forEach(function(deck, j) {
-      // Track the file we need to query.
-      urls.push(deck.path)
-    })
-  })
-
-
-  let requests = urls.map((url) => fetch(url));
-  let responses = await Promise.all(requests);
-  let errors = responses.filter((response) => !response.ok);
-  if (errors.length > 0) {
-      throw errors.map((response) => Error(response.statusText));
-  }
-
-  // Do some cleanup on each loaded deck object.
-  let json = responses.map((response) => response.json());
-  let decks = await Promise.all(json);
-
-  let filtered = new Array()
-  for (let d of decks) {
-    // Skip decks that don't belong to the specified player name match.
-    // This allows us to filter down to a single player's history and perform calculations
-    // ignoring decks from any other player.
-    if (playerMatch != "") {
-      if (!d.player.toLowerCase().match(playerMatch.toLowerCase())) {
-        continue
-      }
-    }
-
+  // TODO: Move this into the server code, instead of iterate decks here.
+  for (let d of decks.decks) {
     d.avg_cmc = AverageCMC({deck: d})
     d.colors = ExtractColors({deck: d})
 
@@ -72,13 +31,9 @@ export async function LoadDecks(onLoad, start, end, draftSize, playerMatch) {
         g.winner = capitalize(g.winner)
       }
     }
-
-    filtered.push(d)
   }
-
-  // Callback with all of the loaded decks.
   console.timeEnd("LoadDecks()")
-  onLoad(filtered)
+  onLoad(decks.decks)
 }
 
 function capitalize(word) {

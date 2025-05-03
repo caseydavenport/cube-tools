@@ -2,6 +2,10 @@ GIT_VERSION=$(shell git describe --tags --dirty --long --always --abbrev=12)
 
 all: data/oracle-cards.json bin/parser
 
+run:
+	go run ./cmd/server/server.go &
+	cd ui && npm start
+
 build bin/parser: $(shell find ./pkg -type f) $(shell find ./cmd -type f)
 	mkdir -p bin
 	go build -o bin/parser ./main.go

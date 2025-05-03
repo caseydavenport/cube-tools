@@ -18,6 +18,12 @@ module.exports = {
     allowedHosts: [
       "cube-tools-344508482023.us-central1.run.app"
     ],
+    proxy: [
+      {
+        context: ['/api'],
+        target: 'http://localhost:8888',
+      },
+    ],
   },
   module: {
     rules: [

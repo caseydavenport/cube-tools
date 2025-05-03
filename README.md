@@ -113,10 +113,10 @@ cd ui
 npm install
 ```
 
-Then, you can start the UI by running the following in the `ui` directory:
+Then, you can start the UI by running the following:
 
 ```
-npm start
+make run
 ```
 
 ## Cockatrice replays
