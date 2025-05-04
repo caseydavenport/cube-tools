@@ -39,40 +39,23 @@ export function ColorWidget(input) {
     return
   }
 
-  // Calculate the total win shares contributed from the filtered set of data.
-  // This is passed to several sub-widgets.
-  let totalWinShares = 0;
-  for (let d of Array.from(input.parsed.colorData.values())) {
-    // If dual is set, only show dual colors.
-    // Otherwise, only show single colors.
-    // `color` here is a string made of one or more characters - e.g., W or UB.
-    if (input.colorTypeSelection === "Dual" && d.color.length !== 2) {
-      continue
-    } else if (input.colorTypeSelection === "Mono" && d.color.length !== 1 ) {
-      continue
-    } else if (input.colorTypeSelection === "Trio" && d.color.length !== 3) {
-      continue
-    }
-    totalWinShares += d.win_shares
-  }
-
-
   return (
-    <table style={{"width": "100%"}}>
+    <table className="scroll-container-large">
       <tbody>
         <tr key="1">
           <td colSpan="2">
             <ColorStatsTable
               parsed={input.parsed}
               colorData={input.parsed.colorData}
-              totalWinShares={totalWinShares}
               ddOpts={input.ddOpts}
-              dropdownSelection={input.colorTypeSelection}
+              colorTypeSelection={input.colorTypeSelection}
               decks={input.decks}
               onSelected={input.onSelected}
               onClick={input.onHeaderClick}
               sortBy={input.colorSortBy}
               strictColors={input.strictColors}
+              selectedBucket={input.selectedBucket}
+              onBucketSelected={input.onBucketSelected}
               onStrictCheckbox={input.onStrictCheckbox}
             />
           </td>
@@ -129,7 +112,7 @@ export function ColorWidget(input) {
               parsed={input.parsed}
               colorData={input.parsed.colorData}
               decks={input.decks}
-              dataset="possible_shares"
+              dataset="vps_pct"
               colorMode={input.colorTypeSelection}
               bucketSize={input.bucketSize}
             />
@@ -139,7 +122,7 @@ export function ColorWidget(input) {
               parsed={input.parsed}
               colorData={input.parsed.colorData}
               decks={input.decks}
-              dataset="shares"
+              dataset="vps"
               colorMode={input.colorTypeSelection}
               bucketSize={input.bucketSize}
             />
@@ -165,6 +148,19 @@ export function ColorWidget(input) {
   );
 }
 
+// colorIsDisplayed returns true if the given color identity should be displayed - e.g.,
+// if Dual is selected, mono and trio colors are filtered out.
+function colorIsDisplayed(color, selection) {
+  if (selection === "Dual" && color.length !== 2) {
+    return false
+  } else if (selection === "Mono" && color.length !== 1 ) {
+    return false
+  } else if (selection === "Trio" && color.length !== 3) {
+    return false
+  }
+  return true
+}
+
 // ColorStatsTable displays the win percentages and records by color.
 function ColorStatsTable(input) {
   if (input == null || input.colorData == null) {
@@ -175,28 +171,39 @@ function ColorStatsTable(input) {
   // Also, convert from a map to a list at this point so that we can
   // sort by win percentage.
   let colorData = Array.from(input.colorData.values())
+  if (input.parsed.deckBuckets.length > 0 && input.selectedBucket != "ALL") {
+    for (let bucket of input.parsed.deckBuckets) {
+      if (BucketName(bucket) === input.selectedBucket) {
+        // UI has selected a particualr bucket to investigate, so pull the data from that bucket only.
+        colorData = Array.from(bucket.colorData.values())
+        break;
+      }
+    }
+  }
+
+
 
   // We conditionally show / hide a few of the columns, because they are only
   // applicable when mono-color is displayed.
   let headerStyleFields = {}
-  if (input.dropdownSelection !== "Mono") {
+  if (input.colorTypeSelection !== "Mono") {
     headerStyleFields.display = "none"
   }
 
-  // Determine which rates to show.
+  // Determine which rates to show, filtering out those which do not match the selected
+  // color mode dropdown.
   let filtered = new Array();
+  let totalVictoryPoints = 0;
   for (let d of colorData) {
-    // If dual is set, only show dual colors.
-    // Otherwise, only show single colors.
-    // `color` here is a string made of one or more characters - e.g., W or UB.
-    if (input.dropdownSelection === "Dual" && d.color.length !== 2) {
-      continue
-    } else if (input.dropdownSelection === "Mono" && d.color.length !== 1 ) {
-      continue
-    } else if (input.dropdownSelection === "Trio" && d.color.length !== 3) {
+    if (!colorIsDisplayed(d.color, input.colorTypeSelection)) {
       continue
     }
+
+    // Inclue the color.
     filtered.push(d)
+
+    // Track the total number of victory points within the selected colors, over the selected time frame.
+    totalVictoryPoints += d.victory_points
   }
 
   let headers = [
@@ -221,9 +228,9 @@ function ColorStatsTable(input) {
       tip: "Percentage of all wins by decks that included this color.",
     },
     {
-      id: "shares",
-      text: "Shares",
-      tip: "Number of wins weighted by percentage of cards of this color, as a percentage of total.",
+      id: "vps",
+      text: "Victory point %",
+      tip: "Weighted win contribution of this color, as a percentage of total wins across all decks.",
     },
     {
       id: "trophies",
@@ -299,8 +306,8 @@ function ColorStatsTable(input) {
                 sort = rates.average_deck_percentage
               } else if (input.sortBy === "pwin") {
                 sort = rates.percent_of_wins
-              } else if (input.sortBy === "shares") {
-                sort = rates.win_shares
+              } else if (input.sortBy === "vps") {
+                sort = rates.victory_points
               } else if (input.sortBy === "trophies") {
                 sort = rates.threeoh
               } else if (input.sortBy === "lastplace") {
@@ -308,7 +315,7 @@ function ColorStatsTable(input) {
               }
 
               let img = ColorImages(rates.color)
-              let winSharesPercentage = Math.round(100 * rates.win_shares / input.totalWinShares)
+              let vpsPercentage = Math.round(100 * rates.victory_points / totalVictoryPoints)
 
               return (
                 <tr key={idx} sort={sort} className="widget-table-row">
@@ -316,7 +323,7 @@ function ColorStatsTable(input) {
                   <td>{rates.win_percent}%</td>
                   <td>{rates.build_percent}%</td>
                   <td>{rates.percent_of_wins}%</td>
-                  <td>{winSharesPercentage}%</td>
+                  <td>{vpsPercentage}%</td>
                   <td>{rates.threeoh}</td>
                   <td>{rates.ohthree}</td>
                   <td>{rates.num_decks}</td>
@@ -333,19 +340,39 @@ function ColorStatsTable(input) {
 }
 
 function TableHeader(input) {
+  // Build selected bucket dropdown.
+  let bucketNames = new Array();
+  bucketNames.push({label: "ALL", value: "ALL"});
+  for (let bucket of input.parsed.deckBuckets) {
+    bucketNames.push(
+      {
+        label: BucketName(bucket),
+        value: BucketName(bucket),
+      },
+    );
+  }
+
   return (
     <div className="full-options-header">
       <DropdownHeader
         label="Select color type"
-        className="dropdown-header-side-by-side"
+        className="dropdown"
         options={input.ddOpts}
         value={input.colorTypeSelection}
         onChange={input.onSelected}
       />
 
+      <DropdownHeader
+        label="Select a bucket"
+        className="dropdown"
+        options={bucketNames}
+        value={input.selectedBucket}
+        onChange={input.onBucketSelected}
+      />
+
       <Checkbox
         text="Strict"
-        className="dropdown-header-side-by-side"
+        className="dropdown"
         checked={input.strictColors}
         onChange={input.onStrictCheckbox}
       />
@@ -395,13 +422,16 @@ export function GetColorStats(decks, strictColors) {
       // Total number of decks that included this color.
       num_decks: 0,
 
-      // Win shares is the percentage of the deck that is this color
-      // combined with the win percentage of the deck, to approximate the impact this color
-      // had on winning.
-      deck_win_shares: [],
-      possible_win_shares: 0,
-      win_shares: 0,
-      win_shares_converted: 0,
+      // Fractional number of wins attributed to this color based on deck composition across
+      // all decks in the timeframe.
+      victory_points: 0,
+
+      // Number of victory points that this color could have achieved, if it had won every game.
+      available_victory_points: 0,
+
+      // Each entry represents the contribution of a particular deck.
+      victory_points_per_deck: [],
+
     }
   }
 
@@ -484,13 +514,23 @@ export function GetColorStats(decks, strictColors) {
     }
 
     for (var color in cardsPerColorInDeck) {
+      // Get the number of cards that match this color within the deck.
       let num = cardsPerColorInDeck[color]
-      tracker.get(color).deck_percentages.push(num / totalCardsInDeck)
-      let winFrac = num / totalCardsInDeck * Wins(decks[i])
-      let lossFrac = num / totalCardsInDeck * Losses(decks[i])
-      tracker.get(color).deck_win_shares.push(winFrac)
+
+      // Track the percentage of cards in the deck that belong to this color.
+      let deckFrac = num / totalCardsInDeck
+      tracker.get(color).deck_percentages.push(deckFrac)
+
+      // Calculate "victory points" - the number of wins attributed to this color by weighting
+      // the deck's total number of wins by the percentage of cards that belong to this color.
+      let winFrac = deckFrac * Wins(decks[i])
+      tracker.get(color).victory_points_per_deck.push(winFrac)
+
+      // Calculate the total number of victory points that could have been achieved - i.e., if
+      // all losses were instead wins.
+      let lossFrac = deckFrac * Losses(decks[i])
       if (winFrac + lossFrac > 0) {
-        tracker.get(color).possible_win_shares += (winFrac + lossFrac)
+        tracker.get(color).available_victory_points += (winFrac + lossFrac)
       }
       tracker.get(color).cards += num
     }
@@ -505,8 +545,7 @@ export function GetColorStats(decks, strictColors) {
     const density_sum = color.deck_percentages.reduce((sum, a) => sum + a, 0);
     const density_count = color.deck_percentages.length;
     color.average_deck_percentage = Math.round(100 * density_sum / density_count);
-    color.win_shares = Math.round(100 * color.deck_win_shares.reduce((sum, a) => sum + a, 0)) / 100;
-    color.win_shares_converted = Math.round(100 * color.win_shares / color.possible_win_shares) / 100;
+    color.victory_points = Math.round(100 * color.victory_points_per_deck.reduce((sum, a) => sum + a, 0)) / 100;
 
     // Calculate the percentage of all cards drafted that are this color.
     color.total_pick_percentage = Math.round(100 * color.cards / totalCards);
@@ -555,19 +594,33 @@ function ColorRateChart(input) {
   }
   for (let bucket of buckets) {
     let stats = bucket.colorData
+
+    // Calcualte total victory points for this bucket, used below to calculate percentage
+    // of available victory points for each color.
+    let totalVictoryPoints = 0;
+    for (let color of allColors) {
+      if (!colorIsDisplayed(color, input.colorMode)) {
+        continue
+      }
+      if (stats.has(color)) {
+        totalVictoryPoints += stats.get(color).victory_points
+      }
+    }
+
     for (let color of allColors) {
       if (!stats.has(color)) {
         colorDatasets.get(color).push(0)
         continue
       }
+
       if (input.dataset === "wins") {
         colorDatasets.get(color).push(stats.get(color).win_percent)
-      } else if (input.dataset === "shares") {
-        colorDatasets.get(color).push(stats.get(color).win_shares)
-      } else if (input.dataset === "possible_shares") {
-        colorDatasets.get(color).push(stats.get(color).possible_win_shares)
-      } else if (input.dataset === "shares_converted") {
-        colorDatasets.get(color).push(stats.get(color).win_shares_converted)
+      } else if (input.dataset === "vps") {
+        colorDatasets.get(color).push(stats.get(color).victory_points)
+      } else if (input.dataset === "possible_vps") {
+        colorDatasets.get(color).push(stats.get(color).available_victory_points)
+      } else if (input.dataset === "vps_pct") {
+        colorDatasets.get(color).push(100 * stats.get(color).victory_points / totalVictoryPoints)
       } else if (input.dataset === "pick_percentage") {
         colorDatasets.get(color).push(stats.get(color).total_pick_percentage)
       } else if (input.dataset === "splash") {
@@ -665,22 +718,22 @@ function ColorRateChart(input) {
   switch (input.dataset) {
     case "wins":
       title = `Win % (buckets size = ${input.bucketSize} drafts)`
-      break
-    case "shares":
-      title = `Win shares (bucket size = ${input.bucketSize} drafts)`
-      break
-    case "possible_shares":
-      title = `Possible win shares (bucket size = ${input.bucketSize} drafts)`
-      break
-    case "shares_converted":
-      title = `Win shares converted (bucket size = ${input.bucketSize} drafts)`
-      break
+      break;
+    case "vps":
+      title = `Victory points (bucket size = ${input.bucketSize} drafts)`
+      break;
+    case "possible_vps":
+      title = `Possible victory points (bucket size = ${input.bucketSize} drafts)`
+      break;
+    case "vps_pct":
+      title = `Percentage of victory points (bucket size = ${input.bucketSize} drafts)`
+      break;
     case "pick_percentage":
       title = `Percentage of mainboard picks (bucket size = ${input.bucketSize} drafts)`
-      break
+      break;
     case "splash":
       title = `Avg. percentage of decks (bucket size = ${input.bucketSize} drafts)`
-      break
+      break;
     case "percent_of_wins":
       title = `Percent of wins (bucket size = ${input.bucketSize} drafts)`
       break;

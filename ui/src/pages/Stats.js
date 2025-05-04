@@ -29,7 +29,7 @@ export default function StatsViewer() {
   const [cube, setCube] = useState({"cards": []});
 
   // Triggers a refresh.
-  const [refresh, setRefresh] = useState(0);
+  const [refresh, setRefresh] = useState(1);
   function triggerRefresh(event) {
     setRefresh(refresh + 1)
   }
@@ -56,6 +56,15 @@ export default function StatsViewer() {
   }
   function onManaValueChanged(event) {
     setManaValue(event.target.value)
+  }
+
+  ///////////////////////////////////////////////////////////////////////////////
+  // For bucket selection
+  ///////////////////////////////////////////////////////////////////////////////
+  const [selectedBucket, setSelectedBucket] = useState("ALL");
+  function onBucketSelected(event) {
+    console.log(event.target.value)
+    setSelectedBucket(event.target.value)
   }
 
   ///////////////////////////////////////////////////////////////////////////////
@@ -526,12 +535,14 @@ export default function StatsViewer() {
           ddOpts={ddOpts}
           colorTypeSelection={colorTypeSelection}
           onSelected={onColorTypeSelected}
+          onBucketSelected={onBucketSelected}
           decks={parsed.filteredDecks}
           onHeaderClick={onColorHeaderClicked}
           colorSortBy={colorSortBy}
           bucketSize={bucketSize}
           strictColors={strictColors}
           onStrictCheckbox={onStrictCheckbox}
+          selectedBucket={selectedBucket}
           show={display[0]}
         />
 

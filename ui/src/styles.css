@@ -215,6 +215,7 @@ table {
 .selectorbar {
   padding: 15px;
   background: var(--table-row-selected);
+  width: 100%;
 }
 
 .dropdown {
