@@ -1,5 +1,33 @@
 import { IsBasicLand} from "../utils/Utils.js"
 import { Wins, Losses, InDeckColor } from "../utils/Deck.js"
+import { RemovalMatches, CounterspellMatches } from "../pages/Decks.js"
+
+export function IsInteraction(card) {
+  for (let match of RemovalMatches.concat(CounterspellMatches)) {
+    if (card.oracle_text.toLowerCase().match(match)){
+      return true
+    }
+  }
+  return false
+}
+
+function IsCounterspell(card) {
+  for (let match of CounterspellMatches) {
+    if (card.oracle_text.toLowerCase().match(match)){
+      return true
+    }
+  }
+  return false
+}
+
+function IsRemoval(card) {
+  for (let match of RemovalMatches) {
+    if (card.oracle_text.toLowerCase().match(match)){
+      return true
+    }
+  }
+  return false
+}
 
 // CardData returns data for each card that matches the given minimum number of drafts. The provided
 // cube list is used to filter cards no longer in the cube.
@@ -26,6 +54,9 @@ export function CardData(decks, minDrafts, minGames, cube, color) {
       lastMainboarded: "", // The last date that this card was mainboarded.
       appearances: 0, // Number of times the card appears in a replay.
       cmc: card.cmc, // Mana value
+      interaction: IsInteraction(card), // Whether or not this card is classified as "interaction".
+      counterspell: IsCounterspell(card), // Whether or not this is a counterpell.
+      removal: IsRemoval(card),
     }
     return c
   }

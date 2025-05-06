@@ -78,9 +78,20 @@ export function CardWidget(input) {
     return null
   }
 
+  // Define the options for the card match dropdown, used for filtering based on type.
+  let matchOpts = new Array();
+  matchOpts.push({label: "", value:""})
+  matchOpts.push({label: "All interaction", value: "All interaction"});
+  matchOpts.push({label: "Counterspells", value: "Counterspells"});
+  matchOpts.push({label: "Removal", value: "Removal"});
+
+  let matchInput = {
+    "matchOpts": matchOpts,
+  }
+
   return (
     <div style={{"width": "100%"}}>
-      <CardWidgetOptions {...input} />
+      <CardWidgetOptions {...input} {...matchInput} />
       <CardWidgetTable {...input} />
       <WinrateChart {...input} />
       <PlayRateChart {...input} />
@@ -102,6 +113,14 @@ function CardWidgetTable(input) {
     }
     if (input.manaValue >=0 && card.cmc != input.manaValue) {
       return true
+    }
+    switch (input.cardFilter) {
+      case "All interaction":
+        return !card.interaction;
+      case "Counterspells":
+        return !card.counterspell;
+      case "Removal":
+        return !card.removal;
     }
     return false
   }
@@ -350,6 +369,15 @@ function CardWidgetOptions(input) {
               options={input.colorWidgetOpts}
               value={input.colorSelection}
               onChange={input.onColorSelected}
+            />
+          </td>
+
+          <td className="selection-cell">
+            <DropdownHeader
+              label="Match"
+              options={input.matchOpts}
+              value={input.cardFilter}
+              onChange={input.onCardFilterSelected}
             />
           </td>
 

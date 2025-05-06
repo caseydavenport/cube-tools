@@ -117,6 +117,10 @@ export default function StatsViewer() {
   const [minPlayers, setMinPlayers] = useState(0);
   const [maxPlayers, setMaxPlayers] = useState(0);
   const [selectedCard, setSelectedCard] = useState("");
+  const [cardFilter, setCardFilter] = useState("");
+  function onCardFilterSelected(event) {
+    setCardFilter(event.target.value);
+  }
   const cardWidgetOpts =  [
     { label: "Mainboard rate", value: "Mainboard rate" },
     { label: "Win rate", value: "Win rate" },
@@ -583,6 +587,8 @@ export default function StatsViewer() {
           parsed={parsed}
           decks={parsed.filteredDecks}
           dropdownSelection={cardWidgetSelection}
+          cardFilter={cardFilter}
+          onCardFilterSelected={onCardFilterSelected}
           cardWidgetOpts={cardWidgetOpts}
           onSelected={onCardWidgetSelected}
           onCardSelected={onCardSelected}
