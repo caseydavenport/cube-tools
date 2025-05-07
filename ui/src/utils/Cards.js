@@ -29,6 +29,13 @@ function IsRemoval(card) {
   return false
 }
 
+function IsLand(card) {
+  if (card.types && card.types.includes("Land")) {
+    return true
+  }
+  return false
+}
+
 // CardData returns data for each card that matches the given minimum number of drafts. The provided
 // cube list is used to filter cards no longer in the cube.
 export function CardData(decks, minDrafts, minGames, cube, color) {
@@ -56,7 +63,8 @@ export function CardData(decks, minDrafts, minGames, cube, color) {
       cmc: card.cmc, // Mana value
       interaction: IsInteraction(card), // Whether or not this card is classified as "interaction".
       counterspell: IsCounterspell(card), // Whether or not this is a counterpell.
-      removal: IsRemoval(card),
+      removal: IsRemoval(card), // Whether or not this is removal.
+      land: IsLand(card), // Whether or not this is a land.
     }
     return c
   }

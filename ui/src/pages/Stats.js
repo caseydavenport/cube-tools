@@ -2,6 +2,7 @@ import React from 'react'
 import { useState } from "react";
 import { useEffect } from "react";
 import { LoadCube, LoadDecks, LoadDrafts} from "../utils/Fetch.js"
+import { Trophies, LastPlaceFinishes, Wins, Losses } from "../utils/Deck.js"
 import { IsBasicLand, SortFunc } from "../utils/Utils.js"
 import { Button, TextInput, NumericInput, Checkbox, DateSelector } from "../components/Dropdown.js"
 import { ColorWidget} from "./Colors.js"

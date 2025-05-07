@@ -1,5 +1,5 @@
 import React from 'react'
-import { IsBasicLand, SortFunc } from "../utils/Utils.js"
+import { StdDev, IsBasicLand, SortFunc } from "../utils/Utils.js"
 import { DropdownHeader, NumericInput, Checkbox, DateSelector } from "../components/Dropdown.js"
 import { Wins, Losses } from "../utils/Deck.js"
 import { ApplyTooltip } from "../utils/Tooltip.js"
@@ -72,18 +72,47 @@ export const CardScatterAxes = [
   {label: DraftOrderOption, value: DraftOrderOption},
 ]
 
+const Interaction = "All interaction"
+const Counterspells = "Counterspells"
+const Removal = "Removal"
+const Land = "Land"
+const matchOpts = [
+  {label: "", value:""},
+  {label: Interaction, value: Interaction},
+  {label: Counterspells, value: Counterspells},
+  {label: Removal, value: Removal},
+  {label: Land, value: Land},
+]
+
+  // shouldSkip returns true if the card should be skipped, and false otherwise.
+  function shouldSkip(card, input) {
+    if (card.players.size < input.minPlayers) {
+      return true
+    }
+    if (input.maxPlayers != 0 && card.players.size > input.maxPlayers) {
+      return true
+    }
+    if (input.manaValue >=0 && card.cmc != input.manaValue) {
+      return true
+    }
+    switch (input.cardFilter) {
+      case Interaction:
+        return !card.interaction;
+      case Counterspells:
+        return !card.counterspell;
+      case Removal:
+        return !card.removal;
+      case Land:
+        return !card.land;
+    }
+    return false
+  }
+
 
 export function CardWidget(input) {
   if (!input.show) {
     return null
   }
-
-  // Define the options for the card match dropdown, used for filtering based on type.
-  let matchOpts = new Array();
-  matchOpts.push({label: "", value:""})
-  matchOpts.push({label: "All interaction", value: "All interaction"});
-  matchOpts.push({label: "Counterspells", value: "Counterspells"});
-  matchOpts.push({label: "Removal", value: "Removal"});
 
   let matchInput = {
     "matchOpts": matchOpts,
@@ -102,29 +131,6 @@ export function CardWidget(input) {
 }
 
 function CardWidgetTable(input) {
-
-  // shouldSkip returns true if the card should be skipped, and false otherwise.
-  function shouldSkip(card) {
-    if (card.players.size < input.minPlayers) {
-      return true
-    }
-    if (input.maxPlayers != 0 && card.players.size > input.maxPlayers) {
-      return true
-    }
-    if (input.manaValue >=0 && card.cmc != input.manaValue) {
-      return true
-    }
-    switch (input.cardFilter) {
-      case "All interaction":
-        return !card.interaction;
-      case "Counterspells":
-        return !card.counterspell;
-      case "Removal":
-        return !card.removal;
-    }
-    return false
-  }
-
   // Convert the cardData map to a list for sorting purposes.
   let cards = []
   for (let [name, card] of input.parsed.cardData) {
@@ -166,6 +172,16 @@ function CardWidgetTable(input) {
       id: "games",
       text: "# Games",
       tip: "Number of games played by decks that included this card.",
+    },
+    {
+      id: "players",
+      text: "# Players",
+      tip: "Number of unique players who have mainboarded this card.",
+    },
+    {
+      id: "players-stddev",
+      text: "Players StdDev",
+      tip: "Standard deviation measuring how evenly spread this card is across players. Zero means this card is played equally often by all its drafters",
     },
     {
       id: "elo",
@@ -211,9 +227,15 @@ function CardWidgetTable(input) {
           <tbody>
           {
             cards.map(function(card) {
-              if (shouldSkip(card)) {
+              if (shouldSkip(card, input)) {
                 return
               }
+
+              let pd = new Array();
+              card.players.forEach(function(num, name) {
+                pd.push(num);
+              })
+              let stddev = StdDev(pd);
 
               // Determine sort order.
               let sort = card.mainboard_percent
@@ -235,6 +257,12 @@ function CardWidgetTable(input) {
                   break
                 case "in-color-sb":
                   sort = card.playableSideboard
+                  break
+                case "players":
+                  sort = card.players.size
+                  break
+                case "players-stddev":
+                  sort = stddev
                   break
                 case "lastPlayed":
                   sort = card.lastMainboarded
@@ -270,6 +298,8 @@ function CardWidgetTable(input) {
                   <td>{card.sideboard}</td>
                   <td>{card.playableSideboard}</td>
                   <td>{card.total_games}</td>
+                  <td>{card.players.size}</td>
+                  <td>{stddev}</td>
                   <td>{card.elo}</td>
                   <td>{card.lastMainboarded}</td>
                 </tr>
@@ -297,7 +327,7 @@ function CardWidgetTable(input) {
           <tbody>
             {
               cards.map(function(card) {
-                if (shouldSkip(card)) {
+                if (shouldSkip(card, input)) {
                   return
                 }
 
@@ -795,6 +825,10 @@ function CardGraph(input) {
     var x = null
     var y = null
 
+    if (shouldSkip(card, input)) {
+      continue
+    }
+
     x = getValue(xAxis, card, input.parsed.archetypeData, input.parsed.playerData, input.parsed.filteredDecks, input.parsed.pickInfo)
     y = getValue(yAxis, card, input.parsed.archetypeData, input.parsed.playerData, input.parsed.filteredDecks, input.parsed.pickInfo)
 
@@ -937,6 +971,9 @@ function getValue(axis, card, archetypeData, playerData, decks, draftData) {
       return expectedRate
     case DraftOrderOption:
       let pick = draftData.get(card.name)
+      if (pick == null) {
+        return null
+      }
       return Math.round(pick.pickNumSum / pick.count * 10) / 10
   }
   return null
