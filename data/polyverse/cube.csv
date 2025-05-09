@@ -13,7 +13,9 @@ Count,Name,Section
 2,Arid Mesa,main
 1,Audacity,main
 1,Barbarian Ring,main
+1,Birds of Paradise,main
 1,Bitter Triumph,main
+1,Bitterblossom,main
 1,Blackmail,main
 1,Blazing Rootwalla,main
 2,Blood Crypt,main
@@ -83,7 +85,6 @@ Count,Name,Section
 1,Elegant Parlor,main
 1,Elspeth's Smite,main
 1,Elusive Otter // Grove's Bounty,main
-1,Empty the Warrens,main
 1,Engineered Explosives,main
 1,Ephara's Dispersal,main
 1,Esika's Chariot,main
@@ -99,6 +100,7 @@ Count,Name,Section
 1,Faithless Looting,main
 1,Fatal Push,main
 1,Fearless Fledgling,main
+1,Fell,main
 1,Festering Mummy,main
 1,Fetid Pools,main
 1,Field of Ruin,main
@@ -121,7 +123,6 @@ Count,Name,Section
 1,Goldhound,main
 1,Goldmeadow Harrier,main
 1,"Golos, Tireless Pilgrim",main
-1,"Greta, Sweettooth Scourge",main
 1,Grim Bauble,main
 1,Grim Discovery,main
 1,Grim Flayer,main
@@ -144,6 +145,7 @@ Count,Name,Section
 1,Journey to Nowhere,main
 1,"Kellan, the Fae-Blooded // Birthright Boon",main
 1,"Kiora, the Rising Tide",main
+1,Kishla Skimmer,main
 1,Kitchen Finks,main
 1,Kitesail Freebooter,main
 1,Knight of the Ebon Legion,main
@@ -206,6 +208,7 @@ Count,Name,Section
 1,Perilous Myr,main
 1,"Phelia, Exuberant Shepherd",main
 1,Phoenix Chick,main
+1,Pick Your Poison,main
 1,Pile On,main
 1,Pollenbright Druid,main
 2,Polluted Delta,main
@@ -270,7 +273,6 @@ Count,Name,Section
 1,Spell Pierce,main
 1,Spell Snare,main
 1,Spellstutter Sprite,main
-1,Spider Food,main
 1,Spirited Companion,main
 1,Sprite Dragon,main
 2,Steam Vents,main
@@ -285,7 +287,6 @@ Count,Name,Section
 1,Tangled Colony,main
 1,Tarfire,main
 1,Tarmogoyf,main
-1,Tectonic Reformation,main
 2,Temple Garden,main
 1,Territorial Kavu,main
 1,"Thalia, Guardian of Thraben",main
@@ -304,7 +305,6 @@ Count,Name,Section
 1,"Titania, Protector of Argoth",main
 1,Touch the Spirit Realm,main
 1,Toxic Deluge,main
-1,Tragic Fall,main
 1,Traverse the Ulvenwald,main
 1,Treasure Cruise,main
 1,Triton Wavebreaker,main
