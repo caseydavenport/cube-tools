@@ -327,7 +327,7 @@ export default function StatsViewer() {
   // Each widget is represented as an element in the array, and defaulted here.
   ///////////////////////////////////////////////////////////////////////////////
   const [display, setDisplay] = useState([true, false, false, false, false, false]);
-  function onCheckbox(idx) {
+  function onSubpageClicked(idx) {
     let d = {...display}
     if (d[idx]) {
       d[idx] = false
@@ -351,23 +351,23 @@ export default function StatsViewer() {
     setMaxPlayers(0)
     setMinDrafts(0)
   }
-  function onColorCheckbox() {
-    onCheckbox(0)
+  function onColorPage() {
+    onSubpageClicked(0)
   }
-  function onArchetypeCheckbox() {
-    onCheckbox(1)
+  function onArchetypePage() {
+    onSubpageClicked(1)
   }
-  function onCardCheckbox() {
-    onCheckbox(2)
+  function onCardPage() {
+    onSubpageClicked(2)
   }
-  function onDeckCheckbox() {
-    onCheckbox(3)
+  function onDeckPage() {
+    onSubpageClicked(3)
   }
-  function onDraftCheckbox() {
-    onCheckbox(4)
+  function onDraftPage() {
+    onSubpageClicked(4)
   }
-  function onPlayersCheckbox() {
-    onCheckbox(5)
+  function onPlayersPage() {
+    onSubpageClicked(5)
   }
 
   // Load the decks and drafts on startup and whenever the dates change.
@@ -525,12 +525,12 @@ export default function StatsViewer() {
         onPlayerMatchChanged={onPlayerMatchChanged}
         parsed={parsed}
         display={display}
-        onColorCheckbox={onColorCheckbox}
-        onArchetypeCheckbox={onArchetypeCheckbox}
-        onCardCheckbox={onCardCheckbox}
-        onDeckCheckbox={onDeckCheckbox}
-        onDraftCheckbox={onDraftCheckbox}
-        onPlayersCheckbox={onPlayersCheckbox}
+        onColorPage={onColorPage}
+        onArchetypePage={onArchetypePage}
+        onCardPage={onCardPage}
+        onDeckPage={onDeckPage}
+        onDraftPage={onDraftPage}
+        onPlayersPage={onPlayersPage}
       />
 
 
@@ -719,35 +719,35 @@ function SelectorBar(input) {
     <tr>
       <Overview decks={input.parsed.filteredDecks} />
 
-      <Checkbox
+      <Button
         text="Colors"
         checked={input.display[0]}
-        onChange={input.onColorCheckbox}
+        onClick={input.onColorPage}
       />
-      <Checkbox
+      <Button
         text="Types"
         checked={input.display[1]}
-        onChange={input.onArchetypeCheckbox}
+        onClick={input.onArchetypePage}
       />
-      <Checkbox
+      <Button
         text="Cards"
         checked={input.display[2]}
-        onChange={input.onCardCheckbox}
+        onClick={input.onCardPage}
       />
-      <Checkbox
+      <Button
         text="Decks"
         checked={input.display[3]}
-        onChange={input.onDeckCheckbox}
+        onClick={input.onDeckPage}
       />
-      <Checkbox
+      <Button
         text="Drafts"
         checked={input.display[4]}
-        onChange={input.onDraftCheckbox}
+        onClick={input.onDraftPage}
       />
-      <Checkbox
+      <Button
         text="Players"
         checked={input.display[5]}
-        onChange={input.onPlayersCheckbox}
+        onClick={input.onPlayersPage}
       />
     </tr>
     </tbody>

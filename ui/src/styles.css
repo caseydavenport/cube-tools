@@ -198,6 +198,13 @@ table {
   background: var(--table-row-selected);
 }
 
+.button {
+}
+
+.button-selected {
+  background: var(--misc);
+}
+
 .deck-entry {
   background-color: var(--background-color);
   padding: 0px;

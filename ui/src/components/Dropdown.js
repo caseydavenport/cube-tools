@@ -82,9 +82,13 @@ export function DateSelector(input) {
 
 
 export function Button(input) {
+  let className="button"
+  if (input.checked) {
+    className="button-selected"
+  }
   return (
     <div className="dropdown">
-      <button onClick={input.onClick}>{input.text}</button>
+      <button className={className} onClick={input.onClick}>{input.text}</button>
     </div>
   )
 }
