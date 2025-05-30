@@ -532,6 +532,32 @@
      "path": "data/polyverse/2025-04-05_2/dom.json"
     }
    ]
+  },
+  {
+   "path": "data/polyverse/2025-05-26",
+   "date": "2025-05-26",
+   "draft_id": "2025-05-26",
+   "draft_log": "",
+   "decks": [
+    {
+     "path": "data/polyverse/2025-05-26/cara.json"
+    },
+    {
+     "path": "data/polyverse/2025-05-26/casey.json"
+    },
+    {
+     "path": "data/polyverse/2025-05-26/dom.json"
+    },
+    {
+     "path": "data/polyverse/2025-05-26/greg.json"
+    },
+    {
+     "path": "data/polyverse/2025-05-26/james.json"
+    },
+    {
+     "path": "data/polyverse/2025-05-26/jen.json"
+    }
+   ]
   }
  ]
 }
