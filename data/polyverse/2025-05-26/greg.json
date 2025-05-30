@@ -4,7 +4,9 @@
   "draft_id": "2025-05-26",
   "source_file": "Deck_Greg.csv"
  },
- "labels": ["aggro"],
+ "labels": [
+  "aggro"
+ ],
  "player": "greg",
  "date": "2025-05-26",
  "games": [
@@ -15,12 +17,28 @@
   {
    "opponent": "jen",
    "winner": "greg"
+  },
+  {
+   "opponent": "xander",
+   "winner": "greg"
+  },
+  {
+   "opponent": "xander",
+   "winner": "xander"
+  },
+  {
+   "opponent": "xander",
+   "winner": "xander"
   }
  ],
  "matches": [
   {
    "opponent": "jen",
    "winner": "greg"
+  },
+  {
+   "opponent": "xander",
+   "winner": "xander"
   }
  ],
  "mainboard": [

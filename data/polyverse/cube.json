@@ -1666,6 +1666,23 @@
    "oracle_text": "Sunburst (This enters with a charge counter on it for each color of mana spent to cast it.)\n{2}, Sacrifice this artifact: Destroy each nonland permanent with mana value equal to the number of charge counters on this artifact."
   },
   {
+   "name": "Enlightened Tutor",
+   "types": [
+    "Instant"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [
+    "W"
+   ],
+   "color_identity": [
+    "W"
+   ],
+   "mana_cost": "{W}",
+   "url": "https://scryfall.com/card/dmr/6/enlightened-tutor?utm_source=api",
+   "oracle_text": "Search your library for an artifact or enchantment card, reveal it, then shuffle and put that card on top."
+  },
+  {
    "name": "Ephara's Dispersal",
    "types": [
     "Instant"
@@ -1766,27 +1783,6 @@
    "mana_cost": "{4}{U}{U}",
    "url": "https://scryfall.com/card/c20/34/ethereal-forager?utm_source=api",
    "oracle_text": "Delve (Each card you exile from your graveyard while casting this spell pays for {1}.)\nFlying\nWhenever this creature attacks, you may return an instant or sorcery card exiled with this creature to its owner's hand."
-  },
-  {
-   "name": "Exclusion Mage",
-   "types": [
-    "Creature"
-   ],
-   "sub_types": [
-    "Human",
-    "Wizard"
-   ],
-   "cmc": 3,
-   "image": "",
-   "colors": [
-    "U"
-   ],
-   "color_identity": [
-    "U"
-   ],
-   "mana_cost": "{2}{U}",
-   "url": "https://scryfall.com/card/fdn/508/exclusion-mage?utm_source=api",
-   "oracle_text": "When this creature enters, return target creature an opponent controls to its owner's hand."
   },
   {
    "name": "Explore",
@@ -1996,19 +1992,6 @@
    "mana_cost": "",
    "url": "https://scryfall.com/card/tdc/363/fetid-pools?utm_source=api",
    "oracle_text": "({T}: Add {U} or {B}.)\nThis land enters tapped.\nCycling {2} ({2}, Discard this card: Draw a card.)"
-  },
-  {
-   "name": "Field of Ruin",
-   "types": [
-    "Land"
-   ],
-   "cmc": 0,
-   "image": "",
-   "colors": [],
-   "color_identity": [],
-   "mana_cost": "",
-   "url": "https://scryfall.com/card/moc/400/field-of-ruin?utm_source=api",
-   "oracle_text": "{T}: Add {C}.\n{2}, {T}, Sacrifice this land: Destroy target nonbasic land an opponent controls. Each player searches their library for a basic land card, puts it onto the battlefield, then shuffles."
   },
   {
    "name": "Field of the Dead",
@@ -3305,6 +3288,26 @@
    "oracle_text": "Magma Jet deals 2 damage to any target. Scry 2."
   },
   {
+   "name": "Man-o'-War",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Jellyfish"
+   ],
+   "cmc": 3,
+   "image": "",
+   "colors": [
+    "U"
+   ],
+   "color_identity": [
+    "U"
+   ],
+   "mana_cost": "{2}{U}",
+   "url": "https://scryfall.com/card/dmr/58/man-o-war?utm_source=api",
+   "oracle_text": "When this creature enters, return target creature to its owner's hand."
+  },
+  {
    "name": "Mana Leak",
    "types": [
     "Instant"
@@ -4415,23 +4418,6 @@
    "mana_cost": "{G}{W}",
    "url": "https://scryfall.com/card/2x2/267/qasali-pridemage?utm_source=api",
    "oracle_text": "Exalted (Whenever a creature you control attacks alone, that creature gets +1/+1 until end of turn.)\n{1}, Sacrifice this creature: Destroy target artifact or enchantment."
-  },
-  {
-   "name": "Quest for the Gemblades",
-   "types": [
-    "Enchantment"
-   ],
-   "cmc": 2,
-   "image": "",
-   "colors": [
-    "G"
-   ],
-   "color_identity": [
-    "G"
-   ],
-   "mana_cost": "{1}{G}",
-   "url": "https://scryfall.com/card/zen/177/quest-for-the-gemblades?utm_source=api",
-   "oracle_text": "Whenever a creature you control deals combat damage to a creature, you may put a quest counter on this enchantment.\nRemove a quest counter from this enchantment and sacrifice it: Put four +1/+1 counters on target creature."
   },
   {
    "name": "Questing Druid // Seek the Beast",
@@ -5675,6 +5661,19 @@
    "mana_cost": "{1}{G}",
    "url": "https://scryfall.com/card/tsr/235/tarmogoyf?utm_source=api",
    "oracle_text": "Tarmogoyf's power is equal to the number of card types among cards in all graveyards and its toughness is equal to that number plus 1."
+  },
+  {
+   "name": "Tectonic Edge",
+   "types": [
+    "Land"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "color_identity": [],
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/c14/313/tectonic-edge?utm_source=api",
+   "oracle_text": "{T}: Add {C}.\n{1}, {T}, Sacrifice this land: Destroy target nonbasic land. Activate only if an opponent controls four or more lands."
   },
   {
    "name": "Temple Garden",

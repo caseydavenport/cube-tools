@@ -4,7 +4,9 @@
   "draft_id": "2025-05-26",
   "source_file": "Deck_Dom.csv"
  },
- "labels": ["goodstuff"],
+ "labels": [
+  "goodstuff"
+ ],
  "player": "dom",
  "date": "2025-05-26",
  "games": [

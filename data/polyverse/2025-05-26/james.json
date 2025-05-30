@@ -4,7 +4,11 @@
   "draft_id": "2025-05-26",
   "source_file": "Deck_James.csv"
  },
- "labels": ["aggro", "control", "spells"],
+ "labels": [
+  "aggro",
+  "control",
+  "spells"
+ ],
  "player": "james",
  "date": "2025-05-26",
  "games": [

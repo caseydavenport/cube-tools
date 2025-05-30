@@ -4,19 +4,33 @@
   "draft_id": "2025-05-26",
   "source_file": "Deck_Cara.csv"
  },
- "labels": ["aggro"],
+ "labels": [
+  "aggro"
+ ],
  "player": "cara",
  "date": "2025-05-26",
  "games": [
   {
    "opponent": "james",
    "winner": "cara"
+  },
+  {
+   "opponent": "xander",
+   "winner": "xander"
+  },
+  {
+   "opponent": "xander",
+   "winner": "xander"
   }
  ],
  "matches": [
   {
    "opponent": "james",
    "winner": "cara"
+  },
+  {
+   "opponent": "xander",
+   "winner": "xander"
   }
  ],
  "mainboard": [

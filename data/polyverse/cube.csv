@@ -86,12 +86,12 @@ Count,Name,Section
 1,Elspeth's Smite,main
 1,Elusive Otter // Grove's Bounty,main
 1,Engineered Explosives,main
+1,Enlightened Tutor,main
 1,Ephara's Dispersal,main
 1,Esika's Chariot,main
 1,Esper Sentinel,main
 1,Eternal Witness,main
 1,Ethereal Forager,main
-1,Exclusion Mage,main
 1,Explore,main
 1,Fact or Fiction,main
 1,Faerie Dreamthief,main
@@ -103,7 +103,6 @@ Count,Name,Section
 1,Fell,main
 1,Festering Mummy,main
 1,Fetid Pools,main
-1,Field of Ruin,main
 1,Field of the Dead,main
 1,Fiery Islet,main
 1,Fire // Ice,main
@@ -168,6 +167,7 @@ Count,Name,Section
 1,Luminarch Aspirant,main
 1,Lush Portico,main
 1,Magma Jet,main
+1,Man-o'-War,main
 1,Mana Leak,main
 1,Mana Tithe,main
 1,Manamorphose,main
@@ -225,7 +225,6 @@ Count,Name,Section
 1,Pyrite Spellbomb,main
 1,Pyroclasm,main
 1,Qasali Pridemage,main
-1,Quest for the Gemblades,main
 1,Questing Druid // Seek the Beast,main
 1,Rabbit Battery,main
 1,Raise the Alarm,main
@@ -287,6 +286,7 @@ Count,Name,Section
 1,Tangled Colony,main
 1,Tarfire,main
 1,Tarmogoyf,main
+1,Tectonic Edge,main
 2,Temple Garden,main
 1,Territorial Kavu,main
 1,"Thalia, Guardian of Thraben",main

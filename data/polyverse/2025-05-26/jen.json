@@ -4,7 +4,12 @@
   "draft_id": "2025-05-26",
   "source_file": "Deck_Jen.csv"
  },
- "labels": ["midrange", "+1/+1", "tokens", "lands"],
+ "labels": [
+  "midrange",
+  "+1/+1",
+  "tokens",
+  "lands"
+ ],
  "player": "jen",
  "date": "2025-05-26",
  "games": [

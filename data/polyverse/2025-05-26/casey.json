@@ -4,7 +4,12 @@
   "draft_id": "2025-05-26",
   "source_file": "Deck_Casey.csv"
  },
- "labels": ["control", "aggro", "draw", "discard"],
+ "labels": [
+  "control",
+  "aggro",
+  "draw",
+  "discard"
+ ],
  "player": "casey",
  "date": "2025-05-26",
  "games": [
