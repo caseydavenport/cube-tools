@@ -5,8 +5,8 @@
   "source_file": "Deck_Casey.csv"
  },
  "labels": [
-  "control",
-  "aggro",
+  "midrange",
+  "tempo",
   "draw",
   "discard"
  ],

@@ -5,7 +5,8 @@
   "source_file": "Deck_Cara.csv"
  },
  "labels": [
-  "aggro"
+  "midrange",
+  "tempo"
  ],
  "player": "cara",
  "date": "2025-05-26",

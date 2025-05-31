@@ -5,6 +5,7 @@
   "source_file": "Deck_Dom.csv"
  },
  "labels": [
+  "midrange",
   "goodstuff"
  ],
  "player": "dom",
