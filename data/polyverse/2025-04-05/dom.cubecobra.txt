@@ -7,8 +7,6 @@ Thundering Falls
 Fact or Fiction
 Burst Lightning
 Delay
-Scryb Ranger
-Territorial Kavu
 Man-o'-War
 Serum Visions
 Breeding Pool
@@ -19,11 +17,9 @@ Saheeli, Sublime Artificer
 Parallel Lives
 Consider
 Condescend
-Rielle, the Everwise
 Stomping Ground
 Seasoned Pyromancer
 Boseiju, Who Endures
-Kiora, the Rising Tide
 Counterspell
 Lightning Bolt
 Den of the Bugbear
@@ -33,3 +29,12 @@ Mark of Mutiny
 Spell Snare
 Aether Tradewinds
 Misty Rainforest
+Rielle, the Everwise
+Island
+Island
+Island
+Mountain
+Mountain
+Mountain
+Forest
+Forest
