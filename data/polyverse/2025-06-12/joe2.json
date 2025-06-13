@@ -4,11 +4,57 @@
   "draft_id": "2025-06-12",
   "source_file": "Joe2_2025_Jun_13_07-35.csv"
  },
- "labels": [],
+ "labels": ["midrange", "lands"],
  "player": "joe2",
  "date": "2025-06-12",
- "games": null,
- "matches": null,
+ "games": [
+  {
+   "opponent": "joe",
+   "winner": "joe2"
+  },
+  {
+   "opponent": "joe",
+   "winner": "joe2"
+  },
+  {
+   "opponent": "joe",
+   "winner": "joe"
+  },
+  {
+   "opponent": "kevin",
+   "winner": "joe2"
+  },
+  {
+   "opponent": "kevin",
+   "winner": "joe2"
+  },
+  {
+   "opponent": "kevin",
+   "winner": "kevin"
+  },
+  {
+   "opponent": "sebastian",
+   "winner": "sebastian"
+  },
+  {
+   "opponent": "sebastian",
+   "winner": "sebastian"
+  }
+ ],
+ "matches": [
+  {
+   "opponent": "joe",
+   "winner": "joe2"
+  },
+  {
+   "opponent": "kevin",
+   "winner": "joe2"
+  },
+  {
+   "opponent": "sebastian",
+   "winner": "sebastian"
+  }
+ ],
  "mainboard": [
   {
    "name": "Hedge Maze",

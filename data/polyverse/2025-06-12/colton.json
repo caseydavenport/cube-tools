@@ -4,11 +4,53 @@
   "draft_id": "2025-06-12",
   "source_file": "Colton_2025_Jun_13_07-34.csv"
  },
- "labels": [],
+ "labels": ["tempo", "spells"],
  "player": "colton",
  "date": "2025-06-12",
- "games": null,
- "matches": null,
+ "games": [
+  {
+   "opponent": "joe",
+   "winner": "colton"
+  },
+  {
+   "opponent": "joe",
+   "winner": "colton"
+  },
+  {
+   "opponent": "joe",
+   "winner": "joe"
+  },
+  {
+   "opponent": "kenny",
+   "winner": "kenny"
+  },
+  {
+   "opponent": "kenny",
+   "winner": "kenny"
+  },
+  {
+   "opponent": "sebastian",
+   "winner": "colton"
+  },
+  {
+   "opponent": "sebastian",
+   "winner": "colton"
+  }
+ ],
+ "matches": [
+  {
+   "opponent": "joe",
+   "winner": "colton"
+  },
+  {
+   "opponent": "kenny",
+   "winner": "kenny"
+  },
+  {
+   "opponent": "sebastian",
+   "winner": "colton"
+  }
+ ],
  "mainboard": [
   {
    "name": "Flooded Strand",

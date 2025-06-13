@@ -4,11 +4,61 @@
   "draft_id": "2025-06-12",
   "source_file": "Kevin_2025_Jun_13_07-35.csv"
  },
- "labels": [],
+ "labels": ["midrange", "lands"],
  "player": "kevin",
  "date": "2025-06-12",
- "games": null,
- "matches": null,
+ "games": [
+  {
+   "opponent": "joe2",
+   "winner": "kevin"
+  },
+  {
+   "opponent": "joe2",
+   "winner": "joe2"
+  },
+  {
+   "opponent": "joe2",
+   "winner": "joe2"
+  },
+  {
+   "opponent": "kenny",
+   "winner": "kevin"
+  },
+  {
+   "opponent": "kenny",
+   "winner": "kenny"
+  },
+  {
+   "opponent": "kenny",
+   "winner": "kenny"
+  },
+  {
+   "opponent": "will",
+   "winner": "kevin"
+  },
+  {
+   "opponent": "will",
+   "winner": "kevin"
+  },
+  {
+   "opponent": "will",
+   "winner": "will"
+  }
+ ],
+ "matches": [
+  {
+   "opponent": "joe2",
+   "winner": "joe2"
+  },
+  {
+   "opponent": "kenny",
+   "winner": "kenny"
+  },
+  {
+   "opponent": "will",
+   "winner": "kevin"
+  }
+ ],
  "mainboard": [
   {
    "name": "Virtue of Persistence // Locthwain Scorn",

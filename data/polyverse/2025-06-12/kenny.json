@@ -4,11 +4,53 @@
   "draft_id": "2025-06-12",
   "source_file": "Kenny_2025_Jun_13_07-35.csv"
  },
- "labels": [],
+ "labels": ["tempo", "midrange", "token"],
  "player": "kenny",
  "date": "2025-06-12",
- "games": null,
- "matches": null,
+ "games": [
+  {
+   "opponent": "casey",
+   "winner": "kenny"
+  },
+  {
+   "opponent": "casey",
+   "winner": "kenny"
+  },
+  {
+   "opponent": "colton",
+   "winner": "kenny"
+  },
+  {
+   "opponent": "colton",
+   "winner": "kenny"
+  },
+  {
+   "opponent": "kevin",
+   "winner": "kenny"
+  },
+  {
+   "opponent": "kevin",
+   "winner": "kenny"
+  },
+  {
+   "opponent": "kevin",
+   "winner": "kevin"
+  }
+ ],
+ "matches": [
+  {
+   "opponent": "casey",
+   "winner": "kenny"
+  },
+  {
+   "opponent": "colton",
+   "winner": "kenny"
+  },
+  {
+   "opponent": "kevin",
+   "winner": "kenny"
+  }
+ ],
  "mainboard": [
   {
    "name": "Bloodsoaked Champion",

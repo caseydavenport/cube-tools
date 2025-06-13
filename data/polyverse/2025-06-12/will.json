@@ -4,11 +4,61 @@
   "draft_id": "2025-06-12",
   "source_file": "Will_2025_Jun_13_07-35.csv"
  },
- "labels": [],
+ "labels": ["control"],
  "player": "will",
  "date": "2025-06-12",
- "games": null,
- "matches": null,
+ "games": [
+  {
+   "opponent": "casey",
+   "winner": "will"
+  },
+  {
+   "opponent": "casey",
+   "winner": "casey"
+  },
+  {
+   "opponent": "casey",
+   "winner": "casey"
+  },
+  {
+   "opponent": "joe",
+   "winner": "will"
+  },
+  {
+   "opponent": "joe",
+   "winner": "will"
+  },
+  {
+   "opponent": "joe",
+   "winner": "joe"
+  },
+  {
+   "opponent": "kevin",
+   "winner": "will"
+  },
+  {
+   "opponent": "kevin",
+   "winner": "kevin"
+  },
+  {
+   "opponent": "kevin",
+   "winner": "kevin"
+  }
+ ],
+ "matches": [
+  {
+   "opponent": "casey",
+   "winner": "casey"
+  },
+  {
+   "opponent": "joe",
+   "winner": "will"
+  },
+  {
+   "opponent": "kevin",
+   "winner": "kevin"
+  }
+ ],
  "mainboard": [
   {
    "name": "Fell",

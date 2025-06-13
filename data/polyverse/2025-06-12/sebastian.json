@@ -4,11 +4,49 @@
   "draft_id": "2025-06-12",
   "source_file": "Sebastian__2025_Jun_13_07-35.csv"
  },
- "labels": [],
+ "labels": ["tempo", "spells"],
  "player": "sebastian",
  "date": "2025-06-12",
- "games": null,
- "matches": null,
+ "games": [
+  {
+   "opponent": "casey",
+   "winner": "casey"
+  },
+  {
+   "opponent": "casey",
+   "winner": "casey"
+  },
+  {
+   "opponent": "colton",
+   "winner": "colton"
+  },
+  {
+   "opponent": "colton",
+   "winner": "colton"
+  },
+  {
+   "opponent": "joe2",
+   "winner": "sebastian"
+  },
+  {
+   "opponent": "joe2",
+   "winner": "sebastian"
+  }
+ ],
+ "matches": [
+  {
+   "opponent": "casey",
+   "winner": "casey"
+  },
+  {
+   "opponent": "colton",
+   "winner": "colton"
+  },
+  {
+   "opponent": "joe2",
+   "winner": "sebastian"
+  }
+ ],
  "mainboard": [
   {
    "name": "Otawara, Soaring City",

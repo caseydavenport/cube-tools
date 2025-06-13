@@ -4,11 +4,61 @@
   "draft_id": "2025-06-12",
   "source_file": "Joe_Anderson_2025_Jun_13_07-35.csv"
  },
- "labels": [],
+ "labels": ["tempo", "spells"],
  "player": "joe",
  "date": "2025-06-12",
- "games": null,
- "matches": null,
+ "games": [
+  {
+   "opponent": "colton",
+   "winner": "joe"
+  },
+  {
+   "opponent": "colton",
+   "winner": "colton"
+  },
+  {
+   "opponent": "colton",
+   "winner": "colton"
+  },
+  {
+   "opponent": "joe2",
+   "winner": "joe"
+  },
+  {
+   "opponent": "joe2",
+   "winner": "joe2"
+  },
+  {
+   "opponent": "joe2",
+   "winner": "joe2"
+  },
+  {
+   "opponent": "will",
+   "winner": "joe"
+  },
+  {
+   "opponent": "will",
+   "winner": "will"
+  },
+  {
+   "opponent": "will",
+   "winner": "will"
+  }
+ ],
+ "matches": [
+  {
+   "opponent": "colton",
+   "winner": "colton"
+  },
+  {
+   "opponent": "joe2",
+   "winner": "joe2"
+  },
+  {
+   "opponent": "will",
+   "winner": "will"
+  }
+ ],
  "mainboard": [
   {
    "name": "Anje's Ravager",

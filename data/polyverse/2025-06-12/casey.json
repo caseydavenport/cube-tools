@@ -4,11 +4,53 @@
   "draft_id": "2025-06-12",
   "source_file": "Casey_2025_Jun_13_07-34.csv"
  },
- "labels": [],
+ "labels": ["midrange", "graveyard"],
  "player": "casey",
  "date": "2025-06-12",
- "games": null,
- "matches": null,
+ "games": [
+  {
+   "opponent": "kenny",
+   "winner": "kenny"
+  },
+  {
+   "opponent": "kenny",
+   "winner": "kenny"
+  },
+  {
+   "opponent": "sebastian",
+   "winner": "casey"
+  },
+  {
+   "opponent": "sebastian",
+   "winner": "casey"
+  },
+  {
+   "opponent": "will",
+   "winner": "casey"
+  },
+  {
+   "opponent": "will",
+   "winner": "casey"
+  },
+  {
+   "opponent": "will",
+   "winner": "will"
+  }
+ ],
+ "matches": [
+  {
+   "opponent": "kenny",
+   "winner": "kenny"
+  },
+  {
+   "opponent": "sebastian",
+   "winner": "casey"
+  },
+  {
+   "opponent": "will",
+   "winner": "casey"
+  }
+ ],
  "mainboard": [
   {
    "name": "Six",
