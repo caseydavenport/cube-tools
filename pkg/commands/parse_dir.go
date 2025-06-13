@@ -61,6 +61,7 @@ func nameFromDeckFilename(filename string) string {
 		"pyrolol": "mattd",
 	}
 	trimmed := strings.ToLower(strings.TrimPrefix(strings.Split(filename, ".")[0], prefix))
+	trimmed = strings.Split(trimmed, "_")[0] // Remove whatver suffix is on the filename.
 	if name, ok := nicknames[trimmed]; ok {
 		return name
 	}

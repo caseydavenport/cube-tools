@@ -10,8 +10,10 @@ Count,Name,Section
 1,Arasta of the Endless Web,main
 1,Arbor Elf,main
 1,Archfiend of Ifnir,main
+1,Archmage's Charm,main
 2,Arid Mesa,main
 1,Audacity,main
+1,Augur of Autumn,main
 1,Barbarian Ring,main
 1,Birds of Paradise,main
 1,Bitter Triumph,main
@@ -31,6 +33,7 @@ Count,Name,Section
 1,Brainstorm,main
 1,Brainsurge,main
 2,Breeding Pool,main
+1,Brightglass Gearhulk,main
 1,Burst Lightning,main
 1,Call of the Herd,main
 1,Candy Trail,main
@@ -69,7 +72,6 @@ Count,Name,Section
 1,Daze,main
 1,Dead Weight,main
 1,Death's Shadow,main
-1,Delay,main
 1,Demand Answers,main
 1,Den of the Bugbear,main
 1,Disfigure,main
@@ -105,6 +107,7 @@ Count,Name,Section
 1,Fetid Pools,main
 1,Field of the Dead,main
 1,Fiery Islet,main
+1,Fiery Temper,main
 1,Fire // Ice,main
 1,Firebolt,main
 1,Flame Jab,main
@@ -121,7 +124,6 @@ Count,Name,Section
 2,Godless Shrine,main
 1,Goldhound,main
 1,Goldmeadow Harrier,main
-1,"Golos, Tireless Pilgrim",main
 1,Grim Bauble,main
 1,Grim Discovery,main
 1,Grim Flayer,main
@@ -131,9 +133,9 @@ Count,Name,Section
 1,Harm's Way,main
 1,Hedge Maze,main
 1,Helping Hand,main
+1,Heritage Reclamation,main
 1,Horizon Canopy,main
 1,Hostage Taker,main
-1,Hunting Triad,main
 1,Ignoble Hierarch,main
 1,Inexorable Blob,main
 1,Infernal Grasp,main
@@ -156,7 +158,9 @@ Count,Name,Section
 1,"Legion's Landing // Adanto, the First Fort",main
 1,Life from the Loam,main
 1,Lightning Bolt,main
+1,Lightning Helix,main
 1,Liliana of the Veil,main
+1,Lingering Souls,main
 1,Lion Sash,main
 1,Lizard Blades,main
 1,Llanowar Elves,main
@@ -204,13 +208,12 @@ Count,Name,Section
 1,"Otawara, Soaring City",main
 1,Oust,main
 2,Overgrown Tomb,main
-1,Parallel Lives,main
 1,Perilous Myr,main
+1,Pestermite,main
 1,"Phelia, Exuberant Shepherd",main
 1,Phoenix Chick,main
 1,Pick Your Poison,main
 1,Pile On,main
-1,Pollenbright Druid,main
 2,Polluted Delta,main
 1,Ponder,main
 1,Portable Hole,main
@@ -226,11 +229,13 @@ Count,Name,Section
 1,Pyroclasm,main
 1,Qasali Pridemage,main
 1,Questing Druid // Seek the Beast,main
+1,Quirion Beastcaller,main
 1,Rabbit Battery,main
 1,Raise the Alarm,main
 1,Raucous Theater,main
 1,Ravenous Squirrel,main
 1,Read the Bones,main
+1,Reckless Charge,main
 1,Reckless Pyrosurfer,main
 1,Reinforced Ronin,main
 1,Remand,main
@@ -283,7 +288,6 @@ Count,Name,Section
 1,"Takenuma, Abandoned Mire",main
 1,"Tameshi, Reality Architect",main
 1,"Tamiyo, Compleated Sage",main
-1,Tangled Colony,main
 1,Tarfire,main
 1,Tarmogoyf,main
 1,Tectonic Edge,main
@@ -308,7 +312,6 @@ Count,Name,Section
 1,Traverse the Ulvenwald,main
 1,Treasure Cruise,main
 1,Triton Wavebreaker,main
-1,Turn to Mist,main
 1,Twinshot Sniper,main
 1,Ulcerate,main
 1,Undercity Sewers,main
@@ -321,8 +324,6 @@ Count,Name,Section
 1,Urza's Saga,main
 1,Utopia Sprawl,main
 2,Verdant Catacombs,main
-1,Vexing Gull,main
-1,Virtue of Knowledge // Vantress Visions,main
 1,Virtue of Persistence // Locthwain Scorn,main
 1,Viscera Seer,main
 1,"Vivien, Champion of the Wilds",main
@@ -332,7 +333,6 @@ Count,Name,Section
 1,Welcoming Vampire,main
 1,Werefox Bodyguard,main
 1,Wilderness Reclamation,main
-1,Wildfire Wickerfolk,main
 2,Windswept Heath,main
 1,Woe Strider,main
 2,Wooded Foothills,main
