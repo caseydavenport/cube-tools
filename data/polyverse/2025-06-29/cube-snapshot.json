@@ -901,6 +901,23 @@
    "oracle_text": "First strike\nWhen this creature enters, exile a card from a graveyard.\nWhenever a player plays a land or casts a spell, if it shares a card type with the exiled card, this creature deals 2 damage to that player."
   },
   {
+   "name": "Censor",
+   "types": [
+    "Instant"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "U"
+   ],
+   "color_identity": [
+    "U"
+   ],
+   "mana_cost": "{1}{U}",
+   "url": "https://scryfall.com/card/akh/46/censor?utm_source=api",
+   "oracle_text": "Counter target spell unless its controller pays {1}.\nCycling {U} ({U}, Discard this card: Draw a card.)"
+  },
+  {
    "name": "Chainweb Aracnir",
    "types": [
     "Creature"
@@ -1213,6 +1230,23 @@
    "oracle_text": "Play with the top card of your library revealed.\nYou may play lands from the top of your library.\nLandfall — Whenever a land you control enters, you gain 1 life."
   },
   {
+   "name": "Crimson Wisps",
+   "types": [
+    "Instant"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [
+    "R"
+   ],
+   "color_identity": [
+    "R"
+   ],
+   "mana_cost": "{R}",
+   "url": "https://scryfall.com/card/shm/88/crimson-wisps?utm_source=api",
+   "oracle_text": "Target creature becomes red and gains haste until end of turn. (It can attack and {T} this turn.)\nDraw a card."
+  },
+  {
    "name": "Crop Rotation",
    "types": [
     "Instant"
@@ -1413,23 +1447,6 @@
    "mana_cost": "",
    "url": "https://scryfall.com/card/afr/254/den-of-the-bugbear?utm_source=api",
    "oracle_text": "If you control two or more other lands, this land enters tapped.\n{T}: Add {R}.\n{3}{R}: Until end of turn, this land becomes a 3/2 red Goblin creature with \"Whenever this creature attacks, create a 1/1 red Goblin creature token that's tapped and attacking.\" It's still a land."
-  },
-  {
-   "name": "Dig Through Time",
-   "types": [
-    "Instant"
-   ],
-   "cmc": 8,
-   "image": "",
-   "colors": [
-    "U"
-   ],
-   "color_identity": [
-    "U"
-   ],
-   "mana_cost": "{6}{U}{U}",
-   "url": "https://scryfall.com/card/dsc/115/dig-through-time?utm_source=api",
-   "oracle_text": "Delve (Each card you exile from your graveyard while casting this spell pays for {1}.)\nLook at the top seven cards of your library. Put two of them into your hand and the rest on the bottom of your library in any order."
   },
   {
    "name": "Disfigure",
@@ -2219,27 +2236,6 @@
    "oracle_text": "Target creature gets -1/-1 until end of turn. Create a 1/1 green Saproling creature token."
   },
   {
-   "name": "Garruk Wildspeaker",
-   "types": [
-    "Legendary",
-    "Planeswalker"
-   ],
-   "sub_types": [
-    "Garruk"
-   ],
-   "cmc": 4,
-   "image": "",
-   "colors": [
-    "G"
-   ],
-   "color_identity": [
-    "G"
-   ],
-   "mana_cost": "{2}{G}{G}",
-   "url": "https://scryfall.com/card/cmd/157/garruk-wildspeaker?utm_source=api",
-   "oracle_text": "+1: Untap two target lands.\n−1: Create a 3/3 green Beast creature token.\n−4: Creatures you control get +3/+3 and gain trample until end of turn."
-  },
-  {
    "name": "Gilded Goose",
    "types": [
     "Creature"
@@ -2780,23 +2776,6 @@
    "oracle_text": "Whenever you draw your second card each turn, this creature deals 3 damage to any target."
   },
   {
-   "name": "Iron Apprentice",
-   "types": [
-    "Artifact",
-    "Creature"
-   ],
-   "sub_types": [
-    "Construct"
-   ],
-   "cmc": 1,
-   "image": "",
-   "colors": [],
-   "color_identity": [],
-   "mana_cost": "{1}",
-   "url": "https://scryfall.com/card/neo/248/iron-apprentice?utm_source=api",
-   "oracle_text": "This creature enters with a +1/+1 counter on it.\nWhen this creature dies, if it had counters on it, put those counters on target creature you control."
-  },
-  {
    "name": "Jolrael, Mwonvuli Recluse",
    "types": [
     "Legendary",
@@ -3067,23 +3046,6 @@
    "mana_cost": "{R}",
    "url": "https://scryfall.com/card/mh1/134/lava-dart?utm_source=api",
    "oracle_text": "Lava Dart deals 1 damage to any target.\nFlashback—Sacrifice a Mountain. (You may cast this card from your graveyard for its flashback cost. Then exile it.)"
-  },
-  {
-   "name": "Legion Extruder",
-   "types": [
-    "Artifact"
-   ],
-   "cmc": 2,
-   "image": "",
-   "colors": [
-    "R"
-   ],
-   "color_identity": [
-    "R"
-   ],
-   "mana_cost": "{1}{R}",
-   "url": "https://scryfall.com/card/big/12/legion-extruder?utm_source=api",
-   "oracle_text": "When this artifact enters, it deals 2 damage to any target.\n{2}, {T}, Sacrifice another artifact: Create a 3/3 colorless Golem artifact creature token."
   },
   {
    "name": "Legion's Landing // Adanto, the First Fort",
@@ -3433,6 +3395,23 @@
    "oracle_text": "Counter target spell unless its controller pays {3}."
   },
   {
+   "name": "Mana Tithe",
+   "types": [
+    "Instant"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [
+    "W"
+   ],
+   "color_identity": [
+    "W"
+   ],
+   "mana_cost": "{W}",
+   "url": "https://scryfall.com/card/tsr/26/mana-tithe?utm_source=api",
+   "oracle_text": "Counter target spell unless its controller pays {1}."
+  },
+  {
    "name": "Manamorphose",
    "types": [
     "Instant"
@@ -3488,6 +3467,23 @@
    "mana_cost": "{1}{B}",
    "url": "https://scryfall.com/card/mh3/100/marionette-apprentice?utm_source=api",
    "oracle_text": "Fabricate 1 (When this creature enters, put a +1/+1 counter on it or create a 1/1 colorless Servo artifact creature token.)\nWhenever another creature or artifact you control is put into a graveyard from the battlefield, each opponent loses 1 life."
+  },
+  {
+   "name": "Mark of Mutiny",
+   "types": [
+    "Sorcery"
+   ],
+   "cmc": 3,
+   "image": "",
+   "colors": [
+    "R"
+   ],
+   "color_identity": [
+    "R"
+   ],
+   "mana_cost": "{2}{R}",
+   "url": "https://scryfall.com/card/ima/139/mark-of-mutiny?utm_source=api",
+   "oracle_text": "Gain control of target creature until end of turn. Put a +1/+1 counter on it and untap it. That creature gains haste until end of turn. (It can attack and {T} this turn.)"
   },
   {
    "name": "Marsh Flats",
@@ -3956,27 +3952,6 @@
    "oracle_text": "Counter target noncreature spell."
   },
   {
-   "name": "Nightmare Shepherd",
-   "types": [
-    "Enchantment",
-    "Creature"
-   ],
-   "sub_types": [
-    "Demon"
-   ],
-   "cmc": 4,
-   "image": "",
-   "colors": [
-    "B"
-   ],
-   "color_identity": [
-    "B"
-   ],
-   "mana_cost": "{2}{B}{B}",
-   "url": "https://scryfall.com/card/dsc/149/nightmare-shepherd?utm_source=api",
-   "oracle_text": "Flying\nWhenever another nontoken creature you control dies, you may exile it. If you do, create a token that's a copy of that creature, except it's 1/1 and it's a Nightmare in addition to its other types."
-  },
-  {
    "name": "No More Lies",
    "types": [
     "Instant"
@@ -4400,6 +4375,28 @@
    "oracle_text": "When Proft's Eidetic Memory enters, draw a card.\nYou have no maximum hand size.\nAt the beginning of combat on your turn, if you've drawn more than one card this turn, put X +1/+1 counters on target creature you control, where X is the number of cards you've drawn this turn minus one."
   },
   {
+   "name": "Psychic Frog",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Frog"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "B",
+    "U"
+   ],
+   "color_identity": [
+    "B",
+    "U"
+   ],
+   "mana_cost": "{U}{B}",
+   "url": "https://scryfall.com/card/mh3/199/psychic-frog?utm_source=api",
+   "oracle_text": "Whenever this creature deals combat damage to a player or planeswalker, draw a card.\nDiscard a card: Put a +1/+1 counter on this creature.\nExile three cards from your graveyard: This creature gains flying until end of turn."
+  },
+  {
    "name": "Puppeteer Clique",
    "types": [
     "Creature"
@@ -4768,26 +4765,6 @@
    "oracle_text": "This land enters tapped.\n{T}: Add {G} or {U}.\n{3}{G}{U}: Until end of turn, this land becomes a 5/5 green and blue Plant creature with trample. It's still a land.\nWhenever this land attacks, up to one other target creature has base power and toughness 3/3 until end of turn."
   },
   {
-   "name": "Restoration Angel",
-   "types": [
-    "Creature"
-   ],
-   "sub_types": [
-    "Angel"
-   ],
-   "cmc": 4,
-   "image": "",
-   "colors": [
-    "W"
-   ],
-   "color_identity": [
-    "W"
-   ],
-   "mana_cost": "{3}{W}",
-   "url": "https://scryfall.com/card/inr/38/restoration-angel?utm_source=api",
-   "oracle_text": "Flash\nFlying\nWhen this creature enters, you may exile target non-Angel creature you control, then return that card to the battlefield under your control."
-  },
-  {
    "name": "Reveillark",
    "types": [
     "Creature"
@@ -5065,23 +5042,6 @@
    "oracle_text": "Sacrifice this enchantment: It deals 2 damage to any target."
   },
   {
-   "name": "Seal of Removal",
-   "types": [
-    "Enchantment"
-   ],
-   "cmc": 1,
-   "image": "",
-   "colors": [
-    "U"
-   ],
-   "color_identity": [
-    "U"
-   ],
-   "mana_cost": "{U}",
-   "url": "https://scryfall.com/card/mh2/269/seal-of-removal?utm_source=api",
-   "oracle_text": "Sacrifice this enchantment: Return target creature to its owner's hand."
-  },
-  {
    "name": "Searslicer Goblin",
    "types": [
     "Creature"
@@ -5272,21 +5232,6 @@
    "oracle_text": "({T}: Add {R} or {G}.)\nThis land enters tapped.\nCycling {2} ({2}, Discard this card: Draw a card.)"
   },
   {
-   "name": "Shifting Woodland",
-   "types": [
-    "Land"
-   ],
-   "cmc": 0,
-   "image": "",
-   "colors": [],
-   "color_identity": [
-    "G"
-   ],
-   "mana_cost": "",
-   "url": "https://scryfall.com/card/mh3/228/shifting-woodland?utm_source=api",
-   "oracle_text": "This land enters tapped unless you control a Forest.\n{T}: Add {G}.\nDelirium — {2}{G}{G}: This land becomes a copy of target permanent card in your graveyard until end of turn. Activate only if there are four or more card types among cards in your graveyard."
-  },
-  {
    "name": "Silent Clearing",
    "types": [
     "Land"
@@ -5418,6 +5363,23 @@
    "mana_cost": "{R}",
    "url": "https://scryfall.com/card/akh/148/soul-scar-mage?utm_source=api",
    "oracle_text": "Prowess\nIf a source you control would deal noncombat damage to a creature an opponent controls, put that many -1/-1 counters on that creature instead."
+  },
+  {
+   "name": "Sparring Construct",
+   "types": [
+    "Artifact",
+    "Creature"
+   ],
+   "sub_types": [
+    "Construct"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [],
+   "color_identity": [],
+   "mana_cost": "{1}",
+   "url": "https://scryfall.com/card/dom/232/sparring-construct?utm_source=api",
+   "oracle_text": "When this creature dies, put a +1/+1 counter on target creature you control."
   },
   {
    "name": "Spell Pierce",
@@ -5772,30 +5734,6 @@
    "oracle_text": "Tarmogoyf's power is equal to the number of card types among cards in all graveyards and its toughness is equal to that number plus 1."
   },
   {
-   "name": "Tasigur, the Golden Fang",
-   "types": [
-    "Legendary",
-    "Creature"
-   ],
-   "sub_types": [
-    "Human",
-    "Shaman"
-   ],
-   "cmc": 6,
-   "image": "",
-   "colors": [
-    "B"
-   ],
-   "color_identity": [
-    "B",
-    "G",
-    "U"
-   ],
-   "mana_cost": "{5}{B}",
-   "url": "https://scryfall.com/card/tdc/197/tasigur-the-golden-fang?utm_source=api",
-   "oracle_text": "Delve (Each card you exile from your graveyard while casting this spell pays for {1}.)\n{2}{G/U}{G/U}: Mill two cards, then return a nonland card of an opponent's choice from your graveyard to your hand."
-  },
-  {
    "name": "Tectonic Edge",
    "types": [
     "Land"
@@ -6053,6 +5991,26 @@
    "oracle_text": "({T}: Add {U} or {R}.)\nThis land enters tapped.\nWhen this land enters, surveil 1. (Look at the top card of your library. You may put it into your graveyard.)"
   },
   {
+   "name": "Tibalt's Rager",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Devil"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "R"
+   ],
+   "color_identity": [
+    "R"
+   ],
+   "mana_cost": "{1}{R}",
+   "url": "https://scryfall.com/card/jmp/366/tibalts-rager?utm_source=api",
+   "oracle_text": "When this creature dies, it deals 1 damage to any target.\n{1}{R}: This creature gets +2/+0 until end of turn."
+  },
+  {
    "name": "Tidehollow Sculler",
    "types": [
     "Artifact",
@@ -6074,6 +6032,25 @@
    "mana_cost": "{W}{B}",
    "url": "https://scryfall.com/card/mma/184/tidehollow-sculler?utm_source=api",
    "oracle_text": "When this creature enters, target opponent reveals their hand and you choose a nonland card from it. Exile that card.\nWhen this creature leaves the battlefield, return the exiled card to its owner's hand."
+  },
+  {
+   "name": "Time Wipe",
+   "types": [
+    "Sorcery"
+   ],
+   "cmc": 5,
+   "image": "",
+   "colors": [
+    "U",
+    "W"
+   ],
+   "color_identity": [
+    "U",
+    "W"
+   ],
+   "mana_cost": "{2}{W}{W}{U}",
+   "url": "https://scryfall.com/card/tdc/308/time-wipe?utm_source=api",
+   "oracle_text": "Return a creature you control to its owner's hand, then destroy all creatures."
   },
   {
    "name": "Tireless Tracker",
@@ -6184,6 +6161,28 @@
    "mana_cost": "{7}{U}",
    "url": "https://scryfall.com/card/tdc/169/treasure-cruise?utm_source=api",
    "oracle_text": "Delve (Each card you exile from your graveyard while casting this spell pays for {1}.)\nDraw three cards."
+  },
+  {
+   "name": "Triton Wavebreaker",
+   "types": [
+    "Enchantment",
+    "Creature"
+   ],
+   "sub_types": [
+    "Merfolk",
+    "Wizard"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [
+    "U"
+   ],
+   "color_identity": [
+    "U"
+   ],
+   "mana_cost": "{U}",
+   "url": "https://scryfall.com/card/mh3/74/triton-wavebreaker?utm_source=api",
+   "oracle_text": "Bestow {1}{U} (If you cast this card for its bestow cost, it's an Aura spell with enchant creature. It becomes a creature again if it's not attached.)\nAs long as this permanent is a creature, it has prowess. (Whenever you cast a noncreature spell, this creature gets +1/+1 until end of turn.)\nEnchanted creature gets +1/+1 and has prowess."
   },
   {
    "name": "Twinshot Sniper",

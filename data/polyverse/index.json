@@ -593,6 +593,38 @@
      "path": "data/polyverse/2025-06-12/will.json"
     }
    ]
+  },
+  {
+   "path": "data/polyverse/2025-06-29",
+   "date": "2025-06-29",
+   "draft_id": "2025-06-29",
+   "draft_log": "",
+   "decks": [
+    {
+     "path": "data/polyverse/2025-06-29/bryan.json"
+    },
+    {
+     "path": "data/polyverse/2025-06-29/casey.json"
+    },
+    {
+     "path": "data/polyverse/2025-06-29/joe2.json"
+    },
+    {
+     "path": "data/polyverse/2025-06-29/kevin.json"
+    },
+    {
+     "path": "data/polyverse/2025-06-29/mehdi.json"
+    },
+    {
+     "path": "data/polyverse/2025-06-29/owen.json"
+    },
+    {
+     "path": "data/polyverse/2025-06-29/tanner.json"
+    },
+    {
+     "path": "data/polyverse/2025-06-29/zephyr.json"
+    }
+   ]
   }
  ]
 }

@@ -44,7 +44,6 @@ Count,Name,Section
 1,Cathar Commando,main
 1,Celestial Colonnade,main
 1,Cemetery Gatekeeper,main
-1,Censor,main
 1,Chainweb Aracnir,main
 1,"Chandra, Hope's Beacon",main
 1,Chart a Course,main
@@ -62,7 +61,6 @@ Count,Name,Section
 1,Containment Construct,main
 1,Counterspell,main
 1,Courser of Kruphix,main
-1,Crimson Wisps,main
 1,Crop Rotation,main
 1,Curator of Mysteries,main
 1,Cut Down,main
@@ -74,6 +72,7 @@ Count,Name,Section
 1,Death's Shadow,main
 1,Demand Answers,main
 1,Den of the Bugbear,main
+1,Dig Through Time,main
 1,Disfigure,main
 1,Dragon's Rage Channeler,main
 1,Dragonsguard Elite,main
@@ -116,6 +115,7 @@ Count,Name,Section
 1,Flickerwisp,main
 2,Flooded Strand,main
 1,Fungal Infection,main
+1,Garruk Wildspeaker,main
 1,Gilded Goose,main
 1,Gitaxian Probe,main
 1,Glass Casket,main
@@ -142,6 +142,7 @@ Count,Name,Section
 1,"Inti, Seneschal of the Sun",main
 1,Into the Roil,main
 1,Irencrag Pyromancer,main
+1,Iron Apprentice,main
 1,"Jolrael, Mwonvuli Recluse",main
 1,Journey to Nowhere,main
 1,"Kellan, the Fae-Blooded // Birthright Boon",main
@@ -155,6 +156,7 @@ Count,Name,Section
 1,"Krenko, Tin Street Kingpin",main
 1,Languish,main
 1,Lava Dart,main
+1,Legion Extruder,main
 1,"Legion's Landing // Adanto, the First Fort",main
 1,Life from the Loam,main
 1,Lightning Bolt,main
@@ -173,11 +175,9 @@ Count,Name,Section
 1,Magma Jet,main
 1,Man-o'-War,main
 1,Mana Leak,main
-1,Mana Tithe,main
 1,Manamorphose,main
 1,March of Otherworldly Light,main
 1,Marionette Apprentice,main
-1,Mark of Mutiny,main
 2,Marsh Flats,main
 1,Mayhem Devil,main
 1,Meadowboon,main
@@ -201,6 +201,7 @@ Count,Name,Section
 1,Mystic Confluence,main
 1,Mystic Sanctuary,main
 1,Negate,main
+1,Nightmare Shepherd,main
 1,No More Lies,main
 1,Nurturing Peatland,main
 1,Ogre-Head Helm,main
@@ -223,7 +224,6 @@ Count,Name,Section
 1,Prismatic Ending,main
 1,Prismatic Vista,main
 1,Proft's Eidetic Memory,main
-1,Psychic Frog,main
 1,Puppeteer Clique,main
 1,Pyrite Spellbomb,main
 1,Pyroclasm,main
@@ -243,6 +243,7 @@ Count,Name,Section
 1,Repeal,main
 1,Reprieve,main
 1,Restless Vinestalk,main
+1,Restoration Angel,main
 1,Reveillark,main
 1,"Rielle, the Everwise",main
 1,Rishadan Port,main
@@ -256,6 +257,7 @@ Count,Name,Section
 1,Scrapwork Mutt,main
 1,Scryb Ranger,main
 1,Seal of Fire,main
+1,Seal of Removal,main
 1,Searslicer Goblin,main
 1,Seasoned Hallowblade,main
 1,Seasoned Pyromancer,main
@@ -266,6 +268,7 @@ Count,Name,Section
 1,Shark Typhoon,main
 1,Shelldock Isle,main
 1,Sheltered Thicket,main
+1,Shifting Woodland,main
 1,Silent Clearing,main
 1,Six,main
 1,Snapcaster Mage,main
@@ -273,7 +276,6 @@ Count,Name,Section
 1,Soul Partition,main
 1,Soul Snare,main
 1,Soul-Scar Mage,main
-1,Sparring Construct,main
 1,Spell Pierce,main
 1,Spell Snare,main
 1,Spellstutter Sprite,main
@@ -290,6 +292,7 @@ Count,Name,Section
 1,"Tamiyo, Compleated Sage",main
 1,Tarfire,main
 1,Tarmogoyf,main
+1,"Tasigur, the Golden Fang",main
 1,Tectonic Edge,main
 2,Temple Garden,main
 1,Territorial Kavu,main
@@ -302,16 +305,13 @@ Count,Name,Section
 1,Thoughtseize,main
 1,Thraben Inspector,main
 1,Thundering Falls,main
-1,Tibalt's Rager,main
 1,Tidehollow Sculler,main
-1,Time Wipe,main
 1,Tireless Tracker,main
 1,"Titania, Protector of Argoth",main
 1,Touch the Spirit Realm,main
 1,Toxic Deluge,main
 1,Traverse the Ulvenwald,main
 1,Treasure Cruise,main
-1,Triton Wavebreaker,main
 1,Twinshot Sniper,main
 1,Ulcerate,main
 1,Undercity Sewers,main
