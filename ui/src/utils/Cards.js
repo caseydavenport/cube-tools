@@ -1,5 +1,5 @@
 import { IsBasicLand} from "../utils/Utils.js"
-import { Wins, Losses, InDeckColor } from "../utils/Deck.js"
+import { Trophies, LastPlaceFinishes, Wins, Losses, InDeckColor } from "../utils/Deck.js"
 import { RemovalMatches, CounterspellMatches } from "../pages/Decks.js"
 
 export function IsInteraction(card) {
@@ -51,6 +51,8 @@ export function CardData(decks, minDrafts, minGames, cube, color) {
       playableSideboard: 0, // Number of times this card was in deck color(s), and sideboarded.
       wins: 0, // Does not include sideboard.
       losses: 0, // Does not include sideboard.
+      trophies: 0, // 3-0 decks this card has been in.
+      lastplace: 0, // 0-3 decks this card has been in.
       win_percent: 0,
       mainboard_percent: 0,
       sideboard_percent: 0,
@@ -119,6 +121,8 @@ export function CardData(decks, minDrafts, minGames, cube, color) {
       cardsByName.get(card.name).mainboard += 1
       cardsByName.get(card.name).wins += Wins(decks[i])
       cardsByName.get(card.name).losses += Losses(decks[i])
+      cardsByName.get(card.name).trophies += Trophies(decks[i])
+      cardsByName.get(card.name).lastplace += LastPlaceFinishes(decks[i])
 
       if (card.appearances) {
         cardsByName.get(card.name).appearances += card.appearances

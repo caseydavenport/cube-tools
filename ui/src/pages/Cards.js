@@ -57,6 +57,8 @@ export const NumGamesOption = "# Games"
 export const ManaValueOption = "Mana Value"
 export const NumPlayersOption = "# Players"
 export const DraftOrderOption = "Avg. draft pick"
+export const NumTrophiesOption = "# Trophies"
+export const NumLastPlaceOption = "# Last place"
 export const CardScatterAxes = [
   {label: NumDecksOption, value: NumDecksOption},
   {label: NumSideboardOption, value: NumSideboardOption},
@@ -70,6 +72,8 @@ export const CardScatterAxes = [
   {label: ManaValueOption, value: ManaValueOption},
   {label: NumPlayersOption, value: NumPlayersOption},
   {label: DraftOrderOption, value: DraftOrderOption},
+  {label: NumTrophiesOption, value: NumTrophiesOption},
+  {label: NumLastPlaceOption, value: NumLastPlaceOption},
 ]
 
 const Interaction = "All interaction"
@@ -152,6 +156,16 @@ function CardWidgetTable(input) {
       id: "wins",
       text: "Win%",
       tip: "Win percentage of decks that include this card in their mainboard.",
+    },
+    {
+      id: "trophies",
+      text: "Trophies",
+      tip: "Number of 3-0 decks this card has been in.",
+    },
+    {
+      id: "lastplace",
+      text: "Last place",
+      tip: "Number of 0-3 decks this card has been in.",
     },
     {
       id: "mb",
@@ -252,6 +266,12 @@ function CardWidgetTable(input) {
                 case "sb":
                   sort = card.sideboard
                   break
+                case "trophies":
+                  sort = card.trophies
+                  break
+                case "lastplace":
+                  sort = card.lastplace
+                  break
                 case "elo":
                   sort = card.elo
                   break
@@ -294,6 +314,8 @@ function CardWidgetTable(input) {
 
                   <td id={card.name} onClick={input.onCardSelected} key="name">{card.mainboard_percent}%</td>
                   <td id={card.name} onClick={input.onCardSelected} key="win_percent">{card.win_percent}%</td>
+                  <td>{card.trophies}</td>
+                  <td>{card.lastplace}</td>
                   <td>{card.mainboard}</td>
                   <td>{card.sideboard}</td>
                   <td>{card.playableSideboard}</td>
@@ -969,6 +991,10 @@ function getValue(axis, card, archetypeData, playerData, decks, draftData) {
       return card.players.size
     case ExpectedWinPercentOption:
       return expectedRate
+    case NumTrophiesOption:
+      return card.trophies
+    case NumLastPlaceOption:
+      return card.lastplace
     case DraftOrderOption:
       let pick = draftData.get(card.name)
       if (pick == null) {

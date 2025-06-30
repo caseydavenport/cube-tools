@@ -459,8 +459,12 @@ function TopCardsInArchetypeWidget(input) {
               // Determine how tightly bound this card is to the archetype - is it 1:1? Or does it share its time in
               // other decks.
               let correlation = Math.round(card.archetypes.get(input.selectedArchetype) / card.mainboard * 100)
+
+              // Configure the sort.
+              let sort = card.archetypes.get(input.selectedArchetype)
+              sort = correlation
               return (
-                <tr sort={card.archetypes.get(input.selectedArchetype)} className="widget-table-row" key={card.name}>
+                <tr sort={sort} className="widget-table-row" key={card.name}>
                   <td ><a href={card.url} target="_blank" rel="noopener noreferrer">{card.name}</a></td>
                   <td >{card.archetypes.get(input.selectedArchetype)}</td>
                   <td >{percentage}%</td>
