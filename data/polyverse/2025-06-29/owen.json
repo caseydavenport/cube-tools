@@ -405,63 +405,6 @@
    "oracle_text": "({T}: Add {B}.)"
   },
   {
-   "name": "Swamp",
-   "types": [
-    "Basic",
-    "Land"
-   ],
-   "sub_types": [
-    "Swamp"
-   ],
-   "cmc": 0,
-   "image": "",
-   "colors": [],
-   "color_identity": [
-    "B"
-   ],
-   "mana_cost": "",
-   "url": "https://scryfall.com/card/tdm/281/swamp?utm_source=api",
-   "oracle_text": "({T}: Add {B}.)"
-  },
-  {
-   "name": "Swamp",
-   "types": [
-    "Basic",
-    "Land"
-   ],
-   "sub_types": [
-    "Swamp"
-   ],
-   "cmc": 0,
-   "image": "",
-   "colors": [],
-   "color_identity": [
-    "B"
-   ],
-   "mana_cost": "",
-   "url": "https://scryfall.com/card/tdm/281/swamp?utm_source=api",
-   "oracle_text": "({T}: Add {B}.)"
-  },
-  {
-   "name": "Swamp",
-   "types": [
-    "Basic",
-    "Land"
-   ],
-   "sub_types": [
-    "Swamp"
-   ],
-   "cmc": 0,
-   "image": "",
-   "colors": [],
-   "color_identity": [
-    "B"
-   ],
-   "mana_cost": "",
-   "url": "https://scryfall.com/card/tdm/281/swamp?utm_source=api",
-   "oracle_text": "({T}: Add {B}.)"
-  },
-  {
    "name": "Inexorable Blob",
    "types": [
     "Creature"
@@ -496,44 +439,6 @@
    "mana_cost": "",
    "url": "https://scryfall.com/card/mh1/243/nurturing-peatland?utm_source=api",
    "oracle_text": "{T}, Pay 1 life: Add {B} or {G}.\n{1}, {T}, Sacrifice this land: Draw a card."
-  },
-  {
-   "name": "Forest",
-   "types": [
-    "Basic",
-    "Land"
-   ],
-   "sub_types": [
-    "Forest"
-   ],
-   "cmc": 0,
-   "image": "",
-   "colors": [],
-   "color_identity": [
-    "G"
-   ],
-   "mana_cost": "",
-   "url": "https://scryfall.com/card/tdm/285/forest?utm_source=api",
-   "oracle_text": "({T}: Add {G}.)"
-  },
-  {
-   "name": "Forest",
-   "types": [
-    "Basic",
-    "Land"
-   ],
-   "sub_types": [
-    "Forest"
-   ],
-   "cmc": 0,
-   "image": "",
-   "colors": [],
-   "color_identity": [
-    "G"
-   ],
-   "mana_cost": "",
-   "url": "https://scryfall.com/card/tdm/285/forest?utm_source=api",
-   "oracle_text": "({T}: Add {G}.)"
   },
   {
    "name": "Forest",
