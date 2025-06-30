@@ -6,5 +6,5 @@ Joe's deck did go off with a few things:
 
 - Phelia was his first pick, and was very solid. Another card that demands removal, and might not have been so bad without Mom on the field.
 - Warden of the Inner Sky was very cool, using its own ability to add counters (with multiple bodies from Thraben Inspector) as well as...
-- Lost Jitte, who saw its first real playing time and as far as I can tell did very well. Pumping up Warden was great, as was untapping lands to double spell for Clarion Spirit.
+- Lost Jitte saw its first real playing time and Joe reported it as underwhelming - only being used for counters. Pumping up Warden was great in the matchup against me, and it was used for untapping lands to double spell for Clarion Spirit.
 - werefox Bodyguard did well against me, but I had little in the way of counterplay.
