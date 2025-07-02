@@ -5,10 +5,8 @@
   "source_file": "casey.txt"
  },
  "labels": [
-  "spells",
-  "aggro",
-  "control",
   "tempo",
+  "spells",
   "discard"
  ],
  "player": "casey",

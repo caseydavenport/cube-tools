@@ -5,8 +5,6 @@
   "source_file": "james.csv"
  },
  "labels": [
-  "aggro",
-  "control",
   "tempo",
   "spells"
  ],

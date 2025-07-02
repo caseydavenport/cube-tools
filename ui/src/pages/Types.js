@@ -565,11 +565,12 @@ export function ArchetypeData(decks) {
   let totalGames = 0
   let tracker = new Map()
 
-  // We set aggro/midrange/control for every set of decks, even if they are
+  // We set aggro/midrange/control/tempo for every set of decks, even if they are
   // zeroed out. This enables graphs that expect these to exist.
   tracker.set("aggro", newType("aggro"))
   tracker.set("midrange", newType("midrange"))
   tracker.set("control", newType("control"))
+  tracker.set("tempo", newType("tempo"))
 
   for (let deck of decks) {
     // We only need to count wins, because every loss is counted in another deck as a win.
@@ -650,6 +651,7 @@ function MicroArchetypesChart(input) {
   archSet.delete("aggro")
   archSet.delete("midrange")
   archSet.delete("control")
+  archSet.delete("tempo")
 
   // We want to fitler out any archtetypes that don't meet a minimum
   // criteria, in order to de-clutter the plots. Use aggregate data across all buckets
@@ -753,7 +755,7 @@ function MacroArchetypesChart(input) {
   }
 
   // Parse the buckets.
-  let archs = ["aggro", "midrange", "control"]
+  let archs = ["aggro", "midrange", "control", "tempo"]
   let datasets = new Map()
   for (let arch of archs) {
     datasets.set(arch, [])
@@ -796,6 +798,12 @@ function MacroArchetypesChart(input) {
         data: datasets.get("control"),
         borderColor: Colors.get("U"),
         backgroundColor: Colors.get("U"),
+      },
+      {
+        label: 'Tempo',
+        data: datasets.get("tempo"),
+        borderColor: Colors.get("B"),
+        backgroundColor: Colors.get("B"),
       },
   ]
 
@@ -852,6 +860,7 @@ function MacroArchetypesPieChart(input) {
     stats.get("aggro").count,
     stats.get("midrange").count,
     stats.get("control").count,
+    stats.get("tempo").count,
   ]
 
   switch (input.dataset) {
@@ -861,11 +870,12 @@ function MacroArchetypesPieChart(input) {
         stats.get("aggro").wins,
         stats.get("midrange").wins,
         stats.get("control").wins,
+        stats.get("tempo").wins,
       ]
   }
 
   let data = {
-    labels: ['Aggro', 'Midrange', 'Control'],
+    labels: ['Aggro', 'Midrange', 'Control', 'Tempo'],
     datasets: [
       {
         label: title,
@@ -874,11 +884,13 @@ function MacroArchetypesPieChart(input) {
           'rgba(255, 99, 132, 0.2)',
           'rgba(255, 206, 86, 0.2)',
           'rgba(54, 162, 235, 0.2)',
+          'rgba(94, 122, 135, 0.2)',
         ],
         borderColor: [
           'rgba(255, 99, 132, 1)',
           'rgba(255, 206, 86, 1)',
           'rgba(54, 162, 235, 1)',
+          'rgba(94, 122, 135, 1)',
         ],
         borderWidth: 1,
       },

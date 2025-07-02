@@ -5,9 +5,8 @@
   "source_file": "dom.txt"
  },
  "labels": [
-  "discard",
-  "control",
-  "aggro"
+  "tempo",
+  "discard"
  ],
  "player": "dom",
  "date": "2024-04-24",
