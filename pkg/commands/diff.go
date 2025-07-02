@@ -19,6 +19,23 @@ var (
 	to   string
 )
 
+// Takes a cube snapshot json file and emits a newline-separated list of cards in the cube.
+var PrintCube = &cobra.Command{
+	Use:   "print-cube",
+	Short: "Open a cube snapshot file and print the cards in it",
+	Run: func(cmd *cobra.Command, args []string) {
+		cubePath := "data/polyverse/2023-06-17/cube-snapshot.json"
+
+		cube, err := loadCubeFile(cubePath)
+		if err != nil {
+			logrus.WithError(err).Fatal("Failed to load cube file")
+		}
+		for _, card := range cube.Cards {
+			fmt.Println(card.Name)
+		}
+	},
+}
+
 // Define a cobra command for parsing a single deck file.
 var DiffCubeCmd = &cobra.Command{
 	Use:   "diff",
