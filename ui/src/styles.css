@@ -4,6 +4,7 @@
   --table-row-selected: #6b6e70;
   --table-header-background: #61892f;
   --misc: #86c232;
+  --misc-2: #068220;
   --highlight: #C97BF4;
   --highlight-2: #C97BF444;
   --white: #FFF;
@@ -92,6 +93,15 @@ table {
   font-weight: bold;
   width: 40%;
 }
+
+.player-frame-title-2 {
+  background: var(--misc-2);
+  padding-right: 10px;
+  text-align: right;
+  font-weight: bold;
+  width: 40%;
+}
+
 
 .player-frame-value {
   background: var(--table-row-selected);

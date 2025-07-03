@@ -2,7 +2,7 @@ import React from 'react'
 import { useState } from "react";
 import { useEffect } from "react";
 import { LoadDecks, FetchFile } from "../utils/Fetch.js"
-import { Wins, Losses, MatchWins, MatchLosses, MatchDraws, InDeckColor } from "../utils/Deck.js"
+import { Record, Wins, Losses, MatchWins, MatchLosses, MatchDraws, InDeckColor } from "../utils/Deck.js"
 import { RemovalMatches, CounterspellMatches } from "../pages/Decks.js"
 import { SortFunc } from "../utils/Utils.js"
 import { ColorImages, CombineColors } from "../utils/Colors.js"
@@ -556,6 +556,21 @@ function PlayerFrame(input) {
         <td className="player-frame-title"># Interaction:</td>
         <td className="player-frame-value">{interaction}</td>
       </tr>
+      {
+        deck.matches.map(function(match) {
+          let result = "W"
+          if (match.opponent.toLowerCase() == match.winner.toLowerCase()) {
+            result = "L"
+          }
+          result += " (" + Record(deck, match.opponent) + ")"
+          return (
+            <tr>
+              <td className="player-frame-title-2">Match vs {match.opponent}</td>
+              <td className="player-frame-value">{result}</td>
+            </tr>
+          );
+        })
+      }
       </tbody>
     </table>
   );

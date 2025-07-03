@@ -40,6 +40,28 @@ function gameLosses(deck) {
   return losses
 }
 
+export function Record(deck, opp) {
+  let wins = 0
+  let losses = 0
+  for (var i in deck.games) {
+    let game = deck.games[i]
+
+    // Skip games that don't match this opponent.
+    if (game.opponent.toLowerCase() != opp.toLowerCase()) {
+      continue
+    }
+
+    // Count up wins / losses.
+    if (game.winner == game.opponent) {
+      losses += 1
+    } else {
+      wins += 1
+    }
+  }
+
+  return wins + "-" + losses
+}
+
 export function MatchWins(deck) {
   if (deck.matches == null) {
     return 0
