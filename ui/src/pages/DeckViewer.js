@@ -611,7 +611,7 @@ function CardList({player, cards, deck, sb, opts}) {
       <table key={key} className="decklist">
         <thead className="table-header">
           <tr>
-            <td colSpan="2" className="header-cell">{title}</td>
+            <td colSpan="3" className="header-cell">{title}</td>
           </tr>
         </thead>
         <tbody>
@@ -626,8 +626,10 @@ function CardList({player, cards, deck, sb, opts}) {
             } else if (sb && InDeckColor(card, deck)) {
               className = "card-playable-highlight"
             }
+            let imgs = ColorImages(card.colors)
             return (
               <tr className={className} key={key} card={card}>
+                <td className="padded"><a href={card.url} target="_blank" rel="noopener noreferrer">{imgs}</a></td>
                 <td className="padded"><a href={card.url} target="_blank" rel="noopener noreferrer">{type}</a></td>
                 <td className="padded"><a href={card.url} target="_blank" rel="noopener noreferrer">{text}</a></td>
               </tr>
