@@ -36,6 +36,14 @@ export async function LoadDecks(onLoad, start, end, draftSize, playerMatch) {
   onLoad(decks.decks)
 }
 
+export async function LoadArchetypeData(onLoad, start, end, draftSize, playerMatch) {
+  console.time("LoadArchetypeData()")
+  const resp = await fetch(`/api/archetypes?start=${start}&end=${end}&size=${draftSize}&player=${playerMatch}`);
+  let d = await resp.json();
+  console.timeEnd("LoadArchetypeData()")
+  onLoad(d)
+}
+
 function capitalize(word) {
   return word[0].toUpperCase() + word.slice(1);
 }

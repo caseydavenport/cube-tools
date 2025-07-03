@@ -1,7 +1,7 @@
 import React from 'react'
 import { useState } from "react";
 import { useEffect } from "react";
-import { LoadCube, LoadDecks, LoadDrafts} from "../utils/Fetch.js"
+import { LoadCube, LoadDecks, LoadArchetypeData, LoadDrafts} from "../utils/Fetch.js"
 import { Trophies, LastPlaceFinishes, Wins, Losses } from "../utils/Deck.js"
 import { IsBasicLand, SortFunc } from "../utils/Utils.js"
 import { Button, TextInput, NumericInput, Checkbox, DateSelector } from "../components/Dropdown.js"
@@ -64,7 +64,6 @@ export default function StatsViewer() {
   ///////////////////////////////////////////////////////////////////////////////
   const [selectedBucket, setSelectedBucket] = useState("ALL");
   function onBucketSelected(event) {
-    console.log(event.target.value)
     setSelectedBucket(event.target.value)
   }
 
@@ -312,6 +311,7 @@ export default function StatsViewer() {
   const [selectedArchetype, setSelectedArchetype] = useState("aggro");
   const [archetypeDropdownOptions, setArchetypeDropdownOptions] = useState([]);
   const [sortBy, setSortBy] = useState("");
+  const [archetypeMatchups, setArchetypeMatchups] = useState([]);
   function onArchetypeSelected(event) {
     setSelectedArchetype(event.target.value)
   }
@@ -376,6 +376,7 @@ export default function StatsViewer() {
       LoadDecks(onDecksLoaded, startDate, endDate, minDraftSize, playerMatch),
       LoadDrafts(onDraftsLoaded, startDate, endDate),
       LoadCube(onCubeLoad),
+      LoadArchetypeData(onArchetypeDataLoaded, startDate, endDate, minDraftSize, playerMatch),
     ])
   }, [refresh])
 
@@ -427,6 +428,11 @@ export default function StatsViewer() {
       })
     }
     setDraftLogs(draftDates)
+  }
+
+  // Get archetype matchup data.
+  function onArchetypeDataLoaded(a) {
+    setArchetypeMatchups(a)
   }
 
   ///////////////////////////////////////////////////////////////////////////////
@@ -557,6 +563,7 @@ export default function StatsViewer() {
           cube={cube}
           show={display[1]}
           bucketSize={bucketSize}
+          matchups={archetypeMatchups}
 
           dropdownSelection={colorTypeSelection}
 
