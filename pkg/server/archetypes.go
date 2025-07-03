@@ -35,7 +35,7 @@ type archetypesHandler struct {
 }
 
 func (d *archetypesHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
-	dr := params(r)
+	dr := parseDecksRequest(r)
 	logrus.WithField("params", dr).Info("/api/archetypes")
 
 	// Get all of the decks from the store.

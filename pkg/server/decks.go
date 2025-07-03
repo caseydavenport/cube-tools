@@ -24,7 +24,7 @@ type deckHandler struct {
 }
 
 func (d *deckHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
-	dr := params(r)
+	dr := parseDecksRequest(r)
 	logrus.WithField("params", dr).Info("/api/decks")
 
 	resp := DecksResponse{}
@@ -45,7 +45,7 @@ func (d *deckHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func params(r *http.Request) *storage.DecksRequest {
+func parseDecksRequest(r *http.Request) *storage.DecksRequest {
 	// Pull deck params from the request.
 	p := storage.DecksRequest{}
 	p.Player = getString(r, "player")
