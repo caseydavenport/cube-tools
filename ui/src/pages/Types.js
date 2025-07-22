@@ -1,9 +1,9 @@
 import React from 'react'
 import { IsBasicLand, SortFunc, StringToColor } from "../utils/Utils.js"
-import { Colors, ColorImages } from "../utils/Colors.js"
 import { Trophies, LastPlaceFinishes, Wins, Losses } from "../utils/Deck.js"
 import { DropdownHeader, NumericInput, Checkbox, DateSelector } from "../components/Dropdown.js"
 import { BucketName } from "../utils/Buckets.js"
+import { Red, Green, Black, White, Blue, Colors, ColorImages } from "../utils/Colors.js"
 
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Popover from 'react-bootstrap/Popover';
@@ -38,6 +38,10 @@ ChartJS.register(
 
 // The mark an archetype must hit to be included in this page.
 const watermark = 5
+
+const winPctColor = "#fff"
+const winColor = Green
+const lossColor = Black // "#61892f"
 
 export function ArchetypeWidget(input) {
   if (!input.show) {
@@ -112,6 +116,36 @@ export function ArchetypeWidget(input) {
               decks={input.decks}
               bucketSize={input.bucketSize}
               dataset="percent_of_wins"
+            />
+          </td>
+        </tr>
+
+        <tr>
+          <td colSpan="1">
+            <WinsByMatchup
+              focus="aggro"
+              matchups={input.matchups}
+            />
+          </td>
+          <td colSpan="2">
+            <WinsByMatchup
+              focus="tempo"
+              matchups={input.matchups}
+            />
+          </td>
+        </tr>
+
+        <tr>
+          <td colSpan="1">
+            <WinsByMatchup
+              focus="midrange"
+              matchups={input.matchups}
+            />
+          </td>
+          <td colSpan="2">
+            <WinsByMatchup
+              focus="control"
+              matchups={input.matchups}
             />
           </td>
         </tr>
@@ -926,3 +960,109 @@ function MacroArchetypesPieChart(input) {
     </div>
   );
 }
+
+function WinsByMatchup(input) {
+  // For now, just use the first matchup.
+  let matchup = input.matchups.items[0]
+  for (let m of input.matchups.items) {
+    if (m.name == input.focus) {
+      matchup = m;
+      break;
+    }
+  }
+
+  const options = {
+    responsive: true,
+    maintainAspectRatio: false,
+    scales: {
+      y: {stacked:true, min: 0},
+      x: {stacked:true},
+    },
+    plugins: {
+      title: {
+        display: true,
+        text: "Matchup data for " + matchup.name,
+        color: "#FFF",
+        font: {
+          size: "16pt",
+        },
+      },
+      legend: {
+        labels: {
+          color: "#FFF",
+          font: {
+            size: "16pt",
+          },
+        },
+      },
+    },
+  };
+
+  // Sort the vs. by relative "speed" - i.e., aggro, tempo,
+  // midrange, control.
+  let versus = new Array()
+  let find = function(t) {
+    for (let vs of matchup.versus) {
+      if (vs.name == t) {
+        return vs
+      }
+    }
+
+    // Not found. Return a dummy.
+    return {
+      name: t,
+      win: 0,
+      loss: 0,
+    }
+  }
+
+  let ats = ["aggro", "tempo", "midrange", "control"]
+  for (let n of ats) {
+    if (n == matchup.name) {
+      continue;
+    }
+    versus.push(find(n))
+  }
+
+  var labels = []
+  let winsData= []
+  let lossData = []
+  let percentages = []
+  for (let vs of versus) {
+    labels.push(vs.name)
+    winsData.push(vs.win)
+    lossData.push(vs.loss)
+    percentages.push(Math.round(100 * vs.win / (vs.win + vs.loss)))
+  }
+
+  const data = {
+    labels,
+    datasets: [
+      {
+        type: "line",
+        label: 'Win %',
+        data: percentages,
+        borderColor: winPctColor,
+        backgroundColor: winPctColor,
+      },
+      {
+        label: 'Wins',
+        data: winsData,
+        backgroundColor: winColor,
+      },
+      {
+        label: 'Losses',
+        data: lossData,
+        backgroundColor: lossColor,
+      },
+
+    ],
+  };
+
+  return (
+    <div style={{"height":"500px", "width":"100%"}}>
+      <Bar height={"300px"} width={"300px"} options={options} data={data} />;
+    </div>
+  );
+}
+
