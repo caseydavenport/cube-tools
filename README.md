@@ -1,5 +1,7 @@
 # cube-tools
 
+![frontpage](./img/title.png)
+
 This repository is meant to help parse, track, and analyze **Magic: The Gathering** draft results.
 
 You can find [my cube on Cube Cobra](https://cubecobra.com/cube/overview/polyversal)
