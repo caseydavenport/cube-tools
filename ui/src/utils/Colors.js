@@ -105,6 +105,4 @@ export function ColorImages(colors) {
       }
     </div>
   )
-
-  let splits = colors.split('')
 }
