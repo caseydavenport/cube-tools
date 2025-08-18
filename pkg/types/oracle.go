@@ -50,7 +50,16 @@ func init() {
 	}
 }
 
+// This is a bit of a hack to catch common issues when looking up oracle data.
+var replaces = map[string]string{
+	"Lorien Revealed": "Lórien Revealed",
+}
+
 func GetOracleData(name string) OracleCard {
+	// Check for common replacements first.
+	if replace, ok := replaces[name]; ok {
+		name = replace
+	}
 	return oracleCards[name]
 }
 

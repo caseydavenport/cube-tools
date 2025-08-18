@@ -7,6 +7,7 @@ import (
 	"strings"
 
 	"github.com/caseydavenport/cube-tools/pkg/flag"
+	"github.com/caseydavenport/cube-tools/pkg/types"
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 )
@@ -114,10 +115,43 @@ func parseDeckDir(deckDir, fileType, date, draftID string) {
 	}
 	logc.WithField("num", len(files)).Info("Processing deck files.")
 
-	// Determine if we need to auto-name the file.
+	// Track each non-basic card we see in the deck files. We'll use this to do a consistency check on the
+	// draft to make sure all cards are present and accounted for.
+	seen := map[string]int{}
+
 	for _, f := range files {
-		parseSingleDeck(f.path, f.player, labels, date, draftID)
+		// Parse the deck.
+		d, err := parseSingleDeck(f.path, f.player, labels, date, draftID)
+		if err != nil {
+			logc.WithError(err).WithField("file", f.path).Error("Failed to parse deck file.")
+			continue
+		}
+
+		// If a deck has less than 40 cards in the mainboard, that likely indicates a
+		// scan error or a deck that was not properly built.
+		if len(d.Mainboard) < 40 {
+			logc.WithFields(logrus.Fields{
+				"file":      f.path,
+				"mainboard": len(d.Mainboard),
+			}).Warn("Deck has less than 40 cards in the mainboard, likely a scan error or incomplete deck.")
+		}
+
+		if d.PickCount() != 45 {
+			logc.WithFields(logrus.Fields{
+				"file": f.path,
+			}).Warn("Deck does not have 45 cards total (main + side), likely a scan error, incomplete deck, or unusual draft format.")
+		}
+
+		// Mark the non-basic cards as seen.
+		for _, c := range append(d.Mainboard, d.Sideboard...) {
+			if c.IsBasicLand() {
+				continue
+			}
+			// Increment the count of this card in the seen map.
+			seen[c.Name]++
+		}
 	}
+	logrus.WithField("num", len(seen)).Info("Total unique cards seen in deck lists.")
 
 	snaptshotFilename := fmt.Sprintf("%s/cube-snapshot.json", outdir)
 	if _, err := os.Stat(snaptshotFilename); err != nil {
@@ -130,6 +164,39 @@ func parseDeckDir(deckDir, fileType, date, draftID string) {
 		cmd := exec.Command("cp", "data/polyverse/cube.json", snaptshotFilename)
 		if err := cmd.Run(); err != nil {
 			panic(err)
+		}
+	}
+
+	// Load the cube snapshot and count the number of unique cards we expect to see.
+	cube, err := types.LoadCube("data/polyverse/cube.json")
+	if err != nil {
+		logc.WithError(err).Fatal("Failed to load cube snapshot.")
+	}
+	// Count the number of unique cards in the cube (and track duplicates).
+	cubeCards := map[string]int{}
+	for _, c := range cube.Cards {
+		cubeCards[c.Name]++
+	}
+	logc.WithField("num", len(cubeCards)).Info("Total unique cards in cube snapshot.")
+
+	// Expect each seen card to match the count in the cube snapshot.
+	for name, count := range seen {
+		if c, ok := cubeCards[name]; ok {
+			if count != c {
+				logc.WithFields(logrus.Fields{"name": name, "seen": count}).Error("Card count mismatch between seen decks and cube snapshot.")
+			}
+		} else {
+			logc.WithField("name", name).Error("Card seen in decks but not in cube snapshot.")
+		}
+	}
+	// Expect each card in the cube snapshot to be seen the correct number of times.
+	for name, count := range cubeCards {
+		if c, ok := seen[name]; ok {
+			if count != c {
+				logc.WithFields(logrus.Fields{"name": name, "expected": count}).Error("Card count mismatch between cube snapshot and seen decks.")
+			}
+		} else {
+			logc.WithField("name", name).Error("Card in cube snapshot but not seen in decks.")
 		}
 	}
 }

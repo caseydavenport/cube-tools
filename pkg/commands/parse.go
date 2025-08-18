@@ -77,11 +77,11 @@ func init() {
 }
 
 // parseSingleDeck parses a single deck file and writes the output to the given directory.
-func parseSingleDeck(deck, who, labels, date, draftID string) error {
+func parseSingleDeck(deck, who, labels, date, draftID string) (*types.Deck, error) {
 	// Parse the file.
 	d, err := parseRawDeckFile(deck, who, labels, date, draftID)
 	if err != nil {
-		return err
+		return nil, err
 	}
 
 	// For each card in the draft pool, add up how many times it appeared in game replays.
@@ -98,9 +98,9 @@ func parseSingleDeck(deck, who, labels, date, draftID string) error {
 
 	// Write the deck for storage.
 	if err := writeDeck(d, deck, who, draftID); err != nil {
-		return err
+		return nil, err
 	}
-	return nil
+	return d, nil
 }
 
 // parseRawDeckFile parses a raw input deck file and returns a Deck struct.
@@ -171,6 +171,7 @@ func writeDeck(d *types.Deck, srcFile string, player string, draftID string) err
 	logc := logrus.WithFields(logrus.Fields{
 		"player": player,
 		"outdir": outdir,
+		"count":  d.PickCount(),
 	})
 	logc.Infof("Writing deck")
 

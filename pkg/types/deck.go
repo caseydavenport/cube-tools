@@ -86,6 +86,22 @@ type Game struct {
 	Winner   string `json:"winner"`
 }
 
+func (d *Deck) PickCount() int {
+	// Count the number of cards in the mainboard and sideboard, excluding basic lands.
+	count := 0
+	for _, c := range d.Mainboard {
+		if !c.IsBasicLand() {
+			count++
+		}
+	}
+	for _, c := range d.Sideboard {
+		if !c.IsBasicLand() {
+			count++
+		}
+	}
+	return count
+}
+
 // RemoveMatchesForOpponent removes all matches against the given opponent from the deck.
 func (d *Deck) RemoveMatchesForOpponent(opponent string) {
 	newMatches := make([]Match, 0)

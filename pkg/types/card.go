@@ -1,6 +1,9 @@
 package types
 
-import "strings"
+import (
+	"slices"
+	"strings"
+)
 
 // Basic representation of a card.
 type Card struct {
@@ -18,6 +21,10 @@ type Card struct {
 	// Determined based on replay data - how many times this card
 	// has appeared in a game. Either in hand, graveyard, battlefield, etc.
 	Appearances int `json:"appearances,omitempty"`
+}
+
+func (c Card) IsBasicLand() bool {
+	return slices.Contains(c.Types, "Basic") && slices.Contains(c.Types, "Land")
 }
 
 func FromOracle(o OracleCard) Card {
