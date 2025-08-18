@@ -1,0 +1,975 @@
+{
+ "metadata": {
+  "path": "data/polyverse/2025-08-17/casey.json",
+  "draft_id": "2025-08-17",
+  "source_file": "casey.csv"
+ },
+ "labels": ["midrange"],
+ "player": "casey",
+ "date": "2025-08-17",
+ "games": null,
+ "matches": null,
+ "mainboard": [
+  {
+   "name": "Thoughtseize",
+   "types": [
+    "Sorcery"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [
+    "B"
+   ],
+   "color_identity": [
+    "B"
+   ],
+   "mana_cost": "{B}",
+   "url": "https://scryfall.com/card/2xm/109/thoughtseize?utm_source=api",
+   "oracle_text": "Target player reveals their hand. You choose a nonland card from it. That player discards that card. You lose 2 life."
+  },
+  {
+   "name": "Timeline Culler",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Drix",
+    "Warlock"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "B"
+   ],
+   "color_identity": [
+    "B"
+   ],
+   "mana_cost": "{B}{B}",
+   "url": "https://scryfall.com/card/eoe/121/timeline-culler?utm_source=api",
+   "oracle_text": "Haste\nYou may cast this card from your graveyard using its warp ability.\nWarp—{B}, Pay 2 life. (You may cast this card from your hand or graveyard for its warp cost. If you do, exile this creature at the beginning of the next end step, then you may cast it from exile on a later turn.)"
+  },
+  {
+   "name": "Call of the Herd",
+   "types": [
+    "Sorcery"
+   ],
+   "cmc": 3,
+   "image": "",
+   "colors": [
+    "G"
+   ],
+   "color_identity": [
+    "G"
+   ],
+   "mana_cost": "{2}{G}",
+   "url": "https://scryfall.com/card/plst/DMR-153/call-of-the-herd?utm_source=api",
+   "oracle_text": "Create a 3/3 green Elephant creature token.\nFlashback {3}{G} (You may cast this card from your graveyard for its flashback cost. Then exile it.)"
+  },
+  {
+   "name": "Gingerbrute",
+   "types": [
+    "Artifact",
+    "Creature"
+   ],
+   "sub_types": [
+    "Food",
+    "Golem"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [],
+   "color_identity": [],
+   "mana_cost": "{1}",
+   "url": "https://scryfall.com/card/woe/246/gingerbrute?utm_source=api",
+   "oracle_text": "Haste (This creature can attack and {T} as soon as it comes under your control.)\n{1}: This creature can't be blocked this turn except by creatures with haste.\n{2}, {T}, Sacrifice this creature: You gain 3 life."
+  },
+  {
+   "name": "Polluted Delta",
+   "types": [
+    "Land"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "color_identity": [],
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/mh3/224/polluted-delta?utm_source=api",
+   "oracle_text": "{T}, Pay 1 life, Sacrifice this land: Search your library for an Island or Swamp card, put it onto the battlefield, then shuffle."
+  },
+  {
+   "name": "Wooded Foothills",
+   "types": [
+    "Land"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "color_identity": [],
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/mh3/236/wooded-foothills?utm_source=api",
+   "oracle_text": "{T}, Pay 1 life, Sacrifice this land: Search your library for a Mountain or Forest card, put it onto the battlefield, then shuffle."
+  },
+  {
+   "name": "Liliana, Dreadhorde General",
+   "types": [
+    "Legendary",
+    "Planeswalker"
+   ],
+   "sub_types": [
+    "Liliana"
+   ],
+   "cmc": 6,
+   "image": "",
+   "colors": [
+    "B"
+   ],
+   "color_identity": [
+    "B"
+   ],
+   "mana_cost": "{4}{B}{B}",
+   "url": "https://scryfall.com/card/fdn/176/liliana-dreadhorde-general?utm_source=api",
+   "oracle_text": "Whenever a creature you control dies, draw a card.\n+1: Create a 2/2 black Zombie creature token.\n−4: Each player sacrifices two creatures of their choice.\n−9: Each opponent chooses a permanent they control of each permanent type and sacrifices the rest."
+  },
+  {
+   "name": "Mountain",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Mountain"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "color_identity": [
+    "R"
+   ],
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/tla/285/mountain?utm_source=api",
+   "oracle_text": "({T}: Add {R}.)"
+  },
+  {
+   "name": "Swamp",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Swamp"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "color_identity": [
+    "B"
+   ],
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/tla/284/swamp?utm_source=api",
+   "oracle_text": "({T}: Add {B}.)"
+  },
+  {
+   "name": "Swamp",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Swamp"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "color_identity": [
+    "B"
+   ],
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/tla/284/swamp?utm_source=api",
+   "oracle_text": "({T}: Add {B}.)"
+  },
+  {
+   "name": "Swamp",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Swamp"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "color_identity": [
+    "B"
+   ],
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/tla/284/swamp?utm_source=api",
+   "oracle_text": "({T}: Add {B}.)"
+  },
+  {
+   "name": "Kitesail Freebooter",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Human",
+    "Pirate"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "B"
+   ],
+   "color_identity": [
+    "B"
+   ],
+   "mana_cost": "{1}{B}",
+   "url": "https://scryfall.com/card/m21/107/kitesail-freebooter?utm_source=api",
+   "oracle_text": "Flying\nWhen this creature enters, target opponent reveals their hand. You choose a noncreature, nonland card from it. Exile that card until this creature leaves the battlefield."
+  },
+  {
+   "name": "Rankle, Master of Pranks",
+   "types": [
+    "Legendary",
+    "Creature"
+   ],
+   "sub_types": [
+    "Faerie",
+    "Rogue"
+   ],
+   "cmc": 4,
+   "image": "",
+   "colors": [
+    "B"
+   ],
+   "color_identity": [
+    "B"
+   ],
+   "mana_cost": "{2}{B}{B}",
+   "url": "https://scryfall.com/card/otc/148/rankle-master-of-pranks?utm_source=api",
+   "oracle_text": "Flying, haste\nWhenever Rankle deals combat damage to a player, choose any number —\n• Each player discards a card.\n• Each player loses 1 life and draws a card.\n• Each player sacrifices a creature of their choice."
+  },
+  {
+   "name": "Pyrite Spellbomb",
+   "types": [
+    "Artifact"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [],
+   "color_identity": [
+    "R"
+   ],
+   "mana_cost": "{1}",
+   "url": "https://scryfall.com/card/2xm/283/pyrite-spellbomb?utm_source=api",
+   "oracle_text": "{R}, Sacrifice this artifact: It deals 2 damage to any target.\n{1}, Sacrifice this artifact: Draw a card."
+  },
+  {
+   "name": "Barbarian Ring",
+   "types": [
+    "Land"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "color_identity": [
+    "R"
+   ],
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/mh3/299/barbarian-ring?utm_source=api",
+   "oracle_text": "{T}: Add {R}. This land deals 1 damage to you.\nThreshold — {R}, {T}, Sacrifice this land: It deals 2 damage to any target. Activate only if seven or more cards are in your graveyard."
+  },
+  {
+   "name": "Commercial District",
+   "types": [
+    "Land"
+   ],
+   "sub_types": [
+    "Mountain",
+    "Forest"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "color_identity": [
+    "G",
+    "R"
+   ],
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/mkm/259/commercial-district?utm_source=api",
+   "oracle_text": "({T}: Add {R} or {G}.)\nThis land enters tapped.\nWhen this land enters, surveil 1. (Look at the top card of your library. You may put it into your graveyard.)"
+  },
+  {
+   "name": "Tarmogoyf",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Lhurgoyf"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "G"
+   ],
+   "color_identity": [
+    "G"
+   ],
+   "mana_cost": "{1}{G}",
+   "url": "https://scryfall.com/card/tsr/235/tarmogoyf?utm_source=api",
+   "oracle_text": "Tarmogoyf's power is equal to the number of card types among cards in all graveyards and its toughness is equal to that number plus 1."
+  },
+  {
+   "name": "Disfigure",
+   "types": [
+    "Instant"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [
+    "B"
+   ],
+   "color_identity": [
+    "B"
+   ],
+   "mana_cost": "{B}",
+   "url": "https://scryfall.com/card/bro/91/disfigure?utm_source=api",
+   "oracle_text": "Target creature gets -2/-2 until end of turn."
+  },
+  {
+   "name": "Magma Jet",
+   "types": [
+    "Instant"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "R"
+   ],
+   "color_identity": [
+    "R"
+   ],
+   "mana_cost": "{1}{R}",
+   "url": "https://scryfall.com/card/jmp/346/magma-jet?utm_source=api",
+   "oracle_text": "Magma Jet deals 2 damage to any target. Scry 2."
+  },
+  {
+   "name": "Forest",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Forest"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "color_identity": [
+    "G"
+   ],
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/tla/286/forest?utm_source=api",
+   "oracle_text": "({T}: Add {G}.)"
+  },
+  {
+   "name": "Forest",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Forest"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "color_identity": [
+    "G"
+   ],
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/tla/286/forest?utm_source=api",
+   "oracle_text": "({T}: Add {G}.)"
+  },
+  {
+   "name": "Forest",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Forest"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "color_identity": [
+    "G"
+   ],
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/tla/286/forest?utm_source=api",
+   "oracle_text": "({T}: Add {G}.)"
+  },
+  {
+   "name": "Forest",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Forest"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "color_identity": [
+    "G"
+   ],
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/tla/286/forest?utm_source=api",
+   "oracle_text": "({T}: Add {G}.)"
+  },
+  {
+   "name": "Gilded Goose",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Bird"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [
+    "G"
+   ],
+   "color_identity": [
+    "G"
+   ],
+   "mana_cost": "{G}",
+   "url": "https://scryfall.com/card/moc/299/gilded-goose?utm_source=api",
+   "oracle_text": "Flying\nWhen this creature enters, create a Food token. (It's an artifact with \"{2}, {T}, Sacrifice this token: You gain 3 life.\")\n{1}{G}, {T}: Create a Food token.\n{T}, Sacrifice a Food: Add one mana of any color."
+  },
+  {
+   "name": "Duress",
+   "types": [
+    "Sorcery"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [
+    "B"
+   ],
+   "color_identity": [
+    "B"
+   ],
+   "mana_cost": "{B}",
+   "url": "https://scryfall.com/card/fdn/606/duress?utm_source=api",
+   "oracle_text": "Target opponent reveals their hand. You choose a noncreature, nonland card from it. That player discards that card."
+  },
+  {
+   "name": "Titania, Protector of Argoth",
+   "types": [
+    "Legendary",
+    "Creature"
+   ],
+   "sub_types": [
+    "Elemental"
+   ],
+   "cmc": 5,
+   "image": "",
+   "colors": [
+    "G"
+   ],
+   "color_identity": [
+    "G"
+   ],
+   "mana_cost": "{3}{G}{G}",
+   "url": "https://scryfall.com/card/eoc/111/titania-protector-of-argoth?utm_source=api",
+   "oracle_text": "When Titania enters, return target land card from your graveyard to the battlefield.\nWhenever a land you control is put into a graveyard from the battlefield, create a 5/3 green Elemental creature token."
+  },
+  {
+   "name": "Birds of Paradise",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Bird"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [
+    "G"
+   ],
+   "color_identity": [
+    "G"
+   ],
+   "mana_cost": "{G}",
+   "url": "https://scryfall.com/card/rvr/133/birds-of-paradise?utm_source=api",
+   "oracle_text": "Flying\n{T}: Add one mana of any color."
+  },
+  {
+   "name": "Dragon's Rage Channeler",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Human",
+    "Shaman"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [
+    "R"
+   ],
+   "color_identity": [
+    "R"
+   ],
+   "mana_cost": "{R}",
+   "url": "https://scryfall.com/card/mh2/121/dragons-rage-channeler?utm_source=api",
+   "oracle_text": "Whenever you cast a noncreature spell, surveil 1. (Look at the top card of your library. You may put that card into your graveyard.)\nDelirium — As long as there are four or more card types among cards in your graveyard, this creature gets +2/+2, has flying, and attacks each combat if able."
+  },
+  {
+   "name": "Deluge of Doom",
+   "types": [
+    "Sorcery"
+   ],
+   "cmc": 3,
+   "image": "",
+   "colors": [
+    "B"
+   ],
+   "color_identity": [
+    "B"
+   ],
+   "mana_cost": "{2}{B}",
+   "url": "https://scryfall.com/card/dsc/18/deluge-of-doom?utm_source=api",
+   "oracle_text": "All creatures get -X/-X until end of turn, where X is the number of card types among cards in your graveyard."
+  },
+  {
+   "name": "Seal of Fire",
+   "types": [
+    "Enchantment"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [
+    "R"
+   ],
+   "color_identity": [
+    "R"
+   ],
+   "mana_cost": "{R}",
+   "url": "https://scryfall.com/card/jvc/50/seal-of-fire?utm_source=api",
+   "oracle_text": "Sacrifice this enchantment: It deals 2 damage to any target."
+  },
+  {
+   "name": "Blood Crypt",
+   "types": [
+    "Land"
+   ],
+   "sub_types": [
+    "Swamp",
+    "Mountain"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "color_identity": [
+    "B",
+    "R"
+   ],
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/rvr/273/blood-crypt?utm_source=api",
+   "oracle_text": "({T}: Add {B} or {R}.)\nAs this land enters, you may pay 2 life. If you don't, it enters tapped."
+  },
+  {
+   "name": "Overgrown Tomb",
+   "types": [
+    "Land"
+   ],
+   "sub_types": [
+    "Swamp",
+    "Forest"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "color_identity": [
+    "B",
+    "G"
+   ],
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/rvr/283/overgrown-tomb?utm_source=api",
+   "oracle_text": "({T}: Add {B} or {G}.)\nAs this land enters, you may pay 2 life. If you don't, it enters tapped."
+  },
+  {
+   "name": "Takenuma, Abandoned Mire",
+   "types": [
+    "Legendary",
+    "Land"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "color_identity": [
+    "B"
+   ],
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/neo/278/takenuma-abandoned-mire?utm_source=api",
+   "oracle_text": "{T}: Add {B}.\nChannel — {3}{B}, Discard this card: Mill three cards, then return a creature or planeswalker card from your graveyard to your hand. This ability costs {1} less to activate for each legendary creature you control."
+  },
+  {
+   "name": "Misty Rainforest",
+   "types": [
+    "Land"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "color_identity": [],
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/mh2/250/misty-rainforest?utm_source=api",
+   "oracle_text": "{T}, Pay 1 life, Sacrifice this land: Search your library for a Forest or Island card, put it onto the battlefield, then shuffle."
+  },
+  {
+   "name": "Inquisition of Kozilek",
+   "types": [
+    "Sorcery"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [
+    "B"
+   ],
+   "color_identity": [
+    "B"
+   ],
+   "mana_cost": "{B}",
+   "url": "https://scryfall.com/card/2x2/80/inquisition-of-kozilek?utm_source=api",
+   "oracle_text": "Target player reveals their hand. You choose a nonland card from it with mana value 3 or less. That player discards that card."
+  },
+  {
+   "name": "Bone Shards",
+   "types": [
+    "Sorcery"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [
+    "B"
+   ],
+   "color_identity": [
+    "B"
+   ],
+   "mana_cost": "{B}",
+   "url": "https://scryfall.com/card/mh2/76/bone-shards?utm_source=api",
+   "oracle_text": "As an additional cost to cast this spell, sacrifice a creature or discard a card.\nDestroy target creature or planeswalker."
+  },
+  {
+   "name": "Burst Lightning",
+   "types": [
+    "Instant"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [
+    "R"
+   ],
+   "color_identity": [
+    "R"
+   ],
+   "mana_cost": "{R}",
+   "url": "https://scryfall.com/card/fdn/192/burst-lightning?utm_source=api",
+   "oracle_text": "Kicker {4} (You may pay an additional {4} as you cast this spell.)\nBurst Lightning deals 2 damage to any target. If this spell was kicked, it deals 4 damage instead."
+  },
+  {
+   "name": "Voracious Hydra",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Hydra"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "G"
+   ],
+   "color_identity": [
+    "G"
+   ],
+   "mana_cost": "{X}{G}{G}",
+   "url": "https://scryfall.com/card/m20/200/voracious-hydra?utm_source=api",
+   "oracle_text": "Trample\nThis creature enters with X +1/+1 counters on it.\nWhen this creature enters, choose one —\n• Double the number of +1/+1 counters on this creature.\n• This creature fights target creature you don't control."
+  },
+  {
+   "name": "Agonizing Remorse",
+   "types": [
+    "Sorcery"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "B"
+   ],
+   "color_identity": [
+    "B"
+   ],
+   "mana_cost": "{1}{B}",
+   "url": "https://scryfall.com/card/thb/83/agonizing-remorse?utm_source=api",
+   "oracle_text": "Target opponent reveals their hand. You choose a nonland card from it or a card from their graveyard. Exile that card. You lose 1 life."
+  },
+  {
+   "name": "Arbor Elf",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Elf",
+    "Druid"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [
+    "G"
+   ],
+   "color_identity": [
+    "G"
+   ],
+   "mana_cost": "{G}",
+   "url": "https://scryfall.com/card/a25/160/arbor-elf?utm_source=api",
+   "oracle_text": "{T}: Untap target Forest."
+  }
+ ],
+ "sideboard": [
+  {
+   "name": "Chromatic Star",
+   "types": [
+    "Artifact"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [],
+   "color_identity": [],
+   "mana_cost": "{1}",
+   "url": "https://scryfall.com/card/tsr/263/chromatic-star?utm_source=api",
+   "oracle_text": "{1}, {T}, Sacrifice this artifact: Add one mana of any color.\nWhen this artifact is put into a graveyard from the battlefield, draw a card."
+  },
+  {
+   "name": "Candy Trail",
+   "types": [
+    "Artifact"
+   ],
+   "sub_types": [
+    "Food",
+    "Clue"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [],
+   "color_identity": [],
+   "mana_cost": "{1}",
+   "url": "https://scryfall.com/card/woe/243/candy-trail?utm_source=api",
+   "oracle_text": "When this artifact enters, scry 2.\n{2}, {T}, Sacrifice this artifact: You gain 3 life and draw a card."
+  },
+  {
+   "name": "Elusive Otter // Grove's Bounty",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Otter",
+    "//",
+    "Sorcery"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [
+    "U"
+   ],
+   "color_identity": [
+    "G",
+    "U"
+   ],
+   "mana_cost": "{U} // {X}{G}",
+   "url": "https://scryfall.com/card/woe/225/elusive-otter-groves-bounty?utm_source=api",
+   "oracle_text": ""
+  },
+  {
+   "name": "Ephara's Dispersal",
+   "types": [
+    "Instant"
+   ],
+   "cmc": 3,
+   "image": "",
+   "colors": [
+    "U"
+   ],
+   "color_identity": [
+    "U"
+   ],
+   "mana_cost": "{2}{U}",
+   "url": "https://scryfall.com/card/mkc/103/epharas-dispersal?utm_source=api",
+   "oracle_text": "This spell costs {2} less to cast if it targets an attacking creature.\nReturn target creature to its owner's hand. Surveil 2. (Look at the top two cards of your library, then put any number of them into your graveyard and the rest on top of your library in any order.)"
+  },
+  {
+   "name": "Tamiyo, Compleated Sage",
+   "types": [
+    "Legendary",
+    "Planeswalker"
+   ],
+   "sub_types": [
+    "Tamiyo"
+   ],
+   "cmc": 5,
+   "image": "",
+   "colors": [
+    "G",
+    "U"
+   ],
+   "color_identity": [
+    "G",
+    "U"
+   ],
+   "mana_cost": "{2}{G}{G/U/P}{U}",
+   "url": "https://scryfall.com/card/neo/238/tamiyo-compleated-sage?utm_source=api",
+   "oracle_text": "Compleated ({G/U/P} can be paid with {G}, {U}, or 2 life. If life was paid, this planeswalker enters with two fewer loyalty counters.)\n+1: Tap up to one target artifact or creature. It doesn't untap during its controller's next untap step.\n−X: Exile target nonland permanent card with mana value X from your graveyard. Create a token that's a copy of that card.\n−7: Create Tamiyo's Notebook, a legendary colorless artifact token with \"Spells you cast cost {2} less to cast\" and \"{T}: Draw a card.\""
+  },
+  {
+   "name": "Grim Discovery",
+   "types": [
+    "Sorcery"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "B"
+   ],
+   "color_identity": [
+    "B"
+   ],
+   "mana_cost": "{1}{B}",
+   "url": "https://scryfall.com/card/ddr/51/grim-discovery?utm_source=api",
+   "oracle_text": "Choose one or both —\n• Return target creature card from your graveyard to your hand.\n• Return target land card from your graveyard to your hand."
+  },
+  {
+   "name": "Urza's Bauble",
+   "types": [
+    "Artifact"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "color_identity": [],
+   "mana_cost": "{0}",
+   "url": "https://scryfall.com/card/me1/170/urzas-bauble?utm_source=api",
+   "oracle_text": "{T}, Sacrifice this artifact: Look at a card at random in target player's hand. You draw a card at the beginning of the next turn's upkeep."
+  },
+  {
+   "name": "Ravenous Squirrel",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Squirrel"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [
+    "B",
+    "G"
+   ],
+   "color_identity": [
+    "B",
+    "G"
+   ],
+   "mana_cost": "{B/G}",
+   "url": "https://scryfall.com/card/mh2/211/ravenous-squirrel?utm_source=api",
+   "oracle_text": "Whenever you sacrifice an artifact or creature, put a +1/+1 counter on this creature.\n{1}{B}{G}, Sacrifice an artifact or creature: You gain 1 life and draw a card."
+  },
+  {
+   "name": "No More Lies",
+   "types": [
+    "Instant"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "U",
+    "W"
+   ],
+   "color_identity": [
+    "U",
+    "W"
+   ],
+   "mana_cost": "{W}{U}",
+   "url": "https://scryfall.com/card/mkm/221/no-more-lies?utm_source=api",
+   "oracle_text": "Counter target spell unless its controller pays {3}. If that spell is countered this way, exile it instead of putting it into its owner's graveyard."
+  },
+  {
+   "name": "Engineered Explosives",
+   "types": [
+    "Artifact"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "color_identity": [],
+   "mana_cost": "{X}",
+   "url": "https://scryfall.com/card/2xm/252/engineered-explosives?utm_source=api",
+   "oracle_text": "Sunburst (This enters with a charge counter on it for each color of mana spent to cast it.)\n{2}, Sacrifice this artifact: Destroy each nonland permanent with mana value equal to the number of charge counters on this artifact."
+  },
+  {
+   "name": "Chatter of the Squirrel",
+   "types": [
+    "Sorcery"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [
+    "G"
+   ],
+   "color_identity": [
+    "G"
+   ],
+   "mana_cost": "{G}",
+   "url": "https://scryfall.com/card/2xm/157/chatter-of-the-squirrel?utm_source=api",
+   "oracle_text": "Create a 1/1 green Squirrel creature token.\nFlashback {1}{G} (You may cast this card from your graveyard for its flashback cost. Then exile it.)"
+  },
+  {
+   "name": "Urza's Saga",
+   "types": [
+    "Enchantment",
+    "Land"
+   ],
+   "sub_types": [
+    "Urza's",
+    "Saga"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "color_identity": [],
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/mh2/259/urzas-saga?utm_source=api",
+   "oracle_text": "(As this Saga enters and after your draw step, add a lore counter. Sacrifice after III.)\nI — This Saga gains \"{T}: Add {C}.\"\nII — This Saga gains \"{2}, {T}: Create a 0/0 colorless Construct artifact creature token with 'This token gets +1/+1 for each artifact you control.'\"\nIII — Search your library for an artifact card with mana cost {0} or {1}, put it onto the battlefield, then shuffle."
+  },
+  {
+   "name": "Roaring Earth",
+   "types": [
+    "Enchantment"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "G"
+   ],
+   "color_identity": [
+    "G"
+   ],
+   "mana_cost": "{1}{G}",
+   "url": "https://scryfall.com/card/neo/204/roaring-earth?utm_source=api",
+   "oracle_text": "Landfall — Whenever a land you control enters, put a +1/+1 counter on target creature or Vehicle you control.\nChannel — {X}{G}{G}, Discard this card: Put X +1/+1 counters on target land you control. It becomes a 0/0 green Spirit creature with haste. It's still a land."
+  }
+ ]
+}
