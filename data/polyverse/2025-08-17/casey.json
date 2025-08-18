@@ -4,11 +4,59 @@
   "draft_id": "2025-08-17",
   "source_file": "casey.csv"
  },
- "labels": ["midrange"],
+ "labels": [
+  "midrange"
+ ],
  "player": "casey",
  "date": "2025-08-17",
- "games": null,
- "matches": null,
+ "games": [
+  {
+   "opponent": "jamesdehja",
+   "winner": "casey"
+  },
+  {
+   "opponent": "jamesdehja",
+   "winner": "casey"
+  },
+  {
+   "opponent": "jamesdeyja",
+   "winner": "casey"
+  },
+  {
+   "opponent": "jamesdeyja",
+   "winner": "casey"
+  },
+  {
+   "opponent": "kevin",
+   "winner": "kevin"
+  },
+  {
+   "opponent": "kevin",
+   "winner": "kevin"
+  },
+  {
+   "opponent": "maxi",
+   "winner": "maxi"
+  },
+  {
+   "opponent": "maxi",
+   "winner": "maxi"
+  }
+ ],
+ "matches": [
+  {
+   "opponent": "jamesdehja",
+   "winner": "casey"
+  },
+  {
+   "opponent": "kevin",
+   "winner": "kevin"
+  },
+  {
+   "opponent": "maxi",
+   "winner": "maxi"
+  }
+ ],
  "mainboard": [
   {
    "name": "Thoughtseize",

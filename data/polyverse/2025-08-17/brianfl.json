@@ -4,11 +4,56 @@
   "draft_id": "2025-08-17",
   "source_file": "brianfl.csv"
  },
- "labels": ["midrange", "domain"],
+ "labels": [
+  "midrange",
+  "domain"
+ ],
  "player": "brianfl",
  "date": "2025-08-17",
- "games": null,
- "matches": null,
+ "games": [
+  {
+   "opponent": "jamesdeyja",
+   "winner": "jamesdeyja"
+  },
+  {
+   "opponent": "jamesdeyja",
+   "winner": "jamesdeyja"
+  },
+  {
+   "opponent": "kevin",
+   "winner": "kevin"
+  },
+  {
+   "opponent": "kevin",
+   "winner": "kevin"
+  },
+  {
+   "opponent": "michael",
+   "winner": "brianfl"
+  },
+  {
+   "opponent": "michael",
+   "winner": "michael"
+  },
+  {
+   "opponent": "michael",
+   "winner": "michael"
+  }
+ ],
+ "matches": [
+  {
+   "opponent": "jamesdeyja",
+   "winner": "jamesdeyja"
+  },
+  {
+   "opponent": "kevin",
+   "winner": "kevin"
+  },
+  {
+   "opponent": "michael",
+   "winner": "michael"
+  }
+ ],
  "mainboard": [
   {
    "name": "Shadowy Backstreet",

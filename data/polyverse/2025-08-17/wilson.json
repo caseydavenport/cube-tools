@@ -4,11 +4,56 @@
   "draft_id": "2025-08-17",
   "source_file": "wilson.csv"
  },
- "labels": ["tempo", "spells"],
+ "labels": [
+  "tempo",
+  "spells"
+ ],
  "player": "wilson",
  "date": "2025-08-17",
- "games": null,
- "matches": null,
+ "games": [
+  {
+   "opponent": "jamesdeyja",
+   "winner": "jamesdeyja"
+  },
+  {
+   "opponent": "jamesdeyja",
+   "winner": "jamesdeyja"
+  },
+  {
+   "opponent": "maxi",
+   "winner": "wilson"
+  },
+  {
+   "opponent": "maxi",
+   "winner": "maxi"
+  },
+  {
+   "opponent": "maxi",
+   "winner": "maxi"
+  },
+  {
+   "opponent": "michael",
+   "winner": "wilson"
+  },
+  {
+   "opponent": "michael",
+   "winner": "wilson"
+  }
+ ],
+ "matches": [
+  {
+   "opponent": "jamesdeyja",
+   "winner": "jamesdeyja"
+  },
+  {
+   "opponent": "maxi",
+   "winner": "maxi"
+  },
+  {
+   "opponent": "michael",
+   "winner": "wilson"
+  }
+ ],
  "mainboard": [
   {
    "name": "Mountain",

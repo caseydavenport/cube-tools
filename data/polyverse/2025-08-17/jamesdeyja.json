@@ -4,11 +4,60 @@
   "draft_id": "2025-08-17",
   "source_file": "jamesdeyja.csv"
  },
- "labels": ["midrange", "coco"],
+ "labels": [
+  "midrange",
+  "coco"
+ ],
  "player": "jamesdeyja",
  "date": "2025-08-17",
- "games": null,
- "matches": null,
+ "games": [
+  {
+   "opponent": "brian",
+   "winner": "jamesdeyja"
+  },
+  {
+   "opponent": "brian",
+   "winner": "jamesdeyja"
+  },
+  {
+   "opponent": "brianfl",
+   "winner": "jamesdeyja"
+  },
+  {
+   "opponent": "brianfl",
+   "winner": "jamesdeyja"
+  },
+  {
+   "opponent": "casey",
+   "winner": "casey"
+  },
+  {
+   "opponent": "casey",
+   "winner": "casey"
+  },
+  {
+   "opponent": "wilson",
+   "winner": "jamesdeyja"
+  },
+  {
+   "opponent": "wilson",
+   "winner": "jamesdeyja"
+  }
+ ],
+ "matches": [
+  {
+   "opponent": "brianfl",
+   "winner": "jamesdeyja"
+  },
+  {
+   "opponent": "casey",
+   "winner": "casey"
+  },
+  {
+   "opponent": "wilson",
+   "winner": "jamesdeyja"
+  }
+ ],
  "mainboard": [
   {
    "name": "Lightstall Inquisitor",

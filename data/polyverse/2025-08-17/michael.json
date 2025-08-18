@@ -4,11 +4,59 @@
   "draft_id": "2025-08-17",
   "source_file": "michael.csv"
  },
- "labels": ["control"],
+ "labels": [
+  "control"
+ ],
  "player": "michael",
  "date": "2025-08-17",
- "games": null,
- "matches": null,
+ "games": [
+  {
+   "opponent": "ben",
+   "winner": "michael"
+  },
+  {
+   "opponent": "ben",
+   "winner": "ben"
+  },
+  {
+   "opponent": "ben",
+   "winner": "ben"
+  },
+  {
+   "opponent": "brianfl",
+   "winner": "michael"
+  },
+  {
+   "opponent": "brianfl",
+   "winner": "michael"
+  },
+  {
+   "opponent": "brianfl",
+   "winner": "brianfl"
+  },
+  {
+   "opponent": "wilson",
+   "winner": "wilson"
+  },
+  {
+   "opponent": "wilson",
+   "winner": "wilson"
+  }
+ ],
+ "matches": [
+  {
+   "opponent": "ben",
+   "winner": "ben"
+  },
+  {
+   "opponent": "brianfl",
+   "winner": "michael"
+  },
+  {
+   "opponent": "wilson",
+   "winner": "wilson"
+  }
+ ],
  "mainboard": [
   {
    "name": "Fell",

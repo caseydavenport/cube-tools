@@ -4,11 +4,64 @@
   "draft_id": "2025-08-17",
   "source_file": "kevin.csv"
  },
- "labels": ["aggro", "equipment"],
+ "labels": [
+  "aggro",
+  "equipment"
+ ],
  "player": "kevin",
  "date": "2025-08-17",
- "games": null,
- "matches": null,
+ "games": [
+  {
+   "opponent": "ben",
+   "winner": "kevin"
+  },
+  {
+   "opponent": "ben",
+   "winner": "kevin"
+  },
+  {
+   "opponent": "ben",
+   "winner": "ben"
+  },
+  {
+   "opponent": "brian",
+   "winner": "kevin"
+  },
+  {
+   "opponent": "brian",
+   "winner": "kevin"
+  },
+  {
+   "opponent": "brianfl",
+   "winner": "kevin"
+  },
+  {
+   "opponent": "brianfl",
+   "winner": "kevin"
+  },
+  {
+   "opponent": "casey",
+   "winner": "kevin"
+  },
+  {
+   "opponent": "casey",
+   "winner": "kevin"
+  }
+ ],
+ "matches": [
+  {
+   "opponent": "ben",
+   "winner": "kevin"
+  },
+  {
+   "opponent": "brianfl",
+   "winner": "kevin"
+  },
+  {
+   "opponent": "casey",
+   "winner": "kevin"
+  }
+ ],
  "mainboard": [
   {
    "name": "Warleader's Call",

@@ -4,11 +4,59 @@
   "draft_id": "2025-08-17",
   "source_file": "ben.csv"
  },
- "labels": ["aggro"],
+ "labels": [
+  "aggro"
+ ],
  "player": "ben",
  "date": "2025-08-17",
- "games": null,
- "matches": null,
+ "games": [
+  {
+   "opponent": "kevin",
+   "winner": "ben"
+  },
+  {
+   "opponent": "kevin",
+   "winner": "kevin"
+  },
+  {
+   "opponent": "kevin",
+   "winner": "kevin"
+  },
+  {
+   "opponent": "maxi",
+   "winner": "ben"
+  },
+  {
+   "opponent": "maxi",
+   "winner": "ben"
+  },
+  {
+   "opponent": "michael",
+   "winner": "ben"
+  },
+  {
+   "opponent": "michael",
+   "winner": "ben"
+  },
+  {
+   "opponent": "michael",
+   "winner": "michael"
+  }
+ ],
+ "matches": [
+  {
+   "opponent": "kevin",
+   "winner": "kevin"
+  },
+  {
+   "opponent": "maxi",
+   "winner": "ben"
+  },
+  {
+   "opponent": "michael",
+   "winner": "ben"
+  }
+ ],
  "mainboard": [
   {
    "name": "Bloodsoaked Champion",

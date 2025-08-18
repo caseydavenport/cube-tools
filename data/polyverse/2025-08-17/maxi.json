@@ -4,11 +4,56 @@
   "draft_id": "2025-08-17",
   "source_file": "maxi.csv"
  },
- "labels": ["midrange", "lands"],
+ "labels": [
+  "midrange",
+  "lands"
+ ],
  "player": "maxi",
  "date": "2025-08-17",
- "games": null,
- "matches": null,
+ "games": [
+  {
+   "opponent": "ben",
+   "winner": "ben"
+  },
+  {
+   "opponent": "ben",
+   "winner": "ben"
+  },
+  {
+   "opponent": "casey",
+   "winner": "maxi"
+  },
+  {
+   "opponent": "casey",
+   "winner": "maxi"
+  },
+  {
+   "opponent": "wilson",
+   "winner": "maxi"
+  },
+  {
+   "opponent": "wilson",
+   "winner": "maxi"
+  },
+  {
+   "opponent": "wilson",
+   "winner": "wilson"
+  }
+ ],
+ "matches": [
+  {
+   "opponent": "ben",
+   "winner": "ben"
+  },
+  {
+   "opponent": "casey",
+   "winner": "maxi"
+  },
+  {
+   "opponent": "wilson",
+   "winner": "maxi"
+  }
+ ],
  "mainboard": [
   {
    "name": "Sacred Foundry",
