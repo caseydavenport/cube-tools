@@ -87,7 +87,7 @@
     "W"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/tdc/351/clifftop-retreat?utm_source=api",
+   "url": "https://scryfall.com/card/eoc/155/clifftop-retreat?utm_source=api",
    "oracle_text": "This land enters tapped unless you control a Mountain or a Plains.\n{T}: Add {R} or {W}."
   },
   {
@@ -200,7 +200,7 @@
    "colors": [],
    "color_identity": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/tdc/408/terramorphic-expanse?utm_source=api",
+   "url": "https://scryfall.com/card/eoc/62/terramorphic-expanse?utm_source=api",
    "oracle_text": "{T}, Sacrifice this land: Search your library for a basic land card, put it onto the battlefield tapped, then shuffle."
   },
   {
@@ -318,7 +318,7 @@
     "R"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/tdm/283/mountain?utm_source=api",
+   "url": "https://scryfall.com/card/tla/285/mountain?utm_source=api",
    "oracle_text": "({T}: Add {R}.)"
   },
   {
@@ -337,7 +337,7 @@
     "R"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/tdm/283/mountain?utm_source=api",
+   "url": "https://scryfall.com/card/tla/285/mountain?utm_source=api",
    "oracle_text": "({T}: Add {R}.)"
   },
   {
@@ -356,7 +356,7 @@
     "R"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/tdm/283/mountain?utm_source=api",
+   "url": "https://scryfall.com/card/tla/285/mountain?utm_source=api",
    "oracle_text": "({T}: Add {R}.)"
   },
   {
@@ -375,7 +375,7 @@
     "W"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/tdm/277/plains?utm_source=api",
+   "url": "https://scryfall.com/card/tla/282/plains?utm_source=api",
    "oracle_text": "({T}: Add {W}.)"
   },
   {
@@ -394,7 +394,7 @@
     "W"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/tdm/277/plains?utm_source=api",
+   "url": "https://scryfall.com/card/tla/282/plains?utm_source=api",
    "oracle_text": "({T}: Add {W}.)"
   },
   {
@@ -413,7 +413,7 @@
     "W"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/tdm/277/plains?utm_source=api",
+   "url": "https://scryfall.com/card/tla/282/plains?utm_source=api",
    "oracle_text": "({T}: Add {W}.)"
   },
   {
@@ -609,7 +609,7 @@
     "U"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/tdm/279/island?utm_source=api",
+   "url": "https://scryfall.com/card/tla/283/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)"
   },
   {
@@ -628,7 +628,7 @@
     "U"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/tdm/279/island?utm_source=api",
+   "url": "https://scryfall.com/card/tla/283/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)"
   },
   {
@@ -647,7 +647,7 @@
     "U"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/tdm/279/island?utm_source=api",
+   "url": "https://scryfall.com/card/tla/283/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)"
   },
   {

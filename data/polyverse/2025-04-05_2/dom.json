@@ -236,7 +236,7 @@
     "G"
    ],
    "mana_cost": "{2}{G}",
-   "url": "https://scryfall.com/card/inr/219/tireless-tracker?utm_source=api",
+   "url": "https://scryfall.com/card/eoc/110/tireless-tracker?utm_source=api",
    "oracle_text": "Landfall — Whenever a land you control enters, investigate. (Create a Clue token. It's an artifact with \"{2}, Sacrifice this token: Draw a card.\")\nWhenever you sacrifice a Clue, put a +1/+1 counter on this creature."
   },
   {
@@ -607,7 +607,7 @@
     "W"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/tdm/277/plains?utm_source=api",
+   "url": "https://scryfall.com/card/tla/282/plains?utm_source=api",
    "oracle_text": "({T}: Add {W}.)"
   },
   {
@@ -626,7 +626,7 @@
     "W"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/tdm/277/plains?utm_source=api",
+   "url": "https://scryfall.com/card/tla/282/plains?utm_source=api",
    "oracle_text": "({T}: Add {W}.)"
   },
   {
@@ -645,7 +645,7 @@
     "U"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/tdm/279/island?utm_source=api",
+   "url": "https://scryfall.com/card/tla/283/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)"
   },
   {
@@ -664,7 +664,7 @@
     "U"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/tdm/279/island?utm_source=api",
+   "url": "https://scryfall.com/card/tla/283/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)"
   },
   {
@@ -683,7 +683,7 @@
     "U"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/tdm/279/island?utm_source=api",
+   "url": "https://scryfall.com/card/tla/283/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)"
   },
   {
@@ -702,7 +702,7 @@
     "G"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/tdm/285/forest?utm_source=api",
+   "url": "https://scryfall.com/card/tla/286/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)"
   },
   {
@@ -721,7 +721,7 @@
     "G"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/tdm/285/forest?utm_source=api",
+   "url": "https://scryfall.com/card/tla/286/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)"
   },
   {
@@ -740,7 +740,7 @@
     "G"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/tdm/285/forest?utm_source=api",
+   "url": "https://scryfall.com/card/tla/286/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)"
   }
  ],

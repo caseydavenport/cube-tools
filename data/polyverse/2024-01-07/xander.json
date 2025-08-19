@@ -87,7 +87,7 @@
     "B"
    ],
    "mana_cost": "{1}{B}",
-   "url": "https://scryfall.com/card/rvr/71/dark-confidant?utm_source=api",
+   "url": "https://scryfall.com/card/fin/94/dark-confidant?utm_source=api",
    "oracle_text": "At the beginning of your upkeep, reveal the top card of your library and put that card into your hand. You lose life equal to its mana value.",
    "appearances": 1
   },
@@ -196,7 +196,7 @@
     "W"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/tdc/351/clifftop-retreat?utm_source=api",
+   "url": "https://scryfall.com/card/eoc/155/clifftop-retreat?utm_source=api",
    "oracle_text": "This land enters tapped unless you control a Mountain or a Plains.\n{T}: Add {R} or {W}.",
    "appearances": 1
   },
@@ -571,7 +571,7 @@
     "R"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/tdc/344/canyon-slough?utm_source=api",
+   "url": "https://scryfall.com/card/eoc/152/canyon-slough?utm_source=api",
    "oracle_text": "({T}: Add {B} or {R}.)\nThis land enters tapped.\nCycling {2} ({2}, Discard this card: Draw a card.)",
    "appearances": 1
   },
@@ -678,7 +678,7 @@
     "W"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/tdc/340/battlefield-forge?utm_source=api",
+   "url": "https://scryfall.com/card/eoc/58/battlefield-forge?utm_source=api",
    "oracle_text": "{T}: Add {C}.\n{T}: Add {R} or {W}. This land deals 1 damage to you.",
    "appearances": 1
   },
@@ -765,7 +765,7 @@
     "W"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/rvr/285/sacred-foundry?utm_source=api",
+   "url": "https://scryfall.com/card/eoe/256/sacred-foundry?utm_source=api",
    "oracle_text": "({T}: Add {R} or {W}.)\nAs this land enters, you may pay 2 life. If you don't, it enters tapped.",
    "appearances": 1
   },
@@ -785,7 +785,7 @@
     "U"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/tdm/279/island?utm_source=api",
+   "url": "https://scryfall.com/card/tla/283/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)",
    "appearances": 1
   },
@@ -805,7 +805,7 @@
     "B"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/tdm/281/swamp?utm_source=api",
+   "url": "https://scryfall.com/card/tla/284/swamp?utm_source=api",
    "oracle_text": "({T}: Add {B}.)",
    "appearances": 1
   },
@@ -825,7 +825,7 @@
     "R"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/tdm/283/mountain?utm_source=api",
+   "url": "https://scryfall.com/card/tla/285/mountain?utm_source=api",
    "oracle_text": "({T}: Add {R}.)",
    "appearances": 1
   }

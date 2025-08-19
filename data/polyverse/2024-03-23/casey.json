@@ -373,7 +373,7 @@
     "R"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/tdc/392/sheltered-thicket?utm_source=api",
+   "url": "https://scryfall.com/card/eoc/178/sheltered-thicket?utm_source=api",
    "oracle_text": "({T}: Add {R} or {G}.)\nThis land enters tapped.\nCycling {2} ({2}, Discard this card: Draw a card.)",
    "appearances": 1
   },
@@ -541,7 +541,7 @@
     "G"
    ],
    "mana_cost": "{2}{G}",
-   "url": "https://scryfall.com/card/tdc/258/harrow?utm_source=api",
+   "url": "https://scryfall.com/card/eoc/98/harrow?utm_source=api",
    "oracle_text": "As an additional cost to cast this spell, sacrifice a land.\nSearch your library for up to two basic land cards, put them onto the battlefield, then shuffle.",
    "appearances": 1
   },
@@ -596,7 +596,7 @@
     "R"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/dsc/301/sulfurous-springs?utm_source=api",
+   "url": "https://scryfall.com/card/eoc/185/sulfurous-springs?utm_source=api",
    "oracle_text": "{T}: Add {C}.\n{T}: Add {B} or {R}. This land deals 1 damage to you.",
    "appearances": 1
   },
@@ -616,7 +616,7 @@
     "W"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/tdm/277/plains?utm_source=api",
+   "url": "https://scryfall.com/card/tla/282/plains?utm_source=api",
    "oracle_text": "({T}: Add {W}.)",
    "appearances": 1
   },
@@ -636,7 +636,7 @@
     "W"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/tdm/277/plains?utm_source=api",
+   "url": "https://scryfall.com/card/tla/282/plains?utm_source=api",
    "oracle_text": "({T}: Add {W}.)",
    "appearances": 1
   },
@@ -656,7 +656,7 @@
     "W"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/tdm/277/plains?utm_source=api",
+   "url": "https://scryfall.com/card/tla/282/plains?utm_source=api",
    "oracle_text": "({T}: Add {W}.)",
    "appearances": 1
   },
@@ -676,7 +676,7 @@
     "W"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/tdm/277/plains?utm_source=api",
+   "url": "https://scryfall.com/card/tla/282/plains?utm_source=api",
    "oracle_text": "({T}: Add {W}.)",
    "appearances": 1
   },
@@ -696,7 +696,7 @@
     "R"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/tdm/283/mountain?utm_source=api",
+   "url": "https://scryfall.com/card/tla/285/mountain?utm_source=api",
    "oracle_text": "({T}: Add {R}.)",
    "appearances": 1
   },
@@ -716,7 +716,7 @@
     "G"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/tdm/285/forest?utm_source=api",
+   "url": "https://scryfall.com/card/tla/286/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)",
    "appearances": 1
   },
@@ -736,7 +736,7 @@
     "G"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/tdm/285/forest?utm_source=api",
+   "url": "https://scryfall.com/card/tla/286/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)",
    "appearances": 1
   },
@@ -756,7 +756,7 @@
     "G"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/tdm/285/forest?utm_source=api",
+   "url": "https://scryfall.com/card/tla/286/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)",
    "appearances": 1
   },
@@ -776,7 +776,7 @@
     "G"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/tdm/285/forest?utm_source=api",
+   "url": "https://scryfall.com/card/tla/286/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)",
    "appearances": 1
   },
@@ -796,7 +796,7 @@
     "G"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/tdm/285/forest?utm_source=api",
+   "url": "https://scryfall.com/card/tla/286/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)",
    "appearances": 1
   }
@@ -1142,7 +1142,7 @@
     "B"
    ],
    "mana_cost": "{1}{B}",
-   "url": "https://scryfall.com/card/rvr/71/dark-confidant?utm_source=api",
+   "url": "https://scryfall.com/card/fin/94/dark-confidant?utm_source=api",
    "oracle_text": "At the beginning of your upkeep, reveal the top card of your library and put that card into your hand. You lose life equal to its mana value."
   },
   {

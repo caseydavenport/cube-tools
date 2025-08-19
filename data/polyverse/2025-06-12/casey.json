@@ -145,7 +145,7 @@
     "R"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/tdm/283/mountain?utm_source=api",
+   "url": "https://scryfall.com/card/tla/285/mountain?utm_source=api",
    "oracle_text": "({T}: Add {R}.)"
   },
   {
@@ -164,7 +164,7 @@
     "R"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/tdm/283/mountain?utm_source=api",
+   "url": "https://scryfall.com/card/tla/285/mountain?utm_source=api",
    "oracle_text": "({T}: Add {R}.)"
   },
   {
@@ -183,7 +183,7 @@
     "R"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/tdm/283/mountain?utm_source=api",
+   "url": "https://scryfall.com/card/tla/285/mountain?utm_source=api",
    "oracle_text": "({T}: Add {R}.)"
   },
   {
@@ -243,7 +243,7 @@
     "G"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/tdm/285/forest?utm_source=api",
+   "url": "https://scryfall.com/card/tla/286/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)"
   },
   {
@@ -262,7 +262,7 @@
     "G"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/tdm/285/forest?utm_source=api",
+   "url": "https://scryfall.com/card/tla/286/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)"
   },
   {
@@ -281,7 +281,7 @@
     "G"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/tdm/285/forest?utm_source=api",
+   "url": "https://scryfall.com/card/tla/286/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)"
   },
   {
@@ -300,7 +300,7 @@
     "G"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/tdm/285/forest?utm_source=api",
+   "url": "https://scryfall.com/card/tla/286/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)"
   },
   {
@@ -556,7 +556,7 @@
     "B"
    ],
    "mana_cost": "{1}{B}",
-   "url": "https://scryfall.com/card/tdc/182/infernal-grasp?utm_source=api",
+   "url": "https://scryfall.com/card/eoc/84/infernal-grasp?utm_source=api",
    "oracle_text": "Destroy target creature. You lose 2 life."
   },
   {
@@ -634,7 +634,7 @@
     "B"
    ],
    "mana_cost": "{1}{B}",
-   "url": "https://scryfall.com/card/rvr/71/dark-confidant?utm_source=api",
+   "url": "https://scryfall.com/card/fin/94/dark-confidant?utm_source=api",
    "oracle_text": "At the beginning of your upkeep, reveal the top card of your library and put that card into your hand. You lose life equal to its mana value."
   },
   {
@@ -744,7 +744,7 @@
     "R"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/tdc/344/canyon-slough?utm_source=api",
+   "url": "https://scryfall.com/card/eoc/152/canyon-slough?utm_source=api",
    "oracle_text": "({T}: Add {B} or {R}.)\nThis land enters tapped.\nCycling {2} ({2}, Discard this card: Draw a card.)"
   },
   {
@@ -780,7 +780,7 @@
     "B"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/tdm/281/swamp?utm_source=api",
+   "url": "https://scryfall.com/card/tla/284/swamp?utm_source=api",
    "oracle_text": "({T}: Add {B}.)"
   },
   {

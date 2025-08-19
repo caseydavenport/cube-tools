@@ -64,7 +64,7 @@
     "W"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/tdc/340/battlefield-forge?utm_source=api",
+   "url": "https://scryfall.com/card/eoc/58/battlefield-forge?utm_source=api",
    "oracle_text": "{T}: Add {C}.\n{T}: Add {R} or {W}. This land deals 1 damage to you."
   },
   {
@@ -144,7 +144,7 @@
     "B"
    ],
    "mana_cost": "{1}{B}",
-   "url": "https://scryfall.com/card/rvr/71/dark-confidant?utm_source=api",
+   "url": "https://scryfall.com/card/fin/94/dark-confidant?utm_source=api",
    "oracle_text": "At the beginning of your upkeep, reveal the top card of your library and put that card into your hand. You lose life equal to its mana value."
   },
   {
@@ -219,7 +219,7 @@
     "W"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/rvr/277/godless-shrine?utm_source=api",
+   "url": "https://scryfall.com/card/eoe/254/godless-shrine?utm_source=api",
    "oracle_text": "({T}: Add {W} or {B}.)\nAs this land enters, you may pay 2 life. If you don't, it enters tapped."
   },
   {
@@ -355,7 +355,7 @@
     "R"
    ],
    "mana_cost": "{1}{B}{R}",
-   "url": "https://scryfall.com/card/dsc/225/mayhem-devil?utm_source=api",
+   "url": "https://scryfall.com/card/eoc/121/mayhem-devil?utm_source=api",
    "oracle_text": "Whenever a player sacrifices a permanent, this creature deals 1 damage to any target."
   },
   {
@@ -395,7 +395,7 @@
     "R"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/tdm/283/mountain?utm_source=api",
+   "url": "https://scryfall.com/card/tla/285/mountain?utm_source=api",
    "oracle_text": "({T}: Add {R}.)"
   },
   {
@@ -414,7 +414,7 @@
     "R"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/tdm/283/mountain?utm_source=api",
+   "url": "https://scryfall.com/card/tla/285/mountain?utm_source=api",
    "oracle_text": "({T}: Add {R}.)"
   },
   {
@@ -433,7 +433,7 @@
     "R"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/tdm/283/mountain?utm_source=api",
+   "url": "https://scryfall.com/card/tla/285/mountain?utm_source=api",
    "oracle_text": "({T}: Add {R}.)"
   },
   {
@@ -452,7 +452,7 @@
     "R"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/tdm/283/mountain?utm_source=api",
+   "url": "https://scryfall.com/card/tla/285/mountain?utm_source=api",
    "oracle_text": "({T}: Add {R}.)"
   },
   {
@@ -471,7 +471,7 @@
     "R"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/tdm/283/mountain?utm_source=api",
+   "url": "https://scryfall.com/card/tla/285/mountain?utm_source=api",
    "oracle_text": "({T}: Add {R}.)"
   },
   {
@@ -490,7 +490,7 @@
     "R"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/tdm/283/mountain?utm_source=api",
+   "url": "https://scryfall.com/card/tla/285/mountain?utm_source=api",
    "oracle_text": "({T}: Add {R}.)"
   },
   {
@@ -532,7 +532,7 @@
     "W"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/tdm/277/plains?utm_source=api",
+   "url": "https://scryfall.com/card/tla/282/plains?utm_source=api",
    "oracle_text": "({T}: Add {W}.)"
   },
   {
@@ -551,7 +551,7 @@
     "W"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/tdm/277/plains?utm_source=api",
+   "url": "https://scryfall.com/card/tla/282/plains?utm_source=api",
    "oracle_text": "({T}: Add {W}.)"
   },
   {
@@ -623,7 +623,7 @@
     "W"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/rvr/285/sacred-foundry?utm_source=api",
+   "url": "https://scryfall.com/card/eoe/256/sacred-foundry?utm_source=api",
    "oracle_text": "({T}: Add {R} or {W}.)\nAs this land enters, you may pay 2 life. If you don't, it enters tapped."
   },
   {
@@ -675,7 +675,7 @@
     "B"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/tdm/281/swamp?utm_source=api",
+   "url": "https://scryfall.com/card/tla/284/swamp?utm_source=api",
    "oracle_text": "({T}: Add {B}.)"
   },
   {
@@ -694,7 +694,7 @@
     "B"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/tdm/281/swamp?utm_source=api",
+   "url": "https://scryfall.com/card/tla/284/swamp?utm_source=api",
    "oracle_text": "({T}: Add {B}.)"
   },
   {
@@ -713,7 +713,7 @@
     "B"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/tdm/281/swamp?utm_source=api",
+   "url": "https://scryfall.com/card/tla/284/swamp?utm_source=api",
    "oracle_text": "({T}: Add {B}.)"
   },
   {
@@ -732,7 +732,7 @@
     "B"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/tdm/281/swamp?utm_source=api",
+   "url": "https://scryfall.com/card/tla/284/swamp?utm_source=api",
    "oracle_text": "({T}: Add {B}.)"
   },
   {
@@ -850,7 +850,7 @@
     "G"
    ],
    "mana_cost": "{2}{G}",
-   "url": "https://scryfall.com/card/tdc/249/beast-within?utm_source=api",
+   "url": "https://scryfall.com/card/eoc/93/beast-within?utm_source=api",
    "oracle_text": "Destroy target permanent. Its controller creates a 3/3 green Beast creature token."
   },
   {

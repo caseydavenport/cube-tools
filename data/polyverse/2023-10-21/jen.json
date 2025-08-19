@@ -146,7 +146,7 @@
    "colors": [],
    "color_identity": [],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/tdm/255/evolving-wilds?utm_source=api",
+   "url": "https://scryfall.com/card/eoc/158/evolving-wilds?utm_source=api",
    "oracle_text": "{T}, Sacrifice this land: Search your library for a basic land card, put it onto the battlefield tapped, then shuffle."
   },
   {
@@ -260,7 +260,7 @@
     "G"
    ],
    "mana_cost": "{3}{G}",
-   "url": "https://scryfall.com/card/otc/200/oracle-of-mul-daya?utm_source=api",
+   "url": "https://scryfall.com/card/eoc/102/oracle-of-mul-daya?utm_source=api",
    "oracle_text": "You may play an additional land on each of your turns.\nPlay with the top card of your library revealed.\nYou may play lands from the top of your library."
   },
   {
@@ -378,7 +378,7 @@
     "G"
    ],
    "mana_cost": "{4}{G}{G}",
-   "url": "https://scryfall.com/card/fdn/645/rampaging-baloths?utm_source=api",
+   "url": "https://scryfall.com/card/eoc/104/rampaging-baloths?utm_source=api",
    "oracle_text": "Trample\nLandfall — Whenever a land you control enters, you may create a 4/4 green Beast creature token."
   },
   {
@@ -537,7 +537,7 @@
     "G"
    ],
    "mana_cost": "{1}{G}",
-   "url": "https://scryfall.com/card/otc/192/explore?utm_source=api",
+   "url": "https://scryfall.com/card/tle/259/explore?utm_source=api",
    "oracle_text": "You may play an additional land this turn.\nDraw a card."
   },
   {
@@ -556,7 +556,7 @@
     "U"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/tdm/279/island?utm_source=api",
+   "url": "https://scryfall.com/card/tla/283/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)",
    "appearances": 1
   },
@@ -576,7 +576,7 @@
     "U"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/tdm/279/island?utm_source=api",
+   "url": "https://scryfall.com/card/tla/283/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)",
    "appearances": 1
   },
@@ -596,7 +596,7 @@
     "U"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/tdm/279/island?utm_source=api",
+   "url": "https://scryfall.com/card/tla/283/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)",
    "appearances": 1
   },
@@ -616,7 +616,7 @@
     "U"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/tdm/279/island?utm_source=api",
+   "url": "https://scryfall.com/card/tla/283/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)",
    "appearances": 1
   },
@@ -636,7 +636,7 @@
     "U"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/tdm/279/island?utm_source=api",
+   "url": "https://scryfall.com/card/tla/283/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)",
    "appearances": 1
   },
@@ -656,7 +656,7 @@
     "U"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/tdm/279/island?utm_source=api",
+   "url": "https://scryfall.com/card/tla/283/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)",
    "appearances": 1
   },
@@ -676,7 +676,7 @@
     "U"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/tdm/279/island?utm_source=api",
+   "url": "https://scryfall.com/card/tla/283/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)",
    "appearances": 1
   },
@@ -696,7 +696,7 @@
     "G"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/tdm/285/forest?utm_source=api",
+   "url": "https://scryfall.com/card/tla/286/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)",
    "appearances": 1
   },
@@ -716,7 +716,7 @@
     "G"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/tdm/285/forest?utm_source=api",
+   "url": "https://scryfall.com/card/tla/286/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)",
    "appearances": 1
   },
@@ -736,7 +736,7 @@
     "G"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/tdm/285/forest?utm_source=api",
+   "url": "https://scryfall.com/card/tla/286/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)",
    "appearances": 1
   },
@@ -756,7 +756,7 @@
     "G"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/tdm/285/forest?utm_source=api",
+   "url": "https://scryfall.com/card/tla/286/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)",
    "appearances": 1
   },
@@ -776,7 +776,7 @@
     "G"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/tdm/285/forest?utm_source=api",
+   "url": "https://scryfall.com/card/tla/286/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)",
    "appearances": 1
   },
@@ -796,7 +796,7 @@
     "G"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/tdm/285/forest?utm_source=api",
+   "url": "https://scryfall.com/card/tla/286/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)",
    "appearances": 1
   },
@@ -816,7 +816,7 @@
     "G"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/tdm/285/forest?utm_source=api",
+   "url": "https://scryfall.com/card/tla/286/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)",
    "appearances": 1
   }

@@ -233,7 +233,7 @@
     "W"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/rvr/277/godless-shrine?utm_source=api",
+   "url": "https://scryfall.com/card/eoe/254/godless-shrine?utm_source=api",
    "oracle_text": "({T}: Add {W} or {B}.)\nAs this land enters, you may pay 2 life. If you don't, it enters tapped."
   },
   {
@@ -340,7 +340,7 @@
     "W"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/tdc/367/glacial-fortress?utm_source=api",
+   "url": "https://scryfall.com/card/eoc/160/glacial-fortress?utm_source=api",
    "oracle_text": "This land enters tapped unless you control a Plains or an Island.\n{T}: Add {W} or {U}."
   },
   {
@@ -569,7 +569,7 @@
     "W"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/tdm/277/plains?utm_source=api",
+   "url": "https://scryfall.com/card/tla/282/plains?utm_source=api",
    "oracle_text": "({T}: Add {W}.)"
   },
   {
@@ -588,7 +588,7 @@
     "W"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/tdm/277/plains?utm_source=api",
+   "url": "https://scryfall.com/card/tla/282/plains?utm_source=api",
    "oracle_text": "({T}: Add {W}.)"
   },
   {
@@ -607,7 +607,7 @@
     "W"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/tdm/277/plains?utm_source=api",
+   "url": "https://scryfall.com/card/tla/282/plains?utm_source=api",
    "oracle_text": "({T}: Add {W}.)"
   },
   {
@@ -626,7 +626,7 @@
     "W"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/tdm/277/plains?utm_source=api",
+   "url": "https://scryfall.com/card/tla/282/plains?utm_source=api",
    "oracle_text": "({T}: Add {W}.)"
   },
   {
@@ -645,7 +645,7 @@
     "U"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/tdm/279/island?utm_source=api",
+   "url": "https://scryfall.com/card/tla/283/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)"
   },
   {
@@ -664,7 +664,7 @@
     "U"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/tdm/279/island?utm_source=api",
+   "url": "https://scryfall.com/card/tla/283/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)"
   },
   {
@@ -683,7 +683,7 @@
     "U"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/tdm/279/island?utm_source=api",
+   "url": "https://scryfall.com/card/tla/283/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)"
   },
   {
@@ -702,7 +702,7 @@
     "U"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/tdm/279/island?utm_source=api",
+   "url": "https://scryfall.com/card/tla/283/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)"
   },
   {
@@ -721,7 +721,7 @@
     "B"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/tdm/281/swamp?utm_source=api",
+   "url": "https://scryfall.com/card/tla/284/swamp?utm_source=api",
    "oracle_text": "({T}: Add {B}.)"
   },
   {
@@ -740,7 +740,7 @@
     "B"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/tdm/281/swamp?utm_source=api",
+   "url": "https://scryfall.com/card/tla/284/swamp?utm_source=api",
    "oracle_text": "({T}: Add {B}.)"
   },
   {
@@ -759,7 +759,7 @@
     "B"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/tdm/281/swamp?utm_source=api",
+   "url": "https://scryfall.com/card/tla/284/swamp?utm_source=api",
    "oracle_text": "({T}: Add {B}.)"
   },
   {
@@ -778,7 +778,7 @@
     "B"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/tdm/281/swamp?utm_source=api",
+   "url": "https://scryfall.com/card/tla/284/swamp?utm_source=api",
    "oracle_text": "({T}: Add {B}.)"
   }
  ],
@@ -859,7 +859,7 @@
     "U"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/tdc/396/sulfur-falls?utm_source=api",
+   "url": "https://scryfall.com/card/eoc/184/sulfur-falls?utm_source=api",
    "oracle_text": "This land enters tapped unless you control an Island or a Mountain.\n{T}: Add {U} or {R}."
   },
   {
@@ -960,7 +960,7 @@
     "R"
    ],
    "mana_cost": "{1}{B}{R}",
-   "url": "https://scryfall.com/card/dsc/225/mayhem-devil?utm_source=api",
+   "url": "https://scryfall.com/card/eoc/121/mayhem-devil?utm_source=api",
    "oracle_text": "Whenever a player sacrifices a permanent, this creature deals 1 damage to any target."
   },
   {

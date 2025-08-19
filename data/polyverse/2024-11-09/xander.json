@@ -223,7 +223,7 @@
     "U"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/rvr/291/watery-grave?utm_source=api",
+   "url": "https://scryfall.com/card/eoe/261/watery-grave?utm_source=api",
    "oracle_text": "({T}: Add {U} or {B}.)\nAs this land enters, you may pay 2 life. If you don't, it enters tapped.",
    "appearances": 1
   },
@@ -361,7 +361,7 @@
     "W"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/rvr/277/godless-shrine?utm_source=api",
+   "url": "https://scryfall.com/card/eoe/254/godless-shrine?utm_source=api",
    "oracle_text": "({T}: Add {W} or {B}.)\nAs this land enters, you may pay 2 life. If you don't, it enters tapped.",
    "appearances": 1
   },
@@ -382,7 +382,7 @@
     "W"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/rvr/277/godless-shrine?utm_source=api",
+   "url": "https://scryfall.com/card/eoe/254/godless-shrine?utm_source=api",
    "oracle_text": "({T}: Add {W} or {B}.)\nAs this land enters, you may pay 2 life. If you don't, it enters tapped.",
    "appearances": 1
   },
@@ -692,7 +692,7 @@
     "U"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/tdm/279/island?utm_source=api",
+   "url": "https://scryfall.com/card/tla/283/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)",
    "appearances": 1
   },
@@ -712,7 +712,7 @@
     "U"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/tdm/279/island?utm_source=api",
+   "url": "https://scryfall.com/card/tla/283/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)",
    "appearances": 1
   },
@@ -732,7 +732,7 @@
     "U"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/tdm/279/island?utm_source=api",
+   "url": "https://scryfall.com/card/tla/283/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)",
    "appearances": 1
   },
@@ -752,7 +752,7 @@
     "U"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/tdm/279/island?utm_source=api",
+   "url": "https://scryfall.com/card/tla/283/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)",
    "appearances": 1
   },
@@ -772,7 +772,7 @@
     "B"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/tdm/281/swamp?utm_source=api",
+   "url": "https://scryfall.com/card/tla/284/swamp?utm_source=api",
    "oracle_text": "({T}: Add {B}.)",
    "appearances": 1
   },
@@ -792,7 +792,7 @@
     "B"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/tdm/281/swamp?utm_source=api",
+   "url": "https://scryfall.com/card/tla/284/swamp?utm_source=api",
    "oracle_text": "({T}: Add {B}.)",
    "appearances": 1
   },
@@ -812,7 +812,7 @@
     "B"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/tdm/281/swamp?utm_source=api",
+   "url": "https://scryfall.com/card/tla/284/swamp?utm_source=api",
    "oracle_text": "({T}: Add {B}.)",
    "appearances": 1
   },
@@ -832,7 +832,7 @@
     "B"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/tdm/281/swamp?utm_source=api",
+   "url": "https://scryfall.com/card/tla/284/swamp?utm_source=api",
    "oracle_text": "({T}: Add {B}.)",
    "appearances": 1
   }
@@ -852,7 +852,7 @@
     "G"
    ],
    "mana_cost": "{1}{G}",
-   "url": "https://scryfall.com/card/otc/192/explore?utm_source=api",
+   "url": "https://scryfall.com/card/tle/259/explore?utm_source=api",
    "oracle_text": "You may play an additional land this turn.\nDraw a card."
   },
   {

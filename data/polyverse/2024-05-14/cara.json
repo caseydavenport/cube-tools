@@ -231,7 +231,7 @@
     "G"
    ],
    "mana_cost": "{1}{G}",
-   "url": "https://scryfall.com/card/tdc/267/satyr-wayfinder?utm_source=api",
+   "url": "https://scryfall.com/card/eoc/106/satyr-wayfinder?utm_source=api",
    "oracle_text": "When this creature enters, reveal the top four cards of your library. You may put a land card from among them into your hand. Put the rest into your graveyard."
   },
   {
@@ -463,7 +463,7 @@
     "B"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/tdm/281/swamp?utm_source=api",
+   "url": "https://scryfall.com/card/tla/284/swamp?utm_source=api",
    "oracle_text": "({T}: Add {B}.)"
   },
   {
@@ -482,7 +482,7 @@
     "B"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/tdm/281/swamp?utm_source=api",
+   "url": "https://scryfall.com/card/tla/284/swamp?utm_source=api",
    "oracle_text": "({T}: Add {B}.)"
   },
   {
@@ -501,7 +501,7 @@
     "B"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/tdm/281/swamp?utm_source=api",
+   "url": "https://scryfall.com/card/tla/284/swamp?utm_source=api",
    "oracle_text": "({T}: Add {B}.)"
   },
   {
@@ -520,7 +520,7 @@
     "B"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/tdm/281/swamp?utm_source=api",
+   "url": "https://scryfall.com/card/tla/284/swamp?utm_source=api",
    "oracle_text": "({T}: Add {B}.)"
   },
   {
@@ -539,7 +539,7 @@
     "B"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/tdm/281/swamp?utm_source=api",
+   "url": "https://scryfall.com/card/tla/284/swamp?utm_source=api",
    "oracle_text": "({T}: Add {B}.)"
   },
   {
@@ -558,7 +558,7 @@
     "G"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/tdm/285/forest?utm_source=api",
+   "url": "https://scryfall.com/card/tla/286/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)"
   },
   {
@@ -577,7 +577,7 @@
     "G"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/tdm/285/forest?utm_source=api",
+   "url": "https://scryfall.com/card/tla/286/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)"
   },
   {
@@ -596,7 +596,7 @@
     "G"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/tdm/285/forest?utm_source=api",
+   "url": "https://scryfall.com/card/tla/286/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)"
   },
   {
@@ -615,7 +615,7 @@
     "G"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/tdm/285/forest?utm_source=api",
+   "url": "https://scryfall.com/card/tla/286/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)"
   },
   {
@@ -634,7 +634,7 @@
     "G"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/tdm/285/forest?utm_source=api",
+   "url": "https://scryfall.com/card/tla/286/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)"
   },
   {
@@ -653,7 +653,7 @@
     "G"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/tdm/285/forest?utm_source=api",
+   "url": "https://scryfall.com/card/tla/286/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)"
   },
   {
@@ -672,7 +672,7 @@
     "G"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/tdm/285/forest?utm_source=api",
+   "url": "https://scryfall.com/card/tla/286/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)"
   },
   {
@@ -691,7 +691,7 @@
     "G"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/tdm/285/forest?utm_source=api",
+   "url": "https://scryfall.com/card/tla/286/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)"
   },
   {
@@ -725,7 +725,7 @@
     "G"
    ],
    "mana_cost": "{1}{G}",
-   "url": "https://scryfall.com/card/otc/192/explore?utm_source=api",
+   "url": "https://scryfall.com/card/tle/259/explore?utm_source=api",
    "oracle_text": "You may play an additional land this turn.\nDraw a card."
   },
   {
@@ -882,7 +882,7 @@
     "R"
    ],
    "mana_cost": "{1}{B}{R}",
-   "url": "https://scryfall.com/card/dsc/225/mayhem-devil?utm_source=api",
+   "url": "https://scryfall.com/card/eoc/121/mayhem-devil?utm_source=api",
    "oracle_text": "Whenever a player sacrifices a permanent, this creature deals 1 damage to any target."
   },
   {
@@ -1050,7 +1050,7 @@
     "R"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/rvr/289/stomping-ground?utm_source=api",
+   "url": "https://scryfall.com/card/eoe/258/stomping-ground?utm_source=api",
    "oracle_text": "({T}: Add {R} or {G}.)\nAs this land enters, you may pay 2 life. If you don't, it enters tapped."
   },
   {

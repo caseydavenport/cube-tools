@@ -79,7 +79,7 @@
     "G"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/tdm/285/forest?utm_source=api",
+   "url": "https://scryfall.com/card/tla/286/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)"
   },
   {
@@ -98,7 +98,7 @@
     "G"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/tdm/285/forest?utm_source=api",
+   "url": "https://scryfall.com/card/tla/286/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)"
   },
   {
@@ -306,7 +306,7 @@
     "U"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/rvr/291/watery-grave?utm_source=api",
+   "url": "https://scryfall.com/card/eoe/261/watery-grave?utm_source=api",
    "oracle_text": "({T}: Add {U} or {B}.)\nAs this land enters, you may pay 2 life. If you don't, it enters tapped."
   },
   {
@@ -552,7 +552,7 @@
     "G"
    ],
    "mana_cost": "{3}{G}{G}",
-   "url": "https://scryfall.com/card/otc/210/titania-protector-of-argoth?utm_source=api",
+   "url": "https://scryfall.com/card/eoc/111/titania-protector-of-argoth?utm_source=api",
    "oracle_text": "When Titania enters, return target land card from your graveyard to the battlefield.\nWhenever a land you control is put into a graveyard from the battlefield, create a 5/3 green Elemental creature token."
   },
   {
@@ -625,7 +625,7 @@
     "B"
    ],
    "mana_cost": "{1}{B}",
-   "url": "https://scryfall.com/card/tdc/182/infernal-grasp?utm_source=api",
+   "url": "https://scryfall.com/card/eoc/84/infernal-grasp?utm_source=api",
    "oracle_text": "Destroy target creature. You lose 2 life."
   },
   {
@@ -667,7 +667,7 @@
     "U"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/rvr/275/breeding-pool?utm_source=api",
+   "url": "https://scryfall.com/card/eoe/251/breeding-pool?utm_source=api",
    "oracle_text": "({T}: Add {G} or {U}.)\nAs this land enters, you may pay 2 life. If you don't, it enters tapped."
   },
   {

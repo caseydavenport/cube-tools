@@ -129,8 +129,8 @@
     "G"
    ],
    "mana_cost": "{4}{G}{G}",
-   "url": "https://scryfall.com/card/tdc/263/multani-yavimayas-avatar?utm_source=api",
-   "oracle_text": "Reach, trample\nMultani gets +1/+1 for each land you control and each land card in your graveyard.\n{1}{G}, Return two lands you control to their owner's hand: Return Multani from your graveyard to your hand.",
+   "url": "https://scryfall.com/card/eoc/100/multani-yavimayas-avatar?utm_source=api",
+   "oracle_text": "Reach, trample\nMultani gets +1/+1 for each land you control and each land card in your graveyard.\n{1}{G}, Return two lands you control to their owner's hand: Return this card from your graveyard to your hand.",
    "appearances": 1
   },
   {
@@ -161,7 +161,7 @@
     "G"
    ],
    "mana_cost": "{2}{G}",
-   "url": "https://scryfall.com/card/tdc/258/harrow?utm_source=api",
+   "url": "https://scryfall.com/card/eoc/98/harrow?utm_source=api",
    "oracle_text": "As an additional cost to cast this spell, sacrifice a land.\nSearch your library for up to two basic land cards, put them onto the battlefield, then shuffle.",
    "appearances": 1
   },
@@ -353,7 +353,7 @@
     "R"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/rvr/289/stomping-ground?utm_source=api",
+   "url": "https://scryfall.com/card/eoe/258/stomping-ground?utm_source=api",
    "oracle_text": "({T}: Add {R} or {G}.)\nAs this land enters, you may pay 2 life. If you don't, it enters tapped.",
    "appearances": 1
   },
@@ -570,7 +570,7 @@
     "R"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/tdc/392/sheltered-thicket?utm_source=api",
+   "url": "https://scryfall.com/card/eoc/178/sheltered-thicket?utm_source=api",
    "oracle_text": "({T}: Add {R} or {G}.)\nThis land enters tapped.\nCycling {2} ({2}, Discard this card: Draw a card.)",
    "appearances": 1
   },
@@ -676,7 +676,7 @@
     "B"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/tdm/281/swamp?utm_source=api",
+   "url": "https://scryfall.com/card/tla/284/swamp?utm_source=api",
    "oracle_text": "({T}: Add {B}.)",
    "appearances": 1
   },
@@ -696,7 +696,7 @@
     "B"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/tdm/281/swamp?utm_source=api",
+   "url": "https://scryfall.com/card/tla/284/swamp?utm_source=api",
    "oracle_text": "({T}: Add {B}.)",
    "appearances": 1
   },
@@ -716,7 +716,7 @@
     "R"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/tdm/283/mountain?utm_source=api",
+   "url": "https://scryfall.com/card/tla/285/mountain?utm_source=api",
    "oracle_text": "({T}: Add {R}.)",
    "appearances": 1
   },
@@ -736,7 +736,7 @@
     "R"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/tdm/283/mountain?utm_source=api",
+   "url": "https://scryfall.com/card/tla/285/mountain?utm_source=api",
    "oracle_text": "({T}: Add {R}.)",
    "appearances": 1
   },
@@ -756,7 +756,7 @@
     "R"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/tdm/283/mountain?utm_source=api",
+   "url": "https://scryfall.com/card/tla/285/mountain?utm_source=api",
    "oracle_text": "({T}: Add {R}.)",
    "appearances": 1
   },
@@ -776,7 +776,7 @@
     "G"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/tdm/285/forest?utm_source=api",
+   "url": "https://scryfall.com/card/tla/286/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)",
    "appearances": 1
   },
@@ -796,7 +796,7 @@
     "G"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/tdm/285/forest?utm_source=api",
+   "url": "https://scryfall.com/card/tla/286/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)",
    "appearances": 1
   },
@@ -816,7 +816,7 @@
     "G"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/tdm/285/forest?utm_source=api",
+   "url": "https://scryfall.com/card/tla/286/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)",
    "appearances": 1
   }
@@ -957,7 +957,7 @@
     "G"
    ],
    "mana_cost": "{1}{G}",
-   "url": "https://scryfall.com/card/tdc/267/satyr-wayfinder?utm_source=api",
+   "url": "https://scryfall.com/card/eoc/106/satyr-wayfinder?utm_source=api",
    "oracle_text": "When this creature enters, reveal the top four cards of your library. You may put a land card from among them into your hand. Put the rest into your graveyard."
   },
   {

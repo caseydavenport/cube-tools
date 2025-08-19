@@ -163,7 +163,7 @@
     "U"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/rvr/275/breeding-pool?utm_source=api",
+   "url": "https://scryfall.com/card/eoe/251/breeding-pool?utm_source=api",
    "oracle_text": "({T}: Add {G} or {U}.)\nAs this land enters, you may pay 2 life. If you don't, it enters tapped.",
    "appearances": 1
   },
@@ -398,7 +398,7 @@
     "G"
    ],
    "mana_cost": "{2}{G}",
-   "url": "https://scryfall.com/card/tdc/249/beast-within?utm_source=api",
+   "url": "https://scryfall.com/card/eoc/93/beast-within?utm_source=api",
    "oracle_text": "Destroy target permanent. Its controller creates a 3/3 green Beast creature token.",
    "appearances": 1
   },
@@ -646,7 +646,7 @@
     "U"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/tdm/279/island?utm_source=api",
+   "url": "https://scryfall.com/card/tla/283/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)",
    "appearances": 1
   },
@@ -666,7 +666,7 @@
     "U"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/tdm/279/island?utm_source=api",
+   "url": "https://scryfall.com/card/tla/283/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)",
    "appearances": 1
   },
@@ -686,7 +686,7 @@
     "U"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/tdm/279/island?utm_source=api",
+   "url": "https://scryfall.com/card/tla/283/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)",
    "appearances": 1
   },
@@ -706,7 +706,7 @@
     "U"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/tdm/279/island?utm_source=api",
+   "url": "https://scryfall.com/card/tla/283/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)",
    "appearances": 1
   },
@@ -726,7 +726,7 @@
     "U"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/tdm/279/island?utm_source=api",
+   "url": "https://scryfall.com/card/tla/283/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)",
    "appearances": 1
   },
@@ -746,7 +746,7 @@
     "U"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/tdm/279/island?utm_source=api",
+   "url": "https://scryfall.com/card/tla/283/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)",
    "appearances": 1
   },
@@ -766,7 +766,7 @@
     "U"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/tdm/279/island?utm_source=api",
+   "url": "https://scryfall.com/card/tla/283/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)",
    "appearances": 1
   },
@@ -786,7 +786,7 @@
     "G"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/tdm/285/forest?utm_source=api",
+   "url": "https://scryfall.com/card/tla/286/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)",
    "appearances": 1
   },
@@ -806,7 +806,7 @@
     "G"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/tdm/285/forest?utm_source=api",
+   "url": "https://scryfall.com/card/tla/286/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)",
    "appearances": 1
   },
@@ -826,7 +826,7 @@
     "G"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/tdm/285/forest?utm_source=api",
+   "url": "https://scryfall.com/card/tla/286/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)",
    "appearances": 1
   },
@@ -846,7 +846,7 @@
     "G"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/tdm/285/forest?utm_source=api",
+   "url": "https://scryfall.com/card/tla/286/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)",
    "appearances": 1
   }
@@ -902,7 +902,7 @@
     "W"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/tdc/372/irrigated-farmland?utm_source=api",
+   "url": "https://scryfall.com/card/eoc/162/irrigated-farmland?utm_source=api",
    "oracle_text": "({T}: Add {W} or {U}.)\nThis land enters tapped.\nCycling {2} ({2}, Discard this card: Draw a card.)"
   },
   {

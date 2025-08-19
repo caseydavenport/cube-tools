@@ -89,7 +89,7 @@
     "G"
    ],
    "mana_cost": "{3}{G}{G}",
-   "url": "https://scryfall.com/card/otc/210/titania-protector-of-argoth?utm_source=api",
+   "url": "https://scryfall.com/card/eoc/111/titania-protector-of-argoth?utm_source=api",
    "oracle_text": "When Titania enters, return target land card from your graveyard to the battlefield.\nWhenever a land you control is put into a graveyard from the battlefield, create a 5/3 green Elemental creature token.",
    "appearances": 1
   },
@@ -295,7 +295,7 @@
     "W"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/tdc/367/glacial-fortress?utm_source=api",
+   "url": "https://scryfall.com/card/eoc/160/glacial-fortress?utm_source=api",
    "oracle_text": "This land enters tapped unless you control a Plains or an Island.\n{T}: Add {W} or {U}.",
    "appearances": 1
   },
@@ -333,7 +333,7 @@
     "W"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/tdc/372/irrigated-farmland?utm_source=api",
+   "url": "https://scryfall.com/card/eoc/162/irrigated-farmland?utm_source=api",
    "oracle_text": "({T}: Add {W} or {U}.)\nThis land enters tapped.\nCycling {2} ({2}, Discard this card: Draw a card.)",
    "appearances": 1
   },
@@ -664,7 +664,7 @@
     "W"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/tdm/277/plains?utm_source=api",
+   "url": "https://scryfall.com/card/tla/282/plains?utm_source=api",
    "oracle_text": "({T}: Add {W}.)",
    "appearances": 1
   },
@@ -684,7 +684,7 @@
     "W"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/tdm/277/plains?utm_source=api",
+   "url": "https://scryfall.com/card/tla/282/plains?utm_source=api",
    "oracle_text": "({T}: Add {W}.)",
    "appearances": 1
   },
@@ -704,7 +704,7 @@
     "W"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/tdm/277/plains?utm_source=api",
+   "url": "https://scryfall.com/card/tla/282/plains?utm_source=api",
    "oracle_text": "({T}: Add {W}.)",
    "appearances": 1
   },
@@ -724,7 +724,7 @@
     "U"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/tdm/279/island?utm_source=api",
+   "url": "https://scryfall.com/card/tla/283/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)",
    "appearances": 1
   },
@@ -744,7 +744,7 @@
     "U"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/tdm/279/island?utm_source=api",
+   "url": "https://scryfall.com/card/tla/283/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)",
    "appearances": 1
   },
@@ -764,7 +764,7 @@
     "U"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/tdm/279/island?utm_source=api",
+   "url": "https://scryfall.com/card/tla/283/island?utm_source=api",
    "oracle_text": "({T}: Add {U}.)",
    "appearances": 1
   },
@@ -784,7 +784,7 @@
     "G"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/tdm/285/forest?utm_source=api",
+   "url": "https://scryfall.com/card/tla/286/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)",
    "appearances": 1
   }

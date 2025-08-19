@@ -688,7 +688,7 @@
     "G"
    ],
    "mana_cost": "{1}{G}",
-   "url": "https://scryfall.com/card/tdc/267/satyr-wayfinder?utm_source=api",
+   "url": "https://scryfall.com/card/eoc/106/satyr-wayfinder?utm_source=api",
    "oracle_text": "When this creature enters, reveal the top four cards of your library. You may put a land card from among them into your hand. Put the rest into your graveyard.",
    "appearances": 1
   },
@@ -768,7 +768,7 @@
     "W"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/tdm/277/plains?utm_source=api",
+   "url": "https://scryfall.com/card/tla/282/plains?utm_source=api",
    "oracle_text": "({T}: Add {W}.)",
    "appearances": 1
   },
@@ -788,7 +788,7 @@
     "B"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/tdm/281/swamp?utm_source=api",
+   "url": "https://scryfall.com/card/tla/284/swamp?utm_source=api",
    "oracle_text": "({T}: Add {B}.)",
    "appearances": 1
   },
@@ -808,7 +808,7 @@
     "G"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/tdm/285/forest?utm_source=api",
+   "url": "https://scryfall.com/card/tla/286/forest?utm_source=api",
    "oracle_text": "({T}: Add {G}.)",
    "appearances": 1
   }
@@ -1346,7 +1346,7 @@
     "G"
    ],
    "mana_cost": "{1}{G}",
-   "url": "https://scryfall.com/card/otc/192/explore?utm_source=api",
+   "url": "https://scryfall.com/card/tle/259/explore?utm_source=api",
    "oracle_text": "You may play an additional land this turn.\nDraw a card."
   },
   {
