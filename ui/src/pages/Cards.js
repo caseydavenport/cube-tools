@@ -80,12 +80,14 @@ const Interaction = "All interaction"
 const Counterspells = "Counterspells"
 const Removal = "Removal"
 const Land = "Land"
+const Nonland = "Nonland"
 const matchOpts = [
   {label: "", value:""},
   {label: Interaction, value: Interaction},
   {label: Counterspells, value: Counterspells},
   {label: Removal, value: Removal},
   {label: Land, value: Land},
+  {label: Nonland, value: Nonland},
 ]
 
   // shouldSkip returns true if the card should be skipped, and false otherwise.
@@ -108,6 +110,8 @@ const matchOpts = [
         return !card.removal;
       case Land:
         return !card.land;
+      case Nonland:
+        return card.land;
     }
     return false
   }
@@ -191,11 +195,6 @@ function CardWidgetTable(input) {
       id: "players",
       text: "# Players",
       tip: "Number of unique players who have mainboarded this card.",
-    },
-    {
-      id: "players-stddev",
-      text: "Players StdDev",
-      tip: "Standard deviation measuring how evenly spread this card is across players. Zero means this card is played equally often by all its drafters",
     },
     {
       id: "elo",
@@ -321,7 +320,6 @@ function CardWidgetTable(input) {
                   <td>{card.playableSideboard}</td>
                   <td>{card.total_games}</td>
                   <td>{card.players.size}</td>
-                  <td>{stddev}</td>
                   <td>{card.elo}</td>
                   <td>{card.lastMainboarded}</td>
                 </tr>
