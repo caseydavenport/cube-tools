@@ -482,55 +482,46 @@ function CardWidgetOptions(input) {
 function CardMainboardTooltipContent(card) {
   let mainboarders = []
   card.players.forEach(function(num, name) {
-    mainboarders.push({name: name, num: num})
+    mainboarders.push({name: name, mb: num, sb: 0})
   })
-  let sideboarders = []
   card.sideboarders.forEach(function(num, name) {
-    sideboarders.push({name: name, num: num})
+    // Check if an entry exists for this name.
+    let found = false
+    for (let entry of mainboarders) {
+      if (name === entry.name) {
+        entry.sb = num
+        found = true
+      }
+    }
+    if (!found) {
+      // Add a new entry.
+      mainboarders.push({name: name, mb: 0, sb: num})
+    }
   })
+
   return (
-    <div>
-      <table>
-        <thead className="table-header">
-          <tr>
-            <td id="name" className="header-cell">Mainboard</td>
-            <td id="num" className="header-cell">Count</td>
-          </tr>
-        </thead>
-        <tbody>
-        {
-          mainboarders.map(function(row) {
-            return (
-              <tr sort={row.num} key={row.name}>
-                <td>{row.name}</td>
-                <td>{row.num}</td>
-              </tr>
-            )
-          }).sort(SortFunc)
-        }
-        </tbody>
-      </table>
-      <table>
-        <thead className="table-header">
-          <tr>
-            <td id="name" className="header-cell">Sideboard</td>
-            <td id="num" className="header-cell">Count</td>
-          </tr>
-        </thead>
-        <tbody>
-        {
-          sideboarders.map(function(row) {
-            return (
-              <tr sort={row.num} key={row.name}>
-                <td>{row.name}</td>
-                <td>{row.num}</td>
-              </tr>
-            )
-          }).sort(SortFunc)
-        }
-        </tbody>
-      </table>
-    </div>
+    <table>
+      <thead>
+        <tr>
+          <td id="name">Who</td>
+          <td id="num"># mb</td>
+          <td id="num"># sb</td>
+        </tr>
+      </thead>
+      <tbody>
+      {
+        mainboarders.map(function(row) {
+          return (
+            <tr sort={row.num} key={row.name}>
+              <td>{row.name}</td>
+              <td>{row.mb}</td>
+              <td>{row.sb}</td>
+            </tr>
+          );
+        }).sort(SortFunc)
+      }
+      </tbody>
+    </table>
   );
 }
 
