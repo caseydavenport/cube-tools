@@ -31,6 +31,11 @@ export async function LoadDecks(onLoad, start, end, draftSize, playerMatch) {
         g.winner = capitalize(g.winner)
       }
     }
+
+    // Avoid nil errors.
+    if (d.matches === null) {
+      d.matches = []
+    }
   }
   console.timeEnd("LoadDecks()")
   onLoad(decks.decks)
