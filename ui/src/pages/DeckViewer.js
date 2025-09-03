@@ -233,6 +233,43 @@ export function DropdownSelector({ label, value, options, onChange }) {
   )
 }
 
+function cardMatches(card, matchStr, checkText) {
+  if (card.name.toLowerCase().match(matchStr.toLowerCase())) {
+    return true
+  }
+  if (checkText) {
+    if (card.oracle_text.toLowerCase().match(matchStr.toLowerCase())) {
+      return true
+    }
+  }
+  return false
+}
+
+function deckMatches(deck, matchStr) {
+  if (deck.player.toLowerCase().match(matchStr.toLowerCase())) {
+    return true
+  }
+
+  for (let label of deck.labels) {
+    if (label.toLowerCase().match(matchStr.toLowerCase())) {
+      return true
+    }
+  }
+
+  for (let card of deck.mainboard) {
+    if (cardMatches(card, matchStr, true)) {
+      return true
+    }
+  }
+  for (let card of deck.sideboard) {
+    if (cardMatches(card, matchStr, true)) {
+      return true
+    }
+  }
+
+  return false
+}
+
 function FilteredDecks(input) {
   let decks = []
 
@@ -270,34 +307,7 @@ function FilteredDecks(input) {
     }
 
     // Do fuzzy matching on the string, including player, cards, etc.
-    if (input.matchStr != "") {
-      for (let card of d.mainboard) {
-        if (card.name.toLowerCase().match(input.matchStr.toLowerCase())) {
-          // Card matches string - include the deck.
-          decks.push(d)
-          break
-        }
-        if (d.player.toLowerCase().match(input.matchStr.toLowerCase())) {
-          // Player matches - include.
-          decks.push(d)
-          break
-        }
-
-
-        let labelMatch = false
-        for (let label of d.labels) {
-          if (label.toLowerCase().match(input.matchStr.toLowerCase())) {
-            decks.push(d)
-            labelMatch = true
-            break
-          }
-        }
-        if (labelMatch) {
-          break
-        }
-      }
-    } else {
-      // No match string - just add the deck.
+    if (input.matchStr == "" || deckMatches(d, input.matchStr)) {
       decks.push(d)
     }
   }
@@ -512,7 +522,7 @@ function PlayerFrame(input) {
 
     // If the card matches the string, we will highlight it.
     card.highlight = false
-    if (input.matchStr && card.name.toLowerCase().match(input.matchStr.toLowerCase())) {
+    if (input.matchStr && cardMatches(card, input.matchStr, true)) {
       card.highlight = true
     }
   }
