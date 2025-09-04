@@ -192,6 +192,18 @@ export function DeckWidget(input) {
             <WinsByNumberOfColors decks={input.decks} />
           </td>
           <td style={{"verticalAlign": "top"}}>
+            <NumColorsPieChart
+              decks={input.decks}
+              parsed={input.parsed}
+            />
+          </td>
+        </tr>
+
+        <tr style={{"height": "300px"}}>
+          <td style={{"verticalAlign": "top", "width": "50%"}}>
+            // TODO: Put a chart here!
+          </td>
+          <td style={{"verticalAlign": "top"}}>
             <DeckManaValueChart
               decks={input.decks}
               parsed={input.parsed}
@@ -1580,3 +1592,74 @@ function getValue(axis, deck, archetypeData, playerData, decks, draftData) {
   }
   return null
 }
+
+function NumColorsPieChart(input) {
+  let title = `# Colors`
+  let graphData = [0, 0, 0, 0, 0]
+  let labels = ["1", "2", "3", "4", "5"]
+
+  // Go through each deck, and count the number of colors, incrementing
+  // the corresponding data entry.
+  for (let deck of input.decks) {
+    if (deck.colors.length == 0) {
+      continue
+    }
+    let idx = deck.colors.length - 1
+    graphData[idx] += 1
+  }
+
+  let data = {
+    labels: labels,
+    datasets: [
+      {
+        label: title,
+        data: graphData,
+        backgroundColor: [
+          'rgba(255, 99, 132, 0.2)',
+          'rgba(255, 206, 86, 0.2)',
+          'rgba(54, 162, 235, 0.2)',
+          'rgba(94, 122, 135, 0.2)',
+          'rgba(140, 50, 155, 0.2)',
+        ],
+        borderColor: [
+          'rgba(255, 99, 132, 1)',
+          'rgba(255, 206, 86, 1)',
+          'rgba(54, 162, 235, 1)',
+          'rgba(94, 122, 135, 1)',
+          'rgba(140, 50, 155, 1)',
+        ],
+        borderWidth: 1,
+      },
+    ],
+  };
+
+  const options = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      title: {
+        display: true,
+        text: title,
+        color: "#FFF",
+        font: {
+          size: "16pt",
+        },
+      },
+      legend: {
+        labels: {
+          color: "#FFF",
+          font: {
+            size: "16pt",
+          },
+        },
+      },
+    },
+  };
+
+  return (
+    <div style={{"height":"500px", "width":"100%"}}>
+      <Pie height={"300px"} width={"300px"} options={options} data={data} />
+    </div>
+  );
+}
+

@@ -204,6 +204,7 @@ export default function DeckViewer() {
           matchStr={matchStr}
           minCMC={minCMC}
           maxCMC={maxCMC}
+          mbsb={mainboardSideboard}
         />
 
         <DisplayDeck
@@ -245,7 +246,7 @@ function cardMatches(card, matchStr, checkText) {
   return false
 }
 
-function deckMatches(deck, matchStr) {
+function deckMatches(deck, matchStr, mbsb) {
   if (deck.player.toLowerCase().match(matchStr.toLowerCase())) {
     return true
   }
@@ -256,14 +257,17 @@ function deckMatches(deck, matchStr) {
     }
   }
 
-  for (let card of deck.mainboard) {
-    if (cardMatches(card, matchStr, true)) {
-      return true
+  if (mbsb == "Mainboard") {
+    for (let card of deck.mainboard) {
+      if (cardMatches(card, matchStr, true)) {
+        return true
+      }
     }
-  }
-  for (let card of deck.sideboard) {
-    if (cardMatches(card, matchStr, true)) {
-      return true
+  } else {
+    for (let card of deck.sideboard) {
+      if (cardMatches(card, matchStr, true)) {
+        return true
+      }
     }
   }
 
@@ -307,7 +311,7 @@ function FilteredDecks(input) {
     }
 
     // Do fuzzy matching on the string, including player, cards, etc.
-    if (input.matchStr == "" || deckMatches(d, input.matchStr)) {
+    if (input.matchStr == "" || deckMatches(d, input.matchStr, input.mbsb)) {
       decks.push(d)
     }
   }
