@@ -659,6 +659,20 @@
    ]
   },
   {
+   "path": "data/polyverse/2025-08-31_d1",
+   "date": "2025-08-31",
+   "draft_id": "2025-08-31_d1",
+   "draft_log": "data/polyverse/2025-08-31_d1/draft-log.json",
+   "decks": [
+    {
+     "path": "data/polyverse/2025-08-31_d1/casey.json"
+    },
+    {
+     "path": "data/polyverse/2025-08-31_d1/dom.json"
+    }
+   ]
+  },
+  {
    "path": "data/polyverse/2025-08-31_d2",
    "date": "2025-08-31",
    "draft_id": "2025-08-31_d2",
