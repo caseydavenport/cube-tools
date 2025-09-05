@@ -511,9 +511,13 @@ export default function StatsViewer() {
       d.colorData = GetColorStats(d.decks, strictColors)
     }
 
-    // Rebuild graph data each time we parse. Do this at the very end, as it relies on
-    // some of the data calculated above.
-    p.graphData = BuildGraphData(p)
+    if (display[3]) {
+      // Rebuild graph data each time we parse. Do this at the very end, as it relies on
+      // some of the data calculated above.
+      //
+      // We only need to do this when the deck page is selected, though.
+      p.graphData = BuildGraphData(p)
+    }
 
     // Store off what we've calculated.
     setParsedData(p)

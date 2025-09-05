@@ -150,6 +150,11 @@ export function DeckWidget(input) {
   // Pre-calcualte much of the graph data, to avoid needing to do so multiple times.
   let data = input.parsed.graphData
 
+  // Wait for data to be parsed and available before attempting to display any graphs.
+  if (!data) {
+    return null
+  }
+
   return (
     <table style={{"width": "100%"}}>
       <tbody>
