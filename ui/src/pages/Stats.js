@@ -678,8 +678,6 @@ export default function StatsViewer() {
           parsed={parsed}
           decks={parsed.filteredDecks}
           show={display[3]}
-          bucketSize={bucketSize}
-
           xAxis={xAxis}
           yAxis={yAxis}
           onXAxisSelected={onXAxisSelected}
