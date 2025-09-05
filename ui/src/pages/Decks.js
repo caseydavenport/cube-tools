@@ -147,12 +147,15 @@ export function DeckWidget(input) {
     return null
   }
 
+  // Pre-calcualte much of the graph data, to avoid needing to do so multiple times.
+  let data = input.parsed.graphData
+
   return (
     <table style={{"width": "100%"}}>
       <tbody>
         <tr style={{"height": "300px"}}>
           <td style={{"verticalAlign": "top", "width": "50%"}}>
-            <WinsByManaCost decks={input.decks} />
+            <WinsByManaCost decks={input.decks} data={data} />
           </td>
           <td style={{"verticalAlign": "top"}}>
             <WinsByCardType type="Creature" decks={input.decks} />
@@ -183,7 +186,7 @@ export function DeckWidget(input) {
           </td>
 
           <td style={{"verticalAlign": "top", "width": "50%"}}>
-            <WinsByNonBasicDensity decks={input.decks} />
+            <WinsByNonBasicDensity decks={input.decks} data={data} />
           </td>
         </tr>
 
@@ -280,8 +283,7 @@ export function DeckWidget(input) {
             <OracleTextByColor
               title="Interaction by color"
               parsed={input.parsed}
-              decks={input.decks}
-              matches={RemovalMatches.concat(CounterspellMatches)}
+              data={data}
             />
           </td>
 
@@ -292,16 +294,16 @@ export function DeckWidget(input) {
             <OracleTextOverTimeChart
               title="Avg. removal per-deck"
               parsed={input.parsed}
-              decks={input.decks}
               matches={RemovalMatches}
+              data={data}
             />
           </td>
           <td style={{"verticalAlign": "top"}}>
             <OracleTextOverTimeChart
               title="Avg. counterspells per-deck"
               parsed={input.parsed}
-              decks={input.decks}
               matches={CounterspellMatches}
+              data={data}
             />
           </td>
         </tr>
@@ -320,6 +322,7 @@ export function DeckWidget(input) {
               parsed={input.parsed}
               decks={input.decks}
               matches={RemovalMatches}
+              data={data}
             />
           </td>
         </tr>
@@ -343,21 +346,207 @@ export function DeckWidget(input) {
   )
 }
 
-function WinsByManaCost(input) {
-  // Go through all the decks, and build up a map of wins by averge CMC
-  // of the deck. We round CMC to create buckets.
-  let winsByCMC = new Map()
-  let lossesByCMC = new Map()
-  for (let deck of input.decks) {
-    let cmc = Math.round(4 * deck.avg_cmc) / 4
-    if (!winsByCMC.has(cmc)) {
-      winsByCMC.set(cmc, 0)
-      lossesByCMC.set(cmc, 0)
-    }
-    winsByCMC.set(cmc, winsByCMC.get(cmc) + Wins(deck))
-    lossesByCMC.set(cmc, lossesByCMC.get(cmc) + Losses(deck))
+// buildGraphData is common logic to calculate various bit of data for plotting graphs, so that we don't
+// need to iterate the complete data set for each graph.
+//
+// TODO: Ideally we'd move this into the API server.
+export function BuildGraphData(parsed) {
+  console.time("buildGraphData")
+
+  let buckets = parsed.deckBuckets
+  let colors = ["W", "U", "B", "R", "G"]
+
+  // Build a set of labels for each bucket.
+  const labels = []
+  for (let bucket of buckets) {
+    labels.push(BucketName(bucket))
   }
 
+  // Calculate statistics across all decks.
+  let all = {
+    winsByCMC: new Map(),
+    lossesByCMC: new Map(),
+    winsByNonBasic: new Map(),
+    lossesByNonBasic: new Map(),
+    nonBasicBucketSize: 2,
+  }
+  for (let deck of parsed.filteredDecks) {
+    // Calculate the wins / losses for this deck.
+    let wins = Wins(deck)
+    let losses = Losses(deck)
+
+    /////////////////////////////////////////////////////////////////////////////
+    // Calculate wins and losses by CMC, rounding to created buckets of data.
+    /////////////////////////////////////////////////////////////////////////////
+    let cmc = Math.round(4 * deck.avg_cmc) / 4
+    if (!all.winsByCMC.has(cmc)) {
+      all.winsByCMC.set(cmc, 0)
+      all.lossesByCMC.set(cmc, 0)
+    }
+    all.winsByCMC.set(cmc, all.winsByCMC.get(cmc) + wins)
+    all.lossesByCMC.set(cmc, all.lossesByCMC.get(cmc) + losses)
+
+    /////////////////////////////////////////////////////////////////////////////
+    // Index wins / losses by density of card types.
+    /////////////////////////////////////////////////////////////////////////////
+    let numNonBasic = 0
+    for (let card of deck.mainboard) {
+      if (card.types.includes("Land") && !card.types.includes("Basic")) {
+        numNonBasic += 1
+      }
+    }
+    let bucket = Math.round(numNonBasic/all.nonBasicBucketSize) * all.nonBasicBucketSize
+    if (!all.winsByNonBasic.has(bucket)) {
+      all.winsByNonBasic.set(bucket, 0)
+      all.lossesByNonBasic.set(bucket, 0)
+    }
+    all.winsByNonBasic.set(bucket, all.winsByNonBasic.get(bucket) + wins)
+    all.lossesByNonBasic.set(bucket, all.lossesByNonBasic.get(bucket) + losses)
+  }
+
+  // Calculate per-bucket, over time data.
+  let bucketed = {
+    mbCounterspells: new Array(),
+    sbCounterspells: new Array(),
+
+    mbRemoval: new Array(),
+    sbRemoval: new Array(),
+
+    mbRemovalCMC: new Array(),
+    sbRemovalCMC: new Array(),
+
+    removal: {
+      mb: {
+        count: new Array(),
+        cmc: new Array(),
+      },
+      sb: {
+        count: new Array(),
+        cmc: new Array(),
+      },
+    },
+
+    interaction: {
+      mb: {
+        byColor: new Map([
+          ["W", new Array()],
+          ["U", new Array()],
+          ["B", new Array()],
+          ["R", new Array()],
+          ["G", new Array()],
+        ]),
+      },
+    }
+  }
+  for (let bucket of buckets) {
+    // Aggregate all decks from within this bucket.
+    let decks = new Array()
+    for (let draft of bucket) {
+      decks.push(...draft.decks)
+    }
+
+    // Calculate the total number of each type of relevant card for this bucket.
+    let mbCounterspells = 0
+    let sbCounterspells = 0
+    let removal = {
+      mb: {
+        cmc: 0,
+        count: 0,
+      },
+      sb: {
+        cmc: 0,
+        count: 0,
+      },
+    }
+    let interaction = {
+      mb: {
+        byColor: new Map(),
+      },
+    }
+    for (let deck of decks) {
+      for (let card of deck.mainboard) {
+        let isCounterspell = false
+        let isRemoval = false
+
+        // Check for Counterspells.
+        for (let match of CounterspellMatches) {
+          if (card.oracle_text.toLowerCase().match(match)){
+            mbCounterspells += 1
+            isCounterspell = true
+            break
+          }
+        }
+
+        // Check for Removal.
+        for (let match of RemovalMatches) {
+          if (card.oracle_text.toLowerCase().match(match)){
+            removal.mb.count += 1
+            removal.mb.cmc += card.cmc
+            isRemoval = true
+            break
+          }
+        }
+
+        // Track per-color metrics.
+        if (isRemoval || isCounterspell) {
+          for (let color of card.colors) {
+            if (!interaction.mb.byColor.has(color)) {
+              interaction.mb.byColor.set(color, 0)
+            }
+            interaction.mb.byColor.set(color, interaction.mb.byColor.get(color) + 1)
+          }
+        }
+      }
+
+      for (let card of deck.sideboard) {
+        // Check for Counterspells.
+        for (let match of CounterspellMatches) {
+          if (card.oracle_text.toLowerCase().match(match)){
+            sbCounterspells += 1
+            break
+          }
+        }
+
+        // Check for Removal.
+        for (let match of RemovalMatches) {
+          if (card.oracle_text.toLowerCase().match(match)){
+            removal.sb.count += 1
+            removal.sb.cmc += card.cmc
+            break
+          }
+        }
+      }
+    }
+
+    // Add this bucket's data.
+    bucketed.mbCounterspells.push(mbCounterspells / decks.length)
+    bucketed.sbCounterspells.push(sbCounterspells / decks.length)
+    bucketed.removal.mb.count.push(removal.mb.count / decks.length)
+    bucketed.removal.sb.count.push(removal.sb.cound / decks.length)
+    bucketed.removal.mb.cmc.push(removal.mb.cmc / removal.mb.count)
+    bucketed.removal.sb.cmc.push(removal.sb.cmc / removal.sb.count)
+    for (let color of colors) {
+      let v = bucketed.interaction.mb.byColor.get(color)
+      if (interaction.mb.byColor.has(color)) {
+        v.push(interaction.mb.byColor.get(color) / parsed.bucketSize)
+      } else {
+        v.push(0)
+      }
+      bucketed.interaction.mb.byColor.set(color, v)
+    }
+  }
+
+
+  console.timeEnd("buildGraphData")
+  return {
+    labels: labels,
+    all: all,
+    bucketed: bucketed,
+  }
+}
+
+function WinsByManaCost(input) {
+  console.time("WinsByManaCost")
   const options = {
     responsive: true,
     maintainAspectRatio: false,
@@ -384,6 +573,10 @@ function WinsByManaCost(input) {
       },
     },
   };
+
+  // Pull out the wins / losses by CMC data from the input.
+  let winsByCMC = input.data.all.winsByCMC
+  let lossesByCMC = input.data.all.lossesByCMC
 
   const labels = [...winsByCMC.keys()].sort()
   let winsData= []
@@ -422,6 +615,7 @@ function WinsByManaCost(input) {
     ],
   };
 
+  console.timeEnd("WinsByManaCost")
   return (
     <div style={{"height":"500px", "width":"100%"}}>
       <Bar height={"300px"} width={"300px"} options={options} data={data} />;
@@ -430,6 +624,7 @@ function WinsByManaCost(input) {
 }
 
 function WinsByCardType(input) {
+  console.time("WinsByCardType")
   // Go through all the decks, and build up a map of wins by averge num
   // of the deck. We round num to create buckets.
   let wins = new Map()
@@ -530,6 +725,7 @@ function WinsByCardType(input) {
     ],
   };
 
+  console.timeEnd("WinsByCardType")
   return (
     <div style={{"height":"500px", "width":"100%"}}>
       <Bar height={"300px"} width={"300px"} options={options} data={data} />;
@@ -538,25 +734,9 @@ function WinsByCardType(input) {
 }
 
 function WinsByNonBasicDensity(input) {
-  let wins = new Map()
-  let losses = new Map()
-  let bucketSize = 2
-  for (let deck of input.decks) {
-    let num = 0
-    for (let card of deck.mainboard) {
-      if (card.types.includes("Land") && !card.types.includes("Basic")) {
-        num += 1
-      }
-    }
-
-    let bucket = Math.round(num/bucketSize) * bucketSize
-    if (!wins.has(bucket)) {
-      wins.set(bucket, 0)
-      losses.set(bucket, 0)
-    }
-    wins.set(bucket, wins.get(bucket) + Wins(deck))
-    losses.set(bucket, losses.get(bucket) + Losses(deck))
-  }
+  console.time("WinsByNonBasicDensity")
+  let wins = input.data.all.winsByNonBasic
+  let losses = input.data.all.lossesByNonBasic
 
   const options = {
     responsive: true,
@@ -588,7 +768,7 @@ function WinsByNonBasicDensity(input) {
   const sorted = [...wins.keys()].sort(function(a, b) {return a - b})
   let labels = []
   for (let start of sorted) {
-    labels.push(`${start}-${start+bucketSize}`)
+    labels.push(`${start}-${start+input.data.all.nonBasicBucketSize}`)
   }
   let winsData= []
   for (let l of sorted) {
@@ -627,6 +807,7 @@ function WinsByNonBasicDensity(input) {
     ],
   };
 
+  console.timeEnd("WinsByNonBasicDensity")
   return (
     <div style={{"height":"500px", "width":"100%"}}>
       <Bar height={"300px"} width={"300px"} options={options} data={data} />;
@@ -635,6 +816,7 @@ function WinsByNonBasicDensity(input) {
 }
 
 function WinsByOracleText(input) {
+  console.time("WinsByOracleText")
   let bucketSize = 3
   let wins = new Map()
   let losses = new Map()
@@ -727,6 +909,7 @@ function WinsByOracleText(input) {
     ],
   };
 
+  console.timeEnd("WinsByOracleText")
   return (
     <div style={{"height":"500px", "width":"100%"}}>
       <Bar height={"300px"} width={"300px"} options={options} data={data} />;
@@ -735,6 +918,7 @@ function WinsByOracleText(input) {
 }
 
 function WinsByNumberOfColors(input) {
+  console.time("WinsByNumberOfColors")
   let wins = new Map()
   let losses = new Map()
   for (let deck of input.decks) {
@@ -814,6 +998,7 @@ function WinsByNumberOfColors(input) {
     ],
   };
 
+  console.timeEnd("WinsByNumberOfColors")
   return (
     <div style={{"height":"500px", "width":"100%"}}>
       <Bar height={"300px"} width={"300px"} options={options} data={data} />;
@@ -822,59 +1007,12 @@ function WinsByNumberOfColors(input) {
 }
 
 function OracleTextByColor(input) {
+  console.time("OracleTextByColor")
   let buckets = input.parsed.deckBuckets
 
-  // Use the starting date of the bucket as the label. This is just an approximation,
-  // as the bucket really includes a variable set of dates, but it allows the viewer to
-  // at least place some sense of time to the chart.
-  const labels = []
-  for (let bucket of buckets) {
-    labels.push(BucketName(bucket))
-  }
+  const labels = input.data.labels
 
-
-  let colors = ["W", "U", "B", "R", "G"]
-
-  let valuesByColor = new Map()
-  for (let bucket of buckets) {
-    // Aggregate all decks from within this bucket.
-    let decks = new Array()
-    for (let draft of bucket) {
-      decks.push(...draft.decks)
-    }
-
-    // Calculate the average value for this bucket.
-    let numByColor = new Map()
-    for (let deck of decks) {
-      for (let card of deck.mainboard) {
-        for (let match of input.matches) {
-          if (card.oracle_text.toLowerCase().match(match)){
-            for (let color of card.colors) {
-              if (!numByColor.has(color)) {
-                numByColor.set(color, 0)
-              }
-              numByColor.set(color, numByColor.get(color) + 1)
-            }
-            break
-          }
-        }
-      }
-    }
-
-    // Add this bucket's values.
-    for (let color of colors) {
-      if (!valuesByColor.has(color)) {
-        valuesByColor.set(color, new Array())
-      }
-      let v = valuesByColor.get(color)
-      if (numByColor.has(color)) {
-        v.push(numByColor.get(color) / input.parsed.bucketSize)
-      } else {
-        v.push(0)
-      }
-      valuesByColor.set(color, v)
-    }
-  }
+  let valuesByColor = input.data.bucketed.interaction.mb.byColor
 
   let dataset = [
       {
@@ -933,6 +1071,7 @@ function OracleTextByColor(input) {
     },
   };
 
+  console.timeEnd("OracleTextByColor")
   const data = {labels, datasets: dataset};
   return (
     <div style={{"height":"500px", "width":"100%"}}>
@@ -942,45 +1081,16 @@ function OracleTextByColor(input) {
 }
 
 function OracleTextOverTimeChart(input) {
-  let buckets = input.parsed.deckBuckets
-
-  const labels = []
-  for (let bucket of buckets) {
-    labels.push(BucketName(bucket))
-  }
+  console.time("OracleTextOverTimeChart")
 
   let mbValues = []
   let sbValues = []
-  for (let bucket of buckets) {
-    // Aggregate all decks from within this bucket.
-    let decks = new Array()
-    for (let draft of bucket) {
-      decks.push(...draft.decks)
-    }
-
-    // Calculate the average value for this bucket.
-    let mbTotal = 0
-    let sbTotal = 0
-    for (let deck of decks) {
-      for (let card of deck.mainboard) {
-        for (let match of input.matches) {
-          if (card.oracle_text.toLowerCase().match(match)){
-            mbTotal += 1
-            break
-          }
-        }
-      }
-      for (let card of deck.sideboard) {
-        for (let match of input.matches) {
-          if (card.oracle_text.toLowerCase().match(match)){
-            sbTotal += 1
-            break
-          }
-        }
-      }
-    }
-    mbValues.push(mbTotal / decks.length)
-    sbValues.push(sbTotal / decks.length)
+  if (input.matches == RemovalMatches) {
+    mbValues = input.data.bucketed.removal.mb.count
+    sbValues = input.data.bucketed.removal.sb.count
+  } else if (input.matches == CounterspellMatches) {
+    mbValues = input.data.bucketed.mbCounterspells
+    sbValues = input.data.bucketed.sbCounterspells
   }
 
   let dataset = [
@@ -1022,6 +1132,8 @@ function OracleTextOverTimeChart(input) {
     },
   };
 
+  console.timeEnd("OracleTextOverTimeChart")
+  const labels = input.data.labels
   const data = {labels, datasets: dataset};
   return (
     <div style={{"height":"500px", "width":"100%"}}>
@@ -1031,6 +1143,7 @@ function OracleTextOverTimeChart(input) {
 }
 
 function DeckManaValueChart(input) {
+  console.time("DeckManaValueChart")
   let buckets = input.parsed.deckBuckets
 
   // Use the starting date of the bucket as the label. This is just an approximation,
@@ -1091,6 +1204,7 @@ function DeckManaValueChart(input) {
     },
   };
 
+  console.timeEnd("DeckManaValueChart")
   const data = {labels, datasets: dataset};
   return (
     <div style={{"height":"500px", "width":"100%"}}>
@@ -1100,6 +1214,7 @@ function DeckManaValueChart(input) {
 }
 
 function DeckBasicLandCountChart(input) {
+  console.time("DeckBasicLandCountChart")
   let buckets = input.parsed.deckBuckets
 
   // Use the starting date of the bucket as the label. This is just an approximation,
@@ -1196,6 +1311,7 @@ function DeckBasicLandCountChart(input) {
     },
   };
 
+  console.timeEnd("DeckBasicLandCountChart")
   const data = {labels, datasets: dataset};
   return (
     <div style={{"height":"500px", "width":"100%"}}>
@@ -1205,6 +1321,7 @@ function DeckBasicLandCountChart(input) {
 }
 
 function SideboardSizeOverTimeChart(input) {
+  console.time("SideboardSizeOverTimeChart")
   let buckets = input.parsed.deckBuckets
 
   // Use the starting date of the bucket as the label. This is just an approximation,
@@ -1272,6 +1389,7 @@ function SideboardSizeOverTimeChart(input) {
     },
   };
 
+  console.timeEnd("SideboardSizeOverTimeChart")
   const data = {labels, datasets: dataset};
   return (
     <div style={{"height":"500px", "width":"100%"}}>
@@ -1281,6 +1399,7 @@ function SideboardSizeOverTimeChart(input) {
 }
 
 function NumColorsOverTimeChart(input) {
+  console.time("NumColorsOverTimeChart")
   let buckets = input.parsed.deckBuckets
 
   // Use the starting date of the bucket as the label. This is just an approximation,
@@ -1347,6 +1466,7 @@ function NumColorsOverTimeChart(input) {
     },
   };
 
+  console.timeEnd("NumColorsOverTimeChart")
   const data = {labels, datasets: dataset};
   return (
     <div style={{"height":"500px", "width":"100%"}}>
@@ -1356,50 +1476,13 @@ function NumColorsOverTimeChart(input) {
 }
 
 function ManaCostByOracleTextOverTime(input) {
+  console.time("ManaCostByOracleTextOverTime")
   let buckets = input.parsed.deckBuckets
 
-  const labels = []
-  for (let bucket of buckets) {
-    labels.push(BucketName(bucket))
-  }
+  const labels = input.data.labels
 
-  let mbValues = []
-  let sbValues = []
-  for (let bucket of buckets) {
-    // Aggregate all decks from within this bucket.
-    let decks = new Array()
-    for (let draft of bucket) {
-      decks.push(...draft.decks)
-    }
-
-    // Calculate the average value for this bucket.
-    let mbTotal = 0
-    let sbTotal = 0
-    let mbCount = 0
-    let sbCount = 0
-    for (let deck of decks) {
-      for (let card of deck.mainboard) {
-        for (let match of input.matches) {
-          if (card.oracle_text.toLowerCase().match(match)){
-            mbTotal += card.cmc
-            mbCount += 1
-            break
-          }
-        }
-      }
-      for (let card of deck.sideboard) {
-        for (let match of input.matches) {
-          if (card.oracle_text.toLowerCase().match(match)){
-            sbTotal += card.cmc
-            sbCount += 1
-            break
-          }
-        }
-      }
-    }
-    mbValues.push(mbTotal / mbCount)
-    sbValues.push(sbTotal / sbCount)
-  }
+  let mbValues = input.data.bucketed.removal.mb.cmc
+  let sbValues = input.data.bucketed.removal.sb.cmc
 
   let dataset = [
       {
@@ -1440,6 +1523,7 @@ function ManaCostByOracleTextOverTime(input) {
     },
   };
 
+  console.timeEnd("ManaCostByOracleTextOverTime")
   const data = {labels, datasets: dataset};
   return (
     <div style={{"height":"500px", "width":"100%"}}>
@@ -1450,6 +1534,7 @@ function ManaCostByOracleTextOverTime(input) {
 
 
 function DeckGraph(input) {
+  console.time("DeckGraph")
 
   // Determine what to show on each axis.
   let xAxis = input.xAxis
@@ -1536,6 +1621,7 @@ function DeckGraph(input) {
     },
   };
 
+  console.timeEnd("DeckGraph")
   const data = {labels, datasets: dataset};
   return (
     <div className="chart-container">
@@ -1594,6 +1680,7 @@ function getValue(axis, deck, archetypeData, playerData, decks, draftData) {
 }
 
 function NumColorsPieChart(input) {
+  console.time("NumColorsPieChart")
   let title = `# Colors`
   let graphData = [0, 0, 0, 0, 0]
   let labels = ["1", "2", "3", "4", "5"]
@@ -1656,6 +1743,7 @@ function NumColorsPieChart(input) {
     },
   };
 
+  console.timeEnd("NumColorsPieChart")
   return (
     <div style={{"height":"500px", "width":"100%"}}>
       <Pie height={"300px"} width={"300px"} options={options} data={data} />

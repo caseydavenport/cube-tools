@@ -7,7 +7,7 @@ import { IsBasicLand, SortFunc } from "../utils/Utils.js"
 import { Button, TextInput, NumericInput, Checkbox, DateSelector } from "../components/Dropdown.js"
 import { ColorWidget} from "./Colors.js"
 import { ArchetypeWidget, ArchetypeData } from "./Types.js"
-import { DeckWidget } from "./Decks.js"
+import { DeckWidget, BuildGraphData } from "./Decks.js"
 import { PlayerWidget } from "./Players.js"
 import { CardWidget } from "./Cards.js"
 import { CardData } from "../utils/Cards.js"
@@ -451,6 +451,7 @@ export default function StatsViewer() {
     "playerData": [],
     "cardData": {},
     "pickInfo": {},
+    "graphData": {},
   }
   const [parsed, setParsedData] = useState(defaultParsed);
   function parse() {
@@ -510,8 +511,14 @@ export default function StatsViewer() {
       d.colorData = GetColorStats(d.decks, strictColors)
     }
 
+    // Rebuild graph data each time we parse. Do this at the very end, as it relies on
+    // some of the data calculated above.
+    p.graphData = BuildGraphData(p)
+
+    // Store off what we've calculated.
     setParsedData(p)
   }
+
   useEffect(() => {
     console.time('parse()')
     parse()
