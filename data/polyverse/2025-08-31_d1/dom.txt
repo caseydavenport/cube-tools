@@ -35,7 +35,6 @@
 1 Seasoned Hallowblade
 1 Welcoming Vampire
 1 Unexpectedly Absent
-1 Quirion Beastcaller
 2 Plains
 1 Mountain
 
@@ -46,3 +45,4 @@
 1 Renata, Called to the Hunt
 1 Heritage Reclamation
 1 Arasta of the Endless Web
+1 Quirion Beastcaller

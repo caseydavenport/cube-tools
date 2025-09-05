@@ -4,11 +4,20 @@
   "draft_id": "2025-08-31_d1",
   "source_file": "dom.txt"
  },
- "labels": [],
+ "labels": [
+  "aggro",
+  "equipment",
+  "discard"
+ ],
  "player": "dom",
  "date": "2025-08-31",
- "games": null,
- "matches": null,
+ "games": [
+  {
+   "opponent": "casey",
+   "winner": "dom"
+  }
+ ],
+ "matches": [],
  "mainboard": [
   {
    "name": "Windswept Heath",
@@ -730,27 +739,6 @@
    "oracle_text": "Put target nonland permanent into its owner's library just beneath the top X cards of that library."
   },
   {
-   "name": "Quirion Beastcaller",
-   "types": [
-    "Creature"
-   ],
-   "sub_types": [
-    "Dryad",
-    "Warrior"
-   ],
-   "cmc": 2,
-   "image": "",
-   "colors": [
-    "G"
-   ],
-   "color_identity": [
-    "G"
-   ],
-   "mana_cost": "{1}{G}",
-   "url": "https://scryfall.com/card/dmu/175/quirion-beastcaller?utm_source=api",
-   "oracle_text": "Whenever you cast a creature spell, put a +1/+1 counter on this creature.\nWhen this creature dies, distribute X +1/+1 counters among any number of target creatures you control, where X is the number of +1/+1 counters on this creature."
-  },
-  {
    "name": "Plains",
    "types": [
     "Basic",
@@ -950,6 +938,27 @@
    "mana_cost": "{2}{G}{G}",
    "url": "https://scryfall.com/card/tdc/244/arasta-of-the-endless-web?utm_source=api",
    "oracle_text": "Reach\nWhenever an opponent casts an instant or sorcery spell, create a 1/2 green Spider creature token with reach."
+  },
+  {
+   "name": "Quirion Beastcaller",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Dryad",
+    "Warrior"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "G"
+   ],
+   "color_identity": [
+    "G"
+   ],
+   "mana_cost": "{1}{G}",
+   "url": "https://scryfall.com/card/dmu/175/quirion-beastcaller?utm_source=api",
+   "oracle_text": "Whenever you cast a creature spell, put a +1/+1 counter on this creature.\nWhen this creature dies, distribute X +1/+1 counters among any number of target creatures you control, where X is the number of +1/+1 counters on this creature."
   }
  ]
 }

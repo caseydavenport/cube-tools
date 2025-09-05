@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"os"
 	"strings"
+	"sync"
 	"time"
 
 	"github.com/caseydavenport/cube-tools/pkg/commands"
@@ -32,22 +33,46 @@ type DeckStorage interface {
 }
 
 func NewFileDeckStore() DeckStorage {
-	return &deckStore{}
+	d := &deckStore{}
+	go d.maintainCache()
+	return d
 }
 
 type deckStore struct {
-	cached []Deck
+	sync.Mutex
+	cache []Deck
+}
+
+func (s *deckStore) watchForUpdates() <-chan struct{} {
+	ch := make(chan struct{})
+	go func() {
+		// TODO: Actually watch for updates.
+		<-time.After(10 * time.Second)
+	}()
+	return ch
+}
+
+// Maintain the cache in a separate goroutine.
+func (s *deckStore) maintainCache() {
+	for range s.watchForUpdates() {
+		s.Lock()
+		s.cache = nil
+		s.Unlock()
+	}
 }
 
 func (s *deckStore) List(req *DecksRequest) ([]Deck, error) {
-	if s.cached == nil {
+	s.Lock()
+	defer s.Unlock()
+
+	if s.cache == nil {
 		var err error
-		s.cached, err = loadDecks("polyverse")
+		s.cache, err = loadDecks("polyverse")
 		if err != nil {
 			return nil, err
 		}
 	}
-	return filter(s.cached, req), nil
+	return filter(s.cache, req), nil
 }
 
 func loadDecks(cube string) ([]Deck, error) {

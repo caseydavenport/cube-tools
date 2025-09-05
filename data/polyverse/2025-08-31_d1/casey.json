@@ -4,11 +4,18 @@
   "draft_id": "2025-08-31_d1",
   "source_file": "casey.txt"
  },
- "labels": [],
+ "labels": [
+  "control"
+ ],
  "player": "casey",
  "date": "2025-08-31",
- "games": null,
- "matches": null,
+ "games": [
+  {
+   "opponent": "dom",
+   "winner": "dom"
+  }
+ ],
+ "matches": [],
  "mainboard": [
   {
    "name": "Monastery Mentor",
