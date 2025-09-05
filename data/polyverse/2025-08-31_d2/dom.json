@@ -4,11 +4,20 @@
   "draft_id": "2025-08-31_d2",
   "source_file": "dom.txt"
  },
- "labels": [],
+ "labels": [
+  "midrange",
+  "artifact",
+  "sacrifice"
+ ],
  "player": "dom",
  "date": "2025-08-31",
- "games": null,
- "matches": null,
+ "games": [
+  {
+   "opponent": "casey",
+   "winner": "casey"
+  }
+ ],
+ "matches": [],
  "mainboard": [
   {
    "name": "Containment Construct",

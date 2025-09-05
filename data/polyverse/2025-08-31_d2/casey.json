@@ -4,11 +4,19 @@
   "draft_id": "2025-08-31_d2",
   "source_file": "casey.txt"
  },
- "labels": [],
+ "labels": [
+  "midrange",
+  "graveyard"
+ ],
  "player": "casey",
  "date": "2025-08-31",
- "games": null,
- "matches": null,
+ "games": [
+  {
+   "opponent": "dom",
+   "winner": "casey"
+  }
+ ],
+ "matches": [],
  "mainboard": [
   {
    "name": "Kishla Skimmer",

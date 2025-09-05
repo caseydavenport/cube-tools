@@ -1,16 +1,10 @@
-1 Windswept Heath
-1 Clarion Spirit
+1 Demand Answers
 1 Heartfire Hero
-1 Arid Mesa
 1 Rabbit Battery
 1 Magma Jet
 1 Oust
-1 Elegant Parlor
-1 Demand Answers
 1 Lizard Blades
 1 Touch the Spirit Realm
-1 Spirited Companion
-1 Mosquito Guard
 1 Anje's Ravager
 1 Reinforced Ronin
 1 Warleader's Call
@@ -20,23 +14,21 @@
 1 March of Otherworldly Light
 1 Kellan, the Fae-Blooded
 1 Ogre-Head Helm
-1 Gingerbrute
-1 Dauntless Bodyguard
 1 Comet Storm
 1 Fearless Fledgling
 1 Lion Sash
 1 Flames of the Firebrand
 1 Inti, Seneschal of the Sun
-1 Krenko, Tin Street Kingpin
 1 Phelia, Exuberant Shepherd
 1 Kavaron Harrier
 1 Blazing Rootwalla
-1 Adanto Vanguard
 1 Seasoned Hallowblade
 1 Welcoming Vampire
-1 Unexpectedly Absent
-2 Plains
-1 Mountain
+6 Plains
+5 Mountain
+1 Windswept Heath
+1 Arid Mesa
+1 Elegant Parlor
 
 1 Knight of the Reliquary
 1 Silent Clearing
@@ -46,3 +38,11 @@
 1 Heritage Reclamation
 1 Arasta of the Endless Web
 1 Quirion Beastcaller
+1 Unexpectedly Absent
+1 Adanto Vanguard
+1 Dauntless Bodyguard
+1 Mosquito Guard
+1 Clarion Spirit
+1 Krenko, Tin Street Kingpin
+1 Gingerbrute
+1 Spirited Companion

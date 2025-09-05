@@ -43,18 +43,11 @@ type deckStore struct {
 	cache []Deck
 }
 
-func (s *deckStore) watchForUpdates() <-chan struct{} {
-	ch := make(chan struct{})
-	go func() {
-		// TODO: Actually watch for updates.
-		<-time.After(10 * time.Second)
-	}()
-	return ch
-}
-
 // Maintain the cache in a separate goroutine.
 func (s *deckStore) maintainCache() {
-	for range s.watchForUpdates() {
+	for {
+		// Clear the cache every 10 seconds, which will force a reload on the next request.
+		<-time.After(10 * time.Second)
 		s.Lock()
 		s.cache = nil
 		s.Unlock()
@@ -76,6 +69,8 @@ func (s *deckStore) List(req *DecksRequest) ([]Deck, error) {
 }
 
 func loadDecks(cube string) ([]Deck, error) {
+	logrus.Info("Loading decks from disk")
+
 	// Load index file.
 	contents, err := os.ReadFile(fmt.Sprintf("data/%s/index.json", cube))
 	if err != nil {
