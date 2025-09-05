@@ -17,6 +17,7 @@ Count,Name,Section
 1,Barbarian Ring,main
 1,Bedlam Reveler,main
 1,Birds of Paradise,main
+1,Birthing Ritual,main
 1,Bitter Triumph,main
 1,Bitterblossom,main
 1,Blazing Rootwalla,main
@@ -47,7 +48,6 @@ Count,Name,Section
 1,Cemetery Gatekeeper,main
 1,Chainweb Aracnir,main
 1,"Chandra, Hope's Beacon",main
-1,Chatter of the Squirrel,main
 1,Cheeky House-Mouse // Squeak By,main
 1,Chromatic Star,main
 1,Clarion Spirit,main
@@ -84,7 +84,6 @@ Count,Name,Section
 1,"Eiganjo, Seat of the Empire",main
 1,Elegant Parlor,main
 1,Elspeth's Smite,main
-1,Elusive Otter // Grove's Bounty,main
 1,Embercleave,main
 1,Engineered Explosives,main
 1,Ephara's Dispersal,main
@@ -180,6 +179,7 @@ Count,Name,Section
 1,March of Otherworldly Light,main
 1,Marionette Apprentice,main
 2,Marsh Flats,main
+1,Master of Death,main
 1,Mayhem Devil,main
 1,Meadowboon,main
 1,Memory Lapse,main
@@ -241,6 +241,7 @@ Count,Name,Section
 1,Reinforced Ronin,main
 1,Remand,main
 1,"Renata, Called to the Hunt",main
+1,Renegade Rallier,main
 1,Repeal,main
 1,Reprieve,main
 1,Restless Vinestalk,main
@@ -275,6 +276,7 @@ Count,Name,Section
 1,Snapcaster Mage,main
 1,Soul Partition,main
 1,Spell Pierce,main
+1,Spell Queller,main
 1,Spell Snare,main
 1,Spellstutter Sprite,main
 1,Sphinx of Forgotten Lore,main
@@ -286,10 +288,8 @@ Count,Name,Section
 1,Sunbaked Canyon,main
 1,Sylvan Library,main
 1,"Takenuma, Abandoned Mire",main
-1,"Tamiyo, Compleated Sage",main
 1,Tarmogoyf,main
 1,"Tasigur, the Golden Fang",main
-1,Tectonic Edge,main
 2,Temple Garden,main
 1,Territorial Kavu,main
 1,"Thalia, Guardian of Thraben",main
@@ -312,6 +312,7 @@ Count,Name,Section
 1,Treasure Cruise,main
 1,Twinshot Sniper,main
 1,Ulcerate,main
+1,Umbral Collar Zealot,main
 1,Undercity Sewers,main
 1,Underground Mortuary,main
 1,Unearth,main
@@ -325,7 +326,6 @@ Count,Name,Section
 2,Verdant Catacombs,main
 1,Verdurous Gearhulk,main
 1,Virtue of Persistence // Locthwain Scorn,main
-1,Viscera Seer,main
 1,Voracious Hydra,main
 1,Warden of the Inner Sky,main
 1,Warleader's Call,main
