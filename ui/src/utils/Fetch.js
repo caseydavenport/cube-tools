@@ -61,7 +61,7 @@ export async function LoadDrafts(onLoad, start, end) {
   let idx = await FetchIndex(null)
 
   let urls = []
-  let dates = []
+  let ids = []
   idx.drafts.forEach(function(draft, i) {
     if (!isDateBetween(draft.date, start, end)) {
       return
@@ -70,7 +70,7 @@ export async function LoadDrafts(onLoad, start, end) {
       return
     }
     urls.push(draft.draft_log)
-    dates.push(draft.date)
+    ids.push(draft.draft_id)
   })
 
   // Query URLs in parallel.
@@ -86,7 +86,8 @@ export async function LoadDrafts(onLoad, start, end) {
   let drafts = []
   draftResponses.forEach(function(resp, idx) {
     // Add the date as a field so it can be used in the UI.
-    resp.date = dates[idx]
+    // TODO: Rename this field from date -> id
+    resp.date = ids[idx]
     drafts.push(resp)
   })
 

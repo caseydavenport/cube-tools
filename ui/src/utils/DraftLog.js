@@ -11,6 +11,10 @@ function PlayerIDToName(log, id) {
 export function Drafters(log) {
   let players = new Array()
   for (var userID in log.users) {
+    // Ignore any bot drafters.
+    if (log.users[userID].isBot) {
+      continue
+    }
     players.push(userID)
   }
   return players

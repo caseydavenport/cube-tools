@@ -237,10 +237,13 @@ export default function StatsViewer() {
     for (let [idx, draft] of Object.entries(drafts)) {
       if (draft.date == event.target.value) {
         for (let [userID, user] of Object.entries(draft.users)) {
-          users.push({
-            label: userID,
-            value: user.userName,
-          })
+          // Skip bots.
+          if (!user.isBot) {
+            users.push({
+              label: userID,
+              value: user.userName,
+            })
+          }
         }
       }
     }
