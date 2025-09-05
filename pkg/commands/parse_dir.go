@@ -76,7 +76,7 @@ func parseDeckDir(deckDir, fileType, date, draftID string) {
 	})
 
 	// Make sure the output directory exists.
-	outdir := fmt.Sprintf("data/polyverse/%s", date)
+	outdir := fmt.Sprintf("data/polyverse/%s", draftID)
 	err := os.MkdirAll(outdir, os.ModePerm)
 	if err != nil {
 		panic(err)
