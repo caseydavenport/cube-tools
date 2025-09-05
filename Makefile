@@ -1,6 +1,5 @@
 GIT_VERSION=$(shell git describe --tags --dirty --long --always --abbrev=12)
 GO_FILES=$(shell find ./pkg -type f) $(shell find ./cmd -type f)
-ORACLE_URL=https://data.scryfall.io/oracle-cards/oracle-cards-20250817210721.json
 
 all: data/oracle-cards.json bin/parser
 build: bin/server bin/parser
@@ -15,7 +14,7 @@ reparse:
 	go run ./main.go reparse
 
 data/oracle-cards.json:
-	wget $(ORACLE_URL) -O $@
+	./scripts/download-oracle-data $@
 
 run:
 	$(MAKE) run-server

@@ -1,0 +1,9 @@
+#!/bin/bash
+
+# This URL provides metadat about the latest bulk data files.
+META_URL=https://api.scryfall.com/bulk-data
+
+# Fetch the metadata and extract the URL for the oracle cards JSON file.
+ORACLE_URL=$(curl -s $META_URL | jq -r '.data[] | select(.type == "oracle_cards") | .download_uri')
+echo "Downloading oracle cards from: $ORACLE_URL"
+wget $ORACLE_URL -O $@

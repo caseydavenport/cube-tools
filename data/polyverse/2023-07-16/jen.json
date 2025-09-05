@@ -541,7 +541,7 @@
    ],
    "mana_cost": "{4}{G}{G}",
    "url": "https://scryfall.com/card/eoc/104/rampaging-baloths?utm_source=api",
-   "oracle_text": "Trample\nLandfall — Whenever a land you control enters, you may create a 4/4 green Beast creature token."
+   "oracle_text": "Trample\nLandfall — Whenever a land you control enters, create a 4/4 green Beast creature token."
   },
   {
    "name": "Utopia Sprawl",
