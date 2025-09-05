@@ -3,3 +3,4 @@ input/
 node_modules/
 data/oracle-cards.json
 package-lock.json
+*.created
