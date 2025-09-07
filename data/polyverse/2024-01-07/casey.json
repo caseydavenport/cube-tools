@@ -90,6 +90,8 @@
    "mana_cost": "{1}{G}",
    "url": "https://scryfall.com/card/tsr/235/tarmogoyf?utm_source=api",
    "oracle_text": "Tarmogoyf's power is equal to the number of card types among cards in all graveyards and its toughness is equal to that number plus 1.",
+   "power": "*",
+   "toughness": "1+*",
    "appearances": 1
   },
   {
@@ -204,6 +206,8 @@
    "mana_cost": "{3}{U}{U}",
    "url": "https://scryfall.com/card/zen/69/sphinx-of-lost-truths?utm_source=api",
    "oracle_text": "Kicker {1}{U} (You may pay an additional {1}{U} as you cast this spell.)\nFlying\nWhen this creature enters, draw three cards. Then if it wasn't kicked, discard three cards.",
+   "power": "3",
+   "toughness": "5",
    "appearances": 1
   },
   {
@@ -245,6 +249,8 @@
    "mana_cost": "{1}{U}",
    "url": "https://scryfall.com/card/neo/67/moon-circuit-hacker?utm_source=api",
    "oracle_text": "Ninjutsu {U} ({U}, Return an unblocked attacker you control to hand: Put this card onto the battlefield from your hand tapped and attacking.)\nWhenever this creature deals combat damage to a player, you may draw a card. If you do, discard a card unless this creature entered this turn.",
+   "power": "2",
+   "toughness": "1",
    "appearances": 1
   },
   {
@@ -320,6 +326,8 @@
    "mana_cost": "{G}",
    "url": "https://scryfall.com/card/thb/167/chainweb-aracnir?utm_source=api",
    "oracle_text": "Reach\nWhen this creature enters, it deals damage equal to its power to target creature with flying an opponent controls.\nEscape—{3}{G}{G}, Exile four other cards from your graveyard. (You may cast this card from your graveyard for its escape cost.)\nThis creature escapes with three +1/+1 counters on it.",
+   "power": "1",
+   "toughness": "2",
    "appearances": 1
   },
   {
@@ -359,6 +367,8 @@
    "mana_cost": "{2}{U}",
    "url": "https://scryfall.com/card/cmd/48/gomazoa?utm_source=api",
    "oracle_text": "Defender, flying\n{T}: Put this creature and each creature it's blocking on top of their owners' libraries, then those players shuffle.",
+   "power": "0",
+   "toughness": "3",
    "appearances": 1
   },
   {
@@ -382,6 +392,8 @@
    "mana_cost": "{1}{G}",
    "url": "https://scryfall.com/card/mkc/173/jolrael-mwonvuli-recluse?utm_source=api",
    "oracle_text": "Whenever you draw your second card each turn, create a 2/2 green Cat creature token.\n{4}{G}{G}: Until end of turn, creatures you control have base power and toughness X/X, where X is the number of cards in your hand.",
+   "power": "1",
+   "toughness": "2",
    "appearances": 1
   },
   {
@@ -442,6 +454,8 @@
    "mana_cost": "{X}{G}{U}",
    "url": "https://scryfall.com/card/woe/204/the-goose-mother?utm_source=api",
    "oracle_text": "Flying\nThe Goose Mother enters with X +1/+1 counters on it.\nWhen The Goose Mother enters, create half X Food tokens, rounded up.\nWhenever The Goose Mother attacks, you may sacrifice a Food. If you do, draw a card.",
+   "power": "2",
+   "toughness": "2",
    "appearances": 1
   },
   {
@@ -464,6 +478,8 @@
    "mana_cost": "{1}{U}",
    "url": "https://scryfall.com/card/snc/44/faerie-vandal?utm_source=api",
    "oracle_text": "Flash (You may cast this spell any time you could cast an instant.)\nFlying\nWhenever you draw your second card each turn, put a +1/+1 counter on this creature.",
+   "power": "1",
+   "toughness": "2",
    "appearances": 1
   },
   {
@@ -570,6 +586,8 @@
    "mana_cost": "{1}{U}",
    "url": "https://scryfall.com/card/afc/86/merfolk-looter?utm_source=api",
    "oracle_text": "{T}: Draw a card, then discard a card.",
+   "power": "1",
+   "toughness": "1",
    "appearances": 1
   },
   {
@@ -592,6 +610,8 @@
    "mana_cost": "{1}{U}",
    "url": "https://scryfall.com/card/fdn/152/brineborn-cutthroat?utm_source=api",
    "oracle_text": "Flash (You may cast this spell any time you could cast an instant.)\nWhenever you cast a spell during an opponent's turn, put a +1/+1 counter on this creature.",
+   "power": "2",
+   "toughness": "1",
    "appearances": 1
   },
   {
@@ -942,6 +962,8 @@
    "mana_cost": "{3}{U}{U}",
    "url": "https://scryfall.com/card/tdc/166/river-kelpie?utm_source=api",
    "oracle_text": "Whenever this creature or another permanent enters from a graveyard, draw a card.\nWhenever a player casts a spell from a graveyard, draw a card.\nPersist (When this creature dies, if it had no -1/-1 counters on it, return it to the battlefield under its owner's control with a -1/-1 counter on it.)",
+   "power": "3",
+   "toughness": "3",
    "appearances": 1
   },
   {
@@ -1029,7 +1051,9 @@
    ],
    "mana_cost": "{2}",
    "url": "https://scryfall.com/card/nec/158/silver-myr?utm_source=api",
-   "oracle_text": "{T}: Add {U}."
+   "oracle_text": "{T}: Add {U}.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Rite of Replication",
@@ -1085,7 +1109,9 @@
    ],
    "mana_cost": "{2}{G}",
    "url": "https://scryfall.com/card/fdn/231/reclamation-sage?utm_source=api",
-   "oracle_text": "When this creature enters, you may destroy target artifact or enchantment."
+   "oracle_text": "When this creature enters, you may destroy target artifact or enchantment.",
+   "power": "2",
+   "toughness": "1"
   },
   {
    "name": "Manamorphose",

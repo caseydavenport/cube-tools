@@ -98,7 +98,9 @@
    ],
    "mana_cost": "{1}{R}",
    "url": "https://scryfall.com/card/tdc/95/young-pyromancer?utm_source=api",
-   "oracle_text": "Whenever you cast an instant or sorcery spell, create a 1/1 red Elemental creature token."
+   "oracle_text": "Whenever you cast an instant or sorcery spell, create a 1/1 red Elemental creature token.",
+   "power": "2",
+   "toughness": "1"
   },
   {
    "name": "Fact or Fiction",
@@ -154,7 +156,9 @@
    ],
    "mana_cost": "{1}{R}{R}",
    "url": "https://scryfall.com/card/war/138/mizzium-tank?utm_source=api",
-   "oracle_text": "Trample\nWhenever you cast a noncreature spell, this Vehicle becomes an artifact creature and gets +1/+1 until end of turn.\nCrew 1 (Tap any number of creatures you control with total power 1 or more: This Vehicle becomes an artifact creature until end of turn.)"
+   "oracle_text": "Trample\nWhenever you cast a noncreature spell, this Vehicle becomes an artifact creature and gets +1/+1 until end of turn.\nCrew 1 (Tap any number of creatures you control with total power 1 or more: This Vehicle becomes an artifact creature until end of turn.)",
+   "power": "3",
+   "toughness": "2"
   },
   {
    "name": "Glacial Fortress",
@@ -208,7 +212,9 @@
    ],
    "mana_cost": "{1}{U}{R}",
    "url": "https://scryfall.com/card/fdn/657/enigma-drake?utm_source=api",
-   "oracle_text": "Flying\nEnigma Drake's power is equal to the number of instant and sorcery cards in your graveyard."
+   "oracle_text": "Flying\nEnigma Drake's power is equal to the number of instant and sorcery cards in your graveyard.",
+   "power": "*",
+   "toughness": "4"
   },
   {
    "name": "Ral, Storm Conduit",
@@ -252,7 +258,9 @@
    ],
    "mana_cost": "{1}{R}",
    "url": "https://scryfall.com/card/war/125/dreadhorde-arcanist?utm_source=api",
-   "oracle_text": "Trample\nWhenever this creature attacks, you may cast target instant or sorcery card with mana value less than or equal to this creature's power from your graveyard without paying its mana cost. If that spell would be put into your graveyard, exile it instead."
+   "oracle_text": "Trample\nWhenever this creature attacks, you may cast target instant or sorcery card with mana value less than or equal to this creature's power from your graveyard without paying its mana cost. If that spell would be put into your graveyard, exile it instead.",
+   "power": "1",
+   "toughness": "3"
   },
   {
    "name": "Empty the Warrens",
@@ -307,7 +315,9 @@
    ],
    "mana_cost": "{2}{U}",
    "url": "https://scryfall.com/card/thb/56/naiad-of-hidden-coves?utm_source=api",
-   "oracle_text": "During turns other than yours, spells you cast cost {1} less to cast."
+   "oracle_text": "During turns other than yours, spells you cast cost {1} less to cast.",
+   "power": "2",
+   "toughness": "3"
   },
   {
    "name": "Chart a Course",
@@ -345,7 +355,9 @@
    ],
    "mana_cost": "{R}",
    "url": "https://scryfall.com/card/akh/148/soul-scar-mage?utm_source=api",
-   "oracle_text": "Prowess\nIf a source you control would deal noncombat damage to a creature an opponent controls, put that many -1/-1 counters on that creature instead."
+   "oracle_text": "Prowess\nIf a source you control would deal noncombat damage to a creature an opponent controls, put that many -1/-1 counters on that creature instead.",
+   "power": "1",
+   "toughness": "2"
   },
   {
    "name": "Chain Lightning",
@@ -412,7 +424,9 @@
    ],
    "mana_cost": "{2}{R}",
    "url": "https://scryfall.com/card/clu/148/spellgorger-weird?utm_source=api",
-   "oracle_text": "Whenever you cast a noncreature spell, put a +1/+1 counter on this creature."
+   "oracle_text": "Whenever you cast a noncreature spell, put a +1/+1 counter on this creature.",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Flooded Strand",
@@ -519,7 +533,9 @@
    ],
    "mana_cost": "{1}{U}",
    "url": "https://scryfall.com/card/thb/69/stinging-lionfish?utm_source=api",
-   "oracle_text": "Whenever you cast your first spell during each opponent's turn, you may tap or untap target nonland permanent."
+   "oracle_text": "Whenever you cast your first spell during each opponent's turn, you may tap or untap target nonland permanent.",
+   "power": "2",
+   "toughness": "1"
   },
   {
    "name": "Essence Capture",
@@ -819,7 +835,9 @@
    ],
    "mana_cost": "{3}{U}",
    "url": "https://scryfall.com/card/ala/43/fatestitcher?utm_source=api",
-   "oracle_text": "{T}: You may tap or untap another target permanent.\nUnearth {U} ({U}: Return this card from your graveyard to the battlefield. It gains haste. Exile it at the beginning of the next end step or if it would leave the battlefield. Unearth only as a sorcery.)"
+   "oracle_text": "{T}: You may tap or untap another target permanent.\nUnearth {U} ({U}: Return this card from your graveyard to the battlefield. It gains haste. Exile it at the beginning of the next end step or if it would leave the battlefield. Unearth only as a sorcery.)",
+   "power": "1",
+   "toughness": "2"
   },
   {
    "name": "Dauntless Bodyguard",
@@ -840,7 +858,9 @@
    ],
    "mana_cost": "{W}",
    "url": "https://scryfall.com/card/dom/14/dauntless-bodyguard?utm_source=api",
-   "oracle_text": "As this creature enters, choose another creature you control.\nSacrifice this creature: The chosen creature gains indestructible until end of turn."
+   "oracle_text": "As this creature enters, choose another creature you control.\nSacrifice this creature: The chosen creature gains indestructible until end of turn.",
+   "power": "2",
+   "toughness": "1"
   },
   {
    "name": "Dream Trawler",
@@ -862,7 +882,9 @@
    ],
    "mana_cost": "{2}{W}{W}{U}{U}",
    "url": "https://scryfall.com/card/thb/214/dream-trawler?utm_source=api",
-   "oracle_text": "Flying, lifelink\nWhenever you draw a card, this creature gets +1/+0 until end of turn.\nWhenever this creature attacks, draw a card.\nDiscard a card: This creature gains hexproof until end of turn. Tap it."
+   "oracle_text": "Flying, lifelink\nWhenever you draw a card, this creature gets +1/+0 until end of turn.\nWhenever this creature attacks, draw a card.\nDiscard a card: This creature gains hexproof until end of turn. Tap it.",
+   "power": "3",
+   "toughness": "5"
   },
   {
    "name": "Bond of Insight",
@@ -915,7 +937,9 @@
    ],
    "mana_cost": "{2}",
    "url": "https://scryfall.com/card/nec/158/silver-myr?utm_source=api",
-   "oracle_text": "{T}: Add {U}."
+   "oracle_text": "{T}: Add {U}.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Iron Myr",
@@ -934,7 +958,9 @@
    ],
    "mana_cost": "{2}",
    "url": "https://scryfall.com/card/som/168/iron-myr?utm_source=api",
-   "oracle_text": "{T}: Add {R}."
+   "oracle_text": "{T}: Add {R}.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Prison Term",
@@ -977,7 +1003,9 @@
    ],
    "mana_cost": "{2}{W/U}{W/U}",
    "url": "https://scryfall.com/card/mm2/199/swans-of-bryn-argoll?utm_source=api",
-   "oracle_text": "Flying\nIf a source would deal damage to this creature, prevent that damage. The source's controller draws cards equal to the damage prevented this way."
+   "oracle_text": "Flying\nIf a source would deal damage to this creature, prevent that damage. The source's controller draws cards equal to the damage prevented this way.",
+   "power": "4",
+   "toughness": "3"
   },
   {
    "name": "Inventive Iteration // Living Breakthrough",
@@ -1052,7 +1080,9 @@
    ],
    "mana_cost": "{4}{G}{G}",
    "url": "https://scryfall.com/card/shm/134/witherscale-wurm?utm_source=api",
-   "oracle_text": "Whenever this creature blocks or becomes blocked by a creature, that creature gains wither until end of turn. (It deals damage to creatures in the form of -1/-1 counters.)\nWhenever this creature deals damage to an opponent, remove all -1/-1 counters from it."
+   "oracle_text": "Whenever this creature blocks or becomes blocked by a creature, that creature gains wither until end of turn. (It deals damage to creatures in the form of -1/-1 counters.)\nWhenever this creature deals damage to an opponent, remove all -1/-1 counters from it.",
+   "power": "9",
+   "toughness": "9"
   },
   {
    "name": "Touch the Spirit Realm",

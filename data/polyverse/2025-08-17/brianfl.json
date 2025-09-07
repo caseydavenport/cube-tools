@@ -129,7 +129,9 @@
    ],
    "mana_cost": "{1}{G}",
    "url": "https://scryfall.com/card/znr/193/lotus-cobra?utm_source=api",
-   "oracle_text": "Landfall — Whenever a land you control enters, add one mana of any color."
+   "oracle_text": "Landfall — Whenever a land you control enters, add one mana of any color.",
+   "power": "2",
+   "toughness": "1"
   },
   {
    "name": "Primeval Titan",
@@ -149,7 +151,9 @@
    ],
    "mana_cost": "{4}{G}{G}",
    "url": "https://scryfall.com/card/ima/183/primeval-titan?utm_source=api",
-   "oracle_text": "Trample\nWhenever this creature enters or attacks, you may search your library for up to two land cards, put them onto the battlefield tapped, then shuffle."
+   "oracle_text": "Trample\nWhenever this creature enters or attacks, you may search your library for up to two land cards, put them onto the battlefield tapped, then shuffle.",
+   "power": "6",
+   "toughness": "6"
   },
   {
    "name": "Lightning Bolt",
@@ -225,7 +229,9 @@
    ],
    "mana_cost": "{R}{G}",
    "url": "https://scryfall.com/card/mh2/216/territorial-kavu?utm_source=api",
-   "oracle_text": "Domain — Territorial Kavu's power and toughness are each equal to the number of basic land types among lands you control.\nWhenever this creature attacks, choose one —\n• Discard a card. If you do, draw a card.\n• Exile up to one target card from a graveyard."
+   "oracle_text": "Domain — Territorial Kavu's power and toughness are each equal to the number of basic land types among lands you control.\nWhenever this creature attacks, choose one —\n• Discard a card. If you do, draw a card.\n• Exile up to one target card from a graveyard.",
+   "power": "*",
+   "toughness": "*"
   },
   {
    "name": "Courser of Kruphix",
@@ -246,7 +252,9 @@
    ],
    "mana_cost": "{1}{G}{G}",
    "url": "https://scryfall.com/card/cmm/888/courser-of-kruphix?utm_source=api",
-   "oracle_text": "Play with the top card of your library revealed.\nYou may play lands from the top of your library.\nLandfall — Whenever a land you control enters, you gain 1 life."
+   "oracle_text": "Play with the top card of your library revealed.\nYou may play lands from the top of your library.\nLandfall — Whenever a land you control enters, you gain 1 life.",
+   "power": "2",
+   "toughness": "4"
   },
   {
    "name": "Spell Snare",
@@ -285,7 +293,9 @@
    ],
    "mana_cost": "{1}{G}",
    "url": "https://scryfall.com/card/mkc/173/jolrael-mwonvuli-recluse?utm_source=api",
-   "oracle_text": "Whenever you draw your second card each turn, create a 2/2 green Cat creature token.\n{4}{G}{G}: Until end of turn, creatures you control have base power and toughness X/X, where X is the number of cards in your hand."
+   "oracle_text": "Whenever you draw your second card each turn, create a 2/2 green Cat creature token.\n{4}{G}{G}: Until end of turn, creatures you control have base power and toughness X/X, where X is the number of cards in your hand.",
+   "power": "1",
+   "toughness": "2"
   },
   {
    "name": "Verdurous Gearhulk",
@@ -306,7 +316,9 @@
    ],
    "mana_cost": "{3}{G}{G}",
    "url": "https://scryfall.com/card/mic/145/verdurous-gearhulk?utm_source=api",
-   "oracle_text": "Trample\nWhen this creature enters, distribute four +1/+1 counters among any number of target creatures you control."
+   "oracle_text": "Trample\nWhen this creature enters, distribute four +1/+1 counters among any number of target creatures you control.",
+   "power": "4",
+   "toughness": "4"
   },
   {
    "name": "Elegant Parlor",
@@ -417,7 +429,9 @@
    ],
    "mana_cost": "{G}",
    "url": "https://scryfall.com/card/2xm/177/noble-hierarch?utm_source=api",
-   "oracle_text": "Exalted (Whenever a creature you control attacks alone, that creature gets +1/+1 until end of turn.)\n{T}: Add {G}, {W}, or {U}."
+   "oracle_text": "Exalted (Whenever a creature you control attacks alone, that creature gets +1/+1 until end of turn.)\n{T}: Add {G}, {W}, or {U}.",
+   "power": "0",
+   "toughness": "1"
   },
   {
    "name": "Breeding Pool",
@@ -471,7 +485,9 @@
    ],
    "mana_cost": "{3}{G}",
    "url": "https://scryfall.com/card/khm/169/esikas-chariot?utm_source=api",
-   "oracle_text": "When Esika's Chariot enters, create two 2/2 green Cat creature tokens.\nWhenever Esika's Chariot attacks, create a token that's a copy of target token you control.\nCrew 4"
+   "oracle_text": "When Esika's Chariot enters, create two 2/2 green Cat creature tokens.\nWhenever Esika's Chariot attacks, create a token that's a copy of target token you control.\nCrew 4",
+   "power": "4",
+   "toughness": "4"
   },
   {
    "name": "Arid Mesa",
@@ -784,7 +800,9 @@
    ],
    "mana_cost": "{3}{G}",
    "url": "https://scryfall.com/card/bfz/198/woodland-wanderer?utm_source=api",
-   "oracle_text": "Vigilance, trample\nConverge — This creature enters with a +1/+1 counter on it for each color of mana spent to cast it."
+   "oracle_text": "Vigilance, trample\nConverge — This creature enters with a +1/+1 counter on it for each color of mana spent to cast it.",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Mountain",
@@ -876,7 +894,9 @@
    ],
    "mana_cost": "{B}",
    "url": "https://scryfall.com/card/2xm/82/deaths-shadow?utm_source=api",
-   "oracle_text": "This creature gets -X/-X, where X is your life total."
+   "oracle_text": "This creature gets -X/-X, where X is your life total.",
+   "power": "13",
+   "toughness": "13"
   },
   {
    "name": "Manamorphose",
@@ -915,7 +935,9 @@
    ],
    "mana_cost": "{R}",
    "url": "https://scryfall.com/card/mh2/115/blazing-rootwalla?utm_source=api",
-   "oracle_text": "{R}: This creature gets +2/+0 until end of turn. Activate only once each turn.\nMadness {0} (If you discard this card, discard it into exile. When you do, cast it for its madness cost or put it into your graveyard.)"
+   "oracle_text": "{R}: This creature gets +2/+0 until end of turn. Activate only once each turn.\nMadness {0} (If you discard this card, discard it into exile. When you do, cast it for its madness cost or put it into your graveyard.)",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Life from the Loam",
@@ -954,7 +976,9 @@
    ],
    "mana_cost": "{1}{U}",
    "url": "https://scryfall.com/card/neo/67/moon-circuit-hacker?utm_source=api",
-   "oracle_text": "Ninjutsu {U} ({U}, Return an unblocked attacker you control to hand: Put this card onto the battlefield from your hand tapped and attacking.)\nWhenever this creature deals combat damage to a player, you may draw a card. If you do, discard a card unless this creature entered this turn."
+   "oracle_text": "Ninjutsu {U} ({U}, Return an unblocked attacker you control to hand: Put this card onto the battlefield from your hand tapped and attacking.)\nWhenever this creature deals combat damage to a player, you may draw a card. If you do, discard a card unless this creature entered this turn.",
+   "power": "2",
+   "toughness": "1"
   },
   {
    "name": "Cheeky House-Mouse // Squeak By",
@@ -976,7 +1000,9 @@
    ],
    "mana_cost": "{W} // {W}",
    "url": "https://scryfall.com/card/woe/7/cheeky-house-mouse-squeak-by?utm_source=api",
-   "oracle_text": ""
+   "oracle_text": "",
+   "power": "2",
+   "toughness": "1"
   }
  ]
 }

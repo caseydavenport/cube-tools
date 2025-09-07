@@ -191,4 +191,6 @@ type OracleCard struct {
 	Keywords      []string          `json:"keywords"`
 	RelatedURLs   map[string]string `json:"related_ur_ls"`
 	Layout        string            `json:"layout"`
+	Power         string            `json:"power,omitempty"`
+	Toughness     string            `json:"toughness,omitempty"`
 }

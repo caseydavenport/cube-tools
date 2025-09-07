@@ -102,7 +102,9 @@
    ],
    "mana_cost": "{B}",
    "url": "https://scryfall.com/card/mh1/81/carrion-feeder?utm_source=api",
-   "oracle_text": "This creature can't block.\nSacrifice a creature: Put a +1/+1 counter on this creature."
+   "oracle_text": "This creature can't block.\nSacrifice a creature: Put a +1/+1 counter on this creature.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Cruel Celebrant",
@@ -124,7 +126,9 @@
    ],
    "mana_cost": "{W}{B}",
    "url": "https://scryfall.com/card/lcc/267/cruel-celebrant?utm_source=api",
-   "oracle_text": "Whenever this creature or another creature or planeswalker you control dies, each opponent loses 1 life and you gain 1 life."
+   "oracle_text": "Whenever this creature or another creature or planeswalker you control dies, each opponent loses 1 life and you gain 1 life.",
+   "power": "1",
+   "toughness": "2"
   },
   {
    "name": "Dark Confidant",
@@ -145,7 +149,9 @@
    ],
    "mana_cost": "{1}{B}",
    "url": "https://scryfall.com/card/fin/94/dark-confidant?utm_source=api",
-   "oracle_text": "At the beginning of your upkeep, reveal the top card of your library and put that card into your hand. You lose life equal to its mana value."
+   "oracle_text": "At the beginning of your upkeep, reveal the top card of your library and put that card into your hand. You lose life equal to its mana value.",
+   "power": "2",
+   "toughness": "1"
   },
   {
    "name": "Faithless Looting",
@@ -200,7 +206,9 @@
    ],
    "mana_cost": "{R}",
    "url": "https://scryfall.com/card/2xm/127/goblin-guide?utm_source=api",
-   "oracle_text": "Haste\nWhenever this creature attacks, defending player reveals the top card of their library. If it's a land card, that player puts it into their hand."
+   "oracle_text": "Haste\nWhenever this creature attacks, defending player reveals the top card of their library. If it's a land card, that player puts it into their hand.",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Godless Shrine",
@@ -241,7 +249,9 @@
    ],
    "mana_cost": "{R}",
    "url": "https://scryfall.com/card/war/130/grim-initiate?utm_source=api",
-   "oracle_text": "First strike\nWhen this creature dies, amass Zombies 1. (Put a +1/+1 counter on an Army you control. It's also a Zombie. If you don't control an Army, create a 0/0 black Zombie Army creature token first.)"
+   "oracle_text": "First strike\nWhen this creature dies, amass Zombies 1. (Put a +1/+1 counter on an Army you control. It's also a Zombie. If you don't control an Army, create a 0/0 black Zombie Army creature token first.)",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Isolated Chapel",
@@ -295,7 +305,9 @@
    ],
    "mana_cost": "{2}{R}",
    "url": "https://scryfall.com/card/moc/287/krenko-tin-street-kingpin?utm_source=api",
-   "oracle_text": "Whenever Krenko attacks, put a +1/+1 counter on it, then create a number of 1/1 red Goblin creature tokens equal to Krenko's power."
+   "oracle_text": "Whenever Krenko attacks, put a +1/+1 counter on it, then create a number of 1/1 red Goblin creature tokens equal to Krenko's power.",
+   "power": "1",
+   "toughness": "2"
   },
   {
    "name": "Lightning Bolt",
@@ -334,7 +346,9 @@
    ],
    "mana_cost": "{1}{R}",
    "url": "https://scryfall.com/card/neo/153/lizard-blades?utm_source=api",
-   "oracle_text": "Double strike\nEquipped creature has double strike.\nReconfigure {2} ({2}: Attach to target creature you control; or unattach from a creature. Reconfigure only as a sorcery. While attached, this isn't a creature.)"
+   "oracle_text": "Double strike\nEquipped creature has double strike.\nReconfigure {2} ({2}: Attach to target creature you control; or unattach from a creature. Reconfigure only as a sorcery. While attached, this isn't a creature.)",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Mayhem Devil",
@@ -356,7 +370,9 @@
    ],
    "mana_cost": "{1}{B}{R}",
    "url": "https://scryfall.com/card/eoc/121/mayhem-devil?utm_source=api",
-   "oracle_text": "Whenever a player sacrifices a permanent, this creature deals 1 damage to any target."
+   "oracle_text": "Whenever a player sacrifices a permanent, this creature deals 1 damage to any target.",
+   "power": "3",
+   "toughness": "3"
   },
   {
    "name": "Mogg War Marshal",
@@ -377,7 +393,9 @@
    ],
    "mana_cost": "{1}{R}",
    "url": "https://scryfall.com/card/dmr/131/mogg-war-marshal?utm_source=api",
-   "oracle_text": "Echo {1}{R} (At the beginning of your upkeep, if this came under your control since the beginning of your last upkeep, sacrifice it unless you pay its echo cost.)\nWhen this creature enters or dies, create a 1/1 red Goblin creature token."
+   "oracle_text": "Echo {1}{R} (At the beginning of your upkeep, if this came under your control since the beginning of your last upkeep, sacrifice it unless you pay its echo cost.)\nWhen this creature enters or dies, create a 1/1 red Goblin creature token.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Mountain",
@@ -514,7 +532,9 @@
    ],
    "mana_cost": "{W}{B}",
    "url": "https://scryfall.com/card/rna/194/pitiless-pontiff?utm_source=api",
-   "oracle_text": "{1}, Sacrifice another creature: This creature gains deathtouch and indestructible until end of turn. (Damage and effects that say \"destroy\" don't destroy it.)"
+   "oracle_text": "{1}, Sacrifice another creature: This creature gains deathtouch and indestructible until end of turn. (Damage and effects that say \"destroy\" don't destroy it.)",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Plains",
@@ -604,7 +624,9 @@
    ],
    "mana_cost": "{4}{W}",
    "url": "https://scryfall.com/card/2x2/26/reveillark?utm_source=api",
-   "oracle_text": "Flying\nWhen this creature leaves the battlefield, return up to two target creature cards with power 2 or less from your graveyard to the battlefield.\nEvoke {5}{W} (You may cast this spell for its evoke cost. If you do, it's sacrificed when it enters.)"
+   "oracle_text": "Flying\nWhen this creature leaves the battlefield, return up to two target creature cards with power 2 or less from your graveyard to the battlefield.\nEvoke {5}{W} (You may cast this spell for its evoke cost. If you do, it's sacrificed when it enters.)",
+   "power": "4",
+   "toughness": "3"
   },
   {
    "name": "Sacred Foundry",
@@ -657,7 +679,9 @@
    ],
    "mana_cost": "{3}{R}{R}",
    "url": "https://scryfall.com/card/tdc/232/siege-gang-commander?utm_source=api",
-   "oracle_text": "When this creature enters, create three 1/1 red Goblin creature tokens.\n{1}{R}, Sacrifice a Goblin: This creature deals 2 damage to any target."
+   "oracle_text": "When this creature enters, create three 1/1 red Goblin creature tokens.\n{1}{R}, Sacrifice a Goblin: This creature deals 2 damage to any target.",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Swamp",
@@ -753,7 +777,9 @@
    ],
    "mana_cost": "{1}{R}",
    "url": "https://scryfall.com/card/jmp/366/tibalts-rager?utm_source=api",
-   "oracle_text": "When this creature dies, it deals 1 damage to any target.\n{1}{R}: This creature gets +2/+0 until end of turn."
+   "oracle_text": "When this creature dies, it deals 1 damage to any target.\n{1}{R}: This creature gets +2/+0 until end of turn.",
+   "power": "1",
+   "toughness": "2"
   },
   {
    "name": "Unearth",
@@ -792,7 +818,9 @@
    ],
    "mana_cost": "{2}{B}",
    "url": "https://scryfall.com/card/mm3/86/vampire-aristocrat?utm_source=api",
-   "oracle_text": "Sacrifice a creature: This creature gets +2/+2 until end of turn."
+   "oracle_text": "Sacrifice a creature: This creature gets +2/+2 until end of turn.",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Welcoming Vampire",
@@ -812,7 +840,9 @@
    ],
    "mana_cost": "{2}{W}",
    "url": "https://scryfall.com/card/tdc/140/welcoming-vampire?utm_source=api",
-   "oracle_text": "Flying\nWhenever one or more other creatures you control with power 2 or less enter, draw a card. This ability triggers only once each turn."
+   "oracle_text": "Flying\nWhenever one or more other creatures you control with power 2 or less enter, draw a card. This ability triggers only once each turn.",
+   "power": "2",
+   "toughness": "3"
   }
  ],
  "sideboard": [
@@ -834,7 +864,9 @@
    ],
    "mana_cost": "{6}{W}{W}",
    "url": "https://scryfall.com/card/moc/170/angel-of-salvation?utm_source=api",
-   "oracle_text": "Flash; convoke (Your creatures can help cast this spell. Each creature you tap while casting this spell pays for {1} or one mana of that creature's color.)\nFlying\nWhen this creature enters, prevent the next 5 damage that would be dealt this turn to any number of targets, divided as you choose."
+   "oracle_text": "Flash; convoke (Your creatures can help cast this spell. Each creature you tap while casting this spell pays for {1} or one mana of that creature's color.)\nFlying\nWhen this creature enters, prevent the next 5 damage that would be dealt this turn to any number of targets, divided as you choose.",
+   "power": "5",
+   "toughness": "5"
   },
   {
    "name": "Beast Within",
@@ -905,7 +937,9 @@
    ],
    "mana_cost": "{W}",
    "url": "https://scryfall.com/card/m11/15/goldenglow-moth?utm_source=api",
-   "oracle_text": "Flying\nWhenever this creature blocks, you may gain 4 life."
+   "oracle_text": "Flying\nWhenever this creature blocks, you may gain 4 life.",
+   "power": "0",
+   "toughness": "1"
   },
   {
    "name": "Hunting Triad",
@@ -947,7 +981,9 @@
    ],
    "mana_cost": "{W}",
    "url": "https://scryfall.com/card/mm2/22/kor-duelist?utm_source=api",
-   "oracle_text": "As long as this creature is equipped, it has double strike. (It deals both first-strike and regular combat damage.)"
+   "oracle_text": "As long as this creature is equipped, it has double strike. (It deals both first-strike and regular combat damage.)",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Malfegor",
@@ -971,7 +1007,9 @@
    ],
    "mana_cost": "{2}{B}{B}{R}{R}",
    "url": "https://scryfall.com/card/ima/205/malfegor?utm_source=api",
-   "oracle_text": "Flying\nWhen Malfegor enters, discard your hand. Each opponent sacrifices a creature of their choice for each card discarded this way."
+   "oracle_text": "Flying\nWhen Malfegor enters, discard your hand. Each opponent sacrifices a creature of their choice for each card discarded this way.",
+   "power": "6",
+   "toughness": "6"
   },
   {
    "name": "Orcish Lumberjack",
@@ -992,7 +1030,9 @@
    ],
    "mana_cost": "{R}",
    "url": "https://scryfall.com/card/vma/179/orcish-lumberjack?utm_source=api",
-   "oracle_text": "{T}, Sacrifice a Forest: Add three mana in any combination of {R} and/or {G}."
+   "oracle_text": "{T}, Sacrifice a Forest: Add three mana in any combination of {R} and/or {G}.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Parallel Lives",
@@ -1031,7 +1071,9 @@
    ],
    "mana_cost": "{R}",
    "url": "https://scryfall.com/card/neo/158/reinforced-ronin?utm_source=api",
-   "oracle_text": "Haste\nAt the beginning of your end step, return this creature to its owner's hand.\nChannel — {1}{R}, Discard this card: Draw a card."
+   "oracle_text": "Haste\nAt the beginning of your end step, return this creature to its owner's hand.\nChannel — {1}{R}, Discard this card: Draw a card.",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Rigging Runner",
@@ -1052,7 +1094,9 @@
    ],
    "mana_cost": "{R}",
    "url": "https://scryfall.com/card/xln/157/rigging-runner?utm_source=api",
-   "oracle_text": "First strike\nRaid — This creature enters with a +1/+1 counter on it if you attacked this turn."
+   "oracle_text": "First strike\nRaid — This creature enters with a +1/+1 counter on it if you attacked this turn.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Sai of the Shinobi",
@@ -1105,7 +1149,9 @@
    ],
    "mana_cost": "{3}{R}{R}",
    "url": "https://scryfall.com/card/tdc/233/skarrgan-hellkite?utm_source=api",
-   "oracle_text": "Riot (This creature enters with your choice of a +1/+1 counter or haste.)\nFlying\n{3}{R}: This creature deals 2 damage divided as you choose among one or two targets. Activate only if this creature has a +1/+1 counter on it."
+   "oracle_text": "Riot (This creature enters with your choice of a +1/+1 counter or haste.)\nFlying\n{3}{R}: This creature deals 2 damage divided as you choose among one or two targets. Activate only if this creature has a +1/+1 counter on it.",
+   "power": "4",
+   "toughness": "4"
   },
   {
    "name": "The Wandering Emperor",

@@ -202,7 +202,9 @@
    ],
    "mana_cost": "{1}{U}",
    "url": "https://scryfall.com/card/neo/74/the-reality-chip?utm_source=api",
-   "oracle_text": "You may look at the top card of your library any time.\nAs long as The Reality Chip is attached to a creature, you may play lands and cast spells from the top of your library.\nReconfigure {2}{U} ({2}{U}: Attach to target creature you control; or unattach from a creature. Reconfigure only as a sorcery. While attached, this isn't a creature.)"
+   "oracle_text": "You may look at the top card of your library any time.\nAs long as The Reality Chip is attached to a creature, you may play lands and cast spells from the top of your library.\nReconfigure {2}{U} ({2}{U}: Attach to target creature you control; or unattach from a creature. Reconfigure only as a sorcery. While attached, this isn't a creature.)",
+   "power": "0",
+   "toughness": "4"
   },
   {
    "name": "Gomazoa",
@@ -222,7 +224,9 @@
    ],
    "mana_cost": "{2}{U}",
    "url": "https://scryfall.com/card/cmd/48/gomazoa?utm_source=api",
-   "oracle_text": "Defender, flying\n{T}: Put this creature and each creature it's blocking on top of their owners' libraries, then those players shuffle."
+   "oracle_text": "Defender, flying\n{T}: Put this creature and each creature it's blocking on top of their owners' libraries, then those players shuffle.",
+   "power": "0",
+   "toughness": "3"
   },
   {
    "name": "Vines of Vastwood",
@@ -295,7 +299,9 @@
    ],
    "mana_cost": "{2}{W/U}{W/U}",
    "url": "https://scryfall.com/card/mm2/199/swans-of-bryn-argoll?utm_source=api",
-   "oracle_text": "Flying\nIf a source would deal damage to this creature, prevent that damage. The source's controller draws cards equal to the damage prevented this way."
+   "oracle_text": "Flying\nIf a source would deal damage to this creature, prevent that damage. The source's controller draws cards equal to the damage prevented this way.",
+   "power": "4",
+   "toughness": "3"
   },
   {
    "name": "Flux Channeler",
@@ -316,7 +322,9 @@
    ],
    "mana_cost": "{2}{U}",
    "url": "https://scryfall.com/card/cmm/847/flux-channeler?utm_source=api",
-   "oracle_text": "Whenever you cast a noncreature spell, proliferate. (Choose any number of permanents and/or players, then give each another counter of each kind already there.)"
+   "oracle_text": "Whenever you cast a noncreature spell, proliferate. (Choose any number of permanents and/or players, then give each another counter of each kind already there.)",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Stealth Mission",
@@ -387,7 +395,9 @@
    ],
    "mana_cost": "{3}{G}",
    "url": "https://scryfall.com/card/ncc/320/wickerbough-elder?utm_source=api",
-   "oracle_text": "This creature enters with a -1/-1 counter on it.\n{G}, Remove a -1/-1 counter from this creature: Destroy target artifact or enchantment."
+   "oracle_text": "This creature enters with a -1/-1 counter on it.\n{G}, Remove a -1/-1 counter from this creature: Destroy target artifact or enchantment.",
+   "power": "4",
+   "toughness": "4"
   },
   {
    "name": "Forest",
@@ -523,7 +533,9 @@
    ],
    "mana_cost": "{U}",
    "url": "https://scryfall.com/card/lcc/171/siren-stormtamer?utm_source=api",
-   "oracle_text": "Flying\n{U}, Sacrifice this creature: Counter target spell or ability that targets you or a creature you control."
+   "oracle_text": "Flying\n{U}, Sacrifice this creature: Counter target spell or ability that targets you or a creature you control.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Blade of the Bloodchief",
@@ -573,7 +585,9 @@
    ],
    "mana_cost": "{3}{G}{G}",
    "url": "https://scryfall.com/card/con/95/thornling?utm_source=api",
-   "oracle_text": "{G}: This creature gains haste until end of turn.\n{G}: This creature gains trample until end of turn.\n{G}: This creature gains indestructible until end of turn.\n{1}: This creature gets +1/-1 until end of turn.\n{1}: This creature gets -1/+1 until end of turn."
+   "oracle_text": "{G}: This creature gains haste until end of turn.\n{G}: This creature gains trample until end of turn.\n{G}: This creature gains indestructible until end of turn.\n{1}: This creature gets +1/-1 until end of turn.\n{1}: This creature gets -1/+1 until end of turn.",
+   "power": "4",
+   "toughness": "4"
   },
   {
    "name": "Aether Tradewinds",
@@ -665,7 +679,9 @@
    ],
    "mana_cost": "{G}{G}{U}{U}",
    "url": "https://scryfall.com/card/rvr/183/frilled-mystic?utm_source=api",
-   "oracle_text": "Flash\nWhen this creature enters, you may counter target spell."
+   "oracle_text": "Flash\nWhen this creature enters, you may counter target spell.",
+   "power": "3",
+   "toughness": "2"
   },
   {
    "name": "Vineglimmer Snarl",
@@ -701,7 +717,9 @@
    ],
    "mana_cost": "{G}",
    "url": "https://scryfall.com/card/thb/167/chainweb-aracnir?utm_source=api",
-   "oracle_text": "Reach\nWhen this creature enters, it deals damage equal to its power to target creature with flying an opponent controls.\nEscape—{3}{G}{G}, Exile four other cards from your graveyard. (You may cast this card from your graveyard for its escape cost.)\nThis creature escapes with three +1/+1 counters on it."
+   "oracle_text": "Reach\nWhen this creature enters, it deals damage equal to its power to target creature with flying an opponent controls.\nEscape—{3}{G}{G}, Exile four other cards from your graveyard. (You may cast this card from your graveyard for its escape cost.)\nThis creature escapes with three +1/+1 counters on it.",
+   "power": "1",
+   "toughness": "2"
   },
   {
    "name": "Merfolk Skydiver",
@@ -724,7 +742,9 @@
    ],
    "mana_cost": "{G}{U}",
    "url": "https://scryfall.com/card/lcc/277/merfolk-skydiver?utm_source=api",
-   "oracle_text": "Flying\nWhen this creature enters, put a +1/+1 counter on target creature you control.\n{3}{G}{U}: Proliferate. (Choose any number of permanents and/or players, then give each another counter of each kind already there.)"
+   "oracle_text": "Flying\nWhen this creature enters, put a +1/+1 counter on target creature you control.\n{3}{G}{U}: Proliferate. (Choose any number of permanents and/or players, then give each another counter of each kind already there.)",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Sphinx of Lost Truths",
@@ -744,7 +764,9 @@
    ],
    "mana_cost": "{3}{U}{U}",
    "url": "https://scryfall.com/card/zen/69/sphinx-of-lost-truths?utm_source=api",
-   "oracle_text": "Kicker {1}{U} (You may pay an additional {1}{U} as you cast this spell.)\nFlying\nWhen this creature enters, draw three cards. Then if it wasn't kicked, discard three cards."
+   "oracle_text": "Kicker {1}{U} (You may pay an additional {1}{U} as you cast this spell.)\nFlying\nWhen this creature enters, draw three cards. Then if it wasn't kicked, discard three cards.",
+   "power": "3",
+   "toughness": "5"
   },
   {
    "name": "Untamed Kavu",
@@ -764,7 +786,9 @@
    ],
    "mana_cost": "{1}{G}",
    "url": "https://scryfall.com/card/dom/186/untamed-kavu?utm_source=api",
-   "oracle_text": "Kicker {3} (You may pay an additional {3} as you cast this spell.)\nVigilance, trample\nIf this creature was kicked, it enters with three +1/+1 counters on it."
+   "oracle_text": "Kicker {3} (You may pay an additional {3} as you cast this spell.)\nVigilance, trample\nIf this creature was kicked, it enters with three +1/+1 counters on it.",
+   "power": "2",
+   "toughness": "2"
   }
  ],
  "sideboard": []

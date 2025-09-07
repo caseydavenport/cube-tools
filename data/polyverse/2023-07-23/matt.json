@@ -85,7 +85,9 @@
    ],
    "mana_cost": "{2}{B}{B}",
    "url": "https://scryfall.com/card/lcc/209/sanctum-seeker?utm_source=api",
-   "oracle_text": "Whenever a Vampire you control attacks, each opponent loses 1 life and you gain 1 life."
+   "oracle_text": "Whenever a Vampire you control attacks, each opponent loses 1 life and you gain 1 life.",
+   "power": "3",
+   "toughness": "4"
   },
   {
    "name": "Pharika's Spawn",
@@ -105,7 +107,9 @@
    ],
    "mana_cost": "{3}{B}",
    "url": "https://scryfall.com/card/thb/112/pharikas-spawn?utm_source=api",
-   "oracle_text": "Escape—{5}{B}, Exile three other cards from your graveyard. (You may cast this card from your graveyard for its escape cost.)\nThis creature escapes with two +1/+1 counters on it. When it enters this way, each opponent sacrifices a non-Gorgon creature of their choice."
+   "oracle_text": "Escape—{5}{B}, Exile three other cards from your graveyard. (You may cast this card from your graveyard for its escape cost.)\nThis creature escapes with two +1/+1 counters on it. When it enters this way, each opponent sacrifices a non-Gorgon creature of their choice.",
+   "power": "3",
+   "toughness": "4"
   },
   {
    "name": "Verdant Catacombs",
@@ -255,7 +259,9 @@
    ],
    "mana_cost": "{3}{B}{B}",
    "url": "https://scryfall.com/card/voc/131/malakir-bloodwitch?utm_source=api",
-   "oracle_text": "Flying, protection from white\nWhen this creature enters, each opponent loses life equal to the number of Vampires you control. You gain life equal to the life lost this way."
+   "oracle_text": "Flying, protection from white\nWhen this creature enters, each opponent loses life equal to the number of Vampires you control. You gain life equal to the life lost this way.",
+   "power": "4",
+   "toughness": "4"
   },
   {
    "name": "Chainweb Aracnir",
@@ -275,7 +281,9 @@
    ],
    "mana_cost": "{G}",
    "url": "https://scryfall.com/card/thb/167/chainweb-aracnir?utm_source=api",
-   "oracle_text": "Reach\nWhen this creature enters, it deals damage equal to its power to target creature with flying an opponent controls.\nEscape—{3}{G}{G}, Exile four other cards from your graveyard. (You may cast this card from your graveyard for its escape cost.)\nThis creature escapes with three +1/+1 counters on it."
+   "oracle_text": "Reach\nWhen this creature enters, it deals damage equal to its power to target creature with flying an opponent controls.\nEscape—{3}{G}{G}, Exile four other cards from your graveyard. (You may cast this card from your graveyard for its escape cost.)\nThis creature escapes with three +1/+1 counters on it.",
+   "power": "1",
+   "toughness": "2"
   },
   {
    "name": "Cankerbloom",
@@ -296,7 +304,9 @@
    ],
    "mana_cost": "{1}{G}",
    "url": "https://scryfall.com/card/one/161/cankerbloom?utm_source=api",
-   "oracle_text": "{1}, Sacrifice this creature: Choose one —\n• Destroy target artifact.\n• Destroy target enchantment.\n• Proliferate. (Choose any number of permanents and/or players, then give each another counter of each kind already there.)"
+   "oracle_text": "{1}, Sacrifice this creature: Choose one —\n• Destroy target artifact.\n• Destroy target enchantment.\n• Proliferate. (Choose any number of permanents and/or players, then give each another counter of each kind already there.)",
+   "power": "3",
+   "toughness": "2"
   },
   {
    "name": "Uncharted Haven",
@@ -346,7 +356,9 @@
    ],
    "mana_cost": "{3}{G}{G}",
    "url": "https://scryfall.com/card/cmm/270/acidic-slime?utm_source=api",
-   "oracle_text": "Deathtouch (Any amount of damage this deals to a creature is enough to destroy it.)\nWhen this creature enters, destroy target artifact, enchantment, or land."
+   "oracle_text": "Deathtouch (Any amount of damage this deals to a creature is enough to destroy it.)\nWhen this creature enters, destroy target artifact, enchantment, or land.",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Swamp",
@@ -516,7 +528,9 @@
    ],
    "mana_cost": "{5}{B}{B}",
    "url": "https://scryfall.com/card/lcc/187/butcher-of-malakir?utm_source=api",
-   "oracle_text": "Flying\nWhenever this creature or another creature you control dies, each opponent sacrifices a creature of their choice."
+   "oracle_text": "Flying\nWhenever this creature or another creature you control dies, each opponent sacrifices a creature of their choice.",
+   "power": "5",
+   "toughness": "4"
   },
   {
    "name": "Executioner's Capsule",
@@ -554,7 +568,9 @@
    ],
    "mana_cost": "{2}{G}",
    "url": "https://scryfall.com/card/mom/205/serpent-blade-assailant?utm_source=api",
-   "oracle_text": "Backup 1 (When this creature enters, put a +1/+1 counter on target creature. If that's another creature, it gains the following ability until end of turn.)\nDeathtouch"
+   "oracle_text": "Backup 1 (When this creature enters, put a +1/+1 counter on target creature. If that's another creature, it gains the following ability until end of turn.)\nDeathtouch",
+   "power": "2",
+   "toughness": "1"
   },
   {
    "name": "Cut Down",
@@ -593,7 +609,9 @@
    ],
    "mana_cost": "{1}{B}{R}",
    "url": "https://scryfall.com/card/eoc/121/mayhem-devil?utm_source=api",
-   "oracle_text": "Whenever a player sacrifices a permanent, this creature deals 1 damage to any target."
+   "oracle_text": "Whenever a player sacrifices a permanent, this creature deals 1 damage to any target.",
+   "power": "3",
+   "toughness": "3"
   },
   {
    "name": "Doomgape",
@@ -615,7 +633,9 @@
    ],
    "mana_cost": "{4}{B/G}{B/G}{B/G}",
    "url": "https://scryfall.com/card/ddj/65/doomgape?utm_source=api",
-   "oracle_text": "Trample\nAt the beginning of your upkeep, sacrifice a creature. You gain life equal to that creature's toughness."
+   "oracle_text": "Trample\nAt the beginning of your upkeep, sacrifice a creature. You gain life equal to that creature's toughness.",
+   "power": "10",
+   "toughness": "10"
   },
   {
    "name": "Grim Discovery",
@@ -729,7 +749,9 @@
    ],
    "mana_cost": "{2}{B}",
    "url": "https://scryfall.com/card/mm3/86/vampire-aristocrat?utm_source=api",
-   "oracle_text": "Sacrifice a creature: This creature gets +2/+2 until end of turn."
+   "oracle_text": "Sacrifice a creature: This creature gets +2/+2 until end of turn.",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Stitch Together",
@@ -769,7 +791,9 @@
    ],
    "mana_cost": "{1}{B}{G}",
    "url": "https://scryfall.com/card/cmm/356/slimefoot-the-stowaway?utm_source=api",
-   "oracle_text": "Whenever a Saproling you control dies, Slimefoot deals 1 damage to each opponent and you gain 1 life.\n{4}: Create a 1/1 green Saproling creature token."
+   "oracle_text": "Whenever a Saproling you control dies, Slimefoot deals 1 damage to each opponent and you gain 1 life.\n{4}: Create a 1/1 green Saproling creature token.",
+   "power": "2",
+   "toughness": "3"
   },
   {
    "name": "Knight of the Ebon Legion",
@@ -790,7 +814,9 @@
    ],
    "mana_cost": "{B}",
    "url": "https://scryfall.com/card/m20/105/knight-of-the-ebon-legion?utm_source=api",
-   "oracle_text": "{2}{B}: This creature gets +3/+3 and gains deathtouch until end of turn.\nAt the beginning of your end step, if a player lost 4 or more life this turn, put a +1/+1 counter on this creature. (Damage causes loss of life.)"
+   "oracle_text": "{2}{B}: This creature gets +3/+3 and gains deathtouch until end of turn.\nAt the beginning of your end step, if a player lost 4 or more life this turn, put a +1/+1 counter on this creature. (Damage causes loss of life.)",
+   "power": "1",
+   "toughness": "2"
   }
  ],
  "sideboard": []

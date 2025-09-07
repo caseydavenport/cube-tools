@@ -142,7 +142,9 @@
    ],
    "mana_cost": "{1}{B}",
    "url": "https://scryfall.com/card/fin/94/dark-confidant?utm_source=api",
-   "oracle_text": "At the beginning of your upkeep, reveal the top card of your library and put that card into your hand. You lose life equal to its mana value."
+   "oracle_text": "At the beginning of your upkeep, reveal the top card of your library and put that card into your hand. You lose life equal to its mana value.",
+   "power": "2",
+   "toughness": "1"
   },
   {
    "name": "Skarrgan Hellkite",
@@ -162,7 +164,9 @@
    ],
    "mana_cost": "{3}{R}{R}",
    "url": "https://scryfall.com/card/tdc/233/skarrgan-hellkite?utm_source=api",
-   "oracle_text": "Riot (This creature enters with your choice of a +1/+1 counter or haste.)\nFlying\n{3}{R}: This creature deals 2 damage divided as you choose among one or two targets. Activate only if this creature has a +1/+1 counter on it."
+   "oracle_text": "Riot (This creature enters with your choice of a +1/+1 counter or haste.)\nFlying\n{3}{R}: This creature deals 2 damage divided as you choose among one or two targets. Activate only if this creature has a +1/+1 counter on it.",
+   "power": "4",
+   "toughness": "4"
   },
   {
    "name": "Arcbound Tracker",
@@ -183,7 +187,9 @@
    ],
    "mana_cost": "{2}{R}",
    "url": "https://scryfall.com/card/mh2/112/arcbound-tracker?utm_source=api",
-   "oracle_text": "Menace\nModular 2 (This creature enters with two +1/+1 counters on it. When it dies, you may put its +1/+1 counters on target artifact creature.)\nWhenever you cast a spell other than your first spell each turn, put a +1/+1 counter on this creature."
+   "oracle_text": "Menace\nModular 2 (This creature enters with two +1/+1 counters on it. When it dies, you may put its +1/+1 counters on target artifact creature.)\nWhenever you cast a spell other than your first spell each turn, put a +1/+1 counter on this creature.",
+   "power": "0",
+   "toughness": "0"
   },
   {
    "name": "Goblin Guide",
@@ -204,7 +210,9 @@
    ],
    "mana_cost": "{R}",
    "url": "https://scryfall.com/card/2xm/127/goblin-guide?utm_source=api",
-   "oracle_text": "Haste\nWhenever this creature attacks, defending player reveals the top card of their library. If it's a land card, that player puts it into their hand."
+   "oracle_text": "Haste\nWhenever this creature attacks, defending player reveals the top card of their library. If it's a land card, that player puts it into their hand.",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Death's Shadow",
@@ -224,7 +232,9 @@
    ],
    "mana_cost": "{B}",
    "url": "https://scryfall.com/card/2xm/82/deaths-shadow?utm_source=api",
-   "oracle_text": "This creature gets -X/-X, where X is your life total."
+   "oracle_text": "This creature gets -X/-X, where X is your life total.",
+   "power": "13",
+   "toughness": "13"
   },
   {
    "name": "Duress",
@@ -281,7 +291,9 @@
    ],
    "mana_cost": "{1}{B}",
    "url": "https://scryfall.com/card/woe/113/tangled-colony?utm_source=api",
-   "oracle_text": "This creature can't block.\nWhen this creature dies, create X 1/1 black Rat creature tokens with \"This token can't block,\" where X is the amount of damage dealt to it this turn."
+   "oracle_text": "This creature can't block.\nWhen this creature dies, create X 1/1 black Rat creature tokens with \"This token can't block,\" where X is the amount of damage dealt to it this turn.",
+   "power": "3",
+   "toughness": "2"
   },
   {
    "name": "Blood Crypt",
@@ -358,7 +370,9 @@
    ],
    "mana_cost": "{1}{R}",
    "url": "https://scryfall.com/card/jmp/366/tibalts-rager?utm_source=api",
-   "oracle_text": "When this creature dies, it deals 1 damage to any target.\n{1}{R}: This creature gets +2/+0 until end of turn."
+   "oracle_text": "When this creature dies, it deals 1 damage to any target.\n{1}{R}: This creature gets +2/+0 until end of turn.",
+   "power": "1",
+   "toughness": "2"
   },
   {
    "name": "Bloodstained Mire",
@@ -409,7 +423,9 @@
    ],
    "mana_cost": "{1}{R}",
    "url": "https://scryfall.com/card/lci/156/inti-seneschal-of-the-sun?utm_source=api",
-   "oracle_text": "Whenever you attack, you may discard a card. When you do, put a +1/+1 counter on target attacking creature. It gains trample until end of turn.\nWhenever you discard one or more cards, exile the top card of your library. You may play that card until your next end step."
+   "oracle_text": "Whenever you attack, you may discard a card. When you do, put a +1/+1 counter on target attacking creature. It gains trample until end of turn.\nWhenever you discard one or more cards, exile the top card of your library. You may play that card until your next end step.",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Kitesail Freebooter",
@@ -430,7 +446,9 @@
    ],
    "mana_cost": "{1}{B}",
    "url": "https://scryfall.com/card/m21/107/kitesail-freebooter?utm_source=api",
-   "oracle_text": "Flying\nWhen this creature enters, target opponent reveals their hand. You choose a noncreature, nonland card from it. Exile that card until this creature leaves the battlefield."
+   "oracle_text": "Flying\nWhen this creature enters, target opponent reveals their hand. You choose a noncreature, nonland card from it. Exile that card until this creature leaves the battlefield.",
+   "power": "1",
+   "toughness": "2"
   },
   {
    "name": "Mesmeric Fiend",
@@ -451,7 +469,9 @@
    ],
    "mana_cost": "{1}{B}",
    "url": "https://scryfall.com/card/a25/97/mesmeric-fiend?utm_source=api",
-   "oracle_text": "When this creature enters, target opponent reveals their hand and you choose a nonland card from it. Exile that card.\nWhen this creature leaves the battlefield, return the exiled card to its owner's hand."
+   "oracle_text": "When this creature enters, target opponent reveals their hand and you choose a nonland card from it. Exile that card.\nWhen this creature leaves the battlefield, return the exiled card to its owner's hand.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Mogg War Marshal",
@@ -472,7 +492,9 @@
    ],
    "mana_cost": "{1}{R}",
    "url": "https://scryfall.com/card/dmr/131/mogg-war-marshal?utm_source=api",
-   "oracle_text": "Echo {1}{R} (At the beginning of your upkeep, if this came under your control since the beginning of your last upkeep, sacrifice it unless you pay its echo cost.)\nWhen this creature enters or dies, create a 1/1 red Goblin creature token."
+   "oracle_text": "Echo {1}{R} (At the beginning of your upkeep, if this came under your control since the beginning of your last upkeep, sacrifice it unless you pay its echo cost.)\nWhen this creature enters or dies, create a 1/1 red Goblin creature token.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Monastery Swiftspear",
@@ -493,7 +515,9 @@
    ],
    "mana_cost": "{R}",
    "url": "https://scryfall.com/card/bro/144/monastery-swiftspear?utm_source=api",
-   "oracle_text": "Haste\nProwess (Whenever you cast a noncreature spell, this creature gets +1/+1 until end of turn.)"
+   "oracle_text": "Haste\nProwess (Whenever you cast a noncreature spell, this creature gets +1/+1 until end of turn.)",
+   "power": "1",
+   "toughness": "2"
   },
   {
    "name": "Ogre-Head Helm",
@@ -515,7 +539,9 @@
    ],
    "mana_cost": "{1}{R}",
    "url": "https://scryfall.com/card/neo/155/ogre-head-helm?utm_source=api",
-   "oracle_text": "Equipped creature gets +2/+2.\nWhenever this creature or equipped creature deals combat damage to a player, you may sacrifice it. If you do, discard your hand, then draw three cards.\nReconfigure {3} ({3}: Attach to target creature you control; or unattach from a creature. Reconfigure only as a sorcery. While attached, this isn't a creature.)"
+   "oracle_text": "Equipped creature gets +2/+2.\nWhenever this creature or equipped creature deals combat damage to a player, you may sacrifice it. If you do, discard your hand, then draw three cards.\nReconfigure {3} ({3}: Attach to target creature you control; or unattach from a creature. Reconfigure only as a sorcery. While attached, this isn't a creature.)",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Phoenix Chick",
@@ -535,7 +561,9 @@
    ],
    "mana_cost": "{R}",
    "url": "https://scryfall.com/card/dmu/140/phoenix-chick?utm_source=api",
-   "oracle_text": "Flying, haste\nThis creature can't block.\nWhenever you attack with three or more creatures, you may pay {R}{R}. If you do, return this card from your graveyard to the battlefield tapped and attacking with a +1/+1 counter on it."
+   "oracle_text": "Flying, haste\nThis creature can't block.\nWhenever you attack with three or more creatures, you may pay {R}{R}. If you do, return this card from your graveyard to the battlefield tapped and attacking with a +1/+1 counter on it.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Seasoned Pyromancer",
@@ -556,7 +584,9 @@
    ],
    "mana_cost": "{1}{R}{R}",
    "url": "https://scryfall.com/card/2x2/123/seasoned-pyromancer?utm_source=api",
-   "oracle_text": "When this creature enters, discard two cards, then draw two cards. For each nonland card discarded this way, create a 1/1 red Elemental creature token.\n{3}{R}{R}, Exile this card from your graveyard: Create two 1/1 red Elemental creature tokens."
+   "oracle_text": "When this creature enters, discard two cards, then draw two cards. For each nonland card discarded this way, create a 1/1 red Elemental creature token.\n{3}{R}{R}, Exile this card from your graveyard: Create two 1/1 red Elemental creature tokens.",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Siege-Gang Commander",
@@ -576,7 +606,9 @@
    ],
    "mana_cost": "{3}{R}{R}",
    "url": "https://scryfall.com/card/tdc/232/siege-gang-commander?utm_source=api",
-   "oracle_text": "When this creature enters, create three 1/1 red Goblin creature tokens.\n{1}{R}, Sacrifice a Goblin: This creature deals 2 damage to any target."
+   "oracle_text": "When this creature enters, create three 1/1 red Goblin creature tokens.\n{1}{R}, Sacrifice a Goblin: This creature deals 2 damage to any target.",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Swamp",
@@ -838,7 +870,9 @@
    ],
    "mana_cost": "{G}{W}",
    "url": "https://scryfall.com/card/2x2/267/qasali-pridemage?utm_source=api",
-   "oracle_text": "Exalted (Whenever a creature you control attacks alone, that creature gets +1/+1 until end of turn.)\n{1}, Sacrifice this creature: Destroy target artifact or enchantment."
+   "oracle_text": "Exalted (Whenever a creature you control attacks alone, that creature gets +1/+1 until end of turn.)\n{1}, Sacrifice this creature: Destroy target artifact or enchantment.",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Renata, Called to the Hunt",
@@ -860,7 +894,9 @@
    ],
    "mana_cost": "{2}{G}{G}",
    "url": "https://scryfall.com/card/thb/196/renata-called-to-the-hunt?utm_source=api",
-   "oracle_text": "Renata's power is equal to your devotion to green. (Each {G} in the mana costs of permanents you control counts toward your devotion to green.)\nEach other creature you control enters with an additional +1/+1 counter on it."
+   "oracle_text": "Renata's power is equal to your devotion to green. (Each {G} in the mana costs of permanents you control counts toward your devotion to green.)\nEach other creature you control enters with an additional +1/+1 counter on it.",
+   "power": "*",
+   "toughness": "3"
   },
   {
    "name": "Scavenging Ooze",
@@ -880,7 +916,9 @@
    ],
    "mana_cost": "{1}{G}",
    "url": "https://scryfall.com/card/fdn/232/scavenging-ooze?utm_source=api",
-   "oracle_text": "{G}: Exile target card from a graveyard. If it was a creature card, put a +1/+1 counter on this creature and you gain 1 life."
+   "oracle_text": "{G}: Exile target card from a graveyard. If it was a creature card, put a +1/+1 counter on this creature and you gain 1 life.",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Eternal Witness",
@@ -901,7 +939,9 @@
    ],
    "mana_cost": "{1}{G}{G}",
    "url": "https://scryfall.com/card/cmm/286/eternal-witness?utm_source=api",
-   "oracle_text": "When this creature enters, you may return target card from your graveyard to your hand."
+   "oracle_text": "When this creature enters, you may return target card from your graveyard to your hand.",
+   "power": "2",
+   "toughness": "1"
   },
   {
    "name": "Mosquito Guard",
@@ -922,7 +962,9 @@
    ],
    "mana_cost": "{W}",
    "url": "https://scryfall.com/card/ddf/6/mosquito-guard?utm_source=api",
-   "oracle_text": "First strike\nReinforce 1—{1}{W} ({1}{W}, Discard this card: Put a +1/+1 counter on target creature.)"
+   "oracle_text": "First strike\nReinforce 1—{1}{W} ({1}{W}, Discard this card: Put a +1/+1 counter on target creature.)",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Tarmogoyf",
@@ -942,7 +984,9 @@
    ],
    "mana_cost": "{1}{G}",
    "url": "https://scryfall.com/card/tsr/235/tarmogoyf?utm_source=api",
-   "oracle_text": "Tarmogoyf's power is equal to the number of card types among cards in all graveyards and its toughness is equal to that number plus 1."
+   "oracle_text": "Tarmogoyf's power is equal to the number of card types among cards in all graveyards and its toughness is equal to that number plus 1.",
+   "power": "*",
+   "toughness": "1+*"
   },
   {
    "name": "Collected Company",

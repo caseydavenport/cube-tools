@@ -68,7 +68,9 @@
    ],
    "mana_cost": "{2}{W}",
    "url": "https://scryfall.com/card/tsr/30/outrider-en-kor?utm_source=api",
-   "oracle_text": "Flanking (Whenever a creature without flanking blocks this creature, the blocking creature gets -1/-1 until end of turn.)\n{0}: The next 1 damage that would be dealt to this creature this turn is dealt to target creature you control instead."
+   "oracle_text": "Flanking (Whenever a creature without flanking blocks this creature, the blocking creature gets -1/-1 until end of turn.)\n{0}: The next 1 damage that would be dealt to this creature this turn is dealt to target creature you control instead.",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Terramorphic Expanse",
@@ -117,7 +119,9 @@
    ],
    "mana_cost": "{2}{W/U}{W/U}",
    "url": "https://scryfall.com/card/mm2/199/swans-of-bryn-argoll?utm_source=api",
-   "oracle_text": "Flying\nIf a source would deal damage to this creature, prevent that damage. The source's controller draws cards equal to the damage prevented this way."
+   "oracle_text": "Flying\nIf a source would deal damage to this creature, prevent that damage. The source's controller draws cards equal to the damage prevented this way.",
+   "power": "4",
+   "toughness": "3"
   },
   {
    "name": "Canopy Cover",
@@ -173,7 +177,9 @@
    ],
    "mana_cost": "{1}{W}{W}",
    "url": "https://scryfall.com/card/2x2/11/flickerwisp?utm_source=api",
-   "oracle_text": "Flying\nWhen this creature enters, exile another target permanent. Return that card to the battlefield under its owner's control at the beginning of the next end step."
+   "oracle_text": "Flying\nWhen this creature enters, exile another target permanent. Return that card to the battlefield under its owner's control at the beginning of the next end step.",
+   "power": "3",
+   "toughness": "1"
   },
   {
    "name": "Galepowder Mage",
@@ -194,7 +200,9 @@
    ],
    "mana_cost": "{3}{W}",
    "url": "https://scryfall.com/card/clb/694/galepowder-mage?utm_source=api",
-   "oracle_text": "Flying\nWhenever this creature attacks, exile another target creature. Return that card to the battlefield under its owner's control at the beginning of the next end step."
+   "oracle_text": "Flying\nWhenever this creature attacks, exile another target creature. Return that card to the battlefield under its owner's control at the beginning of the next end step.",
+   "power": "3",
+   "toughness": "3"
   },
   {
    "name": "Lightning Greaves",
@@ -231,7 +239,9 @@
    ],
    "mana_cost": "{3}{G}",
    "url": "https://scryfall.com/card/ncc/320/wickerbough-elder?utm_source=api",
-   "oracle_text": "This creature enters with a -1/-1 counter on it.\n{G}, Remove a -1/-1 counter from this creature: Destroy target artifact or enchantment."
+   "oracle_text": "This creature enters with a -1/-1 counter on it.\n{G}, Remove a -1/-1 counter from this creature: Destroy target artifact or enchantment.",
+   "power": "4",
+   "toughness": "4"
   },
   {
    "name": "Hunting Triad",
@@ -320,7 +330,9 @@
    ],
    "mana_cost": "{W}",
    "url": "https://scryfall.com/card/thb/1/alseid-of-lifes-bounty?utm_source=api",
-   "oracle_text": "Lifelink\n{1}, Sacrifice this creature: Target creature or enchantment you control gains protection from the color of your choice until end of turn."
+   "oracle_text": "Lifelink\n{1}, Sacrifice this creature: Target creature or enchantment you control gains protection from the color of your choice until end of turn.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Quietus Spike",
@@ -356,7 +368,9 @@
    ],
    "mana_cost": "{3}{W}{W}",
    "url": "https://scryfall.com/card/mm2/10/battlegrace-angel?utm_source=api",
-   "oracle_text": "Flying\nExalted (Whenever a creature you control attacks alone, that creature gets +1/+1 until end of turn.)\nWhenever a creature you control attacks alone, it gains lifelink until end of turn."
+   "oracle_text": "Flying\nExalted (Whenever a creature you control attacks alone, that creature gets +1/+1 until end of turn.)\nWhenever a creature you control attacks alone, it gains lifelink until end of turn.",
+   "power": "4",
+   "toughness": "4"
   },
   {
    "name": "Knight of Glory",
@@ -377,7 +391,9 @@
    ],
    "mana_cost": "{1}{W}",
    "url": "https://scryfall.com/card/m13/21/knight-of-glory?utm_source=api",
-   "oracle_text": "Protection from black (This creature can't be blocked, targeted, dealt damage, or enchanted by anything black.)\nExalted (Whenever a creature you control attacks alone, that creature gets +1/+1 until end of turn.)"
+   "oracle_text": "Protection from black (This creature can't be blocked, targeted, dealt damage, or enchanted by anything black.)\nExalted (Whenever a creature you control attacks alone, that creature gets +1/+1 until end of turn.)",
+   "power": "2",
+   "toughness": "1"
   },
   {
    "name": "Arasta of the Endless Web",
@@ -399,7 +415,9 @@
    ],
    "mana_cost": "{2}{G}{G}",
    "url": "https://scryfall.com/card/tdc/244/arasta-of-the-endless-web?utm_source=api",
-   "oracle_text": "Reach\nWhenever an opponent casts an instant or sorcery spell, create a 1/2 green Spider creature token with reach."
+   "oracle_text": "Reach\nWhenever an opponent casts an instant or sorcery spell, create a 1/2 green Spider creature token with reach.",
+   "power": "3",
+   "toughness": "5"
   },
   {
    "name": "Forest",
@@ -552,7 +570,9 @@
    ],
    "mana_cost": "{1}{W}",
    "url": "https://scryfall.com/card/mor/23/shinewend?utm_source=api",
-   "oracle_text": "Flying\nThis creature enters with a +1/+1 counter on it.\n{1}{W}, Remove a +1/+1 counter from this creature: Destroy target enchantment."
+   "oracle_text": "Flying\nThis creature enters with a +1/+1 counter on it.\n{1}{W}, Remove a +1/+1 counter from this creature: Destroy target enchantment.",
+   "power": "0",
+   "toughness": "0"
   },
   {
    "name": "Twinblade Slasher",
@@ -573,7 +593,9 @@
    ],
    "mana_cost": "{G}",
    "url": "https://scryfall.com/card/eve/79/twinblade-slasher?utm_source=api",
-   "oracle_text": "Wither (This deals damage to creatures in the form of -1/-1 counters.)\n{1}{G}: This creature gets +2/+2 until end of turn. Activate only once each turn."
+   "oracle_text": "Wither (This deals damage to creatures in the form of -1/-1 counters.)\n{1}{G}: This creature gets +2/+2 until end of turn. Activate only once each turn.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Journey to Nowhere",
@@ -630,7 +652,9 @@
    ],
    "mana_cost": "{1}{W}",
    "url": "https://scryfall.com/card/neo/26/lion-sash?utm_source=api",
-   "oracle_text": "{W}: Exile target card from a graveyard. If it was a permanent card, put a +1/+1 counter on this permanent.\nEquipped creature gets +1/+1 for each +1/+1 counter on this Equipment.\nReconfigure {2} ({2}: Attach to target creature you control; or unattach from a creature. Reconfigure only as a sorcery. While attached, this isn't a creature.)"
+   "oracle_text": "{W}: Exile target card from a graveyard. If it was a permanent card, put a +1/+1 counter on this permanent.\nEquipped creature gets +1/+1 for each +1/+1 counter on this Equipment.\nReconfigure {2} ({2}: Attach to target creature you control; or unattach from a creature. Reconfigure only as a sorcery. While attached, this isn't a creature.)",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Untamed Kavu",
@@ -650,7 +674,9 @@
    ],
    "mana_cost": "{1}{G}",
    "url": "https://scryfall.com/card/dom/186/untamed-kavu?utm_source=api",
-   "oracle_text": "Kicker {3} (You may pay an additional {3} as you cast this spell.)\nVigilance, trample\nIf this creature was kicked, it enters with three +1/+1 counters on it."
+   "oracle_text": "Kicker {3} (You may pay an additional {3} as you cast this spell.)\nVigilance, trample\nIf this creature was kicked, it enters with three +1/+1 counters on it.",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Sixth Sense",

@@ -165,7 +165,9 @@
    ],
    "mana_cost": "{2}{U}{U}",
    "url": "https://scryfall.com/card/afc/81/curator-of-mysteries?utm_source=api",
-   "oracle_text": "Flying\nWhenever you cycle or discard another card, scry 1.\nCycling {U} ({U}, Discard this card: Draw a card.)"
+   "oracle_text": "Flying\nWhenever you cycle or discard another card, scry 1.\nCycling {U} ({U}, Discard this card: Draw a card.)",
+   "power": "4",
+   "toughness": "4"
   },
   {
    "name": "Mana Leak",
@@ -203,7 +205,9 @@
    ],
    "mana_cost": "{1}{B}",
    "url": "https://scryfall.com/card/m21/107/kitesail-freebooter?utm_source=api",
-   "oracle_text": "Flying\nWhen this creature enters, target opponent reveals their hand. You choose a noncreature, nonland card from it. Exile that card until this creature leaves the battlefield."
+   "oracle_text": "Flying\nWhen this creature enters, target opponent reveals their hand. You choose a noncreature, nonland card from it. Exile that card until this creature leaves the battlefield.",
+   "power": "1",
+   "toughness": "2"
   },
   {
    "name": "Ponder",
@@ -241,7 +245,9 @@
    ],
    "mana_cost": "{3}{B}{B}",
    "url": "https://scryfall.com/card/clb/769/puppeteer-clique?utm_source=api",
-   "oracle_text": "Flying\nWhen this creature enters, put target creature card from an opponent's graveyard onto the battlefield under your control. It gains haste. At the beginning of your next end step, exile it.\nPersist (When this creature dies, if it had no -1/-1 counters on it, return it to the battlefield under its owner's control with a -1/-1 counter on it.)"
+   "oracle_text": "Flying\nWhen this creature enters, put target creature card from an opponent's graveyard onto the battlefield under your control. It gains haste. At the beginning of your next end step, exile it.\nPersist (When this creature dies, if it had no -1/-1 counters on it, return it to the battlefield under its owner's control with a -1/-1 counter on it.)",
+   "power": "3",
+   "toughness": "2"
   },
   {
    "name": "Bloodsky Berserker",
@@ -262,7 +268,9 @@
    ],
    "mana_cost": "{1}{B}",
    "url": "https://scryfall.com/card/khm/80/bloodsky-berserker?utm_source=api",
-   "oracle_text": "Whenever you cast your second spell each turn, put two +1/+1 counters on this creature. It gains menace until end of turn. (It can't be blocked except by two or more creatures.)"
+   "oracle_text": "Whenever you cast your second spell each turn, put two +1/+1 counters on this creature. It gains menace until end of turn. (It can't be blocked except by two or more creatures.)",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Pile On",
@@ -316,7 +324,9 @@
    ],
    "mana_cost": "{2}{U}",
    "url": "https://scryfall.com/card/dmr/58/man-o-war?utm_source=api",
-   "oracle_text": "When this creature enters, return target creature to its owner's hand."
+   "oracle_text": "When this creature enters, return target creature to its owner's hand.",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Swamp",
@@ -557,7 +567,9 @@
    ],
    "mana_cost": "{4}{U}{U}",
    "url": "https://scryfall.com/card/c20/34/ethereal-forager?utm_source=api",
-   "oracle_text": "Delve (Each card you exile from your graveyard while casting this spell pays for {1}.)\nFlying\nWhenever this creature attacks, you may return an instant or sorcery card exiled with this creature to its owner's hand."
+   "oracle_text": "Delve (Each card you exile from your graveyard while casting this spell pays for {1}.)\nFlying\nWhenever this creature attacks, you may return an instant or sorcery card exiled with this creature to its owner's hand.",
+   "power": "3",
+   "toughness": "3"
   },
   {
    "name": "Island",
@@ -711,7 +723,9 @@
    ],
    "mana_cost": "{1}{B}",
    "url": "https://scryfall.com/card/mh3/80/accursed-marauder?utm_source=api",
-   "oracle_text": "When this creature enters, each player sacrifices a nontoken creature of their choice."
+   "oracle_text": "When this creature enters, each player sacrifices a nontoken creature of their choice.",
+   "power": "2",
+   "toughness": "1"
   },
   {
    "name": "Spellstutter Sprite",
@@ -732,7 +746,9 @@
    ],
    "mana_cost": "{1}{U}",
    "url": "https://scryfall.com/card/mma/65/spellstutter-sprite?utm_source=api",
-   "oracle_text": "Flash\nFlying\nWhen this creature enters, counter target spell with mana value X or less, where X is the number of Faeries you control."
+   "oracle_text": "Flash\nFlying\nWhen this creature enters, counter target spell with mana value X or less, where X is the number of Faeries you control.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Polluted Delta",
@@ -785,7 +801,9 @@
    ],
    "mana_cost": "{3}{B}{B}",
    "url": "https://scryfall.com/card/akh/78/archfiend-of-ifnir?utm_source=api",
-   "oracle_text": "Flying\nWhenever you cycle or discard another card, put a -1/-1 counter on each creature your opponents control.\nCycling {2} ({2}, Discard this card: Draw a card.)"
+   "oracle_text": "Flying\nWhenever you cycle or discard another card, put a -1/-1 counter on each creature your opponents control.\nCycling {2} ({2}, Discard this card: Draw a card.)",
+   "power": "5",
+   "toughness": "4"
   },
   {
    "name": "Thing in the Ice // Awoken Horror",
@@ -899,7 +917,9 @@
    ],
    "mana_cost": "{1}{U}",
    "url": "https://scryfall.com/card/snc/44/faerie-vandal?utm_source=api",
-   "oracle_text": "Flash (You may cast this spell any time you could cast an instant.)\nFlying\nWhenever you draw your second card each turn, put a +1/+1 counter on this creature."
+   "oracle_text": "Flash (You may cast this spell any time you could cast an instant.)\nFlying\nWhenever you draw your second card each turn, put a +1/+1 counter on this creature.",
+   "power": "1",
+   "toughness": "2"
   },
   {
    "name": "Perilous Myr",
@@ -917,7 +937,9 @@
    "color_identity": [],
    "mana_cost": "{2}",
    "url": "https://scryfall.com/card/cmr/330/perilous-myr?utm_source=api",
-   "oracle_text": "When this creature dies, it deals 2 damage to any target."
+   "oracle_text": "When this creature dies, it deals 2 damage to any target.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Reprieve",
@@ -1024,7 +1046,9 @@
    ],
    "mana_cost": "{W}",
    "url": "https://scryfall.com/card/inr/45/thraben-inspector?utm_source=api",
-   "oracle_text": "When this creature enters, investigate. (Create a Clue token. It's an artifact with \"{2}, Sacrifice this token: Draw a card.\")"
+   "oracle_text": "When this creature enters, investigate. (Create a Clue token. It's an artifact with \"{2}, Sacrifice this token: Draw a card.\")",
+   "power": "1",
+   "toughness": "2"
   },
   {
    "name": "Unexpectedly Absent",
@@ -1096,7 +1120,9 @@
    ],
    "mana_cost": "{W}",
    "url": "https://scryfall.com/card/ddf/3/goldmeadow-harrier?utm_source=api",
-   "oracle_text": "{W}, {T}: Tap target creature."
+   "oracle_text": "{W}, {T}: Tap target creature.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Meadowboon",
@@ -1116,7 +1142,9 @@
    ],
    "mana_cost": "{2}{W}{W}",
    "url": "https://scryfall.com/card/mma/22/meadowboon?utm_source=api",
-   "oracle_text": "When this creature leaves the battlefield, put a +1/+1 counter on each creature target player controls.\nEvoke {3}{W} (You may cast this spell for its evoke cost. If you do, it's sacrificed when it enters.)"
+   "oracle_text": "When this creature leaves the battlefield, put a +1/+1 counter on each creature target player controls.\nEvoke {3}{W} (You may cast this spell for its evoke cost. If you do, it's sacrificed when it enters.)",
+   "power": "3",
+   "toughness": "3"
   },
   {
    "name": "Time Wipe",

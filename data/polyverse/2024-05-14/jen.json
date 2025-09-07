@@ -77,7 +77,9 @@
    ],
    "mana_cost": "{B/G}",
    "url": "https://scryfall.com/card/mh2/211/ravenous-squirrel?utm_source=api",
-   "oracle_text": "Whenever you sacrifice an artifact or creature, put a +1/+1 counter on this creature.\n{1}{B}{G}, Sacrifice an artifact or creature: You gain 1 life and draw a card."
+   "oracle_text": "Whenever you sacrifice an artifact or creature, put a +1/+1 counter on this creature.\n{1}{B}{G}, Sacrifice an artifact or creature: You gain 1 life and draw a card.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Warden of the Inner Sky",
@@ -98,7 +100,9 @@
    ],
    "mana_cost": "{W}",
    "url": "https://scryfall.com/card/lci/43/warden-of-the-inner-sky?utm_source=api",
-   "oracle_text": "As long as this creature has three or more counters on it, it has flying and vigilance.\nTap three untapped artifacts and/or creatures you control: Put a +1/+1 counter on this creature. Scry 1. Activate only as a sorcery."
+   "oracle_text": "As long as this creature has three or more counters on it, it has flying and vigilance.\nTap three untapped artifacts and/or creatures you control: Put a +1/+1 counter on this creature. Scry 1. Activate only as a sorcery.",
+   "power": "1",
+   "toughness": "2"
   },
   {
    "name": "Gilded Goose",
@@ -118,7 +122,9 @@
    ],
    "mana_cost": "{G}",
    "url": "https://scryfall.com/card/moc/299/gilded-goose?utm_source=api",
-   "oracle_text": "Flying\nWhen this creature enters, create a Food token. (It's an artifact with \"{2}, {T}, Sacrifice this token: You gain 3 life.\")\n{1}{G}, {T}: Create a Food token.\n{T}, Sacrifice a Food: Add one mana of any color."
+   "oracle_text": "Flying\nWhen this creature enters, create a Food token. (It's an artifact with \"{2}, {T}, Sacrifice this token: You gain 3 life.\")\n{1}{G}, {T}: Create a Food token.\n{T}, Sacrifice a Food: Add one mana of any color.",
+   "power": "0",
+   "toughness": "2"
   },
   {
    "name": "Cankerbloom",
@@ -139,7 +145,9 @@
    ],
    "mana_cost": "{1}{G}",
    "url": "https://scryfall.com/card/one/161/cankerbloom?utm_source=api",
-   "oracle_text": "{1}, Sacrifice this creature: Choose one —\n• Destroy target artifact.\n• Destroy target enchantment.\n• Proliferate. (Choose any number of permanents and/or players, then give each another counter of each kind already there.)"
+   "oracle_text": "{1}, Sacrifice this creature: Choose one —\n• Destroy target artifact.\n• Destroy target enchantment.\n• Proliferate. (Choose any number of permanents and/or players, then give each another counter of each kind already there.)",
+   "power": "3",
+   "toughness": "2"
   },
   {
    "name": "Titania, Protector of Argoth",
@@ -160,7 +168,9 @@
    ],
    "mana_cost": "{3}{G}{G}",
    "url": "https://scryfall.com/card/eoc/111/titania-protector-of-argoth?utm_source=api",
-   "oracle_text": "When Titania enters, return target land card from your graveyard to the battlefield.\nWhenever a land you control is put into a graveyard from the battlefield, create a 5/3 green Elemental creature token."
+   "oracle_text": "When Titania enters, return target land card from your graveyard to the battlefield.\nWhenever a land you control is put into a graveyard from the battlefield, create a 5/3 green Elemental creature token.",
+   "power": "5",
+   "toughness": "3"
   },
   {
    "name": "Gruff Triplets",
@@ -181,7 +191,9 @@
    ],
    "mana_cost": "{3}{G}{G}{G}",
    "url": "https://scryfall.com/card/woe/172/gruff-triplets?utm_source=api",
-   "oracle_text": "Trample\nWhen this creature enters, if it isn't a token, create two tokens that are copies of it.\nWhen this creature dies, put a number of +1/+1 counters equal to its power on each creature you control named Gruff Triplets."
+   "oracle_text": "Trample\nWhen this creature enters, if it isn't a token, create two tokens that are copies of it.\nWhen this creature dies, put a number of +1/+1 counters equal to its power on each creature you control named Gruff Triplets.",
+   "power": "3",
+   "toughness": "3"
   },
   {
    "name": "Grim Flayer",
@@ -204,7 +216,9 @@
    ],
    "mana_cost": "{B}{G}",
    "url": "https://scryfall.com/card/dsc/218/grim-flayer?utm_source=api",
-   "oracle_text": "Trample\nWhenever this creature deals combat damage to a player, surveil 3. (Look at the top three cards of your library, then put any number of them into your graveyard and the rest on top of your library in any order.)\nDelirium — This creature gets +2/+2 as long as there are four or more card types among cards in your graveyard."
+   "oracle_text": "Trample\nWhenever this creature deals combat damage to a player, surveil 3. (Look at the top three cards of your library, then put any number of them into your graveyard and the rest on top of your library in any order.)\nDelirium — This creature gets +2/+2 as long as there are four or more card types among cards in your graveyard.",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Arbor Elf",
@@ -225,7 +239,9 @@
    ],
    "mana_cost": "{G}",
    "url": "https://scryfall.com/card/a25/160/arbor-elf?utm_source=api",
-   "oracle_text": "{T}: Untap target Forest."
+   "oracle_text": "{T}: Untap target Forest.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Scavenging Ooze",
@@ -245,7 +261,9 @@
    ],
    "mana_cost": "{1}{G}",
    "url": "https://scryfall.com/card/fdn/232/scavenging-ooze?utm_source=api",
-   "oracle_text": "{G}: Exile target card from a graveyard. If it was a creature card, put a +1/+1 counter on this creature and you gain 1 life."
+   "oracle_text": "{G}: Exile target card from a graveyard. If it was a creature card, put a +1/+1 counter on this creature and you gain 1 life.",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Renata, Called to the Hunt",
@@ -267,7 +285,9 @@
    ],
    "mana_cost": "{2}{G}{G}",
    "url": "https://scryfall.com/card/thb/196/renata-called-to-the-hunt?utm_source=api",
-   "oracle_text": "Renata's power is equal to your devotion to green. (Each {G} in the mana costs of permanents you control counts toward your devotion to green.)\nEach other creature you control enters with an additional +1/+1 counter on it."
+   "oracle_text": "Renata's power is equal to your devotion to green. (Each {G} in the mana costs of permanents you control counts toward your devotion to green.)\nEach other creature you control enters with an additional +1/+1 counter on it.",
+   "power": "*",
+   "toughness": "3"
   },
   {
    "name": "Greta, Sweettooth Scourge",
@@ -291,7 +311,9 @@
    ],
    "mana_cost": "{1}{B}{G}",
    "url": "https://scryfall.com/card/woe/205/greta-sweettooth-scourge?utm_source=api",
-   "oracle_text": "When Greta enters, create a Food token. (It's an artifact with \"{2}, {T}, Sacrifice this token: You gain 3 life.\")\n{G}, Sacrifice a Food: Put a +1/+1 counter on target creature. Activate only as a sorcery.\n{1}{B}, Sacrifice a Food: You draw a card and you lose 1 life."
+   "oracle_text": "When Greta enters, create a Food token. (It's an artifact with \"{2}, {T}, Sacrifice this token: You gain 3 life.\")\n{G}, Sacrifice a Food: Put a +1/+1 counter on target creature. Activate only as a sorcery.\n{1}{B}, Sacrifice a Food: You draw a card and you lose 1 life.",
+   "power": "3",
+   "toughness": "3"
   },
   {
    "name": "Tireless Tracker",
@@ -312,7 +334,9 @@
    ],
    "mana_cost": "{2}{G}",
    "url": "https://scryfall.com/card/eoc/110/tireless-tracker?utm_source=api",
-   "oracle_text": "Landfall — Whenever a land you control enters, investigate. (Create a Clue token. It's an artifact with \"{2}, Sacrifice this token: Draw a card.\")\nWhenever you sacrifice a Clue, put a +1/+1 counter on this creature."
+   "oracle_text": "Landfall — Whenever a land you control enters, investigate. (Create a Clue token. It's an artifact with \"{2}, Sacrifice this token: Draw a card.\")\nWhenever you sacrifice a Clue, put a +1/+1 counter on this creature.",
+   "power": "3",
+   "toughness": "2"
   },
   {
    "name": "Courser of Kruphix",
@@ -333,7 +357,9 @@
    ],
    "mana_cost": "{1}{G}{G}",
    "url": "https://scryfall.com/card/cmm/888/courser-of-kruphix?utm_source=api",
-   "oracle_text": "Play with the top card of your library revealed.\nYou may play lands from the top of your library.\nLandfall — Whenever a land you control enters, you gain 1 life."
+   "oracle_text": "Play with the top card of your library revealed.\nYou may play lands from the top of your library.\nLandfall — Whenever a land you control enters, you gain 1 life.",
+   "power": "2",
+   "toughness": "4"
   },
   {
    "name": "Pollenbright Druid",
@@ -354,7 +380,9 @@
    ],
    "mana_cost": "{1}{G}",
    "url": "https://scryfall.com/card/cmm/312/pollenbright-druid?utm_source=api",
-   "oracle_text": "When this creature enters, choose one —\n• Put a +1/+1 counter on target creature.\n• Proliferate. (Choose any number of permanents and/or players, then give each another counter of each kind already there.)"
+   "oracle_text": "When this creature enters, choose one —\n• Put a +1/+1 counter on target creature.\n• Proliferate. (Choose any number of permanents and/or players, then give each another counter of each kind already there.)",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Parallel Lives",
@@ -481,7 +509,9 @@
    ],
    "mana_cost": "{1}{G} // {1}{G}",
    "url": "https://scryfall.com/card/woe/320/intrepid-trufflesnout-go-hog-wild?utm_source=api",
-   "oracle_text": ""
+   "oracle_text": "",
+   "power": "3",
+   "toughness": "1"
   },
   {
    "name": "Elspeth's Smite",
@@ -874,7 +904,9 @@
    ],
    "mana_cost": "{1}{U}",
    "url": "https://scryfall.com/card/rna/39/faerie-duelist?utm_source=api",
-   "oracle_text": "Flash\nFlying\nWhen this creature enters, target creature an opponent controls gets -2/-0 until end of turn."
+   "oracle_text": "Flash\nFlying\nWhen this creature enters, target creature an opponent controls gets -2/-0 until end of turn.",
+   "power": "1",
+   "toughness": "2"
   },
   {
    "name": "Merfolk Looter",
@@ -895,7 +927,9 @@
    ],
    "mana_cost": "{1}{U}",
    "url": "https://scryfall.com/card/afc/86/merfolk-looter?utm_source=api",
-   "oracle_text": "{T}: Draw a card, then discard a card."
+   "oracle_text": "{T}: Draw a card, then discard a card.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Baird, Argivian Recruiter",
@@ -919,7 +953,9 @@
    ],
    "mana_cost": "{R}{W}",
    "url": "https://scryfall.com/card/dmu/195/baird-argivian-recruiter?utm_source=api",
-   "oracle_text": "At the beginning of your end step, if you control a creature with power greater than its base power, create a 1/1 white Soldier creature token."
+   "oracle_text": "At the beginning of your end step, if you control a creature with power greater than its base power, create a 1/1 white Soldier creature token.",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Sedgemoor Witch",
@@ -940,7 +976,9 @@
    ],
    "mana_cost": "{2}{B}",
    "url": "https://scryfall.com/card/stx/86/sedgemoor-witch?utm_source=api",
-   "oracle_text": "Menace\nWard—Pay 3 life. (Whenever this creature becomes the target of a spell or ability an opponent controls, counter it unless that player pays 3 life.)\nMagecraft — Whenever you cast or copy an instant or sorcery spell, create a 1/1 black and green Pest creature token with \"When this token dies, you gain 1 life.\""
+   "oracle_text": "Menace\nWard—Pay 3 life. (Whenever this creature becomes the target of a spell or ability an opponent controls, counter it unless that player pays 3 life.)\nMagecraft — Whenever you cast or copy an instant or sorcery spell, create a 1/1 black and green Pest creature token with \"When this token dies, you gain 1 life.\"",
+   "power": "3",
+   "toughness": "2"
   },
   {
    "name": "Scrapwork Mutt",
@@ -959,7 +997,9 @@
    ],
    "mana_cost": "{2}",
    "url": "https://scryfall.com/card/bro/164/scrapwork-mutt?utm_source=api",
-   "oracle_text": "When this creature enters, you may discard a card. If you do, draw a card.\nUnearth {1}{R} ({1}{R}: Return this card from your graveyard to the battlefield. It gains haste. Exile it at the beginning of the next end step or if it would leave the battlefield. Unearth only as a sorcery.)"
+   "oracle_text": "When this creature enters, you may discard a card. If you do, draw a card.\nUnearth {1}{R} ({1}{R}: Return this card from your graveyard to the battlefield. It gains haste. Exile it at the beginning of the next end step or if it would leave the battlefield. Unearth only as a sorcery.)",
+   "power": "2",
+   "toughness": "1"
   },
   {
    "name": "Clarion Spirit",
@@ -979,7 +1019,9 @@
    ],
    "mana_cost": "{1}{W}",
    "url": "https://scryfall.com/card/khm/6/clarion-spirit?utm_source=api",
-   "oracle_text": "Whenever you cast your second spell each turn, create a 1/1 white Spirit creature token with flying."
+   "oracle_text": "Whenever you cast your second spell each turn, create a 1/1 white Spirit creature token with flying.",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Knight of the Reliquary",
@@ -1002,7 +1044,9 @@
    ],
    "mana_cost": "{1}{G}{W}",
    "url": "https://scryfall.com/card/ima/203/knight-of-the-reliquary?utm_source=api",
-   "oracle_text": "This creature gets +1/+1 for each land card in your graveyard.\n{T}, Sacrifice a Forest or Plains: Search your library for a land card, put it onto the battlefield, then shuffle."
+   "oracle_text": "This creature gets +1/+1 for each land card in your graveyard.\n{T}, Sacrifice a Forest or Plains: Search your library for a land card, put it onto the battlefield, then shuffle.",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Farsight Ritual",
@@ -1111,7 +1155,9 @@
    ],
    "mana_cost": "{1}{G} // {1}{R}",
    "url": "https://scryfall.com/card/woe/234/questing-druid-seek-the-beast?utm_source=api",
-   "oracle_text": ""
+   "oracle_text": "",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Steam Vents",

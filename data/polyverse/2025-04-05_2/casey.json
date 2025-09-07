@@ -56,7 +56,9 @@
    ],
    "mana_cost": "{W}",
    "url": "https://scryfall.com/card/mh2/12/esper-sentinel?utm_source=api",
-   "oracle_text": "Whenever an opponent casts their first noncreature spell each turn, draw a card unless that player pays {X}, where X is this creature's power."
+   "oracle_text": "Whenever an opponent casts their first noncreature spell each turn, draw a card unless that player pays {X}, where X is this creature's power.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Grim Lavamancer",
@@ -77,7 +79,9 @@
    ],
    "mana_cost": "{R}",
    "url": "https://scryfall.com/card/dmr/126/grim-lavamancer?utm_source=api",
-   "oracle_text": "{R}, {T}, Exile two cards from your graveyard: This creature deals 2 damage to any target."
+   "oracle_text": "{R}, {T}, Exile two cards from your graveyard: This creature deals 2 damage to any target.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Harm's Way",
@@ -149,7 +153,9 @@
    ],
    "mana_cost": "{1}{W}",
    "url": "https://scryfall.com/card/ncc/205/luminarch-aspirant?utm_source=api",
-   "oracle_text": "At the beginning of combat on your turn, put a +1/+1 counter on target creature you control."
+   "oracle_text": "At the beginning of combat on your turn, put a +1/+1 counter on target creature you control.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Twinshot Sniper",
@@ -171,7 +177,9 @@
    ],
    "mana_cost": "{3}{R}",
    "url": "https://scryfall.com/card/neo/168/twinshot-sniper?utm_source=api",
-   "oracle_text": "Reach\nWhen this creature enters, it deals 2 damage to any target.\nChannel — {1}{R}, Discard this card: It deals 2 damage to any target."
+   "oracle_text": "Reach\nWhen this creature enters, it deals 2 damage to any target.\nChannel — {1}{R}, Discard this card: It deals 2 damage to any target.",
+   "power": "2",
+   "toughness": "3"
   },
   {
    "name": "Lizard Blades",
@@ -193,7 +201,9 @@
    ],
    "mana_cost": "{1}{R}",
    "url": "https://scryfall.com/card/neo/153/lizard-blades?utm_source=api",
-   "oracle_text": "Double strike\nEquipped creature has double strike.\nReconfigure {2} ({2}: Attach to target creature you control; or unattach from a creature. Reconfigure only as a sorcery. While attached, this isn't a creature.)"
+   "oracle_text": "Double strike\nEquipped creature has double strike.\nReconfigure {2} ({2}: Attach to target creature you control; or unattach from a creature. Reconfigure only as a sorcery. While attached, this isn't a creature.)",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Lava Dart",
@@ -283,7 +293,9 @@
    ],
    "mana_cost": "{W} // {W}",
    "url": "https://scryfall.com/card/woe/7/cheeky-house-mouse-squeak-by?utm_source=api",
-   "oracle_text": ""
+   "oracle_text": "",
+   "power": "2",
+   "toughness": "1"
   },
   {
    "name": "Monastery Swiftspear",
@@ -304,7 +316,9 @@
    ],
    "mana_cost": "{R}",
    "url": "https://scryfall.com/card/bro/144/monastery-swiftspear?utm_source=api",
-   "oracle_text": "Haste\nProwess (Whenever you cast a noncreature spell, this creature gets +1/+1 until end of turn.)"
+   "oracle_text": "Haste\nProwess (Whenever you cast a noncreature spell, this creature gets +1/+1 until end of turn.)",
+   "power": "1",
+   "toughness": "2"
   },
   {
    "name": "Oust",
@@ -359,7 +373,9 @@
    ],
    "mana_cost": "{1}{W}",
    "url": "https://scryfall.com/card/cmm/838/spirited-companion?utm_source=api",
-   "oracle_text": "When this creature enters, draw a card."
+   "oracle_text": "When this creature enters, draw a card.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Scalding Tarn",
@@ -421,7 +437,9 @@
    ],
    "mana_cost": "{1}{W}",
    "url": "https://scryfall.com/card/khm/6/clarion-spirit?utm_source=api",
-   "oracle_text": "Whenever you cast your second spell each turn, create a 1/1 white Spirit creature token with flying."
+   "oracle_text": "Whenever you cast your second spell each turn, create a 1/1 white Spirit creature token with flying.",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Manamorphose",
@@ -460,7 +478,9 @@
    ],
    "mana_cost": "{R}",
    "url": "https://scryfall.com/card/mh2/115/blazing-rootwalla?utm_source=api",
-   "oracle_text": "{R}: This creature gets +2/+0 until end of turn. Activate only once each turn.\nMadness {0} (If you discard this card, discard it into exile. When you do, cast it for its madness cost or put it into your graveyard.)"
+   "oracle_text": "{R}: This creature gets +2/+0 until end of turn. Activate only once each turn.\nMadness {0} (If you discard this card, discard it into exile. When you do, cast it for its madness cost or put it into your graveyard.)",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Abrade",
@@ -512,7 +532,9 @@
    ],
    "mana_cost": "{1}{R}",
    "url": "https://scryfall.com/card/lci/156/inti-seneschal-of-the-sun?utm_source=api",
-   "oracle_text": "Whenever you attack, you may discard a card. When you do, put a +1/+1 counter on target attacking creature. It gains trample until end of turn.\nWhenever you discard one or more cards, exile the top card of your library. You may play that card until your next end step."
+   "oracle_text": "Whenever you attack, you may discard a card. When you do, put a +1/+1 counter on target attacking creature. It gains trample until end of turn.\nWhenever you discard one or more cards, exile the top card of your library. You may play that card until your next end step.",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Welcoming Vampire",
@@ -532,7 +554,9 @@
    ],
    "mana_cost": "{2}{W}",
    "url": "https://scryfall.com/card/tdc/140/welcoming-vampire?utm_source=api",
-   "oracle_text": "Flying\nWhenever one or more other creatures you control with power 2 or less enter, draw a card. This ability triggers only once each turn."
+   "oracle_text": "Flying\nWhenever one or more other creatures you control with power 2 or less enter, draw a card. This ability triggers only once each turn.",
+   "power": "2",
+   "toughness": "3"
   },
   {
    "name": "Wooded Foothills",
@@ -562,7 +586,9 @@
    "color_identity": [],
    "mana_cost": "{1}",
    "url": "https://scryfall.com/card/dom/232/sparring-construct?utm_source=api",
-   "oracle_text": "When this creature dies, put a +1/+1 counter on target creature you control."
+   "oracle_text": "When this creature dies, put a +1/+1 counter on target creature you control.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Sacred Foundry",
@@ -776,7 +802,9 @@
    ],
    "mana_cost": "{B}{G}",
    "url": "https://scryfall.com/card/dsc/218/grim-flayer?utm_source=api",
-   "oracle_text": "Trample\nWhenever this creature deals combat damage to a player, surveil 3. (Look at the top three cards of your library, then put any number of them into your graveyard and the rest on top of your library in any order.)\nDelirium — This creature gets +2/+2 as long as there are four or more card types among cards in your graveyard."
+   "oracle_text": "Trample\nWhenever this creature deals combat damage to a player, surveil 3. (Look at the top three cards of your library, then put any number of them into your graveyard and the rest on top of your library in any order.)\nDelirium — This creature gets +2/+2 as long as there are four or more card types among cards in your graveyard.",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Boseiju, Who Endures",
@@ -813,7 +841,9 @@
    ],
    "mana_cost": "{G}",
    "url": "https://scryfall.com/card/fdn/227/llanowar-elves?utm_source=api",
-   "oracle_text": "{T}: Add {G}."
+   "oracle_text": "{T}: Add {G}.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Sprite Dragon",
@@ -836,7 +866,9 @@
    ],
    "mana_cost": "{U}{R}",
    "url": "https://scryfall.com/card/clb/852/sprite-dragon?utm_source=api",
-   "oracle_text": "Flying, haste\nWhenever you cast a noncreature spell, put a +1/+1 counter on this creature."
+   "oracle_text": "Flying, haste\nWhenever you cast a noncreature spell, put a +1/+1 counter on this creature.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Abundant Harvest",
@@ -875,7 +907,9 @@
    ],
    "mana_cost": "{1}{U}",
    "url": "https://scryfall.com/card/neo/67/moon-circuit-hacker?utm_source=api",
-   "oracle_text": "Ninjutsu {U} ({U}, Return an unblocked attacker you control to hand: Put this card onto the battlefield from your hand tapped and attacking.)\nWhenever this creature deals combat damage to a player, you may draw a card. If you do, discard a card unless this creature entered this turn."
+   "oracle_text": "Ninjutsu {U} ({U}, Return an unblocked attacker you control to hand: Put this card onto the battlefield from your hand tapped and attacking.)\nWhenever this creature deals combat damage to a player, you may draw a card. If you do, discard a card unless this creature entered this turn.",
+   "power": "2",
+   "toughness": "1"
   },
   {
    "name": "Six",
@@ -896,7 +930,9 @@
    ],
    "mana_cost": "{2}{G}",
    "url": "https://scryfall.com/card/mh3/169/six?utm_source=api",
-   "oracle_text": "Reach\nWhenever Six attacks, mill three cards. You may put a land card from among them into your hand.\nDuring your turn, nonland permanent cards in your graveyard have retrace. (You may cast permanent cards from your graveyard by discarding a land card in addition to paying their other costs.)"
+   "oracle_text": "Reach\nWhenever Six attacks, mill three cards. You may put a land card from among them into your hand.\nDuring your turn, nonland permanent cards in your graveyard have retrace. (You may cast permanent cards from your graveyard by discarding a land card in addition to paying their other costs.)",
+   "power": "2",
+   "toughness": "4"
   },
   {
    "name": "No More Lies",
@@ -991,7 +1027,9 @@
    ],
    "mana_cost": "{1}{U}",
    "url": "https://scryfall.com/card/afc/86/merfolk-looter?utm_source=api",
-   "oracle_text": "{T}: Draw a card, then discard a card."
+   "oracle_text": "{T}: Draw a card, then discard a card.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Infernal Grasp",
@@ -1083,7 +1121,9 @@
    ],
    "mana_cost": "{1}{B}",
    "url": "https://scryfall.com/card/a25/97/mesmeric-fiend?utm_source=api",
-   "oracle_text": "When this creature enters, target opponent reveals their hand and you choose a nonland card from it. Exile that card.\nWhen this creature leaves the battlefield, return the exiled card to its owner's hand."
+   "oracle_text": "When this creature enters, target opponent reveals their hand and you choose a nonland card from it. Exile that card.\nWhen this creature leaves the battlefield, return the exiled card to its owner's hand.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Prismatic Vista",

@@ -77,7 +77,9 @@
    ],
    "mana_cost": "{2}{R}",
    "url": "https://scryfall.com/card/moc/287/krenko-tin-street-kingpin?utm_source=api",
-   "oracle_text": "Whenever Krenko attacks, put a +1/+1 counter on it, then create a number of 1/1 red Goblin creature tokens equal to Krenko's power."
+   "oracle_text": "Whenever Krenko attacks, put a +1/+1 counter on it, then create a number of 1/1 red Goblin creature tokens equal to Krenko's power.",
+   "power": "1",
+   "toughness": "2"
   },
   {
    "name": "Dreamtide Whale",
@@ -97,7 +99,9 @@
    ],
    "mana_cost": "{2}{U}",
    "url": "https://scryfall.com/card/mh3/59/dreamtide-whale?utm_source=api",
-   "oracle_text": "Vanishing 2 (This creature enters with two time counters on it. At the beginning of your upkeep, remove a time counter from it. When the last is removed, sacrifice it.)\nWhenever a player casts their second spell each turn, proliferate. (Choose any number of permanents and/or players, then give each another counter of each kind already there.)"
+   "oracle_text": "Vanishing 2 (This creature enters with two time counters on it. At the beginning of your upkeep, remove a time counter from it. When the last is removed, sacrifice it.)\nWhenever a player casts their second spell each turn, proliferate. (Choose any number of permanents and/or players, then give each another counter of each kind already there.)",
+   "power": "7",
+   "toughness": "5"
   },
   {
    "name": "Faerie Vandal",
@@ -118,7 +122,9 @@
    ],
    "mana_cost": "{1}{U}",
    "url": "https://scryfall.com/card/snc/44/faerie-vandal?utm_source=api",
-   "oracle_text": "Flash (You may cast this spell any time you could cast an instant.)\nFlying\nWhenever you draw your second card each turn, put a +1/+1 counter on this creature."
+   "oracle_text": "Flash (You may cast this spell any time you could cast an instant.)\nFlying\nWhenever you draw your second card each turn, put a +1/+1 counter on this creature.",
+   "power": "1",
+   "toughness": "2"
   },
   {
    "name": "Thundering Falls",
@@ -209,7 +215,9 @@
    ],
    "mana_cost": "{2}{U}",
    "url": "https://scryfall.com/card/dmr/58/man-o-war?utm_source=api",
-   "oracle_text": "When this creature enters, return target creature to its owner's hand."
+   "oracle_text": "When this creature enters, return target creature to its owner's hand.",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Serum Visions",
@@ -267,7 +275,9 @@
    ],
    "mana_cost": "{R}",
    "url": "https://scryfall.com/card/mh2/121/dragons-rage-channeler?utm_source=api",
-   "oracle_text": "Whenever you cast a noncreature spell, surveil 1. (Look at the top card of your library. You may put that card into your graveyard.)\nDelirium — As long as there are four or more card types among cards in your graveyard, this creature gets +2/+2, has flying, and attacks each combat if able."
+   "oracle_text": "Whenever you cast a noncreature spell, surveil 1. (Look at the top card of your library. You may put that card into your graveyard.)\nDelirium — As long as there are four or more card types among cards in your graveyard, this creature gets +2/+2, has flying, and attacks each combat if able.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Into the Roil",
@@ -416,7 +426,9 @@
    ],
    "mana_cost": "{1}{R}{R}",
    "url": "https://scryfall.com/card/2x2/123/seasoned-pyromancer?utm_source=api",
-   "oracle_text": "When this creature enters, discard two cards, then draw two cards. For each nonland card discarded this way, create a 1/1 red Elemental creature token.\n{3}{R}{R}, Exile this card from your graveyard: Create two 1/1 red Elemental creature tokens."
+   "oracle_text": "When this creature enters, discard two cards, then draw two cards. For each nonland card discarded this way, create a 1/1 red Elemental creature token.\n{3}{R}{R}, Exile this card from your graveyard: Create two 1/1 red Elemental creature tokens.",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Boseiju, Who Endures",
@@ -515,7 +527,9 @@
    ],
    "mana_cost": "{1}{R}",
    "url": "https://scryfall.com/card/tdc/95/young-pyromancer?utm_source=api",
-   "oracle_text": "Whenever you cast an instant or sorcery spell, create a 1/1 red Elemental creature token."
+   "oracle_text": "Whenever you cast an instant or sorcery spell, create a 1/1 red Elemental creature token.",
+   "power": "2",
+   "toughness": "1"
   },
   {
    "name": "Mark of Mutiny",
@@ -603,7 +617,9 @@
    ],
    "mana_cost": "{1}{U}{R}",
    "url": "https://scryfall.com/card/iko/203/rielle-the-everwise?utm_source=api",
-   "oracle_text": "Rielle gets +1/+0 for each instant and sorcery card in your graveyard.\nWhenever you discard one or more cards for the first time each turn, draw that many cards."
+   "oracle_text": "Rielle gets +1/+0 for each instant and sorcery card in your graveyard.\nWhenever you discard one or more cards for the first time each turn, draw that many cards.",
+   "power": "0",
+   "toughness": "3"
   },
   {
    "name": "Island",
@@ -796,7 +812,9 @@
    ],
    "mana_cost": "{R}{G}",
    "url": "https://scryfall.com/card/mh2/216/territorial-kavu?utm_source=api",
-   "oracle_text": "Domain — Territorial Kavu's power and toughness are each equal to the number of basic land types among lands you control.\nWhenever this creature attacks, choose one —\n• Discard a card. If you do, draw a card.\n• Exile up to one target card from a graveyard."
+   "oracle_text": "Domain — Territorial Kavu's power and toughness are each equal to the number of basic land types among lands you control.\nWhenever this creature attacks, choose one —\n• Discard a card. If you do, draw a card.\n• Exile up to one target card from a graveyard.",
+   "power": "*",
+   "toughness": "*"
   },
   {
    "name": "Scryb Ranger",
@@ -817,7 +835,9 @@
    ],
    "mana_cost": "{1}{G}",
    "url": "https://scryfall.com/card/tsr/227/scryb-ranger?utm_source=api",
-   "oracle_text": "Flash\nFlying, protection from blue\nReturn a Forest you control to its owner's hand: Untap target creature. Activate only once each turn."
+   "oracle_text": "Flash\nFlying, protection from blue\nReturn a Forest you control to its owner's hand: Untap target creature. Activate only once each turn.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Kiora, the Rising Tide",
@@ -839,7 +859,9 @@
    ],
    "mana_cost": "{2}{U}",
    "url": "https://scryfall.com/card/fdn/45/kiora-the-rising-tide?utm_source=api",
-   "oracle_text": "When Kiora enters, draw two cards, then discard two cards.\nThreshold — Whenever Kiora attacks, if there are seven or more cards in your graveyard, you may create Scion of the Deep, a legendary 8/8 blue Octopus creature token."
+   "oracle_text": "When Kiora enters, draw two cards, then discard two cards.\nThreshold — Whenever Kiora attacks, if there are seven or more cards in your graveyard, you may create Scion of the Deep, a legendary 8/8 blue Octopus creature token.",
+   "power": "3",
+   "toughness": "2"
   }
  ]
 }

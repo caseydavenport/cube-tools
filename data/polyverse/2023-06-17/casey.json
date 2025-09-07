@@ -66,7 +66,9 @@
    ],
    "mana_cost": "{2}{R}",
    "url": "https://scryfall.com/card/m19/132/catalyst-elemental?utm_source=api",
-   "oracle_text": "Sacrifice this creature: Add {R}{R}."
+   "oracle_text": "Sacrifice this creature: Add {R}{R}.",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Kazandu Refuge",
@@ -103,7 +105,9 @@
    ],
    "mana_cost": "{R}",
    "url": "https://scryfall.com/card/war/130/grim-initiate?utm_source=api",
-   "oracle_text": "First strike\nWhen this creature dies, amass Zombies 1. (Put a +1/+1 counter on an Army you control. It's also a Zombie. If you don't control an Army, create a 0/0 black Zombie Army creature token first.)"
+   "oracle_text": "First strike\nWhen this creature dies, amass Zombies 1. (Put a +1/+1 counter on an Army you control. It's also a Zombie. If you don't control an Army, create a 0/0 black Zombie Army creature token first.)",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Territorial Allosaurus",
@@ -123,7 +127,9 @@
    ],
    "mana_cost": "{2}{G}{G}",
    "url": "https://scryfall.com/card/dom/184/territorial-allosaurus?utm_source=api",
-   "oracle_text": "Kicker {2}{G} (You may pay an additional {2}{G} as you cast this spell.)\nWhen this creature enters, if it was kicked, it fights another target creature."
+   "oracle_text": "Kicker {2}{G} (You may pay an additional {2}{G} as you cast this spell.)\nWhen this creature enters, if it was kicked, it fights another target creature.",
+   "power": "5",
+   "toughness": "5"
   },
   {
    "name": "Capricious Efreet",
@@ -143,7 +149,9 @@
    ],
    "mana_cost": "{4}{R}{R}",
    "url": "https://scryfall.com/card/c13/102/capricious-efreet?utm_source=api",
-   "oracle_text": "At the beginning of your upkeep, choose target nonland permanent you control and up to two target nonland permanents you don't control. Destroy one of them at random."
+   "oracle_text": "At the beginning of your upkeep, choose target nonland permanent you control and up to two target nonland permanents you don't control. Destroy one of them at random.",
+   "power": "6",
+   "toughness": "4"
   },
   {
    "name": "Smother",
@@ -179,7 +187,9 @@
    ],
    "mana_cost": "{2}",
    "url": "https://scryfall.com/card/som/146/copper-myr?utm_source=api",
-   "oracle_text": "{T}: Add {G}."
+   "oracle_text": "{T}: Add {G}.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Iron Myr",
@@ -198,7 +208,9 @@
    ],
    "mana_cost": "{2}",
    "url": "https://scryfall.com/card/som/168/iron-myr?utm_source=api",
-   "oracle_text": "{T}: Add {R}."
+   "oracle_text": "{T}: Add {R}.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Rootbound Crag",
@@ -235,7 +247,9 @@
    ],
    "mana_cost": "{1}{G}",
    "url": "https://scryfall.com/card/one/161/cankerbloom?utm_source=api",
-   "oracle_text": "{1}, Sacrifice this creature: Choose one —\n• Destroy target artifact.\n• Destroy target enchantment.\n• Proliferate. (Choose any number of permanents and/or players, then give each another counter of each kind already there.)"
+   "oracle_text": "{1}, Sacrifice this creature: Choose one —\n• Destroy target artifact.\n• Destroy target enchantment.\n• Proliferate. (Choose any number of permanents and/or players, then give each another counter of each kind already there.)",
+   "power": "3",
+   "toughness": "2"
   },
   {
    "name": "Domri, Anarch of Bolas",
@@ -584,7 +598,9 @@
    ],
    "mana_cost": "{R}",
    "url": "https://scryfall.com/card/xln/157/rigging-runner?utm_source=api",
-   "oracle_text": "First strike\nRaid — This creature enters with a +1/+1 counter on it if you attacked this turn."
+   "oracle_text": "First strike\nRaid — This creature enters with a +1/+1 counter on it if you attacked this turn.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Reckless Rage",
@@ -622,7 +638,9 @@
    ],
    "mana_cost": "{1}{G}",
    "url": "https://scryfall.com/card/clu/169/kronch-wrangler?utm_source=api",
-   "oracle_text": "Trample\nWhenever a creature you control with power 4 or greater enters, put a +1/+1 counter on this creature."
+   "oracle_text": "Trample\nWhenever a creature you control with power 4 or greater enters, put a +1/+1 counter on this creature.",
+   "power": "2",
+   "toughness": "1"
   },
   {
    "name": "Rampaging Baloths",
@@ -642,7 +660,9 @@
    ],
    "mana_cost": "{4}{G}{G}",
    "url": "https://scryfall.com/card/eoc/104/rampaging-baloths?utm_source=api",
-   "oracle_text": "Trample\nLandfall — Whenever a land you control enters, create a 4/4 green Beast creature token."
+   "oracle_text": "Trample\nLandfall — Whenever a land you control enters, create a 4/4 green Beast creature token.",
+   "power": "6",
+   "toughness": "6"
   },
   {
    "name": "Witherscale Wurm",
@@ -662,7 +682,9 @@
    ],
    "mana_cost": "{4}{G}{G}",
    "url": "https://scryfall.com/card/shm/134/witherscale-wurm?utm_source=api",
-   "oracle_text": "Whenever this creature blocks or becomes blocked by a creature, that creature gains wither until end of turn. (It deals damage to creatures in the form of -1/-1 counters.)\nWhenever this creature deals damage to an opponent, remove all -1/-1 counters from it."
+   "oracle_text": "Whenever this creature blocks or becomes blocked by a creature, that creature gains wither until end of turn. (It deals damage to creatures in the form of -1/-1 counters.)\nWhenever this creature deals damage to an opponent, remove all -1/-1 counters from it.",
+   "power": "9",
+   "toughness": "9"
   },
   {
    "name": "Rubblebelt Rioters",
@@ -685,7 +707,9 @@
    ],
    "mana_cost": "{1}{R}{G}",
    "url": "https://scryfall.com/card/war/215/rubblebelt-rioters?utm_source=api",
-   "oracle_text": "Haste\nWhenever this creature attacks, it gets +X/+0 until end of turn, where X is the greatest power among creatures you control."
+   "oracle_text": "Haste\nWhenever this creature attacks, it gets +X/+0 until end of turn, where X is the greatest power among creatures you control.",
+   "power": "0",
+   "toughness": "4"
   },
   {
    "name": "Domri's Ambush",
@@ -724,7 +748,9 @@
    ],
    "mana_cost": "{2}{R}",
    "url": "https://scryfall.com/card/roe/160/rage-nimbus?utm_source=api",
-   "oracle_text": "Defender, flying\n{1}{R}: Target creature attacks this turn if able."
+   "oracle_text": "Defender, flying\n{1}{R}: Target creature attacks this turn if able.",
+   "power": "5",
+   "toughness": "3"
   },
   {
    "name": "Summit Apes",
@@ -744,7 +770,9 @@
    ],
    "mana_cost": "{3}{G}",
    "url": "https://scryfall.com/card/wwk/114/summit-apes?utm_source=api",
-   "oracle_text": "As long as you control a Mountain, this creature has menace. (It can't be blocked except by two or more creatures.)"
+   "oracle_text": "As long as you control a Mountain, this creature has menace. (It can't be blocked except by two or more creatures.)",
+   "power": "5",
+   "toughness": "2"
   },
   {
    "name": "Impending Doom",
@@ -785,7 +813,9 @@
    ],
    "mana_cost": "{G}",
    "url": "https://scryfall.com/card/a25/160/arbor-elf?utm_source=api",
-   "oracle_text": "{T}: Untap target Forest."
+   "oracle_text": "{T}: Untap target Forest.",
+   "power": "1",
+   "toughness": "1"
   }
  ],
  "sideboard": []

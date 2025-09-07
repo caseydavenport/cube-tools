@@ -97,7 +97,9 @@
    ],
    "mana_cost": "{1}{G}",
    "url": "https://scryfall.com/card/clu/169/kronch-wrangler?utm_source=api",
-   "oracle_text": "Trample\nWhenever a creature you control with power 4 or greater enters, put a +1/+1 counter on this creature."
+   "oracle_text": "Trample\nWhenever a creature you control with power 4 or greater enters, put a +1/+1 counter on this creature.",
+   "power": "2",
+   "toughness": "1"
   },
   {
    "name": "Sprout Swarm",
@@ -135,7 +137,9 @@
    ],
    "mana_cost": "{2}{R}",
    "url": "https://scryfall.com/card/moc/287/krenko-tin-street-kingpin?utm_source=api",
-   "oracle_text": "Whenever Krenko attacks, put a +1/+1 counter on it, then create a number of 1/1 red Goblin creature tokens equal to Krenko's power."
+   "oracle_text": "Whenever Krenko attacks, put a +1/+1 counter on it, then create a number of 1/1 red Goblin creature tokens equal to Krenko's power.",
+   "power": "1",
+   "toughness": "2"
   },
   {
    "name": "Knight of the Ebon Legion",
@@ -156,7 +160,9 @@
    ],
    "mana_cost": "{B}",
    "url": "https://scryfall.com/card/m20/105/knight-of-the-ebon-legion?utm_source=api",
-   "oracle_text": "{2}{B}: This creature gets +3/+3 and gains deathtouch until end of turn.\nAt the beginning of your end step, if a player lost 4 or more life this turn, put a +1/+1 counter on this creature. (Damage causes loss of life.)"
+   "oracle_text": "{2}{B}: This creature gets +3/+3 and gains deathtouch until end of turn.\nAt the beginning of your end step, if a player lost 4 or more life this turn, put a +1/+1 counter on this creature. (Damage causes loss of life.)",
+   "power": "1",
+   "toughness": "2"
   },
   {
    "name": "Demonic Vigor",
@@ -199,7 +205,9 @@
    ],
    "mana_cost": "{1}{B}{R}",
    "url": "https://scryfall.com/card/mm3/172/kathari-bomber?utm_source=api",
-   "oracle_text": "Flying\nWhen this creature deals combat damage to a player, create two 1/1 red Goblin creature tokens and sacrifice this creature.\nUnearth {3}{B}{R} ({3}{B}{R}: Return this card from your graveyard to the battlefield. It gains haste. Exile it at the beginning of the next end step or if it would leave the battlefield. Unearth only as a sorcery.)"
+   "oracle_text": "Flying\nWhen this creature deals combat damage to a player, create two 1/1 red Goblin creature tokens and sacrifice this creature.\nUnearth {3}{B}{R} ({3}{B}{R}: Return this card from your graveyard to the battlefield. It gains haste. Exile it at the beginning of the next end step or if it would leave the battlefield. Unearth only as a sorcery.)",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Dragonskull Summit",
@@ -236,7 +244,9 @@
    ],
    "mana_cost": "{B}{B}",
    "url": "https://scryfall.com/card/2xm/112/vampire-hexmage?utm_source=api",
-   "oracle_text": "First strike\nSacrifice this creature: Remove all counters from target permanent."
+   "oracle_text": "First strike\nSacrifice this creature: Remove all counters from target permanent.",
+   "power": "2",
+   "toughness": "1"
   },
   {
    "name": "Mayhem Devil",
@@ -258,7 +268,9 @@
    ],
    "mana_cost": "{1}{B}{R}",
    "url": "https://scryfall.com/card/eoc/121/mayhem-devil?utm_source=api",
-   "oracle_text": "Whenever a player sacrifices a permanent, this creature deals 1 damage to any target."
+   "oracle_text": "Whenever a player sacrifices a permanent, this creature deals 1 damage to any target.",
+   "power": "3",
+   "toughness": "3"
   },
   {
    "name": "Ravenous Squirrel",
@@ -280,7 +292,9 @@
    ],
    "mana_cost": "{B/G}",
    "url": "https://scryfall.com/card/mh2/211/ravenous-squirrel?utm_source=api",
-   "oracle_text": "Whenever you sacrifice an artifact or creature, put a +1/+1 counter on this creature.\n{1}{B}{G}, Sacrifice an artifact or creature: You gain 1 life and draw a card."
+   "oracle_text": "Whenever you sacrifice an artifact or creature, put a +1/+1 counter on this creature.\n{1}{B}{G}, Sacrifice an artifact or creature: You gain 1 life and draw a card.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Domri, Anarch of Bolas",
@@ -324,7 +338,9 @@
    ],
    "mana_cost": "{4}{B}",
    "url": "https://scryfall.com/card/clu/117/orzhov-racketeers?utm_source=api",
-   "oracle_text": "Whenever this creature deals combat damage to a player, that player discards a card.\nAfterlife 2 (When this creature dies, create two 1/1 white and black Spirit creature tokens with flying.)"
+   "oracle_text": "Whenever this creature deals combat damage to a player, that player discards a card.\nAfterlife 2 (When this creature dies, create two 1/1 white and black Spirit creature tokens with flying.)",
+   "power": "3",
+   "toughness": "2"
   },
   {
    "name": "Deathsprout",
@@ -363,7 +379,9 @@
    ],
    "mana_cost": "{2}{G}",
    "url": "https://scryfall.com/card/pca/65/gluttonous-slime?utm_source=api",
-   "oracle_text": "Flash\nDevour 1 (As this creature enters, you may sacrifice any number of creatures. It enters with that many +1/+1 counters on it.)"
+   "oracle_text": "Flash\nDevour 1 (As this creature enters, you may sacrifice any number of creatures. It enters with that many +1/+1 counters on it.)",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Skarrgan Hellkite",
@@ -383,7 +401,9 @@
    ],
    "mana_cost": "{3}{R}{R}",
    "url": "https://scryfall.com/card/tdc/233/skarrgan-hellkite?utm_source=api",
-   "oracle_text": "Riot (This creature enters with your choice of a +1/+1 counter or haste.)\nFlying\n{3}{R}: This creature deals 2 damage divided as you choose among one or two targets. Activate only if this creature has a +1/+1 counter on it."
+   "oracle_text": "Riot (This creature enters with your choice of a +1/+1 counter or haste.)\nFlying\n{3}{R}: This creature deals 2 damage divided as you choose among one or two targets. Activate only if this creature has a +1/+1 counter on it.",
+   "power": "4",
+   "toughness": "4"
   },
   {
    "name": "Game Trail",
@@ -471,7 +491,9 @@
    ],
    "mana_cost": "{B}",
    "url": "https://scryfall.com/card/neo/93/dockside-chef?utm_source=api",
-   "oracle_text": "{1}{B}, Sacrifice an artifact or creature: Draw a card."
+   "oracle_text": "{1}{B}, Sacrifice an artifact or creature: Draw a card.",
+   "power": "1",
+   "toughness": "2"
   },
   {
    "name": "Devoted Druid",
@@ -492,7 +514,9 @@
    ],
    "mana_cost": "{1}{G}",
    "url": "https://scryfall.com/card/2x2/143/devoted-druid?utm_source=api",
-   "oracle_text": "{T}: Add {G}.\nPut a -1/-1 counter on this creature: Untap this creature."
+   "oracle_text": "{T}: Add {G}.\nPut a -1/-1 counter on this creature: Untap this creature.",
+   "power": "0",
+   "toughness": "2"
   },
   {
    "name": "Rootbound Crag",
@@ -549,7 +573,9 @@
    ],
    "mana_cost": "{3}{B}",
    "url": "https://scryfall.com/card/cmm/198/whisper-blood-liturgist?utm_source=api",
-   "oracle_text": "{T}, Sacrifice two creatures: Return target creature card from your graveyard to the battlefield."
+   "oracle_text": "{T}, Sacrifice two creatures: Return target creature card from your graveyard to the battlefield.",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Territorial Allosaurus",
@@ -569,7 +595,9 @@
    ],
    "mana_cost": "{2}{G}{G}",
    "url": "https://scryfall.com/card/dom/184/territorial-allosaurus?utm_source=api",
-   "oracle_text": "Kicker {2}{G} (You may pay an additional {2}{G} as you cast this spell.)\nWhen this creature enters, if it was kicked, it fights another target creature."
+   "oracle_text": "Kicker {2}{G} (You may pay an additional {2}{G} as you cast this spell.)\nWhen this creature enters, if it was kicked, it fights another target creature.",
+   "power": "5",
+   "toughness": "5"
   },
   {
    "name": "Uncharted Haven",
@@ -832,7 +860,9 @@
    ],
    "mana_cost": "{1}{R}{G}{G}",
    "url": "https://scryfall.com/card/c13/216/spellbreaker-behemoth?utm_source=api",
-   "oracle_text": "This spell can't be countered.\nCreature spells you control with power 5 or greater can't be countered."
+   "oracle_text": "This spell can't be countered.\nCreature spells you control with power 5 or greater can't be countered.",
+   "power": "5",
+   "toughness": "5"
   },
   {
    "name": "Nissa, Who Shakes the World",
@@ -894,7 +924,9 @@
    ],
    "mana_cost": "{3}{B}",
    "url": "https://scryfall.com/card/m20/103/gravedigger?utm_source=api",
-   "oracle_text": "When this creature enters, you may return target creature card from your graveyard to your hand."
+   "oracle_text": "When this creature enters, you may return target creature card from your graveyard to your hand.",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Gilded Goose",
@@ -914,7 +946,9 @@
    ],
    "mana_cost": "{G}",
    "url": "https://scryfall.com/card/moc/299/gilded-goose?utm_source=api",
-   "oracle_text": "Flying\nWhen this creature enters, create a Food token. (It's an artifact with \"{2}, {T}, Sacrifice this token: You gain 3 life.\")\n{1}{G}, {T}: Create a Food token.\n{T}, Sacrifice a Food: Add one mana of any color."
+   "oracle_text": "Flying\nWhen this creature enters, create a Food token. (It's an artifact with \"{2}, {T}, Sacrifice this token: You gain 3 life.\")\n{1}{G}, {T}: Create a Food token.\n{T}, Sacrifice a Food: Add one mana of any color.",
+   "power": "0",
+   "toughness": "2"
   },
   {
    "name": "Chainweb Aracnir",
@@ -934,7 +968,9 @@
    ],
    "mana_cost": "{G}",
    "url": "https://scryfall.com/card/thb/167/chainweb-aracnir?utm_source=api",
-   "oracle_text": "Reach\nWhen this creature enters, it deals damage equal to its power to target creature with flying an opponent controls.\nEscape—{3}{G}{G}, Exile four other cards from your graveyard. (You may cast this card from your graveyard for its escape cost.)\nThis creature escapes with three +1/+1 counters on it."
+   "oracle_text": "Reach\nWhen this creature enters, it deals damage equal to its power to target creature with flying an opponent controls.\nEscape—{3}{G}{G}, Exile four other cards from your graveyard. (You may cast this card from your graveyard for its escape cost.)\nThis creature escapes with three +1/+1 counters on it.",
+   "power": "1",
+   "toughness": "2"
   },
   {
    "name": "Reinforced Ronin",
@@ -956,7 +992,9 @@
    ],
    "mana_cost": "{R}",
    "url": "https://scryfall.com/card/neo/158/reinforced-ronin?utm_source=api",
-   "oracle_text": "Haste\nAt the beginning of your end step, return this creature to its owner's hand.\nChannel — {1}{R}, Discard this card: Draw a card."
+   "oracle_text": "Haste\nAt the beginning of your end step, return this creature to its owner's hand.\nChannel — {1}{R}, Discard this card: Draw a card.",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "No Rest for the Wicked",
@@ -1086,7 +1124,9 @@
    ],
    "mana_cost": "{2}{G}",
    "url": "https://scryfall.com/card/fdn/231/reclamation-sage?utm_source=api",
-   "oracle_text": "When this creature enters, you may destroy target artifact or enchantment."
+   "oracle_text": "When this creature enters, you may destroy target artifact or enchantment.",
+   "power": "2",
+   "toughness": "1"
   },
   {
    "name": "Stingerfling Spider",
@@ -1106,7 +1146,9 @@
    ],
    "mana_cost": "{4}{G}",
    "url": "https://scryfall.com/card/cmr/258/stingerfling-spider?utm_source=api",
-   "oracle_text": "Reach\nWhen this creature enters, you may destroy target creature with flying."
+   "oracle_text": "Reach\nWhen this creature enters, you may destroy target creature with flying.",
+   "power": "2",
+   "toughness": "5"
   },
   {
    "name": "Wickerbough Elder",
@@ -1127,7 +1169,9 @@
    ],
    "mana_cost": "{3}{G}",
    "url": "https://scryfall.com/card/ncc/320/wickerbough-elder?utm_source=api",
-   "oracle_text": "This creature enters with a -1/-1 counter on it.\n{G}, Remove a -1/-1 counter from this creature: Destroy target artifact or enchantment."
+   "oracle_text": "This creature enters with a -1/-1 counter on it.\n{G}, Remove a -1/-1 counter from this creature: Destroy target artifact or enchantment.",
+   "power": "4",
+   "toughness": "4"
   },
   {
    "name": "Vampire of the Dire Moon",
@@ -1147,7 +1191,9 @@
    ],
    "mana_cost": "{B}",
    "url": "https://scryfall.com/card/m20/120/vampire-of-the-dire-moon?utm_source=api",
-   "oracle_text": "Deathtouch (Any amount of damage this deals to a creature is enough to destroy it.)\nLifelink (Damage dealt by this creature also causes you to gain that much life.)"
+   "oracle_text": "Deathtouch (Any amount of damage this deals to a creature is enough to destroy it.)\nLifelink (Damage dealt by this creature also causes you to gain that much life.)",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Vines of Vastwood",

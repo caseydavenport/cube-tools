@@ -138,7 +138,9 @@
    ],
    "mana_cost": "{1}{R}",
    "url": "https://scryfall.com/card/tdc/95/young-pyromancer?utm_source=api",
-   "oracle_text": "Whenever you cast an instant or sorcery spell, create a 1/1 red Elemental creature token."
+   "oracle_text": "Whenever you cast an instant or sorcery spell, create a 1/1 red Elemental creature token.",
+   "power": "2",
+   "toughness": "1"
   },
   {
    "name": "Fire // Ice",
@@ -309,7 +311,9 @@
    ],
    "mana_cost": "{2}{U}",
    "url": "https://scryfall.com/card/fdn/45/kiora-the-rising-tide?utm_source=api",
-   "oracle_text": "When Kiora enters, draw two cards, then discard two cards.\nThreshold — Whenever Kiora attacks, if there are seven or more cards in your graveyard, you may create Scion of the Deep, a legendary 8/8 blue Octopus creature token."
+   "oracle_text": "When Kiora enters, draw two cards, then discard two cards.\nThreshold — Whenever Kiora attacks, if there are seven or more cards in your graveyard, you may create Scion of the Deep, a legendary 8/8 blue Octopus creature token.",
+   "power": "3",
+   "toughness": "2"
   },
   {
    "name": "Unholy Heat",
@@ -347,7 +351,9 @@
    ],
    "mana_cost": "{1}{R}",
    "url": "https://scryfall.com/card/dmu/122/electrostatic-infantry?utm_source=api",
-   "oracle_text": "Trample\nWhenever you cast an instant or sorcery spell, put a +1/+1 counter on this creature."
+   "oracle_text": "Trample\nWhenever you cast an instant or sorcery spell, put a +1/+1 counter on this creature.",
+   "power": "1",
+   "toughness": "2"
   },
   {
    "name": "Lightning Helix",
@@ -458,7 +464,9 @@
    ],
    "mana_cost": "{1}{R} // {1}{U}",
    "url": "https://scryfall.com/card/woe/235/scalding-viper-steam-clean?utm_source=api",
-   "oracle_text": ""
+   "oracle_text": "",
+   "power": "2",
+   "toughness": "1"
   },
   {
    "name": "Scalding Tarn",
@@ -618,7 +626,9 @@
    ],
    "mana_cost": "{2}{U}",
    "url": "https://scryfall.com/card/mh3/59/dreamtide-whale?utm_source=api",
-   "oracle_text": "Vanishing 2 (This creature enters with two time counters on it. At the beginning of your upkeep, remove a time counter from it. When the last is removed, sacrifice it.)\nWhenever a player casts their second spell each turn, proliferate. (Choose any number of permanents and/or players, then give each another counter of each kind already there.)"
+   "oracle_text": "Vanishing 2 (This creature enters with two time counters on it. At the beginning of your upkeep, remove a time counter from it. When the last is removed, sacrifice it.)\nWhenever a player casts their second spell each turn, proliferate. (Choose any number of permanents and/or players, then give each another counter of each kind already there.)",
+   "power": "7",
+   "toughness": "5"
   },
   {
    "name": "Meticulous Archive",
@@ -792,7 +802,9 @@
    ],
    "mana_cost": "{1}{U}{R}",
    "url": "https://scryfall.com/card/iko/203/rielle-the-everwise?utm_source=api",
-   "oracle_text": "Rielle gets +1/+0 for each instant and sorcery card in your graveyard.\nWhenever you discard one or more cards for the first time each turn, draw that many cards."
+   "oracle_text": "Rielle gets +1/+0 for each instant and sorcery card in your graveyard.\nWhenever you discard one or more cards for the first time each turn, draw that many cards.",
+   "power": "0",
+   "toughness": "3"
   },
   {
    "name": "Consider",
@@ -862,7 +874,9 @@
    ],
    "mana_cost": "{1}{W}",
    "url": "https://scryfall.com/card/mm3/11/kor-skyfisher?utm_source=api",
-   "oracle_text": "Flying\nWhen this creature enters, return a permanent you control to its owner's hand."
+   "oracle_text": "Flying\nWhen this creature enters, return a permanent you control to its owner's hand.",
+   "power": "2",
+   "toughness": "3"
   },
   {
    "name": "Jolrael, Mwonvuli Recluse",
@@ -884,7 +898,9 @@
    ],
    "mana_cost": "{1}{G}",
    "url": "https://scryfall.com/card/mkc/173/jolrael-mwonvuli-recluse?utm_source=api",
-   "oracle_text": "Whenever you draw your second card each turn, create a 2/2 green Cat creature token.\n{4}{G}{G}: Until end of turn, creatures you control have base power and toughness X/X, where X is the number of cards in your hand."
+   "oracle_text": "Whenever you draw your second card each turn, create a 2/2 green Cat creature token.\n{4}{G}{G}: Until end of turn, creatures you control have base power and toughness X/X, where X is the number of cards in your hand.",
+   "power": "1",
+   "toughness": "2"
   },
   {
    "name": "Reveillark",
@@ -904,7 +920,9 @@
    ],
    "mana_cost": "{4}{W}",
    "url": "https://scryfall.com/card/2x2/26/reveillark?utm_source=api",
-   "oracle_text": "Flying\nWhen this creature leaves the battlefield, return up to two target creature cards with power 2 or less from your graveyard to the battlefield.\nEvoke {5}{W} (You may cast this spell for its evoke cost. If you do, it's sacrificed when it enters.)"
+   "oracle_text": "Flying\nWhen this creature leaves the battlefield, return up to two target creature cards with power 2 or less from your graveyard to the battlefield.\nEvoke {5}{W} (You may cast this spell for its evoke cost. If you do, it's sacrificed when it enters.)",
+   "power": "4",
+   "toughness": "3"
   },
   {
    "name": "Pyroclasm",
@@ -975,7 +993,9 @@
    ],
    "mana_cost": "{W}",
    "url": "https://scryfall.com/card/zen/36/steppe-lynx?utm_source=api",
-   "oracle_text": "Landfall — Whenever a land you control enters, this creature gets +2/+2 until end of turn."
+   "oracle_text": "Landfall — Whenever a land you control enters, this creature gets +2/+2 until end of turn.",
+   "power": "0",
+   "toughness": "1"
   },
   {
    "name": "Seal of Fire",
@@ -1011,7 +1031,9 @@
    ],
    "mana_cost": "{2}",
    "url": "https://scryfall.com/card/bro/164/scrapwork-mutt?utm_source=api",
-   "oracle_text": "When this creature enters, you may discard a card. If you do, draw a card.\nUnearth {1}{R} ({1}{R}: Return this card from your graveyard to the battlefield. It gains haste. Exile it at the beginning of the next end step or if it would leave the battlefield. Unearth only as a sorcery.)"
+   "oracle_text": "When this creature enters, you may discard a card. If you do, draw a card.\nUnearth {1}{R} ({1}{R}: Return this card from your graveyard to the battlefield. It gains haste. Exile it at the beginning of the next end step or if it would leave the battlefield. Unearth only as a sorcery.)",
+   "power": "2",
+   "toughness": "1"
   },
   {
    "name": "Tamiyo, Compleated Sage",

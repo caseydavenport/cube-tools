@@ -70,7 +70,9 @@
    ],
    "mana_cost": "{R}",
    "url": "https://scryfall.com/card/akh/148/soul-scar-mage?utm_source=api",
-   "oracle_text": "Prowess\nIf a source you control would deal noncombat damage to a creature an opponent controls, put that many -1/-1 counters on that creature instead."
+   "oracle_text": "Prowess\nIf a source you control would deal noncombat damage to a creature an opponent controls, put that many -1/-1 counters on that creature instead.",
+   "power": "1",
+   "toughness": "2"
   },
   {
    "name": "Mayhem Devil",
@@ -93,6 +95,8 @@
    "mana_cost": "{1}{B}{R}",
    "url": "https://scryfall.com/card/eoc/121/mayhem-devil?utm_source=api",
    "oracle_text": "Whenever a player sacrifices a permanent, this creature deals 1 damage to any target.",
+   "power": "3",
+   "toughness": "3",
    "appearances": 1
   },
   {
@@ -117,6 +121,8 @@
    "mana_cost": "{B}{G}",
    "url": "https://scryfall.com/card/dsc/218/grim-flayer?utm_source=api",
    "oracle_text": "Trample\nWhenever this creature deals combat damage to a player, surveil 3. (Look at the top three cards of your library, then put any number of them into your graveyard and the rest on top of your library in any order.)\nDelirium — This creature gets +2/+2 as long as there are four or more card types among cards in your graveyard.",
+   "power": "2",
+   "toughness": "2",
    "appearances": 1
   },
   {
@@ -139,6 +145,8 @@
    "mana_cost": "{1}{G}",
    "url": "https://scryfall.com/card/one/161/cankerbloom?utm_source=api",
    "oracle_text": "{1}, Sacrifice this creature: Choose one —\n• Destroy target artifact.\n• Destroy target enchantment.\n• Proliferate. (Choose any number of permanents and/or players, then give each another counter of each kind already there.)",
+   "power": "3",
+   "toughness": "2",
    "appearances": 1
   },
   {
@@ -215,6 +223,8 @@
    "mana_cost": "{B}",
    "url": "https://scryfall.com/card/tdc/199/viscera-seer?utm_source=api",
    "oracle_text": "Sacrifice a creature: Scry 1. (Look at the top card of your library. You may put that card on the bottom.)",
+   "power": "1",
+   "toughness": "1",
    "appearances": 1
   },
   {
@@ -237,6 +247,8 @@
    "mana_cost": "{1}{G}",
    "url": "https://scryfall.com/card/stx/127/dragonsguard-elite?utm_source=api",
    "oracle_text": "Magecraft — Whenever you cast or copy an instant or sorcery spell, put a +1/+1 counter on this creature.\n{4}{G}{G}: Double the number of +1/+1 counters on this creature.",
+   "power": "2",
+   "toughness": "2",
    "appearances": 1
   },
   {
@@ -279,6 +291,8 @@
    "mana_cost": "{2}{B/R}{B/R}",
    "url": "https://scryfall.com/card/uma/217/murderous-redcap?utm_source=api",
    "oracle_text": "When this creature enters, it deals damage equal to its power to any target.\nPersist (When this creature dies, if it had no -1/-1 counters on it, return it to the battlefield under its owner's control with a -1/-1 counter on it.)",
+   "power": "2",
+   "toughness": "2",
    "appearances": 1
   },
   {
@@ -301,6 +315,8 @@
    "mana_cost": "{B}",
    "url": "https://scryfall.com/card/m20/105/knight-of-the-ebon-legion?utm_source=api",
    "oracle_text": "{2}{B}: This creature gets +3/+3 and gains deathtouch until end of turn.\nAt the beginning of your end step, if a player lost 4 or more life this turn, put a +1/+1 counter on this creature. (Damage causes loss of life.)",
+   "power": "1",
+   "toughness": "2",
    "appearances": 1
   },
   {
@@ -322,6 +338,8 @@
    "mana_cost": "{3}{B}{B}",
    "url": "https://scryfall.com/card/akh/78/archfiend-of-ifnir?utm_source=api",
    "oracle_text": "Flying\nWhenever you cycle or discard another card, put a -1/-1 counter on each creature your opponents control.\nCycling {2} ({2}, Discard this card: Draw a card.)",
+   "power": "5",
+   "toughness": "4",
    "appearances": 1
   },
   {
@@ -397,6 +415,8 @@
    "mana_cost": "{2}{B}",
    "url": "https://scryfall.com/card/tdc/201/woe-strider?utm_source=api",
    "oracle_text": "When this creature enters, create a 0/1 white Goat creature token.\nSacrifice another creature: Scry 1.\nEscape—{3}{B}{B}, Exile four other cards from your graveyard. (You may cast this card from your graveyard for its escape cost.)\nThis creature escapes with two +1/+1 counters on it.",
+   "power": "3",
+   "toughness": "2",
    "appearances": 1
   },
   {
@@ -418,6 +438,8 @@
    "mana_cost": "{2}{G}",
    "url": "https://scryfall.com/card/soi/212/inexorable-blob?utm_source=api",
    "oracle_text": "Delirium — Whenever this creature attacks, if there are four or more card types among cards in your graveyard, create a 3/3 green Ooze creature token that's tapped and attacking.",
+   "power": "3",
+   "toughness": "3",
    "appearances": 1
   },
   {
@@ -440,7 +462,9 @@
    ],
    "mana_cost": "{B/G}",
    "url": "https://scryfall.com/card/mh2/211/ravenous-squirrel?utm_source=api",
-   "oracle_text": "Whenever you sacrifice an artifact or creature, put a +1/+1 counter on this creature.\n{1}{B}{G}, Sacrifice an artifact or creature: You gain 1 life and draw a card."
+   "oracle_text": "Whenever you sacrifice an artifact or creature, put a +1/+1 counter on this creature.\n{1}{B}{G}, Sacrifice an artifact or creature: You gain 1 life and draw a card.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Sheltered Thicket",
@@ -542,6 +566,8 @@
    "mana_cost": "{2}{R}",
    "url": "https://scryfall.com/card/moc/287/krenko-tin-street-kingpin?utm_source=api",
    "oracle_text": "Whenever Krenko attacks, put a +1/+1 counter on it, then create a number of 1/1 red Goblin creature tokens equal to Krenko's power.",
+   "power": "1",
+   "toughness": "2",
    "appearances": 1
   },
   {
@@ -588,6 +614,8 @@
    "mana_cost": "{1}{G} // {1}{R}",
    "url": "https://scryfall.com/card/woe/234/questing-druid-seek-the-beast?utm_source=api",
    "oracle_text": "",
+   "power": "1",
+   "toughness": "1",
    "appearances": 1
   },
   {
@@ -612,6 +640,8 @@
    "mana_cost": "{G}",
    "url": "https://scryfall.com/card/mh2/166/ignoble-hierarch?utm_source=api",
    "oracle_text": "Exalted (Whenever a creature you control attacks alone, that creature gets +1/+1 until end of turn.)\n{T}: Add {B}, {R}, or {G}.",
+   "power": "0",
+   "toughness": "1",
    "appearances": 1
   },
   {
@@ -888,7 +918,9 @@
    ],
    "mana_cost": "{1}{G}",
    "url": "https://scryfall.com/card/mkc/173/jolrael-mwonvuli-recluse?utm_source=api",
-   "oracle_text": "Whenever you draw your second card each turn, create a 2/2 green Cat creature token.\n{4}{G}{G}: Until end of turn, creatures you control have base power and toughness X/X, where X is the number of cards in your hand."
+   "oracle_text": "Whenever you draw your second card each turn, create a 2/2 green Cat creature token.\n{4}{G}{G}: Until end of turn, creatures you control have base power and toughness X/X, where X is the number of cards in your hand.",
+   "power": "1",
+   "toughness": "2"
   },
   {
    "name": "Engineered Explosives",
@@ -942,7 +974,9 @@
    ],
    "mana_cost": "{G}",
    "url": "https://scryfall.com/card/a25/160/arbor-elf?utm_source=api",
-   "oracle_text": "{T}: Untap target Forest."
+   "oracle_text": "{T}: Untap target Forest.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Sparring Construct",
@@ -959,7 +993,9 @@
    "color_identity": [],
    "mana_cost": "{1}",
    "url": "https://scryfall.com/card/dom/232/sparring-construct?utm_source=api",
-   "oracle_text": "When this creature dies, put a +1/+1 counter on target creature you control."
+   "oracle_text": "When this creature dies, put a +1/+1 counter on target creature you control.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Portable Hole",
@@ -1118,7 +1154,9 @@
    ],
    "mana_cost": "{G}",
    "url": "https://scryfall.com/card/moc/299/gilded-goose?utm_source=api",
-   "oracle_text": "Flying\nWhen this creature enters, create a Food token. (It's an artifact with \"{2}, {T}, Sacrifice this token: You gain 3 life.\")\n{1}{G}, {T}: Create a Food token.\n{T}, Sacrifice a Food: Add one mana of any color."
+   "oracle_text": "Flying\nWhen this creature enters, create a Food token. (It's an artifact with \"{2}, {T}, Sacrifice this token: You gain 3 life.\")\n{1}{G}, {T}: Create a Food token.\n{T}, Sacrifice a Food: Add one mana of any color.",
+   "power": "0",
+   "toughness": "2"
   },
   {
    "name": "Aether Spellbomb",

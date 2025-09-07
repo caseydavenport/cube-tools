@@ -119,7 +119,9 @@
    ],
    "mana_cost": "{4}{G}{G}",
    "url": "https://scryfall.com/card/ima/183/primeval-titan?utm_source=api",
-   "oracle_text": "Trample\nWhenever this creature enters or attacks, you may search your library for up to two land cards, put them onto the battlefield tapped, then shuffle."
+   "oracle_text": "Trample\nWhenever this creature enters or attacks, you may search your library for up to two land cards, put them onto the battlefield tapped, then shuffle.",
+   "power": "6",
+   "toughness": "6"
   },
   {
    "name": "Windswept Heath",
@@ -173,7 +175,9 @@
    ],
    "mana_cost": "{2}{G}",
    "url": "https://scryfall.com/card/mh3/169/six?utm_source=api",
-   "oracle_text": "Reach\nWhenever Six attacks, mill three cards. You may put a land card from among them into your hand.\nDuring your turn, nonland permanent cards in your graveyard have retrace. (You may cast permanent cards from your graveyard by discarding a land card in addition to paying their other costs.)"
+   "oracle_text": "Reach\nWhenever Six attacks, mill three cards. You may put a land card from among them into your hand.\nDuring your turn, nonland permanent cards in your graveyard have retrace. (You may cast permanent cards from your graveyard by discarding a land card in addition to paying their other costs.)",
+   "power": "2",
+   "toughness": "4"
   },
   {
    "name": "Call of the Herd",
@@ -264,7 +268,9 @@
    ],
    "mana_cost": "{1}{G}{G}",
    "url": "https://scryfall.com/card/cmm/286/eternal-witness?utm_source=api",
-   "oracle_text": "When this creature enters, you may return target card from your graveyard to your hand."
+   "oracle_text": "When this creature enters, you may return target card from your graveyard to your hand.",
+   "power": "2",
+   "toughness": "1"
   },
   {
    "name": "Tamiyo, Compleated Sage",
@@ -329,7 +335,9 @@
    ],
    "mana_cost": "{R}{G}",
    "url": "https://scryfall.com/card/mh2/216/territorial-kavu?utm_source=api",
-   "oracle_text": "Domain — Territorial Kavu's power and toughness are each equal to the number of basic land types among lands you control.\nWhenever this creature attacks, choose one —\n• Discard a card. If you do, draw a card.\n• Exile up to one target card from a graveyard."
+   "oracle_text": "Domain — Territorial Kavu's power and toughness are each equal to the number of basic land types among lands you control.\nWhenever this creature attacks, choose one —\n• Discard a card. If you do, draw a card.\n• Exile up to one target card from a graveyard.",
+   "power": "*",
+   "toughness": "*"
   },
   {
    "name": "Marsh Flats",
@@ -365,7 +373,9 @@
    ],
    "mana_cost": "{G}{U}",
    "url": "https://scryfall.com/card/tdm/201/kishla-skimmer?utm_source=api",
-   "oracle_text": "Flying\nWhenever a card leaves your graveyard during your turn, draw a card. This ability triggers only once each turn."
+   "oracle_text": "Flying\nWhenever a card leaves your graveyard during your turn, draw a card. This ability triggers only once each turn.",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Edge of Autumn",
@@ -426,7 +436,9 @@
    ],
    "mana_cost": "{X}{G}{U}",
    "url": "https://scryfall.com/card/woe/204/the-goose-mother?utm_source=api",
-   "oracle_text": "Flying\nThe Goose Mother enters with X +1/+1 counters on it.\nWhen The Goose Mother enters, create half X Food tokens, rounded up.\nWhenever The Goose Mother attacks, you may sacrifice a Food. If you do, draw a card."
+   "oracle_text": "Flying\nThe Goose Mother enters with X +1/+1 counters on it.\nWhen The Goose Mother enters, create half X Food tokens, rounded up.\nWhenever The Goose Mother attacks, you may sacrifice a Food. If you do, draw a card.",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Commercial District",
@@ -468,7 +480,9 @@
    ],
    "mana_cost": "{2}{U}",
    "url": "https://scryfall.com/card/fdn/45/kiora-the-rising-tide?utm_source=api",
-   "oracle_text": "When Kiora enters, draw two cards, then discard two cards.\nThreshold — Whenever Kiora attacks, if there are seven or more cards in your graveyard, you may create Scion of the Deep, a legendary 8/8 blue Octopus creature token."
+   "oracle_text": "When Kiora enters, draw two cards, then discard two cards.\nThreshold — Whenever Kiora attacks, if there are seven or more cards in your graveyard, you may create Scion of the Deep, a legendary 8/8 blue Octopus creature token.",
+   "power": "3",
+   "toughness": "2"
   },
   {
    "name": "Faithless Looting",
@@ -519,7 +533,9 @@
    ],
    "mana_cost": "{1}{R}",
    "url": "https://scryfall.com/card/mh3/133/reckless-pyrosurfer?utm_source=api",
-   "oracle_text": "Haste\nLandfall — Whenever a land you control enters, this creature gains battle cry until end of turn. (Whenever this creature attacks, each other attacking creature gets +1/+0 until end of turn. Each instance of battle cry triggers separately.)"
+   "oracle_text": "Haste\nLandfall — Whenever a land you control enters, this creature gains battle cry until end of turn. (Whenever this creature attacks, each other attacking creature gets +1/+0 until end of turn. Each instance of battle cry triggers separately.)",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Engineered Explosives",
@@ -553,7 +569,9 @@
    ],
    "mana_cost": "{3}{G}{G}",
    "url": "https://scryfall.com/card/eoc/111/titania-protector-of-argoth?utm_source=api",
-   "oracle_text": "When Titania enters, return target land card from your graveyard to the battlefield.\nWhenever a land you control is put into a graveyard from the battlefield, create a 5/3 green Elemental creature token."
+   "oracle_text": "When Titania enters, return target land card from your graveyard to the battlefield.\nWhenever a land you control is put into a graveyard from the battlefield, create a 5/3 green Elemental creature token.",
+   "power": "5",
+   "toughness": "3"
   },
   {
    "name": "Grim Flayer",
@@ -576,7 +594,9 @@
    ],
    "mana_cost": "{B}{G}",
    "url": "https://scryfall.com/card/dsc/218/grim-flayer?utm_source=api",
-   "oracle_text": "Trample\nWhenever this creature deals combat damage to a player, surveil 3. (Look at the top three cards of your library, then put any number of them into your graveyard and the rest on top of your library in any order.)\nDelirium — This creature gets +2/+2 as long as there are four or more card types among cards in your graveyard."
+   "oracle_text": "Trample\nWhenever this creature deals combat damage to a player, surveil 3. (Look at the top three cards of your library, then put any number of them into your graveyard and the rest on top of your library in any order.)\nDelirium — This creature gets +2/+2 as long as there are four or more card types among cards in your graveyard.",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Fact or Fiction",
@@ -688,7 +708,9 @@
    ],
    "mana_cost": "{1}{G}",
    "url": "https://scryfall.com/card/znr/193/lotus-cobra?utm_source=api",
-   "oracle_text": "Landfall — Whenever a land you control enters, add one mana of any color."
+   "oracle_text": "Landfall — Whenever a land you control enters, add one mana of any color.",
+   "power": "2",
+   "toughness": "1"
   },
   {
    "name": "Misty Rainforest",
@@ -722,7 +744,9 @@
    ],
    "mana_cost": "{1}{U}",
    "url": "https://scryfall.com/card/afc/86/merfolk-looter?utm_source=api",
-   "oracle_text": "{T}: Draw a card, then discard a card."
+   "oracle_text": "{T}: Draw a card, then discard a card.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Traverse the Ulvenwald",
@@ -836,7 +860,9 @@
    ],
    "mana_cost": "{B}{B}",
    "url": "https://scryfall.com/card/dft/77/bloodghast?utm_source=api",
-   "oracle_text": "This creature can't block.\nThis creature has haste as long as an opponent has 10 or less life.\nLandfall — Whenever a land you control enters, you may return this card from your graveyard to the battlefield."
+   "oracle_text": "This creature can't block.\nThis creature has haste as long as an opponent has 10 or less life.\nLandfall — Whenever a land you control enters, you may return this card from your graveyard to the battlefield.",
+   "power": "2",
+   "toughness": "1"
   },
   {
    "name": "Enlightened Tutor",
@@ -877,7 +903,9 @@
    ],
    "mana_cost": "{5}",
    "url": "https://scryfall.com/card/m20/226/golos-tireless-pilgrim?utm_source=api",
-   "oracle_text": "When Golos enters, you may search your library for a land card, put that card onto the battlefield tapped, then shuffle.\n{2}{W}{U}{B}{R}{G}: Exile the top three cards of your library. You may play them this turn without paying their mana costs."
+   "oracle_text": "When Golos enters, you may search your library for a land card, put that card onto the battlefield tapped, then shuffle.\n{2}{W}{U}{B}{R}{G}: Exile the top three cards of your library. You may play them this turn without paying their mana costs.",
+   "power": "3",
+   "toughness": "5"
   },
   {
    "name": "Proft's Eidetic Memory",

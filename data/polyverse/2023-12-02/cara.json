@@ -75,6 +75,8 @@
    "mana_cost": "{3}{G}{G}{G}",
    "url": "https://scryfall.com/card/woe/172/gruff-triplets?utm_source=api",
    "oracle_text": "Trample\nWhen this creature enters, if it isn't a token, create two tokens that are copies of it.\nWhen this creature dies, put a number of +1/+1 counters equal to its power on each creature you control named Gruff Triplets.",
+   "power": "3",
+   "toughness": "3",
    "appearances": 1
   },
   {
@@ -97,6 +99,8 @@
    "mana_cost": "{2}{R}",
    "url": "https://scryfall.com/card/moc/287/krenko-tin-street-kingpin?utm_source=api",
    "oracle_text": "Whenever Krenko attacks, put a +1/+1 counter on it, then create a number of 1/1 red Goblin creature tokens equal to Krenko's power.",
+   "power": "1",
+   "toughness": "2",
    "appearances": 1
   },
   {
@@ -178,6 +182,8 @@
    "mana_cost": "{2}{B/G}",
    "url": "https://scryfall.com/card/eve/126/quillspike?utm_source=api",
    "oracle_text": "{B/G}, Remove a -1/-1 counter from a creature you control: This creature gets +3/+3 until end of turn.",
+   "power": "1",
+   "toughness": "1",
    "appearances": 1
   },
   {
@@ -199,6 +205,8 @@
    "mana_cost": "{3}{R}{R}",
    "url": "https://scryfall.com/card/tdc/232/siege-gang-commander?utm_source=api",
    "oracle_text": "When this creature enters, create three 1/1 red Goblin creature tokens.\n{1}{R}, Sacrifice a Goblin: This creature deals 2 damage to any target.",
+   "power": "2",
+   "toughness": "2",
    "appearances": 1
   },
   {
@@ -243,6 +251,8 @@
    "mana_cost": "{4}{G}{G}",
    "url": "https://scryfall.com/card/eoc/100/multani-yavimayas-avatar?utm_source=api",
    "oracle_text": "Reach, trample\nMultani gets +1/+1 for each land you control and each land card in your graveyard.\n{1}{G}, Return two lands you control to their owner's hand: Return this card from your graveyard to your hand.",
+   "power": "0",
+   "toughness": "0",
    "appearances": 1
   },
   {
@@ -301,6 +311,8 @@
    "mana_cost": "{1}{G}",
    "url": "https://scryfall.com/card/2xm/188/woodland-champion?utm_source=api",
    "oracle_text": "Whenever one or more tokens you control enter, put that many +1/+1 counters on this creature.",
+   "power": "2",
+   "toughness": "2",
    "appearances": 1
   },
   {
@@ -325,6 +337,8 @@
    "mana_cost": "{G}",
    "url": "https://scryfall.com/card/mh2/166/ignoble-hierarch?utm_source=api",
    "oracle_text": "Exalted (Whenever a creature you control attacks alone, that creature gets +1/+1 until end of turn.)\n{T}: Add {B}, {R}, or {G}.",
+   "power": "0",
+   "toughness": "1",
    "appearances": 1
   },
   {
@@ -346,6 +360,8 @@
    "mana_cost": "{G}",
    "url": "https://scryfall.com/card/thb/167/chainweb-aracnir?utm_source=api",
    "oracle_text": "Reach\nWhen this creature enters, it deals damage equal to its power to target creature with flying an opponent controls.\nEscape—{3}{G}{G}, Exile four other cards from your graveyard. (You may cast this card from your graveyard for its escape cost.)\nThis creature escapes with three +1/+1 counters on it.",
+   "power": "1",
+   "toughness": "2",
    "appearances": 1
   },
   {
@@ -366,6 +382,8 @@
    "mana_cost": "{2}",
    "url": "https://scryfall.com/card/som/146/copper-myr?utm_source=api",
    "oracle_text": "{T}: Add {G}.",
+   "power": "1",
+   "toughness": "1",
    "appearances": 1
   },
   {
@@ -388,6 +406,8 @@
    "mana_cost": "{1}{G}",
    "url": "https://scryfall.com/card/cmm/312/pollenbright-druid?utm_source=api",
    "oracle_text": "When this creature enters, choose one —\n• Put a +1/+1 counter on target creature.\n• Proliferate. (Choose any number of permanents and/or players, then give each another counter of each kind already there.)",
+   "power": "1",
+   "toughness": "1",
    "appearances": 1
   },
   {
@@ -410,6 +430,8 @@
    "mana_cost": "{1}{G}",
    "url": "https://scryfall.com/card/2x2/143/devoted-druid?utm_source=api",
    "oracle_text": "{T}: Add {G}.\nPut a -1/-1 counter on this creature: Untap this creature.",
+   "power": "0",
+   "toughness": "2",
    "appearances": 1
   },
   {
@@ -431,6 +453,8 @@
    "mana_cost": "{3}{R}{R}",
    "url": "https://scryfall.com/card/m11/150/magma-phoenix?utm_source=api",
    "oracle_text": "Flying\nWhen this creature dies, it deals 3 damage to each creature and each player.\n{3}{R}{R}: Return this card from your graveyard to your hand.",
+   "power": "3",
+   "toughness": "3",
    "appearances": 1
   },
   {
@@ -470,6 +494,8 @@
    "mana_cost": "{1}{G}",
    "url": "https://scryfall.com/card/eoc/106/satyr-wayfinder?utm_source=api",
    "oracle_text": "When this creature enters, reveal the top four cards of your library. You may put a land card from among them into your hand. Put the rest into your graveyard.",
+   "power": "1",
+   "toughness": "1",
    "appearances": 1
   },
   {
@@ -493,6 +519,8 @@
    "mana_cost": "{R}",
    "url": "https://scryfall.com/card/neo/158/reinforced-ronin?utm_source=api",
    "oracle_text": "Haste\nAt the beginning of your end step, return this creature to its owner's hand.\nChannel — {1}{R}, Discard this card: Draw a card.",
+   "power": "2",
+   "toughness": "2",
    "appearances": 1
   },
   {
@@ -891,7 +919,9 @@
    ],
    "mana_cost": "{3}{U}{U}",
    "url": "https://scryfall.com/card/tdc/166/river-kelpie?utm_source=api",
-   "oracle_text": "Whenever this creature or another permanent enters from a graveyard, draw a card.\nWhenever a player casts a spell from a graveyard, draw a card.\nPersist (When this creature dies, if it had no -1/-1 counters on it, return it to the battlefield under its owner's control with a -1/-1 counter on it.)"
+   "oracle_text": "Whenever this creature or another permanent enters from a graveyard, draw a card.\nWhenever a player casts a spell from a graveyard, draw a card.\nPersist (When this creature dies, if it had no -1/-1 counters on it, return it to the battlefield under its owner's control with a -1/-1 counter on it.)",
+   "power": "3",
+   "toughness": "3"
   },
   {
    "name": "Sphinx of Lost Truths",
@@ -911,7 +941,9 @@
    ],
    "mana_cost": "{3}{U}{U}",
    "url": "https://scryfall.com/card/zen/69/sphinx-of-lost-truths?utm_source=api",
-   "oracle_text": "Kicker {1}{U} (You may pay an additional {1}{U} as you cast this spell.)\nFlying\nWhen this creature enters, draw three cards. Then if it wasn't kicked, discard three cards."
+   "oracle_text": "Kicker {1}{U} (You may pay an additional {1}{U} as you cast this spell.)\nFlying\nWhen this creature enters, draw three cards. Then if it wasn't kicked, discard three cards.",
+   "power": "3",
+   "toughness": "5"
   },
   {
    "name": "Glass Casket",
@@ -969,7 +1001,9 @@
    ],
    "mana_cost": "{1}{W}",
    "url": "https://scryfall.com/card/cmm/824/grateful-apparition?utm_source=api",
-   "oracle_text": "Flying\nWhenever this creature deals combat damage to a player or planeswalker, proliferate. (Choose any number of permanents and/or players, then give each another counter of each kind already there.)"
+   "oracle_text": "Flying\nWhenever this creature deals combat damage to a player or planeswalker, proliferate. (Choose any number of permanents and/or players, then give each another counter of each kind already there.)",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Intangible Virtue",
@@ -1010,7 +1044,9 @@
    ],
    "mana_cost": "{X}{G}{U}",
    "url": "https://scryfall.com/card/woe/204/the-goose-mother?utm_source=api",
-   "oracle_text": "Flying\nThe Goose Mother enters with X +1/+1 counters on it.\nWhen The Goose Mother enters, create half X Food tokens, rounded up.\nWhenever The Goose Mother attacks, you may sacrifice a Food. If you do, draw a card."
+   "oracle_text": "Flying\nThe Goose Mother enters with X +1/+1 counters on it.\nWhen The Goose Mother enters, create half X Food tokens, rounded up.\nWhenever The Goose Mother attacks, you may sacrifice a Food. If you do, draw a card.",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Temple Garden",
@@ -1053,7 +1089,9 @@
    ],
    "mana_cost": "{1}{G}{W}",
    "url": "https://scryfall.com/card/ima/203/knight-of-the-reliquary?utm_source=api",
-   "oracle_text": "This creature gets +1/+1 for each land card in your graveyard.\n{T}, Sacrifice a Forest or Plains: Search your library for a land card, put it onto the battlefield, then shuffle."
+   "oracle_text": "This creature gets +1/+1 for each land card in your graveyard.\n{T}, Sacrifice a Forest or Plains: Search your library for a land card, put it onto the battlefield, then shuffle.",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Worm Harvest",
@@ -1092,7 +1130,9 @@
    ],
    "mana_cost": "{3}{B}",
    "url": "https://scryfall.com/card/mm2/93/scavenger-drake?utm_source=api",
-   "oracle_text": "Flying\nWhenever another creature dies, you may put a +1/+1 counter on this creature."
+   "oracle_text": "Flying\nWhenever another creature dies, you may put a +1/+1 counter on this creature.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Cruel Celebrant",
@@ -1114,7 +1154,9 @@
    ],
    "mana_cost": "{W}{B}",
    "url": "https://scryfall.com/card/lcc/267/cruel-celebrant?utm_source=api",
-   "oracle_text": "Whenever this creature or another creature or planeswalker you control dies, each opponent loses 1 life and you gain 1 life."
+   "oracle_text": "Whenever this creature or another creature or planeswalker you control dies, each opponent loses 1 life and you gain 1 life.",
+   "power": "1",
+   "toughness": "2"
   },
   {
    "name": "Negate",
@@ -1209,7 +1251,9 @@
    ],
    "mana_cost": "{2}{B}{B}{R}{R}",
    "url": "https://scryfall.com/card/ima/205/malfegor?utm_source=api",
-   "oracle_text": "Flying\nWhen Malfegor enters, discard your hand. Each opponent sacrifices a creature of their choice for each card discarded this way."
+   "oracle_text": "Flying\nWhen Malfegor enters, discard your hand. Each opponent sacrifices a creature of their choice for each card discarded this way.",
+   "power": "6",
+   "toughness": "6"
   },
   {
    "name": "Fate Transfer",
@@ -1249,7 +1293,9 @@
    ],
    "mana_cost": "{B}",
    "url": "https://scryfall.com/card/clb/740/bloodsoaked-champion?utm_source=api",
-   "oracle_text": "This creature can't block.\nRaid — {1}{B}: Return this card from your graveyard to the battlefield. Activate only if you attacked this turn."
+   "oracle_text": "This creature can't block.\nRaid — {1}{B}: Return this card from your graveyard to the battlefield. Activate only if you attacked this turn.",
+   "power": "2",
+   "toughness": "1"
   },
   {
    "name": "Blood Crypt",

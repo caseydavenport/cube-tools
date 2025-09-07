@@ -171,7 +171,9 @@
    ],
    "mana_cost": "{1}{G}{G}",
    "url": "https://scryfall.com/card/cmm/888/courser-of-kruphix?utm_source=api",
-   "oracle_text": "Play with the top card of your library revealed.\nYou may play lands from the top of your library.\nLandfall — Whenever a land you control enters, you gain 1 life."
+   "oracle_text": "Play with the top card of your library revealed.\nYou may play lands from the top of your library.\nLandfall — Whenever a land you control enters, you gain 1 life.",
+   "power": "2",
+   "toughness": "4"
   },
   {
    "name": "Tireless Tracker",
@@ -192,7 +194,9 @@
    ],
    "mana_cost": "{2}{G}",
    "url": "https://scryfall.com/card/eoc/110/tireless-tracker?utm_source=api",
-   "oracle_text": "Landfall — Whenever a land you control enters, investigate. (Create a Clue token. It's an artifact with \"{2}, Sacrifice this token: Draw a card.\")\nWhenever you sacrifice a Clue, put a +1/+1 counter on this creature."
+   "oracle_text": "Landfall — Whenever a land you control enters, investigate. (Create a Clue token. It's an artifact with \"{2}, Sacrifice this token: Draw a card.\")\nWhenever you sacrifice a Clue, put a +1/+1 counter on this creature.",
+   "power": "3",
+   "toughness": "2"
   },
   {
    "name": "Cathar Commando",
@@ -213,7 +217,9 @@
    ],
    "mana_cost": "{1}{W}",
    "url": "https://scryfall.com/card/inr/15/cathar-commando?utm_source=api",
-   "oracle_text": "Flash\n{1}, Sacrifice this creature: Destroy target artifact or enchantment."
+   "oracle_text": "Flash\n{1}, Sacrifice this creature: Destroy target artifact or enchantment.",
+   "power": "3",
+   "toughness": "1"
   },
   {
    "name": "Marsh Flats",
@@ -383,7 +389,9 @@
    ],
    "mana_cost": "{G}",
    "url": "https://scryfall.com/card/moc/299/gilded-goose?utm_source=api",
-   "oracle_text": "Flying\nWhen this creature enters, create a Food token. (It's an artifact with \"{2}, {T}, Sacrifice this token: You gain 3 life.\")\n{1}{G}, {T}: Create a Food token.\n{T}, Sacrifice a Food: Add one mana of any color."
+   "oracle_text": "Flying\nWhen this creature enters, create a Food token. (It's an artifact with \"{2}, {T}, Sacrifice this token: You gain 3 life.\")\n{1}{G}, {T}: Create a Food token.\n{T}, Sacrifice a Food: Add one mana of any color.",
+   "power": "0",
+   "toughness": "2"
   },
   {
    "name": "Remand",
@@ -439,7 +447,9 @@
    ],
    "mana_cost": "{1}{G}{W}",
    "url": "https://scryfall.com/card/ima/203/knight-of-the-reliquary?utm_source=api",
-   "oracle_text": "This creature gets +1/+1 for each land card in your graveyard.\n{T}, Sacrifice a Forest or Plains: Search your library for a land card, put it onto the battlefield, then shuffle."
+   "oracle_text": "This creature gets +1/+1 for each land card in your graveyard.\n{T}, Sacrifice a Forest or Plains: Search your library for a land card, put it onto the battlefield, then shuffle.",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Lórien Revealed",
@@ -477,7 +487,9 @@
    ],
    "mana_cost": "{3}{G}",
    "url": "https://scryfall.com/card/khm/169/esikas-chariot?utm_source=api",
-   "oracle_text": "When Esika's Chariot enters, create two 2/2 green Cat creature tokens.\nWhenever Esika's Chariot attacks, create a token that's a copy of target token you control.\nCrew 4"
+   "oracle_text": "When Esika's Chariot enters, create two 2/2 green Cat creature tokens.\nWhenever Esika's Chariot attacks, create a token that's a copy of target token you control.\nCrew 4",
+   "power": "4",
+   "toughness": "4"
   },
   {
    "name": "Breeding Pool",
@@ -794,7 +806,9 @@
    ],
    "mana_cost": "{2}{U}",
    "url": "https://scryfall.com/card/mma/59/pestermite?utm_source=api",
-   "oracle_text": "Flash\nFlying\nWhen this creature enters, you may tap or untap target permanent."
+   "oracle_text": "Flash\nFlying\nWhen this creature enters, you may tap or untap target permanent.",
+   "power": "2",
+   "toughness": "1"
   },
   {
    "name": "Dauntless Bodyguard",
@@ -815,7 +829,9 @@
    ],
    "mana_cost": "{W}",
    "url": "https://scryfall.com/card/dom/14/dauntless-bodyguard?utm_source=api",
-   "oracle_text": "As this creature enters, choose another creature you control.\nSacrifice this creature: The chosen creature gains indestructible until end of turn."
+   "oracle_text": "As this creature enters, choose another creature you control.\nSacrifice this creature: The chosen creature gains indestructible until end of turn.",
+   "power": "2",
+   "toughness": "1"
   },
   {
    "name": "Warden of the Inner Sky",
@@ -836,7 +852,9 @@
    ],
    "mana_cost": "{W}",
    "url": "https://scryfall.com/card/lci/43/warden-of-the-inner-sky?utm_source=api",
-   "oracle_text": "As long as this creature has three or more counters on it, it has flying and vigilance.\nTap three untapped artifacts and/or creatures you control: Put a +1/+1 counter on this creature. Scry 1. Activate only as a sorcery."
+   "oracle_text": "As long as this creature has three or more counters on it, it has flying and vigilance.\nTap three untapped artifacts and/or creatures you control: Put a +1/+1 counter on this creature. Scry 1. Activate only as a sorcery.",
+   "power": "1",
+   "toughness": "2"
   },
   {
    "name": "Wilderness Reclamation",
@@ -874,7 +892,9 @@
    ],
    "mana_cost": "{G}",
    "url": "https://scryfall.com/card/a25/160/arbor-elf?utm_source=api",
-   "oracle_text": "{T}: Untap target Forest."
+   "oracle_text": "{T}: Untap target Forest.",
+   "power": "1",
+   "toughness": "1"
   }
  ]
 }

@@ -17,6 +17,8 @@ type Card struct {
 	ManaCost      string   `json:"mana_cost"`
 	URL           string   `json:"url"`
 	OracleText    string   `json:"oracle_text"`
+	Power         string   `json:"power,omitempty"`
+	Toughness     string   `json:"toughness,omitempty"`
 
 	// Determined based on replay data - how many times this card
 	// has appeared in a game. Either in hand, graveyard, battlefield, etc.
@@ -45,6 +47,8 @@ func FromOracle(o OracleCard) Card {
 	c.URL = o.ScryfallURI
 	c.OracleText = o.OracleText
 	c.ManaCost = o.ManaCost
+	c.Power = o.Power
+	c.Toughness = o.Toughness
 
 	return c
 }

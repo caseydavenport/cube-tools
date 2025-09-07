@@ -88,7 +88,9 @@
    ],
    "mana_cost": "{U} // {X}{G}",
    "url": "https://scryfall.com/card/woe/225/elusive-otter-groves-bounty?utm_source=api",
-   "oracle_text": ""
+   "oracle_text": "",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Merfolk Looter",
@@ -109,7 +111,9 @@
    ],
    "mana_cost": "{1}{U}",
    "url": "https://scryfall.com/card/afc/86/merfolk-looter?utm_source=api",
-   "oracle_text": "{T}: Draw a card, then discard a card."
+   "oracle_text": "{T}: Draw a card, then discard a card.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Gitaxian Probe",
@@ -148,7 +152,9 @@
    ],
    "mana_cost": "{U}",
    "url": "https://scryfall.com/card/mh3/74/triton-wavebreaker?utm_source=api",
-   "oracle_text": "Bestow {1}{U} (If you cast this card for its bestow cost, it's an Aura spell with enchant creature. It becomes a creature again if it's not attached.)\nAs long as this permanent is a creature, it has prowess. (Whenever you cast a noncreature spell, this creature gets +1/+1 until end of turn.)\nEnchanted creature gets +1/+1 and has prowess."
+   "oracle_text": "Bestow {1}{U} (If you cast this card for its bestow cost, it's an Aura spell with enchant creature. It becomes a creature again if it's not attached.)\nAs long as this permanent is a creature, it has prowess. (Whenever you cast a noncreature spell, this creature gets +1/+1 until end of turn.)\nEnchanted creature gets +1/+1 and has prowess.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Repeal",
@@ -310,7 +316,9 @@
    ],
    "mana_cost": "{2}{R}",
    "url": "https://scryfall.com/card/eld/128/irencrag-pyromancer?utm_source=api",
-   "oracle_text": "Whenever you draw your second card each turn, this creature deals 3 damage to any target."
+   "oracle_text": "Whenever you draw your second card each turn, this creature deals 3 damage to any target.",
+   "power": "0",
+   "toughness": "4"
   },
   {
    "name": "Pyrite Spellbomb",
@@ -362,7 +370,9 @@
    ],
    "mana_cost": "{R}",
    "url": "https://scryfall.com/card/mh2/115/blazing-rootwalla?utm_source=api",
-   "oracle_text": "{R}: This creature gets +2/+0 until end of turn. Activate only once each turn.\nMadness {0} (If you discard this card, discard it into exile. When you do, cast it for its madness cost or put it into your graveyard.)"
+   "oracle_text": "{R}: This creature gets +2/+0 until end of turn. Activate only once each turn.\nMadness {0} (If you discard this card, discard it into exile. When you do, cast it for its madness cost or put it into your graveyard.)",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Into the Roil",
@@ -400,7 +410,9 @@
    ],
    "mana_cost": "{1}{R}",
    "url": "https://scryfall.com/card/mh3/133/reckless-pyrosurfer?utm_source=api",
-   "oracle_text": "Haste\nLandfall — Whenever a land you control enters, this creature gains battle cry until end of turn. (Whenever this creature attacks, each other attacking creature gets +1/+0 until end of turn. Each instance of battle cry triggers separately.)"
+   "oracle_text": "Haste\nLandfall — Whenever a land you control enters, this creature gains battle cry until end of turn. (Whenever this creature attacks, each other attacking creature gets +1/+0 until end of turn. Each instance of battle cry triggers separately.)",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Shelldock Isle",
@@ -436,7 +448,9 @@
    ],
    "mana_cost": "{R}",
    "url": "https://scryfall.com/card/mh2/121/dragons-rage-channeler?utm_source=api",
-   "oracle_text": "Whenever you cast a noncreature spell, surveil 1. (Look at the top card of your library. You may put that card into your graveyard.)\nDelirium — As long as there are four or more card types among cards in your graveyard, this creature gets +2/+2, has flying, and attacks each combat if able."
+   "oracle_text": "Whenever you cast a noncreature spell, surveil 1. (Look at the top card of your library. You may put that card into your graveyard.)\nDelirium — As long as there are four or more card types among cards in your graveyard, this creature gets +2/+2, has flying, and attacks each combat if able.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Grim Lavamancer",
@@ -457,7 +471,9 @@
    ],
    "mana_cost": "{R}",
    "url": "https://scryfall.com/card/dmr/126/grim-lavamancer?utm_source=api",
-   "oracle_text": "{R}, {T}, Exile two cards from your graveyard: This creature deals 2 damage to any target."
+   "oracle_text": "{R}, {T}, Exile two cards from your graveyard: This creature deals 2 damage to any target.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Lizard Blades",
@@ -479,7 +495,9 @@
    ],
    "mana_cost": "{1}{R}",
    "url": "https://scryfall.com/card/neo/153/lizard-blades?utm_source=api",
-   "oracle_text": "Double strike\nEquipped creature has double strike.\nReconfigure {2} ({2}: Attach to target creature you control; or unattach from a creature. Reconfigure only as a sorcery. While attached, this isn't a creature.)"
+   "oracle_text": "Double strike\nEquipped creature has double strike.\nReconfigure {2} ({2}: Attach to target creature you control; or unattach from a creature. Reconfigure only as a sorcery. While attached, this isn't a creature.)",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Psychic Frog",
@@ -501,7 +519,9 @@
    ],
    "mana_cost": "{U}{B}",
    "url": "https://scryfall.com/card/mh3/199/psychic-frog?utm_source=api",
-   "oracle_text": "Whenever this creature deals combat damage to a player or planeswalker, draw a card.\nDiscard a card: Put a +1/+1 counter on this creature.\nExile three cards from your graveyard: This creature gains flying until end of turn."
+   "oracle_text": "Whenever this creature deals combat damage to a player or planeswalker, draw a card.\nDiscard a card: Put a +1/+1 counter on this creature.\nExile three cards from your graveyard: This creature gains flying until end of turn.",
+   "power": "1",
+   "toughness": "2"
   },
   {
    "name": "Scalding Tarn",
@@ -625,7 +645,9 @@
    ],
    "mana_cost": "{1}{U}",
    "url": "https://scryfall.com/card/fdn/47/mischievous-mystic?utm_source=api",
-   "oracle_text": "Flying\nWhenever you draw your second card each turn, create a 1/1 blue Faerie creature token with flying."
+   "oracle_text": "Flying\nWhenever you draw your second card each turn, create a 1/1 blue Faerie creature token with flying.",
+   "power": "2",
+   "toughness": "1"
   },
   {
    "name": "Overgrown Tomb",
@@ -757,7 +779,9 @@
    ],
    "mana_cost": "{1}{U}",
    "url": "https://scryfall.com/card/uma/71/snapcaster-mage?utm_source=api",
-   "oracle_text": "Flash\nWhen this creature enters, target instant or sorcery card in your graveyard gains flashback until end of turn. The flashback cost is equal to its mana cost. (You may cast that card from your graveyard for its flashback cost. Then exile it.)"
+   "oracle_text": "Flash\nWhen this creature enters, target instant or sorcery card in your graveyard gains flashback until end of turn. The flashback cost is equal to its mana cost. (You may cast that card from your graveyard for its flashback cost. Then exile it.)",
+   "power": "2",
+   "toughness": "1"
   },
   {
    "name": "Searslicer Goblin",
@@ -778,7 +802,9 @@
    ],
    "mana_cost": "{1}{R}",
    "url": "https://scryfall.com/card/fdn/93/searslicer-goblin?utm_source=api",
-   "oracle_text": "Raid — At the beginning of your end step, if you attacked this turn, create a 1/1 red Goblin creature token."
+   "oracle_text": "Raid — At the beginning of your end step, if you attacked this turn, create a 1/1 red Goblin creature token.",
+   "power": "2",
+   "toughness": "1"
   },
   {
    "name": "Mishra's Bauble",
@@ -851,7 +877,9 @@
    ],
    "mana_cost": "{X}{G}{U}",
    "url": "https://scryfall.com/card/woe/204/the-goose-mother?utm_source=api",
-   "oracle_text": "Flying\nThe Goose Mother enters with X +1/+1 counters on it.\nWhen The Goose Mother enters, create half X Food tokens, rounded up.\nWhenever The Goose Mother attacks, you may sacrifice a Food. If you do, draw a card."
+   "oracle_text": "Flying\nThe Goose Mother enters with X +1/+1 counters on it.\nWhen The Goose Mother enters, create half X Food tokens, rounded up.\nWhenever The Goose Mother attacks, you may sacrifice a Food. If you do, draw a card.",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Containment Construct",
@@ -868,7 +896,9 @@
    "color_identity": [],
    "mana_cost": "{2}",
    "url": "https://scryfall.com/card/neo/243/containment-construct?utm_source=api",
-   "oracle_text": "Whenever you discard a card, you may exile that card from your graveyard. If you do, you may play that card this turn."
+   "oracle_text": "Whenever you discard a card, you may exile that card from your graveyard. If you do, you may play that card this turn.",
+   "power": "2",
+   "toughness": "1"
   },
   {
    "name": "Demand Answers",
@@ -905,7 +935,9 @@
    ],
    "mana_cost": "{G}",
    "url": "https://scryfall.com/card/rvr/133/birds-of-paradise?utm_source=api",
-   "oracle_text": "Flying\n{T}: Add one mana of any color."
+   "oracle_text": "Flying\n{T}: Add one mana of any color.",
+   "power": "0",
+   "toughness": "1"
   },
   {
    "name": "Hardened Scales",
@@ -943,7 +975,9 @@
    ],
    "mana_cost": "{1}{G}",
    "url": "https://scryfall.com/card/tsr/227/scryb-ranger?utm_source=api",
-   "oracle_text": "Flash\nFlying, protection from blue\nReturn a Forest you control to its owner's hand: Untap target creature. Activate only once each turn."
+   "oracle_text": "Flash\nFlying, protection from blue\nReturn a Forest you control to its owner's hand: Untap target creature. Activate only once each turn.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Chainweb Aracnir",
@@ -963,7 +997,9 @@
    ],
    "mana_cost": "{G}",
    "url": "https://scryfall.com/card/thb/167/chainweb-aracnir?utm_source=api",
-   "oracle_text": "Reach\nWhen this creature enters, it deals damage equal to its power to target creature with flying an opponent controls.\nEscape—{3}{G}{G}, Exile four other cards from your graveyard. (You may cast this card from your graveyard for its escape cost.)\nThis creature escapes with three +1/+1 counters on it."
+   "oracle_text": "Reach\nWhen this creature enters, it deals damage equal to its power to target creature with flying an opponent controls.\nEscape—{3}{G}{G}, Exile four other cards from your graveyard. (You may cast this card from your graveyard for its escape cost.)\nThis creature escapes with three +1/+1 counters on it.",
+   "power": "1",
+   "toughness": "2"
   },
   {
    "name": "Tameshi, Reality Architect",
@@ -986,7 +1022,9 @@
    ],
    "mana_cost": "{2}{U}",
    "url": "https://scryfall.com/card/neo/82/tameshi-reality-architect?utm_source=api",
-   "oracle_text": "Whenever one or more noncreature permanents are returned to hand, draw a card. This ability triggers only once each turn.\n{X}{W}, Return a land you control to its owner's hand: Return target artifact or enchantment card with mana value X or less from your graveyard to the battlefield. Activate only as a sorcery."
+   "oracle_text": "Whenever one or more noncreature permanents are returned to hand, draw a card. This ability triggers only once each turn.\n{X}{W}, Return a land you control to its owner's hand: Return target artifact or enchantment card with mana value X or less from your graveyard to the battlefield. Activate only as a sorcery.",
+   "power": "2",
+   "toughness": "3"
   },
   {
    "name": "Agonizing Remorse",

@@ -128,7 +128,9 @@
    ],
    "mana_cost": "{R}{G}",
    "url": "https://scryfall.com/card/mh2/216/territorial-kavu?utm_source=api",
-   "oracle_text": "Domain — Territorial Kavu's power and toughness are each equal to the number of basic land types among lands you control.\nWhenever this creature attacks, choose one —\n• Discard a card. If you do, draw a card.\n• Exile up to one target card from a graveyard."
+   "oracle_text": "Domain — Territorial Kavu's power and toughness are each equal to the number of basic land types among lands you control.\nWhenever this creature attacks, choose one —\n• Discard a card. If you do, draw a card.\n• Exile up to one target card from a graveyard.",
+   "power": "*",
+   "toughness": "*"
   },
   {
    "name": "Windswept Heath",
@@ -181,7 +183,9 @@
    ],
    "mana_cost": "{1}{G} // {1}{R}",
    "url": "https://scryfall.com/card/woe/234/questing-druid-seek-the-beast?utm_source=api",
-   "oracle_text": ""
+   "oracle_text": "",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Call of the Herd",
@@ -220,7 +224,9 @@
    ],
    "mana_cost": "{1}{B}{R}",
    "url": "https://scryfall.com/card/eoc/121/mayhem-devil?utm_source=api",
-   "oracle_text": "Whenever a player sacrifices a permanent, this creature deals 1 damage to any target."
+   "oracle_text": "Whenever a player sacrifices a permanent, this creature deals 1 damage to any target.",
+   "power": "3",
+   "toughness": "3"
   },
   {
    "name": "Birds of Paradise",
@@ -240,7 +246,9 @@
    ],
    "mana_cost": "{G}",
    "url": "https://scryfall.com/card/rvr/133/birds-of-paradise?utm_source=api",
-   "oracle_text": "Flying\n{T}: Add one mana of any color."
+   "oracle_text": "Flying\n{T}: Add one mana of any color.",
+   "power": "0",
+   "toughness": "1"
   },
   {
    "name": "Noble Hierarch",
@@ -263,7 +271,9 @@
    ],
    "mana_cost": "{G}",
    "url": "https://scryfall.com/card/2xm/177/noble-hierarch?utm_source=api",
-   "oracle_text": "Exalted (Whenever a creature you control attacks alone, that creature gets +1/+1 until end of turn.)\n{T}: Add {G}, {W}, or {U}."
+   "oracle_text": "Exalted (Whenever a creature you control attacks alone, that creature gets +1/+1 until end of turn.)\n{T}: Add {G}, {W}, or {U}.",
+   "power": "0",
+   "toughness": "1"
   },
   {
    "name": "Stomping Ground",
@@ -317,7 +327,9 @@
    ],
    "mana_cost": "{1}{B}",
    "url": "https://scryfall.com/card/mh3/80/accursed-marauder?utm_source=api",
-   "oracle_text": "When this creature enters, each player sacrifices a nontoken creature of their choice."
+   "oracle_text": "When this creature enters, each player sacrifices a nontoken creature of their choice.",
+   "power": "2",
+   "toughness": "1"
   },
   {
    "name": "Titania, Protector of Argoth",
@@ -338,7 +350,9 @@
    ],
    "mana_cost": "{3}{G}{G}",
    "url": "https://scryfall.com/card/eoc/111/titania-protector-of-argoth?utm_source=api",
-   "oracle_text": "When Titania enters, return target land card from your graveyard to the battlefield.\nWhenever a land you control is put into a graveyard from the battlefield, create a 5/3 green Elemental creature token."
+   "oracle_text": "When Titania enters, return target land card from your graveyard to the battlefield.\nWhenever a land you control is put into a graveyard from the battlefield, create a 5/3 green Elemental creature token.",
+   "power": "5",
+   "toughness": "3"
   },
   {
    "name": "Portable Hole",
@@ -411,7 +425,9 @@
    ],
    "mana_cost": "{1}{G}{W}",
    "url": "https://scryfall.com/card/ima/203/knight-of-the-reliquary?utm_source=api",
-   "oracle_text": "This creature gets +1/+1 for each land card in your graveyard.\n{T}, Sacrifice a Forest or Plains: Search your library for a land card, put it onto the battlefield, then shuffle."
+   "oracle_text": "This creature gets +1/+1 for each land card in your graveyard.\n{T}, Sacrifice a Forest or Plains: Search your library for a land card, put it onto the battlefield, then shuffle.",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Kavaron Harrier",
@@ -433,7 +449,9 @@
    ],
    "mana_cost": "{R}",
    "url": "https://scryfall.com/card/eoe/139/kavaron-harrier?utm_source=api",
-   "oracle_text": "Whenever this creature attacks, you may pay {2}. If you do, create a 2/2 colorless Robot artifact creature token that's tapped and attacking. Sacrifice that token at end of combat."
+   "oracle_text": "Whenever this creature attacks, you may pay {2}. If you do, create a 2/2 colorless Robot artifact creature token that's tapped and attacking. Sacrifice that token at end of combat.",
+   "power": "2",
+   "toughness": "1"
   },
   {
    "name": "Marionette Apprentice",
@@ -454,7 +472,9 @@
    ],
    "mana_cost": "{1}{B}",
    "url": "https://scryfall.com/card/mh3/100/marionette-apprentice?utm_source=api",
-   "oracle_text": "Fabricate 1 (When this creature enters, put a +1/+1 counter on it or create a 1/1 colorless Servo artifact creature token.)\nWhenever another creature or artifact you control is put into a graveyard from the battlefield, each opponent loses 1 life."
+   "oracle_text": "Fabricate 1 (When this creature enters, put a +1/+1 counter on it or create a 1/1 colorless Servo artifact creature token.)\nWhenever another creature or artifact you control is put into a graveyard from the battlefield, each opponent loses 1 life.",
+   "power": "1",
+   "toughness": "2"
   },
   {
    "name": "Shadowy Backstreet",
@@ -583,7 +603,9 @@
    ],
    "mana_cost": "{G}",
    "url": "https://scryfall.com/card/mh2/166/ignoble-hierarch?utm_source=api",
-   "oracle_text": "Exalted (Whenever a creature you control attacks alone, that creature gets +1/+1 until end of turn.)\n{T}: Add {B}, {R}, or {G}."
+   "oracle_text": "Exalted (Whenever a creature you control attacks alone, that creature gets +1/+1 until end of turn.)\n{T}: Add {B}, {R}, or {G}.",
+   "power": "0",
+   "toughness": "1"
   },
   {
    "name": "Wooded Foothills",
@@ -636,7 +658,9 @@
    ],
    "mana_cost": "{3}{G}",
    "url": "https://scryfall.com/card/bfz/198/woodland-wanderer?utm_source=api",
-   "oracle_text": "Vigilance, trample\nConverge — This creature enters with a +1/+1 counter on it for each color of mana spent to cast it."
+   "oracle_text": "Vigilance, trample\nConverge — This creature enters with a +1/+1 counter on it for each color of mana spent to cast it.",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Godless Shrine",
@@ -729,7 +753,9 @@
    ],
    "mana_cost": "{2}{B}{B}",
    "url": "https://scryfall.com/card/otc/148/rankle-master-of-pranks?utm_source=api",
-   "oracle_text": "Flying, haste\nWhenever Rankle deals combat damage to a player, choose any number —\n• Each player discards a card.\n• Each player loses 1 life and draws a card.\n• Each player sacrifices a creature of their choice."
+   "oracle_text": "Flying, haste\nWhenever Rankle deals combat damage to a player, choose any number —\n• Each player discards a card.\n• Each player loses 1 life and draws a card.\n• Each player sacrifices a creature of their choice.",
+   "power": "3",
+   "toughness": "3"
   },
   {
    "name": "Swamp",
@@ -810,7 +836,9 @@
    ],
    "mana_cost": "{W}{B}",
    "url": "https://scryfall.com/card/mma/184/tidehollow-sculler?utm_source=api",
-   "oracle_text": "When this creature enters, target opponent reveals their hand and you choose a nonland card from it. Exile that card.\nWhen this creature leaves the battlefield, return the exiled card to its owner's hand."
+   "oracle_text": "When this creature enters, target opponent reveals their hand and you choose a nonland card from it. Exile that card.\nWhen this creature leaves the battlefield, return the exiled card to its owner's hand.",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Spirited Companion",
@@ -831,7 +859,9 @@
    ],
    "mana_cost": "{1}{W}",
    "url": "https://scryfall.com/card/cmm/838/spirited-companion?utm_source=api",
-   "oracle_text": "When this creature enters, draw a card."
+   "oracle_text": "When this creature enters, draw a card.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Read the Bones",

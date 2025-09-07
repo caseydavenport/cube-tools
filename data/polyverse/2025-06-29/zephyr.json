@@ -146,7 +146,9 @@
    ],
    "mana_cost": "{1}{R}{R}",
    "url": "https://scryfall.com/card/2x2/123/seasoned-pyromancer?utm_source=api",
-   "oracle_text": "When this creature enters, discard two cards, then draw two cards. For each nonland card discarded this way, create a 1/1 red Elemental creature token.\n{3}{R}{R}, Exile this card from your graveyard: Create two 1/1 red Elemental creature tokens."
+   "oracle_text": "When this creature enters, discard two cards, then draw two cards. For each nonland card discarded this way, create a 1/1 red Elemental creature token.\n{3}{R}{R}, Exile this card from your graveyard: Create two 1/1 red Elemental creature tokens.",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Young Pyromancer",
@@ -167,7 +169,9 @@
    ],
    "mana_cost": "{1}{R}",
    "url": "https://scryfall.com/card/tdc/95/young-pyromancer?utm_source=api",
-   "oracle_text": "Whenever you cast an instant or sorcery spell, create a 1/1 red Elemental creature token."
+   "oracle_text": "Whenever you cast an instant or sorcery spell, create a 1/1 red Elemental creature token.",
+   "power": "2",
+   "toughness": "1"
   },
   {
    "name": "Fire // Ice",
@@ -211,7 +215,9 @@
    ],
    "mana_cost": "{U}{R}",
    "url": "https://scryfall.com/card/clb/852/sprite-dragon?utm_source=api",
-   "oracle_text": "Flying, haste\nWhenever you cast a noncreature spell, put a +1/+1 counter on this creature."
+   "oracle_text": "Flying, haste\nWhenever you cast a noncreature spell, put a +1/+1 counter on this creature.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Thundering Falls",
@@ -380,7 +386,9 @@
    ],
    "mana_cost": "{2}{U}",
    "url": "https://scryfall.com/card/dmr/58/man-o-war?utm_source=api",
-   "oracle_text": "When this creature enters, return target creature to its owner's hand."
+   "oracle_text": "When this creature enters, return target creature to its owner's hand.",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Mountain",
@@ -531,7 +539,9 @@
    ],
    "mana_cost": "{1}{R}",
    "url": "https://scryfall.com/card/dmu/122/electrostatic-infantry?utm_source=api",
-   "oracle_text": "Trample\nWhenever you cast an instant or sorcery spell, put a +1/+1 counter on this creature."
+   "oracle_text": "Trample\nWhenever you cast an instant or sorcery spell, put a +1/+1 counter on this creature.",
+   "power": "1",
+   "toughness": "2"
   },
   {
    "name": "Brainsurge",
@@ -586,7 +596,9 @@
    ],
    "mana_cost": "{R}",
    "url": "https://scryfall.com/card/mh2/121/dragons-rage-channeler?utm_source=api",
-   "oracle_text": "Whenever you cast a noncreature spell, surveil 1. (Look at the top card of your library. You may put that card into your graveyard.)\nDelirium — As long as there are four or more card types among cards in your graveyard, this creature gets +2/+2, has flying, and attacks each combat if able."
+   "oracle_text": "Whenever you cast a noncreature spell, surveil 1. (Look at the top card of your library. You may put that card into your graveyard.)\nDelirium — As long as there are four or more card types among cards in your graveyard, this creature gets +2/+2, has flying, and attacks each combat if able.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Scalding Viper // Steam Clean",
@@ -610,7 +622,9 @@
    ],
    "mana_cost": "{1}{R} // {1}{U}",
    "url": "https://scryfall.com/card/woe/235/scalding-viper-steam-clean?utm_source=api",
-   "oracle_text": ""
+   "oracle_text": "",
+   "power": "2",
+   "toughness": "1"
   },
   {
    "name": "Tarfire",
@@ -748,7 +762,9 @@
    ],
    "mana_cost": "{1}{U}",
    "url": "https://scryfall.com/card/fdn/47/mischievous-mystic?utm_source=api",
-   "oracle_text": "Flying\nWhenever you draw your second card each turn, create a 1/1 blue Faerie creature token with flying."
+   "oracle_text": "Flying\nWhenever you draw your second card each turn, create a 1/1 blue Faerie creature token with flying.",
+   "power": "2",
+   "toughness": "1"
   },
   {
    "name": "Thing in the Ice // Awoken Horror",
@@ -806,7 +822,9 @@
    ],
    "mana_cost": "{1}{U}",
    "url": "https://scryfall.com/card/uma/71/snapcaster-mage?utm_source=api",
-   "oracle_text": "Flash\nWhen this creature enters, target instant or sorcery card in your graveyard gains flashback until end of turn. The flashback cost is equal to its mana cost. (You may cast that card from your graveyard for its flashback cost. Then exile it.)"
+   "oracle_text": "Flash\nWhen this creature enters, target instant or sorcery card in your graveyard gains flashback until end of turn. The flashback cost is equal to its mana cost. (You may cast that card from your graveyard for its flashback cost. Then exile it.)",
+   "power": "2",
+   "toughness": "1"
   }
  ],
  "sideboard": [
@@ -829,7 +847,9 @@
    ],
    "mana_cost": "{1}{U}",
    "url": "https://scryfall.com/card/afc/86/merfolk-looter?utm_source=api",
-   "oracle_text": "{T}: Draw a card, then discard a card."
+   "oracle_text": "{T}: Draw a card, then discard a card.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Curator of Mysteries",
@@ -849,7 +869,9 @@
    ],
    "mana_cost": "{2}{U}{U}",
    "url": "https://scryfall.com/card/afc/81/curator-of-mysteries?utm_source=api",
-   "oracle_text": "Flying\nWhenever you cycle or discard another card, scry 1.\nCycling {U} ({U}, Discard this card: Draw a card.)"
+   "oracle_text": "Flying\nWhenever you cycle or discard another card, scry 1.\nCycling {U} ({U}, Discard this card: Draw a card.)",
+   "power": "4",
+   "toughness": "4"
   },
   {
    "name": "Mesmeric Fiend",
@@ -870,7 +892,9 @@
    ],
    "mana_cost": "{1}{B}",
    "url": "https://scryfall.com/card/a25/97/mesmeric-fiend?utm_source=api",
-   "oracle_text": "When this creature enters, target opponent reveals their hand and you choose a nonland card from it. Exile that card.\nWhen this creature leaves the battlefield, return the exiled card to its owner's hand."
+   "oracle_text": "When this creature enters, target opponent reveals their hand and you choose a nonland card from it. Exile that card.\nWhen this creature leaves the battlefield, return the exiled card to its owner's hand.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Lava Dart",
@@ -909,7 +933,9 @@
    ],
    "mana_cost": "{R}",
    "url": "https://scryfall.com/card/snc/108/goldhound?utm_source=api",
-   "oracle_text": "First strike\nMenace (This creature can't be blocked except by two or more creatures.)\n{T}, Sacrifice this creature: Add one mana of any color."
+   "oracle_text": "First strike\nMenace (This creature can't be blocked except by two or more creatures.)\n{T}, Sacrifice this creature: Add one mana of any color.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Edge of Autumn",
@@ -962,7 +988,9 @@
    ],
    "mana_cost": "{B}",
    "url": "https://scryfall.com/card/tdc/199/viscera-seer?utm_source=api",
-   "oracle_text": "Sacrifice a creature: Scry 1. (Look at the top card of your library. You may put that card on the bottom.)"
+   "oracle_text": "Sacrifice a creature: Scry 1. (Look at the top card of your library. You may put that card on the bottom.)",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Lizard Blades",
@@ -984,7 +1012,9 @@
    ],
    "mana_cost": "{1}{R}",
    "url": "https://scryfall.com/card/neo/153/lizard-blades?utm_source=api",
-   "oracle_text": "Double strike\nEquipped creature has double strike.\nReconfigure {2} ({2}: Attach to target creature you control; or unattach from a creature. Reconfigure only as a sorcery. While attached, this isn't a creature.)"
+   "oracle_text": "Double strike\nEquipped creature has double strike.\nReconfigure {2} ({2}: Attach to target creature you control; or unattach from a creature. Reconfigure only as a sorcery. While attached, this isn't a creature.)",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Audacity",
@@ -1042,7 +1072,9 @@
    ],
    "mana_cost": "{R}",
    "url": "https://scryfall.com/card/2xm/127/goblin-guide?utm_source=api",
-   "oracle_text": "Haste\nWhenever this creature attacks, defending player reveals the top card of their library. If it's a land card, that player puts it into their hand."
+   "oracle_text": "Haste\nWhenever this creature attacks, defending player reveals the top card of their library. If it's a land card, that player puts it into their hand.",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Rielle, the Everwise",
@@ -1066,7 +1098,9 @@
    ],
    "mana_cost": "{1}{U}{R}",
    "url": "https://scryfall.com/card/iko/203/rielle-the-everwise?utm_source=api",
-   "oracle_text": "Rielle gets +1/+0 for each instant and sorcery card in your graveyard.\nWhenever you discard one or more cards for the first time each turn, draw that many cards."
+   "oracle_text": "Rielle gets +1/+0 for each instant and sorcery card in your graveyard.\nWhenever you discard one or more cards for the first time each turn, draw that many cards.",
+   "power": "0",
+   "toughness": "3"
   },
   {
    "name": "Flame Jab",

@@ -52,7 +52,9 @@
    ],
    "mana_cost": "{B}",
    "url": "https://scryfall.com/card/clb/740/bloodsoaked-champion?utm_source=api",
-   "oracle_text": "This creature can't block.\nRaid — {1}{B}: Return this card from your graveyard to the battlefield. Activate only if you attacked this turn."
+   "oracle_text": "This creature can't block.\nRaid — {1}{B}: Return this card from your graveyard to the battlefield. Activate only if you attacked this turn.",
+   "power": "2",
+   "toughness": "1"
   },
   {
    "name": "Otawara, Soaring City",
@@ -89,7 +91,9 @@
    ],
    "mana_cost": "{2}{R}",
    "url": "https://scryfall.com/card/voc/141/anjes-ravager?utm_source=api",
-   "oracle_text": "This creature attacks each combat if able.\nWhenever this creature attacks, discard your hand, then draw three cards.\nMadness {1}{R} (If you discard this card, discard it into exile. When you do, cast it for its madness cost or put it into your graveyard.)"
+   "oracle_text": "This creature attacks each combat if able.\nWhenever this creature attacks, discard your hand, then draw three cards.\nMadness {1}{R} (If you discard this card, discard it into exile. When you do, cast it for its madness cost or put it into your graveyard.)",
+   "power": "3",
+   "toughness": "3"
   },
   {
    "name": "Polluted Delta",
@@ -122,7 +126,9 @@
    ],
    "mana_cost": "{2}{U}{U}",
    "url": "https://scryfall.com/card/afc/81/curator-of-mysteries?utm_source=api",
-   "oracle_text": "Flying\nWhenever you cycle or discard another card, scry 1.\nCycling {U} ({U}, Discard this card: Draw a card.)"
+   "oracle_text": "Flying\nWhenever you cycle or discard another card, scry 1.\nCycling {U} ({U}, Discard this card: Draw a card.)",
+   "power": "4",
+   "toughness": "4"
   },
   {
    "name": "Watery Grave",
@@ -239,7 +245,9 @@
    ],
    "mana_cost": "{1}{B}",
    "url": "https://scryfall.com/card/m21/107/kitesail-freebooter?utm_source=api",
-   "oracle_text": "Flying\nWhen this creature enters, target opponent reveals their hand. You choose a noncreature, nonland card from it. Exile that card until this creature leaves the battlefield."
+   "oracle_text": "Flying\nWhen this creature enters, target opponent reveals their hand. You choose a noncreature, nonland card from it. Exile that card until this creature leaves the battlefield.",
+   "power": "1",
+   "toughness": "2"
   },
   {
    "name": "Goldhound",
@@ -261,7 +269,9 @@
    ],
    "mana_cost": "{R}",
    "url": "https://scryfall.com/card/snc/108/goldhound?utm_source=api",
-   "oracle_text": "First strike\nMenace (This creature can't be blocked except by two or more creatures.)\n{T}, Sacrifice this creature: Add one mana of any color."
+   "oracle_text": "First strike\nMenace (This creature can't be blocked except by two or more creatures.)\n{T}, Sacrifice this creature: Add one mana of any color.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Mountain",
@@ -350,7 +360,9 @@
    ],
    "mana_cost": "{2}{R}",
    "url": "https://scryfall.com/card/eld/128/irencrag-pyromancer?utm_source=api",
-   "oracle_text": "Whenever you draw your second card each turn, this creature deals 3 damage to any target."
+   "oracle_text": "Whenever you draw your second card each turn, this creature deals 3 damage to any target.",
+   "power": "0",
+   "toughness": "4"
   },
   {
    "name": "Unearth",
@@ -384,7 +396,9 @@
    "color_identity": [],
    "mana_cost": "{2}",
    "url": "https://scryfall.com/card/neo/243/containment-construct?utm_source=api",
-   "oracle_text": "Whenever you discard a card, you may exile that card from your graveyard. If you do, you may play that card this turn."
+   "oracle_text": "Whenever you discard a card, you may exile that card from your graveyard. If you do, you may play that card this turn.",
+   "power": "2",
+   "toughness": "1"
   },
   {
    "name": "Fatal Push",
@@ -471,7 +485,9 @@
    ],
    "mana_cost": "{1}{B}",
    "url": "https://scryfall.com/card/mh3/80/accursed-marauder?utm_source=api",
-   "oracle_text": "When this creature enters, each player sacrifices a nontoken creature of their choice."
+   "oracle_text": "When this creature enters, each player sacrifices a nontoken creature of their choice.",
+   "power": "2",
+   "toughness": "1"
   },
   {
    "name": "Psychic Frog",
@@ -493,7 +509,9 @@
    ],
    "mana_cost": "{U}{B}",
    "url": "https://scryfall.com/card/mh3/199/psychic-frog?utm_source=api",
-   "oracle_text": "Whenever this creature deals combat damage to a player or planeswalker, draw a card.\nDiscard a card: Put a +1/+1 counter on this creature.\nExile three cards from your graveyard: This creature gains flying until end of turn."
+   "oracle_text": "Whenever this creature deals combat damage to a player or planeswalker, draw a card.\nDiscard a card: Put a +1/+1 counter on this creature.\nExile three cards from your graveyard: This creature gains flying until end of turn.",
+   "power": "1",
+   "toughness": "2"
   },
   {
    "name": "Scalding Tarn",
@@ -605,7 +623,9 @@
    ],
    "mana_cost": "{2}",
    "url": "https://scryfall.com/card/bro/164/scrapwork-mutt?utm_source=api",
-   "oracle_text": "When this creature enters, you may discard a card. If you do, draw a card.\nUnearth {1}{R} ({1}{R}: Return this card from your graveyard to the battlefield. It gains haste. Exile it at the beginning of the next end step or if it would leave the battlefield. Unearth only as a sorcery.)"
+   "oracle_text": "When this creature enters, you may discard a card. If you do, draw a card.\nUnearth {1}{R} ({1}{R}: Return this card from your graveyard to the battlefield. It gains haste. Exile it at the beginning of the next end step or if it would leave the battlefield. Unearth only as a sorcery.)",
+   "power": "2",
+   "toughness": "1"
   },
   {
    "name": "Mischievous Mystic",
@@ -626,7 +646,9 @@
    ],
    "mana_cost": "{1}{U}",
    "url": "https://scryfall.com/card/fdn/47/mischievous-mystic?utm_source=api",
-   "oracle_text": "Flying\nWhenever you draw your second card each turn, create a 1/1 blue Faerie creature token with flying."
+   "oracle_text": "Flying\nWhenever you draw your second card each turn, create a 1/1 blue Faerie creature token with flying.",
+   "power": "2",
+   "toughness": "1"
   },
   {
    "name": "Preordain",
@@ -666,7 +688,9 @@
    ],
    "mana_cost": "{2}{U}{B}",
    "url": "https://scryfall.com/card/otc/231/hostage-taker?utm_source=api",
-   "oracle_text": "When this creature enters, exile another target creature or artifact until this creature leaves the battlefield. You may cast that card for as long as it remains exiled, and mana of any type can be spent to cast that spell."
+   "oracle_text": "When this creature enters, exile another target creature or artifact until this creature leaves the battlefield. You may cast that card for as long as it remains exiled, and mana of any type can be spent to cast that spell.",
+   "power": "2",
+   "toughness": "3"
   },
   {
    "name": "Stern Scolding",
@@ -796,7 +820,9 @@
    ],
    "mana_cost": "{B}",
    "url": "https://scryfall.com/card/akh/91/festering-mummy?utm_source=api",
-   "oracle_text": "When this creature dies, you may put a -1/-1 counter on target creature."
+   "oracle_text": "When this creature dies, you may put a -1/-1 counter on target creature.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Grim Discovery",

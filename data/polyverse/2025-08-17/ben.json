@@ -77,7 +77,9 @@
    ],
    "mana_cost": "{B}",
    "url": "https://scryfall.com/card/clb/740/bloodsoaked-champion?utm_source=api",
-   "oracle_text": "This creature can't block.\nRaid — {1}{B}: Return this card from your graveyard to the battlefield. Activate only if you attacked this turn."
+   "oracle_text": "This creature can't block.\nRaid — {1}{B}: Return this card from your graveyard to the battlefield. Activate only if you attacked this turn.",
+   "power": "2",
+   "toughness": "1"
   },
   {
    "name": "Fatal Push",
@@ -223,7 +225,9 @@
    ],
    "mana_cost": "{1}",
    "url": "https://scryfall.com/card/kld/199/bomat-courier?utm_source=api",
-   "oracle_text": "Haste\nWhenever this creature attacks, exile the top card of your library face down. (You can't look at it.)\n{R}, Discard your hand, Sacrifice this creature: Put all cards exiled with this creature into their owners' hands."
+   "oracle_text": "Haste\nWhenever this creature attacks, exile the top card of your library face down. (You can't look at it.)\n{R}, Discard your hand, Sacrifice this creature: Put all cards exiled with this creature into their owners' hands.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Seasoned Pyromancer",
@@ -244,7 +248,9 @@
    ],
    "mana_cost": "{1}{R}{R}",
    "url": "https://scryfall.com/card/2x2/123/seasoned-pyromancer?utm_source=api",
-   "oracle_text": "When this creature enters, discard two cards, then draw two cards. For each nonland card discarded this way, create a 1/1 red Elemental creature token.\n{3}{R}{R}, Exile this card from your graveyard: Create two 1/1 red Elemental creature tokens."
+   "oracle_text": "When this creature enters, discard two cards, then draw two cards. For each nonland card discarded this way, create a 1/1 red Elemental creature token.\n{3}{R}{R}, Exile this card from your graveyard: Create two 1/1 red Elemental creature tokens.",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Goblin Bombardment",
@@ -283,7 +289,9 @@
    ],
    "mana_cost": "{2}{R}{R}",
    "url": "https://scryfall.com/card/moc/288/pia-and-kiran-nalaar?utm_source=api",
-   "oracle_text": "When Pia and Kiran Nalaar enters, create two 1/1 colorless Thopter artifact creature tokens with flying.\n{2}{R}, Sacrifice an artifact: Pia and Kiran Nalaar deals 2 damage to any target."
+   "oracle_text": "When Pia and Kiran Nalaar enters, create two 1/1 colorless Thopter artifact creature tokens with flying.\n{2}{R}, Sacrifice an artifact: Pia and Kiran Nalaar deals 2 damage to any target.",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Kavaron Harrier",
@@ -305,7 +313,9 @@
    ],
    "mana_cost": "{R}",
    "url": "https://scryfall.com/card/eoe/139/kavaron-harrier?utm_source=api",
-   "oracle_text": "Whenever this creature attacks, you may pay {2}. If you do, create a 2/2 colorless Robot artifact creature token that's tapped and attacking. Sacrifice that token at end of combat."
+   "oracle_text": "Whenever this creature attacks, you may pay {2}. If you do, create a 2/2 colorless Robot artifact creature token that's tapped and attacking. Sacrifice that token at end of combat.",
+   "power": "2",
+   "toughness": "1"
   },
   {
    "name": "Marsh Flats",
@@ -357,7 +367,9 @@
    ],
    "mana_cost": "{2}{B}",
    "url": "https://scryfall.com/card/woe/97/lord-skitter-sewer-king?utm_source=api",
-   "oracle_text": "Whenever another Rat you control enters, exile up to one target card from an opponent's graveyard.\nAt the beginning of combat on your turn, create a 1/1 black Rat creature token with \"This token can't block.\""
+   "oracle_text": "Whenever another Rat you control enters, exile up to one target card from an opponent's graveyard.\nAt the beginning of combat on your turn, create a 1/1 black Rat creature token with \"This token can't block.\"",
+   "power": "3",
+   "toughness": "3"
   },
   {
    "name": "Lingering Souls",
@@ -413,7 +425,9 @@
    ],
    "mana_cost": "{1}{R}",
    "url": "https://scryfall.com/card/mh3/133/reckless-pyrosurfer?utm_source=api",
-   "oracle_text": "Haste\nLandfall — Whenever a land you control enters, this creature gains battle cry until end of turn. (Whenever this creature attacks, each other attacking creature gets +1/+0 until end of turn. Each instance of battle cry triggers separately.)"
+   "oracle_text": "Haste\nLandfall — Whenever a land you control enters, this creature gains battle cry until end of turn. (Whenever this creature attacks, each other attacking creature gets +1/+0 until end of turn. Each instance of battle cry triggers separately.)",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Read the Bones",
@@ -451,7 +465,9 @@
    ],
    "mana_cost": "{R}",
    "url": "https://scryfall.com/card/dmr/126/grim-lavamancer?utm_source=api",
-   "oracle_text": "{R}, {T}, Exile two cards from your graveyard: This creature deals 2 damage to any target."
+   "oracle_text": "{R}, {T}, Exile two cards from your graveyard: This creature deals 2 damage to any target.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Plains",
@@ -600,7 +616,9 @@
    ],
    "mana_cost": "{1}{B}",
    "url": "https://scryfall.com/card/fin/94/dark-confidant?utm_source=api",
-   "oracle_text": "At the beginning of your upkeep, reveal the top card of your library and put that card into your hand. You lose life equal to its mana value."
+   "oracle_text": "At the beginning of your upkeep, reveal the top card of your library and put that card into your hand. You lose life equal to its mana value.",
+   "power": "2",
+   "toughness": "1"
   },
   {
    "name": "Bloodstained Mire",
@@ -701,7 +719,9 @@
    ],
    "mana_cost": "{1}{R}",
    "url": "https://scryfall.com/card/lci/156/inti-seneschal-of-the-sun?utm_source=api",
-   "oracle_text": "Whenever you attack, you may discard a card. When you do, put a +1/+1 counter on target attacking creature. It gains trample until end of turn.\nWhenever you discard one or more cards, exile the top card of your library. You may play that card until your next end step."
+   "oracle_text": "Whenever you attack, you may discard a card. When you do, put a +1/+1 counter on target attacking creature. It gains trample until end of turn.\nWhenever you discard one or more cards, exile the top card of your library. You may play that card until your next end step.",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Blood Crypt",
@@ -742,7 +762,9 @@
    ],
    "mana_cost": "{1}{R}",
    "url": "https://scryfall.com/card/fdn/93/searslicer-goblin?utm_source=api",
-   "oracle_text": "Raid — At the beginning of your end step, if you attacked this turn, create a 1/1 red Goblin creature token."
+   "oracle_text": "Raid — At the beginning of your end step, if you attacked this turn, create a 1/1 red Goblin creature token.",
+   "power": "2",
+   "toughness": "1"
   },
   {
    "name": "Grim Bauble",
@@ -836,7 +858,9 @@
    ],
    "mana_cost": "{1}{U}",
    "url": "https://scryfall.com/card/afc/86/merfolk-looter?utm_source=api",
-   "oracle_text": "{T}: Draw a card, then discard a card."
+   "oracle_text": "{T}: Draw a card, then discard a card.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Twinshot Sniper",
@@ -858,7 +882,9 @@
    ],
    "mana_cost": "{3}{R}",
    "url": "https://scryfall.com/card/neo/168/twinshot-sniper?utm_source=api",
-   "oracle_text": "Reach\nWhen this creature enters, it deals 2 damage to any target.\nChannel — {1}{R}, Discard this card: It deals 2 damage to any target."
+   "oracle_text": "Reach\nWhen this creature enters, it deals 2 damage to any target.\nChannel — {1}{R}, Discard this card: It deals 2 damage to any target.",
+   "power": "2",
+   "toughness": "3"
   },
   {
    "name": "Archenemy's Charm",
@@ -913,7 +939,9 @@
    ],
    "mana_cost": "{1}{W}",
    "url": "https://scryfall.com/card/mm3/11/kor-skyfisher?utm_source=api",
-   "oracle_text": "Flying\nWhen this creature enters, return a permanent you control to its owner's hand."
+   "oracle_text": "Flying\nWhen this creature enters, return a permanent you control to its owner's hand.",
+   "power": "2",
+   "toughness": "3"
   },
   {
    "name": "Mayhem Devil",
@@ -935,7 +963,9 @@
    ],
    "mana_cost": "{1}{B}{R}",
    "url": "https://scryfall.com/card/eoc/121/mayhem-devil?utm_source=api",
-   "oracle_text": "Whenever a player sacrifices a permanent, this creature deals 1 damage to any target."
+   "oracle_text": "Whenever a player sacrifices a permanent, this creature deals 1 damage to any target.",
+   "power": "3",
+   "toughness": "3"
   },
   {
    "name": "Bloodsky Berserker",
@@ -956,7 +986,9 @@
    ],
    "mana_cost": "{1}{B}",
    "url": "https://scryfall.com/card/khm/80/bloodsky-berserker?utm_source=api",
-   "oracle_text": "Whenever you cast your second spell each turn, put two +1/+1 counters on this creature. It gains menace until end of turn. (It can't be blocked except by two or more creatures.)"
+   "oracle_text": "Whenever you cast your second spell each turn, put two +1/+1 counters on this creature. It gains menace until end of turn. (It can't be blocked except by two or more creatures.)",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "March of Otherworldly Light",
@@ -993,7 +1025,9 @@
    ],
    "mana_cost": "{1}{W}",
    "url": "https://scryfall.com/card/znr/15/fearless-fledgling?utm_source=api",
-   "oracle_text": "Landfall — Whenever a land you control enters, put a +1/+1 counter on this creature. It gains flying until end of turn."
+   "oracle_text": "Landfall — Whenever a land you control enters, put a +1/+1 counter on this creature. It gains flying until end of turn.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Chandra, Hope's Beacon",
@@ -1056,7 +1090,9 @@
    ],
    "mana_cost": "{1}{W}",
    "url": "https://scryfall.com/card/vow/38/thalia-guardian-of-thraben?utm_source=api",
-   "oracle_text": "First strike\nNoncreature spells cost {1} more to cast."
+   "oracle_text": "First strike\nNoncreature spells cost {1} more to cast.",
+   "power": "2",
+   "toughness": "1"
   },
   {
    "name": "Scrabbling Claws",

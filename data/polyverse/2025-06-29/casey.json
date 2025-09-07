@@ -116,7 +116,9 @@
    ],
    "mana_cost": "{1}{G}{G}",
    "url": "https://scryfall.com/card/cmm/888/courser-of-kruphix?utm_source=api",
-   "oracle_text": "Play with the top card of your library revealed.\nYou may play lands from the top of your library.\nLandfall — Whenever a land you control enters, you gain 1 life."
+   "oracle_text": "Play with the top card of your library revealed.\nYou may play lands from the top of your library.\nLandfall — Whenever a land you control enters, you gain 1 life.",
+   "power": "2",
+   "toughness": "4"
   },
   {
    "name": "Soul Snare",
@@ -188,7 +190,9 @@
    ],
    "mana_cost": "{1}{U}",
    "url": "https://scryfall.com/card/snc/44/faerie-vandal?utm_source=api",
-   "oracle_text": "Flash (You may cast this spell any time you could cast an instant.)\nFlying\nWhenever you draw your second card each turn, put a +1/+1 counter on this creature."
+   "oracle_text": "Flash (You may cast this spell any time you could cast an instant.)\nFlying\nWhenever you draw your second card each turn, put a +1/+1 counter on this creature.",
+   "power": "1",
+   "toughness": "2"
   },
   {
    "name": "Perilous Myr",
@@ -206,7 +210,9 @@
    "color_identity": [],
    "mana_cost": "{2}",
    "url": "https://scryfall.com/card/cmr/330/perilous-myr?utm_source=api",
-   "oracle_text": "When this creature dies, it deals 2 damage to any target."
+   "oracle_text": "When this creature dies, it deals 2 damage to any target.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Island",
@@ -266,7 +272,9 @@
    ],
    "mana_cost": "{2}{G}{G}",
    "url": "https://scryfall.com/card/tdc/244/arasta-of-the-endless-web?utm_source=api",
-   "oracle_text": "Reach\nWhenever an opponent casts an instant or sorcery spell, create a 1/2 green Spider creature token with reach."
+   "oracle_text": "Reach\nWhenever an opponent casts an instant or sorcery spell, create a 1/2 green Spider creature token with reach.",
+   "power": "3",
+   "toughness": "5"
   },
   {
    "name": "The Goose Mother",
@@ -290,7 +298,9 @@
    ],
    "mana_cost": "{X}{G}{U}",
    "url": "https://scryfall.com/card/woe/204/the-goose-mother?utm_source=api",
-   "oracle_text": "Flying\nThe Goose Mother enters with X +1/+1 counters on it.\nWhen The Goose Mother enters, create half X Food tokens, rounded up.\nWhenever The Goose Mother attacks, you may sacrifice a Food. If you do, draw a card."
+   "oracle_text": "Flying\nThe Goose Mother enters with X +1/+1 counters on it.\nWhen The Goose Mother enters, create half X Food tokens, rounded up.\nWhenever The Goose Mother attacks, you may sacrifice a Food. If you do, draw a card.",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Forest",
@@ -381,7 +391,9 @@
    "color_identity": [],
    "mana_cost": "{1}",
    "url": "https://scryfall.com/card/neo/248/iron-apprentice?utm_source=api",
-   "oracle_text": "This creature enters with a +1/+1 counter on it.\nWhen this creature dies, if it had counters on it, put those counters on target creature you control."
+   "oracle_text": "This creature enters with a +1/+1 counter on it.\nWhen this creature dies, if it had counters on it, put those counters on target creature you control.",
+   "power": "0",
+   "toughness": "0"
   },
   {
    "name": "Soul Partition",
@@ -548,7 +560,9 @@
    ],
    "mana_cost": "{W}",
    "url": "https://scryfall.com/card/zen/36/steppe-lynx?utm_source=api",
-   "oracle_text": "Landfall — Whenever a land you control enters, this creature gets +2/+2 until end of turn."
+   "oracle_text": "Landfall — Whenever a land you control enters, this creature gets +2/+2 until end of turn.",
+   "power": "0",
+   "toughness": "1"
   },
   {
    "name": "Scalding Tarn",
@@ -582,7 +596,9 @@
    ],
    "mana_cost": "{1}{G}",
    "url": "https://scryfall.com/card/tsr/227/scryb-ranger?utm_source=api",
-   "oracle_text": "Flash\nFlying, protection from blue\nReturn a Forest you control to its owner's hand: Untap target creature. Activate only once each turn."
+   "oracle_text": "Flash\nFlying, protection from blue\nReturn a Forest you control to its owner's hand: Untap target creature. Activate only once each turn.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Polluted Delta",
@@ -635,7 +651,9 @@
    ],
    "mana_cost": "{2}{U}",
    "url": "https://scryfall.com/card/mh3/59/dreamtide-whale?utm_source=api",
-   "oracle_text": "Vanishing 2 (This creature enters with two time counters on it. At the beginning of your upkeep, remove a time counter from it. When the last is removed, sacrifice it.)\nWhenever a player casts their second spell each turn, proliferate. (Choose any number of permanents and/or players, then give each another counter of each kind already there.)"
+   "oracle_text": "Vanishing 2 (This creature enters with two time counters on it. At the beginning of your upkeep, remove a time counter from it. When the last is removed, sacrifice it.)\nWhenever a player casts their second spell each turn, proliferate. (Choose any number of permanents and/or players, then give each another counter of each kind already there.)",
+   "power": "7",
+   "toughness": "5"
   },
   {
    "name": "Tameshi, Reality Architect",
@@ -658,7 +676,9 @@
    ],
    "mana_cost": "{2}{U}",
    "url": "https://scryfall.com/card/neo/82/tameshi-reality-architect?utm_source=api",
-   "oracle_text": "Whenever one or more noncreature permanents are returned to hand, draw a card. This ability triggers only once each turn.\n{X}{W}, Return a land you control to its owner's hand: Return target artifact or enchantment card with mana value X or less from your graveyard to the battlefield. Activate only as a sorcery."
+   "oracle_text": "Whenever one or more noncreature permanents are returned to hand, draw a card. This ability triggers only once each turn.\n{X}{W}, Return a land you control to its owner's hand: Return target artifact or enchantment card with mana value X or less from your graveyard to the battlefield. Activate only as a sorcery.",
+   "power": "2",
+   "toughness": "3"
   },
   {
    "name": "Misty Rainforest",
@@ -774,7 +794,9 @@
    ],
    "mana_cost": "{G}",
    "url": "https://scryfall.com/card/a25/160/arbor-elf?utm_source=api",
-   "oracle_text": "{T}: Untap target Forest."
+   "oracle_text": "{T}: Untap target Forest.",
+   "power": "1",
+   "toughness": "1"
   }
  ],
  "sideboard": [
@@ -817,7 +839,9 @@
    ],
    "mana_cost": "{4}{G}{G}",
    "url": "https://scryfall.com/card/ima/183/primeval-titan?utm_source=api",
-   "oracle_text": "Trample\nWhenever this creature enters or attacks, you may search your library for up to two land cards, put them onto the battlefield tapped, then shuffle."
+   "oracle_text": "Trample\nWhenever this creature enters or attacks, you may search your library for up to two land cards, put them onto the battlefield tapped, then shuffle.",
+   "power": "6",
+   "toughness": "6"
   },
   {
    "name": "Serum Visions",
@@ -857,7 +881,9 @@
    ],
    "mana_cost": "{G}{W}",
    "url": "https://scryfall.com/card/2x2/267/qasali-pridemage?utm_source=api",
-   "oracle_text": "Exalted (Whenever a creature you control attacks alone, that creature gets +1/+1 until end of turn.)\n{1}, Sacrifice this creature: Destroy target artifact or enchantment."
+   "oracle_text": "Exalted (Whenever a creature you control attacks alone, that creature gets +1/+1 until end of turn.)\n{1}, Sacrifice this creature: Destroy target artifact or enchantment.",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Grim Discovery",
@@ -893,7 +919,9 @@
    ],
    "mana_cost": "{1}",
    "url": "https://scryfall.com/card/kld/199/bomat-courier?utm_source=api",
-   "oracle_text": "Haste\nWhenever this creature attacks, exile the top card of your library face down. (You can't look at it.)\n{R}, Discard your hand, Sacrifice this creature: Put all cards exiled with this creature into their owners' hands."
+   "oracle_text": "Haste\nWhenever this creature attacks, exile the top card of your library face down. (You can't look at it.)\n{R}, Discard your hand, Sacrifice this creature: Put all cards exiled with this creature into their owners' hands.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Scrabbling Claws",
@@ -999,7 +1027,9 @@
    ],
    "mana_cost": "{1}{W}",
    "url": "https://scryfall.com/card/vow/38/thalia-guardian-of-thraben?utm_source=api",
-   "oracle_text": "First strike\nNoncreature spells cost {1} more to cast."
+   "oracle_text": "First strike\nNoncreature spells cost {1} more to cast.",
+   "power": "2",
+   "toughness": "1"
   },
   {
    "name": "Marionette Apprentice",
@@ -1020,7 +1050,9 @@
    ],
    "mana_cost": "{1}{B}",
    "url": "https://scryfall.com/card/mh3/100/marionette-apprentice?utm_source=api",
-   "oracle_text": "Fabricate 1 (When this creature enters, put a +1/+1 counter on it or create a 1/1 colorless Servo artifact creature token.)\nWhenever another creature or artifact you control is put into a graveyard from the battlefield, each opponent loses 1 life."
+   "oracle_text": "Fabricate 1 (When this creature enters, put a +1/+1 counter on it or create a 1/1 colorless Servo artifact creature token.)\nWhenever another creature or artifact you control is put into a graveyard from the battlefield, each opponent loses 1 life.",
+   "power": "1",
+   "toughness": "2"
   },
   {
    "name": "Tectonic Edge",

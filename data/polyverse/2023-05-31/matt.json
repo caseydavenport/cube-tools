@@ -35,7 +35,9 @@
    ],
    "mana_cost": "{B}",
    "url": "https://scryfall.com/card/rvr/75/dreadmalkin?utm_source=api",
-   "oracle_text": "Menace (This creature can't be blocked except by two or more creatures.)\n{2}{B}, Sacrifice another creature or planeswalker: Put two +1/+1 counters on this creature."
+   "oracle_text": "Menace (This creature can't be blocked except by two or more creatures.)\n{2}{B}, Sacrifice another creature or planeswalker: Put two +1/+1 counters on this creature.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Swamp",
@@ -226,7 +228,9 @@
    ],
    "mana_cost": "{B}",
    "url": "https://scryfall.com/card/m20/120/vampire-of-the-dire-moon?utm_source=api",
-   "oracle_text": "Deathtouch (Any amount of damage this deals to a creature is enough to destroy it.)\nLifelink (Damage dealt by this creature also causes you to gain that much life.)"
+   "oracle_text": "Deathtouch (Any amount of damage this deals to a creature is enough to destroy it.)\nLifelink (Damage dealt by this creature also causes you to gain that much life.)",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Fateful End",
@@ -285,7 +289,9 @@
    ],
    "mana_cost": "{B}{B}",
    "url": "https://scryfall.com/card/fdn/607/kalastria-highborn?utm_source=api",
-   "oracle_text": "Whenever this creature or another Vampire you control dies, you may pay {B}. If you do, target player loses 2 life and you gain 2 life."
+   "oracle_text": "Whenever this creature or another Vampire you control dies, you may pay {B}. If you do, target player loses 2 life and you gain 2 life.",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Bloodghast",
@@ -306,7 +312,9 @@
    ],
    "mana_cost": "{B}{B}",
    "url": "https://scryfall.com/card/dft/77/bloodghast?utm_source=api",
-   "oracle_text": "This creature can't block.\nThis creature has haste as long as an opponent has 10 or less life.\nLandfall — Whenever a land you control enters, you may return this card from your graveyard to the battlefield."
+   "oracle_text": "This creature can't block.\nThis creature has haste as long as an opponent has 10 or less life.\nLandfall — Whenever a land you control enters, you may return this card from your graveyard to the battlefield.",
+   "power": "2",
+   "toughness": "1"
   },
   {
    "name": "Warcry Phoenix",
@@ -326,7 +334,9 @@
    ],
    "mana_cost": "{3}{R}",
    "url": "https://scryfall.com/card/dom/150/warcry-phoenix?utm_source=api",
-   "oracle_text": "Flying, haste\nWhenever you attack with three or more creatures, you may pay {2}{R}. If you do, return this card from your graveyard to the battlefield tapped and attacking."
+   "oracle_text": "Flying, haste\nWhenever you attack with three or more creatures, you may pay {2}{R}. If you do, return this card from your graveyard to the battlefield tapped and attacking.",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Mountain",
@@ -498,7 +508,9 @@
    ],
    "mana_cost": "{4}{R}{R}",
    "url": "https://scryfall.com/card/cmm/232/hellkite-charger?utm_source=api",
-   "oracle_text": "Flying, haste\nWhenever this creature attacks, you may pay {5}{R}{R}. If you do, untap all attacking creatures and after this phase, there is an additional combat phase."
+   "oracle_text": "Flying, haste\nWhenever this creature attacks, you may pay {5}{R}{R}. If you do, untap all attacking creatures and after this phase, there is an additional combat phase.",
+   "power": "5",
+   "toughness": "5"
   },
   {
    "name": "Grim Initiate",
@@ -519,7 +531,9 @@
    ],
    "mana_cost": "{R}",
    "url": "https://scryfall.com/card/war/130/grim-initiate?utm_source=api",
-   "oracle_text": "First strike\nWhen this creature dies, amass Zombies 1. (Put a +1/+1 counter on an Army you control. It's also a Zombie. If you don't control an Army, create a 0/0 black Zombie Army creature token first.)"
+   "oracle_text": "First strike\nWhen this creature dies, amass Zombies 1. (Put a +1/+1 counter on an Army you control. It's also a Zombie. If you don't control an Army, create a 0/0 black Zombie Army creature token first.)",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Manabarbs",
@@ -558,7 +572,9 @@
    ],
    "mana_cost": "{1}{B}",
    "url": "https://scryfall.com/card/thb/84/aphemia-the-cacophony?utm_source=api",
-   "oracle_text": "Flying\nAt the beginning of your end step, you may exile an enchantment card from your graveyard. If you do, create a 2/2 black Zombie creature token."
+   "oracle_text": "Flying\nAt the beginning of your end step, you may exile an enchantment card from your graveyard. If you do, create a 2/2 black Zombie creature token.",
+   "power": "2",
+   "toughness": "1"
   },
   {
    "name": "Quietus Spike",
@@ -632,7 +648,9 @@
    ],
    "mana_cost": "{3}{R}{R}",
    "url": "https://scryfall.com/card/m11/150/magma-phoenix?utm_source=api",
-   "oracle_text": "Flying\nWhen this creature dies, it deals 3 damage to each creature and each player.\n{3}{R}{R}: Return this card from your graveyard to your hand."
+   "oracle_text": "Flying\nWhen this creature dies, it deals 3 damage to each creature and each player.\n{3}{R}{R}: Return this card from your graveyard to your hand.",
+   "power": "3",
+   "toughness": "3"
   },
   {
    "name": "Coat of Arms",
@@ -665,7 +683,9 @@
    ],
    "mana_cost": "{3}{B}{B}",
    "url": "https://scryfall.com/card/akh/78/archfiend-of-ifnir?utm_source=api",
-   "oracle_text": "Flying\nWhenever you cycle or discard another card, put a -1/-1 counter on each creature your opponents control.\nCycling {2} ({2}, Discard this card: Draw a card.)"
+   "oracle_text": "Flying\nWhenever you cycle or discard another card, put a -1/-1 counter on each creature your opponents control.\nCycling {2} ({2}, Discard this card: Draw a card.)",
+   "power": "5",
+   "toughness": "4"
   },
   {
    "name": "Malakir Bloodwitch",
@@ -686,7 +706,9 @@
    ],
    "mana_cost": "{3}{B}{B}",
    "url": "https://scryfall.com/card/voc/131/malakir-bloodwitch?utm_source=api",
-   "oracle_text": "Flying, protection from white\nWhen this creature enters, each opponent loses life equal to the number of Vampires you control. You gain life equal to the life lost this way."
+   "oracle_text": "Flying, protection from white\nWhen this creature enters, each opponent loses life equal to the number of Vampires you control. You gain life equal to the life lost this way.",
+   "power": "4",
+   "toughness": "4"
   },
   {
    "name": "Comet Storm",
@@ -737,7 +759,9 @@
    ],
    "mana_cost": "{2}{B}{B}",
    "url": "https://scryfall.com/card/lcc/209/sanctum-seeker?utm_source=api",
-   "oracle_text": "Whenever a Vampire you control attacks, each opponent loses 1 life and you gain 1 life."
+   "oracle_text": "Whenever a Vampire you control attacks, each opponent loses 1 life and you gain 1 life.",
+   "power": "3",
+   "toughness": "4"
   },
   {
    "name": "Cunning Sparkmage",
@@ -758,7 +782,9 @@
    ],
    "mana_cost": "{2}{R}",
    "url": "https://scryfall.com/card/wwk/79/cunning-sparkmage?utm_source=api",
-   "oracle_text": "Haste\n{T}: This creature deals 1 damage to any target."
+   "oracle_text": "Haste\n{T}: This creature deals 1 damage to any target.",
+   "power": "0",
+   "toughness": "1"
   },
   {
    "name": "Jinxed Idol",

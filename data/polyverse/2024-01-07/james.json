@@ -82,6 +82,8 @@
    "mana_cost": "{3}{B}{B}",
    "url": "https://scryfall.com/card/clb/769/puppeteer-clique?utm_source=api",
    "oracle_text": "Flying\nWhen this creature enters, put target creature card from an opponent's graveyard onto the battlefield under your control. It gains haste. At the beginning of your next end step, exile it.\nPersist (When this creature dies, if it had no -1/-1 counters on it, return it to the battlefield under its owner's control with a -1/-1 counter on it.)",
+   "power": "3",
+   "toughness": "2",
    "appearances": 1
   },
   {
@@ -104,6 +106,8 @@
    "mana_cost": "{3}{G}{G}{G}",
    "url": "https://scryfall.com/card/woe/172/gruff-triplets?utm_source=api",
    "oracle_text": "Trample\nWhen this creature enters, if it isn't a token, create two tokens that are copies of it.\nWhen this creature dies, put a number of +1/+1 counters equal to its power on each creature you control named Gruff Triplets.",
+   "power": "3",
+   "toughness": "3",
    "appearances": 1
   },
   {
@@ -126,6 +130,8 @@
    "mana_cost": "{G}",
    "url": "https://scryfall.com/card/a25/160/arbor-elf?utm_source=api",
    "oracle_text": "{T}: Untap target Forest.",
+   "power": "1",
+   "toughness": "1",
    "appearances": 1
   },
   {
@@ -149,6 +155,8 @@
    "mana_cost": "{2}{G}{G}",
    "url": "https://scryfall.com/card/tdc/244/arasta-of-the-endless-web?utm_source=api",
    "oracle_text": "Reach\nWhenever an opponent casts an instant or sorcery spell, create a 1/2 green Spider creature token with reach.",
+   "power": "3",
+   "toughness": "5",
    "appearances": 1
   },
   {
@@ -205,6 +213,8 @@
    "mana_cost": "{1}{G}",
    "url": "https://scryfall.com/card/dom/186/untamed-kavu?utm_source=api",
    "oracle_text": "Kicker {3} (You may pay an additional {3} as you cast this spell.)\nVigilance, trample\nIf this creature was kicked, it enters with three +1/+1 counters on it.",
+   "power": "2",
+   "toughness": "2",
    "appearances": 1
   },
   {
@@ -247,6 +257,8 @@
    "mana_cost": "{G}",
    "url": "https://scryfall.com/card/mh2/166/ignoble-hierarch?utm_source=api",
    "oracle_text": "Exalted (Whenever a creature you control attacks alone, that creature gets +1/+1 until end of turn.)\n{T}: Add {B}, {R}, or {G}.",
+   "power": "0",
+   "toughness": "1",
    "appearances": 1
   },
   {
@@ -282,6 +294,8 @@
    "mana_cost": "{G}",
    "url": "https://scryfall.com/card/moc/299/gilded-goose?utm_source=api",
    "oracle_text": "Flying\nWhen this creature enters, create a Food token. (It's an artifact with \"{2}, {T}, Sacrifice this token: You gain 3 life.\")\n{1}{G}, {T}: Create a Food token.\n{T}, Sacrifice a Food: Add one mana of any color.",
+   "power": "0",
+   "toughness": "2",
    "appearances": 1
   },
   {
@@ -303,6 +317,8 @@
    "mana_cost": "{1}{G}",
    "url": "https://scryfall.com/card/fdn/232/scavenging-ooze?utm_source=api",
    "oracle_text": "{G}: Exile target card from a graveyard. If it was a creature card, put a +1/+1 counter on this creature and you gain 1 life.",
+   "power": "2",
+   "toughness": "2",
    "appearances": 1
   },
   {
@@ -328,6 +344,8 @@
    "mana_cost": "{1}{G} // {1}{B}",
    "url": "https://scryfall.com/card/woe/231/mosswood-dreadknight-dread-whispers?utm_source=api",
    "oracle_text": "",
+   "power": "3",
+   "toughness": "2",
    "appearances": 1
   },
   {
@@ -447,6 +465,8 @@
    "mana_cost": "{2}",
    "url": "https://scryfall.com/card/som/146/copper-myr?utm_source=api",
    "oracle_text": "{T}: Add {G}.",
+   "power": "1",
+   "toughness": "1",
    "appearances": 1
   },
   {
@@ -487,6 +507,8 @@
    "mana_cost": "{1}{B}",
    "url": "https://scryfall.com/card/cmm/174/mire-triton?utm_source=api",
    "oracle_text": "Deathtouch\nWhen this creature enters, mill two cards and you gain 2 life. (To mill a card, put the top card of your library into your graveyard.)",
+   "power": "2",
+   "toughness": "1",
    "appearances": 1
   },
   {
@@ -626,6 +648,8 @@
    "mana_cost": "{1}{B}{G}",
    "url": "https://scryfall.com/card/woe/205/greta-sweettooth-scourge?utm_source=api",
    "oracle_text": "When Greta enters, create a Food token. (It's an artifact with \"{2}, {T}, Sacrifice this token: You gain 3 life.\")\n{G}, Sacrifice a Food: Put a +1/+1 counter on target creature. Activate only as a sorcery.\n{1}{B}, Sacrifice a Food: You draw a card and you lose 1 life.",
+   "power": "3",
+   "toughness": "3",
    "appearances": 1
   },
   {
@@ -903,7 +927,9 @@
    ],
    "mana_cost": "{2}{B}",
    "url": "https://scryfall.com/card/ala/69/cunning-lethemancer?utm_source=api",
-   "oracle_text": "At the beginning of your upkeep, each player discards a card."
+   "oracle_text": "At the beginning of your upkeep, each player discards a card.",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Legion's Landing // Adanto, the First Fort",
@@ -976,7 +1002,9 @@
    ],
    "mana_cost": "{4}{W}",
    "url": "https://scryfall.com/card/2x2/26/reveillark?utm_source=api",
-   "oracle_text": "Flying\nWhen this creature leaves the battlefield, return up to two target creature cards with power 2 or less from your graveyard to the battlefield.\nEvoke {5}{W} (You may cast this spell for its evoke cost. If you do, it's sacrificed when it enters.)"
+   "oracle_text": "Flying\nWhen this creature leaves the battlefield, return up to two target creature cards with power 2 or less from your graveyard to the battlefield.\nEvoke {5}{W} (You may cast this spell for its evoke cost. If you do, it's sacrificed when it enters.)",
+   "power": "4",
+   "toughness": "3"
   },
   {
    "name": "Temple of Enlightenment",
@@ -1045,7 +1073,9 @@
    ],
    "mana_cost": "{W}",
    "url": "https://scryfall.com/card/m11/15/goldenglow-moth?utm_source=api",
-   "oracle_text": "Flying\nWhenever this creature blocks, you may gain 4 life."
+   "oracle_text": "Flying\nWhenever this creature blocks, you may gain 4 life.",
+   "power": "0",
+   "toughness": "1"
   },
   {
    "name": "Merfolk Skydiver",
@@ -1068,7 +1098,9 @@
    ],
    "mana_cost": "{G}{U}",
    "url": "https://scryfall.com/card/lcc/277/merfolk-skydiver?utm_source=api",
-   "oracle_text": "Flying\nWhen this creature enters, put a +1/+1 counter on target creature you control.\n{3}{G}{U}: Proliferate. (Choose any number of permanents and/or players, then give each another counter of each kind already there.)"
+   "oracle_text": "Flying\nWhen this creature enters, put a +1/+1 counter on target creature you control.\n{3}{G}{U}: Proliferate. (Choose any number of permanents and/or players, then give each another counter of each kind already there.)",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Festering Mummy",
@@ -1088,7 +1120,9 @@
    ],
    "mana_cost": "{B}",
    "url": "https://scryfall.com/card/akh/91/festering-mummy?utm_source=api",
-   "oracle_text": "When this creature dies, you may put a -1/-1 counter on target creature."
+   "oracle_text": "When this creature dies, you may put a -1/-1 counter on target creature.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Explore",
@@ -1126,7 +1160,9 @@
    ],
    "mana_cost": "{1}{G}{G}",
    "url": "https://scryfall.com/card/cmm/286/eternal-witness?utm_source=api",
-   "oracle_text": "When this creature enters, you may return target card from your graveyard to your hand."
+   "oracle_text": "When this creature enters, you may return target card from your graveyard to your hand.",
+   "power": "2",
+   "toughness": "1"
   },
   {
    "name": "Ulcerate",
@@ -1164,7 +1200,9 @@
    ],
    "mana_cost": "{3}{G}",
    "url": "https://scryfall.com/card/ncc/320/wickerbough-elder?utm_source=api",
-   "oracle_text": "This creature enters with a -1/-1 counter on it.\n{G}, Remove a -1/-1 counter from this creature: Destroy target artifact or enchantment."
+   "oracle_text": "This creature enters with a -1/-1 counter on it.\n{G}, Remove a -1/-1 counter from this creature: Destroy target artifact or enchantment.",
+   "power": "4",
+   "toughness": "4"
   }
  ]
 }

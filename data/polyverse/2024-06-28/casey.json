@@ -39,6 +39,8 @@
    "mana_cost": "{1}{R}{R}",
    "url": "https://scryfall.com/card/2x2/123/seasoned-pyromancer?utm_source=api",
    "oracle_text": "When this creature enters, discard two cards, then draw two cards. For each nonland card discarded this way, create a 1/1 red Elemental creature token.\n{3}{R}{R}, Exile this card from your graveyard: Create two 1/1 red Elemental creature tokens.",
+   "power": "2",
+   "toughness": "2",
    "appearances": 1
   },
   {
@@ -106,7 +108,9 @@
    ],
    "mana_cost": "{R}",
    "url": "https://scryfall.com/card/snc/108/goldhound?utm_source=api",
-   "oracle_text": "First strike\nMenace (This creature can't be blocked except by two or more creatures.)\n{T}, Sacrifice this creature: Add one mana of any color."
+   "oracle_text": "First strike\nMenace (This creature can't be blocked except by two or more creatures.)\n{T}, Sacrifice this creature: Add one mana of any color.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Dreadhorde Arcanist",
@@ -127,7 +131,9 @@
    ],
    "mana_cost": "{1}{R}",
    "url": "https://scryfall.com/card/war/125/dreadhorde-arcanist?utm_source=api",
-   "oracle_text": "Trample\nWhenever this creature attacks, you may cast target instant or sorcery card with mana value less than or equal to this creature's power from your graveyard without paying its mana cost. If that spell would be put into your graveyard, exile it instead."
+   "oracle_text": "Trample\nWhenever this creature attacks, you may cast target instant or sorcery card with mana value less than or equal to this creature's power from your graveyard without paying its mana cost. If that spell would be put into your graveyard, exile it instead.",
+   "power": "1",
+   "toughness": "3"
   },
   {
    "name": "Steam Vents",
@@ -184,6 +190,8 @@
    "mana_cost": "{1}{R}",
    "url": "https://scryfall.com/card/tdc/95/young-pyromancer?utm_source=api",
    "oracle_text": "Whenever you cast an instant or sorcery spell, create a 1/1 red Elemental creature token.",
+   "power": "2",
+   "toughness": "1",
    "appearances": 1
   },
   {
@@ -332,6 +340,8 @@
    "mana_cost": "{1}{U}",
    "url": "https://scryfall.com/card/snc/44/faerie-vandal?utm_source=api",
    "oracle_text": "Flash (You may cast this spell any time you could cast an instant.)\nFlying\nWhenever you draw your second card each turn, put a +1/+1 counter on this creature.",
+   "power": "1",
+   "toughness": "2",
    "appearances": 1
   },
   {
@@ -375,6 +385,8 @@
    "mana_cost": "{X}{G}{U}",
    "url": "https://scryfall.com/card/woe/204/the-goose-mother?utm_source=api",
    "oracle_text": "Flying\nThe Goose Mother enters with X +1/+1 counters on it.\nWhen The Goose Mother enters, create half X Food tokens, rounded up.\nWhenever The Goose Mother attacks, you may sacrifice a Food. If you do, draw a card.",
+   "power": "2",
+   "toughness": "2",
    "appearances": 1
   },
   {
@@ -397,6 +409,8 @@
    "mana_cost": "{1}{U}",
    "url": "https://scryfall.com/card/mma/65/spellstutter-sprite?utm_source=api",
    "oracle_text": "Flash\nFlying\nWhen this creature enters, counter target spell with mana value X or less, where X is the number of Faeries you control.",
+   "power": "1",
+   "toughness": "1",
    "appearances": 1
   },
   {
@@ -420,6 +434,8 @@
    "mana_cost": "{1}{R}",
    "url": "https://scryfall.com/card/lci/156/inti-seneschal-of-the-sun?utm_source=api",
    "oracle_text": "Whenever you attack, you may discard a card. When you do, put a +1/+1 counter on target attacking creature. It gains trample until end of turn.\nWhenever you discard one or more cards, exile the top card of your library. You may play that card until your next end step.",
+   "power": "2",
+   "toughness": "2",
    "appearances": 1
   },
   {
@@ -460,6 +476,8 @@
    "mana_cost": "{1}{U}",
    "url": "https://scryfall.com/card/uma/71/snapcaster-mage?utm_source=api",
    "oracle_text": "Flash\nWhen this creature enters, target instant or sorcery card in your graveyard gains flashback until end of turn. The flashback cost is equal to its mana cost. (You may cast that card from your graveyard for its flashback cost. Then exile it.)",
+   "power": "2",
+   "toughness": "1",
    "appearances": 1
   },
   {
@@ -513,7 +531,9 @@
    ],
    "mana_cost": "{R}",
    "url": "https://scryfall.com/card/mh2/121/dragons-rage-channeler?utm_source=api",
-   "oracle_text": "Whenever you cast a noncreature spell, surveil 1. (Look at the top card of your library. You may put that card into your graveyard.)\nDelirium — As long as there are four or more card types among cards in your graveyard, this creature gets +2/+2, has flying, and attacks each combat if able."
+   "oracle_text": "Whenever you cast a noncreature spell, surveil 1. (Look at the top card of your library. You may put that card into your graveyard.)\nDelirium — As long as there are four or more card types among cards in your graveyard, this creature gets +2/+2, has flying, and attacks each combat if able.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Bloodstained Mire",
@@ -601,6 +621,8 @@
    "mana_cost": "{1}{R}{R}",
    "url": "https://scryfall.com/card/war/138/mizzium-tank?utm_source=api",
    "oracle_text": "Trample\nWhenever you cast a noncreature spell, this Vehicle becomes an artifact creature and gets +1/+1 until end of turn.\nCrew 1 (Tap any number of creatures you control with total power 1 or more: This Vehicle becomes an artifact creature until end of turn.)",
+   "power": "3",
+   "toughness": "2",
    "appearances": 1
   },
   {
@@ -644,6 +666,8 @@
    "mana_cost": "{R}",
    "url": "https://scryfall.com/card/bro/144/monastery-swiftspear?utm_source=api",
    "oracle_text": "Haste\nProwess (Whenever you cast a noncreature spell, this creature gets +1/+1 until end of turn.)",
+   "power": "1",
+   "toughness": "2",
    "appearances": 1
   },
   {
@@ -662,6 +686,8 @@
    "mana_cost": "{2}",
    "url": "https://scryfall.com/card/neo/243/containment-construct?utm_source=api",
    "oracle_text": "Whenever you discard a card, you may exile that card from your graveyard. If you do, you may play that card this turn.",
+   "power": "2",
+   "toughness": "1",
    "appearances": 1
   },
   {
@@ -828,7 +854,9 @@
    ],
    "mana_cost": "{3}{R}{R}",
    "url": "https://scryfall.com/card/tdc/233/skarrgan-hellkite?utm_source=api",
-   "oracle_text": "Riot (This creature enters with your choice of a +1/+1 counter or haste.)\nFlying\n{3}{R}: This creature deals 2 damage divided as you choose among one or two targets. Activate only if this creature has a +1/+1 counter on it."
+   "oracle_text": "Riot (This creature enters with your choice of a +1/+1 counter or haste.)\nFlying\n{3}{R}: This creature deals 2 damage divided as you choose among one or two targets. Activate only if this creature has a +1/+1 counter on it.",
+   "power": "4",
+   "toughness": "4"
   },
   {
    "name": "Dead Weight",
@@ -904,7 +932,9 @@
    ],
    "mana_cost": "{B/G}",
    "url": "https://scryfall.com/card/mh2/211/ravenous-squirrel?utm_source=api",
-   "oracle_text": "Whenever you sacrifice an artifact or creature, put a +1/+1 counter on this creature.\n{1}{B}{G}, Sacrifice an artifact or creature: You gain 1 life and draw a card."
+   "oracle_text": "Whenever you sacrifice an artifact or creature, put a +1/+1 counter on this creature.\n{1}{B}{G}, Sacrifice an artifact or creature: You gain 1 life and draw a card.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Baird, Argivian Recruiter",
@@ -928,7 +958,9 @@
    ],
    "mana_cost": "{R}{W}",
    "url": "https://scryfall.com/card/dmu/195/baird-argivian-recruiter?utm_source=api",
-   "oracle_text": "At the beginning of your end step, if you control a creature with power greater than its base power, create a 1/1 white Soldier creature token."
+   "oracle_text": "At the beginning of your end step, if you control a creature with power greater than its base power, create a 1/1 white Soldier creature token.",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Horizon Canopy",
@@ -1058,7 +1090,9 @@
    ],
    "mana_cost": "{1}{W}",
    "url": "https://scryfall.com/card/m21/34/seasoned-hallowblade?utm_source=api",
-   "oracle_text": "Discard a card: Tap this creature. It gains indestructible until end of turn. (Damage and effects that say \"destroy\" don't destroy it.)"
+   "oracle_text": "Discard a card: Tap this creature. It gains indestructible until end of turn. (Damage and effects that say \"destroy\" don't destroy it.)",
+   "power": "3",
+   "toughness": "1"
   },
   {
    "name": "Brineborn Cutthroat",
@@ -1079,7 +1113,9 @@
    ],
    "mana_cost": "{1}{U}",
    "url": "https://scryfall.com/card/fdn/152/brineborn-cutthroat?utm_source=api",
-   "oracle_text": "Flash (You may cast this spell any time you could cast an instant.)\nWhenever you cast a spell during an opponent's turn, put a +1/+1 counter on this creature."
+   "oracle_text": "Flash (You may cast this spell any time you could cast an instant.)\nWhenever you cast a spell during an opponent's turn, put a +1/+1 counter on this creature.",
+   "power": "2",
+   "toughness": "1"
   },
   {
    "name": "Curator of Mysteries",
@@ -1099,7 +1135,9 @@
    ],
    "mana_cost": "{2}{U}{U}",
    "url": "https://scryfall.com/card/afc/81/curator-of-mysteries?utm_source=api",
-   "oracle_text": "Flying\nWhenever you cycle or discard another card, scry 1.\nCycling {U} ({U}, Discard this card: Draw a card.)"
+   "oracle_text": "Flying\nWhenever you cycle or discard another card, scry 1.\nCycling {U} ({U}, Discard this card: Draw a card.)",
+   "power": "4",
+   "toughness": "4"
   },
   {
    "name": "Audacity",
@@ -1313,7 +1351,9 @@
    ],
    "mana_cost": "{2}",
    "url": "https://scryfall.com/card/bro/164/scrapwork-mutt?utm_source=api",
-   "oracle_text": "When this creature enters, you may discard a card. If you do, draw a card.\nUnearth {1}{R} ({1}{R}: Return this card from your graveyard to the battlefield. It gains haste. Exile it at the beginning of the next end step or if it would leave the battlefield. Unearth only as a sorcery.)"
+   "oracle_text": "When this creature enters, you may discard a card. If you do, draw a card.\nUnearth {1}{R} ({1}{R}: Return this card from your graveyard to the battlefield. It gains haste. Exile it at the beginning of the next end step or if it would leave the battlefield. Unearth only as a sorcery.)",
+   "power": "2",
+   "toughness": "1"
   },
   {
    "name": "Scryb Ranger",
@@ -1334,7 +1374,9 @@
    ],
    "mana_cost": "{1}{G}",
    "url": "https://scryfall.com/card/tsr/227/scryb-ranger?utm_source=api",
-   "oracle_text": "Flash\nFlying, protection from blue\nReturn a Forest you control to its owner's hand: Untap target creature. Activate only once each turn."
+   "oracle_text": "Flash\nFlying, protection from blue\nReturn a Forest you control to its owner's hand: Untap target creature. Activate only once each turn.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Lórien Revealed",
@@ -1374,6 +1416,8 @@
    "mana_cost": "{4}{U}{U}",
    "url": "https://scryfall.com/card/c20/34/ethereal-forager?utm_source=api",
    "oracle_text": "Delve (Each card you exile from your graveyard while casting this spell pays for {1}.)\nFlying\nWhenever this creature attacks, you may return an instant or sorcery card exiled with this creature to its owner's hand.",
+   "power": "3",
+   "toughness": "3",
    "appearances": 1
   }
  ]

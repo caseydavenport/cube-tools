@@ -93,6 +93,8 @@
    "mana_cost": "{W}",
    "url": "https://scryfall.com/card/lci/43/warden-of-the-inner-sky?utm_source=api",
    "oracle_text": "As long as this creature has three or more counters on it, it has flying and vigilance.\nTap three untapped artifacts and/or creatures you control: Put a +1/+1 counter on this creature. Scry 1. Activate only as a sorcery.",
+   "power": "1",
+   "toughness": "2",
    "appearances": 1
   },
   {
@@ -116,6 +118,8 @@
    "mana_cost": "{1}{R}",
    "url": "https://scryfall.com/card/lci/156/inti-seneschal-of-the-sun?utm_source=api",
    "oracle_text": "Whenever you attack, you may discard a card. When you do, put a +1/+1 counter on target attacking creature. It gains trample until end of turn.\nWhenever you discard one or more cards, exile the top card of your library. You may play that card until your next end step.",
+   "power": "2",
+   "toughness": "2",
    "appearances": 1
   },
   {
@@ -150,7 +154,9 @@
    ],
    "mana_cost": "{1}{G}{G}",
    "url": "https://scryfall.com/card/cmm/888/courser-of-kruphix?utm_source=api",
-   "oracle_text": "Play with the top card of your library revealed.\nYou may play lands from the top of your library.\nLandfall — Whenever a land you control enters, you gain 1 life."
+   "oracle_text": "Play with the top card of your library revealed.\nYou may play lands from the top of your library.\nLandfall — Whenever a land you control enters, you gain 1 life.",
+   "power": "2",
+   "toughness": "4"
   },
   {
    "name": "Cloudgoat Ranger",
@@ -173,6 +179,8 @@
    "mana_cost": "{3}{W}{W}",
    "url": "https://scryfall.com/card/khc/21/cloudgoat-ranger?utm_source=api",
    "oracle_text": "When this creature enters, create three 1/1 white Kithkin Soldier creature tokens.\nTap three untapped Kithkin you control: This creature gets +2/+0 and gains flying until end of turn.",
+   "power": "3",
+   "toughness": "3",
    "appearances": 1
   },
   {
@@ -196,6 +204,8 @@
    "mana_cost": "{2}{W}",
    "url": "https://scryfall.com/card/lcc/133/mavren-fein-dusk-apostle?utm_source=api",
    "oracle_text": "Whenever one or more nontoken Vampires you control attack, create a 1/1 white Vampire creature token with lifelink.",
+   "power": "2",
+   "toughness": "2",
    "appearances": 1
   },
   {
@@ -219,6 +229,8 @@
    "mana_cost": "{2}{G}{G}",
    "url": "https://scryfall.com/card/thb/196/renata-called-to-the-hunt?utm_source=api",
    "oracle_text": "Renata's power is equal to your devotion to green. (Each {G} in the mana costs of permanents you control counts toward your devotion to green.)\nEach other creature you control enters with an additional +1/+1 counter on it.",
+   "power": "*",
+   "toughness": "3",
    "appearances": 1
   },
   {
@@ -258,6 +270,8 @@
    "mana_cost": "{1}{W}",
    "url": "https://scryfall.com/card/thb/12/eidolon-of-obstruction?utm_source=api",
    "oracle_text": "First strike\nLoyalty abilities of planeswalkers your opponents control cost {1} more to activate.",
+   "power": "2",
+   "toughness": "1",
    "appearances": 1
   },
   {
@@ -279,6 +293,8 @@
    "mana_cost": "{1}{W}{W}",
    "url": "https://scryfall.com/card/2x2/11/flickerwisp?utm_source=api",
    "oracle_text": "Flying\nWhen this creature enters, exile another target permanent. Return that card to the battlefield under its owner's control at the beginning of the next end step.",
+   "power": "3",
+   "toughness": "1",
    "appearances": 1
   },
   {
@@ -301,6 +317,8 @@
    "mana_cost": "{2}{R}",
    "url": "https://scryfall.com/card/moc/287/krenko-tin-street-kingpin?utm_source=api",
    "oracle_text": "Whenever Krenko attacks, put a +1/+1 counter on it, then create a number of 1/1 red Goblin creature tokens equal to Krenko's power.",
+   "power": "1",
+   "toughness": "2",
    "appearances": 1
   },
   {
@@ -485,6 +503,8 @@
    "mana_cost": "{2}{G}",
    "url": "https://scryfall.com/card/cmm/912/setessan-champion?utm_source=api",
    "oracle_text": "Constellation — Whenever an enchantment you control enters, put a +1/+1 counter on this creature and draw a card.",
+   "power": "1",
+   "toughness": "3",
    "appearances": 1
   },
   {
@@ -820,7 +840,9 @@
    ],
    "mana_cost": "{3}{R}{R}",
    "url": "https://scryfall.com/card/tdc/232/siege-gang-commander?utm_source=api",
-   "oracle_text": "When this creature enters, create three 1/1 red Goblin creature tokens.\n{1}{R}, Sacrifice a Goblin: This creature deals 2 damage to any target."
+   "oracle_text": "When this creature enters, create three 1/1 red Goblin creature tokens.\n{1}{R}, Sacrifice a Goblin: This creature deals 2 damage to any target.",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Puppeteer Clique",
@@ -841,7 +863,9 @@
    ],
    "mana_cost": "{3}{B}{B}",
    "url": "https://scryfall.com/card/clb/769/puppeteer-clique?utm_source=api",
-   "oracle_text": "Flying\nWhen this creature enters, put target creature card from an opponent's graveyard onto the battlefield under your control. It gains haste. At the beginning of your next end step, exile it.\nPersist (When this creature dies, if it had no -1/-1 counters on it, return it to the battlefield under its owner's control with a -1/-1 counter on it.)"
+   "oracle_text": "Flying\nWhen this creature enters, put target creature card from an opponent's graveyard onto the battlefield under your control. It gains haste. At the beginning of your next end step, exile it.\nPersist (When this creature dies, if it had no -1/-1 counters on it, return it to the battlefield under its owner's control with a -1/-1 counter on it.)",
+   "power": "3",
+   "toughness": "2"
   },
   {
    "name": "Pyroclasm",
@@ -898,7 +922,9 @@
    ],
    "mana_cost": "{1}{R}{R}",
    "url": "https://scryfall.com/card/war/138/mizzium-tank?utm_source=api",
-   "oracle_text": "Trample\nWhenever you cast a noncreature spell, this Vehicle becomes an artifact creature and gets +1/+1 until end of turn.\nCrew 1 (Tap any number of creatures you control with total power 1 or more: This Vehicle becomes an artifact creature until end of turn.)"
+   "oracle_text": "Trample\nWhenever you cast a noncreature spell, this Vehicle becomes an artifact creature and gets +1/+1 until end of turn.\nCrew 1 (Tap any number of creatures you control with total power 1 or more: This Vehicle becomes an artifact creature until end of turn.)",
+   "power": "3",
+   "toughness": "2"
   },
   {
    "name": "Moon-Circuit Hacker",
@@ -920,7 +946,9 @@
    ],
    "mana_cost": "{1}{U}",
    "url": "https://scryfall.com/card/neo/67/moon-circuit-hacker?utm_source=api",
-   "oracle_text": "Ninjutsu {U} ({U}, Return an unblocked attacker you control to hand: Put this card onto the battlefield from your hand tapped and attacking.)\nWhenever this creature deals combat damage to a player, you may draw a card. If you do, discard a card unless this creature entered this turn."
+   "oracle_text": "Ninjutsu {U} ({U}, Return an unblocked attacker you control to hand: Put this card onto the battlefield from your hand tapped and attacking.)\nWhenever this creature deals combat damage to a player, you may draw a card. If you do, discard a card unless this creature entered this turn.",
+   "power": "2",
+   "toughness": "1"
   },
   {
    "name": "Knight of the Ebon Legion",
@@ -941,7 +969,9 @@
    ],
    "mana_cost": "{B}",
    "url": "https://scryfall.com/card/m20/105/knight-of-the-ebon-legion?utm_source=api",
-   "oracle_text": "{2}{B}: This creature gets +3/+3 and gains deathtouch until end of turn.\nAt the beginning of your end step, if a player lost 4 or more life this turn, put a +1/+1 counter on this creature. (Damage causes loss of life.)"
+   "oracle_text": "{2}{B}: This creature gets +3/+3 and gains deathtouch until end of turn.\nAt the beginning of your end step, if a player lost 4 or more life this turn, put a +1/+1 counter on this creature. (Damage causes loss of life.)",
+   "power": "1",
+   "toughness": "2"
   },
   {
    "name": "Containment Construct",
@@ -958,7 +988,9 @@
    "color_identity": [],
    "mana_cost": "{2}",
    "url": "https://scryfall.com/card/neo/243/containment-construct?utm_source=api",
-   "oracle_text": "Whenever you discard a card, you may exile that card from your graveyard. If you do, you may play that card this turn."
+   "oracle_text": "Whenever you discard a card, you may exile that card from your graveyard. If you do, you may play that card this turn.",
+   "power": "2",
+   "toughness": "1"
   },
   {
    "name": "Unmake",
@@ -1014,7 +1046,9 @@
    ],
    "mana_cost": "{4}{U}",
    "url": "https://scryfall.com/card/mkc/111/mulldrifter?utm_source=api",
-   "oracle_text": "Flying\nWhen this creature enters, draw two cards.\nEvoke {2}{U} (You may cast this spell for its evoke cost. If you do, it's sacrificed when it enters.)"
+   "oracle_text": "Flying\nWhen this creature enters, draw two cards.\nEvoke {2}{U} (You may cast this spell for its evoke cost. If you do, it's sacrificed when it enters.)",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Ulcerate",
@@ -1051,7 +1085,9 @@
    ],
    "mana_cost": "{4}{W}",
    "url": "https://scryfall.com/card/2x2/26/reveillark?utm_source=api",
-   "oracle_text": "Flying\nWhen this creature leaves the battlefield, return up to two target creature cards with power 2 or less from your graveyard to the battlefield.\nEvoke {5}{W} (You may cast this spell for its evoke cost. If you do, it's sacrificed when it enters.)"
+   "oracle_text": "Flying\nWhen this creature leaves the battlefield, return up to two target creature cards with power 2 or less from your graveyard to the battlefield.\nEvoke {5}{W} (You may cast this spell for its evoke cost. If you do, it's sacrificed when it enters.)",
+   "power": "4",
+   "toughness": "3"
   },
   {
    "name": "Lava Dart",
@@ -1088,7 +1124,9 @@
    ],
    "mana_cost": "{2}{B}",
    "url": "https://scryfall.com/card/tdc/201/woe-strider?utm_source=api",
-   "oracle_text": "When this creature enters, create a 0/1 white Goat creature token.\nSacrifice another creature: Scry 1.\nEscape—{3}{B}{B}, Exile four other cards from your graveyard. (You may cast this card from your graveyard for its escape cost.)\nThis creature escapes with two +1/+1 counters on it."
+   "oracle_text": "When this creature enters, create a 0/1 white Goat creature token.\nSacrifice another creature: Scry 1.\nEscape—{3}{B}{B}, Exile four other cards from your graveyard. (You may cast this card from your graveyard for its escape cost.)\nThis creature escapes with two +1/+1 counters on it.",
+   "power": "3",
+   "toughness": "2"
   },
   {
    "name": "Fungal Infection",
@@ -1143,7 +1181,9 @@
    ],
    "mana_cost": "{1}{B}",
    "url": "https://scryfall.com/card/fin/94/dark-confidant?utm_source=api",
-   "oracle_text": "At the beginning of your upkeep, reveal the top card of your library and put that card into your hand. You lose life equal to its mana value."
+   "oracle_text": "At the beginning of your upkeep, reveal the top card of your library and put that card into your hand. You lose life equal to its mana value.",
+   "power": "2",
+   "toughness": "1"
   },
   {
    "name": "Dreadhorde Butcher",
@@ -1166,7 +1206,9 @@
    ],
    "mana_cost": "{B}{R}",
    "url": "https://scryfall.com/card/war/194/dreadhorde-butcher?utm_source=api",
-   "oracle_text": "Haste\nWhenever this creature deals combat damage to a player or planeswalker, put a +1/+1 counter on this creature.\nWhen this creature dies, it deals damage equal to its power to any target."
+   "oracle_text": "Haste\nWhenever this creature deals combat damage to a player or planeswalker, put a +1/+1 counter on this creature.\nWhen this creature dies, it deals damage equal to its power to any target.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Takenuma, Abandoned Mire",
@@ -1218,6 +1260,8 @@
    "mana_cost": "{1}{R}",
    "url": "https://scryfall.com/card/war/125/dreadhorde-arcanist?utm_source=api",
    "oracle_text": "Trample\nWhenever this creature attacks, you may cast target instant or sorcery card with mana value less than or equal to this creature's power from your graveyard without paying its mana cost. If that spell would be put into your graveyard, exile it instead.",
+   "power": "1",
+   "toughness": "3",
    "appearances": 1
   }
  ]

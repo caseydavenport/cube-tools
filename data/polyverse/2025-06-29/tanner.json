@@ -107,7 +107,9 @@
    ],
    "mana_cost": "{1}{G}",
    "url": "https://scryfall.com/card/fdn/232/scavenging-ooze?utm_source=api",
-   "oracle_text": "{G}: Exile target card from a graveyard. If it was a creature card, put a +1/+1 counter on this creature and you gain 1 life."
+   "oracle_text": "{G}: Exile target card from a graveyard. If it was a creature card, put a +1/+1 counter on this creature and you gain 1 life.",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Stomping Ground",
@@ -166,7 +168,9 @@
    ],
    "mana_cost": "{R}{G}",
    "url": "https://scryfall.com/card/mh2/216/territorial-kavu?utm_source=api",
-   "oracle_text": "Domain — Territorial Kavu's power and toughness are each equal to the number of basic land types among lands you control.\nWhenever this creature attacks, choose one —\n• Discard a card. If you do, draw a card.\n• Exile up to one target card from a graveyard."
+   "oracle_text": "Domain — Territorial Kavu's power and toughness are each equal to the number of basic land types among lands you control.\nWhenever this creature attacks, choose one —\n• Discard a card. If you do, draw a card.\n• Exile up to one target card from a graveyard.",
+   "power": "*",
+   "toughness": "*"
   },
   {
    "name": "Spirited Companion",
@@ -187,7 +191,9 @@
    ],
    "mana_cost": "{1}{W}",
    "url": "https://scryfall.com/card/cmm/838/spirited-companion?utm_source=api",
-   "oracle_text": "When this creature enters, draw a card."
+   "oracle_text": "When this creature enters, draw a card.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Bloodchief's Thirst",
@@ -309,7 +315,9 @@
    ],
    "mana_cost": "{G}{G}{W}{W}",
    "url": "https://scryfall.com/card/dft/191/brightglass-gearhulk?utm_source=api",
-   "oracle_text": "First strike, trample\nWhen this creature enters, you may search your library for up to two artifact, creature, and/or enchantment cards with mana value 1 or less, reveal them, put them into your hand, then shuffle."
+   "oracle_text": "First strike, trample\nWhen this creature enters, you may search your library for up to two artifact, creature, and/or enchantment cards with mana value 1 or less, reveal them, put them into your hand, then shuffle.",
+   "power": "4",
+   "toughness": "4"
   },
   {
    "name": "Eiganjo, Seat of the Empire",
@@ -415,7 +423,9 @@
    ],
    "mana_cost": "{3}{G}{G}",
    "url": "https://scryfall.com/card/eoc/111/titania-protector-of-argoth?utm_source=api",
-   "oracle_text": "When Titania enters, return target land card from your graveyard to the battlefield.\nWhenever a land you control is put into a graveyard from the battlefield, create a 5/3 green Elemental creature token."
+   "oracle_text": "When Titania enters, return target land card from your graveyard to the battlefield.\nWhenever a land you control is put into a graveyard from the battlefield, create a 5/3 green Elemental creature token.",
+   "power": "5",
+   "toughness": "3"
   },
   {
    "name": "Birds of Paradise",
@@ -435,7 +445,9 @@
    ],
    "mana_cost": "{G}",
    "url": "https://scryfall.com/card/rvr/133/birds-of-paradise?utm_source=api",
-   "oracle_text": "Flying\n{T}: Add one mana of any color."
+   "oracle_text": "Flying\n{T}: Add one mana of any color.",
+   "power": "0",
+   "toughness": "1"
   },
   {
    "name": "Grim Flayer",
@@ -458,7 +470,9 @@
    ],
    "mana_cost": "{B}{G}",
    "url": "https://scryfall.com/card/dsc/218/grim-flayer?utm_source=api",
-   "oracle_text": "Trample\nWhenever this creature deals combat damage to a player, surveil 3. (Look at the top three cards of your library, then put any number of them into your graveyard and the rest on top of your library in any order.)\nDelirium — This creature gets +2/+2 as long as there are four or more card types among cards in your graveyard."
+   "oracle_text": "Trample\nWhenever this creature deals combat damage to a player, surveil 3. (Look at the top three cards of your library, then put any number of them into your graveyard and the rest on top of your library in any order.)\nDelirium — This creature gets +2/+2 as long as there are four or more card types among cards in your graveyard.",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Knight of the Reliquary",
@@ -481,7 +495,9 @@
    ],
    "mana_cost": "{1}{G}{W}",
    "url": "https://scryfall.com/card/ima/203/knight-of-the-reliquary?utm_source=api",
-   "oracle_text": "This creature gets +1/+1 for each land card in your graveyard.\n{T}, Sacrifice a Forest or Plains: Search your library for a land card, put it onto the battlefield, then shuffle."
+   "oracle_text": "This creature gets +1/+1 for each land card in your graveyard.\n{T}, Sacrifice a Forest or Plains: Search your library for a land card, put it onto the battlefield, then shuffle.",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Plains",
@@ -610,7 +626,9 @@
    ],
    "mana_cost": "{G}",
    "url": "https://scryfall.com/card/thb/167/chainweb-aracnir?utm_source=api",
-   "oracle_text": "Reach\nWhen this creature enters, it deals damage equal to its power to target creature with flying an opponent controls.\nEscape—{3}{G}{G}, Exile four other cards from your graveyard. (You may cast this card from your graveyard for its escape cost.)\nThis creature escapes with three +1/+1 counters on it."
+   "oracle_text": "Reach\nWhen this creature enters, it deals damage equal to its power to target creature with flying an opponent controls.\nEscape—{3}{G}{G}, Exile four other cards from your graveyard. (You may cast this card from your graveyard for its escape cost.)\nThis creature escapes with three +1/+1 counters on it.",
+   "power": "1",
+   "toughness": "2"
   },
   {
    "name": "Bloodstained Mire",
@@ -662,7 +680,9 @@
    ],
    "mana_cost": "{2}",
    "url": "https://scryfall.com/card/bro/164/scrapwork-mutt?utm_source=api",
-   "oracle_text": "When this creature enters, you may discard a card. If you do, draw a card.\nUnearth {1}{R} ({1}{R}: Return this card from your graveyard to the battlefield. It gains haste. Exile it at the beginning of the next end step or if it would leave the battlefield. Unearth only as a sorcery.)"
+   "oracle_text": "When this creature enters, you may discard a card. If you do, draw a card.\nUnearth {1}{R} ({1}{R}: Return this card from your graveyard to the battlefield. It gains haste. Exile it at the beginning of the next end step or if it would leave the battlefield. Unearth only as a sorcery.)",
+   "power": "2",
+   "toughness": "1"
   },
   {
    "name": "Duress",
@@ -838,7 +858,9 @@
    ],
    "mana_cost": "{B/G}",
    "url": "https://scryfall.com/card/mh2/211/ravenous-squirrel?utm_source=api",
-   "oracle_text": "Whenever you sacrifice an artifact or creature, put a +1/+1 counter on this creature.\n{1}{B}{G}, Sacrifice an artifact or creature: You gain 1 life and draw a card."
+   "oracle_text": "Whenever you sacrifice an artifact or creature, put a +1/+1 counter on this creature.\n{1}{B}{G}, Sacrifice an artifact or creature: You gain 1 life and draw a card.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Jolrael, Mwonvuli Recluse",
@@ -860,7 +882,9 @@
    ],
    "mana_cost": "{1}{G}",
    "url": "https://scryfall.com/card/mkc/173/jolrael-mwonvuli-recluse?utm_source=api",
-   "oracle_text": "Whenever you draw your second card each turn, create a 2/2 green Cat creature token.\n{4}{G}{G}: Until end of turn, creatures you control have base power and toughness X/X, where X is the number of cards in your hand."
+   "oracle_text": "Whenever you draw your second card each turn, create a 2/2 green Cat creature token.\n{4}{G}{G}: Until end of turn, creatures you control have base power and toughness X/X, where X is the number of cards in your hand.",
+   "power": "1",
+   "toughness": "2"
   },
   {
    "name": "Mountain",

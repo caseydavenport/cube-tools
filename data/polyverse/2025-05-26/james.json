@@ -57,7 +57,9 @@
    ],
    "mana_cost": "{1}{R} // {1}{U}",
    "url": "https://scryfall.com/card/woe/235/scalding-viper-steam-clean?utm_source=api",
-   "oracle_text": ""
+   "oracle_text": "",
+   "power": "2",
+   "toughness": "1"
   },
   {
    "name": "Shark Typhoon",
@@ -96,7 +98,9 @@
    ],
    "mana_cost": "{U}",
    "url": "https://scryfall.com/card/mh3/74/triton-wavebreaker?utm_source=api",
-   "oracle_text": "Bestow {1}{U} (If you cast this card for its bestow cost, it's an Aura spell with enchant creature. It becomes a creature again if it's not attached.)\nAs long as this permanent is a creature, it has prowess. (Whenever you cast a noncreature spell, this creature gets +1/+1 until end of turn.)\nEnchanted creature gets +1/+1 and has prowess."
+   "oracle_text": "Bestow {1}{U} (If you cast this card for its bestow cost, it's an Aura spell with enchant creature. It becomes a creature again if it's not attached.)\nAs long as this permanent is a creature, it has prowess. (Whenever you cast a noncreature spell, this creature gets +1/+1 until end of turn.)\nEnchanted creature gets +1/+1 and has prowess.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Ponder",
@@ -229,7 +233,9 @@
    ],
    "mana_cost": "{R}",
    "url": "https://scryfall.com/card/2xm/127/goblin-guide?utm_source=api",
-   "oracle_text": "Haste\nWhenever this creature attacks, defending player reveals the top card of their library. If it's a land card, that player puts it into their hand."
+   "oracle_text": "Haste\nWhenever this creature attacks, defending player reveals the top card of their library. If it's a land card, that player puts it into their hand.",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Sprite Dragon",
@@ -252,7 +258,9 @@
    ],
    "mana_cost": "{U}{R}",
    "url": "https://scryfall.com/card/clb/852/sprite-dragon?utm_source=api",
-   "oracle_text": "Flying, haste\nWhenever you cast a noncreature spell, put a +1/+1 counter on this creature."
+   "oracle_text": "Flying, haste\nWhenever you cast a noncreature spell, put a +1/+1 counter on this creature.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Thundering Falls",
@@ -358,7 +366,9 @@
    ],
    "mana_cost": "{2}{U}",
    "url": "https://scryfall.com/card/dmr/58/man-o-war?utm_source=api",
-   "oracle_text": "When this creature enters, return target creature to its owner's hand."
+   "oracle_text": "When this creature enters, return target creature to its owner's hand.",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Dragon's Rage Channeler",
@@ -379,7 +389,9 @@
    ],
    "mana_cost": "{R}",
    "url": "https://scryfall.com/card/mh2/121/dragons-rage-channeler?utm_source=api",
-   "oracle_text": "Whenever you cast a noncreature spell, surveil 1. (Look at the top card of your library. You may put that card into your graveyard.)\nDelirium — As long as there are four or more card types among cards in your graveyard, this creature gets +2/+2, has flying, and attacks each combat if able."
+   "oracle_text": "Whenever you cast a noncreature spell, surveil 1. (Look at the top card of your library. You may put that card into your graveyard.)\nDelirium — As long as there are four or more card types among cards in your graveyard, this creature gets +2/+2, has flying, and attacks each combat if able.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Grim Lavamancer",
@@ -400,7 +412,9 @@
    ],
    "mana_cost": "{R}",
    "url": "https://scryfall.com/card/dmr/126/grim-lavamancer?utm_source=api",
-   "oracle_text": "{R}, {T}, Exile two cards from your graveyard: This creature deals 2 damage to any target."
+   "oracle_text": "{R}, {T}, Exile two cards from your graveyard: This creature deals 2 damage to any target.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Daze",
@@ -438,7 +452,9 @@
    ],
    "mana_cost": "{4}{U}{U}",
    "url": "https://scryfall.com/card/c20/34/ethereal-forager?utm_source=api",
-   "oracle_text": "Delve (Each card you exile from your graveyard while casting this spell pays for {1}.)\nFlying\nWhenever this creature attacks, you may return an instant or sorcery card exiled with this creature to its owner's hand."
+   "oracle_text": "Delve (Each card you exile from your graveyard while casting this spell pays for {1}.)\nFlying\nWhenever this creature attacks, you may return an instant or sorcery card exiled with this creature to its owner's hand.",
+   "power": "3",
+   "toughness": "3"
   },
   {
    "name": "Unsummon",
@@ -544,7 +560,9 @@
    ],
    "mana_cost": "{1}{U}",
    "url": "https://scryfall.com/card/mma/65/spellstutter-sprite?utm_source=api",
-   "oracle_text": "Flash\nFlying\nWhen this creature enters, counter target spell with mana value X or less, where X is the number of Faeries you control."
+   "oracle_text": "Flash\nFlying\nWhen this creature enters, counter target spell with mana value X or less, where X is the number of Faeries you control.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Dreamtide Whale",
@@ -564,7 +582,9 @@
    ],
    "mana_cost": "{2}{U}",
    "url": "https://scryfall.com/card/mh3/59/dreamtide-whale?utm_source=api",
-   "oracle_text": "Vanishing 2 (This creature enters with two time counters on it. At the beginning of your upkeep, remove a time counter from it. When the last is removed, sacrifice it.)\nWhenever a player casts their second spell each turn, proliferate. (Choose any number of permanents and/or players, then give each another counter of each kind already there.)"
+   "oracle_text": "Vanishing 2 (This creature enters with two time counters on it. At the beginning of your upkeep, remove a time counter from it. When the last is removed, sacrifice it.)\nWhenever a player casts their second spell each turn, proliferate. (Choose any number of permanents and/or players, then give each another counter of each kind already there.)",
+   "power": "7",
+   "toughness": "5"
   },
   {
    "name": "Island",
@@ -754,7 +774,9 @@
    ],
    "mana_cost": "{2}{U}",
    "url": "https://scryfall.com/card/thb/79/vexing-gull?utm_source=api",
-   "oracle_text": "Flash\nFlying"
+   "oracle_text": "Flash\nFlying",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Brainstorm",
@@ -815,7 +837,9 @@
    ],
    "mana_cost": "{1}{U}{R}",
    "url": "https://scryfall.com/card/iko/203/rielle-the-everwise?utm_source=api",
-   "oracle_text": "Rielle gets +1/+0 for each instant and sorcery card in your graveyard.\nWhenever you discard one or more cards for the first time each turn, draw that many cards."
+   "oracle_text": "Rielle gets +1/+0 for each instant and sorcery card in your graveyard.\nWhenever you discard one or more cards for the first time each turn, draw that many cards.",
+   "power": "0",
+   "toughness": "3"
   },
   {
    "name": "Counterspell",
@@ -890,7 +914,9 @@
    ],
    "mana_cost": "{2}{B/R}{B/R}",
    "url": "https://scryfall.com/card/uma/217/murderous-redcap?utm_source=api",
-   "oracle_text": "When this creature enters, it deals damage equal to its power to any target.\nPersist (When this creature dies, if it had no -1/-1 counters on it, return it to the battlefield under its owner's control with a -1/-1 counter on it.)"
+   "oracle_text": "When this creature enters, it deals damage equal to its power to any target.\nPersist (When this creature dies, if it had no -1/-1 counters on it, return it to the battlefield under its owner's control with a -1/-1 counter on it.)",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Spell Pierce",
@@ -927,7 +953,9 @@
    ],
    "mana_cost": "{1}{B}",
    "url": "https://scryfall.com/card/woe/113/tangled-colony?utm_source=api",
-   "oracle_text": "This creature can't block.\nWhen this creature dies, create X 1/1 black Rat creature tokens with \"This token can't block,\" where X is the amount of damage dealt to it this turn."
+   "oracle_text": "This creature can't block.\nWhen this creature dies, create X 1/1 black Rat creature tokens with \"This token can't block,\" where X is the amount of damage dealt to it this turn.",
+   "power": "3",
+   "toughness": "2"
   },
   {
    "name": "Turn to Mist",
@@ -966,7 +994,9 @@
    ],
    "mana_cost": "{B}",
    "url": "https://scryfall.com/card/2xm/82/deaths-shadow?utm_source=api",
-   "oracle_text": "This creature gets -X/-X, where X is your life total."
+   "oracle_text": "This creature gets -X/-X, where X is your life total.",
+   "power": "13",
+   "toughness": "13"
   },
   {
    "name": "Aether Spellbomb",
@@ -1075,7 +1105,9 @@
    ],
    "mana_cost": "{2}{U}",
    "url": "https://scryfall.com/card/neo/82/tameshi-reality-architect?utm_source=api",
-   "oracle_text": "Whenever one or more noncreature permanents are returned to hand, draw a card. This ability triggers only once each turn.\n{X}{W}, Return a land you control to its owner's hand: Return target artifact or enchantment card with mana value X or less from your graveyard to the battlefield. Activate only as a sorcery."
+   "oracle_text": "Whenever one or more noncreature permanents are returned to hand, draw a card. This ability triggers only once each turn.\n{X}{W}, Return a land you control to its owner's hand: Return target artifact or enchantment card with mana value X or less from your graveyard to the battlefield. Activate only as a sorcery.",
+   "power": "2",
+   "toughness": "3"
   },
   {
    "name": "Meadowboon",
@@ -1095,7 +1127,9 @@
    ],
    "mana_cost": "{2}{W}{W}",
    "url": "https://scryfall.com/card/mma/22/meadowboon?utm_source=api",
-   "oracle_text": "When this creature leaves the battlefield, put a +1/+1 counter on each creature target player controls.\nEvoke {3}{W} (You may cast this spell for its evoke cost. If you do, it's sacrificed when it enters.)"
+   "oracle_text": "When this creature leaves the battlefield, put a +1/+1 counter on each creature target player controls.\nEvoke {3}{W} (You may cast this spell for its evoke cost. If you do, it's sacrificed when it enters.)",
+   "power": "3",
+   "toughness": "3"
   },
   {
    "name": "Moon-Circuit Hacker",
@@ -1117,7 +1151,9 @@
    ],
    "mana_cost": "{1}{U}",
    "url": "https://scryfall.com/card/neo/67/moon-circuit-hacker?utm_source=api",
-   "oracle_text": "Ninjutsu {U} ({U}, Return an unblocked attacker you control to hand: Put this card onto the battlefield from your hand tapped and attacking.)\nWhenever this creature deals combat damage to a player, you may draw a card. If you do, discard a card unless this creature entered this turn."
+   "oracle_text": "Ninjutsu {U} ({U}, Return an unblocked attacker you control to hand: Put this card onto the battlefield from your hand tapped and attacking.)\nWhenever this creature deals combat damage to a player, you may draw a card. If you do, discard a card unless this creature entered this turn.",
+   "power": "2",
+   "toughness": "1"
   }
  ]
 }

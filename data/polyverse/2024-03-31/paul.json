@@ -86,6 +86,8 @@
    "mana_cost": "{B}{B}",
    "url": "https://scryfall.com/card/2xm/112/vampire-hexmage?utm_source=api",
    "oracle_text": "First strike\nSacrifice this creature: Remove all counters from target permanent.",
+   "power": "2",
+   "toughness": "1",
    "appearances": 1
   },
   {
@@ -107,6 +109,8 @@
    "mana_cost": "{1}{G}",
    "url": "https://scryfall.com/card/tsr/235/tarmogoyf?utm_source=api",
    "oracle_text": "Tarmogoyf's power is equal to the number of card types among cards in all graveyards and its toughness is equal to that number plus 1.",
+   "power": "*",
+   "toughness": "1+*",
    "appearances": 1
   },
   {
@@ -147,6 +151,8 @@
    "mana_cost": "{2}{B}{B}",
    "url": "https://scryfall.com/card/lcc/209/sanctum-seeker?utm_source=api",
    "oracle_text": "Whenever a Vampire you control attacks, each opponent loses 1 life and you gain 1 life.",
+   "power": "3",
+   "toughness": "4",
    "appearances": 1
   },
   {
@@ -205,7 +211,9 @@
    ],
    "mana_cost": "{4}{G}{G}",
    "url": "https://scryfall.com/card/eoc/100/multani-yavimayas-avatar?utm_source=api",
-   "oracle_text": "Reach, trample\nMultani gets +1/+1 for each land you control and each land card in your graveyard.\n{1}{G}, Return two lands you control to their owner's hand: Return this card from your graveyard to your hand."
+   "oracle_text": "Reach, trample\nMultani gets +1/+1 for each land you control and each land card in your graveyard.\n{1}{G}, Return two lands you control to their owner's hand: Return this card from your graveyard to your hand.",
+   "power": "0",
+   "toughness": "0"
   },
   {
    "name": "Languish",
@@ -262,7 +270,9 @@
    ],
    "mana_cost": "{2}{B}",
    "url": "https://scryfall.com/card/mm3/86/vampire-aristocrat?utm_source=api",
-   "oracle_text": "Sacrifice a creature: This creature gets +2/+2 until end of turn."
+   "oracle_text": "Sacrifice a creature: This creature gets +2/+2 until end of turn.",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Woe Strider",
@@ -283,6 +293,8 @@
    "mana_cost": "{2}{B}",
    "url": "https://scryfall.com/card/tdc/201/woe-strider?utm_source=api",
    "oracle_text": "When this creature enters, create a 0/1 white Goat creature token.\nSacrifice another creature: Scry 1.\nEscape—{3}{B}{B}, Exile four other cards from your graveyard. (You may cast this card from your graveyard for its escape cost.)\nThis creature escapes with two +1/+1 counters on it.",
+   "power": "3",
+   "toughness": "2",
    "appearances": 1
   },
   {
@@ -355,6 +367,8 @@
    "mana_cost": "{B}",
    "url": "https://scryfall.com/card/mh1/81/carrion-feeder?utm_source=api",
    "oracle_text": "This creature can't block.\nSacrifice a creature: Put a +1/+1 counter on this creature.",
+   "power": "1",
+   "toughness": "1",
    "appearances": 1
   },
   {
@@ -378,6 +392,8 @@
    "mana_cost": "{1}{G} // {1}{G}",
    "url": "https://scryfall.com/card/woe/320/intrepid-trufflesnout-go-hog-wild?utm_source=api",
    "oracle_text": "",
+   "power": "3",
+   "toughness": "1",
    "appearances": 1
   },
   {
@@ -416,6 +432,8 @@
    "mana_cost": "{3}{B}{B}",
    "url": "https://scryfall.com/card/akh/78/archfiend-of-ifnir?utm_source=api",
    "oracle_text": "Flying\nWhenever you cycle or discard another card, put a -1/-1 counter on each creature your opponents control.\nCycling {2} ({2}, Discard this card: Draw a card.)",
+   "power": "5",
+   "toughness": "4",
    "appearances": 1
   },
   {
@@ -474,7 +492,9 @@
    ],
    "mana_cost": "{2}{G}{G}",
    "url": "https://scryfall.com/card/thb/196/renata-called-to-the-hunt?utm_source=api",
-   "oracle_text": "Renata's power is equal to your devotion to green. (Each {G} in the mana costs of permanents you control counts toward your devotion to green.)\nEach other creature you control enters with an additional +1/+1 counter on it."
+   "oracle_text": "Renata's power is equal to your devotion to green. (Each {G} in the mana costs of permanents you control counts toward your devotion to green.)\nEach other creature you control enters with an additional +1/+1 counter on it.",
+   "power": "*",
+   "toughness": "3"
   },
   {
    "name": "Kitchen Finks",
@@ -496,7 +516,9 @@
    ],
    "mana_cost": "{1}{G/W}{G/W}",
    "url": "https://scryfall.com/card/uma/216/kitchen-finks?utm_source=api",
-   "oracle_text": "When this creature enters, you gain 2 life.\nPersist (When this creature dies, if it had no -1/-1 counters on it, return it to the battlefield under its owner's control with a -1/-1 counter on it.)"
+   "oracle_text": "When this creature enters, you gain 2 life.\nPersist (When this creature dies, if it had no -1/-1 counters on it, return it to the battlefield under its owner's control with a -1/-1 counter on it.)",
+   "power": "3",
+   "toughness": "2"
   },
   {
    "name": "Call of the Herd",
@@ -857,7 +879,9 @@
    ],
    "mana_cost": "{1}{U}",
    "url": "https://scryfall.com/card/snc/44/faerie-vandal?utm_source=api",
-   "oracle_text": "Flash (You may cast this spell any time you could cast an instant.)\nFlying\nWhenever you draw your second card each turn, put a +1/+1 counter on this creature."
+   "oracle_text": "Flash (You may cast this spell any time you could cast an instant.)\nFlying\nWhenever you draw your second card each turn, put a +1/+1 counter on this creature.",
+   "power": "1",
+   "toughness": "2"
   },
   {
    "name": "Polluted Delta",
@@ -934,7 +958,9 @@
    ],
    "mana_cost": "{W}",
    "url": "https://scryfall.com/card/ddf/3/goldmeadow-harrier?utm_source=api",
-   "oracle_text": "{W}, {T}: Tap target creature."
+   "oracle_text": "{W}, {T}: Tap target creature.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Kor Duelist",
@@ -955,7 +981,9 @@
    ],
    "mana_cost": "{W}",
    "url": "https://scryfall.com/card/mm2/22/kor-duelist?utm_source=api",
-   "oracle_text": "As long as this creature is equipped, it has double strike. (It deals both first-strike and regular combat damage.)"
+   "oracle_text": "As long as this creature is equipped, it has double strike. (It deals both first-strike and regular combat damage.)",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Mother of Runes",
@@ -976,7 +1004,9 @@
    ],
    "mana_cost": "{W}",
    "url": "https://scryfall.com/card/clb/702/mother-of-runes?utm_source=api",
-   "oracle_text": "{T}: Target creature you control gains protection from the color of your choice until end of turn."
+   "oracle_text": "{T}: Target creature you control gains protection from the color of your choice until end of turn.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Portable Hole",
@@ -1034,7 +1064,9 @@
    ],
    "mana_cost": "{X}{G}{U}",
    "url": "https://scryfall.com/card/woe/204/the-goose-mother?utm_source=api",
-   "oracle_text": "Flying\nThe Goose Mother enters with X +1/+1 counters on it.\nWhen The Goose Mother enters, create half X Food tokens, rounded up.\nWhenever The Goose Mother attacks, you may sacrifice a Food. If you do, draw a card."
+   "oracle_text": "Flying\nThe Goose Mother enters with X +1/+1 counters on it.\nWhen The Goose Mother enters, create half X Food tokens, rounded up.\nWhenever The Goose Mother attacks, you may sacrifice a Food. If you do, draw a card.",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Counterspell",
@@ -1107,7 +1139,9 @@
    ],
    "mana_cost": "{2}{U}",
    "url": "https://scryfall.com/card/moc/226/master-of-etherium?utm_source=api",
-   "oracle_text": "Master of Etherium's power and toughness are each equal to the number of artifacts you control.\nOther artifact creatures you control get +1/+1."
+   "oracle_text": "Master of Etherium's power and toughness are each equal to the number of artifacts you control.\nOther artifact creatures you control get +1/+1.",
+   "power": "*",
+   "toughness": "*"
   },
   {
    "name": "Halo Forager",
@@ -1130,7 +1164,9 @@
    ],
    "mana_cost": "{1}{U}{B}",
    "url": "https://scryfall.com/card/mom/227/halo-forager?utm_source=api",
-   "oracle_text": "Flying\nWhen this creature enters, you may pay {X}. When you do, you may cast target instant or sorcery card with mana value X from a graveyard without paying its mana cost. If that spell would be put into a graveyard, exile it instead."
+   "oracle_text": "Flying\nWhen this creature enters, you may pay {X}. When you do, you may cast target instant or sorcery card with mana value X from a graveyard without paying its mana cost. If that spell would be put into a graveyard, exile it instead.",
+   "power": "3",
+   "toughness": "1"
   },
   {
    "name": "Tezzeret, Betrayer of Flesh",
@@ -1171,7 +1207,9 @@
    ],
    "mana_cost": "{6}{W}{W}",
    "url": "https://scryfall.com/card/moc/170/angel-of-salvation?utm_source=api",
-   "oracle_text": "Flash; convoke (Your creatures can help cast this spell. Each creature you tap while casting this spell pays for {1} or one mana of that creature's color.)\nFlying\nWhen this creature enters, prevent the next 5 damage that would be dealt this turn to any number of targets, divided as you choose."
+   "oracle_text": "Flash; convoke (Your creatures can help cast this spell. Each creature you tap while casting this spell pays for {1} or one mana of that creature's color.)\nFlying\nWhen this creature enters, prevent the next 5 damage that would be dealt this turn to any number of targets, divided as you choose.",
+   "power": "5",
+   "toughness": "5"
   },
   {
    "name": "Setessan Champion",
@@ -1192,7 +1230,9 @@
    ],
    "mana_cost": "{2}{G}",
    "url": "https://scryfall.com/card/cmm/912/setessan-champion?utm_source=api",
-   "oracle_text": "Constellation — Whenever an enchantment you control enters, put a +1/+1 counter on this creature and draw a card."
+   "oracle_text": "Constellation — Whenever an enchantment you control enters, put a +1/+1 counter on this creature and draw a card.",
+   "power": "1",
+   "toughness": "3"
   },
   {
    "name": "Containment Construct",
@@ -1209,7 +1249,9 @@
    "color_identity": [],
    "mana_cost": "{2}",
    "url": "https://scryfall.com/card/neo/243/containment-construct?utm_source=api",
-   "oracle_text": "Whenever you discard a card, you may exile that card from your graveyard. If you do, you may play that card this turn."
+   "oracle_text": "Whenever you discard a card, you may exile that card from your graveyard. If you do, you may play that card this turn.",
+   "power": "2",
+   "toughness": "1"
   },
   {
    "name": "Sanguine Bond",

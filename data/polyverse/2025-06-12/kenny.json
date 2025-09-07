@@ -74,7 +74,9 @@
    ],
    "mana_cost": "{B}",
    "url": "https://scryfall.com/card/clb/740/bloodsoaked-champion?utm_source=api",
-   "oracle_text": "This creature can't block.\nRaid — {1}{B}: Return this card from your graveyard to the battlefield. Activate only if you attacked this turn."
+   "oracle_text": "This creature can't block.\nRaid — {1}{B}: Return this card from your graveyard to the battlefield. Activate only if you attacked this turn.",
+   "power": "2",
+   "toughness": "1"
   },
   {
    "name": "Cloudgoat Ranger",
@@ -96,7 +98,9 @@
    ],
    "mana_cost": "{3}{W}{W}",
    "url": "https://scryfall.com/card/khc/21/cloudgoat-ranger?utm_source=api",
-   "oracle_text": "When this creature enters, create three 1/1 white Kithkin Soldier creature tokens.\nTap three untapped Kithkin you control: This creature gets +2/+0 and gains flying until end of turn."
+   "oracle_text": "When this creature enters, create three 1/1 white Kithkin Soldier creature tokens.\nTap three untapped Kithkin you control: This creature gets +2/+0 and gains flying until end of turn.",
+   "power": "3",
+   "toughness": "3"
   },
   {
    "name": "Warleader's Call",
@@ -136,7 +140,9 @@
    ],
    "mana_cost": "{B}",
    "url": "https://scryfall.com/card/m20/105/knight-of-the-ebon-legion?utm_source=api",
-   "oracle_text": "{2}{B}: This creature gets +3/+3 and gains deathtouch until end of turn.\nAt the beginning of your end step, if a player lost 4 or more life this turn, put a +1/+1 counter on this creature. (Damage causes loss of life.)"
+   "oracle_text": "{2}{B}: This creature gets +3/+3 and gains deathtouch until end of turn.\nAt the beginning of your end step, if a player lost 4 or more life this turn, put a +1/+1 counter on this creature. (Damage causes loss of life.)",
+   "power": "1",
+   "toughness": "2"
   },
   {
    "name": "Clarion Spirit",
@@ -156,7 +162,9 @@
    ],
    "mana_cost": "{1}{W}",
    "url": "https://scryfall.com/card/khm/6/clarion-spirit?utm_source=api",
-   "oracle_text": "Whenever you cast your second spell each turn, create a 1/1 white Spirit creature token with flying."
+   "oracle_text": "Whenever you cast your second spell each turn, create a 1/1 white Spirit creature token with flying.",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Monastery Mentor",
@@ -177,7 +185,9 @@
    ],
    "mana_cost": "{2}{W}",
    "url": "https://scryfall.com/card/tdc/125/monastery-mentor?utm_source=api",
-   "oracle_text": "Prowess (Whenever you cast a noncreature spell, this creature gets +1/+1 until end of turn.)\nWhenever you cast a noncreature spell, create a 1/1 white Monk creature token with prowess."
+   "oracle_text": "Prowess (Whenever you cast a noncreature spell, this creature gets +1/+1 until end of turn.)\nWhenever you cast a noncreature spell, create a 1/1 white Monk creature token with prowess.",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Faerie Guidemother // Gift of the Fae",
@@ -199,7 +209,9 @@
    ],
    "mana_cost": "{W} // {1}{W}",
    "url": "https://scryfall.com/card/eld/11/faerie-guidemother-gift-of-the-fae?utm_source=api",
-   "oracle_text": ""
+   "oracle_text": "",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Godless Shrine",
@@ -240,7 +252,9 @@
    ],
    "mana_cost": "{1}{R}{R}",
    "url": "https://scryfall.com/card/2x2/123/seasoned-pyromancer?utm_source=api",
-   "oracle_text": "When this creature enters, discard two cards, then draw two cards. For each nonland card discarded this way, create a 1/1 red Elemental creature token.\n{3}{R}{R}, Exile this card from your graveyard: Create two 1/1 red Elemental creature tokens."
+   "oracle_text": "When this creature enters, discard two cards, then draw two cards. For each nonland card discarded this way, create a 1/1 red Elemental creature token.\n{3}{R}{R}, Exile this card from your graveyard: Create two 1/1 red Elemental creature tokens.",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Goblin Bombardment",
@@ -279,7 +293,9 @@
    ],
    "mana_cost": "{1}{B}{R}",
    "url": "https://scryfall.com/card/eoc/121/mayhem-devil?utm_source=api",
-   "oracle_text": "Whenever a player sacrifices a permanent, this creature deals 1 damage to any target."
+   "oracle_text": "Whenever a player sacrifices a permanent, this creature deals 1 damage to any target.",
+   "power": "3",
+   "toughness": "3"
   },
   {
    "name": "Cut Down",
@@ -318,7 +334,9 @@
    ],
    "mana_cost": "{W}",
    "url": "https://scryfall.com/card/mh2/12/esper-sentinel?utm_source=api",
-   "oracle_text": "Whenever an opponent casts their first noncreature spell each turn, draw a card unless that player pays {X}, where X is this creature's power."
+   "oracle_text": "Whenever an opponent casts their first noncreature spell each turn, draw a card unless that player pays {X}, where X is this creature's power.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Plains",
@@ -395,7 +413,9 @@
    ],
    "mana_cost": "{2}{B}",
    "url": "https://scryfall.com/card/tdc/201/woe-strider?utm_source=api",
-   "oracle_text": "When this creature enters, create a 0/1 white Goat creature token.\nSacrifice another creature: Scry 1.\nEscape—{3}{B}{B}, Exile four other cards from your graveyard. (You may cast this card from your graveyard for its escape cost.)\nThis creature escapes with two +1/+1 counters on it."
+   "oracle_text": "When this creature enters, create a 0/1 white Goat creature token.\nSacrifice another creature: Scry 1.\nEscape—{3}{B}{B}, Exile four other cards from your graveyard. (You may cast this card from your graveyard for its escape cost.)\nThis creature escapes with two +1/+1 counters on it.",
+   "power": "3",
+   "toughness": "2"
   },
   {
    "name": "Swamp",
@@ -511,7 +531,9 @@
    ],
    "mana_cost": "{2}{W}",
    "url": "https://scryfall.com/card/tdc/140/welcoming-vampire?utm_source=api",
-   "oracle_text": "Flying\nWhenever one or more other creatures you control with power 2 or less enter, draw a card. This ability triggers only once each turn."
+   "oracle_text": "Flying\nWhenever one or more other creatures you control with power 2 or less enter, draw a card. This ability triggers only once each turn.",
+   "power": "2",
+   "toughness": "3"
   },
   {
    "name": "Luminarch Aspirant",
@@ -532,7 +554,9 @@
    ],
    "mana_cost": "{1}{W}",
    "url": "https://scryfall.com/card/ncc/205/luminarch-aspirant?utm_source=api",
-   "oracle_text": "At the beginning of combat on your turn, put a +1/+1 counter on target creature you control."
+   "oracle_text": "At the beginning of combat on your turn, put a +1/+1 counter on target creature you control.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Seasoned Hallowblade",
@@ -553,7 +577,9 @@
    ],
    "mana_cost": "{1}{W}",
    "url": "https://scryfall.com/card/m21/34/seasoned-hallowblade?utm_source=api",
-   "oracle_text": "Discard a card: Tap this creature. It gains indestructible until end of turn. (Damage and effects that say \"destroy\" don't destroy it.)"
+   "oracle_text": "Discard a card: Tap this creature. It gains indestructible until end of turn. (Damage and effects that say \"destroy\" don't destroy it.)",
+   "power": "3",
+   "toughness": "1"
   },
   {
    "name": "Werefox Bodyguard",
@@ -575,7 +601,9 @@
    ],
    "mana_cost": "{1}{W}{W}",
    "url": "https://scryfall.com/card/woe/39/werefox-bodyguard?utm_source=api",
-   "oracle_text": "Flash\nWhen this creature enters, exile up to one other target non-Fox creature until this creature leaves the battlefield.\n{1}{W}, Sacrifice this creature: You gain 2 life."
+   "oracle_text": "Flash\nWhen this creature enters, exile up to one other target non-Fox creature until this creature leaves the battlefield.\n{1}{W}, Sacrifice this creature: You gain 2 life.",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Mountain",
@@ -710,7 +738,9 @@
    ],
    "mana_cost": "{1}{B}",
    "url": "https://scryfall.com/card/mh3/100/marionette-apprentice?utm_source=api",
-   "oracle_text": "Fabricate 1 (When this creature enters, put a +1/+1 counter on it or create a 1/1 colorless Servo artifact creature token.)\nWhenever another creature or artifact you control is put into a graveyard from the battlefield, each opponent loses 1 life."
+   "oracle_text": "Fabricate 1 (When this creature enters, put a +1/+1 counter on it or create a 1/1 colorless Servo artifact creature token.)\nWhenever another creature or artifact you control is put into a graveyard from the battlefield, each opponent loses 1 life.",
+   "power": "1",
+   "toughness": "2"
   },
   {
    "name": "Legion's Landing // Adanto, the First Fort",
@@ -750,7 +780,9 @@
    ],
    "mana_cost": "{W}",
    "url": "https://scryfall.com/card/clb/702/mother-of-runes?utm_source=api",
-   "oracle_text": "{T}: Target creature you control gains protection from the color of your choice until end of turn."
+   "oracle_text": "{T}: Target creature you control gains protection from the color of your choice until end of turn.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "The Wandering Emperor",
@@ -790,7 +822,9 @@
    ],
    "mana_cost": "{W} // {W}",
    "url": "https://scryfall.com/card/woe/7/cheeky-house-mouse-squeak-by?utm_source=api",
-   "oracle_text": ""
+   "oracle_text": "",
+   "power": "2",
+   "toughness": "1"
   },
   {
    "name": "Journey to Nowhere",
@@ -830,7 +864,9 @@
    ],
    "mana_cost": "{W}{B}",
    "url": "https://scryfall.com/card/mma/184/tidehollow-sculler?utm_source=api",
-   "oracle_text": "When this creature enters, target opponent reveals their hand and you choose a nonland card from it. Exile that card.\nWhen this creature leaves the battlefield, return the exiled card to its owner's hand."
+   "oracle_text": "When this creature enters, target opponent reveals their hand and you choose a nonland card from it. Exile that card.\nWhen this creature leaves the battlefield, return the exiled card to its owner's hand.",
+   "power": "2",
+   "toughness": "2"
   }
  ],
  "sideboard": [
@@ -894,7 +930,9 @@
    ],
    "mana_cost": "{2}{R} // {1}{W}",
    "url": "https://scryfall.com/card/woe/230/kellan-the-fae-blooded-birthright-boon?utm_source=api",
-   "oracle_text": ""
+   "oracle_text": "",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Phoenix Chick",
@@ -914,7 +952,9 @@
    ],
    "mana_cost": "{R}",
    "url": "https://scryfall.com/card/dmu/140/phoenix-chick?utm_source=api",
-   "oracle_text": "Flying, haste\nThis creature can't block.\nWhenever you attack with three or more creatures, you may pay {R}{R}. If you do, return this card from your graveyard to the battlefield tapped and attacking with a +1/+1 counter on it."
+   "oracle_text": "Flying, haste\nThis creature can't block.\nWhenever you attack with three or more creatures, you may pay {R}{R}. If you do, return this card from your graveyard to the battlefield tapped and attacking with a +1/+1 counter on it.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Spirited Companion",
@@ -935,7 +975,9 @@
    ],
    "mana_cost": "{1}{W}",
    "url": "https://scryfall.com/card/cmm/838/spirited-companion?utm_source=api",
-   "oracle_text": "When this creature enters, draw a card."
+   "oracle_text": "When this creature enters, draw a card.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Fiery Temper",
@@ -990,7 +1032,9 @@
    ],
    "mana_cost": "{B}",
    "url": "https://scryfall.com/card/tdc/199/viscera-seer?utm_source=api",
-   "oracle_text": "Sacrifice a creature: Scry 1. (Look at the top card of your library. You may put that card on the bottom.)"
+   "oracle_text": "Sacrifice a creature: Scry 1. (Look at the top card of your library. You may put that card on the bottom.)",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Liliana of the Veil",
@@ -1066,7 +1110,9 @@
    ],
    "mana_cost": "{R}",
    "url": "https://scryfall.com/card/2xm/127/goblin-guide?utm_source=api",
-   "oracle_text": "Haste\nWhenever this creature attacks, defending player reveals the top card of their library. If it's a land card, that player puts it into their hand."
+   "oracle_text": "Haste\nWhenever this creature attacks, defending player reveals the top card of their library. If it's a land card, that player puts it into their hand.",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Lost Jitte",

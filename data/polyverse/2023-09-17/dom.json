@@ -43,7 +43,9 @@
    ],
    "mana_cost": "{3}{B}{B}",
    "url": "https://scryfall.com/card/akh/78/archfiend-of-ifnir?utm_source=api",
-   "oracle_text": "Flying\nWhenever you cycle or discard another card, put a -1/-1 counter on each creature your opponents control.\nCycling {2} ({2}, Discard this card: Draw a card.)"
+   "oracle_text": "Flying\nWhenever you cycle or discard another card, put a -1/-1 counter on each creature your opponents control.\nCycling {2} ({2}, Discard this card: Draw a card.)",
+   "power": "5",
+   "toughness": "4"
   },
   {
    "name": "Vona's Hunger",
@@ -82,7 +84,9 @@
    ],
    "mana_cost": "{U}",
    "url": "https://scryfall.com/card/lcc/171/siren-stormtamer?utm_source=api",
-   "oracle_text": "Flying\n{U}, Sacrifice this creature: Counter target spell or ability that targets you or a creature you control."
+   "oracle_text": "Flying\n{U}, Sacrifice this creature: Counter target spell or ability that targets you or a creature you control.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Bloodsoaked Champion",
@@ -103,7 +107,9 @@
    ],
    "mana_cost": "{B}",
    "url": "https://scryfall.com/card/clb/740/bloodsoaked-champion?utm_source=api",
-   "oracle_text": "This creature can't block.\nRaid — {1}{B}: Return this card from your graveyard to the battlefield. Activate only if you attacked this turn."
+   "oracle_text": "This creature can't block.\nRaid — {1}{B}: Return this card from your graveyard to the battlefield. Activate only if you attacked this turn.",
+   "power": "2",
+   "toughness": "1"
   },
   {
    "name": "Delay",
@@ -158,7 +164,9 @@
    ],
    "mana_cost": "{3}{B}{B}",
    "url": "https://scryfall.com/card/clb/769/puppeteer-clique?utm_source=api",
-   "oracle_text": "Flying\nWhen this creature enters, put target creature card from an opponent's graveyard onto the battlefield under your control. It gains haste. At the beginning of your next end step, exile it.\nPersist (When this creature dies, if it had no -1/-1 counters on it, return it to the battlefield under its owner's control with a -1/-1 counter on it.)"
+   "oracle_text": "Flying\nWhen this creature enters, put target creature card from an opponent's graveyard onto the battlefield under your control. It gains haste. At the beginning of your next end step, exile it.\nPersist (When this creature dies, if it had no -1/-1 counters on it, return it to the battlefield under its owner's control with a -1/-1 counter on it.)",
+   "power": "3",
+   "toughness": "2"
   },
   {
    "name": "Exclusion Mage",
@@ -179,7 +187,9 @@
    ],
    "mana_cost": "{2}{U}",
    "url": "https://scryfall.com/card/fdn/508/exclusion-mage?utm_source=api",
-   "oracle_text": "When this creature enters, return target creature an opponent controls to its owner's hand."
+   "oracle_text": "When this creature enters, return target creature an opponent controls to its owner's hand.",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Vexing Gull",
@@ -199,7 +209,9 @@
    ],
    "mana_cost": "{2}{U}",
    "url": "https://scryfall.com/card/thb/79/vexing-gull?utm_source=api",
-   "oracle_text": "Flash\nFlying"
+   "oracle_text": "Flash\nFlying",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Inventive Iteration // Living Breakthrough",
@@ -240,7 +252,9 @@
    ],
    "mana_cost": "{3}{B}",
    "url": "https://scryfall.com/card/mm2/93/scavenger-drake?utm_source=api",
-   "oracle_text": "Flying\nWhenever another creature dies, you may put a +1/+1 counter on this creature."
+   "oracle_text": "Flying\nWhenever another creature dies, you may put a +1/+1 counter on this creature.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Curator of Mysteries",
@@ -260,7 +274,9 @@
    ],
    "mana_cost": "{2}{U}{U}",
    "url": "https://scryfall.com/card/afc/81/curator-of-mysteries?utm_source=api",
-   "oracle_text": "Flying\nWhenever you cycle or discard another card, scry 1.\nCycling {U} ({U}, Discard this card: Draw a card.)"
+   "oracle_text": "Flying\nWhenever you cycle or discard another card, scry 1.\nCycling {U} ({U}, Discard this card: Draw a card.)",
+   "power": "4",
+   "toughness": "4"
   },
   {
    "name": "Brainstorm",
@@ -334,7 +350,9 @@
    ],
    "mana_cost": "{U}{B}",
    "url": "https://scryfall.com/card/akh/206/shadowstorm-vizier?utm_source=api",
-   "oracle_text": "Flying\nWhenever you cycle or discard a card, this creature gets +1/+1 until end of turn."
+   "oracle_text": "Flying\nWhenever you cycle or discard a card, this creature gets +1/+1 until end of turn.",
+   "power": "1",
+   "toughness": "3"
   },
   {
    "name": "Festering Mummy",
@@ -354,7 +372,9 @@
    ],
    "mana_cost": "{B}",
    "url": "https://scryfall.com/card/akh/91/festering-mummy?utm_source=api",
-   "oracle_text": "When this creature dies, you may put a -1/-1 counter on target creature."
+   "oracle_text": "When this creature dies, you may put a -1/-1 counter on target creature.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Into the Roil",
@@ -409,7 +429,9 @@
    ],
    "mana_cost": "{3}{U}",
    "url": "https://scryfall.com/card/ala/43/fatestitcher?utm_source=api",
-   "oracle_text": "{T}: You may tap or untap another target permanent.\nUnearth {U} ({U}: Return this card from your graveyard to the battlefield. It gains haste. Exile it at the beginning of the next end step or if it would leave the battlefield. Unearth only as a sorcery.)"
+   "oracle_text": "{T}: You may tap or untap another target permanent.\nUnearth {U} ({U}: Return this card from your graveyard to the battlefield. It gains haste. Exile it at the beginning of the next end step or if it would leave the battlefield. Unearth only as a sorcery.)",
+   "power": "1",
+   "toughness": "2"
   },
   {
    "name": "Thing in the Ice // Awoken Horror",
@@ -872,7 +894,9 @@
    ],
    "mana_cost": "{B}{G}",
    "url": "https://scryfall.com/card/stx/178/dina-soul-steeper?utm_source=api",
-   "oracle_text": "Whenever you gain life, each opponent loses 1 life.\n{1}, Sacrifice another creature: Dina gets +X/+0 until end of turn, where X is the sacrificed creature's power."
+   "oracle_text": "Whenever you gain life, each opponent loses 1 life.\n{1}, Sacrifice another creature: Dina gets +X/+0 until end of turn, where X is the sacrificed creature's power.",
+   "power": "1",
+   "toughness": "3"
   },
   {
    "name": "Unmake",
@@ -912,7 +936,9 @@
    ],
    "mana_cost": "{G}",
    "url": "https://scryfall.com/card/fdn/227/llanowar-elves?utm_source=api",
-   "oracle_text": "{T}: Add {G}."
+   "oracle_text": "{T}: Add {G}.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Verdant Catacombs",
@@ -958,7 +984,9 @@
    ],
    "mana_cost": "{1}{G}",
    "url": "https://scryfall.com/card/dom/186/untamed-kavu?utm_source=api",
-   "oracle_text": "Kicker {3} (You may pay an additional {3} as you cast this spell.)\nVigilance, trample\nIf this creature was kicked, it enters with three +1/+1 counters on it."
+   "oracle_text": "Kicker {3} (You may pay an additional {3} as you cast this spell.)\nVigilance, trample\nIf this creature was kicked, it enters with three +1/+1 counters on it.",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Gluttonous Slime",
@@ -978,7 +1006,9 @@
    ],
    "mana_cost": "{2}{G}",
    "url": "https://scryfall.com/card/pca/65/gluttonous-slime?utm_source=api",
-   "oracle_text": "Flash\nDevour 1 (As this creature enters, you may sacrifice any number of creatures. It enters with that many +1/+1 counters on it.)"
+   "oracle_text": "Flash\nDevour 1 (As this creature enters, you may sacrifice any number of creatures. It enters with that many +1/+1 counters on it.)",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Thornling",
@@ -999,7 +1029,9 @@
    ],
    "mana_cost": "{3}{G}{G}",
    "url": "https://scryfall.com/card/con/95/thornling?utm_source=api",
-   "oracle_text": "{G}: This creature gains haste until end of turn.\n{G}: This creature gains trample until end of turn.\n{G}: This creature gains indestructible until end of turn.\n{1}: This creature gets +1/-1 until end of turn.\n{1}: This creature gets -1/+1 until end of turn."
+   "oracle_text": "{G}: This creature gains haste until end of turn.\n{G}: This creature gains trample until end of turn.\n{G}: This creature gains indestructible until end of turn.\n{1}: This creature gets +1/-1 until end of turn.\n{1}: This creature gets -1/+1 until end of turn.",
+   "power": "4",
+   "toughness": "4"
   },
   {
    "name": "Edge of Autumn",
@@ -1138,7 +1170,9 @@
    ],
    "mana_cost": "{B}",
    "url": "https://scryfall.com/card/tdc/196/stitchers-supplier?utm_source=api",
-   "oracle_text": "When this creature enters or dies, mill three cards. (Put the top three cards of your library into your graveyard.)"
+   "oracle_text": "When this creature enters or dies, mill three cards. (Put the top three cards of your library into your graveyard.)",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Whisper, Blood Liturgist",
@@ -1160,7 +1194,9 @@
    ],
    "mana_cost": "{3}{B}",
    "url": "https://scryfall.com/card/cmm/198/whisper-blood-liturgist?utm_source=api",
-   "oracle_text": "{T}, Sacrifice two creatures: Return target creature card from your graveyard to the battlefield."
+   "oracle_text": "{T}, Sacrifice two creatures: Return target creature card from your graveyard to the battlefield.",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Doomgape",
@@ -1182,7 +1218,9 @@
    ],
    "mana_cost": "{4}{B/G}{B/G}{B/G}",
    "url": "https://scryfall.com/card/ddj/65/doomgape?utm_source=api",
-   "oracle_text": "Trample\nAt the beginning of your upkeep, sacrifice a creature. You gain life equal to that creature's toughness."
+   "oracle_text": "Trample\nAt the beginning of your upkeep, sacrifice a creature. You gain life equal to that creature's toughness.",
+   "power": "10",
+   "toughness": "10"
   },
   {
    "name": "Winds of Rebuke",

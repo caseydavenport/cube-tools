@@ -45,7 +45,9 @@
    ],
    "mana_cost": "{G}",
    "url": "https://scryfall.com/card/a25/160/arbor-elf?utm_source=api",
-   "oracle_text": "{T}: Untap target Forest."
+   "oracle_text": "{T}: Untap target Forest.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Untamed Kavu",
@@ -65,7 +67,9 @@
    ],
    "mana_cost": "{1}{G}",
    "url": "https://scryfall.com/card/dom/186/untamed-kavu?utm_source=api",
-   "oracle_text": "Kicker {3} (You may pay an additional {3} as you cast this spell.)\nVigilance, trample\nIf this creature was kicked, it enters with three +1/+1 counters on it."
+   "oracle_text": "Kicker {3} (You may pay an additional {3} as you cast this spell.)\nVigilance, trample\nIf this creature was kicked, it enters with three +1/+1 counters on it.",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Domri's Ambush",
@@ -402,7 +406,9 @@
    ],
    "mana_cost": "{1}{G}{W}",
    "url": "https://scryfall.com/card/ima/203/knight-of-the-reliquary?utm_source=api",
-   "oracle_text": "This creature gets +1/+1 for each land card in your graveyard.\n{T}, Sacrifice a Forest or Plains: Search your library for a land card, put it onto the battlefield, then shuffle."
+   "oracle_text": "This creature gets +1/+1 for each land card in your graveyard.\n{T}, Sacrifice a Forest or Plains: Search your library for a land card, put it onto the battlefield, then shuffle.",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Pollenbright Druid",
@@ -423,7 +429,9 @@
    ],
    "mana_cost": "{1}{G}",
    "url": "https://scryfall.com/card/cmm/312/pollenbright-druid?utm_source=api",
-   "oracle_text": "When this creature enters, choose one —\n• Put a +1/+1 counter on target creature.\n• Proliferate. (Choose any number of permanents and/or players, then give each another counter of each kind already there.)"
+   "oracle_text": "When this creature enters, choose one —\n• Put a +1/+1 counter on target creature.\n• Proliferate. (Choose any number of permanents and/or players, then give each another counter of each kind already there.)",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Gilded Goose",
@@ -443,7 +451,9 @@
    ],
    "mana_cost": "{G}",
    "url": "https://scryfall.com/card/moc/299/gilded-goose?utm_source=api",
-   "oracle_text": "Flying\nWhen this creature enters, create a Food token. (It's an artifact with \"{2}, {T}, Sacrifice this token: You gain 3 life.\")\n{1}{G}, {T}: Create a Food token.\n{T}, Sacrifice a Food: Add one mana of any color."
+   "oracle_text": "Flying\nWhen this creature enters, create a Food token. (It's an artifact with \"{2}, {T}, Sacrifice this token: You gain 3 life.\")\n{1}{G}, {T}: Create a Food token.\n{T}, Sacrifice a Food: Add one mana of any color.",
+   "power": "0",
+   "toughness": "2"
   },
   {
    "name": "Llanowar Elves",
@@ -464,7 +474,9 @@
    ],
    "mana_cost": "{G}",
    "url": "https://scryfall.com/card/fdn/227/llanowar-elves?utm_source=api",
-   "oracle_text": "{T}: Add {G}."
+   "oracle_text": "{T}: Add {G}.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Gold Myr",
@@ -483,7 +495,9 @@
    ],
    "mana_cost": "{2}",
    "url": "https://scryfall.com/card/nec/153/gold-myr?utm_source=api",
-   "oracle_text": "{T}: Add {W}."
+   "oracle_text": "{T}: Add {W}.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Beast Within",
@@ -521,7 +535,9 @@
    ],
    "mana_cost": "{3}{W}",
    "url": "https://scryfall.com/card/clb/694/galepowder-mage?utm_source=api",
-   "oracle_text": "Flying\nWhenever this creature attacks, exile another target creature. Return that card to the battlefield under its owner's control at the beginning of the next end step."
+   "oracle_text": "Flying\nWhenever this creature attacks, exile another target creature. Return that card to the battlefield under its owner's control at the beginning of the next end step.",
+   "power": "3",
+   "toughness": "3"
   },
   {
    "name": "Sunpetal Grove",
@@ -559,7 +575,9 @@
    ],
    "mana_cost": "{1}{R}{G}{G}",
    "url": "https://scryfall.com/card/c13/216/spellbreaker-behemoth?utm_source=api",
-   "oracle_text": "This spell can't be countered.\nCreature spells you control with power 5 or greater can't be countered."
+   "oracle_text": "This spell can't be countered.\nCreature spells you control with power 5 or greater can't be countered.",
+   "power": "5",
+   "toughness": "5"
   },
   {
    "name": "Dreadhorde Arcanist",
@@ -580,7 +598,9 @@
    ],
    "mana_cost": "{1}{R}",
    "url": "https://scryfall.com/card/war/125/dreadhorde-arcanist?utm_source=api",
-   "oracle_text": "Trample\nWhenever this creature attacks, you may cast target instant or sorcery card with mana value less than or equal to this creature's power from your graveyard without paying its mana cost. If that spell would be put into your graveyard, exile it instead."
+   "oracle_text": "Trample\nWhenever this creature attacks, you may cast target instant or sorcery card with mana value less than or equal to this creature's power from your graveyard without paying its mana cost. If that spell would be put into your graveyard, exile it instead.",
+   "power": "1",
+   "toughness": "3"
   },
   {
    "name": "Plains",
@@ -620,7 +640,9 @@
    ],
    "mana_cost": "{1}{G}",
    "url": "https://scryfall.com/card/2x2/143/devoted-druid?utm_source=api",
-   "oracle_text": "{T}: Add {G}.\nPut a -1/-1 counter on this creature: Untap this creature."
+   "oracle_text": "{T}: Add {G}.\nPut a -1/-1 counter on this creature: Untap this creature.",
+   "power": "0",
+   "toughness": "2"
   },
   {
    "name": "Terramorphic Expanse",
@@ -653,7 +675,9 @@
    ],
    "mana_cost": "{1}{G}",
    "url": "https://scryfall.com/card/fdn/232/scavenging-ooze?utm_source=api",
-   "oracle_text": "{G}: Exile target card from a graveyard. If it was a creature card, put a +1/+1 counter on this creature and you gain 1 life."
+   "oracle_text": "{G}: Exile target card from a graveyard. If it was a creature card, put a +1/+1 counter on this creature and you gain 1 life.",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Fortified Village",
@@ -689,7 +713,9 @@
    ],
    "mana_cost": "{3}{R}{R}",
    "url": "https://scryfall.com/card/tdc/232/siege-gang-commander?utm_source=api",
-   "oracle_text": "When this creature enters, create three 1/1 red Goblin creature tokens.\n{1}{R}, Sacrifice a Goblin: This creature deals 2 damage to any target."
+   "oracle_text": "When this creature enters, create three 1/1 red Goblin creature tokens.\n{1}{R}, Sacrifice a Goblin: This creature deals 2 damage to any target.",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Marwyn, the Nurturer",
@@ -711,7 +737,9 @@
    ],
    "mana_cost": "{2}{G}",
    "url": "https://scryfall.com/card/khc/68/marwyn-the-nurturer?utm_source=api",
-   "oracle_text": "Whenever another Elf you control enters, put a +1/+1 counter on Marwyn.\n{T}: Add an amount of {G} equal to Marwyn's power."
+   "oracle_text": "Whenever another Elf you control enters, put a +1/+1 counter on Marwyn.\n{T}: Add an amount of {G} equal to Marwyn's power.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Groundswell",

@@ -68,6 +68,8 @@
    "mana_cost": "{R}",
    "url": "https://scryfall.com/card/bro/144/monastery-swiftspear?utm_source=api",
    "oracle_text": "Haste\nProwess (Whenever you cast a noncreature spell, this creature gets +1/+1 until end of turn.)",
+   "power": "1",
+   "toughness": "2",
    "appearances": 1
   },
   {
@@ -115,6 +117,8 @@
    "mana_cost": "{1}{G} // {1}{R}",
    "url": "https://scryfall.com/card/woe/234/questing-druid-seek-the-beast?utm_source=api",
    "oracle_text": "",
+   "power": "1",
+   "toughness": "1",
    "appearances": 1
   },
   {
@@ -156,6 +160,8 @@
    "mana_cost": "{B}{R}",
    "url": "https://scryfall.com/card/war/194/dreadhorde-butcher?utm_source=api",
    "oracle_text": "Haste\nWhenever this creature deals combat damage to a player or planeswalker, put a +1/+1 counter on this creature.\nWhen this creature dies, it deals damage equal to its power to any target.",
+   "power": "1",
+   "toughness": "1",
    "appearances": 1
   },
   {
@@ -238,6 +244,8 @@
    "mana_cost": "{1}{G}",
    "url": "https://scryfall.com/card/cmm/312/pollenbright-druid?utm_source=api",
    "oracle_text": "When this creature enters, choose one —\n• Put a +1/+1 counter on target creature.\n• Proliferate. (Choose any number of permanents and/or players, then give each another counter of each kind already there.)",
+   "power": "1",
+   "toughness": "1",
    "appearances": 1
   },
   {
@@ -263,6 +271,8 @@
    "mana_cost": "{1}{B}{G}",
    "url": "https://scryfall.com/card/woe/205/greta-sweettooth-scourge?utm_source=api",
    "oracle_text": "When Greta enters, create a Food token. (It's an artifact with \"{2}, {T}, Sacrifice this token: You gain 3 life.\")\n{G}, Sacrifice a Food: Put a +1/+1 counter on target creature. Activate only as a sorcery.\n{1}{B}, Sacrifice a Food: You draw a card and you lose 1 life.",
+   "power": "3",
+   "toughness": "3",
    "appearances": 1
   },
   {
@@ -345,6 +355,8 @@
    "mana_cost": "{3}{R}{R}",
    "url": "https://scryfall.com/card/tdc/232/siege-gang-commander?utm_source=api",
    "oracle_text": "When this creature enters, create three 1/1 red Goblin creature tokens.\n{1}{R}, Sacrifice a Goblin: This creature deals 2 damage to any target.",
+   "power": "2",
+   "toughness": "2",
    "appearances": 1
   },
   {
@@ -403,6 +415,8 @@
    "mana_cost": "{G}",
    "url": "https://scryfall.com/card/fdn/227/llanowar-elves?utm_source=api",
    "oracle_text": "{T}: Add {G}.",
+   "power": "1",
+   "toughness": "1",
    "appearances": 1
   },
   {
@@ -424,6 +438,8 @@
    "mana_cost": "{2}{G}",
    "url": "https://scryfall.com/card/soi/212/inexorable-blob?utm_source=api",
    "oracle_text": "Delirium — Whenever this creature attacks, if there are four or more card types among cards in your graveyard, create a 3/3 green Ooze creature token that's tapped and attacking.",
+   "power": "3",
+   "toughness": "3",
    "appearances": 1
   },
   {
@@ -462,6 +478,8 @@
    "mana_cost": "{G}",
    "url": "https://scryfall.com/card/mh2/166/ignoble-hierarch?utm_source=api",
    "oracle_text": "Exalted (Whenever a creature you control attacks alone, that creature gets +1/+1 until end of turn.)\n{T}: Add {B}, {R}, or {G}.",
+   "power": "0",
+   "toughness": "1",
    "appearances": 1
   },
   {
@@ -484,6 +502,8 @@
    "mana_cost": "{2}{R}",
    "url": "https://scryfall.com/card/moc/287/krenko-tin-street-kingpin?utm_source=api",
    "oracle_text": "Whenever Krenko attacks, put a +1/+1 counter on it, then create a number of 1/1 red Goblin creature tokens equal to Krenko's power.",
+   "power": "1",
+   "toughness": "2",
    "appearances": 1
   },
   {
@@ -524,6 +544,8 @@
    "mana_cost": "{B}",
    "url": "https://scryfall.com/card/clb/740/bloodsoaked-champion?utm_source=api",
    "oracle_text": "This creature can't block.\nRaid — {1}{B}: Return this card from your graveyard to the battlefield. Activate only if you attacked this turn.",
+   "power": "2",
+   "toughness": "1",
    "appearances": 1
   },
   {
@@ -545,6 +567,8 @@
    "mana_cost": "{3}{R}{R}",
    "url": "https://scryfall.com/card/tdc/233/skarrgan-hellkite?utm_source=api",
    "oracle_text": "Riot (This creature enters with your choice of a +1/+1 counter or haste.)\nFlying\n{3}{R}: This creature deals 2 damage divided as you choose among one or two targets. Activate only if this creature has a +1/+1 counter on it.",
+   "power": "4",
+   "toughness": "4",
    "appearances": 1
   },
   {
@@ -619,6 +643,8 @@
    "mana_cost": "{3}{B}",
    "url": "https://scryfall.com/card/thb/112/pharikas-spawn?utm_source=api",
    "oracle_text": "Escape—{5}{B}, Exile three other cards from your graveyard. (You may cast this card from your graveyard for its escape cost.)\nThis creature escapes with two +1/+1 counters on it. When it enters this way, each opponent sacrifices a non-Gorgon creature of their choice.",
+   "power": "3",
+   "toughness": "4",
    "appearances": 1
   },
   {
@@ -1040,7 +1066,9 @@
    ],
    "mana_cost": "{U}{B}",
    "url": "https://scryfall.com/card/akh/206/shadowstorm-vizier?utm_source=api",
-   "oracle_text": "Flying\nWhenever you cycle or discard a card, this creature gets +1/+1 until end of turn."
+   "oracle_text": "Flying\nWhenever you cycle or discard a card, this creature gets +1/+1 until end of turn.",
+   "power": "1",
+   "toughness": "3"
   },
   {
    "name": "Pyroclasm",
@@ -1096,7 +1124,9 @@
    ],
    "mana_cost": "{1}{G}",
    "url": "https://scryfall.com/card/mkc/173/jolrael-mwonvuli-recluse?utm_source=api",
-   "oracle_text": "Whenever you draw your second card each turn, create a 2/2 green Cat creature token.\n{4}{G}{G}: Until end of turn, creatures you control have base power and toughness X/X, where X is the number of cards in your hand."
+   "oracle_text": "Whenever you draw your second card each turn, create a 2/2 green Cat creature token.\n{4}{G}{G}: Until end of turn, creatures you control have base power and toughness X/X, where X is the number of cards in your hand.",
+   "power": "1",
+   "toughness": "2"
   },
   {
    "name": "Demand Answers",
@@ -1134,7 +1164,9 @@
    ],
    "mana_cost": "{R}",
    "url": "https://scryfall.com/card/vma/179/orcish-lumberjack?utm_source=api",
-   "oracle_text": "{T}, Sacrifice a Forest: Add three mana in any combination of {R} and/or {G}."
+   "oracle_text": "{T}, Sacrifice a Forest: Add three mana in any combination of {R} and/or {G}.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Ravenous Squirrel",
@@ -1156,7 +1188,9 @@
    ],
    "mana_cost": "{B/G}",
    "url": "https://scryfall.com/card/mh2/211/ravenous-squirrel?utm_source=api",
-   "oracle_text": "Whenever you sacrifice an artifact or creature, put a +1/+1 counter on this creature.\n{1}{B}{G}, Sacrifice an artifact or creature: You gain 1 life and draw a card."
+   "oracle_text": "Whenever you sacrifice an artifact or creature, put a +1/+1 counter on this creature.\n{1}{B}{G}, Sacrifice an artifact or creature: You gain 1 life and draw a card.",
+   "power": "1",
+   "toughness": "1"
   }
  ]
 }

@@ -119,6 +119,8 @@
    "mana_cost": "{1}{W}",
    "url": "https://scryfall.com/card/otc/84/mistmeadow-skulk?utm_source=api",
    "oracle_text": "Lifelink, protection from mana value 3 or greater",
+   "power": "1",
+   "toughness": "1",
    "appearances": 1
   },
   {
@@ -155,6 +157,8 @@
    "mana_cost": "{1}{W}",
    "url": "https://scryfall.com/card/khm/6/clarion-spirit?utm_source=api",
    "oracle_text": "Whenever you cast your second spell each turn, create a 1/1 white Spirit creature token with flying.",
+   "power": "2",
+   "toughness": "2",
    "appearances": 1
   },
   {
@@ -177,6 +181,8 @@
    "mana_cost": "{3}{W}",
    "url": "https://scryfall.com/card/clb/694/galepowder-mage?utm_source=api",
    "oracle_text": "Flying\nWhenever this creature attacks, exile another target creature. Return that card to the battlefield under its owner's control at the beginning of the next end step.",
+   "power": "3",
+   "toughness": "3",
    "appearances": 1
   },
   {
@@ -198,6 +204,8 @@
    "mana_cost": "{4}{W}",
    "url": "https://scryfall.com/card/2x2/26/reveillark?utm_source=api",
    "oracle_text": "Flying\nWhen this creature leaves the battlefield, return up to two target creature cards with power 2 or less from your graveyard to the battlefield.\nEvoke {5}{W} (You may cast this spell for its evoke cost. If you do, it's sacrificed when it enters.)",
+   "power": "4",
+   "toughness": "3",
    "appearances": 1
   },
   {
@@ -273,6 +281,8 @@
    "mana_cost": "{1}{W}",
    "url": "https://scryfall.com/card/thb/12/eidolon-of-obstruction?utm_source=api",
    "oracle_text": "First strike\nLoyalty abilities of planeswalkers your opponents control cost {1} more to activate.",
+   "power": "2",
+   "toughness": "1",
    "appearances": 1
   },
   {
@@ -312,6 +322,8 @@
    "mana_cost": "{W}",
    "url": "https://scryfall.com/card/clb/702/mother-of-runes?utm_source=api",
    "oracle_text": "{T}: Target creature you control gains protection from the color of your choice until end of turn.",
+   "power": "1",
+   "toughness": "1",
    "appearances": 1
   },
   {
@@ -334,6 +346,8 @@
    "mana_cost": "{W}",
    "url": "https://scryfall.com/card/ddf/6/mosquito-guard?utm_source=api",
    "oracle_text": "First strike\nReinforce 1—{1}{W} ({1}{W}, Discard this card: Put a +1/+1 counter on target creature.)",
+   "power": "1",
+   "toughness": "1",
    "appearances": 1
   },
   {
@@ -435,6 +449,8 @@
    "mana_cost": "{G}{W}",
    "url": "https://scryfall.com/card/dom/204/shanna-sisays-legacy?utm_source=api",
    "oracle_text": "Shanna can't be the target of abilities your opponents control.\nShanna gets +1/+1 for each creature you control.",
+   "power": "0",
+   "toughness": "0",
    "appearances": 1
   },
   {
@@ -456,6 +472,8 @@
    "mana_cost": "{1}{G}",
    "url": "https://scryfall.com/card/dom/186/untamed-kavu?utm_source=api",
    "oracle_text": "Kicker {3} (You may pay an additional {3} as you cast this spell.)\nVigilance, trample\nIf this creature was kicked, it enters with three +1/+1 counters on it.",
+   "power": "2",
+   "toughness": "2",
    "appearances": 1
   },
   {
@@ -477,6 +495,8 @@
    "mana_cost": "{1}{G}",
    "url": "https://scryfall.com/card/tsr/235/tarmogoyf?utm_source=api",
    "oracle_text": "Tarmogoyf's power is equal to the number of card types among cards in all graveyards and its toughness is equal to that number plus 1.",
+   "power": "*",
+   "toughness": "1+*",
    "appearances": 1
   },
   {
@@ -500,6 +520,8 @@
    "mana_cost": "{1}{G}",
    "url": "https://scryfall.com/card/mkc/173/jolrael-mwonvuli-recluse?utm_source=api",
    "oracle_text": "Whenever you draw your second card each turn, create a 2/2 green Cat creature token.\n{4}{G}{G}: Until end of turn, creatures you control have base power and toughness X/X, where X is the number of cards in your hand.",
+   "power": "1",
+   "toughness": "2",
    "appearances": 1
   },
   {
@@ -523,6 +545,8 @@
    "mana_cost": "{1}{G} // {1}{G}",
    "url": "https://scryfall.com/card/woe/320/intrepid-trufflesnout-go-hog-wild?utm_source=api",
    "oracle_text": "",
+   "power": "3",
+   "toughness": "1",
    "appearances": 1
   },
   {
@@ -922,7 +946,9 @@
    ],
    "mana_cost": "{B}",
    "url": "https://scryfall.com/card/tdc/196/stitchers-supplier?utm_source=api",
-   "oracle_text": "When this creature enters or dies, mill three cards. (Put the top three cards of your library into your graveyard.)"
+   "oracle_text": "When this creature enters or dies, mill three cards. (Put the top three cards of your library into your graveyard.)",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Shadowstorm Vizier",
@@ -945,7 +971,9 @@
    ],
    "mana_cost": "{U}{B}",
    "url": "https://scryfall.com/card/akh/206/shadowstorm-vizier?utm_source=api",
-   "oracle_text": "Flying\nWhenever you cycle or discard a card, this creature gets +1/+1 until end of turn."
+   "oracle_text": "Flying\nWhenever you cycle or discard a card, this creature gets +1/+1 until end of turn.",
+   "power": "1",
+   "toughness": "3"
   },
   {
    "name": "Acidic Slime",
@@ -965,7 +993,9 @@
    ],
    "mana_cost": "{3}{G}{G}",
    "url": "https://scryfall.com/card/cmm/270/acidic-slime?utm_source=api",
-   "oracle_text": "Deathtouch (Any amount of damage this deals to a creature is enough to destroy it.)\nWhen this creature enters, destroy target artifact, enchantment, or land."
+   "oracle_text": "Deathtouch (Any amount of damage this deals to a creature is enough to destroy it.)\nWhen this creature enters, destroy target artifact, enchantment, or land.",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Oracle of Mul Daya",
@@ -986,7 +1016,9 @@
    ],
    "mana_cost": "{3}{G}",
    "url": "https://scryfall.com/card/eoc/102/oracle-of-mul-daya?utm_source=api",
-   "oracle_text": "You may play an additional land on each of your turns.\nPlay with the top card of your library revealed.\nYou may play lands from the top of your library."
+   "oracle_text": "You may play an additional land on each of your turns.\nPlay with the top card of your library revealed.\nYou may play lands from the top of your library.",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Lodestone Myr",
@@ -1003,7 +1035,9 @@
    "color_identity": [],
    "mana_cost": "{4}",
    "url": "https://scryfall.com/card/mm2/220/lodestone-myr?utm_source=api",
-   "oracle_text": "Trample\nTap an untapped artifact you control: This creature gets +1/+1 until end of turn."
+   "oracle_text": "Trample\nTap an untapped artifact you control: This creature gets +1/+1 until end of turn.",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Kellan, the Fae-Blooded // Birthright Boon",
@@ -1028,7 +1062,9 @@
    ],
    "mana_cost": "{2}{R} // {1}{W}",
    "url": "https://scryfall.com/card/woe/230/kellan-the-fae-blooded-birthright-boon?utm_source=api",
-   "oracle_text": ""
+   "oracle_text": "",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Hunting Triad",
@@ -1071,7 +1107,9 @@
    ],
    "mana_cost": "{1}{G/U}{G/U}",
    "url": "https://scryfall.com/card/eve/152/gilder-bairn?utm_source=api",
-   "oracle_text": "{2}{G/U}, {Q}: Double the number of each kind of counter on target permanent. ({Q} is the untap symbol.)"
+   "oracle_text": "{2}{G/U}, {Q}: Double the number of each kind of counter on target permanent. ({Q} is the untap symbol.)",
+   "power": "1",
+   "toughness": "3"
   },
   {
    "name": "Vampire Hexmage",
@@ -1092,7 +1130,9 @@
    ],
    "mana_cost": "{B}{B}",
    "url": "https://scryfall.com/card/2xm/112/vampire-hexmage?utm_source=api",
-   "oracle_text": "First strike\nSacrifice this creature: Remove all counters from target permanent."
+   "oracle_text": "First strike\nSacrifice this creature: Remove all counters from target permanent.",
+   "power": "2",
+   "toughness": "1"
   },
   {
    "name": "Canopy Vista",
@@ -1153,7 +1193,9 @@
    ],
    "mana_cost": "{G}",
    "url": "https://scryfall.com/card/fdn/227/llanowar-elves?utm_source=api",
-   "oracle_text": "{T}: Add {G}."
+   "oracle_text": "{T}: Add {G}.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Arbor Elf",
@@ -1174,7 +1216,9 @@
    ],
    "mana_cost": "{G}",
    "url": "https://scryfall.com/card/a25/160/arbor-elf?utm_source=api",
-   "oracle_text": "{T}: Untap target Forest."
+   "oracle_text": "{T}: Untap target Forest.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Gold Myr",
@@ -1193,7 +1237,9 @@
    ],
    "mana_cost": "{2}",
    "url": "https://scryfall.com/card/nec/153/gold-myr?utm_source=api",
-   "oracle_text": "{T}: Add {W}."
+   "oracle_text": "{T}: Add {W}.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Turn to Mist",
@@ -1249,7 +1295,9 @@
    ],
    "mana_cost": "{W}",
    "url": "https://scryfall.com/card/m11/15/goldenglow-moth?utm_source=api",
-   "oracle_text": "Flying\nWhenever this creature blocks, you may gain 4 life."
+   "oracle_text": "Flying\nWhenever this creature blocks, you may gain 4 life.",
+   "power": "0",
+   "toughness": "1"
   },
   {
    "name": "Oust",
@@ -1288,7 +1336,9 @@
    ],
    "mana_cost": "{2}{W}",
    "url": "https://scryfall.com/card/lcc/133/mavren-fein-dusk-apostle?utm_source=api",
-   "oracle_text": "Whenever one or more nontoken Vampires you control attack, create a 1/1 white Vampire creature token with lifelink."
+   "oracle_text": "Whenever one or more nontoken Vampires you control attack, create a 1/1 white Vampire creature token with lifelink.",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Kor Sanctifiers",
@@ -1309,7 +1359,9 @@
    ],
    "mana_cost": "{2}{W}",
    "url": "https://scryfall.com/card/c15/73/kor-sanctifiers?utm_source=api",
-   "oracle_text": "Kicker {W} (You may pay an additional {W} as you cast this spell.)\nWhen this creature enters, if it was kicked, destroy target artifact or enchantment."
+   "oracle_text": "Kicker {W} (You may pay an additional {W} as you cast this spell.)\nWhen this creature enters, if it was kicked, destroy target artifact or enchantment.",
+   "power": "2",
+   "toughness": "3"
   }
  ]
 }

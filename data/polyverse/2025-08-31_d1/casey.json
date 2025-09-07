@@ -36,7 +36,9 @@
    ],
    "mana_cost": "{2}{W}",
    "url": "https://scryfall.com/card/tdc/125/monastery-mentor?utm_source=api",
-   "oracle_text": "Prowess (Whenever you cast a noncreature spell, this creature gets +1/+1 until end of turn.)\nWhenever you cast a noncreature spell, create a 1/1 white Monk creature token with prowess."
+   "oracle_text": "Prowess (Whenever you cast a noncreature spell, this creature gets +1/+1 until end of turn.)\nWhenever you cast a noncreature spell, create a 1/1 white Monk creature token with prowess.",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Mana Leak",
@@ -162,7 +164,9 @@
    ],
    "mana_cost": "{4}{U}{U}",
    "url": "https://scryfall.com/card/cmm/128/torrential-gearhulk?utm_source=api",
-   "oracle_text": "Flash\nWhen this creature enters, you may cast target instant card from your graveyard without paying its mana cost. If that spell would be put into your graveyard, exile it instead."
+   "oracle_text": "Flash\nWhen this creature enters, you may cast target instant card from your graveyard without paying its mana cost. If that spell would be put into your graveyard, exile it instead.",
+   "power": "5",
+   "toughness": "6"
   },
   {
    "name": "Fact or Fiction",
@@ -199,7 +203,9 @@
    ],
    "mana_cost": "{2}{U}{U}",
    "url": "https://scryfall.com/card/fdn/51/sphinx-of-forgotten-lore?utm_source=api",
-   "oracle_text": "Flash (You may cast this spell any time you could cast an instant.)\nFlying\nWhenever this creature attacks, target instant or sorcery card in your graveyard gains flashback until end of turn. The flashback cost is equal to that card's mana cost. (You may cast that card from your graveyard for its flashback cost. Then exile it.)"
+   "oracle_text": "Flash (You may cast this spell any time you could cast an instant.)\nFlying\nWhenever this creature attacks, target instant or sorcery card in your graveyard gains flashback until end of turn. The flashback cost is equal to that card's mana cost. (You may cast that card from your graveyard for its flashback cost. Then exile it.)",
+   "power": "3",
+   "toughness": "3"
   },
   {
    "name": "Treasure Cruise",
@@ -237,7 +243,9 @@
    ],
    "mana_cost": "{1}{U}",
    "url": "https://scryfall.com/card/uma/71/snapcaster-mage?utm_source=api",
-   "oracle_text": "Flash\nWhen this creature enters, target instant or sorcery card in your graveyard gains flashback until end of turn. The flashback cost is equal to its mana cost. (You may cast that card from your graveyard for its flashback cost. Then exile it.)"
+   "oracle_text": "Flash\nWhen this creature enters, target instant or sorcery card in your graveyard gains flashback until end of turn. The flashback cost is equal to its mana cost. (You may cast that card from your graveyard for its flashback cost. Then exile it.)",
+   "power": "2",
+   "toughness": "1"
   },
   {
    "name": "Portable Hole",
@@ -359,7 +367,9 @@
    ],
    "mana_cost": "{1}{W}{W}",
    "url": "https://scryfall.com/card/woe/39/werefox-bodyguard?utm_source=api",
-   "oracle_text": "Flash\nWhen this creature enters, exile up to one other target non-Fox creature until this creature leaves the battlefield.\n{1}{W}, Sacrifice this creature: You gain 2 life."
+   "oracle_text": "Flash\nWhen this creature enters, exile up to one other target non-Fox creature until this creature leaves the battlefield.\n{1}{W}, Sacrifice this creature: You gain 2 life.",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Flooded Strand",
@@ -493,7 +503,9 @@
    ],
    "mana_cost": "{3}{W}",
    "url": "https://scryfall.com/card/inr/38/restoration-angel?utm_source=api",
-   "oracle_text": "Flash\nFlying\nWhen this creature enters, you may exile target non-Angel creature you control, then return that card to the battlefield under your control."
+   "oracle_text": "Flash\nFlying\nWhen this creature enters, you may exile target non-Angel creature you control, then return that card to the battlefield under your control.",
+   "power": "3",
+   "toughness": "4"
   },
   {
    "name": "Reprieve",
@@ -760,7 +772,9 @@
    ],
    "mana_cost": "{3}{B}{B}",
    "url": "https://scryfall.com/card/big/9/harvester-of-misery?utm_source=api",
-   "oracle_text": "Menace\nWhen this creature enters, other creatures get -2/-2 until end of turn.\n{1}{B}, Discard this card: Target creature gets -2/-2 until end of turn."
+   "oracle_text": "Menace\nWhen this creature enters, other creatures get -2/-2 until end of turn.\n{1}{B}, Discard this card: Target creature gets -2/-2 until end of turn.",
+   "power": "5",
+   "toughness": "4"
   },
   {
    "name": "Tidehollow Sculler",
@@ -783,7 +797,9 @@
    ],
    "mana_cost": "{W}{B}",
    "url": "https://scryfall.com/card/mma/184/tidehollow-sculler?utm_source=api",
-   "oracle_text": "When this creature enters, target opponent reveals their hand and you choose a nonland card from it. Exile that card.\nWhen this creature leaves the battlefield, return the exiled card to its owner's hand."
+   "oracle_text": "When this creature enters, target opponent reveals their hand and you choose a nonland card from it. Exile that card.\nWhen this creature leaves the battlefield, return the exiled card to its owner's hand.",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Thalia, Guardian of Thraben",
@@ -805,7 +821,9 @@
    ],
    "mana_cost": "{1}{W}",
    "url": "https://scryfall.com/card/vow/38/thalia-guardian-of-thraben?utm_source=api",
-   "oracle_text": "First strike\nNoncreature spells cost {1} more to cast."
+   "oracle_text": "First strike\nNoncreature spells cost {1} more to cast.",
+   "power": "2",
+   "toughness": "1"
   },
   {
    "name": "Cathar Commando",
@@ -826,7 +844,9 @@
    ],
    "mana_cost": "{1}{W}",
    "url": "https://scryfall.com/card/inr/15/cathar-commando?utm_source=api",
-   "oracle_text": "Flash\n{1}, Sacrifice this creature: Destroy target artifact or enchantment."
+   "oracle_text": "Flash\n{1}, Sacrifice this creature: Destroy target artifact or enchantment.",
+   "power": "3",
+   "toughness": "1"
   },
   {
    "name": "Inexorable Blob",
@@ -846,7 +866,9 @@
    ],
    "mana_cost": "{2}{G}",
    "url": "https://scryfall.com/card/soi/212/inexorable-blob?utm_source=api",
-   "oracle_text": "Delirium — Whenever this creature attacks, if there are four or more card types among cards in your graveyard, create a 3/3 green Ooze creature token that's tapped and attacking."
+   "oracle_text": "Delirium — Whenever this creature attacks, if there are four or more card types among cards in your graveyard, create a 3/3 green Ooze creature token that's tapped and attacking.",
+   "power": "3",
+   "toughness": "3"
   },
   {
    "name": "Dreamtide Whale",
@@ -866,7 +888,9 @@
    ],
    "mana_cost": "{2}{U}",
    "url": "https://scryfall.com/card/mh3/59/dreamtide-whale?utm_source=api",
-   "oracle_text": "Vanishing 2 (This creature enters with two time counters on it. At the beginning of your upkeep, remove a time counter from it. When the last is removed, sacrifice it.)\nWhenever a player casts their second spell each turn, proliferate. (Choose any number of permanents and/or players, then give each another counter of each kind already there.)"
+   "oracle_text": "Vanishing 2 (This creature enters with two time counters on it. At the beginning of your upkeep, remove a time counter from it. When the last is removed, sacrifice it.)\nWhenever a player casts their second spell each turn, proliferate. (Choose any number of permanents and/or players, then give each another counter of each kind already there.)",
+   "power": "7",
+   "toughness": "5"
   },
   {
    "name": "Cheeky House-Mouse // Squeak By",
@@ -888,7 +912,9 @@
    ],
    "mana_cost": "{W} // {W}",
    "url": "https://scryfall.com/card/woe/7/cheeky-house-mouse-squeak-by?utm_source=api",
-   "oracle_text": ""
+   "oracle_text": "",
+   "power": "2",
+   "toughness": "1"
   },
   {
    "name": "Collected Company",
@@ -971,7 +997,9 @@
    ],
    "mana_cost": "{G}{G}{W}{W}",
    "url": "https://scryfall.com/card/dft/191/brightglass-gearhulk?utm_source=api",
-   "oracle_text": "First strike, trample\nWhen this creature enters, you may search your library for up to two artifact, creature, and/or enchantment cards with mana value 1 or less, reveal them, put them into your hand, then shuffle."
+   "oracle_text": "First strike, trample\nWhen this creature enters, you may search your library for up to two artifact, creature, and/or enchantment cards with mana value 1 or less, reveal them, put them into your hand, then shuffle.",
+   "power": "4",
+   "toughness": "4"
   },
   {
    "name": "Luminarch Aspirant",
@@ -992,7 +1020,9 @@
    ],
    "mana_cost": "{1}{W}",
    "url": "https://scryfall.com/card/ncc/205/luminarch-aspirant?utm_source=api",
-   "oracle_text": "At the beginning of combat on your turn, put a +1/+1 counter on target creature you control."
+   "oracle_text": "At the beginning of combat on your turn, put a +1/+1 counter on target creature you control.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Kor Skyfisher",
@@ -1013,7 +1043,9 @@
    ],
    "mana_cost": "{1}{W}",
    "url": "https://scryfall.com/card/mm3/11/kor-skyfisher?utm_source=api",
-   "oracle_text": "Flying\nWhen this creature enters, return a permanent you control to its owner's hand."
+   "oracle_text": "Flying\nWhen this creature enters, return a permanent you control to its owner's hand.",
+   "power": "2",
+   "toughness": "3"
   },
   {
    "name": "Prismatic Ending",
@@ -1050,7 +1082,9 @@
    ],
    "mana_cost": "{2}{U}{U}",
    "url": "https://scryfall.com/card/afc/81/curator-of-mysteries?utm_source=api",
-   "oracle_text": "Flying\nWhenever you cycle or discard another card, scry 1.\nCycling {U} ({U}, Discard this card: Draw a card.)"
+   "oracle_text": "Flying\nWhenever you cycle or discard another card, scry 1.\nCycling {U} ({U}, Discard this card: Draw a card.)",
+   "power": "4",
+   "toughness": "4"
   },
   {
    "name": "Boseiju, Who Endures",
@@ -1086,7 +1120,9 @@
    ],
    "mana_cost": "{2}{W}{W}",
    "url": "https://scryfall.com/card/mma/22/meadowboon?utm_source=api",
-   "oracle_text": "When this creature leaves the battlefield, put a +1/+1 counter on each creature target player controls.\nEvoke {3}{W} (You may cast this spell for its evoke cost. If you do, it's sacrificed when it enters.)"
+   "oracle_text": "When this creature leaves the battlefield, put a +1/+1 counter on each creature target player controls.\nEvoke {3}{W} (You may cast this spell for its evoke cost. If you do, it's sacrificed when it enters.)",
+   "power": "3",
+   "toughness": "3"
   }
  ]
 }

@@ -46,7 +46,9 @@
    ],
    "mana_cost": "{R/W}{R/W}{R/W}{R/W}{R/W}",
    "url": "https://scryfall.com/card/mm2/195/nobilis-of-war?utm_source=api",
-   "oracle_text": "Flying\nAttacking creatures you control get +2/+0."
+   "oracle_text": "Flying\nAttacking creatures you control get +2/+0.",
+   "power": "3",
+   "toughness": "4"
   },
   {
    "name": "Ajani's Pridemate",
@@ -68,6 +70,8 @@
    "mana_cost": "{1}{W}",
    "url": "https://scryfall.com/card/fdn/135/ajanis-pridemate?utm_source=api",
    "oracle_text": "Whenever you gain life, put a +1/+1 counter on this creature.",
+   "power": "2",
+   "toughness": "2",
    "appearances": 1
   },
   {
@@ -89,6 +93,8 @@
    "mana_cost": "{3}{R}{R}",
    "url": "https://scryfall.com/card/tdc/233/skarrgan-hellkite?utm_source=api",
    "oracle_text": "Riot (This creature enters with your choice of a +1/+1 counter or haste.)\nFlying\n{3}{R}: This creature deals 2 damage divided as you choose among one or two targets. Activate only if this creature has a +1/+1 counter on it.",
+   "power": "4",
+   "toughness": "4",
    "appearances": 1
   },
   {
@@ -109,7 +115,9 @@
    ],
    "mana_cost": "{6}{W}{W}",
    "url": "https://scryfall.com/card/moc/170/angel-of-salvation?utm_source=api",
-   "oracle_text": "Flash; convoke (Your creatures can help cast this spell. Each creature you tap while casting this spell pays for {1} or one mana of that creature's color.)\nFlying\nWhen this creature enters, prevent the next 5 damage that would be dealt this turn to any number of targets, divided as you choose."
+   "oracle_text": "Flash; convoke (Your creatures can help cast this spell. Each creature you tap while casting this spell pays for {1} or one mana of that creature's color.)\nFlying\nWhen this creature enters, prevent the next 5 damage that would be dealt this turn to any number of targets, divided as you choose.",
+   "power": "5",
+   "toughness": "5"
   },
   {
    "name": "Arid Mesa",
@@ -166,6 +174,8 @@
    "mana_cost": "{2}{W}",
    "url": "https://scryfall.com/card/lcc/133/mavren-fein-dusk-apostle?utm_source=api",
    "oracle_text": "Whenever one or more nontoken Vampires you control attack, create a 1/1 white Vampire creature token with lifelink.",
+   "power": "2",
+   "toughness": "2",
    "appearances": 1
   },
   {
@@ -187,7 +197,9 @@
    ],
    "mana_cost": "{1}{W}",
    "url": "https://scryfall.com/card/ima/13/blinding-mage?utm_source=api",
-   "oracle_text": "{W}, {T}: Tap target creature."
+   "oracle_text": "{W}, {T}: Tap target creature.",
+   "power": "1",
+   "toughness": "2"
   },
   {
    "name": "Lizard Blades",
@@ -210,6 +222,8 @@
    "mana_cost": "{1}{R}",
    "url": "https://scryfall.com/card/neo/153/lizard-blades?utm_source=api",
    "oracle_text": "Double strike\nEquipped creature has double strike.\nReconfigure {2} ({2}: Attach to target creature you control; or unattach from a creature. Reconfigure only as a sorcery. While attached, this isn't a creature.)",
+   "power": "1",
+   "toughness": "1",
    "appearances": 1
   },
   {
@@ -232,6 +246,8 @@
    "mana_cost": "{W}",
    "url": "https://scryfall.com/card/mm3/24/soul-warden?utm_source=api",
    "oracle_text": "Whenever another creature enters, you gain 1 life.",
+   "power": "1",
+   "toughness": "1",
    "appearances": 1
   },
   {
@@ -268,6 +284,8 @@
    "mana_cost": "{1}",
    "url": "https://scryfall.com/card/dom/232/sparring-construct?utm_source=api",
    "oracle_text": "When this creature dies, put a +1/+1 counter on target creature you control.",
+   "power": "1",
+   "toughness": "1",
    "appearances": 1
   },
   {
@@ -365,6 +383,8 @@
    "mana_cost": "{1}{W}",
    "url": "https://scryfall.com/card/cmm/838/spirited-companion?utm_source=api",
    "oracle_text": "When this creature enters, draw a card.",
+   "power": "1",
+   "toughness": "1",
    "appearances": 1
   },
   {
@@ -387,6 +407,8 @@
    "mana_cost": "{1}{W}",
    "url": "https://scryfall.com/card/thb/12/eidolon-of-obstruction?utm_source=api",
    "oracle_text": "First strike\nLoyalty abilities of planeswalkers your opponents control cost {1} more to activate.",
+   "power": "2",
+   "toughness": "1",
    "appearances": 1
   },
   {
@@ -408,6 +430,8 @@
    "mana_cost": "{2}{W}{W}",
    "url": "https://scryfall.com/card/mma/22/meadowboon?utm_source=api",
    "oracle_text": "When this creature leaves the battlefield, put a +1/+1 counter on each creature target player controls.\nEvoke {3}{W} (You may cast this spell for its evoke cost. If you do, it's sacrificed when it enters.)",
+   "power": "3",
+   "toughness": "3",
    "appearances": 1
   },
   {
@@ -430,6 +454,8 @@
    "mana_cost": "{R}",
    "url": "https://scryfall.com/card/xln/157/rigging-runner?utm_source=api",
    "oracle_text": "First strike\nRaid — This creature enters with a +1/+1 counter on it if you attacked this turn.",
+   "power": "1",
+   "toughness": "1",
    "appearances": 1
   },
   {
@@ -456,6 +482,8 @@
    "mana_cost": "{2}{R} // {1}{W}",
    "url": "https://scryfall.com/card/woe/230/kellan-the-fae-blooded-birthright-boon?utm_source=api",
    "oracle_text": "",
+   "power": "2",
+   "toughness": "2",
    "appearances": 1
   },
   {
@@ -490,7 +518,9 @@
    ],
    "mana_cost": "{3}{W}",
    "url": "https://scryfall.com/card/clb/694/galepowder-mage?utm_source=api",
-   "oracle_text": "Flying\nWhenever this creature attacks, exile another target creature. Return that card to the battlefield under its owner's control at the beginning of the next end step."
+   "oracle_text": "Flying\nWhenever this creature attacks, exile another target creature. Return that card to the battlefield under its owner's control at the beginning of the next end step.",
+   "power": "3",
+   "toughness": "3"
   },
   {
    "name": "Cheeky House-Mouse // Squeak By",
@@ -513,6 +543,8 @@
    "mana_cost": "{W} // {W}",
    "url": "https://scryfall.com/card/woe/7/cheeky-house-mouse-squeak-by?utm_source=api",
    "oracle_text": "",
+   "power": "2",
+   "toughness": "1",
    "appearances": 1
   },
   {
@@ -535,6 +567,8 @@
    "mana_cost": "{2}{R}",
    "url": "https://scryfall.com/card/moc/287/krenko-tin-street-kingpin?utm_source=api",
    "oracle_text": "Whenever Krenko attacks, put a +1/+1 counter on it, then create a number of 1/1 red Goblin creature tokens equal to Krenko's power.",
+   "power": "1",
+   "toughness": "2",
    "appearances": 1
   },
   {
@@ -573,6 +607,8 @@
    "mana_cost": "{2}{R}",
    "url": "https://scryfall.com/card/roe/160/rage-nimbus?utm_source=api",
    "oracle_text": "Defender, flying\n{1}{R}: Target creature attacks this turn if able.",
+   "power": "5",
+   "toughness": "3",
    "appearances": 1
   },
   {
@@ -858,7 +894,9 @@
    ],
    "mana_cost": "{1}{U}{B}",
    "url": "https://scryfall.com/card/mom/227/halo-forager?utm_source=api",
-   "oracle_text": "Flying\nWhen this creature enters, you may pay {X}. When you do, you may cast target instant or sorcery card with mana value X from a graveyard without paying its mana cost. If that spell would be put into a graveyard, exile it instead."
+   "oracle_text": "Flying\nWhen this creature enters, you may pay {X}. When you do, you may cast target instant or sorcery card with mana value X from a graveyard without paying its mana cost. If that spell would be put into a graveyard, exile it instead.",
+   "power": "3",
+   "toughness": "1"
   },
   {
    "name": "Goldenglow Moth",
@@ -878,7 +916,9 @@
    ],
    "mana_cost": "{W}",
    "url": "https://scryfall.com/card/m11/15/goldenglow-moth?utm_source=api",
-   "oracle_text": "Flying\nWhenever this creature blocks, you may gain 4 life."
+   "oracle_text": "Flying\nWhenever this creature blocks, you may gain 4 life.",
+   "power": "0",
+   "toughness": "1"
   },
   {
    "name": "Severed Strands",
@@ -916,7 +956,9 @@
    ],
    "mana_cost": "{B}",
    "url": "https://scryfall.com/card/m20/105/knight-of-the-ebon-legion?utm_source=api",
-   "oracle_text": "{2}{B}: This creature gets +3/+3 and gains deathtouch until end of turn.\nAt the beginning of your end step, if a player lost 4 or more life this turn, put a +1/+1 counter on this creature. (Damage causes loss of life.)"
+   "oracle_text": "{2}{B}: This creature gets +3/+3 and gains deathtouch until end of turn.\nAt the beginning of your end step, if a player lost 4 or more life this turn, put a +1/+1 counter on this creature. (Damage causes loss of life.)",
+   "power": "1",
+   "toughness": "2"
   },
   {
    "name": "Zulaport Cutthroat",
@@ -938,7 +980,9 @@
    ],
    "mana_cost": "{1}{B}",
    "url": "https://scryfall.com/card/clb/775/zulaport-cutthroat?utm_source=api",
-   "oracle_text": "Whenever this creature or another creature you control dies, each opponent loses 1 life and you gain 1 life."
+   "oracle_text": "Whenever this creature or another creature you control dies, each opponent loses 1 life and you gain 1 life.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Fungal Infection",
@@ -1015,7 +1059,9 @@
    ],
    "mana_cost": "{2}{G}",
    "url": "https://scryfall.com/card/soi/212/inexorable-blob?utm_source=api",
-   "oracle_text": "Delirium — Whenever this creature attacks, if there are four or more card types among cards in your graveyard, create a 3/3 green Ooze creature token that's tapped and attacking."
+   "oracle_text": "Delirium — Whenever this creature attacks, if there are four or more card types among cards in your graveyard, create a 3/3 green Ooze creature token that's tapped and attacking.",
+   "power": "3",
+   "toughness": "3"
   },
   {
    "name": "Temple Garden",
@@ -1074,6 +1120,8 @@
    "mana_cost": "{2}",
    "url": "https://scryfall.com/card/som/146/copper-myr?utm_source=api",
    "oracle_text": "{T}: Add {G}.",
+   "power": "1",
+   "toughness": "1",
    "appearances": 1
   },
   {
@@ -1097,7 +1145,9 @@
    ],
    "mana_cost": "{2}{B/R}{B/R}",
    "url": "https://scryfall.com/card/uma/217/murderous-redcap?utm_source=api",
-   "oracle_text": "When this creature enters, it deals damage equal to its power to any target.\nPersist (When this creature dies, if it had no -1/-1 counters on it, return it to the battlefield under its owner's control with a -1/-1 counter on it.)"
+   "oracle_text": "When this creature enters, it deals damage equal to its power to any target.\nPersist (When this creature dies, if it had no -1/-1 counters on it, return it to the battlefield under its owner's control with a -1/-1 counter on it.)",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Mizzium Tank",
@@ -1117,7 +1167,9 @@
    ],
    "mana_cost": "{1}{R}{R}",
    "url": "https://scryfall.com/card/war/138/mizzium-tank?utm_source=api",
-   "oracle_text": "Trample\nWhenever you cast a noncreature spell, this Vehicle becomes an artifact creature and gets +1/+1 until end of turn.\nCrew 1 (Tap any number of creatures you control with total power 1 or more: This Vehicle becomes an artifact creature until end of turn.)"
+   "oracle_text": "Trample\nWhenever you cast a noncreature spell, this Vehicle becomes an artifact creature and gets +1/+1 until end of turn.\nCrew 1 (Tap any number of creatures you control with total power 1 or more: This Vehicle becomes an artifact creature until end of turn.)",
+   "power": "3",
+   "toughness": "2"
   },
   {
    "name": "Narrow Escape",
@@ -1156,7 +1208,9 @@
    ],
    "mana_cost": "{3}{R}",
    "url": "https://scryfall.com/card/neo/168/twinshot-sniper?utm_source=api",
-   "oracle_text": "Reach\nWhen this creature enters, it deals 2 damage to any target.\nChannel — {1}{R}, Discard this card: It deals 2 damage to any target."
+   "oracle_text": "Reach\nWhen this creature enters, it deals 2 damage to any target.\nChannel — {1}{R}, Discard this card: It deals 2 damage to any target.",
+   "power": "2",
+   "toughness": "3"
   },
   {
    "name": "Gold Myr",
@@ -1176,6 +1230,8 @@
    "mana_cost": "{2}",
    "url": "https://scryfall.com/card/nec/153/gold-myr?utm_source=api",
    "oracle_text": "{T}: Add {W}.",
+   "power": "1",
+   "toughness": "1",
    "appearances": 1
   },
   {
@@ -1196,7 +1252,9 @@
    ],
    "mana_cost": "{3}{R}{R}",
    "url": "https://scryfall.com/card/tdc/232/siege-gang-commander?utm_source=api",
-   "oracle_text": "When this creature enters, create three 1/1 red Goblin creature tokens.\n{1}{R}, Sacrifice a Goblin: This creature deals 2 damage to any target."
+   "oracle_text": "When this creature enters, create three 1/1 red Goblin creature tokens.\n{1}{R}, Sacrifice a Goblin: This creature deals 2 damage to any target.",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Hellkite Charger",
@@ -1216,7 +1274,9 @@
    ],
    "mana_cost": "{4}{R}{R}",
    "url": "https://scryfall.com/card/cmm/232/hellkite-charger?utm_source=api",
-   "oracle_text": "Flying, haste\nWhenever this creature attacks, you may pay {5}{R}{R}. If you do, untap all attacking creatures and after this phase, there is an additional combat phase."
+   "oracle_text": "Flying, haste\nWhenever this creature attacks, you may pay {5}{R}{R}. If you do, untap all attacking creatures and after this phase, there is an additional combat phase.",
+   "power": "5",
+   "toughness": "5"
   },
   {
    "name": "Inspiring Cleric",
@@ -1237,7 +1297,9 @@
    ],
    "mana_cost": "{2}{W}",
    "url": "https://scryfall.com/card/xln/16/inspiring-cleric?utm_source=api",
-   "oracle_text": "When this creature enters, you gain 4 life."
+   "oracle_text": "When this creature enters, you gain 4 life.",
+   "power": "3",
+   "toughness": "2"
   }
  ]
 }

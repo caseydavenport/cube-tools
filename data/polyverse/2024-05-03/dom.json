@@ -131,6 +131,8 @@
    "mana_cost": "{1}{U}{B}",
    "url": "https://scryfall.com/card/mom/227/halo-forager?utm_source=api",
    "oracle_text": "Flying\nWhen this creature enters, you may pay {X}. When you do, you may cast target instant or sorcery card with mana value X from a graveyard without paying its mana cost. If that spell would be put into a graveyard, exile it instead.",
+   "power": "3",
+   "toughness": "1",
    "appearances": 1
   },
   {
@@ -154,6 +156,8 @@
    "mana_cost": "{2}{B}",
    "url": "https://scryfall.com/card/woe/97/lord-skitter-sewer-king?utm_source=api",
    "oracle_text": "Whenever another Rat you control enters, exile up to one target card from an opponent's graveyard.\nAt the beginning of combat on your turn, create a 1/1 black Rat creature token with \"This token can't block.\"",
+   "power": "3",
+   "toughness": "3",
    "appearances": 1
   },
   {
@@ -242,6 +246,8 @@
    "mana_cost": "{2}",
    "url": "https://scryfall.com/card/neo/243/containment-construct?utm_source=api",
    "oracle_text": "Whenever you discard a card, you may exile that card from your graveyard. If you do, you may play that card this turn.",
+   "power": "2",
+   "toughness": "1",
    "appearances": 1
   },
   {
@@ -264,6 +270,8 @@
    "mana_cost": "{2}{R}",
    "url": "https://scryfall.com/card/moc/287/krenko-tin-street-kingpin?utm_source=api",
    "oracle_text": "Whenever Krenko attacks, put a +1/+1 counter on it, then create a number of 1/1 red Goblin creature tokens equal to Krenko's power.",
+   "power": "1",
+   "toughness": "2",
    "appearances": 1
   },
   {
@@ -375,6 +383,8 @@
    "mana_cost": "{2}{U}{U}",
    "url": "https://scryfall.com/card/afc/81/curator-of-mysteries?utm_source=api",
    "oracle_text": "Flying\nWhenever you cycle or discard another card, scry 1.\nCycling {U} ({U}, Discard this card: Draw a card.)",
+   "power": "4",
+   "toughness": "4",
    "appearances": 1
   },
   {
@@ -490,6 +500,8 @@
    "mana_cost": "{3}{R}",
    "url": "https://scryfall.com/card/neo/168/twinshot-sniper?utm_source=api",
    "oracle_text": "Reach\nWhen this creature enters, it deals 2 damage to any target.\nChannel — {1}{R}, Discard this card: It deals 2 damage to any target.",
+   "power": "2",
+   "toughness": "3",
    "appearances": 1
   },
   {
@@ -512,6 +524,8 @@
    "mana_cost": "{1}{R}{R}",
    "url": "https://scryfall.com/card/2x2/123/seasoned-pyromancer?utm_source=api",
    "oracle_text": "When this creature enters, discard two cards, then draw two cards. For each nonland card discarded this way, create a 1/1 red Elemental creature token.\n{3}{R}{R}, Exile this card from your graveyard: Create two 1/1 red Elemental creature tokens.",
+   "power": "2",
+   "toughness": "2",
    "appearances": 1
   },
   {
@@ -534,6 +548,8 @@
    "mana_cost": "{1}{U}",
    "url": "https://scryfall.com/card/afc/86/merfolk-looter?utm_source=api",
    "oracle_text": "{T}: Draw a card, then discard a card.",
+   "power": "1",
+   "toughness": "1",
    "appearances": 1
   },
   {
@@ -573,6 +589,8 @@
    "mana_cost": "{3}{R}{R}",
    "url": "https://scryfall.com/card/tdc/233/skarrgan-hellkite?utm_source=api",
    "oracle_text": "Riot (This creature enters with your choice of a +1/+1 counter or haste.)\nFlying\n{3}{R}: This creature deals 2 damage divided as you choose among one or two targets. Activate only if this creature has a +1/+1 counter on it.",
+   "power": "4",
+   "toughness": "4",
    "appearances": 1
   },
   {
@@ -594,6 +612,8 @@
    "mana_cost": "{3}{R}{R}",
    "url": "https://scryfall.com/card/tdc/232/siege-gang-commander?utm_source=api",
    "oracle_text": "When this creature enters, create three 1/1 red Goblin creature tokens.\n{1}{R}, Sacrifice a Goblin: This creature deals 2 damage to any target.",
+   "power": "2",
+   "toughness": "2",
    "appearances": 1
   },
   {
@@ -636,6 +656,8 @@
    "mana_cost": "{1}{R}",
    "url": "https://scryfall.com/card/vow/148/cemetery-gatekeeper?utm_source=api",
    "oracle_text": "First strike\nWhen this creature enters, exile a card from a graveyard.\nWhenever a player plays a land or casts a spell, if it shares a card type with the exiled card, this creature deals 2 damage to that player.",
+   "power": "2",
+   "toughness": "1",
    "appearances": 1
   },
   {
@@ -863,7 +885,9 @@
    ],
    "mana_cost": "{W}",
    "url": "https://scryfall.com/card/zen/36/steppe-lynx?utm_source=api",
-   "oracle_text": "Landfall — Whenever a land you control enters, this creature gets +2/+2 until end of turn."
+   "oracle_text": "Landfall — Whenever a land you control enters, this creature gets +2/+2 until end of turn.",
+   "power": "0",
+   "toughness": "1"
   },
   {
    "name": "Untamed Kavu",
@@ -883,7 +907,9 @@
    ],
    "mana_cost": "{1}{G}",
    "url": "https://scryfall.com/card/dom/186/untamed-kavu?utm_source=api",
-   "oracle_text": "Kicker {3} (You may pay an additional {3} as you cast this spell.)\nVigilance, trample\nIf this creature was kicked, it enters with three +1/+1 counters on it."
+   "oracle_text": "Kicker {3} (You may pay an additional {3} as you cast this spell.)\nVigilance, trample\nIf this creature was kicked, it enters with three +1/+1 counters on it.",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Intrepid Trufflesnout // Go Hog Wild",
@@ -905,7 +931,9 @@
    ],
    "mana_cost": "{1}{G} // {1}{G}",
    "url": "https://scryfall.com/card/woe/320/intrepid-trufflesnout-go-hog-wild?utm_source=api",
-   "oracle_text": ""
+   "oracle_text": "",
+   "power": "3",
+   "toughness": "1"
   },
   {
    "name": "Domri, Anarch of Bolas",
@@ -951,7 +979,9 @@
    ],
    "mana_cost": "{1}{G}{W}",
    "url": "https://scryfall.com/card/ima/203/knight-of-the-reliquary?utm_source=api",
-   "oracle_text": "This creature gets +1/+1 for each land card in your graveyard.\n{T}, Sacrifice a Forest or Plains: Search your library for a land card, put it onto the battlefield, then shuffle."
+   "oracle_text": "This creature gets +1/+1 for each land card in your graveyard.\n{T}, Sacrifice a Forest or Plains: Search your library for a land card, put it onto the battlefield, then shuffle.",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Greta, Sweettooth Scourge",
@@ -975,7 +1005,9 @@
    ],
    "mana_cost": "{1}{B}{G}",
    "url": "https://scryfall.com/card/woe/205/greta-sweettooth-scourge?utm_source=api",
-   "oracle_text": "When Greta enters, create a Food token. (It's an artifact with \"{2}, {T}, Sacrifice this token: You gain 3 life.\")\n{G}, Sacrifice a Food: Put a +1/+1 counter on target creature. Activate only as a sorcery.\n{1}{B}, Sacrifice a Food: You draw a card and you lose 1 life."
+   "oracle_text": "When Greta enters, create a Food token. (It's an artifact with \"{2}, {T}, Sacrifice this token: You gain 3 life.\")\n{G}, Sacrifice a Food: Put a +1/+1 counter on target creature. Activate only as a sorcery.\n{1}{B}, Sacrifice a Food: You draw a card and you lose 1 life.",
+   "power": "3",
+   "toughness": "3"
   },
   {
    "name": "Tireless Tracker",
@@ -996,7 +1028,9 @@
    ],
    "mana_cost": "{2}{G}",
    "url": "https://scryfall.com/card/eoc/110/tireless-tracker?utm_source=api",
-   "oracle_text": "Landfall — Whenever a land you control enters, investigate. (Create a Clue token. It's an artifact with \"{2}, Sacrifice this token: Draw a card.\")\nWhenever you sacrifice a Clue, put a +1/+1 counter on this creature."
+   "oracle_text": "Landfall — Whenever a land you control enters, investigate. (Create a Clue token. It's an artifact with \"{2}, Sacrifice this token: Draw a card.\")\nWhenever you sacrifice a Clue, put a +1/+1 counter on this creature.",
+   "power": "3",
+   "toughness": "2"
   },
   {
    "name": "Cankerbloom",
@@ -1017,7 +1051,9 @@
    ],
    "mana_cost": "{1}{G}",
    "url": "https://scryfall.com/card/one/161/cankerbloom?utm_source=api",
-   "oracle_text": "{1}, Sacrifice this creature: Choose one —\n• Destroy target artifact.\n• Destroy target enchantment.\n• Proliferate. (Choose any number of permanents and/or players, then give each another counter of each kind already there.)"
+   "oracle_text": "{1}, Sacrifice this creature: Choose one —\n• Destroy target artifact.\n• Destroy target enchantment.\n• Proliferate. (Choose any number of permanents and/or players, then give each another counter of each kind already there.)",
+   "power": "3",
+   "toughness": "2"
   },
   {
    "name": "The Binding of the Titans",
@@ -1198,7 +1234,9 @@
    ],
    "mana_cost": "{B}{R}",
    "url": "https://scryfall.com/card/war/194/dreadhorde-butcher?utm_source=api",
-   "oracle_text": "Haste\nWhenever this creature deals combat damage to a player or planeswalker, put a +1/+1 counter on this creature.\nWhen this creature dies, it deals damage equal to its power to any target."
+   "oracle_text": "Haste\nWhenever this creature deals combat damage to a player or planeswalker, put a +1/+1 counter on this creature.\nWhen this creature dies, it deals damage equal to its power to any target.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Faerie Guidemother // Gift of the Fae",
@@ -1220,7 +1258,9 @@
    ],
    "mana_cost": "{W} // {1}{W}",
    "url": "https://scryfall.com/card/eld/11/faerie-guidemother-gift-of-the-fae?utm_source=api",
-   "oracle_text": ""
+   "oracle_text": "",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Soul Snare",
@@ -1309,7 +1349,9 @@
    ],
    "mana_cost": "{W}",
    "url": "https://scryfall.com/card/clb/702/mother-of-runes?utm_source=api",
-   "oracle_text": "{T}: Target creature you control gains protection from the color of your choice until end of turn."
+   "oracle_text": "{T}: Target creature you control gains protection from the color of your choice until end of turn.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Tameshi, Reality Architect",
@@ -1332,7 +1374,9 @@
    ],
    "mana_cost": "{2}{U}",
    "url": "https://scryfall.com/card/neo/82/tameshi-reality-architect?utm_source=api",
-   "oracle_text": "Whenever one or more noncreature permanents are returned to hand, draw a card. This ability triggers only once each turn.\n{X}{W}, Return a land you control to its owner's hand: Return target artifact or enchantment card with mana value X or less from your graveyard to the battlefield. Activate only as a sorcery."
+   "oracle_text": "Whenever one or more noncreature permanents are returned to hand, draw a card. This ability triggers only once each turn.\n{X}{W}, Return a land you control to its owner's hand: Return target artifact or enchantment card with mana value X or less from your graveyard to the battlefield. Activate only as a sorcery.",
+   "power": "2",
+   "toughness": "3"
   },
   {
    "name": "Candy Trail",
@@ -1455,7 +1499,9 @@
    ],
    "mana_cost": "{2}{U}",
    "url": "https://scryfall.com/card/fdn/508/exclusion-mage?utm_source=api",
-   "oracle_text": "When this creature enters, return target creature an opponent controls to its owner's hand."
+   "oracle_text": "When this creature enters, return target creature an opponent controls to its owner's hand.",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Bloodchief's Thirst",
@@ -1493,7 +1539,9 @@
    ],
    "mana_cost": "{1}{B}",
    "url": "https://scryfall.com/card/a25/97/mesmeric-fiend?utm_source=api",
-   "oracle_text": "When this creature enters, target opponent reveals their hand and you choose a nonland card from it. Exile that card.\nWhen this creature leaves the battlefield, return the exiled card to its owner's hand."
+   "oracle_text": "When this creature enters, target opponent reveals their hand and you choose a nonland card from it. Exile that card.\nWhen this creature leaves the battlefield, return the exiled card to its owner's hand.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Murderous Redcap",
@@ -1516,7 +1564,9 @@
    ],
    "mana_cost": "{2}{B/R}{B/R}",
    "url": "https://scryfall.com/card/uma/217/murderous-redcap?utm_source=api",
-   "oracle_text": "When this creature enters, it deals damage equal to its power to any target.\nPersist (When this creature dies, if it had no -1/-1 counters on it, return it to the battlefield under its owner's control with a -1/-1 counter on it.)"
+   "oracle_text": "When this creature enters, it deals damage equal to its power to any target.\nPersist (When this creature dies, if it had no -1/-1 counters on it, return it to the battlefield under its owner's control with a -1/-1 counter on it.)",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Cut Down",
@@ -1606,7 +1656,9 @@
    ],
    "mana_cost": "{U}",
    "url": "https://scryfall.com/card/otc/109/pteramander?utm_source=api",
-   "oracle_text": "Flying\n{7}{U}: Adapt 4. This ability costs {1} less to activate for each instant and sorcery card in your graveyard. (If this creature has no +1/+1 counters on it, put four +1/+1 counters on it.)"
+   "oracle_text": "Flying\n{7}{U}: Adapt 4. This ability costs {1} less to activate for each instant and sorcery card in your graveyard. (If this creature has no +1/+1 counters on it, put four +1/+1 counters on it.)",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Zulaport Cutthroat",
@@ -1628,7 +1680,9 @@
    ],
    "mana_cost": "{1}{B}",
    "url": "https://scryfall.com/card/clb/775/zulaport-cutthroat?utm_source=api",
-   "oracle_text": "Whenever this creature or another creature you control dies, each opponent loses 1 life and you gain 1 life."
+   "oracle_text": "Whenever this creature or another creature you control dies, each opponent loses 1 life and you gain 1 life.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Treasure Cruise",

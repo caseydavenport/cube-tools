@@ -207,6 +207,8 @@
    "mana_cost": "{1}{U}",
    "url": "https://scryfall.com/card/rna/39/faerie-duelist?utm_source=api",
    "oracle_text": "Flash\nFlying\nWhen this creature enters, target creature an opponent controls gets -2/-0 until end of turn.",
+   "power": "1",
+   "toughness": "2",
    "appearances": 1
   },
   {
@@ -229,6 +231,8 @@
    "mana_cost": "{2}{U}",
    "url": "https://scryfall.com/card/fdn/508/exclusion-mage?utm_source=api",
    "oracle_text": "When this creature enters, return target creature an opponent controls to its owner's hand.",
+   "power": "2",
+   "toughness": "2",
    "appearances": 1
   },
   {
@@ -264,6 +268,8 @@
    "mana_cost": "{2}{U}{U}",
    "url": "https://scryfall.com/card/afc/81/curator-of-mysteries?utm_source=api",
    "oracle_text": "Flying\nWhenever you cycle or discard another card, scry 1.\nCycling {U} ({U}, Discard this card: Draw a card.)",
+   "power": "4",
+   "toughness": "4",
    "appearances": 1
   },
   {
@@ -306,6 +312,8 @@
    "mana_cost": "{3}{U}{U}",
    "url": "https://scryfall.com/card/zen/69/sphinx-of-lost-truths?utm_source=api",
    "oracle_text": "Kicker {1}{U} (You may pay an additional {1}{U} as you cast this spell.)\nFlying\nWhen this creature enters, draw three cards. Then if it wasn't kicked, discard three cards.",
+   "power": "3",
+   "toughness": "5",
    "appearances": 1
   },
   {
@@ -328,6 +336,8 @@
    "mana_cost": "{U}",
    "url": "https://scryfall.com/card/otc/109/pteramander?utm_source=api",
    "oracle_text": "Flying\n{7}{U}: Adapt 4. This ability costs {1} less to activate for each instant and sorcery card in your graveyard. (If this creature has no +1/+1 counters on it, put four +1/+1 counters on it.)",
+   "power": "1",
+   "toughness": "1",
    "appearances": 1
   },
   {
@@ -350,6 +360,8 @@
    "mana_cost": "{1}{U}",
    "url": "https://scryfall.com/card/uma/71/snapcaster-mage?utm_source=api",
    "oracle_text": "Flash\nWhen this creature enters, target instant or sorcery card in your graveyard gains flashback until end of turn. The flashback cost is equal to its mana cost. (You may cast that card from your graveyard for its flashback cost. Then exile it.)",
+   "power": "2",
+   "toughness": "1",
    "appearances": 1
   },
   {
@@ -389,6 +401,8 @@
    "mana_cost": "{2}{U}",
    "url": "https://scryfall.com/card/thb/79/vexing-gull?utm_source=api",
    "oracle_text": "Flash\nFlying",
+   "power": "2",
+   "toughness": "2",
    "appearances": 1
   },
   {
@@ -503,6 +517,8 @@
    "mana_cost": "{2}{U}",
    "url": "https://scryfall.com/card/cmd/48/gomazoa?utm_source=api",
    "oracle_text": "Defender, flying\n{T}: Put this creature and each creature it's blocking on top of their owners' libraries, then those players shuffle.",
+   "power": "0",
+   "toughness": "3",
    "appearances": 1
   },
   {
@@ -911,7 +927,9 @@
    ],
    "mana_cost": "{2}{R}",
    "url": "https://scryfall.com/card/roe/160/rage-nimbus?utm_source=api",
-   "oracle_text": "Defender, flying\n{1}{R}: Target creature attacks this turn if able."
+   "oracle_text": "Defender, flying\n{1}{R}: Target creature attacks this turn if able.",
+   "power": "5",
+   "toughness": "3"
   },
   {
    "name": "Misty Rainforest",
@@ -1051,7 +1069,9 @@
    ],
    "mana_cost": "{1}{U}",
    "url": "https://scryfall.com/card/afc/86/merfolk-looter?utm_source=api",
-   "oracle_text": "{T}: Draw a card, then discard a card."
+   "oracle_text": "{T}: Draw a card, then discard a card.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Censor",
@@ -1105,7 +1125,9 @@
    ],
    "mana_cost": "{3}{U}{U}",
    "url": "https://scryfall.com/card/tdc/166/river-kelpie?utm_source=api",
-   "oracle_text": "Whenever this creature or another permanent enters from a graveyard, draw a card.\nWhenever a player casts a spell from a graveyard, draw a card.\nPersist (When this creature dies, if it had no -1/-1 counters on it, return it to the battlefield under its owner's control with a -1/-1 counter on it.)"
+   "oracle_text": "Whenever this creature or another permanent enters from a graveyard, draw a card.\nWhenever a player casts a spell from a graveyard, draw a card.\nPersist (When this creature dies, if it had no -1/-1 counters on it, return it to the battlefield under its owner's control with a -1/-1 counter on it.)",
+   "power": "3",
+   "toughness": "3"
   },
   {
    "name": "Moon-Circuit Hacker",
@@ -1127,7 +1149,9 @@
    ],
    "mana_cost": "{1}{U}",
    "url": "https://scryfall.com/card/neo/67/moon-circuit-hacker?utm_source=api",
-   "oracle_text": "Ninjutsu {U} ({U}, Return an unblocked attacker you control to hand: Put this card onto the battlefield from your hand tapped and attacking.)\nWhenever this creature deals combat damage to a player, you may draw a card. If you do, discard a card unless this creature entered this turn."
+   "oracle_text": "Ninjutsu {U} ({U}, Return an unblocked attacker you control to hand: Put this card onto the battlefield from your hand tapped and attacking.)\nWhenever this creature deals combat damage to a player, you may draw a card. If you do, discard a card unless this creature entered this turn.",
+   "power": "2",
+   "toughness": "1"
   },
   {
    "name": "Winds of Rebuke",
@@ -1168,6 +1192,8 @@
    "mana_cost": "{2}{U}",
    "url": "https://scryfall.com/card/neo/82/tameshi-reality-architect?utm_source=api",
    "oracle_text": "Whenever one or more noncreature permanents are returned to hand, draw a card. This ability triggers only once each turn.\n{X}{W}, Return a land you control to its owner's hand: Return target artifact or enchantment card with mana value X or less from your graveyard to the battlefield. Activate only as a sorcery.",
+   "power": "2",
+   "toughness": "3",
    "appearances": 1
   }
  ]

@@ -70,7 +70,9 @@
    ],
    "mana_cost": "{2}{G}",
    "url": "https://scryfall.com/card/mh3/169/six?utm_source=api",
-   "oracle_text": "Reach\nWhenever Six attacks, mill three cards. You may put a land card from among them into your hand.\nDuring your turn, nonland permanent cards in your graveyard have retrace. (You may cast permanent cards from your graveyard by discarding a land card in addition to paying their other costs.)"
+   "oracle_text": "Reach\nWhenever Six attacks, mill three cards. You may put a land card from among them into your hand.\nDuring your turn, nonland permanent cards in your graveyard have retrace. (You may cast permanent cards from your graveyard by discarding a land card in addition to paying their other costs.)",
+   "power": "2",
+   "toughness": "4"
   },
   {
    "name": "Augur of Autumn",
@@ -91,7 +93,9 @@
    ],
    "mana_cost": "{1}{G}{G}",
    "url": "https://scryfall.com/card/eoc/92/augur-of-autumn?utm_source=api",
-   "oracle_text": "You may look at the top card of your library any time.\nYou may play lands from the top of your library.\nCoven — As long as you control three or more creatures with different powers, you may cast creature spells from the top of your library."
+   "oracle_text": "You may look at the top card of your library any time.\nYou may play lands from the top of your library.\nCoven — As long as you control three or more creatures with different powers, you may cast creature spells from the top of your library.",
+   "power": "2",
+   "toughness": "3"
   },
   {
    "name": "Wrenn and Six",
@@ -134,7 +138,9 @@
    ],
    "mana_cost": "{1}{G}",
    "url": "https://scryfall.com/card/znr/193/lotus-cobra?utm_source=api",
-   "oracle_text": "Landfall — Whenever a land you control enters, add one mana of any color."
+   "oracle_text": "Landfall — Whenever a land you control enters, add one mana of any color.",
+   "power": "2",
+   "toughness": "1"
   },
   {
    "name": "Wooded Foothills",
@@ -169,7 +175,9 @@
    ],
    "mana_cost": "{2}{G}{G}",
    "url": "https://scryfall.com/card/thb/196/renata-called-to-the-hunt?utm_source=api",
-   "oracle_text": "Renata's power is equal to your devotion to green. (Each {G} in the mana costs of permanents you control counts toward your devotion to green.)\nEach other creature you control enters with an additional +1/+1 counter on it."
+   "oracle_text": "Renata's power is equal to your devotion to green. (Each {G} in the mana costs of permanents you control counts toward your devotion to green.)\nEach other creature you control enters with an additional +1/+1 counter on it.",
+   "power": "*",
+   "toughness": "3"
   },
   {
    "name": "Stomping Ground",
@@ -212,7 +220,9 @@
    ],
    "mana_cost": "{2}{B/R}{B/R}",
    "url": "https://scryfall.com/card/uma/217/murderous-redcap?utm_source=api",
-   "oracle_text": "When this creature enters, it deals damage equal to its power to any target.\nPersist (When this creature dies, if it had no -1/-1 counters on it, return it to the battlefield under its owner's control with a -1/-1 counter on it.)"
+   "oracle_text": "When this creature enters, it deals damage equal to its power to any target.\nPersist (When this creature dies, if it had no -1/-1 counters on it, return it to the battlefield under its owner's control with a -1/-1 counter on it.)",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Goblin Bombardment",
@@ -251,7 +261,9 @@
    ],
    "mana_cost": "{1}{B}{R}",
    "url": "https://scryfall.com/card/eoc/121/mayhem-devil?utm_source=api",
-   "oracle_text": "Whenever a player sacrifices a permanent, this creature deals 1 damage to any target."
+   "oracle_text": "Whenever a player sacrifices a permanent, this creature deals 1 damage to any target.",
+   "power": "3",
+   "toughness": "3"
   },
   {
    "name": "Tireless Tracker",
@@ -272,7 +284,9 @@
    ],
    "mana_cost": "{2}{G}",
    "url": "https://scryfall.com/card/eoc/110/tireless-tracker?utm_source=api",
-   "oracle_text": "Landfall — Whenever a land you control enters, investigate. (Create a Clue token. It's an artifact with \"{2}, Sacrifice this token: Draw a card.\")\nWhenever you sacrifice a Clue, put a +1/+1 counter on this creature."
+   "oracle_text": "Landfall — Whenever a land you control enters, investigate. (Create a Clue token. It's an artifact with \"{2}, Sacrifice this token: Draw a card.\")\nWhenever you sacrifice a Clue, put a +1/+1 counter on this creature.",
+   "power": "3",
+   "toughness": "2"
   },
   {
    "name": "Tasigur, the Golden Fang",
@@ -296,7 +310,9 @@
    ],
    "mana_cost": "{5}{B}",
    "url": "https://scryfall.com/card/tdc/197/tasigur-the-golden-fang?utm_source=api",
-   "oracle_text": "Delve (Each card you exile from your graveyard while casting this spell pays for {1}.)\n{2}{G/U}{G/U}: Mill two cards, then return a nonland card of an opponent's choice from your graveyard to your hand."
+   "oracle_text": "Delve (Each card you exile from your graveyard while casting this spell pays for {1}.)\n{2}{G/U}{G/U}: Mill two cards, then return a nonland card of an opponent's choice from your graveyard to your hand.",
+   "power": "4",
+   "toughness": "5"
   },
   {
    "name": "Languish",
@@ -352,7 +368,9 @@
    ],
    "mana_cost": "{2}{B}",
    "url": "https://scryfall.com/card/woe/97/lord-skitter-sewer-king?utm_source=api",
-   "oracle_text": "Whenever another Rat you control enters, exile up to one target card from an opponent's graveyard.\nAt the beginning of combat on your turn, create a 1/1 black Rat creature token with \"This token can't block.\""
+   "oracle_text": "Whenever another Rat you control enters, exile up to one target card from an opponent's graveyard.\nAt the beginning of combat on your turn, create a 1/1 black Rat creature token with \"This token can't block.\"",
+   "power": "3",
+   "toughness": "3"
   },
   {
    "name": "Ulcerate",
@@ -426,7 +444,9 @@
    ],
    "mana_cost": "{G}",
    "url": "https://scryfall.com/card/moc/299/gilded-goose?utm_source=api",
-   "oracle_text": "Flying\nWhen this creature enters, create a Food token. (It's an artifact with \"{2}, {T}, Sacrifice this token: You gain 3 life.\")\n{1}{G}, {T}: Create a Food token.\n{T}, Sacrifice a Food: Add one mana of any color."
+   "oracle_text": "Flying\nWhen this creature enters, create a Food token. (It's an artifact with \"{2}, {T}, Sacrifice this token: You gain 3 life.\")\n{1}{G}, {T}: Create a Food token.\n{T}, Sacrifice a Food: Add one mana of any color.",
+   "power": "0",
+   "toughness": "2"
   },
   {
    "name": "The Huntsman's Redemption",
@@ -467,7 +487,9 @@
    ],
    "mana_cost": "{2}{R}",
    "url": "https://scryfall.com/card/moc/287/krenko-tin-street-kingpin?utm_source=api",
-   "oracle_text": "Whenever Krenko attacks, put a +1/+1 counter on it, then create a number of 1/1 red Goblin creature tokens equal to Krenko's power."
+   "oracle_text": "Whenever Krenko attacks, put a +1/+1 counter on it, then create a number of 1/1 red Goblin creature tokens equal to Krenko's power.",
+   "power": "1",
+   "toughness": "2"
   },
   {
    "name": "Ignoble Hierarch",
@@ -490,7 +512,9 @@
    ],
    "mana_cost": "{G}",
    "url": "https://scryfall.com/card/mh2/166/ignoble-hierarch?utm_source=api",
-   "oracle_text": "Exalted (Whenever a creature you control attacks alone, that creature gets +1/+1 until end of turn.)\n{T}: Add {B}, {R}, or {G}."
+   "oracle_text": "Exalted (Whenever a creature you control attacks alone, that creature gets +1/+1 until end of turn.)\n{T}: Add {B}, {R}, or {G}.",
+   "power": "0",
+   "toughness": "1"
   },
   {
    "name": "Mountain",
@@ -583,7 +607,9 @@
    ],
    "mana_cost": "{3}{G}",
    "url": "https://scryfall.com/card/khm/169/esikas-chariot?utm_source=api",
-   "oracle_text": "When Esika's Chariot enters, create two 2/2 green Cat creature tokens.\nWhenever Esika's Chariot attacks, create a token that's a copy of target token you control.\nCrew 4"
+   "oracle_text": "When Esika's Chariot enters, create two 2/2 green Cat creature tokens.\nWhenever Esika's Chariot attacks, create a token that's a copy of target token you control.\nCrew 4",
+   "power": "4",
+   "toughness": "4"
   },
   {
    "name": "Flame Slash",
@@ -718,7 +744,9 @@
    ],
    "mana_cost": "{1}{B}",
    "url": "https://scryfall.com/card/fin/94/dark-confidant?utm_source=api",
-   "oracle_text": "At the beginning of your upkeep, reveal the top card of your library and put that card into your hand. You lose life equal to its mana value."
+   "oracle_text": "At the beginning of your upkeep, reveal the top card of your library and put that card into your hand. You lose life equal to its mana value.",
+   "power": "2",
+   "toughness": "1"
   },
   {
    "name": "Prismatic Vista",
@@ -868,7 +896,9 @@
    ],
    "mana_cost": "{2}{U}",
    "url": "https://scryfall.com/card/mma/59/pestermite?utm_source=api",
-   "oracle_text": "Flash\nFlying\nWhen this creature enters, you may tap or untap target permanent."
+   "oracle_text": "Flash\nFlying\nWhen this creature enters, you may tap or untap target permanent.",
+   "power": "2",
+   "toughness": "1"
   },
   {
    "name": "Kitchen Finks",
@@ -890,7 +920,9 @@
    ],
    "mana_cost": "{1}{G/W}{G/W}",
    "url": "https://scryfall.com/card/uma/216/kitchen-finks?utm_source=api",
-   "oracle_text": "When this creature enters, you gain 2 life.\nPersist (When this creature dies, if it had no -1/-1 counters on it, return it to the battlefield under its owner's control with a -1/-1 counter on it.)"
+   "oracle_text": "When this creature enters, you gain 2 life.\nPersist (When this creature dies, if it had no -1/-1 counters on it, return it to the battlefield under its owner's control with a -1/-1 counter on it.)",
+   "power": "3",
+   "toughness": "2"
   },
   {
    "name": "Llanowar Elves",
@@ -911,7 +943,9 @@
    ],
    "mana_cost": "{G}",
    "url": "https://scryfall.com/card/fdn/227/llanowar-elves?utm_source=api",
-   "oracle_text": "{T}: Add {G}."
+   "oracle_text": "{T}: Add {G}.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Fact or Fiction",
@@ -949,7 +983,9 @@
    ],
    "mana_cost": "{W}",
    "url": "https://scryfall.com/card/ddf/6/mosquito-guard?utm_source=api",
-   "oracle_text": "First strike\nReinforce 1—{1}{W} ({1}{W}, Discard this card: Put a +1/+1 counter on target creature.)"
+   "oracle_text": "First strike\nReinforce 1—{1}{W} ({1}{W}, Discard this card: Put a +1/+1 counter on target creature.)",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Mystic Sanctuary",
@@ -1058,7 +1094,9 @@
    ],
    "mana_cost": "{1}{G}",
    "url": "https://scryfall.com/card/dmu/175/quirion-beastcaller?utm_source=api",
-   "oracle_text": "Whenever you cast a creature spell, put a +1/+1 counter on this creature.\nWhen this creature dies, distribute X +1/+1 counters among any number of target creatures you control, where X is the number of +1/+1 counters on this creature."
+   "oracle_text": "Whenever you cast a creature spell, put a +1/+1 counter on this creature.\nWhen this creature dies, distribute X +1/+1 counters among any number of target creatures you control, where X is the number of +1/+1 counters on this creature.",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Searslicer Goblin",
@@ -1079,7 +1117,9 @@
    ],
    "mana_cost": "{1}{R}",
    "url": "https://scryfall.com/card/fdn/93/searslicer-goblin?utm_source=api",
-   "oracle_text": "Raid — At the beginning of your end step, if you attacked this turn, create a 1/1 red Goblin creature token."
+   "oracle_text": "Raid — At the beginning of your end step, if you attacked this turn, create a 1/1 red Goblin creature token.",
+   "power": "2",
+   "toughness": "1"
   },
   {
    "name": "Tidehollow Sculler",
@@ -1102,7 +1142,9 @@
    ],
    "mana_cost": "{W}{B}",
    "url": "https://scryfall.com/card/mma/184/tidehollow-sculler?utm_source=api",
-   "oracle_text": "When this creature enters, target opponent reveals their hand and you choose a nonland card from it. Exile that card.\nWhen this creature leaves the battlefield, return the exiled card to its owner's hand."
+   "oracle_text": "When this creature enters, target opponent reveals their hand and you choose a nonland card from it. Exile that card.\nWhen this creature leaves the battlefield, return the exiled card to its owner's hand.",
+   "power": "2",
+   "toughness": "2"
   }
  ]
 }

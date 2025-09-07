@@ -52,7 +52,9 @@
    ],
    "mana_cost": "{3}{R}{R}",
    "url": "https://scryfall.com/card/tdc/232/siege-gang-commander?utm_source=api",
-   "oracle_text": "When this creature enters, create three 1/1 red Goblin creature tokens.\n{1}{R}, Sacrifice a Goblin: This creature deals 2 damage to any target."
+   "oracle_text": "When this creature enters, create three 1/1 red Goblin creature tokens.\n{1}{R}, Sacrifice a Goblin: This creature deals 2 damage to any target.",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Perilous Myr",
@@ -70,7 +72,9 @@
    "color_identity": [],
    "mana_cost": "{2}",
    "url": "https://scryfall.com/card/cmr/330/perilous-myr?utm_source=api",
-   "oracle_text": "When this creature dies, it deals 2 damage to any target."
+   "oracle_text": "When this creature dies, it deals 2 damage to any target.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Mogg War Marshal",
@@ -91,7 +95,9 @@
    ],
    "mana_cost": "{1}{R}",
    "url": "https://scryfall.com/card/dmr/131/mogg-war-marshal?utm_source=api",
-   "oracle_text": "Echo {1}{R} (At the beginning of your upkeep, if this came under your control since the beginning of your last upkeep, sacrifice it unless you pay its echo cost.)\nWhen this creature enters or dies, create a 1/1 red Goblin creature token."
+   "oracle_text": "Echo {1}{R} (At the beginning of your upkeep, if this came under your control since the beginning of your last upkeep, sacrifice it unless you pay its echo cost.)\nWhen this creature enters or dies, create a 1/1 red Goblin creature token.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Makeshift Munitions",
@@ -128,7 +134,9 @@
    ],
    "mana_cost": "{3}{B}",
    "url": "https://scryfall.com/card/mm2/93/scavenger-drake?utm_source=api",
-   "oracle_text": "Flying\nWhenever another creature dies, you may put a +1/+1 counter on this creature."
+   "oracle_text": "Flying\nWhenever another creature dies, you may put a +1/+1 counter on this creature.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Tibalt's Rager",
@@ -148,7 +156,9 @@
    ],
    "mana_cost": "{1}{R}",
    "url": "https://scryfall.com/card/jmp/366/tibalts-rager?utm_source=api",
-   "oracle_text": "When this creature dies, it deals 1 damage to any target.\n{1}{R}: This creature gets +2/+0 until end of turn."
+   "oracle_text": "When this creature dies, it deals 1 damage to any target.\n{1}{R}: This creature gets +2/+0 until end of turn.",
+   "power": "1",
+   "toughness": "2"
   },
   {
    "name": "Fateful End",
@@ -220,7 +230,9 @@
    ],
    "mana_cost": "{R}",
    "url": "https://scryfall.com/card/war/130/grim-initiate?utm_source=api",
-   "oracle_text": "First strike\nWhen this creature dies, amass Zombies 1. (Put a +1/+1 counter on an Army you control. It's also a Zombie. If you don't control an Army, create a 0/0 black Zombie Army creature token first.)"
+   "oracle_text": "First strike\nWhen this creature dies, amass Zombies 1. (Put a +1/+1 counter on an Army you control. It's also a Zombie. If you don't control an Army, create a 0/0 black Zombie Army creature token first.)",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Marsh Flats",
@@ -255,7 +267,9 @@
    ],
    "mana_cost": "{1}{B}",
    "url": "https://scryfall.com/card/clb/775/zulaport-cutthroat?utm_source=api",
-   "oracle_text": "Whenever this creature or another creature you control dies, each opponent loses 1 life and you gain 1 life."
+   "oracle_text": "Whenever this creature or another creature you control dies, each opponent loses 1 life and you gain 1 life.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Murderous Redcap",
@@ -278,7 +292,9 @@
    ],
    "mana_cost": "{2}{B/R}{B/R}",
    "url": "https://scryfall.com/card/uma/217/murderous-redcap?utm_source=api",
-   "oracle_text": "When this creature enters, it deals damage equal to its power to any target.\nPersist (When this creature dies, if it had no -1/-1 counters on it, return it to the battlefield under its owner's control with a -1/-1 counter on it.)"
+   "oracle_text": "When this creature enters, it deals damage equal to its power to any target.\nPersist (When this creature dies, if it had no -1/-1 counters on it, return it to the battlefield under its owner's control with a -1/-1 counter on it.)",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Rigging Runner",
@@ -299,7 +315,9 @@
    ],
    "mana_cost": "{R}",
    "url": "https://scryfall.com/card/xln/157/rigging-runner?utm_source=api",
-   "oracle_text": "First strike\nRaid — This creature enters with a +1/+1 counter on it if you attacked this turn."
+   "oracle_text": "First strike\nRaid — This creature enters with a +1/+1 counter on it if you attacked this turn.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Quest for the Gravelord",
@@ -353,7 +371,9 @@
    ],
    "mana_cost": "{2}{R}",
    "url": "https://scryfall.com/card/war/124/devouring-hellion?utm_source=api",
-   "oracle_text": "As this creature enters, you may sacrifice any number of creatures and/or planeswalkers. If you do, it enters with twice that many +1/+1 counters on it."
+   "oracle_text": "As this creature enters, you may sacrifice any number of creatures and/or planeswalkers. If you do, it enters with twice that many +1/+1 counters on it.",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Arid Mesa",
@@ -433,7 +453,9 @@
    ],
    "mana_cost": "{B}{B}",
    "url": "https://scryfall.com/card/dft/77/bloodghast?utm_source=api",
-   "oracle_text": "This creature can't block.\nThis creature has haste as long as an opponent has 10 or less life.\nLandfall — Whenever a land you control enters, you may return this card from your graveyard to the battlefield."
+   "oracle_text": "This creature can't block.\nThis creature has haste as long as an opponent has 10 or less life.\nLandfall — Whenever a land you control enters, you may return this card from your graveyard to the battlefield.",
+   "power": "2",
+   "toughness": "1"
   },
   {
    "name": "Festering Mummy",
@@ -453,7 +475,9 @@
    ],
    "mana_cost": "{B}",
    "url": "https://scryfall.com/card/akh/91/festering-mummy?utm_source=api",
-   "oracle_text": "When this creature dies, you may put a -1/-1 counter on target creature."
+   "oracle_text": "When this creature dies, you may put a -1/-1 counter on target creature.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Punishing Fire",
@@ -509,7 +533,9 @@
    ],
    "mana_cost": "{R}",
    "url": "https://scryfall.com/card/neo/157/rabbit-battery?utm_source=api",
-   "oracle_text": "Haste\nEquipped creature gets +1/+1 and has haste.\nReconfigure {R} ({R}: Attach to target creature you control; or unattach from a creature. Reconfigure only as a sorcery. While attached, this isn't a creature.)"
+   "oracle_text": "Haste\nEquipped creature gets +1/+1 and has haste.\nReconfigure {R} ({R}: Attach to target creature you control; or unattach from a creature. Reconfigure only as a sorcery. While attached, this isn't a creature.)",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Bolas's Citadel",
@@ -816,7 +842,9 @@
    ],
    "mana_cost": "{1}{U}",
    "url": "https://scryfall.com/card/afc/86/merfolk-looter?utm_source=api",
-   "oracle_text": "{T}: Draw a card, then discard a card."
+   "oracle_text": "{T}: Draw a card, then discard a card.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Devoted Crop-Mate",
@@ -837,7 +865,9 @@
    ],
    "mana_cost": "{2}{W}",
    "url": "https://scryfall.com/card/akh/10/devoted-crop-mate?utm_source=api",
-   "oracle_text": "You may exert this creature as it attacks. When you do, return target creature card with mana value 2 or less from your graveyard to the battlefield. (An exerted creature won't untap during your next untap step.)"
+   "oracle_text": "You may exert this creature as it attacks. When you do, return target creature card with mana value 2 or less from your graveyard to the battlefield. (An exerted creature won't untap during your next untap step.)",
+   "power": "3",
+   "toughness": "2"
   },
   {
    "name": "Raise the Alarm",
@@ -907,7 +937,9 @@
    ],
    "mana_cost": "{1}{W}",
    "url": "https://scryfall.com/card/eve/12/patrol-signaler?utm_source=api",
-   "oracle_text": "{1}{W}, {Q}: Create a 1/1 white Kithkin Soldier creature token. ({Q} is the untap symbol.)"
+   "oracle_text": "{1}{W}, {Q}: Create a 1/1 white Kithkin Soldier creature token. ({Q} is the untap symbol.)",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Leaden Myr",
@@ -926,7 +958,9 @@
    ],
    "mana_cost": "{2}",
    "url": "https://scryfall.com/card/som/170/leaden-myr?utm_source=api",
-   "oracle_text": "{T}: Add {B}."
+   "oracle_text": "{T}: Add {B}.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Catalyst Elemental",
@@ -946,7 +980,9 @@
    ],
    "mana_cost": "{2}{R}",
    "url": "https://scryfall.com/card/m19/132/catalyst-elemental?utm_source=api",
-   "oracle_text": "Sacrifice this creature: Add {R}{R}."
+   "oracle_text": "Sacrifice this creature: Add {R}{R}.",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Nobilis of War",
@@ -969,7 +1005,9 @@
    ],
    "mana_cost": "{R/W}{R/W}{R/W}{R/W}{R/W}",
    "url": "https://scryfall.com/card/mm2/195/nobilis-of-war?utm_source=api",
-   "oracle_text": "Flying\nAttacking creatures you control get +2/+0."
+   "oracle_text": "Flying\nAttacking creatures you control get +2/+0.",
+   "power": "3",
+   "toughness": "4"
   },
   {
    "name": "Summoner's Egg",
@@ -986,7 +1024,9 @@
    "color_identity": [],
    "mana_cost": "{4}",
    "url": "https://scryfall.com/card/5dn/157/summoners-egg?utm_source=api",
-   "oracle_text": "Imprint — When this creature enters, you may exile a card from your hand face down.\nWhen this creature dies, turn the exiled card face up. If it's a creature card, put it onto the battlefield under your control."
+   "oracle_text": "Imprint — When this creature enters, you may exile a card from your hand face down.\nWhen this creature dies, turn the exiled card face up. If it's a creature card, put it onto the battlefield under your control.",
+   "power": "0",
+   "toughness": "4"
   },
   {
    "name": "Glory of Warfare",
@@ -1092,7 +1132,9 @@
    ],
    "mana_cost": "{3}{B}{B}",
    "url": "https://scryfall.com/card/akh/78/archfiend-of-ifnir?utm_source=api",
-   "oracle_text": "Flying\nWhenever you cycle or discard another card, put a -1/-1 counter on each creature your opponents control.\nCycling {2} ({2}, Discard this card: Draw a card.)"
+   "oracle_text": "Flying\nWhenever you cycle or discard another card, put a -1/-1 counter on each creature your opponents control.\nCycling {2} ({2}, Discard this card: Draw a card.)",
+   "power": "5",
+   "toughness": "4"
   },
   {
    "name": "Raven's Crime",
@@ -1133,7 +1175,9 @@
    ],
    "mana_cost": "{2}{B}{B}{R}{R}",
    "url": "https://scryfall.com/card/ima/205/malfegor?utm_source=api",
-   "oracle_text": "Flying\nWhen Malfegor enters, discard your hand. Each opponent sacrifices a creature of their choice for each card discarded this way."
+   "oracle_text": "Flying\nWhen Malfegor enters, discard your hand. Each opponent sacrifices a creature of their choice for each card discarded this way.",
+   "power": "6",
+   "toughness": "6"
   },
   {
    "name": "Jinxed Idol",

@@ -76,6 +76,8 @@
    "mana_cost": "{U}{B}",
    "url": "https://scryfall.com/card/mh3/199/psychic-frog?utm_source=api",
    "oracle_text": "Whenever this creature deals combat damage to a player or planeswalker, draw a card.\nDiscard a card: Put a +1/+1 counter on this creature.\nExile three cards from your graveyard: This creature gains flying until end of turn.",
+   "power": "1",
+   "toughness": "2",
    "appearances": 1
   },
   {
@@ -98,6 +100,8 @@
    "mana_cost": "{1}{U}",
    "url": "https://scryfall.com/card/uma/71/snapcaster-mage?utm_source=api",
    "oracle_text": "Flash\nWhen this creature enters, target instant or sorcery card in your graveyard gains flashback until end of turn. The flashback cost is equal to its mana cost. (You may cast that card from your graveyard for its flashback cost. Then exile it.)",
+   "power": "2",
+   "toughness": "1",
    "appearances": 1
   },
   {
@@ -120,6 +124,8 @@
    "mana_cost": "{B}",
    "url": "https://scryfall.com/card/clb/740/bloodsoaked-champion?utm_source=api",
    "oracle_text": "This creature can't block.\nRaid — {1}{B}: Return this card from your graveyard to the battlefield. Activate only if you attacked this turn.",
+   "power": "2",
+   "toughness": "1",
    "appearances": 1
   },
   {
@@ -142,6 +148,8 @@
    "mana_cost": "{4}{U}{U}",
    "url": "https://scryfall.com/card/c20/34/ethereal-forager?utm_source=api",
    "oracle_text": "Delve (Each card you exile from your graveyard while casting this spell pays for {1}.)\nFlying\nWhenever this creature attacks, you may return an instant or sorcery card exiled with this creature to its owner's hand.",
+   "power": "3",
+   "toughness": "3",
    "appearances": 1
   },
   {
@@ -164,6 +172,8 @@
    "mana_cost": "{B}",
    "url": "https://scryfall.com/card/woe/89/faerie-dreamthief?utm_source=api",
    "oracle_text": "Flying\nWhen this creature enters, surveil 1. (Look at the top card of your library. You may put it into your graveyard.)\n{2}{B}, Exile this card from your graveyard: You draw a card and you lose 1 life.",
+   "power": "1",
+   "toughness": "1",
    "appearances": 1
   },
   {
@@ -204,6 +214,8 @@
    "mana_cost": "{B}{B}",
    "url": "https://scryfall.com/card/dft/77/bloodghast?utm_source=api",
    "oracle_text": "This creature can't block.\nThis creature has haste as long as an opponent has 10 or less life.\nLandfall — Whenever a land you control enters, you may return this card from your graveyard to the battlefield.",
+   "power": "2",
+   "toughness": "1",
    "appearances": 1
   },
   {
@@ -320,6 +332,8 @@
    "mana_cost": "{2}{W}",
    "url": "https://scryfall.com/card/tdc/125/monastery-mentor?utm_source=api",
    "oracle_text": "Prowess (Whenever you cast a noncreature spell, this creature gets +1/+1 until end of turn.)\nWhenever you cast a noncreature spell, create a 1/1 white Monk creature token with prowess.",
+   "power": "2",
+   "toughness": "2",
    "appearances": 1
   },
   {
@@ -342,6 +356,8 @@
    "mana_cost": "{B}",
    "url": "https://scryfall.com/card/lci/122/stalactite-stalker?utm_source=api",
    "oracle_text": "Menace\nAt the beginning of your end step, if you descended this turn, put a +1/+1 counter on this creature. (You descended if a permanent card was put into your graveyard from anywhere.)\n{2}{B}, Sacrifice this creature: Target creature gets -X/-X until end of turn, where X is this creature's power.",
+   "power": "1",
+   "toughness": "1",
    "appearances": 1
   },
   {
@@ -548,6 +564,8 @@
    "mana_cost": "{2}{B}",
    "url": "https://scryfall.com/card/stx/86/sedgemoor-witch?utm_source=api",
    "oracle_text": "Menace\nWard—Pay 3 life. (Whenever this creature becomes the target of a spell or ability an opponent controls, counter it unless that player pays 3 life.)\nMagecraft — Whenever you cast or copy an instant or sorcery spell, create a 1/1 black and green Pest creature token with \"When this token dies, you gain 1 life.\"",
+   "power": "3",
+   "toughness": "2",
    "appearances": 1
   },
   {
@@ -624,6 +642,8 @@
    "mana_cost": "{2}",
    "url": "https://scryfall.com/card/neo/243/containment-construct?utm_source=api",
    "oracle_text": "Whenever you discard a card, you may exile that card from your graveyard. If you do, you may play that card this turn.",
+   "power": "2",
+   "toughness": "1",
    "appearances": 1
   },
   {
@@ -874,7 +894,9 @@
    ],
    "mana_cost": "{1}{W}",
    "url": "https://scryfall.com/card/m21/34/seasoned-hallowblade?utm_source=api",
-   "oracle_text": "Discard a card: Tap this creature. It gains indestructible until end of turn. (Damage and effects that say \"destroy\" don't destroy it.)"
+   "oracle_text": "Discard a card: Tap this creature. It gains indestructible until end of turn. (Damage and effects that say \"destroy\" don't destroy it.)",
+   "power": "3",
+   "toughness": "1"
   },
   {
    "name": "Sunbaked Canyon",
@@ -910,7 +932,9 @@
    ],
    "mana_cost": "{B}",
    "url": "https://scryfall.com/card/akh/91/festering-mummy?utm_source=api",
-   "oracle_text": "When this creature dies, you may put a -1/-1 counter on target creature."
+   "oracle_text": "When this creature dies, you may put a -1/-1 counter on target creature.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Marionette Apprentice",
@@ -931,7 +955,9 @@
    ],
    "mana_cost": "{1}{B}",
    "url": "https://scryfall.com/card/mh3/100/marionette-apprentice?utm_source=api",
-   "oracle_text": "Fabricate 1 (When this creature enters, put a +1/+1 counter on it or create a 1/1 colorless Servo artifact creature token.)\nWhenever another creature or artifact you control is put into a graveyard from the battlefield, each opponent loses 1 life."
+   "oracle_text": "Fabricate 1 (When this creature enters, put a +1/+1 counter on it or create a 1/1 colorless Servo artifact creature token.)\nWhenever another creature or artifact you control is put into a graveyard from the battlefield, each opponent loses 1 life.",
+   "power": "1",
+   "toughness": "2"
   },
   {
    "name": "Wilderness Reclamation",
@@ -968,7 +994,9 @@
    ],
    "mana_cost": "{2}{U}",
    "url": "https://scryfall.com/card/mh3/59/dreamtide-whale?utm_source=api",
-   "oracle_text": "Vanishing 2 (This creature enters with two time counters on it. At the beginning of your upkeep, remove a time counter from it. When the last is removed, sacrifice it.)\nWhenever a player casts their second spell each turn, proliferate. (Choose any number of permanents and/or players, then give each another counter of each kind already there.)"
+   "oracle_text": "Vanishing 2 (This creature enters with two time counters on it. At the beginning of your upkeep, remove a time counter from it. When the last is removed, sacrifice it.)\nWhenever a player casts their second spell each turn, proliferate. (Choose any number of permanents and/or players, then give each another counter of each kind already there.)",
+   "power": "7",
+   "toughness": "5"
   },
   {
    "name": "Cunning Lethemancer",
@@ -989,7 +1017,9 @@
    ],
    "mana_cost": "{2}{B}",
    "url": "https://scryfall.com/card/ala/69/cunning-lethemancer?utm_source=api",
-   "oracle_text": "At the beginning of your upkeep, each player discards a card."
+   "oracle_text": "At the beginning of your upkeep, each player discards a card.",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Misty Rainforest",
@@ -1040,7 +1070,9 @@
    ],
    "mana_cost": "{1}{U}",
    "url": "https://scryfall.com/card/rna/39/faerie-duelist?utm_source=api",
-   "oracle_text": "Flash\nFlying\nWhen this creature enters, target creature an opponent controls gets -2/-0 until end of turn."
+   "oracle_text": "Flash\nFlying\nWhen this creature enters, target creature an opponent controls gets -2/-0 until end of turn.",
+   "power": "1",
+   "toughness": "2"
   },
   {
    "name": "Turn to Mist",

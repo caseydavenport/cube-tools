@@ -28,7 +28,9 @@
    "color_identity": [],
    "mana_cost": "{11}",
    "url": "https://scryfall.com/card/fdn/671/darksteel-colossus?utm_source=api",
-   "oracle_text": "Trample (This creature can deal excess combat damage to the player or planeswalker it's attacking.)\nIndestructible (Damage and effects that say \"destroy\" don't destroy this creature.)\nIf Darksteel Colossus would be put into a graveyard from anywhere, reveal Darksteel Colossus and shuffle it into its owner's library instead."
+   "oracle_text": "Trample (This creature can deal excess combat damage to the player or planeswalker it's attacking.)\nIndestructible (Damage and effects that say \"destroy\" don't destroy this creature.)\nIf Darksteel Colossus would be put into a graveyard from anywhere, reveal Darksteel Colossus and shuffle it into its owner's library instead.",
+   "power": "11",
+   "toughness": "11"
   },
   {
    "name": "Marwyn, the Nurturer",
@@ -50,7 +52,9 @@
    ],
    "mana_cost": "{2}{G}",
    "url": "https://scryfall.com/card/khc/68/marwyn-the-nurturer?utm_source=api",
-   "oracle_text": "Whenever another Elf you control enters, put a +1/+1 counter on Marwyn.\n{T}: Add an amount of {G} equal to Marwyn's power."
+   "oracle_text": "Whenever another Elf you control enters, put a +1/+1 counter on Marwyn.\n{T}: Add an amount of {G} equal to Marwyn's power.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Obstinate Baloth",
@@ -70,7 +74,9 @@
    ],
    "mana_cost": "{2}{G}{G}",
    "url": "https://scryfall.com/card/bro/187/obstinate-baloth?utm_source=api",
-   "oracle_text": "When this creature enters, you gain 4 life.\nIf a spell or ability an opponent controls causes you to discard this card, put it onto the battlefield instead of putting it into your graveyard."
+   "oracle_text": "When this creature enters, you gain 4 life.\nIf a spell or ability an opponent controls causes you to discard this card, put it onto the battlefield instead of putting it into your graveyard.",
+   "power": "4",
+   "toughness": "4"
   },
   {
    "name": "Nissa, Who Shakes the World",
@@ -155,7 +161,9 @@
    ],
    "mana_cost": "{1}{G}{G}",
    "url": "https://scryfall.com/card/e01/76/turntimber-basilisk?utm_source=api",
-   "oracle_text": "Deathtouch (Any amount of damage this deals to a creature is enough to destroy it.)\nLandfall — Whenever a land you control enters, you may have target creature block this creature this turn if able."
+   "oracle_text": "Deathtouch (Any amount of damage this deals to a creature is enough to destroy it.)\nLandfall — Whenever a land you control enters, you may have target creature block this creature this turn if able.",
+   "power": "2",
+   "toughness": "1"
   },
   {
    "name": "Growing Rites of Itlimoc // Itlimoc, Cradle of the Sun",
@@ -210,7 +218,9 @@
    ],
    "mana_cost": "{3}{G}{G}",
    "url": "https://scryfall.com/card/cmm/270/acidic-slime?utm_source=api",
-   "oracle_text": "Deathtouch (Any amount of damage this deals to a creature is enough to destroy it.)\nWhen this creature enters, destroy target artifact, enchantment, or land."
+   "oracle_text": "Deathtouch (Any amount of damage this deals to a creature is enough to destroy it.)\nWhen this creature enters, destroy target artifact, enchantment, or land.",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Kitchen Finks",
@@ -232,7 +242,9 @@
    ],
    "mana_cost": "{1}{G/W}{G/W}",
    "url": "https://scryfall.com/card/uma/216/kitchen-finks?utm_source=api",
-   "oracle_text": "When this creature enters, you gain 2 life.\nPersist (When this creature dies, if it had no -1/-1 counters on it, return it to the battlefield under its owner's control with a -1/-1 counter on it.)"
+   "oracle_text": "When this creature enters, you gain 2 life.\nPersist (When this creature dies, if it had no -1/-1 counters on it, return it to the battlefield under its owner's control with a -1/-1 counter on it.)",
+   "power": "3",
+   "toughness": "2"
   },
   {
    "name": "Llanowar Elves",
@@ -253,7 +265,9 @@
    ],
    "mana_cost": "{G}",
    "url": "https://scryfall.com/card/fdn/227/llanowar-elves?utm_source=api",
-   "oracle_text": "{T}: Add {G}."
+   "oracle_text": "{T}: Add {G}.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Uncharted Haven",
@@ -645,7 +659,9 @@
    ],
    "mana_cost": "{W}",
    "url": "https://scryfall.com/card/mm3/24/soul-warden?utm_source=api",
-   "oracle_text": "Whenever another creature enters, you gain 1 life."
+   "oracle_text": "Whenever another creature enters, you gain 1 life.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Arasta of the Endless Web",
@@ -667,7 +683,9 @@
    ],
    "mana_cost": "{2}{G}{G}",
    "url": "https://scryfall.com/card/tdc/244/arasta-of-the-endless-web?utm_source=api",
-   "oracle_text": "Reach\nWhenever an opponent casts an instant or sorcery spell, create a 1/2 green Spider creature token with reach."
+   "oracle_text": "Reach\nWhenever an opponent casts an instant or sorcery spell, create a 1/2 green Spider creature token with reach.",
+   "power": "3",
+   "toughness": "5"
   },
   {
    "name": "Unmake",
@@ -761,7 +779,9 @@
    ],
    "mana_cost": "{G}",
    "url": "https://scryfall.com/card/a25/160/arbor-elf?utm_source=api",
-   "oracle_text": "{T}: Untap target Forest."
+   "oracle_text": "{T}: Untap target Forest.",
+   "power": "1",
+   "toughness": "1"
   }
  ],
  "sideboard": []

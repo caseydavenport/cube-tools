@@ -73,7 +73,9 @@
    ],
    "mana_cost": "{1}{W}",
    "url": "https://scryfall.com/card/ncc/205/luminarch-aspirant?utm_source=api",
-   "oracle_text": "At the beginning of combat on your turn, put a +1/+1 counter on target creature you control."
+   "oracle_text": "At the beginning of combat on your turn, put a +1/+1 counter on target creature you control.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Primeval Titan",
@@ -93,7 +95,9 @@
    ],
    "mana_cost": "{4}{G}{G}",
    "url": "https://scryfall.com/card/ima/183/primeval-titan?utm_source=api",
-   "oracle_text": "Trample\nWhenever this creature enters or attacks, you may search your library for up to two land cards, put them onto the battlefield tapped, then shuffle."
+   "oracle_text": "Trample\nWhenever this creature enters or attacks, you may search your library for up to two land cards, put them onto the battlefield tapped, then shuffle.",
+   "power": "6",
+   "toughness": "6"
   },
   {
    "name": "Overgrown Tomb",
@@ -164,7 +168,9 @@
    ],
    "mana_cost": "{2}{G}",
    "url": "https://scryfall.com/card/mh3/169/six?utm_source=api",
-   "oracle_text": "Reach\nWhenever Six attacks, mill three cards. You may put a land card from among them into your hand.\nDuring your turn, nonland permanent cards in your graveyard have retrace. (You may cast permanent cards from your graveyard by discarding a land card in addition to paying their other costs.)"
+   "oracle_text": "Reach\nWhenever Six attacks, mill three cards. You may put a land card from among them into your hand.\nDuring your turn, nonland permanent cards in your graveyard have retrace. (You may cast permanent cards from your graveyard by discarding a land card in addition to paying their other costs.)",
+   "power": "2",
+   "toughness": "4"
   },
   {
    "name": "Misty Rainforest",
@@ -231,7 +237,9 @@
    ],
    "mana_cost": "{2}{G}",
    "url": "https://scryfall.com/card/soi/212/inexorable-blob?utm_source=api",
-   "oracle_text": "Delirium — Whenever this creature attacks, if there are four or more card types among cards in your graveyard, create a 3/3 green Ooze creature token that's tapped and attacking."
+   "oracle_text": "Delirium — Whenever this creature attacks, if there are four or more card types among cards in your graveyard, create a 3/3 green Ooze creature token that's tapped and attacking.",
+   "power": "3",
+   "toughness": "3"
   },
   {
    "name": "Fearless Fledgling",
@@ -251,7 +259,9 @@
    ],
    "mana_cost": "{1}{W}",
    "url": "https://scryfall.com/card/znr/15/fearless-fledgling?utm_source=api",
-   "oracle_text": "Landfall — Whenever a land you control enters, put a +1/+1 counter on this creature. It gains flying until end of turn."
+   "oracle_text": "Landfall — Whenever a land you control enters, put a +1/+1 counter on this creature. It gains flying until end of turn.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Phelia, Exuberant Shepherd",
@@ -272,7 +282,9 @@
    ],
    "mana_cost": "{1}{W}",
    "url": "https://scryfall.com/card/mh3/40/phelia-exuberant-shepherd?utm_source=api",
-   "oracle_text": "Flash\nWhenever Phelia attacks, exile up to one other target nonland permanent. At the beginning of the next end step, return that card to the battlefield under its owner's control. If it entered under your control, put a +1/+1 counter on Phelia."
+   "oracle_text": "Flash\nWhenever Phelia attacks, exile up to one other target nonland permanent. At the beginning of the next end step, return that card to the battlefield under its owner's control. If it entered under your control, put a +1/+1 counter on Phelia.",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Roaring Earth",
@@ -309,7 +321,9 @@
    ],
    "mana_cost": "{1}{G}",
    "url": "https://scryfall.com/card/tsr/235/tarmogoyf?utm_source=api",
-   "oracle_text": "Tarmogoyf's power is equal to the number of card types among cards in all graveyards and its toughness is equal to that number plus 1."
+   "oracle_text": "Tarmogoyf's power is equal to the number of card types among cards in all graveyards and its toughness is equal to that number plus 1.",
+   "power": "*",
+   "toughness": "1+*"
   },
   {
    "name": "Urza's Bauble",
@@ -343,7 +357,9 @@
    ],
    "mana_cost": "{G}",
    "url": "https://scryfall.com/card/a25/160/arbor-elf?utm_source=api",
-   "oracle_text": "{T}: Untap target Forest."
+   "oracle_text": "{T}: Untap target Forest.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Grim Discovery",
@@ -465,7 +481,9 @@
    ],
    "mana_cost": "{1}{W}",
    "url": "https://scryfall.com/card/mm3/11/kor-skyfisher?utm_source=api",
-   "oracle_text": "Flying\nWhen this creature enters, return a permanent you control to its owner's hand."
+   "oracle_text": "Flying\nWhen this creature enters, return a permanent you control to its owner's hand.",
+   "power": "2",
+   "toughness": "3"
   },
   {
    "name": "Liliana of the Veil",
@@ -556,7 +574,9 @@
    ],
    "mana_cost": "{1}{G}",
    "url": "https://scryfall.com/card/fdn/232/scavenging-ooze?utm_source=api",
-   "oracle_text": "{G}: Exile target card from a graveyard. If it was a creature card, put a +1/+1 counter on this creature and you gain 1 life."
+   "oracle_text": "{G}: Exile target card from a graveyard. If it was a creature card, put a +1/+1 counter on this creature and you gain 1 life.",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Ulcerate",
@@ -595,7 +615,9 @@
    ],
    "mana_cost": "{1}{W}{W}",
    "url": "https://scryfall.com/card/woe/39/werefox-bodyguard?utm_source=api",
-   "oracle_text": "Flash\nWhen this creature enters, exile up to one other target non-Fox creature until this creature leaves the battlefield.\n{1}{W}, Sacrifice this creature: You gain 2 life."
+   "oracle_text": "Flash\nWhen this creature enters, exile up to one other target non-Fox creature until this creature leaves the battlefield.\n{1}{W}, Sacrifice this creature: You gain 2 life.",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Esika's Chariot",
@@ -616,7 +638,9 @@
    ],
    "mana_cost": "{3}{G}",
    "url": "https://scryfall.com/card/khm/169/esikas-chariot?utm_source=api",
-   "oracle_text": "When Esika's Chariot enters, create two 2/2 green Cat creature tokens.\nWhenever Esika's Chariot attacks, create a token that's a copy of target token you control.\nCrew 4"
+   "oracle_text": "When Esika's Chariot enters, create two 2/2 green Cat creature tokens.\nWhenever Esika's Chariot attacks, create a token that's a copy of target token you control.\nCrew 4",
+   "power": "4",
+   "toughness": "4"
   },
   {
    "name": "Faerie Dreamthief",
@@ -637,7 +661,9 @@
    ],
    "mana_cost": "{B}",
    "url": "https://scryfall.com/card/woe/89/faerie-dreamthief?utm_source=api",
-   "oracle_text": "Flying\nWhen this creature enters, surveil 1. (Look at the top card of your library. You may put it into your graveyard.)\n{2}{B}, Exile this card from your graveyard: You draw a card and you lose 1 life."
+   "oracle_text": "Flying\nWhen this creature enters, surveil 1. (Look at the top card of your library. You may put it into your graveyard.)\n{2}{B}, Exile this card from your graveyard: You draw a card and you lose 1 life.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Plains",
@@ -814,7 +840,9 @@
    ],
    "mana_cost": "{1}{U}",
    "url": "https://scryfall.com/card/mma/65/spellstutter-sprite?utm_source=api",
-   "oracle_text": "Flash\nFlying\nWhen this creature enters, counter target spell with mana value X or less, where X is the number of Faeries you control."
+   "oracle_text": "Flash\nFlying\nWhen this creature enters, counter target spell with mana value X or less, where X is the number of Faeries you control.",
+   "power": "1",
+   "toughness": "1"
   }
  ]
 }

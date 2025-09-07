@@ -85,7 +85,9 @@
    ],
    "mana_cost": "{3}{B}{B}",
    "url": "https://scryfall.com/card/akh/78/archfiend-of-ifnir?utm_source=api",
-   "oracle_text": "Flying\nWhenever you cycle or discard another card, put a -1/-1 counter on each creature your opponents control.\nCycling {2} ({2}, Discard this card: Draw a card.)"
+   "oracle_text": "Flying\nWhenever you cycle or discard another card, put a -1/-1 counter on each creature your opponents control.\nCycling {2} ({2}, Discard this card: Draw a card.)",
+   "power": "5",
+   "toughness": "4"
   },
   {
    "name": "Black Sun's Zenith",
@@ -190,7 +192,9 @@
    "color_identity": [],
    "mana_cost": "{2}",
    "url": "https://scryfall.com/card/neo/243/containment-construct?utm_source=api",
-   "oracle_text": "Whenever you discard a card, you may exile that card from your graveyard. If you do, you may play that card this turn."
+   "oracle_text": "Whenever you discard a card, you may exile that card from your graveyard. If you do, you may play that card this turn.",
+   "power": "2",
+   "toughness": "1"
   },
   {
    "name": "Counterspell",
@@ -227,7 +231,9 @@
    ],
    "mana_cost": "{2}{U}{U}",
    "url": "https://scryfall.com/card/afc/81/curator-of-mysteries?utm_source=api",
-   "oracle_text": "Flying\nWhenever you cycle or discard another card, scry 1.\nCycling {U} ({U}, Discard this card: Draw a card.)"
+   "oracle_text": "Flying\nWhenever you cycle or discard another card, scry 1.\nCycling {U} ({U}, Discard this card: Draw a card.)",
+   "power": "4",
+   "toughness": "4"
   },
   {
    "name": "Disfigure",
@@ -301,7 +307,9 @@
    ],
    "mana_cost": "{2}{U}{B}",
    "url": "https://scryfall.com/card/otc/231/hostage-taker?utm_source=api",
-   "oracle_text": "When this creature enters, exile another target creature or artifact until this creature leaves the battlefield. You may cast that card for as long as it remains exiled, and mana of any type can be spent to cast that spell."
+   "oracle_text": "When this creature enters, exile another target creature or artifact until this creature leaves the battlefield. You may cast that card for as long as it remains exiled, and mana of any type can be spent to cast that spell.",
+   "power": "2",
+   "toughness": "3"
   },
   {
    "name": "Island",
@@ -434,7 +442,9 @@
    ],
    "mana_cost": "{1}{U}",
    "url": "https://scryfall.com/card/afc/86/merfolk-looter?utm_source=api",
-   "oracle_text": "{T}: Draw a card, then discard a card."
+   "oracle_text": "{T}: Draw a card, then discard a card.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Negate",
@@ -485,7 +495,9 @@
    ],
    "mana_cost": "{U}",
    "url": "https://scryfall.com/card/otc/109/pteramander?utm_source=api",
-   "oracle_text": "Flying\n{7}{U}: Adapt 4. This ability costs {1} less to activate for each instant and sorcery card in your graveyard. (If this creature has no +1/+1 counters on it, put four +1/+1 counters on it.)"
+   "oracle_text": "Flying\n{7}{U}: Adapt 4. This ability costs {1} less to activate for each instant and sorcery card in your graveyard. (If this creature has no +1/+1 counters on it, put four +1/+1 counters on it.)",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Puppeteer Clique",
@@ -506,7 +518,9 @@
    ],
    "mana_cost": "{3}{B}{B}",
    "url": "https://scryfall.com/card/clb/769/puppeteer-clique?utm_source=api",
-   "oracle_text": "Flying\nWhen this creature enters, put target creature card from an opponent's graveyard onto the battlefield under your control. It gains haste. At the beginning of your next end step, exile it.\nPersist (When this creature dies, if it had no -1/-1 counters on it, return it to the battlefield under its owner's control with a -1/-1 counter on it.)"
+   "oracle_text": "Flying\nWhen this creature enters, put target creature card from an opponent's graveyard onto the battlefield under your control. It gains haste. At the beginning of your next end step, exile it.\nPersist (When this creature dies, if it had no -1/-1 counters on it, return it to the battlefield under its owner's control with a -1/-1 counter on it.)",
+   "power": "3",
+   "toughness": "2"
   },
   {
    "name": "Questing Druid // Seek the Beast",
@@ -530,7 +544,9 @@
    ],
    "mana_cost": "{1}{G} // {1}{R}",
    "url": "https://scryfall.com/card/woe/234/questing-druid-seek-the-beast?utm_source=api",
-   "oracle_text": ""
+   "oracle_text": "",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Read the Bones",
@@ -603,7 +619,9 @@
    ],
    "mana_cost": "{U}{B}",
    "url": "https://scryfall.com/card/akh/206/shadowstorm-vizier?utm_source=api",
-   "oracle_text": "Flying\nWhenever you cycle or discard a card, this creature gets +1/+1 until end of turn."
+   "oracle_text": "Flying\nWhenever you cycle or discard a card, this creature gets +1/+1 until end of turn.",
+   "power": "1",
+   "toughness": "3"
   },
   {
    "name": "Shelldock Isle",
@@ -800,7 +818,9 @@
    ],
    "mana_cost": "{R}",
    "url": "https://scryfall.com/card/mh2/115/blazing-rootwalla?utm_source=api",
-   "oracle_text": "{R}: This creature gets +2/+0 until end of turn. Activate only once each turn.\nMadness {0} (If you discard this card, discard it into exile. When you do, cast it for its madness cost or put it into your graveyard.)"
+   "oracle_text": "{R}: This creature gets +2/+0 until end of turn. Activate only once each turn.\nMadness {0} (If you discard this card, discard it into exile. When you do, cast it for its madness cost or put it into your graveyard.)",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Demand Answers",
@@ -873,7 +893,9 @@
    ],
    "mana_cost": "{1}{G/U}{G/U}",
    "url": "https://scryfall.com/card/eve/152/gilder-bairn?utm_source=api",
-   "oracle_text": "{2}{G/U}, {Q}: Double the number of each kind of counter on target permanent. ({Q} is the untap symbol.)"
+   "oracle_text": "{2}{G/U}, {Q}: Double the number of each kind of counter on target permanent. ({Q} is the untap symbol.)",
+   "power": "1",
+   "toughness": "3"
   },
   {
    "name": "Hallowed Fountain",
@@ -949,7 +971,9 @@
    ],
    "mana_cost": "{2}{G}{G}",
    "url": "https://scryfall.com/card/thb/196/renata-called-to-the-hunt?utm_source=api",
-   "oracle_text": "Renata's power is equal to your devotion to green. (Each {G} in the mana costs of permanents you control counts toward your devotion to green.)\nEach other creature you control enters with an additional +1/+1 counter on it."
+   "oracle_text": "Renata's power is equal to your devotion to green. (Each {G} in the mana costs of permanents you control counts toward your devotion to green.)\nEach other creature you control enters with an additional +1/+1 counter on it.",
+   "power": "*",
+   "toughness": "3"
   },
   {
    "name": "Sanguine Bond",
@@ -986,7 +1010,9 @@
    ],
    "mana_cost": "{B}",
    "url": "https://scryfall.com/card/tdc/196/stitchers-supplier?utm_source=api",
-   "oracle_text": "When this creature enters or dies, mill three cards. (Put the top three cards of your library into your graveyard.)"
+   "oracle_text": "When this creature enters or dies, mill three cards. (Put the top three cards of your library into your graveyard.)",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Vivien, Champion of the Wilds",

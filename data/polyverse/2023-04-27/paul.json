@@ -69,7 +69,9 @@
    ],
    "mana_cost": "{B}",
    "url": "https://scryfall.com/card/m20/120/vampire-of-the-dire-moon?utm_source=api",
-   "oracle_text": "Deathtouch (Any amount of damage this deals to a creature is enough to destroy it.)\nLifelink (Damage dealt by this creature also causes you to gain that much life.)"
+   "oracle_text": "Deathtouch (Any amount of damage this deals to a creature is enough to destroy it.)\nLifelink (Damage dealt by this creature also causes you to gain that much life.)",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Quest for the Gravelord",
@@ -145,7 +147,9 @@
    ],
    "mana_cost": "{1}{B}",
    "url": "https://scryfall.com/card/a25/97/mesmeric-fiend?utm_source=api",
-   "oracle_text": "When this creature enters, target opponent reveals their hand and you choose a nonland card from it. Exile that card.\nWhen this creature leaves the battlefield, return the exiled card to its owner's hand."
+   "oracle_text": "When this creature enters, target opponent reveals their hand and you choose a nonland card from it. Exile that card.\nWhen this creature leaves the battlefield, return the exiled card to its owner's hand.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Swans of Bryn Argoll",
@@ -168,7 +172,9 @@
    ],
    "mana_cost": "{2}{W/U}{W/U}",
    "url": "https://scryfall.com/card/mm2/199/swans-of-bryn-argoll?utm_source=api",
-   "oracle_text": "Flying\nIf a source would deal damage to this creature, prevent that damage. The source's controller draws cards equal to the damage prevented this way."
+   "oracle_text": "Flying\nIf a source would deal damage to this creature, prevent that damage. The source's controller draws cards equal to the damage prevented this way.",
+   "power": "4",
+   "toughness": "3"
   },
   {
    "name": "Mindslaver",
@@ -219,7 +225,9 @@
    ],
    "mana_cost": "{3}{W}",
    "url": "https://scryfall.com/card/inr/38/restoration-angel?utm_source=api",
-   "oracle_text": "Flash\nFlying\nWhen this creature enters, you may exile target non-Angel creature you control, then return that card to the battlefield under your control."
+   "oracle_text": "Flash\nFlying\nWhen this creature enters, you may exile target non-Angel creature you control, then return that card to the battlefield under your control.",
+   "power": "3",
+   "toughness": "4"
   },
   {
    "name": "Lightning Greaves",
@@ -273,7 +281,9 @@
    ],
    "mana_cost": "{W}",
    "url": "https://scryfall.com/card/thb/1/alseid-of-lifes-bounty?utm_source=api",
-   "oracle_text": "Lifelink\n{1}, Sacrifice this creature: Target creature or enchantment you control gains protection from the color of your choice until end of turn."
+   "oracle_text": "Lifelink\n{1}, Sacrifice this creature: Target creature or enchantment you control gains protection from the color of your choice until end of turn.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Battlegrace Angel",
@@ -293,7 +303,9 @@
    ],
    "mana_cost": "{3}{W}{W}",
    "url": "https://scryfall.com/card/mm2/10/battlegrace-angel?utm_source=api",
-   "oracle_text": "Flying\nExalted (Whenever a creature you control attacks alone, that creature gets +1/+1 until end of turn.)\nWhenever a creature you control attacks alone, it gains lifelink until end of turn."
+   "oracle_text": "Flying\nExalted (Whenever a creature you control attacks alone, that creature gets +1/+1 until end of turn.)\nWhenever a creature you control attacks alone, it gains lifelink until end of turn.",
+   "power": "4",
+   "toughness": "4"
   },
   {
    "name": "Marshal's Anthem",
@@ -331,7 +343,9 @@
    ],
    "mana_cost": "{1}{W}",
    "url": "https://scryfall.com/card/otc/84/mistmeadow-skulk?utm_source=api",
-   "oracle_text": "Lifelink, protection from mana value 3 or greater"
+   "oracle_text": "Lifelink, protection from mana value 3 or greater",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Will-o'-the-Wisp",
@@ -351,7 +365,9 @@
    ],
    "mana_cost": "{B}",
    "url": "https://scryfall.com/card/a25/115/will-o-the-wisp?utm_source=api",
-   "oracle_text": "Flying (This creature can't be blocked except by creatures with flying or reach.)\n{B}: Regenerate this creature. (The next time this creature would be destroyed this turn, instead tap it, remove it from combat, and heal all damage on it.)"
+   "oracle_text": "Flying (This creature can't be blocked except by creatures with flying or reach.)\n{B}: Regenerate this creature. (The next time this creature would be destroyed this turn, instead tap it, remove it from combat, and heal all damage on it.)",
+   "power": "0",
+   "toughness": "1"
   },
   {
    "name": "Malakir Bloodwitch",
@@ -372,7 +388,9 @@
    ],
    "mana_cost": "{3}{B}{B}",
    "url": "https://scryfall.com/card/voc/131/malakir-bloodwitch?utm_source=api",
-   "oracle_text": "Flying, protection from white\nWhen this creature enters, each opponent loses life equal to the number of Vampires you control. You gain life equal to the life lost this way."
+   "oracle_text": "Flying, protection from white\nWhen this creature enters, each opponent loses life equal to the number of Vampires you control. You gain life equal to the life lost this way.",
+   "power": "4",
+   "toughness": "4"
   },
   {
    "name": "Unmake",

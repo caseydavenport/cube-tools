@@ -121,7 +121,9 @@
    ],
    "mana_cost": "{B}",
    "url": "https://scryfall.com/card/m20/105/knight-of-the-ebon-legion?utm_source=api",
-   "oracle_text": "{2}{B}: This creature gets +3/+3 and gains deathtouch until end of turn.\nAt the beginning of your end step, if a player lost 4 or more life this turn, put a +1/+1 counter on this creature. (Damage causes loss of life.)"
+   "oracle_text": "{2}{B}: This creature gets +3/+3 and gains deathtouch until end of turn.\nAt the beginning of your end step, if a player lost 4 or more life this turn, put a +1/+1 counter on this creature. (Damage causes loss of life.)",
+   "power": "1",
+   "toughness": "2"
   },
   {
    "name": "Virtue of Persistence // Locthwain Scorn",
@@ -200,7 +202,9 @@
    ],
    "mana_cost": "{1}{B}",
    "url": "https://scryfall.com/card/m21/107/kitesail-freebooter?utm_source=api",
-   "oracle_text": "Flying\nWhen this creature enters, target opponent reveals their hand. You choose a noncreature, nonland card from it. Exile that card until this creature leaves the battlefield."
+   "oracle_text": "Flying\nWhen this creature enters, target opponent reveals their hand. You choose a noncreature, nonland card from it. Exile that card until this creature leaves the battlefield.",
+   "power": "1",
+   "toughness": "2"
   },
   {
    "name": "Repeal",
@@ -238,7 +242,9 @@
    ],
    "mana_cost": "{1}{G}",
    "url": "https://scryfall.com/card/stx/127/dragonsguard-elite?utm_source=api",
-   "oracle_text": "Magecraft — Whenever you cast or copy an instant or sorcery spell, put a +1/+1 counter on this creature.\n{4}{G}{G}: Double the number of +1/+1 counters on this creature."
+   "oracle_text": "Magecraft — Whenever you cast or copy an instant or sorcery spell, put a +1/+1 counter on this creature.\n{4}{G}{G}: Double the number of +1/+1 counters on this creature.",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Cut Down",
@@ -326,7 +332,9 @@
    ],
    "mana_cost": "{1}{G}",
    "url": "https://scryfall.com/card/tsr/235/tarmogoyf?utm_source=api",
-   "oracle_text": "Tarmogoyf's power is equal to the number of card types among cards in all graveyards and its toughness is equal to that number plus 1."
+   "oracle_text": "Tarmogoyf's power is equal to the number of card types among cards in all graveyards and its toughness is equal to that number plus 1.",
+   "power": "*",
+   "toughness": "1+*"
   },
   {
    "name": "Swamp",
@@ -422,7 +430,9 @@
    ],
    "mana_cost": "{2}{G}",
    "url": "https://scryfall.com/card/soi/212/inexorable-blob?utm_source=api",
-   "oracle_text": "Delirium — Whenever this creature attacks, if there are four or more card types among cards in your graveyard, create a 3/3 green Ooze creature token that's tapped and attacking."
+   "oracle_text": "Delirium — Whenever this creature attacks, if there are four or more card types among cards in your graveyard, create a 3/3 green Ooze creature token that's tapped and attacking.",
+   "power": "3",
+   "toughness": "3"
   },
   {
    "name": "Nurturing Peatland",
@@ -617,7 +627,9 @@
    ],
    "mana_cost": "{1}{G} // {1}{B}",
    "url": "https://scryfall.com/card/woe/231/mosswood-dreadknight-dread-whispers?utm_source=api",
-   "oracle_text": ""
+   "oracle_text": "",
+   "power": "3",
+   "toughness": "2"
   },
   {
    "name": "Toxic Deluge",
@@ -678,7 +690,9 @@
    ],
    "mana_cost": "{1}{G}{G}",
    "url": "https://scryfall.com/card/cmm/286/eternal-witness?utm_source=api",
-   "oracle_text": "When this creature enters, you may return target card from your graveyard to your hand."
+   "oracle_text": "When this creature enters, you may return target card from your graveyard to your hand.",
+   "power": "2",
+   "toughness": "1"
   },
   {
    "name": "Island",
@@ -860,7 +874,9 @@
    ],
    "mana_cost": "{B}",
    "url": "https://scryfall.com/card/2xm/82/deaths-shadow?utm_source=api",
-   "oracle_text": "This creature gets -X/-X, where X is your life total."
+   "oracle_text": "This creature gets -X/-X, where X is your life total.",
+   "power": "13",
+   "toughness": "13"
   },
   {
    "name": "Kishla Skimmer",
@@ -883,7 +899,9 @@
    ],
    "mana_cost": "{G}{U}",
    "url": "https://scryfall.com/card/tdm/201/kishla-skimmer?utm_source=api",
-   "oracle_text": "Flying\nWhenever a card leaves your graveyard during your turn, draw a card. This ability triggers only once each turn."
+   "oracle_text": "Flying\nWhenever a card leaves your graveyard during your turn, draw a card. This ability triggers only once each turn.",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "No More Lies",
@@ -957,7 +975,9 @@
    ],
    "mana_cost": "{4}{U}{U}",
    "url": "https://scryfall.com/card/c20/34/ethereal-forager?utm_source=api",
-   "oracle_text": "Delve (Each card you exile from your graveyard while casting this spell pays for {1}.)\nFlying\nWhenever this creature attacks, you may return an instant or sorcery card exiled with this creature to its owner's hand."
+   "oracle_text": "Delve (Each card you exile from your graveyard while casting this spell pays for {1}.)\nFlying\nWhenever this creature attacks, you may return an instant or sorcery card exiled with this creature to its owner's hand.",
+   "power": "3",
+   "toughness": "3"
   },
   {
    "name": "Condescend",

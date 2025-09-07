@@ -76,6 +76,8 @@
    "mana_cost": "{3}{B}{B}",
    "url": "https://scryfall.com/card/clb/769/puppeteer-clique?utm_source=api",
    "oracle_text": "Flying\nWhen this creature enters, put target creature card from an opponent's graveyard onto the battlefield under your control. It gains haste. At the beginning of your next end step, exile it.\nPersist (When this creature dies, if it had no -1/-1 counters on it, return it to the battlefield under its owner's control with a -1/-1 counter on it.)",
+   "power": "3",
+   "toughness": "2",
    "appearances": 1
   },
   {
@@ -116,6 +118,8 @@
    "mana_cost": "{3}{G}{G}",
    "url": "https://scryfall.com/card/eoc/111/titania-protector-of-argoth?utm_source=api",
    "oracle_text": "When Titania enters, return target land card from your graveyard to the battlefield.\nWhenever a land you control is put into a graveyard from the battlefield, create a 5/3 green Elemental creature token.",
+   "power": "5",
+   "toughness": "3",
    "appearances": 1
   },
   {
@@ -188,6 +192,8 @@
    "mana_cost": "{2}{G}{G}",
    "url": "https://scryfall.com/card/tdc/244/arasta-of-the-endless-web?utm_source=api",
    "oracle_text": "Reach\nWhenever an opponent casts an instant or sorcery spell, create a 1/2 green Spider creature token with reach.",
+   "power": "3",
+   "toughness": "5",
    "appearances": 1
   },
   {
@@ -228,6 +234,8 @@
    "mana_cost": "{B}",
    "url": "https://scryfall.com/card/woe/89/faerie-dreamthief?utm_source=api",
    "oracle_text": "Flying\nWhen this creature enters, surveil 1. (Look at the top card of your library. You may put it into your graveyard.)\n{2}{B}, Exile this card from your graveyard: You draw a card and you lose 1 life.",
+   "power": "1",
+   "toughness": "1",
    "appearances": 1
   },
   {
@@ -320,6 +328,8 @@
    "mana_cost": "{1}{G}",
    "url": "https://scryfall.com/card/clu/167/kraul-harpooner?utm_source=api",
    "oracle_text": "Reach\nUndergrowth — When this creature enters, choose up to one target creature you don't control with flying. This creature gets +X/+0 until end of turn, where X is the number of creature cards in your graveyard, then you may have this creature fight that creature.",
+   "power": "3",
+   "toughness": "2",
    "appearances": 1
   },
   {
@@ -376,6 +386,8 @@
    "mana_cost": "{1}{G}",
    "url": "https://scryfall.com/card/fdn/232/scavenging-ooze?utm_source=api",
    "oracle_text": "{G}: Exile target card from a graveyard. If it was a creature card, put a +1/+1 counter on this creature and you gain 1 life.",
+   "power": "2",
+   "toughness": "2",
    "appearances": 1
   },
   {
@@ -432,6 +444,8 @@
    "mana_cost": "{1}{B}{G}",
    "url": "https://scryfall.com/card/woe/205/greta-sweettooth-scourge?utm_source=api",
    "oracle_text": "When Greta enters, create a Food token. (It's an artifact with \"{2}, {T}, Sacrifice this token: You gain 3 life.\")\n{G}, Sacrifice a Food: Put a +1/+1 counter on target creature. Activate only as a sorcery.\n{1}{B}, Sacrifice a Food: You draw a card and you lose 1 life.",
+   "power": "3",
+   "toughness": "3",
    "appearances": 1
   },
   {
@@ -457,6 +471,8 @@
    "mana_cost": "{B}{G}",
    "url": "https://scryfall.com/card/stx/178/dina-soul-steeper?utm_source=api",
    "oracle_text": "Whenever you gain life, each opponent loses 1 life.\n{1}, Sacrifice another creature: Dina gets +X/+0 until end of turn, where X is the sacrificed creature's power.",
+   "power": "1",
+   "toughness": "3",
    "appearances": 1
   },
   {
@@ -497,6 +513,8 @@
    "mana_cost": "{1}{G}{G}",
    "url": "https://scryfall.com/card/cmm/286/eternal-witness?utm_source=api",
    "oracle_text": "When this creature enters, you may return target card from your graveyard to your hand.",
+   "power": "2",
+   "toughness": "1",
    "appearances": 1
   },
   {
@@ -518,6 +536,8 @@
    "mana_cost": "{2}{G}",
    "url": "https://scryfall.com/card/soi/212/inexorable-blob?utm_source=api",
    "oracle_text": "Delirium — Whenever this creature attacks, if there are four or more card types among cards in your graveyard, create a 3/3 green Ooze creature token that's tapped and attacking.",
+   "power": "3",
+   "toughness": "3",
    "appearances": 1
   },
   {
@@ -554,6 +574,8 @@
    "mana_cost": "{1}{G}",
    "url": "https://scryfall.com/card/one/161/cankerbloom?utm_source=api",
    "oracle_text": "{1}, Sacrifice this creature: Choose one —\n• Destroy target artifact.\n• Destroy target enchantment.\n• Proliferate. (Choose any number of permanents and/or players, then give each another counter of each kind already there.)",
+   "power": "3",
+   "toughness": "2",
    "appearances": 1
   },
   {
@@ -596,6 +618,8 @@
    "mana_cost": "{1}{G} // {1}{B}",
    "url": "https://scryfall.com/card/woe/231/mosswood-dreadknight-dread-whispers?utm_source=api",
    "oracle_text": "",
+   "power": "3",
+   "toughness": "2",
    "appearances": 1
   },
   {
@@ -648,6 +672,8 @@
    "mana_cost": "{2}{G}",
    "url": "https://scryfall.com/card/fdn/231/reclamation-sage?utm_source=api",
    "oracle_text": "When this creature enters, you may destroy target artifact or enchantment.",
+   "power": "2",
+   "toughness": "1",
    "appearances": 1
   },
   {
@@ -886,7 +912,9 @@
    ],
    "mana_cost": "{1}{B}",
    "url": "https://scryfall.com/card/lcc/204/oathsworn-vampire?utm_source=api",
-   "oracle_text": "This creature enters tapped.\nYou may cast this card from your graveyard if you gained life this turn."
+   "oracle_text": "This creature enters tapped.\nYou may cast this card from your graveyard if you gained life this turn.",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Sprout Swarm",
@@ -990,7 +1018,9 @@
    ],
    "mana_cost": "{3}{G}",
    "url": "https://scryfall.com/card/ncc/320/wickerbough-elder?utm_source=api",
-   "oracle_text": "This creature enters with a -1/-1 counter on it.\n{G}, Remove a -1/-1 counter from this creature: Destroy target artifact or enchantment."
+   "oracle_text": "This creature enters with a -1/-1 counter on it.\n{G}, Remove a -1/-1 counter from this creature: Destroy target artifact or enchantment.",
+   "power": "4",
+   "toughness": "4"
   },
   {
    "name": "Evolving Wilds",

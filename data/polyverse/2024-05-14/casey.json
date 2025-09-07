@@ -100,7 +100,9 @@
    ],
    "mana_cost": "{1}{W}",
    "url": "https://scryfall.com/card/vow/38/thalia-guardian-of-thraben?utm_source=api",
-   "oracle_text": "First strike\nNoncreature spells cost {1} more to cast."
+   "oracle_text": "First strike\nNoncreature spells cost {1} more to cast.",
+   "power": "2",
+   "toughness": "1"
   },
   {
    "name": "Bloodchief's Thirst",
@@ -167,7 +169,9 @@
    ],
    "mana_cost": "{1}{W}",
    "url": "https://scryfall.com/card/znr/15/fearless-fledgling?utm_source=api",
-   "oracle_text": "Landfall — Whenever a land you control enters, put a +1/+1 counter on this creature. It gains flying until end of turn."
+   "oracle_text": "Landfall — Whenever a land you control enters, put a +1/+1 counter on this creature. It gains flying until end of turn.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Eidolon of Obstruction",
@@ -188,7 +192,9 @@
    ],
    "mana_cost": "{1}{W}",
    "url": "https://scryfall.com/card/thb/12/eidolon-of-obstruction?utm_source=api",
-   "oracle_text": "First strike\nLoyalty abilities of planeswalkers your opponents control cost {1} more to activate."
+   "oracle_text": "First strike\nLoyalty abilities of planeswalkers your opponents control cost {1} more to activate.",
+   "power": "2",
+   "toughness": "1"
   },
   {
    "name": "Cling to Dust",
@@ -226,7 +232,9 @@
    ],
    "mana_cost": "{W}",
    "url": "https://scryfall.com/card/dom/14/dauntless-bodyguard?utm_source=api",
-   "oracle_text": "As this creature enters, choose another creature you control.\nSacrifice this creature: The chosen creature gains indestructible until end of turn."
+   "oracle_text": "As this creature enters, choose another creature you control.\nSacrifice this creature: The chosen creature gains indestructible until end of turn.",
+   "power": "2",
+   "toughness": "1"
   },
   {
    "name": "Tidehollow Sculler",
@@ -249,7 +257,9 @@
    ],
    "mana_cost": "{W}{B}",
    "url": "https://scryfall.com/card/mma/184/tidehollow-sculler?utm_source=api",
-   "oracle_text": "When this creature enters, target opponent reveals their hand and you choose a nonland card from it. Exile that card.\nWhen this creature leaves the battlefield, return the exiled card to its owner's hand."
+   "oracle_text": "When this creature enters, target opponent reveals their hand and you choose a nonland card from it. Exile that card.\nWhen this creature leaves the battlefield, return the exiled card to its owner's hand.",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Duress",
@@ -288,7 +298,9 @@
    ],
    "mana_cost": "{1}{G/W}{G/W}",
    "url": "https://scryfall.com/card/uma/216/kitchen-finks?utm_source=api",
-   "oracle_text": "When this creature enters, you gain 2 life.\nPersist (When this creature dies, if it had no -1/-1 counters on it, return it to the battlefield under its owner's control with a -1/-1 counter on it.)"
+   "oracle_text": "When this creature enters, you gain 2 life.\nPersist (When this creature dies, if it had no -1/-1 counters on it, return it to the battlefield under its owner's control with a -1/-1 counter on it.)",
+   "power": "3",
+   "toughness": "2"
   },
   {
    "name": "Disfigure",
@@ -344,7 +356,9 @@
    ],
    "mana_cost": "{1}{W}",
    "url": "https://scryfall.com/card/inr/15/cathar-commando?utm_source=api",
-   "oracle_text": "Flash\n{1}, Sacrifice this creature: Destroy target artifact or enchantment."
+   "oracle_text": "Flash\n{1}, Sacrifice this creature: Destroy target artifact or enchantment.",
+   "power": "3",
+   "toughness": "1"
   },
   {
    "name": "Werefox Bodyguard",
@@ -366,7 +380,9 @@
    ],
    "mana_cost": "{1}{W}{W}",
    "url": "https://scryfall.com/card/woe/39/werefox-bodyguard?utm_source=api",
-   "oracle_text": "Flash\nWhen this creature enters, exile up to one other target non-Fox creature until this creature leaves the battlefield.\n{1}{W}, Sacrifice this creature: You gain 2 life."
+   "oracle_text": "Flash\nWhen this creature enters, exile up to one other target non-Fox creature until this creature leaves the battlefield.\n{1}{W}, Sacrifice this creature: You gain 2 life.",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Godless Shrine",
@@ -408,7 +424,9 @@
    ],
    "mana_cost": "{W} // {1}{W}",
    "url": "https://scryfall.com/card/eld/11/faerie-guidemother-gift-of-the-fae?utm_source=api",
-   "oracle_text": ""
+   "oracle_text": "",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Glass Casket",
@@ -464,7 +482,9 @@
    ],
    "mana_cost": "{3}{W}{W}",
    "url": "https://scryfall.com/card/khc/21/cloudgoat-ranger?utm_source=api",
-   "oracle_text": "When this creature enters, create three 1/1 white Kithkin Soldier creature tokens.\nTap three untapped Kithkin you control: This creature gets +2/+0 and gains flying until end of turn."
+   "oracle_text": "When this creature enters, create three 1/1 white Kithkin Soldier creature tokens.\nTap three untapped Kithkin you control: This creature gets +2/+0 and gains flying until end of turn.",
+   "power": "3",
+   "toughness": "3"
   },
   {
    "name": "Reveillark",
@@ -484,7 +504,9 @@
    ],
    "mana_cost": "{4}{W}",
    "url": "https://scryfall.com/card/2x2/26/reveillark?utm_source=api",
-   "oracle_text": "Flying\nWhen this creature leaves the battlefield, return up to two target creature cards with power 2 or less from your graveyard to the battlefield.\nEvoke {5}{W} (You may cast this spell for its evoke cost. If you do, it's sacrificed when it enters.)"
+   "oracle_text": "Flying\nWhen this creature leaves the battlefield, return up to two target creature cards with power 2 or less from your graveyard to the battlefield.\nEvoke {5}{W} (You may cast this spell for its evoke cost. If you do, it's sacrificed when it enters.)",
+   "power": "4",
+   "toughness": "3"
   },
   {
    "name": "Portable Hole",
@@ -539,7 +561,9 @@
    ],
    "mana_cost": "{1}{B}",
    "url": "https://scryfall.com/card/m21/107/kitesail-freebooter?utm_source=api",
-   "oracle_text": "Flying\nWhen this creature enters, target opponent reveals their hand. You choose a noncreature, nonland card from it. Exile that card until this creature leaves the battlefield."
+   "oracle_text": "Flying\nWhen this creature enters, target opponent reveals their hand. You choose a noncreature, nonland card from it. Exile that card until this creature leaves the battlefield.",
+   "power": "1",
+   "toughness": "2"
   },
   {
    "name": "Field of Ruin",
@@ -573,7 +597,9 @@
    ],
    "mana_cost": "{1}{W}",
    "url": "https://scryfall.com/card/xln/1/adanto-vanguard?utm_source=api",
-   "oracle_text": "As long as this creature is attacking, it gets +2/+0.\nPay 4 life: This creature gains indestructible until end of turn. (Damage and effects that say \"destroy\" don't destroy it.)"
+   "oracle_text": "As long as this creature is attacking, it gets +2/+0.\nPay 4 life: This creature gains indestructible until end of turn. (Damage and effects that say \"destroy\" don't destroy it.)",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Arid Mesa",
@@ -608,7 +634,9 @@
    ],
    "mana_cost": "{W} // {W}",
    "url": "https://scryfall.com/card/woe/7/cheeky-house-mouse-squeak-by?utm_source=api",
-   "oracle_text": ""
+   "oracle_text": "",
+   "power": "2",
+   "toughness": "1"
   },
   {
    "name": "Plains",
@@ -1013,7 +1041,9 @@
    ],
    "mana_cost": "{G}",
    "url": "https://scryfall.com/card/thb/167/chainweb-aracnir?utm_source=api",
-   "oracle_text": "Reach\nWhen this creature enters, it deals damage equal to its power to target creature with flying an opponent controls.\nEscape—{3}{G}{G}, Exile four other cards from your graveyard. (You may cast this card from your graveyard for its escape cost.)\nThis creature escapes with three +1/+1 counters on it."
+   "oracle_text": "Reach\nWhen this creature enters, it deals damage equal to its power to target creature with flying an opponent controls.\nEscape—{3}{G}{G}, Exile four other cards from your graveyard. (You may cast this card from your graveyard for its escape cost.)\nThis creature escapes with three +1/+1 counters on it.",
+   "power": "1",
+   "toughness": "2"
   },
   {
    "name": "The Goose Mother",
@@ -1037,7 +1067,9 @@
    ],
    "mana_cost": "{X}{G}{U}",
    "url": "https://scryfall.com/card/woe/204/the-goose-mother?utm_source=api",
-   "oracle_text": "Flying\nThe Goose Mother enters with X +1/+1 counters on it.\nWhen The Goose Mother enters, create half X Food tokens, rounded up.\nWhenever The Goose Mother attacks, you may sacrifice a Food. If you do, draw a card."
+   "oracle_text": "Flying\nThe Goose Mother enters with X +1/+1 counters on it.\nWhen The Goose Mother enters, create half X Food tokens, rounded up.\nWhenever The Goose Mother attacks, you may sacrifice a Food. If you do, draw a card.",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Hallowed Fountain",
@@ -1093,7 +1125,9 @@
    ],
    "mana_cost": "{W}",
    "url": "https://scryfall.com/card/zen/36/steppe-lynx?utm_source=api",
-   "oracle_text": "Landfall — Whenever a land you control enters, this creature gets +2/+2 until end of turn."
+   "oracle_text": "Landfall — Whenever a land you control enters, this creature gets +2/+2 until end of turn.",
+   "power": "0",
+   "toughness": "1"
   },
   {
    "name": "Legion's Landing // Adanto, the First Fort",

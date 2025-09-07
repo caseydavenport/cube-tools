@@ -88,7 +88,9 @@
    ],
    "mana_cost": "{1}{W}",
    "url": "https://scryfall.com/card/cmm/838/spirited-companion?utm_source=api",
-   "oracle_text": "When this creature enters, draw a card."
+   "oracle_text": "When this creature enters, draw a card.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Flickerwisp",
@@ -108,7 +110,9 @@
    ],
    "mana_cost": "{1}{W}{W}",
    "url": "https://scryfall.com/card/2x2/11/flickerwisp?utm_source=api",
-   "oracle_text": "Flying\nWhen this creature enters, exile another target permanent. Return that card to the battlefield under its owner's control at the beginning of the next end step."
+   "oracle_text": "Flying\nWhen this creature enters, exile another target permanent. Return that card to the battlefield under its owner's control at the beginning of the next end step.",
+   "power": "3",
+   "toughness": "1"
   },
   {
    "name": "Meadowboon",
@@ -128,7 +132,9 @@
    ],
    "mana_cost": "{2}{W}{W}",
    "url": "https://scryfall.com/card/mma/22/meadowboon?utm_source=api",
-   "oracle_text": "When this creature leaves the battlefield, put a +1/+1 counter on each creature target player controls.\nEvoke {3}{W} (You may cast this spell for its evoke cost. If you do, it's sacrificed when it enters.)"
+   "oracle_text": "When this creature leaves the battlefield, put a +1/+1 counter on each creature target player controls.\nEvoke {3}{W} (You may cast this spell for its evoke cost. If you do, it's sacrificed when it enters.)",
+   "power": "3",
+   "toughness": "3"
   },
   {
    "name": "Welcoming Vampire",
@@ -148,7 +154,9 @@
    ],
    "mana_cost": "{2}{W}",
    "url": "https://scryfall.com/card/tdc/140/welcoming-vampire?utm_source=api",
-   "oracle_text": "Flying\nWhenever one or more other creatures you control with power 2 or less enter, draw a card. This ability triggers only once each turn."
+   "oracle_text": "Flying\nWhenever one or more other creatures you control with power 2 or less enter, draw a card. This ability triggers only once each turn.",
+   "power": "2",
+   "toughness": "3"
   },
   {
    "name": "Hostage Taker",
@@ -171,7 +179,9 @@
    ],
    "mana_cost": "{2}{U}{B}",
    "url": "https://scryfall.com/card/otc/231/hostage-taker?utm_source=api",
-   "oracle_text": "When this creature enters, exile another target creature or artifact until this creature leaves the battlefield. You may cast that card for as long as it remains exiled, and mana of any type can be spent to cast that spell."
+   "oracle_text": "When this creature enters, exile another target creature or artifact until this creature leaves the battlefield. You may cast that card for as long as it remains exiled, and mana of any type can be spent to cast that spell.",
+   "power": "2",
+   "toughness": "3"
   },
   {
    "name": "Snapcaster Mage",
@@ -192,7 +202,9 @@
    ],
    "mana_cost": "{1}{U}",
    "url": "https://scryfall.com/card/uma/71/snapcaster-mage?utm_source=api",
-   "oracle_text": "Flash\nWhen this creature enters, target instant or sorcery card in your graveyard gains flashback until end of turn. The flashback cost is equal to its mana cost. (You may cast that card from your graveyard for its flashback cost. Then exile it.)"
+   "oracle_text": "Flash\nWhen this creature enters, target instant or sorcery card in your graveyard gains flashback until end of turn. The flashback cost is equal to its mana cost. (You may cast that card from your graveyard for its flashback cost. Then exile it.)",
+   "power": "2",
+   "toughness": "1"
   },
   {
    "name": "Faerie Dreamthief",
@@ -213,7 +225,9 @@
    ],
    "mana_cost": "{B}",
    "url": "https://scryfall.com/card/woe/89/faerie-dreamthief?utm_source=api",
-   "oracle_text": "Flying\nWhen this creature enters, surveil 1. (Look at the top card of your library. You may put it into your graveyard.)\n{2}{B}, Exile this card from your graveyard: You draw a card and you lose 1 life."
+   "oracle_text": "Flying\nWhen this creature enters, surveil 1. (Look at the top card of your library. You may put it into your graveyard.)\n{2}{B}, Exile this card from your graveyard: You draw a card and you lose 1 life.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Soul Warden",
@@ -234,7 +248,9 @@
    ],
    "mana_cost": "{W}",
    "url": "https://scryfall.com/card/mm3/24/soul-warden?utm_source=api",
-   "oracle_text": "Whenever another creature enters, you gain 1 life."
+   "oracle_text": "Whenever another creature enters, you gain 1 life.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Mulldrifter",
@@ -254,7 +270,9 @@
    ],
    "mana_cost": "{4}{U}",
    "url": "https://scryfall.com/card/mkc/111/mulldrifter?utm_source=api",
-   "oracle_text": "Flying\nWhen this creature enters, draw two cards.\nEvoke {2}{U} (You may cast this spell for its evoke cost. If you do, it's sacrificed when it enters.)"
+   "oracle_text": "Flying\nWhen this creature enters, draw two cards.\nEvoke {2}{U} (You may cast this spell for its evoke cost. If you do, it's sacrificed when it enters.)",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Moon-Circuit Hacker",
@@ -276,7 +294,9 @@
    ],
    "mana_cost": "{1}{U}",
    "url": "https://scryfall.com/card/neo/67/moon-circuit-hacker?utm_source=api",
-   "oracle_text": "Ninjutsu {U} ({U}, Return an unblocked attacker you control to hand: Put this card onto the battlefield from your hand tapped and attacking.)\nWhenever this creature deals combat damage to a player, you may draw a card. If you do, discard a card unless this creature entered this turn."
+   "oracle_text": "Ninjutsu {U} ({U}, Return an unblocked attacker you control to hand: Put this card onto the battlefield from your hand tapped and attacking.)\nWhenever this creature deals combat damage to a player, you may draw a card. If you do, discard a card unless this creature entered this turn.",
+   "power": "2",
+   "toughness": "1"
   },
   {
    "name": "Puppeteer Clique",
@@ -297,7 +317,9 @@
    ],
    "mana_cost": "{3}{B}{B}",
    "url": "https://scryfall.com/card/clb/769/puppeteer-clique?utm_source=api",
-   "oracle_text": "Flying\nWhen this creature enters, put target creature card from an opponent's graveyard onto the battlefield under your control. It gains haste. At the beginning of your next end step, exile it.\nPersist (When this creature dies, if it had no -1/-1 counters on it, return it to the battlefield under its owner's control with a -1/-1 counter on it.)"
+   "oracle_text": "Flying\nWhen this creature enters, put target creature card from an opponent's graveyard onto the battlefield under your control. It gains haste. At the beginning of your next end step, exile it.\nPersist (When this creature dies, if it had no -1/-1 counters on it, return it to the battlefield under its owner's control with a -1/-1 counter on it.)",
+   "power": "3",
+   "toughness": "2"
   },
   {
    "name": "Halo Forager",
@@ -320,7 +342,9 @@
    ],
    "mana_cost": "{1}{U}{B}",
    "url": "https://scryfall.com/card/mom/227/halo-forager?utm_source=api",
-   "oracle_text": "Flying\nWhen this creature enters, you may pay {X}. When you do, you may cast target instant or sorcery card with mana value X from a graveyard without paying its mana cost. If that spell would be put into a graveyard, exile it instead."
+   "oracle_text": "Flying\nWhen this creature enters, you may pay {X}. When you do, you may cast target instant or sorcery card with mana value X from a graveyard without paying its mana cost. If that spell would be put into a graveyard, exile it instead.",
+   "power": "3",
+   "toughness": "1"
   },
   {
    "name": "Kor Skyfisher",
@@ -341,7 +365,9 @@
    ],
    "mana_cost": "{1}{W}",
    "url": "https://scryfall.com/card/mm3/11/kor-skyfisher?utm_source=api",
-   "oracle_text": "Flying\nWhen this creature enters, return a permanent you control to its owner's hand."
+   "oracle_text": "Flying\nWhen this creature enters, return a permanent you control to its owner's hand.",
+   "power": "2",
+   "toughness": "3"
   },
   {
    "name": "Shark Typhoon",
@@ -868,7 +894,9 @@
    ],
    "mana_cost": "{1}{U}{R}",
    "url": "https://scryfall.com/card/iko/203/rielle-the-everwise?utm_source=api",
-   "oracle_text": "Rielle gets +1/+0 for each instant and sorcery card in your graveyard.\nWhenever you discard one or more cards for the first time each turn, draw that many cards."
+   "oracle_text": "Rielle gets +1/+0 for each instant and sorcery card in your graveyard.\nWhenever you discard one or more cards for the first time each turn, draw that many cards.",
+   "power": "0",
+   "toughness": "3"
   },
   {
    "name": "Qasali Pridemage",
@@ -891,7 +919,9 @@
    ],
    "mana_cost": "{G}{W}",
    "url": "https://scryfall.com/card/2x2/267/qasali-pridemage?utm_source=api",
-   "oracle_text": "Exalted (Whenever a creature you control attacks alone, that creature gets +1/+1 until end of turn.)\n{1}, Sacrifice this creature: Destroy target artifact or enchantment."
+   "oracle_text": "Exalted (Whenever a creature you control attacks alone, that creature gets +1/+1 until end of turn.)\n{1}, Sacrifice this creature: Destroy target artifact or enchantment.",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Seasoned Hallowblade",
@@ -912,7 +942,9 @@
    ],
    "mana_cost": "{1}{W}",
    "url": "https://scryfall.com/card/m21/34/seasoned-hallowblade?utm_source=api",
-   "oracle_text": "Discard a card: Tap this creature. It gains indestructible until end of turn. (Damage and effects that say \"destroy\" don't destroy it.)"
+   "oracle_text": "Discard a card: Tap this creature. It gains indestructible until end of turn. (Damage and effects that say \"destroy\" don't destroy it.)",
+   "power": "3",
+   "toughness": "1"
   },
   {
    "name": "Sphinx of Lost Truths",
@@ -932,7 +964,9 @@
    ],
    "mana_cost": "{3}{U}{U}",
    "url": "https://scryfall.com/card/zen/69/sphinx-of-lost-truths?utm_source=api",
-   "oracle_text": "Kicker {1}{U} (You may pay an additional {1}{U} as you cast this spell.)\nFlying\nWhen this creature enters, draw three cards. Then if it wasn't kicked, discard three cards."
+   "oracle_text": "Kicker {1}{U} (You may pay an additional {1}{U} as you cast this spell.)\nFlying\nWhen this creature enters, draw three cards. Then if it wasn't kicked, discard three cards.",
+   "power": "3",
+   "toughness": "5"
   },
   {
    "name": "Goldmeadow Harrier",
@@ -953,7 +987,9 @@
    ],
    "mana_cost": "{W}",
    "url": "https://scryfall.com/card/ddf/3/goldmeadow-harrier?utm_source=api",
-   "oracle_text": "{W}, {T}: Tap target creature."
+   "oracle_text": "{W}, {T}: Tap target creature.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Mother of Runes",
@@ -974,7 +1010,9 @@
    ],
    "mana_cost": "{W}",
    "url": "https://scryfall.com/card/clb/702/mother-of-runes?utm_source=api",
-   "oracle_text": "{T}: Target creature you control gains protection from the color of your choice until end of turn."
+   "oracle_text": "{T}: Target creature you control gains protection from the color of your choice until end of turn.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Dress Down",
@@ -1084,7 +1122,9 @@
    ],
    "mana_cost": "{2}{R} // {1}{W}",
    "url": "https://scryfall.com/card/woe/230/kellan-the-fae-blooded-birthright-boon?utm_source=api",
-   "oracle_text": ""
+   "oracle_text": "",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Day of Judgment",

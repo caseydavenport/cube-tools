@@ -71,7 +71,9 @@
    ],
    "mana_cost": "{2}{G}",
    "url": "https://scryfall.com/card/khc/68/marwyn-the-nurturer?utm_source=api",
-   "oracle_text": "Whenever another Elf you control enters, put a +1/+1 counter on Marwyn.\n{T}: Add an amount of {G} equal to Marwyn's power."
+   "oracle_text": "Whenever another Elf you control enters, put a +1/+1 counter on Marwyn.\n{T}: Add an amount of {G} equal to Marwyn's power.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Obstinate Baloth",
@@ -91,7 +93,9 @@
    ],
    "mana_cost": "{2}{G}{G}",
    "url": "https://scryfall.com/card/bro/187/obstinate-baloth?utm_source=api",
-   "oracle_text": "When this creature enters, you gain 4 life.\nIf a spell or ability an opponent controls causes you to discard this card, put it onto the battlefield instead of putting it into your graveyard."
+   "oracle_text": "When this creature enters, you gain 4 life.\nIf a spell or ability an opponent controls causes you to discard this card, put it onto the battlefield instead of putting it into your graveyard.",
+   "power": "4",
+   "toughness": "4"
   },
   {
    "name": "Warcry Phoenix",
@@ -111,7 +115,9 @@
    ],
    "mana_cost": "{3}{R}",
    "url": "https://scryfall.com/card/dom/150/warcry-phoenix?utm_source=api",
-   "oracle_text": "Flying, haste\nWhenever you attack with three or more creatures, you may pay {2}{R}. If you do, return this card from your graveyard to the battlefield tapped and attacking."
+   "oracle_text": "Flying, haste\nWhenever you attack with three or more creatures, you may pay {2}{R}. If you do, return this card from your graveyard to the battlefield tapped and attacking.",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Devoted Druid",
@@ -132,7 +138,9 @@
    ],
    "mana_cost": "{1}{G}",
    "url": "https://scryfall.com/card/2x2/143/devoted-druid?utm_source=api",
-   "oracle_text": "{T}: Add {G}.\nPut a -1/-1 counter on this creature: Untap this creature."
+   "oracle_text": "{T}: Add {G}.\nPut a -1/-1 counter on this creature: Untap this creature.",
+   "power": "0",
+   "toughness": "2"
   },
   {
    "name": "Ward of Bones",
@@ -165,7 +173,9 @@
    ],
    "mana_cost": "{1}{G}{G}",
    "url": "https://scryfall.com/card/e01/76/turntimber-basilisk?utm_source=api",
-   "oracle_text": "Deathtouch (Any amount of damage this deals to a creature is enough to destroy it.)\nLandfall — Whenever a land you control enters, you may have target creature block this creature this turn if able."
+   "oracle_text": "Deathtouch (Any amount of damage this deals to a creature is enough to destroy it.)\nLandfall — Whenever a land you control enters, you may have target creature block this creature this turn if able.",
+   "power": "2",
+   "toughness": "1"
   },
   {
    "name": "Recross the Paths",
@@ -269,7 +279,9 @@
    ],
    "mana_cost": "{2}",
    "url": "https://scryfall.com/card/som/146/copper-myr?utm_source=api",
-   "oracle_text": "{T}: Add {G}."
+   "oracle_text": "{T}: Add {G}.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Thornling",
@@ -290,7 +302,9 @@
    ],
    "mana_cost": "{3}{G}{G}",
    "url": "https://scryfall.com/card/con/95/thornling?utm_source=api",
-   "oracle_text": "{G}: This creature gains haste until end of turn.\n{G}: This creature gains trample until end of turn.\n{G}: This creature gains indestructible until end of turn.\n{1}: This creature gets +1/-1 until end of turn.\n{1}: This creature gets -1/+1 until end of turn."
+   "oracle_text": "{G}: This creature gains haste until end of turn.\n{G}: This creature gains trample until end of turn.\n{G}: This creature gains indestructible until end of turn.\n{1}: This creature gets +1/-1 until end of turn.\n{1}: This creature gets -1/+1 until end of turn.",
+   "power": "4",
+   "toughness": "4"
   },
   {
    "name": "Quietus Spike",
@@ -359,7 +373,9 @@
    ],
    "mana_cost": "{3}{R}{R}",
    "url": "https://scryfall.com/card/m11/150/magma-phoenix?utm_source=api",
-   "oracle_text": "Flying\nWhen this creature dies, it deals 3 damage to each creature and each player.\n{3}{R}{R}: Return this card from your graveyard to your hand."
+   "oracle_text": "Flying\nWhen this creature dies, it deals 3 damage to each creature and each player.\n{3}{R}{R}: Return this card from your graveyard to your hand.",
+   "power": "3",
+   "toughness": "3"
   },
   {
    "name": "Mountain",
@@ -476,7 +492,9 @@
    ],
    "mana_cost": "{2}{G}{G}",
    "url": "https://scryfall.com/card/tdc/244/arasta-of-the-endless-web?utm_source=api",
-   "oracle_text": "Reach\nWhenever an opponent casts an instant or sorcery spell, create a 1/2 green Spider creature token with reach."
+   "oracle_text": "Reach\nWhenever an opponent casts an instant or sorcery spell, create a 1/2 green Spider creature token with reach.",
+   "power": "3",
+   "toughness": "5"
   },
   {
    "name": "Skarrgan Hellkite",
@@ -496,7 +514,9 @@
    ],
    "mana_cost": "{3}{R}{R}",
    "url": "https://scryfall.com/card/tdc/233/skarrgan-hellkite?utm_source=api",
-   "oracle_text": "Riot (This creature enters with your choice of a +1/+1 counter or haste.)\nFlying\n{3}{R}: This creature deals 2 damage divided as you choose among one or two targets. Activate only if this creature has a +1/+1 counter on it."
+   "oracle_text": "Riot (This creature enters with your choice of a +1/+1 counter or haste.)\nFlying\n{3}{R}: This creature deals 2 damage divided as you choose among one or two targets. Activate only if this creature has a +1/+1 counter on it.",
+   "power": "4",
+   "toughness": "4"
   },
   {
    "name": "Forest",
@@ -701,7 +721,9 @@
    ],
    "mana_cost": "{G}",
    "url": "https://scryfall.com/card/a25/160/arbor-elf?utm_source=api",
-   "oracle_text": "{T}: Untap target Forest."
+   "oracle_text": "{T}: Untap target Forest.",
+   "power": "1",
+   "toughness": "1"
   }
  ],
  "sideboard": []

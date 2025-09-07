@@ -235,6 +235,16 @@ export function DropdownSelector({ label, value, options, onChange }) {
 }
 
 function cardMatches(card, matchStr, checkText) {
+  if (iSFuzzy(matchStr)) {
+    // This is a fuzzy match. Split the string and check each term.
+    let splits = matchStr.split(" ")
+    for (let term of splits) {
+      if (powMatches(term, card)) {
+        return true
+      }
+    }
+  }
+
   if (card.name.toLowerCase().match(matchStr.toLowerCase())) {
     return true
   }
@@ -271,6 +281,52 @@ function deckMatches(deck, matchStr, mbsb) {
     }
   }
 
+  return false
+}
+
+// returns true if this is a propery fuzzy match, and false if it contains query terms.
+function iSFuzzy(matchStr) {
+  // Split the string. If any of the criteria are query terms, return true.
+  let splits = matchStr.split(" ")
+  for (let term of splits) {
+    if (term.startsWith("pow<") || term.startsWith("pow>") || term.startsWith("pow=")) {
+      return true
+    }
+  }
+  return false
+}
+
+function powMatches(term, card) {
+  // If the card has no power, it can't match.
+  if (card.power == null) {
+    return false
+  }
+
+  // Parse the power string as an int.
+  let power = parseInt(card.power)
+  if (isNaN(power)) {
+    return false
+  }
+
+  // If the term is a power query, we need to check if the card's power matches.
+  if (term.startsWith("pow<")) {
+    let val = parseInt(term.replace("pow<", ""))
+    if (power < val) {
+      return true
+    }
+  }
+  if (term.startsWith("pow>")) {
+    let val = parseInt(term.replace("pow>", ""))
+    if (power > val) {
+      return true
+    }
+  }
+  if (term.startsWith("pow=")) {
+    let val = parseInt(term.replace("pow=", ""))
+    if (power == val) {
+      return true
+    }
+  }
   return false
 }
 

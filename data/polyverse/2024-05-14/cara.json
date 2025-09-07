@@ -66,7 +66,9 @@
    ],
    "mana_cost": "{B}",
    "url": "https://scryfall.com/card/m20/105/knight-of-the-ebon-legion?utm_source=api",
-   "oracle_text": "{2}{B}: This creature gets +3/+3 and gains deathtouch until end of turn.\nAt the beginning of your end step, if a player lost 4 or more life this turn, put a +1/+1 counter on this creature. (Damage causes loss of life.)"
+   "oracle_text": "{2}{B}: This creature gets +3/+3 and gains deathtouch until end of turn.\nAt the beginning of your end step, if a player lost 4 or more life this turn, put a +1/+1 counter on this creature. (Damage causes loss of life.)",
+   "power": "1",
+   "toughness": "2"
   },
   {
    "name": "Ignoble Hierarch",
@@ -89,7 +91,9 @@
    ],
    "mana_cost": "{G}",
    "url": "https://scryfall.com/card/mh2/166/ignoble-hierarch?utm_source=api",
-   "oracle_text": "Exalted (Whenever a creature you control attacks alone, that creature gets +1/+1 until end of turn.)\n{T}: Add {B}, {R}, or {G}."
+   "oracle_text": "Exalted (Whenever a creature you control attacks alone, that creature gets +1/+1 until end of turn.)\n{T}: Add {B}, {R}, or {G}.",
+   "power": "0",
+   "toughness": "1"
   },
   {
    "name": "Bloodghast",
@@ -110,7 +114,9 @@
    ],
    "mana_cost": "{B}{B}",
    "url": "https://scryfall.com/card/dft/77/bloodghast?utm_source=api",
-   "oracle_text": "This creature can't block.\nThis creature has haste as long as an opponent has 10 or less life.\nLandfall — Whenever a land you control enters, you may return this card from your graveyard to the battlefield."
+   "oracle_text": "This creature can't block.\nThis creature has haste as long as an opponent has 10 or less life.\nLandfall — Whenever a land you control enters, you may return this card from your graveyard to the battlefield.",
+   "power": "2",
+   "toughness": "1"
   },
   {
    "name": "Lotus Cobra",
@@ -130,7 +136,9 @@
    ],
    "mana_cost": "{1}{G}",
    "url": "https://scryfall.com/card/znr/193/lotus-cobra?utm_source=api",
-   "oracle_text": "Landfall — Whenever a land you control enters, add one mana of any color."
+   "oracle_text": "Landfall — Whenever a land you control enters, add one mana of any color.",
+   "power": "2",
+   "toughness": "1"
   },
   {
    "name": "Tarmogoyf",
@@ -150,7 +158,9 @@
    ],
    "mana_cost": "{1}{G}",
    "url": "https://scryfall.com/card/tsr/235/tarmogoyf?utm_source=api",
-   "oracle_text": "Tarmogoyf's power is equal to the number of card types among cards in all graveyards and its toughness is equal to that number plus 1."
+   "oracle_text": "Tarmogoyf's power is equal to the number of card types among cards in all graveyards and its toughness is equal to that number plus 1.",
+   "power": "*",
+   "toughness": "1+*"
   },
   {
    "name": "Inexorable Blob",
@@ -170,7 +180,9 @@
    ],
    "mana_cost": "{2}{G}",
    "url": "https://scryfall.com/card/soi/212/inexorable-blob?utm_source=api",
-   "oracle_text": "Delirium — Whenever this creature attacks, if there are four or more card types among cards in your graveyard, create a 3/3 green Ooze creature token that's tapped and attacking."
+   "oracle_text": "Delirium — Whenever this creature attacks, if there are four or more card types among cards in your graveyard, create a 3/3 green Ooze creature token that's tapped and attacking.",
+   "power": "3",
+   "toughness": "3"
   },
   {
    "name": "Stalactite Stalker",
@@ -191,7 +203,9 @@
    ],
    "mana_cost": "{B}",
    "url": "https://scryfall.com/card/lci/122/stalactite-stalker?utm_source=api",
-   "oracle_text": "Menace\nAt the beginning of your end step, if you descended this turn, put a +1/+1 counter on this creature. (You descended if a permanent card was put into your graveyard from anywhere.)\n{2}{B}, Sacrifice this creature: Target creature gets -X/-X until end of turn, where X is this creature's power."
+   "oracle_text": "Menace\nAt the beginning of your end step, if you descended this turn, put a +1/+1 counter on this creature. (You descended if a permanent card was put into your graveyard from anywhere.)\n{2}{B}, Sacrifice this creature: Target creature gets -X/-X until end of turn, where X is this creature's power.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Viscera Seer",
@@ -212,7 +226,9 @@
    ],
    "mana_cost": "{B}",
    "url": "https://scryfall.com/card/tdc/199/viscera-seer?utm_source=api",
-   "oracle_text": "Sacrifice a creature: Scry 1. (Look at the top card of your library. You may put that card on the bottom.)"
+   "oracle_text": "Sacrifice a creature: Scry 1. (Look at the top card of your library. You may put that card on the bottom.)",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Satyr Wayfinder",
@@ -232,7 +248,9 @@
    ],
    "mana_cost": "{1}{G}",
    "url": "https://scryfall.com/card/eoc/106/satyr-wayfinder?utm_source=api",
-   "oracle_text": "When this creature enters, reveal the top four cards of your library. You may put a land card from among them into your hand. Put the rest into your graveyard."
+   "oracle_text": "When this creature enters, reveal the top four cards of your library. You may put a land card from among them into your hand. Put the rest into your graveyard.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Eternal Witness",
@@ -253,7 +271,9 @@
    ],
    "mana_cost": "{1}{G}{G}",
    "url": "https://scryfall.com/card/cmm/286/eternal-witness?utm_source=api",
-   "oracle_text": "When this creature enters, you may return target card from your graveyard to your hand."
+   "oracle_text": "When this creature enters, you may return target card from your graveyard to your hand.",
+   "power": "2",
+   "toughness": "1"
   },
   {
    "name": "Mire Triton",
@@ -274,7 +294,9 @@
    ],
    "mana_cost": "{1}{B}",
    "url": "https://scryfall.com/card/cmm/174/mire-triton?utm_source=api",
-   "oracle_text": "Deathtouch\nWhen this creature enters, mill two cards and you gain 2 life. (To mill a card, put the top card of your library into your graveyard.)"
+   "oracle_text": "Deathtouch\nWhen this creature enters, mill two cards and you gain 2 life. (To mill a card, put the top card of your library into your graveyard.)",
+   "power": "2",
+   "toughness": "1"
   },
   {
    "name": "Arasta of the Endless Web",
@@ -296,7 +318,9 @@
    ],
    "mana_cost": "{2}{G}{G}",
    "url": "https://scryfall.com/card/tdc/244/arasta-of-the-endless-web?utm_source=api",
-   "oracle_text": "Reach\nWhenever an opponent casts an instant or sorcery spell, create a 1/2 green Spider creature token with reach."
+   "oracle_text": "Reach\nWhenever an opponent casts an instant or sorcery spell, create a 1/2 green Spider creature token with reach.",
+   "power": "3",
+   "toughness": "5"
   },
   {
    "name": "Kraul Harpooner",
@@ -317,7 +341,9 @@
    ],
    "mana_cost": "{1}{G}",
    "url": "https://scryfall.com/card/clu/167/kraul-harpooner?utm_source=api",
-   "oracle_text": "Reach\nUndergrowth — When this creature enters, choose up to one target creature you don't control with flying. This creature gets +X/+0 until end of turn, where X is the number of creature cards in your graveyard, then you may have this creature fight that creature."
+   "oracle_text": "Reach\nUndergrowth — When this creature enters, choose up to one target creature you don't control with flying. This creature gets +X/+0 until end of turn, where X is the number of creature cards in your graveyard, then you may have this creature fight that creature.",
+   "power": "3",
+   "toughness": "2"
   },
   {
    "name": "Cunning Lethemancer",
@@ -338,7 +364,9 @@
    ],
    "mana_cost": "{2}{B}",
    "url": "https://scryfall.com/card/ala/69/cunning-lethemancer?utm_source=api",
-   "oracle_text": "At the beginning of your upkeep, each player discards a card."
+   "oracle_text": "At the beginning of your upkeep, each player discards a card.",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Quest for the Gravelord",
@@ -801,7 +829,9 @@
    ],
    "mana_cost": "{1}{G} // {1}{B}",
    "url": "https://scryfall.com/card/woe/231/mosswood-dreadknight-dread-whispers?utm_source=api",
-   "oracle_text": ""
+   "oracle_text": "",
+   "power": "3",
+   "toughness": "2"
   },
   {
    "name": "Bone Shards",
@@ -840,7 +870,9 @@
    ],
    "mana_cost": "{2}{U}",
    "url": "https://scryfall.com/card/thb/79/vexing-gull?utm_source=api",
-   "oracle_text": "Flash\nFlying"
+   "oracle_text": "Flash\nFlying",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Llanowar Elves",
@@ -861,7 +893,9 @@
    ],
    "mana_cost": "{G}",
    "url": "https://scryfall.com/card/fdn/227/llanowar-elves?utm_source=api",
-   "oracle_text": "{T}: Add {G}."
+   "oracle_text": "{T}: Add {G}.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Mayhem Devil",
@@ -883,7 +917,9 @@
    ],
    "mana_cost": "{1}{B}{R}",
    "url": "https://scryfall.com/card/eoc/121/mayhem-devil?utm_source=api",
-   "oracle_text": "Whenever a player sacrifices a permanent, this creature deals 1 damage to any target."
+   "oracle_text": "Whenever a player sacrifices a permanent, this creature deals 1 damage to any target.",
+   "power": "3",
+   "toughness": "3"
   },
   {
    "name": "Dreadhorde Arcanist",
@@ -904,7 +940,9 @@
    ],
    "mana_cost": "{1}{R}",
    "url": "https://scryfall.com/card/war/125/dreadhorde-arcanist?utm_source=api",
-   "oracle_text": "Trample\nWhenever this creature attacks, you may cast target instant or sorcery card with mana value less than or equal to this creature's power from your graveyard without paying its mana cost. If that spell would be put into your graveyard, exile it instead."
+   "oracle_text": "Trample\nWhenever this creature attacks, you may cast target instant or sorcery card with mana value less than or equal to this creature's power from your graveyard without paying its mana cost. If that spell would be put into your graveyard, exile it instead.",
+   "power": "1",
+   "toughness": "3"
   },
   {
    "name": "Krenko, Tin Street Kingpin",
@@ -925,7 +963,9 @@
    ],
    "mana_cost": "{2}{R}",
    "url": "https://scryfall.com/card/moc/287/krenko-tin-street-kingpin?utm_source=api",
-   "oracle_text": "Whenever Krenko attacks, put a +1/+1 counter on it, then create a number of 1/1 red Goblin creature tokens equal to Krenko's power."
+   "oracle_text": "Whenever Krenko attacks, put a +1/+1 counter on it, then create a number of 1/1 red Goblin creature tokens equal to Krenko's power.",
+   "power": "1",
+   "toughness": "2"
   },
   {
    "name": "Song of the Dryads",

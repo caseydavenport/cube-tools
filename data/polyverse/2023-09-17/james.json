@@ -117,6 +117,8 @@
    "mana_cost": "{2}",
    "url": "https://scryfall.com/card/cmr/330/perilous-myr?utm_source=api",
    "oracle_text": "When this creature dies, it deals 2 damage to any target.",
+   "power": "1",
+   "toughness": "1",
    "appearances": 1
   },
   {
@@ -140,7 +142,9 @@
    ],
    "mana_cost": "{2}{W/U}{W/U}",
    "url": "https://scryfall.com/card/mm2/199/swans-of-bryn-argoll?utm_source=api",
-   "oracle_text": "Flying\nIf a source would deal damage to this creature, prevent that damage. The source's controller draws cards equal to the damage prevented this way."
+   "oracle_text": "Flying\nIf a source would deal damage to this creature, prevent that damage. The source's controller draws cards equal to the damage prevented this way.",
+   "power": "4",
+   "toughness": "3"
   },
   {
    "name": "Foreboding Ruins",
@@ -197,6 +201,8 @@
    "mana_cost": "{2}{B}",
    "url": "https://scryfall.com/card/mm3/86/vampire-aristocrat?utm_source=api",
    "oracle_text": "Sacrifice a creature: This creature gets +2/+2 until end of turn.",
+   "power": "2",
+   "toughness": "2",
    "appearances": 1
   },
   {
@@ -286,7 +292,9 @@
    ],
    "mana_cost": "{2}{W}",
    "url": "https://scryfall.com/card/lcc/133/mavren-fein-dusk-apostle?utm_source=api",
-   "oracle_text": "Whenever one or more nontoken Vampires you control attack, create a 1/1 white Vampire creature token with lifelink."
+   "oracle_text": "Whenever one or more nontoken Vampires you control attack, create a 1/1 white Vampire creature token with lifelink.",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Blood Crypt",
@@ -328,7 +336,9 @@
    ],
    "mana_cost": "{3}{W}",
    "url": "https://scryfall.com/card/xln/25/paladin-of-the-bloodstained?utm_source=api",
-   "oracle_text": "When this creature enters, create a 1/1 white Vampire creature token with lifelink."
+   "oracle_text": "When this creature enters, create a 1/1 white Vampire creature token with lifelink.",
+   "power": "3",
+   "toughness": "2"
   },
   {
    "name": "Unearth",
@@ -368,7 +378,9 @@
    ],
    "mana_cost": "{R}",
    "url": "https://scryfall.com/card/neo/158/reinforced-ronin?utm_source=api",
-   "oracle_text": "Haste\nAt the beginning of your end step, return this creature to its owner's hand.\nChannel — {1}{R}, Discard this card: Draw a card."
+   "oracle_text": "Haste\nAt the beginning of your end step, return this creature to its owner's hand.\nChannel — {1}{R}, Discard this card: Draw a card.",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Doom Blade",
@@ -408,7 +420,9 @@
    ],
    "mana_cost": "{W}{B}",
    "url": "https://scryfall.com/card/rna/194/pitiless-pontiff?utm_source=api",
-   "oracle_text": "{1}, Sacrifice another creature: This creature gains deathtouch and indestructible until end of turn. (Damage and effects that say \"destroy\" don't destroy it.)"
+   "oracle_text": "{1}, Sacrifice another creature: This creature gains deathtouch and indestructible until end of turn. (Damage and effects that say \"destroy\" don't destroy it.)",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Knight of the Ebon Legion",
@@ -430,6 +444,8 @@
    "mana_cost": "{B}",
    "url": "https://scryfall.com/card/m20/105/knight-of-the-ebon-legion?utm_source=api",
    "oracle_text": "{2}{B}: This creature gets +3/+3 and gains deathtouch until end of turn.\nAt the beginning of your end step, if a player lost 4 or more life this turn, put a +1/+1 counter on this creature. (Damage causes loss of life.)",
+   "power": "1",
+   "toughness": "2",
    "appearances": 1
   },
   {
@@ -487,6 +503,8 @@
    "mana_cost": "{1}{W}",
    "url": "https://scryfall.com/card/thb/12/eidolon-of-obstruction?utm_source=api",
    "oracle_text": "First strike\nLoyalty abilities of planeswalkers your opponents control cost {1} more to activate.",
+   "power": "2",
+   "toughness": "1",
    "appearances": 1
   },
   {
@@ -572,7 +590,9 @@
    ],
    "mana_cost": "{3}{W}",
    "url": "https://scryfall.com/card/inr/38/restoration-angel?utm_source=api",
-   "oracle_text": "Flash\nFlying\nWhen this creature enters, you may exile target non-Angel creature you control, then return that card to the battlefield under your control."
+   "oracle_text": "Flash\nFlying\nWhen this creature enters, you may exile target non-Angel creature you control, then return that card to the battlefield under your control.",
+   "power": "3",
+   "toughness": "4"
   },
   {
    "name": "Flickerwisp",
@@ -593,6 +613,8 @@
    "mana_cost": "{1}{W}{W}",
    "url": "https://scryfall.com/card/2x2/11/flickerwisp?utm_source=api",
    "oracle_text": "Flying\nWhen this creature enters, exile another target permanent. Return that card to the battlefield under its owner's control at the beginning of the next end step.",
+   "power": "3",
+   "toughness": "1",
    "appearances": 1
   },
   {
@@ -626,7 +648,9 @@
    ],
    "mana_cost": "{B}",
    "url": "https://scryfall.com/card/m20/120/vampire-of-the-dire-moon?utm_source=api",
-   "oracle_text": "Deathtouch (Any amount of damage this deals to a creature is enough to destroy it.)\nLifelink (Damage dealt by this creature also causes you to gain that much life.)"
+   "oracle_text": "Deathtouch (Any amount of damage this deals to a creature is enough to destroy it.)\nLifelink (Damage dealt by this creature also causes you to gain that much life.)",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Plains",
@@ -882,7 +906,9 @@
    ],
    "mana_cost": "{1}{B}",
    "url": "https://scryfall.com/card/lcc/204/oathsworn-vampire?utm_source=api",
-   "oracle_text": "This creature enters tapped.\nYou may cast this card from your graveyard if you gained life this turn."
+   "oracle_text": "This creature enters tapped.\nYou may cast this card from your graveyard if you gained life this turn.",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Leaden Myr",
@@ -901,7 +927,9 @@
    ],
    "mana_cost": "{2}",
    "url": "https://scryfall.com/card/som/170/leaden-myr?utm_source=api",
-   "oracle_text": "{T}: Add {B}."
+   "oracle_text": "{T}: Add {B}.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Executioner's Capsule",
@@ -940,7 +968,9 @@
    ],
    "mana_cost": "{B/G}",
    "url": "https://scryfall.com/card/mh2/211/ravenous-squirrel?utm_source=api",
-   "oracle_text": "Whenever you sacrifice an artifact or creature, put a +1/+1 counter on this creature.\n{1}{B}{G}, Sacrifice an artifact or creature: You gain 1 life and draw a card."
+   "oracle_text": "Whenever you sacrifice an artifact or creature, put a +1/+1 counter on this creature.\n{1}{B}{G}, Sacrifice an artifact or creature: You gain 1 life and draw a card.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Kathari Bomber",
@@ -963,7 +993,9 @@
    ],
    "mana_cost": "{1}{B}{R}",
    "url": "https://scryfall.com/card/mm3/172/kathari-bomber?utm_source=api",
-   "oracle_text": "Flying\nWhen this creature deals combat damage to a player, create two 1/1 red Goblin creature tokens and sacrifice this creature.\nUnearth {3}{B}{R} ({3}{B}{R}: Return this card from your graveyard to the battlefield. It gains haste. Exile it at the beginning of the next end step or if it would leave the battlefield. Unearth only as a sorcery.)"
+   "oracle_text": "Flying\nWhen this creature deals combat damage to a player, create two 1/1 red Goblin creature tokens and sacrifice this creature.\nUnearth {3}{B}{R} ({3}{B}{R}: Return this card from your graveyard to the battlefield. It gains haste. Exile it at the beginning of the next end step or if it would leave the battlefield. Unearth only as a sorcery.)",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Liliana, Death's Majesty",
@@ -1004,7 +1036,9 @@
    ],
    "mana_cost": "{1}{R}{R}",
    "url": "https://scryfall.com/card/war/138/mizzium-tank?utm_source=api",
-   "oracle_text": "Trample\nWhenever you cast a noncreature spell, this Vehicle becomes an artifact creature and gets +1/+1 until end of turn.\nCrew 1 (Tap any number of creatures you control with total power 1 or more: This Vehicle becomes an artifact creature until end of turn.)"
+   "oracle_text": "Trample\nWhenever you cast a noncreature spell, this Vehicle becomes an artifact creature and gets +1/+1 until end of turn.\nCrew 1 (Tap any number of creatures you control with total power 1 or more: This Vehicle becomes an artifact creature until end of turn.)",
+   "power": "3",
+   "toughness": "2"
   },
   {
    "name": "Arcbound Tracker",
@@ -1025,7 +1059,9 @@
    ],
    "mana_cost": "{2}{R}",
    "url": "https://scryfall.com/card/mh2/112/arcbound-tracker?utm_source=api",
-   "oracle_text": "Menace\nModular 2 (This creature enters with two +1/+1 counters on it. When it dies, you may put its +1/+1 counters on target artifact creature.)\nWhenever you cast a spell other than your first spell each turn, put a +1/+1 counter on this creature."
+   "oracle_text": "Menace\nModular 2 (This creature enters with two +1/+1 counters on it. When it dies, you may put its +1/+1 counters on target artifact creature.)\nWhenever you cast a spell other than your first spell each turn, put a +1/+1 counter on this creature.",
+   "power": "0",
+   "toughness": "0"
   },
   {
    "name": "Puncture Blast",
@@ -1063,7 +1099,9 @@
    ],
    "mana_cost": "{1}{R}",
    "url": "https://scryfall.com/card/dmr/131/mogg-war-marshal?utm_source=api",
-   "oracle_text": "Echo {1}{R} (At the beginning of your upkeep, if this came under your control since the beginning of your last upkeep, sacrifice it unless you pay its echo cost.)\nWhen this creature enters or dies, create a 1/1 red Goblin creature token."
+   "oracle_text": "Echo {1}{R} (At the beginning of your upkeep, if this came under your control since the beginning of your last upkeep, sacrifice it unless you pay its echo cost.)\nWhen this creature enters or dies, create a 1/1 red Goblin creature token.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Patrol Signaler",
@@ -1084,7 +1122,9 @@
    ],
    "mana_cost": "{1}{W}",
    "url": "https://scryfall.com/card/eve/12/patrol-signaler?utm_source=api",
-   "oracle_text": "{1}{W}, {Q}: Create a 1/1 white Kithkin Soldier creature token. ({Q} is the untap symbol.)"
+   "oracle_text": "{1}{W}, {Q}: Create a 1/1 white Kithkin Soldier creature token. ({Q} is the untap symbol.)",
+   "power": "1",
+   "toughness": "1"
   }
  ]
 }

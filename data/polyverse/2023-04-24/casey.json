@@ -34,7 +34,9 @@
    ],
    "mana_cost": "{B}",
    "url": "https://scryfall.com/card/rvr/75/dreadmalkin?utm_source=api",
-   "oracle_text": "Menace (This creature can't be blocked except by two or more creatures.)\n{2}{B}, Sacrifice another creature or planeswalker: Put two +1/+1 counters on this creature."
+   "oracle_text": "Menace (This creature can't be blocked except by two or more creatures.)\n{2}{B}, Sacrifice another creature or planeswalker: Put two +1/+1 counters on this creature.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Beacon of Unrest",
@@ -72,7 +74,9 @@
    ],
    "mana_cost": "{1}{U}",
    "url": "https://scryfall.com/card/afc/86/merfolk-looter?utm_source=api",
-   "oracle_text": "{T}: Draw a card, then discard a card."
+   "oracle_text": "{T}: Draw a card, then discard a card.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Acolyte of Affliction",
@@ -95,7 +99,9 @@
    ],
    "mana_cost": "{2}{B}{G}",
    "url": "https://scryfall.com/card/thb/206/acolyte-of-affliction?utm_source=api",
-   "oracle_text": "When this creature enters, mill two cards, then you may return a permanent card from your graveyard to your hand."
+   "oracle_text": "When this creature enters, mill two cards, then you may return a permanent card from your graveyard to your hand.",
+   "power": "2",
+   "toughness": "3"
   },
   {
    "name": "Gomazoa",
@@ -115,7 +121,9 @@
    ],
    "mana_cost": "{2}{U}",
    "url": "https://scryfall.com/card/cmd/48/gomazoa?utm_source=api",
-   "oracle_text": "Defender, flying\n{T}: Put this creature and each creature it's blocking on top of their owners' libraries, then those players shuffle."
+   "oracle_text": "Defender, flying\n{T}: Put this creature and each creature it's blocking on top of their owners' libraries, then those players shuffle.",
+   "power": "0",
+   "toughness": "3"
   },
   {
    "name": "Stitcher's Supplier",
@@ -135,7 +143,9 @@
    ],
    "mana_cost": "{B}",
    "url": "https://scryfall.com/card/tdc/196/stitchers-supplier?utm_source=api",
-   "oracle_text": "When this creature enters or dies, mill three cards. (Put the top three cards of your library into your graveyard.)"
+   "oracle_text": "When this creature enters or dies, mill three cards. (Put the top three cards of your library into your graveyard.)",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Reclamation Sage",
@@ -156,7 +166,9 @@
    ],
    "mana_cost": "{2}{G}",
    "url": "https://scryfall.com/card/fdn/231/reclamation-sage?utm_source=api",
-   "oracle_text": "When this creature enters, you may destroy target artifact or enchantment."
+   "oracle_text": "When this creature enters, you may destroy target artifact or enchantment.",
+   "power": "2",
+   "toughness": "1"
   },
   {
    "name": "Bloodghast",
@@ -177,7 +189,9 @@
    ],
    "mana_cost": "{B}{B}",
    "url": "https://scryfall.com/card/dft/77/bloodghast?utm_source=api",
-   "oracle_text": "This creature can't block.\nThis creature has haste as long as an opponent has 10 or less life.\nLandfall — Whenever a land you control enters, you may return this card from your graveyard to the battlefield."
+   "oracle_text": "This creature can't block.\nThis creature has haste as long as an opponent has 10 or less life.\nLandfall — Whenever a land you control enters, you may return this card from your graveyard to the battlefield.",
+   "power": "2",
+   "toughness": "1"
   },
   {
    "name": "Mesmeric Fiend",
@@ -198,7 +212,9 @@
    ],
    "mana_cost": "{1}{B}",
    "url": "https://scryfall.com/card/a25/97/mesmeric-fiend?utm_source=api",
-   "oracle_text": "When this creature enters, target opponent reveals their hand and you choose a nonland card from it. Exile that card.\nWhen this creature leaves the battlefield, return the exiled card to its owner's hand."
+   "oracle_text": "When this creature enters, target opponent reveals their hand and you choose a nonland card from it. Exile that card.\nWhen this creature leaves the battlefield, return the exiled card to its owner's hand.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Hinterland Harbor",
@@ -236,7 +252,9 @@
    ],
    "mana_cost": "{4}{B/G}{B/G}{B/G}",
    "url": "https://scryfall.com/card/ddj/65/doomgape?utm_source=api",
-   "oracle_text": "Trample\nAt the beginning of your upkeep, sacrifice a creature. You gain life equal to that creature's toughness."
+   "oracle_text": "Trample\nAt the beginning of your upkeep, sacrifice a creature. You gain life equal to that creature's toughness.",
+   "power": "10",
+   "toughness": "10"
   },
   {
    "name": "Drowned Catacomb",
@@ -275,7 +293,9 @@
    ],
    "mana_cost": "{1}{U/B}{U/B}",
    "url": "https://scryfall.com/card/clu/218/whisper-agent?utm_source=api",
-   "oracle_text": "Flash\nWhen this creature enters, surveil 1. (Look at the top card of your library. You may put it into your graveyard.)"
+   "oracle_text": "Flash\nWhen this creature enters, surveil 1. (Look at the top card of your library. You may put it into your graveyard.)",
+   "power": "3",
+   "toughness": "2"
   },
   {
    "name": "Turn to Mist",
@@ -331,7 +351,9 @@
    ],
    "mana_cost": "{3}{U}{U}",
    "url": "https://scryfall.com/card/tdc/166/river-kelpie?utm_source=api",
-   "oracle_text": "Whenever this creature or another permanent enters from a graveyard, draw a card.\nWhenever a player casts a spell from a graveyard, draw a card.\nPersist (When this creature dies, if it had no -1/-1 counters on it, return it to the battlefield under its owner's control with a -1/-1 counter on it.)"
+   "oracle_text": "Whenever this creature or another permanent enters from a graveyard, draw a card.\nWhenever a player casts a spell from a graveyard, draw a card.\nPersist (When this creature dies, if it had no -1/-1 counters on it, return it to the battlefield under its owner's control with a -1/-1 counter on it.)",
+   "power": "3",
+   "toughness": "3"
   },
   {
    "name": "Unearth",
@@ -484,7 +506,9 @@
    ],
    "mana_cost": "{U}",
    "url": "https://scryfall.com/card/lcc/171/siren-stormtamer?utm_source=api",
-   "oracle_text": "Flying\n{U}, Sacrifice this creature: Counter target spell or ability that targets you or a creature you control."
+   "oracle_text": "Flying\n{U}, Sacrifice this creature: Counter target spell or ability that targets you or a creature you control.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Island",
@@ -797,7 +821,9 @@
    ],
    "mana_cost": "{1}{G}{G}",
    "url": "https://scryfall.com/card/cmm/286/eternal-witness?utm_source=api",
-   "oracle_text": "When this creature enters, you may return target card from your graveyard to your hand."
+   "oracle_text": "When this creature enters, you may return target card from your graveyard to your hand.",
+   "power": "2",
+   "toughness": "1"
   },
   {
    "name": "The Long Reach of Night // Animus of Night's Reach",
@@ -839,7 +865,9 @@
    ],
    "mana_cost": "{1}{U}",
    "url": "https://scryfall.com/card/lcc/151/daring-saboteur?utm_source=api",
-   "oracle_text": "{2}{U}: This creature can't be blocked this turn.\nWhenever this creature deals combat damage to a player, you may draw a card. If you do, discard a card."
+   "oracle_text": "{2}{U}: This creature can't be blocked this turn.\nWhenever this creature deals combat damage to a player, you may draw a card. If you do, discard a card.",
+   "power": "2",
+   "toughness": "1"
   },
   {
    "name": "Pharika's Spawn",
@@ -859,7 +887,9 @@
    ],
    "mana_cost": "{3}{B}",
    "url": "https://scryfall.com/card/thb/112/pharikas-spawn?utm_source=api",
-   "oracle_text": "Escape—{5}{B}, Exile three other cards from your graveyard. (You may cast this card from your graveyard for its escape cost.)\nThis creature escapes with two +1/+1 counters on it. When it enters this way, each opponent sacrifices a non-Gorgon creature of their choice."
+   "oracle_text": "Escape—{5}{B}, Exile three other cards from your graveyard. (You may cast this card from your graveyard for its escape cost.)\nThis creature escapes with two +1/+1 counters on it. When it enters this way, each opponent sacrifices a non-Gorgon creature of their choice.",
+   "power": "3",
+   "toughness": "4"
   },
   {
    "name": "Tilling Treefolk",
@@ -880,7 +910,9 @@
    ],
    "mana_cost": "{2}{G}",
    "url": "https://scryfall.com/card/eve/78/tilling-treefolk?utm_source=api",
-   "oracle_text": "When this creature enters, you may return up to two target land cards from your graveyard to your hand."
+   "oracle_text": "When this creature enters, you may return up to two target land cards from your graveyard to your hand.",
+   "power": "1",
+   "toughness": "3"
   }
  ],
  "sideboard": []

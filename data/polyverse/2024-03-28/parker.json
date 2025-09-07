@@ -160,7 +160,9 @@
    ],
    "mana_cost": "{1}{G}",
    "url": "https://scryfall.com/card/2x2/143/devoted-druid?utm_source=api",
-   "oracle_text": "{T}: Add {G}.\nPut a -1/-1 counter on this creature: Untap this creature."
+   "oracle_text": "{T}: Add {G}.\nPut a -1/-1 counter on this creature: Untap this creature.",
+   "power": "0",
+   "toughness": "2"
   },
   {
    "name": "Field of Ruin",
@@ -206,7 +208,9 @@
    ],
    "mana_cost": "{1}{W}{W}",
    "url": "https://scryfall.com/card/2x2/11/flickerwisp?utm_source=api",
-   "oracle_text": "Flying\nWhen this creature enters, exile another target permanent. Return that card to the battlefield under its owner's control at the beginning of the next end step."
+   "oracle_text": "Flying\nWhen this creature enters, exile another target permanent. Return that card to the battlefield under its owner's control at the beginning of the next end step.",
+   "power": "3",
+   "toughness": "1"
   },
   {
    "name": "Forest",
@@ -284,7 +288,9 @@
    ],
    "mana_cost": "{W}",
    "url": "https://scryfall.com/card/ddf/3/goldmeadow-harrier?utm_source=api",
-   "oracle_text": "{W}, {T}: Tap target creature."
+   "oracle_text": "{W}, {T}: Tap target creature.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Gruff Triplets",
@@ -305,7 +311,9 @@
    ],
    "mana_cost": "{3}{G}{G}{G}",
    "url": "https://scryfall.com/card/woe/172/gruff-triplets?utm_source=api",
-   "oracle_text": "Trample\nWhen this creature enters, if it isn't a token, create two tokens that are copies of it.\nWhen this creature dies, put a number of +1/+1 counters equal to its power on each creature you control named Gruff Triplets."
+   "oracle_text": "Trample\nWhen this creature enters, if it isn't a token, create two tokens that are copies of it.\nWhen this creature dies, put a number of +1/+1 counters equal to its power on each creature you control named Gruff Triplets.",
+   "power": "3",
+   "toughness": "3"
   },
   {
    "name": "Hedge Maze",
@@ -348,7 +356,9 @@
    ],
    "mana_cost": "{1}{G}{W}",
    "url": "https://scryfall.com/card/ima/203/knight-of-the-reliquary?utm_source=api",
-   "oracle_text": "This creature gets +1/+1 for each land card in your graveyard.\n{T}, Sacrifice a Forest or Plains: Search your library for a land card, put it onto the battlefield, then shuffle."
+   "oracle_text": "This creature gets +1/+1 for each land card in your graveyard.\n{T}, Sacrifice a Forest or Plains: Search your library for a land card, put it onto the battlefield, then shuffle.",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Kor Sanctifiers",
@@ -369,7 +379,9 @@
    ],
    "mana_cost": "{2}{W}",
    "url": "https://scryfall.com/card/c15/73/kor-sanctifiers?utm_source=api",
-   "oracle_text": "Kicker {W} (You may pay an additional {W} as you cast this spell.)\nWhen this creature enters, if it was kicked, destroy target artifact or enchantment."
+   "oracle_text": "Kicker {W} (You may pay an additional {W} as you cast this spell.)\nWhen this creature enters, if it was kicked, destroy target artifact or enchantment.",
+   "power": "2",
+   "toughness": "3"
   },
   {
    "name": "Life from the Loam",
@@ -444,7 +456,9 @@
    ],
    "mana_cost": "{4}{G}{G}",
    "url": "https://scryfall.com/card/eoc/100/multani-yavimayas-avatar?utm_source=api",
-   "oracle_text": "Reach, trample\nMultani gets +1/+1 for each land you control and each land card in your graveyard.\n{1}{G}, Return two lands you control to their owner's hand: Return this card from your graveyard to your hand."
+   "oracle_text": "Reach, trample\nMultani gets +1/+1 for each land you control and each land card in your graveyard.\n{1}{G}, Return two lands you control to their owner's hand: Return this card from your graveyard to your hand.",
+   "power": "0",
+   "toughness": "0"
   },
   {
    "name": "Otawara, Soaring City",
@@ -555,7 +569,9 @@
    ],
    "mana_cost": "{G}{W}",
    "url": "https://scryfall.com/card/2x2/267/qasali-pridemage?utm_source=api",
-   "oracle_text": "Exalted (Whenever a creature you control attacks alone, that creature gets +1/+1 until end of turn.)\n{1}, Sacrifice this creature: Destroy target artifact or enchantment."
+   "oracle_text": "Exalted (Whenever a creature you control attacks alone, that creature gets +1/+1 until end of turn.)\n{1}, Sacrifice this creature: Destroy target artifact or enchantment.",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Resolute Reinforcements",
@@ -576,7 +592,9 @@
    ],
    "mana_cost": "{1}{W}",
    "url": "https://scryfall.com/card/fdn/145/resolute-reinforcements?utm_source=api",
-   "oracle_text": "Flash (You may cast this spell any time you could cast an instant.)\nWhen this creature enters, create a 1/1 white Soldier creature token."
+   "oracle_text": "Flash (You may cast this spell any time you could cast an instant.)\nWhen this creature enters, create a 1/1 white Soldier creature token.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Return from the Wilds",
@@ -614,7 +632,9 @@
    ],
    "mana_cost": "{1}{G}",
    "url": "https://scryfall.com/card/tsr/227/scryb-ranger?utm_source=api",
-   "oracle_text": "Flash\nFlying, protection from blue\nReturn a Forest you control to its owner's hand: Untap target creature. Activate only once each turn."
+   "oracle_text": "Flash\nFlying, protection from blue\nReturn a Forest you control to its owner's hand: Untap target creature. Activate only once each turn.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Spirited Companion",
@@ -635,7 +655,9 @@
    ],
    "mana_cost": "{1}{W}",
    "url": "https://scryfall.com/card/cmm/838/spirited-companion?utm_source=api",
-   "oracle_text": "When this creature enters, draw a card."
+   "oracle_text": "When this creature enters, draw a card.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Sunbaked Canyon",
@@ -692,7 +714,9 @@
    ],
    "mana_cost": "{3}{G}{G}",
    "url": "https://scryfall.com/card/eoc/111/titania-protector-of-argoth?utm_source=api",
-   "oracle_text": "When Titania enters, return target land card from your graveyard to the battlefield.\nWhenever a land you control is put into a graveyard from the battlefield, create a 5/3 green Elemental creature token."
+   "oracle_text": "When Titania enters, return target land card from your graveyard to the battlefield.\nWhenever a land you control is put into a graveyard from the battlefield, create a 5/3 green Elemental creature token.",
+   "power": "5",
+   "toughness": "3"
   },
   {
    "name": "Touch the Spirit Realm",
@@ -768,7 +792,9 @@
    ],
    "mana_cost": "{1}{W}{W}",
    "url": "https://scryfall.com/card/woe/39/werefox-bodyguard?utm_source=api",
-   "oracle_text": "Flash\nWhen this creature enters, exile up to one other target non-Fox creature until this creature leaves the battlefield.\n{1}{W}, Sacrifice this creature: You gain 2 life."
+   "oracle_text": "Flash\nWhen this creature enters, exile up to one other target non-Fox creature until this creature leaves the battlefield.\n{1}{W}, Sacrifice this creature: You gain 2 life.",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Windswept Heath",
@@ -817,7 +843,9 @@
    ],
    "mana_cost": "{B}",
    "url": "https://scryfall.com/card/clb/740/bloodsoaked-champion?utm_source=api",
-   "oracle_text": "This creature can't block.\nRaid — {1}{B}: Return this card from your graveyard to the battlefield. Activate only if you attacked this turn."
+   "oracle_text": "This creature can't block.\nRaid — {1}{B}: Return this card from your graveyard to the battlefield. Activate only if you attacked this turn.",
+   "power": "2",
+   "toughness": "1"
   },
   {
    "name": "Fall of the Thran",
@@ -942,7 +970,9 @@
    ],
    "mana_cost": "{2}{G}",
    "url": "https://scryfall.com/card/cmm/912/setessan-champion?utm_source=api",
-   "oracle_text": "Constellation — Whenever an enchantment you control enters, put a +1/+1 counter on this creature and draw a card."
+   "oracle_text": "Constellation — Whenever an enchantment you control enters, put a +1/+1 counter on this creature and draw a card.",
+   "power": "1",
+   "toughness": "3"
   },
   {
    "name": "Sphinx of Lost Truths",
@@ -962,7 +992,9 @@
    ],
    "mana_cost": "{3}{U}{U}",
    "url": "https://scryfall.com/card/zen/69/sphinx-of-lost-truths?utm_source=api",
-   "oracle_text": "Kicker {1}{U} (You may pay an additional {1}{U} as you cast this spell.)\nFlying\nWhen this creature enters, draw three cards. Then if it wasn't kicked, discard three cards."
+   "oracle_text": "Kicker {1}{U} (You may pay an additional {1}{U} as you cast this spell.)\nFlying\nWhen this creature enters, draw three cards. Then if it wasn't kicked, discard three cards.",
+   "power": "3",
+   "toughness": "5"
   },
   {
    "name": "Vines of Vastwood",

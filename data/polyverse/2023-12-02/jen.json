@@ -264,6 +264,8 @@
    "mana_cost": "{1}{U}",
    "url": "https://scryfall.com/card/fdn/152/brineborn-cutthroat?utm_source=api",
    "oracle_text": "Flash (You may cast this spell any time you could cast an instant.)\nWhenever you cast a spell during an opponent's turn, put a +1/+1 counter on this creature.",
+   "power": "2",
+   "toughness": "1",
    "appearances": 1
   },
   {
@@ -286,6 +288,8 @@
    "mana_cost": "{2}{R}",
    "url": "https://scryfall.com/card/mh2/112/arcbound-tracker?utm_source=api",
    "oracle_text": "Menace\nModular 2 (This creature enters with two +1/+1 counters on it. When it dies, you may put its +1/+1 counters on target artifact creature.)\nWhenever you cast a spell other than your first spell each turn, put a +1/+1 counter on this creature.",
+   "power": "0",
+   "toughness": "0",
    "appearances": 1
   },
   {
@@ -326,6 +330,8 @@
    "mana_cost": "{1}{U}",
    "url": "https://scryfall.com/card/snc/44/faerie-vandal?utm_source=api",
    "oracle_text": "Flash (You may cast this spell any time you could cast an instant.)\nFlying\nWhenever you draw your second card each turn, put a +1/+1 counter on this creature.",
+   "power": "1",
+   "toughness": "2",
    "appearances": 1
   },
   {
@@ -386,6 +392,8 @@
    "mana_cost": "{1}{U}",
    "url": "https://scryfall.com/card/neo/74/the-reality-chip?utm_source=api",
    "oracle_text": "You may look at the top card of your library any time.\nAs long as The Reality Chip is attached to a creature, you may play lands and cast spells from the top of your library.\nReconfigure {2}{U} ({2}{U}: Attach to target creature you control; or unattach from a creature. Reconfigure only as a sorcery. While attached, this isn't a creature.)",
+   "power": "0",
+   "toughness": "4",
    "appearances": 1
   },
   {
@@ -408,6 +416,8 @@
    "mana_cost": "{2}{U}",
    "url": "https://scryfall.com/card/cmm/847/flux-channeler?utm_source=api",
    "oracle_text": "Whenever you cast a noncreature spell, proliferate. (Choose any number of permanents and/or players, then give each another counter of each kind already there.)",
+   "power": "2",
+   "toughness": "2",
    "appearances": 1
   },
   {
@@ -430,6 +440,8 @@
    "mana_cost": "{1}{R}",
    "url": "https://scryfall.com/card/tdc/95/young-pyromancer?utm_source=api",
    "oracle_text": "Whenever you cast an instant or sorcery spell, create a 1/1 red Elemental creature token.",
+   "power": "2",
+   "toughness": "1",
    "appearances": 1
   },
   {
@@ -452,6 +464,8 @@
    "mana_cost": "{1}{U}",
    "url": "https://scryfall.com/card/uma/71/snapcaster-mage?utm_source=api",
    "oracle_text": "Flash\nWhen this creature enters, target instant or sorcery card in your graveyard gains flashback until end of turn. The flashback cost is equal to its mana cost. (You may cast that card from your graveyard for its flashback cost. Then exile it.)",
+   "power": "2",
+   "toughness": "1",
    "appearances": 1
   },
   {
@@ -490,6 +504,8 @@
    "mana_cost": "{1}{R}{R}",
    "url": "https://scryfall.com/card/war/138/mizzium-tank?utm_source=api",
    "oracle_text": "Trample\nWhenever you cast a noncreature spell, this Vehicle becomes an artifact creature and gets +1/+1 until end of turn.\nCrew 1 (Tap any number of creatures you control with total power 1 or more: This Vehicle becomes an artifact creature until end of turn.)",
+   "power": "3",
+   "toughness": "2",
    "appearances": 1
   },
   {
@@ -529,6 +545,8 @@
    "mana_cost": "{2}{U}",
    "url": "https://scryfall.com/card/cmd/48/gomazoa?utm_source=api",
    "oracle_text": "Defender, flying\n{T}: Put this creature and each creature it's blocking on top of their owners' libraries, then those players shuffle.",
+   "power": "0",
+   "toughness": "3",
    "appearances": 1
   },
   {
@@ -589,6 +607,8 @@
    "mana_cost": "{U}{R}",
    "url": "https://scryfall.com/card/thb/223/mischievous-chimera?utm_source=api",
    "oracle_text": "Flying\nWhenever you cast your first spell during each opponent's turn, this creature deals 1 damage to each opponent. Scry 1.",
+   "power": "2",
+   "toughness": "2",
    "appearances": 1
   },
   {
@@ -869,7 +889,9 @@
    ],
    "mana_cost": "{B}",
    "url": "https://scryfall.com/card/mh1/81/carrion-feeder?utm_source=api",
-   "oracle_text": "This creature can't block.\nSacrifice a creature: Put a +1/+1 counter on this creature."
+   "oracle_text": "This creature can't block.\nSacrifice a creature: Put a +1/+1 counter on this creature.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Mesmeric Fiend",
@@ -890,7 +912,9 @@
    ],
    "mana_cost": "{1}{B}",
    "url": "https://scryfall.com/card/a25/97/mesmeric-fiend?utm_source=api",
-   "oracle_text": "When this creature enters, target opponent reveals their hand and you choose a nonland card from it. Exile that card.\nWhen this creature leaves the battlefield, return the exiled card to its owner's hand."
+   "oracle_text": "When this creature enters, target opponent reveals their hand and you choose a nonland card from it. Exile that card.\nWhen this creature leaves the battlefield, return the exiled card to its owner's hand.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Flooded Strand",
@@ -961,7 +985,9 @@
    ],
    "mana_cost": "{U}",
    "url": "https://scryfall.com/card/tdc/155/hedron-crab?utm_source=api",
-   "oracle_text": "Landfall — Whenever a land you control enters, target player mills three cards. (They put the top three cards of their library into their graveyard.)"
+   "oracle_text": "Landfall — Whenever a land you control enters, target player mills three cards. (They put the top three cards of their library into their graveyard.)",
+   "power": "0",
+   "toughness": "2"
   },
   {
    "name": "Silver Myr",
@@ -980,7 +1006,9 @@
    ],
    "mana_cost": "{2}",
    "url": "https://scryfall.com/card/nec/158/silver-myr?utm_source=api",
-   "oracle_text": "{T}: Add {U}."
+   "oracle_text": "{T}: Add {U}.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Master of Etherium",
@@ -1002,7 +1030,9 @@
    ],
    "mana_cost": "{2}{U}",
    "url": "https://scryfall.com/card/moc/226/master-of-etherium?utm_source=api",
-   "oracle_text": "Master of Etherium's power and toughness are each equal to the number of artifacts you control.\nOther artifact creatures you control get +1/+1."
+   "oracle_text": "Master of Etherium's power and toughness are each equal to the number of artifacts you control.\nOther artifact creatures you control get +1/+1.",
+   "power": "*",
+   "toughness": "*"
   },
   {
    "name": "Rigging Runner",
@@ -1023,7 +1053,9 @@
    ],
    "mana_cost": "{R}",
    "url": "https://scryfall.com/card/xln/157/rigging-runner?utm_source=api",
-   "oracle_text": "First strike\nRaid — This creature enters with a +1/+1 counter on it if you attacked this turn."
+   "oracle_text": "First strike\nRaid — This creature enters with a +1/+1 counter on it if you attacked this turn.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Grim Initiate",
@@ -1044,7 +1076,9 @@
    ],
    "mana_cost": "{R}",
    "url": "https://scryfall.com/card/war/130/grim-initiate?utm_source=api",
-   "oracle_text": "First strike\nWhen this creature dies, amass Zombies 1. (Put a +1/+1 counter on an Army you control. It's also a Zombie. If you don't control an Army, create a 0/0 black Zombie Army creature token first.)"
+   "oracle_text": "First strike\nWhen this creature dies, amass Zombies 1. (Put a +1/+1 counter on an Army you control. It's also a Zombie. If you don't control an Army, create a 0/0 black Zombie Army creature token first.)",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Fatestitcher",
@@ -1065,7 +1099,9 @@
    ],
    "mana_cost": "{3}{U}",
    "url": "https://scryfall.com/card/ala/43/fatestitcher?utm_source=api",
-   "oracle_text": "{T}: You may tap or untap another target permanent.\nUnearth {U} ({U}: Return this card from your graveyard to the battlefield. It gains haste. Exile it at the beginning of the next end step or if it would leave the battlefield. Unearth only as a sorcery.)"
+   "oracle_text": "{T}: You may tap or untap another target permanent.\nUnearth {U} ({U}: Return this card from your graveyard to the battlefield. It gains haste. Exile it at the beginning of the next end step or if it would leave the battlefield. Unearth only as a sorcery.)",
+   "power": "1",
+   "toughness": "2"
   },
   {
    "name": "Dress Down",
@@ -1119,7 +1155,9 @@
    ],
    "mana_cost": "{2}{U}",
    "url": "https://scryfall.com/card/thb/79/vexing-gull?utm_source=api",
-   "oracle_text": "Flash\nFlying"
+   "oracle_text": "Flash\nFlying",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Ral, Storm Conduit",

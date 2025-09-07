@@ -98,7 +98,9 @@
    ],
    "mana_cost": "{1}{W}",
    "url": "https://scryfall.com/card/khm/6/clarion-spirit?utm_source=api",
-   "oracle_text": "Whenever you cast your second spell each turn, create a 1/1 white Spirit creature token with flying."
+   "oracle_text": "Whenever you cast your second spell each turn, create a 1/1 white Spirit creature token with flying.",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Adanto Vanguard",
@@ -119,7 +121,9 @@
    ],
    "mana_cost": "{1}{W}",
    "url": "https://scryfall.com/card/xln/1/adanto-vanguard?utm_source=api",
-   "oracle_text": "As long as this creature is attacking, it gets +2/+0.\nPay 4 life: This creature gains indestructible until end of turn. (Damage and effects that say \"destroy\" don't destroy it.)"
+   "oracle_text": "As long as this creature is attacking, it gets +2/+0.\nPay 4 life: This creature gains indestructible until end of turn. (Damage and effects that say \"destroy\" don't destroy it.)",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Bomat Courier",
@@ -138,7 +142,9 @@
    ],
    "mana_cost": "{1}",
    "url": "https://scryfall.com/card/kld/199/bomat-courier?utm_source=api",
-   "oracle_text": "Haste\nWhenever this creature attacks, exile the top card of your library face down. (You can't look at it.)\n{R}, Discard your hand, Sacrifice this creature: Put all cards exiled with this creature into their owners' hands."
+   "oracle_text": "Haste\nWhenever this creature attacks, exile the top card of your library face down. (You can't look at it.)\n{R}, Discard your hand, Sacrifice this creature: Put all cards exiled with this creature into their owners' hands.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Goblin Bombardment",
@@ -176,7 +182,9 @@
    ],
    "mana_cost": "{1}{W}",
    "url": "https://scryfall.com/card/inr/15/cathar-commando?utm_source=api",
-   "oracle_text": "Flash\n{1}, Sacrifice this creature: Destroy target artifact or enchantment."
+   "oracle_text": "Flash\n{1}, Sacrifice this creature: Destroy target artifact or enchantment.",
+   "power": "3",
+   "toughness": "1"
   },
   {
    "name": "Mountain",
@@ -330,7 +338,9 @@
    ],
    "mana_cost": "{R}",
    "url": "https://scryfall.com/card/bro/144/monastery-swiftspear?utm_source=api",
-   "oracle_text": "Haste\nProwess (Whenever you cast a noncreature spell, this creature gets +1/+1 until end of turn.)"
+   "oracle_text": "Haste\nProwess (Whenever you cast a noncreature spell, this creature gets +1/+1 until end of turn.)",
+   "power": "1",
+   "toughness": "2"
   },
   {
    "name": "Plains",
@@ -462,7 +472,9 @@
    "color_identity": [],
    "mana_cost": "{2}",
    "url": "https://scryfall.com/card/cmr/330/perilous-myr?utm_source=api",
-   "oracle_text": "When this creature dies, it deals 2 damage to any target."
+   "oracle_text": "When this creature dies, it deals 2 damage to any target.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Reveillark",
@@ -482,7 +494,9 @@
    ],
    "mana_cost": "{4}{W}",
    "url": "https://scryfall.com/card/2x2/26/reveillark?utm_source=api",
-   "oracle_text": "Flying\nWhen this creature leaves the battlefield, return up to two target creature cards with power 2 or less from your graveyard to the battlefield.\nEvoke {5}{W} (You may cast this spell for its evoke cost. If you do, it's sacrificed when it enters.)"
+   "oracle_text": "Flying\nWhen this creature leaves the battlefield, return up to two target creature cards with power 2 or less from your graveyard to the battlefield.\nEvoke {5}{W} (You may cast this spell for its evoke cost. If you do, it's sacrificed when it enters.)",
+   "power": "4",
+   "toughness": "3"
   },
   {
    "name": "Crimson Wisps",
@@ -595,7 +609,9 @@
    ],
    "mana_cost": "{W} // {1}{W}",
    "url": "https://scryfall.com/card/eld/11/faerie-guidemother-gift-of-the-fae?utm_source=api",
-   "oracle_text": ""
+   "oracle_text": "",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Glass Casket",
@@ -670,7 +686,9 @@
    ],
    "mana_cost": "{R}",
    "url": "https://scryfall.com/card/akh/148/soul-scar-mage?utm_source=api",
-   "oracle_text": "Prowess\nIf a source you control would deal noncombat damage to a creature an opponent controls, put that many -1/-1 counters on that creature instead."
+   "oracle_text": "Prowess\nIf a source you control would deal noncombat damage to a creature an opponent controls, put that many -1/-1 counters on that creature instead.",
+   "power": "1",
+   "toughness": "2"
   },
   {
    "name": "The Wandering Emperor",
@@ -710,7 +728,9 @@
    ],
    "mana_cost": "{W} // {W}",
    "url": "https://scryfall.com/card/woe/7/cheeky-house-mouse-squeak-by?utm_source=api",
-   "oracle_text": ""
+   "oracle_text": "",
+   "power": "2",
+   "toughness": "1"
   },
   {
    "name": "Krenko, Tin Street Kingpin",
@@ -731,7 +751,9 @@
    ],
    "mana_cost": "{2}{R}",
    "url": "https://scryfall.com/card/moc/287/krenko-tin-street-kingpin?utm_source=api",
-   "oracle_text": "Whenever Krenko attacks, put a +1/+1 counter on it, then create a number of 1/1 red Goblin creature tokens equal to Krenko's power."
+   "oracle_text": "Whenever Krenko attacks, put a +1/+1 counter on it, then create a number of 1/1 red Goblin creature tokens equal to Krenko's power.",
+   "power": "1",
+   "toughness": "2"
   },
   {
    "name": "Day of Judgment",
@@ -768,7 +790,9 @@
    ],
    "mana_cost": "{1}{R}{R}",
    "url": "https://scryfall.com/card/war/138/mizzium-tank?utm_source=api",
-   "oracle_text": "Trample\nWhenever you cast a noncreature spell, this Vehicle becomes an artifact creature and gets +1/+1 until end of turn.\nCrew 1 (Tap any number of creatures you control with total power 1 or more: This Vehicle becomes an artifact creature until end of turn.)"
+   "oracle_text": "Trample\nWhenever you cast a noncreature spell, this Vehicle becomes an artifact creature and gets +1/+1 until end of turn.\nCrew 1 (Tap any number of creatures you control with total power 1 or more: This Vehicle becomes an artifact creature until end of turn.)",
+   "power": "3",
+   "toughness": "2"
   },
   {
    "name": "Sevinne's Reclamation",
@@ -846,7 +870,9 @@
    ],
    "mana_cost": "{3}{W}{W}",
    "url": "https://scryfall.com/card/khc/21/cloudgoat-ranger?utm_source=api",
-   "oracle_text": "When this creature enters, create three 1/1 white Kithkin Soldier creature tokens.\nTap three untapped Kithkin you control: This creature gets +2/+0 and gains flying until end of turn."
+   "oracle_text": "When this creature enters, create three 1/1 white Kithkin Soldier creature tokens.\nTap three untapped Kithkin you control: This creature gets +2/+0 and gains flying until end of turn.",
+   "power": "3",
+   "toughness": "3"
   },
   {
    "name": "Windswept Heath",
@@ -897,7 +923,9 @@
    ],
    "mana_cost": "{1}{B}",
    "url": "https://scryfall.com/card/khm/80/bloodsky-berserker?utm_source=api",
-   "oracle_text": "Whenever you cast your second spell each turn, put two +1/+1 counters on this creature. It gains menace until end of turn. (It can't be blocked except by two or more creatures.)"
+   "oracle_text": "Whenever you cast your second spell each turn, put two +1/+1 counters on this creature. It gains menace until end of turn. (It can't be blocked except by two or more creatures.)",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Spell Snare",
@@ -968,7 +996,9 @@
    "color_identity": [],
    "mana_cost": "{1}",
    "url": "https://scryfall.com/card/dom/232/sparring-construct?utm_source=api",
-   "oracle_text": "When this creature dies, put a +1/+1 counter on target creature you control."
+   "oracle_text": "When this creature dies, put a +1/+1 counter on target creature you control.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Ignoble Hierarch",
@@ -991,7 +1021,9 @@
    ],
    "mana_cost": "{G}",
    "url": "https://scryfall.com/card/mh2/166/ignoble-hierarch?utm_source=api",
-   "oracle_text": "Exalted (Whenever a creature you control attacks alone, that creature gets +1/+1 until end of turn.)\n{T}: Add {B}, {R}, or {G}."
+   "oracle_text": "Exalted (Whenever a creature you control attacks alone, that creature gets +1/+1 until end of turn.)\n{T}: Add {B}, {R}, or {G}.",
+   "power": "0",
+   "toughness": "1"
   },
   {
    "name": "Tarfire",
@@ -1033,7 +1065,9 @@
    ],
    "mana_cost": "{W}",
    "url": "https://scryfall.com/card/ddf/6/mosquito-guard?utm_source=api",
-   "oracle_text": "First strike\nReinforce 1—{1}{W} ({1}{W}, Discard this card: Put a +1/+1 counter on target creature.)"
+   "oracle_text": "First strike\nReinforce 1—{1}{W} ({1}{W}, Discard this card: Put a +1/+1 counter on target creature.)",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Esika's Chariot",
@@ -1054,7 +1088,9 @@
    ],
    "mana_cost": "{3}{G}",
    "url": "https://scryfall.com/card/khm/169/esikas-chariot?utm_source=api",
-   "oracle_text": "When Esika's Chariot enters, create two 2/2 green Cat creature tokens.\nWhenever Esika's Chariot attacks, create a token that's a copy of target token you control.\nCrew 4"
+   "oracle_text": "When Esika's Chariot enters, create two 2/2 green Cat creature tokens.\nWhenever Esika's Chariot attacks, create a token that's a copy of target token you control.\nCrew 4",
+   "power": "4",
+   "toughness": "4"
   },
   {
    "name": "Prismatic Vista",

@@ -80,6 +80,8 @@
    "mana_cost": "{B}{B}",
    "url": "https://scryfall.com/card/fdn/607/kalastria-highborn?utm_source=api",
    "oracle_text": "Whenever this creature or another Vampire you control dies, you may pay {B}. If you do, target player loses 2 life and you gain 2 life.",
+   "power": "2",
+   "toughness": "2",
    "appearances": 1
   },
   {
@@ -103,6 +105,8 @@
    "mana_cost": "{1}{B}",
    "url": "https://scryfall.com/card/clb/775/zulaport-cutthroat?utm_source=api",
    "oracle_text": "Whenever this creature or another creature you control dies, each opponent loses 1 life and you gain 1 life.",
+   "power": "1",
+   "toughness": "1",
    "appearances": 1
   },
   {
@@ -124,7 +128,9 @@
    ],
    "mana_cost": "{1}{B}",
    "url": "https://scryfall.com/card/a25/97/mesmeric-fiend?utm_source=api",
-   "oracle_text": "When this creature enters, target opponent reveals their hand and you choose a nonland card from it. Exile that card.\nWhen this creature leaves the battlefield, return the exiled card to its owner's hand."
+   "oracle_text": "When this creature enters, target opponent reveals their hand and you choose a nonland card from it. Exile that card.\nWhen this creature leaves the battlefield, return the exiled card to its owner's hand.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Bolas's Citadel",
@@ -165,6 +171,8 @@
    "mana_cost": "{B}",
    "url": "https://scryfall.com/card/tdc/199/viscera-seer?utm_source=api",
    "oracle_text": "Sacrifice a creature: Scry 1. (Look at the top card of your library. You may put that card on the bottom.)",
+   "power": "1",
+   "toughness": "1",
    "appearances": 1
   },
   {
@@ -187,6 +195,8 @@
    "mana_cost": "{1}{W}",
    "url": "https://scryfall.com/card/xln/1/adanto-vanguard?utm_source=api",
    "oracle_text": "As long as this creature is attacking, it gets +2/+0.\nPay 4 life: This creature gains indestructible until end of turn. (Damage and effects that say \"destroy\" don't destroy it.)",
+   "power": "1",
+   "toughness": "1",
    "appearances": 1
   },
   {
@@ -208,6 +218,8 @@
    "mana_cost": "{B}",
    "url": "https://scryfall.com/card/m20/120/vampire-of-the-dire-moon?utm_source=api",
    "oracle_text": "Deathtouch (Any amount of damage this deals to a creature is enough to destroy it.)\nLifelink (Damage dealt by this creature also causes you to gain that much life.)",
+   "power": "1",
+   "toughness": "1",
    "appearances": 1
   },
   {
@@ -229,6 +241,8 @@
    "mana_cost": "{2}{W}{W}",
    "url": "https://scryfall.com/card/mma/22/meadowboon?utm_source=api",
    "oracle_text": "When this creature leaves the battlefield, put a +1/+1 counter on each creature target player controls.\nEvoke {3}{W} (You may cast this spell for its evoke cost. If you do, it's sacrificed when it enters.)",
+   "power": "3",
+   "toughness": "3",
    "appearances": 1
   },
   {
@@ -251,6 +265,8 @@
    "mana_cost": "{1}{W}",
    "url": "https://scryfall.com/card/fdn/145/resolute-reinforcements?utm_source=api",
    "oracle_text": "Flash (You may cast this spell any time you could cast an instant.)\nWhen this creature enters, create a 1/1 white Soldier creature token.",
+   "power": "1",
+   "toughness": "1",
    "appearances": 1
   },
   {
@@ -348,6 +364,8 @@
    "mana_cost": "{W}",
    "url": "https://scryfall.com/card/mm3/24/soul-warden?utm_source=api",
    "oracle_text": "Whenever another creature enters, you gain 1 life.",
+   "power": "1",
+   "toughness": "1",
    "appearances": 1
   },
   {
@@ -369,6 +387,8 @@
    "mana_cost": "{2}{W}",
    "url": "https://scryfall.com/card/tdc/140/welcoming-vampire?utm_source=api",
    "oracle_text": "Flying\nWhenever one or more other creatures you control with power 2 or less enter, draw a card. This ability triggers only once each turn.",
+   "power": "2",
+   "toughness": "3",
    "appearances": 1
   },
   {
@@ -428,6 +448,8 @@
    "mana_cost": "{3}{B}{B}",
    "url": "https://scryfall.com/card/clb/769/puppeteer-clique?utm_source=api",
    "oracle_text": "Flying\nWhen this creature enters, put target creature card from an opponent's graveyard onto the battlefield under your control. It gains haste. At the beginning of your next end step, exile it.\nPersist (When this creature dies, if it had no -1/-1 counters on it, return it to the battlefield under its owner's control with a -1/-1 counter on it.)",
+   "power": "3",
+   "toughness": "2",
    "appearances": 1
   },
   {
@@ -451,7 +473,9 @@
    ],
    "mana_cost": "{W}{B}",
    "url": "https://scryfall.com/card/rna/194/pitiless-pontiff?utm_source=api",
-   "oracle_text": "{1}, Sacrifice another creature: This creature gains deathtouch and indestructible until end of turn. (Damage and effects that say \"destroy\" don't destroy it.)"
+   "oracle_text": "{1}, Sacrifice another creature: This creature gains deathtouch and indestructible until end of turn. (Damage and effects that say \"destroy\" don't destroy it.)",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Takenuma, Abandoned Mire",
@@ -556,6 +580,8 @@
    "mana_cost": "{1}{W}{W}",
    "url": "https://scryfall.com/card/2x2/11/flickerwisp?utm_source=api",
    "oracle_text": "Flying\nWhen this creature enters, exile another target permanent. Return that card to the battlefield under its owner's control at the beginning of the next end step.",
+   "power": "3",
+   "toughness": "1",
    "appearances": 1
   },
   {
@@ -598,6 +624,8 @@
    "mana_cost": "{2}{W}",
    "url": "https://scryfall.com/card/c15/73/kor-sanctifiers?utm_source=api",
    "oracle_text": "Kicker {W} (You may pay an additional {W} as you cast this spell.)\nWhen this creature enters, if it was kicked, destroy target artifact or enchantment.",
+   "power": "2",
+   "toughness": "3",
    "appearances": 1
   },
   {
@@ -619,6 +647,8 @@
    "mana_cost": "{W}",
    "url": "https://scryfall.com/card/m11/15/goldenglow-moth?utm_source=api",
    "oracle_text": "Flying\nWhenever this creature blocks, you may gain 4 life.",
+   "power": "0",
+   "toughness": "1",
    "appearances": 1
   },
   {
@@ -657,6 +687,8 @@
    "mana_cost": "{1}{W}",
    "url": "https://scryfall.com/card/znr/15/fearless-fledgling?utm_source=api",
    "oracle_text": "Landfall — Whenever a land you control enters, put a +1/+1 counter on this creature. It gains flying until end of turn.",
+   "power": "1",
+   "toughness": "1",
    "appearances": 1
   },
   {
@@ -930,7 +962,9 @@
    ],
    "mana_cost": "{1}{U}",
    "url": "https://scryfall.com/card/mma/65/spellstutter-sprite?utm_source=api",
-   "oracle_text": "Flash\nFlying\nWhen this creature enters, counter target spell with mana value X or less, where X is the number of Faeries you control."
+   "oracle_text": "Flash\nFlying\nWhen this creature enters, counter target spell with mana value X or less, where X is the number of Faeries you control.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Breeding Pool",
@@ -974,7 +1008,9 @@
    ],
    "mana_cost": "{2}{B}{B}{R}{R}",
    "url": "https://scryfall.com/card/ima/205/malfegor?utm_source=api",
-   "oracle_text": "Flying\nWhen Malfegor enters, discard your hand. Each opponent sacrifices a creature of their choice for each card discarded this way."
+   "oracle_text": "Flying\nWhen Malfegor enters, discard your hand. Each opponent sacrifices a creature of their choice for each card discarded this way.",
+   "power": "6",
+   "toughness": "6"
   },
   {
    "name": "Anje's Ravager",
@@ -995,7 +1031,9 @@
    ],
    "mana_cost": "{2}{R}",
    "url": "https://scryfall.com/card/voc/141/anjes-ravager?utm_source=api",
-   "oracle_text": "This creature attacks each combat if able.\nWhenever this creature attacks, discard your hand, then draw three cards.\nMadness {1}{R} (If you discard this card, discard it into exile. When you do, cast it for its madness cost or put it into your graveyard.)"
+   "oracle_text": "This creature attacks each combat if able.\nWhenever this creature attacks, discard your hand, then draw three cards.\nMadness {1}{R} (If you discard this card, discard it into exile. When you do, cast it for its madness cost or put it into your graveyard.)",
+   "power": "3",
+   "toughness": "3"
   },
   {
    "name": "Grim Initiate",
@@ -1016,7 +1054,9 @@
    ],
    "mana_cost": "{R}",
    "url": "https://scryfall.com/card/war/130/grim-initiate?utm_source=api",
-   "oracle_text": "First strike\nWhen this creature dies, amass Zombies 1. (Put a +1/+1 counter on an Army you control. It's also a Zombie. If you don't control an Army, create a 0/0 black Zombie Army creature token first.)"
+   "oracle_text": "First strike\nWhen this creature dies, amass Zombies 1. (Put a +1/+1 counter on an Army you control. It's also a Zombie. If you don't control an Army, create a 0/0 black Zombie Army creature token first.)",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Kor Skyfisher",
@@ -1037,7 +1077,9 @@
    ],
    "mana_cost": "{1}{W}",
    "url": "https://scryfall.com/card/mm3/11/kor-skyfisher?utm_source=api",
-   "oracle_text": "Flying\nWhen this creature enters, return a permanent you control to its owner's hand."
+   "oracle_text": "Flying\nWhen this creature enters, return a permanent you control to its owner's hand.",
+   "power": "2",
+   "toughness": "3"
   },
   {
    "name": "Cunning Lethemancer",
@@ -1058,7 +1100,9 @@
    ],
    "mana_cost": "{2}{B}",
    "url": "https://scryfall.com/card/ala/69/cunning-lethemancer?utm_source=api",
-   "oracle_text": "At the beginning of your upkeep, each player discards a card."
+   "oracle_text": "At the beginning of your upkeep, each player discards a card.",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Ruthless Sniper",
@@ -1079,7 +1123,9 @@
    ],
    "mana_cost": "{B}",
    "url": "https://scryfall.com/card/akh/105/ruthless-sniper?utm_source=api",
-   "oracle_text": "Whenever you cycle or discard a card, you may pay {1}. If you do, put a -1/-1 counter on target creature."
+   "oracle_text": "Whenever you cycle or discard a card, you may pay {1}. If you do, put a -1/-1 counter on target creature.",
+   "power": "1",
+   "toughness": "2"
   },
   {
    "name": "Raven's Crime",

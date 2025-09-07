@@ -29,7 +29,9 @@
    "color_identity": [],
    "mana_cost": "{11}",
    "url": "https://scryfall.com/card/fdn/671/darksteel-colossus?utm_source=api",
-   "oracle_text": "Trample (This creature can deal excess combat damage to the player or planeswalker it's attacking.)\nIndestructible (Damage and effects that say \"destroy\" don't destroy this creature.)\nIf Darksteel Colossus would be put into a graveyard from anywhere, reveal Darksteel Colossus and shuffle it into its owner's library instead."
+   "oracle_text": "Trample (This creature can deal excess combat damage to the player or planeswalker it's attacking.)\nIndestructible (Damage and effects that say \"destroy\" don't destroy this creature.)\nIf Darksteel Colossus would be put into a graveyard from anywhere, reveal Darksteel Colossus and shuffle it into its owner's library instead.",
+   "power": "11",
+   "toughness": "11"
   },
   {
    "name": "Groundswell",
@@ -84,7 +86,9 @@
    ],
    "mana_cost": "{2}{G}",
    "url": "https://scryfall.com/card/fdn/231/reclamation-sage?utm_source=api",
-   "oracle_text": "When this creature enters, you may destroy target artifact or enchantment."
+   "oracle_text": "When this creature enters, you may destroy target artifact or enchantment.",
+   "power": "2",
+   "toughness": "1"
   },
   {
    "name": "Vines of Vastwood",
@@ -121,7 +125,9 @@
    ],
    "mana_cost": "{2}{R}",
    "url": "https://scryfall.com/card/m19/132/catalyst-elemental?utm_source=api",
-   "oracle_text": "Sacrifice this creature: Add {R}{R}."
+   "oracle_text": "Sacrifice this creature: Add {R}{R}.",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Serpent-Blade Assailant",
@@ -142,7 +148,9 @@
    ],
    "mana_cost": "{2}{G}",
    "url": "https://scryfall.com/card/mom/205/serpent-blade-assailant?utm_source=api",
-   "oracle_text": "Backup 1 (When this creature enters, put a +1/+1 counter on target creature. If that's another creature, it gains the following ability until end of turn.)\nDeathtouch"
+   "oracle_text": "Backup 1 (When this creature enters, put a +1/+1 counter on target creature. If that's another creature, it gains the following ability until end of turn.)\nDeathtouch",
+   "power": "2",
+   "toughness": "1"
   },
   {
    "name": "Recross the Paths",
@@ -181,7 +189,9 @@
    ],
    "mana_cost": "{1}{R}{G}{G}",
    "url": "https://scryfall.com/card/c13/216/spellbreaker-behemoth?utm_source=api",
-   "oracle_text": "This spell can't be countered.\nCreature spells you control with power 5 or greater can't be countered."
+   "oracle_text": "This spell can't be countered.\nCreature spells you control with power 5 or greater can't be countered.",
+   "power": "5",
+   "toughness": "5"
   },
   {
    "name": "Lightning Greaves",
@@ -218,7 +228,9 @@
    ],
    "mana_cost": "{3}{G}",
    "url": "https://scryfall.com/card/ncc/320/wickerbough-elder?utm_source=api",
-   "oracle_text": "This creature enters with a -1/-1 counter on it.\n{G}, Remove a -1/-1 counter from this creature: Destroy target artifact or enchantment."
+   "oracle_text": "This creature enters with a -1/-1 counter on it.\n{G}, Remove a -1/-1 counter from this creature: Destroy target artifact or enchantment.",
+   "power": "4",
+   "toughness": "4"
   },
   {
    "name": "Forest",
@@ -544,7 +556,9 @@
    ],
    "mana_cost": "{R}",
    "url": "https://scryfall.com/card/neo/157/rabbit-battery?utm_source=api",
-   "oracle_text": "Haste\nEquipped creature gets +1/+1 and has haste.\nReconfigure {R} ({R}: Attach to target creature you control; or unattach from a creature. Reconfigure only as a sorcery. While attached, this isn't a creature.)"
+   "oracle_text": "Haste\nEquipped creature gets +1/+1 and has haste.\nReconfigure {R} ({R}: Attach to target creature you control; or unattach from a creature. Reconfigure only as a sorcery. While attached, this isn't a creature.)",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Acidic Slime",
@@ -564,7 +578,9 @@
    ],
    "mana_cost": "{3}{G}{G}",
    "url": "https://scryfall.com/card/cmm/270/acidic-slime?utm_source=api",
-   "oracle_text": "Deathtouch (Any amount of damage this deals to a creature is enough to destroy it.)\nWhen this creature enters, destroy target artifact, enchantment, or land."
+   "oracle_text": "Deathtouch (Any amount of damage this deals to a creature is enough to destroy it.)\nWhen this creature enters, destroy target artifact, enchantment, or land.",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Iron Myr",
@@ -583,7 +599,9 @@
    ],
    "mana_cost": "{2}",
    "url": "https://scryfall.com/card/som/168/iron-myr?utm_source=api",
-   "oracle_text": "{T}: Add {R}."
+   "oracle_text": "{T}: Add {R}.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Rootbound Crag",
@@ -620,7 +638,9 @@
    ],
    "mana_cost": "{1}{G}",
    "url": "https://scryfall.com/card/one/161/cankerbloom?utm_source=api",
-   "oracle_text": "{1}, Sacrifice this creature: Choose one —\n• Destroy target artifact.\n• Destroy target enchantment.\n• Proliferate. (Choose any number of permanents and/or players, then give each another counter of each kind already there.)"
+   "oracle_text": "{1}, Sacrifice this creature: Choose one —\n• Destroy target artifact.\n• Destroy target enchantment.\n• Proliferate. (Choose any number of permanents and/or players, then give each another counter of each kind already there.)",
+   "power": "3",
+   "toughness": "2"
   },
   {
    "name": "Domri, Anarch of Bolas",
@@ -684,7 +704,9 @@
    ],
    "mana_cost": "{1}{G}",
    "url": "https://scryfall.com/card/clu/169/kronch-wrangler?utm_source=api",
-   "oracle_text": "Trample\nWhenever a creature you control with power 4 or greater enters, put a +1/+1 counter on this creature."
+   "oracle_text": "Trample\nWhenever a creature you control with power 4 or greater enters, put a +1/+1 counter on this creature.",
+   "power": "2",
+   "toughness": "1"
   },
   {
    "name": "Skarrgan Hellkite",
@@ -704,7 +726,9 @@
    ],
    "mana_cost": "{3}{R}{R}",
    "url": "https://scryfall.com/card/tdc/233/skarrgan-hellkite?utm_source=api",
-   "oracle_text": "Riot (This creature enters with your choice of a +1/+1 counter or haste.)\nFlying\n{3}{R}: This creature deals 2 damage divided as you choose among one or two targets. Activate only if this creature has a +1/+1 counter on it."
+   "oracle_text": "Riot (This creature enters with your choice of a +1/+1 counter or haste.)\nFlying\n{3}{R}: This creature deals 2 damage divided as you choose among one or two targets. Activate only if this creature has a +1/+1 counter on it.",
+   "power": "4",
+   "toughness": "4"
   },
   {
    "name": "Witherscale Wurm",
@@ -724,7 +748,9 @@
    ],
    "mana_cost": "{4}{G}{G}",
    "url": "https://scryfall.com/card/shm/134/witherscale-wurm?utm_source=api",
-   "oracle_text": "Whenever this creature blocks or becomes blocked by a creature, that creature gains wither until end of turn. (It deals damage to creatures in the form of -1/-1 counters.)\nWhenever this creature deals damage to an opponent, remove all -1/-1 counters from it."
+   "oracle_text": "Whenever this creature blocks or becomes blocked by a creature, that creature gains wither until end of turn. (It deals damage to creatures in the form of -1/-1 counters.)\nWhenever this creature deals damage to an opponent, remove all -1/-1 counters from it.",
+   "power": "9",
+   "toughness": "9"
   },
   {
    "name": "Domri's Ambush",
@@ -763,7 +789,9 @@
    ],
    "mana_cost": "{3}{G}",
    "url": "https://scryfall.com/card/wwk/114/summit-apes?utm_source=api",
-   "oracle_text": "As long as you control a Mountain, this creature has menace. (It can't be blocked except by two or more creatures.)"
+   "oracle_text": "As long as you control a Mountain, this creature has menace. (It can't be blocked except by two or more creatures.)",
+   "power": "5",
+   "toughness": "2"
   },
   {
    "name": "Untamed Kavu",
@@ -783,7 +811,9 @@
    ],
    "mana_cost": "{1}{G}",
    "url": "https://scryfall.com/card/dom/186/untamed-kavu?utm_source=api",
-   "oracle_text": "Kicker {3} (You may pay an additional {3} as you cast this spell.)\nVigilance, trample\nIf this creature was kicked, it enters with three +1/+1 counters on it."
+   "oracle_text": "Kicker {3} (You may pay an additional {3} as you cast this spell.)\nVigilance, trample\nIf this creature was kicked, it enters with three +1/+1 counters on it.",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Tilling Treefolk",
@@ -804,7 +834,9 @@
    ],
    "mana_cost": "{2}{G}",
    "url": "https://scryfall.com/card/eve/78/tilling-treefolk?utm_source=api",
-   "oracle_text": "When this creature enters, you may return up to two target land cards from your graveyard to your hand."
+   "oracle_text": "When this creature enters, you may return up to two target land cards from your graveyard to your hand.",
+   "power": "1",
+   "toughness": "3"
   }
  ],
  "sideboard": []

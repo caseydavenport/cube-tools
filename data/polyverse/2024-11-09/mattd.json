@@ -78,6 +78,8 @@
    "mana_cost": "{X}{G}{U}",
    "url": "https://scryfall.com/card/woe/204/the-goose-mother?utm_source=api",
    "oracle_text": "Flying\nThe Goose Mother enters with X +1/+1 counters on it.\nWhen The Goose Mother enters, create half X Food tokens, rounded up.\nWhenever The Goose Mother attacks, you may sacrifice a Food. If you do, draw a card.",
+   "power": "2",
+   "toughness": "2",
    "appearances": 1
   },
   {
@@ -145,6 +147,8 @@
    "mana_cost": "{W}",
    "url": "https://scryfall.com/card/zen/36/steppe-lynx?utm_source=api",
    "oracle_text": "Landfall — Whenever a land you control enters, this creature gets +2/+2 until end of turn.",
+   "power": "0",
+   "toughness": "1",
    "appearances": 1
   },
   {
@@ -195,6 +199,8 @@
    "mana_cost": "{1}{W}",
    "url": "https://scryfall.com/card/cmm/838/spirited-companion?utm_source=api",
    "oracle_text": "When this creature enters, draw a card.",
+   "power": "1",
+   "toughness": "1",
    "appearances": 1
   },
   {
@@ -240,6 +246,8 @@
    "mana_cost": "{G}",
    "url": "https://scryfall.com/card/thb/167/chainweb-aracnir?utm_source=api",
    "oracle_text": "Reach\nWhen this creature enters, it deals damage equal to its power to target creature with flying an opponent controls.\nEscape—{3}{G}{G}, Exile four other cards from your graveyard. (You may cast this card from your graveyard for its escape cost.)\nThis creature escapes with three +1/+1 counters on it.",
+   "power": "1",
+   "toughness": "2",
    "appearances": 1
   },
   {
@@ -261,6 +269,8 @@
    "mana_cost": "{1}{G}",
    "url": "https://scryfall.com/card/znr/193/lotus-cobra?utm_source=api",
    "oracle_text": "Landfall — Whenever a land you control enters, add one mana of any color.",
+   "power": "2",
+   "toughness": "1",
    "appearances": 1
   },
   {
@@ -283,6 +293,8 @@
    "mana_cost": "{1}{W}",
    "url": "https://scryfall.com/card/mm3/11/kor-skyfisher?utm_source=api",
    "oracle_text": "Flying\nWhen this creature enters, return a permanent you control to its owner's hand.",
+   "power": "2",
+   "toughness": "3",
    "appearances": 1
   },
   {
@@ -327,6 +339,8 @@
    "mana_cost": "{1}{G/W}{G/W}",
    "url": "https://scryfall.com/card/uma/216/kitchen-finks?utm_source=api",
    "oracle_text": "When this creature enters, you gain 2 life.\nPersist (When this creature dies, if it had no -1/-1 counters on it, return it to the battlefield under its owner's control with a -1/-1 counter on it.)",
+   "power": "3",
+   "toughness": "2",
    "appearances": 1
   },
   {
@@ -409,6 +423,8 @@
    "mana_cost": "{1}{G}",
    "url": "https://scryfall.com/card/tsr/227/scryb-ranger?utm_source=api",
    "oracle_text": "Flash\nFlying, protection from blue\nReturn a Forest you control to its owner's hand: Untap target creature. Activate only once each turn.",
+   "power": "1",
+   "toughness": "1",
    "appearances": 1
   },
   {
@@ -430,6 +446,8 @@
    "mana_cost": "{4}{W}",
    "url": "https://scryfall.com/card/2x2/26/reveillark?utm_source=api",
    "oracle_text": "Flying\nWhen this creature leaves the battlefield, return up to two target creature cards with power 2 or less from your graveyard to the battlefield.\nEvoke {5}{W} (You may cast this spell for its evoke cost. If you do, it's sacrificed when it enters.)",
+   "power": "4",
+   "toughness": "3",
    "appearances": 1
   },
   {
@@ -471,6 +489,8 @@
    "mana_cost": "{1}{G}{W}",
    "url": "https://scryfall.com/card/ima/203/knight-of-the-reliquary?utm_source=api",
    "oracle_text": "This creature gets +1/+1 for each land card in your graveyard.\n{T}, Sacrifice a Forest or Plains: Search your library for a land card, put it onto the battlefield, then shuffle.",
+   "power": "2",
+   "toughness": "2",
    "appearances": 1
   },
   {
@@ -492,6 +512,8 @@
    "mana_cost": "{1}{W}",
    "url": "https://scryfall.com/card/znr/15/fearless-fledgling?utm_source=api",
    "oracle_text": "Landfall — Whenever a land you control enters, put a +1/+1 counter on this creature. It gains flying until end of turn.",
+   "power": "1",
+   "toughness": "1",
    "appearances": 1
   },
   {
@@ -527,6 +549,8 @@
    "mana_cost": "{1}{W}",
    "url": "https://scryfall.com/card/khm/6/clarion-spirit?utm_source=api",
    "oracle_text": "Whenever you cast your second spell each turn, create a 1/1 white Spirit creature token with flying.",
+   "power": "2",
+   "toughness": "2",
    "appearances": 1
   },
   {
@@ -550,6 +574,8 @@
    "mana_cost": "{R}{G}",
    "url": "https://scryfall.com/card/mh2/216/territorial-kavu?utm_source=api",
    "oracle_text": "Domain — Territorial Kavu's power and toughness are each equal to the number of basic land types among lands you control.\nWhenever this creature attacks, choose one —\n• Discard a card. If you do, draw a card.\n• Exile up to one target card from a graveyard.",
+   "power": "*",
+   "toughness": "*",
    "appearances": 1
   },
   {
@@ -586,6 +612,8 @@
    "mana_cost": "{W}",
    "url": "https://scryfall.com/card/inr/45/thraben-inspector?utm_source=api",
    "oracle_text": "When this creature enters, investigate. (Create a Clue token. It's an artifact with \"{2}, Sacrifice this token: Draw a card.\")",
+   "power": "1",
+   "toughness": "2",
    "appearances": 1
   },
   {
@@ -608,6 +636,8 @@
    "mana_cost": "{1}{G}{G}",
    "url": "https://scryfall.com/card/cmm/888/courser-of-kruphix?utm_source=api",
    "oracle_text": "Play with the top card of your library revealed.\nYou may play lands from the top of your library.\nLandfall — Whenever a land you control enters, you gain 1 life.",
+   "power": "2",
+   "toughness": "4",
    "appearances": 1
   },
   {
@@ -632,7 +662,9 @@
    ],
    "mana_cost": "{1}{R} // {1}{U}",
    "url": "https://scryfall.com/card/woe/235/scalding-viper-steam-clean?utm_source=api",
-   "oracle_text": ""
+   "oracle_text": "",
+   "power": "2",
+   "toughness": "1"
   },
   {
    "name": "Crop Rotation",
@@ -673,6 +705,8 @@
    "mana_cost": "{1}{G} // {1}{G}",
    "url": "https://scryfall.com/card/woe/320/intrepid-trufflesnout-go-hog-wild?utm_source=api",
    "oracle_text": "",
+   "power": "3",
+   "toughness": "1",
    "appearances": 1
   },
   {
@@ -694,6 +728,8 @@
    "mana_cost": "{B}",
    "url": "https://scryfall.com/card/mh1/81/carrion-feeder?utm_source=api",
    "oracle_text": "This creature can't block.\nSacrifice a creature: Put a +1/+1 counter on this creature.",
+   "power": "1",
+   "toughness": "1",
    "appearances": 1
   },
   {
@@ -909,7 +945,9 @@
    ],
    "mana_cost": "{2}{R} // {1}{W}",
    "url": "https://scryfall.com/card/woe/230/kellan-the-fae-blooded-birthright-boon?utm_source=api",
-   "oracle_text": ""
+   "oracle_text": "",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Merfolk Looter",
@@ -930,7 +968,9 @@
    ],
    "mana_cost": "{1}{U}",
    "url": "https://scryfall.com/card/afc/86/merfolk-looter?utm_source=api",
-   "oracle_text": "{T}: Draw a card, then discard a card."
+   "oracle_text": "{T}: Draw a card, then discard a card.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Wrath of God",
@@ -969,7 +1009,9 @@
    ],
    "mana_cost": "{R}",
    "url": "https://scryfall.com/card/snc/108/goldhound?utm_source=api",
-   "oracle_text": "First strike\nMenace (This creature can't be blocked except by two or more creatures.)\n{T}, Sacrifice this creature: Add one mana of any color."
+   "oracle_text": "First strike\nMenace (This creature can't be blocked except by two or more creatures.)\n{T}, Sacrifice this creature: Add one mana of any color.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Scrapwork Mutt",
@@ -988,7 +1030,9 @@
    ],
    "mana_cost": "{2}",
    "url": "https://scryfall.com/card/bro/164/scrapwork-mutt?utm_source=api",
-   "oracle_text": "When this creature enters, you may discard a card. If you do, draw a card.\nUnearth {1}{R} ({1}{R}: Return this card from your graveyard to the battlefield. It gains haste. Exile it at the beginning of the next end step or if it would leave the battlefield. Unearth only as a sorcery.)"
+   "oracle_text": "When this creature enters, you may discard a card. If you do, draw a card.\nUnearth {1}{R} ({1}{R}: Return this card from your graveyard to the battlefield. It gains haste. Exile it at the beginning of the next end step or if it would leave the battlefield. Unearth only as a sorcery.)",
+   "power": "2",
+   "toughness": "1"
   },
   {
    "name": "Sprite Dragon",
@@ -1011,7 +1055,9 @@
    ],
    "mana_cost": "{U}{R}",
    "url": "https://scryfall.com/card/clb/852/sprite-dragon?utm_source=api",
-   "oracle_text": "Flying, haste\nWhenever you cast a noncreature spell, put a +1/+1 counter on this creature."
+   "oracle_text": "Flying, haste\nWhenever you cast a noncreature spell, put a +1/+1 counter on this creature.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Golos, Tireless Pilgrim",
@@ -1035,7 +1081,9 @@
    ],
    "mana_cost": "{5}",
    "url": "https://scryfall.com/card/m20/226/golos-tireless-pilgrim?utm_source=api",
-   "oracle_text": "When Golos enters, you may search your library for a land card, put that card onto the battlefield tapped, then shuffle.\n{2}{W}{U}{B}{R}{G}: Exile the top three cards of your library. You may play them this turn without paying their mana costs."
+   "oracle_text": "When Golos enters, you may search your library for a land card, put that card onto the battlefield tapped, then shuffle.\n{2}{W}{U}{B}{R}{G}: Exile the top three cards of your library. You may play them this turn without paying their mana costs.",
+   "power": "3",
+   "toughness": "5"
   },
   {
    "name": "Dauntless Bodyguard",
@@ -1056,7 +1104,9 @@
    ],
    "mana_cost": "{W}",
    "url": "https://scryfall.com/card/dom/14/dauntless-bodyguard?utm_source=api",
-   "oracle_text": "As this creature enters, choose another creature you control.\nSacrifice this creature: The chosen creature gains indestructible until end of turn."
+   "oracle_text": "As this creature enters, choose another creature you control.\nSacrifice this creature: The chosen creature gains indestructible until end of turn.",
+   "power": "2",
+   "toughness": "1"
   },
   {
    "name": "Cathar Commando",
@@ -1077,7 +1127,9 @@
    ],
    "mana_cost": "{1}{W}",
    "url": "https://scryfall.com/card/inr/15/cathar-commando?utm_source=api",
-   "oracle_text": "Flash\n{1}, Sacrifice this creature: Destroy target artifact or enchantment."
+   "oracle_text": "Flash\n{1}, Sacrifice this creature: Destroy target artifact or enchantment.",
+   "power": "3",
+   "toughness": "1"
   },
   {
    "name": "Bonesplitter",

@@ -130,7 +130,9 @@
    ],
    "mana_cost": "{1}{U}",
    "url": "https://scryfall.com/card/afc/86/merfolk-looter?utm_source=api",
-   "oracle_text": "{T}: Draw a card, then discard a card."
+   "oracle_text": "{T}: Draw a card, then discard a card.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Gomazoa",
@@ -150,7 +152,9 @@
    ],
    "mana_cost": "{2}{U}",
    "url": "https://scryfall.com/card/cmd/48/gomazoa?utm_source=api",
-   "oracle_text": "Defender, flying\n{T}: Put this creature and each creature it's blocking on top of their owners' libraries, then those players shuffle."
+   "oracle_text": "Defender, flying\n{T}: Put this creature and each creature it's blocking on top of their owners' libraries, then those players shuffle.",
+   "power": "0",
+   "toughness": "3"
   },
   {
    "name": "Mavren Fein, Dusk Apostle",
@@ -172,7 +176,9 @@
    ],
    "mana_cost": "{2}{W}",
    "url": "https://scryfall.com/card/lcc/133/mavren-fein-dusk-apostle?utm_source=api",
-   "oracle_text": "Whenever one or more nontoken Vampires you control attack, create a 1/1 white Vampire creature token with lifelink."
+   "oracle_text": "Whenever one or more nontoken Vampires you control attack, create a 1/1 white Vampire creature token with lifelink.",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Faerie Vandal",
@@ -193,7 +199,9 @@
    ],
    "mana_cost": "{1}{U}",
    "url": "https://scryfall.com/card/snc/44/faerie-vandal?utm_source=api",
-   "oracle_text": "Flash (You may cast this spell any time you could cast an instant.)\nFlying\nWhenever you draw your second card each turn, put a +1/+1 counter on this creature."
+   "oracle_text": "Flash (You may cast this spell any time you could cast an instant.)\nFlying\nWhenever you draw your second card each turn, put a +1/+1 counter on this creature.",
+   "power": "1",
+   "toughness": "2"
   },
   {
    "name": "Kor Sanctifiers",
@@ -214,7 +222,9 @@
    ],
    "mana_cost": "{2}{W}",
    "url": "https://scryfall.com/card/c15/73/kor-sanctifiers?utm_source=api",
-   "oracle_text": "Kicker {W} (You may pay an additional {W} as you cast this spell.)\nWhen this creature enters, if it was kicked, destroy target artifact or enchantment."
+   "oracle_text": "Kicker {W} (You may pay an additional {W} as you cast this spell.)\nWhen this creature enters, if it was kicked, destroy target artifact or enchantment.",
+   "power": "2",
+   "toughness": "3"
   },
   {
    "name": "Godless Shrine",
@@ -271,7 +281,9 @@
    ],
    "mana_cost": "{1}{W}{W}",
    "url": "https://scryfall.com/card/2x2/11/flickerwisp?utm_source=api",
-   "oracle_text": "Flying\nWhen this creature enters, exile another target permanent. Return that card to the battlefield under its owner's control at the beginning of the next end step."
+   "oracle_text": "Flying\nWhen this creature enters, exile another target permanent. Return that card to the battlefield under its owner's control at the beginning of the next end step.",
+   "power": "3",
+   "toughness": "1"
   },
   {
    "name": "Dark Ritual",
@@ -362,7 +374,9 @@
    ],
    "mana_cost": "{1}{W}",
    "url": "https://scryfall.com/card/mm3/11/kor-skyfisher?utm_source=api",
-   "oracle_text": "Flying\nWhen this creature enters, return a permanent you control to its owner's hand."
+   "oracle_text": "Flying\nWhen this creature enters, return a permanent you control to its owner's hand.",
+   "power": "2",
+   "toughness": "3"
   },
   {
    "name": "Day of Judgment",
@@ -437,7 +451,9 @@
    ],
    "mana_cost": "{2}{W}",
    "url": "https://scryfall.com/card/tdc/140/welcoming-vampire?utm_source=api",
-   "oracle_text": "Flying\nWhenever one or more other creatures you control with power 2 or less enter, draw a card. This ability triggers only once each turn."
+   "oracle_text": "Flying\nWhenever one or more other creatures you control with power 2 or less enter, draw a card. This ability triggers only once each turn.",
+   "power": "2",
+   "toughness": "3"
   },
   {
    "name": "Clarion Spirit",
@@ -457,7 +473,9 @@
    ],
    "mana_cost": "{1}{W}",
    "url": "https://scryfall.com/card/khm/6/clarion-spirit?utm_source=api",
-   "oracle_text": "Whenever you cast your second spell each turn, create a 1/1 white Spirit creature token with flying."
+   "oracle_text": "Whenever you cast your second spell each turn, create a 1/1 white Spirit creature token with flying.",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Unmake",
@@ -514,7 +532,9 @@
    ],
    "mana_cost": "{U}",
    "url": "https://scryfall.com/card/otc/109/pteramander?utm_source=api",
-   "oracle_text": "Flying\n{7}{U}: Adapt 4. This ability costs {1} less to activate for each instant and sorcery card in your graveyard. (If this creature has no +1/+1 counters on it, put four +1/+1 counters on it.)"
+   "oracle_text": "Flying\n{7}{U}: Adapt 4. This ability costs {1} less to activate for each instant and sorcery card in your graveyard. (If this creature has no +1/+1 counters on it, put four +1/+1 counters on it.)",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Curator of Mysteries",
@@ -534,7 +554,9 @@
    ],
    "mana_cost": "{2}{U}{U}",
    "url": "https://scryfall.com/card/afc/81/curator-of-mysteries?utm_source=api",
-   "oracle_text": "Flying\nWhenever you cycle or discard another card, scry 1.\nCycling {U} ({U}, Discard this card: Draw a card.)"
+   "oracle_text": "Flying\nWhenever you cycle or discard another card, scry 1.\nCycling {U} ({U}, Discard this card: Draw a card.)",
+   "power": "4",
+   "toughness": "4"
   },
   {
    "name": "Raven's Crime",
@@ -801,7 +823,9 @@
    ],
    "mana_cost": "{3}{R}{R}",
    "url": "https://scryfall.com/card/tdc/232/siege-gang-commander?utm_source=api",
-   "oracle_text": "When this creature enters, create three 1/1 red Goblin creature tokens.\n{1}{R}, Sacrifice a Goblin: This creature deals 2 damage to any target."
+   "oracle_text": "When this creature enters, create three 1/1 red Goblin creature tokens.\n{1}{R}, Sacrifice a Goblin: This creature deals 2 damage to any target.",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Cunning Sparkmage",
@@ -822,7 +846,9 @@
    ],
    "mana_cost": "{2}{R}",
    "url": "https://scryfall.com/card/wwk/79/cunning-sparkmage?utm_source=api",
-   "oracle_text": "Haste\n{T}: This creature deals 1 damage to any target."
+   "oracle_text": "Haste\n{T}: This creature deals 1 damage to any target.",
+   "power": "0",
+   "toughness": "1"
   },
   {
    "name": "Moon-Circuit Hacker",
@@ -844,7 +870,9 @@
    ],
    "mana_cost": "{1}{U}",
    "url": "https://scryfall.com/card/neo/67/moon-circuit-hacker?utm_source=api",
-   "oracle_text": "Ninjutsu {U} ({U}, Return an unblocked attacker you control to hand: Put this card onto the battlefield from your hand tapped and attacking.)\nWhenever this creature deals combat damage to a player, you may draw a card. If you do, discard a card unless this creature entered this turn."
+   "oracle_text": "Ninjutsu {U} ({U}, Return an unblocked attacker you control to hand: Put this card onto the battlefield from your hand tapped and attacking.)\nWhenever this creature deals combat damage to a player, you may draw a card. If you do, discard a card unless this creature entered this turn.",
+   "power": "2",
+   "toughness": "1"
   },
   {
    "name": "Sulfur Falls",
@@ -898,7 +926,9 @@
    ],
    "mana_cost": "{R}",
    "url": "https://scryfall.com/card/war/130/grim-initiate?utm_source=api",
-   "oracle_text": "First strike\nWhen this creature dies, amass Zombies 1. (Put a +1/+1 counter on an Army you control. It's also a Zombie. If you don't control an Army, create a 0/0 black Zombie Army creature token first.)"
+   "oracle_text": "First strike\nWhen this creature dies, amass Zombies 1. (Put a +1/+1 counter on an Army you control. It's also a Zombie. If you don't control an Army, create a 0/0 black Zombie Army creature token first.)",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Avenger of Zendikar",
@@ -918,7 +948,9 @@
    ],
    "mana_cost": "{5}{G}{G}",
    "url": "https://scryfall.com/card/tdc/247/avenger-of-zendikar?utm_source=api",
-   "oracle_text": "When this creature enters, create a 0/1 green Plant creature token for each land you control.\nLandfall — Whenever a land you control enters, you may put a +1/+1 counter on each Plant creature you control."
+   "oracle_text": "When this creature enters, create a 0/1 green Plant creature token for each land you control.\nLandfall — Whenever a land you control enters, you may put a +1/+1 counter on each Plant creature you control.",
+   "power": "5",
+   "toughness": "5"
   },
   {
    "name": "Reclamation Sage",
@@ -939,7 +971,9 @@
    ],
    "mana_cost": "{2}{G}",
    "url": "https://scryfall.com/card/fdn/231/reclamation-sage?utm_source=api",
-   "oracle_text": "When this creature enters, you may destroy target artifact or enchantment."
+   "oracle_text": "When this creature enters, you may destroy target artifact or enchantment.",
+   "power": "2",
+   "toughness": "1"
   },
   {
    "name": "Mayhem Devil",
@@ -961,7 +995,9 @@
    ],
    "mana_cost": "{1}{B}{R}",
    "url": "https://scryfall.com/card/eoc/121/mayhem-devil?utm_source=api",
-   "oracle_text": "Whenever a player sacrifices a permanent, this creature deals 1 damage to any target."
+   "oracle_text": "Whenever a player sacrifices a permanent, this creature deals 1 damage to any target.",
+   "power": "3",
+   "toughness": "3"
   },
   {
    "name": "Glory of Warfare",
@@ -1068,7 +1104,9 @@
    ],
    "mana_cost": "{W}{B}",
    "url": "https://scryfall.com/card/lcc/267/cruel-celebrant?utm_source=api",
-   "oracle_text": "Whenever this creature or another creature or planeswalker you control dies, each opponent loses 1 life and you gain 1 life."
+   "oracle_text": "Whenever this creature or another creature or planeswalker you control dies, each opponent loses 1 life and you gain 1 life.",
+   "power": "1",
+   "toughness": "2"
   },
   {
    "name": "Liliana, Death's Majesty",
@@ -1126,7 +1164,9 @@
    ],
    "mana_cost": "{1}{W}",
    "url": "https://scryfall.com/card/cmm/824/grateful-apparition?utm_source=api",
-   "oracle_text": "Flying\nWhenever this creature deals combat damage to a player or planeswalker, proliferate. (Choose any number of permanents and/or players, then give each another counter of each kind already there.)"
+   "oracle_text": "Flying\nWhenever this creature deals combat damage to a player or planeswalker, proliferate. (Choose any number of permanents and/or players, then give each another counter of each kind already there.)",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Quicken",
@@ -1203,7 +1243,9 @@
    ],
    "mana_cost": "{B}{B}",
    "url": "https://scryfall.com/card/2xm/112/vampire-hexmage?utm_source=api",
-   "oracle_text": "First strike\nSacrifice this creature: Remove all counters from target permanent."
+   "oracle_text": "First strike\nSacrifice this creature: Remove all counters from target permanent.",
+   "power": "2",
+   "toughness": "1"
   },
   {
    "name": "Field of Ruin",
@@ -1235,7 +1277,9 @@
    ],
    "mana_cost": "{2}",
    "url": "https://scryfall.com/card/nec/158/silver-myr?utm_source=api",
-   "oracle_text": "{T}: Add {U}."
+   "oracle_text": "{T}: Add {U}.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Gold Myr",
@@ -1254,7 +1298,9 @@
    ],
    "mana_cost": "{2}",
    "url": "https://scryfall.com/card/nec/153/gold-myr?utm_source=api",
-   "oracle_text": "{T}: Add {W}."
+   "oracle_text": "{T}: Add {W}.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Aether Tradewinds",

@@ -81,6 +81,8 @@
    "mana_cost": "{3}{R}",
    "url": "https://scryfall.com/card/neo/168/twinshot-sniper?utm_source=api",
    "oracle_text": "Reach\nWhen this creature enters, it deals 2 damage to any target.\nChannel — {1}{R}, Discard this card: It deals 2 damage to any target.",
+   "power": "2",
+   "toughness": "3",
    "appearances": 1
   },
   {
@@ -104,6 +106,8 @@
    "mana_cost": "{1}{B}{R}",
    "url": "https://scryfall.com/card/eoc/121/mayhem-devil?utm_source=api",
    "oracle_text": "Whenever a player sacrifices a permanent, this creature deals 1 damage to any target.",
+   "power": "3",
+   "toughness": "3",
    "appearances": 1
   },
   {
@@ -159,6 +163,8 @@
    "mana_cost": "{4}{W}",
    "url": "https://scryfall.com/card/2x2/26/reveillark?utm_source=api",
    "oracle_text": "Flying\nWhen this creature leaves the battlefield, return up to two target creature cards with power 2 or less from your graveyard to the battlefield.\nEvoke {5}{W} (You may cast this spell for its evoke cost. If you do, it's sacrificed when it enters.)",
+   "power": "4",
+   "toughness": "3",
    "appearances": 1
   },
   {
@@ -236,6 +242,8 @@
    "mana_cost": "{1}",
    "url": "https://scryfall.com/card/dom/232/sparring-construct?utm_source=api",
    "oracle_text": "When this creature dies, put a +1/+1 counter on target creature you control.",
+   "power": "1",
+   "toughness": "1",
    "appearances": 1
   },
   {
@@ -272,6 +280,8 @@
    "mana_cost": "{R}",
    "url": "https://scryfall.com/card/m21/147/goblin-arsonist?utm_source=api",
    "oracle_text": "When this creature dies, you may have it deal 1 damage to any target.",
+   "power": "1",
+   "toughness": "1",
    "appearances": 1
   },
   {
@@ -316,6 +326,8 @@
    "mana_cost": "{1}{W}",
    "url": "https://scryfall.com/card/neo/26/lion-sash?utm_source=api",
    "oracle_text": "{W}: Exile target card from a graveyard. If it was a permanent card, put a +1/+1 counter on this permanent.\nEquipped creature gets +1/+1 for each +1/+1 counter on this Equipment.\nReconfigure {2} ({2}: Attach to target creature you control; or unattach from a creature. Reconfigure only as a sorcery. While attached, this isn't a creature.)",
+   "power": "1",
+   "toughness": "1",
    "appearances": 1
   },
   {
@@ -339,6 +351,8 @@
    "mana_cost": "{W}{B}",
    "url": "https://scryfall.com/card/lcc/267/cruel-celebrant?utm_source=api",
    "oracle_text": "Whenever this creature or another creature or planeswalker you control dies, each opponent loses 1 life and you gain 1 life.",
+   "power": "1",
+   "toughness": "2",
    "appearances": 1
   },
   {
@@ -449,6 +463,8 @@
    "mana_cost": "{1}{W}",
    "url": "https://scryfall.com/card/khm/6/clarion-spirit?utm_source=api",
    "oracle_text": "Whenever you cast your second spell each turn, create a 1/1 white Spirit creature token with flying.",
+   "power": "2",
+   "toughness": "2",
    "appearances": 1
   },
   {
@@ -471,6 +487,8 @@
    "mana_cost": "{1}{R}",
    "url": "https://scryfall.com/card/dmr/131/mogg-war-marshal?utm_source=api",
    "oracle_text": "Echo {1}{R} (At the beginning of your upkeep, if this came under your control since the beginning of your last upkeep, sacrifice it unless you pay its echo cost.)\nWhen this creature enters or dies, create a 1/1 red Goblin creature token.",
+   "power": "1",
+   "toughness": "1",
    "appearances": 1
   },
   {
@@ -564,6 +582,8 @@
    "mana_cost": "{2}{W}",
    "url": "https://scryfall.com/card/lcc/133/mavren-fein-dusk-apostle?utm_source=api",
    "oracle_text": "Whenever one or more nontoken Vampires you control attack, create a 1/1 white Vampire creature token with lifelink.",
+   "power": "2",
+   "toughness": "2",
    "appearances": 1
   },
   {
@@ -587,6 +607,8 @@
    "mana_cost": "{1}{W}{W}",
    "url": "https://scryfall.com/card/woe/39/werefox-bodyguard?utm_source=api",
    "oracle_text": "Flash\nWhen this creature enters, exile up to one other target non-Fox creature until this creature leaves the battlefield.\n{1}{W}, Sacrifice this creature: You gain 2 life.",
+   "power": "2",
+   "toughness": "2",
    "appearances": 1
   },
   {
@@ -608,6 +630,8 @@
    "mana_cost": "{4}{U}",
    "url": "https://scryfall.com/card/mkc/111/mulldrifter?utm_source=api",
    "oracle_text": "Flying\nWhen this creature enters, draw two cards.\nEvoke {2}{U} (You may cast this spell for its evoke cost. If you do, it's sacrificed when it enters.)",
+   "power": "2",
+   "toughness": "2",
    "appearances": 1
   },
   {
@@ -627,6 +651,8 @@
    "mana_cost": "{2}",
    "url": "https://scryfall.com/card/cmr/330/perilous-myr?utm_source=api",
    "oracle_text": "When this creature dies, it deals 2 damage to any target.",
+   "power": "1",
+   "toughness": "1",
    "appearances": 1
   },
   {
@@ -665,6 +691,8 @@
    "mana_cost": "{2}{B/R}{B/R}",
    "url": "https://scryfall.com/card/uma/217/murderous-redcap?utm_source=api",
    "oracle_text": "When this creature enters, it deals damage equal to its power to any target.\nPersist (When this creature dies, if it had no -1/-1 counters on it, return it to the battlefield under its owner's control with a -1/-1 counter on it.)",
+   "power": "2",
+   "toughness": "2",
    "appearances": 1
   },
   {
@@ -877,7 +905,9 @@
    ],
    "mana_cost": "{2}{R}",
    "url": "https://scryfall.com/card/mh2/112/arcbound-tracker?utm_source=api",
-   "oracle_text": "Menace\nModular 2 (This creature enters with two +1/+1 counters on it. When it dies, you may put its +1/+1 counters on target artifact creature.)\nWhenever you cast a spell other than your first spell each turn, put a +1/+1 counter on this creature."
+   "oracle_text": "Menace\nModular 2 (This creature enters with two +1/+1 counters on it. When it dies, you may put its +1/+1 counters on target artifact creature.)\nWhenever you cast a spell other than your first spell each turn, put a +1/+1 counter on this creature.",
+   "power": "0",
+   "toughness": "0"
   },
   {
    "name": "Hedge Maze",
@@ -937,7 +967,9 @@
    ],
    "mana_cost": "{2}{U}{B}",
    "url": "https://scryfall.com/card/otc/231/hostage-taker?utm_source=api",
-   "oracle_text": "When this creature enters, exile another target creature or artifact until this creature leaves the battlefield. You may cast that card for as long as it remains exiled, and mana of any type can be spent to cast that spell."
+   "oracle_text": "When this creature enters, exile another target creature or artifact until this creature leaves the battlefield. You may cast that card for as long as it remains exiled, and mana of any type can be spent to cast that spell.",
+   "power": "2",
+   "toughness": "3"
   },
   {
    "name": "Dina, Soul Steeper",
@@ -962,6 +994,8 @@
    "mana_cost": "{B}{G}",
    "url": "https://scryfall.com/card/stx/178/dina-soul-steeper?utm_source=api",
    "oracle_text": "Whenever you gain life, each opponent loses 1 life.\n{1}, Sacrifice another creature: Dina gets +X/+0 until end of turn, where X is the sacrificed creature's power.",
+   "power": "1",
+   "toughness": "3",
    "appearances": 1
   },
   {
@@ -979,7 +1013,9 @@
    "color_identity": [],
    "mana_cost": "{4}",
    "url": "https://scryfall.com/card/mm2/220/lodestone-myr?utm_source=api",
-   "oracle_text": "Trample\nTap an untapped artifact you control: This creature gets +1/+1 until end of turn."
+   "oracle_text": "Trample\nTap an untapped artifact you control: This creature gets +1/+1 until end of turn.",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Candy Trail",

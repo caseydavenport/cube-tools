@@ -89,6 +89,8 @@
    "mana_cost": "{1}{B}",
    "url": "https://scryfall.com/card/fin/94/dark-confidant?utm_source=api",
    "oracle_text": "At the beginning of your upkeep, reveal the top card of your library and put that card into your hand. You lose life equal to its mana value.",
+   "power": "2",
+   "toughness": "1",
    "appearances": 1
   },
   {
@@ -128,6 +130,8 @@
    "mana_cost": "{1}{W}",
    "url": "https://scryfall.com/card/khm/6/clarion-spirit?utm_source=api",
    "oracle_text": "Whenever you cast your second spell each turn, create a 1/1 white Spirit creature token with flying.",
+   "power": "2",
+   "toughness": "2",
    "appearances": 1
   },
   {
@@ -181,6 +185,8 @@
    "mana_cost": "{1}{R}{R}",
    "url": "https://scryfall.com/card/war/138/mizzium-tank?utm_source=api",
    "oracle_text": "Trample\nWhenever you cast a noncreature spell, this Vehicle becomes an artifact creature and gets +1/+1 until end of turn.\nCrew 1 (Tap any number of creatures you control with total power 1 or more: This Vehicle becomes an artifact creature until end of turn.)",
+   "power": "3",
+   "toughness": "2",
    "appearances": 1
   },
   {
@@ -266,6 +272,8 @@
    "mana_cost": "{R}",
    "url": "https://scryfall.com/card/akh/148/soul-scar-mage?utm_source=api",
    "oracle_text": "Prowess\nIf a source you control would deal noncombat damage to a creature an opponent controls, put that many -1/-1 counters on that creature instead.",
+   "power": "1",
+   "toughness": "2",
    "appearances": 1
   },
   {
@@ -336,6 +344,8 @@
    "mana_cost": "{R}",
    "url": "https://scryfall.com/card/mh2/121/dragons-rage-channeler?utm_source=api",
    "oracle_text": "Whenever you cast a noncreature spell, surveil 1. (Look at the top card of your library. You may put that card into your graveyard.)\nDelirium — As long as there are four or more card types among cards in your graveyard, this creature gets +2/+2, has flying, and attacks each combat if able.",
+   "power": "1",
+   "toughness": "1",
    "appearances": 1
   },
   {
@@ -358,6 +368,8 @@
    "mana_cost": "{1}{R}",
    "url": "https://scryfall.com/card/war/125/dreadhorde-arcanist?utm_source=api",
    "oracle_text": "Trample\nWhenever this creature attacks, you may cast target instant or sorcery card with mana value less than or equal to this creature's power from your graveyard without paying its mana cost. If that spell would be put into your graveyard, exile it instead.",
+   "power": "1",
+   "toughness": "3",
    "appearances": 1
   },
   {
@@ -381,6 +393,8 @@
    "mana_cost": "{1}{R}",
    "url": "https://scryfall.com/card/lci/156/inti-seneschal-of-the-sun?utm_source=api",
    "oracle_text": "Whenever you attack, you may discard a card. When you do, put a +1/+1 counter on target attacking creature. It gains trample until end of turn.\nWhenever you discard one or more cards, exile the top card of your library. You may play that card until your next end step.",
+   "power": "2",
+   "toughness": "2",
    "appearances": 1
   },
   {
@@ -597,6 +611,8 @@
    "mana_cost": "{1}{U}{B}",
    "url": "https://scryfall.com/card/mom/227/halo-forager?utm_source=api",
    "oracle_text": "Flying\nWhen this creature enters, you may pay {X}. When you do, you may cast target instant or sorcery card with mana value X from a graveyard without paying its mana cost. If that spell would be put into a graveyard, exile it instead.",
+   "power": "3",
+   "toughness": "1",
    "appearances": 1
   },
   {
@@ -663,6 +679,8 @@
    "mana_cost": "{B}{R}",
    "url": "https://scryfall.com/card/war/194/dreadhorde-butcher?utm_source=api",
    "oracle_text": "Haste\nWhenever this creature deals combat damage to a player or planeswalker, put a +1/+1 counter on this creature.\nWhen this creature dies, it deals damage equal to its power to any target.",
+   "power": "1",
+   "toughness": "1",
    "appearances": 1
   },
   {
@@ -702,6 +720,8 @@
    "mana_cost": "{2}{R}",
    "url": "https://scryfall.com/card/mh2/112/arcbound-tracker?utm_source=api",
    "oracle_text": "Menace\nModular 2 (This creature enters with two +1/+1 counters on it. When it dies, you may put its +1/+1 counters on target artifact creature.)\nWhenever you cast a spell other than your first spell each turn, put a +1/+1 counter on this creature.",
+   "power": "0",
+   "toughness": "0",
    "appearances": 1
   },
   {
@@ -724,6 +744,8 @@
    "mana_cost": "{2}{U}",
    "url": "https://scryfall.com/card/fdn/508/exclusion-mage?utm_source=api",
    "oracle_text": "When this creature enters, return target creature an opponent controls to its owner's hand.",
+   "power": "2",
+   "toughness": "2",
    "appearances": 1
   },
   {
@@ -746,6 +768,8 @@
    "mana_cost": "{U}",
    "url": "https://scryfall.com/card/otc/109/pteramander?utm_source=api",
    "oracle_text": "Flying\n{7}{U}: Adapt 4. This ability costs {1} less to activate for each instant and sorcery card in your graveyard. (If this creature has no +1/+1 counters on it, put four +1/+1 counters on it.)",
+   "power": "1",
+   "toughness": "1",
    "appearances": 1
   },
   {
@@ -851,7 +875,9 @@
    ],
    "mana_cost": "{2}{U}",
    "url": "https://scryfall.com/card/moc/226/master-of-etherium?utm_source=api",
-   "oracle_text": "Master of Etherium's power and toughness are each equal to the number of artifacts you control.\nOther artifact creatures you control get +1/+1."
+   "oracle_text": "Master of Etherium's power and toughness are each equal to the number of artifacts you control.\nOther artifact creatures you control get +1/+1.",
+   "power": "*",
+   "toughness": "*"
   },
   {
    "name": "Life from the Loam",
@@ -925,7 +951,9 @@
    ],
    "mana_cost": "{1}{U}",
    "url": "https://scryfall.com/card/neo/74/the-reality-chip?utm_source=api",
-   "oracle_text": "You may look at the top card of your library any time.\nAs long as The Reality Chip is attached to a creature, you may play lands and cast spells from the top of your library.\nReconfigure {2}{U} ({2}{U}: Attach to target creature you control; or unattach from a creature. Reconfigure only as a sorcery. While attached, this isn't a creature.)"
+   "oracle_text": "You may look at the top card of your library any time.\nAs long as The Reality Chip is attached to a creature, you may play lands and cast spells from the top of your library.\nReconfigure {2}{U} ({2}{U}: Attach to target creature you control; or unattach from a creature. Reconfigure only as a sorcery. While attached, this isn't a creature.)",
+   "power": "0",
+   "toughness": "4"
   },
   {
    "name": "Dauntless Bodyguard",
@@ -946,7 +974,9 @@
    ],
    "mana_cost": "{W}",
    "url": "https://scryfall.com/card/dom/14/dauntless-bodyguard?utm_source=api",
-   "oracle_text": "As this creature enters, choose another creature you control.\nSacrifice this creature: The chosen creature gains indestructible until end of turn."
+   "oracle_text": "As this creature enters, choose another creature you control.\nSacrifice this creature: The chosen creature gains indestructible until end of turn.",
+   "power": "2",
+   "toughness": "1"
   },
   {
    "name": "Spell Pierce",

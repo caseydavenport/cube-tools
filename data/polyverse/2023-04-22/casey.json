@@ -141,7 +141,9 @@
    ],
    "mana_cost": "{2}{B}",
    "url": "https://scryfall.com/card/mm3/86/vampire-aristocrat?utm_source=api",
-   "oracle_text": "Sacrifice a creature: This creature gets +2/+2 until end of turn."
+   "oracle_text": "Sacrifice a creature: This creature gets +2/+2 until end of turn.",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Kathari Bomber",
@@ -164,7 +166,9 @@
    ],
    "mana_cost": "{1}{B}{R}",
    "url": "https://scryfall.com/card/mm3/172/kathari-bomber?utm_source=api",
-   "oracle_text": "Flying\nWhen this creature deals combat damage to a player, create two 1/1 red Goblin creature tokens and sacrifice this creature.\nUnearth {3}{B}{R} ({3}{B}{R}: Return this card from your graveyard to the battlefield. It gains haste. Exile it at the beginning of the next end step or if it would leave the battlefield. Unearth only as a sorcery.)"
+   "oracle_text": "Flying\nWhen this creature deals combat damage to a player, create two 1/1 red Goblin creature tokens and sacrifice this creature.\nUnearth {3}{B}{R} ({3}{B}{R}: Return this card from your graveyard to the battlefield. It gains haste. Exile it at the beginning of the next end step or if it would leave the battlefield. Unearth only as a sorcery.)",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Tibalt, Rakish Instigator",
@@ -226,7 +230,9 @@
    ],
    "mana_cost": "{3}{R}{R}",
    "url": "https://scryfall.com/card/tdc/232/siege-gang-commander?utm_source=api",
-   "oracle_text": "When this creature enters, create three 1/1 red Goblin creature tokens.\n{1}{R}, Sacrifice a Goblin: This creature deals 2 damage to any target."
+   "oracle_text": "When this creature enters, create three 1/1 red Goblin creature tokens.\n{1}{R}, Sacrifice a Goblin: This creature deals 2 damage to any target.",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Vampire's Bite",
@@ -264,7 +270,9 @@
    ],
    "mana_cost": "{4}{B}",
    "url": "https://scryfall.com/card/clu/117/orzhov-racketeers?utm_source=api",
-   "oracle_text": "Whenever this creature deals combat damage to a player, that player discards a card.\nAfterlife 2 (When this creature dies, create two 1/1 white and black Spirit creature tokens with flying.)"
+   "oracle_text": "Whenever this creature deals combat damage to a player, that player discards a card.\nAfterlife 2 (When this creature dies, create two 1/1 white and black Spirit creature tokens with flying.)",
+   "power": "3",
+   "toughness": "2"
   },
   {
    "name": "Makeshift Munitions",
@@ -319,7 +327,9 @@
    ],
    "mana_cost": "{R}",
    "url": "https://scryfall.com/card/war/130/grim-initiate?utm_source=api",
-   "oracle_text": "First strike\nWhen this creature dies, amass Zombies 1. (Put a +1/+1 counter on an Army you control. It's also a Zombie. If you don't control an Army, create a 0/0 black Zombie Army creature token first.)"
+   "oracle_text": "First strike\nWhen this creature dies, amass Zombies 1. (Put a +1/+1 counter on an Army you control. It's also a Zombie. If you don't control an Army, create a 0/0 black Zombie Army creature token first.)",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Zulaport Cutthroat",
@@ -341,7 +351,9 @@
    ],
    "mana_cost": "{1}{B}",
    "url": "https://scryfall.com/card/clb/775/zulaport-cutthroat?utm_source=api",
-   "oracle_text": "Whenever this creature or another creature you control dies, each opponent loses 1 life and you gain 1 life."
+   "oracle_text": "Whenever this creature or another creature you control dies, each opponent loses 1 life and you gain 1 life.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Lightning Greaves",
@@ -410,7 +422,9 @@
    ],
    "mana_cost": "{2}",
    "url": "https://scryfall.com/card/som/170/leaden-myr?utm_source=api",
-   "oracle_text": "{T}: Add {B}."
+   "oracle_text": "{T}: Add {B}.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Sparring Construct",
@@ -427,7 +441,9 @@
    "color_identity": [],
    "mana_cost": "{1}",
    "url": "https://scryfall.com/card/dom/232/sparring-construct?utm_source=api",
-   "oracle_text": "When this creature dies, put a +1/+1 counter on target creature you control."
+   "oracle_text": "When this creature dies, put a +1/+1 counter on target creature you control.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Bankrupt in Blood",
@@ -465,7 +481,9 @@
    ],
    "mana_cost": "{R}",
    "url": "https://scryfall.com/card/akh/148/soul-scar-mage?utm_source=api",
-   "oracle_text": "Prowess\nIf a source you control would deal noncombat damage to a creature an opponent controls, put that many -1/-1 counters on that creature instead."
+   "oracle_text": "Prowess\nIf a source you control would deal noncombat damage to a creature an opponent controls, put that many -1/-1 counters on that creature instead.",
+   "power": "1",
+   "toughness": "2"
   },
   {
    "name": "Guttersnipe",
@@ -486,7 +504,9 @@
    ],
    "mana_cost": "{2}{R}",
    "url": "https://scryfall.com/card/tdc/217/guttersnipe?utm_source=api",
-   "oracle_text": "Whenever you cast an instant or sorcery spell, this creature deals 2 damage to each opponent."
+   "oracle_text": "Whenever you cast an instant or sorcery spell, this creature deals 2 damage to each opponent.",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Mountain",
@@ -637,7 +657,9 @@
    ],
    "mana_cost": "{3}{R}{R}",
    "url": "https://scryfall.com/card/tdc/233/skarrgan-hellkite?utm_source=api",
-   "oracle_text": "Riot (This creature enters with your choice of a +1/+1 counter or haste.)\nFlying\n{3}{R}: This creature deals 2 damage divided as you choose among one or two targets. Activate only if this creature has a +1/+1 counter on it."
+   "oracle_text": "Riot (This creature enters with your choice of a +1/+1 counter or haste.)\nFlying\n{3}{R}: This creature deals 2 damage divided as you choose among one or two targets. Activate only if this creature has a +1/+1 counter on it.",
+   "power": "4",
+   "toughness": "4"
   },
   {
    "name": "Comet Storm",
@@ -675,7 +697,9 @@
    ],
    "mana_cost": "{R}",
    "url": "https://scryfall.com/card/m21/147/goblin-arsonist?utm_source=api",
-   "oracle_text": "When this creature dies, you may have it deal 1 damage to any target."
+   "oracle_text": "When this creature dies, you may have it deal 1 damage to any target.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Tibalt's Rager",
@@ -695,7 +719,9 @@
    ],
    "mana_cost": "{1}{R}",
    "url": "https://scryfall.com/card/jmp/366/tibalts-rager?utm_source=api",
-   "oracle_text": "When this creature dies, it deals 1 damage to any target.\n{1}{R}: This creature gets +2/+0 until end of turn."
+   "oracle_text": "When this creature dies, it deals 1 damage to any target.\n{1}{R}: This creature gets +2/+0 until end of turn.",
+   "power": "1",
+   "toughness": "2"
   }
  ],
  "sideboard": []

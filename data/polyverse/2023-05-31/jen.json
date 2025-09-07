@@ -36,7 +36,9 @@
    ],
    "mana_cost": "{3}{W}{W}",
    "url": "https://scryfall.com/card/khc/21/cloudgoat-ranger?utm_source=api",
-   "oracle_text": "When this creature enters, create three 1/1 white Kithkin Soldier creature tokens.\nTap three untapped Kithkin you control: This creature gets +2/+0 and gains flying until end of turn."
+   "oracle_text": "When this creature enters, create three 1/1 white Kithkin Soldier creature tokens.\nTap three untapped Kithkin you control: This creature gets +2/+0 and gains flying until end of turn.",
+   "power": "3",
+   "toughness": "3"
   },
   {
    "name": "Jiang Yanggu, Wildcrafter",
@@ -78,7 +80,9 @@
    ],
    "mana_cost": "{3}{W}",
    "url": "https://scryfall.com/card/xln/25/paladin-of-the-bloodstained?utm_source=api",
-   "oracle_text": "When this creature enters, create a 1/1 white Vampire creature token with lifelink."
+   "oracle_text": "When this creature enters, create a 1/1 white Vampire creature token with lifelink.",
+   "power": "3",
+   "toughness": "2"
   },
   {
    "name": "Pledge of Unity",
@@ -135,7 +139,9 @@
    ],
    "mana_cost": "{4}{B/G}{B/G}{B/G}",
    "url": "https://scryfall.com/card/ddj/65/doomgape?utm_source=api",
-   "oracle_text": "Trample\nAt the beginning of your upkeep, sacrifice a creature. You gain life equal to that creature's toughness."
+   "oracle_text": "Trample\nAt the beginning of your upkeep, sacrifice a creature. You gain life equal to that creature's toughness.",
+   "power": "10",
+   "toughness": "10"
   },
   {
    "name": "Blinding Mage",
@@ -156,7 +162,9 @@
    ],
    "mana_cost": "{1}{W}",
    "url": "https://scryfall.com/card/ima/13/blinding-mage?utm_source=api",
-   "oracle_text": "{W}, {T}: Tap target creature."
+   "oracle_text": "{W}, {T}: Tap target creature.",
+   "power": "1",
+   "toughness": "2"
   },
   {
    "name": "Cloudshift",
@@ -211,7 +219,9 @@
    ],
    "mana_cost": "{3}{W}",
    "url": "https://scryfall.com/card/clb/694/galepowder-mage?utm_source=api",
-   "oracle_text": "Flying\nWhenever this creature attacks, exile another target creature. Return that card to the battlefield under its owner's control at the beginning of the next end step."
+   "oracle_text": "Flying\nWhenever this creature attacks, exile another target creature. Return that card to the battlefield under its owner's control at the beginning of the next end step.",
+   "power": "3",
+   "toughness": "3"
   },
   {
    "name": "Chatter of the Squirrel",
@@ -400,7 +410,9 @@
    ],
    "mana_cost": "{G}{W}",
    "url": "https://scryfall.com/card/dom/204/shanna-sisays-legacy?utm_source=api",
-   "oracle_text": "Shanna can't be the target of abilities your opponents control.\nShanna gets +1/+1 for each creature you control."
+   "oracle_text": "Shanna can't be the target of abilities your opponents control.\nShanna gets +1/+1 for each creature you control.",
+   "power": "0",
+   "toughness": "0"
   },
   {
    "name": "Sparring Construct",
@@ -417,7 +429,9 @@
    "color_identity": [],
    "mana_cost": "{1}",
    "url": "https://scryfall.com/card/dom/232/sparring-construct?utm_source=api",
-   "oracle_text": "When this creature dies, put a +1/+1 counter on target creature you control."
+   "oracle_text": "When this creature dies, put a +1/+1 counter on target creature you control.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Soul Warden",
@@ -438,7 +452,9 @@
    ],
    "mana_cost": "{W}",
    "url": "https://scryfall.com/card/mm3/24/soul-warden?utm_source=api",
-   "oracle_text": "Whenever another creature enters, you gain 1 life."
+   "oracle_text": "Whenever another creature enters, you gain 1 life.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Woodland Champion",
@@ -459,7 +475,9 @@
    ],
    "mana_cost": "{1}{G}",
    "url": "https://scryfall.com/card/2xm/188/woodland-champion?utm_source=api",
-   "oracle_text": "Whenever one or more tokens you control enter, put that many +1/+1 counters on this creature."
+   "oracle_text": "Whenever one or more tokens you control enter, put that many +1/+1 counters on this creature.",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Plains",
@@ -651,7 +669,9 @@
    ],
    "mana_cost": "{1}{W}",
    "url": "https://scryfall.com/card/eve/12/patrol-signaler?utm_source=api",
-   "oracle_text": "{1}{W}, {Q}: Create a 1/1 white Kithkin Soldier creature token. ({Q} is the untap symbol.)"
+   "oracle_text": "{1}{W}, {Q}: Create a 1/1 white Kithkin Soldier creature token. ({Q} is the untap symbol.)",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Throne of the God-Pharaoh",
@@ -688,7 +708,9 @@
    ],
    "mana_cost": "{2}{W/B}",
    "url": "https://scryfall.com/card/cma/201/gwyllion-hedge-mage?utm_source=api",
-   "oracle_text": "When this creature enters, if you control two or more Plains, you may create a 1/1 white Kithkin Soldier creature token.\nWhen this creature enters, if you control two or more Swamps, you may put a -1/-1 counter on target creature."
+   "oracle_text": "When this creature enters, if you control two or more Plains, you may create a 1/1 white Kithkin Soldier creature token.\nWhen this creature enters, if you control two or more Swamps, you may put a -1/-1 counter on target creature.",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Tukatongue Thallid",
@@ -708,7 +730,9 @@
    ],
    "mana_cost": "{G}",
    "url": "https://scryfall.com/card/pca/79/tukatongue-thallid?utm_source=api",
-   "oracle_text": "When this creature dies, create a 1/1 green Saproling creature token."
+   "oracle_text": "When this creature dies, create a 1/1 green Saproling creature token.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Anointed Procession",
@@ -745,7 +769,9 @@
    ],
    "mana_cost": "{5}{G}{G}{G}",
    "url": "https://scryfall.com/card/dom/187/verdant-force?utm_source=api",
-   "oracle_text": "At the beginning of each upkeep, create a 1/1 green Saproling creature token."
+   "oracle_text": "At the beginning of each upkeep, create a 1/1 green Saproling creature token.",
+   "power": "7",
+   "toughness": "7"
   },
   {
    "name": "Journey to Nowhere",
@@ -782,7 +808,9 @@
    ],
    "mana_cost": "{3}{W}",
    "url": "https://scryfall.com/card/inr/38/restoration-angel?utm_source=api",
-   "oracle_text": "Flash\nFlying\nWhen this creature enters, you may exile target non-Angel creature you control, then return that card to the battlefield under your control."
+   "oracle_text": "Flash\nFlying\nWhen this creature enters, you may exile target non-Angel creature you control, then return that card to the battlefield under your control.",
+   "power": "3",
+   "toughness": "4"
   }
  ],
  "sideboard": []

@@ -67,6 +67,8 @@
    "mana_cost": "{2}{W}{W}{U}{U}",
    "url": "https://scryfall.com/card/thb/214/dream-trawler?utm_source=api",
    "oracle_text": "Flying, lifelink\nWhenever you draw a card, this creature gets +1/+0 until end of turn.\nWhenever this creature attacks, draw a card.\nDiscard a card: This creature gains hexproof until end of turn. Tap it.",
+   "power": "3",
+   "toughness": "5",
    "appearances": 1
   },
   {
@@ -139,6 +141,8 @@
    "mana_cost": "{1}{U}",
    "url": "https://scryfall.com/card/snc/44/faerie-vandal?utm_source=api",
    "oracle_text": "Flash (You may cast this spell any time you could cast an instant.)\nFlying\nWhenever you draw your second card each turn, put a +1/+1 counter on this creature.",
+   "power": "1",
+   "toughness": "2",
    "appearances": 1
   },
   {
@@ -160,6 +164,8 @@
    "mana_cost": "{2}{U}",
    "url": "https://scryfall.com/card/cmd/48/gomazoa?utm_source=api",
    "oracle_text": "Defender, flying\n{T}: Put this creature and each creature it's blocking on top of their owners' libraries, then those players shuffle.",
+   "power": "0",
+   "toughness": "3",
    "appearances": 1
   },
   {
@@ -217,6 +223,8 @@
    "mana_cost": "{1}{U}",
    "url": "https://scryfall.com/card/fdn/152/brineborn-cutthroat?utm_source=api",
    "oracle_text": "Flash (You may cast this spell any time you could cast an instant.)\nWhenever you cast a spell during an opponent's turn, put a +1/+1 counter on this creature.",
+   "power": "2",
+   "toughness": "1",
    "appearances": 1
   },
   {
@@ -257,6 +265,8 @@
    "mana_cost": "{1}{W}",
    "url": "https://scryfall.com/card/cmm/838/spirited-companion?utm_source=api",
    "oracle_text": "When this creature enters, draw a card.",
+   "power": "1",
+   "toughness": "1",
    "appearances": 1
   },
   {
@@ -279,6 +289,8 @@
    "mana_cost": "{W}",
    "url": "https://scryfall.com/card/ddf/6/mosquito-guard?utm_source=api",
    "oracle_text": "First strike\nReinforce 1—{1}{W} ({1}{W}, Discard this card: Put a +1/+1 counter on target creature.)",
+   "power": "1",
+   "toughness": "1",
    "appearances": 1
   },
   {
@@ -303,6 +315,8 @@
    "mana_cost": "{1}{U}",
    "url": "https://scryfall.com/card/neo/74/the-reality-chip?utm_source=api",
    "oracle_text": "You may look at the top card of your library any time.\nAs long as The Reality Chip is attached to a creature, you may play lands and cast spells from the top of your library.\nReconfigure {2}{U} ({2}{U}: Attach to target creature you control; or unattach from a creature. Reconfigure only as a sorcery. While attached, this isn't a creature.)",
+   "power": "0",
+   "toughness": "4",
    "appearances": 1
   },
   {
@@ -343,6 +357,8 @@
    "mana_cost": "{W}",
    "url": "https://scryfall.com/card/thb/1/alseid-of-lifes-bounty?utm_source=api",
    "oracle_text": "Lifelink\n{1}, Sacrifice this creature: Target creature or enchantment you control gains protection from the color of your choice until end of turn.",
+   "power": "1",
+   "toughness": "1",
    "appearances": 1
   },
   {
@@ -365,6 +381,8 @@
    "mana_cost": "{2}{U}",
    "url": "https://scryfall.com/card/cmm/847/flux-channeler?utm_source=api",
    "oracle_text": "Whenever you cast a noncreature spell, proliferate. (Choose any number of permanents and/or players, then give each another counter of each kind already there.)",
+   "power": "2",
+   "toughness": "2",
    "appearances": 1
   },
   {
@@ -386,6 +404,8 @@
    "mana_cost": "{3}{U}{U}",
    "url": "https://scryfall.com/card/zen/69/sphinx-of-lost-truths?utm_source=api",
    "oracle_text": "Kicker {1}{U} (You may pay an additional {1}{U} as you cast this spell.)\nFlying\nWhen this creature enters, draw three cards. Then if it wasn't kicked, discard three cards.",
+   "power": "3",
+   "toughness": "5",
    "appearances": 1
   },
   {
@@ -408,6 +428,8 @@
    "mana_cost": "{2}{U}",
    "url": "https://scryfall.com/card/thb/56/naiad-of-hidden-coves?utm_source=api",
    "oracle_text": "During turns other than yours, spells you cast cost {1} less to cast.",
+   "power": "2",
+   "toughness": "3",
    "appearances": 1
   },
   {
@@ -429,6 +451,8 @@
    "mana_cost": "{4}{W}",
    "url": "https://scryfall.com/card/2x2/26/reveillark?utm_source=api",
    "oracle_text": "Flying\nWhen this creature leaves the battlefield, return up to two target creature cards with power 2 or less from your graveyard to the battlefield.\nEvoke {5}{W} (You may cast this spell for its evoke cost. If you do, it's sacrificed when it enters.)",
+   "power": "4",
+   "toughness": "3",
    "appearances": 1
   },
   {
@@ -504,6 +528,8 @@
    "mana_cost": "{1}{W}",
    "url": "https://scryfall.com/card/cmm/824/grateful-apparition?utm_source=api",
    "oracle_text": "Flying\nWhenever this creature deals combat damage to a player or planeswalker, proliferate. (Choose any number of permanents and/or players, then give each another counter of each kind already there.)",
+   "power": "1",
+   "toughness": "1",
    "appearances": 1
   },
   {
@@ -864,7 +890,9 @@
    ],
    "mana_cost": "{R/W}{R/W}{R/W}{R/W}{R/W}",
    "url": "https://scryfall.com/card/mm2/195/nobilis-of-war?utm_source=api",
-   "oracle_text": "Flying\nAttacking creatures you control get +2/+0."
+   "oracle_text": "Flying\nAttacking creatures you control get +2/+0.",
+   "power": "3",
+   "toughness": "4"
   },
   {
    "name": "Witherscale Wurm",
@@ -884,7 +912,9 @@
    ],
    "mana_cost": "{4}{G}{G}",
    "url": "https://scryfall.com/card/shm/134/witherscale-wurm?utm_source=api",
-   "oracle_text": "Whenever this creature blocks or becomes blocked by a creature, that creature gains wither until end of turn. (It deals damage to creatures in the form of -1/-1 counters.)\nWhenever this creature deals damage to an opponent, remove all -1/-1 counters from it."
+   "oracle_text": "Whenever this creature blocks or becomes blocked by a creature, that creature gains wither until end of turn. (It deals damage to creatures in the form of -1/-1 counters.)\nWhenever this creature deals damage to an opponent, remove all -1/-1 counters from it.",
+   "power": "9",
+   "toughness": "9"
   },
   {
    "name": "River Kelpie",
@@ -904,7 +934,9 @@
    ],
    "mana_cost": "{3}{U}{U}",
    "url": "https://scryfall.com/card/tdc/166/river-kelpie?utm_source=api",
-   "oracle_text": "Whenever this creature or another permanent enters from a graveyard, draw a card.\nWhenever a player casts a spell from a graveyard, draw a card.\nPersist (When this creature dies, if it had no -1/-1 counters on it, return it to the battlefield under its owner's control with a -1/-1 counter on it.)"
+   "oracle_text": "Whenever this creature or another permanent enters from a graveyard, draw a card.\nWhenever a player casts a spell from a graveyard, draw a card.\nPersist (When this creature dies, if it had no -1/-1 counters on it, return it to the battlefield under its owner's control with a -1/-1 counter on it.)",
+   "power": "3",
+   "toughness": "3"
   },
   {
    "name": "Jaddi Lifestrider",
@@ -924,7 +956,9 @@
    ],
    "mana_cost": "{4}{G}",
    "url": "https://scryfall.com/card/ddr/12/jaddi-lifestrider?utm_source=api",
-   "oracle_text": "When this creature enters, you may tap any number of untapped creatures you control. You gain 2 life for each creature tapped this way."
+   "oracle_text": "When this creature enters, you may tap any number of untapped creatures you control. You gain 2 life for each creature tapped this way.",
+   "power": "2",
+   "toughness": "8"
   },
   {
    "name": "Gilded Goose",
@@ -944,7 +978,9 @@
    ],
    "mana_cost": "{G}",
    "url": "https://scryfall.com/card/moc/299/gilded-goose?utm_source=api",
-   "oracle_text": "Flying\nWhen this creature enters, create a Food token. (It's an artifact with \"{2}, {T}, Sacrifice this token: You gain 3 life.\")\n{1}{G}, {T}: Create a Food token.\n{T}, Sacrifice a Food: Add one mana of any color."
+   "oracle_text": "Flying\nWhen this creature enters, create a Food token. (It's an artifact with \"{2}, {T}, Sacrifice this token: You gain 3 life.\")\n{1}{G}, {T}: Create a Food token.\n{T}, Sacrifice a Food: Add one mana of any color.",
+   "power": "0",
+   "toughness": "2"
   },
   {
    "name": "Devoted Druid",
@@ -965,7 +1001,9 @@
    ],
    "mana_cost": "{1}{G}",
    "url": "https://scryfall.com/card/2x2/143/devoted-druid?utm_source=api",
-   "oracle_text": "{T}: Add {G}.\nPut a -1/-1 counter on this creature: Untap this creature."
+   "oracle_text": "{T}: Add {G}.\nPut a -1/-1 counter on this creature: Untap this creature.",
+   "power": "0",
+   "toughness": "2"
   },
   {
    "name": "Lotus Cobra",
@@ -985,7 +1023,9 @@
    ],
    "mana_cost": "{1}{G}",
    "url": "https://scryfall.com/card/znr/193/lotus-cobra?utm_source=api",
-   "oracle_text": "Landfall — Whenever a land you control enters, add one mana of any color."
+   "oracle_text": "Landfall — Whenever a land you control enters, add one mana of any color.",
+   "power": "2",
+   "toughness": "1"
   },
   {
    "name": "Reclamation Sage",
@@ -1006,7 +1046,9 @@
    ],
    "mana_cost": "{2}{G}",
    "url": "https://scryfall.com/card/fdn/231/reclamation-sage?utm_source=api",
-   "oracle_text": "When this creature enters, you may destroy target artifact or enchantment."
+   "oracle_text": "When this creature enters, you may destroy target artifact or enchantment.",
+   "power": "2",
+   "toughness": "1"
   },
   {
    "name": "Arasta of the Endless Web",
@@ -1028,7 +1070,9 @@
    ],
    "mana_cost": "{2}{G}{G}",
    "url": "https://scryfall.com/card/tdc/244/arasta-of-the-endless-web?utm_source=api",
-   "oracle_text": "Reach\nWhenever an opponent casts an instant or sorcery spell, create a 1/2 green Spider creature token with reach."
+   "oracle_text": "Reach\nWhenever an opponent casts an instant or sorcery spell, create a 1/2 green Spider creature token with reach.",
+   "power": "3",
+   "toughness": "5"
   },
   {
    "name": "Acidic Slime",
@@ -1048,7 +1092,9 @@
    ],
    "mana_cost": "{3}{G}{G}",
    "url": "https://scryfall.com/card/cmm/270/acidic-slime?utm_source=api",
-   "oracle_text": "Deathtouch (Any amount of damage this deals to a creature is enough to destroy it.)\nWhen this creature enters, destroy target artifact, enchantment, or land."
+   "oracle_text": "Deathtouch (Any amount of damage this deals to a creature is enough to destroy it.)\nWhen this creature enters, destroy target artifact, enchantment, or land.",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Tamiyo, Compleated Sage",

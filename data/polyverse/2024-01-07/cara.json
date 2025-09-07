@@ -84,6 +84,8 @@
    "mana_cost": "{B}",
    "url": "https://scryfall.com/card/m20/105/knight-of-the-ebon-legion?utm_source=api",
    "oracle_text": "{2}{B}: This creature gets +3/+3 and gains deathtouch until end of turn.\nAt the beginning of your end step, if a player lost 4 or more life this turn, put a +1/+1 counter on this creature. (Damage causes loss of life.)",
+   "power": "1",
+   "toughness": "2",
    "appearances": 1
   },
   {
@@ -105,6 +107,8 @@
    "mana_cost": "{2}{B}",
    "url": "https://scryfall.com/card/tdc/201/woe-strider?utm_source=api",
    "oracle_text": "When this creature enters, create a 0/1 white Goat creature token.\nSacrifice another creature: Scry 1.\nEscape—{3}{B}{B}, Exile four other cards from your graveyard. (You may cast this card from your graveyard for its escape cost.)\nThis creature escapes with two +1/+1 counters on it.",
+   "power": "3",
+   "toughness": "2",
    "appearances": 1
   },
   {
@@ -126,6 +130,8 @@
    "mana_cost": "{1}{B}",
    "url": "https://scryfall.com/card/woe/113/tangled-colony?utm_source=api",
    "oracle_text": "This creature can't block.\nWhen this creature dies, create X 1/1 black Rat creature tokens with \"This token can't block,\" where X is the amount of damage dealt to it this turn.",
+   "power": "3",
+   "toughness": "2",
    "appearances": 1
   },
   {
@@ -148,6 +154,8 @@
    "mana_cost": "{B}{B}",
    "url": "https://scryfall.com/card/2xm/112/vampire-hexmage?utm_source=api",
    "oracle_text": "First strike\nSacrifice this creature: Remove all counters from target permanent.",
+   "power": "2",
+   "toughness": "1",
    "appearances": 1
   },
   {
@@ -187,6 +195,8 @@
    "mana_cost": "{6}{W}{W}",
    "url": "https://scryfall.com/card/moc/170/angel-of-salvation?utm_source=api",
    "oracle_text": "Flash; convoke (Your creatures can help cast this spell. Each creature you tap while casting this spell pays for {1} or one mana of that creature's color.)\nFlying\nWhen this creature enters, prevent the next 5 damage that would be dealt this turn to any number of targets, divided as you choose.",
+   "power": "5",
+   "toughness": "5",
    "appearances": 1
   },
   {
@@ -243,6 +253,8 @@
    "mana_cost": "{2}{W}",
    "url": "https://scryfall.com/card/tdc/140/welcoming-vampire?utm_source=api",
    "oracle_text": "Flying\nWhenever one or more other creatures you control with power 2 or less enter, draw a card. This ability triggers only once each turn.",
+   "power": "2",
+   "toughness": "3",
    "appearances": 1
   },
   {
@@ -284,6 +296,8 @@
    "mana_cost": "{2}{W}",
    "url": "https://scryfall.com/card/lcc/133/mavren-fein-dusk-apostle?utm_source=api",
    "oracle_text": "Whenever one or more nontoken Vampires you control attack, create a 1/1 white Vampire creature token with lifelink.",
+   "power": "2",
+   "toughness": "2",
    "appearances": 1
   },
   {
@@ -359,6 +373,8 @@
    "mana_cost": "{3}{W}",
    "url": "https://scryfall.com/card/xln/25/paladin-of-the-bloodstained?utm_source=api",
    "oracle_text": "When this creature enters, create a 1/1 white Vampire creature token with lifelink.",
+   "power": "3",
+   "toughness": "2",
    "appearances": 1
   },
   {
@@ -401,6 +417,8 @@
    "mana_cost": "{W}{B}",
    "url": "https://scryfall.com/card/rna/194/pitiless-pontiff?utm_source=api",
    "oracle_text": "{1}, Sacrifice another creature: This creature gains deathtouch and indestructible until end of turn. (Damage and effects that say \"destroy\" don't destroy it.)",
+   "power": "2",
+   "toughness": "2",
    "appearances": 1
   },
   {
@@ -423,7 +441,9 @@
    ],
    "mana_cost": "{W}{B}",
    "url": "https://scryfall.com/card/lcc/267/cruel-celebrant?utm_source=api",
-   "oracle_text": "Whenever this creature or another creature or planeswalker you control dies, each opponent loses 1 life and you gain 1 life."
+   "oracle_text": "Whenever this creature or another creature or planeswalker you control dies, each opponent loses 1 life and you gain 1 life.",
+   "power": "1",
+   "toughness": "2"
   },
   {
    "name": "Sanctum Seeker",
@@ -445,6 +465,8 @@
    "mana_cost": "{2}{B}{B}",
    "url": "https://scryfall.com/card/lcc/209/sanctum-seeker?utm_source=api",
    "oracle_text": "Whenever a Vampire you control attacks, each opponent loses 1 life and you gain 1 life.",
+   "power": "3",
+   "toughness": "4",
    "appearances": 1
   },
   {
@@ -506,6 +528,8 @@
    "mana_cost": "{B/G}",
    "url": "https://scryfall.com/card/mh2/211/ravenous-squirrel?utm_source=api",
    "oracle_text": "Whenever you sacrifice an artifact or creature, put a +1/+1 counter on this creature.\n{1}{B}{G}, Sacrifice an artifact or creature: You gain 1 life and draw a card.",
+   "power": "1",
+   "toughness": "1",
    "appearances": 1
   },
   {
@@ -585,6 +609,8 @@
    "mana_cost": "{G}",
    "url": "https://scryfall.com/card/fdn/227/llanowar-elves?utm_source=api",
    "oracle_text": "{T}: Add {G}.",
+   "power": "1",
+   "toughness": "1",
    "appearances": 1
   },
   {
@@ -606,6 +632,8 @@
    "mana_cost": "{1}{G}",
    "url": "https://scryfall.com/card/znr/193/lotus-cobra?utm_source=api",
    "oracle_text": "Landfall — Whenever a land you control enters, add one mana of any color.",
+   "power": "2",
+   "toughness": "1",
    "appearances": 1
   },
   {
@@ -627,6 +655,8 @@
    "mana_cost": "{3}{G}{G}",
    "url": "https://scryfall.com/card/cmm/270/acidic-slime?utm_source=api",
    "oracle_text": "Deathtouch (Any amount of damage this deals to a creature is enough to destroy it.)\nWhen this creature enters, destroy target artifact, enchantment, or land.",
+   "power": "2",
+   "toughness": "2",
    "appearances": 1
   },
   {
@@ -891,7 +921,9 @@
    ],
    "mana_cost": "{W} // {W}",
    "url": "https://scryfall.com/card/woe/7/cheeky-house-mouse-squeak-by?utm_source=api",
-   "oracle_text": ""
+   "oracle_text": "",
+   "power": "2",
+   "toughness": "1"
   },
   {
    "name": "Mosquito Guard",
@@ -912,7 +944,9 @@
    ],
    "mana_cost": "{W}",
    "url": "https://scryfall.com/card/ddf/6/mosquito-guard?utm_source=api",
-   "oracle_text": "First strike\nReinforce 1—{1}{W} ({1}{W}, Discard this card: Put a +1/+1 counter on target creature.)"
+   "oracle_text": "First strike\nReinforce 1—{1}{W} ({1}{W}, Discard this card: Put a +1/+1 counter on target creature.)",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Shinewend",
@@ -932,7 +966,9 @@
    ],
    "mana_cost": "{1}{W}",
    "url": "https://scryfall.com/card/mor/23/shinewend?utm_source=api",
-   "oracle_text": "Flying\nThis creature enters with a +1/+1 counter on it.\n{1}{W}, Remove a +1/+1 counter from this creature: Destroy target enchantment."
+   "oracle_text": "Flying\nThis creature enters with a +1/+1 counter on it.\n{1}{W}, Remove a +1/+1 counter from this creature: Destroy target enchantment.",
+   "power": "0",
+   "toughness": "0"
   },
   {
    "name": "Dina, Soul Steeper",
@@ -956,7 +992,9 @@
    ],
    "mana_cost": "{B}{G}",
    "url": "https://scryfall.com/card/stx/178/dina-soul-steeper?utm_source=api",
-   "oracle_text": "Whenever you gain life, each opponent loses 1 life.\n{1}, Sacrifice another creature: Dina gets +X/+0 until end of turn, where X is the sacrificed creature's power."
+   "oracle_text": "Whenever you gain life, each opponent loses 1 life.\n{1}, Sacrifice another creature: Dina gets +X/+0 until end of turn, where X is the sacrificed creature's power.",
+   "power": "1",
+   "toughness": "3"
   },
   {
    "name": "Gilder Bairn",
@@ -978,7 +1016,9 @@
    ],
    "mana_cost": "{1}{G/U}{G/U}",
    "url": "https://scryfall.com/card/eve/152/gilder-bairn?utm_source=api",
-   "oracle_text": "{2}{G/U}, {Q}: Double the number of each kind of counter on target permanent. ({Q} is the untap symbol.)"
+   "oracle_text": "{2}{G/U}, {Q}: Double the number of each kind of counter on target permanent. ({Q} is the untap symbol.)",
+   "power": "1",
+   "toughness": "3"
   },
   {
    "name": "Lodestone Myr",
@@ -995,7 +1035,9 @@
    "color_identity": [],
    "mana_cost": "{4}",
    "url": "https://scryfall.com/card/mm2/220/lodestone-myr?utm_source=api",
-   "oracle_text": "Trample\nTap an untapped artifact you control: This creature gets +1/+1 until end of turn."
+   "oracle_text": "Trample\nTap an untapped artifact you control: This creature gets +1/+1 until end of turn.",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Fall of the Thran",
@@ -1095,7 +1137,9 @@
    ],
    "mana_cost": "{1}{G}{W}",
    "url": "https://scryfall.com/card/ima/203/knight-of-the-reliquary?utm_source=api",
-   "oracle_text": "This creature gets +1/+1 for each land card in your graveyard.\n{T}, Sacrifice a Forest or Plains: Search your library for a land card, put it onto the battlefield, then shuffle."
+   "oracle_text": "This creature gets +1/+1 for each land card in your graveyard.\n{T}, Sacrifice a Forest or Plains: Search your library for a land card, put it onto the battlefield, then shuffle.",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Ajani Goldmane",
@@ -1136,7 +1180,9 @@
    ],
    "mana_cost": "{2}{G}",
    "url": "https://scryfall.com/card/soi/212/inexorable-blob?utm_source=api",
-   "oracle_text": "Delirium — Whenever this creature attacks, if there are four or more card types among cards in your graveyard, create a 3/3 green Ooze creature token that's tapped and attacking."
+   "oracle_text": "Delirium — Whenever this creature attacks, if there are four or more card types among cards in your graveyard, create a 3/3 green Ooze creature token that's tapped and attacking.",
+   "power": "3",
+   "toughness": "3"
   },
   {
    "name": "Cankerbloom",
@@ -1157,7 +1203,9 @@
    ],
    "mana_cost": "{1}{G}",
    "url": "https://scryfall.com/card/one/161/cankerbloom?utm_source=api",
-   "oracle_text": "{1}, Sacrifice this creature: Choose one —\n• Destroy target artifact.\n• Destroy target enchantment.\n• Proliferate. (Choose any number of permanents and/or players, then give each another counter of each kind already there.)"
+   "oracle_text": "{1}, Sacrifice this creature: Choose one —\n• Destroy target artifact.\n• Destroy target enchantment.\n• Proliferate. (Choose any number of permanents and/or players, then give each another counter of each kind already there.)",
+   "power": "3",
+   "toughness": "2"
   },
   {
    "name": "Harm's Way",
@@ -1211,7 +1259,9 @@
    ],
    "mana_cost": "{1}{W}",
    "url": "https://scryfall.com/card/cmm/824/grateful-apparition?utm_source=api",
-   "oracle_text": "Flying\nWhenever this creature deals combat damage to a player or planeswalker, proliferate. (Choose any number of permanents and/or players, then give each another counter of each kind already there.)"
+   "oracle_text": "Flying\nWhenever this creature deals combat damage to a player or planeswalker, proliferate. (Choose any number of permanents and/or players, then give each another counter of each kind already there.)",
+   "power": "1",
+   "toughness": "1"
   }
  ]
 }

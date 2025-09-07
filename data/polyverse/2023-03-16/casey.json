@@ -93,7 +93,9 @@
    ],
    "mana_cost": "{2}{G}",
    "url": "https://scryfall.com/card/khc/68/marwyn-the-nurturer?utm_source=api",
-   "oracle_text": "Whenever another Elf you control enters, put a +1/+1 counter on Marwyn.\n{T}: Add an amount of {G} equal to Marwyn's power."
+   "oracle_text": "Whenever another Elf you control enters, put a +1/+1 counter on Marwyn.\n{T}: Add an amount of {G} equal to Marwyn's power.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Nissa, Who Shakes the World",
@@ -135,7 +137,9 @@
    ],
    "mana_cost": "{2}{U}",
    "url": "https://scryfall.com/card/fdn/508/exclusion-mage?utm_source=api",
-   "oracle_text": "When this creature enters, return target creature an opponent controls to its owner's hand."
+   "oracle_text": "When this creature enters, return target creature an opponent controls to its owner's hand.",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Vines of Vastwood",
@@ -191,7 +195,9 @@
    ],
    "mana_cost": "{4}{U}",
    "url": "https://scryfall.com/card/mkc/111/mulldrifter?utm_source=api",
-   "oracle_text": "Flying\nWhen this creature enters, draw two cards.\nEvoke {2}{U} (You may cast this spell for its evoke cost. If you do, it's sacrificed when it enters.)"
+   "oracle_text": "Flying\nWhen this creature enters, draw two cards.\nEvoke {2}{U} (You may cast this spell for its evoke cost. If you do, it's sacrificed when it enters.)",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Flux Channeler",
@@ -212,7 +218,9 @@
    ],
    "mana_cost": "{2}{U}",
    "url": "https://scryfall.com/card/cmm/847/flux-channeler?utm_source=api",
-   "oracle_text": "Whenever you cast a noncreature spell, proliferate. (Choose any number of permanents and/or players, then give each another counter of each kind already there.)"
+   "oracle_text": "Whenever you cast a noncreature spell, proliferate. (Choose any number of permanents and/or players, then give each another counter of each kind already there.)",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Chart a Course",
@@ -458,7 +466,9 @@
    ],
    "mana_cost": "{U}",
    "url": "https://scryfall.com/card/lcc/171/siren-stormtamer?utm_source=api",
-   "oracle_text": "Flying\n{U}, Sacrifice this creature: Counter target spell or ability that targets you or a creature you control."
+   "oracle_text": "Flying\n{U}, Sacrifice this creature: Counter target spell or ability that targets you or a creature you control.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Palace Familiar",
@@ -478,7 +488,9 @@
    ],
    "mana_cost": "{1}{U}",
    "url": "https://scryfall.com/card/dtk/69/palace-familiar?utm_source=api",
-   "oracle_text": "Flying\nWhen this creature dies, draw a card."
+   "oracle_text": "Flying\nWhen this creature dies, draw a card.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Forest",
@@ -573,7 +585,9 @@
    ],
    "mana_cost": "{1}{G}",
    "url": "https://scryfall.com/card/2xm/188/woodland-champion?utm_source=api",
-   "oracle_text": "Whenever one or more tokens you control enter, put that many +1/+1 counters on this creature."
+   "oracle_text": "Whenever one or more tokens you control enter, put that many +1/+1 counters on this creature.",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Ferocious Pup",
@@ -593,7 +607,9 @@
    ],
    "mana_cost": "{2}{G}",
    "url": "https://scryfall.com/card/m20/171/ferocious-pup?utm_source=api",
-   "oracle_text": "When this creature enters, create a 2/2 green Wolf creature token."
+   "oracle_text": "When this creature enters, create a 2/2 green Wolf creature token.",
+   "power": "0",
+   "toughness": "1"
   },
   {
    "name": "Vineglimmer Snarl",
@@ -631,7 +647,9 @@
    ],
    "mana_cost": "{2}{G}{G}",
    "url": "https://scryfall.com/card/tdc/244/arasta-of-the-endless-web?utm_source=api",
-   "oracle_text": "Reach\nWhenever an opponent casts an instant or sorcery spell, create a 1/2 green Spider creature token with reach."
+   "oracle_text": "Reach\nWhenever an opponent casts an instant or sorcery spell, create a 1/2 green Spider creature token with reach.",
+   "power": "3",
+   "toughness": "5"
   },
   {
    "name": "Merfolk Skydiver",
@@ -654,7 +672,9 @@
    ],
    "mana_cost": "{G}{U}",
    "url": "https://scryfall.com/card/lcc/277/merfolk-skydiver?utm_source=api",
-   "oracle_text": "Flying\nWhen this creature enters, put a +1/+1 counter on target creature you control.\n{3}{G}{U}: Proliferate. (Choose any number of permanents and/or players, then give each another counter of each kind already there.)"
+   "oracle_text": "Flying\nWhen this creature enters, put a +1/+1 counter on target creature you control.\n{3}{G}{U}: Proliferate. (Choose any number of permanents and/or players, then give each another counter of each kind already there.)",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Forest",
@@ -712,7 +732,9 @@
    ],
    "mana_cost": "{G}",
    "url": "https://scryfall.com/card/xln/199/old-growth-dryads?utm_source=api",
-   "oracle_text": "When this creature enters, each opponent may search their library for a basic land card, put it onto the battlefield tapped, then shuffle."
+   "oracle_text": "When this creature enters, each opponent may search their library for a basic land card, put it onto the battlefield tapped, then shuffle.",
+   "power": "3",
+   "toughness": "3"
   },
   {
    "name": "Untamed Kavu",
@@ -732,7 +754,9 @@
    ],
    "mana_cost": "{1}{G}",
    "url": "https://scryfall.com/card/dom/186/untamed-kavu?utm_source=api",
-   "oracle_text": "Kicker {3} (You may pay an additional {3} as you cast this spell.)\nVigilance, trample\nIf this creature was kicked, it enters with three +1/+1 counters on it."
+   "oracle_text": "Kicker {3} (You may pay an additional {3} as you cast this spell.)\nVigilance, trample\nIf this creature was kicked, it enters with three +1/+1 counters on it.",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Kairi, the Swirling Sky",
@@ -754,7 +778,9 @@
    ],
    "mana_cost": "{4}{U}{U}",
    "url": "https://scryfall.com/card/neo/60/kairi-the-swirling-sky?utm_source=api",
-   "oracle_text": "Flying, ward {3}\nWhen Kairi dies, choose one —\n• Return any number of target nonland permanents with total mana value 6 or less to their owners' hands.\n• Mill six cards, then return up to two instant and/or sorcery cards from your graveyard to your hand."
+   "oracle_text": "Flying, ward {3}\nWhen Kairi dies, choose one —\n• Return any number of target nonland permanents with total mana value 6 or less to their owners' hands.\n• Mill six cards, then return up to two instant and/or sorcery cards from your graveyard to your hand.",
+   "power": "6",
+   "toughness": "6"
   },
   {
    "name": "Counterspell",
@@ -792,7 +818,9 @@
    ],
    "mana_cost": "{G}",
    "url": "https://scryfall.com/card/a25/160/arbor-elf?utm_source=api",
-   "oracle_text": "{T}: Untap target Forest."
+   "oracle_text": "{T}: Untap target Forest.",
+   "power": "1",
+   "toughness": "1"
   }
  ],
  "sideboard": []

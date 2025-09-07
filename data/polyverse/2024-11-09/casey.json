@@ -298,6 +298,8 @@
    "mana_cost": "{1}{B}",
    "url": "https://scryfall.com/card/mh3/80/accursed-marauder?utm_source=api",
    "oracle_text": "When this creature enters, each player sacrifices a nontoken creature of their choice.",
+   "power": "2",
+   "toughness": "1",
    "appearances": 1
   },
   {
@@ -482,6 +484,8 @@
    "mana_cost": "{1}{B}",
    "url": "https://scryfall.com/card/khm/80/bloodsky-berserker?utm_source=api",
    "oracle_text": "Whenever you cast your second spell each turn, put two +1/+1 counters on this creature. It gains menace until end of turn. (It can't be blocked except by two or more creatures.)",
+   "power": "1",
+   "toughness": "1",
    "appearances": 1
   },
   {
@@ -852,7 +856,9 @@
    ],
    "mana_cost": "{2}{G}",
    "url": "https://scryfall.com/card/mh3/169/six?utm_source=api",
-   "oracle_text": "Reach\nWhenever Six attacks, mill three cards. You may put a land card from among them into your hand.\nDuring your turn, nonland permanent cards in your graveyard have retrace. (You may cast permanent cards from your graveyard by discarding a land card in addition to paying their other costs.)"
+   "oracle_text": "Reach\nWhenever Six attacks, mill three cards. You may put a land card from among them into your hand.\nDuring your turn, nonland permanent cards in your graveyard have retrace. (You may cast permanent cards from your graveyard by discarding a land card in addition to paying their other costs.)",
+   "power": "2",
+   "toughness": "4"
   },
   {
    "name": "Overgrown Tomb",
@@ -917,7 +923,9 @@
    ],
    "mana_cost": "{1}{G} // {1}{B}",
    "url": "https://scryfall.com/card/woe/231/mosswood-dreadknight-dread-whispers?utm_source=api",
-   "oracle_text": ""
+   "oracle_text": "",
+   "power": "3",
+   "toughness": "2"
   },
   {
    "name": "Parallel Lives",
@@ -969,7 +977,9 @@
    "color_identity": [],
    "mana_cost": "{2}",
    "url": "https://scryfall.com/card/cmr/330/perilous-myr?utm_source=api",
-   "oracle_text": "When this creature dies, it deals 2 damage to any target."
+   "oracle_text": "When this creature dies, it deals 2 damage to any target.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Tarfire",
@@ -1012,7 +1022,9 @@
    ],
    "mana_cost": "{1}{W}",
    "url": "https://scryfall.com/card/vow/38/thalia-guardian-of-thraben?utm_source=api",
-   "oracle_text": "First strike\nNoncreature spells cost {1} more to cast."
+   "oracle_text": "First strike\nNoncreature spells cost {1} more to cast.",
+   "power": "2",
+   "toughness": "1"
   },
   {
    "name": "Pollenbright Druid",
@@ -1033,7 +1045,9 @@
    ],
    "mana_cost": "{1}{G}",
    "url": "https://scryfall.com/card/cmm/312/pollenbright-druid?utm_source=api",
-   "oracle_text": "When this creature enters, choose one —\n• Put a +1/+1 counter on target creature.\n• Proliferate. (Choose any number of permanents and/or players, then give each another counter of each kind already there.)"
+   "oracle_text": "When this creature enters, choose one —\n• Put a +1/+1 counter on target creature.\n• Proliferate. (Choose any number of permanents and/or players, then give each another counter of each kind already there.)",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Lord Skitter, Sewer King",
@@ -1055,7 +1069,9 @@
    ],
    "mana_cost": "{2}{B}",
    "url": "https://scryfall.com/card/woe/97/lord-skitter-sewer-king?utm_source=api",
-   "oracle_text": "Whenever another Rat you control enters, exile up to one target card from an opponent's graveyard.\nAt the beginning of combat on your turn, create a 1/1 black Rat creature token with \"This token can't block.\""
+   "oracle_text": "Whenever another Rat you control enters, exile up to one target card from an opponent's graveyard.\nAt the beginning of combat on your turn, create a 1/1 black Rat creature token with \"This token can't block.\"",
+   "power": "3",
+   "toughness": "3"
   },
   {
    "name": "Censor",

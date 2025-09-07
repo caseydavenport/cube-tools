@@ -34,7 +34,9 @@
    ],
    "mana_cost": "{3}{W}{W}",
    "url": "https://scryfall.com/card/khc/21/cloudgoat-ranger?utm_source=api",
-   "oracle_text": "When this creature enters, create three 1/1 white Kithkin Soldier creature tokens.\nTap three untapped Kithkin you control: This creature gets +2/+0 and gains flying until end of turn."
+   "oracle_text": "When this creature enters, create three 1/1 white Kithkin Soldier creature tokens.\nTap three untapped Kithkin you control: This creature gets +2/+0 and gains flying until end of turn.",
+   "power": "3",
+   "toughness": "3"
   },
   {
    "name": "Brineborn Cutthroat",
@@ -55,7 +57,9 @@
    ],
    "mana_cost": "{1}{U}",
    "url": "https://scryfall.com/card/fdn/152/brineborn-cutthroat?utm_source=api",
-   "oracle_text": "Flash (You may cast this spell any time you could cast an instant.)\nWhenever you cast a spell during an opponent's turn, put a +1/+1 counter on this creature."
+   "oracle_text": "Flash (You may cast this spell any time you could cast an instant.)\nWhenever you cast a spell during an opponent's turn, put a +1/+1 counter on this creature.",
+   "power": "2",
+   "toughness": "1"
   },
   {
    "name": "Essence Capture",
@@ -95,7 +99,9 @@
    ],
    "mana_cost": "{1}{U}",
    "url": "https://scryfall.com/card/neo/74/the-reality-chip?utm_source=api",
-   "oracle_text": "You may look at the top card of your library any time.\nAs long as The Reality Chip is attached to a creature, you may play lands and cast spells from the top of your library.\nReconfigure {2}{U} ({2}{U}: Attach to target creature you control; or unattach from a creature. Reconfigure only as a sorcery. While attached, this isn't a creature.)"
+   "oracle_text": "You may look at the top card of your library any time.\nAs long as The Reality Chip is attached to a creature, you may play lands and cast spells from the top of your library.\nReconfigure {2}{U} ({2}{U}: Attach to target creature you control; or unattach from a creature. Reconfigure only as a sorcery. While attached, this isn't a creature.)",
+   "power": "0",
+   "toughness": "4"
   },
   {
    "name": "Reclamation Sage",
@@ -116,7 +122,9 @@
    ],
    "mana_cost": "{2}{G}",
    "url": "https://scryfall.com/card/fdn/231/reclamation-sage?utm_source=api",
-   "oracle_text": "When this creature enters, you may destroy target artifact or enchantment."
+   "oracle_text": "When this creature enters, you may destroy target artifact or enchantment.",
+   "power": "2",
+   "toughness": "1"
   },
   {
    "name": "Mana Leak",
@@ -153,7 +161,9 @@
    ],
    "mana_cost": "{6}{W}{W}",
    "url": "https://scryfall.com/card/moc/170/angel-of-salvation?utm_source=api",
-   "oracle_text": "Flash; convoke (Your creatures can help cast this spell. Each creature you tap while casting this spell pays for {1} or one mana of that creature's color.)\nFlying\nWhen this creature enters, prevent the next 5 damage that would be dealt this turn to any number of targets, divided as you choose."
+   "oracle_text": "Flash; convoke (Your creatures can help cast this spell. Each creature you tap while casting this spell pays for {1} or one mana of that creature's color.)\nFlying\nWhen this creature enters, prevent the next 5 damage that would be dealt this turn to any number of targets, divided as you choose.",
+   "power": "5",
+   "toughness": "5"
   },
   {
    "name": "Kor Sanctifiers",
@@ -174,7 +184,9 @@
    ],
    "mana_cost": "{2}{W}",
    "url": "https://scryfall.com/card/c15/73/kor-sanctifiers?utm_source=api",
-   "oracle_text": "Kicker {W} (You may pay an additional {W} as you cast this spell.)\nWhen this creature enters, if it was kicked, destroy target artifact or enchantment."
+   "oracle_text": "Kicker {W} (You may pay an additional {W} as you cast this spell.)\nWhen this creature enters, if it was kicked, destroy target artifact or enchantment.",
+   "power": "2",
+   "toughness": "3"
   },
   {
    "name": "Leech Bonder",
@@ -195,7 +207,9 @@
    ],
    "mana_cost": "{2}{U}",
    "url": "https://scryfall.com/card/shm/43/leech-bonder?utm_source=api",
-   "oracle_text": "This creature enters with two -1/-1 counters on it.\n{U}, {Q}: Move a counter from target creature onto a second target creature. ({Q} is the untap symbol.)"
+   "oracle_text": "This creature enters with two -1/-1 counters on it.\n{U}, {Q}: Move a counter from target creature onto a second target creature. ({Q} is the untap symbol.)",
+   "power": "3",
+   "toughness": "3"
   },
   {
    "name": "Mulldrifter",
@@ -215,7 +229,9 @@
    ],
    "mana_cost": "{4}{U}",
    "url": "https://scryfall.com/card/mkc/111/mulldrifter?utm_source=api",
-   "oracle_text": "Flying\nWhen this creature enters, draw two cards.\nEvoke {2}{U} (You may cast this spell for its evoke cost. If you do, it's sacrificed when it enters.)"
+   "oracle_text": "Flying\nWhen this creature enters, draw two cards.\nEvoke {2}{U} (You may cast this spell for its evoke cost. If you do, it's sacrificed when it enters.)",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Turn to Mist",
@@ -289,7 +305,9 @@
    ],
    "mana_cost": "{1}{G/W}{G/W}",
    "url": "https://scryfall.com/card/uma/216/kitchen-finks?utm_source=api",
-   "oracle_text": "When this creature enters, you gain 2 life.\nPersist (When this creature dies, if it had no -1/-1 counters on it, return it to the battlefield under its owner's control with a -1/-1 counter on it.)"
+   "oracle_text": "When this creature enters, you gain 2 life.\nPersist (When this creature dies, if it had no -1/-1 counters on it, return it to the battlefield under its owner's control with a -1/-1 counter on it.)",
+   "power": "3",
+   "toughness": "2"
   },
   {
    "name": "Silver Myr",
@@ -308,7 +326,9 @@
    ],
    "mana_cost": "{2}",
    "url": "https://scryfall.com/card/nec/158/silver-myr?utm_source=api",
-   "oracle_text": "{T}: Add {U}."
+   "oracle_text": "{T}: Add {U}.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Forest",
@@ -423,7 +443,9 @@
    ],
    "mana_cost": "{1}{G/U}{G/U}",
    "url": "https://scryfall.com/card/eve/152/gilder-bairn?utm_source=api",
-   "oracle_text": "{2}{G/U}, {Q}: Double the number of each kind of counter on target permanent. ({Q} is the untap symbol.)"
+   "oracle_text": "{2}{G/U}, {Q}: Double the number of each kind of counter on target permanent. ({Q} is the untap symbol.)",
+   "power": "1",
+   "toughness": "3"
   },
   {
    "name": "Port Town",
@@ -459,7 +481,9 @@
    ],
    "mana_cost": "{1}{G}",
    "url": "https://scryfall.com/card/ddm/49/river-boa?utm_source=api",
-   "oracle_text": "Islandwalk (This creature can't be blocked as long as defending player controls an Island.)\n{G}: Regenerate this creature."
+   "oracle_text": "Islandwalk (This creature can't be blocked as long as defending player controls an Island.)\n{G}: Regenerate this creature.",
+   "power": "2",
+   "toughness": "1"
   },
   {
    "name": "Teferi's Time Twist",
@@ -497,7 +521,9 @@
    ],
    "mana_cost": "{2}{W}",
    "url": "https://scryfall.com/card/xln/16/inspiring-cleric?utm_source=api",
-   "oracle_text": "When this creature enters, you gain 4 life."
+   "oracle_text": "When this creature enters, you gain 4 life.",
+   "power": "3",
+   "toughness": "2"
   },
   {
    "name": "Ghostly Flicker",
@@ -724,7 +750,9 @@
    ],
    "mana_cost": "{2}{W}{W}",
    "url": "https://scryfall.com/card/mma/22/meadowboon?utm_source=api",
-   "oracle_text": "When this creature leaves the battlefield, put a +1/+1 counter on each creature target player controls.\nEvoke {3}{W} (You may cast this spell for its evoke cost. If you do, it's sacrificed when it enters.)"
+   "oracle_text": "When this creature leaves the battlefield, put a +1/+1 counter on each creature target player controls.\nEvoke {3}{W} (You may cast this spell for its evoke cost. If you do, it's sacrificed when it enters.)",
+   "power": "3",
+   "toughness": "3"
   },
   {
    "name": "Shinewend",
@@ -744,7 +772,9 @@
    ],
    "mana_cost": "{1}{W}",
    "url": "https://scryfall.com/card/mor/23/shinewend?utm_source=api",
-   "oracle_text": "Flying\nThis creature enters with a +1/+1 counter on it.\n{1}{W}, Remove a +1/+1 counter from this creature: Destroy target enchantment."
+   "oracle_text": "Flying\nThis creature enters with a +1/+1 counter on it.\n{1}{W}, Remove a +1/+1 counter from this creature: Destroy target enchantment.",
+   "power": "0",
+   "toughness": "0"
   },
   {
    "name": "Swords to Plowshares",
@@ -800,7 +830,9 @@
    ],
    "mana_cost": "{4}{G}",
    "url": "https://scryfall.com/card/ddr/12/jaddi-lifestrider?utm_source=api",
-   "oracle_text": "When this creature enters, you may tap any number of untapped creatures you control. You gain 2 life for each creature tapped this way."
+   "oracle_text": "When this creature enters, you may tap any number of untapped creatures you control. You gain 2 life for each creature tapped this way.",
+   "power": "2",
+   "toughness": "8"
   },
   {
    "name": "Panharmonicon",

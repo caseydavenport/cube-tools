@@ -101,6 +101,8 @@
    "mana_cost": "{2}{B/R}{B/R}",
    "url": "https://scryfall.com/card/uma/217/murderous-redcap?utm_source=api",
    "oracle_text": "When this creature enters, it deals damage equal to its power to any target.\nPersist (When this creature dies, if it had no -1/-1 counters on it, return it to the battlefield under its owner's control with a -1/-1 counter on it.)",
+   "power": "2",
+   "toughness": "2",
    "appearances": 1
   },
   {
@@ -159,6 +161,8 @@
    "mana_cost": "{R}",
    "url": "https://scryfall.com/card/akh/148/soul-scar-mage?utm_source=api",
    "oracle_text": "Prowess\nIf a source you control would deal noncombat damage to a creature an opponent controls, put that many -1/-1 counters on that creature instead.",
+   "power": "1",
+   "toughness": "2",
    "appearances": 1
   },
   {
@@ -181,6 +185,8 @@
    "mana_cost": "{2}{R}",
    "url": "https://scryfall.com/card/tdc/217/guttersnipe?utm_source=api",
    "oracle_text": "Whenever you cast an instant or sorcery spell, this creature deals 2 damage to each opponent.",
+   "power": "2",
+   "toughness": "2",
    "appearances": 1
   },
   {
@@ -219,6 +225,8 @@
    "mana_cost": "{1}{R}",
    "url": "https://scryfall.com/card/jmp/366/tibalts-rager?utm_source=api",
    "oracle_text": "When this creature dies, it deals 1 damage to any target.\n{1}{R}: This creature gets +2/+0 until end of turn.",
+   "power": "1",
+   "toughness": "2",
    "appearances": 1
   },
   {
@@ -242,6 +250,8 @@
    "mana_cost": "{1}{B}{R}",
    "url": "https://scryfall.com/card/eoc/121/mayhem-devil?utm_source=api",
    "oracle_text": "Whenever a player sacrifices a permanent, this creature deals 1 damage to any target.",
+   "power": "3",
+   "toughness": "3",
    "appearances": 1
   },
   {
@@ -264,6 +274,8 @@
    "mana_cost": "{1}{W}",
    "url": "https://scryfall.com/card/otc/84/mistmeadow-skulk?utm_source=api",
    "oracle_text": "Lifelink, protection from mana value 3 or greater",
+   "power": "1",
+   "toughness": "1",
    "appearances": 1
   },
   {
@@ -304,6 +316,8 @@
    "mana_cost": "{3}{W}",
    "url": "https://scryfall.com/card/clb/694/galepowder-mage?utm_source=api",
    "oracle_text": "Flying\nWhenever this creature attacks, exile another target creature. Return that card to the battlefield under its owner's control at the beginning of the next end step.",
+   "power": "3",
+   "toughness": "3",
    "appearances": 1
   },
   {
@@ -343,6 +357,8 @@
    "mana_cost": "{2}{R}",
    "url": "https://scryfall.com/card/m19/132/catalyst-elemental?utm_source=api",
    "oracle_text": "Sacrifice this creature: Add {R}{R}.",
+   "power": "2",
+   "toughness": "2",
    "appearances": 1
   },
   {
@@ -366,6 +382,8 @@
    "mana_cost": "{R}",
    "url": "https://scryfall.com/card/neo/157/rabbit-battery?utm_source=api",
    "oracle_text": "Haste\nEquipped creature gets +1/+1 and has haste.\nReconfigure {R} ({R}: Attach to target creature you control; or unattach from a creature. Reconfigure only as a sorcery. While attached, this isn't a creature.)",
+   "power": "1",
+   "toughness": "1",
    "appearances": 1
   },
   {
@@ -423,6 +441,8 @@
    "mana_cost": "{2}{R}",
    "url": "https://scryfall.com/card/wwk/79/cunning-sparkmage?utm_source=api",
    "oracle_text": "Haste\n{T}: This creature deals 1 damage to any target.",
+   "power": "0",
+   "toughness": "1",
    "appearances": 1
   },
   {
@@ -463,6 +483,8 @@
    "mana_cost": "{B}{B}",
    "url": "https://scryfall.com/card/2xm/112/vampire-hexmage?utm_source=api",
    "oracle_text": "First strike\nSacrifice this creature: Remove all counters from target permanent.",
+   "power": "2",
+   "toughness": "1",
    "appearances": 1
   },
   {
@@ -486,6 +508,8 @@
    "mana_cost": "{1}{B}",
    "url": "https://scryfall.com/card/clb/775/zulaport-cutthroat?utm_source=api",
    "oracle_text": "Whenever this creature or another creature you control dies, each opponent loses 1 life and you gain 1 life.",
+   "power": "1",
+   "toughness": "1",
    "appearances": 1
   },
   {
@@ -852,7 +876,9 @@
    ],
    "mana_cost": "{G}{W}",
    "url": "https://scryfall.com/card/dom/204/shanna-sisays-legacy?utm_source=api",
-   "oracle_text": "Shanna can't be the target of abilities your opponents control.\nShanna gets +1/+1 for each creature you control."
+   "oracle_text": "Shanna can't be the target of abilities your opponents control.\nShanna gets +1/+1 for each creature you control.",
+   "power": "0",
+   "toughness": "0"
   },
   {
    "name": "Avenger of Zendikar",
@@ -872,7 +898,9 @@
    ],
    "mana_cost": "{5}{G}{G}",
    "url": "https://scryfall.com/card/tdc/247/avenger-of-zendikar?utm_source=api",
-   "oracle_text": "When this creature enters, create a 0/1 green Plant creature token for each land you control.\nLandfall — Whenever a land you control enters, you may put a +1/+1 counter on each Plant creature you control."
+   "oracle_text": "When this creature enters, create a 0/1 green Plant creature token for each land you control.\nLandfall — Whenever a land you control enters, you may put a +1/+1 counter on each Plant creature you control.",
+   "power": "5",
+   "toughness": "5"
   },
   {
    "name": "Spellbreaker Behemoth",
@@ -894,7 +922,9 @@
    ],
    "mana_cost": "{1}{R}{G}{G}",
    "url": "https://scryfall.com/card/c13/216/spellbreaker-behemoth?utm_source=api",
-   "oracle_text": "This spell can't be countered.\nCreature spells you control with power 5 or greater can't be countered."
+   "oracle_text": "This spell can't be countered.\nCreature spells you control with power 5 or greater can't be countered.",
+   "power": "5",
+   "toughness": "5"
   },
   {
    "name": "Raven's Crime",
@@ -933,7 +963,9 @@
    ],
    "mana_cost": "{B}",
    "url": "https://scryfall.com/card/neo/93/dockside-chef?utm_source=api",
-   "oracle_text": "{1}{B}, Sacrifice an artifact or creature: Draw a card."
+   "oracle_text": "{1}{B}, Sacrifice an artifact or creature: Draw a card.",
+   "power": "1",
+   "toughness": "2"
   },
   {
    "name": "Ajani's Pridemate",
@@ -954,7 +986,9 @@
    ],
    "mana_cost": "{1}{W}",
    "url": "https://scryfall.com/card/fdn/135/ajanis-pridemate?utm_source=api",
-   "oracle_text": "Whenever you gain life, put a +1/+1 counter on this creature."
+   "oracle_text": "Whenever you gain life, put a +1/+1 counter on this creature.",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Stitch Together",
@@ -1047,7 +1081,9 @@
    ],
    "mana_cost": "{1}{R}{G}",
    "url": "https://scryfall.com/card/war/215/rubblebelt-rioters?utm_source=api",
-   "oracle_text": "Haste\nWhenever this creature attacks, it gets +X/+0 until end of turn, where X is the greatest power among creatures you control."
+   "oracle_text": "Haste\nWhenever this creature attacks, it gets +X/+0 until end of turn, where X is the greatest power among creatures you control.",
+   "power": "0",
+   "toughness": "4"
   },
   {
    "name": "Quillspike",
@@ -1069,7 +1105,9 @@
    ],
    "mana_cost": "{2}{B/G}",
    "url": "https://scryfall.com/card/eve/126/quillspike?utm_source=api",
-   "oracle_text": "{B/G}, Remove a -1/-1 counter from a creature you control: This creature gets +3/+3 until end of turn."
+   "oracle_text": "{B/G}, Remove a -1/-1 counter from a creature you control: This creature gets +3/+3 until end of turn.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Rage Nimbus",
@@ -1089,7 +1127,9 @@
    ],
    "mana_cost": "{2}{R}",
    "url": "https://scryfall.com/card/roe/160/rage-nimbus?utm_source=api",
-   "oracle_text": "Defender, flying\n{1}{R}: Target creature attacks this turn if able."
+   "oracle_text": "Defender, flying\n{1}{R}: Target creature attacks this turn if able.",
+   "power": "5",
+   "toughness": "3"
   },
   {
    "name": "Warcry Phoenix",
@@ -1109,7 +1149,9 @@
    ],
    "mana_cost": "{3}{R}",
    "url": "https://scryfall.com/card/dom/150/warcry-phoenix?utm_source=api",
-   "oracle_text": "Flying, haste\nWhenever you attack with three or more creatures, you may pay {2}{R}. If you do, return this card from your graveyard to the battlefield tapped and attacking."
+   "oracle_text": "Flying, haste\nWhenever you attack with three or more creatures, you may pay {2}{R}. If you do, return this card from your graveyard to the battlefield tapped and attacking.",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Liliana's Mastery",
@@ -1146,7 +1188,9 @@
    ],
    "mana_cost": "{3}{R}{R}",
    "url": "https://scryfall.com/card/tdc/232/siege-gang-commander?utm_source=api",
-   "oracle_text": "When this creature enters, create three 1/1 red Goblin creature tokens.\n{1}{R}, Sacrifice a Goblin: This creature deals 2 damage to any target."
+   "oracle_text": "When this creature enters, create three 1/1 red Goblin creature tokens.\n{1}{R}, Sacrifice a Goblin: This creature deals 2 damage to any target.",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Malakir Bloodwitch",
@@ -1167,7 +1211,9 @@
    ],
    "mana_cost": "{3}{B}{B}",
    "url": "https://scryfall.com/card/voc/131/malakir-bloodwitch?utm_source=api",
-   "oracle_text": "Flying, protection from white\nWhen this creature enters, each opponent loses life equal to the number of Vampires you control. You gain life equal to the life lost this way."
+   "oracle_text": "Flying, protection from white\nWhen this creature enters, each opponent loses life equal to the number of Vampires you control. You gain life equal to the life lost this way.",
+   "power": "4",
+   "toughness": "4"
   },
   {
    "name": "Miraculous Recovery",
@@ -1205,7 +1251,9 @@
    ],
    "mana_cost": "{5}{B}{B}",
    "url": "https://scryfall.com/card/lcc/187/butcher-of-malakir?utm_source=api",
-   "oracle_text": "Flying\nWhenever this creature or another creature you control dies, each opponent sacrifices a creature of their choice."
+   "oracle_text": "Flying\nWhenever this creature or another creature you control dies, each opponent sacrifices a creature of their choice.",
+   "power": "5",
+   "toughness": "4"
   },
   {
    "name": "Hellkite Charger",
@@ -1225,7 +1273,9 @@
    ],
    "mana_cost": "{4}{R}{R}",
    "url": "https://scryfall.com/card/cmm/232/hellkite-charger?utm_source=api",
-   "oracle_text": "Flying, haste\nWhenever this creature attacks, you may pay {5}{R}{R}. If you do, untap all attacking creatures and after this phase, there is an additional combat phase."
+   "oracle_text": "Flying, haste\nWhenever this creature attacks, you may pay {5}{R}{R}. If you do, untap all attacking creatures and after this phase, there is an additional combat phase.",
+   "power": "5",
+   "toughness": "5"
   },
   {
    "name": "Hellion Eruption",
@@ -1280,7 +1330,9 @@
    ],
    "mana_cost": "{2}{B}{B}",
    "url": "https://scryfall.com/card/lcc/209/sanctum-seeker?utm_source=api",
-   "oracle_text": "Whenever a Vampire you control attacks, each opponent loses 1 life and you gain 1 life."
+   "oracle_text": "Whenever a Vampire you control attacks, each opponent loses 1 life and you gain 1 life.",
+   "power": "3",
+   "toughness": "4"
   },
   {
    "name": "Marshal's Anthem",
@@ -1318,7 +1370,9 @@
    ],
    "mana_cost": "{2}{B}",
    "url": "https://scryfall.com/card/ala/69/cunning-lethemancer?utm_source=api",
-   "oracle_text": "At the beginning of your upkeep, each player discards a card."
+   "oracle_text": "At the beginning of your upkeep, each player discards a card.",
+   "power": "2",
+   "toughness": "2"
   }
  ]
 }

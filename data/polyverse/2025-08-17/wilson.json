@@ -220,7 +220,9 @@
    ],
    "mana_cost": "{1}{R}",
    "url": "https://scryfall.com/card/tdc/95/young-pyromancer?utm_source=api",
-   "oracle_text": "Whenever you cast an instant or sorcery spell, create a 1/1 red Elemental creature token."
+   "oracle_text": "Whenever you cast an instant or sorcery spell, create a 1/1 red Elemental creature token.",
+   "power": "2",
+   "toughness": "1"
   },
   {
    "name": "Fire // Ice",
@@ -298,7 +300,9 @@
    ],
    "mana_cost": "{U}{R}",
    "url": "https://scryfall.com/card/clb/852/sprite-dragon?utm_source=api",
-   "oracle_text": "Flying, haste\nWhenever you cast a noncreature spell, put a +1/+1 counter on this creature."
+   "oracle_text": "Flying, haste\nWhenever you cast a noncreature spell, put a +1/+1 counter on this creature.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Irencrag Pyromancer",
@@ -319,7 +323,9 @@
    ],
    "mana_cost": "{2}{R}",
    "url": "https://scryfall.com/card/eld/128/irencrag-pyromancer?utm_source=api",
-   "oracle_text": "Whenever you draw your second card each turn, this creature deals 3 damage to any target."
+   "oracle_text": "Whenever you draw your second card each turn, this creature deals 3 damage to any target.",
+   "power": "0",
+   "toughness": "4"
   },
   {
    "name": "Island",
@@ -504,7 +510,9 @@
    ],
    "mana_cost": "{3}{R}",
    "url": "https://scryfall.com/card/dmr/120/flametongue-kavu?utm_source=api",
-   "oracle_text": "When this creature enters, it deals 4 damage to target creature."
+   "oracle_text": "When this creature enters, it deals 4 damage to target creature.",
+   "power": "4",
+   "toughness": "2"
   },
   {
    "name": "Scalding Tarn",
@@ -567,7 +575,9 @@
    ],
    "mana_cost": "{2}{U}",
    "url": "https://scryfall.com/card/mh3/59/dreamtide-whale?utm_source=api",
-   "oracle_text": "Vanishing 2 (This creature enters with two time counters on it. At the beginning of your upkeep, remove a time counter from it. When the last is removed, sacrifice it.)\nWhenever a player casts their second spell each turn, proliferate. (Choose any number of permanents and/or players, then give each another counter of each kind already there.)"
+   "oracle_text": "Vanishing 2 (This creature enters with two time counters on it. At the beginning of your upkeep, remove a time counter from it. When the last is removed, sacrifice it.)\nWhenever a player casts their second spell each turn, proliferate. (Choose any number of permanents and/or players, then give each another counter of each kind already there.)",
+   "power": "7",
+   "toughness": "5"
   },
   {
    "name": "Preordain",
@@ -625,7 +635,9 @@
    ],
    "mana_cost": "{4}{U}{U}",
    "url": "https://scryfall.com/card/cmm/128/torrential-gearhulk?utm_source=api",
-   "oracle_text": "Flash\nWhen this creature enters, you may cast target instant card from your graveyard without paying its mana cost. If that spell would be put into your graveyard, exile it instead."
+   "oracle_text": "Flash\nWhen this creature enters, you may cast target instant card from your graveyard without paying its mana cost. If that spell would be put into your graveyard, exile it instead.",
+   "power": "5",
+   "toughness": "6"
   },
   {
    "name": "Cemetery Gatekeeper",
@@ -645,7 +657,9 @@
    ],
    "mana_cost": "{1}{R}",
    "url": "https://scryfall.com/card/vow/148/cemetery-gatekeeper?utm_source=api",
-   "oracle_text": "First strike\nWhen this creature enters, exile a card from a graveyard.\nWhenever a player plays a land or casts a spell, if it shares a card type with the exiled card, this creature deals 2 damage to that player."
+   "oracle_text": "First strike\nWhen this creature enters, exile a card from a graveyard.\nWhenever a player plays a land or casts a spell, if it shares a card type with the exiled card, this creature deals 2 damage to that player.",
+   "power": "2",
+   "toughness": "1"
   },
   {
    "name": "Stern Scolding",
@@ -684,7 +698,9 @@
    ],
    "mana_cost": "{1}{R}",
    "url": "https://scryfall.com/card/neo/155/ogre-head-helm?utm_source=api",
-   "oracle_text": "Equipped creature gets +2/+2.\nWhenever this creature or equipped creature deals combat damage to a player, you may sacrifice it. If you do, discard your hand, then draw three cards.\nReconfigure {3} ({3}: Attach to target creature you control; or unattach from a creature. Reconfigure only as a sorcery. While attached, this isn't a creature.)"
+   "oracle_text": "Equipped creature gets +2/+2.\nWhenever this creature or equipped creature deals combat damage to a player, you may sacrifice it. If you do, discard your hand, then draw three cards.\nReconfigure {3} ({3}: Attach to target creature you control; or unattach from a creature. Reconfigure only as a sorcery. While attached, this isn't a creature.)",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Snapcaster Mage",
@@ -705,7 +721,9 @@
    ],
    "mana_cost": "{1}{U}",
    "url": "https://scryfall.com/card/uma/71/snapcaster-mage?utm_source=api",
-   "oracle_text": "Flash\nWhen this creature enters, target instant or sorcery card in your graveyard gains flashback until end of turn. The flashback cost is equal to its mana cost. (You may cast that card from your graveyard for its flashback cost. Then exile it.)"
+   "oracle_text": "Flash\nWhen this creature enters, target instant or sorcery card in your graveyard gains flashback until end of turn. The flashback cost is equal to its mana cost. (You may cast that card from your graveyard for its flashback cost. Then exile it.)",
+   "power": "2",
+   "toughness": "1"
   },
   {
    "name": "Goblin Guide",
@@ -726,7 +744,9 @@
    ],
    "mana_cost": "{R}",
    "url": "https://scryfall.com/card/2xm/127/goblin-guide?utm_source=api",
-   "oracle_text": "Haste\nWhenever this creature attacks, defending player reveals the top card of their library. If it's a land card, that player puts it into their hand."
+   "oracle_text": "Haste\nWhenever this creature attacks, defending player reveals the top card of their library. If it's a land card, that player puts it into their hand.",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Saheeli, Sublime Artificer",
@@ -826,7 +846,9 @@
    ],
    "mana_cost": "{1}{W}",
    "url": "https://scryfall.com/card/xln/1/adanto-vanguard?utm_source=api",
-   "oracle_text": "As long as this creature is attacking, it gets +2/+0.\nPay 4 life: This creature gains indestructible until end of turn. (Damage and effects that say \"destroy\" don't destroy it.)"
+   "oracle_text": "As long as this creature is attacking, it gets +2/+0.\nPay 4 life: This creature gains indestructible until end of turn. (Damage and effects that say \"destroy\" don't destroy it.)",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Monastery Mentor",
@@ -847,7 +869,9 @@
    ],
    "mana_cost": "{2}{W}",
    "url": "https://scryfall.com/card/tdc/125/monastery-mentor?utm_source=api",
-   "oracle_text": "Prowess (Whenever you cast a noncreature spell, this creature gets +1/+1 until end of turn.)\nWhenever you cast a noncreature spell, create a 1/1 white Monk creature token with prowess."
+   "oracle_text": "Prowess (Whenever you cast a noncreature spell, this creature gets +1/+1 until end of turn.)\nWhenever you cast a noncreature spell, create a 1/1 white Monk creature token with prowess.",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Pestermite",
@@ -868,7 +892,9 @@
    ],
    "mana_cost": "{2}{U}",
    "url": "https://scryfall.com/card/mma/59/pestermite?utm_source=api",
-   "oracle_text": "Flash\nFlying\nWhen this creature enters, you may tap or untap target permanent."
+   "oracle_text": "Flash\nFlying\nWhen this creature enters, you may tap or untap target permanent.",
+   "power": "2",
+   "toughness": "1"
   },
   {
    "name": "Goldhound",
@@ -890,7 +916,9 @@
    ],
    "mana_cost": "{R}",
    "url": "https://scryfall.com/card/snc/108/goldhound?utm_source=api",
-   "oracle_text": "First strike\nMenace (This creature can't be blocked except by two or more creatures.)\n{T}, Sacrifice this creature: Add one mana of any color."
+   "oracle_text": "First strike\nMenace (This creature can't be blocked except by two or more creatures.)\n{T}, Sacrifice this creature: Add one mana of any color.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Dress Down",
@@ -928,7 +956,9 @@
    ],
    "mana_cost": "{6}{R}{R}",
    "url": "https://scryfall.com/card/inr/142/bedlam-reveler?utm_source=api",
-   "oracle_text": "This spell costs {1} less to cast for each instant and sorcery card in your graveyard.\nProwess (Whenever you cast a noncreature spell, this creature gets +1/+1 until end of turn.)\nWhen this creature enters, discard your hand, then draw three cards."
+   "oracle_text": "This spell costs {1} less to cast for each instant and sorcery card in your graveyard.\nProwess (Whenever you cast a noncreature spell, this creature gets +1/+1 until end of turn.)\nWhen this creature enters, discard your hand, then draw three cards.",
+   "power": "3",
+   "toughness": "4"
   },
   {
    "name": "Miscalculation",
@@ -1005,7 +1035,9 @@
    ],
    "mana_cost": "{R}",
    "url": "https://scryfall.com/card/neo/158/reinforced-ronin?utm_source=api",
-   "oracle_text": "Haste\nAt the beginning of your end step, return this creature to its owner's hand.\nChannel — {1}{R}, Discard this card: Draw a card."
+   "oracle_text": "Haste\nAt the beginning of your end step, return this creature to its owner's hand.\nChannel — {1}{R}, Discard this card: Draw a card.",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Into the Roil",
@@ -1077,7 +1109,9 @@
    ],
    "mana_cost": "{W}",
    "url": "https://scryfall.com/card/ddf/6/mosquito-guard?utm_source=api",
-   "oracle_text": "First strike\nReinforce 1—{1}{W} ({1}{W}, Discard this card: Put a +1/+1 counter on target creature.)"
+   "oracle_text": "First strike\nReinforce 1—{1}{W} ({1}{W}, Discard this card: Put a +1/+1 counter on target creature.)",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Utopia Sprawl",

@@ -87,6 +87,8 @@
    "mana_cost": "{1}{W}{W}",
    "url": "https://scryfall.com/card/2x2/11/flickerwisp?utm_source=api",
    "oracle_text": "Flying\nWhen this creature enters, exile another target permanent. Return that card to the battlefield under its owner's control at the beginning of the next end step.",
+   "power": "3",
+   "toughness": "1",
    "appearances": 1
   },
   {
@@ -149,6 +151,8 @@
    "mana_cost": "{G}{W}",
    "url": "https://scryfall.com/card/dom/204/shanna-sisays-legacy?utm_source=api",
    "oracle_text": "Shanna can't be the target of abilities your opponents control.\nShanna gets +1/+1 for each creature you control.",
+   "power": "0",
+   "toughness": "0",
    "appearances": 1
   },
   {
@@ -171,6 +175,8 @@
    "mana_cost": "{3}{W}",
    "url": "https://scryfall.com/card/clb/694/galepowder-mage?utm_source=api",
    "oracle_text": "Flying\nWhenever this creature attacks, exile another target creature. Return that card to the battlefield under its owner's control at the beginning of the next end step.",
+   "power": "3",
+   "toughness": "3",
    "appearances": 1
   },
   {
@@ -192,6 +198,8 @@
    "mana_cost": "{2}{W}{W}",
    "url": "https://scryfall.com/card/mma/22/meadowboon?utm_source=api",
    "oracle_text": "When this creature leaves the battlefield, put a +1/+1 counter on each creature target player controls.\nEvoke {3}{W} (You may cast this spell for its evoke cost. If you do, it's sacrificed when it enters.)",
+   "power": "3",
+   "toughness": "3",
    "appearances": 1
   },
   {
@@ -287,6 +295,8 @@
    "mana_cost": "{3}{W}{W}",
    "url": "https://scryfall.com/card/khc/21/cloudgoat-ranger?utm_source=api",
    "oracle_text": "When this creature enters, create three 1/1 white Kithkin Soldier creature tokens.\nTap three untapped Kithkin you control: This creature gets +2/+0 and gains flying until end of turn.",
+   "power": "3",
+   "toughness": "3",
    "appearances": 1
   },
   {
@@ -324,6 +334,8 @@
    "mana_cost": "{W}",
    "url": "https://scryfall.com/card/mm3/24/soul-warden?utm_source=api",
    "oracle_text": "Whenever another creature enters, you gain 1 life.",
+   "power": "1",
+   "toughness": "1",
    "appearances": 1
   },
   {
@@ -382,6 +394,8 @@
    "mana_cost": "{1}{G}",
    "url": "https://scryfall.com/card/cmm/312/pollenbright-druid?utm_source=api",
    "oracle_text": "When this creature enters, choose one —\n• Put a +1/+1 counter on target creature.\n• Proliferate. (Choose any number of permanents and/or players, then give each another counter of each kind already there.)",
+   "power": "1",
+   "toughness": "1",
    "appearances": 1
   },
   {
@@ -457,6 +471,8 @@
    "mana_cost": "{1}{W}",
    "url": "https://scryfall.com/card/otc/84/mistmeadow-skulk?utm_source=api",
    "oracle_text": "Lifelink, protection from mana value 3 or greater",
+   "power": "1",
+   "toughness": "1",
    "appearances": 1
   },
   {
@@ -496,6 +512,8 @@
    "mana_cost": "{2}{W}",
    "url": "https://scryfall.com/card/c15/73/kor-sanctifiers?utm_source=api",
    "oracle_text": "Kicker {W} (You may pay an additional {W} as you cast this spell.)\nWhen this creature enters, if it was kicked, destroy target artifact or enchantment.",
+   "power": "2",
+   "toughness": "3",
    "appearances": 1
   },
   {
@@ -519,6 +537,8 @@
    "mana_cost": "{1}{W}{W}",
    "url": "https://scryfall.com/card/woe/39/werefox-bodyguard?utm_source=api",
    "oracle_text": "Flash\nWhen this creature enters, exile up to one other target non-Fox creature until this creature leaves the battlefield.\n{1}{W}, Sacrifice this creature: You gain 2 life.",
+   "power": "2",
+   "toughness": "2",
    "appearances": 1
   },
   {
@@ -559,6 +579,8 @@
    "mana_cost": "{1}{W}",
    "url": "https://scryfall.com/card/cmm/838/spirited-companion?utm_source=api",
    "oracle_text": "When this creature enters, draw a card.",
+   "power": "1",
+   "toughness": "1",
    "appearances": 1
   },
   {
@@ -577,6 +599,8 @@
    "mana_cost": "{1}",
    "url": "https://scryfall.com/card/dom/232/sparring-construct?utm_source=api",
    "oracle_text": "When this creature dies, put a +1/+1 counter on target creature you control.",
+   "power": "1",
+   "toughness": "1",
    "appearances": 1
   },
   {
@@ -899,7 +923,9 @@
    ],
    "mana_cost": "{U}",
    "url": "https://scryfall.com/card/tdc/155/hedron-crab?utm_source=api",
-   "oracle_text": "Landfall — Whenever a land you control enters, target player mills three cards. (They put the top three cards of their library into their graveyard.)"
+   "oracle_text": "Landfall — Whenever a land you control enters, target player mills three cards. (They put the top three cards of their library into their graveyard.)",
+   "power": "0",
+   "toughness": "2"
   },
   {
    "name": "Flux Channeler",
@@ -920,7 +946,9 @@
    ],
    "mana_cost": "{2}{U}",
    "url": "https://scryfall.com/card/cmm/847/flux-channeler?utm_source=api",
-   "oracle_text": "Whenever you cast a noncreature spell, proliferate. (Choose any number of permanents and/or players, then give each another counter of each kind already there.)"
+   "oracle_text": "Whenever you cast a noncreature spell, proliferate. (Choose any number of permanents and/or players, then give each another counter of each kind already there.)",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Domri's Ambush",
@@ -993,7 +1021,9 @@
    ],
    "mana_cost": "{3}{G}{G}",
    "url": "https://scryfall.com/card/eoc/111/titania-protector-of-argoth?utm_source=api",
-   "oracle_text": "When Titania enters, return target land card from your graveyard to the battlefield.\nWhenever a land you control is put into a graveyard from the battlefield, create a 5/3 green Elemental creature token."
+   "oracle_text": "When Titania enters, return target land card from your graveyard to the battlefield.\nWhenever a land you control is put into a graveyard from the battlefield, create a 5/3 green Elemental creature token.",
+   "power": "5",
+   "toughness": "3"
   },
   {
    "name": "Cauldron of Souls",
@@ -1104,7 +1134,9 @@
    ],
    "mana_cost": "{1}{W}",
    "url": "https://scryfall.com/card/mm3/11/kor-skyfisher?utm_source=api",
-   "oracle_text": "Flying\nWhen this creature enters, return a permanent you control to its owner's hand."
+   "oracle_text": "Flying\nWhen this creature enters, return a permanent you control to its owner's hand.",
+   "power": "2",
+   "toughness": "3"
   },
   {
    "name": "Worm Harvest",
@@ -1144,7 +1176,9 @@
    ],
    "mana_cost": "{1}{W}",
    "url": "https://scryfall.com/card/thb/12/eidolon-of-obstruction?utm_source=api",
-   "oracle_text": "First strike\nLoyalty abilities of planeswalkers your opponents control cost {1} more to activate."
+   "oracle_text": "First strike\nLoyalty abilities of planeswalkers your opponents control cost {1} more to activate.",
+   "power": "2",
+   "toughness": "1"
   },
   {
    "name": "Kor Duelist",
@@ -1165,7 +1199,9 @@
    ],
    "mana_cost": "{W}",
    "url": "https://scryfall.com/card/mm2/22/kor-duelist?utm_source=api",
-   "oracle_text": "As long as this creature is equipped, it has double strike. (It deals both first-strike and regular combat damage.)"
+   "oracle_text": "As long as this creature is equipped, it has double strike. (It deals both first-strike and regular combat damage.)",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Multani, Yavimaya's Avatar",
@@ -1187,7 +1223,9 @@
    ],
    "mana_cost": "{4}{G}{G}",
    "url": "https://scryfall.com/card/eoc/100/multani-yavimayas-avatar?utm_source=api",
-   "oracle_text": "Reach, trample\nMultani gets +1/+1 for each land you control and each land card in your graveyard.\n{1}{G}, Return two lands you control to their owner's hand: Return this card from your graveyard to your hand."
+   "oracle_text": "Reach, trample\nMultani gets +1/+1 for each land you control and each land card in your graveyard.\n{1}{G}, Return two lands you control to their owner's hand: Return this card from your graveyard to your hand.",
+   "power": "0",
+   "toughness": "0"
   },
   {
    "name": "Oracle of Mul Daya",
@@ -1208,7 +1246,9 @@
    ],
    "mana_cost": "{3}{G}",
    "url": "https://scryfall.com/card/eoc/102/oracle-of-mul-daya?utm_source=api",
-   "oracle_text": "You may play an additional land on each of your turns.\nPlay with the top card of your library revealed.\nYou may play lands from the top of your library."
+   "oracle_text": "You may play an additional land on each of your turns.\nPlay with the top card of your library revealed.\nYou may play lands from the top of your library.",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Harrow",

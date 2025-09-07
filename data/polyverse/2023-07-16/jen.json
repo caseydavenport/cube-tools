@@ -51,7 +51,9 @@
    ],
    "mana_cost": "{2}{G}{G}",
    "url": "https://scryfall.com/card/tdc/244/arasta-of-the-endless-web?utm_source=api",
-   "oracle_text": "Reach\nWhenever an opponent casts an instant or sorcery spell, create a 1/2 green Spider creature token with reach."
+   "oracle_text": "Reach\nWhenever an opponent casts an instant or sorcery spell, create a 1/2 green Spider creature token with reach.",
+   "power": "3",
+   "toughness": "5"
   },
   {
    "name": "Quest for the Gemblades",
@@ -106,7 +108,9 @@
    ],
    "mana_cost": "{1}{G}",
    "url": "https://scryfall.com/card/cmm/312/pollenbright-druid?utm_source=api",
-   "oracle_text": "When this creature enters, choose one —\n• Put a +1/+1 counter on target creature.\n• Proliferate. (Choose any number of permanents and/or players, then give each another counter of each kind already there.)"
+   "oracle_text": "When this creature enters, choose one —\n• Put a +1/+1 counter on target creature.\n• Proliferate. (Choose any number of permanents and/or players, then give each another counter of each kind already there.)",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Gilder Bairn",
@@ -128,7 +132,9 @@
    ],
    "mana_cost": "{1}{G/U}{G/U}",
    "url": "https://scryfall.com/card/eve/152/gilder-bairn?utm_source=api",
-   "oracle_text": "{2}{G/U}, {Q}: Double the number of each kind of counter on target permanent. ({Q} is the untap symbol.)"
+   "oracle_text": "{2}{G/U}, {Q}: Double the number of each kind of counter on target permanent. ({Q} is the untap symbol.)",
+   "power": "1",
+   "toughness": "3"
   },
   {
    "name": "Pledge of Unity",
@@ -205,7 +211,9 @@
    ],
    "mana_cost": "{3}{G}{G}",
    "url": "https://scryfall.com/card/cmm/270/acidic-slime?utm_source=api",
-   "oracle_text": "Deathtouch (Any amount of damage this deals to a creature is enough to destroy it.)\nWhen this creature enters, destroy target artifact, enchantment, or land."
+   "oracle_text": "Deathtouch (Any amount of damage this deals to a creature is enough to destroy it.)\nWhen this creature enters, destroy target artifact, enchantment, or land.",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Kor Skyfisher",
@@ -226,7 +234,9 @@
    ],
    "mana_cost": "{1}{W}",
    "url": "https://scryfall.com/card/mm3/11/kor-skyfisher?utm_source=api",
-   "oracle_text": "Flying\nWhen this creature enters, return a permanent you control to its owner's hand."
+   "oracle_text": "Flying\nWhen this creature enters, return a permanent you control to its owner's hand.",
+   "power": "2",
+   "toughness": "3"
   },
   {
    "name": "Meadowboon",
@@ -246,7 +256,9 @@
    ],
    "mana_cost": "{2}{W}{W}",
    "url": "https://scryfall.com/card/mma/22/meadowboon?utm_source=api",
-   "oracle_text": "When this creature leaves the battlefield, put a +1/+1 counter on each creature target player controls.\nEvoke {3}{W} (You may cast this spell for its evoke cost. If you do, it's sacrificed when it enters.)"
+   "oracle_text": "When this creature leaves the battlefield, put a +1/+1 counter on each creature target player controls.\nEvoke {3}{W} (You may cast this spell for its evoke cost. If you do, it's sacrificed when it enters.)",
+   "power": "3",
+   "toughness": "3"
   },
   {
    "name": "Misty Rainforest",
@@ -279,7 +291,9 @@
    ],
    "mana_cost": "{4}{G}",
    "url": "https://scryfall.com/card/xln/208/snapping-sailback?utm_source=api",
-   "oracle_text": "Flash\nEnrage — Whenever this creature is dealt damage, put a +1/+1 counter on it. (It must survive the damage to get the counter.)"
+   "oracle_text": "Flash\nEnrage — Whenever this creature is dealt damage, put a +1/+1 counter on it. (It must survive the damage to get the counter.)",
+   "power": "4",
+   "toughness": "4"
   },
   {
    "name": "Roaring Earth",
@@ -329,7 +343,9 @@
    ],
    "mana_cost": "{1}{G}",
    "url": "https://scryfall.com/card/fdn/232/scavenging-ooze?utm_source=api",
-   "oracle_text": "{G}: Exile target card from a graveyard. If it was a creature card, put a +1/+1 counter on this creature and you gain 1 life."
+   "oracle_text": "{G}: Exile target card from a graveyard. If it was a creature card, put a +1/+1 counter on this creature and you gain 1 life.",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Fortified Village",
@@ -368,7 +384,9 @@
    ],
    "mana_cost": "{1}{G}{W}",
    "url": "https://scryfall.com/card/ima/203/knight-of-the-reliquary?utm_source=api",
-   "oracle_text": "This creature gets +1/+1 for each land card in your graveyard.\n{T}, Sacrifice a Forest or Plains: Search your library for a land card, put it onto the battlefield, then shuffle."
+   "oracle_text": "This creature gets +1/+1 for each land card in your graveyard.\n{T}, Sacrifice a Forest or Plains: Search your library for a land card, put it onto the battlefield, then shuffle.",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Galepowder Mage",
@@ -389,7 +407,9 @@
    ],
    "mana_cost": "{3}{W}",
    "url": "https://scryfall.com/card/clb/694/galepowder-mage?utm_source=api",
-   "oracle_text": "Flying\nWhenever this creature attacks, exile another target creature. Return that card to the battlefield under its owner's control at the beginning of the next end step."
+   "oracle_text": "Flying\nWhenever this creature attacks, exile another target creature. Return that card to the battlefield under its owner's control at the beginning of the next end step.",
+   "power": "3",
+   "toughness": "3"
   },
   {
    "name": "Cankerbloom",
@@ -410,7 +430,9 @@
    ],
    "mana_cost": "{1}{G}",
    "url": "https://scryfall.com/card/one/161/cankerbloom?utm_source=api",
-   "oracle_text": "{1}, Sacrifice this creature: Choose one —\n• Destroy target artifact.\n• Destroy target enchantment.\n• Proliferate. (Choose any number of permanents and/or players, then give each another counter of each kind already there.)"
+   "oracle_text": "{1}, Sacrifice this creature: Choose one —\n• Destroy target artifact.\n• Destroy target enchantment.\n• Proliferate. (Choose any number of permanents and/or players, then give each another counter of each kind already there.)",
+   "power": "3",
+   "toughness": "2"
   },
   {
    "name": "Twinblade Slasher",
@@ -431,7 +453,9 @@
    ],
    "mana_cost": "{G}",
    "url": "https://scryfall.com/card/eve/79/twinblade-slasher?utm_source=api",
-   "oracle_text": "Wither (This deals damage to creatures in the form of -1/-1 counters.)\n{1}{G}: This creature gets +2/+2 until end of turn. Activate only once each turn."
+   "oracle_text": "Wither (This deals damage to creatures in the form of -1/-1 counters.)\n{1}{G}: This creature gets +2/+2 until end of turn. Activate only once each turn.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Sparring Construct",
@@ -448,7 +472,9 @@
    "color_identity": [],
    "mana_cost": "{1}",
    "url": "https://scryfall.com/card/dom/232/sparring-construct?utm_source=api",
-   "oracle_text": "When this creature dies, put a +1/+1 counter on target creature you control."
+   "oracle_text": "When this creature dies, put a +1/+1 counter on target creature you control.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Marwyn, the Nurturer",
@@ -470,7 +496,9 @@
    ],
    "mana_cost": "{2}{G}",
    "url": "https://scryfall.com/card/khc/68/marwyn-the-nurturer?utm_source=api",
-   "oracle_text": "Whenever another Elf you control enters, put a +1/+1 counter on Marwyn.\n{T}: Add an amount of {G} equal to Marwyn's power."
+   "oracle_text": "Whenever another Elf you control enters, put a +1/+1 counter on Marwyn.\n{T}: Add an amount of {G} equal to Marwyn's power.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Verdant Catacombs",
@@ -504,7 +532,9 @@
    ],
    "mana_cost": "{G}",
    "url": "https://scryfall.com/card/fdn/227/llanowar-elves?utm_source=api",
-   "oracle_text": "{T}: Add {G}."
+   "oracle_text": "{T}: Add {G}.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Towashi Guide-Bot",
@@ -521,7 +551,9 @@
    "color_identity": [],
    "mana_cost": "{4}",
    "url": "https://scryfall.com/card/neo/262/towashi-guide-bot?utm_source=api",
-   "oracle_text": "When this creature enters, put a +1/+1 counter on target creature you control.\n{4}, {T}: Draw a card. This ability costs {1} less to activate for each modified creature you control. (Equipment, Auras you control, and counters are modifications.)"
+   "oracle_text": "When this creature enters, put a +1/+1 counter on target creature you control.\n{4}, {T}: Draw a card. This ability costs {1} less to activate for each modified creature you control. (Equipment, Auras you control, and counters are modifications.)",
+   "power": "2",
+   "toughness": "1"
   },
   {
    "name": "Rampaging Baloths",
@@ -541,7 +573,9 @@
    ],
    "mana_cost": "{4}{G}{G}",
    "url": "https://scryfall.com/card/eoc/104/rampaging-baloths?utm_source=api",
-   "oracle_text": "Trample\nLandfall — Whenever a land you control enters, create a 4/4 green Beast creature token."
+   "oracle_text": "Trample\nLandfall — Whenever a land you control enters, create a 4/4 green Beast creature token.",
+   "power": "6",
+   "toughness": "6"
   },
   {
    "name": "Utopia Sprawl",
@@ -833,7 +867,9 @@
    ],
    "mana_cost": "{2}{B}{G}",
    "url": "https://scryfall.com/card/thb/206/acolyte-of-affliction?utm_source=api",
-   "oracle_text": "When this creature enters, mill two cards, then you may return a permanent card from your graveyard to your hand."
+   "oracle_text": "When this creature enters, mill two cards, then you may return a permanent card from your graveyard to your hand.",
+   "power": "2",
+   "toughness": "3"
   },
   {
    "name": "Fate Transfer",
@@ -923,7 +959,9 @@
    ],
    "mana_cost": "{W}{B}",
    "url": "https://scryfall.com/card/lcc/267/cruel-celebrant?utm_source=api",
-   "oracle_text": "Whenever this creature or another creature or planeswalker you control dies, each opponent loses 1 life and you gain 1 life."
+   "oracle_text": "Whenever this creature or another creature or planeswalker you control dies, each opponent loses 1 life and you gain 1 life.",
+   "power": "1",
+   "toughness": "2"
   },
   {
    "name": "Eternal Witness",
@@ -944,7 +982,9 @@
    ],
    "mana_cost": "{1}{G}{G}",
    "url": "https://scryfall.com/card/cmm/286/eternal-witness?utm_source=api",
-   "oracle_text": "When this creature enters, you may return target card from your graveyard to your hand."
+   "oracle_text": "When this creature enters, you may return target card from your graveyard to your hand.",
+   "power": "2",
+   "toughness": "1"
   },
   {
    "name": "Reveillark",
@@ -964,7 +1004,9 @@
    ],
    "mana_cost": "{4}{W}",
    "url": "https://scryfall.com/card/2x2/26/reveillark?utm_source=api",
-   "oracle_text": "Flying\nWhen this creature leaves the battlefield, return up to two target creature cards with power 2 or less from your graveyard to the battlefield.\nEvoke {5}{W} (You may cast this spell for its evoke cost. If you do, it's sacrificed when it enters.)"
+   "oracle_text": "Flying\nWhen this creature leaves the battlefield, return up to two target creature cards with power 2 or less from your graveyard to the battlefield.\nEvoke {5}{W} (You may cast this spell for its evoke cost. If you do, it's sacrificed when it enters.)",
+   "power": "4",
+   "toughness": "3"
   },
   {
    "name": "Anointed Procession",
@@ -1002,7 +1044,9 @@
    ],
    "mana_cost": "{W}",
    "url": "https://scryfall.com/card/ddf/6/mosquito-guard?utm_source=api",
-   "oracle_text": "First strike\nReinforce 1—{1}{W} ({1}{W}, Discard this card: Put a +1/+1 counter on target creature.)"
+   "oracle_text": "First strike\nReinforce 1—{1}{W} ({1}{W}, Discard this card: Put a +1/+1 counter on target creature.)",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Arbor Elf",
@@ -1023,7 +1067,9 @@
    ],
    "mana_cost": "{G}",
    "url": "https://scryfall.com/card/a25/160/arbor-elf?utm_source=api",
-   "oracle_text": "{T}: Untap target Forest."
+   "oracle_text": "{T}: Untap target Forest.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Ajani's Pridemate",
@@ -1044,7 +1090,9 @@
    ],
    "mana_cost": "{1}{W}",
    "url": "https://scryfall.com/card/fdn/135/ajanis-pridemate?utm_source=api",
-   "oracle_text": "Whenever you gain life, put a +1/+1 counter on this creature."
+   "oracle_text": "Whenever you gain life, put a +1/+1 counter on this creature.",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Ferocious Pup",
@@ -1064,7 +1112,9 @@
    ],
    "mana_cost": "{2}{G}",
    "url": "https://scryfall.com/card/m20/171/ferocious-pup?utm_source=api",
-   "oracle_text": "When this creature enters, create a 2/2 green Wolf creature token."
+   "oracle_text": "When this creature enters, create a 2/2 green Wolf creature token.",
+   "power": "0",
+   "toughness": "1"
   },
   {
    "name": "Serpent-Blade Assailant",
@@ -1085,7 +1135,9 @@
    ],
    "mana_cost": "{2}{G}",
    "url": "https://scryfall.com/card/mom/205/serpent-blade-assailant?utm_source=api",
-   "oracle_text": "Backup 1 (When this creature enters, put a +1/+1 counter on target creature. If that's another creature, it gains the following ability until end of turn.)\nDeathtouch"
+   "oracle_text": "Backup 1 (When this creature enters, put a +1/+1 counter on target creature. If that's another creature, it gains the following ability until end of turn.)\nDeathtouch",
+   "power": "2",
+   "toughness": "1"
   },
   {
    "name": "Woodland Champion",
@@ -1106,7 +1158,9 @@
    ],
    "mana_cost": "{1}{G}",
    "url": "https://scryfall.com/card/2xm/188/woodland-champion?utm_source=api",
-   "oracle_text": "Whenever one or more tokens you control enter, put that many +1/+1 counters on this creature."
+   "oracle_text": "Whenever one or more tokens you control enter, put that many +1/+1 counters on this creature.",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Tukatongue Thallid",
@@ -1126,7 +1180,9 @@
    ],
    "mana_cost": "{G}",
    "url": "https://scryfall.com/card/pca/79/tukatongue-thallid?utm_source=api",
-   "oracle_text": "When this creature dies, create a 1/1 green Saproling creature token."
+   "oracle_text": "When this creature dies, create a 1/1 green Saproling creature token.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Goldenglow Moth",
@@ -1146,7 +1202,9 @@
    ],
    "mana_cost": "{W}",
    "url": "https://scryfall.com/card/m11/15/goldenglow-moth?utm_source=api",
-   "oracle_text": "Flying\nWhenever this creature blocks, you may gain 4 life."
+   "oracle_text": "Flying\nWhenever this creature blocks, you may gain 4 life.",
+   "power": "0",
+   "toughness": "1"
   },
   {
    "name": "Wilderness Reclamation",
