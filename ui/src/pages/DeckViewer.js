@@ -235,14 +235,20 @@ export function DropdownSelector({ label, value, options, onChange }) {
 }
 
 function cardMatches(card, matchStr, checkText) {
-  if (iSFuzzy(matchStr)) {
+  if (isTermQuery(matchStr)) {
     // This is a fuzzy match. Split the string and check each term.
     let splits = matchStr.split(" ")
     for (let term of splits) {
-      if (powMatches(term, card)) {
-        return true
+      if (!powMatches(term, card)) {
+        return false
+      }
+      if (!oracleMatches(term, card)) {
+        return false
       }
     }
+
+    // All terms matched.
+    return true
   }
 
   if (card.name.toLowerCase().match(matchStr.toLowerCase())) {
@@ -284,19 +290,29 @@ function deckMatches(deck, matchStr, mbsb) {
   return false
 }
 
-// returns true if this is a propery fuzzy match, and false if it contains query terms.
-function iSFuzzy(matchStr) {
+const queryTerms = ["pow", "o"]
+
+// returns true if this is a proper term query match, and false otherwise.
+function isTermQuery(matchStr) {
   // Split the string. If any of the criteria are query terms, return true.
   let splits = matchStr.split(" ")
   for (let term of splits) {
-    if (term.startsWith("pow<") || term.startsWith("pow>") || term.startsWith("pow=")) {
-      return true
+    for (let qt of queryTerms) {
+      if (term.startsWith(qt) && (term.includes("<") || term.includes(">") || term.includes("=") || term.includes(":"))) {
+        // It's a term query.
+        return true
+      }
     }
   }
   return false
 }
 
 function powMatches(term, card) {
+  if (!term.startsWith("pow")) {
+    // Not a power query - always matches.
+    return true
+  }
+
   // If the card has no power, it can't match.
   if (card.power == null) {
     return false
@@ -329,6 +345,21 @@ function powMatches(term, card) {
   }
   return false
 }
+
+function oracleMatches(term, card) {
+  if (!term.startsWith("o:")) {
+    // Not an oracle query - always matches.
+
+    return true
+  }
+
+  let query = term.replace("o:", "").toLowerCase()
+  if (card.oracle_text.toLowerCase().match(query)) {
+    return true
+  }
+  return false
+}
+
 
 function FilteredDecks(input) {
   let decks = []
