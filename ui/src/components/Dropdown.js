@@ -58,10 +58,15 @@ export function TextInput(input) {
   if (input.className != "") {
     className = input.className
   }
+  let inputClass = "text-input"
+  if (input.big) {
+    inputClass = "search-bar"
+    className = "search-bar-container"
+  }
   return (
     <div className={className}>
       {input.label}
-      <input onChange={input.onChange} className="text-input" type="text" />
+      <input onChange={input.onChange} className={inputClass} type="text" />
     </div>
   );
 }

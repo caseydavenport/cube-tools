@@ -281,6 +281,28 @@ table {
   background: var(--table-background);
 }
 
+.search-bar {
+  color: var(--white);
+  background: var(--table-background);
+  text-align: left;
+  padding: 5px;
+  margin-left: 15px;
+  border: 0px;
+  width: 90%;
+}
+
+.search-bar-container {
+  color: var(--white);
+  background: var(--table-row-selected);
+  font-weight: bold;
+  text-align: center;
+  padding: 5px;
+  border: 0px;
+  width: 100%;
+  float: left;
+}
+
+
 .date-selector {
   color: var(--white);
   background: var(--table-row-selected);

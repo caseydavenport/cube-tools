@@ -153,7 +153,7 @@ export default function DeckViewer() {
 
   return (
     <div>
-      <div>
+      <div className="dropdown">
         <DropdownHeader
           className="dropdown"
           label="Select a draft"
@@ -170,13 +170,6 @@ export default function DeckViewer() {
           onChange={onBoardSelected}
         />
 
-        <TextInput
-          className="dropdown"
-          label="Fuzzy"
-          value={matchStr}
-          onChange={onMatchUpdated}
-        />
-
         <NumericInput
           className="dropdown"
           label="Min. cmc"
@@ -189,6 +182,14 @@ export default function DeckViewer() {
           label="Max. cmc"
           value={maxCMC}
           onChange={onMaxCMCUpdated}
+        />
+
+        <TextInput
+          className="dropdown"
+          label="Search"
+          big={true}
+          value={matchStr}
+          onChange={onMatchUpdated}
         />
 
       </div>
