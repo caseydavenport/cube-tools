@@ -29,6 +29,14 @@ export function CardMatches(card, matchStr, checkText) {
       }
     }
 
+    // Check if any type terms match.
+    if (splits.some(term => isTypeTerm(term))) {
+      // If there are type terms, we need to match at least one of them.
+      if (!typesMatch(splits, card)) {
+        return false
+      }
+    }
+
     // All terms matched.
     return true
   }
@@ -72,7 +80,7 @@ export function DeckMatches(deck, matchStr, mbsb) {
   return false
 }
 
-const queryTerms = ["pow", "o", "c"]
+const queryTerms = ["pow", "o", "c", "t"]
 
 function parseTerms(matchStr) {
   // Split the string into terms. A term ends at a space, unless the space is inside quotes.
@@ -115,7 +123,7 @@ function isTermQuery(matchStr) {
 
 function colorsMatch(terms, card) {
   for (let term of terms) {
-    if (!term.startsWith("c:") && !term.startsWith("c=")) {
+    if (!isColorTerm(term)) {
       continue
     }
     if (colorMatches(term, card)) {
@@ -125,8 +133,12 @@ function colorsMatch(terms, card) {
   return false
 }
 
+function isColorTerm(term) {
+  return term.startsWith("c:") || term.startsWith("c=") || term.startsWith("c!=")
+}
+
 function colorMatches(term, card) {
-  if (!term.startsWith("c:") && !term.startsWith("c=")) {
+  if (!isColorTerm(term)) {
     // Not a color query - always matches.
     return true
   }
@@ -136,6 +148,16 @@ function colorMatches(term, card) {
     return false
   }
   let cardColors = CombineColors(card.colors).toLowerCase()
+
+  // "!=" means "not exactly the given colors".
+  // e.g., "c!=uw" means the card is not exactly blue and white.
+  if (term.includes("!=")) {
+    let query = term.replace("c!=", "").toLowerCase()
+    if (query != cardColors) {
+      return true
+    }
+    return false
+  }
 
   // "=" means "exactly the given colors".
   // e.g., "c=uw" means the card is exactly blue and white.
@@ -238,3 +260,35 @@ function oracleMatches(term, card) {
   return false
 }
 
+function isTypeTerm(term) {
+  return term.startsWith("t:") || term.startsWith("t!=")
+}
+
+function typesMatch(terms, card) {
+  for (let term of terms) {
+    if (!isTypeTerm(term)) {
+      continue
+    }
+    if (typeMatches(term, card)) {
+      return true
+    }
+  }
+  return false
+}
+
+function typeMatches(term, card) {
+  if (!isTypeTerm(term)) {
+    // Not a type query - always matches.
+    return true
+  }
+
+  // Remove the t: prefix and any quotes.
+  let query = term.replace("t:", "").replace(/"/g, "").toLowerCase()
+  // Return true if any of the card's types match the query.
+
+  if (card.types.some(t => t.toLowerCase() == query)) {
+    return true
+  }
+
+  return false
+}
