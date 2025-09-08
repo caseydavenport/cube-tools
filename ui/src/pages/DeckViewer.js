@@ -5,7 +5,8 @@ import { LoadDecks, FetchFile } from "../utils/Fetch.js"
 import { Record, Wins, Losses, MatchWins, MatchLosses, MatchDraws, InDeckColor } from "../utils/Deck.js"
 import { RemovalMatches, CounterspellMatches } from "../pages/Decks.js"
 import { SortFunc } from "../utils/Utils.js"
-import { ColorImages, CombineColors } from "../utils/Colors.js"
+import { CardMatches, DeckMatches } from "../utils/Query.js"
+import { ColorImages } from "../utils/Colors.js"
 import { Button, TextInput, DropdownHeader, NumericInput, Checkbox, DateSelector } from "../components/Dropdown.js"
 import ReactMarkdown from "react-markdown";
 
@@ -234,133 +235,6 @@ export function DropdownSelector({ label, value, options, onChange }) {
   )
 }
 
-function cardMatches(card, matchStr, checkText) {
-  if (isTermQuery(matchStr)) {
-    // This is a fuzzy match. Split the string and check each term.
-    let splits = matchStr.split(" ")
-    for (let term of splits) {
-      if (!powMatches(term, card)) {
-        return false
-      }
-      if (!oracleMatches(term, card)) {
-        return false
-      }
-    }
-
-    // All terms matched.
-    return true
-  }
-
-  if (card.name.toLowerCase().match(matchStr.toLowerCase())) {
-    return true
-  }
-  if (checkText) {
-    if (card.oracle_text.toLowerCase().match(matchStr.toLowerCase())) {
-      return true
-    }
-  }
-  return false
-}
-
-function deckMatches(deck, matchStr, mbsb) {
-  if (deck.player.toLowerCase().match(matchStr.toLowerCase())) {
-    return true
-  }
-
-  for (let label of deck.labels) {
-    if (label.toLowerCase().match(matchStr.toLowerCase())) {
-      return true
-    }
-  }
-
-  if (mbsb == "Mainboard") {
-    for (let card of deck.mainboard) {
-      if (cardMatches(card, matchStr, true)) {
-        return true
-      }
-    }
-  } else {
-    for (let card of deck.sideboard) {
-      if (cardMatches(card, matchStr, true)) {
-        return true
-      }
-    }
-  }
-
-  return false
-}
-
-const queryTerms = ["pow", "o"]
-
-// returns true if this is a proper term query match, and false otherwise.
-function isTermQuery(matchStr) {
-  // Split the string. If any of the criteria are query terms, return true.
-  let splits = matchStr.split(" ")
-  for (let term of splits) {
-    for (let qt of queryTerms) {
-      if (term.startsWith(qt) && (term.includes("<") || term.includes(">") || term.includes("=") || term.includes(":"))) {
-        // It's a term query.
-        return true
-      }
-    }
-  }
-  return false
-}
-
-function powMatches(term, card) {
-  if (!term.startsWith("pow")) {
-    // Not a power query - always matches.
-    return true
-  }
-
-  // If the card has no power, it can't match.
-  if (card.power == null) {
-    return false
-  }
-
-  // Parse the power string as an int.
-  let power = parseInt(card.power)
-  if (isNaN(power)) {
-    return false
-  }
-
-  // If the term is a power query, we need to check if the card's power matches.
-  if (term.startsWith("pow<")) {
-    let val = parseInt(term.replace("pow<", ""))
-    if (power < val) {
-      return true
-    }
-  }
-  if (term.startsWith("pow>")) {
-    let val = parseInt(term.replace("pow>", ""))
-    if (power > val) {
-      return true
-    }
-  }
-  if (term.startsWith("pow=")) {
-    let val = parseInt(term.replace("pow=", ""))
-    if (power == val) {
-      return true
-    }
-  }
-  return false
-}
-
-function oracleMatches(term, card) {
-  if (!term.startsWith("o:")) {
-    // Not an oracle query - always matches.
-
-    return true
-  }
-
-  let query = term.replace("o:", "").toLowerCase()
-  if (card.oracle_text.toLowerCase().match(query)) {
-    return true
-  }
-  return false
-}
-
-
 function FilteredDecks(input) {
   let decks = []
 
@@ -398,7 +272,7 @@ function FilteredDecks(input) {
     }
 
     // Do fuzzy matching on the string, including player, cards, etc.
-    if (input.matchStr == "" || deckMatches(d, input.matchStr, input.mbsb)) {
+    if (input.matchStr == "" || DeckMatches(d, input.matchStr, input.mbsb)) {
       decks.push(d)
     }
   }
@@ -613,7 +487,7 @@ function PlayerFrame(input) {
 
     // If the card matches the string, we will highlight it.
     card.highlight = false
-    if (input.matchStr && cardMatches(card, input.matchStr, true)) {
+    if (input.matchStr && CardMatches(card, input.matchStr, true)) {
       card.highlight = true
     }
   }
