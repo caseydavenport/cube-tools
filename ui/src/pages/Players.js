@@ -48,6 +48,8 @@ export function PlayerWidget(input) {
 }
 
 export function PlayerData(decks) {
+  console.time("PlayerData")
+
   // Go through each deck and build up information about what each player picks.
   let map = new Map()
   for (var i in decks) {
@@ -142,6 +144,7 @@ export function PlayerData(decks) {
     // to pick unique cards. A value of 1 means they have never picked the same card twice.
     row.uniqueness = Math.round(row.cards.size / row.totalPicks * 100)
   }
+  console.timeEnd("PlayerData")
   return map
 }
 

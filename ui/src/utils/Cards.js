@@ -39,6 +39,14 @@ function IsLand(card) {
 // CardData returns data for each card that matches the given minimum number of drafts. The provided
 // cube list is used to filter cards no longer in the cube.
 export function CardData(decks, minDrafts, minGames, cube, color) {
+  console.time("CardData")
+  let data = cardDataClientSide(decks, minDrafts, minGames, cube, color)
+  console.timeEnd("CardData")
+  return data
+}
+
+function cardDataClientSide(decks, minDrafts, minGames, cube, color) {
+
   let cardsByName = new Map()
   let drafts = new Map()
 
@@ -85,7 +93,7 @@ export function CardData(decks, minDrafts, minGames, cube, color) {
     // very possible there are multiple in the same deck. Create a "set" of all the unique
     // cards in the deck - this prevents double counting the wins contributed from a deck when there are
     // two of a card in that deck. This is imperfect - there is some value in knowing that a deck with two Arid Mesas
-    // performed well - but I think without this deduplication we would overstate the importance of Arid Mesa in that decks
+    // performed well - but I think without this deduplication we would overstate the importance of Arid Mesa in that deck
     // more than we understate it now.
     let cardSet = new Map()
     for (let card of deck.mainboard) {

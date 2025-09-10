@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"os"
 	"path/filepath"
+	"slices"
 	"sort"
 )
 
@@ -153,4 +154,106 @@ func (d *Deck) AddGame(opponent, winner string) {
 	sort.Slice(d.Games, func(i, j int) bool {
 		return d.Games[i].Opponent < d.Games[j].Opponent
 	})
+}
+
+func (d *Deck) GameWins() int {
+	// Respect the legacy Wins field if it's set.
+	if d.Wins > 0 {
+		return d.Wins
+	}
+
+	wins := 0
+	for _, g := range d.Games {
+		if g.Winner == d.Player {
+			wins++
+		}
+	}
+	return wins
+}
+
+func (d *Deck) GameLosses() int {
+	// Respect the legacy Losses field if it's set.
+	if d.Losses > 0 {
+		return d.Losses
+	}
+
+	losses := 0
+	for _, g := range d.Games {
+		if g.Winner != d.Player {
+			losses++
+		}
+	}
+	return losses
+}
+
+func (d *Deck) MatchWins() int {
+	wins := 0
+	for _, m := range d.Matches {
+		if m.Winner == d.Player {
+			wins++
+		}
+	}
+	return wins
+}
+
+func (d *Deck) MatchLosses() int {
+	losses := 0
+	for _, m := range d.Matches {
+		if m.Winner != d.Player {
+			losses++
+		}
+	}
+	return losses
+}
+
+func (d *Deck) Trophies() int {
+	// A trophy is awarded to decks with >3 match wins and no match losses.
+	if d.MatchWins() >= 3 && d.MatchLosses() == 0 {
+		return 1
+	}
+	return 0
+}
+
+func (d *Deck) LastPlace() int {
+	// A last place finish is defined as a deck with 0 match wins and >=3 match losses.
+	if d.MatchWins() == 0 && d.MatchLosses() >= 3 {
+		return 1
+	}
+	return 0
+}
+
+func (d *Deck) Colors() map[string]bool {
+	colors := make(map[string]bool)
+	for _, c := range d.Mainboard {
+		for _, color := range c.Colors {
+			colors[color] = true
+		}
+	}
+	return colors
+}
+
+// A card is castable if its colors are a subset of the deck's colors, or if it's colorless.
+func (d *Deck) CanCast(c Card) bool {
+	if len(c.Colors) == 0 && !slices.Contains(c.Types, "Land") {
+		// Colorless cards are always castable.
+		return true
+	}
+
+	// For most cards, use the card's colors to determine if it's in the deck.
+	// For lands, use the color identity of the card (since lands don't have colors, but do have color identity).
+	cardColors := c.Colors
+	if slices.Contains(c.Types, "Land") {
+		cardColors = c.ColorIdentity
+	}
+
+	deckColors := d.Colors()
+	if len(c.ColorIdentity) == 0 {
+		return true
+	}
+	for _, color := range cardColors {
+		if !deckColors[color] {
+			return false
+		}
+	}
+	return true
 }

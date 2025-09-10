@@ -577,6 +577,7 @@ function ArchetypeDetailsPanel(input) {
 }
 
 export function ArchetypeData(decks) {
+  console.time("ArchetypeData")
   let newType = function(type) {
     return {
       type: type,
@@ -658,6 +659,7 @@ export function ArchetypeData(decks) {
     archetype.avg_shared = Math.round(archetype.numSharedWith / archetype.count * 100) / 100
     archetype.avg_cmc = Math.round(archetype.avg_cmc / archetype.count * 100) / 100
   })
+  console.timeEnd("ArchetypeData")
   return tracker
 }
 
