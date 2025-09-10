@@ -121,6 +121,9 @@ export function CardWidget(input) {
   if (!input.show) {
     return null
   }
+  if (!input.parsed.cardData) {
+    return null
+  }
 
   let matchInput = {
     "matchOpts": matchOpts,
@@ -245,9 +248,9 @@ function CardWidgetTable(input) {
               }
 
               let pd = new Array();
-              card.players.forEach(function(num, name) {
+              for (let [num, name] in card.players) {
                 pd.push(num);
-              })
+              }
               let stddev = StdDev(pd);
 
               // Determine sort order.
@@ -481,10 +484,12 @@ function CardWidgetOptions(input) {
 
 function CardMainboardTooltipContent(card) {
   let mainboarders = []
-  card.players.forEach(function(num, name) {
+  let players = Object.entries(card.players)
+  for (let [name, num] of players) {
     mainboarders.push({name: name, mb: num, sb: 0})
-  })
-  card.sideboarders.forEach(function(num, name) {
+  }
+  let sideboarders = Object.entries(card.sideboarders)
+  for (let [name, num] of sideboarders) {
     // Check if an entry exists for this name.
     let found = false
     for (let entry of mainboarders) {
@@ -497,7 +502,7 @@ function CardMainboardTooltipContent(card) {
       // Add a new entry.
       mainboarders.push({name: name, mb: 0, sb: num})
     }
-  })
+  }
 
   return (
     <table>

@@ -2,6 +2,7 @@ package server
 
 import (
 	"encoding/json"
+	"math"
 	"net/http"
 	"time"
 
@@ -14,9 +15,25 @@ type StatsResponse struct {
 	Cards *Cards `json:"cards"`
 }
 
+func parseStatsRequest(r *http.Request) *StatsRequest {
+	// Pull deck params from the request.
+	p := StatsRequest{}
+	p.Color = getString(r, "color")
+	return &p
+}
+
+type StatsRequest struct {
+	// Color to filter by - WUBRG.
+	Color string `json:"color"`
+	// Minimum nubmer of drafts a card must have been in to be included.
+	MinDrafts int `json:"min_drafts"`
+	// Minimum number of games a card must have been in to be included.
+	MinGames int `json:"min_games"`
+}
+
 func StatusHandler() http.Handler {
 	return &statsHandler{
-		store: storage.NewFileDeckStore(),
+		store: storage.NewFileDeckStoreWithCache(),
 	}
 }
 
@@ -99,7 +116,7 @@ func (d *statsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 			}
 
 			// Increment player count.
-			cbn.Players[deck.Player]++
+			cbn.Players[deck.GetPlayer()]++
 
 			// Include archetype data for this card
 			for _, l := range deck.Labels {
@@ -126,7 +143,7 @@ func (d *statsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 			}
 
 			// Increment player count.
-			cbn.Sideboarders[deck.Player]++
+			cbn.Sideboarders[deck.GetPlayer()]++
 		}
 	}
 
@@ -141,11 +158,13 @@ func (d *statsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 		// Calculate win percentage and mainboard/sideboard percentages.
 		cbn.TotalGames = cbn.Wins + cbn.Losses
 		if cbn.TotalGames > 0 {
-			cbn.WinPercent = float64(cbn.Wins) / float64(cbn.TotalGames)
+			cbn.WinPercent = math.Round(100 * float64(cbn.Wins) / float64(cbn.TotalGames))
 		}
-		if len(decks) > 0 {
-			cbn.MainboardPercent = float64(cbn.Mainboard) / float64(len(decks))
-			cbn.SideboardPercent = float64(cbn.Sideboard) / float64(len(decks))
+
+		decksWithCard := cbn.Mainboard + cbn.Sideboard
+		if decksWithCard > 0 {
+			cbn.MainboardPercent = math.Round(100 * float64(cbn.Mainboard) / float64(decksWithCard))
+			cbn.SideboardPercent = math.Round(100 * float64(cbn.Sideboard) / float64(decksWithCard))
 		}
 	}
 
@@ -212,22 +231,6 @@ func cardSetFromDeck(deck types.Deck, cubeCards map[string]types.Card, color str
 	}
 
 	return mbSet, sbSet
-}
-
-func parseStatsRequest(r *http.Request) *StatsRequest {
-	// Pull deck params from the request.
-	p := StatsRequest{}
-	p.Color = getString(r, "color")
-	return &p
-}
-
-type StatsRequest struct {
-	// Color to filter by - WUBRG.
-	Color string `json:"color"`
-	// Minimum nubmer of drafts a card must have been in to be included.
-	MinDrafts int `json:"min_drafts"`
-	// Minimum number of games a card must have been in to be included.
-	MinGames int `json:"min_games"`
 }
 
 type Cards struct {

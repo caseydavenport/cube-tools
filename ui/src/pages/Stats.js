@@ -373,6 +373,23 @@ export default function StatsViewer() {
     onSubpageClicked(5)
   }
 
+  function onCardDataFetched(d) {
+    parsed.cardData = new Map(Object.entries(d.cards.data))
+    setParsedData({...parsed})
+  }
+
+  async function loadCardData(cb) {
+    const resp = await fetch(`/api/stats?color=${cardWidgetColorSelection}&min_drafts=${minDrafts}&min_games=${minGames}`);
+    let d = await resp.json();
+    cb(d)
+  }
+
+  useEffect(() => {
+    Promise.all([
+      loadCardData(onCardDataFetched),
+    ])
+  }, [cardWidgetColorSelection, minDrafts, minGames])
+
   // Load the decks and drafts on startup and whenever the dates change.
   useEffect(() => {
     Promise.all([
@@ -380,6 +397,7 @@ export default function StatsViewer() {
       LoadDrafts(onDraftsLoaded, startDate, endDate),
       LoadCube(onCubeLoad),
       LoadArchetypeData(onArchetypeDataLoaded, startDate, endDate, minDraftSize, playerMatch),
+      loadCardData(onCardDataFetched),
     ])
   }, [refresh])
 
@@ -438,11 +456,6 @@ export default function StatsViewer() {
     setArchetypeMatchups(a)
   }
 
-  ///////////////////////////////////////////////////////////////////////////////
-  // Perform occasional calculation up-front.
-  // Build a bundle of parsed data to pass to widgets so that we only need
-  // to calculate it once.
-  ///////////////////////////////////////////////////////////////////////////////
   const defaultParsed = {
     "filteredDecks": [],
     "archetypeData": [],
@@ -452,9 +465,18 @@ export default function StatsViewer() {
     "cardData": {},
     "pickInfo": {},
     "graphData": {},
+    "bucketSize": bucketSize,
   }
   const [parsed, setParsedData] = useState(defaultParsed);
-  function parse() {
+
+  ///////////////////////////////////////////////////////////////////////////////
+  // Perform occasional calculation up-front.
+  // Build a bundle of parsed data to pass to widgets so that we only need
+  // to calculate it once.
+  ///////////////////////////////////////////////////////////////////////////////
+
+  // Filter decks whenever the color checkboxes change.
+  useEffect(() => {
     // Filter decks based on selected colors. This enables us to view data for a subset of colors.
     // Combine the colors using a logical AND to enable us to view two-color decks. If no colors are selected,
     // then use all decks.
@@ -476,22 +498,36 @@ export default function StatsViewer() {
         }
       }
     }
+    parsed.filteredDecks = f
+    setParsedData({...parsed})
+  }, [decks, colorCheckboxes])
 
-    // Build the parsed data structure.
-    let p = {}
-    p.filteredDecks = f
-    p.archetypeData = ArchetypeData(f)
-    p.colorData = GetColorStats(f, strictColors)
-    p.playerData = PlayerData(f)
-    p.cardData = CardData(f, minDrafts, minGames, cube, cardWidgetColorSelection)
-    p.bucketSize = bucketSize
-    p.pickInfo = AggregatedPickInfo(drafts, cube, playerMatch)
+  useEffect(() => {
+    // When filtered decks change, update archetype data.
+    parsed.archetypeData = ArchetypeData(parsed.filteredDecks)
+    parsed.colorData = GetColorStats(parsed.filteredDecks, strictColors)
+    parsed.playerData = PlayerData(parsed.filteredDecks)
+    for (let d of parsed.playerData.values()) {
+      // Also go through each player and parse stats individually for them.
+      d.archetypeData = ArchetypeData(d.decks)
+      d.colorData = GetColorStats(d.decks, strictColors)
+    }
+    // Rebuild graph data each time we parse. Do this at the very end, as it relies on
+    // some of the data calculated above.
+    //
+    // We only need to do this when the deck page is selected, though.
+    parsed.graphData = BuildGraphData(parsed)
+    setParsedData({...parsed})
+  }, [parsed.filteredDecks, strictColors])
 
+  // Update bucketed data whenever the bucket size changes, or the filtered decks change.
+  useEffect(() => {
+    parsed.bucketSize = bucketSize
     // Split the given decks into fixed-size buckets.
     // Each bucket will contain N drafts worth of deck information. We'll parse each bucket
     // individually, which is used by other pages to plot stats over time.
-    p.deckBuckets = DeckBuckets(f, bucketSize, false)
-    for (let b of p.deckBuckets) {
+    parsed.deckBuckets = DeckBuckets(parsed.filteredDecks, bucketSize, false)
+    for (let b of parsed.deckBuckets) {
       // Determine all of the decks in this bucket.
       let bucketDecks = new Array()
       for (let draft of b) {
@@ -505,29 +541,14 @@ export default function StatsViewer() {
       b.cardData = CardData(bucketDecks, 0, 0, cube, "")
     }
 
-    // Also go through each player and parse stats individually for them.
-    for (let d of p.playerData.values()) {
-      d.archetypeData = ArchetypeData(d.decks)
-      d.colorData = GetColorStats(d.decks, strictColors)
-    }
+    setParsedData({...parsed})
+  }, [parsed.filteredDecks, bucketSize])
 
-    if (display[3]) {
-      // Rebuild graph data each time we parse. Do this at the very end, as it relies on
-      // some of the data calculated above.
-      //
-      // We only need to do this when the deck page is selected, though.
-      p.graphData = BuildGraphData(p)
-    }
-
-    // Store off what we've calculated.
-    setParsedData(p)
-  }
-
+  // Update pick info only when needed.
   useEffect(() => {
-    console.time('parse()')
-    parse()
-    console.timeEnd('parse()')
-  }, [decks, bucketSize, minDrafts, minGames, cube, cardWidgetColorSelection, colorCheckboxes, strictColors])
+    parsed.pickInfo = AggregatedPickInfo(drafts, cube, playerMatch)
+    setParsedData({...parsed})
+  }, [drafts, cube, playerMatch])
 
   return (
     <div id="root">

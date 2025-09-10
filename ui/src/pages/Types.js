@@ -425,10 +425,15 @@ function TopCardsInArchetypeWidget(input) {
   // requirements.
   let filtered = new Array()
   data.forEach(function(card, name) {
-    if (!card.archetypes.has(input.selectedArchetype)) {
+    // Convert the card.archetypes object to a map for easier access.
+    let cardArch = new Map()
+    for (let [arch, count] of Object.entries(card.archetypes)) {
+      cardArch.set(arch, count)
+    }
+    if (!cardArch.has(input.selectedArchetype)) {
       return
     }
-    if (card.archetypes.get(input.selectedArchetype) < input.minDecksInArch) {
+    if (cardArch.get(input.selectedArchetype) < input.minDecksInArch) {
       return
     }
     filtered.push(card)
@@ -488,20 +493,26 @@ function TopCardsInArchetypeWidget(input) {
         <tbody>
           {
             filtered.map(function(card) {
+              // Convert the card.archetypes object to a map for easier access.
+              let cardArch = new Map()
+              for (let [arch, count] of Object.entries(card.archetypes)) {
+                cardArch.set(arch, count)
+              }
+
               // Determine what percentage of decks in the archetype this card has been in.
-              let percentage = Math.round(card.archetypes.get(input.selectedArchetype) / archetypes.get(input.selectedArchetype).count * 100)
+              let percentage = Math.round(cardArch.get(input.selectedArchetype) / archetypes.get(input.selectedArchetype).count * 100)
 
               // Determine how tightly bound this card is to the archetype - is it 1:1? Or does it share its time in
               // other decks.
-              let correlation = Math.round(card.archetypes.get(input.selectedArchetype) / card.mainboard * 100)
+              let correlation = Math.round(cardArch.get(input.selectedArchetype) / card.mainboard * 100)
 
               // Configure the sort.
-              let sort = card.archetypes.get(input.selectedArchetype)
+              let sort = cardArch.get(input.selectedArchetype)
               sort = correlation
               return (
                 <tr sort={sort} className="widget-table-row" key={card.name}>
                   <td ><a href={card.url} target="_blank" rel="noopener noreferrer">{card.name}</a></td>
-                  <td >{card.archetypes.get(input.selectedArchetype)}</td>
+                  <td >{cardArch.get(input.selectedArchetype)}</td>
                   <td >{percentage}%</td>
                   <td >{correlation}%</td>
                 </tr>

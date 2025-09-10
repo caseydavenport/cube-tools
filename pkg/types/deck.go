@@ -6,6 +6,9 @@ import (
 	"path/filepath"
 	"slices"
 	"sort"
+
+	"golang.org/x/text/cases"
+	"golang.org/x/text/language"
 )
 
 func NewDeck() *Deck {
@@ -85,6 +88,11 @@ type Match struct {
 type Game struct {
 	Opponent string `json:"opponent"`
 	Winner   string `json:"winner"`
+}
+
+func (d *Deck) GetPlayer() string {
+	// Return capitalized player name.
+	return cases.Title(language.English).String(d.Player)
 }
 
 func (d *Deck) PickCount() int {

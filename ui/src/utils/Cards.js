@@ -45,6 +45,12 @@ export function CardData(decks, minDrafts, minGames, cube, color) {
   return data
 }
 
+async function cardDataServerSide(minDrafts, minGames, color) {
+  // Fetch card data from the server /api/stats endpoint.
+  const resp = await fetch(`/api/stats?color=${color}&min_drafts=${minDrafts}&min_games=${minGames}`);
+  let d = await resp.json();
+}
+
 function cardDataClientSide(decks, minDrafts, minGames, cube, color) {
 
   let cardsByName = new Map()
@@ -388,7 +394,8 @@ export function CardAnalyze(card, archetypeData, playerData, decks) {
   // calculating weighted averages below. The card.archetypes map has keys of the archetype name, and values of
   // the number of times it was seen in a deck of that archetype.
   let totalPicks = 0
-  for (let num of card.archetypes.values()) {
+  let archetypes = Object.entries(card.archetypes)
+  for (let [arch, num] of archetypes) {
     totalPicks += num
   }
 
@@ -396,7 +403,7 @@ export function CardAnalyze(card, archetypeData, playerData, decks) {
   // this card belongs to, and each archetype's average win rate in order to calculate a weighted average
   // representing the expected win rate of the card.
   let weightedBaseRate = 0
-  for (let [arch, numArchDecks] of card.archetypes) {
+  for (let [arch, numArchDecks] of archetypes) {
     let archWinRate = 0
 
     if (archetypeData.has(arch)) {
@@ -421,7 +428,12 @@ export function CardAnalyze(card, archetypeData, playerData, decks) {
   let expectedRate = 0
 
   let playCount = 0
-  for (let [player, count] of card.players) {
+  let players = Object.entries(card.players)
+  for (let [player, count] of players) {
+    if (!playerData.has(player)) {
+      console.log("Missing player data for " + player)
+      continue
+    }
     expectedRate += count * playerData.get(player).winPercent / 100
     playCount += count
   }

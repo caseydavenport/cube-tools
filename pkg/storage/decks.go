@@ -38,6 +38,10 @@ func NewFileDeckStore() DeckStorage {
 	return d
 }
 
+func NewFileDeckStoreWithCache() DeckStorage {
+	return &deckStore{}
+}
+
 type deckStore struct {
 	sync.Mutex
 	cache []Deck
