@@ -384,7 +384,6 @@ export default function StatsViewer() {
   }
 
   function onBucketedCardDataFetched(d) {
-    console.log("Got bucketed card data: ", d)
     parsed.cardDataBucketed = Array.from(d.buckets)
     setParsedData({...parsed})
   }
