@@ -278,6 +278,7 @@ function ArchetypeStatsTable(input) {
               headers.map(function(hdr, i) {
                 return (
                   <OverlayTrigger
+                    key={i}
                     placement="top"
                     delay={{ show: 100, hide: 100 }}
                     overlay={
@@ -472,6 +473,7 @@ function TopCardsInArchetypeWidget(input) {
               headers.map(function(hdr, i) {
                 return (
                   <OverlayTrigger
+                    key={i}
                     placement="top"
                     delay={{ show: 100, hide: 100 }}
                     overlay={
