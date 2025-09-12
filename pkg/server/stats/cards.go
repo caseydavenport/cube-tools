@@ -117,11 +117,13 @@ func (d *cardStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 	// Marshal the response and write it back.
 	b, err := json.MarshalIndent(resp, "", "  ")
 	if err != nil {
-		panic(err)
+		http.Error(rw, "could not marshal response", http.StatusInternalServerError)
+		return
 	}
 	_, err = rw.Write(b)
 	if err != nil {
-		panic(err)
+		logrus.WithError(err).Error("could not write response")
+		return
 	}
 }
 
@@ -223,6 +225,8 @@ func (d *cardStatsHandler) statsForDecks(decks []*storage.Deck, cubeCards map[st
 		cbn.TotalGames = cbn.Wins + cbn.Losses
 		if cbn.TotalGames > 0 {
 			cbn.WinPercent = math.Round(100 * float64(cbn.Wins) / float64(cbn.TotalGames))
+		}
+		if totalWins > 0 {
 			cbn.PercentOfWins = math.Round(100 * float64(cbn.Wins) / float64(totalWins))
 		}
 

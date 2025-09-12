@@ -6,6 +6,7 @@ import (
 	"path/filepath"
 	"slices"
 	"sort"
+	"strings"
 
 	"golang.org/x/text/cases"
 	"golang.org/x/text/language"
@@ -238,6 +239,47 @@ func (d *Deck) Colors() map[string]bool {
 		}
 	}
 	return colors
+}
+
+// ColorIdentities returns all the color identities of this deck.
+// e.g., a WUG deck will return [W, U, G, WU, WG, UG, WUG]
+// Note: We exclude identities with more than 3 colors for simplicity.
+func (d *Deck) ColorIdentities() map[string]bool {
+	deckColors := d.Colors()
+	allColors := make(map[string]bool)
+	for c := range deckColors {
+		allColors[c] = true
+
+		// Dual-colors.
+		for c2 := range deckColors {
+			pair := combineColors([]string{c, c2})
+			if c == c2 {
+				continue
+			}
+			allColors[pair] = true
+
+			// Trios.
+			for c3 := range deckColors {
+				trio := combineColors([]string{c, c2, c3})
+				if c3 == c || c3 == c2 {
+					continue
+				}
+				allColors[trio] = true
+			}
+		}
+	}
+
+	return allColors
+}
+
+// combineColors takes a slice of color strings (e.g., ["U", "W", "G"]) and returns
+// a single string with the colors sorted by WUBRG, and concatenated (e.g., "WUG").
+func combineColors(colors []string) string {
+	sort.Slice(colors, func(i, j int) bool {
+		order := "WUBRG"
+		return strings.Index(order, colors[i]) < strings.Index(order, colors[j])
+	})
+	return strings.Join(colors, "")
 }
 
 // A card is castable if its colors are a subset of the deck's colors, or if it's colorless.

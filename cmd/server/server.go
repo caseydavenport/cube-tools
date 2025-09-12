@@ -14,6 +14,7 @@ func main() {
 	http.Handle("/api/decks", decks.DeckHandler())
 	http.Handle("/api/archetypes", server.ArchetypesHandler())
 	http.Handle("/api/stats/cards", stats.CardStatsHandler())
+	http.Handle("/api/stats/colors", stats.ColorStatsHandler())
 
 	fmt.Println("Server listening on port 8888")
 	err := http.ListenAndServe(":8888", nil)

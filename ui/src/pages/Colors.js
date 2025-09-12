@@ -3,7 +3,6 @@ import { DropdownHeader, NumericInput, Checkbox, DateSelector } from "../compone
 import { Colors, ColorImages, GetColorIdentity } from "../utils/Colors.js"
 import { Trophies, LastPlaceFinishes, Wins, Losses } from "../utils/Deck.js"
 import { IsBasicLand, SortFunc, StringToColor } from "../utils/Utils.js"
-import { BucketName } from "../utils/Buckets.js"
 
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Popover from 'react-bootstrap/Popover';
@@ -171,17 +170,17 @@ function ColorStatsTable(input) {
   // Also, convert from a map to a list at this point so that we can
   // sort by win percentage.
   let colorData = Array.from(input.colorData.values())
-  if (input.parsed.deckBuckets.length > 0 && input.selectedBucket != "ALL") {
-    for (let bucket of input.parsed.deckBuckets) {
-      if (BucketName(bucket) === input.selectedBucket) {
+  let buckets = input.parsed.colorDataBucketed
+  if (input.parsed.colorDataBucketed.length > 0 && input.selectedBucket != "ALL") {
+    for (let bucket of buckets) {
+      if (bucket.name === input.selectedBucket) {
         // UI has selected a particualr bucket to investigate, so pull the data from that bucket only.
-        colorData = Array.from(bucket.colorData.values())
+        let data = new Map(Object.entries(bucket.data))
+        colorData = Array.from(data.values())
         break;
       }
     }
   }
-
-
 
   // We conditionally show / hide a few of the columns, because they are only
   // applicable when mono-color is displayed.
@@ -290,45 +289,45 @@ function ColorStatsTable(input) {
         </thead>
         <tbody>
           {
-            filtered.map(function(rates, idx) {
+            filtered.map(function(color, idx) {
 
               // Determine what we're sorting by. Default to sorting by win percentage.
-              let sort = rates.win_percent
+              let sort = color.win_percent
               if (input.sortBy === "build") {
-                sort = rates.build_percent
+                sort = color.build_percent
               } else if (input.sortBy === "decks") {
-                sort = rates.num_decks
+                sort = color.num_decks
               } else if (input.sortBy === "color") {
-                sort = rates.color
+                sort = color.color
               } else if (input.sortBy === "picks") {
-                sort = rates.total_pick_percentage
+                sort = color.total_pick_percentage
               } else if (input.sortBy === "splash") {
-                sort = rates.average_deck_percentage
+                sort = color.average_deck_percentage
               } else if (input.sortBy === "pwin") {
-                sort = rates.percent_of_wins
+                sort = color.percent_of_wins
               } else if (input.sortBy === "vps") {
-                sort = rates.victory_points
+                sort = color.victory_points
               } else if (input.sortBy === "trophies") {
-                sort = rates.threeoh
+                sort = color.three_oh
               } else if (input.sortBy === "lastplace") {
-                sort = rates.ohthree
+                sort = color.oh_three
               }
 
-              let img = ColorImages(rates.color)
-              let vpsPercentage = Math.round(100 * rates.victory_points / totalVictoryPoints)
+              let img = ColorImages(color.color)
+              let vpsPercentage = Math.round(100 * color.victory_points / totalVictoryPoints)
 
               return (
                 <tr key={idx} sort={sort} className="widget-table-row">
                   <td>{img}</td>
-                  <td>{rates.win_percent}%</td>
-                  <td>{rates.build_percent}%</td>
-                  <td>{rates.percent_of_wins}%</td>
+                  <td>{color.win_percent}%</td>
+                  <td>{color.build_percent}%</td>
+                  <td>{color.percent_of_wins}%</td>
                   <td>{vpsPercentage}%</td>
-                  <td>{rates.threeoh}</td>
-                  <td>{rates.ohthree}</td>
-                  <td>{rates.num_decks}</td>
-                  <td style={headerStyleFields}>{rates.total_pick_percentage}%</td>
-                  <td>{rates.average_deck_percentage}%</td>
+                  <td>{color.three_oh}</td>
+                  <td>{color.oh_three}</td>
+                  <td>{color.num_decks}</td>
+                  <td style={headerStyleFields}>{color.total_pick_percentage}%</td>
+                  <td>{color.average_deck_percentage}%</td>
                 </tr>
               );
             }).sort(SortFunc)
@@ -343,11 +342,11 @@ function TableHeader(input) {
   // Build selected bucket dropdown.
   let bucketNames = new Array();
   bucketNames.push({label: "ALL", value: "ALL"});
-  for (let bucket of input.parsed.deckBuckets) {
+  for (let bucket of input.parsed.colorDataBucketed) {
     bucketNames.push(
       {
-        label: BucketName(bucket),
-        value: BucketName(bucket),
+        label: bucket.name,
+        value: bucket.name,
       },
     );
   }
@@ -560,7 +559,7 @@ export function GetColorStats(decks, strictColors) {
 function ColorRateChart(input) {
   // Split the given decks into fixed-size buckets.
   // Each bucket will contain N drafts worth of deck information.
-  let buckets = input.parsed.deckBuckets;
+  let buckets = input.parsed.colorDataBucketed;
 
   // Mapping of colors to human-readable names.
   let colorNames = new Map();
@@ -580,7 +579,7 @@ function ColorRateChart(input) {
   // at least place some sense of time to the chart.
   const labels = []
   for (let bucket of buckets) {
-    labels.push(BucketName(bucket))
+    labels.push(bucket.name)
   }
 
   // Parse the buckets into color data.
@@ -593,7 +592,7 @@ function ColorRateChart(input) {
     colorDatasets.set(color, [])
   }
   for (let bucket of buckets) {
-    let stats = bucket.colorData
+    let stats = new Map(Object.entries(bucket.data))
 
     // Calcualte total victory points for this bucket, used below to calculate percentage
     // of available victory points for each color.

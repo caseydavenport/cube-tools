@@ -372,13 +372,41 @@ export default function StatsViewer() {
     onSubpageClicked(5)
   }
 
+  ///////////////////////////////////////////////////////////////////////////////
+  // Parsed data that is shared between widgets, and updated as needed
+  // by the useEffect() hooks below.
+  ///////////////////////////////////////////////////////////////////////////////
+  const defaultParsed = {
+    "bucketSize": bucketSize,
+    "filteredDecks": [],
+    "archetypeData": [],
+    "playerData": [],
+    "pickInfo": {},
+    "graphData": {},
+    "colorData": [],
+    "colorDataBucketed": [],
+    "cardData": {},
+    "cardDataBucketed": [],
+    "deckBuckets": [],
+  }
+  const [parsed, setParsedData] = useState(defaultParsed);
+
+  ///////////////////////////////////////////////////////////////////////////////
+  // Functions to load card stats from the server.
+  ///////////////////////////////////////////////////////////////////////////////
+  async function loadCardData(cb) {
+    const resp = await fetch(`/api/stats/cards?color=${cardWidgetColorSelection}&min_drafts=${minDrafts}&min_games=${minGames}&start=${startDate}&end=${endDate}&size=${minDraftSize}&player=${playerMatch}`);
+    let d = await resp.json();
+    cb(d)
+  }
+
   function onCardDataFetched(d) {
     parsed.cardData = new Map(Object.entries(d.all.data))
     setParsedData({...parsed})
   }
 
-  async function loadCardData(cb) {
-    const resp = await fetch(`/api/stats/cards?color=${cardWidgetColorSelection}&min_drafts=${minDrafts}&min_games=${minGames}&start=${startDate}&end=${endDate}&size=${minDraftSize}&player=${playerMatch}`);
+  async function loadBucketedCardData(cb) {
+    const resp = await fetch(`/api/stats/cards?color=${cardWidgetColorSelection}&min_drafts=${minDrafts}&min_games=${minGames}&bucket_size=${bucketSize}&sliding=true`);
     let d = await resp.json();
     cb(d)
   }
@@ -388,25 +416,50 @@ export default function StatsViewer() {
     setParsedData({...parsed})
   }
 
-  async function loadBucketedCardData(cb) {
-    const resp = await fetch(`/api/stats/cards?color=${cardWidgetColorSelection}&min_drafts=${minDrafts}&min_games=${minGames}&bucket_size=${bucketSize}`);
+  useEffect(() => {
+    Promise.all([loadCardData(onCardDataFetched)])
+  }, [cardWidgetColorSelection, minDrafts, minGames])
+
+  useEffect(() => {
+    Promise.all([loadBucketedCardData(onBucketedCardDataFetched)])
+  }, [cardWidgetColorSelection, minDrafts, minGames, bucketSize])
+
+  ///////////////////////////////////////////////////////////////////////////////
+  // Functions to load color stats from the server.
+  ///////////////////////////////////////////////////////////////////////////////
+  async function loadColorData(cb) {
+    const resp = await fetch(`/api/stats/colors?start=${startDate}&end=${endDate}&size=${minDraftSize}&player=${playerMatch}&strict_colors=${strictColors}`);
     let d = await resp.json();
     cb(d)
   }
 
-  useEffect(() => {
-    Promise.all([
-      loadCardData(onCardDataFetched),
-    ])
-  }, [cardWidgetColorSelection, minDrafts, minGames])
+  function onColorDataFetched(d) {
+    parsed.colorData = new Map(Object.entries(d.all.data))
+    setParsedData({...parsed})
+  }
+
+  async function loadBucketedColorData(cb) {
+    const resp = await fetch(`/api/stats/colors?start=${startDate}&end=${endDate}&size=${minDraftSize}&player=${playerMatch}&strict_colors=${strictColors}&bucket_size=${bucketSize}&sliding=true`);
+    let d = await resp.json();
+    cb(d)
+  }
+
+  async function onBucketedColorDataFetched(d) {
+    parsed.colorDataBucketed = Array.from(d.buckets)
+    setParsedData({...parsed})
+  }
 
   useEffect(() => {
-    Promise.all([
-      loadBucketedCardData(onBucketedCardDataFetched),
-    ])
-  }, [cardWidgetColorSelection, minDrafts, minGames, bucketSize])
+    Promise.all([loadColorData(onColorDataFetched)])
+  }, [parsed.filteredDecks, strictColors])
 
+  useEffect(() => {
+    Promise.all([loadBucketedColorData(onBucketedColorDataFetched)])
+  }, [parsed.filteredDecks, strictColors, bucketSize])
+
+  ///////////////////////////////////////////////////////////////////////////////
   // Load the decks and drafts on startup and whenever the dates change.
+  ///////////////////////////////////////////////////////////////////////////////
   useEffect(() => {
     Promise.all([
       LoadDecks(onDecksLoaded, startDate, endDate, minDraftSize, playerMatch),
@@ -472,20 +525,6 @@ export default function StatsViewer() {
     setArchetypeMatchups(a)
   }
 
-  const defaultParsed = {
-    "bucketSize": bucketSize,
-    "filteredDecks": [],
-    "archetypeData": [],
-    "colorData": [],
-    "playerData": [],
-    "pickInfo": {},
-    "graphData": {},
-    "deckBuckets": [],
-    "cardData": {},
-    "cardDataBucketed": [],
-  }
-  const [parsed, setParsedData] = useState(defaultParsed);
-
   ///////////////////////////////////////////////////////////////////////////////
   // Perform occasional calculation up-front.
   // Build a bundle of parsed data to pass to widgets so that we only need
@@ -522,7 +561,6 @@ export default function StatsViewer() {
   useEffect(() => {
     // When filtered decks change, update archetype data.
     parsed.archetypeData = ArchetypeData(parsed.filteredDecks)
-    parsed.colorData = GetColorStats(parsed.filteredDecks, strictColors)
     parsed.playerData = PlayerData(parsed.filteredDecks)
     for (let d of parsed.playerData.values()) {
       // Also go through each player and parse stats individually for them.
@@ -553,7 +591,6 @@ export default function StatsViewer() {
 
       // Add per-bucket parsed data.
       b.archetypeData = ArchetypeData(bucketDecks)
-      b.colorData = GetColorStats(bucketDecks, strictColors)
       b.playerData = PlayerData(bucketDecks)
     }
 
