@@ -10,7 +10,6 @@ import { ArchetypeWidget, ArchetypeData } from "./Types.js"
 import { DeckWidget, BuildGraphData } from "./Decks.js"
 import { PlayerWidget } from "./Players.js"
 import { CardWidget } from "./Cards.js"
-import { CardData } from "../utils/Cards.js"
 import { DeckBuckets } from "../utils/Buckets.js"
 import { GetColorStats } from "./Colors.js"
 import { PlayerData } from "./Players.js"
@@ -374,12 +373,24 @@ export default function StatsViewer() {
   }
 
   function onCardDataFetched(d) {
-    parsed.cardData = new Map(Object.entries(d.cards.data))
+    parsed.cardData = new Map(Object.entries(d.all.data))
     setParsedData({...parsed})
   }
 
   async function loadCardData(cb) {
-    const resp = await fetch(`/api/stats?color=${cardWidgetColorSelection}&min_drafts=${minDrafts}&min_games=${minGames}`);
+    const resp = await fetch(`/api/stats/cards?color=${cardWidgetColorSelection}&min_drafts=${minDrafts}&min_games=${minGames}`);
+    let d = await resp.json();
+    cb(d)
+  }
+
+  function onBucketedCardDataFetched(d) {
+    console.log("Got bucketed card data: ", d)
+    parsed.cardDataBucketed = Array.from(d.buckets)
+    setParsedData({...parsed})
+  }
+
+  async function loadBucketedCardData(cb) {
+    const resp = await fetch(`/api/stats/cards?color=${cardWidgetColorSelection}&min_drafts=${minDrafts}&min_games=${minGames}&bucket_size=${bucketSize}`);
     let d = await resp.json();
     cb(d)
   }
@@ -389,6 +400,12 @@ export default function StatsViewer() {
       loadCardData(onCardDataFetched),
     ])
   }, [cardWidgetColorSelection, minDrafts, minGames])
+
+  useEffect(() => {
+    Promise.all([
+      loadBucketedCardData(onBucketedCardDataFetched),
+    ])
+  }, [cardWidgetColorSelection, minDrafts, minGames, bucketSize])
 
   // Load the decks and drafts on startup and whenever the dates change.
   useEffect(() => {
@@ -457,15 +474,16 @@ export default function StatsViewer() {
   }
 
   const defaultParsed = {
+    "bucketSize": bucketSize,
     "filteredDecks": [],
     "archetypeData": [],
     "colorData": [],
-    "deckBuckets": [],
     "playerData": [],
-    "cardData": {},
     "pickInfo": {},
     "graphData": {},
-    "bucketSize": bucketSize,
+    "deckBuckets": [],
+    "cardData": {},
+    "cardDataBucketed": [],
   }
   const [parsed, setParsedData] = useState(defaultParsed);
 
@@ -538,7 +556,6 @@ export default function StatsViewer() {
       b.archetypeData = ArchetypeData(bucketDecks)
       b.colorData = GetColorStats(bucketDecks, strictColors)
       b.playerData = PlayerData(bucketDecks)
-      b.cardData = CardData(bucketDecks, 0, 0, cube, "")
     }
 
     setParsedData({...parsed})

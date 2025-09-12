@@ -3,8 +3,7 @@ import { StdDev, IsBasicLand, SortFunc } from "../utils/Utils.js"
 import { DropdownHeader, NumericInput, Checkbox, DateSelector } from "../components/Dropdown.js"
 import { Wins, Losses } from "../utils/Deck.js"
 import { ApplyTooltip } from "../utils/Tooltip.js"
-import { CardData, CardAnalyze } from "../utils/Cards.js"
-import { BucketName, BucketWins } from "../utils/Buckets.js"
+import { CardAnalyze } from "../utils/Cards.js"
 
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Popover from 'react-bootstrap/Popover';
@@ -92,10 +91,11 @@ const matchOpts = [
 
   // shouldSkip returns true if the card should be skipped, and false otherwise.
   function shouldSkip(card, input) {
-    if (card.players.size < input.minPlayers) {
+    let players = Object.entries(card.players)
+    if (players.size < input.minPlayers) {
       return true
     }
-    if (input.maxPlayers != 0 && card.players.size > input.maxPlayers) {
+    if (input.maxPlayers != 0 && players.size > input.maxPlayers) {
       return true
     }
     if (input.manaValue >=0 && card.cmc != input.manaValue) {
@@ -533,14 +533,14 @@ function CardMainboardTooltipContent(card) {
 function PlayRateChart(input) {
   // Split the given decks into fixed-size buckets.
   // Each bucket will contain N drafts worth of deck information.
-  let buckets = input.parsed.deckBuckets
+  let buckets = input.parsed.cardDataBucketed
 
   // Use the starting date of the bucket as the label. This is just an approximation,
   // as the bucket really includes a variable set of dates, but it allows the viewer to
   // at least place some sense of time to the chart.
   const labels = []
   for (let bucket of buckets) {
-    labels.push(BucketName(bucket))
+    labels.push(bucket.name)
   }
 
   let name = input.selectedCard
@@ -552,7 +552,8 @@ function PlayRateChart(input) {
   var sb = []
   var playableSb = []
   for (let bucket of buckets) {
-    let stats = bucket.cardData.get(name)
+    let data = new Map(Object.entries(bucket.data))
+    let stats = data.get(name)
     if (stats != null) {
       mb.push(stats.mainboard_percent)
       sb.push(stats.sideboard_percent)
@@ -635,14 +636,14 @@ function PlayRateChart(input) {
 function ELOChart(input) {
   // Split the given decks into fixed-size buckets.
   // Each bucket will contain N drafts worth of deck information.
-  let buckets = input.parsed.deckBuckets
+  let buckets = input.parsed.cardDataBucketed
 
   // Use the starting date of the bucket as the label. This is just an approximation,
   // as the bucket really includes a variable set of dates, but it allows the viewer to
   // at least place some sense of time to the chart.
   const labels = []
   for (let bucket of buckets) {
-    labels.push(BucketName(bucket))
+    labels.push(bucket.name)
   }
 
   let name = input.selectedCard
@@ -655,7 +656,8 @@ function ELOChart(input) {
 
   var elo = []
   for (let bucket of buckets) {
-    let stats = bucket.cardData.get(name)
+    let data = new Map(Object.entries(bucket.data))
+    let stats = data.get(name)
     if (stats != null) {
       if (stats.elo > max) {
         max = stats.elo
@@ -728,14 +730,14 @@ function ELOChart(input) {
 function WinrateChart(input) {
   // Split the given decks into fixed-size buckets.
   // Each bucket will contain N drafts worth of deck information.
-  let buckets = input.parsed.deckBuckets
+  let buckets = input.parsed.cardDataBucketed
 
   // Use the starting date of the bucket as the label. This is just an approximation,
   // as the bucket really includes a variable set of dates, but it allows the viewer to
   // at least place some sense of time to the chart.
   const labels = []
   for (let bucket of buckets) {
-    labels.push(BucketName(bucket))
+    labels.push(bucket.name)
   }
 
   let name = input.selectedCard
@@ -746,14 +748,15 @@ function WinrateChart(input) {
   var wins = []
   var pows = []
   for (let bucket of buckets) {
-    let card = bucket.cardData.get(name)
+    let data = new Map(Object.entries(bucket.data))
+    let card = data.get(name)
     if (card != null && card.mainboard_percent > 0) {
       wins.push(card.win_percent)
 
       // Determine % of wins that involved this card from within this bucket.
       // This is the total number of wins with this card, divided by the total number of
       // wins in the bucket.
-      pows.push(100 * card.wins / BucketWins(bucket))
+      pows.push(100 * card.wins / bucket.games)
     } else {
       // Card was not in this bucket.
       wins.push(null)

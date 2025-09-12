@@ -1,15 +1,16 @@
-package server
+package decks
 
 import (
 	"encoding/json"
 	"net/http"
 
+	"github.com/caseydavenport/cube-tools/pkg/server/query"
 	"github.com/caseydavenport/cube-tools/pkg/storage"
 	"github.com/sirupsen/logrus"
 )
 
 type DecksResponse struct {
-	Decks []storage.Deck `json:"decks"`
+	Decks []*storage.Deck `json:"decks"`
 }
 
 func DeckHandler() http.Handler {
@@ -24,7 +25,7 @@ type deckHandler struct {
 }
 
 func (d *deckHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
-	dr := parseDecksRequest(r)
+	dr := ParseDecksRequest(r)
 	logrus.WithField("params", dr).Info("/api/decks")
 
 	resp := DecksResponse{}
@@ -45,12 +46,12 @@ func (d *deckHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func parseDecksRequest(r *http.Request) *storage.DecksRequest {
+func ParseDecksRequest(r *http.Request) *storage.DecksRequest {
 	// Pull deck params from the request.
 	p := storage.DecksRequest{}
-	p.Player = getString(r, "player")
-	p.Start = getString(r, "start")
-	p.End = getString(r, "end")
-	p.DraftSize = getInt(r, "size")
+	p.Player = query.GetString(r, "player")
+	p.Start = query.GetString(r, "start")
+	p.End = query.GetString(r, "end")
+	p.DraftSize = query.GetInt(r, "size")
 	return &p
 }

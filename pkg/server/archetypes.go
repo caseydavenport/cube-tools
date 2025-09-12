@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"net/http"
 
+	"github.com/caseydavenport/cube-tools/pkg/server/decks"
 	"github.com/caseydavenport/cube-tools/pkg/storage"
 	"github.com/sirupsen/logrus"
 )
@@ -35,7 +36,7 @@ type archetypesHandler struct {
 }
 
 func (d *archetypesHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
-	dr := parseDecksRequest(r)
+	dr := decks.ParseDecksRequest(r)
 	logrus.WithField("params", dr).Info("/api/archetypes")
 
 	// Get all of the decks from the store.
@@ -109,7 +110,7 @@ func (d *archetypesHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func deckArch(d storage.Deck) string {
+func deckArch(d *storage.Deck) string {
 	for _, l := range d.Labels {
 		switch l {
 		case "aggro", "midrange", "control", "tempo":
@@ -119,7 +120,7 @@ func deckArch(d storage.Deck) string {
 	return ""
 }
 
-func lookupOpponentDeck(decks []storage.Deck, deck storage.Deck, opponent string) string {
+func lookupOpponentDeck(decks []*storage.Deck, deck *storage.Deck, opponent string) string {
 	for _, d := range decks {
 		if d.Player != opponent {
 			// Not the right player.

@@ -29,7 +29,7 @@ type DecksRequest struct {
 }
 
 type DeckStorage interface {
-	List(*DecksRequest) ([]Deck, error)
+	List(*DecksRequest) ([]*Deck, error)
 }
 
 func NewFileDeckStore() DeckStorage {
@@ -44,7 +44,7 @@ func NewFileDeckStoreWithCache() DeckStorage {
 
 type deckStore struct {
 	sync.Mutex
-	cache []Deck
+	cache []*Deck
 }
 
 // Maintain the cache in a separate goroutine.
@@ -58,7 +58,7 @@ func (s *deckStore) maintainCache() {
 	}
 }
 
-func (s *deckStore) List(req *DecksRequest) ([]Deck, error) {
+func (s *deckStore) List(req *DecksRequest) ([]*Deck, error) {
 	s.Lock()
 	defer s.Unlock()
 
@@ -72,7 +72,7 @@ func (s *deckStore) List(req *DecksRequest) ([]Deck, error) {
 	return filter(s.cache, req), nil
 }
 
-func loadDecks(cube string) ([]Deck, error) {
+func loadDecks(cube string) ([]*Deck, error) {
 	logrus.Info("Loading decks from disk")
 
 	// Load index file.
@@ -85,7 +85,7 @@ func loadDecks(cube string) ([]Deck, error) {
 		return nil, err
 	}
 
-	var decks []Deck
+	var decks []*Deck
 	for _, draft := range index.Drafts {
 		for _, deck := range draft.Decks {
 			d, err := loadDeck(deck.Path)
@@ -96,7 +96,7 @@ func loadDecks(cube string) ([]Deck, error) {
 
 			// Cache some additoinal metadata in the deck.
 			d.draftSize = len(draft.Decks)
-			decks = append(decks, d)
+			decks = append(decks, &d)
 		}
 	}
 	return decks, nil
@@ -114,14 +114,14 @@ func loadDeck(path string) (Deck, error) {
 	return d, nil
 }
 
-func filter(decks []Deck, r *DecksRequest) []Deck {
+func filter(decks []*Deck, r *DecksRequest) []*Deck {
 	// Check if we need to do any filtering.
 	var empty DecksRequest
 	if r == nil || *r == empty {
 		return decks
 	}
 
-	filtered := []Deck{}
+	filtered := []*Deck{}
 	for _, d := range decks {
 		// Check player.
 		if r.Player != "" && !strings.EqualFold(d.Player, r.Player) {

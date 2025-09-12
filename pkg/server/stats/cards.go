@@ -1,4 +1,4 @@
-package server
+package stats
 
 import (
 	"encoding/json"
@@ -6,23 +6,21 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/caseydavenport/cube-tools/pkg/server/decks"
+	"github.com/caseydavenport/cube-tools/pkg/server/query"
 	"github.com/caseydavenport/cube-tools/pkg/storage"
 	"github.com/caseydavenport/cube-tools/pkg/types"
 	"github.com/sirupsen/logrus"
 )
 
-type StatsResponse struct {
-	Cards *Cards `json:"cards"`
-}
+type CardStatsRequest struct {
+	// Embed deck request to allow filtering by player, date range, and draft size.
+	*storage.DecksRequest
 
-func parseStatsRequest(r *http.Request) *StatsRequest {
-	// Pull deck params from the request.
-	p := StatsRequest{}
-	p.Color = getString(r, "color")
-	return &p
-}
+	// Configuration for bucketed responses.
+	BucketSize int  `json:"bucket_size"`
+	Sliding    bool `json:"sliding"`
 
-type StatsRequest struct {
 	// Color to filter by - WUBRG.
 	Color string `json:"color"`
 	// Minimum nubmer of drafts a card must have been in to be included.
@@ -31,21 +29,54 @@ type StatsRequest struct {
 	MinGames int `json:"min_games"`
 }
 
-func StatusHandler() http.Handler {
-	return &statsHandler{
+type CardStatsResponse struct {
+	// Aggregated stats for each card across all decks matching the request.
+	All *Cards `json:"all"`
+
+	// If bucketed response, then bucketed response data corresponding to the request.
+	Buckets []*Bucket `json:"buckets,omitempty"`
+}
+
+type Bucket struct {
+	// Inline the cards data.
+	Cards `json:",inline"`
+
+	// Include metadata about the bucket.
+	Name string `json:"name"`
+
+	// Total number of games in this bucket.
+	Games int `json:"games,omitempty"`
+}
+
+func parseCardsRequest(r *http.Request) *CardStatsRequest {
+	// Pull deck params from the request.
+	p := CardStatsRequest{}
+	p.Color = query.GetString(r, "color")
+	p.BucketSize = query.GetInt(r, "bucket_size")
+	p.Sliding = query.GetBool(r, "sliding")
+	p.MinDrafts = query.GetInt(r, "min_drafts")
+	p.MinGames = query.GetInt(r, "min_games")
+
+	// Parse the embedded deck request.
+	p.DecksRequest = decks.ParseDecksRequest(r)
+	return &p
+}
+
+func CardStatsHandler() http.Handler {
+	return &cardStatsHandler{
 		store: storage.NewFileDeckStoreWithCache(),
 	}
 }
 
-type statsHandler struct {
+type cardStatsHandler struct {
 	store storage.DeckStorage
 }
 
-func (d *statsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
-	sr := parseStatsRequest(r)
-	logrus.WithField("params", sr).Info("/api/stats")
+func (d *cardStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
+	sr := parseCardsRequest(r)
+	logrus.WithField("params", sr).Info("/api/stats/cards")
 
-	resp := StatsResponse{}
+	resp := CardStatsResponse{}
 
 	// Build a map of all the cards in the cube, so we can use it to skip any cards
 	// not curerently in the cube.
@@ -59,16 +90,43 @@ func (d *statsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 		cubeCards[c.Name] = c
 	}
 
-	// Load all decks.
-	decks, err := d.store.List(&storage.DecksRequest{})
+	// Load allDecks matching the request.
+	allDecks, err := d.store.List(sr.DecksRequest)
 	if err != nil {
 		http.Error(rw, "could not load decks", http.StatusInternalServerError)
 		return
 	}
 
 	// Initlialize the response structure.
-	resp = StatsResponse{}
-	resp.Cards = &Cards{
+	resp = CardStatsResponse{}
+	if sr.BucketSize > 0 {
+		// If bucket size is set, then create bucketed response.
+		buckets := decks.DeckBuckets(allDecks, sr.BucketSize, !sr.Sliding)
+		for _, b := range buckets {
+			s := d.statsForDecks(b.AllDecks(), cubeCards, sr)
+			resp.Buckets = append(resp.Buckets, &Bucket{
+				Cards: *s,
+				Name:  b.Name(),
+				Games: b.TotalGames(),
+			})
+		}
+	} else {
+		resp.All = d.statsForDecks(allDecks, cubeCards, sr)
+	}
+
+	// Marshal the response and write it back.
+	b, err := json.MarshalIndent(resp, "", "  ")
+	if err != nil {
+		panic(err)
+	}
+	_, err = rw.Write(b)
+	if err != nil {
+		panic(err)
+	}
+}
+
+func (d *cardStatsHandler) statsForDecks(decks []*storage.Deck, cubeCards map[string]types.Card, sr *CardStatsRequest) *Cards {
+	resp := &Cards{
 		Data: make(map[string]*cardStats),
 	}
 
@@ -80,13 +138,13 @@ func (d *statsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 
 		for _, card := range mbSet {
 			// Initalize a new cardStats if we haven't seen this card before.
-			if _, ok := resp.Cards.Data[card.Name]; !ok {
+			if _, ok := resp.Data[card.Name]; !ok {
 				cp := *card
-				resp.Cards.Data[card.Name] = &cp
+				resp.Data[card.Name] = &cp
 			}
 
 			// Get the global cardStats for this card.
-			cbn := resp.Cards.Data[card.Name]
+			cbn := resp.Data[card.Name]
 
 			// Increment basic stats for this card.
 			cbn.Mainboard++
@@ -126,13 +184,13 @@ func (d *statsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 
 		for _, card := range sbSet {
 			// Initalize a new cardStats if we haven't seen this card before.
-			if _, ok := resp.Cards.Data[card.Name]; !ok {
+			if _, ok := resp.Data[card.Name]; !ok {
 				cp := *card
-				resp.Cards.Data[card.Name] = &cp
+				resp.Data[card.Name] = &cp
 			}
 
 			// Get the global cardStats for this card.
-			cbn := resp.Cards.Data[card.Name]
+			cbn := resp.Data[card.Name]
 
 			// Increment basic stats for this card.
 			cbn.Sideboard++
@@ -149,9 +207,9 @@ func (d *statsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 
 	// Now that we've gone through all the decks, calculate win percentages and mainboard/sideboard percentages,
 	// and perform any filtering based on the request parameters.
-	for _, cbn := range resp.Cards.Data {
+	for _, cbn := range resp.Data {
 		if shouldFilterCard(cbn, sr) {
-			delete(resp.Cards.Data, cbn.Name)
+			delete(resp.Data, cbn.Name)
 			continue
 		}
 
@@ -168,18 +226,10 @@ func (d *statsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 		}
 	}
 
-	// Marshal the response and write it back.
-	b, err := json.MarshalIndent(resp, "", "  ")
-	if err != nil {
-		panic(err)
-	}
-	_, err = rw.Write(b)
-	if err != nil {
-		panic(err)
-	}
+	return resp
 }
 
-func shouldFilterCard(cbn *cardStats, sr *StatsRequest) bool {
+func shouldFilterCard(cbn *cardStats, sr *CardStatsRequest) bool {
 	if sr.MinDrafts > 0 && cbn.Mainboard+cbn.Sideboard < sr.MinDrafts {
 		return true
 	}

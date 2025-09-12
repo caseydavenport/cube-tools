@@ -1,4 +1,4 @@
-package server
+package query
 
 import (
 	"net/http"
@@ -7,7 +7,7 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
-func getInt(r *http.Request, f string) int {
+func GetInt(r *http.Request, f string) int {
 	s := r.URL.Query().Get(f)
 	if s == "" {
 		return 0
@@ -19,10 +19,22 @@ func getInt(r *http.Request, f string) int {
 	return int(i)
 }
 
-func getString(r *http.Request, f string) string {
+func GetString(r *http.Request, f string) string {
 	s := r.URL.Query().Get(f)
 	if s == "" || s == "null" {
 		return ""
 	}
 	return s
+}
+
+func GetBool(r *http.Request, f string) bool {
+	s := r.URL.Query().Get(f)
+	if s == "" {
+		return false
+	}
+	b, err := strconv.ParseBool(s)
+	if err != nil {
+		logrus.WithError(err).Warn("failed to parse value")
+	}
+	return b
 }
