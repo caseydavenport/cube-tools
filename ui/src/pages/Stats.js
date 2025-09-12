@@ -378,7 +378,7 @@ export default function StatsViewer() {
   }
 
   async function loadCardData(cb) {
-    const resp = await fetch(`/api/stats/cards?color=${cardWidgetColorSelection}&min_drafts=${minDrafts}&min_games=${minGames}`);
+    const resp = await fetch(`/api/stats/cards?color=${cardWidgetColorSelection}&min_drafts=${minDrafts}&min_games=${minGames}&start=${startDate}&end=${endDate}&size=${minDraftSize}&player=${playerMatch}`);
     let d = await resp.json();
     cb(d)
   }

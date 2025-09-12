@@ -130,8 +130,14 @@ func (d *cardStatsHandler) statsForDecks(decks []*storage.Deck, cubeCards map[st
 		Data: make(map[string]*cardStats),
 	}
 
+	// Sum up the total number of wins across all decks - we'll use this to calculate
+	// PercentOfWins for each card later.
+	var totalWins int
+
 	// Go through each deck, adding stats for each card in the deck.
 	for _, deck := range decks {
+		// Increment the total wins counter.
+		totalWins += deck.GameWins()
 
 		// Get the set of unique cards in this deck's mainboard.
 		mbSet, sbSet := cardSetFromDeck(deck.Deck, cubeCards, sr.Color)
@@ -217,6 +223,7 @@ func (d *cardStatsHandler) statsForDecks(decks []*storage.Deck, cubeCards map[st
 		cbn.TotalGames = cbn.Wins + cbn.Losses
 		if cbn.TotalGames > 0 {
 			cbn.WinPercent = math.Round(100 * float64(cbn.Wins) / float64(cbn.TotalGames))
+			cbn.PercentOfWins = math.Round(100 * float64(cbn.Wins) / float64(totalWins))
 		}
 
 		decksWithCard := cbn.Mainboard + cbn.Sideboard
@@ -324,6 +331,9 @@ type cardStats struct {
 	LastPlace int `json:"last_place"`
 	// Win percentage
 	WinPercent float64 `json:"win_percent"`
+	// Percent of all games won by decks with this card. This is different from WinPercent, which is
+	// the percentage of games won given that this card was in the mainboard.
+	PercentOfWins float64 `json:"percent_of_wins"`
 	// Mainboard percentage
 	MainboardPercent float64 `json:"mainboard_percent"`
 	// Sideboard percentage

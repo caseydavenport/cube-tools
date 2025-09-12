@@ -92,10 +92,10 @@ const matchOpts = [
   // shouldSkip returns true if the card should be skipped, and false otherwise.
   function shouldSkip(card, input) {
     let players = Object.entries(card.players)
-    if (players.size < input.minPlayers) {
+    if (players.length < input.minPlayers) {
       return true
     }
-    if (input.maxPlayers != 0 && players.size > input.maxPlayers) {
+    if (input.maxPlayers != 0 && players.length > input.maxPlayers) {
       return true
     }
     if (input.manaValue >=0 && card.cmc != input.manaValue) {
@@ -170,7 +170,7 @@ function CardWidgetTable(input) {
       tip: "Number of 3-0 decks this card has been in.",
     },
     {
-      id: "lastplace",
+      id: "last_place",
       text: "Last place",
       tip: "Number of 0-3 decks this card has been in.",
     },
@@ -248,7 +248,9 @@ function CardWidgetTable(input) {
               }
 
               let pd = new Array();
-              for (let [num, name] in card.players) {
+
+              let players = Object.entries(card.players)
+              for (let [name, num] of players) {
                 pd.push(num);
               }
               let stddev = StdDev(pd);
@@ -271,23 +273,23 @@ function CardWidgetTable(input) {
                 case "trophies":
                   sort = card.trophies
                   break
-                case "lastplace":
-                  sort = card.lastplace
+                case "last_place":
+                  sort = card.last_place
                   break
                 case "elo":
                   sort = card.elo
                   break
                 case "in-color-sb":
-                  sort = card.playableSideboard
+                  sort = card.playable_sideboard
                   break
                 case "players":
-                  sort = card.players.size
+                  sort = players.length
                   break
                 case "players-stddev":
                   sort = stddev
                   break
                 case "lastPlayed":
-                  sort = card.lastMainboarded
+                  sort = card.last_mainboarded
                   break
                 case "appearances":
                   sort = card.appearances
@@ -317,14 +319,14 @@ function CardWidgetTable(input) {
                   <td id={card.name} onClick={input.onCardSelected} key="name">{card.mainboard_percent}%</td>
                   <td id={card.name} onClick={input.onCardSelected} key="win_percent">{card.win_percent}%</td>
                   <td>{card.trophies}</td>
-                  <td>{card.lastplace}</td>
+                  <td>{card.last_place}</td>
                   <td>{card.mainboard}</td>
                   <td>{card.sideboard}</td>
-                  <td>{card.playableSideboard}</td>
+                  <td>{card.playable_sideboard}</td>
                   <td>{card.total_games}</td>
-                  <td>{card.players.size}</td>
+                  <td>{players.length}</td>
                   <td>{card.elo}</td>
-                  <td>{card.lastMainboarded}</td>
+                  <td>{card.last_mainboarded}</td>
                 </tr>
               )
             }).sort(SortFunc)
@@ -374,7 +376,7 @@ function CardWidgetTable(input) {
                     sort = expectedRate
                     break;
                   case "pow":
-                    sort = pow
+                    sort = card.percent_of_wins
                     break;
                   case "wins":
                     sort = card.win_percent
@@ -385,7 +387,7 @@ function CardWidgetTable(input) {
                 return (
                   <tr sort={sort} className="widget-table-row" key={card.name}>
                     <td id={card.name} onClick={input.onCardSelected} key="win_percent">{card.win_percent}%</td>
-                    <td id={card.name} onClick={input.onCardSelected} key="pow">{pow}%</td>
+                    <td id={card.name} onClick={input.onCardSelected} key="pow">{card.percent_of_wins}%</td>
                     <td id={card.name} onClick={input.onCardSelected}><a href={card.url} target="_blank" rel="noopener noreferrer">{card.name}</a></td>
                     <td>{relativePerfArch}</td>
                     <td>{relativePerfPlayer}</td>
@@ -977,7 +979,7 @@ function getValue(axis, card, archetypeData, playerData, decks, draftData) {
     case WinPercentOption:
       return card.win_percent
     case PercentOfWinsOption:
-      return pow
+      return card.percent_of_wins
     case NumDecksOption:
       return card.mainboard
     case NumSideboardOption:
@@ -985,13 +987,13 @@ function getValue(axis, card, archetypeData, playerData, decks, draftData) {
     case ManaValueOption:
       return card.cmc
     case NumPlayersOption:
-      return card.players.size
+      return Object.entries(card.players).size
     case ExpectedWinPercentOption:
       return expectedRate
     case NumTrophiesOption:
       return card.trophies
     case NumLastPlaceOption:
-      return card.lastplace
+      return card.last_place
     case DraftOrderOption:
       let pick = draftData.get(card.name)
       if (pick == null) {
