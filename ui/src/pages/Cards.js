@@ -50,6 +50,7 @@ export const MainboardPercentOption = "Mainboard %"
 export const SideboardPercentOption = "Sideboard %"
 export const WinPercentOption = "Win %"
 export const PercentOfWinsOption = "% of Wins"
+export const NumberOfWinsOption = "# Wins"
 export const ExpectedWinPercentOption = "Expected Win %"
 export const ELOOption = "Pick ELO"
 export const NumGamesOption = "# Games"
@@ -65,6 +66,7 @@ export const CardScatterAxes = [
   {label: SideboardPercentOption, value: SideboardPercentOption},
   {label: WinPercentOption, value: WinPercentOption},
   {label: PercentOfWinsOption, value: PercentOfWinsOption},
+  {label: NumberOfWinsOption, value: NumberOfWinsOption},
   {label: ExpectedWinPercentOption, value: ExpectedWinPercentOption},
   {label: ELOOption, value: ELOOption},
   {label: NumGamesOption, value: NumGamesOption},
@@ -343,6 +345,7 @@ function CardWidgetTable(input) {
             <tr>
               <td onClick={input.onHeaderClick} id="wins" className="header-cell">Win %</td>
               <td onClick={input.onHeaderClick} id="pow" className="header-cell">% of Wins</td>
+              <td onClick={input.onHeaderClick} id="#wins" className="header-cell"># Wins</td>
               <td onClick={input.onHeaderClick} id="card" className="header-cell">Card</td>
               <td onClick={input.onHeaderClick} id="relativePerfArch" className="header-cell">Perf (arch)</td>
               <td onClick={input.onHeaderClick} id="relativePerfPlayer" className="header-cell">Perf (player)</td>
@@ -356,7 +359,7 @@ function CardWidgetTable(input) {
                   return
                 }
 
-                let [relativePerfPlayer, relativePerfArch, expectedRate, pow] = CardAnalyze(
+                let [relativePerfPlayer, relativePerfArch, expectedRate] = CardAnalyze(
                   card,
                   input.parsed.archetypeData,
                   input.parsed.playerData,
@@ -381,6 +384,9 @@ function CardWidgetTable(input) {
                   case "wins":
                     sort = card.win_percent
                     break;
+                  case "#wins":
+                    sort = card.wins
+                    break;
                 }
 
                 // Return the row.
@@ -388,6 +394,7 @@ function CardWidgetTable(input) {
                   <tr sort={sort} className="widget-table-row" key={card.name}>
                     <td id={card.name} onClick={input.onCardSelected} key="win_percent">{card.win_percent}%</td>
                     <td id={card.name} onClick={input.onCardSelected} key="pow">{card.percent_of_wins}%</td>
+                    <td id={card.name} onClick={input.onCardSelected} key="wins">{card.wins}</td>
                     <td id={card.name} onClick={input.onCardSelected}><a href={card.url} target="_blank" rel="noopener noreferrer">{card.name}</a></td>
                     <td>{relativePerfArch}</td>
                     <td>{relativePerfPlayer}</td>
@@ -960,7 +967,7 @@ function getScales(axis, force) {
 }
 
 function getValue(axis, card, archetypeData, playerData, decks, draftData) {
-  let [relativePerfPlayer, relativePerfArch, expectedRate, pow] = CardAnalyze(
+  let [relativePerfPlayer, relativePerfArch, expectedRate] = CardAnalyze(
     card,
     archetypeData,
     playerData,
@@ -980,6 +987,8 @@ function getValue(axis, card, archetypeData, playerData, decks, draftData) {
       return card.win_percent
     case PercentOfWinsOption:
       return card.percent_of_wins
+    case NumberOfWinsOption:
+      return card.wins
     case NumDecksOption:
       return card.mainboard
     case NumSideboardOption:

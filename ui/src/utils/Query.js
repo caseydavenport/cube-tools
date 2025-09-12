@@ -37,6 +37,14 @@ export function CardMatches(card, matchStr, checkText) {
       }
     }
 
+    // Check if any name terms match.
+    if (splits.some(term => isNameTerm(term))) {
+      // If there are name terms, we need to match at least one of them.
+      if (!namesMatch(splits, card)) {
+        return false
+      }
+    }
+
     // All terms matched.
     return true
   }
@@ -80,7 +88,7 @@ export function DeckMatches(deck, matchStr, mbsb) {
   return false
 }
 
-const queryTerms = ["pow", "o", "c", "t"]
+const queryTerms = ["pow", "name", "o", "c", "t"]
 
 function parseTerms(matchStr) {
   // Split the string into terms. A term ends at a space, unless the space is inside quotes.
@@ -116,6 +124,36 @@ function isTermQuery(matchStr) {
         // It's a term query.
         return true
       }
+    }
+  }
+  return false
+}
+
+function isNameTerm(term) {
+  return term.startsWith("name:")
+}
+
+function nameMatches(term, card) {
+  if (!isNameTerm(term)) {
+    // Not a name query - always matches.
+    return true
+  }
+
+  // Remove the name: prefix and any quotes.
+  let query = term.replace("name:", "").replace(/"/g, "").toLowerCase()
+  if (card.name.toLowerCase().match(query)) {
+    return true
+  }
+  return false
+}
+
+function namesMatch(terms, card) {
+  for (let term of terms) {
+    if (!isNameTerm(term)) {
+      continue
+    }
+    if (nameMatches(term, card)) {
+      return true
     }
   }
   return false

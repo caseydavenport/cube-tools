@@ -91,8 +91,8 @@ type Game struct {
 }
 
 func (d *Deck) GetPlayer() string {
-	// Return capitalized player name.
-	return cases.Title(language.English).String(d.Player)
+	// Capitalize just the first letter of the player's name, and leave the rest as-is.
+	return cases.Upper(language.English).String(d.Player[:1]) + d.Player[1:]
 }
 
 func (d *Deck) PickCount() int {

@@ -174,16 +174,9 @@ function compareDates(dateString1, dateString2) {
 }
 
 export function CardAnalyze(card, archetypeData, playerData, decks) {
- // For this card, determine the weighted average of the archetype win rates for the
- // archetypes that it sees play in. We'll use this to calculate the card's win rate compared
- // to its own archetype win rates.
-
-  // Calculate total number of "Wins" across all decks. We'll use this to
-  // calculate the percentage of all wins that have included each card.
-  let totalWins = 0
-  for (let deck of decks) {
-    totalWins += Wins(deck)
-  }
+  // For this card, determine the weighted average of the archetype win rates for the
+  // archetypes that it sees play in. We'll use this to calculate the card's win rate compared
+  // to its own archetype win rates.
 
   // relativePerfArch is the performance of this card relative to the expected performance of
   // all of the archetypes that this card has played in.
@@ -244,8 +237,5 @@ export function CardAnalyze(card, archetypeData, playerData, decks) {
     expectedRate = Math.round(expectedRate * 100)
   }
 
-  // Determine % of all wins including this card.
-  let pow = 100 * Math.round(100 * card.wins / totalWins) / 100
-
-  return [relativePerfPlayer, relativePerfArch, expectedRate, pow]
+  return [relativePerfPlayer, relativePerfArch, expectedRate]
 }

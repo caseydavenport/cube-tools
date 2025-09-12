@@ -87,6 +87,11 @@ func deckBucketsDiscrete(decks []*storage.Deck, bucketSize int) []Bucket {
 			k := i - j
 			bucket.Drafts = append(bucket.Drafts, drafts[k])
 		}
+
+		// Sort drafts within the bucket by name.
+		sort.Slice(bucket.Drafts, func(i, j int) bool {
+			return bucket.Drafts[i].Name < bucket.Drafts[j].Name
+		})
 		buckets = append(buckets, bucket)
 	}
 
