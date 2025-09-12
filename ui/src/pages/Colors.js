@@ -382,7 +382,6 @@ function TableHeader(input) {
 
 // GetColorStats collects statistics aggregated by color and color pair based on the given decks.
 export function GetColorStats(decks, strictColors) {
-  console.time("GetColorStats")
   let tracker = new Map()
 
   // Count of all cards ever drafted. This will be used to calculate pick percentages per-color.
@@ -555,7 +554,6 @@ export function GetColorStats(decks, strictColors) {
     color.percent_of_wins = Math.round(100 * color.wins / totalWins)
   }
 
-  console.timeEnd("GetColorStats")
   return tracker
 }
 

@@ -60,7 +60,6 @@ export function Burned(log, player, pack, pick) {
 
 
 export function AggregatedPickInfo(logs, cube, playerMatch) {
-  console.time("AggregatedPickInfo")
 
   let pickInfo = new Map()
 
@@ -194,7 +193,6 @@ export function AggregatedPickInfo(logs, cube, playerMatch) {
       }
     }
   }
-  console.timeEnd("AggregatedPickInfo")
   return pickInfo
 }
 
