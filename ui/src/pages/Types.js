@@ -111,12 +111,20 @@ export function ArchetypeWidget(input) {
         </tr>
 
         <tr>
-          <td colSpan="3">
+          <td colSpan="1">
             <MacroArchetypesChart
               parsed={input.parsed}
               decks={input.decks}
               bucketSize={input.bucketSize}
               dataset="percent_of_wins"
+            />
+          </td>
+          <td colSpan="2" style={{"paddingTop": "100px"}}>
+            <MacroArchetypesChart
+              parsed={input.parsed}
+              decks={input.decks}
+              bucketSize={input.bucketSize}
+              dataset="cmc"
             />
           </td>
         </tr>
@@ -164,17 +172,6 @@ export function ArchetypeWidget(input) {
               parsed={input.parsed}
               decks={input.decks}
               dataset="wins"
-            />
-          </td>
-        </tr>
-
-        <tr>
-          <td colSpan="3" style={{"paddingTop": "100px"}}>
-            <MacroArchetypesChart
-              parsed={input.parsed}
-              decks={input.decks}
-              bucketSize={input.bucketSize}
-              dataset="cmc"
             />
           </td>
         </tr>

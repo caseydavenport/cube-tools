@@ -123,9 +123,6 @@ export function CardWidget(input) {
   if (!input.show) {
     return null
   }
-  if (!input.parsed.cardData) {
-    return null
-  }
 
   let matchInput = {
     "matchOpts": matchOpts,

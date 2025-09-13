@@ -383,9 +383,9 @@ export default function StatsViewer() {
     "playerData": [],
     "pickInfo": {},
     "graphData": {},
-    "colorData": [],
+    "colorData": new Map(),
     "colorDataBucketed": [],
-    "cardData": {},
+    "cardData": new Map(),
     "cardDataBucketed": [],
     "deckBuckets": [],
   }
@@ -418,11 +418,11 @@ export default function StatsViewer() {
 
   useEffect(() => {
     Promise.all([loadCardData(onCardDataFetched)])
-  }, [cardWidgetColorSelection, minDrafts, minGames])
+  }, [parsed.filteredDecks, cardWidgetColorSelection, minDrafts, minGames])
 
   useEffect(() => {
     Promise.all([loadBucketedCardData(onBucketedCardDataFetched)])
-  }, [cardWidgetColorSelection, minDrafts, minGames, bucketSize])
+  }, [parsed.filteredDecks, cardWidgetColorSelection, minDrafts, minGames, bucketSize])
 
   ///////////////////////////////////////////////////////////////////////////////
   // Functions to load color stats from the server.
@@ -555,8 +555,11 @@ export default function StatsViewer() {
       }
     }
     parsed.filteredDecks = f
+
+    // Update graph data for the deck widget whenever the filtered set of decks changes.
+    parsed.graphData = BuildGraphData(parsed)
     setParsedData({...parsed})
-  }, [decks, colorCheckboxes])
+  }, [decks, parsed.deckBuckets, colorCheckboxes])
 
   useEffect(() => {
     // When filtered decks change, update archetype data.
@@ -567,17 +570,13 @@ export default function StatsViewer() {
       d.archetypeData = ArchetypeData(d.decks)
       d.colorData = GetColorStats(d.decks, strictColors)
     }
-    // Rebuild graph data each time we parse. Do this at the very end, as it relies on
-    // some of the data calculated above.
-    //
-    // We only need to do this when the deck page is selected, though.
-    parsed.graphData = BuildGraphData(parsed)
     setParsedData({...parsed})
   }, [parsed.filteredDecks, strictColors])
 
   // Update bucketed data whenever the bucket size changes, or the filtered decks change.
   useEffect(() => {
     parsed.bucketSize = bucketSize
+
     // Split the given decks into fixed-size buckets.
     // Each bucket will contain N drafts worth of deck information. We'll parse each bucket
     // individually, which is used by other pages to plot stats over time.

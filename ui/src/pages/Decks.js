@@ -443,6 +443,7 @@ export function BuildGraphData(parsed) {
       },
     }
   }
+
   for (let bucket of buckets) {
     // Aggregate all decks from within this bucket.
     let decks = new Array()
@@ -540,7 +541,6 @@ export function BuildGraphData(parsed) {
       bucketed.interaction.mb.byColor.set(color, v)
     }
   }
-
 
   console.timeEnd("buildGraphData")
   return {
@@ -1113,10 +1113,23 @@ function OracleTextOverTimeChart(input) {
       },
   ]
 
+  // Find the minimum Y value, to set the scale appropriately.
+  let minY = 10
+  for (let v of mbValues) {
+    if (v < minY) {
+      minY = v
+    }
+  }
+  for (let v of sbValues) {
+    if (v < minY) {
+      minY = v
+    }
+  }
+
   const options = {
     responsive: true,
     maintainAspectRatio: false,
-    scales: {y: {min: 0}},
+    scales: {y: {min: minY}},
     plugins: {
       title: {
         display: true,
@@ -1188,7 +1201,7 @@ function DeckManaValueChart(input) {
   const options = {
     responsive: true,
     maintainAspectRatio: false,
-    scales: {y: {min: 0}},
+    scales: {y: {min: 2}},
     plugins: {
       title: {
         display: true,
@@ -1370,10 +1383,18 @@ function SideboardSizeOverTimeChart(input) {
       },
   ]
 
+  // Find the minimum Y value, to set the scale appropriately.
+  let minY = 10
+  for (let v of sizes) {
+    if (v < minY) {
+      minY = v
+    }
+  }
+
   const options = {
     responsive: true,
     maintainAspectRatio: false,
-    scales: {y: {min: 0}},
+    scales: {y: {min: minY}},
     plugins: {
       title: {
         display: true,
@@ -1450,7 +1471,7 @@ function NumColorsOverTimeChart(input) {
   const options = {
     responsive: true,
     maintainAspectRatio: false,
-    scales: {y: {min: 1, max: 5}},
+    scales: {y: {min: 2, max: 3}},
     plugins: {
       title: {
         display: true,
@@ -1504,10 +1525,23 @@ function ManaCostByOracleTextOverTime(input) {
       },
   ]
 
+  // Find the minimum Y value, to set the scale appropriately.
+  let minY = 10
+  for (let v of mbValues) {
+    if (v < minY) {
+      minY = v
+    }
+  }
+  for (let v of sbValues) {
+    if (v < minY) {
+      minY = v
+    }
+  }
+
   const options = {
     responsive: true,
     maintainAspectRatio: false,
-    scales: {y: {min: 0}},
+    scales: {y: {min: minY}},
     plugins: {
       title: {
         display: true,
