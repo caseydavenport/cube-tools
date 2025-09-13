@@ -341,13 +341,12 @@ function CardWidgetTable(input) {
         <table className="widget-table">
           <thead className="table-header">
             <tr>
+              <td onClick={input.onHeaderClick} id="card" className="header-cell">Card</td>
               <td onClick={input.onHeaderClick} id="wins" className="header-cell">Win %</td>
               <td onClick={input.onHeaderClick} id="pow" className="header-cell">% of Wins</td>
               <td onClick={input.onHeaderClick} id="#wins" className="header-cell"># Wins</td>
-              <td onClick={input.onHeaderClick} id="card" className="header-cell">Card</td>
-              <td onClick={input.onHeaderClick} id="relativePerfArch" className="header-cell">Perf (arch)</td>
-              <td onClick={input.onHeaderClick} id="relativePerfPlayer" className="header-cell">Perf (player)</td>
-              <td onClick={input.onHeaderClick} id="playerPerf" className="header-cell">Player perf.</td>
+              <td onClick={input.onHeaderClick} id="#wins" className="header-cell"># Games</td>
+              <td onClick={input.onHeaderClick} id="expected_win_percent" className="header-cell">Exp. Win %</td>
             </tr>
           </thead>
           <tbody>
@@ -357,12 +356,7 @@ function CardWidgetTable(input) {
                   return
                 }
 
-                let [relativePerfPlayer, relativePerfArch, expectedRate] = CardAnalyze(
-                  card,
-                  input.parsed.archetypeData,
-                  input.parsed.playerData,
-                  input.parsed.filteredDecks,
-                )
+                let [expected_win_percent] = CardAnalyze(card, input.parsed.playerData)
 
                 // Determine sort value. Default to win percentage.
                 let sort = card.win_percent
@@ -373,14 +367,17 @@ function CardWidgetTable(input) {
                   case "relativePerfPlayer":
                     sort = relativePerfPlayer
                     break;
-                  case "playerPerf":
-                    sort = expectedRate
+                  case "expected_win_percent":
+                    sort = expected_win_percent
                     break;
                   case "pow":
                     sort = card.percent_of_wins
                     break;
                   case "wins":
                     sort = card.win_percent
+                    break;
+                  case "games":
+                    sort = card.total_games
                     break;
                   case "#wins":
                     sort = card.wins
@@ -390,13 +387,26 @@ function CardWidgetTable(input) {
                 // Return the row.
                 return (
                   <tr sort={sort} className="widget-table-row" key={card.name}>
+                    <OverlayTrigger
+                      placement="right"
+                      delay={{ show: 500, hide: 100 }}
+                      overlay={
+                        <Popover className="wide-pop" id="popover-basic">
+                          <Popover.Header as="h3">Played by</Popover.Header>
+                          <Popover.Body>
+                            {CardMainboardTooltipContent(card)}
+                          </Popover.Body>
+                        </Popover>
+                      }
+                    >
+                      <td id={card.name} onClick={input.onCardSelected}><a href={card.url} target="_blank" rel="noopener noreferrer">{card.name}</a></td>
+                    </OverlayTrigger>
+
                     <td id={card.name} onClick={input.onCardSelected} key="win_percent">{card.win_percent}%</td>
                     <td id={card.name} onClick={input.onCardSelected} key="pow">{card.percent_of_wins}%</td>
                     <td id={card.name} onClick={input.onCardSelected} key="wins">{card.wins}</td>
-                    <td id={card.name} onClick={input.onCardSelected}><a href={card.url} target="_blank" rel="noopener noreferrer">{card.name}</a></td>
-                    <td>{relativePerfArch}</td>
-                    <td>{relativePerfPlayer}</td>
-                    <td>{expectedRate}%</td>
+                    <td id={card.name} onClick={input.onCardSelected} key="games">{card.total_games}</td>
+                    <td>{expected_win_percent}%</td>
                   </tr>
                 )
               }).sort(SortFunc)
@@ -965,12 +975,7 @@ function getScales(axis, force) {
 }
 
 function getValue(axis, card, archetypeData, playerData, decks, draftData) {
-  let [relativePerfPlayer, relativePerfArch, expectedRate] = CardAnalyze(
-    card,
-    archetypeData,
-    playerData,
-    decks,
-  )
+  let [expected_win_percent] = CardAnalyze(card, playerData)
 
   switch (axis) {
     case NumGamesOption:
@@ -996,7 +1001,7 @@ function getValue(axis, card, archetypeData, playerData, decks, draftData) {
     case NumPlayersOption:
       return Object.entries(card.players).size
     case ExpectedWinPercentOption:
-      return expectedRate
+      return expected_win_percent
     case NumTrophiesOption:
       return card.trophies
     case NumLastPlaceOption:
