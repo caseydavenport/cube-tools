@@ -356,7 +356,7 @@ export function DeckWidget(input) {
 //
 // TODO: Ideally we'd move this into the API server.
 export function BuildGraphData(parsed) {
-  console.time("buildGraphData")
+  console.time("BuildGraphData")
 
   let buckets = parsed.deckBuckets
   let colors = ["W", "U", "B", "R", "G"]
@@ -368,7 +368,7 @@ export function BuildGraphData(parsed) {
   }
 
   // Calculate statistics across all decks.
-  let all = {
+  const all = {
     winsByCMC: new Map(),
     lossesByCMC: new Map(),
     winsByNonBasic: new Map(),
@@ -410,15 +410,9 @@ export function BuildGraphData(parsed) {
   }
 
   // Calculate per-bucket, over time data.
-  let bucketed = {
+  const bucketed = {
     mbCounterspells: new Array(),
     sbCounterspells: new Array(),
-
-    mbRemoval: new Array(),
-    sbRemoval: new Array(),
-
-    mbRemovalCMC: new Array(),
-    sbRemovalCMC: new Array(),
 
     removal: {
       mb: {
@@ -542,7 +536,7 @@ export function BuildGraphData(parsed) {
     }
   }
 
-  console.timeEnd("buildGraphData")
+  console.timeEnd("BuildGraphData")
   return {
     labels: labels,
     all: all,
@@ -551,7 +545,6 @@ export function BuildGraphData(parsed) {
 }
 
 function WinsByManaCost(input) {
-  console.time("WinsByManaCost")
   const options = {
     responsive: true,
     maintainAspectRatio: false,
@@ -620,7 +613,6 @@ function WinsByManaCost(input) {
     ],
   };
 
-  console.timeEnd("WinsByManaCost")
   return (
     <div style={{"height":"500px", "width":"100%"}}>
       <Bar height={"300px"} width={"300px"} options={options} data={data} />;
@@ -629,7 +621,6 @@ function WinsByManaCost(input) {
 }
 
 function WinsByCardType(input) {
-  console.time("WinsByCardType")
   // Go through all the decks, and build up a map of wins by averge num
   // of the deck. We round num to create buckets.
   let wins = new Map()
@@ -730,7 +721,6 @@ function WinsByCardType(input) {
     ],
   };
 
-  console.timeEnd("WinsByCardType")
   return (
     <div style={{"height":"500px", "width":"100%"}}>
       <Bar height={"300px"} width={"300px"} options={options} data={data} />;
@@ -739,7 +729,6 @@ function WinsByCardType(input) {
 }
 
 function WinsByNonBasicDensity(input) {
-  console.time("WinsByNonBasicDensity")
   let wins = input.data.all.winsByNonBasic
   let losses = input.data.all.lossesByNonBasic
 
@@ -812,7 +801,6 @@ function WinsByNonBasicDensity(input) {
     ],
   };
 
-  console.timeEnd("WinsByNonBasicDensity")
   return (
     <div style={{"height":"500px", "width":"100%"}}>
       <Bar height={"300px"} width={"300px"} options={options} data={data} />;
@@ -821,7 +809,6 @@ function WinsByNonBasicDensity(input) {
 }
 
 function WinsByOracleText(input) {
-  console.time("WinsByOracleText")
   let bucketSize = 3
   let wins = new Map()
   let losses = new Map()
@@ -914,7 +901,6 @@ function WinsByOracleText(input) {
     ],
   };
 
-  console.timeEnd("WinsByOracleText")
   return (
     <div style={{"height":"500px", "width":"100%"}}>
       <Bar height={"300px"} width={"300px"} options={options} data={data} />;
@@ -923,7 +909,6 @@ function WinsByOracleText(input) {
 }
 
 function WinsByNumberOfColors(input) {
-  console.time("WinsByNumberOfColors")
   let wins = new Map()
   let losses = new Map()
   for (let deck of input.decks) {
@@ -1003,7 +988,6 @@ function WinsByNumberOfColors(input) {
     ],
   };
 
-  console.timeEnd("WinsByNumberOfColors")
   return (
     <div style={{"height":"500px", "width":"100%"}}>
       <Bar height={"300px"} width={"300px"} options={options} data={data} />;
@@ -1012,7 +996,6 @@ function WinsByNumberOfColors(input) {
 }
 
 function OracleTextByColor(input) {
-  console.time("OracleTextByColor")
   let buckets = input.parsed.deckBuckets
 
   const labels = input.data.labels
@@ -1076,7 +1059,6 @@ function OracleTextByColor(input) {
     },
   };
 
-  console.timeEnd("OracleTextByColor")
   const data = {labels, datasets: dataset};
   return (
     <div style={{"height":"500px", "width":"100%"}}>
@@ -1086,7 +1068,6 @@ function OracleTextByColor(input) {
 }
 
 function OracleTextOverTimeChart(input) {
-  console.time("OracleTextOverTimeChart")
 
   let mbValues = []
   let sbValues = []
@@ -1150,7 +1131,6 @@ function OracleTextOverTimeChart(input) {
     },
   };
 
-  console.timeEnd("OracleTextOverTimeChart")
   const labels = input.data.labels
   const data = {labels, datasets: dataset};
   return (
@@ -1161,7 +1141,6 @@ function OracleTextOverTimeChart(input) {
 }
 
 function DeckManaValueChart(input) {
-  console.time("DeckManaValueChart")
   let buckets = input.parsed.deckBuckets
 
   // Use the starting date of the bucket as the label. This is just an approximation,
@@ -1222,7 +1201,6 @@ function DeckManaValueChart(input) {
     },
   };
 
-  console.timeEnd("DeckManaValueChart")
   const data = {labels, datasets: dataset};
   return (
     <div style={{"height":"500px", "width":"100%"}}>
@@ -1232,7 +1210,6 @@ function DeckManaValueChart(input) {
 }
 
 function DeckBasicLandCountChart(input) {
-  console.time("DeckBasicLandCountChart")
   let buckets = input.parsed.deckBuckets
 
   // Use the starting date of the bucket as the label. This is just an approximation,
@@ -1329,7 +1306,6 @@ function DeckBasicLandCountChart(input) {
     },
   };
 
-  console.timeEnd("DeckBasicLandCountChart")
   const data = {labels, datasets: dataset};
   return (
     <div style={{"height":"500px", "width":"100%"}}>
@@ -1339,7 +1315,6 @@ function DeckBasicLandCountChart(input) {
 }
 
 function SideboardSizeOverTimeChart(input) {
-  console.time("SideboardSizeOverTimeChart")
   let buckets = input.parsed.deckBuckets
 
   // Use the starting date of the bucket as the label. This is just an approximation,
@@ -1415,7 +1390,6 @@ function SideboardSizeOverTimeChart(input) {
     },
   };
 
-  console.timeEnd("SideboardSizeOverTimeChart")
   const data = {labels, datasets: dataset};
   return (
     <div style={{"height":"500px", "width":"100%"}}>
@@ -1425,7 +1399,6 @@ function SideboardSizeOverTimeChart(input) {
 }
 
 function NumColorsOverTimeChart(input) {
-  console.time("NumColorsOverTimeChart")
   let buckets = input.parsed.deckBuckets
 
   // Use the starting date of the bucket as the label. This is just an approximation,
@@ -1492,7 +1465,6 @@ function NumColorsOverTimeChart(input) {
     },
   };
 
-  console.timeEnd("NumColorsOverTimeChart")
   const data = {labels, datasets: dataset};
   return (
     <div style={{"height":"500px", "width":"100%"}}>
@@ -1502,7 +1474,6 @@ function NumColorsOverTimeChart(input) {
 }
 
 function ManaCostByOracleTextOverTime(input) {
-  console.time("ManaCostByOracleTextOverTime")
   let buckets = input.parsed.deckBuckets
 
   const labels = input.data.labels
@@ -1562,7 +1533,6 @@ function ManaCostByOracleTextOverTime(input) {
     },
   };
 
-  console.timeEnd("ManaCostByOracleTextOverTime")
   const data = {labels, datasets: dataset};
   return (
     <div style={{"height":"500px", "width":"100%"}}>
@@ -1573,7 +1543,6 @@ function ManaCostByOracleTextOverTime(input) {
 
 
 function DeckGraph(input) {
-  console.time("DeckGraph")
 
   // Determine what to show on each axis.
   let xAxis = input.xAxis
@@ -1660,7 +1629,6 @@ function DeckGraph(input) {
     },
   };
 
-  console.timeEnd("DeckGraph")
   const data = {labels, datasets: dataset};
   return (
     <div className="chart-container">
@@ -1719,7 +1687,6 @@ function getValue(axis, deck, archetypeData, playerData, decks, draftData) {
 }
 
 function NumColorsPieChart(input) {
-  console.time("NumColorsPieChart")
   let title = `# Colors`
   let graphData = [0, 0, 0, 0, 0]
   let labels = ["1", "2", "3", "4", "5"]
@@ -1782,7 +1749,6 @@ function NumColorsPieChart(input) {
     },
   };
 
-  console.timeEnd("NumColorsPieChart")
   return (
     <div style={{"height":"500px", "width":"100%"}}>
       <Pie height={"300px"} width={"300px"} options={options} data={data} />

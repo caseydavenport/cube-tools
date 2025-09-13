@@ -344,10 +344,6 @@ export default function StatsViewer() {
       }
     }
     setDisplay(d)
-
-    // Clear any state that may have been set on a previous page to avoid
-    // accidental filtering of data based on invisible UI elements.
-    setColorCheckboxes([false, false, false, false, false])
     setMinGames(0)
     setMinPlayers(0)
     setMaxPlayers(0)
@@ -382,7 +378,7 @@ export default function StatsViewer() {
     "archetypeData": [],
     "playerData": [],
     "pickInfo": {},
-    "graphData": {},
+    "graphData": new Map(),
     "colorData": new Map(),
     "colorDataBucketed": [],
     "cardData": new Map(),
@@ -531,35 +527,46 @@ export default function StatsViewer() {
   // to calculate it once.
   ///////////////////////////////////////////////////////////////////////////////
 
-  // Filter decks whenever the color checkboxes change.
+  // Update graph data whenever the filtered decks change.
+  // This is used by the deck widget to plot various stats over time.
+  // We also need to update this whenever the bucket size changes, since
+  // the bucket size is used to determine how many drafts to include in
+  // each data point.
+  useEffect(() => {
+    parsed.graphData = BuildGraphData(parsed)
+    setParsedData({...parsed})
+  }, [parsed.filteredDecks, parsed.deckBuckets, bucketSize])
+
+  // Filter decks whenever the color checkboxes change, or the unfiltered decks change.
   useEffect(() => {
     // Filter decks based on selected colors. This enables us to view data for a subset of colors.
     // Combine the colors using a logical AND to enable us to view two-color decks. If no colors are selected,
     // then use all decks.
-    let f = decks
+    if (decks.length == 0) {
+      return
+    }
+
+    let f = []
     let filterByColor = colorCheckboxes.some(function(element) {return element})
-    if (filterByColor) {
-      f = []
-      let enabledColors = checkboxesToColors(colorCheckboxes)
-      for (let deck of decks) {
-        let deckMatches = true
-        for (let color of enabledColors) {
-          if (!deck.colors.includes(color)) {
-            deckMatches = false
-            break
+    for (let deck of decks) {
+      let deckMatches = true
+      if (filterByColor) {
+        let enabledColors = checkboxesToColors(colorCheckboxes)
+          for (let color of enabledColors) {
+            if (!deck.colors.includes(color)) {
+              deckMatches = false
+              break
+             }
           }
-        }
-        if (deckMatches) {
+      }
+      if (deckMatches) {
           f.push(deck)
-        }
       }
     }
-    parsed.filteredDecks = f
 
-    // Update graph data for the deck widget whenever the filtered set of decks changes.
-    parsed.graphData = BuildGraphData(parsed)
+    parsed.filteredDecks = [...f]
     setParsedData({...parsed})
-  }, [decks, parsed.deckBuckets, colorCheckboxes])
+  }, [decks, colorCheckboxes])
 
   useEffect(() => {
     // When filtered decks change, update archetype data.
@@ -575,6 +582,9 @@ export default function StatsViewer() {
 
   // Update bucketed data whenever the bucket size changes, or the filtered decks change.
   useEffect(() => {
+    if (parsed.filteredDecks.length == 0) {
+      return
+    }
     parsed.bucketSize = bucketSize
 
     // Split the given decks into fixed-size buckets.
