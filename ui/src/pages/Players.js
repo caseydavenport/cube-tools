@@ -3,6 +3,7 @@ import { IsBasicLand, SortFunc } from "../utils/Utils.js"
 import { ColorImages } from "../utils/Colors.js"
 import { Trophies, LastPlaceFinishes, Wins, Losses } from "../utils/Deck.js"
 import { BucketName } from "../utils/Buckets.js"
+import { DropdownHeader, NumericInput, Checkbox, DateSelector } from "../components/Dropdown.js"
 
 import {
   Chart as ChartJS,
@@ -148,16 +149,9 @@ export function PlayerData(decks) {
 
 function PlayerTable(input) {
   let data = []
-  let maxGames = 0
   for (let row of input.parsed.playerData.values()) {
-    if (row.wins + row.losses > maxGames) {
-      maxGames = row.wins + row.losses
-    }
-  }
-  for (let row of input.parsed.playerData.values()) {
-    // Skip any players with fewer than half the max games over the period. This heuristic filters out
-    // players who haven't met an arbitrary minimum game requirement for more table clarity.
-    if (row.wins + row.losses < maxGames/3) {
+    // Skip any players that don't meet the minimum games requirement.
+    if (row.wins + row.losses < input.minGames) {
       continue
     }
     data.push(row)
@@ -165,6 +159,7 @@ function PlayerTable(input) {
 
   return (
     <div>
+      <PlayerWidgetOptions {...input} />
       <table className="widget-table">
         <thead className="table-header">
           <tr>
@@ -253,6 +248,28 @@ function PlayerTable(input) {
     </div>
   );
 }
+
+function PlayerWidgetOptions(input) {
+  return (
+    <div className="widget-table-header">
+    <table className="widget-table-header">
+      <tbody>
+        <tr>
+          <td className="selection-cell">
+            <NumericInput
+              label="Min games"
+              min={0}
+              value={input.minGames}
+              onChange={input.onMinGamesSelected}
+            />
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  );
+}
+
 
 function PlayerDetailsPanel(input) {
   // Iterate the selected players games and build up record

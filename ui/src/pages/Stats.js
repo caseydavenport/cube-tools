@@ -771,6 +771,8 @@ export default function StatsViewer() {
           onHeaderClick={onPlayerHeaderClicked}
           handleRowClick={handlePlayerClick}
           player={selectedPlayer}
+          minGames={minGames}
+          onMinGamesSelected={onMinGamesSelected}
           show={display[5]}
         />
 
