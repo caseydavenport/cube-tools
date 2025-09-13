@@ -31,7 +31,7 @@ function deckBucketsDiscrete(decks, bucketSize) {
 
 
   // Create an array of buckets, starting from the end.
-  let buckets = new Array()
+  const buckets = new Array()
   for (let i = drafts.length; i >= bucketSize; i-=bucketSize) {
     let bucket = new Array()
     for (var j = 1; j <= bucketSize; j++) {
@@ -65,7 +65,7 @@ function deckBucketsSliding(decks, bucketSize) {
 
   // Now build up an array of rolling buckets. Each bucket contains bucketSize drafts.
   var i = 0;
-  let buckets = new Array()
+  const buckets = new Array()
   for (i = 0; i <= drafts.length-bucketSize; i++) {
     let bucket = new Array()
     for (var j = 0; j < bucketSize; j++) {

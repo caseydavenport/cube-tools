@@ -148,7 +148,7 @@ export function DeckWidget(input) {
   }
 
   // Pre-calcualte much of the graph data, to avoid needing to do so multiple times.
-  let data = input.parsed.graphData
+  let data = input.graphData
 
   // Wait for data to be parsed and available before attempting to display any graphs.
   if (!data) {
@@ -368,7 +368,7 @@ export function BuildGraphData(parsed) {
   }
 
   // Calculate statistics across all decks.
-  const all = {
+  var all = {
     winsByCMC: new Map(),
     lossesByCMC: new Map(),
     winsByNonBasic: new Map(),
@@ -537,11 +537,12 @@ export function BuildGraphData(parsed) {
   }
 
   console.timeEnd("BuildGraphData")
-  return {
+  const data = {
     labels: labels,
     all: all,
     bucketed: bucketed,
   }
+  return data
 }
 
 function WinsByManaCost(input) {

@@ -378,7 +378,6 @@ export default function StatsViewer() {
     "archetypeData": [],
     "playerData": [],
     "pickInfo": {},
-    "graphData": new Map(),
     "colorData": new Map(),
     "colorDataBucketed": [],
     "cardData": new Map(),
@@ -521,20 +520,15 @@ export default function StatsViewer() {
     setArchetypeMatchups(a)
   }
 
-  ///////////////////////////////////////////////////////////////////////////////
-  // Perform occasional calculation up-front.
-  // Build a bundle of parsed data to pass to widgets so that we only need
-  // to calculate it once.
-  ///////////////////////////////////////////////////////////////////////////////
-
   // Update graph data whenever the filtered decks change.
   // This is used by the deck widget to plot various stats over time.
   // We also need to update this whenever the bucket size changes, since
   // the bucket size is used to determine how many drafts to include in
   // each data point.
+  const [graphData, setGraphData] = useState({});
   useEffect(() => {
-    parsed.graphData = BuildGraphData(parsed)
-    setParsedData({...parsed})
+    const d = BuildGraphData(parsed)
+    setGraphData(d)
   }, [parsed.filteredDecks, parsed.deckBuckets, bucketSize])
 
   // Filter decks whenever the color checkboxes change, or the unfiltered decks change.
@@ -759,6 +753,7 @@ export default function StatsViewer() {
 
         <DeckWidget
           parsed={parsed}
+          graphData={graphData}
           decks={parsed.filteredDecks}
           show={display[3]}
           xAxis={xAxis}
