@@ -44,13 +44,23 @@ type Metadata struct {
 
 	// SourceFile is the path to the source file from which this deck was created, relative
 	// to the deck file.
-	SourceFile string `json:"source_file"`
+	SourceFiles []string `json:"source_files,omitempty"`
+
+	// SourceFile is a legacy field that represents the path to the source file from which
+	// this deck was created, relative to the deck file.
+	SourceFile string `json:"source_file,omitempty"`
 }
 
 func (m *Metadata) GetSourceFiles() []string {
-	return []string{
-		filepath.Join(filepath.Dir(m.Path), m.SourceFile),
+	files := make([]string, len(m.SourceFiles))
+	for i, f := range m.SourceFiles {
+		files[i] = filepath.Join(filepath.Dir(m.Path), f)
 	}
+	if m.SourceFile != "" {
+		// Include the legacy SourceFile field if it's set.
+		files = append(files, filepath.Join(filepath.Dir(m.Path), m.SourceFile))
+	}
+	return files
 }
 
 type Deck struct {

@@ -2,7 +2,9 @@
  "metadata": {
   "path": "data/polyverse/2025-06-29/kevin.json",
   "draft_id": "2025-06-29",
-  "source_file": "kevin.csv"
+  "source_files": [
+   "kevin.csv"
+  ]
  },
  "labels": [
   "midrange",

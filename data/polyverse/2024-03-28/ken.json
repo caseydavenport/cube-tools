@@ -2,7 +2,9 @@
  "metadata": {
   "path": "data/polyverse/2024-03-28/ken.json",
   "draft_id": "2024-03-28",
-  "source_file": "ken.txt"
+  "source_files": [
+   "ken.txt"
+  ]
  },
  "labels": [
   "midrange",

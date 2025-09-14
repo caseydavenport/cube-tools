@@ -2,7 +2,9 @@
  "metadata": {
   "path": "data/polyverse/2024-01-07/greg.json",
   "draft_id": "2024-01-07",
-  "source_file": "greg.txt"
+  "source_files": [
+   "greg.txt"
+  ]
  },
  "labels": [
   "aggro",

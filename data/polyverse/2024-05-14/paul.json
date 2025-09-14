@@ -2,7 +2,9 @@
  "metadata": {
   "path": "data/polyverse/2024-05-14/paul.json",
   "draft_id": "2024-05-14",
-  "source_file": "paul.txt"
+  "source_files": [
+   "paul.txt"
+  ]
  },
  "labels": [
   "aggro"

@@ -2,7 +2,9 @@
  "metadata": {
   "path": "data/polyverse/2025-06-12/kenny.json",
   "draft_id": "2025-06-12",
-  "source_file": "kenny.csv"
+  "source_files": [
+   "kenny.csv"
+  ]
  },
  "labels": [
   "tempo",

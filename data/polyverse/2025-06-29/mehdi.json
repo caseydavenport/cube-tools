@@ -2,7 +2,9 @@
  "metadata": {
   "path": "data/polyverse/2025-06-29/mehdi.json",
   "draft_id": "2025-06-29",
-  "source_file": "mehdi.csv"
+  "source_files": [
+   "mehdi.csv"
+  ]
  },
  "labels": [
   "control"

@@ -2,7 +2,9 @@
  "metadata": {
   "path": "data/polyverse/2025-08-17/ben.json",
   "draft_id": "2025-08-17",
-  "source_file": "ben.csv"
+  "source_files": [
+   "ben.csv"
+  ]
  },
  "labels": [
   "aggro"

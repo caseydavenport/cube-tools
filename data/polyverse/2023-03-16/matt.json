@@ -2,7 +2,9 @@
  "metadata": {
   "path": "data/polyverse/2023-03-16/matt.json",
   "draft_id": "2023-03-16",
-  "source_file": "matt.txt"
+  "source_files": [
+   "matt.txt"
+  ]
  },
  "labels": [
   "vampire",

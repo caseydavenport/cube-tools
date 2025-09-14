@@ -2,7 +2,9 @@
  "metadata": {
   "path": "data/polyverse/2024-03-28/alexs.json",
   "draft_id": "2024-03-28",
-  "source_file": "alexs.txt"
+  "source_files": [
+   "alexs.txt"
+  ]
  },
  "labels": [
   "aggro"

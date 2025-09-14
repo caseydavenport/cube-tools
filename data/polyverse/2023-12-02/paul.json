@@ -2,7 +2,9 @@
  "metadata": {
   "path": "data/polyverse/2023-12-02/paul.json",
   "draft_id": "2023-12-02",
-  "source_file": "paul.txt"
+  "source_files": [
+   "paul.txt"
+  ]
  },
  "labels": [
   "midrange",

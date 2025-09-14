@@ -2,7 +2,9 @@
  "metadata": {
   "path": "data/polyverse/2025-08-17/brianfl.json",
   "draft_id": "2025-08-17",
-  "source_file": "brianfl.csv"
+  "source_files": [
+   "brianfl.csv"
+  ]
  },
  "labels": [
   "midrange",

@@ -34,7 +34,7 @@ func parseDraftLog(draftLog string, date string) {
 	// Determine if we need to auto-name the file.
 	for _, d := range decksFromDraftLog(log, date) {
 		// Write the deck for storage.
-		writeDeck(&d, "", d.Player, date)
+		writeDeck(&d, sourceInfo{}, d.Player, date)
 	}
 }
 

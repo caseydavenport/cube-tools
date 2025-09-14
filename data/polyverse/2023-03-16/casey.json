@@ -2,7 +2,9 @@
  "metadata": {
   "path": "data/polyverse/2023-03-16/casey.json",
   "draft_id": "2023-03-16",
-  "source_file": "casey.txt"
+  "source_files": [
+   "casey.txt"
+  ]
  },
  "labels": [
   "control",

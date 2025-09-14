@@ -2,7 +2,9 @@
  "metadata": {
   "path": "data/polyverse/2023-07-16/greg.json",
   "draft_id": "2023-07-16",
-  "source_file": "greg.txt"
+  "source_files": [
+   "greg.txt"
+  ]
  },
  "labels": [
   "sacrifice",

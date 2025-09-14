@@ -2,7 +2,9 @@
  "metadata": {
   "path": "data/polyverse/2025-08-17/michael.json",
   "draft_id": "2025-08-17",
-  "source_file": "michael.csv"
+  "source_files": [
+   "michael.csv"
+  ]
  },
  "labels": [
   "control"

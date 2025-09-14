@@ -2,7 +2,9 @@
  "metadata": {
   "path": "data/polyverse/2023-09-17/mattd.json",
   "draft_id": "2023-09-17",
-  "source_file": "mattd.txt"
+  "source_files": [
+   "mattd.txt"
+  ]
  },
  "labels": [
   "control",

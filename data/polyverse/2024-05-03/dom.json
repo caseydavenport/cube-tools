@@ -2,7 +2,9 @@
  "metadata": {
   "path": "data/polyverse/2024-05-03/dom.json",
   "draft_id": "2024-05-03",
-  "source_file": "dom.txt"
+  "source_files": [
+   "dom.txt"
+  ]
  },
  "labels": [
   "discard",

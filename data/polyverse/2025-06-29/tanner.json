@@ -2,7 +2,9 @@
  "metadata": {
   "path": "data/polyverse/2025-06-29/tanner.json",
   "draft_id": "2025-06-29",
-  "source_file": "tanner.csv"
+  "source_files": [
+   "tanner.csv"
+  ]
  },
  "labels": [
   "midrange",

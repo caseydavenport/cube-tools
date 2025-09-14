@@ -2,7 +2,9 @@
  "metadata": {
   "path": "data/polyverse/2025-08-17/wilson.json",
   "draft_id": "2025-08-17",
-  "source_file": "wilson.csv"
+  "source_files": [
+   "wilson.csv"
+  ]
  },
  "labels": [
   "tempo",

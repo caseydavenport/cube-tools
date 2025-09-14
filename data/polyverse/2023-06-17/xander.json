@@ -2,7 +2,9 @@
  "metadata": {
   "path": "data/polyverse/2023-06-17/xander.json",
   "draft_id": "2023-06-17",
-  "source_file": "xander.csv"
+  "source_files": [
+   "xander.csv"
+  ]
  },
  "labels": [
   "midrange",

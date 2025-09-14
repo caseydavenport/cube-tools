@@ -2,7 +2,9 @@
  "metadata": {
   "path": "data/polyverse/2025-04-05/casey.json",
   "draft_id": "2025-04-05",
-  "source_file": "casey.txt"
+  "source_files": [
+   "casey.txt"
+  ]
  },
  "labels": [
   "graveyard",

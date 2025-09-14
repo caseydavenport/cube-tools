@@ -2,7 +2,9 @@
  "metadata": {
   "path": "data/polyverse/2023-07-16/xander.json",
   "draft_id": "2023-07-16",
-  "source_file": "xander.txt"
+  "source_files": [
+   "xander.txt"
+  ]
  },
  "labels": [
   "spells",

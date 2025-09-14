@@ -2,7 +2,9 @@
  "metadata": {
   "path": "data/polyverse/2023-04-19/jen.json",
   "draft_id": "2023-04-19",
-  "source_file": "jen.csv"
+  "source_files": [
+   "jen.csv"
+  ]
  },
  "labels": [
   "graveyard",

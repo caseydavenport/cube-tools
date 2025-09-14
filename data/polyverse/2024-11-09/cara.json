@@ -2,7 +2,9 @@
  "metadata": {
   "path": "data/polyverse/2024-11-09/cara.json",
   "draft_id": "2024-11-09",
-  "source_file": "cara.txt"
+  "source_files": [
+   "cara.txt"
+  ]
  },
  "labels": [
   "midrange",

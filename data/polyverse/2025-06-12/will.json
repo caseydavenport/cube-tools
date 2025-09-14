@@ -2,7 +2,9 @@
  "metadata": {
   "path": "data/polyverse/2025-06-12/will.json",
   "draft_id": "2025-06-12",
-  "source_file": "will.csv"
+  "source_files": [
+   "will.csv"
+  ]
  },
  "labels": [
   "control"

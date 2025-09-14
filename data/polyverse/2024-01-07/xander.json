@@ -2,7 +2,9 @@
  "metadata": {
   "path": "data/polyverse/2024-01-07/xander.json",
   "draft_id": "2024-01-07",
-  "source_file": "xander.txt"
+  "source_files": [
+   "xander.txt"
+  ]
  },
  "labels": [
   "tempo",

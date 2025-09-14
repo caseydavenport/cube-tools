@@ -2,7 +2,9 @@
  "metadata": {
   "path": "data/polyverse/2025-08-17/jamesdeyja.json",
   "draft_id": "2025-08-17",
-  "source_file": "jamesdeyja.csv"
+  "source_files": [
+   "jamesdeyja.csv"
+  ]
  },
  "labels": [
   "midrange",

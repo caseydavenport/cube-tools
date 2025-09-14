@@ -2,7 +2,9 @@
  "metadata": {
   "path": "data/polyverse/2024-03-28/matthewbk.json",
   "draft_id": "2024-03-28",
-  "source_file": "matthewbk.txt"
+  "source_files": [
+   "matthewbk.txt"
+  ]
  },
  "labels": [
   "tempo"

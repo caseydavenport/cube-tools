@@ -2,7 +2,9 @@
  "metadata": {
   "path": "data/polyverse/2025-06-29/zephyr.json",
   "draft_id": "2025-06-29",
-  "source_file": "zephyr.csv"
+  "source_files": [
+   "zephyr.csv"
+  ]
  },
  "labels": [
   "tempo",

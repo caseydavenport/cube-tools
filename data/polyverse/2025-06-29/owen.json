@@ -2,7 +2,9 @@
  "metadata": {
   "path": "data/polyverse/2025-06-29/owen.json",
   "draft_id": "2025-06-29",
-  "source_file": "owen.csv"
+  "source_files": [
+   "owen.csv"
+  ]
  },
  "labels": [
   "midrange",

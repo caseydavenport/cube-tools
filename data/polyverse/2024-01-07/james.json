@@ -2,7 +2,9 @@
  "metadata": {
   "path": "data/polyverse/2024-01-07/james.json",
   "draft_id": "2024-01-07",
-  "source_file": "james.txt"
+  "source_files": [
+   "james.txt"
+  ]
  },
  "labels": [
   "midrange"

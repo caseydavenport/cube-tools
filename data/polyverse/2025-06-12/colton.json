@@ -2,7 +2,9 @@
  "metadata": {
   "path": "data/polyverse/2025-06-12/colton.json",
   "draft_id": "2025-06-12",
-  "source_file": "colton.csv"
+  "source_files": [
+   "colton.csv"
+  ]
  },
  "labels": [
   "tempo",

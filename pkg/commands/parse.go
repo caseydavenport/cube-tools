@@ -5,7 +5,6 @@ import (
 	"io"
 	"os"
 	"os/exec"
-	"path/filepath"
 	"strconv"
 	"strings"
 	"time"
@@ -77,16 +76,17 @@ func init() {
 }
 
 // parseDeck parses a single deck file and writes the output to the given directory.
-func parseDeck(decks []string, who, labels, date, draftID string) (*types.Deck, error) {
+func parseDeck(deckFiles []string, who, labels, date, draftID string) (*types.Deck, error) {
 	// Go through each file, and parse it. We allow multiple files
 	// to be specified, in case a deck is split across multiple files - namely, a mainboard and
 	// sideboard file.
-	cardSets := make([][]types.Card, 0, len(decks))
-	for _, f := range decks {
+	cardSets := make([][]types.Card, 0, len(deckFiles))
+	for _, f := range deckFiles {
 		mb, sb, err := cardsFromDeckFile(f)
 		if err != nil {
 			return nil, err
 		}
+
 		cardSets = append(cardSets, mb)
 		if len(sb) > 0 {
 			cardSets = append(cardSets, sb)
@@ -94,10 +94,10 @@ func parseDeck(decks []string, who, labels, date, draftID string) (*types.Deck, 
 	}
 
 	if len(cardSets) == 0 {
-		return nil, fmt.Errorf("No cards found in deck files: %v", decks)
+		return nil, fmt.Errorf("No cards found in deck files: %v", deckFiles)
 	}
 	if len(cardSets) > 2 {
-		return nil, fmt.Errorf("Too many card sets found in deck files: %v", decks)
+		return nil, fmt.Errorf("Too many card sets found in deck files: %v", deckFiles)
 	}
 
 	// Build the deck struct.
@@ -108,24 +108,33 @@ func parseDeck(decks []string, who, labels, date, draftID string) (*types.Deck, 
 	d.Player = who
 	d.Date = date
 	d.Metadata.DraftID = draftID
-	d.Metadata.SourceFile = filepath.Base(decks[0]) // TODO: Handle multiple files.
 
 	// Add the cards to the deck. We assume the longer list is the mainboard.
-	if len(cardSets) == 1 {
+	// TODO: This is pretty janky.
+	src := sourceInfo{}
+	if len(deckFiles) == 1 {
 		d.Mainboard = cardSets[0]
-	} else if len(cardSets) == 2 {
+		if len(cardSets) > 1 {
+			d.Sideboard = cardSets[1]
+		}
+		src.combinedFile = deckFiles[0]
+	} else if len(deckFiles) == 2 {
 		if len(cardSets[0]) >= len(cardSets[1]) {
 			d.Mainboard = cardSets[0]
 			d.Sideboard = cardSets[1]
+			src.mbFile = deckFiles[0]
+			src.sbFile = deckFiles[1]
 		} else {
 			d.Mainboard = cardSets[1]
 			d.Sideboard = cardSets[0]
+			src.mbFile = deckFiles[1]
+			src.sbFile = deckFiles[0]
 		}
 	}
 
 	// Make sure the mainboard and sideboard are not the same, as that's weird!
 	if !cardSetsDiffer(d.Mainboard, d.Sideboard) {
-		return nil, fmt.Errorf("Mainboard and sideboard are the same: %v", decks)
+		return nil, fmt.Errorf("Mainboard and sideboard are the same: %v", deckFiles)
 	}
 
 	// For each card in the draft pool, add up how many times it appeared in game replays.
@@ -142,7 +151,7 @@ func parseDeck(decks []string, who, labels, date, draftID string) (*types.Deck, 
 	}
 
 	// Write the deck for storage.
-	if err := writeDeck(d, decks[0], who, draftID); err != nil {
+	if err := writeDeck(d, src, who, draftID); err != nil {
 		return nil, err
 	}
 	return d, nil
@@ -180,7 +189,14 @@ func cardsFromDeckFile(deckFile string) ([]types.Card, []types.Card, error) {
 	return mb, sb, nil
 }
 
-func writeDeck(d *types.Deck, srcFile string, player string, draftID string) error {
+// sourceInfo tracks the source files for a given deck.
+type sourceInfo struct {
+	mbFile       string
+	sbFile       string
+	combinedFile string
+}
+
+func writeDeck(d *types.Deck, src sourceInfo, player string, draftID string) error {
 	// Force lowercase player names for consistency.
 	player = strings.ToLower(player)
 
@@ -226,33 +242,36 @@ func writeDeck(d *types.Deck, srcFile string, player string, draftID string) err
 	})
 	logc.Infof("Writing deck")
 
+	// Write the original "raw" decklist for posterity, tracking source files.
+	if src.combinedFile != "" {
+		filename := fmt.Sprintf("%s%s", player, fileSuffix(src.combinedFile))
+		dst := fmt.Sprintf("%s/%s", outdir, filename)
+		if err := copyFile(*logc, src.combinedFile, dst); err != nil {
+			logc.WithError(err).Warn("Failed to copy source file")
+		}
+		d.Metadata.SourceFiles = append(d.Metadata.SourceFiles, filename)
+	}
+	if src.mbFile != "" {
+		filename := fmt.Sprintf("%s-mainboard%s", player, fileSuffix(src.mbFile))
+		dst := fmt.Sprintf("%s/%s", outdir, filename)
+		if err := copyFile(*logc, src.mbFile, dst); err != nil {
+			logc.WithError(err).Warn("Failed to copy source file")
+		}
+		d.Metadata.SourceFiles = append(d.Metadata.SourceFiles, filename)
+	}
+	if src.sbFile != "" {
+		filename := fmt.Sprintf("%s-sideboard%s", player, fileSuffix(src.sbFile))
+		dst := fmt.Sprintf("%s/%s", outdir, filename)
+		if err := copyFile(*logc, src.sbFile, dst); err != nil {
+			logc.WithError(err).Warn("Failed to copy source file")
+		}
+		d.Metadata.SourceFiles = append(d.Metadata.SourceFiles, filename)
+	}
+
 	// First, write the canonical deck file in our format.
 	logc.WithField("file", path).Debug("Writing canonical deck file")
 	if err := SaveDeck(d); err != nil {
 		logrus.WithError(err).Fatal("Failed to save deck")
-	}
-
-	// Also write the original "raw" decklist for posterity.
-	if srcFile != "" {
-		logc.WithField("file", srcFile).Debugf("Writing source file for posterity")
-		f, err := os.Open(srcFile)
-		defer f.Close()
-		if err != nil {
-			panic(err)
-		}
-		bytes, err := io.ReadAll(f)
-		if err != nil {
-			panic(err)
-		}
-
-		suffix := ".csv"
-		if strings.HasSuffix(srcFile, ".txt") {
-			suffix = ".txt"
-		}
-		err = os.WriteFile(fmt.Sprintf("%s/%s%s", outdir, player, suffix), bytes, os.ModePerm)
-		if err != nil {
-			panic(err)
-		}
 	}
 
 	// Write it out as a simple text file with one card per line - useful to importing into cubecobra
@@ -269,6 +288,29 @@ func writeDeck(d *types.Deck, srcFile string, player string, draftID string) err
 		f2.Write([]byte("\n"))
 	}
 	return nil
+}
+
+func copyFile(logc logrus.Entry, src, dst string) error {
+	logc.WithField("file", src).Debugf("Writing source file for posterity")
+	f, err := os.Open(src)
+	defer f.Close()
+	if err != nil {
+		panic(err)
+	}
+	bytes, err := io.ReadAll(f)
+	if err != nil {
+		panic(err)
+	}
+	return os.WriteFile(dst, bytes, os.ModePerm)
+}
+
+func fileSuffix(f string) string {
+	if strings.HasSuffix(f, ".txt") {
+		return ".txt"
+	} else if strings.HasSuffix(f, ".csv") {
+		return ".csv"
+	}
+	return ""
 }
 
 // cardsFromTXT imports cards from a .txt file, where the format is

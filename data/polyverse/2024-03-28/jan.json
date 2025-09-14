@@ -2,7 +2,9 @@
  "metadata": {
   "path": "data/polyverse/2024-03-28/jan.json",
   "draft_id": "2024-03-28",
-  "source_file": "jan.txt"
+  "source_files": [
+   "jan.txt"
+  ]
  },
  "labels": [
   "control"
