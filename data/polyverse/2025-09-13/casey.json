@@ -7,11 +7,45 @@
    "casey-sideboard.csv"
   ]
  },
- "labels": ["aggro", "equipment", "artifact"],
+ "labels": [
+  "aggro",
+  "equipment",
+  "artifact"
+ ],
  "player": "casey",
  "date": "2025-09-13",
- "games": null,
- "matches": null,
+ "games": [
+  {
+   "opponent": "Isaiah",
+   "winner": "Isaiah"
+  },
+  {
+   "opponent": "Isaiah",
+   "winner": "Isaiah"
+  },
+  {
+   "opponent": "joe",
+   "winner": "casey"
+  },
+  {
+   "opponent": "joe",
+   "winner": "casey"
+  },
+  {
+   "opponent": "joe",
+   "winner": "joe"
+  }
+ ],
+ "matches": [
+  {
+   "opponent": "Isaiah",
+   "winner": "Isaiah"
+  },
+  {
+   "opponent": "joe",
+   "winner": "casey"
+  }
+ ],
  "mainboard": [
   {
    "name": "Warleader's Call",

@@ -7,11 +7,57 @@
    "zephyr-sideboard.csv"
   ]
  },
- "labels": ["midrange", "sacrifice", "titania"],
+ "labels": [
+  "midrange",
+  "sacrifice",
+  "titania"
+ ],
  "player": "zephyr",
  "date": "2025-09-13",
- "games": null,
- "matches": null,
+ "games": [
+  {
+   "opponent": "Colton",
+   "winner": "Colton"
+  },
+  {
+   "opponent": "Colton",
+   "winner": "Colton"
+  },
+  {
+   "opponent": "Eric",
+   "winner": "Zephyr"
+  },
+  {
+   "opponent": "Eric",
+   "winner": "Zephyr"
+  },
+  {
+   "opponent": "joe",
+   "winner": "zephyr"
+  },
+  {
+   "opponent": "joe",
+   "winner": "zephyr"
+  },
+  {
+   "opponent": "joe",
+   "winner": "joe"
+  }
+ ],
+ "matches": [
+  {
+   "opponent": "Colton",
+   "winner": "Colton"
+  },
+  {
+   "opponent": "Eric",
+   "winner": "Zephyr"
+  },
+  {
+   "opponent": "joe",
+   "winner": "zephyr"
+  }
+ ],
  "mainboard": [
   {
    "name": "Bloodsoaked Champion",

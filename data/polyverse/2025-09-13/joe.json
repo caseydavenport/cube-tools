@@ -7,11 +7,65 @@
    "joe-sideboard.csv"
   ]
  },
- "labels": ["midrange", "lands", "saga"],
+ "labels": [
+  "midrange",
+  "lands",
+  "saga"
+ ],
  "player": "joe",
  "date": "2025-09-13",
- "games": null,
- "matches": null,
+ "games": [
+  {
+   "opponent": "Isaiah",
+   "winner": "joe"
+  },
+  {
+   "opponent": "Isaiah",
+   "winner": "joe"
+  },
+  {
+   "opponent": "Isaiah",
+   "winner": "Isaiah"
+  },
+  {
+   "opponent": "casey",
+   "winner": "joe"
+  },
+  {
+   "opponent": "casey",
+   "winner": "casey"
+  },
+  {
+   "opponent": "casey",
+   "winner": "casey"
+  },
+  {
+   "opponent": "zephyr",
+   "winner": "joe"
+  },
+  {
+   "opponent": "zephyr",
+   "winner": "zephyr"
+  },
+  {
+   "opponent": "zephyr",
+   "winner": "zephyr"
+  }
+ ],
+ "matches": [
+  {
+   "opponent": "Isaiah",
+   "winner": "joe"
+  },
+  {
+   "opponent": "casey",
+   "winner": "casey"
+  },
+  {
+   "opponent": "zephyr",
+   "winner": "zephyr"
+  }
+ ],
  "mainboard": [
   {
    "name": "Clarion Spirit",

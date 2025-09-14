@@ -7,11 +7,52 @@
    "eric-sideboard.csv"
   ]
  },
- "labels": ["midrange", "bob"],
+ "labels": [
+  "midrange",
+  "bob"
+ ],
  "player": "eric",
  "date": "2025-09-13",
- "games": null,
- "matches": null,
+ "games": [
+  {
+   "opponent": "Isaiah",
+   "winner": "Eric"
+  },
+  {
+   "opponent": "Isaiah",
+   "winner": "Eric"
+  },
+  {
+   "opponent": "Leo",
+   "winner": "Eric"
+  },
+  {
+   "opponent": "Leo",
+   "winner": "Eric"
+  },
+  {
+   "opponent": "Zephyr",
+   "winner": "Zephyr"
+  },
+  {
+   "opponent": "Zephyr",
+   "winner": "Zephyr"
+  }
+ ],
+ "matches": [
+  {
+   "opponent": "Isaiah",
+   "winner": "Eric"
+  },
+  {
+   "opponent": "Leo",
+   "winner": "Eric"
+  },
+  {
+   "opponent": "Zephyr",
+   "winner": "Zephyr"
+  }
+ ],
  "mainboard": [
   {
    "name": "Baleful Strix",
