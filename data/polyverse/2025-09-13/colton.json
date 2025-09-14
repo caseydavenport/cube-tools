@@ -427,23 +427,23 @@
    "toughness": "2"
   },
   {
-   "name": "Forest",
+   "name": "Island",
    "types": [
     "Basic",
     "Land"
    ],
    "sub_types": [
-    "Forest"
+    "Island"
    ],
    "cmc": 0,
    "image": "",
    "colors": [],
    "color_identity": [
-    "G"
+    "U"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/tla/286/forest?utm_source=api",
-   "oracle_text": "({T}: Add {G}.)"
+   "url": "https://scryfall.com/card/tla/283/island?utm_source=api",
+   "oracle_text": "({T}: Add {U}.)"
   },
   {
    "name": "Disfigure",
