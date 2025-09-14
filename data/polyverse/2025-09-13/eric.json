@@ -15,42 +15,42 @@
  "date": "2025-09-13",
  "games": [
   {
-   "opponent": "Isaiah",
-   "winner": "Eric"
+   "opponent": "isaiah",
+   "winner": "eric"
   },
   {
-   "opponent": "Isaiah",
-   "winner": "Eric"
+   "opponent": "isaiah",
+   "winner": "eric"
   },
   {
-   "opponent": "Leo",
-   "winner": "Eric"
+   "opponent": "leo",
+   "winner": "eric"
   },
   {
-   "opponent": "Leo",
-   "winner": "Eric"
+   "opponent": "leo",
+   "winner": "eric"
   },
   {
-   "opponent": "Zephyr",
-   "winner": "Zephyr"
+   "opponent": "zephyr",
+   "winner": "zephyr"
   },
   {
-   "opponent": "Zephyr",
-   "winner": "Zephyr"
+   "opponent": "zephyr",
+   "winner": "zephyr"
   }
  ],
  "matches": [
   {
-   "opponent": "Isaiah",
-   "winner": "Eric"
+   "opponent": "isaiah",
+   "winner": "eric"
   },
   {
-   "opponent": "Leo",
-   "winner": "Eric"
+   "opponent": "leo",
+   "winner": "eric"
   },
   {
-   "opponent": "Zephyr",
-   "winner": "Zephyr"
+   "opponent": "zephyr",
+   "winner": "zephyr"
   }
  ],
  "mainboard": [

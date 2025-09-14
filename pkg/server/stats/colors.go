@@ -202,6 +202,13 @@ func (d *colorStatsHandler) statsForDecks(decks []*storage.Deck, sr *ColorStatsR
 			resp.Data[color].ThreeOh += deck.Trophies()
 			resp.Data[color].OhThree += deck.LastPlace()
 			resp.Data[color].NumDecks += 1
+
+			logrus.WithFields(logrus.Fields{
+				"deck_id": deck.Player,
+				"color":   color,
+				"wins":    deck.GameWins(),
+				"losses":  deck.GameLosses(),
+			}).Info("Deck color stats added")
 		}
 
 		// Add metrics to the color based on card scope statistics.
@@ -290,6 +297,12 @@ func (d *colorStatsHandler) statsForDecks(decks []*storage.Deck, sr *ColorStatsR
 		}
 		if color.Wins+color.Losses != 0 {
 			color.WinPercent = math.Round(100 * float64(color.Wins) / float64(color.Wins+color.Losses))
+			logrus.WithFields(logrus.Fields{
+				"color":       color.Color,
+				"wins":        color.Wins,
+				"losses":      color.Losses,
+				"win_percent": color.WinPercent,
+			}).Info("Color win percentage")
 		}
 		if totalWins != 0 && color.Wins != 0 {
 			color.PercentOfWins = math.Round(100 * float64(color.Wins) / float64(totalWins))

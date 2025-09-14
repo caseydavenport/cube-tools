@@ -15,24 +15,24 @@
  "date": "2025-09-13",
  "games": [
   {
-   "opponent": "Eric",
-   "winner": "Eric"
+   "opponent": "eric",
+   "winner": "eric"
   },
   {
-   "opponent": "Eric",
-   "winner": "Eric"
-  },
-  {
-   "opponent": "casey",
-   "winner": "Isaiah"
+   "opponent": "eric",
+   "winner": "eric"
   },
   {
    "opponent": "casey",
-   "winner": "Isaiah"
+   "winner": "isaiah"
+  },
+  {
+   "opponent": "casey",
+   "winner": "isaiah"
   },
   {
    "opponent": "joe",
-   "winner": "Isaiah"
+   "winner": "isaiah"
   },
   {
    "opponent": "joe",
@@ -45,12 +45,12 @@
  ],
  "matches": [
   {
-   "opponent": "Eric",
-   "winner": "Eric"
+   "opponent": "eric",
+   "winner": "eric"
   },
   {
    "opponent": "casey",
-   "winner": "Isaiah"
+   "winner": "isaiah"
   },
   {
    "opponent": "joe",

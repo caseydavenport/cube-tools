@@ -235,6 +235,16 @@ func writeDeck(d *types.Deck, src sourceInfo, player string, draftID string) err
 		d.Losses = existing.Losses
 	}
 
+	// Ensure capitalization is consistent for player names (all lowercase).
+	for i := range d.Games {
+		d.Games[i].Opponent = strings.ToLower(d.Games[i].Opponent)
+		d.Games[i].Winner = strings.ToLower(d.Games[i].Winner)
+	}
+	for i := range d.Matches {
+		d.Matches[i].Opponent = strings.ToLower(d.Matches[i].Opponent)
+		d.Matches[i].Winner = strings.ToLower(d.Matches[i].Winner)
+	}
+
 	logc := logrus.WithFields(logrus.Fields{
 		"player": player,
 		"outdir": outdir,
