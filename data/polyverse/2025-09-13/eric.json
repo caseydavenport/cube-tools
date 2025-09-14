@@ -1,15 +1,15 @@
 {
  "metadata": {
-  "path": "data/polyverse/2025-09-31/eric.json",
-  "draft_id": "2025-09-31",
+  "path": "data/polyverse/2025-09-13/eric.json",
+  "draft_id": "2025-09-13",
   "source_files": [
    "eric-mainboard.csv",
    "eric-sideboard.csv"
   ]
  },
- "labels": [],
+ "labels": ["midrange", "bob"],
  "player": "eric",
- "date": "2025-09-31",
+ "date": "2025-09-13",
  "games": null,
  "matches": null,
  "mainboard": [

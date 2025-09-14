@@ -1,15 +1,15 @@
 {
  "metadata": {
-  "path": "data/polyverse/2025-09-31/zephyr.json",
-  "draft_id": "2025-09-31",
+  "path": "data/polyverse/2025-09-13/zephyr.json",
+  "draft_id": "2025-09-13",
   "source_files": [
    "zephyr-mainboard.csv",
    "zephyr-sideboard.csv"
   ]
  },
- "labels": [],
+ "labels": ["midrange", "sacrifice", "titania"],
  "player": "zephyr",
- "date": "2025-09-31",
+ "date": "2025-09-13",
  "games": null,
  "matches": null,
  "mainboard": [
