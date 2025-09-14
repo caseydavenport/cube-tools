@@ -47,8 +47,10 @@ type Metadata struct {
 	SourceFile string `json:"source_file"`
 }
 
-func (m *Metadata) GetSourceFile() string {
-	return filepath.Join(filepath.Dir(m.Path), m.SourceFile)
+func (m *Metadata) GetSourceFiles() []string {
+	return []string{
+		filepath.Join(filepath.Dir(m.Path), m.SourceFile),
+	}
 }
 
 type Deck struct {

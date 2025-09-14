@@ -45,17 +45,26 @@ func reparse() error {
 			}
 
 			// Build path to the .txt or csv file.
-			srcFile := deck.Metadata.GetSourceFile()
-			if _, err := os.Stat(srcFile); os.IsNotExist(err) {
-				logrus.WithField("deck", srcFile).Warn("Deck file does not exist")
+			srcFiles := deck.Metadata.GetSourceFiles()
+
+			// Verify the source files exist.
+			ok := true
+			for _, srcFiles := range srcFiles {
+				if _, err := os.Stat(srcFiles); os.IsNotExist(err) {
+					logrus.WithField("deck", srcFiles).Warn("Deck file does not exist")
+					ok = false
+					break
+				}
+			}
+			if !ok {
 				continue
 			}
 
 			logrus.WithFields(logrus.Fields{
 				"deck": deckIndex.Path,
-				"src":  srcFile,
+				"src":  srcFiles,
 			}).Info("Reparsing deck")
-			if _, err := parseSingleDeck(srcFile, deck.Player, "", draft.Date, draft.DraftID); err != nil {
+			if _, err := parseDeck(srcFiles, deck.Player, "", draft.Date, draft.DraftID); err != nil {
 				logrus.WithError(err).WithField("deck", deckIndex.Path).Warn("Failed to parse deck")
 			}
 		}

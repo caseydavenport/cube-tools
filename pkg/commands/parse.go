@@ -62,7 +62,7 @@ var ParseCmd = &cobra.Command{
 		}
 
 		// Parse the deck.
-		parseSingleDeck(deckInput, who, labels, date, draftID)
+		parseDeck([]string{deckInput}, who, labels, date, draftID)
 	},
 }
 
@@ -76,16 +76,56 @@ func init() {
 	flag.StringVarP(flags, &draftID, "draft", "", "DRAFT", "", "Draft ID - used as the output directory")
 }
 
-// parseSingleDeck parses a single deck file and writes the output to the given directory.
-func parseSingleDeck(deck, who, labels, date, draftID string) (*types.Deck, error) {
-	// Parse the file.
-	d, err := parseRawDeckFile(deck, who, labels, date, draftID)
-	if err != nil {
-		return nil, err
+// parseDeck parses a single deck file and writes the output to the given directory.
+func parseDeck(decks []string, who, labels, date, draftID string) (*types.Deck, error) {
+	// Go through each file, and parse it. We allow multiple files
+	// to be specified, in case a deck is split across multiple files - namely, a mainboard and
+	// sideboard file.
+	cardSets := make([][]types.Card, 0, len(decks))
+	for _, f := range decks {
+		mb, sb, err := cardsFromDeckFile(f)
+		if err != nil {
+			return nil, err
+		}
+		cardSets = append(cardSets, mb)
+		if len(sb) > 0 {
+			cardSets = append(cardSets, sb)
+		}
+	}
+
+	if len(cardSets) == 0 {
+		return nil, fmt.Errorf("No cards found in deck files: %v", decks)
+	}
+	if len(cardSets) > 2 {
+		return nil, fmt.Errorf("Too many card sets found in deck files: %v", decks)
+	}
+
+	// Build the deck struct.
+	d := types.NewDeck()
+	if len(labels) > 0 {
+		d.Labels = strings.Split(labels, ",")
+	}
+	d.Player = who
+	d.Date = date
+	d.Metadata.DraftID = draftID
+	d.Metadata.SourceFile = filepath.Base(decks[0]) // TODO: Handle multiple files.
+
+	// Add the cards to the deck. We assume the longer list is the mainboard.
+	if len(cardSets) == 1 {
+		d.Mainboard = cardSets[0]
+	} else if len(cardSets) == 2 {
+		if len(cardSets[0]) >= len(cardSets[1]) {
+			d.Mainboard = cardSets[0]
+			d.Sideboard = cardSets[1]
+		} else {
+			d.Mainboard = cardSets[1]
+			d.Sideboard = cardSets[0]
+		}
 	}
 
 	// For each card in the draft pool, add up how many times it appeared in game replays.
 	// This can help us approximate the impact of a particular card in a deck.
+	var err error
 	draftDir := fmt.Sprintf("data/polyverse/%s", draftID)
 	if _, err = os.Stat(fmt.Sprintf("%s/replays", draftDir)); err == nil {
 		for ii := range d.Mainboard {
@@ -97,10 +137,22 @@ func parseSingleDeck(deck, who, labels, date, draftID string) (*types.Deck, erro
 	}
 
 	// Write the deck for storage.
-	if err := writeDeck(d, deck, who, draftID); err != nil {
+	if err := writeDeck(d, decks[0], who, draftID); err != nil {
 		return nil, err
 	}
 	return d, nil
+}
+
+func cardsFromDeckFile(deckFile string) ([]types.Card, []types.Card, error) {
+	var mb, sb []types.Card
+	if strings.HasSuffix(deckFile, ".csv") {
+		mb, sb = cardsFromCSV(deckFile)
+	} else if strings.HasSuffix(deckFile, ".txt") {
+		mb, sb = cardsFromTXT(deckFile)
+	} else {
+		return nil, nil, fmt.Errorf("Unsupported file type: %s", deckFile)
+	}
+	return mb, sb, nil
 }
 
 // parseRawDeckFile parses a raw input deck file and returns a Deck struct.
@@ -109,12 +161,10 @@ func parseRawDeckFile(deckFile, player, labels, date, draftID string) (*types.De
 	d := types.NewDeck()
 
 	// Get the cards from the file.
-	if strings.HasSuffix(deckFile, ".csv") {
-		d.Mainboard, d.Sideboard = cardsFromCSV(deckFile)
-	} else if strings.HasSuffix(deckFile, ".txt") {
-		d.Mainboard, d.Sideboard = cardsFromTXT(deckFile)
-	} else {
-		return nil, fmt.Errorf("Unsupported file type: %s", deckFile)
+	var err error
+	d.Mainboard, d.Sideboard, err = cardsFromDeckFile(deckFile)
+	if err != nil {
+		return nil, err
 	}
 
 	// Add other metadata.

@@ -42,7 +42,7 @@ func init() {
 // work represents a piece of parsing work to be done.
 type work struct {
 	player string
-	path   string
+	paths  []string
 }
 
 func nameFromDeckFilename(filename string) string {
@@ -82,8 +82,9 @@ func parseDeckDir(deckDir, fileType, date, draftID string) {
 		panic(err)
 	}
 
-	// Gather files to load.
-	files := []work{}
+	// Mapping of player name to work item. This allows us to group multiple files
+	// for the same player if needed - e.g., a main deck and a sideboard.
+	workMap := map[string]work{}
 
 	// Load files from CSV dir.
 	fileNames, err := os.ReadDir(deckDir)
@@ -102,28 +103,39 @@ func parseDeckDir(deckDir, fileType, date, draftID string) {
 		}
 		if strings.HasSuffix(f.Name(), fileType) {
 			// Add the file, using the file name as the player name (minus the filetype)
-			files = append(files, work{
+			path := fmt.Sprintf("%s/%s", deckDir, f.Name())
+			player := nameFromDeckFilename(f.Name())
+
+			// Check if we already have a work item for this player.
+			if w, ok := workMap[nameFromDeckFilename(f.Name())]; ok {
+				// Append the path to the existing work item.
+				w.paths = append(w.paths, path)
+				workMap[player] = w
+				continue
+			}
+
+			workMap[player] = work{
 				player: nameFromDeckFilename(f.Name()),
-				path:   fmt.Sprintf("%s/%s", deckDir, f.Name()),
-			})
+				paths:  []string{path},
+			}
 		}
 	}
 
-	if len(files) == 0 {
+	if len(workMap) == 0 {
 		logc.Info("No files to process.")
 		return
 	}
-	logc.WithField("num", len(files)).Info("Processing deck files.")
+	logc.WithField("numPlayers", len(workMap)).Info("Processing deck files.")
 
 	// Track each non-basic card we see in the deck files. We'll use this to do a consistency check on the
 	// draft to make sure all cards are present and accounted for.
 	seen := map[string]int{}
 
-	for _, f := range files {
+	for _, work := range workMap {
 		// Parse the deck.
-		d, err := parseSingleDeck(f.path, f.player, labels, date, draftID)
+		d, err := parseDeck(work.paths, work.player, labels, date, draftID)
 		if err != nil {
-			logc.WithError(err).WithField("file", f.path).Error("Failed to parse deck file.")
+			logc.WithError(err).Error("Failed to parse deck file.")
 			continue
 		}
 
@@ -131,14 +143,14 @@ func parseDeckDir(deckDir, fileType, date, draftID string) {
 		// scan error or a deck that was not properly built.
 		if len(d.Mainboard) < 40 {
 			logc.WithFields(logrus.Fields{
-				"file":      f.path,
+				"files":     work.paths,
 				"mainboard": len(d.Mainboard),
 			}).Warn("Deck has less than 40 cards in the mainboard, likely a scan error or incomplete deck.")
 		}
 
 		if d.PickCount() != 45 {
 			logc.WithFields(logrus.Fields{
-				"file": f.path,
+				"files": work.paths,
 			}).Warn("Deck does not have 45 cards total (main + side), likely a scan error, incomplete deck, or unusual draft format.")
 		}
 
