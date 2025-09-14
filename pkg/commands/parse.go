@@ -123,6 +123,11 @@ func parseDeck(decks []string, who, labels, date, draftID string) (*types.Deck, 
 		}
 	}
 
+	// Make sure the mainboard and sideboard are not the same, as that's weird!
+	if !cardSetsDiffer(d.Mainboard, d.Sideboard) {
+		return nil, fmt.Errorf("Mainboard and sideboard are the same: %v", decks)
+	}
+
 	// For each card in the draft pool, add up how many times it appeared in game replays.
 	// This can help us approximate the impact of a particular card in a deck.
 	var err error
@@ -143,6 +148,26 @@ func parseDeck(decks []string, who, labels, date, draftID string) (*types.Deck, 
 	return d, nil
 }
 
+// cardSetsDiffer returns true if the two slices of cards are not equal, ignoring order.
+func cardSetsDiffer(a, b []types.Card) bool {
+	if len(a) != len(b) {
+		return true
+	}
+	m := make(map[string]int)
+	for _, c := range a {
+		m[c.Name]++
+	}
+	for _, c := range b {
+		m[c.Name]--
+	}
+	for _, v := range m {
+		if v != 0 {
+			return true
+		}
+	}
+	return false
+}
+
 func cardsFromDeckFile(deckFile string) ([]types.Card, []types.Card, error) {
 	var mb, sb []types.Card
 	if strings.HasSuffix(deckFile, ".csv") {
@@ -153,30 +178,6 @@ func cardsFromDeckFile(deckFile string) ([]types.Card, []types.Card, error) {
 		return nil, nil, fmt.Errorf("Unsupported file type: %s", deckFile)
 	}
 	return mb, sb, nil
-}
-
-// parseRawDeckFile parses a raw input deck file and returns a Deck struct.
-func parseRawDeckFile(deckFile, player, labels, date, draftID string) (*types.Deck, error) {
-	// Build the deck struct.
-	d := types.NewDeck()
-
-	// Get the cards from the file.
-	var err error
-	d.Mainboard, d.Sideboard, err = cardsFromDeckFile(deckFile)
-	if err != nil {
-		return nil, err
-	}
-
-	// Add other metadata.
-	if len(labels) > 0 {
-		d.Labels = strings.Split(labels, ",")
-	}
-	d.Player = player
-	d.Date = date
-	d.Metadata.DraftID = draftID
-	d.Metadata.SourceFile = filepath.Base(deckFile)
-
-	return d, nil
 }
 
 func writeDeck(d *types.Deck, srcFile string, player string, draftID string) error {

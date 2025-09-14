@@ -131,11 +131,13 @@ func parseDeckDir(deckDir, fileType, date, draftID string) {
 	// draft to make sure all cards are present and accounted for.
 	seen := map[string]int{}
 
+	var errs []error
 	for _, work := range workMap {
 		// Parse the deck.
 		d, err := parseDeck(work.paths, work.player, labels, date, draftID)
 		if err != nil {
 			logc.WithError(err).Error("Failed to parse deck file.")
+			errs = append(errs, err)
 			continue
 		}
 
@@ -164,6 +166,12 @@ func parseDeckDir(deckDir, fileType, date, draftID string) {
 		}
 	}
 	logrus.WithField("num", len(seen)).Info("Total unique cards seen in deck lists.")
+
+	// If we hit any errors, return now before we write out any files.
+	if len(errs) > 0 {
+		logc.WithField("numErrors", len(errs)).Error("Errors occurred while parsing decks, not writing output files.")
+		return
+	}
 
 	snaptshotFilename := fmt.Sprintf("%s/cube-snapshot.json", outdir)
 	if _, err := os.Stat(snaptshotFilename); err != nil {
