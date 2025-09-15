@@ -2,9 +2,7 @@
  "metadata": {
   "path": "data/polyverse/2025-06-12/will.json",
   "draft_id": "2025-06-12",
-  "source_files": [
-   "will.csv"
-  ]
+  "combined_file": "data/polyverse/2025-06-12/will.csv"
  },
  "labels": [
   "control"
@@ -225,7 +223,7 @@
     "U"
    ],
    "mana_cost": "{U}",
-   "url": "https://scryfall.com/card/tdc/159/ponder?utm_source=api",
+   "url": "https://scryfall.com/card/omb/13/ponder?utm_source=api",
    "oracle_text": "Look at the top three cards of your library, then put them back in any order. You may shuffle.\nDraw a card."
   },
   {
@@ -957,7 +955,7 @@
     "W"
    ],
    "mana_cost": "{1}{W}",
-   "url": "https://scryfall.com/card/ltr/26/reprieve?utm_source=api",
+   "url": "https://scryfall.com/card/omb/5/reprieve?utm_source=api",
    "oracle_text": "Return target spell to its owner's hand.\nDraw a card."
   },
   {

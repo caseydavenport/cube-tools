@@ -2,9 +2,7 @@
  "metadata": {
   "path": "data/polyverse/2025-08-17/kevin.json",
   "draft_id": "2025-08-17",
-  "source_files": [
-   "kevin.csv"
-  ]
+  "combined_file": "data/polyverse/2025-08-17/kevin.csv"
  },
  "labels": [
   "aggro",
@@ -381,7 +379,7 @@
     "W"
    ],
    "mana_cost": "{1}{W}",
-   "url": "https://scryfall.com/card/ltr/26/reprieve?utm_source=api",
+   "url": "https://scryfall.com/card/omb/5/reprieve?utm_source=api",
    "oracle_text": "Return target spell to its owner's hand.\nDraw a card."
   },
   {
@@ -1082,7 +1080,7 @@
     "U"
    ],
    "mana_cost": "{3}{U}{U}",
-   "url": "https://scryfall.com/card/cmm/108/mystic-confluence?utm_source=api",
+   "url": "https://scryfall.com/card/omb/12/mystic-confluence?utm_source=api",
    "oracle_text": "Choose three. You may choose the same mode more than once.\n• Counter target spell unless its controller pays {3}.\n• Return target creature to its owner's hand.\n• Draw a card."
   },
   {

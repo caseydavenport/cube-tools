@@ -2,9 +2,7 @@
  "metadata": {
   "path": "data/polyverse/2023-07-16/xander.json",
   "draft_id": "2023-07-16",
-  "source_files": [
-   "xander.txt"
-  ]
+  "combined_file": "data/polyverse/2023-07-16/xander.txt"
  },
  "labels": [
   "spells",
@@ -405,7 +403,7 @@
     "U"
    ],
    "mana_cost": "{U}",
-   "url": "https://scryfall.com/card/tdc/159/ponder?utm_source=api",
+   "url": "https://scryfall.com/card/omb/13/ponder?utm_source=api",
    "oracle_text": "Look at the top three cards of your library, then put them back in any order. You may shuffle.\nDraw a card."
   },
   {

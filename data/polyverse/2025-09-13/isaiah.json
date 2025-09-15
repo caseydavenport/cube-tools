@@ -2,10 +2,8 @@
  "metadata": {
   "path": "data/polyverse/2025-09-13/isaiah.json",
   "draft_id": "2025-09-13",
-  "source_files": [
-   "isaiah-mainboard.csv",
-   "isaiah-sideboard.csv"
-  ]
+  "mainboard_file": "data/polyverse/2025-09-13/isaiah-mainboard.csv",
+  "sideboard_file": "data/polyverse/2025-09-13/isaiah-sideboard.csv"
  },
  "labels": [
   "midrange",
@@ -215,7 +213,7 @@
     "R"
    ],
    "mana_cost": "{1}{R}",
-   "url": "https://scryfall.com/card/mh2/279/goblin-bombardment?utm_source=api",
+   "url": "https://scryfall.com/card/omb/23/goblin-bombardment?utm_source=api",
    "oracle_text": "Sacrifice a creature: This enchantment deals 1 damage to any target."
   },
   {

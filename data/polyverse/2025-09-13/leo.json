@@ -2,10 +2,8 @@
  "metadata": {
   "path": "data/polyverse/2025-09-13/leo.json",
   "draft_id": "2025-09-13",
-  "source_files": [
-   "leo-mainboard.csv",
-   "leo-sideboard.csv"
-  ]
+  "mainboard_file": "data/polyverse/2025-09-13/leo-mainboard.csv",
+  "sideboard_file": "data/polyverse/2025-09-13/leo-sideboard.csv"
  },
  "labels": [
   "midrange",

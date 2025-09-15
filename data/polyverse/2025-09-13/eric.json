@@ -2,10 +2,8 @@
  "metadata": {
   "path": "data/polyverse/2025-09-13/eric.json",
   "draft_id": "2025-09-13",
-  "source_files": [
-   "eric-mainboard.csv",
-   "eric-sideboard.csv"
-  ]
+  "mainboard_file": "data/polyverse/2025-09-13/eric-mainboard.csv",
+  "sideboard_file": "data/polyverse/2025-09-13/eric-sideboard.csv"
  },
  "labels": [
   "midrange",
@@ -253,7 +251,7 @@
     "U"
    ],
    "mana_cost": "{U}",
-   "url": "https://scryfall.com/card/tdc/159/ponder?utm_source=api",
+   "url": "https://scryfall.com/card/omb/13/ponder?utm_source=api",
    "oracle_text": "Look at the top three cards of your library, then put them back in any order. You may shuffle.\nDraw a card."
   },
   {

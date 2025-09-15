@@ -2,9 +2,7 @@
  "metadata": {
   "path": "data/polyverse/2024-05-14/xander.json",
   "draft_id": "2024-05-14",
-  "source_files": [
-   "xander.txt"
-  ]
+  "combined_file": "data/polyverse/2024-05-14/xander.txt"
  },
  "labels": [
   "control",
@@ -844,7 +842,7 @@
     "U"
    ],
    "mana_cost": "{3}{U}{U}",
-   "url": "https://scryfall.com/card/cmm/108/mystic-confluence?utm_source=api",
+   "url": "https://scryfall.com/card/omb/12/mystic-confluence?utm_source=api",
    "oracle_text": "Choose three. You may choose the same mode more than once.\n• Counter target spell unless its controller pays {3}.\n• Return target creature to its owner's hand.\n• Draw a card."
   },
   {
@@ -861,7 +859,7 @@
     "R"
    ],
    "mana_cost": "{1}{R}",
-   "url": "https://scryfall.com/card/mh2/279/goblin-bombardment?utm_source=api",
+   "url": "https://scryfall.com/card/omb/23/goblin-bombardment?utm_source=api",
    "oracle_text": "Sacrifice a creature: This enchantment deals 1 damage to any target."
   },
   {

@@ -1,56 +1,14 @@
 {
  "metadata": {
-  "path": "data/polyverse/2024-03-28/matthewbk.json",
+  "path": "data/polyverse/2024-03-28/MatthewBk.json",
   "draft_id": "2024-03-28",
-  "source_files": [
-   "matthewbk.txt"
-  ]
+  "combined_file": "data/polyverse/2024-03-28/matthewbk.txt"
  },
- "labels": [
-  "tempo"
- ],
- "player": "MatthewBk",
+ "labels": [],
+ "player": "matthewbk",
  "date": "2024-03-28",
- "games": [
-  {
-   "opponent": "alexs",
-   "winner": "matthewbk"
-  },
-  {
-   "opponent": "alexs",
-   "winner": "matthewbk"
-  },
-  {
-   "opponent": "casey",
-   "winner": "matthewbk"
-  },
-  {
-   "opponent": "casey",
-   "winner": "matthewbk"
-  },
-  {
-   "opponent": "jan",
-   "winner": "matthewbk"
-  },
-  {
-   "opponent": "jan",
-   "winner": "matthewbk"
-  }
- ],
- "matches": [
-  {
-   "opponent": "alexs",
-   "winner": "matthewbk"
-  },
-  {
-   "opponent": "casey",
-   "winner": "matthewbk"
-  },
-  {
-   "opponent": "jan",
-   "winner": "matthewbk"
-  }
- ],
+ "games": null,
+ "matches": null,
  "mainboard": [
   {
    "name": "Arasta of the Endless Web",
@@ -71,7 +29,7 @@
     "G"
    ],
    "mana_cost": "{2}{G}{G}",
-   "url": "https://scryfall.com/card/tdc/244/arasta-of-the-endless-web?utm_source=api",
+   "url": "https://scryfall.com/card/omb/32/arasta-of-the-endless-web?utm_source=api",
    "oracle_text": "Reach\nWhenever an opponent casts an instant or sorcery spell, create a 1/2 green Spider creature token with reach.",
    "power": "3",
    "toughness": "5"
@@ -324,7 +282,7 @@
     "R"
    ],
    "mana_cost": "{1}{R}",
-   "url": "https://scryfall.com/card/mh2/279/goblin-bombardment?utm_source=api",
+   "url": "https://scryfall.com/card/omb/23/goblin-bombardment?utm_source=api",
    "oracle_text": "Sacrifice a creature: This enchantment deals 1 damage to any target."
   },
   {
@@ -392,7 +350,7 @@
     "B"
    ],
    "mana_cost": "{1}{B}",
-   "url": "https://scryfall.com/card/eoc/84/infernal-grasp?utm_source=api",
+   "url": "https://scryfall.com/card/omb/18/infernal-grasp?utm_source=api",
    "oracle_text": "Destroy target creature. You lose 2 life."
   },
   {

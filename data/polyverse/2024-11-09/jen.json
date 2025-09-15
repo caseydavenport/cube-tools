@@ -2,9 +2,7 @@
  "metadata": {
   "path": "data/polyverse/2024-11-09/jen.json",
   "draft_id": "2024-11-09",
-  "source_files": [
-   "jen.txt"
-  ]
+  "combined_file": "data/polyverse/2024-11-09/jen.txt"
  },
  "labels": [
   "midrange",

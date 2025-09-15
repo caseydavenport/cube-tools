@@ -2,9 +2,7 @@
  "metadata": {
   "path": "data/polyverse/2024-05-14/casey.json",
   "draft_id": "2024-05-14",
-  "source_files": [
-   "casey.txt"
-  ]
+  "combined_file": "data/polyverse/2024-05-14/casey.txt"
  },
  "labels": [
   "tempo",

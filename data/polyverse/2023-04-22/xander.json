@@ -2,9 +2,7 @@
  "metadata": {
   "path": "data/polyverse/2023-04-22/xander.json",
   "draft_id": "2023-04-22",
-  "source_files": [
-   "xander.csv"
-  ]
+  "combined_file": "data/polyverse/2023-04-22/xander.csv"
  },
  "labels": [
   "control",
@@ -465,7 +463,7 @@
     "U"
    ],
    "mana_cost": "{2}{U}{U}",
-   "url": "https://scryfall.com/card/tdc/165/rite-of-replication?utm_source=api",
+   "url": "https://scryfall.com/card/omb/14/rite-of-replication?utm_source=api",
    "oracle_text": "Kicker {5} (You may pay an additional {5} as you cast this spell.)\nCreate a token that's a copy of target creature. If this spell was kicked, create five of those tokens instead."
   },
   {

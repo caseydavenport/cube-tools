@@ -2,9 +2,7 @@
  "metadata": {
   "path": "data/polyverse/2025-05-26/xander.json",
   "draft_id": "2025-05-26",
-  "source_files": [
-   "xander.csv"
-  ]
+  "combined_file": "data/polyverse/2025-05-26/xander.csv"
  },
  "labels": [
   "midrange",
@@ -647,7 +645,7 @@
     "B"
    ],
    "mana_cost": "{1}{B}",
-   "url": "https://scryfall.com/card/eoc/84/infernal-grasp?utm_source=api",
+   "url": "https://scryfall.com/card/omb/18/infernal-grasp?utm_source=api",
    "oracle_text": "Destroy target creature. You lose 2 life."
   },
   {
@@ -840,7 +838,7 @@
     "U"
    ],
    "mana_cost": "{3}{U}{U}",
-   "url": "https://scryfall.com/card/cmm/108/mystic-confluence?utm_source=api",
+   "url": "https://scryfall.com/card/omb/12/mystic-confluence?utm_source=api",
    "oracle_text": "Choose three. You may choose the same mode more than once.\n• Counter target spell unless its controller pays {3}.\n• Return target creature to its owner's hand.\n• Draw a card."
   },
   {

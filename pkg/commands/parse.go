@@ -61,7 +61,14 @@ var ParseCmd = &cobra.Command{
 		}
 
 		// Parse the deck.
-		parseDeck([]string{deckInput}, who, labels, date, draftID)
+		d, err := parseDeck([]string{deckInput}, who, labels, date, draftID)
+		if err != nil {
+			logrus.WithError(err).Fatal("Failed to parse deck")
+		}
+		// Write the deck for storage.
+		if err := writeDeck(d, draftID); err != nil {
+			logrus.WithError(err).Fatal("Failed to write deck")
+		}
 	},
 }
 
@@ -111,24 +118,23 @@ func parseDeck(deckFiles []string, who, labels, date, draftID string) (*types.De
 
 	// Add the cards to the deck. We assume the longer list is the mainboard.
 	// TODO: This is pretty janky.
-	src := sourceInfo{}
 	if len(deckFiles) == 1 {
 		d.Mainboard = cardSets[0]
 		if len(cardSets) > 1 {
 			d.Sideboard = cardSets[1]
 		}
-		src.combinedFile = deckFiles[0]
+		d.Metadata.CombinedFile = deckFiles[0]
 	} else if len(deckFiles) == 2 {
 		if len(cardSets[0]) >= len(cardSets[1]) {
 			d.Mainboard = cardSets[0]
 			d.Sideboard = cardSets[1]
-			src.mbFile = deckFiles[0]
-			src.sbFile = deckFiles[1]
+			d.Metadata.MainboardFile = deckFiles[0]
+			d.Metadata.SideboardFile = deckFiles[1]
 		} else {
 			d.Mainboard = cardSets[1]
 			d.Sideboard = cardSets[0]
-			src.mbFile = deckFiles[1]
-			src.sbFile = deckFiles[0]
+			d.Metadata.MainboardFile = deckFiles[1]
+			d.Metadata.SideboardFile = deckFiles[0]
 		}
 	}
 
@@ -150,9 +156,19 @@ func parseDeck(deckFiles []string, who, labels, date, draftID string) (*types.De
 		}
 	}
 
-	// Write the deck for storage.
-	if err := writeDeck(d, src, who, draftID); err != nil {
-		return nil, err
+	// If a deck has less than 40 cards in the mainboard, that likely indicates a
+	// scan error or a deck that was not properly built.
+	if len(d.Mainboard) < 40 {
+		logrus.WithFields(logrus.Fields{
+			"files":     deckFiles,
+			"mainboard": len(d.Mainboard),
+		}).Warn("Deck has less than 40 cards in the mainboard, likely a scan error or incomplete deck.")
+	}
+
+	if d.PickCount() != 45 {
+		logrus.WithFields(logrus.Fields{
+			"files": deckFiles,
+		}).Warn("Deck does not have 45 cards total (main + side), likely a scan error, incomplete deck, or unusual draft format.")
 	}
 	return d, nil
 }
@@ -189,25 +205,15 @@ func cardsFromDeckFile(deckFile string) ([]types.Card, []types.Card, error) {
 	return mb, sb, nil
 }
 
-// sourceInfo tracks the source files for a given deck.
-type sourceInfo struct {
-	mbFile       string
-	sbFile       string
-	combinedFile string
-}
-
-func writeDeck(d *types.Deck, src sourceInfo, player string, draftID string) error {
-	// Force lowercase player names for consistency.
-	player = strings.ToLower(player)
-
+func writeDeck(d *types.Deck, draftID string) error {
 	// Make sure the output directory exists.
 	outdir := fmt.Sprintf("data/polyverse/%s", draftID)
 	err := os.MkdirAll(outdir, os.ModePerm)
 	if err != nil {
-		panic(err)
+		return fmt.Errorf("Failed to create output directory: %w", err)
 	}
 
-	if len(player) == 0 {
+	if len(d.Player) == 0 {
 		return fmt.Errorf("Player name is required to write deck")
 	}
 	if len(draftID) == 0 {
@@ -215,7 +221,7 @@ func writeDeck(d *types.Deck, src sourceInfo, player string, draftID string) err
 	}
 
 	// Generate the filename for the deck.
-	path := fmt.Sprintf("%s/%s.json", outdir, player)
+	path := fmt.Sprintf("%s/%s.json", outdir, d.Player)
 
 	// Ensure the correct metadata is set on the deck.
 	d.Metadata.DraftID = draftID
@@ -226,7 +232,7 @@ func writeDeck(d *types.Deck, src sourceInfo, player string, draftID string) err
 	// captured metadata.
 	if _, err := os.Stat(path); err == nil {
 		logrus.WithField("file", path).Debug("File already exists, loading and updating")
-		existing := LoadParsedDeckFile(draftID, player)
+		existing := LoadParsedDeckFile(draftID, d.Player)
 		d.Player = existing.Player
 		d.Labels = existing.Labels
 		d.Matches = existing.Matches
@@ -236,6 +242,7 @@ func writeDeck(d *types.Deck, src sourceInfo, player string, draftID string) err
 	}
 
 	// Ensure capitalization is consistent for player names (all lowercase).
+	d.Player = strings.ToLower(d.Player)
 	for i := range d.Games {
 		d.Games[i].Opponent = strings.ToLower(d.Games[i].Opponent)
 		d.Games[i].Winner = strings.ToLower(d.Games[i].Winner)
@@ -246,36 +253,33 @@ func writeDeck(d *types.Deck, src sourceInfo, player string, draftID string) err
 	}
 
 	logc := logrus.WithFields(logrus.Fields{
-		"player": player,
+		"player": d.Player,
 		"outdir": outdir,
 		"count":  d.PickCount(),
 	})
 	logc.Infof("Writing deck")
 
 	// Write the original "raw" decklist for posterity, tracking source files.
-	if src.combinedFile != "" {
-		filename := fmt.Sprintf("%s%s", player, fileSuffix(src.combinedFile))
+	if f := d.Metadata.CombinedFile; f != "" {
+		filename := fmt.Sprintf("%s%s", d.Player, fileSuffix(f))
 		dst := fmt.Sprintf("%s/%s", outdir, filename)
-		if err := copyFile(*logc, src.combinedFile, dst); err != nil {
+		if err := copyFile(*logc, f, dst); err != nil {
 			logc.WithError(err).Warn("Failed to copy source file")
 		}
-		d.Metadata.SourceFiles = append(d.Metadata.SourceFiles, filename)
 	}
-	if src.mbFile != "" {
-		filename := fmt.Sprintf("%s-mainboard%s", player, fileSuffix(src.mbFile))
+	if f := d.Metadata.MainboardFile; f != "" {
+		filename := fmt.Sprintf("%s-mainboard%s", d.Player, fileSuffix(f))
 		dst := fmt.Sprintf("%s/%s", outdir, filename)
-		if err := copyFile(*logc, src.mbFile, dst); err != nil {
-			logc.WithError(err).Warn("Failed to copy source file")
+		if err := copyFile(*logc, f, dst); err != nil {
+			logc.WithError(err).Warn("Failed to copy mainboard file")
 		}
-		d.Metadata.SourceFiles = append(d.Metadata.SourceFiles, filename)
 	}
-	if src.sbFile != "" {
-		filename := fmt.Sprintf("%s-sideboard%s", player, fileSuffix(src.sbFile))
+	if f := d.Metadata.SideboardFile; f != "" {
+		filename := fmt.Sprintf("%s-sideboard%s", d.Player, fileSuffix(f))
 		dst := fmt.Sprintf("%s/%s", outdir, filename)
-		if err := copyFile(*logc, src.sbFile, dst); err != nil {
-			logc.WithError(err).Warn("Failed to copy source file")
+		if err := copyFile(*logc, f, dst); err != nil {
+			logc.WithError(err).Warn("Failed to copy sideboard file")
 		}
-		d.Metadata.SourceFiles = append(d.Metadata.SourceFiles, filename)
 	}
 
 	// First, write the canonical deck file in our format.
@@ -286,7 +290,7 @@ func writeDeck(d *types.Deck, src sourceInfo, player string, draftID string) err
 
 	// Write it out as a simple text file with one card per line - useful to importing into cubecobra
 	// and other tools that accept decklists.
-	fileName := fmt.Sprintf("%s/%s.cubecobra.txt", outdir, player)
+	fileName := fmt.Sprintf("%s/%s.cubecobra.txt", outdir, d.Player)
 	logc.WithField("file", fileName).Debug("Writing kubecobra formatted file")
 	f2, err := os.Create(fileName)
 	defer f2.Close()

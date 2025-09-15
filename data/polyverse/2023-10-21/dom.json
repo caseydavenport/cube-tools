@@ -2,9 +2,7 @@
  "metadata": {
   "path": "data/polyverse/2023-10-21/dom.json",
   "draft_id": "2023-10-21",
-  "source_files": [
-   "dom.txt"
-  ]
+  "combined_file": "data/polyverse/2023-10-21/dom.txt"
  },
  "labels": [
   "control",
@@ -278,7 +276,7 @@
     "U"
    ],
    "mana_cost": "{U}{U}",
-   "url": "https://scryfall.com/card/dsc/114/counterspell?utm_source=api",
+   "url": "https://scryfall.com/card/omb/9/counterspell?utm_source=api",
    "oracle_text": "Counter target spell.",
    "appearances": 1
   },

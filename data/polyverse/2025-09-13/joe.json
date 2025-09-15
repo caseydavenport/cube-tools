@@ -2,10 +2,8 @@
  "metadata": {
   "path": "data/polyverse/2025-09-13/joe.json",
   "draft_id": "2025-09-13",
-  "source_files": [
-   "joe-mainboard.csv",
-   "joe-sideboard.csv"
-  ]
+  "mainboard_file": "data/polyverse/2025-09-13/joe-mainboard.csv",
+  "sideboard_file": "data/polyverse/2025-09-13/joe-sideboard.csv"
  },
  "labels": [
   "midrange",
@@ -754,7 +752,7 @@
     "W"
    ],
    "mana_cost": "{W}",
-   "url": "https://scryfall.com/card/otc/85/path-to-exile?utm_source=api",
+   "url": "https://scryfall.com/card/omb/4/path-to-exile?utm_source=api",
    "oracle_text": "Exile target creature. Its controller may search their library for a basic land card, put that card onto the battlefield tapped, then shuffle."
   },
   {

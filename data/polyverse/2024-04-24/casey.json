@@ -2,9 +2,7 @@
  "metadata": {
   "path": "data/polyverse/2024-04-24/casey.json",
   "draft_id": "2024-04-24",
-  "source_files": [
-   "casey.txt"
-  ]
+  "combined_file": "data/polyverse/2024-04-24/casey.txt"
  },
  "labels": [
   "graveyard",
@@ -261,7 +259,7 @@
     "W"
    ],
    "mana_cost": "{1}{W}",
-   "url": "https://scryfall.com/card/ltr/26/reprieve?utm_source=api",
+   "url": "https://scryfall.com/card/omb/5/reprieve?utm_source=api",
    "oracle_text": "Return target spell to its owner's hand.\nDraw a card.",
    "appearances": 1
   },
@@ -626,7 +624,7 @@
     "U"
    ],
    "mana_cost": "{U}",
-   "url": "https://scryfall.com/card/tdc/159/ponder?utm_source=api",
+   "url": "https://scryfall.com/card/omb/13/ponder?utm_source=api",
    "oracle_text": "Look at the top three cards of your library, then put them back in any order. You may shuffle.\nDraw a card.",
    "appearances": 1
   },

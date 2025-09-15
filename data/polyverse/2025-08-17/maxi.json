@@ -2,9 +2,7 @@
  "metadata": {
   "path": "data/polyverse/2025-08-17/maxi.json",
   "draft_id": "2025-08-17",
-  "source_files": [
-   "maxi.csv"
-  ]
+  "combined_file": "data/polyverse/2025-08-17/maxi.csv"
  },
  "labels": [
   "midrange",

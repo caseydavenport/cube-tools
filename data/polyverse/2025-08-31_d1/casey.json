@@ -2,9 +2,7 @@
  "metadata": {
   "path": "data/polyverse/2025-08-31_d1/casey.json",
   "draft_id": "2025-08-31_d1",
-  "source_files": [
-   "casey.txt"
-  ]
+  "combined_file": "data/polyverse/2025-08-31_d1/casey.txt"
  },
  "labels": [
   "control"
@@ -523,7 +521,7 @@
     "W"
    ],
    "mana_cost": "{1}{W}",
-   "url": "https://scryfall.com/card/ltr/26/reprieve?utm_source=api",
+   "url": "https://scryfall.com/card/omb/5/reprieve?utm_source=api",
    "oracle_text": "Return target spell to its owner's hand.\nDraw a card."
   },
   {

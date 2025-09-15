@@ -1,57 +1,14 @@
 {
  "metadata": {
-  "path": "data/polyverse/2024-03-28/ken.json",
+  "path": "data/polyverse/2024-03-28/Ken.json",
   "draft_id": "2024-03-28",
-  "source_files": [
-   "ken.txt"
-  ]
+  "combined_file": "data/polyverse/2024-03-28/ken.txt"
  },
- "labels": [
-  "midrange",
-  "sacrifice"
- ],
- "player": "Ken",
+ "labels": [],
+ "player": "ken",
  "date": "2024-03-28",
- "games": [
-  {
-   "opponent": "alexs",
-   "winner": "ken"
-  },
-  {
-   "opponent": "alexs",
-   "winner": "ken"
-  },
-  {
-   "opponent": "casey",
-   "winner": "ken"
-  },
-  {
-   "opponent": "casey",
-   "winner": "ken"
-  },
-  {
-   "opponent": "jan",
-   "winner": "jan"
-  },
-  {
-   "opponent": "jan",
-   "winner": "jan"
-  }
- ],
- "matches": [
-  {
-   "opponent": "alexs",
-   "winner": "ken"
-  },
-  {
-   "opponent": "casey",
-   "winner": "ken"
-  },
-  {
-   "opponent": "jan",
-   "winner": "jan"
-  }
- ],
+ "games": null,
+ "matches": null,
  "mainboard": [
   {
    "name": "Battlefield Forge",
@@ -605,7 +562,7 @@
     "W"
    ],
    "mana_cost": "{1}{W}",
-   "url": "https://scryfall.com/card/ltr/26/reprieve?utm_source=api",
+   "url": "https://scryfall.com/card/omb/5/reprieve?utm_source=api",
    "oracle_text": "Return target spell to its owner's hand.\nDraw a card."
   },
   {
@@ -884,7 +841,7 @@
     "G"
    ],
    "mana_cost": "{2}{G}",
-   "url": "https://scryfall.com/card/eoc/93/beast-within?utm_source=api",
+   "url": "https://scryfall.com/card/omb/33/beast-within?utm_source=api",
    "oracle_text": "Destroy target permanent. Its controller creates a 3/3 green Beast creature token."
   },
   {
@@ -1050,7 +1007,7 @@
     "G"
    ],
    "mana_cost": "{3}{G}",
-   "url": "https://scryfall.com/card/isd/199/parallel-lives?utm_source=api",
+   "url": "https://scryfall.com/card/omb/36/parallel-lives?utm_source=api",
    "oracle_text": "If an effect would create one or more tokens under your control, it creates twice that many of those tokens instead."
   },
   {

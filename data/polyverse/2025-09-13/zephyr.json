@@ -2,10 +2,8 @@
  "metadata": {
   "path": "data/polyverse/2025-09-13/zephyr.json",
   "draft_id": "2025-09-13",
-  "source_files": [
-   "zephyr-mainboard.csv",
-   "zephyr-sideboard.csv"
-  ]
+  "mainboard_file": "data/polyverse/2025-09-13/zephyr-mainboard.csv",
+  "sideboard_file": "data/polyverse/2025-09-13/zephyr-sideboard.csv"
  },
  "labels": [
   "midrange",
@@ -651,7 +649,7 @@
     "G"
    ],
    "mana_cost": "{2}{G}{G}",
-   "url": "https://scryfall.com/card/tdc/244/arasta-of-the-endless-web?utm_source=api",
+   "url": "https://scryfall.com/card/omb/32/arasta-of-the-endless-web?utm_source=api",
    "oracle_text": "Reach\nWhenever an opponent casts an instant or sorcery spell, create a 1/2 green Spider creature token with reach.",
    "power": "3",
    "toughness": "5"

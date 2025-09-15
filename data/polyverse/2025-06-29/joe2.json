@@ -2,9 +2,7 @@
  "metadata": {
   "path": "data/polyverse/2025-06-29/joe2.json",
   "draft_id": "2025-06-29",
-  "source_files": [
-   "joe2.csv"
-  ]
+  "combined_file": "data/polyverse/2025-06-29/joe2.csv"
  },
  "labels": [
   "tempo",
@@ -517,7 +515,7 @@
     "W"
    ],
    "mana_cost": "{1}{W}",
-   "url": "https://scryfall.com/card/ltr/26/reprieve?utm_source=api",
+   "url": "https://scryfall.com/card/omb/5/reprieve?utm_source=api",
    "oracle_text": "Return target spell to its owner's hand.\nDraw a card."
   },
   {

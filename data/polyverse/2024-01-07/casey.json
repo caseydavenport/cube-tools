@@ -2,9 +2,7 @@
  "metadata": {
   "path": "data/polyverse/2024-01-07/casey.json",
   "draft_id": "2024-01-07",
-  "source_files": [
-   "casey.txt"
-  ]
+  "combined_file": "data/polyverse/2024-01-07/casey.txt"
  },
  "labels": [
   "control",
@@ -412,7 +410,7 @@
     "G"
    ],
    "mana_cost": "{2}{G}",
-   "url": "https://scryfall.com/card/eoc/93/beast-within?utm_source=api",
+   "url": "https://scryfall.com/card/omb/33/beast-within?utm_source=api",
    "oracle_text": "Destroy target permanent. Its controller creates a 3/3 green Beast creature token.",
    "appearances": 1
   },
@@ -547,7 +545,7 @@
     "U"
    ],
    "mana_cost": "{U}",
-   "url": "https://scryfall.com/card/tdc/159/ponder?utm_source=api",
+   "url": "https://scryfall.com/card/omb/13/ponder?utm_source=api",
    "oracle_text": "Look at the top three cards of your library, then put them back in any order. You may shuffle.\nDraw a card.",
    "appearances": 1
   },
@@ -1071,7 +1069,7 @@
     "U"
    ],
    "mana_cost": "{2}{U}{U}",
-   "url": "https://scryfall.com/card/tdc/165/rite-of-replication?utm_source=api",
+   "url": "https://scryfall.com/card/omb/14/rite-of-replication?utm_source=api",
    "oracle_text": "Kicker {5} (You may pay an additional {5} as you cast this spell.)\nCreate a token that's a copy of target creature. If this spell was kicked, create five of those tokens instead."
   },
   {

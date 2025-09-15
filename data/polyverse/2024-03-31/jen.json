@@ -2,9 +2,7 @@
  "metadata": {
   "path": "data/polyverse/2024-03-31/jen.json",
   "draft_id": "2024-03-31",
-  "source_files": [
-   "jen.txt"
-  ]
+  "combined_file": "data/polyverse/2024-03-31/jen.txt"
  },
  "labels": [
   "aggro",

@@ -2,9 +2,7 @@
  "metadata": {
   "path": "data/polyverse/2023-03-16/casey.json",
   "draft_id": "2023-03-16",
-  "source_files": [
-   "casey.txt"
-  ]
+  "combined_file": "data/polyverse/2023-03-16/casey.txt"
  },
  "labels": [
   "control",
@@ -648,7 +646,7 @@
     "G"
    ],
    "mana_cost": "{2}{G}{G}",
-   "url": "https://scryfall.com/card/tdc/244/arasta-of-the-endless-web?utm_source=api",
+   "url": "https://scryfall.com/card/omb/32/arasta-of-the-endless-web?utm_source=api",
    "oracle_text": "Reach\nWhenever an opponent casts an instant or sorcery spell, create a 1/2 green Spider creature token with reach.",
    "power": "3",
    "toughness": "5"
@@ -798,7 +796,7 @@
     "U"
    ],
    "mana_cost": "{U}{U}",
-   "url": "https://scryfall.com/card/dsc/114/counterspell?utm_source=api",
+   "url": "https://scryfall.com/card/omb/9/counterspell?utm_source=api",
    "oracle_text": "Counter target spell."
   },
   {

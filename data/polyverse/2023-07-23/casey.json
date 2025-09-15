@@ -2,9 +2,7 @@
  "metadata": {
   "path": "data/polyverse/2023-07-23/casey.json",
   "draft_id": "2023-07-23",
-  "source_files": [
-   "casey.csv"
-  ]
+  "combined_file": "data/polyverse/2023-07-23/casey.csv"
  },
  "labels": [
   "aggro",

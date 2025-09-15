@@ -2,9 +2,7 @@
  "metadata": {
   "path": "data/polyverse/2023-12-02/paul.json",
   "draft_id": "2023-12-02",
-  "source_files": [
-   "paul.txt"
-  ]
+  "combined_file": "data/polyverse/2023-12-02/paul.txt"
  },
  "labels": [
   "midrange",
@@ -1276,7 +1274,7 @@
     "G"
    ],
    "mana_cost": "{3}{G}",
-   "url": "https://scryfall.com/card/isd/199/parallel-lives?utm_source=api",
+   "url": "https://scryfall.com/card/omb/36/parallel-lives?utm_source=api",
    "oracle_text": "If an effect would create one or more tokens under your control, it creates twice that many of those tokens instead."
   },
   {

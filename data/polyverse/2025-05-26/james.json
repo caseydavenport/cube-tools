@@ -2,9 +2,7 @@
  "metadata": {
   "path": "data/polyverse/2025-05-26/james.json",
   "draft_id": "2025-05-26",
-  "source_files": [
-   "james.csv"
-  ]
+  "combined_file": "data/polyverse/2025-05-26/james.csv"
  },
  "labels": [
   "tempo",
@@ -118,7 +116,7 @@
     "U"
    ],
    "mana_cost": "{U}",
-   "url": "https://scryfall.com/card/tdc/159/ponder?utm_source=api",
+   "url": "https://scryfall.com/card/omb/13/ponder?utm_source=api",
    "oracle_text": "Look at the top three cards of your library, then put them back in any order. You may shuffle.\nDraw a card."
   },
   {
@@ -857,7 +855,7 @@
     "U"
    ],
    "mana_cost": "{U}{U}",
-   "url": "https://scryfall.com/card/dsc/114/counterspell?utm_source=api",
+   "url": "https://scryfall.com/card/omb/9/counterspell?utm_source=api",
    "oracle_text": "Counter target spell."
   }
  ],

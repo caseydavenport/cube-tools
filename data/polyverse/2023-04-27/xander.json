@@ -2,9 +2,7 @@
  "metadata": {
   "path": "data/polyverse/2023-04-27/xander.json",
   "draft_id": "2023-04-27",
-  "source_files": [
-   "xander.csv"
-  ]
+  "combined_file": "data/polyverse/2023-04-27/xander.csv"
  },
  "labels": [
   "sacrifice",

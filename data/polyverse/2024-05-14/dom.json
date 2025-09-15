@@ -2,9 +2,7 @@
  "metadata": {
   "path": "data/polyverse/2024-05-14/dom.json",
   "draft_id": "2024-05-14",
-  "source_files": [
-   "dom.txt"
-  ]
+  "combined_file": "data/polyverse/2024-05-14/dom.txt"
  },
  "labels": [
   "aggro"
@@ -999,7 +997,7 @@
     "W"
    ],
    "mana_cost": "{1}{W}",
-   "url": "https://scryfall.com/card/ltr/26/reprieve?utm_source=api",
+   "url": "https://scryfall.com/card/omb/5/reprieve?utm_source=api",
    "oracle_text": "Return target spell to its owner's hand.\nDraw a card."
   },
   {

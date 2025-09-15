@@ -2,9 +2,7 @@
  "metadata": {
   "path": "data/polyverse/2023-07-23/grant.json",
   "draft_id": "2023-07-23",
-  "source_files": [
-   "grant.csv"
-  ]
+  "combined_file": "data/polyverse/2023-07-23/grant.csv"
  },
  "labels": [
   "midrange",
@@ -515,7 +513,7 @@
     "G"
    ],
    "mana_cost": "{2}{G}",
-   "url": "https://scryfall.com/card/eoc/93/beast-within?utm_source=api",
+   "url": "https://scryfall.com/card/omb/33/beast-within?utm_source=api",
    "oracle_text": "Destroy target permanent. Its controller creates a 3/3 green Beast creature token."
   },
   {

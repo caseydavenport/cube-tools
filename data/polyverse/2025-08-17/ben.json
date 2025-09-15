@@ -2,9 +2,7 @@
  "metadata": {
   "path": "data/polyverse/2025-08-17/ben.json",
   "draft_id": "2025-08-17",
-  "source_files": [
-   "ben.csv"
-  ]
+  "combined_file": "data/polyverse/2025-08-17/ben.csv"
  },
  "labels": [
   "aggro"
@@ -268,7 +266,7 @@
     "R"
    ],
    "mana_cost": "{1}{R}",
-   "url": "https://scryfall.com/card/mh2/279/goblin-bombardment?utm_source=api",
+   "url": "https://scryfall.com/card/omb/23/goblin-bombardment?utm_source=api",
    "oracle_text": "Sacrifice a creature: This enchantment deals 1 damage to any target."
   },
   {

@@ -2,9 +2,7 @@
  "metadata": {
   "path": "data/polyverse/2023-04-22/paul.json",
   "draft_id": "2023-04-22",
-  "source_files": [
-   "paul.csv"
-  ]
+  "combined_file": "data/polyverse/2023-04-22/paul.csv"
  },
  "labels": [
   "stomp",
@@ -684,7 +682,7 @@
     "G"
    ],
    "mana_cost": "{2}{G}{G}",
-   "url": "https://scryfall.com/card/tdc/244/arasta-of-the-endless-web?utm_source=api",
+   "url": "https://scryfall.com/card/omb/32/arasta-of-the-endless-web?utm_source=api",
    "oracle_text": "Reach\nWhenever an opponent casts an instant or sorcery spell, create a 1/2 green Spider creature token with reach.",
    "power": "3",
    "toughness": "5"

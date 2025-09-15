@@ -2,9 +2,7 @@
  "metadata": {
   "path": "data/polyverse/2024-03-31/cara.json",
   "draft_id": "2024-03-31",
-  "source_files": [
-   "cara.txt"
-  ]
+  "combined_file": "data/polyverse/2024-03-31/cara.txt"
  },
  "labels": [
   "midrange",
@@ -375,7 +373,7 @@
     "G"
    ],
    "mana_cost": "{3}{G}",
-   "url": "https://scryfall.com/card/isd/199/parallel-lives?utm_source=api",
+   "url": "https://scryfall.com/card/omb/36/parallel-lives?utm_source=api",
    "oracle_text": "If an effect would create one or more tokens under your control, it creates twice that many of those tokens instead.",
    "appearances": 1
   },

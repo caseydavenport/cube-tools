@@ -2,10 +2,8 @@
  "metadata": {
   "path": "data/polyverse/2025-09-13/casey.json",
   "draft_id": "2025-09-13",
-  "source_files": [
-   "casey-mainboard.csv",
-   "casey-sideboard.csv"
-  ]
+  "mainboard_file": "data/polyverse/2025-09-13/casey-mainboard.csv",
+  "sideboard_file": "data/polyverse/2025-09-13/casey-sideboard.csv"
  },
  "labels": [
   "aggro",

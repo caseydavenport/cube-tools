@@ -2,9 +2,7 @@
  "metadata": {
   "path": "data/polyverse/2024-03-31/paul.json",
   "draft_id": "2024-03-31",
-  "source_files": [
-   "paul.txt"
-  ]
+  "combined_file": "data/polyverse/2024-03-31/paul.txt"
  },
  "labels": [
   "sacrifice",
@@ -1084,7 +1082,7 @@
     "U"
    ],
    "mana_cost": "{U}{U}",
-   "url": "https://scryfall.com/card/dsc/114/counterspell?utm_source=api",
+   "url": "https://scryfall.com/card/omb/9/counterspell?utm_source=api",
    "oracle_text": "Counter target spell."
   },
   {

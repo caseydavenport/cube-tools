@@ -2,9 +2,7 @@
  "metadata": {
   "path": "data/polyverse/2024-01-07/jen.json",
   "draft_id": "2024-01-07",
-  "source_files": [
-   "jen.txt"
-  ]
+  "combined_file": "data/polyverse/2024-01-07/jen.txt"
  },
  "labels": [
   "midrange",
@@ -218,7 +216,7 @@
     "G"
    ],
    "mana_cost": "{3}{G}",
-   "url": "https://scryfall.com/card/isd/199/parallel-lives?utm_source=api",
+   "url": "https://scryfall.com/card/omb/36/parallel-lives?utm_source=api",
    "oracle_text": "If an effect would create one or more tokens under your control, it creates twice that many of those tokens instead.",
    "appearances": 1
   },
@@ -557,7 +555,7 @@
     "W"
    ],
    "mana_cost": "{1}{W}",
-   "url": "https://scryfall.com/card/ltr/26/reprieve?utm_source=api",
+   "url": "https://scryfall.com/card/omb/5/reprieve?utm_source=api",
    "oracle_text": "Return target spell to its owner's hand.\nDraw a card.",
    "appearances": 1
   },

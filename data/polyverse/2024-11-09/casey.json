@@ -2,9 +2,7 @@
  "metadata": {
   "path": "data/polyverse/2024-11-09/casey.json",
   "draft_id": "2024-11-09",
-  "source_files": [
-   "casey.txt"
-  ]
+  "combined_file": "data/polyverse/2024-11-09/casey.txt"
  },
  "labels": [
   "control"
@@ -119,7 +117,7 @@
     "U"
    ],
    "mana_cost": "{U}",
-   "url": "https://scryfall.com/card/tdc/159/ponder?utm_source=api",
+   "url": "https://scryfall.com/card/omb/13/ponder?utm_source=api",
    "oracle_text": "Look at the top three cards of your library, then put them back in any order. You may shuffle.\nDraw a card.",
    "appearances": 1
   },
@@ -244,7 +242,7 @@
     "U"
    ],
    "mana_cost": "{3}{U}{U}",
-   "url": "https://scryfall.com/card/cmm/108/mystic-confluence?utm_source=api",
+   "url": "https://scryfall.com/card/omb/12/mystic-confluence?utm_source=api",
    "oracle_text": "Choose three. You may choose the same mode more than once.\n• Counter target spell unless its controller pays {3}.\n• Return target creature to its owner's hand.\n• Draw a card.",
    "appearances": 1
   },
@@ -943,7 +941,7 @@
     "G"
    ],
    "mana_cost": "{3}{G}",
-   "url": "https://scryfall.com/card/isd/199/parallel-lives?utm_source=api",
+   "url": "https://scryfall.com/card/omb/36/parallel-lives?utm_source=api",
    "oracle_text": "If an effect would create one or more tokens under your control, it creates twice that many of those tokens instead."
   },
   {

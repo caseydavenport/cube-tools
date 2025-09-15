@@ -42,23 +42,27 @@ type Metadata struct {
 	// there are multiple drafts on the same day.
 	DraftID string `json:"draft_id"`
 
-	// SourceFile is the path to the source file from which this deck was created, relative
-	// to the deck file.
-	SourceFiles []string `json:"source_files,omitempty"`
+	// MainboardFile is the name of the file containing the mainboard, relative to the deck file.
+	MainboardFile string `json:"mainboard_file,omitempty"`
 
-	// SourceFile is a legacy field that represents the path to the source file from which
-	// this deck was created, relative to the deck file.
-	SourceFile string `json:"source_file,omitempty"`
+	// SideboardFile is the name of the file containing the sideboard, relative to the deck file.
+	SideboardFile string `json:"sideboard_file,omitempty"`
+
+	// CombinedFile is the name of the file containing both the mainboard and sideboard,
+	// relative to the deck file.
+	CombinedFile string `json:"combined_file,omitempty"`
 }
 
 func (m *Metadata) GetSourceFiles() []string {
-	files := make([]string, len(m.SourceFiles))
-	for i, f := range m.SourceFiles {
-		files[i] = filepath.Join(filepath.Dir(m.Path), f)
+	files := make([]string, 0)
+	if m.CombinedFile != "" {
+		files = append(files, filepath.Join(m.Path, m.CombinedFile))
 	}
-	if m.SourceFile != "" {
-		// Include the legacy SourceFile field if it's set.
-		files = append(files, filepath.Join(filepath.Dir(m.Path), m.SourceFile))
+	if m.MainboardFile != "" {
+		files = append(files, filepath.Join(m.Path, m.MainboardFile))
+	}
+	if m.SideboardFile != "" {
+		files = append(files, filepath.Join(m.Path, m.SideboardFile))
 	}
 	return files
 }

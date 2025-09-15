@@ -2,9 +2,7 @@
  "metadata": {
   "path": "data/polyverse/2024-01-07/james.json",
   "draft_id": "2024-01-07",
-  "source_files": [
-   "james.txt"
-  ]
+  "combined_file": "data/polyverse/2024-01-07/james.txt"
  },
  "labels": [
   "midrange"
@@ -155,7 +153,7 @@
     "G"
    ],
    "mana_cost": "{2}{G}{G}",
-   "url": "https://scryfall.com/card/tdc/244/arasta-of-the-endless-web?utm_source=api",
+   "url": "https://scryfall.com/card/omb/32/arasta-of-the-endless-web?utm_source=api",
    "oracle_text": "Reach\nWhenever an opponent casts an instant or sorcery spell, create a 1/2 green Spider creature token with reach.",
    "power": "3",
    "toughness": "5",
@@ -175,7 +173,7 @@
     "B"
    ],
    "mana_cost": "{1}{B}",
-   "url": "https://scryfall.com/card/eoc/84/infernal-grasp?utm_source=api",
+   "url": "https://scryfall.com/card/omb/18/infernal-grasp?utm_source=api",
    "oracle_text": "Destroy target creature. You lose 2 life.",
    "appearances": 1
   },

@@ -2,9 +2,7 @@
  "metadata": {
   "path": "data/polyverse/2025-08-31_d3/dom.json",
   "draft_id": "2025-08-31_d3",
-  "source_files": [
-   "dom.txt"
-  ]
+  "combined_file": "data/polyverse/2025-08-31_d3/dom.txt"
  },
  "labels": [
   "midrange"
