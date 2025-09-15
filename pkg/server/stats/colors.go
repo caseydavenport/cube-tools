@@ -202,13 +202,6 @@ func (d *colorStatsHandler) statsForDecks(decks []*storage.Deck, sr *ColorStatsR
 			resp.Data[color].ThreeOh += deck.Trophies()
 			resp.Data[color].OhThree += deck.LastPlace()
 			resp.Data[color].NumDecks += 1
-
-			logrus.WithFields(logrus.Fields{
-				"deck_id": deck.Player,
-				"color":   color,
-				"wins":    deck.GameWins(),
-				"losses":  deck.GameLosses(),
-			}).Info("Deck color stats added")
 		}
 
 		// Add metrics to the color based on card scope statistics.

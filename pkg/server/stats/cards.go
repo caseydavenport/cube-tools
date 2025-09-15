@@ -182,7 +182,7 @@ func (d *cardStatsHandler) statsForDecks(decks []*storage.Deck, cubeCards map[st
 			}
 
 			// Increment player count.
-			cbn.Players[deck.GetPlayer()]++
+			cbn.Players[deck.Player]++
 
 			// Include archetype data for this card
 			for _, l := range deck.Labels {
@@ -209,7 +209,7 @@ func (d *cardStatsHandler) statsForDecks(decks []*storage.Deck, cubeCards map[st
 			}
 
 			// Increment player count.
-			cbn.Sideboarders[deck.GetPlayer()]++
+			cbn.Sideboarders[deck.Player]++
 		}
 	}
 

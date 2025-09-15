@@ -7,9 +7,6 @@ import (
 	"slices"
 	"sort"
 	"strings"
-
-	"golang.org/x/text/cases"
-	"golang.org/x/text/language"
 )
 
 func NewDeck() *Deck {
@@ -105,11 +102,6 @@ type Match struct {
 type Game struct {
 	Opponent string `json:"opponent"`
 	Winner   string `json:"winner"`
-}
-
-func (d *Deck) GetPlayer() string {
-	// Capitalize just the first letter of the player's name, and leave the rest as-is.
-	return cases.Upper(language.English).String(d.Player[:1]) + d.Player[1:]
 }
 
 func (d *Deck) PickCount() int {

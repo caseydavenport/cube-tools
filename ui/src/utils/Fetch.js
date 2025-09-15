@@ -23,15 +23,6 @@ export async function LoadDecks(onLoad, start, end, draftSize, playerMatch) {
     d.avg_cmc = AverageCMC({deck: d})
     d.colors = ExtractColors({deck: d})
 
-    // Capitalize player names, since they are varying cases.
-    d.player = capitalize(d.player)
-    if (d.games != null ) {
-      for (let g of d.games) {
-        g.opponent = capitalize(g.opponent)
-        g.winner = capitalize(g.winner)
-      }
-    }
-
     // Avoid nil errors.
     if (d.matches === null) {
       d.matches = []
@@ -47,10 +38,6 @@ export async function LoadArchetypeData(onLoad, start, end, draftSize, playerMat
   let d = await resp.json();
   console.timeEnd("LoadArchetypeData()")
   onLoad(d)
-}
-
-function capitalize(word) {
-  return word[0].toUpperCase() + word.slice(1);
 }
 
 export async function LoadDrafts(onLoad, start, end) {
