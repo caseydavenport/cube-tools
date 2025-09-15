@@ -60,11 +60,15 @@ Flags:
 Use "Parse [command] --help" for more information about a command.
 ```
 
+## Scanning cards
+
+I typically use an Android app called "Delver Lens" to scan each decklist after a draft, and generate `.csv` files which can be used as input to this tool.
+
+You can also use the "Download all decks" feature of [Draftmancer](https://draftmancer.com/) to get `.txt` files, if you draft there.
+
 ## Adding draft information
 
-Create a temporary directory and download / create deck files within.
-
-To parse the decks within the directory:
+Once you have downloaded / created deck files within a directory, use can parse them like so:
 
 ```
 ./bin/parser \
@@ -73,6 +77,8 @@ To parse the decks within the directory:
     -p Prefix \                        # Optional prefix to match for each deck file.
     -filetype ".txt"                   # Filetype to check.
 ```
+
+This will also run a consistency check to ensure decks have the correct number of cards, and that the drafted card list matches the expected cube contents (i.e., check for missing or extra cards).
 
 Optional next steps:
 
