@@ -270,7 +270,7 @@ function CardWidgetTable(input) {
               }
               let stddev = StdDev(pd);
 
-              let imgs = ColorImages(card.colors)
+              let imgs = ColorImages(card.color_identity)
 
               // Determine sort order.
               let sort = card.mainboard_percent
@@ -379,7 +379,7 @@ function CardWidgetTable(input) {
                 }
 
                 let [expected_win_percent] = CardAnalyze(card, input.parsed.playerData)
-                let imgs = ColorImages(card.colors)
+                let imgs = ColorImages(card.color_identity)
 
                 // Determine sort value. Default to win percentage.
                 let sort = card.win_percent

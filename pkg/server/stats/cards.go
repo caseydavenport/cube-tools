@@ -309,17 +309,17 @@ type Cards struct {
 
 func newCardStats(c types.Card) *cardStats {
 	return &cardStats{
-		Name:         c.Name,
-		Archetypes:   make(map[string]int),
-		Players:      make(map[string]int),
-		Sideboarders: make(map[string]int),
-		URL:          c.URL,
-		Land:         c.IsLand(),
-		CMC:          c.CMC,
-		Interaction:  c.IsInteraction(),
-		Counterspell: c.IsCounterspell(),
-		Removal:      c.IsRemoval(),
-		Colors:       c.Colors,
+		Name:          c.Name,
+		Archetypes:    make(map[string]int),
+		Players:       make(map[string]int),
+		Sideboarders:  make(map[string]int),
+		URL:           c.URL,
+		Land:          c.IsLand(),
+		CMC:           c.CMC,
+		Interaction:   c.IsInteraction(),
+		Counterspell:  c.IsCounterspell(),
+		Removal:       c.IsRemoval(),
+		ColorIdentity: c.ColorIdentity,
 	}
 }
 
@@ -376,6 +376,6 @@ type cardStats struct {
 	Land bool `json:"land"`
 	// ELO.
 	ELO int `json:"elo"`
-	// Colors of the card (e.g. ["W", "U"]
-	Colors []string `json:"colors,omitempty"`
+	// ColorIdentity of the card (e.g. ["W", "U"]
+	ColorIdentity []string `json:"color_identity,omitempty"`
 }
