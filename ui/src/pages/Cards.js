@@ -4,6 +4,7 @@ import { DropdownHeader, NumericInput, Checkbox, DateSelector } from "../compone
 import { Wins, Losses } from "../utils/Deck.js"
 import { ApplyTooltip } from "../utils/Tooltip.js"
 import { CardAnalyze } from "../utils/Cards.js"
+import { ColorImages } from "../utils/Colors.js"
 
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Popover from 'react-bootstrap/Popover';
@@ -140,14 +141,28 @@ export function CardWidget(input) {
   );
 }
 
+function colorSort(card) {
+  if (card.colors == null || card.colors.length === 0) {
+    return "A"
+  } else if (card.colors.length > 1) {
+    return "A" + card.colors.toString()
+  }
+  return card.colors.toString()
+}
+
 function CardWidgetTable(input) {
   // Convert the cardData map to a list for sorting purposes.
   let cards = []
-  for (let [name, card] of input.parsed.cardData) {
+  for (let [name, card] of input.cardData) {
     cards.push(card)
   }
 
   let headers = [
+    {
+      id: "colors",
+      text: "Color Identity",
+      tip: "Color identity of the card.",
+    },
     {
       id: "card",
       text: "Card",
@@ -255,6 +270,8 @@ function CardWidgetTable(input) {
               }
               let stddev = StdDev(pd);
 
+              let imgs = ColorImages(card.colors)
+
               // Determine sort order.
               let sort = card.mainboard_percent
               switch (input.sortBy) {
@@ -297,10 +314,14 @@ function CardWidgetTable(input) {
                 case "wins":
                   sort = card.win_percent
                   break
+                case "colors":
+                  sort = colorSort(card)
+                  break
               }
 
               return (
                 <tr className="widget-table-row" sort={sort} key={card.name}>
+                  <td>{imgs}</td>
                   <OverlayTrigger
                     placement="right"
                     delay={{ show: 500, hide: 100 }}
@@ -341,6 +362,7 @@ function CardWidgetTable(input) {
         <table className="widget-table">
           <thead className="table-header">
             <tr>
+              <td onClick={input.onHeaderClick} id="colors" className="header-cell">Color Identity</td>
               <td onClick={input.onHeaderClick} id="card" className="header-cell">Card</td>
               <td onClick={input.onHeaderClick} id="wins" className="header-cell">Win %</td>
               <td onClick={input.onHeaderClick} id="pow" className="header-cell">% of Wins</td>
@@ -357,6 +379,7 @@ function CardWidgetTable(input) {
                 }
 
                 let [expected_win_percent] = CardAnalyze(card, input.parsed.playerData)
+                let imgs = ColorImages(card.colors)
 
                 // Determine sort value. Default to win percentage.
                 let sort = card.win_percent
@@ -382,11 +405,15 @@ function CardWidgetTable(input) {
                   case "#wins":
                     sort = card.wins
                     break;
+                  case "colors":
+                    sort = colorSort(card)
+                    break;
                 }
 
                 // Return the row.
                 return (
                   <tr sort={sort} className="widget-table-row" key={card.name}>
+                    <td>{imgs}</td>
                     <OverlayTrigger
                       placement="right"
                       delay={{ show: 500, hide: 100 }}
@@ -550,7 +577,7 @@ function CardMainboardTooltipContent(card) {
 function PlayRateChart(input) {
   // Split the given decks into fixed-size buckets.
   // Each bucket will contain N drafts worth of deck information.
-  let buckets = input.parsed.cardDataBucketed
+  let buckets = input.cardDataBucketed
 
   // Use the starting date of the bucket as the label. This is just an approximation,
   // as the bucket really includes a variable set of dates, but it allows the viewer to
@@ -653,7 +680,7 @@ function PlayRateChart(input) {
 function ELOChart(input) {
   // Split the given decks into fixed-size buckets.
   // Each bucket will contain N drafts worth of deck information.
-  let buckets = input.parsed.cardDataBucketed
+  let buckets = input.cardDataBucketed
 
   // Use the starting date of the bucket as the label. This is just an approximation,
   // as the bucket really includes a variable set of dates, but it allows the viewer to
@@ -747,7 +774,7 @@ function ELOChart(input) {
 function WinrateChart(input) {
   // Split the given decks into fixed-size buckets.
   // Each bucket will contain N drafts worth of deck information.
-  let buckets = input.parsed.cardDataBucketed
+  let buckets = input.cardDataBucketed
 
   // Use the starting date of the bucket as the label. This is just an approximation,
   // as the bucket really includes a variable set of dates, but it allows the viewer to
@@ -795,7 +822,6 @@ function WinrateChart(input) {
         backgroundColor: "#FF0",
       },
   ]
-
 
   let title = `${name} win % (bucket size = ${input.bucketSize} drafts)`
 
@@ -857,7 +883,7 @@ function CardGraph(input) {
 
   // values is an array of maps with keys 'x' and 'y'.
   var values = []
-  for (let [name, card] of input.parsed.cardData) {
+  for (let [name, card] of input.cardData) {
     var x = null
     var y = null
 

@@ -416,7 +416,7 @@ function TopCardsInArchetypeWidgetOptions(input) {
 
 function TopCardsInArchetypeWidget(input) {
   // Get all cards that are currently active.
-  let data = input.parsed.cardData
+  let data = input.cardData
   let archetypes = input.parsed.archetypeData
 
   // Filter out cards that don't match the given archetype, or don't meet minimum

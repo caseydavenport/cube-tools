@@ -380,8 +380,6 @@ export default function StatsViewer() {
     "pickInfo": {},
     "colorData": new Map(),
     "colorDataBucketed": [],
-    "cardData": new Map(),
-    "cardDataBucketed": [],
     "deckBuckets": [],
   }
   const [parsed, setParsedData] = useState(defaultParsed);
@@ -389,28 +387,27 @@ export default function StatsViewer() {
   ///////////////////////////////////////////////////////////////////////////////
   // Functions to load card stats from the server.
   ///////////////////////////////////////////////////////////////////////////////
+  const [cardDataBucketed, setCardDataBucketed] = useState([]);
+  const [cardData, setCardData] = useState(new Map());
+
   async function loadCardData(cb) {
     const resp = await fetch(`/api/stats/cards?color=${cardWidgetColorSelection}&min_drafts=${minDrafts}&min_games=${minGames}&start=${startDate}&end=${endDate}&size=${minDraftSize}&player=${playerMatch}`);
     let d = await resp.json();
     cb(d)
   }
-
   function onCardDataFetched(d) {
-    parsed.cardData = new Map(Object.entries(d.all.data))
-    setParsedData({...parsed})
+    const dm = new Map(Object.entries(d.all.data))
+    setCardData(dm)
   }
-
   async function loadBucketedCardData(cb) {
     const resp = await fetch(`/api/stats/cards?color=${cardWidgetColorSelection}&min_drafts=${minDrafts}&min_games=${minGames}&bucket_size=${bucketSize}&sliding=true`);
     let d = await resp.json();
     cb(d)
   }
-
   function onBucketedCardDataFetched(d) {
-    parsed.cardDataBucketed = Array.from(d.buckets)
-    setParsedData({...parsed})
+    const da = Array.from(d.buckets)
+    setCardDataBucketed(da)
   }
-
   useEffect(() => {
     Promise.all([loadCardData(onCardDataFetched)])
   }, [parsed.filteredDecks, cardWidgetColorSelection, minDrafts, minGames])
@@ -650,33 +647,27 @@ export default function StatsViewer() {
 
         <ArchetypeWidget
           parsed={parsed}
+          cardData={cardData}
           decks={decks}
           cube={cube}
           show={display[1]}
           bucketSize={bucketSize}
           matchups={archetypeMatchups}
-
           dropdownSelection={colorTypeSelection}
-
           cardWidgetOpts={cardWidgetOpts}
           onSelected={onCardWidgetSelected}
-
           colorWidgetOpts={cardWidgetColorOpts}
           colorSelection={cardWidgetColorSelection}
           onColorSelected={onCardWidgetColorSelected}
-
           archetypeDropdownOptions={archetypeDropdownOptions}
           selectedArchetype={selectedArchetype}
           onArchetypeSelected={onArchetypeSelected}
-
           onColorChecked={onColorSelectionCheckbox}
           colorCheckboxes={colorCheckboxes}
-
           onMinDraftsSelected={onMinDraftsSelected}
           minDrafts={minDrafts}
           onMinGamesSelected={onMinGamesSelected}
           minDecksInArch={minGames} // We overload the use of minGames here.
-
           sortBy={sortBy}
           onHeaderClick={onHeaderClick}
           handleRowClick={handleRowClick}
@@ -684,6 +675,8 @@ export default function StatsViewer() {
 
         <CardWidget
           parsed={parsed}
+          cardData={cardData}
+          cardDataBucketed={cardDataBucketed}
           decks={parsed.filteredDecks}
           dropdownSelection={cardWidgetSelection}
           cardFilter={cardFilter}

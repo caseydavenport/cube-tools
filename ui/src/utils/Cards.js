@@ -181,6 +181,7 @@ export function CardAnalyze(card, playerData) {
   let expected_rate = 0
 
   let play_count = 0
+
   let players = Object.entries(card.players)
   for (let [player, count] of players) {
     if (!playerData.has(player)) {

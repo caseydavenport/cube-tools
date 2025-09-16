@@ -241,6 +241,13 @@ func (d *cardStatsHandler) statsForDecks(decks []*storage.Deck, cubeCards map[st
 }
 
 func shouldFilterCard(cbn *cardStats, sr *CardStatsRequest) bool {
+	// For bucketed requests, we don't filter. The filteres in the request only apply to non-bucketed
+	// aggregate requests.
+	if sr.BucketSize > 0 {
+		return false
+	}
+
+	// Filter based on min drafts and min games.
 	if sr.MinDrafts > 0 && cbn.Mainboard+cbn.Sideboard < sr.MinDrafts {
 		return true
 	}
@@ -310,6 +317,7 @@ func newCardStats(c types.Card) *cardStats {
 		Interaction:  c.IsInteraction(),
 		Counterspell: c.IsCounterspell(),
 		Removal:      c.IsRemoval(),
+		Colors:       c.Colors,
 	}
 }
 
@@ -366,4 +374,6 @@ type cardStats struct {
 	Land bool `json:"land"`
 	// ELO.
 	ELO int `json:"elo"`
+	// Colors of the card (e.g. ["W", "U"]
+	Colors []string `json:"colors,omitempty"`
 }
