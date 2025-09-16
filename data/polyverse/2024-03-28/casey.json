@@ -1,14 +1,68 @@
 {
  "metadata": {
-  "path": "data/polyverse/2024-03-28/Casey.json",
+  "path": "data/polyverse/2024-03-28/casey.json",
   "draft_id": "2024-03-28",
   "combined_file": "data/polyverse/2024-03-28/casey.txt"
  },
- "labels": [],
+ "labels": [
+  "control",
+  "graveyard",
+  "tameshi"
+ ],
  "player": "casey",
  "date": "2024-03-28",
- "games": null,
- "matches": null,
+ "games": [
+  {
+   "opponent": "ken",
+   "winner": "ken"
+  },
+  {
+   "opponent": "ken",
+   "winner": "ken"
+  },
+  {
+   "opponent": "matthew",
+   "winner": "matthew"
+  },
+  {
+   "opponent": "matthew",
+   "winner": "matthew"
+  },
+  {
+   "opponent": "matthewbk",
+   "winner": "matthewbk"
+  },
+  {
+   "opponent": "matthewbk",
+   "winner": "matthewbk"
+  },
+  {
+   "opponent": "parker",
+   "winner": "casey"
+  },
+  {
+   "opponent": "parker",
+   "winner": "casey"
+  },
+  {
+   "opponent": "parker",
+   "winner": "parker"
+  }
+ ],
+ "matches": [
+  {
+   "opponent": "ken",
+   "winner": "ken"
+  },
+  {
+   "opponent": "matthewbk",
+   "winner": "matthewbk"
+  },
+  {
+   "opponent": "parker",
+   "winner": "casey"
+  }
+ ],
  "mainboard": [
   {
    "name": "Aether Spellbomb",

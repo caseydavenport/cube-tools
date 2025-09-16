@@ -1,14 +1,55 @@
 {
  "metadata": {
-  "path": "data/polyverse/2024-03-28/Ken.json",
+  "path": "data/polyverse/2024-03-28/ken.json",
   "draft_id": "2024-03-28",
   "combined_file": "data/polyverse/2024-03-28/ken.txt"
  },
- "labels": [],
+ "labels": [
+  "midrange",
+  "sacrifice"
+ ],
  "player": "ken",
  "date": "2024-03-28",
- "games": null,
- "matches": null,
+ "games": [
+  {
+   "opponent": "alexs",
+   "winner": "ken"
+  },
+  {
+   "opponent": "alexs",
+   "winner": "ken"
+  },
+  {
+   "opponent": "casey",
+   "winner": "ken"
+  },
+  {
+   "opponent": "casey",
+   "winner": "ken"
+  },
+  {
+   "opponent": "jan",
+   "winner": "jan"
+  },
+  {
+   "opponent": "jan",
+   "winner": "jan"
+  }
+ ],
+ "matches": [
+  {
+   "opponent": "alexs",
+   "winner": "ken"
+  },
+  {
+   "opponent": "casey",
+   "winner": "ken"
+  },
+  {
+   "opponent": "jan",
+   "winner": "jan"
+  }
+ ],
  "mainboard": [
   {
    "name": "Battlefield Forge",

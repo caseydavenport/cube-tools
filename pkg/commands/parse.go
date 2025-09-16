@@ -221,7 +221,10 @@ func writeDeck(d *types.Deck, draftID string) error {
 	}
 
 	// Generate the filename for the deck.
-	path := fmt.Sprintf("%s/%s.json", outdir, d.Player)
+	path := d.Metadata.Path
+	if path == "" {
+		path = fmt.Sprintf("%s/%s.json", outdir, strings.ToLower(d.Player))
+	}
 
 	// Ensure the correct metadata is set on the deck.
 	d.Metadata.DraftID = draftID
@@ -239,6 +242,11 @@ func writeDeck(d *types.Deck, draftID string) error {
 		d.Games = existing.Games
 		d.Wins = existing.Wins
 		d.Losses = existing.Losses
+
+		logrus.WithFields(logrus.Fields{
+			"games":   d.Games,
+			"matches": d.Matches,
+		}).Info("Preserved existing game/match data")
 	}
 
 	// Ensure capitalization is consistent for player names (all lowercase).

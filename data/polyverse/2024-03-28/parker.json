@@ -1,14 +1,59 @@
 {
  "metadata": {
-  "path": "data/polyverse/2024-03-28/Parker.json",
+  "path": "data/polyverse/2024-03-28/parker.json",
   "draft_id": "2024-03-28",
   "combined_file": "data/polyverse/2024-03-28/parker.txt"
  },
- "labels": [],
+ "labels": [
+  "midrange",
+  "lands"
+ ],
  "player": "parker",
  "date": "2024-03-28",
- "games": null,
- "matches": null,
+ "games": [
+  {
+   "opponent": "alexs",
+   "winner": "parker"
+  },
+  {
+   "opponent": "alexs",
+   "winner": "parker"
+  },
+  {
+   "opponent": "casey",
+   "winner": "parker"
+  },
+  {
+   "opponent": "casey",
+   "winner": "casey"
+  },
+  {
+   "opponent": "casey",
+   "winner": "casey"
+  },
+  {
+   "opponent": "jan",
+   "winner": "parker"
+  },
+  {
+   "opponent": "jan",
+   "winner": "parker"
+  }
+ ],
+ "matches": [
+  {
+   "opponent": "alexs",
+   "winner": "parker"
+  },
+  {
+   "opponent": "casey",
+   "winner": "casey"
+  },
+  {
+   "opponent": "jan",
+   "winner": "parker"
+  }
+ ],
  "mainboard": [
   {
    "name": "Arid Mesa",

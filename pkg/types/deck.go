@@ -31,7 +31,7 @@ func LoadDeck(path string) (*Deck, error) {
 }
 
 type Metadata struct {
-	// Path is the directory where the deck file is located.
+	// Path is the path to the deck file itself, relative to the repository root.
 	Path string `json:"path"`
 
 	// DraftID is a unique identifier for the draft from which this deck was created.
@@ -53,15 +53,19 @@ type Metadata struct {
 func (m *Metadata) GetSourceFiles() []string {
 	files := make([]string, 0)
 	if m.CombinedFile != "" {
-		files = append(files, filepath.Join(m.Path, m.CombinedFile))
+		files = append(files, filepath.Join(m.Dir(), m.CombinedFile))
 	}
 	if m.MainboardFile != "" {
-		files = append(files, filepath.Join(m.Path, m.MainboardFile))
+		files = append(files, filepath.Join(m.Dir(), m.MainboardFile))
 	}
 	if m.SideboardFile != "" {
-		files = append(files, filepath.Join(m.Path, m.SideboardFile))
+		files = append(files, filepath.Join(m.Dir(), m.SideboardFile))
 	}
 	return files
+}
+
+func (m *Metadata) Dir() string {
+	return filepath.Dir(m.Path)
 }
 
 type Deck struct {

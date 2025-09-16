@@ -4,11 +4,51 @@
   "draft_id": "2024-03-28",
   "combined_file": "data/polyverse/2024-03-28/alexs.txt"
  },
- "labels": [],
+ "labels": [
+  "aggro"
+ ],
  "player": "alexs",
  "date": "2024-03-28",
- "games": null,
- "matches": null,
+ "games": [
+  {
+   "opponent": "ken",
+   "winner": "ken"
+  },
+  {
+   "opponent": "ken",
+   "winner": "ken"
+  },
+  {
+   "opponent": "matthewbk",
+   "winner": "matthewbk"
+  },
+  {
+   "opponent": "matthewbk",
+   "winner": "matthewbk"
+  },
+  {
+   "opponent": "parker",
+   "winner": "parker"
+  },
+  {
+   "opponent": "parker",
+   "winner": "parker"
+  }
+ ],
+ "matches": [
+  {
+   "opponent": "ken",
+   "winner": "ken"
+  },
+  {
+   "opponent": "matthewbk",
+   "winner": "matthewbk"
+  },
+  {
+   "opponent": "parker",
+   "winner": "parker"
+  }
+ ],
  "mainboard": [
   {
    "name": "Adanto Vanguard",

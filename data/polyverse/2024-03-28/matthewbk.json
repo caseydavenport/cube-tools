@@ -4,11 +4,51 @@
   "draft_id": "2024-03-28",
   "combined_file": "data/polyverse/2024-03-28/matthewbk.txt"
  },
- "labels": [],
+ "labels": [
+  "tempo"
+ ],
  "player": "matthewbk",
  "date": "2024-03-28",
- "games": null,
- "matches": null,
+ "games": [
+  {
+   "opponent": "alexs",
+   "winner": "matthewbk"
+  },
+  {
+   "opponent": "alexs",
+   "winner": "matthewbk"
+  },
+  {
+   "opponent": "casey",
+   "winner": "matthewbk"
+  },
+  {
+   "opponent": "casey",
+   "winner": "matthewbk"
+  },
+  {
+   "opponent": "jan",
+   "winner": "matthewbk"
+  },
+  {
+   "opponent": "jan",
+   "winner": "matthewbk"
+  }
+ ],
+ "matches": [
+  {
+   "opponent": "alexs",
+   "winner": "matthewbk"
+  },
+  {
+   "opponent": "casey",
+   "winner": "matthewbk"
+  },
+  {
+   "opponent": "jan",
+   "winner": "matthewbk"
+  }
+ ],
  "mainboard": [
   {
    "name": "Arasta of the Endless Web",
