@@ -69,6 +69,7 @@ export function ArchetypeWidget(input) {
           <td style={{"verticalAlign": "top"}}>
             <TopCardsInArchetypeWidget
               parsed={input.parsed}
+              cardData={input.cardData}
               decks={input.decks}
               minDrafts={input.minDrafts}
               cube={input.cube}
