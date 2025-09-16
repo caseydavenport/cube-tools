@@ -295,7 +295,7 @@ func (d *colorStatsHandler) statsForDecks(decks []*storage.Deck, sr *ColorStatsR
 				"wins":        color.Wins,
 				"losses":      color.Losses,
 				"win_percent": color.WinPercent,
-			}).Info("Color win percentage")
+			}).Debug("Color win percentage")
 		}
 		if totalWins != 0 && color.Wins != 0 {
 			color.PercentOfWins = math.Round(100 * float64(color.Wins) / float64(totalWins))
