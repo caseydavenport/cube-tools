@@ -215,12 +215,22 @@ func (d *cardStatsHandler) statsForDecks(decks []*storage.Deck, cubeCards map[st
 		}
 	}
 
+	// Get ELO data to include in the response.
+	eloData := ELOData(decks)
+
 	// Now that we've gone through all the decks, calculate win percentages and mainboard/sideboard percentages,
 	// and perform any filtering based on the request parameters.
 	for _, cbn := range resp.Data {
 		if shouldFilterCard(cbn, sr) {
 			delete(resp.Data, cbn.Name)
 			continue
+		}
+
+		// Add ELO data.
+		if elo, ok := eloData[cbn.Name]; ok {
+			cbn.ELO = elo
+		} else {
+			cbn.ELO = 1200
 		}
 
 		// Calculate win percentage and mainboard/sideboard percentages.
@@ -240,6 +250,123 @@ func (d *cardStatsHandler) statsForDecks(decks []*storage.Deck, cubeCards map[st
 	}
 
 	return resp
+}
+
+func ELOData(decks []*storage.Deck) map[string]int {
+	type elo struct {
+		elo  float64
+		diff float64
+	}
+
+	// Store ELO data for each card by name.
+	cards := make(map[string]*elo)
+
+	// Populate initial ELO data.
+	for _, d := range decks {
+		for _, card := range d.Mainboard {
+			if _, ok := cards[card.Name]; !ok {
+				cards[card.Name] = &elo{elo: 1200, diff: 0}
+			}
+		}
+		for _, card := range d.Sideboard {
+			if _, ok := cards[card.Name]; !ok {
+				cards[card.Name] = &elo{elo: 1200, diff: 0}
+			}
+		}
+	}
+
+	// Go through each deck and perform ELO calculations on the cards.
+	for _, deck := range decks {
+		for _, c1 := range deck.Mainboard {
+			if c1.IsBasicLand() {
+				continue
+			}
+			for _, c2 := range deck.Sideboard {
+				if c2.IsBasicLand() {
+					continue
+				}
+				if !deck.CanCast(c2) {
+					continue
+				}
+
+				// How much the mainboard card "wins" against the sideboard card depends on a few factors.
+				// Start with 1.0, and subtract based on differences in CMC, color, and type. The idea is that
+				// the closer two cards are two each other in these dimensions, the more directly they are competing against each other.
+				winValue := 1.0
+				if c1.CMC != c2.CMC {
+					winValue = winValue - 0.025*math.Abs(float64(c1.CMC-c2.CMC))
+				}
+
+				colorMatch := true
+				if c1.Colors != nil && c2.Colors != nil {
+					for _, color := range c1.Colors {
+						for _, color2 := range c2.Colors {
+							if !contains(c1.Colors, color2) || !contains(c2.Colors, color) {
+								colorMatch = false
+							}
+						}
+					}
+				}
+				if !colorMatch {
+					winValue = winValue - 0.05
+				}
+
+				if (contains(c1.Types, "Creature") && !contains(c2.Types, "Creature")) ||
+					(!contains(c1.Types, "Creature") && contains(c2.Types, "Creature")) {
+					winValue = winValue - 0.1
+				}
+
+				if winValue < 0.55 {
+					winValue = 0.55
+				}
+
+				cc1 := cards[c1.Name]
+				cc2 := cards[c2.Name]
+
+				r1 := math.Pow(10, cc1.elo/400)
+				r2 := math.Pow(10, cc2.elo/400)
+
+				e1 := r1 / (r1 + r2)
+				e2 := r2 / (r1 + r2)
+
+				s1 := winValue
+				s2 := 1 - winValue
+
+				k := 16.0
+				cc1.diff += k * (s1 - e1)
+				cc2.diff += k * (s2 - e2)
+			}
+		}
+
+		// Update the cards actual ELO after each deck, and reset the diff for the next.
+		for _, c1 := range deck.Mainboard {
+			c := cards[c1.Name]
+			c.elo += math.Round(c.diff)
+			c.diff = 0
+		}
+		for _, c2 := range deck.Sideboard {
+			c := cards[c2.Name]
+			c.elo += math.Round(c.diff)
+			c.diff = 0
+		}
+	}
+
+	// Convert to map of card to ELo value.
+	result := make(map[string]int)
+	for name, c := range cards {
+		result[name] = int(c.elo)
+	}
+	return result
+}
+
+// Helper: check if a slice contains a string
+func contains(slice []string, s string) bool {
+	for _, v := range slice {
+		if v == s {
+			return true
+		}
+	}
+	return false
 }
 
 func shouldFilterCard(cbn *cardStats, sr *CardStatsRequest) bool {
