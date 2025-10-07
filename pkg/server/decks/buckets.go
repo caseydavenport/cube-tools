@@ -55,6 +55,13 @@ func DeckBuckets(decks []*storage.Deck, bucketSize int, discrete bool) []Bucket 
 }
 
 func deckBucketsDiscrete(decks []*storage.Deck, bucketSize int) []Bucket {
+	// If the bucket size is larger than the number of decks, return a single bucket.
+	if bucketSize >= len(decks) {
+		return []Bucket{{Drafts: []*Draft{{
+			Decks: decks,
+		}}}}
+	}
+
 	// Create a map of draft ID to Draft structure containing decks for that draft.
 	draftMap := make(map[string]*Draft)
 	for _, deck := range decks {
@@ -78,6 +85,11 @@ func deckBucketsDiscrete(decks []*storage.Deck, bucketSize int) []Bucket {
 	sort.Slice(drafts, func(i, j int) bool {
 		return drafts[i].Name < drafts[j].Name
 	})
+
+	// If the bucket size is larger than the number of drafts, return a single bucket.
+	if bucketSize >= len(drafts) {
+		return []Bucket{{Drafts: drafts}}
+	}
 
 	// Create buckets, working back from the end by bucketSize.
 	buckets := []Bucket{}
@@ -115,6 +127,7 @@ func deckBucketsSliding(decks []*storage.Deck, bucketSize int) []Bucket {
 		}
 		draftMap[draftID].Decks = append(draftMap[draftID].Decks, deck)
 	}
+
 	// Convert map to slice
 	drafts := make([]*Draft, 0, len(draftMap))
 	for _, draft := range draftMap {
@@ -124,6 +137,11 @@ func deckBucketsSliding(decks []*storage.Deck, bucketSize int) []Bucket {
 	sort.Slice(drafts, func(i, j int) bool {
 		return drafts[i].Name < drafts[j].Name
 	})
+
+	// If the bucket size is larger than the number of drafts, return a single bucket.
+	if bucketSize >= len(drafts) {
+		return []Bucket{{Drafts: drafts}}
+	}
 
 	// Create rolling buckets.
 	buckets := []Bucket{}

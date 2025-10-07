@@ -83,6 +83,10 @@ func (d *colorStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 	if sr.BucketSize > 0 {
 		// If bucket size is set, then create bucketed response.
 		buckets := decks.DeckBuckets(allDecks, sr.BucketSize, !sr.Sliding)
+		logrus.WithFields(logrus.Fields{
+			"num_buckets": len(buckets),
+			"num_decks":   len(allDecks),
+		}).Info("Created buckets for response")
 		for _, b := range buckets {
 			s := d.statsForDecks(b.AllDecks(), sr)
 			resp.Buckets = append(resp.Buckets, &ColorBucket{
