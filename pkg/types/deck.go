@@ -45,9 +45,13 @@ type Metadata struct {
 	// SideboardFile is the name of the file containing the sideboard, relative to the deck file.
 	SideboardFile string `json:"sideboard_file,omitempty"`
 
-	// CombinedFile is the name of the file containing both the mainboard and sideboard,
+	// CombinedFile is the name of the file containing both the mainboard and sideboard (separated by a marker),
 	// relative to the deck file.
 	CombinedFile string `json:"combined_file,omitempty"`
+
+	// PoolFile is the name of the file containing the draft pool, relative to the deck file.
+	// Used when the mainbord / sideboard decisions are not known.
+	PoolFile string `json:"pool_file,omitempty"`
 }
 
 func (m *Metadata) GetSourceFiles() []string {
@@ -96,6 +100,7 @@ type Deck struct {
 	// Cards in the mainboard.
 	Mainboard []Card `json:"mainboard"`
 	Sideboard []Card `json:"sideboard"`
+	Pool      []Card `json:"pool,omitempty"`
 }
 
 type Match struct {
