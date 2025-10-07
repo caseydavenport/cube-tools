@@ -12,7 +12,7 @@ function gameWins(deck) {
   let wins = 0
   for (var i in deck.games) {
     let game = deck.games[i]
-    if (game.winner != game.opponent) {
+    if (game.winner != "" && game.winner != game.opponent) {
       wins += 1
     }
   }
@@ -21,6 +21,17 @@ function gameWins(deck) {
 
 export function Losses(deck) {
   return gameLosses(deck)
+}
+
+export function Draws(deck) {
+  let draws = 0
+  for (var i in deck.games) {
+    let game = deck.games[i]
+    if (game.winner == "") {
+      draws += 1
+    }
+  }
+  return draws
 }
 
 function gameLosses(deck) {
@@ -33,7 +44,7 @@ function gameLosses(deck) {
   let losses = 0
   for (var i in deck.games) {
     let game = deck.games[i]
-    if (game.winner == game.opponent) {
+    if (game.winner != "" && game.winner == game.opponent) {
       losses += 1
     }
   }
@@ -43,6 +54,7 @@ function gameLosses(deck) {
 export function Record(deck, opp) {
   let wins = 0
   let losses = 0
+  let ties = 0
   for (var i in deck.games) {
     let game = deck.games[i]
 
@@ -52,14 +64,16 @@ export function Record(deck, opp) {
     }
 
     // Count up wins / losses.
-    if (game.winner == game.opponent) {
+    if (game.winner == "") {
+      ties += 1
+    } else if (game.winner == game.opponent) {
       losses += 1
     } else {
       wins += 1
     }
   }
 
-  return wins + "-" + losses
+  return wins + "-" + losses + (ties > 0 ? "-" + ties : "")
 }
 
 export function MatchWins(deck) {

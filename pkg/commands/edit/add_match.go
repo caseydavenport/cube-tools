@@ -30,17 +30,17 @@ var AddMatchCmd = &cobra.Command{
 		clog.WithField("record", record).Info("Adding match to draft")
 
 		// Parse the record string.
-		w, l, err := parseRecord(record)
+		w, l, t, err := parseRecord(record)
 		if err != nil {
 			clog.WithError(err).Fatal("Failed to parse record")
 		}
 
 		// Add the individual games, as well as the overall match to the first player.
-		if err := addMatchToPlayer(who, opp, date, w, l); err != nil {
+		if err := addMatchToPlayer(who, opp, date, w, l, t); err != nil {
 			clog.WithField("who", who).WithError(err).Fatal("Failed to add match to player")
 		}
 		// Add the individual games, as well as the overall match to the second player.
-		if err := addMatchToPlayer(opp, who, date, l, w); err != nil {
+		if err := addMatchToPlayer(opp, who, date, l, w, t); err != nil {
 			clog.WithField("who", opp).WithError(err).Fatal("Failed to add match to player")
 		}
 	},
@@ -60,34 +60,38 @@ func init() {
 	flag.StringVarP(flags, &who, "who", "p", "WHO", "", "The player who played the match")
 	flag.StringVarP(flags, &opp, "opponent", "o", "OPPONENT", "", "The opponent of the player who played the match")
 	flag.StringVarP(flags, &date, "date", "d", "DATE", "", "The date of the draft.")
-	flag.StringVarP(flags, &record, "record", "r", "RECORD", "", "The record of the player passed to 'who', formatted as 'W-L'")
+	flag.StringVarP(flags, &record, "record", "r", "RECORD", "", "The record of the player passed to 'who', formatted as 'W-L-T'")
 	flag.BoolVarP(flags, &force, "force", "", "FORCE", false, "Force overwrite of any existing games against the opponent")
 }
 
 // parseRecord parses a record string into wins and losses.
-func parseRecord(record string) (wins, losses int, err error) {
+func parseRecord(record string) (wins, losses, ties int, err error) {
 	if record == "" {
-		return 0, 0, nil
+		return 0, 0, 0, nil
 	}
-	if len(record) != 3 {
-		return 0, 0, fmt.Errorf("record must be formatted as 'W-L'")
+	if len(record) != 5 {
+		return 0, 0, 0, fmt.Errorf("record must be formatted as 'W-L-T'")
 	}
-	if record[1] != '-' {
-		return 0, 0, fmt.Errorf("record must be formatted as 'W-L'")
+	if record[1] != '-' || record[3] != '-' {
+		return 0, 0, 0, fmt.Errorf("record must be formatted as 'W-L'")
 	}
 	wins, err = strconv.Atoi(string(record[0]))
 	if err != nil {
-		return 0, 0, fmt.Errorf("failed to parse wins")
+		return 0, 0, 0, fmt.Errorf("failed to parse wins")
 	}
 	losses, err = strconv.Atoi(string(record[2]))
 	if err != nil {
-		return 0, 0, fmt.Errorf("failed to parse losses")
+		return 0, 0, 0, fmt.Errorf("failed to parse losses")
 	}
-	return wins, losses, nil
+	ties, err = strconv.Atoi(string(record[4]))
+	if err != nil {
+		return 0, 0, 0, fmt.Errorf("failed to parse ties")
+	}
+	return wins, losses, ties, nil
 }
 
 // addMatchToPlayer adds a match to the player's deck file within the draft.
-func addMatchToPlayer(player, opponent string, date string, wins, losses int) error {
+func addMatchToPlayer(player, opponent string, date string, wins, losses, ties int) error {
 	// First, load the player's deck file from the draft.
 	deck := commands.LoadParsedDeckFile(date, player)
 
@@ -99,11 +103,14 @@ func addMatchToPlayer(player, opponent string, date string, wins, losses int) er
 
 	// First, remove any games against this opponent, as we're going to write the new ones.
 	deck.RemoveGamesForOpponent(opponent)
-	for i := 0; i < wins; i++ {
+	for range wins {
 		deck.AddGame(opponent, player)
 	}
-	for i := 0; i < losses; i++ {
+	for range losses {
 		deck.AddGame(opponent, opponent)
+	}
+	for range ties {
+		deck.AddGame(opponent, "")
 	}
 
 	// Remove any matches against this opponent, as we're going to write the new one.

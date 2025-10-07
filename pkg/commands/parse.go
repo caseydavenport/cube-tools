@@ -278,12 +278,16 @@ func writeDeck(d *types.Deck, draftID string) error {
 	logc.Infof("Writing deck")
 
 	// Write the original "raw" decklist for posterity, tracking source files.
+	// We also update the metadata to point to the copied files.
+	// This allows us to re-run the parsing process without losing the original
+	// source files.
 	if f := d.Metadata.CombinedFile; f != "" {
 		filename := fmt.Sprintf("%s%s", d.Player, fileSuffix(f))
 		dst := fmt.Sprintf("%s/%s", outdir, filename)
 		if err := copyFile(*logc, f, dst); err != nil {
 			logc.WithError(err).Warn("Failed to copy source file")
 		}
+		d.Metadata.CombinedFile = dst
 	}
 	if f := d.Metadata.MainboardFile; f != "" {
 		filename := fmt.Sprintf("%s-mainboard%s", d.Player, fileSuffix(f))
@@ -291,6 +295,7 @@ func writeDeck(d *types.Deck, draftID string) error {
 		if err := copyFile(*logc, f, dst); err != nil {
 			logc.WithError(err).Warn("Failed to copy mainboard file")
 		}
+		d.Metadata.MainboardFile = dst
 	}
 	if f := d.Metadata.SideboardFile; f != "" {
 		filename := fmt.Sprintf("%s-sideboard%s", d.Player, fileSuffix(f))
@@ -298,6 +303,15 @@ func writeDeck(d *types.Deck, draftID string) error {
 		if err := copyFile(*logc, f, dst); err != nil {
 			logc.WithError(err).Warn("Failed to copy sideboard file")
 		}
+		d.Metadata.SideboardFile = dst
+	}
+	if f := d.Metadata.PoolFile; f != "" {
+		filename := fmt.Sprintf("%s-pool%s", d.Player, fileSuffix(f))
+		dst := fmt.Sprintf("%s/%s", outdir, filename)
+		if err := copyFile(*logc, f, dst); err != nil {
+			logc.WithError(err).Warn("Failed to copy pool file")
+		}
+		d.Metadata.PoolFile = dst
 	}
 
 	// First, write the canonical deck file in our format.

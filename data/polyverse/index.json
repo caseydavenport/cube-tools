@@ -728,6 +728,38 @@
      "path": "data/polyverse/2025-09-13/zephyr.json"
     }
    ]
+  },
+  {
+   "path": "data/polyverse/2025-10-04_ccc1",
+   "date": "2025-10-04",
+   "draft_id": "2025-10-04_ccc1",
+   "draft_log": "",
+   "decks": [
+    {
+     "path": "data/polyverse/2025-10-04_ccc1/player-3a69-07d0.json"
+    },
+    {
+     "path": "data/polyverse/2025-10-04_ccc1/player-3a69-119c.json"
+    },
+    {
+     "path": "data/polyverse/2025-10-04_ccc1/player-3a69-12a3.json"
+    },
+    {
+     "path": "data/polyverse/2025-10-04_ccc1/player-3a69-4202.json"
+    },
+    {
+     "path": "data/polyverse/2025-10-04_ccc1/player-3a69-5792.json"
+    },
+    {
+     "path": "data/polyverse/2025-10-04_ccc1/player-3a69-6d24.json"
+    },
+    {
+     "path": "data/polyverse/2025-10-04_ccc1/player-3a69-b258.json"
+    },
+    {
+     "path": "data/polyverse/2025-10-04_ccc1/player-3a69-ea32.json"
+    }
+   ]
   }
  ]
 }

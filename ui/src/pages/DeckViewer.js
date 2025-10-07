@@ -2,7 +2,7 @@ import React from 'react'
 import { useState } from "react";
 import { useEffect } from "react";
 import { LoadDecks, FetchFile } from "../utils/Fetch.js"
-import { Record, Wins, Losses, MatchWins, MatchLosses, MatchDraws, InDeckColor } from "../utils/Deck.js"
+import { Record, Wins, Losses, Draws, MatchWins, MatchLosses, MatchDraws, InDeckColor } from "../utils/Deck.js"
 import { RemovalMatches, CounterspellMatches } from "../pages/Decks.js"
 import { SortFunc } from "../utils/Utils.js"
 import { CardMatches, DeckMatches } from "../utils/Query.js"
@@ -117,6 +117,7 @@ export default function DeckViewer() {
   let boardOptions = [
     { label: "Mainboard", value: "Mainboard" },
     { label: "Sideboard", value: "Sideboard" },
+    { label: "Pool", value: "Pool" },
   ]
 
   // Callback for sucessfully fetching a Deck.
@@ -389,6 +390,7 @@ function DisplayDeck(input) {
   // to initialize to an empty slice.
   let missing = (input.mbsb == "Mainboard" && !deck.mainboard)
   missing = missing || (input.mbsb == "Sideboard" && !deck.sideboard)
+  missing = missing || (input.mbsb == "Pool" && !deck.pool)
   if (!deck || missing) {
     return null;
   }
@@ -396,6 +398,9 @@ function DisplayDeck(input) {
   let cards = deck.mainboard
   if (input.mbsb == "Sideboard") {
     cards = deck.sideboard
+  }
+  if (input.mbsb == "Pool") {
+    cards = deck.pool
   }
 
   let cardMap = new Map();
@@ -510,7 +515,7 @@ function PlayerFrame(input) {
       </tr>
       <tr>
         <td className="player-frame-title">Game record:</td>
-        <td className="player-frame-value">{Wins(deck)}-{Losses(deck)}</td>
+        <td className="player-frame-value">{Wins(deck)}-{Losses(deck)}-{Draws(deck)}</td>
       </tr>
       <tr>
         <td className="player-frame-title">Average CMC:</td>
@@ -537,6 +542,9 @@ function PlayerFrame(input) {
           let result = "W"
           if (match.opponent.toLowerCase() == match.winner.toLowerCase()) {
             result = "L"
+          }
+          if (match.winner == "") {
+            result = "D"
           }
           result += " (" + Record(deck, match.opponent) + ")"
           return (

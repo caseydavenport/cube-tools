@@ -1,0 +1,52 @@
+1 Spell Snare
+1 Dig Through Time
+1 Lorien Revealed
+1 Murderous Cut
+1 Sphinx of Forgotten Lore
+1 Restoration Angel
+1 Werefox Bodyguard
+1 Toxic Deluge
+1 Monastery Mentor
+1 Brainsurge
+1 No More Lies
+1 Thing in the Ice // Awoken Horror
+1 Daze
+1 Baleful Strix
+1 Consider
+1 Serum Visions
+1 Thoughtseize
+1 March of Otherworldly Light
+1 Ponder
+1 Oust
+1 Miscalculation
+1 Into the Roil
+1 Counterspell
+1 Moon-Circuit Hacker
+1 Mana Leak
+1 Flooded Strand
+1 Polluted Delta
+1 Mystic Sanctuary
+1 Scalding Tarn
+1 Hallowed Fountain
+1 Celestial Colonnade
+1 Silent Clearing
+1 Shelldock Isle
+1 Watery Grave
+1 Island
+1 Island
+1 Island
+1 Swamp
+1 Plains
+1 Plains
+
+1 Adanto Vanguard
+1 Deluge of Doom
+1 Unsummon
+1 Careful Study
+1 Midnight Reaper
+1 Faerie Guidemother
+1 Llanowar Elves
+1 Unexpectedly Absent
+1 Steam Vents
+1 Rishadan Port
+1 Bomat Courier

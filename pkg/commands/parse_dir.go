@@ -1,6 +1,7 @@
 package commands
 
 import (
+	"crypto/sha256"
 	"fmt"
 	"os"
 	"os/exec"
@@ -29,6 +30,8 @@ var ParseDirectoryCmd = &cobra.Command{
 	},
 }
 
+var anon bool
+
 func init() {
 	// Add flags for the command to parse a directory of deck files.
 	flags := ParseDirectoryCmd.Flags()
@@ -37,6 +40,7 @@ func init() {
 	flag.StringVarP(flags, &fileType, "filetype", "f", "TYPE", ".csv", "File type to look for in the deck-dir.")
 	flag.StringVarP(flags, &prefix, "prefix", "p", "PREFIX", "", "Prefix to match in the deck file names. Stripped before parsing.")
 	flag.StringVarP(flags, &draftID, "draft", "", "DRAFT", "", "Draft ID - used as the output directory")
+	flag.BoolVarP(flags, &anon, "anonymous", "a", "", false, "If set, anonymize player names in the output files.")
 }
 
 // work represents a piece of parsing work to be done.
@@ -45,7 +49,7 @@ type work struct {
 	paths  []string
 }
 
-func nameFromDeckFilename(filename string) string {
+func determinePlayer(filename string) string {
 	nicknames := map[string]string{
 		"jumms":      "james",
 		"maserstorm": "dom",
@@ -104,7 +108,12 @@ func generateWork(deckDir, fileType string) (map[string]work, error) {
 		if strings.HasSuffix(f.Name(), fileType) {
 			// Add the file, using the file name as the player name (minus the filetype)
 			path := fmt.Sprintf("%s/%s", deckDir, f.Name())
-			player := nameFromDeckFilename(f.Name())
+
+			player := determinePlayer(f.Name())
+			if anon {
+				// Use a deterministic hash of the draft ID + player name to generate an anonymous player name.
+				player = anonymize(draftID, player)
+			}
 
 			// Check if we already have a work item for this player.
 			if w, ok := workMap[player]; ok {
@@ -122,6 +131,26 @@ func generateWork(deckDir, fileType string) (map[string]work, error) {
 	}
 
 	return workMap, nil
+}
+
+func anonymize(draftID, player string) string {
+	logrus.WithFields(logrus.Fields{
+		"draftID": draftID,
+		"player":  player,
+	}).Info("Anonymizing player name")
+	h := sha256.New()
+	h.Write([]byte(draftID))
+	hashBytes := h.Sum(nil)
+	draftIDPart := fmt.Sprintf("%x", hashBytes)[:4]
+	logrus.WithField("draftPart", draftIDPart).Info("Draft ID part of anonymized name")
+
+	h.Reset()
+	h.Write([]byte(player))
+	hashBytes = h.Sum(nil)
+	playerPart := fmt.Sprintf("%x", hashBytes)[:4]
+
+	// Combine parts of the draft ID and player hash to create an anonymous name.
+	return fmt.Sprintf("player-%s-%s", draftIDPart, playerPart)
 }
 
 func parseDeckDir(deckDir, fileType, date, draftID string) {
@@ -156,6 +185,7 @@ func parseDeckDir(deckDir, fileType, date, draftID string) {
 	seenInDraft := map[string]int{}
 
 	var errs []error
+	var decks []*types.Deck
 	for _, work := range workMap {
 		// Parse the deck.
 		d, err := parseDeck(work.paths, work.player, labels, date, draftID)
@@ -164,6 +194,7 @@ func parseDeckDir(deckDir, fileType, date, draftID string) {
 			errs = append(errs, err)
 			continue
 		}
+		decks = append(decks, d)
 
 		// Mark the non-basic cards as seen.
 		for _, c := range d.AllCards() {
@@ -190,6 +221,14 @@ func parseDeckDir(deckDir, fileType, date, draftID string) {
 
 	// Check that the seen cards in the draft match the expected counts based on the latest cube snapshot.
 	checkDraftConsistency(logc, seenInDraft)
+
+	// Finally, write out each deck file.
+	for _, d := range decks {
+		if err := writeDeck(d, draftID); err != nil {
+			logc.WithError(err).WithField("player", d.Player).Error("Failed to write deck file.")
+			return
+		}
+	}
 }
 
 func writeCubeSnapshot(outdir string) error {

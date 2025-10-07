@@ -57,14 +57,18 @@ type Metadata struct {
 func (m *Metadata) GetSourceFiles() []string {
 	files := make([]string, 0)
 	if m.CombinedFile != "" {
-		files = append(files, filepath.Join(m.Dir(), m.CombinedFile))
+		files = append(files, m.CombinedFile)
 	}
 	if m.MainboardFile != "" {
-		files = append(files, filepath.Join(m.Dir(), m.MainboardFile))
+		files = append(files, m.MainboardFile)
 	}
 	if m.SideboardFile != "" {
-		files = append(files, filepath.Join(m.Dir(), m.SideboardFile))
+		files = append(files, m.SideboardFile)
 	}
+	if m.PoolFile != "" {
+		files = append(files, m.PoolFile)
+	}
+
 	return files
 }
 
@@ -114,6 +118,7 @@ type Match struct {
 type Game struct {
 	Opponent string `json:"opponent"`
 	Winner   string `json:"winner"`
+	Tie      bool   `json:"tie,omitempty"`
 }
 
 func (d *Deck) AllCards() []Card {
@@ -190,7 +195,11 @@ func (d *Deck) AddMatch(opponent, winner string) {
 
 // AddGame adds a game to the deck.
 func (d *Deck) AddGame(opponent, winner string) {
-	d.Games = append(d.Games, Game{Opponent: opponent, Winner: winner})
+	g := Game{Opponent: opponent, Winner: winner}
+	if winner == "" {
+		g.Tie = true
+	}
+	d.Games = append(d.Games, g)
 
 	// Sort the games by opponent.
 	sort.Slice(d.Games, func(i, j int) bool {
