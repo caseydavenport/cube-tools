@@ -112,7 +112,7 @@ func generateWork(deckDir, fileType string) (map[string]work, error) {
 			player := determinePlayer(f.Name())
 			if anon {
 				// Use a deterministic hash of the draft ID + player name to generate an anonymous player name.
-				player = anonymize(draftID, player)
+				player = Anonymize(draftID, player)
 			}
 
 			// Check if we already have a work item for this player.
@@ -133,11 +133,12 @@ func generateWork(deckDir, fileType string) (map[string]work, error) {
 	return workMap, nil
 }
 
-func anonymize(draftID, player string) string {
+func Anonymize(draftID, player string) string {
 	logrus.WithFields(logrus.Fields{
 		"draftID": draftID,
 		"player":  player,
 	}).Info("Anonymizing player name")
+
 	h := sha256.New()
 	h.Write([]byte(draftID))
 	hashBytes := h.Sum(nil)
@@ -220,7 +221,10 @@ func parseDeckDir(deckDir, fileType, date, draftID string) {
 	}
 
 	// Check that the seen cards in the draft match the expected counts based on the latest cube snapshot.
-	checkDraftConsistency(logc, seenInDraft)
+	if err = checkDraftConsistency(logc, seenInDraft); err != nil {
+		logc.WithError(err).Error("Draft consistency check failed, not writing output files.")
+		return
+	}
 
 	// Finally, write out each deck file.
 	for _, d := range decks {
@@ -249,7 +253,9 @@ func writeCubeSnapshot(outdir string) error {
 }
 
 // checkDraftConsistency checks that the seen cards in the draft match the expected counts based on the latest cube snapshot.
-func checkDraftConsistency(logc *logrus.Entry, seenInDraft map[string]int) {
+func checkDraftConsistency(logc *logrus.Entry, seenInDraft map[string]int) error {
+	passed := true
+
 	// Load the cube snapshot and count the number of unique cards we expect to see.
 	cube, err := types.LoadCube("data/polyverse/cube.json")
 	if err != nil {
@@ -268,9 +274,11 @@ func checkDraftConsistency(logc *logrus.Entry, seenInDraft map[string]int) {
 		if c, ok := cubeCards[name]; ok {
 			if count != c {
 				logc.WithFields(logrus.Fields{"name": name, "seen": count}).Error("Card count mismatch between seen decks and cube snapshot.")
+				passed = false
 			}
 		} else {
 			logc.WithField("name", name).Error("Card seen in decks but not in cube snapshot.")
+			passed = false
 		}
 	}
 
@@ -279,9 +287,16 @@ func checkDraftConsistency(logc *logrus.Entry, seenInDraft map[string]int) {
 		if c, ok := seenInDraft[name]; ok {
 			if count != c {
 				logc.WithFields(logrus.Fields{"name": name, "expected": count}).Error("Card count mismatch between cube snapshot and seen decks.")
+				passed = false
 			}
 		} else {
 			logc.WithField("name", name).Error("Card in cube snapshot but not seen in decks.")
+			passed = false
 		}
 	}
+
+	if !passed {
+		return fmt.Errorf("draft consistency check failed")
+	}
+	return nil
 }

@@ -52,6 +52,7 @@ var (
 	date   string
 	record string
 	force  bool
+	anon   bool
 )
 
 func init() {
@@ -62,6 +63,7 @@ func init() {
 	flag.StringVarP(flags, &date, "date", "d", "DATE", "", "The date of the draft.")
 	flag.StringVarP(flags, &record, "record", "r", "RECORD", "", "The record of the player passed to 'who', formatted as 'W-L-T'")
 	flag.BoolVarP(flags, &force, "force", "", "FORCE", false, "Force overwrite of any existing games against the opponent")
+	flag.BoolVarP(flags, &anon, "anonymous", "a", "", false, "If set, anonymize player names in the output files.")
 }
 
 // parseRecord parses a record string into wins and losses.
@@ -92,6 +94,12 @@ func parseRecord(record string) (wins, losses, ties int, err error) {
 
 // addMatchToPlayer adds a match to the player's deck file within the draft.
 func addMatchToPlayer(player, opponent string, date string, wins, losses, ties int) error {
+	// If anon is set, anonymize the player and opponent names using the same scheme as when parsing decks.
+	if anon {
+		player = commands.Anonymize(date, player)
+		opponent = commands.Anonymize(date, opponent)
+	}
+
 	// First, load the player's deck file from the draft.
 	deck := commands.LoadParsedDeckFile(date, player)
 
