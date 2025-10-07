@@ -97,10 +97,13 @@ type Deck struct {
 	Wins   int `json:"wins,omitempty"`
 	Losses int `json:"losses,omitempty"`
 
-	// Cards in the mainboard.
+	// Cards in the mainboard and sideboard.
 	Mainboard []Card `json:"mainboard"`
 	Sideboard []Card `json:"sideboard"`
-	Pool      []Card `json:"pool,omitempty"`
+
+	// Pool is the draft pool, if known. This is used when the mainboard / sideboard
+	// decisions are not known, and is mutually exclusive with Mainboard and Sideboard.
+	Pool []Card `json:"pool,omitempty"`
 }
 
 type Match struct {
@@ -122,6 +125,11 @@ func (d *Deck) AllCards() []Card {
 }
 
 func (d *Deck) PickCount() int {
+	if len(d.Pool) > 0 {
+		// If we have a pool, just return the size of the pool.
+		return len(d.Pool)
+	}
+
 	// Count the number of cards in the mainboard and sideboard, excluding basic lands.
 	count := 0
 	for _, c := range d.Mainboard {

@@ -177,6 +177,7 @@ func parseDeck(deckFiles []string, who, labels, date, draftID string) (*types.De
 	if d.PickCount() != 45 {
 		logrus.WithFields(logrus.Fields{
 			"files": deckFiles,
+			"count": d.PickCount(),
 		}).Warn("Deck does not have 45 cards total (main + side), likely a scan error, incomplete deck, or unusual draft format.")
 	}
 	return d, nil
