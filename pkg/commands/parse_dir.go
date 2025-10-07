@@ -166,7 +166,7 @@ func parseDeckDir(deckDir, fileType, date, draftID string) {
 		}
 
 		// Mark the non-basic cards as seen.
-		for _, c := range append(d.Mainboard, d.Sideboard...) {
+		for _, c := range d.AllCards() {
 			if c.IsBasicLand() {
 				continue
 			}

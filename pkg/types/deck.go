@@ -113,6 +113,14 @@ type Game struct {
 	Winner   string `json:"winner"`
 }
 
+func (d *Deck) AllCards() []Card {
+	cards := []Card{}
+	cards = append(cards, d.Mainboard...)
+	cards = append(cards, d.Sideboard...)
+	cards = append(cards, d.Pool...)
+	return cards
+}
+
 func (d *Deck) PickCount() int {
 	// Count the number of cards in the mainboard and sideboard, excluding basic lands.
 	count := 0
