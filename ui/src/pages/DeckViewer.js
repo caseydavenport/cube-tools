@@ -8,12 +8,26 @@ import { SortFunc } from "../utils/Utils.js"
 import { CardMatches, DeckMatches } from "../utils/Query.js"
 import { ColorImages } from "../utils/Colors.js"
 import { Button, TextInput, DropdownHeader, NumericInput, Checkbox, DateSelector } from "../components/Dropdown.js"
+import { InitialDates } from "./Stats.js"
 import ReactMarkdown from "react-markdown";
 
 
 // This function builds the DeckViewer widget for selecting and viewing statistics
 // about a particular deck.
 export default function DeckViewer() {
+  ///////////////////////////////////////////////////////////////////////////////
+  // State used for time selection.
+  ///////////////////////////////////////////////////////////////////////////////
+  let [start, end ] = InitialDates()
+  const [startDate, setStartDate] = useState(start);
+  const [endDate, setEndDate] = useState(end);
+  function onStartSelected(event) {
+    setStartDate(event.target.value)
+  }
+  function onEndSelected(event) {
+    setEndDate(event.target.value)
+  }
+
   // We keep two sets of variables - one for the dropdown values,
   // and another for the actual deck we want to display.
   // The dropdown values are just for filtering the deck list.
@@ -96,8 +110,8 @@ export default function DeckViewer() {
   // Start of day load the draft index.
   // This is used to populate the drafts dropdown menu.
   useEffect(() => {
-    LoadDecks(onDecksLoaded, null, null, 0, "")
-  }, [])
+    LoadDecks(onDecksLoaded, startDate, endDate, 0, "")
+  }, [startDate, endDate]);
 
   // Handle changes to the draft and deck selection dropdowns.
   function onDeckSelected(event) {
@@ -161,6 +175,19 @@ export default function DeckViewer() {
           options={draftDropdownOptions}
           value={selectedDraft}
           onChange={onDraftSelected}
+        />
+
+        <DateSelector
+          label="From: "
+          id="from"
+          value={startDate}
+          onChange={onStartSelected}
+        />
+        <DateSelector
+          label="To: "
+          id="to"
+          value={endDate}
+          onChange={onEndSelected}
         />
 
         <DropdownHeader

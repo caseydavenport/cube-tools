@@ -847,7 +847,7 @@ function SelectorBar(input) {
   );
 }
 
-function InitialDates() {
+export function InitialDates() {
   // Create a new Date object for today to represent the end date.
   const today = new Date();
   let year = today.getFullYear();
