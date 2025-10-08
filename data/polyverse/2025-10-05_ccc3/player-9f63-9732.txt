@@ -34,7 +34,7 @@
 1 Plains
 1 Plains
 1 Plains
-1 Swamp
+1 Plains
 1 Mountain
 1 Mountain
 1 Mountain
