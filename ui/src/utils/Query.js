@@ -71,14 +71,21 @@ export function DeckMatches(deck, matchStr, mbsb) {
     }
   }
 
+  // Check mainboard / sideboard.
   if (mbsb == "Mainboard") {
     for (let card of deck.mainboard) {
       if (CardMatches(card, matchStr, true)) {
         return true
       }
     }
-  } else {
+  } else if (mbsb == "Sideboard") {
     for (let card of deck.sideboard) {
+      if (CardMatches(card, matchStr, true)) {
+        return true
+      }
+    }
+  } else if (deck.pool) {
+    for (let card of deck.pool) {
       if (CardMatches(card, matchStr, true)) {
         return true
       }

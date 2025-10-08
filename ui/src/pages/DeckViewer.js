@@ -494,6 +494,9 @@ function PlayerFrame(input) {
   if (input.mbsb == "Sideboard") {
     cards = deck.sideboard
   }
+  if (input.mbsb == "Pool") {
+    cards = deck.pool
+  }
 
   // Get fields to display.
   let labels = deck.labels.join(', ')
