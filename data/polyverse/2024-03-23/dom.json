@@ -38,7 +38,7 @@
     "W"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/rvr/290/temple-garden?utm_source=api",
+   "url": "https://scryfall.com/card/ecl/268/temple-garden?utm_source=api",
    "oracle_text": "({T}: Add {G} or {W}.)\nAs this land enters, you may pay 2 life. If you don't, it enters tapped.",
    "appearances": 1
   },
@@ -561,7 +561,7 @@
     "W"
    ],
    "mana_cost": "{1}{W}",
-   "url": "https://scryfall.com/card/omb/5/reprieve?utm_source=api",
+   "url": "https://scryfall.com/card/ltr/26/reprieve?utm_source=api",
    "oracle_text": "Return target spell to its owner's hand.\nDraw a card.",
    "appearances": 1
   },
@@ -1273,7 +1273,7 @@
     "G"
    ],
    "mana_cost": "{3}{G}",
-   "url": "https://scryfall.com/card/omb/36/parallel-lives?utm_source=api",
+   "url": "https://scryfall.com/card/isd/199/parallel-lives?utm_source=api",
    "oracle_text": "If an effect would create one or more tokens under your control, it creates twice that many of those tokens instead."
   },
   {

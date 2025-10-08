@@ -198,7 +198,7 @@
     "W"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/rvr/290/temple-garden?utm_source=api",
+   "url": "https://scryfall.com/card/ecl/268/temple-garden?utm_source=api",
    "oracle_text": "({T}: Add {G} or {W}.)\nAs this land enters, you may pay 2 life. If you don't, it enters tapped."
   },
   {
@@ -252,7 +252,7 @@
     "W"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/rvr/280/hallowed-fountain?utm_source=api",
+   "url": "https://scryfall.com/card/ecl/265/hallowed-fountain?utm_source=api",
    "oracle_text": "({T}: Add {W} or {U}.)\nAs this land enters, you may pay 2 life. If you don't, it enters tapped."
   },
   {
@@ -553,7 +553,7 @@
     "R"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/rvr/273/blood-crypt?utm_source=api",
+   "url": "https://scryfall.com/card/ecl/262/blood-crypt?utm_source=api",
    "oracle_text": "({T}: Add {B} or {R}.)\nAs this land enters, you may pay 2 life. If you don't, it enters tapped."
   },
   {
@@ -842,7 +842,7 @@
     "U"
    ],
    "mana_cost": "{3}{U}{U}",
-   "url": "https://scryfall.com/card/omb/12/mystic-confluence?utm_source=api",
+   "url": "https://scryfall.com/card/cmm/108/mystic-confluence?utm_source=api",
    "oracle_text": "Choose three. You may choose the same mode more than once.\n• Counter target spell unless its controller pays {3}.\n• Return target creature to its owner's hand.\n• Draw a card."
   },
   {
@@ -859,7 +859,7 @@
     "R"
    ],
    "mana_cost": "{1}{R}",
-   "url": "https://scryfall.com/card/omb/23/goblin-bombardment?utm_source=api",
+   "url": "https://scryfall.com/card/mh2/279/goblin-bombardment?utm_source=api",
    "oracle_text": "Sacrifice a creature: This enchantment deals 1 damage to any target."
   },
   {

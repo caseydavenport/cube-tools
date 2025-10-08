@@ -32,7 +32,7 @@
     "U"
    ],
    "mana_cost": "{U}",
-   "url": "https://scryfall.com/card/omb/13/ponder?utm_source=api",
+   "url": "https://scryfall.com/card/tdc/159/ponder?utm_source=api",
    "oracle_text": "Look at the top three cards of your library, then put them back in any order. You may shuffle.\nDraw a card."
   },
   {
@@ -531,7 +531,7 @@
     "G"
    ],
    "mana_cost": "{2}{G}{G}",
-   "url": "https://scryfall.com/card/omb/32/arasta-of-the-endless-web?utm_source=api",
+   "url": "https://scryfall.com/card/tdc/244/arasta-of-the-endless-web?utm_source=api",
    "oracle_text": "Reach\nWhenever an opponent casts an instant or sorcery spell, create a 1/2 green Spider creature token with reach.",
    "power": "3",
    "toughness": "5"

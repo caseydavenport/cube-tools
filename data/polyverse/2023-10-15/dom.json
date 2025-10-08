@@ -156,7 +156,7 @@
     "G"
    ],
    "mana_cost": "{3}{G}",
-   "url": "https://scryfall.com/card/omb/36/parallel-lives?utm_source=api",
+   "url": "https://scryfall.com/card/isd/199/parallel-lives?utm_source=api",
    "oracle_text": "If an effect would create one or more tokens under your control, it creates twice that many of those tokens instead."
   },
   {
@@ -422,7 +422,7 @@
     "G"
    ],
    "mana_cost": "{2}{G}{G}",
-   "url": "https://scryfall.com/card/omb/32/arasta-of-the-endless-web?utm_source=api",
+   "url": "https://scryfall.com/card/tdc/244/arasta-of-the-endless-web?utm_source=api",
    "oracle_text": "Reach\nWhenever an opponent casts an instant or sorcery spell, create a 1/2 green Spider creature token with reach.",
    "power": "3",
    "toughness": "5"

@@ -4,7 +4,9 @@
   "draft_id": "2025-10-05_ccc3",
   "combined_file": "data/polyverse/2025-10-05_ccc3/player-9f63-9732.txt"
  },
- "labels": ["aggro"],
+ "labels": [
+  "aggro"
+ ],
  "player": "player-9f63-9732",
  "date": "2025-10-05",
  "games": [
@@ -764,23 +766,23 @@
    "oracle_text": "({T}: Add {W}.)"
   },
   {
-   "name": "Swamp",
+   "name": "Plains",
    "types": [
     "Basic",
     "Land"
    ],
    "sub_types": [
-    "Swamp"
+    "Plains"
    ],
    "cmc": 0,
    "image": "",
    "colors": [],
    "color_identity": [
-    "B"
+    "W"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/tla/284/swamp?utm_source=api",
-   "oracle_text": "({T}: Add {B}.)"
+   "url": "https://scryfall.com/card/tla/282/plains?utm_source=api",
+   "oracle_text": "({T}: Add {W}.)"
   },
   {
    "name": "Mountain",

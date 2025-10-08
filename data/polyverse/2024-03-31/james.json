@@ -268,7 +268,7 @@
     "G"
    ],
    "mana_cost": "{2}{G}{G}",
-   "url": "https://scryfall.com/card/omb/32/arasta-of-the-endless-web?utm_source=api",
+   "url": "https://scryfall.com/card/tdc/244/arasta-of-the-endless-web?utm_source=api",
    "oracle_text": "Reach\nWhenever an opponent casts an instant or sorcery spell, create a 1/2 green Spider creature token with reach.",
    "power": "3",
    "toughness": "5",
@@ -288,7 +288,7 @@
     "G"
    ],
    "mana_cost": "{2}{G}",
-   "url": "https://scryfall.com/card/omb/33/beast-within?utm_source=api",
+   "url": "https://scryfall.com/card/eoc/93/beast-within?utm_source=api",
    "oracle_text": "Destroy target permanent. Its controller creates a 3/3 green Beast creature token.",
    "appearances": 1
   },
@@ -1022,7 +1022,7 @@
     "U"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/rvr/288/steam-vents?utm_source=api",
+   "url": "https://scryfall.com/card/ecl/267/steam-vents?utm_source=api",
    "oracle_text": "({T}: Add {U} or {R}.)\nAs this land enters, you may pay 2 life. If you don't, it enters tapped."
   },
   {

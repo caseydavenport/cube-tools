@@ -4,7 +4,9 @@
   "draft_id": "2025-10-05_ccc3",
   "pool_file": "data/polyverse/2025-10-05_ccc3/player-9f63-c38c-pool.txt"
  },
- "labels": ["aggro"],
+ "labels": [
+  "aggro"
+ ],
  "player": "player-9f63-c38c",
  "date": "2025-10-05",
  "games": [

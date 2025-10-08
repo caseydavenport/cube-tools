@@ -310,7 +310,7 @@
     "U"
    ],
    "mana_cost": "{U}",
-   "url": "https://scryfall.com/card/omb/13/ponder?utm_source=api",
+   "url": "https://scryfall.com/card/tdc/159/ponder?utm_source=api",
    "oracle_text": "Look at the top three cards of your library, then put them back in any order. You may shuffle.\nDraw a card."
   },
   {
@@ -350,7 +350,7 @@
     "G"
    ],
    "mana_cost": "{3}{G}",
-   "url": "https://scryfall.com/card/omb/36/parallel-lives?utm_source=api",
+   "url": "https://scryfall.com/card/isd/199/parallel-lives?utm_source=api",
    "oracle_text": "If an effect would create one or more tokens under your control, it creates twice that many of those tokens instead."
   },
   {
@@ -460,7 +460,7 @@
     "U"
    ],
    "mana_cost": "{U}{U}",
-   "url": "https://scryfall.com/card/omb/9/counterspell?utm_source=api",
+   "url": "https://scryfall.com/card/dsc/114/counterspell?utm_source=api",
    "oracle_text": "Counter target spell."
   },
   {

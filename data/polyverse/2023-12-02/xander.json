@@ -327,7 +327,7 @@
     "U"
    ],
    "mana_cost": "{U}{U}",
-   "url": "https://scryfall.com/card/omb/9/counterspell?utm_source=api",
+   "url": "https://scryfall.com/card/dsc/114/counterspell?utm_source=api",
    "oracle_text": "Counter target spell.",
    "appearances": 1
   },
@@ -689,7 +689,7 @@
     "W"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/rvr/280/hallowed-fountain?utm_source=api",
+   "url": "https://scryfall.com/card/ecl/265/hallowed-fountain?utm_source=api",
    "oracle_text": "({T}: Add {W} or {U}.)\nAs this land enters, you may pay 2 life. If you don't, it enters tapped.",
    "appearances": 1
   },
@@ -707,7 +707,7 @@
     "U"
    ],
    "mana_cost": "{U}",
-   "url": "https://scryfall.com/card/omb/13/ponder?utm_source=api",
+   "url": "https://scryfall.com/card/tdc/159/ponder?utm_source=api",
    "oracle_text": "Look at the top three cards of your library, then put them back in any order. You may shuffle.\nDraw a card.",
    "appearances": 1
   },
@@ -870,7 +870,7 @@
     "G"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/rvr/283/overgrown-tomb?utm_source=api",
+   "url": "https://scryfall.com/card/ecl/266/overgrown-tomb?utm_source=api",
    "oracle_text": "({T}: Add {B} or {G}.)\nAs this land enters, you may pay 2 life. If you don't, it enters tapped."
   },
   {

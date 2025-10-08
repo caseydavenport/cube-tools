@@ -552,7 +552,7 @@
     "W"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/rvr/280/hallowed-fountain?utm_source=api",
+   "url": "https://scryfall.com/card/ecl/265/hallowed-fountain?utm_source=api",
    "oracle_text": "({T}: Add {W} or {U}.)\nAs this land enters, you may pay 2 life. If you don't, it enters tapped."
   },
   {
@@ -572,7 +572,7 @@
     "W"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/rvr/280/hallowed-fountain?utm_source=api",
+   "url": "https://scryfall.com/card/ecl/265/hallowed-fountain?utm_source=api",
    "oracle_text": "({T}: Add {W} or {U}.)\nAs this land enters, you may pay 2 life. If you don't, it enters tapped."
   },
   {
@@ -715,7 +715,7 @@
     "G"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/rvr/283/overgrown-tomb?utm_source=api",
+   "url": "https://scryfall.com/card/ecl/266/overgrown-tomb?utm_source=api",
    "oracle_text": "({T}: Add {B} or {G}.)\nAs this land enters, you may pay 2 life. If you don't, it enters tapped."
   },
   {
@@ -732,7 +732,7 @@
     "W"
    ],
    "mana_cost": "{W}",
-   "url": "https://scryfall.com/card/omb/4/path-to-exile?utm_source=api",
+   "url": "https://scryfall.com/card/otc/85/path-to-exile?utm_source=api",
    "oracle_text": "Exile target creature. Its controller may search their library for a basic land card, put that card onto the battlefield tapped, then shuffle."
   },
   {

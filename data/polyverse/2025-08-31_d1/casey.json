@@ -452,7 +452,7 @@
     "W"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/rvr/280/hallowed-fountain?utm_source=api",
+   "url": "https://scryfall.com/card/ecl/265/hallowed-fountain?utm_source=api",
    "oracle_text": "({T}: Add {W} or {U}.)\nAs this land enters, you may pay 2 life. If you don't, it enters tapped."
   },
   {
@@ -521,7 +521,7 @@
     "W"
    ],
    "mana_cost": "{1}{W}",
-   "url": "https://scryfall.com/card/omb/5/reprieve?utm_source=api",
+   "url": "https://scryfall.com/card/ltr/26/reprieve?utm_source=api",
    "oracle_text": "Return target spell to its owner's hand.\nDraw a card."
   },
   {

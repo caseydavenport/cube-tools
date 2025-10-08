@@ -398,7 +398,7 @@
     "G"
    ],
    "mana_cost": "{3}{G}",
-   "url": "https://scryfall.com/card/omb/36/parallel-lives?utm_source=api",
+   "url": "https://scryfall.com/card/isd/199/parallel-lives?utm_source=api",
    "oracle_text": "If an effect would create one or more tokens under your control, it creates twice that many of those tokens instead."
   },
   {
@@ -1176,7 +1176,7 @@
     "U"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/rvr/288/steam-vents?utm_source=api",
+   "url": "https://scryfall.com/card/ecl/267/steam-vents?utm_source=api",
    "oracle_text": "({T}: Add {U} or {R}.)\nAs this land enters, you may pay 2 life. If you don't, it enters tapped."
   },
   {

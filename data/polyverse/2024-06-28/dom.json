@@ -165,7 +165,7 @@
     "G"
    ],
    "mana_cost": "{2}{G}{G}",
-   "url": "https://scryfall.com/card/omb/32/arasta-of-the-endless-web?utm_source=api",
+   "url": "https://scryfall.com/card/tdc/244/arasta-of-the-endless-web?utm_source=api",
    "oracle_text": "Reach\nWhenever an opponent casts an instant or sorcery spell, create a 1/2 green Spider creature token with reach.",
    "power": "3",
    "toughness": "5",
@@ -280,7 +280,7 @@
     "G"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/rvr/283/overgrown-tomb?utm_source=api",
+   "url": "https://scryfall.com/card/ecl/266/overgrown-tomb?utm_source=api",
    "oracle_text": "({T}: Add {B} or {G}.)\nAs this land enters, you may pay 2 life. If you don't, it enters tapped."
   },
   {
@@ -323,7 +323,7 @@
     "W"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/rvr/290/temple-garden?utm_source=api",
+   "url": "https://scryfall.com/card/ecl/268/temple-garden?utm_source=api",
    "oracle_text": "({T}: Add {G} or {W}.)\nAs this land enters, you may pay 2 life. If you don't, it enters tapped.",
    "appearances": 1
   },
@@ -1026,7 +1026,7 @@
     "W"
    ],
    "mana_cost": "{1}{W}",
-   "url": "https://scryfall.com/card/omb/5/reprieve?utm_source=api",
+   "url": "https://scryfall.com/card/ltr/26/reprieve?utm_source=api",
    "oracle_text": "Return target spell to its owner's hand.\nDraw a card."
   },
   {
@@ -1178,7 +1178,7 @@
     "W"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/rvr/280/hallowed-fountain?utm_source=api",
+   "url": "https://scryfall.com/card/ecl/265/hallowed-fountain?utm_source=api",
    "oracle_text": "({T}: Add {W} or {U}.)\nAs this land enters, you may pay 2 life. If you don't, it enters tapped."
   },
   {

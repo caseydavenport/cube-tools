@@ -266,7 +266,7 @@
     "R"
    ],
    "mana_cost": "{1}{R}",
-   "url": "https://scryfall.com/card/omb/23/goblin-bombardment?utm_source=api",
+   "url": "https://scryfall.com/card/mh2/279/goblin-bombardment?utm_source=api",
    "oracle_text": "Sacrifice a creature: This enchantment deals 1 damage to any target."
   },
   {
@@ -740,7 +740,7 @@
     "R"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/rvr/273/blood-crypt?utm_source=api",
+   "url": "https://scryfall.com/card/ecl/262/blood-crypt?utm_source=api",
    "oracle_text": "({T}: Add {B} or {R}.)\nAs this land enters, you may pay 2 life. If you don't, it enters tapped."
   },
   {

@@ -68,7 +68,7 @@
     "G"
    ],
    "mana_cost": "{2}{G}",
-   "url": "https://scryfall.com/card/omb/33/beast-within?utm_source=api",
+   "url": "https://scryfall.com/card/eoc/93/beast-within?utm_source=api",
    "oracle_text": "Destroy target permanent. Its controller creates a 3/3 green Beast creature token.",
    "appearances": 1
   },
@@ -114,7 +114,7 @@
     "G"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/rvr/283/overgrown-tomb?utm_source=api",
+   "url": "https://scryfall.com/card/ecl/266/overgrown-tomb?utm_source=api",
    "oracle_text": "({T}: Add {B} or {G}.)\nAs this land enters, you may pay 2 life. If you don't, it enters tapped.",
    "appearances": 1
   },
@@ -498,7 +498,7 @@
     "B"
    ],
    "mana_cost": "{1}{B}",
-   "url": "https://scryfall.com/card/omb/18/infernal-grasp?utm_source=api",
+   "url": "https://scryfall.com/card/eoc/84/infernal-grasp?utm_source=api",
    "oracle_text": "Destroy target creature. You lose 2 life.",
    "appearances": 1
   },

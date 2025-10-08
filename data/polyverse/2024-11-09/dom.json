@@ -268,7 +268,7 @@
     "G"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/rvr/283/overgrown-tomb?utm_source=api",
+   "url": "https://scryfall.com/card/ecl/266/overgrown-tomb?utm_source=api",
    "oracle_text": "({T}: Add {B} or {G}.)\nAs this land enters, you may pay 2 life. If you don't, it enters tapped.",
    "appearances": 1
   },
@@ -356,7 +356,7 @@
     "B"
    ],
    "mana_cost": "{1}{B}",
-   "url": "https://scryfall.com/card/omb/18/infernal-grasp?utm_source=api",
+   "url": "https://scryfall.com/card/eoc/84/infernal-grasp?utm_source=api",
    "oracle_text": "Destroy target creature. You lose 2 life.",
    "appearances": 1
   },
@@ -615,7 +615,7 @@
     "G"
    ],
    "mana_cost": "{2}{G}{G}",
-   "url": "https://scryfall.com/card/omb/32/arasta-of-the-endless-web?utm_source=api",
+   "url": "https://scryfall.com/card/tdc/244/arasta-of-the-endless-web?utm_source=api",
    "oracle_text": "Reach\nWhenever an opponent casts an instant or sorcery spell, create a 1/2 green Spider creature token with reach.",
    "power": "3",
    "toughness": "5",
@@ -662,7 +662,7 @@
     "W"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/rvr/280/hallowed-fountain?utm_source=api",
+   "url": "https://scryfall.com/card/ecl/265/hallowed-fountain?utm_source=api",
    "oracle_text": "({T}: Add {W} or {U}.)\nAs this land enters, you may pay 2 life. If you don't, it enters tapped.",
    "appearances": 1
   },
@@ -680,7 +680,7 @@
     "W"
    ],
    "mana_cost": "{1}{W}",
-   "url": "https://scryfall.com/card/omb/5/reprieve?utm_source=api",
+   "url": "https://scryfall.com/card/ltr/26/reprieve?utm_source=api",
    "oracle_text": "Return target spell to its owner's hand.\nDraw a card.",
    "appearances": 1
   },
@@ -765,7 +765,7 @@
     "G"
    ],
    "mana_cost": "{2}{G}",
-   "url": "https://scryfall.com/card/omb/33/beast-within?utm_source=api",
+   "url": "https://scryfall.com/card/eoc/93/beast-within?utm_source=api",
    "oracle_text": "Destroy target permanent. Its controller creates a 3/3 green Beast creature token.",
    "appearances": 1
   },

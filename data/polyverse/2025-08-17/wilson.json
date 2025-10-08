@@ -259,7 +259,7 @@
     "U"
    ],
    "mana_cost": "{U}",
-   "url": "https://scryfall.com/card/omb/13/ponder?utm_source=api",
+   "url": "https://scryfall.com/card/tdc/159/ponder?utm_source=api",
    "oracle_text": "Look at the top three cards of your library, then put them back in any order. You may shuffle.\nDraw a card."
   },
   {
@@ -788,7 +788,7 @@
     "U"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/rvr/288/steam-vents?utm_source=api",
+   "url": "https://scryfall.com/card/ecl/267/steam-vents?utm_source=api",
    "oracle_text": "({T}: Add {U} or {R}.)\nAs this land enters, you may pay 2 life. If you don't, it enters tapped."
   },
   {
@@ -1070,7 +1070,7 @@
     "U"
    ],
    "mana_cost": "{U}{U}",
-   "url": "https://scryfall.com/card/omb/9/counterspell?utm_source=api",
+   "url": "https://scryfall.com/card/dsc/114/counterspell?utm_source=api",
    "oracle_text": "Counter target spell."
   },
   {

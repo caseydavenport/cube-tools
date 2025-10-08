@@ -219,7 +219,7 @@
     "W"
    ],
    "mana_cost": "{W}",
-   "url": "https://scryfall.com/card/omb/4/path-to-exile?utm_source=api",
+   "url": "https://scryfall.com/card/otc/85/path-to-exile?utm_source=api",
    "oracle_text": "Exile target creature. Its controller may search their library for a basic land card, put that card onto the battlefield tapped, then shuffle."
   },
   {
@@ -313,7 +313,7 @@
     "R"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/rvr/273/blood-crypt?utm_source=api",
+   "url": "https://scryfall.com/card/ecl/262/blood-crypt?utm_source=api",
    "oracle_text": "({T}: Add {B} or {R}.)\nAs this land enters, you may pay 2 life. If you don't, it enters tapped.",
    "appearances": 1
   },

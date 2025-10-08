@@ -69,7 +69,7 @@
     "G"
    ],
    "mana_cost": "{2}{G}{G}",
-   "url": "https://scryfall.com/card/omb/32/arasta-of-the-endless-web?utm_source=api",
+   "url": "https://scryfall.com/card/tdc/244/arasta-of-the-endless-web?utm_source=api",
    "oracle_text": "Reach\nWhenever an opponent casts an instant or sorcery spell, create a 1/2 green Spider creature token with reach.",
    "power": "3",
    "toughness": "5"
@@ -91,7 +91,7 @@
     "R"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/rvr/273/blood-crypt?utm_source=api",
+   "url": "https://scryfall.com/card/ecl/262/blood-crypt?utm_source=api",
    "oracle_text": "({T}: Add {B} or {R}.)\nAs this land enters, you may pay 2 life. If you don't, it enters tapped."
   },
   {
@@ -322,7 +322,7 @@
     "R"
    ],
    "mana_cost": "{1}{R}",
-   "url": "https://scryfall.com/card/omb/23/goblin-bombardment?utm_source=api",
+   "url": "https://scryfall.com/card/mh2/279/goblin-bombardment?utm_source=api",
    "oracle_text": "Sacrifice a creature: This enchantment deals 1 damage to any target."
   },
   {
@@ -390,7 +390,7 @@
     "B"
    ],
    "mana_cost": "{1}{B}",
-   "url": "https://scryfall.com/card/omb/18/infernal-grasp?utm_source=api",
+   "url": "https://scryfall.com/card/eoc/84/infernal-grasp?utm_source=api",
    "oracle_text": "Destroy target creature. You lose 2 life."
   },
   {
@@ -634,7 +634,7 @@
     "G"
    ],
    "mana_cost": "",
-   "url": "https://scryfall.com/card/rvr/283/overgrown-tomb?utm_source=api",
+   "url": "https://scryfall.com/card/ecl/266/overgrown-tomb?utm_source=api",
    "oracle_text": "({T}: Add {B} or {G}.)\nAs this land enters, you may pay 2 life. If you don't, it enters tapped."
   },
   {
