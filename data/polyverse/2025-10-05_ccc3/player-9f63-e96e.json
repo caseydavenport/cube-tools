@@ -5,8 +5,9 @@
   "pool_file": "data/polyverse/2025-10-05_ccc3/player-9f63-e96e-pool.txt"
  },
  "labels": [
-  "midrange"
+  "midrange", "discard", "graveyard"
  ],
+ "colors": ["U", "B", "R"],
  "player": "player-9f63-e96e",
  "date": "2025-10-05",
  "games": [

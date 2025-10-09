@@ -6,8 +6,10 @@
  },
  "labels": [
   "midrange",
-  "graveyard"
+  "graveyard",
+  "beans"
  ],
+ "colors": ["U", "G"],
  "player": "player-9f63-c3c0",
  "date": "2025-10-05",
  "games": [

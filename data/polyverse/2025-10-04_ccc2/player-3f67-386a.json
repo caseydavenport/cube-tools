@@ -5,7 +5,11 @@
   "pool_file": "data/polyverse/2025-10-04_ccc2/player-3f67-386a-pool.txt"
  },
  "labels": [
-  "midrange"
+  "midrange", "coco", "lands", "fotd"
+ ],
+ "colors": [
+  "G",
+  "R"
  ],
  "player": "player-3f67-386a",
  "date": "2025-10-04",

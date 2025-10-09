@@ -7,6 +7,7 @@
  "labels": [
   "aggro"
  ],
+ "colors": ["B", "R", "G"],
  "player": "player-9f63-c38c",
  "date": "2025-10-05",
  "games": [
