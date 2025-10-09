@@ -449,44 +449,6 @@
    "oracle_text": "({T}: Add {B}.)"
   },
   {
-   "name": "Swamp",
-   "types": [
-    "Basic",
-    "Land"
-   ],
-   "sub_types": [
-    "Swamp"
-   ],
-   "cmc": 0,
-   "image": "",
-   "colors": [],
-   "color_identity": [
-    "B"
-   ],
-   "mana_cost": "",
-   "url": "https://scryfall.com/card/tla/284/swamp?utm_source=api",
-   "oracle_text": "({T}: Add {B}.)"
-  },
-  {
-   "name": "Swamp",
-   "types": [
-    "Basic",
-    "Land"
-   ],
-   "sub_types": [
-    "Swamp"
-   ],
-   "cmc": 0,
-   "image": "",
-   "colors": [],
-   "color_identity": [
-    "B"
-   ],
-   "mana_cost": "",
-   "url": "https://scryfall.com/card/tla/284/swamp?utm_source=api",
-   "oracle_text": "({T}: Add {B}.)"
-  },
-  {
    "name": "Siren Stormtamer",
    "types": [
     "Creature"
@@ -509,25 +471,6 @@
    "oracle_text": "Flying\n{U}, Sacrifice this creature: Counter target spell or ability that targets you or a creature you control.",
    "power": "1",
    "toughness": "1"
-  },
-  {
-   "name": "Island",
-   "types": [
-    "Basic",
-    "Land"
-   ],
-   "sub_types": [
-    "Island"
-   ],
-   "cmc": 0,
-   "image": "",
-   "colors": [],
-   "color_identity": [
-    "U"
-   ],
-   "mana_cost": "",
-   "url": "https://scryfall.com/card/tla/283/island?utm_source=api",
-   "oracle_text": "({T}: Add {U}.)"
   },
   {
    "name": "Island",
@@ -633,44 +576,6 @@
    "mana_cost": "",
    "url": "https://scryfall.com/card/tdm/258/jungle-hollow?utm_source=api",
    "oracle_text": "This land enters tapped.\nWhen this land enters, you gain 1 life.\n{T}: Add {B} or {G}."
-  },
-  {
-   "name": "Forest",
-   "types": [
-    "Basic",
-    "Land"
-   ],
-   "sub_types": [
-    "Forest"
-   ],
-   "cmc": 0,
-   "image": "",
-   "colors": [],
-   "color_identity": [
-    "G"
-   ],
-   "mana_cost": "",
-   "url": "https://scryfall.com/card/tla/286/forest?utm_source=api",
-   "oracle_text": "({T}: Add {G}.)"
-  },
-  {
-   "name": "Forest",
-   "types": [
-    "Basic",
-    "Land"
-   ],
-   "sub_types": [
-    "Forest"
-   ],
-   "cmc": 0,
-   "image": "",
-   "colors": [],
-   "color_identity": [
-    "G"
-   ],
-   "mana_cost": "",
-   "url": "https://scryfall.com/card/tla/286/forest?utm_source=api",
-   "oracle_text": "({T}: Add {G}.)"
   },
   {
    "name": "Forest",

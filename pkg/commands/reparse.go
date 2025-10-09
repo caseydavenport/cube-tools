@@ -64,6 +64,7 @@ func reparse() error {
 				"deck": deckIndex.Path,
 				"src":  srcFiles,
 			}).Info("Reparsing deck")
+
 			if d, err := parseDeck(srcFiles, deck.Player, "", draft.Date, draft.DraftID); err != nil {
 				logrus.WithError(err).WithField("deck", deckIndex.Path).Warn("Failed to parse deck")
 			} else {
