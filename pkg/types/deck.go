@@ -291,6 +291,11 @@ func (d *Deck) GetColors() map[string]bool {
 
 	// Otherwise, infer colors from the mainboard cards.
 	for _, c := range d.Mainboard {
+		// Skip hybrid cards, as they may be included for one of their
+		// colors but not the other.
+		if c.IsHybrid() {
+			continue
+		}
 		for _, color := range c.Colors {
 			colors[color] = true
 		}

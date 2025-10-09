@@ -37,6 +37,10 @@ func (c Card) IsCreature() bool {
 	return slices.Contains(c.Types, "Creature")
 }
 
+func (c Card) IsHybrid() bool {
+	return strings.Contains(c.ManaCost, "/")
+}
+
 func (c Card) IsRemoval() bool {
 	removal := []string{
 		"Destroy target creature",
