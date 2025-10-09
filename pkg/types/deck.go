@@ -108,6 +108,12 @@ type Deck struct {
 	// Pool is the draft pool, if known. This is used when the mainboard / sideboard
 	// decisions are not known, and is mutually exclusive with Mainboard and Sideboard.
 	Pool []Card `json:"pool,omitempty"`
+
+	// Colors is an optional list of colors for the deck. If specified, it overrides
+	// the colors inferred from the cards in the mainboard. This is useful for
+	// decks that don't neatly fit into the color identity of the cards, or when we only
+	// have approximate information about the cards in the deck.
+	Colors []string `json:"colors,omitempty"`
 }
 
 type Match struct {
@@ -273,8 +279,17 @@ func (d *Deck) LastPlace() int {
 	return 0
 }
 
-func (d *Deck) Colors() map[string]bool {
+func (d *Deck) GetColors() map[string]bool {
 	colors := make(map[string]bool)
+	if len(d.Colors) > 0 {
+		// If the deck has explicit colors, use those.
+		for _, c := range d.Colors {
+			colors[c] = true
+		}
+		return colors
+	}
+
+	// Otherwise, infer colors from the mainboard cards.
 	for _, c := range d.Mainboard {
 		for _, color := range c.Colors {
 			colors[color] = true
@@ -287,7 +302,7 @@ func (d *Deck) Colors() map[string]bool {
 // e.g., a WUG deck will return [W, U, G, WU, WG, UG, WUG]
 // Note: We exclude identities with more than 3 colors for simplicity.
 func (d *Deck) ColorIdentities() map[string]bool {
-	deckColors := d.Colors()
+	deckColors := d.GetColors()
 	allColors := make(map[string]bool)
 	for c := range deckColors {
 		allColors[c] = true
@@ -338,7 +353,7 @@ func (d *Deck) CanCast(c Card) bool {
 		cardColors = c.ColorIdentity
 	}
 
-	deckColors := d.Colors()
+	deckColors := d.GetColors()
 	if len(c.ColorIdentity) == 0 {
 		return true
 	}

@@ -100,7 +100,7 @@ func (d *colorStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 	}
 
 	// Print out correlation coefficients between color pick percentages and win percentages.
-	d.printCorrelations(resp)
+	// d.printCorrelations(resp)
 
 	// Marshal the response and write it back.
 	b, err := json.MarshalIndent(resp, "", "  ")
@@ -189,7 +189,7 @@ func (d *colorStatsHandler) statsForDecks(decks []*storage.Deck, sr *ColorStatsR
 		// count as W, G, and WG normally.
 		var colors []string
 		for color := range identities {
-			if sr.StrictColors && len(deck.Colors()) != len(color) {
+			if sr.StrictColors && len(deck.GetColors()) != len(color) {
 				// Skip this color since it isn't strictly the color identity of the deck.
 				continue
 			}
@@ -279,7 +279,9 @@ func (d *colorStatsHandler) statsForDecks(decks []*storage.Deck, sr *ColorStatsR
 			densitySum += a
 		}
 		densityCount := float64(len(color.DeckPercentages))
-		color.AverageDeckPercentage = math.Round(100*densitySum/densityCount + 0.5)
+		if densityCount > 0 {
+			color.AverageDeckPercentage = math.Round(100 * densitySum / densityCount)
+		}
 
 		vpSum := 0.0
 		for _, a := range color.VictoryPointsPerDeck {
