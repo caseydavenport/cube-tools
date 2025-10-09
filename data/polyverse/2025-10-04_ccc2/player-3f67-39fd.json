@@ -8,11 +8,6 @@
   "control",
   "beans"
  ],
- "colors": [
-  "U",
-  "G",
-  "W"
- ],
  "player": "player-3f67-39fd",
  "date": "2025-10-04",
  "games": [
@@ -923,5 +918,10 @@
    "url": "https://scryfall.com/card/bro/26/soul-partition?utm_source=api",
    "oracle_text": "Exile target nonland permanent. For as long as that card remains exiled, its owner may play it. A spell cast by an opponent this way costs {2} more to cast."
   }
+ ],
+ "colors": [
+  "U",
+  "G",
+  "W"
  ]
 }

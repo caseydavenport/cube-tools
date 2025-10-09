@@ -2,6 +2,7 @@ package commands
 
 import (
 	"encoding/json"
+	"fmt"
 	"os"
 
 	"github.com/caseydavenport/cube-tools/pkg/types"
@@ -15,7 +16,7 @@ var ReparseCmd = &cobra.Command{
 	Short: "Reparse existing data files to update them",
 	Run: func(cmd *cobra.Command, args []string) {
 		if err := reparse(); err != nil {
-			logrus.Fatal(err)
+			logrus.WithError(err).Fatal("Failed to reparse data files")
 		}
 	},
 }
@@ -28,11 +29,11 @@ func reparse() error {
 	indexFile := "data/polyverse/index.json"
 	contents, err := os.ReadFile(indexFile)
 	if err != nil {
-		return err
+		return fmt.Errorf("failed to read index file: %w", err)
 	}
 	var index MainIndex
 	if err := json.Unmarshal(contents, &index); err != nil {
-		return err
+		return fmt.Errorf("failed to unmarshal index file: %w", err)
 	}
 
 	// Iterate over the drafts and reparse each one.
@@ -41,7 +42,7 @@ func reparse() error {
 			// Open the deck file.
 			deck, err := types.LoadDeck(deckIndex.Path)
 			if err != nil {
-				return err
+				return fmt.Errorf("failed to load deck file %s: %w", deckIndex.Path, err)
 			}
 
 			// Build path to the .txt or csv file.

@@ -7,7 +7,6 @@
  "labels": [
   "aggro"
  ],
- "colors": ["R", "B"]
  "player": "player-3f67-a0b7",
  "date": "2025-10-04",
  "games": [
@@ -925,5 +924,9 @@
    "url": "https://scryfall.com/card/mkm/263/lush-portico?utm_source=api",
    "oracle_text": "({T}: Add {G} or {W}.)\nThis land enters tapped.\nWhen this land enters, surveil 1. (Look at the top card of your library. You may put it into your graveyard.)"
   }
+ ],
+ "colors": [
+  "R",
+  "B"
  ]
 }

@@ -7,7 +7,6 @@
  "labels": [
   "control"
  ],
- "colors": ["U", "B", "W"],
  "player": "player-3f67-bb44",
  "date": "2025-10-04",
  "games": [
@@ -900,5 +899,10 @@
    "power": "3",
    "toughness": "2"
   }
+ ],
+ "colors": [
+  "U",
+  "B",
+  "W"
  ]
 }

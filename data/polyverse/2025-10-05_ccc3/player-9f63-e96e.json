@@ -5,9 +5,10 @@
   "pool_file": "data/polyverse/2025-10-05_ccc3/player-9f63-e96e-pool.txt"
  },
  "labels": [
-  "midrange", "discard", "graveyard"
+  "midrange",
+  "discard",
+  "graveyard"
  ],
- "colors": ["U", "B", "R"],
  "player": "player-9f63-e96e",
  "date": "2025-10-05",
  "games": [
@@ -889,5 +890,10 @@
    "url": "https://scryfall.com/card/rvr/59/remand?utm_source=api",
    "oracle_text": "Counter target spell. If that spell is countered this way, put it into its owner's hand instead of into that player's graveyard.\nDraw a card."
   }
+ ],
+ "colors": [
+  "U",
+  "B",
+  "R"
  ]
 }

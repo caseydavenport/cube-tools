@@ -9,7 +9,6 @@
   "graveyard",
   "beans"
  ],
- "colors": ["U", "G"],
  "player": "player-9f63-c3c0",
  "date": "2025-10-05",
  "games": [
@@ -955,5 +954,9 @@
    "url": "https://scryfall.com/card/eoe/261/watery-grave?utm_source=api",
    "oracle_text": "({T}: Add {U} or {B}.)\nAs this land enters, you may pay 2 life. If you don't, it enters tapped."
   }
+ ],
+ "colors": [
+  "U",
+  "G"
  ]
 }

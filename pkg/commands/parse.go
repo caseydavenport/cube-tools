@@ -245,6 +245,7 @@ func writeDeck(d *types.Deck, draftID string) error {
 	// captured metadata.
 	if _, err := os.Stat(path); err == nil {
 		logrus.WithField("file", path).Debug("File already exists, loading and updating")
+
 		existing := LoadParsedDeckFile(draftID, d.Player)
 		d.Player = existing.Player
 		d.Labels = existing.Labels
@@ -252,11 +253,12 @@ func writeDeck(d *types.Deck, draftID string) error {
 		d.Games = existing.Games
 		d.Wins = existing.Wins
 		d.Losses = existing.Losses
+		d.Colors = existing.Colors
 
 		logrus.WithFields(logrus.Fields{
 			"games":   d.Games,
 			"matches": d.Matches,
-		}).Info("Preserved existing game/match data")
+		}).Debug("Preserved existing deck data")
 	}
 
 	// Ensure capitalization is consistent for player names (all lowercase).

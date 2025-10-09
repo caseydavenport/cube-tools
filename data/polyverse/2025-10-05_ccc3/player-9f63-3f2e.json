@@ -8,10 +8,6 @@
   "tempo",
   "spells"
  ],
- "colors": [
-  "U",
-  "R"
- ],
  "player": "player-9f63-3f2e",
  "date": "2025-10-05",
  "games": [
@@ -921,5 +917,9 @@
    "url": "https://scryfall.com/card/mh2/244/arid-mesa?utm_source=api",
    "oracle_text": "{T}, Pay 1 life, Sacrifice this land: Search your library for a Mountain or Plains card, put it onto the battlefield, then shuffle."
   }
+ ],
+ "colors": [
+  "U",
+  "R"
  ]
 }

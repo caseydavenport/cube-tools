@@ -5,9 +5,10 @@
   "pool_file": "data/polyverse/2025-10-04_ccc1/player-3a69-5792-pool.txt"
  },
  "labels": [
-  "aggro", "discard", "heartfire"
+  "aggro",
+  "discard",
+  "heartfire"
  ],
- "colors": ["W", "B", "R"],
  "player": "player-3a69-5792",
  "date": "2025-10-04",
  "games": [
@@ -971,5 +972,10 @@
    "power": "1",
    "toughness": "2"
   }
+ ],
+ "colors": [
+  "W",
+  "B",
+  "R"
  ]
 }
