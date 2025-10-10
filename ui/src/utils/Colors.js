@@ -72,11 +72,16 @@ export function ColorImages(colors) {
   let canoncialized = [].concat(colors)
   colors = CombineColors(canoncialized)
 
+  // If no colors, return colorless symbol.
+  if (colors.length === 0) {
+    colors = "X"
+  }
+
   return (
     <div id={colors}>
       {
         colors.split('').map(function(color) {
-          let img = "img/mountain.png"
+          let img = "img/colorless.svg"
           switch (color) {
             case "W":
               img = "img/plains.png"
@@ -92,6 +97,9 @@ export function ColorImages(colors) {
               break;
             case "G":
               img = "img/forest.png"
+              break;
+            case "X":
+              img = "img/colorless.svg"
               break;
           }
           return (
