@@ -376,6 +376,12 @@ export function BuildGraphData(parsed) {
     nonBasicBucketSize: 2,
   }
   for (let deck of parsed.filteredDecks) {
+    // Skip any decks that don't have a mainboard. This excludees decks that
+    // are just pools, as they skew the data.
+    if (!deck.mainboard || deck.mainboard.length == 0) {
+      continue
+    }
+
     // Calculate the wins / losses for this deck.
     let wins = Wins(deck)
     let losses = Losses(deck)
@@ -464,6 +470,9 @@ export function BuildGraphData(parsed) {
       },
     }
     for (let deck of decks) {
+      if (!deck.mainboard || deck.mainboard.length == 0) {
+        continue
+      }
       for (let card of deck.mainboard) {
         let isCounterspell = false
         let isRemoval = false
@@ -631,6 +640,11 @@ function WinsByCardType(input) {
     bucketSize = input.bucketSize
   }
   for (let deck of input.decks) {
+    // Skip decks with no mainboard.
+    if (!deck.mainboard || deck.mainboard.length == 0) {
+      continue
+    }
+
     // Count the number of creatures in this deck.
     let num = 0
     for (let card of deck.mainboard) {
@@ -814,6 +828,10 @@ function WinsByOracleText(input) {
   let wins = new Map()
   let losses = new Map()
   for (let deck of input.decks) {
+    if (!deck.mainboard || deck.mainboard.length == 0) {
+      continue
+    }
+
     let num = 0
     for (let card of deck.mainboard) {
       for (let match of input.matches) {
@@ -1164,6 +1182,9 @@ function DeckManaValueChart(input) {
     // Calculate the average CMC of this bucket.
     let total = 0
     for (let deck of decks) {
+      if (!deck.mainboard || deck.mainboard.length == 0) {
+        continue
+      }
       total += deck.avg_cmc
     }
     mana_values.push(total / decks.length)
@@ -1559,6 +1580,10 @@ function DeckGraph(input) {
   // values is an array of maps with keys 'x' and 'y'.
   var values = []
   for (let deck of input.parsed.filteredDecks) {
+    if (!deck.mainboard || deck.mainboard.length == 0) {
+      continue
+    }
+
     var x = null
     var y = null
 
