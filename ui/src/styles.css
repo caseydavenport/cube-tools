@@ -81,9 +81,12 @@ table {
   float: left;
   font-size: 18px;
   line-height: 34px;
-  height: 34px;
   padding: 0px;
   text-align: center;
+  min-height: 600px;
+  width: 400px;
+  margin-bottom: 5px;
+  margin-left: 5px;
 }
 
 .player-frame-title {
@@ -101,7 +104,6 @@ table {
   font-weight: bold;
   width: 40%;
 }
-
 
 .player-frame-value {
   background: var(--table-row-selected);
@@ -366,7 +368,6 @@ table {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  width: 80%;
   align-content: flex-start;
 }
 
@@ -397,7 +398,7 @@ table {
 }
 
 .filtered-decks {
-  width: 500px;
+  width: 700px;
   overflow: auto;
   max-height: 1200px;
 }

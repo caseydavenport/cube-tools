@@ -248,6 +248,19 @@ export default function DeckViewer() {
   );
 }
 
+function getMacro(deck) {
+  if (deck.labels.includes("aggro")) {
+    return "Aggro"
+  } else if (deck.labels.includes("midrange")) {
+    return "Midrange"
+  } else if (deck.labels.includes("control")) {
+    return "Control"
+  } else if (deck.labels.includes("tempo")) {
+    return "Tempo"
+  }
+  return "N/A"
+}
+
 // DropdownSelector is a dropdown selector that sits right below the main navbar.
 export function DropdownSelector({ label, value, options, onChange }) {
   return (
@@ -311,12 +324,13 @@ function FilteredDecks(input) {
       <table className="widget-table">
         <thead className="table-header">
           <tr>
-            <td colSpan="3" onClick={input.onHeaderClick} id="decklist-title" className="header-cell">{decks.length} Decks</td>
+            <td colSpan="4" onClick={input.onHeaderClick} id="decklist-title" className="header-cell">{decks.length} Decks</td>
           </tr>
           <tr>
-            <td style={{"width": "20%", "paddingLeft": "10px"}} onClick={input.onSortHeader} id="date" className="header-cell">Date</td>
-            <td style={{"width": "30%", "paddingLeft": "0px"}} onClick={input.onSortHeader} id="player" className="header-cell">Player</td>
-            <td style={{"width": "30%", "paddingLeft": "0px"}} onClick={input.onSortHeader} id="wins" className="header-cell">Record</td>
+            <td style={{"width": "25%", "paddingLeft": "10px"}} onClick={input.onSortHeader} id="date" className="header-cell">Date</td>
+            <td style={{"width": "25%", "paddingLeft": "0px"}} onClick={input.onSortHeader} id="player" className="header-cell">Player</td>
+            <td style={{"width": "25%", "paddingLeft": "0px"}} onClick={input.onSortHeader} id="wins" className="header-cell">Record</td>
+            <td style={{"width": "25%", "paddingLeft": "0px"}} onClick={input.onSortHeader} id="macro" className="header-cell">Macro</td>
           </tr>
         </thead>
         <tbody>
@@ -332,6 +346,9 @@ function FilteredDecks(input) {
                 case "player":
                   sort = deck.player;
                   break;
+                case "macro":
+                  sort = getMacro(deck);
+                  break;
               }
 
               let color = draftToColor.get(deck.metadata.draft_id)
@@ -344,7 +361,7 @@ function FilteredDecks(input) {
 
               return (
                 <tr sort={sort} className={className} key={idx}>
-                  <td className="widget-table-row" colSpan="3">
+                  <td className="widget-table-row" colSpan="4">
                     <DeckTableCell
                       color={color}
                       deck={deck}
@@ -393,15 +410,16 @@ function DeckTableCell(input) {
   if (MatchWins(deck) == 0 && MatchLosses(deck) == 0 && MatchDraws(deck) == 0) {
     record = "N/A"
   }
-
   let win_percent = Math.round(100 * Wins(input.deck) / (Wins(input.deck) + Losses(input.deck)))
+  let macro = getMacro(input.deck)
   return (
       <table className="deck-meta-table">
       <tbody>
         <tr className="deck-entry" style={{"--background-color": input.color}}>
-          <td style={{"width": "20%", "paddingLeft": "10px"}} id={deck.metadata.path} idx={input.idx} onClick={input.onDeckClicked} key="date">{deck.date}</td>
-          <td style={{"width": "30%", "paddingLeft": "0px"}} id={deck.metadata.path} idx={input.idx} onClick={input.onDeckClicked} key="player">{deck.player}</td>
-          <td style={{"width": "30%", "paddingLeft": "0px"}} id={deck.metadata.path} idx={input.idx} onClick={input.onDeckClicked} key="wins">{record} ({win_percent}%)</td>
+          <td style={{"width": "25%", "paddingLeft": "10px"}} id={deck.metadata.path} idx={input.idx} onClick={input.onDeckClicked} key="date">{deck.date}</td>
+          <td style={{"width": "25%", "paddingLeft": "0px"}} id={deck.metadata.path} idx={input.idx} onClick={input.onDeckClicked} key="player">{deck.player}</td>
+          <td style={{"width": "25%", "paddingLeft": "0px"}} id={deck.metadata.path} idx={input.idx} onClick={input.onDeckClicked} key="wins">{record} ({win_percent}%)</td>
+          <td style={{"width": "25%", "paddingRight": "10px"}} id={deck.metadata.path} idx={input.idx} onClick={input.onDeckClicked} key="macro">{macro}</td>
         </tr>
       </tbody>
       </table>
@@ -440,8 +458,8 @@ function DisplayDeck(input) {
 
   return (
     <div className="deck-view">
-      <PlayerFrame {...input} />
       <div className="flexhouse">
+        <PlayerFrame {...input} />
         <CardList player={deck.player} cards={cards} deck={deck} sb={input.mbsb == "Sideboard"} opts={{cmc: 0}} />
         <CardList player={deck.player} cards={cards} deck={deck} sb={input.mbsb == "Sideboard"} opts={{cmc: 1}} />
         <CardList player={deck.player} cards={cards} deck={deck} sb={input.mbsb == "Sideboard"} opts={{cmc: 2}} />
@@ -579,7 +597,7 @@ function PlayerFrame(input) {
           result += " (" + Record(deck, match.opponent) + ")"
           return (
             <tr>
-              <td className="player-frame-title-2">Match vs {match.opponent}</td>
+              <td className="player-frame-title-2">{match.opponent}</td>
               <td className="player-frame-value">{result}</td>
             </tr>
           );
