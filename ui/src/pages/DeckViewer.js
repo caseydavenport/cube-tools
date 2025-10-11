@@ -349,6 +349,9 @@ function FilteredDecks(input) {
                 case "macro":
                   sort = getMacro(deck);
                   break;
+                case "oppwin":
+                  sort = deck.opponent_win_percentage;
+                  break;
               }
 
               let color = draftToColor.get(deck.metadata.draft_id)
@@ -584,6 +587,10 @@ function PlayerFrame(input) {
       <tr>
         <td className="player-frame-title"># Interaction:</td>
         <td className="player-frame-value">{interaction}</td>
+      </tr>
+      <tr>
+        <td className="player-frame-title">Opp. Win %:</td>
+        <td className="player-frame-value">{deck.opponent_win_percentage}%</td>
       </tr>
       {
         deck.matches.map(function(match) {

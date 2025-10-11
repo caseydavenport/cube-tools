@@ -72,6 +72,7 @@ export function PlayerData(decks) {
         losses: 0,
         threeoh: 0,
         ohthree: 0,
+        opponent_win_percentage: 0,
       })
     }
 
@@ -138,6 +139,21 @@ export function PlayerData(decks) {
     row.lossPercent = Math.round(row.losses / (row.wins + row.losses) * 100)
     row.games = row.wins + row.losses
 
+    // Take an average of the opponent win percentages this player has faced.
+    let total = 0.0
+    let count = 0
+    for (let d of row.decks) {
+      if (d.opponent_win_percentage == 0) {
+        continue
+      }
+      total += d.opponent_win_percentage
+      count += 1
+    }
+    if (count > 0) {
+      total /= count
+    }
+    row.opponent_win_percentage = Math.round(total)
+
     // Calculate the average re-pick value for this player by summing up the total
     // number of unique cards mainboarded by the player, divided by the total number cards picked. This is
     // a representation of how diverse this player's card selection is. A higher number indicates a propensity
@@ -168,6 +184,7 @@ function PlayerTable(input) {
             <td onClick={input.onHeaderClick} id="games" className="header-cell">Games</td>
             <td onClick={input.onHeaderClick} id="wins" className="header-cell">Won</td>
             <td onClick={input.onHeaderClick} id="losses" className="header-cell">Lost</td>
+            <td onClick={input.onHeaderClick} id="opp_%" className="header-cell">Opp. Win %</td>
             <td onClick={input.onHeaderClick} id="trophies" className="header-cell">Trophies</td>
             <td onClick={input.onHeaderClick} id="lastplace" className="header-cell">Last place</td>
             <td onClick={input.onHeaderClick} id="W" className="header-cell">{ColorImages("W")}</td>
@@ -220,6 +237,9 @@ function PlayerTable(input) {
               case "lastplace":
                 sort = row.ohthree;
                 break;
+              case "opp_%":
+                sort = row.opponent_win_percentage
+                break;
             }
             if (input.invertSort) {
               sort = -1 * sort
@@ -231,6 +251,7 @@ function PlayerTable(input) {
                 <td>{row.games}</td>
                 <td>{row.winPercent}%</td>
                 <td>{row.lossPercent}%</td>
+                <td>{row.opponent_win_percentage}%</td>
                 <td>{row.threeoh}</td>
                 <td>{row.ohthree}</td>
                 <td>{row.whitePercent}%</td>

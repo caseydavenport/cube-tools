@@ -3,6 +3,7 @@ package storage
 import (
 	"encoding/json"
 	"fmt"
+	"math"
 	"os"
 	"strings"
 	"sync"
@@ -17,8 +18,17 @@ import (
 type Deck struct {
 	types.Deck `json:",inline"`
 
+	// The average win percentage of this deck's opponents, excluding games against this deck.
+	OpponentWinPercentage float64 `json:"opponent_win_percentage"`
+
 	// The size of the draft, used for filtering.
 	draftSize int
+}
+
+// Key identifies a precise deck.
+type key struct {
+	player string `json:"name"`
+	draft  string `json:"draft"`
 }
 
 type DecksRequest struct {
@@ -44,7 +54,8 @@ func NewFileDeckStoreWithCache() DeckStorage {
 
 type deckStore struct {
 	sync.Mutex
-	cache []*Deck
+	cache  []*Deck
+	lookup map[key]*Deck
 }
 
 // Maintain the cache in a separate goroutine.
@@ -68,6 +79,19 @@ func (s *deckStore) List(req *DecksRequest) ([]*Deck, error) {
 		if err != nil {
 			return nil, err
 		}
+
+		// Update the lookup map.
+		s.lookup = make(map[key]*Deck)
+		for _, d := range s.cache {
+			k := key{
+				player: d.Player,
+				draft:  d.Metadata.DraftID,
+			}
+			s.lookup[k] = d
+		}
+
+		// Perform any additional processing on the decks.
+		process(s.lookup)
 	}
 	return filter(s.cache, req), nil
 }
@@ -112,6 +136,58 @@ func loadDeck(path string) (Deck, error) {
 		return d, err
 	}
 	return d, nil
+}
+
+func process(decks map[key]*Deck) {
+	// Calculate the opponent win percentage for each deck by iterating each Match.
+	for k, d := range decks {
+		// Track the total number of games and total number of wins played by opponents.
+		percentages := []float64{}
+
+		for _, m := range d.Matches {
+			// Determine the opponent.
+			opponent := key{
+				player: m.Opponent,
+				draft:  k.draft,
+			}
+
+			// Find the opponent's deck.
+			opponentDeck, ok := decks[opponent]
+			if !ok {
+				logrus.WithField("opponent", opponent).Warn("failed to find opponent deck")
+				continue
+			}
+
+			// Get the number of total games this opponent played, and how many this opponent
+			// won, excluding games against us.
+			games := 0
+			wins := 0
+			for _, g := range opponentDeck.Games {
+				if g.Opponent != k.player {
+					games++
+					if g.Winner == m.Opponent {
+						wins++
+					}
+				}
+			}
+
+			// Calculate this opponent's win percentage (excluding games against us).
+			if games > 0 {
+				percentages = append(percentages, float64(wins)/float64(games))
+			}
+		}
+
+		// Calculate the average opponent win percentage.
+		if len(percentages) > 0 {
+			total := 0.0
+			for _, p := range percentages {
+				total += p
+			}
+			d.OpponentWinPercentage = math.Round(100 * total / float64(len(percentages)))
+		} else {
+			d.OpponentWinPercentage = 0.0
+		}
+	}
 }
 
 func filter(decks []*Deck, r *DecksRequest) []*Deck {

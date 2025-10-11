@@ -127,6 +127,23 @@ type Game struct {
 	Tie      bool   `json:"tie,omitempty"`
 }
 
+type Result string
+
+const (
+	ResultWin  Result = "W"
+	ResultLoss Result = "L"
+	ResultDraw Result = "D"
+)
+
+func (g *Game) Result() Result {
+	if g.Winner == g.Opponent {
+		return ResultLoss
+	} else if g.Winner == "" || g.Tie {
+		return ResultDraw
+	}
+	return ResultWin
+}
+
 func (d *Deck) AllCards() []Card {
 	cards := []Card{}
 	cards = append(cards, d.Mainboard...)
