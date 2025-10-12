@@ -184,6 +184,11 @@ export default function DeckViewer() {
       if (deck.metadata.path == highlightedDeck) {
         setDeck(deck)
 
+        // The highlighted deck is always a comparison deck.
+        let newComparisonDecks = new Map(comparisonDecks)
+        newComparisonDecks.set(deck.metadata.path, deck)
+        setComparisonDecks(newComparisonDecks)
+
         // Load the deck description, if it exists.
         let f = "data/polyverse/" + deck.metadata.draft_id + "/" + deck.player + ".report.md"
         FetchFile(f.toLowerCase(), onDescriptionFetched)
