@@ -36,6 +36,9 @@ export default function DeckViewer() {
   const [selectedDraft, setSelectedDraft] = useState("");
   const [draftDropdown, setDraftDropdown] = useState("");
 
+  // Track comparison decks. If any of these are set, we'll show a comparison view.
+  const [comparisonDecks, setComparisonDecks] = useState(new Map());
+
   // The cache of loaded deck.
   const [fetched, setFetched] = useState(new Map());
 
@@ -85,6 +88,28 @@ export default function DeckViewer() {
 
     // Highlight the deck in the side bar.
     setHighlightedDeck(event.target.id)
+
+    // If control is held, add this deck to the comparison set. Otherwise,
+    // clear out the comparison set and just show this deck.
+    if (event.ctrlKey || event.metaKey) {
+      // Find the deck in the list of decks.
+      for (let deck of decks) {
+        if (deck.metadata.path == event.target.id) {
+          // Add to the comparison set.
+          let newComparisonDecks = new Map(comparisonDecks)
+          if (newComparisonDecks.has(event.target.id)) {
+            // Deck is already in the comparison set - remove it.
+            newComparisonDecks.delete(event.target.id)
+          } else {
+            newComparisonDecks.set(event.target.id, deck)
+          }
+          setComparisonDecks(newComparisonDecks)
+        }
+      }
+    } else {
+      // Clear out the comparison set and just show this deck.
+      setComparisonDecks(new Map())
+    }
   }
 
   // For matching decks.
@@ -153,6 +178,7 @@ export default function DeckViewer() {
       return
     }
 
+
     // Find the deck and set the active deck.
     for (let deck of decks) {
       if (deck.metadata.path == highlightedDeck) {
@@ -165,6 +191,15 @@ export default function DeckViewer() {
       }
     }
   }, [highlightedDeck])
+
+  // We want to highlight any selected / comparison decks.
+  let highlightedDecks = new Array()
+  if (highlightedDeck) {
+    highlightedDecks.push(highlightedDeck)
+  }
+  for (let deckPath of comparisonDecks.keys()) {
+    highlightedDecks.push(deckPath)
+  }
 
   return (
     <div>
@@ -225,7 +260,7 @@ export default function DeckViewer() {
       <div className="house-for-widgets">
         <FilteredDecks
           decks={decks}
-          highlight={highlightedDeck}
+          highlight={highlightedDecks}
           onDeckClicked={onDeckClicked}
           selectedDraft={draftDropdown}
           selectedPlayer={selectedPlayer}
@@ -237,8 +272,9 @@ export default function DeckViewer() {
           mbsb={mainboardSideboard}
         />
 
-        <DisplayDeck
+        <MainDisplay
           deck={deck}
+          comparisonDecks={comparisonDecks}
           mbsb={mainboardSideboard}
           matchStr={matchStr}
           description={description}
@@ -357,9 +393,11 @@ function FilteredDecks(input) {
               let color = draftToColor.get(deck.metadata.draft_id)
               let className = "widget-table-row"
 
-              if (input.highlight == deck.metadata.path) {
-                className = "card-highlight"
-                color = "#6EA579"
+              for (let h of input.highlight) {
+                if (h == deck.metadata.path) {
+                  className = "card-highlight"
+                  color = "#6EA579"
+                }
               }
 
               return (
@@ -430,7 +468,63 @@ function DeckTableCell(input) {
 }
 
 
-// DisplayDeck prints out the given deck.
+// MainDisplay prints out the given deck.
+function MainDisplay(input) {
+  if (input.comparisonDecks.size > 1) {
+    return CompareDecks(input);
+  }
+  return DisplayDeck(input);
+}
+
+function CompareDecks(input) {
+  // Build a set of cards that are common across all input decks.
+  let cardCounts = new Map()
+  let allCardsList = new Array()
+  for (let deck of input.comparisonDecks.values()) {
+    let cards = deck.mainboard
+    if (input.mbsb == "Sideboard") {
+      cards = deck.sideboard
+    }
+    if (input.mbsb == "Pool") {
+      cards = deck.pool
+    }
+
+    for (let card of cards) {
+      // If the card is already in the map, increment the count.
+      if (cardCounts.has(card.name)) {
+        let entry = cardCounts.get(card.name)
+        entry.count += 1
+        cardCounts.set(card.name, entry)
+      } else {
+        // New card - add it to the map.
+        cardCounts.set(card.name, { card: card, count: 1 })
+      }
+    }
+  }
+
+  // Build a list of cards that are in all decks.
+  for (let entry of cardCounts.values()) {
+    if (entry.count == input.comparisonDecks.size) {
+      allCardsList.push(entry.card)
+    }
+  }
+
+  let player = "Multiple Players"
+
+  return (
+    <div className="deck-view">
+      <div className="flexhouse">
+        <CardList player={player} cards={allCardsList} sb={input.mbsb == "Sideboard"} opts={{cmc: 0}} />
+        <CardList player={player} cards={allCardsList} sb={input.mbsb == "Sideboard"} opts={{cmc: 1}} />
+        <CardList player={player} cards={allCardsList} sb={input.mbsb == "Sideboard"} opts={{cmc: 2}} />
+        <CardList player={player} cards={allCardsList} sb={input.mbsb == "Sideboard"} opts={{cmc: 3}} />
+        <CardList player={player} cards={allCardsList} sb={input.mbsb == "Sideboard"} opts={{cmc: 4}} />
+        <CardList player={player} cards={allCardsList} sb={input.mbsb == "Sideboard"} opts={{cmc: 5, gt: true}} />
+      </div>
+    </div>
+  );
+}
+
 function DisplayDeck(input) {
   let deck = input.deck
 

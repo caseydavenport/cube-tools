@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"math"
 	"net/http"
+	"slices"
 	"time"
 
 	"github.com/caseydavenport/cube-tools/pkg/server/decks"
@@ -142,7 +143,7 @@ func (d *cardStatsHandler) statsForDecks(decks []*storage.Deck, cubeCards map[st
 		totalWins += deck.GameWins()
 
 		// Get the set of unique cards in this deck's mainboard.
-		mbSet, sbSet := cardSetFromDeck(deck.Deck, cubeCards, sr.Color)
+		mbSet, sbSet, poolSet := cardSetFromDeck(deck.Deck, cubeCards, sr.Color)
 
 		for _, card := range mbSet {
 			// Initalize a new cardStats if we haven't seen this card before.
@@ -212,6 +213,18 @@ func (d *cardStatsHandler) statsForDecks(decks []*storage.Deck, cubeCards map[st
 
 			// Increment player count.
 			cbn.Sideboarders[deck.Player]++
+		}
+
+		for _, card := range poolSet {
+			// Initalize a new cardStats if we haven't seen this card before.
+			if _, ok := resp.Data[card.Name]; !ok {
+				cp := *card
+				resp.Data[card.Name] = &cp
+			}
+
+			// Get the global cardStats for this card.
+			cbn := resp.Data[card.Name]
+			cbn.Pool++
 		}
 	}
 
@@ -301,7 +314,7 @@ func ELOData(decks []*storage.Deck) map[string]int {
 				if c1.Colors != nil && c2.Colors != nil {
 					for _, color := range c1.Colors {
 						for _, color2 := range c2.Colors {
-							if !contains(c1.Colors, color2) || !contains(c2.Colors, color) {
+							if !slices.Contains(c1.Colors, color2) || !slices.Contains(c2.Colors, color) {
 								colorMatch = false
 							}
 						}
@@ -311,8 +324,8 @@ func ELOData(decks []*storage.Deck) map[string]int {
 					winValue = winValue - 0.05
 				}
 
-				if (contains(c1.Types, "Creature") && !contains(c2.Types, "Creature")) ||
-					(!contains(c1.Types, "Creature") && contains(c2.Types, "Creature")) {
+				if (slices.Contains(c1.Types, "Creature") && !slices.Contains(c2.Types, "Creature")) ||
+					(!slices.Contains(c1.Types, "Creature") && slices.Contains(c2.Types, "Creature")) {
 					winValue = winValue - 0.1
 				}
 
@@ -359,16 +372,6 @@ func ELOData(decks []*storage.Deck) map[string]int {
 	return result
 }
 
-// Helper: check if a slice contains a string
-func contains(slice []string, s string) bool {
-	for _, v := range slice {
-		if v == s {
-			return true
-		}
-	}
-	return false
-}
-
 func shouldFilterCard(cbn *cardStats, sr *CardStatsRequest) bool {
 	// For bucketed requests, we don't filter. The filteres in the request only apply to non-bucketed
 	// aggregate requests.
@@ -377,7 +380,7 @@ func shouldFilterCard(cbn *cardStats, sr *CardStatsRequest) bool {
 	}
 
 	// Filter based on min drafts and min games.
-	if sr.MinDrafts > 0 && cbn.Mainboard+cbn.Sideboard < sr.MinDrafts {
+	if sr.MinDrafts > 0 && cbn.numDrafts() < sr.MinDrafts {
 		return true
 	}
 	if sr.MinGames > 0 && cbn.Wins+cbn.Losses < sr.MinGames {
@@ -392,9 +395,10 @@ func shouldFilterCard(cbn *cardStats, sr *CardStatsRequest) bool {
 // two of a card in that deck. This is imperfect - there is some value in knowing that a deck with two Arid Mesas
 // performed well - but I think without this deduplication we would overstate the importance of Arid Mesa in that deck
 // more than we understate it now.
-func cardSetFromDeck(deck types.Deck, cubeCards map[string]types.Card, color string) (map[string]*cardStats, map[string]*cardStats) {
+func cardSetFromDeck(deck types.Deck, cubeCards map[string]types.Card, color string) (map[string]*cardStats, map[string]*cardStats, map[string]*cardStats) {
 	mbSet := make(map[string]*cardStats)
 	sbSet := make(map[string]*cardStats)
+	poolSet := make(map[string]*cardStats)
 
 	for _, card := range deck.Mainboard {
 		// Skip the card if it's not currently in the cube, or if it's a basic land.
@@ -427,7 +431,25 @@ func cardSetFromDeck(deck types.Deck, cubeCards map[string]types.Card, color str
 		sbSet[card.Name] = newCardStats(card)
 	}
 
-	return mbSet, sbSet
+	// As an approximation - for card pools that do not have a mainbard/sideboard split, but do have a color identity specified,
+	// assume that any card NOT in that identity is sideboarded. We don't do the same for the mainboard, because castable cards could go in
+	// either the mainboard or sideboard. This is imperfect, but should be directionally correct most of the time.
+	for _, card := range deck.Pool {
+		// Skip the card if it's not currently in the cube, or if it's a basic land.
+		if _, ok := cubeCards[card.Name]; !ok {
+			continue
+		}
+		if card.IsBasicLand() {
+			continue
+		}
+		if !deck.CanCast(card) {
+			sbSet[card.Name] = newCardStats(card)
+		} else {
+			poolSet[card.Name] = newCardStats(card)
+		}
+	}
+
+	return mbSet, sbSet, poolSet
 }
 
 type Cards struct {
@@ -458,6 +480,8 @@ type cardStats struct {
 	Mainboard int `json:"mainboard"`
 	// Number of times this card has been sideboarded
 	Sideboard int `json:"sideboard"`
+	// Number of times this card has been in the draft pool but not in mainboard or sideboard
+	Pool int `json:"pool,omitempty"`
 	// Total number of games this card has been in.
 	TotalGames int `json:"total_games"`
 	// Number of times this card was in deck color(s), and sideboarded
@@ -505,4 +529,10 @@ type cardStats struct {
 	ELO int `json:"elo"`
 	// ColorIdentity of the card (e.g. ["W", "U"]
 	ColorIdentity []string `json:"color_identity,omitempty"`
+}
+
+// numDrafts returns the total number of drafts this card has been in, regardless of
+// whether it was mainboarded, sideboarded, or just in the pool.
+func (c *cardStats) numDrafts() int {
+	return c.Mainboard + c.Sideboard + c.Pool
 }
