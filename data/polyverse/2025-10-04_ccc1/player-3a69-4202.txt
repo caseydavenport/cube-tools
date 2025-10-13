@@ -21,7 +21,6 @@
 1 Miscalculation
 1 Into the Roil
 1 Counterspell
-1 Moon-Circuit Hacker
 1 Mana Leak
 1 Flooded Strand
 1 Polluted Delta
@@ -32,6 +31,7 @@
 1 Silent Clearing
 1 Shelldock Isle
 1 Watery Grave
+1 Deluge of Doom
 1 Island
 1 Island
 1 Island
@@ -40,7 +40,6 @@
 1 Plains
 
 1 Adanto Vanguard
-1 Deluge of Doom
 1 Unsummon
 1 Careful Study
 1 Midnight Reaper
@@ -50,3 +49,4 @@
 1 Steam Vents
 1 Rishadan Port
 1 Bomat Courier
+1 Moon-Circuit Hacker

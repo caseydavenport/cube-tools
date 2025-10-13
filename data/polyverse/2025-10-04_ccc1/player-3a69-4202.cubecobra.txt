@@ -21,7 +21,6 @@ Oust
 Miscalculation
 Into the Roil
 Counterspell
-Moon-Circuit Hacker
 Mana Leak
 Flooded Strand
 Polluted Delta
@@ -32,6 +31,7 @@ Celestial Colonnade
 Silent Clearing
 Shelldock Isle
 Watery Grave
+Deluge of Doom
 Island
 Island
 Island

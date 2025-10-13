@@ -482,30 +482,6 @@
    "oracle_text": "Counter target spell."
   },
   {
-   "name": "Moon-Circuit Hacker",
-   "types": [
-    "Enchantment",
-    "Creature"
-   ],
-   "sub_types": [
-    "Human",
-    "Ninja"
-   ],
-   "cmc": 2,
-   "image": "",
-   "colors": [
-    "U"
-   ],
-   "color_identity": [
-    "U"
-   ],
-   "mana_cost": "{1}{U}",
-   "url": "https://scryfall.com/card/neo/67/moon-circuit-hacker?utm_source=api",
-   "oracle_text": "Ninjutsu {U} ({U}, Return an unblocked attacker you control to hand: Put this card onto the battlefield from your hand tapped and attacking.)\nWhenever this creature deals combat damage to a player, you may draw a card. If you do, discard a card unless this creature entered this turn.",
-   "power": "2",
-   "toughness": "1"
-  },
-  {
    "name": "Mana Leak",
    "types": [
     "Instant"
@@ -667,6 +643,23 @@
    "oracle_text": "({T}: Add {U} or {B}.)\nAs this land enters, you may pay 2 life. If you don't, it enters tapped."
   },
   {
+   "name": "Deluge of Doom",
+   "types": [
+    "Sorcery"
+   ],
+   "cmc": 3,
+   "image": "",
+   "colors": [
+    "B"
+   ],
+   "color_identity": [
+    "B"
+   ],
+   "mana_cost": "{2}{B}",
+   "url": "https://scryfall.com/card/dsc/18/deluge-of-doom?utm_source=api",
+   "oracle_text": "All creatures get -X/-X until end of turn, where X is the number of card types among cards in your graveyard."
+  },
+  {
    "name": "Island",
    "types": [
     "Basic",
@@ -804,23 +797,6 @@
    "oracle_text": "As long as this creature is attacking, it gets +2/+0.\nPay 4 life: This creature gains indestructible until end of turn. (Damage and effects that say \"destroy\" don't destroy it.)",
    "power": "1",
    "toughness": "1"
-  },
-  {
-   "name": "Deluge of Doom",
-   "types": [
-    "Sorcery"
-   ],
-   "cmc": 3,
-   "image": "",
-   "colors": [
-    "B"
-   ],
-   "color_identity": [
-    "B"
-   ],
-   "mana_cost": "{2}{B}",
-   "url": "https://scryfall.com/card/dsc/18/deluge-of-doom?utm_source=api",
-   "oracle_text": "All creatures get -X/-X until end of turn, where X is the number of card types among cards in your graveyard."
   },
   {
    "name": "Unsummon",
@@ -995,6 +971,30 @@
    "url": "https://scryfall.com/card/kld/199/bomat-courier?utm_source=api",
    "oracle_text": "Haste\nWhenever this creature attacks, exile the top card of your library face down. (You can't look at it.)\n{R}, Discard your hand, Sacrifice this creature: Put all cards exiled with this creature into their owners' hands.",
    "power": "1",
+   "toughness": "1"
+  },
+  {
+   "name": "Moon-Circuit Hacker",
+   "types": [
+    "Enchantment",
+    "Creature"
+   ],
+   "sub_types": [
+    "Human",
+    "Ninja"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "U"
+   ],
+   "color_identity": [
+    "U"
+   ],
+   "mana_cost": "{1}{U}",
+   "url": "https://scryfall.com/card/neo/67/moon-circuit-hacker?utm_source=api",
+   "oracle_text": "Ninjutsu {U} ({U}, Return an unblocked attacker you control to hand: Put this card onto the battlefield from your hand tapped and attacking.)\nWhenever this creature deals combat damage to a player, you may draw a card. If you do, discard a card unless this creature entered this turn.",
+   "power": "2",
    "toughness": "1"
   }
  ]
