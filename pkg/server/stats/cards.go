@@ -442,6 +442,10 @@ func cardSetFromDeck(deck types.Deck, cubeCards map[string]types.Card, color str
 		if card.IsBasicLand() {
 			continue
 		}
+		if !card.IsColor(color) {
+			continue
+		}
+
 		if !deck.CanCast(card) {
 			sbSet[card.Name] = newCardStats(card)
 		} else {

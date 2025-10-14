@@ -63,6 +63,16 @@ func (c Card) IsRemoval() bool {
 		"Exile all enchantments",
 		"Exile all lands",
 		"Exile all permanents",
+		"damage to target creature",
+		"damage to target planeswalker",
+		"damage to any target",
+		"damage divided as you choose",
+		"each opponent sacrifices",
+		"each player sacrifices",
+		"target opponent sacrifices",
+		"target player sacrifices",
+		"return target creature to its owner's hand",
+		"return target nonland permanent to its owner's hand",
 	}
 	for _, r := range removal {
 		if strings.Contains(c.OracleText, r) {
@@ -91,8 +101,25 @@ func (c Card) IsCounterspell() bool {
 	return false
 }
 
+func (c Card) IsHandHate() bool {
+	handhate := []string{
+		"Target player reveals their hand",
+		"Target opponent reveals their hand",
+		"Target player discards ",
+		"Target opponent discards ",
+		"Each opponent discards ",
+		"Each player discards a card",
+	}
+	for _, hh := range handhate {
+		if strings.Contains(c.OracleText, hh) {
+			return true
+		}
+	}
+	return false
+}
+
 func (c Card) IsInteraction() bool {
-	return c.IsRemoval() || c.IsCounterspell()
+	return c.IsRemoval() || c.IsCounterspell() || c.IsHandHate()
 }
 
 func FromOracle(o OracleCard) Card {
