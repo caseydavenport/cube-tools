@@ -644,23 +644,27 @@
    "oracle_text": "({T}: Add {W} or {U}.)\nAs this land enters, you may pay 2 life. If you don't, it enters tapped."
   },
   {
-   "name": "Plains",
+   "name": "Mischievous Mystic",
    "types": [
-    "Basic",
-    "Land"
+    "Creature"
    ],
    "sub_types": [
-    "Plains"
+    "Human",
+    "Wizard"
    ],
-   "cmc": 0,
+   "cmc": 2,
    "image": "",
-   "colors": [],
-   "color_identity": [
-    "W"
+   "colors": [
+    "U"
    ],
-   "mana_cost": "",
-   "url": "https://scryfall.com/card/tla/282/plains?utm_source=api",
-   "oracle_text": "({T}: Add {W}.)"
+   "color_identity": [
+    "U"
+   ],
+   "mana_cost": "{1}{U}",
+   "url": "https://scryfall.com/card/fdn/47/mischievous-mystic?utm_source=api",
+   "oracle_text": "Flying\nWhenever you draw your second card each turn, create a 1/1 blue Faerie creature token with flying.",
+   "power": "2",
+   "toughness": "1"
   },
   {
    "name": "Plains",
@@ -835,29 +839,6 @@
   }
  ],
  "sideboard": [
-  {
-   "name": "Mischievous Mystic",
-   "types": [
-    "Creature"
-   ],
-   "sub_types": [
-    "Human",
-    "Wizard"
-   ],
-   "cmc": 2,
-   "image": "",
-   "colors": [
-    "U"
-   ],
-   "color_identity": [
-    "U"
-   ],
-   "mana_cost": "{1}{U}",
-   "url": "https://scryfall.com/card/fdn/47/mischievous-mystic?utm_source=api",
-   "oracle_text": "Flying\nWhenever you draw your second card each turn, create a 1/1 blue Faerie creature token with flying.",
-   "power": "2",
-   "toughness": "1"
-  },
   {
    "name": "Chandra, Hope's Beacon",
    "types": [

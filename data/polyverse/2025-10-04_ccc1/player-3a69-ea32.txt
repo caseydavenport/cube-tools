@@ -28,7 +28,7 @@
 1 Undercity Sewers
 1 Meticulous Archive
 1 Hallowed Fountain
-1 Plains
+1 Mischievous Mystic
 1 Plains
 1 Plains
 1 Plains
@@ -39,7 +39,6 @@
 1 Island
 1 Island
 
-1 Mischievous Mystic
 1 Chandra, Hope's Beacon
 1 Master of Death
 1 Thalia, Guardian of Thraben
