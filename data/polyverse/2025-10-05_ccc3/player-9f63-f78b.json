@@ -1049,9 +1049,5 @@
    "url": "https://scryfall.com/card/eoe/88/archenemys-charm?utm_source=api",
    "oracle_text": "Choose one —\n• Exile target creature or planeswalker.\n• Return one or two target creature and/or planeswalker cards from your graveyard to your hand.\n• Put two +1/+1 counters on target creature you control. It gains lifelink until end of turn."
   }
- ],
- "colors": [
-  "G",
-  "R"
  ]
 }
