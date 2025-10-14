@@ -1,34 +1,44 @@
+1 Chandra, Hope's Beacon
+1 The Goose Mother
+1 Primeval Titan
+1 Titania, Protector of Argoth
+1 Garruk Wildspeaker
+1 Twinshot Sniper
+1 Pia and Kiran Nalaar
+1 Roaring Earth
+1 Wrenn and Six
+1 Birthing Ritual
+1 Sylvan Library
+1 Augur of Autumn
+1 Tireless Tracker
+1 The Huntsman's Redemption
+1 Lotus Cobra
+1 Tarmogoyf
+1 Territorial Kavu
+1 Chromatic Star
+1 Firebolt
+1 Utopia Sprawl
+1 Pick Your Poison
+1 Flame Slash
+1 Noble Hierarch
+1 Llanowar Elves
+1 Commercial District
+1 Stomping Ground
+1 Shifting Woodland
 1 Temple Garden
+1 Temple Garden
+1 Hedge Maze
+1 Marsh Flats
 1 Flooded Strand
 1 Windswept Heath
 1 Windswept Heath
-1 Marsh Flats
-1 Shifting Woodland
-1 Temple Garden
-1 Stomping Ground
-1 Commercial District
-1 Hedge Maze
-1 Flame Slash
-1 Firebolt
-1 Utopia Sprawl
-1 Noble Hierarch
-1 Pick Your Poison
-1 Llanowar Elves
-1 Lotus Cobra
-1 Roaring Earth
-1 Wrenn and Six
-1 Tarmogoyf
-1 Birthing Ritual
-1 The Huntsman's Redemption
-1 Augur of Autumn
-1 Tireless Tracker
-1 Garruk Wildspeaker
-1 Twinshot Sniper
-1 Titania, Protector of Argoth
-1 Primeval Titan
-1 Chandra, Hope's Beacon
-1 Chromatic Star
-1 The Goose Mother
+1 Forest
+1 Forest
+1 Forest
+1 Mountain
+1 Mountain
+1 Island
+
 1 Spell Queller
 1 The Binding of the Titans
 1 Horizon Canopy
@@ -36,9 +46,6 @@
 1 Unexpectedly Absent
 1 Tidehollow Sculler
 1 Collected Company
-1 Pia and Kiran Nalaar
-1 Territorial Kavu
-1 Sylvan Library
 1 Flame Jab
 1 Godless Shrine
 1 Restoration Angel
