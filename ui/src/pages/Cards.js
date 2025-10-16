@@ -378,7 +378,6 @@ function CardWidgetTable(input) {
                   return
                 }
 
-                let [expected_win_percent] = CardAnalyze(card, input.parsed.playerData)
                 let imgs = ColorImages(card.color_identity)
 
                 // Determine sort value. Default to win percentage.
@@ -391,7 +390,7 @@ function CardWidgetTable(input) {
                     sort = relativePerfPlayer
                     break;
                   case "expected_win_percent":
-                    sort = expected_win_percent
+                    sort = card.expected_win_percent
                     break;
                   case "pow":
                     sort = card.percent_of_wins
@@ -433,7 +432,7 @@ function CardWidgetTable(input) {
                     <td id={card.name} onClick={input.onCardSelected} key="pow">{card.percent_of_wins}%</td>
                     <td id={card.name} onClick={input.onCardSelected} key="wins">{card.wins}</td>
                     <td id={card.name} onClick={input.onCardSelected} key="games">{card.total_games}</td>
-                    <td>{expected_win_percent}%</td>
+                    <td>{card.expected_win_percent}%</td>
                   </tr>
                 )
               }).sort(SortFunc)
@@ -1001,8 +1000,6 @@ function getScales(axis, force) {
 }
 
 function getValue(axis, card, archetypeData, playerData, decks, draftData) {
-  let [expected_win_percent] = CardAnalyze(card, playerData)
-
   switch (axis) {
     case NumGamesOption:
       return card.total_games
@@ -1027,7 +1024,7 @@ function getValue(axis, card, archetypeData, playerData, decks, draftData) {
     case NumPlayersOption:
       return Object.entries(card.players).size
     case ExpectedWinPercentOption:
-      return expected_win_percent
+      return card.expected_win_percent
     case NumTrophiesOption:
       return card.trophies
     case NumLastPlaceOption:

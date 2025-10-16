@@ -233,36 +233,77 @@ func (d *cardStatsHandler) statsForDecks(decks []*storage.Deck, cubeCards map[st
 
 	// Now that we've gone through all the decks, calculate win percentages and mainboard/sideboard percentages,
 	// and perform any filtering based on the request parameters.
-	for _, cbn := range resp.Data {
-		if shouldFilterCard(cbn, sr) {
-			delete(resp.Data, cbn.Name)
+	for _, card := range resp.Data {
+		if shouldFilterCard(card, sr) {
+			delete(resp.Data, card.Name)
 			continue
 		}
 
 		// Add ELO data.
-		if elo, ok := eloData[cbn.Name]; ok {
-			cbn.ELO = elo
+		if elo, ok := eloData[card.Name]; ok {
+			card.ELO = elo
 		} else {
-			cbn.ELO = 1200
+			card.ELO = 1200
 		}
+
+		card.ExpectedWinPercent = ExpectedWinPercent(card.Name, card.Players, decks)
 
 		// Calculate win percentage and mainboard/sideboard percentages.
-		cbn.TotalGames = cbn.Wins + cbn.Losses
-		if cbn.TotalGames > 0 {
-			cbn.WinPercent = math.Round(100 * float64(cbn.Wins) / float64(cbn.TotalGames))
+		card.TotalGames = card.Wins + card.Losses
+		if card.TotalGames > 0 {
+			card.WinPercent = math.Round(100 * float64(card.Wins) / float64(card.TotalGames))
 		}
 		if totalWins > 0 {
-			cbn.PercentOfWins = math.Round(100 * float64(cbn.Wins) / float64(totalWins))
+			card.PercentOfWins = math.Round(100 * float64(card.Wins) / float64(totalWins))
 		}
 
-		decksWithCard := cbn.Mainboard + cbn.Sideboard
+		decksWithCard := card.Mainboard + card.Sideboard
 		if decksWithCard > 0 {
-			cbn.MainboardPercent = math.Round(100 * float64(cbn.Mainboard) / float64(decksWithCard))
-			cbn.SideboardPercent = math.Round(100 * float64(cbn.Sideboard) / float64(decksWithCard))
+			card.MainboardPercent = math.Round(100 * float64(card.Mainboard) / float64(decksWithCard))
+			card.SideboardPercent = math.Round(100 * float64(card.Sideboard) / float64(decksWithCard))
 		}
 	}
 
 	return resp
+}
+
+func ExpectedWinPercent(cardName string, players map[string]int, decks []*storage.Deck) float64 {
+	var percentages []float64
+	for _, d := range decks {
+		// Skip decks that were not played by one of the specified players.
+		if _, ok := players[d.Player]; !ok {
+			continue
+		}
+
+		// This deck was played by one of the specified players. Skip this deck if it
+		// includes the specified card.
+		found := false
+		for _, c := range d.Mainboard {
+			if c.Name == cardName {
+				found = true
+				break
+			}
+		}
+		if found {
+			continue
+		}
+
+		// This deck does not include the card, so include its results.
+		if d.GameWins()+d.GameLosses() == 0 {
+			continue
+		}
+		percentages = append(percentages, float64(d.GameWins())/float64(d.GameWins()+d.GameLosses()))
+	}
+	if len(percentages) == 0 {
+		return 0.0
+	}
+
+	// Average the percentages.
+	var total float64
+	for _, p := range percentages {
+		total += p
+	}
+	return math.Round(100 * total / float64(len(percentages)))
 }
 
 func ELOData(decks []*storage.Deck) map[string]int {
@@ -500,6 +541,9 @@ type cardStats struct {
 	LastPlace int `json:"last_place"`
 	// Win percentage
 	WinPercent float64 `json:"win_percent"`
+	// Expected win percentage is the win percentage of players who have mainboarded this card,
+	// excluding decks that included this card.
+	ExpectedWinPercent float64 `json:"expected_win_percent"`
 	// Percent of all games won by decks with this card. This is different from WinPercent, which is
 	// the percentage of games won given that this card was in the mainboard.
 	PercentOfWins float64 `json:"percent_of_wins"`
