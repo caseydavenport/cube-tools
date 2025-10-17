@@ -3,7 +3,6 @@ import { StdDev, IsBasicLand, SortFunc } from "../utils/Utils.js"
 import { DropdownHeader, NumericInput, Checkbox, DateSelector } from "../components/Dropdown.js"
 import { Wins, Losses } from "../utils/Deck.js"
 import { ApplyTooltip } from "../utils/Tooltip.js"
-import { CardAnalyze } from "../utils/Cards.js"
 import { ColorImages } from "../utils/Colors.js"
 
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
