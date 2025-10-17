@@ -8,7 +8,8 @@ import { SortFunc } from "../utils/Utils.js"
 import { CardMatches, DeckMatches } from "../utils/Query.js"
 import { ColorImages } from "../utils/Colors.js"
 import { Button, TextInput, DropdownHeader, NumericInput, Checkbox, DateSelector } from "../components/Dropdown.js"
-import { InitialDates } from "./Stats.js"
+import { InitialDates, CheckboxesToColors } from "./Stats.js"
+import { ColorPickerHeader } from "./Types.js"
 import ReactMarkdown from "react-markdown";
 
 
@@ -50,6 +51,32 @@ export default function DeckViewer() {
 
   // Dropdown for mainboard vs. sideboard.
   const [mainboardSideboard, setMainboardSideboard] = useState("Mainboard");
+
+
+  // For filtering decks by color.
+  const [colorCheckboxes, setColorCheckboxes] = useState([false, false, false, false, false]);
+  function onColorChecked(event) {
+    let updated = [...colorCheckboxes]
+    switch (event.target.id) {
+      case "W":
+        updated[0] = !colorCheckboxes[0];
+        break;
+      case "U":
+        updated[1] = !colorCheckboxes[1];
+        break;
+      case "B":
+        updated[2] = !colorCheckboxes[2];
+        break;
+      case "R":
+        updated[3] = !colorCheckboxes[3];
+        break;
+      case "G":
+        updated[4] = !colorCheckboxes[4];
+        break;
+    }
+    const newboxes = [...updated]
+    setColorCheckboxes(newboxes)
+  }
 
   // What to sort the deck list by.
   const sortOptions = [
@@ -252,6 +279,12 @@ export default function DeckViewer() {
           onChange={onMaxCMCUpdated}
         />
 
+        <ColorPickerHeader
+          className="dropdown"
+          display={colorCheckboxes}
+          onChecked={onColorChecked}
+        />
+
         <TextInput
           className="dropdown"
           label="Search"
@@ -275,6 +308,7 @@ export default function DeckViewer() {
           minCMC={minCMC}
           maxCMC={maxCMC}
           mbsb={mainboardSideboard}
+          colorCheckboxes={colorCheckboxes}
         />
 
         <MainDisplay
@@ -337,6 +371,10 @@ function FilteredDecks(input) {
   ]
   let idx = 0
 
+
+  // Decide if we need to filter by color.
+  let filterByColor = input.colorCheckboxes.some(function(element) {return element})
+
   for (let d of input.decks) {
     // Perform filtering of decks we want to display.
     if (input.selectedDraft != "" && input.selectedDraft != d.date) {
@@ -347,6 +385,19 @@ function FilteredDecks(input) {
     }
     if (input.maxCMC > 0 && d.avg_cmc > input.maxCMC) {
       continue
+    }
+    if (filterByColor) {
+      let deckMatches = true
+      let enabledColors = CheckboxesToColors(input.colorCheckboxes)
+      for (let color of enabledColors) {
+        if (!d.colors.includes(color)) {
+          deckMatches = false
+          break
+         }
+      }
+      if (!deckMatches) {
+        continue
+      }
     }
 
     if (!draftToColor.has(d.metadata.draft_id)) {
@@ -483,8 +534,7 @@ function MainDisplay(input) {
 
 function CompareDecks(input) {
   // Build a set of cards that are common across all input decks.
-  let cardCounts = new Map()
-  let allCardsList = new Array()
+  let allCards = new Map()
   for (let deck of input.comparisonDecks.values()) {
     let cards = deck.mainboard
     if (input.mbsb == "Sideboard") {
@@ -496,20 +546,22 @@ function CompareDecks(input) {
 
     for (let card of cards) {
       // If the card is already in the map, increment the count.
-      if (cardCounts.has(card.name)) {
-        let entry = cardCounts.get(card.name)
-        entry.count += 1
-        cardCounts.set(card.name, entry)
+      if (allCards.has(card.name)) {
+        // Add this deck.
+        let entry = allCards.get(card.name)
+        entry.decks.set(deck.metadata.path, true)
+        allCards.set(card.name, entry)
       } else {
         // New card - add it to the map.
-        cardCounts.set(card.name, { card: card, count: 1 })
+        allCards.set(card.name, { card: card, decks: new Map([[deck.metadata.path, true]])})
       }
     }
   }
 
   // Build a list of cards that are in all decks.
-  for (let entry of cardCounts.values()) {
-    if (entry.count == input.comparisonDecks.size) {
+  let allCardsList = new Array()
+  for (let entry of allCards.values()) {
+    if (entry.decks.size == input.comparisonDecks.size) {
       allCardsList.push(entry.card)
     }
   }

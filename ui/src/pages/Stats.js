@@ -542,7 +542,7 @@ export default function StatsViewer() {
     for (let deck of decks) {
       let deckMatches = true
       if (filterByColor) {
-        let enabledColors = checkboxesToColors(colorCheckboxes)
+        let enabledColors = CheckboxesToColors(colorCheckboxes)
           for (let color of enabledColors) {
             if (!deck.colors.includes(color)) {
               deckMatches = false
@@ -893,7 +893,7 @@ function PrintRow({ k, value, p }) {
   );
 }
 
-function checkboxesToColors(checkboxes) {
+export function CheckboxesToColors(checkboxes) {
   let colors = []
   if (checkboxes[0]) {
     colors.push("W")

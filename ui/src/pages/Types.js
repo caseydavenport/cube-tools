@@ -342,9 +342,13 @@ function ArchetypeStatsTable(input) {
   );
 }
 
-function ColorPickerHeader(input) {
+export function ColorPickerHeader(input) {
+  let className = "full-options-header"
+  if (input.className) {
+    className = input.className
+  }
   return (
-    <div className="full-options-header">
+    <div className={className}>
       <Checkbox
         text={ColorImages("W")}
         id="W"
