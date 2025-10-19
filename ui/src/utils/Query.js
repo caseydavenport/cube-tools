@@ -22,7 +22,7 @@ export function CardMatches(card, matchStr, checkText) {
     }
 
     // Check if any color terms match.
-    if (splits.some(term => term.startsWith("c"))) {
+    if (splits.some(term => isColorTerm(term))) {
       // If there are color terms, we need to match at least one of them.
       if (!colorsMatch(splits, card)) {
         return false
@@ -41,6 +41,13 @@ export function CardMatches(card, matchStr, checkText) {
     if (splits.some(term => isNameTerm(term))) {
       // If there are name terms, we need to match at least one of them.
       if (!namesMatch(splits, card)) {
+        return false
+      }
+    }
+
+    // Check if the cmc terms match.
+    if (splits.some(term => isCMCTerm(term))) {
+      if (!cmcsMatch(splits, card)) {
         return false
       }
     }
@@ -95,7 +102,7 @@ export function DeckMatches(deck, matchStr, mbsb) {
   return false
 }
 
-const queryTerms = ["pow", "name", "o", "c", "t"]
+const queryTerms = ["pow", "name", "o", "c", "t", "cmc"]
 
 function parseTerms(matchStr) {
   // Split the string into terms. A term ends at a space, unless the space is inside quotes.
@@ -131,6 +138,60 @@ function isTermQuery(matchStr) {
         // It's a term query.
         return true
       }
+    }
+  }
+  return false
+}
+
+function isCMCTerm(term) {
+  return term.startsWith("cmc")
+}
+
+function cmcsMatch(terms, card) {
+  for (let term of terms) {
+    if (!isCMCTerm(term)) {
+      continue
+    }
+    if (cmcMatches(term, card)) {
+      return true
+    }
+  }
+  return false
+}
+
+function cmcMatches(term, card) {
+  if (!isCMCTerm(term)) {
+    // Not a cmc query - always matches.
+    return true
+  }
+
+  // If the card has no cmc, it can't match.
+  if (card.cmc == null) {
+    return false
+  }
+
+  let cmc = parseInt(card.cmc)
+  if (isNaN(cmc)) {
+    return false
+  }
+
+  // If the term is a cmc query, we need to check if the card's cmc matches.
+  if (term.startsWith("cmc<")) {
+    let val = parseInt(term.replace("cmc<", ""))
+    if (cmc < val) {
+      return true
+    }
+  }
+  if (term.startsWith("cmc>")) {
+    let val = parseInt(term.replace("cmc>", ""))
+    if (cmc > val) {
+      return true
+    }
+  }
+  if (term.startsWith("cmc=")) {
+    let val = parseInt(term.replace("cmc=", ""))
+    if (cmc == val) {
+      return true
     }
   }
   return false
