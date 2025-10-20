@@ -75,7 +75,7 @@ func (c Card) IsRemoval() bool {
 		"return target nonland permanent to its owner's hand",
 	}
 	for _, r := range removal {
-		if strings.Contains(c.OracleText, r) {
+		if strings.Contains(strings.ToLower(c.OracleText), strings.ToLower(r)) {
 			return true
 		}
 	}
