@@ -37,8 +37,8 @@ ChartJS.register(
 );
 
 // The mark an archetype must hit to be included in this page.
-// Set a default here that roughly maps to once every other draft.
-const watermark = 100 / 16
+// Set a default here that roughly maps to once every 4 drafts.
+const watermark = 100 * 1 / 32
 
 const winPctColor = "#fff"
 const winColor = Green

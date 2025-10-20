@@ -67,6 +67,22 @@ export function CardMatches(card, matchStr, checkText) {
   return false
 }
 
+// Return the minimum required cards that mush match the given match string
+// for a deck to be considered a match.
+function minRequiredCardMatches(matchStr) {
+  let count = 0
+  let splits = parseTerms(matchStr)
+  for (let term of splits) {
+    if (term.startsWith("minCards:")) {
+      let val = parseInt(term.replace("minCards:", ""))
+      if (!isNaN(val)) {
+        count = val
+      }
+    }
+  }
+  return count
+}
+
 export function DeckMatches(deck, matchStr, mbsb) {
   if (deck.player.toLowerCase().match(matchStr.toLowerCase())) {
     return true
@@ -78,23 +94,36 @@ export function DeckMatches(deck, matchStr, mbsb) {
     }
   }
 
+
+  let minCards = minRequiredCardMatches(matchStr)
+  let matchCount = 0
+
   // Check mainboard / sideboard.
   if (mbsb == "Mainboard") {
     for (let card of deck.mainboard) {
       if (CardMatches(card, matchStr, true)) {
-        return true
+        matchCount++
+        if (matchCount >= minCards) {
+          return true
+        }
       }
     }
   } else if (mbsb == "Sideboard") {
     for (let card of deck.sideboard) {
       if (CardMatches(card, matchStr, true)) {
-        return true
+        matchCount++
+        if (matchCount >= minCards) {
+          return true
+        }
       }
     }
   } else if (deck.pool) {
     for (let card of deck.pool) {
       if (CardMatches(card, matchStr, true)) {
-        return true
+        matchCount++
+        if (matchCount >= minCards) {
+          return true
+        }
       }
     }
   }
