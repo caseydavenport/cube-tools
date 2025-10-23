@@ -872,7 +872,7 @@ function Overview(input) {
   let drafts = new Map()
   for (var i in input.decks) {
     numDecks += 1
-    drafts.set(input.decks[i].date, true)
+    drafts.set(input.decks[i].metadata.draft_id, true)
   }
   numDrafts = drafts.size
 

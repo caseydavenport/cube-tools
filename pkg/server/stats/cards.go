@@ -137,6 +137,15 @@ func (d *cardStatsHandler) statsForDecks(decks []*storage.Deck, cubeCards map[st
 	// PercentOfWins for each card later.
 	var totalWins int
 
+	// Track the drafts that this card has been seen in.
+	draftsByCard := make(map[string]map[string]bool)
+	seeCardInDraft := func(cardName, draftID string) {
+		if _, ok := draftsByCard[cardName]; !ok {
+			draftsByCard[cardName] = make(map[string]bool)
+		}
+		draftsByCard[cardName][draftID] = true
+	}
+
 	// Go through each deck, adding stats for each card in the deck.
 	for _, deck := range decks {
 		// Increment the total wins counter.
@@ -191,6 +200,9 @@ func (d *cardStatsHandler) statsForDecks(decks []*storage.Deck, cubeCards map[st
 			for _, l := range deck.Labels {
 				cbn.Archetypes[l]++
 			}
+
+			// Track drafts for this card.
+			seeCardInDraft(card.Name, deck.Metadata.DraftID)
 		}
 
 		for _, card := range sbSet {
@@ -213,6 +225,9 @@ func (d *cardStatsHandler) statsForDecks(decks []*storage.Deck, cubeCards map[st
 
 			// Increment player count.
 			cbn.Sideboarders[deck.Player]++
+
+			// Track drafts for this card.
+			seeCardInDraft(card.Name, deck.Metadata.DraftID)
 		}
 
 		for _, card := range poolSet {
@@ -225,6 +240,9 @@ func (d *cardStatsHandler) statsForDecks(decks []*storage.Deck, cubeCards map[st
 			// Get the global cardStats for this card.
 			cbn := resp.Data[card.Name]
 			cbn.Pool++
+
+			// Track drafts for this card.
+			seeCardInDraft(card.Name, deck.Metadata.DraftID)
 		}
 	}
 
@@ -234,11 +252,6 @@ func (d *cardStatsHandler) statsForDecks(decks []*storage.Deck, cubeCards map[st
 	// Now that we've gone through all the decks, calculate win percentages and mainboard/sideboard percentages,
 	// and perform any filtering based on the request parameters.
 	for _, card := range resp.Data {
-		if shouldFilterCard(card, sr) {
-			delete(resp.Data, card.Name)
-			continue
-		}
-
 		// Add ELO data.
 		if elo, ok := eloData[card.Name]; ok {
 			card.ELO = elo
@@ -261,6 +274,16 @@ func (d *cardStatsHandler) statsForDecks(decks []*storage.Deck, cubeCards map[st
 		if decksWithCard > 0 {
 			card.MainboardPercent = math.Round(100 * float64(card.Mainboard) / float64(decksWithCard))
 			card.SideboardPercent = math.Round(100 * float64(card.Sideboard) / float64(decksWithCard))
+		}
+
+		// Calculate total drafts.
+		if drafts, ok := draftsByCard[card.Name]; ok {
+			card.Drafts = len(drafts)
+		}
+
+		// Apply filtering based on the request parameters.
+		if shouldFilterCard(card, sr) {
+			delete(resp.Data, card.Name)
 		}
 	}
 
@@ -421,7 +444,7 @@ func shouldFilterCard(cbn *cardStats, sr *CardStatsRequest) bool {
 	}
 
 	// Filter based on min drafts and min games.
-	if sr.MinDrafts > 0 && cbn.numDrafts() < sr.MinDrafts {
+	if sr.MinDrafts > 0 && cbn.Drafts < sr.MinDrafts {
 		return true
 	}
 	if sr.MinGames > 0 && cbn.Wins+cbn.Losses < sr.MinGames {
@@ -527,6 +550,8 @@ type cardStats struct {
 	Sideboard int `json:"sideboard"`
 	// Number of times this card has been in the draft pool but not in mainboard or sideboard
 	Pool int `json:"pool,omitempty"`
+	// Total number of drafts this card has been in.
+	Drafts int `json:"drafts,omitempty"`
 	// Total number of games this card has been in.
 	TotalGames int `json:"total_games"`
 	// Number of times this card was in deck color(s), and sideboarded
@@ -577,10 +602,4 @@ type cardStats struct {
 	ELO int `json:"elo"`
 	// ColorIdentity of the card (e.g. ["W", "U"]
 	ColorIdentity []string `json:"color_identity,omitempty"`
-}
-
-// numDrafts returns the total number of drafts this card has been in, regardless of
-// whether it was mainboarded, sideboarded, or just in the pool.
-func (c *cardStats) numDrafts() int {
-	return c.Mainboard + c.Sideboard + c.Pool
 }
