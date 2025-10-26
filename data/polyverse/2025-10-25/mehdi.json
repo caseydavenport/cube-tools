@@ -1,13 +1,13 @@
 {
  "metadata": {
-  "path": "data/polyverse/2025-10-26/mehdi.json",
-  "draft_id": "2025-10-26",
-  "mainboard_file": "data/polyverse/2025-10-26/mehdi-mainboard.txt",
-  "sideboard_file": "data/polyverse/2025-10-26/mehdi-sideboard.txt"
+  "path": "data/polyverse/2025-10-25/mehdi.json",
+  "draft_id": "2025-10-25",
+  "mainboard_file": "data/polyverse/2025-10-25/mehdi-mainboard.txt",
+  "sideboard_file": "data/polyverse/2025-10-25/mehdi-sideboard.txt"
  },
  "labels": ["control", "domain", "token"],
  "player": "mehdi",
- "date": "2025-10-26",
+ "date": "2025-10-25",
  "games": null,
  "matches": null,
  "mainboard": [

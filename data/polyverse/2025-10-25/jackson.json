@@ -1,13 +1,13 @@
 {
  "metadata": {
-  "path": "data/polyverse/2025-10-26/jackson.json",
-  "draft_id": "2025-10-26",
-  "mainboard_file": "data/polyverse/2025-10-26/jackson-mainboard.txt",
-  "sideboard_file": "data/polyverse/2025-10-26/jackson-sideboard.txt"
+  "path": "data/polyverse/2025-10-25/jackson.json",
+  "draft_id": "2025-10-25",
+  "mainboard_file": "data/polyverse/2025-10-25/jackson-mainboard.txt",
+  "sideboard_file": "data/polyverse/2025-10-25/jackson-sideboard.txt"
  },
  "labels": ["control"],
  "player": "jackson",
- "date": "2025-10-26",
+ "date": "2025-10-25",
  "games": null,
  "matches": null,
  "mainboard": [

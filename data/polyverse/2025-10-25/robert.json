@@ -1,13 +1,13 @@
 {
  "metadata": {
-  "path": "data/polyverse/2025-10-26/robert.json",
-  "draft_id": "2025-10-26",
-  "mainboard_file": "data/polyverse/2025-10-26/robert-mainboard.txt",
-  "sideboard_file": "data/polyverse/2025-10-26/robert-sideboard.txt"
+  "path": "data/polyverse/2025-10-25/robert.json",
+  "draft_id": "2025-10-25",
+  "mainboard_file": "data/polyverse/2025-10-25/robert-mainboard.txt",
+  "sideboard_file": "data/polyverse/2025-10-25/robert-sideboard.txt"
  },
  "labels": ["aggro", "spells"],
  "player": "robert",
- "date": "2025-10-26",
+ "date": "2025-10-25",
  "games": null,
  "matches": null,
  "mainboard": [

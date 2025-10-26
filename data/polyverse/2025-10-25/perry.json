@@ -1,13 +1,13 @@
 {
  "metadata": {
-  "path": "data/polyverse/2025-10-26/perry.json",
-  "draft_id": "2025-10-26",
-  "mainboard_file": "data/polyverse/2025-10-26/perry-mainboard.txt",
-  "sideboard_file": "data/polyverse/2025-10-26/perry-sideboard.txt"
+  "path": "data/polyverse/2025-10-25/perry.json",
+  "draft_id": "2025-10-25",
+  "mainboard_file": "data/polyverse/2025-10-25/perry-mainboard.txt",
+  "sideboard_file": "data/polyverse/2025-10-25/perry-sideboard.txt"
  },
  "labels": ["midrange", "stomp"],
  "player": "perry",
- "date": "2025-10-26",
+ "date": "2025-10-25",
  "games": null,
  "matches": null,
  "mainboard": [

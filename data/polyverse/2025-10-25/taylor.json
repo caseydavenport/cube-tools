@@ -1,13 +1,13 @@
 {
  "metadata": {
-  "path": "data/polyverse/2025-10-26/taylor.json",
-  "draft_id": "2025-10-26",
-  "mainboard_file": "data/polyverse/2025-10-26/taylor-mainboard.txt",
-  "sideboard_file": "data/polyverse/2025-10-26/taylor-sideboard.txt"
+  "path": "data/polyverse/2025-10-25/taylor.json",
+  "draft_id": "2025-10-25",
+  "mainboard_file": "data/polyverse/2025-10-25/taylor-mainboard.txt",
+  "sideboard_file": "data/polyverse/2025-10-25/taylor-sideboard.txt"
  },
  "labels": ["aggro"],
  "player": "taylor",
- "date": "2025-10-26",
+ "date": "2025-10-25",
  "games": null,
  "matches": null,
  "mainboard": [

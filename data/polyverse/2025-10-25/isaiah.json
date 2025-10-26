@@ -1,13 +1,13 @@
 {
  "metadata": {
-  "path": "data/polyverse/2025-10-26/isaiah.json",
-  "draft_id": "2025-10-26",
-  "mainboard_file": "data/polyverse/2025-10-26/isaiah-mainboard.txt",
-  "sideboard_file": "data/polyverse/2025-10-26/isaiah-sideboard.txt"
+  "path": "data/polyverse/2025-10-25/isaiah.json",
+  "draft_id": "2025-10-25",
+  "mainboard_file": "data/polyverse/2025-10-25/isaiah-mainboard.txt",
+  "sideboard_file": "data/polyverse/2025-10-25/isaiah-sideboard.txt"
  },
  "labels": ["midrange", "ritual"],
  "player": "isaiah",
- "date": "2025-10-26",
+ "date": "2025-10-25",
  "games": null,
  "matches": null,
  "mainboard": [
