@@ -1,0 +1,33 @@
+4 Island
+1 Otawara, Soaring City
+1 Merfolk Looter
+1 Deep-Cavern Bat
+1 Liliana, Dreadhorde General
+1 Portent
+1 Urza's Bauble
+1 Ponder
+1 Sphinx of Forgotten Lore
+1 Faerie Vandal
+1 Bloodchief's Thirst
+1 Miscalculation
+1 Island
+1 Into the Roil
+1 Mystic Confluence
+1 Remand
+1 Shelldock Isle
+1 Bitter Triumph
+5 Swamp
+1 Ethereal Forager
+1 Memory Lapse
+1 Spellstutter Sprite
+1 Wither and Bloom
+1 Bloodstained Mire
+1 Watery Grave
+1 Mischievous Mystic
+1 Thing in the Ice // Awoken Horror
+1 Torrential Gearhulk
+1 Toxic Deluge
+1 Inquisition of Kozilek
+1 Stern Scolding
+1 Verdant Catacombs
+1 Undercity Sewers
