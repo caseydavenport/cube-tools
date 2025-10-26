@@ -58,44 +58,6 @@
    "toughness": "1"
   },
   {
-   "name": "Adanto Vanguard",
-   "types": [
-    "Creature"
-   ],
-   "sub_types": [
-    "Vampire",
-    "Soldier"
-   ],
-   "cmc": 2,
-   "image": "",
-   "colors": [
-    "W"
-   ],
-   "color_identity": [
-    "W"
-   ],
-   "mana_cost": "{1}{W}",
-   "url": "https://scryfall.com/card/xln/1/adanto-vanguard?utm_source=api",
-   "oracle_text": "As long as this creature is attacking, it gets +2/+0.\nPay 4 life: This creature gains indestructible until end of turn. (Damage and effects that say \"destroy\" don't destroy it.)",
-   "power": "1",
-   "toughness": "1"
-  },
-  {
-   "name": "Aether Spellbomb",
-   "types": [
-    "Artifact"
-   ],
-   "cmc": 1,
-   "image": "",
-   "colors": [],
-   "color_identity": [
-    "U"
-   ],
-   "mana_cost": "{1}",
-   "url": "https://scryfall.com/card/jmp/456/aether-spellbomb?utm_source=api",
-   "oracle_text": "{U}, Sacrifice this artifact: Return target creature to its owner's hand.\n{1}, Sacrifice this artifact: Draw a card."
-  },
-  {
    "name": "Agonizing Remorse",
    "types": [
     "Sorcery"
@@ -424,6 +386,30 @@
    "mana_cost": "{1}{B}",
    "url": "https://scryfall.com/card/2x2/69/bitterblossom?utm_source=api",
    "oracle_text": "At the beginning of your upkeep, you lose 1 life and create a 1/1 black Faerie Rogue creature token with flying."
+  },
+  {
+   "name": "Blade Splicer",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Phyrexian",
+    "Human",
+    "Artificer"
+   ],
+   "cmc": 3,
+   "image": "",
+   "colors": [
+    "W"
+   ],
+   "color_identity": [
+    "W"
+   ],
+   "mana_cost": "{2}{W}",
+   "url": "https://scryfall.com/card/moc/175/blade-splicer?utm_source=api",
+   "oracle_text": "When this creature enters, create a 3/3 colorless Phyrexian Golem artifact creature token.\nGolems you control have first strike.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Blazing Rootwalla",
@@ -1214,25 +1200,6 @@
    "oracle_text": "Surveil 1. (Look at the top card of your library. You may put it into your graveyard.)\nDraw a card."
   },
   {
-   "name": "Containment Construct",
-   "types": [
-    "Artifact",
-    "Creature"
-   ],
-   "sub_types": [
-    "Construct"
-   ],
-   "cmc": 2,
-   "image": "",
-   "colors": [],
-   "color_identity": [],
-   "mana_cost": "{2}",
-   "url": "https://scryfall.com/card/neo/243/containment-construct?utm_source=api",
-   "oracle_text": "Whenever you discard a card, you may exile that card from your graveyard. If you do, you may play that card this turn.",
-   "power": "2",
-   "toughness": "1"
-  },
-  {
    "name": "Counterspell",
    "types": [
     "Instant"
@@ -1271,6 +1238,23 @@
    "oracle_text": "Play with the top card of your library revealed.\nYou may play lands from the top of your library.\nLandfall — Whenever a land you control enters, you gain 1 life.",
    "power": "2",
    "toughness": "4"
+  },
+  {
+   "name": "Cryogen Relic",
+   "types": [
+    "Artifact"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "U"
+   ],
+   "color_identity": [
+    "U"
+   ],
+   "mana_cost": "{1}{U}",
+   "url": "https://scryfall.com/card/eoe/52/cryogen-relic?utm_source=api",
+   "oracle_text": "When this artifact enters or leaves the battlefield, draw a card.\n{1}{U}, Sacrifice this artifact: Put a stun counter on up to one target tapped creature. (If a permanent with a stun counter would become untapped, remove one from it instead.)"
   },
   {
    "name": "Curator of Mysteries",
@@ -2610,6 +2594,25 @@
    "toughness": "1"
   },
   {
+   "name": "Growth Spiral",
+   "types": [
+    "Instant"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "G",
+    "U"
+   ],
+   "color_identity": [
+    "G",
+    "U"
+   ],
+   "mana_cost": "{G}{U}",
+   "url": "https://scryfall.com/card/dsc/88/growth-spiral?utm_source=api",
+   "oracle_text": "Draw a card. You may put a land card from your hand onto the battlefield."
+  },
+  {
    "name": "Hallowed Fountain",
    "types": [
     "Land"
@@ -2766,6 +2769,28 @@
    "oracle_text": "Choose one —\n• Destroy target artifact.\n• Destroy target enchantment.\n• Exile up to one target card from a graveyard. Draw a card."
   },
   {
+   "name": "Hooting Mandrills",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Ape"
+   ],
+   "cmc": 6,
+   "image": "",
+   "colors": [
+    "G"
+   ],
+   "color_identity": [
+    "G"
+   ],
+   "mana_cost": "{5}{G}",
+   "url": "https://scryfall.com/card/uma/170/hooting-mandrills?utm_source=api",
+   "oracle_text": "Delve (Each card you exile from your graveyard while casting this spell pays for {1}.)\nTrample",
+   "power": "4",
+   "toughness": "4"
+  },
+  {
    "name": "Horizon Canopy",
    "types": [
     "Land"
@@ -2780,31 +2805,6 @@
    "mana_cost": "",
    "url": "https://scryfall.com/card/ima/240/horizon-canopy?utm_source=api",
    "oracle_text": "{T}, Pay 1 life: Add {G} or {W}.\n{1}, {T}, Sacrifice this land: Draw a card."
-  },
-  {
-   "name": "Hostage Taker",
-   "types": [
-    "Creature"
-   ],
-   "sub_types": [
-    "Human",
-    "Pirate"
-   ],
-   "cmc": 4,
-   "image": "",
-   "colors": [
-    "B",
-    "U"
-   ],
-   "color_identity": [
-    "B",
-    "U"
-   ],
-   "mana_cost": "{2}{U}{B}",
-   "url": "https://scryfall.com/card/otc/231/hostage-taker?utm_source=api",
-   "oracle_text": "When this creature enters, exile another target creature or artifact until this creature leaves the battlefield. You may cast that card for as long as it remains exiled, and mana of any type can be spent to cast that spell.",
-   "power": "2",
-   "toughness": "3"
   },
   {
    "name": "Ignoble Hierarch",
@@ -4018,29 +4018,6 @@
    "toughness": "1"
   },
   {
-   "name": "Mosquito Guard",
-   "types": [
-    "Creature"
-   ],
-   "sub_types": [
-    "Kithkin",
-    "Soldier"
-   ],
-   "cmc": 1,
-   "image": "",
-   "colors": [
-    "W"
-   ],
-   "color_identity": [
-    "W"
-   ],
-   "mana_cost": "{W}",
-   "url": "https://scryfall.com/card/ddf/6/mosquito-guard?utm_source=api",
-   "oracle_text": "First strike\nReinforce 1—{1}{W} ({1}{W}, Discard this card: Put a +1/+1 counter on target creature.)",
-   "power": "1",
-   "toughness": "1"
-  },
-  {
    "name": "Mosswood Dreadknight // Dread Whispers",
    "types": [
     "Creature"
@@ -4119,23 +4096,26 @@
    "oracle_text": "({T}: Add {U}.)\nThis land enters tapped unless you control three or more other Islands.\nWhen this land enters untapped, you may put target instant or sorcery card from your graveyard on top of your library."
   },
   {
-   "name": "No More Lies",
+   "name": "Nethergoyf",
    "types": [
-    "Instant"
+    "Creature"
    ],
-   "cmc": 2,
+   "sub_types": [
+    "Lhurgoyf"
+   ],
+   "cmc": 1,
    "image": "",
    "colors": [
-    "U",
-    "W"
+    "B"
    ],
    "color_identity": [
-    "U",
-    "W"
+    "B"
    ],
-   "mana_cost": "{W}{U}",
-   "url": "https://scryfall.com/card/mkm/221/no-more-lies?utm_source=api",
-   "oracle_text": "Counter target spell unless its controller pays {3}. If that spell is countered this way, exile it instead of putting it into its owner's graveyard."
+   "mana_cost": "{B}",
+   "url": "https://scryfall.com/card/mh3/103/nethergoyf?utm_source=api",
+   "oracle_text": "Nethergoyf's power is equal to the number of card types among cards in your graveyard and its toughness is equal to that number plus 1.\nEscape—{2}{B}, Exile any number of other cards from your graveyard with four or more card types among them. (You may cast this card from your graveyard for its escape cost.)",
+   "power": "*",
+   "toughness": "1+*"
   },
   {
    "name": "Noble Hierarch",
@@ -4293,6 +4273,24 @@
    "oracle_text": "({T}: Add {B} or {G}.)\nAs this land enters, you may pay 2 life. If you don't, it enters tapped."
   },
   {
+   "name": "Ozolith, the Shattered Spire",
+   "types": [
+    "Legendary",
+    "Artifact"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "G"
+   ],
+   "color_identity": [
+    "G"
+   ],
+   "mana_cost": "{1}{G}",
+   "url": "https://scryfall.com/card/mom/198/ozolith-the-shattered-spire?utm_source=api",
+   "oracle_text": "If one or more +1/+1 counters would be put on an artifact or creature you control, that many plus one +1/+1 counters are put on it instead.\n{1}{G}, {T}: Put a +1/+1 counter on target artifact or creature you control. Activate only as a sorcery.\nCycling {2} ({2}, Discard this card: Draw a card.)"
+  },
+  {
    "name": "Path to Exile",
    "types": [
     "Instant"
@@ -4327,29 +4325,6 @@
    "url": "https://scryfall.com/card/cmr/330/perilous-myr?utm_source=api",
    "oracle_text": "When this creature dies, it deals 2 damage to any target.",
    "power": "1",
-   "toughness": "1"
-  },
-  {
-   "name": "Pestermite",
-   "types": [
-    "Creature"
-   ],
-   "sub_types": [
-    "Faerie",
-    "Rogue"
-   ],
-   "cmc": 3,
-   "image": "",
-   "colors": [
-    "U"
-   ],
-   "color_identity": [
-    "U"
-   ],
-   "mana_cost": "{2}{U}",
-   "url": "https://scryfall.com/card/mma/59/pestermite?utm_source=api",
-   "oracle_text": "Flash\nFlying\nWhen this creature enters, you may tap or untap target permanent.",
-   "power": "2",
    "toughness": "1"
   },
   {
@@ -5100,32 +5075,6 @@
    "oracle_text": "This spell costs {3} less to cast if it targets a tapped permanent.\nExile target creature or Vehicle."
   },
   {
-   "name": "Rielle, the Everwise",
-   "types": [
-    "Legendary",
-    "Creature"
-   ],
-   "sub_types": [
-    "Human",
-    "Wizard"
-   ],
-   "cmc": 3,
-   "image": "",
-   "colors": [
-    "R",
-    "U"
-   ],
-   "color_identity": [
-    "R",
-    "U"
-   ],
-   "mana_cost": "{1}{U}{R}",
-   "url": "https://scryfall.com/card/iko/203/rielle-the-everwise?utm_source=api",
-   "oracle_text": "Rielle gets +1/+0 for each instant and sorcery card in your graveyard.\nWhenever you discard one or more cards for the first time each turn, draw that many cards.",
-   "power": "0",
-   "toughness": "3"
-  },
-  {
    "name": "Rishadan Port",
    "types": [
     "Land"
@@ -5630,6 +5579,28 @@
    "url": "https://scryfall.com/card/uma/71/snapcaster-mage?utm_source=api",
    "oracle_text": "Flash\nWhen this creature enters, target instant or sorcery card in your graveyard gains flashback until end of turn. The flashback cost is equal to its mana cost. (You may cast that card from your graveyard for its flashback cost. Then exile it.)",
    "power": "2",
+   "toughness": "1"
+  },
+  {
+   "name": "Snarling Gorehound",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Dog"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [
+    "B"
+   ],
+   "color_identity": [
+    "B"
+   ],
+   "mana_cost": "{B}",
+   "url": "https://scryfall.com/card/mkm/105/snarling-gorehound?utm_source=api",
+   "oracle_text": "Menace\nWhenever another creature you control with power 2 or less enters, surveil 1. (Look at the top card of your library. You may put it into your graveyard.)",
+   "power": "1",
    "toughness": "1"
   },
   {
@@ -6956,6 +6927,28 @@
    "oracle_text": "When this creature enters, create a 0/1 white Goat creature token.\nSacrifice another creature: Scry 1.\nEscape—{3}{B}{B}, Exile four other cards from your graveyard. (You may cast this card from your graveyard for its escape cost.)\nThis creature escapes with two +1/+1 counters on it.",
    "power": "3",
    "toughness": "2"
+  },
+  {
+   "name": "Wolfbriar Elemental",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Elemental"
+   ],
+   "cmc": 4,
+   "image": "",
+   "colors": [
+    "G"
+   ],
+   "color_identity": [
+    "G"
+   ],
+   "mana_cost": "{2}{G}{G}",
+   "url": "https://scryfall.com/card/cma/168/wolfbriar-elemental?utm_source=api",
+   "oracle_text": "Multikicker {G} (You may pay an additional {G} any number of times as you cast this spell.)\nWhen this creature enters, create a 2/2 green Wolf creature token for each time it was kicked.",
+   "power": "4",
+   "toughness": "4"
   },
   {
    "name": "Wooded Foothills",
