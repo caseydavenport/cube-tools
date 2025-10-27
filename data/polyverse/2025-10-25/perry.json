@@ -5,11 +5,64 @@
   "mainboard_file": "data/polyverse/2025-10-25/perry-mainboard.txt",
   "sideboard_file": "data/polyverse/2025-10-25/perry-sideboard.txt"
  },
- "labels": ["midrange", "stomp"],
+ "labels": [
+  "midrange",
+  "stomp"
+ ],
  "player": "perry",
  "date": "2025-10-25",
- "games": null,
- "matches": null,
+ "games": [
+  {
+   "opponent": "isaiah",
+   "winner": "perry"
+  },
+  {
+   "opponent": "isaiah",
+   "winner": "perry"
+  },
+  {
+   "opponent": "isaiah",
+   "winner": "isaiah"
+  },
+  {
+   "opponent": "jackson",
+   "winner": "perry"
+  },
+  {
+   "opponent": "jackson",
+   "winner": "jackson"
+  },
+  {
+   "opponent": "jackson",
+   "winner": "jackson"
+  },
+  {
+   "opponent": "mehdi",
+   "winner": "perry"
+  },
+  {
+   "opponent": "mehdi",
+   "winner": "mehdi"
+  },
+  {
+   "opponent": "mehdi",
+   "winner": "mehdi"
+  }
+ ],
+ "matches": [
+  {
+   "opponent": "isaiah",
+   "winner": "perry"
+  },
+  {
+   "opponent": "jackson",
+   "winner": "jackson"
+  },
+  {
+   "opponent": "mehdi",
+   "winner": "mehdi"
+  }
+ ],
  "mainboard": [
   {
    "name": "Clarion Spirit",

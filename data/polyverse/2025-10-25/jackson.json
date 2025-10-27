@@ -5,11 +5,59 @@
   "mainboard_file": "data/polyverse/2025-10-25/jackson-mainboard.txt",
   "sideboard_file": "data/polyverse/2025-10-25/jackson-sideboard.txt"
  },
- "labels": ["control"],
+ "labels": [
+  "control"
+ ],
  "player": "jackson",
  "date": "2025-10-25",
- "games": null,
- "matches": null,
+ "games": [
+  {
+   "opponent": "casey",
+   "winner": "jackson"
+  },
+  {
+   "opponent": "casey",
+   "winner": "casey"
+  },
+  {
+   "opponent": "casey",
+   "winner": "casey"
+  },
+  {
+   "opponent": "perry",
+   "winner": "jackson"
+  },
+  {
+   "opponent": "perry",
+   "winner": "jackson"
+  },
+  {
+   "opponent": "perry",
+   "winner": "perry"
+  },
+  {
+   "opponent": "taylor",
+   "winner": "jackson"
+  },
+  {
+   "opponent": "taylor",
+   "winner": "jackson"
+  }
+ ],
+ "matches": [
+  {
+   "opponent": "casey",
+   "winner": "casey"
+  },
+  {
+   "opponent": "perry",
+   "winner": "jackson"
+  },
+  {
+   "opponent": "taylor",
+   "winner": "jackson"
+  }
+ ],
  "mainboard": [
   {
    "name": "Thoughtseize",

@@ -5,11 +5,59 @@
   "mainboard_file": "data/polyverse/2025-10-25/casey-mainboard.txt",
   "sideboard_file": "data/polyverse/2025-10-25/casey-sideboard.txt"
  },
- "labels": ["midrange", "skimmer", "lands", "graveyard", "draw"],
+ "labels": [
+  "midrange",
+  "skimmer",
+  "lands",
+  "graveyard",
+  "draw"
+ ],
  "player": "casey",
  "date": "2025-10-25",
- "games": null,
- "matches": null,
+ "games": [
+  {
+   "opponent": "colton",
+   "winner": "casey"
+  },
+  {
+   "opponent": "jackson",
+   "winner": "casey"
+  },
+  {
+   "opponent": "jackson",
+   "winner": "casey"
+  },
+  {
+   "opponent": "jackson",
+   "winner": "jackson"
+  },
+  {
+   "opponent": "taylor",
+   "winner": "casey"
+  },
+  {
+   "opponent": "taylor",
+   "winner": "casey"
+  },
+  {
+   "opponent": "taylor",
+   "winner": "taylor"
+  }
+ ],
+ "matches": [
+  {
+   "opponent": "colton",
+   "winner": "casey"
+  },
+  {
+   "opponent": "jackson",
+   "winner": "casey"
+  },
+  {
+   "opponent": "taylor",
+   "winner": "casey"
+  }
+ ],
  "mainboard": [
   {
    "name": "Brainsurge",

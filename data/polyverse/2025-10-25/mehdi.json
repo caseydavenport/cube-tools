@@ -5,11 +5,62 @@
   "mainboard_file": "data/polyverse/2025-10-25/mehdi-mainboard.txt",
   "sideboard_file": "data/polyverse/2025-10-25/mehdi-sideboard.txt"
  },
- "labels": ["control", "domain", "token"],
+ "labels": [
+  "midrange",
+  "domain",
+  "flicker",
+  "token"
+ ],
  "player": "mehdi",
  "date": "2025-10-25",
- "games": null,
- "matches": null,
+ "games": [
+  {
+   "opponent": "perry",
+   "winner": "mehdi"
+  },
+  {
+   "opponent": "perry",
+   "winner": "mehdi"
+  },
+  {
+   "opponent": "perry",
+   "winner": "perry"
+  },
+  {
+   "opponent": "robert",
+   "winner": "mehdi"
+  },
+  {
+   "opponent": "robert",
+   "winner": "robert"
+  },
+  {
+   "opponent": "robert",
+   "winner": "robert"
+  },
+  {
+   "opponent": "taylor",
+   "winner": "taylor"
+  },
+  {
+   "opponent": "taylor",
+   "winner": "taylor"
+  }
+ ],
+ "matches": [
+  {
+   "opponent": "perry",
+   "winner": "mehdi"
+  },
+  {
+   "opponent": "robert",
+   "winner": "robert"
+  },
+  {
+   "opponent": "taylor",
+   "winner": "taylor"
+  }
+ ],
  "mainboard": [
   {
    "name": "Caretaker's Talent",

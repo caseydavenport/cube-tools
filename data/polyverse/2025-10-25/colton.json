@@ -5,11 +5,51 @@
   "mainboard_file": "data/polyverse/2025-10-25/colton-mainboard.txt",
   "sideboard_file": "data/polyverse/2025-10-25/colton-sideboard.txt"
  },
- "labels": ["control"],
+ "labels": [
+  "control"
+ ],
  "player": "colton",
  "date": "2025-10-25",
- "games": null,
- "matches": null,
+ "games": [
+  {
+   "opponent": "casey",
+   "winner": "casey"
+  },
+  {
+   "opponent": "robert",
+   "winner": "colton"
+  },
+  {
+   "opponent": "robert",
+   "winner": "colton"
+  },
+  {
+   "opponent": "robert",
+   "winner": "robert"
+  },
+  {
+   "opponent": "taylor",
+   "winner": "colton"
+  },
+  {
+   "opponent": "taylor",
+   "winner": "colton"
+  }
+ ],
+ "matches": [
+  {
+   "opponent": "casey",
+   "winner": "casey"
+  },
+  {
+   "opponent": "robert",
+   "winner": "colton"
+  },
+  {
+   "opponent": "taylor",
+   "winner": "colton"
+  }
+ ],
  "mainboard": [
   {
    "name": "Island",

@@ -5,11 +5,64 @@
   "mainboard_file": "data/polyverse/2025-10-25/robert-mainboard.txt",
   "sideboard_file": "data/polyverse/2025-10-25/robert-sideboard.txt"
  },
- "labels": ["aggro", "spells"],
+ "labels": [
+  "aggro",
+  "spells"
+ ],
  "player": "robert",
  "date": "2025-10-25",
- "games": null,
- "matches": null,
+ "games": [
+  {
+   "opponent": "colton",
+   "winner": "robert"
+  },
+  {
+   "opponent": "colton",
+   "winner": "colton"
+  },
+  {
+   "opponent": "colton",
+   "winner": "colton"
+  },
+  {
+   "opponent": "isaiah",
+   "winner": "robert"
+  },
+  {
+   "opponent": "isaiah",
+   "winner": "isaiah"
+  },
+  {
+   "opponent": "isaiah",
+   "winner": "isaiah"
+  },
+  {
+   "opponent": "mehdi",
+   "winner": "robert"
+  },
+  {
+   "opponent": "mehdi",
+   "winner": "robert"
+  },
+  {
+   "opponent": "mehdi",
+   "winner": "mehdi"
+  }
+ ],
+ "matches": [
+  {
+   "opponent": "colton",
+   "winner": "colton"
+  },
+  {
+   "opponent": "isaiah",
+   "winner": "isaiah"
+  },
+  {
+   "opponent": "mehdi",
+   "winner": "robert"
+  }
+ ],
  "mainboard": [
   {
    "name": "Monastery Mentor",

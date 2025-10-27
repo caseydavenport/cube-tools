@@ -5,11 +5,60 @@
   "mainboard_file": "data/polyverse/2025-10-25/isaiah-mainboard.txt",
   "sideboard_file": "data/polyverse/2025-10-25/isaiah-sideboard.txt"
  },
- "labels": ["midrange", "ritual"],
+ "labels": [
+  "midrange",
+  "ritual"
+ ],
  "player": "isaiah",
  "date": "2025-10-25",
- "games": null,
- "matches": null,
+ "games": [
+  {
+   "opponent": "perry",
+   "winner": "isaiah"
+  },
+  {
+   "opponent": "perry",
+   "winner": "perry"
+  },
+  {
+   "opponent": "perry",
+   "winner": "perry"
+  },
+  {
+   "opponent": "robert",
+   "winner": "isaiah"
+  },
+  {
+   "opponent": "robert",
+   "winner": "isaiah"
+  },
+  {
+   "opponent": "robert",
+   "winner": "robert"
+  },
+  {
+   "opponent": "taylor",
+   "winner": "isaiah"
+  },
+  {
+   "opponent": "taylor",
+   "winner": "isaiah"
+  }
+ ],
+ "matches": [
+  {
+   "opponent": "perry",
+   "winner": "perry"
+  },
+  {
+   "opponent": "robert",
+   "winner": "isaiah"
+  },
+  {
+   "opponent": "taylor",
+   "winner": "isaiah"
+  }
+ ],
  "mainboard": [
   {
    "name": "Blade Splicer",
