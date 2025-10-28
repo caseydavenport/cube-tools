@@ -213,6 +213,11 @@ function CardWidgetTable(input) {
       tip: "Number of unique players who have mainboarded this card.",
     },
     {
+      id: "labels",
+      text: "# Labels",
+      tip: "Number of unique archetype labels that have mainboarded this card.",
+    },
+    {
       id: "elo",
       text: "ELO",
       tip: "An ELO ranking based on card pick order in packs, with slight weighting.",
@@ -316,6 +321,9 @@ function CardWidgetTable(input) {
                 case "colors":
                   sort = colorSort(card)
                   break
+                case "labels":
+                  sort = Object.entries(card.archetypes).length
+                  break
               }
 
               return (
@@ -345,6 +353,7 @@ function CardWidgetTable(input) {
                   <td>{card.playable_sideboard}</td>
                   <td>{card.total_games}</td>
                   <td>{players.length}</td>
+                  <td>{Object.entries(card.archetypes).length}</td>
                   <td>{card.elo}</td>
                   <td>{card.last_mainboarded}</td>
                 </tr>
