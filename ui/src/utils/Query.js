@@ -94,6 +94,14 @@ export function DeckMatches(deck, matchStr, mbsb) {
     }
   }
 
+  // Check deck types.
+  let splits = parseTerms(matchStr)
+  if (splits.some(term => isDeckTypeTerm(term))) {
+    if (deckTypesMatch(splits, deck)) {
+      return true
+    }
+  }
+
 
   let minCards = minRequiredCardMatches(matchStr)
   let matchCount = 0
@@ -392,6 +400,39 @@ function oracleMatches(term, card) {
   if (card.oracle_text.toLowerCase().match(query)) {
     return true
   }
+  return false
+}
+
+function isDeckTypeTerm(term) {
+  return term.startsWith("dt:") || term.startsWith("dt!=")
+}
+
+function deckTypesMatch(terms, deck) {
+  for (let term of terms) {
+    if (!isDeckTypeTerm(term)) {
+      continue
+    }
+    if (deckTypeMatches(term, deck)) {
+      return true
+    }
+  }
+  return false
+}
+
+function deckTypeMatches(term, deck) {
+  if (!isDeckTypeTerm(term)) {
+    // Not a deck type query - always matches.
+    return true
+  }
+
+  // Remove the dt: prefix and any quotes.
+  let query = term.replace("dt:", "").replace(/"/g, "").toLowerCase()
+
+  // Return true if any of the deck's types match the query.
+  if (deck.labels.some(t => t.toLowerCase() == query)) {
+    return true
+  }
+
   return false
 }
 
