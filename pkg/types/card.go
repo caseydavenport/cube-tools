@@ -38,7 +38,7 @@ func (c Card) IsCreature() bool {
 }
 
 func (c Card) IsHybrid() bool {
-	return strings.Contains(c.ManaCost, "/")
+	return stringContains(c.ManaCost, "/")
 }
 
 func (c Card) IsRemoval() bool {
@@ -53,17 +53,34 @@ func (c Card) IsRemoval() bool {
 		"Destroy all enchantments",
 		"Destroy all lands",
 		"Destroy all permanents",
+		"Destroy each nonland permanent",
 		"Exile target creature",
+		"Exile target tapped creature",
+		"Exile target attacking creature",
+		"Exile target blocking creature",
 		"Exile target artifact",
 		"Exile target enchantment",
 		"Exile target land",
 		"Exile target permanent",
+		"Exile target nonland permanent",
+		"Exile up to one target",
+		"Exile up to one other",
 		"Exile all creatures",
 		"Exile all artifacts",
 		"Exile all enchantments",
 		"Exile all lands",
 		"Exile all permanents",
+		"Exile all nonland permanents",
+		"into its owner's library",
+		"is dealt to any target instead",
+		"Tap target creature",
+		"Target creature gets -",
+		"All creatures get -",
+		"Other creatures get -",
 		"damage to target creature",
+		"damage to target attacking creature",
+		"damage to target blocking creature",
+		"damage to target attacking or blocking creature",
 		"damage to target planeswalker",
 		"damage to any target",
 		"damage divided as you choose",
@@ -73,9 +90,12 @@ func (c Card) IsRemoval() bool {
 		"target player sacrifices",
 		"return target creature to its owner's hand",
 		"return target nonland permanent to its owner's hand",
+		"fights target creature",
+		"deals damage equal to",
+		"put a stun counter on",
 	}
 	for _, r := range removal {
-		if strings.Contains(strings.ToLower(c.OracleText), strings.ToLower(r)) {
+		if stringContains(c.OracleText, r) {
 			return true
 		}
 	}
@@ -92,9 +112,11 @@ func (c Card) IsCounterspell() bool {
 		"Counter target instant spell",
 		"Counter target sorcery spell",
 		"Counter target planeswalker spell",
+		"Return target spell to its owner's hand",
+		"Exile target spell",
 	}
 	for _, cs := range counterspells {
-		if strings.Contains(c.OracleText, cs) {
+		if stringContains(c.OracleText, cs) {
 			return true
 		}
 	}
@@ -111,7 +133,7 @@ func (c Card) IsHandHate() bool {
 		"Each player discards a card",
 	}
 	for _, hh := range handhate {
-		if strings.Contains(c.OracleText, hh) {
+		if stringContains(c.OracleText, hh) {
 			return true
 		}
 	}
@@ -151,9 +173,13 @@ func (c Card) IsColor(color string) bool {
 		return true
 	}
 	for _, col := range c.Colors {
-		if strings.Contains(color, col) {
+		if stringContains(color, col) {
 			return true
 		}
 	}
 	return false
+}
+
+func stringContains(str, substr string) bool {
+	return strings.Contains(strings.ToLower(str), strings.ToLower(substr))
 }
