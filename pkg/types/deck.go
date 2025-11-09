@@ -296,6 +296,23 @@ func (d *Deck) LastPlace() int {
 	return 0
 }
 
+// TopHalf returns 1 if this deck was a 2-1 or better (i.e., top half of the draft pool),
+// and zero otherwise.
+func (d *Deck) TopHalf() int {
+	if d.MatchWins() > d.MatchLosses() {
+		return 1
+	}
+	return 0
+}
+
+// BottomHalf returns 1 if this deck was a 1-2 or worse (i.e., bottom half of the draft pool).
+func (d *Deck) BottomHalf() int {
+	if d.TopHalf() > 0 {
+		return 0
+	}
+	return 1
+}
+
 func (d *Deck) GetColors() map[string]bool {
 	colors := make(map[string]bool)
 	if len(d.Colors) > 0 {

@@ -19,10 +19,6 @@ type Card struct {
 	OracleText    string   `json:"oracle_text"`
 	Power         string   `json:"power,omitempty"`
 	Toughness     string   `json:"toughness,omitempty"`
-
-	// Determined based on replay data - how many times this card
-	// has appeared in a game. Either in hand, graveyard, battlefield, etc.
-	Appearances int `json:"appearances,omitempty"`
 }
 
 func (c Card) IsBasicLand() bool {

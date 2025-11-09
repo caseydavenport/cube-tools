@@ -317,9 +317,6 @@ function CardWidgetTable(input) {
                 case "lastPlayed":
                   sort = card.last_mainboarded
                   break
-                case "appearances":
-                  sort = card.appearances
-                  break
                 case "wins":
                   sort = card.win_percent
                   break

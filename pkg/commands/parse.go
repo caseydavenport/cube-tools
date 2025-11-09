@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"io"
 	"os"
-	"os/exec"
 	"strconv"
 	"strings"
 	"time"
@@ -150,19 +149,6 @@ func parseDeck(deckFiles []string, who, labels, date, draftID string) (*types.De
 	// Make sure the mainboard and sideboard are not the same, as that's weird!
 	if !cardSetsDiffer(d.Mainboard, d.Sideboard) {
 		return nil, fmt.Errorf("Mainboard and sideboard are the same: %v", deckFiles)
-	}
-
-	// For each card in the draft pool, add up how many times it appeared in game replays.
-	// This can help us approximate the impact of a particular card in a deck.
-	var err error
-	draftDir := fmt.Sprintf("data/polyverse/%s", draftID)
-	if _, err = os.Stat(fmt.Sprintf("%s/replays", draftDir)); err == nil {
-		for ii := range d.Mainboard {
-			d.Mainboard[ii].Appearances = cardAppearances(d.Mainboard[ii], draftDir)
-		}
-		for ii := range d.Sideboard {
-			d.Sideboard[ii].Appearances = cardAppearances(d.Sideboard[ii], draftDir)
-		}
 	}
 
 	// If a deck has less than 40 cards in the mainboard, that likely indicates a
@@ -503,22 +489,4 @@ func parseLine(l string, qIdx, nIdx int) (int, string) {
 	}
 	name := strings.Trim(splits[nIdx], "\"")
 	return int(count), name
-}
-
-// cardAppearences returns the number of times the given card is referenced in
-// the replays from the given draft.
-func cardAppearances(card types.Card, draft string) int {
-	// Check if there is a replays directory. If not, we can't determine appearances.
-	if _, err := os.Stat(fmt.Sprintf("%s/replays", draft)); err != nil {
-		logrus.Debug("No replays directory found. Skipping card appearance count.")
-		return 0
-	}
-
-	// If the card is a split card, we only want to count the first half.
-	cardName := strings.TrimSpace(strings.Split(card.Name, " // ")[0])
-	out, err := exec.Command("grep", "-r", cardName, fmt.Sprintf("%s/replays", draft)).Output()
-	if err != nil {
-		return 0
-	}
-	return len(strings.Split(strings.TrimSpace(string(out)), "\n"))
 }

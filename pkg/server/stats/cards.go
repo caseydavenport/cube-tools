@@ -164,16 +164,14 @@ func (d *cardStatsHandler) statsForDecks(decks []*storage.Deck, cubeCards map[st
 			// Get the global cardStats for this card.
 			cbn := resp.Data[card.Name]
 
-			// Increment basic stats for this card.
+			// Increment basic stats for this card based on the deck.
 			cbn.Mainboard++
 			cbn.Wins += deck.GameWins()
 			cbn.Losses += deck.GameLosses()
 			cbn.Trophies += deck.Trophies()
 			cbn.LastPlace += deck.LastPlace()
-
-			if card.Appearances > 0 {
-				cbn.Appearances += card.Appearances
-			}
+			cbn.TopHalf += deck.TopHalf()
+			cbn.BottomHalf += deck.BottomHalf()
 
 			// Update the last date that this card was put in a mainboard.
 			deckDate, err := time.Parse("2006-01-02", deck.Date)
@@ -573,6 +571,10 @@ type cardStats struct {
 	// Number of 3-0 decks this card has been in
 	Trophies int `json:"trophies"`
 
+	// Numer of 2-1 (or better) and 1-2 (or worse) finishes for this card.
+	TopHalf    int `json:"top_half"`
+	BottomHalf int `json:"bottom_half"`
+
 	// Number of 0-3 decks this card has been in
 	LastPlace int `json:"last_place"`
 
@@ -604,9 +606,6 @@ type cardStats struct {
 
 	// The last date that this card was mainboarded
 	LastMainboarded string `json:"last_mainboarded"`
-
-	// Number of times the card appears in a replay
-	Appearances int `json:"appearances"`
 
 	// Whether or not this card is classified as "interaction"
 	Interaction bool `json:"interaction"`
