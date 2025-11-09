@@ -70,8 +70,8 @@ export function PlayerData(decks) {
         redPicks: 0,
         wins: 0,
         losses: 0,
-        threeoh: 0,
-        ohthree: 0,
+        trophies: 0,
+        last_place: 0,
         opponent_win_percentage: 0,
       })
     }
@@ -81,8 +81,8 @@ export function PlayerData(decks) {
     map.get(player).losses += Losses(deck)
     map.get(player).numDecks += 1
     map.get(player).decks.push(deck)
-    map.get(player).threeoh += Trophies(deck)
-    map.get(player).ohthree += LastPlaceFinishes(deck)
+    map.get(player).trophies += Trophies(deck)
+    map.get(player).last_place += LastPlaceFinishes(deck)
 
     // Go through each card and increase the player's per-card stats.
     for (var j in deck.mainboard) {
@@ -232,10 +232,10 @@ function PlayerTable(input) {
                 sort = row.numDecks
                 break
               case "trophies":
-                sort = row.threeoh;
+                sort = row.trophies;
                 break;
               case "lastplace":
-                sort = row.ohthree;
+                sort = row.last_place;
                 break;
               case "opp_%":
                 sort = row.opponent_win_percentage
@@ -252,8 +252,8 @@ function PlayerTable(input) {
                 <td>{row.winPercent}%</td>
                 <td>{row.lossPercent}%</td>
                 <td>{row.opponent_win_percentage}%</td>
-                <td>{row.threeoh}</td>
-                <td>{row.ohthree}</td>
+                <td>{row.trophies}</td>
+                <td>{row.last_place}</td>
                 <td>{row.whitePercent}%</td>
                 <td>{row.bluePercent}%</td>
                 <td>{row.blackPercent}%</td>

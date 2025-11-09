@@ -178,21 +178,6 @@ function CardWidgetTable(input) {
       tip: "Percentage of drafts this card is included in a mainboard."
     },
     {
-      id: "wins",
-      text: "Win%",
-      tip: "Win percentage of decks that include this card in their mainboard.",
-    },
-    {
-      id: "trophies",
-      text: "Trophies",
-      tip: "Number of 3-0 decks this card has been in.",
-    },
-    {
-      id: "last_place",
-      text: "Last place",
-      tip: "Number of 0-3 decks this card has been in.",
-    },
-    {
       id: "mb",
       text: "# M",
       tip: "Number of times this card has been mainboarded.",
@@ -234,6 +219,49 @@ function CardWidgetTable(input) {
     },
   ]
 
+
+  let win_table_headers = [
+    {
+      id: "colors",
+      text: "Color Identity",
+      tip: "Color identity of the card.",
+    },
+    {
+      id: "card",
+      text: "Card",
+      tip: "Card name. Click on the cell to focus the card and display it in graphs."
+    },
+    {
+      id: "wins",
+      text: "Win%",
+      tip: "Win percentage of decks that include this card in their mainboard.",
+    },
+    {
+      id: "pow",
+      text: "% of Wins",
+      tip: "Percentage of all wins that included this card in the winning deck.",
+    },
+    {
+      id: "trophies",
+      text: "Trophies",
+      tip: "Number of 3-0 decks this card has been in.",
+    },
+    {
+      id: "last_place",
+      text: "Last place",
+      tip: "Number of 0-3 decks this card has been in.",
+    },
+    {
+      id: "games",
+      text: "# Games",
+      tip: "Number of games played by decks that included this card.",
+    },
+    {
+      id: "expected_win_percent",
+      text: "Exp. Win %",
+      tip: "Expected win % of this card based on win percentages of players who have played this card.",
+    },
+  ]
 
   if (input.dropdownSelection === "Mainboard rate") {
     return (
@@ -347,9 +375,6 @@ function CardWidgetTable(input) {
                   </OverlayTrigger>
 
                   <td id={card.name} onClick={input.onCardSelected} key="name">{card.mainboard_percent}%</td>
-                  <td id={card.name} onClick={input.onCardSelected} key="win_percent">{card.win_percent}%</td>
-                  <td>{card.trophies}</td>
-                  <td>{card.last_place}</td>
                   <td>{card.mainboard}</td>
                   <td>{card.sideboard}</td>
                   <td>{card.playable_sideboard}</td>
@@ -372,13 +397,27 @@ function CardWidgetTable(input) {
         <table className="widget-table">
           <thead className="table-header">
             <tr>
-              <td onClick={input.onHeaderClick} id="colors" className="header-cell">Color Identity</td>
-              <td onClick={input.onHeaderClick} id="card" className="header-cell">Card</td>
-              <td onClick={input.onHeaderClick} id="wins" className="header-cell">Win %</td>
-              <td onClick={input.onHeaderClick} id="pow" className="header-cell">% of Wins</td>
-              <td onClick={input.onHeaderClick} id="#wins" className="header-cell"># Wins</td>
-              <td onClick={input.onHeaderClick} id="#wins" className="header-cell"># Games</td>
-              <td onClick={input.onHeaderClick} id="expected_win_percent" className="header-cell">Exp. Win %</td>
+            {
+              win_table_headers.map(function(hdr, i) {
+                return (
+                  <OverlayTrigger
+                    key={i}
+                    placement="top"
+                    delay={{ show: 100, hide: 100 }}
+                    overlay={
+                      <Popover id="popover-basic">
+                        <Popover.Header as="h3">{hdr.text}</Popover.Header>
+                        <Popover.Body>
+                          {hdr.tip}
+                        </Popover.Body>
+                      </Popover>
+                    }
+                  >
+                    <td onClick={input.onHeaderClick} id={hdr.id} className="header-cell">{hdr.text}</td>
+                  </OverlayTrigger>
+                );
+              })
+            }
             </tr>
           </thead>
           <tbody>
@@ -440,7 +479,8 @@ function CardWidgetTable(input) {
 
                     <td id={card.name} onClick={input.onCardSelected} key="win_percent">{card.win_percent}%</td>
                     <td id={card.name} onClick={input.onCardSelected} key="pow">{card.percent_of_wins}%</td>
-                    <td id={card.name} onClick={input.onCardSelected} key="wins">{card.wins}</td>
+                    <td id={card.name} onClick={input.onCardSelected} key="trophies">{card.trophies}</td>
+                    <td id={card.name} onClick={input.onCardSelected} key="lastplace">{card.last_place}</td>
                     <td id={card.name} onClick={input.onCardSelected} key="games">{card.total_games}</td>
                     <td>{card.expected_win_percent}%</td>
                   </tr>

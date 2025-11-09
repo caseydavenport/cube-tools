@@ -203,8 +203,11 @@ func (d *colorStatsHandler) statsForDecks(decks []*storage.Deck, sr *ColorStatsR
 			}
 			resp.Data[color].Wins += deck.GameWins()
 			resp.Data[color].Losses += deck.GameLosses()
-			resp.Data[color].ThreeOh += deck.Trophies()
-			resp.Data[color].OhThree += deck.LastPlace()
+			resp.Data[color].Trophies += deck.Trophies()
+			resp.Data[color].LastPlace += deck.LastPlace()
+			resp.Data[color].Top50 += deck.TopHalf()
+			resp.Data[color].Bottom50 += deck.BottomHalf()
+
 			resp.Data[color].NumDecks += 1
 		}
 
@@ -325,13 +328,15 @@ func newColorStats(color string) *colorStats {
 
 // colorStats holds statistics about a specific card.
 type colorStats struct {
-	Color                  string    `json:"color"`                    // color
-	Wins                   int       `json:"wins"`                     // Number of game wins
-	Losses                 int       `json:"losses"`                   // Number of game losses
-	Cards                  int       `json:"cards"`                    // Number of cards of this color
-	PercentOfWins          float64   `json:"percent_of_wins"`          // % of all wins that included this color
-	ThreeOh                int       `json:"three_oh"`                 // Number of 3-0 decks
-	OhThree                int       `json:"oh_three"`                 // Number of 0-3 decks
+	Color                  string    `json:"color"`           // color
+	Wins                   int       `json:"wins"`            // Number of game wins
+	Losses                 int       `json:"losses"`          // Number of game losses
+	Cards                  int       `json:"cards"`           // Number of cards of this color
+	PercentOfWins          float64   `json:"percent_of_wins"` // % of all wins that included this color
+	Trophies               int       `json:"trophies"`        // Number of 3-0 decks
+	LastPlace              int       `json:"last_place"`      // Number of 0-3 decks
+	Top50                  int       `json:"top_half"`
+	Bottom50               int       `json:"bottom_half"`
 	DeckPercentages        []float64 `json:"deck_percentages"`         // Each element: % of cards in a deck with this color
 	AverageDeckPercentage  float64   `json:"average_deck_percentage"`  // Avg % of non-land cards in a deck that are this color
 	TotalPickPercentage    float64   `json:"total_pick_percentage"`    // % of all drafted cards that are this color

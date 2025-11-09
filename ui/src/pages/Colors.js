@@ -242,6 +242,16 @@ function ColorStatsTable(input) {
       tip: "Number of 0-3 decks of this color.",
     },
     {
+      id: "winning",
+      text: "Winning",
+      tip: "Number of 2-1 or better.",
+    },
+    {
+      id: "losing",
+      text: "Losing",
+      tip: "Number of 1-2 or worse.",
+    },
+    {
       id: "decks",
       text: "# Decks",
       tip: "Number of decks in this row.",
@@ -308,9 +318,13 @@ function ColorStatsTable(input) {
               } else if (input.sortBy === "vps") {
                 sort = color.victory_points
               } else if (input.sortBy === "trophies") {
-                sort = color.three_oh
+                sort = color.trophies
               } else if (input.sortBy === "lastplace") {
-                sort = color.oh_three
+                sort = color.last_place
+              } else if (input.sortBy === "winning") {
+                sort = color.top_half
+              } else if (input.sortBy === "losing") {
+                sort = color.bottom_half
               }
 
               let img = ColorImages(color.color)
@@ -323,8 +337,10 @@ function ColorStatsTable(input) {
                   <td>{color.build_percent}%</td>
                   <td>{color.percent_of_wins}%</td>
                   <td>{vpsPercentage}%</td>
-                  <td>{color.three_oh}</td>
-                  <td>{color.oh_three}</td>
+                  <td>{color.trophies}</td>
+                  <td>{color.last_place}</td>
+                  <td>{color.top_half}</td>
+                  <td>{color.bottom_half}</td>
                   <td>{color.num_decks}</td>
                   <td style={headerStyleFields}>{color.total_pick_percentage}%</td>
                   <td>{color.average_deck_percentage}%</td>
@@ -399,8 +415,8 @@ export function GetColorStats(decks, strictColors) {
       cards: 0,
 
       // Track the number of 3-0 and 0-3 decks.
-      threeoh: 0,
-      ohthree: 0,
+      trophies: 0,
+      last_place: 0,
 
       // Each element represents a deck, with value equal to the
       // percentage of cards in that deck with this color.
@@ -464,8 +480,8 @@ export function GetColorStats(decks, strictColors) {
       }
       tracker.get(color).wins += Wins(decks[i])
       tracker.get(color).losses += Losses(decks[i])
-      tracker.get(color).threeoh += Trophies(decks[i])
-      tracker.get(color).ohthree += LastPlaceFinishes(decks[i])
+      tracker.get(color).trophies += Trophies(decks[i])
+      tracker.get(color).last_place += LastPlaceFinishes(decks[i])
       tracker.get(color).num_decks += 1
     }
 

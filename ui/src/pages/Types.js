@@ -316,10 +316,10 @@ function ArchetypeStatsTable(input) {
                   sort = t.percent_of_wins;
                   break;
                 case "trophies":
-                  sort = t.threeoh;
+                  sort = t.trophies;
                   break;
                 case "lastplace":
-                  sort = t.ohthree;
+                  sort = t.last_place;
                   break;
               }
               return (
@@ -328,8 +328,8 @@ function ArchetypeStatsTable(input) {
                   <td key="build_percent">{t.build_percent}%</td>
                   <td key="win_percent">{t.win_percent}%</td>
                   <td key="pwin">{t.percent_of_wins}%</td>
-                  <td key="trophies">{t.threeoh}</td>
-                  <td key="lastplace">{t.ohthree}</td>
+                  <td key="trophies">{t.trophies}</td>
+                  <td key="lastplace">{t.last_place}</td>
                   <td key="num">{t.count}</td>
                   <td key="shared">{t.avg_shared}</td>
                 </tr>
@@ -605,8 +605,8 @@ export function ArchetypeData(decks) {
       win_percent: 0,
       avg_shared: 0,
       avg_cmc: 0,
-      threeoh: 0,
-      ohthree: 0,
+      trophies: 0,
+      last_place: 0,
     }
   }
 
@@ -634,8 +634,8 @@ export function ArchetypeData(decks) {
       tracker.get(type).count += 1
       tracker.get(type).wins += Wins(deck)
       tracker.get(type).losses += Losses(deck)
-      tracker.get(type).threeoh += Trophies(deck)
-      tracker.get(type).ohthree += LastPlaceFinishes(deck)
+      tracker.get(type).trophies += Trophies(deck)
+      tracker.get(type).last_place += LastPlaceFinishes(deck)
 
       // Sum the values here, and divide them after we iterate all decks.
       tracker.get(type).avg_cmc += deck.avg_cmc

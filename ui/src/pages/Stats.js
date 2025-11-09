@@ -15,6 +15,7 @@ import { GetColorStats } from "./Colors.js"
 import { PlayerData } from "./Players.js"
 import { DraftWidget } from "./Drafts.js"
 import { AggregatedPickInfo } from "../utils/DraftLog.js"
+import { CardMatches, DeckMatches } from "../utils/Query.js"
 
 import {
   NumDecksOption,
@@ -536,9 +537,6 @@ export default function StatsViewer() {
 
   // Filter decks whenever the color checkboxes change, or the unfiltered decks change.
   useEffect(() => {
-    // Filter decks based on selected colors. This enables us to view data for a subset of colors.
-    // Combine the colors using a logical AND to enable us to view two-color decks. If no colors are selected,
-    // then use all decks.
     if (decks.length == 0) {
       return
     }
@@ -546,6 +544,14 @@ export default function StatsViewer() {
     let f = []
     let filterByColor = colorCheckboxes.some(function(element) {return element})
     for (let deck of decks) {
+      // Filter decks based on the match string from the free-form text input.
+      if (matchStr != "" && !DeckMatches(deck, matchStr, "Mainboard")) {
+        continue
+      }
+
+      // Filter decks based on selected colors. This enables us to view data for a subset of colors.
+      // Combine the colors using a logical AND to enable us to view two-color decks. If no colors are selected,
+      // then use all decks.
       let deckMatches = true
       if (filterByColor) {
         let enabledColors = CheckboxesToColors(colorCheckboxes)
@@ -563,7 +569,7 @@ export default function StatsViewer() {
 
     parsed.filteredDecks = [...f]
     setParsedData({...parsed})
-  }, [decks, colorCheckboxes])
+  }, [decks, colorCheckboxes, refresh])
 
   useEffect(() => {
     // When filtered decks change, update archetype data.
