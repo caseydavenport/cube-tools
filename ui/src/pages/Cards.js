@@ -4,6 +4,7 @@ import { DropdownHeader, NumericInput, Checkbox, DateSelector } from "../compone
 import { Wins, Losses } from "../utils/Deck.js"
 import { ApplyTooltip } from "../utils/Tooltip.js"
 import { ColorImages } from "../utils/Colors.js"
+import { CardMatches, DeckMatches } from "../utils/Query.js"
 
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Popover from 'react-bootstrap/Popover';
@@ -103,6 +104,10 @@ const matchOpts = [
     if (input.manaValue >=0 && card.cmc != input.manaValue) {
       return true
     }
+    if (input.matchStr != "" && !CardMatches(card, input.matchStr, true)) {
+      return true
+    }
+
     switch (input.cardFilter) {
       case Interaction:
         return !card.interaction;

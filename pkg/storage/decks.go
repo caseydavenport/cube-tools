@@ -27,8 +27,8 @@ type Deck struct {
 
 // Key identifies a precise deck.
 type key struct {
-	player string `json:"name"`
-	draft  string `json:"draft"`
+	player string
+	draft  string
 }
 
 type DecksRequest struct {

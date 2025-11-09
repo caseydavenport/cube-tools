@@ -59,7 +59,7 @@ export function CardMatches(card, matchStr, checkText) {
   if (card.name.toLowerCase().match(matchStr.toLowerCase())) {
     return true
   }
-  if (checkText) {
+  if (checkText && card.oracle_text) {
     if (card.oracle_text.toLowerCase().match(matchStr.toLowerCase())) {
       return true
     }

@@ -526,80 +526,100 @@ type Cards struct {
 
 func newCardStats(c types.Card) *cardStats {
 	return &cardStats{
-		Name:          c.Name,
-		Archetypes:    make(map[string]int),
-		Players:       make(map[string]int),
-		Sideboarders:  make(map[string]int),
-		URL:           c.URL,
-		Land:          c.IsLand(),
-		CMC:           c.CMC,
-		Interaction:   c.IsInteraction(),
-		Counterspell:  c.IsCounterspell(),
-		Removal:       c.IsRemoval(),
-		ColorIdentity: c.ColorIdentity,
+		Card:         c,
+		Archetypes:   make(map[string]int),
+		Players:      make(map[string]int),
+		Sideboarders: make(map[string]int),
+		Land:         c.IsLand(),
+		Interaction:  c.IsInteraction(),
+		Counterspell: c.IsCounterspell(),
+		Removal:      c.IsRemoval(),
 	}
 }
 
 // cardStats holds statistics about a specific card.
 type cardStats struct {
-	// Name of the card
-	Name string `json:"name"`
+	// Embed a types.Card so we inherit its fields for consistency.
+	types.Card `json:",inline"`
+
+	///////////////////////////////////////////////
+	// Augment the base Card with computed statistics.
+	///////////////////////////////////////////////
+
 	// Number of times this card has been mainboarded
 	Mainboard int `json:"mainboard"`
+
 	// Number of times this card has been sideboarded
 	Sideboard int `json:"sideboard"`
+
 	// Number of times this card has been in the draft pool but not in mainboard or sideboard
 	Pool int `json:"pool,omitempty"`
+
 	// Total number of drafts this card has been in.
 	Drafts int `json:"drafts,omitempty"`
+
 	// Total number of games this card has been in.
 	TotalGames int `json:"total_games"`
+
 	// Number of times this card was in deck color(s), and sideboarded
 	PlayableSideboard int `json:"playable_sideboard"`
+
 	// Number of wins (does not include sideboard)
 	Wins int `json:"wins"`
+
 	// Number of losses (does not include sideboard)
 	Losses int `json:"losses"`
+
 	// Number of 3-0 decks this card has been in
 	Trophies int `json:"trophies"`
+
 	// Number of 0-3 decks this card has been in
 	LastPlace int `json:"last_place"`
+
 	// Win percentage
 	WinPercent float64 `json:"win_percent"`
+
 	// Expected win percentage is the win percentage of players who have mainboarded this card,
 	// excluding decks that included this card.
 	ExpectedWinPercent float64 `json:"expected_win_percent"`
+
 	// Percent of all games won by decks with this card. This is different from WinPercent, which is
 	// the percentage of games won given that this card was in the mainboard.
 	PercentOfWins float64 `json:"percent_of_wins"`
+
 	// Mainboard percentage
 	MainboardPercent float64 `json:"mainboard_percent"`
+
 	// Sideboard percentage
 	SideboardPercent float64 `json:"sideboard_percent"`
+
 	// Map of archetype to times played in that archetype
 	Archetypes map[string]int `json:"archetypes"`
+
 	// Who has played this card, and how often
 	Players map[string]int `json:"players"`
+
 	// Who has sideboarded this card, and how often
 	Sideboarders map[string]int `json:"sideboarders"`
-	// URL of the card
-	URL string `json:"url"`
+
 	// The last date that this card was mainboarded
 	LastMainboarded string `json:"last_mainboarded"`
+
 	// Number of times the card appears in a replay
 	Appearances int `json:"appearances"`
-	// Mana value
-	CMC int `json:"cmc"`
+
 	// Whether or not this card is classified as "interaction"
 	Interaction bool `json:"interaction"`
+
 	// Whether or not this is a counterspell
 	Counterspell bool `json:"counterspell"`
+
 	// Whether or not this is removal
 	Removal bool `json:"removal"`
+
 	// Whether or not this is a land
 	Land bool `json:"land"`
+
 	// ELO.
 	ELO int `json:"elo"`
-	// ColorIdentity of the card (e.g. ["W", "U"]
-	ColorIdentity []string `json:"color_identity,omitempty"`
 }

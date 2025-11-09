@@ -368,6 +368,12 @@ export default function StatsViewer() {
     onSubpageClicked(5)
   }
 
+  // For matching decks and cards.
+  const [matchStr, setMatchStr] = useState("");
+  function onMatchUpdated(event) {
+    setMatchStr(event.target.value)
+  }
+
   ///////////////////////////////////////////////////////////////////////////////
   // Parsed data that is shared between widgets, and updated as needed
   // by the useEffect() hooks below.
@@ -625,6 +631,8 @@ export default function StatsViewer() {
         onDeckPage={onDeckPage}
         onDraftPage={onDraftPage}
         onPlayersPage={onPlayersPage}
+        matchStr={matchStr}
+        onMatchUpdated={onMatchUpdated}
       />
 
 
@@ -675,6 +683,7 @@ export default function StatsViewer() {
 
         <CardWidget
           parsed={parsed}
+          matchStr={matchStr}
           cardData={cardData}
           cardDataBucketed={cardDataBucketed}
           decks={parsed.filteredDecks}
@@ -806,6 +815,15 @@ function SelectorBar(input) {
         value={input.playerMatch}
         onChange={input.onPlayerMatchChanged}
       />
+
+      <TextInput
+        className="dropdown"
+        label="Search"
+        big={true}
+        value={input.matchStr}
+        onChange={input.onMatchUpdated}
+      />
+
     </tr>
 
     <tr>
