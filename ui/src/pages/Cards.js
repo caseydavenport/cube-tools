@@ -1,5 +1,5 @@
 import React from 'react'
-import { StdDev, IsBasicLand, SortFunc } from "../utils/Utils.js"
+import { IsBasicLand, SortFunc } from "../utils/Utils.js"
 import { DropdownHeader, NumericInput, Checkbox, DateSelector } from "../components/Dropdown.js"
 import { Wins, Losses } from "../utils/Deck.js"
 import { ApplyTooltip } from "../utils/Tooltip.js"
@@ -154,6 +154,71 @@ function colorSort(card) {
   return card.colors.toString()
 }
 
+function sortValue(sortBy, card) {
+  let sort = card.mainboard_percent
+  switch (sortBy) {
+    case "mainboarded":
+      sort = card.mainboard_percent
+      break
+    case "games":
+      sort = card.total_games
+      break
+    case "mb":
+      sort = card.mainboard
+      break
+    case "sb":
+      sort = card.sideboard
+      break
+    case "elo":
+      sort = card.elo
+      break
+    case "in-color-sb":
+      sort = card.playable_sideboard
+      break
+    case "players":
+      let players = Object.entries(card.players)
+      sort = players.length
+      break
+    case "lastPlayed":
+      sort = card.last_mainboarded
+      break
+    case "wins":
+      sort = card.win_percent
+      break
+    case "colors":
+      sort = colorSort(card)
+      break
+    case "labels":
+      sort = Object.entries(card.archetypes).length
+      break
+    case "expected_win_percent":
+      sort = card.expected_win_percent
+      break;
+    case "trophies":
+      sort = card.trophies
+      break
+    case "last_place":
+      sort = card.last_place
+      break
+    case "pow":
+      sort = card.percent_of_wins
+      break;
+    case "wins":
+      sort = card.win_percent
+      break;
+    case "games":
+      sort = card.total_games
+      break;
+    case "#wins":
+      sort = card.wins
+      break;
+    case "colors":
+      sort = colorSort(card)
+      break;
+  }
+  return sort
+}
+
 function CardWidgetTable(input) {
   // Convert the cardData map to a list for sorting purposes.
   let cards = []
@@ -299,62 +364,11 @@ function CardWidgetTable(input) {
                 return
               }
 
-              let pd = new Array();
-
-              let players = Object.entries(card.players)
-              for (let [name, num] of players) {
-                pd.push(num);
-              }
-              let stddev = StdDev(pd);
-
               let imgs = ColorImages(card.color_identity)
 
               // Determine sort order.
-              let sort = card.mainboard_percent
-              switch (input.sortBy) {
-                case "mainboarded":
-                  sort = card.mainboard_percent
-                  break
-                case "games":
-                  sort = card.total_games
-                  break
-                case "mb":
-                  sort = card.mainboard
-                  break
-                case "sb":
-                  sort = card.sideboard
-                  break
-                case "trophies":
-                  sort = card.trophies
-                  break
-                case "last_place":
-                  sort = card.last_place
-                  break
-                case "elo":
-                  sort = card.elo
-                  break
-                case "in-color-sb":
-                  sort = card.playable_sideboard
-                  break
-                case "players":
-                  sort = players.length
-                  break
-                case "players-stddev":
-                  sort = stddev
-                  break
-                case "lastPlayed":
-                  sort = card.last_mainboarded
-                  break
-                case "wins":
-                  sort = card.win_percent
-                  break
-                case "colors":
-                  sort = colorSort(card)
-                  break
-                case "labels":
-                  sort = Object.entries(card.archetypes).length
-                  break
-              }
+              let sort = sortValue(input.sortBy, card)
+              let players = Object.entries(card.players)
 
               return (
                 <tr className="widget-table-row" sort={sort} key={card.name}>
@@ -430,33 +444,7 @@ function CardWidgetTable(input) {
                 let imgs = ColorImages(card.color_identity)
 
                 // Determine sort value. Default to win percentage.
-                let sort = card.win_percent
-                switch (input.sortBy) {
-                  case "relativePerfArch":
-                    sort = relativePerfArch
-                    break;
-                  case "relativePerfPlayer":
-                    sort = relativePerfPlayer
-                    break;
-                  case "expected_win_percent":
-                    sort = card.expected_win_percent
-                    break;
-                  case "pow":
-                    sort = card.percent_of_wins
-                    break;
-                  case "wins":
-                    sort = card.win_percent
-                    break;
-                  case "games":
-                    sort = card.total_games
-                    break;
-                  case "#wins":
-                    sort = card.wins
-                    break;
-                  case "colors":
-                    sort = colorSort(card)
-                    break;
-                }
+                let sort = sortValue(input.sortBy, card)
 
                 // Return the row.
                 return (
@@ -511,61 +499,10 @@ function CardWidgetOptions(input) {
 
           <td className="selection-cell">
             <DropdownHeader
-              label="Color"
-              options={input.colorWidgetOpts}
-              value={input.colorSelection}
-              onChange={input.onColorSelected}
-            />
-          </td>
-
-          <td className="selection-cell">
-            <DropdownHeader
               label="Match"
               options={input.matchOpts}
               value={input.cardFilter}
               onChange={input.onCardFilterSelected}
-            />
-          </td>
-
-          <td className="selection-cell">
-            <NumericInput
-              label="Mana value"
-              value={input.manaValue}
-              onChange={input.onManaValueSelected}
-            />
-          </td>
-        </tr>
-
-        <tr>
-          <td className="selection-cell">
-            <NumericInput
-              label="Min #picks"
-              value={input.minDrafts}
-              onChange={input.onMinDraftsSelected}
-            />
-          </td>
-
-          <td className="selection-cell">
-            <NumericInput
-              label="Min #games"
-              value={input.minGames}
-              onChange={input.onMinGamesSelected}
-            />
-          </td>
-
-          <td className="selection-cell">
-            <NumericInput
-              label="Min #players"
-              value={input.minPlayers}
-              onChange={input.onMinPlayersSelected}
-            />
-          </td>
-
-          <td className="selection-cell">
-            <NumericInput
-              label="Max #players"
-              value={input.maxPlayers}
-              onChange={input.onMaxPlayersSelected}
             />
           </td>
         </tr>

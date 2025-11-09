@@ -1,5 +1,20 @@
 import { CombineColors } from "../utils/Colors.js"
 
+
+const queryTerms = [
+  "pow",
+  "name",
+  "o",
+  "c",
+  "t",
+  "cmc",
+  "games",
+  "mb",
+  // "sb",
+  "players",
+  "drafts",
+]
+
 export function CardMatches(card, matchStr, checkText) {
   if (isTermQuery(matchStr)) {
     // This is a fuzzy match. Split the string and check each term.
@@ -48,6 +63,34 @@ export function CardMatches(card, matchStr, checkText) {
     // Check if the cmc terms match.
     if (splits.some(term => isCMCTerm(term))) {
       if (!cmcsMatch(splits, card)) {
+        return false
+      }
+    }
+
+    // Check if the # games queries match.
+    if (splits.some(term => isGamesTerm(term))) {
+      if (!gamesMatch(splits, card)) {
+        return false
+      }
+    }
+
+    // Check if mainboard queries match.
+    if (splits.some(term => isMainboardTerm(term))) {
+      if (!mainboardsMatch(splits, card)) {
+        return false
+      }
+    }
+
+    // Check if # drafts queries match.
+    if (splits.some(term => isDraftsTerm(term))) {
+      if (!draftsTermsMatch(splits, card)) {
+        return false
+      }
+    }
+
+    // Check if the # of players queries match.
+    if (splits.some(term => isPlayersTerm(term))) {
+      if (!playersTermsMatch(splits, card)) {
         return false
       }
     }
@@ -139,8 +182,6 @@ export function DeckMatches(deck, matchStr, mbsb) {
   return false
 }
 
-const queryTerms = ["pow", "name", "o", "c", "t", "cmc"]
-
 function parseTerms(matchStr) {
   // Split the string into terms. A term ends at a space, unless the space is inside quotes.
   let terms = []
@@ -179,6 +220,186 @@ function isTermQuery(matchStr) {
   }
   return false
 }
+
+function isGamesTerm(term) {
+  return term.startsWith("games")
+}
+
+function gamesMatch(terms, card) {
+  for (let term of terms) {
+    if (!isGamesTerm(term)) {
+      continue
+    }
+    if (gameMatches(term, card)) {
+      return true
+    }
+  }
+  return false
+}
+
+function gameMatches(term, card) {
+  if (!isGamesTerm(term)) {
+    return true
+  }
+
+  // If the card has no games, it can't match.
+  if (card.total_games === null) {
+    return false
+  }
+
+  // Handle gt and lt queries.
+  if (term.startsWith("games<")) {
+    let val = parseInt(term.replace("games<", ""))
+    if (card.total_games < val) {
+      return true
+    }
+  }
+  if (term.startsWith("games>")) {
+    let val = parseInt(term.replace("games>", ""))
+    if (card.total_games > val) {
+      return true
+    }
+  }
+  return false
+}
+
+function isMainboardTerm(term) {
+  return term.startsWith("mb")
+}
+
+function mainboardsMatch(terms, card) {
+  for (let term of terms) {
+    if (!isMainboardTerm(term)) {
+      continue
+    }
+    if (mainboardMatches(term, card)) {
+      return true
+    }
+  }
+  return false
+}
+
+function mainboardMatches(term, card) {
+  if (!isMainboardTerm(term)) {
+    return true
+  }
+  if (card.mainboard === null) {
+    return false
+  }
+
+  if (term.startsWith("mb<")) {
+    let val = parseInt(term.replace("mb<", ""))
+    if (card.mainboard < val) {
+      return true
+    }
+  }
+  if (term.startsWith("mb>")) {
+    let val = parseInt(term.replace("mb>", ""))
+    if (card.mainboard > val) {
+      return true
+    }
+  }
+  if (term.startsWith("mb=")) {
+    let val = parseInt(term.replace("mb=", ""))
+    return card.mainboard === val
+  }
+}
+
+function isDraftsTerm(term) {
+  return term.startsWith("drafts")
+}
+
+function draftsTermsMatch(terms, card) {
+  for (let term of terms) {
+    if (!isDraftsTerm(term)) {
+      continue
+    }
+    if (!draftTermMatches(term, card)) {
+      return false
+    }
+  }
+  return true
+}
+
+function draftTermMatches(term, card) {
+  if (!isDraftsTerm(term)) {
+    return true
+  }
+  if (card.drafts === null) {
+    return false
+  }
+
+  if (term.startsWith("drafts<")) {
+    let val = parseInt(term.replace("drafts<", ""))
+    if (card.drafts < val) {
+      return true
+    }
+  }
+  if (term.startsWith("drafts>")) {
+    let val = parseInt(term.replace("drafts>", ""))
+    if (card.drafts > val) {
+      return true
+    }
+  }
+  if (term.startsWith("drafts=")) {
+    let val = parseInt(term.replace("drafts=", ""))
+    return card.drafts === val
+  }
+}
+
+function isPlayersTerm(term) {
+  return term.startsWith("players")
+}
+
+function playersTermsMatch(terms, card) {
+  for (let term of terms) {
+    if (!isPlayersTerm(term)) {
+      continue
+    }
+    if (!playerTermMatches(term, card)) {
+      return false
+    }
+  }
+  return true
+}
+
+function playerTermMatches(term, card) {
+  if (!isPlayersTerm(term)) {
+    return true
+  }
+  if (card.players == null) {
+    return false
+  }
+
+  let count = Object.entries(card.players).length
+
+  if (term.startsWith("players<")) {
+    let val = parseInt(term.replace("players<", ""))
+    if (count < val) {
+      return true
+    }
+  }
+  if (term.startsWith("players>")) {
+    let val = parseInt(term.replace("players>", ""))
+    if (count > val) {
+      return true
+    }
+  }
+  if (term.startsWith("players=")) {
+    let val = parseInt(term.replace("players=", ""))
+    return count === val
+  }
+
+  // A special ":" term for matching on a specific player name.
+  if (term.startsWith("players:")) {
+    let val = term.replace("players:", "")
+    if (card.players[val]) {
+      return true
+    }
+  }
+  return false
+}
+
 
 function isCMCTerm(term) {
   return term.startsWith("cmc")
