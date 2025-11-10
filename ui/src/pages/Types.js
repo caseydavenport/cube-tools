@@ -1,6 +1,6 @@
 import React from 'react'
 import { IsBasicLand, SortFunc, StringToColor } from "../utils/Utils.js"
-import { Trophies, LastPlaceFinishes, Wins, Losses } from "../utils/Deck.js"
+import { Trophies, LastPlaceFinishes, Winning, Losing, Wins, Losses } from "../utils/Deck.js"
 import { DropdownHeader, NumericInput, Checkbox, DateSelector } from "../components/Dropdown.js"
 import { BucketName } from "../utils/Buckets.js"
 import { Red, Green, Black, White, Blue, Colors, ColorImages } from "../utils/Colors.js"
@@ -255,6 +255,16 @@ function ArchetypeStatsTable(input) {
       tip: "Number of 0-3 decks of this archetype / tag.",
     },
     {
+      id: "winning",
+      text: "Winning",
+      tip: "Number of 2-1 or better.",
+    },
+    {
+      id: "losing",
+      text: "Losing",
+      tip: "Number of 1-2 or worse.",
+    },
+    {
       id: "num",
       text: "# Decks",
       tip: "Total number of decks with this archetype / tag.",
@@ -321,6 +331,12 @@ function ArchetypeStatsTable(input) {
                 case "lastplace":
                   sort = t.last_place;
                   break;
+                case "winning":
+                  sort = t.winning;
+                  break;
+                case "losing":
+                  sort = t.losing;
+                  break;
               }
               return (
                 <tr key={t.type} sort={sort} className="widget-table-row">
@@ -330,6 +346,8 @@ function ArchetypeStatsTable(input) {
                   <td key="pwin">{t.percent_of_wins}%</td>
                   <td key="trophies">{t.trophies}</td>
                   <td key="lastplace">{t.last_place}</td>
+                  <td key="winning">{t.winning}</td>
+                  <td key="losing">{t.losing}</td>
                   <td key="num">{t.count}</td>
                   <td key="shared">{t.avg_shared}</td>
                 </tr>
@@ -607,6 +625,8 @@ export function ArchetypeData(decks) {
       avg_cmc: 0,
       trophies: 0,
       last_place: 0,
+      winning: 0,
+      losing: 0,
     }
   }
 
@@ -635,6 +655,8 @@ export function ArchetypeData(decks) {
       tracker.get(type).wins += Wins(deck)
       tracker.get(type).losses += Losses(deck)
       tracker.get(type).trophies += Trophies(deck)
+      tracker.get(type).winning += Winning(deck)
+      tracker.get(type).losing += Losing(deck)
       tracker.get(type).last_place += LastPlaceFinishes(deck)
 
       // Sum the values here, and divide them after we iterate all decks.

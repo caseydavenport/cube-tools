@@ -10,9 +10,10 @@ const queryTerms = [
   "cmc",
   "games",
   "mb",
-  // "sb",
+  "sb",
   "players",
   "drafts",
+  "win",
 ]
 
 export function CardMatches(card, matchStr, checkText) {
@@ -81,6 +82,14 @@ export function CardMatches(card, matchStr, checkText) {
       }
     }
 
+    // Check if sideboard queries match.
+    if (splits.some(term => isSideboardTerm(term))) {
+      if (!sideboardsMatch(splits, card)) {
+        return false
+      }
+    }
+
+
     // Check if # drafts queries match.
     if (splits.some(term => isDraftsTerm(term))) {
       if (!draftsTermsMatch(splits, card)) {
@@ -91,6 +100,13 @@ export function CardMatches(card, matchStr, checkText) {
     // Check if the # of players queries match.
     if (splits.some(term => isPlayersTerm(term))) {
       if (!playersTermsMatch(splits, card)) {
+        return false
+      }
+    }
+
+    // Win percentage queries.
+    if (splits.some(term => isWinPercentageTerm(term))) {
+      if (!winPercentagesMatch(splits, card)) {
         return false
       }
     }
@@ -305,6 +321,48 @@ function mainboardMatches(term, card) {
   }
 }
 
+function isSideboardTerm(term) {
+  return term.startsWith("sb")
+}
+
+function sideboardsMatch(terms, card) {
+  for (let term of terms) {
+    if (!isSideboardTerm(term)) {
+      continue
+    }
+    if (sideboardMatches(term, card)) {
+      return true
+    }
+  }
+  return false
+}
+
+function sideboardMatches(term, card) {
+  if (!isSideboardTerm(term)) {
+    return true
+  }
+  if (card.sideboard == null) {
+    return false
+  }
+
+  if (term.startsWith("sb<")) {
+    let val = parseInt(term.replace("sb<", ""))
+    if (card.sideboard < val) {
+      return true
+    }
+  }
+  if (term.startsWith("sb>")) {
+    let val = parseInt(term.replace("sb>", ""))
+    if (card.sideboard > val) {
+      return true
+    }
+  }
+  if (term.startsWith("sb=")) {
+    let val = parseInt(term.replace("sb=", ""))
+    return card.sideboard === val
+  }
+}
+
 function isDraftsTerm(term) {
   return term.startsWith("drafts")
 }
@@ -400,6 +458,50 @@ function playerTermMatches(term, card) {
   return false
 }
 
+function isWinPercentageTerm(term) {
+  return term.startsWith("wins")
+}
+
+function winPercentagesMatch(terms, card) {
+  for (let term of terms) {
+    if (!isWinPercentageTerm(term)) {
+      continue
+    }
+    if (!winPercentageMatches(term, card)) {
+      return false
+    }
+  }
+  return true
+}
+
+function winPercentageMatches(term, card) {
+  if (!isWinPercentageTerm(term)) {
+    return true
+  }
+  if (card.win_percent == null) {
+    return false
+  }
+
+  let cardVal = card.win_percent
+
+  if (term.startsWith("wins<")) {
+    let val = parseInt(term.replace("wins<", ""))
+    if (cardVal < val) {
+      return true
+    }
+  }
+  if (term.startsWith("wins>")) {
+    let val = parseInt(term.replace("wins>", ""))
+    if (cardVal > val) {
+      return true
+    }
+  }
+  if (term.startsWith("wins=")) {
+    let val = parseInt(term.replace("wins=", ""))
+    return cardVal === val
+  }
+  return false
+}
 
 function isCMCTerm(term) {
   return term.startsWith("cmc")

@@ -122,6 +122,22 @@ export function LastPlaceFinishes(deck) {
   return 0;
 }
 
+// Return 1 if this deck lost more than it won (in matches)
+export function Winning(deck) {
+  if (MatchWins(deck) > MatchLosses(deck)) {
+    return 1
+  }
+  return 0
+}
+
+// Return 1 if this deck won more than (or equal to) losses (in matches)
+export function Losing(deck) {
+  if (Winning(deck) > 0) {
+    return 0
+  }
+  return 1
+}
+
 export function MatchDraws(deck) {
   if (deck.matches == null) {
     return 0
