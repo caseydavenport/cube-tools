@@ -7,6 +7,7 @@ import (
 	"slices"
 	"time"
 
+	"github.com/caseydavenport/cube-tools/pkg/server"
 	"github.com/caseydavenport/cube-tools/pkg/server/decks"
 	"github.com/caseydavenport/cube-tools/pkg/server/query"
 	"github.com/caseydavenport/cube-tools/pkg/storage"
@@ -173,6 +174,28 @@ func (d *cardStatsHandler) statsForDecks(decks []*storage.Deck, cubeCards map[st
 			cbn.TopHalf += deck.TopHalf()
 			cbn.BottomHalf += deck.BottomHalf()
 
+			// Add contribution to archetype-specific stats.
+			arch := deck.Macro()
+			if arch != "" {
+				ws := cbn.ByArchetype[arch]
+				ws.Wins += deck.GameWins()
+				ws.Losses += deck.GameLosses()
+			}
+
+			// For each deck that this card was in, go through each opponent deck and add to the AgainstArchetype stats.
+			for _, game := range deck.Games {
+				arch := server.LookupOpponentMacro(decks, deck, game.Opponent)
+				if arch == "" {
+					continue // No opponent deck found.
+				}
+				ws := cbn.AgainstArchetype[arch]
+				if game.Winner == deck.Player {
+					ws.Wins += 1
+				} else {
+					ws.Losses += 1
+				}
+			}
+
 			// Update the last date that this card was put in a mainboard.
 			deckDate, err := time.Parse("2006-01-02", deck.Date)
 			if err != nil {
@@ -272,6 +295,24 @@ func (d *cardStatsHandler) statsForDecks(decks []*storage.Deck, cubeCards map[st
 		if decksWithCard > 0 {
 			card.MainboardPercent = math.Round(100 * float64(card.Mainboard) / float64(decksWithCard))
 			card.SideboardPercent = math.Round(100 * float64(card.Sideboard) / float64(decksWithCard))
+		}
+
+		// Calculate per-archetype win percentages.
+		for arch, ws := range card.ByArchetype {
+			total := ws.Wins + ws.Losses
+			if total > 0 {
+				ws.WinPercent = math.Round(100 * float64(ws.Wins) / float64(total))
+			}
+			card.ByArchetype[arch] = ws
+		}
+
+		// Calculate per-archetype win percentages for AgainstArchetype.
+		for arch, ws := range card.AgainstArchetype {
+			total := ws.Wins + ws.Losses
+			if total > 0 {
+				ws.WinPercent = math.Round(100 * float64(ws.Wins) / float64(total))
+			}
+			card.AgainstArchetype[arch] = ws
 		}
 
 		// Calculate total drafts.
@@ -532,6 +573,18 @@ func newCardStats(c types.Card) *cardStats {
 		Interaction:  c.IsInteraction(),
 		Counterspell: c.IsCounterspell(),
 		Removal:      c.IsRemoval(),
+		ByArchetype: map[string]*winStats{
+			"aggro":    {},
+			"midrange": {},
+			"control":  {},
+			"tempo":    {},
+		},
+		AgainstArchetype: map[string]*winStats{
+			"aggro":    {},
+			"midrange": {},
+			"control":  {},
+			"tempo":    {},
+		},
 	}
 }
 
@@ -621,4 +674,18 @@ type cardStats struct {
 
 	// ELO.
 	ELO int `json:"elo"`
+
+	// Track how this card as fared within various archetypes. i.e., win percentages given
+	// that the card was played in a specific archetype.
+	ByArchetype map[string]*winStats `json:"by_archetype,omitempty"`
+
+	// Track how this card has fared against various archetypes. i.e., win percentages given
+	// that the card was played against a specific archetype.
+	AgainstArchetype map[string]*winStats `json:"against_archetype,omitempty"`
+}
+
+type winStats struct {
+	Wins       int     `json:"wins"`
+	Losses     int     `json:"losses"`
+	WinPercent float64 `json:"win_percent"`
 }

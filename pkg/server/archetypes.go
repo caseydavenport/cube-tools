@@ -54,7 +54,7 @@ func (d *archetypesHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 		}
 
 		// Get the archetype of the current deck.
-		arch := deckArch(deck)
+		arch := deck.Macro()
 		if arch == "" {
 			continue // No archetype found, skip this deck.
 		}
@@ -74,7 +74,7 @@ func (d *archetypesHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 
 		// Go through each game in the deck and count wins/losses against opponents.
 		for _, game := range deck.Games {
-			opponentArch := lookupOpponentDeck(decks, deck, game.Opponent)
+			opponentArch := LookupOpponentMacro(decks, deck, game.Opponent)
 			if opponentArch == "" {
 				continue // No opponent deck found.
 			}
@@ -110,17 +110,7 @@ func (d *archetypesHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func deckArch(d *storage.Deck) string {
-	for _, l := range d.Labels {
-		switch l {
-		case "aggro", "midrange", "control", "tempo":
-			return l
-		}
-	}
-	return ""
-}
-
-func lookupOpponentDeck(decks []*storage.Deck, deck *storage.Deck, opponent string) string {
+func LookupOpponentMacro(decks []*storage.Deck, deck *storage.Deck, opponent string) string {
 	for _, d := range decks {
 		if d.Player != opponent {
 			// Not the right player.
@@ -132,7 +122,7 @@ func lookupOpponentDeck(decks []*storage.Deck, deck *storage.Deck, opponent stri
 		}
 
 		// Return the archetype of the opponent deck, and the win/loss counts of the input deck.
-		return deckArch(d)
+		return d.Macro()
 	}
 	return ""
 }

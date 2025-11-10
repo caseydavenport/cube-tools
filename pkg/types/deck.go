@@ -230,6 +230,17 @@ func (d *Deck) AddGame(opponent, winner string) {
 	})
 }
 
+func (d *Deck) Macro() string {
+	// Return one of "aggro", "midrange", "control", "tempo", or "".
+	for _, label := range d.Labels {
+		switch strings.ToLower(label) {
+		case "aggro", "midrange", "control", "tempo":
+			return strings.ToLower(label)
+		}
+	}
+	return ""
+}
+
 func (d *Deck) GameWins() int {
 	// Respect the legacy Wins field if it's set.
 	if d.Wins > 0 {
