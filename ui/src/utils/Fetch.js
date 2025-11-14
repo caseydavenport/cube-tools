@@ -29,6 +29,7 @@ export async function LoadDecks(onLoad, start, end, draftSize, playerMatch) {
     }
   }
   console.timeEnd("LoadDecks()")
+
   onLoad(decks.decks)
 }
 

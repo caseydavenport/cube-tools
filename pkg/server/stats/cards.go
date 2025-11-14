@@ -117,7 +117,7 @@ func (d *cardStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 	}
 
 	// Marshal the response and write it back.
-	b, err := json.MarshalIndent(resp, "", "  ")
+	b, err := json.Marshal(resp)
 	if err != nil {
 		http.Error(rw, "could not marshal response", http.StatusInternalServerError)
 		return
@@ -300,7 +300,10 @@ func (d *cardStatsHandler) statsForDecks(decks []*storage.Deck, cubeCards map[st
 		// Calculate per-archetype win percentages.
 		for arch, ws := range card.ByArchetype {
 			total := ws.Wins + ws.Losses
-			if total > 0 {
+			// This is a bit of a hack - only show archetype-specific win percentages if the card
+			// has at least N games played in that archetype. This prevents showing misleading
+			// win percentages based on small sample sizes.
+			if total > 15 {
 				ws.WinPercent = math.Round(100 * float64(ws.Wins) / float64(total))
 			}
 			card.ByArchetype[arch] = ws
@@ -309,7 +312,8 @@ func (d *cardStatsHandler) statsForDecks(decks []*storage.Deck, cubeCards map[st
 		// Calculate per-archetype win percentages for AgainstArchetype.
 		for arch, ws := range card.AgainstArchetype {
 			total := ws.Wins + ws.Losses
-			if total > 0 {
+			// This is a hack to prevent showing misleading win percentages based on small samples.
+			if total > 15 {
 				ws.WinPercent = math.Round(100 * float64(ws.Wins) / float64(total))
 			}
 			card.AgainstArchetype[arch] = ws

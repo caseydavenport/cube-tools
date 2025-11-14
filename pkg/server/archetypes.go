@@ -100,7 +100,7 @@ func (d *archetypesHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 	}
 
 	// Marshal the response and write it back.
-	b, err := json.MarshalIndent(resp, "", "  ")
+	b, err := json.Marshal(resp)
 	if err != nil {
 		panic(err)
 	}

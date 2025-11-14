@@ -124,6 +124,8 @@ export default function StatsViewer() {
   const cardWidgetOpts =  [
     { label: "Mainboard rate", value: "Mainboard rate" },
     { label: "Win rate", value: "Win rate" },
+    { label: "Versus archetype", value: "Versus archetype" },
+    { label: "By archetype", value: "By archetype" },
   ]
   const [cardWidgetColorSelection, setCardWidgetColorSelection] = useState("");
   const cardWidgetColorOpts = [

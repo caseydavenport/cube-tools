@@ -103,7 +103,7 @@ func (d *colorStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 	// d.printCorrelations(resp)
 
 	// Marshal the response and write it back.
-	b, err := json.MarshalIndent(resp, "", "  ")
+	b, err := json.Marshal(resp)
 	if err != nil {
 		logrus.WithError(err).Error("could not marshal response")
 		http.Error(rw, "could not marshal response", http.StatusInternalServerError)

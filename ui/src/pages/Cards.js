@@ -215,6 +215,24 @@ function sortValue(sortBy, card) {
     case "colors":
       sort = colorSort(card)
       break;
+    case "vsaggro":
+      sort = card.against_archetype.aggro.win_percent
+      break;
+    case "vsmidrange":
+      sort = card.against_archetype.midrange.win_percent
+      break;
+    case "vscontrol":
+      sort = card.against_archetype.control.win_percent
+      break;
+    case "inaggro":
+      sort = card.by_archetype.aggro.win_percent
+      break;
+    case "inmidrange":
+      sort = card.by_archetype.midrange.win_percent
+      break;
+    case "incontrol":
+      sort = card.by_archetype.control.win_percent
+      break;
   }
   return sort
 }
@@ -328,6 +346,74 @@ function CardWidgetTable(input) {
     },
   ]
 
+  let vs_arch_table_headers = [
+    {
+      id: "colors",
+      text: "Color Identity",
+      tip: "Color identity of the card.",
+    },
+    {
+      id: "card",
+      text: "Card",
+      tip: "Card name. Click on the cell to focus the card and display it in graphs."
+    },
+    {
+      id: "games",
+      text: "# Games",
+      tip: "Number of games played by decks that included this card.",
+    },
+    {
+      id: "vsaggro",
+      text: "vs Aggro",
+      tip: "Win percentage of decks that included this card in their mainboard when playing against aggro archetypes.",
+    },
+    {
+      id: "vscontrol",
+      text: "vs Control",
+      tip: "Win percentage of decks that included this card in their mainboard when playing against control archetypes.",
+    },
+    {
+      id: "vsmidrange",
+      text: "vs Midrange",
+      tip: "Win percentage of decks that included this card in their mainboard when playing against midrange archetypes.",
+    },
+  ]
+
+  let by_arch_table_headers = [
+    {
+      id: "colors",
+      text: "Color Identity",
+      tip: "Color identity of the card.",
+    },
+    {
+      id: "card",
+      text: "Card",
+      tip: "Card name. Click on the cell to focus the card and display it in graphs."
+    },
+    {
+      id: "games",
+      text: "# Games",
+      tip: "Number of games played by decks that included this card.",
+    },
+    {
+      id: "inaggro",
+      text: "in Aggro",
+      tip: "Win percentage of this card when played in aggro decks.",
+    },
+    {
+      id: "incontrol",
+      text: "in Control",
+      tip: "Win percentage of this card when played in control decks.",
+    },
+    {
+      id: "inmidrange",
+      text: "in Midrange",
+      tip: "Win percentage of this card when played in midrange decks.",
+    },
+  ]
+
+
+
   if (input.dropdownSelection === "Mainboard rate") {
     return (
       <div className="scroll-container-large">
@@ -405,7 +491,7 @@ function CardWidgetTable(input) {
         </table>
       </div>
     );
-  } else {
+  } else if (input.dropdownSelection === "Win rate") {
     return (
       <div className="scroll-container-large">
         <table className="widget-table">
@@ -471,6 +557,148 @@ function CardWidgetTable(input) {
                     <td id={card.name} onClick={input.onCardSelected} key="lastplace">{card.last_place}</td>
                     <td id={card.name} onClick={input.onCardSelected} key="games">{card.total_games}</td>
                     <td>{card.expected_win_percent}%</td>
+                  </tr>
+                )
+              }).sort(SortFunc)
+            }
+          </tbody>
+        </table>
+      </div>
+    );
+  } else if (input.dropdownSelection === "Versus archetype") {
+    return (
+      <div className="scroll-container-large">
+        <table className="widget-table">
+          <thead className="table-header">
+            <tr>
+            {
+              vs_arch_table_headers.map(function(hdr, i) {
+                return (
+                  <OverlayTrigger
+                    key={i}
+                    placement="top"
+                    delay={{ show: 100, hide: 100 }}
+                    overlay={
+                      <Popover id="popover-basic">
+                        <Popover.Header as="h3">{hdr.text}</Popover.Header>
+                        <Popover.Body>
+                          {hdr.tip}
+                        </Popover.Body>
+                      </Popover>
+                    }
+                  >
+                    <td onClick={input.onHeaderClick} id={hdr.id} className="header-cell">{hdr.text}</td>
+                  </OverlayTrigger>
+                );
+              })
+            }
+            </tr>
+          </thead>
+          <tbody>
+            {
+              cards.map(function(card) {
+                if (shouldSkip(card, input)) {
+                  return
+                }
+
+                let imgs = ColorImages(card.color_identity)
+
+                // Determine sort value. Default to win percentage.
+                let sort = sortValue(input.sortBy, card)
+
+                // Return the row.
+                return (
+                  <tr sort={sort} className="widget-table-row" key={card.name}>
+                    <td>{imgs}</td>
+                    <OverlayTrigger
+                      placement="right"
+                      delay={{ show: 500, hide: 100 }}
+                      overlay={
+                        <Popover className="wide-pop" id="popover-basic">
+                          <Popover.Header as="h3">Played by</Popover.Header>
+                          <Popover.Body>
+                            {CardMainboardTooltipContent(card)}
+                          </Popover.Body>
+                        </Popover>
+                      }
+                    >
+                      <td id={card.name} onClick={input.onCardSelected}><a href={card.url} target="_blank" rel="noopener noreferrer">{card.name}</a></td>
+                    </OverlayTrigger>
+                    <td id={card.name} onClick={input.onCardSelected} key="games">{card.total_games}</td>
+                    <td id={card.name} onClick={input.onCardSelected} key="vsaggro">{card.against_archetype.aggro.win_percent}%</td>
+                    <td id={card.name} onClick={input.onCardSelected} key="vscontrol">{card.against_archetype.control.win_percent}%</td>
+                    <td id={card.name} onClick={input.onCardSelected} key="vsmidrange">{card.against_archetype.midrange.win_percent}%</td>
+                  </tr>
+                )
+              }).sort(SortFunc)
+            }
+          </tbody>
+        </table>
+      </div>
+    );
+  } else {
+    return (
+      <div className="scroll-container-large">
+        <table className="widget-table">
+          <thead className="table-header">
+            <tr>
+            {
+              by_arch_table_headers.map(function(hdr, i) {
+                return (
+                  <OverlayTrigger
+                    key={i}
+                    placement="top"
+                    delay={{ show: 100, hide: 100 }}
+                    overlay={
+                      <Popover id="popover-basic">
+                        <Popover.Header as="h3">{hdr.text}</Popover.Header>
+                        <Popover.Body>
+                          {hdr.tip}
+                        </Popover.Body>
+                      </Popover>
+                    }
+                  >
+                    <td onClick={input.onHeaderClick} id={hdr.id} className="header-cell">{hdr.text}</td>
+                  </OverlayTrigger>
+                );
+              })
+            }
+            </tr>
+          </thead>
+          <tbody>
+            {
+              cards.map(function(card) {
+                if (shouldSkip(card, input)) {
+                  return
+                }
+
+                let imgs = ColorImages(card.color_identity)
+
+                // Determine sort value. Default to win percentage.
+                let sort = sortValue(input.sortBy, card)
+
+                // Return the row.
+                return (
+                  <tr sort={sort} className="widget-table-row" key={card.name}>
+                    <td>{imgs}</td>
+                    <OverlayTrigger
+                      placement="right"
+                      delay={{ show: 500, hide: 100 }}
+                      overlay={
+                        <Popover className="wide-pop" id="popover-basic">
+                          <Popover.Header as="h3">Played by</Popover.Header>
+                          <Popover.Body>
+                            {CardMainboardTooltipContent(card)}
+                          </Popover.Body>
+                        </Popover>
+                      }
+                    >
+                      <td id={card.name} onClick={input.onCardSelected}><a href={card.url} target="_blank" rel="noopener noreferrer">{card.name}</a></td>
+                    </OverlayTrigger>
+                    <td id={card.name} onClick={input.onCardSelected} key="games">{card.total_games}</td>
+                    <td id={card.name} onClick={input.onCardSelected} key="inaggro">{card.by_archetype.aggro.win_percent}%</td>
+                    <td id={card.name} onClick={input.onCardSelected} key="incontrol">{card.by_archetype.control.win_percent}%</td>
+                    <td id={card.name} onClick={input.onCardSelected} key="inmidrange">{card.by_archetype.midrange.win_percent}%</td>
                   </tr>
                 )
               }).sort(SortFunc)

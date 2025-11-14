@@ -313,6 +313,7 @@ export default function DeckViewer() {
 
         <MainDisplay
           deck={deck}
+          decks={decks}
           comparisonDecks={comparisonDecks}
           mbsb={mainboardSideboard}
           matchStr={matchStr}
@@ -753,10 +754,17 @@ function PlayerFrame(input) {
             result = "D"
           }
           result += " (" + Record(deck, match.opponent) + ")"
+          let opp_arch = "N/A"
+          for (let d of input.decks) {
+            if (d.player.toLowerCase() == match.opponent.toLowerCase() && d.date == deck.date) {
+              opp_arch = getMacro(d)
+              break
+            }
+          }
           return (
             <tr>
               <td className="player-frame-title-2">{match.opponent}</td>
-              <td className="player-frame-value">{result}</td>
+              <td className="player-frame-value">{result} | {opp_arch}</td>
             </tr>
           );
         })
