@@ -46,7 +46,6 @@ Count,Name,Section
 1,Celestial Colonnade,main
 1,Cemetery Gatekeeper,main
 1,Chainweb Aracnir,main
-1,"Chandra, Hope's Beacon",main
 1,Cheeky House-Mouse // Squeak By,main
 1,Chromatic Star,main
 1,Clarion Spirit,main
@@ -69,6 +68,7 @@ Count,Name,Section
 1,Dead Weight,main
 1,Death's Shadow,main
 1,Deep-Cavern Bat,main
+1,Deeproot Wayfinder,main
 1,"Delney, Streetwise Lookout",main
 1,Deluge of Doom,main
 1,Demand Answers,main
@@ -86,6 +86,7 @@ Count,Name,Section
 1,Elegant Parlor,main
 1,Elspeth's Smite,main
 1,Embercleave,main
+1,Emberheart Challenger,main
 1,Engineered Explosives,main
 1,Ephara's Dispersal,main
 1,Esika's Chariot,main
@@ -121,7 +122,6 @@ Count,Name,Section
 1,Goblin Bombardment,main
 1,Goblin Guide,main
 2,Godless Shrine,main
-1,Goldhound,main
 1,Goldmeadow Harrier,main
 1,Grim Bauble,main
 1,Grim Discovery,main
@@ -135,6 +135,7 @@ Count,Name,Section
 1,Hedge Maze,main
 1,Helping Hand,main
 1,Heritage Reclamation,main
+1,Hired Claw,main
 1,Hooting Mandrills,main
 1,Horizon Canopy,main
 1,Ignoble Hierarch,main
@@ -145,7 +146,6 @@ Count,Name,Section
 1,Irencrag Pyromancer,main
 1,"Jolrael, Mwonvuli Recluse",main
 1,Journey to Nowhere,main
-1,Kavaron Harrier,main
 1,"Kellan, the Fae-Blooded // Birthright Boon",main
 1,"Kiora, the Rising Tide",main
 1,Kishla Skimmer,main
@@ -161,7 +161,6 @@ Count,Name,Section
 1,Lightning Helix,main
 1,Lightstall Inquisitor,main
 1,Liliana of the Veil,main
-1,"Liliana, Dreadhorde General",main
 1,Lingering Souls,main
 1,Lion Sash,main
 1,Lizard Blades,main
@@ -196,6 +195,7 @@ Count,Name,Section
 1,Moon-Circuit Hacker,main
 1,Mosswood Dreadknight // Dread Whispers,main
 1,Murderous Cut,main
+1,Mutavault,main
 1,Mystic Confluence,main
 1,Mystic Sanctuary,main
 1,Nethergoyf,main
@@ -291,7 +291,6 @@ Count,Name,Section
 2,Temple Garden,main
 1,Territorial Kavu,main
 1,"Thalia, Guardian of Thraben",main
-1,The Binding of the Titans,main
 1,The Goose Mother,main
 1,The Huntsman's Redemption,main
 1,The Wandering Emperor,main
@@ -339,4 +338,5 @@ Count,Name,Section
 1,Wrath of God,main
 1,Wrenn and Six,main
 1,Young Pyromancer,main
+1,Zurgo Bellstriker,main
 

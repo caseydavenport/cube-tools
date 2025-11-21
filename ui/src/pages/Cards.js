@@ -60,6 +60,13 @@ export const NumPlayersOption = "# Players"
 export const DraftOrderOption = "Avg. draft pick"
 export const NumTrophiesOption = "# Trophies"
 export const NumLastPlaceOption = "# Last place"
+export const VersusAggroOption = "vs Aggro Win %"
+export const VersusControlOption = "vs Control Win %"
+export const VersusMidrangeOption = "vs Midrange Win %"
+export const InAggroOption = "in Aggro Win %"
+export const InControlOption = "in Control Win %"
+export const InMidrangeOption = "in Midrange Win %"
+
 export const CardScatterAxes = [
   {label: NumDecksOption, value: NumDecksOption},
   {label: NumSideboardOption, value: NumSideboardOption},
@@ -76,6 +83,12 @@ export const CardScatterAxes = [
   {label: DraftOrderOption, value: DraftOrderOption},
   {label: NumTrophiesOption, value: NumTrophiesOption},
   {label: NumLastPlaceOption, value: NumLastPlaceOption},
+  {label: VersusAggroOption, value: VersusAggroOption},
+  {label: VersusControlOption, value: VersusControlOption},
+  {label: VersusMidrangeOption, value: VersusMidrangeOption},
+  {label: InAggroOption, value: InAggroOption},
+  {label: InControlOption, value: InControlOption},
+  {label: InMidrangeOption, value: InMidrangeOption},
 ]
 
 const Interaction = "All interaction"
@@ -711,11 +724,23 @@ function CardWidgetTable(input) {
 }
 
 function CardWidgetOptions(input) {
+  let num = 0
+  for (let [name, card] of input.cardData) {
+    if (shouldSkip(card, input)) {
+      continue
+    }
+    num += 1
+  }
+
   return (
     <div className="scroll-container-large-header">
     <table className="scroll-container-large-header">
       <tbody>
         <tr>
+          <td className="selection-cell">
+            Showing {num} cards
+          </td>
+
           <td className="selection-cell">
             <DropdownHeader
               label="Stats type"
@@ -1250,6 +1275,18 @@ function getValue(axis, card, archetypeData, playerData, decks, draftData) {
         return null
       }
       return Math.round(pick.pickNumSum / pick.count * 10) / 10
+    case VersusAggroOption:
+      return card.against_archetype.aggro.win_percent
+    case VersusMidrangeOption:
+      return card.against_archetype.midrange.win_percent
+    case VersusControlOption:
+      return card.against_archetype.control.win_percent
+    case InAggroOption:
+      return card.by_archetype.aggro.win_percent
+    case InMidrangeOption:
+      return card.by_archetype.midrange.win_percent
+    case InControlOption:
+      return card.by_archetype.control.win_percent
   }
   return null
 }

@@ -991,27 +991,6 @@
    "toughness": "2"
   },
   {
-   "name": "Chandra, Hope's Beacon",
-   "types": [
-    "Legendary",
-    "Planeswalker"
-   ],
-   "sub_types": [
-    "Chandra"
-   ],
-   "cmc": 6,
-   "image": "",
-   "colors": [
-    "R"
-   ],
-   "color_identity": [
-    "R"
-   ],
-   "mana_cost": "{4}{R}{R}",
-   "url": "https://scryfall.com/card/mom/134/chandra-hopes-beacon?utm_source=api",
-   "oracle_text": "Whenever you cast an instant or sorcery spell, copy it. You may choose new targets for the copy. This ability triggers only once each turn.\n+2: Add two mana in any combination of colors.\n+1: Exile the top five cards of your library. Until the end of your next turn, you may cast an instant or sorcery spell from among those exiled cards.\n−X: Chandra deals X damage to each of up to two targets."
-  },
-  {
    "name": "Cheeky House-Mouse // Squeak By",
    "types": [
     "Creature"
@@ -1440,6 +1419,29 @@
    "toughness": "1"
   },
   {
+   "name": "Deeproot Wayfinder",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Merfolk",
+    "Scout"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "G"
+   ],
+   "color_identity": [
+    "G"
+   ],
+   "mana_cost": "{1}{G}",
+   "url": "https://scryfall.com/card/mom/184/deeproot-wayfinder?utm_source=api",
+   "oracle_text": "Whenever this creature deals combat damage to a player or battle, surveil 1, then you may return a land card from your graveyard to the battlefield tapped. (To surveil 1, look at the top card of your library. You may put that card into your graveyard.)",
+   "power": "2",
+   "toughness": "3"
+  },
+  {
    "name": "Delney, Streetwise Lookout",
    "types": [
     "Legendary",
@@ -1761,6 +1763,29 @@
    "mana_cost": "{4}{R}{R}",
    "url": "https://scryfall.com/card/eld/120/embercleave?utm_source=api",
    "oracle_text": "Flash\nThis spell costs {1} less to cast for each attacking creature you control.\nWhen Embercleave enters, attach it to target creature you control.\nEquipped creature gets +1/+1 and has double strike and trample.\nEquip {3}"
+  },
+  {
+   "name": "Emberheart Challenger",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Mouse",
+    "Warrior"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "R"
+   ],
+   "color_identity": [
+    "R"
+   ],
+   "mana_cost": "{1}{R}",
+   "url": "https://scryfall.com/card/blb/133/emberheart-challenger?utm_source=api",
+   "oracle_text": "Haste\nProwess (Whenever you cast a noncreature spell, this creature gets +1/+1 until end of turn.)\nValiant — Whenever this creature becomes the target of a spell or ability you control for the first time each turn, exile the top card of your library. Until end of turn, you may play that card.",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Engineered Explosives",
@@ -2465,30 +2490,6 @@
    "oracle_text": "({T}: Add {W} or {B}.)\nAs this land enters, you may pay 2 life. If you don't, it enters tapped."
   },
   {
-   "name": "Goldhound",
-   "types": [
-    "Artifact",
-    "Creature"
-   ],
-   "sub_types": [
-    "Treasure",
-    "Dog"
-   ],
-   "cmc": 1,
-   "image": "",
-   "colors": [
-    "R"
-   ],
-   "color_identity": [
-    "R"
-   ],
-   "mana_cost": "{R}",
-   "url": "https://scryfall.com/card/snc/108/goldhound?utm_source=api",
-   "oracle_text": "First strike\nMenace (This creature can't be blocked except by two or more creatures.)\n{T}, Sacrifice this creature: Add one mana of any color.",
-   "power": "1",
-   "toughness": "1"
-  },
-  {
    "name": "Goldmeadow Harrier",
    "types": [
     "Creature"
@@ -2769,6 +2770,29 @@
    "oracle_text": "Choose one —\n• Destroy target artifact.\n• Destroy target enchantment.\n• Exile up to one target card from a graveyard. Draw a card."
   },
   {
+   "name": "Hired Claw",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Lizard",
+    "Mercenary"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [
+    "R"
+   ],
+   "color_identity": [
+    "R"
+   ],
+   "mana_cost": "{R}",
+   "url": "https://scryfall.com/card/blb/140/hired-claw?utm_source=api",
+   "oracle_text": "Whenever you attack with one or more Lizards, this creature deals 1 damage to target opponent.\n{1}{R}: Put a +1/+1 counter on this creature. Activate only if an opponent lost life this turn and only once each turn.",
+   "power": "1",
+   "toughness": "2"
+  },
+  {
    "name": "Hooting Mandrills",
    "types": [
     "Creature"
@@ -2974,30 +2998,6 @@
    "mana_cost": "{1}{W}",
    "url": "https://scryfall.com/card/cmd/17/journey-to-nowhere?utm_source=api",
    "oracle_text": "When this enchantment enters, exile target creature.\nWhen this enchantment leaves the battlefield, return the exiled card to the battlefield under its owner's control."
-  },
-  {
-   "name": "Kavaron Harrier",
-   "types": [
-    "Artifact",
-    "Creature"
-   ],
-   "sub_types": [
-    "Robot",
-    "Soldier"
-   ],
-   "cmc": 1,
-   "image": "",
-   "colors": [
-    "R"
-   ],
-   "color_identity": [
-    "R"
-   ],
-   "mana_cost": "{R}",
-   "url": "https://scryfall.com/card/eoe/139/kavaron-harrier?utm_source=api",
-   "oracle_text": "Whenever this creature attacks, you may pay {2}. If you do, create a 2/2 colorless Robot artifact creature token that's tapped and attacking. Sacrifice that token at end of combat.",
-   "power": "2",
-   "toughness": "1"
   },
   {
    "name": "Kellan, the Fae-Blooded // Birthright Boon",
@@ -3322,27 +3322,6 @@
    "mana_cost": "{1}{B}{B}",
    "url": "https://scryfall.com/card/dmu/97/liliana-of-the-veil?utm_source=api",
    "oracle_text": "+1: Each player discards a card.\n−2: Target player sacrifices a creature.\n−6: Separate all permanents target player controls into two piles. That player sacrifices all permanents in the pile of their choice."
-  },
-  {
-   "name": "Liliana, Dreadhorde General",
-   "types": [
-    "Legendary",
-    "Planeswalker"
-   ],
-   "sub_types": [
-    "Liliana"
-   ],
-   "cmc": 6,
-   "image": "",
-   "colors": [
-    "B"
-   ],
-   "color_identity": [
-    "B"
-   ],
-   "mana_cost": "{4}{B}{B}",
-   "url": "https://scryfall.com/card/fdn/176/liliana-dreadhorde-general?utm_source=api",
-   "oracle_text": "Whenever a creature you control dies, draw a card.\n+1: Create a 2/2 black Zombie creature token.\n−4: Each player sacrifices two creatures of their choice.\n−9: Each opponent chooses a permanent they control of each permanent type and sacrifices the rest."
   },
   {
    "name": "Lingering Souls",
@@ -4059,6 +4038,19 @@
    "mana_cost": "{4}{B}",
    "url": "https://scryfall.com/card/ktk/81/murderous-cut?utm_source=api",
    "oracle_text": "Delve (Each card you exile from your graveyard while casting this spell pays for {1}.)\nDestroy target creature."
+  },
+  {
+   "name": "Mutavault",
+   "types": [
+    "Land"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "color_identity": [],
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/clb/903/mutavault?utm_source=api",
+   "oracle_text": "{T}: Add {C}.\n{1}: This land becomes a 2/2 creature with all creature types until end of turn. It's still a land."
   },
   {
    "name": "Mystic Confluence",
@@ -6054,26 +6046,6 @@
    "toughness": "1"
   },
   {
-   "name": "The Binding of the Titans",
-   "types": [
-    "Enchantment"
-   ],
-   "sub_types": [
-    "Saga"
-   ],
-   "cmc": 2,
-   "image": "",
-   "colors": [
-    "G"
-   ],
-   "color_identity": [
-    "G"
-   ],
-   "mana_cost": "{1}{G}",
-   "url": "https://scryfall.com/card/cmm/886/the-binding-of-the-titans?utm_source=api",
-   "oracle_text": "(As this Saga enters and after your draw step, add a lore counter. Sacrifice after III.)\nI — Each player mills three cards.\nII — Exile up to two target cards from graveyards. For each creature card exiled this way, you gain 1 life.\nIII — Return target creature or land card from your graveyard to your hand."
-  },
-  {
    "name": "The Goose Mother",
    "types": [
     "Legendary",
@@ -7060,6 +7032,30 @@
    "oracle_text": "Whenever you cast an instant or sorcery spell, create a 1/1 red Elemental creature token.",
    "power": "2",
    "toughness": "1"
+  },
+  {
+   "name": "Zurgo Bellstriker",
+   "types": [
+    "Legendary",
+    "Creature"
+   ],
+   "sub_types": [
+    "Orc",
+    "Warrior"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [
+    "R"
+   ],
+   "color_identity": [
+    "R"
+   ],
+   "mana_cost": "{R}",
+   "url": "https://scryfall.com/card/dtk/169/zurgo-bellstriker?utm_source=api",
+   "oracle_text": "Zurgo can't block creatures with power 2 or greater.\nDash {1}{R} (You may cast this spell for its dash cost. If you do, it gains haste, and it's returned from the battlefield to its owner's hand at the beginning of the next end step.)",
+   "power": "2",
+   "toughness": "2"
   }
  ]
 }
