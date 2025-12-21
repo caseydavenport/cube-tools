@@ -66,7 +66,12 @@ export function TextInput(input) {
   return (
     <div className={className}>
       {input.label}
-      <input onChange={input.onChange} className={inputClass} type="text" />
+      <input
+        placeholder={input.placeholder}
+        onChange={input.onChange}
+        className={inputClass}
+        type="text"
+      />
     </div>
   );
 }

@@ -5,7 +5,7 @@ import { LoadDecks, FetchFile } from "../utils/Fetch.js"
 import { Record, Wins, Losses, Draws, MatchWins, MatchLosses, MatchDraws, InDeckColor } from "../utils/Deck.js"
 import { RemovalMatches, CounterspellMatches } from "../pages/Decks.js"
 import { SortFunc } from "../utils/Utils.js"
-import { CardMatches, DeckMatches } from "../utils/Query.js"
+import { CardMatches, DeckMatches, QueryTerms } from "../utils/Query.js"
 import { ColorImages } from "../utils/Colors.js"
 import { Button, TextInput, DropdownHeader, NumericInput, Checkbox, DateSelector } from "../components/Dropdown.js"
 import { InitialDates, CheckboxesToColors } from "./Stats.js"
@@ -288,6 +288,7 @@ export default function DeckViewer() {
         <TextInput
           className="dropdown"
           label="Search"
+          placeholder={QueryTerms}
           big={true}
           value={matchStr}
           onChange={onMatchUpdated}

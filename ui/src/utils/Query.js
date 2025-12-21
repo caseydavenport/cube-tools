@@ -1,7 +1,7 @@
 import { CombineColors } from "../utils/Colors.js"
 
 
-const queryTerms = [
+export const QueryTerms = [
   "pow",
   "name",
   "o",
@@ -13,7 +13,7 @@ const queryTerms = [
   "sb",
   "players",
   "drafts",
-  "win",
+  "winpct",
 ]
 
 export function CardMatches(card, matchStr, checkText) {
@@ -227,7 +227,7 @@ function isTermQuery(matchStr) {
   // Split the string. If any of the criteria are query terms, return true.
   let splits = matchStr.split(" ")
   for (let term of splits) {
-    for (let qt of queryTerms) {
+    for (let qt of QueryTerms) {
       if (term.startsWith(qt) && (term.includes("<") || term.includes(">") || term.includes("=") || term.includes(":"))) {
         // It's a term query.
         return true
@@ -459,7 +459,7 @@ function playerTermMatches(term, card) {
 }
 
 function isWinPercentageTerm(term) {
-  return term.startsWith("wins")
+  return term.startsWith("winpct")
 }
 
 function winPercentagesMatch(terms, card) {
@@ -484,20 +484,20 @@ function winPercentageMatches(term, card) {
 
   let cardVal = card.win_percent
 
-  if (term.startsWith("wins<")) {
-    let val = parseInt(term.replace("wins<", ""))
+  if (term.startsWith("winpct<")) {
+    let val = parseInt(term.replace("winpct<", ""))
     if (cardVal < val) {
       return true
     }
   }
-  if (term.startsWith("wins>")) {
-    let val = parseInt(term.replace("wins>", ""))
+  if (term.startsWith("winpct>")) {
+    let val = parseInt(term.replace("winpct>", ""))
     if (cardVal > val) {
       return true
     }
   }
-  if (term.startsWith("wins=")) {
-    let val = parseInt(term.replace("wins=", ""))
+  if (term.startsWith("winpct=")) {
+    let val = parseInt(term.replace("winpct=", ""))
     return cardVal === val
   }
   return false

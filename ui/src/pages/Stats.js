@@ -15,7 +15,7 @@ import { GetColorStats } from "./Colors.js"
 import { PlayerData } from "./Players.js"
 import { DraftWidget } from "./Drafts.js"
 import { AggregatedPickInfo } from "../utils/DraftLog.js"
-import { CardMatches, DeckMatches } from "../utils/Query.js"
+import { CardMatches, DeckMatches, QueryTerms } from "../utils/Query.js"
 
 import {
   NumDecksOption,
@@ -827,6 +827,7 @@ function SelectorBar(input) {
       <TextInput
         className="dropdown"
         label="Search"
+        placeholder={QueryTerms}
         big={true}
         value={input.matchStr}
         onChange={input.onMatchUpdated}
