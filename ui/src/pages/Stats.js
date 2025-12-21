@@ -24,7 +24,7 @@ import {
 
 
 // StatsViewer displays stats spanning the selected drafts.
-export default function StatsViewer() {
+export function StatsViewer(props) {
   // Store all of the decks, and the cube.
   const [decks, setDecks] = useState([]);
   const [cube, setCube] = useState({"cards": []});
@@ -177,18 +177,8 @@ export default function StatsViewer() {
   ///////////////////////////////////////////////////////////////////////////////
   // State used for time selection.
   ///////////////////////////////////////////////////////////////////////////////
-  let [start, end ] = InitialDates()
-  const [startDate, setStartDate] = useState(start);
-  const [endDate, setEndDate] = useState(end);
-  function onStartSelected(event) {
-    setStartDate(event.target.value)
-  }
-  function onEndSelected(event) {
-    setEndDate(event.target.value)
-  }
-
-  // Track whether we have completed initial loading of data on page refresh.
-  const [awaitingLoad, setAwaitingLoad] = useState(true);
+  let startDate = props.startDate
+  let endDate = props.endDate
 
   ///////////////////////////////////////////////////////////////////////////////
   // State used for the draft stats tab.
@@ -488,14 +478,6 @@ export default function StatsViewer() {
       opts.push({label: arch, value: arch})
     }
     setArchetypeDropdownOptions(opts)
-
-    if (awaitingLoad) {
-      // Now that we have loaded all decks for the first time, we can default the
-      // start date to the first draft, and the end date to the latest draft.
-      setStartDate(d[0].date)
-      setEndDate(d[d.length - 1].date)
-      setAwaitingLoad(false)
-    }
   }
   function onCubeLoad(c) {
     setCube({...c})
@@ -622,9 +604,9 @@ export default function StatsViewer() {
       <SelectorBar
         triggerRefresh={triggerRefresh}
         startDate={startDate}
-        onStartSelected={onStartSelected}
+        onStartSelected={props.onStartSelected}
         endDate={endDate}
-        onEndSelected={onEndSelected}
+        onEndSelected={props.onEndSelected}
         bucketSize={bucketSize}
         onBucketsChanged={onBucketsChanged}
         minDrafts={minDrafts}

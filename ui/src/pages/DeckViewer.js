@@ -15,19 +15,12 @@ import ReactMarkdown from "react-markdown";
 
 // This function builds the DeckViewer widget for selecting and viewing statistics
 // about a particular deck.
-export default function DeckViewer() {
+export function DeckViewer(props) {
   ///////////////////////////////////////////////////////////////////////////////
   // State used for time selection.
   ///////////////////////////////////////////////////////////////////////////////
-  let [start, end ] = InitialDates()
-  const [startDate, setStartDate] = useState(start);
-  const [endDate, setEndDate] = useState(end);
-  function onStartSelected(event) {
-    setStartDate(event.target.value)
-  }
-  function onEndSelected(event) {
-    setEndDate(event.target.value)
-  }
+  let startDate = props.startDate
+  let endDate = props.endDate
 
   // We keep two sets of variables - one for the dropdown values,
   // and another for the actual deck we want to display.
@@ -248,13 +241,13 @@ export default function DeckViewer() {
           label="From: "
           id="from"
           value={startDate}
-          onChange={onStartSelected}
+          onChange={props.onStartSelected}
         />
         <DateSelector
           label="To: "
           id="to"
           value={endDate}
-          onChange={onEndSelected}
+          onChange={props.onEndSelected}
         />
 
         <DropdownHeader
