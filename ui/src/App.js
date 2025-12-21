@@ -23,18 +23,28 @@ export default function Main() {
     setEndDate(event.target.value)
   }
 
+  // For matching decks and cards.
+  const [matchStr, setMatchStr] = useState("");
+  function onMatchUpdated(event) {
+    setMatchStr(event.target.value)
+  }
+
   let stats = StatsViewer({
     startDate: startDate,
     endDate: endDate,
     onStartSelected: onStartSelected,
-    onEndSelected: onEndSelected
+    onEndSelected: onEndSelected,
+    matchStr: matchStr,
+    onMatchUpdated: onMatchUpdated
   })
 
   let decks = DeckViewer({
     startDate: startDate,
     endDate: endDate,
     onStartSelected: onStartSelected,
-    onEndSelected: onEndSelected
+    onEndSelected: onEndSelected,
+    matchStr: matchStr,
+    onMatchUpdated: onMatchUpdated
   })
 
    return (

@@ -361,12 +361,6 @@ export function StatsViewer(props) {
     onSubpageClicked(5)
   }
 
-  // For matching decks and cards.
-  const [matchStr, setMatchStr] = useState("");
-  function onMatchUpdated(event) {
-    setMatchStr(event.target.value)
-  }
-
   ///////////////////////////////////////////////////////////////////////////////
   // Parsed data that is shared between widgets, and updated as needed
   // by the useEffect() hooks below.
@@ -529,7 +523,7 @@ export function StatsViewer(props) {
     let filterByColor = colorCheckboxes.some(function(element) {return element})
     for (let deck of decks) {
       // Filter decks based on the match string from the free-form text input.
-      if (matchStr != "" && !DeckMatches(deck, matchStr, "Mainboard")) {
+      if (props.matchStr && !DeckMatches(deck, props.matchStr, "Mainboard")) {
         continue
       }
 
@@ -621,8 +615,8 @@ export function StatsViewer(props) {
         onDeckPage={onDeckPage}
         onDraftPage={onDraftPage}
         onPlayersPage={onPlayersPage}
-        matchStr={matchStr}
-        onMatchUpdated={onMatchUpdated}
+        matchStr={props.matchStr}
+        onMatchUpdated={props.onMatchUpdated}
       />
 
 
@@ -673,7 +667,7 @@ export function StatsViewer(props) {
 
         <CardWidget
           parsed={parsed}
-          matchStr={matchStr}
+          matchStr={props.matchStr}
           cardData={cardData}
           cardDataBucketed={cardDataBucketed}
           decks={parsed.filteredDecks}

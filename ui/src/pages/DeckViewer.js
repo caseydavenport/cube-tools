@@ -132,11 +132,6 @@ export function DeckViewer(props) {
     }
   }
 
-  // For matching decks.
-  const [matchStr, setMatchStr] = useState("");
-  function onMatchUpdated(event) {
-    setMatchStr(event.target.value)
-  }
   const [minCMC, setMinCMC] = useState(0);
   const [maxCMC, setMaxCMC] = useState(0);
   function onMinCMCUpdated(event) {
@@ -283,8 +278,8 @@ export function DeckViewer(props) {
           label="Search"
           placeholder={QueryTerms}
           big={true}
-          value={matchStr}
-          onChange={onMatchUpdated}
+          value={props.matchStr}
+          onChange={props.onMatchUpdated}
         />
 
       </div>
@@ -298,7 +293,7 @@ export function DeckViewer(props) {
           selectedPlayer={selectedPlayer}
           onSortHeader={onDeckSort}
           deckSort={deckSort}
-          matchStr={matchStr}
+          matchStr={props.matchStr}
           minCMC={minCMC}
           maxCMC={maxCMC}
           mbsb={mainboardSideboard}
@@ -310,7 +305,7 @@ export function DeckViewer(props) {
           decks={decks}
           comparisonDecks={comparisonDecks}
           mbsb={mainboardSideboard}
-          matchStr={matchStr}
+          matchStr={props.matchStr}
           description={description}
         />
       </div>
@@ -401,7 +396,7 @@ function FilteredDecks(input) {
     }
 
     // Do fuzzy matching on the string, including player, cards, etc.
-    if (input.matchStr == "" || DeckMatches(d, input.matchStr, input.mbsb)) {
+    if (input.matchStr == null || input.matchStr == "" || DeckMatches(d, input.matchStr, input.mbsb)) {
       decks.push(d)
     }
   }

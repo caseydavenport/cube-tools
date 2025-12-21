@@ -70,6 +70,7 @@ export function TextInput(input) {
         placeholder={input.placeholder}
         onChange={input.onChange}
         className={inputClass}
+        value={input.value}
         type="text"
       />
     </div>
