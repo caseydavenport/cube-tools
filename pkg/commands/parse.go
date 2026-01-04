@@ -86,7 +86,7 @@ func parseDeck(deckFiles []string, who, labels, date, draftID string) (*types.De
 	// Go through each file, and parse it. We allow multiple files
 	// to be specified, in case a deck is split across multiple files - namely, a mainboard and
 	// sideboard file.
-	cardSets := make([][]types.Card, 0, len(deckFiles))
+	cardSets := [][]types.Card{}
 	for _, f := range deckFiles {
 		mb, sb, err := cardsFromDeckFile(f)
 		if err != nil {
@@ -103,7 +103,7 @@ func parseDeck(deckFiles []string, who, labels, date, draftID string) (*types.De
 		return nil, fmt.Errorf("No cards found in deck files: %v", deckFiles)
 	}
 	if len(cardSets) > 2 {
-		return nil, fmt.Errorf("Too many card sets found in deck files: %v", deckFiles)
+		return nil, fmt.Errorf("Too many card sets (%d) found in deck files: %v", len(cardSets), deckFiles)
 	}
 
 	// Build the deck struct.
