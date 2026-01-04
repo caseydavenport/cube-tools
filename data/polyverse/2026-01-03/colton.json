@@ -8,8 +8,26 @@
  "labels": [],
  "player": "colton",
  "date": "2026-01-03",
- "games": null,
- "matches": null,
+ "games": [
+  {
+   "opponent": "wanqi",
+   "winner": "colton"
+  },
+  {
+   "opponent": "wanqi",
+   "winner": "colton"
+  },
+  {
+   "opponent": "wanqi",
+   "winner": "wanqi"
+  }
+ ],
+ "matches": [
+  {
+   "opponent": "wanqi",
+   "winner": "colton"
+  }
+ ],
  "mainboard": [
   {
    "name": "Ephara's Dispersal",

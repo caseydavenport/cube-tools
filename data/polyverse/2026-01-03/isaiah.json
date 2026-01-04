@@ -8,8 +8,34 @@
  "labels": [],
  "player": "isaiah",
  "date": "2026-01-03",
- "games": null,
- "matches": null,
+ "games": [
+  {
+   "opponent": "casey",
+   "winner": "isaiah"
+  },
+  {
+   "opponent": "casey",
+   "winner": "casey"
+  },
+  {
+   "opponent": "kaiyo",
+   "winner": "kaiyo"
+  },
+  {
+   "opponent": "kaiyo",
+   "winner": "kaiyo"
+  }
+ ],
+ "matches": [
+  {
+   "opponent": "casey",
+   "winner": ""
+  },
+  {
+   "opponent": "kaiyo",
+   "winner": "kaiyo"
+  }
+ ],
  "mainboard": [
   {
    "name": "Elspeth's Smite",

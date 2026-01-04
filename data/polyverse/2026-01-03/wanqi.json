@@ -8,8 +8,26 @@
  "labels": [],
  "player": "wanqi",
  "date": "2026-01-03",
- "games": null,
- "matches": null,
+ "games": [
+  {
+   "opponent": "colton",
+   "winner": "wanqi"
+  },
+  {
+   "opponent": "colton",
+   "winner": "colton"
+  },
+  {
+   "opponent": "colton",
+   "winner": "colton"
+  }
+ ],
+ "matches": [
+  {
+   "opponent": "colton",
+   "winner": "colton"
+  }
+ ],
  "mainboard": [
   {
    "name": "Luminarch Aspirant",

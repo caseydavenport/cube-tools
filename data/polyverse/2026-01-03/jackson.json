@@ -8,8 +8,34 @@
  "labels": [],
  "player": "jackson",
  "date": "2026-01-03",
- "games": null,
- "matches": null,
+ "games": [
+  {
+   "opponent": "kaiyo",
+   "winner": "jackson"
+  },
+  {
+   "opponent": "kaiyo",
+   "winner": "jackson"
+  },
+  {
+   "opponent": "patrick",
+   "winner": "jackson"
+  },
+  {
+   "opponent": "patrick",
+   "winner": "patrick"
+  }
+ ],
+ "matches": [
+  {
+   "opponent": "kaiyo",
+   "winner": "jackson"
+  },
+  {
+   "opponent": "patrick",
+   "winner": ""
+  }
+ ],
  "mainboard": [
   {
    "name": "Condescend",

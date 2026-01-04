@@ -8,8 +8,38 @@
  "labels": [],
  "player": "darius",
  "date": "2026-01-03",
- "games": null,
- "matches": null,
+ "games": [
+  {
+   "opponent": "casey",
+   "winner": "darius"
+  },
+  {
+   "opponent": "casey",
+   "winner": "darius"
+  },
+  {
+   "opponent": "patrick",
+   "winner": "darius"
+  },
+  {
+   "opponent": "patrick",
+   "winner": "darius"
+  },
+  {
+   "opponent": "patrick",
+   "winner": "patrick"
+  }
+ ],
+ "matches": [
+  {
+   "opponent": "casey",
+   "winner": "darius"
+  },
+  {
+   "opponent": "patrick",
+   "winner": "darius"
+  }
+ ],
  "mainboard": [
   {
    "name": "Cathar Commando",

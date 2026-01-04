@@ -8,8 +8,34 @@
  "labels": [],
  "player": "kaiyo",
  "date": "2026-01-03",
- "games": null,
- "matches": null,
+ "games": [
+  {
+   "opponent": "isaiah",
+   "winner": "kaiyo"
+  },
+  {
+   "opponent": "isaiah",
+   "winner": "kaiyo"
+  },
+  {
+   "opponent": "jackson",
+   "winner": "jackson"
+  },
+  {
+   "opponent": "jackson",
+   "winner": "jackson"
+  }
+ ],
+ "matches": [
+  {
+   "opponent": "isaiah",
+   "winner": "kaiyo"
+  },
+  {
+   "opponent": "jackson",
+   "winner": "jackson"
+  }
+ ],
  "mainboard": [
   {
    "name": "Bitter Triumph",

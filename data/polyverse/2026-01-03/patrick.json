@@ -8,8 +8,38 @@
  "labels": [],
  "player": "patrick",
  "date": "2026-01-03",
- "games": null,
- "matches": null,
+ "games": [
+  {
+   "opponent": "darius",
+   "winner": "patrick"
+  },
+  {
+   "opponent": "darius",
+   "winner": "darius"
+  },
+  {
+   "opponent": "darius",
+   "winner": "darius"
+  },
+  {
+   "opponent": "jackson",
+   "winner": "patrick"
+  },
+  {
+   "opponent": "jackson",
+   "winner": "jackson"
+  }
+ ],
+ "matches": [
+  {
+   "opponent": "darius",
+   "winner": "darius"
+  },
+  {
+   "opponent": "jackson",
+   "winner": ""
+  }
+ ],
  "mainboard": [
   {
    "name": "Brainstorm",

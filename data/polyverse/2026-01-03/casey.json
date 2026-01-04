@@ -8,8 +8,34 @@
  "labels": [],
  "player": "casey",
  "date": "2026-01-03",
- "games": null,
- "matches": null,
+ "games": [
+  {
+   "opponent": "darius",
+   "winner": "darius"
+  },
+  {
+   "opponent": "darius",
+   "winner": "darius"
+  },
+  {
+   "opponent": "isaiah",
+   "winner": "casey"
+  },
+  {
+   "opponent": "isaiah",
+   "winner": "isaiah"
+  }
+ ],
+ "matches": [
+  {
+   "opponent": "darius",
+   "winner": "darius"
+  },
+  {
+   "opponent": "isaiah",
+   "winner": ""
+  }
+ ],
  "mainboard": [
   {
    "name": "Caretaker's Talent",
