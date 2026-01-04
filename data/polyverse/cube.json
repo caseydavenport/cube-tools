@@ -285,7 +285,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/mh3/299/barbarian-ring?utm_source=api",
-   "oracle_text": "{T}: Add {R}. This land deals 1 damage to you.\nThreshold — {R}, {T}, Sacrifice this land: It deals 2 damage to any target. Activate only if seven or more cards are in your graveyard."
+   "oracle_text": "{T}: Add {R}. This land deals 1 damage to you.\nThreshold — {R}, {T}, Sacrifice this land: It deals 2 damage to any target. Activate only if there are seven or more cards in your graveyard."
   },
   {
    "name": "Bedlam Reveler",
@@ -1798,7 +1798,7 @@
    "color_identity": [],
    "mana_cost": "{X}",
    "url": "https://scryfall.com/card/2xm/252/engineered-explosives?utm_source=api",
-   "oracle_text": "Sunburst (This enters with a charge counter on it for each color of mana spent to cast it.)\n{2}, Sacrifice this artifact: Destroy each nonland permanent with mana value equal to the number of charge counters on this artifact."
+   "oracle_text": "Sunburst (This artifact enters with a charge counter on it for each color of mana spent to cast it.)\n{2}, Sacrifice this artifact: Destroy each nonland permanent with mana value equal to the number of charge counters on this artifact."
   },
   {
    "name": "Ephara's Dispersal",
@@ -1924,7 +1924,7 @@
     "G"
    ],
    "mana_cost": "{1}{G}",
-   "url": "https://scryfall.com/card/tle/259/explore?utm_source=api",
+   "url": "https://scryfall.com/card/otc/192/explore?utm_source=api",
    "oracle_text": "You may play an additional land this turn.\nDraw a card."
   },
   {
@@ -3413,30 +3413,6 @@
    "toughness": "1"
   },
   {
-   "name": "Lord Skitter, Sewer King",
-   "types": [
-    "Legendary",
-    "Creature"
-   ],
-   "sub_types": [
-    "Rat",
-    "Noble"
-   ],
-   "cmc": 3,
-   "image": "",
-   "colors": [
-    "B"
-   ],
-   "color_identity": [
-    "B"
-   ],
-   "mana_cost": "{2}{B}",
-   "url": "https://scryfall.com/card/woe/97/lord-skitter-sewer-king?utm_source=api",
-   "oracle_text": "Whenever another Rat you control enters, exile up to one target card from an opponent's graveyard.\nAt the beginning of combat on your turn, create a 1/1 black Rat creature token with \"This token can't block.\"",
-   "power": "3",
-   "toughness": "3"
-  },
-  {
    "name": "Lórien Revealed",
    "types": [
     "Sorcery"
@@ -4565,29 +4541,6 @@
    "oracle_text": "When Proft's Eidetic Memory enters, draw a card.\nYou have no maximum hand size.\nAt the beginning of combat on your turn, if you've drawn more than one card this turn, put X +1/+1 counters on target creature you control, where X is the number of cards you've drawn this turn minus one."
   },
   {
-   "name": "Puppeteer Clique",
-   "types": [
-    "Creature"
-   ],
-   "sub_types": [
-    "Faerie",
-    "Wizard"
-   ],
-   "cmc": 5,
-   "image": "",
-   "colors": [
-    "B"
-   ],
-   "color_identity": [
-    "B"
-   ],
-   "mana_cost": "{3}{B}{B}",
-   "url": "https://scryfall.com/card/clb/769/puppeteer-clique?utm_source=api",
-   "oracle_text": "Flying\nWhen this creature enters, put target creature card from an opponent's graveyard onto the battlefield under your control. It gains haste. At the beginning of your next end step, exile it.\nPersist (When this creature dies, if it had no -1/-1 counters on it, return it to the battlefield under its owner's control with a -1/-1 counter on it.)",
-   "power": "3",
-   "toughness": "2"
-  },
-  {
    "name": "Pyrite Spellbomb",
    "types": [
     "Artifact"
@@ -4760,6 +4713,29 @@
    "mana_cost": "",
    "url": "https://scryfall.com/card/mkm/266/raucous-theater?utm_source=api",
    "oracle_text": "({T}: Add {B} or {R}.)\nThis land enters tapped.\nWhen this land enters, surveil 1. (Look at the top card of your library. You may put it into your graveyard.)"
+  },
+  {
+   "name": "Raven Eagle",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Bird",
+    "Assassin"
+   ],
+   "cmc": 3,
+   "image": "",
+   "colors": [
+    "B"
+   ],
+   "color_identity": [
+    "B"
+   ],
+   "mana_cost": "{2}{B}",
+   "url": "https://scryfall.com/card/tla/116/raven-eagle?utm_source=api",
+   "oracle_text": "Flying\nWhenever this creature enters or attacks, exile up to one target card from a graveyard. If a creature card is exiled this way, create a Clue token. (It's an artifact with \"{2}, Sacrifice this token: Draw a card.\")\nWhenever you draw your second card each turn, each opponent loses 1 life and you gain 1 life.",
+   "power": "2",
+   "toughness": "3"
   },
   {
    "name": "Ravenous Squirrel",
@@ -5158,6 +5134,31 @@
    "mana_cost": "{1}{U/R}{U/R}",
    "url": "https://scryfall.com/card/cmm/935/saheeli-sublime-artificer?utm_source=api",
    "oracle_text": "Whenever you cast a noncreature spell, create a 1/1 colorless Servo artifact creature token.\n−2: Target artifact you control becomes a copy of another target artifact or creature you control until end of turn, except it's an artifact in addition to its other types."
+  },
+  {
+   "name": "Sandbender Scavengers",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Human",
+    "Rogue"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "B",
+    "W"
+   ],
+   "color_identity": [
+    "B",
+    "W"
+   ],
+   "mana_cost": "{W}{B}",
+   "url": "https://scryfall.com/card/tla/239/sandbender-scavengers?utm_source=api",
+   "oracle_text": "Whenever you sacrifice another permanent, put a +1/+1 counter on this creature.\nWhen this creature dies, you may exile it. When you do, return target creature card with mana value less than or equal to this creature's power from your graveyard to the battlefield.",
+   "power": "1",
+   "toughness": "1"
   },
   {
    "name": "Sandstorm Salvager",
