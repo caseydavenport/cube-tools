@@ -856,6 +856,38 @@
      "path": "data/polyverse/2025-10-25/taylor.json"
     }
    ]
+  },
+  {
+   "path": "data/polyverse/2026-01-03",
+   "date": "2026-01-03",
+   "draft_id": "2026-01-03",
+   "draft_log": "",
+   "decks": [
+    {
+     "path": "data/polyverse/2026-01-03/casey.json"
+    },
+    {
+     "path": "data/polyverse/2026-01-03/colton.json"
+    },
+    {
+     "path": "data/polyverse/2026-01-03/darius.json"
+    },
+    {
+     "path": "data/polyverse/2026-01-03/isaiah.json"
+    },
+    {
+     "path": "data/polyverse/2026-01-03/jackson.json"
+    },
+    {
+     "path": "data/polyverse/2026-01-03/kaiyo.json"
+    },
+    {
+     "path": "data/polyverse/2026-01-03/patrick.json"
+    },
+    {
+     "path": "data/polyverse/2026-01-03/wanqi.json"
+    }
+   ]
   }
  ]
 }
