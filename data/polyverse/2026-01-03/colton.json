@@ -5,7 +5,7 @@
   "mainboard_file": "data/polyverse/2026-01-03/colton-mainboard.txt",
   "sideboard_file": "data/polyverse/2026-01-03/colton-sideboard.txt"
  },
- "labels": [],
+ "labels": ["control"],
  "player": "colton",
  "date": "2026-01-03",
  "games": [

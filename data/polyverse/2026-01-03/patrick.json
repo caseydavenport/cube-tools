@@ -5,7 +5,7 @@
   "mainboard_file": "data/polyverse/2026-01-03/patrick-mainboard.txt",
   "sideboard_file": "data/polyverse/2026-01-03/patrick-sideboard.txt"
  },
- "labels": [],
+ "labels": ["midrange", "ramp"],
  "player": "patrick",
  "date": "2026-01-03",
  "games": [

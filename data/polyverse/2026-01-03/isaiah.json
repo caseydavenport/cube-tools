@@ -5,7 +5,7 @@
   "mainboard_file": "data/polyverse/2026-01-03/isaiah-mainboard.txt",
   "sideboard_file": "data/polyverse/2026-01-03/isaiah-sideboard.txt"
  },
- "labels": [],
+ "labels": ["control", "domain"],
  "player": "isaiah",
  "date": "2026-01-03",
  "games": [

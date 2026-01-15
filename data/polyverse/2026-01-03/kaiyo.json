@@ -5,7 +5,7 @@
   "mainboard_file": "data/polyverse/2026-01-03/kaiyo-mainboard.txt",
   "sideboard_file": "data/polyverse/2026-01-03/kaiyo-sideboard.txt"
  },
- "labels": [],
+ "labels": ["tempo", "artifact", "sacrifice"],
  "player": "kaiyo",
  "date": "2026-01-03",
  "games": [

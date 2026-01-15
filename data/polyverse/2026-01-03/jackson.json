@@ -5,7 +5,7 @@
   "mainboard_file": "data/polyverse/2026-01-03/jackson-mainboard.txt",
   "sideboard_file": "data/polyverse/2026-01-03/jackson-sideboard.txt"
  },
- "labels": [],
+ "labels": ["tempo", "draw", "skimmer"],
  "player": "jackson",
  "date": "2026-01-03",
  "games": [

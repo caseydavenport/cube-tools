@@ -5,7 +5,7 @@
   "mainboard_file": "data/polyverse/2026-01-03/wanqi-mainboard.txt",
   "sideboard_file": "data/polyverse/2026-01-03/wanqi-sideboard.txt"
  },
- "labels": [],
+ "labels": ["aggro"],
  "player": "wanqi",
  "date": "2026-01-03",
  "games": [

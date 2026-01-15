@@ -5,7 +5,7 @@
   "mainboard_file": "data/polyverse/2026-01-03/darius-mainboard.txt",
   "sideboard_file": "data/polyverse/2026-01-03/darius-sideboard.txt"
  },
- "labels": [],
+ "labels": ["aggro", "spells"],
  "player": "darius",
  "date": "2026-01-03",
  "games": [
