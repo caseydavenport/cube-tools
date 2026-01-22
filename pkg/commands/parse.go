@@ -374,15 +374,26 @@ func cardsFromTXT(txt string) ([]types.Card, []types.Card) {
 	sb := []types.Card{}
 	for _, l := range lines {
 		if len(l) == 0 {
+			// Newline - switch to sideboard.
 			mainboard = false
 			continue
 		}
+
+		// Default to a single entry if no number is specified.
+		var count int64
+		var err error
+		var name string
 		splits := strings.SplitN(l, " ", 2)
-		count, err := strconv.ParseInt(splits[0], 10, 32)
+		count, err = strconv.ParseInt(splits[0], 10, 32)
 		if err != nil {
-			panic(fmt.Errorf("Error parsing %s as int: %s", splits[0], err))
+			// The whole line is the name, and we default to a count of 1.
+			name = l
+			count = 1
+		} else {
+			// First part is the count, second part is the name.
+			name = splits[1]
 		}
-		name := splits[1]
+
 		for i := 0; i < int(count); i++ {
 			oracleData := types.GetOracleData(name)
 			if oracleData.Name == "" {

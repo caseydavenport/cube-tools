@@ -1,0 +1,1053 @@
+{
+ "metadata": {
+  "path": "data/polyverse/2026-01-18_d1/120b.json",
+  "draft_id": "2026-01-18_d1",
+  "combined_file": "data/polyverse/2026-01-18_d1/120b.txt"
+ },
+ "labels": [],
+ "player": "120b",
+ "date": "2026-01-18",
+ "games": null,
+ "matches": null,
+ "mainboard": [
+  {
+   "name": "Ponder",
+   "types": [
+    "Sorcery"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [
+    "U"
+   ],
+   "color_identity": [
+    "U"
+   ],
+   "mana_cost": "{U}",
+   "url": "https://scryfall.com/card/tdc/159/ponder?utm_source=api",
+   "oracle_text": "Look at the top three cards of your library, then put them back in any order. You may shuffle.\nDraw a card."
+  },
+  {
+   "name": "Mana Leak",
+   "types": [
+    "Instant"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "U"
+   ],
+   "color_identity": [
+    "U"
+   ],
+   "mana_cost": "{1}{U}",
+   "url": "https://scryfall.com/card/2x2/58/mana-leak?utm_source=api",
+   "oracle_text": "Counter target spell unless its controller pays {3}."
+  },
+  {
+   "name": "Brainsurge",
+   "types": [
+    "Instant"
+   ],
+   "cmc": 3,
+   "image": "",
+   "colors": [
+    "U"
+   ],
+   "color_identity": [
+    "U"
+   ],
+   "mana_cost": "{2}{U}",
+   "url": "https://scryfall.com/card/mh3/53/brainsurge?utm_source=api",
+   "oracle_text": "Draw four cards, then put two cards from your hand on top of your library in any order."
+  },
+  {
+   "name": "Seal of Removal",
+   "types": [
+    "Enchantment"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [
+    "U"
+   ],
+   "color_identity": [
+    "U"
+   ],
+   "mana_cost": "{U}",
+   "url": "https://scryfall.com/card/mh2/269/seal-of-removal?utm_source=api",
+   "oracle_text": "Sacrifice this enchantment: Return target creature to its owner's hand."
+  },
+  {
+   "name": "Lórien Revealed",
+   "types": [
+    "Sorcery"
+   ],
+   "cmc": 5,
+   "image": "",
+   "colors": [
+    "U"
+   ],
+   "color_identity": [
+    "U"
+   ],
+   "mana_cost": "{3}{U}{U}",
+   "url": "https://scryfall.com/card/ltr/60/l%C3%B3rien-revealed?utm_source=api",
+   "oracle_text": "Draw three cards.\nIslandcycling {1} ({1}, Discard this card: Search your library for an Island card, reveal it, put it into your hand, then shuffle.)"
+  },
+  {
+   "name": "Proft's Eidetic Memory",
+   "types": [
+    "Legendary",
+    "Enchantment"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "U"
+   ],
+   "color_identity": [
+    "U"
+   ],
+   "mana_cost": "{1}{U}",
+   "url": "https://scryfall.com/card/mkm/67/profts-eidetic-memory?utm_source=api",
+   "oracle_text": "When Proft's Eidetic Memory enters, draw a card.\nYou have no maximum hand size.\nAt the beginning of combat on your turn, if you've drawn more than one card this turn, put X +1/+1 counters on target creature you control, where X is the number of cards you've drawn this turn minus one."
+  },
+  {
+   "name": "Raucous Theater",
+   "types": [
+    "Land"
+   ],
+   "sub_types": [
+    "Swamp",
+    "Mountain"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "color_identity": [
+    "B",
+    "R"
+   ],
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/mkm/266/raucous-theater?utm_source=api",
+   "oracle_text": "({T}: Add {B} or {R}.)\nThis land enters tapped.\nWhen this land enters, surveil 1. (Look at the top card of your library. You may put it into your graveyard.)"
+  },
+  {
+   "name": "Memory Lapse",
+   "types": [
+    "Instant"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "U"
+   ],
+   "color_identity": [
+    "U"
+   ],
+   "mana_cost": "{1}{U}",
+   "url": "https://scryfall.com/card/ema/60/memory-lapse?utm_source=api",
+   "oracle_text": "Counter target spell. If that spell is countered this way, put it on top of its owner's library instead of into that player's graveyard."
+  },
+  {
+   "name": "Deep-Cavern Bat",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Bat"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "B"
+   ],
+   "color_identity": [
+    "B"
+   ],
+   "mana_cost": "{1}{B}",
+   "url": "https://scryfall.com/card/lci/102/deep-cavern-bat?utm_source=api",
+   "oracle_text": "Flying, lifelink\nWhen this creature enters, look at target opponent's hand. You may exile a nonland card from it until this creature leaves the battlefield.",
+   "power": "1",
+   "toughness": "1"
+  },
+  {
+   "name": "Death's Shadow",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Avatar"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [
+    "B"
+   ],
+   "color_identity": [
+    "B"
+   ],
+   "mana_cost": "{B}",
+   "url": "https://scryfall.com/card/2xm/82/deaths-shadow?utm_source=api",
+   "oracle_text": "This creature gets -X/-X, where X is your life total.",
+   "power": "13",
+   "toughness": "13"
+  },
+  {
+   "name": "Dig Through Time",
+   "types": [
+    "Instant"
+   ],
+   "cmc": 8,
+   "image": "",
+   "colors": [
+    "U"
+   ],
+   "color_identity": [
+    "U"
+   ],
+   "mana_cost": "{6}{U}{U}",
+   "url": "https://scryfall.com/card/dsc/115/dig-through-time?utm_source=api",
+   "oracle_text": "Delve (Each card you exile from your graveyard while casting this spell pays for {1}.)\nLook at the top seven cards of your library. Put two of them into your hand and the rest on the bottom of your library in any order."
+  },
+  {
+   "name": "Cut Down",
+   "types": [
+    "Instant"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [
+    "B"
+   ],
+   "color_identity": [
+    "B"
+   ],
+   "mana_cost": "{B}",
+   "url": "https://scryfall.com/card/dmu/89/cut-down?utm_source=api",
+   "oracle_text": "Destroy target creature with total power and toughness 5 or less."
+  },
+  {
+   "name": "Saheeli, Sublime Artificer",
+   "types": [
+    "Legendary",
+    "Planeswalker"
+   ],
+   "sub_types": [
+    "Saheeli"
+   ],
+   "cmc": 3,
+   "image": "",
+   "colors": [
+    "R",
+    "U"
+   ],
+   "color_identity": [
+    "R",
+    "U"
+   ],
+   "mana_cost": "{1}{U/R}{U/R}",
+   "url": "https://scryfall.com/card/cmm/935/saheeli-sublime-artificer?utm_source=api",
+   "oracle_text": "Whenever you cast a noncreature spell, create a 1/1 colorless Servo artifact creature token.\n−2: Target artifact you control becomes a copy of another target artifact or creature you control until end of turn, except it's an artifact in addition to its other types."
+  },
+  {
+   "name": "Fatal Push",
+   "types": [
+    "Instant"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [
+    "B"
+   ],
+   "color_identity": [
+    "B"
+   ],
+   "mana_cost": "{B}",
+   "url": "https://scryfall.com/card/2xm/93/fatal-push?utm_source=api",
+   "oracle_text": "Destroy target creature if it has mana value 2 or less.\nRevolt — Destroy that creature if it has mana value 4 or less instead if a permanent left the battlefield under your control this turn."
+  },
+  {
+   "name": "Dreadhorde Arcanist",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Zombie",
+    "Wizard"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "R"
+   ],
+   "color_identity": [
+    "R"
+   ],
+   "mana_cost": "{1}{R}",
+   "url": "https://scryfall.com/card/war/125/dreadhorde-arcanist?utm_source=api",
+   "oracle_text": "Trample\nWhenever this creature attacks, you may cast target instant or sorcery card with mana value less than or equal to this creature's power from your graveyard without paying its mana cost. If that spell would be put into your graveyard, exile it instead.",
+   "power": "1",
+   "toughness": "3"
+  },
+  {
+   "name": "Preordain",
+   "types": [
+    "Sorcery"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [
+    "U"
+   ],
+   "color_identity": [
+    "U"
+   ],
+   "mana_cost": "{U}",
+   "url": "https://scryfall.com/card/tdc/161/preordain?utm_source=api",
+   "oracle_text": "Scry 2, then draw a card. (To scry 2, look at the top two cards of your library, then put any number of them on the bottom and the rest on top in any order.)"
+  },
+  {
+   "name": "Consider",
+   "types": [
+    "Instant"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [
+    "U"
+   ],
+   "color_identity": [
+    "U"
+   ],
+   "mana_cost": "{U}",
+   "url": "https://scryfall.com/card/tdc/148/consider?utm_source=api",
+   "oracle_text": "Surveil 1. (Look at the top card of your library. You may put it into your graveyard.)\nDraw a card."
+  },
+  {
+   "name": "Daze",
+   "types": [
+    "Instant"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "U"
+   ],
+   "color_identity": [
+    "U"
+   ],
+   "mana_cost": "{1}{U}",
+   "url": "https://scryfall.com/card/ema/44/daze?utm_source=api",
+   "oracle_text": "You may return an Island you control to its owner's hand rather than pay this spell's mana cost.\nCounter target spell unless its controller pays {1}."
+  },
+  {
+   "name": "Kitesail Freebooter",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Human",
+    "Pirate"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "B"
+   ],
+   "color_identity": [
+    "B"
+   ],
+   "mana_cost": "{1}{B}",
+   "url": "https://scryfall.com/card/m21/107/kitesail-freebooter?utm_source=api",
+   "oracle_text": "Flying\nWhen this creature enters, target opponent reveals their hand. You choose a noncreature, nonland card from it. Exile that card until this creature leaves the battlefield.",
+   "power": "1",
+   "toughness": "2"
+  },
+  {
+   "name": "Unearth",
+   "types": [
+    "Sorcery"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [
+    "B"
+   ],
+   "color_identity": [
+    "B"
+   ],
+   "mana_cost": "{B}",
+   "url": "https://scryfall.com/card/2x2/96/unearth?utm_source=api",
+   "oracle_text": "Return target creature card with mana value 3 or less from your graveyard to the battlefield.\nCycling {2} ({2}, Discard this card: Draw a card.)"
+  },
+  {
+   "name": "Stern Scolding",
+   "types": [
+    "Instant"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [
+    "U"
+   ],
+   "color_identity": [
+    "U"
+   ],
+   "mana_cost": "{U}",
+   "url": "https://scryfall.com/card/ltr/71/stern-scolding?utm_source=api",
+   "oracle_text": "Counter target creature spell with power or toughness 2 or less."
+  },
+  {
+   "name": "Kiora, the Rising Tide",
+   "types": [
+    "Legendary",
+    "Creature"
+   ],
+   "sub_types": [
+    "Merfolk",
+    "Noble"
+   ],
+   "cmc": 3,
+   "image": "",
+   "colors": [
+    "U"
+   ],
+   "color_identity": [
+    "U"
+   ],
+   "mana_cost": "{2}{U}",
+   "url": "https://scryfall.com/card/fdn/45/kiora-the-rising-tide?utm_source=api",
+   "oracle_text": "When Kiora enters, draw two cards, then discard two cards.\nThreshold — Whenever Kiora attacks, if there are seven or more cards in your graveyard, you may create Scion of the Deep, a legendary 8/8 blue Octopus creature token.",
+   "power": "3",
+   "toughness": "2"
+  },
+  {
+   "name": "Inti, Seneschal of the Sun",
+   "types": [
+    "Legendary",
+    "Creature"
+   ],
+   "sub_types": [
+    "Human",
+    "Knight"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "R"
+   ],
+   "color_identity": [
+    "R"
+   ],
+   "mana_cost": "{1}{R}",
+   "url": "https://scryfall.com/card/lci/156/inti-seneschal-of-the-sun?utm_source=api",
+   "oracle_text": "Whenever you attack, you may discard a card. When you do, put a +1/+1 counter on target attacking creature. It gains trample until end of turn.\nWhenever you discard one or more cards, exile the top card of your library. You may play that card until your next end step.",
+   "power": "2",
+   "toughness": "2"
+  },
+  {
+   "name": "Scrapwork Mutt",
+   "types": [
+    "Artifact",
+    "Creature"
+   ],
+   "sub_types": [
+    "Dog"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [],
+   "color_identity": [
+    "R"
+   ],
+   "mana_cost": "{2}",
+   "url": "https://scryfall.com/card/bro/164/scrapwork-mutt?utm_source=api",
+   "oracle_text": "When this creature enters, you may discard a card. If you do, draw a card.\nUnearth {1}{R} ({1}{R}: Return this card from your graveyard to the battlefield. It gains haste. Exile it at the beginning of the next end step or if it would leave the battlefield. Unearth only as a sorcery.)",
+   "power": "2",
+   "toughness": "1"
+  },
+  {
+   "name": "Scalding Tarn",
+   "types": [
+    "Land"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "color_identity": [],
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/mh2/254/scalding-tarn?utm_source=api",
+   "oracle_text": "{T}, Pay 1 life, Sacrifice this land: Search your library for an Island or Mountain card, put it onto the battlefield, then shuffle."
+  },
+  {
+   "name": "Polluted Delta",
+   "types": [
+    "Land"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "color_identity": [],
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/mh3/224/polluted-delta?utm_source=api",
+   "oracle_text": "{T}, Pay 1 life, Sacrifice this land: Search your library for an Island or Swamp card, put it onto the battlefield, then shuffle."
+  },
+  {
+   "name": "Polluted Delta",
+   "types": [
+    "Land"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "color_identity": [],
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/mh3/224/polluted-delta?utm_source=api",
+   "oracle_text": "{T}, Pay 1 life, Sacrifice this land: Search your library for an Island or Swamp card, put it onto the battlefield, then shuffle."
+  },
+  {
+   "name": "Steam Vents",
+   "types": [
+    "Land"
+   ],
+   "sub_types": [
+    "Island",
+    "Mountain"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "color_identity": [
+    "R",
+    "U"
+   ],
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/ecl/267/steam-vents?utm_source=api",
+   "oracle_text": "({T}: Add {U} or {R}.)\nAs this land enters, you may pay 2 life. If you don't, it enters tapped."
+  },
+  {
+   "name": "Steam Vents",
+   "types": [
+    "Land"
+   ],
+   "sub_types": [
+    "Island",
+    "Mountain"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "color_identity": [
+    "R",
+    "U"
+   ],
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/ecl/267/steam-vents?utm_source=api",
+   "oracle_text": "({T}: Add {U} or {R}.)\nAs this land enters, you may pay 2 life. If you don't, it enters tapped."
+  },
+  {
+   "name": "Blood Crypt",
+   "types": [
+    "Land"
+   ],
+   "sub_types": [
+    "Swamp",
+    "Mountain"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "color_identity": [
+    "B",
+    "R"
+   ],
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/ecl/262/blood-crypt?utm_source=api",
+   "oracle_text": "({T}: Add {B} or {R}.)\nAs this land enters, you may pay 2 life. If you don't, it enters tapped."
+  },
+  {
+   "name": "Island",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Island"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "color_identity": [
+    "U"
+   ],
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/tla/283/island?utm_source=api",
+   "oracle_text": "({T}: Add {U}.)"
+  },
+  {
+   "name": "Island",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Island"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "color_identity": [
+    "U"
+   ],
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/tla/283/island?utm_source=api",
+   "oracle_text": "({T}: Add {U}.)"
+  },
+  {
+   "name": "Island",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Island"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "color_identity": [
+    "U"
+   ],
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/tla/283/island?utm_source=api",
+   "oracle_text": "({T}: Add {U}.)"
+  },
+  {
+   "name": "Island",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Island"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "color_identity": [
+    "U"
+   ],
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/tla/283/island?utm_source=api",
+   "oracle_text": "({T}: Add {U}.)"
+  },
+  {
+   "name": "Island",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Island"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "color_identity": [
+    "U"
+   ],
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/tla/283/island?utm_source=api",
+   "oracle_text": "({T}: Add {U}.)"
+  },
+  {
+   "name": "Swamp",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Swamp"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "color_identity": [
+    "B"
+   ],
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/tla/284/swamp?utm_source=api",
+   "oracle_text": "({T}: Add {B}.)"
+  },
+  {
+   "name": "Swamp",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Swamp"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "color_identity": [
+    "B"
+   ],
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/tla/284/swamp?utm_source=api",
+   "oracle_text": "({T}: Add {B}.)"
+  },
+  {
+   "name": "Swamp",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Swamp"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "color_identity": [
+    "B"
+   ],
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/tla/284/swamp?utm_source=api",
+   "oracle_text": "({T}: Add {B}.)"
+  },
+  {
+   "name": "Swamp",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Swamp"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "color_identity": [
+    "B"
+   ],
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/tla/284/swamp?utm_source=api",
+   "oracle_text": "({T}: Add {B}.)"
+  },
+  {
+   "name": "Swamp",
+   "types": [
+    "Basic",
+    "Land"
+   ],
+   "sub_types": [
+    "Swamp"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "color_identity": [
+    "B"
+   ],
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/tla/284/swamp?utm_source=api",
+   "oracle_text": "({T}: Add {B}.)"
+  }
+ ],
+ "sideboard": [
+  {
+   "name": "Qasali Pridemage",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Cat",
+    "Wizard"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "G",
+    "W"
+   ],
+   "color_identity": [
+    "G",
+    "W"
+   ],
+   "mana_cost": "{G}{W}",
+   "url": "https://scryfall.com/card/2x2/267/qasali-pridemage?utm_source=api",
+   "oracle_text": "Exalted (Whenever a creature you control attacks alone, that creature gets +1/+1 until end of turn.)\n{1}, Sacrifice this creature: Destroy target artifact or enchantment.",
+   "power": "2",
+   "toughness": "2"
+  },
+  {
+   "name": "Unsummon",
+   "types": [
+    "Instant"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [
+    "U"
+   ],
+   "color_identity": [
+    "U"
+   ],
+   "mana_cost": "{U}",
+   "url": "https://scryfall.com/card/fdn/599/unsummon?utm_source=api",
+   "oracle_text": "Return target creature to its owner's hand."
+  },
+  {
+   "name": "Into the Roil",
+   "types": [
+    "Instant"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "U"
+   ],
+   "color_identity": [
+    "U"
+   ],
+   "mana_cost": "{1}{U}",
+   "url": "https://scryfall.com/card/fdn/509/into-the-roil?utm_source=api",
+   "oracle_text": "Kicker {1}{U} (You may pay an additional {1}{U} as you cast this spell.)\nReturn target nonland permanent to its owner's hand. If this spell was kicked, draw a card."
+  },
+  {
+   "name": "Disfigure",
+   "types": [
+    "Instant"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [
+    "B"
+   ],
+   "color_identity": [
+    "B"
+   ],
+   "mana_cost": "{B}",
+   "url": "https://scryfall.com/card/bro/91/disfigure?utm_source=api",
+   "oracle_text": "Target creature gets -2/-2 until end of turn."
+  },
+  {
+   "name": "Dress Down",
+   "types": [
+    "Enchantment"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "U"
+   ],
+   "color_identity": [
+    "U"
+   ],
+   "mana_cost": "{1}{U}",
+   "url": "https://scryfall.com/card/mh2/39/dress-down?utm_source=api",
+   "oracle_text": "Flash\nWhen this enchantment enters, draw a card.\nCreatures lose all abilities.\nAt the beginning of the end step, sacrifice this enchantment."
+  },
+  {
+   "name": "Ride's End",
+   "types": [
+    "Instant"
+   ],
+   "cmc": 5,
+   "image": "",
+   "colors": [
+    "W"
+   ],
+   "color_identity": [
+    "W"
+   ],
+   "mana_cost": "{4}{W}",
+   "url": "https://scryfall.com/card/dft/25/rides-end?utm_source=api",
+   "oracle_text": "This spell costs {3} less to cast if it targets a tapped permanent.\nExile target creature or Vehicle."
+  },
+  {
+   "name": "Dragonsguard Elite",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Human",
+    "Druid"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "G"
+   ],
+   "color_identity": [
+    "G"
+   ],
+   "mana_cost": "{1}{G}",
+   "url": "https://scryfall.com/card/stx/127/dragonsguard-elite?utm_source=api",
+   "oracle_text": "Magecraft — Whenever you cast or copy an instant or sorcery spell, put a +1/+1 counter on this creature.\n{4}{G}{G}: Double the number of +1/+1 counters on this creature.",
+   "power": "2",
+   "toughness": "2"
+  },
+  {
+   "name": "Hallowed Fountain",
+   "types": [
+    "Land"
+   ],
+   "sub_types": [
+    "Plains",
+    "Island"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "color_identity": [
+    "U",
+    "W"
+   ],
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/ecl/265/hallowed-fountain?utm_source=api",
+   "oracle_text": "({T}: Add {W} or {U}.)\nAs this land enters, you may pay 2 life. If you don't, it enters tapped."
+  },
+  {
+   "name": "Goblin Bombardment",
+   "types": [
+    "Enchantment"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "R"
+   ],
+   "color_identity": [
+    "R"
+   ],
+   "mana_cost": "{1}{R}",
+   "url": "https://scryfall.com/card/mh2/279/goblin-bombardment?utm_source=api",
+   "oracle_text": "Sacrifice a creature: This enchantment deals 1 damage to any target."
+  },
+  {
+   "name": "Lotus Cobra",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Snake"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "G"
+   ],
+   "color_identity": [
+    "G"
+   ],
+   "mana_cost": "{1}{G}",
+   "url": "https://scryfall.com/card/znr/193/lotus-cobra?utm_source=api",
+   "oracle_text": "Landfall — Whenever a land you control enters, add one mana of any color.",
+   "power": "2",
+   "toughness": "1"
+  },
+  {
+   "name": "Gilded Goose",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Bird"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [
+    "G"
+   ],
+   "color_identity": [
+    "G"
+   ],
+   "mana_cost": "{G}",
+   "url": "https://scryfall.com/card/moc/299/gilded-goose?utm_source=api",
+   "oracle_text": "Flying\nWhen this creature enters, create a Food token. (It's an artifact with \"{2}, {T}, Sacrifice this token: You gain 3 life.\")\n{1}{G}, {T}: Create a Food token.\n{T}, Sacrifice a Food: Add one mana of any color.",
+   "power": "0",
+   "toughness": "2"
+  },
+  {
+   "name": "Duress",
+   "types": [
+    "Sorcery"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [
+    "B"
+   ],
+   "color_identity": [
+    "B"
+   ],
+   "mana_cost": "{B}",
+   "url": "https://scryfall.com/card/fdn/606/duress?utm_source=api",
+   "oracle_text": "Target opponent reveals their hand. You choose a noncreature, nonland card from it. That player discards that card."
+  },
+  {
+   "name": "Grim Discovery",
+   "types": [
+    "Sorcery"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "B"
+   ],
+   "color_identity": [
+    "B"
+   ],
+   "mana_cost": "{1}{B}",
+   "url": "https://scryfall.com/card/ddr/51/grim-discovery?utm_source=api",
+   "oracle_text": "Choose one or both —\n• Return target creature card from your graveyard to your hand.\n• Return target land card from your graveyard to your hand."
+  },
+  {
+   "name": "Hedge Maze",
+   "types": [
+    "Land"
+   ],
+   "sub_types": [
+    "Forest",
+    "Island"
+   ],
+   "cmc": 0,
+   "image": "",
+   "colors": [],
+   "color_identity": [
+    "G",
+    "U"
+   ],
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/mkm/262/hedge-maze?utm_source=api",
+   "oracle_text": "({T}: Add {G} or {U}.)\nThis land enters tapped.\nWhen this land enters, surveil 1. (Look at the top card of your library. You may put it into your graveyard.)"
+  },
+  {
+   "name": "Snarling Gorehound",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Dog"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [
+    "B"
+   ],
+   "color_identity": [
+    "B"
+   ],
+   "mana_cost": "{B}",
+   "url": "https://scryfall.com/card/mkm/105/snarling-gorehound?utm_source=api",
+   "oracle_text": "Menace\nWhenever another creature you control with power 2 or less enters, surveil 1. (Look at the top card of your library. You may put it into your graveyard.)",
+   "power": "1",
+   "toughness": "1"
+  }
+ ]
+}
