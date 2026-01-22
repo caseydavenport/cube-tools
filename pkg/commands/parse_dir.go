@@ -30,7 +30,10 @@ var ParseDirectoryCmd = &cobra.Command{
 	},
 }
 
-var anon bool
+var (
+	anon  bool
+	force bool
+)
 
 func init() {
 	// Add flags for the command to parse a directory of deck files.
@@ -41,6 +44,7 @@ func init() {
 	flag.StringVarP(flags, &prefix, "prefix", "p", "PREFIX", "", "Prefix to match in the deck file names. Stripped before parsing.")
 	flag.StringVarP(flags, &draftID, "draft", "", "DRAFT", "", "Draft ID - used as the output directory")
 	flag.BoolVarP(flags, &anon, "anonymous", "a", "", false, "If set, anonymize player names in the output files.")
+	flag.BoolVarP(flags, &force, "force", "", "", false, "If set, force writing of files even if errors are encountered.")
 }
 
 // work represents a piece of parsing work to be done.
@@ -206,7 +210,14 @@ func parseDeckDir(deckDir, fileType, date, draftID string) {
 			seenInDraft[c.Name]++
 		}
 	}
-	logrus.WithField("num", len(seenInDraft)).Info("Total unique cards seen in deck lists.")
+	totalDrafted := 0
+	for _, c := range seenInDraft {
+		totalDrafted += c
+	}
+	logrus.WithFields(logrus.Fields{
+		"numUniqueCards": len(seenInDraft),
+		"totalDrafted":   totalDrafted,
+	}).Info("Total cards seen in deck lists.")
 
 	// If we hit any errors, return now before we write out any files.
 	if len(errs) > 0 {
@@ -222,8 +233,11 @@ func parseDeckDir(deckDir, fileType, date, draftID string) {
 
 	// Check that the seen cards in the draft match the expected counts based on the latest cube snapshot.
 	if err = checkDraftConsistency(logc, seenInDraft); err != nil {
-		logc.WithError(err).Error("Draft consistency check failed, not writing output files.")
-		return
+		if !force {
+			logc.WithError(err).Error("Draft consistency check failed, not writing output files.")
+			return
+		}
+		logc.WithError(err).Warn("Draft consistency check failed, but continuing due to --force flag.")
 	}
 
 	// Finally, write out each deck file.

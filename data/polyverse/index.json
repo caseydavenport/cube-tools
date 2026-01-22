@@ -888,6 +888,35 @@
      "path": "data/polyverse/2026-01-03/wanqi.json"
     }
    ]
+  },
+  {
+   "path": "data/polyverse/2026-01-17",
+   "date": "2026-01-17",
+   "draft_id": "2026-01-17",
+   "draft_log": "",
+   "decks": [
+    {
+     "path": "data/polyverse/2026-01-17/120a.json"
+    },
+    {
+     "path": "data/polyverse/2026-01-17/120b.json"
+    },
+    {
+     "path": "data/polyverse/2026-01-17/120c.json"
+    },
+    {
+     "path": "data/polyverse/2026-01-17/210a.json"
+    },
+    {
+     "path": "data/polyverse/2026-01-17/210b.json"
+    },
+    {
+     "path": "data/polyverse/2026-01-17/210c.json"
+    },
+    {
+     "path": "data/polyverse/2026-01-17/300a.json"
+    }
+   ]
   }
  ]
 }
