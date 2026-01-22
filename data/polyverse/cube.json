@@ -58,6 +58,53 @@
    "toughness": "1"
   },
   {
+   "name": "Adanto Vanguard",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Vampire",
+    "Soldier"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "W"
+   ],
+   "color_identity": [
+    "W"
+   ],
+   "mana_cost": "{1}{W}",
+   "url": "https://scryfall.com/card/xln/1/adanto-vanguard?utm_source=api",
+   "oracle_text": "As long as this creature is attacking, it gets +2/+0.\nPay 4 life: This creature gains indestructible until end of turn. (Damage and effects that say \"destroy\" don't destroy it.)",
+   "power": "1",
+   "toughness": "1"
+  },
+  {
+   "name": "Adeline, Resplendent Cathar",
+   "types": [
+    "Legendary",
+    "Creature"
+   ],
+   "sub_types": [
+    "Human",
+    "Knight"
+   ],
+   "cmc": 3,
+   "image": "",
+   "colors": [
+    "W"
+   ],
+   "color_identity": [
+    "W"
+   ],
+   "mana_cost": "{1}{W}{W}",
+   "url": "https://scryfall.com/card/tdc/108/adeline-resplendent-cathar?utm_source=api",
+   "oracle_text": "Vigilance\nAdeline's power is equal to the number of creatures you control.\nWhenever you attack, for each opponent, create a 1/1 white Human creature token that's tapped and attacking that player or a planeswalker they control.",
+   "power": "*",
+   "toughness": "4"
+  },
+  {
    "name": "Agonizing Remorse",
    "types": [
     "Sorcery"
@@ -73,6 +120,32 @@
    "mana_cost": "{1}{B}",
    "url": "https://scryfall.com/card/thb/83/agonizing-remorse?utm_source=api",
    "oracle_text": "Target opponent reveals their hand. You choose a nonland card from it or a card from their graveyard. Exile that card. You lose 1 life."
+  },
+  {
+   "name": "Alesha, Who Laughs at Fate",
+   "types": [
+    "Legendary",
+    "Creature"
+   ],
+   "sub_types": [
+    "Human",
+    "Warrior"
+   ],
+   "cmc": 3,
+   "image": "",
+   "colors": [
+    "B",
+    "R"
+   ],
+   "color_identity": [
+    "B",
+    "R"
+   ],
+   "mana_cost": "{1}{B}{R}",
+   "url": "https://scryfall.com/card/fdn/115/alesha-who-laughs-at-fate?utm_source=api",
+   "oracle_text": "First strike\nWhenever Alesha attacks, put a +1/+1 counter on it.\nRaid — At the beginning of your end step, if you attacked this turn, return target creature card with mana value less than or equal to Alesha's power from your graveyard to the battlefield.",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Anje's Ravager",
@@ -286,29 +359,6 @@
    "mana_cost": "",
    "url": "https://scryfall.com/card/mh3/299/barbarian-ring?utm_source=api",
    "oracle_text": "{T}: Add {R}. This land deals 1 damage to you.\nThreshold — {R}, {T}, Sacrifice this land: It deals 2 damage to any target. Activate only if there are seven or more cards in your graveyard."
-  },
-  {
-   "name": "Bedlam Reveler",
-   "types": [
-    "Creature"
-   ],
-   "sub_types": [
-    "Devil",
-    "Horror"
-   ],
-   "cmc": 8,
-   "image": "",
-   "colors": [
-    "R"
-   ],
-   "color_identity": [
-    "R"
-   ],
-   "mana_cost": "{6}{R}{R}",
-   "url": "https://scryfall.com/card/inr/142/bedlam-reveler?utm_source=api",
-   "oracle_text": "This spell costs {1} less to cast for each instant and sorcery card in your graveyard.\nProwess (Whenever you cast a noncreature spell, this creature gets +1/+1 until end of turn.)\nWhen this creature enters, discard your hand, then draw three cards.",
-   "power": "3",
-   "toughness": "4"
   },
   {
    "name": "Birds of Paradise",
@@ -1067,30 +1117,6 @@
    "oracle_text": "Exile target card from a graveyard. If it was a creature card, you gain 3 life. Otherwise, you draw a card.\nEscape—{3}{B}, Exile five other cards from your graveyard. (You may cast this card from your graveyard for its escape cost.)"
   },
   {
-   "name": "Cloudgoat Ranger",
-   "types": [
-    "Creature"
-   ],
-   "sub_types": [
-    "Giant",
-    "Warrior",
-    "Ranger"
-   ],
-   "cmc": 5,
-   "image": "",
-   "colors": [
-    "W"
-   ],
-   "color_identity": [
-    "W"
-   ],
-   "mana_cost": "{3}{W}{W}",
-   "url": "https://scryfall.com/card/khc/21/cloudgoat-ranger?utm_source=api",
-   "oracle_text": "When this creature enters, create three 1/1 white Kithkin Soldier creature tokens.\nTap three untapped Kithkin you control: This creature gets +2/+0 and gains flying until end of turn.",
-   "power": "3",
-   "toughness": "3"
-  },
-  {
    "name": "Collected Company",
    "types": [
     "Instant"
@@ -1595,6 +1621,30 @@
    "toughness": "2"
   },
   {
+   "name": "Drana, Liberator of Malakir",
+   "types": [
+    "Legendary",
+    "Creature"
+   ],
+   "sub_types": [
+    "Vampire",
+    "Ally"
+   ],
+   "cmc": 3,
+   "image": "",
+   "colors": [
+    "B"
+   ],
+   "color_identity": [
+    "B"
+   ],
+   "mana_cost": "{1}{B}{B}",
+   "url": "https://scryfall.com/card/lcc/193/drana-liberator-of-malakir?utm_source=api",
+   "oracle_text": "Flying, first strike\nWhenever Drana deals combat damage to a player, put a +1/+1 counter on each attacking creature you control.",
+   "power": "2",
+   "toughness": "3"
+  },
+  {
    "name": "Dreadhorde Arcanist",
    "types": [
     "Creature"
@@ -2049,28 +2099,6 @@
    "oracle_text": "Destroy target creature if it has mana value 2 or less.\nRevolt — Destroy that creature if it has mana value 4 or less instead if a permanent left the battlefield under your control this turn."
   },
   {
-   "name": "Fearless Fledgling",
-   "types": [
-    "Creature"
-   ],
-   "sub_types": [
-    "Griffin"
-   ],
-   "cmc": 2,
-   "image": "",
-   "colors": [
-    "W"
-   ],
-   "color_identity": [
-    "W"
-   ],
-   "mana_cost": "{1}{W}",
-   "url": "https://scryfall.com/card/znr/15/fearless-fledgling?utm_source=api",
-   "oracle_text": "Landfall — Whenever a land you control enters, put a +1/+1 counter on this creature. It gains flying until end of turn.",
-   "power": "1",
-   "toughness": "1"
-  },
-  {
    "name": "Fell",
    "types": [
     "Sorcery"
@@ -2173,6 +2201,23 @@
    "mana_cost": "{1}{R} // {1}{U}",
    "url": "https://scryfall.com/card/dmr/215/fire-ice?utm_source=api",
    "oracle_text": ""
+  },
+  {
+   "name": "Fireblast",
+   "types": [
+    "Instant"
+   ],
+   "cmc": 6,
+   "image": "",
+   "colors": [
+    "R"
+   ],
+   "color_identity": [
+    "R"
+   ],
+   "mana_cost": "{4}{R}{R}",
+   "url": "https://scryfall.com/card/dmr/119/fireblast?utm_source=api",
+   "oracle_text": "You may sacrifice two Mountains rather than pay this spell's mana cost.\nFireblast deals 4 damage to any target."
   },
   {
    "name": "Firebolt",
@@ -2490,29 +2535,6 @@
    "oracle_text": "({T}: Add {W} or {B}.)\nAs this land enters, you may pay 2 life. If you don't, it enters tapped."
   },
   {
-   "name": "Goldmeadow Harrier",
-   "types": [
-    "Creature"
-   ],
-   "sub_types": [
-    "Kithkin",
-    "Soldier"
-   ],
-   "cmc": 1,
-   "image": "",
-   "colors": [
-    "W"
-   ],
-   "color_identity": [
-    "W"
-   ],
-   "mana_cost": "{W}",
-   "url": "https://scryfall.com/card/ddf/3/goldmeadow-harrier?utm_source=api",
-   "oracle_text": "{W}, {T}: Tap target creature.",
-   "power": "1",
-   "toughness": "1"
-  },
-  {
    "name": "Grim Bauble",
    "types": [
     "Artifact"
@@ -2736,6 +2758,28 @@
    "oracle_text": "({T}: Add {G} or {U}.)\nThis land enters tapped.\nWhen this land enters, surveil 1. (Look at the top card of your library. You may put it into your graveyard.)"
   },
   {
+   "name": "Hellrider",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Devil"
+   ],
+   "cmc": 4,
+   "image": "",
+   "colors": [
+    "R"
+   ],
+   "color_identity": [
+    "R"
+   ],
+   "mana_cost": "{2}{R}{R}",
+   "url": "https://scryfall.com/card/jmp/334/hellrider?utm_source=api",
+   "oracle_text": "Haste\nWhenever a creature you control attacks, this creature deals 1 damage to the player or planeswalker it's attacking.",
+   "power": "3",
+   "toughness": "3"
+  },
+  {
    "name": "Helping Hand",
    "types": [
     "Sorcery"
@@ -2957,6 +3001,29 @@
    "oracle_text": "Whenever you draw your second card each turn, this creature deals 3 damage to any target.",
    "power": "0",
    "toughness": "4"
+  },
+  {
+   "name": "Isamaru, Hound of Konda",
+   "types": [
+    "Legendary",
+    "Creature"
+   ],
+   "sub_types": [
+    "Dog"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [
+    "W"
+   ],
+   "color_identity": [
+    "W"
+   ],
+   "mana_cost": "{W}",
+   "url": "https://scryfall.com/card/jmp/113/isamaru-hound-of-konda?utm_source=api",
+   "oracle_text": "",
+   "power": "2",
+   "toughness": "2"
   },
   {
    "name": "Jolrael, Mwonvuli Recluse",
@@ -3949,30 +4016,6 @@
    "toughness": "2"
   },
   {
-   "name": "Moon-Circuit Hacker",
-   "types": [
-    "Enchantment",
-    "Creature"
-   ],
-   "sub_types": [
-    "Human",
-    "Ninja"
-   ],
-   "cmc": 2,
-   "image": "",
-   "colors": [
-    "U"
-   ],
-   "color_identity": [
-    "U"
-   ],
-   "mana_cost": "{1}{U}",
-   "url": "https://scryfall.com/card/neo/67/moon-circuit-hacker?utm_source=api",
-   "oracle_text": "Ninjutsu {U} ({U}, Return an unblocked attacker you control to hand: Put this card onto the battlefield from your hand tapped and attacking.)\nWhenever this creature deals combat damage to a player, you may draw a card. If you do, discard a card unless this creature entered this turn.",
-   "power": "2",
-   "toughness": "1"
-  },
-  {
    "name": "Mosswood Dreadknight // Dread Whispers",
    "types": [
     "Creature"
@@ -4014,6 +4057,23 @@
    "mana_cost": "{4}{B}",
    "url": "https://scryfall.com/card/ktk/81/murderous-cut?utm_source=api",
    "oracle_text": "Delve (Each card you exile from your graveyard while casting this spell pays for {1}.)\nDestroy target creature."
+  },
+  {
+   "name": "Mutagenic Growth",
+   "types": [
+    "Instant"
+   ],
+   "cmc": 1,
+   "image": "",
+   "colors": [
+    "G"
+   ],
+   "color_identity": [
+    "G"
+   ],
+   "mana_cost": "{G/P}",
+   "url": "https://scryfall.com/card/mm2/149/mutagenic-growth?utm_source=api",
+   "oracle_text": "({G/P} can be paid with either {G} or 2 life.)\nTarget creature gets +2/+2 until end of turn."
   },
   {
    "name": "Mutavault",
@@ -4420,6 +4480,30 @@
    "oracle_text": "Look at the top three cards of your library, then put them back in any order. You may shuffle.\nDraw a card."
   },
   {
+   "name": "Porcelain Legionnaire",
+   "types": [
+    "Artifact",
+    "Creature"
+   ],
+   "sub_types": [
+    "Phyrexian",
+    "Soldier"
+   ],
+   "cmc": 3,
+   "image": "",
+   "colors": [
+    "W"
+   ],
+   "color_identity": [
+    "W"
+   ],
+   "mana_cost": "{2}{W/P}",
+   "url": "https://scryfall.com/card/nph/19/porcelain-legionnaire?utm_source=api",
+   "oracle_text": "({W/P} can be paid with either {W} or 2 life.)\nFirst strike",
+   "power": "3",
+   "toughness": "1"
+  },
+  {
    "name": "Portable Hole",
    "types": [
     "Artifact"
@@ -4738,30 +4822,6 @@
    "toughness": "3"
   },
   {
-   "name": "Ravenous Squirrel",
-   "types": [
-    "Creature"
-   ],
-   "sub_types": [
-    "Squirrel"
-   ],
-   "cmc": 1,
-   "image": "",
-   "colors": [
-    "B",
-    "G"
-   ],
-   "color_identity": [
-    "B",
-    "G"
-   ],
-   "mana_cost": "{B/G}",
-   "url": "https://scryfall.com/card/mh2/211/ravenous-squirrel?utm_source=api",
-   "oracle_text": "Whenever you sacrifice an artifact or creature, put a +1/+1 counter on this creature.\n{1}{B}{G}, Sacrifice an artifact or creature: You gain 1 life and draw a card.",
-   "power": "1",
-   "toughness": "1"
-  },
-  {
    "name": "Read the Bones",
    "types": [
     "Sorcery"
@@ -4881,30 +4941,6 @@
    "mana_cost": "{1}{U}",
    "url": "https://scryfall.com/card/rvr/59/remand?utm_source=api",
    "oracle_text": "Counter target spell. If that spell is countered this way, put it into its owner's hand instead of into that player's graveyard.\nDraw a card."
-  },
-  {
-   "name": "Renata, Called to the Hunt",
-   "types": [
-    "Legendary",
-    "Enchantment",
-    "Creature"
-   ],
-   "sub_types": [
-    "Demigod"
-   ],
-   "cmc": 4,
-   "image": "",
-   "colors": [
-    "G"
-   ],
-   "color_identity": [
-    "G"
-   ],
-   "mana_cost": "{2}{G}{G}",
-   "url": "https://scryfall.com/card/thb/196/renata-called-to-the-hunt?utm_source=api",
-   "oracle_text": "Renata's power is equal to your devotion to green. (Each {G} in the mana costs of permanents you control counts toward your devotion to green.)\nEach other creature you control enters with an additional +1/+1 counter on it.",
-   "power": "*",
-   "toughness": "3"
   },
   {
    "name": "Renegade Rallier",
@@ -5056,23 +5092,6 @@
    "oracle_text": "{T}: Add {C}.\n{1}, {T}: Tap target land."
   },
   {
-   "name": "Roaring Earth",
-   "types": [
-    "Enchantment"
-   ],
-   "cmc": 2,
-   "image": "",
-   "colors": [
-    "G"
-   ],
-   "color_identity": [
-    "G"
-   ],
-   "mana_cost": "{1}{G}",
-   "url": "https://scryfall.com/card/neo/204/roaring-earth?utm_source=api",
-   "oracle_text": "Landfall — Whenever a land you control enters, put a +1/+1 counter on target creature or Vehicle you control.\nChannel — {X}{G}{G}, Discard this card: Put X +1/+1 counters on target land you control. It becomes a 0/0 green Spirit creature with haste. It's still a land."
-  },
-  {
    "name": "Sacred Foundry",
    "types": [
     "Land"
@@ -5134,31 +5153,6 @@
    "mana_cost": "{1}{U/R}{U/R}",
    "url": "https://scryfall.com/card/cmm/935/saheeli-sublime-artificer?utm_source=api",
    "oracle_text": "Whenever you cast a noncreature spell, create a 1/1 colorless Servo artifact creature token.\n−2: Target artifact you control becomes a copy of another target artifact or creature you control until end of turn, except it's an artifact in addition to its other types."
-  },
-  {
-   "name": "Sandbender Scavengers",
-   "types": [
-    "Creature"
-   ],
-   "sub_types": [
-    "Human",
-    "Rogue"
-   ],
-   "cmc": 2,
-   "image": "",
-   "colors": [
-    "B",
-    "W"
-   ],
-   "color_identity": [
-    "B",
-    "W"
-   ],
-   "mana_cost": "{W}{B}",
-   "url": "https://scryfall.com/card/tla/239/sandbender-scavengers?utm_source=api",
-   "oracle_text": "Whenever you sacrifice another permanent, put a +1/+1 counter on this creature.\nWhen this creature dies, you may exile it. When you do, return target creature card with mana value less than or equal to this creature's power from your graveyard to the battlefield.",
-   "power": "1",
-   "toughness": "1"
   },
   {
    "name": "Sandstorm Salvager",
@@ -5997,6 +5991,29 @@
    "mana_cost": "",
    "url": "https://scryfall.com/card/ecl/268/temple-garden?utm_source=api",
    "oracle_text": "({T}: Add {G} or {W}.)\nAs this land enters, you may pay 2 life. If you don't, it enters tapped."
+  },
+  {
+   "name": "Tenacious Underdog",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Human",
+    "Warrior"
+   ],
+   "cmc": 2,
+   "image": "",
+   "colors": [
+    "B"
+   ],
+   "color_identity": [
+    "B"
+   ],
+   "mana_cost": "{1}{B}",
+   "url": "https://scryfall.com/card/snc/97/tenacious-underdog?utm_source=api",
+   "oracle_text": "Blitz—{2}{B}{B}, Pay 2 life. (If you cast this spell for its blitz cost, it gains haste and \"When this creature dies, draw a card.\" Sacrifice it at the beginning of the next end step.)\nYou may cast this card from your graveyard using its blitz ability.",
+   "power": "3",
+   "toughness": "2"
   },
   {
    "name": "Territorial Kavu",
@@ -7033,30 +7050,6 @@
    "oracle_text": "Whenever you cast an instant or sorcery spell, create a 1/1 red Elemental creature token.",
    "power": "2",
    "toughness": "1"
-  },
-  {
-   "name": "Zurgo Bellstriker",
-   "types": [
-    "Legendary",
-    "Creature"
-   ],
-   "sub_types": [
-    "Orc",
-    "Warrior"
-   ],
-   "cmc": 1,
-   "image": "",
-   "colors": [
-    "R"
-   ],
-   "color_identity": [
-    "R"
-   ],
-   "mana_cost": "{R}",
-   "url": "https://scryfall.com/card/dtk/169/zurgo-bellstriker?utm_source=api",
-   "oracle_text": "Zurgo can't block creatures with power 2 or greater.\nDash {1}{R} (You may cast this spell for its dash cost. If you do, it gains haste, and it's returned from the battlefield to its owner's hand at the beginning of the next end step.)",
-   "power": "2",
-   "toughness": "2"
   }
  ]
 }

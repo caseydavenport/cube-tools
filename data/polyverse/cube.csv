@@ -2,7 +2,10 @@ Count,Name,Section
 1,Abrade,main
 1,Abundant Harvest,main
 1,Accursed Marauder,main
+1,Adanto Vanguard,main
+1,"Adeline, Resplendent Cathar",main
 1,Agonizing Remorse,main
+1,"Alesha, Who Laughs at Fate",main
 1,Anje's Ravager,main
 1,Arasta of the Endless Web,main
 1,Arbor Elf,main
@@ -13,7 +16,6 @@ Count,Name,Section
 1,Augur of Autumn,main
 1,Baleful Strix,main
 1,Barbarian Ring,main
-1,Bedlam Reveler,main
 1,Birds of Paradise,main
 1,Birthing Ritual,main
 1,Bitter Triumph,main
@@ -50,7 +52,6 @@ Count,Name,Section
 1,Chromatic Star,main
 1,Clarion Spirit,main
 1,Cling to Dust,main
-1,Cloudgoat Ranger,main
 1,Collected Company,main
 1,Comet Storm,main
 1,Commercial District,main
@@ -77,6 +78,7 @@ Count,Name,Section
 1,Disfigure,main
 1,Dragon's Rage Channeler,main
 1,Dragonsguard Elite,main
+1,"Drana, Liberator of Malakir",main
 1,Dreadhorde Arcanist,main
 1,Dreamtide Whale,main
 1,Dress Down,main
@@ -100,13 +102,13 @@ Count,Name,Section
 1,Faerie Vandal,main
 1,Faithless Looting,main
 1,Fatal Push,main
-1,Fearless Fledgling,main
 1,Fell,main
 1,Fetid Pools,main
 1,Field of the Dead,main
 1,Fiery Islet,main
 1,Fiery Temper,main
 1,Fire // Ice,main
+1,Fireblast,main
 1,Firebolt,main
 1,Flame Jab,main
 1,Flame Slash,main
@@ -122,7 +124,6 @@ Count,Name,Section
 1,Goblin Bombardment,main
 1,Goblin Guide,main
 2,Godless Shrine,main
-1,Goldmeadow Harrier,main
 1,Grim Bauble,main
 1,Grim Discovery,main
 1,Grim Flayer,main
@@ -133,6 +134,7 @@ Count,Name,Section
 1,Harvester of Misery,main
 1,Heartfire Hero,main
 1,Hedge Maze,main
+1,Hellrider,main
 1,Helping Hand,main
 1,Heritage Reclamation,main
 1,Hired Claw,main
@@ -144,6 +146,7 @@ Count,Name,Section
 1,"Inti, Seneschal of the Sun",main
 1,Into the Roil,main
 1,Irencrag Pyromancer,main
+1,"Isamaru, Hound of Konda",main
 1,"Jolrael, Mwonvuli Recluse",main
 1,Journey to Nowhere,main
 1,"Kellan, the Fae-Blooded // Birthright Boon",main
@@ -191,9 +194,9 @@ Count,Name,Section
 1,Mizzium Tank,main
 1,Monastery Mentor,main
 1,Monastery Swiftspear,main
-1,Moon-Circuit Hacker,main
 1,Mosswood Dreadknight // Dread Whispers,main
 1,Murderous Cut,main
+1,Mutagenic Growth,main
 1,Mutavault,main
 1,Mystic Confluence,main
 1,Mystic Sanctuary,main
@@ -214,6 +217,7 @@ Count,Name,Section
 1,Pile On,main
 2,Polluted Delta,main
 1,Ponder,main
+1,Porcelain Legionnaire,main
 1,Portable Hole,main
 1,Portent,main
 1,Preordain,main
@@ -230,14 +234,12 @@ Count,Name,Section
 1,"Rankle, Master of Pranks",main
 1,Raucous Theater,main
 1,Raven Eagle,main
-1,Ravenous Squirrel,main
 1,Read the Bones,main
 1,Reckless Charge,main
 1,Reckless Pyrosurfer,main
 1,Recruitment Officer,main
 1,Reinforced Ronin,main
 1,Remand,main
-1,"Renata, Called to the Hunt",main
 1,Renegade Rallier,main
 1,Repeal,main
 1,Reprieve,main
@@ -246,10 +248,8 @@ Count,Name,Section
 1,Reveillark,main
 1,Ride's End,main
 1,Rishadan Port,main
-1,Roaring Earth,main
 2,Sacred Foundry,main
 1,"Saheeli, Sublime Artificer",main
-1,Sandbender Scavengers,main
 1,Sandstorm Salvager,main
 2,Scalding Tarn,main
 1,Scavenging Ooze,main
@@ -289,6 +289,7 @@ Count,Name,Section
 1,Tarmogoyf,main
 1,"Tasigur, the Golden Fang",main
 2,Temple Garden,main
+1,Tenacious Underdog,main
 1,Territorial Kavu,main
 1,"Thalia, Guardian of Thraben",main
 1,The Goose Mother,main
@@ -338,5 +339,4 @@ Count,Name,Section
 1,Wrath of God,main
 1,Wrenn and Six,main
 1,Young Pyromancer,main
-1,Zurgo Bellstriker,main
 
