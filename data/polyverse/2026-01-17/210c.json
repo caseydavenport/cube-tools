@@ -7,8 +7,8 @@
  "labels": [],
  "player": "210c",
  "date": "2026-01-17",
- "games": null,
- "matches": null,
+ "match_wins_override": 2,
+ "match_losses_override": 1,
  "mainboard": [],
  "sideboard": [],
  "pool": [

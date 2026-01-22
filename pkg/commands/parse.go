@@ -236,6 +236,8 @@ func writeDeck(d *types.Deck, draftID string) error {
 		d.Player = existing.Player
 		d.Labels = existing.Labels
 		d.Matches = existing.Matches
+		d.MatchWinsOverride = existing.MatchWinsOverride
+		d.MatchLossesOverride = existing.MatchLossesOverride
 		d.Games = existing.Games
 		d.Wins = existing.Wins
 		d.Losses = existing.Losses

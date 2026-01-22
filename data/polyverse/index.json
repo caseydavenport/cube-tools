@@ -949,6 +949,32 @@
      "path": "data/polyverse/2026-01-18_d1/300a.json"
     }
    ]
+  },
+  {
+   "path": "data/polyverse/2026-01-18_d2",
+   "date": "2026-01-18",
+   "draft_id": "2026-01-18_d2",
+   "draft_log": "",
+   "decks": [
+    {
+     "path": "data/polyverse/2026-01-18_d2/030.json"
+    },
+    {
+     "path": "data/polyverse/2026-01-18_d2/120a.json"
+    },
+    {
+     "path": "data/polyverse/2026-01-18_d2/120b.json"
+    },
+    {
+     "path": "data/polyverse/2026-01-18_d2/210a.json"
+    },
+    {
+     "path": "data/polyverse/2026-01-18_d2/210b.json"
+    },
+    {
+     "path": "data/polyverse/2026-01-18_d2/300a.json"
+    }
+   ]
   }
  ]
 }

@@ -97,7 +97,11 @@ type Deck struct {
 	// Matches played with this deck.
 	Matches []Match `json:"matches"`
 
-	// Legacy fields.
+	// Alternative to Matches, when we don't have detailed match information.
+	MatchWinsOverride   int `json:"match_wins_override,omitempty"`
+	MatchLossesOverride int `json:"match_losses_override,omitempty"`
+
+	// Alternative to Games, when we don't have detailed game information.
 	Wins   int `json:"wins,omitempty"`
 	Losses int `json:"losses,omitempty"`
 
@@ -272,6 +276,10 @@ func (d *Deck) GameLosses() int {
 }
 
 func (d *Deck) MatchWins() int {
+	if d.MatchWinsOverride >= 0 {
+		return d.MatchWinsOverride
+	}
+
 	wins := 0
 	for _, m := range d.Matches {
 		if m.Winner == d.Player {
@@ -282,6 +290,10 @@ func (d *Deck) MatchWins() int {
 }
 
 func (d *Deck) MatchLosses() int {
+	if d.MatchLossesOverride >= 0 {
+		return d.MatchLossesOverride
+	}
+
 	losses := 0
 	for _, m := range d.Matches {
 		if m.Winner != d.Player {

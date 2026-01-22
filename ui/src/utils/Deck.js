@@ -55,6 +55,7 @@ export function Record(deck, opp) {
   let wins = 0
   let losses = 0
   let ties = 0
+
   for (var i in deck.games) {
     let game = deck.games[i]
 
@@ -77,6 +78,9 @@ export function Record(deck, opp) {
 }
 
 export function MatchWins(deck) {
+  if (deck.match_wins_override != null) {
+    return deck.match_wins_override
+  }
   if (deck.matches == null) {
     return 0
   }
@@ -92,6 +96,10 @@ export function MatchWins(deck) {
 }
 
 export function MatchLosses(deck) {
+  if (deck.match_losses_override != null) {
+    return deck.match_losses_override
+  }
+
   if (deck.matches == null) {
     return 0
   }

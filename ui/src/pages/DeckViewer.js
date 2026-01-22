@@ -484,10 +484,9 @@ function DeckSortWins(deck) {
 }
 
 function GameWinPercent(deck) {
-  if (Wins(deck) == 0 && Losses(deck) == 0) {
-    return 0
-  }
-  return Wins(deck) / (Wins(deck) + Losses(deck))
+  let wins = Wins(deck)
+  let losses = Losses(deck)
+  return wins / (wins + losses) || 0
 }
 
 
@@ -497,7 +496,7 @@ function DeckTableCell(input) {
   if (MatchWins(deck) == 0 && MatchLosses(deck) == 0 && MatchDraws(deck) == 0) {
     record = "N/A"
   }
-  let win_percent = Math.round(100 * Wins(input.deck) / (Wins(input.deck) + Losses(input.deck)))
+  let win_percent = Math.round(100 * GameWinPercent(input.deck))
   let macro = getMacro(input.deck)
   return (
       <table className="deck-meta-table">
