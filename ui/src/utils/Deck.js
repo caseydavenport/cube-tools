@@ -76,6 +76,7 @@ export function Losing(deck) {
   if (MatchLosses(deck) >=2 && MatchWins(deck) < 2) {
     return 1
   }
+  return 0
 }
 
 export function MatchDraws(deck) {
