@@ -98,13 +98,13 @@ type Deck struct {
 	Matches []Match `json:"matches"`
 
 	// Alternative to Matches, when we don't have detailed match information.
-	MatchWinsOverride   int `json:"match_wins_override,omitempty"`
-	MatchLossesOverride int `json:"match_losses_override,omitempty"`
-	MatchDrawsOverride  int `json:"match_draws_override,omitempty"`
+	MatchWinsOverride   *int `json:"match_wins_override,omitempty"`
+	MatchLossesOverride *int `json:"match_losses_override,omitempty"`
+	MatchDrawsOverride  *int `json:"match_draws_override,omitempty"`
 
 	// Alternative to Games, when we don't have detailed game information.
-	Wins   int `json:"wins,omitempty"`
-	Losses int `json:"losses,omitempty"`
+	Wins   *int `json:"wins,omitempty"`
+	Losses *int `json:"losses,omitempty"`
 
 	// Cards in the mainboard and sideboard.
 	Mainboard []Card `json:"mainboard"`
@@ -248,8 +248,8 @@ func (d *Deck) Macro() string {
 
 func (d *Deck) GameWins() int {
 	// Respect the legacy Wins field if it's set.
-	if d.Wins > 0 {
-		return d.Wins
+	if d.Wins != nil {
+		return *d.Wins
 	}
 
 	wins := 0
@@ -263,8 +263,8 @@ func (d *Deck) GameWins() int {
 
 func (d *Deck) GameLosses() int {
 	// Respect the legacy Losses field if it's set.
-	if d.Losses > 0 {
-		return d.Losses
+	if d.Losses != nil {
+		return *d.Losses
 	}
 
 	losses := 0
@@ -276,9 +276,19 @@ func (d *Deck) GameLosses() int {
 	return losses
 }
 
+func (d *Deck) GameDraws() int {
+	draws := 0
+	for _, g := range d.Games {
+		if g.Winner == "" || g.Tie {
+			draws++
+		}
+	}
+	return draws
+}
+
 func (d *Deck) MatchWins() int {
-	if d.MatchWinsOverride >= 0 {
-		return d.MatchWinsOverride
+	if d.MatchWinsOverride != nil {
+		return *d.MatchWinsOverride
 	}
 
 	wins := 0
@@ -291,8 +301,8 @@ func (d *Deck) MatchWins() int {
 }
 
 func (d *Deck) MatchLosses() int {
-	if d.MatchLossesOverride >= 0 {
-		return d.MatchLossesOverride
+	if d.MatchLossesOverride != nil {
+		return *d.MatchLossesOverride
 	}
 
 	losses := 0
@@ -302,6 +312,20 @@ func (d *Deck) MatchLosses() int {
 		}
 	}
 	return losses
+}
+
+func (d *Deck) MatchDraws() int {
+	if d.MatchDrawsOverride != nil {
+		return *d.MatchDrawsOverride
+	}
+
+	draws := 0
+	for _, m := range d.Matches {
+		if m.Winner == "" {
+			draws++
+		}
+	}
+	return draws
 }
 
 func (d *Deck) Trophies() int {

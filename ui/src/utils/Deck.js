@@ -3,53 +3,21 @@ export function Wins(deck) {
 }
 
 function gameWins(deck) {
-  if (deck.wins != null) {
-    // Handle the legacy field, if set.
-    return deck.wins
-  }
-
-  // Otherwise, return the wins based on games played.
-  let wins = 0
-  for (var i in deck.games) {
-    let game = deck.games[i]
-    if (game.winner != "" && game.winner != game.opponent) {
-      wins += 1
-    }
-  }
-  return wins
+  return deck.stats.game_wins
 }
 
 export function Losses(deck) {
   return gameLosses(deck)
 }
 
-export function Draws(deck) {
-  let draws = 0
-  for (var i in deck.games) {
-    let game = deck.games[i]
-    if (game.winner == "") {
-      draws += 1
-    }
-  }
-  return draws
-}
-
 function gameLosses(deck) {
-  if (deck.losses != null) {
-    // Handle the legacy field, if set.
-    return deck.losses
-  }
-
-  // Otherwise, return the losses based on games played.
-  let losses = 0
-  for (var i in deck.games) {
-    let game = deck.games[i]
-    if (game.winner != "" && game.winner == game.opponent) {
-      losses += 1
-    }
-  }
-  return losses
+  return deck.stats.game_losses
 }
+
+export function Draws(deck) {
+  return deck.stats.game_draws
+}
+
 
 export function Record(deck, opp) {
   let wins = 0
@@ -78,56 +46,21 @@ export function Record(deck, opp) {
 }
 
 export function MatchWins(deck) {
-  if (deck.match_wins_override != null) {
-    return deck.match_wins_override
-  }
-  if (deck.matches == null) {
-    return 0
-  }
-
-  let wins = 0
-  for (var i in deck.matches) {
-    let match = deck.matches[i]
-    if (match.winner != "" && match.winner != match.opponent) {
-      wins += 1
-    }
-  }
-  return wins
+  return deck.stats.match_wins
 }
 
 export function MatchLosses(deck) {
-  if (deck.match_losses_override != null) {
-    return deck.match_losses_override
-  }
-
-  if (deck.matches == null) {
-    return 0
-  }
-
-  let losses = 0
-  for (var i in deck.matches) {
-    let match = deck.matches[i]
-    if (match.winner != "" && match.winner == match.opponent) {
-      losses += 1
-    }
-  }
-  return losses
+  return deck.stats.match_losses
 }
 
 // A deck gets a trophy if it has at least 3 match wins without a match loss.
 export function Trophies(deck) {
-  if (MatchWins(deck) >= 3 && MatchLosses(deck) == 0) {
-    return 1;
-  }
-  return 0
+  return deck.stats.trophies
 }
 
 // A deck comes in last place if it has no wins, and at least three losses.
 export function LastPlaceFinishes(deck) {
-  if (MatchWins(deck) == 0 && MatchLosses(deck) >= 3) {
-    return 1;
-  }
-  return 0;
+  return deck.stats.last_place
 }
 
 // Return 1 if this deck lost more than it won (in matches)
@@ -140,29 +73,14 @@ export function Winning(deck) {
 
 // Return 1 if this deck won more than (or equal to) losses (in matches)
 export function Losing(deck) {
-  if (Winning(deck) > 0) {
-    return 0
+  if (MatchLosses(deck) >= MatchWins(deck)) {
+    return 1
   }
-  return 1
+  return 0
 }
 
 export function MatchDraws(deck) {
-  if (deck.match_draws_override != null) {
-    return deck.match_draws_override
-  }
-
-  if (deck.matches == null) {
-    return 0
-  }
-
-  let draws = 0
-  for (var i in deck.matches) {
-    let match = deck.matches[i]
-    if (match.winner == "") {
-      draws += 1
-    }
-  }
-  return draws
+  return deck.stats.match_draws
 }
 
 // Helper function for determining if a card is within a given deck's colors.

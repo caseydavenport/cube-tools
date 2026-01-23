@@ -18,11 +18,26 @@ import (
 type Deck struct {
 	types.Deck `json:",inline"`
 
+	// Calculated stats based on the raw deck info. We calculate this server side
+	// to avoid recalculating it in the UI.
+	Stats Stats `json:"stats"`
+
 	// The average win percentage of this deck's opponents, excluding games against this deck.
 	OpponentWinPercentage float64 `json:"opponent_win_percentage"`
 
 	// The size of the draft, used for filtering.
 	draftSize int
+}
+
+type Stats struct {
+	MatchWins   int `json:"match_wins"`
+	MatchLosses int `json:"match_losses"`
+	MatchDraws  int `json:"match_draws"`
+	GameWins    int `json:"game_wins"`
+	GameLosses  int `json:"game_losses"`
+	GameDraws   int `json:"game_draws"`
+	Trophies    int `json:"trophies"`
+	LastPlace   int `json:"last_place"`
 }
 
 // Key identifies a precise deck.
@@ -186,6 +201,18 @@ func process(decks map[key]*Deck) {
 			d.OpponentWinPercentage = math.Round(100 * total / float64(len(percentages)))
 		} else {
 			d.OpponentWinPercentage = 0.0
+		}
+
+		// Add status.
+		d.Stats = Stats{
+			MatchWins:   d.MatchWins(),
+			MatchLosses: d.MatchLosses(),
+			MatchDraws:  d.MatchDraws(),
+			GameWins:    d.GameWins(),
+			GameLosses:  d.GameLosses(),
+			GameDraws:   d.GameDraws(),
+			Trophies:    d.Trophies(),
+			LastPlace:   d.LastPlace(),
 		}
 	}
 }
