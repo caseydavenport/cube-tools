@@ -63,20 +63,19 @@ export function LastPlaceFinishes(deck) {
   return deck.stats.last_place
 }
 
-// Return 1 if this deck lost more than it won (in matches)
+// Record is 2-1 or better in matches.
 export function Winning(deck) {
-  if (MatchWins(deck) > MatchLosses(deck)) {
+  if (MatchWins(deck) >=2 && MatchLosses(deck) < 2) {
     return 1
   }
   return 0
 }
 
-// Return 1 if this deck won more than (or equal to) losses (in matches)
+// Record is 1-2 or worse in matches.
 export function Losing(deck) {
-  if (MatchLosses(deck) >= MatchWins(deck)) {
+  if (MatchLosses(deck) >=2 && MatchWins(deck) < 2) {
     return 1
   }
-  return 0
 }
 
 export function MatchDraws(deck) {
