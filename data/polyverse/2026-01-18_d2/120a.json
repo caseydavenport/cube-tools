@@ -4,11 +4,11 @@
   "draft_id": "2026-01-18_d2",
   "combined_file": "data/polyverse/2026-01-18_d2/120a.txt"
  },
- "labels": [],
+ "labels": ["tempo", "spells"],
  "player": "120a",
  "date": "2026-01-18",
- "games": null,
- "matches": null,
+ "match_wins_override": 1,
+ "match_losses_override": 2,
  "mainboard": [
   {
    "name": "Lórien Revealed",

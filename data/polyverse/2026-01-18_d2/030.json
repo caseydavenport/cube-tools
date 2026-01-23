@@ -2,14 +2,15 @@
  "metadata": {
   "path": "data/polyverse/2026-01-18_d2/030.json",
   "draft_id": "2026-01-18_d2",
-  "combined_file": "data/polyverse/2026-01-18_d2/030.txt"
+  "pool_file": "data/polyverse/2026-01-18_d2/030.txt"
  },
- "labels": [],
+ "labels": ["tempo"],
  "player": "030",
  "date": "2026-01-18",
- "games": null,
- "matches": null,
- "mainboard": [
+ "match_wins_override": 0,
+ "match_losses_override": 3,
+ "mainboard": [],
+ "pool": [
   {
    "name": "Scalding Tarn",
    "types": [

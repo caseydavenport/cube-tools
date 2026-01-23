@@ -1040,6 +1040,14 @@ function WinsByMatchup(input) {
   // midrange, control.
   let versus = new Array()
   let find = function(t) {
+    if (matchup.versus == null) {
+      return {
+        name: t,
+        win: 0,
+        loss: 0,
+      }
+    }
+
     for (let vs of matchup.versus) {
       if (vs.name == t) {
         return vs

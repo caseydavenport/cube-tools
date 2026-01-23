@@ -118,7 +118,7 @@ func parseDeck(deckFiles []string, who, labels, date, draftID string) (*types.De
 	// Add the cards to the deck. We assume the longer list is the mainboard.
 	// TODO: This is pretty janky.
 	if len(deckFiles) == 1 {
-		if len(cardSets[0]) == 45 {
+		if len(cardSets[0]) >= 45 {
 			// If thre is only a single card set, and it is exactly 45 cards, assume it is the draft pool
 			// and not a mainboard + sideboard.
 			d.Pool = cardSets[0]

@@ -4,9 +4,10 @@
   "draft_id": "2026-01-17",
   "pool_file": "data/polyverse/2026-01-17/210a-pool.txt"
  },
- "labels": [],
+ "labels": ["tempo", "spells"],
  "player": "210a",
  "date": "2026-01-17",
+ "colors": ["U", "R"],
  "match_wins_override": 2,
  "match_losses_override": 1,
  "mainboard": [],

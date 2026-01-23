@@ -4,11 +4,14 @@
   "draft_id": "2026-01-18_d1",
   "combined_file": "data/polyverse/2026-01-18_d1/300a.txt"
  },
- "labels": [],
+ "labels": ["aggro", "token"],
+ "wins": 6,
+ "losses": 0,
+ "match_wins_override": 3,
+ "match_losses_override": 0,
+ "match_draws_override": 0,
  "player": "300a",
  "date": "2026-01-18",
- "games": null,
- "matches": null,
  "mainboard": [
   {
    "name": "Mutavault",

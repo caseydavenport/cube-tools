@@ -553,7 +553,7 @@ func cardSetFromDeck(deck types.Deck, cubeCards map[string]types.Card, color str
 			continue
 		}
 
-		if !deck.CanCast(card) {
+		if len(deck.GetColors()) > 0 && !deck.CanCast(card) {
 			sbSet[card.Name] = newCardStats(card)
 		} else {
 			poolSet[card.Name] = newCardStats(card)

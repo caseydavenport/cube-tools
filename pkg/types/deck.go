@@ -100,6 +100,7 @@ type Deck struct {
 	// Alternative to Matches, when we don't have detailed match information.
 	MatchWinsOverride   int `json:"match_wins_override,omitempty"`
 	MatchLossesOverride int `json:"match_losses_override,omitempty"`
+	MatchDrawsOverride  int `json:"match_draws_override,omitempty"`
 
 	// Alternative to Games, when we don't have detailed game information.
 	Wins   int `json:"wins,omitempty"`
@@ -416,6 +417,10 @@ func (d *Deck) CanCast(c Card) bool {
 	}
 
 	deckColors := d.GetColors()
+	if len(deckColors) == 0 {
+		// If the deck has no colors, it can't cast any colored cards.
+		return false
+	}
 	if len(c.ColorIdentity) == 0 {
 		return true
 	}

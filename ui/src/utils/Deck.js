@@ -147,6 +147,10 @@ export function Losing(deck) {
 }
 
 export function MatchDraws(deck) {
+  if (deck.match_draws_override != null) {
+    return deck.match_draws_override
+  }
+
   if (deck.matches == null) {
     return 0
   }

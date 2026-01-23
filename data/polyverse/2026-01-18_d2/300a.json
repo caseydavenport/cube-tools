@@ -4,11 +4,12 @@
   "draft_id": "2026-01-18_d2",
   "combined_file": "data/polyverse/2026-01-18_d2/300a.txt"
  },
- "labels": [],
+ "labels": ["aggro", "equipment", "valiant"],
  "player": "300a",
  "date": "2026-01-18",
- "games": null,
- "matches": null,
+ "colors": ["R", "W"],
+ "match_wins_override": 3,
+ "match_losses_override": 1,
  "mainboard": [
   {
    "name": "Burst Lightning",

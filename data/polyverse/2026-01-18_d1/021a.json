@@ -4,11 +4,12 @@
   "draft_id": "2026-01-18_d1",
   "combined_file": "data/polyverse/2026-01-18_d1/021a.txt"
  },
- "labels": [],
+ "labels": ["midrange"],
  "player": "021a",
  "date": "2026-01-18",
- "games": null,
- "matches": null,
+ "match_wins_override": 0,
+ "match_losses_override": 2,
+ "match_draws_override": 1,
  "mainboard": [
   {
    "name": "Abundant Harvest",

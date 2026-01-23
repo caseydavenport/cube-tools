@@ -4,11 +4,11 @@
   "draft_id": "2026-01-18_d2",
   "combined_file": "data/polyverse/2026-01-18_d2/210b.txt"
  },
- "labels": [],
+ "labels": ["aggro", "sacrifice"],
  "player": "210b",
  "date": "2026-01-18",
- "games": null,
- "matches": null,
+ "match_wins_override": 2,
+ "match_losses_override": 1,
  "mainboard": [
   {
    "name": "Bone Shards",
