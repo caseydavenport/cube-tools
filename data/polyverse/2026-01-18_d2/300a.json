@@ -9,7 +9,7 @@
  "date": "2026-01-18",
  "colors": ["R", "W"],
  "match_wins_override": 3,
- "match_losses_override": 1,
+ "match_losses_override": 0,
  "mainboard": [
   {
    "name": "Burst Lightning",
