@@ -5,7 +5,7 @@
   "pool_file": "data/polyverse/2026-01-17/210a-pool.txt"
  },
  "labels": ["tempo", "spells"],
- "player": "210a",
+ "player": "20260117-210a",
  "date": "2026-01-17",
  "colors": ["U", "R"],
  "match_wins_override": 2,

@@ -5,7 +5,7 @@
   "combined_file": "data/polyverse/2026-01-18_d2/300a.txt"
  },
  "labels": ["aggro", "equipment", "valiant"],
- "player": "300a",
+ "player": "20260118d2-300a",
  "date": "2026-01-18",
  "colors": ["R", "W"],
  "match_wins_override": 3,
