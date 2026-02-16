@@ -8,7 +8,8 @@ import { SortFunc } from "../utils/Utils.js"
 import { CardMatches, DeckMatches, QueryTerms } from "../utils/Query.js"
 import { ColorImages } from "../utils/Colors.js"
 import { Button, TextInput, DropdownHeader, NumericInput, Checkbox, DateSelector } from "../components/Dropdown.js"
-import { InitialDates, CheckboxesToColors } from "./Stats.js"
+import { InitialDates } from "../components/StatsUI.js"
+import { CheckboxesToColors } from "../utils/Utils.js"
 import { ColorPickerHeader } from "./Types.js"
 import ReactMarkdown from "react-markdown";
 
