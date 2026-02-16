@@ -30,11 +30,18 @@ type SynergyResult struct {
 	Card2        string  `json:"card2"`
 	Count        int     `json:"count"`
 	SynergyScore float64 `json:"synergy_score"`
+	WinPercent   float64 `json:"win_percent"`
 }
 
 type pair struct {
 	c1 string
 	c2 string
+}
+
+type pairStats struct {
+	count  int
+	wins   int
+	losses int
 }
 
 func parseSynergyRequest(r *http.Request) *SynergyStatsRequest {
@@ -80,7 +87,7 @@ func (s *synergyStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request)
 	}
 
 	numDecks := len(allDecks)
-	cooccurrence := make(map[pair]int)
+	cooccurrence := make(map[pair]*pairStats)
 	cardCounts := make(map[string]int)
 
 	for _, deck := range allDecks {
@@ -107,7 +114,12 @@ func (s *synergyStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request)
 		for i := 0; i < len(cards); i++ {
 			for j := i + 1; j < len(cards); j++ {
 				p := pair{c1: cards[i], c2: cards[j]}
-				cooccurrence[p]++
+				if _, ok := cooccurrence[p]; !ok {
+					cooccurrence[p] = &pairStats{}
+				}
+				cooccurrence[p].count++
+				cooccurrence[p].wins += deck.GameWins()
+				cooccurrence[p].losses += deck.GameLosses()
 			}
 		}
 	}
@@ -117,8 +129,8 @@ func (s *synergyStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request)
 		Pairs:      []SynergyResult{},
 	}
 
-	for p, count := range cooccurrence {
-		if count < sr.MinDecks {
+	for p, stats := range cooccurrence {
+		if stats.count < sr.MinDecks {
 			continue
 		}
 
@@ -126,12 +138,19 @@ func (s *synergyStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request)
 		probB := float64(cardCounts[p.c2]) / float64(numDecks)
 		expectedCount := probA * probB * float64(numDecks)
 
-		score := float64(count) / expectedCount
+		score := float64(stats.count) / expectedCount
+
+		winPercent := 0.0
+		if stats.wins+stats.losses > 0 {
+			winPercent = 100 * float64(stats.wins) / float64(stats.wins+stats.losses)
+		}
+
 		resp.Pairs = append(resp.Pairs, SynergyResult{
 			Card1:        p.c1,
 			Card2:        p.c2,
-			Count:        count,
+			Count:        stats.count,
 			SynergyScore: score,
+			WinPercent:   winPercent,
 		})
 	}
 

@@ -51,6 +51,8 @@ function sortValue(sortBy, pair) {
       return pair.count
     case "synergy":
       return pair.synergy_score
+    case "winpercent":
+      return pair.win_percent
     default:
       return pair.synergy_score
   }
@@ -67,6 +69,11 @@ function SynergyWidgetTable(input) {
       id: "card2",
       text: "Card 2",
       tip: "The second card in the synergistic pair."
+    },
+    {
+      id: "winpercent",
+      text: "Win %",
+      tip: "The aggregate win percentage of decks containing both cards."
     },
     {
       id: "count",
@@ -123,6 +130,7 @@ function SynergyWidgetTable(input) {
                   <td id={pair.card2} onClick={input.onCardSelected}>
                     {pair.card2}
                   </td>
+                  <td>{pair.win_percent.toFixed(0)}%</td>
                   <td>{pair.count}</td>
                   <td>{pair.synergy_score.toFixed(2)}x</td>
                 </tr>
