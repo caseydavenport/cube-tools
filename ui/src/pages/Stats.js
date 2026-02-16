@@ -10,6 +10,7 @@ import { ArchetypeWidget, ArchetypeData } from "./Types.js"
 import { DeckWidget, BuildGraphData } from "./Decks.js"
 import { PlayerWidget } from "./Players.js"
 import { CardWidget } from "./Cards.js"
+import { SynergyWidget } from "./Synergy.js"
 import { DeckBuckets } from "../utils/Buckets.js"
 import { GetColorStats } from "./Colors.js"
 import { PlayerData } from "./Players.js"
@@ -318,10 +319,37 @@ export function StatsViewer(props) {
   }
 
   ///////////////////////////////////////////////////////////////////////////////
+  // State for the synergy widget.
+  ///////////////////////////////////////////////////////////////////////////////
+  const [synergyData, setSynergyData] = useState([]);
+  const [minSynergyDecks, setMinSynergyDecks] = useState(3);
+  const [synergySortBy, setSynergySortBy] = useState("synergy");
+  function onSynergyHeaderClicked(event) {
+    setSynergySortBy(event.target.id)
+  }
+  function onMinSynergyDecksChanged(event) {
+    setMinSynergyDecks(event.target.value)
+  }
+
+  async function loadSynergyData(cb) {
+    const resp = await fetch(`/api/stats/synergy?min_decks=${minSynergyDecks}&start=${startDate}&end=${endDate}&size=${minDraftSize}&player=${playerMatch}`);
+    let d = await resp.json();
+    cb(d)
+  }
+  function onSynergyDataFetched(d) {
+    setSynergyData(d.pairs)
+  }
+
+  useEffect(() => {
+    loadSynergyData(onSynergyDataFetched)
+  }, [minSynergyDecks, minDraftSize, playerMatch, startDate, endDate, refresh])
+
+
+  ///////////////////////////////////////////////////////////////////////////////
   // State used for tracking which widgets to display.
   // Each widget is represented as an element in the array, and defaulted here.
   ///////////////////////////////////////////////////////////////////////////////
-  const [display, setDisplay] = useState([true, false, false, false, false, false]);
+  const [display, setDisplay] = useState([true, false, false, false, false, false, false]);
   function onSubpageClicked(idx) {
     let d = {...display}
     if (d[idx]) {
@@ -359,6 +387,9 @@ export function StatsViewer(props) {
   }
   function onPlayersPage() {
     onSubpageClicked(5)
+  }
+  function onSynergyPage() {
+    onSubpageClicked(6)
   }
 
   ///////////////////////////////////////////////////////////////////////////////
@@ -615,12 +646,23 @@ export function StatsViewer(props) {
         onDeckPage={onDeckPage}
         onDraftPage={onDraftPage}
         onPlayersPage={onPlayersPage}
+        onSynergyPage={onSynergyPage}
         matchStr={props.matchStr}
         onMatchUpdated={props.onMatchUpdated}
       />
 
 
       <div id="widgets" className="house-for-widgets">
+        <SynergyWidget
+          show={display[6]}
+          synergyData={synergyData}
+          minSynergyDecks={minSynergyDecks}
+          onMinSynergyDecksChanged={onMinSynergyDecksChanged}
+          onHeaderClick={onSynergyHeaderClicked}
+          sortBy={synergySortBy}
+          onCardSelected={onCardSelected}
+        />
+
         <ColorWidget
           parsed={parsed}
           ddOpts={ddOpts}
@@ -843,6 +885,11 @@ function SelectorBar(input) {
         text="Players"
         checked={input.display[5]}
         onClick={input.onPlayersPage}
+      />
+      <Button
+        text="Synergy"
+        checked={input.display[6]}
+        onClick={input.onSynergyPage}
       />
     </tr>
     </tbody>
