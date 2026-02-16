@@ -29,6 +29,8 @@ export function StatsViewer(props) {
   // Store all of the decks, and the cube.
   const [decks, setDecks] = useState([]);
   const [cube, setCube] = useState({"cards": []});
+  const [archetypeStats, setArchetypeStats] = useState(new Map());
+  const [playerStats, setPlayerStats] = useState(new Map());
 
   // Triggers a refresh.
   const [refresh, setRefresh] = useState(1);
@@ -36,13 +38,11 @@ export function StatsViewer(props) {
     setRefresh(refresh + 1)
   }
 
-  ///////////////////////////////////////////////////////////////////////////////
-  // State used for all widgets.
-  ///////////////////////////////////////////////////////////////////////////////
   const [bucketSize, setNumBuckets] = useState(5);
   const [playerMatch, setPlayerMatch] = useState("");
   const [minDraftSize, setMinDraftSize] = useState(0);
   const [manaValue, setManaValue] = useState(-1);
+
   function onBucketsChanged(event) {
     let num = event.target.value
     if (num < 1) {
@@ -60,17 +60,11 @@ export function StatsViewer(props) {
     setManaValue(event.target.value)
   }
 
-  ///////////////////////////////////////////////////////////////////////////////
-  // For bucket selection
-  ///////////////////////////////////////////////////////////////////////////////
   const [selectedBucket, setSelectedBucket] = useState("ALL");
   function onBucketSelected(event) {
     setSelectedBucket(event.target.value)
   }
 
-  ///////////////////////////////////////////////////////////////////////////////
-  // State used for the color / color pair win rate widget.
-  ///////////////////////////////////////////////////////////////////////////////
   const [colorTypeSelection, setColorTypeSelection] = useState("Mono");
   const [colorSortBy, setColorSortBy] = useState("win");
   const [strictColors, setStrictColors] = useState(false);
@@ -108,10 +102,6 @@ export function StatsViewer(props) {
     setColorCheckboxes(newboxes)
   }
 
-
-  ///////////////////////////////////////////////////////////////////////////////
-  // State used for the card widget.
-  ///////////////////////////////////////////////////////////////////////////////
   const [cardWidgetSelection, setCardWidgetSelection] = useState("Mainboard rate");
   const [minDrafts, setMinDrafts] = useState(0);
   const [minGames, setMinGames] = useState(0);
@@ -163,9 +153,6 @@ export function StatsViewer(props) {
     setSelectedCard(event.target.id)
   }
 
-  ///////////////////////////////////////////////////////////////////////////////
-  // Shared between the Card and Deck widgets.
-  ///////////////////////////////////////////////////////////////////////////////
   const [xAxis, setxAxis] = useState(NumDecksOption)
   const [yAxis, setYAxis] = useState(ELOOption)
   function onXAxisSelected(event) {
@@ -175,15 +162,9 @@ export function StatsViewer(props) {
     setYAxis(event.target.value)
   }
 
-  ///////////////////////////////////////////////////////////////////////////////
-  // State used for time selection.
-  ///////////////////////////////////////////////////////////////////////////////
   let startDate = props.startDate
   let endDate = props.endDate
 
-  ///////////////////////////////////////////////////////////////////////////////
-  // State used for the draft stats tab.
-  ///////////////////////////////////////////////////////////////////////////////
   const [drafts, setDrafts] = useState(null);
   const [draftSortBy, setDraftSortBy] = useState("p1p1");
   const [draftSortInvert, setDraftSortInvert] = useState(false);
@@ -206,31 +187,23 @@ export function StatsViewer(props) {
 
   function onDraftHeaderClicked(event) {
     if (draftSortBy == event.target.id) {
-      // The same header was clicked again. Invert the sorting.
       setDraftSortInvert(!draftSortInvert)
     } else {
-      // A new header was clicked - default to non-inverted.
       setDraftSortInvert(false)
     }
     setDraftSortBy(event.target.id)
   }
 
-  ///////////////////////////////////////////////////////////////////////////////
-  // State used for the draft pack display widget.
-  ///////////////////////////////////////////////////////////////////////////////
   const [draftLogs, setDraftLogs] = useState([]);
 
   const [selectedDraftLog, setSelectedDraftLog] = useState("");
   function onDraftLogSelected(event) {
-    // Set the selected draft log, and load players.
     setSelectedDraftLog(event.target.value)
 
-    // Set players from the selected draft.
     let users = [{label: "", value: ""}]
     for (let [idx, draft] of Object.entries(drafts)) {
       if (draft.date == event.target.value) {
         for (let [userID, user] of Object.entries(draft.users)) {
-          // Skip bots.
           if (!user.isBot) {
             users.push({
               label: userID,
@@ -247,17 +220,14 @@ export function StatsViewer(props) {
   const [draftPlayers, setDraftPlayers] = useState([]);
   const [draftPacks, setDraftPacks] = useState([])
   function onDraftPlayerSelected(event) {
-    // Set the selected player.
     setSelectedDraftPlayer(event.target.value);
 
-    // Get the selected draft.
     let numPicks = 0
     for (let [idx, draft] of Object.entries(drafts)) {
       if (draft.date != selectedDraftLog) {
         continue
       }
 
-      // Got it. Figure out how many picks this player had.
       for (let [id, user] of Object.entries(draft.users)) {
         if (user.userName === event.target.value) {
           numPicks = user.picks.length
@@ -267,7 +237,6 @@ export function StatsViewer(props) {
       break
     }
 
-    // Update the packs dropdown.
     let pickOpts = []
     for (var i=1; i<=numPicks; i++) {
       pickOpts.push({label: i, value: i})
@@ -280,18 +249,13 @@ export function StatsViewer(props) {
     setSelectedPack(event.target.value)
   }
 
-  ///////////////////////////////////////////////////////////////////////////////
-  // State used for the player stats tab.
-  ///////////////////////////////////////////////////////////////////////////////
   const [playerSortBy, setPlayerSortBy] = useState("");
   const [playerSortInvert, setPlayerSortInvert] = useState(false);
   const [selectedPlayer, setSelectedPlayer] = useState("");
   function onPlayerHeaderClicked(event) {
     if (playerSortBy == event.target.id) {
-      // The same header was clicked again. Invert the sorting.
       setPlayerSortInvert(!playerSortInvert)
     } else {
-      // A new header was clicked - default to non-inverted.
       setPlayerSortInvert(false)
     }
     setPlayerSortBy(event.target.id)
@@ -300,10 +264,6 @@ export function StatsViewer(props) {
       setSelectedPlayer(event.target.id)
   }
 
-
-  ///////////////////////////////////////////////////////////////////////////////
-  // State for the "top cards in archetype" widget.
-  ///////////////////////////////////////////////////////////////////////////////
   const [selectedArchetype, setSelectedArchetype] = useState("aggro");
   const [archetypeDropdownOptions, setArchetypeDropdownOptions] = useState([]);
   const [sortBy, setSortBy] = useState("");
@@ -318,9 +278,6 @@ export function StatsViewer(props) {
       setSelectedArchetype(event.target.id)
   }
 
-  ///////////////////////////////////////////////////////////////////////////////
-  // State for the synergy widget.
-  ///////////////////////////////////////////////////////////////////////////////
   const [synergyData, setSynergyData] = useState([]);
   const [minSynergyDecks, setMinSynergyDecks] = useState(3);
   const [synergySortBy, setSynergySortBy] = useState("synergy");
@@ -344,11 +301,6 @@ export function StatsViewer(props) {
     loadSynergyData(onSynergyDataFetched)
   }, [minSynergyDecks, minDraftSize, playerMatch, startDate, endDate, refresh])
 
-
-  ///////////////////////////////////////////////////////////////////////////////
-  // State used for tracking which widgets to display.
-  // Each widget is represented as an element in the array, and defaulted here.
-  ///////////////////////////////////////////////////////////////////////////////
   const [display, setDisplay] = useState([true, false, false, false, false, false, false]);
   function onSubpageClicked(idx) {
     let d = {...display}
@@ -357,8 +309,6 @@ export function StatsViewer(props) {
     } else {
       d[idx] = true
     }
-    // Uncheck any other boxes to make sure we're only displaying
-    // one widget set at a time.
     for (var i in d) {
       if (i != idx) {
         d[i] = false
@@ -392,27 +342,119 @@ export function StatsViewer(props) {
     onSubpageClicked(6)
   }
 
-  ///////////////////////////////////////////////////////////////////////////////
-  // Parsed data that is shared between widgets, and updated as needed
-  // by the useEffect() hooks below.
-  ///////////////////////////////////////////////////////////////////////////////
-  const defaultParsed = {
-    "bucketSize": bucketSize,
-    "filteredDecks": [],
-    "archetypeData": [],
-    "playerData": [],
-    "pickInfo": {},
-    "colorData": new Map(),
-    "colorDataBucketed": [],
-    "deckBuckets": [],
-  }
-  const [parsed, setParsedData] = useState(defaultParsed);
+  const filteredDecks = React.useMemo(() => {
+    if (decks.length == 0) {
+      return []
+    }
 
-  ///////////////////////////////////////////////////////////////////////////////
-  // Functions to load card stats from the server.
-  ///////////////////////////////////////////////////////////////////////////////
+    let f = []
+    let filterByColor = colorCheckboxes.some(function(element) {return element})
+    for (let deck of decks) {
+      if (props.matchStr && !DeckMatches(deck, props.matchStr, "Mainboard")) {
+        continue
+      }
+
+      let deckMatches = true
+      if (filterByColor) {
+        let enabledColors = CheckboxesToColors(colorCheckboxes)
+          for (let color of enabledColors) {
+            if (!deck.colors.includes(color)) {
+              deckMatches = false
+              break
+             }
+          }
+      }
+      if (deckMatches) {
+          f.push(deck)
+      }
+    }
+    return f
+  }, [decks, colorCheckboxes, props.matchStr, refresh])
+
+  // Use server-side stats for the main display, falling back to client-side calculation
+  // only when color filtering is active (since server doesn't support color filtering for these yet).
+  const archetypeData = React.useMemo(() => {
+    let filterByColor = colorCheckboxes.some(function(element) {return element})
+    if (filterByColor || props.matchStr) {
+      return ArchetypeData(filteredDecks)
+    }
+    return archetypeStats
+  }, [filteredDecks, archetypeStats, colorCheckboxes, props.matchStr])
+
+  const playerData = React.useMemo(() => {
+    let filterByColor = colorCheckboxes.some(function(element) {return element})
+    if (filterByColor || props.matchStr) {
+      const pd = PlayerData(filteredDecks)
+      for (let d of pd.values()) {
+        d.archetypeData = ArchetypeData(d.decks)
+        d.colorData = GetColorStats(d.decks, strictColors)
+      }
+      return pd
+    }
+    return playerStats
+  }, [filteredDecks, playerStats, colorCheckboxes, props.matchStr, strictColors])
+
+  const deckBuckets = React.useMemo(() => {
+    if (filteredDecks.length == 0) {
+      return []
+    }
+    const db = DeckBuckets(filteredDecks, bucketSize, false)
+    for (let b of db) {
+      let bucketDecks = new Array()
+      for (let draft of b) {
+        bucketDecks = bucketDecks.concat(draft.decks)
+      }
+      b.archetypeData = ArchetypeData(bucketDecks)
+      b.playerData = PlayerData(bucketDecks)
+    }
+    return db
+  }, [filteredDecks, bucketSize])
+
+  const pickInfo = React.useMemo(() => AggregatedPickInfo(drafts, cube, playerMatch), [drafts, cube, playerMatch])
+
   const [cardDataBucketed, setCardDataBucketed] = useState([]);
   const [cardData, setCardData] = useState(new Map());
+
+  async function loadArchetypeStats(cb) {
+    const resp = await fetch(`/api/stats/archetypes?start=${startDate}&end=${endDate}&size=${minDraftSize}&player=${playerMatch}`);
+    let d = await resp.json();
+    cb(d)
+  }
+  function onArchetypeStatsFetched(d) {
+    const archetypes = new Map();
+    for (const [name, data] of Object.entries(d.archetypes)) {
+      // Transform server data to match UI expectations.
+      archetypes.set(name, {
+        ...data,
+        sharedWith: new Map(Object.entries(data.shared_with || {})),
+        players: new Map(Object.entries(data.players || {})),
+      });
+    }
+    setArchetypeStats(archetypes)
+  }
+
+  async function loadPlayerStats(cb) {
+    const resp = await fetch(`/api/stats/players?start=${startDate}&end=${endDate}&size=${minDraftSize}&player=${playerMatch}`);
+    let d = await resp.json();
+    cb(d)
+  }
+  function onPlayerStatsFetched(d) {
+    const players = new Map();
+    for (const [name, data] of Object.entries(d.players)) {
+      // Transform server data to match UI expectations.
+      players.set(name, {
+        ...data,
+        // PlayerData in Players.js expects 'cards' as a Map of card name to {name, count}.
+        cards: new Map(Object.entries(data.unique_cards || {}).map(([cardName, count]) => [cardName, {name: cardName, count}])),
+      });
+    }
+    setPlayerStats(players)
+  }
+
+  useEffect(() => {
+    loadArchetypeStats(onArchetypeStatsFetched)
+    loadPlayerStats(onPlayerStatsFetched)
+  }, [startDate, endDate, minDraftSize, playerMatch, refresh])
 
   async function loadCardData(cb) {
     const resp = await fetch(`/api/stats/cards?color=${cardWidgetColorSelection}&min_drafts=${minDrafts}&min_games=${minGames}&start=${startDate}&end=${endDate}&size=${minDraftSize}&player=${playerMatch}`);
@@ -432,17 +474,18 @@ export function StatsViewer(props) {
     const da = Array.from(d.buckets)
     setCardDataBucketed(da)
   }
-  useEffect(() => {
-    Promise.all([loadCardData(onCardDataFetched)])
-  }, [parsed.filteredDecks, cardWidgetColorSelection, minDrafts, minGames])
 
   useEffect(() => {
-    Promise.all([loadBucketedCardData(onBucketedCardDataFetched)])
-  }, [parsed.filteredDecks, cardWidgetColorSelection, minDrafts, minGames, bucketSize])
+    loadCardData(onCardDataFetched)
+  }, [cardWidgetColorSelection, minDrafts, minGames, startDate, endDate, minDraftSize, playerMatch, refresh])
 
-  ///////////////////////////////////////////////////////////////////////////////
-  // Functions to load color stats from the server.
-  ///////////////////////////////////////////////////////////////////////////////
+  useEffect(() => {
+    loadBucketedCardData(onBucketedCardDataFetched)
+  }, [cardWidgetColorSelection, minDrafts, minGames, bucketSize, refresh])
+
+  const [colorData, setColorData] = useState(new Map());
+  const [colorDataBucketed, setColorDataBucketed] = useState([]);
+
   async function loadColorData(cb) {
     const resp = await fetch(`/api/stats/colors?start=${startDate}&end=${endDate}&size=${minDraftSize}&player=${playerMatch}&strict_colors=${strictColors}`);
     let d = await resp.json();
@@ -450,8 +493,7 @@ export function StatsViewer(props) {
   }
 
   function onColorDataFetched(d) {
-    parsed.colorData = new Map(Object.entries(d.all.data))
-    setParsedData({...parsed})
+    setColorData(new Map(Object.entries(d.all.data)))
   }
 
   async function loadBucketedColorData(cb) {
@@ -461,35 +503,29 @@ export function StatsViewer(props) {
   }
 
   async function onBucketedColorDataFetched(d) {
-    parsed.colorDataBucketed = Array.from(d.buckets)
-    setParsedData({...parsed})
+    setColorDataBucketed(Array.from(d.buckets))
   }
 
   useEffect(() => {
-    Promise.all([loadColorData(onColorDataFetched)])
-  }, [parsed.filteredDecks, strictColors])
+    loadColorData(onColorDataFetched)
+  }, [strictColors, startDate, endDate, minDraftSize, playerMatch, refresh])
 
   useEffect(() => {
-    Promise.all([loadBucketedColorData(onBucketedColorDataFetched)])
-  }, [parsed.filteredDecks, strictColors, bucketSize])
+    loadBucketedColorData(onBucketedColorDataFetched)
+  }, [strictColors, bucketSize, startDate, endDate, minDraftSize, playerMatch, refresh])
 
-  ///////////////////////////////////////////////////////////////////////////////
-  // Load the decks and drafts on startup and whenever the dates change.
-  ///////////////////////////////////////////////////////////////////////////////
   useEffect(() => {
     Promise.all([
       LoadDecks(onDecksLoaded, startDate, endDate, minDraftSize, playerMatch),
       LoadDrafts(onDraftsLoaded, startDate, endDate),
       LoadCube(onCubeLoad),
       LoadArchetypeData(onArchetypeDataLoaded, startDate, endDate, minDraftSize, playerMatch),
-      loadCardData(onCardDataFetched),
     ])
   }, [refresh])
 
   function onDecksLoaded(d) {
     setDecks([...d])
 
-    // Build option for the archetype dropdown.
     let archetypes = new Map()
     for (var i in d) {
       let deck = d[i]
@@ -508,15 +544,11 @@ export function StatsViewer(props) {
     setCube({...c})
   }
   function onDraftsLoaded(d) {
-    // Save the drafts.
     setDrafts({...d})
 
-    // Update the draft dropdown.
     let draftDates = [{label: "", value: ""}]
     for (let draft of d) {
       if (draft.type != "Draft") {
-        // Skip drafts that we don't know how to parse for now.
-        // e.g., Grid drafts.
         continue
       }
 
@@ -528,101 +560,22 @@ export function StatsViewer(props) {
     setDraftLogs(draftDates)
   }
 
-  // Get archetype matchup data.
   function onArchetypeDataLoaded(a) {
     setArchetypeMatchups(a)
   }
 
-  // Update graph data whenever the filtered decks change.
-  // This is used by the deck widget to plot various stats over time.
-  // We also need to update this whenever the bucket size changes, since
-  // the bucket size is used to determine how many drafts to include in
-  // each data point.
-  const [graphData, setGraphData] = useState({});
-  useEffect(() => {
-    const d = BuildGraphData(parsed)
-    setGraphData(d)
-  }, [parsed.filteredDecks, parsed.deckBuckets, bucketSize])
+  const parsed = React.useMemo(() => ({
+    bucketSize,
+    filteredDecks,
+    archetypeData,
+    playerData,
+    pickInfo,
+    colorData,
+    colorDataBucketed,
+    deckBuckets,
+  }), [bucketSize, filteredDecks, archetypeData, playerData, pickInfo, colorData, colorDataBucketed, deckBuckets])
 
-  // Filter decks whenever the color checkboxes change, or the unfiltered decks change.
-  useEffect(() => {
-    if (decks.length == 0) {
-      return
-    }
-
-    let f = []
-    let filterByColor = colorCheckboxes.some(function(element) {return element})
-    for (let deck of decks) {
-      // Filter decks based on the match string from the free-form text input.
-      if (props.matchStr && !DeckMatches(deck, props.matchStr, "Mainboard")) {
-        continue
-      }
-
-      // Filter decks based on selected colors. This enables us to view data for a subset of colors.
-      // Combine the colors using a logical AND to enable us to view two-color decks. If no colors are selected,
-      // then use all decks.
-      let deckMatches = true
-      if (filterByColor) {
-        let enabledColors = CheckboxesToColors(colorCheckboxes)
-          for (let color of enabledColors) {
-            if (!deck.colors.includes(color)) {
-              deckMatches = false
-              break
-             }
-          }
-      }
-      if (deckMatches) {
-          f.push(deck)
-      }
-    }
-
-    parsed.filteredDecks = [...f]
-    setParsedData({...parsed})
-  }, [decks, colorCheckboxes, refresh])
-
-  useEffect(() => {
-    // When filtered decks change, update archetype data.
-    parsed.archetypeData = ArchetypeData(parsed.filteredDecks)
-    parsed.playerData = PlayerData(parsed.filteredDecks)
-    for (let d of parsed.playerData.values()) {
-      // Also go through each player and parse stats individually for them.
-      d.archetypeData = ArchetypeData(d.decks)
-      d.colorData = GetColorStats(d.decks, strictColors)
-    }
-    setParsedData({...parsed})
-  }, [parsed.filteredDecks, strictColors])
-
-  // Update bucketed data whenever the bucket size changes, or the filtered decks change.
-  useEffect(() => {
-    if (parsed.filteredDecks.length == 0) {
-      return
-    }
-    parsed.bucketSize = bucketSize
-
-    // Split the given decks into fixed-size buckets.
-    // Each bucket will contain N drafts worth of deck information. We'll parse each bucket
-    // individually, which is used by other pages to plot stats over time.
-    parsed.deckBuckets = DeckBuckets(parsed.filteredDecks, bucketSize, false)
-    for (let b of parsed.deckBuckets) {
-      // Determine all of the decks in this bucket.
-      let bucketDecks = new Array()
-      for (let draft of b) {
-        bucketDecks = bucketDecks.concat(draft.decks)
-      }
-
-      // Add per-bucket parsed data.
-      b.archetypeData = ArchetypeData(bucketDecks)
-      b.playerData = PlayerData(bucketDecks)
-    }
-
-    setParsedData({...parsed})
-  }, [parsed.filteredDecks, bucketSize])
-
-  // Update pick info only when needed.
-  useEffect(() => {
-    parsed.pickInfo = AggregatedPickInfo(drafts, cube, playerMatch)
-    setParsedData({...parsed})
-  }, [drafts, cube, playerMatch])
+  const graphData = React.useMemo(() => BuildGraphData(parsed), [parsed])
 
   return (
     <div id="root">
