@@ -19,7 +19,7 @@ export function StatsViewer(props) {
 
   const {
     decks, cube, drafts, archetypeMatchups, cardData, cardDataBucketed,
-    synergyData, parsed, graphData
+    synergyData, parsed, graphData, archetypeDropdownOptions, draftLogs
   } = data;
 
   // Destructure filter setters for the SelectorBar and Widgets
@@ -134,7 +134,7 @@ export function StatsViewer(props) {
           dropdownSelection={colorTypeSelection} onSelected={(e) => setCardWidgetSelection(e.target.value)}
           colorWidgetOpts={[{ label: "", value: "" }, { label: "Red", value: "R" }, { label: "Blue", value: "U" }, { label: "Green", value: "G" }, { label: "Black", value: "B" }, { label: "White", value: "W" }]}
           colorSelection={cardWidgetColorSelection} onColorSelected={(e) => setCardWidgetColorSelection(e.target.value)}
-          archetypeDropdownOptions={[]} // TODO: Populate if needed
+          archetypeDropdownOptions={archetypeDropdownOptions}
           selectedArchetype={selectedArchetype} onArchetypeSelected={(e) => setSelectedArchetype(e.target.value)}
           onColorChecked={(e) => {
             let updated = [...colorCheckboxes];
@@ -182,7 +182,7 @@ export function StatsViewer(props) {
           maxDeviation={maxDeviation} onMaxDeviationChanged={(e) => setMaxDeviation(e.target.value)}
           minAvgPick={minAvgPick} onMinAvgPickSelected={(e) => setMinAvgPick(e.target.value)}
           maxAvgPick={maxAvgPick} onMaxAvgPickSelected={(e) => setMaxAvgPick(e.target.value)}
-          playerMatch={playerMatch} draftLogs={[]} // TODO
+          playerMatch={playerMatch} draftLogs={draftLogs}
           selectedDraftLog={selectedDraftLog} onDraftLogSelected={onDraftLogSelected}
           draftPlayers={draftPlayers} onDraftPlayerSelected={onDraftPlayerSelected}
           selectedPlayer={selectedDraftPlayer} draftPacks={draftPacks}

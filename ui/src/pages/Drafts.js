@@ -25,14 +25,19 @@ export function DraftWidget(input) {
   }
 
   return (
-    <div className="draft-widget">
-      <div style={{"width": "50%"}}>
+    <div className="draft-container" style={{"display": "flex", "gap": "1.5rem", "padding": "1rem"}}>
+      <div className="draft-order-section" style={{"flex": "1.5", "minWidth": "0"}}>
         <DraftOrderWidgetOptions {...input} />
-        <DraftOrderWidget {...input} pickList={pickList} />
+        <div className="widget-scroll" style={{"marginTop": "1rem"}}>
+          <DraftOrderWidget {...input} pickList={pickList} />
+        </div>
       </div>
 
-      <div className="pack-view">
-        <DraftPackWidget {...input} />
+      <div className="draft-pack-section" style={{"flex": "1", "minWidth": "0"}}>
+        <DraftPackWidgetOptions {...input} />
+        <div className="widget-scroll" style={{"marginTop": "1rem", "padding": "1rem", "background": "var(--card-background)"}}>
+          <DraftPackWidget {...input} />
+        </div>
       </div>
     </div>
   );
@@ -40,53 +45,33 @@ export function DraftWidget(input) {
 
 function DraftOrderWidgetOptions(input) {
   return (
-    <table className="dropdown-header">
-      <tbody>
-        <tr>
-          <td className="selection-cell">
-            <NumericInput
-              label="Min deviation"
-              value={input.minDeviation}
-              onChange={input.onMinDeviationChanged}
-            />
-          </td>
-
-          <td className="selection-cell">
-            <NumericInput
-              label="Max deviation"
-              value={input.maxDeviation}
-              onChange={input.onMaxDeviationChanged}
-            />
-          </td>
-
-          <td className="selection-cell">
-            <NumericInput
-              label="Min # drafts"
-              value={input.minDrafts}
-              onChange={input.onMinDraftsSelected}
-            />
-          </td>
-        </tr>
-
-        <tr>
-          <td className="selection-cell">
-            <NumericInput
-              label="Min avg. pick"
-              value={input.minAvgPick}
-              onChange={input.onMinAvgPickSelected}
-            />
-          </td>
-
-          <td className="selection-cell">
-            <NumericInput
-              label="Max avg. pick"
-              value={input.maxAvgPick}
-              onChange={input.onMaxAvgPickSelected}
-            />
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    <div className="selector-group" style={{"justifyContent": "center"}}>
+      <NumericInput
+        label="Min dev"
+        value={input.minDeviation}
+        onChange={input.onMinDeviationChanged}
+      />
+      <NumericInput
+        label="Max dev"
+        value={input.maxDeviation}
+        onChange={input.onMaxDeviationChanged}
+      />
+      <NumericInput
+        label="Min drafts"
+        value={input.minDrafts}
+        onChange={input.onMinDraftsSelected}
+      />
+      <NumericInput
+        label="Min avg"
+        value={input.minAvgPick}
+        onChange={input.onMinAvgPickSelected}
+      />
+      <NumericInput
+        label="Max avg"
+        value={input.maxAvgPick}
+        onChange={input.onMaxAvgPickSelected}
+      />
+    </div>
   );
 }
 
@@ -295,36 +280,28 @@ function DraftOrderWidget(input) {
 
 function DraftPackWidgetOptions(input) {
   return (
-    <table className="dropdown-header" style={{"width": "100%"}}>
-      <tbody>
-        <tr>
-          <td className="selection-cell">
-            <DropdownHeader
-              label="Draft"
-              options={input.draftLogs}
-              value={input.selectedDraftLog}
-              onChange={input.onDraftLogSelected}
-            />
-          </td>
+    <div className="selector-group" style={{"justifyContent": "center"}}>
+      <DropdownHeader
+        label="Draft"
+        options={input.draftLogs}
+        value={input.selectedDraftLog}
+        onChange={input.onDraftLogSelected}
+      />
 
-          <td className="selection-cell">
-            <DropdownHeader
-              label="Player"
-              options={input.draftPlayers}
-              onChange={input.onDraftPlayerSelected}
-            />
-          </td>
+      <DropdownHeader
+        label="Player"
+        options={input.draftPlayers}
+        value={input.selectedPlayer}
+        onChange={input.onDraftPlayerSelected}
+      />
 
-          <td className="selection-cell">
-            <DropdownHeader
-              label="Pick #"
-              options={input.draftPacks}
-              onChange={input.onPackSelected}
-            />
-          </td>
-        </tr>
-      </tbody>
-    </table>
+      <DropdownHeader
+        label="Pick #"
+        options={input.draftPacks}
+        value={input.selectedPack}
+        onChange={input.onPackSelected}
+      />
+    </div>
   );
 }
 
@@ -350,34 +327,35 @@ export function DraftPackWidget(input) {
   }
   if (player) {
     // Determine the pack. The dropdown starts from 1, but the array is zero-indexed.
-    pack = player.picks[input.selectedPack-1]
-
-    // Determine which card this player picked from the pack.
-    selectedCard = pack.booster[pack.pick]
+    if (input.selectedPack > 0 && input.selectedPack <= player.picks.length) {
+      pack = player.picks[input.selectedPack-1]
+      // Determine which card this player picked from the pack.
+      if (pack.pick.length > 0) {
+        selectedCard = pack.booster[pack.pick[0]]
+      }
+    }
   }
 
   return (
-    <div>
-      <DraftPackWidgetOptions {...input} />
-
-      <div className="flexhouse" />
-        {
-          pack.booster.map(function(cardID) {
-            // Look up the card object based on the ID.
-            let card = draft.carddata[cardID]
-            let img = card.image_uris.en
-            let className = "cardimage"
-            let sort = "a"
-            if (cardID === selectedCard) {
-              className = "cardimage-selected"
-              sort = "b"
-            }
-            return (
-                <img sort={sort} src={img} className={className}/>
-            )
-          }).sort(SortFunc)
-        }
-      </div>
+    <div className="flexhouse" style={{"justifyContent": "center"}}>
+      {
+        pack.booster.map(function(cardID) {
+          // Look up the card object based on the ID.
+          let card = draft.carddata[cardID]
+          if (!card) return null;
+          let img = card.image_uris.en
+          let className = "cardimage"
+          let sort = "a"
+          if (cardID === selectedCard) {
+            className = "cardimage-selected"
+            sort = "b"
+          }
+          return (
+              <img key={cardID} sort={sort} src={img} className={className}/>
+          )
+        }).sort(SortFunc)
+      }
+    </div>
   );
 }
 

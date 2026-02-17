@@ -50,167 +50,118 @@ export function ArchetypeWidget(input) {
   }
 
   return (
-    <table style={{"width": "100%"}}>
-      <tbody>
-        <tr style={{"height": "800px"}}>
-          <td style={{"verticalAlign": "top", "width": "50%"}}>
-            <ArchetypeStatsTable
-              parsed={input.parsed}
-              decks={input.decks}
-              dropdownSelection={input.colorTypeSelection}
-              sortBy={input.sortBy}
-              onHeaderClick={input.onHeaderClick}
-              handleRowClick={input.handleRowClick}
-              selectedArchetype={input.selectedArchetype}
-              colorCheckboxes={input.colorCheckboxes}
-              onColorChecked={input.onColorChecked}
-            />
-          </td>
-          <td style={{"verticalAlign": "top"}}>
-            <TopCardsInArchetypeWidget
-              parsed={input.parsed}
-              cardData={input.cardData}
-              decks={input.decks}
-              minDrafts={input.minDrafts}
-              cube={input.cube}
-              minDecksInArch={input.minDecksInArch}
-              archetypeDropdownOptions={input.archetypeDropdownOptions}
-              selectedArchetype={input.selectedArchetype}
-              onArchetypeSelected={input.onArchetypeSelected}
-              colorWidgetOpts={input.colorWidgetOpts}
-              onColorSelected={input.onColorSelected}
-              colorSelection={input.colorSelection}
-              onMinDraftsSelected={input.onMinDraftsSelected}
-              onMinGamesSelected={input.onMinGamesSelected}
-            />
-          </td>
-          <td style={{"verticalAlign":"top"}}>
-            <ArchetypeDetailsPanel
-              parsed={input.parsed}
-              decks={input.decks}
-              selectedArchetype={input.selectedArchetype}
-            />
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <MacroArchetypesChart
-              parsed={input.parsed}
-              decks={input.decks}
-              bucketSize={input.bucketSize}
-              dataset="builds"
-            />
-          </td>
-          <td colSpan="2">
-            <MacroArchetypesChart
-              parsed={input.parsed}
-              decks={input.decks}
-              bucketSize={input.bucketSize}
-              dataset="wins"
-            />
-          </td>
-        </tr>
+    <div className="archetype-container">
+      <div className="archetype-top-section">
+        <div className="archetype-stats-wrapper">
+          <ArchetypeStatsTable
+            parsed={input.parsed}
+            decks={input.decks}
+            dropdownSelection={input.colorTypeSelection}
+            sortBy={input.sortBy}
+            onHeaderClick={input.onHeaderClick}
+            handleRowClick={input.handleRowClick}
+            selectedArchetype={input.selectedArchetype}
+            colorCheckboxes={input.colorCheckboxes}
+            onColorChecked={input.onColorChecked}
+          />
+        </div>
+        <div className="archetype-cards-wrapper">
+          <TopCardsInArchetypeWidget
+            parsed={input.parsed}
+            cardData={input.cardData}
+            decks={input.decks}
+            minDrafts={input.minDrafts}
+            cube={input.cube}
+            minDecksInArch={input.minDecksInArch}
+            archetypeDropdownOptions={input.archetypeDropdownOptions}
+            selectedArchetype={input.selectedArchetype}
+            onArchetypeSelected={input.onArchetypeSelected}
+            colorWidgetOpts={input.colorWidgetOpts}
+            onColorSelected={input.onColorSelected}
+            colorSelection={input.colorSelection}
+            onMinDraftsSelected={input.onMinDraftsSelected}
+            onMinGamesSelected={input.onMinGamesSelected}
+          />
+        </div>
+        <div className="archetype-details-wrapper">
+          <ArchetypeDetailsPanel
+            parsed={input.parsed}
+            decks={input.decks}
+            selectedArchetype={input.selectedArchetype}
+          />
+        </div>
+      </div>
 
-        <tr>
-          <td colSpan="1">
-            <MacroArchetypesChart
-              parsed={input.parsed}
-              decks={input.decks}
-              bucketSize={input.bucketSize}
-              dataset="percent_of_wins"
-            />
-          </td>
-          <td colSpan="2" style={{"paddingTop": "100px"}}>
-            <MacroArchetypesChart
-              parsed={input.parsed}
-              decks={input.decks}
-              bucketSize={input.bucketSize}
-              dataset="cmc"
-            />
-          </td>
-        </tr>
+      <div className="archetype-charts-section">
+        <div className="chart-grid">
+          <MacroArchetypesChart
+            parsed={input.parsed}
+            decks={input.decks}
+            bucketSize={input.bucketSize}
+            dataset="builds"
+          />
+          <MacroArchetypesChart
+            parsed={input.parsed}
+            decks={input.decks}
+            bucketSize={input.bucketSize}
+            dataset="wins"
+          />
+          <MacroArchetypesChart
+            parsed={input.parsed}
+            decks={input.decks}
+            bucketSize={input.bucketSize}
+            dataset="percent_of_wins"
+          />
+          <MacroArchetypesChart
+            parsed={input.parsed}
+            decks={input.decks}
+            bucketSize={input.bucketSize}
+            dataset="cmc"
+          />
+        </div>
 
-        <tr>
-          <td colSpan="1">
-            <WinsByMatchup
-              focus="aggro"
-              matchups={input.matchups}
-            />
-          </td>
-          <td colSpan="2">
-            <WinsByMatchup
-              focus="tempo"
-              matchups={input.matchups}
-            />
-          </td>
-        </tr>
+        <div className="matchup-section">
+          <WinsByMatchup focus="aggro" matchups={input.matchups} />
+          <WinsByMatchup focus="tempo" matchups={input.matchups} />
+          <WinsByMatchup focus="midrange" matchups={input.matchups} />
+          <WinsByMatchup focus="control" matchups={input.matchups} />
+        </div>
 
-        <tr>
-          <td colSpan="1">
-            <WinsByMatchup
-              focus="midrange"
-              matchups={input.matchups}
-            />
-          </td>
-          <td colSpan="2">
-            <WinsByMatchup
-              focus="control"
-              matchups={input.matchups}
-            />
-          </td>
-        </tr>
+        <div className="pie-section">
+          <MacroArchetypesPieChart
+            parsed={input.parsed}
+            decks={input.decks}
+            dataset="builds"
+          />
+          <MacroArchetypesPieChart
+            parsed={input.parsed}
+            decks={input.decks}
+            dataset="wins"
+          />
+        </div>
 
-        <tr>
-          <td>
-            <MacroArchetypesPieChart
-              parsed={input.parsed}
-              decks={input.decks}
-              dataset="builds"
-            />
-          </td>
-          <td colSpan="2">
-            <MacroArchetypesPieChart
-              parsed={input.parsed}
-              decks={input.decks}
-              dataset="wins"
-            />
-          </td>
-        </tr>
-
-        <tr>
-          <td colSpan="3" style={{"paddingTop": "100px"}}>
-            <MicroArchetypesChart
-              parsed={input.parsed}
-              decks={input.decks}
-              bucketSize={input.bucketSize}
-              dataset="builds"
-            />
-          </td>
-        </tr>
-
-        <tr>
-          <td colSpan="2" style={{"paddingTop": "100px"}}>
-            <MicroArchetypesChart
-              parsed={input.parsed}
-              decks={input.decks}
-              bucketSize={input.bucketSize}
-              dataset="wins"
-            />
-          </td>
-        </tr>
-
-        <tr>
-          <td colSpan="3">
-            <MicroArchetypesChart
-              parsed={input.parsed}
-              decks={input.decks}
-              bucketSize={input.bucketSize}
-              dataset="percent_of_wins"
-            />
-          </td>
-        </tr>
-      </tbody>
-    </table>
+        <div className="micro-archetype-section">
+          <MicroArchetypesChart
+            parsed={input.parsed}
+            decks={input.decks}
+            bucketSize={input.bucketSize}
+            dataset="builds"
+          />
+          <MicroArchetypesChart
+            parsed={input.parsed}
+            decks={input.decks}
+            bucketSize={input.bucketSize}
+            dataset="wins"
+          />
+          <MicroArchetypesChart
+            parsed={input.parsed}
+            decks={input.decks}
+            bucketSize={input.bucketSize}
+            dataset="percent_of_wins"
+          />
+        </div>
+      </div>
+    </div>
   );
 }
 
@@ -361,12 +312,8 @@ function ArchetypeStatsTable(input) {
 }
 
 export function ColorPickerHeader(input) {
-  let className = "full-options-header"
-  if (input.className) {
-    className = input.className
-  }
   return (
-    <div className={className}>
+    <div className="selector-group" style={{"padding": "0.5rem", "justifyContent": "center"}}>
       <Checkbox
         text={ColorImages("W")}
         id="W"
@@ -403,13 +350,12 @@ export function ColorPickerHeader(input) {
 
 function TopCardsInArchetypeWidgetOptions(input) {
   return (
-    <div className="dropdown-header">
+    <div className="selector-group" style={{"padding": "1rem", "background": "var(--card-background)", "borderBottom": "1px solid var(--border)"}}>
       <DropdownHeader
         label="Archetype"
         options={input.archetypeDropdownOptions}
         value={input.selectedArchetype}
         onChange={input.onArchetypeSelected}
-        className="dropdown-header-side-by-side"
       />
 
       <DropdownHeader
@@ -417,27 +363,36 @@ function TopCardsInArchetypeWidgetOptions(input) {
         options={input.colorWidgetOpts}
         value={input.colorSelection}
         onChange={input.onColorSelected}
-        className="dropdown-header-side-by-side"
       />
 
       <NumericInput
-        label="Min #picks"
+        label="Min picks"
         value={input.minDrafts}
         onChange={input.onMinDraftsSelected}
-        className="dropdown-header-side-by-side"
       />
 
       <NumericInput
         label="Decks in arch"
         value={input.minDecksInArch}
         onChange={input.onMinGamesSelected}
-        className="dropdown-header-side-by-side"
       />
     </div>
   );
 }
 
 function TopCardsInArchetypeWidget(input) {
+  const [sortBy, setSortBy] = React.useState("decks");
+  const [invertSort, setInvertSort] = React.useState(false);
+
+  const onSort = (id) => {
+    if (sortBy === id) {
+      setInvertSort(!invertSort);
+    } else {
+      setSortBy(id);
+      setInvertSort(false);
+    }
+  };
+
   // Get all cards that are currently active.
   let data = input.cardData
   let archetypes = input.parsed.archetypeData
@@ -505,7 +460,7 @@ function TopCardsInArchetypeWidget(input) {
                       </Popover>
                     }
                   >
-                    <td id={hdr.id} className="header-cell">{hdr.text}</td>
+                    <td id={hdr.id} onClick={() => onSort(hdr.id)} className="header-cell">{hdr.text}</td>
                   </OverlayTrigger>
                 );
               })
@@ -521,20 +476,27 @@ function TopCardsInArchetypeWidget(input) {
                 cardArch.set(arch, count)
               }
 
-              // Determine what percentage of decks in the archetype this card has been in.
-              let percentage = Math.round(cardArch.get(input.selectedArchetype) / archetypes.get(input.selectedArchetype).count * 100)
+              let count = cardArch.get(input.selectedArchetype)
+              let percentage = Math.round(count / archetypes.get(input.selectedArchetype).count * 100)
+              let correlation = Math.round(count / card.mainboard * 100)
 
-              // Determine how tightly bound this card is to the archetype - is it 1:1? Or does it share its time in
-              // other decks.
-              let correlation = Math.round(cardArch.get(input.selectedArchetype) / card.mainboard * 100)
+              let sort = count;
+              switch (sortBy) {
+                case "card": sort = card.name; break;
+                case "decks": sort = count; break;
+                case "include_rate": sort = percentage; break;
+                case "correlation": sort = correlation; break;
+              }
 
-              // Configure the sort.
-              let sort = cardArch.get(input.selectedArchetype)
-              sort = correlation
+              if (invertSort) {
+                if (typeof sort === "number") sort = -sort;
+                else sort = sort.toString().split("").reverse().join(""); // Crude string invert
+              }
+
               return (
                 <tr sort={sort} className="widget-table-row" key={card.name}>
                   <td ><a href={card.url} target="_blank" rel="noopener noreferrer">{card.name}</a></td>
-                  <td >{cardArch.get(input.selectedArchetype)}</td>
+                  <td >{count}</td>
                   <td >{percentage}%</td>
                   <td >{correlation}%</td>
                 </tr>

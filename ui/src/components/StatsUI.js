@@ -4,19 +4,23 @@ import { QueryTerms } from "../utils/Query.js";
 
 export function SelectorBar(input) {
   return (
-    <table id="selectorbar" className="selectorbar">
-      <tbody>
-        <tr>
-          <Button text="Refresh" onClick={input.triggerRefresh} />
-          <DateSelector label="From: " id="from" value={input.startDate} onChange={input.onStartSelected} />
-          <DateSelector label="To: " id="to" value={input.endDate} onChange={input.onEndSelected} />
-          <NumericInput className="dropdown" label="Bucket size" value={input.bucketSize} onChange={input.onBucketsChanged} />
-          <NumericInput className="dropdown" label="Draft size" value={input.minDraftSize} onChange={input.onMinDraftSizeChanged} />
-          <TextInput className="dropdown" label="Player" value={input.playerMatch} onChange={input.onPlayerMatchChanged} />
-          <TextInput className="dropdown" label="Search" placeholder={QueryTerms} big={true} value={input.matchStr} onChange={input.onMatchUpdated} />
-        </tr>
-        <tr>
-          <Overview decks={input.parsed.filteredDecks} />
+    <div className="selectorbar">
+      <div className="selector-group">
+        <Button text="Refresh" onClick={input.triggerRefresh} />
+        <DateSelector label="From" id="from" value={input.startDate} onChange={input.onStartSelected} />
+        <DateSelector label="To" id="to" value={input.endDate} onChange={input.onEndSelected} />
+        <NumericInput label="Bucket size" value={input.bucketSize} onChange={input.onBucketsChanged} />
+        <NumericInput label="Draft size" value={input.minDraftSize} onChange={input.onMinDraftSizeChanged} />
+        <TextInput label="Player" value={input.playerMatch} onChange={input.onPlayerMatchChanged} />
+      </div>
+      
+      <div className="search-group">
+        <TextInput label="Search" placeholder={QueryTerms} big={true} value={input.matchStr} onChange={input.onMatchUpdated} />
+      </div>
+
+      <div className="navigation-group">
+        <Overview decks={input.parsed.filteredDecks} />
+        <div className="nav-buttons">
           <Button text="Colors" checked={input.display[0]} onClick={input.onColorPage} />
           <Button text="Types" checked={input.display[1]} onClick={input.onArchetypePage} />
           <Button text="Cards" checked={input.display[2]} onClick={input.onCardPage} />
@@ -24,9 +28,9 @@ export function SelectorBar(input) {
           <Button text="Drafts" checked={input.display[4]} onClick={input.onDraftPage} />
           <Button text="Players" checked={input.display[5]} onClick={input.onPlayersPage} />
           <Button text="Synergy" checked={input.display[6]} onClick={input.onSynergyPage} />
-        </tr>
-      </tbody>
-    </table>
+        </div>
+      </div>
+    </div>
   );
 }
 

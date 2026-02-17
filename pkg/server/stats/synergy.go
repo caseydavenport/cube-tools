@@ -154,7 +154,7 @@ func (s *synergyStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request)
 		})
 	}
 
-	// Sort by Synergy Score
+	// Sort pairs by Synergy Score
 	sort.Slice(resp.Pairs, func(i, j int) bool {
 		if resp.Pairs[i].SynergyScore == resp.Pairs[j].SynergyScore {
 			return resp.Pairs[i].Count > resp.Pairs[j].Count

@@ -368,9 +368,9 @@ function TableHeader(input) {
   }
 
   return (
-    <div className="full-options-header">
+    <div className="selector-group" style={{"justifyContent": "center", "marginBottom": "1rem"}}>
       <DropdownHeader
-        label="Select color type"
+        label="Color type"
         className="dropdown"
         options={input.ddOpts}
         value={input.colorTypeSelection}
@@ -378,7 +378,7 @@ function TableHeader(input) {
       />
 
       <DropdownHeader
-        label="Select a bucket"
+        label="Bucket"
         className="dropdown"
         options={bucketNames}
         value={input.selectedBucket}

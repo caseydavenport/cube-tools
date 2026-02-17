@@ -244,22 +244,33 @@ function PlayerTable(input) {
             if (input.invertSort) {
               sort = -1 * sort
             }
+
+            // Map server-side field names to UI-expected names.
+            const winPct = row.winPercent ?? row.win_percent;
+            const lossPct = row.lossPercent ?? row.loss_percent;
+            const whitePct = row.whitePercent ?? row.white_percent;
+            const bluePct = row.bluePercent ?? row.blue_percent;
+            const blackPct = row.blackPercent ?? row.black_percent;
+            const redPct = row.redPercent ?? row.red_percent;
+            const greenPct = row.greenPercent ?? row.green_percent;
+            const uniq = row.uniqueness;
+
             return (
               <tr sort={sort} className="widget-table-row" key={row.name}>
                 <td id={row.name} onClick={input.handleRowClick}>{row.name}</td>
-                <td>{row.numDecks}</td>
+                <td>{row.numDecks ?? row.num_decks}</td>
                 <td>{row.games}</td>
-                <td>{row.winPercent}%</td>
-                <td>{row.lossPercent}%</td>
+                <td>{winPct}%</td>
+                <td>{lossPct}%</td>
                 <td>{row.opponent_win_percentage}%</td>
                 <td>{row.trophies}</td>
                 <td>{row.last_place}</td>
-                <td>{row.whitePercent}%</td>
-                <td>{row.bluePercent}%</td>
-                <td>{row.blackPercent}%</td>
-                <td>{row.redPercent}%</td>
-                <td>{row.greenPercent}%</td>
-                <td>{row.uniqueness}%</td>
+                <td>{whitePct}%</td>
+                <td>{bluePct}%</td>
+                <td>{blackPct}%</td>
+                <td>{redPct}%</td>
+                <td>{greenPct}%</td>
+                <td>{uniq}%</td>
               </tr>
             )
           }).sort(SortFunc)
@@ -272,27 +283,34 @@ function PlayerTable(input) {
 
 function PlayerWidgetOptions(input) {
   return (
-    <div className="widget-table-header">
-    <table className="widget-table-header">
-      <tbody>
-        <tr>
-          <td className="selection-cell">
-            <NumericInput
-              label="Min games"
-              min={0}
-              value={input.minGames}
-              onChange={input.onMinGamesSelected}
-            />
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    <div className="selector-group" style={{"padding": "1rem", "marginBottom": "1rem", "justifyContent": "center"}}>
+      <NumericInput
+        label="Min games"
+        min={0}
+        value={input.minGames}
+        onChange={input.onMinGamesSelected}
+      />
     </div>
   );
 }
 
 
 function PlayerDetailsPanel(input) {
+  // Defensive checks for initialization
+  if (!input.player || !input.parsed || !input.parsed.playerData) {
+    return null;
+  }
+
+  // Ensure we have a Map
+  const playerData = input.parsed.playerData;
+  if (!(playerData instanceof Map) && typeof playerData.has !== 'function') {
+    return null;
+  }
+
+  if (!playerData.has(input.player)) {
+    return null;
+  }
+
   // Iterate the selected players games and build up record
   // against each opponent.
   let decks = []
@@ -334,30 +352,44 @@ function PlayerDetailsPanel(input) {
     }
   }
 
+  // Get the player's total deck count for percentage calculations
+  const playerEntry = playerData.get(input.player);
+  const totalPlayerDecks = playerEntry.num_decks ?? playerEntry.numDecks ?? 0;
+
   // Add archetype data from the given player's decks.
-  if (!input.parsed.playerData.has(input.player)) {
-    return null
-  }
-  let archData = input.parsed.playerData.get(input.player).archetypeData
+  let archData = playerEntry.archetypeData
+
   let archRows = [newTracker("aggro"), newTracker("control"), newTracker("midrange")]
   for (let a of archRows) {
     let name = a.get("name")
-    if (archData.has(name)) {
-      a.set("wins", archData.get(name).wins)
-      a.set("losses", archData.get(name).losses)
-      a.set("count", archData.get(name).count)
+    // Check for both exact match and lowercase match
+    let data = null;
+    if (archData && archData.has) {
+      if (archData.has(name)) {
+        data = archData.get(name);
+      } else if (archData.has(name.charAt(0).toUpperCase() + name.slice(1))) {
+        data = archData.get(name.charAt(0).toUpperCase() + name.slice(1));
+      }
+    }
+
+    if (data) {
+      a.set("wins", data.wins || 0)
+      a.set("losses", data.losses || 0)
+      a.set("count", data.count || 0)
     }
   }
 
   // Add color data.
-  let colorData = input.parsed.playerData.get(input.player).colorData
+  let colorData = playerEntry.colorData
   let colorRows = [newTracker("W"), newTracker("U"), newTracker("B"), newTracker("R"), newTracker("G")]
   for (let c of colorRows) {
     let color = c.get("name")
-    if (colorData.has(color)) {
-      c.set("wins", colorData.get(color).wins)
-      c.set("losses", colorData.get(color).losses)
-      c.set("count", colorData.get(color).num_decks)
+    if (colorData && colorData.has && colorData.has(color)) {
+      const data = colorData.get(color);
+      c.set("wins", data.wins || 0)
+      c.set("losses", data.losses || 0)
+      // Server uses 'count', client-side uses 'num_decks'
+      c.set("count", data.count ?? data.num_decks ?? 0)
     }
   }
 
@@ -418,7 +450,9 @@ function PlayerDetailsPanel(input) {
               let bld_pct = 0
               if (wins + loss > 0) {
                 win_pct = Math.round(100 * wins / (wins + loss))
-                bld_pct = Math.round(100 * count / decks.length)
+              }
+              if (totalPlayerDecks > 0) {
+                bld_pct = Math.round(100 * count / totalPlayerDecks)
               }
               return (
                 <tr key={name} sort={bld_pct} className="widget-table-row">
@@ -455,7 +489,9 @@ function PlayerDetailsPanel(input) {
               let bld_pct = 0
               if (wins + loss > 0) {
                 win_pct = Math.round(100 * wins / (wins + loss))
-                bld_pct = Math.round(100 * count / decks.length)
+              }
+              if (totalPlayerDecks > 0) {
+                bld_pct = Math.round(100 * count / totalPlayerDecks)
               }
               return (
                 <tr key={name} sort={bld_pct} className="widget-table-row">

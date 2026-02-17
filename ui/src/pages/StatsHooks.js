@@ -172,6 +172,8 @@ export function useStatsData(filters, props, refresh) {
           players.set(name, {
             ...data,
             cards: new Map(Object.entries(data.unique_cards || {}).map(([cardName, count]) => [cardName, { name: cardName, count }])),
+            archetypeData: new Map(Object.entries(data.archetype_stats || {})),
+            colorData: new Map(Object.entries(data.color_stats || {})),
           });
         }
         setPlayerStats(players);
@@ -182,7 +184,7 @@ export function useStatsData(filters, props, refresh) {
   useEffect(() => {
     fetch(`/api/stats/synergy?min_decks=${minSynergyDecks}&start=${startDate}&end=${endDate}&size=${minDraftSize}&player=${playerMatch}`)
       .then(r => r.json())
-      .then(d => setSynergyData(d.pairs));
+      .then(d => setSynergyData(d));
   }, [minSynergyDecks, minDraftSize, playerMatch, startDate, endDate, refresh]);
 
   // Derived Data
@@ -204,7 +206,7 @@ export function useStatsData(filters, props, refresh) {
   const archetypeData = useMemo(() => {
     let filterByColor = filters.colorCheckboxes.some(e => e);
     if (filterByColor || props.matchStr) return ArchetypeData(filteredDecks);
-    return archetypeStats;
+    return archetypeStats instanceof Map ? archetypeStats : new Map(Object.entries(archetypeStats));
   }, [filteredDecks, archetypeStats, filters.colorCheckboxes, props.matchStr]);
 
   const playerData = useMemo(() => {
@@ -217,7 +219,7 @@ export function useStatsData(filters, props, refresh) {
       }
       return pd;
     }
-    return playerStats;
+    return playerStats instanceof Map ? playerStats : new Map(Object.entries(playerStats));
   }, [filteredDecks, playerStats, filters.colorCheckboxes, props.matchStr, filters.strictColors]);
 
   const deckBuckets = useMemo(() => {
@@ -240,8 +242,34 @@ export function useStatsData(filters, props, refresh) {
 
   const graphData = useMemo(() => BuildGraphData(parsed), [parsed]);
 
+  const archetypeDropdownOptions = useMemo(() => {
+    let archetypes = new Map();
+    for (let deck of decks) {
+      for (let arch of deck.labels || []) {
+        archetypes.set(arch, 0);
+      }
+    }
+    let opts = [];
+    for (let arch of archetypes.keys()) {
+      opts.push({ label: arch, value: arch });
+    }
+    // Sort archetypes alphabetically
+    opts.sort((a, b) => a.label.localeCompare(b.label));
+    return opts;
+  }, [decks]);
+
+  const draftLogs = useMemo(() => {
+    let opts = [{ label: "", value: "" }];
+    for (let draft of Object.values(drafts || {})) {
+      if (draft.type !== "Draft") continue;
+      opts.push({ label: draft.date, value: draft.date });
+    }
+    return opts;
+  }, [drafts]);
+
   return {
     decks, cube, drafts, archetypeMatchups, cardData, cardDataBucketed,
-    colorData, colorDataBucketed, synergyData, parsed, graphData
+    colorData, colorDataBucketed, synergyData, parsed, graphData,
+    archetypeDropdownOptions, draftLogs
   };
 }
