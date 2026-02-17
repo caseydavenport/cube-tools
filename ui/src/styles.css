@@ -426,6 +426,61 @@ table {
   gap: 4px;
 }
 
+.flex-column-gap {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.deck-images-columns {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  align-items: flex-start;
+  overflow-x: auto;
+  padding-bottom: 2rem;
+  white-space: nowrap;
+}
+
+.deck-images-group {
+  background: var(--card-background);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1rem;
+  min-width: 220px;
+  flex-shrink: 0;
+  width: fit-content;
+  display: flex;
+  flex-direction: column;
+}
+
+.card-stacks-container {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  width: 100%;
+}
+
+.card-stack {
+  display: flex;
+  flex-direction: column;
+  width: 200px;
+}
+
+.card-stack-item {
+  margin-bottom: -210px; /* Overlap cards - show less of each card (~70px visible) */
+  transition: transform 0.2s ease;
+}
+
+.card-stack-item:last-child {
+  margin-bottom: 0;
+}
+
+.card-stack-item:hover {
+  transform: translateY(-10px);
+  z-index: 100;
+}
+
 /* Popover / Tooltip Styling */
 .popover {
   background-color: var(--card-background) !important;

@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { LoadDecks, FetchFile } from "../utils/Fetch.js"
 import { Record, Wins, Losses, Draws, MatchWins, MatchLosses, MatchDraws, InDeckColor } from "../utils/Deck.js"
 import { RemovalMatches, CounterspellMatches } from "../pages/Decks.js"
-import { SortFunc, StringToColor, CheckboxesToColors } from "../utils/Utils.js"
+import { SortFunc, StringToColor, CheckboxesToColors, IsBasicLand } from "../utils/Utils.js"
 import { CardMatches, DeckMatches, QueryTerms } from "../utils/Query.js"
 import { ColorImages } from "../utils/Colors.js"
 import { Button, TextInput, DropdownHeader, NumericInput, Checkbox, DateSelector } from "../components/Dropdown.js"
@@ -68,6 +68,9 @@ export function DeckViewer(props) {
 
   // Dropdown for mainboard vs. sideboard.
   const [mainboardSideboard, setMainboardSideboard] = useState("Mainboard");
+
+  // View mode: Text or Images.
+  const [viewMode, setViewMode] = useState("Text");
 
   // What to sort the deck list by.
   const sortOptions = [
@@ -291,6 +294,16 @@ export function DeckViewer(props) {
             value={mainboardSideboard}
             onChange={onBoardSelected}
           />
+
+          <DropdownHeader
+            label="View"
+            options={[
+              { label: "Text", value: "Text" },
+              { label: "Images", value: "Images" },
+            ]}
+            value={viewMode}
+            onChange={(e) => setViewMode(e.target.value)}
+          />
         </div>
 
         <div className="search-group">
@@ -323,6 +336,7 @@ export function DeckViewer(props) {
             mbsb={mainboardSideboard}
             matchStr={debouncedMatchStr}
             description={description}
+            viewMode={viewMode}
           />
         </div>
       </div>
@@ -462,6 +476,9 @@ function MainDisplay(input) {
   if (input.comparisonDecks.size > 1) {
     return CompareDecks(input);
   }
+  if (input.viewMode === "Images") {
+    return DisplayDeckImages(input);
+  }
   return DisplayDeck(input);
 }
 
@@ -513,6 +530,138 @@ function CompareDecks(input) {
       </div>
     </div>
   );
+}
+
+function DisplayDeckImages(input) {
+  let deck = input.deck
+
+  let missing = (input.mbsb == "Mainboard" && !deck.mainboard)
+  missing = missing || (input.mbsb == "Sideboard" && !deck.sideboard)
+  missing = missing || (input.mbsb == "Pool" && !deck.pool)
+  if (!deck || missing) {
+    return null;
+  }
+
+  let cards = deck.mainboard
+  if (input.mbsb == "Sideboard") {
+    cards = deck.sideboard
+  }
+  if (input.mbsb == "Pool") {
+    cards = deck.pool
+  }
+
+  return (
+    <div className="deck-view">
+      <PlayerFrame {...input} />
+      <div className="deck-images-columns">
+        <CardImagesList cards={cards} deck={deck} sb={input.mbsb == "Sideboard"} opts={{cmc: 0}} matchStr={input.matchStr} />
+        <CardImagesList cards={cards} deck={deck} sb={input.mbsb == "Sideboard"} opts={{cmc: 1}} matchStr={input.matchStr} />
+        <CardImagesList cards={cards} deck={deck} sb={input.mbsb == "Sideboard"} opts={{cmc: 2}} matchStr={input.matchStr} />
+        <CardImagesList cards={cards} deck={deck} sb={input.mbsb == "Sideboard"} opts={{cmc: 3}} matchStr={input.matchStr} />
+        <CardImagesList cards={cards} deck={deck} sb={input.mbsb == "Sideboard"} opts={{cmc: 4}} matchStr={input.matchStr} />
+        <CardImagesList cards={cards} deck={deck} sb={input.mbsb == "Sideboard"} opts={{cmc: 5, gt: true}} matchStr={input.matchStr} />
+        <CardImagesList cards={cards} deck={deck} sb={input.mbsb == "Sideboard"} matchStr={input.matchStr} basicsOnly={true} />
+      </div>
+    </div>
+  );
+}
+
+function CardImagesList({cards, deck, sb, opts, matchStr, basicsOnly}) {
+  let toDisplay = new Array()
+  for (let card of cards) {
+    const isBasic = IsBasicLand(card)
+    if (basicsOnly) {
+      if (isBasic) {
+        toDisplay.push(card)
+      }
+      continue
+    }
+
+    // Skip basic lands for normal CMC sections.
+    if (isBasic) {
+      continue
+    }
+
+    if (opts.gt && card.cmc >= opts.cmc || card.cmc === opts.cmc) {
+      toDisplay.push(card)
+    }
+  }
+
+  if (toDisplay.length === 0) {
+    return null
+  }
+
+  // Sort toDisplay by type then name.
+  toDisplay.sort((a, b) => {
+    let typeA = getType(a)
+    let typeB = getType(b)
+    if (typeA < typeB) return -1
+    if (typeA > typeB) return 1
+    if (a.name < b.name) return -1
+    if (a.name > b.name) return 1
+    return 0
+  })
+
+  let title = "CMC=" + opts?.cmc
+  if (opts?.gt) title = "CMC=" + opts.cmc + "+"
+  if (basicsOnly) title = "Basics"
+
+  // Split into chunks of 10 for wrapping.
+  const chunks = [];
+  for (let i = 0; i < toDisplay.length; i += 10) {
+    chunks.push(toDisplay.slice(i, i + 10));
+  }
+
+  return (
+    <div className="deck-images-group">
+      <div className="table-header" style={{"padding": "0.5rem 1rem", "borderRadius": "8px 8px 0 0", "marginBottom": "0.5rem", "textAlign": "center"}}>
+        {title} ({toDisplay.length})
+      </div>
+      <div className="card-stacks-container">
+        {chunks.map((chunk, chunkIdx) => (
+          <div className="card-stack" key={chunkIdx}>
+            {
+              chunk.map(function(card, idx) {
+                let className = "cardimage"
+                if (matchStr && CardMatches(card, matchStr, true)) {
+                  className += " button-selected"
+                } else if (sb && InDeckColor(card, deck)) {
+                  className += " card-playable-highlight"
+                }
+
+                return (
+                  <div key={card.name + idx} className="card-stack-item">
+                    <OverlayTrigger
+                      placement="top"
+                      delay={{ show: 200, hide: 100 }}
+                      overlay={
+                        <Popover id="popover-basic" style={{maxWidth: 'none'}}>
+                          <Popover.Body style={{padding: '0'}}>
+                            <img
+                              src={`https://api.scryfall.com/cards/named?format=image&exact=${encodeURIComponent(card.name)}`}
+                              alt={card.name}
+                              style={{width: '300px', display: 'block', borderRadius: '12px'}}
+                            />
+                          </Popover.Body>
+                        </Popover>
+                      }
+                    >
+                      <img
+                        src={`https://api.scryfall.com/cards/named?format=image&exact=${encodeURIComponent(card.name)}`}
+                        alt={card.name}
+                        className={className}
+                        style={{"width": "200px"}}
+                      />
+                    </OverlayTrigger>
+                  </div>
+                )
+              })
+            }
+          </div>
+        ))}
+      </div>
+    </div>
+  )
 }
 
 function DisplayDeck(input) {
@@ -692,33 +841,50 @@ function PlayerFrame(input) {
   );
 }
 
-function CardList({player, cards, deck, sb, opts, matchStr}) {
-  // Figure out how many of this CMC there are.
-  let num = 0
-  for (var i in cards) {
-    // Count the card if it matches the CMC, or if options specify to include
-    // all cards greater than the given value.
-    if (opts.gt && cards[i].cmc >= opts.cmc || cards[i].cmc === opts.cmc) {
-      num += 1
+function CardList({player, cards, deck, sb, opts, matchStr, basicsOnly}) {
+  if (basicsOnly) return null; // Basics only section removed from text view.
+
+  // Group all cards by name and count occurrences within the current CMC section.
+  let grouped = new Map()
+  let totalCount = 0
+
+  for (let card of cards) {
+    // Logic for CMC grouping.
+    if (!(opts.gt && card.cmc >= opts.cmc || card.cmc === opts.cmc)) {
+      continue
     }
+
+    if (grouped.has(card.name)) {
+      grouped.get(card.name).count += 1
+    } else {
+      grouped.set(card.name, { card: card, count: 1 })
+    }
+    totalCount += 1
   }
-  if (num === 0) {
+
+  if (grouped.size === 0) {
     return null
   }
 
-  let title = "CMC=" + opts.cmc + " (" + num + " cards)"
-  if (opts.gt) {
-    title = "CMC=" + opts.cmc + "+ (" + num + " cards)"
+  let toDisplay = Array.from(grouped.values())
+
+  // Sort toDisplay by type then name.
+  toDisplay.sort((a, b) => {
+    let typeA = getType(a.card)
+    let typeB = getType(b.card)
+    if (typeA < typeB) return -1
+    if (typeA > typeB) return 1
+    if (a.card.name < b.card.name) return -1
+    if (a.card.name > b.card.name) return 1
+    return 0
+  })
+
+  let title = "CMC=" + opts?.cmc + " (" + totalCount + " cards)"
+  if (opts?.gt) {
+    title = "CMC=" + opts.cmc + "+ (" + totalCount + " cards)"
   }
 
   let key = player + opts.cmc
-
-  let toDisplay = new Array()
-  for (let card of cards) {
-    if (opts.gt && card.cmc >= opts.cmc || card.cmc === opts.cmc) {
-      toDisplay.push(card)
-    }
-  }
 
   // Generate the key for this table.
   return (
@@ -731,10 +897,11 @@ function CardList({player, cards, deck, sb, opts, matchStr}) {
         </thead>
         <tbody>
         {
-          toDisplay.map(function(card) {
-            let key = card.name + cards.indexOf(card)
+          toDisplay.map(function(item, idx) {
+            let card = item.card
+            let key = card.name + idx
             let type = getType(card)
-            let text = card.name
+            let text = item.count > 1 ? `${item.count}x ${card.name}` : card.name
             let className = "widget-table-row"
 
             // Dynamic highlighting check
@@ -768,7 +935,7 @@ function CardList({player, cards, deck, sb, opts, matchStr}) {
                 </OverlayTrigger>
               </tr>
             )
-          }).sort(cardSort)
+          })
         }
         </tbody>
       </table>
