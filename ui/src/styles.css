@@ -426,4 +426,43 @@ table {
   gap: 4px;
 }
 
+/* Popover / Tooltip Styling */
+.popover {
+  background-color: var(--card-background) !important;
+  border: 1px solid var(--border) !important;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.2);
+  max-width: 400px;
+}
+
+.popover-header {
+  background-color: var(--page-background) !important;
+  color: var(--primary) !important;
+  border-bottom: 1px solid var(--border) !important;
+  font-weight: 700 !important;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: 0.875rem;
+}
+
+.popover-body {
+  color: var(--white) !important;
+  background-color: var(--card-background) !important;
+}
+
+.bs-popover-top > .popover-arrow::after, .bs-popover-auto[data-popper-placement^="top"] > .popover-arrow::after {
+  border-top-color: var(--card-background) !important;
+}
+
+.bs-popover-bottom > .popover-arrow::after, .bs-popover-auto[data-popper-placement^="bottom"] > .popover-arrow::after {
+  border-bottom-color: var(--page-background) !important;
+}
+
+.bs-popover-start > .popover-arrow::after, .bs-popover-auto[data-popper-placement^="left"] > .popover-arrow::after {
+  border-left-color: var(--card-background) !important;
+}
+
+.bs-popover-end > .popover-arrow::after, .bs-popover-auto[data-popper-placement^="right"] > .popover-arrow::after {
+  border-right-color: var(--card-background) !important;
+}
+
 

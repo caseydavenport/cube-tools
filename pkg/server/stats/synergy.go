@@ -23,6 +23,13 @@ type SynergyStatsRequest struct {
 type SynergyStatsResponse struct {
 	TotalDecks int             `json:"total_decks"`
 	Pairs      []SynergyResult `json:"pairs"`
+	FocalStats []CardFocalStat `json:"focal_stats"`
+}
+
+type CardFocalStat struct {
+	CardName    string   `json:"card_name"`
+	FocalScore  float64  `json:"focal_score"`
+	TopPartners []string `json:"top_partners"`
 }
 
 type SynergyResult struct {
@@ -127,7 +134,11 @@ func (s *synergyStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request)
 	resp := SynergyStatsResponse{
 		TotalDecks: numDecks,
 		Pairs:      []SynergyResult{},
+		FocalStats: []CardFocalStat{},
 	}
+
+	// Temporary map to hold synergy scores for each card
+	cardSynergies := make(map[string][]SynergyResult)
 
 	for p, stats := range cooccurrence {
 		if stats.count < sr.MinDecks {
@@ -145,14 +156,58 @@ func (s *synergyStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request)
 			winPercent = 100 * float64(stats.wins) / float64(stats.wins+stats.losses)
 		}
 
-		resp.Pairs = append(resp.Pairs, SynergyResult{
+		result := SynergyResult{
 			Card1:        p.c1,
 			Card2:        p.c2,
 			Count:        stats.count,
 			SynergyScore: score,
 			WinPercent:   winPercent,
+		}
+
+		resp.Pairs = append(resp.Pairs, result)
+
+		// Collect synergies for focal score calculation
+		cardSynergies[p.c1] = append(cardSynergies[p.c1], result)
+		cardSynergies[p.c2] = append(cardSynergies[p.c2], result)
+	}
+
+	// Calculate Focal Score for each card
+	for card, synergies := range cardSynergies {
+		// Sort by Synergy Score descending
+		sort.Slice(synergies, func(i, j int) bool {
+			return synergies[i].SynergyScore > synergies[j].SynergyScore
+		})
+
+		// Take top 5
+		topN := 5
+		if len(synergies) < topN {
+			topN = len(synergies)
+		}
+
+		sumScore := 0.0
+		topPartners := []string{}
+		for i := 0; i < topN; i++ {
+			sumScore += synergies[i].SynergyScore
+			partner := synergies[i].Card1
+			if partner == card {
+				partner = synergies[i].Card2
+			}
+			topPartners = append(topPartners, partner)
+		}
+
+		avgScore := sumScore / float64(topN)
+
+		resp.FocalStats = append(resp.FocalStats, CardFocalStat{
+			CardName:    card,
+			FocalScore:  avgScore,
+			TopPartners: topPartners,
 		})
 	}
+
+	// Sort FocalStats by FocalScore descending
+	sort.Slice(resp.FocalStats, func(i, j int) bool {
+		return resp.FocalStats[i].FocalScore > resp.FocalStats[j].FocalScore
+	})
 
 	// Sort pairs by Synergy Score
 	sort.Slice(resp.Pairs, func(i, j int) bool {
