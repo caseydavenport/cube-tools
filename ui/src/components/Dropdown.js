@@ -14,7 +14,7 @@ export function DropdownHeader({ label, value, options, onChange, className }) {
      <select className="text-input" value={value} onChange={onChange}>
        {
          options.map((option) => (
-           <option key={option.label} className="select-option" file={option.value}>{option.value}</option>
+           <option key={option.label} className="select-option" value={option.value}>{option.label}</option>
          ))
        }
      </select>

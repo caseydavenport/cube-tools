@@ -143,6 +143,9 @@ export function DeckSplits(deck) {
 }
 
 export function DeckWidget(input) {
+  const [leftChart, setLeftChart] = React.useState("wins_mana_cost")
+  const [rightChart, setRightChart] = React.useState("wins_creature")
+
   if (!input.show) {
     return null
   }
@@ -155,199 +158,101 @@ export function DeckWidget(input) {
     return null
   }
 
+  const chartOptions = [
+    { label: "Wins by Mana Cost", value: "wins_mana_cost" },
+    { label: "Wins by # Creatures", value: "wins_creature" },
+    { label: "Wins by # Sorceries", value: "wins_sorcery" },
+    { label: "Wins by # Instants", value: "wins_instant" },
+    { label: "Wins by # Planeswalkers", value: "wins_planeswalker" },
+    { label: "Wins by # Enchantments", value: "wins_enchantment" },
+    { label: "Wins by # Lands", value: "wins_land" },
+    { label: "Wins by # Non-basics", value: "wins_nonbasic" },
+    { label: "Wins by # Colors", value: "wins_num_colors" },
+    { label: "Pie: # Colors", value: "pie_num_colors" },
+    { label: "Deck Avg. Mana Value", value: "deck_avg_mana" },
+    { label: "Wins by # Counterspells", value: "wins_counterspells" },
+    { label: "Wins by # Removal", value: "wins_removal" },
+    { label: "Wins by # Card Draw", value: "wins_card_draw" },
+    { label: "Wins by # Lifegain", value: "wins_lifegain" },
+    { label: "Wins by # Graveyard", value: "wins_graveyard" },
+    { label: "Wins by # Discard", value: "wins_discard" },
+    { label: "Total Basics Used", value: "total_basics" },
+    { label: "Interaction by Color", value: "interaction_color" },
+    { label: "Avg. Removal per-deck", value: "avg_removal" },
+    { label: "Avg. Counterspells per-deck", value: "avg_counterspells" },
+    { label: "Sideboard Size", value: "sideboard_size" },
+    { label: "Removal Mana Cost", value: "removal_mana_cost" },
+    { label: "Avg. # Colors over time", value: "avg_colors_time" },
+    { label: "Deck Scatter Plot", value: "deck_scatter" },
+  ]
+
+  const renderChart = (chartId) => {
+    switch (chartId) {
+      case "wins_mana_cost": return <WinsByManaCost decks={input.decks} data={data} />;
+      case "wins_creature": return <WinsByCardType type="Creature" decks={input.decks} />;
+      case "wins_sorcery": return <WinsByCardType type="Sorcery" decks={input.decks} />;
+      case "wins_instant": return <WinsByCardType type="Instant" decks={input.decks} />;
+      case "wins_planeswalker": return <WinsByCardType type="Planeswalker" bucketSize={1} decks={input.decks} />;
+      case "wins_enchantment": return <WinsByCardType type="Enchantment" decks={input.decks} />;
+      case "wins_land": return <WinsByCardType type="Land" bucketSize={1} decks={input.decks} />;
+      case "wins_nonbasic": return <WinsByNonBasicDensity decks={input.decks} data={data} />;
+      case "wins_num_colors": return <WinsByNumberOfColors decks={input.decks} />;
+      case "pie_num_colors": return <NumColorsPieChart decks={input.decks} parsed={input.parsed} />;
+      case "deck_avg_mana": return <DeckManaValueChart decks={input.decks} parsed={input.parsed} />;
+      case "wins_counterspells": return <WinsByOracleText title="Wins by # counterspells" parsed={input.parsed} decks={input.decks} matches={CounterspellMatches} />;
+      case "wins_removal": return <WinsByOracleText title="Wins by # removal spells" parsed={input.parsed} decks={input.decks} matches={RemovalMatches} />;
+      case "wins_card_draw": return <WinsByOracleText title="Wins by # card draw spells" parsed={input.parsed} decks={input.decks} matches={cardDrawMatches} />;
+      case "wins_lifegain": return <WinsByOracleText title="Wins by # lifegain spells" parsed={input.parsed} decks={input.decks} matches={lifegainMatches} />;
+      case "wins_graveyard": return <WinsByOracleText title="Wins by graveyard interaction" parsed={input.parsed} decks={input.decks} matches={["graveyard"]} />;
+      case "wins_discard": return <WinsByOracleText title="Wins by # discard spells" parsed={input.parsed} decks={input.decks} matches={["discard"]} />;
+      case "total_basics": return <DeckBasicLandCountChart decks={input.decks} parsed={input.parsed} />;
+      case "interaction_color": return <OracleTextByColor title="Interaction by color" parsed={input.parsed} data={data} />;
+      case "avg_removal": return <OracleTextOverTimeChart title="Avg. removal per-deck" parsed={input.parsed} matches={RemovalMatches} data={data} />;
+      case "avg_counterspells": return <OracleTextOverTimeChart title="Avg. counterspells per-deck" parsed={input.parsed} matches={CounterspellMatches} data={data} />;
+      case "sideboard_size": return <SideboardSizeOverTimeChart decks={input.decks} parsed={input.parsed} />;
+      case "removal_mana_cost": return <ManaCostByOracleTextOverTime title="Removal mana cost" parsed={input.parsed} decks={input.decks} matches={RemovalMatches} data={data} />;
+      case "avg_colors_time": return <NumColorsOverTimeChart decks={input.decks} parsed={input.parsed} />;
+      case "deck_scatter": return <DeckGraph {...input} />;
+      default: return null;
+    }
+  }
+
   return (
     <table style={{"width": "100%"}}>
       <tbody>
-        <tr style={{"height": "300px"}}>
-          <td style={{"verticalAlign": "top", "width": "50%"}}>
-            <WinsByManaCost decks={input.decks} data={data} />
+        <tr key="charts-header">
+          <td style={{"paddingTop": "50px", "width": "50%"}}>
+            <div className="selector-group" style={{"justifyContent": "center"}}>
+              <DropdownHeader
+                label="Left Chart"
+                options={chartOptions}
+                value={leftChart}
+                onChange={(e) => setLeftChart(e.target.value)}
+              />
+            </div>
           </td>
-          <td style={{"verticalAlign": "top"}}>
-            <WinsByCardType type="Creature" decks={input.decks} />
-          </td>
-        </tr>
-
-        <tr style={{"height": "300px"}}>
-          <td style={{"verticalAlign": "top", "width": "50%"}}>
-            <WinsByCardType type="Sorcery" decks={input.decks} />
-          </td>
-          <td style={{"verticalAlign": "top"}}>
-            <WinsByCardType type="Instant" decks={input.decks} />
-          </td>
-        </tr>
-
-        <tr style={{"height": "300px"}}>
-          <td style={{"verticalAlign": "top", "width": "50%"}}>
-            <WinsByCardType type="Planeswalker" bucketSize={1} decks={input.decks} />
-          </td>
-          <td style={{"verticalAlign": "top"}}>
-            <WinsByCardType type="Enchantment" decks={input.decks} />
+          <td style={{"paddingTop": "50px", "width": "50%"}}>
+            <div className="selector-group" style={{"justifyContent": "center"}}>
+              <DropdownHeader
+                label="Right Chart"
+                options={chartOptions}
+                value={rightChart}
+                onChange={(e) => setRightChart(e.target.value)}
+              />
+            </div>
           </td>
         </tr>
 
-        <tr style={{"height": "300px"}}>
-          <td style={{"verticalAlign": "top"}}>
-            <WinsByCardType type="Land" bucketSize={1} decks={input.decks} />
-          </td>
-
+        <tr key="charts-body">
           <td style={{"verticalAlign": "top", "width": "50%"}}>
-            <WinsByNonBasicDensity decks={input.decks} data={data} />
+            {renderChart(leftChart)}
+          </td>
+          <td style={{"verticalAlign": "top", "width": "50%"}}>
+            {renderChart(rightChart)}
           </td>
         </tr>
-
-        <tr style={{"height": "300px"}}>
-          <td style={{"verticalAlign": "top", "width": "50%"}}>
-            <WinsByNumberOfColors decks={input.decks} />
-          </td>
-          <td style={{"verticalAlign": "top"}}>
-            <NumColorsPieChart
-              decks={input.decks}
-              parsed={input.parsed}
-            />
-          </td>
-        </tr>
-
-        <tr style={{"height": "300px"}}>
-          <td style={{"verticalAlign": "top", "width": "50%"}}>
-            // TODO: Put a chart here!
-          </td>
-          <td style={{"verticalAlign": "top"}}>
-            <DeckManaValueChart
-              decks={input.decks}
-              parsed={input.parsed}
-            />
-          </td>
-        </tr>
-
-        <tr style={{"height": "300px"}}>
-          <td style={{"verticalAlign": "top", "width": "50%"}}>
-            <WinsByOracleText
-              title="Wins by # counterspells"
-              parsed={input.parsed}
-              decks={input.decks}
-              matches={CounterspellMatches}
-            />
-          </td>
-          <td style={{"verticalAlign": "top"}}>
-            <WinsByOracleText
-              title="Wins by # removal spells"
-              parsed={input.parsed}
-              decks={input.decks}
-              matches={RemovalMatches}
-            />
-          </td>
-        </tr>
-
-        <tr style={{"height": "300px"}}>
-          <td style={{"verticalAlign": "top", "width": "50%"}}>
-            <WinsByOracleText
-              title="Wins by # card draw spells"
-              parsed={input.parsed}
-              decks={input.decks}
-              matches={cardDrawMatches}
-            />
-          </td>
-          <td style={{"verticalAlign": "top"}}>
-            <WinsByOracleText
-              title="Wins by # lifegain spells"
-              parsed={input.parsed}
-              decks={input.decks}
-              matches={lifegainMatches}
-            />
-          </td>
-        </tr>
-
-        <tr style={{"height": "300px"}}>
-          <td style={{"verticalAlign": "top", "width": "50%"}}>
-            <WinsByOracleText
-              title="Wins by graveyard interaction"
-              parsed={input.parsed}
-              decks={input.decks}
-              matches={["graveyard"]}
-            />
-          </td>
-          <td style={{"verticalAlign": "top"}}>
-            <WinsByOracleText
-              title="Wins by # discard spells"
-              parsed={input.parsed}
-              decks={input.decks}
-              matches={["discard"]}
-            />
-          </td>
-        </tr>
-
-        <tr style={{"height": "300px"}}>
-          <td style={{"verticalAlign": "top", "width": "50%"}}>
-            <DeckBasicLandCountChart
-              decks={input.decks}
-              parsed={input.parsed}
-            />
-          </td>
-
-          <td style={{"verticalAlign": "top"}}>
-            <OracleTextByColor
-              title="Interaction by color"
-              parsed={input.parsed}
-              data={data}
-            />
-          </td>
-
-        </tr>
-
-        <tr style={{"height": "300px"}}>
-          <td style={{"verticalAlign": "top", "width": "50%"}}>
-            <OracleTextOverTimeChart
-              title="Avg. removal per-deck"
-              parsed={input.parsed}
-              matches={RemovalMatches}
-              data={data}
-            />
-          </td>
-          <td style={{"verticalAlign": "top"}}>
-            <OracleTextOverTimeChart
-              title="Avg. counterspells per-deck"
-              parsed={input.parsed}
-              matches={CounterspellMatches}
-              data={data}
-            />
-          </td>
-        </tr>
-
-        <tr style={{"height": "300px"}}>
-          <td style={{"verticalAlign": "top", "width": "50%"}}>
-            <SideboardSizeOverTimeChart
-              decks={input.decks}
-              parsed={input.parsed}
-            />
-          </td>
-
-          <td style={{"verticalAlign": "top", "width": "50%"}}>
-            <ManaCostByOracleTextOverTime
-              title="Removal mana cost"
-              parsed={input.parsed}
-              decks={input.decks}
-              matches={RemovalMatches}
-              data={data}
-            />
-          </td>
-        </tr>
-
-        <tr style={{"height": "300px"}}>
-          <td style={{"verticalAlign": "top", "width": "50%"}}>
-            <NumColorsOverTimeChart
-              decks={input.decks}
-              parsed={input.parsed}
-            />
-          </td>
-        </tr>
-
-        <tr>
-          <DeckGraph {...input} />
-        </tr>
-
       </tbody>
     </table>
-
   )
 }
 
@@ -624,7 +529,7 @@ function WinsByManaCost(input) {
   };
 
   return (
-    <div style={{"height":"500px", "width":"100%"}}>
+    <div style={{"height":"700px", "width":"100%"}}>
       <Bar height={"300px"} width={"300px"} options={options} data={data} />;
     </div>
   );
@@ -737,7 +642,7 @@ function WinsByCardType(input) {
   };
 
   return (
-    <div style={{"height":"500px", "width":"100%"}}>
+    <div style={{"height":"700px", "width":"100%"}}>
       <Bar height={"300px"} width={"300px"} options={options} data={data} />;
     </div>
   );
@@ -817,7 +722,7 @@ function WinsByNonBasicDensity(input) {
   };
 
   return (
-    <div style={{"height":"500px", "width":"100%"}}>
+    <div style={{"height":"700px", "width":"100%"}}>
       <Bar height={"300px"} width={"300px"} options={options} data={data} />;
     </div>
   );
@@ -921,7 +826,7 @@ function WinsByOracleText(input) {
   };
 
   return (
-    <div style={{"height":"500px", "width":"100%"}}>
+    <div style={{"height":"700px", "width":"100%"}}>
       <Bar height={"300px"} width={"300px"} options={options} data={data} />;
     </div>
   );
@@ -1008,7 +913,7 @@ function WinsByNumberOfColors(input) {
   };
 
   return (
-    <div style={{"height":"500px", "width":"100%"}}>
+    <div style={{"height":"700px", "width":"100%"}}>
       <Bar height={"300px"} width={"300px"} options={options} data={data} />;
     </div>
   );
@@ -1080,7 +985,7 @@ function OracleTextByColor(input) {
 
   const data = {labels, datasets: dataset};
   return (
-    <div style={{"height":"500px", "width":"100%"}}>
+    <div style={{"height":"700px", "width":"100%"}}>
       <Line height={"300px"} width={"300px"} options={options} data={data} />
     </div>
   );
@@ -1153,7 +1058,7 @@ function OracleTextOverTimeChart(input) {
   const labels = input.data.labels
   const data = {labels, datasets: dataset};
   return (
-    <div style={{"height":"500px", "width":"100%"}}>
+    <div style={{"height":"700px", "width":"100%"}}>
       <Line height={"300px"} width={"300px"} options={options} data={data} />
     </div>
   );
@@ -1225,7 +1130,7 @@ function DeckManaValueChart(input) {
 
   const data = {labels, datasets: dataset};
   return (
-    <div style={{"height":"500px", "width":"100%"}}>
+    <div style={{"height":"700px", "width":"100%"}}>
       <Line height={"300px"} width={"300px"} options={options} data={data} />
     </div>
   );
@@ -1330,7 +1235,7 @@ function DeckBasicLandCountChart(input) {
 
   const data = {labels, datasets: dataset};
   return (
-    <div style={{"height":"500px", "width":"100%"}}>
+    <div style={{"height":"700px", "width":"100%"}}>
       <Line height={"300px"} width={"300px"} options={options} data={data} />
     </div>
   );
@@ -1414,7 +1319,7 @@ function SideboardSizeOverTimeChart(input) {
 
   const data = {labels, datasets: dataset};
   return (
-    <div style={{"height":"500px", "width":"100%"}}>
+    <div style={{"height":"700px", "width":"100%"}}>
       <Line height={"300px"} width={"300px"} options={options} data={data} />
     </div>
   );
@@ -1489,7 +1394,7 @@ function NumColorsOverTimeChart(input) {
 
   const data = {labels, datasets: dataset};
   return (
-    <div style={{"height":"500px", "width":"100%"}}>
+    <div style={{"height":"700px", "width":"100%"}}>
       <Line height={"300px"} width={"300px"} options={options} data={data} />
     </div>
   );
@@ -1557,7 +1462,7 @@ function ManaCostByOracleTextOverTime(input) {
 
   const data = {labels, datasets: dataset};
   return (
-    <div style={{"height":"500px", "width":"100%"}}>
+    <div style={{"height":"700px", "width":"100%"}}>
       <Line height={"300px"} width={"300px"} options={options} data={data} />
     </div>
   );
@@ -1776,7 +1681,7 @@ function NumColorsPieChart(input) {
   };
 
   return (
-    <div style={{"height":"500px", "width":"100%"}}>
+    <div style={{"height":"700px", "width":"100%"}}>
       <Pie height={"300px"} width={"300px"} options={options} data={data} />
     </div>
   );

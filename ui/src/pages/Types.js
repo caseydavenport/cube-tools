@@ -45,8 +45,46 @@ const winColor = Green
 const lossColor = Black // "#61892f"
 
 export function ArchetypeWidget(input) {
+  const [leftChart, setLeftChart] = React.useState("macro_builds")
+  const [rightChart, setRightChart] = React.useState("macro_wins")
+
   if (!input.show) {
     return null
+  }
+
+  const chartOptions = [
+    { label: "Macro Build %", value: "macro_builds" },
+    { label: "Macro Win %", value: "macro_wins" },
+    { label: "Macro % of wins", value: "macro_pwin" },
+    { label: "Macro CMC", value: "macro_cmc" },
+    { label: "Matchup: Aggro", value: "matchup_aggro" },
+    { label: "Matchup: Tempo", value: "matchup_tempo" },
+    { label: "Matchup: Midrange", value: "matchup_midrange" },
+    { label: "Matchup: Control", value: "matchup_control" },
+    { label: "Pie: Builds", value: "pie_builds" },
+    { label: "Pie: Wins", value: "pie_wins" },
+    { label: "Micro Build %", value: "micro_builds" },
+    { label: "Micro Win %", value: "micro_wins" },
+    { label: "Micro % of wins", value: "micro_pwin" },
+  ]
+
+  const renderChart = (chartId) => {
+    switch (chartId) {
+      case "macro_builds": return <MacroArchetypesChart parsed={input.parsed} decks={input.decks} bucketSize={input.bucketSize} dataset="builds" />;
+      case "macro_wins": return <MacroArchetypesChart parsed={input.parsed} decks={input.decks} bucketSize={input.bucketSize} dataset="wins" />;
+      case "macro_pwin": return <MacroArchetypesChart parsed={input.parsed} decks={input.decks} bucketSize={input.bucketSize} dataset="percent_of_wins" />;
+      case "macro_cmc": return <MacroArchetypesChart parsed={input.parsed} decks={input.decks} bucketSize={input.bucketSize} dataset="cmc" />;
+      case "matchup_aggro": return <WinsByMatchup focus="aggro" matchups={input.matchups} />;
+      case "matchup_tempo": return <WinsByMatchup focus="tempo" matchups={input.matchups} />;
+      case "matchup_midrange": return <WinsByMatchup focus="midrange" matchups={input.matchups} />;
+      case "matchup_control": return <WinsByMatchup focus="control" matchups={input.matchups} />;
+      case "pie_builds": return <MacroArchetypesPieChart parsed={input.parsed} decks={input.decks} dataset="builds" />;
+      case "pie_wins": return <MacroArchetypesPieChart parsed={input.parsed} decks={input.decks} dataset="wins" />;
+      case "micro_builds": return <MicroArchetypesChart parsed={input.parsed} decks={input.decks} bucketSize={input.bucketSize} dataset="builds" />;
+      case "micro_wins": return <MicroArchetypesChart parsed={input.parsed} decks={input.decks} bucketSize={input.bucketSize} dataset="wins" />;
+      case "micro_pwin": return <MicroArchetypesChart parsed={input.parsed} decks={input.decks} bucketSize={input.bucketSize} dataset="percent_of_wins" />;
+      default: return null;
+    }
   }
 
   return (
@@ -93,72 +131,23 @@ export function ArchetypeWidget(input) {
       </div>
 
       <div className="archetype-charts-section">
+        <div className="selector-group" style={{"justifyContent": "center", "marginBottom": "1rem"}}>
+          <DropdownHeader
+            label="Left Chart"
+            options={chartOptions}
+            value={leftChart}
+            onChange={(e) => setLeftChart(e.target.value)}
+          />
+          <DropdownHeader
+            label="Right Chart"
+            options={chartOptions}
+            value={rightChart}
+            onChange={(e) => setRightChart(e.target.value)}
+          />
+        </div>
         <div className="chart-grid">
-          <MacroArchetypesChart
-            parsed={input.parsed}
-            decks={input.decks}
-            bucketSize={input.bucketSize}
-            dataset="builds"
-          />
-          <MacroArchetypesChart
-            parsed={input.parsed}
-            decks={input.decks}
-            bucketSize={input.bucketSize}
-            dataset="wins"
-          />
-          <MacroArchetypesChart
-            parsed={input.parsed}
-            decks={input.decks}
-            bucketSize={input.bucketSize}
-            dataset="percent_of_wins"
-          />
-          <MacroArchetypesChart
-            parsed={input.parsed}
-            decks={input.decks}
-            bucketSize={input.bucketSize}
-            dataset="cmc"
-          />
-        </div>
-
-        <div className="matchup-section">
-          <WinsByMatchup focus="aggro" matchups={input.matchups} />
-          <WinsByMatchup focus="tempo" matchups={input.matchups} />
-          <WinsByMatchup focus="midrange" matchups={input.matchups} />
-          <WinsByMatchup focus="control" matchups={input.matchups} />
-        </div>
-
-        <div className="pie-section">
-          <MacroArchetypesPieChart
-            parsed={input.parsed}
-            decks={input.decks}
-            dataset="builds"
-          />
-          <MacroArchetypesPieChart
-            parsed={input.parsed}
-            decks={input.decks}
-            dataset="wins"
-          />
-        </div>
-
-        <div className="micro-archetype-section">
-          <MicroArchetypesChart
-            parsed={input.parsed}
-            decks={input.decks}
-            bucketSize={input.bucketSize}
-            dataset="builds"
-          />
-          <MicroArchetypesChart
-            parsed={input.parsed}
-            decks={input.decks}
-            bucketSize={input.bucketSize}
-            dataset="wins"
-          />
-          <MicroArchetypesChart
-            parsed={input.parsed}
-            decks={input.decks}
-            bucketSize={input.bucketSize}
-            dataset="percent_of_wins"
-          />
+          {renderChart(leftChart)}
+          {renderChart(rightChart)}
         </div>
       </div>
     </div>
@@ -880,7 +869,7 @@ function MacroArchetypesChart(input) {
 
   const data = {labels, datasets: chartDataset};
   return (
-    <div style={{"height":"500px", "width":"100%"}}>
+    <div style={{"height":"700px", "width":"100%"}}>
       <Line height={"300px"} width={"300px"} options={options} data={data} />
     </div>
   );
@@ -955,7 +944,7 @@ function MacroArchetypesPieChart(input) {
   };
 
   return (
-    <div style={{"height":"500px", "width":"100%"}}>
+    <div style={{"height":"700px", "width":"100%"}}>
       <Pie height={"300px"} width={"300px"} options={options} data={data} />
     </div>
   );
@@ -1068,7 +1057,7 @@ function WinsByMatchup(input) {
   };
 
   return (
-    <div style={{"height":"500px", "width":"100%"}}>
+    <div style={{"height":"700px", "width":"100%"}}>
       <Bar height={"300px"} width={"300px"} options={options} data={data} />;
     </div>
   );

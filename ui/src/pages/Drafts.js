@@ -132,6 +132,7 @@ function DraftOrderWidget(input) {
             headers.map(function(hdr, i) {
               return (
                 <OverlayTrigger
+                  key={hdr.id}
                   placement="top"
                   delay={{ show: 100, hide: 100 }}
                   overlay={
@@ -250,8 +251,8 @@ function DraftOrderWidget(input) {
                   placement="right"
                   delay={{ show: 500, hide: 100 }}
                   overlay={
-                    <Popover id="popover-basic">
-                      <Popover.Header as="h3">Picked by</Popover.Header>
+                    <Popover id="popover-basic" style={{maxWidth: 'none'}}>
+                      <Popover.Header as="h3">{pick.name}</Popover.Header>
                       <Popover.Body>
                         {DraftPickTooltipContent(pick)}
                       </Popover.Body>
@@ -351,7 +352,25 @@ export function DraftPackWidget(input) {
             sort = "b"
           }
           return (
-              <img key={cardID} sort={sort} src={img} className={className}/>
+            <OverlayTrigger
+              key={cardID}
+              sort={sort}
+              placement="top"
+              delay={{ show: 200, hide: 100 }}
+              overlay={
+                <Popover id="popover-basic" style={{maxWidth: 'none'}}>
+                  <Popover.Body style={{padding: '0'}}>
+                    <img
+                      src={img}
+                      alt={card.name}
+                      style={{width: '250px', display: 'block', borderRadius: '12px'}}
+                    />
+                  </Popover.Body>
+                </Popover>
+              }
+            >
+              <img src={img} className={className}/>
+            </OverlayTrigger>
           )
         }).sort(SortFunc)
       }
@@ -362,26 +381,31 @@ export function DraftPackWidget(input) {
 function DraftPickTooltipContent(pick) {
   let k = 0
   return (
-    <div>
-      <table>
-        <thead className="table-header">
-          <tr>
-            <td id="name" className="header-cell">Date</td>
-            <td id="name" className="header-cell">Player</td>
-            <td id="pack" className="header-cell">Pack</td>
-            <td id="pick" className="header-cell">Pick</td>
+    <div style={{"display": "flex", "flexDirection": "column", "gap": "10px"}}>
+      <img
+        src={`https://api.scryfall.com/cards/named?format=image&exact=${encodeURIComponent(pick.name)}`}
+        alt={pick.name}
+        style={{width: '200px', display: 'block', borderRadius: '8px', alignSelf: 'center'}}
+      />
+      <table style={{"width": "100%", "borderCollapse": "collapse", "fontSize": "0.85rem"}}>
+        <thead>
+          <tr style={{"borderBottom": "1px solid var(--border)", "textAlign": "left", "color": "var(--text-muted)"}}>
+            <th style={{"padding": "4px 8px"}}>Date</th>
+            <th style={{"padding": "4px 8px"}}>Player</th>
+            <th style={{"padding": "4px 8px"}}>Pack</th>
+            <th style={{"padding": "4px 8px"}}>Pick</th>
           </tr>
         </thead>
         <tbody>
         {
-          pick.picks.map(function(pick) {
+          pick.picks.map(function(p) {
             k += 1
             return (
-              <tr key={k}>
-                <td>{pick.date}</td>
-                <td>{pick.player}</td>
-                <td>{pick.pack + 1}</td>
-                <td>{pick.pick + 1}</td>
+              <tr key={k} style={{"borderBottom": "1px solid var(--border)"}}>
+                <td style={{"padding": "4px 8px"}}>{p.date}</td>
+                <td style={{"padding": "4px 8px"}}>{p.player}</td>
+                <td style={{"padding": "4px 8px"}}>{p.pack + 1}</td>
+                <td style={{"padding": "4px 8px"}}>{p.pick + 1}</td>
               </tr>
             )
           })
