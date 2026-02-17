@@ -18,6 +18,7 @@ func main() {
 	http.Handle("/api/stats/synergy", stats.SynergyStatsHandler())
 	http.Handle("/api/stats/archetypes", stats.ArchetypeStatsHandler())
 	http.Handle("/api/stats/players", stats.PlayerStatsHandler())
+	http.Handle("/api/save-notes", server.SaveNotesHandler())
 
 	fmt.Println("Server listening on port 8888")
 	err := http.ListenAndServe(":8888", nil)

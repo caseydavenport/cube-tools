@@ -1,7 +1,7 @@
 import React from 'react'
 import { useState } from "react";
 import { useEffect } from "react";
-import { LoadDecks, FetchFile } from "../utils/Fetch.js"
+import { LoadDecks, FetchFile, SaveNotes } from "../utils/Fetch.js"
 import { Record, Wins, Losses, Draws, MatchWins, MatchLosses, MatchDraws, InDeckColor } from "../utils/Deck.js"
 import { RemovalMatches, CounterspellMatches } from "../pages/Decks.js"
 import { SortFunc, StringToColor, CheckboxesToColors, IsBasicLand } from "../utils/Utils.js"
@@ -336,6 +336,7 @@ export function DeckViewer(props) {
             mbsb={mainboardSideboard}
             matchStr={debouncedMatchStr}
             description={description}
+            onDescriptionFetched={onDescriptionFetched}
             viewMode={viewMode}
           />
         </div>
@@ -570,7 +571,7 @@ function DisplayDeckImages(input) {
         <CardImagesList cards={cards} deck={deck} sb={input.mbsb == "Sideboard"} opts={{cmc: 5, gt: true}} matchStr={input.matchStr} />
         <CardImagesList cards={cards} deck={deck} sb={input.mbsb == "Sideboard"} matchStr={input.matchStr} basicsOnly={true} />
       </div>
-      <DeckReport player={deck.player} cardMap={cardMap} description={input.description} deck={deck} />
+      <DeckReport player={deck.player} cardMap={cardMap} description={input.description} onDescriptionFetched={input.onDescriptionFetched} deck={deck} />
     </div>
   );
 }
@@ -712,15 +713,38 @@ function DisplayDeck(input) {
         <CardList player={deck.player} cards={cards} deck={deck} sb={input.mbsb == "Sideboard"} opts={{cmc: 4}} matchStr={input.matchStr} />
         <CardList player={deck.player} cards={cards} deck={deck} sb={input.mbsb == "Sideboard"} opts={{cmc: 5, gt: true}} matchStr={input.matchStr} />
       </div>
-      <DeckReport player={deck.player} cardMap={cardMap} description={input.description} deck={deck} />
+      <DeckReport player={deck.player} cardMap={cardMap} description={input.description} onDescriptionFetched={input.onDescriptionFetched} deck={deck} />
     </div>
   );
 }
 
 function DeckReport(input) {
-  if (input.description == "") {
-    return;
+  const [isEditing, setIsEditing] = useState(false);
+  const [editContent, setEditContent] = useState(input.description);
+
+  // Sync editContent when description changes from props.
+  useEffect(() => {
+    setEditContent(input.description);
+  }, [input.description]);
+
+  if (input.description == "" && !isEditing) {
+    return (
+      <div className="player-frame" style={{"marginTop": "2rem", "textAlign": "center"}}>
+        <Button text="Add Notes" onClick={() => setIsEditing(true)} />
+      </div>
+    );
   }
+
+  const onSave = async () => {
+    try {
+      let f = "data/polyverse/" + input.deck.metadata.draft_id + "/" + input.deck.player + ".report.md"
+      await SaveNotes(f.toLowerCase(), editContent);
+      input.onDescriptionFetched(editContent);
+      setIsEditing(false);
+    } catch (err) {
+      alert("Failed to save notes: " + err.message);
+    }
+  };
 
   // Replace [[cardname]] with links to the card.
   let description = input.description
@@ -740,13 +764,41 @@ function DeckReport(input) {
 
   return (
     <div className="player-frame" style={{"marginTop": "2rem"}}>
-      <div className="player-frame-header" style={{"marginBottom": "1rem", "borderBottom": "1px solid var(--border)", "paddingBottom": "0.5rem"}}>
+      <div className="player-frame-header" style={{"display": "flex", "justifyContent": "space-between", "alignItems": "center", "marginBottom": "1rem", "borderBottom": "1px solid var(--border)", "paddingBottom": "0.5rem"}}>
         <h2 style={{"margin": "0", "color": "var(--primary)"}}>Notes from the draft</h2>
+        <div style={{"display": "flex", "gap": "0.5rem"}}>
+          {isEditing ? (
+            <>
+              <Button text="Save" onClick={onSave} />
+              <Button text="Cancel" onClick={() => { setIsEditing(false); setEditContent(input.description); }} />
+            </>
+          ) : (
+            <Button text="Edit" onClick={() => setIsEditing(true)} />
+          )}
+        </div>
       </div>
 
-      <ReactMarkdown>
-        {description}
-      </ReactMarkdown>
+      {isEditing ? (
+        <textarea
+          style={{
+            "width": "100%",
+            "minHeight": "300px",
+            "background": "var(--page-background)",
+            "color": "var(--white)",
+            "border": "1px solid var(--border)",
+            "borderRadius": "8px",
+            "padding": "1rem",
+            "fontFamily": "inherit",
+            "fontSize": "1rem"
+          }}
+          value={editContent}
+          onChange={(e) => setEditContent(e.target.value)}
+        />
+      ) : (
+        <ReactMarkdown>
+          {description}
+        </ReactMarkdown>
+      )}
     </div>
   );
 }

@@ -98,6 +98,20 @@ export async function FetchFile(path, onFetch) {
   return txt;
 }
 
+// SaveNotes saves the given content to the specified path.
+export async function SaveNotes(path, content) {
+  const resp = await fetch("/api/save-notes", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ path, content }),
+  });
+  if (!resp.ok) {
+    throw new Error("Failed to save notes");
+  }
+}
+
 // FetchIndex loads the draft index file from the server.
 // The draft index file is an index of all the available drafts
 // available on the server.
