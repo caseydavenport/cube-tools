@@ -238,8 +238,21 @@ table {
   background: var(--page-background);
   border: 1px solid var(--border);
   color: var(--white);
-  padding: 0.4rem;
+  padding: 0.5rem;
   border-radius: 6px;
+  outline: none;
+  transition: all 0.2s ease;
+  font-family: inherit;
+}
+
+.date-selector input:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 2px var(--highlight);
+}
+
+.date-selector input::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+  cursor: pointer;
 }
 
 /* Charts */

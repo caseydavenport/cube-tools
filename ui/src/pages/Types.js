@@ -411,6 +411,11 @@ function TopCardsInArchetypeWidget(input) {
       tip: "The card's name."
     },
     {
+      id: "focal",
+      text: "Focal Score",
+      tip: "Combines include rate and correlation to identify cards that define the archetype. High scores indicate cards that are both common in this archetype and rarely seen outside of it.",
+    },
+    {
       id: "decks",
       text: "# Decks",
       tip: "Number of times this card has been mainboarded in decks with the selected archetype / tag.",
@@ -468,6 +473,7 @@ function TopCardsInArchetypeWidget(input) {
               let count = cardArch.get(input.selectedArchetype)
               let percentage = Math.round(count / archetypes.get(input.selectedArchetype).count * 100)
               let correlation = Math.round(count / card.mainboard * 100)
+              let focal = Math.round((percentage / 100) * (correlation / 100) * 100)
 
               let sort = count;
               switch (sortBy) {
@@ -475,6 +481,7 @@ function TopCardsInArchetypeWidget(input) {
                 case "decks": sort = count; break;
                 case "include_rate": sort = percentage; break;
                 case "correlation": sort = correlation; break;
+                case "focal": sort = focal; break;
               }
 
               if (invertSort) {
@@ -485,6 +492,7 @@ function TopCardsInArchetypeWidget(input) {
               return (
                 <tr sort={sort} className="widget-table-row" key={card.name}>
                   <td ><a href={card.url} target="_blank" rel="noopener noreferrer">{card.name}</a></td>
+                  <td >{focal}</td>
                   <td >{count}</td>
                   <td >{percentage}%</td>
                   <td >{correlation}%</td>

@@ -79,7 +79,7 @@ export function TextInput(input) {
 
 export function DateSelector(input) {
   return (
-    <div className="dropdown">
+    <div className="dropdown date-selector">
       <label style={{"paddingRight": "10px"}}>{input.label}</label>
       <input
         type="date"
