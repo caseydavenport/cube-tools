@@ -779,10 +779,40 @@ function PlayerFrame(input) {
     // (Mutation removed, highlighting handled in CardList)
   }
 
+  const copyToClipboard = () => {
+    let text = "";
+    
+    // Helper to format a list of cards
+    const formatCards = (cardList) => {
+      let counts = new Map();
+      for (let card of cardList) {
+        counts.set(card.name, (counts.get(card.name) || 0) + 1);
+      }
+      let result = "";
+      for (let [name, count] of counts) {
+        result += `${count}x ${name}\n`;
+      }
+      return result;
+    };
+
+    if (deck.mainboard) {
+      text += formatCards(deck.mainboard);
+    }
+
+    navigator.clipboard.writeText(text).then(() => {
+      alert("Deck copied to clipboard!");
+    }).catch(err => {
+      console.error("Failed to copy deck: ", err);
+    });
+  };
+
   return (
     <div className="player-frame">
       <div className="player-frame-header" style={{"display": "flex", "justifyContent": "space-between", "alignItems": "center", "marginBottom": "1rem", "borderBottom": "1px solid var(--border)", "paddingBottom": "0.5rem"}}>
-        <h2 style={{"margin": "0", "color": "var(--primary)"}}>{deck.player}</h2>
+        <div style={{"display": "flex", "alignItems": "center", "gap": "1rem"}}>
+          <h2 style={{"margin": "0", "color": "var(--primary)"}}>{deck.player}</h2>
+          <Button text="Copy to Clipboard" onClick={copyToClipboard} />
+        </div>
         <div style={{"fontSize": "1.2rem"}}>{colors}</div>
       </div>
 
