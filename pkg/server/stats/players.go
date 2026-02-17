@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"math"
 	"net/http"
+	"strings"
 
 	"github.com/caseydavenport/cube-tools/pkg/server/decks"
 	"github.com/caseydavenport/cube-tools/pkg/storage"
@@ -15,25 +16,33 @@ type PlayerStatsResponse struct {
 }
 
 type PlayerStats struct {
-	Name                 string         `json:"name"`
-	NumDecks             int            `json:"num_decks"`
-	Wins                 int            `json:"wins"`
-	Losses               int            `json:"losses"`
-	Games                int            `json:"games"`
-	WinPercent           float64        `json:"win_percent"`
-	LossPercent          float64        `json:"loss_percent"`
-	Trophies             int            `json:"trophies"`
-	LastPlace            int            `json:"last_place"`
-	OpponentWinPercent   float64        `json:"opponent_win_percentage"`
-	WhitePercent         float64        `json:"white_percent"`
-	BluePercent          float64        `json:"blue_percent"`
-	BlackPercent         float64        `json:"black_percent"`
-	RedPercent           float64        `json:"red_percent"`
-	GreenPercent         float64        `json:"green_percent"`
-	Uniqueness           float64        `json:"uniqueness"`
-	TotalPicks           int            `json:"total_picks"`
-	UniqueCards          map[string]int `json:"unique_cards"`
-	ColorPicks           map[string]int `json:"color_picks"`
+	Name               string                    `json:"name"`
+	NumDecks           int                       `json:"num_decks"`
+	Wins               int                       `json:"wins"`
+	Losses             int                       `json:"losses"`
+	Games              int                       `json:"games"`
+	WinPercent         float64                   `json:"win_percent"`
+	LossPercent        float64                   `json:"loss_percent"`
+	Trophies           int                       `json:"trophies"`
+	LastPlace          int                       `json:"last_place"`
+	OpponentWinPercent float64                   `json:"opponent_win_percentage"`
+	WhitePercent       float64                   `json:"white_percent"`
+	BluePercent        float64                   `json:"blue_percent"`
+	BlackPercent       float64                   `json:"black_percent"`
+	RedPercent         float64                   `json:"red_percent"`
+	GreenPercent       float64                   `json:"green_percent"`
+	Uniqueness         float64                   `json:"uniqueness"`
+	TotalPicks         int                       `json:"total_picks"`
+	UniqueCards        map[string]int            `json:"unique_cards"`
+	ColorPicks         map[string]int            `json:"color_picks"`
+	ArchetypeStats     map[string]*winLossStats `json:"archetype_stats"`
+	ColorStats         map[string]*winLossStats `json:"color_stats"`
+}
+
+type winLossStats struct {
+	Wins   int `json:"wins"`
+	Losses int `json:"losses"`
+	Count  int `json:"count"`
 }
 
 func PlayerStatsHandler() http.Handler {
@@ -63,9 +72,11 @@ func (s *playerStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) 
 	for _, deck := range allDecks {
 		if _, ok := resp.Players[deck.Player]; !ok {
 			resp.Players[deck.Player] = &PlayerStats{
-				Name:        deck.Player,
-				UniqueCards: make(map[string]int),
-				ColorPicks:  make(map[string]int),
+				Name:           deck.Player,
+				UniqueCards:    make(map[string]int),
+				ColorPicks:     make(map[string]int),
+				ArchetypeStats: make(map[string]*winLossStats),
+				ColorStats:     make(map[string]*winLossStats),
 			}
 		}
 		ps := resp.Players[deck.Player]
@@ -75,6 +86,31 @@ func (s *playerStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) 
 		ps.Trophies += deck.Trophies()
 		ps.LastPlace += deck.LastPlace()
 		ps.OpponentWinPercent += deck.OpponentWinPercentage
+
+		// Track archetype win/loss for the player.
+		for _, label := range deck.Labels {
+			l := strings.ToLower(label)
+			if _, ok := ps.ArchetypeStats[l]; !ok {
+				ps.ArchetypeStats[l] = &winLossStats{}
+			}
+			as := ps.ArchetypeStats[l]
+			as.Wins += deck.GameWins()
+			as.Losses += deck.GameLosses()
+			as.Count++
+		}
+
+		// Track color identity win/loss for the player.
+		// Use deck.GetColors() which returns map[string]bool where keys are "W", "U", etc.
+		colors := deck.GetColors()
+		for color := range colors {
+			if _, ok := ps.ColorStats[color]; !ok {
+				ps.ColorStats[color] = &winLossStats{}
+			}
+			cs := ps.ColorStats[color]
+			cs.Wins += deck.GameWins()
+			cs.Losses += deck.GameLosses()
+			cs.Count++
+		}
 
 		for _, card := range deck.Mainboard {
 			if card.IsBasicLand() {

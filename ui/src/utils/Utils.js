@@ -167,3 +167,13 @@ export function StringToColor(str) {
   }
   return color
 }
+
+export function CheckboxesToColors(checkboxes) {
+  let colors = []
+  if (checkboxes[0]) colors.push("W")
+  if (checkboxes[1]) colors.push("U")
+  if (checkboxes[2]) colors.push("B")
+  if (checkboxes[3]) colors.push("R")
+  if (checkboxes[4]) colors.push("G")
+  return colors
+}

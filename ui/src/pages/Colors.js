@@ -34,9 +34,22 @@ ChartJS.register(
 );
 
 export function ColorWidget(input) {
+  const [leftChart, setLeftChart] = React.useState("builds")
+  const [rightChart, setRightChart] = React.useState("wins")
+
   if (!input.show) {
     return
   }
+
+  const chartOptions = [
+    { label: "Build %", value: "builds" },
+    { label: "Win %", value: "wins" },
+    { label: "Pick %", value: "pick_percentage" },
+    { label: "Avg % of deck", value: "splash" },
+    { label: "VP %", value: "vps_pct" },
+    { label: "Victory Points", value: "vps" },
+    { label: "% of wins", value: "percent_of_wins" },
+  ]
 
   return (
     <table className="scroll-container-large">
@@ -60,88 +73,51 @@ export function ColorWidget(input) {
           </td>
         </tr>
 
-        <tr key="2">
+        <tr key="charts-header">
           <td style={{"paddingTop": "50px", "width": "50%"}}>
-            <ColorRateChart
-              parsed={input.parsed}
-              colorData={input.parsed.colorData}
-              decks={input.decks}
-              dataset="builds"
-              colorMode={input.colorTypeSelection}
-              bucketSize={input.bucketSize}
-            />
+            <div className="selector-group" style={{"justifyContent": "center"}}>
+              <DropdownHeader
+                label="Left Chart"
+                options={chartOptions}
+                value={leftChart}
+                onChange={(e) => setLeftChart(e.target.value)}
+              />
+            </div>
           </td>
           <td style={{"paddingTop": "50px", "width": "50%"}}>
+            <div className="selector-group" style={{"justifyContent": "center"}}>
+              <DropdownHeader
+                label="Right Chart"
+                options={chartOptions}
+                value={rightChart}
+                onChange={(e) => setRightChart(e.target.value)}
+              />
+            </div>
+          </td>
+        </tr>
+
+        <tr key="charts-body">
+          <td style={{"width": "50%"}}>
             <ColorRateChart
               parsed={input.parsed}
+              colorData={input.parsed.colorData}
               decks={input.decks}
-              dataset="wins"
+              dataset={leftChart}
+              colorMode={input.colorTypeSelection}
+              bucketSize={input.bucketSize}
+            />
+          </td>
+          <td style={{"width": "50%"}}>
+            <ColorRateChart
+              parsed={input.parsed}
+              colorData={input.parsed.colorData}
+              decks={input.decks}
+              dataset={rightChart}
               colorMode={input.colorTypeSelection}
               bucketSize={input.bucketSize}
             />
           </td>
         </tr>
-
-        <tr key="3">
-          <td style={{"paddingTop": "50px"}}>
-            <ColorRateChart
-              parsed={input.parsed}
-              colorData={input.parsed.colorData}
-              decks={input.decks}
-              dataset="pick_percentage"
-              colorMode={input.colorTypeSelection}
-              bucketSize={input.bucketSize}
-            />
-          </td>
-          <td style={{"paddingTop": "50px"}}>
-            <ColorRateChart
-              parsed={input.parsed}
-              colorData={input.parsed.colorData}
-              decks={input.decks}
-              dataset="splash"
-              colorMode={input.colorTypeSelection}
-              bucketSize={input.bucketSize}
-            />
-          </td>
-        </tr>
-
-        <tr key="4">
-          <td style={{"paddingTop": "50px"}}>
-            <ColorRateChart
-              parsed={input.parsed}
-              colorData={input.parsed.colorData}
-              decks={input.decks}
-              dataset="vps_pct"
-              colorMode={input.colorTypeSelection}
-              bucketSize={input.bucketSize}
-            />
-          </td>
-          <td style={{"paddingTop": "50px"}}>
-            <ColorRateChart
-              parsed={input.parsed}
-              colorData={input.parsed.colorData}
-              decks={input.decks}
-              dataset="vps"
-              colorMode={input.colorTypeSelection}
-              bucketSize={input.bucketSize}
-            />
-          </td>
-        </tr>
-
-        <tr key="5">
-          <td colSpan="2">
-            <ColorRateChart
-              parsed={input.parsed}
-              colorData={input.parsed.colorData}
-              decks={input.decks}
-              dataset="percent_of_wins"
-              colorMode={input.colorTypeSelection}
-              bucketSize={input.bucketSize}
-            />
-            />
-          </td>
-        </tr>
-
       </tbody>
     </table>
   );
@@ -368,9 +344,9 @@ function TableHeader(input) {
   }
 
   return (
-    <div className="full-options-header">
+    <div className="selector-group" style={{"justifyContent": "center", "marginBottom": "1rem"}}>
       <DropdownHeader
-        label="Select color type"
+        label="Color type"
         className="dropdown"
         options={input.ddOpts}
         value={input.colorTypeSelection}
@@ -378,7 +354,7 @@ function TableHeader(input) {
       />
 
       <DropdownHeader
-        label="Select a bucket"
+        label="Bucket"
         className="dropdown"
         options={bucketNames}
         value={input.selectedBucket}
@@ -814,7 +790,7 @@ function ColorRateChart(input) {
 
   const data = {labels, datasets: dataset};
   return (
-    <div style={{"height":"500px"}}>
+    <div style={{"height":"700px"}}>
       <Line height={"300px"} options={options} data={data} />
     </div>
   );

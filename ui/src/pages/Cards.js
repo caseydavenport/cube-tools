@@ -733,34 +733,43 @@ function CardWidgetOptions(input) {
   }
 
   return (
-    <div className="scroll-container-large-header">
-    <table className="scroll-container-large-header">
-      <tbody>
-        <tr>
-          <td className="selection-cell">
-            Showing {num} cards
-          </td>
+    <div className="selector-group" style={{"padding": "1rem", "marginBottom": "1rem", "justifyContent": "center"}}>
+      <div className="selection-cell" style={{"fontWeight": "bold", "color": "var(--primary)"}}>
+        Showing {num} cards
+      </div>
 
-          <td className="selection-cell">
-            <DropdownHeader
-              label="Stats type"
-              options={input.cardWidgetOpts}
-              value={input.colorTypeSelection}
-              onChange={input.onSelected}
-            />
-          </td>
+      <DropdownHeader
+        label="Stats type"
+        options={input.cardWidgetOpts}
+        value={input.dropdownSelection}
+        onChange={input.onSelected}
+      />
 
-          <td className="selection-cell">
-            <DropdownHeader
-              label="Match"
-              options={input.matchOpts}
-              value={input.cardFilter}
-              onChange={input.onCardFilterSelected}
-            />
-          </td>
-        </tr>
-      </tbody>
-    </table>
+      <DropdownHeader
+        label="Match"
+        options={input.matchOpts}
+        value={input.cardFilter}
+        onChange={input.onCardFilterSelected}
+      />
+
+      <DropdownHeader
+        label="Color"
+        options={input.colorWidgetOpts}
+        value={input.colorSelection}
+        onChange={input.onColorSelected}
+      />
+
+      <NumericInput
+        label="Min drafts"
+        value={input.minDrafts}
+        onChange={input.onMinDraftsSelected}
+      />
+
+      <NumericInput
+        label="Min games"
+        value={input.minGames}
+        onChange={input.onMinGamesSelected}
+      />
     </div>
   );
 }
@@ -1219,7 +1228,7 @@ function CardGraph(input) {
         </tbody>
       </table>
 
-      <div align="center">
+      <div align="center" style={{"height": "800px", "width": "100%"}}>
         <Scatter className="chart" options={options} data={data} />
       </div>
     </div>

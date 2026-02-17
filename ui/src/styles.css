@@ -1,14 +1,20 @@
 :root {
-  --page-background: #222629;
-  --table-background: #474b4f;
-  --table-row-selected: #6b6e70;
-  --table-header-background: #61892f;
-  --misc: #86c232;
-  --misc-2: #068220;
-  --highlight: #C97BF4;
-  --highlight-2: #C97BF444;
-  --white: #FFF;
-  --black: #000;
+  --page-background: #0f172a; /* Slate 900 */
+  --card-background: #1e293b; /* Slate 800 */
+  --table-background: #1e293b;
+  --table-row-hover: #334155; /* Slate 700 */
+  --table-header-background: #334155;
+  --primary: #38bdf8; /* Sky 400 */
+  --primary-hover: #0ea5e9; /* Sky 500 */
+  --secondary: #818cf8; /* Indigo 400 */
+  --accent: #f472b6; /* Pink 400 */
+  --success: #4ade80; /* Green 400 */
+  --danger: #f87171; /* Red 400 */
+  --white: #f8fafc; /* Slate 50 */
+  --text-muted: #94a3b8; /* Slate 400 */
+  --border: #334155;
+  --highlight: #38bdf844;
+  --highlight-intense: #38bdf8;
 }
 
 * {
@@ -16,528 +22,447 @@
 }
 
 html a, a:hover, a:visited, a:active {
-  color: inherit;
+  color: var(--primary);
   text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+html a:hover {
+  color: var(--primary-hover);
 }
 
 html body {
-  font-family: sans-serif;
-  margin: 20px;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  margin: 0;
   padding: 0;
   background: var(--page-background);
+  color: var(--white);
+  -webkit-font-smoothing: antialiased;
 }
 
-h1 {
-  margin-top: 0;
-  font-size: 22px;
+h1, h2, h3, h4, h5, h6 {
+  color: var(--white);
+  font-weight: 600;
+  letter-spacing: -0.025em;
 }
 
-h2 {
-  margin-top: 0;
-  font-size: 20px;
-}
-
-h3 {
-  margin-top: 0;
-  font-size: 18px;
-}
-
-h4 {
-  margin-top: 0;
-  font-size: 16px;
-}
-
-h5 {
-  margin-top: 0;
-  font-size: 14px;
-}
-
-h6 {
-  margin-top: 0;
-  font-size: 12px;
-}
+h1 { font-size: 2.25rem; margin-bottom: 1.5rem; }
+h2 { font-size: 1.875rem; margin-bottom: 1.25rem; }
+h3 { font-size: 1.5rem; margin-bottom: 1rem; }
 
 code {
-  font-size: 1.2em;
-}
-
-ul {
-  padding-left: 20px;
-}
-
-* {
-  box-sizing: border-box;
+  font-family: 'Fira Code', monospace;
+  background: var(--table-background);
+  padding: 0.2rem 0.4rem;
+  border-radius: 4px;
 }
 
 table {
-  border-collapse:collapse;
+  border-collapse: separate;
+  border-spacing: 0;
+  width: 100%;
 }
 
+/* Modern Card Frame */
 .player-frame {
-  background: var(--table-background);
-  color: var(--white);
-  border: 0px solid var(--table-header-background);
-  width: 400px;
-  float: left;
-  font-size: 18px;
-  line-height: 34px;
-  padding: 0px;
-  text-align: center;
-  min-height: 600px;
-  width: 400px;
-  margin-bottom: 5px;
-  margin-left: 5px;
+  background: var(--card-background);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin: 0 0 1.5rem 0;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  width: 100%;
 }
 
 .player-frame-title {
-  background: var(--table-header-background);
-  padding-right: 10px;
-  text-align: right;
-  font-weight: bold;
-  width: 40%;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
 }
 
-.player-frame-title-2 {
-  background: var(--misc-2);
-  padding-right: 10px;
-  text-align: right;
-  font-weight: bold;
-  width: 40%;
-}
-
-.player-frame-value {
-  background: var(--table-row-selected);
-  padding-left: 10px;
-  padding-right: 10px;
-  text-align: left;
-  font-size: 18px;
-}
-
-.decklist-wrapper {
-  background: var(--table-background);
-  min-height: 600px;
-  margin-left: 5px;
-  margin-bottom: 5px;
-}
-
-.decklist {
-  background: var(--table-background);
-  color: var(--white);
-  border: none;
-  float: left;
-  font-size: 18px;
-  line-height: 34px;
-  height: 34px;
-  padding: 0px;
-  text-align: center;
-  width: 400px;
-}
-
-.decklist-description {
-  background: var(--table-background);
-  margin-left: 5px;
-  padding: 15px;
-  color: var(--white);
-  border: none;
-  float: left;
-  font-size: 18px;
-  line-height: 34px;
-  height: 34px;
-  padding: 0px;
-  text-align: left;
-  width: 800px;
-  height: 100%;
-}
-
-.full-options-header {
-  background: var(--table-row-selected);
-  color: var(--white);
-  border: none;
-  float: left;
-  font-size: 18px;
-  line-height: 34px;
-  margin-top: 0px;
-  margin-left: 0px;
-  margin-right: 0px;
-  padding: 0px;
-  text-align: center;
-  min-width: 300px;
-  width: 100%;
+/* Widget Styling */
+.widget-table {
+  background: var(--card-background);
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--border);
 }
 
 .table-header {
   background: var(--table-header-background);
-  border: var(--table-header-background);
-  font-weight: bold;
-  padding: 0px;
-  margin: 0px;
-  align: center;
-  text-align: center;
-
-  /* Keep table header at the top even when scrolling */
-  position: sticky;
-  top: 0;
+  color: var(--text-muted);
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
 .header-cell {
-  padding-left: 5px;
-  padding-right: 5px;
+  padding: 1rem;
+  font-weight: 600;
+  cursor: pointer;
 }
 
-.selection-cell {
-  padding-left: 0px;
-  padding-right: 0px;
-  padding-top: 0px;
-  padding-bottom: 0px;
-  float: center;
+.widget-table-row {
+  border-bottom: 1px solid var(--border);
+  transition: background 0.2s ease;
+  height: 48px;
 }
 
-.padded {
-  padding-left: 5px;
-  padding-right: 5px;
+.widget-table-row:hover {
+  background: var(--table-row-hover);
 }
 
-.card-highlight {
-  background: var(--highlight);
-}
-.card-highlight:hover {
-  background: var(--table-row-selected);
-}
-.card-playable-highlight {
-  background: var(--highlight-2);
-}
-.card-playable-highlight:hover {
-  background: var(--table-row-selected);
+.widget-table-row td {
+  padding: 0 1rem;
+  font-size: 0.95rem;
+  height: 48px;
+  vertical-align: middle;
 }
 
-.button {
+/* Buttons */
+.button, .button-selected {
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1px solid var(--border);
+  transition: all 0.2s ease;
+  background: var(--table-header-background);
+  color: var(--white);
+}
+
+.button:hover {
+  background: var(--table-row-hover);
+  transform: translateY(-1px);
 }
 
 .button-selected {
-  background: var(--misc);
+  background: var(--primary) !important;
+  color: var(--page-background) !important;
+  box-shadow: inset 0 0 0 2px var(--primary-hover), 0 0 15px var(--highlight);
+}
+
+.button-selected .deck-meta-table,
+.button-selected .deck-entry,
+.button-selected td,
+.button-selected td a {
+  color: var(--page-background) !important;
+  background: transparent !important;
+}
+
+.button-selected:hover {
+  background: var(--primary-hover) !important;
+}
+
+/* Form Inputs */
+.text-input, .numeric-input, select {
+  background: var(--page-background);
+  border: 1px solid var(--border);
+  color: var(--white);
+  padding: 0.5rem;
+  border-radius: 6px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.text-input:focus, .numeric-input:focus {
+  border-color: var(--primary);
+}
+
+/* Selector Bar Layout */
+.selectorbar {
+  background: var(--card-background);
+  padding: 1.5rem;
+  border-radius: 12px;
+  margin: 1rem;
+  border: 1px solid var(--border);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.selector-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: center;
+}
+
+.search-group {
+  width: 100%;
+}
+
+.navigation-group {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid var(--border);
+  padding-top: 1rem;
+}
+
+.nav-buttons {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.search-bar-container {
+  width: 100%;
+}
+
+.search-bar {
+  width: 100%;
+  background: var(--page-background);
+  border: 1px solid var(--border);
+  color: var(--white);
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
+.search-bar:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 2px var(--highlight);
+  outline: none;
+}
+
+.dropdown {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.date-selector input {
+  background: var(--page-background);
+  border: 1px solid var(--border);
+  color: var(--white);
+  padding: 0.5rem;
+  border-radius: 6px;
+  outline: none;
+  transition: all 0.2s ease;
+  font-family: inherit;
+}
+
+.date-selector input:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 2px var(--highlight);
+}
+
+.date-selector input::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+  cursor: pointer;
+}
+
+/* Charts */
+.chart-container {
+  background: var(--card-background);
+  padding: 2rem;
+  border-radius: 16px;
+  border: 1px solid var(--border);
+  margin: 2rem 0;
+}
+
+.chart {
+  max-width: 100% !important;
+}
+
+/* Layout */
+.house-for-widgets {
+  display: block;
+  padding: 1rem;
+}
+
+.scroll-container-large {
+  width: 95%;
+  margin: 1rem auto;
+}
+
+.scroll-container-large-header {
+  width: 95%;
+  margin: 0 auto;
+  padding: 1rem;
+  background: transparent;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--page-background);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}
+
+.cardimage {
+  border-radius: 8px;
+  transition: transform 0.2s;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+}
+
+.cardimage:hover {
+  transform: scale(1.05) rotate(1deg);
+  z-index: 10;
 }
 
 .deck-entry {
   background-color: var(--background-color);
-  padding: 0px;
-  margin: 0px;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  max-width: 300px;
 }
 
 .deck-entry:hover {
-  background: var(--table-row-selected);
+  background: var(--table-row-hover);
 }
 
-.selectorbar {
-  padding: 15px;
-  background: var(--table-row-selected);
-  width: 100%;
+/* Archetype Widget Layout */
+.archetype-container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding: 1rem;
 }
 
-.dropdown {
-  color: var(--white);
-  background: var(--table-row-selected);
-  font-weight: bold;
-  text-align: center;
-  padding: 10px;
-  border: 0px;
-  min-width: 100px;
-  float: left;
+.archetype-top-section {
+  display: flex;
+  gap: 1.5rem;
+  align-items: flex-start;
 }
 
-.dropdown-header {
-  background: var(--table-row-selected);
-  color: var(--white);
-  text-align: center;
-  padding: 0px;
-  border: 0px;
-  width: 100%;
+.archetype-stats-wrapper { flex: 2; }
+.archetype-cards-wrapper { flex: 1.5; }
+.archetype-details-wrapper { flex: 1; }
+
+.archetype-charts-section {
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
 }
 
-.dropdown-header-side-by-side{
-  color: var(--white);
-  background: var(--table-row-selected);
-  text-align: center;
-  padding: 5px;
-  border: 0px;
-  float: left;
-  min-width: 50%;
+.chart-grid, .matchup-section, .pie-section, .micro-archetype-section {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: 2rem;
 }
 
-.numeric-input{
-  color: var(--white);
-  padding: 0px;
-  margin-left: 10px;
-  width: 50px;
-  background: var(--table-background);
-}
-
-.text-input{
-  color: var(--white);
-  padding: 2px;
-  margin-left: 10px;
-  width: 150px;
-  background: var(--table-background);
-}
-
-.search-bar {
-  color: var(--white);
-  background: var(--table-background);
-  text-align: left;
-  padding: 5px;
-  margin-left: 15px;
-  border: 0px;
-  width: 90%;
-}
-
-.search-bar-container {
-  color: var(--white);
-  background: var(--table-row-selected);
-  font-weight: bold;
-  text-align: center;
-  padding: 5px;
-  border: 0px;
-  width: 100%;
-  float: left;
-}
-
-
-.date-selector {
-  color: var(--white);
-  background: var(--table-row-selected);
-  text-align: center;
-  padding: 20px;
-  border: 0px;
-  float: left;
-  width: 250px;
-}
-
-.select-option {
-  color: var(--white);
-  background: var(--table-background);
+.pie-section {
+  grid-template-columns: repeat(2, 1fr);
 }
 
 .widget-scroll {
-  vertical-align: top;
-  max-height: 700px;
-  overflow:auto;
+  max-height: 800px;
+  overflow-y: auto;
+  border: 1px solid var(--border);
+  border-radius: 12px;
 }
 
-.scroll-container-large {
-  vertical-align: top;
-  overflow: auto;
-  margin-right: auto;
-  margin-left: auto;
-  max-height: 70em;
-  min-height: 70em;
-  width: 75%;
-}
-
-.scroll-container-large-header {
-  top: 0;
-  position: sticky;
-  background: var(--table-row-selected);
-  color: var(--white);
-  margin-right: auto;
-  margin-left: auto;
-  width: 75%;
-}
-
-
-/* Hide scrollbar for Chrome, Safari and Opera */
-.scroll-container-large::-webkit-scrollbar {
-  display: none;
-}
-
-/* Hide scrollbar for Chrome, Safari and Opera */
-.widget-scroll::-webkit-scrollbar {
-  display: none;
-}
-
-.house-for-widgets {
+/* Deck Viewer Layout */
+.deck-viewer-container {
   display: flex;
-  flex-direction: row;
+  gap: 1.5rem;
+  padding: 1rem;
+  height: calc(100vh - 200px); /* Adjust based on header/selector height */
+  overflow: hidden;
+}
+
+.deck-list-sidebar {
+  flex: 0 0 550px;
+  overflow-y: auto;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--card-background);
+}
+
+.deck-main-content {
+  flex: 1;
+  overflow-y: auto;
+  padding-right: 1rem;
+}
+
+.filtered-decks {
   width: 100%;
-  padding-top: 5px;
+  max-height: none;
+}
+
+.widget-table-row {
+  border-bottom: 1px solid var(--border);
+  transition: background 0.2s ease;
+  height: 48px;
+  background-color: var(--background-color);
+}
+
+.widget-table-row:hover {
+  background: var(--table-row-hover) !important;
+}
+/* Card Image Sizing */
+.cardimage {
+  width: 120px; /* Reduced from 200px */
+  height: auto;
+  border-radius: 6px;
+  margin: 2px;
+  transition: transform 0.1s ease;
+}
+
+.cardimage-selected {
+  width: 120px;
+  height: auto;
+  border-radius: 6px;
+  margin: 2px;
+  box-shadow: 0 0 0 3px var(--primary);
 }
 
 .flexhouse {
   display: flex;
-  flex-direction: row;
   flex-wrap: wrap;
-  align-content: flex-start;
+  gap: 4px;
 }
 
-.cardimage {
-  padding-top: 5px;
-  padding-right: 5px;
-  padding-left: 5px;
-  padding-bottom: 5px;
-  width: 200px;
+/* Popover / Tooltip Styling */
+.popover {
+  background-color: var(--card-background) !important;
+  border: 1px solid var(--border) !important;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.2);
+  max-width: 400px;
 }
 
-.cardimage-selected {
-  padding-top: 5px;
-  padding-right: 5px;
-  padding-left: 5px;
-  padding-bottom: 5px;
-  width: 200px;
-  background: var(--highlight);
+.popover-header {
+  background-color: var(--page-background) !important;
+  color: var(--primary) !important;
+  border-bottom: 1px solid var(--border) !important;
+  font-weight: 700 !important;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: 0.875rem;
 }
 
-.deck-view {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  padding-top: 0px;
-  margin-left: 5px;
-  width: 100%;
+.popover-body {
+  color: var(--white) !important;
+  background-color: var(--card-background) !important;
 }
 
-.filtered-decks {
-  width: 700px;
-  overflow: auto;
-  max-height: 1200px;
+.bs-popover-top > .popover-arrow::after, .bs-popover-auto[data-popper-placement^="top"] > .popover-arrow::after {
+  border-top-color: var(--card-background) !important;
 }
 
-/* Hide scrollbar for Chrome, Safari and Opera */
-.filtered-decks::-webkit-scrollbar {
-  display: none;
+.bs-popover-bottom > .popover-arrow::after, .bs-popover-auto[data-popper-placement^="bottom"] > .popover-arrow::after {
+  border-bottom-color: var(--page-background) !important;
 }
 
-.mana-symbol {
-  vertical-align: middle;
-  margin-right: 3px;
+.bs-popover-start > .popover-arrow::after, .bs-popover-auto[data-popper-placement^="left"] > .popover-arrow::after {
+  border-left-color: var(--card-background) !important;
 }
 
-.draft-widget {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  padding-top: 0px;
-  margin-left: 0px;
-  width: 100%;
+.bs-popover-end > .popover-arrow::after, .bs-popover-auto[data-popper-placement^="right"] > .popover-arrow::after {
+  border-right-color: var(--card-background) !important;
 }
 
-.pack-view {
-  width: 50%;
-  padding-left: 5px;
-}
 
-/* The max width is dependant on the container (more info below) */
-.popover{
-    max-width: 500px ! important; /* Max Width of the popover (depending on the container!) */
-}
-
-.chart-container {
-  margin-top: 15px;
-  margin-bottom: 15px;
-}
-
-.chart{
-  background: var(--table-background);
-  color: var(--white);
-  max-width: 75%;
-  min-height: 600px;
-}
-
-.widget-table-header {
-  top: 0;
-  position: sticky;
-  background: var(--table-row-selected);
-  color: var(--white);
-  margin-right: auto;
-  margin-left: auto;
-  width: 100%;
-}
-
-.widget-table {
-  background: var(--table-background);
-  color: var(--white);
-  border: none;
-  float: left;
-  font-size: 18px;
-  line-height: 34px;
-  margin-top: 0px;
-  margin-left: 0px;
-  margin-right: 0px;
-  padding: 0px;
-  text-align: center;
-  min-width: 300px;
-  width: 100%;
-}
-
-.widget-table-row {
-  background: var(--table-background);
-  color: var(--white);
-  border: none;
-  font-size: 18px;
-  line-height: 34px;
-  height: 34px;
-  margin-top: 0px;
-  margin-left: 0px;
-  padding: 0px;
-  text-align: center;
-  min-width: 300px;
-}
-
-.widget-table-row:hover {
-  background: var(--table-row-selected);
-}
-
-.deck-meta-table {
-  background: var(--table-background);
-  color: var(--white);
-  border: none;
-  float: left;
-  font-size: 18px;
-  line-height: 34px;
-  margin-top: 0px;
-  margin-left: 0px;
-  margin-right: 0px;
-  padding: 0px;
-  text-align: left;
-  min-width: 200px;
-  width: 100%;
-}
-
-.tooltip{
-  left: 300%;
-}
-
-.tooltip-trigger .tooltip::after{
-    content: " ";
-    position: absolute;
-    top: 10%;
-    right: 100%;
-    margin-top: -5px;
-    border-width: 5px;
-    border-style: solid;
-    border-color: transparent var(--black) transparent transparent;
-}
-
-.tooltip-trigger {
-  position: relative;
-  display: inline;
-}
-
-.tooltip-trigger .tooltip{
-  background-color: var(--black);
-  color: var(--white);
-  text-align: center;
-  border-radius: 6px;
-  padding: 5px;
-  padding-left: 20px;
-  padding-right: 20px;
-  opacity: 0;
-  transition: opacity .5s;
-  position: absolute;
-  z-index: 100;
-}
-
-.tooltip-trigger:hover .tooltip {
-    opacity:1;
-}

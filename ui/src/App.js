@@ -3,7 +3,8 @@ import { HashRouter as Router, Routes, Route } from "react-router-dom";
 import {DeckViewer} from './pages/DeckViewer.js'
 import NavBar from './components/navbar.js'
 import Dogs from './pages/Dogs.js'
-import {StatsViewer, InitialDates} from './pages/Stats.js'
+import {StatsViewer} from './pages/Stats.js'
+import {InitialDates} from './components/StatsUI.js'
 import { useState } from "react";
 
 import "./styles.css";
