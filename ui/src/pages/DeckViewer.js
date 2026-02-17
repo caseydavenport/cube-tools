@@ -67,32 +67,6 @@ export function DeckViewer(props) {
   // Dropdown for mainboard vs. sideboard.
   const [mainboardSideboard, setMainboardSideboard] = useState("Mainboard");
 
-
-  // For filtering decks by color.
-  const [colorCheckboxes, setColorCheckboxes] = useState([false, false, false, false, false]);
-  function onColorChecked(event) {
-    let updated = [...colorCheckboxes]
-    switch (event.target.id) {
-      case "W":
-        updated[0] = !colorCheckboxes[0];
-        break;
-      case "U":
-        updated[1] = !colorCheckboxes[1];
-        break;
-      case "B":
-        updated[2] = !colorCheckboxes[2];
-        break;
-      case "R":
-        updated[3] = !colorCheckboxes[3];
-        break;
-      case "G":
-        updated[4] = !colorCheckboxes[4];
-        break;
-    }
-    const newboxes = [...updated]
-    setColorCheckboxes(newboxes)
-  }
-
   // What to sort the deck list by.
   const sortOptions = [
     "Date", "Wins"
@@ -152,15 +126,6 @@ export function DeckViewer(props) {
       // Clear out the comparison set and just show this deck.
       setComparisonDecks(new Map())
     }
-  }
-
-  const [minCMC, setMinCMC] = useState(0);
-  const [maxCMC, setMaxCMC] = useState(0);
-  function onMinCMCUpdated(event) {
-    setMinCMC(event.target.value)
-  }
-  function onMaxCMCUpdated(event) {
-    setMaxCMC(event.target.value)
   }
 
   // Selected description.
@@ -249,23 +214,9 @@ export function DeckViewer(props) {
     let draftToColor = new Map();
     let grayscaleColors = ["#0f172a", "#1e293b"];
     let colorIdx = 0;
-    let filterByColor = colorCheckboxes.some(e => e);
 
     for (let d of decks) {
       if (draftDropdown !== "" && draftDropdown !== d.date) continue;
-      if (minCMC > 0 && d.avg_cmc < minCMC) continue;
-      if (maxCMC > 0 && d.avg_cmc > maxCMC) continue;
-      if (filterByColor) {
-        let deckMatches = true;
-        let enabledColors = CheckboxesToColors(colorCheckboxes);
-        for (let color of enabledColors) {
-          if (!d.colors.includes(color)) {
-            deckMatches = false;
-            break;
-          }
-        }
-        if (!deckMatches) continue;
-      }
 
       if (!draftToColor.has(d.metadata.draft_id)) {
         draftToColor.set(d.metadata.draft_id, grayscaleColors[colorIdx % grayscaleColors.length]);
@@ -306,7 +257,7 @@ export function DeckViewer(props) {
     });
 
     return { decks: filtered, colors: draftToColor };
-  }, [decks, draftDropdown, minCMC, maxCMC, colorCheckboxes, debouncedMatchStr, mainboardSideboard, deckSort]);
+  }, [decks, draftDropdown, debouncedMatchStr, mainboardSideboard, deckSort]);
 
   return (
     <div className="deck-viewer-page">
@@ -337,23 +288,6 @@ export function DeckViewer(props) {
             options={boardOptions}
             value={mainboardSideboard}
             onChange={onBoardSelected}
-          />
-
-          <NumericInput
-            label="Min CMC"
-            value={minCMC}
-            onChange={onMinCMCUpdated}
-          />
-
-          <NumericInput
-            label="Max CMC"
-            value={maxCMC}
-            onChange={onMaxCMCUpdated}
-          />
-
-          <ColorPickerHeader
-            display={colorCheckboxes}
-            onChecked={onColorChecked}
           />
         </div>
 
