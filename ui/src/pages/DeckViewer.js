@@ -11,6 +11,8 @@ import { Button, TextInput, DropdownHeader, NumericInput, Checkbox, DateSelector
 import { InitialDates } from "../components/StatsUI.js"
 import { ColorPickerHeader } from "./Types.js"
 import ReactMarkdown from "react-markdown";
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
+import Popover from 'react-bootstrap/Popover';
 
 
 // This function builds the DeckViewer widget for selecting and viewing statistics
@@ -634,7 +636,7 @@ function PlayerFrame(input) {
         <h2 style={{"margin": "0", "color": "var(--primary)"}}>{deck.player}</h2>
         <div style={{"fontSize": "1.2rem"}}>{colors}</div>
       </div>
-      
+
       <div className="stats-grid" style={{"display": "grid", "gridTemplateColumns": "repeat(auto-fit, minmax(200px, 1fr))", "gap": "1rem"}}>
         <div className="stat-item">
           <span className="player-frame-title">Record:</span>
@@ -666,7 +668,7 @@ function PlayerFrame(input) {
               let result = "W"
               if (match.opponent.toLowerCase() == match.winner.toLowerCase()) result = "L"
               if (match.winner == "") result = "D"
-              
+
               let opp_arch = "N/A"
               for (let d of input.decks) {
                 if (d.player.toLowerCase() == match.opponent.toLowerCase() && d.date == deck.date) {
@@ -674,7 +676,7 @@ function PlayerFrame(input) {
                   break
                 }
               }
-              
+
               return (
                 <div key={i} className="match-pill" style={{"background": "var(--table-header-background)", "padding": "0.4rem 0.8rem", "borderRadius": "20px", "fontSize": "0.85rem", "border": "1px solid var(--border)"}}>
                   <span style={{"fontWeight": "bold", "marginRight": "0.5rem"}}>{match.opponent}:</span>
@@ -734,20 +736,36 @@ function CardList({player, cards, deck, sb, opts, matchStr}) {
             let type = getType(card)
             let text = card.name
             let className = "widget-table-row"
-            
+
             // Dynamic highlighting check
             if (matchStr && CardMatches(card, matchStr, true)) {
-              className += " button-selected" 
+              className += " button-selected"
             } else if (sb && InDeckColor(card, deck)) {
               className += " card-playable-highlight"
             }
-            
+
             let imgs = ColorImages(card.colors)
             return (
               <tr className={className} key={key} card={card}>
                 <td className="padded"><a href={card.url} target="_blank" rel="noopener noreferrer">{imgs}</a></td>
                 <td className="padded"><a href={card.url} target="_blank" rel="noopener noreferrer">{type}</a></td>
-                <td className="padded"><a href={card.url} target="_blank" rel="noopener noreferrer">{text}</a></td>
+                <OverlayTrigger
+                  placement="right"
+                  delay={{ show: 200, hide: 100 }}
+                  overlay={
+                    <Popover id="popover-basic" style={{maxWidth: 'none'}}>
+                      <Popover.Body style={{padding: '0'}}>
+                        <img
+                          src={`https://api.scryfall.com/cards/named?format=image&exact=${encodeURIComponent(card.name)}`}
+                          alt={card.name}
+                          style={{width: '250px', display: 'block', borderRadius: '12px'}}
+                        />
+                      </Popover.Body>
+                    </Popover>
+                  }
+                >
+                  <td className="padded"><a href={card.url} target="_blank" rel="noopener noreferrer">{text}</a></td>
+                </OverlayTrigger>
               </tr>
             )
           }).sort(cardSort)
