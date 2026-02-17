@@ -5,7 +5,8 @@
   "combined_file": "data/polyverse/2024-01-07/james.txt"
  },
  "labels": [
-  "midrange"
+  "midrange",
+  "ramp"
  ],
  "player": "james",
  "date": "2024-01-07",
@@ -587,7 +588,7 @@
    ],
    "mana_cost": "{2}{G}",
    "url": "https://scryfall.com/card/clb/838/vivien-champion-of-the-wilds?utm_source=api",
-   "oracle_text": "You may cast creature spells as though they had flash.\n+1: Until your next turn, up to one target creature gains vigilance and reach.\n−2: Look at the top three cards of your library. Exile one face down and put the rest on the bottom of your library in any order. For as long as it remains exiled, you may cast it if it's a creature spell.",
+   "oracle_text": "You may cast creature spells as though they had flash.\n+1: Until your next turn, up to one target creature gains vigilance and reach.\n\u22122: Look at the top three cards of your library. Exile one face down and put the rest on the bottom of your library in any order. For as long as it remains exiled, you may cast it if it's a creature spell.",
    "appearances": 1
   },
   {

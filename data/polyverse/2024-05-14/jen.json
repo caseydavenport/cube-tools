@@ -145,7 +145,7 @@
    ],
    "mana_cost": "{1}{G}",
    "url": "https://scryfall.com/card/one/161/cankerbloom?utm_source=api",
-   "oracle_text": "{1}, Sacrifice this creature: Choose one —\n• Destroy target artifact.\n• Destroy target enchantment.\n• Proliferate. (Choose any number of permanents and/or players, then give each another counter of each kind already there.)",
+   "oracle_text": "{1}, Sacrifice this creature: Choose one \u2014\n\u2022 Destroy target artifact.\n\u2022 Destroy target enchantment.\n\u2022 Proliferate. (Choose any number of permanents and/or players, then give each another counter of each kind already there.)",
    "power": "3",
    "toughness": "2"
   },
@@ -216,7 +216,7 @@
    ],
    "mana_cost": "{B}{G}",
    "url": "https://scryfall.com/card/dsc/218/grim-flayer?utm_source=api",
-   "oracle_text": "Trample\nWhenever this creature deals combat damage to a player, surveil 3. (Look at the top three cards of your library, then put any number of them into your graveyard and the rest on top of your library in any order.)\nDelirium — This creature gets +2/+2 as long as there are four or more card types among cards in your graveyard.",
+   "oracle_text": "Trample\nWhenever this creature deals combat damage to a player, surveil 3. (Look at the top three cards of your library, then put any number of them into your graveyard and the rest on top of your library in any order.)\nDelirium \u2014 This creature gets +2/+2 as long as there are four or more card types among cards in your graveyard.",
    "power": "2",
    "toughness": "2"
   },
@@ -334,7 +334,7 @@
    ],
    "mana_cost": "{2}{G}",
    "url": "https://scryfall.com/card/eoc/110/tireless-tracker?utm_source=api",
-   "oracle_text": "Landfall — Whenever a land you control enters, investigate. (Create a Clue token. It's an artifact with \"{2}, Sacrifice this token: Draw a card.\")\nWhenever you sacrifice a Clue, put a +1/+1 counter on this creature.",
+   "oracle_text": "Landfall \u2014 Whenever a land you control enters, investigate. (Create a Clue token. It's an artifact with \"{2}, Sacrifice this token: Draw a card.\")\nWhenever you sacrifice a Clue, put a +1/+1 counter on this creature.",
    "power": "3",
    "toughness": "2"
   },
@@ -357,7 +357,7 @@
    ],
    "mana_cost": "{1}{G}{G}",
    "url": "https://scryfall.com/card/cmm/888/courser-of-kruphix?utm_source=api",
-   "oracle_text": "Play with the top card of your library revealed.\nYou may play lands from the top of your library.\nLandfall — Whenever a land you control enters, you gain 1 life.",
+   "oracle_text": "Play with the top card of your library revealed.\nYou may play lands from the top of your library.\nLandfall \u2014 Whenever a land you control enters, you gain 1 life.",
    "power": "2",
    "toughness": "4"
   },
@@ -380,7 +380,7 @@
    ],
    "mana_cost": "{1}{G}",
    "url": "https://scryfall.com/card/cmm/312/pollenbright-druid?utm_source=api",
-   "oracle_text": "When this creature enters, choose one —\n• Put a +1/+1 counter on target creature.\n• Proliferate. (Choose any number of permanents and/or players, then give each another counter of each kind already there.)",
+   "oracle_text": "When this creature enters, choose one \u2014\n\u2022 Put a +1/+1 counter on target creature.\n\u2022 Proliferate. (Choose any number of permanents and/or players, then give each another counter of each kind already there.)",
    "power": "1",
    "toughness": "1"
   },
@@ -433,7 +433,7 @@
    ],
    "mana_cost": "{1}{G}",
    "url": "https://scryfall.com/card/neo/204/roaring-earth?utm_source=api",
-   "oracle_text": "Landfall — Whenever a land you control enters, put a +1/+1 counter on target creature or Vehicle you control.\nChannel — {X}{G}{G}, Discard this card: Put X +1/+1 counters on target land you control. It becomes a 0/0 green Spirit creature with haste. It's still a land."
+   "oracle_text": "Landfall \u2014 Whenever a land you control enters, put a +1/+1 counter on target creature or Vehicle you control.\nChannel \u2014 {X}{G}{G}, Discard this card: Put X +1/+1 counters on target land you control. It becomes a 0/0 green Spirit creature with haste. It's still a land."
   },
   {
    "name": "The Huntsman's Redemption",
@@ -453,7 +453,7 @@
    ],
    "mana_cost": "{2}{G}",
    "url": "https://scryfall.com/card/woe/176/the-huntsmans-redemption?utm_source=api",
-   "oracle_text": "(As this Saga enters and after your draw step, add a lore counter. Sacrifice after III.)\nI — Create a 3/3 green Beast creature token.\nII — You may sacrifice a creature. If you do, search your library for a creature or basic land card, reveal it, put it into your hand, then shuffle.\nIII — Up to two target creatures each get +2/+2 and gain trample until end of turn."
+   "oracle_text": "(As this Saga enters and after your draw step, add a lore counter. Sacrifice after III.)\nI \u2014 Create a 3/3 green Beast creature token.\nII \u2014 You may sacrifice a creature. If you do, search your library for a creature or basic land card, reveal it, put it into your hand, then shuffle.\nIII \u2014 Up to two target creatures each get +2/+2 and gain trample until end of turn."
   },
   {
    "name": "Intangible Virtue",
@@ -851,7 +851,7 @@
    ],
    "mana_cost": "{3}{G}",
    "url": "https://scryfall.com/card/cma/116/hunting-triad?utm_source=api",
-   "oracle_text": "Create three 1/1 green Elf Warrior creature tokens.\nReinforce 3—{3}{G} ({3}{G}, Discard this card: Put three +1/+1 counters on target creature.)"
+   "oracle_text": "Create three 1/1 green Elf Warrior creature tokens.\nReinforce 3\u2014{3}{G} ({3}{G}, Discard this card: Put three +1/+1 counters on target creature.)"
   },
   {
    "name": "Sevinne's Reclamation",
@@ -976,7 +976,7 @@
    ],
    "mana_cost": "{2}{B}",
    "url": "https://scryfall.com/card/stx/86/sedgemoor-witch?utm_source=api",
-   "oracle_text": "Menace\nWard—Pay 3 life. (Whenever this creature becomes the target of a spell or ability an opponent controls, counter it unless that player pays 3 life.)\nMagecraft — Whenever you cast or copy an instant or sorcery spell, create a 1/1 black and green Pest creature token with \"When this token dies, you gain 1 life.\"",
+   "oracle_text": "Menace\nWard\u2014Pay 3 life. (Whenever this creature becomes the target of a spell or ability an opponent controls, counter it unless that player pays 3 life.)\nMagecraft \u2014 Whenever you cast or copy an instant or sorcery spell, create a 1/1 black and green Pest creature token with \"When this token dies, you gain 1 life.\"",
    "power": "3",
    "toughness": "2"
   },
@@ -1080,7 +1080,7 @@
    ],
    "mana_cost": "{R}",
    "url": "https://scryfall.com/card/mh1/134/lava-dart?utm_source=api",
-   "oracle_text": "Lava Dart deals 1 damage to any target.\nFlashback—Sacrifice a Mountain. (You may cast this card from your graveyard for its flashback cost. Then exile it.)"
+   "oracle_text": "Lava Dart deals 1 damage to any target.\nFlashback\u2014Sacrifice a Mountain. (You may cast this card from your graveyard for its flashback cost. Then exile it.)"
   },
   {
    "name": "Crimson Wisps",
@@ -1131,7 +1131,7 @@
    ],
    "mana_cost": "{1}{R}",
    "url": "https://scryfall.com/card/tdc/203/abrade?utm_source=api",
-   "oracle_text": "Choose one —\n• Abrade deals 3 damage to target creature.\n• Destroy target artifact."
+   "oracle_text": "Choose one \u2014\n\u2022 Abrade deals 3 damage to target creature.\n\u2022 Destroy target artifact."
   },
   {
    "name": "Questing Druid // Seek the Beast",
@@ -1200,7 +1200,7 @@
    ],
    "mana_cost": "{2}{G}{G/U/P}{U}",
    "url": "https://scryfall.com/card/neo/238/tamiyo-compleated-sage?utm_source=api",
-   "oracle_text": "Compleated ({G/U/P} can be paid with {G}, {U}, or 2 life. If life was paid, this planeswalker enters with two fewer loyalty counters.)\n+1: Tap up to one target artifact or creature. It doesn't untap during its controller's next untap step.\n−X: Exile target nonland permanent card with mana value X from your graveyard. Create a token that's a copy of that card.\n−7: Create Tamiyo's Notebook, a legendary colorless artifact token with \"Spells you cast cost {2} less to cast\" and \"{T}: Draw a card.\""
+   "oracle_text": "Compleated ({G/U/P} can be paid with {G}, {U}, or 2 life. If life was paid, this planeswalker enters with two fewer loyalty counters.)\n+1: Tap up to one target artifact or creature. It doesn't untap during its controller's next untap step.\n\u2212X: Exile target nonland permanent card with mana value X from your graveyard. Create a token that's a copy of that card.\n\u22127: Create Tamiyo's Notebook, a legendary colorless artifact token with \"Spells you cast cost {2} less to cast\" and \"{T}: Draw a card.\""
   },
   {
    "name": "Careful Study",

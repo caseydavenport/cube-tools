@@ -7,7 +7,8 @@
  "labels": [
   "midrange",
   "domain",
-  "lands"
+  "lands",
+  "ramp"
  ],
  "player": "tanner",
  "date": "2025-06-29",
@@ -169,7 +170,7 @@
    ],
    "mana_cost": "{R}{G}",
    "url": "https://scryfall.com/card/mh2/216/territorial-kavu?utm_source=api",
-   "oracle_text": "Domain — Territorial Kavu's power and toughness are each equal to the number of basic land types among lands you control.\nWhenever this creature attacks, choose one —\n• Discard a card. If you do, draw a card.\n• Exile up to one target card from a graveyard.",
+   "oracle_text": "Domain \u2014 Territorial Kavu's power and toughness are each equal to the number of basic land types among lands you control.\nWhenever this creature attacks, choose one \u2014\n\u2022 Discard a card. If you do, draw a card.\n\u2022 Exile up to one target card from a graveyard.",
    "power": "*",
    "toughness": "*"
   },
@@ -278,7 +279,7 @@
    ],
    "mana_cost": "{X}{W}",
    "url": "https://scryfall.com/card/mh2/25/prismatic-ending?utm_source=api",
-   "oracle_text": "Converge — Exile target nonland permanent if its mana value is less than or equal to the number of colors of mana spent to cast this spell."
+   "oracle_text": "Converge \u2014 Exile target nonland permanent if its mana value is less than or equal to the number of colors of mana spent to cast this spell."
   },
   {
    "name": "Shifting Woodland",
@@ -293,7 +294,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/mh3/228/shifting-woodland?utm_source=api",
-   "oracle_text": "This land enters tapped unless you control a Forest.\n{T}: Add {G}.\nDelirium — {2}{G}{G}: This land becomes a copy of target permanent card in your graveyard until end of turn. Activate only if there are four or more card types among cards in your graveyard."
+   "oracle_text": "This land enters tapped unless you control a Forest.\n{T}: Add {G}.\nDelirium \u2014 {2}{G}{G}: This land becomes a copy of target permanent card in your graveyard until end of turn. Activate only if there are four or more card types among cards in your graveyard."
   },
   {
    "name": "Brightglass Gearhulk",
@@ -334,7 +335,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/neo/268/eiganjo-seat-of-the-empire?utm_source=api",
-   "oracle_text": "{T}: Add {W}.\nChannel — {2}{W}, Discard this card: It deals 4 damage to target attacking or blocking creature. This ability costs {1} less to activate for each legendary creature you control."
+   "oracle_text": "{T}: Add {W}.\nChannel \u2014 {2}{W}, Discard this card: It deals 4 damage to target attacking or blocking creature. This ability costs {1} less to activate for each legendary creature you control."
   },
   {
    "name": "Lush Portico",
@@ -471,7 +472,7 @@
    ],
    "mana_cost": "{B}{G}",
    "url": "https://scryfall.com/card/dsc/218/grim-flayer?utm_source=api",
-   "oracle_text": "Trample\nWhenever this creature deals combat damage to a player, surveil 3. (Look at the top three cards of your library, then put any number of them into your graveyard and the rest on top of your library in any order.)\nDelirium — This creature gets +2/+2 as long as there are four or more card types among cards in your graveyard.",
+   "oracle_text": "Trample\nWhenever this creature deals combat damage to a player, surveil 3. (Look at the top three cards of your library, then put any number of them into your graveyard and the rest on top of your library in any order.)\nDelirium \u2014 This creature gets +2/+2 as long as there are four or more card types among cards in your graveyard.",
    "power": "2",
    "toughness": "2"
   },
@@ -627,7 +628,7 @@
    ],
    "mana_cost": "{G}",
    "url": "https://scryfall.com/card/thb/167/chainweb-aracnir?utm_source=api",
-   "oracle_text": "Reach\nWhen this creature enters, it deals damage equal to its power to target creature with flying an opponent controls.\nEscape—{3}{G}{G}, Exile four other cards from your graveyard. (You may cast this card from your graveyard for its escape cost.)\nThis creature escapes with three +1/+1 counters on it.",
+   "oracle_text": "Reach\nWhen this creature enters, it deals damage equal to its power to target creature with flying an opponent controls.\nEscape\u2014{3}{G}{G}, Exile four other cards from your graveyard. (You may cast this card from your graveyard for its escape cost.)\nThis creature escapes with three +1/+1 counters on it.",
    "power": "1",
    "toughness": "2"
   },
@@ -755,7 +756,7 @@
    ],
    "mana_cost": "{2}{W}{W}",
    "url": "https://scryfall.com/card/neo/42/the-wandering-emperor?utm_source=api",
-   "oracle_text": "Flash\nAs long as The Wandering Emperor entered this turn, you may activate her loyalty abilities any time you could cast an instant.\n+1: Put a +1/+1 counter on up to one target creature. It gains first strike until end of turn.\n−1: Create a 2/2 white Samurai creature token with vigilance.\n−2: Exile target tapped creature. You gain 2 life."
+   "oracle_text": "Flash\nAs long as The Wandering Emperor entered this turn, you may activate her loyalty abilities any time you could cast an instant.\n+1: Put a +1/+1 counter on up to one target creature. It gains first strike until end of turn.\n\u22121: Create a 2/2 white Samurai creature token with vigilance.\n\u22122: Exile target tapped creature. You gain 2 life."
   },
   {
    "name": "Verdant Catacombs",
@@ -921,7 +922,7 @@
    ],
    "mana_cost": "{1}{G}",
    "url": "https://scryfall.com/card/tdm/145/heritage-reclamation?utm_source=api",
-   "oracle_text": "Choose one —\n• Destroy target artifact.\n• Destroy target enchantment.\n• Exile up to one target card from a graveyard. Draw a card."
+   "oracle_text": "Choose one \u2014\n\u2022 Destroy target artifact.\n\u2022 Destroy target enchantment.\n\u2022 Exile up to one target card from a graveyard. Draw a card."
   },
   {
    "name": "Song of the Dryads",
@@ -962,7 +963,7 @@
    ],
    "mana_cost": "{2}{G}",
    "url": "https://scryfall.com/card/clb/838/vivien-champion-of-the-wilds?utm_source=api",
-   "oracle_text": "You may cast creature spells as though they had flash.\n+1: Until your next turn, up to one target creature gains vigilance and reach.\n−2: Look at the top three cards of your library. Exile one face down and put the rest on the bottom of your library in any order. For as long as it remains exiled, you may cast it if it's a creature spell."
+   "oracle_text": "You may cast creature spells as though they had flash.\n+1: Until your next turn, up to one target creature gains vigilance and reach.\n\u22122: Look at the top three cards of your library. Exile one face down and put the rest on the bottom of your library in any order. For as long as it remains exiled, you may cast it if it's a creature spell."
   }
  ]
 }

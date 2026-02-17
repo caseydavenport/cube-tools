@@ -550,6 +550,14 @@ function DisplayDeckImages(input) {
     cards = deck.pool
   }
 
+  let cardMap = new Map();
+  for (let card of deck.mainboard) {
+    cardMap.set(card.name, card)
+  }
+  for (let card of deck.sideboard) {
+    cardMap.set(card.name, card)
+  }
+
   return (
     <div className="deck-view">
       <PlayerFrame {...input} />
@@ -562,6 +570,7 @@ function DisplayDeckImages(input) {
         <CardImagesList cards={cards} deck={deck} sb={input.mbsb == "Sideboard"} opts={{cmc: 5, gt: true}} matchStr={input.matchStr} />
         <CardImagesList cards={cards} deck={deck} sb={input.mbsb == "Sideboard"} matchStr={input.matchStr} basicsOnly={true} />
       </div>
+      <DeckReport player={deck.player} cardMap={cardMap} description={input.description} deck={deck} />
     </div>
   );
 }
@@ -702,8 +711,8 @@ function DisplayDeck(input) {
         <CardList player={deck.player} cards={cards} deck={deck} sb={input.mbsb == "Sideboard"} opts={{cmc: 3}} matchStr={input.matchStr} />
         <CardList player={deck.player} cards={cards} deck={deck} sb={input.mbsb == "Sideboard"} opts={{cmc: 4}} matchStr={input.matchStr} />
         <CardList player={deck.player} cards={cards} deck={deck} sb={input.mbsb == "Sideboard"} opts={{cmc: 5, gt: true}} matchStr={input.matchStr} />
-        <DeckReport player={deck.player} cardMap={cardMap} description={input.description} deck={deck} />
       </div>
+      <DeckReport player={deck.player} cardMap={cardMap} description={input.description} deck={deck} />
     </div>
   );
 }
@@ -730,9 +739,9 @@ function DeckReport(input) {
   description = description.replace(match, replace)
 
   return (
-    <div className="decklist-description">
-      <div className="table-header">
-        Notes from the draft
+    <div className="player-frame" style={{"marginTop": "2rem"}}>
+      <div className="player-frame-header" style={{"marginBottom": "1rem", "borderBottom": "1px solid var(--border)", "paddingBottom": "0.5rem"}}>
+        <h2 style={{"margin": "0", "color": "var(--primary)"}}>Notes from the draft</h2>
       </div>
 
       <ReactMarkdown>

@@ -7,7 +7,8 @@
  "labels": [
   "midrange",
   "lands",
-  "coco"
+  "coco",
+  "ramp"
  ],
  "player": "dom",
  "date": "2025-08-31",
@@ -33,7 +34,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/neo/266/boseiju-who-endures?utm_source=api",
-   "oracle_text": "{T}: Add {G}.\nChannel — {1}{G}, Discard this card: Destroy target artifact, enchantment, or nonbasic land an opponent controls. That player may search their library for a land card with a basic land type, put it onto the battlefield, then shuffle. This ability costs {1} less to activate for each legendary creature you control."
+   "oracle_text": "{T}: Add {G}.\nChannel \u2014 {1}{G}, Discard this card: Destroy target artifact, enchantment, or nonbasic land an opponent controls. That player may search their library for a land card with a basic land type, put it onto the battlefield, then shuffle. This ability costs {1} less to activate for each legendary creature you control."
   },
   {
    "name": "Llanowar Elves",
@@ -73,7 +74,7 @@
    ],
    "mana_cost": "{G}",
    "url": "https://scryfall.com/card/mkm/170/pick-your-poison?utm_source=api",
-   "oracle_text": "Choose one —\n• Each opponent sacrifices an artifact of their choice.\n• Each opponent sacrifices an enchantment of their choice.\n• Each opponent sacrifices a creature with flying of their choice."
+   "oracle_text": "Choose one \u2014\n\u2022 Each opponent sacrifices an artifact of their choice.\n\u2022 Each opponent sacrifices an enchantment of their choice.\n\u2022 Each opponent sacrifices a creature with flying of their choice."
   },
   {
    "name": "Cankerbloom",
@@ -94,7 +95,7 @@
    ],
    "mana_cost": "{1}{G}",
    "url": "https://scryfall.com/card/one/161/cankerbloom?utm_source=api",
-   "oracle_text": "{1}, Sacrifice this creature: Choose one —\n• Destroy target artifact.\n• Destroy target enchantment.\n• Proliferate. (Choose any number of permanents and/or players, then give each another counter of each kind already there.)",
+   "oracle_text": "{1}, Sacrifice this creature: Choose one \u2014\n\u2022 Destroy target artifact.\n\u2022 Destroy target enchantment.\n\u2022 Proliferate. (Choose any number of permanents and/or players, then give each another counter of each kind already there.)",
    "power": "3",
    "toughness": "2"
   },
@@ -135,7 +136,7 @@
    ],
    "mana_cost": "{1}{G}",
    "url": "https://scryfall.com/card/tdm/145/heritage-reclamation?utm_source=api",
-   "oracle_text": "Choose one —\n• Destroy target artifact.\n• Destroy target enchantment.\n• Exile up to one target card from a graveyard. Draw a card."
+   "oracle_text": "Choose one \u2014\n\u2022 Destroy target artifact.\n\u2022 Destroy target enchantment.\n\u2022 Exile up to one target card from a graveyard. Draw a card."
   },
   {
    "name": "Prismatic Ending",
@@ -152,7 +153,7 @@
    ],
    "mana_cost": "{X}{W}",
    "url": "https://scryfall.com/card/mh2/25/prismatic-ending?utm_source=api",
-   "oracle_text": "Converge — Exile target nonland permanent if its mana value is less than or equal to the number of colors of mana spent to cast this spell."
+   "oracle_text": "Converge \u2014 Exile target nonland permanent if its mana value is less than or equal to the number of colors of mana spent to cast this spell."
   },
   {
    "name": "Soul Partition",
@@ -247,7 +248,7 @@
    ],
    "mana_cost": "{2}{G}",
    "url": "https://scryfall.com/card/eoc/110/tireless-tracker?utm_source=api",
-   "oracle_text": "Landfall — Whenever a land you control enters, investigate. (Create a Clue token. It's an artifact with \"{2}, Sacrifice this token: Draw a card.\")\nWhenever you sacrifice a Clue, put a +1/+1 counter on this creature.",
+   "oracle_text": "Landfall \u2014 Whenever a land you control enters, investigate. (Create a Clue token. It's an artifact with \"{2}, Sacrifice this token: Draw a card.\")\nWhenever you sacrifice a Clue, put a +1/+1 counter on this creature.",
    "power": "3",
    "toughness": "2"
   },
@@ -270,7 +271,7 @@
    ],
    "mana_cost": "{1}{G}{G}",
    "url": "https://scryfall.com/card/cmm/888/courser-of-kruphix?utm_source=api",
-   "oracle_text": "Play with the top card of your library revealed.\nYou may play lands from the top of your library.\nLandfall — Whenever a land you control enters, you gain 1 life.",
+   "oracle_text": "Play with the top card of your library revealed.\nYou may play lands from the top of your library.\nLandfall \u2014 Whenever a land you control enters, you gain 1 life.",
    "power": "2",
    "toughness": "4"
   },
@@ -355,7 +356,7 @@
    ],
    "mana_cost": "{1}{G}{G}",
    "url": "https://scryfall.com/card/eoc/92/augur-of-autumn?utm_source=api",
-   "oracle_text": "You may look at the top card of your library any time.\nYou may play lands from the top of your library.\nCoven — As long as you control three or more creatures with different powers, you may cast creature spells from the top of your library.",
+   "oracle_text": "You may look at the top card of your library any time.\nYou may play lands from the top of your library.\nCoven \u2014 As long as you control three or more creatures with different powers, you may cast creature spells from the top of your library.",
    "power": "2",
    "toughness": "3"
   },
@@ -377,7 +378,7 @@
    ],
    "mana_cost": "{1}{G}",
    "url": "https://scryfall.com/card/znr/193/lotus-cobra?utm_source=api",
-   "oracle_text": "Landfall — Whenever a land you control enters, add one mana of any color.",
+   "oracle_text": "Landfall \u2014 Whenever a land you control enters, add one mana of any color.",
    "power": "2",
    "toughness": "1"
   },
@@ -399,7 +400,7 @@
    ],
    "mana_cost": "{X}{G}{G}",
    "url": "https://scryfall.com/card/m20/200/voracious-hydra?utm_source=api",
-   "oracle_text": "Trample\nThis creature enters with X +1/+1 counters on it.\nWhen this creature enters, choose one —\n• Double the number of +1/+1 counters on this creature.\n• This creature fights target creature you don't control.",
+   "oracle_text": "Trample\nThis creature enters with X +1/+1 counters on it.\nWhen this creature enters, choose one \u2014\n\u2022 Double the number of +1/+1 counters on this creature.\n\u2022 This creature fights target creature you don't control.",
    "power": "0",
    "toughness": "1"
   },
@@ -421,7 +422,7 @@
    ],
    "mana_cost": "{2}{G}",
    "url": "https://scryfall.com/card/soi/212/inexorable-blob?utm_source=api",
-   "oracle_text": "Delirium — Whenever this creature attacks, if there are four or more card types among cards in your graveyard, create a 3/3 green Ooze creature token that's tapped and attacking.",
+   "oracle_text": "Delirium \u2014 Whenever this creature attacks, if there are four or more card types among cards in your graveyard, create a 3/3 green Ooze creature token that's tapped and attacking.",
    "power": "3",
    "toughness": "3"
   },
@@ -545,7 +546,7 @@
    ],
    "mana_cost": "{1}{G}",
    "url": "https://scryfall.com/card/cmm/886/the-binding-of-the-titans?utm_source=api",
-   "oracle_text": "(As this Saga enters and after your draw step, add a lore counter. Sacrifice after III.)\nI — Each player mills three cards.\nII — Exile up to two target cards from graveyards. For each creature card exiled this way, you gain 1 life.\nIII — Return target creature or land card from your graveyard to your hand."
+   "oracle_text": "(As this Saga enters and after your draw step, add a lore counter. Sacrifice after III.)\nI \u2014 Each player mills three cards.\nII \u2014 Exile up to two target cards from graveyards. For each creature card exiled this way, you gain 1 life.\nIII \u2014 Return target creature or land card from your graveyard to your hand."
   },
   {
    "name": "Plains",
@@ -856,7 +857,7 @@
    ],
    "mana_cost": "{2}{B}",
    "url": "https://scryfall.com/card/stx/86/sedgemoor-witch?utm_source=api",
-   "oracle_text": "Menace\nWard—Pay 3 life. (Whenever this creature becomes the target of a spell or ability an opponent controls, counter it unless that player pays 3 life.)\nMagecraft — Whenever you cast or copy an instant or sorcery spell, create a 1/1 black and green Pest creature token with \"When this token dies, you gain 1 life.\"",
+   "oracle_text": "Menace\nWard\u2014Pay 3 life. (Whenever this creature becomes the target of a spell or ability an opponent controls, counter it unless that player pays 3 life.)\nMagecraft \u2014 Whenever you cast or copy an instant or sorcery spell, create a 1/1 black and green Pest creature token with \"When this token dies, you gain 1 life.\"",
    "power": "3",
    "toughness": "2"
   },

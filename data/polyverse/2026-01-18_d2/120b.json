@@ -4,7 +4,10 @@
   "draft_id": "2026-01-18_d2",
   "combined_file": "data/polyverse/2026-01-18_d2/120b.txt"
  },
- "labels": ["midrange"],
+ "labels": [
+  "midrange",
+  "ramp"
+ ],
  "player": "20260118d2-120b",
  "date": "2026-01-18",
  "match_wins_override": 1,
@@ -135,7 +138,7 @@
    ],
    "mana_cost": "{B}{B}{B}",
    "url": "https://scryfall.com/card/eoe/88/archenemys-charm?utm_source=api",
-   "oracle_text": "Choose one —\n• Exile target creature or planeswalker.\n• Return one or two target creature and/or planeswalker cards from your graveyard to your hand.\n• Put two +1/+1 counters on target creature you control. It gains lifelink until end of turn."
+   "oracle_text": "Choose one \u2014\n\u2022 Exile target creature or planeswalker.\n\u2022 Return one or two target creature and/or planeswalker cards from your graveyard to your hand.\n\u2022 Put two +1/+1 counters on target creature you control. It gains lifelink until end of turn."
   },
   {
    "name": "Sandstorm Salvager",
@@ -179,7 +182,7 @@
    ],
    "mana_cost": "{2}{G}",
    "url": "https://scryfall.com/card/eoc/110/tireless-tracker?utm_source=api",
-   "oracle_text": "Landfall — Whenever a land you control enters, investigate. (Create a Clue token. It's an artifact with \"{2}, Sacrifice this token: Draw a card.\")\nWhenever you sacrifice a Clue, put a +1/+1 counter on this creature.",
+   "oracle_text": "Landfall \u2014 Whenever a land you control enters, investigate. (Create a Clue token. It's an artifact with \"{2}, Sacrifice this token: Draw a card.\")\nWhenever you sacrifice a Clue, put a +1/+1 counter on this creature.",
    "power": "3",
    "toughness": "2"
   },
@@ -284,7 +287,7 @@
    ],
    "mana_cost": "{B}{G}",
    "url": "https://scryfall.com/card/dsc/218/grim-flayer?utm_source=api",
-   "oracle_text": "Trample\nWhenever this creature deals combat damage to a player, surveil 3. (Look at the top three cards of your library, then put any number of them into your graveyard and the rest on top of your library in any order.)\nDelirium — This creature gets +2/+2 as long as there are four or more card types among cards in your graveyard.",
+   "oracle_text": "Trample\nWhenever this creature deals combat damage to a player, surveil 3. (Look at the top three cards of your library, then put any number of them into your graveyard and the rest on top of your library in any order.)\nDelirium \u2014 This creature gets +2/+2 as long as there are four or more card types among cards in your graveyard.",
    "power": "2",
    "toughness": "2"
   },
@@ -459,7 +462,7 @@
    ],
    "mana_cost": "{B}",
    "url": "https://scryfall.com/card/clb/740/bloodsoaked-champion?utm_source=api",
-   "oracle_text": "This creature can't block.\nRaid — {1}{B}: Return this card from your graveyard to the battlefield. Activate only if you attacked this turn.",
+   "oracle_text": "This creature can't block.\nRaid \u2014 {1}{B}: Return this card from your graveyard to the battlefield. Activate only if you attacked this turn.",
    "power": "2",
    "toughness": "1"
   },
@@ -561,7 +564,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/neo/278/takenuma-abandoned-mire?utm_source=api",
-   "oracle_text": "{T}: Add {B}.\nChannel — {3}{B}, Discard this card: Mill three cards, then return a creature or planeswalker card from your graveyard to your hand. This ability costs {1} less to activate for each legendary creature you control."
+   "oracle_text": "{T}: Add {B}.\nChannel \u2014 {3}{B}, Discard this card: Mill three cards, then return a creature or planeswalker card from your graveyard to your hand. This ability costs {1} less to activate for each legendary creature you control."
   },
   {
    "name": "Nurturing Peatland",
@@ -1129,7 +1132,7 @@
    ],
    "mana_cost": "{2}{B}",
    "url": "https://scryfall.com/card/stx/86/sedgemoor-witch?utm_source=api",
-   "oracle_text": "Menace\nWard—Pay 3 life. (Whenever this creature becomes the target of a spell or ability an opponent controls, counter it unless that player pays 3 life.)\nMagecraft — Whenever you cast or copy an instant or sorcery spell, create a 1/1 black and green Pest creature token with \"When this token dies, you gain 1 life.\"",
+   "oracle_text": "Menace\nWard\u2014Pay 3 life. (Whenever this creature becomes the target of a spell or ability an opponent controls, counter it unless that player pays 3 life.)\nMagecraft \u2014 Whenever you cast or copy an instant or sorcery spell, create a 1/1 black and green Pest creature token with \"When this token dies, you gain 1 life.\"",
    "power": "3",
    "toughness": "2"
   },
@@ -1188,7 +1191,7 @@
    ],
    "mana_cost": "{1}{G}",
    "url": "https://scryfall.com/card/tdm/145/heritage-reclamation?utm_source=api",
-   "oracle_text": "Choose one —\n• Destroy target artifact.\n• Destroy target enchantment.\n• Exile up to one target card from a graveyard. Draw a card."
+   "oracle_text": "Choose one \u2014\n\u2022 Destroy target artifact.\n\u2022 Destroy target enchantment.\n\u2022 Exile up to one target card from a graveyard. Draw a card."
   },
   {
    "name": "Drana, Liberator of Malakir",
@@ -1341,7 +1344,7 @@
    ],
    "mana_cost": "{1}{B}{B}",
    "url": "https://scryfall.com/card/dmu/97/liliana-of-the-veil?utm_source=api",
-   "oracle_text": "+1: Each player discards a card.\n−2: Target player sacrifices a creature.\n−6: Separate all permanents target player controls into two piles. That player sacrifices all permanents in the pile of their choice."
+   "oracle_text": "+1: Each player discards a card.\n\u22122: Target player sacrifices a creature.\n\u22126: Separate all permanents target player controls into two piles. That player sacrifices all permanents in the pile of their choice."
   },
   {
    "name": "Jolrael, Mwonvuli Recluse",

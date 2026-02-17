@@ -6,7 +6,8 @@
  },
  "labels": [
   "graveyard",
-  "midrange"
+  "midrange",
+  "ramp"
  ],
  "player": "cara",
  "date": "2024-05-14",
@@ -114,7 +115,7 @@
    ],
    "mana_cost": "{B}{B}",
    "url": "https://scryfall.com/card/dft/77/bloodghast?utm_source=api",
-   "oracle_text": "This creature can't block.\nThis creature has haste as long as an opponent has 10 or less life.\nLandfall — Whenever a land you control enters, you may return this card from your graveyard to the battlefield.",
+   "oracle_text": "This creature can't block.\nThis creature has haste as long as an opponent has 10 or less life.\nLandfall \u2014 Whenever a land you control enters, you may return this card from your graveyard to the battlefield.",
    "power": "2",
    "toughness": "1"
   },
@@ -136,7 +137,7 @@
    ],
    "mana_cost": "{1}{G}",
    "url": "https://scryfall.com/card/znr/193/lotus-cobra?utm_source=api",
-   "oracle_text": "Landfall — Whenever a land you control enters, add one mana of any color.",
+   "oracle_text": "Landfall \u2014 Whenever a land you control enters, add one mana of any color.",
    "power": "2",
    "toughness": "1"
   },
@@ -180,7 +181,7 @@
    ],
    "mana_cost": "{2}{G}",
    "url": "https://scryfall.com/card/soi/212/inexorable-blob?utm_source=api",
-   "oracle_text": "Delirium — Whenever this creature attacks, if there are four or more card types among cards in your graveyard, create a 3/3 green Ooze creature token that's tapped and attacking.",
+   "oracle_text": "Delirium \u2014 Whenever this creature attacks, if there are four or more card types among cards in your graveyard, create a 3/3 green Ooze creature token that's tapped and attacking.",
    "power": "3",
    "toughness": "3"
   },
@@ -341,7 +342,7 @@
    ],
    "mana_cost": "{1}{G}",
    "url": "https://scryfall.com/card/clu/167/kraul-harpooner?utm_source=api",
-   "oracle_text": "Reach\nUndergrowth — When this creature enters, choose up to one target creature you don't control with flying. This creature gets +X/+0 until end of turn, where X is the number of creature cards in your graveyard, then you may have this creature fight that creature.",
+   "oracle_text": "Reach\nUndergrowth \u2014 When this creature enters, choose up to one target creature you don't control with flying. This creature gets +X/+0 until end of turn, where X is the number of creature cards in your graveyard, then you may have this creature fight that creature.",
    "power": "3",
    "toughness": "2"
   },
@@ -423,7 +424,7 @@
    ],
    "mana_cost": "{1}{G}",
    "url": "https://scryfall.com/card/cmm/886/the-binding-of-the-titans?utm_source=api",
-   "oracle_text": "(As this Saga enters and after your draw step, add a lore counter. Sacrifice after III.)\nI — Each player mills three cards.\nII — Exile up to two target cards from graveyards. For each creature card exiled this way, you gain 1 life.\nIII — Return target creature or land card from your graveyard to your hand."
+   "oracle_text": "(As this Saga enters and after your draw step, add a lore counter. Sacrifice after III.)\nI \u2014 Each player mills three cards.\nII \u2014 Exile up to two target cards from graveyards. For each creature card exiled this way, you gain 1 life.\nIII \u2014 Return target creature or land card from your graveyard to your hand."
   },
   {
    "name": "Ulcerate",
@@ -737,7 +738,7 @@
    ],
    "mana_cost": "{G}",
    "url": "https://scryfall.com/card/inr/221/traverse-the-ulvenwald?utm_source=api",
-   "oracle_text": "Search your library for a basic land card, reveal it, put it into your hand, then shuffle.\nDelirium — If there are four or more card types among cards in your graveyard, instead search your library for a creature or land card, reveal it, put it into your hand, then shuffle."
+   "oracle_text": "Search your library for a basic land card, reveal it, put it into your hand, then shuffle.\nDelirium \u2014 If there are four or more card types among cards in your graveyard, instead search your library for a creature or land card, reveal it, put it into your hand, then shuffle."
   },
   {
    "name": "Explore",
@@ -771,7 +772,7 @@
    ],
    "mana_cost": "{1}{G}",
    "url": "https://scryfall.com/card/tsr/201/edge-of-autumn?utm_source=api",
-   "oracle_text": "If you control four or fewer lands, search your library for a basic land card, put it onto the battlefield tapped, then shuffle.\nCycling—Sacrifice a land. (Sacrifice a land, Discard this card: Draw a card.)"
+   "oracle_text": "If you control four or fewer lands, search your library for a basic land card, put it onto the battlefield tapped, then shuffle.\nCycling\u2014Sacrifice a land. (Sacrifice a land, Discard this card: Draw a card.)"
   },
   {
    "name": "Life from the Loam",
@@ -1112,7 +1113,7 @@
    ],
    "mana_cost": "{2}{U}{U}",
    "url": "https://scryfall.com/card/mkc/120/tezzeret-betrayer-of-flesh?utm_source=api",
-   "oracle_text": "The first activated ability of an artifact you activate each turn costs {2} less to activate.\n+1: Draw two cards. Then discard two cards unless you discard an artifact card.\n−2: Target artifact becomes an artifact creature. If it isn't a Vehicle, it has base power and toughness 4/4.\n−6: You get an emblem with \"Whenever an artifact you control becomes tapped, draw a card.\""
+   "oracle_text": "The first activated ability of an artifact you activate each turn costs {2} less to activate.\n+1: Draw two cards. Then discard two cards unless you discard an artifact card.\n\u22122: Target artifact becomes an artifact creature. If it isn't a Vehicle, it has base power and toughness 4/4.\n\u22126: You get an emblem with \"Whenever an artifact you control becomes tapped, draw a card.\""
   },
   {
    "name": "Spider Food",

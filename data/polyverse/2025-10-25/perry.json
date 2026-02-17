@@ -7,7 +7,7 @@
  },
  "labels": [
   "midrange",
-  "stomp"
+  "ramp"
  ],
  "player": "perry",
  "date": "2025-10-25",
@@ -101,7 +101,7 @@
    ],
    "mana_cost": "{X}{W}",
    "url": "https://scryfall.com/card/mh2/25/prismatic-ending?utm_source=api",
-   "oracle_text": "Converge — Exile target nonland permanent if its mana value is less than or equal to the number of colors of mana spent to cast this spell."
+   "oracle_text": "Converge \u2014 Exile target nonland permanent if its mana value is less than or equal to the number of colors of mana spent to cast this spell."
   },
   {
    "name": "Recruitment Officer",
@@ -265,7 +265,7 @@
    ],
    "mana_cost": "{1}{G}{G}",
    "url": "https://scryfall.com/card/eoc/92/augur-of-autumn?utm_source=api",
-   "oracle_text": "You may look at the top card of your library any time.\nYou may play lands from the top of your library.\nCoven — As long as you control three or more creatures with different powers, you may cast creature spells from the top of your library.",
+   "oracle_text": "You may look at the top card of your library any time.\nYou may play lands from the top of your library.\nCoven \u2014 As long as you control three or more creatures with different powers, you may cast creature spells from the top of your library.",
    "power": "2",
    "toughness": "3"
   },
@@ -327,7 +327,7 @@
    ],
    "mana_cost": "{1}{G}{G}",
    "url": "https://scryfall.com/card/cmm/888/courser-of-kruphix?utm_source=api",
-   "oracle_text": "Play with the top card of your library revealed.\nYou may play lands from the top of your library.\nLandfall — Whenever a land you control enters, you gain 1 life.",
+   "oracle_text": "Play with the top card of your library revealed.\nYou may play lands from the top of your library.\nLandfall \u2014 Whenever a land you control enters, you gain 1 life.",
    "power": "2",
    "toughness": "4"
   },
@@ -373,7 +373,7 @@
    ],
    "mana_cost": "{2}{G}{G}",
    "url": "https://scryfall.com/card/cmd/157/garruk-wildspeaker?utm_source=api",
-   "oracle_text": "+1: Untap two target lands.\n−1: Create a 3/3 green Beast creature token.\n−4: Creatures you control get +3/+3 and gain trample until end of turn."
+   "oracle_text": "+1: Untap two target lands.\n\u22121: Create a 3/3 green Beast creature token.\n\u22124: Creatures you control get +3/+3 and gain trample until end of turn."
   },
   {
    "name": "Ignoble Hierarch",
@@ -600,7 +600,7 @@
    ],
    "mana_cost": "{R}{G}",
    "url": "https://scryfall.com/card/mh2/216/territorial-kavu?utm_source=api",
-   "oracle_text": "Domain — Territorial Kavu's power and toughness are each equal to the number of basic land types among lands you control.\nWhenever this creature attacks, choose one —\n• Discard a card. If you do, draw a card.\n• Exile up to one target card from a graveyard.",
+   "oracle_text": "Domain \u2014 Territorial Kavu's power and toughness are each equal to the number of basic land types among lands you control.\nWhenever this creature attacks, choose one \u2014\n\u2022 Discard a card. If you do, draw a card.\n\u2022 Exile up to one target card from a graveyard.",
    "power": "*",
    "toughness": "*"
   },
@@ -1026,7 +1026,7 @@
    ],
    "mana_cost": "{1}{G}",
    "url": "https://scryfall.com/card/tsr/201/edge-of-autumn?utm_source=api",
-   "oracle_text": "If you control four or fewer lands, search your library for a basic land card, put it onto the battlefield tapped, then shuffle.\nCycling—Sacrifice a land. (Sacrifice a land, Discard this card: Draw a card.)"
+   "oracle_text": "If you control four or fewer lands, search your library for a basic land card, put it onto the battlefield tapped, then shuffle.\nCycling\u2014Sacrifice a land. (Sacrifice a land, Discard this card: Draw a card.)"
   },
   {
    "name": "Heritage Reclamation",
@@ -1043,7 +1043,7 @@
    ],
    "mana_cost": "{1}{G}",
    "url": "https://scryfall.com/card/tdm/145/heritage-reclamation?utm_source=api",
-   "oracle_text": "Choose one —\n• Destroy target artifact.\n• Destroy target enchantment.\n• Exile up to one target card from a graveyard. Draw a card."
+   "oracle_text": "Choose one \u2014\n\u2022 Destroy target artifact.\n\u2022 Destroy target enchantment.\n\u2022 Exile up to one target card from a graveyard. Draw a card."
   },
   {
    "name": "Llanowar Elves",
@@ -1083,7 +1083,7 @@
    ],
    "mana_cost": "{G}",
    "url": "https://scryfall.com/card/inr/221/traverse-the-ulvenwald?utm_source=api",
-   "oracle_text": "Search your library for a basic land card, reveal it, put it into your hand, then shuffle.\nDelirium — If there are four or more card types among cards in your graveyard, instead search your library for a creature or land card, reveal it, put it into your hand, then shuffle."
+   "oracle_text": "Search your library for a basic land card, reveal it, put it into your hand, then shuffle.\nDelirium \u2014 If there are four or more card types among cards in your graveyard, instead search your library for a creature or land card, reveal it, put it into your hand, then shuffle."
   },
   {
    "name": "Up the Beanstalk",

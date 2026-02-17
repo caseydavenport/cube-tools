@@ -7,7 +7,8 @@
  "labels": [
   "midrange",
   "artifacts",
-  "food"
+  "food",
+  "ramp"
  ],
  "player": "xander",
  "date": "2023-10-21",
@@ -137,7 +138,7 @@
    ],
    "mana_cost": "{2}{U}{U}",
    "url": "https://scryfall.com/card/mkc/120/tezzeret-betrayer-of-flesh?utm_source=api",
-   "oracle_text": "The first activated ability of an artifact you activate each turn costs {2} less to activate.\n+1: Draw two cards. Then discard two cards unless you discard an artifact card.\n−2: Target artifact becomes an artifact creature. If it isn't a Vehicle, it has base power and toughness 4/4.\n−6: You get an emblem with \"Whenever an artifact you control becomes tapped, draw a card.\"",
+   "oracle_text": "The first activated ability of an artifact you activate each turn costs {2} less to activate.\n+1: Draw two cards. Then discard two cards unless you discard an artifact card.\n\u22122: Target artifact becomes an artifact creature. If it isn't a Vehicle, it has base power and toughness 4/4.\n\u22126: You get an emblem with \"Whenever an artifact you control becomes tapped, draw a card.\"",
    "appearances": 1
   },
   {
@@ -951,7 +952,7 @@
    ],
    "mana_cost": "{B}",
    "url": "https://scryfall.com/card/clb/740/bloodsoaked-champion?utm_source=api",
-   "oracle_text": "This creature can't block.\nRaid — {1}{B}: Return this card from your graveyard to the battlefield. Activate only if you attacked this turn.",
+   "oracle_text": "This creature can't block.\nRaid \u2014 {1}{B}: Return this card from your graveyard to the battlefield. Activate only if you attacked this turn.",
    "power": "2",
    "toughness": "1"
   },
@@ -1127,7 +1128,7 @@
    ],
    "mana_cost": "{B}{B}",
    "url": "https://scryfall.com/card/c18/119/stitch-together?utm_source=api",
-   "oracle_text": "Return target creature card from your graveyard to your hand.\nThreshold — Return that card from your graveyard to the battlefield instead if seven or more cards are in your graveyard."
+   "oracle_text": "Return target creature card from your graveyard to your hand.\nThreshold \u2014 Return that card from your graveyard to the battlefield instead if seven or more cards are in your graveyard."
   },
   {
    "name": "Wickerbough Elder",

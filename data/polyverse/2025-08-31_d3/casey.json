@@ -8,7 +8,8 @@
   "midrange",
   "domain",
   "lands",
-  "sacrifice"
+  "sacrifice",
+  "ramp"
  ],
  "player": "casey",
  "date": "2025-08-31",
@@ -41,7 +42,7 @@
    ],
    "mana_cost": "{R}{G}",
    "url": "https://scryfall.com/card/2x2/296/wrenn-and-six?utm_source=api",
-   "oracle_text": "+1: Return up to one target land card from your graveyard to your hand.\n−1: Wrenn and Six deals 1 damage to any target.\n−7: You get an emblem with \"Instant and sorcery cards in your graveyard have retrace.\" (You may cast instant and sorcery cards from your graveyard by discarding a land card in addition to paying their other costs.)"
+   "oracle_text": "+1: Return up to one target land card from your graveyard to your hand.\n\u22121: Wrenn and Six deals 1 damage to any target.\n\u22127: You get an emblem with \"Instant and sorcery cards in your graveyard have retrace.\" (You may cast instant and sorcery cards from your graveyard by discarding a land card in addition to paying their other costs.)"
   },
   {
    "name": "Arid Mesa",
@@ -129,7 +130,7 @@
    ],
    "mana_cost": "{R}{G}",
    "url": "https://scryfall.com/card/mh2/216/territorial-kavu?utm_source=api",
-   "oracle_text": "Domain — Territorial Kavu's power and toughness are each equal to the number of basic land types among lands you control.\nWhenever this creature attacks, choose one —\n• Discard a card. If you do, draw a card.\n• Exile up to one target card from a graveyard.",
+   "oracle_text": "Domain \u2014 Territorial Kavu's power and toughness are each equal to the number of basic land types among lands you control.\nWhenever this creature attacks, choose one \u2014\n\u2022 Discard a card. If you do, draw a card.\n\u2022 Exile up to one target card from a graveyard.",
    "power": "*",
    "toughness": "*"
   },
@@ -386,7 +387,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/neo/268/eiganjo-seat-of-the-empire?utm_source=api",
-   "oracle_text": "{T}: Add {W}.\nChannel — {2}{W}, Discard this card: It deals 4 damage to target attacking or blocking creature. This ability costs {1} less to activate for each legendary creature you control."
+   "oracle_text": "{T}: Add {W}.\nChannel \u2014 {2}{W}, Discard this card: It deals 4 damage to target attacking or blocking creature. This ability costs {1} less to activate for each legendary creature you control."
   },
   {
    "name": "Fatal Push",
@@ -403,7 +404,7 @@
    ],
    "mana_cost": "{B}",
    "url": "https://scryfall.com/card/2xm/93/fatal-push?utm_source=api",
-   "oracle_text": "Destroy target creature if it has mana value 2 or less.\nRevolt — Destroy that creature if it has mana value 4 or less instead if a permanent left the battlefield under your control this turn."
+   "oracle_text": "Destroy target creature if it has mana value 2 or less.\nRevolt \u2014 Destroy that creature if it has mana value 4 or less instead if a permanent left the battlefield under your control this turn."
   },
   {
    "name": "Knight of the Reliquary",
@@ -529,7 +530,7 @@
    ],
    "mana_cost": "{G}",
    "url": "https://scryfall.com/card/inr/221/traverse-the-ulvenwald?utm_source=api",
-   "oracle_text": "Search your library for a basic land card, reveal it, put it into your hand, then shuffle.\nDelirium — If there are four or more card types among cards in your graveyard, instead search your library for a creature or land card, reveal it, put it into your hand, then shuffle."
+   "oracle_text": "Search your library for a basic land card, reveal it, put it into your hand, then shuffle.\nDelirium \u2014 If there are four or more card types among cards in your graveyard, instead search your library for a creature or land card, reveal it, put it into your hand, then shuffle."
   },
   {
    "name": "Temple Garden",
@@ -581,7 +582,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/mh3/228/shifting-woodland?utm_source=api",
-   "oracle_text": "This land enters tapped unless you control a Forest.\n{T}: Add {G}.\nDelirium — {2}{G}{G}: This land becomes a copy of target permanent card in your graveyard until end of turn. Activate only if there are four or more card types among cards in your graveyard."
+   "oracle_text": "This land enters tapped unless you control a Forest.\n{T}: Add {G}.\nDelirium \u2014 {2}{G}{G}: This land becomes a copy of target permanent card in your graveyard until end of turn. Activate only if there are four or more card types among cards in your graveyard."
   },
   {
    "name": "Ignoble Hierarch",
@@ -659,7 +660,7 @@
    ],
    "mana_cost": "{3}{G}",
    "url": "https://scryfall.com/card/bfz/198/woodland-wanderer?utm_source=api",
-   "oracle_text": "Vigilance, trample\nConverge — This creature enters with a +1/+1 counter on it for each color of mana spent to cast it.",
+   "oracle_text": "Vigilance, trample\nConverge \u2014 This creature enters with a +1/+1 counter on it for each color of mana spent to cast it.",
    "power": "2",
    "toughness": "2"
   },
@@ -754,7 +755,7 @@
    ],
    "mana_cost": "{2}{B}{B}",
    "url": "https://scryfall.com/card/otc/148/rankle-master-of-pranks?utm_source=api",
-   "oracle_text": "Flying, haste\nWhenever Rankle deals combat damage to a player, choose any number —\n• Each player discards a card.\n• Each player loses 1 life and draws a card.\n• Each player sacrifices a creature of their choice.",
+   "oracle_text": "Flying, haste\nWhenever Rankle deals combat damage to a player, choose any number \u2014\n\u2022 Each player discards a card.\n\u2022 Each player loses 1 life and draws a card.\n\u2022 Each player sacrifices a creature of their choice.",
    "power": "3",
    "toughness": "3"
   },
@@ -814,7 +815,7 @@
    ],
    "mana_cost": "{2}{W}{W}",
    "url": "https://scryfall.com/card/neo/42/the-wandering-emperor?utm_source=api",
-   "oracle_text": "Flash\nAs long as The Wandering Emperor entered this turn, you may activate her loyalty abilities any time you could cast an instant.\n+1: Put a +1/+1 counter on up to one target creature. It gains first strike until end of turn.\n−1: Create a 2/2 white Samurai creature token with vigilance.\n−2: Exile target tapped creature. You gain 2 life."
+   "oracle_text": "Flash\nAs long as The Wandering Emperor entered this turn, you may activate her loyalty abilities any time you could cast an instant.\n+1: Put a +1/+1 counter on up to one target creature. It gains first strike until end of turn.\n\u22121: Create a 2/2 white Samurai creature token with vigilance.\n\u22122: Exile target tapped creature. You gain 2 life."
   },
   {
    "name": "Tidehollow Sculler",

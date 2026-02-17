@@ -6,7 +6,8 @@
  },
  "labels": [
   "midrange",
-  "+1/+1"
+  "+1/+1",
+  "ramp"
  ],
  "player": "grant",
  "date": "2023-07-23",
@@ -349,7 +350,7 @@
    ],
    "mana_cost": "{1}{R}{G}",
    "url": "https://scryfall.com/card/war/191/domri-anarch-of-bolas?utm_source=api",
-   "oracle_text": "Creatures you control get +1/+0.\n+1: Add {R} or {G}. Creature spells you cast this turn can't be countered.\n−2: Target creature you control fights target creature you don't control."
+   "oracle_text": "Creatures you control get +1/+0.\n+1: Add {R} or {G}. Creature spells you cast this turn can't be countered.\n\u22122: Target creature you control fights target creature you don't control."
   },
   {
    "name": "Arid Mesa",
@@ -383,7 +384,7 @@
    ],
    "mana_cost": "{4}{R}{R}",
    "url": "https://scryfall.com/card/mom/134/chandra-hopes-beacon?utm_source=api",
-   "oracle_text": "Whenever you cast an instant or sorcery spell, copy it. You may choose new targets for the copy. This ability triggers only once each turn.\n+2: Add two mana in any combination of colors.\n+1: Exile the top five cards of your library. Until the end of your next turn, you may cast an instant or sorcery spell from among those exiled cards.\n−X: Chandra deals X damage to each of up to two targets."
+   "oracle_text": "Whenever you cast an instant or sorcery spell, copy it. You may choose new targets for the copy. This ability triggers only once each turn.\n+2: Add two mana in any combination of colors.\n+1: Exile the top five cards of your library. Until the end of your next turn, you may cast an instant or sorcery spell from among those exiled cards.\n\u2212X: Chandra deals X damage to each of up to two targets."
   },
   {
    "name": "Knight of the Reliquary",
@@ -429,7 +430,7 @@
    ],
    "mana_cost": "{1}{G}",
    "url": "https://scryfall.com/card/cmm/312/pollenbright-druid?utm_source=api",
-   "oracle_text": "When this creature enters, choose one —\n• Put a +1/+1 counter on target creature.\n• Proliferate. (Choose any number of permanents and/or players, then give each another counter of each kind already there.)",
+   "oracle_text": "When this creature enters, choose one \u2014\n\u2022 Put a +1/+1 counter on target creature.\n\u2022 Proliferate. (Choose any number of permanents and/or players, then give each another counter of each kind already there.)",
    "power": "1",
    "toughness": "1"
   },
@@ -756,7 +757,7 @@
    ],
    "mana_cost": "{G}",
    "url": "https://scryfall.com/card/ddp/15/groundswell?utm_source=api",
-   "oracle_text": "Target creature gets +2/+2 until end of turn.\nLandfall — If you had a land enter the battlefield under your control this turn, that creature gets +4/+4 until end of turn instead."
+   "oracle_text": "Target creature gets +2/+2 until end of turn.\nLandfall \u2014 If you had a land enter the battlefield under your control this turn, that creature gets +4/+4 until end of turn instead."
   },
   {
    "name": "Overrun",
@@ -794,7 +795,7 @@
    ],
    "mana_cost": "{2}{G}",
    "url": "https://scryfall.com/card/war/164/jiang-yanggu-wildcrafter?utm_source=api",
-   "oracle_text": "Each creature you control with a +1/+1 counter on it has \"{T}: Add one mana of any color.\"\n−1: Put a +1/+1 counter on target creature."
+   "oracle_text": "Each creature you control with a +1/+1 counter on it has \"{T}: Add one mana of any color.\"\n\u22121: Put a +1/+1 counter on target creature."
   },
   {
    "name": "Flooded Strand",

@@ -5,7 +5,7 @@
   "combined_file": "data/polyverse/2023-04-22/paul.csv"
  },
  "labels": [
-  "stomp",
+  "ramp",
   "midrange"
  ],
  "player": "paul",
@@ -97,7 +97,7 @@
    ],
    "mana_cost": "{3}{G}{G}",
    "url": "https://scryfall.com/card/war/169/nissa-who-shakes-the-world?utm_source=api",
-   "oracle_text": "Whenever you tap a Forest for mana, add an additional {G}.\n+1: Put three +1/+1 counters on up to one target noncreature land you control. Untap it. It becomes a 0/0 Elemental creature with vigilance and haste that's still a land.\n−8: You get an emblem with \"Lands you control have indestructible.\" Search your library for any number of Forest cards, put them onto the battlefield tapped, then shuffle."
+   "oracle_text": "Whenever you tap a Forest for mana, add an additional {G}.\n+1: Put three +1/+1 counters on up to one target noncreature land you control. Untap it. It becomes a 0/0 Elemental creature with vigilance and haste that's still a land.\n\u22128: You get an emblem with \"Lands you control have indestructible.\" Search your library for any number of Forest cards, put them onto the battlefield tapped, then shuffle."
   },
   {
    "name": "Ward of Bones",
@@ -161,7 +161,7 @@
    ],
    "mana_cost": "{1}{G}{G}",
    "url": "https://scryfall.com/card/e01/76/turntimber-basilisk?utm_source=api",
-   "oracle_text": "Deathtouch (Any amount of damage this deals to a creature is enough to destroy it.)\nLandfall — Whenever a land you control enters, you may have target creature block this creature this turn if able.",
+   "oracle_text": "Deathtouch (Any amount of damage this deals to a creature is enough to destroy it.)\nLandfall \u2014 Whenever a land you control enters, you may have target creature block this creature this turn if able.",
    "power": "2",
    "toughness": "1"
   },

@@ -5,7 +5,9 @@
   "mainboard_file": "data/polyverse/2026-01-03/patrick-mainboard.txt",
   "sideboard_file": "data/polyverse/2026-01-03/patrick-sideboard.txt"
  },
- "labels": ["midrange", "ramp"],
+ "labels": [
+  "midrange"
+ ],
  "player": "patrick",
  "date": "2026-01-03",
  "games": [
@@ -116,7 +118,7 @@
    "toughness": "3"
   },
   {
-   "name": "Lórien Revealed",
+   "name": "L\u00f3rien Revealed",
    "types": [
     "Sorcery"
    ],
@@ -232,7 +234,7 @@
    ],
    "mana_cost": "{1}{G}",
    "url": "https://scryfall.com/card/one/161/cankerbloom?utm_source=api",
-   "oracle_text": "{1}, Sacrifice this creature: Choose one —\n• Destroy target artifact.\n• Destroy target enchantment.\n• Proliferate. (Choose any number of permanents and/or players, then give each another counter of each kind already there.)",
+   "oracle_text": "{1}, Sacrifice this creature: Choose one \u2014\n\u2022 Destroy target artifact.\n\u2022 Destroy target enchantment.\n\u2022 Proliferate. (Choose any number of permanents and/or players, then give each another counter of each kind already there.)",
    "power": "3",
    "toughness": "2"
   },
@@ -255,7 +257,7 @@
    ],
    "mana_cost": "{1}{G}{G}",
    "url": "https://scryfall.com/card/cmm/888/courser-of-kruphix?utm_source=api",
-   "oracle_text": "Play with the top card of your library revealed.\nYou may play lands from the top of your library.\nLandfall — Whenever a land you control enters, you gain 1 life.",
+   "oracle_text": "Play with the top card of your library revealed.\nYou may play lands from the top of your library.\nLandfall \u2014 Whenever a land you control enters, you gain 1 life.",
    "power": "2",
    "toughness": "4"
   },
@@ -341,7 +343,7 @@
    ],
    "mana_cost": "{2}{G}{G}",
    "url": "https://scryfall.com/card/cmd/157/garruk-wildspeaker?utm_source=api",
-   "oracle_text": "+1: Untap two target lands.\n−1: Create a 3/3 green Beast creature token.\n−4: Creatures you control get +3/+3 and gain trample until end of turn."
+   "oracle_text": "+1: Untap two target lands.\n\u22121: Create a 3/3 green Beast creature token.\n\u22124: Creatures you control get +3/+3 and gain trample until end of turn."
   },
   {
    "name": "Lotus Cobra",
@@ -361,7 +363,7 @@
    ],
    "mana_cost": "{1}{G}",
    "url": "https://scryfall.com/card/znr/193/lotus-cobra?utm_source=api",
-   "oracle_text": "Landfall — Whenever a land you control enters, add one mana of any color.",
+   "oracle_text": "Landfall \u2014 Whenever a land you control enters, add one mana of any color.",
    "power": "2",
    "toughness": "1"
   },
@@ -451,7 +453,7 @@
    ],
    "mana_cost": "{X}{G}{G}",
    "url": "https://scryfall.com/card/m20/200/voracious-hydra?utm_source=api",
-   "oracle_text": "Trample\nThis creature enters with X +1/+1 counters on it.\nWhen this creature enters, choose one —\n• Double the number of +1/+1 counters on this creature.\n• This creature fights target creature you don't control.",
+   "oracle_text": "Trample\nThis creature enters with X +1/+1 counters on it.\nWhen this creature enters, choose one \u2014\n\u2022 Double the number of +1/+1 counters on this creature.\n\u2022 This creature fights target creature you don't control.",
    "power": "0",
    "toughness": "1"
   },
@@ -473,7 +475,7 @@
    ],
    "mana_cost": "{3}{G}",
    "url": "https://scryfall.com/card/bfz/198/woodland-wanderer?utm_source=api",
-   "oracle_text": "Vigilance, trample\nConverge — This creature enters with a +1/+1 counter on it for each color of mana spent to cast it.",
+   "oracle_text": "Vigilance, trample\nConverge \u2014 This creature enters with a +1/+1 counter on it for each color of mana spent to cast it.",
    "power": "2",
    "toughness": "2"
   },
@@ -517,7 +519,7 @@
    ],
    "mana_cost": "{R}{G}",
    "url": "https://scryfall.com/card/2x2/296/wrenn-and-six?utm_source=api",
-   "oracle_text": "+1: Return up to one target land card from your graveyard to your hand.\n−1: Wrenn and Six deals 1 damage to any target.\n−7: You get an emblem with \"Instant and sorcery cards in your graveyard have retrace.\" (You may cast instant and sorcery cards from your graveyard by discarding a land card in addition to paying their other costs.)"
+   "oracle_text": "+1: Return up to one target land card from your graveyard to your hand.\n\u22121: Wrenn and Six deals 1 damage to any target.\n\u22127: You get an emblem with \"Instant and sorcery cards in your graveyard have retrace.\" (You may cast instant and sorcery cards from your graveyard by discarding a land card in addition to paying their other costs.)"
   },
   {
    "name": "Blood Crypt",
@@ -961,7 +963,7 @@
    ],
    "mana_cost": "{1}{G}",
    "url": "https://scryfall.com/card/stx/127/dragonsguard-elite?utm_source=api",
-   "oracle_text": "Magecraft — Whenever you cast or copy an instant or sorcery spell, put a +1/+1 counter on this creature.\n{4}{G}{G}: Double the number of +1/+1 counters on this creature.",
+   "oracle_text": "Magecraft \u2014 Whenever you cast or copy an instant or sorcery spell, put a +1/+1 counter on this creature.\n{4}{G}{G}: Double the number of +1/+1 counters on this creature.",
    "power": "2",
    "toughness": "2"
   },
@@ -1005,7 +1007,7 @@
    ],
    "mana_cost": "{2}{G}",
    "url": "https://scryfall.com/card/soi/212/inexorable-blob?utm_source=api",
-   "oracle_text": "Delirium — Whenever this creature attacks, if there are four or more card types among cards in your graveyard, create a 3/3 green Ooze creature token that's tapped and attacking.",
+   "oracle_text": "Delirium \u2014 Whenever this creature attacks, if there are four or more card types among cards in your graveyard, create a 3/3 green Ooze creature token that's tapped and attacking.",
    "power": "3",
    "toughness": "3"
   },
