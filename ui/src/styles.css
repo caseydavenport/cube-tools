@@ -223,6 +223,64 @@ table {
 
 .search-bar-container {
   width: 100%;
+  position: relative;
+}
+
+.search-autocomplete {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 200;
+  background: var(--card-background);
+  border: 1px solid var(--border);
+  border-radius: 0 0 8px 8px;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+  max-height: 300px;
+  overflow-y: auto;
+  margin-top: -1px;
+}
+
+.search-autocomplete-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  transition: background 0.1s ease;
+}
+
+.search-autocomplete-item:hover,
+.search-autocomplete-item-selected {
+  background: var(--table-row-hover);
+}
+
+.search-autocomplete-term {
+  font-family: 'Fira Code', monospace;
+  color: var(--primary);
+  font-weight: 600;
+  min-width: 80px;
+}
+
+.search-autocomplete-detail {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  flex: 1;
+}
+
+.search-autocomplete-example {
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  font-family: 'Fira Code', monospace;
+  opacity: 0.6;
+}
+
+.search-autocomplete-help {
+  padding: 0.5rem 1rem;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  border-bottom: 1px solid var(--border);
+  font-style: italic;
 }
 
 .search-bar {

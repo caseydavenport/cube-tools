@@ -5,7 +5,7 @@ import { LoadDecks, FetchFile, SaveNotes } from "../utils/Fetch.js"
 import { Record, Wins, Losses, Draws, MatchWins, MatchLosses, MatchDraws, InDeckColor } from "../utils/Deck.js"
 import { RemovalMatches, CounterspellMatches } from "../pages/Decks.js"
 import { SortFunc, StringToColor, CheckboxesToColors, IsBasicLand } from "../utils/Utils.js"
-import { CardMatches, DeckMatches, QueryTerms } from "../utils/Query.js"
+import { CardMatches, DeckMatches } from "../utils/Query.js"
 import { ColorImages } from "../utils/Colors.js"
 import { Button, TextInput, DropdownHeader, NumericInput, Checkbox, DateSelector } from "../components/Dropdown.js"
 import { InitialDates } from "../components/StatsUI.js"
@@ -309,7 +309,7 @@ export function DeckViewer(props) {
         <div className="search-group">
           <TextInput
             label="Search"
-            placeholder={QueryTerms}
+            placeholder="Search cards (e.g. c:ug, cmc<3, t:creature)"
             big={true}
             value={typingStr}
             onChange={(e) => setTypingStr(e.target.value)}

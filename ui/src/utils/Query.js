@@ -16,6 +16,23 @@ export const QueryTerms = [
   "winpct",
 ]
 
+export const QueryTermMetadata = [
+  { term: "c", description: "Card color", operators: [":", "=", "!="], valueType: "color", example: "c:ug" },
+  { term: "cmc", description: "Mana value", operators: ["<", ">", "="], valueType: "number", example: "cmc<3" },
+  { term: "t", description: "Card type", operators: [":"], valueType: "text", example: "t:creature" },
+  { term: "o", description: "Oracle text", operators: [":"], valueType: "text", example: "o:flying" },
+  { term: "name", description: "Card name", operators: [":"], valueType: "text", example: "name:bolt" },
+  { term: "pow", description: "Power", operators: ["<", ">", "="], valueType: "number", example: "pow>3" },
+  { term: "games", description: "Total games played", operators: ["<", ">"], valueType: "number", example: "games>5" },
+  { term: "mb", description: "Mainboard count", operators: ["<", ">", "="], valueType: "number", example: "mb>0" },
+  { term: "sb", description: "Sideboard count", operators: ["<", ">", "="], valueType: "number", example: "sb>0" },
+  { term: "players", description: "Number of drafters", operators: ["<", ">", "=", ":"], valueType: "number", example: "players>2" },
+  { term: "drafts", description: "Number of drafts", operators: ["<", ">", "="], valueType: "number", example: "drafts>3" },
+  { term: "winpct", description: "Win percentage", operators: ["<", ">", "="], valueType: "number", example: "winpct>50" },
+  { term: "dt", description: "Deck archetype", operators: [":"], valueType: "text", example: "dt:aggro" },
+  { term: "minCards", description: "Min matching cards", operators: [":"], valueType: "number", example: "minCards:3" },
+]
+
 export function CardMatches(card, matchStr, checkText) {
   if (isTermQuery(matchStr)) {
     // This is a fuzzy match. Split the string and check each term.

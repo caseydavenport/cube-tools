@@ -1,7 +1,5 @@
 import React from 'react';
 import { Button, TextInput, NumericInput, DateSelector } from "../components/Dropdown.js";
-import { QueryTerms } from "../utils/Query.js";
-
 export function SelectorBar(input) {
   return (
     <div className="selectorbar">
@@ -13,9 +11,9 @@ export function SelectorBar(input) {
         <NumericInput label="Draft size" value={input.minDraftSize} onChange={input.onMinDraftSizeChanged} />
         <TextInput label="Player" value={input.playerMatch} onChange={input.onPlayerMatchChanged} />
       </div>
-      
+
       <div className="search-group">
-        <TextInput label="Search" placeholder={QueryTerms} big={true} value={input.matchStr} onChange={input.onMatchUpdated} />
+        <TextInput label="Search" placeholder="Search cards (e.g. c:ug, cmc<3, t:creature)" big={true} value={input.matchStr} onChange={input.onMatchUpdated} />
       </div>
 
       <div className="navigation-group">
