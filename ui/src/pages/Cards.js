@@ -476,7 +476,7 @@ function CardWidgetTable(input) {
                     placement="right"
                     delay={{ show: 500, hide: 100 }}
                     overlay={
-                      <Popover className="wide-pop" id="popover-basic">
+                      <Popover id="popover-basic" style={{maxWidth: 'none'}}>
                         <Popover.Header as="h3">Played by</Popover.Header>
                         <Popover.Body>
                           {CardMainboardTooltipContent(card)}
@@ -553,7 +553,7 @@ function CardWidgetTable(input) {
                       placement="right"
                       delay={{ show: 500, hide: 100 }}
                       overlay={
-                        <Popover className="wide-pop" id="popover-basic">
+                        <Popover id="popover-basic" style={{maxWidth: 'none'}}>
                           <Popover.Header as="h3">Played by</Popover.Header>
                           <Popover.Body>
                             {CardMainboardTooltipContent(card)}
@@ -627,7 +627,7 @@ function CardWidgetTable(input) {
                       placement="right"
                       delay={{ show: 500, hide: 100 }}
                       overlay={
-                        <Popover className="wide-pop" id="popover-basic">
+                        <Popover id="popover-basic" style={{maxWidth: 'none'}}>
                           <Popover.Header as="h3">Played by</Popover.Header>
                           <Popover.Body>
                             {CardMainboardTooltipContent(card)}
@@ -698,7 +698,7 @@ function CardWidgetTable(input) {
                       placement="right"
                       delay={{ show: 500, hide: 100 }}
                       overlay={
-                        <Popover className="wide-pop" id="popover-basic">
+                        <Popover id="popover-basic" style={{maxWidth: 'none'}}>
                           <Popover.Header as="h3">Played by</Popover.Header>
                           <Popover.Body>
                             {CardMainboardTooltipContent(card)}
@@ -797,28 +797,35 @@ function CardMainboardTooltipContent(card) {
   }
 
   return (
-    <table>
-      <thead>
-        <tr>
-          <td id="name">Who</td>
-          <td id="num"># mb</td>
-          <td id="num"># sb</td>
-        </tr>
-      </thead>
-      <tbody>
-      {
-        mainboarders.map(function(row) {
-          return (
-            <tr sort={row.num} key={row.name}>
-              <td>{row.name}</td>
-              <td>{row.mb}</td>
-              <td>{row.sb}</td>
-            </tr>
-          );
-        }).sort(SortFunc)
-      }
-      </tbody>
-    </table>
+    <div style={{"display": "flex", "flexDirection": "row", "gap": "12px", "alignItems": "flex-start"}}>
+      <img
+        src={`https://api.scryfall.com/cards/named?format=image&exact=${encodeURIComponent(card.name)}`}
+        alt={card.name}
+        style={{width: '200px', display: 'block', borderRadius: '8px', flexShrink: 0}}
+      />
+      <table style={{"borderCollapse": "collapse", "fontSize": "0.85rem", "width": "100%"}}>
+        <thead>
+          <tr style={{"borderBottom": "2px solid var(--border)", "textAlign": "left", "color": "var(--text-muted)"}}>
+            <th style={{"padding": "4px 8px"}}>Player</th>
+            <th style={{"padding": "4px 8px", "textAlign": "center"}}># MB</th>
+            <th style={{"padding": "4px 8px", "textAlign": "center"}}># SB</th>
+          </tr>
+        </thead>
+        <tbody>
+        {
+          mainboarders.map(function(row) {
+            return (
+              <tr sort={row.num} key={row.name} style={{"borderBottom": "1px solid var(--border)"}}>
+                <td style={{"padding": "4px 8px"}}>{row.name}</td>
+                <td style={{"padding": "4px 8px", "textAlign": "center"}}>{row.mb}</td>
+                <td style={{"padding": "4px 8px", "textAlign": "center"}}>{row.sb}</td>
+              </tr>
+            );
+          }).sort(SortFunc)
+        }
+        </tbody>
+      </table>
+    </div>
   );
 }
 

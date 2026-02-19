@@ -381,19 +381,19 @@ export function DraftPackWidget(input) {
 function DraftPickTooltipContent(pick) {
   let k = 0
   return (
-    <div style={{"display": "flex", "flexDirection": "column", "gap": "10px"}}>
+    <div style={{"display": "flex", "flexDirection": "row", "gap": "12px", "alignItems": "flex-start"}}>
       <img
         src={`https://api.scryfall.com/cards/named?format=image&exact=${encodeURIComponent(pick.name)}`}
         alt={pick.name}
-        style={{width: '200px', display: 'block', borderRadius: '8px', alignSelf: 'center'}}
+        style={{width: '200px', display: 'block', borderRadius: '8px', flexShrink: 0}}
       />
       <table style={{"width": "100%", "borderCollapse": "collapse", "fontSize": "0.85rem"}}>
         <thead>
-          <tr style={{"borderBottom": "1px solid var(--border)", "textAlign": "left", "color": "var(--text-muted)"}}>
+          <tr style={{"borderBottom": "2px solid var(--border)", "textAlign": "left", "color": "var(--text-muted)"}}>
             <th style={{"padding": "4px 8px"}}>Date</th>
             <th style={{"padding": "4px 8px"}}>Player</th>
-            <th style={{"padding": "4px 8px"}}>Pack</th>
-            <th style={{"padding": "4px 8px"}}>Pick</th>
+            <th style={{"padding": "4px 8px", "textAlign": "center"}}>Pack</th>
+            <th style={{"padding": "4px 8px", "textAlign": "center"}}>Pick</th>
           </tr>
         </thead>
         <tbody>
@@ -404,8 +404,8 @@ function DraftPickTooltipContent(pick) {
               <tr key={k} style={{"borderBottom": "1px solid var(--border)"}}>
                 <td style={{"padding": "4px 8px"}}>{p.date}</td>
                 <td style={{"padding": "4px 8px"}}>{p.player}</td>
-                <td style={{"padding": "4px 8px"}}>{p.pack + 1}</td>
-                <td style={{"padding": "4px 8px"}}>{p.pick + 1}</td>
+                <td style={{"padding": "4px 8px", "textAlign": "center"}}>{p.pack + 1}</td>
+                <td style={{"padding": "4px 8px", "textAlign": "center"}}>{p.pick + 1}</td>
               </tr>
             )
           })
