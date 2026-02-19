@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react'
+import React, { useState, useRef, useMemo } from 'react'
 import { QueryTermMetadata } from '../utils/Query.js'
 
 // DropdownHeader is a dropdown selector that sits on top of a widget.
@@ -83,72 +83,72 @@ export function TextInput(input) {
   return <SearchBarWithAutocomplete input={input} className={className} inputClass={inputClass} />
 }
 
+// Pure helper functions — defined outside the component to avoid recreation on every render.
+function getCurrentFragment(value) {
+  const parts = value.split(" ")
+  return parts[parts.length - 1] || ""
+}
+
+function computeSuggestions(fragment) {
+  const lower = fragment.toLowerCase()
+
+  // If the fragment contains an operator, no more term suggestions needed.
+  if (lower && QueryTermMetadata.some(m => m.operators.some(op => lower.startsWith(m.term + op)))) {
+    return []
+  }
+
+  // If empty, show all terms.
+  if (!lower) {
+    return QueryTermMetadata
+  }
+
+  // Filter to matching terms.
+  return QueryTermMetadata.filter(m => m.term.startsWith(lower))
+}
+
+function computeHelpText(fragment) {
+  const lower = fragment.toLowerCase()
+  for (const meta of QueryTermMetadata) {
+    for (const op of meta.operators) {
+      if (lower.startsWith(meta.term + op)) {
+        const valueHint = meta.valueType === "number" ? "number" : meta.valueType === "color" ? "color code (e.g. ug, wbr)" : "text"
+        return `Expects ${valueHint} — e.g. ${meta.example}`
+      }
+    }
+  }
+  return null
+}
+
 function SearchBarWithAutocomplete({ input, className, inputClass }) {
   const [showDropdown, setShowDropdown] = useState(false)
   const [selectedIdx, setSelectedIdx] = useState(0)
   const blurTimeout = useRef(null)
   const inputRef = useRef(null)
-
-  // Get the current fragment being typed (text after last space).
-  function getCurrentFragment(value) {
-    const parts = value.split(" ")
-    return parts[parts.length - 1] || ""
-  }
-
-  // Compute suggestions based on the current fragment.
-  function getSuggestions(fragment) {
-    const lower = fragment.toLowerCase()
-
-    // If the fragment contains an operator, show help for that term.
-    if (lower && QueryTermMetadata.some(m => {
-      return m.operators.some(op => lower.startsWith(m.term + op))
-    })) {
-      return []  // Complete term with operator — no more suggestions needed
-    }
-
-    // If empty or no fragment, show all terms.
-    if (!lower) {
-      return QueryTermMetadata
-    }
-
-    // Filter to matching terms.
-    const matches = QueryTermMetadata.filter(m => m.term.startsWith(lower))
-
-    // If no matches, hide (user is typing a card name).
-    return matches
-  }
-
-  // Get contextual help text when a complete term+operator is typed.
-  function getHelpText(fragment) {
-    const lower = fragment.toLowerCase()
-    for (const meta of QueryTermMetadata) {
-      for (const op of meta.operators) {
-        if (lower.startsWith(meta.term + op)) {
-          const valueHint = meta.valueType === "number" ? "number" : meta.valueType === "color" ? "color code (e.g. ug, wbr)" : "text"
-          return `Expects ${valueHint} — e.g. ${meta.example}`
-        }
-      }
-    }
-    return null
-  }
+  const prevFragmentRef = useRef("")
 
   const fragment = getCurrentFragment(input.value || "")
-  const suggestions = getSuggestions(fragment)
-  const helpText = getHelpText(fragment)
+  const suggestions = useMemo(() => computeSuggestions(fragment), [fragment])
+  const helpText = useMemo(() => computeHelpText(fragment), [fragment])
 
-  // Reset selectedIdx when suggestions change.
-  useEffect(() => {
-    setSelectedIdx(0)
-  }, [suggestions.length, fragment])
+  // Reset selectedIdx when fragment changes, without a useEffect / extra render cycle.
+  // Instead, track the previous fragment in a ref and clamp inline.
+  let effectiveIdx = selectedIdx
+  if (fragment !== prevFragmentRef.current) {
+    prevFragmentRef.current = fragment
+    effectiveIdx = 0
+  }
+  if (suggestions.length > 0) {
+    effectiveIdx = Math.min(effectiveIdx, suggestions.length - 1)
+  } else {
+    effectiveIdx = 0
+  }
 
   function applySuggestion(meta) {
     const value = input.value || ""
     const parts = value.split(" ")
-    // Replace the last fragment with the term + first operator.
     parts[parts.length - 1] = meta.term + meta.operators[0]
     const newValue = parts.join(" ")
     input.onChange({ target: { value: newValue } })
-    // Focus the input after applying.
     if (inputRef.current) {
       inputRef.current.focus()
     }
@@ -160,15 +160,14 @@ function SearchBarWithAutocomplete({ input, className, inputClass }) {
     if (suggestions.length > 0) {
       if (e.key === "ArrowDown") {
         e.preventDefault()
-        setSelectedIdx(prev => Math.min(prev + 1, suggestions.length - 1))
+        setSelectedIdx(Math.min(effectiveIdx + 1, suggestions.length - 1))
       } else if (e.key === "ArrowUp") {
         e.preventDefault()
-        setSelectedIdx(prev => Math.max(prev - 1, 0))
+        setSelectedIdx(Math.max(effectiveIdx - 1, 0))
       } else if (e.key === "Tab" || e.key === "Enter") {
-        // Only apply suggestion if we have matches and the fragment partially matches a term.
-        if (suggestions.length > 0 && fragment.length > 0) {
+        if (fragment.length > 0) {
           e.preventDefault()
-          applySuggestion(suggestions[selectedIdx])
+          applySuggestion(suggestions[effectiveIdx])
         }
       }
     }
@@ -215,7 +214,7 @@ function SearchBarWithAutocomplete({ input, className, inputClass }) {
           {suggestions.map((meta, idx) => (
             <div
               key={meta.term}
-              className={"search-autocomplete-item" + (idx === selectedIdx ? " search-autocomplete-item-selected" : "")}
+              className={"search-autocomplete-item" + (idx === effectiveIdx ? " search-autocomplete-item-selected" : "")}
               onMouseDown={(e) => {
                 e.preventDefault()
                 applySuggestion(meta)
