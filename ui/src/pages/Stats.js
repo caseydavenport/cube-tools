@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { ColorWidget } from "./Colors.js";
 import { ArchetypeWidget } from "./Types.js";
 import { DeckWidget } from "./Decks.js";
@@ -14,8 +14,35 @@ export function StatsViewer(props) {
   const [refresh, setRefresh] = useState(1);
   const triggerRefresh = () => setRefresh(prev => prev + 1);
 
+  // Debounce search input so expensive recomputation doesn't run on every keystroke.
+  const [typingStr, setTypingStr] = useState(props.matchStr || "");
+  const [debouncedMatchStr, setDebouncedMatchStr] = useState(props.matchStr || "");
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedMatchStr(typingStr);
+      if (props.onMatchUpdated) {
+        props.onMatchUpdated({ target: { value: typingStr } });
+      }
+    }, 300);
+    return () => clearTimeout(timer);
+  }, [typingStr]);
+
+  // Sync typingStr if props.matchStr changes from outside (e.g. navigating from DeckViewer).
+  useEffect(() => {
+    if (props.matchStr !== typingStr) {
+      setTypingStr(props.matchStr || "");
+    }
+  }, [props.matchStr]);
+
+  // Pass debounced matchStr to the data hook instead of the raw props.
+  const debouncedProps = useMemo(() => ({
+    ...props,
+    matchStr: debouncedMatchStr,
+  }), [props.startDate, props.endDate, props.onStartSelected, props.onEndSelected, debouncedMatchStr]);
+
   const filters = useStatsFilters();
-  const data = useStatsData(filters, props, refresh);
+  const data = useStatsData(filters, debouncedProps, refresh);
 
   const {
     decks, cube, drafts, archetypeMatchups, cardData, cardDataBucketed,
@@ -106,8 +133,8 @@ export function StatsViewer(props) {
         onDraftPage={() => onSubpageClicked(4)}
         onPlayersPage={() => onSubpageClicked(5)}
         onSynergyPage={() => onSubpageClicked(6)}
-        matchStr={props.matchStr}
-        onMatchUpdated={props.onMatchUpdated}
+        matchStr={typingStr}
+        onMatchUpdated={(e) => setTypingStr(e.target.value)}
       />
 
       <div id="widgets" className="house-for-widgets">
@@ -149,7 +176,7 @@ export function StatsViewer(props) {
         />
 
         <CardWidget
-          parsed={parsed} matchStr={props.matchStr} cardData={cardData} cardDataBucketed={cardDataBucketed}
+          parsed={parsed} matchStr={debouncedMatchStr} cardData={cardData} cardDataBucketed={cardDataBucketed}
           decks={parsed.filteredDecks} dropdownSelection={cardWidgetSelection}
           cardFilter={cardFilter} onCardFilterSelected={(e) => setCardFilter(e.target.value)}
           cardWidgetOpts={[{ label: "Mainboard rate", value: "Mainboard rate" }, { label: "Win rate", value: "Win rate" }, { label: "Versus archetype", value: "Versus archetype" }, { label: "By archetype", value: "By archetype" }]}
