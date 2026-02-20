@@ -175,8 +175,8 @@ function DraftOrderWidget(input) {
             }
 
             let avgPack1Pick = "-"
-            if (pick.p1count > 0) {
-              avgPack1Pick = Math.round(pick.p1PickNumSum / pick.p1count * 100) / 100
+            if (pick.p1Count > 0) {
+              avgPack1Pick = Math.round(pick.p1PickNumSum / pick.p1Count * 100) / 100
             }
 
             let firstPicks = "-"
@@ -189,9 +189,9 @@ function DraftOrderWidget(input) {
               burns = pick.burns
             }
 
-            let p1burns = "-"
-            if (pick.p1burns > 0) {
-              p1burns = pick.p1burns
+            let p1Burns = "-"
+            if (pick.p1Burns > 0) {
+              p1Burns = pick.p1Burns
             }
 
             // Calculate the standard deviation for this card.
@@ -223,7 +223,7 @@ function DraftOrderWidget(input) {
             } else if (input.sortBy === "burn") {
               sort = pick.burns
             } else if (input.sortBy === "p1burn") {
-              sort = pick.p1burns
+              sort = pick.p1Burns
             } else if (input.sortBy === "name") {
               sort = pick.name
             } else if (input.sortBy === "count") {
@@ -268,7 +268,7 @@ function DraftOrderWidget(input) {
                 <td>{avgPackPick}</td>
                 <td>{avgPackPickAbsolute}</td>
                 <td>{stddev}</td>
-                <td>{p1burns}</td>
+                <td>{p1Burns}</td>
                 <td>{burns}</td>
               </tr>
             )
@@ -415,4 +415,3 @@ function DraftPickTooltipContent(pick) {
     </div>
   )
 }
-

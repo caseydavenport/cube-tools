@@ -17,7 +17,7 @@ export function SelectorBar(input) {
       </div>
 
       <div className="navigation-group">
-        <Overview decks={input.parsed.filteredDecks} />
+        <Overview decks={input.parsed.filtered_decks} />
         <div className="nav-buttons">
           <Button text="Colors" checked={input.display[0]} onClick={input.onColorPage} />
           <Button text="Types" checked={input.display[1]} onClick={input.onArchetypePage} />

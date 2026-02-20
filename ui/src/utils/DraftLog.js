@@ -10,12 +10,12 @@ function PlayerIDToName(log, id) {
 
 export function Drafters(log) {
   let players = new Array()
-  for (var userID in log.users) {
+  for (var userId in log.users) {
     // Ignore any bot drafters.
-    if (log.users[userID].isBot) {
+    if (log.users[userId].isBot) {
       continue
     }
-    players.push(userID)
+    players.push(userId)
   }
   return players
 }
@@ -89,8 +89,8 @@ export function AggregatedPickInfo(logs, cube, playerMatch) {
       pickNumSumAbs: 0,
 
       // Specifically track pack one as a separate stat.
-      p1count: 0,
-      p1burns: 0,
+      p1Count: 0,
+      p1Burns: 0,
       p1PickNumSum: 0,
       firstPicks: 0,
 
@@ -119,21 +119,6 @@ export function AggregatedPickInfo(logs, cube, playerMatch) {
         }
       }
 
-
-      // Check if the card matches the given filter, and skip if not.
-      // TODO: Make this configurable in the UI.
-      // let card = cubeCards.get(p.name)
-      // let matched = false
-      // for (let match of RemovalMatches) {
-      //   if (card.oracle_text.toLowerCase().match(match)){
-      //     matched = true
-      //     break
-      //   }
-      // }
-      // if (!matched) {
-      //   continue
-      // }
-
       if (!pickInfo.get(p.name)) {
         pickInfo.set(p.name, newPickInfoEntry(p.name))
       }
@@ -151,7 +136,7 @@ export function AggregatedPickInfo(logs, cube, playerMatch) {
       pickInfo.get(p.name).pickNumSum += pickNumHumanReadable
       pickInfo.get(p.name).pickNumSumAbs += pickNumHumanReadable + (p.pack * packInfo.cardsPerPack)
       if (p.pack == 0) {
-        pickInfo.get(p.name).p1count += 1
+        pickInfo.get(p.name).p1Count += 1
         pickInfo.get(p.name).p1PickNumSum += pickNumHumanReadable
         if (p.pick == 0 ) {
           pickInfo.get(p.name).firstPicks += 1
@@ -187,8 +172,8 @@ export function AggregatedPickInfo(logs, cube, playerMatch) {
       pickInfo.get(b.name).pickNumSumAbs += packInfo.cardsPerPack + (b.pack * packInfo.cardsPerPack)
       pickInfo.get(b.name).burns += 1
       if (b.pack == 0) {
-        pickInfo.get(b.name).p1burns += 1
-        pickInfo.get(b.name).p1count += 1
+        pickInfo.get(b.name).p1Burns += 1
+        pickInfo.get(b.name).p1Count += 1
         pickInfo.get(b.name).p1PickNumSum += 15
       }
     }
@@ -201,10 +186,9 @@ export function AllPicksFromLog(log) {
   let packInfo = NumPacks(log)
   let picks = new Array()
   let burns = new Array()
-  let numBurned = packInfo.cardsPerPack - packInfo.picksPerPack
 
   // First, get cards that were picked.
-  for (var packNum = 0; packNum < packInfo.packs; packNum++) {
+  for (var packNum = 0; pack_num < packInfo.packs; packNum++) {
     for (var pickNum = 0; pickNum < packInfo.picks; pickNum++) {
       for (var i in allPlayers) {
         let player = allPlayers[i]

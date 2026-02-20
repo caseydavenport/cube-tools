@@ -111,4 +111,3 @@ export function InDeckColor(card, deck) {
   }
   return true
 }
-

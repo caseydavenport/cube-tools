@@ -255,6 +255,7 @@ function ColorStatsTable(input) {
               headers.map(function(hdr, i) {
                 return (
                   <OverlayTrigger
+                    key={i}
                     placement="top"
                     delay={{ show: 100, hide: 100 }}
                     overlay={
@@ -533,9 +534,9 @@ export function GetColorStats(decks, strictColors) {
     // This is a measure of, on average, how many cards of a given color appear in
     // decks with that color identity. A lower percentage means a splash, a higher percentage
     // means it is a primary staple.
-    const density_sum = color.deck_percentages.reduce((sum, a) => sum + a, 0);
-    const density_count = color.deck_percentages.length;
-    color.average_deck_percentage = Math.round(100 * density_sum / density_count);
+    const densitySum = color.deck_percentages.reduce((sum, a) => sum + a, 0);
+    const densityCount = color.deck_percentages.length;
+    color.average_deck_percentage = Math.round(100 * densitySum / densityCount);
     color.victory_points = Math.round(100 * color.victory_points_per_deck.reduce((sum, a) => sum + a, 0)) / 100;
 
     // Calculate the percentage of all cards drafted that are this color.

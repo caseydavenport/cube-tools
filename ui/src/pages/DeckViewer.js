@@ -78,7 +78,7 @@ export function DeckViewer(props) {
   ]
   const [deckSort, setDeckSort] = useState("date");
   function onDeckSort(event) {
-    setDeckSort(event.target.id)
+    setDeckSort(event.currentTarget.id)
   }
 
   // Store all decks.
@@ -103,26 +103,26 @@ export function DeckViewer(props) {
     // <draft>/<player>/<id>
 
     // Parse the draft and deck, and update the dropdowns.
-    let splits = event.target.id.split("/")
+    let splits = event.currentTarget.id.split("/")
     setSelectedDraft(splits[0])
     setSelectedPlayer(splits[1])
 
     // Highlight the deck in the side bar.
-    setHighlightedDeck(event.target.id)
+    setHighlightedDeck(event.currentTarget.id)
 
     // If control is held, add this deck to the comparison set. Otherwise,
     // clear out the comparison set and just show this deck.
     if (event.ctrlKey || event.metaKey) {
       // Find the deck in the list of decks.
       for (let deck of decks) {
-        if (deck.metadata.path == event.target.id) {
+        if (deck.metadata.path == event.currentTarget.id) {
           // Add to the comparison set.
           let newComparisonDecks = new Map(comparisonDecks)
-          if (newComparisonDecks.has(event.target.id)) {
+          if (newComparisonDecks.has(event.currentTarget.id)) {
             // Deck is already in the comparison set - remove it.
-            newComparisonDecks.delete(event.target.id)
+            newComparisonDecks.delete(event.currentTarget.id)
           } else {
-            newComparisonDecks.set(event.target.id, deck)
+            newComparisonDecks.set(event.currentTarget.id, deck)
           }
           setComparisonDecks(newComparisonDecks)
         }
@@ -169,11 +169,11 @@ export function DeckViewer(props) {
   // Callback for sucessfully fetching a Deck.
   // This function updates the UI with the deck's contents.
   function onFetch(d) {
-    const newdeck = {...d}
-    setDeck(newdeck);
+    const newDeck = {...d}
+    setDeck(newDeck);
 
     // Update cache.
-    fetched.set(selectedPlayer, newdeck)
+    fetched.set(selectedPlayer, newDeck)
     setFetched(new Map(fetched))
   }
 
@@ -237,8 +237,8 @@ export function DeckViewer(props) {
       let sortA, sortB;
       switch (deckSort) {
         case "wins":
-          sortA = DeckSortWins(a);
-          sortB = DeckSortWins(b);
+          sortA = deckSortWins(a);
+          sortB = deckSortWins(b);
           break;
         case "player":
           sortA = a.player;
@@ -406,14 +406,14 @@ function FilteredDecks(input) {
               if (MatchWins(deck) == 0 && MatchLosses(deck) == 0 && MatchDraws(deck) == 0) {
                 record = "N/A"
               }
-              let win_percent = Math.round(100 * GameWinPercent(deck))
+              let winPercent = Math.round(100 * gameWinPercent(deck))
               let macro = getMacro(deck)
 
               return (
                 <tr className={className} key={idx} style={{"--background-color": color}} onClick={input.onDeckClicked} id={deck.metadata.path}>
                   <td style={{"width": "25%", "paddingLeft": "10px", "whiteSpace": "nowrap"}} id={deck.metadata.path} key="date">{deck.date}</td>
                   <td style={{"width": "30%", "paddingRight": "10px", "whiteSpace": "nowrap"}} id={deck.metadata.path} key="player">{deck.player}</td>
-                  <td style={{"width": "25%", "paddingLeft": "10px", "whiteSpace": "nowrap"}} id={deck.metadata.path} key="wins">{record} ({win_percent}%)</td>
+                  <td style={{"width": "25%", "paddingLeft": "10px", "whiteSpace": "nowrap"}} id={deck.metadata.path} key="wins">{record} ({winPercent}%)</td>
                   <td style={{"width": "20%", "paddingRight": "10px", "whiteSpace": "nowrap"}} id={deck.metadata.path} key="macro">{macro}</td>
                 </tr>
               )
@@ -425,9 +425,9 @@ function FilteredDecks(input) {
   );
 }
 
-function DeckSortWins(deck) {
+function deckSortWins(deck) {
   // Primary sort by number of match wins, secondary by game win percentage.
-  let gameWin = GameWinPercent(deck)
+  let gameWin = gameWinPercent(deck)
   let sort = MatchWins(deck) + gameWin
 
   // If there are any matches at all, rank this deck first.
@@ -442,7 +442,7 @@ function DeckSortWins(deck) {
   return sort
 }
 
-function GameWinPercent(deck) {
+function gameWinPercent(deck) {
   let wins = Wins(deck)
   let losses = Losses(deck)
   return wins / (wins + losses) || 0
@@ -455,7 +455,7 @@ function DeckTableCell(input) {
   if (MatchWins(deck) == 0 && MatchLosses(deck) == 0 && MatchDraws(deck) == 0) {
     record = "N/A"
   }
-  let win_percent = Math.round(100 * GameWinPercent(input.deck))
+  let winPercent = Math.round(100 * gameWinPercent(input.deck))
   let macro = getMacro(input.deck)
   return (
       <table className="deck-meta-table">
@@ -463,7 +463,7 @@ function DeckTableCell(input) {
         <tr className="deck-entry" style={{"--background-color": input.color}}>
           <td style={{"width": "25%", "paddingLeft": "10px"}} id={deck.metadata.path} idx={input.idx} onClick={input.onDeckClicked} key="date">{deck.date}</td>
           <td style={{"width": "30%", "paddingRight": "10px"}} id={deck.metadata.path} idx={input.idx} onClick={input.onDeckClicked} key="player">{deck.player}</td>
-          <td style={{"width": "25%", "paddingLeft": "10px"}} id={deck.metadata.path} idx={input.idx} onClick={input.onDeckClicked} key="wins">{record} ({win_percent}%)</td>
+          <td style={{"width": "25%", "paddingLeft": "10px"}} id={deck.metadata.path} idx={input.idx} onClick={input.onDeckClicked} key="wins">{record} ({winPercent}%)</td>
           <td style={{"width": "20%", "paddingRight": "10px"}} id={deck.metadata.path} idx={input.idx} onClick={input.onDeckClicked} key="macro">{macro}</td>
         </tr>
       </tbody>
@@ -474,19 +474,19 @@ function DeckTableCell(input) {
 
 // MainDisplay prints out the given deck.
 function MainDisplay(input) {
-  if (input.comparisonDecks.size > 1) {
-    return CompareDecks(input);
+  if (input.comparison_decks.size > 1) {
+    return compareDecks(input);
   }
-  if (input.viewMode === "Images") {
-    return DisplayDeckImages(input);
+  if (input.view_mode === "Images") {
+    return displayDeckImages(input);
   }
-  return DisplayDeck(input);
+  return displayDeck(input);
 }
 
-function CompareDecks(input) {
+function compareDecks(input) {
   // Build a set of cards that are common across all input decks.
   let allCards = new Map()
-  for (let deck of input.comparisonDecks.values()) {
+  for (let deck of input.comparison_decks.values()) {
     let cards = deck.mainboard
     if (input.mbsb == "Sideboard") {
       cards = deck.sideboard
@@ -512,7 +512,7 @@ function CompareDecks(input) {
   // Build a list of cards that are in all decks.
   let allCardsList = new Array()
   for (let entry of allCards.values()) {
-    if (entry.decks.size == input.comparisonDecks.size) {
+    if (entry.decks.size == input.comparison_decks.size) {
       allCardsList.push(entry.card)
     }
   }
@@ -522,18 +522,18 @@ function CompareDecks(input) {
   return (
     <div className="deck-view">
       <div className="flexhouse">
-        <CardList player={player} cards={allCardsList} sb={input.mbsb == "Sideboard"} opts={{cmc: 0}} matchStr={input.matchStr} />
-        <CardList player={player} cards={allCardsList} sb={input.mbsb == "Sideboard"} opts={{cmc: 1}} matchStr={input.matchStr} />
-        <CardList player={player} cards={allCardsList} sb={input.mbsb == "Sideboard"} opts={{cmc: 2}} matchStr={input.matchStr} />
-        <CardList player={player} cards={allCardsList} sb={input.mbsb == "Sideboard"} opts={{cmc: 3}} matchStr={input.matchStr} />
-        <CardList player={player} cards={allCardsList} sb={input.mbsb == "Sideboard"} opts={{cmc: 4}} matchStr={input.matchStr} />
-        <CardList player={player} cards={allCardsList} sb={input.mbsb == "Sideboard"} opts={{cmc: 5, gt: true}} matchStr={input.matchStr} />
+        <CardList player={player} cards={allCardsList} sb={input.mbsb == "Sideboard"} opts={{cmc: 0}} matchStr={input.match_str} />
+        <CardList player={player} cards={allCardsList} sb={input.mbsb == "Sideboard"} opts={{cmc: 1}} matchStr={input.match_str} />
+        <CardList player={player} cards={allCardsList} sb={input.mbsb == "Sideboard"} opts={{cmc: 2}} matchStr={input.match_str} />
+        <CardList player={player} cards={allCardsList} sb={input.mbsb == "Sideboard"} opts={{cmc: 3}} matchStr={input.match_str} />
+        <CardList player={player} cards={allCardsList} sb={input.mbsb == "Sideboard"} opts={{cmc: 4}} matchStr={input.match_str} />
+        <CardList player={player} cards={allCardsList} sb={input.mbsb == "Sideboard"} opts={{cmc: 5, gt: true}} matchStr={input.match_str} />
       </div>
     </div>
   );
 }
 
-function DisplayDeckImages(input) {
+function displayDeckImages(input) {
   let deck = input.deck
 
   let missing = (input.mbsb == "Mainboard" && !deck.mainboard)
@@ -563,15 +563,15 @@ function DisplayDeckImages(input) {
     <div className="deck-view">
       <PlayerFrame {...input} />
       <div className="deck-images-columns">
-        <CardImagesList cards={cards} deck={deck} sb={input.mbsb == "Sideboard"} opts={{cmc: 0}} matchStr={input.matchStr} />
-        <CardImagesList cards={cards} deck={deck} sb={input.mbsb == "Sideboard"} opts={{cmc: 1}} matchStr={input.matchStr} />
-        <CardImagesList cards={cards} deck={deck} sb={input.mbsb == "Sideboard"} opts={{cmc: 2}} matchStr={input.matchStr} />
-        <CardImagesList cards={cards} deck={deck} sb={input.mbsb == "Sideboard"} opts={{cmc: 3}} matchStr={input.matchStr} />
-        <CardImagesList cards={cards} deck={deck} sb={input.mbsb == "Sideboard"} opts={{cmc: 4}} matchStr={input.matchStr} />
-        <CardImagesList cards={cards} deck={deck} sb={input.mbsb == "Sideboard"} opts={{cmc: 5, gt: true}} matchStr={input.matchStr} />
-        <CardImagesList cards={cards} deck={deck} sb={input.mbsb == "Sideboard"} matchStr={input.matchStr} basicsOnly={true} />
+        <CardImagesList cards={cards} deck={deck} sb={input.mbsb == "Sideboard"} opts={{cmc: 0}} matchStr={input.match_str} />
+        <CardImagesList cards={cards} deck={deck} sb={input.mbsb == "Sideboard"} opts={{cmc: 1}} matchStr={input.match_str} />
+        <CardImagesList cards={cards} deck={deck} sb={input.mbsb == "Sideboard"} opts={{cmc: 2}} matchStr={input.match_str} />
+        <CardImagesList cards={cards} deck={deck} sb={input.mbsb == "Sideboard"} opts={{cmc: 3}} matchStr={input.match_str} />
+        <CardImagesList cards={cards} deck={deck} sb={input.mbsb == "Sideboard"} opts={{cmc: 4}} matchStr={input.match_str} />
+        <CardImagesList cards={cards} deck={deck} sb={input.mbsb == "Sideboard"} opts={{cmc: 5, gt: true}} matchStr={input.match_str} />
+        <CardImagesList cards={cards} deck={deck} sb={input.mbsb == "Sideboard"} matchStr={input.match_str} basicsOnly={true} />
       </div>
-      <DeckReport player={deck.player} cardMap={cardMap} description={input.description} onDescriptionFetched={input.onDescriptionFetched} deck={deck} />
+      <DeckReport player={deck.player} cardMap={cardMap} description={input.description} onDescriptionFetched={input.on_description_fetched} deck={deck} />
     </div>
   );
 }
@@ -674,7 +674,7 @@ function CardImagesList({cards, deck, sb, opts, matchStr, basicsOnly}) {
   )
 }
 
-function DisplayDeck(input) {
+function displayDeck(input) {
   let deck = input.deck
 
   // The deck mainboard may not always be set, so we need
@@ -706,14 +706,14 @@ function DisplayDeck(input) {
     <div className="deck-view">
       <PlayerFrame {...input} />
       <div className="flexhouse">
-        <CardList player={deck.player} cards={cards} deck={deck} sb={input.mbsb == "Sideboard"} opts={{cmc: 0}} matchStr={input.matchStr} />
-        <CardList player={deck.player} cards={cards} deck={deck} sb={input.mbsb == "Sideboard"} opts={{cmc: 1}} matchStr={input.matchStr} />
-        <CardList player={deck.player} cards={cards} deck={deck} sb={input.mbsb == "Sideboard"} opts={{cmc: 2}} matchStr={input.matchStr} />
-        <CardList player={deck.player} cards={cards} deck={deck} sb={input.mbsb == "Sideboard"} opts={{cmc: 3}} matchStr={input.matchStr} />
-        <CardList player={deck.player} cards={cards} deck={deck} sb={input.mbsb == "Sideboard"} opts={{cmc: 4}} matchStr={input.matchStr} />
-        <CardList player={deck.player} cards={cards} deck={deck} sb={input.mbsb == "Sideboard"} opts={{cmc: 5, gt: true}} matchStr={input.matchStr} />
+        <CardList player={deck.player} cards={cards} deck={deck} sb={input.mbsb == "Sideboard"} opts={{cmc: 0}} matchStr={input.match_str} />
+        <CardList player={deck.player} cards={cards} deck={deck} sb={input.mbsb == "Sideboard"} opts={{cmc: 1}} matchStr={input.match_str} />
+        <CardList player={deck.player} cards={cards} deck={deck} sb={input.mbsb == "Sideboard"} opts={{cmc: 2}} matchStr={input.match_str} />
+        <CardList player={deck.player} cards={cards} deck={deck} sb={input.mbsb == "Sideboard"} opts={{cmc: 3}} matchStr={input.match_str} />
+        <CardList player={deck.player} cards={cards} deck={deck} sb={input.mbsb == "Sideboard"} opts={{cmc: 4}} matchStr={input.match_str} />
+        <CardList player={deck.player} cards={cards} deck={deck} sb={input.mbsb == "Sideboard"} opts={{cmc: 5, gt: true}} matchStr={input.match_str} />
       </div>
-      <DeckReport player={deck.player} cardMap={cardMap} description={input.description} onDescriptionFetched={input.onDescriptionFetched} deck={deck} />
+      <DeckReport player={deck.player} cardMap={cardMap} description={input.description} onDescriptionFetched={input.on_description_fetched} deck={deck} />
     </div>
   );
 }
@@ -909,10 +909,10 @@ function PlayerFrame(input) {
               if (match.opponent.toLowerCase() == match.winner.toLowerCase()) result = "L"
               if (match.winner == "") result = "D"
 
-              let opp_arch = "N/A"
+              let oppArch = "N/A"
               for (let d of input.decks) {
                 if (d.player.toLowerCase() == match.opponent.toLowerCase() && d.date == deck.date) {
-                  opp_arch = getMacro(d)
+                  oppArch = getMacro(d)
                   break
                 }
               }
@@ -921,7 +921,7 @@ function PlayerFrame(input) {
                 <div key={i} className="match-pill" style={{"background": "var(--table-header-background)", "padding": "0.4rem 0.8rem", "borderRadius": "20px", "fontSize": "0.85rem", "border": "1px solid var(--border)"}}>
                   <span style={{"fontWeight": "bold", "marginRight": "0.5rem"}}>{match.opponent}:</span>
                   <span style={{"color": result === "W" ? "var(--success)" : result === "L" ? "var(--danger)" : "var(--white)"}}>{result}</span>
-                  <span style={{"marginLeft": "0.5rem", "opacity": "0.7"}}>({Record(deck, match.opponent)}) | {opp_arch}</span>
+                  <span style={{"marginLeft": "0.5rem", "opacity": "0.7"}}>({Record(deck, match.opponent)}) | {oppArch}</span>
                 </div>
               );
             })}

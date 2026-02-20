@@ -59,15 +59,15 @@ export function PlayerData(decks) {
       // Player not seen yet - initialize.
       map.set(player, {
         name: player,
-        numDecks: 0,
+        num_decks: 0,
         decks: new Array(),
         cards: new Map(),
-        totalPicks: 0,
-        whitePicks: 0,
-        bluePicks: 0,
-        greenPicks: 0,
-        blackPicks: 0,
-        redPicks: 0,
+        total_picks: 0,
+        white_picks: 0,
+        blue_picks: 0,
+        green_picks: 0,
+        black_picks: 0,
+        red_picks: 0,
         wins: 0,
         losses: 0,
         trophies: 0,
@@ -79,7 +79,7 @@ export function PlayerData(decks) {
     // Add per-deck data here. Like win / loss count.
     map.get(player).wins += Wins(deck)
     map.get(player).losses += Losses(deck)
-    map.get(player).numDecks += 1
+    map.get(player).num_decks += 1
     map.get(player).decks.push(deck)
     map.get(player).trophies += Trophies(deck)
     map.get(player).last_place += LastPlaceFinishes(deck)
@@ -99,26 +99,26 @@ export function PlayerData(decks) {
         })
       }
       map.get(player).cards.get(card.name).count += 1
-      map.get(player).totalPicks += 1
+      map.get(player).total_picks += 1
 
       // Perform per-color per-card actions.
       for (var c in card.colors) {
         let color = card.colors[c]
         switch(color) {
           case "W":
-            map.get(player).whitePicks += 1
+            map.get(player).white_picks += 1
             break;
           case "U":
-            map.get(player).bluePicks += 1
+            map.get(player).blue_picks += 1
             break;
           case "B":
-            map.get(player).blackPicks += 1
+            map.get(player).black_picks += 1
             break;
           case "R":
-            map.get(player).redPicks += 1
+            map.get(player).red_picks += 1
             break;
           case "G":
-            map.get(player).greenPicks += 1
+            map.get(player).green_picks += 1
             break;
         }
       }
@@ -128,15 +128,15 @@ export function PlayerData(decks) {
   // Convert the mapped data into a list of rows to display - one per player.
   for (let row of map.values()) {
     // First, calculate a percentage of this player's total picks for each color.
-    row.whitePercent = Math.round(row.whitePicks / row.totalPicks * 100)
-    row.bluePercent = Math.round(row.bluePicks / row.totalPicks * 100)
-    row.blackPercent = Math.round(row.blackPicks / row.totalPicks * 100)
-    row.redPercent = Math.round(row.redPicks / row.totalPicks * 100)
-    row.greenPercent = Math.round(row.greenPicks / row.totalPicks * 100)
+    row.white_percent = Math.round(row.white_picks / row.total_picks * 100)
+    row.blue_percent = Math.round(row.blue_picks / row.total_picks * 100)
+    row.black_percent = Math.round(row.black_picks / row.total_picks * 100)
+    row.red_percent = Math.round(row.red_picks / row.total_picks * 100)
+    row.green_percent = Math.round(row.green_picks / row.total_picks * 100)
 
     // Add in win and loss percentages.
-    row.winPercent = Math.round(row.wins / (row.wins + row.losses) * 100)
-    row.lossPercent = Math.round(row.losses / (row.wins + row.losses) * 100)
+    row.win_percent = Math.round(row.wins / (row.wins + row.losses) * 100)
+    row.loss_percent = Math.round(row.losses / (row.wins + row.losses) * 100)
     row.games = row.wins + row.losses
 
     // Take an average of the opponent win percentages this player has faced.
@@ -158,7 +158,7 @@ export function PlayerData(decks) {
     // number of unique cards mainboarded by the player, divided by the total number cards picked. This is
     // a representation of how diverse this player's card selection is. A higher number indicates a propensity
     // to pick unique cards. A value of 1 means they have never picked the same card twice.
-    row.uniqueness = Math.round(row.cards.size / row.totalPicks * 100)
+    row.uniqueness = Math.round(row.cards.size / row.total_picks * 100)
   }
   return map
 }
@@ -180,19 +180,19 @@ function PlayerTable(input) {
         <thead className="table-header">
           <tr>
             <td onClick={input.onHeaderClick} id="name" className="header-cell">Player</td>
-            <td onClick={input.onHeaderClick} id="decks" className="header-cell">Decks</td>
+            <td onClick={input.onHeaderClick} id="num_decks" className="header-cell">Decks</td>
             <td onClick={input.onHeaderClick} id="games" className="header-cell">Games</td>
-            <td onClick={input.onHeaderClick} id="wins" className="header-cell">Won</td>
-            <td onClick={input.onHeaderClick} id="losses" className="header-cell">Lost</td>
-            <td onClick={input.onHeaderClick} id="opp_%" className="header-cell">Opp. Win %</td>
+            <td onClick={input.onHeaderClick} id="win_percent" className="header-cell">Won</td>
+            <td onClick={input.onHeaderClick} id="loss_percent" className="header-cell">Lost</td>
+            <td onClick={input.onHeaderClick} id="opponent_win_percentage" className="header-cell">Opp. Win %</td>
             <td onClick={input.onHeaderClick} id="trophies" className="header-cell">Trophies</td>
-            <td onClick={input.onHeaderClick} id="lastplace" className="header-cell">Last place</td>
-            <td onClick={input.onHeaderClick} id="W" className="header-cell">{ColorImages("W")}</td>
-            <td onClick={input.onHeaderClick} id="U" className="header-cell">{ColorImages("U")}</td>
-            <td onClick={input.onHeaderClick} id="B" className="header-cell">{ColorImages("B")}</td>
-            <td onClick={input.onHeaderClick} id="R" className="header-cell">{ColorImages("R")}</td>
-            <td onClick={input.onHeaderClick} id="G" className="header-cell">{ColorImages("G")}</td>
-            <td onClick={input.onHeaderClick} id="unique" className="header-cell">Uniq</td>
+            <td onClick={input.onHeaderClick} id="last_place" className="header-cell">Last place</td>
+            <td onClick={input.onHeaderClick} id="white_percent" className="header-cell">{ColorImages("W")}</td>
+            <td onClick={input.onHeaderClick} id="blue_percent" className="header-cell">{ColorImages("U")}</td>
+            <td onClick={input.onHeaderClick} id="black_percent" className="header-cell">{ColorImages("B")}</td>
+            <td onClick={input.onHeaderClick} id="red_percent" className="header-cell">{ColorImages("R")}</td>
+            <td onClick={input.onHeaderClick} id="green_percent" className="header-cell">{ColorImages("G")}</td>
+            <td onClick={input.onHeaderClick} id="uniqueness" className="header-cell">Uniq</td>
           </tr>
         </thead>
         <tbody>
@@ -201,42 +201,52 @@ function PlayerTable(input) {
             // Determine sort value for this row.
             let sort = row.name
             switch(input.sortBy) {
-              case "wins":
-                sort = row.winPercent
+              case "win_pct":
+              case "win_percent":
+                sort = row.win_percent
                 break;
-              case "losses":
-                sort = row.lossPercent
+              case "loss_percent":
+                sort = row.loss_percent
                 break;
               case "games":
                 sort = row.games
                 break;
+              case "white_percent":
               case "W":
-                sort = row.whitePercent
+                sort = row.white_percent
                 break
+              case "blue_percent":
               case "U":
-                sort = row.bluePercent
+                sort = row.blue_percent
                 break
+              case "black_percent":
               case "B":
-                sort = row.blackPercent
+                sort = row.black_percent
                 break
+              case "red_percent":
               case "R":
-                sort = row.redPercent
+                sort = row.red_percent
                 break
+              case "green_percent":
               case "G":
-                sort = row.greenPercent
+                sort = row.green_percent
                 break
+              case "uniqueness":
               case "unique":
                 sort = row.uniqueness
                 break
+              case "num_decks":
               case "decks":
-                sort = row.numDecks
+                sort = row.num_decks
                 break
               case "trophies":
                 sort = row.trophies;
                 break;
+              case "last_place":
               case "lastplace":
                 sort = row.last_place;
                 break;
+              case "opponent_win_percentage":
               case "opp_%":
                 sort = row.opponent_win_percentage
                 break;
@@ -245,32 +255,22 @@ function PlayerTable(input) {
               sort = -1 * sort
             }
 
-            // Map server-side field names to UI-expected names.
-            const winPct = row.winPercent ?? row.win_percent;
-            const lossPct = row.lossPercent ?? row.loss_percent;
-            const whitePct = row.whitePercent ?? row.white_percent;
-            const bluePct = row.bluePercent ?? row.blue_percent;
-            const blackPct = row.blackPercent ?? row.black_percent;
-            const redPct = row.redPercent ?? row.red_percent;
-            const greenPct = row.greenPercent ?? row.green_percent;
-            const uniq = row.uniqueness;
-
             return (
               <tr sort={sort} className="widget-table-row" key={row.name}>
                 <td id={row.name} onClick={input.handleRowClick}>{row.name}</td>
-                <td>{row.numDecks ?? row.num_decks}</td>
+                <td>{row.num_decks}</td>
                 <td>{row.games}</td>
-                <td>{winPct}%</td>
-                <td>{lossPct}%</td>
+                <td>{row.win_percent}%</td>
+                <td>{row.loss_percent}%</td>
                 <td>{row.opponent_win_percentage}%</td>
                 <td>{row.trophies}</td>
                 <td>{row.last_place}</td>
-                <td>{whitePct}%</td>
-                <td>{bluePct}%</td>
-                <td>{blackPct}%</td>
-                <td>{redPct}%</td>
-                <td>{greenPct}%</td>
-                <td>{uniq}%</td>
+                <td>{row.white_percent}%</td>
+                <td>{row.blue_percent}%</td>
+                <td>{row.black_percent}%</td>
+                <td>{row.red_percent}%</td>
+                <td>{row.green_percent}%</td>
+                <td>{row.uniqueness}%</td>
               </tr>
             )
           }).sort(SortFunc)
@@ -354,10 +354,10 @@ function PlayerDetailsPanel(input) {
 
   // Get the player's total deck count for percentage calculations
   const playerEntry = playerData.get(input.player);
-  const totalPlayerDecks = playerEntry.num_decks ?? playerEntry.numDecks ?? 0;
+  const totalPlayerDecks = playerEntry.num_decks;
 
   // Add archetype data from the given player's decks.
-  let archData = playerEntry.archetypeData
+  let archData = playerEntry.archetype_stats
 
   let archRows = [newTracker("aggro"), newTracker("control"), newTracker("midrange")]
   for (let a of archRows) {
@@ -380,7 +380,7 @@ function PlayerDetailsPanel(input) {
   }
 
   // Add color data.
-  let colorData = playerEntry.colorData
+  let colorData = playerEntry.color_stats
   let colorRows = [newTracker("W"), newTracker("U"), newTracker("B"), newTracker("R"), newTracker("G")]
   for (let c of colorRows) {
     let color = c.get("name")
@@ -404,9 +404,9 @@ function PlayerDetailsPanel(input) {
             <td colSpan="3" id="who" className="header-cell">Selected player: {input.player}</td>
           </tr>
           <tr>
-            <td id="name" className="header-cell">Opponent (min {minGames} games)</td>
-            <td id="num" className="header-cell">Win %</td>
-            <td id="games" className="header-cell">Games</td>
+            <td onClick={input.onOppHeaderClick} id="name" className="header-cell">Opponent (min {minGames} games)</td>
+            <td onClick={input.onOppHeaderClick} id="win_pct" className="header-cell">Win %</td>
+            <td onClick={input.onOppHeaderClick} id="games" className="header-cell">Games</td>
           </tr>
         </thead>
         <tbody>
@@ -417,8 +417,23 @@ function PlayerDetailsPanel(input) {
                 return
               }
               let win_pct = Math.round(opponent.wins / (opponent.wins + opponent.losses) * 100)
+              let sort = win_pct
+              switch (input.oppSortBy) {
+                case "name":
+                  sort = opponent.name
+                  break;
+                case "win_pct":
+                  sort = win_pct
+                  break;
+                case "games":
+                  sort = opponent.wins + opponent.losses
+                  break;
+              }
+              if (input.oppSortInvert && typeof sort === 'number') {
+                sort = -1 * sort
+              }
               return (
-                <tr key={opponent.name} sort={win_pct} className="widget-table-row">
+                <tr key={opponent.name} sort={sort} className="widget-table-row">
                   <td key="name">{opponent.name}</td>
                   <td key="win_pct">{win_pct}%</td>
                   <td key="total">{opponent.wins + opponent.losses}</td>
@@ -432,11 +447,11 @@ function PlayerDetailsPanel(input) {
       <table className="widget-table">
         <thead className="table-header">
           <tr>
-            <td onClick={input.onHeaderClick} id="name" className="header-cell">Arch</td>
-            <td onClick={input.onHeaderClick} id="build" className="header-cell">Build %</td>
-            <td onClick={input.onHeaderClick} id="win_pct" className="header-cell">Win %</td>
-            <td onClick={input.onHeaderClick} id="wins" className="header-cell">Wins</td>
-            <td onClick={input.onHeaderClick} id="losses" className="header-cell">Losses</td>
+            <td onClick={input.onPlayerArchHeaderClick} id="name" className="header-cell">Arch</td>
+            <td onClick={input.onPlayerArchHeaderClick} id="build" className="header-cell">Build %</td>
+            <td onClick={input.onPlayerArchHeaderClick} id="win_pct" className="header-cell">Win %</td>
+            <td onClick={input.onPlayerArchHeaderClick} id="wins" className="header-cell">Wins</td>
+            <td onClick={input.onPlayerArchHeaderClick} id="losses" className="header-cell">Losses</td>
           </tr>
         </thead>
         <tbody>
@@ -454,8 +469,31 @@ function PlayerDetailsPanel(input) {
               if (totalPlayerDecks > 0) {
                 bld_pct = Math.round(100 * count / totalPlayerDecks)
               }
+
+              let sort = bld_pct
+              switch (input.playerArchSortBy) {
+                case "name":
+                  sort = name;
+                  break;
+                case "build":
+                  sort = bld_pct;
+                  break;
+                case "win_pct":
+                  sort = win_pct;
+                  break;
+                case "wins":
+                  sort = wins;
+                  break;
+                case "losses":
+                  sort = loss;
+                  break;
+              }
+              if (input.playerArchSortInvert && typeof sort === 'number') {
+                sort = -1 * sort
+              }
+
               return (
-                <tr key={name} sort={bld_pct} className="widget-table-row">
+                <tr key={name} sort={sort} className="widget-table-row">
                   <td key="name">{name}</td>
                   <td key="bld_pct">{bld_pct}%</td>
                   <td key="win_pct">{win_pct}%</td>
@@ -471,11 +509,11 @@ function PlayerDetailsPanel(input) {
       <table className="widget-table">
         <thead className="table-header">
           <tr>
-            <td onClick={input.onHeaderClick} id="name" className="header-cell">Color</td>
-            <td onClick={input.onHeaderClick} id="build_pct" className="header-cell">Build %</td>
-            <td onClick={input.onHeaderClick} id="win_pct" className="header-cell">Win %</td>
-            <td onClick={input.onHeaderClick} id="wins" className="header-cell">Wins</td>
-            <td onClick={input.onHeaderClick} id="losses" className="header-cell">Losses</td>
+            <td onClick={input.onPlayerColorHeaderClick} id="name" className="header-cell">Color</td>
+            <td onClick={input.onPlayerColorHeaderClick} id="build_pct" className="header-cell">Build %</td>
+            <td onClick={input.onPlayerColorHeaderClick} id="win_pct" className="header-cell">Win %</td>
+            <td onClick={input.onPlayerColorHeaderClick} id="wins" className="header-cell">Wins</td>
+            <td onClick={input.onPlayerColorHeaderClick} id="losses" className="header-cell">Losses</td>
           </tr>
         </thead>
         <tbody>
@@ -493,8 +531,31 @@ function PlayerDetailsPanel(input) {
               if (totalPlayerDecks > 0) {
                 bld_pct = Math.round(100 * count / totalPlayerDecks)
               }
+
+              let sort = bld_pct
+              switch (input.playerColorSortBy) {
+                case "name":
+                  sort = name;
+                  break;
+                case "build_pct":
+                  sort = bld_pct;
+                  break;
+                case "win_pct":
+                  sort = win_pct;
+                  break;
+                case "wins":
+                  sort = wins;
+                  break;
+                case "losses":
+                  sort = loss;
+                  break;
+              }
+              if (input.playerColorSortInvert && typeof sort === 'number') {
+                sort = -1 * sort
+              }
+
               return (
-                <tr key={name} sort={bld_pct} className="widget-table-row">
+                <tr key={name} sort={sort} className="widget-table-row">
                   <td key="name">{ColorImages(name)}</td>
                   <td key="bld_pct">{bld_pct}%</td>
                   <td key="win_pct">{win_pct}%</td>
@@ -530,7 +591,7 @@ function WinRateChart(input) {
   for (let bucket of buckets) {
     let stats = bucket.playerData.get(input.player)
     if (stats != null) {
-      values.push(stats.winPercent)
+      values.push(stats.win_percent)
     } else {
       // Player was not in this bucket.
       values.push(null)

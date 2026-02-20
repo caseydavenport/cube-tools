@@ -155,7 +155,7 @@ export function ArchetypeWidget(input) {
 }
 
 function ArchetypeStatsTable(input) {
-  let archetypes = input.parsed.archetypeData
+  let archetypes = input.parsed.archetype_data
   let data = []
   for (let arch of archetypes.values()) {
     if (arch.build_percent >= watermark) {
@@ -384,7 +384,7 @@ function TopCardsInArchetypeWidget(input) {
 
   // Get all cards that are currently active.
   let data = input.cardData
-  let archetypes = input.parsed.archetypeData
+  let archetypes = input.parsed.archetype_data
 
   // Filter out cards that don't match the given archetype, or don't meet minimum
   // requirements.
@@ -507,12 +507,12 @@ function TopCardsInArchetypeWidget(input) {
 
 function ArchetypeDetailsPanel(input) {
   // Get the archetype data for the selected archetype.
-  let archetypeData = input.parsed.archetypeData
+  let archetypeData = input.parsed.archetype_data
   let sharedData = []
   let playerData = []
   let arch = archetypeData.get(input.selectedArchetype)
   if (arch != null) {
-    arch.sharedWith.forEach(function(num, name) {
+    arch.shared_with.forEach(function(num, name) {
       sharedData.push({"name": name, "num": num})
     })
     arch.players.forEach(function(num, name) {
@@ -575,8 +575,8 @@ export function ArchetypeData(decks) {
       count: 0,
       wins: 0,
       losses: 0,
-      sharedWith: new Map(),
-      numSharedWith: 0,
+      shared_with: new Map(),
+      num_shared_with: 0,
       players: new Map(),
       build_percent: 0,
       win_percent: 0,
@@ -635,11 +635,11 @@ export function ArchetypeData(decks) {
         }
         if (types[k] != type) {
           // Skip itself.
-          if (!tracker.get(type).sharedWith.has(types[k])) {
-            tracker.get(type).sharedWith.set(types[k], 0)
+          if (!tracker.get(type).shared_with.has(types[k])) {
+            tracker.get(type).shared_with.set(types[k], 0)
           }
-          tracker.get(type).sharedWith.set(types[k], tracker.get(type).sharedWith.get(types[k]) + 1)
-          tracker.get(type).numSharedWith += 1
+          tracker.get(type).shared_with.set(types[k], tracker.get(type).shared_with.get(types[k]) + 1)
+          tracker.get(type).num_shared_with += 1
         }
       }
     }
@@ -651,7 +651,7 @@ export function ArchetypeData(decks) {
     archetype.win_percent = Math.round(archetype.wins / (archetype.wins + archetype.losses) * 100)
     archetype.percent_of_wins = Math.round(archetype.wins / totalGames * 100)
     archetype.record = archetype.wins + "-" + archetype.losses + "-" + 0
-    archetype.avg_shared = Math.round(archetype.numSharedWith / archetype.count * 100) / 100
+    archetype.avg_shared = Math.round(archetype.num_shared_with / archetype.count * 100) / 100
     archetype.avg_cmc = Math.round(archetype.avg_cmc / archetype.count * 100) / 100
   })
   return tracker
@@ -688,7 +688,7 @@ function MicroArchetypesChart(input) {
   // criteria, in order to de-clutter the plots. Use aggregate data across all buckets
   // to determine the play rate, and delete any archetypes that don't meet the criteria
   // before doing per-bucket analysis below.
-  input.parsed.archetypeData.forEach((data, arch) => {
+  input.parsed.archetype_data.forEach((data, arch) => {
     if (data.build_percent <= watermark) {
       archSet.delete(arch)
     }
@@ -702,7 +702,7 @@ function MicroArchetypesChart(input) {
   }
 
   for (let bucket of input.parsed.deckBuckets) {
-    let stats = bucket.archetypeData
+    let stats = bucket.archetype_data
     for (let archetype of archs) {
       let archetypeStats = stats.get(archetype)
       if (archetypeStats == null) {
@@ -792,7 +792,7 @@ function MacroArchetypesChart(input) {
     datasets.set(arch, [])
   }
   for (let bucket of input.parsed.deckBuckets) {
-    let stats = bucket.archetypeData
+    let stats = bucket.archetype_data
     for (let archetype of archs) {
       let archetypeStats = stats.get(archetype)
       if (archetypeStats == null) {
@@ -884,7 +884,7 @@ function MacroArchetypesChart(input) {
 }
 
 function MacroArchetypesPieChart(input) {
-  let stats = input.parsed.archetypeData
+  let stats = input.parsed.archetype_data
 
   let title = `Decks`
   let graphData = [
@@ -1070,4 +1070,3 @@ function WinsByMatchup(input) {
     </div>
   );
 }
-

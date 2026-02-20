@@ -256,7 +256,7 @@ export function DeckWidget(input) {
   )
 }
 
-// buildGraphData is common logic to calculate various bit of data for plotting graphs, so that we don't
+// BuildGraphData is common logic to calculate various bit of data for plotting graphs, so that we don't
 // need to iterate the complete data set for each graph.
 //
 // TODO: Ideally we'd move this into the API server.
@@ -436,7 +436,7 @@ export function BuildGraphData(parsed) {
     bucketed.mbCounterspells.push(mbCounterspells / decks.length)
     bucketed.sbCounterspells.push(sbCounterspells / decks.length)
     bucketed.removal.mb.count.push(removal.mb.count / decks.length)
-    bucketed.removal.sb.count.push(removal.sb.cound / decks.length)
+    bucketed.removal.sb.count.push(removal.sb.count / decks.length)
     bucketed.removal.mb.cmc.push(removal.mb.cmc / removal.mb.count)
     bucketed.removal.sb.cmc.push(removal.sb.cmc / removal.sb.count)
     for (let color of colors) {
@@ -1076,7 +1076,7 @@ function DeckManaValueChart(input) {
   }
 
   // Parse the buckets into color data.
-  let mana_values = []
+  let manaValues = []
   for (let bucket of buckets) {
     // Aggregate all decks from within this bucket.
     let decks = new Array()
@@ -1092,13 +1092,13 @@ function DeckManaValueChart(input) {
       }
       total += deck.avg_cmc
     }
-    mana_values.push(total / decks.length)
+    manaValues.push(total / decks.length)
   }
 
   let dataset = [
       {
         label: 'Average Mana Value',
-        data: mana_values,
+        data: manaValues,
         borderColor: winPctColor,
         backgroundColor: winPctColor,
       },
@@ -1686,4 +1686,3 @@ function NumColorsPieChart(input) {
     </div>
   );
 }
-

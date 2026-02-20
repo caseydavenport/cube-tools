@@ -10,7 +10,7 @@ import { BuildGraphData } from "./Decks.js";
 import { CheckboxesToColors } from "../utils/Utils.js";
 
 export function useStatsFilters() {
-  const [bucketSize, setNumBuckets] = useState(5);
+  const [bucketSize, setBucketSize] = useState(5);
   const [playerMatch, setPlayerMatch] = useState("");
   const [minDraftSize, setMinDraftSize] = useState(0);
   const [manaValue, setManaValue] = useState(-1);
@@ -28,7 +28,7 @@ export function useStatsFilters() {
   const [cardFilter, setCardFilter] = useState("");
   const [cardWidgetColorSelection, setCardWidgetColorSelection] = useState("");
   const [cardWidgetSortBy, setCardWidgetSortBy] = useState("");
-  const [xAxis, setxAxis] = useState("# Decks");
+  const [xAxis, setXAxis] = useState("# Decks");
   const [yAxis, setYAxis] = useState("Pick ELO");
   const [draftSortBy, setDraftSortBy] = useState("p1p1");
   const [draftSortInvert, setDraftSortInvert] = useState(false);
@@ -43,6 +43,12 @@ export function useStatsFilters() {
   const [selectedPack, setSelectedPack] = useState(1);
   const [playerSortBy, setPlayerSortBy] = useState("");
   const [playerSortInvert, setPlayerSortInvert] = useState(false);
+  const [oppSortBy, setOppSortBy] = useState("win_pct");
+  const [oppSortInvert, setOppSortInvert] = useState(false);
+  const [playerArchSortBy, setPlayerArchSortBy] = useState("build");
+  const [playerArchSortInvert, setPlayerArchSortInvert] = useState(false);
+  const [playerColorSortBy, setPlayerColorSortBy] = useState("build_pct");
+  const [playerColorSortInvert, setPlayerColorSortInvert] = useState(false);
   const [selectedPlayer, setSelectedPlayer] = useState("");
   const [selectedArchetype, setSelectedArchetype] = useState("aggro");
   const [sortBy, setSortBy] = useState("");
@@ -51,7 +57,7 @@ export function useStatsFilters() {
   const [display, setDisplay] = useState([true, false, false, false, false, false, false]);
 
   return {
-    bucketSize, setNumBuckets,
+    bucketSize, setBucketSize,
     playerMatch, setPlayerMatch,
     minDraftSize, setMinDraftSize,
     manaValue, setManaValue,
@@ -69,7 +75,7 @@ export function useStatsFilters() {
     cardFilter, setCardFilter,
     cardWidgetColorSelection, setCardWidgetColorSelection,
     cardWidgetSortBy, setCardWidgetSortBy,
-    xAxis, setxAxis,
+    xAxis, setXAxis,
     yAxis, setYAxis,
     draftSortBy, setDraftSortBy,
     draftSortInvert, setDraftSortInvert,
@@ -84,6 +90,12 @@ export function useStatsFilters() {
     selectedPack, setSelectedPack,
     playerSortBy, setPlayerSortBy,
     playerSortInvert, setPlayerSortInvert,
+    oppSortBy, setOppSortBy,
+    oppSortInvert, setOppSortInvert,
+    playerArchSortBy, setPlayerArchSortBy,
+    playerArchSortInvert, setPlayerArchSortInvert,
+    playerColorSortBy, setPlayerColorSortBy,
+    playerColorSortInvert, setPlayerColorSortInvert,
     selectedPlayer, setSelectedPlayer,
     selectedArchetype, setSelectedArchetype,
     sortBy, setSortBy,
@@ -157,7 +169,7 @@ export function useStatsData(filters, props, refresh) {
         for (const [name, data] of Object.entries(d.archetypes)) {
           archetypes.set(name, {
             ...data,
-            sharedWith: new Map(Object.entries(data.shared_with || {})),
+            shared_with: new Map(Object.entries(data.shared_with || {})),
             players: new Map(Object.entries(data.players || {})),
           });
         }
@@ -172,8 +184,8 @@ export function useStatsData(filters, props, refresh) {
           players.set(name, {
             ...data,
             cards: new Map(Object.entries(data.unique_cards || {}).map(([cardName, count]) => [cardName, { name: cardName, count }])),
-            archetypeData: new Map(Object.entries(data.archetype_stats || {})),
-            colorData: new Map(Object.entries(data.color_stats || {})),
+            archetype_stats: new Map(Object.entries(data.archetype_stats || {})),
+            color_stats: new Map(Object.entries(data.color_stats || {})),
           });
         }
         setPlayerStats(players);
@@ -214,8 +226,8 @@ export function useStatsData(filters, props, refresh) {
     if (filterByColor || props.matchStr) {
       const pd = PlayerData(filteredDecks);
       for (let d of pd.values()) {
-        d.archetypeData = ArchetypeData(d.decks);
-        d.colorData = GetColorStats(d.decks, filters.strictColors);
+        d.archetype_stats = ArchetypeData(d.decks);
+        d.color_stats = GetColorStats(d.decks, filters.strictColors);
       }
       return pd;
     }
@@ -228,8 +240,8 @@ export function useStatsData(filters, props, refresh) {
     for (let b of db) {
       let bucketDecks = [];
       for (let draft of b) bucketDecks = bucketDecks.concat(draft.decks);
-      b.archetypeData = ArchetypeData(bucketDecks);
-      b.playerData = PlayerData(bucketDecks);
+      b.archetype_data = ArchetypeData(bucket_decks);
+      b.player_data = PlayerData(bucket_decks);
     }
     return db;
   }, [filteredDecks, bucketSize]);

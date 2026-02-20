@@ -24,7 +24,7 @@ export function StatsViewer(props) {
       if (props.onMatchUpdated) {
         props.onMatchUpdated({ target: { value: typingStr } });
       }
-    }, 300);
+    }, 300); // 300ms debounce delay
     return () => clearTimeout(timer);
   }, [typingStr]);
 
@@ -46,24 +46,28 @@ export function StatsViewer(props) {
 
   const {
     decks, cube, drafts, archetypeMatchups, cardData, cardDataBucketed,
-    synergyData, parsed, graphData, archetypeDropdownOptions, draftLogs
+    colorData, colorDataBucketed, synergyData, parsed, graphData,
+    archetypeDropdownOptions, draftLogs
   } = data;
 
   // Destructure filter setters for the SelectorBar and Widgets
   const {
-    bucketSize, setNumBuckets, playerMatch, setPlayerMatch, minDraftSize, setMinDraftSize,
+    bucketSize, setBucketSize, playerMatch, setPlayerMatch, minDraftSize, setMinDraftSize,
     manaValue, setManaValue, selectedBucket, setSelectedBucket, colorTypeSelection, setColorTypeSelection,
     colorSortBy, setColorSortBy, strictColors, setStrictColors, colorCheckboxes, setColorCheckboxes,
     cardWidgetSelection, setCardWidgetSelection, minDrafts, setMinDrafts, minGames, setMinGames,
     minPlayers, setMinPlayers, maxPlayers, setMaxPlayers, selectedCard, setSelectedCard,
     cardFilter, setCardFilter, cardWidgetColorSelection, setCardWidgetColorSelection,
-    cardWidgetSortBy, setCardWidgetSortBy, xAxis, setxAxis, yAxis, setYAxis,
+    cardWidgetSortBy, setCardWidgetSortBy, xAxis, setXAxis, yAxis, setYAxis,
     draftSortBy, setDraftSortBy, draftSortInvert, setDraftSortInvert,
     minDeviation, setMinDeviation, maxDeviation, setMaxDeviation,
     minAvgPick, setMinAvgPick, maxAvgPick, setMaxAvgPick,
     selectedDraftLog, setSelectedDraftLog, selectedDraftPlayer, setSelectedDraftPlayer,
     draftPlayers, setDraftPlayers, draftPacks, setDraftPacks, selectedPack, setSelectedPack,
     playerSortBy, setPlayerSortBy, playerSortInvert, setPlayerSortInvert,
+    oppSortBy, setOppSortBy, oppSortInvert, setOppSortInvert,
+    playerArchSortBy, setPlayerArchSortBy, playerArchSortInvert, setPlayerArchSortInvert,
+    playerColorSortBy, setPlayerColorSortBy, playerColorSortInvert, setPlayerColorSortInvert,
     selectedPlayer, setSelectedPlayer, selectedArchetype, setSelectedArchetype,
     sortBy, setSortBy, minSynergyDecks, setMinSynergyDecks, synergySortBy, setSynergySortBy,
     display, setDisplay
@@ -119,7 +123,7 @@ export function StatsViewer(props) {
         endDate={props.endDate}
         onEndSelected={props.onEndSelected}
         bucketSize={bucketSize}
-        onBucketsChanged={(e) => setNumBuckets(Math.max(1, e.target.value))}
+        onBucketsChanged={(e) => setBucketSize(Math.max(1, e.target.value))}
         minDraftSize={minDraftSize}
         onMinDraftSizeChanged={(e) => setMinDraftSize(e.target.value)}
         playerMatch={playerMatch}
@@ -141,15 +145,15 @@ export function StatsViewer(props) {
         <SynergyWidget
           show={display[6]} synergyData={synergyData} minSynergyDecks={minSynergyDecks}
           onMinSynergyDecksChanged={(e) => setMinSynergyDecks(e.target.value)}
-          onHeaderClick={(e) => setSynergySortBy(e.target.id)}
-          sortBy={synergySortBy} onCardSelected={(e) => setSelectedCard(e.target.id)}
+          onHeaderClick={(e) => setSynergySortBy(e.currentTarget.id)}
+          sortBy={synergySortBy} onCardSelected={(e) => setSelectedCard(e.currentTarget.id)}
         />
 
         <ColorWidget
           parsed={parsed} ddOpts={[{ label: "Mono", value: "Mono" }, { label: "Dual", value: "Dual" }, { label: "Trio", value: "Trio" }]}
           colorTypeSelection={colorTypeSelection} onSelected={(e) => setColorTypeSelection(e.target.value)}
           onBucketSelected={(e) => setSelectedBucket(e.target.value)}
-          decks={parsed.filteredDecks} onHeaderClick={(e) => setColorSortBy(e.target.id)}
+          decks={parsed.filteredDecks} onHeaderClick={(e) => setColorSortBy(e.currentTarget.id)}
           colorSortBy={colorSortBy} bucketSize={bucketSize} strictColors={strictColors}
           onStrictCheckbox={() => setStrictColors(!strictColors)}
           selectedBucket={selectedBucket} show={display[0]}
@@ -166,13 +170,13 @@ export function StatsViewer(props) {
           onColorChecked={(e) => {
             let updated = [...colorCheckboxes];
             const colorMap = { W: 0, U: 1, B: 2, R: 3, G: 4 };
-            updated[colorMap[e.target.id]] = !updated[colorMap[e.target.id]];
+            updated[colorMap[e.currentTarget.id]] = !updated[colorMap[e.currentTarget.id]];
             setColorCheckboxes(updated);
           }}
           colorCheckboxes={colorCheckboxes} onMinDraftsSelected={(e) => setMinDrafts(e.target.value)}
           minDrafts={minDrafts} onMinGamesSelected={(e) => setMinGames(e.target.value)}
-          minDecksInArch={minGames} sortBy={sortBy} onHeaderClick={(e) => setSortBy(e.target.id)}
-          handleRowClick={(e) => setSelectedArchetype(e.target.id)}
+          minDecksInArch={minGames} sortBy={sortBy} onHeaderClick={(e) => setSortBy(e.currentTarget.id)}
+          handleRowClick={(e) => setSelectedArchetype(e.currentTarget.id)}
         />
 
         <CardWidget
@@ -181,7 +185,7 @@ export function StatsViewer(props) {
           cardFilter={cardFilter} onCardFilterSelected={(e) => setCardFilter(e.target.value)}
           cardWidgetOpts={[{ label: "Mainboard rate", value: "Mainboard rate" }, { label: "Win rate", value: "Win rate" }, { label: "Versus archetype", value: "Versus archetype" }, { label: "By archetype", value: "By archetype" }]}
           onSelected={(e) => setCardWidgetSelection(e.target.value)}
-          onCardSelected={(e) => setSelectedCard(e.target.id)}
+          onCardSelected={(e) => setSelectedCard(e.currentTarget.id)}
           selectedCard={selectedCard}
           colorWidgetOpts={[{ label: "", value: "" }, { label: "Red", value: "R" }, { label: "Blue", value: "U" }, { label: "Green", value: "G" }, { label: "Black", value: "B" }, { label: "White", value: "W" }]}
           colorSelection={cardWidgetColorSelection} onColorSelected={(e) => setCardWidgetColorSelection(e.target.value)}
@@ -189,10 +193,10 @@ export function StatsViewer(props) {
           minGames={minGames} onMinGamesSelected={(e) => setMinGames(e.target.value)}
           minPlayers={minPlayers} maxPlayers={maxPlayers} onMinPlayersSelected={(e) => setMinPlayers(e.target.value)}
           onMaxPlayersSelected={(e) => setMaxPlayers(e.target.value)}
-          onHeaderClick={(e) => setCardWidgetSortBy(e.target.id)}
+          onHeaderClick={(e) => setCardWidgetSortBy(e.currentTarget.id)}
           manaValue={manaValue} onManaValueSelected={(e) => setManaValue(e.target.value)}
           sortBy={cardWidgetSortBy} bucketSize={bucketSize} cube={cube}
-          xAxis={xAxis} yAxis={yAxis} onXAxisSelected={(e) => setxAxis(e.target.value)}
+          xAxis={xAxis} yAxis={yAxis} onXAxisSelected={(e) => setXAxis(e.target.value)}
           onYAxisSelected={(e) => setYAxis(e.target.value)}
           show={display[2]}
         />
@@ -201,8 +205,8 @@ export function StatsViewer(props) {
           parsed={parsed} decks={parsed.filteredDecks} drafts={drafts} cube={cube}
           sortBy={draftSortBy} invertSort={draftSortInvert}
           onHeaderClick={(e) => {
-            if (draftSortBy === e.target.id) setDraftSortInvert(!draftSortInvert);
-            else { setDraftSortInvert(false); setDraftSortBy(e.target.id); }
+            if (draftSortBy === e.currentTarget.id) setDraftSortInvert(!draftSortInvert);
+            else { setDraftSortInvert(false); setDraftSortBy(e.currentTarget.id); }
           }}
           minDrafts={minDrafts} onMinDraftsSelected={(e) => setMinDrafts(e.target.value)}
           minDeviation={minDeviation} onMinDeviationChanged={(e) => setMinDeviation(e.target.value)}
@@ -219,7 +223,7 @@ export function StatsViewer(props) {
 
         <DeckWidget
           parsed={parsed} graphData={graphData} decks={parsed.filteredDecks} show={display[3]}
-          xAxis={xAxis} yAxis={yAxis} onXAxisSelected={(e) => setxAxis(e.target.value)}
+          xAxis={xAxis} yAxis={yAxis} onXAxisSelected={(e) => setXAxis(e.target.value)}
           onYAxisSelected={(e) => setYAxis(e.target.value)}
         />
 
@@ -227,10 +231,25 @@ export function StatsViewer(props) {
           parsed={parsed} decks={parsed.filteredDecks} bucketSize={bucketSize}
           sortBy={playerSortBy} invertSort={playerSortInvert}
           onHeaderClick={(e) => {
-            if (playerSortBy === e.target.id) setPlayerSortInvert(!playerSortInvert);
-            else { setPlayerSortInvert(false); setPlayerSortBy(e.target.id); }
+            if (playerSortBy === e.currentTarget.id) setPlayerSortInvert(!playerSortInvert);
+            else { setPlayerSortInvert(false); setPlayerSortBy(e.currentTarget.id); }
           }}
-          handleRowClick={(e) => setSelectedPlayer(e.target.id)}
+          oppSortBy={oppSortBy} oppSortInvert={oppSortInvert}
+          onOppHeaderClick={(e) => {
+            if (oppSortBy === e.currentTarget.id) setOppSortInvert(!oppSortInvert);
+            else { setOppSortInvert(false); setOppSortBy(e.currentTarget.id); }
+          }}
+          playerArchSortBy={playerArchSortBy} playerArchSortInvert={playerArchSortInvert}
+          onPlayerArchHeaderClick={(e) => {
+            if (playerArchSortBy === e.currentTarget.id) setPlayerArchSortInvert(!playerArchSortInvert);
+            else { setPlayerArchSortInvert(false); setPlayerArchSortBy(e.currentTarget.id); }
+          }}
+          playerColorSortBy={playerColorSortBy} playerColorSortInvert={playerColorSortInvert}
+          onPlayerColorHeaderClick={(e) => {
+            if (playerColorSortBy === e.currentTarget.id) setPlayerColorSortInvert(!playerColorSortInvert);
+            else { setPlayerColorSortInvert(false); setPlayerColorSortBy(e.currentTarget.id); }
+          }}
+          handleRowClick={(e) => setSelectedPlayer(e.currentTarget.id)}
           player={selectedPlayer} minGames={minGames}
           onMinGamesSelected={(e) => setMinGames(e.target.value)}
           show={display[5]}

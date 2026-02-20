@@ -316,7 +316,7 @@ function CardWidgetTable(input) {
   ]
 
 
-  let win_table_headers = [
+  let winTableHeaders = [
     {
       id: "colors",
       text: "Color Identity",
@@ -359,7 +359,7 @@ function CardWidgetTable(input) {
     },
   ]
 
-  let vs_arch_table_headers = [
+  let vsArchTableHeaders = [
     {
       id: "colors",
       text: "Color Identity",
@@ -392,7 +392,7 @@ function CardWidgetTable(input) {
     },
   ]
 
-  let by_arch_table_headers = [
+  let byArchTableHeaders = [
     {
       id: "colors",
       text: "Color Identity",
@@ -511,7 +511,7 @@ function CardWidgetTable(input) {
           <thead className="table-header">
             <tr>
             {
-              win_table_headers.map(function(hdr, i) {
+              winTableHeaders.map(function(hdr, i) {
                 return (
                   <OverlayTrigger
                     key={i}
@@ -585,7 +585,7 @@ function CardWidgetTable(input) {
           <thead className="table-header">
             <tr>
             {
-              vs_arch_table_headers.map(function(hdr, i) {
+              vsArchTableHeaders.map(function(hdr, i) {
                 return (
                   <OverlayTrigger
                     key={i}
@@ -656,7 +656,7 @@ function CardWidgetTable(input) {
           <thead className="table-header">
             <tr>
             {
-              by_arch_table_headers.map(function(hdr, i) {
+              byArchTableHeaders.map(function(hdr, i) {
                 return (
                   <OverlayTrigger
                     key={i}
@@ -1278,7 +1278,7 @@ function getValue(axis, card, archetypeData, playerData, decks, draftData) {
     case ManaValueOption:
       return card.cmc
     case NumPlayersOption:
-      return Object.entries(card.players).size
+      return Object.entries(card.players).length
     case ExpectedWinPercentOption:
       return card.expected_win_percent
     case NumTrophiesOption:
