@@ -8,6 +8,7 @@ import { SortFunc, StringToColor, CheckboxesToColors, IsBasicLand } from "../uti
 import { CardMatches, DeckMatches } from "../utils/Query.js"
 import { ColorImages } from "../utils/Colors.js"
 import { Button, TextInput, DropdownHeader, NumericInput, Checkbox, DateSelector } from "../components/Dropdown.js"
+import { PillSearchInput } from "../components/PillSearchInput.js"
 import { InitialDates } from "../components/StatsUI.js"
 import { ColorPickerHeader } from "./Types.js"
 import ReactMarkdown from "react-markdown";
@@ -300,10 +301,9 @@ export function DeckViewer(props) {
         </div>
 
         <div className="search-group">
-          <TextInput
+          <PillSearchInput
             label="Search"
             placeholder="Search cards (e.g. color:ug, cmc<3, t:creature)"
-            big={true}
             value={typingStr}
             onChange={(e) => setTypingStr(e.target.value)}
           />

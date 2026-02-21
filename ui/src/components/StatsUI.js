@@ -1,5 +1,7 @@
 import React from 'react';
 import { Button, TextInput, NumericInput, DateSelector } from "../components/Dropdown.js";
+import { PillSearchInput } from "../components/PillSearchInput.js";
+
 export function SelectorBar(input) {
   return (
     <div className="selectorbar">
@@ -13,7 +15,12 @@ export function SelectorBar(input) {
       </div>
 
       <div className="search-group">
-        <TextInput label="Search" placeholder="Search cards (e.g. color:ug, cmc<3, t:creature)" big={true} value={input.matchStr} onChange={input.onMatchUpdated} />
+        <PillSearchInput
+          label="Search"
+          placeholder="Search cards (e.g. color:ug, cmc<3, t:creature)"
+          value={input.matchStr}
+          onChange={input.onMatchUpdated}
+        />
       </div>
 
       <div className="navigation-group">

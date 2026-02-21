@@ -17,7 +17,7 @@ export const QueryTerms = [
 ]
 
 export const QueryTermMetadata = [
-  { term: "color", description: "Card color", operators: [":", "=", "!="], valueType: "color", example: "color:ug" },
+  { term: "color", description: "Card color", operators: [":", "=", "!="], valueType: "color", example: "color:ug", values: ["w", "u", "b", "r", "g"] },
   { term: "cmc", description: "Mana value", operators: ["<", ">", "="], valueType: "number", example: "cmc<3" },
   { term: "t", description: "Card type", operators: [":"], valueType: "text", example: "t:creature" },
   { term: "o", description: "Oracle text", operators: [":"], valueType: "text", example: "o:flying" },
@@ -215,7 +215,7 @@ export function DeckMatches(deck, matchStr, mbsb) {
   return false
 }
 
-function parseTerms(matchStr) {
+export function parseTerms(matchStr) {
   // Split the string into terms. A term ends at a space, unless the space is inside quotes.
   let terms = []
   let currentTerm = ""
@@ -240,7 +240,7 @@ function parseTerms(matchStr) {
 }
 
 // returns true if this is a proper term query match, and false otherwise.
-function isTermQuery(matchStr) {
+export function isTermQuery(matchStr) {
   // Split the string. If any of the criteria are query terms, return true.
   let splits = matchStr.split(" ")
   for (let term of splits) {
