@@ -155,7 +155,7 @@ export function ArchetypeWidget(input) {
 }
 
 function ArchetypeStatsTable(input) {
-  let archetypes = input.parsed.archetype_data
+  let archetypes = input.parsed.archetypeData
   let data = []
   for (let arch of archetypes.values()) {
     if (arch.build_percent >= watermark) {
@@ -384,7 +384,7 @@ function TopCardsInArchetypeWidget(input) {
 
   // Get all cards that are currently active.
   let data = input.cardData
-  let archetypes = input.parsed.archetype_data
+  let archetypes = input.parsed.archetypeData
 
   // Filter out cards that don't match the given archetype, or don't meet minimum
   // requirements.
@@ -507,7 +507,7 @@ function TopCardsInArchetypeWidget(input) {
 
 function ArchetypeDetailsPanel(input) {
   // Get the archetype data for the selected archetype.
-  let archetypeData = input.parsed.archetype_data
+  let archetypeData = input.parsed.archetypeData
   let sharedData = []
   let playerData = []
   let arch = archetypeData.get(input.selectedArchetype)
@@ -688,7 +688,7 @@ function MicroArchetypesChart(input) {
   // criteria, in order to de-clutter the plots. Use aggregate data across all buckets
   // to determine the play rate, and delete any archetypes that don't meet the criteria
   // before doing per-bucket analysis below.
-  input.parsed.archetype_data.forEach((data, arch) => {
+  input.parsed.archetypeData.forEach((data, arch) => {
     if (data.build_percent <= watermark) {
       archSet.delete(arch)
     }
@@ -702,7 +702,7 @@ function MicroArchetypesChart(input) {
   }
 
   for (let bucket of input.parsed.deckBuckets) {
-    let stats = bucket.archetype_data
+    let stats = bucket.archetypeData
     for (let archetype of archs) {
       let archetypeStats = stats.get(archetype)
       if (archetypeStats == null) {
@@ -792,7 +792,7 @@ function MacroArchetypesChart(input) {
     datasets.set(arch, [])
   }
   for (let bucket of input.parsed.deckBuckets) {
-    let stats = bucket.archetype_data
+    let stats = bucket.archetypeData
     for (let archetype of archs) {
       let archetypeStats = stats.get(archetype)
       if (archetypeStats == null) {
@@ -884,7 +884,7 @@ function MacroArchetypesChart(input) {
 }
 
 function MacroArchetypesPieChart(input) {
-  let stats = input.parsed.archetype_data
+  let stats = input.parsed.archetypeData
 
   let title = `Decks`
   let graphData = [

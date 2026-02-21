@@ -188,7 +188,7 @@ export function AllPicksFromLog(log) {
   let burns = new Array()
 
   // First, get cards that were picked.
-  for (var packNum = 0; pack_num < packInfo.packs; packNum++) {
+  for (var packNum = 0; packNum < packInfo.packs; packNum++) {
     for (var pickNum = 0; pickNum < packInfo.picks; pickNum++) {
       for (var i in allPlayers) {
         let player = allPlayers[i]

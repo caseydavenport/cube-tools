@@ -226,8 +226,8 @@ export function useStatsData(filters, props, refresh) {
     if (filterByColor || props.matchStr) {
       const pd = PlayerData(filteredDecks);
       for (let d of pd.values()) {
-        d.archetype_stats = ArchetypeData(d.decks);
-        d.color_stats = GetColorStats(d.decks, filters.strictColors);
+        d.archetypeData = ArchetypeData(d.decks);
+        d.colorStats = GetColorStats(d.decks, filters.strictColors);
       }
       return pd;
     }
@@ -240,8 +240,8 @@ export function useStatsData(filters, props, refresh) {
     for (let b of db) {
       let bucketDecks = [];
       for (let draft of b) bucketDecks = bucketDecks.concat(draft.decks);
-      b.archetype_data = ArchetypeData(bucket_decks);
-      b.player_data = PlayerData(bucket_decks);
+      b.archetypeData = ArchetypeData(bucketDecks);
+      b.playerData = PlayerData(bucketDecks);
     }
     return db;
   }, [filteredDecks, bucketSize]);

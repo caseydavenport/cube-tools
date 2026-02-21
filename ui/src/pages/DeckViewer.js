@@ -474,10 +474,10 @@ function DeckTableCell(input) {
 
 // MainDisplay prints out the given deck.
 function MainDisplay(input) {
-  if (input.comparison_decks.size > 1) {
+  if (input.comparisonDecks && input.comparisonDecks.size > 1) {
     return compareDecks(input);
   }
-  if (input.view_mode === "Images") {
+  if (input.viewMode === "Images") {
     return displayDeckImages(input);
   }
   return displayDeck(input);
@@ -486,7 +486,7 @@ function MainDisplay(input) {
 function compareDecks(input) {
   // Build a set of cards that are common across all input decks.
   let allCards = new Map()
-  for (let deck of input.comparison_decks.values()) {
+  for (let deck of input.comparisonDecks.values()) {
     let cards = deck.mainboard
     if (input.mbsb == "Sideboard") {
       cards = deck.sideboard
@@ -512,7 +512,7 @@ function compareDecks(input) {
   // Build a list of cards that are in all decks.
   let allCardsList = new Array()
   for (let entry of allCards.values()) {
-    if (entry.decks.size == input.comparison_decks.size) {
+    if (entry.decks.size == input.comparisonDecks.size) {
       allCardsList.push(entry.card)
     }
   }
@@ -522,12 +522,12 @@ function compareDecks(input) {
   return (
     <div className="deck-view">
       <div className="flexhouse">
-        <CardList player={player} cards={allCardsList} sb={input.mbsb == "Sideboard"} opts={{cmc: 0}} matchStr={input.match_str} />
-        <CardList player={player} cards={allCardsList} sb={input.mbsb == "Sideboard"} opts={{cmc: 1}} matchStr={input.match_str} />
-        <CardList player={player} cards={allCardsList} sb={input.mbsb == "Sideboard"} opts={{cmc: 2}} matchStr={input.match_str} />
-        <CardList player={player} cards={allCardsList} sb={input.mbsb == "Sideboard"} opts={{cmc: 3}} matchStr={input.match_str} />
-        <CardList player={player} cards={allCardsList} sb={input.mbsb == "Sideboard"} opts={{cmc: 4}} matchStr={input.match_str} />
-        <CardList player={player} cards={allCardsList} sb={input.mbsb == "Sideboard"} opts={{cmc: 5, gt: true}} matchStr={input.match_str} />
+        <CardList player={player} cards={allCardsList} sb={input.mbsb == "Sideboard"} opts={{cmc: 0}} matchStr={input.matchStr} />
+        <CardList player={player} cards={allCardsList} sb={input.mbsb == "Sideboard"} opts={{cmc: 1}} matchStr={input.matchStr} />
+        <CardList player={player} cards={allCardsList} sb={input.mbsb == "Sideboard"} opts={{cmc: 2}} matchStr={input.matchStr} />
+        <CardList player={player} cards={allCardsList} sb={input.mbsb == "Sideboard"} opts={{cmc: 3}} matchStr={input.matchStr} />
+        <CardList player={player} cards={allCardsList} sb={input.mbsb == "Sideboard"} opts={{cmc: 4}} matchStr={input.matchStr} />
+        <CardList player={player} cards={allCardsList} sb={input.mbsb == "Sideboard"} opts={{cmc: 5, gt: true}} matchStr={input.matchStr} />
       </div>
     </div>
   );
@@ -563,15 +563,15 @@ function displayDeckImages(input) {
     <div className="deck-view">
       <PlayerFrame {...input} />
       <div className="deck-images-columns">
-        <CardImagesList cards={cards} deck={deck} sb={input.mbsb == "Sideboard"} opts={{cmc: 0}} matchStr={input.match_str} />
-        <CardImagesList cards={cards} deck={deck} sb={input.mbsb == "Sideboard"} opts={{cmc: 1}} matchStr={input.match_str} />
-        <CardImagesList cards={cards} deck={deck} sb={input.mbsb == "Sideboard"} opts={{cmc: 2}} matchStr={input.match_str} />
-        <CardImagesList cards={cards} deck={deck} sb={input.mbsb == "Sideboard"} opts={{cmc: 3}} matchStr={input.match_str} />
-        <CardImagesList cards={cards} deck={deck} sb={input.mbsb == "Sideboard"} opts={{cmc: 4}} matchStr={input.match_str} />
-        <CardImagesList cards={cards} deck={deck} sb={input.mbsb == "Sideboard"} opts={{cmc: 5, gt: true}} matchStr={input.match_str} />
-        <CardImagesList cards={cards} deck={deck} sb={input.mbsb == "Sideboard"} matchStr={input.match_str} basicsOnly={true} />
+        <CardImagesList cards={cards} deck={deck} sb={input.mbsb == "Sideboard"} opts={{cmc: 0}} matchStr={input.matchStr} />
+        <CardImagesList cards={cards} deck={deck} sb={input.mbsb == "Sideboard"} opts={{cmc: 1}} matchStr={input.matchStr} />
+        <CardImagesList cards={cards} deck={deck} sb={input.mbsb == "Sideboard"} opts={{cmc: 2}} matchStr={input.matchStr} />
+        <CardImagesList cards={cards} deck={deck} sb={input.mbsb == "Sideboard"} opts={{cmc: 3}} matchStr={input.matchStr} />
+        <CardImagesList cards={cards} deck={deck} sb={input.mbsb == "Sideboard"} opts={{cmc: 4}} matchStr={input.matchStr} />
+        <CardImagesList cards={cards} deck={deck} sb={input.mbsb == "Sideboard"} opts={{cmc: 5, gt: true}} matchStr={input.matchStr} />
+        <CardImagesList cards={cards} deck={deck} sb={input.mbsb == "Sideboard"} matchStr={input.matchStr} basicsOnly={true} />
       </div>
-      <DeckReport player={deck.player} cardMap={cardMap} description={input.description} onDescriptionFetched={input.on_description_fetched} deck={deck} />
+      <DeckReport player={deck.player} cardMap={cardMap} description={input.description} onDescriptionFetched={input.onDescriptionFetched} deck={deck} />
     </div>
   );
 }
@@ -706,14 +706,14 @@ function displayDeck(input) {
     <div className="deck-view">
       <PlayerFrame {...input} />
       <div className="flexhouse">
-        <CardList player={deck.player} cards={cards} deck={deck} sb={input.mbsb == "Sideboard"} opts={{cmc: 0}} matchStr={input.match_str} />
-        <CardList player={deck.player} cards={cards} deck={deck} sb={input.mbsb == "Sideboard"} opts={{cmc: 1}} matchStr={input.match_str} />
-        <CardList player={deck.player} cards={cards} deck={deck} sb={input.mbsb == "Sideboard"} opts={{cmc: 2}} matchStr={input.match_str} />
-        <CardList player={deck.player} cards={cards} deck={deck} sb={input.mbsb == "Sideboard"} opts={{cmc: 3}} matchStr={input.match_str} />
-        <CardList player={deck.player} cards={cards} deck={deck} sb={input.mbsb == "Sideboard"} opts={{cmc: 4}} matchStr={input.match_str} />
-        <CardList player={deck.player} cards={cards} deck={deck} sb={input.mbsb == "Sideboard"} opts={{cmc: 5, gt: true}} matchStr={input.match_str} />
+        <CardList player={deck.player} cards={cards} deck={deck} sb={input.mbsb == "Sideboard"} opts={{cmc: 0}} matchStr={input.matchStr} />
+        <CardList player={deck.player} cards={cards} deck={deck} sb={input.mbsb == "Sideboard"} opts={{cmc: 1}} matchStr={input.matchStr} />
+        <CardList player={deck.player} cards={cards} deck={deck} sb={input.mbsb == "Sideboard"} opts={{cmc: 2}} matchStr={input.matchStr} />
+        <CardList player={deck.player} cards={cards} deck={deck} sb={input.mbsb == "Sideboard"} opts={{cmc: 3}} matchStr={input.matchStr} />
+        <CardList player={deck.player} cards={cards} deck={deck} sb={input.mbsb == "Sideboard"} opts={{cmc: 4}} matchStr={input.matchStr} />
+        <CardList player={deck.player} cards={cards} deck={deck} sb={input.mbsb == "Sideboard"} opts={{cmc: 5, gt: true}} matchStr={input.matchStr} />
       </div>
-      <DeckReport player={deck.player} cardMap={cardMap} description={input.description} onDescriptionFetched={input.on_description_fetched} deck={deck} />
+      <DeckReport player={deck.player} cardMap={cardMap} description={input.description} onDescriptionFetched={input.onDescriptionFetched} deck={deck} />
     </div>
   );
 }
