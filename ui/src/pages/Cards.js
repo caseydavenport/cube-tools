@@ -1,6 +1,7 @@
 import React from 'react'
 import { IsBasicLand, SortFunc } from "../utils/Utils.js"
 import { DropdownHeader, NumericInput, Checkbox, DateSelector } from "../components/Dropdown.js"
+import { PillSearchInput } from "../components/PillSearchInput.js"
 import { Wins, Losses } from "../utils/Deck.js"
 import { ApplyTooltip } from "../utils/Tooltip.js"
 import { ColorImages } from "../utils/Colors.js"
@@ -117,7 +118,7 @@ const matchOpts = [
     if (input.manaValue >=0 && card.cmc != input.manaValue) {
       return true
     }
-    if (input.matchStr != "" && !CardMatches(card, input.matchStr, true)) {
+    if (input.localMatchStr != "" && !CardMatches(card, input.localMatchStr, true)) {
       return true
     }
 
@@ -733,43 +734,57 @@ function CardWidgetOptions(input) {
   }
 
   return (
-    <div className="selector-group" style={{"padding": "1rem", "marginBottom": "1rem", "justifyContent": "center"}}>
-      <div className="selection-cell" style={{"fontWeight": "bold", "color": "var(--primary)"}}>
-        Showing {num} cards
+    <div className="flex-column-gap" style={{marginBottom: '1.5rem'}}>
+      <div className="selector-group" style={{"padding": "1.5rem", "background": "var(--card-background)", "borderRadius": "12px", "border": "1px solid var(--border)", "display": "flex", "flexDirection": "column", "alignItems": "stretch", "gap": "1.5rem"}}>
+        <div style={{width: '100%'}}>
+          <PillSearchInput
+            label="Filter Cards"
+            placeholder="Search visible cards (e.g. name:bolt, t:creature)"
+            value={input.localMatchStr}
+            onChange={input.onLocalMatchUpdated}
+            cardNames={input.cardNames}
+          />
+        </div>
+
+        <div className="selector-group" style={{justifyContent: 'flex-start', flexWrap: 'wrap', gap: '1rem'}}>
+          <div className="selection-cell" style={{"fontWeight": "bold", "color": "var(--primary)", "minWidth": "120px"}}>
+            Showing {num} cards
+          </div>
+
+          <DropdownHeader
+            label="Stats type"
+            options={input.cardWidgetOpts}
+            value={input.dropdownSelection}
+            onChange={input.onSelected}
+          />
+
+          <DropdownHeader
+            label="Match"
+            options={input.matchOpts}
+            value={input.cardFilter}
+            onChange={input.onCardFilterSelected}
+          />
+
+          <DropdownHeader
+            label="Color"
+            options={input.colorWidgetOpts}
+            value={input.colorSelection}
+            onChange={input.onColorSelected}
+          />
+
+          <NumericInput
+            label="Min drafts"
+            value={input.minDrafts}
+            onChange={input.onMinDraftsSelected}
+          />
+
+          <NumericInput
+            label="Min games"
+            value={input.minGames}
+            onChange={input.onMinGamesSelected}
+          />
+        </div>
       </div>
-
-      <DropdownHeader
-        label="Stats type"
-        options={input.cardWidgetOpts}
-        value={input.dropdownSelection}
-        onChange={input.onSelected}
-      />
-
-      <DropdownHeader
-        label="Match"
-        options={input.matchOpts}
-        value={input.cardFilter}
-        onChange={input.onCardFilterSelected}
-      />
-
-      <DropdownHeader
-        label="Color"
-        options={input.colorWidgetOpts}
-        value={input.colorSelection}
-        onChange={input.onColorSelected}
-      />
-
-      <NumericInput
-        label="Min drafts"
-        value={input.minDrafts}
-        onChange={input.onMinDraftsSelected}
-      />
-
-      <NumericInput
-        label="Min games"
-        value={input.minGames}
-        onChange={input.onMinGamesSelected}
-      />
     </div>
   );
 }

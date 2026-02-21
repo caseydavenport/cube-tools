@@ -192,7 +192,7 @@ export function DeckMatches(deck, matchStr, mbsb) {
     for (let term of splits) {
       const meta = QueryTermMetadata.find(m => {
         // Match term name followed by an operator.
-        const ops = [":", "=", "!=", "<", ">"]
+        const ops = ["!=", ":", "=", "<", ">"]
         for (const op of ops) {
           if (term.startsWith(m.term + op)) return true;
         }
@@ -262,7 +262,6 @@ export function DeckMatches(deck, matchStr, mbsb) {
   // then the deck must have at least minCards matching those terms.
   if (cardTerms.length > 0) {
     let minCards = minRequiredCardMatches(matchStr) || 1
-    let matchCount = 0
     
     let cards = []
     if (mbsb == "Mainboard") cards = deck.mainboard;
@@ -271,13 +270,32 @@ export function DeckMatches(deck, matchStr, mbsb) {
       cards = (deck.mainboard || []).concat(deck.sideboard || []).concat(deck.pool || [])
     }
 
-    for (let card of cards) {
-      if (CardMatches(card, cardTerms.join(" "), true)) {
-        matchCount++
-        if (matchCount >= minCards) return true;
+    // Every cardTerm must be satisfied by at least one card in the deck.
+    // (This allows queries like "name:bolt name:fire" to find decks with both).
+    for (let term of cardTerms) {
+      let matched = false;
+      for (let card of cards) {
+        if (CardMatches(card, term, true)) {
+          matched = true;
+          break;
+        }
       }
+      if (!matched) return false;
     }
-    return false;
+
+    // Additionally, if minCards is specified, we must ensure at least that many
+    // cards match the *entire* set of cardTerms (the old behavior for minCards).
+    if (minCards > 1) {
+      let matchCount = 0
+      for (let card of cards) {
+        if (CardMatches(card, cardTerms.join(" "), true)) {
+          matchCount++
+        }
+      }
+      if (matchCount < minCards) return false;
+    }
+
+    return true;
   }
 
   // If no card terms, the deck matched based on deck terms alone.
@@ -310,8 +328,9 @@ export function parseTerms(matchStr) {
 
 // returns true if this is a proper term query match, and false otherwise.
 export function isTermQuery(matchStr) {
+  if (!matchStr) return false;
   // Split the string. If any of the criteria are query terms, return true.
-  let splits = matchStr.split(" ")
+  let splits = parseTerms(matchStr)
   for (let term of splits) {
     for (let qt of QueryTerms) {
       if (term.startsWith(qt) && (term.includes("<") || term.includes(">") || term.includes("=") || term.includes(":"))) {

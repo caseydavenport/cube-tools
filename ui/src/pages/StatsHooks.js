@@ -11,7 +11,6 @@ import { CheckboxesToColors } from "../utils/Utils.js";
 
 export function useStatsFilters() {
   const [bucketSize, setBucketSize] = useState(5);
-  const [playerMatch, setPlayerMatch] = useState("");
   const [minDraftSize, setMinDraftSize] = useState(0);
   const [manaValue, setManaValue] = useState(-1);
   const [selectedBucket, setSelectedBucket] = useState("ALL");
@@ -58,7 +57,6 @@ export function useStatsFilters() {
 
   return {
     bucketSize, setBucketSize,
-    playerMatch, setPlayerMatch,
     minDraftSize, setMinDraftSize,
     manaValue, setManaValue,
     selectedBucket, setSelectedBucket,
@@ -120,49 +118,49 @@ export function useStatsData(filters, props, refresh) {
 
   const { startDate, endDate } = props;
   const { 
-    minDraftSize, playerMatch, cardWidgetColorSelection, minDrafts, 
+    minDraftSize, cardWidgetColorSelection, minDrafts, 
     minGames, bucketSize, strictColors, minSynergyDecks 
   } = filters;
 
   // Initial Load
   useEffect(() => {
     Promise.all([
-      LoadDecks(setDecks, startDate, endDate, minDraftSize, playerMatch),
+      LoadDecks(setDecks, startDate, endDate, minDraftSize, "", props.matchStr),
       LoadDrafts(setDrafts, startDate, endDate),
       LoadCube(setCube),
-      LoadArchetypeData(setArchetypeMatchups, startDate, endDate, minDraftSize, playerMatch),
+      LoadArchetypeData(setArchetypeMatchups, startDate, endDate, minDraftSize, "", props.matchStr),
     ]);
-  }, [refresh, startDate, endDate, minDraftSize, playerMatch]);
+  }, [refresh, startDate, endDate, minDraftSize, props.matchStr]);
 
   // Card Data
   useEffect(() => {
-    fetch(`/api/stats/cards?color=${cardWidgetColorSelection}&min_drafts=${minDrafts}&min_games=${minGames}&start=${startDate}&end=${endDate}&size=${minDraftSize}&player=${playerMatch}`)
+    fetch(`/api/stats/cards?color=${cardWidgetColorSelection}&min_drafts=${minDrafts}&min_games=${minGames}&start=${startDate}&end=${endDate}&size=${minDraftSize}&match=${encodeURIComponent(props.matchStr || "")}`)
       .then(r => r.json())
       .then(d => setCardData(new Map(Object.entries(d.all.data))));
-  }, [cardWidgetColorSelection, minDrafts, minGames, startDate, endDate, minDraftSize, playerMatch, refresh]);
+  }, [cardWidgetColorSelection, minDrafts, minGames, startDate, endDate, minDraftSize, props.matchStr, refresh]);
 
   useEffect(() => {
-    fetch(`/api/stats/cards?color=${cardWidgetColorSelection}&min_drafts=${minDrafts}&min_games=${minGames}&bucket_size=${bucketSize}&sliding=true`)
+    fetch(`/api/stats/cards?color=${cardWidgetColorSelection}&min_drafts=${minDrafts}&min_games=${minGames}&bucket_size=${bucketSize}&sliding=true&match=${encodeURIComponent(props.matchStr || "")}`)
       .then(r => r.json())
       .then(d => setCardDataBucketed(Array.from(d.buckets)));
-  }, [cardWidgetColorSelection, minDrafts, minGames, bucketSize, refresh]);
+  }, [cardWidgetColorSelection, minDrafts, minGames, bucketSize, props.matchStr, refresh]);
 
   // Color Data
   useEffect(() => {
-    fetch(`/api/stats/colors?start=${startDate}&end=${endDate}&size=${minDraftSize}&player=${playerMatch}&strict_colors=${strictColors}`)
+    fetch(`/api/stats/colors?start=${startDate}&end=${endDate}&size=${minDraftSize}&strict_colors=${strictColors}&match=${encodeURIComponent(props.matchStr || "")}`)
       .then(r => r.json())
       .then(d => setColorData(new Map(Object.entries(d.all.data))));
-  }, [strictColors, startDate, endDate, minDraftSize, playerMatch, refresh]);
+  }, [strictColors, startDate, endDate, minDraftSize, props.matchStr, refresh]);
 
   useEffect(() => {
-    fetch(`/api/stats/colors?start=${startDate}&end=${endDate}&size=${minDraftSize}&player=${playerMatch}&strict_colors=${strictColors}&bucket_size=${bucketSize}&sliding=true`)
+    fetch(`/api/stats/colors?start=${startDate}&end=${endDate}&size=${minDraftSize}&strict_colors=${strictColors}&bucket_size=${bucketSize}&sliding=true&match=${encodeURIComponent(props.matchStr || "")}`)
       .then(r => r.json())
       .then(d => setColorDataBucketed(Array.from(d.buckets)));
-  }, [strictColors, bucketSize, startDate, endDate, minDraftSize, playerMatch, refresh]);
+  }, [strictColors, bucketSize, startDate, endDate, minDraftSize, props.matchStr, refresh]);
 
   // Archetype & Player Stats (Aggregated)
   useEffect(() => {
-    fetch(`/api/stats/archetypes?start=${startDate}&end=${endDate}&size=${minDraftSize}&player=${playerMatch}`)
+    fetch(`/api/stats/archetypes?start=${startDate}&end=${endDate}&size=${minDraftSize}&match=${encodeURIComponent(props.matchStr || "")}`)
       .then(r => r.json())
       .then(d => {
         const archetypes = new Map();
@@ -176,7 +174,7 @@ export function useStatsData(filters, props, refresh) {
         setArchetypeStats(archetypes);
       });
 
-    fetch(`/api/stats/players?start=${startDate}&end=${endDate}&size=${minDraftSize}&player=${playerMatch}`)
+    fetch(`/api/stats/players?start=${startDate}&end=${endDate}&size=${minDraftSize}&match=${encodeURIComponent(props.matchStr || "")}`)
       .then(r => r.json())
       .then(d => {
         const players = new Map();
@@ -190,21 +188,21 @@ export function useStatsData(filters, props, refresh) {
         }
         setPlayerStats(players);
       });
-  }, [startDate, endDate, minDraftSize, playerMatch, refresh]);
+  }, [startDate, endDate, minDraftSize, props.matchStr, refresh]);
 
   // Synergy Data
   useEffect(() => {
-    fetch(`/api/stats/synergy?min_decks=${minSynergyDecks}&start=${startDate}&end=${endDate}&size=${minDraftSize}&player=${playerMatch}`)
+    fetch(`/api/stats/synergy?min_decks=${minSynergyDecks}&start=${startDate}&end=${endDate}&size=${minDraftSize}&match=${encodeURIComponent(props.matchStr || "")}`)
       .then(r => r.json())
       .then(d => setSynergyData(d));
-  }, [minSynergyDecks, minDraftSize, playerMatch, startDate, endDate, refresh]);
+  }, [minSynergyDecks, minDraftSize, startDate, endDate, props.matchStr, refresh]);
 
   // Derived Data
   const filteredDecks = useMemo(() => {
     if (decks.length === 0) return [];
     let filterByColor = filters.colorCheckboxes.some(e => e);
     return decks.filter(deck => {
-      if (props.matchStr && !DeckMatches(deck, props.matchStr, "Mainboard")) return false;
+      // Decks are already filtered by props.matchStr on the server.
       if (filterByColor) {
         let enabledColors = CheckboxesToColors(filters.colorCheckboxes);
         for (let color of enabledColors) {
@@ -213,7 +211,7 @@ export function useStatsData(filters, props, refresh) {
       }
       return true;
     });
-  }, [decks, filters.colorCheckboxes, props.matchStr, refresh]);
+  }, [decks, filters.colorCheckboxes, refresh]);
 
   const archetypeData = useMemo(() => {
     let filterByColor = filters.colorCheckboxes.some(e => e);
@@ -246,7 +244,7 @@ export function useStatsData(filters, props, refresh) {
     return db;
   }, [filteredDecks, bucketSize]);
 
-  const pickInfo = useMemo(() => AggregatedPickInfo(drafts, cube, playerMatch), [drafts, cube, playerMatch]);
+  const pickInfo = useMemo(() => AggregatedPickInfo(drafts, cube, ""), [drafts, cube]);
 
   const parsed = useMemo(() => ({
     bucketSize, filteredDecks, archetypeData, playerData, pickInfo, colorData, colorDataBucketed, deckBuckets,

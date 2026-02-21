@@ -10,6 +10,7 @@ import (
 	"time"
 
 	"github.com/caseydavenport/cube-tools/pkg/commands"
+	"github.com/caseydavenport/cube-tools/pkg/server/query"
 	"github.com/caseydavenport/cube-tools/pkg/types"
 	"github.com/sirupsen/logrus"
 )
@@ -51,7 +52,36 @@ type DecksRequest struct {
 	Start     string `json:"start,omitempty"`
 	End       string `json:"end,omitempty"`
 	DraftSize int    `json:"size,omitempty"`
+	Match     string `json:"match,omitempty"`
 }
+
+func (d *Deck) GetPlayer() string   { return d.Player }
+func (d *Deck) GetLabels() []string { return d.Labels }
+func (d *Deck) GetDraftSize() int   { return d.DraftSize }
+func (d *Deck) GetMainboard() []types.Card {
+	res := make([]types.Card, len(d.Mainboard))
+	for i, c := range d.Mainboard {
+		res[i] = c
+	}
+	return res
+}
+
+func (d *Deck) GetSideboard() []types.Card {
+	res := make([]types.Card, len(d.Sideboard))
+	for i, c := range d.Sideboard {
+		res[i] = c
+	}
+	return res
+}
+
+func (d *Deck) GetPool() []types.Card {
+	res := make([]types.Card, len(d.Pool))
+	for i, c := range d.Pool {
+		res[i] = c
+	}
+	return res
+}
+func (d *Deck) GetColors() []string { return d.Colors }
 
 type DeckStorage interface {
 	List(*DecksRequest) ([]*Deck, error)
@@ -263,6 +293,11 @@ func filter(decks []*Deck, r *DecksRequest) []*Deck {
 		}
 
 		if r.DraftSize != 0 && d.DraftSize < r.DraftSize {
+			continue
+		}
+
+		// Check the query string.
+		if r.Match != "" && !query.DeckMatches(d, r.Match) {
 			continue
 		}
 

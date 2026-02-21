@@ -11,13 +11,12 @@ export function SelectorBar(input) {
         <DateSelector label="To" id="to" value={input.endDate} onChange={input.onEndSelected} />
         <NumericInput label="Bucket size" value={input.bucketSize} onChange={input.onBucketsChanged} />
         <NumericInput label="Draft size" value={input.minDraftSize} onChange={input.onMinDraftSizeChanged} />
-        <TextInput label="Player" value={input.playerMatch} onChange={input.onPlayerMatchChanged} />
       </div>
 
       <div className="search-group">
         <PillSearchInput
-          label="Search"
-          placeholder="Search cards (e.g. color:ug, cmc<3, t:creature)"
+          label={`Global Deck Filter (${input.parsed.filteredDecks?.length || 0} decks)`}
+          placeholder="Filter decks (e.g. arch:aggro, player:casey, name:firebolt)"
           value={input.matchStr}
           cardNames={input.cardNames}
           playerNames={input.playerNames}
@@ -27,7 +26,7 @@ export function SelectorBar(input) {
       </div>
 
       <div className="navigation-group">
-        <Overview decks={input.parsed.filtered_decks} />
+        <Overview decks={input.parsed.filteredDecks} />
         <div className="nav-buttons">
           <Button text="Colors" checked={input.display[0]} onClick={input.onColorPage} />
           <Button text="Types" checked={input.display[1]} onClick={input.onArchetypePage} />

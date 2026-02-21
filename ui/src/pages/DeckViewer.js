@@ -136,9 +136,9 @@ export function DeckViewer(props) {
   // Start of day load the draft index.
   // This is used to populate the drafts dropdown menu.
   useEffect(() => {
-    LoadDecks(onDecksLoaded, startDate, endDate, 0, "")
+    LoadDecks(onDecksLoaded, startDate, endDate, 0, "", debouncedMatchStr)
     LoadCube(setCube)
-  }, [startDate, endDate]);
+  }, [startDate, endDate, debouncedMatchStr]);
 
   // Handle changes to the draft and deck selection dropdowns.
   function onDeckSelected(event) {
@@ -223,9 +223,7 @@ export function DeckViewer(props) {
         colorIdx++;
       }
 
-      if (debouncedMatchStr == null || debouncedMatchStr === "" || DeckMatches(d, debouncedMatchStr, mainboardSideboard)) {
-        filtered.push(d);
-      }
+      filtered.push(d);
     }
 
     filtered.sort((a, b) => {
@@ -323,7 +321,7 @@ export function DeckViewer(props) {
 
         <div className="search-group">
           <PillSearchInput
-            label="Search"
+            label={`Global Deck Filter (${filteredAndSortedDecks.decks.length} decks)`}
             placeholder="Search cards (e.g. color:ug, cmc<3, t:creature)"
             value={typingStr}
             cardNames={cube.cards.map(c => c.name)}

@@ -16,25 +16,25 @@ type PlayerStatsResponse struct {
 }
 
 type PlayerStats struct {
-	Name               string                    `json:"name"`
-	NumDecks           int                       `json:"num_decks"`
-	Wins               int                       `json:"wins"`
-	Losses             int                       `json:"losses"`
-	Games              int                       `json:"games"`
-	WinPercent         float64                   `json:"win_percent"`
-	LossPercent        float64                   `json:"loss_percent"`
-	Trophies           int                       `json:"trophies"`
-	LastPlace          int                       `json:"last_place"`
-	OpponentWinPercent float64                   `json:"opponent_win_percentage"`
-	WhitePercent       float64                   `json:"white_percent"`
-	BluePercent        float64                   `json:"blue_percent"`
-	BlackPercent       float64                   `json:"black_percent"`
-	RedPercent         float64                   `json:"red_percent"`
-	GreenPercent       float64                   `json:"green_percent"`
-	Uniqueness         float64                   `json:"uniqueness"`
-	TotalPicks         int                       `json:"total_picks"`
-	UniqueCards        map[string]int            `json:"unique_cards"`
-	ColorPicks         map[string]int            `json:"color_picks"`
+	Name               string                   `json:"name"`
+	NumDecks           int                      `json:"num_decks"`
+	Wins               int                      `json:"wins"`
+	Losses             int                      `json:"losses"`
+	Games              int                      `json:"games"`
+	WinPercent         float64                  `json:"win_percent"`
+	LossPercent        float64                  `json:"loss_percent"`
+	Trophies           int                      `json:"trophies"`
+	LastPlace          int                      `json:"last_place"`
+	OpponentWinPercent float64                  `json:"opponent_win_percentage"`
+	WhitePercent       float64                  `json:"white_percent"`
+	BluePercent        float64                  `json:"blue_percent"`
+	BlackPercent       float64                  `json:"black_percent"`
+	RedPercent         float64                  `json:"red_percent"`
+	GreenPercent       float64                  `json:"green_percent"`
+	Uniqueness         float64                  `json:"uniqueness"`
+	TotalPicks         int                      `json:"total_picks"`
+	UniqueCards        map[string]int           `json:"unique_cards"`
+	ColorPicks         map[string]int           `json:"color_picks"`
 	ArchetypeStats     map[string]*winLossStats `json:"archetype_stats"`
 	ColorStats         map[string]*winLossStats `json:"color_stats"`
 }
@@ -100,9 +100,9 @@ func (s *playerStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) 
 		}
 
 		// Track color identity win/loss for the player.
-		// Use deck.GetColors() which returns map[string]bool where keys are "W", "U", etc.
+		// Use deck.GetColors() which returns []string.
 		colors := deck.GetColors()
-		for color := range colors {
+		for _, color := range colors {
 			if _, ok := ps.ColorStats[color]; !ok {
 				ps.ColorStats[color] = &winLossStats{}
 			}

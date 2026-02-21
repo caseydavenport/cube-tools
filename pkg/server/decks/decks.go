@@ -60,5 +60,6 @@ func ParseDecksRequest(r *http.Request) *storage.DecksRequest {
 	p.Start = query.GetString(r, "start")
 	p.End = query.GetString(r, "end")
 	p.DraftSize = query.GetInt(r, "size")
+	p.Match = query.GetString(r, "match")
 	return &p
 }

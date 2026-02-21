@@ -14,9 +14,12 @@ export function StatsViewer(props) {
   const [refresh, setRefresh] = useState(1);
   const triggerRefresh = () => setRefresh(prev => prev + 1);
 
-  // Debounce search input so expensive recomputation doesn't run on every keystroke.
+  // Global deck filter (debounced)
   const [typingStr, setTypingStr] = useState(props.matchStr || "");
   const [debouncedMatchStr, setDebouncedMatchStr] = useState(props.matchStr || "");
+
+  // Local card filter (for specific widgets like Cards)
+  const [localMatchStr, setLocalMatchStr] = useState("");
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -139,8 +142,6 @@ export function StatsViewer(props) {
         onBucketsChanged={(e) => setBucketSize(Math.max(1, e.target.value))}
         minDraftSize={minDraftSize}
         onMinDraftSizeChanged={(e) => setMinDraftSize(e.target.value)}
-        playerMatch={playerMatch}
-        onPlayerMatchChanged={(e) => setPlayerMatch(e.target.value)}
         parsed={parsed}
         display={display}
         onColorPage={() => onSubpageClicked(0)}
@@ -215,6 +216,9 @@ export function StatsViewer(props) {
           xAxis={xAxis} yAxis={yAxis} onXAxisSelected={(e) => setXAxis(e.target.value)}
           onYAxisSelected={(e) => setYAxis(e.target.value)}
           show={display[2]}
+          localMatchStr={localMatchStr}
+          onLocalMatchUpdated={(e) => setLocalMatchStr(e.target.value)}
+          cardNames={cube.cards.map(c => c.name)}
         />
 
         <DraftWidget
