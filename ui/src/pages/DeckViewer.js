@@ -1,7 +1,5 @@
-import React from 'react'
-import { useState } from "react";
-import { useEffect } from "react";
-import { LoadDecks, FetchFile, SaveNotes } from "../utils/Fetch.js"
+import React, { useState, useEffect, useMemo } from 'react'
+import { LoadCube, LoadDecks, FetchFile, SaveNotes } from "../utils/Fetch.js"
 import { Record, Wins, Losses, Draws, MatchWins, MatchLosses, MatchDraws, InDeckColor } from "../utils/Deck.js"
 import { RemovalMatches, CounterspellMatches } from "../pages/Decks.js"
 import { SortFunc, StringToColor, CheckboxesToColors, IsBasicLand } from "../utils/Utils.js"
@@ -133,10 +131,13 @@ export function DeckViewer(props) {
     setDescription(f)
   }
 
+  const [cube, setCube] = useState({ "cards": [] });
+
   // Start of day load the draft index.
   // This is used to populate the drafts dropdown menu.
   useEffect(() => {
     LoadDecks(onDecksLoaded, startDate, endDate, 0, "")
+    LoadCube(setCube)
   }, [startDate, endDate]);
 
   // Handle changes to the draft and deck selection dropdowns.
@@ -258,6 +259,26 @@ export function DeckViewer(props) {
     return { decks: filtered, colors: draftToColor };
   }, [decks, draftDropdown, debouncedMatchStr, mainboardSideboard, deckSort]);
 
+  const playerNames = useMemo(() => {
+    let seen = new Set();
+    for (let deck of decks) {
+      if (deck.player) seen.add(deck.player);
+    }
+    return Array.from(seen).sort();
+  }, [decks]);
+
+  const archetypes = useMemo(() => {
+    let seen = new Set();
+    for (let deck of decks) {
+      if (deck.labels) {
+        for (let label of deck.labels) {
+          seen.add(label);
+        }
+      }
+    }
+    return Array.from(seen).sort();
+  }, [decks]);
+
   return (
     <div className="deck-viewer-page">
       <div className="selectorbar" style={{"margin": "1rem"}}>
@@ -305,6 +326,9 @@ export function DeckViewer(props) {
             label="Search"
             placeholder="Search cards (e.g. color:ug, cmc<3, t:creature)"
             value={typingStr}
+            cardNames={cube.cards.map(c => c.name)}
+            playerNames={playerNames}
+            archetypes={archetypes}
             onChange={(e) => setTypingStr(e.target.value)}
           />
         </div>

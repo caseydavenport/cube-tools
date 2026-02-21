@@ -14,12 +14,14 @@ export const QueryTerms = [
   "players",
   "drafts",
   "winpct",
+  "arch",
+  "player",
 ]
 
 export const QueryTermMetadata = [
   { term: "color", description: "Card color", operators: [":", "=", "!="], valueType: "color", example: "color:ug", values: ["w", "u", "b", "r", "g"] },
   { term: "cmc", description: "Mana value", operators: ["<", ">", "="], valueType: "number", example: "cmc<3" },
-  { term: "t", description: "Card type", operators: [":"], valueType: "text", example: "t:creature" },
+  { term: "t", description: "Card type", operators: [":"], valueType: "text", example: "t:creature", values: ["Artifact", "Creature", "Enchantment", "Instant", "Land", "Planeswalker", "Sorcery", "Basic", "Legendary", "Tribal", "World"] },
   { term: "o", description: "Oracle text", operators: [":"], valueType: "text", example: "o:flying" },
   { term: "name", description: "Card name", operators: [":"], valueType: "text", example: "name:bolt" },
   { term: "pow", description: "Power", operators: ["<", ">", "="], valueType: "number", example: "pow>3" },
@@ -29,17 +31,20 @@ export const QueryTermMetadata = [
   { term: "players", description: "Number of drafters", operators: ["<", ">", "=", ":"], valueType: "number", example: "players>2" },
   { term: "drafts", description: "Number of drafts", operators: ["<", ">", "="], valueType: "number", example: "drafts>3" },
   { term: "winpct", description: "Win percentage", operators: ["<", ">", "="], valueType: "number", example: "winpct>50" },
-  { term: "arch", description: "Deck archetype", operators: [":"], valueType: "text", example: "arch:aggro" },
-  { term: "minCards", description: "Min matching cards", operators: [":"], valueType: "number", example: "minCards:3" },
+  { term: "arch", description: "Deck archetype", operators: [":"], valueType: "text", example: "arch:aggro", isDeckOnly: true },
+  { term: "player", description: "Player name", operators: [":"], valueType: "text", example: "player:casey", isDeckOnly: true },
+  { term: "minCards", description: "Min matching cards", operators: [":"], valueType: "number", example: "minCards:3", isDeckOnly: true },
 ]
 
 export function CardMatches(card, matchStr, checkText) {
   if (isTermQuery(matchStr)) {
     // This is a fuzzy match. Split the string and check each term.
     let splits = parseTerms(matchStr)
+    let matchedAnyCardTerm = false
 
     // Check if any oracle terms match.
     if (splits.some(term => term.startsWith("o:"))) {
+      matchedAnyCardTerm = true
       // If there are oracle terms, we need to match at least one of them.
       if (!oraclesMatch(splits, card)) {
         return false
@@ -48,6 +53,7 @@ export function CardMatches(card, matchStr, checkText) {
 
     // Check if any power terms match.
     if (splits.some(term => term.startsWith("pow"))) {
+      matchedAnyCardTerm = true
       // If there are power terms, we need to match at least one of them.
       if (!powersMatch(splits, card)) {
         return false
@@ -56,6 +62,7 @@ export function CardMatches(card, matchStr, checkText) {
 
     // Check if any color terms match.
     if (splits.some(term => isColorTerm(term))) {
+      matchedAnyCardTerm = true
       // If there are color terms, we need to match at least one of them.
       if (!colorsMatch(splits, card)) {
         return false
@@ -64,6 +71,7 @@ export function CardMatches(card, matchStr, checkText) {
 
     // Check if any type terms match.
     if (splits.some(term => isTypeTerm(term))) {
+      matchedAnyCardTerm = true
       // If there are type terms, we need to match at least one of them.
       if (!typesMatch(splits, card)) {
         return false
@@ -72,6 +80,7 @@ export function CardMatches(card, matchStr, checkText) {
 
     // Check if any name terms match.
     if (splits.some(term => isNameTerm(term))) {
+      matchedAnyCardTerm = true
       // If there are name terms, we need to match at least one of them.
       if (!namesMatch(splits, card)) {
         return false
@@ -80,6 +89,7 @@ export function CardMatches(card, matchStr, checkText) {
 
     // Check if the cmc terms match.
     if (splits.some(term => isCMCTerm(term))) {
+      matchedAnyCardTerm = true
       if (!cmcsMatch(splits, card)) {
         return false
       }
@@ -87,6 +97,7 @@ export function CardMatches(card, matchStr, checkText) {
 
     // Check if the # games queries match.
     if (splits.some(term => isGamesTerm(term))) {
+      matchedAnyCardTerm = true
       if (!gamesMatch(splits, card)) {
         return false
       }
@@ -94,6 +105,7 @@ export function CardMatches(card, matchStr, checkText) {
 
     // Check if mainboard queries match.
     if (splits.some(term => isMainboardTerm(term))) {
+      matchedAnyCardTerm = true
       if (!mainboardsMatch(splits, card)) {
         return false
       }
@@ -101,6 +113,7 @@ export function CardMatches(card, matchStr, checkText) {
 
     // Check if sideboard queries match.
     if (splits.some(term => isSideboardTerm(term))) {
+      matchedAnyCardTerm = true
       if (!sideboardsMatch(splits, card)) {
         return false
       }
@@ -109,6 +122,7 @@ export function CardMatches(card, matchStr, checkText) {
 
     // Check if # drafts queries match.
     if (splits.some(term => isDraftsTerm(term))) {
+      matchedAnyCardTerm = true
       if (!draftsTermsMatch(splits, card)) {
         return false
       }
@@ -116,6 +130,7 @@ export function CardMatches(card, matchStr, checkText) {
 
     // Check if the # of players queries match.
     if (splits.some(term => isPlayersTerm(term))) {
+      matchedAnyCardTerm = true
       if (!playersTermsMatch(splits, card)) {
         return false
       }
@@ -123,13 +138,14 @@ export function CardMatches(card, matchStr, checkText) {
 
     // Win percentage queries.
     if (splits.some(term => isWinPercentageTerm(term))) {
+      matchedAnyCardTerm = true
       if (!winPercentagesMatch(splits, card)) {
         return false
       }
     }
 
-    // All terms matched.
-    return true
+    // If we only have deck-only terms (like arch:), we shouldn't highlight cards.
+    return matchedAnyCardTerm
   }
 
   if (card.name.toLowerCase().match(matchStr.toLowerCase())) {
@@ -160,59 +176,70 @@ function minRequiredCardMatches(matchStr) {
 }
 
 export function DeckMatches(deck, matchStr, mbsb) {
-  if (deck.player.toLowerCase().match(matchStr.toLowerCase())) {
-    return true
-  }
+  if (!matchStr) return true;
 
-  for (let label of deck.labels) {
-    if (label.toLowerCase().match(matchStr.toLowerCase())) {
-      return true
-    }
-  }
-
-  // Check deck types.
   let splits = parseTerms(matchStr)
-  if (splits.some(term => isDeckTypeTerm(term))) {
-    if (deckTypesMatch(splits, deck)) {
-      return true
+  let isTerm = isTermQuery(matchStr)
+  
+  let deckTerms = []
+  let cardTerms = []
+  
+  if (isTerm) {
+    for (let term of splits) {
+      const meta = QueryTermMetadata.find(m => term.startsWith(m.term));
+      if (meta && meta.isDeckOnly) {
+        deckTerms.push(term)
+      } else {
+        cardTerms.push(term)
+      }
     }
+  } else {
+    // Fuzzy search: check player name and labels first.
+    const fs = matchStr.toLowerCase()
+    if (deck.player.toLowerCase().includes(fs)) return true;
+    for (let label of deck.labels) {
+      if (label.toLowerCase().includes(fs)) return true;
+    }
+    // If not matched, treat the fuzzy string as a card term.
+    cardTerms.push(matchStr)
   }
-
-
-  let minCards = minRequiredCardMatches(matchStr)
-  let matchCount = 0
-
-  // Check mainboard / sideboard.
-  if (mbsb == "Mainboard") {
-    for (let card of deck.mainboard) {
-      if (CardMatches(card, matchStr, true)) {
-        matchCount++
-        if (matchCount >= minCards) {
-          return true
-        }
-      }
-    }
-  } else if (mbsb == "Sideboard") {
-    for (let card of deck.sideboard) {
-      if (CardMatches(card, matchStr, true)) {
-        matchCount++
-        if (matchCount >= minCards) {
-          return true
-        }
-      }
-    }
-  } else if (deck.pool) {
-    for (let card of deck.pool) {
-      if (CardMatches(card, matchStr, true)) {
-        matchCount++
-        if (matchCount >= minCards) {
-          return true
-        }
+  
+  // 1. All deck terms must match.
+  if (deckTerms.length > 0) {
+    for (let term of deckTerms) {
+      if (isDeckTypeTerm(term)) {
+        if (!deckTypeMatches(term, deck)) return false;
+      } else if (term.startsWith("player:")) {
+        const val = term.replace("player:", "").replace(/"/g, "").toLowerCase()
+        if (!deck.player.toLowerCase().includes(val)) return false;
       }
     }
   }
+  
+  // 2. If there are card terms (or fuzzy search that didn't match metadata),
+  // then the deck must have at least minCards matching those terms.
+  if (cardTerms.length > 0) {
+    let minCards = minRequiredCardMatches(matchStr) || 1
+    let matchCount = 0
+    
+    let cards = []
+    if (mbsb == "Mainboard") cards = deck.mainboard;
+    else if (mbsb == "Sideboard") cards = deck.sideboard;
+    else {
+      cards = (deck.mainboard || []).concat(deck.sideboard || []).concat(deck.pool || [])
+    }
 
-  return false
+    for (let card of cards) {
+      if (CardMatches(card, cardTerms.join(" "), true)) {
+        matchCount++
+        if (matchCount >= minCards) return true;
+      }
+    }
+    return false;
+  }
+
+  // If no card terms, the deck matched based on deck terms alone.
+  return true;
 }
 
 export function parseTerms(matchStr) {

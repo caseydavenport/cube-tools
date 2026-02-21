@@ -107,6 +107,26 @@ export function StatsViewer(props) {
     setDraftPacks(pickOpts);
   };
 
+  const playerNames = useMemo(() => {
+    let seen = new Set();
+    for (let deck of decks) {
+      if (deck.player) seen.add(deck.player);
+    }
+    return Array.from(seen).sort();
+  }, [decks]);
+
+  const archetypes = useMemo(() => {
+    let seen = new Set();
+    for (let deck of decks) {
+      if (deck.labels) {
+        for (let label of deck.labels) {
+          seen.add(label);
+        }
+      }
+    }
+    return Array.from(seen).sort();
+  }, [decks]);
+
   return (
     <div id="root">
       <SelectorBar
@@ -131,6 +151,9 @@ export function StatsViewer(props) {
         onPlayersPage={() => onSubpageClicked(5)}
         onSynergyPage={() => onSubpageClicked(6)}
         matchStr={typingStr}
+        cardNames={cube.cards.map(c => c.name)}
+        playerNames={playerNames}
+        archetypes={archetypes}
         onMatchUpdated={(e) => setTypingStr(e.target.value)}
       />
 

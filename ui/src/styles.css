@@ -672,3 +672,7 @@ table {
   color: var(--danger);
   border-color: var(--danger);
 }
+
+.search-pill-deck {
+  color: var(--secondary);
+}

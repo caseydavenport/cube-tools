@@ -19,6 +19,9 @@ export function SelectorBar(input) {
           label="Search"
           placeholder="Search cards (e.g. color:ug, cmc<3, t:creature)"
           value={input.matchStr}
+          cardNames={input.cardNames}
+          playerNames={input.playerNames}
+          archetypes={input.archetypes}
           onChange={input.onMatchUpdated}
         />
       </div>

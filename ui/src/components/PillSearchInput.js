@@ -2,17 +2,57 @@ import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { parseTerms, isTermQuery, QueryTermMetadata } from '../utils/Query.js';
 
 // Pure helper functions for autocomplete logic
-function computeSuggestions(fragment) {
+function computeSuggestions(fragment, cardNames, playerNames, archetypes) {
   const lower = fragment.toLowerCase();
 
   // Check if we are typing a value for a specific term (e.g., color:)
   for (const meta of QueryTermMetadata) {
     for (const op of meta.operators) {
       const prefix = meta.term + op;
-      if (lower.startsWith(prefix) && meta.values) {
+      if (lower.startsWith(prefix)) {
         const valuePart = lower.substring(prefix.length);
+
+        // Special case for card names when typing 'name:'
+        if (meta.term === "name" && cardNames && cardNames.length > 0) {
+          return cardNames
+            .filter(name => name.toLowerCase().includes(valuePart.toLowerCase()))
+            .slice(0, 10)
+            .map(name => ({
+              term: name.includes(" ") ? `"${name}"` : name,
+              description: "Card Name",
+              isValue: true,
+              prefix: prefix
+            }));
+        }
+
+        // Archetypes when typing 'arch:'
+        if (meta.term === "arch" && archetypes && archetypes.length > 0) {
+          return archetypes
+            .filter(a => a.toLowerCase().includes(valuePart.toLowerCase()))
+            .slice(0, 10)
+            .map(a => ({
+              term: a.includes(" ") ? `"${a}"` : a,
+              description: "Archetype",
+              isValue: true,
+              prefix: prefix
+            }));
+        }
+
+        // Player names when typing 'player:'
+        if (meta.term === "player" && playerNames && playerNames.length > 0) {
+          return playerNames
+            .filter(p => p.toLowerCase().includes(valuePart.toLowerCase()))
+            .slice(0, 10)
+            .map(p => ({
+              term: p.includes(" ") ? `"${p}"` : p,
+              description: "Player Name",
+              isValue: true,
+              prefix: prefix
+            }));
+        }
+        
         // For color, we often want to append more colors, so suggest remaining valid ones.
-        if (meta.term === "color") {
+        if (meta.term === "color" && meta.values) {
           return meta.values
             .filter(v => !valuePart.includes(v))
             .map(v => ({
@@ -22,22 +62,45 @@ function computeSuggestions(fragment) {
               prefix: prefix
             }));
         }
-        // General value suggestions
-        return meta.values
-          .filter(v => v.startsWith(valuePart))
-          .map(v => ({
-            term: v,
-            description: `Value: ${v}`,
-            isValue: true,
-            prefix: prefix
-          }));
+
+        // General value suggestions (e.g., for types)
+        if (meta.values) {
+          return meta.values
+            .filter(v => v.toLowerCase().startsWith(valuePart.toLowerCase()))
+            .map(v => ({
+              term: v,
+              description: `${meta.description}: ${v}`,
+              isValue: true,
+              prefix: prefix
+            }));
+        }
       }
     }
   }
 
-  // If the fragment contains an operator but no predefined values, no suggestions.
+  // If the fragment contains an operator but no predefined values (and isn't special), no suggestions.
   if (lower && QueryTermMetadata.some(m => m.operators.some(op => lower.startsWith(m.term + op)))) {
     return [];
+  }
+
+  // If we have playerNames, suggest those for non-term fragments.
+  let results = [];
+  if (lower) {
+    if (playerNames && playerNames.length > 0) {
+      const matchingPlayers = playerNames
+        .filter(name => name.toLowerCase().includes(lower))
+        .slice(0, 5)
+        .map(name => ({
+          term: name.includes(" ") ? `"${name}"` : name,
+          description: "Player Name",
+          isPlayer: true
+        }));
+      results = results.concat(matchingPlayers);
+    }
+  }
+
+  if (results.length > 0) {
+    return results.slice(0, 12);
   }
 
   // If empty, show all terms.
@@ -69,16 +132,27 @@ function isPillValid(term) {
       const prefix = meta.term + op;
       if (lower.startsWith(prefix)) {
         const value = lower.substring(prefix.length);
-        if (meta.values) {
-          if (meta.term === "color") {
-            // For color, every character must be a valid color code.
-            return value.length > 0 && value.split("").every(c => meta.values.includes(c));
-          }
-          return meta.values.includes(value);
+        
+        // Validation logic depends on the term
+        if (meta.term === "color") {
+          // color: query must be strictly valid
+          return value.length > 0 && value.split("").every(c => meta.values.includes(c));
         }
+
+        if (meta.term === "t" || meta.term === "arch" || meta.term === "player" || meta.term === "name") {
+          // These allow anything, just need a value.
+          return value.length > 0;
+        }
+
+        if (meta.values) {
+          // For other terms with explicit values, check if it's one of them.
+          return meta.values.some(v => v.toLowerCase() === value.toLowerCase());
+        }
+
         if (meta.valueType === "number") {
           return !isNaN(parseInt(value));
         }
+
         return value.length > 0;
       }
     }
@@ -87,7 +161,27 @@ function isPillValid(term) {
   return true;
 }
 
-export function PillSearchInput({ value, onChange, placeholder, label }) {
+function getPillType(term, playerNames) {
+  const lower = term.toLowerCase();
+  for (const meta of QueryTermMetadata) {
+    for (const op of meta.operators) {
+      const prefix = meta.term + op;
+      if (lower.startsWith(prefix)) {
+        if (meta.isDeckOnly) return 'deck';
+        return 'card';
+      }
+    }
+  }
+  
+  // Fuzzy search - if it's a known player name, treat as deck pill.
+  if (playerNames && playerNames.some(p => p.toLowerCase() === lower.replace(/"/g, ""))) {
+    return 'deck';
+  }
+  
+  return 'card';
+}
+
+export function PillSearchInput({ value, onChange, placeholder, label, cardNames, playerNames, archetypes }) {
   const [inputValue, setInputValue] = useState("");
   const [showDropdown, setShowDropdown] = useState(false);
   const [selectedIdx, setSelectedIdx] = useState(0);
@@ -104,7 +198,7 @@ export function PillSearchInput({ value, onChange, placeholder, label }) {
   const currentTyping = isEndsWithSpace ? "" : (terms[terms.length - 1] || "");
 
   // Autocomplete state
-  const suggestions = useMemo(() => computeSuggestions(currentTyping), [currentTyping]);
+  const suggestions = useMemo(() => computeSuggestions(currentTyping, cardNames, playerNames, archetypes), [currentTyping, cardNames, playerNames, archetypes]);
   const helpText = useMemo(() => computeHelpText(currentTyping), [currentTyping]);
 
   // Sync selection index
@@ -134,6 +228,8 @@ export function PillSearchInput({ value, onChange, placeholder, label }) {
     let newVal;
     if (suggestion.isValue) {
       newVal = suggestion.prefix + suggestion.term;
+    } else if (suggestion.isCard || suggestion.isPlayer) {
+      newVal = suggestion.term;
     } else {
       newVal = suggestion.term + suggestion.operators[0];
     }
@@ -142,9 +238,9 @@ export function PillSearchInput({ value, onChange, placeholder, label }) {
 
     onChange({ target: { value: fullString } });
     setInputValue(newVal);
-    // If it was a value suggestion, we might be done or want to add more (for color).
-    // For now, keep dropdown open if it's color so they can add more colors.
-    if (suggestion.prefix === "color:" || suggestion.prefix === "color=" || suggestion.prefix === "color!=") {
+    
+    // If it was a color value suggestion, keep dropdown open so they can add more colors.
+    if (suggestion.prefix && suggestion.prefix.startsWith("color")) {
       setShowDropdown(true);
     } else {
       setShowDropdown(false);
@@ -224,8 +320,13 @@ export function PillSearchInput({ value, onChange, placeholder, label }) {
       <div className="pill-search-container" onClick={focusInput}>
         {pillTerms.map((term, index) => {
           const isValid = isPillValid(term);
+          const type = getPillType(term, playerNames);
+          let pillClass = "search-pill";
+          if (!isValid) pillClass += " search-pill-invalid";
+          else if (type === 'deck') pillClass += " search-pill-deck";
+
           return (
-            <div key={`${term}-${index}`} className={"search-pill" + (isValid ? "" : " search-pill-invalid")}>
+            <div key={`${term}-${index}`} className={pillClass}>
               <span>{term}</span>
               <div className="search-pill-remove" onClick={(e) => {
                 e.stopPropagation();
@@ -253,7 +354,7 @@ export function PillSearchInput({ value, onChange, placeholder, label }) {
             <div className="search-autocomplete-help">{helpText}</div>
           )}
           {suggestions.map((suggestion, idx) => {
-            const termDisplay = suggestion.isValue ? suggestion.term : (suggestion.term + suggestion.operators[0]);
+            const termDisplay = suggestion.isValue ? suggestion.term : (suggestion.term + (suggestion.operators ? suggestion.operators[0] : ""));
             return (
               <div
                 key={idx}
