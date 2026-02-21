@@ -211,6 +211,20 @@ export function PillSearchInput({ value, onChange, placeholder, label, cardNames
     setInputValue(currentTyping);
   }, [currentTyping]);
 
+  // Global keyboard shortcut to focus the input.
+  useEffect(() => {
+    const handleGlobalKeyDown = (e) => {
+      // Ctrl+L (or Meta+L on Mac) to focus the search bar.
+      if ((e.ctrlKey || e.metaKey) && e.key === 'l') {
+        e.preventDefault();
+        focusInput();
+      }
+    };
+
+    window.addEventListener('keydown', handleGlobalKeyDown);
+    return () => window.removeEventListener('keydown', handleGlobalKeyDown);
+  }, []);
+
   const handleInputChange = (e) => {
     const newVal = e.target.value;
     setInputValue(newVal);
