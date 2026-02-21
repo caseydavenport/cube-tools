@@ -13,7 +13,7 @@ export function SelectorBar(input) {
       </div>
 
       <div className="search-group">
-        <TextInput label="Search" placeholder="Search cards (e.g. c:ug, cmc<3, t:creature)" big={true} value={input.matchStr} onChange={input.onMatchUpdated} />
+        <TextInput label="Search" placeholder="Search cards (e.g. color:ug, cmc<3, t:creature)" big={true} value={input.matchStr} onChange={input.onMatchUpdated} />
       </div>
 
       <div className="navigation-group">

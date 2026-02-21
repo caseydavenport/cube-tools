@@ -5,7 +5,7 @@ export const QueryTerms = [
   "pow",
   "name",
   "o",
-  "c",
+  "color",
   "t",
   "cmc",
   "games",
@@ -17,7 +17,7 @@ export const QueryTerms = [
 ]
 
 export const QueryTermMetadata = [
-  { term: "c", description: "Card color", operators: [":", "=", "!="], valueType: "color", example: "c:ug" },
+  { term: "color", description: "Card color", operators: [":", "=", "!="], valueType: "color", example: "color:ug" },
   { term: "cmc", description: "Mana value", operators: ["<", ">", "="], valueType: "number", example: "cmc<3" },
   { term: "t", description: "Card type", operators: [":"], valueType: "text", example: "t:creature" },
   { term: "o", description: "Oracle text", operators: [":"], valueType: "text", example: "o:flying" },
@@ -29,7 +29,7 @@ export const QueryTermMetadata = [
   { term: "players", description: "Number of drafters", operators: ["<", ">", "=", ":"], valueType: "number", example: "players>2" },
   { term: "drafts", description: "Number of drafts", operators: ["<", ">", "="], valueType: "number", example: "drafts>3" },
   { term: "winpct", description: "Win percentage", operators: ["<", ">", "="], valueType: "number", example: "winpct>50" },
-  { term: "dt", description: "Deck archetype", operators: [":"], valueType: "text", example: "dt:aggro" },
+  { term: "arch", description: "Deck archetype", operators: [":"], valueType: "text", example: "arch:aggro" },
   { term: "minCards", description: "Min matching cards", operators: [":"], valueType: "number", example: "minCards:3" },
 ]
 
@@ -617,7 +617,7 @@ function colorsMatch(terms, card) {
 }
 
 function isColorTerm(term) {
-  return term.startsWith("c:") || term.startsWith("c=") || term.startsWith("c!=")
+  return term.startsWith("color:") || term.startsWith("color=") || term.startsWith("color!=")
 }
 
 function colorMatches(term, card) {
@@ -633,9 +633,9 @@ function colorMatches(term, card) {
   let cardColors = CombineColors(card.colors).toLowerCase()
 
   // "!=" means "not exactly the given colors".
-  // e.g., "c!=uw" means the card is not exactly blue and white.
+  // e.g., "color!=uw" means the card is not exactly blue and white.
   if (term.includes("!=")) {
-    let query = term.replace("c!=", "").toLowerCase()
+    let query = term.replace("color!=", "").toLowerCase()
     if (query != cardColors) {
       return true
     }
@@ -643,9 +643,9 @@ function colorMatches(term, card) {
   }
 
   // "=" means "exactly the given colors".
-  // e.g., "c=uw" means the card is exactly blue and white.
+  // e.g., "color=uw" means the card is exactly blue and white.
   if (term.includes("=")) {
-    let query = term.replace("c=", "").toLowerCase()
+    let query = term.replace("color=", "").toLowerCase()
     if (query == cardColors) {
       return true
     }
@@ -653,9 +653,9 @@ function colorMatches(term, card) {
   }
 
   // ":" means "contains the given colors".
-  // e.g., "c:uw" means the card contains both blue and white.
-  // "c:u" means the card contains blue.
-  let query = term.replace("c:", "").toLowerCase()
+  // e.g., "color:uw" means the card contains both blue and white.
+  // "color:u" means the card contains blue.
+  let query = term.replace("color:", "").toLowerCase()
 
   // True if all of the colors are included in the card's colors.
   if (query.split("").every(c => cardColors.includes(c))) {
@@ -744,7 +744,7 @@ function oracleMatches(term, card) {
 }
 
 function isDeckTypeTerm(term) {
-  return term.startsWith("dt:") || term.startsWith("dt!=")
+  return term.startsWith("arch:") || term.startsWith("arch!=")
 }
 
 function deckTypesMatch(terms, deck) {
@@ -765,8 +765,8 @@ function deckTypeMatches(term, deck) {
     return true
   }
 
-  // Remove the dt: prefix and any quotes.
-  let query = term.replace("dt:", "").replace(/"/g, "").toLowerCase()
+  // Remove the arch: prefix and any quotes.
+  let query = term.replace("arch:", "").replace(/"/g, "").toLowerCase()
 
   // Return true if any of the deck's types match the query.
   if (deck.labels.some(t => t.toLowerCase() == query)) {

@@ -28,13 +28,6 @@ export function StatsViewer(props) {
     return () => clearTimeout(timer);
   }, [typingStr]);
 
-  // Sync typingStr if props.matchStr changes from outside (e.g. navigating from DeckViewer).
-  useEffect(() => {
-    if (props.matchStr !== typingStr) {
-      setTypingStr(props.matchStr || "");
-    }
-  }, [props.matchStr]);
-
   // Pass debounced matchStr to the data hook instead of the raw props.
   const debouncedProps = useMemo(() => ({
     ...props,

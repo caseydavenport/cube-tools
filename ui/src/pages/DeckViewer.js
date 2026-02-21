@@ -39,13 +39,6 @@ export function DeckViewer(props) {
     return () => clearTimeout(timer);
   }, [typingStr]);
 
-  // Sync typingStr if props.matchStr changes from outside (e.g. navigation)
-  useEffect(() => {
-    if (props.matchStr !== typingStr) {
-      setTypingStr(props.matchStr || "");
-    }
-  }, [props.matchStr]);
-
   // We keep two sets of variables - one for the dropdown values,
   // and another for the actual deck we want to display.
   // The dropdown values are just for filtering the deck list.
@@ -309,7 +302,7 @@ export function DeckViewer(props) {
         <div className="search-group">
           <TextInput
             label="Search"
-            placeholder="Search cards (e.g. c:ug, cmc<3, t:creature)"
+            placeholder="Search cards (e.g. color:ug, cmc<3, t:creature)"
             big={true}
             value={typingStr}
             onChange={(e) => setTypingStr(e.target.value)}
