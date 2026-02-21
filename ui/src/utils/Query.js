@@ -16,10 +16,13 @@ export const QueryTerms = [
   "winpct",
   "arch",
   "player",
+  "dcolor",
+  "draftSize",
 ]
 
 export const QueryTermMetadata = [
   { term: "color", description: "Card color", operators: [":", "=", "!="], valueType: "color", example: "color:ug", values: ["w", "u", "b", "r", "g"] },
+  { term: "dcolor", description: "Deck color", operators: [":", "=", "!="], valueType: "color", example: "dcolor:ug", values: ["w", "u", "b", "r", "g"], isDeckOnly: true },
   { term: "cmc", description: "Mana value", operators: ["<", ">", "="], valueType: "number", example: "cmc<3" },
   { term: "t", description: "Card type", operators: [":"], valueType: "text", example: "t:creature", values: ["Artifact", "Creature", "Enchantment", "Instant", "Land", "Planeswalker", "Sorcery", "Basic", "Legendary", "Tribal", "World"] },
   { term: "o", description: "Oracle text", operators: [":"], valueType: "text", example: "o:flying" },
@@ -33,6 +36,7 @@ export const QueryTermMetadata = [
   { term: "winpct", description: "Win percentage", operators: ["<", ">", "="], valueType: "number", example: "winpct>50" },
   { term: "arch", description: "Deck archetype", operators: [":"], valueType: "text", example: "arch:aggro", isDeckOnly: true },
   { term: "player", description: "Player name", operators: [":"], valueType: "text", example: "player:casey", isDeckOnly: true },
+  { term: "draftSize", description: "Draft size", operators: ["<", ">", "="], valueType: "number", example: "draftSize>6", isDeckOnly: true },
   { term: "minCards", description: "Min matching cards", operators: [":"], valueType: "number", example: "minCards:3", isDeckOnly: true },
 ]
 
@@ -186,7 +190,15 @@ export function DeckMatches(deck, matchStr, mbsb) {
   
   if (isTerm) {
     for (let term of splits) {
-      const meta = QueryTermMetadata.find(m => term.startsWith(m.term));
+      const meta = QueryTermMetadata.find(m => {
+        // Match term name followed by an operator.
+        const ops = [":", "=", "!=", "<", ">"]
+        for (const op of ops) {
+          if (term.startsWith(m.term + op)) return true;
+        }
+        return false;
+      });
+
       if (meta && meta.isDeckOnly) {
         deckTerms.push(term)
       } else {
@@ -207,11 +219,41 @@ export function DeckMatches(deck, matchStr, mbsb) {
   // 1. All deck terms must match.
   if (deckTerms.length > 0) {
     for (let term of deckTerms) {
-      if (isDeckTypeTerm(term)) {
+      if (term.startsWith("arch:") || term.startsWith("arch!=")) {
         if (!deckTypeMatches(term, deck)) return false;
       } else if (term.startsWith("player:")) {
         const val = term.replace("player:", "").replace(/"/g, "").toLowerCase()
         if (!deck.player.toLowerCase().includes(val)) return false;
+      } else if (term.startsWith("dcolor")) {
+        // dcolor matches the deck's overall colors.
+        let deckColors = CombineColors(deck.colors).toLowerCase()
+        if (term.startsWith("dcolor!=")) {
+          let val = term.replace("dcolor!=", "").toLowerCase()
+          let query = CombineColors(val.split("")).toLowerCase()
+          if (query == deckColors) return false;
+        } else if (term.startsWith("dcolor=")) {
+          let val = term.replace("dcolor=", "").toLowerCase()
+          let query = CombineColors(val.split("")).toLowerCase()
+          if (query != deckColors) return false;
+        } else if (term.startsWith("dcolor:")) {
+          let query = term.replace("dcolor:", "").toLowerCase()
+          // True if all of the colors in the query are included in the deck's colors.
+          if (!query.split("").every(c => deckColors.includes(c))) return false;
+        }
+      } else if (term.startsWith("draftSize")) {
+        let val = 0
+        let matches = false
+        if (term.startsWith("draftSize<")) {
+          val = parseInt(term.replace("draftSize<", ""))
+          matches = deck.draft_size < val
+        } else if (term.startsWith("draftSize>")) {
+          val = parseInt(term.replace("draftSize>", ""))
+          matches = deck.draft_size > val
+        } else if (term.startsWith("draftSize=")) {
+          val = parseInt(term.replace("draftSize=", ""))
+          matches = deck.draft_size == val
+        }
+        if (!matches) return false
       }
     }
   }
@@ -662,7 +704,8 @@ function colorMatches(term, card) {
   // "!=" means "not exactly the given colors".
   // e.g., "color!=uw" means the card is not exactly blue and white.
   if (term.includes("!=")) {
-    let query = term.replace("color!=", "").toLowerCase()
+    let val = term.replace("color!=", "").toLowerCase()
+    let query = CombineColors(val.split("")).toLowerCase()
     if (query != cardColors) {
       return true
     }
@@ -672,7 +715,8 @@ function colorMatches(term, card) {
   // "=" means "exactly the given colors".
   // e.g., "color=uw" means the card is exactly blue and white.
   if (term.includes("=")) {
-    let query = term.replace("color=", "").toLowerCase()
+    let val = term.replace("color=", "").toLowerCase()
+    let query = CombineColors(val.split("")).toLowerCase()
     if (query == cardColors) {
       return true
     }

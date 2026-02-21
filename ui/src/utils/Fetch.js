@@ -2,10 +2,8 @@ import { AverageCMC, ExtractColors } from "../utils/Utils.js"
 import { IsBasicLand } from "../utils/Utils.js"
 
 export async function LoadCube(onFetch) {
-  console.time("LoadCube()")
   const resp = await fetch('data/polyverse/cube.json');
   let cube = await resp.json();
-  console.timeEnd("LoadCube()")
   if (onFetch != null) {
     onFetch(cube);
     return
@@ -14,7 +12,6 @@ export async function LoadCube(onFetch) {
 }
 
 export async function LoadDecks(onLoad, start, end, draftSize, playerMatch) {
-  console.time("LoadDecks()")
   const resp = await fetch(`/api/decks?start=${start}&end=${end}&size=${draftSize}&player=${playerMatch}`);
   let decks = await resp.json();
 
@@ -28,22 +25,17 @@ export async function LoadDecks(onLoad, start, end, draftSize, playerMatch) {
       d.matches = []
     }
   }
-  console.timeEnd("LoadDecks()")
 
   onLoad(decks.decks)
 }
 
 export async function LoadArchetypeData(onLoad, start, end, draftSize, playerMatch) {
-  console.time("LoadArchetypeData()")
   const resp = await fetch(`/api/archetypes?start=${start}&end=${end}&size=${draftSize}&player=${playerMatch}`);
   let d = await resp.json();
-  console.timeEnd("LoadArchetypeData()")
   onLoad(d)
 }
 
 export async function LoadDrafts(onLoad, start, end) {
-  console.time("LoadDrafts()")
-
   // First, fetch the draft index. We'll use this to find
   // all the drafts and decks therein.
   let idx = await FetchIndex(null)
@@ -80,7 +72,6 @@ export async function LoadDrafts(onLoad, start, end) {
   })
 
   // Callback with all of the loaded decks.
-  console.timeEnd("LoadDrafts()")
   onLoad(drafts)
 }
 

@@ -342,6 +342,7 @@ export function DeckViewer(props) {
             highlight={highlightedDecks}
             onDeckClicked={onDeckClicked}
             onSortHeader={onDeckSort}
+            isFiltered={debouncedMatchStr !== "" || draftDropdown !== ""}
           />
         </div>
 
@@ -395,12 +396,35 @@ function FilteredDecks(input) {
   const decks = input.decks;
   const draftToColor = input.draftToColor;
 
+  let totalMatchWins = 0;
+  let totalMatchLosses = 0;
+  let totalMatchDraws = 0;
+  let totalGameWins = 0;
+  let totalGameLosses = 0;
+
+  for (let deck of decks) {
+    totalMatchWins += MatchWins(deck);
+    totalMatchLosses += MatchLosses(deck);
+    totalMatchDraws += MatchDraws(deck);
+    totalGameWins += Wins(deck);
+    totalGameLosses += Losses(deck);
+  }
+
+  let totalGames = totalGameWins + totalGameLosses;
+  let aggregateWinPercent = totalGames > 0 ? Math.round(100 * totalGameWins / totalGames) : 0;
+  let aggregateRecord = totalMatchWins + "-" + totalMatchLosses + (totalMatchDraws > 0 ? "-" + totalMatchDraws : "");
+
+  let title = decks.length + " Decks";
+  if (input.isFiltered) {
+    title = decks.length + " Decks | " + aggregateRecord + " (" + aggregateWinPercent + "%)";
+  }
+
   return (
     <div className="filtered-decks">
       <table className="widget-table" style={{"border": "none", "borderRadius": "0"}}>
         <thead className="table-header">
           <tr>
-            <td colSpan="4" id="decklist-title" className="header-cell" style={{"textAlign": "center", "background": "var(--primary)", "color": "var(--page-background)"}}>{decks.length} Decks</td>
+            <td colSpan="4" id="decklist-title" className="header-cell" style={{"textAlign": "center", "background": "var(--primary)", "color": "var(--page-background)"}}>{title}</td>
           </tr>
           <tr>
             <td style={{"width": "25%", "paddingLeft": "10px"}} onClick={input.onSortHeader} id="date" className="header-cell">Date</td>

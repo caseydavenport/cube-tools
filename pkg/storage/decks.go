@@ -26,7 +26,7 @@ type Deck struct {
 	OpponentWinPercentage float64 `json:"opponent_win_percentage"`
 
 	// The size of the draft, used for filtering.
-	draftSize int
+	DraftSize int `json:"draft_size"`
 }
 
 type Stats struct {
@@ -134,7 +134,7 @@ func loadDecks(cube string) ([]*Deck, error) {
 			}
 
 			// Cache some additoinal metadata in the deck.
-			d.draftSize = len(draft.Decks)
+			d.DraftSize = len(draft.Decks)
 			decks = append(decks, &d)
 		}
 	}
@@ -245,7 +245,7 @@ func filter(decks []*Deck, r *DecksRequest) []*Deck {
 				logrus.WithError(err).Warn("failed to parse start")
 				continue
 			}
-			if !dd.After(s) {
+			if dd.Before(s) {
 				continue
 			}
 		}
@@ -262,7 +262,7 @@ func filter(decks []*Deck, r *DecksRequest) []*Deck {
 			}
 		}
 
-		if r.DraftSize != 0 && d.draftSize < r.DraftSize {
+		if r.DraftSize != 0 && d.DraftSize < r.DraftSize {
 			continue
 		}
 

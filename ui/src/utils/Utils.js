@@ -40,8 +40,8 @@ export function ExtractColors({deck}) {
   let i = 0
   let colors = new Map()
   while (i < deck.mainboard.length) {
-    i++
     let card = deck.mainboard[i];
+    i++
     if (card && IsBasicLand(card)) {
       // Use the basic land types to determine what colors this deck is.
       // This is generally more accurate than basing it off of cards, because oftentimes
@@ -67,7 +67,7 @@ export function ExtractColors({deck}) {
       }
     } else if (card && !IsBasicLand(card)) {
       // Skip hybrid cards, as we can't determine if the deck is running one color, the other, or both.
-      if (card.colors == null || card.mana_cost.includes("/")) {
+      if (card.colors == null || (card.mana_cost && card.mana_cost.includes("/"))) {
         continue
       }
 

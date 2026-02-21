@@ -55,12 +55,14 @@ export let Colors = new Map([
 // CombineColors returns the canonical name for the color pairing,
 // so that we don't double count. e.g., UB and BU.
 export function CombineColors(colors) {
-  colors.sort(function(a,b) {
-    let orderA = order[a]
-    let orderB = order[b]
+  if (!colors) return "";
+  let arr = Array.isArray(colors) ? [...colors] : colors.split("");
+  arr.sort(function(a,b) {
+    let orderA = order[a.toUpperCase()] || 0
+    let orderB = order[b.toUpperCase()] || 0
     return orderA - orderB
   })
-  return colors.join('')
+  return arr.join('').toUpperCase()
 }
 
 export function ColorImages(colors) {

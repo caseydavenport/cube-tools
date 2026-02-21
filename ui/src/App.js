@@ -30,31 +30,31 @@ export default function Main() {
     setMatchStr(event.target.value)
   }
 
-  let stats = StatsViewer({
-    startDate: startDate,
-    endDate: endDate,
-    onStartSelected: onStartSelected,
-    onEndSelected: onEndSelected,
-    matchStr: matchStr,
-    onMatchUpdated: onMatchUpdated
-  })
-
-  let decks = DeckViewer({
-    startDate: startDate,
-    endDate: endDate,
-    onStartSelected: onStartSelected,
-    onEndSelected: onEndSelected,
-    matchStr: matchStr,
-    onMatchUpdated: onMatchUpdated
-  })
-
    return (
     <div>
     <Router>
       <NavBar />
       <Routes>
-        <Route path='/stats' element={stats} />
-        <Route path='/decks' element={decks} />
+        <Route path='/stats' element={
+          <StatsViewer
+            startDate={startDate}
+            endDate={endDate}
+            onStartSelected={onStartSelected}
+            onEndSelected={onEndSelected}
+            matchStr={matchStr}
+            onMatchUpdated={onMatchUpdated}
+          />
+        } />
+        <Route path='/decks' element={
+          <DeckViewer
+            startDate={startDate}
+            endDate={endDate}
+            onStartSelected={onStartSelected}
+            onEndSelected={onEndSelected}
+            matchStr={matchStr}
+            onMatchUpdated={onMatchUpdated}
+          />
+        } />
         <Route path='/dogs' element={<Dogs />} />
       </Routes>
     </Router>

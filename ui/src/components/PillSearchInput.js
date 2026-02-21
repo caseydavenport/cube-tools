@@ -52,7 +52,7 @@ function computeSuggestions(fragment, cardNames, playerNames, archetypes) {
         }
         
         // For color, we often want to append more colors, so suggest remaining valid ones.
-        if (meta.term === "color" && meta.values) {
+        if ((meta.term === "color" || meta.term === "dcolor") && meta.values) {
           return meta.values
             .filter(v => !valuePart.includes(v))
             .map(v => ({
@@ -134,8 +134,8 @@ function isPillValid(term) {
         const value = lower.substring(prefix.length);
         
         // Validation logic depends on the term
-        if (meta.term === "color") {
-          // color: query must be strictly valid
+        if (meta.term === "color" || meta.term === "dcolor") {
+          // color queries must be strictly valid
           return value.length > 0 && value.split("").every(c => meta.values.includes(c));
         }
 
@@ -149,7 +149,7 @@ function isPillValid(term) {
           return meta.values.some(v => v.toLowerCase() === value.toLowerCase());
         }
 
-        if (meta.valueType === "number") {
+        if (meta.valueType === "number" || meta.term === "draftSize") {
           return !isNaN(parseInt(value));
         }
 
@@ -165,7 +165,7 @@ function getPillType(term, playerNames) {
   const lower = term.toLowerCase();
   for (const meta of QueryTermMetadata) {
     for (const op of meta.operators) {
-      const prefix = meta.term + op;
+      const prefix = (meta.term + op).toLowerCase();
       if (lower.startsWith(prefix)) {
         if (meta.isDeckOnly) return 'deck';
         return 'card';
@@ -240,7 +240,7 @@ export function PillSearchInput({ value, onChange, placeholder, label, cardNames
     setInputValue(newVal);
     
     // If it was a color value suggestion, keep dropdown open so they can add more colors.
-    if (suggestion.prefix && suggestion.prefix.startsWith("color")) {
+    if (suggestion.prefix && (suggestion.prefix.startsWith("color") || suggestion.prefix.startsWith("dcolor"))) {
       setShowDropdown(true);
     } else {
       setShowDropdown(false);
