@@ -6,7 +6,8 @@
   "sideboard_file": "data/polyverse/2025-10-25/colton-sideboard.txt"
  },
  "labels": [
-  "control"
+  "control",
+  "draw-go"
  ],
  "player": "colton",
  "date": "2025-10-25",

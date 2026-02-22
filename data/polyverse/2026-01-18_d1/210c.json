@@ -4,7 +4,7 @@
   "draft_id": "2026-01-18_d1",
   "combined_file": "data/polyverse/2026-01-18_d1/210c.txt"
  },
- "labels": ["control"],
+ "labels": ["control", "delve"],
  "player": "20260118d1-210c",
  "date": "2026-01-18",
  "match_wins_override": 2,
