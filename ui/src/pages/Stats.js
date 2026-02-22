@@ -6,6 +6,7 @@ import { PlayerWidget } from "./Players.js";
 import { CardWidget } from "./Cards.js";
 import { SynergyWidget } from "./Synergy.js";
 import { DraftWidget } from "./Drafts.js";
+import { HealthWidget } from "./Health.js";
 import { useStatsFilters, useStatsData } from "./StatsHooks.js";
 import { SelectorBar } from "../components/StatsUI.js";
 
@@ -42,8 +43,8 @@ export function StatsViewer(props) {
 
   const {
     decks, cube, drafts, archetypeMatchups, cardData, cardDataBucketed,
-    colorData, colorDataBucketed, synergyData, parsed, graphData,
-    archetypeDropdownOptions, draftLogs
+    colorData, colorDataBucketed, synergyData, colorMatchupData, healthData,
+    parsed, graphData, archetypeDropdownOptions, draftLogs
   } = data;
 
   // Destructure filter setters for the SelectorBar and Widgets
@@ -154,6 +155,7 @@ export function StatsViewer(props) {
         onDraftPage={() => onSubpageClicked(4)}
         onPlayersPage={() => onSubpageClicked(5)}
         onSynergyPage={() => onSubpageClicked(6)}
+        onHealthPage={() => onSubpageClicked(7)}
         matchStr={typingStr}
         cardNames={cube.cards.map(c => c.name)}
         playerNames={playerNames}
@@ -163,7 +165,7 @@ export function StatsViewer(props) {
 
       <div id="widgets" className="house-for-widgets">
         <SynergyWidget
-          show={display[6]} synergyData={synergyData} minSynergyDecks={minSynergyDecks}
+          show={display[6]} synergyData={synergyData} cube={cube} minSynergyDecks={minSynergyDecks}
           onMinSynergyDecksChanged={(e) => setMinSynergyDecks(e.target.value)}
           focalThreshold={focalThreshold}
           onFocalThresholdChanged={(e) => setFocalThreshold(e.target.value)}
@@ -181,6 +183,7 @@ export function StatsViewer(props) {
           colorSortBy={colorSortBy} bucketSize={bucketSize} strictColors={strictColors}
           onStrictCheckbox={() => setStrictColors(!strictColors)}
           selectedBucket={selectedBucket} show={display[0]}
+          colorMatchupData={colorMatchupData}
         />
 
         <ArchetypeWidget
@@ -280,6 +283,9 @@ export function StatsViewer(props) {
           player={selectedPlayer} minGames={minGames}
           onMinGamesSelected={(e) => setMinGames(e.target.value)}
           show={display[5]}
+        />
+        <HealthWidget
+          show={display[7]} healthData={healthData} bucketSize={bucketSize}
         />
       </div>
     </div>

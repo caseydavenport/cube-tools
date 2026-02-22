@@ -121,6 +121,12 @@ export function ColorWidget(input) {
             />
           </td>
         </tr>
+
+        <tr key="matchup-heatmap">
+          <td colSpan="2" style={{"paddingTop": "50px"}}>
+            <ColorMatchupHeatmap matchupData={input.colorMatchupData} />
+          </td>
+        </tr>
       </tbody>
     </table>
   );
@@ -825,6 +831,100 @@ function ColorRateChart(input) {
   return (
     <div style={{"height":"700px"}}>
       <Line height={"300px"} options={options} data={data} />
+    </div>
+  );
+}
+
+function ColorMatchupHeatmap({ matchupData }) {
+  if (!matchupData || Object.keys(matchupData).length === 0) {
+    return null;
+  }
+
+  const colorPairs = ["WU", "WB", "WR", "WG", "UB", "UR", "UG", "BR", "BG", "RG"];
+  const guildNames = {
+    WU: "Azorius", WB: "Orzhov", WR: "Boros", WG: "Selesnya",
+    UB: "Dimir", UR: "Izzet", UG: "Simic", BR: "Rakdos", BG: "Golgari", RG: "Gruul",
+  };
+
+  // Compute cell background color: green for >50%, red for <50%, gray for mirror/low data.
+  function cellColor(winPct, totalGames) {
+    if (totalGames < 3) return "var(--card-background)";
+    // Scale from red (0%) through neutral (50%) to green (100%).
+    const t = Math.max(0, Math.min(1, winPct / 100));
+    if (t >= 0.5) {
+      const g = (t - 0.5) * 2; // 0 to 1
+      return `rgba(40, 167, 69, ${0.15 + g * 0.55})`;
+    } else {
+      const r = (0.5 - t) * 2; // 0 to 1
+      return `rgba(220, 53, 69, ${0.15 + r * 0.55})`;
+    }
+  }
+
+  return (
+    <div>
+      <h4 style={{textAlign: "center", color: "var(--primary)", marginBottom: "1rem"}}>
+        Color Pair Matchup Heatmap
+      </h4>
+      <div style={{overflowX: "auto"}}>
+        <table className="widget-table" style={{margin: "0 auto", fontSize: "0.85em"}}>
+          <thead>
+            <tr>
+              <td className="header-cell" style={{minWidth: "70px"}}></td>
+              {colorPairs.map(cp => (
+                <td key={cp} className="header-cell" style={{textAlign: "center", minWidth: "65px"}}>
+                  {guildNames[cp] || cp}
+                </td>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {colorPairs.map(myColor => (
+              <tr key={myColor} className="widget-table-row">
+                <td className="header-cell" style={{fontWeight: "bold"}}>{guildNames[myColor] || myColor}</td>
+                {colorPairs.map(oppColor => {
+                  if (myColor === oppColor) {
+                    return (
+                      <td key={oppColor} style={{background: "var(--page-background)", textAlign: "center", color: "var(--text-muted)"}}>
+                        -
+                      </td>
+                    );
+                  }
+                  const record = matchupData[myColor]?.[oppColor];
+                  const wins = record?.wins || 0;
+                  const losses = record?.losses || 0;
+                  const total = wins + losses;
+                  const winPct = total > 0 ? record.win_pct : 0;
+
+                  return (
+                    <OverlayTrigger
+                      key={oppColor}
+                      placement="top"
+                      delay={{ show: 100, hide: 100 }}
+                      overlay={
+                        <Popover id={`matchup-${myColor}-${oppColor}`}>
+                          <Popover.Header as="h3">{guildNames[myColor]} vs {guildNames[oppColor]}</Popover.Header>
+                          <Popover.Body>
+                            {wins}W - {losses}L ({total} games)
+                          </Popover.Body>
+                        </Popover>
+                      }
+                    >
+                      <td style={{
+                        background: cellColor(winPct, total),
+                        textAlign: "center",
+                        cursor: "default",
+                        opacity: total < 3 ? 0.4 : 1,
+                      }}>
+                        {total > 0 ? `${Math.round(winPct)}%` : ""}
+                      </td>
+                    </OverlayTrigger>
+                  );
+                })}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }

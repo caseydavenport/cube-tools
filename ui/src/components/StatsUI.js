@@ -35,6 +35,7 @@ export function SelectorBar(input) {
           <Button text="Drafts" checked={input.display[4]} onClick={input.onDraftPage} />
           <Button text="Players" checked={input.display[5]} onClick={input.onPlayersPage} />
           <Button text="Synergy" checked={input.display[6]} onClick={input.onSynergyPage} />
+          <Button text="Health" checked={input.display[7]} onClick={input.onHealthPage} />
         </div>
       </div>
     </div>

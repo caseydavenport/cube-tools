@@ -57,7 +57,7 @@ export function useStatsFilters() {
   const [focalThreshold, setFocalThreshold] = useState(5);
   const [smoothingK, setSmoothingK] = useState(5);
   const [synergySortBy, setSynergySortBy] = useState("synergy");
-  const [display, setDisplay] = useState([true, false, false, false, false, false, false]);
+  const [display, setDisplay] = useState([true, false, false, false, false, false, false, false]);
 
   return {
     bucketSize, setBucketSize,
@@ -123,6 +123,8 @@ export function useStatsData(filters, props, refresh) {
   const [archetypeStats, setArchetypeStats] = useState(new Map());
   const [playerStats, setPlayerStats] = useState(new Map());
   const [synergyData, setSynergyData] = useState([]);
+  const [colorMatchupData, setColorMatchupData] = useState({});
+  const [healthData, setHealthData] = useState([]);
 
   const { startDate, endDate } = props;
   const { 
@@ -206,6 +208,20 @@ export function useStatsData(filters, props, refresh) {
       .then(d => setSynergyData(d));
   }, [minSynergyDecks, focalThreshold, smoothingK, minDraftSize, startDate, endDate, props.matchStr, refresh]);
 
+  // Color Matchup Data
+  useEffect(() => {
+    fetch(`/api/stats/color-matchups?start=${startDate}&end=${endDate}&size=${minDraftSize}&match=${encodeURIComponent(props.matchStr || "")}`)
+      .then(r => r.json())
+      .then(d => setColorMatchupData(d.matchups || {}));
+  }, [startDate, endDate, minDraftSize, props.matchStr, refresh]);
+
+  // Health Data
+  useEffect(() => {
+    fetch(`/api/stats/health?bucket_size=${bucketSize}&sliding=true&start=${startDate}&end=${endDate}&size=${minDraftSize}&match=${encodeURIComponent(props.matchStr || "")}`)
+      .then(r => r.json())
+      .then(d => setHealthData(d.buckets || []));
+  }, [bucketSize, startDate, endDate, minDraftSize, props.matchStr, refresh]);
+
   // Derived Data
   const filteredDecks = useMemo(() => {
     if (decks.length === 0) return [];
@@ -288,7 +304,7 @@ export function useStatsData(filters, props, refresh) {
 
   return {
     decks, cube, drafts, archetypeMatchups, cardData, cardDataBucketed,
-    colorData, colorDataBucketed, synergyData, parsed, graphData,
-    archetypeDropdownOptions, draftLogs
+    colorData, colorDataBucketed, synergyData, colorMatchupData, healthData,
+    parsed, graphData, archetypeDropdownOptions, draftLogs
   };
 }
