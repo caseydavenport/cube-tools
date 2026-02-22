@@ -4,6 +4,9 @@ GO_FILES=$(shell find ./pkg -type f) $(shell find ./cmd -type f)
 all: data/oracle-cards.json bin/parser
 build: bin/server bin/parser
 
+test:
+	go test ./...
+
 index: data/oracle-cards.json
 	go run ./main.go index
 
@@ -52,5 +55,3 @@ image:
 push:
 	docker push caseydavenport/cube-tools:$(GIT_VERSION)
 	docker push caseydavenport/cube-tools:latest
-
-

@@ -1231,24 +1231,20 @@ function CardGraph(input) {
   const data = {labels, datasets: dataset};
   return (
     <div className="chart-container">
-      <table className="dropdown-header" style={{"width": "75%"}} align="center">
-        <tbody>
-          <tr>
-            <DropdownHeader
-              label="X Axis"
-              options={CardScatterAxes}
-              value={input.xAxis}
-              onChange={input.onXAxisSelected}
-            />
-            <DropdownHeader
-              label="Y Axis"
-              options={CardScatterAxes}
-              value={input.yAxis}
-              onChange={input.onYAxisSelected}
-            />
-          </tr>
-        </tbody>
-      </table>
+      <div className="selector-group" style={{"justifyContent": "center", "marginBottom": "1rem"}}>
+        <DropdownHeader
+          label="X Axis"
+          options={CardScatterAxes}
+          value={input.xAxis}
+          onChange={input.onXAxisSelected}
+        />
+        <DropdownHeader
+          label="Y Axis"
+          options={CardScatterAxes}
+          value={input.yAxis}
+          onChange={input.onYAxisSelected}
+        />
+      </div>
 
       <div align="center" style={{"height": "800px", "width": "100%"}}>
         <Scatter className="chart" options={options} data={data} />

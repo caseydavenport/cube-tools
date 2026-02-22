@@ -261,8 +261,6 @@ export function DeckWidget(input) {
 //
 // TODO: Ideally we'd move this into the API server.
 export function BuildGraphData(parsed) {
-  console.time("BuildGraphData")
-
   let buckets = parsed.deckBuckets
   let colors = ["W", "U", "B", "R", "G"]
 
@@ -270,6 +268,79 @@ export function BuildGraphData(parsed) {
   const labels = []
   for (let bucket of buckets) {
     labels.push(BucketName(bucket))
+  }
+
+  // Pre-calculate statistics for each filtered deck.
+  const deckStatsMap = new Map()
+  for (let deck of parsed.filteredDecks) {
+    if (!deck.mainboard || deck.mainboard.length == 0) {
+      continue
+    }
+
+    let mbCounterspells = 0
+    let sbCounterspells = 0
+    let removal = {
+      mb: { cmc: 0, count: 0 },
+      sb: { cmc: 0, count: 0 },
+    }
+    let interaction = {
+      mb: { byColor: new Map() },
+    }
+
+    for (let card of deck.mainboard) {
+      let isCounterspell = false
+      let isRemoval = false
+      const oracle = (card.oracle_text || "").toLowerCase()
+
+      for (let match of CounterspellMatches) {
+        if (oracle.includes(match)) {
+          mbCounterspells += 1
+          isCounterspell = true
+          break
+        }
+      }
+
+      for (let match of RemovalMatches) {
+        if (oracle.includes(match)) {
+          removal.mb.count += 1
+          removal.mb.cmc += card.cmc
+          isRemoval = true
+          break
+        }
+      }
+
+      if (isRemoval || isCounterspell) {
+        for (let color of card.colors) {
+          interaction.mb.byColor.set(color, (interaction.mb.byColor.get(color) || 0) + 1)
+        }
+      }
+    }
+
+    for (let card of (deck.sideboard || [])) {
+      const oracle = (card.oracle_text || "").toLowerCase()
+      for (let match of CounterspellMatches) {
+        if (oracle.includes(match)) {
+          sbCounterspells += 1
+          break
+        }
+      }
+      for (let match of RemovalMatches) {
+        if (oracle.includes(match)) {
+          removal.sb.count += 1
+          removal.sb.cmc += card.cmc
+          break
+        }
+      }
+    }
+
+    deckStatsMap.set(deck.metadata.path, {
+      wins: Wins(deck),
+      losses: Losses(deck),
+      mbCounterspells,
+      sbCounterspells,
+      removal,
+      interaction
+    })
   }
 
   // Calculate statistics across all decks.
@@ -281,30 +352,24 @@ export function BuildGraphData(parsed) {
     nonBasicBucketSize: 2,
   }
   for (let deck of parsed.filteredDecks) {
-    // Skip any decks that don't have a mainboard. This excludees decks that
-    // are just pools, as they skew the data.
-    if (!deck.mainboard || deck.mainboard.length == 0) {
+    const stats = deckStatsMap.get(deck.metadata.path)
+    if (!stats) continue
+
+    let wins = stats.wins
+    let losses = stats.losses
+
+    if (deck.avg_cmc === null) {
       continue
     }
 
-    // Calculate the wins / losses for this deck.
-    let wins = Wins(deck)
-    let losses = Losses(deck)
-
-    /////////////////////////////////////////////////////////////////////////////
-    // Calculate wins and losses by CMC, rounding to created buckets of data.
-    /////////////////////////////////////////////////////////////////////////////
     let cmc = Math.round(4 * deck.avg_cmc) / 4
-    if (!all.winsByCMC.has(cmc)) {
-      all.winsByCMC.set(cmc, 0)
-      all.lossesByCMC.set(cmc, 0)
-    }
-    all.winsByCMC.set(cmc, all.winsByCMC.get(cmc) + wins)
-    all.lossesByCMC.set(cmc, all.lossesByCMC.get(cmc) + losses)
+    all.winsByCMC.set(cmc, (all.winsByCMC.get(cmc) || 0) + wins)
+    all.lossesByCMC.set(cmc, (all.lossesByCMC.get(cmc) || 0) + losses)
 
-    /////////////////////////////////////////////////////////////////////////////
-    // Index wins / losses by density of card types.
-    /////////////////////////////////////////////////////////////////////////////
+    if (!deck.mainboard || deck.mainboard.length === 0) {
+      continue
+    }
+
     let numNonBasic = 0
     for (let card of deck.mainboard) {
       if (card.types.includes("Land") && !card.types.includes("Basic")) {
@@ -312,151 +377,71 @@ export function BuildGraphData(parsed) {
       }
     }
     let bucket = Math.round(numNonBasic/all.nonBasicBucketSize) * all.nonBasicBucketSize
-    if (!all.winsByNonBasic.has(bucket)) {
-      all.winsByNonBasic.set(bucket, 0)
-      all.lossesByNonBasic.set(bucket, 0)
-    }
-    all.winsByNonBasic.set(bucket, all.winsByNonBasic.get(bucket) + wins)
-    all.lossesByNonBasic.set(bucket, all.lossesByNonBasic.get(bucket) + losses)
+    all.winsByNonBasic.set(bucket, (all.winsByNonBasic.get(bucket) || 0) + wins)
+    all.lossesByNonBasic.set(bucket, (all.lossesByNonBasic.get(bucket) || 0) + losses)
   }
 
   // Calculate per-bucket, over time data.
   const bucketed = {
-    mbCounterspells: new Array(),
-    sbCounterspells: new Array(),
-
+    mbCounterspells: [],
+    sbCounterspells: [],
     removal: {
-      mb: {
-        count: new Array(),
-        cmc: new Array(),
-      },
-      sb: {
-        count: new Array(),
-        cmc: new Array(),
-      },
+      mb: { count: [], cmc: [] },
+      sb: { count: [], cmc: [] },
     },
-
     interaction: {
       mb: {
         byColor: new Map([
-          ["W", new Array()],
-          ["U", new Array()],
-          ["B", new Array()],
-          ["R", new Array()],
-          ["G", new Array()],
+          ["W", []], ["U", []], ["B", []], ["R", []], ["G", []],
         ]),
       },
     }
   }
 
   for (let bucket of buckets) {
-    // Aggregate all decks from within this bucket.
-    let decks = new Array()
-    for (let draft of bucket) {
-      decks.push(...draft.decks)
-    }
-
-    // Calculate the total number of each type of relevant card for this bucket.
     let mbCounterspells = 0
     let sbCounterspells = 0
-    let removal = {
-      mb: {
-        cmc: 0,
-        count: 0,
-      },
-      sb: {
-        cmc: 0,
-        count: 0,
-      },
-    }
-    let interaction = {
-      mb: {
-        byColor: new Map(),
-      },
-    }
-    for (let deck of decks) {
-      if (!deck.mainboard || deck.mainboard.length == 0) {
-        continue
-      }
-      for (let card of deck.mainboard) {
-        let isCounterspell = false
-        let isRemoval = false
+    let removalCountMB = 0
+    let removalCMCMB = 0
+    let removalCountSB = 0
+    let removalCMCSB = 0
+    let interactionMBByColor = new Map()
+    let deckCount = 0
 
-        // Check for Counterspells.
-        for (let match of CounterspellMatches) {
-          if (card.oracle_text.toLowerCase().match(match)){
-            mbCounterspells += 1
-            isCounterspell = true
-            break
-          }
-        }
-
-        // Check for Removal.
-        for (let match of RemovalMatches) {
-          if (card.oracle_text.toLowerCase().match(match)){
-            removal.mb.count += 1
-            removal.mb.cmc += card.cmc
-            isRemoval = true
-            break
-          }
-        }
-
-        // Track per-color metrics.
-        if (isRemoval || isCounterspell) {
-          for (let color of card.colors) {
-            if (!interaction.mb.byColor.has(color)) {
-              interaction.mb.byColor.set(color, 0)
-            }
-            interaction.mb.byColor.set(color, interaction.mb.byColor.get(color) + 1)
-          }
-        }
-      }
-
-      for (let card of deck.sideboard) {
-        // Check for Counterspells.
-        for (let match of CounterspellMatches) {
-          if (card.oracle_text.toLowerCase().match(match)){
-            sbCounterspells += 1
-            break
-          }
-        }
-
-        // Check for Removal.
-        for (let match of RemovalMatches) {
-          if (card.oracle_text.toLowerCase().match(match)){
-            removal.sb.count += 1
-            removal.sb.cmc += card.cmc
-            break
-          }
+    for (let draft of bucket) {
+      for (let deck of draft.decks) {
+        const stats = deckStatsMap.get(deck.metadata.path)
+        if (!stats) continue
+        deckCount++
+        mbCounterspells += stats.mbCounterspells
+        sbCounterspells += stats.sbCounterspells
+        removalCountMB += stats.removal.mb.count
+        removalCMCMB += stats.removal.mb.cmc
+        removalCountSB += stats.removal.sb.count
+        removalCMCSB += stats.removal.sb.cmc
+        for (let [color, count] of stats.interaction.mb.byColor) {
+          interactionMBByColor.set(color, (interactionMBByColor.get(color) || 0) + count)
         }
       }
     }
 
-    // Add this bucket's data.
-    bucketed.mbCounterspells.push(mbCounterspells / decks.length)
-    bucketed.sbCounterspells.push(sbCounterspells / decks.length)
-    bucketed.removal.mb.count.push(removal.mb.count / decks.length)
-    bucketed.removal.sb.count.push(removal.sb.count / decks.length)
-    bucketed.removal.mb.cmc.push(removal.mb.cmc / removal.mb.count)
-    bucketed.removal.sb.cmc.push(removal.sb.cmc / removal.sb.count)
+    if (deckCount === 0) deckCount = 1 // avoid div by zero
+
+    bucketed.mbCounterspells.push(mbCounterspells / deckCount)
+    bucketed.sbCounterspells.push(sbCounterspells / deckCount)
+    bucketed.removal.mb.count.push(removalCountMB / deckCount)
+    bucketed.removal.sb.count.push(removalCountSB / deckCount)
+    bucketed.removal.mb.cmc.push(removalCMCMB / (removalCountMB || 1))
+    bucketed.removal.sb.cmc.push(removalCMCSB / (removalCountSB || 1))
+
     for (let color of colors) {
       let v = bucketed.interaction.mb.byColor.get(color)
-      if (interaction.mb.byColor.has(color)) {
-        v.push(interaction.mb.byColor.get(color) / parsed.bucketSize)
-      } else {
-        v.push(0)
-      }
+      v.push((interactionMBByColor.get(color) || 0) / (parsed.bucketSize || 1))
       bucketed.interaction.mb.byColor.set(color, v)
     }
   }
 
-  console.timeEnd("BuildGraphData")
-  const data = {
-    labels: labels,
-    all: all,
-    bucketed: bucketed,
-  }
-  return data
+  return { labels, all, bucketed }
 }
 
 function WinsByManaCost(input) {
@@ -1107,7 +1092,7 @@ function DeckManaValueChart(input) {
   const options = {
     responsive: true,
     maintainAspectRatio: false,
-    scales: {y: {min: 2}},
+    scales: {y: {min: 0}},
     plugins: {
       title: {
         display: true,
@@ -1495,6 +1480,10 @@ function DeckGraph(input) {
     x = getValue(xAxis, deck, input.parsed.archetypeData, input.parsed.playerData, input.parsed.filteredDecks, input.parsed.pickInfo)
     y = getValue(yAxis, deck, input.parsed.archetypeData, input.parsed.playerData, input.parsed.filteredDecks, input.parsed.pickInfo)
 
+    if (x === null || y === null) {
+      continue
+    }
+
     let name = deck.player + " (" + deck.date + ")"
     labels.push(name)
 
@@ -1563,26 +1552,22 @@ function DeckGraph(input) {
   const data = {labels, datasets: dataset};
   return (
     <div className="chart-container">
-      <table className="dropdown-header" style={{"width": "75%"}} align="center">
-        <tbody>
-          <tr>
-            <DropdownHeader
-              label="X Axis"
-              options={DeckScatterAxes}
-              value={input.xAxis}
-              onChange={input.onXAxisSelected}
-            />
-            <DropdownHeader
-              label="Y Axis"
-              options={DeckScatterAxes}
-              value={input.yAxis}
-              onChange={input.onYAxisSelected}
-            />
-          </tr>
-        </tbody>
-      </table>
+      <div className="selector-group" style={{"justifyContent": "center", "marginBottom": "1rem"}}>
+        <DropdownHeader
+          label="X Axis"
+          options={DeckScatterAxes}
+          value={input.xAxis}
+          onChange={input.onXAxisSelected}
+        />
+        <DropdownHeader
+          label="Y Axis"
+          options={DeckScatterAxes}
+          value={input.yAxis}
+          onChange={input.onYAxisSelected}
+        />
+      </div>
 
-      <div align="center">
+      <div align="center" style={{"minHeight": "700px"}}>
         <Scatter className="chart" options={options} data={data} />
       </div>
     </div>

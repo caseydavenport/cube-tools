@@ -45,6 +45,12 @@ type winLossStats struct {
 	Count  int `json:"count"`
 }
 
+// opponentWinAccum tracks the weighted sum for computing opponent win percentage.
+type opponentWinAccum struct {
+	weightedSum  float64
+	totalMatches int
+}
+
 func PlayerStatsHandler() http.Handler {
 	return &playerStatsHandler{
 		store: storage.NewFileDeckStoreWithCache(),
@@ -69,6 +75,9 @@ func (s *playerStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) 
 		Players: make(map[string]*PlayerStats),
 	}
 
+	// Track weighted opponent win percentage accumulation per player.
+	owpAccum := make(map[string]*opponentWinAccum)
+
 	for _, deck := range allDecks {
 		if _, ok := resp.Players[deck.Player]; !ok {
 			resp.Players[deck.Player] = &PlayerStats{
@@ -85,7 +94,14 @@ func (s *playerStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) 
 		ps.Losses += deck.GameLosses()
 		ps.Trophies += deck.Trophies()
 		ps.LastPlace += deck.LastPlace()
-		ps.OpponentWinPercent += deck.OpponentWinPercentage
+		if _, ok := owpAccum[deck.Player]; !ok {
+			owpAccum[deck.Player] = &opponentWinAccum{}
+		}
+		matches := len(deck.Matches)
+		if matches > 0 {
+			owpAccum[deck.Player].weightedSum += deck.OpponentWinPercentage * float64(matches)
+			owpAccum[deck.Player].totalMatches += matches
+		}
 
 		// Track archetype win/loss for the player.
 		for _, label := range deck.Labels {
@@ -130,8 +146,8 @@ func (s *playerStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) 
 			ps.WinPercent = math.Round(float64(ps.Wins) / float64(ps.Games) * 100)
 			ps.LossPercent = math.Round(float64(ps.Losses) / float64(ps.Games) * 100)
 		}
-		if ps.NumDecks > 0 {
-			ps.OpponentWinPercent = math.Round(ps.OpponentWinPercent / float64(ps.NumDecks))
+		if accum, ok := owpAccum[ps.Name]; ok && accum.totalMatches > 0 {
+			ps.OpponentWinPercent = math.Round(accum.weightedSum / float64(accum.totalMatches))
 		}
 		if ps.TotalPicks > 0 {
 			ps.WhitePercent = math.Round(float64(ps.ColorPicks["W"]) / float64(ps.TotalPicks) * 100)

@@ -54,7 +54,8 @@ export function StatsViewer(props) {
     cardWidgetSelection, setCardWidgetSelection, minDrafts, setMinDrafts, minGames, setMinGames,
     minPlayers, setMinPlayers, maxPlayers, setMaxPlayers, selectedCard, setSelectedCard,
     cardFilter, setCardFilter, cardWidgetColorSelection, setCardWidgetColorSelection,
-    cardWidgetSortBy, setCardWidgetSortBy, xAxis, setXAxis, yAxis, setYAxis,
+    cardWidgetSortBy, setCardWidgetSortBy, cardXAxis, setCardXAxis, cardYAxis, setCardYAxis,
+    deckXAxis, setDeckXAxis, deckYAxis, setDeckYAxis,
     draftSortBy, setDraftSortBy, draftSortInvert, setDraftSortInvert,
     minDeviation, setMinDeviation, maxDeviation, setMaxDeviation,
     minAvgPick, setMinAvgPick, maxAvgPick, setMaxAvgPick,
@@ -213,8 +214,8 @@ export function StatsViewer(props) {
           onHeaderClick={(e) => setCardWidgetSortBy(e.currentTarget.id)}
           manaValue={manaValue} onManaValueSelected={(e) => setManaValue(e.target.value)}
           sortBy={cardWidgetSortBy} bucketSize={bucketSize} cube={cube}
-          xAxis={xAxis} yAxis={yAxis} onXAxisSelected={(e) => setXAxis(e.target.value)}
-          onYAxisSelected={(e) => setYAxis(e.target.value)}
+          xAxis={cardXAxis} yAxis={cardYAxis} onXAxisSelected={(e) => setCardXAxis(e.target.value)}
+          onYAxisSelected={(e) => setCardYAxis(e.target.value)}
           show={display[2]}
           localMatchStr={localMatchStr}
           onLocalMatchUpdated={(e) => setLocalMatchStr(e.target.value)}
@@ -243,8 +244,8 @@ export function StatsViewer(props) {
 
         <DeckWidget
           parsed={parsed} graphData={graphData} decks={parsed.filteredDecks} show={display[3]}
-          xAxis={xAxis} yAxis={yAxis} onXAxisSelected={(e) => setXAxis(e.target.value)}
-          onYAxisSelected={(e) => setYAxis(e.target.value)}
+          xAxis={deckXAxis} yAxis={deckYAxis} onXAxisSelected={(e) => setDeckXAxis(e.target.value)}
+          onYAxisSelected={(e) => setDeckYAxis(e.target.value)}
         />
 
         <PlayerWidget

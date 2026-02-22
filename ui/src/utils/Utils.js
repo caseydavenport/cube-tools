@@ -1,20 +1,23 @@
 // Returns the average CMC of of cards in the deck,
 // excluding basic lands.
 export function AverageCMC({deck}) {
-  if (!deck || !deck.mainboard) {
-    return 0;
+  if (!deck || !deck.mainboard || deck.mainboard.length === 0) {
+    return null;
   }
   let i = 0
   let t = 0
   let c = 0
   while (i < deck.mainboard.length) {
-    i++
     // Skip basic lands.
     let card = deck.mainboard[i]
+    i++
     if (card && !card.types.includes("Land")) {
       t += card.cmc
       c++
     }
+  }
+  if (c === 0) {
+    return null
   }
   return Math.round(t / c * 100) / 100
 }

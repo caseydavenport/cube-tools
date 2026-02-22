@@ -14,10 +14,11 @@ func init() {
 	// so that we can quickly find card information when parsing decks.
 	oracleCards = make(map[string]OracleCard, 0)
 	f, err := os.Open("./data/oracle-cards.json")
-	defer f.Close()
 	if err != nil {
-		panic(err)
+		// Gracefully handle missing file (e.g., during tests).
+		return
 	}
+	defer f.Close()
 	bytes, err := io.ReadAll(f)
 	if err != nil {
 		panic(err)
@@ -45,7 +46,6 @@ func init() {
 			// and without, so that we can find them when parsing decks no matter how they're written.
 			trimmed := strings.TrimSpace(strings.Split(card.Name, "//")[0])
 			oracleCards[trimmed] = card
-		} else {
 		}
 	}
 }

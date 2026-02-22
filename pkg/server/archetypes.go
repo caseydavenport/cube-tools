@@ -93,7 +93,7 @@ func (d *archetypesHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 
 			if game.Winner == deck.Player {
 				versusData.Win += 1
-			} else {
+			} else if game.Winner != "" && !game.Tie {
 				versusData.Loss += 1
 			}
 		}

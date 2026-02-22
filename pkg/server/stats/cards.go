@@ -191,7 +191,7 @@ func (d *cardStatsHandler) statsForDecks(decks []*storage.Deck, cubeCards map[st
 				ws := cbn.AgainstArchetype[arch]
 				if game.Winner == deck.Player {
 					ws.Wins += 1
-				} else {
+				} else if game.Winner != "" && !game.Tie {
 					ws.Losses += 1
 				}
 			}
@@ -334,7 +334,8 @@ func (d *cardStatsHandler) statsForDecks(decks []*storage.Deck, cubeCards map[st
 }
 
 func ExpectedWinPercent(cardName string, players map[string]int, decks []*storage.Deck) float64 {
-	var percentages []float64
+	totalWins := 0
+	totalGames := 0
 	for _, d := range decks {
 		// Skip decks that were not played by one of the specified players.
 		if _, ok := players[d.Player]; !ok {
@@ -355,21 +356,18 @@ func ExpectedWinPercent(cardName string, players map[string]int, decks []*storag
 		}
 
 		// This deck does not include the card, so include its results.
-		if d.GameWins()+d.GameLosses() == 0 {
+		games := d.GameWins() + d.GameLosses()
+		if games == 0 {
 			continue
 		}
-		percentages = append(percentages, float64(d.GameWins())/float64(d.GameWins()+d.GameLosses()))
+		totalWins += d.GameWins()
+		totalGames += games
 	}
-	if len(percentages) == 0 {
+	if totalGames == 0 {
 		return 0.0
 	}
 
-	// Average the percentages.
-	var total float64
-	for _, p := range percentages {
-		total += p
-	}
-	return math.Round(100 * total / float64(len(percentages)))
+	return math.Round(100 * float64(totalWins) / float64(totalGames))
 }
 
 func ELOData(decks []*storage.Deck) map[string]int {

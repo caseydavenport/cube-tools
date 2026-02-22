@@ -31,6 +31,9 @@ type ArchetypeStats struct {
 	SharedWith    map[string]int `json:"shared_with"`
 	Players       map[string]int `json:"players"`
 	AvgShared     float64        `json:"avg_shared"`
+
+	// Internal fields for calculation.
+	cmcCount int
 }
 
 func ArchetypeStatsHandler() http.Handler {
@@ -93,13 +96,14 @@ func (s *archetypeStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Reques
 			}
 			if count > 0 {
 				as.AvgCMC += deckCMC / float64(count)
+				as.cmcCount++
 			}
 
 			as.Players[deck.Player]++
 
 			// Track shared labels.
 			for _, other := range deck.Labels {
-				if other == label || other == "aggro" || other == "midrange" || other == "control" {
+				if other == label || other == "aggro" || other == "midrange" || other == "control" || other == "tempo" {
 					continue
 				}
 				as.SharedWith[other]++
@@ -107,6 +111,8 @@ func (s *archetypeStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Reques
 		}
 	}
 
+	// Since we iterate all decks, each game is counted once as a win for one deck
+	// and once as a loss for the other. Summing only wins avoids double-counting.
 	resp.TotalGames = totalWins
 	numDecks := len(allDecks)
 
@@ -120,8 +126,10 @@ func (s *archetypeStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Reques
 		if totalWins > 0 {
 			as.PercentOfWins = math.Round(float64(as.Wins) / float64(totalWins) * 100)
 		}
+		if as.cmcCount > 0 {
+			as.AvgCMC = math.Round(as.AvgCMC/float64(as.cmcCount)*100) / 100
+		}
 		if as.Count > 0 {
-			as.AvgCMC = math.Round(as.AvgCMC/float64(as.Count)*100) / 100
 			totalShared := 0
 			for _, count := range as.SharedWith {
 				totalShared += count

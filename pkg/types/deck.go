@@ -269,7 +269,7 @@ func (d *Deck) GameLosses() int {
 
 	losses := 0
 	for _, g := range d.Games {
-		if g.Winner != d.Player {
+		if g.Winner != d.Player && g.Winner != "" && !g.Tie {
 			losses++
 		}
 	}
@@ -307,7 +307,7 @@ func (d *Deck) MatchLosses() int {
 
 	losses := 0
 	for _, m := range d.Matches {
-		if m.Winner != d.Player {
+		if m.Winner != d.Player && m.Winner != "" {
 			losses++
 		}
 	}
@@ -355,10 +355,10 @@ func (d *Deck) TopHalf() int {
 
 // BottomHalf returns 1 if this deck was a 1-2 or worse (i.e., bottom half of the draft pool).
 func (d *Deck) BottomHalf() int {
-	if d.TopHalf() > 0 {
-		return 0
+	if d.MatchLosses() > d.MatchWins() {
+		return 1
 	}
-	return 1
+	return 0
 }
 
 func (d *Deck) GetColors() map[string]bool {

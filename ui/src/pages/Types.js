@@ -56,6 +56,7 @@ export function ArchetypeWidget(input) {
     { label: "Macro Build %", value: "macro_builds" },
     { label: "Macro Win %", value: "macro_wins" },
     { label: "Macro % of wins", value: "macro_pwin" },
+    { label: "Macro Winning %", value: "macro_winning_pct" },
     { label: "Macro CMC", value: "macro_cmc" },
     { label: "Matchup: Aggro", value: "matchup_aggro" },
     { label: "Matchup: Tempo", value: "matchup_tempo" },
@@ -65,6 +66,7 @@ export function ArchetypeWidget(input) {
     { label: "Pie: Wins", value: "pie_wins" },
     { label: "Micro Build %", value: "micro_builds" },
     { label: "Micro Win %", value: "micro_wins" },
+    { label: "Micro Winning %", value: "micro_winning_pct" },
     { label: "Micro % of wins", value: "micro_pwin" },
   ]
 
@@ -73,6 +75,7 @@ export function ArchetypeWidget(input) {
       case "macro_builds": return <MacroArchetypesChart parsed={input.parsed} decks={input.decks} bucketSize={input.bucketSize} dataset="builds" />;
       case "macro_wins": return <MacroArchetypesChart parsed={input.parsed} decks={input.decks} bucketSize={input.bucketSize} dataset="wins" />;
       case "macro_pwin": return <MacroArchetypesChart parsed={input.parsed} decks={input.decks} bucketSize={input.bucketSize} dataset="percent_of_wins" />;
+      case "macro_winning_pct": return <MacroArchetypesChart parsed={input.parsed} decks={input.decks} bucketSize={input.bucketSize} dataset="winning_pct" />;
       case "macro_cmc": return <MacroArchetypesChart parsed={input.parsed} decks={input.decks} bucketSize={input.bucketSize} dataset="cmc" />;
       case "matchup_aggro": return <WinsByMatchup focus="aggro" matchups={input.matchups} />;
       case "matchup_tempo": return <WinsByMatchup focus="tempo" matchups={input.matchups} />;
@@ -82,6 +85,7 @@ export function ArchetypeWidget(input) {
       case "pie_wins": return <MacroArchetypesPieChart parsed={input.parsed} decks={input.decks} dataset="wins" />;
       case "micro_builds": return <MicroArchetypesChart parsed={input.parsed} decks={input.decks} bucketSize={input.bucketSize} dataset="builds" />;
       case "micro_wins": return <MicroArchetypesChart parsed={input.parsed} decks={input.decks} bucketSize={input.bucketSize} dataset="wins" />;
+      case "micro_winning_pct": return <MicroArchetypesChart parsed={input.parsed} decks={input.decks} bucketSize={input.bucketSize} dataset="winning_pct" />;
       case "micro_pwin": return <MicroArchetypesChart parsed={input.parsed} decks={input.decks} bucketSize={input.bucketSize} dataset="percent_of_wins" />;
       default: return null;
     }
@@ -205,6 +209,11 @@ function ArchetypeStatsTable(input) {
       tip: "Number of 1-2 or worse.",
     },
     {
+      id: "winning_pct",
+      text: "Winning %",
+      tip: "Percentage of decks with a 2-1 or better match record.",
+    },
+    {
       id: "num",
       text: "# Decks",
       tip: "Total number of decks with this archetype / tag.",
@@ -277,6 +286,9 @@ function ArchetypeStatsTable(input) {
                 case "losing":
                   sort = t.losing;
                   break;
+                case "winning_pct":
+                  sort = (t.winning + t.losing) > 0 ? t.winning / (t.winning + t.losing) : 0;
+                  break;
               }
               return (
                 <tr key={t.type} sort={sort} className="widget-table-row">
@@ -288,6 +300,7 @@ function ArchetypeStatsTable(input) {
                   <td key="lastplace">{t.last_place}</td>
                   <td key="winning">{t.winning}</td>
                   <td key="losing">{t.losing}</td>
+                  <td key="winning_pct">{(t.winning + t.losing) > 0 ? Math.round(100 * t.winning / (t.winning + t.losing)) : 0}%</td>
                   <td key="num">{t.count}</td>
                   <td key="shared">{t.avg_shared}</td>
                 </tr>
@@ -582,6 +595,7 @@ export function ArchetypeData(decks) {
       win_percent: 0,
       avg_shared: 0,
       avg_cmc: 0,
+      num_cmc_decks: 0,
       trophies: 0,
       last_place: 0,
       winning: 0,
@@ -619,7 +633,10 @@ export function ArchetypeData(decks) {
       tracker.get(type).last_place += LastPlaceFinishes(deck)
 
       // Sum the values here, and divide them after we iterate all decks.
-      tracker.get(type).avg_cmc += deck.avg_cmc
+      if (deck.avg_cmc !== null) {
+        tracker.get(type).avg_cmc += deck.avg_cmc
+        tracker.get(type).num_cmc_decks += 1
+      }
 
       // Track who plays this archetype, and how often.
       if (!tracker.get(type).players.has(deck.player)) {
@@ -652,7 +669,11 @@ export function ArchetypeData(decks) {
     archetype.percent_of_wins = Math.round(archetype.wins / totalGames * 100)
     archetype.record = archetype.wins + "-" + archetype.losses + "-" + 0
     archetype.avg_shared = Math.round(archetype.num_shared_with / archetype.count * 100) / 100
-    archetype.avg_cmc = Math.round(archetype.avg_cmc / archetype.count * 100) / 100
+    if (archetype.num_cmc_decks > 0) {
+      archetype.avg_cmc = Math.round(archetype.avg_cmc / archetype.num_cmc_decks * 100) / 100
+    } else {
+      archetype.avg_cmc = 0
+    }
   })
   return tracker
 }
@@ -715,6 +736,9 @@ function MicroArchetypesChart(input) {
         datasets.get(archetype).push(archetypeStats.avg_cmc)
       } else if (input.dataset === "percent_of_wins") {
         datasets.get(archetype).push(archetypeStats.percent_of_wins)
+      } else if (input.dataset === "winning_pct") {
+        let total = archetypeStats.winning + archetypeStats.losing
+        datasets.get(archetype).push(total > 0 ? Math.round(100 * archetypeStats.winning / total) : 0)
       } else {
         datasets.get(archetype).push(archetypeStats.build_percent)
       }
@@ -741,6 +765,9 @@ function MicroArchetypesChart(input) {
       break
     case "percent_of_wins":
       title = `Percent of wins (bucket size = ${input.bucketSize} drafts)`
+      break;
+    case "winning_pct":
+      title = `Winning % (bucket size = ${input.bucketSize} drafts)`
       break;
   }
 
@@ -805,6 +832,9 @@ function MacroArchetypesChart(input) {
         datasets.get(archetype).push(archetypeStats.percent_of_wins)
       } else if (input.dataset === "cmc") {
         datasets.get(archetype).push(archetypeStats.avg_cmc)
+      } else if (input.dataset === "winning_pct") {
+        let total = archetypeStats.winning + archetypeStats.losing
+        datasets.get(archetype).push(total > 0 ? Math.round(100 * archetypeStats.winning / total) : 0)
       } else {
         datasets.get(archetype).push(archetypeStats.build_percent)
       }
@@ -848,6 +878,9 @@ function MacroArchetypesChart(input) {
       break
     case "percent_of_wins":
       title = `Percent of all wins (bucket size = ${input.bucketSize} drafts)`
+      break
+    case "winning_pct":
+      title = `Winning % (bucket size = ${input.bucketSize} drafts)`
       break
   }
 

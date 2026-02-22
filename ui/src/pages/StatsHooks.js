@@ -27,8 +27,10 @@ export function useStatsFilters() {
   const [cardFilter, setCardFilter] = useState("");
   const [cardWidgetColorSelection, setCardWidgetColorSelection] = useState("");
   const [cardWidgetSortBy, setCardWidgetSortBy] = useState("");
-  const [xAxis, setXAxis] = useState("# Decks");
-  const [yAxis, setYAxis] = useState("Pick ELO");
+  const [cardXAxis, setCardXAxis] = useState("# Decks");
+  const [cardYAxis, setCardYAxis] = useState("Pick ELO");
+  const [deckXAxis, setDeckXAxis] = useState("# creatures");
+  const [deckYAxis, setDeckYAxis] = useState("# interaction");
   const [draftSortBy, setDraftSortBy] = useState("p1p1");
   const [draftSortInvert, setDraftSortInvert] = useState(false);
   const [minDeviation, setMinDeviation] = useState(0);
@@ -73,8 +75,10 @@ export function useStatsFilters() {
     cardFilter, setCardFilter,
     cardWidgetColorSelection, setCardWidgetColorSelection,
     cardWidgetSortBy, setCardWidgetSortBy,
-    xAxis, setXAxis,
-    yAxis, setYAxis,
+    cardXAxis, setCardXAxis,
+    cardYAxis, setCardYAxis,
+    deckXAxis, setDeckXAxis,
+    deckYAxis, setDeckYAxis,
     draftSortBy, setDraftSortBy,
     draftSortInvert, setDraftSortInvert,
     minDeviation, setMinDeviation,
@@ -250,7 +254,7 @@ export function useStatsData(filters, props, refresh) {
     bucketSize, filteredDecks, archetypeData, playerData, pickInfo, colorData, colorDataBucketed, deckBuckets,
   }), [bucketSize, filteredDecks, archetypeData, playerData, pickInfo, colorData, colorDataBucketed, deckBuckets]);
 
-  const graphData = useMemo(() => BuildGraphData(parsed), [parsed]);
+  const graphData = useMemo(() => BuildGraphData({ filteredDecks, deckBuckets, bucketSize }), [filteredDecks, deckBuckets, bucketSize]);
 
   const archetypeDropdownOptions = useMemo(() => {
     let archetypes = new Map();

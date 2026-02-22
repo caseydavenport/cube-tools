@@ -49,6 +49,7 @@ export function ColorWidget(input) {
     { label: "VP %", value: "vps_pct" },
     { label: "Victory Points", value: "vps" },
     { label: "% of wins", value: "percent_of_wins" },
+    { label: "Winning %", value: "winning_pct" },
   ]
 
   return (
@@ -228,6 +229,11 @@ function ColorStatsTable(input) {
       tip: "Number of 1-2 or worse.",
     },
     {
+      id: "winning_pct",
+      text: "Winning %",
+      tip: "Percentage of decks with a 2-1 or better match record.",
+    },
+    {
       id: "decks",
       text: "# Decks",
       tip: "Number of decks in this row.",
@@ -302,6 +308,8 @@ function ColorStatsTable(input) {
                 sort = color.top_half
               } else if (input.sortBy === "losing") {
                 sort = color.bottom_half
+              } else if (input.sortBy === "winning_pct") {
+                sort = (color.top_half + color.bottom_half) > 0 ? color.top_half / (color.top_half + color.bottom_half) : 0
               }
 
               let img = ColorImages(color.color)
@@ -318,6 +326,7 @@ function ColorStatsTable(input) {
                   <td>{color.last_place}</td>
                   <td>{color.top_half}</td>
                   <td>{color.bottom_half}</td>
+                  <td>{(color.top_half + color.bottom_half) > 0 ? Math.round(100 * color.top_half / (color.top_half + color.bottom_half)) : 0}%</td>
                   <td>{color.num_decks}</td>
                   <td style={headerStyleFields}>{color.total_pick_percentage}%</td>
                   <td>{color.average_deck_percentage}%</td>
@@ -619,6 +628,10 @@ function ColorRateChart(input) {
         colorDatasets.get(color).push(stats.get(color).average_deck_percentage)
       } else if (input.dataset === "percent_of_wins") {
         colorDatasets.get(color).push(stats.get(color).percent_of_wins)
+      } else if (input.dataset === "winning_pct") {
+        let c = stats.get(color)
+        let total = (c.top_half || 0) + (c.bottom_half || 0)
+        colorDatasets.get(color).push(total > 0 ? Math.round(100 * c.top_half / total) : 0)
       } else {
         colorDatasets.get(color).push(stats.get(color).build_percent)
       }
@@ -728,6 +741,9 @@ function ColorRateChart(input) {
       break;
     case "percent_of_wins":
       title = `Percent of wins (bucket size = ${input.bucketSize} drafts)`
+      break;
+    case "winning_pct":
+      title = `Winning % (bucket size = ${input.bucketSize} drafts)`
       break;
   }
 

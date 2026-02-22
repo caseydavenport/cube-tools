@@ -927,7 +927,7 @@ function PlayerFrame(input) {
         </div>
         <div className="stat-item">
           <span className="player-frame-title">Avg CMC:</span>
-          <span className="player-frame-value">{acmc}</span>
+          <span className="player-frame-value">{acmc || "N/A"}</span>
         </div>
         <div className="stat-item">
           <span className="player-frame-title">Cards:</span>
