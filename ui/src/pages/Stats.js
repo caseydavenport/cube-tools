@@ -66,7 +66,9 @@ export function StatsViewer(props) {
     playerArchSortBy, setPlayerArchSortBy, playerArchSortInvert, setPlayerArchSortInvert,
     playerColorSortBy, setPlayerColorSortBy, playerColorSortInvert, setPlayerColorSortInvert,
     selectedPlayer, setSelectedPlayer, selectedArchetype, setSelectedArchetype,
-    sortBy, setSortBy, minSynergyDecks, setMinSynergyDecks, synergySortBy, setSynergySortBy,
+    sortBy, setSortBy, minSynergyDecks, setMinSynergyDecks,
+    focalThreshold, setFocalThreshold, smoothingK, setSmoothingK,
+    synergySortBy, setSynergySortBy,
     display, setDisplay
   } = filters;
 
@@ -163,6 +165,10 @@ export function StatsViewer(props) {
         <SynergyWidget
           show={display[6]} synergyData={synergyData} minSynergyDecks={minSynergyDecks}
           onMinSynergyDecksChanged={(e) => setMinSynergyDecks(e.target.value)}
+          focalThreshold={focalThreshold}
+          onFocalThresholdChanged={(e) => setFocalThreshold(e.target.value)}
+          smoothingK={smoothingK}
+          onSmoothingKChanged={(e) => setSmoothingK(e.target.value)}
           onHeaderClick={(e) => setSynergySortBy(e.currentTarget.id)}
           sortBy={synergySortBy} onCardSelected={(e) => setSelectedCard(e.currentTarget.id)}
         />

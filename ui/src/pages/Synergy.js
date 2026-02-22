@@ -20,6 +20,16 @@ export function SynergyWidget(input) {
   );
 }
 
+function OptionTooltip({ id, header, tip, children }) {
+  return (
+    <OverlayTrigger placement="bottom" delay={{ show: 100, hide: 100 }} overlay={
+      <Popover id={id}><Popover.Header as="h3">{header}</Popover.Header><Popover.Body>{tip}</Popover.Body></Popover>
+    }>
+      <div>{children}</div>
+    </OverlayTrigger>
+  );
+}
+
 function SynergyWidgetOptions(input) {
   let pairs = input.synergyData.pairs || []
   return (
@@ -28,11 +38,27 @@ function SynergyWidgetOptions(input) {
         <div className="selection-cell">
           Showing top {pairs.length} synergistic pairs
         </div>
-        <NumericInput
-          label="Min decks"
-          value={input.minSynergyDecks}
-          onChange={input.onMinSynergyDecksChanged}
-        />
+        <OptionTooltip id="tip-min-decks" header="Min Decks" tip="Minimum co-occurrences to include a pair.">
+          <NumericInput
+            label="Min decks"
+            value={input.minSynergyDecks}
+            onChange={input.onMinSynergyDecksChanged}
+          />
+        </OptionTooltip>
+        <OptionTooltip id="tip-focal" header="Focal Threshold" tip="Min synergy score for a partner to count toward focal score.">
+          <NumericInput
+            label="Focal threshold"
+            value={input.focalThreshold}
+            onChange={input.onFocalThresholdChanged}
+          />
+        </OptionTooltip>
+        <OptionTooltip id="tip-smoothing" header="Smoothing K" tip="Dampens noisy scores from low-sample pairs. Higher K = more conservative. 0 = no smoothing.">
+          <NumericInput
+            label="Smoothing K"
+            value={input.smoothingK}
+            onChange={input.onSmoothingKChanged}
+          />
+        </OptionTooltip>
       </div>
     </div>
   );
@@ -56,7 +82,7 @@ function SynergyWidgetTable(input) {
     { id: "card2", text: "Card 2", tip: "Second card in pair." },
     { id: "winpercent", text: "Win %", tip: "Aggregate win % of decks with both." },
     { id: "count", text: "#", tip: "Number of decks." },
-    { id: "synergy", text: "Syn", tip: "Synergy score (Lift)." },
+    { id: "synergy", text: "Syn", tip: "Lift score. >1 = appears together more than expected." },
   ]
 
   return (
@@ -92,7 +118,7 @@ function FocalPointsTable(input) {
   let stats = input.synergyData.focal_stats || []
   let headers = [
     { id: "card_name", text: "Card", tip: "Card Name" },
-    { id: "focal_score", text: "Score", tip: "Focal Score (Avg Lift of Top 5 Partners)" },
+    { id: "focal_score", text: "Score", tip: "Sum of synergy scores for partners above the focal threshold. High = build-around card." },
     { id: "partners", text: "Top Partners", tip: "Cards that most frequently appear with this card." },
   ]
 

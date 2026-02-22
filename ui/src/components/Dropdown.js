@@ -49,7 +49,7 @@ export function NumericInput(input) {
       <label style={{"paddingRight": "10px"}}>
         {input.label}
       </label>
-      <input onChange={input.onChange} className="numeric-input" type="number" />
+      <input onChange={input.onChange} value={input.value} className="numeric-input" type="number" />
     </div>
   );
 }

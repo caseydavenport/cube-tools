@@ -53,7 +53,9 @@ export function useStatsFilters() {
   const [selectedPlayer, setSelectedPlayer] = useState("");
   const [selectedArchetype, setSelectedArchetype] = useState("aggro");
   const [sortBy, setSortBy] = useState("");
-  const [minSynergyDecks, setMinSynergyDecks] = useState(3);
+  const [minSynergyDecks, setMinSynergyDecks] = useState(5);
+  const [focalThreshold, setFocalThreshold] = useState(5);
+  const [smoothingK, setSmoothingK] = useState(5);
   const [synergySortBy, setSynergySortBy] = useState("synergy");
   const [display, setDisplay] = useState([true, false, false, false, false, false, false]);
 
@@ -102,6 +104,8 @@ export function useStatsFilters() {
     selectedArchetype, setSelectedArchetype,
     sortBy, setSortBy,
     minSynergyDecks, setMinSynergyDecks,
+    focalThreshold, setFocalThreshold,
+    smoothingK, setSmoothingK,
     synergySortBy, setSynergySortBy,
     display, setDisplay,
   };
@@ -122,8 +126,9 @@ export function useStatsData(filters, props, refresh) {
 
   const { startDate, endDate } = props;
   const { 
-    minDraftSize, cardWidgetColorSelection, minDrafts, 
-    minGames, bucketSize, strictColors, minSynergyDecks 
+    minDraftSize, cardWidgetColorSelection, minDrafts,
+    minGames, bucketSize, strictColors, minSynergyDecks,
+    focalThreshold, smoothingK
   } = filters;
 
   // Initial Load
@@ -196,10 +201,10 @@ export function useStatsData(filters, props, refresh) {
 
   // Synergy Data
   useEffect(() => {
-    fetch(`/api/stats/synergy?min_decks=${minSynergyDecks}&start=${startDate}&end=${endDate}&size=${minDraftSize}&match=${encodeURIComponent(props.matchStr || "")}`)
+    fetch(`/api/stats/synergy?min_decks=${minSynergyDecks}&focal_threshold=${focalThreshold}&smoothing_k=${smoothingK}&start=${startDate}&end=${endDate}&size=${minDraftSize}&match=${encodeURIComponent(props.matchStr || "")}`)
       .then(r => r.json())
       .then(d => setSynergyData(d));
-  }, [minSynergyDecks, minDraftSize, startDate, endDate, props.matchStr, refresh]);
+  }, [minSynergyDecks, focalThreshold, smoothingK, minDraftSize, startDate, endDate, props.matchStr, refresh]);
 
   // Derived Data
   const filteredDecks = useMemo(() => {

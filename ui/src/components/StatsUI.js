@@ -45,13 +45,16 @@ export function Overview(input) {
   if (input.decks == null) return null;
   let numDecks = input.decks.length;
   let drafts = new Map();
+  let players = new Map();
   for (let deck of input.decks) {
     drafts.set(deck.metadata.draft_id, true);
+    players.set(deck.player, true);
   }
   let numDrafts = drafts.size;
+  let numPlayers = players.size;
   return (
     <label className="dropdown">
-      <label>Displaying stats for {numDrafts} drafts, {numDecks} decks</label>
+      <label>Displaying stats for {numDrafts} drafts, {numDecks} decks, {numPlayers} players</label>
     </label>
   );
 }

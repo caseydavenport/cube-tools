@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"net/http"
 	"sort"
+	"strconv"
 
 	"github.com/caseydavenport/cube-tools/pkg/server/decks"
 	"github.com/caseydavenport/cube-tools/pkg/server/query"
@@ -16,8 +17,18 @@ type SynergyStatsRequest struct {
 	// Embed deck request to allow filtering by player, date range, and draft size.
 	*storage.DecksRequest
 
-	// Minimum number of decks a pair must appear in to be included.
+	// Minimum number of decks a pair must appear in to be included in results.
 	MinDecks int `json:"min_decks"`
+
+	// Minimum synergy score a partner must have to count toward a card's focal
+	// score. The focal score sums all partner synergy scores above this threshold,
+	// so lowering it includes weaker synergies and raising it focuses on strong ones.
+	FocalThreshold float64 `json:"focal_threshold"`
+
+	// Bayesian shrinkage constant. Acts as a pseudo-count pulling lift scores
+	// toward the baseline of 1.0 (statistical independence). Higher values dampen
+	// noisy estimates from low-sample pairs. Set to 0 for no smoothing.
+	SmoothingK float64 `json:"smoothing_k"`
 }
 
 type SynergyStatsResponse struct {
@@ -56,6 +67,16 @@ func parseSynergyRequest(r *http.Request) *SynergyStatsRequest {
 	p.MinDecks = query.GetInt(r, "min_decks")
 	if p.MinDecks == 0 {
 		p.MinDecks = 3
+	}
+	if v, err := strconv.ParseFloat(r.URL.Query().Get("focal_threshold"), 64); err == nil && v > 0 {
+		p.FocalThreshold = v
+	} else {
+		p.FocalThreshold = 5.0
+	}
+	if v, err := strconv.ParseFloat(r.URL.Query().Get("smoothing_k"), 64); err == nil && v >= 0 {
+		p.SmoothingK = v
+	} else {
+		p.SmoothingK = 5.0
 	}
 	p.DecksRequest = decks.ParseDecksRequest(r)
 	return &p
@@ -137,19 +158,29 @@ func (s *synergyStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request)
 		FocalStats: []CardFocalStat{},
 	}
 
-	// Temporary map to hold synergy scores for each card
+	// Temporary map to hold synergy scores for each card.
 	cardSynergies := make(map[string][]SynergyResult)
+
+	k := sr.SmoothingK
 
 	for p, stats := range cooccurrence {
 		if stats.count < sr.MinDecks {
 			continue
 		}
 
+		// Lift: ratio of observed to expected co-occurrence under independence.
+		// Expected = P(A) * P(B) * N. Lift > 1 means the pair appears together
+		// more than base rates predict; lift < 1 means they avoid each other.
 		probA := float64(cardCounts[p.c1]) / float64(numDecks)
 		probB := float64(cardCounts[p.c2]) / float64(numDecks)
 		expectedCount := probA * probB * float64(numDecks)
 
-		score := float64(stats.count) / expectedCount
+		rawLift := float64(stats.count) / expectedCount
+
+		// Bayesian shrinkage toward 1.0 (independence). We mix in K
+		// pseudo-observations at lift=1.0: score = (n*lift + k*1) / (n+k).
+		// This prevents low-sample pairs from dominating with extreme lift values.
+		score := (float64(stats.count)*rawLift + k*1.0) / (float64(stats.count) + k)
 
 		winPercent := 0.0
 		if stats.wins+stats.losses > 0 {
@@ -171,35 +202,37 @@ func (s *synergyStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request)
 		cardSynergies[p.c2] = append(cardSynergies[p.c2], result)
 	}
 
-	// Calculate Focal Score for each card
+	// Calculate Focal Score for each card. The focal score sums synergy scores for
+	// all partners above the threshold, identifying "build-around" cards that have
+	// many strong synergies. A high focal score means the card is a hub in the
+	// synergy network — it pulls you into a specific archetype when drafted.
 	for card, synergies := range cardSynergies {
-		// Sort by Synergy Score descending
+		threshold := sr.FocalThreshold
+		sumScore := 0.0
+		topPartners := []string{}
+
+		// Sort descending by synergy score to pick top partners for display.
 		sort.Slice(synergies, func(i, j int) bool {
 			return synergies[i].SynergyScore > synergies[j].SynergyScore
 		})
 
-		// Take top 5
-		topN := 5
-		if len(synergies) < topN {
-			topN = len(synergies)
-		}
-
-		sumScore := 0.0
-		topPartners := []string{}
-		for i := 0; i < topN; i++ {
-			sumScore += synergies[i].SynergyScore
-			partner := synergies[i].Card1
-			if partner == card {
-				partner = synergies[i].Card2
+		for _, syn := range synergies {
+			if syn.SynergyScore >= threshold {
+				sumScore += syn.SynergyScore
 			}
-			topPartners = append(topPartners, partner)
+			// Collect up to 5 top partners for display.
+			if len(topPartners) < 5 {
+				partner := syn.Card1
+				if partner == card {
+					partner = syn.Card2
+				}
+				topPartners = append(topPartners, partner)
+			}
 		}
-
-		avgScore := sumScore / float64(topN)
 
 		resp.FocalStats = append(resp.FocalStats, CardFocalStat{
 			CardName:    card,
-			FocalScore:  avgScore,
+			FocalScore:  sumScore,
 			TopPartners: topPartners,
 		})
 	}
