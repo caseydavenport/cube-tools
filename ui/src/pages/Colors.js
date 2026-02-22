@@ -50,6 +50,8 @@ export function ColorWidget(input) {
     { label: "Victory Points", value: "vps" },
     { label: "% of wins", value: "percent_of_wins" },
     { label: "Winning %", value: "winning_pct" },
+    { label: "Trophy %", value: "trophy_pct" },
+    { label: "Last Place %", value: "lastplace_pct" },
   ]
 
   return (
@@ -632,6 +634,14 @@ function ColorRateChart(input) {
         let c = stats.get(color)
         let total = (c.top_half || 0) + (c.bottom_half || 0)
         colorDatasets.get(color).push(total > 0 ? Math.round(100 * c.top_half / total) : 0)
+      } else if (input.dataset === "trophy_pct") {
+        let c = stats.get(color)
+        let total = (c.top_half || 0) + (c.bottom_half || 0)
+        colorDatasets.get(color).push(total > 0 ? Math.round(100 * (c.trophies || 0) / total) : 0)
+      } else if (input.dataset === "lastplace_pct") {
+        let c = stats.get(color)
+        let total = (c.top_half || 0) + (c.bottom_half || 0)
+        colorDatasets.get(color).push(total > 0 ? Math.round(100 * (c.last_place || 0) / total) : 0)
       } else {
         colorDatasets.get(color).push(stats.get(color).build_percent)
       }
@@ -744,6 +754,12 @@ function ColorRateChart(input) {
       break;
     case "winning_pct":
       title = `Winning % (bucket size = ${input.bucketSize} drafts)`
+      break;
+    case "trophy_pct":
+      title = `Trophy % (bucket size = ${input.bucketSize} drafts)`
+      break;
+    case "lastplace_pct":
+      title = `Last place % (bucket size = ${input.bucketSize} drafts)`
       break;
   }
 
