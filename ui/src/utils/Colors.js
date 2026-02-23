@@ -65,6 +65,46 @@ export function CombineColors(colors) {
   return arr.join('').toUpperCase()
 }
 
+// primaryColorPair returns the deck's two primary colors if the deck has 3+ colors
+// but appears to be a two-color deck with splash(es). A color is considered a splash
+// if it represents less than 25% of the deck's non-land colored cards.
+// Returns null if the deck has fewer than 3 colors or is a balanced multi-color deck.
+export function primaryColorPair(deck) {
+  if (!deck.colors || deck.colors.length < 3) {
+    return null
+  }
+
+  // Count non-land, non-hybrid cards per color.
+  let colorCounts = {}
+  let total = 0
+  for (let card of (deck.mainboard || [])) {
+    if (!card.colors || card.colors.length === 0) continue
+    if (card.types && card.types.includes("Land")) continue
+    if (card.mana_cost && card.mana_cost.includes("/")) continue
+    for (let c of card.colors) {
+      if (deck.colors.includes(c)) {
+        colorCounts[c] = (colorCounts[c] || 0) + 1
+        total++
+      }
+    }
+  }
+  if (total === 0) return null
+
+  // Sort colors by count descending.
+  let sorted = Object.keys(colorCounts).sort((a, b) => colorCounts[b] - colorCounts[a])
+  if (sorted.length < 3) return null
+
+  // Check that all colors beyond the top 2 are splashes (each < 25% of total).
+  for (let i = 2; i < sorted.length; i++) {
+    if (colorCounts[sorted[i]] / total >= 0.25) {
+      return null
+    }
+  }
+
+  // Return the primary pair in WUBRG order.
+  return CombineColors([sorted[0], sorted[1]])
+}
+
 export function ColorImages(colors) {
   // Sort correctly to start. Input may be one of several things:
   // - An array of color primitives. e.g., ["W", "G"]

@@ -1,6 +1,6 @@
 import React from 'react'
-import { DropdownHeader, NumericInput, Checkbox, DateSelector } from "../components/Dropdown.js"
-import { Colors, ColorImages, GetColorIdentity } from "../utils/Colors.js"
+import { DropdownHeader, NumericInput, DateSelector } from "../components/Dropdown.js"
+import { Colors, ColorImages, GetColorIdentity, primaryColorPair } from "../utils/Colors.js"
 import { Trophies, LastPlaceFinishes, Wins, Losses } from "../utils/Deck.js"
 import { IsBasicLand, SortFunc, StringToColor } from "../utils/Utils.js"
 
@@ -68,10 +68,10 @@ export function ColorWidget(input) {
               onSelected={input.onSelected}
               onClick={input.onHeaderClick}
               sortBy={input.colorSortBy}
-              strictColors={input.strictColors}
+              colorMode={input.colorMode}
+              onColorModeChanged={input.onColorModeChanged}
               selectedBucket={input.selectedBucket}
               onBucketSelected={input.onBucketSelected}
-              onStrictCheckbox={input.onStrictCheckbox}
             />
           </td>
         </tr>
@@ -124,7 +124,7 @@ export function ColorWidget(input) {
 
         <tr key="matchup-heatmap">
           <td colSpan="2" style={{"paddingTop": "50px"}}>
-            <ColorMatchupHeatmap matchupData={input.colorMatchupData} />
+            <ColorMatchupHeatmap matchupData={input.colorMatchupData} colorType={input.colorTypeSelection} />
           </td>
         </tr>
       </tbody>
@@ -379,18 +379,23 @@ function TableHeader(input) {
         onChange={input.onBucketSelected}
       />
 
-      <Checkbox
-        text="Strict"
+      <DropdownHeader
+        label="Color mode"
         className="dropdown"
-        checked={input.strictColors}
-        onChange={input.onStrictCheckbox}
+        options={[
+          { label: "Inclusive", value: "inclusive" },
+          { label: "Exact", value: "exact" },
+          { label: "Primary pair", value: "primary" },
+        ]}
+        value={input.colorMode}
+        onChange={input.onColorModeChanged}
       />
     </div>
   )
 }
 
 // GetColorStats collects statistics aggregated by color and color pair based on the given decks.
-export function GetColorStats(decks, strictColors) {
+export function GetColorStats(decks, colorMode) {
   let tracker = new Map()
 
   // Count of all cards ever drafted. This will be used to calculate pick percentages per-color.
@@ -453,15 +458,22 @@ export function GetColorStats(decks, strictColors) {
     // Add wins and losses contributed for each color / color combination within this deck.
     let colorIdentity = GetColorIdentity(decks[i])
 
-    // If we're in strict mode, ignore any color that isn't strictly the color ideneity of
-    // the deck. For example, a WG deck will only count as WG in strict mode, where as it would
-    // count as W, G, and WG norally.
+    // In "inclusive" mode, a deck contributes to all sub-identities (W, U, WU for a WU deck).
+    // In "exact" mode, only the exact color identity matches (WU only).
+    // In "primary" mode, same as exact but 3+ color decks with a clear primary pair
+    // (splash colors) are treated as their primary pair.
+    let strict = colorMode === "exact" || colorMode === "primary"
+    let effectiveColorCount = decks[i].colors.length
+    if (colorMode === "primary" && effectiveColorCount >= 3) {
+      let pair = primaryColorPair(decks[i])
+      if (pair != null) {
+        effectiveColorCount = 2
+      }
+    }
     let colors = new Array()
     for (let color of colorIdentity) {
-      if (strictColors) {
-        if (decks[i].colors.length != color.length) {
-          continue
-        }
+      if (strict && effectiveColorCount != color.length) {
+        continue
       }
       colors.push(color)
     }
@@ -835,16 +847,26 @@ function ColorRateChart(input) {
   );
 }
 
-function ColorMatchupHeatmap({ matchupData }) {
+const monoColors = ["W", "U", "B", "R", "G"];
+const dualColors = ["WU", "WB", "WR", "WG", "UB", "UR", "UG", "BR", "BG", "RG"];
+const trioColors = ["WUB", "WUR", "WUG", "WBR", "WBG", "WRG", "UBR", "UBG", "URG", "BRG"];
+
+const colorGroupNames = {
+  W: "White", U: "Blue", B: "Black", R: "Red", G: "Green",
+  WU: "Azorius", WB: "Orzhov", WR: "Boros", WG: "Selesnya",
+  UB: "Dimir", UR: "Izzet", UG: "Simic", BR: "Rakdos", BG: "Golgari", RG: "Gruul",
+  WUB: "Esper", WUR: "Jeskai", WUG: "Bant", WBR: "Mardu", WBG: "Abzan",
+  WRG: "Naya", UBR: "Grixis", UBG: "Sultai", URG: "Temur", BRG: "Jund",
+};
+
+function ColorMatchupHeatmap({ matchupData, colorType }) {
   if (!matchupData || Object.keys(matchupData).length === 0) {
     return null;
   }
 
-  const colorPairs = ["WU", "WB", "WR", "WG", "UB", "UR", "UG", "BR", "BG", "RG"];
-  const guildNames = {
-    WU: "Azorius", WB: "Orzhov", WR: "Boros", WG: "Selesnya",
-    UB: "Dimir", UR: "Izzet", UG: "Simic", BR: "Rakdos", BG: "Golgari", RG: "Gruul",
-  };
+  let groups = dualColors;
+  if (colorType === "Mono") groups = monoColors;
+  else if (colorType === "Trio") groups = trioColors;
 
   // Compute cell background color: green for >50%, red for <50%, gray for mirror/low data.
   function cellColor(winPct, totalGames) {
@@ -860,28 +882,30 @@ function ColorMatchupHeatmap({ matchupData }) {
     }
   }
 
+  const title = colorType === "Mono" ? "Mono-Color" : colorType === "Trio" ? "Trio-Color" : "Color Pair";
+
   return (
     <div>
       <h4 style={{textAlign: "center", color: "var(--primary)", marginBottom: "1rem"}}>
-        Color Pair Matchup Heatmap
+        {title} Matchup Heatmap
       </h4>
       <div style={{overflowX: "auto"}}>
         <table className="widget-table" style={{margin: "0 auto", fontSize: "0.85em"}}>
           <thead>
             <tr>
               <td className="header-cell" style={{minWidth: "70px"}}></td>
-              {colorPairs.map(cp => (
+              {groups.map(cp => (
                 <td key={cp} className="header-cell" style={{textAlign: "center", minWidth: "65px"}}>
-                  {guildNames[cp] || cp}
+                  {colorGroupNames[cp] || cp}
                 </td>
               ))}
             </tr>
           </thead>
           <tbody>
-            {colorPairs.map(myColor => (
+            {groups.map(myColor => (
               <tr key={myColor} className="widget-table-row">
-                <td className="header-cell" style={{fontWeight: "bold"}}>{guildNames[myColor] || myColor}</td>
-                {colorPairs.map(oppColor => {
+                <td className="header-cell" style={{fontWeight: "bold"}}>{colorGroupNames[myColor] || myColor}</td>
+                {groups.map(oppColor => {
                   if (myColor === oppColor) {
                     return (
                       <td key={oppColor} style={{background: "var(--page-background)", textAlign: "center", color: "var(--text-muted)"}}>
@@ -902,7 +926,7 @@ function ColorMatchupHeatmap({ matchupData }) {
                       delay={{ show: 100, hide: 100 }}
                       overlay={
                         <Popover id={`matchup-${myColor}-${oppColor}`}>
-                          <Popover.Header as="h3">{guildNames[myColor]} vs {guildNames[oppColor]}</Popover.Header>
+                          <Popover.Header as="h3">{colorGroupNames[myColor]} vs {colorGroupNames[oppColor]}</Popover.Header>
                           <Popover.Body>
                             {wins}W - {losses}L ({total} games)
                           </Popover.Body>

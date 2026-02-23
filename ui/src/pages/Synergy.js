@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useCallback } from 'react'
 import { SortFunc } from "../utils/Utils.js"
-import { NumericInput } from "../components/Dropdown.js"
+import { NumericInput, Checkbox } from "../components/Dropdown.js"
 import { White, Blue, Black, Red, Green } from "../utils/Colors.js"
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Popover from 'react-bootstrap/Popover';
@@ -63,6 +63,13 @@ function SynergyWidgetOptions(input) {
             label="Smoothing K"
             value={input.smoothingK}
             onChange={input.onSmoothingKChanged}
+          />
+        </OptionTooltip>
+        <OptionTooltip id="tip-color-adjust" header="Color Adjust" tip="Adjust expected co-occurrence for color bias. When on, same-color pairs are compared against decks that could cast both cards, preventing inflated scores.">
+          <Checkbox
+            text="Color adjust"
+            checked={input.colorAdjust}
+            onChange={input.onColorAdjustChanged}
           />
         </OptionTooltip>
       </div>

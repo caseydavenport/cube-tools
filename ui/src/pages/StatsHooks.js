@@ -16,7 +16,7 @@ export function useStatsFilters() {
   const [selectedBucket, setSelectedBucket] = useState("ALL");
   const [colorTypeSelection, setColorTypeSelection] = useState("Mono");
   const [colorSortBy, setColorSortBy] = useState("win");
-  const [strictColors, setStrictColors] = useState(false);
+  const [colorMode, setColorMode] = useState("inclusive");
   const [colorCheckboxes, setColorCheckboxes] = useState([false, false, false, false, false]);
   const [cardWidgetSelection, setCardWidgetSelection] = useState("Mainboard rate");
   const [minDrafts, setMinDrafts] = useState(0);
@@ -56,6 +56,7 @@ export function useStatsFilters() {
   const [minSynergyDecks, setMinSynergyDecks] = useState(5);
   const [focalThreshold, setFocalThreshold] = useState(5);
   const [smoothingK, setSmoothingK] = useState(5);
+  const [colorAdjust, setColorAdjust] = useState(false);
   const [synergySortBy, setSynergySortBy] = useState("synergy");
   const [display, setDisplay] = useState([true, false, false, false, false, false, false, false]);
 
@@ -66,7 +67,7 @@ export function useStatsFilters() {
     selectedBucket, setSelectedBucket,
     colorTypeSelection, setColorTypeSelection,
     colorSortBy, setColorSortBy,
-    strictColors, setStrictColors,
+    colorMode, setColorMode,
     colorCheckboxes, setColorCheckboxes,
     cardWidgetSelection, setCardWidgetSelection,
     minDrafts, setMinDrafts,
@@ -106,6 +107,7 @@ export function useStatsFilters() {
     minSynergyDecks, setMinSynergyDecks,
     focalThreshold, setFocalThreshold,
     smoothingK, setSmoothingK,
+    colorAdjust, setColorAdjust,
     synergySortBy, setSynergySortBy,
     display, setDisplay,
   };
@@ -129,8 +131,8 @@ export function useStatsData(filters, props, refresh) {
   const { startDate, endDate } = props;
   const { 
     minDraftSize, cardWidgetColorSelection, minDrafts,
-    minGames, bucketSize, strictColors, minSynergyDecks,
-    focalThreshold, smoothingK
+    minGames, bucketSize, colorMode, minSynergyDecks,
+    focalThreshold, smoothingK, colorAdjust
   } = filters;
 
   // Initial Load
@@ -158,16 +160,16 @@ export function useStatsData(filters, props, refresh) {
 
   // Color Data
   useEffect(() => {
-    fetch(`/api/stats/colors?start=${startDate}&end=${endDate}&size=${minDraftSize}&strict_colors=${strictColors}&match=${encodeURIComponent(props.matchStr || "")}`)
+    fetch(`/api/stats/colors?start=${startDate}&end=${endDate}&size=${minDraftSize}&color_mode=${colorMode}&match=${encodeURIComponent(props.matchStr || "")}`)
       .then(r => r.json())
       .then(d => setColorData(new Map(Object.entries(d.all.data))));
-  }, [strictColors, startDate, endDate, minDraftSize, props.matchStr, refresh]);
+  }, [colorMode, startDate, endDate, minDraftSize, props.matchStr, refresh]);
 
   useEffect(() => {
-    fetch(`/api/stats/colors?start=${startDate}&end=${endDate}&size=${minDraftSize}&strict_colors=${strictColors}&bucket_size=${bucketSize}&sliding=true&match=${encodeURIComponent(props.matchStr || "")}`)
+    fetch(`/api/stats/colors?start=${startDate}&end=${endDate}&size=${minDraftSize}&color_mode=${colorMode}&bucket_size=${bucketSize}&sliding=true&match=${encodeURIComponent(props.matchStr || "")}`)
       .then(r => r.json())
       .then(d => setColorDataBucketed(Array.from(d.buckets)));
-  }, [strictColors, bucketSize, startDate, endDate, minDraftSize, props.matchStr, refresh]);
+  }, [colorMode, bucketSize, startDate, endDate, minDraftSize, props.matchStr, refresh]);
 
   // Archetype & Player Stats (Aggregated)
   useEffect(() => {
@@ -203,17 +205,17 @@ export function useStatsData(filters, props, refresh) {
 
   // Synergy Data
   useEffect(() => {
-    fetch(`/api/stats/synergy?min_decks=${minSynergyDecks}&focal_threshold=${focalThreshold}&smoothing_k=${smoothingK}&start=${startDate}&end=${endDate}&size=${minDraftSize}&match=${encodeURIComponent(props.matchStr || "")}`)
+    fetch(`/api/stats/synergy?min_decks=${minSynergyDecks}&focal_threshold=${focalThreshold}&smoothing_k=${smoothingK}&color_adjust=${colorAdjust}&start=${startDate}&end=${endDate}&size=${minDraftSize}&match=${encodeURIComponent(props.matchStr || "")}`)
       .then(r => r.json())
       .then(d => setSynergyData(d));
-  }, [minSynergyDecks, focalThreshold, smoothingK, minDraftSize, startDate, endDate, props.matchStr, refresh]);
+  }, [minSynergyDecks, focalThreshold, smoothingK, colorAdjust, minDraftSize, startDate, endDate, props.matchStr, refresh]);
 
   // Color Matchup Data
   useEffect(() => {
-    fetch(`/api/stats/color-matchups?start=${startDate}&end=${endDate}&size=${minDraftSize}&match=${encodeURIComponent(props.matchStr || "")}`)
+    fetch(`/api/stats/color-matchups?start=${startDate}&end=${endDate}&size=${minDraftSize}&color_mode=${colorMode}&color_type=${filters.colorTypeSelection}&match=${encodeURIComponent(props.matchStr || "")}`)
       .then(r => r.json())
       .then(d => setColorMatchupData(d.matchups || {}));
-  }, [startDate, endDate, minDraftSize, props.matchStr, refresh]);
+  }, [startDate, endDate, minDraftSize, colorMode, filters.colorTypeSelection, props.matchStr, refresh]);
 
   // Health Data
   useEffect(() => {
@@ -250,12 +252,12 @@ export function useStatsData(filters, props, refresh) {
       const pd = PlayerData(filteredDecks);
       for (let d of pd.values()) {
         d.archetypeData = ArchetypeData(d.decks);
-        d.colorStats = GetColorStats(d.decks, filters.strictColors);
+        d.colorStats = GetColorStats(d.decks, filters.colorMode);
       }
       return pd;
     }
     return playerStats instanceof Map ? playerStats : new Map(Object.entries(playerStats));
-  }, [filteredDecks, playerStats, filters.colorCheckboxes, props.matchStr, filters.strictColors]);
+  }, [filteredDecks, playerStats, filters.colorCheckboxes, props.matchStr, filters.colorMode]);
 
   const deckBuckets = useMemo(() => {
     if (filteredDecks.length === 0) return [];

@@ -51,7 +51,7 @@ export function StatsViewer(props) {
   const {
     bucketSize, setBucketSize, playerMatch, setPlayerMatch, minDraftSize, setMinDraftSize,
     manaValue, setManaValue, selectedBucket, setSelectedBucket, colorTypeSelection, setColorTypeSelection,
-    colorSortBy, setColorSortBy, strictColors, setStrictColors, colorCheckboxes, setColorCheckboxes,
+    colorSortBy, setColorSortBy, colorMode, setColorMode, colorCheckboxes, setColorCheckboxes,
     cardWidgetSelection, setCardWidgetSelection, minDrafts, setMinDrafts, minGames, setMinGames,
     minPlayers, setMinPlayers, maxPlayers, setMaxPlayers, selectedCard, setSelectedCard,
     cardFilter, setCardFilter, cardWidgetColorSelection, setCardWidgetColorSelection,
@@ -69,7 +69,7 @@ export function StatsViewer(props) {
     selectedPlayer, setSelectedPlayer, selectedArchetype, setSelectedArchetype,
     sortBy, setSortBy, minSynergyDecks, setMinSynergyDecks,
     focalThreshold, setFocalThreshold, smoothingK, setSmoothingK,
-    synergySortBy, setSynergySortBy,
+    colorAdjust, setColorAdjust, synergySortBy, setSynergySortBy,
     display, setDisplay
   } = filters;
 
@@ -171,6 +171,8 @@ export function StatsViewer(props) {
           onFocalThresholdChanged={(e) => setFocalThreshold(e.target.value)}
           smoothingK={smoothingK}
           onSmoothingKChanged={(e) => setSmoothingK(e.target.value)}
+          colorAdjust={colorAdjust}
+          onColorAdjustChanged={() => setColorAdjust(!colorAdjust)}
           onHeaderClick={(e) => setSynergySortBy(e.currentTarget.id)}
           sortBy={synergySortBy} onCardSelected={(e) => setSelectedCard(e.currentTarget.id)}
         />
@@ -180,8 +182,8 @@ export function StatsViewer(props) {
           colorTypeSelection={colorTypeSelection} onSelected={(e) => setColorTypeSelection(e.target.value)}
           onBucketSelected={(e) => setSelectedBucket(e.target.value)}
           decks={parsed.filteredDecks} onHeaderClick={(e) => setColorSortBy(e.currentTarget.id)}
-          colorSortBy={colorSortBy} bucketSize={bucketSize} strictColors={strictColors}
-          onStrictCheckbox={() => setStrictColors(!strictColors)}
+          colorSortBy={colorSortBy} bucketSize={bucketSize} colorMode={colorMode}
+          onColorModeChanged={(e) => setColorMode(e.target.value)}
           selectedBucket={selectedBucket} show={display[0]}
           colorMatchupData={colorMatchupData}
         />

@@ -426,6 +426,61 @@ func combineColors(colors []string) string {
 	return strings.Join(colors, "")
 }
 
+// PrimaryColorPair returns the deck's two primary colors if the deck has 3+ colors
+// but appears to be a two-color deck with splash(es). A color is considered a splash
+// if it represents less than 25% of the deck's non-land colored cards.
+// Returns nil if the deck has fewer than 3 colors or is a balanced multi-color deck.
+func (d *Deck) PrimaryColorPair() []string {
+	colors := d.GetColors()
+	if len(colors) < 3 {
+		return nil
+	}
+
+	// Count non-land, non-hybrid cards per color.
+	colorCounts := make(map[string]int)
+	total := 0
+	for _, card := range d.Mainboard {
+		if card.IsLand() || card.IsHybrid() {
+			continue
+		}
+		for _, c := range card.Colors {
+			if colors[c] {
+				colorCounts[c]++
+				total++
+			}
+		}
+	}
+	if total == 0 {
+		return nil
+	}
+
+	// Sort colors by card count descending.
+	sorted := make([]string, 0, len(colorCounts))
+	for c := range colorCounts {
+		sorted = append(sorted, c)
+	}
+	sort.Slice(sorted, func(i, j int) bool {
+		return colorCounts[sorted[i]] > colorCounts[sorted[j]]
+	})
+	if len(sorted) < 3 {
+		return nil
+	}
+
+	// Check that all colors beyond the top 2 are splashes (each < 25% of total).
+	for _, c := range sorted[2:] {
+		if float64(colorCounts[c])/float64(total) >= 0.25 {
+			return nil
+		}
+	}
+
+	// Return the primary pair in WUBRG order.
+	pair := []string{sorted[0], sorted[1]}
+	sort.Slice(pair, func(i, j int) bool {
+		return strings.Index("WUBRG", pair[i]) < strings.Index("WUBRG", pair[j])
+	})
+	return pair
+}
+
 // A card is castable if its colors are a subset of the deck's colors, or if it's colorless.
 func (d *Deck) CanCast(c Card) bool {
 	if len(c.Colors) == 0 && !slices.Contains(c.Types, "Land") {

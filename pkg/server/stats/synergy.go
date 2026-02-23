@@ -29,6 +29,10 @@ type SynergyStatsRequest struct {
 	// toward the baseline of 1.0 (statistical independence). Higher values dampen
 	// noisy estimates from low-sample pairs. Set to 0 for no smoothing.
 	SmoothingK float64 `json:"smoothing_k"`
+
+	// When true, restrict the expected co-occurrence baseline to decks where both
+	// cards are castable, preventing same-color pairs from getting inflated scores.
+	ColorAdjust bool `json:"color_adjust"`
 }
 
 type SynergyStatsResponse struct {
@@ -47,6 +51,7 @@ type SynergyResult struct {
 	Card1        string  `json:"card1"`
 	Card2        string  `json:"card2"`
 	Count        int     `json:"count"`
+	EligibleDecks int    `json:"eligible_decks"`
 	SynergyScore float64 `json:"synergy_score"`
 	WinPercent   float64 `json:"win_percent"`
 }
@@ -78,6 +83,8 @@ func parseSynergyRequest(r *http.Request) *SynergyStatsRequest {
 	} else {
 		p.SmoothingK = 5.0
 	}
+	// Default to false; only enable when explicitly set to "true".
+	p.ColorAdjust = r.URL.Query().Get("color_adjust") == "true"
 	p.DecksRequest = decks.ParseDecksRequest(r)
 	return &p
 }
@@ -103,8 +110,10 @@ func (s *synergyStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request)
 		return
 	}
 	cubeCards := make(map[string]bool)
+	cubeCardMap := make(map[string]types.Card)
 	for _, c := range cube.Cards {
 		cubeCards[c.Name] = true
+		cubeCardMap[c.Name] = c
 	}
 
 	// Load allDecks matching the request.
@@ -152,6 +161,37 @@ func (s *synergyStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request)
 		}
 	}
 
+	// Pre-compute per-deck lookups for color-adjusted expected counts.
+	// deckHasCard[i][name] = true if deck i contains that tracked card.
+	// deckCanCast[i][name] = true if deck i can cast that card (colors are a subset).
+	trackedCards := make([]string, 0, len(cardCounts))
+	for name := range cardCounts {
+		trackedCards = append(trackedCards, name)
+	}
+	deckHasCard := make([]map[string]bool, numDecks)
+	deckCanCast := make([]map[string]bool, numDecks)
+	for i, deck := range allDecks {
+		hasCard := make(map[string]bool)
+		canCast := make(map[string]bool)
+		seen := make(map[string]bool)
+		for _, card := range deck.Mainboard {
+			if !cubeCards[card.Name] || card.IsLand() || seen[card.Name] {
+				continue
+			}
+			seen[card.Name] = true
+			if cardCounts[card.Name] > 0 {
+				hasCard[card.Name] = true
+			}
+		}
+		for _, name := range trackedCards {
+			if c, ok := cubeCardMap[name]; ok && deck.CanCast(c) {
+				canCast[name] = true
+			}
+		}
+		deckHasCard[i] = hasCard
+		deckCanCast[i] = canCast
+	}
+
 	resp := SynergyStatsResponse{
 		TotalDecks: numDecks,
 		Pairs:      []SynergyResult{},
@@ -168,12 +208,42 @@ func (s *synergyStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request)
 			continue
 		}
 
-		// Lift: ratio of observed to expected co-occurrence under independence.
-		// Expected = P(A) * P(B) * N. Lift > 1 means the pair appears together
-		// more than base rates predict; lift < 1 means they avoid each other.
-		probA := float64(cardCounts[p.c1]) / float64(numDecks)
-		probB := float64(cardCounts[p.c2]) / float64(numDecks)
-		expectedCount := probA * probB * float64(numDecks)
+		var expectedCount float64
+		eligibleBoth := numDecks
+
+		if sr.ColorAdjust {
+			// Color-adjusted lift: restrict the independence baseline to decks where
+			// both cards are castable. This prevents same-color pairs from getting
+			// inflated scores simply because colored cards co-occur in their color's decks.
+			eligibleBoth = 0
+			countAe := 0
+			countBe := 0
+			for i := range allDecks {
+				if deckCanCast[i][p.c1] && deckCanCast[i][p.c2] {
+					eligibleBoth++
+					if deckHasCard[i][p.c1] {
+						countAe++
+					}
+					if deckHasCard[i][p.c2] {
+						countBe++
+					}
+				}
+			}
+
+			if eligibleBoth == 0 {
+				continue
+			}
+			expectedCount = float64(countAe) * float64(countBe) / float64(eligibleBoth)
+		} else {
+			// Global independence baseline: P(A) * P(B) * N.
+			probA := float64(cardCounts[p.c1]) / float64(numDecks)
+			probB := float64(cardCounts[p.c2]) / float64(numDecks)
+			expectedCount = probA * probB * float64(numDecks)
+		}
+
+		if expectedCount == 0 {
+			continue
+		}
 
 		rawLift := float64(stats.count) / expectedCount
 
@@ -188,11 +258,12 @@ func (s *synergyStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request)
 		}
 
 		result := SynergyResult{
-			Card1:        p.c1,
-			Card2:        p.c2,
-			Count:        stats.count,
-			SynergyScore: score,
-			WinPercent:   winPercent,
+			Card1:         p.c1,
+			Card2:         p.c2,
+			Count:         stats.count,
+			EligibleDecks: eligibleBoth,
+			SynergyScore:  score,
+			WinPercent:    winPercent,
 		}
 
 		resp.Pairs = append(resp.Pairs, result)

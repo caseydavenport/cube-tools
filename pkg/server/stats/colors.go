@@ -20,7 +20,11 @@ type ColorStatsRequest struct {
 	// Configuration for bucketed responses.
 	BucketSize   int  `json:"bucket_size"`
 	Sliding      bool `json:"sliding"`
-	StrictColors bool `json:"strict_colors"`
+	// ColorMode controls how decks are bucketed by color identity.
+	// "inclusive" (default): a WU deck counts as W, U, and WU.
+	// "exact": only exact color identity matches (3+ color decks excluded from 2-color rows).
+	// "primary": exact match, but 3+ color decks with a clear primary pair count as that pair.
+	ColorMode string `json:"color_mode"`
 }
 
 type ColorStatsResponse struct {
@@ -47,7 +51,10 @@ func parseColorsRequest(r *http.Request) *ColorStatsRequest {
 	p := ColorStatsRequest{}
 	p.BucketSize = query.GetInt(r, "bucket_size")
 	p.Sliding = query.GetBool(r, "sliding")
-	p.StrictColors = query.GetBool(r, "strict_colors")
+	p.ColorMode = r.URL.Query().Get("color_mode")
+	if p.ColorMode == "" {
+		p.ColorMode = "inclusive"
+	}
 
 	// Parse the embedded deck request.
 	p.DecksRequest = decks.ParseDecksRequest(r)
@@ -184,13 +191,20 @@ func (d *colorStatsHandler) statsForDecks(decks []*storage.Deck, sr *ColorStatsR
 		// Add wins and losses contributed for each color / color combination within this deck.
 		identities := deck.ColorIdentities()
 
-		// If we're in strict mode, ignore any color that isn't strictly the color identity of
-		// the deck. For example, a WG deck will only count as WG in strict mode, whereas it would
-		// count as W, G, and WG normally.
+		// In "inclusive" mode, a deck contributes to all sub-identities (W, U, WU for a WU deck).
+		// In "exact" mode, only the exact color identity matches (WU only).
+		// In "primary" mode, same as exact but 3+ color decks with a clear primary pair
+		// (splash colors) are treated as their primary pair.
+		strict := sr.ColorMode == "exact" || sr.ColorMode == "primary"
+		effectiveColorCount := len(deck.GetColors())
+		if sr.ColorMode == "primary" && effectiveColorCount >= 3 {
+			if pair := deck.PrimaryColorPair(); pair != nil {
+				effectiveColorCount = 2
+			}
+		}
 		var colors []string
 		for color := range identities {
-			if sr.StrictColors && len(deck.GetColors()) != len(color) {
-				// Skip this color since it isn't strictly the color identity of the deck.
+			if strict && effectiveColorCount != len(color) {
 				continue
 			}
 			colors = append(colors, color)
