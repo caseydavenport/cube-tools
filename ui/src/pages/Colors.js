@@ -860,6 +860,8 @@ const colorGroupNames = {
 };
 
 function ColorMatchupHeatmap({ matchupData, colorType }) {
+  const [sortColumn, setSortColumn] = React.useState(null);
+
   if (!matchupData || Object.keys(matchupData).length === 0) {
     return null;
   }
@@ -868,9 +870,21 @@ function ColorMatchupHeatmap({ matchupData, colorType }) {
   if (colorType === "Mono") groups = monoColors;
   else if (colorType === "Trio") groups = trioColors;
 
+  // Sort rows by win% against the selected column, descending.
+  let sortedRows = [...groups];
+  if (sortColumn && groups.includes(sortColumn)) {
+    sortedRows.sort((a, b) => {
+      const aRecord = matchupData[a]?.[sortColumn];
+      const bRecord = matchupData[b]?.[sortColumn];
+      const aPct = aRecord ? aRecord.win_pct : -1;
+      const bPct = bRecord ? bRecord.win_pct : -1;
+      return bPct - aPct;
+    });
+  }
+
   // Compute cell background color: green for >50%, red for <50%, gray for mirror/low data.
   function cellColor(winPct, totalGames) {
-    if (totalGames < 3) return "var(--card-background)";
+    if (totalGames < 10) return "var(--card-background)";
     // Scale from red (0%) through neutral (50%) to green (100%).
     const t = Math.max(0, Math.min(1, winPct / 100));
     if (t >= 0.5) {
@@ -895,14 +909,18 @@ function ColorMatchupHeatmap({ matchupData, colorType }) {
             <tr>
               <td className="header-cell" style={{minWidth: "70px"}}></td>
               {groups.map(cp => (
-                <td key={cp} className="header-cell" style={{textAlign: "center", minWidth: "65px"}}>
+                <td key={cp} className="header-cell" style={{
+                  textAlign: "center", minWidth: "65px", cursor: "pointer",
+                  background: sortColumn === cp ? "var(--primary)" : undefined,
+                  color: sortColumn === cp ? "var(--page-background)" : undefined,
+                }} onClick={() => setSortColumn(sortColumn === cp ? null : cp)}>
                   {colorGroupNames[cp] || cp}
                 </td>
               ))}
             </tr>
           </thead>
           <tbody>
-            {groups.map(myColor => (
+            {sortedRows.map(myColor => (
               <tr key={myColor} className="widget-table-row">
                 <td className="header-cell" style={{fontWeight: "bold"}}>{colorGroupNames[myColor] || myColor}</td>
                 {groups.map(oppColor => {
@@ -937,7 +955,7 @@ function ColorMatchupHeatmap({ matchupData, colorType }) {
                         background: cellColor(winPct, total),
                         textAlign: "center",
                         cursor: "default",
-                        opacity: total < 3 ? 0.4 : 1,
+                        opacity: total < 10 ? 0.4 : 1,
                       }}>
                         {total > 0 ? `${Math.round(winPct)}%` : ""}
                       </td>

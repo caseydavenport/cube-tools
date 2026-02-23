@@ -166,157 +166,184 @@ export function ArchetypeWidget(input) {
   );
 }
 
+const macroArchetypes = new Set(["aggro", "tempo", "midrange", "control"]);
+
+const archetypeHeaders = [
+  {
+    id: "type",
+    text: "Tag",
+    tip: "Archetype (aggro / midrange / control) or tag applied to a deck. A deck may have multiple tags"
+  },
+  {
+    id: "build_percent",
+    text: "Build %",
+    tip: "Percentage of all built decks that have this archetype / tag.",
+  },
+  {
+    id: "win_percent",
+    text: "Win %",
+    tip: "Win percentage of decks that have this archetype / tag.",
+  },
+  {
+    id: "pwin",
+    text: "% of wins",
+    tip: "Number of wins from decks with this tag, divided by the total number of wins across all decks.",
+  },
+  {
+    id: "trophies",
+    text: "Trophies",
+    tip: "Number of 3-0 decks of this archetype / tag.",
+  },
+  {
+    id: "lastplace",
+    text: "Last place",
+    tip: "Number of 0-3 decks of this archetype / tag.",
+  },
+  {
+    id: "winning",
+    text: "Winning",
+    tip: "Number of 2-1 or better.",
+  },
+  {
+    id: "losing",
+    text: "Losing",
+    tip: "Number of 1-2 or worse.",
+  },
+  {
+    id: "winning_pct",
+    text: "Winning %",
+    tip: "Percentage of decks with a 2-1 or better match record.",
+  },
+  {
+    id: "num",
+    text: "# Decks",
+    tip: "Total number of decks with this archetype / tag.",
+  },
+  {
+    id: "shared",
+    text: "Avg other types",
+    tip: "Average number of other tags applied to decks with this archetype / tag.",
+  },
+];
+
+function ArchetypeTableHeader(input) {
+  return (
+    <thead className="table-header">
+      <tr>
+        {
+          archetypeHeaders.map(function(hdr, i) {
+            return (
+              <OverlayTrigger
+                key={i}
+                placement="top"
+                delay={{ show: 100, hide: 100 }}
+                overlay={
+                  <Popover id="popover-basic">
+                    <Popover.Header as="h3">{hdr.text}</Popover.Header>
+                    <Popover.Body>
+                      {hdr.tip}
+                    </Popover.Body>
+                  </Popover>
+                }
+              >
+                <td onClick={input.onHeaderClick} id={hdr.id} className="header-cell">{hdr.text}</td>
+              </OverlayTrigger>
+            );
+          })
+        }
+      </tr>
+    </thead>
+  );
+}
+
+function ArchetypeTableRows(input) {
+  return (
+    <tbody>
+      {
+        input.data.map(function(t) {
+          let sort = t.build_percent
+          switch (input.sortBy) {
+            case "type":
+              sort = t.type;
+              break;
+            case "win_percent":
+              sort = t.win_percent;
+              break;
+            case "shared":
+              sort = t.avg_shared;
+              break;
+            case "num":
+              sort = t.count;
+              break;
+            case "pwin":
+              sort = t.percent_of_wins;
+              break;
+            case "trophies":
+              sort = t.trophies;
+              break;
+            case "lastplace":
+              sort = t.last_place;
+              break;
+            case "winning":
+              sort = t.winning;
+              break;
+            case "losing":
+              sort = t.losing;
+              break;
+            case "winning_pct":
+              sort = (t.winning + t.losing) > 0 ? t.winning / (t.winning + t.losing) : 0;
+              break;
+          }
+          return (
+            <tr key={t.type} sort={sort} className="widget-table-row">
+              <td id={t.type} onClick={input.handleRowClick} key="type">{t.type}</td>
+              <td key="build_percent">{t.build_percent}%</td>
+              <td key="win_percent">{t.win_percent}%</td>
+              <td key="pwin">{t.percent_of_wins}%</td>
+              <td key="trophies">{t.trophies}</td>
+              <td key="lastplace">{t.last_place}</td>
+              <td key="winning">{t.winning}</td>
+              <td key="losing">{t.losing}</td>
+              <td key="winning_pct">{(t.winning + t.losing) > 0 ? Math.round(100 * t.winning / (t.winning + t.losing)) : 0}%</td>
+              <td key="num">{t.count}</td>
+              <td key="shared">{t.avg_shared}</td>
+            </tr>
+          )
+        }).sort(SortFunc)
+      }
+    </tbody>
+  );
+}
+
 function ArchetypeStatsTable(input) {
   let archetypes = input.parsed.archetypeData
-  let data = []
+  let macroData = []
+  let microData = []
   for (let arch of archetypes.values()) {
     if (arch.build_percent >= watermark) {
-      data.push(arch)
+      if (macroArchetypes.has(arch.type)) {
+        macroData.push(arch)
+      } else {
+        microData.push(arch)
+      }
     }
   }
-
-  let headers = [
-    {
-      id: "type",
-      text: "Tag",
-      tip: "Archetype (aggro / midrange / control) or tag applied to a deck. A deck may have multiple tags"
-    },
-    {
-      id: "build_percent",
-      text: "Build %",
-      tip: "Percentage of all built decks that have this archetype / tag.",
-    },
-    {
-      id: "win_percent",
-      text: "Win %",
-      tip: "Win percentage of decks that have this archetype / tag.",
-    },
-    {
-      id: "pwin",
-      text: "% of wins",
-      tip: "Number of wins from decks with this tag, divided by the total number of wins across all decks.",
-    },
-    {
-      id: "trophies",
-      text: "Trophies",
-      tip: "Number of 3-0 decks of this archetype / tag.",
-    },
-    {
-      id: "lastplace",
-      text: "Last place",
-      tip: "Number of 0-3 decks of this archetype / tag.",
-    },
-    {
-      id: "winning",
-      text: "Winning",
-      tip: "Number of 2-1 or better.",
-    },
-    {
-      id: "losing",
-      text: "Losing",
-      tip: "Number of 1-2 or worse.",
-    },
-    {
-      id: "winning_pct",
-      text: "Winning %",
-      tip: "Percentage of decks with a 2-1 or better match record.",
-    },
-    {
-      id: "num",
-      text: "# Decks",
-      tip: "Total number of decks with this archetype / tag.",
-    },
-    {
-      id: "shared",
-      text: "Avg other types",
-      tip: "Average number of other tags applied to decks with this archetype / tag.",
-    },
-  ]
 
   return (
     <div>
       <ColorPickerHeader display={input.colorCheckboxes} onChecked={input.onColorChecked} />
+      <h4 style={{marginTop: "1rem", marginBottom: "0.5rem"}}>Macro Archetypes</h4>
       <table className="widget-table">
-        <thead className="table-header">
-          <tr>
-            {
-              headers.map(function(hdr, i) {
-                return (
-                  <OverlayTrigger
-                    key={i}
-                    placement="top"
-                    delay={{ show: 100, hide: 100 }}
-                    overlay={
-                      <Popover id="popover-basic">
-                        <Popover.Header as="h3">{hdr.text}</Popover.Header>
-                        <Popover.Body>
-                          {hdr.tip}
-                        </Popover.Body>
-                      </Popover>
-                    }
-                  >
-                    <td onClick={input.onHeaderClick} id={hdr.id} className="header-cell">{hdr.text}</td>
-                  </OverlayTrigger>
-                );
-              })
-            }
-          </tr>
-        </thead>
-        <tbody>
-          {
-            data.map(function(t) {
-              let sort = t.build_percent
-              switch (input.sortBy) {
-                case "type":
-                  sort = t.type;
-                  break;
-                case "win_percent":
-                  sort = t.win_percent;
-                  break;
-                case "shared":
-                  sort = t.avg_shared;
-                  break;
-                case "num":
-                  sort = t.count;
-                  break;
-                case "pwin":
-                  sort = t.percent_of_wins;
-                  break;
-                case "trophies":
-                  sort = t.trophies;
-                  break;
-                case "lastplace":
-                  sort = t.last_place;
-                  break;
-                case "winning":
-                  sort = t.winning;
-                  break;
-                case "losing":
-                  sort = t.losing;
-                  break;
-                case "winning_pct":
-                  sort = (t.winning + t.losing) > 0 ? t.winning / (t.winning + t.losing) : 0;
-                  break;
-              }
-              return (
-                <tr key={t.type} sort={sort} className="widget-table-row">
-                  <td id={t.type} onClick={input.handleRowClick} key="type">{t.type}</td>
-                  <td key="build_percent">{t.build_percent}%</td>
-                  <td key="win_percent">{t.win_percent}%</td>
-                  <td key="pwin">{t.percent_of_wins}%</td>
-                  <td key="trophies">{t.trophies}</td>
-                  <td key="lastplace">{t.last_place}</td>
-                  <td key="winning">{t.winning}</td>
-                  <td key="losing">{t.losing}</td>
-                  <td key="winning_pct">{(t.winning + t.losing) > 0 ? Math.round(100 * t.winning / (t.winning + t.losing)) : 0}%</td>
-                  <td key="num">{t.count}</td>
-                  <td key="shared">{t.avg_shared}</td>
-                </tr>
-              )
-            }).sort(SortFunc)
-          }
-        </tbody>
+        <ArchetypeTableHeader onHeaderClick={input.onHeaderClick} />
+        <ArchetypeTableRows data={macroData} sortBy={input.sortBy} handleRowClick={input.handleRowClick} />
       </table>
+      {microData.length > 0 && <>
+        <h4 style={{marginTop: "1.5rem", marginBottom: "0.5rem"}}>Micro Archetypes</h4>
+        <table className="widget-table">
+          <ArchetypeTableHeader onHeaderClick={input.onHeaderClick} />
+          <ArchetypeTableRows data={microData} sortBy={input.sortBy} handleRowClick={input.handleRowClick} />
+        </table>
+      </>}
     </div>
   );
 }
