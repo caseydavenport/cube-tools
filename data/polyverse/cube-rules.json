@@ -1,0 +1,107 @@
+[
+  {
+    "match": "o:\"second card each turn\"",
+    "connect": [
+      "o:\"draw a card\""
+    ],
+    "label": "Second Draw"
+  },
+  {
+    "match": "o:landfall",
+    "connect": [
+      "t:land o:sacrifice",
+      "o:\"search\" o:\"land\""
+    ],
+    "label": "Landfall"
+  },
+  {
+    "match": "n:\"Kishla Skimmer\"",
+    "connect": [
+      "o:\"delve\"",
+      "o:\"flashback\"",
+      "o:\"target card in a graveyard\"",
+      "o:\"retrace\"",
+      "o:\"from your graveyard\""
+    ],
+    "label": "Skimmer"
+  },
+  {
+    "match": "o:\"prowess\" OR o:\"cast a noncreature spell\"",
+    "connect": [
+      "(t:artifact OR t:enchantment OR t:instant OR t:sorcery) cmc\u003c2",
+      "o:\"you may cast\" o:\"without paying its mana cost\"",
+      "o:flashback"
+    ],
+    "label": "Prowess"
+  },
+  {
+    "match": "n:\"Urza's Saga\"",
+    "connect": [
+      "t:artifact cmc\u003c2"
+    ],
+    "label": "Urza's Saga"
+  },
+  {
+    "match": "n:\"Warden of the Inner Sky\"",
+    "connect": [
+      "t:artifact cmc\u003c3",
+      "o:\"clue\"",
+      "o:\"food\""
+    ],
+    "label": "Inner Sky"
+  },
+  {
+    "match": "o:\"delirium\" OR (o:\"card types\" AND o:\"graveyard\")",
+    "connect": [
+      "t:artifact AND (o:\"sacrifice this\" OR o:discard)",
+      "t:enchantment AND (o:\"sacrifice this\" OR o:discard)",
+      "t:instant cmc\u003c3 c:G",
+      "t:sorcery cmc\u003c3 c:G"
+    ],
+    "label": "Delirium"
+  },
+  {
+    "match": "o:\"whenever you sacrifice\" OR o:\"are put into your graveyard\" OR o:\"whenever a player sacrifices\"",
+    "connect": [
+      "o:\"sacrifice this\"",
+      "o:\"from your graveyard to\""
+    ],
+    "label": "Sacrifice"
+  },
+  {
+    "match": "o:\"whenever you discard\"",
+    "connect": [
+      "o:cycling OR o:channel",
+      "o:\"discard your hand\" OR o:\"discard their hand\"",
+      "o:\"discard a card\""
+    ],
+    "label": "Discard"
+  },
+  {
+    "match": "o:\"+1/+1 counter\"",
+    "connect": [
+      "o:proliferate",
+      "o:\"that many plus one\"",
+      "o:\"less than or equal to its power\"",
+      "o:\"or more counters on it\""
+    ],
+    "label": "Counters"
+  },
+  {
+    "match": "o:\"enters\" OR o:\"leaves the battlefield\"",
+    "connect": [
+      "o:\"exile target\" o:\"return that\"",
+      "o:\"return target\" o:\"owners hand\"",
+      "o:\"exile up to\" o:\"return that\"",
+      "o:\"exile another target\" o:\"return that\""
+    ],
+    "label": "ETB"
+  },
+  {
+    "match": "o:\"whenever a token\" OR o:\"one or more tokens\"",
+    "connect": [
+      "o:\"create\" o:\"token\""
+    ],
+    "label": "Tokens"
+  }
+]

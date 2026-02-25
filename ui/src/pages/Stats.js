@@ -7,6 +7,7 @@ import { CardWidget } from "./Cards.js";
 import { SynergyWidget } from "./Synergy.js";
 import { DraftWidget } from "./Drafts.js";
 import { HealthWidget } from "./Health.js";
+import { DesignMapWidget } from "./DesignMap.js";
 import { useStatsFilters, useStatsData } from "./StatsHooks.js";
 import { SelectorBar } from "../components/StatsUI.js";
 
@@ -44,7 +45,7 @@ export function StatsViewer(props) {
   const {
     decks, cube, drafts, archetypeMatchups, cardData, cardDataBucketed,
     colorData, colorDataBucketed, synergyData, colorMatchupData, healthData,
-    parsed, graphData, archetypeDropdownOptions, draftLogs
+    designGraphData, parsed, graphData, archetypeDropdownOptions, draftLogs
   } = data;
 
   // Destructure filter setters for the SelectorBar and Widgets
@@ -156,6 +157,7 @@ export function StatsViewer(props) {
         onPlayersPage={() => onSubpageClicked(5)}
         onSynergyPage={() => onSubpageClicked(6)}
         onHealthPage={() => onSubpageClicked(7)}
+        onDesignMapPage={() => onSubpageClicked(8)}
         matchStr={typingStr}
         cardNames={cube.cards.map(c => c.name)}
         playerNames={playerNames}
@@ -288,6 +290,11 @@ export function StatsViewer(props) {
         />
         <HealthWidget
           show={display[7]} healthData={healthData} bucketSize={bucketSize}
+        />
+        <DesignMapWidget
+          show={display[8]} designGraphData={designGraphData}
+          onCardSelected={(e) => setSelectedCard(e.currentTarget.id)}
+          onRulesChanged={triggerRefresh}
         />
       </div>
     </div>

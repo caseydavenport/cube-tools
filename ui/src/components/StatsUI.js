@@ -36,6 +36,7 @@ export function SelectorBar(input) {
           <Button text="Players" checked={input.display[5]} onClick={input.onPlayersPage} />
           <Button text="Synergy" checked={input.display[6]} onClick={input.onSynergyPage} />
           <Button text="Health" checked={input.display[7]} onClick={input.onHealthPage} />
+          <Button text="Design Map" checked={input.display[8]} onClick={input.onDesignMapPage} />
         </div>
       </div>
     </div>

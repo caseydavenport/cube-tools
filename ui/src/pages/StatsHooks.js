@@ -58,7 +58,7 @@ export function useStatsFilters() {
   const [smoothingK, setSmoothingK] = useState(5);
   const [colorAdjust, setColorAdjust] = useState(false);
   const [synergySortBy, setSynergySortBy] = useState("synergy");
-  const [display, setDisplay] = useState([true, false, false, false, false, false, false, false]);
+  const [display, setDisplay] = useState([true, false, false, false, false, false, false, false, false]);
 
   return {
     bucketSize, setBucketSize,
@@ -127,6 +127,7 @@ export function useStatsData(filters, props, refresh) {
   const [synergyData, setSynergyData] = useState([]);
   const [colorMatchupData, setColorMatchupData] = useState({});
   const [healthData, setHealthData] = useState([]);
+  const [designGraphData, setDesignGraphData] = useState({});
 
   const { startDate, endDate } = props;
   const { 
@@ -216,6 +217,13 @@ export function useStatsData(filters, props, refresh) {
       .then(r => r.json())
       .then(d => setColorMatchupData(d.matchups || {}));
   }, [startDate, endDate, minDraftSize, colorMode, filters.colorTypeSelection, props.matchStr, refresh]);
+
+  // Design Graph Data
+  useEffect(() => {
+    fetch(`/api/stats/design-graph`)
+      .then(r => r.json())
+      .then(d => setDesignGraphData(d));
+  }, [refresh]);
 
   // Health Data
   useEffect(() => {
@@ -307,6 +315,6 @@ export function useStatsData(filters, props, refresh) {
   return {
     decks, cube, drafts, archetypeMatchups, cardData, cardDataBucketed,
     colorData, colorDataBucketed, synergyData, colorMatchupData, healthData,
-    parsed, graphData, archetypeDropdownOptions, draftLogs
+    designGraphData, parsed, graphData, archetypeDropdownOptions, draftLogs
   };
 }
