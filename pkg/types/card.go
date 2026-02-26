@@ -156,10 +156,23 @@ func FromOracle(o OracleCard) Card {
 	c.Colors = o.Colors
 	c.ColorIdentity = o.ColorIdentity
 	c.URL = o.ScryfallURI
-	c.OracleText = o.OracleText
 	c.ManaCost = o.ManaCost
 	c.Power = o.Power
 	c.Toughness = o.Toughness
+
+	// For multi-face cards (adventure, split, transform, modal_dfc, flip),
+	// the top-level oracle_text is empty and text lives in card_faces.
+	if o.OracleText != "" {
+		c.OracleText = o.OracleText
+	} else if len(o.CardFaces) > 0 {
+		var texts []string
+		for _, face := range o.CardFaces {
+			if face.OracleText != "" {
+				texts = append(texts, face.OracleText)
+			}
+		}
+		c.OracleText = strings.Join(texts, "\n")
+	}
 
 	return c
 }

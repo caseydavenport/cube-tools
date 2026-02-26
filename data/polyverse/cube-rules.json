@@ -1,21 +1,184 @@
 [
   {
-    "match": "o:\"second card each turn\"",
-    "connect": [
-      "o:\"draw a card\""
+    "match": [
+      "o:converge",
+      "o:domain",
+      "o:\"number of colors\""
     ],
-    "label": "Second Draw"
+    "connect": [
+      "o:\"number of colors\""
+    ],
+    "label": "5CGS"
   },
   {
-    "match": "o:landfall",
+    "match": [
+      "o:\"+1/+1 counter\""
+    ],
+    "connect": [
+      "o:proliferate",
+      "o:\"that many plus one\"",
+      "o:\"less than or equal to its power\"",
+      "o:\"or more counters on it\""
+    ],
+    "label": "Counters"
+  },
+  {
+    "match": [
+      "o:\"delirium\"",
+      "o:\"card types\" o:\"graveyard\""
+    ],
+    "connect": [
+      "t:artifact AND (o:\"sacrifice this\" OR o:discard)",
+      "t:enchantment AND (o:\"sacrifice this\" OR o:discard)",
+      "t:instant cmc\u003c3 c:G",
+      "t:sorcery cmc\u003c3 c:G",
+      "o:surveil",
+      "o:mill",
+      "t:land (o:sacrifice OR o:discard)"
+    ],
+    "label": "Delirium"
+  },
+  {
+    "match": [
+      "n:Delney"
+    ],
+    "connect": [
+      "pow\u003c3 o:\"whenever\" t:creature"
+    ],
+    "label": "Delney"
+  },
+  {
+    "match": [
+      "o:\"whenever you discard\""
+    ],
+    "connect": [
+      "o:cycling OR o:channel OR o:madness",
+      "o:\"discard your hand\" OR o:\"discard their hand\"",
+      "o:\"discard a card\"",
+      "o:\"Each player discards a card\""
+    ],
+    "label": "Discard"
+  },
+  {
+    "match": [
+      "n:\"Kellan\""
+    ],
+    "connect": [
+      "t:equipment"
+    ],
+    "label": "Equipment"
+  },
+  {
+    "match": [
+      "o:\"enters\" (t:creature OR t:enchantment OR t:artifact) !o:landfall",
+      "o:\"leaves the battlefield\" (t:creature OR t:enchantment OR t:artifact)"
+    ],
+    "connect": [
+      "o:\"exile target\" o:\"return that\"",
+      "o:\"return target\" o:\"owners hand\"",
+      "o:\"exile up to\" o:\"return that\"",
+      "o:\"exile another target\" o:\"return that\""
+    ],
+    "label": "ETB"
+  },
+  {
+    "match": [
+      "n:\"Warden of the Inner Sky\""
+    ],
+    "connect": [
+      "t:artifact cmc\u003c3",
+      "o:\"clue\"",
+      "o:\"food\""
+    ],
+    "label": "Inner Sky"
+  },
+  {
+    "match": [
+      "o:landfall"
+    ],
     "connect": [
       "t:land o:sacrifice",
-      "o:\"search\" o:\"land\""
+      "o:\"search\" o:\"land\"",
+      "o:\"land you control to its owner's hand\"",
+      "o:\"land card from among them\""
     ],
     "label": "Landfall"
   },
   {
-    "match": "n:\"Kishla Skimmer\"",
+    "match": [
+      "o:\"pay\" o:\"life\""
+    ],
+    "connect": [
+      "n:\"Death's Shadow\""
+    ],
+    "label": "Life Loss"
+  },
+  {
+    "match": [
+      "o:\"prowess\"",
+      "o:\"cast a noncreature spell\""
+    ],
+    "connect": [
+      "(t:artifact OR t:enchantment) cmc\u003c2 !t:creature",
+      "o:\"you may cast\" o:\"without paying its mana cost\"",
+      "o:flashback",
+      "n:\"Fire // Ice\"",
+      "(t:instant OR t:sorcery) cmc\u003c3"
+    ],
+    "label": "Prowess"
+  },
+  {
+    "match": [
+      "o:\"Add one mana\" !t:land",
+      "o:\": add\" !t:land",
+      "o:\"mana value 5 or greater\""
+    ],
+    "connect": [
+      "cmc\u003e4",
+      "m:X"
+    ],
+    "label": "Ramp"
+  },
+  {
+    "match": [
+      "t:creature cmc\u003c4"
+    ],
+    "connect": [
+      "o:\"mana value\" o:\"or less\" o:\"graveyard to the\"",
+      "o:\"from a graveyard onto the battlefield\""
+    ],
+    "label": "Reanimate"
+  },
+  {
+    "match": [
+      "o:\"whenever you sacrifice\"",
+      "o:\"are put into your graveyard\"",
+      "o:\"whenever a player sacrifices\""
+    ],
+    "connect": [
+      "o:\"sacrifice this\"",
+      "o:\"from your graveyard to\"",
+      "o:\"sacrifice a\"",
+      "o:\"player sacrifices a\"",
+      "o:\"you may sacrifice\""
+    ],
+    "label": "Sacrifice"
+  },
+  {
+    "match": [
+      "o:\"second card each turn\"",
+      "o:\"number of cards you've drawn\""
+    ],
+    "connect": [
+      "o:\"draw a card\"",
+      "o:\"draw\" o:\"cards\""
+    ],
+    "label": "Second Draw"
+  },
+  {
+    "match": [
+      "n:\"Kishla Skimmer\""
+    ],
     "connect": [
       "o:\"delve\"",
       "o:\"flashback\"",
@@ -26,82 +189,38 @@
     "label": "Skimmer"
   },
   {
-    "match": "o:\"prowess\" OR o:\"cast a noncreature spell\"",
-    "connect": [
-      "(t:artifact OR t:enchantment OR t:instant OR t:sorcery) cmc\u003c2",
-      "o:\"you may cast\" o:\"without paying its mana cost\"",
-      "o:flashback"
+    "match": [
+      "o:\"whenever a token\"",
+      "o:\"one or more tokens\"",
+      "o:\"target token you control\"",
+      "o:\"sacrifice a creature\"",
+      "n:Hellrider"
     ],
-    "label": "Prowess"
+    "connect": [
+      "o:\"create\" o:\"token\""
+    ],
+    "label": "Tokens"
   },
   {
-    "match": "n:\"Urza's Saga\"",
+    "match": [
+      "n:\"Urza's Saga\""
+    ],
     "connect": [
       "t:artifact cmc\u003c2"
     ],
     "label": "Urza's Saga"
   },
   {
-    "match": "n:\"Warden of the Inner Sky\"",
-    "connect": [
-      "t:artifact cmc\u003c3",
-      "o:\"clue\"",
-      "o:\"food\""
+    "match": [
+      "o:valiant",
+      "o:\"target of a spell or ability you control\""
     ],
-    "label": "Inner Sky"
-  },
-  {
-    "match": "o:\"delirium\" OR (o:\"card types\" AND o:\"graveyard\")",
     "connect": [
-      "t:artifact AND (o:\"sacrifice this\" OR o:discard)",
-      "t:enchantment AND (o:\"sacrifice this\" OR o:discard)",
-      "t:instant cmc\u003c3 c:G",
-      "t:sorcery cmc\u003c3 c:G"
+      "o:\"Target creature you control\"",
+      "t:equipment",
+      "o:\"Target creature gets +\"",
+      "o:\"Target permanent you control\""
     ],
-    "label": "Delirium"
-  },
-  {
-    "match": "o:\"whenever you sacrifice\" OR o:\"are put into your graveyard\" OR o:\"whenever a player sacrifices\"",
-    "connect": [
-      "o:\"sacrifice this\"",
-      "o:\"from your graveyard to\""
-    ],
-    "label": "Sacrifice"
-  },
-  {
-    "match": "o:\"whenever you discard\"",
-    "connect": [
-      "o:cycling OR o:channel",
-      "o:\"discard your hand\" OR o:\"discard their hand\"",
-      "o:\"discard a card\""
-    ],
-    "label": "Discard"
-  },
-  {
-    "match": "o:\"+1/+1 counter\"",
-    "connect": [
-      "o:proliferate",
-      "o:\"that many plus one\"",
-      "o:\"less than or equal to its power\"",
-      "o:\"or more counters on it\""
-    ],
-    "label": "Counters"
-  },
-  {
-    "match": "o:\"enters\" OR o:\"leaves the battlefield\"",
-    "connect": [
-      "o:\"exile target\" o:\"return that\"",
-      "o:\"return target\" o:\"owners hand\"",
-      "o:\"exile up to\" o:\"return that\"",
-      "o:\"exile another target\" o:\"return that\""
-    ],
-    "label": "ETB"
-  },
-  {
-    "match": "o:\"whenever a token\" OR o:\"one or more tokens\"",
-    "connect": [
-      "o:\"create\" o:\"token\""
-    ],
-    "label": "Tokens"
+    "label": "Valiant"
   }
 ]

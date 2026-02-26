@@ -3,6 +3,7 @@ import { White, Blue, Black, Red, Green } from "../utils/Colors.js"
 
 export function DesignMapWidget({ show, designGraphData, onCardSelected, onRulesChanged }) {
   const [selectedRule, setSelectedRule] = useState(null)
+  const [selectedCard, setSelectedCard] = useState(null)
   const [hoveredCard, setHoveredCard] = useState(null)
 
   if (!show) return null
@@ -12,9 +13,38 @@ export function DesignMapWidget({ show, designGraphData, onCardSelected, onRules
   const edges = data.edges || []
   const rules = data.rules || []
 
-  // Build card list for the selected rule's cluster.
+  // When selecting a rule, clear card selection and vice versa.
+  function handleSelectRule(rule) {
+    setSelectedRule(rule)
+    setSelectedCard(null)
+  }
+  function handleSelectCard(cardName) {
+    setSelectedCard(prev => prev === cardName ? null : cardName)
+    setSelectedRule(null)
+  }
+
+  // Build card list based on current selection.
   let clusterCards = []
-  if (selectedRule !== null && rules[selectedRule]) {
+  let listLabel = null
+  const nodeMap = {}
+  for (const node of nodes) nodeMap[node.name] = node
+
+  if (selectedCard) {
+    // Show the selected card's neighbors.
+    const neighbors = new Set()
+    for (const edge of edges) {
+      if (edge.source === selectedCard) neighbors.add(edge.target)
+      if (edge.target === selectedCard) neighbors.add(edge.source)
+    }
+    neighbors.add(selectedCard)
+    clusterCards = Array.from(neighbors)
+      .map(name => nodeMap[name] || { name, colors: [], connection_count: 0 })
+      .sort((a, b) => b.connection_count - a.connection_count)
+    listLabel = selectedCard
+  } else if (selectedRule === "unconnected") {
+    clusterCards = nodes.filter(n => n.connection_count === 0).sort((a, b) => a.name.localeCompare(b.name))
+    listLabel = "Unconnected"
+  } else if (selectedRule !== null && rules[selectedRule]) {
     const ruleLabel = rules[selectedRule].label
     const cardNames = new Set()
     for (const edge of edges) {
@@ -23,12 +53,11 @@ export function DesignMapWidget({ show, designGraphData, onCardSelected, onRules
         cardNames.add(edge.target)
       }
     }
-    // Build card info from nodes data.
-    const nodeMap = {}
-    for (const node of nodes) nodeMap[node.name] = node
     clusterCards = Array.from(cardNames)
       .map(name => nodeMap[name] || { name, colors: [], connection_count: 0 })
       .sort((a, b) => b.connection_count - a.connection_count)
+  } else {
+    clusterCards = [...nodes].sort((a, b) => b.connection_count - a.connection_count)
   }
 
   return (
@@ -37,15 +66,17 @@ export function DesignMapWidget({ show, designGraphData, onCardSelected, onRules
         <RulesPanel rules={rules} nodes={nodes} edges={edges} onRulesChanged={onRulesChanged} />
         <DesignMapGraph
           nodes={nodes} edges={edges} rules={rules}
-          onCardSelected={onCardSelected}
-          selectedRule={selectedRule} onSelectedRuleChanged={setSelectedRule}
+          onCardFocused={handleSelectCard}
+          selectedRule={selectedRule} onSelectedRuleChanged={handleSelectRule}
+          selectedCard={selectedCard}
           hoveredCard={hoveredCard} onHoveredCardChanged={setHoveredCard}
         />
         <ClusterCardList
           cards={clusterCards}
-          rule={selectedRule !== null ? rules[selectedRule] : null}
-          ruleIndex={selectedRule}
-          onCardSelected={onCardSelected}
+          rule={typeof selectedRule === "number" ? rules[selectedRule] : null}
+          ruleIndex={typeof selectedRule === "number" ? selectedRule : null}
+          listLabel={listLabel}
+          onCardFocused={handleSelectCard}
           hoveredCard={hoveredCard}
           onHoveredCardChanged={setHoveredCard}
         />
@@ -74,39 +105,41 @@ function saveRules(rules, onRulesChanged, onStatus) {
 function RulesPanel({ rules, nodes, edges, onRulesChanged }) {
   const [adding, setAdding] = useState(false)
   const [newLabel, setNewLabel] = useState("")
-  const [newMatch, setNewMatch] = useState("")
+  const [newMatch, setNewMatch] = useState([""])
   const [newConnect, setNewConnect] = useState([""])
   const [confirmDelete, setConfirmDelete] = useState(null)
   const [editing, setEditing] = useState(null)
   const [saveStatus, setSaveStatus] = useState("")
 
   function addRule() {
+    const matchClauses = newMatch.map(c => c.trim()).filter(c => c)
     const connectClauses = newConnect.map(c => c.trim()).filter(c => c)
-    if (!newMatch.trim() || connectClauses.length === 0) {
-      setSaveStatus("Match and at least one Connect clause are required.")
+    if (matchClauses.length === 0 || connectClauses.length === 0) {
+      setSaveStatus("At least one Match and one Connect clause are required.")
       return
     }
     const updated = [...rules, {
       label: newLabel.trim() || "Untitled rule",
-      match: newMatch.trim(),
+      match: matchClauses,
       connect: connectClauses,
     }]
     saveRules(updated, onRulesChanged, setSaveStatus)
     setAdding(false)
     setNewLabel("")
-    setNewMatch("")
+    setNewMatch([""])
     setNewConnect([""])
   }
 
   function updateRule(index, updatedRule) {
+    const matchClauses = updatedRule.match.map(c => c.trim()).filter(c => c)
     const connectClauses = updatedRule.connect.map(c => c.trim()).filter(c => c)
-    if (!updatedRule.match.trim() || connectClauses.length === 0) {
-      setSaveStatus("Match and at least one Connect clause are required.")
+    if (matchClauses.length === 0 || connectClauses.length === 0) {
+      setSaveStatus("At least one Match and one Connect clause are required.")
       return
     }
     const updated = rules.map((r, i) => i === index ? {
       label: updatedRule.label.trim() || "Untitled rule",
-      match: updatedRule.match.trim(),
+      match: matchClauses,
       connect: connectClauses,
     } : r)
     saveRules(updated, onRulesChanged, setSaveStatus)
@@ -122,7 +155,7 @@ function RulesPanel({ rules, nodes, edges, onRulesChanged }) {
   function cancelAdd() {
     setAdding(false)
     setNewLabel("")
-    setNewMatch("")
+    setNewMatch([""])
     setNewConnect([""])
     setSaveStatus("")
   }
@@ -176,11 +209,13 @@ function RulesPanel({ rules, nodes, edges, onRulesChanged }) {
           borderLeft: "3px solid var(--primary)",
         }}>
           <RuleInput label="Label" value={newLabel} onChange={setNewLabel} placeholder="e.g. Discard synergy" />
-          <RuleInput label="Match" value={newMatch} onChange={setNewMatch} placeholder="e.g. o:discard" />
-          <ConnectInputs
-            connects={newConnect}
-            onChange={setNewConnect}
-            placeholder="e.g. o:madness"
+          <ClauseInputs
+            label="Match" connects={newMatch}
+            onChange={setNewMatch} placeholder="e.g. o:discard"
+          />
+          <ClauseInputs
+            label="Connect" connects={newConnect}
+            onChange={setNewConnect} placeholder="e.g. o:madness"
           />
           <div style={{display: "flex", gap: "0.5rem", marginTop: "0.5rem"}}>
             <button onClick={addRule} className="button" style={{fontSize: "0.8em"}}>Add</button>
@@ -259,7 +294,7 @@ function RuleInput({ label, value, onChange, placeholder }) {
   )
 }
 
-function ConnectInputs({ connects, onChange, placeholder }) {
+function ClauseInputs({ label, connects, onChange, placeholder }) {
   function updateAt(i, val) {
     const next = [...connects]
     next[i] = val
@@ -275,7 +310,7 @@ function ConnectInputs({ connects, onChange, placeholder }) {
   }
   return (
     <div style={{marginBottom: "0.35rem"}}>
-      <label style={{fontSize: "0.7em", color: "var(--text-muted)", display: "block", marginBottom: "2px"}}>Connect (OR)</label>
+      <label style={{fontSize: "0.7em", color: "var(--text-muted)", display: "block", marginBottom: "2px"}}>{label} (OR)</label>
       {connects.map((c, i) => (
         <div key={i} style={{display: "flex", gap: "4px", marginBottom: "3px", alignItems: "center"}}>
           <input
@@ -320,14 +355,14 @@ function ConnectInputs({ connects, onChange, placeholder }) {
 
 function RuleCard({ rule, index, confirmDelete, onDeleteClick, onConfirmDelete, onCancelDelete, isEditing, onEditClick, onEditSave, onEditCancel }) {
   const [editLabel, setEditLabel] = useState(rule.label)
-  const [editMatch, setEditMatch] = useState(rule.match)
+  const [editMatch, setEditMatch] = useState(rule.match || [""])
   const [editConnect, setEditConnect] = useState(rule.connect || [""])
 
   // Reset edit fields when entering edit mode.
   useEffect(() => {
     if (isEditing) {
       setEditLabel(rule.label)
-      setEditMatch(rule.match)
+      setEditMatch([...(rule.match || [""])])
       setEditConnect([...(rule.connect || [""])])
     }
   }, [isEditing])
@@ -342,11 +377,13 @@ function RuleCard({ rule, index, confirmDelete, onDeleteClick, onConfirmDelete, 
         borderLeft: `3px solid ${ruleColor(index)}`,
       }}>
         <RuleInput label="Label" value={editLabel} onChange={setEditLabel} placeholder="e.g. Discard synergy" />
-        <RuleInput label="Match" value={editMatch} onChange={setEditMatch} placeholder="e.g. o:discard" />
-        <ConnectInputs
-          connects={editConnect}
-          onChange={setEditConnect}
-          placeholder="e.g. o:madness"
+        <ClauseInputs
+          label="Match" connects={editMatch}
+          onChange={setEditMatch} placeholder="e.g. o:discard"
+        />
+        <ClauseInputs
+          label="Connect" connects={editConnect}
+          onChange={setEditConnect} placeholder="e.g. o:madness"
         />
         <div style={{display: "flex", gap: "0.5rem", marginTop: "0.5rem"}}>
           <button onClick={() => onEditSave({ label: editLabel, match: editMatch, connect: editConnect })} className="button" style={{fontSize: "0.8em"}}>Save</button>
@@ -417,9 +454,11 @@ function RuleCard({ rule, index, confirmDelete, onDeleteClick, onConfirmDelete, 
           </div>
         </div>
       )}
-      <div style={{fontSize: "0.75em", color: "var(--text-muted)"}}>
-        <span style={{color: "var(--text-color)"}}>match:</span> {rule.match}
-      </div>
+      {(rule.match || []).map((m, mi) => (
+        <div key={"m" + mi} style={{fontSize: "0.75em", color: "var(--text-muted)"}}>
+          <span style={{color: "var(--text-color)"}}>{mi === 0 ? "match:" : "OR"}</span> {m}
+        </div>
+      ))}
       {(rule.connect || []).map((c, ci) => (
         <div key={ci} style={{fontSize: "0.75em", color: "var(--text-muted)"}}>
           <span style={{color: "var(--text-color)"}}>{ci === 0 ? "connect:" : "OR"}</span> {c}
@@ -438,7 +477,7 @@ function ruleColor(index) {
   return RULE_COLORS[index % RULE_COLORS.length]
 }
 
-function DesignMapGraph({ nodes, edges, rules, onCardSelected, selectedRule, onSelectedRuleChanged, hoveredCard, onHoveredCardChanged }) {
+function DesignMapGraph({ nodes, edges, rules, onCardFocused, selectedRule, onSelectedRuleChanged, selectedCard, hoveredCard, onHoveredCardChanged }) {
   const canvasRef = useRef(null)
   const containerRef = useRef(null)
   const nodesRef = useRef([])
@@ -449,6 +488,7 @@ function DesignMapGraph({ nodes, edges, rules, onCardSelected, selectedRule, onS
   const hoveredRef = useRef(null)
   const drawRef = useRef(null)
   const selectedRuleRef = useRef(null)
+  const selectedCardRef = useRef(null)
   const [canvasSize, setCanvasSize] = useState({ width: 900, height: 600 })
 
   // Resize canvas to fill container.
@@ -465,7 +505,7 @@ function DesignMapGraph({ nodes, edges, rules, onCardSelected, selectedRule, onS
   }, [])
 
   useEffect(() => {
-    if (nodes.length === 0 || edges.length === 0) return
+    if (nodes.length === 0) return
 
     const canvas = canvasRef.current
     if (!canvas) return
@@ -521,6 +561,7 @@ function DesignMapGraph({ nodes, edges, rules, onCardSelected, selectedRule, onS
       ctx.clearRect(0, 0, width, height)
       const hovered = hoveredRef.current
       const selRule = selectedRuleRef.current
+      const selCard = selectedCardRef.current
 
       // Draw edges.
       for (const edge of graphEdges) {
@@ -530,9 +571,13 @@ function DesignMapGraph({ nodes, edges, rules, onCardSelected, selectedRule, onS
         const s = graphNodes[si]
         const t = graphNodes[ti]
 
-        // If a rule is selected, dim edges not from that rule.
+        // Determine if this edge should be dimmed.
         let dimmed = false
-        if (selRule !== null) {
+        if (selCard) {
+          dimmed = edge.source !== selCard && edge.target !== selCard
+        } else if (selRule === "unconnected") {
+          dimmed = true
+        } else if (selRule !== null) {
           dimmed = !edge.ruleLabels.includes(rules[selRule]?.label)
         }
 
@@ -557,9 +602,18 @@ function DesignMapGraph({ nodes, edges, rules, onCardSelected, selectedRule, onS
 
       // Draw nodes.
       for (const node of graphNodes) {
-        // If a rule is selected, dim nodes not in that rule's edges.
+        // Determine if this node should be dimmed.
         let dimmed = false
-        if (selRule !== null) {
+        if (selCard) {
+          // Highlight selected card and its direct neighbors.
+          const isNeighbor = graphEdges.some(e =>
+            (e.source === selCard && e.target === node.id) ||
+            (e.target === selCard && e.source === node.id)
+          )
+          dimmed = node.id !== selCard && !isNeighbor
+        } else if (selRule === "unconnected") {
+          dimmed = node.connectionCount > 0
+        } else if (selRule !== null) {
           const ruleLabel = rules[selRule]?.label
           dimmed = !graphEdges.some(e =>
             (e.source === node.id || e.target === node.id) && e.ruleLabels.includes(ruleLabel)
@@ -669,6 +723,12 @@ function DesignMapGraph({ nodes, edges, rules, onCardSelected, selectedRule, onS
     if (drawRef.current) drawRef.current()
   }, [selectedRule])
 
+  // Sync selectedCard state to ref for use in draw().
+  useEffect(() => {
+    selectedCardRef.current = selectedCard
+    if (drawRef.current) drawRef.current()
+  }, [selectedCard])
+
   // Sync external hoveredCard prop to ref for use in draw().
   useEffect(() => {
     if (hoveredCard !== hoveredRef.current) {
@@ -729,13 +789,13 @@ function DesignMapGraph({ nodes, edges, rules, onCardSelected, selectedRule, onS
   function handleMouseUp(e) {
     if (dragRef.current) {
       const canvas = canvasRef.current
-      if (canvas && onCardSelected) {
+      if (canvas) {
         const rect = canvas.getBoundingClientRect()
         const x = e.clientX - rect.left
         const y = e.clientY - rect.top
         const node = getNodeAt(x, y)
-        if (node && node.id === dragRef.current.id) {
-          onCardSelected({ currentTarget: { id: node.id } })
+        if (node && node.id === dragRef.current.id && onCardFocused) {
+          onCardFocused(node.id)
         }
       }
       dragRef.current = null
@@ -785,6 +845,21 @@ function DesignMapGraph({ nodes, edges, rules, onCardSelected, selectedRule, onS
             {rule.label || `Rule ${i + 1}`}
           </button>
         ))}
+        <button
+          onClick={() => onSelectedRuleChanged(selectedRule === "unconnected" ? null : "unconnected")}
+          style={{
+            background: selectedRule === "unconnected" ? "var(--text-muted)" : "transparent",
+            color: selectedRule === "unconnected" ? "#000" : "var(--text-muted)",
+            border: "1px solid var(--text-muted)",
+            borderRadius: "12px",
+            padding: "2px 10px",
+            margin: "2px",
+            fontSize: "0.75em",
+            cursor: "pointer",
+          }}
+        >
+          Unconnected
+        </button>
       </div>
       <canvas
         ref={canvasRef}
@@ -805,7 +880,12 @@ function DesignMapGraph({ nodes, edges, rules, onCardSelected, selectedRule, onS
   )
 }
 
-function ClusterCardList({ cards, rule, ruleIndex, onCardSelected, hoveredCard, onHoveredCardChanged }) {
+function ClusterCardList({ cards, rule, ruleIndex, listLabel, onCardFocused, hoveredCard, onHoveredCardChanged }) {
+  const title = rule
+    ? (rule.label || `Rule ${ruleIndex + 1}`)
+    : (listLabel || "All Cards")
+  const titleColor = rule ? ruleColor(ruleIndex) : "var(--primary)"
+
   return (
     <div style={{
       background: "var(--card-background)",
@@ -815,28 +895,20 @@ function ClusterCardList({ cards, rule, ruleIndex, onCardSelected, hoveredCard, 
       height: 0,
       minHeight: "100%",
     }}>
-      {rule ? (
-        <>
-          <h5 style={{
-            color: ruleColor(ruleIndex),
-            margin: "0 0 0.5rem 0",
-            fontSize: "0.9em",
-          }}>
-            {rule.label || `Rule ${ruleIndex + 1}`}
-          </h5>
-          <p style={{color: "var(--text-muted)", fontSize: "0.75em", margin: "0 0 0.5rem 0"}}>
-            {cards.length} cards
-          </p>
-        </>
-      ) : (
-        <p style={{color: "var(--text-muted)", fontSize: "0.8em", margin: 0, fontStyle: "italic"}}>
-          Click a rule filter to see its cards.
-        </p>
-      )}
+      <h5 style={{
+        color: titleColor,
+        margin: "0 0 0.5rem 0",
+        fontSize: "0.9em",
+      }}>
+        {title}
+      </h5>
+      <p style={{color: "var(--text-muted)", fontSize: "0.75em", margin: "0 0 0.5rem 0"}}>
+        {cards.length} cards
+      </p>
       {cards.map(card => (
         <div
           key={card.name}
-          onClick={() => onCardSelected && onCardSelected({ currentTarget: { id: card.name } })}
+          onClick={() => onCardFocused && onCardFocused(card.name)}
           onMouseEnter={() => onHoveredCardChanged && onHoveredCardChanged(card.name)}
           onMouseLeave={() => onHoveredCardChanged && onHoveredCardChanged(null)}
           style={{

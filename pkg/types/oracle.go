@@ -193,4 +193,11 @@ type OracleCard struct {
 	Layout        string            `json:"layout"`
 	Power         string            `json:"power,omitempty"`
 	Toughness     string            `json:"toughness,omitempty"`
+	CardFaces     []OracleCardFace  `json:"card_faces,omitempty"`
+}
+
+type OracleCardFace struct {
+	Name       string `json:"name"`
+	OracleText string `json:"oracle_text"`
+	TypeLine   string `json:"type_line"`
 }

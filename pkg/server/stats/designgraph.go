@@ -15,10 +15,10 @@ import (
 
 // Rule defines a connection rule between two groups of cards.
 // Match selects the source cards, Connect selects the target cards.
-// Multiple connect clauses are combined with logical OR.
+// Multiple match/connect clauses are each combined with logical OR.
 // All matched source cards get edges to all matched target cards.
 type Rule struct {
-	Match   string   `json:"match"`
+	Match   []string `json:"match"`
 	Connect []string `json:"connect"`
 	Label   string   `json:"label"`
 }
@@ -31,17 +31,17 @@ type DesignGraphResponse struct {
 }
 
 type DesignGraphNode struct {
-	Name          string   `json:"name"`
-	Colors        []string `json:"colors"`
-	Types         []string `json:"types"`
-	CMC           int      `json:"cmc"`
-	ConnectionCount int    `json:"connection_count"`
+	Name            string   `json:"name"`
+	Colors          []string `json:"colors"`
+	Types           []string `json:"types"`
+	CMC             int      `json:"cmc"`
+	ConnectionCount int      `json:"connection_count"`
 }
 
 type DesignGraphEdge struct {
-	Source    string   `json:"source"`
-	Target   string   `json:"target"`
-	Weight   int      `json:"weight"`
+	Source     string   `json:"source"`
+	Target     string   `json:"target"`
+	Weight     int      `json:"weight"`
 	RuleLabels []string `json:"rule_labels"`
 }
 
@@ -93,6 +93,15 @@ func buildDesignGraph(cube *types.Cube, rules []Rule) DesignGraphResponse {
 		if c.IsBasicLand() {
 			continue
 		}
+		// For multi-face cards (adventure, split, etc.), the stored oracle_text
+		// may be empty if parsed before the card_faces fix. Re-derive from oracle data.
+		if c.OracleText == "" {
+			o := types.GetOracleData(c.Name)
+			if o.Name != "" {
+				enriched := types.FromOracle(o)
+				c.OracleText = enriched.OracleText
+			}
+		}
 		cardMap[c.Name] = c
 	}
 
@@ -101,7 +110,13 @@ func buildDesignGraph(cube *types.Cube, rules []Rule) DesignGraphResponse {
 	edgeLabels := make(map[edgeKey]map[string]bool) // edge -> set of rule labels
 
 	for _, rule := range rules {
-		sources := matchCards(cardMap, rule.Match)
+		// Union sources from all match clauses.
+		sources := make(map[string]bool)
+		for _, matchQuery := range rule.Match {
+			for name := range matchCards(cardMap, matchQuery) {
+				sources[name] = true
+			}
+		}
 		// Union targets from all connect clauses.
 		targets := make(map[string]bool)
 		for _, connectQuery := range rule.Connect {
@@ -129,7 +144,7 @@ func buildDesignGraph(cube *types.Cube, rules []Rule) DesignGraphResponse {
 		}
 	}
 
-	// Collect all nodes that participate in at least one edge.
+	// Build edges and count connections per node.
 	nodeCounts := make(map[string]int)
 	var edges []DesignGraphEdge
 	for k, labelSet := range edgeLabels {
@@ -147,17 +162,22 @@ func buildDesignGraph(cube *types.Cube, rules []Rule) DesignGraphResponse {
 		})
 	}
 
+	// Include all cards as nodes, not just connected ones.
 	var nodes []DesignGraphNode
-	for name, count := range nodeCounts {
-		card := cardMap[name]
+	for name, card := range cardMap {
 		nodes = append(nodes, DesignGraphNode{
 			Name:            name,
 			Colors:          card.Colors,
 			Types:           card.Types,
 			CMC:             card.CMC,
-			ConnectionCount: count,
+			ConnectionCount: nodeCounts[name],
 		})
 	}
+
+	// Sort rules by label for consistent display order.
+	slices.SortFunc(rules, func(a, b Rule) int {
+		return strings.Compare(strings.ToLower(a.Label), strings.ToLower(b.Label))
+	})
 
 	return DesignGraphResponse{
 		Nodes: nodes,
@@ -184,6 +204,7 @@ func buildDesignGraph(cube *types.Cube, rules []Rule) DesignGraphResponse {
 //	pow>=N      - power at least N
 //	tou<=N      - toughness at most N
 //	tou>=N      - toughness at least N
+//	m:text      - mana cost contains text (e.g., m:X, m:{W}{W})
 //	is:keyword  - built-in classification (creature, land, removal, counterspell, interaction)
 //
 // Negation: prefix any term with ! to negate it: !t:creature, !c:R, !is:land
@@ -465,6 +486,11 @@ func matchPrefixedTerm(card types.Card, prefix, value string) bool {
 				return true
 			}
 		}
+		for _, st := range card.SubTypes {
+			if strings.Contains(strings.ToLower(st), lowerValue) {
+				return true
+			}
+		}
 		return false
 	case "st":
 		for _, st := range card.SubTypes {
@@ -473,6 +499,8 @@ func matchPrefixedTerm(card types.Card, prefix, value string) bool {
 			}
 		}
 		return false
+	case "m":
+		return strings.Contains(strings.ToLower(card.ManaCost), lowerValue)
 	case "c":
 		return matchColor(card, strings.ToUpper(value))
 	case "cmc":
@@ -584,7 +612,7 @@ func SaveDesignRulesHandler() http.Handler {
 			return
 		}
 
-		if err := os.WriteFile("data/polyverse/cube-rules.json", data, 0644); err != nil {
+		if err := os.WriteFile("data/polyverse/cube-rules.json", data, 0o644); err != nil {
 			http.Error(rw, "could not save rules", http.StatusInternalServerError)
 			return
 		}
