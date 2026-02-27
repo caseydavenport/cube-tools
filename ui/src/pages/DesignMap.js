@@ -73,6 +73,9 @@ export function DesignMapWidget({ show, designGraphData, onCardSelected, onRules
         />
         <ClusterCardList
           cards={clusterCards}
+          edges={edges}
+          rules={rules}
+          selectedCard={selectedCard}
           rule={typeof selectedRule === "number" ? rules[selectedRule] : null}
           ruleIndex={typeof selectedRule === "number" ? selectedRule : null}
           listLabel={listLabel}
@@ -477,6 +480,14 @@ function ruleColor(index) {
   return RULE_COLORS[index % RULE_COLORS.length]
 }
 
+const DEFAULT_PHYSICS = {
+  repulsion: 2000,
+  attraction: 0.015,
+  gravity: 0.001,
+  damping: 0.92,
+  maxFrames: 300,
+}
+
 function DesignMapGraph({ nodes, edges, rules, onCardFocused, selectedRule, onSelectedRuleChanged, selectedCard, hoveredCard, onHoveredCardChanged }) {
   const canvasRef = useRef(null)
   const containerRef = useRef(null)
@@ -489,7 +500,11 @@ function DesignMapGraph({ nodes, edges, rules, onCardFocused, selectedRule, onSe
   const drawRef = useRef(null)
   const selectedRuleRef = useRef(null)
   const selectedCardRef = useRef(null)
+  const viewRef = useRef({ scale: 1, offsetX: 0, offsetY: 0 })
+  const panRef = useRef(null)
   const [canvasSize, setCanvasSize] = useState({ width: 900, height: 600 })
+  const [physics, setPhysics] = useState(DEFAULT_PHYSICS)
+  const [showSettings, setShowSettings] = useState(false)
 
   // Resize canvas to fill container.
   useEffect(() => {
@@ -552,13 +567,19 @@ function DesignMapGraph({ nodes, edges, rules, onCardFocused, selectedRule, onSe
     nodesRef.current = graphNodes
     edgesRef.current = graphEdges
     nodeIndexRef.current = nodeIndex
+    viewRef.current = { scale: 1, offsetX: 0, offsetY: 0 }
 
     let frame = 0
-    const maxFrames = 300
-    const damping = 0.92
+    const maxFrames = physics.maxFrames
+    const damping = physics.damping
 
     function draw() {
+      const v = viewRef.current
       ctx.clearRect(0, 0, width, height)
+      ctx.save()
+      ctx.translate(v.offsetX, v.offsetY)
+      ctx.scale(v.scale, v.scale)
+
       const hovered = hoveredRef.current
       const selRule = selectedRuleRef.current
       const selCard = selectedCardRef.current
@@ -633,12 +654,15 @@ function DesignMapGraph({ nodes, edges, rules, onCardFocused, selectedRule, onSe
       if (hovered) {
         const node = graphNodes.find(n => n.id === hovered)
         if (node) {
-          ctx.font = "13px monospace"
+          const fontSize = Math.max(8, 13 / v.scale)
+          ctx.font = `${fontSize}px monospace`
           ctx.fillStyle = "#fff"
           ctx.textAlign = "center"
-          ctx.fillText(node.id, node.x, node.y - node.radius - 6)
+          ctx.fillText(node.id, node.x, node.y - node.radius - 6 / v.scale)
         }
       }
+
+      ctx.restore()
     }
 
     drawRef.current = draw
@@ -659,7 +683,7 @@ function DesignMapGraph({ nodes, edges, rules, onCardFocused, selectedRule, onSe
           let dy = graphNodes[j].y - graphNodes[i].y
           let dist = Math.sqrt(dx * dx + dy * dy) || 1
           if (dist < 20) dist = 20
-          let force = (2000 * alpha) / (dist * dist)
+          let force = (physics.repulsion * alpha) / (dist * dist)
           let fx = (dx / dist) * force
           let fy = (dy / dist) * force
           graphNodes[i].vx -= fx
@@ -678,7 +702,7 @@ function DesignMapGraph({ nodes, edges, rules, onCardFocused, selectedRule, onSe
         const t = graphNodes[ti]
         let dx = t.x - s.x
         let dy = t.y - s.y
-        let strength = 0.015 * Math.min(edge.weight, 5) * alpha
+        let strength = physics.attraction * Math.min(edge.weight, 5) * alpha
         let fx = dx * strength
         let fy = dy * strength
         s.vx += fx
@@ -689,8 +713,8 @@ function DesignMapGraph({ nodes, edges, rules, onCardFocused, selectedRule, onSe
 
       // Center gravity.
       for (const node of graphNodes) {
-        node.vx += (width / 2 - node.x) * 0.001 * alpha
-        node.vy += (height / 2 - node.y) * 0.001 * alpha
+        node.vx += (width / 2 - node.x) * physics.gravity * alpha
+        node.vy += (height / 2 - node.y) * physics.gravity * alpha
       }
 
       // Apply velocities.
@@ -715,7 +739,7 @@ function DesignMapGraph({ nodes, edges, rules, onCardFocused, selectedRule, onSe
       if (animRef.current) cancelAnimationFrame(animRef.current)
       drawRef.current = null
     }
-  }, [nodes, edges, rules, canvasSize])
+  }, [nodes, edges, rules, canvasSize, physics])
 
   // Sync selectedRule state to ref for use in draw().
   useEffect(() => {
@@ -737,10 +761,25 @@ function DesignMapGraph({ nodes, edges, rules, onCardFocused, selectedRule, onSe
     }
   }, [hoveredCard])
 
-  function getNodeAt(x, y) {
+  // Convert screen coordinates (relative to canvas element) to world coordinates.
+  function screenToWorld(sx, sy) {
+    const canvas = canvasRef.current
+    if (!canvas) return { x: sx, y: sy }
+    // Account for CSS scaling (canvas pixel size vs display size).
+    const rect = canvas.getBoundingClientRect()
+    const cx = sx * (canvas.width / rect.width)
+    const cy = sy * (canvas.height / rect.height)
+    const v = viewRef.current
+    return {
+      x: (cx - v.offsetX) / v.scale,
+      y: (cy - v.offsetY) / v.scale,
+    }
+  }
+
+  function getNodeAt(wx, wy) {
     for (const node of nodesRef.current) {
-      const dx = node.x - x
-      const dy = node.y - y
+      const dx = node.x - wx
+      const dy = node.y - wy
       if (dx * dx + dy * dy < (node.radius + 4) * (node.radius + 4)) {
         return node
       }
@@ -748,12 +787,56 @@ function DesignMapGraph({ nodes, edges, rules, onCardFocused, selectedRule, onSe
     return null
   }
 
+  function handleWheel(e) {
+    e.preventDefault()
+    const canvas = canvasRef.current
+    if (!canvas) return
+    const rect = canvas.getBoundingClientRect()
+    const sx = e.clientX - rect.left
+    const sy = e.clientY - rect.top
+    // Canvas pixel coords before zoom.
+    const cx = sx * (canvas.width / rect.width)
+    const cy = sy * (canvas.height / rect.height)
+
+    const v = viewRef.current
+    const zoomFactor = e.deltaY < 0 ? 1.1 : 1 / 1.1
+    const newScale = Math.max(0.2, Math.min(10, v.scale * zoomFactor))
+
+    // Zoom toward cursor: adjust offset so the world point under cursor stays fixed.
+    v.offsetX = cx - (cx - v.offsetX) * (newScale / v.scale)
+    v.offsetY = cy - (cy - v.offsetY) * (newScale / v.scale)
+    v.scale = newScale
+
+    if (drawRef.current) drawRef.current()
+  }
+
+  // Attach wheel handler with { passive: false } to allow preventDefault.
+  useEffect(() => {
+    const canvas = canvasRef.current
+    if (!canvas) return
+    canvas.addEventListener("wheel", handleWheel, { passive: false })
+    return () => canvas.removeEventListener("wheel", handleWheel)
+  }, [canvasSize])
+
   function handleMouseMove(e) {
     const canvas = canvasRef.current
     if (!canvas) return
     const rect = canvas.getBoundingClientRect()
-    const x = e.clientX - rect.left
-    const y = e.clientY - rect.top
+    const sx = e.clientX - rect.left
+    const sy = e.clientY - rect.top
+
+    // Handle panning (middle-click or drag on empty space with right mouse).
+    if (panRef.current) {
+      const v = viewRef.current
+      const dx = (sx - panRef.current.sx) * (canvas.width / rect.width)
+      const dy = (sy - panRef.current.sy) * (canvas.height / rect.height)
+      v.offsetX = panRef.current.startOffsetX + dx
+      v.offsetY = panRef.current.startOffsetY + dy
+      if (drawRef.current) drawRef.current()
+      return
+    }
+
+    const { x, y } = screenToWorld(sx, sy)
 
     if (dragRef.current) {
       dragRef.current.x = x
@@ -778,21 +861,31 @@ function DesignMapGraph({ nodes, edges, rules, onCardFocused, selectedRule, onSe
     const canvas = canvasRef.current
     if (!canvas) return
     const rect = canvas.getBoundingClientRect()
-    const x = e.clientX - rect.left
-    const y = e.clientY - rect.top
+    const sx = e.clientX - rect.left
+    const sy = e.clientY - rect.top
+    const { x, y } = screenToWorld(sx, sy)
     const node = getNodeAt(x, y)
     if (node) {
       dragRef.current = node
+    } else {
+      // Start panning when clicking empty space.
+      const v = viewRef.current
+      panRef.current = { sx, sy, startOffsetX: v.offsetX, startOffsetY: v.offsetY }
     }
   }
 
   function handleMouseUp(e) {
+    if (panRef.current) {
+      panRef.current = null
+      return
+    }
     if (dragRef.current) {
       const canvas = canvasRef.current
       if (canvas) {
         const rect = canvas.getBoundingClientRect()
-        const x = e.clientX - rect.left
-        const y = e.clientY - rect.top
+        const sx = e.clientX - rect.left
+        const sy = e.clientY - rect.top
+        const { x, y } = screenToWorld(sx, sy)
         const node = getNodeAt(x, y)
         if (node && node.id === dragRef.current.id && onCardFocused) {
           onCardFocused(node.id)
@@ -805,6 +898,7 @@ function DesignMapGraph({ nodes, edges, rules, onCardFocused, selectedRule, onSe
 
   function handleMouseLeave() {
     dragRef.current = null
+    panRef.current = null
     if (hoveredRef.current) {
       hoveredRef.current = null
       if (onHoveredCardChanged) onHoveredCardChanged(null)
@@ -876,15 +970,102 @@ function DesignMapGraph({ nodes, edges, rules, onCardFocused, selectedRule, onSe
         onMouseUp={handleMouseUp}
         onMouseLeave={handleMouseLeave}
       />
+      <div style={{textAlign: "left", marginTop: "0.5rem"}}>
+        <button
+          onClick={() => setShowSettings(!showSettings)}
+          style={{
+            background: "transparent",
+            border: "none",
+            color: "var(--text-muted)",
+            cursor: "pointer",
+            fontSize: "0.75em",
+            padding: 0,
+          }}
+        >
+          {showSettings ? "- Hide Settings" : "+ Settings"}
+        </button>
+        {showSettings && (
+          <PhysicsSettings physics={physics} onChange={setPhysics} />
+        )}
+      </div>
     </div>
   )
 }
 
-function ClusterCardList({ cards, rule, ruleIndex, listLabel, onCardFocused, hoveredCard, onHoveredCardChanged }) {
+function PhysicsSettings({ physics, onChange }) {
+  function set(key, value) {
+    onChange({ ...physics, [key]: value })
+  }
+
+  const params = [
+    { key: "repulsion", label: "Repulsion", min: 0, max: 10000, step: 100 },
+    { key: "attraction", label: "Attraction", min: 0, max: 0.1, step: 0.001 },
+    { key: "gravity", label: "Gravity", min: 0, max: 0.01, step: 0.0005 },
+    { key: "damping", label: "Damping", min: 0.5, max: 0.99, step: 0.01 },
+    { key: "maxFrames", label: "Sim Frames", min: 50, max: 1000, step: 50 },
+  ]
+
+  return (
+    <div style={{
+      display: "grid",
+      gridTemplateColumns: "repeat(5, 1fr)",
+      gap: "0.75rem",
+      marginTop: "0.5rem",
+      padding: "0.5rem 0",
+    }}>
+      {params.map(p => (
+        <div key={p.key}>
+          <label style={{fontSize: "0.7em", color: "var(--text-muted)", display: "block", marginBottom: "2px"}}>
+            {p.label}
+          </label>
+          <input
+            type="number"
+            value={physics[p.key]}
+            min={p.min}
+            max={p.max}
+            step={p.step}
+            onChange={e => set(p.key, parseFloat(e.target.value) || 0)}
+            style={{
+              width: "100%",
+              background: "var(--card-background)",
+              color: "var(--text-color)",
+              border: "1px solid var(--card-background)",
+              borderRadius: "4px",
+              padding: "3px 5px",
+              fontSize: "0.75em",
+              fontFamily: "monospace",
+              boxSizing: "border-box",
+            }}
+          />
+        </div>
+      ))}
+    </div>
+  )
+}
+
+function ClusterCardList({ cards, edges, rules, selectedCard, rule, ruleIndex, listLabel, onCardFocused, hoveredCard, onHoveredCardChanged }) {
   const title = rule
     ? (rule.label || `Rule ${ruleIndex + 1}`)
     : (listLabel || "All Cards")
   const titleColor = rule ? ruleColor(ruleIndex) : "var(--primary)"
+
+  // Build a lookup: for the focused card, map each neighbor -> list of shared rule labels.
+  const sharedRules = {}
+  if (selectedCard && edges) {
+    for (const edge of edges) {
+      let neighbor = null
+      if (edge.source === selectedCard) neighbor = edge.target
+      else if (edge.target === selectedCard) neighbor = edge.source
+      if (neighbor && neighbor !== selectedCard) {
+        if (!sharedRules[neighbor]) sharedRules[neighbor] = []
+        for (const label of (edge.rule_labels || [])) {
+          if (!sharedRules[neighbor].includes(label)) {
+            sharedRules[neighbor].push(label)
+          }
+        }
+      }
+    }
+  }
 
   return (
     <div style={{
@@ -905,37 +1086,70 @@ function ClusterCardList({ cards, rule, ruleIndex, listLabel, onCardFocused, hov
       <p style={{color: "var(--text-muted)", fontSize: "0.75em", margin: "0 0 0.5rem 0"}}>
         {cards.length} cards
       </p>
-      {cards.map(card => (
-        <div
-          key={card.name}
-          onClick={() => onCardFocused && onCardFocused(card.name)}
-          onMouseEnter={() => onHoveredCardChanged && onHoveredCardChanged(card.name)}
-          onMouseLeave={() => onHoveredCardChanged && onHoveredCardChanged(null)}
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: "6px",
-            padding: "3px 6px",
-            borderRadius: "4px",
-            cursor: "pointer",
-            fontSize: "0.8em",
-            color: "var(--text-color)",
-            background: hoveredCard === card.name ? "var(--page-background)" : "transparent",
-          }}
-        >
-          <span style={{
-            display: "inline-block",
-            width: "8px",
-            height: "8px",
-            borderRadius: "50%",
-            background: getNodeColor(card.colors),
-            flexShrink: 0,
-          }} />
-          <span style={{overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap"}}>
-            {card.name}
-          </span>
-        </div>
-      ))}
+      {cards.map(card => {
+        const labels = sharedRules[card.name]
+        const isHovered = hoveredCard === card.name
+        return (
+          <div
+            key={card.name}
+            onClick={() => onCardFocused && onCardFocused(card.name)}
+            onMouseEnter={() => onHoveredCardChanged && onHoveredCardChanged(card.name)}
+            onMouseLeave={() => onHoveredCardChanged && onHoveredCardChanged(null)}
+            style={{
+              position: "relative",
+              display: "flex",
+              alignItems: "center",
+              gap: "6px",
+              padding: "3px 6px",
+              borderRadius: "4px",
+              cursor: "pointer",
+              fontSize: "0.8em",
+              color: "var(--text-color)",
+              background: isHovered ? "var(--page-background)" : "transparent",
+            }}
+          >
+            <span style={{
+              display: "inline-block",
+              width: "8px",
+              height: "8px",
+              borderRadius: "50%",
+              background: getNodeColor(card.colors),
+              flexShrink: 0,
+            }} />
+            <span style={{overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap"}}>
+              {card.name}
+            </span>
+            {isHovered && labels && labels.length > 0 && (
+              <div style={{
+                position: "absolute",
+                left: "16px",
+                top: "100%",
+                marginTop: "2px",
+                background: "#222",
+                border: "1px solid #555",
+                borderRadius: "6px",
+                padding: "6px 10px",
+                fontSize: "0.85em",
+                whiteSpace: "nowrap",
+                zIndex: 100,
+                pointerEvents: "none",
+              }}>
+                <div style={{ color: "var(--text-muted)", fontSize: "0.85em", marginBottom: "3px" }}>
+                  Linked via:
+                </div>
+                {labels.map((label, i) => {
+                  const ri = rules ? rules.findIndex(r => r.label === label) : -1
+                  return (
+                    <div key={i} style={{ color: ri >= 0 ? ruleColor(ri) : "var(--text-color)", lineHeight: "1.4" }}>
+                      {label}
+                    </div>
+                  )
+                })}
+              </div>
+            )}
+          </div>
+        )
+      })}
     </div>
   )
 }

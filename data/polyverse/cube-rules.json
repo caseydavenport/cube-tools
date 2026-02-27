@@ -12,6 +12,15 @@
   },
   {
     "match": [
+      "n:brainsurge OR n:brainstorm OR n:\"Sylvan Library\""
+    ],
+    "connect": [
+      "o:shuffle"
+    ],
+    "label": "Shuffle"
+  },
+  {
+    "match": [
       "n:\"Collected Company\""
     ],
     "connect": [
@@ -68,7 +77,8 @@
       "o:cycling",
       "t:land o:sacrifice",
       "o:\"draw\" o:\"discard\"",
-      "o:\"into your graveyard\""
+      "o:\"into your graveyard\"",
+      "n:\"Up the Beanstalk\""
     ],
     "label": "Delve"
   },
@@ -98,7 +108,21 @@
   },
   {
     "match": [
-      "n:\"Kellan\""
+      "o:\"flash\" !o:flashback"
+    ],
+    "connect": [
+      "o:\"counter target\""
+    ],
+    "label": "Draw-go"
+  },
+  {
+    "match": [
+      "n:\"Kellan\"",
+      "o:flying",
+      "o:trample",
+      "o:menace",
+      "o:\"first strike\"",
+      "o:\"double strike\""
     ],
     "connect": [
       "t:equipment"
@@ -139,7 +163,8 @@
       "n:Titania",
       "n:\"Wrenn and Six\"",
       "n:\"Life from the Loam\"",
-      "n:Six"
+      "n:Six",
+      "n:\"Tasigur\""
     ],
     "connect": [
       "o:surveil",
@@ -149,8 +174,7 @@
       "t:land o:sacrifice",
       "o:cycling t:land",
       "o:channel t:land",
-      "o:retrace",
-      "o:\"into your graveyard\""
+      "o:retrace"
     ],
     "label": "Graveyard Size"
   },
@@ -163,8 +187,7 @@
     "connect": [
       "o:surveil",
       "o:mill",
-      "o:\"draw\" o:\"discard\"",
-      "o:\"then discard\"",
+      "o:\"discard\" !o:cycling !o:retrace",
       "o:dredge"
     ],
     "label": "Graveyard Spells"
@@ -232,9 +255,8 @@
       "t:creature cmc\u003c4"
     ],
     "connect": [
-      "o:\"mana value\" o:\"or less\" o:\"graveyard to the\"",
       "o:\"from a graveyard onto the battlefield\"",
-      "o:\"into your graveyard\""
+      "o:\"mana value\" o:\"or less\" o:\"graveyard to the\""
     ],
     "label": "Reanimate"
   },
@@ -256,7 +278,17 @@
   },
   {
     "match": [
-      "o:\"whenever you sacrifice\"",
+      "n:\"Birthing Ritual\""
+    ],
+    "connect": [
+      "t:creature cmc\u003c4 o:\"enters\"",
+      "t:creature cmc\u003c4 o:\"dies\""
+    ],
+    "label": "Ritual"
+  },
+  {
+    "match": [
+      "o:\"whenever you sacrifice\" !n:\"Tireless Tracker\"",
       "o:\"are put into your graveyard\"",
       "o:\"whenever a player sacrifices\""
     ],
@@ -310,7 +342,7 @@
       "o:\"whenever a token\"",
       "o:\"one or more tokens\"",
       "o:\"target token you control\"",
-      "o:\"sacrifice a creature\"",
+      "o:\"sacrifice a creature\" !n:\"Birthing\"",
       "n:Hellrider"
     ],
     "connect": [
@@ -340,5 +372,16 @@
       "n:\"Flames of the Firebrand\""
     ],
     "label": "Valiant"
+  },
+  {
+    "match": [
+      "o:\"Destroy all\"",
+      "o:\"All creatures get -\"",
+      "n:Balance"
+    ],
+    "connect": [
+      "t:land o:\"becomes a\""
+    ],
+    "label": "Wrath"
   }
 ]
