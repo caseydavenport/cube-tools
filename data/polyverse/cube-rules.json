@@ -12,6 +12,16 @@
   },
   {
     "match": [
+      "n:\"Collected Company\""
+    ],
+    "connect": [
+      "t:creature (cmc:2 OR cmc:3) o:\"this creature enters\"",
+      "t:creature cmc\u003c4 o:\"flash\""
+    ],
+    "label": "CoCo"
+  },
+  {
+    "match": [
       "o:\"+1/+1 counter\""
     ],
     "connect": [
@@ -34,7 +44,8 @@
       "t:sorcery cmc\u003c3 c:G",
       "o:surveil",
       "o:mill",
-      "t:land (o:sacrifice OR o:discard)"
+      "t:land (o:sacrifice OR o:discard)",
+      "o:\"into your graveyard\""
     ],
     "label": "Delirium"
   },
@@ -49,6 +60,20 @@
   },
   {
     "match": [
+      "o:delve"
+    ],
+    "connect": [
+      "o:surveil",
+      "o:mill",
+      "o:cycling",
+      "t:land o:sacrifice",
+      "o:\"draw\" o:\"discard\"",
+      "o:\"into your graveyard\""
+    ],
+    "label": "Delve"
+  },
+  {
+    "match": [
       "o:\"whenever you discard\""
     ],
     "connect": [
@@ -58,6 +83,18 @@
       "o:\"Each player discards a card\""
     ],
     "label": "Discard"
+  },
+  {
+    "match": [
+      "o:\"second spell each turn\""
+    ],
+    "connect": [
+      "(t:instant OR t:sorcery) cmc\u003c2",
+      "(t:artifact OR t:enchantment) cmc\u003c2",
+      "o:flashback (t:instant OR t:sorcery) cmc\u003c3",
+      "o:madness"
+    ],
+    "label": "Double Spell"
   },
   {
     "match": [
@@ -80,6 +117,57 @@
       "o:\"exile another target\" o:\"return that\""
     ],
     "label": "ETB"
+  },
+  {
+    "match": [
+      "n:Hellrider",
+      "n:Embercleave",
+      "n:\"Warleader's Call\"",
+      "n:Adeline"
+    ],
+    "connect": [
+      "o:\"create\" o:\"token\""
+    ],
+    "label": "Go Wide"
+  },
+  {
+    "match": [
+      "o:threshold",
+      "n:Tarmogoyf",
+      "n:Nethergoyf",
+      "n:\"Knight of the Reliquary\"",
+      "n:Titania",
+      "n:\"Wrenn and Six\"",
+      "n:\"Life from the Loam\"",
+      "n:Six"
+    ],
+    "connect": [
+      "o:surveil",
+      "o:mill",
+      "o:dredge",
+      "o:\"draw\" o:\"discard\"",
+      "t:land o:sacrifice",
+      "o:cycling t:land",
+      "o:channel t:land",
+      "o:retrace",
+      "o:\"into your graveyard\""
+    ],
+    "label": "Graveyard Size"
+  },
+  {
+    "match": [
+      "o:flashback",
+      "o:retrace",
+      "o:escape"
+    ],
+    "connect": [
+      "o:surveil",
+      "o:mill",
+      "o:\"draw\" o:\"discard\"",
+      "o:\"then discard\"",
+      "o:dredge"
+    ],
+    "label": "Graveyard Spells"
   },
   {
     "match": [
@@ -145,9 +233,26 @@
     ],
     "connect": [
       "o:\"mana value\" o:\"or less\" o:\"graveyard to the\"",
-      "o:\"from a graveyard onto the battlefield\""
+      "o:\"from a graveyard onto the battlefield\"",
+      "o:\"into your graveyard\""
     ],
     "label": "Reanimate"
+  },
+  {
+    "match": [
+      "n:Bloodghast",
+      "n:\"Bloodsoaked Champion\"",
+      "n:\"Master of Death\"",
+      "n:\"Tenacious Underdog\"",
+      "n:\"Mosswood Dreadknight\""
+    ],
+    "connect": [
+      "o:\"sacrifice a creature\"",
+      "o:\"sacrifice another creature\"",
+      "o:\"discard a card\"",
+      "o:\"draw\" o:\"discard\""
+    ],
+    "label": "Recursion"
   },
   {
     "match": [
@@ -190,6 +295,18 @@
   },
   {
     "match": [
+      "o:\"instant or sorcery spell\"",
+      "o:magecraft"
+    ],
+    "connect": [
+      "(t:instant OR t:sorcery) cmc\u003c3",
+      "o:flashback",
+      "o:\"you may cast\" o:\"without paying its mana cost\""
+    ],
+    "label": "Spells Matter"
+  },
+  {
+    "match": [
       "o:\"whenever a token\"",
       "o:\"one or more tokens\"",
       "o:\"target token you control\"",
@@ -219,7 +336,8 @@
       "o:\"Target creature you control\"",
       "t:equipment",
       "o:\"Target creature gets +\"",
-      "o:\"Target permanent you control\""
+      "o:\"Target permanent you control\"",
+      "n:\"Flames of the Firebrand\""
     ],
     "label": "Valiant"
   }
