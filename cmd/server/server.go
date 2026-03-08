@@ -21,6 +21,7 @@ func main() {
 	http.Handle("/api/stats/color-matchups", stats.ColorMatchupHandler())
 	http.Handle("/api/stats/health", stats.HealthStatsHandler())
 	http.Handle("/api/stats/design-graph", stats.DesignGraphHandler())
+	http.Handle("/api/stats/design-graph/match", stats.DesignGraphMatchHandler())
 	http.Handle("/api/save-design-rules", stats.SaveDesignRulesHandler())
 	http.Handle("/api/save-notes", server.SaveNotesHandler())
 

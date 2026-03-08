@@ -1,8 +1,9 @@
 import React, { useRef, useEffect, useCallback, useState } from 'react'
+import ReactDOM from 'react-dom'
 import { White, Blue, Black, Red, Green } from "../utils/Colors.js"
 
 export function DesignMapWidget({ show, designGraphData, onCardSelected, onRulesChanged }) {
-  const [selectedRule, setSelectedRule] = useState(null)
+  const [selectedLink, setSelectedLink] = useState(null)
   const [selectedCard, setSelectedCard] = useState(null)
   const [hoveredCard, setHoveredCard] = useState(null)
 
@@ -11,16 +12,17 @@ export function DesignMapWidget({ show, designGraphData, onCardSelected, onRules
   const data = designGraphData || {}
   const nodes = data.nodes || []
   const edges = data.edges || []
-  const rules = data.rules || []
+  const groups = data.groups || []
+  const links = data.links || []
 
-  // When selecting a rule, clear card selection and vice versa.
-  function handleSelectRule(rule) {
-    setSelectedRule(rule)
+  // When selecting a link, clear card selection and vice versa.
+  function handleSelectLink(link) {
+    setSelectedLink(link)
     setSelectedCard(null)
   }
   function handleSelectCard(cardName) {
     setSelectedCard(prev => prev === cardName ? null : cardName)
-    setSelectedRule(null)
+    setSelectedLink(null)
   }
 
   // Build card list based on current selection.
@@ -41,14 +43,14 @@ export function DesignMapWidget({ show, designGraphData, onCardSelected, onRules
       .map(name => nodeMap[name] || { name, colors: [], connection_count: 0 })
       .sort((a, b) => b.connection_count - a.connection_count)
     listLabel = selectedCard
-  } else if (selectedRule === "unconnected") {
+  } else if (selectedLink === "unconnected") {
     clusterCards = nodes.filter(n => n.connection_count === 0).sort((a, b) => a.name.localeCompare(b.name))
     listLabel = "Unconnected"
-  } else if (selectedRule !== null && rules[selectedRule]) {
-    const ruleLabel = rules[selectedRule].label
+  } else if (selectedLink !== null && links[selectedLink]) {
+    const linkLabel = links[selectedLink].label
     const cardNames = new Set()
     for (const edge of edges) {
-      if ((edge.rule_labels || []).includes(ruleLabel)) {
+      if ((edge.rule_labels || []).includes(linkLabel)) {
         cardNames.add(edge.source)
         cardNames.add(edge.target)
       }
@@ -62,22 +64,22 @@ export function DesignMapWidget({ show, designGraphData, onCardSelected, onRules
 
   return (
     <div className="synergy-container" style={{padding: "1rem"}}>
-      <div style={{display: "grid", gridTemplateColumns: "600px 1fr 250px", gap: "1rem"}}>
-        <RulesPanel rules={rules} nodes={nodes} edges={edges} onRulesChanged={onRulesChanged} />
+      <div style={{display: "grid", gridTemplateColumns: "350px 1fr 350px", gap: "1rem"}}>
+        <RulesPanel groups={groups} links={links} nodes={nodes} edges={edges} onRulesChanged={onRulesChanged} selectedCard={selectedCard} />
         <DesignMapGraph
-          nodes={nodes} edges={edges} rules={rules}
+          nodes={nodes} edges={edges} links={links}
           onCardFocused={handleSelectCard}
-          selectedRule={selectedRule} onSelectedRuleChanged={handleSelectRule}
+          selectedLink={selectedLink} onSelectedLinkChanged={handleSelectLink}
           selectedCard={selectedCard}
           hoveredCard={hoveredCard} onHoveredCardChanged={setHoveredCard}
         />
         <ClusterCardList
           cards={clusterCards}
           edges={edges}
-          rules={rules}
+          links={links}
           selectedCard={selectedCard}
-          rule={typeof selectedRule === "number" ? rules[selectedRule] : null}
-          ruleIndex={typeof selectedRule === "number" ? selectedRule : null}
+          link={typeof selectedLink === "number" ? links[selectedLink] : null}
+          linkIndex={typeof selectedLink === "number" ? selectedLink : null}
           listLabel={listLabel}
           onCardFocused={handleSelectCard}
           hoveredCard={hoveredCard}
@@ -88,11 +90,11 @@ export function DesignMapWidget({ show, designGraphData, onCardSelected, onRules
   )
 }
 
-function saveRules(rules, onRulesChanged, onStatus) {
+function saveDesignMap(groups, links, onRulesChanged, onStatus) {
   fetch("/api/save-design-rules", {
     method: "POST",
     headers: {"Content-Type": "application/json"},
-    body: JSON.stringify(rules),
+    body: JSON.stringify({ groups, links }),
   }).then(r => {
     if (r.ok) {
       if (onStatus) onStatus("")
@@ -105,63 +107,173 @@ function saveRules(rules, onRulesChanged, onStatus) {
   })
 }
 
-function RulesPanel({ rules, nodes, edges, onRulesChanged }) {
-  const [adding, setAdding] = useState(false)
-  const [newLabel, setNewLabel] = useState("")
-  const [newMatch, setNewMatch] = useState([""])
-  const [newConnect, setNewConnect] = useState([""])
-  const [confirmDelete, setConfirmDelete] = useState(null)
-  const [editing, setEditing] = useState(null)
+function RulesPanel({ groups, links, nodes, edges, onRulesChanged, selectedCard }) {
+  const [activeTab, setActiveTab] = useState("links")
+  const [addingGroup, setAddingGroup] = useState(false)
+  const [addingLink, setAddingLink] = useState(false)
+  const [confirmDeleteGroup, setConfirmDeleteGroup] = useState(null)
+  const [confirmDeleteLink, setConfirmDeleteLink] = useState(null)
+  const [editingGroup, setEditingGroup] = useState(null)
+  const [editingLink, setEditingLink] = useState(null)
   const [saveStatus, setSaveStatus] = useState("")
 
-  function addRule() {
-    const matchClauses = newMatch.map(c => c.trim()).filter(c => c)
-    const connectClauses = newConnect.map(c => c.trim()).filter(c => c)
-    if (matchClauses.length === 0 || connectClauses.length === 0) {
-      setSaveStatus("At least one Match and one Connect clause are required.")
+  function addGroup(newGroup) {
+    const conditions = newGroup.conditions.map(c => c.trim()).filter(c => c)
+    if (conditions.length === 0) {
+      setSaveStatus("At least one condition is required.")
       return
     }
-    const updated = [...rules, {
-      label: newLabel.trim() || "Untitled rule",
-      match: matchClauses,
-      connect: connectClauses,
+    const updated = [...groups, {
+      name: newGroup.name.trim() || "Untitled group",
+      conditions,
     }]
-    saveRules(updated, onRulesChanged, setSaveStatus)
-    setAdding(false)
-    setNewLabel("")
-    setNewMatch([""])
-    setNewConnect([""])
+    saveDesignMap(updated, links, onRulesChanged, setSaveStatus)
+    setAddingGroup(false)
   }
 
-  function updateRule(index, updatedRule) {
-    const matchClauses = updatedRule.match.map(c => c.trim()).filter(c => c)
-    const connectClauses = updatedRule.connect.map(c => c.trim()).filter(c => c)
-    if (matchClauses.length === 0 || connectClauses.length === 0) {
-      setSaveStatus("At least one Match and one Connect clause are required.")
+  function updateGroup(index, updatedGroup) {
+    const conditions = updatedGroup.conditions.map(c => c.trim()).filter(c => c)
+    if (conditions.length === 0) {
+      setSaveStatus("At least one condition is required.")
       return
     }
-    const updated = rules.map((r, i) => i === index ? {
-      label: updatedRule.label.trim() || "Untitled rule",
-      match: matchClauses,
-      connect: connectClauses,
-    } : r)
-    saveRules(updated, onRulesChanged, setSaveStatus)
-    setEditing(null)
+    const newName = updatedGroup.name.trim() || "Untitled group"
+    const oldName = groups[index].name
+    const updatedGroups = groups.map((g, i) => i === index ? { name: newName, conditions } : g)
+
+    // If the name changed, update any links that reference the old name.
+    let updatedLinks = links
+    if (oldName !== newName) {
+      updatedLinks = links.map(l => ({
+        ...l,
+        sources: (l.sources || []).map(s => s === oldName ? newName : s),
+        targets: (l.targets || []).map(t => t === oldName ? newName : t),
+      }))
+    }
+    saveDesignMap(updatedGroups, updatedLinks, onRulesChanged, setSaveStatus)
+    setEditingGroup(null)
   }
 
-  function deleteRule(index) {
-    const updated = rules.filter((_, i) => i !== index)
-    saveRules(updated, onRulesChanged, setSaveStatus)
-    setConfirmDelete(null)
+  function deleteGroup(index) {
+    const updated = groups.filter((_, i) => i !== index)
+    saveDesignMap(updated, links, onRulesChanged, setSaveStatus)
+    setConfirmDeleteGroup(null)
   }
 
-  function cancelAdd() {
-    setAdding(false)
-    setNewLabel("")
-    setNewMatch([""])
-    setNewConnect([""])
-    setSaveStatus("")
+  function addLink(newLink) {
+    const sources = (newLink.sources || []).filter(s => s)
+    const targets = (newLink.targets || []).filter(t => t)
+    if (sources.length === 0 || targets.length === 0) {
+      setSaveStatus("At least one source and one target group are required.")
+      return
+    }
+    const updated = [...links, {
+      label: newLink.label.trim() || "Untitled link",
+      sources,
+      targets,
+    }]
+    saveDesignMap(groups, updated, onRulesChanged, setSaveStatus)
+    setAddingLink(false)
   }
+
+  function updateLink(index, updatedLink) {
+    const sources = (updatedLink.sources || []).filter(s => s)
+    const targets = (updatedLink.targets || []).filter(t => t)
+    if (sources.length === 0 || targets.length === 0) {
+      setSaveStatus("At least one source and one target group are required.")
+      return
+    }
+    const updated = links.map((l, i) => i === index ? {
+      label: updatedLink.label.trim() || "Untitled link",
+      sources,
+      targets,
+    } : l)
+    saveDesignMap(groups, updated, onRulesChanged, setSaveStatus)
+    setEditingLink(null)
+  }
+
+  function deleteLink(index) {
+    const updated = links.filter((_, i) => i !== index)
+    saveDesignMap(groups, updated, onRulesChanged, setSaveStatus)
+    setConfirmDeleteLink(null)
+  }
+
+  // When a card is selected, find which link labels connect to it via edges.
+  const activeLabels = React.useMemo(() => {
+    if (!selectedCard) return null
+    const labels = new Set()
+    for (const e of edges) {
+      if (e.source === selectedCard || e.target === selectedCard) {
+        for (const l of (e.rule_labels || [])) labels.add(l)
+      }
+    }
+    return labels.size > 0 ? labels : null
+  }, [selectedCard, edges])
+
+  // Auto-switch to links tab when a card with links is selected.
+  useEffect(() => {
+    if (activeLabels && activeLabels.size > 0) setActiveTab("links")
+  }, [activeLabels])
+
+  // When a card is selected, query the backend to find which groups actually contain it.
+  const [activeGroupNames, setActiveGroupNames] = useState(null)
+  useEffect(() => {
+    if (!selectedCard || groups.length === 0) {
+      setActiveGroupNames(null)
+      return
+    }
+    // Build parallel conditions/groups arrays from all groups.
+    const conditions = []
+    const groupLabels = []
+    for (const g of groups) {
+      for (const c of (g.conditions || [])) {
+        conditions.push(c)
+        groupLabels.push(g.name)
+      }
+    }
+    if (conditions.length === 0) { setActiveGroupNames(null); return }
+
+    fetch("/api/stats/design-graph/match", {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({ conditions, groups: groupLabels }),
+    })
+      .then(r => r.json())
+      .then(data => {
+        const card = (data.cards || []).find(c => c.name === selectedCard)
+        if (card) {
+          setActiveGroupNames(new Set(card.conditions.map(mc => mc.group).filter(g => g)))
+        } else {
+          setActiveGroupNames(null)
+        }
+      })
+      .catch(() => setActiveGroupNames(null))
+  }, [selectedCard, groups])
+
+  // Sort links so matching ones appear first when a card is selected.
+  const sortedLinkIndices = React.useMemo(() => {
+    const indices = links.map((_, i) => i)
+    if (!activeLabels) return indices
+    return indices.sort((a, b) => {
+      const aMatch = activeLabels.has(links[a].label) ? 0 : 1
+      const bMatch = activeLabels.has(links[b].label) ? 0 : 1
+      return aMatch - bMatch
+    })
+  }, [links, activeLabels])
+
+  // Sort groups so matching ones appear first when a card is selected.
+  const sortedGroupIndices = React.useMemo(() => {
+    const indices = groups.map((_, i) => i)
+    if (!activeGroupNames) return indices
+    return indices.sort((a, b) => {
+      const aMatch = activeGroupNames.has(groups[a].name) ? 0 : 1
+      const bMatch = activeGroupNames.has(groups[b].name) ? 0 : 1
+      return aMatch - bMatch
+    })
+  }, [groups, activeGroupNames])
+
+  const groupNames = groups.map(g => g.name)
+  const usedGroupNames = new Set(links.flatMap(l => [...(l.sources || []), ...(l.targets || [])]))
 
   return (
     <div style={{
@@ -173,61 +285,54 @@ function RulesPanel({ rules, nodes, edges, onRulesChanged }) {
       minHeight: "100%",
     }}>
       <h4 style={{color: "var(--primary)", margin: "0 0 0.5rem 0", fontSize: "1rem"}}>
-        Design Rules
+        Design Map
       </h4>
 
-      <div style={{marginBottom: "0.75rem", borderBottom: "1px solid var(--page-background)", paddingBottom: "0.75rem"}}>
-        <h5 style={{color: "var(--text-muted)", fontSize: "0.8em", margin: "0 0 0.5rem 0"}}>Query Syntax</h5>
-        <div style={{color: "var(--text-muted)", fontSize: "0.75em", lineHeight: "1.6"}}>
-          <code>n:</code> name &nbsp;
-          <code>o:</code> oracle text &nbsp;
-          <code>t:</code> type &nbsp;
-          <code>st:</code> subtype &nbsp;
-          <code>c:</code> color &nbsp;
-          <code>cmc:</code> mana value &nbsp;
-          <code>is:</code> creature, removal, etc.
-          <br/>
-          <code>cmc&lt;=N</code> <code>cmc&gt;=N</code> <code>pow&lt;=N</code> <code>tou&gt;=N</code>
-          <br/>
-          Negate with <code>!</code>: <code>!t:creature</code> <code>!c:R</code>
-          <br/>
-          Terms are AND. Use <code>OR</code> for disjunction.
-          <br/>
-          Parens for grouping: <code>(t:enchantment OR t:artifact) cmc&lt;=2</code>
-          <br/>
-          Quotes for phrases: <code>o:"enters the battlefield"</code>
-        </div>
-      </div>
-
       <p style={{color: "var(--text-muted)", fontSize: "0.8em", margin: "0 0 0.75rem 0"}}>
-        {nodes.length} cards, {edges.length} edges from {rules.length} rules
+        {nodes.length} cards, {edges.length} edges from {links.length} links, {groups.length} groups
       </p>
 
-      {adding ? (
-        <div style={{
-          background: "var(--page-background)",
-          borderRadius: "6px",
-          padding: "0.5rem 0.75rem",
-          marginBottom: "0.5rem",
-          borderLeft: "3px solid var(--primary)",
-        }}>
-          <RuleInput label="Label" value={newLabel} onChange={setNewLabel} placeholder="e.g. Discard synergy" />
-          <ClauseInputs
-            label="Match" connects={newMatch}
-            onChange={setNewMatch} placeholder="e.g. o:discard"
+      {saveStatus && (
+        <p style={{color: "#e55", fontSize: "0.8em", margin: "0.25rem 0 0.5rem 0"}}>{saveStatus}</p>
+      )}
+
+      {/* Tab bar */}
+      <div style={{display: "flex", gap: 0, marginBottom: "0.75rem", borderBottom: "1px solid var(--page-background)"}}>
+        {[
+          { key: "groups", label: `Groups (${groups.length})` },
+          { key: "links", label: `Links (${links.length})` },
+        ].map(tab => (
+          <button
+            key={tab.key}
+            onClick={() => setActiveTab(tab.key)}
+            style={{
+              background: "transparent",
+              border: "none",
+              borderBottom: activeTab === tab.key ? "2px solid var(--primary)" : "2px solid transparent",
+              color: activeTab === tab.key ? "var(--primary)" : "var(--text-muted)",
+              padding: "0.4rem 1rem",
+              cursor: "pointer",
+              fontSize: "0.85em",
+              fontWeight: activeTab === tab.key ? "bold" : "normal",
+            }}
+          >
+            {tab.label}
+          </button>
+        ))}
+      </div>
+
+      {/* Groups Tab */}
+      {activeTab === "groups" && <>
+        {addingGroup && (
+          <GroupEditModal
+            group={{ name: "", conditions: [""] }}
+            color="var(--primary)"
+            onSave={addGroup}
+            onCancel={() => { setAddingGroup(false); setSaveStatus("") }}
           />
-          <ClauseInputs
-            label="Connect" connects={newConnect}
-            onChange={setNewConnect} placeholder="e.g. o:madness"
-          />
-          <div style={{display: "flex", gap: "0.5rem", marginTop: "0.5rem"}}>
-            <button onClick={addRule} className="button" style={{fontSize: "0.8em"}}>Add</button>
-            <button onClick={cancelAdd} className="button" style={{fontSize: "0.8em"}}>Cancel</button>
-          </div>
-        </div>
-      ) : (
+        )}
         <button
-          onClick={() => { setAdding(true); setSaveStatus("") }}
+          onClick={() => { setAddingGroup(true); setSaveStatus("") }}
           style={{
             background: "transparent",
             border: "1px dashed var(--text-muted)",
@@ -240,34 +345,93 @@ function RulesPanel({ rules, nodes, edges, onRulesChanged }) {
             marginBottom: "0.5rem",
           }}
         >
-          + Add Rule
+          + Add Group
         </button>
-      )}
 
-      {saveStatus && (
-        <p style={{color: "#e55", fontSize: "0.8em", margin: "0.25rem 0 0 0"}}>{saveStatus}</p>
-      )}
+        {sortedGroupIndices.map(i => {
+          const group = groups[i]
+          const highlighted = activeGroupNames && activeGroupNames.has(group.name)
+          const dimmed = activeGroupNames && !highlighted
+          return (
+            <GroupCard
+              key={i} group={group} index={i}
+              unused={!usedGroupNames.has(group.name)}
+              confirmDelete={confirmDeleteGroup === i}
+              onDeleteClick={() => setConfirmDeleteGroup(confirmDeleteGroup === i ? null : i)}
+              onConfirmDelete={() => deleteGroup(i)}
+              onCancelDelete={() => setConfirmDeleteGroup(null)}
+              isEditing={editingGroup === i}
+              onEditClick={() => { setEditingGroup(editingGroup === i ? null : i); setConfirmDeleteGroup(null); setSaveStatus("") }}
+              onEditSave={(updated) => updateGroup(i, updated)}
+              onEditCancel={() => setEditingGroup(null)}
+              dimmed={dimmed}
+            />
+          )
+        })}
 
-      {rules.map((rule, i) => (
-        <RuleCard
-          key={i} rule={rule} index={i}
-          confirmDelete={confirmDelete === i}
-          onDeleteClick={() => setConfirmDelete(confirmDelete === i ? null : i)}
-          onConfirmDelete={() => deleteRule(i)}
-          onCancelDelete={() => setConfirmDelete(null)}
-          isEditing={editing === i}
-          onEditClick={() => { setEditing(editing === i ? null : i); setConfirmDelete(null); setSaveStatus("") }}
-          onEditSave={(updated) => updateRule(i, updated)}
-          onEditCancel={() => setEditing(null)}
-        />
-      ))}
+        {groups.length === 0 && !addingGroup && (
+          <p style={{color: "var(--text-muted)", fontSize: "0.85em", fontStyle: "italic"}}>
+            No groups defined yet.
+          </p>
+        )}
+      </>}
 
-      {rules.length === 0 && !adding && (
-        <p style={{color: "var(--text-muted)", fontSize: "0.85em", fontStyle: "italic"}}>
-          No rules defined yet.
-        </p>
-      )}
+      {/* Links Tab */}
+      {activeTab === "links" && <>
+        {addingLink && (
+          <LinkEditModal
+            link={{ label: "", sources: [""], targets: [""] }}
+            color="var(--primary)"
+            groupNames={groupNames}
+            groups={groups}
+            onSave={addLink}
+            onCancel={() => { setAddingLink(false); setSaveStatus("") }}
+          />
+        )}
+        <button
+          onClick={() => { setAddingLink(true); setSaveStatus("") }}
+          style={{
+            background: "transparent",
+            border: "1px dashed var(--text-muted)",
+            borderRadius: "6px",
+            color: "var(--text-muted)",
+            width: "100%",
+            padding: "0.4rem",
+            cursor: "pointer",
+            fontSize: "0.85em",
+            marginBottom: "0.5rem",
+          }}
+        >
+          + Add Link
+        </button>
 
+        {sortedLinkIndices.map(i => {
+          const link = links[i]
+          const highlighted = activeLabels && activeLabels.has(link.label)
+          const dimmed = activeLabels && !highlighted
+          return (
+            <LinkCard
+              key={i} link={link} index={i} groupNames={groupNames} groups={groups}
+              confirmDelete={confirmDeleteLink === i}
+              onDeleteClick={() => setConfirmDeleteLink(confirmDeleteLink === i ? null : i)}
+              onConfirmDelete={() => deleteLink(i)}
+              onCancelDelete={() => setConfirmDeleteLink(null)}
+              isEditing={editingLink === i}
+              onEditClick={() => { setEditingLink(editingLink === i ? null : i); setConfirmDeleteLink(null); setSaveStatus("") }}
+              onEditSave={(updated) => updateLink(i, updated)}
+              onEditCancel={() => setEditingLink(null)}
+              onGroupSaved={(groupIndex, updated) => updateGroup(groupIndex, updated)}
+              dimmed={dimmed}
+            />
+          )
+        })}
+
+        {links.length === 0 && !addingLink && (
+          <p style={{color: "var(--text-muted)", fontSize: "0.85em", fontStyle: "italic"}}>
+            No links defined yet.
+          </p>
+        )}
+      </>}
     </div>
   )
 }
@@ -297,7 +461,186 @@ function RuleInput({ label, value, onChange, placeholder }) {
   )
 }
 
-function ClauseInputs({ label, connects, onChange, placeholder }) {
+function GroupSelect({ label, value, onChange, groupNames }) {
+  return (
+    <div style={{marginBottom: "0.35rem"}}>
+      <label style={{fontSize: "0.7em", color: "var(--text-muted)", display: "block", marginBottom: "2px"}}>{label}</label>
+      <select
+        value={value}
+        onChange={e => onChange(e.target.value)}
+        style={{
+          width: "100%",
+          background: "var(--card-background)",
+          color: "var(--text-color)",
+          border: "1px solid var(--card-background)",
+          borderRadius: "4px",
+          padding: "4px 6px",
+          fontSize: "0.8em",
+          fontFamily: "monospace",
+          boxSizing: "border-box",
+        }}
+      >
+        <option value="">-- Select group --</option>
+        {groupNames.map(name => (
+          <option key={name} value={name}>{name}</option>
+        ))}
+      </select>
+    </div>
+  )
+}
+
+function GroupMultiSelect({ label, values, onChange, groupNames, onEditGroup }) {
+  function updateAt(i, val) {
+    const next = [...values]
+    next[i] = val
+    onChange(next)
+  }
+  function removeAt(i) {
+    const next = values.filter((_, idx) => idx !== i)
+    if (next.length === 0) next.push("")
+    onChange(next)
+  }
+  function addSlot() {
+    onChange([...values, ""])
+  }
+
+  const selectStyle = {
+    flex: 1,
+    background: "var(--card-background)",
+    color: "var(--text-color)",
+    border: "1px solid var(--card-background)",
+    borderRadius: "4px",
+    padding: "4px 6px",
+    fontSize: "0.8em",
+    fontFamily: "monospace",
+    boxSizing: "border-box",
+  }
+
+  return (
+    <div style={{marginBottom: "0.35rem"}}>
+      <label style={{fontSize: "0.7em", color: "var(--text-muted)", display: "block", marginBottom: "2px"}}>{label}</label>
+      {values.map((v, i) => (
+        <div key={i} style={{display: "flex", gap: "4px", marginBottom: "3px", alignItems: "center"}}>
+          <select value={v} onChange={e => updateAt(i, e.target.value)} style={selectStyle}>
+            <option value="">-- Select group --</option>
+            {groupNames.map(name => (
+              <option key={name} value={name}>{name}</option>
+            ))}
+          </select>
+          {onEditGroup && v && (
+            <button
+              onClick={() => onEditGroup(v)}
+              title="Edit group"
+              style={{
+                background: "transparent", border: "none", color: "var(--text-muted)",
+                cursor: "pointer", fontSize: "0.8em", lineHeight: "1", padding: "0 2px",
+              }}
+            >&#9998;</button>
+          )}
+          {values.length > 1 && (
+            <button
+              onClick={() => removeAt(i)}
+              title="Remove"
+              style={{
+                background: "transparent", border: "none", color: "var(--text-muted)",
+                cursor: "pointer", fontSize: "1em", lineHeight: "1", padding: "0 2px",
+              }}
+            >&times;</button>
+          )}
+        </div>
+      ))}
+      <button
+        onClick={addSlot}
+        style={{
+          background: "transparent", border: "none", color: "var(--text-muted)",
+          cursor: "pointer", fontSize: "0.75em", padding: "0",
+        }}
+      >+ Add group</button>
+    </div>
+  )
+}
+
+function ConditionTooltip({ children, conditions, style, onClick }) {
+  const [show, setShow] = useState(false)
+  const [pos, setPos] = useState(null)
+  const timeoutRef = useRef(null)
+  const elRef = useRef(null)
+  function handleEnter() {
+    if (timeoutRef.current) clearTimeout(timeoutRef.current)
+    if (elRef.current) {
+      const rect = elRef.current.getBoundingClientRect()
+      setPos({ top: rect.top + rect.height / 2, left: rect.right + 2 })
+    }
+    setShow(true)
+  }
+  function handleLeave() {
+    if (timeoutRef.current) clearTimeout(timeoutRef.current)
+    setShow(false)
+  }
+  if (!conditions || conditions.length === 0) {
+    return <div style={style} onClick={onClick}>{children}</div>
+  }
+  return (
+    <div
+      ref={elRef}
+      onMouseEnter={handleEnter}
+      onMouseLeave={handleLeave}
+      onClick={onClick}
+      style={{...style, background: show ? "var(--table-row-hover)" : (style && style.background) || "transparent"}}
+    >
+      {children}
+      {show && pos && ReactDOM.createPortal(
+        <div style={{
+          position: "fixed",
+          left: pos.left,
+          top: pos.top,
+          transform: "translateY(-50%)",
+          background: "var(--card-background)",
+          border: "1px solid var(--text-muted)",
+          borderRadius: "6px",
+          padding: "8px 12px",
+          zIndex: 9999,
+          whiteSpace: "nowrap",
+          pointerEvents: "none",
+          boxShadow: "0 4px 12px rgba(0,0,0,0.5)",
+        }}>
+          <div style={{fontSize: "11px", fontWeight: "bold", color: "var(--text-muted)", textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: "4px"}}>
+            Matched Conditions
+          </div>
+          <table style={{borderCollapse: "collapse"}}>
+            <tbody>
+              {conditions.map((mc, i) => (
+                <tr key={i}>
+                  {mc.group != null && (
+                    <td style={{
+                      fontSize: "12px",
+                      color: "var(--primary)",
+                      fontWeight: "bold",
+                      paddingRight: "10px",
+                      paddingTop: "2px",
+                      paddingBottom: "2px",
+                      verticalAlign: "top",
+                    }}>{mc.group}</td>
+                  )}
+                  <td style={{
+                    fontSize: "12px",
+                    fontFamily: "monospace",
+                    color: "var(--white)",
+                    paddingTop: "2px",
+                    paddingBottom: "2px",
+                  }}>{mc.condition}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>,
+        document.body,
+      )}
+    </div>
+  )
+}
+
+function ClauseInputs({ label, connects, onChange, placeholder, highlightedConditions, onConditionClick }) {
   function updateAt(i, val) {
     const next = [...connects]
     next[i] = val
@@ -314,37 +657,50 @@ function ClauseInputs({ label, connects, onChange, placeholder }) {
   return (
     <div style={{marginBottom: "0.35rem"}}>
       <label style={{fontSize: "0.7em", color: "var(--text-muted)", display: "block", marginBottom: "2px"}}>{label} (OR)</label>
-      {connects.map((c, i) => (
-        <div key={i} style={{display: "flex", gap: "4px", marginBottom: "3px", alignItems: "center"}}>
-          <input
-            type="text"
-            value={c}
-            onChange={e => updateAt(i, e.target.value)}
-            placeholder={placeholder}
+      {connects.map((c, i) => {
+        const trimmed = c.trim()
+        const dimmed = highlightedConditions && trimmed && !highlightedConditions.has(trimmed)
+        return (
+          <div
+            key={i}
+            onClick={onConditionClick && trimmed ? () => onConditionClick(trimmed) : undefined}
             style={{
-              flex: 1,
-              background: "var(--card-background)",
-              color: "var(--text-color)",
-              border: "1px solid var(--card-background)",
-              borderRadius: "4px",
-              padding: "4px 6px",
-              fontSize: "0.8em",
-              fontFamily: "monospace",
-              boxSizing: "border-box",
+              display: "flex", gap: "4px", marginBottom: "3px", alignItems: "center",
+              opacity: dimmed ? 0.3 : 1,
+              cursor: onConditionClick && trimmed ? "pointer" : undefined,
+              transition: "opacity 0.15s",
             }}
-          />
-          {connects.length > 1 && (
-            <button
-              onClick={() => removeAt(i)}
-              title="Remove clause"
+          >
+            <input
+              type="text"
+              value={c}
+              onChange={e => updateAt(i, e.target.value)}
+              placeholder={placeholder}
               style={{
-                background: "transparent", border: "none", color: "var(--text-muted)",
-                cursor: "pointer", fontSize: "1em", lineHeight: "1", padding: "0 2px",
+                flex: 1,
+                background: "var(--card-background)",
+                color: "var(--text-color)",
+                border: "1px solid var(--card-background)",
+                borderRadius: "4px",
+                padding: "4px 6px",
+                fontSize: "0.8em",
+                fontFamily: "monospace",
+                boxSizing: "border-box",
               }}
-            >&times;</button>
-          )}
-        </div>
-      ))}
+            />
+            {connects.length > 1 && (
+              <button
+                onClick={(e) => { e.stopPropagation(); removeAt(i) }}
+                title="Remove clause"
+                style={{
+                  background: "transparent", border: "none", color: "var(--text-muted)",
+                  cursor: "pointer", fontSize: "1em", lineHeight: "1", padding: "0 2px",
+                }}
+              >&times;</button>
+            )}
+          </div>
+        )
+      })}
       <button
         onClick={addClause}
         style={{
@@ -356,78 +712,33 @@ function ClauseInputs({ label, connects, onChange, placeholder }) {
   )
 }
 
-function RuleCard({ rule, index, confirmDelete, onDeleteClick, onConfirmDelete, onCancelDelete, isEditing, onEditClick, onEditSave, onEditCancel }) {
-  const [editLabel, setEditLabel] = useState(rule.label)
-  const [editMatch, setEditMatch] = useState(rule.match || [""])
-  const [editConnect, setEditConnect] = useState(rule.connect || [""])
-
-  // Reset edit fields when entering edit mode.
-  useEffect(() => {
-    if (isEditing) {
-      setEditLabel(rule.label)
-      setEditMatch([...(rule.match || [""])])
-      setEditConnect([...(rule.connect || [""])])
-    }
-  }, [isEditing])
+function GroupCard({ group, index, unused, confirmDelete, onDeleteClick, onConfirmDelete, onCancelDelete, isEditing, onEditClick, onEditSave, onEditCancel, dimmed }) {
+  const color = unused ? "var(--text-muted)" : ruleColor(index)
 
   if (isEditing) {
-    return (
-      <div style={{
-        background: "var(--page-background)",
-        borderRadius: "6px",
-        padding: "0.5rem 0.75rem",
-        marginBottom: "0.5rem",
-        borderLeft: `3px solid ${ruleColor(index)}`,
-      }}>
-        <RuleInput label="Label" value={editLabel} onChange={setEditLabel} placeholder="e.g. Discard synergy" />
-        <ClauseInputs
-          label="Match" connects={editMatch}
-          onChange={setEditMatch} placeholder="e.g. o:discard"
-        />
-        <ClauseInputs
-          label="Connect" connects={editConnect}
-          onChange={setEditConnect} placeholder="e.g. o:madness"
-        />
-        <div style={{display: "flex", gap: "0.5rem", marginTop: "0.5rem"}}>
-          <button onClick={() => onEditSave({ label: editLabel, match: editMatch, connect: editConnect })} className="button" style={{fontSize: "0.8em"}}>Save</button>
-          <button onClick={onEditCancel} className="button" style={{fontSize: "0.8em"}}>Cancel</button>
-        </div>
-      </div>
-    )
+    return <GroupEditModal group={group} color={ruleColor(index)} onSave={onEditSave} onCancel={onEditCancel} />
   }
 
   return (
-    <div style={{
+    <div onClick={onEditClick} style={{
       background: "var(--page-background)",
       borderRadius: "6px",
-      padding: "0.5rem 0.75rem",
-      marginBottom: "0.5rem",
-      borderLeft: `3px solid ${ruleColor(index)}`,
+      padding: "0.4rem 0.7rem",
+      marginBottom: "0.3rem",
+      borderLeft: `3px solid ${color}`,
+      opacity: dimmed ? 0.35 : unused ? 0.5 : 1,
       position: "relative",
+      cursor: "pointer",
+      transition: "opacity 0.15s",
     }}>
-      <div style={{display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "0.25rem"}}>
-        <div style={{fontWeight: "bold", fontSize: "0.85em", color: ruleColor(index)}}>
-          {rule.label || `Rule ${index + 1}`}
+      <div style={{display: "flex", justifyContent: "space-between", alignItems: "center"}}>
+        <div style={{fontWeight: "bold", fontSize: "0.9em", color}}>
+          {group.name || `Group ${index + 1}`}{unused ? " (unused)" : ""}
         </div>
         <div style={{display: "flex", gap: "4px"}}>
           <button
-            onClick={onEditClick}
-            title="Edit rule"
-            style={{
-              background: "transparent",
-              border: "none",
-              color: "var(--text-muted)",
-              cursor: "pointer",
-              fontSize: "0.8em",
-              lineHeight: "1",
-              padding: "0 2px",
-            }}
-          >
-            &#9998;
-          </button>
-          <button
-            onClick={onDeleteClick}
-            title="Delete rule"
+            onClick={(e) => { e.stopPropagation(); onDeleteClick(); }}
+            title="Delete group"
             style={{
               background: "transparent",
               border: "none",
@@ -450,21 +761,507 @@ function RuleCard({ rule, index, confirmDelete, onDeleteClick, onConfirmDelete, 
           marginBottom: "0.35rem",
           fontSize: "0.75em",
         }}>
-          <span style={{color: "#e55"}}>Delete this rule?</span>
+          <span style={{color: "#e55"}}>Delete this group?</span>
           <div style={{display: "flex", gap: "0.4rem", marginTop: "0.3rem"}}>
             <button onClick={onConfirmDelete} className="button" style={{fontSize: "0.75em", background: "#e55", color: "#fff", border: "none", borderRadius: "4px", padding: "2px 8px", cursor: "pointer"}}>Delete</button>
             <button onClick={onCancelDelete} className="button" style={{fontSize: "0.75em"}}>Cancel</button>
           </div>
         </div>
       )}
-      {(rule.match || []).map((m, mi) => (
-        <div key={"m" + mi} style={{fontSize: "0.75em", color: "var(--text-muted)"}}>
-          <span style={{color: "var(--text-color)"}}>{mi === 0 ? "match:" : "OR"}</span> {m}
+    </div>
+  )
+}
+
+function GroupEditModal({ group, color, onSave, onCancel }) {
+  const [editName, setEditName] = useState(group.name)
+  const [editConditions, setEditConditions] = useState([...(group.conditions || [""])])
+  const [matchedCards, setMatchedCards] = useState([])
+  const [loading, setLoading] = useState(false)
+  const [highlightCondition, setHighlightCondition] = useState(null)
+  const [highlightCard, setHighlightCard] = useState(null)
+  const debounceRef = useRef(null)
+
+  // Fetch matching cards whenever conditions change (debounced).
+  useEffect(() => {
+    if (debounceRef.current) clearTimeout(debounceRef.current)
+    const conditions = editConditions.map(c => c.trim()).filter(c => c)
+    if (conditions.length === 0) {
+      setMatchedCards([])
+      return
+    }
+    setLoading(true)
+    debounceRef.current = setTimeout(() => {
+      fetch("/api/stats/design-graph/match", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({ conditions }),
+      })
+        .then(r => r.json())
+        .then(data => { setMatchedCards(data.cards || []); setLoading(false) })
+        .catch(() => { setMatchedCards([]); setLoading(false) })
+    }, 300)
+    return () => { if (debounceRef.current) clearTimeout(debounceRef.current) }
+  }, [editConditions])
+
+  // Clear highlights when conditions change.
+  useEffect(() => {
+    setHighlightCondition(null)
+    setHighlightCard(null)
+  }, [editConditions])
+
+  // Close on Escape key.
+  useEffect(() => {
+    function handleKey(e) { if (e.key === "Escape") onCancel() }
+    window.addEventListener("keydown", handleKey)
+    return () => window.removeEventListener("keydown", handleKey)
+  }, [onCancel])
+
+  // Build the set of conditions that should be highlighted on the left side.
+  // When a card is clicked, highlight the conditions it matched.
+  const highlightedConditions = React.useMemo(() => {
+    if (highlightCard) {
+      const card = matchedCards.find(c => c.name === highlightCard)
+      if (card) return new Set(card.conditions.map(mc => mc.condition))
+    }
+    if (highlightCondition) return new Set([highlightCondition])
+    return null
+  }, [highlightCard, highlightCondition, matchedCards])
+
+  // Build the set of card names that should be highlighted on the right side.
+  // When a condition is clicked, highlight the cards that matched it.
+  const highlightedCards = React.useMemo(() => {
+    if (highlightCondition) {
+      const names = new Set()
+      for (const card of matchedCards) {
+        if (card.conditions.some(mc => mc.condition === highlightCondition)) names.add(card.name)
+      }
+      return names
+    }
+    if (highlightCard) return new Set([highlightCard])
+    return null
+  }, [highlightCondition, highlightCard, matchedCards])
+
+  function handleConditionClick(cond) {
+    setHighlightCard(null)
+    setHighlightCondition(prev => prev === cond ? null : cond)
+  }
+
+  function handleCardClick(name) {
+    setHighlightCondition(null)
+    setHighlightCard(prev => prev === name ? null : name)
+  }
+
+  return (
+    <div
+      onClick={onCancel}
+      style={{
+        position: "fixed",
+        top: 0, left: 0, right: 0, bottom: 0,
+        background: "rgba(0,0,0,0.7)",
+        zIndex: 1000,
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+    >
+      <div
+        onClick={e => e.stopPropagation()}
+        style={{
+          background: "var(--card-background)",
+          borderRadius: "10px",
+          border: `2px solid ${color}`,
+          width: "min(1100px, 95vw)",
+          height: "min(600px, 80vh)",
+          display: "grid",
+          gridTemplateColumns: "200px 1fr 1fr",
+          overflow: "hidden",
+        }}
+      >
+        {/* Left: query syntax reference */}
+        <div style={{
+          padding: "1rem",
+          overflowY: "auto",
+          background: "var(--page-background)",
+          borderRight: "1px solid var(--card-background)",
+          fontSize: "0.8em",
+          lineHeight: "1.8",
+        }}>
+          <h4 style={{color: "var(--text-muted)", margin: "0 0 0.75rem 0", fontSize: "0.85rem"}}>
+            Query Reference
+          </h4>
+          <table style={{borderCollapse: "collapse", width: "100%"}}>
+            <tbody>
+              {[
+                ["n:", "name"],
+                ["o:", "oracle text"],
+                ["t:", "type"],
+                ["st:", "subtype"],
+                ["c:", "color (WUBRG)"],
+                ["m:", "mana cost"],
+                ["cmc:", "mana value"],
+                ["is:", "keyword"],
+              ].map(([prefix, desc]) => (
+                <tr key={prefix}>
+                  <td style={{color: "var(--primary)", fontFamily: "monospace", fontWeight: "bold", paddingRight: "8px", whiteSpace: "nowrap"}}>{prefix}</td>
+                  <td style={{color: "var(--text-muted)"}}>{desc}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          <div style={{borderTop: "1px solid var(--card-background)", margin: "0.5rem 0", paddingTop: "0.5rem"}}>
+            <div style={{color: "var(--text-muted)", marginBottom: "0.25rem", fontWeight: "bold", fontSize: "0.85em"}}>Comparisons</div>
+            <div style={{color: "var(--text-muted)", fontFamily: "monospace"}}>
+              cmc&lt;=N &nbsp; cmc&gt;=N<br/>
+              pow&lt;=N &nbsp; tou&gt;=N
+            </div>
+          </div>
+          <div style={{borderTop: "1px solid var(--card-background)", margin: "0.5rem 0", paddingTop: "0.5rem"}}>
+            <div style={{color: "var(--text-muted)", marginBottom: "0.25rem", fontWeight: "bold", fontSize: "0.85em"}}>is: keywords</div>
+            <div style={{color: "var(--text-muted)", fontFamily: "monospace", fontSize: "0.9em"}}>
+              creature, land,<br/>
+              removal, counterspell,<br/>
+              interaction, handhate
+            </div>
+          </div>
+          <div style={{borderTop: "1px solid var(--card-background)", margin: "0.5rem 0", paddingTop: "0.5rem"}}>
+            <div style={{color: "var(--text-muted)", marginBottom: "0.25rem", fontWeight: "bold", fontSize: "0.85em"}}>Operators</div>
+            <div style={{color: "var(--text-muted)", fontSize: "0.9em"}}>
+              <code style={{color: "var(--primary)"}}>!</code> negate<br/>
+              <code style={{color: "var(--primary)"}}>OR</code> disjunction<br/>
+              <code style={{color: "var(--primary)"}}>()</code> grouping<br/>
+              <code style={{color: "var(--primary)"}}>""</code> quoted phrase<br/>
+              <code style={{color: "var(--primary)"}}>*</code> wildcard
+            </div>
+          </div>
+        </div>
+
+        {/* Center: edit form */}
+        <div style={{
+          padding: "1.25rem",
+          overflowY: "auto",
+          borderRight: "1px solid var(--page-background)",
+          display: "flex",
+          flexDirection: "column",
+        }}>
+          <h4 style={{color, margin: "0 0 1rem 0", fontSize: "1rem"}}>
+            Edit Group
+          </h4>
+          <RuleInput label="Name" value={editName} onChange={setEditName} placeholder="e.g. Mill Enablers" />
+          <div style={{flex: 1}}>
+            <ClauseInputs
+              label="Conditions" connects={editConditions}
+              onChange={setEditConditions} placeholder="e.g. o:mill"
+              highlightedConditions={highlightedConditions}
+              onConditionClick={handleConditionClick}
+            />
+          </div>
+          <div style={{display: "flex", gap: "0.5rem", marginTop: "1rem"}}>
+            <button onClick={() => onSave({ name: editName, conditions: editConditions })} className="button" style={{fontSize: "0.85em"}}>Save</button>
+            <button onClick={onCancel} className="button" style={{fontSize: "0.85em"}}>Cancel</button>
+          </div>
+        </div>
+
+        {/* Right: matching cards preview */}
+        <div style={{
+          padding: "1.25rem",
+          overflowY: "auto",
+          display: "flex",
+          flexDirection: "column",
+        }}>
+          <h4 style={{color: "var(--text-muted)", margin: "0 0 0.5rem 0", fontSize: "1rem"}}>
+            Matching Cards
+            <span style={{fontWeight: "normal", fontSize: "0.85em", marginLeft: "0.5rem"}}>
+              {loading ? "..." : `(${matchedCards.length})`}
+            </span>
+          </h4>
+          <div style={{flex: 1, overflowY: "auto"}}>
+            {matchedCards.length === 0 && !loading && (
+              <p style={{color: "var(--text-muted)", fontSize: "0.85em", fontStyle: "italic"}}>
+                No matching cards.
+              </p>
+            )}
+            {matchedCards.map(card => {
+              const dimmed = highlightedCards && !highlightedCards.has(card.name)
+              return (
+                <ConditionTooltip
+                  key={card.name}
+                  conditions={card.conditions}
+                  onClick={() => handleCardClick(card.name)}
+                  style={{
+                    fontSize: "0.8em",
+                    color: "var(--text-color)",
+                    padding: "2px 4px",
+                    borderRadius: "3px",
+                    cursor: "pointer",
+                    opacity: dimmed ? 0.3 : 1,
+                    transition: "opacity 0.15s",
+                    background: highlightCard === card.name ? "var(--page-background)" : "transparent",
+                  }}
+                >
+                  {card.name}
+                </ConditionTooltip>
+              )
+            })}
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+// Resolve group names to their combined conditions, then fetch matching cards.
+// Returns {cards: [{name, conditions: [{condition, group?}]}], loading}.
+function useFetchGroupCards(selectedGroupNames, allGroups) {
+  const [cards, setCards] = useState([])
+  const [loading, setLoading] = useState(false)
+  const debounceRef = useRef(null)
+
+  useEffect(() => {
+    if (debounceRef.current) clearTimeout(debounceRef.current)
+    const names = (selectedGroupNames || []).filter(n => n)
+    if (names.length === 0) { setCards([]); return }
+
+    // Build parallel conditions and groups arrays so the backend can label each.
+    const groupMap = {}
+    for (const g of allGroups) groupMap[g.name] = g.conditions || []
+    const conditions = []
+    const groups = []
+    for (const n of names) {
+      for (const c of (groupMap[n] || [])) {
+        conditions.push(c)
+        groups.push(n)
+      }
+    }
+    if (conditions.length === 0) { setCards([]); return }
+
+    setLoading(true)
+    debounceRef.current = setTimeout(() => {
+      fetch("/api/stats/design-graph/match", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({ conditions, groups }),
+      })
+        .then(r => r.json())
+        .then(data => { setCards(data.cards || []); setLoading(false) })
+        .catch(() => { setCards([]); setLoading(false) })
+    }, 300)
+    return () => { if (debounceRef.current) clearTimeout(debounceRef.current) }
+  }, [selectedGroupNames.join(","), allGroups])
+
+  return { cards, loading }
+}
+
+function LinkEditModal({ link, color, groupNames, groups, onSave, onCancel, onGroupSaved }) {
+  const [editLabel, setEditLabel] = useState(link.label || "")
+  const [editSources, setEditSources] = useState([...(link.sources || [""])])
+  const [editTargets, setEditTargets] = useState([...(link.targets || [""])])
+  const [editingGroupName, setEditingGroupName] = useState(null)
+
+  const sourceCards = useFetchGroupCards(editSources, groups)
+  const targetCards = useFetchGroupCards(editTargets, groups)
+
+  const editingGroup = editingGroupName ? groups.find(g => g.name === editingGroupName) : null
+  const editingGroupIndex = editingGroupName ? groups.findIndex(g => g.name === editingGroupName) : -1
+
+  // Close on Escape key.
+  useEffect(() => {
+    function handleKey(e) {
+      if (e.key === "Escape") {
+        if (editingGroupName) setEditingGroupName(null)
+        else onCancel()
+      }
+    }
+    window.addEventListener("keydown", handleKey)
+    return () => window.removeEventListener("keydown", handleKey)
+  }, [onCancel, editingGroupName])
+
+  function renderCardList(label, { cards, loading }) {
+    return (
+      <div style={{
+        padding: "1.25rem",
+        overflowY: "auto",
+        display: "flex",
+        flexDirection: "column",
+      }}>
+        <h4 style={{color: "var(--text-muted)", margin: "0 0 0.5rem 0", fontSize: "1rem"}}>
+          {label}
+          <span style={{fontWeight: "normal", fontSize: "0.85em", marginLeft: "0.5rem"}}>
+            {loading ? "..." : `(${cards.length})`}
+          </span>
+        </h4>
+        <div style={{flex: 1, overflowY: "auto"}}>
+          {cards.length === 0 && !loading && (
+            <p style={{color: "var(--text-muted)", fontSize: "0.85em", fontStyle: "italic"}}>
+              No matching cards.
+            </p>
+          )}
+          {cards.map(card => (
+            <ConditionTooltip
+              key={card.name}
+              conditions={card.conditions && card.conditions.length > 0
+                ? card.conditions
+                : null}
+              style={{
+                fontSize: "0.8em",
+                color: "var(--text-color)",
+                padding: "2px 4px",
+                borderRadius: "3px",
+              }}
+            >
+              {card.name}
+            </ConditionTooltip>
+          ))}
+        </div>
+      </div>
+    )
+  }
+
+  return (
+    <div
+      onClick={onCancel}
+      style={{
+        position: "fixed",
+        top: 0, left: 0, right: 0, bottom: 0,
+        background: "rgba(0,0,0,0.7)",
+        zIndex: 1000,
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+    >
+      <div
+        onClick={e => e.stopPropagation()}
+        style={{
+          background: "var(--card-background)",
+          borderRadius: "10px",
+          border: `2px solid ${color}`,
+          width: "min(1100px, 95vw)",
+          height: "min(600px, 80vh)",
+          display: "grid",
+          gridTemplateColumns: "1fr 1fr 1fr",
+          overflow: "hidden",
+        }}
+      >
+        {/* Left: source cards */}
+        {renderCardList("Source Cards", sourceCards)}
+
+        {/* Center: edit form */}
+        <div style={{
+          padding: "1.25rem",
+          overflowY: "auto",
+          borderLeft: "1px solid var(--page-background)",
+          borderRight: "1px solid var(--page-background)",
+          display: "flex",
+          flexDirection: "column",
+        }}>
+          <h4 style={{color, margin: "0 0 1rem 0", fontSize: "1rem"}}>
+            Edit Link
+          </h4>
+          <RuleInput label="Label" value={editLabel} onChange={setEditLabel} placeholder="e.g. Delve" />
+          <GroupMultiSelect label="Sources" values={editSources} onChange={setEditSources} groupNames={groupNames} onEditGroup={setEditingGroupName} />
+          <GroupMultiSelect label="Targets" values={editTargets} onChange={setEditTargets} groupNames={groupNames} onEditGroup={setEditingGroupName} />
+          <div style={{flex: 1}} />
+          <div style={{display: "flex", gap: "0.5rem", marginTop: "1rem"}}>
+            <button onClick={() => onSave({ label: editLabel, sources: editSources, targets: editTargets })} className="button" style={{fontSize: "0.85em"}}>Save</button>
+            <button onClick={onCancel} className="button" style={{fontSize: "0.85em"}}>Cancel</button>
+          </div>
+        </div>
+
+        {/* Right: target cards */}
+        {renderCardList("Target Cards", targetCards)}
+      </div>
+
+      {editingGroup && (
+        <GroupEditModal
+          group={editingGroup}
+          color={ruleColor(editingGroupIndex)}
+          onSave={(updated) => {
+            if (onGroupSaved) {
+              const oldName = editingGroup.name
+              const newName = updated.name.trim() || "Untitled group"
+              onGroupSaved(editingGroupIndex, updated)
+              // Update local source/target references if name changed.
+              if (oldName !== newName) {
+                setEditSources(prev => prev.map(s => s === oldName ? newName : s))
+                setEditTargets(prev => prev.map(t => t === oldName ? newName : t))
+              }
+            }
+            setEditingGroupName(null)
+          }}
+          onCancel={() => setEditingGroupName(null)}
+        />
+      )}
+    </div>
+  )
+}
+
+function LinkCard({ link, index, groupNames, groups, confirmDelete, onDeleteClick, onConfirmDelete, onCancelDelete, isEditing, onEditClick, onEditSave, onEditCancel, onGroupSaved, dimmed }) {
+  const color = ruleColor(index)
+
+  if (isEditing) {
+    return <LinkEditModal link={link} color={color} groupNames={groupNames} groups={groups} onSave={onEditSave} onCancel={onEditCancel} onGroupSaved={onGroupSaved} />
+  }
+
+  const sources = link.sources || []
+  const targets = link.targets || []
+
+  return (
+    <div onClick={onEditClick} style={{
+      background: "var(--page-background)",
+      borderRadius: "6px",
+      padding: "0.5rem 0.75rem",
+      marginBottom: "0.5rem",
+      borderLeft: `3px solid ${color}`,
+      position: "relative",
+      cursor: "pointer",
+      opacity: dimmed ? 0.35 : 1,
+      transition: "opacity 0.15s",
+    }}>
+      <div style={{display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "0.25rem"}}>
+        <div style={{fontWeight: "bold", fontSize: "0.9em", color}}>
+          {link.label || `Link ${index + 1}`}
+        </div>
+        <div style={{display: "flex", gap: "4px"}}>
+          <button
+            onClick={(e) => { e.stopPropagation(); onDeleteClick(); }}
+            title="Delete link"
+            style={{
+              background: "transparent",
+              border: "none",
+              color: "var(--text-muted)",
+              cursor: "pointer",
+              fontSize: "1em",
+              lineHeight: "1",
+              padding: "0 2px",
+            }}
+          >
+            &times;
+          </button>
+        </div>
+      </div>
+      {confirmDelete && (
+        <div style={{
+          background: "var(--card-background)",
+          borderRadius: "4px",
+          padding: "0.4rem 0.5rem",
+          marginBottom: "0.35rem",
+          fontSize: "0.75em",
+        }}>
+          <span style={{color: "#e55"}}>Delete this link?</span>
+          <div style={{display: "flex", gap: "0.4rem", marginTop: "0.3rem"}}>
+            <button onClick={onConfirmDelete} className="button" style={{fontSize: "0.75em", background: "#e55", color: "#fff", border: "none", borderRadius: "4px", padding: "2px 8px", cursor: "pointer"}}>Delete</button>
+            <button onClick={onCancelDelete} className="button" style={{fontSize: "0.75em"}}>Cancel</button>
+          </div>
+        </div>
+      )}
+      {sources.map((s, i) => (
+        <div key={"s" + i} style={{fontSize: "0.75em", color: "var(--text-muted)"}}>
+          <span style={{color: "var(--text-color)"}}>{i === 0 ? "source:" : "+"}</span> {s}
         </div>
       ))}
-      {(rule.connect || []).map((c, ci) => (
-        <div key={ci} style={{fontSize: "0.75em", color: "var(--text-muted)"}}>
-          <span style={{color: "var(--text-color)"}}>{ci === 0 ? "connect:" : "OR"}</span> {c}
+      {targets.map((t, i) => (
+        <div key={"t" + i} style={{fontSize: "0.75em", color: "var(--text-muted)"}}>
+          <span style={{color: "var(--text-color)"}}>{i === 0 ? "target:" : "+"}</span> {t}
         </div>
       ))}
     </div>
@@ -481,14 +1278,14 @@ function ruleColor(index) {
 }
 
 const DEFAULT_PHYSICS = {
-  repulsion: 2000,
+  repulsion: 6000,
   attraction: 0.015,
   gravity: 0.001,
   damping: 0.92,
   maxFrames: 300,
 }
 
-function DesignMapGraph({ nodes, edges, rules, onCardFocused, selectedRule, onSelectedRuleChanged, selectedCard, hoveredCard, onHoveredCardChanged }) {
+function DesignMapGraph({ nodes, edges, links, onCardFocused, selectedLink, onSelectedLinkChanged, selectedCard, hoveredCard, onHoveredCardChanged }) {
   const canvasRef = useRef(null)
   const containerRef = useRef(null)
   const nodesRef = useRef([])
@@ -498,7 +1295,7 @@ function DesignMapGraph({ nodes, edges, rules, onCardFocused, selectedRule, onSe
   const dragRef = useRef(null)
   const hoveredRef = useRef(null)
   const drawRef = useRef(null)
-  const selectedRuleRef = useRef(null)
+  const selectedLinkRef = useRef(null)
   const selectedCardRef = useRef(null)
   const viewRef = useRef({ scale: 1, offsetX: 0, offsetY: 0 })
   const panRef = useRef(null)
@@ -553,10 +1350,10 @@ function DesignMapGraph({ nodes, edges, rules, onCardFocused, selectedRule, onSe
       ruleLabels: edge.rule_labels || [],
     }))
 
-    // Build a map from rule label -> rule index for coloring.
-    const ruleLabelIndex = {}
-    for (let i = 0; i < rules.length; i++) {
-      ruleLabelIndex[rules[i].label] = i
+    // Build a map from link label -> link index for coloring.
+    const linkLabelIndex = {}
+    for (let i = 0; i < links.length; i++) {
+      linkLabelIndex[links[i].label] = i
     }
 
     const nodeIndex = {}
@@ -581,7 +1378,7 @@ function DesignMapGraph({ nodes, edges, rules, onCardFocused, selectedRule, onSe
       ctx.scale(v.scale, v.scale)
 
       const hovered = hoveredRef.current
-      const selRule = selectedRuleRef.current
+      const selLink = selectedLinkRef.current
       const selCard = selectedCardRef.current
 
       // Draw edges.
@@ -596,16 +1393,16 @@ function DesignMapGraph({ nodes, edges, rules, onCardFocused, selectedRule, onSe
         let dimmed = false
         if (selCard) {
           dimmed = edge.source !== selCard && edge.target !== selCard
-        } else if (selRule === "unconnected") {
+        } else if (selLink === "unconnected") {
           dimmed = true
-        } else if (selRule !== null) {
-          dimmed = !edge.ruleLabels.includes(rules[selRule]?.label)
+        } else if (selLink !== null) {
+          dimmed = !edge.ruleLabels.includes(links[selLink]?.label)
         }
 
-        // Color by primary rule.
+        // Color by primary link.
         let edgeColor
         if (edge.ruleLabels.length > 0) {
-          const primaryIdx = ruleLabelIndex[edge.ruleLabels[0]] ?? 0
+          const primaryIdx = linkLabelIndex[edge.ruleLabels[0]] ?? 0
           const c = RULE_COLORS[primaryIdx % RULE_COLORS.length]
           const alpha = dimmed ? 0.05 : Math.min(0.5, 0.1 + edge.weight * 0.1)
           edgeColor = hexToRGBA(c, alpha)
@@ -632,12 +1429,12 @@ function DesignMapGraph({ nodes, edges, rules, onCardFocused, selectedRule, onSe
             (e.target === selCard && e.source === node.id)
           )
           dimmed = node.id !== selCard && !isNeighbor
-        } else if (selRule === "unconnected") {
+        } else if (selLink === "unconnected") {
           dimmed = node.connectionCount > 0
-        } else if (selRule !== null) {
-          const ruleLabel = rules[selRule]?.label
+        } else if (selLink !== null) {
+          const linkLabel = links[selLink]?.label
           dimmed = !graphEdges.some(e =>
-            (e.source === node.id || e.target === node.id) && e.ruleLabels.includes(ruleLabel)
+            (e.source === node.id || e.target === node.id) && e.ruleLabels.includes(linkLabel)
           )
         }
 
@@ -667,11 +1464,10 @@ function DesignMapGraph({ nodes, edges, rules, onCardFocused, selectedRule, onSe
 
     drawRef.current = draw
 
-    function simulate() {
-      if (frame > maxFrames) {
-        draw()
-        return
-      }
+    const stepsPerFrame = 5
+
+    function step() {
+      if (frame > maxFrames) return
       frame++
 
       const alpha = 1 - frame / maxFrames
@@ -729,6 +1525,42 @@ function DesignMapGraph({ nodes, edges, rules, onCardFocused, selectedRule, onSe
         node.y = Math.max(node.radius + pad, Math.min(height - node.radius - pad, node.y))
       }
 
+      // Collision resolution: only kick in once layout has mostly settled (last 40% of sim).
+      if (frame < maxFrames * 0.6) return
+      const collisionPad = 6
+      for (let i = 0; i < graphNodes.length; i++) {
+        for (let j = i + 1; j < graphNodes.length; j++) {
+          const a = graphNodes[i]
+          const b = graphNodes[j]
+          const dx = b.x - a.x
+          const dy = b.y - a.y
+          const dist = Math.sqrt(dx * dx + dy * dy) || 0.1
+          const minDist = a.radius + b.radius + collisionPad
+          if (dist < minDist) {
+            const overlap = (minDist - dist) / 2
+            const nx = dx / dist
+            const ny = dy / dist
+            if (!(dragRef.current && dragRef.current.id === a.id)) {
+              a.x -= nx * overlap
+              a.y -= ny * overlap
+            }
+            if (!(dragRef.current && dragRef.current.id === b.id)) {
+              b.x += nx * overlap
+              b.y += ny * overlap
+            }
+          }
+        }
+      }
+    }
+
+    function simulate() {
+      if (frame > maxFrames) {
+        draw()
+        return
+      }
+      for (let s = 0; s < stepsPerFrame && frame <= maxFrames; s++) {
+        step()
+      }
       draw()
       animRef.current = requestAnimationFrame(simulate)
     }
@@ -739,13 +1571,13 @@ function DesignMapGraph({ nodes, edges, rules, onCardFocused, selectedRule, onSe
       if (animRef.current) cancelAnimationFrame(animRef.current)
       drawRef.current = null
     }
-  }, [nodes, edges, rules, canvasSize, physics])
+  }, [nodes, edges, links, canvasSize, physics])
 
-  // Sync selectedRule state to ref for use in draw().
+  // Sync selectedLink state to ref for use in draw().
   useEffect(() => {
-    selectedRuleRef.current = selectedRule
+    selectedLinkRef.current = selectedLink
     if (drawRef.current) drawRef.current()
-  }, [selectedRule])
+  }, [selectedLink])
 
   // Sync selectedCard state to ref for use in draw().
   useEffect(() => {
@@ -909,7 +1741,7 @@ function DesignMapGraph({ nodes, edges, rules, onCardFocused, selectedRule, onSe
   if (nodes.length === 0) {
     return (
       <div style={{textAlign: "center", padding: "2rem", color: "var(--text-muted)"}}>
-        <p>No design graph data. Use the "+ Add Rule" button in the panel to define card associations.</p>
+        <p>No design graph data. Use the "+ Add Group" and "+ Add Link" buttons in the panel to define card associations.</p>
       </div>
     )
   }
@@ -918,16 +1750,16 @@ function DesignMapGraph({ nodes, edges, rules, onCardFocused, selectedRule, onSe
     <div ref={containerRef} style={{textAlign: "center"}}>
       <h4 style={{color: "var(--primary)", marginBottom: "0.5rem"}}>Design Map</h4>
       <p style={{color: "var(--text-muted)", fontSize: "0.85em", marginBottom: "0.5rem"}}>
-        Rule-based card associations. Node size = connection count. Edge color = rule. Hover for name, click to select, drag to reposition.
+        Group-based card associations. Node size = connection count. Edge color = link. Hover for name, click to select, drag to reposition.
       </p>
       <div style={{marginBottom: "0.5rem"}}>
-        {rules.map((rule, i) => (
+        {links.map((link, i) => (
           <button
             key={i}
-            onClick={() => onSelectedRuleChanged(selectedRule === i ? null : i)}
+            onClick={() => onSelectedLinkChanged(selectedLink === i ? null : i)}
             style={{
-              background: selectedRule === i ? ruleColor(i) : "transparent",
-              color: selectedRule === i ? "#000" : ruleColor(i),
+              background: selectedLink === i ? ruleColor(i) : "transparent",
+              color: selectedLink === i ? "#000" : ruleColor(i),
               border: `1px solid ${ruleColor(i)}`,
               borderRadius: "12px",
               padding: "2px 10px",
@@ -936,14 +1768,14 @@ function DesignMapGraph({ nodes, edges, rules, onCardFocused, selectedRule, onSe
               cursor: "pointer",
             }}
           >
-            {rule.label || `Rule ${i + 1}`}
+            {link.label || `Link ${i + 1}`}
           </button>
         ))}
         <button
-          onClick={() => onSelectedRuleChanged(selectedRule === "unconnected" ? null : "unconnected")}
+          onClick={() => onSelectedLinkChanged(selectedLink === "unconnected" ? null : "unconnected")}
           style={{
-            background: selectedRule === "unconnected" ? "var(--text-muted)" : "transparent",
-            color: selectedRule === "unconnected" ? "#000" : "var(--text-muted)",
+            background: selectedLink === "unconnected" ? "var(--text-muted)" : "transparent",
+            color: selectedLink === "unconnected" ? "#000" : "var(--text-muted)",
             border: "1px solid var(--text-muted)",
             borderRadius: "12px",
             padding: "2px 10px",
@@ -1043,27 +1875,36 @@ function PhysicsSettings({ physics, onChange }) {
   )
 }
 
-function ClusterCardList({ cards, edges, rules, selectedCard, rule, ruleIndex, listLabel, onCardFocused, hoveredCard, onHoveredCardChanged }) {
-  const title = rule
-    ? (rule.label || `Rule ${ruleIndex + 1}`)
+function ClusterCardList({ cards, edges, links, selectedCard, link, linkIndex, listLabel, onCardFocused, hoveredCard, onHoveredCardChanged }) {
+  const title = link
+    ? (link.label || `Link ${linkIndex + 1}`)
     : (listLabel || "All Cards")
-  const titleColor = rule ? ruleColor(ruleIndex) : "var(--primary)"
+  const titleColor = link ? ruleColor(linkIndex) : "var(--primary)"
 
-  // Build a lookup: for the focused card, map each neighbor -> list of shared rule labels.
-  const sharedRules = {}
+  // Build a lookup: for the focused card, map each neighbor -> list of shared link labels.
+  const sharedLinks = {}
   if (selectedCard && edges) {
     for (const edge of edges) {
       let neighbor = null
       if (edge.source === selectedCard) neighbor = edge.target
       else if (edge.target === selectedCard) neighbor = edge.source
       if (neighbor && neighbor !== selectedCard) {
-        if (!sharedRules[neighbor]) sharedRules[neighbor] = []
+        if (!sharedLinks[neighbor]) sharedLinks[neighbor] = []
         for (const label of (edge.rule_labels || [])) {
-          if (!sharedRules[neighbor].includes(label)) {
-            sharedRules[neighbor].push(label)
+          if (!sharedLinks[neighbor].includes(label)) {
+            sharedLinks[neighbor].push(label)
           }
         }
       }
+    }
+  }
+
+  // Count edges per card.
+  const edgeCount = {}
+  if (edges) {
+    for (const edge of edges) {
+      edgeCount[edge.source] = (edgeCount[edge.source] || 0) + 1
+      edgeCount[edge.target] = (edgeCount[edge.target] || 0) + 1
     }
   }
 
@@ -1087,7 +1928,7 @@ function ClusterCardList({ cards, edges, rules, selectedCard, rule, ruleIndex, l
         {cards.length} cards
       </p>
       {cards.map(card => {
-        const labels = sharedRules[card.name]
+        const labels = sharedLinks[card.name]
         const isHovered = hoveredCard === card.name
         return (
           <div
@@ -1116,9 +1957,14 @@ function ClusterCardList({ cards, edges, rules, selectedCard, rule, ruleIndex, l
               background: getNodeColor(card.colors),
               flexShrink: 0,
             }} />
-            <span style={{overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap"}}>
+            <span style={{overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", flex: 1}}>
               {card.name}
             </span>
+            {(edgeCount[card.name] || 0) > 0 && (
+              <span style={{color: "var(--text-muted)", fontSize: "0.85em", flexShrink: 0}}>
+                {edgeCount[card.name]}
+              </span>
+            )}
             {isHovered && labels && labels.length > 0 && (
               <div style={{
                 position: "absolute",
@@ -1138,9 +1984,9 @@ function ClusterCardList({ cards, edges, rules, selectedCard, rule, ruleIndex, l
                   Linked via:
                 </div>
                 {labels.map((label, i) => {
-                  const ri = rules ? rules.findIndex(r => r.label === label) : -1
+                  const li = links ? links.findIndex(l => l.label === label) : -1
                   return (
-                    <div key={i} style={{ color: ri >= 0 ? ruleColor(ri) : "var(--text-color)", lineHeight: "1.4" }}>
+                    <div key={i} style={{ color: li >= 0 ? ruleColor(li) : "var(--text-color)", lineHeight: "1.4" }}>
                       {label}
                     </div>
                   )

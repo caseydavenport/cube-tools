@@ -1,387 +1,794 @@
-[
-  {
-    "match": [
-      "o:converge",
-      "o:domain",
-      "o:\"number of colors\""
-    ],
-    "connect": [
-      "o:\"number of colors\""
-    ],
-    "label": "5CGS"
-  },
-  {
-    "match": [
-      "n:brainsurge OR n:brainstorm OR n:\"Sylvan Library\""
-    ],
-    "connect": [
-      "o:shuffle"
-    ],
-    "label": "Shuffle"
-  },
-  {
-    "match": [
-      "n:\"Collected Company\""
-    ],
-    "connect": [
-      "t:creature (cmc:2 OR cmc:3) o:\"this creature enters\"",
-      "t:creature cmc\u003c4 o:\"flash\""
-    ],
-    "label": "CoCo"
-  },
-  {
-    "match": [
-      "o:\"+1/+1 counter\""
-    ],
-    "connect": [
-      "o:proliferate",
-      "o:\"that many plus one\"",
-      "o:\"less than or equal to its power\"",
-      "o:\"or more counters on it\""
-    ],
-    "label": "Counters"
-  },
-  {
-    "match": [
-      "o:\"delirium\"",
-      "o:\"card types\" o:\"graveyard\""
-    ],
-    "connect": [
-      "t:artifact AND (o:\"sacrifice this\" OR o:discard)",
-      "t:enchantment AND (o:\"sacrifice this\" OR o:discard)",
-      "t:instant cmc\u003c3 c:G",
-      "t:sorcery cmc\u003c3 c:G",
-      "o:surveil",
-      "o:mill",
-      "t:land (o:sacrifice OR o:discard)",
-      "o:\"into your graveyard\""
-    ],
-    "label": "Delirium"
-  },
-  {
-    "match": [
-      "n:Delney"
-    ],
-    "connect": [
-      "pow\u003c3 o:\"whenever\" t:creature"
-    ],
-    "label": "Delney"
-  },
-  {
-    "match": [
-      "o:delve"
-    ],
-    "connect": [
-      "o:surveil",
-      "o:mill",
-      "o:cycling",
-      "t:land o:sacrifice",
-      "o:\"draw\" o:\"discard\"",
-      "o:\"into your graveyard\"",
-      "n:\"Up the Beanstalk\""
-    ],
-    "label": "Delve"
-  },
-  {
-    "match": [
-      "o:\"whenever you discard\""
-    ],
-    "connect": [
-      "o:cycling OR o:channel OR o:madness",
-      "o:\"discard your hand\" OR o:\"discard their hand\"",
-      "o:\"discard a card\"",
-      "o:\"Each player discards a card\""
-    ],
-    "label": "Discard"
-  },
-  {
-    "match": [
-      "o:\"second spell each turn\""
-    ],
-    "connect": [
-      "(t:instant OR t:sorcery) cmc\u003c2",
-      "(t:artifact OR t:enchantment) cmc\u003c2",
-      "o:flashback (t:instant OR t:sorcery) cmc\u003c3",
-      "o:madness"
-    ],
-    "label": "Double Spell"
-  },
-  {
-    "match": [
-      "o:\"flash\" !o:flashback"
-    ],
-    "connect": [
-      "o:\"counter target\""
-    ],
-    "label": "Draw-go"
-  },
-  {
-    "match": [
-      "n:\"Kellan\"",
-      "o:flying",
-      "o:trample",
-      "o:menace",
-      "o:\"first strike\"",
-      "o:\"double strike\""
-    ],
-    "connect": [
-      "t:equipment"
-    ],
-    "label": "Equipment"
-  },
-  {
-    "match": [
-      "o:\"enters\" (t:creature OR t:enchantment OR t:artifact) !o:landfall",
-      "o:\"leaves the battlefield\" (t:creature OR t:enchantment OR t:artifact)"
-    ],
-    "connect": [
-      "o:\"exile target\" o:\"return that\"",
-      "o:\"return target\" o:\"owners hand\"",
-      "o:\"exile up to\" o:\"return that\"",
-      "o:\"exile another target\" o:\"return that\""
-    ],
-    "label": "ETB"
-  },
-  {
-    "match": [
-      "n:Hellrider",
-      "n:Embercleave",
-      "n:\"Warleader's Call\"",
-      "n:Adeline"
-    ],
-    "connect": [
-      "o:\"create\" o:\"token\""
-    ],
-    "label": "Go Wide"
-  },
-  {
-    "match": [
-      "o:threshold",
-      "n:Tarmogoyf",
-      "n:Nethergoyf",
-      "n:\"Knight of the Reliquary\"",
-      "n:Titania",
-      "n:\"Wrenn and Six\"",
-      "n:\"Life from the Loam\"",
-      "n:Six",
-      "n:\"Tasigur\""
-    ],
-    "connect": [
-      "o:surveil",
-      "o:mill",
-      "o:dredge",
-      "o:\"draw\" o:\"discard\"",
-      "t:land o:sacrifice",
-      "o:cycling t:land",
-      "o:channel t:land",
-      "o:retrace"
-    ],
-    "label": "Graveyard Size"
-  },
-  {
-    "match": [
-      "o:flashback",
-      "o:retrace",
-      "o:escape"
-    ],
-    "connect": [
-      "o:surveil",
-      "o:mill",
-      "o:\"discard\" !o:cycling !o:retrace",
-      "o:dredge"
-    ],
-    "label": "Graveyard Spells"
-  },
-  {
-    "match": [
-      "n:\"Warden of the Inner Sky\""
-    ],
-    "connect": [
-      "t:artifact cmc\u003c3",
-      "o:\"clue\"",
-      "o:\"food\""
-    ],
-    "label": "Inner Sky"
-  },
-  {
-    "match": [
-      "o:landfall"
-    ],
-    "connect": [
-      "t:land o:sacrifice",
-      "o:\"search\" o:\"land\"",
-      "o:\"land you control to its owner's hand\"",
-      "o:\"land card from among them\""
-    ],
-    "label": "Landfall"
-  },
-  {
-    "match": [
-      "o:\"pay\" o:\"life\""
-    ],
-    "connect": [
-      "n:\"Death's Shadow\""
-    ],
-    "label": "Life Loss"
-  },
-  {
-    "match": [
-      "o:\"prowess\"",
-      "o:\"cast a noncreature spell\""
-    ],
-    "connect": [
-      "(t:artifact OR t:enchantment) cmc\u003c2 !t:creature",
-      "o:\"you may cast\" o:\"without paying its mana cost\"",
-      "o:flashback",
-      "n:\"Fire // Ice\"",
-      "(t:instant OR t:sorcery) cmc\u003c3"
-    ],
-    "label": "Prowess"
-  },
-  {
-    "match": [
-      "o:\"Add one mana\" !t:land",
-      "o:\": add\" !t:land",
-      "o:\"mana value 5 or greater\""
-    ],
-    "connect": [
-      "cmc\u003e4",
-      "m:X"
-    ],
-    "label": "Ramp"
-  },
-  {
-    "match": [
-      "t:creature cmc\u003c4"
-    ],
-    "connect": [
-      "o:\"from a graveyard onto the battlefield\"",
-      "o:\"mana value\" o:\"or less\" o:\"graveyard to the\""
-    ],
-    "label": "Reanimate"
-  },
-  {
-    "match": [
-      "n:Bloodghast",
-      "n:\"Bloodsoaked Champion\"",
-      "n:\"Master of Death\"",
-      "n:\"Tenacious Underdog\"",
-      "n:\"Mosswood Dreadknight\""
-    ],
-    "connect": [
-      "o:\"sacrifice a creature\"",
-      "o:\"sacrifice another creature\"",
-      "o:\"discard a card\"",
-      "o:\"draw\" o:\"discard\""
-    ],
-    "label": "Recursion"
-  },
-  {
-    "match": [
-      "n:\"Birthing Ritual\""
-    ],
-    "connect": [
-      "t:creature cmc\u003c4 o:\"enters\"",
-      "t:creature cmc\u003c4 o:\"dies\""
-    ],
-    "label": "Ritual"
-  },
-  {
-    "match": [
-      "o:\"whenever you sacrifice\" !n:\"Tireless Tracker\"",
-      "o:\"are put into your graveyard\"",
-      "o:\"whenever a player sacrifices\""
-    ],
-    "connect": [
-      "o:\"sacrifice this\"",
-      "o:\"from your graveyard to\"",
-      "o:\"sacrifice a\"",
-      "o:\"player sacrifices a\"",
-      "o:\"you may sacrifice\""
-    ],
-    "label": "Sacrifice"
-  },
-  {
-    "match": [
-      "o:\"second card each turn\"",
-      "o:\"number of cards you've drawn\""
-    ],
-    "connect": [
-      "o:\"draw a card\"",
-      "o:\"draw\" o:\"cards\""
-    ],
-    "label": "Second Draw"
-  },
-  {
-    "match": [
-      "n:\"Kishla Skimmer\""
-    ],
-    "connect": [
-      "o:\"delve\"",
-      "o:\"flashback\"",
-      "o:\"target card in a graveyard\"",
-      "o:\"retrace\"",
-      "o:\"from your graveyard\""
-    ],
-    "label": "Skimmer"
-  },
-  {
-    "match": [
-      "o:\"instant or sorcery spell\"",
-      "o:magecraft"
-    ],
-    "connect": [
-      "(t:instant OR t:sorcery) cmc\u003c3",
-      "o:flashback",
-      "o:\"you may cast\" o:\"without paying its mana cost\""
-    ],
-    "label": "Spells Matter"
-  },
-  {
-    "match": [
-      "o:\"whenever a token\"",
-      "o:\"one or more tokens\"",
-      "o:\"target token you control\"",
-      "o:\"sacrifice a creature\" !n:\"Birthing\"",
-      "n:Hellrider"
-    ],
-    "connect": [
-      "o:\"create\" o:\"token\""
-    ],
-    "label": "Tokens"
-  },
-  {
-    "match": [
-      "n:\"Urza's Saga\""
-    ],
-    "connect": [
-      "t:artifact cmc\u003c2"
-    ],
-    "label": "Urza's Saga"
-  },
-  {
-    "match": [
-      "o:valiant",
-      "o:\"target of a spell or ability you control\""
-    ],
-    "connect": [
-      "o:\"Target creature you control\"",
-      "t:equipment",
-      "o:\"Target creature gets +\"",
-      "o:\"Target permanent you control\"",
-      "n:\"Flames of the Firebrand\""
-    ],
-    "label": "Valiant"
-  },
-  {
-    "match": [
-      "o:\"Destroy all\"",
-      "o:\"All creatures get -\"",
-      "n:Balance"
-    ],
-    "connect": [
-      "t:land o:\"becomes a\""
-    ],
-    "label": "Wrath"
-  }
-]
+{
+  "groups": [
+    {
+      "name": "5-color",
+      "conditions": [
+        "o:\"number of colors\"",
+        "o:domain",
+        "o:vivid",
+        "o:converge"
+      ]
+    },
+    {
+      "name": "Artifact sac outlets",
+      "conditions": [
+        "o:\"sacrifice another creature or artifact\"",
+        "o:\"sacrifice an artifact\"",
+        "o:\"sacrifice another artifact\""
+      ]
+    },
+    {
+      "name": "Beans",
+      "conditions": [
+        "n:\"Up the Beanstalk\""
+      ]
+    },
+    {
+      "name": "Beans Triggers",
+      "conditions": [
+        "cmc\u003e4 !o:delve",
+        "m:X"
+      ]
+    },
+    {
+      "name": "Card types in graveyard",
+      "conditions": [
+        "t:artifact AND (o:\"sacrifice this\" OR o:discard)",
+        "t:enchantment AND (o:\"sacrifice this\" OR o:discard)",
+        "t:instant cmc\u003c3 c:G",
+        "t:sorcery cmc\u003c3 c:G",
+        "o:surveil",
+        "o:mill",
+        "t:land (o:sacrifice OR o:discard)",
+        "o:\"into your graveyard\""
+      ]
+    },
+    {
+      "name": "Cast from graveyard",
+      "conditions": [
+        "o:flashback",
+        "o:retrace",
+        "o:escape",
+        "o:dredge",
+        "o:eternalize",
+        "o:\"you may cast\" o:\"from your graveyard\""
+      ]
+    },
+    {
+      "name": "Cheap artifacts",
+      "conditions": [
+        "t:artifact cmc\u003c2"
+      ]
+    },
+    {
+      "name": "Cheap spells",
+      "conditions": [
+        "(t:instant OR t:sorcery) cmc\u003c2",
+        "(t:artifact OR t:enchantment) cmc\u003c2",
+        "o:flashback (t:instant OR t:sorcery) cmc\u003c3"
+      ]
+    },
+    {
+      "name": "CoCo",
+      "conditions": [
+        "n:\"Collected Company\""
+      ]
+    },
+    {
+      "name": "CoCo Creatures",
+      "conditions": [
+        "t:creature (cmc:2 OR cmc:3) o:\"this creature enters\"",
+        "t:creature cmc\u003c4 o:\"flash\""
+      ]
+    },
+    {
+      "name": "Counters matter",
+      "conditions": [
+        "o:proliferate",
+        "o:\"that many plus one\"",
+        "o:\"less than or equal to its power\"",
+        "o:\"or more counters on it\""
+      ]
+    },
+    {
+      "name": "Counterspells",
+      "conditions": [
+        "o:\"counter target\"",
+        "o:\"return target spell\"",
+        "o:\"exile target spell\""
+      ]
+    },
+    {
+      "name": "Creature lands",
+      "conditions": [
+        "t:land o:\"becomes a\""
+      ]
+    },
+    {
+      "name": "Delirium",
+      "conditions": [
+        "o:\"delirium\"",
+        "o:\"card types\" o:\"graveyard\""
+      ]
+    },
+    {
+      "name": "Delney",
+      "conditions": [
+        "n:Delney"
+      ]
+    },
+    {
+      "name": "Delney matters",
+      "conditions": [
+        "pow\u003c3 o:\"whenever\" t:creature"
+      ]
+    },
+    {
+      "name": "Delve",
+      "conditions": [
+        "o:delve"
+      ]
+    },
+    {
+      "name": "Discard matters",
+      "conditions": [
+        "o:\"whenever you discard\""
+      ]
+    },
+    {
+      "name": "Discard triggers",
+      "conditions": [
+        "o:cycling OR o:channel OR o:madness",
+        "o:\"discard your hand\" OR o:\"discard their hand\"",
+        "o:\"discard a card\"",
+        "o:\"Each player discards a card\""
+      ]
+    },
+    {
+      "name": "Draw effects",
+      "conditions": [
+        "o:\"draw a card\"",
+        "o:\"draw\" o:\"cards\""
+      ]
+    },
+    {
+      "name": "Draw matters",
+      "conditions": [
+        "o:\"second card each turn\"",
+        "o:\"number of cards you've drawn\""
+      ]
+    },
+    {
+      "name": "Equipment",
+      "conditions": [
+        "t:equipment"
+      ]
+    },
+    {
+      "name": "Equipment matters",
+      "conditions": [
+        "o:\"an equipment\" t:creature",
+        "o:flying t:creature",
+        "o:trample t:creature",
+        "o:menace t:creature",
+        "o:\"first strike\" t:creature",
+        "o:\"double strike\" t:creature"
+      ]
+    },
+    {
+      "name": "ETB/LTB",
+      "conditions": [
+        "o:\"enters\" (t:creature OR t:enchantment OR t:artifact) !o:landfall",
+        "o:\"leaves the battlefield\" (t:creature OR t:enchantment OR t:artifact)"
+      ]
+    },
+    {
+      "name": "Fill graveyard",
+      "conditions": [
+        "o:surveil",
+        "o:mill",
+        "t:land o:sacrifice",
+        "o:\"draw\" o:\"discard\"",
+        "o:\"the other into your graveyard\""
+      ]
+    },
+    {
+      "name": "Fixing",
+      "conditions": [
+        "o:\"mana of any color\"",
+        "t:land o:\"add {*} or {*}\""
+      ]
+    },
+    {
+      "name": "Flash creatures",
+      "conditions": [
+        "o:\"flash\" !o:flashback"
+      ]
+    },
+    {
+      "name": "Flicker Enablers",
+      "conditions": [
+        "o:\"exile target\" o:\"return that\"",
+        "o:\"return target\" o:\"owners hand\"",
+        "o:\"exile up to\" o:\"return that\"",
+        "o:\"exile another target\" o:\"return that\""
+      ]
+    },
+    {
+      "name": "Grave hate",
+      "conditions": [
+        "o:\"from a graveyard\" o:\"exile\""
+      ]
+    },
+    {
+      "name": "Graveyard size payoffs",
+      "conditions": [
+        "o:threshold",
+        "o:\"in your graveyard\"",
+        "o:retrace",
+        "o:delve",
+        "o:\"all graveyards\""
+      ]
+    },
+    {
+      "name": "Inner Sky",
+      "conditions": [
+        "n:\"Warden of the Inner Sky\""
+      ]
+    },
+    {
+      "name": "Landfall enablers",
+      "conditions": [
+        "t:land o:sacrifice",
+        "o:\"search\" o:\"land\"",
+        "o:\"land you control to its owner's hand\"",
+        "o:\"land card from among them\""
+      ]
+    },
+    {
+      "name": "Landfall payoff",
+      "conditions": [
+        "o:landfall"
+      ]
+    },
+    {
+      "name": "Leaves Graveyard Matters",
+      "conditions": [
+        "o:\"whenever a card leaves your graveyard\""
+      ]
+    },
+    {
+      "name": "Life Loss matters",
+      "conditions": [
+        "n:\"Death's Shadow\""
+      ]
+    },
+    {
+      "name": "Makes counters",
+      "conditions": [
+        "o:\"+1/+1 counter\""
+      ]
+    },
+    {
+      "name": "Pay life",
+      "conditions": [
+        "o:\"pay\" o:\"life\""
+      ]
+    },
+    {
+      "name": "Prowess payoffs",
+      "conditions": [
+        "o:\"prowess\"",
+        "o:\"cast a noncreature spell\""
+      ]
+    },
+    {
+      "name": "Prowess triggers",
+      "conditions": [
+        "(t:artifact OR t:enchantment) cmc\u003c2 !t:creature",
+        "o:\"you may cast\" o:\"without paying its mana cost\"",
+        "o:flashback",
+        "n:\"Fire // Ice\"",
+        "(t:instant OR t:sorcery) cmc\u003c3"
+      ]
+    },
+    {
+      "name": "Ramp enablers",
+      "conditions": [
+        "o:\"Add one mana\" !t:land",
+        "o:\": add\" !t:land"
+      ]
+    },
+    {
+      "name": "Ramp payoffs",
+      "conditions": [
+        "cmc\u003e4",
+        "m:X",
+        "o:\"mana value\" o:\"or greater\""
+      ]
+    },
+    {
+      "name": "Reanimate targets",
+      "conditions": [
+        "t:creature cmc\u003c4"
+      ]
+    },
+    {
+      "name": "Reanimates",
+      "conditions": [
+        "o:\"graveyard onto the battlefield\" o:\"target creature\"",
+        "o:\"mana value\" o:\"or less\" o:\"graveyard to the\"",
+        "o:\"graveyard to the battle\" o:\"target creature\""
+      ]
+    },
+    {
+      "name": "Recursive creatures",
+      "conditions": [
+        "n:\"Master of Death\"",
+        "o:\"from your graveyard to the\" o:\"target creature\" t:creature",
+        "o:\"you may cast this\" t:creature",
+        "o:\"escape\"",
+        "n:Bloodghast",
+        "n:Mosswood",
+        "n:Bloodsoaked"
+      ]
+    },
+    {
+      "name": "Ritual - Connect",
+      "conditions": [
+        "t:creature cmc\u003c4 o:\"enters\"",
+        "t:creature cmc\u003c4 o:\"dies\""
+      ]
+    },
+    {
+      "name": "Ritual - Match",
+      "conditions": [
+        "n:\"Birthing Ritual\""
+      ]
+    },
+    {
+      "name": "Sacrifice effects",
+      "conditions": [
+        "o:\"sacrifice this\"",
+        "o:\"sacrifice a\"",
+        "o:\"player sacrifices a\"",
+        "o:\"you may sacrifice\""
+      ]
+    },
+    {
+      "name": "Sacrifice outlets",
+      "conditions": [
+        "o:\"sacrifice a creature\"",
+        "o:\"sacrifice another creature\""
+      ]
+    },
+    {
+      "name": "Sacrifice payoffs",
+      "conditions": [
+        "o:\"whenever you sacrifice\" !n:\"Tireless Tracker\"",
+        "o:\"are put into your graveyard\"",
+        "o:\"whenever a player sacrifices\""
+      ]
+    },
+    {
+      "name": "Second Spell",
+      "conditions": [
+        "o:\"second spell each turn\""
+      ]
+    },
+    {
+      "name": "Selective discard",
+      "conditions": [
+        "o:\"discard a card\"",
+        "o:\"discard your hand\"",
+        "o:\"discard two cards\"",
+        "o:\"each player discards\"",
+        "o:\"Players discard cards\"",
+        "o:\"target player discards\""
+      ]
+    },
+    {
+      "name": "Self-target",
+      "conditions": [
+        "o:\"Target creature you control\"",
+        "o:\"Target creature gets +\"",
+        "o:\"Target permanent you control\"",
+        "n:\"Flames of the Firebrand\""
+      ]
+    },
+    {
+      "name": "Shuffle effects",
+      "conditions": [
+        "o:shuffle"
+      ]
+    },
+    {
+      "name": "Shuffle matters",
+      "conditions": [
+        "n:brainsurge OR n:brainstorm OR n:\"Sylvan Library\""
+      ]
+    },
+    {
+      "name": "Spells matter",
+      "conditions": [
+        "o:\"whenever you cast an instant or sorcery spell\"",
+        "o:magecraft"
+      ]
+    },
+    {
+      "name": "Token makers",
+      "conditions": [
+        "o:\"create\" o:\"creature token\""
+      ]
+    },
+    {
+      "name": "Token payoffs",
+      "conditions": [
+        "o:\"whenever a token\"",
+        "o:\"one or more tokens\"",
+        "o:\"target token you control\"",
+        "o:\"sacrifice a creature\" !n:\"Birthing\"",
+        "o:\"whenever a creature you control attacks,\""
+      ]
+    },
+    {
+      "name": "Trinket artifacts",
+      "conditions": [
+        "t:artifact cmc\u003c3",
+        "o:\"clue\"",
+        "o:\"food\"",
+        "o:\"treasure\""
+      ]
+    },
+    {
+      "name": "Urza's Saga",
+      "conditions": [
+        "n:\"Urza's Saga\""
+      ]
+    },
+    {
+      "name": "Valiant",
+      "conditions": [
+        "o:valiant",
+        "o:\"target of a spell or ability you control\""
+      ]
+    },
+    {
+      "name": "Wide payoffs",
+      "conditions": [
+        "n:Hellrider",
+        "n:Embercleave",
+        "n:\"Warleader's Call\"",
+        "n:Adeline"
+      ]
+    },
+    {
+      "name": "Wraths",
+      "conditions": [
+        "o:\"Destroy all\"",
+        "o:\"All creatures get -\"",
+        "n:Balance"
+      ]
+    }
+  ],
+  "links": [
+    {
+      "label": "5-color",
+      "sources": [
+        "5-color"
+      ],
+      "targets": [
+        "Fixing"
+      ]
+    },
+    {
+      "label": "Artifacts",
+      "sources": [
+        "Artifact sac outlets"
+      ],
+      "targets": [
+        "Trinket artifacts"
+      ]
+    },
+    {
+      "label": "Beans",
+      "sources": [
+        "Beans"
+      ],
+      "targets": [
+        "Delve",
+        "Beans Triggers"
+      ]
+    },
+    {
+      "label": "CoCo",
+      "sources": [
+        "CoCo"
+      ],
+      "targets": [
+        "CoCo Creatures"
+      ]
+    },
+    {
+      "label": "Counters",
+      "sources": [
+        "Makes counters"
+      ],
+      "targets": [
+        "Counters matter"
+      ]
+    },
+    {
+      "label": "Delirium",
+      "sources": [
+        "Delirium"
+      ],
+      "targets": [
+        "Card types in graveyard",
+        "Artifact sac outlets"
+      ]
+    },
+    {
+      "label": "Delney",
+      "sources": [
+        "Delney"
+      ],
+      "targets": [
+        "Delney matters"
+      ]
+    },
+    {
+      "label": "Delve",
+      "sources": [
+        "Delve"
+      ],
+      "targets": [
+        "Fill graveyard"
+      ]
+    },
+    {
+      "label": "Discard",
+      "sources": [
+        "Discard matters"
+      ],
+      "targets": [
+        "Discard triggers"
+      ]
+    },
+    {
+      "label": "Double Spell",
+      "sources": [
+        "Second Spell"
+      ],
+      "targets": [
+        "Cheap spells"
+      ]
+    },
+    {
+      "label": "Draw-go",
+      "sources": [
+        "Flash creatures"
+      ],
+      "targets": [
+        "Counterspells"
+      ]
+    },
+    {
+      "label": "Equipment",
+      "sources": [
+        "Equipment matters"
+      ],
+      "targets": [
+        "Equipment"
+      ]
+    },
+    {
+      "label": "ETB",
+      "sources": [
+        "ETB/LTB"
+      ],
+      "targets": [
+        "Flicker Enablers"
+      ]
+    },
+    {
+      "label": "Go Wide",
+      "sources": [
+        "Wide payoffs"
+      ],
+      "targets": [
+        "Token makers"
+      ]
+    },
+    {
+      "label": "Graveyard Size",
+      "sources": [
+        "Graveyard size payoffs"
+      ],
+      "targets": [
+        "Fill graveyard",
+        "Selective discard",
+        "Sacrifice outlets"
+      ]
+    },
+    {
+      "label": "Graveyard Spells",
+      "sources": [
+        "Cast from graveyard"
+      ],
+      "targets": [
+        "Selective discard"
+      ]
+    },
+    {
+      "label": "Inner Sky",
+      "sources": [
+        "Inner Sky"
+      ],
+      "targets": [
+        "Trinket artifacts"
+      ]
+    },
+    {
+      "label": "Landfall",
+      "sources": [
+        "Landfall payoff"
+      ],
+      "targets": [
+        "Landfall enablers"
+      ]
+    },
+    {
+      "label": "Life Loss",
+      "sources": [
+        "Pay life"
+      ],
+      "targets": [
+        "Life Loss matters"
+      ]
+    },
+    {
+      "label": "Prowess",
+      "sources": [
+        "Prowess payoffs"
+      ],
+      "targets": [
+        "Prowess triggers"
+      ]
+    },
+    {
+      "label": "Ramp",
+      "sources": [
+        "Ramp enablers"
+      ],
+      "targets": [
+        "Ramp payoffs"
+      ]
+    },
+    {
+      "label": "Reanimate",
+      "sources": [
+        "Reanimate targets"
+      ],
+      "targets": [
+        "Reanimates"
+      ]
+    },
+    {
+      "label": "Recursion",
+      "sources": [
+        "Recursive creatures"
+      ],
+      "targets": [
+        "Sacrifice outlets",
+        "Selective discard"
+      ]
+    },
+    {
+      "label": "Ritual",
+      "sources": [
+        "Ritual - Match"
+      ],
+      "targets": [
+        "Ritual - Connect"
+      ]
+    },
+    {
+      "label": "Sacrifice",
+      "sources": [
+        "Sacrifice outlets"
+      ],
+      "targets": [
+        "Token makers",
+        "Recursive creatures",
+        "Sacrifice payoffs"
+      ]
+    },
+    {
+      "label": "Sacrifice effects",
+      "sources": [
+        "Sacrifice payoffs"
+      ],
+      "targets": [
+        "Sacrifice effects"
+      ]
+    },
+    {
+      "label": "Second Draw",
+      "sources": [
+        "Draw matters"
+      ],
+      "targets": [
+        "Draw effects"
+      ]
+    },
+    {
+      "label": "Shuffle",
+      "sources": [
+        "Shuffle matters"
+      ],
+      "targets": [
+        "Shuffle effects"
+      ]
+    },
+    {
+      "label": "Skimmer",
+      "sources": [
+        "Leaves Graveyard Matters"
+      ],
+      "targets": [
+        "Cast from graveyard",
+        "Reanimates",
+        "Recursive creatures",
+        "Delve",
+        "Grave hate"
+      ]
+    },
+    {
+      "label": "Spells Matter",
+      "sources": [
+        "Spells matter"
+      ],
+      "targets": [
+        "Cheap spells"
+      ]
+    },
+    {
+      "label": "Tokens",
+      "sources": [
+        "Token payoffs"
+      ],
+      "targets": [
+        "Token makers"
+      ]
+    },
+    {
+      "label": "Urza's Saga",
+      "sources": [
+        "Urza's Saga"
+      ],
+      "targets": [
+        "Cheap artifacts"
+      ]
+    },
+    {
+      "label": "Valiant",
+      "sources": [
+        "Valiant"
+      ],
+      "targets": [
+        "Self-target",
+        "Equipment"
+      ]
+    },
+    {
+      "label": "Wraths",
+      "sources": [
+        "Wraths"
+      ],
+      "targets": [
+        "Creature lands"
+      ]
+    }
+  ]
+}

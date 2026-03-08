@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"net/http"
 	"os"
+	"regexp"
 	"slices"
 	"strconv"
 	"strings"
@@ -13,35 +14,62 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
-// Rule defines a connection rule between two groups of cards.
-// Match selects the source cards, Connect selects the target cards.
-// Multiple match/connect clauses are each combined with logical OR.
-// All matched source cards get edges to all matched target cards.
-type Rule struct {
-	Match   []string `json:"match"`
-	Connect []string `json:"connect"`
+// Group defines a named set of cards selected by query conditions.
+type Group struct {
+	Name       string   `json:"name"`
+	Conditions []string `json:"conditions"`
+}
+
+// Link connects named groups, creating edges between their cards.
+// Sources and targets are lists of group names; cards from all source groups
+// get edges to cards from all target groups.
+type Link struct {
 	Label   string   `json:"label"`
+	Sources []string `json:"sources"`
+	Targets []string `json:"targets"`
+}
+
+// DesignMapConfig is the persistent format stored in cube-rules.json.
+type DesignMapConfig struct {
+	Groups []Group `json:"groups"`
+	Links  []Link  `json:"links"`
 }
 
 // DesignGraphResponse is the API response for /api/stats/design-graph.
 type DesignGraphResponse struct {
-	Nodes []DesignGraphNode `json:"nodes"`
-	Edges []DesignGraphEdge `json:"edges"`
-	Rules []Rule            `json:"rules"`
+	Nodes  []DesignGraphNode `json:"nodes"`
+	Edges  []DesignGraphEdge `json:"edges"`
+	Groups []Group           `json:"groups"`
+	Links  []Link            `json:"links"`
 }
 
+// DesignGraphNode represents a card in the design graph, with metadata and connection count.
 type DesignGraphNode struct {
-	Name            string   `json:"name"`
-	Colors          []string `json:"colors"`
-	Types           []string `json:"types"`
-	CMC             int      `json:"cmc"`
-	ConnectionCount int      `json:"connection_count"`
+	// Name is the card name, serving as the unique identifier for the node.
+	Name string `json:"name"`
+
+	// Colors is the list of color symbols for the card (e.g., ["R"], ["U", "B"], or [] for colorless).
+	Colors []string `json:"colors"`
+
+	// Types is the list of type and subtype strings for the card (e.g., ["Creature", "Human", "Soldier"]).
+	Types []string `json:"types"`
+
+	// CMC is the converted mana cost of the card.
+	CMC int `json:"cmc"`
+
+	// ConnectionCount is the number of edges connected to this node in the design graph.
+	ConnectionCount int `json:"connection_count"`
 }
 
 type DesignGraphEdge struct {
-	Source     string   `json:"source"`
-	Target     string   `json:"target"`
-	Weight     int      `json:"weight"`
+	// Source and Target are card names.
+	Source string `json:"source"`
+	Target string `json:"target"`
+
+	// Weight is the number of rules that connect these two cards (i.e., how many group links they share).
+	Weight int `json:"weight"`
+
+	// RuleLabels is the list of link labels that connect the source and target cards, derived from the groups they belong to.
 	RuleLabels []string `json:"rule_labels"`
 }
 
@@ -55,14 +83,13 @@ func DesignGraphHandler() http.Handler {
 			return
 		}
 
-		rules, err := loadRules("data/polyverse/cube-rules.json")
+		config, err := loadDesignMap("data/polyverse/cube-rules.json")
 		if err != nil {
 			logrus.WithError(err).Warn("could not load cube rules")
-			// Return empty response rather than error - rules file may not exist yet.
-			rules = []Rule{}
+			config = DesignMapConfig{}
 		}
 
-		resp := buildDesignGraph(cube, rules)
+		resp := buildDesignGraph(cube, config)
 
 		b, err := json.Marshal(resp)
 		if err != nil {
@@ -74,27 +101,98 @@ func DesignGraphHandler() http.Handler {
 	})
 }
 
-func loadRules(path string) ([]Rule, error) {
-	data, err := os.ReadFile(path)
-	if err != nil {
-		return nil, err
-	}
-	var rules []Rule
-	if err := json.Unmarshal(data, &rules); err != nil {
-		return nil, err
-	}
-	return rules, nil
+// MatchedCard describes a card and which conditions it matched.
+type MatchedCard struct {
+	Name       string             `json:"name"`
+	Conditions []MatchedCondition `json:"conditions"`
 }
 
-func buildDesignGraph(cube *types.Cube, rules []Rule) DesignGraphResponse {
-	// Build a name->card lookup, excluding basic lands.
+// MatchedCondition records a condition string and optionally which group it came from.
+type MatchedCondition struct {
+	Condition string `json:"condition"`
+	Group     string `json:"group,omitempty"`
+}
+
+// DesignGraphMatchRequest is the request body for /api/stats/design-graph/match, containing conditions and groups to match against.
+type DesignGraphMatchRequest struct {
+	Conditions []string `json:"conditions"`
+	Groups     []string `json:"groups"`
+}
+
+type DesignGraphMatchResponse struct {
+	Cards []MatchedCard `json:"cards"`
+}
+
+// DesignGraphMatchHandler handles POST /api/stats/design-graph/match.
+// It accepts {"conditions": ["o:mill", ...], "groups": ["GroupA", ...]} and returns
+// matching cards with per-card condition info.
+func DesignGraphMatchHandler() http.Handler {
+	return http.HandlerFunc(func(rw http.ResponseWriter, r *http.Request) {
+		if r.Method != http.MethodPost {
+			http.Error(rw, "method not allowed", http.StatusMethodNotAllowed)
+			return
+		}
+
+		var req DesignGraphMatchRequest
+		if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
+			http.Error(rw, fmt.Sprintf("invalid JSON: %v", err), http.StatusBadRequest)
+			return
+		}
+
+		cube, err := types.LoadCube("data/polyverse/cube.json")
+		if err != nil {
+			http.Error(rw, "could not load cube", http.StatusInternalServerError)
+			return
+		}
+
+		// Build a map of card name to card data for efficient lookups, excluding basic lands.
+		cardMap := buildCardMap(cube)
+
+		// For each condition, find matching cards and record which conditions each card matches. This
+		// allows us to return a per-card breakdown of which conditions it matched, which is useful for debugging complex queries.
+		cardConditions := make(map[string][]MatchedCondition)
+		for i, cond := range req.Conditions {
+			group := ""
+			if i < len(req.Groups) {
+				group = req.Groups[i]
+			}
+			for name := range matchCards(cardMap, cond) {
+				cardConditions[name] = append(cardConditions[name], MatchedCondition{
+					Condition: cond,
+					Group:     group,
+				})
+			}
+		}
+
+		// Convert to a slice for JSON response and sort by card name for consistent display.
+		cards := make([]MatchedCard, 0, len(cardConditions))
+		for name, conds := range cardConditions {
+			cards = append(cards, MatchedCard{Name: name, Conditions: conds})
+		}
+		slices.SortFunc(cards, func(a, b MatchedCard) int {
+			return strings.Compare(a.Name, b.Name)
+		})
+
+		// Return the list of matched cards with their conditions.
+		resp := DesignGraphMatchResponse{Cards: cards}
+		b, err := json.Marshal(resp)
+		if err != nil {
+			http.Error(rw, "could not marshal response", http.StatusInternalServerError)
+			return
+		}
+		rw.Header().Set("Content-Type", "application/json")
+		rw.Write(b)
+	})
+}
+
+// buildCardMap creates a name->card lookup from a cube, excluding basic lands
+// and enriching multi-face cards with oracle data.
+func buildCardMap(cube *types.Cube) map[string]types.Card {
 	cardMap := make(map[string]types.Card)
 	for _, c := range cube.Cards {
 		if c.IsBasicLand() {
 			continue
 		}
-		// For multi-face cards (adventure, split, etc.), the stored oracle_text
-		// may be empty if parsed before the card_faces fix. Re-derive from oracle data.
 		if c.OracleText == "" {
 			o := types.GetOracleData(c.Name)
 			if o.Name != "" {
@@ -104,23 +202,52 @@ func buildDesignGraph(cube *types.Cube, rules []Rule) DesignGraphResponse {
 		}
 		cardMap[c.Name] = c
 	}
+	return cardMap
+}
 
-	// For each rule, find matching source and target cards, create edges.
+// loadDesignMap reads the design map configuration from a JSON file and unmarshals it into a DesignMapConfig struct.
+func loadDesignMap(path string) (DesignMapConfig, error) {
+	data, err := os.ReadFile(path)
+	if err != nil {
+		return DesignMapConfig{}, err
+	}
+	var config DesignMapConfig
+	if err := json.Unmarshal(data, &config); err != nil {
+		return DesignMapConfig{}, err
+	}
+	return config, nil
+}
+
+func buildDesignGraph(cube *types.Cube, config DesignMapConfig) DesignGraphResponse {
+	cardMap := buildCardMap(cube)
+
+	// Pre-resolve all groups to card sets.
+	groupCards := make(map[string]map[string]bool)
+	for _, g := range config.Groups {
+		cards := make(map[string]bool)
+		for _, cond := range g.Conditions {
+			for name := range matchCards(cardMap, cond) {
+				cards[name] = true
+			}
+		}
+		groupCards[g.Name] = cards
+	}
+
+	// Process links: look up source/target groups, create edges.
 	type edgeKey struct{ source, target string }
-	edgeLabels := make(map[edgeKey]map[string]bool) // edge -> set of rule labels
+	edgeLabels := make(map[edgeKey]map[string]bool)
 
-	for _, rule := range rules {
-		// Union sources from all match clauses.
+	for _, link := range config.Links {
+		// Union cards from all source groups and all target groups.
 		sources := make(map[string]bool)
-		for _, matchQuery := range rule.Match {
-			for name := range matchCards(cardMap, matchQuery) {
+		for _, gn := range link.Sources {
+			for name := range groupCards[gn] {
 				sources[name] = true
 			}
 		}
-		// Union targets from all connect clauses.
 		targets := make(map[string]bool)
-		for _, connectQuery := range rule.Connect {
-			for name := range matchCards(cardMap, connectQuery) {
+		for _, gn := range link.Targets {
+			for name := range groupCards[gn] {
 				targets[name] = true
 			}
 		}
@@ -139,7 +266,7 @@ func buildDesignGraph(cube *types.Cube, rules []Rule) DesignGraphResponse {
 				if edgeLabels[k] == nil {
 					edgeLabels[k] = make(map[string]bool)
 				}
-				edgeLabels[k][rule.Label] = true
+				edgeLabels[k][link.Label] = true
 			}
 		}
 	}
@@ -174,15 +301,23 @@ func buildDesignGraph(cube *types.Cube, rules []Rule) DesignGraphResponse {
 		})
 	}
 
-	// Sort rules by label for consistent display order.
-	slices.SortFunc(rules, func(a, b Rule) int {
+	// Sort groups and links by name/label for consistent display order.
+	groups := make([]Group, len(config.Groups))
+	copy(groups, config.Groups)
+	slices.SortFunc(groups, func(a, b Group) int {
+		return strings.Compare(strings.ToLower(a.Name), strings.ToLower(b.Name))
+	})
+	links := make([]Link, len(config.Links))
+	copy(links, config.Links)
+	slices.SortFunc(links, func(a, b Link) int {
 		return strings.Compare(strings.ToLower(a.Label), strings.ToLower(b.Label))
 	})
 
 	return DesignGraphResponse{
-		Nodes: nodes,
-		Edges: edges,
-		Rules: rules,
+		Nodes:  nodes,
+		Edges:  edges,
+		Groups: groups,
+		Links:  links,
 	}
 }
 
@@ -469,7 +604,7 @@ func matchTerm(card types.Card, term string) bool {
 	}
 
 	// Bare term: match against card name.
-	return strings.Contains(strings.ToLower(card.Name), lower)
+	return wildcardMatch(strings.ToLower(card.Name), lower)
 }
 
 func matchPrefixedTerm(card types.Card, prefix, value string) bool {
@@ -477,30 +612,30 @@ func matchPrefixedTerm(card types.Card, prefix, value string) bool {
 
 	switch prefix {
 	case "n":
-		return strings.Contains(strings.ToLower(card.Name), lowerValue)
+		return wildcardMatch(strings.ToLower(card.Name), lowerValue)
 	case "o":
-		return strings.Contains(strings.ToLower(card.OracleText), lowerValue)
+		return wildcardMatch(strings.ToLower(card.OracleText), lowerValue)
 	case "t":
 		for _, t := range card.Types {
-			if strings.Contains(strings.ToLower(t), lowerValue) {
+			if wildcardMatch(strings.ToLower(t), lowerValue) {
 				return true
 			}
 		}
 		for _, st := range card.SubTypes {
-			if strings.Contains(strings.ToLower(st), lowerValue) {
+			if wildcardMatch(strings.ToLower(st), lowerValue) {
 				return true
 			}
 		}
 		return false
 	case "st":
 		for _, st := range card.SubTypes {
-			if strings.Contains(strings.ToLower(st), lowerValue) {
+			if wildcardMatch(strings.ToLower(st), lowerValue) {
 				return true
 			}
 		}
 		return false
 	case "m":
-		return strings.Contains(strings.ToLower(card.ManaCost), lowerValue)
+		return wildcardMatch(strings.ToLower(card.ManaCost), lowerValue)
 	case "c":
 		return matchColor(card, strings.ToUpper(value))
 	case "cmc":
@@ -515,6 +650,24 @@ func matchPrefixedTerm(card types.Card, prefix, value string) bool {
 		logrus.WithField("prefix", prefix).Warn("unknown query prefix")
 		return false
 	}
+}
+
+// wildcardMatch checks if haystack contains the pattern, where * in pattern
+// matches any sequence of characters. Without wildcards it behaves like
+// strings.Contains.
+func wildcardMatch(haystack, pattern string) bool {
+	if !strings.Contains(pattern, "*") {
+		return strings.Contains(haystack, pattern)
+	}
+	// Convert the wildcard pattern to a regex: escape regex metacharacters,
+	// then replace * with .*
+	escaped := regexp.QuoteMeta(pattern)
+	escaped = strings.ReplaceAll(escaped, `\*`, ".*")
+	re, err := regexp.Compile(escaped)
+	if err != nil {
+		return strings.Contains(haystack, pattern)
+	}
+	return re.MatchString(haystack)
 }
 
 // matchColor returns true if the card has at least one of the specified colors.
@@ -592,7 +745,7 @@ func matchComparison(card types.Card, field, op, valueStr string) bool {
 	}
 }
 
-// SaveRulesHandler handles POST /api/save-design-rules to persist rules edits.
+// SaveDesignRulesHandler handles POST /api/save-design-rules to persist design map config.
 func SaveDesignRulesHandler() http.Handler {
 	return http.HandlerFunc(func(rw http.ResponseWriter, r *http.Request) {
 		if r.Method != http.MethodPost {
@@ -600,20 +753,20 @@ func SaveDesignRulesHandler() http.Handler {
 			return
 		}
 
-		var rules []Rule
-		if err := json.NewDecoder(r.Body).Decode(&rules); err != nil {
+		var config DesignMapConfig
+		if err := json.NewDecoder(r.Body).Decode(&config); err != nil {
 			http.Error(rw, fmt.Sprintf("invalid JSON: %v", err), http.StatusBadRequest)
 			return
 		}
 
-		data, err := json.MarshalIndent(rules, "", "  ")
+		data, err := json.MarshalIndent(config, "", "  ")
 		if err != nil {
-			http.Error(rw, "could not marshal rules", http.StatusInternalServerError)
+			http.Error(rw, "could not marshal config", http.StatusInternalServerError)
 			return
 		}
 
 		if err := os.WriteFile("data/polyverse/cube-rules.json", data, 0o644); err != nil {
-			http.Error(rw, "could not save rules", http.StatusInternalServerError)
+			http.Error(rw, "could not save config", http.StatusInternalServerError)
 			return
 		}
 
