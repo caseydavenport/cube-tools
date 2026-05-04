@@ -1,5 +1,5 @@
 import React from 'react'
-import { IsBasicLand, SortFunc } from "../utils/Utils.js"
+import { AverageWordCount, IsBasicLand, SortFunc } from "../utils/Utils.js"
 import { ColorImages } from "../utils/Colors.js"
 import { Trophies, LastPlaceFinishes, Wins, Losses } from "../utils/Deck.js"
 import { BucketName } from "../utils/Buckets.js"
@@ -73,6 +73,9 @@ export function PlayerData(decks) {
         trophies: 0,
         last_place: 0,
         opponent_win_percentage: 0,
+        avg_word_count: 0,
+        word_count_sum: 0,
+        word_count_count: 0,
       })
     }
 
@@ -83,6 +86,12 @@ export function PlayerData(decks) {
     map.get(player).decks.push(deck)
     map.get(player).trophies += Trophies(deck)
     map.get(player).last_place += LastPlaceFinishes(deck)
+
+    let avgWC = AverageWordCount({deck: deck})
+    if (avgWC !== null) {
+      map.get(player).word_count_sum += avgWC
+      map.get(player).word_count_count += 1
+    }
 
     // Go through each card and increase the player's per-card stats.
     for (var j in deck.mainboard) {
@@ -159,6 +168,9 @@ export function PlayerData(decks) {
     // a representation of how diverse this player's card selection is. A higher number indicates a propensity
     // to pick unique cards. A value of 1 means they have never picked the same card twice.
     row.uniqueness = Math.round(row.cards.size / row.total_picks * 100)
+    if (row.word_count_count > 0) {
+      row.avg_word_count = Math.round(row.word_count_sum / row.word_count_count * 100) / 100
+    }
   }
   return map
 }
@@ -193,6 +205,7 @@ function PlayerTable(input) {
             <td onClick={input.onHeaderClick} id="red_percent" className="header-cell">{ColorImages("R")}</td>
             <td onClick={input.onHeaderClick} id="green_percent" className="header-cell">{ColorImages("G")}</td>
             <td onClick={input.onHeaderClick} id="uniqueness" className="header-cell">Uniq</td>
+            <td onClick={input.onHeaderClick} id="avg_word_count" className="header-cell">Avg Words</td>
           </tr>
         </thead>
         <tbody>
@@ -250,6 +263,9 @@ function PlayerTable(input) {
               case "opp_%":
                 sort = row.opponent_win_percentage
                 break;
+              case "avg_word_count":
+                sort = row.avg_word_count || 0
+                break;
             }
             if (input.invertSort) {
               sort = -1 * sort
@@ -271,6 +287,7 @@ function PlayerTable(input) {
                 <td>{row.red_percent}%</td>
                 <td>{row.green_percent}%</td>
                 <td>{row.uniqueness}%</td>
+                <td>{row.avg_word_count || 0}</td>
               </tr>
             )
           }).sort(SortFunc)

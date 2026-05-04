@@ -2,7 +2,7 @@ import React from 'react'
 import { DropdownHeader, NumericInput, DateSelector } from "../components/Dropdown.js"
 import { Colors, ColorImages, GetColorIdentity, primaryColorPair } from "../utils/Colors.js"
 import { Trophies, LastPlaceFinishes, Wins, Losses } from "../utils/Deck.js"
-import { IsBasicLand, SortFunc, StringToColor } from "../utils/Utils.js"
+import { AverageWordCount, IsBasicLand, SortFunc, StringToColor } from "../utils/Utils.js"
 
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Popover from 'react-bootstrap/Popover';
@@ -256,6 +256,11 @@ function ColorStatsTable(input) {
       text: "Avg % of deck",
       tip: "Percentage of non-land cards in the deck that match this color identity.",
     },
+    {
+      id: "avg_word_count",
+      text: "Avg Words",
+      tip: "Average word count per non-land card in decks with this color, excluding reminder text.",
+    },
   ]
 
   return (
@@ -318,6 +323,8 @@ function ColorStatsTable(input) {
                 sort = color.bottom_half
               } else if (input.sortBy === "winning_pct") {
                 sort = (color.top_half + color.bottom_half) > 0 ? color.top_half / (color.top_half + color.bottom_half) : 0
+              } else if (input.sortBy === "avg_word_count") {
+                sort = color.avg_word_count || 0
               }
 
               let img = ColorImages(color.color)
@@ -338,6 +345,7 @@ function ColorStatsTable(input) {
                   <td>{color.num_decks}</td>
                   <td style={headerStyleFields}>{color.total_pick_percentage}%</td>
                   <td>{color.average_deck_percentage}%</td>
+                  <td>{color.avg_word_count || 0}</td>
                 </tr>
               );
             }).sort(SortFunc)
@@ -446,6 +454,10 @@ export function GetColorStats(decks, colorMode) {
       // Each entry represents the contribution of a particular deck.
       victory_points_per_deck: [],
 
+      // Average word count per non-land card.
+      avg_word_count: 0,
+      word_count_sum: 0,
+      word_count_count: 0,
     }
   }
 
@@ -489,6 +501,12 @@ export function GetColorStats(decks, colorMode) {
       tracker.get(color).trophies += Trophies(decks[i])
       tracker.get(color).last_place += LastPlaceFinishes(decks[i])
       tracker.get(color).num_decks += 1
+
+      let avgWC = AverageWordCount({deck: decks[i]})
+      if (avgWC !== null) {
+        tracker.get(color).word_count_sum += avgWC
+        tracker.get(color).word_count_count += 1
+      }
     }
 
     // Add metrics to the color based on card scope statistics.
@@ -573,6 +591,9 @@ export function GetColorStats(decks, colorMode) {
     color.build_percent = Math.round(color.num_decks / decks.length * 100)
     color.win_percent = Math.round(100 * color.wins / (color.wins + color.losses))
     color.percent_of_wins = Math.round(100 * color.wins / totalWins)
+    if (color.word_count_count > 0) {
+      color.avg_word_count = Math.round(color.word_count_sum / color.word_count_count * 100) / 100
+    }
   }
 
   return tracker

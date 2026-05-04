@@ -22,6 +22,29 @@ export function AverageCMC({deck}) {
   return Math.round(t / c * 100) / 100
 }
 
+// Returns the average word count of non-land cards in the deck,
+// excluding reminder text (parenthesized).
+export function AverageWordCount({deck}) {
+  if (!deck || !deck.mainboard || deck.mainboard.length === 0) {
+    return null;
+  }
+  let totalWords = 0
+  let count = 0
+  for (let card of deck.mainboard) {
+    if (card && card.types && !card.types.includes("Land")) {
+      let text = card.oracle_text || ""
+      text = text.replace(/\([^)]*\)/g, "")
+      let words = text.trim().split(/\s+/).filter(w => w.length > 0)
+      totalWords += words.length
+      count++
+    }
+  }
+  if (count === 0) {
+    return null
+  }
+  return Math.round(totalWords / count * 100) / 100
+}
+
 // Returns the colors that make up this deck. We use a couple of measures to determine this.
 // - Looking at the basic lands within the deck to determine which colors are being run.
 // - Counting the number of cards of a certain color (excluding hybrids).

@@ -224,6 +224,11 @@ const archetypeHeaders = [
     text: "Avg other types",
     tip: "Average number of other tags applied to decks with this archetype / tag.",
   },
+  {
+    id: "avg_word_count",
+    text: "Avg Words",
+    tip: "Average word count per non-land card in decks with this archetype, excluding reminder text.",
+  },
 ];
 
 function ArchetypeTableHeader(input) {
@@ -293,6 +298,9 @@ function ArchetypeTableRows(input) {
             case "winning_pct":
               sort = (t.winning + t.losing) > 0 ? t.winning / (t.winning + t.losing) : 0;
               break;
+            case "avg_word_count":
+              sort = t.avg_word_count;
+              break;
           }
           return (
             <tr key={t.type} sort={sort} className="widget-table-row">
@@ -307,6 +315,7 @@ function ArchetypeTableRows(input) {
               <td key="winning_pct">{(t.winning + t.losing) > 0 ? Math.round(100 * t.winning / (t.winning + t.losing)) : 0}%</td>
               <td key="num">{t.count}</td>
               <td key="shared">{t.avg_shared}</td>
+              <td key="avg_word_count">{t.avg_word_count}</td>
             </tr>
           )
         }).sort(SortFunc)
@@ -630,6 +639,8 @@ export function ArchetypeData(decks) {
       win_percent: 0,
       avg_shared: 0,
       avg_cmc: 0,
+      avg_word_count: 0,
+      num_wc_decks: 0,
       num_cmc_decks: 0,
       trophies: 0,
       last_place: 0,
@@ -672,6 +683,10 @@ export function ArchetypeData(decks) {
         tracker.get(type).avg_cmc += deck.avg_cmc
         tracker.get(type).num_cmc_decks += 1
       }
+      if (deck.avg_word_count !== null && deck.avg_word_count !== undefined) {
+        tracker.get(type).avg_word_count += deck.avg_word_count
+        tracker.get(type).num_wc_decks += 1
+      }
 
       // Track who plays this archetype, and how often.
       if (!tracker.get(type).players.has(deck.player)) {
@@ -708,6 +723,11 @@ export function ArchetypeData(decks) {
       archetype.avg_cmc = Math.round(archetype.avg_cmc / archetype.num_cmc_decks * 100) / 100
     } else {
       archetype.avg_cmc = 0
+    }
+    if (archetype.num_wc_decks > 0) {
+      archetype.avg_word_count = Math.round(archetype.avg_word_count / archetype.num_wc_decks * 100) / 100
+    } else {
+      archetype.avg_word_count = 0
     }
   })
   return tracker

@@ -67,6 +67,7 @@ export const VersusMidrangeOption = "vs Midrange Win %"
 export const InAggroOption = "in Aggro Win %"
 export const InControlOption = "in Control Win %"
 export const InMidrangeOption = "in Midrange Win %"
+export const WordCountOption = "Word Count"
 
 export const CardScatterAxes = [
   {label: NumDecksOption, value: NumDecksOption},
@@ -90,6 +91,7 @@ export const CardScatterAxes = [
   {label: InAggroOption, value: InAggroOption},
   {label: InControlOption, value: InControlOption},
   {label: InMidrangeOption, value: InMidrangeOption},
+  {label: WordCountOption, value: WordCountOption},
 ]
 
 const Interaction = "All interaction"
@@ -195,6 +197,9 @@ function sortValue(sortBy, card) {
       break
     case "lastPlayed":
       sort = card.last_mainboarded
+      break
+    case "wordcount":
+      sort = card.word_count
       break
     case "wins":
       sort = card.win_percent
@@ -313,6 +318,11 @@ function CardWidgetTable(input) {
       id: "lastPlayed",
       text: "Last played",
       tip: "Date of the draft that this card was last included in a mainboard.",
+    },
+    {
+      id: "wordcount",
+      text: "Words",
+      tip: "Number of words in the card's oracle text, excluding reminder text.",
     },
   ]
 
@@ -497,6 +507,7 @@ function CardWidgetTable(input) {
                   <td>{Object.entries(card.archetypes).length}</td>
                   <td>{card.elo}</td>
                   <td>{card.last_mainboarded}</td>
+                  <td>{card.word_count}</td>
                 </tr>
               )
             }).sort(SortFunc)
@@ -1314,6 +1325,8 @@ function getValue(axis, card, archetypeData, playerData, decks, draftData) {
       return card.by_archetype.midrange.win_percent
     case InControlOption:
       return card.by_archetype.control.win_percent
+    case WordCountOption:
+      return card.word_count
   }
   return null
 }

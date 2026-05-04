@@ -73,6 +73,17 @@ export function HealthWidget(input) {
         <div style={{height: "500px"}}>
           <HealthChart
             labels={labels}
+            data={buckets.map(b => b.avg_word_count)}
+            title={`Avg Word Count (bucket size = ${input.bucketSize} drafts)`}
+            color="rgba(255, 206, 86, 1)"
+            min={null}
+            max={null}
+            description="Average word count per non-land mainboarded card, excluding reminder text. Higher = wordier cards being played."
+          />
+        </div>
+        <div style={{height: "500px"}}>
+          <HealthChart
+            labels={labels}
             data={buckets.map(b => b.num_decks)}
             title={`Decks per Bucket (bucket size = ${input.bucketSize} drafts)`}
             color="rgba(54, 162, 235, 1)"

@@ -7,6 +7,7 @@ import (
 
 	"github.com/caseydavenport/cube-tools/pkg/server/decks"
 	"github.com/caseydavenport/cube-tools/pkg/storage"
+	"github.com/caseydavenport/cube-tools/pkg/types"
 	"github.com/sirupsen/logrus"
 )
 
@@ -24,8 +25,9 @@ type ArchetypeStats struct {
 	LastPlace     int            `json:"last_place"`
 	Winning       int            `json:"winning"`
 	Losing        int            `json:"losing"`
-	AvgCMC        float64        `json:"avg_cmc"`
-	BuildPercent  float64        `json:"build_percent"`
+	AvgCMC          float64        `json:"avg_cmc"`
+	AvgWordCount    float64        `json:"avg_word_count"`
+	BuildPercent    float64        `json:"build_percent"`
 	WinPercent    float64        `json:"win_percent"`
 	PercentOfWins float64        `json:"percent_of_wins"`
 	SharedWith    map[string]int `json:"shared_with"`
@@ -33,7 +35,9 @@ type ArchetypeStats struct {
 	AvgShared     float64        `json:"avg_shared"`
 
 	// Internal fields for calculation.
-	cmcCount int
+	cmcCount       int
+	wordCountSum   float64
+	wordCountCount int
 }
 
 func ArchetypeStatsHandler() http.Handler {
@@ -54,6 +58,14 @@ func (s *archetypeStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Reques
 	if err != nil {
 		http.Error(rw, "could not load decks", http.StatusInternalServerError)
 		return
+	}
+
+	cubeCards := make(map[string]types.Card)
+	cube, err := types.LoadCube("data/polyverse/cube.json")
+	if err == nil {
+		for _, c := range cube.Cards {
+			cubeCards[c.Name] = c
+		}
 	}
 
 	resp := ArchetypeStatsResponse{
@@ -83,20 +95,26 @@ func (s *archetypeStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Reques
 			as.Winning += deck.TopHalf()
 			as.Losing += deck.BottomHalf()
 
-			// Add to CMC sum (will divide later).
-			// Note: We need to access types.Deck.AvgCMC but it might not be in storage.Deck if not calculated.
-			// Re-calculating avg CMC here is safer if it's missing.
+			// Add to CMC and word count sums (will divide later).
 			deckCMC := 0.0
+			deckWordCount := 0
 			count := 0
 			for _, card := range deck.Mainboard {
 				if !card.IsLand() {
 					deckCMC += float64(card.CMC)
+					if cc, ok := cubeCards[card.Name]; ok {
+						deckWordCount += cc.WordCount()
+					} else {
+						deckWordCount += card.WordCount()
+					}
 					count++
 				}
 			}
 			if count > 0 {
 				as.AvgCMC += deckCMC / float64(count)
 				as.cmcCount++
+				as.wordCountSum += float64(deckWordCount) / float64(count)
+				as.wordCountCount++
 			}
 
 			as.Players[deck.Player]++
@@ -128,6 +146,9 @@ func (s *archetypeStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Reques
 		}
 		if as.cmcCount > 0 {
 			as.AvgCMC = math.Round(as.AvgCMC/float64(as.cmcCount)*100) / 100
+		}
+		if as.wordCountCount > 0 {
+			as.AvgWordCount = math.Round(as.wordCountSum/float64(as.wordCountCount)*100) / 100
 		}
 		if as.Count > 0 {
 			totalShared := 0

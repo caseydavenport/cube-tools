@@ -1,4 +1,4 @@
-import { AverageCMC, ExtractColors } from "../utils/Utils.js"
+import { AverageCMC, AverageWordCount, ExtractColors } from "../utils/Utils.js"
 import { IsBasicLand } from "../utils/Utils.js"
 
 export async function LoadCube(onFetch) {
@@ -18,6 +18,7 @@ export async function LoadDecks(onLoad, start, end, draftSize, playerMatch, matc
   // TODO: Move this into the server code, instead of iterate decks here.
   for (let d of decks.decks) {
     d.avg_cmc = AverageCMC({deck: d})
+    d.avg_word_count = AverageWordCount({deck: d})
     d.colors = ExtractColors({deck: d})
 
     // Avoid nil errors.

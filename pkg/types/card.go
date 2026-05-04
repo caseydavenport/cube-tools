@@ -1,6 +1,7 @@
 package types
 
 import (
+	"regexp"
 	"slices"
 	"strings"
 )
@@ -187,6 +188,21 @@ func (c Card) IsColor(color string) bool {
 		}
 	}
 	return false
+}
+
+var reminderTextRe = regexp.MustCompile(`\([^)]*\)`)
+
+// WordCount returns the number of words in the card's oracle text,
+// excluding reminder text (parenthesized).
+func (c Card) WordCount() int {
+	text := reminderTextRe.ReplaceAllString(c.OracleText, "")
+	count := 0
+	for _, w := range strings.Fields(text) {
+		if w != "" {
+			count++
+		}
+	}
+	return count
 }
 
 func stringContains(str, substr string) bool {

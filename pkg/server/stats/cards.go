@@ -507,7 +507,8 @@ func cardSetFromDeck(deck types.Deck, cubeCards map[string]types.Card, color str
 
 	for _, card := range deck.Mainboard {
 		// Skip the card if it's not currently in the cube, or if it's a basic land.
-		if _, ok := cubeCards[card.Name]; !ok {
+		cubeCard, ok := cubeCards[card.Name]
+		if !ok {
 			continue
 		}
 		if card.IsBasicLand() {
@@ -517,13 +518,15 @@ func cardSetFromDeck(deck types.Deck, cubeCards map[string]types.Card, color str
 			continue
 		}
 
-		// Add to the card set.
-		mbSet[card.Name] = newCardStats(card)
+		// Use the cube card for stats, since it has enriched data (e.g., oracle text
+		// for multi-face cards).
+		mbSet[card.Name] = newCardStats(cubeCard)
 	}
 
 	for _, card := range deck.Sideboard {
 		// Skip the card if it's not currently in the cube, or if it's a basic land.
-		if _, ok := cubeCards[card.Name]; !ok {
+		cubeCard, ok := cubeCards[card.Name]
+		if !ok {
 			continue
 		}
 		if card.IsBasicLand() {
@@ -532,8 +535,9 @@ func cardSetFromDeck(deck types.Deck, cubeCards map[string]types.Card, color str
 		if !card.IsColor(color) {
 			continue
 		}
-		// Add to the card set.
-		sbSet[card.Name] = newCardStats(card)
+		// Use the cube card for stats, since it has enriched data (e.g., oracle text
+		// for multi-face cards).
+		sbSet[card.Name] = newCardStats(cubeCard)
 	}
 
 	// As an approximation - for card pools that do not have a mainbard/sideboard split, but do have a color identity specified,
@@ -541,7 +545,8 @@ func cardSetFromDeck(deck types.Deck, cubeCards map[string]types.Card, color str
 	// either the mainboard or sideboard. This is imperfect, but should be directionally correct most of the time.
 	for _, card := range deck.Pool {
 		// Skip the card if it's not currently in the cube, or if it's a basic land.
-		if _, ok := cubeCards[card.Name]; !ok {
+		cubeCard, ok := cubeCards[card.Name]
+		if !ok {
 			continue
 		}
 		if card.IsBasicLand() {
@@ -552,9 +557,9 @@ func cardSetFromDeck(deck types.Deck, cubeCards map[string]types.Card, color str
 		}
 
 		if len(deck.GetColors()) > 0 && !deck.CanCast(card) {
-			sbSet[card.Name] = newCardStats(card)
+			sbSet[card.Name] = newCardStats(cubeCard)
 		} else {
-			poolSet[card.Name] = newCardStats(card)
+			poolSet[card.Name] = newCardStats(cubeCard)
 		}
 	}
 
@@ -575,6 +580,7 @@ func newCardStats(c types.Card) *cardStats {
 		Interaction:  c.IsInteraction(),
 		Counterspell: c.IsCounterspell(),
 		Removal:      c.IsRemoval(),
+		WordCount:    c.WordCount(),
 		ByArchetype: map[string]*winStats{
 			"aggro":    {},
 			"midrange": {},
@@ -673,6 +679,9 @@ type cardStats struct {
 
 	// Whether or not this is a land
 	Land bool `json:"land"`
+
+	// Number of words in the card's oracle text, excluding reminder text.
+	WordCount int `json:"word_count"`
 
 	// ELO.
 	ELO int `json:"elo"`

@@ -9,6 +9,7 @@ import (
 	"github.com/caseydavenport/cube-tools/pkg/server/decks"
 	"github.com/caseydavenport/cube-tools/pkg/server/query"
 	"github.com/caseydavenport/cube-tools/pkg/storage"
+	"github.com/caseydavenport/cube-tools/pkg/types"
 	"github.com/sirupsen/logrus"
 )
 
@@ -28,6 +29,7 @@ type HealthBucket struct {
 	ArchetypeEvenness  float64 `json:"archetype_evenness"`
 	ColorBalanceStdDev float64 `json:"color_balance_stddev"`
 	TrophyGini         float64 `json:"trophy_gini"`
+	AvgWordCount       float64 `json:"avg_word_count"`
 }
 
 func parseHealthRequest(r *http.Request) *HealthStatsRequest {
@@ -61,6 +63,14 @@ func (h *healthStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) 
 		return
 	}
 
+	cubeCards := make(map[string]types.Card)
+	cube, err := types.LoadCube("data/polyverse/cube.json")
+	if err == nil {
+		for _, c := range cube.Cards {
+			cubeCards[c.Name] = c
+		}
+	}
+
 	resp := HealthStatsResponse{}
 	buckets := decks.DeckBuckets(allDecks, sr.BucketSize, !sr.Sliding)
 	for _, b := range buckets {
@@ -72,6 +82,7 @@ func (h *healthStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) 
 		hb.ArchetypeEvenness = archetypeEvenness(bDecks)
 		hb.ColorBalanceStdDev = colorBalanceStdDev(bDecks)
 		hb.TrophyGini = trophyGini(bDecks)
+		hb.AvgWordCount = avgWordCount(bDecks, cubeCards)
 		resp.Buckets = append(resp.Buckets, hb)
 	}
 
@@ -207,6 +218,30 @@ func trophyGini(allDecks []*storage.Deck) float64 {
 		values = append(values, float64(trophyCounts[m]))
 	}
 	return giniCoefficient(values)
+}
+
+// avgWordCount computes the average word count per non-land card across all
+// mainboarded cards in the given decks.
+func avgWordCount(allDecks []*storage.Deck, cubeCards map[string]types.Card) float64 {
+	totalWords := 0
+	totalCards := 0
+	for _, d := range allDecks {
+		for _, card := range d.Mainboard {
+			if card.IsBasicLand() || card.IsLand() {
+				continue
+			}
+			if cc, ok := cubeCards[card.Name]; ok {
+				totalWords += cc.WordCount()
+			} else {
+				totalWords += card.WordCount()
+			}
+			totalCards++
+		}
+	}
+	if totalCards == 0 {
+		return 0
+	}
+	return math.Round(float64(totalWords)/float64(totalCards)*100) / 100
 }
 
 // giniCoefficient computes the Gini coefficient for a slice of values.
