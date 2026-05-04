@@ -105,6 +105,8 @@ type Deck struct {
 	// Alternative to Games, when we don't have detailed game information.
 	Wins   *int `json:"wins,omitempty"`
 	Losses *int `json:"losses,omitempty"`
+	// DeckImage is a path to an image of the deck, relative to the deck file.
+	DeckImage string `json:"deck_image,omitempty"`
 
 	// Cards in the mainboard and sideboard.
 	Mainboard []Card `json:"mainboard"`

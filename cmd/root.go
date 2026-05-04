@@ -35,4 +35,5 @@ func init() {
 	rootCmd.AddCommand(commands.DiffCubeCmd)
 	rootCmd.AddCommand(commands.PrintCube)
 	rootCmd.AddCommand(commands.ManapoolCommand)
+	rootCmd.AddCommand(commands.ImportHedronCmd)
 }
