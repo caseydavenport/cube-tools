@@ -5,14 +5,22 @@ import (
 
 	"github.com/caseydavenport/cube-tools/pkg/commands"
 	"github.com/caseydavenport/cube-tools/pkg/commands/edit"
+	"github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 )
 
+var verbose bool
+
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
-	Use:   "Parse and manage cube-tools data files.",
+	Use:   "cube-tools",
 	Short: "Parse and manage cube-tools data files.",
 	Long:  ``,
+	PersistentPreRun: func(cmd *cobra.Command, args []string) {
+		if verbose {
+			logrus.SetLevel(logrus.DebugLevel)
+		}
+	},
 }
 
 // Execute adds all child commands to the root command and sets flags appropriately.
@@ -26,6 +34,8 @@ func Execute() {
 
 // Add sub-commands to the root.
 func init() {
+	rootCmd.PersistentFlags().BoolVarP(&verbose, "verbose", "v", false, "Enable verbose logging")
+
 	rootCmd.AddCommand(commands.ParseCmd)
 	rootCmd.AddCommand(commands.ParseDirectoryCmd)
 	rootCmd.AddCommand(commands.ReparseCmd)
@@ -36,4 +46,5 @@ func init() {
 	rootCmd.AddCommand(commands.PrintCube)
 	rootCmd.AddCommand(commands.ManapoolCommand)
 	rootCmd.AddCommand(commands.ImportHedronCmd)
+	rootCmd.AddCommand(commands.ExportCCCmd)
 }

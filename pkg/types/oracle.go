@@ -179,6 +179,7 @@ type OracleData []OracleCard
 //	}
 type OracleCard struct {
 	ID            string            `json:"id"`
+	OracleID      string            `json:"oracle_id"`
 	Name          string            `json:"name"`
 	ScryfallURI   string            `json:"scryfall_uri"`
 	ImageURLs     map[string]string `json:"image_urls"`

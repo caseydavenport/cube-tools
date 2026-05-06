@@ -52,6 +52,12 @@ type Metadata struct {
 	// PoolFile is the name of the file containing the draft pool, relative to the deck file.
 	// Used when the mainbord / sideboard decisions are not known.
 	PoolFile string `json:"pool_file,omitempty"`
+
+	// EventName is the name of the draft event (e.g. "Friday Night Cube").
+	EventName string `json:"event_name,omitempty"`
+
+	// EventDescription is a description of the draft event.
+	EventDescription string `json:"event_description,omitempty"`
 }
 
 func (m *Metadata) GetSourceFiles() []string {

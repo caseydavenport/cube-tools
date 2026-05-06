@@ -166,6 +166,8 @@ func importDraft(d *HedronDraft) {
 		deck.Player = sanitizePlayerName(p.ID, d.DraftID)
 		deck.Date = dateStr
 		deck.Metadata.DraftID = draftDirName
+		deck.Metadata.EventName = d.EventName
+		deck.Metadata.EventDescription = fmt.Sprintf("Imported from Hedron Network. Event Code: %s, Flight: %s", d.EventCode, d.FlightName)
 		
 		// If they have a deck photo, download it.
 		if len(p.Images.Deck) > 0 {
