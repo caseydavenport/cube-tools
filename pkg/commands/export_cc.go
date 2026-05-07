@@ -87,7 +87,11 @@ func exportToCC() {
 
 	for _, f := range files {
 		base := filepath.Base(f)
-		if base == "index.json" || strings.Contains(f, "snapshot") || strings.Contains(f, "draft-log") {
+		switch base {
+		case "index.json", "cube.json", "cube-rules.json", types.DraftMetadataFilename:
+			continue
+		}
+		if strings.Contains(f, "snapshot") || strings.Contains(f, "draft-log") {
 			continue
 		}
 		d, err := types.LoadDeck(f)
