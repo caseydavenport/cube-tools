@@ -9,47 +9,63 @@
  ],
  "player": "player-9f63-c38c",
  "date": "2025-10-05",
- "games": [
-  {
-   "opponent": "player-9f63-3f2e",
-   "winner": "player-9f63-c38c"
-  },
-  {
-   "opponent": "player-9f63-3f2e",
-   "winner": "player-9f63-3f2e"
-  },
-  {
-   "opponent": "player-9f63-3f2e",
-   "winner": "player-9f63-3f2e"
-  },
-  {
-   "opponent": "player-9f63-c3c0",
-   "winner": "player-9f63-c38c"
-  },
-  {
-   "opponent": "player-9f63-c3c0",
-   "winner": "player-9f63-c38c"
-  },
-  {
-   "opponent": "player-9f63-c3c0",
-   "winner": "player-9f63-c3c0"
-  },
-  {
-   "opponent": "player-9f63-e96e",
-   "winner": "player-9f63-e96e"
-  }
- ],
  "matches": [
   {
    "opponent": "player-9f63-3f2e",
+   "round": 3,
+   "wins": 1,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "player-9f63-3f2e",
+     "winner": "player-9f63-c38c"
+    },
+    {
+     "opponent": "player-9f63-3f2e",
+     "winner": "player-9f63-3f2e"
+    },
+    {
+     "opponent": "player-9f63-3f2e",
+     "winner": "player-9f63-3f2e"
+    }
+   ],
    "winner": "player-9f63-3f2e"
   },
   {
    "opponent": "player-9f63-c3c0",
+   "round": 1,
+   "wins": 2,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "player-9f63-c3c0",
+     "winner": "player-9f63-c38c"
+    },
+    {
+     "opponent": "player-9f63-c3c0",
+     "winner": "player-9f63-c38c"
+    },
+    {
+     "opponent": "player-9f63-c3c0",
+     "winner": "player-9f63-c3c0"
+    }
+   ],
    "winner": "player-9f63-c38c"
   },
   {
    "opponent": "player-9f63-e96e",
+   "round": 2,
+   "wins": 0,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "player-9f63-e96e",
+     "winner": "player-9f63-e96e"
+    }
+   ],
    "winner": "player-9f63-e96e"
   }
  ],

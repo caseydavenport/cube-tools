@@ -5,26 +5,34 @@
   "mainboard_file": "data/polyverse/2026-01-03/wanqi-mainboard.txt",
   "sideboard_file": "data/polyverse/2026-01-03/wanqi-sideboard.txt"
  },
- "labels": ["aggro", "flicker", "hatebears"],
+ "labels": [
+  "aggro",
+  "flicker",
+  "hatebears"
+ ],
  "player": "wanqi",
  "date": "2026-01-03",
- "games": [
-  {
-   "opponent": "colton",
-   "winner": "wanqi"
-  },
-  {
-   "opponent": "colton",
-   "winner": "colton"
-  },
-  {
-   "opponent": "colton",
-   "winner": "colton"
-  }
- ],
  "matches": [
   {
    "opponent": "colton",
+   "round": 1,
+   "wins": 1,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "colton",
+     "winner": "wanqi"
+    },
+    {
+     "opponent": "colton",
+     "winner": "colton"
+    },
+    {
+     "opponent": "colton",
+     "winner": "colton"
+    }
+   ],
    "winner": "colton"
   }
  ],

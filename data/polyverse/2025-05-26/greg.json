@@ -9,35 +9,45 @@
  ],
  "player": "greg",
  "date": "2025-05-26",
- "games": [
-  {
-   "opponent": "jen",
-   "winner": "greg"
-  },
-  {
-   "opponent": "jen",
-   "winner": "greg"
-  },
-  {
-   "opponent": "xander",
-   "winner": "greg"
-  },
-  {
-   "opponent": "xander",
-   "winner": "xander"
-  },
-  {
-   "opponent": "xander",
-   "winner": "xander"
-  }
- ],
  "matches": [
   {
    "opponent": "jen",
+   "round": 1,
+   "wins": 2,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "jen",
+     "winner": "greg"
+    },
+    {
+     "opponent": "jen",
+     "winner": "greg"
+    }
+   ],
    "winner": "greg"
   },
   {
    "opponent": "xander",
+   "round": 3,
+   "wins": 1,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "xander",
+     "winner": "greg"
+    },
+    {
+     "opponent": "xander",
+     "winner": "xander"
+    },
+    {
+     "opponent": "xander",
+     "winner": "xander"
+    }
+   ],
    "winner": "xander"
   }
  ],

@@ -11,17 +11,36 @@
  ],
  "player": "jen",
  "date": "2023-10-21",
- "games": [
+ "matches": [
   {
    "opponent": "dom",
+   "round": 3,
+   "wins": 0,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "dom",
+     "winner": "dom"
+    }
+   ],
    "winner": "dom"
   },
   {
    "opponent": "xander",
+   "round": 1,
+   "wins": 0,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "xander",
+     "winner": "xander"
+    }
+   ],
    "winner": "xander"
   }
  ],
- "matches": null,
  "mainboard": [
   {
    "name": "Mana Leak",
@@ -585,8 +604,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/tla/283/island?utm_source=api",
-   "oracle_text": "({T}: Add {U}.)",
-   "appearances": 1
+   "oracle_text": "({T}: Add {U}.)"
   },
   {
    "name": "Island",
@@ -605,8 +623,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/tla/283/island?utm_source=api",
-   "oracle_text": "({T}: Add {U}.)",
-   "appearances": 1
+   "oracle_text": "({T}: Add {U}.)"
   },
   {
    "name": "Island",
@@ -625,8 +642,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/tla/283/island?utm_source=api",
-   "oracle_text": "({T}: Add {U}.)",
-   "appearances": 1
+   "oracle_text": "({T}: Add {U}.)"
   },
   {
    "name": "Island",
@@ -645,8 +661,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/tla/283/island?utm_source=api",
-   "oracle_text": "({T}: Add {U}.)",
-   "appearances": 1
+   "oracle_text": "({T}: Add {U}.)"
   },
   {
    "name": "Island",
@@ -665,8 +680,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/tla/283/island?utm_source=api",
-   "oracle_text": "({T}: Add {U}.)",
-   "appearances": 1
+   "oracle_text": "({T}: Add {U}.)"
   },
   {
    "name": "Island",
@@ -685,8 +699,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/tla/283/island?utm_source=api",
-   "oracle_text": "({T}: Add {U}.)",
-   "appearances": 1
+   "oracle_text": "({T}: Add {U}.)"
   },
   {
    "name": "Island",
@@ -705,8 +718,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/tla/283/island?utm_source=api",
-   "oracle_text": "({T}: Add {U}.)",
-   "appearances": 1
+   "oracle_text": "({T}: Add {U}.)"
   },
   {
    "name": "Forest",
@@ -725,8 +737,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/tla/286/forest?utm_source=api",
-   "oracle_text": "({T}: Add {G}.)",
-   "appearances": 1
+   "oracle_text": "({T}: Add {G}.)"
   },
   {
    "name": "Forest",
@@ -745,8 +756,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/tla/286/forest?utm_source=api",
-   "oracle_text": "({T}: Add {G}.)",
-   "appearances": 1
+   "oracle_text": "({T}: Add {G}.)"
   },
   {
    "name": "Forest",
@@ -765,8 +775,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/tla/286/forest?utm_source=api",
-   "oracle_text": "({T}: Add {G}.)",
-   "appearances": 1
+   "oracle_text": "({T}: Add {G}.)"
   },
   {
    "name": "Forest",
@@ -785,8 +794,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/tla/286/forest?utm_source=api",
-   "oracle_text": "({T}: Add {G}.)",
-   "appearances": 1
+   "oracle_text": "({T}: Add {G}.)"
   },
   {
    "name": "Forest",
@@ -805,8 +813,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/tla/286/forest?utm_source=api",
-   "oracle_text": "({T}: Add {G}.)",
-   "appearances": 1
+   "oracle_text": "({T}: Add {G}.)"
   },
   {
    "name": "Forest",
@@ -825,8 +832,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/tla/286/forest?utm_source=api",
-   "oracle_text": "({T}: Add {G}.)",
-   "appearances": 1
+   "oracle_text": "({T}: Add {G}.)"
   },
   {
    "name": "Forest",
@@ -845,8 +851,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/tla/286/forest?utm_source=api",
-   "oracle_text": "({T}: Add {G}.)",
-   "appearances": 1
+   "oracle_text": "({T}: Add {G}.)"
   }
  ],
  "sideboard": [

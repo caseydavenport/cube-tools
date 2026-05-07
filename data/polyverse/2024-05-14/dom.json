@@ -9,51 +9,67 @@
  ],
  "player": "dom",
  "date": "2024-05-14",
- "games": [
-  {
-   "opponent": "cara",
-   "winner": "dom"
-  },
-  {
-   "opponent": "cara",
-   "winner": "dom"
-  },
-  {
-   "opponent": "cara",
-   "winner": "cara"
-  },
-  {
-   "opponent": "jen",
-   "winner": "dom"
-  },
-  {
-   "opponent": "jen",
-   "winner": "jen"
-  },
-  {
-   "opponent": "jen",
-   "winner": "jen"
-  },
-  {
-   "opponent": "xander",
-   "winner": "dom"
-  },
-  {
-   "opponent": "xander",
-   "winner": "dom"
-  }
- ],
  "matches": [
   {
    "opponent": "cara",
+   "round": 2,
+   "wins": 2,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "cara",
+     "winner": "dom"
+    },
+    {
+     "opponent": "cara",
+     "winner": "dom"
+    },
+    {
+     "opponent": "cara",
+     "winner": "cara"
+    }
+   ],
    "winner": "dom"
   },
   {
    "opponent": "jen",
+   "round": 1,
+   "wins": 1,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "jen",
+     "winner": "dom"
+    },
+    {
+     "opponent": "jen",
+     "winner": "jen"
+    },
+    {
+     "opponent": "jen",
+     "winner": "jen"
+    }
+   ],
    "winner": "jen"
   },
   {
    "opponent": "xander",
+   "round": 4,
+   "wins": 2,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "xander",
+     "winner": "dom"
+    },
+    {
+     "opponent": "xander",
+     "winner": "dom"
+    }
+   ],
    "winner": "dom"
   }
  ],

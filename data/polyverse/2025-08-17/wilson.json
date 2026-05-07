@@ -10,47 +10,63 @@
  ],
  "player": "wilson",
  "date": "2025-08-17",
- "games": [
-  {
-   "opponent": "jamesdeyja",
-   "winner": "jamesdeyja"
-  },
-  {
-   "opponent": "jamesdeyja",
-   "winner": "jamesdeyja"
-  },
-  {
-   "opponent": "maxi",
-   "winner": "wilson"
-  },
-  {
-   "opponent": "maxi",
-   "winner": "maxi"
-  },
-  {
-   "opponent": "maxi",
-   "winner": "maxi"
-  },
-  {
-   "opponent": "michael",
-   "winner": "wilson"
-  },
-  {
-   "opponent": "michael",
-   "winner": "wilson"
-  }
- ],
  "matches": [
   {
    "opponent": "jamesdeyja",
+   "round": 3,
+   "wins": 0,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "jamesdeyja",
+     "winner": "jamesdeyja"
+    },
+    {
+     "opponent": "jamesdeyja",
+     "winner": "jamesdeyja"
+    }
+   ],
    "winner": "jamesdeyja"
   },
   {
    "opponent": "maxi",
+   "round": 4,
+   "wins": 1,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "maxi",
+     "winner": "wilson"
+    },
+    {
+     "opponent": "maxi",
+     "winner": "maxi"
+    },
+    {
+     "opponent": "maxi",
+     "winner": "maxi"
+    }
+   ],
    "winner": "maxi"
   },
   {
    "opponent": "michael",
+   "round": 1,
+   "wins": 2,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "michael",
+     "winner": "wilson"
+    },
+    {
+     "opponent": "michael",
+     "winner": "wilson"
+    }
+   ],
    "winner": "wilson"
   }
  ],

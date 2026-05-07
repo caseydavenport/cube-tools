@@ -9,51 +9,67 @@
  ],
  "player": "ben",
  "date": "2025-08-17",
- "games": [
-  {
-   "opponent": "kevin",
-   "winner": "ben"
-  },
-  {
-   "opponent": "kevin",
-   "winner": "kevin"
-  },
-  {
-   "opponent": "kevin",
-   "winner": "kevin"
-  },
-  {
-   "opponent": "maxi",
-   "winner": "ben"
-  },
-  {
-   "opponent": "maxi",
-   "winner": "ben"
-  },
-  {
-   "opponent": "michael",
-   "winner": "ben"
-  },
-  {
-   "opponent": "michael",
-   "winner": "ben"
-  },
-  {
-   "opponent": "michael",
-   "winner": "michael"
-  }
- ],
  "matches": [
   {
    "opponent": "kevin",
+   "round": 1,
+   "wins": 1,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "kevin",
+     "winner": "ben"
+    },
+    {
+     "opponent": "kevin",
+     "winner": "kevin"
+    },
+    {
+     "opponent": "kevin",
+     "winner": "kevin"
+    }
+   ],
    "winner": "kevin"
   },
   {
    "opponent": "maxi",
+   "round": 2,
+   "wins": 2,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "maxi",
+     "winner": "ben"
+    },
+    {
+     "opponent": "maxi",
+     "winner": "ben"
+    }
+   ],
    "winner": "ben"
   },
   {
    "opponent": "michael",
+   "round": 3,
+   "wins": 2,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "michael",
+     "winner": "ben"
+    },
+    {
+     "opponent": "michael",
+     "winner": "ben"
+    },
+    {
+     "opponent": "michael",
+     "winner": "michael"
+    }
+   ],
    "winner": "ben"
   }
  ],

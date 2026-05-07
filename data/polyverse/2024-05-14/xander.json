@@ -11,47 +11,63 @@
  ],
  "player": "xander",
  "date": "2024-05-14",
- "games": [
-  {
-   "opponent": "casey",
-   "winner": "xander"
-  },
-  {
-   "opponent": "casey",
-   "winner": "casey"
-  },
-  {
-   "opponent": "casey",
-   "winner": "casey"
-  },
-  {
-   "opponent": "dom",
-   "winner": "dom"
-  },
-  {
-   "opponent": "dom",
-   "winner": "dom"
-  },
-  {
-   "opponent": "greg",
-   "winner": "greg"
-  },
-  {
-   "opponent": "greg",
-   "winner": "greg"
-  }
- ],
  "matches": [
   {
    "opponent": "casey",
+   "round": 2,
+   "wins": 1,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "casey",
+     "winner": "xander"
+    },
+    {
+     "opponent": "casey",
+     "winner": "casey"
+    },
+    {
+     "opponent": "casey",
+     "winner": "casey"
+    }
+   ],
    "winner": "casey"
   },
   {
    "opponent": "dom",
+   "round": 4,
+   "wins": 0,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "dom",
+     "winner": "dom"
+    },
+    {
+     "opponent": "dom",
+     "winner": "dom"
+    }
+   ],
    "winner": "dom"
   },
   {
    "opponent": "greg",
+   "round": 3,
+   "wins": 0,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "greg",
+     "winner": "greg"
+    },
+    {
+     "opponent": "greg",
+     "winner": "greg"
+    }
+   ],
    "winner": "greg"
   }
  ],

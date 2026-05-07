@@ -10,21 +10,30 @@
  ],
  "player": "casey",
  "date": "2023-10-15",
- "games": [
+ "matches": [
   {
    "opponent": "dom",
-   "winner": "dom"
-  },
-  {
-   "opponent": "dom",
-   "winner": "casey"
-  },
-  {
-   "opponent": "dom",
+   "round": 1,
+   "wins": 2,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "dom",
+     "winner": "dom"
+    },
+    {
+     "opponent": "dom",
+     "winner": "casey"
+    },
+    {
+     "opponent": "dom",
+     "winner": "casey"
+    }
+   ],
    "winner": "casey"
   }
  ],
- "matches": null,
  "mainboard": [
   {
    "name": "Glass Casket",

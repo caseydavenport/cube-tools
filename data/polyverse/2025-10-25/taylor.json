@@ -10,71 +10,99 @@
  ],
  "player": "taylor",
  "date": "2025-10-25",
- "games": [
-  {
-   "opponent": "casey",
-   "winner": "taylor"
-  },
-  {
-   "opponent": "casey",
-   "winner": "casey"
-  },
-  {
-   "opponent": "casey",
-   "winner": "casey"
-  },
-  {
-   "opponent": "colton",
-   "winner": "colton"
-  },
-  {
-   "opponent": "colton",
-   "winner": "colton"
-  },
-  {
-   "opponent": "isaiah",
-   "winner": "isaiah"
-  },
-  {
-   "opponent": "isaiah",
-   "winner": "isaiah"
-  },
-  {
-   "opponent": "jackson",
-   "winner": "jackson"
-  },
-  {
-   "opponent": "jackson",
-   "winner": "jackson"
-  },
-  {
-   "opponent": "mehdi",
-   "winner": "taylor"
-  },
-  {
-   "opponent": "mehdi",
-   "winner": "taylor"
-  }
- ],
  "matches": [
   {
    "opponent": "casey",
+   "round": 1,
+   "wins": 1,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "casey",
+     "winner": "taylor"
+    },
+    {
+     "opponent": "casey",
+     "winner": "casey"
+    },
+    {
+     "opponent": "casey",
+     "winner": "casey"
+    }
+   ],
    "winner": "casey"
   },
   {
    "opponent": "colton",
+   "round": 2,
+   "wins": 0,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "colton",
+     "winner": "colton"
+    },
+    {
+     "opponent": "colton",
+     "winner": "colton"
+    }
+   ],
    "winner": "colton"
   },
   {
    "opponent": "isaiah",
+   "round": 3,
+   "wins": 0,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "isaiah",
+     "winner": "isaiah"
+    },
+    {
+     "opponent": "isaiah",
+     "winner": "isaiah"
+    }
+   ],
    "winner": "isaiah"
   },
   {
    "opponent": "jackson",
+   "round": 4,
+   "wins": 0,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "jackson",
+     "winner": "jackson"
+    },
+    {
+     "opponent": "jackson",
+     "winner": "jackson"
+    }
+   ],
    "winner": "jackson"
   },
   {
    "opponent": "mehdi",
+   "round": 5,
+   "wins": 2,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "mehdi",
+     "winner": "taylor"
+    },
+    {
+     "opponent": "mehdi",
+     "winner": "taylor"
+    }
+   ],
    "winner": "taylor"
   }
  ],

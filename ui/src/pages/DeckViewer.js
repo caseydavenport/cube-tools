@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react'
 import { LoadCube, LoadDecks, FetchFile, SaveNotes } from "../utils/Fetch.js"
-import { Record, Wins, Losses, Draws, MatchWins, MatchLosses, MatchDraws, InDeckColor } from "../utils/Deck.js"
+import { Record, MatchRecord, Wins, Losses, Draws, MatchWins, MatchLosses, MatchDraws, InDeckColor } from "../utils/Deck.js"
 import { RemovalMatches, CounterspellMatches } from "../pages/Decks.js"
 import { SortFunc, StringToColor, CheckboxesToColors, IsBasicLand } from "../utils/Utils.js"
 import { CardMatches, DeckMatches } from "../utils/Query.js"
@@ -943,24 +943,39 @@ function PlayerFrame(input) {
         <div className="matches-section" style={{"marginTop": "1.5rem"}}>
           <h4 style={{"marginBottom": "0.5rem", "fontSize": "1rem", "color": "var(--text-muted)", "textTransform": "uppercase"}}>Match Details</h4>
           <div className="matches-grid" style={{"display": "flex", "flexWrap": "wrap", "gap": "0.5rem"}}>
-            {deck.matches.map(function(match, i) {
+            {[...deck.matches].sort((a, b) => (a.round || Infinity) - (b.round || Infinity)).map(function(match, i) {
               let result = "W"
-              if (match.opponent.toLowerCase() == match.winner.toLowerCase()) result = "L"
-              if (match.winner == "") result = "D"
+              if (match.wins == match.losses) {
+                result = "D"
+              } else if (match.winner && deck.player.toLowerCase() != match.winner.toLowerCase()) {
+                result = "L"
+              } else if (!match.winner && match.losses > match.wins) {
+                result = "L"
+              }
 
-              let oppArch = "N/A"
-              for (let d of input.decks) {
-                if (d.player.toLowerCase() == match.opponent.toLowerCase() && d.date == deck.date) {
-                  oppArch = getMacro(d)
-                  break
+              let oppLabel = match.opponent || "Unknown"
+              let oppArch = ""
+              if (match.opponent) {
+                for (let d of input.decks) {
+                  if (d.player.toLowerCase() == match.opponent.toLowerCase() && d.date == deck.date) {
+                    oppArch = getMacro(d)
+                    break
+                  }
                 }
+              }
+
+              // Use explicit match scores if available, otherwise fall back to games lookup.
+              let score = MatchRecord(match)
+              if (match.wins === 0 && match.losses === 0 && match.draws === 0) {
+                score = Record(deck, match.opponent)
               }
 
               return (
                 <div key={i} className="match-pill" style={{"background": "var(--table-header-background)", "padding": "0.4rem 0.8rem", "borderRadius": "20px", "fontSize": "0.85rem", "border": "1px solid var(--border)"}}>
-                  <span style={{"fontWeight": "bold", "marginRight": "0.5rem"}}>{match.opponent}:</span>
+                  {match.round > 0 && <span style={{"opacity": "0.6", "marginRight": "0.5rem"}}>R{match.round}</span>}
+                  <span style={{"fontWeight": "bold", "marginRight": "0.5rem", "fontStyle": match.opponent ? "normal" : "italic", "opacity": match.opponent ? 1 : 0.7}}>{oppLabel}:</span>
                   <span style={{"color": result === "W" ? "var(--success)" : result === "L" ? "var(--danger)" : "var(--white)"}}>{result}</span>
-                  <span style={{"marginLeft": "0.5rem", "opacity": "0.7"}}>({Record(deck, match.opponent)}) | {oppArch}</span>
+                  <span style={{"marginLeft": "0.5rem", "opacity": "0.7"}}>({score}){oppArch && ` | ${oppArch}`}</span>
                 </div>
               );
             })}

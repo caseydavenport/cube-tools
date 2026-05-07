@@ -12,51 +12,67 @@
  ],
  "player": "isaiah",
  "date": "2025-10-25",
- "games": [
-  {
-   "opponent": "perry",
-   "winner": "isaiah"
-  },
-  {
-   "opponent": "perry",
-   "winner": "perry"
-  },
-  {
-   "opponent": "perry",
-   "winner": "perry"
-  },
-  {
-   "opponent": "robert",
-   "winner": "isaiah"
-  },
-  {
-   "opponent": "robert",
-   "winner": "isaiah"
-  },
-  {
-   "opponent": "robert",
-   "winner": "robert"
-  },
-  {
-   "opponent": "taylor",
-   "winner": "isaiah"
-  },
-  {
-   "opponent": "taylor",
-   "winner": "isaiah"
-  }
- ],
  "matches": [
   {
    "opponent": "perry",
+   "round": 1,
+   "wins": 1,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "perry",
+     "winner": "isaiah"
+    },
+    {
+     "opponent": "perry",
+     "winner": "perry"
+    },
+    {
+     "opponent": "perry",
+     "winner": "perry"
+    }
+   ],
    "winner": "perry"
   },
   {
    "opponent": "robert",
+   "round": 2,
+   "wins": 2,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "robert",
+     "winner": "isaiah"
+    },
+    {
+     "opponent": "robert",
+     "winner": "isaiah"
+    },
+    {
+     "opponent": "robert",
+     "winner": "robert"
+    }
+   ],
    "winner": "isaiah"
   },
   {
    "opponent": "taylor",
+   "round": 3,
+   "wins": 2,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "taylor",
+     "winner": "isaiah"
+    },
+    {
+     "opponent": "taylor",
+     "winner": "isaiah"
+    }
+   ],
    "winner": "isaiah"
   }
  ],

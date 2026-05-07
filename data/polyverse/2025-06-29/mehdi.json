@@ -9,47 +9,63 @@
  ],
  "player": "mehdi",
  "date": "2025-06-29",
- "games": [
-  {
-   "opponent": "bryan",
-   "winner": "mehdi"
-  },
-  {
-   "opponent": "bryan",
-   "winner": "bryan"
-  },
-  {
-   "opponent": "bryan",
-   "winner": "bryan"
-  },
-  {
-   "opponent": "kevin",
-   "winner": "mehdi"
-  },
-  {
-   "opponent": "kevin",
-   "winner": "mehdi"
-  },
-  {
-   "opponent": "owen",
-   "winner": "owen"
-  },
-  {
-   "opponent": "owen",
-   "winner": "owen"
-  }
- ],
  "matches": [
   {
    "opponent": "bryan",
+   "round": 3,
+   "wins": 1,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "bryan",
+     "winner": "mehdi"
+    },
+    {
+     "opponent": "bryan",
+     "winner": "bryan"
+    },
+    {
+     "opponent": "bryan",
+     "winner": "bryan"
+    }
+   ],
    "winner": "bryan"
   },
   {
    "opponent": "kevin",
+   "round": 2,
+   "wins": 2,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "kevin",
+     "winner": "mehdi"
+    },
+    {
+     "opponent": "kevin",
+     "winner": "mehdi"
+    }
+   ],
    "winner": "mehdi"
   },
   {
    "opponent": "owen",
+   "round": 1,
+   "wins": 0,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "owen",
+     "winner": "owen"
+    },
+    {
+     "opponent": "owen",
+     "winner": "owen"
+    }
+   ],
    "winner": "owen"
   }
  ],

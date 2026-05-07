@@ -52,12 +52,43 @@ type Metadata struct {
 	// PoolFile is the name of the file containing the draft pool, relative to the deck file.
 	// Used when the mainbord / sideboard decisions are not known.
 	PoolFile string `json:"pool_file,omitempty"`
+}
 
-	// EventName is the name of the draft event (e.g. "Friday Night Cube").
-	EventName string `json:"event_name,omitempty"`
-
-	// EventDescription is a description of the draft event.
+// DraftMetadata is per-draft metadata stored once at <draftDir>/metadata.json.
+// It avoids duplicating identical fields across every deck file in the draft.
+type DraftMetadata struct {
+	EventName        string `json:"event_name,omitempty"`
 	EventDescription string `json:"event_description,omitempty"`
+}
+
+// DraftMetadataFilename is the filename used for the per-draft metadata file.
+const DraftMetadataFilename = "metadata.json"
+
+// LoadDraftMetadata reads metadata.json from a draft directory. Returns a
+// zero-valued DraftMetadata (and no error) if the file does not exist.
+func LoadDraftMetadata(dir string) (*DraftMetadata, error) {
+	path := filepath.Join(dir, DraftMetadataFilename)
+	bs, err := os.ReadFile(path)
+	if err != nil {
+		if os.IsNotExist(err) {
+			return &DraftMetadata{}, nil
+		}
+		return nil, err
+	}
+	m := &DraftMetadata{}
+	if err := json.Unmarshal(bs, m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
+// Save writes metadata.json into the given draft directory.
+func (m *DraftMetadata) Save(dir string) error {
+	bs, err := json.MarshalIndent(m, "", " ")
+	if err != nil {
+		return err
+	}
+	return os.WriteFile(filepath.Join(dir, DraftMetadataFilename), bs, 0644)
 }
 
 func (m *Metadata) GetSourceFiles() []string {
@@ -97,11 +128,12 @@ type Deck struct {
 	// Optional user-defined name for the deck.
 	Name string `json:"name,omitempty"`
 
-	// Games played with this deck.
-	Games []Game `json:"games"`
-
 	// Matches played with this deck.
 	Matches []Match `json:"matches"`
+
+	// Games is deprecated and will be removed in a future release.
+	// It is kept for migration purposes.
+	Games []Game `json:"games,omitempty"`
 
 	// Alternative to Matches, when we don't have detailed match information.
 	MatchWinsOverride   *int `json:"match_wins_override,omitempty"`
@@ -131,10 +163,28 @@ type Deck struct {
 
 type Match struct {
 	Opponent string `json:"opponent"`
-	Winner   string `json:"winner"`
+
+	// Round number this match was played in (1-indexed). 0 means unknown.
+	// Lets us preserve multi-round events (Swiss, brackets, rematches) where
+	// the same two players meet more than once.
+	Round int `json:"round,omitempty"`
+
+	// Explicit game counts for this match.
+	// Allows representing a result like 2-1 even without Game objects.
+	Wins   int `json:"wins"`
+	Losses int `json:"losses"`
+	Draws  int `json:"draws"`
+
+	// Optional: individual game details.
+	Games []Game `json:"games,omitempty"`
+
+	// The winner of the match. Usually d.Player or m.Opponent.
+	// If empty, the match is a draw.
+	Winner string `json:"winner,omitempty"`
 }
 
 type Game struct {
+	// Opponent is redundant if nested, but kept for compatibility/standalone use.
 	Opponent string `json:"opponent"`
 	Winner   string `json:"winner"`
 	Tie      bool   `json:"tie,omitempty"`
@@ -155,6 +205,97 @@ func (g *Game) Result() Result {
 		return ResultDraw
 	}
 	return ResultWin
+}
+
+// Migrate moves data from the legacy Games slice and Match overrides into the new
+// Match structure.
+func (d *Deck) Migrate() {
+	// 1. Group Games by Opponent
+	gamesByOpponent := make(map[string][]Game)
+	for _, g := range d.Games {
+		gamesByOpponent[g.Opponent] = append(gamesByOpponent[g.Opponent], g)
+	}
+
+	// 2. Merge into Matches
+	for i := range d.Matches {
+		m := &d.Matches[i]
+		if games, ok := gamesByOpponent[m.Opponent]; ok {
+			m.Games = games
+			delete(gamesByOpponent, m.Opponent)
+		}
+
+		// Calculate scores if they are 0
+		if m.Wins == 0 && m.Losses == 0 && m.Draws == 0 {
+			if len(m.Games) > 0 {
+				for _, g := range m.Games {
+					if g.Winner == d.Player {
+						m.Wins++
+					} else if g.Winner == "" || g.Tie {
+						m.Draws++
+					} else {
+						m.Losses++
+					}
+				}
+			} else {
+				// Infer from Winner field
+				if m.Winner == d.Player {
+					m.Wins = 2
+					m.Losses = 0
+				} else if m.Winner != "" {
+					m.Wins = 0
+					m.Losses = 2
+				}
+			}
+		}
+	}
+
+	// 3. Handle Orphans (games for opponents not in Matches)
+	for opponent, games := range gamesByOpponent {
+		m := Match{Opponent: opponent, Games: games}
+		for _, g := range games {
+			if g.Winner == d.Player {
+				m.Wins++
+			} else if g.Winner == "" || g.Tie {
+				m.Draws++
+			} else {
+				m.Losses++
+			}
+		}
+		// Infer winner
+		if m.Wins > m.Losses {
+			m.Winner = d.Player
+		} else if m.Losses > m.Wins {
+			m.Winner = opponent
+		}
+		d.Matches = append(d.Matches, m)
+	}
+
+	// 4. Handle Overrides
+	if len(d.Matches) == 0 {
+		if d.MatchWinsOverride != nil {
+			for i := 0; i < *d.MatchWinsOverride; i++ {
+				d.Matches = append(d.Matches, Match{Wins: 2, Winner: d.Player})
+			}
+		}
+		if d.MatchLossesOverride != nil {
+			for i := 0; i < *d.MatchLossesOverride; i++ {
+				d.Matches = append(d.Matches, Match{Losses: 2})
+			}
+		}
+		if d.MatchDrawsOverride != nil {
+			for i := 0; i < *d.MatchDrawsOverride; i++ {
+				d.Matches = append(d.Matches, Match{Wins: 1, Losses: 1})
+			}
+		}
+	}
+
+	// 5. Cleanup
+	d.Games = nil
+
+	// Sort matches by opponent for stability
+	sort.Slice(d.Matches, func(i, j int) bool {
+		return d.Matches[i].Opponent < d.Matches[j].Opponent
+	})
 }
 
 func (d *Deck) AllCards() []Card {
@@ -200,9 +341,9 @@ func (d *Deck) RemoveMatchesForOpponent(opponent string) {
 // GamesForOpponent returns all games against the given opponent.
 func (d *Deck) GamesForOpponent(opponent string) []Game {
 	games := make([]Game, 0)
-	for _, g := range d.Games {
-		if g.Opponent == opponent {
-			games = append(games, g)
+	for _, m := range d.Matches {
+		if m.Opponent == opponent {
+			games = append(games, m.Games...)
 		}
 	}
 	return games
@@ -210,13 +351,14 @@ func (d *Deck) GamesForOpponent(opponent string) []Game {
 
 // RemoveGamesForOpponent removes all games against the given opponent from the deck.
 func (d *Deck) RemoveGamesForOpponent(opponent string) {
-	newGames := make([]Game, 0)
-	for _, g := range d.Games {
-		if g.Opponent != opponent {
-			newGames = append(newGames, g)
+	for i := range d.Matches {
+		if d.Matches[i].Opponent == opponent {
+			d.Matches[i].Games = nil
+			d.Matches[i].Wins = 0
+			d.Matches[i].Losses = 0
+			d.Matches[i].Draws = 0
 		}
 	}
-	d.Games = newGames
 }
 
 // AddMatch adds a match to the deck.
@@ -235,11 +377,39 @@ func (d *Deck) AddGame(opponent, winner string) {
 	if winner == "" {
 		g.Tie = true
 	}
-	d.Games = append(d.Games, g)
 
-	// Sort the games by opponent.
-	sort.Slice(d.Games, func(i, j int) bool {
-		return d.Games[i].Opponent < d.Games[j].Opponent
+	// Find the match for this opponent.
+	found := false
+	for i := range d.Matches {
+		if d.Matches[i].Opponent == opponent {
+			d.Matches[i].Games = append(d.Matches[i].Games, g)
+			if g.Winner == d.Player {
+				d.Matches[i].Wins++
+			} else if g.Winner == "" || g.Tie {
+				d.Matches[i].Draws++
+			} else {
+				d.Matches[i].Losses++
+			}
+			found = true
+			break
+		}
+	}
+
+	if !found {
+		m := Match{Opponent: opponent, Games: []Game{g}}
+		if g.Winner == d.Player {
+			m.Wins++
+		} else if g.Winner == "" || g.Tie {
+			m.Draws++
+		} else {
+			m.Losses++
+		}
+		d.Matches = append(d.Matches, m)
+	}
+
+	// Sort the matches by opponent.
+	sort.Slice(d.Matches, func(i, j int) bool {
+		return d.Matches[i].Opponent < d.Matches[j].Opponent
 	})
 }
 
@@ -261,10 +431,8 @@ func (d *Deck) GameWins() int {
 	}
 
 	wins := 0
-	for _, g := range d.Games {
-		if g.Winner == d.Player {
-			wins++
-		}
+	for _, m := range d.Matches {
+		wins += m.Wins
 	}
 	return wins
 }
@@ -276,20 +444,16 @@ func (d *Deck) GameLosses() int {
 	}
 
 	losses := 0
-	for _, g := range d.Games {
-		if g.Winner != d.Player && g.Winner != "" && !g.Tie {
-			losses++
-		}
+	for _, m := range d.Matches {
+		losses += m.Losses
 	}
 	return losses
 }
 
 func (d *Deck) GameDraws() int {
 	draws := 0
-	for _, g := range d.Games {
-		if g.Winner == "" || g.Tie {
-			draws++
-		}
+	for _, m := range d.Matches {
+		draws += m.Draws
 	}
 	return draws
 }
@@ -302,6 +466,9 @@ func (d *Deck) MatchWins() int {
 	wins := 0
 	for _, m := range d.Matches {
 		if m.Winner == d.Player {
+			wins++
+		} else if m.Winner == "" && m.Wins > m.Losses {
+			// If winner is empty, infer from game wins.
 			wins++
 		}
 	}
@@ -317,6 +484,9 @@ func (d *Deck) MatchLosses() int {
 	for _, m := range d.Matches {
 		if m.Winner != d.Player && m.Winner != "" {
 			losses++
+		} else if m.Winner == "" && m.Losses > m.Wins {
+			// If winner is empty, infer from game losses.
+			losses++
 		}
 	}
 	return losses
@@ -329,7 +499,7 @@ func (d *Deck) MatchDraws() int {
 
 	draws := 0
 	for _, m := range d.Matches {
-		if m.Winner == "" {
+		if m.Winner == "" && m.Wins == m.Losses {
 			draws++
 		}
 	}

@@ -4,12 +4,38 @@
   "draft_id": "2026-01-18_d2",
   "pool_file": "data/polyverse/2026-01-18_d2/030.txt"
  },
- "labels": ["tempo"],
+ "labels": [
+  "tempo"
+ ],
  "player": "20260118d2-030",
  "date": "2026-01-18",
+ "matches": [
+  {
+   "opponent": "",
+   "round": 1,
+   "wins": 0,
+   "losses": 2,
+   "draws": 0
+  },
+  {
+   "opponent": "",
+   "round": 2,
+   "wins": 0,
+   "losses": 2,
+   "draws": 0
+  },
+  {
+   "opponent": "",
+   "round": 3,
+   "wins": 0,
+   "losses": 2,
+   "draws": 0
+  }
+ ],
  "match_wins_override": 0,
  "match_losses_override": 3,
  "mainboard": [],
+ "sideboard": [],
  "pool": [
   {
    "name": "Scalding Tarn",
@@ -1153,6 +1179,5 @@
    "url": "https://scryfall.com/card/mh2/244/arid-mesa?utm_source=api",
    "oracle_text": "{T}, Pay 1 life, Sacrifice this land: Search your library for a Mountain or Plains card, put it onto the battlefield, then shuffle."
   }
- ],
- "sideboard": []
+ ]
 }

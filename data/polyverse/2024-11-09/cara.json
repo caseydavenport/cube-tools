@@ -10,43 +10,58 @@
  ],
  "player": "cara",
  "date": "2024-11-09",
- "games": [
-  {
-   "opponent": "jen",
-   "winner": "cara"
-  },
-  {
-   "opponent": "jen",
-   "winner": "cara"
-  },
-  {
-   "opponent": "paul",
-   "winner": "cara"
-  },
-  {
-   "opponent": "paul",
-   "winner": "paul"
-  },
-  {
-   "opponent": "xander",
-   "winner": "xander"
-  },
-  {
-   "opponent": "xander",
-   "winner": "xander"
-  }
- ],
  "matches": [
   {
    "opponent": "jen",
+   "round": 2,
+   "wins": 2,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "jen",
+     "winner": "cara"
+    },
+    {
+     "opponent": "jen",
+     "winner": "cara"
+    }
+   ],
    "winner": "cara"
   },
   {
    "opponent": "paul",
-   "winner": ""
+   "round": 3,
+   "wins": 1,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "paul",
+     "winner": "cara"
+    },
+    {
+     "opponent": "paul",
+     "winner": "paul"
+    }
+   ]
   },
   {
    "opponent": "xander",
+   "round": 1,
+   "wins": 0,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "xander",
+     "winner": "xander"
+    },
+    {
+     "opponent": "xander",
+     "winner": "xander"
+    }
+   ],
    "winner": "xander"
   }
  ],
@@ -96,8 +111,7 @@
    "url": "https://scryfall.com/card/eoc/121/mayhem-devil?utm_source=api",
    "oracle_text": "Whenever a player sacrifices a permanent, this creature deals 1 damage to any target.",
    "power": "3",
-   "toughness": "3",
-   "appearances": 1
+   "toughness": "3"
   },
   {
    "name": "Grim Flayer",
@@ -122,8 +136,7 @@
    "url": "https://scryfall.com/card/dsc/218/grim-flayer?utm_source=api",
    "oracle_text": "Trample\nWhenever this creature deals combat damage to a player, surveil 3. (Look at the top three cards of your library, then put any number of them into your graveyard and the rest on top of your library in any order.)\nDelirium — This creature gets +2/+2 as long as there are four or more card types among cards in your graveyard.",
    "power": "2",
-   "toughness": "2",
-   "appearances": 1
+   "toughness": "2"
   },
   {
    "name": "Cankerbloom",
@@ -146,8 +159,7 @@
    "url": "https://scryfall.com/card/one/161/cankerbloom?utm_source=api",
    "oracle_text": "{1}, Sacrifice this creature: Choose one —\n• Destroy target artifact.\n• Destroy target enchantment.\n• Proliferate. (Choose any number of permanents and/or players, then give each another counter of each kind already there.)",
    "power": "3",
-   "toughness": "2",
-   "appearances": 1
+   "toughness": "2"
   },
   {
    "name": "Seal of Fire",
@@ -164,8 +176,7 @@
    ],
    "mana_cost": "{R}",
    "url": "https://scryfall.com/card/jvc/50/seal-of-fire?utm_source=api",
-   "oracle_text": "Sacrifice this enchantment: It deals 2 damage to any target.",
-   "appearances": 1
+   "oracle_text": "Sacrifice this enchantment: It deals 2 damage to any target."
   },
   {
    "name": "Traverse the Ulvenwald",
@@ -182,8 +193,7 @@
    ],
    "mana_cost": "{G}",
    "url": "https://scryfall.com/card/inr/221/traverse-the-ulvenwald?utm_source=api",
-   "oracle_text": "Search your library for a basic land card, reveal it, put it into your hand, then shuffle.\nDelirium — If there are four or more card types among cards in your graveyard, instead search your library for a creature or land card, reveal it, put it into your hand, then shuffle.",
-   "appearances": 1
+   "oracle_text": "Search your library for a basic land card, reveal it, put it into your hand, then shuffle.\nDelirium — If there are four or more card types among cards in your graveyard, instead search your library for a creature or land card, reveal it, put it into your hand, then shuffle."
   },
   {
    "name": "Burst Lightning",
@@ -200,8 +210,7 @@
    ],
    "mana_cost": "{R}",
    "url": "https://scryfall.com/card/fdn/192/burst-lightning?utm_source=api",
-   "oracle_text": "Kicker {4} (You may pay an additional {4} as you cast this spell.)\nBurst Lightning deals 2 damage to any target. If this spell was kicked, it deals 4 damage instead.",
-   "appearances": 1
+   "oracle_text": "Kicker {4} (You may pay an additional {4} as you cast this spell.)\nBurst Lightning deals 2 damage to any target. If this spell was kicked, it deals 4 damage instead."
   },
   {
    "name": "Viscera Seer",
@@ -224,8 +233,7 @@
    "url": "https://scryfall.com/card/tdc/199/viscera-seer?utm_source=api",
    "oracle_text": "Sacrifice a creature: Scry 1. (Look at the top card of your library. You may put that card on the bottom.)",
    "power": "1",
-   "toughness": "1",
-   "appearances": 1
+   "toughness": "1"
   },
   {
    "name": "Dragonsguard Elite",
@@ -248,8 +256,7 @@
    "url": "https://scryfall.com/card/stx/127/dragonsguard-elite?utm_source=api",
    "oracle_text": "Magecraft — Whenever you cast or copy an instant or sorcery spell, put a +1/+1 counter on this creature.\n{4}{G}{G}: Double the number of +1/+1 counters on this creature.",
    "power": "2",
-   "toughness": "2",
-   "appearances": 1
+   "toughness": "2"
   },
   {
    "name": "Life from the Loam",
@@ -266,8 +273,7 @@
    ],
    "mana_cost": "{1}{G}",
    "url": "https://scryfall.com/card/tdc/96/life-from-the-loam?utm_source=api",
-   "oracle_text": "Return up to three target land cards from your graveyard to your hand.\nDredge 3 (If you would draw a card, you may mill three cards instead. If you do, return this card from your graveyard to your hand.)",
-   "appearances": 1
+   "oracle_text": "Return up to three target land cards from your graveyard to your hand.\nDredge 3 (If you would draw a card, you may mill three cards instead. If you do, return this card from your graveyard to your hand.)"
   },
   {
    "name": "Murderous Redcap",
@@ -292,8 +298,7 @@
    "url": "https://scryfall.com/card/uma/217/murderous-redcap?utm_source=api",
    "oracle_text": "When this creature enters, it deals damage equal to its power to any target.\nPersist (When this creature dies, if it had no -1/-1 counters on it, return it to the battlefield under its owner's control with a -1/-1 counter on it.)",
    "power": "2",
-   "toughness": "2",
-   "appearances": 1
+   "toughness": "2"
   },
   {
    "name": "Knight of the Ebon Legion",
@@ -316,8 +321,7 @@
    "url": "https://scryfall.com/card/m20/105/knight-of-the-ebon-legion?utm_source=api",
    "oracle_text": "{2}{B}: This creature gets +3/+3 and gains deathtouch until end of turn.\nAt the beginning of your end step, if a player lost 4 or more life this turn, put a +1/+1 counter on this creature. (Damage causes loss of life.)",
    "power": "1",
-   "toughness": "2",
-   "appearances": 1
+   "toughness": "2"
   },
   {
    "name": "Archfiend of Ifnir",
@@ -339,8 +343,7 @@
    "url": "https://scryfall.com/card/akh/78/archfiend-of-ifnir?utm_source=api",
    "oracle_text": "Flying\nWhenever you cycle or discard another card, put a -1/-1 counter on each creature your opponents control.\nCycling {2} ({2}, Discard this card: Draw a card.)",
    "power": "5",
-   "toughness": "4",
-   "appearances": 1
+   "toughness": "4"
   },
   {
    "name": "Magma Jet",
@@ -357,8 +360,7 @@
    ],
    "mana_cost": "{1}{R}",
    "url": "https://scryfall.com/card/jmp/346/magma-jet?utm_source=api",
-   "oracle_text": "Magma Jet deals 2 damage to any target. Scry 2.",
-   "appearances": 1
+   "oracle_text": "Magma Jet deals 2 damage to any target. Scry 2."
   },
   {
    "name": "Fungal Infection",
@@ -375,8 +377,7 @@
    ],
    "mana_cost": "{B}",
    "url": "https://scryfall.com/card/dom/94/fungal-infection?utm_source=api",
-   "oracle_text": "Target creature gets -1/-1 until end of turn. Create a 1/1 green Saproling creature token.",
-   "appearances": 1
+   "oracle_text": "Target creature gets -1/-1 until end of turn. Create a 1/1 green Saproling creature token."
   },
   {
    "name": "Bloodchief's Thirst",
@@ -393,8 +394,7 @@
    ],
    "mana_cost": "{B}",
    "url": "https://scryfall.com/card/znr/94/bloodchiefs-thirst?utm_source=api",
-   "oracle_text": "Kicker {2}{B} (You may pay an additional {2}{B} as you cast this spell.)\nDestroy target creature or planeswalker with mana value 2 or less. If this spell was kicked, instead destroy target creature or planeswalker.",
-   "appearances": 1
+   "oracle_text": "Kicker {2}{B} (You may pay an additional {2}{B} as you cast this spell.)\nDestroy target creature or planeswalker with mana value 2 or less. If this spell was kicked, instead destroy target creature or planeswalker."
   },
   {
    "name": "Woe Strider",
@@ -416,8 +416,7 @@
    "url": "https://scryfall.com/card/tdc/201/woe-strider?utm_source=api",
    "oracle_text": "When this creature enters, create a 0/1 white Goat creature token.\nSacrifice another creature: Scry 1.\nEscape—{3}{B}{B}, Exile four other cards from your graveyard. (You may cast this card from your graveyard for its escape cost.)\nThis creature escapes with two +1/+1 counters on it.",
    "power": "3",
-   "toughness": "2",
-   "appearances": 1
+   "toughness": "2"
   },
   {
    "name": "Inexorable Blob",
@@ -439,8 +438,7 @@
    "url": "https://scryfall.com/card/soi/212/inexorable-blob?utm_source=api",
    "oracle_text": "Delirium — Whenever this creature attacks, if there are four or more card types among cards in your graveyard, create a 3/3 green Ooze creature token that's tapped and attacking.",
    "power": "3",
-   "toughness": "3",
-   "appearances": 1
+   "toughness": "3"
   },
   {
    "name": "Ravenous Squirrel",
@@ -484,8 +482,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/eoc/178/sheltered-thicket?utm_source=api",
-   "oracle_text": "({T}: Add {R} or {G}.)\nThis land enters tapped.\nCycling {2} ({2}, Discard this card: Draw a card.)",
-   "appearances": 1
+   "oracle_text": "({T}: Add {R} or {G}.)\nThis land enters tapped.\nCycling {2} ({2}, Discard this card: Draw a card.)"
   },
   {
    "name": "Underground Mortuary",
@@ -505,8 +502,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/mkm/271/underground-mortuary?utm_source=api",
-   "oracle_text": "({T}: Add {B} or {G}.)\nThis land enters tapped.\nWhen this land enters, surveil 1. (Look at the top card of your library. You may put it into your graveyard.)",
-   "appearances": 1
+   "oracle_text": "({T}: Add {B} or {G}.)\nThis land enters tapped.\nWhen this land enters, surveil 1. (Look at the top card of your library. You may put it into your graveyard.)"
   },
   {
    "name": "Ulcerate",
@@ -523,8 +519,7 @@
    ],
    "mana_cost": "{B}",
    "url": "https://scryfall.com/card/ima/112/ulcerate?utm_source=api",
-   "oracle_text": "Target creature gets -3/-3 until end of turn. You lose 3 life.",
-   "appearances": 1
+   "oracle_text": "Target creature gets -3/-3 until end of turn. You lose 3 life."
   },
   {
    "name": "The Huntsman's Redemption",
@@ -567,8 +562,7 @@
    "url": "https://scryfall.com/card/moc/287/krenko-tin-street-kingpin?utm_source=api",
    "oracle_text": "Whenever Krenko attacks, put a +1/+1 counter on it, then create a number of 1/1 red Goblin creature tokens equal to Krenko's power.",
    "power": "1",
-   "toughness": "2",
-   "appearances": 1
+   "toughness": "2"
   },
   {
    "name": "Commercial District",
@@ -588,8 +582,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/mkm/259/commercial-district?utm_source=api",
-   "oracle_text": "({T}: Add {R} or {G}.)\nThis land enters tapped.\nWhen this land enters, surveil 1. (Look at the top card of your library. You may put it into your graveyard.)",
-   "appearances": 1
+   "oracle_text": "({T}: Add {R} or {G}.)\nThis land enters tapped.\nWhen this land enters, surveil 1. (Look at the top card of your library. You may put it into your graveyard.)"
   },
   {
    "name": "Questing Druid // Seek the Beast",
@@ -615,8 +608,7 @@
    "url": "https://scryfall.com/card/woe/234/questing-druid-seek-the-beast?utm_source=api",
    "oracle_text": "",
    "power": "1",
-   "toughness": "1",
-   "appearances": 1
+   "toughness": "1"
   },
   {
    "name": "Ignoble Hierarch",
@@ -641,8 +633,7 @@
    "url": "https://scryfall.com/card/mh2/166/ignoble-hierarch?utm_source=api",
    "oracle_text": "Exalted (Whenever a creature you control attacks alone, that creature gets +1/+1 until end of turn.)\n{T}: Add {B}, {R}, or {G}.",
    "power": "0",
-   "toughness": "1",
-   "appearances": 1
+   "toughness": "1"
   },
   {
    "name": "Prismatic Vista",
@@ -655,8 +646,7 @@
    "color_identity": [],
    "mana_cost": "",
    "url": "https://scryfall.com/card/mh1/244/prismatic-vista?utm_source=api",
-   "oracle_text": "{T}, Pay 1 life, Sacrifice this land: Search your library for a basic land card, put it onto the battlefield, then shuffle.",
-   "appearances": 1
+   "oracle_text": "{T}, Pay 1 life, Sacrifice this land: Search your library for a basic land card, put it onto the battlefield, then shuffle."
   },
   {
    "name": "Nurturing Peatland",
@@ -672,8 +662,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/mh1/243/nurturing-peatland?utm_source=api",
-   "oracle_text": "{T}, Pay 1 life: Add {B} or {G}.\n{1}, {T}, Sacrifice this land: Draw a card.",
-   "appearances": 1
+   "oracle_text": "{T}, Pay 1 life: Add {B} or {G}.\n{1}, {T}, Sacrifice this land: Draw a card."
   },
   {
    "name": "Stomping Ground",
@@ -693,8 +682,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/eoe/258/stomping-ground?utm_source=api",
-   "oracle_text": "({T}: Add {R} or {G}.)\nAs this land enters, you may pay 2 life. If you don't, it enters tapped.",
-   "appearances": 1
+   "oracle_text": "({T}: Add {R} or {G}.)\nAs this land enters, you may pay 2 life. If you don't, it enters tapped."
   },
   {
    "name": "Swamp",
@@ -713,8 +701,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/tla/284/swamp?utm_source=api",
-   "oracle_text": "({T}: Add {B}.)",
-   "appearances": 1
+   "oracle_text": "({T}: Add {B}.)"
   },
   {
    "name": "Swamp",
@@ -733,8 +720,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/tla/284/swamp?utm_source=api",
-   "oracle_text": "({T}: Add {B}.)",
-   "appearances": 1
+   "oracle_text": "({T}: Add {B}.)"
   },
   {
    "name": "Swamp",
@@ -753,8 +739,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/tla/284/swamp?utm_source=api",
-   "oracle_text": "({T}: Add {B}.)",
-   "appearances": 1
+   "oracle_text": "({T}: Add {B}.)"
   },
   {
    "name": "Mountain",
@@ -773,8 +758,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/tla/285/mountain?utm_source=api",
-   "oracle_text": "({T}: Add {R}.)",
-   "appearances": 1
+   "oracle_text": "({T}: Add {R}.)"
   },
   {
    "name": "Mountain",
@@ -793,8 +777,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/tla/285/mountain?utm_source=api",
-   "oracle_text": "({T}: Add {R}.)",
-   "appearances": 1
+   "oracle_text": "({T}: Add {R}.)"
   },
   {
    "name": "Mountain",
@@ -813,8 +796,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/tla/285/mountain?utm_source=api",
-   "oracle_text": "({T}: Add {R}.)",
-   "appearances": 1
+   "oracle_text": "({T}: Add {R}.)"
   },
   {
    "name": "Forest",
@@ -833,8 +815,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/tla/286/forest?utm_source=api",
-   "oracle_text": "({T}: Add {G}.)",
-   "appearances": 1
+   "oracle_text": "({T}: Add {G}.)"
   },
   {
    "name": "Forest",
@@ -853,8 +834,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/tla/286/forest?utm_source=api",
-   "oracle_text": "({T}: Add {G}.)",
-   "appearances": 1
+   "oracle_text": "({T}: Add {G}.)"
   },
   {
    "name": "Forest",
@@ -873,8 +853,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/tla/286/forest?utm_source=api",
-   "oracle_text": "({T}: Add {G}.)",
-   "appearances": 1
+   "oracle_text": "({T}: Add {G}.)"
   },
   {
    "name": "Forest",
@@ -893,8 +872,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/tla/286/forest?utm_source=api",
-   "oracle_text": "({T}: Add {G}.)",
-   "appearances": 1
+   "oracle_text": "({T}: Add {G}.)"
   }
  ],
  "sideboard": [

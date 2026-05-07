@@ -11,35 +11,45 @@
  ],
  "player": "joe2",
  "date": "2025-06-29",
- "games": [
-  {
-   "opponent": "casey",
-   "winner": "joe2"
-  },
-  {
-   "opponent": "casey",
-   "winner": "joe2"
-  },
-  {
-   "opponent": "zephyr",
-   "winner": "joe2"
-  },
-  {
-   "opponent": "zephyr",
-   "winner": "zephyr"
-  },
-  {
-   "opponent": "zephyr",
-   "winner": "zephyr"
-  }
- ],
  "matches": [
   {
    "opponent": "casey",
+   "round": 3,
+   "wins": 2,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "casey",
+     "winner": "joe2"
+    },
+    {
+     "opponent": "casey",
+     "winner": "joe2"
+    }
+   ],
    "winner": "joe2"
   },
   {
    "opponent": "zephyr",
+   "round": 2,
+   "wins": 1,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "zephyr",
+     "winner": "joe2"
+    },
+    {
+     "opponent": "zephyr",
+     "winner": "zephyr"
+    },
+    {
+     "opponent": "zephyr",
+     "winner": "zephyr"
+    }
+   ],
    "winner": "zephyr"
   }
  ],

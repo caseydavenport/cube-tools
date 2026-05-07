@@ -5,51 +5,68 @@
   "combined_file": "data/polyverse/2025-10-04_ccc2/player-3f67-37bf.txt"
  },
  "labels": [
-  "tempo", "flicker"
+  "tempo",
+  "flicker"
  ],
  "player": "player-3f67-37bf",
  "date": "2025-10-04",
- "games": [
-  {
-   "opponent": "player-3f67-2651",
-   "winner": "player-3f67-2651"
-  },
-  {
-   "opponent": "player-3f67-2651",
-   "winner": "player-3f67-2651"
-  },
-  {
-   "opponent": "player-3f67-39fd",
-   "winner": "player-3f67-37bf"
-  },
-  {
-   "opponent": "player-3f67-39fd",
-   "winner": "player-3f67-39fd"
-  },
-  {
-   "opponent": "player-3f67-39fd",
-   "winner": "player-3f67-39fd"
-  },
-  {
-   "opponent": "player-3f67-bb44",
-   "winner": "player-3f67-37bf"
-  },
-  {
-   "opponent": "player-3f67-bb44",
-   "winner": "player-3f67-37bf"
-  }
- ],
  "matches": [
   {
    "opponent": "player-3f67-2651",
+   "round": 2,
+   "wins": 0,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "player-3f67-2651",
+     "winner": "player-3f67-2651"
+    },
+    {
+     "opponent": "player-3f67-2651",
+     "winner": "player-3f67-2651"
+    }
+   ],
    "winner": "player-3f67-2651"
   },
   {
    "opponent": "player-3f67-39fd",
+   "round": 3,
+   "wins": 1,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "player-3f67-39fd",
+     "winner": "player-3f67-37bf"
+    },
+    {
+     "opponent": "player-3f67-39fd",
+     "winner": "player-3f67-39fd"
+    },
+    {
+     "opponent": "player-3f67-39fd",
+     "winner": "player-3f67-39fd"
+    }
+   ],
    "winner": "player-3f67-39fd"
   },
   {
    "opponent": "player-3f67-bb44",
+   "round": 1,
+   "wins": 2,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "player-3f67-bb44",
+     "winner": "player-3f67-37bf"
+    },
+    {
+     "opponent": "player-3f67-bb44",
+     "winner": "player-3f67-37bf"
+    }
+   ],
    "winner": "player-3f67-37bf"
   }
  ],

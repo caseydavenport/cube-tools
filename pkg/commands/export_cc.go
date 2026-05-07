@@ -8,6 +8,7 @@ import (
 	"net/url"
 	"os"
 	"path/filepath"
+	"sort"
 	"strings"
 	"time"
 
@@ -94,6 +95,7 @@ func exportToCC() {
 			logrus.WithError(err).Warnf("Failed to load deck %s", f)
 			continue
 		}
+		d.Migrate()
 		decks = append(decks, d)
 	}
 
@@ -121,12 +123,18 @@ func exportToCC() {
 
 	recordID := findExistingRecord(client, cubeUUID, draftID)
 
-	recordName := decks[0].Metadata.EventName
+	draftMeta, err := types.LoadDraftMetadata(ccDraftDir)
+	if err != nil {
+		logrus.WithError(err).Warnf("Failed to load draft metadata from %s", ccDraftDir)
+		draftMeta = &types.DraftMetadata{}
+	}
+
+	recordName := draftMeta.EventName
 	if recordName == "" {
 		recordName = filepath.Base(ccDraftDir)
 	}
 
-	recordDescription := decks[0].Metadata.EventDescription
+	recordDescription := draftMeta.EventDescription
 	if recordDescription == "" {
 		// Try to read a REPORT file in the draft directory.
 		reportPath := filepath.Join(ccDraftDir, "REPORT")
@@ -156,9 +164,10 @@ func exportToCC() {
 
 	type matchKey struct {
 		p1, p2 string
+		round  int
 	}
 	processedMatches := make(map[matchKey]bool)
-	round1 := CCRound{Matches: make([]CCMatch, 0)}
+	rounds := make(map[int]*CCRound)
 
 	playerWins := make(map[string]int)
 
@@ -166,10 +175,11 @@ func exportToCC() {
 		for _, m := range d.Matches {
 			p1 := d.Player
 			p2 := m.Opponent
+			round := m.Round
 
-			key := matchKey{p1, p2}
+			key := matchKey{p1, p2, round}
 			if p1 > p2 {
-				key = matchKey{p2, p1}
+				key = matchKey{p2, p1, round}
 			}
 
 			if processedMatches[key] {
@@ -177,34 +187,9 @@ func exportToCC() {
 			}
 			processedMatches[key] = true
 
-			wins := 0
-			losses := 0
-			draws := 0
-
-			for _, g := range d.Games {
-				if g.Opponent == p2 {
-					if g.Winner == p1 {
-						wins++
-					} else if g.Winner == p2 {
-						losses++
-					} else {
-						draws++
-					}
-				}
-			}
-
-			if wins == 0 && losses == 0 && draws == 0 {
-				if m.Winner == p1 {
-					wins = 2
-					losses = 0
-				} else if m.Winner == p2 {
-					wins = 0
-					losses = 2
-				} else {
-					wins = 1
-					losses = 1
-				}
-			}
+			wins := m.Wins
+			losses := m.Losses
+			draws := m.Draws
 
 			if wins > losses {
 				playerWins[p1]++
@@ -214,14 +199,32 @@ func exportToCC() {
 
 			// CubeCobra keys match results by player name (see analytics.ts: byPlayer is
 			// keyed by player.name, then looked up via byPlayer[match.p1]).
-			round1.Matches = append(round1.Matches, CCMatch{
+			if rounds[round] == nil {
+				rounds[round] = &CCRound{Matches: make([]CCMatch, 0)}
+			}
+			rounds[round].Matches = append(rounds[round].Matches, CCMatch{
 				P1:      p1,
 				P2:      p2,
 				Results: []int{wins, losses, draws},
 			})
 		}
 	}
-	record.Matches = append(record.Matches, round1)
+
+	// Sort rounds and add to record.
+	roundNums := make([]int, 0, len(rounds))
+	for r := range rounds {
+		roundNums = append(roundNums, r)
+	}
+	sort.Ints(roundNums)
+
+	// Round 0 (unknown) should be last.
+	if len(roundNums) > 0 && roundNums[0] == 0 {
+		roundNums = append(roundNums[1:], 0)
+	}
+
+	for _, r := range roundNums {
+		record.Matches = append(record.Matches, *rounds[r])
+	}
 
 	topWinner := ""
 	maxWins := -1
@@ -299,19 +302,19 @@ func exportToCC() {
 			}
 		}
 
-		// Update Matches (Round 1)
-		if len(record.Matches) > 0 {
-			logrus.Infof("Updating match results for %s...", recordID)
-			roundJSON, _ := json.Marshal(record.Matches[0])
+		// Update Matches
+		for i, round := range record.Matches {
+			logrus.Infof("Updating match results for round %d of %s...", i+1, recordID)
+			roundJSON, _ := json.Marshal(round)
 			formRound := url.Values{}
 			formRound.Add("round", string(roundJSON))
-			formRound.Add("roundIndex", "0")
+			formRound.Add("roundIndex", fmt.Sprintf("%d", i))
 			reqRound, _ := http.NewRequest("POST", fmt.Sprintf("%s/cube/records/edit/round/edit/%s", ccBaseURL, recordID), strings.NewReader(formRound.Encode()))
 			reqRound.Header.Add("Content-Type", "application/x-www-form-urlencoded")
 			reqRound.Header.Add("Cookie", ccCookie)
 			if resp, err := client.Do(reqRound); err == nil {
 				resp.Body.Close()
-				logrus.Infof("Updated matches for %s", recordID)
+				logrus.Infof("Updated matches for round %d", i+1)
 			}
 		}
 	}

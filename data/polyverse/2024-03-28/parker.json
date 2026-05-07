@@ -10,47 +10,63 @@
  ],
  "player": "parker",
  "date": "2024-03-28",
- "games": [
-  {
-   "opponent": "alexs",
-   "winner": "parker"
-  },
-  {
-   "opponent": "alexs",
-   "winner": "parker"
-  },
-  {
-   "opponent": "casey",
-   "winner": "parker"
-  },
-  {
-   "opponent": "casey",
-   "winner": "casey"
-  },
-  {
-   "opponent": "casey",
-   "winner": "casey"
-  },
-  {
-   "opponent": "jan",
-   "winner": "parker"
-  },
-  {
-   "opponent": "jan",
-   "winner": "parker"
-  }
- ],
  "matches": [
   {
    "opponent": "alexs",
+   "round": 4,
+   "wins": 2,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "alexs",
+     "winner": "parker"
+    },
+    {
+     "opponent": "alexs",
+     "winner": "parker"
+    }
+   ],
    "winner": "parker"
   },
   {
    "opponent": "casey",
+   "round": 3,
+   "wins": 1,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "casey",
+     "winner": "parker"
+    },
+    {
+     "opponent": "casey",
+     "winner": "casey"
+    },
+    {
+     "opponent": "casey",
+     "winner": "casey"
+    }
+   ],
    "winner": "casey"
   },
   {
    "opponent": "jan",
+   "round": 1,
+   "wins": 2,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "jan",
+     "winner": "parker"
+    },
+    {
+     "opponent": "jan",
+     "winner": "parker"
+    }
+   ],
    "winner": "parker"
   }
  ],

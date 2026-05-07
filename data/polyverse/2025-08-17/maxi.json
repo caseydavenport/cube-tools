@@ -10,47 +10,63 @@
  ],
  "player": "maxi",
  "date": "2025-08-17",
- "games": [
-  {
-   "opponent": "ben",
-   "winner": "ben"
-  },
-  {
-   "opponent": "ben",
-   "winner": "ben"
-  },
-  {
-   "opponent": "casey",
-   "winner": "maxi"
-  },
-  {
-   "opponent": "casey",
-   "winner": "maxi"
-  },
-  {
-   "opponent": "wilson",
-   "winner": "maxi"
-  },
-  {
-   "opponent": "wilson",
-   "winner": "maxi"
-  },
-  {
-   "opponent": "wilson",
-   "winner": "wilson"
-  }
- ],
  "matches": [
   {
    "opponent": "ben",
+   "round": 2,
+   "wins": 0,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "ben",
+     "winner": "ben"
+    },
+    {
+     "opponent": "ben",
+     "winner": "ben"
+    }
+   ],
    "winner": "ben"
   },
   {
    "opponent": "casey",
+   "round": 1,
+   "wins": 2,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "casey",
+     "winner": "maxi"
+    },
+    {
+     "opponent": "casey",
+     "winner": "maxi"
+    }
+   ],
    "winner": "maxi"
   },
   {
    "opponent": "wilson",
+   "round": 4,
+   "wins": 2,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "wilson",
+     "winner": "maxi"
+    },
+    {
+     "opponent": "wilson",
+     "winner": "maxi"
+    },
+    {
+     "opponent": "wilson",
+     "winner": "wilson"
+    }
+   ],
    "winner": "maxi"
   }
  ],

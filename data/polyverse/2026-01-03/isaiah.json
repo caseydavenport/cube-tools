@@ -5,34 +5,46 @@
   "mainboard_file": "data/polyverse/2026-01-03/isaiah-mainboard.txt",
   "sideboard_file": "data/polyverse/2026-01-03/isaiah-sideboard.txt"
  },
- "labels": ["control", "domain"],
+ "labels": [
+  "control",
+  "domain"
+ ],
  "player": "isaiah",
  "date": "2026-01-03",
- "games": [
-  {
-   "opponent": "casey",
-   "winner": "isaiah"
-  },
-  {
-   "opponent": "casey",
-   "winner": "casey"
-  },
-  {
-   "opponent": "kaiyo",
-   "winner": "kaiyo"
-  },
-  {
-   "opponent": "kaiyo",
-   "winner": "kaiyo"
-  }
- ],
  "matches": [
   {
    "opponent": "casey",
-   "winner": ""
+   "round": 2,
+   "wins": 1,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "casey",
+     "winner": "isaiah"
+    },
+    {
+     "opponent": "casey",
+     "winner": "casey"
+    }
+   ]
   },
   {
    "opponent": "kaiyo",
+   "round": 1,
+   "wins": 0,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "kaiyo",
+     "winner": "kaiyo"
+    },
+    {
+     "opponent": "kaiyo",
+     "winner": "kaiyo"
+    }
+   ],
    "winner": "kaiyo"
   }
  ],

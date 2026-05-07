@@ -10,59 +10,85 @@
  ],
  "player": "casey",
  "date": "2024-05-14",
- "games": [
+ "matches": [
   {
    "opponent": "cara",
+   "round": 4,
+   "wins": 2,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "cara",
+     "winner": "casey"
+    },
+    {
+     "opponent": "cara",
+     "winner": "casey"
+    },
+    {
+     "opponent": "cara",
+     "winner": "cara"
+    }
+   ],
    "winner": "casey"
-  },
-  {
-   "opponent": "cara",
-   "winner": "casey"
-  },
-  {
-   "opponent": "cara",
-   "winner": "cara"
   },
   {
    "opponent": "greg",
+   "round": 1,
+   "wins": 0,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "greg",
+     "winner": "greg"
+    }
+   ],
    "winner": "greg"
   },
   {
    "opponent": "paul",
-   "winner": "casey"
-  },
-  {
-   "opponent": "paul",
-   "winner": "paul"
-  },
-  {
-   "opponent": "paul",
-   "winner": "paul"
-  },
-  {
-   "opponent": "xander",
-   "winner": "casey"
-  },
-  {
-   "opponent": "xander",
-   "winner": "casey"
-  },
-  {
-   "opponent": "xander",
-   "winner": "xander"
-  }
- ],
- "matches": [
-  {
-   "opponent": "cara",
-   "winner": "casey"
-  },
-  {
-   "opponent": "paul",
+   "round": 3,
+   "wins": 1,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "paul",
+     "winner": "casey"
+    },
+    {
+     "opponent": "paul",
+     "winner": "paul"
+    },
+    {
+     "opponent": "paul",
+     "winner": "paul"
+    }
+   ],
    "winner": "paul"
   },
   {
    "opponent": "xander",
+   "round": 2,
+   "wins": 2,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "xander",
+     "winner": "casey"
+    },
+    {
+     "opponent": "xander",
+     "winner": "casey"
+    },
+    {
+     "opponent": "xander",
+     "winner": "xander"
+    }
+   ],
    "winner": "casey"
   }
  ],

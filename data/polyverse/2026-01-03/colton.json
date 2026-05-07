@@ -5,26 +5,33 @@
   "mainboard_file": "data/polyverse/2026-01-03/colton-mainboard.txt",
   "sideboard_file": "data/polyverse/2026-01-03/colton-sideboard.txt"
  },
- "labels": ["control", "draw-go"],
+ "labels": [
+  "control",
+  "draw-go"
+ ],
  "player": "colton",
  "date": "2026-01-03",
- "games": [
-  {
-   "opponent": "wanqi",
-   "winner": "colton"
-  },
-  {
-   "opponent": "wanqi",
-   "winner": "colton"
-  },
-  {
-   "opponent": "wanqi",
-   "winner": "wanqi"
-  }
- ],
  "matches": [
   {
    "opponent": "wanqi",
+   "round": 1,
+   "wins": 2,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "wanqi",
+     "winner": "colton"
+    },
+    {
+     "opponent": "wanqi",
+     "winner": "colton"
+    },
+    {
+     "opponent": "wanqi",
+     "winner": "wanqi"
+    }
+   ],
    "winner": "colton"
   }
  ],

@@ -35,6 +35,10 @@ var (
 
 	// draftLog is the path to the draft log file.
 	draftLog string
+
+	// Per-draft metadata. If set, written to <draftDir>/metadata.json.
+	eventName        string
+	eventDescription string
 )
 
 // Define a cobra command for parsing a single deck file.
@@ -79,6 +83,8 @@ func init() {
 	flag.StringVarP(flags, &labels, "labels", "l", "LABELS", "", "Labels describing the deck. e.g., aggro,sacrifice")
 	flag.StringVarP(flags, &date, "date", "t", "DATE", "", "Date, in YYYY-MM-DD format")
 	flag.StringVarP(flags, &draftID, "draft", "", "DRAFT", "", "Draft ID - used as the output directory")
+	flag.StringVarP(flags, &eventName, "event-name", "", "EVENT_NAME", "", "Human-readable event name (written to metadata.json)")
+	flag.StringVarP(flags, &eventDescription, "event-description", "", "EVENT_DESCRIPTION", "", "Event description (written to metadata.json)")
 }
 
 // parseDeck parses a single deck file and writes the output to the given directory.
@@ -207,6 +213,24 @@ func writeDeck(d *types.Deck, draftID string) error {
 	err := os.MkdirAll(outdir, os.ModePerm)
 	if err != nil {
 		return fmt.Errorf("Failed to create output directory: %w", err)
+	}
+
+	// Upsert per-draft metadata.json. Existing values are preserved unless the
+	// caller passed --event-name / --event-description to override them.
+	if eventName != "" || eventDescription != "" {
+		meta, err := types.LoadDraftMetadata(outdir)
+		if err != nil {
+			return fmt.Errorf("Failed to load draft metadata: %w", err)
+		}
+		if eventName != "" {
+			meta.EventName = eventName
+		}
+		if eventDescription != "" {
+			meta.EventDescription = eventDescription
+		}
+		if err := meta.Save(outdir); err != nil {
+			return fmt.Errorf("Failed to write draft metadata: %w", err)
+		}
 	}
 
 	if len(d.Player) == 0 {

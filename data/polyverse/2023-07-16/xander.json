@@ -11,21 +11,50 @@
  ],
  "player": "xander",
  "date": "2023-07-16",
- "games": [
+ "matches": [
   {
    "opponent": "casey",
-   "winner": "xander"
-  },
-  {
-   "opponent": "jen",
+   "round": 5,
+   "wins": 1,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "casey",
+     "winner": "xander"
+    }
+   ],
    "winner": "xander"
   },
   {
    "opponent": "james",
+   "round": 4,
+   "wins": 0,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "james",
+     "winner": "james"
+    }
+   ],
    "winner": "james"
+  },
+  {
+   "opponent": "jen",
+   "round": 3,
+   "wins": 1,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "jen",
+     "winner": "xander"
+    }
+   ],
+   "winner": "xander"
   }
  ],
- "matches": null,
  "wins": 2,
  "losses": 1,
  "mainboard": [

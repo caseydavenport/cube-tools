@@ -9,43 +9,59 @@
  ],
  "player": "alexs",
  "date": "2024-03-28",
- "games": [
-  {
-   "opponent": "ken",
-   "winner": "ken"
-  },
-  {
-   "opponent": "ken",
-   "winner": "ken"
-  },
-  {
-   "opponent": "matthewbk",
-   "winner": "matthewbk"
-  },
-  {
-   "opponent": "matthewbk",
-   "winner": "matthewbk"
-  },
-  {
-   "opponent": "parker",
-   "winner": "parker"
-  },
-  {
-   "opponent": "parker",
-   "winner": "parker"
-  }
- ],
  "matches": [
   {
    "opponent": "ken",
+   "round": 2,
+   "wins": 0,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "ken",
+     "winner": "ken"
+    },
+    {
+     "opponent": "ken",
+     "winner": "ken"
+    }
+   ],
    "winner": "ken"
   },
   {
    "opponent": "matthewbk",
+   "round": 1,
+   "wins": 0,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "matthewbk",
+     "winner": "matthewbk"
+    },
+    {
+     "opponent": "matthewbk",
+     "winner": "matthewbk"
+    }
+   ],
    "winner": "matthewbk"
   },
   {
    "opponent": "parker",
+   "round": 4,
+   "wins": 0,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "parker",
+     "winner": "parker"
+    },
+    {
+     "opponent": "parker",
+     "winner": "parker"
+    }
+   ],
    "winner": "parker"
   }
  ],

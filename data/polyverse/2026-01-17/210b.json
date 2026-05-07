@@ -4,9 +4,37 @@
   "draft_id": "2026-01-17",
   "combined_file": "data/polyverse/2026-01-17/210b.txt"
  },
- "labels": ["midrange", "sacrifice"],
+ "labels": [
+  "midrange",
+  "sacrifice"
+ ],
  "player": "20260117-210b",
  "date": "2026-01-17",
+ "matches": [
+  {
+   "opponent": "",
+   "round": 1,
+   "wins": 2,
+   "losses": 0,
+   "draws": 0,
+   "winner": "20260117-210b"
+  },
+  {
+   "opponent": "",
+   "round": 2,
+   "wins": 2,
+   "losses": 0,
+   "draws": 0,
+   "winner": "20260117-210b"
+  },
+  {
+   "opponent": "",
+   "round": 3,
+   "wins": 0,
+   "losses": 2,
+   "draws": 0
+  }
+ ],
  "match_wins_override": 2,
  "match_losses_override": 1,
  "mainboard": [

@@ -11,21 +11,50 @@
  ],
  "player": "casey",
  "date": "2023-10-21",
- "games": [
+ "matches": [
   {
-   "opponent": "xander",
-   "winner": "xander"
+   "opponent": "dom",
+   "round": 1,
+   "wins": 0,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "dom",
+     "winner": "dom"
+    }
+   ],
+   "winner": "dom"
   },
   {
    "opponent": "james",
+   "round": 3,
+   "wins": 0,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "james",
+     "winner": "james"
+    }
+   ],
    "winner": "james"
   },
   {
-   "opponent": "dom",
-   "winner": "dom"
+   "opponent": "xander",
+   "round": 2,
+   "wins": 0,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "xander",
+     "winner": "xander"
+    }
+   ],
+   "winner": "xander"
   }
  ],
- "matches": null,
  "mainboard": [
   {
    "name": "Mosswood Dreadknight // Dread Whispers",
@@ -51,8 +80,7 @@
    "url": "https://scryfall.com/card/woe/231/mosswood-dreadknight-dread-whispers?utm_source=api",
    "oracle_text": "",
    "power": "3",
-   "toughness": "2",
-   "appearances": 1
+   "toughness": "2"
   },
   {
    "name": "Orcish Lumberjack",
@@ -75,8 +103,7 @@
    "url": "https://scryfall.com/card/vma/179/orcish-lumberjack?utm_source=api",
    "oracle_text": "{T}, Sacrifice a Forest: Add three mana in any combination of {R} and/or {G}.",
    "power": "1",
-   "toughness": "1",
-   "appearances": 1
+   "toughness": "1"
   },
   {
    "name": "Abundant Harvest",
@@ -93,8 +120,7 @@
    ],
    "mana_cost": "{G}",
    "url": "https://scryfall.com/card/cmm/269/abundant-harvest?utm_source=api",
-   "oracle_text": "Choose land or nonland. Reveal cards from the top of your library until you reveal a card of the chosen kind. Put that card into your hand and the rest on the bottom of your library in a random order.",
-   "appearances": 1
+   "oracle_text": "Choose land or nonland. Reveal cards from the top of your library until you reveal a card of the chosen kind. Put that card into your hand and the rest on the bottom of your library in a random order."
   },
   {
    "name": "Life from the Loam",
@@ -111,8 +137,7 @@
    ],
    "mana_cost": "{1}{G}",
    "url": "https://scryfall.com/card/tdc/96/life-from-the-loam?utm_source=api",
-   "oracle_text": "Return up to three target land cards from your graveyard to your hand.\nDredge 3 (If you would draw a card, you may mill three cards instead. If you do, return this card from your graveyard to your hand.)",
-   "appearances": 1
+   "oracle_text": "Return up to three target land cards from your graveyard to your hand.\nDredge 3 (If you would draw a card, you may mill three cards instead. If you do, return this card from your graveyard to your hand.)"
   },
   {
    "name": "Multani, Yavimaya's Avatar",
@@ -136,8 +161,7 @@
    "url": "https://scryfall.com/card/eoc/100/multani-yavimayas-avatar?utm_source=api",
    "oracle_text": "Reach, trample\nMultani gets +1/+1 for each land you control and each land card in your graveyard.\n{1}{G}, Return two lands you control to their owner's hand: Return this card from your graveyard to your hand.",
    "power": "0",
-   "toughness": "0",
-   "appearances": 1
+   "toughness": "0"
   },
   {
    "name": "Scalding Tarn",
@@ -150,8 +174,7 @@
    "color_identity": [],
    "mana_cost": "",
    "url": "https://scryfall.com/card/mh2/254/scalding-tarn?utm_source=api",
-   "oracle_text": "{T}, Pay 1 life, Sacrifice this land: Search your library for an Island or Mountain card, put it onto the battlefield, then shuffle.",
-   "appearances": 1
+   "oracle_text": "{T}, Pay 1 life, Sacrifice this land: Search your library for an Island or Mountain card, put it onto the battlefield, then shuffle."
   },
   {
    "name": "Harrow",
@@ -168,8 +191,7 @@
    ],
    "mana_cost": "{2}{G}",
    "url": "https://scryfall.com/card/eoc/98/harrow?utm_source=api",
-   "oracle_text": "As an additional cost to cast this spell, sacrifice a land.\nSearch your library for up to two basic land cards, put them onto the battlefield, then shuffle.",
-   "appearances": 1
+   "oracle_text": "As an additional cost to cast this spell, sacrifice a land.\nSearch your library for up to two basic land cards, put them onto the battlefield, then shuffle."
   },
   {
    "name": "Magma Jet",
@@ -186,8 +208,7 @@
    ],
    "mana_cost": "{1}{R}",
    "url": "https://scryfall.com/card/jmp/346/magma-jet?utm_source=api",
-   "oracle_text": "Magma Jet deals 2 damage to any target. Scry 2.",
-   "appearances": 1
+   "oracle_text": "Magma Jet deals 2 damage to any target. Scry 2."
   },
   {
    "name": "Flame Jab",
@@ -204,8 +225,7 @@
    ],
    "mana_cost": "{R}",
    "url": "https://scryfall.com/card/ema/131/flame-jab?utm_source=api",
-   "oracle_text": "Flame Jab deals 1 damage to any target.\nRetrace (You may cast this card from your graveyard by discarding a land card in addition to paying its other costs.)",
-   "appearances": 1
+   "oracle_text": "Flame Jab deals 1 damage to any target.\nRetrace (You may cast this card from your graveyard by discarding a land card in addition to paying its other costs.)"
   },
   {
    "name": "Verdant Catacombs",
@@ -218,8 +238,7 @@
    "color_identity": [],
    "mana_cost": "",
    "url": "https://scryfall.com/card/mh2/260/verdant-catacombs?utm_source=api",
-   "oracle_text": "{T}, Pay 1 life, Sacrifice this land: Search your library for a Swamp or Forest card, put it onto the battlefield, then shuffle.",
-   "appearances": 1
+   "oracle_text": "{T}, Pay 1 life, Sacrifice this land: Search your library for a Swamp or Forest card, put it onto the battlefield, then shuffle."
   },
   {
    "name": "Soul-Scar Mage",
@@ -242,8 +261,7 @@
    "url": "https://scryfall.com/card/akh/148/soul-scar-mage?utm_source=api",
    "oracle_text": "Prowess\nIf a source you control would deal noncombat damage to a creature an opponent controls, put that many -1/-1 counters on that creature instead.",
    "power": "1",
-   "toughness": "2",
-   "appearances": 1
+   "toughness": "2"
   },
   {
    "name": "Burst Lightning",
@@ -260,8 +278,7 @@
    ],
    "mana_cost": "{R}",
    "url": "https://scryfall.com/card/fdn/192/burst-lightning?utm_source=api",
-   "oracle_text": "Kicker {4} (You may pay an additional {4} as you cast this spell.)\nBurst Lightning deals 2 damage to any target. If this spell was kicked, it deals 4 damage instead.",
-   "appearances": 1
+   "oracle_text": "Kicker {4} (You may pay an additional {4} as you cast this spell.)\nBurst Lightning deals 2 damage to any target. If this spell was kicked, it deals 4 damage instead."
   },
   {
    "name": "Lotus Cobra",
@@ -283,8 +300,7 @@
    "url": "https://scryfall.com/card/znr/193/lotus-cobra?utm_source=api",
    "oracle_text": "Landfall — Whenever a land you control enters, add one mana of any color.",
    "power": "2",
-   "toughness": "1",
-   "appearances": 1
+   "toughness": "1"
   },
   {
    "name": "Young Pyromancer",
@@ -307,8 +323,7 @@
    "url": "https://scryfall.com/card/tdc/95/young-pyromancer?utm_source=api",
    "oracle_text": "Whenever you cast an instant or sorcery spell, create a 1/1 red Elemental creature token.",
    "power": "2",
-   "toughness": "1",
-   "appearances": 1
+   "toughness": "1"
   },
   {
    "name": "Worm Harvest",
@@ -327,8 +342,7 @@
    ],
    "mana_cost": "{2}{B/G}{B/G}{B/G}",
    "url": "https://scryfall.com/card/c18/194/worm-harvest?utm_source=api",
-   "oracle_text": "Create a 1/1 black and green Worm creature token for each land card in your graveyard.\nRetrace (You may cast this card from your graveyard by discarding a land card in addition to paying its other costs.)",
-   "appearances": 1
+   "oracle_text": "Create a 1/1 black and green Worm creature token for each land card in your graveyard.\nRetrace (You may cast this card from your graveyard by discarding a land card in addition to paying its other costs.)"
   },
   {
    "name": "Chatter of the Squirrel",
@@ -345,8 +359,7 @@
    ],
    "mana_cost": "{G}",
    "url": "https://scryfall.com/card/2xm/157/chatter-of-the-squirrel?utm_source=api",
-   "oracle_text": "Create a 1/1 green Squirrel creature token.\nFlashback {1}{G} (You may cast this card from your graveyard for its flashback cost. Then exile it.)",
-   "appearances": 1
+   "oracle_text": "Create a 1/1 green Squirrel creature token.\nFlashback {1}{G} (You may cast this card from your graveyard for its flashback cost. Then exile it.)"
   },
   {
    "name": "Stomping Ground",
@@ -366,8 +379,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/eoe/258/stomping-ground?utm_source=api",
-   "oracle_text": "({T}: Add {R} or {G}.)\nAs this land enters, you may pay 2 life. If you don't, it enters tapped.",
-   "appearances": 1
+   "oracle_text": "({T}: Add {R} or {G}.)\nAs this land enters, you may pay 2 life. If you don't, it enters tapped."
   },
   {
    "name": "Wooded Foothills",
@@ -380,8 +392,7 @@
    "color_identity": [],
    "mana_cost": "",
    "url": "https://scryfall.com/card/mh3/236/wooded-foothills?utm_source=api",
-   "oracle_text": "{T}, Pay 1 life, Sacrifice this land: Search your library for a Mountain or Forest card, put it onto the battlefield, then shuffle.",
-   "appearances": 1
+   "oracle_text": "{T}, Pay 1 life, Sacrifice this land: Search your library for a Mountain or Forest card, put it onto the battlefield, then shuffle."
   },
   {
    "name": "Mire Triton",
@@ -404,8 +415,7 @@
    "url": "https://scryfall.com/card/cmm/174/mire-triton?utm_source=api",
    "oracle_text": "Deathtouch\nWhen this creature enters, mill two cards and you gain 2 life. (To mill a card, put the top card of your library into your graveyard.)",
    "power": "2",
-   "toughness": "1",
-   "appearances": 1
+   "toughness": "1"
   },
   {
    "name": "Woe Strider",
@@ -427,8 +437,7 @@
    "url": "https://scryfall.com/card/tdc/201/woe-strider?utm_source=api",
    "oracle_text": "When this creature enters, create a 0/1 white Goat creature token.\nSacrifice another creature: Scry 1.\nEscape—{3}{B}{B}, Exile four other cards from your graveyard. (You may cast this card from your graveyard for its escape cost.)\nThis creature escapes with two +1/+1 counters on it.",
    "power": "3",
-   "toughness": "2",
-   "appearances": 1
+   "toughness": "2"
   },
   {
    "name": "Pharika's Spawn",
@@ -450,8 +459,7 @@
    "url": "https://scryfall.com/card/thb/112/pharikas-spawn?utm_source=api",
    "oracle_text": "Escape—{5}{B}, Exile three other cards from your graveyard. (You may cast this card from your graveyard for its escape cost.)\nThis creature escapes with two +1/+1 counters on it. When it enters this way, each opponent sacrifices a non-Gorgon creature of their choice.",
    "power": "3",
-   "toughness": "4",
-   "appearances": 1
+   "toughness": "4"
   },
   {
    "name": "Manamorphose",
@@ -470,8 +478,7 @@
    ],
    "mana_cost": "{1}{R/G}",
    "url": "https://scryfall.com/card/2xm/208/manamorphose?utm_source=api",
-   "oracle_text": "Add two mana in any combination of colors.\nDraw a card.",
-   "appearances": 1
+   "oracle_text": "Add two mana in any combination of colors.\nDraw a card."
   },
   {
    "name": "Kraul Harpooner",
@@ -494,8 +501,7 @@
    "url": "https://scryfall.com/card/clu/167/kraul-harpooner?utm_source=api",
    "oracle_text": "Reach\nUndergrowth — When this creature enters, choose up to one target creature you don't control with flying. This creature gets +X/+0 until end of turn, where X is the number of creature cards in your graveyard, then you may have this creature fight that creature.",
    "power": "3",
-   "toughness": "2",
-   "appearances": 1
+   "toughness": "2"
   },
   {
    "name": "Scavenging Ooze",
@@ -517,8 +523,7 @@
    "url": "https://scryfall.com/card/fdn/232/scavenging-ooze?utm_source=api",
    "oracle_text": "{G}: Exile target card from a graveyard. If it was a creature card, put a +1/+1 counter on this creature and you gain 1 life.",
    "power": "2",
-   "toughness": "2",
-   "appearances": 1
+   "toughness": "2"
   },
   {
    "name": "Foreboding Ruins",
@@ -534,8 +539,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/dsc/277/foreboding-ruins?utm_source=api",
-   "oracle_text": "As this land enters, you may reveal a Swamp or Mountain card from your hand. If you don't, this land enters tapped.\n{T}: Add {B} or {R}.",
-   "appearances": 1
+   "oracle_text": "As this land enters, you may reveal a Swamp or Mountain card from your hand. If you don't, this land enters tapped.\n{T}: Add {B} or {R}."
   },
   {
    "name": "Blood Crypt",
@@ -555,8 +559,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/ecl/262/blood-crypt?utm_source=api",
-   "oracle_text": "({T}: Add {B} or {R}.)\nAs this land enters, you may pay 2 life. If you don't, it enters tapped.",
-   "appearances": 1
+   "oracle_text": "({T}: Add {B} or {R}.)\nAs this land enters, you may pay 2 life. If you don't, it enters tapped."
   },
   {
    "name": "Rootbound Crag",
@@ -572,8 +575,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/tdc/388/rootbound-crag?utm_source=api",
-   "oracle_text": "This land enters tapped unless you control a Mountain or a Forest.\n{T}: Add {R} or {G}.",
-   "appearances": 1
+   "oracle_text": "This land enters tapped unless you control a Mountain or a Forest.\n{T}: Add {R} or {G}."
   },
   {
    "name": "Sheltered Thicket",
@@ -593,8 +595,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/eoc/178/sheltered-thicket?utm_source=api",
-   "oracle_text": "({T}: Add {R} or {G}.)\nThis land enters tapped.\nCycling {2} ({2}, Discard this card: Draw a card.)",
-   "appearances": 1
+   "oracle_text": "({T}: Add {R} or {G}.)\nThis land enters tapped.\nCycling {2} ({2}, Discard this card: Draw a card.)"
   },
   {
    "name": "Guttersnipe",
@@ -617,8 +618,7 @@
    "url": "https://scryfall.com/card/tdc/217/guttersnipe?utm_source=api",
    "oracle_text": "Whenever you cast an instant or sorcery spell, this creature deals 2 damage to each opponent.",
    "power": "2",
-   "toughness": "2",
-   "appearances": 1
+   "toughness": "2"
   },
   {
    "name": "Saheeli, Sublime Artificer",
@@ -641,8 +641,7 @@
    ],
    "mana_cost": "{1}{U/R}{U/R}",
    "url": "https://scryfall.com/card/cmm/935/saheeli-sublime-artificer?utm_source=api",
-   "oracle_text": "Whenever you cast a noncreature spell, create a 1/1 colorless Servo artifact creature token.\n−2: Target artifact you control becomes a copy of another target artifact or creature you control until end of turn, except it's an artifact in addition to its other types.",
-   "appearances": 1
+   "oracle_text": "Whenever you cast a noncreature spell, create a 1/1 colorless Servo artifact creature token.\n−2: Target artifact you control becomes a copy of another target artifact or creature you control until end of turn, except it's an artifact in addition to its other types."
   },
   {
    "name": "Faithless Looting",
@@ -659,8 +658,7 @@
    ],
    "mana_cost": "{R}",
    "url": "https://scryfall.com/card/tdc/213/faithless-looting?utm_source=api",
-   "oracle_text": "Draw two cards, then discard two cards.\nFlashback {2}{R} (You may cast this card from your graveyard for its flashback cost. Then exile it.)",
-   "appearances": 1
+   "oracle_text": "Draw two cards, then discard two cards.\nFlashback {2}{R} (You may cast this card from your graveyard for its flashback cost. Then exile it.)"
   },
   {
    "name": "Chandra, Hope's Beacon",
@@ -681,8 +679,7 @@
    ],
    "mana_cost": "{4}{R}{R}",
    "url": "https://scryfall.com/card/mom/134/chandra-hopes-beacon?utm_source=api",
-   "oracle_text": "Whenever you cast an instant or sorcery spell, copy it. You may choose new targets for the copy. This ability triggers only once each turn.\n+2: Add two mana in any combination of colors.\n+1: Exile the top five cards of your library. Until the end of your next turn, you may cast an instant or sorcery spell from among those exiled cards.\n−X: Chandra deals X damage to each of up to two targets.",
-   "appearances": 1
+   "oracle_text": "Whenever you cast an instant or sorcery spell, copy it. You may choose new targets for the copy. This ability triggers only once each turn.\n+2: Add two mana in any combination of colors.\n+1: Exile the top five cards of your library. Until the end of your next turn, you may cast an instant or sorcery spell from among those exiled cards.\n−X: Chandra deals X damage to each of up to two targets."
   },
   {
    "name": "Swamp",
@@ -701,8 +698,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/tla/284/swamp?utm_source=api",
-   "oracle_text": "({T}: Add {B}.)",
-   "appearances": 1
+   "oracle_text": "({T}: Add {B}.)"
   },
   {
    "name": "Swamp",
@@ -721,8 +717,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/tla/284/swamp?utm_source=api",
-   "oracle_text": "({T}: Add {B}.)",
-   "appearances": 1
+   "oracle_text": "({T}: Add {B}.)"
   },
   {
    "name": "Mountain",
@@ -741,8 +736,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/tla/285/mountain?utm_source=api",
-   "oracle_text": "({T}: Add {R}.)",
-   "appearances": 1
+   "oracle_text": "({T}: Add {R}.)"
   },
   {
    "name": "Mountain",
@@ -761,8 +755,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/tla/285/mountain?utm_source=api",
-   "oracle_text": "({T}: Add {R}.)",
-   "appearances": 1
+   "oracle_text": "({T}: Add {R}.)"
   },
   {
    "name": "Mountain",
@@ -781,8 +774,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/tla/285/mountain?utm_source=api",
-   "oracle_text": "({T}: Add {R}.)",
-   "appearances": 1
+   "oracle_text": "({T}: Add {R}.)"
   },
   {
    "name": "Forest",
@@ -801,8 +793,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/tla/286/forest?utm_source=api",
-   "oracle_text": "({T}: Add {G}.)",
-   "appearances": 1
+   "oracle_text": "({T}: Add {G}.)"
   },
   {
    "name": "Forest",
@@ -821,8 +812,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/tla/286/forest?utm_source=api",
-   "oracle_text": "({T}: Add {G}.)",
-   "appearances": 1
+   "oracle_text": "({T}: Add {G}.)"
   },
   {
    "name": "Forest",
@@ -841,8 +831,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/tla/286/forest?utm_source=api",
-   "oracle_text": "({T}: Add {G}.)",
-   "appearances": 1
+   "oracle_text": "({T}: Add {G}.)"
   }
  ],
  "sideboard": [
@@ -1104,8 +1093,7 @@
    "url": "https://scryfall.com/card/war/125/dreadhorde-arcanist?utm_source=api",
    "oracle_text": "Trample\nWhenever this creature attacks, you may cast target instant or sorcery card with mana value less than or equal to this creature's power from your graveyard without paying its mana cost. If that spell would be put into your graveyard, exile it instead.",
    "power": "1",
-   "toughness": "3",
-   "appearances": 1
+   "toughness": "3"
   },
   {
    "name": "Tibalt's Rager",
@@ -1127,8 +1115,7 @@
    "url": "https://scryfall.com/card/jmp/366/tibalts-rager?utm_source=api",
    "oracle_text": "When this creature dies, it deals 1 damage to any target.\n{1}{R}: This creature gets +2/+0 until end of turn.",
    "power": "1",
-   "toughness": "2",
-   "appearances": 1
+   "toughness": "2"
   },
   {
    "name": "Grim Discovery",
@@ -1145,8 +1132,7 @@
    ],
    "mana_cost": "{1}{B}",
    "url": "https://scryfall.com/card/ddr/51/grim-discovery?utm_source=api",
-   "oracle_text": "Choose one or both —\n• Return target creature card from your graveyard to your hand.\n• Return target land card from your graveyard to your hand.",
-   "appearances": 1
+   "oracle_text": "Choose one or both —\n• Return target creature card from your graveyard to your hand.\n• Return target land card from your graveyard to your hand."
   },
   {
    "name": "Liliana, Death's Majesty",

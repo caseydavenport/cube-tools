@@ -10,21 +10,50 @@
  ],
  "player": "mattd",
  "date": "2023-09-17",
- "games": [
+ "matches": [
   {
-   "opponent": "paul",
-   "winner": "paul"
+   "opponent": "james",
+   "round": 3,
+   "wins": 0,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "james",
+     "winner": "james"
+    }
+   ],
+   "winner": "james"
   },
   {
    "opponent": "jen",
+   "round": 1,
+   "wins": 1,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "jen",
+     "winner": "mattd"
+    }
+   ],
    "winner": "mattd"
   },
   {
-   "opponent": "james",
-   "winner": "james"
+   "opponent": "paul",
+   "round": 2,
+   "wins": 0,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "paul",
+     "winner": "paul"
+    }
+   ],
+   "winner": "paul"
   }
  ],
- "matches": null,
  "mainboard": [
   {
    "name": "Angel of Salvation",
@@ -67,8 +96,7 @@
    ],
    "mana_cost": "{2}{W}{W}",
    "url": "https://scryfall.com/card/m11/1/ajani-goldmane?utm_source=api",
-   "oracle_text": "+1: You gain 2 life.\n−1: Put a +1/+1 counter on each creature you control. Those creatures gain vigilance until end of turn.\n−6: Create a white Avatar creature token. It has \"This token's power and toughness are each equal to your life total.\"",
-   "appearances": 1
+   "oracle_text": "+1: You gain 2 life.\n−1: Put a +1/+1 counter on each creature you control. Those creatures gain vigilance until end of turn.\n−6: Create a white Avatar creature token. It has \"This token's power and toughness are each equal to your life total.\""
   },
   {
    "name": "Glory of Warfare",
@@ -87,8 +115,7 @@
    ],
    "mana_cost": "{2}{R}{W}",
    "url": "https://scryfall.com/card/hop/88/glory-of-warfare?utm_source=api",
-   "oracle_text": "During your turn, creatures you control get +2/+0.\nDuring turns other than yours, creatures you control get +0/+2.",
-   "appearances": 1
+   "oracle_text": "During your turn, creatures you control get +2/+0.\nDuring turns other than yours, creatures you control get +0/+2."
   },
   {
    "name": "Mire Triton",
@@ -194,8 +221,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/xln/22/legions-landing-adanto-the-first-fort?utm_source=api",
-   "oracle_text": "",
-   "appearances": 1
+   "oracle_text": ""
   },
   {
    "name": "Welcoming Vampire",
@@ -217,8 +243,7 @@
    "url": "https://scryfall.com/card/tdc/140/welcoming-vampire?utm_source=api",
    "oracle_text": "Flying\nWhenever one or more other creatures you control with power 2 or less enter, draw a card. This ability triggers only once each turn.",
    "power": "2",
-   "toughness": "3",
-   "appearances": 1
+   "toughness": "3"
   },
   {
    "name": "Frostboil Snarl",
@@ -234,8 +259,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/otc/298/frostboil-snarl?utm_source=api",
-   "oracle_text": "As this land enters, you may reveal an Island or Mountain card from your hand. If you don't, this land enters tapped.\n{T}: Add {U} or {R}.",
-   "appearances": 1
+   "oracle_text": "As this land enters, you may reveal an Island or Mountain card from your hand. If you don't, this land enters tapped.\n{T}: Add {U} or {R}."
   },
   {
    "name": "Irrigated Farmland",
@@ -255,8 +279,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/eoc/162/irrigated-farmland?utm_source=api",
-   "oracle_text": "({T}: Add {W} or {U}.)\nThis land enters tapped.\nCycling {2} ({2}, Discard this card: Draw a card.)",
-   "appearances": 1
+   "oracle_text": "({T}: Add {W} or {U}.)\nThis land enters tapped.\nCycling {2} ({2}, Discard this card: Draw a card.)"
   },
   {
    "name": "Bloodghast",
@@ -279,8 +302,7 @@
    "url": "https://scryfall.com/card/dft/77/bloodghast?utm_source=api",
    "oracle_text": "This creature can't block.\nThis creature has haste as long as an opponent has 10 or less life.\nLandfall — Whenever a land you control enters, you may return this card from your graveyard to the battlefield.",
    "power": "2",
-   "toughness": "1",
-   "appearances": 1
+   "toughness": "1"
   },
   {
    "name": "Faerie Dreamthief",
@@ -390,8 +412,7 @@
    ],
    "mana_cost": "{2}{W}",
    "url": "https://scryfall.com/card/neo/40/touch-the-spirit-realm?utm_source=api",
-   "oracle_text": "When this enchantment enters, exile up to one target artifact or creature until this enchantment leaves the battlefield.\nChannel — {1}{W}, Discard this card: Exile target artifact or creature. Return it to the battlefield under its owner's control at the beginning of the next end step.",
-   "appearances": 1
+   "oracle_text": "When this enchantment enters, exile up to one target artifact or creature until this enchantment leaves the battlefield.\nChannel — {1}{W}, Discard this card: Exile target artifact or creature. Return it to the battlefield under its owner's control at the beginning of the next end step."
   },
   {
    "name": "Uncharted Haven",
@@ -472,8 +493,7 @@
    "url": "https://scryfall.com/card/mkc/111/mulldrifter?utm_source=api",
    "oracle_text": "Flying\nWhen this creature enters, draw two cards.\nEvoke {2}{U} (You may cast this spell for its evoke cost. If you do, it's sacrificed when it enters.)",
    "power": "2",
-   "toughness": "2",
-   "appearances": 1
+   "toughness": "2"
   },
   {
    "name": "Shineshadow Snarl",
@@ -505,8 +525,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/eoc/160/glacial-fortress?utm_source=api",
-   "oracle_text": "This land enters tapped unless you control a Plains or an Island.\n{T}: Add {W} or {U}.",
-   "appearances": 1
+   "oracle_text": "This land enters tapped unless you control a Plains or an Island.\n{T}: Add {W} or {U}."
   },
   {
    "name": "Malfegor",
@@ -580,8 +599,7 @@
    "url": "https://scryfall.com/card/fdn/607/kalastria-highborn?utm_source=api",
    "oracle_text": "Whenever this creature or another Vampire you control dies, you may pay {B}. If you do, target player loses 2 life and you gain 2 life.",
    "power": "2",
-   "toughness": "2",
-   "appearances": 1
+   "toughness": "2"
   },
   {
    "name": "Blinding Mage",
@@ -604,8 +622,7 @@
    "url": "https://scryfall.com/card/ima/13/blinding-mage?utm_source=api",
    "oracle_text": "{W}, {T}: Tap target creature.",
    "power": "1",
-   "toughness": "2",
-   "appearances": 1
+   "toughness": "2"
   },
   {
    "name": "Prison Term",
@@ -625,8 +642,7 @@
    ],
    "mana_cost": "{1}{W}{W}",
    "url": "https://scryfall.com/card/cmd/27/prison-term?utm_source=api",
-   "oracle_text": "Enchant creature\nEnchanted creature can't attack or block, and its activated abilities can't be activated.\nWhenever a creature an opponent controls enters, you may attach this Aura to that creature.",
-   "appearances": 1
+   "oracle_text": "Enchant creature\nEnchanted creature can't attack or block, and its activated abilities can't be activated.\nWhenever a creature an opponent controls enters, you may attach this Aura to that creature."
   },
   {
    "name": "Marsh Flats",
@@ -639,8 +655,7 @@
    "color_identity": [],
    "mana_cost": "",
    "url": "https://scryfall.com/card/mh2/248/marsh-flats?utm_source=api",
-   "oracle_text": "{T}, Pay 1 life, Sacrifice this land: Search your library for a Plains or Swamp card, put it onto the battlefield, then shuffle.",
-   "appearances": 1
+   "oracle_text": "{T}, Pay 1 life, Sacrifice this land: Search your library for a Plains or Swamp card, put it onto the battlefield, then shuffle."
   },
   {
    "name": "Harm's Way",
@@ -657,8 +672,7 @@
    ],
    "mana_cost": "{W}",
    "url": "https://scryfall.com/card/ddg/23/harms-way?utm_source=api",
-   "oracle_text": "The next 2 damage that a source of your choice would deal to you and/or permanents you control this turn is dealt to any target instead.",
-   "appearances": 1
+   "oracle_text": "The next 2 damage that a source of your choice would deal to you and/or permanents you control this turn is dealt to any target instead."
   },
   {
    "name": "Severed Strands",
@@ -701,8 +715,7 @@
    "url": "https://scryfall.com/card/thb/209/atris-oracle-of-half-truths?utm_source=api",
    "oracle_text": "Menace\nWhen Atris enters, target opponent looks at the top three cards of your library and separates them into a face-down pile and a face-up pile. Put one pile into your hand and the other into your graveyard.",
    "power": "3",
-   "toughness": "2",
-   "appearances": 1
+   "toughness": "2"
   },
   {
    "name": "Plains",
@@ -721,8 +734,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/tla/282/plains?utm_source=api",
-   "oracle_text": "({T}: Add {W}.)",
-   "appearances": 1
+   "oracle_text": "({T}: Add {W}.)"
   },
   {
    "name": "Plains",
@@ -741,8 +753,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/tla/282/plains?utm_source=api",
-   "oracle_text": "({T}: Add {W}.)",
-   "appearances": 1
+   "oracle_text": "({T}: Add {W}.)"
   },
   {
    "name": "Plains",
@@ -761,8 +772,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/tla/282/plains?utm_source=api",
-   "oracle_text": "({T}: Add {W}.)",
-   "appearances": 1
+   "oracle_text": "({T}: Add {W}.)"
   },
   {
    "name": "Island",
@@ -781,8 +791,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/tla/283/island?utm_source=api",
-   "oracle_text": "({T}: Add {U}.)",
-   "appearances": 1
+   "oracle_text": "({T}: Add {U}.)"
   },
   {
    "name": "Swamp",
@@ -801,8 +810,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/tla/284/swamp?utm_source=api",
-   "oracle_text": "({T}: Add {B}.)",
-   "appearances": 1
+   "oracle_text": "({T}: Add {B}.)"
   },
   {
    "name": "Swamp",
@@ -821,8 +829,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/tla/284/swamp?utm_source=api",
-   "oracle_text": "({T}: Add {B}.)",
-   "appearances": 1
+   "oracle_text": "({T}: Add {B}.)"
   },
   {
    "name": "Mountain",
@@ -841,8 +848,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/tla/285/mountain?utm_source=api",
-   "oracle_text": "({T}: Add {R}.)",
-   "appearances": 1
+   "oracle_text": "({T}: Add {R}.)"
   }
  ],
  "sideboard": [

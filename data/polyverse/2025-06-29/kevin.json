@@ -10,43 +10,59 @@
  ],
  "player": "kevin",
  "date": "2025-06-29",
- "games": [
-  {
-   "opponent": "casey",
-   "winner": "kevin"
-  },
-  {
-   "opponent": "casey",
-   "winner": "kevin"
-  },
-  {
-   "opponent": "mehdi",
-   "winner": "mehdi"
-  },
-  {
-   "opponent": "mehdi",
-   "winner": "mehdi"
-  },
-  {
-   "opponent": "zephyr",
-   "winner": "zephyr"
-  },
-  {
-   "opponent": "zephyr",
-   "winner": "zephyr"
-  }
- ],
  "matches": [
   {
    "opponent": "casey",
+   "round": 1,
+   "wins": 2,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "casey",
+     "winner": "kevin"
+    },
+    {
+     "opponent": "casey",
+     "winner": "kevin"
+    }
+   ],
    "winner": "kevin"
   },
   {
    "opponent": "mehdi",
+   "round": 2,
+   "wins": 0,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "mehdi",
+     "winner": "mehdi"
+    },
+    {
+     "opponent": "mehdi",
+     "winner": "mehdi"
+    }
+   ],
    "winner": "mehdi"
   },
   {
    "opponent": "zephyr",
+   "round": 3,
+   "wins": 0,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "zephyr",
+     "winner": "zephyr"
+    },
+    {
+     "opponent": "zephyr",
+     "winner": "zephyr"
+    }
+   ],
    "winner": "zephyr"
   }
  ],

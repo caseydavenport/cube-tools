@@ -9,35 +9,45 @@
  ],
  "player": "paul",
  "date": "2024-05-14",
- "games": [
-  {
-   "opponent": "casey",
-   "winner": "paul"
-  },
-  {
-   "opponent": "casey",
-   "winner": "paul"
-  },
-  {
-   "opponent": "casey",
-   "winner": "casey"
-  },
-  {
-   "opponent": "greg",
-   "winner": "greg"
-  },
-  {
-   "opponent": "greg",
-   "winner": "greg"
-  }
- ],
  "matches": [
   {
    "opponent": "casey",
+   "round": 3,
+   "wins": 2,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "casey",
+     "winner": "paul"
+    },
+    {
+     "opponent": "casey",
+     "winner": "paul"
+    },
+    {
+     "opponent": "casey",
+     "winner": "casey"
+    }
+   ],
    "winner": "paul"
   },
   {
    "opponent": "greg",
+   "round": 4,
+   "wins": 0,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "greg",
+     "winner": "greg"
+    },
+    {
+     "opponent": "greg",
+     "winner": "greg"
+    }
+   ],
    "winner": "greg"
   }
  ],

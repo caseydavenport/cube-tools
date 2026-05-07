@@ -10,27 +10,37 @@
  ],
  "player": "james",
  "date": "2025-05-26",
- "games": [
-  {
-   "opponent": "cara",
-   "winner": "cara"
-  },
-  {
-   "opponent": "jen",
-   "winner": "jen"
-  },
-  {
-   "opponent": "jen",
-   "winner": "jen"
-  }
- ],
  "matches": [
   {
    "opponent": "cara",
+   "round": 1,
+   "wins": 0,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "cara",
+     "winner": "cara"
+    }
+   ],
    "winner": "cara"
   },
   {
    "opponent": "jen",
+   "round": 2,
+   "wins": 0,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "jen",
+     "winner": "jen"
+    },
+    {
+     "opponent": "jen",
+     "winner": "jen"
+    }
+   ],
    "winner": "jen"
   }
  ],

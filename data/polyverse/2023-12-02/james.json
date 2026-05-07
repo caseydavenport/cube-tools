@@ -9,47 +9,63 @@
  ],
  "player": "james",
  "date": "2023-12-02",
- "games": [
-  {
-   "opponent": "casey",
-   "winner": "casey"
-  },
-  {
-   "opponent": "casey",
-   "winner": "casey"
-  },
-  {
-   "opponent": "dom",
-   "winner": "dom"
-  },
-  {
-   "opponent": "dom",
-   "winner": "dom"
-  },
-  {
-   "opponent": "greg",
-   "winner": "james"
-  },
-  {
-   "opponent": "greg",
-   "winner": "greg"
-  },
-  {
-   "opponent": "greg",
-   "winner": "greg"
-  }
- ],
  "matches": [
   {
    "opponent": "casey",
+   "round": 3,
+   "wins": 0,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "casey",
+     "winner": "casey"
+    },
+    {
+     "opponent": "casey",
+     "winner": "casey"
+    }
+   ],
    "winner": "casey"
   },
   {
    "opponent": "dom",
+   "round": 2,
+   "wins": 0,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "dom",
+     "winner": "dom"
+    },
+    {
+     "opponent": "dom",
+     "winner": "dom"
+    }
+   ],
    "winner": "dom"
   },
   {
    "opponent": "greg",
+   "round": 1,
+   "wins": 1,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "greg",
+     "winner": "james"
+    },
+    {
+     "opponent": "greg",
+     "winner": "greg"
+    },
+    {
+     "opponent": "greg",
+     "winner": "greg"
+    }
+   ],
    "winner": "greg"
   }
  ],
@@ -69,8 +85,7 @@
    ],
    "mana_cost": "{1}{B}",
    "url": "https://scryfall.com/card/eoc/84/infernal-grasp?utm_source=api",
-   "oracle_text": "Destroy target creature. You lose 2 life.",
-   "appearances": 1
+   "oracle_text": "Destroy target creature. You lose 2 life."
   },
   {
    "name": "Archfiend of Ifnir",
@@ -92,8 +107,7 @@
    "url": "https://scryfall.com/card/akh/78/archfiend-of-ifnir?utm_source=api",
    "oracle_text": "Flying\nWhenever you cycle or discard another card, put a -1/-1 counter on each creature your opponents control.\nCycling {2} ({2}, Discard this card: Draw a card.)",
    "power": "5",
-   "toughness": "4",
-   "appearances": 1
+   "toughness": "4"
   },
   {
    "name": "Severed Strands",
@@ -110,8 +124,7 @@
    ],
    "mana_cost": "{1}{B}",
    "url": "https://scryfall.com/card/2x2/88/severed-strands?utm_source=api",
-   "oracle_text": "As an additional cost to cast this spell, sacrifice a creature.\nYou gain life equal to the sacrificed creature's toughness. Destroy target creature an opponent controls.",
-   "appearances": 1
+   "oracle_text": "As an additional cost to cast this spell, sacrifice a creature.\nYou gain life equal to the sacrificed creature's toughness. Destroy target creature an opponent controls."
   },
   {
    "name": "Embereth Veteran",
@@ -134,8 +147,7 @@
    "url": "https://scryfall.com/card/woe/127/embereth-veteran?utm_source=api",
    "oracle_text": "{1}, Sacrifice this creature: Create a Young Hero Role token attached to another target creature. (If you control another Role on it, put that one into the graveyard. Enchanted creature has \"Whenever this creature attacks, if its toughness is 3 or less, put a +1/+1 counter on it.\")",
    "power": "2",
-   "toughness": "1",
-   "appearances": 1
+   "toughness": "1"
   },
   {
    "name": "Reckless Rage",
@@ -152,8 +164,7 @@
    ],
    "mana_cost": "{R}",
    "url": "https://scryfall.com/card/rix/110/reckless-rage?utm_source=api",
-   "oracle_text": "Reckless Rage deals 4 damage to target creature you don't control and 2 damage to target creature you control.",
-   "appearances": 1
+   "oracle_text": "Reckless Rage deals 4 damage to target creature you don't control and 2 damage to target creature you control."
   },
   {
    "name": "Woe Strider",
@@ -175,8 +186,7 @@
    "url": "https://scryfall.com/card/tdc/201/woe-strider?utm_source=api",
    "oracle_text": "When this creature enters, create a 0/1 white Goat creature token.\nSacrifice another creature: Scry 1.\nEscape—{3}{B}{B}, Exile four other cards from your graveyard. (You may cast this card from your graveyard for its escape cost.)\nThis creature escapes with two +1/+1 counters on it.",
    "power": "3",
-   "toughness": "2",
-   "appearances": 1
+   "toughness": "2"
   },
   {
    "name": "Guttersnipe",
@@ -199,8 +209,7 @@
    "url": "https://scryfall.com/card/tdc/217/guttersnipe?utm_source=api",
    "oracle_text": "Whenever you cast an instant or sorcery spell, this creature deals 2 damage to each opponent.",
    "power": "2",
-   "toughness": "2",
-   "appearances": 1
+   "toughness": "2"
   },
   {
    "name": "Mogg War Marshal",
@@ -223,8 +232,7 @@
    "url": "https://scryfall.com/card/dmr/131/mogg-war-marshal?utm_source=api",
    "oracle_text": "Echo {1}{R} (At the beginning of your upkeep, if this came under your control since the beginning of your last upkeep, sacrifice it unless you pay its echo cost.)\nWhen this creature enters or dies, create a 1/1 red Goblin creature token.",
    "power": "1",
-   "toughness": "1",
-   "appearances": 1
+   "toughness": "1"
   },
   {
    "name": "Perilous Myr",
@@ -244,8 +252,7 @@
    "url": "https://scryfall.com/card/cmr/330/perilous-myr?utm_source=api",
    "oracle_text": "When this creature dies, it deals 2 damage to any target.",
    "power": "1",
-   "toughness": "1",
-   "appearances": 1
+   "toughness": "1"
   },
   {
    "name": "Virtue of Persistence // Locthwain Scorn",
@@ -267,8 +274,7 @@
    ],
    "mana_cost": "{5}{B}{B} // {1}{B}",
    "url": "https://scryfall.com/card/woe/115/virtue-of-persistence-locthwain-scorn?utm_source=api",
-   "oracle_text": "",
-   "appearances": 1
+   "oracle_text": ""
   },
   {
    "name": "Pyroclasm",
@@ -285,8 +291,7 @@
    ],
    "mana_cost": "{1}{R}",
    "url": "https://scryfall.com/card/dsk/149/pyroclasm?utm_source=api",
-   "oracle_text": "Pyroclasm deals 2 damage to each creature.",
-   "appearances": 1
+   "oracle_text": "Pyroclasm deals 2 damage to each creature."
   },
   {
    "name": "Bloodghast",
@@ -309,8 +314,7 @@
    "url": "https://scryfall.com/card/dft/77/bloodghast?utm_source=api",
    "oracle_text": "This creature can't block.\nThis creature has haste as long as an opponent has 10 or less life.\nLandfall — Whenever a land you control enters, you may return this card from your graveyard to the battlefield.",
    "power": "2",
-   "toughness": "1",
-   "appearances": 1
+   "toughness": "1"
   },
   {
    "name": "Skarrgan Hellkite",
@@ -332,8 +336,7 @@
    "url": "https://scryfall.com/card/tdc/233/skarrgan-hellkite?utm_source=api",
    "oracle_text": "Riot (This creature enters with your choice of a +1/+1 counter or haste.)\nFlying\n{3}{R}: This creature deals 2 damage divided as you choose among one or two targets. Activate only if this creature has a +1/+1 counter on it.",
    "power": "4",
-   "toughness": "4",
-   "appearances": 1
+   "toughness": "4"
   },
   {
    "name": "Pharika's Spawn",
@@ -355,8 +358,7 @@
    "url": "https://scryfall.com/card/thb/112/pharikas-spawn?utm_source=api",
    "oracle_text": "Escape—{5}{B}, Exile three other cards from your graveyard. (You may cast this card from your graveyard for its escape cost.)\nThis creature escapes with two +1/+1 counters on it. When it enters this way, each opponent sacrifices a non-Gorgon creature of their choice.",
    "power": "3",
-   "toughness": "4",
-   "appearances": 1
+   "toughness": "4"
   },
   {
    "name": "Knight of the Ebon Legion",
@@ -379,8 +381,7 @@
    "url": "https://scryfall.com/card/m20/105/knight-of-the-ebon-legion?utm_source=api",
    "oracle_text": "{2}{B}: This creature gets +3/+3 and gains deathtouch until end of turn.\nAt the beginning of your end step, if a player lost 4 or more life this turn, put a +1/+1 counter on this creature. (Damage causes loss of life.)",
    "power": "1",
-   "toughness": "2",
-   "appearances": 1
+   "toughness": "2"
   },
   {
    "name": "Flame Slash",
@@ -397,8 +398,7 @@
    ],
    "mana_cost": "{R}",
    "url": "https://scryfall.com/card/cn2/157/flame-slash?utm_source=api",
-   "oracle_text": "Flame Slash deals 4 damage to target creature.",
-   "appearances": 1
+   "oracle_text": "Flame Slash deals 4 damage to target creature."
   },
   {
    "name": "Unholy Heat",
@@ -415,8 +415,7 @@
    ],
    "mana_cost": "{R}",
    "url": "https://scryfall.com/card/otc/182/unholy-heat?utm_source=api",
-   "oracle_text": "Unholy Heat deals 2 damage to target creature or planeswalker.\nDelirium — Unholy Heat deals 6 damage instead if there are four or more card types among cards in your graveyard.",
-   "appearances": 1
+   "oracle_text": "Unholy Heat deals 2 damage to target creature or planeswalker.\nDelirium — Unholy Heat deals 6 damage instead if there are four or more card types among cards in your graveyard."
   },
   {
    "name": "Incinerate",
@@ -433,8 +432,7 @@
    ],
    "mana_cost": "{1}{R}",
    "url": "https://scryfall.com/card/jvc/51/incinerate?utm_source=api",
-   "oracle_text": "Incinerate deals 3 damage to any target. A creature dealt damage this way can't be regenerated this turn.",
-   "appearances": 1
+   "oracle_text": "Incinerate deals 3 damage to any target. A creature dealt damage this way can't be regenerated this turn."
   },
   {
    "name": "Black Sun's Zenith",
@@ -451,8 +449,7 @@
    ],
    "mana_cost": "{X}{B}{B}",
    "url": "https://scryfall.com/card/mkc/126/black-suns-zenith?utm_source=api",
-   "oracle_text": "Put X -1/-1 counters on each creature. Shuffle Black Sun's Zenith into its owner's library.",
-   "appearances": 1
+   "oracle_text": "Put X -1/-1 counters on each creature. Shuffle Black Sun's Zenith into its owner's library."
   },
   {
    "name": "Goblin Guide",
@@ -475,8 +472,7 @@
    "url": "https://scryfall.com/card/2xm/127/goblin-guide?utm_source=api",
    "oracle_text": "Haste\nWhenever this creature attacks, defending player reveals the top card of their library. If it's a land card, that player puts it into their hand.",
    "power": "2",
-   "toughness": "2",
-   "appearances": 1
+   "toughness": "2"
   },
   {
    "name": "Kalastria Highborn",
@@ -499,8 +495,7 @@
    "url": "https://scryfall.com/card/fdn/607/kalastria-highborn?utm_source=api",
    "oracle_text": "Whenever this creature or another Vampire you control dies, you may pay {B}. If you do, target player loses 2 life and you gain 2 life.",
    "power": "2",
-   "toughness": "2",
-   "appearances": 1
+   "toughness": "2"
   },
   {
    "name": "Quest for the Gravelord",
@@ -517,8 +512,7 @@
    ],
    "mana_cost": "{B}",
    "url": "https://scryfall.com/card/bbd/156/quest-for-the-gravelord?utm_source=api",
-   "oracle_text": "Whenever a creature dies, you may put a quest counter on this enchantment.\nRemove three quest counters from this enchantment and sacrifice it: Create a 5/5 black Zombie Giant creature token.",
-   "appearances": 1
+   "oracle_text": "Whenever a creature dies, you may put a quest counter on this enchantment.\nRemove three quest counters from this enchantment and sacrifice it: Create a 5/5 black Zombie Giant creature token."
   },
   {
    "name": "Dreadhorde Arcanist",
@@ -541,8 +535,7 @@
    "url": "https://scryfall.com/card/war/125/dreadhorde-arcanist?utm_source=api",
    "oracle_text": "Trample\nWhenever this creature attacks, you may cast target instant or sorcery card with mana value less than or equal to this creature's power from your graveyard without paying its mana cost. If that spell would be put into your graveyard, exile it instead.",
    "power": "1",
-   "toughness": "3",
-   "appearances": 1
+   "toughness": "3"
   },
   {
    "name": "Faithless Looting",
@@ -559,8 +552,7 @@
    ],
    "mana_cost": "{R}",
    "url": "https://scryfall.com/card/tdc/213/faithless-looting?utm_source=api",
-   "oracle_text": "Draw two cards, then discard two cards.\nFlashback {2}{R} (You may cast this card from your graveyard for its flashback cost. Then exile it.)",
-   "appearances": 1
+   "oracle_text": "Draw two cards, then discard two cards.\nFlashback {2}{R} (You may cast this card from your graveyard for its flashback cost. Then exile it.)"
   },
   {
    "name": "Mayhem Devil",
@@ -584,8 +576,7 @@
    "url": "https://scryfall.com/card/eoc/121/mayhem-devil?utm_source=api",
    "oracle_text": "Whenever a player sacrifices a permanent, this creature deals 1 damage to any target.",
    "power": "3",
-   "toughness": "3",
-   "appearances": 1
+   "toughness": "3"
   },
   {
    "name": "Swamp",
@@ -604,8 +595,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/tla/284/swamp?utm_source=api",
-   "oracle_text": "({T}: Add {B}.)",
-   "appearances": 1
+   "oracle_text": "({T}: Add {B}.)"
   },
   {
    "name": "Swamp",
@@ -624,8 +614,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/tla/284/swamp?utm_source=api",
-   "oracle_text": "({T}: Add {B}.)",
-   "appearances": 1
+   "oracle_text": "({T}: Add {B}.)"
   },
   {
    "name": "Swamp",
@@ -644,8 +633,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/tla/284/swamp?utm_source=api",
-   "oracle_text": "({T}: Add {B}.)",
-   "appearances": 1
+   "oracle_text": "({T}: Add {B}.)"
   },
   {
    "name": "Swamp",
@@ -664,8 +652,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/tla/284/swamp?utm_source=api",
-   "oracle_text": "({T}: Add {B}.)",
-   "appearances": 1
+   "oracle_text": "({T}: Add {B}.)"
   },
   {
    "name": "Swamp",
@@ -684,8 +671,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/tla/284/swamp?utm_source=api",
-   "oracle_text": "({T}: Add {B}.)",
-   "appearances": 1
+   "oracle_text": "({T}: Add {B}.)"
   },
   {
    "name": "Swamp",
@@ -704,8 +690,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/tla/284/swamp?utm_source=api",
-   "oracle_text": "({T}: Add {B}.)",
-   "appearances": 1
+   "oracle_text": "({T}: Add {B}.)"
   },
   {
    "name": "Swamp",
@@ -724,8 +709,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/tla/284/swamp?utm_source=api",
-   "oracle_text": "({T}: Add {B}.)",
-   "appearances": 1
+   "oracle_text": "({T}: Add {B}.)"
   },
   {
    "name": "Mountain",
@@ -744,8 +728,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/tla/285/mountain?utm_source=api",
-   "oracle_text": "({T}: Add {R}.)",
-   "appearances": 1
+   "oracle_text": "({T}: Add {R}.)"
   },
   {
    "name": "Mountain",
@@ -764,8 +747,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/tla/285/mountain?utm_source=api",
-   "oracle_text": "({T}: Add {R}.)",
-   "appearances": 1
+   "oracle_text": "({T}: Add {R}.)"
   },
   {
    "name": "Mountain",
@@ -784,8 +766,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/tla/285/mountain?utm_source=api",
-   "oracle_text": "({T}: Add {R}.)",
-   "appearances": 1
+   "oracle_text": "({T}: Add {R}.)"
   },
   {
    "name": "Mountain",
@@ -804,8 +785,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/tla/285/mountain?utm_source=api",
-   "oracle_text": "({T}: Add {R}.)",
-   "appearances": 1
+   "oracle_text": "({T}: Add {R}.)"
   },
   {
    "name": "Mountain",
@@ -824,8 +804,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/tla/285/mountain?utm_source=api",
-   "oracle_text": "({T}: Add {R}.)",
-   "appearances": 1
+   "oracle_text": "({T}: Add {R}.)"
   },
   {
    "name": "Mountain",
@@ -844,8 +823,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/tla/285/mountain?utm_source=api",
-   "oracle_text": "({T}: Add {R}.)",
-   "appearances": 1
+   "oracle_text": "({T}: Add {R}.)"
   },
   {
    "name": "Mountain",
@@ -864,8 +842,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/tla/285/mountain?utm_source=api",
-   "oracle_text": "({T}: Add {R}.)",
-   "appearances": 1
+   "oracle_text": "({T}: Add {R}.)"
   },
   {
    "name": "Mountain",
@@ -884,8 +861,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/tla/285/mountain?utm_source=api",
-   "oracle_text": "({T}: Add {R}.)",
-   "appearances": 1
+   "oracle_text": "({T}: Add {R}.)"
   }
  ],
  "sideboard": [
@@ -1208,8 +1184,7 @@
    ],
    "mana_cost": "{1}{B}",
    "url": "https://scryfall.com/card/mh2/96/persist?utm_source=api",
-   "oracle_text": "Return target nonlegendary creature card from your graveyard to the battlefield with a -1/-1 counter on it.",
-   "appearances": 1
+   "oracle_text": "Return target nonlegendary creature card from your graveyard to the battlefield with a -1/-1 counter on it."
   },
   {
    "name": "Flame Jab",
@@ -1275,8 +1250,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/woe/259/restless-fortress?utm_source=api",
-   "oracle_text": "This land enters tapped.\n{T}: Add {W} or {B}.\n{2}{W}{B}: This land becomes a 1/4 white and black Nightmare creature until end of turn. It's still a land.\nWhenever this land attacks, defending player loses 2 life and you gain 2 life.",
-   "appearances": 1
+   "oracle_text": "This land enters tapped.\n{T}: Add {W} or {B}.\n{2}{W}{B}: This land becomes a 1/4 white and black Nightmare creature until end of turn. It's still a land.\nWhenever this land attacks, defending player loses 2 life and you gain 2 life."
   }
  ]
 }

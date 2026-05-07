@@ -11,19 +11,23 @@
  ],
  "player": "casey",
  "date": "2025-04-05",
- "games": [
-  {
-   "opponent": "dom",
-   "winner": "casey"
-  },
-  {
-   "opponent": "dom",
-   "winner": "casey"
-  }
- ],
  "matches": [
   {
    "opponent": "dom",
+   "round": 1,
+   "wins": 2,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "dom",
+     "winner": "casey"
+    },
+    {
+     "opponent": "dom",
+     "winner": "casey"
+    }
+   ],
    "winner": "casey"
   }
  ],

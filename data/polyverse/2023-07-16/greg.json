@@ -10,21 +10,50 @@
  ],
  "player": "greg",
  "date": "2023-07-16",
- "games": [
+ "matches": [
   {
    "opponent": "casey",
+   "round": 4,
+   "wins": 0,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "casey",
+     "winner": "casey"
+    }
+   ],
    "winner": "casey"
   },
   {
-   "opponent": "jen",
-   "winner": "jen"
+   "opponent": "james",
+   "round": 3,
+   "wins": 0,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "james",
+     "winner": "james"
+    }
+   ],
+   "winner": "james"
   },
   {
-   "opponent": "james",
-   "winner": "james"
+   "opponent": "jen",
+   "round": 5,
+   "wins": 0,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "jen",
+     "winner": "jen"
+    }
+   ],
+   "winner": "jen"
   }
  ],
- "matches": null,
  "losses": 3,
  "mainboard": [
   {

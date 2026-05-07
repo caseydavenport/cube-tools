@@ -19,6 +19,10 @@ import (
 type Deck struct {
 	types.Deck `json:",inline"`
 
+	// Games is a flattened list of all games in all matches.
+	// We include this for compatibility with the UI.
+	Games []types.Game `json:"games"`
+
 	// Calculated stats based on the raw deck info. We calculate this server side
 	// to avoid recalculating it in the UI.
 	Stats Stats `json:"stats"`
@@ -192,6 +196,14 @@ func loadDeck(path string) (Deck, error) {
 }
 
 func process(decks map[key]*Deck) {
+	// First pass: populate flattened games list for each deck.
+	for _, d := range decks {
+		d.Games = make([]types.Game, 0)
+		for _, m := range d.Matches {
+			d.Games = append(d.Games, m.Games...)
+		}
+	}
+
 	// Calculate the opponent win percentage for each deck by iterating each Match.
 	for k, d := range decks {
 		// Track the total number of games and total number of wins played by opponents.
@@ -215,10 +227,10 @@ func process(decks map[key]*Deck) {
 			// won, excluding games against us.
 			games := 0
 			wins := 0
-			for _, g := range opponentDeck.Games {
-				if g.Opponent != k.player {
+			for _, og := range opponentDeck.Games {
+				if og.Opponent != k.player {
 					games++
-					if g.Winner == m.Opponent {
+					if og.Winner == m.Opponent {
 						wins++
 					}
 				}

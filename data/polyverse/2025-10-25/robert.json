@@ -11,55 +11,71 @@
  ],
  "player": "robert",
  "date": "2025-10-25",
- "games": [
-  {
-   "opponent": "colton",
-   "winner": "robert"
-  },
-  {
-   "opponent": "colton",
-   "winner": "colton"
-  },
-  {
-   "opponent": "colton",
-   "winner": "colton"
-  },
-  {
-   "opponent": "isaiah",
-   "winner": "robert"
-  },
-  {
-   "opponent": "isaiah",
-   "winner": "isaiah"
-  },
-  {
-   "opponent": "isaiah",
-   "winner": "isaiah"
-  },
-  {
-   "opponent": "mehdi",
-   "winner": "robert"
-  },
-  {
-   "opponent": "mehdi",
-   "winner": "robert"
-  },
-  {
-   "opponent": "mehdi",
-   "winner": "mehdi"
-  }
- ],
  "matches": [
   {
    "opponent": "colton",
+   "round": 1,
+   "wins": 1,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "colton",
+     "winner": "robert"
+    },
+    {
+     "opponent": "colton",
+     "winner": "colton"
+    },
+    {
+     "opponent": "colton",
+     "winner": "colton"
+    }
+   ],
    "winner": "colton"
   },
   {
    "opponent": "isaiah",
+   "round": 2,
+   "wins": 1,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "isaiah",
+     "winner": "robert"
+    },
+    {
+     "opponent": "isaiah",
+     "winner": "isaiah"
+    },
+    {
+     "opponent": "isaiah",
+     "winner": "isaiah"
+    }
+   ],
    "winner": "isaiah"
   },
   {
    "opponent": "mehdi",
+   "round": 3,
+   "wins": 2,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "mehdi",
+     "winner": "robert"
+    },
+    {
+     "opponent": "mehdi",
+     "winner": "robert"
+    },
+    {
+     "opponent": "mehdi",
+     "winner": "mehdi"
+    }
+   ],
    "winner": "robert"
   }
  ],

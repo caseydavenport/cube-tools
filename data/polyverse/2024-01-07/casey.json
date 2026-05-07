@@ -10,63 +10,98 @@
  ],
  "player": "casey",
  "date": "2024-01-07",
- "games": [
+ "matches": [
   {
    "opponent": "cara",
-   "winner": "casey"
-  },
-  {
-   "opponent": "cara",
-   "winner": "cara"
-  },
-  {
-   "opponent": "cara",
+   "round": 3,
+   "wins": 1,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "cara",
+     "winner": "casey"
+    },
+    {
+     "opponent": "cara",
+     "winner": "cara"
+    },
+    {
+     "opponent": "cara",
+     "winner": "cara"
+    }
+   ],
    "winner": "cara"
   },
   {
    "opponent": "dom",
+   "round": 1,
+   "wins": 0,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "dom",
+     "winner": "dom"
+    }
+   ],
    "winner": "dom"
   },
   {
    "opponent": "jen",
-   "winner": "casey"
-  },
-  {
-   "opponent": "jen",
-   "winner": "jen"
+   "round": 2,
+   "wins": 1,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "jen",
+     "winner": "casey"
+    },
+    {
+     "opponent": "jen",
+     "winner": "jen"
+    }
+   ]
   },
   {
    "opponent": "paul",
-   "winner": "casey"
-  },
-  {
-   "opponent": "paul",
-   "winner": "paul"
-  },
-  {
-   "opponent": "paul",
+   "round": 5,
+   "wins": 1,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "paul",
+     "winner": "casey"
+    },
+    {
+     "opponent": "paul",
+     "winner": "paul"
+    },
+    {
+     "opponent": "paul",
+     "winner": "paul"
+    }
+   ],
    "winner": "paul"
   },
   {
    "opponent": "xander",
-   "winner": "xander"
-  },
-  {
-   "opponent": "xander",
-   "winner": "xander"
-  }
- ],
- "matches": [
-  {
-   "opponent": "cara",
-   "winner": "cara"
-  },
-  {
-   "opponent": "paul",
-   "winner": "paul"
-  },
-  {
-   "opponent": "xander",
+   "round": 4,
+   "wins": 0,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "xander",
+     "winner": "xander"
+    },
+    {
+     "opponent": "xander",
+     "winner": "xander"
+    }
+   ],
    "winner": "xander"
   }
  ],
@@ -91,8 +126,7 @@
    "url": "https://scryfall.com/card/tsr/235/tarmogoyf?utm_source=api",
    "oracle_text": "Tarmogoyf's power is equal to the number of card types among cards in all graveyards and its toughness is equal to that number plus 1.",
    "power": "*",
-   "toughness": "1+*",
-   "appearances": 1
+   "toughness": "1+*"
   },
   {
    "name": "Edge of Autumn",
@@ -109,8 +143,7 @@
    ],
    "mana_cost": "{1}{G}",
    "url": "https://scryfall.com/card/tsr/201/edge-of-autumn?utm_source=api",
-   "oracle_text": "If you control four or fewer lands, search your library for a basic land card, put it onto the battlefield tapped, then shuffle.\nCycling—Sacrifice a land. (Sacrifice a land, Discard this card: Draw a card.)",
-   "appearances": 1
+   "oracle_text": "If you control four or fewer lands, search your library for a basic land card, put it onto the battlefield tapped, then shuffle.\nCycling—Sacrifice a land. (Sacrifice a land, Discard this card: Draw a card.)"
   },
   {
    "name": "Chatter of the Squirrel",
@@ -127,8 +160,7 @@
    ],
    "mana_cost": "{G}",
    "url": "https://scryfall.com/card/2xm/157/chatter-of-the-squirrel?utm_source=api",
-   "oracle_text": "Create a 1/1 green Squirrel creature token.\nFlashback {1}{G} (You may cast this card from your graveyard for its flashback cost. Then exile it.)",
-   "appearances": 1
+   "oracle_text": "Create a 1/1 green Squirrel creature token.\nFlashback {1}{G} (You may cast this card from your graveyard for its flashback cost. Then exile it.)"
   },
   {
    "name": "Brainstorm",
@@ -145,8 +177,7 @@
    ],
    "mana_cost": "{U}",
    "url": "https://scryfall.com/card/dsc/113/brainstorm?utm_source=api",
-   "oracle_text": "Draw three cards, then put two cards from your hand on top of your library in any order.",
-   "appearances": 1
+   "oracle_text": "Draw three cards, then put two cards from your hand on top of your library in any order."
   },
   {
    "name": "Breeding Pool",
@@ -166,8 +197,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/eoe/251/breeding-pool?utm_source=api",
-   "oracle_text": "({T}: Add {G} or {U}.)\nAs this land enters, you may pay 2 life. If you don't, it enters tapped.",
-   "appearances": 1
+   "oracle_text": "({T}: Add {G} or {U}.)\nAs this land enters, you may pay 2 life. If you don't, it enters tapped."
   },
   {
    "name": "Censor",
@@ -184,8 +214,7 @@
    ],
    "mana_cost": "{1}{U}",
    "url": "https://scryfall.com/card/akh/46/censor?utm_source=api",
-   "oracle_text": "Counter target spell unless its controller pays {1}.\nCycling {U} ({U}, Discard this card: Draw a card.)",
-   "appearances": 1
+   "oracle_text": "Counter target spell unless its controller pays {1}.\nCycling {U} ({U}, Discard this card: Draw a card.)"
   },
   {
    "name": "Sphinx of Lost Truths",
@@ -207,8 +236,7 @@
    "url": "https://scryfall.com/card/zen/69/sphinx-of-lost-truths?utm_source=api",
    "oracle_text": "Kicker {1}{U} (You may pay an additional {1}{U} as you cast this spell.)\nFlying\nWhen this creature enters, draw three cards. Then if it wasn't kicked, discard three cards.",
    "power": "3",
-   "toughness": "5",
-   "appearances": 1
+   "toughness": "5"
   },
   {
    "name": "Unsummon",
@@ -225,8 +253,7 @@
    ],
    "mana_cost": "{U}",
    "url": "https://scryfall.com/card/fdn/599/unsummon?utm_source=api",
-   "oracle_text": "Return target creature to its owner's hand.",
-   "appearances": 1
+   "oracle_text": "Return target creature to its owner's hand."
   },
   {
    "name": "Moon-Circuit Hacker",
@@ -250,8 +277,7 @@
    "url": "https://scryfall.com/card/neo/67/moon-circuit-hacker?utm_source=api",
    "oracle_text": "Ninjutsu {U} ({U}, Return an unblocked attacker you control to hand: Put this card onto the battlefield from your hand tapped and attacking.)\nWhenever this creature deals combat damage to a player, you may draw a card. If you do, discard a card unless this creature entered this turn.",
    "power": "2",
-   "toughness": "1",
-   "appearances": 1
+   "toughness": "1"
   },
   {
    "name": "Call of the Herd",
@@ -268,8 +294,7 @@
    ],
    "mana_cost": "{2}{G}",
    "url": "https://scryfall.com/card/plst/DMR-153/call-of-the-herd?utm_source=api",
-   "oracle_text": "Create a 3/3 green Elephant creature token.\nFlashback {3}{G} (You may cast this card from your graveyard for its flashback cost. Then exile it.)",
-   "appearances": 1
+   "oracle_text": "Create a 3/3 green Elephant creature token.\nFlashback {3}{G} (You may cast this card from your graveyard for its flashback cost. Then exile it.)"
   },
   {
    "name": "Memory Lapse",
@@ -286,8 +311,7 @@
    ],
    "mana_cost": "{1}{U}",
    "url": "https://scryfall.com/card/ema/60/memory-lapse?utm_source=api",
-   "oracle_text": "Counter target spell. If that spell is countered this way, put it on top of its owner's library instead of into that player's graveyard.",
-   "appearances": 1
+   "oracle_text": "Counter target spell. If that spell is countered this way, put it on top of its owner's library instead of into that player's graveyard."
   },
   {
    "name": "Mana Leak",
@@ -304,8 +328,7 @@
    ],
    "mana_cost": "{1}{U}",
    "url": "https://scryfall.com/card/2x2/58/mana-leak?utm_source=api",
-   "oracle_text": "Counter target spell unless its controller pays {3}.",
-   "appearances": 1
+   "oracle_text": "Counter target spell unless its controller pays {3}."
   },
   {
    "name": "Chainweb Aracnir",
@@ -327,8 +350,7 @@
    "url": "https://scryfall.com/card/thb/167/chainweb-aracnir?utm_source=api",
    "oracle_text": "Reach\nWhen this creature enters, it deals damage equal to its power to target creature with flying an opponent controls.\nEscape—{3}{G}{G}, Exile four other cards from your graveyard. (You may cast this card from your graveyard for its escape cost.)\nThis creature escapes with three +1/+1 counters on it.",
    "power": "1",
-   "toughness": "2",
-   "appearances": 1
+   "toughness": "2"
   },
   {
    "name": "Ephara's Dispersal",
@@ -345,8 +367,7 @@
    ],
    "mana_cost": "{2}{U}",
    "url": "https://scryfall.com/card/mkc/103/epharas-dispersal?utm_source=api",
-   "oracle_text": "This spell costs {2} less to cast if it targets an attacking creature.\nReturn target creature to its owner's hand. Surveil 2. (Look at the top two cards of your library, then put any number of them into your graveyard and the rest on top of your library in any order.)",
-   "appearances": 1
+   "oracle_text": "This spell costs {2} less to cast if it targets an attacking creature.\nReturn target creature to its owner's hand. Surveil 2. (Look at the top two cards of your library, then put any number of them into your graveyard and the rest on top of your library in any order.)"
   },
   {
    "name": "Gomazoa",
@@ -368,8 +389,7 @@
    "url": "https://scryfall.com/card/cmd/48/gomazoa?utm_source=api",
    "oracle_text": "Defender, flying\n{T}: Put this creature and each creature it's blocking on top of their owners' libraries, then those players shuffle.",
    "power": "0",
-   "toughness": "3",
-   "appearances": 1
+   "toughness": "3"
   },
   {
    "name": "Jolrael, Mwonvuli Recluse",
@@ -393,8 +413,7 @@
    "url": "https://scryfall.com/card/mkc/173/jolrael-mwonvuli-recluse?utm_source=api",
    "oracle_text": "Whenever you draw your second card each turn, create a 2/2 green Cat creature token.\n{4}{G}{G}: Until end of turn, creatures you control have base power and toughness X/X, where X is the number of cards in your hand.",
    "power": "1",
-   "toughness": "2",
-   "appearances": 1
+   "toughness": "2"
   },
   {
    "name": "Beast Within",
@@ -411,8 +430,7 @@
    ],
    "mana_cost": "{2}{G}",
    "url": "https://scryfall.com/card/eoc/93/beast-within?utm_source=api",
-   "oracle_text": "Destroy target permanent. Its controller creates a 3/3 green Beast creature token.",
-   "appearances": 1
+   "oracle_text": "Destroy target permanent. Its controller creates a 3/3 green Beast creature token."
   },
   {
    "name": "Boseiju, Who Endures",
@@ -428,8 +446,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/neo/266/boseiju-who-endures?utm_source=api",
-   "oracle_text": "{T}: Add {G}.\nChannel — {1}{G}, Discard this card: Destroy target artifact, enchantment, or nonbasic land an opponent controls. That player may search their library for a land card with a basic land type, put it onto the battlefield, then shuffle. This ability costs {1} less to activate for each legendary creature you control.",
-   "appearances": 1
+   "oracle_text": "{T}: Add {G}.\nChannel — {1}{G}, Discard this card: Destroy target artifact, enchantment, or nonbasic land an opponent controls. That player may search their library for a land card with a basic land type, put it onto the battlefield, then shuffle. This ability costs {1} less to activate for each legendary creature you control."
   },
   {
    "name": "The Goose Mother",
@@ -455,8 +472,7 @@
    "url": "https://scryfall.com/card/woe/204/the-goose-mother?utm_source=api",
    "oracle_text": "Flying\nThe Goose Mother enters with X +1/+1 counters on it.\nWhen The Goose Mother enters, create half X Food tokens, rounded up.\nWhenever The Goose Mother attacks, you may sacrifice a Food. If you do, draw a card.",
    "power": "2",
-   "toughness": "2",
-   "appearances": 1
+   "toughness": "2"
   },
   {
    "name": "Faerie Vandal",
@@ -479,8 +495,7 @@
    "url": "https://scryfall.com/card/snc/44/faerie-vandal?utm_source=api",
    "oracle_text": "Flash (You may cast this spell any time you could cast an instant.)\nFlying\nWhenever you draw your second card each turn, put a +1/+1 counter on this creature.",
    "power": "1",
-   "toughness": "2",
-   "appearances": 1
+   "toughness": "2"
   },
   {
    "name": "Emergence Zone",
@@ -493,8 +508,7 @@
    "color_identity": [],
    "mana_cost": "",
    "url": "https://scryfall.com/card/war/245/emergence-zone?utm_source=api",
-   "oracle_text": "{T}: Add {C}.\n{1}, {T}, Sacrifice this land: You may cast spells this turn as though they had flash.",
-   "appearances": 1
+   "oracle_text": "{T}: Add {C}.\n{1}, {T}, Sacrifice this land: You may cast spells this turn as though they had flash."
   },
   {
    "name": "Serum Visions",
@@ -511,8 +525,7 @@
    ],
    "mana_cost": "{U}",
    "url": "https://scryfall.com/card/otc/112/serum-visions?utm_source=api",
-   "oracle_text": "Draw a card. Scry 2.",
-   "appearances": 1
+   "oracle_text": "Draw a card. Scry 2."
   },
   {
    "name": "Restless Vinestalk",
@@ -528,8 +541,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/woe/261/restless-vinestalk?utm_source=api",
-   "oracle_text": "This land enters tapped.\n{T}: Add {G} or {U}.\n{3}{G}{U}: Until end of turn, this land becomes a 5/5 green and blue Plant creature with trample. It's still a land.\nWhenever this land attacks, up to one other target creature has base power and toughness 3/3 until end of turn.",
-   "appearances": 1
+   "oracle_text": "This land enters tapped.\n{T}: Add {G} or {U}.\n{3}{G}{U}: Until end of turn, this land becomes a 5/5 green and blue Plant creature with trample. It's still a land.\nWhenever this land attacks, up to one other target creature has base power and toughness 3/3 until end of turn."
   },
   {
    "name": "Ponder",
@@ -546,8 +558,7 @@
    ],
    "mana_cost": "{U}",
    "url": "https://scryfall.com/card/tdc/159/ponder?utm_source=api",
-   "oracle_text": "Look at the top three cards of your library, then put them back in any order. You may shuffle.\nDraw a card.",
-   "appearances": 1
+   "oracle_text": "Look at the top three cards of your library, then put them back in any order. You may shuffle.\nDraw a card."
   },
   {
    "name": "Hinterland Harbor",
@@ -563,8 +574,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/tdc/371/hinterland-harbor?utm_source=api",
-   "oracle_text": "This land enters tapped unless you control a Forest or an Island.\n{T}: Add {G} or {U}.",
-   "appearances": 1
+   "oracle_text": "This land enters tapped unless you control a Forest or an Island.\n{T}: Add {G} or {U}."
   },
   {
    "name": "Merfolk Looter",
@@ -587,8 +597,7 @@
    "url": "https://scryfall.com/card/afc/86/merfolk-looter?utm_source=api",
    "oracle_text": "{T}: Draw a card, then discard a card.",
    "power": "1",
-   "toughness": "1",
-   "appearances": 1
+   "toughness": "1"
   },
   {
    "name": "Brineborn Cutthroat",
@@ -611,8 +620,7 @@
    "url": "https://scryfall.com/card/fdn/152/brineborn-cutthroat?utm_source=api",
    "oracle_text": "Flash (You may cast this spell any time you could cast an instant.)\nWhenever you cast a spell during an opponent's turn, put a +1/+1 counter on this creature.",
    "power": "2",
-   "toughness": "1",
-   "appearances": 1
+   "toughness": "1"
   },
   {
    "name": "Deprive",
@@ -629,8 +637,7 @@
    ],
    "mana_cost": "{U}{U}",
    "url": "https://scryfall.com/card/roe/59/deprive?utm_source=api",
-   "oracle_text": "As an additional cost to cast this spell, return a land you control to its owner's hand.\nCounter target spell.",
-   "appearances": 1
+   "oracle_text": "As an additional cost to cast this spell, return a land you control to its owner's hand.\nCounter target spell."
   },
   {
    "name": "Dress Down",
@@ -647,8 +654,7 @@
    ],
    "mana_cost": "{1}{U}",
    "url": "https://scryfall.com/card/mh2/39/dress-down?utm_source=api",
-   "oracle_text": "Flash\nWhen this enchantment enters, draw a card.\nCreatures lose all abilities.\nAt the beginning of the end step, sacrifice this enchantment.",
-   "appearances": 1
+   "oracle_text": "Flash\nWhen this enchantment enters, draw a card.\nCreatures lose all abilities.\nAt the beginning of the end step, sacrifice this enchantment."
   },
   {
    "name": "Island",
@@ -667,8 +673,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/tla/283/island?utm_source=api",
-   "oracle_text": "({T}: Add {U}.)",
-   "appearances": 1
+   "oracle_text": "({T}: Add {U}.)"
   },
   {
    "name": "Island",
@@ -687,8 +692,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/tla/283/island?utm_source=api",
-   "oracle_text": "({T}: Add {U}.)",
-   "appearances": 1
+   "oracle_text": "({T}: Add {U}.)"
   },
   {
    "name": "Island",
@@ -707,8 +711,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/tla/283/island?utm_source=api",
-   "oracle_text": "({T}: Add {U}.)",
-   "appearances": 1
+   "oracle_text": "({T}: Add {U}.)"
   },
   {
    "name": "Island",
@@ -727,8 +730,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/tla/283/island?utm_source=api",
-   "oracle_text": "({T}: Add {U}.)",
-   "appearances": 1
+   "oracle_text": "({T}: Add {U}.)"
   },
   {
    "name": "Island",
@@ -747,8 +749,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/tla/283/island?utm_source=api",
-   "oracle_text": "({T}: Add {U}.)",
-   "appearances": 1
+   "oracle_text": "({T}: Add {U}.)"
   },
   {
    "name": "Island",
@@ -767,8 +768,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/tla/283/island?utm_source=api",
-   "oracle_text": "({T}: Add {U}.)",
-   "appearances": 1
+   "oracle_text": "({T}: Add {U}.)"
   },
   {
    "name": "Island",
@@ -787,8 +787,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/tla/283/island?utm_source=api",
-   "oracle_text": "({T}: Add {U}.)",
-   "appearances": 1
+   "oracle_text": "({T}: Add {U}.)"
   },
   {
    "name": "Forest",
@@ -807,8 +806,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/tla/286/forest?utm_source=api",
-   "oracle_text": "({T}: Add {G}.)",
-   "appearances": 1
+   "oracle_text": "({T}: Add {G}.)"
   },
   {
    "name": "Forest",
@@ -827,8 +825,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/tla/286/forest?utm_source=api",
-   "oracle_text": "({T}: Add {G}.)",
-   "appearances": 1
+   "oracle_text": "({T}: Add {G}.)"
   },
   {
    "name": "Forest",
@@ -847,8 +844,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/tla/286/forest?utm_source=api",
-   "oracle_text": "({T}: Add {G}.)",
-   "appearances": 1
+   "oracle_text": "({T}: Add {G}.)"
   },
   {
    "name": "Forest",
@@ -867,8 +863,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/tla/286/forest?utm_source=api",
-   "oracle_text": "({T}: Add {G}.)",
-   "appearances": 1
+   "oracle_text": "({T}: Add {G}.)"
   }
  ],
  "sideboard": [
@@ -940,8 +935,7 @@
    ],
    "mana_cost": "{U}",
    "url": "https://scryfall.com/card/thb/66/sleep-of-the-dead?utm_source=api",
-   "oracle_text": "Tap target creature. It doesn't untap during its controller's next untap step.\nEscape—{2}{U}, Exile three other cards from your graveyard. (You may cast this card from your graveyard for its escape cost.)",
-   "appearances": 1
+   "oracle_text": "Tap target creature. It doesn't untap during its controller's next untap step.\nEscape—{2}{U}, Exile three other cards from your graveyard. (You may cast this card from your graveyard for its escape cost.)"
   },
   {
    "name": "River Kelpie",
@@ -963,8 +957,7 @@
    "url": "https://scryfall.com/card/tdc/166/river-kelpie?utm_source=api",
    "oracle_text": "Whenever this creature or another permanent enters from a graveyard, draw a card.\nWhenever a player casts a spell from a graveyard, draw a card.\nPersist (When this creature dies, if it had no -1/-1 counters on it, return it to the battlefield under its owner's control with a -1/-1 counter on it.)",
    "power": "3",
-   "toughness": "3",
-   "appearances": 1
+   "toughness": "3"
   },
   {
    "name": "Read the Bones",
@@ -1087,8 +1080,7 @@
    ],
    "mana_cost": "{2}{U}",
    "url": "https://scryfall.com/card/c19/91/oonas-grace?utm_source=api",
-   "oracle_text": "Target player draws a card.\nRetrace (You may cast this card from your graveyard by discarding a land card in addition to paying its other costs.)",
-   "appearances": 1
+   "oracle_text": "Target player draws a card.\nRetrace (You may cast this card from your graveyard by discarding a land card in addition to paying its other costs.)"
   },
   {
    "name": "Reclamation Sage",

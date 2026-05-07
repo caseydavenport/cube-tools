@@ -5,56 +5,72 @@
   "combined_file": "data/polyverse/2025-10-04_ccc1/player-3a69-ea32.txt"
  },
  "labels": [
-  "control", "flicker"
+  "control",
+  "flicker"
  ],
  "player": "player-3a69-ea32",
  "date": "2025-10-04",
- "games": [
-  {
-   "opponent": "player-3a69-119c",
-   "winner": "player-3a69-ea32"
-  },
-  {
-   "opponent": "player-3a69-119c",
-   "winner": "player-3a69-119c"
-  },
-  {
-   "opponent": "player-3a69-119c",
-   "winner": "",
-   "tie": true
-  },
-  {
-   "opponent": "player-3a69-4202",
-   "winner": "player-3a69-ea32"
-  },
-  {
-   "opponent": "player-3a69-4202",
-   "winner": "player-3a69-ea32"
-  },
-  {
-   "opponent": "player-3a69-4202",
-   "winner": "player-3a69-4202"
-  },
-  {
-   "opponent": "player-3a69-b258",
-   "winner": "player-3a69-ea32"
-  },
-  {
-   "opponent": "player-3a69-b258",
-   "winner": "player-3a69-ea32"
-  }
- ],
  "matches": [
   {
    "opponent": "player-3a69-119c",
-   "winner": ""
+   "round": 3,
+   "wins": 1,
+   "losses": 1,
+   "draws": 1,
+   "games": [
+    {
+     "opponent": "player-3a69-119c",
+     "winner": "player-3a69-ea32"
+    },
+    {
+     "opponent": "player-3a69-119c",
+     "winner": "player-3a69-119c"
+    },
+    {
+     "opponent": "player-3a69-119c",
+     "winner": "",
+     "tie": true
+    }
+   ]
   },
   {
    "opponent": "player-3a69-4202",
+   "round": 2,
+   "wins": 2,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "player-3a69-4202",
+     "winner": "player-3a69-ea32"
+    },
+    {
+     "opponent": "player-3a69-4202",
+     "winner": "player-3a69-ea32"
+    },
+    {
+     "opponent": "player-3a69-4202",
+     "winner": "player-3a69-4202"
+    }
+   ],
    "winner": "player-3a69-ea32"
   },
   {
    "opponent": "player-3a69-b258",
+   "round": 1,
+   "wins": 2,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "player-3a69-b258",
+     "winner": "player-3a69-ea32"
+    },
+    {
+     "opponent": "player-3a69-b258",
+     "winner": "player-3a69-ea32"
+    }
+   ],
    "winner": "player-3a69-ea32"
   }
  ],

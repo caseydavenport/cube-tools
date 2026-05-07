@@ -11,43 +11,59 @@
  ],
  "player": "eric",
  "date": "2025-09-13",
- "games": [
-  {
-   "opponent": "isaiah",
-   "winner": "eric"
-  },
-  {
-   "opponent": "isaiah",
-   "winner": "eric"
-  },
-  {
-   "opponent": "leo",
-   "winner": "eric"
-  },
-  {
-   "opponent": "leo",
-   "winner": "eric"
-  },
-  {
-   "opponent": "zephyr",
-   "winner": "zephyr"
-  },
-  {
-   "opponent": "zephyr",
-   "winner": "zephyr"
-  }
- ],
  "matches": [
   {
    "opponent": "isaiah",
+   "round": 1,
+   "wins": 2,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "isaiah",
+     "winner": "eric"
+    },
+    {
+     "opponent": "isaiah",
+     "winner": "eric"
+    }
+   ],
    "winner": "eric"
   },
   {
    "opponent": "leo",
+   "round": 3,
+   "wins": 2,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "leo",
+     "winner": "eric"
+    },
+    {
+     "opponent": "leo",
+     "winner": "eric"
+    }
+   ],
    "winner": "eric"
   },
   {
    "opponent": "zephyr",
+   "round": 2,
+   "wins": 0,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "zephyr",
+     "winner": "zephyr"
+    },
+    {
+     "opponent": "zephyr",
+     "winner": "zephyr"
+    }
+   ],
    "winner": "zephyr"
   }
  ],

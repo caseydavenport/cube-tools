@@ -11,53 +11,68 @@
  ],
  "player": "player-3a69-07d0",
  "date": "2025-10-04",
- "games": [
-  {
-   "opponent": "player-3a69-119c",
-   "winner": "player-3a69-07d0"
-  },
-  {
-   "opponent": "player-3a69-119c",
-   "winner": "player-3a69-119c"
-  },
-  {
-   "opponent": "player-3a69-119c",
-   "winner": "player-3a69-119c"
-  },
-  {
-   "opponent": "player-3a69-12a3",
-   "winner": "player-3a69-07d0"
-  },
-  {
-   "opponent": "player-3a69-12a3",
-   "winner": "player-3a69-07d0"
-  },
-  {
-   "opponent": "player-3a69-5792",
-   "winner": "player-3a69-07d0"
-  },
-  {
-   "opponent": "player-3a69-5792",
-   "winner": "player-3a69-5792"
-  },
-  {
-   "opponent": "player-3a69-5792",
-   "winner": "",
-   "tie": true
-  }
- ],
  "matches": [
   {
    "opponent": "player-3a69-119c",
+   "round": 1,
+   "wins": 1,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "player-3a69-119c",
+     "winner": "player-3a69-07d0"
+    },
+    {
+     "opponent": "player-3a69-119c",
+     "winner": "player-3a69-119c"
+    },
+    {
+     "opponent": "player-3a69-119c",
+     "winner": "player-3a69-119c"
+    }
+   ],
    "winner": "player-3a69-119c"
   },
   {
    "opponent": "player-3a69-12a3",
+   "round": 2,
+   "wins": 2,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "player-3a69-12a3",
+     "winner": "player-3a69-07d0"
+    },
+    {
+     "opponent": "player-3a69-12a3",
+     "winner": "player-3a69-07d0"
+    }
+   ],
    "winner": "player-3a69-07d0"
   },
   {
    "opponent": "player-3a69-5792",
-   "winner": ""
+   "round": 3,
+   "wins": 1,
+   "losses": 1,
+   "draws": 1,
+   "games": [
+    {
+     "opponent": "player-3a69-5792",
+     "winner": "player-3a69-07d0"
+    },
+    {
+     "opponent": "player-3a69-5792",
+     "winner": "player-3a69-5792"
+    },
+    {
+     "opponent": "player-3a69-5792",
+     "winner": "",
+     "tie": true
+    }
+   ]
   }
  ],
  "mainboard": [
@@ -192,7 +207,7 @@
    ],
    "mana_cost": "{2}{U}",
    "url": "https://scryfall.com/card/fdn/45/kiora-the-rising-tide?utm_source=api",
-   "oracle_text": "When Kiora enters, draw two cards, then discard two cards.\nThreshold \u2014 Whenever Kiora attacks, if there are seven or more cards in your graveyard, you may create Scion of the Deep, a legendary 8/8 blue Octopus creature token.",
+   "oracle_text": "When Kiora enters, draw two cards, then discard two cards.\nThreshold — Whenever Kiora attacks, if there are seven or more cards in your graveyard, you may create Scion of the Deep, a legendary 8/8 blue Octopus creature token.",
    "power": "3",
    "toughness": "2"
   },
@@ -245,7 +260,7 @@
    ],
    "mana_cost": "{3}{U}{U}",
    "url": "https://scryfall.com/card/cmm/108/mystic-confluence?utm_source=api",
-   "oracle_text": "Choose three. You may choose the same mode more than once.\n\u2022 Counter target spell unless its controller pays {3}.\n\u2022 Return target creature to its owner's hand.\n\u2022 Draw a card."
+   "oracle_text": "Choose three. You may choose the same mode more than once.\n• Counter target spell unless its controller pays {3}.\n• Return target creature to its owner's hand.\n• Draw a card."
   },
   {
    "name": "Hedge Maze",
@@ -339,7 +354,7 @@
    ],
    "mana_cost": "{1}{B}",
    "url": "https://scryfall.com/card/ddr/51/grim-discovery?utm_source=api",
-   "oracle_text": "Choose one or both \u2014\n\u2022 Return target creature card from your graveyard to your hand.\n\u2022 Return target land card from your graveyard to your hand."
+   "oracle_text": "Choose one or both —\n• Return target creature card from your graveyard to your hand.\n• Return target land card from your graveyard to your hand."
   },
   {
    "name": "Fell",
@@ -495,7 +510,7 @@
    ],
    "mana_cost": "{G}",
    "url": "https://scryfall.com/card/thb/167/chainweb-aracnir?utm_source=api",
-   "oracle_text": "Reach\nWhen this creature enters, it deals damage equal to its power to target creature with flying an opponent controls.\nEscape\u2014{3}{G}{G}, Exile four other cards from your graveyard. (You may cast this card from your graveyard for its escape cost.)\nThis creature escapes with three +1/+1 counters on it.",
+   "oracle_text": "Reach\nWhen this creature enters, it deals damage equal to its power to target creature with flying an opponent controls.\nEscape—{3}{G}{G}, Exile four other cards from your graveyard. (You may cast this card from your graveyard for its escape cost.)\nThis creature escapes with three +1/+1 counters on it.",
    "power": "1",
    "toughness": "2"
   },
@@ -586,7 +601,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/neo/266/boseiju-who-endures?utm_source=api",
-   "oracle_text": "{T}: Add {G}.\nChannel \u2014 {1}{G}, Discard this card: Destroy target artifact, enchantment, or nonbasic land an opponent controls. That player may search their library for a land card with a basic land type, put it onto the battlefield, then shuffle. This ability costs {1} less to activate for each legendary creature you control."
+   "oracle_text": "{T}: Add {G}.\nChannel — {1}{G}, Discard this card: Destroy target artifact, enchantment, or nonbasic land an opponent controls. That player may search their library for a land card with a basic land type, put it onto the battlefield, then shuffle. This ability costs {1} less to activate for each legendary creature you control."
   },
   {
    "name": "Otawara, Soaring City",
@@ -602,7 +617,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/neo/271/otawara-soaring-city?utm_source=api",
-   "oracle_text": "{T}: Add {U}.\nChannel \u2014 {3}{U}, Discard this card: Return target artifact, creature, enchantment, or planeswalker to its owner's hand. This ability costs {1} less to activate for each legendary creature you control."
+   "oracle_text": "{T}: Add {U}.\nChannel — {3}{U}, Discard this card: Return target artifact, creature, enchantment, or planeswalker to its owner's hand. This ability costs {1} less to activate for each legendary creature you control."
   },
   {
    "name": "Restless Vinestalk",
@@ -866,7 +881,7 @@
    ],
    "mana_cost": "{1}{G}",
    "url": "https://scryfall.com/card/tdm/145/heritage-reclamation?utm_source=api",
-   "oracle_text": "Choose one \u2014\n\u2022 Destroy target artifact.\n\u2022 Destroy target enchantment.\n\u2022 Exile up to one target card from a graveyard. Draw a card."
+   "oracle_text": "Choose one —\n• Destroy target artifact.\n• Destroy target enchantment.\n• Exile up to one target card from a graveyard. Draw a card."
   },
   {
    "name": "Dress Down",
@@ -903,7 +918,7 @@
    ],
    "mana_cost": "{3}{G}",
    "url": "https://scryfall.com/card/bfz/198/woodland-wanderer?utm_source=api",
-   "oracle_text": "Vigilance, trample\nConverge \u2014 This creature enters with a +1/+1 counter on it for each color of mana spent to cast it.",
+   "oracle_text": "Vigilance, trample\nConverge — This creature enters with a +1/+1 counter on it for each color of mana spent to cast it.",
    "power": "2",
    "toughness": "2"
   },
@@ -922,7 +937,7 @@
    ],
    "mana_cost": "{1}{G}",
    "url": "https://scryfall.com/card/neo/204/roaring-earth?utm_source=api",
-   "oracle_text": "Landfall \u2014 Whenever a land you control enters, put a +1/+1 counter on target creature or Vehicle you control.\nChannel \u2014 {X}{G}{G}, Discard this card: Put X +1/+1 counters on target land you control. It becomes a 0/0 green Spirit creature with haste. It's still a land."
+   "oracle_text": "Landfall — Whenever a land you control enters, put a +1/+1 counter on target creature or Vehicle you control.\nChannel — {X}{G}{G}, Discard this card: Put X +1/+1 counters on target land you control. It becomes a 0/0 green Spirit creature with haste. It's still a land."
   },
   {
    "name": "Archmage's Charm",
@@ -939,7 +954,7 @@
    ],
    "mana_cost": "{U}{U}{U}",
    "url": "https://scryfall.com/card/mh1/40/archmages-charm?utm_source=api",
-   "oracle_text": "Choose one \u2014\n\u2022 Counter target spell.\n\u2022 Target player draws two cards.\n\u2022 Gain control of target nonland permanent with mana value 1 or less."
+   "oracle_text": "Choose one —\n• Counter target spell.\n• Target player draws two cards.\n• Gain control of target nonland permanent with mana value 1 or less."
   },
   {
    "name": "Grim Bauble",
@@ -1016,7 +1031,7 @@
    ],
    "mana_cost": "{2}{G}",
    "url": "https://scryfall.com/card/woe/176/the-huntsmans-redemption?utm_source=api",
-   "oracle_text": "(As this Saga enters and after your draw step, add a lore counter. Sacrifice after III.)\nI \u2014 Create a 3/3 green Beast creature token.\nII \u2014 You may sacrifice a creature. If you do, search your library for a creature or basic land card, reveal it, put it into your hand, then shuffle.\nIII \u2014 Up to two target creatures each get +2/+2 and gain trample until end of turn."
+   "oracle_text": "(As this Saga enters and after your draw step, add a lore counter. Sacrifice after III.)\nI — Create a 3/3 green Beast creature token.\nII — You may sacrifice a creature. If you do, search your library for a creature or basic land card, reveal it, put it into your hand, then shuffle.\nIII — Up to two target creatures each get +2/+2 and gain trample until end of turn."
   },
   {
    "name": "Cling to Dust",
@@ -1033,7 +1048,7 @@
    ],
    "mana_cost": "{B}",
    "url": "https://scryfall.com/card/thb/87/cling-to-dust?utm_source=api",
-   "oracle_text": "Exile target card from a graveyard. If it was a creature card, you gain 3 life. Otherwise, you draw a card.\nEscape\u2014{3}{B}, Exile five other cards from your graveyard. (You may cast this card from your graveyard for its escape cost.)"
+   "oracle_text": "Exile target card from a graveyard. If it was a creature card, you gain 3 life. Otherwise, you draw a card.\nEscape—{3}{B}, Exile five other cards from your graveyard. (You may cast this card from your graveyard for its escape cost.)"
   },
   {
    "name": "Soul Partition",

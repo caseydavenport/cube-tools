@@ -11,43 +11,59 @@
  ],
  "player": "owen",
  "date": "2025-06-29",
- "games": [
-  {
-   "opponent": "casey",
-   "winner": "owen"
-  },
-  {
-   "opponent": "casey",
-   "winner": "owen"
-  },
-  {
-   "opponent": "mehdi",
-   "winner": "owen"
-  },
-  {
-   "opponent": "mehdi",
-   "winner": "owen"
-  },
-  {
-   "opponent": "tanner",
-   "winner": "tanner"
-  },
-  {
-   "opponent": "tanner",
-   "winner": "tanner"
-  }
- ],
  "matches": [
   {
    "opponent": "casey",
+   "round": 2,
+   "wins": 2,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "casey",
+     "winner": "owen"
+    },
+    {
+     "opponent": "casey",
+     "winner": "owen"
+    }
+   ],
    "winner": "owen"
   },
   {
    "opponent": "mehdi",
+   "round": 1,
+   "wins": 2,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "mehdi",
+     "winner": "owen"
+    },
+    {
+     "opponent": "mehdi",
+     "winner": "owen"
+    }
+   ],
    "winner": "owen"
   },
   {
    "opponent": "tanner",
+   "round": 3,
+   "wins": 0,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "tanner",
+     "winner": "tanner"
+    },
+    {
+     "opponent": "tanner",
+     "winner": "tanner"
+    }
+   ],
    "winner": "tanner"
   }
  ],

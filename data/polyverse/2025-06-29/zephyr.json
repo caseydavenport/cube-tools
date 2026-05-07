@@ -10,51 +10,67 @@
  ],
  "player": "zephyr",
  "date": "2025-06-29",
- "games": [
-  {
-   "opponent": "joe2",
-   "winner": "zephyr"
-  },
-  {
-   "opponent": "joe2",
-   "winner": "zephyr"
-  },
-  {
-   "opponent": "joe2",
-   "winner": "joe2"
-  },
-  {
-   "opponent": "kevin",
-   "winner": "zephyr"
-  },
-  {
-   "opponent": "kevin",
-   "winner": "zephyr"
-  },
-  {
-   "opponent": "tanner",
-   "winner": "zephyr"
-  },
-  {
-   "opponent": "tanner",
-   "winner": "zephyr"
-  },
-  {
-   "opponent": "tanner",
-   "winner": "tanner"
-  }
- ],
  "matches": [
   {
    "opponent": "joe2",
+   "round": 2,
+   "wins": 2,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "joe2",
+     "winner": "zephyr"
+    },
+    {
+     "opponent": "joe2",
+     "winner": "zephyr"
+    },
+    {
+     "opponent": "joe2",
+     "winner": "joe2"
+    }
+   ],
    "winner": "zephyr"
   },
   {
    "opponent": "kevin",
+   "round": 3,
+   "wins": 2,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "kevin",
+     "winner": "zephyr"
+    },
+    {
+     "opponent": "kevin",
+     "winner": "zephyr"
+    }
+   ],
    "winner": "zephyr"
   },
   {
    "opponent": "tanner",
+   "round": 1,
+   "wins": 2,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "tanner",
+     "winner": "zephyr"
+    },
+    {
+     "opponent": "tanner",
+     "winner": "zephyr"
+    },
+    {
+     "opponent": "tanner",
+     "winner": "tanner"
+    }
+   ],
    "winner": "zephyr"
   }
  ],

@@ -11,43 +11,59 @@
  ],
  "player": "colton",
  "date": "2025-10-25",
- "games": [
-  {
-   "opponent": "casey",
-   "winner": "casey"
-  },
-  {
-   "opponent": "robert",
-   "winner": "colton"
-  },
-  {
-   "opponent": "robert",
-   "winner": "colton"
-  },
-  {
-   "opponent": "robert",
-   "winner": "robert"
-  },
-  {
-   "opponent": "taylor",
-   "winner": "colton"
-  },
-  {
-   "opponent": "taylor",
-   "winner": "colton"
-  }
- ],
  "matches": [
   {
    "opponent": "casey",
+   "round": 3,
+   "wins": 0,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "casey",
+     "winner": "casey"
+    }
+   ],
    "winner": "casey"
   },
   {
    "opponent": "robert",
+   "round": 1,
+   "wins": 2,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "robert",
+     "winner": "colton"
+    },
+    {
+     "opponent": "robert",
+     "winner": "colton"
+    },
+    {
+     "opponent": "robert",
+     "winner": "robert"
+    }
+   ],
    "winner": "colton"
   },
   {
    "opponent": "taylor",
+   "round": 2,
+   "wins": 2,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "taylor",
+     "winner": "colton"
+    },
+    {
+     "opponent": "taylor",
+     "winner": "colton"
+    }
+   ],
    "winner": "colton"
   }
  ],

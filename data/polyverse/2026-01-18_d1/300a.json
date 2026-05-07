@@ -4,14 +4,44 @@
   "draft_id": "2026-01-18_d1",
   "combined_file": "data/polyverse/2026-01-18_d1/300a.txt"
  },
- "labels": ["aggro", "token", "hatebears"],
- "wins": 6,
- "losses": 0,
+ "labels": [
+  "aggro",
+  "token",
+  "hatebears"
+ ],
+ "player": "20260118d1-300a",
+ "date": "2026-01-18",
+ "matches": [
+  {
+   "opponent": "",
+   "round": 1,
+   "wins": 2,
+   "losses": 0,
+   "draws": 0,
+   "winner": "20260118d1-300a"
+  },
+  {
+   "opponent": "",
+   "round": 2,
+   "wins": 2,
+   "losses": 0,
+   "draws": 0,
+   "winner": "20260118d1-300a"
+  },
+  {
+   "opponent": "",
+   "round": 3,
+   "wins": 2,
+   "losses": 0,
+   "draws": 0,
+   "winner": "20260118d1-300a"
+  }
+ ],
  "match_wins_override": 3,
  "match_losses_override": 0,
  "match_draws_override": 0,
- "player": "20260118d1-300a",
- "date": "2026-01-18",
+ "wins": 6,
+ "losses": 0,
  "mainboard": [
   {
    "name": "Mutavault",

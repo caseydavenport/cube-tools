@@ -158,6 +158,15 @@ func importDraft(d *HedronDraft) {
 		logrus.WithError(err).Fatal("Failed to create directories")
 	}
 
+	// Write per-draft metadata once.
+	draftMeta := &types.DraftMetadata{
+		EventName:        d.EventName,
+		EventDescription: fmt.Sprintf("Imported from Hedron Network. Event Code: %s, Flight: %s", d.EventCode, d.FlightName),
+	}
+	if err := draftMeta.Save(outdir); err != nil {
+		logrus.WithError(err).Fatal("Failed to write draft metadata")
+	}
+
 	// For each player, create a deck.
 	playerDecks := make(map[string]*types.Deck)
 
@@ -166,8 +175,6 @@ func importDraft(d *HedronDraft) {
 		deck.Player = sanitizePlayerName(p.ID, d.DraftID)
 		deck.Date = dateStr
 		deck.Metadata.DraftID = draftDirName
-		deck.Metadata.EventName = d.EventName
-		deck.Metadata.EventDescription = fmt.Sprintf("Imported from Hedron Network. Event Code: %s, Flight: %s", d.EventCode, d.FlightName)
 		
 		// If they have a deck photo, download it.
 		if len(p.Images.Deck) > 0 {
@@ -205,9 +212,28 @@ func importDraft(d *HedronDraft) {
 		} else if m.Result[1] > m.Result[0] {
 			winner = p2Deck.Player
 		}
-		
-		p1Deck.AddMatch(p2Deck.Player, winner)
-		p2Deck.AddMatch(p1Deck.Player, winner)
+
+		draws := 0
+		if len(m.Result) > 2 {
+			draws = m.Result[2]
+		}
+
+		p1Deck.Matches = append(p1Deck.Matches, types.Match{
+			Opponent: p2Deck.Player,
+			Round:    m.Round,
+			Wins:     m.Result[0],
+			Losses:   m.Result[1],
+			Draws:    draws,
+			Winner:   winner,
+		})
+		p2Deck.Matches = append(p2Deck.Matches, types.Match{
+			Opponent: p1Deck.Player,
+			Round:    m.Round,
+			Wins:     m.Result[1],
+			Losses:   m.Result[0],
+			Draws:    draws,
+			Winner:   winner,
+		})
 	}
 
 	// Save all decks.

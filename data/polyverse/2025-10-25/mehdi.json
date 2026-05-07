@@ -13,51 +13,67 @@
  ],
  "player": "mehdi",
  "date": "2025-10-25",
- "games": [
-  {
-   "opponent": "perry",
-   "winner": "mehdi"
-  },
-  {
-   "opponent": "perry",
-   "winner": "mehdi"
-  },
-  {
-   "opponent": "perry",
-   "winner": "perry"
-  },
-  {
-   "opponent": "robert",
-   "winner": "mehdi"
-  },
-  {
-   "opponent": "robert",
-   "winner": "robert"
-  },
-  {
-   "opponent": "robert",
-   "winner": "robert"
-  },
-  {
-   "opponent": "taylor",
-   "winner": "taylor"
-  },
-  {
-   "opponent": "taylor",
-   "winner": "taylor"
-  }
- ],
  "matches": [
   {
    "opponent": "perry",
+   "round": 2,
+   "wins": 2,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "perry",
+     "winner": "mehdi"
+    },
+    {
+     "opponent": "perry",
+     "winner": "mehdi"
+    },
+    {
+     "opponent": "perry",
+     "winner": "perry"
+    }
+   ],
    "winner": "mehdi"
   },
   {
    "opponent": "robert",
+   "round": 3,
+   "wins": 1,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "robert",
+     "winner": "mehdi"
+    },
+    {
+     "opponent": "robert",
+     "winner": "robert"
+    },
+    {
+     "opponent": "robert",
+     "winner": "robert"
+    }
+   ],
    "winner": "robert"
   },
   {
    "opponent": "taylor",
+   "round": 5,
+   "wins": 0,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "taylor",
+     "winner": "taylor"
+    },
+    {
+     "opponent": "taylor",
+     "winner": "taylor"
+    }
+   ],
    "winner": "taylor"
   }
  ],

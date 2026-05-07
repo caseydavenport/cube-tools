@@ -10,55 +10,91 @@
  ],
  "player": "dom",
  "date": "2024-01-07",
- "games": [
+ "matches": [
   {
    "opponent": "cara",
-   "winner": "dom"
-  },
-  {
-   "opponent": "cara",
-   "winner": "cara"
-  },
-  {
-   "opponent": "cara",
+   "round": 4,
+   "wins": 1,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "cara",
+     "winner": "dom"
+    },
+    {
+     "opponent": "cara",
+     "winner": "cara"
+    },
+    {
+     "opponent": "cara",
+     "winner": "cara"
+    }
+   ],
    "winner": "cara"
   },
   {
    "opponent": "casey",
+   "round": 1,
+   "wins": 1,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "casey",
+     "winner": "dom"
+    }
+   ],
    "winner": "dom"
   },
   {
    "opponent": "greg",
+   "round": 2,
+   "wins": 1,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "greg",
+     "winner": "dom"
+    }
+   ],
    "winner": "dom"
   },
   {
    "opponent": "jen",
-   "winner": "dom"
-  },
-  {
-   "opponent": "jen",
-   "winner": "dom"
-  },
-  {
-   "opponent": "xander",
-   "winner": "xander"
-  },
-  {
-   "opponent": "xander",
-   "winner": "xander"
-  }
- ],
- "matches": [
-  {
-   "opponent": "cara",
-   "winner": "cara"
-  },
-  {
-   "opponent": "jen",
+   "round": 3,
+   "wins": 2,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "jen",
+     "winner": "dom"
+    },
+    {
+     "opponent": "jen",
+     "winner": "dom"
+    }
+   ],
    "winner": "dom"
   },
   {
    "opponent": "xander",
+   "round": 5,
+   "wins": 0,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "xander",
+     "winner": "xander"
+    },
+    {
+     "opponent": "xander",
+     "winner": "xander"
+    }
+   ],
    "winner": "xander"
   }
  ],
@@ -81,8 +117,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/inr/91/thing-in-the-ice-awoken-horror?utm_source=api",
-   "oracle_text": "",
-   "appearances": 1
+   "oracle_text": ""
   },
   {
    "name": "Mulldrifter",
@@ -104,8 +139,7 @@
    "url": "https://scryfall.com/card/mkc/111/mulldrifter?utm_source=api",
    "oracle_text": "Flying\nWhen this creature enters, draw two cards.\nEvoke {2}{U} (You may cast this spell for its evoke cost. If you do, it's sacrificed when it enters.)",
    "power": "2",
-   "toughness": "2",
-   "appearances": 1
+   "toughness": "2"
   },
   {
    "name": "Vexing Gull",
@@ -127,8 +161,7 @@
    "url": "https://scryfall.com/card/thb/79/vexing-gull?utm_source=api",
    "oracle_text": "Flash\nFlying",
    "power": "2",
-   "toughness": "2",
-   "appearances": 1
+   "toughness": "2"
   },
   {
    "name": "Aether Tradewinds",
@@ -145,8 +178,7 @@
    ],
    "mana_cost": "{2}{U}",
    "url": "https://scryfall.com/card/kld/38/aether-tradewinds?utm_source=api",
-   "oracle_text": "Return target permanent you control and target permanent you don't control to their owners' hands.",
-   "appearances": 1
+   "oracle_text": "Return target permanent you control and target permanent you don't control to their owners' hands."
   },
   {
    "name": "Curator of Mysteries",
@@ -168,8 +200,7 @@
    "url": "https://scryfall.com/card/afc/81/curator-of-mysteries?utm_source=api",
    "oracle_text": "Flying\nWhenever you cycle or discard another card, scry 1.\nCycling {U} ({U}, Discard this card: Draw a card.)",
    "power": "4",
-   "toughness": "4",
-   "appearances": 1
+   "toughness": "4"
   },
   {
    "name": "Snapcaster Mage",
@@ -192,8 +223,7 @@
    "url": "https://scryfall.com/card/uma/71/snapcaster-mage?utm_source=api",
    "oracle_text": "Flash\nWhen this creature enters, target instant or sorcery card in your graveyard gains flashback until end of turn. The flashback cost is equal to its mana cost. (You may cast that card from your graveyard for its flashback cost. Then exile it.)",
    "power": "2",
-   "toughness": "1",
-   "appearances": 1
+   "toughness": "1"
   },
   {
    "name": "Into the Roil",
@@ -210,8 +240,7 @@
    ],
    "mana_cost": "{1}{U}",
    "url": "https://scryfall.com/card/fdn/509/into-the-roil?utm_source=api",
-   "oracle_text": "Kicker {1}{U} (You may pay an additional {1}{U} as you cast this spell.)\nReturn target nonland permanent to its owner's hand. If this spell was kicked, draw a card.",
-   "appearances": 1
+   "oracle_text": "Kicker {1}{U} (You may pay an additional {1}{U} as you cast this spell.)\nReturn target nonland permanent to its owner's hand. If this spell was kicked, draw a card."
   },
   {
    "name": "Winds of Rebuke",
@@ -228,8 +257,7 @@
    ],
    "mana_cost": "{1}{U}",
    "url": "https://scryfall.com/card/akh/76/winds-of-rebuke?utm_source=api",
-   "oracle_text": "Return target nonland permanent to its owner's hand. Each player mills two cards.",
-   "appearances": 1
+   "oracle_text": "Return target nonland permanent to its owner's hand. Each player mills two cards."
   },
   {
    "name": "Sulfur Falls",
@@ -245,8 +273,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/eoc/184/sulfur-falls?utm_source=api",
-   "oracle_text": "This land enters tapped unless you control an Island or a Mountain.\n{T}: Add {U} or {R}.",
-   "appearances": 1
+   "oracle_text": "This land enters tapped unless you control an Island or a Mountain.\n{T}: Add {U} or {R}."
   },
   {
    "name": "Fiery Islet",
@@ -262,8 +289,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/mh1/238/fiery-islet?utm_source=api",
-   "oracle_text": "{T}, Pay 1 life: Add {U} or {R}.\n{1}, {T}, Sacrifice this land: Draw a card.",
-   "appearances": 1
+   "oracle_text": "{T}, Pay 1 life: Add {U} or {R}.\n{1}, {T}, Sacrifice this land: Draw a card."
   },
   {
    "name": "Lightning Bolt",
@@ -280,8 +306,7 @@
    ],
    "mana_cost": "{R}",
    "url": "https://scryfall.com/card/clu/141/lightning-bolt?utm_source=api",
-   "oracle_text": "Lightning Bolt deals 3 damage to any target.",
-   "appearances": 1
+   "oracle_text": "Lightning Bolt deals 3 damage to any target."
   },
   {
    "name": "Ral, Storm Conduit",
@@ -304,8 +329,7 @@
    ],
    "mana_cost": "{2}{U}{R}",
    "url": "https://scryfall.com/card/war/211/ral-storm-conduit?utm_source=api",
-   "oracle_text": "Whenever you cast or copy an instant or sorcery spell, Ral deals 1 damage to target opponent or planeswalker.\n+2: Scry 1.\n−2: When you next cast an instant or sorcery spell this turn, copy that spell. You may choose new targets for the copy.",
-   "appearances": 1
+   "oracle_text": "Whenever you cast or copy an instant or sorcery spell, Ral deals 1 damage to target opponent or planeswalker.\n+2: Scry 1.\n−2: When you next cast an instant or sorcery spell this turn, copy that spell. You may choose new targets for the copy."
   },
   {
    "name": "Flames of the Firebrand",
@@ -322,8 +346,7 @@
    ],
    "mana_cost": "{2}{R}",
    "url": "https://scryfall.com/card/jmp/317/flames-of-the-firebrand?utm_source=api",
-   "oracle_text": "Flames of the Firebrand deals 3 damage divided as you choose among one, two, or three targets.",
-   "appearances": 1
+   "oracle_text": "Flames of the Firebrand deals 3 damage divided as you choose among one, two, or three targets."
   },
   {
    "name": "Mark of Mutiny",
@@ -340,8 +363,7 @@
    ],
    "mana_cost": "{2}{R}",
    "url": "https://scryfall.com/card/ima/139/mark-of-mutiny?utm_source=api",
-   "oracle_text": "Gain control of target creature until end of turn. Put a +1/+1 counter on it and untap it. That creature gains haste until end of turn. (It can attack and {T} this turn.)",
-   "appearances": 1
+   "oracle_text": "Gain control of target creature until end of turn. Put a +1/+1 counter on it and untap it. That creature gains haste until end of turn. (It can attack and {T} this turn.)"
   },
   {
    "name": "Rielle, the Everwise",
@@ -367,8 +389,7 @@
    "url": "https://scryfall.com/card/iko/203/rielle-the-everwise?utm_source=api",
    "oracle_text": "Rielle gets +1/+0 for each instant and sorcery card in your graveyard.\nWhenever you discard one or more cards for the first time each turn, draw that many cards.",
    "power": "0",
-   "toughness": "3",
-   "appearances": 1
+   "toughness": "3"
   },
   {
    "name": "Rage Nimbus",
@@ -390,8 +411,7 @@
    "url": "https://scryfall.com/card/roe/160/rage-nimbus?utm_source=api",
    "oracle_text": "Defender, flying\n{1}{R}: Target creature attacks this turn if able.",
    "power": "5",
-   "toughness": "3",
-   "appearances": 1
+   "toughness": "3"
   },
   {
    "name": "Negate",
@@ -408,8 +428,7 @@
    ],
    "mana_cost": "{1}{U}",
    "url": "https://scryfall.com/card/fdn/710/negate?utm_source=api",
-   "oracle_text": "Counter target noncreature spell.",
-   "appearances": 1
+   "oracle_text": "Counter target noncreature spell."
   },
   {
    "name": "Sulfurous Springs",
@@ -425,8 +444,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/eoc/185/sulfurous-springs?utm_source=api",
-   "oracle_text": "{T}: Add {C}.\n{T}: Add {B} or {R}. This land deals 1 damage to you.",
-   "appearances": 1
+   "oracle_text": "{T}: Add {C}.\n{T}: Add {B} or {R}. This land deals 1 damage to you."
   },
   {
    "name": "Takenuma, Abandoned Mire",
@@ -442,8 +460,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/neo/278/takenuma-abandoned-mire?utm_source=api",
-   "oracle_text": "{T}: Add {B}.\nChannel — {3}{B}, Discard this card: Mill three cards, then return a creature or planeswalker card from your graveyard to your hand. This ability costs {1} less to activate for each legendary creature you control.",
-   "appearances": 1
+   "oracle_text": "{T}: Add {B}.\nChannel — {3}{B}, Discard this card: Mill three cards, then return a creature or planeswalker card from your graveyard to your hand. This ability costs {1} less to activate for each legendary creature you control."
   },
   {
    "name": "Watery Grave",
@@ -463,8 +480,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/eoe/261/watery-grave?utm_source=api",
-   "oracle_text": "({T}: Add {U} or {B}.)\nAs this land enters, you may pay 2 life. If you don't, it enters tapped.",
-   "appearances": 1
+   "oracle_text": "({T}: Add {U} or {B}.)\nAs this land enters, you may pay 2 life. If you don't, it enters tapped."
   },
   {
    "name": "Hostage Taker",
@@ -489,8 +505,7 @@
    "url": "https://scryfall.com/card/otc/231/hostage-taker?utm_source=api",
    "oracle_text": "When this creature enters, exile another target creature or artifact until this creature leaves the battlefield. You may cast that card for as long as it remains exiled, and mana of any type can be spent to cast that spell.",
    "power": "2",
-   "toughness": "3",
-   "appearances": 1
+   "toughness": "3"
   },
   {
    "name": "Raven's Crime",
@@ -507,8 +522,7 @@
    ],
    "mana_cost": "{B}",
    "url": "https://scryfall.com/card/mma/95/ravens-crime?utm_source=api",
-   "oracle_text": "Target player discards a card.\nRetrace (You may cast this card from your graveyard by discarding a land card in addition to paying its other costs.)",
-   "appearances": 1
+   "oracle_text": "Target player discards a card.\nRetrace (You may cast this card from your graveyard by discarding a land card in addition to paying its other costs.)"
   },
   {
    "name": "Unearth",
@@ -525,8 +539,7 @@
    ],
    "mana_cost": "{B}",
    "url": "https://scryfall.com/card/2x2/96/unearth?utm_source=api",
-   "oracle_text": "Return target creature card with mana value 3 or less from your graveyard to the battlefield.\nCycling {2} ({2}, Discard this card: Draw a card.)",
-   "appearances": 1
+   "oracle_text": "Return target creature card with mana value 3 or less from your graveyard to the battlefield.\nCycling {2} ({2}, Discard this card: Draw a card.)"
   },
   {
    "name": "Mesmeric Fiend",
@@ -549,8 +562,7 @@
    "url": "https://scryfall.com/card/a25/97/mesmeric-fiend?utm_source=api",
    "oracle_text": "When this creature enters, target opponent reveals their hand and you choose a nonland card from it. Exile that card.\nWhen this creature leaves the battlefield, return the exiled card to its owner's hand.",
    "power": "1",
-   "toughness": "1",
-   "appearances": 1
+   "toughness": "1"
   },
   {
    "name": "Archfiend of Ifnir",
@@ -572,8 +584,7 @@
    "url": "https://scryfall.com/card/akh/78/archfiend-of-ifnir?utm_source=api",
    "oracle_text": "Flying\nWhenever you cycle or discard another card, put a -1/-1 counter on each creature your opponents control.\nCycling {2} ({2}, Discard this card: Draw a card.)",
    "power": "5",
-   "toughness": "4",
-   "appearances": 1
+   "toughness": "4"
   },
   {
    "name": "Virtue of Persistence // Locthwain Scorn",
@@ -595,8 +606,7 @@
    ],
    "mana_cost": "{5}{B}{B} // {1}{B}",
    "url": "https://scryfall.com/card/woe/115/virtue-of-persistence-locthwain-scorn?utm_source=api",
-   "oracle_text": "",
-   "appearances": 1
+   "oracle_text": ""
   },
   {
    "name": "Shadowstorm Vizier",
@@ -621,8 +631,7 @@
    "url": "https://scryfall.com/card/akh/206/shadowstorm-vizier?utm_source=api",
    "oracle_text": "Flying\nWhenever you cycle or discard a card, this creature gets +1/+1 until end of turn.",
    "power": "1",
-   "toughness": "3",
-   "appearances": 1
+   "toughness": "3"
   },
   {
    "name": "Malfegor",
@@ -648,8 +657,7 @@
    "url": "https://scryfall.com/card/ima/205/malfegor?utm_source=api",
    "oracle_text": "Flying\nWhen Malfegor enters, discard your hand. Each opponent sacrifices a creature of their choice for each card discarded this way.",
    "power": "6",
-   "toughness": "6",
-   "appearances": 1
+   "toughness": "6"
   },
   {
    "name": "Island",
@@ -668,8 +676,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/tla/283/island?utm_source=api",
-   "oracle_text": "({T}: Add {U}.)",
-   "appearances": 1
+   "oracle_text": "({T}: Add {U}.)"
   },
   {
    "name": "Island",
@@ -688,8 +695,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/tla/283/island?utm_source=api",
-   "oracle_text": "({T}: Add {U}.)",
-   "appearances": 1
+   "oracle_text": "({T}: Add {U}.)"
   },
   {
    "name": "Island",
@@ -708,8 +714,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/tla/283/island?utm_source=api",
-   "oracle_text": "({T}: Add {U}.)",
-   "appearances": 1
+   "oracle_text": "({T}: Add {U}.)"
   },
   {
    "name": "Island",
@@ -728,8 +733,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/tla/283/island?utm_source=api",
-   "oracle_text": "({T}: Add {U}.)",
-   "appearances": 1
+   "oracle_text": "({T}: Add {U}.)"
   },
   {
    "name": "Swamp",
@@ -748,8 +752,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/tla/284/swamp?utm_source=api",
-   "oracle_text": "({T}: Add {B}.)",
-   "appearances": 1
+   "oracle_text": "({T}: Add {B}.)"
   },
   {
    "name": "Swamp",
@@ -768,8 +771,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/tla/284/swamp?utm_source=api",
-   "oracle_text": "({T}: Add {B}.)",
-   "appearances": 1
+   "oracle_text": "({T}: Add {B}.)"
   },
   {
    "name": "Swamp",
@@ -788,8 +790,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/tla/284/swamp?utm_source=api",
-   "oracle_text": "({T}: Add {B}.)",
-   "appearances": 1
+   "oracle_text": "({T}: Add {B}.)"
   },
   {
    "name": "Swamp",
@@ -808,8 +809,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/tla/284/swamp?utm_source=api",
-   "oracle_text": "({T}: Add {B}.)",
-   "appearances": 1
+   "oracle_text": "({T}: Add {B}.)"
   },
   {
    "name": "Mountain",
@@ -828,8 +828,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/tla/285/mountain?utm_source=api",
-   "oracle_text": "({T}: Add {R}.)",
-   "appearances": 1
+   "oracle_text": "({T}: Add {R}.)"
   },
   {
    "name": "Mountain",
@@ -848,8 +847,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/tla/285/mountain?utm_source=api",
-   "oracle_text": "({T}: Add {R}.)",
-   "appearances": 1
+   "oracle_text": "({T}: Add {R}.)"
   },
   {
    "name": "Mountain",
@@ -868,8 +866,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/tla/285/mountain?utm_source=api",
-   "oracle_text": "({T}: Add {R}.)",
-   "appearances": 1
+   "oracle_text": "({T}: Add {R}.)"
   },
   {
    "name": "Mountain",
@@ -888,8 +885,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/tla/285/mountain?utm_source=api",
-   "oracle_text": "({T}: Add {R}.)",
-   "appearances": 1
+   "oracle_text": "({T}: Add {R}.)"
   }
  ],
  "sideboard": [
@@ -908,8 +904,7 @@
    ],
    "mana_cost": "{1}{U}",
    "url": "https://scryfall.com/card/fdn/586/chart-a-course?utm_source=api",
-   "oracle_text": "Draw two cards. Then discard a card unless you attacked this turn.",
-   "appearances": 1
+   "oracle_text": "Draw two cards. Then discard a card unless you attacked this turn."
   },
   {
    "name": "Liliana, Death's Majesty",

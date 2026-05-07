@@ -5,55 +5,72 @@
   "combined_file": "data/polyverse/2025-08-17/michael.csv"
  },
  "labels": [
-  "control", "draw"
+  "control",
+  "draw"
  ],
  "player": "michael",
  "date": "2025-08-17",
- "games": [
-  {
-   "opponent": "ben",
-   "winner": "michael"
-  },
-  {
-   "opponent": "ben",
-   "winner": "ben"
-  },
-  {
-   "opponent": "ben",
-   "winner": "ben"
-  },
-  {
-   "opponent": "brianfl",
-   "winner": "michael"
-  },
-  {
-   "opponent": "brianfl",
-   "winner": "michael"
-  },
-  {
-   "opponent": "brianfl",
-   "winner": "brianfl"
-  },
-  {
-   "opponent": "wilson",
-   "winner": "wilson"
-  },
-  {
-   "opponent": "wilson",
-   "winner": "wilson"
-  }
- ],
  "matches": [
   {
    "opponent": "ben",
+   "round": 3,
+   "wins": 1,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "ben",
+     "winner": "michael"
+    },
+    {
+     "opponent": "ben",
+     "winner": "ben"
+    },
+    {
+     "opponent": "ben",
+     "winner": "ben"
+    }
+   ],
    "winner": "ben"
   },
   {
    "opponent": "brianfl",
+   "round": 4,
+   "wins": 2,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "brianfl",
+     "winner": "michael"
+    },
+    {
+     "opponent": "brianfl",
+     "winner": "michael"
+    },
+    {
+     "opponent": "brianfl",
+     "winner": "brianfl"
+    }
+   ],
    "winner": "michael"
   },
   {
    "opponent": "wilson",
+   "round": 1,
+   "wins": 0,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "wilson",
+     "winner": "wilson"
+    },
+    {
+     "opponent": "wilson",
+     "winner": "wilson"
+    }
+   ],
    "winner": "wilson"
   }
  ],

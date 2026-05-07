@@ -10,29 +10,78 @@
  ],
  "player": "casey",
  "date": "2023-07-16",
- "games": [
+ "matches": [
   {
-   "opponent": "jen",
-   "winner": "casey"
+   "opponent": "dom",
+   "round": 3,
+   "wins": 0,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "dom",
+     "winner": "dom"
+    }
+   ],
+   "winner": "dom"
   },
   {
    "opponent": "greg",
+   "round": 4,
+   "wins": 1,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "greg",
+     "winner": "casey"
+    }
+   ],
+   "winner": "casey"
+  },
+  {
+   "opponent": "james",
+   "round": 1,
+   "wins": 1,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "james",
+     "winner": "casey"
+    }
+   ],
+   "winner": "casey"
+  },
+  {
+   "opponent": "jen",
+   "round": 2,
+   "wins": 1,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "jen",
+     "winner": "casey"
+    }
+   ],
    "winner": "casey"
   },
   {
    "opponent": "xander",
+   "round": 5,
+   "wins": 0,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "xander",
+     "winner": "xander"
+    }
+   ],
    "winner": "xander"
-  },
-  {
-   "opponent": "dom",
-   "winner": "dom"
-  },
-  {
-   "opponent": "james",
-   "winner": "casey"
   }
  ],
- "matches": null,
  "mainboard": [
   {
    "name": "Siege-Gang Commander",

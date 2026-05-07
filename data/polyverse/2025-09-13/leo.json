@@ -11,31 +11,41 @@
  ],
  "player": "leo",
  "date": "2025-09-13",
- "games": [
-  {
-   "opponent": "colton",
-   "winner": "colton"
-  },
-  {
-   "opponent": "colton",
-   "winner": "colton"
-  },
-  {
-   "opponent": "eric",
-   "winner": "eric"
-  },
-  {
-   "opponent": "eric",
-   "winner": "eric"
-  }
- ],
  "matches": [
   {
    "opponent": "colton",
+   "round": 2,
+   "wins": 0,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "colton",
+     "winner": "colton"
+    },
+    {
+     "opponent": "colton",
+     "winner": "colton"
+    }
+   ],
    "winner": "colton"
   },
   {
    "opponent": "eric",
+   "round": 3,
+   "wins": 0,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "eric",
+     "winner": "eric"
+    },
+    {
+     "opponent": "eric",
+     "winner": "eric"
+    }
+   ],
    "winner": "eric"
   }
  ],

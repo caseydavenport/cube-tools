@@ -10,21 +10,30 @@
  ],
  "player": "dom",
  "date": "2023-10-15",
- "games": [
+ "matches": [
   {
    "opponent": "casey",
-   "winner": "dom"
-  },
-  {
-   "opponent": "casey",
-   "winner": "casey"
-  },
-  {
-   "opponent": "casey",
+   "round": 1,
+   "wins": 1,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "casey",
+     "winner": "dom"
+    },
+    {
+     "opponent": "casey",
+     "winner": "casey"
+    },
+    {
+     "opponent": "casey",
+     "winner": "casey"
+    }
+   ],
    "winner": "casey"
   }
  ],
- "matches": null,
  "mainboard": [
   {
    "name": "Chainweb Aracnir",

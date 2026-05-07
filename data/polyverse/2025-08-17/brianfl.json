@@ -10,47 +10,63 @@
  ],
  "player": "brianfl",
  "date": "2025-08-17",
- "games": [
-  {
-   "opponent": "jamesdeyja",
-   "winner": "jamesdeyja"
-  },
-  {
-   "opponent": "jamesdeyja",
-   "winner": "jamesdeyja"
-  },
-  {
-   "opponent": "kevin",
-   "winner": "kevin"
-  },
-  {
-   "opponent": "kevin",
-   "winner": "kevin"
-  },
-  {
-   "opponent": "michael",
-   "winner": "brianfl"
-  },
-  {
-   "opponent": "michael",
-   "winner": "michael"
-  },
-  {
-   "opponent": "michael",
-   "winner": "michael"
-  }
- ],
  "matches": [
   {
    "opponent": "jamesdeyja",
+   "round": 1,
+   "wins": 0,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "jamesdeyja",
+     "winner": "jamesdeyja"
+    },
+    {
+     "opponent": "jamesdeyja",
+     "winner": "jamesdeyja"
+    }
+   ],
    "winner": "jamesdeyja"
   },
   {
    "opponent": "kevin",
+   "round": 2,
+   "wins": 0,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "kevin",
+     "winner": "kevin"
+    },
+    {
+     "opponent": "kevin",
+     "winner": "kevin"
+    }
+   ],
    "winner": "kevin"
   },
   {
    "opponent": "michael",
+   "round": 4,
+   "wins": 1,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "michael",
+     "winner": "brianfl"
+    },
+    {
+     "opponent": "michael",
+     "winner": "michael"
+    },
+    {
+     "opponent": "michael",
+     "winner": "michael"
+    }
+   ],
    "winner": "michael"
   }
  ],

@@ -10,55 +10,71 @@
  ],
  "player": "kevin",
  "date": "2025-06-12",
- "games": [
-  {
-   "opponent": "joe2",
-   "winner": "kevin"
-  },
-  {
-   "opponent": "joe2",
-   "winner": "joe2"
-  },
-  {
-   "opponent": "joe2",
-   "winner": "joe2"
-  },
-  {
-   "opponent": "kenny",
-   "winner": "kevin"
-  },
-  {
-   "opponent": "kenny",
-   "winner": "kenny"
-  },
-  {
-   "opponent": "kenny",
-   "winner": "kenny"
-  },
-  {
-   "opponent": "will",
-   "winner": "kevin"
-  },
-  {
-   "opponent": "will",
-   "winner": "kevin"
-  },
-  {
-   "opponent": "will",
-   "winner": "will"
-  }
- ],
  "matches": [
   {
    "opponent": "joe2",
+   "round": 2,
+   "wins": 1,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "joe2",
+     "winner": "kevin"
+    },
+    {
+     "opponent": "joe2",
+     "winner": "joe2"
+    },
+    {
+     "opponent": "joe2",
+     "winner": "joe2"
+    }
+   ],
    "winner": "joe2"
   },
   {
    "opponent": "kenny",
+   "round": 3,
+   "wins": 1,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "kenny",
+     "winner": "kevin"
+    },
+    {
+     "opponent": "kenny",
+     "winner": "kenny"
+    },
+    {
+     "opponent": "kenny",
+     "winner": "kenny"
+    }
+   ],
    "winner": "kenny"
   },
   {
    "opponent": "will",
+   "round": 1,
+   "wins": 2,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "will",
+     "winner": "kevin"
+    },
+    {
+     "opponent": "will",
+     "winner": "kevin"
+    },
+    {
+     "opponent": "will",
+     "winner": "will"
+    }
+   ],
    "winner": "kevin"
   }
  ],

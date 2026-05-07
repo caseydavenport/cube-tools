@@ -10,21 +10,50 @@
  ],
  "player": "casey",
  "date": "2023-07-23",
- "games": [
+ "matches": [
   {
    "opponent": "grant",
+   "round": 1,
+   "wins": 1,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "grant",
+     "winner": "casey"
+    }
+   ],
    "winner": "casey"
   },
   {
    "opponent": "jen",
+   "round": 2,
+   "wins": 1,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "jen",
+     "winner": "casey"
+    }
+   ],
    "winner": "casey"
   },
   {
    "opponent": "matt",
+   "round": 3,
+   "wins": 1,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "matt",
+     "winner": "casey"
+    }
+   ],
    "winner": "casey"
   }
  ],
- "matches": null,
  "mainboard": [
   {
    "name": "Tibalt's Rager",

@@ -4,10 +4,36 @@
   "draft_id": "2026-01-17",
   "pool_file": "data/polyverse/2026-01-17/210c-pool.txt"
  },
- "labels": ["control"],
- "colors": ["B", "U"],
+ "labels": [
+  "control"
+ ],
  "player": "20260117-210c",
  "date": "2026-01-17",
+ "matches": [
+  {
+   "opponent": "",
+   "round": 1,
+   "wins": 2,
+   "losses": 0,
+   "draws": 0,
+   "winner": "20260117-210c"
+  },
+  {
+   "opponent": "",
+   "round": 2,
+   "wins": 2,
+   "losses": 0,
+   "draws": 0,
+   "winner": "20260117-210c"
+  },
+  {
+   "opponent": "",
+   "round": 3,
+   "wins": 0,
+   "losses": 2,
+   "draws": 0
+  }
+ ],
  "match_wins_override": 2,
  "match_losses_override": 1,
  "mainboard": [],
@@ -896,5 +922,9 @@
    "url": "https://scryfall.com/card/tdc/363/fetid-pools?utm_source=api",
    "oracle_text": "({T}: Add {U} or {B}.)\nThis land enters tapped.\nCycling {2} ({2}, Discard this card: Draw a card.)"
   }
+ ],
+ "colors": [
+  "B",
+  "U"
  ]
 }

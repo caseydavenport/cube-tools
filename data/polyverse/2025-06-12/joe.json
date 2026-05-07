@@ -10,55 +10,71 @@
  ],
  "player": "joe",
  "date": "2025-06-12",
- "games": [
-  {
-   "opponent": "colton",
-   "winner": "joe"
-  },
-  {
-   "opponent": "colton",
-   "winner": "colton"
-  },
-  {
-   "opponent": "colton",
-   "winner": "colton"
-  },
-  {
-   "opponent": "joe2",
-   "winner": "joe"
-  },
-  {
-   "opponent": "joe2",
-   "winner": "joe2"
-  },
-  {
-   "opponent": "joe2",
-   "winner": "joe2"
-  },
-  {
-   "opponent": "will",
-   "winner": "joe"
-  },
-  {
-   "opponent": "will",
-   "winner": "will"
-  },
-  {
-   "opponent": "will",
-   "winner": "will"
-  }
- ],
  "matches": [
   {
    "opponent": "colton",
+   "round": 1,
+   "wins": 1,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "colton",
+     "winner": "joe"
+    },
+    {
+     "opponent": "colton",
+     "winner": "colton"
+    },
+    {
+     "opponent": "colton",
+     "winner": "colton"
+    }
+   ],
    "winner": "colton"
   },
   {
    "opponent": "joe2",
+   "round": 3,
+   "wins": 1,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "joe2",
+     "winner": "joe"
+    },
+    {
+     "opponent": "joe2",
+     "winner": "joe2"
+    },
+    {
+     "opponent": "joe2",
+     "winner": "joe2"
+    }
+   ],
    "winner": "joe2"
   },
   {
    "opponent": "will",
+   "round": 2,
+   "wins": 1,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "will",
+     "winner": "joe"
+    },
+    {
+     "opponent": "will",
+     "winner": "will"
+    },
+    {
+     "opponent": "will",
+     "winner": "will"
+    }
+   ],
    "winner": "will"
   }
  ],

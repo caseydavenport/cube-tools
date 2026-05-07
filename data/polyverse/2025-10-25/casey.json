@@ -14,47 +14,63 @@
  ],
  "player": "casey",
  "date": "2025-10-25",
- "games": [
-  {
-   "opponent": "colton",
-   "winner": "casey"
-  },
-  {
-   "opponent": "jackson",
-   "winner": "casey"
-  },
-  {
-   "opponent": "jackson",
-   "winner": "casey"
-  },
-  {
-   "opponent": "jackson",
-   "winner": "jackson"
-  },
-  {
-   "opponent": "taylor",
-   "winner": "casey"
-  },
-  {
-   "opponent": "taylor",
-   "winner": "casey"
-  },
-  {
-   "opponent": "taylor",
-   "winner": "taylor"
-  }
- ],
  "matches": [
   {
    "opponent": "colton",
+   "round": 3,
+   "wins": 1,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "colton",
+     "winner": "casey"
+    }
+   ],
    "winner": "casey"
   },
   {
    "opponent": "jackson",
+   "round": 2,
+   "wins": 2,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "jackson",
+     "winner": "casey"
+    },
+    {
+     "opponent": "jackson",
+     "winner": "casey"
+    },
+    {
+     "opponent": "jackson",
+     "winner": "jackson"
+    }
+   ],
    "winner": "casey"
   },
   {
    "opponent": "taylor",
+   "round": 1,
+   "wins": 2,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "taylor",
+     "winner": "casey"
+    },
+    {
+     "opponent": "taylor",
+     "winner": "casey"
+    },
+    {
+     "opponent": "taylor",
+     "winner": "taylor"
+    }
+   ],
    "winner": "casey"
   }
  ],

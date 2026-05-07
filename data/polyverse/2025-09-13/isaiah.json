@@ -11,47 +11,63 @@
  ],
  "player": "isaiah",
  "date": "2025-09-13",
- "games": [
-  {
-   "opponent": "eric",
-   "winner": "eric"
-  },
-  {
-   "opponent": "eric",
-   "winner": "eric"
-  },
-  {
-   "opponent": "casey",
-   "winner": "isaiah"
-  },
-  {
-   "opponent": "casey",
-   "winner": "isaiah"
-  },
-  {
-   "opponent": "joe",
-   "winner": "isaiah"
-  },
-  {
-   "opponent": "joe",
-   "winner": "joe"
-  },
-  {
-   "opponent": "joe",
-   "winner": "joe"
-  }
- ],
  "matches": [
   {
-   "opponent": "eric",
-   "winner": "eric"
-  },
-  {
    "opponent": "casey",
+   "round": 3,
+   "wins": 2,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "casey",
+     "winner": "isaiah"
+    },
+    {
+     "opponent": "casey",
+     "winner": "isaiah"
+    }
+   ],
    "winner": "isaiah"
   },
   {
+   "opponent": "eric",
+   "round": 1,
+   "wins": 0,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "eric",
+     "winner": "eric"
+    },
+    {
+     "opponent": "eric",
+     "winner": "eric"
+    }
+   ],
+   "winner": "eric"
+  },
+  {
    "opponent": "joe",
+   "round": 2,
+   "wins": 1,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "joe",
+     "winner": "isaiah"
+    },
+    {
+     "opponent": "joe",
+     "winner": "joe"
+    },
+    {
+     "opponent": "joe",
+     "winner": "joe"
+    }
+   ],
    "winner": "joe"
   }
  ],

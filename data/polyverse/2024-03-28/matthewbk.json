@@ -9,43 +9,59 @@
  ],
  "player": "matthewbk",
  "date": "2024-03-28",
- "games": [
-  {
-   "opponent": "alexs",
-   "winner": "matthewbk"
-  },
-  {
-   "opponent": "alexs",
-   "winner": "matthewbk"
-  },
-  {
-   "opponent": "casey",
-   "winner": "matthewbk"
-  },
-  {
-   "opponent": "casey",
-   "winner": "matthewbk"
-  },
-  {
-   "opponent": "jan",
-   "winner": "matthewbk"
-  },
-  {
-   "opponent": "jan",
-   "winner": "matthewbk"
-  }
- ],
  "matches": [
   {
    "opponent": "alexs",
+   "round": 1,
+   "wins": 2,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "alexs",
+     "winner": "matthewbk"
+    },
+    {
+     "opponent": "alexs",
+     "winner": "matthewbk"
+    }
+   ],
    "winner": "matthewbk"
   },
   {
    "opponent": "casey",
+   "round": 2,
+   "wins": 2,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "casey",
+     "winner": "matthewbk"
+    },
+    {
+     "opponent": "casey",
+     "winner": "matthewbk"
+    }
+   ],
    "winner": "matthewbk"
   },
   {
    "opponent": "jan",
+   "round": 4,
+   "wins": 2,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "jan",
+     "winner": "matthewbk"
+    },
+    {
+     "opponent": "jan",
+     "winner": "matthewbk"
+    }
+   ],
    "winner": "matthewbk"
   }
  ],

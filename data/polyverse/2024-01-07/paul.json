@@ -9,51 +9,67 @@
  ],
  "player": "paul",
  "date": "2024-01-07",
- "games": [
-  {
-   "opponent": "casey",
-   "winner": "paul"
-  },
-  {
-   "opponent": "casey",
-   "winner": "paul"
-  },
-  {
-   "opponent": "casey",
-   "winner": "casey"
-  },
-  {
-   "opponent": "greg",
-   "winner": "paul"
-  },
-  {
-   "opponent": "greg",
-   "winner": "paul"
-  },
-  {
-   "opponent": "james",
-   "winner": "paul"
-  },
-  {
-   "opponent": "james",
-   "winner": "james"
-  },
-  {
-   "opponent": "james",
-   "winner": "james"
-  }
- ],
  "matches": [
   {
    "opponent": "casey",
+   "round": 5,
+   "wins": 2,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "casey",
+     "winner": "paul"
+    },
+    {
+     "opponent": "casey",
+     "winner": "paul"
+    },
+    {
+     "opponent": "casey",
+     "winner": "casey"
+    }
+   ],
    "winner": "paul"
   },
   {
    "opponent": "greg",
+   "round": 4,
+   "wins": 2,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "greg",
+     "winner": "paul"
+    },
+    {
+     "opponent": "greg",
+     "winner": "paul"
+    }
+   ],
    "winner": "paul"
   },
   {
    "opponent": "james",
+   "round": 2,
+   "wins": 1,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "james",
+     "winner": "paul"
+    },
+    {
+     "opponent": "james",
+     "winner": "james"
+    },
+    {
+     "opponent": "james",
+     "winner": "james"
+    }
+   ],
    "winner": "james"
   }
  ],
@@ -69,8 +85,7 @@
    "color_identity": [],
    "mana_cost": "",
    "url": "https://scryfall.com/card/dmr/250/maze-of-ith?utm_source=api",
-   "oracle_text": "{T}: Untap target attacking creature. Prevent all combat damage that would be dealt to and dealt by that creature this turn.",
-   "appearances": 1
+   "oracle_text": "{T}: Untap target attacking creature. Prevent all combat damage that would be dealt to and dealt by that creature this turn."
   },
   {
    "name": "Orcish Lumberjack",
@@ -93,8 +108,7 @@
    "url": "https://scryfall.com/card/vma/179/orcish-lumberjack?utm_source=api",
    "oracle_text": "{T}, Sacrifice a Forest: Add three mana in any combination of {R} and/or {G}.",
    "power": "1",
-   "toughness": "1",
-   "appearances": 1
+   "toughness": "1"
   },
   {
    "name": "Stomping Ground",
@@ -114,8 +128,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/eoe/258/stomping-ground?utm_source=api",
-   "oracle_text": "({T}: Add {R} or {G}.)\nAs this land enters, you may pay 2 life. If you don't, it enters tapped.",
-   "appearances": 1
+   "oracle_text": "({T}: Add {R} or {G}.)\nAs this land enters, you may pay 2 life. If you don't, it enters tapped."
   },
   {
    "name": "Domri, Anarch of Bolas",
@@ -138,8 +151,7 @@
    ],
    "mana_cost": "{1}{R}{G}",
    "url": "https://scryfall.com/card/war/191/domri-anarch-of-bolas?utm_source=api",
-   "oracle_text": "Creatures you control get +1/+0.\n+1: Add {R} or {G}. Creature spells you cast this turn can't be countered.\n−2: Target creature you control fights target creature you don't control.",
-   "appearances": 1
+   "oracle_text": "Creatures you control get +1/+0.\n+1: Add {R} or {G}. Creature spells you cast this turn can't be countered.\n−2: Target creature you control fights target creature you don't control."
   },
   {
    "name": "Punishing Fire",
@@ -156,8 +168,7 @@
    ],
    "mana_cost": "{1}{R}",
    "url": "https://scryfall.com/card/cmd/131/punishing-fire?utm_source=api",
-   "oracle_text": "Punishing Fire deals 2 damage to any target.\nWhenever an opponent gains life, you may pay {R}. If you do, return this card from your graveyard to your hand.",
-   "appearances": 1
+   "oracle_text": "Punishing Fire deals 2 damage to any target.\nWhenever an opponent gains life, you may pay {R}. If you do, return this card from your graveyard to your hand."
   },
   {
    "name": "Sheltered Thicket",
@@ -177,8 +188,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/eoc/178/sheltered-thicket?utm_source=api",
-   "oracle_text": "({T}: Add {R} or {G}.)\nThis land enters tapped.\nCycling {2} ({2}, Discard this card: Draw a card.)",
-   "appearances": 1
+   "oracle_text": "({T}: Add {R} or {G}.)\nThis land enters tapped.\nCycling {2} ({2}, Discard this card: Draw a card.)"
   },
   {
    "name": "Quest for the Gemblades",
@@ -195,8 +205,7 @@
    ],
    "mana_cost": "{1}{G}",
    "url": "https://scryfall.com/card/zen/177/quest-for-the-gemblades?utm_source=api",
-   "oracle_text": "Whenever a creature you control deals combat damage to a creature, you may put a quest counter on this enchantment.\nRemove a quest counter from this enchantment and sacrifice it: Put four +1/+1 counters on target creature.",
-   "appearances": 1
+   "oracle_text": "Whenever a creature you control deals combat damage to a creature, you may put a quest counter on this enchantment.\nRemove a quest counter from this enchantment and sacrifice it: Put four +1/+1 counters on target creature."
   },
   {
    "name": "Lizard Blades",
@@ -220,8 +229,7 @@
    "url": "https://scryfall.com/card/neo/153/lizard-blades?utm_source=api",
    "oracle_text": "Double strike\nEquipped creature has double strike.\nReconfigure {2} ({2}: Attach to target creature you control; or unattach from a creature. Reconfigure only as a sorcery. While attached, this isn't a creature.)",
    "power": "1",
-   "toughness": "1",
-   "appearances": 1
+   "toughness": "1"
   },
   {
    "name": "Reinforced Ronin",
@@ -245,8 +253,7 @@
    "url": "https://scryfall.com/card/neo/158/reinforced-ronin?utm_source=api",
    "oracle_text": "Haste\nAt the beginning of your end step, return this creature to its owner's hand.\nChannel — {1}{R}, Discard this card: Draw a card.",
    "power": "2",
-   "toughness": "2",
-   "appearances": 1
+   "toughness": "2"
   },
   {
    "name": "Wooded Foothills",
@@ -259,8 +266,7 @@
    "color_identity": [],
    "mana_cost": "",
    "url": "https://scryfall.com/card/mh3/236/wooded-foothills?utm_source=api",
-   "oracle_text": "{T}, Pay 1 life, Sacrifice this land: Search your library for a Mountain or Forest card, put it onto the battlefield, then shuffle.",
-   "appearances": 1
+   "oracle_text": "{T}, Pay 1 life, Sacrifice this land: Search your library for a Mountain or Forest card, put it onto the battlefield, then shuffle."
   },
   {
    "name": "Twinshot Sniper",
@@ -284,8 +290,7 @@
    "url": "https://scryfall.com/card/neo/168/twinshot-sniper?utm_source=api",
    "oracle_text": "Reach\nWhen this creature enters, it deals 2 damage to any target.\nChannel — {1}{R}, Discard this card: It deals 2 damage to any target.",
    "power": "2",
-   "toughness": "3",
-   "appearances": 1
+   "toughness": "3"
   },
   {
    "name": "Goblin Guide",
@@ -308,8 +313,7 @@
    "url": "https://scryfall.com/card/2xm/127/goblin-guide?utm_source=api",
    "oracle_text": "Haste\nWhenever this creature attacks, defending player reveals the top card of their library. If it's a land card, that player puts it into their hand.",
    "power": "2",
-   "toughness": "2",
-   "appearances": 1
+   "toughness": "2"
   },
   {
    "name": "Rubblebelt Rioters",
@@ -334,8 +338,7 @@
    "url": "https://scryfall.com/card/war/215/rubblebelt-rioters?utm_source=api",
    "oracle_text": "Haste\nWhenever this creature attacks, it gets +X/+0 until end of turn, where X is the greatest power among creatures you control.",
    "power": "0",
-   "toughness": "4",
-   "appearances": 1
+   "toughness": "4"
   },
   {
    "name": "Skarrgan Hellkite",
@@ -357,8 +360,7 @@
    "url": "https://scryfall.com/card/tdc/233/skarrgan-hellkite?utm_source=api",
    "oracle_text": "Riot (This creature enters with your choice of a +1/+1 counter or haste.)\nFlying\n{3}{R}: This creature deals 2 damage divided as you choose among one or two targets. Activate only if this creature has a +1/+1 counter on it.",
    "power": "4",
-   "toughness": "4",
-   "appearances": 1
+   "toughness": "4"
   },
   {
    "name": "Arid Mesa",
@@ -371,8 +373,7 @@
    "color_identity": [],
    "mana_cost": "",
    "url": "https://scryfall.com/card/mh2/244/arid-mesa?utm_source=api",
-   "oracle_text": "{T}, Pay 1 life, Sacrifice this land: Search your library for a Mountain or Plains card, put it onto the battlefield, then shuffle.",
-   "appearances": 1
+   "oracle_text": "{T}, Pay 1 life, Sacrifice this land: Search your library for a Mountain or Plains card, put it onto the battlefield, then shuffle."
   },
   {
    "name": "Flame Jab",
@@ -389,8 +390,7 @@
    ],
    "mana_cost": "{R}",
    "url": "https://scryfall.com/card/ema/131/flame-jab?utm_source=api",
-   "oracle_text": "Flame Jab deals 1 damage to any target.\nRetrace (You may cast this card from your graveyard by discarding a land card in addition to paying its other costs.)",
-   "appearances": 1
+   "oracle_text": "Flame Jab deals 1 damage to any target.\nRetrace (You may cast this card from your graveyard by discarding a land card in addition to paying its other costs.)"
   },
   {
    "name": "Comet Storm",
@@ -407,8 +407,7 @@
    ],
    "mana_cost": "{X}{R}{R}",
    "url": "https://scryfall.com/card/cmr/411/comet-storm?utm_source=api",
-   "oracle_text": "Multikicker {1} (You may pay an additional {1} any number of times as you cast this spell.)\nChoose any target, then choose another target for each time this spell was kicked. Comet Storm deals X damage to each of them.",
-   "appearances": 1
+   "oracle_text": "Multikicker {1} (You may pay an additional {1} any number of times as you cast this spell.)\nChoose any target, then choose another target for each time this spell was kicked. Comet Storm deals X damage to each of them."
   },
   {
    "name": "Perilous Myr",
@@ -428,8 +427,7 @@
    "url": "https://scryfall.com/card/cmr/330/perilous-myr?utm_source=api",
    "oracle_text": "When this creature dies, it deals 2 damage to any target.",
    "power": "1",
-   "toughness": "1",
-   "appearances": 1
+   "toughness": "1"
   },
   {
    "name": "Rabbit Battery",
@@ -453,8 +451,7 @@
    "url": "https://scryfall.com/card/neo/157/rabbit-battery?utm_source=api",
    "oracle_text": "Haste\nEquipped creature gets +1/+1 and has haste.\nReconfigure {R} ({R}: Attach to target creature you control; or unattach from a creature. Reconfigure only as a sorcery. While attached, this isn't a creature.)",
    "power": "1",
-   "toughness": "1",
-   "appearances": 1
+   "toughness": "1"
   },
   {
    "name": "Intrepid Trufflesnout // Go Hog Wild",
@@ -478,8 +475,7 @@
    "url": "https://scryfall.com/card/woe/320/intrepid-trufflesnout-go-hog-wild?utm_source=api",
    "oracle_text": "",
    "power": "3",
-   "toughness": "1",
-   "appearances": 1
+   "toughness": "1"
   },
   {
    "name": "Kraul Harpooner",
@@ -502,8 +498,7 @@
    "url": "https://scryfall.com/card/clu/167/kraul-harpooner?utm_source=api",
    "oracle_text": "Reach\nUndergrowth — When this creature enters, choose up to one target creature you don't control with flying. This creature gets +X/+0 until end of turn, where X is the number of creature cards in your graveyard, then you may have this creature fight that creature.",
    "power": "3",
-   "toughness": "2",
-   "appearances": 1
+   "toughness": "2"
   },
   {
    "name": "Kellan, the Fae-Blooded // Birthright Boon",
@@ -530,8 +525,7 @@
    "url": "https://scryfall.com/card/woe/230/kellan-the-fae-blooded-birthright-boon?utm_source=api",
    "oracle_text": "",
    "power": "2",
-   "toughness": "2",
-   "appearances": 1
+   "toughness": "2"
   },
   {
    "name": "Grim Initiate",
@@ -554,8 +548,7 @@
    "url": "https://scryfall.com/card/war/130/grim-initiate?utm_source=api",
    "oracle_text": "First strike\nWhen this creature dies, amass Zombies 1. (Put a +1/+1 counter on an Army you control. It's also a Zombie. If you don't control an Army, create a 0/0 black Zombie Army creature token first.)",
    "power": "1",
-   "toughness": "1",
-   "appearances": 1
+   "toughness": "1"
   },
   {
    "name": "Rigging Runner",
@@ -578,8 +571,7 @@
    "url": "https://scryfall.com/card/xln/157/rigging-runner?utm_source=api",
    "oracle_text": "First strike\nRaid — This creature enters with a +1/+1 counter on it if you attacked this turn.",
    "power": "1",
-   "toughness": "1",
-   "appearances": 1
+   "toughness": "1"
   },
   {
    "name": "Spider Food",
@@ -596,8 +588,7 @@
    ],
    "mana_cost": "{2}{G}",
    "url": "https://scryfall.com/card/woe/186/spider-food?utm_source=api",
-   "oracle_text": "Destroy up to one target artifact, enchantment, or creature with flying. Create a Food token. (It's an artifact with \"{2}, {T}, Sacrifice this token: You gain 3 life.\")",
-   "appearances": 1
+   "oracle_text": "Destroy up to one target artifact, enchantment, or creature with flying. Create a Food token. (It's an artifact with \"{2}, {T}, Sacrifice this token: You gain 3 life.\")"
   },
   {
    "name": "Siege-Gang Commander",
@@ -619,8 +610,7 @@
    "url": "https://scryfall.com/card/tdc/232/siege-gang-commander?utm_source=api",
    "oracle_text": "When this creature enters, create three 1/1 red Goblin creature tokens.\n{1}{R}, Sacrifice a Goblin: This creature deals 2 damage to any target.",
    "power": "2",
-   "toughness": "2",
-   "appearances": 1
+   "toughness": "2"
   },
   {
    "name": "Manabarbs",
@@ -637,8 +627,7 @@
    ],
    "mana_cost": "{3}{R}",
    "url": "https://scryfall.com/card/m12/150/manabarbs?utm_source=api",
-   "oracle_text": "Whenever a player taps a land for mana, this enchantment deals 1 damage to that player.",
-   "appearances": 1
+   "oracle_text": "Whenever a player taps a land for mana, this enchantment deals 1 damage to that player."
   },
   {
    "name": "Mountain",
@@ -657,8 +646,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/tla/285/mountain?utm_source=api",
-   "oracle_text": "({T}: Add {R}.)",
-   "appearances": 1
+   "oracle_text": "({T}: Add {R}.)"
   },
   {
    "name": "Mountain",
@@ -677,8 +665,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/tla/285/mountain?utm_source=api",
-   "oracle_text": "({T}: Add {R}.)",
-   "appearances": 1
+   "oracle_text": "({T}: Add {R}.)"
   },
   {
    "name": "Mountain",
@@ -697,8 +684,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/tla/285/mountain?utm_source=api",
-   "oracle_text": "({T}: Add {R}.)",
-   "appearances": 1
+   "oracle_text": "({T}: Add {R}.)"
   },
   {
    "name": "Mountain",
@@ -717,8 +703,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/tla/285/mountain?utm_source=api",
-   "oracle_text": "({T}: Add {R}.)",
-   "appearances": 1
+   "oracle_text": "({T}: Add {R}.)"
   },
   {
    "name": "Mountain",
@@ -737,8 +722,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/tla/285/mountain?utm_source=api",
-   "oracle_text": "({T}: Add {R}.)",
-   "appearances": 1
+   "oracle_text": "({T}: Add {R}.)"
   },
   {
    "name": "Mountain",
@@ -757,8 +741,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/tla/285/mountain?utm_source=api",
-   "oracle_text": "({T}: Add {R}.)",
-   "appearances": 1
+   "oracle_text": "({T}: Add {R}.)"
   },
   {
    "name": "Mountain",
@@ -777,8 +760,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/tla/285/mountain?utm_source=api",
-   "oracle_text": "({T}: Add {R}.)",
-   "appearances": 1
+   "oracle_text": "({T}: Add {R}.)"
   },
   {
    "name": "Forest",
@@ -797,8 +779,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/tla/286/forest?utm_source=api",
-   "oracle_text": "({T}: Add {G}.)",
-   "appearances": 1
+   "oracle_text": "({T}: Add {G}.)"
   },
   {
    "name": "Forest",
@@ -817,8 +798,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/tla/286/forest?utm_source=api",
-   "oracle_text": "({T}: Add {G}.)",
-   "appearances": 1
+   "oracle_text": "({T}: Add {G}.)"
   },
   {
    "name": "Forest",
@@ -837,8 +817,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/tla/286/forest?utm_source=api",
-   "oracle_text": "({T}: Add {G}.)",
-   "appearances": 1
+   "oracle_text": "({T}: Add {G}.)"
   },
   {
    "name": "Forest",
@@ -857,8 +836,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/tla/286/forest?utm_source=api",
-   "oracle_text": "({T}: Add {G}.)",
-   "appearances": 1
+   "oracle_text": "({T}: Add {G}.)"
   },
   {
    "name": "Forest",
@@ -877,8 +855,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/tla/286/forest?utm_source=api",
-   "oracle_text": "({T}: Add {G}.)",
-   "appearances": 1
+   "oracle_text": "({T}: Add {G}.)"
   },
   {
    "name": "Forest",
@@ -897,8 +874,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/tla/286/forest?utm_source=api",
-   "oracle_text": "({T}: Add {G}.)",
-   "appearances": 1
+   "oracle_text": "({T}: Add {G}.)"
   }
  ],
  "sideboard": [

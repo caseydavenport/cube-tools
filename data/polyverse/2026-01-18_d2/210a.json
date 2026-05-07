@@ -11,6 +11,31 @@
  ],
  "player": "20260118d2-210a",
  "date": "2026-01-18",
+ "matches": [
+  {
+   "opponent": "",
+   "round": 1,
+   "wins": 2,
+   "losses": 0,
+   "draws": 0,
+   "winner": "20260118d2-210a"
+  },
+  {
+   "opponent": "",
+   "round": 2,
+   "wins": 2,
+   "losses": 0,
+   "draws": 0,
+   "winner": "20260118d2-210a"
+  },
+  {
+   "opponent": "",
+   "round": 3,
+   "wins": 0,
+   "losses": 2,
+   "draws": 0
+  }
+ ],
  "match_wins_override": 2,
  "match_losses_override": 1,
  "mainboard": [
@@ -164,7 +189,7 @@
    ],
    "mana_cost": "{1}{G}{G}",
    "url": "https://scryfall.com/card/eoc/92/augur-of-autumn?utm_source=api",
-   "oracle_text": "You may look at the top card of your library any time.\nYou may play lands from the top of your library.\nCoven \u2014 As long as you control three or more creatures with different powers, you may cast creature spells from the top of your library.",
+   "oracle_text": "You may look at the top card of your library any time.\nYou may play lands from the top of your library.\nCoven — As long as you control three or more creatures with different powers, you may cast creature spells from the top of your library.",
    "power": "2",
    "toughness": "3"
   },
@@ -189,7 +214,7 @@
    ],
    "mana_cost": "{1}{G}{W}",
    "url": "https://scryfall.com/card/aer/133/renegade-rallier?utm_source=api",
-   "oracle_text": "Revolt \u2014 When this creature enters, if a permanent left the battlefield under your control this turn, return target permanent card with mana value 2 or less from your graveyard to the battlefield.",
+   "oracle_text": "Revolt — When this creature enters, if a permanent left the battlefield under your control this turn, return target permanent card with mana value 2 or less from your graveyard to the battlefield.",
    "power": "3",
    "toughness": "2"
   },
@@ -258,7 +283,7 @@
    ],
    "mana_cost": "{1}{G}{G}",
    "url": "https://scryfall.com/card/cmm/888/courser-of-kruphix?utm_source=api",
-   "oracle_text": "Play with the top card of your library revealed.\nYou may play lands from the top of your library.\nLandfall \u2014 Whenever a land you control enters, you gain 1 life.",
+   "oracle_text": "Play with the top card of your library revealed.\nYou may play lands from the top of your library.\nLandfall — Whenever a land you control enters, you gain 1 life.",
    "power": "2",
    "toughness": "4"
   },
@@ -299,7 +324,7 @@
    ],
    "mana_cost": "{R}{G}",
    "url": "https://scryfall.com/card/mh2/216/territorial-kavu?utm_source=api",
-   "oracle_text": "Domain \u2014 Territorial Kavu's power and toughness are each equal to the number of basic land types among lands you control.\nWhenever this creature attacks, choose one \u2014\n\u2022 Discard a card. If you do, draw a card.\n\u2022 Exile up to one target card from a graveyard.",
+   "oracle_text": "Domain — Territorial Kavu's power and toughness are each equal to the number of basic land types among lands you control.\nWhenever this creature attacks, choose one —\n• Discard a card. If you do, draw a card.\n• Exile up to one target card from a graveyard.",
    "power": "*",
    "toughness": "*"
   },
@@ -321,7 +346,7 @@
    ],
    "mana_cost": "{1}{G}",
    "url": "https://scryfall.com/card/znr/193/lotus-cobra?utm_source=api",
-   "oracle_text": "Landfall \u2014 Whenever a land you control enters, add one mana of any color.",
+   "oracle_text": "Landfall — Whenever a land you control enters, add one mana of any color.",
    "power": "2",
    "toughness": "1"
   },
@@ -382,7 +407,7 @@
    ],
    "mana_cost": "{R}{G}",
    "url": "https://scryfall.com/card/2x2/296/wrenn-and-six?utm_source=api",
-   "oracle_text": "+1: Return up to one target land card from your graveyard to your hand.\n\u22121: Wrenn and Six deals 1 damage to any target.\n\u22127: You get an emblem with \"Instant and sorcery cards in your graveyard have retrace.\" (You may cast instant and sorcery cards from your graveyard by discarding a land card in addition to paying their other costs.)"
+   "oracle_text": "+1: Return up to one target land card from your graveyard to your hand.\n−1: Wrenn and Six deals 1 damage to any target.\n−7: You get an emblem with \"Instant and sorcery cards in your graveyard have retrace.\" (You may cast instant and sorcery cards from your graveyard by discarding a land card in addition to paying their other costs.)"
   },
   {
    "name": "Life from the Loam",
@@ -450,7 +475,7 @@
    ],
    "mana_cost": "{X}{W}",
    "url": "https://scryfall.com/card/mh2/25/prismatic-ending?utm_source=api",
-   "oracle_text": "Converge \u2014 Exile target nonland permanent if its mana value is less than or equal to the number of colors of mana spent to cast this spell."
+   "oracle_text": "Converge — Exile target nonland permanent if its mana value is less than or equal to the number of colors of mana spent to cast this spell."
   },
   {
    "name": "Unholy Heat",
@@ -467,7 +492,7 @@
    ],
    "mana_cost": "{R}",
    "url": "https://scryfall.com/card/otc/182/unholy-heat?utm_source=api",
-   "oracle_text": "Unholy Heat deals 2 damage to target creature or planeswalker.\nDelirium \u2014 Unholy Heat deals 6 damage instead if there are four or more card types among cards in your graveyard."
+   "oracle_text": "Unholy Heat deals 2 damage to target creature or planeswalker.\nDelirium — Unholy Heat deals 6 damage instead if there are four or more card types among cards in your graveyard."
   },
   {
    "name": "Ignoble Hierarch",
@@ -661,7 +686,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/mh3/228/shifting-woodland?utm_source=api",
-   "oracle_text": "This land enters tapped unless you control a Forest.\n{T}: Add {G}.\nDelirium \u2014 {2}{G}{G}: This land becomes a copy of target permanent card in your graveyard until end of turn. Activate only if there are four or more card types among cards in your graveyard."
+   "oracle_text": "This land enters tapped unless you control a Forest.\n{T}: Add {G}.\nDelirium — {2}{G}{G}: This land becomes a copy of target permanent card in your graveyard until end of turn. Activate only if there are four or more card types among cards in your graveyard."
   },
   {
    "name": "Boseiju, Who Endures",
@@ -677,7 +702,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/neo/266/boseiju-who-endures?utm_source=api",
-   "oracle_text": "{T}: Add {G}.\nChannel \u2014 {1}{G}, Discard this card: Destroy target artifact, enchantment, or nonbasic land an opponent controls. That player may search their library for a land card with a basic land type, put it onto the battlefield, then shuffle. This ability costs {1} less to activate for each legendary creature you control."
+   "oracle_text": "{T}: Add {G}.\nChannel — {1}{G}, Discard this card: Destroy target artifact, enchantment, or nonbasic land an opponent controls. That player may search their library for a land card with a basic land type, put it onto the battlefield, then shuffle. This ability costs {1} less to activate for each legendary creature you control."
   },
   {
    "name": "Field of the Dead",
@@ -706,7 +731,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/neo/271/otawara-soaring-city?utm_source=api",
-   "oracle_text": "{T}: Add {U}.\nChannel \u2014 {3}{U}, Discard this card: Return target artifact, creature, enchantment, or planeswalker to its owner's hand. This ability costs {1} less to activate for each legendary creature you control."
+   "oracle_text": "{T}: Add {U}.\nChannel — {3}{U}, Discard this card: Return target artifact, creature, enchantment, or planeswalker to its owner's hand. This ability costs {1} less to activate for each legendary creature you control."
   },
   {
    "name": "Lush Portico",
@@ -875,7 +900,7 @@
    ],
    "mana_cost": "{G}",
    "url": "https://scryfall.com/card/mkm/170/pick-your-poison?utm_source=api",
-   "oracle_text": "Choose one \u2014\n\u2022 Each opponent sacrifices an artifact of their choice.\n\u2022 Each opponent sacrifices an enchantment of their choice.\n\u2022 Each opponent sacrifices a creature with flying of their choice."
+   "oracle_text": "Choose one —\n• Each opponent sacrifices an artifact of their choice.\n• Each opponent sacrifices an enchantment of their choice.\n• Each opponent sacrifices a creature with flying of their choice."
   },
   {
    "name": "Traverse the Ulvenwald",
@@ -892,7 +917,7 @@
    ],
    "mana_cost": "{G}",
    "url": "https://scryfall.com/card/inr/221/traverse-the-ulvenwald?utm_source=api",
-   "oracle_text": "Search your library for a basic land card, reveal it, put it into your hand, then shuffle.\nDelirium \u2014 If there are four or more card types among cards in your graveyard, instead search your library for a creature or land card, reveal it, put it into your hand, then shuffle."
+   "oracle_text": "Search your library for a basic land card, reveal it, put it into your hand, then shuffle.\nDelirium — If there are four or more card types among cards in your graveyard, instead search your library for a creature or land card, reveal it, put it into your hand, then shuffle."
   },
   {
    "name": "Ponder",
@@ -980,7 +1005,7 @@
    ],
    "mana_cost": "{2}{G}",
    "url": "https://scryfall.com/card/soi/212/inexorable-blob?utm_source=api",
-   "oracle_text": "Delirium \u2014 Whenever this creature attacks, if there are four or more card types among cards in your graveyard, create a 3/3 green Ooze creature token that's tapped and attacking.",
+   "oracle_text": "Delirium — Whenever this creature attacks, if there are four or more card types among cards in your graveyard, create a 3/3 green Ooze creature token that's tapped and attacking.",
    "power": "3",
    "toughness": "3"
   },
@@ -1038,7 +1063,7 @@
    ],
    "mana_cost": "{3}{U}{U}",
    "url": "https://scryfall.com/card/cmm/108/mystic-confluence?utm_source=api",
-   "oracle_text": "Choose three. You may choose the same mode more than once.\n\u2022 Counter target spell unless its controller pays {3}.\n\u2022 Return target creature to its owner's hand.\n\u2022 Draw a card."
+   "oracle_text": "Choose three. You may choose the same mode more than once.\n• Counter target spell unless its controller pays {3}.\n• Return target creature to its owner's hand.\n• Draw a card."
   },
   {
    "name": "Torrential Gearhulk",
@@ -1194,7 +1219,7 @@
    ],
    "mana_cost": "{1}{G}",
    "url": "https://scryfall.com/card/stx/127/dragonsguard-elite?utm_source=api",
-   "oracle_text": "Magecraft \u2014 Whenever you cast or copy an instant or sorcery spell, put a +1/+1 counter on this creature.\n{4}{G}{G}: Double the number of +1/+1 counters on this creature.",
+   "oracle_text": "Magecraft — Whenever you cast or copy an instant or sorcery spell, put a +1/+1 counter on this creature.\n{4}{G}{G}: Double the number of +1/+1 counters on this creature.",
    "power": "2",
    "toughness": "2"
   },

@@ -12,21 +12,50 @@
  ],
  "player": "matt",
  "date": "2023-07-23",
- "games": [
+ "matches": [
   {
    "opponent": "casey",
+   "round": 3,
+   "wins": 0,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "casey",
+     "winner": "casey"
+    }
+   ],
    "winner": "casey"
   },
   {
    "opponent": "grant",
+   "round": 2,
+   "wins": 0,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "grant",
+     "winner": "grant"
+    }
+   ],
    "winner": "grant"
   },
   {
    "opponent": "jen",
+   "round": 1,
+   "wins": 0,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "jen",
+     "winner": "jen"
+    }
+   ],
    "winner": "jen"
   }
  ],
- "matches": null,
  "mainboard": [
   {
    "name": "Mountain",

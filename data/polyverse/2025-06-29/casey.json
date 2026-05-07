@@ -11,43 +11,59 @@
  ],
  "player": "casey",
  "date": "2025-06-29",
- "games": [
-  {
-   "opponent": "joe2",
-   "winner": "joe2"
-  },
-  {
-   "opponent": "joe2",
-   "winner": "joe2"
-  },
-  {
-   "opponent": "kevin",
-   "winner": "kevin"
-  },
-  {
-   "opponent": "kevin",
-   "winner": "kevin"
-  },
-  {
-   "opponent": "owen",
-   "winner": "owen"
-  },
-  {
-   "opponent": "owen",
-   "winner": "owen"
-  }
- ],
  "matches": [
   {
    "opponent": "joe2",
+   "round": 3,
+   "wins": 0,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "joe2",
+     "winner": "joe2"
+    },
+    {
+     "opponent": "joe2",
+     "winner": "joe2"
+    }
+   ],
    "winner": "joe2"
   },
   {
    "opponent": "kevin",
+   "round": 1,
+   "wins": 0,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "kevin",
+     "winner": "kevin"
+    },
+    {
+     "opponent": "kevin",
+     "winner": "kevin"
+    }
+   ],
    "winner": "kevin"
   },
   {
    "opponent": "owen",
+   "round": 2,
+   "wins": 0,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "owen",
+     "winner": "owen"
+    },
+    {
+     "opponent": "owen",
+     "winner": "owen"
+    }
+   ],
    "winner": "owen"
   }
  ],

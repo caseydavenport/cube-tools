@@ -10,55 +10,71 @@
  ],
  "player": "paul",
  "date": "2023-12-02",
- "games": [
-  {
-   "opponent": "cara",
-   "winner": "paul"
-  },
-  {
-   "opponent": "cara",
-   "winner": "cara"
-  },
-  {
-   "opponent": "cara",
-   "winner": "cara"
-  },
-  {
-   "opponent": "jen",
-   "winner": "paul"
-  },
-  {
-   "opponent": "jen",
-   "winner": "jen"
-  },
-  {
-   "opponent": "jen",
-   "winner": "jen"
-  },
-  {
-   "opponent": "xander",
-   "winner": "paul"
-  },
-  {
-   "opponent": "xander",
-   "winner": "xander"
-  },
-  {
-   "opponent": "xander",
-   "winner": "xander"
-  }
- ],
  "matches": [
   {
    "opponent": "cara",
+   "round": 2,
+   "wins": 1,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "cara",
+     "winner": "paul"
+    },
+    {
+     "opponent": "cara",
+     "winner": "cara"
+    },
+    {
+     "opponent": "cara",
+     "winner": "cara"
+    }
+   ],
    "winner": "cara"
   },
   {
    "opponent": "jen",
+   "round": 3,
+   "wins": 1,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "jen",
+     "winner": "paul"
+    },
+    {
+     "opponent": "jen",
+     "winner": "jen"
+    },
+    {
+     "opponent": "jen",
+     "winner": "jen"
+    }
+   ],
    "winner": "jen"
   },
   {
    "opponent": "xander",
+   "round": 1,
+   "wins": 1,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "xander",
+     "winner": "paul"
+    },
+    {
+     "opponent": "xander",
+     "winner": "xander"
+    },
+    {
+     "opponent": "xander",
+     "winner": "xander"
+    }
+   ],
    "winner": "xander"
   }
  ],
@@ -78,8 +94,7 @@
    ],
    "mana_cost": "{2}{W}",
    "url": "https://scryfall.com/card/mm2/29/oblivion-ring?utm_source=api",
-   "oracle_text": "When this enchantment enters, exile another target nonland permanent.\nWhen this enchantment leaves the battlefield, return the exiled card to the battlefield under its owner's control.",
-   "appearances": 1
+   "oracle_text": "When this enchantment enters, exile another target nonland permanent.\nWhen this enchantment leaves the battlefield, return the exiled card to the battlefield under its owner's control."
   },
   {
    "name": "Day of Judgment",
@@ -96,8 +111,7 @@
    ],
    "mana_cost": "{2}{W}{W}",
    "url": "https://scryfall.com/card/fdn/140/day-of-judgment?utm_source=api",
-   "oracle_text": "Destroy all creatures.",
-   "appearances": 1
+   "oracle_text": "Destroy all creatures."
   },
   {
    "name": "Mistmeadow Skulk",
@@ -120,8 +134,7 @@
    "url": "https://scryfall.com/card/otc/84/mistmeadow-skulk?utm_source=api",
    "oracle_text": "Lifelink, protection from mana value 3 or greater",
    "power": "1",
-   "toughness": "1",
-   "appearances": 1
+   "toughness": "1"
   },
   {
    "name": "Throne of the God-Pharaoh",
@@ -135,8 +148,7 @@
    "color_identity": [],
    "mana_cost": "{2}",
    "url": "https://scryfall.com/card/akh/237/throne-of-the-god-pharaoh?utm_source=api",
-   "oracle_text": "At the beginning of your end step, each opponent loses life equal to the number of tapped creatures you control.",
-   "appearances": 1
+   "oracle_text": "At the beginning of your end step, each opponent loses life equal to the number of tapped creatures you control."
   },
   {
    "name": "Clarion Spirit",
@@ -158,8 +170,7 @@
    "url": "https://scryfall.com/card/khm/6/clarion-spirit?utm_source=api",
    "oracle_text": "Whenever you cast your second spell each turn, create a 1/1 white Spirit creature token with flying.",
    "power": "2",
-   "toughness": "2",
-   "appearances": 1
+   "toughness": "2"
   },
   {
    "name": "Galepowder Mage",
@@ -182,8 +193,7 @@
    "url": "https://scryfall.com/card/clb/694/galepowder-mage?utm_source=api",
    "oracle_text": "Flying\nWhenever this creature attacks, exile another target creature. Return that card to the battlefield under its owner's control at the beginning of the next end step.",
    "power": "3",
-   "toughness": "3",
-   "appearances": 1
+   "toughness": "3"
   },
   {
    "name": "Reveillark",
@@ -205,8 +215,7 @@
    "url": "https://scryfall.com/card/2x2/26/reveillark?utm_source=api",
    "oracle_text": "Flying\nWhen this creature leaves the battlefield, return up to two target creature cards with power 2 or less from your graveyard to the battlefield.\nEvoke {5}{W} (You may cast this spell for its evoke cost. If you do, it's sacrificed when it enters.)",
    "power": "4",
-   "toughness": "3",
-   "appearances": 1
+   "toughness": "3"
   },
   {
    "name": "Wrath of God",
@@ -223,8 +232,7 @@
    ],
    "mana_cost": "{2}{W}{W}",
    "url": "https://scryfall.com/card/cmm/70/wrath-of-god?utm_source=api",
-   "oracle_text": "Destroy all creatures. They can't be regenerated.",
-   "appearances": 1
+   "oracle_text": "Destroy all creatures. They can't be regenerated."
   },
   {
    "name": "Lightning Greaves",
@@ -240,8 +248,7 @@
    "color_identity": [],
    "mana_cost": "{2}",
    "url": "https://scryfall.com/card/tdc/102/lightning-greaves?utm_source=api",
-   "oracle_text": "Equipped creature has haste and shroud. (It can't be the target of spells or abilities.)\nEquip {0}",
-   "appearances": 1
+   "oracle_text": "Equipped creature has haste and shroud. (It can't be the target of spells or abilities.)\nEquip {0}"
   },
   {
    "name": "Portable Hole",
@@ -258,8 +265,7 @@
    ],
    "mana_cost": "{W}",
    "url": "https://scryfall.com/card/afr/33/portable-hole?utm_source=api",
-   "oracle_text": "When this artifact enters, exile target nonland permanent an opponent controls with mana value 2 or less until this artifact leaves the battlefield.",
-   "appearances": 1
+   "oracle_text": "When this artifact enters, exile target nonland permanent an opponent controls with mana value 2 or less until this artifact leaves the battlefield."
   },
   {
    "name": "Eidolon of Obstruction",
@@ -282,8 +288,7 @@
    "url": "https://scryfall.com/card/thb/12/eidolon-of-obstruction?utm_source=api",
    "oracle_text": "First strike\nLoyalty abilities of planeswalkers your opponents control cost {1} more to activate.",
    "power": "2",
-   "toughness": "1",
-   "appearances": 1
+   "toughness": "1"
   },
   {
    "name": "Sai of the Shinobi",
@@ -299,8 +304,7 @@
    "color_identity": [],
    "mana_cost": "{1}",
    "url": "https://scryfall.com/card/a25/230/sai-of-the-shinobi?utm_source=api",
-   "oracle_text": "Equipped creature gets +1/+1.\nWhenever a creature you control enters, you may attach this Equipment to it.\nEquip {2}",
-   "appearances": 1
+   "oracle_text": "Equipped creature gets +1/+1.\nWhenever a creature you control enters, you may attach this Equipment to it.\nEquip {2}"
   },
   {
    "name": "Mother of Runes",
@@ -323,8 +327,7 @@
    "url": "https://scryfall.com/card/clb/702/mother-of-runes?utm_source=api",
    "oracle_text": "{T}: Target creature you control gains protection from the color of your choice until end of turn.",
    "power": "1",
-   "toughness": "1",
-   "appearances": 1
+   "toughness": "1"
   },
   {
    "name": "Mosquito Guard",
@@ -347,8 +350,7 @@
    "url": "https://scryfall.com/card/ddf/6/mosquito-guard?utm_source=api",
    "oracle_text": "First strike\nReinforce 1—{1}{W} ({1}{W}, Discard this card: Put a +1/+1 counter on target creature.)",
    "power": "1",
-   "toughness": "1",
-   "appearances": 1
+   "toughness": "1"
   },
   {
    "name": "Legion's Landing // Adanto, the First Fort",
@@ -367,8 +369,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/xln/22/legions-landing-adanto-the-first-fort?utm_source=api",
-   "oracle_text": "",
-   "appearances": 1
+   "oracle_text": ""
   },
   {
    "name": "Unmake",
@@ -387,8 +388,7 @@
    ],
    "mana_cost": "{W/B}{W/B}{W/B}",
    "url": "https://scryfall.com/card/ddk/27/unmake?utm_source=api",
-   "oracle_text": "Exile target creature.",
-   "appearances": 1
+   "oracle_text": "Exile target creature."
   },
   {
    "name": "Saproling Migration",
@@ -405,8 +405,7 @@
    ],
    "mana_cost": "{1}{G}",
    "url": "https://scryfall.com/card/dom/178/saproling-migration?utm_source=api",
-   "oracle_text": "Kicker {4} (You may pay an additional {4} as you cast this spell.)\nCreate two 1/1 green Saproling creature tokens. If this spell was kicked, create four of those tokens instead.",
-   "appearances": 1
+   "oracle_text": "Kicker {4} (You may pay an additional {4} as you cast this spell.)\nCreate two 1/1 green Saproling creature tokens. If this spell was kicked, create four of those tokens instead."
   },
   {
    "name": "Quest for the Gemblades",
@@ -423,8 +422,7 @@
    ],
    "mana_cost": "{1}{G}",
    "url": "https://scryfall.com/card/zen/177/quest-for-the-gemblades?utm_source=api",
-   "oracle_text": "Whenever a creature you control deals combat damage to a creature, you may put a quest counter on this enchantment.\nRemove a quest counter from this enchantment and sacrifice it: Put four +1/+1 counters on target creature.",
-   "appearances": 1
+   "oracle_text": "Whenever a creature you control deals combat damage to a creature, you may put a quest counter on this enchantment.\nRemove a quest counter from this enchantment and sacrifice it: Put four +1/+1 counters on target creature."
   },
   {
    "name": "Shanna, Sisay's Legacy",
@@ -450,8 +448,7 @@
    "url": "https://scryfall.com/card/dom/204/shanna-sisays-legacy?utm_source=api",
    "oracle_text": "Shanna can't be the target of abilities your opponents control.\nShanna gets +1/+1 for each creature you control.",
    "power": "0",
-   "toughness": "0",
-   "appearances": 1
+   "toughness": "0"
   },
   {
    "name": "Untamed Kavu",
@@ -473,8 +470,7 @@
    "url": "https://scryfall.com/card/dom/186/untamed-kavu?utm_source=api",
    "oracle_text": "Kicker {3} (You may pay an additional {3} as you cast this spell.)\nVigilance, trample\nIf this creature was kicked, it enters with three +1/+1 counters on it.",
    "power": "2",
-   "toughness": "2",
-   "appearances": 1
+   "toughness": "2"
   },
   {
    "name": "Tarmogoyf",
@@ -496,8 +492,7 @@
    "url": "https://scryfall.com/card/tsr/235/tarmogoyf?utm_source=api",
    "oracle_text": "Tarmogoyf's power is equal to the number of card types among cards in all graveyards and its toughness is equal to that number plus 1.",
    "power": "*",
-   "toughness": "1+*",
-   "appearances": 1
+   "toughness": "1+*"
   },
   {
    "name": "Jolrael, Mwonvuli Recluse",
@@ -521,8 +516,7 @@
    "url": "https://scryfall.com/card/mkc/173/jolrael-mwonvuli-recluse?utm_source=api",
    "oracle_text": "Whenever you draw your second card each turn, create a 2/2 green Cat creature token.\n{4}{G}{G}: Until end of turn, creatures you control have base power and toughness X/X, where X is the number of cards in your hand.",
    "power": "1",
-   "toughness": "2",
-   "appearances": 1
+   "toughness": "2"
   },
   {
    "name": "Intrepid Trufflesnout // Go Hog Wild",
@@ -546,8 +540,7 @@
    "url": "https://scryfall.com/card/woe/320/intrepid-trufflesnout-go-hog-wild?utm_source=api",
    "oracle_text": "",
    "power": "3",
-   "toughness": "1",
-   "appearances": 1
+   "toughness": "1"
   },
   {
    "name": "Plains",
@@ -566,8 +559,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/tla/282/plains?utm_source=api",
-   "oracle_text": "({T}: Add {W}.)",
-   "appearances": 1
+   "oracle_text": "({T}: Add {W}.)"
   },
   {
    "name": "Plains",
@@ -586,8 +578,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/tla/282/plains?utm_source=api",
-   "oracle_text": "({T}: Add {W}.)",
-   "appearances": 1
+   "oracle_text": "({T}: Add {W}.)"
   },
   {
    "name": "Plains",
@@ -606,8 +597,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/tla/282/plains?utm_source=api",
-   "oracle_text": "({T}: Add {W}.)",
-   "appearances": 1
+   "oracle_text": "({T}: Add {W}.)"
   },
   {
    "name": "Plains",
@@ -626,8 +616,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/tla/282/plains?utm_source=api",
-   "oracle_text": "({T}: Add {W}.)",
-   "appearances": 1
+   "oracle_text": "({T}: Add {W}.)"
   },
   {
    "name": "Plains",
@@ -646,8 +635,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/tla/282/plains?utm_source=api",
-   "oracle_text": "({T}: Add {W}.)",
-   "appearances": 1
+   "oracle_text": "({T}: Add {W}.)"
   },
   {
    "name": "Plains",
@@ -666,8 +654,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/tla/282/plains?utm_source=api",
-   "oracle_text": "({T}: Add {W}.)",
-   "appearances": 1
+   "oracle_text": "({T}: Add {W}.)"
   },
   {
    "name": "Plains",
@@ -686,8 +673,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/tla/282/plains?utm_source=api",
-   "oracle_text": "({T}: Add {W}.)",
-   "appearances": 1
+   "oracle_text": "({T}: Add {W}.)"
   },
   {
    "name": "Plains",
@@ -706,8 +692,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/tla/282/plains?utm_source=api",
-   "oracle_text": "({T}: Add {W}.)",
-   "appearances": 1
+   "oracle_text": "({T}: Add {W}.)"
   },
   {
    "name": "Plains",
@@ -726,8 +711,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/tla/282/plains?utm_source=api",
-   "oracle_text": "({T}: Add {W}.)",
-   "appearances": 1
+   "oracle_text": "({T}: Add {W}.)"
   },
   {
    "name": "Plains",
@@ -746,8 +730,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/tla/282/plains?utm_source=api",
-   "oracle_text": "({T}: Add {W}.)",
-   "appearances": 1
+   "oracle_text": "({T}: Add {W}.)"
   },
   {
    "name": "Plains",
@@ -766,8 +749,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/tla/282/plains?utm_source=api",
-   "oracle_text": "({T}: Add {W}.)",
-   "appearances": 1
+   "oracle_text": "({T}: Add {W}.)"
   },
   {
    "name": "Forest",
@@ -786,8 +768,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/tla/286/forest?utm_source=api",
-   "oracle_text": "({T}: Add {G}.)",
-   "appearances": 1
+   "oracle_text": "({T}: Add {G}.)"
   },
   {
    "name": "Forest",
@@ -806,8 +787,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/tla/286/forest?utm_source=api",
-   "oracle_text": "({T}: Add {G}.)",
-   "appearances": 1
+   "oracle_text": "({T}: Add {G}.)"
   },
   {
    "name": "Forest",
@@ -826,8 +806,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/tla/286/forest?utm_source=api",
-   "oracle_text": "({T}: Add {G}.)",
-   "appearances": 1
+   "oracle_text": "({T}: Add {G}.)"
   },
   {
    "name": "Forest",
@@ -846,8 +825,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/tla/286/forest?utm_source=api",
-   "oracle_text": "({T}: Add {G}.)",
-   "appearances": 1
+   "oracle_text": "({T}: Add {G}.)"
   },
   {
    "name": "Forest",
@@ -866,8 +844,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/tla/286/forest?utm_source=api",
-   "oracle_text": "({T}: Add {G}.)",
-   "appearances": 1
+   "oracle_text": "({T}: Add {G}.)"
   },
   {
    "name": "Forest",
@@ -886,8 +863,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/tla/286/forest?utm_source=api",
-   "oracle_text": "({T}: Add {G}.)",
-   "appearances": 1
+   "oracle_text": "({T}: Add {G}.)"
   }
  ],
  "sideboard": [

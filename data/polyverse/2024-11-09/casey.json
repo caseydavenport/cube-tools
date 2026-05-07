@@ -10,55 +10,71 @@
  ],
  "player": "casey",
  "date": "2024-11-09",
- "games": [
-  {
-   "opponent": "dom",
-   "winner": "casey"
-  },
-  {
-   "opponent": "dom",
-   "winner": "casey"
-  },
-  {
-   "opponent": "dom",
-   "winner": "dom"
-  },
-  {
-   "opponent": "greg",
-   "winner": "casey"
-  },
-  {
-   "opponent": "greg",
-   "winner": "casey"
-  },
-  {
-   "opponent": "greg",
-   "winner": "greg"
-  },
-  {
-   "opponent": "mattd",
-   "winner": "casey"
-  },
-  {
-   "opponent": "mattd",
-   "winner": "casey"
-  },
-  {
-   "opponent": "mattd",
-   "winner": "mattd"
-  }
- ],
  "matches": [
   {
    "opponent": "dom",
+   "round": 1,
+   "wins": 2,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "dom",
+     "winner": "casey"
+    },
+    {
+     "opponent": "dom",
+     "winner": "casey"
+    },
+    {
+     "opponent": "dom",
+     "winner": "dom"
+    }
+   ],
    "winner": "casey"
   },
   {
    "opponent": "greg",
+   "round": 2,
+   "wins": 2,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "greg",
+     "winner": "casey"
+    },
+    {
+     "opponent": "greg",
+     "winner": "casey"
+    },
+    {
+     "opponent": "greg",
+     "winner": "greg"
+    }
+   ],
    "winner": "casey"
   },
   {
    "opponent": "mattd",
+   "round": 3,
+   "wins": 2,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "mattd",
+     "winner": "casey"
+    },
+    {
+     "opponent": "mattd",
+     "winner": "casey"
+    },
+    {
+     "opponent": "mattd",
+     "winner": "mattd"
+    }
+   ],
    "winner": "casey"
   }
  ],
@@ -78,8 +94,7 @@
    ],
    "mana_cost": "{2}{B}{B}",
    "url": "https://scryfall.com/card/jmp/246/languish?utm_source=api",
-   "oracle_text": "All creatures get -4/-4 until end of turn.",
-   "appearances": 1
+   "oracle_text": "All creatures get -4/-4 until end of turn."
   },
   {
    "name": "Virtue of Persistence // Locthwain Scorn",
@@ -101,8 +116,7 @@
    ],
    "mana_cost": "{5}{B}{B} // {1}{B}",
    "url": "https://scryfall.com/card/woe/115/virtue-of-persistence-locthwain-scorn?utm_source=api",
-   "oracle_text": "",
-   "appearances": 1
+   "oracle_text": ""
   },
   {
    "name": "Ponder",
@@ -119,8 +133,7 @@
    ],
    "mana_cost": "{U}",
    "url": "https://scryfall.com/card/tdc/159/ponder?utm_source=api",
-   "oracle_text": "Look at the top three cards of your library, then put them back in any order. You may shuffle.\nDraw a card.",
-   "appearances": 1
+   "oracle_text": "Look at the top three cards of your library, then put them back in any order. You may shuffle.\nDraw a card."
   },
   {
    "name": "Delay",
@@ -137,8 +150,7 @@
    ],
    "mana_cost": "{1}{U}",
    "url": "https://scryfall.com/card/tsr/61/delay?utm_source=api",
-   "oracle_text": "Counter target spell. If the spell is countered this way, exile it with three time counters on it instead of putting it into its owner's graveyard. If it doesn't have suspend, it gains suspend. (At the beginning of its owner's upkeep, they remove a time counter. When the last is removed, they may play it without paying its mana cost. If it's a creature, it has haste.)",
-   "appearances": 1
+   "oracle_text": "Counter target spell. If the spell is countered this way, exile it with three time counters on it instead of putting it into its owner's graveyard. If it doesn't have suspend, it gains suspend. (At the beginning of its owner's upkeep, they remove a time counter. When the last is removed, they may play it without paying its mana cost. If it's a creature, it has haste.)"
   },
   {
    "name": "Murderous Cut",
@@ -155,8 +167,7 @@
    ],
    "mana_cost": "{4}{B}",
    "url": "https://scryfall.com/card/ktk/81/murderous-cut?utm_source=api",
-   "oracle_text": "Delve (Each card you exile from your graveyard while casting this spell pays for {1}.)\nDestroy target creature.",
-   "appearances": 1
+   "oracle_text": "Delve (Each card you exile from your graveyard while casting this spell pays for {1}.)\nDestroy target creature."
   },
   {
    "name": "Bitter Triumph",
@@ -173,8 +184,7 @@
    ],
    "mana_cost": "{1}{B}",
    "url": "https://scryfall.com/card/tdc/173/bitter-triumph?utm_source=api",
-   "oracle_text": "As an additional cost to cast this spell, discard a card or pay 3 life.\nDestroy target creature or planeswalker.",
-   "appearances": 1
+   "oracle_text": "As an additional cost to cast this spell, discard a card or pay 3 life.\nDestroy target creature or planeswalker."
   },
   {
    "name": "Stern Scolding",
@@ -191,8 +201,7 @@
    ],
    "mana_cost": "{U}",
    "url": "https://scryfall.com/card/ltr/71/stern-scolding?utm_source=api",
-   "oracle_text": "Counter target creature spell with power or toughness 2 or less.",
-   "appearances": 1
+   "oracle_text": "Counter target creature spell with power or toughness 2 or less."
   },
   {
    "name": "Takenuma, Abandoned Mire",
@@ -208,8 +217,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/neo/278/takenuma-abandoned-mire?utm_source=api",
-   "oracle_text": "{T}: Add {B}.\nChannel — {3}{B}, Discard this card: Mill three cards, then return a creature or planeswalker card from your graveyard to your hand. This ability costs {1} less to activate for each legendary creature you control.",
-   "appearances": 1
+   "oracle_text": "{T}: Add {B}.\nChannel — {3}{B}, Discard this card: Mill three cards, then return a creature or planeswalker card from your graveyard to your hand. This ability costs {1} less to activate for each legendary creature you control."
   },
   {
    "name": "Treasure Cruise",
@@ -226,8 +234,7 @@
    ],
    "mana_cost": "{7}{U}",
    "url": "https://scryfall.com/card/tdc/169/treasure-cruise?utm_source=api",
-   "oracle_text": "Delve (Each card you exile from your graveyard while casting this spell pays for {1}.)\nDraw three cards.",
-   "appearances": 1
+   "oracle_text": "Delve (Each card you exile from your graveyard while casting this spell pays for {1}.)\nDraw three cards."
   },
   {
    "name": "Mystic Confluence",
@@ -244,8 +251,7 @@
    ],
    "mana_cost": "{3}{U}{U}",
    "url": "https://scryfall.com/card/cmm/108/mystic-confluence?utm_source=api",
-   "oracle_text": "Choose three. You may choose the same mode more than once.\n• Counter target spell unless its controller pays {3}.\n• Return target creature to its owner's hand.\n• Draw a card.",
-   "appearances": 1
+   "oracle_text": "Choose three. You may choose the same mode more than once.\n• Counter target spell unless its controller pays {3}.\n• Return target creature to its owner's hand.\n• Draw a card."
   },
   {
    "name": "Polluted Delta",
@@ -258,8 +264,7 @@
    "color_identity": [],
    "mana_cost": "",
    "url": "https://scryfall.com/card/mh3/224/polluted-delta?utm_source=api",
-   "oracle_text": "{T}, Pay 1 life, Sacrifice this land: Search your library for an Island or Swamp card, put it onto the battlefield, then shuffle.",
-   "appearances": 1
+   "oracle_text": "{T}, Pay 1 life, Sacrifice this land: Search your library for an Island or Swamp card, put it onto the battlefield, then shuffle."
   },
   {
    "name": "Memory Lapse",
@@ -276,8 +281,7 @@
    ],
    "mana_cost": "{1}{U}",
    "url": "https://scryfall.com/card/ema/60/memory-lapse?utm_source=api",
-   "oracle_text": "Counter target spell. If that spell is countered this way, put it on top of its owner's library instead of into that player's graveyard.",
-   "appearances": 1
+   "oracle_text": "Counter target spell. If that spell is countered this way, put it on top of its owner's library instead of into that player's graveyard."
   },
   {
    "name": "Accursed Marauder",
@@ -300,8 +304,7 @@
    "url": "https://scryfall.com/card/mh3/80/accursed-marauder?utm_source=api",
    "oracle_text": "When this creature enters, each player sacrifices a nontoken creature of their choice.",
    "power": "2",
-   "toughness": "1",
-   "appearances": 1
+   "toughness": "1"
   },
   {
    "name": "Dead Weight",
@@ -321,8 +324,7 @@
    ],
    "mana_cost": "{B}",
    "url": "https://scryfall.com/card/lci/99/dead-weight?utm_source=api",
-   "oracle_text": "Enchant creature\nEnchanted creature gets -2/-2.",
-   "appearances": 1
+   "oracle_text": "Enchant creature\nEnchanted creature gets -2/-2."
   },
   {
    "name": "Fatal Push",
@@ -339,8 +341,7 @@
    ],
    "mana_cost": "{B}",
    "url": "https://scryfall.com/card/2xm/93/fatal-push?utm_source=api",
-   "oracle_text": "Destroy target creature if it has mana value 2 or less.\nRevolt — Destroy that creature if it has mana value 4 or less instead if a permanent left the battlefield under your control this turn.",
-   "appearances": 1
+   "oracle_text": "Destroy target creature if it has mana value 2 or less.\nRevolt — Destroy that creature if it has mana value 4 or less instead if a permanent left the battlefield under your control this turn."
   },
   {
    "name": "Urza's Saga",
@@ -358,8 +359,7 @@
    "color_identity": [],
    "mana_cost": "",
    "url": "https://scryfall.com/card/mh2/259/urzas-saga?utm_source=api",
-   "oracle_text": "(As this Saga enters and after your draw step, add a lore counter. Sacrifice after III.)\nI — This Saga gains \"{T}: Add {C}.\"\nII — This Saga gains \"{2}, {T}: Create a 0/0 colorless Construct artifact creature token with 'This token gets +1/+1 for each artifact you control.'\"\nIII — Search your library for an artifact card with mana cost {0} or {1}, put it onto the battlefield, then shuffle.",
-   "appearances": 1
+   "oracle_text": "(As this Saga enters and after your draw step, add a lore counter. Sacrifice after III.)\nI — This Saga gains \"{T}: Add {C}.\"\nII — This Saga gains \"{2}, {T}: Create a 0/0 colorless Construct artifact creature token with 'This token gets +1/+1 for each artifact you control.'\"\nIII — Search your library for an artifact card with mana cost {0} or {1}, put it onto the battlefield, then shuffle."
   },
   {
    "name": "Rishadan Port",
@@ -372,8 +372,7 @@
    "color_identity": [],
    "mana_cost": "",
    "url": "https://scryfall.com/card/a25/246/rishadan-port?utm_source=api",
-   "oracle_text": "{T}: Add {C}.\n{1}, {T}: Tap target land.",
-   "appearances": 1
+   "oracle_text": "{T}: Add {C}.\n{1}, {T}: Tap target land."
   },
   {
    "name": "Condescend",
@@ -390,8 +389,7 @@
    ],
    "mana_cost": "{X}{U}",
    "url": "https://scryfall.com/card/ima/46/condescend?utm_source=api",
-   "oracle_text": "Counter target spell unless its controller pays {X}. Scry 2. (Look at the top two cards of your library, then put any number of them on the bottom and the rest on top in any order.)",
-   "appearances": 1
+   "oracle_text": "Counter target spell unless its controller pays {X}. Scry 2. (Look at the top two cards of your library, then put any number of them on the bottom and the rest on top in any order.)"
   },
   {
    "name": "Ephara's Dispersal",
@@ -408,8 +406,7 @@
    ],
    "mana_cost": "{2}{U}",
    "url": "https://scryfall.com/card/mkc/103/epharas-dispersal?utm_source=api",
-   "oracle_text": "This spell costs {2} less to cast if it targets an attacking creature.\nReturn target creature to its owner's hand. Surveil 2. (Look at the top two cards of your library, then put any number of them into your graveyard and the rest on top of your library in any order.)",
-   "appearances": 1
+   "oracle_text": "This spell costs {2} less to cast if it targets an attacking creature.\nReturn target creature to its owner's hand. Surveil 2. (Look at the top two cards of your library, then put any number of them into your graveyard and the rest on top of your library in any order.)"
   },
   {
    "name": "Dress Down",
@@ -426,8 +423,7 @@
    ],
    "mana_cost": "{1}{U}",
    "url": "https://scryfall.com/card/mh2/39/dress-down?utm_source=api",
-   "oracle_text": "Flash\nWhen this enchantment enters, draw a card.\nCreatures lose all abilities.\nAt the beginning of the end step, sacrifice this enchantment.",
-   "appearances": 1
+   "oracle_text": "Flash\nWhen this enchantment enters, draw a card.\nCreatures lose all abilities.\nAt the beginning of the end step, sacrifice this enchantment."
   },
   {
    "name": "Mana Leak",
@@ -444,8 +440,7 @@
    ],
    "mana_cost": "{1}{U}",
    "url": "https://scryfall.com/card/2x2/58/mana-leak?utm_source=api",
-   "oracle_text": "Counter target spell unless its controller pays {3}.",
-   "appearances": 1
+   "oracle_text": "Counter target spell unless its controller pays {3}."
   },
   {
    "name": "Toxic Deluge",
@@ -462,8 +457,7 @@
    ],
    "mana_cost": "{2}{B}",
    "url": "https://scryfall.com/card/mh3/277/toxic-deluge?utm_source=api",
-   "oracle_text": "As an additional cost to cast this spell, pay X life.\nAll creatures get -X/-X until end of turn.",
-   "appearances": 1
+   "oracle_text": "As an additional cost to cast this spell, pay X life.\nAll creatures get -X/-X until end of turn."
   },
   {
    "name": "Bloodsky Berserker",
@@ -486,8 +480,7 @@
    "url": "https://scryfall.com/card/khm/80/bloodsky-berserker?utm_source=api",
    "oracle_text": "Whenever you cast your second spell each turn, put two +1/+1 counters on this creature. It gains menace until end of turn. (It can't be blocked except by two or more creatures.)",
    "power": "1",
-   "toughness": "1",
-   "appearances": 1
+   "toughness": "1"
   },
   {
    "name": "Preordain",
@@ -504,8 +497,7 @@
    ],
    "mana_cost": "{U}",
    "url": "https://scryfall.com/card/tdc/161/preordain?utm_source=api",
-   "oracle_text": "Scry 2, then draw a card. (To scry 2, look at the top two cards of your library, then put any number of them on the bottom and the rest on top in any order.)",
-   "appearances": 1
+   "oracle_text": "Scry 2, then draw a card. (To scry 2, look at the top two cards of your library, then put any number of them on the bottom and the rest on top in any order.)"
   },
   {
    "name": "Shark Typhoon",
@@ -522,8 +514,7 @@
    ],
    "mana_cost": "{5}{U}",
    "url": "https://scryfall.com/card/dsc/127/shark-typhoon?utm_source=api",
-   "oracle_text": "Whenever you cast a noncreature spell, create an X/X blue Shark creature token with flying, where X is that spell's mana value.\nCycling {X}{1}{U} ({X}{1}{U}, Discard this card: Draw a card.)\nWhen you cycle this card, create an X/X blue Shark creature token with flying.",
-   "appearances": 1
+   "oracle_text": "Whenever you cast a noncreature spell, create an X/X blue Shark creature token with flying, where X is that spell's mana value.\nCycling {X}{1}{U} ({X}{1}{U}, Discard this card: Draw a card.)\nWhen you cycle this card, create an X/X blue Shark creature token with flying."
   },
   {
    "name": "Agonizing Remorse",
@@ -540,8 +531,7 @@
    ],
    "mana_cost": "{1}{B}",
    "url": "https://scryfall.com/card/thb/83/agonizing-remorse?utm_source=api",
-   "oracle_text": "Target opponent reveals their hand. You choose a nonland card from it or a card from their graveyard. Exile that card. You lose 1 life.",
-   "appearances": 1
+   "oracle_text": "Target opponent reveals their hand. You choose a nonland card from it or a card from their graveyard. Exile that card. You lose 1 life."
   },
   {
    "name": "Candy Trail",
@@ -558,8 +548,7 @@
    "color_identity": [],
    "mana_cost": "{1}",
    "url": "https://scryfall.com/card/woe/243/candy-trail?utm_source=api",
-   "oracle_text": "When this artifact enters, scry 2.\n{2}, {T}, Sacrifice this artifact: You gain 3 life and draw a card.",
-   "appearances": 1
+   "oracle_text": "When this artifact enters, scry 2.\n{2}, {T}, Sacrifice this artifact: You gain 3 life and draw a card."
   },
   {
    "name": "Otawara, Soaring City",
@@ -575,8 +564,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/neo/271/otawara-soaring-city?utm_source=api",
-   "oracle_text": "{T}: Add {U}.\nChannel — {3}{U}, Discard this card: Return target artifact, creature, enchantment, or planeswalker to its owner's hand. This ability costs {1} less to activate for each legendary creature you control.",
-   "appearances": 1
+   "oracle_text": "{T}: Add {U}.\nChannel — {3}{U}, Discard this card: Return target artifact, creature, enchantment, or planeswalker to its owner's hand. This ability costs {1} less to activate for each legendary creature you control."
   },
   {
    "name": "Blackmail",
@@ -593,8 +581,7 @@
    ],
    "mana_cost": "{B}",
    "url": "https://scryfall.com/card/9ed/115/blackmail?utm_source=api",
-   "oracle_text": "Target player reveals three cards from their hand and you choose one of them. That player discards that card.",
-   "appearances": 1
+   "oracle_text": "Target player reveals three cards from their hand and you choose one of them. That player discards that card."
   },
   {
    "name": "Island",
@@ -613,8 +600,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/tla/283/island?utm_source=api",
-   "oracle_text": "({T}: Add {U}.)",
-   "appearances": 1
+   "oracle_text": "({T}: Add {U}.)"
   },
   {
    "name": "Island",
@@ -633,8 +619,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/tla/283/island?utm_source=api",
-   "oracle_text": "({T}: Add {U}.)",
-   "appearances": 1
+   "oracle_text": "({T}: Add {U}.)"
   },
   {
    "name": "Island",
@@ -653,8 +638,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/tla/283/island?utm_source=api",
-   "oracle_text": "({T}: Add {U}.)",
-   "appearances": 1
+   "oracle_text": "({T}: Add {U}.)"
   },
   {
    "name": "Island",
@@ -673,8 +657,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/tla/283/island?utm_source=api",
-   "oracle_text": "({T}: Add {U}.)",
-   "appearances": 1
+   "oracle_text": "({T}: Add {U}.)"
   },
   {
    "name": "Island",
@@ -693,8 +676,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/tla/283/island?utm_source=api",
-   "oracle_text": "({T}: Add {U}.)",
-   "appearances": 1
+   "oracle_text": "({T}: Add {U}.)"
   },
   {
    "name": "Island",
@@ -713,8 +695,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/tla/283/island?utm_source=api",
-   "oracle_text": "({T}: Add {U}.)",
-   "appearances": 1
+   "oracle_text": "({T}: Add {U}.)"
   },
   {
    "name": "Swamp",
@@ -733,8 +714,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/tla/284/swamp?utm_source=api",
-   "oracle_text": "({T}: Add {B}.)",
-   "appearances": 1
+   "oracle_text": "({T}: Add {B}.)"
   },
   {
    "name": "Swamp",
@@ -753,8 +733,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/tla/284/swamp?utm_source=api",
-   "oracle_text": "({T}: Add {B}.)",
-   "appearances": 1
+   "oracle_text": "({T}: Add {B}.)"
   },
   {
    "name": "Swamp",
@@ -773,8 +752,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/tla/284/swamp?utm_source=api",
-   "oracle_text": "({T}: Add {B}.)",
-   "appearances": 1
+   "oracle_text": "({T}: Add {B}.)"
   },
   {
    "name": "Swamp",
@@ -793,8 +771,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/tla/284/swamp?utm_source=api",
-   "oracle_text": "({T}: Add {B}.)",
-   "appearances": 1
+   "oracle_text": "({T}: Add {B}.)"
   },
   {
    "name": "Swamp",
@@ -813,8 +790,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/tla/284/swamp?utm_source=api",
-   "oracle_text": "({T}: Add {B}.)",
-   "appearances": 1
+   "oracle_text": "({T}: Add {B}.)"
   }
  ],
  "sideboard": [
@@ -879,8 +855,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/ecl/266/overgrown-tomb?utm_source=api",
-   "oracle_text": "({T}: Add {B} or {G}.)\nAs this land enters, you may pay 2 life. If you don't, it enters tapped.",
-   "appearances": 1
+   "oracle_text": "({T}: Add {B} or {G}.)\nAs this land enters, you may pay 2 life. If you don't, it enters tapped."
   },
   {
    "name": "Hedge Maze",
@@ -1119,8 +1094,7 @@
    "color_identity": [],
    "mana_cost": "",
    "url": "https://scryfall.com/card/mh3/220/flooded-strand?utm_source=api",
-   "oracle_text": "{T}, Pay 1 life, Sacrifice this land: Search your library for a Plains or Island card, put it onto the battlefield, then shuffle.",
-   "appearances": 1
+   "oracle_text": "{T}, Pay 1 life, Sacrifice this land: Search your library for a Plains or Island card, put it onto the battlefield, then shuffle."
   },
   {
    "name": "Bloodstained Mire",

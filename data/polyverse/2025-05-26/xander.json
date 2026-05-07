@@ -10,35 +10,45 @@
  ],
  "player": "xander",
  "date": "2025-05-26",
- "games": [
-  {
-   "opponent": "cara",
-   "winner": "xander"
-  },
-  {
-   "opponent": "cara",
-   "winner": "xander"
-  },
-  {
-   "opponent": "greg",
-   "winner": "xander"
-  },
-  {
-   "opponent": "greg",
-   "winner": "xander"
-  },
-  {
-   "opponent": "greg",
-   "winner": "greg"
-  }
- ],
  "matches": [
   {
    "opponent": "cara",
+   "round": 2,
+   "wins": 2,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "cara",
+     "winner": "xander"
+    },
+    {
+     "opponent": "cara",
+     "winner": "xander"
+    }
+   ],
    "winner": "xander"
   },
   {
    "opponent": "greg",
+   "round": 3,
+   "wins": 2,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "greg",
+     "winner": "xander"
+    },
+    {
+     "opponent": "greg",
+     "winner": "xander"
+    },
+    {
+     "opponent": "greg",
+     "winner": "greg"
+    }
+   ],
    "winner": "xander"
   }
  ],

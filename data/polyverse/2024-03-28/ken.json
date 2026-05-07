@@ -10,43 +10,59 @@
  ],
  "player": "ken",
  "date": "2024-03-28",
- "games": [
-  {
-   "opponent": "alexs",
-   "winner": "ken"
-  },
-  {
-   "opponent": "alexs",
-   "winner": "ken"
-  },
-  {
-   "opponent": "casey",
-   "winner": "ken"
-  },
-  {
-   "opponent": "casey",
-   "winner": "ken"
-  },
-  {
-   "opponent": "jan",
-   "winner": "jan"
-  },
-  {
-   "opponent": "jan",
-   "winner": "jan"
-  }
- ],
  "matches": [
   {
    "opponent": "alexs",
+   "round": 2,
+   "wins": 2,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "alexs",
+     "winner": "ken"
+    },
+    {
+     "opponent": "alexs",
+     "winner": "ken"
+    }
+   ],
    "winner": "ken"
   },
   {
    "opponent": "casey",
+   "round": 1,
+   "wins": 2,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "casey",
+     "winner": "ken"
+    },
+    {
+     "opponent": "casey",
+     "winner": "ken"
+    }
+   ],
    "winner": "ken"
   },
   {
    "opponent": "jan",
+   "round": 3,
+   "wins": 0,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "jan",
+     "winner": "jan"
+    },
+    {
+     "opponent": "jan",
+     "winner": "jan"
+    }
+   ],
    "winner": "jan"
   }
  ],

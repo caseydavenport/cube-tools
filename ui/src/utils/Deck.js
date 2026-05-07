@@ -45,6 +45,14 @@ export function Record(deck, opp) {
   return wins + "-" + losses + (ties > 0 ? "-" + ties : "")
 }
 
+export function MatchRecord(match) {
+  let res = match.wins + "-" + match.losses
+  if (match.draws > 0) {
+    res += "-" + match.draws
+  }
+  return res
+}
+
 export function MatchWins(deck) {
   return deck.stats.match_wins
 }

@@ -9,43 +9,59 @@
  ],
  "player": "casey",
  "date": "2025-08-17",
- "games": [
-  {
-   "opponent": "jamesdeyja",
-   "winner": "casey"
-  },
-  {
-   "opponent": "jamesdeyja",
-   "winner": "casey"
-  },
-  {
-   "opponent": "kevin",
-   "winner": "kevin"
-  },
-  {
-   "opponent": "kevin",
-   "winner": "kevin"
-  },
-  {
-   "opponent": "maxi",
-   "winner": "maxi"
-  },
-  {
-   "opponent": "maxi",
-   "winner": "maxi"
-  }
- ],
  "matches": [
   {
    "opponent": "jamesdeyja",
+   "round": 2,
+   "wins": 2,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "jamesdeyja",
+     "winner": "casey"
+    },
+    {
+     "opponent": "jamesdeyja",
+     "winner": "casey"
+    }
+   ],
    "winner": "casey"
   },
   {
    "opponent": "kevin",
+   "round": 3,
+   "wins": 0,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "kevin",
+     "winner": "kevin"
+    },
+    {
+     "opponent": "kevin",
+     "winner": "kevin"
+    }
+   ],
    "winner": "kevin"
   },
   {
    "opponent": "maxi",
+   "round": 1,
+   "wins": 0,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "maxi",
+     "winner": "maxi"
+    },
+    {
+     "opponent": "maxi",
+     "winner": "maxi"
+    }
+   ],
    "winner": "maxi"
   }
  ],

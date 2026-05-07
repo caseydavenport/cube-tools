@@ -10,39 +10,49 @@
  ],
  "player": "bryan",
  "date": "2025-06-29",
- "games": [
-  {
-   "opponent": "mehdi",
-   "winner": "bryan"
-  },
-  {
-   "opponent": "mehdi",
-   "winner": "bryan"
-  },
-  {
-   "opponent": "mehdi",
-   "winner": "mehdi"
-  },
-  {
-   "opponent": "tanner",
-   "winner": "bryan"
-  },
-  {
-   "opponent": "tanner",
-   "winner": "tanner"
-  },
-  {
-   "opponent": "tanner",
-   "winner": "tanner"
-  }
- ],
  "matches": [
   {
    "opponent": "mehdi",
+   "round": 3,
+   "wins": 2,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "mehdi",
+     "winner": "bryan"
+    },
+    {
+     "opponent": "mehdi",
+     "winner": "bryan"
+    },
+    {
+     "opponent": "mehdi",
+     "winner": "mehdi"
+    }
+   ],
    "winner": "bryan"
   },
   {
    "opponent": "tanner",
+   "round": 2,
+   "wins": 1,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "tanner",
+     "winner": "bryan"
+    },
+    {
+     "opponent": "tanner",
+     "winner": "tanner"
+    },
+    {
+     "opponent": "tanner",
+     "winner": "tanner"
+    }
+   ],
    "winner": "tanner"
   }
  ],

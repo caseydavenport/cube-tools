@@ -11,19 +11,23 @@
  ],
  "player": "james",
  "date": "2024-05-14",
- "games": [
-  {
-   "opponent": "jen",
-   "winner": "jen"
-  },
-  {
-   "opponent": "jen",
-   "winner": "jen"
-  }
- ],
  "matches": [
   {
    "opponent": "jen",
+   "round": 3,
+   "wins": 0,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "jen",
+     "winner": "jen"
+    },
+    {
+     "opponent": "jen",
+     "winner": "jen"
+    }
+   ],
    "winner": "jen"
   }
  ],

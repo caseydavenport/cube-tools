@@ -11,13 +11,22 @@
  ],
  "player": "dom",
  "date": "2025-08-31",
- "games": [
+ "matches": [
   {
    "opponent": "casey",
+   "round": 1,
+   "wins": 1,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "casey",
+     "winner": "dom"
+    }
+   ],
    "winner": "dom"
   }
  ],
- "matches": [],
  "mainboard": [
   {
    "name": "Demand Answers",

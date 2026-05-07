@@ -12,13 +12,22 @@
  ],
  "player": "dom",
  "date": "2025-08-31",
- "games": [
+ "matches": [
   {
    "opponent": "casey",
+   "round": 1,
+   "wins": 0,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "casey",
+     "winner": "casey"
+    }
+   ],
    "winner": "casey"
   }
  ],
- "matches": [],
  "mainboard": [
   {
    "name": "Containment Construct",

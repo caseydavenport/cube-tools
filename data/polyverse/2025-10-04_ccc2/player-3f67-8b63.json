@@ -5,59 +5,76 @@
   "combined_file": "data/polyverse/2025-10-04_ccc2/player-3f67-8b63.txt"
  },
  "labels": [
-  "tempo", "token"
+  "tempo",
+  "token"
  ],
  "player": "player-3f67-8b63",
  "date": "2025-10-04",
- "games": [
-  {
-   "opponent": "player-3f67-119c",
-   "winner": "player-3f67-8b63"
-  },
-  {
-   "opponent": "player-3f67-119c",
-   "winner": "player-3f67-8b63"
-  },
-  {
-   "opponent": "player-3f67-119c",
-   "winner": "player-3f67-119c"
-  },
-  {
-   "opponent": "player-3f67-39fd",
-   "winner": "player-3f67-8b63"
-  },
-  {
-   "opponent": "player-3f67-39fd",
-   "winner": "player-3f67-8b63"
-  },
-  {
-   "opponent": "player-3f67-39fd",
-   "winner": "player-3f67-39fd"
-  },
-  {
-   "opponent": "player-3f67-a0b7",
-   "winner": "player-3f67-8b63"
-  },
-  {
-   "opponent": "player-3f67-a0b7",
-   "winner": "player-3f67-8b63"
-  },
-  {
-   "opponent": "player-3f67-a0b7",
-   "winner": "player-3f67-a0b7"
-  }
- ],
  "matches": [
   {
    "opponent": "player-3f67-119c",
+   "round": 2,
+   "wins": 2,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "player-3f67-119c",
+     "winner": "player-3f67-8b63"
+    },
+    {
+     "opponent": "player-3f67-119c",
+     "winner": "player-3f67-8b63"
+    },
+    {
+     "opponent": "player-3f67-119c",
+     "winner": "player-3f67-119c"
+    }
+   ],
    "winner": "player-3f67-8b63"
   },
   {
    "opponent": "player-3f67-39fd",
+   "round": 1,
+   "wins": 2,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "player-3f67-39fd",
+     "winner": "player-3f67-8b63"
+    },
+    {
+     "opponent": "player-3f67-39fd",
+     "winner": "player-3f67-8b63"
+    },
+    {
+     "opponent": "player-3f67-39fd",
+     "winner": "player-3f67-39fd"
+    }
+   ],
    "winner": "player-3f67-8b63"
   },
   {
    "opponent": "player-3f67-a0b7",
+   "round": 3,
+   "wins": 2,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "player-3f67-a0b7",
+     "winner": "player-3f67-8b63"
+    },
+    {
+     "opponent": "player-3f67-a0b7",
+     "winner": "player-3f67-8b63"
+    },
+    {
+     "opponent": "player-3f67-a0b7",
+     "winner": "player-3f67-a0b7"
+    }
+   ],
    "winner": "player-3f67-8b63"
   }
  ],

@@ -5,35 +5,47 @@
   "mainboard_file": "data/polyverse/2026-01-03/casey-mainboard.txt",
   "sideboard_file": "data/polyverse/2026-01-03/casey-sideboard.txt"
  },
- "labels": ["tempo", "token"],
+ "labels": [
+  "tempo",
+  "token"
+ ],
  "player": "casey",
  "date": "2026-01-03",
- "games": [
-  {
-   "opponent": "darius",
-   "winner": "darius"
-  },
-  {
-   "opponent": "darius",
-   "winner": "darius"
-  },
-  {
-   "opponent": "isaiah",
-   "winner": "casey"
-  },
-  {
-   "opponent": "isaiah",
-   "winner": "isaiah"
-  }
- ],
  "matches": [
   {
    "opponent": "darius",
+   "round": 1,
+   "wins": 0,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "darius",
+     "winner": "darius"
+    },
+    {
+     "opponent": "darius",
+     "winner": "darius"
+    }
+   ],
    "winner": "darius"
   },
   {
    "opponent": "isaiah",
-   "winner": ""
+   "round": 2,
+   "wins": 1,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "isaiah",
+     "winner": "casey"
+    },
+    {
+     "opponent": "isaiah",
+     "winner": "isaiah"
+    }
+   ]
   }
  ],
  "mainboard": [

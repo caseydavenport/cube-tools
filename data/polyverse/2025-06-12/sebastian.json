@@ -10,43 +10,59 @@
  ],
  "player": "sebastian",
  "date": "2025-06-12",
- "games": [
-  {
-   "opponent": "casey",
-   "winner": "casey"
-  },
-  {
-   "opponent": "casey",
-   "winner": "casey"
-  },
-  {
-   "opponent": "colton",
-   "winner": "colton"
-  },
-  {
-   "opponent": "colton",
-   "winner": "colton"
-  },
-  {
-   "opponent": "joe2",
-   "winner": "sebastian"
-  },
-  {
-   "opponent": "joe2",
-   "winner": "sebastian"
-  }
- ],
  "matches": [
   {
    "opponent": "casey",
+   "round": 2,
+   "wins": 0,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "casey",
+     "winner": "casey"
+    },
+    {
+     "opponent": "casey",
+     "winner": "casey"
+    }
+   ],
    "winner": "casey"
   },
   {
    "opponent": "colton",
+   "round": 3,
+   "wins": 0,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "colton",
+     "winner": "colton"
+    },
+    {
+     "opponent": "colton",
+     "winner": "colton"
+    }
+   ],
    "winner": "colton"
   },
   {
    "opponent": "joe2",
+   "round": 1,
+   "wins": 2,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "joe2",
+     "winner": "sebastian"
+    },
+    {
+     "opponent": "joe2",
+     "winner": "sebastian"
+    }
+   ],
    "winner": "sebastian"
   }
  ],

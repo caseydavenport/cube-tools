@@ -5,34 +5,48 @@
   "mainboard_file": "data/polyverse/2026-01-03/kaiyo-mainboard.txt",
   "sideboard_file": "data/polyverse/2026-01-03/kaiyo-sideboard.txt"
  },
- "labels": ["tempo", "artifacts", "sacrifice"],
+ "labels": [
+  "tempo",
+  "artifacts",
+  "sacrifice"
+ ],
  "player": "kaiyo",
  "date": "2026-01-03",
- "games": [
-  {
-   "opponent": "isaiah",
-   "winner": "kaiyo"
-  },
-  {
-   "opponent": "isaiah",
-   "winner": "kaiyo"
-  },
-  {
-   "opponent": "jackson",
-   "winner": "jackson"
-  },
-  {
-   "opponent": "jackson",
-   "winner": "jackson"
-  }
- ],
  "matches": [
   {
    "opponent": "isaiah",
+   "round": 1,
+   "wins": 2,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "isaiah",
+     "winner": "kaiyo"
+    },
+    {
+     "opponent": "isaiah",
+     "winner": "kaiyo"
+    }
+   ],
    "winner": "kaiyo"
   },
   {
    "opponent": "jackson",
+   "round": 2,
+   "wins": 0,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "jackson",
+     "winner": "jackson"
+    },
+    {
+     "opponent": "jackson",
+     "winner": "jackson"
+    }
+   ],
    "winner": "jackson"
   }
  ],

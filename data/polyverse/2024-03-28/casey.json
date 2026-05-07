@@ -11,55 +11,81 @@
  ],
  "player": "casey",
  "date": "2024-03-28",
- "games": [
-  {
-   "opponent": "ken",
-   "winner": "ken"
-  },
-  {
-   "opponent": "ken",
-   "winner": "ken"
-  },
-  {
-   "opponent": "matthew",
-   "winner": "matthew"
-  },
-  {
-   "opponent": "matthew",
-   "winner": "matthew"
-  },
-  {
-   "opponent": "matthewbk",
-   "winner": "matthewbk"
-  },
-  {
-   "opponent": "matthewbk",
-   "winner": "matthewbk"
-  },
-  {
-   "opponent": "parker",
-   "winner": "casey"
-  },
-  {
-   "opponent": "parker",
-   "winner": "casey"
-  },
-  {
-   "opponent": "parker",
-   "winner": "parker"
-  }
- ],
  "matches": [
   {
    "opponent": "ken",
+   "round": 1,
+   "wins": 0,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "ken",
+     "winner": "ken"
+    },
+    {
+     "opponent": "ken",
+     "winner": "ken"
+    }
+   ],
    "winner": "ken"
   },
   {
+   "opponent": "matthew",
+   "round": 4,
+   "wins": 0,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "matthew",
+     "winner": "matthew"
+    },
+    {
+     "opponent": "matthew",
+     "winner": "matthew"
+    }
+   ],
+   "winner": "matthew"
+  },
+  {
    "opponent": "matthewbk",
+   "round": 2,
+   "wins": 0,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "matthewbk",
+     "winner": "matthewbk"
+    },
+    {
+     "opponent": "matthewbk",
+     "winner": "matthewbk"
+    }
+   ],
    "winner": "matthewbk"
   },
   {
    "opponent": "parker",
+   "round": 3,
+   "wins": 2,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "parker",
+     "winner": "casey"
+    },
+    {
+     "opponent": "parker",
+     "winner": "casey"
+    },
+    {
+     "opponent": "parker",
+     "winner": "parker"
+    }
+   ],
    "winner": "casey"
   }
  ],

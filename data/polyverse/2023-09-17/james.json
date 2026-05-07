@@ -10,21 +10,50 @@
  ],
  "player": "james",
  "date": "2023-09-17",
- "games": [
+ "matches": [
   {
    "opponent": "casey",
+   "round": 1,
+   "wins": 1,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "casey",
+     "winner": "james"
+    }
+   ],
    "winner": "james"
   },
   {
    "opponent": "dom",
+   "round": 2,
+   "wins": 0,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "dom",
+     "winner": "dom"
+    }
+   ],
    "winner": "dom"
   },
   {
    "opponent": "mattd",
+   "round": 3,
+   "wins": 1,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "mattd",
+     "winner": "james"
+    }
+   ],
    "winner": "james"
   }
  ],
- "matches": null,
  "mainboard": [
   {
    "name": "Lightning Bolt",
@@ -58,8 +87,7 @@
    ],
    "mana_cost": "{1}{W}",
    "url": "https://scryfall.com/card/cmd/17/journey-to-nowhere?utm_source=api",
-   "oracle_text": "When this enchantment enters, exile target creature.\nWhen this enchantment leaves the battlefield, return the exiled card to the battlefield under its owner's control.",
-   "appearances": 1
+   "oracle_text": "When this enchantment enters, exile target creature.\nWhen this enchantment leaves the battlefield, return the exiled card to the battlefield under its owner's control."
   },
   {
    "name": "Bone Shards",
@@ -76,8 +104,7 @@
    ],
    "mana_cost": "{B}",
    "url": "https://scryfall.com/card/mh2/76/bone-shards?utm_source=api",
-   "oracle_text": "As an additional cost to cast this spell, sacrifice a creature or discard a card.\nDestroy target creature or planeswalker.",
-   "appearances": 1
+   "oracle_text": "As an additional cost to cast this spell, sacrifice a creature or discard a card.\nDestroy target creature or planeswalker."
   },
   {
    "name": "Sacred Foundry",
@@ -97,8 +124,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/eoe/256/sacred-foundry?utm_source=api",
-   "oracle_text": "({T}: Add {R} or {W}.)\nAs this land enters, you may pay 2 life. If you don't, it enters tapped.",
-   "appearances": 1
+   "oracle_text": "({T}: Add {R} or {W}.)\nAs this land enters, you may pay 2 life. If you don't, it enters tapped."
   },
   {
    "name": "Perilous Myr",
@@ -118,8 +144,7 @@
    "url": "https://scryfall.com/card/cmr/330/perilous-myr?utm_source=api",
    "oracle_text": "When this creature dies, it deals 2 damage to any target.",
    "power": "1",
-   "toughness": "1",
-   "appearances": 1
+   "toughness": "1"
   },
   {
    "name": "Swans of Bryn Argoll",
@@ -177,8 +202,7 @@
    ],
    "mana_cost": "{B}",
    "url": "https://scryfall.com/card/bbd/156/quest-for-the-gravelord?utm_source=api",
-   "oracle_text": "Whenever a creature dies, you may put a quest counter on this enchantment.\nRemove three quest counters from this enchantment and sacrifice it: Create a 5/5 black Zombie Giant creature token.",
-   "appearances": 1
+   "oracle_text": "Whenever a creature dies, you may put a quest counter on this enchantment.\nRemove three quest counters from this enchantment and sacrifice it: Create a 5/5 black Zombie Giant creature token."
   },
   {
    "name": "Vampire Aristocrat",
@@ -202,8 +226,7 @@
    "url": "https://scryfall.com/card/mm3/86/vampire-aristocrat?utm_source=api",
    "oracle_text": "Sacrifice a creature: This creature gets +2/+2 until end of turn.",
    "power": "2",
-   "toughness": "2",
-   "appearances": 1
+   "toughness": "2"
   },
   {
    "name": "Path to Exile",
@@ -314,8 +337,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/ecl/262/blood-crypt?utm_source=api",
-   "oracle_text": "({T}: Add {B} or {R}.)\nAs this land enters, you may pay 2 life. If you don't, it enters tapped.",
-   "appearances": 1
+   "oracle_text": "({T}: Add {B} or {R}.)\nAs this land enters, you may pay 2 life. If you don't, it enters tapped."
   },
   {
    "name": "Paladin of the Bloodstained",
@@ -355,8 +377,7 @@
    ],
    "mana_cost": "{B}",
    "url": "https://scryfall.com/card/2x2/96/unearth?utm_source=api",
-   "oracle_text": "Return target creature card with mana value 3 or less from your graveyard to the battlefield.\nCycling {2} ({2}, Discard this card: Draw a card.)",
-   "appearances": 1
+   "oracle_text": "Return target creature card with mana value 3 or less from your graveyard to the battlefield.\nCycling {2} ({2}, Discard this card: Draw a card.)"
   },
   {
    "name": "Reinforced Ronin",
@@ -445,8 +466,7 @@
    "url": "https://scryfall.com/card/m20/105/knight-of-the-ebon-legion?utm_source=api",
    "oracle_text": "{2}{B}: This creature gets +3/+3 and gains deathtouch until end of turn.\nAt the beginning of your end step, if a player lost 4 or more life this turn, put a +1/+1 counter on this creature. (Damage causes loss of life.)",
    "power": "1",
-   "toughness": "2",
-   "appearances": 1
+   "toughness": "2"
   },
   {
    "name": "Faithless Looting",
@@ -463,8 +483,7 @@
    ],
    "mana_cost": "{R}",
    "url": "https://scryfall.com/card/tdc/213/faithless-looting?utm_source=api",
-   "oracle_text": "Draw two cards, then discard two cards.\nFlashback {2}{R} (You may cast this card from your graveyard for its flashback cost. Then exile it.)",
-   "appearances": 1
+   "oracle_text": "Draw two cards, then discard two cards.\nFlashback {2}{R} (You may cast this card from your graveyard for its flashback cost. Then exile it.)"
   },
   {
    "name": "Agonizing Remorse",
@@ -504,8 +523,7 @@
    "url": "https://scryfall.com/card/thb/12/eidolon-of-obstruction?utm_source=api",
    "oracle_text": "First strike\nLoyalty abilities of planeswalkers your opponents control cost {1} more to activate.",
    "power": "2",
-   "toughness": "1",
-   "appearances": 1
+   "toughness": "1"
   },
   {
    "name": "Chain Lightning",
@@ -522,8 +540,7 @@
    ],
    "mana_cost": "{R}",
    "url": "https://scryfall.com/card/dmr/113/chain-lightning?utm_source=api",
-   "oracle_text": "Chain Lightning deals 3 damage to any target. Then that player or that permanent's controller may pay {R}{R}. If the player does, they may copy this spell and may choose a new target for that copy.",
-   "appearances": 1
+   "oracle_text": "Chain Lightning deals 3 damage to any target. Then that player or that permanent's controller may pay {R}{R}. If the player does, they may copy this spell and may choose a new target for that copy."
   },
   {
    "name": "Bloodstained Mire",
@@ -552,8 +569,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/mkc/263/furycalm-snarl?utm_source=api",
-   "oracle_text": "As this land enters, you may reveal a Mountain or Plains card from your hand. If you don't, this land enters tapped.\n{T}: Add {R} or {W}.",
-   "appearances": 1
+   "oracle_text": "As this land enters, you may reveal a Mountain or Plains card from your hand. If you don't, this land enters tapped.\n{T}: Add {R} or {W}."
   },
   {
    "name": "Earthquake",
@@ -614,8 +630,7 @@
    "url": "https://scryfall.com/card/2x2/11/flickerwisp?utm_source=api",
    "oracle_text": "Flying\nWhen this creature enters, exile another target permanent. Return that card to the battlefield under its owner's control at the beginning of the next end step.",
    "power": "3",
-   "toughness": "1",
-   "appearances": 1
+   "toughness": "1"
   },
   {
    "name": "Evolving Wilds",
@@ -669,8 +684,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/tla/282/plains?utm_source=api",
-   "oracle_text": "({T}: Add {W}.)",
-   "appearances": 1
+   "oracle_text": "({T}: Add {W}.)"
   },
   {
    "name": "Plains",
@@ -689,8 +703,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/tla/282/plains?utm_source=api",
-   "oracle_text": "({T}: Add {W}.)",
-   "appearances": 1
+   "oracle_text": "({T}: Add {W}.)"
   },
   {
    "name": "Swamp",
@@ -709,8 +722,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/tla/284/swamp?utm_source=api",
-   "oracle_text": "({T}: Add {B}.)",
-   "appearances": 1
+   "oracle_text": "({T}: Add {B}.)"
   },
   {
    "name": "Swamp",
@@ -729,8 +741,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/tla/284/swamp?utm_source=api",
-   "oracle_text": "({T}: Add {B}.)",
-   "appearances": 1
+   "oracle_text": "({T}: Add {B}.)"
   },
   {
    "name": "Swamp",
@@ -749,8 +760,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/tla/284/swamp?utm_source=api",
-   "oracle_text": "({T}: Add {B}.)",
-   "appearances": 1
+   "oracle_text": "({T}: Add {B}.)"
   },
   {
    "name": "Mountain",
@@ -769,8 +779,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/tla/285/mountain?utm_source=api",
-   "oracle_text": "({T}: Add {R}.)",
-   "appearances": 1
+   "oracle_text": "({T}: Add {R}.)"
   },
   {
    "name": "Mountain",
@@ -789,8 +798,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/tla/285/mountain?utm_source=api",
-   "oracle_text": "({T}: Add {R}.)",
-   "appearances": 1
+   "oracle_text": "({T}: Add {R}.)"
   },
   {
    "name": "Mountain",
@@ -809,8 +817,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/tla/285/mountain?utm_source=api",
-   "oracle_text": "({T}: Add {R}.)",
-   "appearances": 1
+   "oracle_text": "({T}: Add {R}.)"
   }
  ],
  "sideboard": [

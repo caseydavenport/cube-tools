@@ -11,13 +11,22 @@
  ],
  "player": "casey",
  "date": "2025-04-05",
- "games": [
+ "matches": [
   {
    "opponent": "dom",
+   "round": 1,
+   "wins": 0,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "dom",
+     "winner": "dom"
+    }
+   ],
    "winner": "dom"
   }
  ],
- "matches": [],
  "mainboard": [
   {
    "name": "Urza's Saga",

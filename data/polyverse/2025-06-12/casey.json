@@ -11,47 +11,63 @@
  ],
  "player": "casey",
  "date": "2025-06-12",
- "games": [
-  {
-   "opponent": "kenny",
-   "winner": "kenny"
-  },
-  {
-   "opponent": "kenny",
-   "winner": "kenny"
-  },
-  {
-   "opponent": "sebastian",
-   "winner": "casey"
-  },
-  {
-   "opponent": "sebastian",
-   "winner": "casey"
-  },
-  {
-   "opponent": "will",
-   "winner": "casey"
-  },
-  {
-   "opponent": "will",
-   "winner": "casey"
-  },
-  {
-   "opponent": "will",
-   "winner": "will"
-  }
- ],
  "matches": [
   {
    "opponent": "kenny",
+   "round": 1,
+   "wins": 0,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "kenny",
+     "winner": "kenny"
+    },
+    {
+     "opponent": "kenny",
+     "winner": "kenny"
+    }
+   ],
    "winner": "kenny"
   },
   {
    "opponent": "sebastian",
+   "round": 2,
+   "wins": 2,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "sebastian",
+     "winner": "casey"
+    },
+    {
+     "opponent": "sebastian",
+     "winner": "casey"
+    }
+   ],
    "winner": "casey"
   },
   {
    "opponent": "will",
+   "round": 3,
+   "wins": 2,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "will",
+     "winner": "casey"
+    },
+    {
+     "opponent": "will",
+     "winner": "casey"
+    },
+    {
+     "opponent": "will",
+     "winner": "will"
+    }
+   ],
    "winner": "casey"
   }
  ],

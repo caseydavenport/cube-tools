@@ -10,55 +10,81 @@
  ],
  "player": "kevin",
  "date": "2025-08-17",
- "games": [
-  {
-   "opponent": "ben",
-   "winner": "kevin"
-  },
-  {
-   "opponent": "ben",
-   "winner": "kevin"
-  },
-  {
-   "opponent": "ben",
-   "winner": "ben"
-  },
-  {
-   "opponent": "brian",
-   "winner": "kevin"
-  },
-  {
-   "opponent": "brian",
-   "winner": "kevin"
-  },
-  {
-   "opponent": "brianfl",
-   "winner": "kevin"
-  },
-  {
-   "opponent": "brianfl",
-   "winner": "kevin"
-  },
-  {
-   "opponent": "casey",
-   "winner": "kevin"
-  },
-  {
-   "opponent": "casey",
-   "winner": "kevin"
-  }
- ],
  "matches": [
   {
    "opponent": "ben",
+   "round": 1,
+   "wins": 2,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "ben",
+     "winner": "kevin"
+    },
+    {
+     "opponent": "ben",
+     "winner": "kevin"
+    },
+    {
+     "opponent": "ben",
+     "winner": "ben"
+    }
+   ],
+   "winner": "kevin"
+  },
+  {
+   "opponent": "brian",
+   "round": 4,
+   "wins": 2,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "brian",
+     "winner": "kevin"
+    },
+    {
+     "opponent": "brian",
+     "winner": "kevin"
+    }
+   ],
    "winner": "kevin"
   },
   {
    "opponent": "brianfl",
+   "round": 2,
+   "wins": 2,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "brianfl",
+     "winner": "kevin"
+    },
+    {
+     "opponent": "brianfl",
+     "winner": "kevin"
+    }
+   ],
    "winner": "kevin"
   },
   {
    "opponent": "casey",
+   "round": 3,
+   "wins": 2,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "casey",
+     "winner": "kevin"
+    },
+    {
+     "opponent": "casey",
+     "winner": "kevin"
+    }
+   ],
    "winner": "kevin"
   }
  ],
