@@ -154,6 +154,8 @@ func exportToCC() {
 		Name:        recordName,
 		Description: recordDescription,
 		Date:        time.Now().Unix() * 1000,
+		Players:     make([]CCPlayer, 0),
+		Matches:     make([]CCRound, 0),
 		Trophy:      make([]string, 0),
 	}
 	if decks[0].Date != "" {
@@ -173,6 +175,11 @@ func exportToCC() {
 	processedMatches := make(map[matchKey]bool)
 	rounds := make(map[int]*CCRound)
 
+	knownPlayer := make(map[string]bool, len(decks))
+	for _, d := range decks {
+		knownPlayer[d.Player] = true
+	}
+
 	playerWins := make(map[string]int)
 
 	for _, d := range decks {
@@ -180,6 +187,13 @@ func exportToCC() {
 			p1 := d.Player
 			p2 := m.Opponent
 			round := m.Round
+
+			// CubeCobra requires both p1 and p2 to be in the player list.
+			// Skip synthetic / anonymized opponent entries (e.g. legacy
+			// MatchWinsOverride records with no opponent name).
+			if p2 == "" || !knownPlayer[p2] {
+				continue
+			}
 
 			key := matchKey{p1, p2, round}
 			if p1 > p2 {
