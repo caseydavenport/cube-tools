@@ -1,43 +1,13 @@
 {
  "metadata": {
-  "path": "data/polyverse/2026-01-18_d2/210a.json",
+  "path": "data/polyverse/2026-01-18_d2/20260118d2-210a.json",
   "draft_id": "2026-01-18_d2",
-  "combined_file": "data/polyverse/2026-01-18_d2/210a.txt"
+  "combined_file": "data/polyverse/2026-01-18_d2/20260118d2-210a.txt"
  },
- "labels": [
-  "midrange",
-  "lands",
-  "ramp"
- ],
+ "labels": [],
  "player": "20260118d2-210a",
  "date": "2026-01-18",
- "matches": [
-  {
-   "opponent": "",
-   "round": 1,
-   "wins": 2,
-   "losses": 0,
-   "draws": 0,
-   "winner": "20260118d2-210a"
-  },
-  {
-   "opponent": "",
-   "round": 2,
-   "wins": 2,
-   "losses": 0,
-   "draws": 0,
-   "winner": "20260118d2-210a"
-  },
-  {
-   "opponent": "",
-   "round": 3,
-   "wins": 0,
-   "losses": 2,
-   "draws": 0
-  }
- ],
- "match_wins_override": 2,
- "match_losses_override": 1,
+ "matches": null,
  "mainboard": [
   {
    "name": "Llanowar Elves",
@@ -1260,7 +1230,7 @@
    ],
    "mana_cost": "{W} // {1}{W}",
    "url": "https://scryfall.com/card/eld/11/faerie-guidemother-gift-of-the-fae?utm_source=api",
-   "oracle_text": "",
+   "oracle_text": "Flying\nTarget creature gets +2/+1 and gains flying until end of turn. (Then exile this card. You may cast the creature later from exile.)",
    "power": "1",
    "toughness": "1"
   }

@@ -11,9 +11,9 @@ import (
 func makeCardDeck(player string, games []types.Game, mainboard []types.Card, sideboard []types.Card) *storage.Deck {
 	d := &storage.Deck{}
 	d.Player = player
-	d.Games = games
 	d.Mainboard = mainboard
 	d.Sideboard = sideboard
+	foldGamesIntoMatches(d, player, games)
 	return d
 }
 

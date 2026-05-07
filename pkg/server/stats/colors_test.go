@@ -15,9 +15,9 @@ func makeColorDeck(player string, colors []string, games []types.Game, matches [
 	d := &storage.Deck{}
 	d.Player = player
 	d.Colors = colors
-	d.Games = games
 	d.Matches = matches
 	d.Mainboard = mainboard
+	foldGamesIntoMatches(d, player, games)
 	return d
 }
 

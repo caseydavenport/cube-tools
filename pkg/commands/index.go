@@ -126,8 +126,14 @@ func decksInDraft(directory string) []IndexedDeck {
 		// Get only the base name of the file
 		fileName := filepath.Base(file)
 
-		// Skip index.json and cube snapshot files.
+		// Skip index.json, metadata.json, cube snapshot, draft-log, and cube-rules files.
 		if fileName == "index.json" {
+			continue
+		}
+		if fileName == "metadata.json" {
+			continue
+		}
+		if fileName == "cube.json" || fileName == "cube-rules.json" {
 			continue
 		}
 		if strings.Contains(file, "snapshot") {

@@ -24,9 +24,49 @@ func makeStorageDeck(player, draftID string, labels []string, games []types.Game
 	d.Player = player
 	d.Metadata.DraftID = draftID
 	d.Labels = labels
-	d.Games = games
 	d.Matches = matches
+	foldGamesIntoMatches(d, player, games)
 	return d
+}
+
+// foldGamesIntoMatches places each game inside its corresponding Match (by opponent),
+// updates Wins/Losses/Draws counters, and rebuilds the storage Deck's flat Games slice.
+func foldGamesIntoMatches(d *storage.Deck, player string, games []types.Game) {
+	for _, g := range games {
+		placed := false
+		for i := range d.Matches {
+			if d.Matches[i].Opponent == g.Opponent {
+				d.Matches[i].Games = append(d.Matches[i].Games, g)
+				switch {
+				case g.Winner == player:
+					d.Matches[i].Wins++
+				case g.Winner == "" || g.Tie:
+					d.Matches[i].Draws++
+				default:
+					d.Matches[i].Losses++
+				}
+				placed = true
+				break
+			}
+		}
+		if !placed {
+			m := types.Match{Opponent: g.Opponent, Games: []types.Game{g}}
+			switch {
+			case g.Winner == player:
+				m.Wins = 1
+			case g.Winner == "" || g.Tie:
+				m.Draws = 1
+			default:
+				m.Losses = 1
+			}
+			d.Matches = append(d.Matches, m)
+		}
+	}
+
+	d.Games = make([]types.Game, 0)
+	for _, m := range d.Matches {
+		d.Games = append(d.Games, m.Games...)
+	}
 }
 
 // --- SharedWith: "tempo" excluded ---

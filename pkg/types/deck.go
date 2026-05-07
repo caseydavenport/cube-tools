@@ -19,13 +19,33 @@ func NewDeck() *Deck {
 }
 
 func LoadDeck(path string) (*Deck, error) {
-	contenats, err := os.ReadFile(path)
+	contents, err := os.ReadFile(path)
 	if err != nil {
 		return nil, err
 	}
 	d := NewDeck()
-	if err := json.Unmarshal(contenats, d); err != nil {
+	if err := json.Unmarshal(contents, d); err != nil {
 		return nil, err
+	}
+
+	// Backwards-compat: older deck files had top-level "wins" / "losses" game
+	// counts without any per-opponent match data. Synthesize a single empty-opponent
+	// match so the counts survive into the new nested structure.
+	if len(d.Matches) == 0 {
+		var legacy struct {
+			Wins   *int `json:"wins"`
+			Losses *int `json:"losses"`
+		}
+		if err := json.Unmarshal(contents, &legacy); err == nil && (legacy.Wins != nil || legacy.Losses != nil) {
+			w, l := 0, 0
+			if legacy.Wins != nil {
+				w = *legacy.Wins
+			}
+			if legacy.Losses != nil {
+				l = *legacy.Losses
+			}
+			d.Matches = []Match{{Wins: w, Losses: l}}
+		}
 	}
 	return d, nil
 }
@@ -131,18 +151,6 @@ type Deck struct {
 	// Matches played with this deck.
 	Matches []Match `json:"matches"`
 
-	// Games is deprecated and will be removed in a future release.
-	// It is kept for migration purposes.
-	Games []Game `json:"games,omitempty"`
-
-	// Alternative to Matches, when we don't have detailed match information.
-	MatchWinsOverride   *int `json:"match_wins_override,omitempty"`
-	MatchLossesOverride *int `json:"match_losses_override,omitempty"`
-	MatchDrawsOverride  *int `json:"match_draws_override,omitempty"`
-
-	// Alternative to Games, when we don't have detailed game information.
-	Wins   *int `json:"wins,omitempty"`
-	Losses *int `json:"losses,omitempty"`
 	// DeckImage is a path to an image of the deck, relative to the deck file.
 	DeckImage string `json:"deck_image,omitempty"`
 
@@ -205,97 +213,6 @@ func (g *Game) Result() Result {
 		return ResultDraw
 	}
 	return ResultWin
-}
-
-// Migrate moves data from the legacy Games slice and Match overrides into the new
-// Match structure.
-func (d *Deck) Migrate() {
-	// 1. Group Games by Opponent
-	gamesByOpponent := make(map[string][]Game)
-	for _, g := range d.Games {
-		gamesByOpponent[g.Opponent] = append(gamesByOpponent[g.Opponent], g)
-	}
-
-	// 2. Merge into Matches
-	for i := range d.Matches {
-		m := &d.Matches[i]
-		if games, ok := gamesByOpponent[m.Opponent]; ok {
-			m.Games = games
-			delete(gamesByOpponent, m.Opponent)
-		}
-
-		// Calculate scores if they are 0
-		if m.Wins == 0 && m.Losses == 0 && m.Draws == 0 {
-			if len(m.Games) > 0 {
-				for _, g := range m.Games {
-					if g.Winner == d.Player {
-						m.Wins++
-					} else if g.Winner == "" || g.Tie {
-						m.Draws++
-					} else {
-						m.Losses++
-					}
-				}
-			} else {
-				// Infer from Winner field
-				if m.Winner == d.Player {
-					m.Wins = 2
-					m.Losses = 0
-				} else if m.Winner != "" {
-					m.Wins = 0
-					m.Losses = 2
-				}
-			}
-		}
-	}
-
-	// 3. Handle Orphans (games for opponents not in Matches)
-	for opponent, games := range gamesByOpponent {
-		m := Match{Opponent: opponent, Games: games}
-		for _, g := range games {
-			if g.Winner == d.Player {
-				m.Wins++
-			} else if g.Winner == "" || g.Tie {
-				m.Draws++
-			} else {
-				m.Losses++
-			}
-		}
-		// Infer winner
-		if m.Wins > m.Losses {
-			m.Winner = d.Player
-		} else if m.Losses > m.Wins {
-			m.Winner = opponent
-		}
-		d.Matches = append(d.Matches, m)
-	}
-
-	// 4. Handle Overrides
-	if len(d.Matches) == 0 {
-		if d.MatchWinsOverride != nil {
-			for i := 0; i < *d.MatchWinsOverride; i++ {
-				d.Matches = append(d.Matches, Match{Wins: 2, Winner: d.Player})
-			}
-		}
-		if d.MatchLossesOverride != nil {
-			for i := 0; i < *d.MatchLossesOverride; i++ {
-				d.Matches = append(d.Matches, Match{Losses: 2})
-			}
-		}
-		if d.MatchDrawsOverride != nil {
-			for i := 0; i < *d.MatchDrawsOverride; i++ {
-				d.Matches = append(d.Matches, Match{Wins: 1, Losses: 1})
-			}
-		}
-	}
-
-	// 5. Cleanup
-	d.Games = nil
-
-	// Sort matches by opponent for stability
-	sort.Slice(d.Matches, func(i, j int) bool {
-		return d.Matches[i].Opponent < d.Matches[j].Opponent
-	})
 }
 
 func (d *Deck) AllCards() []Card {
@@ -425,11 +342,6 @@ func (d *Deck) Macro() string {
 }
 
 func (d *Deck) GameWins() int {
-	// Respect the legacy Wins field if it's set.
-	if d.Wins != nil {
-		return *d.Wins
-	}
-
 	wins := 0
 	for _, m := range d.Matches {
 		wins += m.Wins
@@ -438,11 +350,6 @@ func (d *Deck) GameWins() int {
 }
 
 func (d *Deck) GameLosses() int {
-	// Respect the legacy Losses field if it's set.
-	if d.Losses != nil {
-		return *d.Losses
-	}
-
 	losses := 0
 	for _, m := range d.Matches {
 		losses += m.Losses
@@ -459,16 +366,11 @@ func (d *Deck) GameDraws() int {
 }
 
 func (d *Deck) MatchWins() int {
-	if d.MatchWinsOverride != nil {
-		return *d.MatchWinsOverride
-	}
-
 	wins := 0
 	for _, m := range d.Matches {
 		if m.Winner == d.Player {
 			wins++
 		} else if m.Winner == "" && m.Wins > m.Losses {
-			// If winner is empty, infer from game wins.
 			wins++
 		}
 	}
@@ -476,16 +378,11 @@ func (d *Deck) MatchWins() int {
 }
 
 func (d *Deck) MatchLosses() int {
-	if d.MatchLossesOverride != nil {
-		return *d.MatchLossesOverride
-	}
-
 	losses := 0
 	for _, m := range d.Matches {
 		if m.Winner != d.Player && m.Winner != "" {
 			losses++
 		} else if m.Winner == "" && m.Losses > m.Wins {
-			// If winner is empty, infer from game losses.
 			losses++
 		}
 	}
@@ -493,10 +390,6 @@ func (d *Deck) MatchLosses() int {
 }
 
 func (d *Deck) MatchDraws() int {
-	if d.MatchDrawsOverride != nil {
-		return *d.MatchDrawsOverride
-	}
-
 	draws := 0
 	for _, m := range d.Matches {
 		if m.Winner == "" && m.Wins == m.Losses {

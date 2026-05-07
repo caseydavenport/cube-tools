@@ -522,7 +522,7 @@
    ],
    "mana_cost": "{1}{G} // {1}{R}",
    "url": "https://scryfall.com/card/woe/234/questing-druid-seek-the-beast?utm_source=api",
-   "oracle_text": "",
+   "oracle_text": "Whenever you cast a spell that's white, blue, black, or red, put a +1/+1 counter on this creature.\nExile the top two cards of your library. Until your next end step, you may play those cards.",
    "power": "1",
    "toughness": "1"
   },

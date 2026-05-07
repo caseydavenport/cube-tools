@@ -971,7 +971,7 @@
    ],
    "mana_cost": "{W} // {1}{W}",
    "url": "https://scryfall.com/card/eld/11/faerie-guidemother-gift-of-the-fae?utm_source=api",
-   "oracle_text": "",
+   "oracle_text": "Flying\nTarget creature gets +2/+1 and gains flying until end of turn. (Then exile this card. You may cast the creature later from exile.)",
    "power": "1",
    "toughness": "1"
   },

@@ -260,7 +260,7 @@
    ],
    "mana_cost": "{1}{R} // {1}{U}",
    "url": "https://scryfall.com/card/dmr/215/fire-ice?utm_source=api",
-   "oracle_text": ""
+   "oracle_text": "Fire deals 2 damage divided as you choose among one or two targets.\nTap target permanent.\nDraw a card."
   },
   {
    "name": "Bonesplitter",
@@ -623,7 +623,7 @@
    "color_identity": [],
    "mana_cost": "{X}",
    "url": "https://scryfall.com/card/2xm/252/engineered-explosives?utm_source=api",
-   "oracle_text": "Sunburst (This enters with a charge counter on it for each color of mana spent to cast it.)\n{2}, Sacrifice this artifact: Destroy each nonland permanent with mana value equal to the number of charge counters on this artifact."
+   "oracle_text": "Sunburst (This artifact enters with a charge counter on it for each color of mana spent to cast it.)\n{2}, Sacrifice this artifact: Destroy each nonland permanent with mana value equal to the number of charge counters on this artifact."
   },
   {
    "name": "Mosswood Dreadknight // Dread Whispers",
@@ -647,7 +647,7 @@
    ],
    "mana_cost": "{1}{G} // {1}{B}",
    "url": "https://scryfall.com/card/woe/231/mosswood-dreadknight-dread-whispers?utm_source=api",
-   "oracle_text": "",
+   "oracle_text": "Trample\nWhen this creature dies, you may cast it from your graveyard as an Adventure until the end of your next turn.\nYou draw a card and you lose 1 life. (Then exile this card. You may cast the creature later from exile.)",
    "power": "3",
    "toughness": "2"
   },

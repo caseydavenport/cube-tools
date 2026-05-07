@@ -133,10 +133,6 @@ func addMatchToPlayer(player, opponent string, date string, wins, losses, ties i
 		deck.AddMatch(opponent, "")
 	}
 
-	// Clear our the legacy win / loss fields, if set.
-	deck.Wins = nil
-	deck.Losses = nil
-
 	// Save the updated deck.
 	return commands.SaveDeck(deck)
 }

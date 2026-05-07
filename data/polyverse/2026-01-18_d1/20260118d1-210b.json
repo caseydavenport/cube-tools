@@ -1,42 +1,13 @@
 {
  "metadata": {
-  "path": "data/polyverse/2026-01-18_d1/210b.json",
+  "path": "data/polyverse/2026-01-18_d1/20260118d1-210b.json",
   "draft_id": "2026-01-18_d1",
-  "combined_file": "data/polyverse/2026-01-18_d1/210b.txt"
+  "combined_file": "data/polyverse/2026-01-18_d1/20260118d1-210b.txt"
  },
- "labels": [
-  "aggro"
- ],
+ "labels": [],
  "player": "20260118d1-210b",
  "date": "2026-01-18",
- "matches": [
-  {
-   "opponent": "",
-   "round": 1,
-   "wins": 2,
-   "losses": 0,
-   "draws": 0,
-   "winner": "20260118d1-210b"
-  },
-  {
-   "opponent": "",
-   "round": 2,
-   "wins": 2,
-   "losses": 0,
-   "draws": 0,
-   "winner": "20260118d1-210b"
-  },
-  {
-   "opponent": "",
-   "round": 3,
-   "wins": 0,
-   "losses": 2,
-   "draws": 0
-  }
- ],
- "match_wins_override": 2,
- "match_losses_override": 1,
- "match_draws_override": 0,
+ "matches": null,
  "mainboard": [
   {
    "name": "Manamorphose",
@@ -148,7 +119,7 @@
    ],
    "mana_cost": "{2}{R} // {1}{W}",
    "url": "https://scryfall.com/card/woe/230/kellan-the-fae-blooded-birthright-boon?utm_source=api",
-   "oracle_text": "",
+   "oracle_text": "Double strike\nOther creatures you control get +1/+0 for each Aura and Equipment attached to Kellan.\nSearch your library for an Aura or Equipment card, reveal it, put it into your hand, then shuffle.",
    "power": "2",
    "toughness": "2"
   },
@@ -257,7 +228,7 @@
    ],
    "mana_cost": "{1}{G} // {1}{R}",
    "url": "https://scryfall.com/card/woe/234/questing-druid-seek-the-beast?utm_source=api",
-   "oracle_text": "",
+   "oracle_text": "Whenever you cast a spell that's white, blue, black, or red, put a +1/+1 counter on this creature.\nExile the top two cards of your library. Until your next end step, you may play those cards.",
    "power": "1",
    "toughness": "1"
   },

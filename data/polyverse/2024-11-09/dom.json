@@ -880,7 +880,7 @@
    ],
    "mana_cost": "{1}{R} // {1}{U}",
    "url": "https://scryfall.com/card/dmr/215/fire-ice?utm_source=api",
-   "oracle_text": ""
+   "oracle_text": "Fire deals 2 damage divided as you choose among one or two targets.\nTap target permanent.\nDraw a card."
   },
   {
    "name": "No More Lies",

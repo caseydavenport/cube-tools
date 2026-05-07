@@ -551,7 +551,7 @@
    ],
    "mana_cost": "{2}{R} // {1}{W}",
    "url": "https://scryfall.com/card/woe/230/kellan-the-fae-blooded-birthright-boon?utm_source=api",
-   "oracle_text": "",
+   "oracle_text": "Double strike\nOther creatures you control get +1/+0 for each Aura and Equipment attached to Kellan.\nSearch your library for an Aura or Equipment card, reveal it, put it into your hand, then shuffle.",
    "power": "2",
    "toughness": "2"
   },
@@ -953,7 +953,7 @@
     "G"
    ],
    "mana_cost": "{1}{G}",
-   "url": "https://scryfall.com/card/tle/259/explore?utm_source=api",
+   "url": "https://scryfall.com/card/otc/192/explore?utm_source=api",
    "oracle_text": "You may play an additional land this turn.\nDraw a card."
   },
   {
@@ -1013,7 +1013,7 @@
    ],
    "mana_cost": "{W} // {W}",
    "url": "https://scryfall.com/card/woe/7/cheeky-house-mouse-squeak-by?utm_source=api",
-   "oracle_text": "",
+   "oracle_text": "Target creature you control gets +1/+1 until end of turn. It can't be blocked by creatures with power 3 or greater this turn.",
    "power": "2",
    "toughness": "1"
   },
@@ -1037,7 +1037,7 @@
    ],
    "mana_cost": "{W} // {1}{W}",
    "url": "https://scryfall.com/card/eld/11/faerie-guidemother-gift-of-the-fae?utm_source=api",
-   "oracle_text": "",
+   "oracle_text": "Flying\nTarget creature gets +2/+1 and gains flying until end of turn. (Then exile this card. You may cast the creature later from exile.)",
    "power": "1",
    "toughness": "1"
   },

@@ -1,43 +1,13 @@
 {
  "metadata": {
-  "path": "data/polyverse/2026-01-18_d1/210c.json",
+  "path": "data/polyverse/2026-01-18_d1/20260118d1-210c.json",
   "draft_id": "2026-01-18_d1",
-  "combined_file": "data/polyverse/2026-01-18_d1/210c.txt"
+  "combined_file": "data/polyverse/2026-01-18_d1/20260118d1-210c.txt"
  },
- "labels": [
-  "control",
-  "delve"
- ],
+ "labels": [],
  "player": "20260118d1-210c",
  "date": "2026-01-18",
- "matches": [
-  {
-   "opponent": "",
-   "round": 1,
-   "wins": 2,
-   "losses": 0,
-   "draws": 0,
-   "winner": "20260118d1-210c"
-  },
-  {
-   "opponent": "",
-   "round": 2,
-   "wins": 2,
-   "losses": 0,
-   "draws": 0,
-   "winner": "20260118d1-210c"
-  },
-  {
-   "opponent": "",
-   "round": 3,
-   "wins": 0,
-   "losses": 2,
-   "draws": 0
-  }
- ],
- "match_wins_override": 2,
- "match_losses_override": 1,
- "match_draws_override": 0,
+ "matches": null,
  "mainboard": [
   {
    "name": "Nethergoyf",
@@ -332,7 +302,7 @@
    ],
    "mana_cost": "{5}{B}{B} // {1}{B}",
    "url": "https://scryfall.com/card/woe/115/virtue-of-persistence-locthwain-scorn?utm_source=api",
-   "oracle_text": ""
+   "oracle_text": "At the beginning of your upkeep, put target creature card from a graveyard onto the battlefield under your control.\nTarget creature gets -3/-3 until end of turn. You gain 2 life."
   },
   {
    "name": "Bitter Triumph",

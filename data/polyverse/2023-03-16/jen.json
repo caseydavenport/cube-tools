@@ -10,9 +10,14 @@
  ],
  "player": "jen",
  "date": "2023-03-16",
- "matches": null,
- "wins": 1,
- "losses": 1,
+ "matches": [
+  {
+   "opponent": "",
+   "wins": 1,
+   "losses": 1,
+   "draws": 0
+  }
+ ],
  "mainboard": [
   {
    "name": "Remove Soul",

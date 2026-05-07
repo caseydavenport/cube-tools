@@ -1,41 +1,13 @@
 {
  "metadata": {
-  "path": "data/polyverse/2026-01-18_d2/120a.json",
+  "path": "data/polyverse/2026-01-18_d2/20260118d2-120a.json",
   "draft_id": "2026-01-18_d2",
-  "combined_file": "data/polyverse/2026-01-18_d2/120a.txt"
+  "combined_file": "data/polyverse/2026-01-18_d2/20260118d2-120a.txt"
  },
- "labels": [
-  "tempo",
-  "spells"
- ],
+ "labels": [],
  "player": "20260118d2-120a",
  "date": "2026-01-18",
- "matches": [
-  {
-   "opponent": "",
-   "round": 1,
-   "wins": 2,
-   "losses": 0,
-   "draws": 0,
-   "winner": "20260118d2-120a"
-  },
-  {
-   "opponent": "",
-   "round": 2,
-   "wins": 0,
-   "losses": 2,
-   "draws": 0
-  },
-  {
-   "opponent": "",
-   "round": 3,
-   "wins": 0,
-   "losses": 2,
-   "draws": 0
-  }
- ],
- "match_wins_override": 1,
- "match_losses_override": 2,
+ "matches": null,
  "mainboard": [
   {
    "name": "Lórien Revealed",
@@ -1039,7 +1011,7 @@
    ],
    "mana_cost": "{1}{G} // {1}{R}",
    "url": "https://scryfall.com/card/woe/234/questing-druid-seek-the-beast?utm_source=api",
-   "oracle_text": "",
+   "oracle_text": "Whenever you cast a spell that's white, blue, black, or red, put a +1/+1 counter on this creature.\nExile the top two cards of your library. Until your next end step, you may play those cards.",
    "power": "1",
    "toughness": "1"
   },

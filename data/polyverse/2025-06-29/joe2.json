@@ -114,7 +114,7 @@
    ],
    "mana_cost": "{U} // {X}{G}",
    "url": "https://scryfall.com/card/woe/225/elusive-otter-groves-bounty?utm_source=api",
-   "oracle_text": "",
+   "oracle_text": "Prowess (Whenever you cast a noncreature spell, this creature gets +1/+1 until end of turn.)\nCreatures with power less than this creature's power can't block it.\nDistribute X +1/+1 counters among any number of target creatures you control. (Then exile this card. You may cast the creature later from exile.)",
    "power": "1",
    "toughness": "1"
   },
@@ -409,7 +409,7 @@
    ],
    "mana_cost": "{1}{G} // {1}{R}",
    "url": "https://scryfall.com/card/woe/234/questing-druid-seek-the-beast?utm_source=api",
-   "oracle_text": "",
+   "oracle_text": "Whenever you cast a spell that's white, blue, black, or red, put a +1/+1 counter on this creature.\nExile the top two cards of your library. Until your next end step, you may play those cards.",
    "power": "1",
    "toughness": "1"
   },
@@ -731,7 +731,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/xln/22/legions-landing-adanto-the-first-fort?utm_source=api",
-   "oracle_text": ""
+   "oracle_text": "When Legion's Landing enters, create a 1/1 white Vampire creature token with lifelink.\nWhen you attack with three or more creatures, transform Legion's Landing.\n(Transforms from Legion's Landing.)\n{T}: Add {W}.\n{2}{W}, {T}: Create a 1/1 white Vampire creature token with lifelink."
   },
   {
    "name": "Mother of Runes",
@@ -944,7 +944,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/mh3/299/barbarian-ring?utm_source=api",
-   "oracle_text": "{T}: Add {R}. This land deals 1 damage to you.\nThreshold — {R}, {T}, Sacrifice this land: It deals 2 damage to any target. Activate only if seven or more cards are in your graveyard."
+   "oracle_text": "{T}: Add {R}. This land deals 1 damage to you.\nThreshold — {R}, {T}, Sacrifice this land: It deals 2 damage to any target. Activate only if there are seven or more cards in your graveyard."
   },
   {
    "name": "Rabbit Battery",

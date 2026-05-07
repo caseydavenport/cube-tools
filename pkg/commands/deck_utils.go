@@ -3,7 +3,6 @@ package commands
 import (
 	"encoding/json"
 	"fmt"
-	"io"
 	"os"
 	"strings"
 
@@ -17,21 +16,11 @@ func DeckFilepath(date, player string) string {
 
 func LoadParsedDeckFile(date, player string) *types.Deck {
 	filename := DeckFilepath(date, player)
-	f, err := os.Open(filename)
-	defer f.Close()
+	d, err := types.LoadDeck(filename)
 	if err != nil {
-		logrus.WithError(err).Fatal("Failed to open deck file")
+		logrus.WithError(err).Fatal("Failed to load deck file")
 	}
-
-	bytes, err := io.ReadAll(f)
-	if err != nil {
-		panic(err)
-	}
-	deck := types.Deck{}
-	if err = json.Unmarshal(bytes, &deck); err != nil {
-		logrus.Fatal("Failed to unmarshal deck file")
-	}
-	return &deck
+	return d
 }
 
 func SaveDeck(d *types.Deck) error {

@@ -10,8 +10,14 @@
  ],
  "player": "james",
  "date": "2023-06-17",
- "matches": null,
- "losses": 1,
+ "matches": [
+  {
+   "opponent": "",
+   "wins": 0,
+   "losses": 1,
+   "draws": 0
+  }
+ ],
  "mainboard": [
   {
    "name": "Cloudgoat Ranger",

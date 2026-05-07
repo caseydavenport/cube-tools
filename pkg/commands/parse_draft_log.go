@@ -58,8 +58,7 @@ func decksFromDraftLog(log *types.DraftLog, date string) []types.Deck {
 	decks := []types.Deck{}
 	for _, user := range log.Users {
 		deck := types.Deck{
-			Date:  date,
-			Games: []types.Game{},
+			Date: date,
 		}
 		deck.Player = strings.ToLower(user.UserName)
 		for _, id := range user.Decklist.Main {

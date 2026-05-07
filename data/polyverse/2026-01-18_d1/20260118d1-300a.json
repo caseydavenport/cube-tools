@@ -1,47 +1,13 @@
 {
  "metadata": {
-  "path": "data/polyverse/2026-01-18_d1/300a.json",
+  "path": "data/polyverse/2026-01-18_d1/20260118d1-300a.json",
   "draft_id": "2026-01-18_d1",
-  "combined_file": "data/polyverse/2026-01-18_d1/300a.txt"
+  "combined_file": "data/polyverse/2026-01-18_d1/20260118d1-300a.txt"
  },
- "labels": [
-  "aggro",
-  "token",
-  "hatebears"
- ],
+ "labels": [],
  "player": "20260118d1-300a",
  "date": "2026-01-18",
- "matches": [
-  {
-   "opponent": "",
-   "round": 1,
-   "wins": 2,
-   "losses": 0,
-   "draws": 0,
-   "winner": "20260118d1-300a"
-  },
-  {
-   "opponent": "",
-   "round": 2,
-   "wins": 2,
-   "losses": 0,
-   "draws": 0,
-   "winner": "20260118d1-300a"
-  },
-  {
-   "opponent": "",
-   "round": 3,
-   "wins": 2,
-   "losses": 0,
-   "draws": 0,
-   "winner": "20260118d1-300a"
-  }
- ],
- "match_wins_override": 3,
- "match_losses_override": 0,
- "match_draws_override": 0,
- "wins": 6,
- "losses": 0,
+ "matches": null,
  "mainboard": [
   {
    "name": "Mutavault",
@@ -473,7 +439,7 @@
    ],
    "mana_cost": "{W} // {W}",
    "url": "https://scryfall.com/card/woe/7/cheeky-house-mouse-squeak-by?utm_source=api",
-   "oracle_text": "",
+   "oracle_text": "Target creature you control gets +1/+1 until end of turn. It can't be blocked by creatures with power 3 or greater this turn.",
    "power": "2",
    "toughness": "1"
   },
@@ -520,7 +486,7 @@
    ],
    "mana_cost": "{W} // {1}{W}",
    "url": "https://scryfall.com/card/eld/11/faerie-guidemother-gift-of-the-fae?utm_source=api",
-   "oracle_text": "",
+   "oracle_text": "Flying\nTarget creature gets +2/+1 and gains flying until end of turn. (Then exile this card. You may cast the creature later from exile.)",
    "power": "1",
    "toughness": "1"
   },

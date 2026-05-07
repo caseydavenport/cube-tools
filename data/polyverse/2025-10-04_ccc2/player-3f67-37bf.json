@@ -1231,7 +1231,7 @@
    ],
    "mana_cost": "{1}{G} // {1}{B}",
    "url": "https://scryfall.com/card/woe/231/mosswood-dreadknight-dread-whispers?utm_source=api",
-   "oracle_text": "",
+   "oracle_text": "Trample\nWhen this creature dies, you may cast it from your graveyard as an Adventure until the end of your next turn.\nYou draw a card and you lose 1 life. (Then exile this card. You may cast the creature later from exile.)",
    "power": "3",
    "toughness": "2"
   },

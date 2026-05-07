@@ -6,15 +6,36 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func intPtr(i int) *int {
-	return &i
-}
-
+// makeDeck builds a Deck where each Game is folded into a Match keyed by
+// opponent. Wins/Losses/Draws are tallied from the games so the Game* and
+// Match* helpers see consistent data. If both games and matches are passed,
+// games attach to the matching opponent (or create a new match).
 func makeDeck(player string, games []Game, matches []Match) *Deck {
 	d := NewDeck()
 	d.Player = player
-	d.Games = games
 	d.Matches = matches
+	for _, g := range games {
+		idx := -1
+		for i := range d.Matches {
+			if d.Matches[i].Opponent == g.Opponent {
+				idx = i
+				break
+			}
+		}
+		if idx == -1 {
+			d.Matches = append(d.Matches, Match{Opponent: g.Opponent})
+			idx = len(d.Matches) - 1
+		}
+		d.Matches[idx].Games = append(d.Matches[idx].Games, g)
+		switch {
+		case g.Winner == player:
+			d.Matches[idx].Wins++
+		case g.Winner == "" || g.Tie:
+			d.Matches[idx].Draws++
+		default:
+			d.Matches[idx].Losses++
+		}
+	}
 	return d
 }
 
@@ -27,14 +48,6 @@ func TestGameWins(t *testing.T) {
 		{Opponent: "Charlie", Winner: "Alice"},
 	}, nil)
 	assert.Equal(t, 2, d.GameWins())
-}
-
-func TestGameWins_Override(t *testing.T) {
-	d := makeDeck("Alice", []Game{
-		{Opponent: "Bob", Winner: "Alice"},
-	}, nil)
-	d.Wins = intPtr(5)
-	assert.Equal(t, 5, d.GameWins())
 }
 
 func TestGameWins_NoGames(t *testing.T) {
@@ -63,14 +76,6 @@ func TestGameLosses_DrawsNotCounted(t *testing.T) {
 	assert.Equal(t, 1, d.GameLosses())
 }
 
-func TestGameLosses_Override(t *testing.T) {
-	d := makeDeck("Alice", []Game{
-		{Opponent: "Bob", Winner: "Bob"},
-	}, nil)
-	d.Losses = intPtr(3)
-	assert.Equal(t, 3, d.GameLosses())
-}
-
 // --- Game draws ---
 
 func TestGameDraws(t *testing.T) {
@@ -94,14 +99,6 @@ func TestMatchWins(t *testing.T) {
 	assert.Equal(t, 2, d.MatchWins())
 }
 
-func TestMatchWins_Override(t *testing.T) {
-	d := makeDeck("Alice", nil, []Match{
-		{Opponent: "Bob", Winner: "Alice"},
-	})
-	d.MatchWinsOverride = intPtr(7)
-	assert.Equal(t, 7, d.MatchWins())
-}
-
 // --- Match losses ---
 
 func TestMatchLosses(t *testing.T) {
@@ -113,12 +110,6 @@ func TestMatchLosses(t *testing.T) {
 	assert.Equal(t, 1, d.MatchLosses())
 }
 
-func TestMatchLosses_Override(t *testing.T) {
-	d := makeDeck("Alice", nil, nil)
-	d.MatchLossesOverride = intPtr(2)
-	assert.Equal(t, 2, d.MatchLosses())
-}
-
 // --- Match draws ---
 
 func TestMatchDraws(t *testing.T) {
@@ -128,12 +119,6 @@ func TestMatchDraws(t *testing.T) {
 		{Opponent: "Dave", Winner: ""},
 	})
 	assert.Equal(t, 2, d.MatchDraws())
-}
-
-func TestMatchDraws_Override(t *testing.T) {
-	d := makeDeck("Alice", nil, nil)
-	d.MatchDrawsOverride = intPtr(1)
-	assert.Equal(t, 1, d.MatchDraws())
 }
 
 // --- Trophies ---
@@ -442,16 +427,16 @@ func TestAddGame_SortsByOpponent(t *testing.T) {
 	d.Player = "Alice"
 	d.AddGame("Charlie", "Alice")
 	d.AddGame("Bob", "Bob")
-	assert.Equal(t, "Bob", d.Games[0].Opponent)
-	assert.Equal(t, "Charlie", d.Games[1].Opponent)
+	assert.Equal(t, "Bob", d.Matches[0].Opponent)
+	assert.Equal(t, "Charlie", d.Matches[1].Opponent)
 }
 
 func TestAddGame_DrawSetsTieFlag(t *testing.T) {
 	d := NewDeck()
 	d.Player = "Alice"
 	d.AddGame("Bob", "")
-	assert.True(t, d.Games[0].Tie)
-	assert.Equal(t, "", d.Games[0].Winner)
+	assert.True(t, d.Matches[0].Games[0].Tie)
+	assert.Equal(t, "", d.Matches[0].Games[0].Winner)
 }
 
 // --- RemoveMatchesForOpponent ---
@@ -504,8 +489,8 @@ func TestRemoveGamesForOpponent(t *testing.T) {
 		{Opponent: "Bob", Winner: "Bob"},
 	}, nil)
 	d.RemoveGamesForOpponent("Bob")
-	assert.Equal(t, 1, len(d.Games))
-	assert.Equal(t, "Charlie", d.Games[0].Opponent)
+	assert.Equal(t, 0, len(d.GamesForOpponent("Bob")))
+	assert.Equal(t, 1, len(d.GamesForOpponent("Charlie")))
 }
 
 // --- Game.Result ---

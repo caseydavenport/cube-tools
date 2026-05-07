@@ -140,7 +140,7 @@
    "color_identity": [],
    "mana_cost": "{6}",
    "url": "https://scryfall.com/card/som/176/mindslaver?utm_source=api",
-   "oracle_text": "{4}, {T}, Sacrifice Mindslaver: You control target player during that player's next turn. (You see all cards that player could see and make all decisions for the player.)"
+   "oracle_text": "{4}, {T}, Sacrifice Mindslaver: You control target player during that player's next turn. (You see all cards that player could see and make all decisions for them.)"
   },
   {
    "name": "Turntimber Basilisk",
@@ -181,7 +181,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/lci/188/growing-rites-of-itlimoc-itlimoc-cradle-of-the-sun?utm_source=api",
-   "oracle_text": ""
+   "oracle_text": "When Growing Rites of Itlimoc enters, look at the top four cards of your library. You may reveal a creature card from among them and put it into your hand. Put the rest on the bottom of your library in any order.\nAt the beginning of your end step, if you control four or more creatures, transform Growing Rites of Itlimoc.\n(Transforms from Growing Rites of Itlimoc.)\n{T}: Add {G}.\n{T}: Add {G} for each creature you control."
   },
   {
    "name": "Loxodon Warhammer",

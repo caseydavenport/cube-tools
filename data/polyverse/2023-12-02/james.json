@@ -274,7 +274,7 @@
    ],
    "mana_cost": "{5}{B}{B} // {1}{B}",
    "url": "https://scryfall.com/card/woe/115/virtue-of-persistence-locthwain-scorn?utm_source=api",
-   "oracle_text": ""
+   "oracle_text": "At the beginning of your upkeep, put target creature card from a graveyard onto the battlefield under your control.\nTarget creature gets -3/-3 until end of turn. You gain 2 life."
   },
   {
    "name": "Pyroclasm",
@@ -1027,7 +1027,7 @@
    ],
    "mana_cost": "{B}{B}",
    "url": "https://scryfall.com/card/c18/119/stitch-together?utm_source=api",
-   "oracle_text": "Return target creature card from your graveyard to your hand.\nThreshold — Return that card from your graveyard to the battlefield instead if seven or more cards are in your graveyard."
+   "oracle_text": "Return target creature card from your graveyard to your hand.\nThreshold — Return that card from your graveyard to the battlefield instead if there are seven or more cards in your graveyard."
   },
   {
    "name": "Journey to Nowhere",

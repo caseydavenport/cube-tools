@@ -1,44 +1,13 @@
 {
  "metadata": {
-  "path": "data/polyverse/2026-01-17/300a.json",
+  "path": "data/polyverse/2026-01-17/20260117-300a.json",
   "draft_id": "2026-01-17",
-  "combined_file": "data/polyverse/2026-01-17/300a.txt"
+  "combined_file": "data/polyverse/2026-01-17/20260117-300a.txt"
  },
- "labels": [
-  "aggro",
-  "ramp",
-  "hatebears"
- ],
+ "labels": [],
  "player": "20260117-300a",
  "date": "2026-01-17",
- "matches": [
-  {
-   "opponent": "",
-   "round": 1,
-   "wins": 2,
-   "losses": 0,
-   "draws": 0,
-   "winner": "20260117-300a"
-  },
-  {
-   "opponent": "",
-   "round": 2,
-   "wins": 2,
-   "losses": 0,
-   "draws": 0,
-   "winner": "20260117-300a"
-  },
-  {
-   "opponent": "",
-   "round": 3,
-   "wins": 2,
-   "losses": 0,
-   "draws": 0,
-   "winner": "20260117-300a"
-  }
- ],
- "match_wins_override": 3,
- "match_losses_override": 0,
+ "matches": null,
  "mainboard": [
   {
    "name": "Dauntless Bodyguard",
@@ -216,7 +185,7 @@
    ],
    "mana_cost": "{2}{R} // {1}{W}",
    "url": "https://scryfall.com/card/woe/230/kellan-the-fae-blooded-birthright-boon?utm_source=api",
-   "oracle_text": "",
+   "oracle_text": "Double strike\nOther creatures you control get +1/+0 for each Aura and Equipment attached to Kellan.\nSearch your library for an Aura or Equipment card, reveal it, put it into your hand, then shuffle.",
    "power": "2",
    "toughness": "2"
   },
@@ -341,7 +310,7 @@
    ],
    "mana_cost": "{1}{G} // {1}{R}",
    "url": "https://scryfall.com/card/woe/234/questing-druid-seek-the-beast?utm_source=api",
-   "oracle_text": "",
+   "oracle_text": "Whenever you cast a spell that's white, blue, black, or red, put a +1/+1 counter on this creature.\nExile the top two cards of your library. Until your next end step, you may play those cards.",
    "power": "1",
    "toughness": "1"
   },

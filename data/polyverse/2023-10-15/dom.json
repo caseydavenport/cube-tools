@@ -235,7 +235,7 @@
    ],
    "mana_cost": "{2}{R} // {1}{W}",
    "url": "https://scryfall.com/card/woe/230/kellan-the-fae-blooded-birthright-boon?utm_source=api",
-   "oracle_text": "",
+   "oracle_text": "Double strike\nOther creatures you control get +1/+0 for each Aura and Equipment attached to Kellan.\nSearch your library for an Aura or Equipment card, reveal it, put it into your hand, then shuffle.",
    "power": "2",
    "toughness": "2"
   },

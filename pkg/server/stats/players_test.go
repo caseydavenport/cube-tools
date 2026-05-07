@@ -19,25 +19,25 @@ func TestPlayerStats_OpponentWinPercent_Weighted(t *testing.T) {
 	// Weighted: (60*3 + 40*1) / 4 = 220/4 = 55, NOT (60+40)/2 = 50
 	d1 := &storage.Deck{}
 	d1.Player = "Alice"
-	d1.Games = []types.Game{
-		{Opponent: "Bob", Winner: "Alice"},
-		{Opponent: "Bob", Winner: "Alice"},
-	}
 	d1.Matches = []types.Match{
 		{Opponent: "Bob", Winner: "Alice"},
 		{Opponent: "Charlie", Winner: "Charlie"},
 		{Opponent: "Dave", Winner: "Alice"},
 	}
+	foldGamesIntoMatches(d1, "Alice", []types.Game{
+		{Opponent: "Bob", Winner: "Alice"},
+		{Opponent: "Bob", Winner: "Alice"},
+	})
 	d1.OpponentWinPercentage = 60
 
 	d2 := &storage.Deck{}
 	d2.Player = "Alice"
-	d2.Games = []types.Game{
-		{Opponent: "Eve", Winner: "Eve"},
-	}
 	d2.Matches = []types.Match{
 		{Opponent: "Eve", Winner: "Eve"},
 	}
+	foldGamesIntoMatches(d2, "Alice", []types.Game{
+		{Opponent: "Eve", Winner: "Eve"},
+	})
 	d2.OpponentWinPercentage = 40
 
 	handler := &playerStatsHandler{store: &mockDeckStorage{decks: []*storage.Deck{d1, d2}}}

@@ -9,8 +9,14 @@
  ],
  "player": "dom",
  "date": "2023-04-27",
- "matches": null,
- "losses": 1,
+ "matches": [
+  {
+   "opponent": "",
+   "wins": 0,
+   "losses": 1,
+   "draws": 0
+  }
+ ],
  "mainboard": [
   {
    "name": "Game Trail",

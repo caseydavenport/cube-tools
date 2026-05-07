@@ -1,42 +1,13 @@
 {
  "metadata": {
-  "path": "data/polyverse/2026-01-18_d2/210b.json",
+  "path": "data/polyverse/2026-01-18_d2/20260118d2-210b.json",
   "draft_id": "2026-01-18_d2",
-  "combined_file": "data/polyverse/2026-01-18_d2/210b.txt"
+  "combined_file": "data/polyverse/2026-01-18_d2/20260118d2-210b.txt"
  },
- "labels": [
-  "aggro",
-  "sacrifice"
- ],
+ "labels": [],
  "player": "20260118d2-210b",
  "date": "2026-01-18",
- "matches": [
-  {
-   "opponent": "",
-   "round": 1,
-   "wins": 2,
-   "losses": 0,
-   "draws": 0,
-   "winner": "20260118d2-210b"
-  },
-  {
-   "opponent": "",
-   "round": 2,
-   "wins": 2,
-   "losses": 0,
-   "draws": 0,
-   "winner": "20260118d2-210b"
-  },
-  {
-   "opponent": "",
-   "round": 3,
-   "wins": 0,
-   "losses": 2,
-   "draws": 0
-  }
- ],
- "match_wins_override": 2,
- "match_losses_override": 1,
+ "matches": null,
  "mainboard": [
   {
    "name": "Bone Shards",

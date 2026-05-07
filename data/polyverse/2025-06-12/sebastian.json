@@ -104,7 +104,7 @@
    ],
    "mana_cost": "{U} // {X}{G}",
    "url": "https://scryfall.com/card/woe/225/elusive-otter-groves-bounty?utm_source=api",
-   "oracle_text": "",
+   "oracle_text": "Prowess (Whenever you cast a noncreature spell, this creature gets +1/+1 until end of turn.)\nCreatures with power less than this creature's power can't block it.\nDistribute X +1/+1 counters among any number of target creatures you control. (Then exile this card. You may cast the creature later from exile.)",
    "power": "1",
    "toughness": "1"
   },

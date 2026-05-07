@@ -261,7 +261,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/neo/57/inventive-iteration-living-breakthrough?utm_source=api",
-   "oracle_text": ""
+   "oracle_text": "(As this Saga enters and after your draw step, add a lore counter.)\nI — Return up to one target creature or planeswalker to its owner's hand.\nII — Return an artifact card from your graveyard to your hand. If you can't, draw a card.\nIII — Exile this Saga, then return it to the battlefield transformed under your control.\nFlying\nWhenever you cast a spell, your opponents can't cast spells with the same mana value as that spell until your next turn."
   },
   {
    "name": "Scavenger Drake",
@@ -480,7 +480,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/inr/91/thing-in-the-ice-awoken-horror?utm_source=api",
-   "oracle_text": ""
+   "oracle_text": "Defender\nThis creature enters with four ice counters on it.\nWhenever you cast an instant or sorcery spell, remove an ice counter from this creature. Then if it has no ice counters on it, transform it.\nWhen this creature transforms into Awoken Horror, return all non-Horror creatures to their owners' hands."
   },
   {
    "name": "Negate",

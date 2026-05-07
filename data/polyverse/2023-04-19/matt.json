@@ -9,8 +9,14 @@
  ],
  "player": "matt",
  "date": "2023-04-19",
- "matches": null,
- "losses": 1,
+ "matches": [
+  {
+   "opponent": "",
+   "wins": 0,
+   "losses": 1,
+   "draws": 0
+  }
+ ],
  "mainboard": [
   {
    "name": "Ajani Goldmane",
@@ -210,7 +216,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/lci/188/growing-rites-of-itlimoc-itlimoc-cradle-of-the-sun?utm_source=api",
-   "oracle_text": ""
+   "oracle_text": "When Growing Rites of Itlimoc enters, look at the top four cards of your library. You may reveal a creature card from among them and put it into your hand. Put the rest on the bottom of your library in any order.\nAt the beginning of your end step, if you control four or more creatures, transform Growing Rites of Itlimoc.\n(Transforms from Growing Rites of Itlimoc.)\n{T}: Add {G}.\n{T}: Add {G} for each creature you control."
   },
   {
    "name": "Sunpetal Grove",

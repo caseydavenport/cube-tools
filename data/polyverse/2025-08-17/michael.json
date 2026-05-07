@@ -154,7 +154,7 @@
    ],
    "mana_cost": "{5}{B}{B} // {1}{B}",
    "url": "https://scryfall.com/card/woe/115/virtue-of-persistence-locthwain-scorn?utm_source=api",
-   "oracle_text": ""
+   "oracle_text": "At the beginning of your upkeep, put target creature card from a graveyard onto the battlefield under your control.\nTarget creature gets -3/-3 until end of turn. You gain 2 life."
   },
   {
    "name": "Flooded Strand",

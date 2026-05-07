@@ -172,7 +172,7 @@
    ],
    "mana_cost": "",
    "url": "https://scryfall.com/card/neo/109/the-long-reach-of-night-animus-of-nights-reach?utm_source=api",
-   "oracle_text": ""
+   "oracle_text": "(As this Saga enters and after your draw step, add a lore counter.)\nI, II — Each opponent sacrifices a creature of their choice unless they discard a card.\nIII — Exile this Saga, then return it to the battlefield transformed under your control.\nMenace (This creature can't be blocked except by two or more creatures.)\nWhenever this creature attacks, it gets +X/+0 until end of turn, where X is the number of creature cards in defending player's graveyard."
   },
   {
    "name": "Forest",
@@ -797,7 +797,7 @@
    ],
    "mana_cost": "{B}{B}",
    "url": "https://scryfall.com/card/c18/119/stitch-together?utm_source=api",
-   "oracle_text": "Return target creature card from your graveyard to your hand.\nThreshold — Return that card from your graveyard to the battlefield instead if seven or more cards are in your graveyard."
+   "oracle_text": "Return target creature card from your graveyard to your hand.\nThreshold — Return that card from your graveyard to the battlefield instead if there are seven or more cards in your graveyard."
   },
   {
    "name": "Slimefoot, the Stowaway",

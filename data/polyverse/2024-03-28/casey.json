@@ -400,7 +400,7 @@
    ],
    "mana_cost": "{1}{G} // {1}{G}",
    "url": "https://scryfall.com/card/woe/320/intrepid-trufflesnout-go-hog-wild?utm_source=api",
-   "oracle_text": "",
+   "oracle_text": "Whenever this creature attacks alone, create a Food token. (It's an artifact with \"{2}, {T}, Sacrifice this token: You gain 3 life.\")\nTarget creature gets +2/+2 until end of turn. (Then exile this card. You may cast the creature later from exile.)",
    "power": "3",
    "toughness": "1"
   },
@@ -878,7 +878,7 @@
    ],
    "mana_cost": "{W} // {W}",
    "url": "https://scryfall.com/card/woe/7/cheeky-house-mouse-squeak-by?utm_source=api",
-   "oracle_text": "",
+   "oracle_text": "Target creature you control gets +1/+1 until end of turn. It can't be blocked by creatures with power 3 or greater this turn.",
    "power": "2",
    "toughness": "1"
   },

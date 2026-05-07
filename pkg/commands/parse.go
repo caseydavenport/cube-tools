@@ -260,28 +260,20 @@ func writeDeck(d *types.Deck, draftID string) error {
 		d.Player = existing.Player
 		d.Labels = existing.Labels
 		d.Matches = existing.Matches
-		d.MatchWinsOverride = existing.MatchWinsOverride
-		d.MatchLossesOverride = existing.MatchLossesOverride
-		d.Games = existing.Games
-		d.Wins = existing.Wins
-		d.Losses = existing.Losses
 		d.Colors = existing.Colors
 
-		logrus.WithFields(logrus.Fields{
-			"games":   d.Games,
-			"matches": d.Matches,
-		}).Debug("Preserved existing deck data")
+		logrus.WithField("matches", d.Matches).Debug("Preserved existing deck data")
 	}
 
 	// Ensure capitalization is consistent for player names (all lowercase).
 	d.Player = strings.ToLower(d.Player)
-	for i := range d.Games {
-		d.Games[i].Opponent = strings.ToLower(d.Games[i].Opponent)
-		d.Games[i].Winner = strings.ToLower(d.Games[i].Winner)
-	}
 	for i := range d.Matches {
 		d.Matches[i].Opponent = strings.ToLower(d.Matches[i].Opponent)
 		d.Matches[i].Winner = strings.ToLower(d.Matches[i].Winner)
+		for j := range d.Matches[i].Games {
+			d.Matches[i].Games[j].Opponent = strings.ToLower(d.Matches[i].Games[j].Opponent)
+			d.Matches[i].Games[j].Winner = strings.ToLower(d.Matches[i].Games[j].Winner)
+		}
 	}
 
 	logc := logrus.WithFields(logrus.Fields{

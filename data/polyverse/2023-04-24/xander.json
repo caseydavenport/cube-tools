@@ -10,9 +10,14 @@
  ],
  "player": "xander",
  "date": "2023-04-24",
- "matches": null,
- "wins": 1,
- "losses": 2,
+ "matches": [
+  {
+   "opponent": "",
+   "wins": 1,
+   "losses": 2,
+   "draws": 0
+  }
+ ],
  "mainboard": [
   {
    "name": "Vines of Vastwood",

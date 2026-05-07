@@ -9,9 +9,14 @@
  ],
  "player": "casey",
  "date": "2023-06-17",
- "matches": null,
- "wins": 2,
- "losses": 1,
+ "matches": [
+  {
+   "opponent": "",
+   "wins": 2,
+   "losses": 1,
+   "draws": 0
+  }
+ ],
  "mainboard": [
   {
    "name": "Chain Lightning",

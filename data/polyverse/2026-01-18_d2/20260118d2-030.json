@@ -1,39 +1,13 @@
 {
  "metadata": {
-  "path": "data/polyverse/2026-01-18_d2/030.json",
+  "path": "data/polyverse/2026-01-18_d2/20260118d2-030.json",
   "draft_id": "2026-01-18_d2",
-  "pool_file": "data/polyverse/2026-01-18_d2/030.txt"
+  "pool_file": "data/polyverse/2026-01-18_d2/20260118d2-030-pool.txt"
  },
- "labels": [
-  "tempo"
- ],
+ "labels": [],
  "player": "20260118d2-030",
  "date": "2026-01-18",
- "matches": [
-  {
-   "opponent": "",
-   "round": 1,
-   "wins": 0,
-   "losses": 2,
-   "draws": 0
-  },
-  {
-   "opponent": "",
-   "round": 2,
-   "wins": 0,
-   "losses": 2,
-   "draws": 0
-  },
-  {
-   "opponent": "",
-   "round": 3,
-   "wins": 0,
-   "losses": 2,
-   "draws": 0
-  }
- ],
- "match_wins_override": 0,
- "match_losses_override": 3,
+ "matches": null,
  "mainboard": [],
  "sideboard": [],
  "pool": [
@@ -630,7 +604,7 @@
    ],
    "mana_cost": "{1}{R} // {1}{U}",
    "url": "https://scryfall.com/card/dmr/215/fire-ice?utm_source=api",
-   "oracle_text": ""
+   "oracle_text": "Fire deals 2 damage divided as you choose among one or two targets.\nTap target permanent.\nDraw a card."
   },
   {
    "name": "Brainsurge",

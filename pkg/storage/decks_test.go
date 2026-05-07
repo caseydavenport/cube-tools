@@ -12,9 +12,46 @@ func makeStorageDeck(player, draftID, date string, games []types.Game, matches [
 	d.Player = player
 	d.Metadata.DraftID = draftID
 	d.Date = date
-	d.Games = games
 	d.Matches = matches
 	d.Labels = labels
+
+	// Fold games into the matching Match by opponent, tallying Wins/Losses/Draws.
+	for _, g := range games {
+		placed := false
+		for i := range d.Matches {
+			if d.Matches[i].Opponent == g.Opponent {
+				d.Matches[i].Games = append(d.Matches[i].Games, g)
+				switch {
+				case g.Winner == player:
+					d.Matches[i].Wins++
+				case g.Winner == "" || g.Tie:
+					d.Matches[i].Draws++
+				default:
+					d.Matches[i].Losses++
+				}
+				placed = true
+				break
+			}
+		}
+		if !placed {
+			m := types.Match{Opponent: g.Opponent, Games: []types.Game{g}}
+			switch {
+			case g.Winner == player:
+				m.Wins = 1
+			case g.Winner == "" || g.Tie:
+				m.Draws = 1
+			default:
+				m.Losses = 1
+			}
+			d.Matches = append(d.Matches, m)
+		}
+	}
+
+	// Storage Deck still carries a flat Games slice (populated by process()), keep tests consistent.
+	d.Games = make([]types.Game, 0)
+	for _, m := range d.Matches {
+		d.Games = append(d.Games, m.Games...)
+	}
 	return d
 }
 

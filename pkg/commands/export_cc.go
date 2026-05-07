@@ -99,7 +99,6 @@ func exportToCC() {
 			logrus.WithError(err).Warnf("Failed to load deck %s", f)
 			continue
 		}
-		d.Migrate()
 		decks = append(decks, d)
 	}
 
