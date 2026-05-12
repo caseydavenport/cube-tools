@@ -169,6 +169,7 @@ func (d *cardStatsHandler) statsForDecks(decks []*storage.Deck, cubeCards map[st
 			cbn.Mainboard++
 			cbn.Wins += deck.GameWins()
 			cbn.Losses += deck.GameLosses()
+			cbn.Draws += deck.MatchDraws()
 			cbn.Trophies += deck.Trophies()
 			cbn.LastPlace += deck.LastPlace()
 			cbn.TopHalf += deck.TopHalf()
@@ -628,6 +629,9 @@ type cardStats struct {
 
 	// Number of losses (does not include sideboard)
 	Losses int `json:"losses"`
+
+	// Number of match draws (does not include sideboard)
+	Draws int `json:"draws"`
 
 	// Number of 3-0 decks this card has been in
 	Trophies int `json:"trophies"`

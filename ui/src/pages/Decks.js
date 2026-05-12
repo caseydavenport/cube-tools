@@ -310,7 +310,7 @@ export function BuildGraphData(parsed) {
       }
 
       if (isRemoval || isCounterspell) {
-        for (let color of card.colors) {
+        for (let color of (card.colors || [])) {
           interaction.mb.byColor.set(color, (interaction.mb.byColor.get(color) || 0) + 1)
         }
       }

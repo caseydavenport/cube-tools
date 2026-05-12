@@ -231,6 +231,9 @@ function sortValue(sortBy, card) {
     case "#wins":
       sort = card.wins
       break;
+    case "draws":
+      sort = card.draws
+      break;
     case "colors":
       sort = colorSort(card)
       break;
@@ -362,6 +365,11 @@ function CardWidgetTable(input) {
       id: "games",
       text: "# Games",
       tip: "Number of games played by decks that included this card.",
+    },
+    {
+      id: "draws",
+      text: "# Draws",
+      tip: "Number of drawn matches played by decks that included this card.",
     },
     {
       id: "expected_win_percent",
@@ -581,6 +589,7 @@ function CardWidgetTable(input) {
                     <td id={card.name} onClick={input.onCardSelected} key="trophies">{card.trophies}</td>
                     <td id={card.name} onClick={input.onCardSelected} key="lastplace">{card.last_place}</td>
                     <td id={card.name} onClick={input.onCardSelected} key="games">{card.total_games}</td>
+                    <td id={card.name} onClick={input.onCardSelected} key="draws">{card.draws}</td>
                     <td>{card.expected_win_percent}%</td>
                   </tr>
                 )
