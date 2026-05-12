@@ -77,6 +77,7 @@ type Metadata struct {
 // DraftMetadata is per-draft metadata stored once at <draftDir>/metadata.json.
 // It avoids duplicating identical fields across every deck file in the draft.
 type DraftMetadata struct {
+	DraftID          string `json:"draft_id,omitempty"`
 	EventName        string `json:"event_name,omitempty"`
 	EventDescription string `json:"event_description,omitempty"`
 }

@@ -112,7 +112,16 @@ func exportToCC() {
 		},
 	}
 
-	draftID := decks[0].Metadata.DraftID
+	draftMeta, err := types.LoadDraftMetadata(ccDraftDir)
+	if err != nil {
+		logrus.WithError(err).Warnf("Failed to load draft metadata from %s", ccDraftDir)
+		draftMeta = &types.DraftMetadata{}
+	}
+
+	draftID := draftMeta.DraftID
+	if draftID == "" {
+		draftID = decks[0].Metadata.DraftID
+	}
 
 	// Resolve cube ID to actual UUID if it's a shortId.
 	// CubeCobra's record list API requires the internal UUID for GSI lookups.
@@ -125,12 +134,6 @@ func exportToCC() {
 	}
 
 	recordID := findExistingRecord(client, cubeUUID, draftID)
-
-	draftMeta, err := types.LoadDraftMetadata(ccDraftDir)
-	if err != nil {
-		logrus.WithError(err).Warnf("Failed to load draft metadata from %s", ccDraftDir)
-		draftMeta = &types.DraftMetadata{}
-	}
 
 	recordName := draftMeta.EventName
 	if recordName == "" {
@@ -145,8 +148,17 @@ func exportToCC() {
 			recordDescription = string(bs)
 		}
 	}
-	if recordDescription == "" {
-		recordDescription = fmt.Sprintf("Exported from cube-tools. Draft ID: %s", draftID)
+
+	// Always include the Draft ID marker in the description so future exports
+	// can find the existing record. Don't duplicate it if the user already put
+	// one in event_description.
+	draftIDMarker := fmt.Sprintf("Draft ID: %s", draftID)
+	if !strings.Contains(recordDescription, draftIDMarker) {
+		if recordDescription == "" {
+			recordDescription = draftIDMarker
+		} else {
+			recordDescription = strings.TrimRight(recordDescription, "\n") + "\n\n" + draftIDMarker
+		}
 	}
 
 	record := CCRecord{

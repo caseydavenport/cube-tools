@@ -216,21 +216,21 @@ func writeDeck(d *types.Deck, draftID string) error {
 	}
 
 	// Upsert per-draft metadata.json. Existing values are preserved unless the
-	// caller passed --event-name / --event-description to override them.
-	if eventName != "" || eventDescription != "" {
-		meta, err := types.LoadDraftMetadata(outdir)
-		if err != nil {
-			return fmt.Errorf("Failed to load draft metadata: %w", err)
-		}
-		if eventName != "" {
-			meta.EventName = eventName
-		}
-		if eventDescription != "" {
-			meta.EventDescription = eventDescription
-		}
-		if err := meta.Save(outdir); err != nil {
-			return fmt.Errorf("Failed to write draft metadata: %w", err)
-		}
+	// caller passed --event-name / --event-description to override them. The
+	// draft_id is always (re)written to match the directory.
+	meta, err := types.LoadDraftMetadata(outdir)
+	if err != nil {
+		return fmt.Errorf("Failed to load draft metadata: %w", err)
+	}
+	meta.DraftID = draftID
+	if eventName != "" {
+		meta.EventName = eventName
+	}
+	if eventDescription != "" {
+		meta.EventDescription = eventDescription
+	}
+	if err := meta.Save(outdir); err != nil {
+		return fmt.Errorf("Failed to write draft metadata: %w", err)
 	}
 
 	if len(d.Player) == 0 {
