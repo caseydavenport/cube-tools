@@ -1,6 +1,9 @@
 {
  "date": "2026-01-17",
- "labels": [],
+ "labels": [
+  "midrange",
+  "token"
+ ],
  "mainboard": [
   {
    "cmc": 1,

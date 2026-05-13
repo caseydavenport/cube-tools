@@ -1,6 +1,10 @@
 {
  "date": "2026-01-18",
- "labels": [],
+ "labels": [
+  "aggro",
+  "equipment",
+  "valiant"
+ ],
  "mainboard": [
   {
    "cmc": 1,
@@ -809,28 +813,28 @@
  ],
  "matches": [
   {
+   "draws": 0,
+   "losses": 0,
    "opponent": "2026-01-18_d2-P6",
    "round": 1,
-   "wins": 2,
-   "losses": 0,
-   "draws": 0,
-   "winner": "2026-01-18_d2-P1"
+   "winner": "2026-01-18_d2-P1",
+   "wins": 2
   },
   {
+   "draws": 0,
+   "losses": 0,
    "opponent": "2026-01-18_d2-P2",
    "round": 2,
-   "wins": 2,
-   "losses": 0,
-   "draws": 0,
-   "winner": "2026-01-18_d2-P1"
+   "winner": "2026-01-18_d2-P1",
+   "wins": 2
   },
   {
+   "draws": 0,
+   "losses": 0,
    "opponent": "2026-01-18_d2-P3",
    "round": 3,
-   "wins": 2,
-   "losses": 0,
-   "draws": 0,
-   "winner": "2026-01-18_d2-P1"
+   "winner": "2026-01-18_d2-P1",
+   "wins": 2
   }
  ],
  "metadata": {

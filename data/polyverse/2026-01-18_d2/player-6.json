@@ -1,31 +1,33 @@
 {
  "date": "2026-01-18",
- "labels": [],
+ "labels": [
+  "tempo"
+ ],
  "mainboard": [],
  "matches": [
   {
+   "draws": 0,
+   "losses": 2,
    "opponent": "2026-01-18_d2-P1",
    "round": 1,
-   "wins": 0,
-   "losses": 2,
-   "draws": 0,
-   "winner": "2026-01-18_d2-P1"
+   "winner": "2026-01-18_d2-P1",
+   "wins": 0
   },
   {
+   "draws": 0,
+   "losses": 2,
    "opponent": "2026-01-18_d2-P5",
    "round": 2,
-   "wins": 0,
-   "losses": 2,
-   "draws": 0,
-   "winner": "2026-01-18_d2-P5"
+   "winner": "2026-01-18_d2-P5",
+   "wins": 0
   },
   {
+   "draws": 0,
+   "losses": 2,
    "opponent": "2026-01-18_d2-P4",
    "round": 3,
-   "wins": 0,
-   "losses": 2,
-   "draws": 0,
-   "winner": "2026-01-18_d2-P4"
+   "winner": "2026-01-18_d2-P4",
+   "wins": 0
   }
  ],
  "metadata": {

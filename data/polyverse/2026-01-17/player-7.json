@@ -1,6 +1,8 @@
 {
  "date": "2026-01-17",
- "labels": [],
+ "labels": [
+  "control"
+ ],
  "mainboard": [],
  "matches": [
   {

@@ -1,6 +1,9 @@
 {
  "date": "2026-01-18",
- "labels": [],
+ "labels": [
+  "tempo",
+  "spells"
+ ],
  "mainboard": [
   {
    "cmc": 3,

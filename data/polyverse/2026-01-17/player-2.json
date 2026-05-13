@@ -1,6 +1,10 @@
 {
  "date": "2026-01-17",
- "labels": [],
+ "labels": [
+  "midrange",
+  "lands",
+  "ramp"
+ ],
  "mainboard": [
   {
    "cmc": 2,

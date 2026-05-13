@@ -1,6 +1,10 @@
 {
  "date": "2026-01-18",
- "labels": [],
+ "labels": [
+  "aggro",
+  "token",
+  "hatebears"
+ ],
  "mainboard": [
   {
    "cmc": 0,

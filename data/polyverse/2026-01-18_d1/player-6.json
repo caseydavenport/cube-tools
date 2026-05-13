@@ -1,6 +1,9 @@
 {
  "date": "2026-01-18",
- "labels": [],
+ "labels": [
+  "control",
+  "draw-go"
+ ],
  "mainboard": [
   {
    "cmc": 1,
