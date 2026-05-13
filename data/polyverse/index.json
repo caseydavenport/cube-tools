@@ -896,46 +896,25 @@
    "draft_log": "",
    "decks": [
     {
-     "path": "data/polyverse/2026-01-17/120a.json"
+     "path": "data/polyverse/2026-01-17/player-1.json"
     },
     {
-     "path": "data/polyverse/2026-01-17/120b.json"
+     "path": "data/polyverse/2026-01-17/player-2.json"
     },
     {
-     "path": "data/polyverse/2026-01-17/120c.json"
+     "path": "data/polyverse/2026-01-17/player-3.json"
     },
     {
-     "path": "data/polyverse/2026-01-17/20260117-120a.json"
+     "path": "data/polyverse/2026-01-17/player-4.json"
     },
     {
-     "path": "data/polyverse/2026-01-17/20260117-120b.json"
+     "path": "data/polyverse/2026-01-17/player-5.json"
     },
     {
-     "path": "data/polyverse/2026-01-17/20260117-120c.json"
+     "path": "data/polyverse/2026-01-17/player-6.json"
     },
     {
-     "path": "data/polyverse/2026-01-17/20260117-210a.json"
-    },
-    {
-     "path": "data/polyverse/2026-01-17/20260117-210b.json"
-    },
-    {
-     "path": "data/polyverse/2026-01-17/20260117-210c.json"
-    },
-    {
-     "path": "data/polyverse/2026-01-17/20260117-300a.json"
-    },
-    {
-     "path": "data/polyverse/2026-01-17/210a.json"
-    },
-    {
-     "path": "data/polyverse/2026-01-17/210b.json"
-    },
-    {
-     "path": "data/polyverse/2026-01-17/210c.json"
-    },
-    {
-     "path": "data/polyverse/2026-01-17/300a.json"
+     "path": "data/polyverse/2026-01-17/player-7.json"
     }
    ]
   },
@@ -945,18 +924,6 @@
    "draft_id": "2026-01-18_d1",
    "draft_log": "",
    "decks": [
-    {
-     "path": "data/polyverse/2026-01-18_d1/021a.json"
-    },
-    {
-     "path": "data/polyverse/2026-01-18_d1/021b.json"
-    },
-    {
-     "path": "data/polyverse/2026-01-18_d1/120a.json"
-    },
-    {
-     "path": "data/polyverse/2026-01-18_d1/120b.json"
-    },
     {
      "path": "data/polyverse/2026-01-18_d1/20260118d1-021a.json"
     },
@@ -980,18 +947,6 @@
     },
     {
      "path": "data/polyverse/2026-01-18_d1/20260118d1-300a.json"
-    },
-    {
-     "path": "data/polyverse/2026-01-18_d1/210a.json"
-    },
-    {
-     "path": "data/polyverse/2026-01-18_d1/210b.json"
-    },
-    {
-     "path": "data/polyverse/2026-01-18_d1/210c.json"
-    },
-    {
-     "path": "data/polyverse/2026-01-18_d1/300a.json"
     }
    ]
   },
@@ -1001,15 +956,6 @@
    "draft_id": "2026-01-18_d2",
    "draft_log": "",
    "decks": [
-    {
-     "path": "data/polyverse/2026-01-18_d2/030.json"
-    },
-    {
-     "path": "data/polyverse/2026-01-18_d2/120a.json"
-    },
-    {
-     "path": "data/polyverse/2026-01-18_d2/120b.json"
-    },
     {
      "path": "data/polyverse/2026-01-18_d2/20260118d2-030.json"
     },
@@ -1027,15 +973,6 @@
     },
     {
      "path": "data/polyverse/2026-01-18_d2/20260118d2-300a.json"
-    },
-    {
-     "path": "data/polyverse/2026-01-18_d2/210a.json"
-    },
-    {
-     "path": "data/polyverse/2026-01-18_d2/210b.json"
-    },
-    {
-     "path": "data/polyverse/2026-01-18_d2/300a.json"
     }
    ]
   }
