@@ -957,22 +957,22 @@
    "draft_log": "",
    "decks": [
     {
-     "path": "data/polyverse/2026-01-18_d2/20260118d2-030.json"
+     "path": "data/polyverse/2026-01-18_d2/player-1.json"
     },
     {
-     "path": "data/polyverse/2026-01-18_d2/20260118d2-120a.json"
+     "path": "data/polyverse/2026-01-18_d2/player-2.json"
     },
     {
-     "path": "data/polyverse/2026-01-18_d2/20260118d2-120b.json"
+     "path": "data/polyverse/2026-01-18_d2/player-3.json"
     },
     {
-     "path": "data/polyverse/2026-01-18_d2/20260118d2-210a.json"
+     "path": "data/polyverse/2026-01-18_d2/player-4.json"
     },
     {
-     "path": "data/polyverse/2026-01-18_d2/20260118d2-210b.json"
+     "path": "data/polyverse/2026-01-18_d2/player-5.json"
     },
     {
-     "path": "data/polyverse/2026-01-18_d2/20260118d2-300a.json"
+     "path": "data/polyverse/2026-01-18_d2/player-6.json"
     }
    ]
   }
