@@ -4,28 +4,28 @@
  "mainboard": [],
  "matches": [
   {
-   "opponent": "Player 3",
-   "round": 1,
-   "wins": 0,
-   "losses": 2,
    "draws": 0,
-   "winner": "Player 3"
+   "losses": 2,
+   "opponent": "2026-01-17-P3",
+   "round": 1,
+   "winner": "2026-01-17-P3",
+   "wins": 0
   },
   {
+   "draws": 0,
+   "losses": 0,
    "opponent": "",
    "round": 2,
-   "wins": 1,
-   "losses": 0,
-   "draws": 0,
-   "winner": "Player 7"
+   "winner": "2026-01-17-P7",
+   "wins": 1
   },
   {
-   "opponent": "Player 5",
-   "round": 3,
-   "wins": 2,
-   "losses": 1,
    "draws": 0,
-   "winner": "Player 7"
+   "losses": 1,
+   "opponent": "2026-01-17-P5",
+   "round": 3,
+   "winner": "2026-01-17-P7",
+   "wins": 2
   }
  ],
  "metadata": {
@@ -33,7 +33,7 @@
   "path": "data/polyverse/2026-01-17/player-7.json",
   "pool_file": "data/polyverse/2026-01-17/20260117-210c-pool.txt"
  },
- "player": "Player 7",
+ "player": "2026-01-17-P7",
  "pool": [
   {
    "cmc": 0,

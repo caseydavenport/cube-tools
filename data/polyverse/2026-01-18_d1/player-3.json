@@ -749,28 +749,28 @@
  ],
  "matches": [
   {
-   "opponent": "Player 7",
-   "round": 1,
-   "wins": 0,
+   "draws": 0,
    "losses": 2,
-   "draws": 0,
-   "winner": "Player 7"
+   "opponent": "2026-01-18_d1-P7",
+   "round": 1,
+   "winner": "2026-01-18_d1-P7",
+   "wins": 0
   },
   {
-   "opponent": "Player 4",
-   "round": 2,
-   "wins": 2,
+   "draws": 0,
    "losses": 1,
-   "draws": 0,
-   "winner": "Player 3"
+   "opponent": "2026-01-18_d1-P4",
+   "round": 2,
+   "winner": "2026-01-18_d1-P3",
+   "wins": 2
   },
   {
-   "opponent": "Player 1",
-   "round": 3,
-   "wins": 2,
-   "losses": 0,
    "draws": 0,
-   "winner": "Player 3"
+   "losses": 0,
+   "opponent": "2026-01-18_d1-P1",
+   "round": 3,
+   "winner": "2026-01-18_d1-P3",
+   "wins": 2
   }
  ],
  "metadata": {
@@ -778,7 +778,7 @@
   "draft_id": "2026-01-18_d1",
   "path": "data/polyverse/2026-01-18_d1/player-3.json"
  },
- "player": "Player 3",
+ "player": "2026-01-18_d1-P3",
  "sideboard": [
   {
    "cmc": 0,
