@@ -268,6 +268,9 @@ export function DeckViewer(props) {
   const archetypes = useMemo(() => {
     let seen = new Set();
     for (let deck of decks) {
+      if (deck.macro_archetype) {
+        seen.add(deck.macro_archetype);
+      }
       if (deck.labels) {
         for (let label of deck.labels) {
           seen.add(label);
@@ -362,16 +365,14 @@ export function DeckViewer(props) {
 }
 
 function getMacro(deck) {
-  if (deck.labels.includes("aggro")) {
-    return "Aggro"
-  } else if (deck.labels.includes("midrange")) {
-    return "Midrange"
-  } else if (deck.labels.includes("control")) {
-    return "Control"
-  } else if (deck.labels.includes("tempo")) {
-    return "Tempo"
+  const m = (deck.macro_archetype || "").toLowerCase()
+  switch (m) {
+    case "aggro": return "Aggro"
+    case "midrange": return "Midrange"
+    case "control": return "Control"
+    case "tempo": return "Tempo"
+    default: return "N/A"
   }
-  return "N/A"
 }
 
 // DropdownSelector is a dropdown selector that sits right below the main navbar.
@@ -853,7 +854,7 @@ function PlayerFrame(input) {
   }
 
   // Get fields to display.
-  let labels = deck.labels.join(', ')
+  let labels = (deck.labels || []).join(', ')
   let acmc = deck.avg_cmc
   let colors = ColorImages(deck.colors)
   let cardCount = cards.length
@@ -922,8 +923,12 @@ function PlayerFrame(input) {
           <span className="player-frame-value">{MatchWins(deck)}-{MatchLosses(deck)} ({Wins(deck)}-{Losses(deck)})</span>
         </div>
         <div className="stat-item">
-          <span className="player-frame-title">Type:</span>
-          <span className="player-frame-value">{labels}</span>
+          <span className="player-frame-title">Archetype:</span>
+          <span className="player-frame-value">{getMacro(deck)}</span>
+        </div>
+        <div className="stat-item">
+          <span className="player-frame-title">Tags:</span>
+          <span className="player-frame-value">{labels || "—"}</span>
         </div>
         <div className="stat-item">
           <span className="player-frame-title">Avg CMC:</span>

@@ -4,9 +4,8 @@
   "draft_id": "2023-04-24",
   "combined_file": "data/polyverse/2023-04-24/paul.csv"
  },
- "labels": [
-  "control"
- ],
+ "macro_archetype": "control",
+ "labels": [],
  "player": "paul",
  "date": "2023-04-24",
  "matches": [

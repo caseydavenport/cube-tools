@@ -4,9 +4,9 @@
   "draft_id": "2025-04-05",
   "combined_file": "data/polyverse/2025-04-05/dom.txt"
  },
+ "macro_archetype": "midrange",
  "labels": [
-  "token",
-  "midrange"
+  "token"
  ],
  "player": "dom",
  "date": "2025-04-05",

@@ -72,13 +72,13 @@ func foldGamesIntoMatches(d *storage.Deck, player string, games []types.Game) {
 // --- SharedWith: "tempo" excluded ---
 
 func TestArchetypeStats_SharedWith_TempoSkip(t *testing.T) {
-	decks := []*storage.Deck{
-		makeStorageDeck("Alice", "d1", []string{"tempo", "spells"}, []types.Game{
-			{Opponent: "Bob", Winner: "Alice"},
-		}, []types.Match{
-			{Opponent: "Bob", Winner: "Alice"},
-		}),
-	}
+	d := makeStorageDeck("Alice", "d1", []string{"spells"}, []types.Game{
+		{Opponent: "Bob", Winner: "Alice"},
+	}, []types.Match{
+		{Opponent: "Bob", Winner: "Alice"},
+	})
+	d.MacroArchetype = "tempo"
+	decks := []*storage.Deck{d}
 
 	handler := &archetypeStatsHandler{store: &mockDeckStorage{decks: decks}}
 	req := httptest.NewRequest(http.MethodGet, "/api/stats/archetypes", nil)

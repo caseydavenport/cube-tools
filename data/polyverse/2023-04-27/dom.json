@@ -4,9 +4,8 @@
   "draft_id": "2023-04-27",
   "combined_file": "data/polyverse/2023-04-27/dom.csv"
  },
- "labels": [
-  "midrange"
- ],
+ "macro_archetype": "midrange",
+ "labels": [],
  "player": "dom",
  "date": "2023-04-27",
  "matches": [

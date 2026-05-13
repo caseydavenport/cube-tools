@@ -112,10 +112,20 @@ func parseDeck(deckFiles []string, who, labels, date, draftID string) (*types.De
 		return nil, fmt.Errorf("Too many card sets (%d) found in deck files: %v", len(cardSets), deckFiles)
 	}
 
-	// Build the deck struct.
+	// Build the deck struct. Macro archetype values (aggro/midrange/tempo/control)
+	// passed through --labels are auto-promoted to the dedicated field so callers
+	// don't need to keep them in sync.
 	d := types.NewDeck()
 	if len(labels) > 0 {
-		d.Labels = strings.Split(labels, ",")
+		for _, l := range strings.Split(labels, ",") {
+			l = strings.TrimSpace(l)
+			switch strings.ToLower(l) {
+			case "aggro", "midrange", "tempo", "control":
+				d.MacroArchetype = strings.ToLower(l)
+			default:
+				d.Labels = append(d.Labels, l)
+			}
+		}
 	}
 	d.Player = who
 	d.Date = date
@@ -259,6 +269,7 @@ func writeDeck(d *types.Deck, draftID string) error {
 		existing := LoadParsedDeckFile(draftID, d.Player)
 		d.Player = existing.Player
 		d.Labels = existing.Labels
+		d.MacroArchetype = existing.MacroArchetype
 		d.Matches = existing.Matches
 		d.Colors = existing.Colors
 

@@ -120,8 +120,13 @@ func (s *playerStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) 
 			owpAccum[deck.Player].totalMatches += matches
 		}
 
-		// Track archetype win/loss for the player.
-		for _, label := range deck.Labels {
+		// Track archetype win/loss for the player. Include both the macro
+		// archetype and any secondary labels.
+		archLabels := deck.Labels
+		if deck.MacroArchetype != "" {
+			archLabels = append(archLabels, deck.MacroArchetype)
+		}
+		for _, label := range archLabels {
 			l := strings.ToLower(label)
 			if _, ok := ps.ArchetypeStats[l]; !ok {
 				ps.ArchetypeStats[l] = &winLossStats{}

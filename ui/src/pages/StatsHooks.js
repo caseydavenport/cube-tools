@@ -290,6 +290,7 @@ export function useStatsData(filters, props, refresh) {
   const archetypeDropdownOptions = useMemo(() => {
     let archetypes = new Map();
     for (let deck of decks) {
+      if (deck.macro_archetype) archetypes.set(deck.macro_archetype, 0);
       for (let arch of deck.labels || []) {
         archetypes.set(arch, 0);
       }

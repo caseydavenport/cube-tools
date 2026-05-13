@@ -4,13 +4,13 @@
   "draft_id": "2023-04-22",
   "combined_file": "data/polyverse/2023-04-22/paul.csv"
  },
+ "macro_archetype": "midrange",
  "labels": [
-  "ramp",
-  "midrange"
+  "ramp"
  ],
  "player": "paul",
  "date": "2023-04-22",
- "matches": null,
+ "matches": [],
  "mainboard": [
   {
    "name": "Darksteel Colossus",

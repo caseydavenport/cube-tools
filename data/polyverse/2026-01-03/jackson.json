@@ -5,8 +5,8 @@
   "mainboard_file": "data/polyverse/2026-01-03/jackson-mainboard.txt",
   "sideboard_file": "data/polyverse/2026-01-03/jackson-sideboard.txt"
  },
+ "macro_archetype": "tempo",
  "labels": [
-  "tempo",
   "draw",
   "skimmer",
   "ramp"

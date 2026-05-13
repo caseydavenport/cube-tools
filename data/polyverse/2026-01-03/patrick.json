@@ -5,9 +5,8 @@
   "mainboard_file": "data/polyverse/2026-01-03/patrick-mainboard.txt",
   "sideboard_file": "data/polyverse/2026-01-03/patrick-sideboard.txt"
  },
- "labels": [
-  "midrange"
- ],
+ "macro_archetype": "midrange",
+ "labels": [],
  "player": "patrick",
  "date": "2026-01-03",
  "matches": [

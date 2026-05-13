@@ -5,8 +5,8 @@
   "mainboard_file": "data/polyverse/2026-01-03/wanqi-mainboard.txt",
   "sideboard_file": "data/polyverse/2026-01-03/wanqi-sideboard.txt"
  },
+ "macro_archetype": "aggro",
  "labels": [
-  "aggro",
   "flicker",
   "hatebears"
  ],

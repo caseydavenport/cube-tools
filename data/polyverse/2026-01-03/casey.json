@@ -5,8 +5,8 @@
   "mainboard_file": "data/polyverse/2026-01-03/casey-mainboard.txt",
   "sideboard_file": "data/polyverse/2026-01-03/casey-sideboard.txt"
  },
+ "macro_archetype": "tempo",
  "labels": [
-  "tempo",
   "token"
  ],
  "player": "casey",

@@ -4,9 +4,8 @@
   "draft_id": "2025-08-17",
   "combined_file": "data/polyverse/2025-08-17/ben.csv"
  },
- "labels": [
-  "aggro"
- ],
+ "macro_archetype": "aggro",
+ "labels": [],
  "player": "ben",
  "date": "2025-08-17",
  "matches": [

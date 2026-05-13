@@ -5,8 +5,8 @@
   "mainboard_file": "data/polyverse/2025-09-13/colton-mainboard.csv",
   "sideboard_file": "data/polyverse/2025-09-13/colton-sideboard.csv"
  },
+ "macro_archetype": "control",
  "labels": [
-  "control",
   "draw-go"
  ],
  "player": "colton",

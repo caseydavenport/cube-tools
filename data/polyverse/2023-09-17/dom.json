@@ -4,9 +4,8 @@
   "draft_id": "2023-09-17",
   "combined_file": "data/polyverse/2023-09-17/dom.txt"
  },
- "labels": [
-  "control"
- ],
+ "macro_archetype": "control",
+ "labels": [],
  "player": "dom",
  "date": "2023-09-17",
  "matches": [

@@ -4,9 +4,8 @@
   "draft_id": "2024-01-07",
   "combined_file": "data/polyverse/2024-01-07/paul.txt"
  },
- "labels": [
-  "aggro"
- ],
+ "macro_archetype": "aggro",
+ "labels": [],
  "player": "paul",
  "date": "2024-01-07",
  "matches": [

@@ -126,6 +126,7 @@ export function StatsViewer(props) {
   const archetypes = useMemo(() => {
     let seen = new Set();
     for (let deck of decks) {
+      if (deck.macro_archetype) seen.add(deck.macro_archetype);
       if (deck.labels) {
         for (let label of deck.labels) {
           seen.add(label);

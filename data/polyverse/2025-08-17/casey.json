@@ -4,9 +4,8 @@
   "draft_id": "2025-08-17",
   "combined_file": "data/polyverse/2025-08-17/casey.csv"
  },
- "labels": [
-  "midrange"
- ],
+ "macro_archetype": "midrange",
+ "labels": [],
  "player": "casey",
  "date": "2025-08-17",
  "matches": [

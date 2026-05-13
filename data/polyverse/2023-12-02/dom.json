@@ -4,9 +4,8 @@
   "draft_id": "2023-12-02",
   "combined_file": "data/polyverse/2023-12-02/dom.txt"
  },
- "labels": [
-  "aggro"
- ],
+ "macro_archetype": "aggro",
+ "labels": [],
  "player": "dom",
  "date": "2023-12-02",
  "matches": [

@@ -4,9 +4,8 @@
   "draft_id": "2025-06-12",
   "combined_file": "data/polyverse/2025-06-12/will.csv"
  },
- "labels": [
-  "control"
- ],
+ "macro_archetype": "control",
+ "labels": [],
  "player": "will",
  "date": "2025-06-12",
  "matches": [

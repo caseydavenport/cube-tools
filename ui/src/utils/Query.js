@@ -209,6 +209,7 @@ export function DeckMatches(deck, matchStr, mbsb) {
     // Fuzzy search: check player name and labels first.
     const fs = matchStr.toLowerCase()
     if (deck.player.toLowerCase().includes(fs)) return true;
+    if (deck.macro_archetype && deck.macro_archetype.toLowerCase().includes(fs)) return true;
     for (let label of deck.labels) {
       if (label.toLowerCase().includes(fs)) return true;
     }
@@ -859,6 +860,9 @@ function deckTypeMatches(term, deck) {
   let query = term.replace("arch:", "").replace(/"/g, "").toLowerCase()
 
   // Return true if any of the deck's types match the query.
+  if (deck.macro_archetype && deck.macro_archetype.toLowerCase() == query) {
+    return true
+  }
   if (deck.labels.some(t => t.toLowerCase() == query)) {
     return true
   }

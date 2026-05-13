@@ -4,9 +4,8 @@
   "draft_id": "2023-10-21",
   "combined_file": "data/polyverse/2023-10-21/mattd.txt"
  },
- "labels": [
-  "aggro"
- ],
+ "macro_archetype": "aggro",
+ "labels": [],
  "player": "mattd",
  "date": "2023-10-21",
  "matches": [

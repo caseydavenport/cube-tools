@@ -4,9 +4,8 @@
   "draft_id": "2023-12-02",
   "combined_file": "data/polyverse/2023-12-02/james.txt"
  },
- "labels": [
-  "aggro"
- ],
+ "macro_archetype": "aggro",
+ "labels": [],
  "player": "james",
  "date": "2023-12-02",
  "matches": [

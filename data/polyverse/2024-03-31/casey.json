@@ -4,9 +4,8 @@
   "draft_id": "2024-03-31",
   "combined_file": "data/polyverse/2024-03-31/casey.txt"
  },
- "labels": [
-  "aggro"
- ],
+ "macro_archetype": "aggro",
+ "labels": [],
  "player": "casey",
  "date": "2024-03-31",
  "matches": [

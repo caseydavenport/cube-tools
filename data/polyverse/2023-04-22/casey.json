@@ -4,13 +4,13 @@
   "draft_id": "2023-04-22",
   "combined_file": "data/polyverse/2023-04-22/casey.csv"
  },
+ "macro_archetype": "midrange",
  "labels": [
-  "sacrifice",
-  "midrange"
+  "sacrifice"
  ],
  "player": "casey",
  "date": "2023-04-22",
- "matches": null,
+ "matches": [],
  "mainboard": [
   {
    "name": "Foreboding Ruins",

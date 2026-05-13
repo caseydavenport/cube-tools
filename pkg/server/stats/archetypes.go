@@ -82,7 +82,11 @@ func (s *archetypeStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Reques
 	for _, deck := range allDecks {
 		totalWins += deck.GameWins()
 
-		for _, label := range deck.Labels {
+		deckLabels := deck.Labels
+		if deck.MacroArchetype != "" {
+			deckLabels = append(deckLabels, deck.MacroArchetype)
+		}
+		for _, label := range deckLabels {
 			if _, ok := resp.Archetypes[label]; !ok {
 				resp.Archetypes[label] = &ArchetypeStats{Type: label, SharedWith: make(map[string]int), Players: make(map[string]int)}
 			}
@@ -119,9 +123,9 @@ func (s *archetypeStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Reques
 
 			as.Players[deck.Player]++
 
-			// Track shared labels.
+			// Track shared labels (secondary tags only; macro archetype excluded).
 			for _, other := range deck.Labels {
-				if other == label || other == "aggro" || other == "midrange" || other == "control" || other == "tempo" {
+				if other == label {
 					continue
 				}
 				as.SharedWith[other]++

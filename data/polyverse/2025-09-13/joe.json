@@ -5,8 +5,8 @@
   "mainboard_file": "data/polyverse/2025-09-13/joe-mainboard.csv",
   "sideboard_file": "data/polyverse/2025-09-13/joe-sideboard.csv"
  },
+ "macro_archetype": "midrange",
  "labels": [
-  "midrange",
   "lands",
   "saga"
  ],

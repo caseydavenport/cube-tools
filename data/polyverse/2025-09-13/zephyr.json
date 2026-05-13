@@ -5,8 +5,8 @@
   "mainboard_file": "data/polyverse/2025-09-13/zephyr-mainboard.csv",
   "sideboard_file": "data/polyverse/2025-09-13/zephyr-sideboard.csv"
  },
+ "macro_archetype": "midrange",
  "labels": [
-  "midrange",
   "sacrifice",
   "titania",
   "ramp"

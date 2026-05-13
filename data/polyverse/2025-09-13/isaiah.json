@@ -5,8 +5,8 @@
   "mainboard_file": "data/polyverse/2025-09-13/isaiah-mainboard.csv",
   "sideboard_file": "data/polyverse/2025-09-13/isaiah-sideboard.csv"
  },
+ "macro_archetype": "midrange",
  "labels": [
-  "midrange",
   "token"
  ],
  "player": "isaiah",

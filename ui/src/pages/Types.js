@@ -665,7 +665,8 @@ export function ArchetypeData(decks) {
     // We only need to count wins, because every loss is counted in another deck as a win.
     totalGames += Wins(deck)
 
-    let types = deck.labels
+    let types = deck.labels.slice()
+    if (deck.macro_archetype) types.push(deck.macro_archetype)
     for (let type of types) {
       if (!tracker.has(type)) {
         tracker.set(type, newType(type))

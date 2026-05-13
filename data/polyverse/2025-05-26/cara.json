@@ -4,9 +4,8 @@
   "draft_id": "2025-05-26",
   "combined_file": "data/polyverse/2025-05-26/cara.csv"
  },
- "labels": [
-  "tempo"
- ],
+ "macro_archetype": "tempo",
+ "labels": [],
  "player": "cara",
  "date": "2025-05-26",
  "matches": [

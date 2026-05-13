@@ -5,8 +5,8 @@
   "mainboard_file": "data/polyverse/2025-10-25/robert-mainboard.txt",
   "sideboard_file": "data/polyverse/2025-10-25/robert-sideboard.txt"
  },
+ "macro_archetype": "aggro",
  "labels": [
-  "aggro",
   "spells"
  ],
  "player": "robert",

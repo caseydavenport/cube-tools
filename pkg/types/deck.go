@@ -138,8 +138,13 @@ type Deck struct {
 	// Contains metadata about the deck file itself.
 	Metadata Metadata `json:"metadata"`
 
-	// Tags represents metadata associated with this deck. This could be
-	// archetype, playstyle, etc.
+	// MacroArchetype is the deck's high-level strategy classification.
+	// Expected values: "aggro", "midrange", "tempo", "control", or empty.
+	MacroArchetype string `json:"macro_archetype,omitempty"`
+
+	// Tags represents metadata associated with this deck. Used for
+	// secondary classifications like "ramp", "sacrifice", "tokens", etc.
+	// MacroArchetype values are stored separately and should not appear here.
 	Labels []string `json:"labels"`
 
 	// Who built the deck.
@@ -333,6 +338,11 @@ func (d *Deck) AddGame(opponent, winner string) {
 
 func (d *Deck) Macro() string {
 	// Return one of "aggro", "midrange", "control", "tempo", or "".
+	// Prefer the dedicated field; fall back to scanning Labels for decks
+	// that haven't been backfilled yet.
+	if d.MacroArchetype != "" {
+		return strings.ToLower(d.MacroArchetype)
+	}
 	for _, label := range d.Labels {
 		switch strings.ToLower(label) {
 		case "aggro", "midrange", "control", "tempo":

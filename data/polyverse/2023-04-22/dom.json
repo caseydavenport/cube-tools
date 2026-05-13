@@ -4,13 +4,13 @@
   "draft_id": "2023-04-22",
   "combined_file": "data/polyverse/2023-04-22/dom.csv"
  },
+ "macro_archetype": "control",
  "labels": [
-  "vampire",
-  "control"
+  "vampire"
  ],
  "player": "dom",
  "date": "2023-04-22",
- "matches": null,
+ "matches": [],
  "mainboard": [
   {
    "name": "Vampire of the Dire Moon",

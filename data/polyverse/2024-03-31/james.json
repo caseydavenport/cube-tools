@@ -4,9 +4,8 @@
   "draft_id": "2024-03-31",
   "combined_file": "data/polyverse/2024-03-31/james.txt"
  },
- "labels": [
-  "tempo"
- ],
+ "macro_archetype": "tempo",
+ "labels": [],
  "player": "james",
  "date": "2024-03-31",
  "matches": [

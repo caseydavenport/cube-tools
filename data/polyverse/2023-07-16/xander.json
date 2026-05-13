@@ -4,10 +4,10 @@
   "draft_id": "2023-07-16",
   "combined_file": "data/polyverse/2023-07-16/xander.txt"
  },
+ "macro_archetype": "control",
  "labels": [
   "spells",
-  "token",
-  "control"
+  "token"
  ],
  "player": "xander",
  "date": "2023-07-16",
