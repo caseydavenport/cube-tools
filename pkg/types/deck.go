@@ -44,7 +44,11 @@ func LoadDeck(path string) (*Deck, error) {
 			if legacy.Losses != nil {
 				l = *legacy.Losses
 			}
-			d.Matches = []Match{{Wins: w, Losses: l}}
+			// Skip 0-0 stubs - they represent "no data" rather than a real match
+			// and would otherwise get counted as a draw.
+			if w > 0 || l > 0 {
+				d.Matches = []Match{{Wins: w, Losses: l}}
+			}
 		}
 	}
 	return d, nil
@@ -403,7 +407,17 @@ func (d *Deck) MatchLosses() int {
 func (d *Deck) MatchDraws() int {
 	draws := 0
 	for _, m := range d.Matches {
-		if m.Winner == "" && m.Wins == m.Losses {
+		// A draw requires positive evidence that a match was actually played.
+		// An empty stub match (no opponent, no games, no game counts) has
+		// Winner == "" and Wins == Losses == 0 but isn't a real result.
+		if m.Winner != "" {
+			continue
+		}
+		if m.Draws > 0 {
+			draws++
+			continue
+		}
+		if m.Wins == m.Losses && (m.Wins > 0 || len(m.Games) > 0 || m.Opponent != "") {
 			draws++
 		}
 	}

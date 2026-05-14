@@ -121,6 +121,25 @@ func TestMatchDraws(t *testing.T) {
 	assert.Equal(t, 2, d.MatchDraws())
 }
 
+// An empty stub match (no Opponent, no Games, no game counts) is not a
+// real result and must not count as a draw. The legacy file loader used
+// to synthesize one of these when only deck-level wins/losses existed.
+func TestMatchDraws_IgnoresEmptyStub(t *testing.T) {
+	d := makeDeck("Alice", nil, []Match{{}})
+	assert.Equal(t, 0, d.MatchDraws())
+	assert.Equal(t, 0, d.MatchWins())
+	assert.Equal(t, 0, d.MatchLosses())
+}
+
+// A legacy-style match with explicit game counts that happen to be equal
+// (e.g., 1-1) is a real draw and should still count.
+func TestMatchDraws_GameCountsEqualCountsAsDraw(t *testing.T) {
+	d := makeDeck("Alice", nil, []Match{
+		{Opponent: "Bob", Wins: 1, Losses: 1},
+	})
+	assert.Equal(t, 1, d.MatchDraws())
+}
+
 // --- Trophies ---
 
 func TestTrophies(t *testing.T) {
