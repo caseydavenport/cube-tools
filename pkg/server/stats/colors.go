@@ -330,9 +330,7 @@ func (d *colorStatsHandler) statsForDecks(decks []*storage.Deck, sr *ColorStatsR
 			densitySum += a
 		}
 		densityCount := float64(len(color.DeckPercentages))
-		if densityCount > 0 {
-			color.AverageDeckPercentage = math.Round(100 * densitySum / densityCount)
-		}
+		color.AverageDeckPercentage = pct(densitySum, densityCount)
 
 		vpSum := 0.0
 		for _, a := range color.VictoryPointsPerDeck {
@@ -340,23 +338,16 @@ func (d *colorStatsHandler) statsForDecks(decks []*storage.Deck, sr *ColorStatsR
 		}
 		color.VictoryPoints = math.Round(100*vpSum) / 100
 
-		// Calculate the percentage of all cards drafted that are this color.
-		color.BuildPercent = math.Round(float64(color.NumDecks) / float64(len(decks)) * 100)
-		if totalCards != 0 {
-			color.TotalPickPercentage = math.Round(100 * float64(color.Cards) / float64(totalCards))
-		}
-		if color.Wins+color.Losses != 0 {
-			color.WinPercent = math.Round(100 * float64(color.Wins) / float64(color.Wins+color.Losses))
-			logrus.WithFields(logrus.Fields{
-				"color":       color.Color,
-				"wins":        color.Wins,
-				"losses":      color.Losses,
-				"win_percent": color.WinPercent,
-			}).Debug("Color win percentage")
-		}
-		if totalWins != 0 && color.Wins != 0 {
-			color.PercentOfWins = math.Round(100 * float64(color.Wins) / float64(totalWins))
-		}
+		color.BuildPercent = pct(float64(color.NumDecks), float64(len(decks)))
+		color.TotalPickPercentage = pct(float64(color.Cards), float64(totalCards))
+		color.WinPercent = pct(float64(color.Wins), float64(color.Wins+color.Losses))
+		logrus.WithFields(logrus.Fields{
+			"color":       color.Color,
+			"wins":        color.Wins,
+			"losses":      color.Losses,
+			"win_percent": color.WinPercent,
+		}).Debug("Color win percentage")
+		color.PercentOfWins = pct(float64(color.Wins), float64(totalWins))
 		if color.wordCountCount > 0 {
 			color.AvgWordCount = math.Round(color.wordCountSum/float64(color.wordCountCount)*100) / 100
 		}

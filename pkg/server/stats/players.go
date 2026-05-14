@@ -182,21 +182,18 @@ func (s *playerStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) 
 
 	for _, ps := range resp.Players {
 		ps.Games = ps.Wins + ps.Losses
-		if ps.Games > 0 {
-			ps.WinPercent = math.Round(float64(ps.Wins) / float64(ps.Games) * 100)
-			ps.LossPercent = math.Round(float64(ps.Losses) / float64(ps.Games) * 100)
-		}
+		ps.WinPercent = pct(float64(ps.Wins), float64(ps.Games))
+		ps.LossPercent = pct(float64(ps.Losses), float64(ps.Games))
 		if accum, ok := owpAccum[ps.Name]; ok && accum.totalMatches > 0 {
-			ps.OpponentWinPercent = math.Round(accum.weightedSum / float64(accum.totalMatches))
+			// accum.weightedSum is already a percentage; just round to 2 decimals.
+			ps.OpponentWinPercent = math.Round(100*accum.weightedSum/float64(accum.totalMatches)) / 100
 		}
-		if ps.TotalPicks > 0 {
-			ps.WhitePercent = math.Round(float64(ps.ColorPicks["W"]) / float64(ps.TotalPicks) * 100)
-			ps.BluePercent = math.Round(float64(ps.ColorPicks["U"]) / float64(ps.TotalPicks) * 100)
-			ps.BlackPercent = math.Round(float64(ps.ColorPicks["B"]) / float64(ps.TotalPicks) * 100)
-			ps.RedPercent = math.Round(float64(ps.ColorPicks["R"]) / float64(ps.TotalPicks) * 100)
-			ps.GreenPercent = math.Round(float64(ps.ColorPicks["G"]) / float64(ps.TotalPicks) * 100)
-			ps.Uniqueness = math.Round(float64(len(ps.UniqueCards)) / float64(ps.TotalPicks) * 100)
-		}
+		ps.WhitePercent = pct(float64(ps.ColorPicks["W"]), float64(ps.TotalPicks))
+		ps.BluePercent = pct(float64(ps.ColorPicks["U"]), float64(ps.TotalPicks))
+		ps.BlackPercent = pct(float64(ps.ColorPicks["B"]), float64(ps.TotalPicks))
+		ps.RedPercent = pct(float64(ps.ColorPicks["R"]), float64(ps.TotalPicks))
+		ps.GreenPercent = pct(float64(ps.ColorPicks["G"]), float64(ps.TotalPicks))
+		ps.Uniqueness = pct(float64(len(ps.UniqueCards)), float64(ps.TotalPicks))
 		if wc, ok := wcAccum[ps.Name]; ok && wc.count > 0 {
 			ps.AvgWordCount = math.Round(wc.sum/float64(wc.count)*100) / 100
 		}

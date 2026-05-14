@@ -285,18 +285,12 @@ func (d *cardStatsHandler) statsForDecks(decks []*storage.Deck, cubeCards map[st
 
 		// Calculate win percentage and mainboard/sideboard percentages.
 		card.TotalGames = card.Wins + card.Losses
-		if card.TotalGames > 0 {
-			card.WinPercent = math.Round(100 * float64(card.Wins) / float64(card.TotalGames))
-		}
-		if totalWins > 0 {
-			card.PercentOfWins = math.Round(100 * float64(card.Wins) / float64(totalWins))
-		}
+		card.WinPercent = pct(float64(card.Wins), float64(card.TotalGames))
+		card.PercentOfWins = pct(float64(card.Wins), float64(totalWins))
 
 		decksWithCard := card.Mainboard + card.Sideboard
-		if decksWithCard > 0 {
-			card.MainboardPercent = math.Round(100 * float64(card.Mainboard) / float64(decksWithCard))
-			card.SideboardPercent = math.Round(100 * float64(card.Sideboard) / float64(decksWithCard))
-		}
+		card.MainboardPercent = pct(float64(card.Mainboard), float64(decksWithCard))
+		card.SideboardPercent = pct(float64(card.Sideboard), float64(decksWithCard))
 
 		// Calculate per-archetype win percentages.
 		for arch, ws := range card.ByArchetype {
@@ -305,7 +299,7 @@ func (d *cardStatsHandler) statsForDecks(decks []*storage.Deck, cubeCards map[st
 			// has at least N games played in that archetype. This prevents showing misleading
 			// win percentages based on small sample sizes.
 			if total > 15 {
-				ws.WinPercent = math.Round(100 * float64(ws.Wins) / float64(total))
+				ws.WinPercent = pct(float64(ws.Wins), float64(total))
 			}
 			card.ByArchetype[arch] = ws
 		}
@@ -315,7 +309,7 @@ func (d *cardStatsHandler) statsForDecks(decks []*storage.Deck, cubeCards map[st
 			total := ws.Wins + ws.Losses
 			// This is a hack to prevent showing misleading win percentages based on small samples.
 			if total > 15 {
-				ws.WinPercent = math.Round(100 * float64(ws.Wins) / float64(total))
+				ws.WinPercent = pct(float64(ws.Wins), float64(total))
 			}
 			card.AgainstArchetype[arch] = ws
 		}
@@ -368,7 +362,7 @@ func ExpectedWinPercent(cardName string, players map[string]int, decks []*storag
 		return 0.0
 	}
 
-	return math.Round(100 * float64(totalWins) / float64(totalGames))
+	return pct(float64(totalWins), float64(totalGames))
 }
 
 // K-factor for ELO updates.

@@ -276,17 +276,17 @@ function PlayerTable(input) {
                 <td id={row.name} onClick={input.handleRowClick}>{row.name}</td>
                 <td>{row.num_decks}</td>
                 <td>{row.games}</td>
-                <td>{row.win_percent}%</td>
-                <td>{row.loss_percent}%</td>
-                <td>{row.opponent_win_percentage}%</td>
+                <td>{row.win_percent.toFixed(0)}%</td>
+                <td>{row.loss_percent.toFixed(0)}%</td>
+                <td>{row.opponent_win_percentage.toFixed(0)}%</td>
                 <td>{row.trophies}</td>
                 <td>{row.last_place}</td>
-                <td>{row.white_percent}%</td>
-                <td>{row.blue_percent}%</td>
-                <td>{row.black_percent}%</td>
-                <td>{row.red_percent}%</td>
-                <td>{row.green_percent}%</td>
-                <td>{row.uniqueness}%</td>
+                <td>{row.white_percent.toFixed(0)}%</td>
+                <td>{row.blue_percent.toFixed(0)}%</td>
+                <td>{row.black_percent.toFixed(0)}%</td>
+                <td>{row.red_percent.toFixed(0)}%</td>
+                <td>{row.green_percent.toFixed(0)}%</td>
+                <td>{row.uniqueness.toFixed(0)}%</td>
                 <td>{row.avg_word_count || 0}</td>
               </tr>
             )

@@ -333,9 +333,9 @@ function ColorStatsTable(input) {
               return (
                 <tr key={idx} sort={sort} className="widget-table-row">
                   <td>{img}</td>
-                  <td>{color.win_percent}%</td>
-                  <td>{color.build_percent}%</td>
-                  <td>{color.percent_of_wins}%</td>
+                  <td>{color.win_percent.toFixed(0)}%</td>
+                  <td>{color.build_percent.toFixed(0)}%</td>
+                  <td>{color.percent_of_wins.toFixed(0)}%</td>
                   <td>{vpsPercentage}%</td>
                   <td>{color.trophies}</td>
                   <td>{color.last_place}</td>

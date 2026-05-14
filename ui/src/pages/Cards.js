@@ -506,7 +506,7 @@ function CardWidgetTable(input) {
                     <td id={card.name} onClick={input.onCardSelected}><a href={card.url} target="_blank" rel="noopener noreferrer">{card.name}</a></td>
                   </OverlayTrigger>
 
-                  <td id={card.name} onClick={input.onCardSelected} key="name">{card.mainboard_percent}%</td>
+                  <td id={card.name} onClick={input.onCardSelected} key="name">{card.mainboard_percent.toFixed(0)}%</td>
                   <td>{card.mainboard}</td>
                   <td>{card.sideboard}</td>
                   <td>{card.playable_sideboard}</td>
@@ -584,13 +584,13 @@ function CardWidgetTable(input) {
                       <td id={card.name} onClick={input.onCardSelected}><a href={card.url} target="_blank" rel="noopener noreferrer">{card.name}</a></td>
                     </OverlayTrigger>
 
-                    <td id={card.name} onClick={input.onCardSelected} key="win_percent">{card.win_percent}%</td>
-                    <td id={card.name} onClick={input.onCardSelected} key="pow">{card.percent_of_wins}%</td>
+                    <td id={card.name} onClick={input.onCardSelected} key="win_percent">{card.win_percent.toFixed(0)}%</td>
+                    <td id={card.name} onClick={input.onCardSelected} key="pow">{card.percent_of_wins.toFixed(0)}%</td>
                     <td id={card.name} onClick={input.onCardSelected} key="trophies">{card.trophies}</td>
                     <td id={card.name} onClick={input.onCardSelected} key="lastplace">{card.last_place}</td>
                     <td id={card.name} onClick={input.onCardSelected} key="games">{card.total_games}</td>
                     <td id={card.name} onClick={input.onCardSelected} key="draws">{card.draws}</td>
-                    <td>{card.expected_win_percent}%</td>
+                    <td>{card.expected_win_percent.toFixed(0)}%</td>
                   </tr>
                 )
               }).sort(SortFunc)
@@ -659,9 +659,9 @@ function CardWidgetTable(input) {
                       <td id={card.name} onClick={input.onCardSelected}><a href={card.url} target="_blank" rel="noopener noreferrer">{card.name}</a></td>
                     </OverlayTrigger>
                     <td id={card.name} onClick={input.onCardSelected} key="games">{card.total_games}</td>
-                    <td id={card.name} onClick={input.onCardSelected} key="vsaggro">{card.against_archetype.aggro.win_percent}%</td>
-                    <td id={card.name} onClick={input.onCardSelected} key="vscontrol">{card.against_archetype.control.win_percent}%</td>
-                    <td id={card.name} onClick={input.onCardSelected} key="vsmidrange">{card.against_archetype.midrange.win_percent}%</td>
+                    <td id={card.name} onClick={input.onCardSelected} key="vsaggro">{card.against_archetype.aggro.win_percent.toFixed(0)}%</td>
+                    <td id={card.name} onClick={input.onCardSelected} key="vscontrol">{card.against_archetype.control.win_percent.toFixed(0)}%</td>
+                    <td id={card.name} onClick={input.onCardSelected} key="vsmidrange">{card.against_archetype.midrange.win_percent.toFixed(0)}%</td>
                   </tr>
                 )
               }).sort(SortFunc)
@@ -730,9 +730,9 @@ function CardWidgetTable(input) {
                       <td id={card.name} onClick={input.onCardSelected}><a href={card.url} target="_blank" rel="noopener noreferrer">{card.name}</a></td>
                     </OverlayTrigger>
                     <td id={card.name} onClick={input.onCardSelected} key="games">{card.total_games}</td>
-                    <td id={card.name} onClick={input.onCardSelected} key="inaggro">{card.by_archetype.aggro.win_percent}%</td>
-                    <td id={card.name} onClick={input.onCardSelected} key="incontrol">{card.by_archetype.control.win_percent}%</td>
-                    <td id={card.name} onClick={input.onCardSelected} key="inmidrange">{card.by_archetype.midrange.win_percent}%</td>
+                    <td id={card.name} onClick={input.onCardSelected} key="inaggro">{card.by_archetype.aggro.win_percent.toFixed(0)}%</td>
+                    <td id={card.name} onClick={input.onCardSelected} key="incontrol">{card.by_archetype.control.win_percent.toFixed(0)}%</td>
+                    <td id={card.name} onClick={input.onCardSelected} key="inmidrange">{card.by_archetype.midrange.win_percent.toFixed(0)}%</td>
                   </tr>
                 )
               }).sort(SortFunc)

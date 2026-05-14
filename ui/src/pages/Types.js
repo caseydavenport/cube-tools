@@ -305,9 +305,9 @@ function ArchetypeTableRows(input) {
           return (
             <tr key={t.type} sort={sort} className="widget-table-row">
               <td id={t.type} onClick={input.handleRowClick} key="type">{t.type}</td>
-              <td key="build_percent">{t.build_percent}%</td>
-              <td key="win_percent">{t.win_percent}%</td>
-              <td key="pwin">{t.percent_of_wins}%</td>
+              <td key="build_percent">{t.build_percent.toFixed(0)}%</td>
+              <td key="win_percent">{t.win_percent.toFixed(0)}%</td>
+              <td key="pwin">{t.percent_of_wins.toFixed(0)}%</td>
               <td key="trophies">{t.trophies}</td>
               <td key="lastplace">{t.last_place}</td>
               <td key="winning">{t.winning}</td>

@@ -145,15 +145,9 @@ func (s *archetypeStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Reques
 	numDecks := len(allDecks)
 
 	for _, as := range resp.Archetypes {
-		if numDecks > 0 {
-			as.BuildPercent = math.Round(float64(as.Count) / float64(numDecks) * 100)
-		}
-		if as.Wins+as.Losses > 0 {
-			as.WinPercent = math.Round(float64(as.Wins) / float64(as.Wins+as.Losses) * 100)
-		}
-		if percentOfWinsDenom > 0 {
-			as.PercentOfWins = math.Round(float64(as.Wins) / float64(percentOfWinsDenom) * 100)
-		}
+		as.BuildPercent = pct(float64(as.Count), float64(numDecks))
+		as.WinPercent = pct(float64(as.Wins), float64(as.Wins+as.Losses))
+		as.PercentOfWins = pct(float64(as.Wins), float64(percentOfWinsDenom))
 		if as.cmcCount > 0 {
 			as.AvgCMC = math.Round(as.AvgCMC/float64(as.cmcCount)*100) / 100
 		}
