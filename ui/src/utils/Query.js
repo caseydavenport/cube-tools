@@ -210,7 +210,7 @@ export function DeckMatches(deck, matchStr, mbsb) {
     const fs = matchStr.toLowerCase()
     if (deck.player.toLowerCase().includes(fs)) return true;
     if (deck.macro_archetype && deck.macro_archetype.toLowerCase().includes(fs)) return true;
-    for (let label of deck.labels) {
+    for (let label of (deck.labels || [])) {
       if (label.toLowerCase().includes(fs)) return true;
     }
     // If not matched, treat the fuzzy string as a card term.
@@ -863,7 +863,7 @@ function deckTypeMatches(term, deck) {
   if (deck.macro_archetype && deck.macro_archetype.toLowerCase() == query) {
     return true
   }
-  if (deck.labels.some(t => t.toLowerCase() == query)) {
+  if ((deck.labels || []).some(t => t.toLowerCase() == query)) {
     return true
   }
 

@@ -60,7 +60,12 @@ type DecksRequest struct {
 }
 
 func (d *Deck) GetPlayer() string   { return d.Player }
-func (d *Deck) GetLabels() []string { return d.Labels }
+func (d *Deck) GetLabels() []string {
+	if d.MacroArchetype != "" {
+		return append([]string{d.MacroArchetype}, d.Labels...)
+	}
+	return d.Labels
+}
 func (d *Deck) GetDraftSize() int   { return d.DraftSize }
 func (d *Deck) GetMainboard() []types.Card {
 	res := make([]types.Card, len(d.Mainboard))
