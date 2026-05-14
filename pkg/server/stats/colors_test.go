@@ -173,6 +173,55 @@ func TestColorStats_BuildPercent(t *testing.T) {
 	assert.InDelta(t, 33.0, blue.BuildPercent, 0.5)
 }
 
+// In inclusive mode a WU deck contributes to W, U, and WU rows. The
+// denominator must inflate the same way, so PercentOfWins and
+// TotalPickPercentage actually sum to ~100% across rows. Small drift comes
+// from per-row math.Round and is bounded by the number of rows.
+func TestColorStats_InclusivePercentagesSumTo100(t *testing.T) {
+	decks := []*storage.Deck{
+		makeColorDeck("Alice", []string{"W", "U"},
+			[]types.Game{{Opponent: "Bob", Winner: "Alice"}, {Opponent: "Bob", Winner: "Bob"}},
+			nil,
+			[]types.Card{
+				{Name: "Swords to Plowshares", Colors: []string{"W"}},
+				{Name: "Counterspell", Colors: []string{"U"}},
+			}),
+		makeColorDeck("Bob", []string{"R"},
+			[]types.Game{{Opponent: "Alice", Winner: "Bob"}, {Opponent: "Alice", Winner: "Alice"}},
+			nil,
+			[]types.Card{
+				{Name: "Lightning Bolt", Colors: []string{"R"}},
+				{Name: "Shock", Colors: []string{"R"}},
+			}),
+		makeColorDeck("Carol", []string{"G", "B"},
+			[]types.Game{{Opponent: "Dave", Winner: "Carol"}, {Opponent: "Dave", Winner: "Carol"}},
+			nil,
+			[]types.Card{
+				{Name: "Llanowar Elves", Colors: []string{"G"}},
+				{Name: "Dark Ritual", Colors: []string{"B"}},
+			}),
+	}
+
+	handler := &colorStatsHandler{store: &mockDeckStorage{decks: decks}}
+	req := httptest.NewRequest(http.MethodGet, "/api/stats/colors?color_mode=inclusive", nil)
+	rr := httptest.NewRecorder()
+	handler.ServeHTTP(rr, req)
+
+	var resp ColorStatsResponse
+	err := json.Unmarshal(rr.Body.Bytes(), &resp)
+	assert.NoError(t, err)
+
+	sumWins := 0.0
+	sumPicks := 0.0
+	for _, c := range resp.All.Data {
+		sumWins += c.PercentOfWins
+		sumPicks += c.TotalPickPercentage
+	}
+	rows := float64(len(resp.All.Data))
+	assert.InDelta(t, 100.0, sumWins, rows, "PercentOfWins sum: %v", sumWins)
+	assert.InDelta(t, 100.0, sumPicks, rows, "TotalPickPercentage sum: %v", sumPicks)
+}
+
 func TestColorStats_NoDecks(t *testing.T) {
 	handler := &colorStatsHandler{store: &mockDeckStorage{decks: nil}}
 	req := httptest.NewRequest(http.MethodGet, "/api/stats/colors", nil)

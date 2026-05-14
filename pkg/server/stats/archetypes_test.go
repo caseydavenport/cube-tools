@@ -161,3 +161,44 @@ func TestArchetypeStats_TotalGames(t *testing.T) {
 	// Alice: 1 win, Bob: 1 win → totalGames = 2 (sum of GameWins across all decks)
 	assert.Equal(t, 2, resp.TotalGames)
 }
+
+// A deck labeled both "tempo" and "control" contributes its wins to both
+// buckets. The PercentOfWins denominator must inflate the same way so the
+// column actually sums to ~100% across rows. Small drift comes from
+// per-row math.Round and is bounded by the number of rows.
+func TestArchetypeStats_PercentOfWinsSumsTo100(t *testing.T) {
+	decks := []*storage.Deck{
+		makeStorageDeck("Alice", "d1", []string{"tempo", "control"}, []types.Game{
+			{Opponent: "Bob", Winner: "Alice"},
+			{Opponent: "Bob", Winner: "Alice"},
+		}, nil),
+		makeStorageDeck("Bob", "d1", []string{"aggro"}, []types.Game{
+			{Opponent: "Alice", Winner: "Bob"},
+			{Opponent: "Alice", Winner: "Alice"},
+		}, nil),
+		makeStorageDeck("Carol", "d2", []string{"midrange", "ramp"}, []types.Game{
+			{Opponent: "Dave", Winner: "Carol"},
+			{Opponent: "Dave", Winner: "Carol"},
+		}, nil),
+	}
+
+	handler := &archetypeStatsHandler{store: &mockDeckStorage{decks: decks}}
+	req := httptest.NewRequest(http.MethodGet, "/api/stats/archetypes", nil)
+	rr := httptest.NewRecorder()
+	handler.ServeHTTP(rr, req)
+
+	var resp ArchetypeStatsResponse
+	err := json.Unmarshal(rr.Body.Bytes(), &resp)
+	assert.NoError(t, err)
+
+	sum := 0.0
+	rows := 0
+	for _, a := range resp.Archetypes {
+		if a.Count == 0 {
+			continue
+		}
+		sum += a.PercentOfWins
+		rows++
+	}
+	assert.InDelta(t, 100.0, sum, float64(rows), "PercentOfWins sum: %v", sum)
+}

@@ -61,6 +61,14 @@ type pair struct {
 	c2 string
 }
 
+// shrinkLift smooths lift toward 1.0 (independence) by adding k pseudo-
+// observations to both the observed and expected counts. As the sample
+// shrinks the score approaches 1; as it grows it approaches count/expected.
+// This keeps low-sample pairs from dominating with extreme lift values.
+func shrinkLift(count, expected, k float64) float64 {
+	return (count + k) / (expected + k)
+}
+
 type pairStats struct {
 	count  int
 	wins   int
@@ -247,11 +255,7 @@ func (s *synergyStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request)
 			continue
 		}
 
-		// Shrink lift toward 1.0 (independence) by adding k pseudo-observations
-		// to both the observed and expected counts. As the sample shrinks the
-		// score approaches 1; as it grows it approaches count/expected. This
-		// keeps low-sample pairs from dominating with extreme lift values.
-		score := (float64(stats.count) + k) / (expectedCount + k)
+		score := shrinkLift(float64(stats.count), expectedCount, k)
 
 		winPercent := 0.0
 		if stats.wins+stats.losses > 0 {

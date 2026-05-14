@@ -78,7 +78,12 @@ func (s *archetypeStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Reques
 		resp.Archetypes[m] = &ArchetypeStats{Type: m, SharedWith: make(map[string]int), Players: make(map[string]int)}
 	}
 
+	// totalWins counts each game once (used for TotalGames display).
+	// percentOfWinsDenom is inflated the same way as.Wins is: a deck labeled both
+	// "tempo" and "control" contributes its wins to both buckets and to the
+	// denominator twice, so PercentOfWins actually sums to 100% across rows.
 	totalWins := 0
+	percentOfWinsDenom := 0
 	for _, deck := range allDecks {
 		totalWins += deck.GameWins()
 
@@ -93,6 +98,7 @@ func (s *archetypeStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Reques
 			as := resp.Archetypes[label]
 			as.Count++
 			as.Wins += deck.GameWins()
+			percentOfWinsDenom += deck.GameWins()
 			as.Losses += deck.GameLosses()
 			as.Trophies += deck.Trophies()
 			as.LastPlace += deck.LastPlace()
@@ -145,8 +151,8 @@ func (s *archetypeStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Reques
 		if as.Wins+as.Losses > 0 {
 			as.WinPercent = math.Round(float64(as.Wins) / float64(as.Wins+as.Losses) * 100)
 		}
-		if totalWins > 0 {
-			as.PercentOfWins = math.Round(float64(as.Wins) / float64(totalWins) * 100)
+		if percentOfWinsDenom > 0 {
+			as.PercentOfWins = math.Round(float64(as.Wins) / float64(percentOfWinsDenom) * 100)
 		}
 		if as.cmcCount > 0 {
 			as.AvgCMC = math.Round(as.AvgCMC/float64(as.cmcCount)*100) / 100

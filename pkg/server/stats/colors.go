@@ -190,12 +190,13 @@ func (d *colorStatsHandler) statsForDecks(decks []*storage.Deck, sr *ColorStatsR
 		Data: make(map[string]*colorStats),
 	}
 
+	// totalWins and totalCards are inflated the same way per-color counts are:
+	// in inclusive mode a WU deck contributes its wins/cards to W, U, and WU
+	// buckets, and the totals get incremented once for each of those buckets so
+	// PercentOfWins and TotalPickPercentage actually sum to 100% across rows.
 	totalWins := 0
 	totalCards := 0
 	for _, deck := range decks {
-		// Add this deck's wins to the total count of games.
-		totalWins += deck.GameWins()
-
 		// Start by adding metrics at the deck scope for color identity.
 		// Add wins and losses contributed for each color / color combination within this deck.
 		identities := deck.ColorIdentities()
@@ -232,6 +233,7 @@ func (d *colorStatsHandler) statsForDecks(decks []*storage.Deck, sr *ColorStatsR
 			resp.Data[color].Bottom50 += deck.BottomHalf()
 
 			resp.Data[color].NumDecks += 1
+			totalWins += deck.GameWins()
 		}
 
 		// Compute per-deck average word count and attribute it to the deck's colors.
@@ -267,7 +269,6 @@ func (d *colorStatsHandler) statsForDecks(decks []*storage.Deck, sr *ColorStatsR
 			if card.IsBasicLand() {
 				continue
 			}
-			totalCards++
 			totalCardsInDeck++
 		}
 
@@ -314,6 +315,7 @@ func (d *colorStatsHandler) statsForDecks(decks []*storage.Deck, sr *ColorStatsR
 				resp.Data[color].AvailableVictoryPoints += winFrac + lossFrac
 			}
 			resp.Data[color].Cards += num
+			totalCards += num
 		}
 	}
 
