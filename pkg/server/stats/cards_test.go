@@ -1,6 +1,8 @@
 package stats
 
 import (
+	"math"
+	"math/rand"
 	"testing"
 
 	"github.com/caseydavenport/cube-tools/pkg/storage"
@@ -139,4 +141,108 @@ func TestELOData_MainboardGainsELO(t *testing.T) {
 	result := ELOData(decks)
 	assert.Greater(t, result["Good Card"], 1200)
 	assert.Less(t, result["Bad Card"], 1200)
+}
+
+// makeELODecks builds n decks by rotating 5 cards through mainboard and
+// sideboard slots, so each card sees many opponents and deck order matters.
+func makeELODecks(n int) []*storage.Deck {
+	cards := []types.Card{
+		{Name: "Card-1", CMC: 1, Colors: []string{"R"}, ColorIdentity: []string{"R"}, Types: []string{"Creature"}},
+		{Name: "Card-2", CMC: 2, Colors: []string{"R"}, ColorIdentity: []string{"R"}, Types: []string{"Creature"}},
+		{Name: "Card-3", CMC: 3, Colors: []string{"R"}, ColorIdentity: []string{"R"}, Types: []string{"Instant"}},
+		{Name: "Card-4", CMC: 4, Colors: []string{"R"}, ColorIdentity: []string{"R"}, Types: []string{"Creature"}},
+		{Name: "Card-5", CMC: 5, Colors: []string{"R"}, ColorIdentity: []string{"R"}, Types: []string{"Sorcery"}},
+	}
+	decks := make([]*storage.Deck, 0, n)
+	for i := 0; i < n; i++ {
+		mb := []types.Card{cards[i%5], cards[(i+1)%5], cards[(i+2)%5]}
+		sb := []types.Card{cards[(i+3)%5], cards[(i+4)%5]}
+		d := makeCardDeck("Alice", nil, mb, sb)
+		d.Colors = []string{"R"}
+		decks = append(decks, d)
+	}
+	return decks
+}
+
+func TestELOData_InitsAt1200(t *testing.T) {
+	decks := []*storage.Deck{
+		makeCardDeck("Alice", nil,
+			[]types.Card{{Name: "MB-Only", CMC: 1, Colors: []string{"R"}, ColorIdentity: []string{"R"}, Types: []string{"Instant"}}},
+			nil,
+		),
+	}
+	decks[0].Colors = []string{"R"}
+	result := ELOData(decks)
+
+	// With no sideboard to pair against, MB-Only never updates and stays at 1200.
+	assert.Equal(t, 1200, result["MB-Only"])
+	_, exists := result["Never Drafted"]
+	assert.False(t, exists)
+}
+
+func TestELOData_BasicLandsSkipped(t *testing.T) {
+	decks := []*storage.Deck{
+		makeCardDeck("Alice", nil,
+			[]types.Card{{Name: "Plains", Types: []string{"Basic", "Land"}, Colors: []string{"W"}, ColorIdentity: []string{"W"}}},
+			[]types.Card{{Name: "Sideboard Spell", CMC: 2, Colors: []string{"W"}, ColorIdentity: []string{"W"}, Types: []string{"Instant"}}},
+		),
+	}
+	decks[0].Colors = []string{"W"}
+	result := ELOData(decks)
+	assert.Equal(t, 1200, result["Plains"])
+	assert.Equal(t, 1200, result["Sideboard Spell"])
+}
+
+func TestELOData_UncastableSideboardSkipped(t *testing.T) {
+	decks := []*storage.Deck{
+		makeCardDeck("Alice", nil,
+			[]types.Card{{Name: "Red Spell", CMC: 2, Colors: []string{"R"}, ColorIdentity: []string{"R"}, Types: []string{"Instant"}}},
+			[]types.Card{{Name: "Black Spell", CMC: 2, Colors: []string{"B"}, ColorIdentity: []string{"B"}, Types: []string{"Instant"}}},
+		),
+	}
+	decks[0].Colors = []string{"R"}
+	result := ELOData(decks)
+	assert.Equal(t, 1200, result["Red Spell"])
+	assert.Equal(t, 1200, result["Black Spell"])
+}
+
+// Updates should be approximately zero-sum across all participating cards.
+// The only source of drift is int() truncation of the final float ELO per
+// card, which is bounded by the number of cards.
+func TestELOData_ApproximatelyZeroSum(t *testing.T) {
+	decks := makeELODecks(20)
+	result := ELOData(decks)
+
+	total := 0
+	for _, e := range result {
+		total += e
+	}
+	expected := 1200 * len(result)
+	delta := int(math.Abs(float64(total - expected)))
+	assert.LessOrEqual(t, delta, len(result),
+		"sum of ELO drifts from N*1200 by %d (decks=%d, cards=%d)", delta, len(decks), len(result))
+}
+
+func TestELOData_OrderIndependent(t *testing.T) {
+	base := makeELODecks(30)
+	a := append([]*storage.Deck(nil), base...)
+	b := append([]*storage.Deck(nil), base...)
+	r := rand.New(rand.NewSource(42))
+	r.Shuffle(len(b), func(i, j int) { b[i], b[j] = b[j], b[i] })
+
+	ra := ELOData(a)
+	rb := ELOData(b)
+
+	maxDiff := 0
+	worstCard := ""
+	for name, va := range ra {
+		vb := rb[name]
+		d := int(math.Abs(float64(va - vb)))
+		if d > maxDiff {
+			maxDiff = d
+			worstCard = name
+		}
+	}
+	assert.LessOrEqual(t, maxDiff, 2,
+		"deck order changed %s's ELO by %d points", worstCard, maxDiff)
 }

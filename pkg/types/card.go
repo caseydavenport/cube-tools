@@ -4,6 +4,8 @@ import (
 	"regexp"
 	"slices"
 	"strings"
+
+	"github.com/sirupsen/logrus"
 )
 
 // Basic representation of a card.
@@ -178,11 +180,18 @@ func FromOracle(o OracleCard) Card {
 	return c
 }
 
-func (c Card) IsColor(color string) bool {
+// MatchesColor reports whether this card shares any color with the given
+// filter string, where the filter is a concatenation of color letters (e.g.
+// "W", "WU", "WUBRG"). An empty filter matches every card.
+func (c Card) MatchesColor(color string) bool {
 	if color == "" {
 		return true
 	}
 	for _, col := range c.Colors {
+		if col == "" {
+			logrus.WithField("card", c.Name).Warn("Card has empty string in Colors; skipping entry")
+			continue
+		}
 		if stringContains(color, col) {
 			return true
 		}

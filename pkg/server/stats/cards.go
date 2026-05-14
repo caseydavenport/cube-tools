@@ -371,109 +371,196 @@ func ExpectedWinPercent(cardName string, players map[string]int, decks []*storag
 	return math.Round(100 * float64(totalWins) / float64(totalGames))
 }
 
-func ELOData(decks []*storage.Deck) map[string]int {
-	type elo struct {
-		elo  float64
-		diff float64
+// K-factor for ELO updates.
+const eloK = 4.0
+
+// How much the mainboard card "wins" against the sideboard card. The closer
+// the two cards are in CMC, color, and type, the more directly they compete,
+// so the mainboard card gets more credit for being chosen.
+func eloWinValue(mb, sb types.Card) float64 {
+	winValue := 1.0
+	if mb.CMC != sb.CMC {
+		winValue -= 0.025 * math.Abs(float64(mb.CMC-sb.CMC))
 	}
 
-	// Store ELO data for each card by name.
-	cards := make(map[string]*elo)
-
-	// Populate initial ELO data.
-	for _, d := range decks {
-		for _, card := range d.Mainboard {
-			if _, ok := cards[card.Name]; !ok {
-				cards[card.Name] = &elo{elo: 1200, diff: 0}
-			}
-		}
-		for _, card := range d.Sideboard {
-			if _, ok := cards[card.Name]; !ok {
-				cards[card.Name] = &elo{elo: 1200, diff: 0}
+	colorMatch := true
+	if mb.Colors != nil && sb.Colors != nil {
+		for _, color := range mb.Colors {
+			for _, color2 := range sb.Colors {
+				if !slices.Contains(mb.Colors, color2) || !slices.Contains(sb.Colors, color) {
+					colorMatch = false
+				}
 			}
 		}
 	}
+	if !colorMatch {
+		winValue -= 0.05
+	}
 
-	// Go through each deck and perform ELO calculations on the cards.
+	if mb.IsCreature() != sb.IsCreature() {
+		winValue -= 0.1
+	}
+
+	if winValue < 0.55 {
+		winValue = 0.55
+	}
+	return winValue
+}
+
+// A mainboard-vs-sideboard matchup. mbIdx and sbIdx are positions into the
+// cards-by-index slice built in ELOData (so we can avoid map lookups in the
+// hot loop). count is the number of decks in which this pair appears -
+// since winValue depends only on the two cards, identical pairs across
+// decks collapse to a single entry with a count.
+type eloPair struct {
+	mbIdx, sbIdx int
+	count        float64
+	winValue     float64
+}
+
+// buildELOPairs walks every deck and produces the deduplicated list of
+// (mainboard card, sideboard card) pairs that contribute to ELO. The idx
+// map translates card names to their integer position in the rating slice,
+// so the returned pairs are ready for use in the index-based inner loop.
+func buildELOPairs(decks []*storage.Deck, idx map[string]int) []eloPair {
+	// Accumulate counts and winValues by (mbIdx, sbIdx) so duplicate pairs
+	// across decks collapse together. We split count and winValue into two
+	// maps so we only have to call eloWinValue the first time we see a pair.
+	type key struct{ mbIdx, sbIdx int32 }
+	counts := make(map[key]int)
+	values := make(map[key]float64)
+
+	// Reusable scratch space for the eligible sideboard of the current deck.
+	// Looking up idx[card.Name] and CanCast once per sideboard card (instead
+	// of once per mainboard-sideboard pair) is a big speedup.
+	type sbEntry struct {
+		idx  int32
+		card types.Card
+	}
+	var eligibleSB []sbEntry
+
 	for _, deck := range decks {
-		for _, c1 := range deck.Mainboard {
-			if c1.IsBasicLand() {
+		eligibleSB = eligibleSB[:0]
+		for _, sb := range deck.Sideboard {
+			if sb.IsBasicLand() || !deck.CanCast(sb) {
 				continue
 			}
-			for _, c2 := range deck.Sideboard {
-				if c2.IsBasicLand() {
-					continue
-				}
-				if !deck.CanCast(c2) {
-					continue
-				}
-
-				// How much the mainboard card "wins" against the sideboard card depends on a few factors.
-				// Start with 1.0, and subtract based on differences in CMC, color, and type. The idea is that
-				// the closer two cards are two each other in these dimensions, the more directly they are competing against each other.
-				winValue := 1.0
-				if c1.CMC != c2.CMC {
-					winValue = winValue - 0.025*math.Abs(float64(c1.CMC-c2.CMC))
-				}
-
-				colorMatch := true
-				if c1.Colors != nil && c2.Colors != nil {
-					for _, color := range c1.Colors {
-						for _, color2 := range c2.Colors {
-							if !slices.Contains(c1.Colors, color2) || !slices.Contains(c2.Colors, color) {
-								colorMatch = false
-							}
-						}
-					}
-				}
-				if !colorMatch {
-					winValue = winValue - 0.05
-				}
-
-				if (slices.Contains(c1.Types, "Creature") && !slices.Contains(c2.Types, "Creature")) ||
-					(!slices.Contains(c1.Types, "Creature") && slices.Contains(c2.Types, "Creature")) {
-					winValue = winValue - 0.1
-				}
-
-				if winValue < 0.55 {
-					winValue = 0.55
-				}
-
-				cc1 := cards[c1.Name]
-				cc2 := cards[c2.Name]
-
-				r1 := math.Pow(10, cc1.elo/400)
-				r2 := math.Pow(10, cc2.elo/400)
-
-				e1 := r1 / (r1 + r2)
-				e2 := r2 / (r1 + r2)
-
-				s1 := winValue
-				s2 := 1 - winValue
-
-				k := 16.0
-				cc1.diff += k * (s1 - e1)
-				cc2.diff += k * (s2 - e2)
+			eligibleSB = append(eligibleSB, sbEntry{int32(idx[sb.Name]), sb})
+		}
+		if len(eligibleSB) == 0 {
+			continue
+		}
+		for _, mb := range deck.Mainboard {
+			if mb.IsBasicLand() {
+				continue
 			}
-		}
-
-		// Update the cards actual ELO after each deck, and reset the diff for the next.
-		for _, c1 := range deck.Mainboard {
-			c := cards[c1.Name]
-			c.elo += math.Round(c.diff)
-			c.diff = 0
-		}
-		for _, c2 := range deck.Sideboard {
-			c := cards[c2.Name]
-			c.elo += math.Round(c.diff)
-			c.diff = 0
+			mbIdx := int32(idx[mb.Name])
+			for _, sb := range eligibleSB {
+				k := key{mbIdx, sb.idx}
+				if _, ok := counts[k]; !ok {
+					values[k] = eloWinValue(mb, sb.card)
+				}
+				counts[k]++
+			}
 		}
 	}
 
-	// Convert to map of card to ELo value.
-	result := make(map[string]int)
-	for name, c := range cards {
-		result[name] = int(c.elo)
+	pairs := make([]eloPair, 0, len(counts))
+	for k, n := range counts {
+		pairs = append(pairs, eloPair{
+			mbIdx:    int(k.mbIdx),
+			sbIdx:    int(k.sbIdx),
+			count:    float64(n),
+			winValue: values[k],
+		})
+	}
+	return pairs
+}
+
+// Compute one pass of ELO updates against the given snapshot of ratings.
+// Diffs are written but not applied, so all pairs see the same starting
+// state and the result doesn't depend on iteration order. The ratings and
+// diffs slices are caller-owned scratch space indexed by the same card
+// index used in eloPair, so this whole inner loop is map-free.
+func runELOPass(pairs []eloPair, snapshot, ratings, diffs []float64) {
+	// Precompute 10^(elo/400) per card once per pass instead of twice per
+	// pair, since snapshot is fixed for the duration of the pass.
+	for i, elo := range snapshot {
+		ratings[i] = math.Pow(10, elo/400)
+	}
+	for i := range diffs {
+		diffs[i] = 0
+	}
+	for _, p := range pairs {
+		mbRating, sbRating := ratings[p.mbIdx], ratings[p.sbIdx]
+		expectedMbWin := mbRating / (mbRating + sbRating)
+		d := p.count * eloK * (p.winValue - expectedMbWin)
+		diffs[p.mbIdx] += d
+		diffs[p.sbIdx] -= d
+	}
+}
+
+func ELOData(decks []*storage.Deck) map[string]int {
+	// Assign each unique card an integer index. Throughout the rest of the
+	// calculation, cards are referred to by this index instead of by name,
+	// so we can keep ratings / diffs / etc. in plain []float64 slices keyed
+	// by index. Surprisingly, we have enough data here that the difference
+	// between a slice index lookup and a map lookup actually matters! The
+	// names slice maps the index back to a card name when we build the
+	// result.
+	idx := make(map[string]int)
+	var names []string
+	addCard := func(name string) {
+		if _, ok := idx[name]; !ok {
+			idx[name] = len(names)
+			names = append(names, name)
+		}
+	}
+	for _, d := range decks {
+		for _, card := range d.Mainboard {
+			addCard(card.Name)
+		}
+		for _, card := range d.Sideboard {
+			addCard(card.Name)
+		}
+	}
+
+	// All cards start at 1200. elos[i] holds the current rating of names[i].
+	elos := make([]float64, len(names))
+	for i := range elos {
+		elos[i] = 1200
+	}
+
+	pairs := buildELOPairs(decks, idx)
+
+	// Iterate until ratings stop moving. Each pass updates against a snapshot
+	// of the previous iteration's ratings so the result is independent of
+	// deck order. Output is rounded to int, so a 0.5 swing is invisible.
+	const maxIterations = 50
+	const convergenceThreshold = 0.5
+	snapshot := make([]float64, len(elos))
+	ratings := make([]float64, len(elos))
+	diffs := make([]float64, len(elos))
+	for iter := 0; iter < maxIterations; iter++ {
+		copy(snapshot, elos)
+		runELOPass(pairs, snapshot, ratings, diffs)
+		maxDelta := 0.0
+		for i, d := range diffs {
+			elos[i] += d
+			if a := math.Abs(d); a > maxDelta {
+				maxDelta = a
+			}
+		}
+		if maxDelta < convergenceThreshold {
+			break
+		}
+	}
+
+	// Translate the indexed rating slice back to a name-keyed map for the
+	// caller.
+	result := make(map[string]int, len(names))
+	for i, name := range names {
+		result[name] = int(elos[i])
 	}
 	return result
 }
@@ -515,7 +602,7 @@ func cardSetFromDeck(deck types.Deck, cubeCards map[string]types.Card, color str
 		if card.IsBasicLand() {
 			continue
 		}
-		if !card.IsColor(color) {
+		if !card.MatchesColor(color) {
 			continue
 		}
 
@@ -533,7 +620,7 @@ func cardSetFromDeck(deck types.Deck, cubeCards map[string]types.Card, color str
 		if card.IsBasicLand() {
 			continue
 		}
-		if !card.IsColor(color) {
+		if !card.MatchesColor(color) {
 			continue
 		}
 		// Use the cube card for stats, since it has enriched data (e.g., oracle text
@@ -553,7 +640,7 @@ func cardSetFromDeck(deck types.Deck, cubeCards map[string]types.Card, color str
 		if card.IsBasicLand() {
 			continue
 		}
-		if !card.IsColor(color) {
+		if !card.MatchesColor(color) {
 			continue
 		}
 

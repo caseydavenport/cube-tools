@@ -52,23 +52,36 @@ func TestIsHybrid(t *testing.T) {
 	assert.False(t, Card{ManaCost: ""}.IsHybrid())
 }
 
-// --- IsColor ---
+// --- MatchesColor ---
 
-func TestIsColor(t *testing.T) {
+func TestMatchesColor(t *testing.T) {
 	bolt := Card{Colors: []string{"R"}}
-	assert.True(t, bolt.IsColor("R"))
-	assert.True(t, bolt.IsColor("r"))  // case insensitive
-	assert.True(t, bolt.IsColor("RG")) // contains R
-	assert.False(t, bolt.IsColor("U"))
+	assert.True(t, bolt.MatchesColor("R"))
+	assert.True(t, bolt.MatchesColor("r"))  // case insensitive
+	assert.True(t, bolt.MatchesColor("RG")) // contains R
+	assert.False(t, bolt.MatchesColor("U"))
 
 	// Empty color filter matches everything
-	assert.True(t, bolt.IsColor(""))
+	assert.True(t, bolt.MatchesColor(""))
 
 	// Multi-color card
 	multi := Card{Colors: []string{"W", "U"}}
-	assert.True(t, multi.IsColor("W"))
-	assert.True(t, multi.IsColor("U"))
-	assert.False(t, multi.IsColor("R"))
+	assert.True(t, multi.MatchesColor("W"))
+	assert.True(t, multi.MatchesColor("U"))
+	assert.False(t, multi.MatchesColor("R"))
+
+	// Colorless card: Colors is empty, should match no color filter
+	// (but should still match the empty filter, which is "no filter").
+	colorless := Card{Colors: []string{}}
+	assert.True(t, colorless.MatchesColor(""))
+	assert.False(t, colorless.MatchesColor("W"))
+	assert.False(t, colorless.MatchesColor("WU"))
+
+	// Defensive: if a card somehow has Colors=[""] (degenerate parse),
+	// it should NOT match every query.
+	degenerate := Card{Colors: []string{""}}
+	assert.False(t, degenerate.MatchesColor("W"), "card with empty color string should not match W")
+	assert.False(t, degenerate.MatchesColor("WU"), "card with empty color string should not match WU")
 }
 
 // --- IsRemoval ---
