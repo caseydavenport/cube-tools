@@ -1,6 +1,14 @@
 import React from 'react'
 import { Wins, Losses } from "./Deck.js"
 
+// Draft names are date strings (YYYY-MM-DD), so a plain string compare
+// orders them chronologically.
+function sortByName(a, b) {
+  if (a.name < b.name) return -1
+  if (a.name > b.name) return 1
+  return 0
+}
+
 // Split the given drafts into rolling buckets of the given size.
 export function DeckBuckets(decks, bucketSize, discrete) {
   if (discrete) {
@@ -25,10 +33,7 @@ function deckBucketsDiscrete(decks, bucketSize) {
   // We now have a map of draft -> list of decks within it.
   // Turn this into an ordered array. The name of the draft is its date.
   let drafts = Array.from(draftMap.values())
-  drafts.sort(function(a, b) {
-    return a.name > b.name
-  })
-
+  drafts.sort(sortByName)
 
   // Create an array of buckets, starting from the end.
   const buckets = new Array()
@@ -59,9 +64,7 @@ function deckBucketsSliding(decks, bucketSize) {
   // We now have a map of draft -> list of decks within it.
   // Turn this into an ordered array. The name of the draft is its date.
   let drafts = Array.from(draftMap.values())
-  drafts.sort(function(a, b) {
-    return a.name > b.name
-  })
+  drafts.sort(sortByName)
 
   // Now build up an array of rolling buckets. Each bucket contains bucketSize drafts.
   var i = 0;

@@ -54,7 +54,7 @@ export function useStatsFilters() {
   const [selectedArchetype, setSelectedArchetype] = useState("aggro");
   const [sortBy, setSortBy] = useState("");
   const [minSynergyDecks, setMinSynergyDecks] = useState(5);
-  const [focalThreshold, setFocalThreshold] = useState(5);
+  const [focalThreshold, setFocalThreshold] = useState(1.5);
   const [smoothingK, setSmoothingK] = useState(5);
   const [colorAdjust, setColorAdjust] = useState(false);
   const [synergySortBy, setSynergySortBy] = useState("synergy");

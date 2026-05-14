@@ -76,7 +76,9 @@ func parseSynergyRequest(r *http.Request) *SynergyStatsRequest {
 	if v, err := strconv.ParseFloat(r.URL.Query().Get("focal_threshold"), 64); err == nil && v > 0 {
 		p.FocalThreshold = v
 	} else {
-		p.FocalThreshold = 5.0
+		// On the lift scale, 1.0 = independence and 1.5 means a pair
+		// co-occurs 50% more than independence would predict.
+		p.FocalThreshold = 1.5
 	}
 	if v, err := strconv.ParseFloat(r.URL.Query().Get("smoothing_k"), 64); err == nil && v >= 0 {
 		p.SmoothingK = v
@@ -245,12 +247,11 @@ func (s *synergyStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request)
 			continue
 		}
 
-		rawLift := float64(stats.count) / expectedCount
-
-		// Bayesian shrinkage toward 1.0 (independence). We mix in K
-		// pseudo-observations at lift=1.0: score = (n*lift + k*1) / (n+k).
-		// This prevents low-sample pairs from dominating with extreme lift values.
-		score := (float64(stats.count)*rawLift + k*1.0) / (float64(stats.count) + k)
+		// Shrink lift toward 1.0 (independence) by adding k pseudo-observations
+		// to both the observed and expected counts. As the sample shrinks the
+		// score approaches 1; as it grows it approaches count/expected. This
+		// keeps low-sample pairs from dominating with extreme lift values.
+		score := (float64(stats.count) + k) / (expectedCount + k)
 
 		winPercent := 0.0
 		if stats.wins+stats.losses > 0 {
