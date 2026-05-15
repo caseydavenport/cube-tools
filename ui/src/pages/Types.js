@@ -296,7 +296,7 @@ function ArchetypeTableRows(input) {
               sort = t.losing;
               break;
             case "winning_pct":
-              sort = (t.winning + t.losing) > 0 ? t.winning / (t.winning + t.losing) : 0;
+              sort = t.count > 0 ? t.winning / t.count : 0;
               break;
             case "avg_word_count":
               sort = t.avg_word_count;
@@ -312,7 +312,7 @@ function ArchetypeTableRows(input) {
               <td key="lastplace">{t.last_place}</td>
               <td key="winning">{t.winning}</td>
               <td key="losing">{t.losing}</td>
-              <td key="winning_pct">{(t.winning + t.losing) > 0 ? Math.round(100 * t.winning / (t.winning + t.losing)) : 0}%</td>
+              <td key="winning_pct">{t.count > 0 ? Math.round(100 * t.winning / t.count) : 0}%</td>
               <td key="num">{t.count}</td>
               <td key="shared">{t.avg_shared}</td>
               <td key="avg_word_count">{t.avg_word_count}</td>
@@ -793,7 +793,9 @@ function MicroArchetypesChart(input) {
       } else if (input.dataset === "percent_of_wins") {
         datasets.get(archetype).push(archetypeStats.percent_of_wins)
       } else if (input.dataset === "winning_pct") {
-        let total = archetypeStats.winning + archetypeStats.losing
+        // % of decks of this archetype with a 2-1 or better record. Denominator
+        // is all decks, not just decisive ones.
+        let total = archetypeStats.count || 0
         datasets.get(archetype).push(total > 0 ? Math.round(100 * archetypeStats.winning / total) : 0)
       } else if (input.dataset === "trophy_pct") {
         // % of decks of this archetype that won a trophy. Use count (all
@@ -904,7 +906,9 @@ function MacroArchetypesChart(input) {
       } else if (input.dataset === "cmc") {
         datasets.get(archetype).push(archetypeStats.avg_cmc)
       } else if (input.dataset === "winning_pct") {
-        let total = archetypeStats.winning + archetypeStats.losing
+        // % of decks of this archetype with a 2-1 or better record. Denominator
+        // is all decks, not just decisive ones.
+        let total = archetypeStats.count || 0
         datasets.get(archetype).push(total > 0 ? Math.round(100 * archetypeStats.winning / total) : 0)
       } else if (input.dataset === "trophy_pct") {
         // % of decks of this archetype that won a trophy. Use count (all

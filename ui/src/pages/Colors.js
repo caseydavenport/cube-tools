@@ -322,7 +322,7 @@ function ColorStatsTable(input) {
               } else if (input.sortBy === "losing") {
                 sort = color.bottom_half
               } else if (input.sortBy === "winning_pct") {
-                sort = (color.top_half + color.bottom_half) > 0 ? color.top_half / (color.top_half + color.bottom_half) : 0
+                sort = color.num_decks > 0 ? color.top_half / color.num_decks : 0
               } else if (input.sortBy === "avg_word_count") {
                 sort = color.avg_word_count || 0
               }
@@ -341,7 +341,7 @@ function ColorStatsTable(input) {
                   <td>{color.last_place}</td>
                   <td>{color.top_half}</td>
                   <td>{color.bottom_half}</td>
-                  <td>{(color.top_half + color.bottom_half) > 0 ? Math.round(100 * color.top_half / (color.top_half + color.bottom_half)) : 0}%</td>
+                  <td>{color.num_decks > 0 ? Math.round(100 * color.top_half / color.num_decks) : 0}%</td>
                   <td>{color.num_decks}</td>
                   <td style={headerStyleFields}>{color.total_pick_percentage}%</td>
                   <td>{color.average_deck_percentage}%</td>
@@ -670,9 +670,12 @@ function ColorRateChart(input) {
       } else if (input.dataset === "percent_of_wins") {
         colorDatasets.get(color).push(stats.get(color).percent_of_wins)
       } else if (input.dataset === "winning_pct") {
+        // % of decks of this color with a 2-1 or better record. Denominator
+        // is all decks, not just decisive ones - 1-1 / 2-2 decks should pull
+        // the rate down, not vanish.
         let c = stats.get(color)
-        let total = (c.top_half || 0) + (c.bottom_half || 0)
-        colorDatasets.get(color).push(total > 0 ? Math.round(100 * c.top_half / total) : 0)
+        let total = c.num_decks || 0
+        colorDatasets.get(color).push(total > 0 ? Math.round(100 * (c.top_half || 0) / total) : 0)
       } else if (input.dataset === "trophy_pct") {
         // % of decks of this color that won a trophy. Use num_decks as the
         // denominator (not top_half + bottom_half, which excludes 2-2 and 1-1
