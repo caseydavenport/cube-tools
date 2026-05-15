@@ -1,5 +1,5 @@
 import React from 'react'
-import { IsBasicLand, SortFunc, StringToColor } from "../utils/Utils.js"
+import { IsBasicLand, Pct, SortFunc, StringToColor } from "../utils/Utils.js"
 import { Trophies, LastPlaceFinishes, Winning, Losing, Wins, Losses } from "../utils/Deck.js"
 import { DropdownHeader, NumericInput, Checkbox, DateSelector } from "../components/Dropdown.js"
 import { BucketName } from "../utils/Buckets.js"
@@ -1160,7 +1160,7 @@ function WinsByMatchup(input) {
     labels.push(vs.name)
     winsData.push(vs.win)
     lossData.push(vs.loss)
-    percentages.push(Math.round(100 * vs.win / (vs.win + vs.loss)))
+    percentages.push(Pct(vs.win, vs.win + vs.loss))
   }
 
   const data = {

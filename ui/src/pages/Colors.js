@@ -2,7 +2,7 @@ import React from 'react'
 import { DropdownHeader, NumericInput, DateSelector } from "../components/Dropdown.js"
 import { Colors, ColorImages, GetColorIdentity, primaryColorPair } from "../utils/Colors.js"
 import { Trophies, LastPlaceFinishes, Wins, Losses } from "../utils/Deck.js"
-import { AverageWordCount, IsBasicLand, SortFunc, StringToColor } from "../utils/Utils.js"
+import { AverageWordCount, IsBasicLand, Pct, SortFunc, StringToColor } from "../utils/Utils.js"
 
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Popover from 'react-bootstrap/Popover';
@@ -328,7 +328,7 @@ function ColorStatsTable(input) {
               }
 
               let img = ColorImages(color.color)
-              let vpsPercentage = Math.round(100 * color.victory_points / totalVictoryPoints)
+              let vpsPercentage = Pct(color.victory_points, totalVictoryPoints)
 
               return (
                 <tr key={idx} sort={sort} className="widget-table-row">
@@ -599,14 +599,14 @@ export function GetColorStats(decks, colorMode) {
     // means it is a primary staple.
     const densitySum = color.deck_percentages.reduce((sum, a) => sum + a, 0);
     const densityCount = color.deck_percentages.length;
-    color.average_deck_percentage = Math.round(100 * densitySum / densityCount);
+    color.average_deck_percentage = Pct(densitySum, densityCount);
     color.victory_points = Math.round(100 * color.victory_points_per_deck.reduce((sum, a) => sum + a, 0)) / 100;
 
     // Calculate the percentage of all cards drafted that are this color.
-    color.total_pick_percentage = Math.round(100 * color.cards / totalCards);
-    color.build_percent = Math.round(color.num_decks / decks.length * 100)
-    color.win_percent = Math.round(100 * color.wins / (color.wins + color.losses))
-    color.percent_of_wins = Math.round(100 * color.wins / totalWins)
+    color.total_pick_percentage = Pct(color.cards, totalCards);
+    color.build_percent = Pct(color.num_decks, decks.length)
+    color.win_percent = Pct(color.wins, color.wins + color.losses)
+    color.percent_of_wins = Pct(color.wins, totalWins)
     if (color.word_count_count > 0) {
       color.avg_word_count = Math.round(color.word_count_sum / color.word_count_count * 100) / 100
     }

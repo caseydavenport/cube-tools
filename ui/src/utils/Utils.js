@@ -1,3 +1,14 @@
+// Pct returns Math.round(100 * num / denom), or 0 when denom is 0 or
+// either operand isn't finite. Use this in place of inline Math.round
+// expressions so we don't render NaN% cells or feed NaN into SortFunc
+// (where it compares falsy against everything and randomizes order).
+export function Pct(num, denom) {
+  if (!denom || !Number.isFinite(num) || !Number.isFinite(denom)) {
+    return 0
+  }
+  return Math.round(100 * num / denom)
+}
+
 // Returns the average CMC of of cards in the deck,
 // excluding basic lands.
 export function AverageCMC({deck}) {

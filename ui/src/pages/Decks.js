@@ -1,5 +1,5 @@
 import React from 'react'
-import { AverageCMC, IsBasicLand, SortFunc } from "../utils/Utils.js"
+import { AverageCMC, IsBasicLand, Pct, SortFunc } from "../utils/Utils.js"
 import { Red, Green, Black, White, Blue, Colors } from "../utils/Colors.js"
 import { Wins, Losses } from "../utils/Deck.js"
 import { BucketName, DeckBuckets } from "../utils/Buckets.js"
@@ -487,7 +487,7 @@ function WinsByManaCost(input) {
   }
   let percentages = []
   for (let l of labels) {
-    percentages.push(Math.round(100 * winsByCMC.get(l) / (winsByCMC.get(l) + lossesByCMC.get(l))))
+    percentages.push(Pct(winsByCMC.get(l), winsByCMC.get(l) + lossesByCMC.get(l)))
   }
 
   const data = {
@@ -599,7 +599,7 @@ function WinsByCardType(input) {
   }
   let percentages = []
   for (let l of sorted) {
-    percentages.push(Math.round(100 * wins.get(l) / (wins.get(l) + losses.get(l))))
+    percentages.push(Pct(wins.get(l), wins.get(l) + losses.get(l)))
   }
 
   const data = {
@@ -679,7 +679,7 @@ function WinsByNonBasicDensity(input) {
   }
   let percentages = []
   for (let l of sorted) {
-    percentages.push(Math.round(100 * wins.get(l) / (wins.get(l) + losses.get(l))))
+    percentages.push(Pct(wins.get(l), wins.get(l) + losses.get(l)))
   }
 
   const data = {
@@ -783,7 +783,7 @@ function WinsByOracleText(input) {
   }
   let percentages = []
   for (let l of sorted) {
-    percentages.push(Math.round(100 * wins.get(l) / (wins.get(l) + losses.get(l))))
+    percentages.push(Pct(wins.get(l), wins.get(l) + losses.get(l)))
   }
 
   const data = {
@@ -869,7 +869,7 @@ function WinsByNumberOfColors(input) {
   }
   let percentages = []
   for (let l of labels) {
-    percentages.push(Math.round(100 * wins.get(l) / (wins.get(l) + losses.get(l))))
+    percentages.push(Pct(wins.get(l), wins.get(l) + losses.get(l)))
   }
 
   const data = {
@@ -1610,7 +1610,7 @@ function getValue(axis, deck, archetypeData, playerData, decks, draftData) {
     case NumCreaturesOption:
       return creatures
     case WinPercentOption:
-      return Math.round(100 * Wins(deck) / (Wins(deck) + Losses(deck)))
+      return Pct(Wins(deck), Wins(deck) + Losses(deck))
     case AvgManaValueOption:
       return AverageCMC({deck: deck})
   }
