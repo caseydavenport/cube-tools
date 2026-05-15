@@ -198,7 +198,11 @@ type OracleCard struct {
 }
 
 type OracleCardFace struct {
-	Name       string `json:"name"`
-	OracleText string `json:"oracle_text"`
-	TypeLine   string `json:"type_line"`
+	Name       string   `json:"name"`
+	OracleText string   `json:"oracle_text"`
+	TypeLine   string   `json:"type_line"`
+	ManaCost   string   `json:"mana_cost"`
+	Colors     []string `json:"colors"`
+	Power      string   `json:"power,omitempty"`
+	Toughness  string   `json:"toughness,omitempty"`
 }

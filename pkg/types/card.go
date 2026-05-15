@@ -146,38 +146,98 @@ func (c Card) IsInteraction() bool {
 func FromOracle(o OracleCard) Card {
 	c := Card{Name: o.Name}
 	c.CMC = int(o.CMC)
-
-	// Parse the type line.
-	splits := strings.Split(o.TypeLine, "—")
-	c.Types = strings.Split(strings.TrimSpace(splits[0]), " ")
-
-	if len(splits) > 1 {
-		c.SubTypes = strings.Split(strings.TrimSpace(splits[1]), " ")
-	}
-
 	c.Image = o.ImageURLs["normal"]
-	c.Colors = o.Colors
 	c.ColorIdentity = o.ColorIdentity
 	c.URL = o.ScryfallURI
-	c.ManaCost = o.ManaCost
 	c.Power = o.Power
 	c.Toughness = o.Toughness
 
-	// For multi-face cards (adventure, split, transform, modal_dfc, flip),
-	// the top-level oracle_text is empty and text lives in card_faces.
-	if o.OracleText != "" {
-		c.OracleText = o.OracleText
-	} else if len(o.CardFaces) > 0 {
-		var texts []string
-		for _, face := range o.CardFaces {
-			if face.OracleText != "" {
-				texts = append(texts, face.OracleText)
-			}
+	// Parse the type line. For multi-face cards (split, transform, modal_dfc,
+	// adventure, flip) Scryfall joins both faces with " // ". Split on that
+	// first so each half is parsed independently and the result is the union
+	// of types across faces - this is what lets IsLand() see the back of an
+	// MDFC like Witch Enchanter // Witch-Blessed Meadow.
+	c.Types, c.SubTypes = parseTypeLine(o.TypeLine)
+
+	// Top-level Colors / ManaCost / OracleText / Power / Toughness are empty
+	// for transform and modal_dfc layouts. Fall back to the face-level data
+	// when that happens so color stats, hybrid detection, and text matching
+	// still work.
+	c.Colors = o.Colors
+	c.ManaCost = o.ManaCost
+	c.OracleText = o.OracleText
+	if len(o.CardFaces) > 0 {
+		if len(c.Colors) == 0 {
+			c.Colors = unionFaceColors(o.CardFaces)
 		}
-		c.OracleText = strings.Join(texts, "\n")
+		if c.ManaCost == "" {
+			var costs []string
+			for _, face := range o.CardFaces {
+				if face.ManaCost != "" {
+					costs = append(costs, face.ManaCost)
+				}
+			}
+			c.ManaCost = strings.Join(costs, " // ")
+		}
+		if c.OracleText == "" {
+			var texts []string
+			for _, face := range o.CardFaces {
+				if face.OracleText != "" {
+					texts = append(texts, face.OracleText)
+				}
+			}
+			c.OracleText = strings.Join(texts, "\n")
+		}
+		if c.Power == "" {
+			c.Power = o.CardFaces[0].Power
+		}
+		if c.Toughness == "" {
+			c.Toughness = o.CardFaces[0].Toughness
+		}
 	}
 
 	return c
+}
+
+// parseTypeLine splits a Scryfall type_line into (types, subtypes), handling
+// multi-face cards by treating " // " as a face separator and unioning across
+// faces.
+func parseTypeLine(line string) ([]string, []string) {
+	var types, subs []string
+	seen := map[string]bool{}
+	subSeen := map[string]bool{}
+	for _, face := range strings.Split(line, "//") {
+		parts := strings.SplitN(face, "—", 2)
+		for _, t := range strings.Fields(parts[0]) {
+			if !seen[t] {
+				seen[t] = true
+				types = append(types, t)
+			}
+		}
+		if len(parts) > 1 {
+			for _, s := range strings.Fields(parts[1]) {
+				if !subSeen[s] {
+					subSeen[s] = true
+					subs = append(subs, s)
+				}
+			}
+		}
+	}
+	return types, subs
+}
+
+func unionFaceColors(faces []OracleCardFace) []string {
+	var out []string
+	seen := map[string]bool{}
+	for _, face := range faces {
+		for _, c := range face.Colors {
+			if !seen[c] {
+				seen[c] = true
+				out = append(out, c)
+			}
+		}
+	}
+	return out
 }
 
 // MatchesColor reports whether this card shares any color with the given

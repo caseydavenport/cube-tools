@@ -226,6 +226,61 @@ func TestFromOracle_MultipleTypes(t *testing.T) {
 	assert.Equal(t, []string{"Forest", "Dryad"}, c.SubTypes)
 }
 
+// MDFCs with a Land back face should report IsLand() so deck stats that
+// filter or count lands include them.
+func TestFromOracle_ModalDFC_BackLandVisible(t *testing.T) {
+	o := OracleCard{
+		Name:     "Witch Enchanter // Witch-Blessed Meadow",
+		CMC:      4.0,
+		TypeLine: "Creature — Human Warlock // Land",
+		CardFaces: []OracleCardFace{
+			{TypeLine: "Creature — Human Warlock", ManaCost: "{3}{W}", Colors: []string{"W"}},
+			{TypeLine: "Land"},
+		},
+	}
+	c := FromOracle(o)
+	assert.Contains(t, c.Types, "Creature")
+	assert.Contains(t, c.Types, "Land")
+	assert.True(t, c.IsLand())
+	assert.True(t, c.IsCreature())
+}
+
+// Transform / MDFC cards have no top-level colors. The card-face colors
+// should fall through so color stats see the right identity.
+func TestFromOracle_TransformColorsFromFaces(t *testing.T) {
+	o := OracleCard{
+		Name:     "Ulvenwald Captive // Ulvenwald Abomination",
+		CMC:      2.0,
+		TypeLine: "Creature — Werewolf Horror // Creature — Eldrazi Werewolf",
+		// Top-level Colors deliberately empty - Scryfall does this for transform.
+		CardFaces: []OracleCardFace{
+			{TypeLine: "Creature — Werewolf Horror", ManaCost: "{1}{G}", Colors: []string{"G"}},
+			{TypeLine: "Creature — Eldrazi Werewolf", Colors: []string{"G"}},
+		},
+	}
+	c := FromOracle(o)
+	assert.Equal(t, []string{"G"}, c.Colors)
+	assert.Equal(t, "{1}{G}", c.ManaCost)
+}
+
+// Split cards should parse both halves' types and drop the "//" token.
+func TestFromOracle_SplitCardNoSlashInTypes(t *testing.T) {
+	o := OracleCard{
+		Name:     "Fire // Ice",
+		CMC:      4.0,
+		TypeLine: "Instant // Instant",
+		Colors:   []string{"R", "U"},
+		ManaCost: "{1}{R} // {1}{U}",
+		CardFaces: []OracleCardFace{
+			{TypeLine: "Instant", ManaCost: "{1}{R}", Colors: []string{"R"}},
+			{TypeLine: "Instant", ManaCost: "{1}{U}", Colors: []string{"U"}},
+		},
+	}
+	c := FromOracle(o)
+	assert.Equal(t, []string{"Instant"}, c.Types, "expected dedup across faces")
+	assert.NotContains(t, c.Types, "//")
+}
+
 // --- IsRemoval case insensitivity ---
 
 func TestIsRemoval_CaseInsensitive(t *testing.T) {
