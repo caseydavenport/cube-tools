@@ -287,3 +287,134 @@ func TestIsRemoval_CaseInsensitive(t *testing.T) {
 	c := Card{OracleText: "destroy target creature. It can't be regenerated."}
 	assert.True(t, c.IsRemoval())
 }
+
+// Regression: "deals damage equal to" used to match any X-to-Y damage clause,
+// including burn-to-face triggers like Heartfire Hero. The regex now requires
+// the target to be a creature, planeswalker, or "any target".
+func TestIsRemoval_DealsDamageEqualTo(t *testing.T) {
+	tests := []struct {
+		name string
+		text string
+		want bool
+	}{
+		{
+			name: "heartfire hero burns face",
+			text: "When Heartfire Hero dies, it deals damage equal to its power to each opponent.",
+			want: false,
+		},
+		{
+			name: "fights-like to target creature",
+			text: "Chainweb Aracnir deals damage equal to its power to target creature with flying.",
+			want: true,
+		},
+		{
+			name: "damage equal to X to any target",
+			text: "This creature deals damage equal to the number of cards in your hand to any target.",
+			want: true,
+		},
+		{
+			name: "damage equal to to target planeswalker",
+			text: "It deals damage equal to its toughness to target planeswalker.",
+			want: true,
+		},
+		{
+			name: "damage equal to to target player only",
+			text: "It deals damage equal to its power to target player.",
+			want: false,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			c := Card{OracleText: tt.text}
+			assert.Equal(t, tt.want, c.IsRemoval())
+		})
+	}
+}
+
+func TestIsRemoval_RealCards(t *testing.T) {
+	tests := []struct {
+		name string
+		text string
+		want bool
+	}{
+		{"swords to plowshares", "Exile target creature. Its controller gains life equal to its power.", true},
+		{"path to exile", "Exile target creature. Its controller may search their library for a basic land card, put that card onto the battlefield tapped, then shuffle.", true},
+		{"doom blade", "Destroy target nonblack creature.", false}, // "Destroy target nonblack creature" doesn't match "Destroy target creature"
+		{"wrath of god", "Destroy all creatures. They can't be regenerated.", true},
+		{"toxic deluge", "All creatures get -X/-X until end of turn.", true},
+		{"unsummon", "Return target creature to its owner's hand.", true},
+		{"reckless rage", "Reckless Rage deals 4 damage to target creature you don't control and 2 damage to target creature you control.", true},
+		{"lightning helix", "Lightning Helix deals 3 damage to any target and you gain 3 life.", true},
+		{"diabolic edict", "Target player sacrifices a creature.", true},
+		{"oblivion ring style", "When this enters, exile target nonland permanent an opponent controls.", true},
+		{"counterspell", "Counter target spell.", false}, // not removal
+		{"divination", "Draw two cards.", false},
+		{"giant growth", "Target creature gets +3/+3 until end of turn.", false},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			c := Card{OracleText: tt.text}
+			assert.Equal(t, tt.want, c.IsRemoval())
+		})
+	}
+}
+
+func TestIsCounterspell_RealCards(t *testing.T) {
+	tests := []struct {
+		name string
+		text string
+		want bool
+	}{
+		{"counterspell", "Counter target spell.", true},
+		{"mana leak", "Counter target spell unless its controller pays {3}.", true},
+		{"negate", "Counter target noncreature spell.", true},
+		{"essence scatter", "Counter target creature spell.", true},
+		{"remand", "Counter target spell. Its controller draws a card.", true},
+		{"reprieve", "Return target spell to its owner's hand. Its controller scries 1.", true},
+		{"spell pierce", "Counter target noncreature spell unless its controller pays {2}.", true},
+		{"removal not counter", "Destroy target creature.", false},
+		{"discard not counter", "Target player discards a card.", false},
+		{"draw not counter", "Draw two cards.", false},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			c := Card{OracleText: tt.text}
+			assert.Equal(t, tt.want, c.IsCounterspell())
+		})
+	}
+}
+
+func TestIsHandHate_RealCards(t *testing.T) {
+	tests := []struct {
+		name string
+		text string
+		want bool
+	}{
+		{"thoughtseize", "Target player reveals their hand. You choose a nonland card from it. That player discards that card.", true},
+		{"inquisition of kozilek", "Target player reveals their hand. You choose a nonland card from it with mana value 3 or less. That player discards that card.", true},
+		{"duress", "Target opponent reveals their hand. You choose a noncreature, nonland card from it. That player discards that card.", true},
+		{"mind rot", "Target player discards two cards.", true},
+		{"hymn to tourach", "Target opponent discards two cards at random.", true},
+		{"liliana's caress style", "Each opponent discards a card.", true},
+		{"wheel of fortune style", "Each player discards a card.", true}, // matches "Each player discards a card"
+		{"removal not hand hate", "Destroy target creature.", false},
+		{"counter not hand hate", "Counter target spell.", false},
+		{"draw not hand hate", "Draw two cards.", false},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			c := Card{OracleText: tt.text}
+			assert.Equal(t, tt.want, c.IsHandHate())
+		})
+	}
+}
+
+func TestIsInteraction_CrossCategory(t *testing.T) {
+	// Cards that are clearly not interaction
+	assert.False(t, Card{OracleText: "Draw two cards."}.IsInteraction())
+	assert.False(t, Card{OracleText: "Target creature gets +3/+3 until end of turn."}.IsInteraction())
+	assert.False(t, Card{OracleText: "Create a 2/2 white Knight creature token."}.IsInteraction())
+
+	// Heartfire Hero is not interaction - regression check
+	assert.False(t, Card{OracleText: "When Heartfire Hero dies, it deals damage equal to its power to each opponent."}.IsInteraction())
+}

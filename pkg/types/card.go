@@ -40,103 +40,123 @@ func (c Card) IsHybrid() bool {
 	return stringContains(c.ManaCost, "/")
 }
 
-func (c Card) IsRemoval() bool {
-	removal := []string{
-		"Destroy target creature",
-		"Destroy target artifact",
-		"Destroy target enchantment",
-		"Destroy target land",
-		"Destroy target permanent",
-		"Destroy all creatures",
-		"Destroy all artifacts",
-		"Destroy all enchantments",
-		"Destroy all lands",
-		"Destroy all permanents",
-		"Destroy each nonland permanent",
-		"Exile target creature",
-		"Exile target tapped creature",
-		"Exile target attacking creature",
-		"Exile target blocking creature",
-		"Exile target artifact",
-		"Exile target enchantment",
-		"Exile target land",
-		"Exile target permanent",
-		"Exile target nonland permanent",
-		"Exile up to one target",
-		"Exile up to one other",
-		"Exile all creatures",
-		"Exile all artifacts",
-		"Exile all enchantments",
-		"Exile all lands",
-		"Exile all permanents",
-		"Exile all nonland permanents",
-		"into its owner's library",
-		"is dealt to any target instead",
-		"Tap target creature",
-		"Target creature gets -",
-		"All creatures get -",
-		"Other creatures get -",
-		"damage to target creature",
-		"damage to target attacking creature",
-		"damage to target blocking creature",
-		"damage to target attacking or blocking creature",
-		"damage to target planeswalker",
-		"damage to any target",
-		"damage divided as you choose",
-		"each opponent sacrifices",
-		"each player sacrifices",
-		"target opponent sacrifices",
-		"target player sacrifices",
-		"return target creature to its owner's hand",
-		"return target nonland permanent to its owner's hand",
-		"fights target creature",
-		"deals damage equal to",
-		"put a stun counter on",
+// oraclePattern is either a case-insensitive substring or a pre-compiled
+// regex. Use sub() for plain phrases, rx() when you need anchoring or
+// alternation - e.g. requiring that "deals damage equal to" is followed by
+// "to target creature" rather than "to each opponent".
+type oraclePattern struct {
+	substr string
+	regex  *regexp.Regexp
+}
+
+func (p oraclePattern) match(text string) bool {
+	if p.regex != nil {
+		return p.regex.MatchString(text)
 	}
-	for _, r := range removal {
-		if stringContains(c.OracleText, r) {
+	return strings.Contains(text, p.substr)
+}
+
+func sub(s string) oraclePattern { return oraclePattern{substr: strings.ToLower(s)} }
+func rx(s string) oraclePattern  { return oraclePattern{regex: regexp.MustCompile("(?i)" + s)} }
+
+func anyPattern(text string, patterns []oraclePattern) bool {
+	lower := strings.ToLower(text)
+	for _, p := range patterns {
+		if p.match(lower) {
 			return true
 		}
 	}
 	return false
+}
+
+var removalPatterns = []oraclePattern{
+	sub("Destroy target creature"),
+	sub("Destroy target artifact"),
+	sub("Destroy target enchantment"),
+	sub("Destroy target land"),
+	sub("Destroy target permanent"),
+	sub("Destroy all creatures"),
+	sub("Destroy all artifacts"),
+	sub("Destroy all enchantments"),
+	sub("Destroy all lands"),
+	sub("Destroy all permanents"),
+	sub("Destroy each nonland permanent"),
+	sub("Exile target creature"),
+	sub("Exile target tapped creature"),
+	sub("Exile target attacking creature"),
+	sub("Exile target blocking creature"),
+	sub("Exile target artifact"),
+	sub("Exile target enchantment"),
+	sub("Exile target land"),
+	sub("Exile target permanent"),
+	sub("Exile target nonland permanent"),
+	sub("Exile up to one target"),
+	sub("Exile up to one other"),
+	sub("Exile all creatures"),
+	sub("Exile all artifacts"),
+	sub("Exile all enchantments"),
+	sub("Exile all lands"),
+	sub("Exile all permanents"),
+	sub("Exile all nonland permanents"),
+	sub("into its owner's library"),
+	sub("is dealt to any target instead"),
+	sub("Tap target creature"),
+	sub("Target creature gets -"),
+	sub("All creatures get -"),
+	sub("Other creatures get -"),
+	sub("damage to target creature"),
+	sub("damage to target attacking creature"),
+	sub("damage to target blocking creature"),
+	sub("damage to target attacking or blocking creature"),
+	sub("damage to target planeswalker"),
+	sub("damage to any target"),
+	sub("damage divided as you choose"),
+	sub("each opponent sacrifices"),
+	sub("each player sacrifices"),
+	sub("target opponent sacrifices"),
+	sub("target player sacrifices"),
+	sub("return target creature to its owner's hand"),
+	sub("return target nonland permanent to its owner's hand"),
+	sub("fights target creature"),
+	// "deals damage equal to" only counts as removal when the target is a
+	// creature, planeswalker, or "any target" - "to each opponent" (Heartfire
+	// Hero, burn-to-face triggers) is not removal.
+	rx(`deals damage equal to [^.]*? to (target (creature|planeswalker)|any target)`),
+	sub("put a stun counter on"),
+}
+
+func (c Card) IsRemoval() bool {
+	return anyPattern(c.OracleText, removalPatterns)
+}
+
+var counterspellPatterns = []oraclePattern{
+	sub("Counter target spell"),
+	sub("Counter target creature spell"),
+	sub("Counter target noncreature spell"),
+	sub("Counter target artifact spell"),
+	sub("Counter target enchantment spell"),
+	sub("Counter target instant spell"),
+	sub("Counter target sorcery spell"),
+	sub("Counter target planeswalker spell"),
+	sub("Return target spell to its owner's hand"),
+	sub("Exile target spell"),
 }
 
 func (c Card) IsCounterspell() bool {
-	counterspells := []string{
-		"Counter target spell",
-		"Counter target creature spell",
-		"Counter target noncreature spell",
-		"Counter target artifact spell",
-		"Counter target enchantment spell",
-		"Counter target instant spell",
-		"Counter target sorcery spell",
-		"Counter target planeswalker spell",
-		"Return target spell to its owner's hand",
-		"Exile target spell",
-	}
-	for _, cs := range counterspells {
-		if stringContains(c.OracleText, cs) {
-			return true
-		}
-	}
-	return false
+	return anyPattern(c.OracleText, counterspellPatterns)
+}
+
+var handHatePatterns = []oraclePattern{
+	sub("Target player reveals their hand"),
+	sub("Target opponent reveals their hand"),
+	sub("Target player discards "),
+	sub("Target opponent discards "),
+	sub("Each opponent discards "),
+	sub("Each player discards a card"),
 }
 
 func (c Card) IsHandHate() bool {
-	handhate := []string{
-		"Target player reveals their hand",
-		"Target opponent reveals their hand",
-		"Target player discards ",
-		"Target opponent discards ",
-		"Each opponent discards ",
-		"Each player discards a card",
-	}
-	for _, hh := range handhate {
-		if stringContains(c.OracleText, hh) {
-			return true
-		}
-	}
-	return false
+	return anyPattern(c.OracleText, handHatePatterns)
 }
 
 func (c Card) IsInteraction() bool {
