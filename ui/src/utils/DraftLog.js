@@ -174,7 +174,7 @@ export function AggregatedPickInfo(logs, cube, playerMatch) {
       if (b.pack == 0) {
         pickInfo.get(b.name).p1Burns += 1
         pickInfo.get(b.name).p1Count += 1
-        pickInfo.get(b.name).p1PickNumSum += 15
+        pickInfo.get(b.name).p1PickNumSum += packInfo.cardsPerPack
       }
     }
   }
