@@ -185,6 +185,10 @@ func (d *colorStatsHandler) printCorrelations(resp ColorStatsResponse) {
 	}
 }
 
+// statsForDecks computes color-bucketed deck stats. Same logic also lives
+// client-side in GetColorStats (ui/src/pages/Colors.js) for per-player
+// breakdowns and live re-filtering. Keep them in sync (see TODO on the JS
+// side for collapsing the duplication).
 func (d *colorStatsHandler) statsForDecks(decks []*storage.Deck, sr *ColorStatsRequest, cubeCards map[string]types.Card) *Colors {
 	resp := &Colors{
 		Data: make(map[string]*colorStats),

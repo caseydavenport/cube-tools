@@ -403,6 +403,14 @@ function TableHeader(input) {
 }
 
 // GetColorStats collects statistics aggregated by color and color pair based on the given decks.
+//
+// Duplicates the server-side logic in pkg/server/stats/colors.go. We need
+// the client-side copy because per-player color breakdowns (Players.js) and
+// live re-filtering by color checkboxes / match string (StatsHooks.js)
+// recompute without a server round-trip. Keep the two in sync.
+//
+// TODO: add a server endpoint that takes those extra filter axes and delete
+// this function.
 export function GetColorStats(decks, colorMode) {
   let tracker = new Map()
 
