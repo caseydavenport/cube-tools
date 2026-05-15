@@ -163,11 +163,15 @@ export function PlayerData(decks) {
     }
     row.opponent_win_percentage = Math.round(total)
 
-    // Calculate the average re-pick value for this player by summing up the total
-    // number of unique cards mainboarded by the player, divided by the total number cards picked. This is
-    // a representation of how diverse this player's card selection is. A higher number indicates a propensity
-    // to pick unique cards. A value of 1 means they have never picked the same card twice.
-    row.uniqueness = Math.round(row.cards.size / row.total_picks * 100)
+    // Average re-pick rate: unique mainboarded cards over total picks. Higher
+    // means more variety across drafts. Undefined for players with fewer than
+    // 2 decks - they haven't had a chance to repeat anything, and in a
+    // singleton cube the metric would always read 100%.
+    if (row.num_decks >= 2 && row.total_picks > 0) {
+      row.uniqueness = Math.round(row.cards.size / row.total_picks * 100)
+    } else {
+      row.uniqueness = null
+    }
     if (row.word_count_count > 0) {
       row.avg_word_count = Math.round(row.word_count_sum / row.word_count_count * 100) / 100
     }
@@ -246,7 +250,7 @@ function PlayerTable(input) {
                 break
               case "uniqueness":
               case "unique":
-                sort = row.uniqueness
+                sort = row.uniqueness ?? -1
                 break
               case "num_decks":
               case "decks":
@@ -286,7 +290,7 @@ function PlayerTable(input) {
                 <td>{row.black_percent.toFixed(0)}%</td>
                 <td>{row.red_percent.toFixed(0)}%</td>
                 <td>{row.green_percent.toFixed(0)}%</td>
-                <td>{row.uniqueness.toFixed(0)}%</td>
+                <td>{row.uniqueness != null ? row.uniqueness.toFixed(0) + "%" : "—"}</td>
                 <td>{row.avg_word_count || 0}</td>
               </tr>
             )
