@@ -796,10 +796,13 @@ function MicroArchetypesChart(input) {
         let total = archetypeStats.winning + archetypeStats.losing
         datasets.get(archetype).push(total > 0 ? Math.round(100 * archetypeStats.winning / total) : 0)
       } else if (input.dataset === "trophy_pct") {
-        let total = archetypeStats.winning + archetypeStats.losing
+        // % of decks of this archetype that won a trophy. Use count (all
+        // decks of this archetype) rather than winning + losing, which
+        // excludes 2-2 / 1-1 results entirely.
+        let total = archetypeStats.count || 0
         datasets.get(archetype).push(total > 0 ? Math.round(100 * archetypeStats.trophies / total) : 0)
       } else if (input.dataset === "lastplace_pct") {
-        let total = archetypeStats.winning + archetypeStats.losing
+        let total = archetypeStats.count || 0
         datasets.get(archetype).push(total > 0 ? Math.round(100 * archetypeStats.last_place / total) : 0)
       } else {
         datasets.get(archetype).push(archetypeStats.build_percent)
@@ -904,10 +907,13 @@ function MacroArchetypesChart(input) {
         let total = archetypeStats.winning + archetypeStats.losing
         datasets.get(archetype).push(total > 0 ? Math.round(100 * archetypeStats.winning / total) : 0)
       } else if (input.dataset === "trophy_pct") {
-        let total = archetypeStats.winning + archetypeStats.losing
+        // % of decks of this archetype that won a trophy. Use count (all
+        // decks of this archetype) rather than winning + losing, which
+        // excludes 2-2 / 1-1 results entirely.
+        let total = archetypeStats.count || 0
         datasets.get(archetype).push(total > 0 ? Math.round(100 * archetypeStats.trophies / total) : 0)
       } else if (input.dataset === "lastplace_pct") {
-        let total = archetypeStats.winning + archetypeStats.losing
+        let total = archetypeStats.count || 0
         datasets.get(archetype).push(total > 0 ? Math.round(100 * archetypeStats.last_place / total) : 0)
       } else {
         datasets.get(archetype).push(archetypeStats.build_percent)

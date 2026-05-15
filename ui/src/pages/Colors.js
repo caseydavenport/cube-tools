@@ -674,12 +674,15 @@ function ColorRateChart(input) {
         let total = (c.top_half || 0) + (c.bottom_half || 0)
         colorDatasets.get(color).push(total > 0 ? Math.round(100 * c.top_half / total) : 0)
       } else if (input.dataset === "trophy_pct") {
+        // % of decks of this color that won a trophy. Use num_decks as the
+        // denominator (not top_half + bottom_half, which excludes 2-2 and 1-1
+        // results entirely).
         let c = stats.get(color)
-        let total = (c.top_half || 0) + (c.bottom_half || 0)
+        let total = c.num_decks || 0
         colorDatasets.get(color).push(total > 0 ? Math.round(100 * (c.trophies || 0) / total) : 0)
       } else if (input.dataset === "lastplace_pct") {
         let c = stats.get(color)
-        let total = (c.top_half || 0) + (c.bottom_half || 0)
+        let total = c.num_decks || 0
         colorDatasets.get(color).push(total > 0 ? Math.round(100 * (c.last_place || 0) / total) : 0)
       } else {
         colorDatasets.get(color).push(stats.get(color).build_percent)
