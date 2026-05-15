@@ -475,19 +475,27 @@ export function GetColorStats(decks, colorMode) {
     // In "primary" mode, same as exact but 3+ color decks with a clear primary pair
     // (splash colors) are treated as their primary pair.
     let strict = colorMode === "exact" || colorMode === "primary"
-    let effectiveColorCount = decks[i].colors.length
-    if (colorMode === "primary" && effectiveColorCount >= 3) {
+    let primaryPair = null
+    if (colorMode === "primary" && decks[i].colors.length >= 3) {
       let pair = primaryColorPair(decks[i])
       if (pair != null) {
-        effectiveColorCount = 2
+        primaryPair = pair[0] + pair[1]
       }
     }
     let colors = new Array()
-    for (let color of colorIdentity) {
-      if (strict && effectiveColorCount != color.length) {
-        continue
+    if (primaryPair != null) {
+      // 3+ color deck with a clear primary pair: contribute only to that
+      // pair, not to every 2-char sub-identity (which would triple-count a
+      // WUG-with-WU-primary deck into WU, WG, and UG).
+      colors.push(primaryPair)
+    } else {
+      let effectiveColorCount = decks[i].colors.length
+      for (let color of colorIdentity) {
+        if (strict && effectiveColorCount != color.length) {
+          continue
+        }
+        colors.push(color)
       }
-      colors.push(color)
     }
 
     for (var j in colors) {

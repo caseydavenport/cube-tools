@@ -222,6 +222,49 @@ func TestColorStats_InclusivePercentagesSumTo100(t *testing.T) {
 	assert.InDelta(t, 100.0, sumPicks, rows, "TotalPickPercentage sum: %v", sumPicks)
 }
 
+// TestColorStats_PrimaryModeNoDoubleCounting: a 3-color deck with a clear
+// primary pair must contribute only to that pair's bucket in "primary" mode,
+// not to every 2-char sub-identity (WU, WG, UG for a WUG deck).
+func TestColorStats_PrimaryModeNoDoubleCounting(t *testing.T) {
+	// Build a WUG deck where W and U are primary (10 each) and G is a splash
+	// (2 cards = ~9% of colored cards, well under the 25% splash threshold).
+	mb := []types.Card{}
+	for i := 0; i < 10; i++ {
+		mb = append(mb, types.Card{Name: "W card", Colors: []string{"W"}, Types: []string{"Creature"}})
+		mb = append(mb, types.Card{Name: "U card", Colors: []string{"U"}, Types: []string{"Creature"}})
+	}
+	for i := 0; i < 2; i++ {
+		mb = append(mb, types.Card{Name: "G card", Colors: []string{"G"}, Types: []string{"Creature"}})
+	}
+	decks := []*storage.Deck{
+		makeColorDeck("Alice", []string{"W", "U", "G"}, []types.Game{
+			{Opponent: "Bob", Winner: "Alice"},
+		}, []types.Match{
+			{Opponent: "Bob", Winner: "Alice"},
+		}, mb),
+	}
+
+	handler := &colorStatsHandler{store: &mockDeckStorage{decks: decks}}
+	req := httptest.NewRequest(http.MethodGet, "/api/stats/colors?color_mode=primary", nil)
+	rr := httptest.NewRecorder()
+	handler.ServeHTTP(rr, req)
+
+	var resp ColorStatsResponse
+	err := json.Unmarshal(rr.Body.Bytes(), &resp)
+	assert.NoError(t, err)
+
+	// WU is the primary pair - the deck should contribute exactly once there.
+	assert.NotNil(t, resp.All.Data["WU"])
+	assert.Equal(t, 1, resp.All.Data["WU"].NumDecks)
+	// The other 2-char sub-identities must NOT pick up the deck.
+	if wg, ok := resp.All.Data["WG"]; ok {
+		assert.Equal(t, 0, wg.NumDecks, "WG should not pick up a primary-WU deck")
+	}
+	if ug, ok := resp.All.Data["UG"]; ok {
+		assert.Equal(t, 0, ug.NumDecks, "UG should not pick up a primary-WU deck")
+	}
+}
+
 func TestColorStats_NoDecks(t *testing.T) {
 	handler := &colorStatsHandler{store: &mockDeckStorage{decks: nil}}
 	req := httptest.NewRequest(http.MethodGet, "/api/stats/colors", nil)

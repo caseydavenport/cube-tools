@@ -206,18 +206,26 @@ func (d *colorStatsHandler) statsForDecks(decks []*storage.Deck, sr *ColorStatsR
 		// In "primary" mode, same as exact but 3+ color decks with a clear primary pair
 		// (splash colors) are treated as their primary pair.
 		strict := sr.ColorMode == "exact" || sr.ColorMode == "primary"
-		effectiveColorCount := len(deck.GetColors())
-		if sr.ColorMode == "primary" && effectiveColorCount >= 3 {
+		var primaryPair string
+		if sr.ColorMode == "primary" && len(deck.GetColors()) >= 3 {
 			if pair := deck.PrimaryColorPair(); pair != nil {
-				effectiveColorCount = 2
+				primaryPair = pair[0] + pair[1]
 			}
 		}
 		var colors []string
-		for color := range identities {
-			if strict && effectiveColorCount != len(color) {
-				continue
+		if primaryPair != "" {
+			// 3+ color deck with a clear primary pair: contribute only to
+			// that pair, not to every 2-char sub-identity (which would
+			// triple-count a WUG-with-WU-primary deck into WU, WG, and UG).
+			colors = []string{primaryPair}
+		} else {
+			effectiveColorCount := len(deck.GetColors())
+			for color := range identities {
+				if strict && effectiveColorCount != len(color) {
+					continue
+				}
+				colors = append(colors, color)
 			}
-			colors = append(colors, color)
 		}
 
 		// Add this deck's stats to each matching color identity.
