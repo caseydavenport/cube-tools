@@ -531,3 +531,43 @@ func TestGameResult(t *testing.T) {
 		})
 	}
 }
+
+// --- PrimaryColorPair ---
+
+// Build a non-land card with the given colors for tests below.
+func ccard(colors ...string) Card {
+	return Card{Colors: colors, Types: []string{"Creature"}}
+}
+
+func TestPrimaryColorPair_MulticolorDoesNotInflateDenominator(t *testing.T) {
+	// 5 mono-W, 5 mono-U, 10 WU, 8 R. Counting per card (not per color slot),
+	// total = 28 and R = 8 / 28 = 28.6% which is NOT a splash.
+	// The old per-slot count gave total = 38 and R = 8 / 38 = 21%, which
+	// misclassified R as a splash.
+	d := &Deck{Colors: []string{"W", "U", "R"}}
+	for i := 0; i < 5; i++ {
+		d.Mainboard = append(d.Mainboard, ccard("W"))
+		d.Mainboard = append(d.Mainboard, ccard("U"))
+	}
+	for i := 0; i < 10; i++ {
+		d.Mainboard = append(d.Mainboard, ccard("W", "U"))
+	}
+	for i := 0; i < 8; i++ {
+		d.Mainboard = append(d.Mainboard, ccard("R"))
+	}
+	assert.Nil(t, d.PrimaryColorPair(), "R at 28.6% should not be a splash")
+}
+
+func TestPrimaryColorPair_ClearSplashStillDetected(t *testing.T) {
+	// 10 mono-W, 10 mono-U, 2 R. R is well under 25% by either denominator.
+	d := &Deck{Colors: []string{"W", "U", "R"}}
+	for i := 0; i < 10; i++ {
+		d.Mainboard = append(d.Mainboard, ccard("W"))
+		d.Mainboard = append(d.Mainboard, ccard("U"))
+	}
+	for i := 0; i < 2; i++ {
+		d.Mainboard = append(d.Mainboard, ccard("R"))
+	}
+	pair := d.PrimaryColorPair()
+	assert.Equal(t, []string{"W", "U"}, pair)
+}

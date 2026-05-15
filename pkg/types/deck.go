@@ -532,18 +532,24 @@ func (d *Deck) PrimaryColorPair() []string {
 		return nil
 	}
 
-	// Count non-land, non-hybrid cards per color.
+	// Count non-land, non-hybrid cards per color. Total is incremented once
+	// per card (not once per color slot), so multicolor cards don't inflate
+	// the denominator and depress splash percentages.
 	colorCounts := make(map[string]int)
 	total := 0
 	for _, card := range d.Mainboard {
 		if card.IsLand() || card.IsHybrid() {
 			continue
 		}
+		matched := false
 		for _, c := range card.Colors {
 			if colors[c] {
 				colorCounts[c]++
-				total++
+				matched = true
 			}
+		}
+		if matched {
+			total++
 		}
 	}
 	if total == 0 {
