@@ -101,12 +101,12 @@
   {
    "name": "Cheeky House-Mouse // Squeak By",
    "types": [
-    "Creature"
+    "Creature",
+    "Sorcery"
    ],
    "sub_types": [
     "Mouse",
-    "//",
-    "Sorcery"
+    "Adventure"
    ],
    "cmc": 1,
    "image": "",
@@ -509,12 +509,12 @@
   {
    "name": "Intrepid Trufflesnout // Go Hog Wild",
    "types": [
-    "Creature"
+    "Creature",
+    "Instant"
    ],
    "sub_types": [
     "Boar",
-    "//",
-    "Instant"
+    "Adventure"
    ],
    "cmc": 2,
    "image": "",
@@ -1164,13 +1164,13 @@
   {
    "name": "Mosswood Dreadknight // Dread Whispers",
    "types": [
-    "Creature"
+    "Creature",
+    "Sorcery"
    ],
    "sub_types": [
     "Human",
     "Knight",
-    "//",
-    "Sorcery"
+    "Adventure"
    ],
    "cmc": 2,
    "image": "",

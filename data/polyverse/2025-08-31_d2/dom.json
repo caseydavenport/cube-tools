@@ -888,12 +888,12 @@
   {
    "name": "Faerie Guidemother // Gift of the Fae",
    "types": [
-    "Creature"
+    "Creature",
+    "Sorcery"
    ],
    "sub_types": [
     "Faerie",
-    "//",
-    "Sorcery"
+    "Adventure"
    ],
    "cmc": 1,
    "image": "",

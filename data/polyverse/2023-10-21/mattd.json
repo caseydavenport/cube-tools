@@ -474,13 +474,13 @@
    "name": "Kellan, the Fae-Blooded // Birthright Boon",
    "types": [
     "Legendary",
-    "Creature"
+    "Creature",
+    "Sorcery"
    ],
    "sub_types": [
     "Human",
     "Faerie",
-    "//",
-    "Sorcery"
+    "Adventure"
    ],
    "cmc": 3,
    "image": "",
@@ -536,12 +536,12 @@
   {
    "name": "Cheeky House-Mouse // Squeak By",
    "types": [
-    "Creature"
+    "Creature",
+    "Sorcery"
    ],
    "sub_types": [
     "Mouse",
-    "//",
-    "Sorcery"
+    "Adventure"
    ],
    "cmc": 1,
    "image": "",

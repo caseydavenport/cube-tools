@@ -372,12 +372,12 @@
   {
    "name": "Intrepid Trufflesnout // Go Hog Wild",
    "types": [
-    "Creature"
+    "Creature",
+    "Instant"
    ],
    "sub_types": [
     "Boar",
-    "//",
-    "Instant"
+    "Adventure"
    ],
    "cmc": 2,
    "image": "",

@@ -161,8 +161,6 @@
   {
    "name": "Fire // Ice",
    "types": [
-    "Instant",
-    "//",
     "Instant"
    ],
    "cmc": 4,
@@ -461,13 +459,13 @@
   {
    "name": "Scalding Viper // Steam Clean",
    "types": [
-    "Creature"
+    "Creature",
+    "Sorcery"
    ],
    "sub_types": [
     "Elemental",
     "Snake",
-    "//",
-    "Sorcery"
+    "Adventure"
    ],
    "cmc": 2,
    "image": "",

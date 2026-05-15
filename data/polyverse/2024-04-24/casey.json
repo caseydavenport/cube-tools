@@ -516,17 +516,17 @@
    "types": [
     "Legendary",
     "Enchantment",
-    "//",
-    "Legendary",
     "Land"
    ],
    "cmc": 1,
    "image": "",
-   "colors": null,
+   "colors": [
+    "W"
+   ],
    "color_identity": [
     "W"
    ],
-   "mana_cost": "",
+   "mana_cost": "{W}",
    "url": "https://scryfall.com/card/xln/22/legions-landing-adanto-the-first-fort?utm_source=api",
    "oracle_text": "When Legion's Landing enters, create a 1/1 white Vampire creature token with lifelink.\nWhen you attack with three or more creatures, transform Legion's Landing.\n(Transforms from Legion's Landing.)\n{T}: Add {W}.\n{2}{W}, {T}: Create a 1/1 white Vampire creature token with lifelink."
   },
@@ -537,18 +537,21 @@
    ],
    "sub_types": [
     "Horror",
-    "//",
-    "Creature"
+    "Kraken"
    ],
    "cmc": 2,
    "image": "",
-   "colors": null,
+   "colors": [
+    "U"
+   ],
    "color_identity": [
     "U"
    ],
-   "mana_cost": "",
+   "mana_cost": "{1}{U}",
    "url": "https://scryfall.com/card/inr/91/thing-in-the-ice-awoken-horror?utm_source=api",
-   "oracle_text": "Defender\nThis creature enters with four ice counters on it.\nWhenever you cast an instant or sorcery spell, remove an ice counter from this creature. Then if it has no ice counters on it, transform it.\nWhen this creature transforms into Awoken Horror, return all non-Horror creatures to their owners' hands."
+   "oracle_text": "Defender\nThis creature enters with four ice counters on it.\nWhenever you cast an instant or sorcery spell, remove an ice counter from this creature. Then if it has no ice counters on it, transform it.\nWhen this creature transforms into Awoken Horror, return all non-Horror creatures to their owners' hands.",
+   "power": "0",
+   "toughness": "4"
   },
   {
    "name": "Sevinne's Reclamation",
@@ -829,12 +832,12 @@
   {
    "name": "Cheeky House-Mouse // Squeak By",
    "types": [
-    "Creature"
+    "Creature",
+    "Sorcery"
    ],
    "sub_types": [
     "Mouse",
-    "//",
-    "Sorcery"
+    "Adventure"
    ],
    "cmc": 1,
    "image": "",

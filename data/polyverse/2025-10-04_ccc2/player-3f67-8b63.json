@@ -123,7 +123,6 @@
    "name": "Virtue of Persistence // Locthwain Scorn",
    "types": [
     "Enchantment",
-    "//",
     "Sorcery"
    ],
    "sub_types": [
@@ -360,13 +359,13 @@
    "name": "Kellan, the Fae-Blooded // Birthright Boon",
    "types": [
     "Legendary",
-    "Creature"
+    "Creature",
+    "Sorcery"
    ],
    "sub_types": [
     "Human",
     "Faerie",
-    "//",
-    "Sorcery"
+    "Adventure"
    ],
    "cmc": 3,
    "image": "",
@@ -923,12 +922,12 @@
   {
    "name": "Faerie Guidemother // Gift of the Fae",
    "types": [
-    "Creature"
+    "Creature",
+    "Sorcery"
    ],
    "sub_types": [
     "Faerie",
-    "//",
-    "Sorcery"
+    "Adventure"
    ],
    "cmc": 1,
    "image": "",

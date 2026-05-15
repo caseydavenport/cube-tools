@@ -632,13 +632,13 @@
   {
    "name": "Scalding Viper // Steam Clean",
    "types": [
-    "Creature"
+    "Creature",
+    "Sorcery"
    ],
    "sub_types": [
     "Elemental",
     "Snake",
-    "//",
-    "Sorcery"
+    "Adventure"
    ],
    "cmc": 2,
    "image": "",
@@ -675,12 +675,12 @@
   {
    "name": "Intrepid Trufflesnout // Go Hog Wild",
    "types": [
-    "Creature"
+    "Creature",
+    "Instant"
    ],
    "sub_types": [
     "Boar",
-    "//",
-    "Instant"
+    "Adventure"
    ],
    "cmc": 2,
    "image": "",
@@ -904,13 +904,13 @@
    "name": "Kellan, the Fae-Blooded // Birthright Boon",
    "types": [
     "Legendary",
-    "Creature"
+    "Creature",
+    "Sorcery"
    ],
    "sub_types": [
     "Human",
     "Faerie",
-    "//",
-    "Sorcery"
+    "Adventure"
    ],
    "cmc": 3,
    "image": "",

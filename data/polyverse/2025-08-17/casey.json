@@ -852,12 +852,12 @@
   {
    "name": "Elusive Otter // Grove's Bounty",
    "types": [
-    "Creature"
+    "Creature",
+    "Sorcery"
    ],
    "sub_types": [
     "Otter",
-    "//",
-    "Sorcery"
+    "Adventure"
    ],
    "cmc": 1,
    "image": "",

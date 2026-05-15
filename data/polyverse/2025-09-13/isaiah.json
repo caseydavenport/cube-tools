@@ -134,12 +134,12 @@
   {
    "name": "Faerie Guidemother // Gift of the Fae",
    "types": [
-    "Creature"
+    "Creature",
+    "Sorcery"
    ],
    "sub_types": [
     "Faerie",
-    "//",
-    "Sorcery"
+    "Adventure"
    ],
    "cmc": 1,
    "image": "",
@@ -282,13 +282,13 @@
   {
    "name": "Questing Druid // Seek the Beast",
    "types": [
-    "Creature"
+    "Creature",
+    "Instant"
    ],
    "sub_types": [
     "Human",
     "Druid",
-    "//",
-    "Instant"
+    "Adventure"
    ],
    "cmc": 2,
    "image": "",

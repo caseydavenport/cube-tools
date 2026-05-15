@@ -209,12 +209,12 @@
   {
    "name": "Faerie Guidemother // Gift of the Fae",
    "types": [
-    "Creature"
+    "Creature",
+    "Sorcery"
    ],
    "sub_types": [
     "Faerie",
-    "//",
-    "Sorcery"
+    "Adventure"
    ],
    "cmc": 1,
    "image": "",
@@ -764,17 +764,17 @@
    "types": [
     "Legendary",
     "Enchantment",
-    "//",
-    "Legendary",
     "Land"
    ],
    "cmc": 1,
    "image": "",
-   "colors": null,
+   "colors": [
+    "W"
+   ],
    "color_identity": [
     "W"
    ],
-   "mana_cost": "",
+   "mana_cost": "{W}",
    "url": "https://scryfall.com/card/xln/22/legions-landing-adanto-the-first-fort?utm_source=api",
    "oracle_text": "When Legion's Landing enters, create a 1/1 white Vampire creature token with lifelink.\nWhen you attack with three or more creatures, transform Legion's Landing.\n(Transforms from Legion's Landing.)\n{T}: Add {W}.\n{2}{W}, {T}: Create a 1/1 white Vampire creature token with lifelink."
   },
@@ -822,12 +822,12 @@
   {
    "name": "Cheeky House-Mouse // Squeak By",
    "types": [
-    "Creature"
+    "Creature",
+    "Sorcery"
    ],
    "sub_types": [
     "Mouse",
-    "//",
-    "Sorcery"
+    "Adventure"
    ],
    "cmc": 1,
    "image": "",
@@ -928,13 +928,13 @@
    "name": "Kellan, the Fae-Blooded // Birthright Boon",
    "types": [
     "Legendary",
-    "Creature"
+    "Creature",
+    "Sorcery"
    ],
    "sub_types": [
     "Human",
     "Faerie",
-    "//",
-    "Sorcery"
+    "Adventure"
    ],
    "cmc": 3,
    "image": "",

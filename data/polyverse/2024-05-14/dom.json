@@ -524,8 +524,6 @@
   {
    "name": "Fire // Ice",
    "types": [
-    "Instant",
-    "//",
     "Instant"
    ],
    "cmc": 4,

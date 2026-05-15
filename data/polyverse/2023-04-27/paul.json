@@ -570,21 +570,22 @@
   {
    "name": "The Long Reach of Night // Animus of Night's Reach",
    "types": [
-    "Enchantment"
-   ],
-   "sub_types": [
-    "Saga",
-    "//",
     "Enchantment",
     "Creature"
    ],
+   "sub_types": [
+    "Saga",
+    "Spirit"
+   ],
    "cmc": 4,
    "image": "",
-   "colors": null,
+   "colors": [
+    "B"
+   ],
    "color_identity": [
     "B"
    ],
-   "mana_cost": "",
+   "mana_cost": "{3}{B}",
    "url": "https://scryfall.com/card/neo/109/the-long-reach-of-night-animus-of-nights-reach?utm_source=api",
    "oracle_text": "(As this Saga enters and after your draw step, add a lore counter.)\nI, II — Each opponent sacrifices a creature of their choice unless they discard a card.\nIII — Exile this Saga, then return it to the battlefield transformed under your control.\nMenace (This creature can't be blocked except by two or more creatures.)\nWhenever this creature attacks, it gets +X/+0 until end of turn, where X is the number of creature cards in defending player's graveyard."
   },

@@ -913,13 +913,13 @@
   {
    "name": "Mosswood Dreadknight // Dread Whispers",
    "types": [
-    "Creature"
+    "Creature",
+    "Sorcery"
    ],
    "sub_types": [
     "Human",
     "Knight",
-    "//",
-    "Sorcery"
+    "Adventure"
    ],
    "cmc": 2,
    "image": "",
