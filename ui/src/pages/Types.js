@@ -1,5 +1,5 @@
 import React from 'react'
-import { IsBasicLand, Pct, SortFunc, StringToColor } from "../utils/Utils.js"
+import { IsBasicLand, MinWinningPctDecks, Pct, SortFunc, StringToColor } from "../utils/Utils.js"
 import { Trophies, LastPlaceFinishes, Winning, Losing, Wins, Losses } from "../utils/Deck.js"
 import { DropdownHeader, NumericInput, Checkbox, DateSelector } from "../components/Dropdown.js"
 import { BucketName } from "../utils/Buckets.js"
@@ -296,7 +296,7 @@ function ArchetypeTableRows(input) {
               sort = t.losing;
               break;
             case "winning_pct":
-              sort = t.count > 0 ? t.winning / t.count : 0;
+              sort = t.count >= MinWinningPctDecks ? t.winning / t.count : -1;
               break;
             case "avg_word_count":
               sort = t.avg_word_count;
@@ -312,7 +312,7 @@ function ArchetypeTableRows(input) {
               <td key="lastplace">{t.last_place}</td>
               <td key="winning">{t.winning}</td>
               <td key="losing">{t.losing}</td>
-              <td key="winning_pct">{t.count > 0 ? Math.round(100 * t.winning / t.count) : 0}%</td>
+              <td key="winning_pct">{t.count >= MinWinningPctDecks ? Pct(t.winning, t.count) + "%" : "—"}</td>
               <td key="num">{t.count}</td>
               <td key="shared">{t.avg_shared}</td>
               <td key="avg_word_count">{t.avg_word_count}</td>
@@ -794,9 +794,10 @@ function MicroArchetypesChart(input) {
         datasets.get(archetype).push(archetypeStats.percent_of_wins)
       } else if (input.dataset === "winning_pct") {
         // % of decks of this archetype with a 2-1 or better record. Denominator
-        // is all decks, not just decisive ones.
+        // is all decks, not just decisive ones. Drop low-sample buckets so we
+        // don't draw noise.
         let total = archetypeStats.count || 0
-        datasets.get(archetype).push(total > 0 ? Math.round(100 * archetypeStats.winning / total) : 0)
+        datasets.get(archetype).push(total >= MinWinningPctDecks ? Pct(archetypeStats.winning, total) : null)
       } else if (input.dataset === "trophy_pct") {
         // % of decks of this archetype that won a trophy. Use count (all
         // decks of this archetype) rather than winning + losing, which
@@ -907,9 +908,10 @@ function MacroArchetypesChart(input) {
         datasets.get(archetype).push(archetypeStats.avg_cmc)
       } else if (input.dataset === "winning_pct") {
         // % of decks of this archetype with a 2-1 or better record. Denominator
-        // is all decks, not just decisive ones.
+        // is all decks, not just decisive ones. Drop low-sample buckets so we
+        // don't draw noise.
         let total = archetypeStats.count || 0
-        datasets.get(archetype).push(total > 0 ? Math.round(100 * archetypeStats.winning / total) : 0)
+        datasets.get(archetype).push(total >= MinWinningPctDecks ? Pct(archetypeStats.winning, total) : null)
       } else if (input.dataset === "trophy_pct") {
         // % of decks of this archetype that won a trophy. Use count (all
         // decks of this archetype) rather than winning + losing, which

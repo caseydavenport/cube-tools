@@ -9,6 +9,12 @@ export function Pct(num, denom) {
   return Math.round(100 * num / denom)
 }
 
+// Minimum decks required before we display a per-deck "winning %" stat (share
+// of decks that went 2-1 or better). Below this threshold the metric is too
+// coarse to carry signal - 1 deck gives only 0% or 100%, 2 decks gives 0/50/
+// 100, etc.
+export const MinWinningPctDecks = 5
+
 // Returns the average CMC of of cards in the deck,
 // excluding basic lands.
 export function AverageCMC({deck}) {

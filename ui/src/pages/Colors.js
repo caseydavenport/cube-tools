@@ -2,7 +2,7 @@ import React from 'react'
 import { DropdownHeader, NumericInput, DateSelector } from "../components/Dropdown.js"
 import { Colors, ColorImages, GetColorIdentity, primaryColorPair } from "../utils/Colors.js"
 import { Trophies, LastPlaceFinishes, Wins, Losses } from "../utils/Deck.js"
-import { AverageWordCount, IsBasicLand, Pct, SortFunc, StringToColor } from "../utils/Utils.js"
+import { AverageWordCount, IsBasicLand, MinWinningPctDecks, Pct, SortFunc, StringToColor } from "../utils/Utils.js"
 
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Popover from 'react-bootstrap/Popover';
@@ -322,7 +322,7 @@ function ColorStatsTable(input) {
               } else if (input.sortBy === "losing") {
                 sort = color.bottom_half
               } else if (input.sortBy === "winning_pct") {
-                sort = color.num_decks > 0 ? color.top_half / color.num_decks : 0
+                sort = color.num_decks >= MinWinningPctDecks ? color.top_half / color.num_decks : -1
               } else if (input.sortBy === "avg_word_count") {
                 sort = color.avg_word_count || 0
               }
@@ -341,7 +341,7 @@ function ColorStatsTable(input) {
                   <td>{color.last_place}</td>
                   <td>{color.top_half}</td>
                   <td>{color.bottom_half}</td>
-                  <td>{color.num_decks > 0 ? Math.round(100 * color.top_half / color.num_decks) : 0}%</td>
+                  <td>{color.num_decks >= MinWinningPctDecks ? Pct(color.top_half, color.num_decks) + "%" : "—"}</td>
                   <td>{color.num_decks}</td>
                   <td style={headerStyleFields}>{color.total_pick_percentage}%</td>
                   <td>{color.average_deck_percentage}%</td>
@@ -688,10 +688,11 @@ function ColorRateChart(input) {
       } else if (input.dataset === "winning_pct") {
         // % of decks of this color with a 2-1 or better record. Denominator
         // is all decks, not just decisive ones - 1-1 / 2-2 decks should pull
-        // the rate down, not vanish.
+        // the rate down, not vanish. Drop buckets with too few decks to carry
+        // signal so we don't draw noise.
         let c = stats.get(color)
         let total = c.num_decks || 0
-        colorDatasets.get(color).push(total > 0 ? Math.round(100 * (c.top_half || 0) / total) : 0)
+        colorDatasets.get(color).push(total >= MinWinningPctDecks ? Pct(c.top_half || 0, total) : null)
       } else if (input.dataset === "trophy_pct") {
         // % of decks of this color that won a trophy. Use num_decks as the
         // denominator (not top_half + bottom_half, which excludes 2-2 and 1-1
