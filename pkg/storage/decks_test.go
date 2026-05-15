@@ -134,6 +134,117 @@ func TestProcess_OpponentWinPercentage(t *testing.T) {
 	assert.InDelta(t, 50.0, alice.OpponentWinPercentage, 0.5)
 }
 
+// Playing the same opponent twice (e.g. round 1 and a finals rematch) used to
+// double-count that opponent in the OWP average. Each unique opponent should
+// contribute exactly once.
+func TestProcess_OpponentWinPercentage_NoDoubleCountRematches(t *testing.T) {
+	// Alice plays Bob twice. Bob plays Charlie once besides Alice.
+	// Bob's games excluding vs Alice: 0-2 vs Charlie = 0%.
+	// If Bob were double-counted, OWP would still be 0 - so we use Charlie as
+	// the second opponent to make the bug visible.
+	// Alice plays Bob twice + Charlie once.
+	// Bob's record excluding Alice: 0-2 vs Charlie = 0%.
+	// Charlie's record excluding Alice: 2-0 vs Bob = 100%.
+	// Correct OWP = (0 + 100) / 2 = 50. Buggy (Bob counted twice) = 33.
+	alice := makeStorageDeck("Alice", "draft1", "2024-01-01",
+		[]types.Game{
+			{Opponent: "Bob", Winner: "Alice"},
+			{Opponent: "Bob", Winner: "Alice"},
+			{Opponent: "Charlie", Winner: "Alice"},
+		},
+		[]types.Match{
+			{Opponent: "Bob", Round: 1, Winner: "Alice"},
+			{Opponent: "Bob", Round: 3, Winner: "Alice"}, // rematch
+			{Opponent: "Charlie", Round: 2, Winner: "Alice"},
+		},
+		nil,
+	)
+	bob := makeStorageDeck("Bob", "draft1", "2024-01-01",
+		[]types.Game{
+			{Opponent: "Alice", Winner: "Alice"},
+			{Opponent: "Alice", Winner: "Alice"},
+			{Opponent: "Charlie", Winner: "Charlie"},
+			{Opponent: "Charlie", Winner: "Charlie"},
+		},
+		[]types.Match{
+			{Opponent: "Alice", Round: 1, Winner: "Alice"},
+			{Opponent: "Alice", Round: 3, Winner: "Alice"},
+			{Opponent: "Charlie", Round: 2, Winner: "Charlie"},
+		},
+		nil,
+	)
+	charlie := makeStorageDeck("Charlie", "draft1", "2024-01-01",
+		[]types.Game{
+			{Opponent: "Alice", Winner: "Alice"},
+			{Opponent: "Bob", Winner: "Charlie"},
+			{Opponent: "Bob", Winner: "Charlie"},
+		},
+		[]types.Match{
+			{Opponent: "Alice", Round: 2, Winner: "Alice"},
+			{Opponent: "Bob", Round: 1, Winner: "Charlie"},
+		},
+		nil,
+	)
+
+	lookup := map[key]*Deck{
+		{player: "Alice", draft: "draft1"}:   alice,
+		{player: "Bob", draft: "draft1"}:     bob,
+		{player: "Charlie", draft: "draft1"}: charlie,
+	}
+	process(lookup)
+
+	assert.InDelta(t, 50.0, alice.OpponentWinPercentage, 0.5)
+}
+
+// Legacy matches store the game tally on Match.Wins/Losses without a nested
+// games array. Opponents whose record is entirely legacy used to be skipped
+// because the per-game flatten produced an empty Games slice for them.
+func TestProcess_OpponentWinPercentage_LegacyMatchesIncluded(t *testing.T) {
+	// Alice played Bob. Bob also played Charlie in a legacy-style match
+	// (no nested Games, just Wins/Losses).
+	alice := &Deck{}
+	alice.Player = "Alice"
+	alice.Date = "2024-01-01"
+	alice.Matches = []types.Match{
+		{Opponent: "Bob", Round: 1, Wins: 2, Losses: 0, Winner: "Alice",
+			Games: []types.Game{
+				{Opponent: "Bob", Winner: "Alice"},
+				{Opponent: "Bob", Winner: "Alice"},
+			}},
+	}
+
+	bob := &Deck{}
+	bob.Player = "Bob"
+	bob.Date = "2024-01-01"
+	bob.Matches = []types.Match{
+		{Opponent: "Alice", Round: 1, Wins: 0, Losses: 2, Winner: "Alice",
+			Games: []types.Game{
+				{Opponent: "Alice", Winner: "Alice"},
+				{Opponent: "Alice", Winner: "Alice"},
+			}},
+		// Legacy match: no nested games, just the tally.
+		{Opponent: "Charlie", Round: 2, Wins: 2, Losses: 1, Winner: "Bob"},
+	}
+
+	charlie := &Deck{}
+	charlie.Player = "Charlie"
+	charlie.Date = "2024-01-01"
+	charlie.Matches = []types.Match{
+		{Opponent: "Bob", Round: 2, Wins: 1, Losses: 2, Winner: "Bob"},
+	}
+
+	lookup := map[key]*Deck{
+		{player: "Alice", draft: "draft1"}:   alice,
+		{player: "Bob", draft: "draft1"}:     bob,
+		{player: "Charlie", draft: "draft1"}: charlie,
+	}
+	process(lookup)
+
+	// Bob's record excluding Alice: 2-1 vs Charlie (legacy) = 66.67%.
+	// Alice's only opponent is Bob, so OWP = 67.
+	assert.InDelta(t, 67.0, alice.OpponentWinPercentage, 0.5)
+}
+
 // --- filter() tests ---
 
 func TestFilter_EmptyRequest(t *testing.T) {

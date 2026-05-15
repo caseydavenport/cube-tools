@@ -209,39 +209,26 @@ func process(decks map[key]*Deck) {
 		}
 	}
 
-	// Calculate the opponent win percentage for each deck by iterating each Match.
+	// Calculate the opponent win percentage for each deck. Each unique opponent
+	// contributes their own win rate once, regardless of how many times we
+	// played them.
 	for k, d := range decks {
-		// Track the total number of games and total number of wins played by opponents.
 		percentages := []float64{}
+		seen := map[string]bool{}
 
 		for _, m := range d.Matches {
-			// Determine the opponent.
-			opponent := key{
-				player: m.Opponent,
-				draft:  k.draft,
+			if m.Opponent == "" || seen[m.Opponent] {
+				continue
 			}
+			seen[m.Opponent] = true
 
-			// Find the opponent's deck.
-			opponentDeck, ok := decks[opponent]
+			opponentDeck, ok := decks[key{player: m.Opponent, draft: k.draft}]
 			if !ok {
-				logrus.WithField("opponent", opponent).Warn("failed to find opponent deck")
+				logrus.WithField("opponent", m.Opponent).Warn("failed to find opponent deck")
 				continue
 			}
 
-			// Get the number of total games this opponent played, and how many this opponent
-			// won, excluding games against us.
-			games := 0
-			wins := 0
-			for _, og := range opponentDeck.Games {
-				if og.Opponent != k.player {
-					games++
-					if og.Winner == m.Opponent {
-						wins++
-					}
-				}
-			}
-
-			// Calculate this opponent's win percentage (excluding games against us).
+			wins, games := opponentRecordExcluding(opponentDeck, k.player)
 			if games > 0 {
 				percentages = append(percentages, float64(wins)/float64(games))
 			}
@@ -270,6 +257,33 @@ func process(decks map[key]*Deck) {
 			LastPlace:   d.LastPlace(),
 		}
 	}
+}
+
+// opponentRecordExcluding returns (wins, total games) for opponentDeck across
+// all of its matches, excluding matches played against `exclude`. Prefers
+// per-game records when present and falls back to the Match-level Wins/Losses
+// tally for legacy data that lacks a nested games array.
+func opponentRecordExcluding(opponentDeck *Deck, exclude string) (int, int) {
+	wins, total := 0, 0
+	for _, om := range opponentDeck.Matches {
+		if om.Opponent == exclude {
+			continue
+		}
+		if len(om.Games) > 0 {
+			for _, og := range om.Games {
+				total++
+				if og.Winner == opponentDeck.Player {
+					wins++
+				}
+			}
+			continue
+		}
+		// Legacy match: no nested games. Wins/Losses are this deck's game tally
+		// for the match.
+		wins += om.Wins
+		total += om.Wins + om.Losses + om.Draws
+	}
+	return wins, total
 }
 
 func filter(decks []*Deck, r *DecksRequest) []*Deck {
