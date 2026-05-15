@@ -176,7 +176,7 @@ export function DeckWidget(input) {
     { label: "Wins by # Lifegain", value: "wins_lifegain" },
     { label: "Wins by # Graveyard", value: "wins_graveyard" },
     { label: "Wins by # Discard", value: "wins_discard" },
-    { label: "Total Basics Used", value: "total_basics" },
+    { label: "Avg. Basics per Deck", value: "total_basics" },
     { label: "Interaction by Color", value: "interaction_color" },
     { label: "Avg. Removal per-deck", value: "avg_removal" },
     { label: "Avg. Counterspells per-deck", value: "avg_counterspells" },
@@ -1069,15 +1069,19 @@ function DeckManaValueChart(input) {
       decks.push(...draft.decks)
     }
 
-    // Calculate the average CMC of this bucket.
+    // Calculate the average CMC of this bucket. Pool-only decks (empty
+    // mainboard) are excluded from both numerator and denominator - we don't
+    // know their built-deck CMC.
     let total = 0
+    let count = 0
     for (let deck of decks) {
       if (!deck.mainboard || deck.mainboard.length == 0) {
         continue
       }
       total += deck.avg_cmc
+      count++
     }
-    manaValues.push(total / decks.length)
+    manaValues.push(count > 0 ? total / count : 0)
   }
 
   let dataset = [
@@ -1146,10 +1150,21 @@ function DeckBasicLandCountChart(input) {
       decks.push(...draft.decks)
     }
 
-    // Calculate the number of basics per-draft in this bucket.
+    // Calculate the average number of basics per built deck in this bucket.
+    // Pool-only decks (empty mainboard) don't know their basic count and are
+    // excluded from both numerator and denominator.
+    let builtDeckCount = 0
+    for (let deck of decks) {
+      if (deck.mainboard && deck.mainboard.length > 0) {
+        builtDeckCount++
+      }
+    }
     for (let [landName, values] of lands) {
       let total = 0
       for (let deck of decks) {
+        if (!deck.mainboard || deck.mainboard.length == 0) {
+          continue
+        }
         for (let card of deck.mainboard) {
           switch (card.name) {
             case landName:
@@ -1157,7 +1172,7 @@ function DeckBasicLandCountChart(input) {
           }
         }
       }
-      values.push(total / buckets[0].length)
+      values.push(builtDeckCount > 0 ? total / builtDeckCount : 0)
     }
   }
 
@@ -1201,7 +1216,7 @@ function DeckBasicLandCountChart(input) {
     plugins: {
       title: {
         display: true,
-        text: `Total basics used (bucket size = ${input.parsed.bucketSize} drafts)`,
+        text: `Avg. basics per deck (bucket size = ${input.parsed.bucketSize} drafts)`,
         color: "#FFF",
         font: {
           size: "16pt",
