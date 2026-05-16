@@ -19,11 +19,14 @@ func (b *Bucket) AllDecks() []*storage.Deck {
 	return decks
 }
 
+// TotalGames returns the count of distinct games played in this bucket. Each
+// game is recorded once on each side, so summing GameWins() across all decks
+// counts each game exactly once (modulo ties, which contribute no wins).
 func (b *Bucket) TotalGames() int {
 	total := 0
 	for _, draft := range b.Drafts {
 		for _, deck := range draft.Decks {
-			total += len(deck.Games)
+			total += deck.GameWins()
 		}
 	}
 	return total

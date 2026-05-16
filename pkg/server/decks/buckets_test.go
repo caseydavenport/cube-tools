@@ -56,19 +56,20 @@ func TestBucketAllDecks(t *testing.T) {
 // --- Bucket.TotalGames ---
 
 func TestBucketTotalGames(t *testing.T) {
-	d1 := makeDeck("Alice", "draft1", []types.Game{
-		{Opponent: "Bob", Winner: "Alice"},
-		{Opponent: "Bob", Winner: "Bob"},
-	})
-	d2 := makeDeck("Bob", "draft1", []types.Game{
-		{Opponent: "Alice", Winner: "Alice"},
-	})
+	// Each game between Alice and Bob is recorded on both decks. Counting
+	// each game once across the bucket means summing GameWins, since each
+	// game has at most one winner.
+	d1 := makeDeck("Alice", "draft1", nil)
+	d1.Matches = []types.Match{{Opponent: "Bob", Wins: 1, Losses: 1}}
+	d2 := makeDeck("Bob", "draft1", nil)
+	d2.Matches = []types.Match{{Opponent: "Alice", Wins: 1, Losses: 1}}
 
 	b := Bucket{Drafts: []*Draft{
 		{Decks: []*storage.Deck{d1, d2}},
 	}}
 
-	assert.Equal(t, 3, b.TotalGames())
+	// Alice won 1 game, Bob won 1 game → 2 distinct games.
+	assert.Equal(t, 2, b.TotalGames())
 }
 
 // --- DeckBuckets discrete ---
