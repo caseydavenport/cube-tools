@@ -45,7 +45,7 @@ export function ColorWidget(input) {
     { label: "Build %", value: "builds" },
     { label: "Win %", value: "wins" },
     { label: "Pick %", value: "pick_percentage" },
-    { label: "Avg % of deck", value: "splash" },
+    { label: "Avg Deck Devotion", value: "splash" },
     { label: "VP %", value: "vps_pct" },
     { label: "Victory Points", value: "vps" },
     { label: "% of wins", value: "percent_of_wins" },
@@ -248,13 +248,13 @@ function ColorStatsTable(input) {
     },
     {
       id: "picks",
-      text: "% picks",
-      tip: "Percentage of mainboarded cards that are this color (or one of these colors).",
+      text: "Pick %",
+      tip: "This color's share of all mainboarded cards across every deck. Sums to ~100% across rows.",
     },
     {
       id: "splash",
-      text: "Avg % of deck",
-      tip: "Percentage of non-land cards in the deck that match this color identity.",
+      text: "Avg Deck Devotion",
+      tip: "For each deck, the fraction of non-land cards matching this color identity, then averaged across decks. Each deck contributes equally regardless of size.",
     },
     {
       id: "avg_word_count",
