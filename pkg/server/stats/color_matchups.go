@@ -18,6 +18,7 @@ type ColorMatchupResponse struct {
 type MatchupRecord struct {
 	Wins   int     `json:"wins"`
 	Losses int     `json:"losses"`
+	Draws  int     `json:"draws"`
 	WinPct float64 `json:"win_pct"`
 }
 
@@ -101,9 +102,12 @@ func (h *colorMatchupHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request)
 						matchups[myColors][oppColors] = &MatchupRecord{}
 					}
 
-					if game.Winner == deck.Player {
+					switch {
+					case game.Tie || game.Winner == "":
+						matchups[myColors][oppColors].Draws++
+					case game.Winner == deck.Player:
 						matchups[myColors][oppColors].Wins++
-					} else if game.Winner != "" && !game.Tie {
+					default:
 						matchups[myColors][oppColors].Losses++
 					}
 				}
@@ -111,13 +115,9 @@ func (h *colorMatchupHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request)
 		}
 	}
 
-	// Calculate win percentages.
 	for _, opponents := range matchups {
 		for _, record := range opponents {
-			total := record.Wins + record.Losses
-			if total > 0 {
-				record.WinPct = 100 * float64(record.Wins) / float64(total)
-			}
+			record.WinPct = winPctOf(record.Wins, record.Losses, record.Draws)
 		}
 	}
 

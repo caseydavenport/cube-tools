@@ -17,12 +17,10 @@ type PlayerStatsResponse struct {
 }
 
 type PlayerStats struct {
+	Record
 	Name               string                   `json:"name"`
 	NumDecks           int                      `json:"num_decks"`
-	Wins               int                      `json:"wins"`
-	Losses             int                      `json:"losses"`
 	Games              int                      `json:"games"`
-	WinPercent         float64                  `json:"win_percent"`
 	LossPercent        float64                  `json:"loss_percent"`
 	Trophies           int                      `json:"trophies"`
 	LastPlace          int                      `json:"last_place"`
@@ -42,9 +40,8 @@ type PlayerStats struct {
 }
 
 type winLossStats struct {
-	Wins   int `json:"wins"`
-	Losses int `json:"losses"`
-	Count  int `json:"count"`
+	Record
+	Count int `json:"count"`
 }
 
 // opponentWinAccum tracks the weighted sum for computing opponent win percentage.
@@ -107,8 +104,7 @@ func (s *playerStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) 
 		}
 		ps := resp.Players[deck.Player]
 		ps.NumDecks++
-		ps.Wins += deck.GameWins()
-		ps.Losses += deck.GameLosses()
+		ps.Add(deck)
 		ps.Trophies += deck.Trophies()
 		ps.LastPlace += deck.LastPlace()
 		if _, ok := owpAccum[deck.Player]; !ok {
@@ -132,8 +128,7 @@ func (s *playerStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) 
 				ps.ArchetypeStats[l] = &winLossStats{}
 			}
 			as := ps.ArchetypeStats[l]
-			as.Wins += deck.GameWins()
-			as.Losses += deck.GameLosses()
+			as.Add(deck)
 			as.Count++
 		}
 
@@ -145,8 +140,7 @@ func (s *playerStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) 
 				ps.ColorStats[color] = &winLossStats{}
 			}
 			cs := ps.ColorStats[color]
-			cs.Wins += deck.GameWins()
-			cs.Losses += deck.GameLosses()
+			cs.Add(deck)
 			cs.Count++
 		}
 
@@ -181,9 +175,15 @@ func (s *playerStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) 
 	}
 
 	for _, ps := range resp.Players {
-		ps.Games = ps.Wins + ps.Losses
-		ps.WinPercent = pct(float64(ps.Wins), float64(ps.Games))
+		ps.Games = ps.Wins + ps.Losses + ps.Draws
+		ps.Finalize()
 		ps.LossPercent = pct(float64(ps.Losses), float64(ps.Games))
+		for _, as := range ps.ArchetypeStats {
+			as.Finalize()
+		}
+		for _, cs := range ps.ColorStats {
+			cs.Finalize()
+		}
 		if accum, ok := owpAccum[ps.Name]; ok && accum.totalMatches > 0 {
 			// accum.weightedSum is already a percentage; just round to 2 decimals.
 			ps.OpponentWinPercent = math.Round(100*accum.weightedSum/float64(accum.totalMatches)) / 100

@@ -17,10 +17,9 @@ type ArchetypeStatsResponse struct {
 }
 
 type ArchetypeStats struct {
+	Record
 	Type          string         `json:"type"`
 	Count         int            `json:"count"`
-	Wins          int            `json:"wins"`
-	Losses        int            `json:"losses"`
 	Trophies      int            `json:"trophies"`
 	LastPlace     int            `json:"last_place"`
 	Winning       int            `json:"winning"`
@@ -28,7 +27,6 @@ type ArchetypeStats struct {
 	AvgCMC          float64        `json:"avg_cmc"`
 	AvgWordCount    float64        `json:"avg_word_count"`
 	BuildPercent    float64        `json:"build_percent"`
-	WinPercent    float64        `json:"win_percent"`
 	PercentOfWins float64        `json:"percent_of_wins"`
 	SharedWith    map[string]int `json:"shared_with"`
 	Players       map[string]int `json:"players"`
@@ -97,9 +95,8 @@ func (s *archetypeStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Reques
 			}
 			as := resp.Archetypes[label]
 			as.Count++
-			as.Wins += deck.GameWins()
+			as.Add(deck)
 			percentOfWinsDenom += deck.GameWins()
-			as.Losses += deck.GameLosses()
 			as.Trophies += deck.Trophies()
 			as.LastPlace += deck.LastPlace()
 			as.Winning += deck.TopHalf()
@@ -146,7 +143,7 @@ func (s *archetypeStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Reques
 
 	for _, as := range resp.Archetypes {
 		as.BuildPercent = pct(float64(as.Count), float64(numDecks))
-		as.WinPercent = pct(float64(as.Wins), float64(as.Wins+as.Losses))
+		as.Finalize()
 		as.PercentOfWins = pct(float64(as.Wins), float64(percentOfWinsDenom))
 		if as.cmcCount > 0 {
 			as.AvgCMC = math.Round(as.AvgCMC/float64(as.cmcCount)*100) / 100

@@ -70,9 +70,8 @@ func shrinkLift(count, expected, k float64) float64 {
 }
 
 type pairStats struct {
-	count  int
-	wins   int
-	losses int
+	count int
+	Record
 }
 
 func parseSynergyRequest(r *http.Request) *SynergyStatsRequest {
@@ -165,8 +164,7 @@ func (s *synergyStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request)
 					cooccurrence[p] = &pairStats{}
 				}
 				cooccurrence[p].count++
-				cooccurrence[p].wins += deck.GameWins()
-				cooccurrence[p].losses += deck.GameLosses()
+				cooccurrence[p].Add(deck)
 			}
 		}
 	}
@@ -257,10 +255,7 @@ func (s *synergyStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request)
 
 		score := shrinkLift(float64(stats.count), expectedCount, k)
 
-		winPercent := 0.0
-		if stats.wins+stats.losses > 0 {
-			winPercent = 100 * float64(stats.wins) / float64(stats.wins+stats.losses)
-		}
+		stats.Finalize()
 
 		result := SynergyResult{
 			Card1:         p.c1,
@@ -268,7 +263,7 @@ func (s *synergyStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request)
 			Count:         stats.count,
 			EligibleDecks: eligibleBoth,
 			SynergyScore:  score,
-			WinPercent:    winPercent,
+			WinPercent:    stats.WinPercent,
 		}
 
 		resp.Pairs = append(resp.Pairs, result)

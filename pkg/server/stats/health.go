@@ -142,8 +142,7 @@ func shannonEvenness(counts map[string]int, total int) float64 {
 // the 10 dual color pairs.
 func colorBalanceStdDev(allDecks []*storage.Deck) float64 {
 	dualColors := []string{"WU", "WB", "WR", "WG", "UB", "UR", "UG", "BR", "BG", "RG"}
-	wins := make(map[string]int)
-	losses := make(map[string]int)
+	records := make(map[string]*Record)
 
 	for _, d := range allDecks {
 		colors := d.GetColors()
@@ -155,17 +154,24 @@ func colorBalanceStdDev(allDecks []*storage.Deck) float64 {
 			return indexOf(order, colors[i]) < indexOf(order, colors[j])
 		})
 		pair := colors[0] + colors[1]
-		wins[pair] += d.GameWins()
-		losses[pair] += d.GameLosses()
+		if _, ok := records[pair]; !ok {
+			records[pair] = &Record{}
+		}
+		records[pair].Add(d)
 	}
 
 	// Compute win rates for pairs that have games.
 	var rates []float64
 	for _, c := range dualColors {
-		total := wins[c] + losses[c]
-		if total > 0 {
-			rates = append(rates, float64(wins[c])/float64(total))
+		r, ok := records[c]
+		if !ok {
+			continue
 		}
+		if r.Wins+r.Losses+r.Draws == 0 {
+			continue
+		}
+		r.Finalize()
+		rates = append(rates, r.WinPercent/100)
 	}
 
 	if len(rates) < 2 {

@@ -237,8 +237,7 @@ func (d *colorStatsHandler) statsForDecks(decks []*storage.Deck, sr *ColorStatsR
 			if _, ok := resp.Data[color]; !ok {
 				resp.Data[color] = newColorStats(color)
 			}
-			resp.Data[color].Wins += deck.GameWins()
-			resp.Data[color].Losses += deck.GameLosses()
+			resp.Data[color].Add(deck)
 			resp.Data[color].Trophies += deck.Trophies()
 			resp.Data[color].LastPlace += deck.LastPlace()
 			resp.Data[color].Top50 += deck.TopHalf()
@@ -352,7 +351,7 @@ func (d *colorStatsHandler) statsForDecks(decks []*storage.Deck, sr *ColorStatsR
 
 		color.BuildPercent = pct(float64(color.NumDecks), float64(len(decks)))
 		color.TotalPickPercentage = pct(float64(color.Cards), float64(totalCards))
-		color.WinPercent = pct(float64(color.Wins), float64(color.Wins+color.Losses))
+		color.Finalize()
 		logrus.WithFields(logrus.Fields{
 			"color":       color.Color,
 			"wins":        color.Wins,
@@ -382,9 +381,8 @@ func newColorStats(color string) *colorStats {
 
 // colorStats holds statistics about a specific card.
 type colorStats struct {
+	Record
 	Color                  string    `json:"color"`           // color
-	Wins                   int       `json:"wins"`            // Number of game wins
-	Losses                 int       `json:"losses"`          // Number of game losses
 	Cards                  int       `json:"cards"`           // Number of cards of this color
 	PercentOfWins          float64   `json:"percent_of_wins"` // % of all wins that included this color
 	Trophies               int       `json:"trophies"`        // Number of 3-0 decks
@@ -394,7 +392,6 @@ type colorStats struct {
 	DeckPercentages        []float64 `json:"deck_percentages"`         // Each element: % of cards in a deck with this color
 	AverageDeckPercentage  float64   `json:"average_deck_percentage"`  // Avg % of non-land cards in a deck that are this color
 	TotalPickPercentage    float64   `json:"total_pick_percentage"`    // % of all drafted cards that are this color
-	WinPercent             float64   `json:"win_percent"`              // Win % of decks including this color
 	BuildPercent           float64   `json:"build_percent"`            // % of all decks that have included this color
 	NumDecks               int       `json:"num_decks"`                // Total number of decks that included this color
 	VictoryPoints          float64   `json:"victory_points"`           // Fractional wins attributed to this color

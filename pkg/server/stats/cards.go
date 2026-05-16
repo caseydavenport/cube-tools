@@ -169,7 +169,7 @@ func (d *cardStatsHandler) statsForDecks(decks []*storage.Deck, cubeCards map[st
 			cbn.Mainboard++
 			cbn.Wins += deck.GameWins()
 			cbn.Losses += deck.GameLosses()
-			cbn.Draws += deck.MatchDraws()
+			cbn.Draws += deck.GameDraws()
 			cbn.Trophies += deck.Trophies()
 			cbn.LastPlace += deck.LastPlace()
 			cbn.TopHalf += deck.TopHalf()
@@ -179,8 +179,7 @@ func (d *cardStatsHandler) statsForDecks(decks []*storage.Deck, cubeCards map[st
 			arch := deck.Macro()
 			if arch != "" {
 				ws := cbn.ByArchetype[arch]
-				ws.Wins += deck.GameWins()
-				ws.Losses += deck.GameLosses()
+				ws.Add(deck)
 			}
 
 			// For each deck that this card was in, go through each opponent deck and add to the AgainstArchetype stats.
@@ -190,10 +189,13 @@ func (d *cardStatsHandler) statsForDecks(decks []*storage.Deck, cubeCards map[st
 					continue // No opponent deck found.
 				}
 				ws := cbn.AgainstArchetype[arch]
-				if game.Winner == deck.Player {
-					ws.Wins += 1
-				} else if game.Winner != "" && !game.Tie {
-					ws.Losses += 1
+				switch {
+				case game.Tie || game.Winner == "":
+					ws.Draws++
+				case game.Winner == deck.Player:
+					ws.Wins++
+				default:
+					ws.Losses++
 				}
 			}
 
@@ -284,34 +286,26 @@ func (d *cardStatsHandler) statsForDecks(decks []*storage.Deck, cubeCards map[st
 		card.ExpectedWinPercent = ExpectedWinPercent(card.Name, card.Players, decks)
 
 		// Calculate win percentage and mainboard/sideboard percentages.
-		card.TotalGames = card.Wins + card.Losses
-		card.WinPercent = pct(float64(card.Wins), float64(card.TotalGames))
+		card.TotalGames = card.Wins + card.Losses + card.Draws
+		card.WinPercent = winPctOf(card.Wins, card.Losses, card.Draws)
 		card.PercentOfWins = pct(float64(card.Wins), float64(totalWins))
 
 		decksWithCard := card.Mainboard + card.Sideboard
 		card.MainboardPercent = pct(float64(card.Mainboard), float64(decksWithCard))
 		card.SideboardPercent = pct(float64(card.Sideboard), float64(decksWithCard))
 
-		// Calculate per-archetype win percentages.
-		for arch, ws := range card.ByArchetype {
-			total := ws.Wins + ws.Losses
-			// This is a bit of a hack - only show archetype-specific win percentages if the card
-			// has at least N games played in that archetype. This prevents showing misleading
-			// win percentages based on small sample sizes.
-			if total > 15 {
-				ws.WinPercent = pct(float64(ws.Wins), float64(total))
+		// Calculate per-archetype win percentages. Only show archetype-specific
+		// win percentages with at least 15 games played; smaller samples are
+		// noisy and misleading.
+		for _, ws := range card.ByArchetype {
+			if ws.Wins+ws.Losses+ws.Draws > 15 {
+				ws.Finalize()
 			}
-			card.ByArchetype[arch] = ws
 		}
-
-		// Calculate per-archetype win percentages for AgainstArchetype.
-		for arch, ws := range card.AgainstArchetype {
-			total := ws.Wins + ws.Losses
-			// This is a hack to prevent showing misleading win percentages based on small samples.
-			if total > 15 {
-				ws.WinPercent = pct(float64(ws.Wins), float64(total))
+		for _, ws := range card.AgainstArchetype {
+			if ws.Wins+ws.Losses+ws.Draws > 15 {
+				ws.Finalize()
 			}
-			card.AgainstArchetype[arch] = ws
 		}
 
 		// Calculate total drafts.
@@ -329,8 +323,7 @@ func (d *cardStatsHandler) statsForDecks(decks []*storage.Deck, cubeCards map[st
 }
 
 func ExpectedWinPercent(cardName string, players map[string]int, decks []*storage.Deck) float64 {
-	totalWins := 0
-	totalGames := 0
+	r := Record{}
 	for _, d := range decks {
 		// Skip decks that were not played by one of the specified players.
 		if _, ok := players[d.Player]; !ok {
@@ -351,18 +344,10 @@ func ExpectedWinPercent(cardName string, players map[string]int, decks []*storag
 		}
 
 		// This deck does not include the card, so include its results.
-		games := d.GameWins() + d.GameLosses()
-		if games == 0 {
-			continue
-		}
-		totalWins += d.GameWins()
-		totalGames += games
+		r.Add(d)
 	}
-	if totalGames == 0 {
-		return 0.0
-	}
-
-	return pct(float64(totalWins), float64(totalGames))
+	r.Finalize()
+	return r.WinPercent
 }
 
 // K-factor for ELO updates.
@@ -723,7 +708,7 @@ type cardStats struct {
 	// Number of losses (does not include sideboard)
 	Losses int `json:"losses"`
 
-	// Number of match draws (does not include sideboard)
+	// Number of game draws (does not include sideboard)
 	Draws int `json:"draws"`
 
 	// Number of 3-0 decks this card has been in
@@ -793,7 +778,5 @@ type cardStats struct {
 }
 
 type winStats struct {
-	Wins       int     `json:"wins"`
-	Losses     int     `json:"losses"`
-	WinPercent float64 `json:"win_percent"`
+	Record
 }
