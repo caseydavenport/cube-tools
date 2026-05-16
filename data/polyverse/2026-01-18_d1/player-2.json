@@ -6,32 +6,32 @@
  },
  "macro_archetype": "aggro",
  "labels": [],
- "player": "2026-01-18_d1-P2",
+ "player": "2026-01-18_d1-p2",
  "date": "2026-01-18",
  "matches": [
   {
-   "opponent": "2026-01-18_d1-P6",
+   "opponent": "2026-01-18_d1-p6",
    "round": 1,
    "wins": 2,
    "losses": 1,
    "draws": 0,
-   "winner": "2026-01-18_d1-P2"
+   "winner": "2026-01-18_d1-p2"
   },
   {
-   "opponent": "2026-01-18_d1-P5",
+   "opponent": "2026-01-18_d1-p5",
    "round": 2,
    "wins": 2,
    "losses": 1,
    "draws": 0,
-   "winner": "2026-01-18_d1-P2"
+   "winner": "2026-01-18_d1-p2"
   },
   {
-   "opponent": "2026-01-18_d1-P8",
+   "opponent": "2026-01-18_d1-p8",
    "round": 3,
    "wins": 0,
    "losses": 2,
    "draws": 0,
-   "winner": "2026-01-18_d1-P8"
+   "winner": "2026-01-18_d1-p8"
   }
  ],
  "mainboard": [
@@ -126,13 +126,13 @@
    "name": "Kellan, the Fae-Blooded // Birthright Boon",
    "types": [
     "Legendary",
-    "Creature"
+    "Creature",
+    "Sorcery"
    ],
    "sub_types": [
     "Human",
     "Faerie",
-    "//",
-    "Sorcery"
+    "Adventure"
    ],
    "cmc": 3,
    "image": "",
@@ -235,13 +235,13 @@
   {
    "name": "Questing Druid // Seek the Beast",
    "types": [
-    "Creature"
+    "Creature",
+    "Instant"
    ],
    "sub_types": [
     "Human",
     "Druid",
-    "//",
-    "Instant"
+    "Adventure"
    ],
    "cmc": 2,
    "image": "",

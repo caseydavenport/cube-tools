@@ -8,32 +8,32 @@
  "labels": [
   "delve"
  ],
- "player": "2026-01-18_d1-P3",
+ "player": "2026-01-18_d1-p3",
  "date": "2026-01-18",
  "matches": [
   {
-   "opponent": "2026-01-18_d1-P7",
+   "opponent": "2026-01-18_d1-p7",
    "round": 1,
    "wins": 0,
    "losses": 2,
    "draws": 0,
-   "winner": "2026-01-18_d1-P7"
+   "winner": "2026-01-18_d1-p7"
   },
   {
-   "opponent": "2026-01-18_d1-P4",
+   "opponent": "2026-01-18_d1-p4",
    "round": 2,
    "wins": 2,
    "losses": 1,
    "draws": 0,
-   "winner": "2026-01-18_d1-P3"
+   "winner": "2026-01-18_d1-p3"
   },
   {
-   "opponent": "2026-01-18_d1-P1",
+   "opponent": "2026-01-18_d1-p1",
    "round": 3,
    "wins": 2,
    "losses": 0,
    "draws": 0,
-   "winner": "2026-01-18_d1-P3"
+   "winner": "2026-01-18_d1-p3"
   }
  ],
  "mainboard": [
@@ -314,7 +314,6 @@
    "name": "Virtue of Persistence // Locthwain Scorn",
    "types": [
     "Enchantment",
-    "//",
     "Sorcery"
    ],
    "sub_types": [

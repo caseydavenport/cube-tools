@@ -9,32 +9,32 @@
   "lands",
   "ramp"
  ],
- "player": "2026-01-18_d2-P2",
+ "player": "2026-01-18_d2-p2",
  "date": "2026-01-18",
  "matches": [
   {
-   "opponent": "2026-01-18_d2-P4",
+   "opponent": "2026-01-18_d2-p4",
    "round": 1,
    "wins": 2,
    "losses": 0,
    "draws": 0,
-   "winner": "2026-01-18_d2-P2"
+   "winner": "2026-01-18_d2-p2"
   },
   {
-   "opponent": "2026-01-18_d2-P1",
+   "opponent": "2026-01-18_d2-p1",
    "round": 2,
    "wins": 0,
    "losses": 2,
    "draws": 0,
-   "winner": "2026-01-18_d2-P1"
+   "winner": "2026-01-18_d2-p1"
   },
   {
-   "opponent": "2026-01-18_d2-P5",
+   "opponent": "2026-01-18_d2-p5",
    "round": 3,
    "wins": 2,
    "losses": 0,
    "draws": 0,
-   "winner": "2026-01-18_d2-P2"
+   "winner": "2026-01-18_d2-p2"
   }
  ],
  "mainboard": [
@@ -1242,12 +1242,12 @@
   {
    "name": "Faerie Guidemother // Gift of the Fae",
    "types": [
-    "Creature"
+    "Creature",
+    "Sorcery"
    ],
    "sub_types": [
     "Faerie",
-    "//",
-    "Sorcery"
+    "Adventure"
    ],
    "cmc": 1,
    "image": "",

@@ -6,32 +6,32 @@
  },
  "macro_archetype": "tempo",
  "labels": [],
- "player": "2026-01-18_d2-P6",
+ "player": "2026-01-18_d2-p6",
  "date": "2026-01-18",
  "matches": [
   {
-   "opponent": "2026-01-18_d2-P1",
+   "opponent": "2026-01-18_d2-p1",
    "round": 1,
    "wins": 0,
    "losses": 2,
    "draws": 0,
-   "winner": "2026-01-18_d2-P1"
+   "winner": "2026-01-18_d2-p1"
   },
   {
-   "opponent": "2026-01-18_d2-P5",
+   "opponent": "2026-01-18_d2-p5",
    "round": 2,
    "wins": 0,
    "losses": 2,
    "draws": 0,
-   "winner": "2026-01-18_d2-P5"
+   "winner": "2026-01-18_d2-p5"
   },
   {
-   "opponent": "2026-01-18_d2-P4",
+   "opponent": "2026-01-18_d2-p4",
    "round": 3,
    "wins": 0,
    "losses": 2,
    "draws": 0,
-   "winner": "2026-01-18_d2-P4"
+   "winner": "2026-01-18_d2-p4"
   }
  ],
  "mainboard": [],
@@ -614,8 +614,6 @@
   {
    "name": "Fire // Ice",
    "types": [
-    "Instant",
-    "//",
     "Instant"
    ],
    "cmc": 4,

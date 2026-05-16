@@ -6,32 +6,32 @@
  },
  "macro_archetype": "aggro",
  "labels": [],
- "player": "2026-01-17-P5",
+ "player": "2026-01-17-p5",
  "date": "2026-01-17",
  "matches": [
   {
-   "opponent": "2026-01-17-P1",
+   "opponent": "2026-01-17-p1",
    "round": 1,
    "wins": 2,
    "losses": 0,
    "draws": 0,
-   "winner": "2026-01-17-P5"
+   "winner": "2026-01-17-p5"
   },
   {
-   "opponent": "2026-01-17-P6",
+   "opponent": "2026-01-17-p6",
    "round": 2,
    "wins": 0,
    "losses": 2,
    "draws": 0,
-   "winner": "2026-01-17-P6"
+   "winner": "2026-01-17-p6"
   },
   {
-   "opponent": "2026-01-17-P7",
+   "opponent": "2026-01-17-p7",
    "round": 3,
    "wins": 1,
    "losses": 2,
    "draws": 0,
-   "winner": "2026-01-17-P7"
+   "winner": "2026-01-17-p7"
   }
  ],
  "mainboard": [

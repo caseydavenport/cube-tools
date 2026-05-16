@@ -8,32 +8,32 @@
  "labels": [
   "spells"
  ],
- "player": "2026-01-18_d1-P7",
+ "player": "2026-01-18_d1-p7",
  "date": "2026-01-18",
  "matches": [
   {
-   "opponent": "2026-01-18_d1-P3",
+   "opponent": "2026-01-18_d1-p3",
    "round": 1,
    "wins": 2,
    "losses": 0,
    "draws": 0,
-   "winner": "2026-01-18_d1-P7"
+   "winner": "2026-01-18_d1-p7"
   },
   {
-   "opponent": "2026-01-18_d1-P8",
+   "opponent": "2026-01-18_d1-p8",
    "round": 2,
    "wins": 0,
    "losses": 2,
    "draws": 0,
-   "winner": "2026-01-18_d1-P8"
+   "winner": "2026-01-18_d1-p8"
   },
   {
-   "opponent": "2026-01-18_d1-P5",
+   "opponent": "2026-01-18_d1-p5",
    "round": 3,
    "wins": 2,
    "losses": 1,
    "draws": 0,
-   "winner": "2026-01-18_d1-P7"
+   "winner": "2026-01-18_d1-p7"
   }
  ],
  "mainboard": [
@@ -319,8 +319,6 @@
   {
    "name": "Fire // Ice",
    "types": [
-    "Instant",
-    "//",
     "Instant"
    ],
    "cmc": 4,

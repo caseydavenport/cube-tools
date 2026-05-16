@@ -8,32 +8,32 @@
  "labels": [
   "sacrifice"
  ],
- "player": "2026-01-17-P1",
+ "player": "2026-01-17-p1",
  "date": "2026-01-17",
  "matches": [
   {
-   "opponent": "2026-01-17-P5",
+   "opponent": "2026-01-17-p5",
    "round": 1,
    "wins": 0,
    "losses": 2,
    "draws": 0,
-   "winner": "2026-01-17-P5"
+   "winner": "2026-01-17-p5"
   },
   {
-   "opponent": "2026-01-17-P2",
+   "opponent": "2026-01-17-p2",
    "round": 2,
    "wins": 2,
    "losses": 1,
    "draws": 0,
-   "winner": "2026-01-17-P1"
+   "winner": "2026-01-17-p1"
   },
   {
-   "opponent": "2026-01-17-P3",
+   "opponent": "2026-01-17-p3",
    "round": 3,
    "wins": 2,
    "losses": 0,
    "draws": 0,
-   "winner": "2026-01-17-P1"
+   "winner": "2026-01-17-p1"
   }
  ],
  "mainboard": [
@@ -90,7 +90,6 @@
    "name": "Virtue of Persistence // Locthwain Scorn",
    "types": [
     "Enchantment",
-    "//",
     "Sorcery"
    ],
    "sub_types": [

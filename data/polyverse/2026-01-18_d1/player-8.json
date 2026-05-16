@@ -9,32 +9,32 @@
   "token",
   "hatebears"
  ],
- "player": "2026-01-18_d1-P8",
+ "player": "2026-01-18_d1-p8",
  "date": "2026-01-18",
  "matches": [
   {
-   "opponent": "2026-01-18_d1-P4",
+   "opponent": "2026-01-18_d1-p4",
    "round": 1,
    "wins": 2,
    "losses": 0,
    "draws": 0,
-   "winner": "2026-01-18_d1-P8"
+   "winner": "2026-01-18_d1-p8"
   },
   {
-   "opponent": "2026-01-18_d1-P7",
+   "opponent": "2026-01-18_d1-p7",
    "round": 2,
    "wins": 2,
    "losses": 0,
    "draws": 0,
-   "winner": "2026-01-18_d1-P8"
+   "winner": "2026-01-18_d1-p8"
   },
   {
-   "opponent": "2026-01-18_d1-P2",
+   "opponent": "2026-01-18_d1-p2",
    "round": 3,
    "wins": 2,
    "losses": 0,
    "draws": 0,
-   "winner": "2026-01-18_d1-P8"
+   "winner": "2026-01-18_d1-p8"
   }
  ],
  "mainboard": [
@@ -451,12 +451,12 @@
   {
    "name": "Cheeky House-Mouse // Squeak By",
    "types": [
-    "Creature"
+    "Creature",
+    "Sorcery"
    ],
    "sub_types": [
     "Mouse",
-    "//",
-    "Sorcery"
+    "Adventure"
    ],
    "cmc": 1,
    "image": "",
@@ -498,12 +498,12 @@
   {
    "name": "Faerie Guidemother // Gift of the Fae",
    "types": [
-    "Creature"
+    "Creature",
+    "Sorcery"
    ],
    "sub_types": [
     "Faerie",
-    "//",
-    "Sorcery"
+    "Adventure"
    ],
    "cmc": 1,
    "image": "",

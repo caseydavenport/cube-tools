@@ -9,32 +9,32 @@
   "equipment",
   "valiant"
  ],
- "player": "2026-01-18_d2-P1",
+ "player": "2026-01-18_d2-p1",
  "date": "2026-01-18",
  "matches": [
   {
-   "opponent": "2026-01-18_d2-P6",
+   "opponent": "2026-01-18_d2-p6",
    "round": 1,
    "wins": 2,
    "losses": 0,
    "draws": 0,
-   "winner": "2026-01-18_d2-P1"
+   "winner": "2026-01-18_d2-p1"
   },
   {
-   "opponent": "2026-01-18_d2-P2",
+   "opponent": "2026-01-18_d2-p2",
    "round": 2,
    "wins": 2,
    "losses": 0,
    "draws": 0,
-   "winner": "2026-01-18_d2-P1"
+   "winner": "2026-01-18_d2-p1"
   },
   {
-   "opponent": "2026-01-18_d2-P3",
+   "opponent": "2026-01-18_d2-p3",
    "round": 3,
    "wins": 2,
    "losses": 0,
    "draws": 0,
-   "winner": "2026-01-18_d2-P1"
+   "winner": "2026-01-18_d2-p1"
   }
  ],
  "mainboard": [
@@ -97,13 +97,13 @@
    "name": "Kellan, the Fae-Blooded // Birthright Boon",
    "types": [
     "Legendary",
-    "Creature"
+    "Creature",
+    "Sorcery"
    ],
    "sub_types": [
     "Human",
     "Faerie",
-    "//",
-    "Sorcery"
+    "Adventure"
    ],
    "cmc": 3,
    "image": "",
@@ -404,12 +404,12 @@
   {
    "name": "Cheeky House-Mouse // Squeak By",
    "types": [
-    "Creature"
+    "Creature",
+    "Sorcery"
    ],
    "sub_types": [
     "Mouse",
-    "//",
-    "Sorcery"
+    "Adventure"
    ],
    "cmc": 1,
    "image": "",

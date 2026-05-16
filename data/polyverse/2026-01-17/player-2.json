@@ -9,24 +9,24 @@
   "lands",
   "ramp"
  ],
- "player": "2026-01-17-P2",
+ "player": "2026-01-17-p2",
  "date": "2026-01-17",
  "matches": [
   {
-   "opponent": "2026-01-17-P4",
+   "opponent": "2026-01-17-p4",
    "round": 1,
    "wins": 1,
    "losses": 2,
    "draws": 0,
-   "winner": "2026-01-17-P4"
+   "winner": "2026-01-17-p4"
   },
   {
-   "opponent": "2026-01-17-P1",
+   "opponent": "2026-01-17-p1",
    "round": 2,
    "wins": 1,
    "losses": 2,
    "draws": 0,
-   "winner": "2026-01-17-P1"
+   "winner": "2026-01-17-p1"
   },
   {
    "opponent": "",
@@ -34,7 +34,7 @@
    "wins": 1,
    "losses": 0,
    "draws": 0,
-   "winner": "2026-01-17-P2"
+   "winner": "2026-01-17-p2"
   }
  ],
  "mainboard": [
