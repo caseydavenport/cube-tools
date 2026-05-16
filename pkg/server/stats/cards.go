@@ -368,6 +368,28 @@ func ExpectedWinPercent(cardName string, players map[string]int, decks []*storag
 // K-factor for ELO updates.
 const eloK = 4.0
 
+// colorsCompete reports whether two cards' color identities suggest they
+// compete for the same slot. Colorless cards fit any deck, so they compete
+// with anything. Otherwise, the cards compete iff their colors overlap.
+//
+// Note: this is only called for (mb, sb) pairs that survive buildELOPairs's
+// CanCast filter, so both cards are already known to be castable in the
+// same deck. That lets us treat "shares a color" as genuine competition -
+// e.g., W vs WU only reaches here inside a WU deck. A W card in a WG deck
+// being compared against a WU sideboard card can't happen, because the WU
+// card would be filtered out by CanCast.
+func colorsCompete(a, b []string) bool {
+	if len(a) == 0 || len(b) == 0 {
+		return true
+	}
+	for _, c := range a {
+		if slices.Contains(b, c) {
+			return true
+		}
+	}
+	return false
+}
+
 // How much the mainboard card "wins" against the sideboard card. The closer
 // the two cards are in CMC, color, and type, the more directly they compete,
 // so the mainboard card gets more credit for being chosen.
@@ -377,17 +399,7 @@ func eloWinValue(mb, sb types.Card) float64 {
 		winValue -= 0.025 * math.Abs(float64(mb.CMC-sb.CMC))
 	}
 
-	colorMatch := true
-	if mb.Colors != nil && sb.Colors != nil {
-		for _, color := range mb.Colors {
-			for _, color2 := range sb.Colors {
-				if !slices.Contains(mb.Colors, color2) || !slices.Contains(sb.Colors, color) {
-					colorMatch = false
-				}
-			}
-		}
-	}
-	if !colorMatch {
+	if !colorsCompete(mb.Colors, sb.Colors) {
 		winValue -= 0.05
 	}
 

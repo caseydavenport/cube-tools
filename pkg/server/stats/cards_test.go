@@ -246,3 +246,56 @@ func TestELOData_OrderIndependent(t *testing.T) {
 	assert.LessOrEqual(t, maxDiff, 2,
 		"deck order changed %s's ELO by %d points", worstCard, maxDiff)
 }
+
+func TestColorsCompete(t *testing.T) {
+	tests := []struct {
+		name string
+		a    []string
+		b    []string
+		want bool
+	}{
+		{"both colorless", nil, nil, true},
+		{"colorless empty slices", []string{}, []string{}, true},
+		{"colorless vs mono", []string{}, []string{"W"}, true},
+		{"mono vs colorless", []string{"W"}, []string{}, true},
+		{"colorless vs multi", nil, []string{"W", "U", "B"}, true},
+
+		{"same mono", []string{"W"}, []string{"W"}, true},
+		{"different mono", []string{"W"}, []string{"U"}, false},
+
+		{"mono vs dual sharing color", []string{"W"}, []string{"W", "U"}, true},
+		{"dual vs mono sharing color", []string{"W", "U"}, []string{"W"}, true},
+		{"mono vs dual not sharing", []string{"R"}, []string{"W", "U"}, false},
+
+		{"dual vs dual sharing one", []string{"W", "U"}, []string{"U", "B"}, true},
+		{"dual vs dual disjoint", []string{"W", "U"}, []string{"B", "R"}, false},
+		{"dual vs dual identical", []string{"W", "U"}, []string{"W", "U"}, true},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			assert.Equal(t, tt.want, colorsCompete(tt.a, tt.b))
+			// Symmetric: order shouldn't matter.
+			assert.Equal(t, tt.want, colorsCompete(tt.b, tt.a),
+				"colorsCompete should be symmetric")
+		})
+	}
+}
+
+func TestEloWinValue_ColorPenalty(t *testing.T) {
+	// Same CMC and type, only color identity varies. The penalty for
+	// non-matching colors is 0.05, so cards that share a color (or include
+	// a colorless side) should score 0.05 higher than disjoint pairs.
+	base := types.Card{CMC: 2, Types: []string{"Creature"}, Colors: []string{"W"}}
+
+	sameColor := types.Card{CMC: 2, Types: []string{"Creature"}, Colors: []string{"W"}}
+	monoVsDualShared := types.Card{CMC: 2, Types: []string{"Creature"}, Colors: []string{"W", "U"}}
+	monoVsDualDisjoint := types.Card{CMC: 2, Types: []string{"Creature"}, Colors: []string{"U", "B"}}
+	colorless := types.Card{CMC: 2, Types: []string{"Creature"}, Colors: []string{}}
+
+	assert.InDelta(t, eloWinValue(base, sameColor), eloWinValue(base, monoVsDualShared), 1e-9,
+		"W vs WU should match (share W)")
+	assert.InDelta(t, eloWinValue(base, sameColor), eloWinValue(base, colorless), 1e-9,
+		"colorless competes with anything")
+	assert.Greater(t, eloWinValue(base, sameColor), eloWinValue(base, monoVsDualDisjoint),
+		"disjoint colors should drop winValue")
+}
