@@ -194,13 +194,13 @@ function DraftOrderWidget(input) {
               p1Burns = pick.p1Burns
             }
 
-            // Calculate the standard deviation for this card.
+            // Calculate the sample standard deviation for this card.
             let sumOfSquares = 0
             for (let p of pick.picks) {
               let diff = avgPackPick - p.pick
               sumOfSquares += diff*diff
             }
-            let stddev = Math.round(Math.sqrt(sumOfSquares / pick.count)*10) / 10
+            let stddev = pick.count < 2 ? 0 : Math.round(Math.sqrt(sumOfSquares / (pick.count - 1))*10) / 10
 
             // Filter out if the pick doesn't meet deviation filter.
             if (input.minDeviation > 0 && stddev < input.minDeviation) {

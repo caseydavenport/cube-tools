@@ -138,7 +138,7 @@ func shannonEvenness(counts map[string]int, total int) float64 {
 	return math.Round(h/hMax*1000) / 1000
 }
 
-// colorBalanceStdDev computes the standard deviation of win rates across
+// colorBalanceStdDev computes the sample standard deviation of win rates across
 // the 10 dual color pairs.
 func colorBalanceStdDev(allDecks []*storage.Deck) float64 {
 	dualColors := []string{"WU", "WB", "WR", "WG", "UB", "UR", "UG", "BR", "BG", "RG"}
@@ -184,7 +184,7 @@ func colorBalanceStdDev(allDecks []*storage.Deck) float64 {
 		diff := r - mean
 		variance += diff * diff
 	}
-	variance /= float64(len(rates))
+	variance /= float64(len(rates) - 1)
 
 	return math.Round(math.Sqrt(variance)*1000) / 1000
 }

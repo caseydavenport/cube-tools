@@ -123,22 +123,23 @@ export function ExtractColors({deck}) {
   return Array.from(colors.keys());
 }
 
-// StdDev takes a list of numbers and returns the standard deviation of that set.
+// StdDev takes a list of numbers and returns the sample standard deviation of that set.
 export function StdDev(data) {
-  // Find the average value.
+  if (data.length < 2) {
+    return 0
+  }
   let sum = 0;
   for (let val of data) {
     sum += val;
   }
   let avg = sum / data.length;
 
-  // Find
   let sumOfSquares = 0
   for (let val of data) {
     let diff = avg - val
     sumOfSquares += diff*diff
   }
-  return Math.round(Math.sqrt(sumOfSquares / data.length)*10) / 10
+  return Math.round(Math.sqrt(sumOfSquares / (data.length - 1))*10) / 10
 }
 
 // Returns true if the card is a basic land, and false otherwise.
