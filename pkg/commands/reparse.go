@@ -69,7 +69,10 @@ func reparse() error {
 			if d, err := parseDeck(srcFiles, deck.Player, "", draft.Date, draft.DraftID); err != nil {
 				logrus.WithError(err).WithField("deck", deckIndex.Path).Warn("Failed to parse deck")
 			} else {
-				// Write the updated deck file.
+				// Preserve the existing canonical path so reparse overwrites
+				// in place rather than writing a new file under the lowercased
+				// player name.
+				d.Metadata.Path = deck.Metadata.Path
 				if err := writeDeck(d, draft.DraftID); err != nil {
 					logrus.WithError(err).Fatal("Failed to write deck")
 				}

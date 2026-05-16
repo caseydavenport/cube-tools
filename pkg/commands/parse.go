@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"io"
 	"os"
+	"path/filepath"
 	"strconv"
 	"strings"
 	"time"
@@ -262,11 +263,15 @@ func writeDeck(d *types.Deck, draftID string) error {
 
 	// If the file already exists, load it and save some fields.
 	// This allows us to re-run this script without overwriting manually
-	// captured metadata.
+	// captured metadata. Load from path (not the conventional <draft>/<player>.json
+	// location) so we preserve data when the canonical file uses legacy naming.
 	if _, err := os.Stat(path); err == nil {
 		logrus.WithField("file", path).Debug("File already exists, loading and updating")
 
-		existing := LoadParsedDeckFile(draftID, d.Player)
+		existing, err := types.LoadDeck(path)
+		if err != nil {
+			return fmt.Errorf("Failed to load existing deck %s: %w", path, err)
+		}
 		d.Player = existing.Player
 		d.Labels = existing.Labels
 		d.MacroArchetype = existing.MacroArchetype
@@ -297,58 +302,32 @@ func writeDeck(d *types.Deck, draftID string) error {
 	// Write the original "raw" decklist for posterity, tracking source files.
 	// We also update the metadata to point to the copied files.
 	// This allows us to re-run the parsing process without losing the original
-	// source files.
-	if f := d.Metadata.CombinedFile; f != "" {
-		filename := fmt.Sprintf("%s%s", d.Player, fileSuffix(f))
-		dst := fmt.Sprintf("%s/%s", outdir, filename)
-		if err := copyFile(*logc, f, dst); err != nil {
-			logc.WithError(err).Warn("Failed to copy source file")
+	// source files. If the source is already inside outdir (reparse case),
+	// keep the existing filename so reparse is idempotent.
+	copyOrKeep := func(src, suffix, label string) string {
+		if src == "" {
+			return ""
 		}
-		d.Metadata.CombinedFile = dst
-	}
-	if f := d.Metadata.MainboardFile; f != "" {
-		filename := fmt.Sprintf("%s-mainboard%s", d.Player, fileSuffix(f))
-		dst := fmt.Sprintf("%s/%s", outdir, filename)
-		if err := copyFile(*logc, f, dst); err != nil {
-			logc.WithError(err).Warn("Failed to copy mainboard file")
+		if filepath.Dir(src) == outdir {
+			return src
 		}
-		d.Metadata.MainboardFile = dst
-	}
-	if f := d.Metadata.SideboardFile; f != "" {
-		filename := fmt.Sprintf("%s-sideboard%s", d.Player, fileSuffix(f))
-		dst := fmt.Sprintf("%s/%s", outdir, filename)
-		if err := copyFile(*logc, f, dst); err != nil {
-			logc.WithError(err).Warn("Failed to copy sideboard file")
+		dst := fmt.Sprintf("%s/%s%s%s", outdir, d.Player, suffix, fileSuffix(src))
+		if err := copyFile(*logc, src, dst); err != nil {
+			logc.WithError(err).Warnf("Failed to copy %s file", label)
 		}
-		d.Metadata.SideboardFile = dst
+		return dst
 	}
-	if f := d.Metadata.PoolFile; f != "" {
-		filename := fmt.Sprintf("%s-pool%s", d.Player, fileSuffix(f))
-		dst := fmt.Sprintf("%s/%s", outdir, filename)
-		if err := copyFile(*logc, f, dst); err != nil {
-			logc.WithError(err).Warn("Failed to copy pool file")
-		}
-		d.Metadata.PoolFile = dst
-	}
+	d.Metadata.CombinedFile = copyOrKeep(d.Metadata.CombinedFile, "", "source")
+	d.Metadata.MainboardFile = copyOrKeep(d.Metadata.MainboardFile, "-mainboard", "mainboard")
+	d.Metadata.SideboardFile = copyOrKeep(d.Metadata.SideboardFile, "-sideboard", "sideboard")
+	d.Metadata.PoolFile = copyOrKeep(d.Metadata.PoolFile, "-pool", "pool")
 
-	// First, write the canonical deck file in our format.
+	// Write the canonical deck file in our format. The JSON is the source of
+	// truth - the `export-cc` command handles cubecobra exports on demand, so
+	// we no longer write a per-deck .cubecobra.txt alongside.
 	logc.WithField("file", path).Debug("Writing canonical deck file")
 	if err := SaveDeck(d); err != nil {
 		logrus.WithError(err).Fatal("Failed to save deck")
-	}
-
-	// Write it out as a simple text file with one card per line - useful to importing into cubecobra
-	// and other tools that accept decklists.
-	fileName := fmt.Sprintf("%s/%s.cubecobra.txt", outdir, d.Player)
-	logc.WithField("file", fileName).Debug("Writing kubecobra formatted file")
-	f2, err := os.Create(fileName)
-	defer f2.Close()
-	if err != nil {
-		logc.WithError(err).Fatal("Failed to create file")
-	}
-	for _, c := range d.Mainboard {
-		f2.Write([]byte(c.Name))
-		f2.Write([]byte("\n"))
 	}
 	return nil
 }

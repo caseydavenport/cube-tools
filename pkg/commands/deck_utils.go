@@ -29,10 +29,14 @@ func SaveDeck(d *types.Deck) error {
 		return err
 	}
 
-	// Write the parsed deck.
-	fn := DeckFilepath(d.Metadata.DraftID, d.Player)
-	err = os.WriteFile(fn, bs, os.ModePerm)
-	if err != nil {
+	// Prefer the canonical path recorded in the deck's metadata so reparse
+	// overwrites in place. Fall back to the conventional <draft>/<player>.json
+	// location when no path is set (fresh parses).
+	filename := d.Metadata.Path
+	if filename == "" {
+		filename = DeckFilepath(d.Metadata.DraftID, d.Player)
+	}
+	if err := os.WriteFile(filename, bs, os.ModePerm); err != nil {
 		return err
 	}
 	return nil
