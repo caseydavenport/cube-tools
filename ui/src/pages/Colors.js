@@ -209,7 +209,7 @@ function ColorStatsTable(input) {
     {
       id: "pwin",
       text: "% of wins",
-      tip: "Percentage of all wins by decks that included this color.",
+      tip: "Share of wins among rows of this same identity length (mono, dual, tri). Sums to ~100% within each view.",
     },
     {
       id: "vps",
@@ -469,11 +469,7 @@ export function GetColorStats(decks, colorMode) {
     }
   }
 
-  let totalWins = 0
   for (var i in decks) {
-    // Add this deck's wins to the total count of games.
-    totalWins += Wins(decks[i])
-
     // Start by adding metrics at the deck scope for color identity.
     // Add wins and losses contributed for each color / color combination within this deck.
     let colorIdentity = GetColorIdentity(decks[i])
@@ -591,6 +587,13 @@ export function GetColorStats(decks, colorMode) {
     }
   }
 
+  // Normalize percent_of_wins within each identity length so the column sums
+  // to 100% in mono, dual, and tri views independently.
+  let winsByLen = {}
+  for (let color of tracker.values()) {
+    winsByLen[color.color.length] = (winsByLen[color.color.length] || 0) + color.wins
+  }
+
   // Summarize tracker stats and calculate percentages.
   for (let color of tracker.values()) {
     // First, calculate the average color devotion of each deck based on card count.
@@ -606,7 +609,7 @@ export function GetColorStats(decks, colorMode) {
     color.total_pick_percentage = Pct(color.cards, totalCards);
     color.build_percent = Pct(color.num_decks, decks.length)
     color.win_percent = Pct(color.wins, color.wins + color.losses)
-    color.percent_of_wins = Pct(color.wins, totalWins)
+    color.percent_of_wins = Pct(color.wins, winsByLen[color.color.length])
     if (color.word_count_count > 0) {
       color.avg_word_count = Math.round(color.word_count_sum / color.word_count_count * 100) / 100
     }

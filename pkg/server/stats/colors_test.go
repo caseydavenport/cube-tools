@@ -211,14 +211,22 @@ func TestColorStats_InclusivePercentagesSumTo100(t *testing.T) {
 	err := json.Unmarshal(rr.Body.Bytes(), &resp)
 	assert.NoError(t, err)
 
-	sumWins := 0.0
+	// PercentOfWins is normalized per identity length, so sum across each
+	// length should be ~100% independently.
+	winsByLen := map[int]float64{}
+	for _, c := range resp.All.Data {
+		winsByLen[len(c.Color)] += c.PercentOfWins
+	}
+	for l, sum := range winsByLen {
+		assert.InDelta(t, 100.0, sum, 1.0, "PercentOfWins sum for length %d: %v", l, sum)
+	}
+
+	// TotalPickPercentage still sums to ~100% across all rows.
 	sumPicks := 0.0
 	for _, c := range resp.All.Data {
-		sumWins += c.PercentOfWins
 		sumPicks += c.TotalPickPercentage
 	}
 	rows := float64(len(resp.All.Data))
-	assert.InDelta(t, 100.0, sumWins, rows, "PercentOfWins sum: %v", sumWins)
 	assert.InDelta(t, 100.0, sumPicks, rows, "TotalPickPercentage sum: %v", sumPicks)
 }
 
