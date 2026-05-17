@@ -152,13 +152,24 @@ func TestTrophies(t *testing.T) {
 	assert.Equal(t, 1, d.Trophies())
 }
 
-func TestTrophies_DrawDoesNotPrevent(t *testing.T) {
-	// 3-0-1 should still be a trophy (draws don't count as losses)
+func TestTrophies_DrawDisqualifies(t *testing.T) {
+	// 3-0-1 is not a trophy: a trophy requires a perfect record.
 	d := makeDeck("Alice", nil, []Match{
 		{Opponent: "Bob", Winner: "Alice"},
 		{Opponent: "Charlie", Winner: "Alice"},
 		{Opponent: "Dave", Winner: "Alice"},
-		{Opponent: "Eve", Winner: ""},
+		{Opponent: "Eve", Winner: "", Draws: 1},
+	})
+	assert.Equal(t, 0, d.Trophies())
+}
+
+func TestTrophies_LongerSwiss(t *testing.T) {
+	// 4-0 in a 4-round event is also a trophy.
+	d := makeDeck("Alice", nil, []Match{
+		{Opponent: "Bob", Winner: "Alice"},
+		{Opponent: "Charlie", Winner: "Alice"},
+		{Opponent: "Dave", Winner: "Alice"},
+		{Opponent: "Eve", Winner: "Alice"},
 	})
 	assert.Equal(t, 1, d.Trophies())
 }

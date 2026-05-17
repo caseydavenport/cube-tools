@@ -425,8 +425,11 @@ func (d *Deck) MatchDraws() int {
 }
 
 func (d *Deck) Trophies() int {
-	// A trophy is awarded to decks with >3 match wins and no match losses.
-	if d.MatchWins() >= 3 && d.MatchLosses() == 0 {
+	// A trophy is awarded to decks that won every match in their event with at
+	// least 3 wins. The 3-win floor accepts 3-round and longer Swiss formats
+	// while excluding short pods. Any draw disqualifies — a trophy means a
+	// perfect record.
+	if d.MatchWins() >= 3 && d.MatchLosses() == 0 && d.MatchDraws() == 0 {
 		return 1
 	}
 	return 0
