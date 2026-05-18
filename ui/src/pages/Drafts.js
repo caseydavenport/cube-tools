@@ -211,15 +211,17 @@ function DraftOrderWidget(input) {
             }
 
 
+            // sort uses raw numeric data, not display strings. null means
+            // "no data" and is translated to an end-of-list sentinel below.
             let sort = pick.count
             if (input.sortBy === "p1p1") {
               sort = pick.firstPicks
             } else if (input.sortBy === "avgp1pick") {
-              sort = avgPack1Pick
+              sort = pick.p1Count > 0 ? pick.p1PickNumSum / pick.p1Count : null
             } else if (input.sortBy === "avgpick") {
-              sort = avgPackPick
+              sort = pick.count > 0 ? pick.pickNumSum / pick.count : null
             } else if (input.sortBy === "avgpickabs") {
-              sort = avgPackPickAbsolute
+              sort = pick.count > 0 ? pick.pickNumSumAbs / pick.count : null
             } else if (input.sortBy === "burn") {
               sort = pick.burns
             } else if (input.sortBy === "p1burn") {
@@ -232,16 +234,11 @@ function DraftOrderWidget(input) {
               sort = stddev
             }
 
-            if (sort == "-") {
-              // Treat empty values as last always. That means a negataive number
-              // for normal sorting, and a big positive one for inverted sorting.
-              sort = -1
-              if (input.invertSort) {
-                sort = 100000
-              }
-            }
-
-            if (input.invertSort) {
+            if (sort === null) {
+              // Empties sort to the bottom regardless of direction.
+              sort = input.invertSort ? 100000 : -1
+            } else if (input.invertSort && typeof sort === "number") {
+              // Don't multiply strings (e.g. name sort) — that yields NaN.
               sort = -1 * sort
             }
 
