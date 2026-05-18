@@ -4,7 +4,9 @@ GO_FILES=$(shell find ./pkg -type f) $(shell find ./cmd -type f)
 all: data/oracle-cards.json bin/parser
 build: bin/server bin/parser
 
-test:
+test: ut
+
+ut:
 	go test ./...
 
 index: data/oracle-cards.json
