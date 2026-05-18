@@ -178,8 +178,10 @@ func (d *cardStatsHandler) statsForDecks(decks []*storage.Deck, cubeCards map[st
 			// Add contribution to archetype-specific stats.
 			arch := deck.Macro()
 			if arch != "" {
-				ws := cbn.ByArchetype[arch]
-				ws.Add(deck)
+				if cbn.ByArchetype[arch] == nil {
+					cbn.ByArchetype[arch] = &winStats{}
+				}
+				cbn.ByArchetype[arch].Add(deck)
 			}
 
 			// For each deck that this card was in, go through each opponent deck and add to the AgainstArchetype stats.
@@ -187,6 +189,9 @@ func (d *cardStatsHandler) statsForDecks(decks []*storage.Deck, cubeCards map[st
 				arch := server.LookupOpponentMacro(decks, deck, game.Opponent)
 				if arch == "" {
 					continue // No opponent deck found.
+				}
+				if cbn.AgainstArchetype[arch] == nil {
+					cbn.AgainstArchetype[arch] = &winStats{}
 				}
 				ws := cbn.AgainstArchetype[arch]
 				switch {
