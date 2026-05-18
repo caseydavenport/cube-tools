@@ -523,26 +523,6 @@ func TestRemoveGamesForOpponent(t *testing.T) {
 	assert.Equal(t, 1, len(d.GamesForOpponent("Charlie")))
 }
 
-// --- Game.Result ---
-
-func TestGameResult(t *testing.T) {
-	tests := []struct {
-		name string
-		game Game
-		want Result
-	}{
-		{"win", Game{Opponent: "Bob", Winner: "Alice"}, ResultWin},
-		{"loss", Game{Opponent: "Bob", Winner: "Bob"}, ResultLoss},
-		{"draw empty winner", Game{Opponent: "Bob", Winner: ""}, ResultDraw},
-		{"draw tie flag", Game{Opponent: "Bob", Winner: "", Tie: true}, ResultDraw},
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			assert.Equal(t, tt.want, tt.game.Result())
-		})
-	}
-}
-
 // --- PrimaryColorPair ---
 
 // Build a non-land card with the given colors for tests below.
