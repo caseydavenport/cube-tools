@@ -376,16 +376,24 @@ func cardsFromTXT(txt string) ([]types.Card, []types.Card) {
 	lines := strings.Split(string(bytes), "\n")
 
 	mainboard := true
+	sawCard := false
+	flipped := false
 
 	// The first character is always the number.
 	mb := []types.Card{}
 	sb := []types.Card{}
 	for _, l := range lines {
 		if len(l) == 0 {
-			// Newline - switch to sideboard.
-			mainboard = false
+			// Blank line marks the mainboard/sideboard divider. Skip leading
+			// blanks (before any card) and treat consecutive blanks as one
+			// divider — only the first blank after content flips the section.
+			if sawCard && !flipped {
+				mainboard = false
+				flipped = true
+			}
 			continue
 		}
+		sawCard = true
 
 		// Default to a single entry if no number is specified.
 		var count int64
