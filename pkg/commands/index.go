@@ -126,20 +126,10 @@ func decksInDraft(directory string) []IndexedDeck {
 		// Get only the base name of the file
 		fileName := filepath.Base(file)
 
-		// Skip index.json, metadata.json, cube snapshot, draft-log, and cube-rules files.
-		if fileName == "index.json" {
-			continue
-		}
-		if fileName == "metadata.json" {
-			continue
-		}
-		if fileName == "cube.json" || fileName == "cube-rules.json" {
-			continue
-		}
-		if strings.Contains(file, "snapshot") {
-			continue
-		}
-		if strings.Contains(file, "draft-log") {
+		// Skip non-deck files in the draft directory.
+		switch fileName {
+		case "index.json", "metadata.json", "cube.json", "cube-rules.json",
+			"cube-snapshot.json", "draft-log.json":
 			continue
 		}
 		decks = append(decks, IndexedDeck{Path: file})
