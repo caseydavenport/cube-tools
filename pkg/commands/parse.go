@@ -1,6 +1,7 @@
 package commands
 
 import (
+	"encoding/csv"
 	"fmt"
 	"io"
 	"os"
@@ -427,93 +428,72 @@ func cardsFromTXT(txt string) ([]types.Card, []types.Card) {
 	return mb, sb
 }
 
-func cardsFromCSV(csv string) ([]types.Card, []types.Card) {
-	f, err := os.Open(csv)
+func cardsFromCSV(path string) ([]types.Card, []types.Card) {
+	f, err := os.Open(path)
+	if err != nil {
+		panic(err)
+	}
 	defer f.Close()
+
+	r := csv.NewReader(f)
+	r.FieldsPerRecord = -1 // tolerate variable column counts (e.g. "Sideboard" rows)
+	records, err := r.ReadAll()
 	if err != nil {
 		panic(err)
 	}
-	bytes, err := io.ReadAll(f)
-	if err != nil {
-		panic(err)
+	if len(records) == 0 {
+		return nil, nil
 	}
 
-	// Add in cards.
-	lines := strings.Split(string(bytes), "\n")
-
-	// Use the first line to determine which indices have the quanity
-	// and card name.
+	// First row is the header.
 	quantityIdx := -1
 	nameIdx := -1
-	for i, header := range strings.Split(lines[0], ",") {
-		if strings.EqualFold(header, "Quantity") || strings.EqualFold(header, "Count") {
+	for i, header := range records[0] {
+		h := strings.TrimSpace(header)
+		if strings.EqualFold(h, "Quantity") || strings.EqualFold(h, "Count") {
 			quantityIdx = i
 		}
-		if strings.EqualFold(header, "Name") {
+		if strings.EqualFold(h, "Name") {
 			nameIdx = i
 		}
 	}
 	if quantityIdx < 0 || nameIdx < 0 {
-		panic("Failed to find quanity / name indices")
+		panic("Failed to find quantity / name indices")
 	}
 
-	// Now go through each line and extract the card, skipping the first line
-	// which only contains the header.
 	mb := []types.Card{}
 	sb := []types.Card{}
 	sideboard := false
-	for _, l := range lines[1:] {
-		if len(l) == 0 {
+	for _, row := range records[1:] {
+		if len(row) == 0 {
 			continue
 		}
-		if strings.Contains(l, "Sideboard") || strings.Contains(l, "sideboard") {
+		// A "Sideboard" marker can appear as a single-column row.
+		if len(row) == 1 && strings.EqualFold(strings.TrimSpace(row[0]), "Sideboard") {
 			sideboard = true
 			continue
 		}
-		parsed := cardsFromLine(l, quantityIdx, nameIdx)
+		if quantityIdx >= len(row) || nameIdx >= len(row) {
+			continue
+		}
+		count, err := strconv.Atoi(strings.TrimSpace(row[quantityIdx]))
+		if err != nil {
+			panic(fmt.Errorf("error parsing row %v: %w", row, err))
+		}
+		name := strings.TrimSpace(row[nameIdx])
 
-		if sideboard {
-			sb = append(sb, parsed...)
-		} else {
-			mb = append(mb, parsed...)
+		for i := 0; i < count; i++ {
+			oracleData := types.GetOracleData(name)
+			if oracleData.Name == "" {
+				logrus.Errorf("Failed to find oracle data for: %s", name)
+				continue
+			}
+			if sideboard {
+				sb = append(sb, types.FromOracle(oracleData))
+			} else {
+				mb = append(mb, types.FromOracle(oracleData))
+			}
 		}
 	}
 	return mb, sb
-}
-
-func cardsFromLine(line string, quantityIdx, nameIdx int) []types.Card {
-	cards := []types.Card{}
-	count, name := parseLine(line, quantityIdx, nameIdx)
-	for i := 0; i < count; i++ {
-		oracleData := types.GetOracleData(name)
-		if oracleData.Name == "" {
-			logrus.Errorf("Failed to find oracle data for: %s", name)
-			continue
-		}
-		cards = append(cards, types.FromOracle(oracleData))
-	}
-	return cards
-}
-
-func parseLine(l string, qIdx, nIdx int) (int, string) {
-	// Lines are generally formatted like this:
-	// Deck lists: "1,","card, name"
-	// Cube list: 1,"card, name",main
-	//
-	// So, we need to be able to handle card names with commas in them!
-
-	// For now, this is a bit of a hack. Ideally we'd parse this more intelligently, but
-	// since we know what limited inputs we might see here we can just cut off this suffix.
-	// We don't need to build a fully functional CSV parser.
-	l = strings.TrimSuffix(l, ",main")
-
-	// Parse the line. There should only be two columns. Each column's value may or may not
-	// be wrapped in quotes.
-	splits := strings.SplitN(l, ",", 2)
-	count, err := strconv.ParseInt(strings.Trim(splits[qIdx], "\""), 10, 32)
-	if err != nil {
-		panic(fmt.Errorf("Error parsing line: %s: %s", l, err))
-	}
-	name := strings.Trim(splits[nIdx], "\"")
-	return int(count), name
 }
