@@ -352,11 +352,11 @@ function gamesMatch(terms, card) {
     if (!isGamesTerm(term)) {
       continue
     }
-    if (gameMatches(term, card)) {
-      return true
+    if (!gameMatches(term, card)) {
+      return false
     }
   }
-  return false
+  return true
 }
 
 function gameMatches(term, card) {
@@ -394,11 +394,11 @@ function mainboardsMatch(terms, card) {
     if (!isMainboardTerm(term)) {
       continue
     }
-    if (mainboardMatches(term, card)) {
-      return true
+    if (!mainboardMatches(term, card)) {
+      return false
     }
   }
-  return false
+  return true
 }
 
 function mainboardMatches(term, card) {
@@ -436,11 +436,11 @@ function sideboardsMatch(terms, card) {
     if (!isSideboardTerm(term)) {
       continue
     }
-    if (sideboardMatches(term, card)) {
-      return true
+    if (!sideboardMatches(term, card)) {
+      return false
     }
   }
-  return false
+  return true
 }
 
 function sideboardMatches(term, card) {
@@ -618,11 +618,11 @@ function cmcsMatch(terms, card) {
     if (!isCMCTerm(term)) {
       continue
     }
-    if (cmcMatches(term, card)) {
-      return true
+    if (!cmcMatches(term, card)) {
+      return false
     }
   }
-  return false
+  return true
 }
 
 function cmcMatches(term, card) {
