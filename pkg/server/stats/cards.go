@@ -217,6 +217,7 @@ func (d *cardStatsHandler) statsForDecks(decks []*storage.Deck, cubeCards map[st
 			lastDate, err := time.Parse("2006-01-02", cbn.LastMainboarded)
 			if err != nil {
 				logrus.WithError(err).WithField("date", cbn.LastMainboarded).Warn("could not parse last mainboarded date")
+				continue
 			}
 			if deckDate.After(lastDate) {
 				cbn.LastMainboarded = deck.Date
