@@ -288,10 +288,12 @@ func (s *synergyStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request)
 		})
 
 		for _, syn := range synergies {
-			if syn.SynergyScore >= threshold {
-				sumScore += syn.SynergyScore
+			if syn.SynergyScore < threshold {
+				continue
 			}
-			// Collect up to 5 top partners for display.
+			sumScore += syn.SynergyScore
+			// Collect up to 5 top partners for display. Only partners that
+			// contributed to the focal score qualify.
 			if len(topPartners) < 5 {
 				partner := syn.Card1
 				if partner == card {
