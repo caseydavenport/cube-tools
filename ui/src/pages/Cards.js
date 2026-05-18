@@ -222,20 +222,11 @@ function sortValue(sortBy, card) {
     case "pow":
       sort = card.percent_of_wins
       break;
-    case "wins":
-      sort = card.win_percent
-      break;
-    case "games":
-      sort = card.total_games
-      break;
     case "#wins":
       sort = card.wins
       break;
     case "draws":
       sort = card.draws
-      break;
-    case "colors":
-      sort = colorSort(card)
       break;
     case "vsaggro":
       sort = card.against_archetype.aggro.win_percent
