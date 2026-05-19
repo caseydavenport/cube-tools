@@ -41,6 +41,9 @@ var (
 	// Per-draft metadata. If set, written to <draftDir>/metadata.json.
 	eventName        string
 	eventDescription string
+
+	// cubeFlag is the cube ID used to determine the data directory for all commands.
+	cubeFlag string
 )
 
 // Define a cobra command for parsing a single deck file.
@@ -71,7 +74,7 @@ var ParseCmd = &cobra.Command{
 			logrus.WithError(err).Fatal("Failed to parse deck")
 		}
 		// Write the deck for storage.
-		if err := writeDeck(d, draftID); err != nil {
+		if err := writeDeck(cubeFlag, d, draftID); err != nil {
 			logrus.WithError(err).Fatal("Failed to write deck")
 		}
 	},
@@ -87,6 +90,8 @@ func init() {
 	flag.StringVarP(flags, &draftID, "draft", "", "DRAFT", "", "Draft ID - used as the output directory")
 	flag.StringVarP(flags, &eventName, "event-name", "", "EVENT_NAME", "", "Human-readable event name (written to metadata.json)")
 	flag.StringVarP(flags, &eventDescription, "event-description", "", "EVENT_DESCRIPTION", "", "Event description (written to metadata.json)")
+	flags.StringVar(&cubeFlag, "cube", "", "cube id (required)")
+	_ = ParseCmd.MarkFlagRequired("cube")
 }
 
 // parseDeck parses a single deck file and writes the output to the given directory.
@@ -219,9 +224,9 @@ func cardsFromDeckFile(deckFile string) ([]types.Card, []types.Card, error) {
 	return mb, sb, nil
 }
 
-func writeDeck(d *types.Deck, draftID string) error {
+func writeDeck(cube string, d *types.Deck, draftID string) error {
 	// Make sure the output directory exists.
-	outdir := fmt.Sprintf("data/polyverse/%s", draftID)
+	outdir := fmt.Sprintf("data/%s/%s", cube, draftID)
 	err := os.MkdirAll(outdir, os.ModePerm)
 	if err != nil {
 		return fmt.Errorf("Failed to create output directory: %w", err)
@@ -327,7 +332,7 @@ func writeDeck(d *types.Deck, draftID string) error {
 	// truth - the `export-cc` command handles cubecobra exports on demand, so
 	// we no longer write a per-deck .cubecobra.txt alongside.
 	logc.WithField("file", path).Debug("Writing canonical deck file")
-	if err := SaveDeck(d); err != nil {
+	if err := SaveDeck(cube, d); err != nil {
 		logrus.WithError(err).Fatal("Failed to save deck")
 	}
 	return nil

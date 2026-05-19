@@ -15,8 +15,9 @@ import (
 )
 
 var (
-	hedronCubeID string
+	hedronCubeID  string
 	hedronDraftID string
+	hedronOutCube string
 )
 
 var ImportHedronCmd = &cobra.Command{
@@ -61,10 +62,10 @@ var ImportHedronCmd = &cobra.Command{
 			selectedDraft = &drafts[index]
 		}
 
-		importDraft(selectedDraft)
-		
+		importDraft(hedronOutCube, selectedDraft)
+
 		// Regenerate index.
-		index()
+		index(hedronOutCube)
 	},
 }
 
@@ -72,6 +73,8 @@ func init() {
 	flags := ImportHedronCmd.Flags()
 	flags.StringVarP(&hedronCubeID, "cube", "c", "", "CubeCobra ID or URL")
 	flags.StringVarP(&hedronDraftID, "draft", "d", "", "Specific Hedron Draft ID to import")
+	flags.StringVar(&hedronOutCube, "out-cube", "", "cube id to write imported data into (required)")
+	_ = ImportHedronCmd.MarkFlagRequired("out-cube")
 }
 
 type HedronSearchResponse struct {
@@ -136,17 +139,17 @@ func sanitizePlayerName(playerID, draftID string) string {
 	return strings.ReplaceAll(strings.ToLower(name), " ", "")
 }
 
-func importDraft(d *HedronDraft) {
+func importDraft(cube string, d *HedronDraft) {
 	// Hedron date is ISO format, cube-tools wants YYYY-MM-DD.
 	dateStr := d.Date[:10]
-	// Use draft ID as sub-directory name, but sanitized. 
+	// Use draft ID as sub-directory name, but sanitized.
 	// Include the short draft ID to ensure uniqueness.
 	shortID := d.DraftID
 	if len(shortID) > 8 {
 		shortID = shortID[:8]
 	}
 	draftDirName := fmt.Sprintf("%s_%s_%s", dateStr, d.EventCode, shortID)
-	outdir := filepath.Join("data", "polyverse", draftDirName)
+	outdir := filepath.Join("data", cube, draftDirName)
 	imgdir := filepath.Join(outdir, "img")
 
 	// Error if the directory already exists to prevent accidental overwrites.

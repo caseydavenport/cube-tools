@@ -2,10 +2,12 @@ package stats
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
 	"sort"
 	"strconv"
 
+	"github.com/caseydavenport/cube-tools/pkg/server"
 	"github.com/caseydavenport/cube-tools/pkg/server/decks"
 	"github.com/caseydavenport/cube-tools/pkg/server/query"
 	"github.com/caseydavenport/cube-tools/pkg/storage"
@@ -113,7 +115,8 @@ func (s *synergyStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request)
 	logrus.WithField("params", sr).Info("/api/stats/synergy")
 
 	// Load the current cube to filter cards.
-	cube, err := types.LoadCube("data/polyverse/cube.json")
+	cubeID := server.CubeFromRequest(r)
+	cube, err := types.LoadCube(fmt.Sprintf("data/%s/cube.json", cubeID))
 	if err != nil {
 		http.Error(rw, "could not load cube", http.StatusInternalServerError)
 		return
@@ -126,7 +129,7 @@ func (s *synergyStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request)
 	}
 
 	// Load allDecks matching the request.
-	allDecks, err := s.store.List(sr.DecksRequest)
+	allDecks, err := s.store.List(cubeID, sr.DecksRequest)
 	if err != nil {
 		http.Error(rw, "could not load decks", http.StatusInternalServerError)
 		return

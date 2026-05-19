@@ -15,18 +15,21 @@ var ReparseCmd = &cobra.Command{
 	Use:   "reparse",
 	Short: "Reparse existing data files to update them",
 	Run: func(cmd *cobra.Command, args []string) {
-		if err := reparse(); err != nil {
+		if err := reparse(cubeFlag); err != nil {
 			logrus.WithError(err).Fatal("Failed to reparse data files")
 		}
 	},
 }
 
 func init() {
+	flags := ReparseCmd.Flags()
+	flags.StringVar(&cubeFlag, "cube", "", "cube id (required)")
+	_ = ReparseCmd.MarkFlagRequired("cube")
 }
 
-func reparse() error {
+func reparse(cube string) error {
 	// Get the list of drafts to reparse by loading the Index file.
-	indexFile := "data/polyverse/index.json"
+	indexFile := fmt.Sprintf("data/%s/index.json", cube)
 	contents, err := os.ReadFile(indexFile)
 	if err != nil {
 		return fmt.Errorf("failed to read index file: %w", err)
@@ -73,7 +76,7 @@ func reparse() error {
 				// in place rather than writing a new file under the lowercased
 				// player name.
 				d.Metadata.Path = deck.Metadata.Path
-				if err := writeDeck(d, draft.DraftID); err != nil {
+				if err := writeDeck(cube, d, draft.DraftID); err != nil {
 					logrus.WithError(err).Fatal("Failed to write deck")
 				}
 			}

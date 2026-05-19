@@ -1,8 +1,10 @@
 import React, { useRef, useEffect, useCallback, useState } from 'react'
 import ReactDOM from 'react-dom'
 import { White, Blue, Black, Red, Green } from "../utils/Colors.js"
+import { useCube } from "../contexts/CubeContext.js"
 
 export function DesignMapWidget({ show, designGraphData, onCardSelected, onRulesChanged }) {
+  const cube = useCube()
   const [selectedLink, setSelectedLink] = useState(null)
   const [selectedCard, setSelectedCard] = useState(null)
   const [hoveredCard, setHoveredCard] = useState(null)
@@ -65,7 +67,7 @@ export function DesignMapWidget({ show, designGraphData, onCardSelected, onRules
   return (
     <div className="synergy-container" style={{padding: "1rem"}}>
       <div style={{display: "grid", gridTemplateColumns: "350px 1fr 350px", gap: "1rem"}}>
-        <RulesPanel groups={groups} links={links} nodes={nodes} edges={edges} onRulesChanged={onRulesChanged} selectedCard={selectedCard} />
+        <RulesPanel cube={cube} groups={groups} links={links} nodes={nodes} edges={edges} onRulesChanged={onRulesChanged} selectedCard={selectedCard} />
         <DesignMapGraph
           nodes={nodes} edges={edges} links={links}
           onCardFocused={handleSelectCard}
@@ -90,8 +92,8 @@ export function DesignMapWidget({ show, designGraphData, onCardSelected, onRules
   )
 }
 
-function saveDesignMap(groups, links, onRulesChanged, onStatus) {
-  fetch("/api/save-design-rules", {
+function saveDesignMap(cube, groups, links, onRulesChanged, onStatus) {
+  fetch(`/api/${cube}/save-design-rules`, {
     method: "POST",
     headers: {"Content-Type": "application/json"},
     body: JSON.stringify({ groups, links }),
@@ -107,7 +109,7 @@ function saveDesignMap(groups, links, onRulesChanged, onStatus) {
   })
 }
 
-function RulesPanel({ groups, links, nodes, edges, onRulesChanged, selectedCard }) {
+function RulesPanel({ cube, groups, links, nodes, edges, onRulesChanged, selectedCard }) {
   const [activeTab, setActiveTab] = useState("links")
   const [addingGroup, setAddingGroup] = useState(false)
   const [addingLink, setAddingLink] = useState(false)
@@ -127,7 +129,7 @@ function RulesPanel({ groups, links, nodes, edges, onRulesChanged, selectedCard 
       name: newGroup.name.trim() || "Untitled group",
       conditions,
     }]
-    saveDesignMap(updated, links, onRulesChanged, setSaveStatus)
+    saveDesignMap(cube, updated, links, onRulesChanged, setSaveStatus)
     setAddingGroup(false)
   }
 
@@ -150,13 +152,13 @@ function RulesPanel({ groups, links, nodes, edges, onRulesChanged, selectedCard 
         targets: (l.targets || []).map(t => t === oldName ? newName : t),
       }))
     }
-    saveDesignMap(updatedGroups, updatedLinks, onRulesChanged, setSaveStatus)
+    saveDesignMap(cube, updatedGroups, updatedLinks, onRulesChanged, setSaveStatus)
     setEditingGroup(null)
   }
 
   function deleteGroup(index) {
     const updated = groups.filter((_, i) => i !== index)
-    saveDesignMap(updated, links, onRulesChanged, setSaveStatus)
+    saveDesignMap(cube, updated, links, onRulesChanged, setSaveStatus)
     setConfirmDeleteGroup(null)
   }
 
@@ -172,7 +174,7 @@ function RulesPanel({ groups, links, nodes, edges, onRulesChanged, selectedCard 
       sources,
       targets,
     }]
-    saveDesignMap(groups, updated, onRulesChanged, setSaveStatus)
+    saveDesignMap(cube, groups, updated, onRulesChanged, setSaveStatus)
     setAddingLink(false)
   }
 
@@ -188,13 +190,13 @@ function RulesPanel({ groups, links, nodes, edges, onRulesChanged, selectedCard 
       sources,
       targets,
     } : l)
-    saveDesignMap(groups, updated, onRulesChanged, setSaveStatus)
+    saveDesignMap(cube, groups, updated, onRulesChanged, setSaveStatus)
     setEditingLink(null)
   }
 
   function deleteLink(index) {
     const updated = links.filter((_, i) => i !== index)
-    saveDesignMap(groups, updated, onRulesChanged, setSaveStatus)
+    saveDesignMap(cube, groups, updated, onRulesChanged, setSaveStatus)
     setConfirmDeleteLink(null)
   }
 
@@ -233,7 +235,7 @@ function RulesPanel({ groups, links, nodes, edges, onRulesChanged, selectedCard 
     }
     if (conditions.length === 0) { setActiveGroupNames(null); return }
 
-    fetch("/api/stats/design-graph/match", {
+    fetch(`/api/${cube}/stats/design-graph/match`, {
       method: "POST",
       headers: {"Content-Type": "application/json"},
       body: JSON.stringify({ conditions, groups: groupLabels }),
@@ -773,6 +775,7 @@ function GroupCard({ group, index, unused, confirmDelete, onDeleteClick, onConfi
 }
 
 function GroupEditModal({ group, color, onSave, onCancel }) {
+  const cube = useCube()
   const [editName, setEditName] = useState(group.name)
   const [editConditions, setEditConditions] = useState([...(group.conditions || [""])])
   const [matchedCards, setMatchedCards] = useState([])
@@ -791,7 +794,7 @@ function GroupEditModal({ group, color, onSave, onCancel }) {
     }
     setLoading(true)
     debounceRef.current = setTimeout(() => {
-      fetch("/api/stats/design-graph/match", {
+      fetch(`/api/${cube}/stats/design-graph/match`, {
         method: "POST",
         headers: {"Content-Type": "application/json"},
         body: JSON.stringify({ conditions }),
@@ -1012,6 +1015,7 @@ function GroupEditModal({ group, color, onSave, onCancel }) {
 // Resolve group names to their combined conditions, then fetch matching cards.
 // Returns {cards: [{name, conditions: [{condition, group?}]}], loading}.
 function useFetchGroupCards(selectedGroupNames, allGroups) {
+  const cube = useCube()
   const [cards, setCards] = useState([])
   const [loading, setLoading] = useState(false)
   const debounceRef = useRef(null)
@@ -1036,7 +1040,7 @@ function useFetchGroupCards(selectedGroupNames, allGroups) {
 
     setLoading(true)
     debounceRef.current = setTimeout(() => {
-      fetch("/api/stats/design-graph/match", {
+      fetch(`/api/${cube}/stats/design-graph/match`, {
         method: "POST",
         headers: {"Content-Type": "application/json"},
         body: JSON.stringify({ conditions, groups }),

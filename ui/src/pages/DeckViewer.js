@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react'
 import { LoadCube, LoadDecks, FetchFile, SaveNotes } from "../utils/Fetch.js"
+import { useCube } from "../contexts/CubeContext.js"
 import { Record, MatchRecord, Wins, Losses, Draws, MatchWins, MatchLosses, MatchDraws, InDeckColor } from "../utils/Deck.js"
 import { RemovalMatches, CounterspellMatches } from "../pages/Decks.js"
 import { SortFunc, StringToColor, CheckboxesToColors, IsBasicLand } from "../utils/Utils.js"
@@ -17,6 +18,8 @@ import Popover from 'react-bootstrap/Popover';
 // This function builds the DeckViewer widget for selecting and viewing statistics
 // about a particular deck.
 export function DeckViewer(props) {
+  const cube = useCube();
+
   ///////////////////////////////////////////////////////////////////////////////
   // State used for time selection.
   ///////////////////////////////////////////////////////////////////////////////
@@ -131,13 +134,13 @@ export function DeckViewer(props) {
     setDescription(f)
   }
 
-  const [cube, setCube] = useState({ "cards": [] });
+  const [cubeData, setCubeData] = useState({ "cards": [] });
 
   // Start of day load the draft index.
   // This is used to populate the drafts dropdown menu.
   useEffect(() => {
-    LoadDecks(onDecksLoaded, startDate, endDate, 0, "", debouncedMatchStr)
-    LoadCube(setCube)
+    LoadDecks(cube, onDecksLoaded, startDate, endDate, 0, "", debouncedMatchStr)
+    LoadCube(cube, setCubeData)
   }, [startDate, endDate, debouncedMatchStr]);
 
   // Handle changes to the draft and deck selection dropdowns.
@@ -192,7 +195,7 @@ export function DeckViewer(props) {
         setComparisonDecks(newComparisonDecks)
 
         // Load the deck description, if it exists.
-        let f = "data/polyverse/" + deck.metadata.draft_id + "/" + deck.player + ".report.md"
+        let f = `data/${cube}/${deck.metadata.draft_id}/${deck.player}.report.md`
         FetchFile(f.toLowerCase(), onDescriptionFetched)
         return
       }
@@ -327,7 +330,7 @@ export function DeckViewer(props) {
             label={`Global Deck Filter (${filteredAndSortedDecks.decks.length} decks)`}
             placeholder="Search cards (e.g. color:ug, cmc<3, t:creature)"
             value={typingStr}
-            cardNames={cube.cards.map(c => c.name)}
+            cardNames={cubeData.cards.map(c => c.name)}
             playerNames={playerNames}
             archetypes={archetypes}
             onChange={(e) => setTypingStr(e.target.value)}
@@ -349,6 +352,7 @@ export function DeckViewer(props) {
 
         <div className="deck-main-content">
           <MainDisplay
+            cube={cube}
             deck={deck}
             decks={decks}
             comparisonDecks={comparisonDecks}
@@ -611,7 +615,7 @@ function displayDeckImages(input) {
         <CardImagesList cards={cards} deck={deck} sb={input.mbsb == "Sideboard"} opts={{cmc: 5, gt: true}} matchStr={input.matchStr} />
         <CardImagesList cards={cards} deck={deck} sb={input.mbsb == "Sideboard"} matchStr={input.matchStr} basicsOnly={true} />
       </div>
-      <DeckReport player={deck.player} cardMap={cardMap} description={input.description} onDescriptionFetched={input.onDescriptionFetched} deck={deck} />
+      <DeckReport cube={input.cube} player={deck.player} cardMap={cardMap} description={input.description} onDescriptionFetched={input.onDescriptionFetched} deck={deck} />
     </div>
   );
 }
@@ -753,7 +757,7 @@ function displayDeck(input) {
         <CardList player={deck.player} cards={cards} deck={deck} sb={input.mbsb == "Sideboard"} opts={{cmc: 4}} matchStr={input.matchStr} />
         <CardList player={deck.player} cards={cards} deck={deck} sb={input.mbsb == "Sideboard"} opts={{cmc: 5, gt: true}} matchStr={input.matchStr} />
       </div>
-      <DeckReport player={deck.player} cardMap={cardMap} description={input.description} onDescriptionFetched={input.onDescriptionFetched} deck={deck} />
+      <DeckReport cube={input.cube} player={deck.player} cardMap={cardMap} description={input.description} onDescriptionFetched={input.onDescriptionFetched} deck={deck} />
     </div>
   );
 }
@@ -777,8 +781,8 @@ function DeckReport(input) {
 
   const onSave = async () => {
     try {
-      let f = "data/polyverse/" + input.deck.metadata.draft_id + "/" + input.deck.player + ".report.md"
-      await SaveNotes(f.toLowerCase(), editContent);
+      let f = `data/${input.cube}/${input.deck.metadata.draft_id}/${input.deck.player}.report.md`
+      await SaveNotes(input.cube, f.toLowerCase(), editContent);
       input.onDescriptionFetched(editContent);
       setIsEditing(false);
     } catch (err) {

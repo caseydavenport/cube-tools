@@ -25,6 +25,8 @@ func init() {
 	flags := DraftLogCmd.Flags()
 	flag.StringVarP(flags, &draftLog, "log-file", "f", "", "", "Path to the draft log file to parse.")
 	flag.StringVarP(flags, &date, "date", "t", "DATE", "", "Date, in YYYY-MM-DD format")
+	flags.StringVar(&cubeFlag, "cube", "", "cube id (required)")
+	_ = DraftLogCmd.MarkFlagRequired("cube")
 }
 
 func parseDraftLog(draftLog string, date string) {
@@ -34,7 +36,7 @@ func parseDraftLog(draftLog string, date string) {
 	// Determine if we need to auto-name the file.
 	for _, d := range decksFromDraftLog(log, date) {
 		// Write the deck for storage.
-		writeDeck(&d, date)
+		writeDeck(cubeFlag, &d, date)
 	}
 }
 

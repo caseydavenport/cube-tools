@@ -15,7 +15,7 @@ type mockDeckStorage struct {
 	decks []*storage.Deck
 }
 
-func (m *mockDeckStorage) List(_ *storage.DecksRequest) ([]*storage.Deck, error) {
+func (m *mockDeckStorage) List(_ string, _ *storage.DecksRequest) ([]*storage.Deck, error) {
 	return m.decks, nil
 }
 

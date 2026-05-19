@@ -33,7 +33,7 @@ func (d *deckHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 
 	logrus.WithField("time", time.Since(start)).Info("Parse")
 	resp := DecksResponse{}
-	decks, err := d.store.List(dr)
+	decks, err := d.store.List(r.PathValue("cube"), dr)
 	if err != nil {
 		panic(err)
 	}

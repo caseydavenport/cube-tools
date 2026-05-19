@@ -24,7 +24,7 @@ var PrintCube = &cobra.Command{
 	Use:   "print-cube",
 	Short: "Open a cube snapshot file and print the cards in it",
 	Run: func(cmd *cobra.Command, args []string) {
-		cubePath := "data/polyverse/2023-06-17/cube-snapshot.json"
+		cubePath := fmt.Sprintf("data/%s/2023-06-17/cube-snapshot.json", cubeFlag)
 
 		cube, err := loadCubeFile(cubePath)
 		if err != nil {
@@ -45,12 +45,12 @@ var DiffCubeCmd = &cobra.Command{
 		if from == "" {
 			logrus.Fatal("Must specify a cube file to diff from.")
 		}
-		fromPath := fmt.Sprintf("data/polyverse/%s/cube-snapshot.json", from)
+		fromPath := fmt.Sprintf("data/%s/%s/cube-snapshot.json", cubeFlag, from)
 
-		toPath := fmt.Sprintf("data/polyverse/%s/cube-snapshot.json", to)
+		toPath := fmt.Sprintf("data/%s/%s/cube-snapshot.json", cubeFlag, to)
 		if to == "" {
 			// If no "to" draft is specified, diff against the current cube.
-			toPath = "data/polyverse/cube.json"
+			toPath = fmt.Sprintf("data/%s/cube.json", cubeFlag)
 		}
 
 		// Diff the cubes.
@@ -67,6 +67,12 @@ func init() {
 	flags := DiffCubeCmd.Flags()
 	flag.StringVarP(flags, &from, "from", "f", "FROM", "", "Date of the cube file to diff from")
 	flag.StringVarP(flags, &to, "to", "t", "TO", "", "Date of the cube file to diff to")
+	flags.StringVar(&cubeFlag, "cube", "", "cube id (required)")
+	_ = DiffCubeCmd.MarkFlagRequired("cube")
+
+	flags = PrintCube.Flags()
+	flags.StringVar(&cubeFlag, "cube", "", "cube id (required)")
+	_ = PrintCube.MarkFlagRequired("cube")
 }
 
 type cubeDiff struct {

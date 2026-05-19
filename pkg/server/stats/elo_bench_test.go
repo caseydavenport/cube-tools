@@ -19,7 +19,7 @@ func loadAllDecks(b *testing.B) []*storage.Deck {
 		}
 	}
 	store := storage.NewFileDeckStoreWithCache()
-	decks, err := store.List(&storage.DecksRequest{})
+	decks, err := store.List("polyverse", &storage.DecksRequest{})
 	if err != nil {
 		b.Fatal(err)
 	}

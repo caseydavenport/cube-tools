@@ -1,6 +1,7 @@
 package storage
 
 import (
+	"os"
 	"testing"
 
 	"github.com/caseydavenport/cube-tools/pkg/types"
@@ -311,5 +312,26 @@ func TestFilter_ByDraftSize(t *testing.T) {
 	assert.Equal(t, 2, len(result))
 	for _, d := range result {
 		assert.GreaterOrEqual(t, d.DraftSize, 6)
+	}
+}
+
+func TestDeckStore_ScopedByCube(t *testing.T) {
+	// Tests run with CWD=pkg/storage; chdir to repo root so loadDecks can find
+	// the data directory.
+	if _, err := os.Stat("data/polyverse/index.json"); err != nil {
+		if err := os.Chdir("../.."); err != nil {
+			t.Fatal(err)
+		}
+	}
+
+	s := &deckStore{}
+	// polyverse has a real index.json on disk; aurora does not. Both calls are
+	// exercised to verify the cache map tracks independent entries. Because
+	// errors are not cached (we only store on success), we only assert the
+	// polyverse entry — that's the one guaranteed to succeed.
+	_, _ = s.List("polyverse", &DecksRequest{})
+	_, _ = s.List("aurora", &DecksRequest{})
+	if _, ok := s.caches["polyverse"]; !ok {
+		t.Fatal("expected cache entry for polyverse")
 	}
 }

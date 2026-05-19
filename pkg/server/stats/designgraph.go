@@ -10,6 +10,7 @@ import (
 	"strconv"
 	"strings"
 
+	"github.com/caseydavenport/cube-tools/pkg/server"
 	"github.com/caseydavenport/cube-tools/pkg/types"
 	"github.com/sirupsen/logrus"
 )
@@ -77,13 +78,14 @@ func DesignGraphHandler() http.Handler {
 	return http.HandlerFunc(func(rw http.ResponseWriter, r *http.Request) {
 		logrus.Info("/api/stats/design-graph")
 
-		cube, err := types.LoadCube("data/polyverse/cube.json")
+		cubeID := server.CubeFromRequest(r)
+		cube, err := types.LoadCube(fmt.Sprintf("data/%s/cube.json", cubeID))
 		if err != nil {
 			http.Error(rw, "could not load cube", http.StatusInternalServerError)
 			return
 		}
 
-		config, err := loadDesignMap("data/polyverse/cube-rules.json")
+		config, err := loadDesignMap(fmt.Sprintf("data/%s/cube-rules.json", cubeID))
 		if err != nil {
 			logrus.WithError(err).Warn("could not load cube rules")
 			config = DesignMapConfig{}
@@ -139,7 +141,8 @@ func DesignGraphMatchHandler() http.Handler {
 			return
 		}
 
-		cube, err := types.LoadCube("data/polyverse/cube.json")
+		cubeID := server.CubeFromRequest(r)
+		cube, err := types.LoadCube(fmt.Sprintf("data/%s/cube.json", cubeID))
 		if err != nil {
 			http.Error(rw, "could not load cube", http.StatusInternalServerError)
 			return
@@ -765,7 +768,12 @@ func SaveDesignRulesHandler() http.Handler {
 			return
 		}
 
-		if err := os.WriteFile("data/polyverse/cube-rules.json", data, 0o644); err != nil {
+		cubeID := server.CubeFromRequest(r)
+		if cubeID == "" {
+			http.Error(rw, "no cube in request", http.StatusForbidden)
+			return
+		}
+		if err := os.WriteFile(fmt.Sprintf("data/%s/cube-rules.json", cubeID), data, 0o644); err != nil {
 			http.Error(rw, "could not save config", http.StatusInternalServerError)
 			return
 		}

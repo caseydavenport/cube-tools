@@ -36,23 +36,24 @@ var AddMatchCmd = &cobra.Command{
 		}
 
 		// Add the individual games, as well as the overall match to the first player.
-		if err := addMatchToPlayer(who, opp, date, w, l, t); err != nil {
+		if err := addMatchToPlayer(cubeFlag, who, opp, date, w, l, t); err != nil {
 			clog.WithField("who", who).WithError(err).Fatal("Failed to add match to player")
 		}
 		// Add the individual games, as well as the overall match to the second player.
-		if err := addMatchToPlayer(opp, who, date, l, w, t); err != nil {
+		if err := addMatchToPlayer(cubeFlag, opp, who, date, l, w, t); err != nil {
 			clog.WithField("who", opp).WithError(err).Fatal("Failed to add match to player")
 		}
 	},
 }
 
 var (
-	who    string
-	opp    string
-	date   string
-	record string
-	force  bool
-	anon   bool
+	who      string
+	opp      string
+	date     string
+	record   string
+	force    bool
+	anon     bool
+	cubeFlag string
 )
 
 func init() {
@@ -64,6 +65,8 @@ func init() {
 	flag.StringVarP(flags, &record, "record", "r", "RECORD", "", "The record of the player passed to 'who', formatted as 'W-L-T'")
 	flag.BoolVarP(flags, &force, "force", "", "FORCE", false, "Force overwrite of any existing games against the opponent")
 	flag.BoolVarP(flags, &anon, "anonymous", "a", "", false, "If set, anonymize player names in the output files.")
+	flags.StringVar(&cubeFlag, "cube", "", "cube id (required)")
+	_ = AddMatchCmd.MarkFlagRequired("cube")
 }
 
 // parseRecord parses a record string into wins and losses.
@@ -93,7 +96,7 @@ func parseRecord(record string) (wins, losses, ties int, err error) {
 }
 
 // addMatchToPlayer adds a match to the player's deck file within the draft.
-func addMatchToPlayer(player, opponent string, date string, wins, losses, ties int) error {
+func addMatchToPlayer(cube, player, opponent string, date string, wins, losses, ties int) error {
 	// If anon is set, anonymize the player and opponent names using the same scheme as when parsing decks.
 	if anon {
 		player = commands.Anonymize(date, player)
@@ -101,7 +104,7 @@ func addMatchToPlayer(player, opponent string, date string, wins, losses, ties i
 	}
 
 	// First, load the player's deck file from the draft.
-	deck := commands.LoadParsedDeckFile(date, player)
+	deck := commands.LoadParsedDeckFile(cube, date, player)
 
 	// Check if there are already games against this opponent. If there are, cowardly refuse to overwrite them
 	// with the new match unless override is given.
@@ -134,5 +137,5 @@ func addMatchToPlayer(player, opponent string, date string, wins, losses, ties i
 	}
 
 	// Save the updated deck.
-	return commands.SaveDeck(deck)
+	return commands.SaveDeck(cube, deck)
 }

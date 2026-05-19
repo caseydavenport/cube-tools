@@ -34,11 +34,14 @@ func (h *saveNotesHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Validate path to prevent directory traversal.
-	// We expect paths like "data/polyverse/2023-03-16/casey.report.md"
+	// Validate path: must live under data/<cube>/ for the cube on this request,
+	// and must not traverse out. The trailing separator guards against
+	// lookalike prefixes like data/polyverse-evil.
+	cubeID := CubeFromRequest(r)
 	cleanPath := filepath.Clean(req.Path)
-	if strings.Contains(cleanPath, "..") || !strings.HasPrefix(cleanPath, "data/polyverse") {
-		logrus.WithField("path", req.Path).Warn("Blocked invalid notes path")
+	prefix := filepath.Clean(filepath.Join("data", cubeID)) + string(filepath.Separator)
+	if cubeID == "" || strings.Contains(req.Path, "..") || !strings.HasPrefix(cleanPath+string(filepath.Separator), prefix) {
+		logrus.WithFields(logrus.Fields{"cube": cubeID, "path": req.Path}).Warn("Blocked invalid notes path")
 		http.Error(rw, "Invalid path", http.StatusForbidden)
 		return
 	}

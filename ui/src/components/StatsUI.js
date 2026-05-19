@@ -11,6 +11,7 @@ export function SelectorBar(input) {
         <DateSelector label="To" id="to" value={input.endDate} onChange={input.onEndSelected} />
         <NumericInput label="Bucket size" value={input.bucketSize} onChange={input.onBucketsChanged} />
         <NumericInput label="Draft size" value={input.minDraftSize} onChange={input.onMinDraftSizeChanged} />
+        <Overview decks={input.parsed.filteredDecks} />
       </div>
 
       <div className="search-group">
@@ -23,21 +24,6 @@ export function SelectorBar(input) {
           archetypes={input.archetypes}
           onChange={input.onMatchUpdated}
         />
-      </div>
-
-      <div className="navigation-group">
-        <Overview decks={input.parsed.filteredDecks} />
-        <div className="nav-buttons">
-          <Button text="Colors" checked={input.display[0]} onClick={input.onColorPage} />
-          <Button text="Types" checked={input.display[1]} onClick={input.onArchetypePage} />
-          <Button text="Cards" checked={input.display[2]} onClick={input.onCardPage} />
-          <Button text="Decks" checked={input.display[3]} onClick={input.onDeckPage} />
-          <Button text="Drafts" checked={input.display[4]} onClick={input.onDraftPage} />
-          <Button text="Players" checked={input.display[5]} onClick={input.onPlayersPage} />
-          <Button text="Synergy" checked={input.display[6]} onClick={input.onSynergyPage} />
-          <Button text="Health" checked={input.display[7]} onClick={input.onHealthPage} />
-          <Button text="Design Map" checked={input.display[8]} onClick={input.onDesignMapPage} />
-        </div>
       </div>
     </div>
   );

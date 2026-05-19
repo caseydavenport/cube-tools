@@ -127,6 +127,21 @@ table {
   background: var(--table-row-hover);
 }
 
+/* Landing page */
+.landing {
+  padding: 2rem;
+}
+
+.landing ul {
+  list-style: none;
+  padding: 0;
+}
+
+.landing li {
+  margin: 0.5rem 0;
+  font-size: 1.1rem;
+}
+
 .widget-table-row td {
   padding: 0 1rem;
   font-size: 0.95rem;

@@ -1,0 +1,6 @@
+{
+  "cubes": [
+    {"id": "polyverse", "name": "Polyverse", "description": "Casey's home cube."},
+    {"id": "aurora", "name": "Aurora", "description": "Aurora cube."}
+  ]
+}
