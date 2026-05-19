@@ -6,6 +6,7 @@ import (
 	"sort"
 	"strings"
 
+	"github.com/caseydavenport/cube-tools/pkg/server"
 	"github.com/caseydavenport/cube-tools/pkg/server/decks"
 	"github.com/caseydavenport/cube-tools/pkg/storage"
 	"github.com/sirupsen/logrus"
@@ -51,7 +52,7 @@ func (h *colorMatchupHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request)
 	}
 	logrus.WithField("params", dr).Info("/api/stats/color-matchups")
 
-	allDecks, err := h.store.List(dr)
+	allDecks, err := h.store.List(server.CubeFromRequest(r), dr)
 	if err != nil {
 		http.Error(rw, "could not load decks", http.StatusInternalServerError)
 		return

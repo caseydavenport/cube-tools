@@ -2,6 +2,7 @@ package commands
 
 import (
 	"encoding/json"
+	"fmt"
 	"os"
 	"path/filepath"
 	"strings"
@@ -15,8 +16,14 @@ var IndexCmd = &cobra.Command{
 	Use:   "index",
 	Short: "Regenerate index files for the drafts directory.",
 	Run: func(cmd *cobra.Command, args []string) {
-		index()
+		index(cubeFlag)
 	},
+}
+
+func init() {
+	flags := IndexCmd.Flags()
+	flags.StringVar(&cubeFlag, "cube", "", "cube id (required)")
+	_ = IndexCmd.MarkFlagRequired("cube")
 }
 
 type MainIndex struct {
@@ -35,9 +42,9 @@ type IndexedDeck struct {
 	Path string `json:"path"`
 }
 
-func index() {
+func index(cube string) {
 	// Specify the draftsDirectory that holds the drafts.
-	draftsDirectory := "./data/polyverse"
+	draftsDirectory := fmt.Sprintf("./data/%s", cube)
 
 	// Get a list of sub-directories in the directory
 	// each subdir represents a draft.
@@ -96,13 +103,13 @@ func index() {
 
 	// As part of re-indexing, parse the cube.csv and convert it to json so
 	// that it's more easily read by the UI code.
-	cards, _ := cardsFromCSV("data/polyverse/cube.csv")
-	cube := types.Cube{Cards: cards}
-	bytes, err := json.MarshalIndent(cube, "", " ")
+	cards, _ := cardsFromCSV(fmt.Sprintf("data/%s/cube.csv", cube))
+	cubeData := types.Cube{Cards: cards}
+	bytes, err := json.MarshalIndent(cubeData, "", " ")
 	if err != nil {
 		panic(err)
 	}
-	err = os.WriteFile("data/polyverse/cube.json", bytes, os.ModePerm)
+	err = os.WriteFile(fmt.Sprintf("data/%s/cube.json", cube), bytes, os.ModePerm)
 	if err != nil {
 		panic(err)
 	}

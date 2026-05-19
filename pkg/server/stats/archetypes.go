@@ -2,9 +2,11 @@ package stats
 
 import (
 	"encoding/json"
+	"fmt"
 	"math"
 	"net/http"
 
+	"github.com/caseydavenport/cube-tools/pkg/server"
 	"github.com/caseydavenport/cube-tools/pkg/server/decks"
 	"github.com/caseydavenport/cube-tools/pkg/storage"
 	"github.com/caseydavenport/cube-tools/pkg/types"
@@ -52,14 +54,15 @@ func (s *archetypeStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Reques
 	dr := decks.ParseDecksRequest(r)
 	logrus.WithField("params", dr).Info("/api/stats/archetypes")
 
-	allDecks, err := s.store.List(dr)
+	cubeID := server.CubeFromRequest(r)
+	allDecks, err := s.store.List(cubeID, dr)
 	if err != nil {
 		http.Error(rw, "could not load decks", http.StatusInternalServerError)
 		return
 	}
 
 	cubeCards := make(map[string]types.Card)
-	cube, err := types.LoadCube("data/polyverse/cube.json")
+	cube, err := types.LoadCube(fmt.Sprintf("data/%s/cube.json", cubeID))
 	if err == nil {
 		for _, c := range cube.Cards {
 			cubeCards[c.Name] = c

@@ -41,7 +41,7 @@ func (d *archetypesHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 
 	// Get all of the decks from the store.
 	resp := ArchetypesResponse{}
-	decks, err := d.store.List(dr)
+	decks, err := d.store.List(CubeFromRequest(r), dr)
 	if err != nil {
 		panic(err)
 	}

@@ -2,6 +2,7 @@ package stats
 
 import (
 	"encoding/json"
+	"fmt"
 	"math"
 	"net/http"
 	"slices"
@@ -82,8 +83,9 @@ func (d *cardStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 
 	// Build a map of all the cards in the cube, so we can use it to skip any cards
 	// not curerently in the cube.
+	cubeID := server.CubeFromRequest(r)
 	cubeCards := make(map[string]types.Card)
-	cube, err := types.LoadCube("data/polyverse/cube.json")
+	cube, err := types.LoadCube(fmt.Sprintf("data/%s/cube.json", cubeID))
 	if err != nil {
 		http.Error(rw, "could not load cube", http.StatusInternalServerError)
 		return
@@ -93,7 +95,7 @@ func (d *cardStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 	}
 
 	// Load allDecks matching the request.
-	allDecks, err := d.store.List(sr.DecksRequest)
+	allDecks, err := d.store.List(cubeID, sr.DecksRequest)
 	if err != nil {
 		http.Error(rw, "could not load decks", http.StatusInternalServerError)
 		return

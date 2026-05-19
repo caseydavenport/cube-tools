@@ -2,10 +2,12 @@ package stats
 
 import (
 	"encoding/json"
+	"fmt"
 	"math"
 	"net/http"
 	"sort"
 
+	"github.com/caseydavenport/cube-tools/pkg/server"
 	"github.com/caseydavenport/cube-tools/pkg/server/decks"
 	"github.com/caseydavenport/cube-tools/pkg/server/query"
 	"github.com/caseydavenport/cube-tools/pkg/storage"
@@ -57,14 +59,15 @@ func (h *healthStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) 
 	sr := parseHealthRequest(r)
 	logrus.WithField("params", sr).Info("/api/stats/health")
 
-	allDecks, err := h.store.List(sr.DecksRequest)
+	cubeID := server.CubeFromRequest(r)
+	allDecks, err := h.store.List(cubeID, sr.DecksRequest)
 	if err != nil {
 		http.Error(rw, "could not load decks", http.StatusInternalServerError)
 		return
 	}
 
 	cubeCards := make(map[string]types.Card)
-	cube, err := types.LoadCube("data/polyverse/cube.json")
+	cube, err := types.LoadCube(fmt.Sprintf("data/%s/cube.json", cubeID))
 	if err == nil {
 		for _, c := range cube.Cards {
 			cubeCards[c.Name] = c

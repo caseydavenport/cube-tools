@@ -45,6 +45,8 @@ func init() {
 	flag.StringVarP(flags, &draftID, "draft", "", "DRAFT", "", "Draft ID - used as the output directory")
 	flag.BoolVarP(flags, &anon, "anonymous", "a", "", false, "If set, anonymize player names in the output files.")
 	flag.BoolVarP(flags, &force, "force", "", "", false, "If set, force writing of files even if errors are encountered.")
+	flags.StringVar(&cubeFlag, "cube", "", "cube id (required)")
+	_ = ParseDirectoryCmd.MarkFlagRequired("cube")
 }
 
 // work represents a piece of parsing work to be done.
@@ -165,7 +167,7 @@ func parseDeckDir(deckDir, fileType, date, draftID string) {
 	})
 
 	// Make sure the output directory exists.
-	outdir := fmt.Sprintf("data/polyverse/%s", draftID)
+	outdir := fmt.Sprintf("data/%s/%s", cubeFlag, draftID)
 	err := os.MkdirAll(outdir, os.ModePerm)
 	if err != nil {
 		logc.WithError(err).Fatal("Failed to create output directory.")
@@ -226,13 +228,13 @@ func parseDeckDir(deckDir, fileType, date, draftID string) {
 	}
 
 	// Wite out the cube snapshot to the draft directory.
-	if err := writeCubeSnapshot(outdir); err != nil {
+	if err := writeCubeSnapshot(cubeFlag, outdir); err != nil {
 		logc.WithError(err).Error("Failed to write cube snapshot to draft directory.")
 		return
 	}
 
 	// Check that the seen cards in the draft match the expected counts based on the latest cube snapshot.
-	if err = checkDraftConsistency(logc, seenInDraft); err != nil {
+	if err = checkDraftConsistency(logc, cubeFlag, seenInDraft); err != nil {
 		if !force {
 			logc.WithError(err).Error("Draft consistency check failed, not writing output files.")
 			return
@@ -242,14 +244,14 @@ func parseDeckDir(deckDir, fileType, date, draftID string) {
 
 	// Finally, write out each deck file.
 	for _, d := range decks {
-		if err := writeDeck(d, draftID); err != nil {
+		if err := writeDeck(cubeFlag, d, draftID); err != nil {
 			logc.WithError(err).WithField("player", d.Player).Error("Failed to write deck file.")
 			return
 		}
 	}
 }
 
-func writeCubeSnapshot(outdir string) error {
+func writeCubeSnapshot(cube, outdir string) error {
 	snaptshotFilename := fmt.Sprintf("%s/cube-snapshot.json", outdir)
 	if _, err := os.Stat(snaptshotFilename); err != nil {
 		// Write the cube-snapshot file to the draft directory if it doesn't exist already.
@@ -258,7 +260,7 @@ func writeCubeSnapshot(outdir string) error {
 		// for historical tracking and comparisons.
 		// TODO: This is a bit of a hack, and assumes this command is being run
 		// within the root of this project. That's OK for now since I am the only user.
-		cmd := exec.Command("cp", "data/polyverse/cube.json", snaptshotFilename)
+		cmd := exec.Command("cp", fmt.Sprintf("data/%s/cube.json", cube), snaptshotFilename)
 		if err := cmd.Run(); err != nil {
 			return err
 		}
@@ -267,11 +269,11 @@ func writeCubeSnapshot(outdir string) error {
 }
 
 // checkDraftConsistency checks that the seen cards in the draft match the expected counts based on the latest cube snapshot.
-func checkDraftConsistency(logc *logrus.Entry, seenInDraft map[string]int) error {
+func checkDraftConsistency(logc *logrus.Entry, cubeID string, seenInDraft map[string]int) error {
 	passed := true
 
 	// Load the cube snapshot and count the number of unique cards we expect to see.
-	cube, err := types.LoadCube("data/polyverse/cube.json")
+	cube, err := types.LoadCube(fmt.Sprintf("data/%s/cube.json", cubeID))
 	if err != nil {
 		logc.WithError(err).Fatal("Failed to load cube snapshot.")
 	}

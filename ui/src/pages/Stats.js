@@ -71,17 +71,16 @@ export function StatsViewer(props) {
     sortBy, setSortBy, minSynergyDecks, setMinSynergyDecks,
     focalThreshold, setFocalThreshold, smoothingK, setSmoothingK,
     colorAdjust, setColorAdjust, synergySortBy, setSynergySortBy,
-    display, setDisplay
   } = filters;
 
-  // Navigation handlers
-  const onSubpageClicked = (idx) => {
-    let d = [...display];
-    d[idx] = !d[idx];
-    for (let i in d) if (i != idx) d[i] = false;
-    setDisplay(d);
-    setMinGames(0); setMinPlayers(0); setMaxPlayers(0); setMinDrafts(0);
+  // Map view prop to display index:
+  // colors=0, types=1, cards=2, deckstats=3, drafts=4, players=5, synergy=6, health=7, designmap=8
+  const viewIndexMap = {
+    colors: 0, types: 1, cards: 2, deckstats: 3,
+    drafts: 4, players: 5, synergy: 6, health: 7, designmap: 8,
   };
+  const activeIdx = viewIndexMap[props.view] ?? 0;
+  const display = Array.from({ length: 9 }, (_, i) => i === activeIdx);
 
   const onDraftLogSelected = (event) => {
     setSelectedDraftLog(event.target.value);
@@ -149,16 +148,6 @@ export function StatsViewer(props) {
         minDraftSize={minDraftSize}
         onMinDraftSizeChanged={(e) => setMinDraftSize(e.target.value)}
         parsed={parsed}
-        display={display}
-        onColorPage={() => onSubpageClicked(0)}
-        onArchetypePage={() => onSubpageClicked(1)}
-        onCardPage={() => onSubpageClicked(2)}
-        onDeckPage={() => onSubpageClicked(3)}
-        onDraftPage={() => onSubpageClicked(4)}
-        onPlayersPage={() => onSubpageClicked(5)}
-        onSynergyPage={() => onSubpageClicked(6)}
-        onHealthPage={() => onSubpageClicked(7)}
-        onDesignMapPage={() => onSubpageClicked(8)}
         matchStr={typingStr}
         cardNames={cube.cards.map(c => c.name)}
         playerNames={playerNames}

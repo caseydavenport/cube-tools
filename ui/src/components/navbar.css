@@ -12,6 +12,26 @@
   width: 100%;
   max-width: 1400px;
   margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.cube-select {
+  background: var(--card-background);
+  color: var(--text-muted);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.4rem 0.75rem;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  outline: none;
+}
+
+.cube-select:hover {
+  color: var(--white);
+  border-color: var(--primary);
 }
 
 .navbar {

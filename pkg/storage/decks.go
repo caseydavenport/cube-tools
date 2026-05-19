@@ -101,7 +101,7 @@ func (d *Deck) GetColors() []string {
 }
 
 type DeckStorage interface {
-	List(*DecksRequest) ([]*Deck, error)
+	List(cube string, req *DecksRequest) ([]*Deck, error)
 }
 
 func NewFileDeckStore() DeckStorage {
@@ -114,10 +114,14 @@ func NewFileDeckStoreWithCache() DeckStorage {
 	return &deckStore{}
 }
 
+type cubeCache struct {
+	decks  []*Deck
+	lookup map[key]*Deck
+}
+
 type deckStore struct {
 	sync.Mutex
-	cache  []*Deck
-	lookup map[key]*Deck
+	caches map[string]*cubeCache
 }
 
 // Maintain the cache in a separate goroutine.
@@ -126,36 +130,32 @@ func (s *deckStore) maintainCache() {
 		// Clear the cache every 10 seconds, which will force a reload on the next request.
 		<-time.After(10 * time.Second)
 		s.Lock()
-		s.cache = nil
+		s.caches = nil
 		s.Unlock()
 	}
 }
 
-func (s *deckStore) List(req *DecksRequest) ([]*Deck, error) {
+func (s *deckStore) List(cube string, req *DecksRequest) ([]*Deck, error) {
 	s.Lock()
 	defer s.Unlock()
 
-	if s.cache == nil {
-		var err error
-		s.cache, err = loadDecks("polyverse")
+	if s.caches == nil {
+		s.caches = map[string]*cubeCache{}
+	}
+	c, ok := s.caches[cube]
+	if !ok {
+		loaded, err := loadDecks(cube)
 		if err != nil {
 			return nil, err
 		}
-
-		// Update the lookup map.
-		s.lookup = make(map[key]*Deck)
-		for _, d := range s.cache {
-			k := key{
-				player: d.Player,
-				draft:  d.Metadata.DraftID,
-			}
-			s.lookup[k] = d
+		c = &cubeCache{decks: loaded, lookup: map[key]*Deck{}}
+		for _, d := range loaded {
+			c.lookup[key{player: d.Player, draft: d.Metadata.DraftID}] = d
 		}
-
-		// Perform any additional processing on the decks.
-		process(s.lookup)
+		process(c.lookup)
+		s.caches[cube] = c
 	}
-	return filter(s.cache, req), nil
+	return filter(c.decks, req), nil
 }
 
 func loadDecks(cube string) ([]*Deck, error) {

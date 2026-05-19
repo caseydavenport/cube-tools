@@ -1,18 +1,18 @@
 import { AverageCMC, AverageWordCount, ExtractColors } from "../utils/Utils.js"
 import { IsBasicLand } from "../utils/Utils.js"
 
-export async function LoadCube(onFetch) {
-  const resp = await fetch('data/polyverse/cube.json');
-  let cube = await resp.json();
+export async function LoadCube(cube, onFetch) {
+  const resp = await fetch(`/api/${cube}/cube`);
+  let c = await resp.json();
   if (onFetch != null) {
-    onFetch(cube);
+    onFetch(c);
     return
   }
-  return cube
+  return c
 }
 
-export async function LoadDecks(onLoad, start, end, draftSize, playerMatch, match) {
-  const resp = await fetch(`/api/decks?start=${start}&end=${end}&size=${draftSize}&player=${playerMatch}&match=${encodeURIComponent(match || "")}`);
+export async function LoadDecks(cube, onLoad, start, end, draftSize, playerMatch, match) {
+  const resp = await fetch(`/api/${cube}/decks?start=${start}&end=${end}&size=${draftSize}&player=${playerMatch}&match=${encodeURIComponent(match || "")}`);
   let decks = await resp.json();
 
   // TODO: Move this into the server code, instead of iterate decks here.
@@ -30,18 +30,17 @@ export async function LoadDecks(onLoad, start, end, draftSize, playerMatch, matc
   onLoad(decks.decks)
 }
 
-export async function LoadArchetypeData(onLoad, start, end, draftSize, playerMatch, match) {
-  const resp = await fetch(`/api/archetypes?start=${start}&end=${end}&size=${draftSize}&player=${playerMatch}&match=${encodeURIComponent(match || "")}`);
+export async function LoadArchetypeData(cube, onLoad, start, end, draftSize, playerMatch, match) {
+  const resp = await fetch(`/api/${cube}/archetypes?start=${start}&end=${end}&size=${draftSize}&player=${playerMatch}&match=${encodeURIComponent(match || "")}`);
   let d = await resp.json();
   onLoad(d)
 }
 
-export async function LoadDrafts(onLoad, start, end) {
+export async function LoadDrafts(cube, onLoad, start, end) {
   // First, fetch the draft index. We'll use this to find
   // all the drafts and decks therein.
-  let idx = await FetchIndex(null)
+  let idx = await FetchIndex(cube, null)
 
-  let urls = []
   let ids = []
   idx.drafts.forEach(function(draft, i) {
     if (!isDateBetween(draft.date, start, end)) {
@@ -50,12 +49,11 @@ export async function LoadDrafts(onLoad, start, end) {
     if (draft.draft_log === "") {
       return
     }
-    urls.push(draft.draft_log)
     ids.push(draft.draft_id)
   })
 
-  // Query URLs in parallel.
-  let requests = urls.map((url) => fetch(url));
+  // Query draft logs in parallel.
+  let requests = ids.map((id) => fetch(`/api/${cube}/drafts/${id}/log`));
   let responses = await Promise.all(requests);
   let errors = responses.filter((response) => !response.ok);
   if (errors.length > 0) {
@@ -76,9 +74,9 @@ export async function LoadDrafts(onLoad, start, end) {
   onLoad(drafts)
 }
 
-// FetchFile returns the raw contents of the file.
-export async function FetchFile(path, onFetch) {
-  const resp = await fetch(path);
+// FetchNotes returns the raw contents of a notes file under data/{cube}/.
+export async function FetchNotes(cube, path, onFetch) {
+  const resp = await fetch(`/api/${cube}/notes?path=${encodeURIComponent(path)}`);
   let txt = await resp.text();
   if (resp.status != 200) {
     txt = ""
@@ -91,8 +89,8 @@ export async function FetchFile(path, onFetch) {
 }
 
 // SaveNotes saves the given content to the specified path.
-export async function SaveNotes(path, content) {
-  const resp = await fetch("/api/save-notes", {
+export async function SaveNotes(cube, path, content) {
+  const resp = await fetch(`/api/${cube}/save-notes`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -107,8 +105,8 @@ export async function SaveNotes(path, content) {
 // FetchIndex loads the draft index file from the server.
 // The draft index file is an index of all the available drafts
 // available on the server.
-export async function FetchIndex(onFetch) {
-  const resp = await fetch('data/polyverse/index.json');
+export async function FetchIndex(cube, onFetch) {
+  const resp = await fetch(`/api/${cube}/index`);
   let idx = await resp.json();
   if (onFetch != null) {
     onFetch(idx);
