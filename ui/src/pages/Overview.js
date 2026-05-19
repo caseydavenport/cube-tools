@@ -19,7 +19,7 @@ export default function Overview() {
   }, [cube]);
 
   useEffect(() => {
-    fetch(`data/${cube}/index.json`)
+    fetch(`/api/${cube}/index`)
       .then(r => r.json())
       .then(data => setDrafts(data.drafts || []))
       .catch(err => setError(String(err)));

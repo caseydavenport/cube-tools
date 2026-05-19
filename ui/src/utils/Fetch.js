@@ -2,7 +2,7 @@ import { AverageCMC, AverageWordCount, ExtractColors } from "../utils/Utils.js"
 import { IsBasicLand } from "../utils/Utils.js"
 
 export async function LoadCube(cube, onFetch) {
-  const resp = await fetch(`data/${cube}/cube.json`);
+  const resp = await fetch(`/api/${cube}/cube`);
   let c = await resp.json();
   if (onFetch != null) {
     onFetch(c);
@@ -41,7 +41,6 @@ export async function LoadDrafts(cube, onLoad, start, end) {
   // all the drafts and decks therein.
   let idx = await FetchIndex(cube, null)
 
-  let urls = []
   let ids = []
   idx.drafts.forEach(function(draft, i) {
     if (!isDateBetween(draft.date, start, end)) {
@@ -50,12 +49,11 @@ export async function LoadDrafts(cube, onLoad, start, end) {
     if (draft.draft_log === "") {
       return
     }
-    urls.push(draft.draft_log)
     ids.push(draft.draft_id)
   })
 
-  // Query URLs in parallel.
-  let requests = urls.map((url) => fetch(url));
+  // Query draft logs in parallel.
+  let requests = ids.map((id) => fetch(`/api/${cube}/drafts/${id}/log`));
   let responses = await Promise.all(requests);
   let errors = responses.filter((response) => !response.ok);
   if (errors.length > 0) {
@@ -76,9 +74,9 @@ export async function LoadDrafts(cube, onLoad, start, end) {
   onLoad(drafts)
 }
 
-// FetchFile returns the raw contents of the file.
-export async function FetchFile(path, onFetch) {
-  const resp = await fetch(path);
+// FetchNotes returns the raw contents of a notes file under data/{cube}/.
+export async function FetchNotes(cube, path, onFetch) {
+  const resp = await fetch(`/api/${cube}/notes?path=${encodeURIComponent(path)}`);
   let txt = await resp.text();
   if (resp.status != 200) {
     txt = ""
@@ -108,7 +106,7 @@ export async function SaveNotes(cube, path, content) {
 // The draft index file is an index of all the available drafts
 // available on the server.
 export async function FetchIndex(cube, onFetch) {
-  const resp = await fetch(`data/${cube}/index.json`);
+  const resp = await fetch(`/api/${cube}/index`);
   let idx = await resp.json();
   if (onFetch != null) {
     onFetch(idx);

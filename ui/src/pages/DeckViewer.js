@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react'
-import { LoadCube, LoadDecks, FetchFile, SaveNotes } from "../utils/Fetch.js"
+import { LoadCube, LoadDecks, FetchNotes, SaveNotes } from "../utils/Fetch.js"
 import { useCube } from "../contexts/CubeContext.js"
 import { Record, MatchRecord, Wins, Losses, Draws, MatchWins, MatchLosses, MatchDraws, InDeckColor } from "../utils/Deck.js"
 import { RemovalMatches, CounterspellMatches } from "../pages/Decks.js"
@@ -196,7 +196,7 @@ export function DeckViewer(props) {
 
         // Load the deck description, if it exists.
         let f = `data/${cube}/${deck.metadata.draft_id}/${deck.player}.report.md`
-        FetchFile(f.toLowerCase(), onDescriptionFetched)
+        FetchNotes(cube, f.toLowerCase(), onDescriptionFetched)
         return
       }
     }

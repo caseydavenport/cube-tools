@@ -23,6 +23,10 @@ func main() {
 	cubeRoute := func(pattern string, h http.Handler) {
 		mux.Handle(pattern, server.WithCube(reg, h))
 	}
+	cubeRoute("GET /api/{cube}/cube", server.CubeContentHandler())
+	cubeRoute("GET /api/{cube}/index", server.CubeIndexHandler())
+	cubeRoute("GET /api/{cube}/drafts/{draft_id}/log", server.DraftLogHandler())
+	cubeRoute("GET /api/{cube}/notes", server.NotesHandler())
 	cubeRoute("GET /api/{cube}/decks", decks.DeckHandler())
 	cubeRoute("GET /api/{cube}/archetypes", server.ArchetypesHandler())
 	cubeRoute("GET /api/{cube}/stats/cards", stats.CardStatsHandler())
