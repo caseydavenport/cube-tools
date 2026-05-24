@@ -1,9 +1,7 @@
 package commands
 
 import (
-	"encoding/json"
 	"fmt"
-	"os"
 	"strings"
 
 	"github.com/caseydavenport/cube-tools/pkg/types"
@@ -24,11 +22,6 @@ func LoadParsedDeckFile(cube, date, player string) *types.Deck {
 }
 
 func SaveDeck(cube string, d *types.Deck) error {
-	bs, err := json.MarshalIndent(d, "", " ")
-	if err != nil {
-		return err
-	}
-
 	// Prefer the canonical path recorded in the deck's metadata so reparse
 	// overwrites in place. Fall back to the conventional <draft>/<player>.json
 	// location when no path is set (fresh parses).
@@ -36,8 +29,5 @@ func SaveDeck(cube string, d *types.Deck) error {
 	if filename == "" {
 		filename = DeckFilepath(cube, d.Metadata.DraftID, d.Player)
 	}
-	if err := os.WriteFile(filename, bs, os.ModePerm); err != nil {
-		return err
-	}
-	return nil
+	return d.Save(filename)
 }

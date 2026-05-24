@@ -274,12 +274,7 @@ func importDraft(cube string, d *HedronDraft, seq int) {
 		filename := filepath.Join(outdir, fmt.Sprintf("%s.json", deck.Player))
 		deck.Metadata.Path = filename
 
-		bs, err := json.MarshalIndent(deck, "", " ")
-		if err != nil {
-			logrus.WithError(err).Fatal("Failed to marshal deck")
-		}
-
-		if err := os.WriteFile(filename, bs, os.ModePerm); err != nil {
+		if err := deck.Save(filename); err != nil {
 			logrus.WithError(err).Fatal("Failed to write deck file")
 		}
 		logrus.Infof("Saved deck for %s", deck.Player)

@@ -63,6 +63,17 @@ func GetOracleData(name string) OracleCard {
 	return oracleCards[name]
 }
 
+// HydrateCard returns a Card built from oracle data for the given name. If
+// the card isn't in the oracle dataset (custom cards, missing data), the
+// returned Card carries only the name so the deck still loads.
+func HydrateCard(name string) Card {
+	o := GetOracleData(name)
+	if o.Name == "" {
+		return Card{Name: name}
+	}
+	return FromOracle(o)
+}
+
 type OracleData []OracleCard
 
 //	{
