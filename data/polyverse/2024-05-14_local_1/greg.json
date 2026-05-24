@@ -1,0 +1,143 @@
+{
+ "metadata": {
+  "path": "data/polyverse/2024-05-14_local_1/greg.json",
+  "draft_id": "2024-05-14_local_1",
+  "combined_file": "data/polyverse/2024-05-14_local_1/greg.txt"
+ },
+ "macro_archetype": "midrange",
+ "labels": [
+  "flicker",
+  "graveyard"
+ ],
+ "player": "greg",
+ "date": "2024-05-14",
+ "matches": [
+  {
+   "opponent": "casey",
+   "round": 1,
+   "wins": 1,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "casey",
+     "winner": "greg"
+    }
+   ],
+   "winner": "greg"
+  },
+  {
+   "opponent": "jen",
+   "round": 2,
+   "wins": 2,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "jen",
+     "winner": "greg"
+    },
+    {
+     "opponent": "jen",
+     "winner": "greg"
+    }
+   ],
+   "winner": "greg"
+  },
+  {
+   "opponent": "paul",
+   "round": 4,
+   "wins": 2,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "paul",
+     "winner": "greg"
+    },
+    {
+     "opponent": "paul",
+     "winner": "greg"
+    }
+   ],
+   "winner": "greg"
+  },
+  {
+   "opponent": "xander",
+   "round": 3,
+   "wins": 2,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "xander",
+     "winner": "greg"
+    },
+    {
+     "opponent": "xander",
+     "winner": "greg"
+    }
+   ],
+   "winner": "greg"
+  }
+ ],
+ "mainboard": [
+  "Panharmonicon",
+  "Spirited Companion",
+  "Flickerwisp",
+  "Meadowboon",
+  "Welcoming Vampire",
+  "Hostage Taker",
+  "Snapcaster Mage",
+  "Faerie Dreamthief",
+  "Soul Warden",
+  "Mulldrifter",
+  "Moon-Circuit Hacker",
+  "Puppeteer Clique",
+  "Halo Forager",
+  "Kor Skyfisher",
+  "Shark Typhoon",
+  "Infernal Grasp",
+  "Ghostly Flicker",
+  "Repeal",
+  "Marsh Flats",
+  "Shadowy Backstreet",
+  "Takenuma, Abandoned Mire",
+  "Polluted Delta",
+  "Godless Shrine",
+  "Undercity Sewers",
+  "Meticulous Archive",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Island",
+  "Island",
+  "Island",
+  "Swamp",
+  "Swamp",
+  "Swamp",
+  "Virtue of Persistence // Locthwain Scorn",
+  "Unearth",
+  "Grim Discovery",
+  "Preordain",
+  "Wrath of God"
+ ],
+ "sideboard": [
+  "Aether Spellbomb",
+  "Sai of the Shinobi",
+  "Rielle, the Everwise",
+  "Qasali Pridemage",
+  "Seasoned Hallowblade",
+  "Sphinx of Lost Truths",
+  "Goldmeadow Harrier",
+  "Mother of Runes",
+  "Dress Down",
+  "Comet Storm",
+  "Deprive",
+  "Remand",
+  "Condescend",
+  "Kellan, the Fae-Blooded // Birthright Boon",
+  "Day of Judgment"
+ ]
+}

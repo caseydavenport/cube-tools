@@ -1,0 +1,134 @@
+{
+ "metadata": {
+  "path": "data/polyverse/2023-12-02_local_1/jen.json",
+  "draft_id": "2023-12-02_local_1",
+  "combined_file": "data/polyverse/2023-12-02_local_1/jen.txt"
+ },
+ "macro_archetype": "tempo",
+ "labels": [
+  "spells"
+ ],
+ "player": "jen",
+ "date": "2023-12-02",
+ "matches": [
+  {
+   "opponent": "cara",
+   "round": 1,
+   "wins": 2,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "cara",
+     "winner": "jen"
+    },
+    {
+     "opponent": "cara",
+     "winner": "jen"
+    }
+   ],
+   "winner": "jen"
+  },
+  {
+   "opponent": "paul",
+   "round": 3,
+   "wins": 2,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "paul",
+     "winner": "jen"
+    },
+    {
+     "opponent": "paul",
+     "winner": "jen"
+    },
+    {
+     "opponent": "paul",
+     "winner": "paul"
+    }
+   ],
+   "winner": "jen"
+  },
+  {
+   "opponent": "xander",
+   "round": 2,
+   "wins": 0,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "xander",
+     "winner": "xander"
+    },
+    {
+     "opponent": "xander",
+     "winner": "xander"
+    }
+   ],
+   "winner": "xander"
+  }
+ ],
+ "mainboard": [
+  "Scalding Tarn",
+  "Spell Pierce",
+  "Chandra, Hope's Beacon",
+  "Saheeli, Sublime Artificer",
+  "Emergence Zone",
+  "Quicken",
+  "Jace, Arcane Strategist",
+  "Steam Vents",
+  "Unsummon",
+  "Comet Storm",
+  "Brineborn Cutthroat",
+  "Arcbound Tracker",
+  "Empty the Warrens",
+  "Faerie Vandal",
+  "Opt",
+  "Brainstorm",
+  "The Reality Chip",
+  "Flux Channeler",
+  "Young Pyromancer",
+  "Snapcaster Mage",
+  "Fiery Islet",
+  "Mizzium Tank",
+  "Aether Tradewinds",
+  "Gomazoa",
+  "Serum Visions",
+  "Winds of Rebuke",
+  "Mischievous Chimera",
+  "Careful Study",
+  "Island",
+  "Island",
+  "Island",
+  "Island",
+  "Island",
+  "Island",
+  "Island",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Mountain"
+ ],
+ "sideboard": [
+  "Carrion Feeder",
+  "Mesmeric Fiend",
+  "Flooded Strand",
+  "Tezzeret, Betrayer of Flesh",
+  "Hellion Eruption",
+  "Hedron Crab",
+  "Silver Myr",
+  "Master of Etherium",
+  "Rigging Runner",
+  "Grim Initiate",
+  "Fatestitcher",
+  "Dress Down",
+  "Sleep of the Dead",
+  "Vexing Gull",
+  "Ral, Storm Conduit",
+  "Crimson Wisps",
+  "Rite of Replication"
+ ]
+}

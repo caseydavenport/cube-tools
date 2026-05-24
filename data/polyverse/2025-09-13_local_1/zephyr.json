@@ -1,0 +1,132 @@
+{
+ "metadata": {
+  "path": "data/polyverse/2025-09-13_local_1/zephyr.json",
+  "draft_id": "2025-09-13_local_1",
+  "mainboard_file": "data/polyverse/2025-09-13_local_1/zephyr-mainboard.csv",
+  "sideboard_file": "data/polyverse/2025-09-13_local_1/zephyr-sideboard.csv"
+ },
+ "macro_archetype": "midrange",
+ "labels": [
+  "sacrifice",
+  "titania",
+  "ramp"
+ ],
+ "player": "zephyr",
+ "date": "2025-09-13",
+ "matches": [
+  {
+   "opponent": "colton",
+   "round": 1,
+   "wins": 0,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "colton",
+     "winner": "colton"
+    },
+    {
+     "opponent": "colton",
+     "winner": "colton"
+    }
+   ],
+   "winner": "colton"
+  },
+  {
+   "opponent": "eric",
+   "round": 2,
+   "wins": 2,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "eric",
+     "winner": "zephyr"
+    },
+    {
+     "opponent": "eric",
+     "winner": "zephyr"
+    }
+   ],
+   "winner": "zephyr"
+  },
+  {
+   "opponent": "joe",
+   "round": 3,
+   "wins": 2,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "joe",
+     "winner": "zephyr"
+    },
+    {
+     "opponent": "joe",
+     "winner": "zephyr"
+    },
+    {
+     "opponent": "joe",
+     "winner": "joe"
+    }
+   ],
+   "winner": "zephyr"
+  }
+ ],
+ "mainboard": [
+  "Bloodsoaked Champion",
+  "Blood Crypt",
+  "Fatal Push",
+  "Timeline Culler",
+  "Forest",
+  "Forest",
+  "Forest",
+  "Forest",
+  "Archenemy's Charm",
+  "Bloodghast",
+  "Ravenous Squirrel",
+  "Mayhem Devil",
+  "Rankle, Master of Pranks",
+  "Lord Skitter, Sewer King",
+  "Ulcerate",
+  "Woe Strider",
+  "Titania, Protector of Argoth",
+  "Birds of Paradise",
+  "Swamp",
+  "Swamp",
+  "Swamp",
+  "Ignoble Hierarch",
+  "Grim Flayer",
+  "Nurturing Peatland",
+  "Bitterblossom",
+  "Wither and Bloom",
+  "Overgrown Tomb",
+  "Polluted Delta",
+  "Arasta of the Endless Web",
+  "Bloodstained Mire",
+  "Bloodstained Mire",
+  "Raucous Theater",
+  "Misty Rainforest",
+  "Midnight Reaper",
+  "Marionette Apprentice",
+  "Duress",
+  "Carrion Feeder",
+  "Inquisition of Kozilek",
+  "Verdant Catacombs",
+  "Sylvan Library"
+ ],
+ "sideboard": [
+  "Anje's Ravager",
+  "Augur of Autumn",
+  "Curator of Mysteries",
+  "Grim Discovery",
+  "Seal of Removal",
+  "Flickerwisp",
+  "Master of Death",
+  "Cankerbloom",
+  "Chandra, Hope's Beacon",
+  "Chainweb Aracnir",
+  "Rielle, the Everwise",
+  "Arbor Elf"
+ ]
+}

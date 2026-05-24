@@ -1,0 +1,125 @@
+{
+ "metadata": {
+  "path": "data/polyverse/2023-07-16_local_1/dom.json",
+  "draft_id": "2023-07-16_local_1",
+  "combined_file": "data/polyverse/2023-07-16_local_1/dom.txt"
+ },
+ "macro_archetype": "control",
+ "labels": [
+  "spells",
+  "+1/+1"
+ ],
+ "player": "dom",
+ "date": "2023-07-16",
+ "matches": [
+  {
+   "opponent": "casey",
+   "round": 3,
+   "wins": 1,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "casey",
+     "winner": "dom"
+    }
+   ],
+   "winner": "dom"
+  },
+  {
+   "opponent": "james",
+   "round": 2,
+   "wins": 1,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "james",
+     "winner": "dom"
+    }
+   ],
+   "winner": "dom"
+  },
+  {
+   "opponent": "jen",
+   "round": 1,
+   "wins": 1,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "jen",
+     "winner": "dom"
+    }
+   ],
+   "winner": "dom"
+  }
+ ],
+ "mainboard": [
+  "Sphinx of Lost Truths",
+  "Mana Leak",
+  "Hypersonic Dragon",
+  "Mark of Mutiny",
+  "Brineborn Cutthroat",
+  "Jace, Arcane Strategist",
+  "Scalding Tarn",
+  "Deprive",
+  "Faerie Vandal",
+  "Thing in the Ice // Awoken Horror",
+  "Unsummon",
+  "Guttersnipe",
+  "Nahiri's Stoneblades",
+  "Mischievous Chimera",
+  "Exclusion Mage",
+  "Chandra, Hope's Beacon",
+  "Incinerate",
+  "Pteramander",
+  "Counterspell",
+  "Brainstorm",
+  "Sulfur Falls",
+  "Siren Stormtamer",
+  "Remove Soul",
+  "Gomazoa",
+  "Discover the Impossible",
+  "Island",
+  "Island",
+  "Island",
+  "Island",
+  "Island",
+  "Island",
+  "Island",
+  "Island",
+  "Island",
+  "Island",
+  "Island",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Mountain"
+ ],
+ "sideboard": [
+  "Doomgape",
+  "Rise from the Grave",
+  "Choked Estuary",
+  "Mistmeadow Skulk",
+  "Restoration Angel",
+  "Dawn Charm",
+  "Mistmeadow Witch",
+  "Mental Note",
+  "Whisper Agent",
+  "Rockslide Elemental",
+  "Vexing Gull",
+  "Warcry Phoenix",
+  "Goblin Arsonist",
+  "Starlit Mantle",
+  "Vona's Hunger",
+  "Umbral Mantle",
+  "Loxodon Warhammer",
+  "Mindslaver",
+  "Rage Nimbus",
+  "The Reality Chip",
+  "Mesmerizing Benthid",
+  "Cunning Sparkmage",
+  "Daring Saboteur"
+ ]
+}

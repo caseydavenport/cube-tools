@@ -1,0 +1,136 @@
+{
+ "metadata": {
+  "path": "data/polyverse/2023-07-16_local_1/james.json",
+  "draft_id": "2023-07-16_local_1",
+  "combined_file": "data/polyverse/2023-07-16_local_1/james.txt"
+ },
+ "macro_archetype": "midrange",
+ "labels": [
+  "vampire"
+ ],
+ "player": "james",
+ "date": "2023-07-16",
+ "matches": [
+  {
+   "opponent": "casey",
+   "round": 1,
+   "wins": 0,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "casey",
+     "winner": "casey"
+    }
+   ],
+   "winner": "casey"
+  },
+  {
+   "opponent": "dom",
+   "round": 2,
+   "wins": 0,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "dom",
+     "winner": "dom"
+    }
+   ],
+   "winner": "dom"
+  },
+  {
+   "opponent": "greg",
+   "round": 3,
+   "wins": 0,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "greg",
+     "winner": "greg"
+    }
+   ],
+   "winner": "greg"
+  },
+  {
+   "opponent": "xander",
+   "round": 4,
+   "wins": 1,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "xander",
+     "winner": "james"
+    }
+   ],
+   "winner": "james"
+  }
+ ],
+ "mainboard": [
+  "Wrath of God",
+  "Unmake",
+  "Liliana, Death's Majesty",
+  "Sanctum Seeker",
+  "Path to Exile",
+  "Ajani Goldmane",
+  "Oathsworn Vampire",
+  "Disfigure",
+  "Kalastria Highborn",
+  "Mesmeric Fiend",
+  "Paladin of the Bloodstained",
+  "Pitiless Pontiff",
+  "Mavren Fein, Dusk Apostle",
+  "Butcher of Malakir",
+  "Doom Blade",
+  "Journey to Nowhere",
+  "Pharika's Spawn",
+  "Oblivion Ring",
+  "Alseid of Life's Bounty",
+  "Vampire's Zeal",
+  "Terramorphic Expanse",
+  "Harm's Way",
+  "Shineshadow Snarl",
+  "Inspiring Cleric",
+  "Malakir Bloodwitch",
+  "Field of Ruin",
+  "Vampire Aristocrat",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Swamp",
+  "Swamp",
+  "Swamp",
+  "Swamp",
+  "Swamp",
+  "Swamp"
+ ],
+ "sideboard": [
+  "Giant Growth",
+  "Avenger of Zendikar",
+  "Hellkite Charger",
+  "Groundswell",
+  "Bonesplitter",
+  "Sai of the Shinobi",
+  "Vampire's Bite",
+  "Blinding Mage",
+  "Eidolon of Obstruction",
+  "Lion Sash",
+  "Darksteel Colossus",
+  "Liliana's Mastery",
+  "Gwyllion Hedge-Mage",
+  "Ob Nixilis, the Hate-Twisted",
+  "Cartouche of Solidarity",
+  "Kor Duelist",
+  "Beacon of Unrest",
+  "Mire Triton",
+  "Inevitable End",
+  "Soul Warden",
+  "Shinewend"
+ ]
+}

@@ -1,0 +1,135 @@
+{
+ "metadata": {
+  "path": "data/polyverse/2023-12-02_local_1/dom.json",
+  "draft_id": "2023-12-02_local_1",
+  "combined_file": "data/polyverse/2023-12-02_local_1/dom.txt"
+ },
+ "macro_archetype": "aggro",
+ "labels": [],
+ "player": "dom",
+ "date": "2023-12-02",
+ "matches": [
+  {
+   "opponent": "casey",
+   "round": 1,
+   "wins": 1,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "casey",
+     "winner": "dom"
+    },
+    {
+     "opponent": "casey",
+     "winner": "casey"
+    },
+    {
+     "opponent": "casey",
+     "winner": "casey"
+    }
+   ],
+   "winner": "casey"
+  },
+  {
+   "opponent": "greg",
+   "round": 3,
+   "wins": 2,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "greg",
+     "winner": "dom"
+    },
+    {
+     "opponent": "greg",
+     "winner": "dom"
+    }
+   ],
+   "winner": "dom"
+  },
+  {
+   "opponent": "james",
+   "round": 2,
+   "wins": 2,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "james",
+     "winner": "dom"
+    },
+    {
+     "opponent": "james",
+     "winner": "dom"
+    }
+   ],
+   "winner": "dom"
+  }
+ ],
+ "mainboard": [
+  "Lightning Bolt",
+  "Phoenix Chick",
+  "Festering Mummy",
+  "Tibalt's Rager",
+  "Mark of Mutiny",
+  "Vampire of the Dire Moon",
+  "Puncture Blast",
+  "Fungal Infection",
+  "Flames of the Firebrand",
+  "Ogre-Head Helm",
+  "Rabbit Battery",
+  "Dreadhorde Butcher",
+  "Magma Jet",
+  "Burst Lightning",
+  "Tangled Colony",
+  "Read the Bones",
+  "Goblin Bombardment",
+  "Goblin Arsonist",
+  "Unearth",
+  "Soul-Scar Mage",
+  "Dark Confidant",
+  "Dark Ritual",
+  "Inti, Seneschal of the Sun",
+  "Twinshot Sniper",
+  "Zulaport Cutthroat",
+  "Swamp",
+  "Swamp",
+  "Swamp",
+  "Swamp",
+  "Swamp",
+  "Swamp",
+  "Swamp",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Mountain"
+ ],
+ "sideboard": [
+  "Tamiyo, Compleated Sage",
+  "Blinding Mage",
+  "Kor Duelist",
+  "Cunning Lethemancer",
+  "Viscera Seer",
+  "Breeding Pool",
+  "Umbral Mantle",
+  "Fact or Fiction",
+  "Censor",
+  "Remand",
+  "Merfolk Looter",
+  "Oona's Grace",
+  "Ephara's Dispersal",
+  "Farsight Ritual",
+  "Grim Discovery",
+  "Field of Ruin",
+  "Manabarbs",
+  "Murderous Redcap",
+  "Rage Nimbus",
+  "Jinxed Idol"
+ ]
+}

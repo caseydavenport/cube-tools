@@ -1,0 +1,123 @@
+{
+ "metadata": {
+  "path": "data/polyverse/2025-10-04_ccc2025_2/player-3f67-386a.json",
+  "draft_id": "2025-10-04_ccc2025_2",
+  "pool_file": "data/polyverse/2025-10-04_ccc2025_2/player-3f67-386a-pool.txt"
+ },
+ "macro_archetype": "midrange",
+ "labels": [
+  "coco",
+  "lands"
+ ],
+ "player": "player-3f67-386a",
+ "date": "2025-10-04",
+ "matches": [
+  {
+   "opponent": "player-3f67-2651",
+   "round": 3,
+   "wins": 2,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "player-3f67-2651",
+     "winner": "player-3f67-386a"
+    },
+    {
+     "opponent": "player-3f67-2651",
+     "winner": "player-3f67-386a"
+    },
+    {
+     "opponent": "player-3f67-2651",
+     "winner": "player-3f67-2651"
+    }
+   ],
+   "winner": "player-3f67-386a"
+  },
+  {
+   "opponent": "player-3f67-39fd",
+   "round": 2,
+   "wins": 0,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "player-3f67-39fd",
+     "winner": "player-3f67-39fd"
+    },
+    {
+     "opponent": "player-3f67-39fd",
+     "winner": "player-3f67-39fd"
+    }
+   ],
+   "winner": "player-3f67-39fd"
+  },
+  {
+   "opponent": "player-3f67-a0b7",
+   "round": 1,
+   "wins": 1,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "player-3f67-a0b7",
+     "winner": "player-3f67-386a"
+    }
+   ],
+   "winner": "player-3f67-386a"
+  }
+ ],
+ "mainboard": [],
+ "sideboard": [],
+ "pool": [
+  "Inti, Seneschal of the Sun",
+  "Life from the Loam",
+  "Birds of Paradise",
+  "Stomping Ground",
+  "Monastery Swiftspear",
+  "Reckless Pyrosurfer",
+  "Cemetery Gatekeeper",
+  "Primeval Titan",
+  "Ogre-Head Helm",
+  "Thundering Falls",
+  "Roaring Earth",
+  "Lava Dart",
+  "Reinforced Ronin",
+  "Sprite Dragon",
+  "Bonesplitter",
+  "Anje's Ravager",
+  "Field of the Dead",
+  "Chandra, Hope's Beacon",
+  "Boseiju, Who Endures",
+  "Titania, Protector of Argoth",
+  "Windswept Heath",
+  "Windswept Heath",
+  "Shifting Woodland",
+  "Engineered Explosives",
+  "Collected Company",
+  "Renegade Rallier",
+  "Renata, Called to the Hunt",
+  "Edge of Autumn",
+  "Rielle, the Everwise",
+  "Traverse the Ulvenwald",
+  "Utopia Sprawl",
+  "Six",
+  "The Goose Mother",
+  "Wrenn and Six",
+  "Flametongue Kavu",
+  "Barbarian Ring",
+  "Magma Jet",
+  "Noble Hierarch",
+  "Fiery Temper",
+  "Gingerbrute",
+  "Bomat Courier",
+  "Scrapwork Mutt",
+  "Twinshot Sniper",
+  "Quirion Beastcaller",
+  "Inexorable Blob"
+ ],
+ "colors": [
+  "G",
+  "R"
+ ]
+}

@@ -1,0 +1,99 @@
+{
+ "metadata": {
+  "path": "data/polyverse/2024-03-23_local_1/casey.json",
+  "draft_id": "2024-03-23_local_1",
+  "combined_file": "data/polyverse/2024-03-23_local_1/casey.txt"
+ },
+ "macro_archetype": "midrange",
+ "labels": [
+  "+1/+1"
+ ],
+ "player": "casey",
+ "date": "2024-03-23",
+ "matches": [
+  {
+   "opponent": "dom",
+   "round": 1,
+   "wins": 0,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "dom",
+     "winner": "dom"
+    },
+    {
+     "opponent": "dom",
+     "winner": "dom"
+    }
+   ],
+   "winner": "dom"
+  }
+ ],
+ "mainboard": [
+  "Portable Hole",
+  "Pyrite Spellbomb",
+  "Glass Casket",
+  "Warden of the Inner Sky",
+  "Inti, Seneschal of the Sun",
+  "Field of Ruin",
+  "Courser of Kruphix",
+  "Cloudgoat Ranger",
+  "Mavren Fein, Dusk Apostle",
+  "Renata, Called to the Hunt",
+  "Sprout Swarm",
+  "Eidolon of Obstruction",
+  "Flickerwisp",
+  "Krenko, Tin Street Kingpin",
+  "Verdant Catacombs",
+  "Hunting Triad",
+  "Abundant Harvest",
+  "Sheltered Thicket",
+  "Flooded Strand",
+  "Bloodstained Mire",
+  "Manamorphose",
+  "Ajani Goldmane",
+  "Hardened Scales",
+  "Setessan Champion",
+  "Roaring Earth",
+  "Vivien, Champion of the Wilds",
+  "Harrow",
+  "Bonesplitter",
+  "Canopy Vista",
+  "Sulfurous Springs",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Mountain",
+  "Forest",
+  "Forest",
+  "Forest",
+  "Forest",
+  "Forest"
+ ],
+ "sideboard": [
+  "Siege-Gang Commander",
+  "Puppeteer Clique",
+  "Pyroclasm",
+  "Fall of the Thran",
+  "Mizzium Tank",
+  "Moon-Circuit Hacker",
+  "Knight of the Ebon Legion",
+  "Containment Construct",
+  "Unmake",
+  "Ephara's Dispersal",
+  "Mulldrifter",
+  "Ulcerate",
+  "Reveillark",
+  "Lava Dart",
+  "Woe Strider",
+  "Fungal Infection",
+  "Cut Down",
+  "Dark Confidant",
+  "Dreadhorde Butcher",
+  "Takenuma, Abandoned Mire",
+  "Emergence Zone",
+  "Dreadhorde Arcanist"
+ ]
+}

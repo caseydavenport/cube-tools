@@ -1,0 +1,120 @@
+{
+ "metadata": {
+  "path": "data/polyverse/2023-07-16_local_1/xander.json",
+  "draft_id": "2023-07-16_local_1",
+  "combined_file": "data/polyverse/2023-07-16_local_1/xander.txt"
+ },
+ "macro_archetype": "control",
+ "labels": [
+  "spells",
+  "token"
+ ],
+ "player": "xander",
+ "date": "2023-07-16",
+ "matches": [
+  {
+   "opponent": "casey",
+   "round": 5,
+   "wins": 1,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "casey",
+     "winner": "xander"
+    }
+   ],
+   "winner": "xander"
+  },
+  {
+   "opponent": "james",
+   "round": 4,
+   "wins": 0,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "james",
+     "winner": "james"
+    }
+   ],
+   "winner": "james"
+  },
+  {
+   "opponent": "jen",
+   "round": 3,
+   "wins": 1,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "jen",
+     "winner": "xander"
+    }
+   ],
+   "winner": "xander"
+  }
+ ],
+ "mainboard": [
+  "Swords to Plowshares",
+  "Lightning Bolt",
+  "Frostboil Snarl",
+  "Young Pyromancer",
+  "Fact or Fiction",
+  "Warleader's Helix",
+  "Mizzium Tank",
+  "Glacial Fortress",
+  "Clifftop Retreat",
+  "Enigma Drake",
+  "Ral, Storm Conduit",
+  "Dreadhorde Arcanist",
+  "Empty the Warrens",
+  "Puncture Blast",
+  "Naiad of Hidden Coves",
+  "Chart a Course",
+  "Soul-Scar Mage",
+  "Chain Lightning",
+  "Maze of Ith",
+  "Ponder",
+  "Spellgorger Weird",
+  "Flooded Strand",
+  "Into the Roil",
+  "Saheeli, Sublime Artificer",
+  "Port Town",
+  "Delay",
+  "Stinging Lionfish",
+  "Essence Capture",
+  "Turn to Mist",
+  "Faithless Looting",
+  "Plains",
+  "Island",
+  "Island",
+  "Island",
+  "Island",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Mountain"
+ ],
+ "sideboard": [
+  "Stealth Mission",
+  "Stitch Together",
+  "Fatestitcher",
+  "Dauntless Bodyguard",
+  "Dream Trawler",
+  "Bond of Insight",
+  "Condescend",
+  "Silver Myr",
+  "Iron Myr",
+  "Prison Term",
+  "Swans of Bryn Argoll",
+  "Inventive Iteration // Living Breakthrough",
+  "Teferi's Time Twist",
+  "Marshal's Anthem",
+  "Witherscale Wurm",
+  "Touch the Spirit Realm",
+  "Domri's Ambush",
+  "Iona's Judgment"
+ ]
+}

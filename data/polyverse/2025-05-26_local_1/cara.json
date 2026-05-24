@@ -1,0 +1,103 @@
+{
+ "metadata": {
+  "path": "data/polyverse/2025-05-26_local_1/cara.json",
+  "draft_id": "2025-05-26_local_1",
+  "combined_file": "data/polyverse/2025-05-26_local_1/cara.csv"
+ },
+ "macro_archetype": "tempo",
+ "labels": [],
+ "player": "cara",
+ "date": "2025-05-26",
+ "matches": [
+  {
+   "opponent": "james",
+   "round": 1,
+   "wins": 1,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "james",
+     "winner": "cara"
+    }
+   ],
+   "winner": "cara"
+  },
+  {
+   "opponent": "xander",
+   "round": 2,
+   "wins": 0,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "xander",
+     "winner": "xander"
+    },
+    {
+     "opponent": "xander",
+     "winner": "xander"
+    }
+   ],
+   "winner": "xander"
+  }
+ ],
+ "mainboard": [
+  "Helping Hand",
+  "Shadowy Backstreet",
+  "Kellan, the Fae-Blooded // Birthright Boon",
+  "Phoenix Chick",
+  "Bloodstained Mire",
+  "Firebolt",
+  "Urza's Bauble",
+  "Swamp",
+  "Swamp",
+  "Swamp",
+  "Swamp",
+  "Mesmeric Fiend",
+  "Mayhem Devil",
+  "Bitter Triumph",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Plains",
+  "Plains",
+  "Lizard Blades",
+  "Bloodchief's Thirst",
+  "Lord Skitter, Sewer King",
+  "Ulcerate",
+  "Viscera Seer",
+  "Welcoming Vampire",
+  "Monastery Mentor",
+  "Mark of Mutiny",
+  "Lightning Bolt",
+  "Phelia, Exuberant Shepherd",
+  "Sacred Foundry",
+  "Bitterblossom",
+  "Marionette Apprentice",
+  "Legion's Landing // Adanto, the First Fort",
+  "Mother of Runes",
+  "Urza's Saga",
+  "Blood Crypt",
+  "Searslicer Goblin",
+  "Tibalt's Rager"
+ ],
+ "sideboard": [
+  "Puppeteer Clique",
+  "Horizon Canopy",
+  "Spirited Companion",
+  "Hallowed Fountain",
+  "Prismatic Ending",
+  "Lush Portico",
+  "Dead Weight",
+  "Memory Lapse",
+  "Mana Tithe",
+  "Scryb Ranger",
+  "Archfiend of Ifnir",
+  "Sinew Sliver",
+  "Agonizing Remorse",
+  "Raise the Alarm"
+ ]
+}

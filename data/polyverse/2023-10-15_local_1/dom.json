@@ -1,0 +1,109 @@
+{
+ "metadata": {
+  "path": "data/polyverse/2023-10-15_local_1/dom.json",
+  "draft_id": "2023-10-15_local_1",
+  "combined_file": "data/polyverse/2023-10-15_local_1/dom.txt"
+ },
+ "macro_archetype": "aggro",
+ "labels": [
+  "token"
+ ],
+ "player": "dom",
+ "date": "2023-10-15",
+ "matches": [
+  {
+   "opponent": "casey",
+   "round": 1,
+   "wins": 1,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "casey",
+     "winner": "dom"
+    },
+    {
+     "opponent": "casey",
+     "winner": "casey"
+    },
+    {
+     "opponent": "casey",
+     "winner": "casey"
+    }
+   ],
+   "winner": "casey"
+  }
+ ],
+ "mainboard": [
+  "Chainweb Aracnir",
+  "Saproling Migration",
+  "Rabbit Battery",
+  "Maze of Ith",
+  "Woodland Champion",
+  "Sprout Swarm",
+  "Parallel Lives",
+  "Skarrgan Hellkite",
+  "Rampaging Baloths",
+  "Kellan, the Fae-Blooded // Birthright Boon",
+  "Arbor Elf",
+  "Reinforced Ronin",
+  "Lightning Bolt",
+  "Spider Food",
+  "Flames of the Firebrand",
+  "Puncture Blast",
+  "Harrow",
+  "Ogre-Head Helm",
+  "Empty the Warrens",
+  "Arasta of the Endless Web",
+  "Chatter of the Squirrel",
+  "Mark of Mutiny",
+  "Nissa, Who Shakes the World",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Forest",
+  "Forest",
+  "Forest",
+  "Forest",
+  "Forest",
+  "Forest",
+  "Forest",
+  "Forest",
+  "Forest"
+ ],
+ "sideboard": [
+  "Bolas's Citadel",
+  "Breeding Pool",
+  "Irrigated Farmland",
+  "Necroblossom Snarl",
+  "Bloodsoaked Champion",
+  "Woe Strider",
+  "Whisper, Blood Liturgist",
+  "Puppeteer Clique",
+  "Sphinx of Lost Truths",
+  "Dress Down",
+  "Deprive",
+  "Mana Leak",
+  "Winds of Rebuke",
+  "Harm's Way",
+  "Earthquake",
+  "Worm Harvest",
+  "Mizzium Tank",
+  "Life from the Loam",
+  "Roaring Earth",
+  "Quest for the Gemblades",
+  "Intangible Virtue",
+  "Angel of Salvation",
+  "Throne of the God-Pharaoh",
+  "Towashi Guide-Bot",
+  "Goblin Arsonist",
+  "Acidic Slime",
+  "Domri's Ambush",
+  "Rubblebelt Rioters"
+ ]
+}

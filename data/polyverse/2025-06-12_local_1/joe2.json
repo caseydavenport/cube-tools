@@ -1,0 +1,127 @@
+{
+ "metadata": {
+  "path": "data/polyverse/2025-06-12_local_1/joe2.json",
+  "draft_id": "2025-06-12_local_1",
+  "combined_file": "data/polyverse/2025-06-12_local_1/joe2.csv"
+ },
+ "macro_archetype": "midrange",
+ "labels": [
+  "lands",
+  "ramp"
+ ],
+ "player": "joe2",
+ "date": "2025-06-12",
+ "matches": [
+  {
+   "opponent": "joe",
+   "round": 3,
+   "wins": 2,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "joe",
+     "winner": "joe2"
+    },
+    {
+     "opponent": "joe",
+     "winner": "joe2"
+    },
+    {
+     "opponent": "joe",
+     "winner": "joe"
+    }
+   ],
+   "winner": "joe2"
+  },
+  {
+   "opponent": "kevin",
+   "round": 2,
+   "wins": 2,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "kevin",
+     "winner": "joe2"
+    },
+    {
+     "opponent": "kevin",
+     "winner": "joe2"
+    },
+    {
+     "opponent": "kevin",
+     "winner": "kevin"
+    }
+   ],
+   "winner": "joe2"
+  },
+  {
+   "opponent": "sebastian",
+   "round": 1,
+   "wins": 0,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "sebastian",
+     "winner": "sebastian"
+    },
+    {
+     "opponent": "sebastian",
+     "winner": "sebastian"
+    }
+   ],
+   "winner": "sebastian"
+  }
+ ],
+ "mainboard": [
+  "Hedge Maze",
+  "Wrenn and Six",
+  "Urza's Bauble",
+  "Stomping Ground",
+  "Crop Rotation",
+  "Courser of Kruphix",
+  "Tireless Tracker",
+  "Cathar Commando",
+  "Marsh Flats",
+  "Aether Spellbomb",
+  "Ulcerate",
+  "Explore",
+  "Lingering Souls",
+  "Portable Hole",
+  "Fetid Pools",
+  "Lush Portico",
+  "Field of the Dead",
+  "Gilded Goose",
+  "Remand",
+  "Horizon Canopy",
+  "Knight of the Reliquary",
+  "Lórien Revealed",
+  "Esika's Chariot",
+  "Breeding Pool",
+  "Godless Shrine",
+  "Engineered Explosives",
+  "Utopia Sprawl",
+  "Restless Vinestalk",
+  "Underground Mortuary",
+  "Sheltered Thicket",
+  "Life from the Loam",
+  "Urza's Saga",
+  "Verdant Catacombs",
+  "Verdant Catacombs",
+  "Traverse the Ulvenwald",
+  "Temple Garden",
+  "Grim Bauble",
+  "Undercity Sewers",
+  "Windswept Heath",
+  "Murderous Cut"
+ ],
+ "sideboard": [
+  "Pestermite",
+  "Dauntless Bodyguard",
+  "Warden of the Inner Sky",
+  "Wilderness Reclamation",
+  "Arbor Elf"
+ ]
+}

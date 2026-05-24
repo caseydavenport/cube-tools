@@ -1,0 +1,90 @@
+{
+ "metadata": {
+  "path": "data/polyverse/2025-08-31_local_1/dom.json",
+  "draft_id": "2025-08-31_local_1",
+  "combined_file": "data/polyverse/2025-08-31_local_1/dom.txt"
+ },
+ "macro_archetype": "aggro",
+ "labels": [
+  "equipment",
+  "discard"
+ ],
+ "player": "dom",
+ "date": "2025-08-31",
+ "matches": [
+  {
+   "opponent": "casey",
+   "round": 1,
+   "wins": 1,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "casey",
+     "winner": "dom"
+    }
+   ],
+   "winner": "dom"
+  }
+ ],
+ "mainboard": [
+  "Demand Answers",
+  "Heartfire Hero",
+  "Rabbit Battery",
+  "Magma Jet",
+  "Oust",
+  "Lizard Blades",
+  "Touch the Spirit Realm",
+  "Anje's Ravager",
+  "Reinforced Ronin",
+  "Warleader's Call",
+  "Soul Partition",
+  "Mishra's Bauble",
+  "Faerie Guidemother // Gift of the Fae",
+  "March of Otherworldly Light",
+  "Kellan, the Fae-Blooded // Birthright Boon",
+  "Ogre-Head Helm",
+  "Comet Storm",
+  "Fearless Fledgling",
+  "Lion Sash",
+  "Flames of the Firebrand",
+  "Inti, Seneschal of the Sun",
+  "Phelia, Exuberant Shepherd",
+  "Kavaron Harrier",
+  "Blazing Rootwalla",
+  "Seasoned Hallowblade",
+  "Welcoming Vampire",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Windswept Heath",
+  "Arid Mesa",
+  "Elegant Parlor"
+ ],
+ "sideboard": [
+  "Knight of the Reliquary",
+  "Silent Clearing",
+  "Titania, Protector of Argoth",
+  "Puppeteer Clique",
+  "Renata, Called to the Hunt",
+  "Heritage Reclamation",
+  "Arasta of the Endless Web",
+  "Quirion Beastcaller",
+  "Unexpectedly Absent",
+  "Adanto Vanguard",
+  "Dauntless Bodyguard",
+  "Mosquito Guard",
+  "Clarion Spirit",
+  "Krenko, Tin Street Kingpin",
+  "Gingerbrute",
+  "Spirited Companion"
+ ]
+}

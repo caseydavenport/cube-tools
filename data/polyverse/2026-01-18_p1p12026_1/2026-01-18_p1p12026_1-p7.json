@@ -1,0 +1,96 @@
+{
+ "metadata": {
+  "path": "data/polyverse/2026-01-18_p1p12026_1/2026-01-18_p1p12026_1-p7.json",
+  "draft_id": "2026-01-18_p1p12026_1",
+  "combined_file": "data/polyverse/2026-01-18_p1p12026_1/20260118d1-210a.txt"
+ },
+ "macro_archetype": "tempo",
+ "labels": [
+  "spells"
+ ],
+ "player": "2026-01-18_p1p12026_1-p7",
+ "date": "2026-01-18",
+ "matches": [
+  {
+   "opponent": "2026-01-18_p1p12026_1-p3",
+   "round": 1,
+   "wins": 2,
+   "losses": 0,
+   "draws": 0,
+   "winner": "2026-01-18_p1p12026_1-p7"
+  },
+  {
+   "opponent": "2026-01-18_p1p12026_1-p8",
+   "round": 2,
+   "wins": 0,
+   "losses": 2,
+   "draws": 0,
+   "winner": "2026-01-18_p1p12026_1-p8"
+  },
+  {
+   "opponent": "2026-01-18_p1p12026_1-p5",
+   "round": 3,
+   "wins": 2,
+   "losses": 1,
+   "draws": 0,
+   "winner": "2026-01-18_p1p12026_1-p7"
+  }
+ ],
+ "mainboard": [
+  "Read the Bones",
+  "Sprite Dragon",
+  "Sedgemoor Witch",
+  "Young Pyromancer",
+  "Snapcaster Mage",
+  "Sphinx of Forgotten Lore",
+  "Ethereal Forager",
+  "Spellstutter Sprite",
+  "Condescend",
+  "Demand Answers",
+  "Pyrite Spellbomb",
+  "Unholy Heat",
+  "Abrade",
+  "Flames of the Firebrand",
+  "Fire // Ice",
+  "Blood Crypt",
+  "Flooded Strand",
+  "Serum Visions",
+  "Opt",
+  "Careful Study",
+  "Faithless Looting",
+  "Spell Pierce",
+  "Miscalculation",
+  "Bloodstained Mire",
+  "Prismatic Vista",
+  "Shelldock Isle",
+  "Arid Mesa",
+  "Scalding Tarn",
+  "Bloodstained Mire",
+  "Watery Grave",
+  "Thundering Falls",
+  "Master of Death",
+  "Island",
+  "Island",
+  "Island",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Swamp",
+  "Swamp"
+ ],
+ "sideboard": [
+  "Portent",
+  "Meticulous Archive",
+  "Journey to Nowhere",
+  "Utopia Sprawl",
+  "Reprieve",
+  "Archenemy's Charm",
+  "Nurturing Peatland",
+  "Tenacious Underdog",
+  "Liliana of the Veil",
+  "Jolrael, Mwonvuli Recluse",
+  "Agonizing Remorse",
+  "Man-o'-War",
+  "Shark Typhoon"
+ ]
+}

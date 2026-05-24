@@ -1,0 +1,97 @@
+{
+ "metadata": {
+  "path": "data/polyverse/2026-01-18_p1p12026_1/2026-01-18_p1p12026_1-p6.json",
+  "draft_id": "2026-01-18_p1p12026_1",
+  "combined_file": "data/polyverse/2026-01-18_p1p12026_1/20260118d1-120b.txt"
+ },
+ "macro_archetype": "control",
+ "labels": [
+  "draw-go"
+ ],
+ "player": "2026-01-18_p1p12026_1-p6",
+ "date": "2026-01-18",
+ "matches": [
+  {
+   "opponent": "2026-01-18_p1p12026_1-p2",
+   "round": 1,
+   "wins": 1,
+   "losses": 2,
+   "draws": 0,
+   "winner": "2026-01-18_p1p12026_1-p2"
+  },
+  {
+   "opponent": "2026-01-18_p1p12026_1-p1",
+   "round": 2,
+   "wins": 0,
+   "losses": 2,
+   "draws": 0,
+   "winner": "2026-01-18_p1p12026_1-p1"
+  },
+  {
+   "opponent": "2026-01-18_p1p12026_1-p4",
+   "round": 3,
+   "wins": 1,
+   "losses": 1,
+   "draws": 1
+  }
+ ],
+ "mainboard": [
+  "Ponder",
+  "Mana Leak",
+  "Brainsurge",
+  "Seal of Removal",
+  "L\u00f3rien Revealed",
+  "Proft's Eidetic Memory",
+  "Raucous Theater",
+  "Memory Lapse",
+  "Deep-Cavern Bat",
+  "Death's Shadow",
+  "Dig Through Time",
+  "Cut Down",
+  "Saheeli, Sublime Artificer",
+  "Fatal Push",
+  "Dreadhorde Arcanist",
+  "Preordain",
+  "Consider",
+  "Daze",
+  "Kitesail Freebooter",
+  "Unearth",
+  "Stern Scolding",
+  "Kiora, the Rising Tide",
+  "Inti, Seneschal of the Sun",
+  "Scrapwork Mutt",
+  "Scalding Tarn",
+  "Polluted Delta",
+  "Polluted Delta",
+  "Steam Vents",
+  "Steam Vents",
+  "Blood Crypt",
+  "Island",
+  "Island",
+  "Island",
+  "Island",
+  "Island",
+  "Swamp",
+  "Swamp",
+  "Swamp",
+  "Swamp",
+  "Swamp"
+ ],
+ "sideboard": [
+  "Qasali Pridemage",
+  "Unsummon",
+  "Into the Roil",
+  "Disfigure",
+  "Dress Down",
+  "Ride's End",
+  "Dragonsguard Elite",
+  "Hallowed Fountain",
+  "Goblin Bombardment",
+  "Lotus Cobra",
+  "Gilded Goose",
+  "Duress",
+  "Grim Discovery",
+  "Hedge Maze",
+  "Snarling Gorehound"
+ ]
+}

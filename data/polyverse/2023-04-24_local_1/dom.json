@@ -1,0 +1,63 @@
+{
+ "metadata": {
+  "path": "data/polyverse/2023-04-24_local_1/dom.json",
+  "draft_id": "2023-04-24_local_1",
+  "combined_file": "data/polyverse/2023-04-24_local_1/dom.csv"
+ },
+ "macro_archetype": "midrange",
+ "labels": [
+  "token"
+ ],
+ "player": "dom",
+ "date": "2023-04-24",
+ "matches": [
+  {
+   "opponent": "",
+   "wins": 2,
+   "losses": 1,
+   "draws": 0
+  }
+ ],
+ "mainboard": [
+  "Foreboding Ruins",
+  "Cloudgoat Ranger",
+  "Dragonskull Summit",
+  "Hellion Eruption",
+  "Devouring Hellion",
+  "Devouring Hellion",
+  "Kathari Bomber",
+  "Puncture Blast",
+  "Nobilis of War",
+  "Isolated Chapel",
+  "Angel of Salvation",
+  "Warcry Phoenix",
+  "Blinding Mage",
+  "Makeshift Munitions",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Spectral Procession",
+  "Raise the Alarm",
+  "Swamp",
+  "Swamp",
+  "Marshal's Anthem",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Glory of Warfare",
+  "Soul Warden",
+  "Shineshadow Snarl",
+  "Meadowboon",
+  "Unmake",
+  "Swords to Plowshares",
+  "Gwyllion Hedge-Mage",
+  "Anointed Procession",
+  "Vona's Hunger",
+  "Hordeling Outburst"
+ ],
+ "sideboard": []
+}

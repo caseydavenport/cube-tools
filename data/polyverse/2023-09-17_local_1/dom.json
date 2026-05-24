@@ -1,0 +1,122 @@
+{
+ "metadata": {
+  "path": "data/polyverse/2023-09-17_local_1/dom.json",
+  "draft_id": "2023-09-17_local_1",
+  "combined_file": "data/polyverse/2023-09-17_local_1/dom.txt"
+ },
+ "macro_archetype": "control",
+ "labels": [],
+ "player": "dom",
+ "date": "2023-09-17",
+ "matches": [
+  {
+   "opponent": "james",
+   "round": 2,
+   "wins": 1,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "james",
+     "winner": "dom"
+    }
+   ],
+   "winner": "dom"
+  },
+  {
+   "opponent": "jen",
+   "round": 3,
+   "wins": 0,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "jen",
+     "winner": "jen"
+    }
+   ],
+   "winner": "jen"
+  },
+  {
+   "opponent": "paul",
+   "round": 1,
+   "wins": 1,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "paul",
+     "winner": "dom"
+    }
+   ],
+   "winner": "dom"
+  }
+ ],
+ "mainboard": [
+  "Archfiend of Ifnir",
+  "Vona's Hunger",
+  "Siren Stormtamer",
+  "Bloodsoaked Champion",
+  "Delay",
+  "Fact or Fiction",
+  "Puppeteer Clique",
+  "Exclusion Mage",
+  "Vexing Gull",
+  "Inventive Iteration // Living Breakthrough",
+  "Scavenger Drake",
+  "Curator of Mysteries",
+  "Brainstorm",
+  "Mana Leak",
+  "Unsummon",
+  "Shadowstorm Vizier",
+  "Festering Mummy",
+  "Into the Roil",
+  "Condescend",
+  "Fatestitcher",
+  "Thing in the Ice // Awoken Horror",
+  "Negate",
+  "Maze of Ith",
+  "Drowned Catacomb",
+  "Watery Grave",
+  "Island",
+  "Island",
+  "Island",
+  "Island",
+  "Island",
+  "Island",
+  "Island",
+  "Island",
+  "Island",
+  "Island",
+  "Swamp",
+  "Swamp",
+  "Swamp",
+  "Swamp",
+  "Swamp"
+ ],
+ "sideboard": [
+  "Chromatic Sphere",
+  "Vampire's Bite",
+  "Jace, Arcane Strategist",
+  "Dina, Soul Steeper",
+  "Unmake",
+  "Llanowar Elves",
+  "Verdant Catacombs",
+  "Misty Rainforest",
+  "Untamed Kavu",
+  "Gluttonous Slime",
+  "Thornling",
+  "Edge of Autumn",
+  "Quest for the Gemblades",
+  "Rite of Replication",
+  "Persist",
+  "Bond of Insight",
+  "Rise from the Grave",
+  "Beacon of Unrest",
+  "Stitcher's Supplier",
+  "Whisper, Blood Liturgist",
+  "Doomgape",
+  "Winds of Rebuke",
+  "Deprive"
+ ]
+}

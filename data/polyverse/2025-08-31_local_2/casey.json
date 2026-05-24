@@ -1,0 +1,87 @@
+{
+ "metadata": {
+  "path": "data/polyverse/2025-08-31_local_2/casey.json",
+  "draft_id": "2025-08-31_local_2",
+  "combined_file": "data/polyverse/2025-08-31_local_2/casey.txt"
+ },
+ "macro_archetype": "midrange",
+ "labels": [
+  "skimmer",
+  "graveyard"
+ ],
+ "player": "casey",
+ "date": "2025-08-31",
+ "matches": [
+  {
+   "opponent": "dom",
+   "round": 1,
+   "wins": 1,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "dom",
+     "winner": "casey"
+    }
+   ],
+   "winner": "casey"
+  }
+ ],
+ "mainboard": [
+  "Kishla Skimmer",
+  "Snapcaster Mage",
+  "Scavenging Ooze",
+  "Fact or Fiction",
+  "Urza's Bauble",
+  "Scrapwork Mutt",
+  "Reckless Charge",
+  "Irencrag Pyromancer",
+  "Ephara's Dispersal",
+  "Cemetery Gatekeeper",
+  "Stomping Ground",
+  "Eternal Witness",
+  "Steam Vents",
+  "Portent",
+  "Wrenn and Six",
+  "Verdant Catacombs",
+  "Serum Visions",
+  "Goldhound",
+  "Fiery Islet",
+  "Sprite Dragon",
+  "Flooded Strand",
+  "Seal of Fire",
+  "Hedge Maze",
+  "Grim Lavamancer",
+  "Bloodstained Mire",
+  "Manamorphose",
+  "Fire // Ice",
+  "Sphinx of Forgotten Lore",
+  "Flametongue Kavu",
+  "Preordain",
+  "Tectonic Edge",
+  "Opt",
+  "Island",
+  "Island",
+  "Island",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Forest",
+  "Forest"
+ ],
+ "sideboard": [
+  "Esika's Chariot",
+  "Faerie Dreamthief",
+  "Cheeky House-Mouse // Squeak By",
+  "Inexorable Blob",
+  "Blood Crypt",
+  "Thing in the Ice // Awoken Horror",
+  "Condescend",
+  "Cut Down",
+  "Ride's End",
+  "Pile On",
+  "Portable Hole",
+  "Meadowboon",
+  "Spellstutter Sprite"
+ ]
+}

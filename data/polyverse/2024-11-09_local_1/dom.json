@@ -1,0 +1,125 @@
+{
+ "metadata": {
+  "path": "data/polyverse/2024-11-09_local_1/dom.json",
+  "draft_id": "2024-11-09_local_1",
+  "combined_file": "data/polyverse/2024-11-09_local_1/dom.txt"
+ },
+ "macro_archetype": "midrange",
+ "labels": [],
+ "player": "dom",
+ "date": "2024-11-09",
+ "matches": [
+  {
+   "opponent": "casey",
+   "round": 1,
+   "wins": 1,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "casey",
+     "winner": "dom"
+    },
+    {
+     "opponent": "casey",
+     "winner": "casey"
+    },
+    {
+     "opponent": "casey",
+     "winner": "casey"
+    }
+   ],
+   "winner": "casey"
+  },
+  {
+   "opponent": "greg",
+   "round": 3,
+   "wins": 0,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "greg",
+     "winner": "greg"
+    },
+    {
+     "opponent": "greg",
+     "winner": "greg"
+    }
+   ],
+   "winner": "greg"
+  },
+  {
+   "opponent": "mattd",
+   "round": 2,
+   "wins": 0,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "mattd",
+     "winner": "mattd"
+    },
+    {
+     "opponent": "mattd",
+     "winner": "mattd"
+    }
+   ],
+   "winner": "mattd"
+  }
+ ],
+ "mainboard": [
+  "Puppeteer Clique",
+  "Tidehollow Sculler",
+  "Hostage Taker",
+  "Phelia, Exuberant Shepherd",
+  "Fetid Pools",
+  "Vexing Gull",
+  "Mishra's Bauble",
+  "Meticulous Archive",
+  "Fact or Fiction",
+  "Overgrown Tomb",
+  "Celestial Colonnade",
+  "Marsh Flats",
+  "Watery Grave",
+  "Thoughtseize",
+  "Infernal Grasp",
+  "Gitaxian Probe",
+  "Touch the Spirit Realm",
+  "Manamorphose",
+  "Restless Vinestalk",
+  "Titania, Protector of Argoth",
+  "Verdant Catacombs",
+  "Misty Rainforest",
+  "Breeding Pool",
+  "Curator of Mysteries",
+  "Lion Sash",
+  "Tireless Tracker",
+  "Aether Tradewinds",
+  "Arasta of the Endless Web",
+  "Goldmeadow Harrier",
+  "Hallowed Fountain",
+  "Reprieve",
+  "Gruff Triplets",
+  "Shadowy Backstreet",
+  "Flickerwisp",
+  "Beast Within",
+  "Plains",
+  "Plains",
+  "Swamp",
+  "Forest",
+  "Forest"
+ ],
+ "sideboard": [
+  "Field of Ruin",
+  "Fire // Ice",
+  "No More Lies",
+  "Tameshi, Reality Architect",
+  "Day of Judgment",
+  "Spider Food",
+  "Shelldock Isle",
+  "Greta, Sweettooth Scourge",
+  "Portent",
+  "Llanowar Elves"
+ ]
+}

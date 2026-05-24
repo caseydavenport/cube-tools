@@ -1,0 +1,95 @@
+{
+ "metadata": {
+  "path": "data/polyverse/2024-04-24_local_1/casey.json",
+  "draft_id": "2024-04-24_local_1",
+  "combined_file": "data/polyverse/2024-04-24_local_1/casey.txt"
+ },
+ "macro_archetype": "aggro",
+ "labels": [
+  "graveyard",
+  "tameshi"
+ ],
+ "player": "casey",
+ "date": "2024-04-24",
+ "matches": [
+  {
+   "opponent": "dom",
+   "round": 1,
+   "wins": 2,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "dom",
+     "winner": "casey"
+    },
+    {
+     "opponent": "dom",
+     "winner": "casey"
+    }
+   ],
+   "winner": "casey"
+  }
+ ],
+ "mainboard": [
+  "Werefox Bodyguard",
+  "Meticulous Archive",
+  "Pyrite Spellbomb",
+  "Spirited Companion",
+  "Ephara's Dispersal",
+  "Clarion Spirit",
+  "Daze",
+  "Scrapwork Mutt",
+  "Tameshi, Reality Architect",
+  "Kor Skyfisher",
+  "Reprieve",
+  "Sparring Construct",
+  "Merfolk Looter",
+  "Sulfur Falls",
+  "Mother of Runes",
+  "Irrigated Farmland",
+  "Wooded Foothills",
+  "Scalding Tarn",
+  "Arid Mesa",
+  "Twinshot Sniper",
+  "Flames of the Firebrand",
+  "Chromatic Star",
+  "Steppe Lynx",
+  "Polluted Delta",
+  "Flooded Strand",
+  "Bloodstained Mire",
+  "Legion's Landing // Adanto, the First Fort",
+  "Thing in the Ice // Awoken Horror",
+  "Sevinne's Reclamation",
+  "Aether Tradewinds",
+  "Ponder",
+  "Torch the Tower",
+  "Arcbound Tracker",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Island",
+  "Island",
+  "Mountain",
+  "Mountain"
+ ],
+ "sideboard": [
+  "The Goose Mother",
+  "Jolrael, Mwonvuli Recluse",
+  "Cheeky House-Mouse // Squeak By",
+  "Sphinx of Lost Truths",
+  "Sunbaked Canyon",
+  "Fecundity",
+  "Tangled Colony",
+  "Lotus Cobra",
+  "Hunting Triad",
+  "Sai of the Shinobi",
+  "Bone Shards",
+  "Tectonic Reformation",
+  "Woodland Cemetery",
+  "Verdant Catacombs",
+  "Unsummon",
+  "Lava Dart",
+  "Chart a Course"
+ ]
+}

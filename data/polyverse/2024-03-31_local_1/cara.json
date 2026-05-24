@@ -1,0 +1,121 @@
+{
+ "metadata": {
+  "path": "data/polyverse/2024-03-31_local_1/cara.json",
+  "draft_id": "2024-03-31_local_1",
+  "combined_file": "data/polyverse/2024-03-31_local_1/cara.txt"
+ },
+ "macro_archetype": "midrange",
+ "labels": [
+  "token",
+  "spells",
+  "ramp"
+ ],
+ "player": "cara",
+ "date": "2024-03-31",
+ "matches": [
+  {
+   "opponent": "jen",
+   "round": 2,
+   "wins": 1,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "jen",
+     "winner": "cara"
+    },
+    {
+     "opponent": "jen",
+     "winner": "jen"
+    },
+    {
+     "opponent": "jen",
+     "winner": "jen"
+    }
+   ],
+   "winner": "jen"
+  },
+  {
+   "opponent": "xander",
+   "round": 3,
+   "wins": 2,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "xander",
+     "winner": "cara"
+    },
+    {
+     "opponent": "xander",
+     "winner": "cara"
+    },
+    {
+     "opponent": "xander",
+     "winner": "xander"
+    }
+   ],
+   "winner": "cara"
+  }
+ ],
+ "mainboard": [
+  "Monastery Swiftspear",
+  "Chandra, Hope's Beacon",
+  "Questing Druid // Seek the Beast",
+  "Rootbound Crag",
+  "Dreadhorde Butcher",
+  "Underground Mortuary",
+  "Overgrown Tomb",
+  "Wilderness Reclamation",
+  "Pollenbright Druid",
+  "Greta, Sweettooth Scourge",
+  "Black Sun's Zenith",
+  "Vivien, Champion of the Wilds",
+  "The Huntsman's Redemption",
+  "Siege-Gang Commander",
+  "Parallel Lives",
+  "Saproling Migration",
+  "Llanowar Elves",
+  "Inexorable Blob",
+  "Chromatic Star",
+  "Ignoble Hierarch",
+  "Krenko, Tin Street Kingpin",
+  "Empty the Warrens",
+  "Bloodsoaked Champion",
+  "Skarrgan Hellkite",
+  "Chatter of the Squirrel",
+  "Sheltered Thicket",
+  "Wooded Foothills",
+  "Pharika's Spawn",
+  "Manamorphose",
+  "Swamp",
+  "Swamp",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Forest",
+  "Forest",
+  "Forest",
+  "Forest",
+  "Forest",
+  "Forest"
+ ],
+ "sideboard": [
+  "Brainstorm",
+  "Careful Study",
+  "Tamiyo, Compleated Sage",
+  "Sprout Swarm",
+  "Deprive",
+  "Delay",
+  "Sulfur Falls",
+  "Shelldock Isle",
+  "Restless Vinestalk",
+  "Shadowstorm Vizier",
+  "Pyroclasm",
+  "Stitch Together",
+  "Jolrael, Mwonvuli Recluse",
+  "Demand Answers",
+  "Orcish Lumberjack",
+  "Ravenous Squirrel"
+ ]
+}

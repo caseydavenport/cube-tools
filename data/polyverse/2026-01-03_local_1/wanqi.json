@@ -1,0 +1,98 @@
+{
+ "metadata": {
+  "path": "data/polyverse/2026-01-03_local_1/wanqi.json",
+  "draft_id": "2026-01-03_local_1",
+  "mainboard_file": "data/polyverse/2026-01-03_local_1/wanqi-mainboard.txt",
+  "sideboard_file": "data/polyverse/2026-01-03_local_1/wanqi-sideboard.txt"
+ },
+ "macro_archetype": "aggro",
+ "labels": [
+  "flicker",
+  "hatebears"
+ ],
+ "player": "wanqi",
+ "date": "2026-01-03",
+ "matches": [
+  {
+   "opponent": "colton",
+   "round": 1,
+   "wins": 1,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "colton",
+     "winner": "wanqi"
+    },
+    {
+     "opponent": "colton",
+     "winner": "colton"
+    },
+    {
+     "opponent": "colton",
+     "winner": "colton"
+    }
+   ],
+   "winner": "colton"
+  }
+ ],
+ "mainboard": [
+  "Luminarch Aspirant",
+  "Blade Splicer",
+  "Dauntless Bodyguard",
+  "Delney, Streetwise Lookout",
+  "Flickerwisp",
+  "Lion Sash",
+  "Portable Hole",
+  "Prismatic Ending",
+  "Recruitment Officer",
+  "Restoration Angel",
+  "Seasoned Hallowblade",
+  "Spirited Companion",
+  "Thalia, Guardian of Thraben",
+  "Thraben Inspector",
+  "Touch the Spirit Realm",
+  "Unexpectedly Absent",
+  "Embercleave",
+  "Krenko, Tin Street Kingpin",
+  "Lightning Bolt",
+  "Lizard Blades",
+  "Searslicer Goblin",
+  "Twinshot Sniper",
+  "Lightning Helix",
+  "Bloodstained Mire",
+  "Bloodstained Mire",
+  "Den of the Bugbear",
+  "Marsh Flats",
+  "Mountain",
+  "Mountain",
+  "Mutavault",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Rishadan Port",
+  "Sacred Foundry",
+  "Steam Vents"
+ ],
+ "sideboard": [
+  "Helping Hand",
+  "Bloodsky Berserker",
+  "Zurgo Bellstriker",
+  "Sylvan Library",
+  "Wolfbriar Elemental",
+  "Brightglass Gearhulk",
+  "Knight of the Reliquary",
+  "The Goose Mother",
+  "Lush Portico",
+  "Meticulous Archive",
+  "Mountain",
+  "Nurturing Peatland",
+  "Otawara, Soaring City",
+  "Overgrown Tomb",
+  "Temple Garden"
+ ]
+}

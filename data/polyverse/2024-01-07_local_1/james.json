@@ -1,0 +1,141 @@
+{
+ "metadata": {
+  "path": "data/polyverse/2024-01-07_local_1/james.json",
+  "draft_id": "2024-01-07_local_1",
+  "combined_file": "data/polyverse/2024-01-07_local_1/james.txt"
+ },
+ "macro_archetype": "midrange",
+ "labels": [
+  "ramp"
+ ],
+ "player": "james",
+ "date": "2024-01-07",
+ "matches": [
+  {
+   "opponent": "cara",
+   "round": 1,
+   "wins": 1,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "cara",
+     "winner": "james"
+    },
+    {
+     "opponent": "cara",
+     "winner": "cara"
+    },
+    {
+     "opponent": "cara",
+     "winner": "cara"
+    }
+   ],
+   "winner": "cara"
+  },
+  {
+   "opponent": "jen",
+   "round": 4,
+   "wins": 2,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "jen",
+     "winner": "james"
+    },
+    {
+     "opponent": "jen",
+     "winner": "james"
+    },
+    {
+     "opponent": "jen",
+     "winner": "jen"
+    }
+   ],
+   "winner": "james"
+  },
+  {
+   "opponent": "paul",
+   "round": 2,
+   "wins": 2,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "paul",
+     "winner": "james"
+    },
+    {
+     "opponent": "paul",
+     "winner": "james"
+    },
+    {
+     "opponent": "paul",
+     "winner": "paul"
+    }
+   ],
+   "winner": "james"
+  }
+ ],
+ "mainboard": [
+  "Puppeteer Clique",
+  "Gruff Triplets",
+  "Arbor Elf",
+  "Arasta of the Endless Web",
+  "Infernal Grasp",
+  "Woodland Cemetery",
+  "Untamed Kavu",
+  "Disfigure",
+  "Ignoble Hierarch",
+  "Verdant Catacombs",
+  "Gilded Goose",
+  "Scavenging Ooze",
+  "Mosswood Dreadknight // Dread Whispers",
+  "Temple Garden",
+  "Canopy Vista",
+  "Godless Shrine",
+  "Journey to Nowhere",
+  "Oblivion Ring",
+  "Copper Myr",
+  "Abundant Harvest",
+  "Mire Triton",
+  "Languish",
+  "Agonizing Remorse",
+  "Utopia Sprawl",
+  "Vivien, Champion of the Wilds",
+  "Persist",
+  "Bonesplitter",
+  "Greta, Sweettooth Scourge",
+  "Quest for the Gravelord",
+  "Swamp",
+  "Swamp",
+  "Swamp",
+  "Swamp",
+  "Swamp",
+  "Forest",
+  "Forest",
+  "Forest",
+  "Forest",
+  "Forest",
+  "Forest"
+ ],
+ "sideboard": [
+  "Umbral Mantle",
+  "Cunning Lethemancer",
+  "Legion's Landing // Adanto, the First Fort",
+  "Opt",
+  "Fecundity",
+  "Reveillark",
+  "Temple of Enlightenment",
+  "Fetid Pools",
+  "Field of Ruin",
+  "Goldenglow Moth",
+  "Merfolk Skydiver",
+  "Festering Mummy",
+  "Explore",
+  "Eternal Witness",
+  "Ulcerate",
+  "Wickerbough Elder"
+ ]
+}

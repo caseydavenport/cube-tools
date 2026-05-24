@@ -1,0 +1,135 @@
+{
+ "metadata": {
+  "path": "data/polyverse/2024-03-31_local_1/greg.json",
+  "draft_id": "2024-03-31_local_1",
+  "combined_file": "data/polyverse/2024-03-31_local_1/greg.txt"
+ },
+ "macro_archetype": "midrange",
+ "labels": [
+  "lands",
+  "graveyard"
+ ],
+ "player": "greg",
+ "date": "2024-03-31",
+ "matches": [
+  {
+   "opponent": "casey",
+   "round": 2,
+   "wins": 2,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "casey",
+     "winner": "greg"
+    },
+    {
+     "opponent": "casey",
+     "winner": "greg"
+    }
+   ],
+   "winner": "greg"
+  },
+  {
+   "opponent": "dom",
+   "round": 3,
+   "wins": 2,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "dom",
+     "winner": "greg"
+    },
+    {
+     "opponent": "dom",
+     "winner": "greg"
+    },
+    {
+     "opponent": "dom",
+     "winner": "dom"
+    }
+   ],
+   "winner": "greg"
+  },
+  {
+   "opponent": "james",
+   "round": 1,
+   "wins": 2,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "james",
+     "winner": "greg"
+    },
+    {
+     "opponent": "james",
+     "winner": "greg"
+    },
+    {
+     "opponent": "james",
+     "winner": "james"
+    }
+   ],
+   "winner": "greg"
+  }
+ ],
+ "mainboard": [
+  "Bloodghast",
+  "Stitcher's Supplier",
+  "Lightning Greaves",
+  "Verdant Catacombs",
+  "Life from the Loam",
+  "Virtue of Persistence // Locthwain Scorn",
+  "Satyr Wayfinder",
+  "Scattered Groves",
+  "Devoted Druid",
+  "Knight of the Reliquary",
+  "Crop Rotation",
+  "Edge of Autumn",
+  "Worm Harvest",
+  "The Wandering Emperor",
+  "Prismatic Vista",
+  "Courser of Kruphix",
+  "Chainweb Aracnir",
+  "Harrow",
+  "Nurturing Peatland",
+  "Canopy Vista",
+  "The Binding of the Titans",
+  "Mosswood Dreadknight // Dread Whispers",
+  "Song of the Dryads",
+  "Titania, Protector of Argoth",
+  "Windswept Heath",
+  "Grim Discovery",
+  "Infernal Grasp",
+  "Horizon Canopy",
+  "Marshal's Anthem",
+  "Arbor Elf",
+  "Eternal Witness",
+  "Cloudgoat Ranger",
+  "Plains",
+  "Plains",
+  "Swamp",
+  "Swamp",
+  "Forest",
+  "Forest",
+  "Forest",
+  "Forest"
+ ],
+ "sideboard": [
+  "Ephara's Dispersal",
+  "Misty Rainforest",
+  "Gilder Bairn",
+  "Brineborn Cutthroat",
+  "Panharmonicon",
+  "Mosquito Guard",
+  "Warden of the Inner Sky",
+  "Spirited Companion",
+  "Reclamation Sage",
+  "Turn to Mist",
+  "Traverse the Ulvenwald",
+  "Hardened Scales",
+  "Gilded Goose"
+ ]
+}

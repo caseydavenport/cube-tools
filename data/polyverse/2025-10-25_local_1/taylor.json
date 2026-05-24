@@ -1,0 +1,167 @@
+{
+ "metadata": {
+  "path": "data/polyverse/2025-10-25_local_1/taylor.json",
+  "draft_id": "2025-10-25_local_1",
+  "mainboard_file": "data/polyverse/2025-10-25_local_1/taylor-mainboard.txt",
+  "sideboard_file": "data/polyverse/2025-10-25_local_1/taylor-sideboard.txt"
+ },
+ "macro_archetype": "aggro",
+ "labels": [],
+ "player": "taylor",
+ "date": "2025-10-25",
+ "matches": [
+  {
+   "opponent": "casey",
+   "round": 1,
+   "wins": 1,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "casey",
+     "winner": "taylor"
+    },
+    {
+     "opponent": "casey",
+     "winner": "casey"
+    },
+    {
+     "opponent": "casey",
+     "winner": "casey"
+    }
+   ],
+   "winner": "casey"
+  },
+  {
+   "opponent": "colton",
+   "round": 2,
+   "wins": 0,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "colton",
+     "winner": "colton"
+    },
+    {
+     "opponent": "colton",
+     "winner": "colton"
+    }
+   ],
+   "winner": "colton"
+  },
+  {
+   "opponent": "isaiah",
+   "round": 3,
+   "wins": 0,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "isaiah",
+     "winner": "isaiah"
+    },
+    {
+     "opponent": "isaiah",
+     "winner": "isaiah"
+    }
+   ],
+   "winner": "isaiah"
+  },
+  {
+   "opponent": "jackson",
+   "round": 4,
+   "wins": 0,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "jackson",
+     "winner": "jackson"
+    },
+    {
+     "opponent": "jackson",
+     "winner": "jackson"
+    }
+   ],
+   "winner": "jackson"
+  },
+  {
+   "opponent": "mehdi",
+   "round": 5,
+   "wins": 2,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "mehdi",
+     "winner": "taylor"
+    },
+    {
+     "opponent": "mehdi",
+     "winner": "taylor"
+    }
+   ],
+   "winner": "taylor"
+  }
+ ],
+ "mainboard": [
+  "Faerie Guidemother // Gift of the Fae",
+  "Harm's Way",
+  "Helping Hand",
+  "Lion Sash",
+  "Raise the Alarm",
+  "Reprieve",
+  "Sevinne's Reclamation",
+  "Soul Partition",
+  "Thalia, Guardian of Thraben",
+  "Unexpectedly Absent",
+  "Embercleave",
+  "Fiery Temper",
+  "Firebolt",
+  "Goblin Guide",
+  "Goldhound",
+  "Grim Lavamancer",
+  "Lizard Blades",
+  "Magma Jet",
+  "Mizzium Tank",
+  "Monastery Swiftspear",
+  "Ogre-Head Helm",
+  "Reckless Pyrosurfer",
+  "Seasoned Pyromancer",
+  "Warleader's Call",
+  "Bonesplitter",
+  "Barbarian Ring",
+  "Eiganjo, Seat of the Empire",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Prismatic Vista",
+  "Sacred Foundry",
+  "Wooded Foothills"
+ ],
+ "sideboard": [
+  "Fearless Fledgling",
+  "Goldmeadow Harrier",
+  "Kor Skyfisher",
+  "Ride's End",
+  "Seasoned Hallowblade",
+  "Archmage's Charm",
+  "Kiora, the Rising Tide",
+  "Harvester of Misery",
+  "Bedlam Reveler",
+  "Blazing Rootwalla",
+  "Chandra, Hope's Beacon",
+  "Mosswood Dreadknight // Dread Whispers",
+  "Tarmogoyf",
+  "Spell Queller",
+  "Mayhem Devil"
+ ]
+}

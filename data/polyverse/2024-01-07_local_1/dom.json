@@ -1,0 +1,162 @@
+{
+ "metadata": {
+  "path": "data/polyverse/2024-01-07_local_1/dom.json",
+  "draft_id": "2024-01-07_local_1",
+  "combined_file": "data/polyverse/2024-01-07_local_1/dom.txt"
+ },
+ "macro_archetype": "control",
+ "labels": [
+  "discard"
+ ],
+ "player": "dom",
+ "date": "2024-01-07",
+ "matches": [
+  {
+   "opponent": "cara",
+   "round": 4,
+   "wins": 1,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "cara",
+     "winner": "dom"
+    },
+    {
+     "opponent": "cara",
+     "winner": "cara"
+    },
+    {
+     "opponent": "cara",
+     "winner": "cara"
+    }
+   ],
+   "winner": "cara"
+  },
+  {
+   "opponent": "casey",
+   "round": 1,
+   "wins": 1,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "casey",
+     "winner": "dom"
+    }
+   ],
+   "winner": "dom"
+  },
+  {
+   "opponent": "greg",
+   "round": 2,
+   "wins": 1,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "greg",
+     "winner": "dom"
+    }
+   ],
+   "winner": "dom"
+  },
+  {
+   "opponent": "jen",
+   "round": 3,
+   "wins": 2,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "jen",
+     "winner": "dom"
+    },
+    {
+     "opponent": "jen",
+     "winner": "dom"
+    }
+   ],
+   "winner": "dom"
+  },
+  {
+   "opponent": "xander",
+   "round": 5,
+   "wins": 0,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "xander",
+     "winner": "xander"
+    },
+    {
+     "opponent": "xander",
+     "winner": "xander"
+    }
+   ],
+   "winner": "xander"
+  }
+ ],
+ "mainboard": [
+  "Thing in the Ice // Awoken Horror",
+  "Mulldrifter",
+  "Vexing Gull",
+  "Aether Tradewinds",
+  "Curator of Mysteries",
+  "Snapcaster Mage",
+  "Into the Roil",
+  "Winds of Rebuke",
+  "Sulfur Falls",
+  "Fiery Islet",
+  "Lightning Bolt",
+  "Ral, Storm Conduit",
+  "Flames of the Firebrand",
+  "Mark of Mutiny",
+  "Rielle, the Everwise",
+  "Rage Nimbus",
+  "Negate",
+  "Sulfurous Springs",
+  "Takenuma, Abandoned Mire",
+  "Watery Grave",
+  "Hostage Taker",
+  "Raven's Crime",
+  "Unearth",
+  "Mesmeric Fiend",
+  "Archfiend of Ifnir",
+  "Virtue of Persistence // Locthwain Scorn",
+  "Shadowstorm Vizier",
+  "Malfegor",
+  "Island",
+  "Island",
+  "Island",
+  "Island",
+  "Swamp",
+  "Swamp",
+  "Swamp",
+  "Swamp",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Mountain"
+ ],
+ "sideboard": [
+  "Chart a Course",
+  "Liliana, Death's Majesty",
+  "Fatestitcher",
+  "Magma Phoenix",
+  "Ajani's Pridemate",
+  "Blinding Mage",
+  "Lion Sash",
+  "Leaden Myr",
+  "Turn to Mist",
+  "Grim Discovery",
+  "Gravedigger",
+  "Treasure Cruise",
+  "Pharika's Spawn",
+  "Crimson Wisps",
+  "Lava Dart",
+  "Ghostly Flicker",
+  "Counterspell"
+ ]
+}

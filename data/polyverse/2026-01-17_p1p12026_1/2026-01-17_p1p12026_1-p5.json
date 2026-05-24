@@ -1,0 +1,93 @@
+{
+ "metadata": {
+  "path": "data/polyverse/2026-01-17_p1p12026_1/2026-01-17_p1p12026_1-p5.json",
+  "draft_id": "2026-01-17_p1p12026_1",
+  "combined_file": "data/polyverse/2026-01-17_p1p12026_1/20260117-120a.txt"
+ },
+ "macro_archetype": "aggro",
+ "labels": [],
+ "player": "2026-01-17_p1p12026_1-p5",
+ "date": "2026-01-17",
+ "matches": [
+  {
+   "opponent": "2026-01-17_p1p12026_1-p1",
+   "round": 1,
+   "wins": 2,
+   "losses": 0,
+   "draws": 0,
+   "winner": "2026-01-17_p1p12026_1-p5"
+  },
+  {
+   "opponent": "2026-01-17_p1p12026_1-p6",
+   "round": 2,
+   "wins": 0,
+   "losses": 2,
+   "draws": 0,
+   "winner": "2026-01-17_p1p12026_1-p6"
+  },
+  {
+   "opponent": "2026-01-17_p1p12026_1-p7",
+   "round": 3,
+   "wins": 1,
+   "losses": 2,
+   "draws": 0,
+   "winner": "2026-01-17_p1p12026_1-p7"
+  }
+ ],
+ "mainboard": [
+  "Reckless Charge",
+  "Fireblast",
+  "Embercleave",
+  "Murderous Cut",
+  "Krenko, Tin Street Kingpin",
+  "Anje's Ravager",
+  "Delney, Streetwise Lookout",
+  "Mayhem Devil",
+  "Alesha, Who Laughs at Fate",
+  "Reckless Pyrosurfer",
+  "Scrapwork Mutt",
+  "Cemetery Gatekeeper",
+  "Goblin Guide",
+  "Goblin Bombardment",
+  "Blazing Rootwalla",
+  "Hired Claw",
+  "Reinforced Ronin",
+  "Nethergoyf",
+  "Knight of the Ebon Legion",
+  "Bomat Courier",
+  "Firebolt",
+  "Pyrite Spellbomb",
+  "Unholy Heat",
+  "Flame Slash",
+  "Den of the Bugbear",
+  "Barbarian Ring",
+  "Mutavault",
+  "Scalding Tarn",
+  "Bloodstained Mire",
+  "Marsh Flats",
+  "Arid Mesa",
+  "Blood Crypt",
+  "Sacred Foundry",
+  "Swamp",
+  "Swamp",
+  "Swamp",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Mountain"
+ ],
+ "sideboard": [
+  "Snarling Gorehound",
+  "Proft's Eidetic Memory",
+  "Thraben Inspector",
+  "Silent Clearing",
+  "Lion Sash",
+  "Master of Death",
+  "Perilous Myr",
+  "Nurturing Peatland",
+  "Restless Vinestalk",
+  "Scrabbling Claws",
+  "Kishla Skimmer",
+  "Repeal"
+ ]
+}

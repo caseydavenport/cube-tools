@@ -1,0 +1,83 @@
+{
+ "metadata": {
+  "path": "data/polyverse/2025-08-31_local_3/casey.json",
+  "draft_id": "2025-08-31_local_3",
+  "combined_file": "data/polyverse/2025-08-31_local_3/casey.txt"
+ },
+ "macro_archetype": "midrange",
+ "labels": [
+  "domain",
+  "lands",
+  "sacrifice",
+  "ramp"
+ ],
+ "player": "casey",
+ "date": "2025-08-31",
+ "matches": [
+  {
+   "opponent": "dom",
+   "round": 1,
+   "wins": 1,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "dom",
+     "winner": "casey"
+    }
+   ],
+   "winner": "casey"
+  }
+ ],
+ "mainboard": [
+  "Wrenn and Six",
+  "Arid Mesa",
+  "Arid Mesa",
+  "Sacred Foundry",
+  "Lush Portico",
+  "Territorial Kavu",
+  "Windswept Heath",
+  "Horizon Canopy",
+  "Questing Druid // Seek the Beast",
+  "Call of the Herd",
+  "Mayhem Devil",
+  "Birds of Paradise",
+  "Noble Hierarch",
+  "Stomping Ground",
+  "Field of the Dead",
+  "Accursed Marauder",
+  "Titania, Protector of Argoth",
+  "Portable Hole",
+  "Eiganjo, Seat of the Empire",
+  "Fatal Push",
+  "Knight of the Reliquary",
+  "Kavaron Harrier",
+  "Marionette Apprentice",
+  "Shadowy Backstreet",
+  "Lightning Bolt",
+  "Traverse the Ulvenwald",
+  "Temple Garden",
+  "Ride's End",
+  "Shifting Woodland",
+  "Ignoble Hierarch",
+  "Wooded Foothills",
+  "Blood Crypt",
+  "Woodland Wanderer",
+  "Godless Shrine",
+  "Murderous Cut",
+  "Bone Shards",
+  "Grim Bauble",
+  "Rankle, Master of Pranks",
+  "Swamp",
+  "Forest"
+ ],
+ "sideboard": [
+  "The Wandering Emperor",
+  "Tidehollow Sculler",
+  "Spirited Companion",
+  "Read the Bones",
+  "Agonizing Remorse",
+  "Sevinne's Reclamation",
+  "Tectonic Edge"
+ ]
+}

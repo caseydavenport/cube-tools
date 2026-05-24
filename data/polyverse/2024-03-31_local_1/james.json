@@ -1,0 +1,141 @@
+{
+ "metadata": {
+  "path": "data/polyverse/2024-03-31_local_1/james.json",
+  "draft_id": "2024-03-31_local_1",
+  "combined_file": "data/polyverse/2024-03-31_local_1/james.txt"
+ },
+ "macro_archetype": "tempo",
+ "labels": [],
+ "player": "james",
+ "date": "2024-03-31",
+ "matches": [
+  {
+   "opponent": "casey",
+   "round": 3,
+   "wins": 2,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "casey",
+     "winner": "james"
+    },
+    {
+     "opponent": "casey",
+     "winner": "james"
+    },
+    {
+     "opponent": "casey",
+     "winner": "casey"
+    }
+   ],
+   "winner": "james"
+  },
+  {
+   "opponent": "dom",
+   "round": 2,
+   "wins": 2,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "dom",
+     "winner": "james"
+    },
+    {
+     "opponent": "dom",
+     "winner": "james"
+    },
+    {
+     "opponent": "dom",
+     "winner": "dom"
+    }
+   ],
+   "winner": "james"
+  },
+  {
+   "opponent": "greg",
+   "round": 1,
+   "wins": 1,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "greg",
+     "winner": "james"
+    },
+    {
+     "opponent": "greg",
+     "winner": "greg"
+    },
+    {
+     "opponent": "greg",
+     "winner": "greg"
+    }
+   ],
+   "winner": "greg"
+  }
+ ],
+ "mainboard": [
+  "Boseiju, Who Endures",
+  "Dreadhorde Arcanist",
+  "Gruff Triplets",
+  "Stomping Ground",
+  "Domri, Anarch of Bolas",
+  "Abrade",
+  "Flame Slash",
+  "Lotus Cobra",
+  "Firebolt",
+  "Arasta of the Endless Web",
+  "Beast Within",
+  "Blazing Rootwalla",
+  "Seal of Fire",
+  "Cankerbloom",
+  "Kraul Harpooner",
+  "Untamed Kavu",
+  "Flame Jab",
+  "Goblin Guide",
+  "Roaring Earth",
+  "Lightning Bolt",
+  "Lizard Blades",
+  "Scavenging Ooze",
+  "Young Pyromancer",
+  "Punishing Fire",
+  "Burst Lightning",
+  "Mizzium Tank",
+  "Faithless Looting",
+  "Lava Dart",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Forest",
+  "Forest",
+  "Forest",
+  "Forest",
+  "Forest"
+ ],
+ "sideboard": [
+  "Fecundity",
+  "Scryb Ranger",
+  "Explore",
+  "Qasali Pridemage",
+  "Prophetic Prism",
+  "Steam Vents",
+  "Cheeky House-Mouse // Squeak By",
+  "Hinterland Harbor",
+  "Rielle, the Everwise",
+  "Ajani's Pridemate",
+  "Sleep of the Dead",
+  "Commercial District",
+  "Sunbaked Canyon",
+  "Windswept Heath",
+  "Abundant Harvest",
+  "Utopia Sprawl",
+  "Emergence Zone"
+ ]
+}

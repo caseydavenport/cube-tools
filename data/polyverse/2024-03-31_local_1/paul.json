@@ -1,0 +1,125 @@
+{
+ "metadata": {
+  "path": "data/polyverse/2024-03-31_local_1/paul.json",
+  "draft_id": "2024-03-31_local_1",
+  "combined_file": "data/polyverse/2024-03-31_local_1/paul.txt"
+ },
+ "macro_archetype": "midrange",
+ "labels": [
+  "sacrifice",
+  "graveyard"
+ ],
+ "player": "paul",
+ "date": "2024-03-31",
+ "matches": [
+  {
+   "opponent": "jen",
+   "round": 3,
+   "wins": 2,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "jen",
+     "winner": "paul"
+    },
+    {
+     "opponent": "jen",
+     "winner": "paul"
+    },
+    {
+     "opponent": "jen",
+     "winner": "jen"
+    }
+   ],
+   "winner": "paul"
+  },
+  {
+   "opponent": "xander",
+   "round": 2,
+   "wins": 1,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "xander",
+     "winner": "paul"
+    },
+    {
+     "opponent": "xander",
+     "winner": "xander"
+    },
+    {
+     "opponent": "xander",
+     "winner": "xander"
+    }
+   ],
+   "winner": "xander"
+  }
+ ],
+ "mainboard": [
+  "Bitter Triumph",
+  "Vampire Hexmage",
+  "Tarmogoyf",
+  "Fungal Infection",
+  "Sanctum Seeker",
+  "Quest for the Gemblades",
+  "Duress",
+  "Multani, Yavimaya's Avatar",
+  "Languish",
+  "Feed the Cauldron",
+  "Vampire Aristocrat",
+  "Woe Strider",
+  "Persist",
+  "Blade of the Bloodchief",
+  "Sai of the Shinobi",
+  "Carrion Feeder",
+  "Intrepid Trufflesnout // Go Hog Wild",
+  "Quest for the Gravelord",
+  "Archfiend of Ifnir",
+  "Disfigure",
+  "Vines of Vastwood",
+  "Renata, Called to the Hunt",
+  "Kitchen Finks",
+  "Call of the Herd",
+  "Swamp",
+  "Swamp",
+  "Swamp",
+  "Swamp",
+  "Swamp",
+  "Swamp",
+  "Swamp",
+  "Swamp",
+  "Swamp",
+  "Forest",
+  "Forest",
+  "Forest",
+  "Forest",
+  "Forest",
+  "Forest",
+  "Forest"
+ ],
+ "sideboard": [
+  "Faerie Vandal",
+  "Polluted Delta",
+  "Polluted Delta",
+  "Sunken Ruins",
+  "Scalding Tarn",
+  "Goldmeadow Harrier",
+  "Kor Duelist",
+  "Mother of Runes",
+  "Portable Hole",
+  "Ephemerate",
+  "The Goose Mother",
+  "Counterspell",
+  "Mana Leak",
+  "Dress Down",
+  "Master of Etherium",
+  "Halo Forager",
+  "Tezzeret, Betrayer of Flesh",
+  "Angel of Salvation",
+  "Setessan Champion",
+  "Containment Construct",
+  "Sanguine Bond"
+ ]
+}

@@ -1,0 +1,103 @@
+{
+ "metadata": {
+  "path": "data/polyverse/2026-01-17_p1p12026_1/2026-01-17_p1p12026_1-p1.json",
+  "draft_id": "2026-01-17_p1p12026_1",
+  "combined_file": "data/polyverse/2026-01-17_p1p12026_1/20260117-210b.txt"
+ },
+ "macro_archetype": "midrange",
+ "labels": [
+  "sacrifice"
+ ],
+ "player": "2026-01-17_p1p12026_1-p1",
+ "date": "2026-01-17",
+ "matches": [
+  {
+   "opponent": "2026-01-17_p1p12026_1-p5",
+   "round": 1,
+   "wins": 0,
+   "losses": 2,
+   "draws": 0,
+   "winner": "2026-01-17_p1p12026_1-p5"
+  },
+  {
+   "opponent": "2026-01-17_p1p12026_1-p2",
+   "round": 2,
+   "wins": 2,
+   "losses": 1,
+   "draws": 0,
+   "winner": "2026-01-17_p1p12026_1-p1"
+  },
+  {
+   "opponent": "2026-01-17_p1p12026_1-p3",
+   "round": 3,
+   "wins": 2,
+   "losses": 0,
+   "draws": 0,
+   "winner": "2026-01-17_p1p12026_1-p1"
+  }
+ ],
+ "mainboard": [
+  "Esper Sentinel",
+  "Tidehollow Sculler",
+  "Virtue of Persistence // Locthwain Scorn",
+  "Death's Shadow",
+  "Harvester of Misery",
+  "Ride's End",
+  "The Wandering Emperor",
+  "Rankle, Master of Pranks",
+  "Drana, Liberator of Malakir",
+  "Woe Strider",
+  "Midnight Reaper",
+  "Sedgemoor Witch",
+  "Welcoming Vampire",
+  "Soul Partition",
+  "Journey to Nowhere",
+  "Tenacious Underdog",
+  "Luminarch Aspirant",
+  "Timeline Culler",
+  "Bone Shards",
+  "Oust",
+  "Path to Exile",
+  "Lost Jitte",
+  "Carrion Feeder",
+  "Godless Shrine",
+  "Shadowy Backstreet",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Swamp",
+  "Swamp",
+  "Swamp",
+  "Swamp",
+  "Swamp",
+  "Swamp",
+  "Swamp",
+  "Swamp"
+ ],
+ "sideboard": [
+  "Fact or Fiction",
+  "Voracious Hydra",
+  "Grim Bauble",
+  "Day of Judgment",
+  "Lush Portico",
+  "Legion Extruder",
+  "Cankerbloom",
+  "Faithless Looting",
+  "Adanto Vanguard",
+  "Knight of the Reliquary",
+  "Birthing Ritual",
+  "Touch the Spirit Realm",
+  "Raucous Theater",
+  "Portable Hole",
+  "Harm's Way",
+  "Ulcerate",
+  "Warden of the Inner Sky",
+  "Field of the Dead",
+  "Celestial Colonnade",
+  "Explore"
+ ]
+}

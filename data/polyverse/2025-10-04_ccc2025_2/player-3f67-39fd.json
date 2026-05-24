@@ -1,0 +1,131 @@
+{
+ "metadata": {
+  "path": "data/polyverse/2025-10-04_ccc2025_2/player-3f67-39fd.json",
+  "draft_id": "2025-10-04_ccc2025_2",
+  "pool_file": "data/polyverse/2025-10-04_ccc2025_2/player-3f67-39fd-pool.txt"
+ },
+ "macro_archetype": "control",
+ "labels": [
+  "beans"
+ ],
+ "player": "player-3f67-39fd",
+ "date": "2025-10-04",
+ "matches": [
+  {
+   "opponent": "player-3f67-37bf",
+   "round": 3,
+   "wins": 2,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "player-3f67-37bf",
+     "winner": "player-3f67-39fd"
+    },
+    {
+     "opponent": "player-3f67-37bf",
+     "winner": "player-3f67-39fd"
+    },
+    {
+     "opponent": "player-3f67-37bf",
+     "winner": "player-3f67-37bf"
+    }
+   ],
+   "winner": "player-3f67-39fd"
+  },
+  {
+   "opponent": "player-3f67-386a",
+   "round": 2,
+   "wins": 2,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "player-3f67-386a",
+     "winner": "player-3f67-39fd"
+    },
+    {
+     "opponent": "player-3f67-386a",
+     "winner": "player-3f67-39fd"
+    }
+   ],
+   "winner": "player-3f67-39fd"
+  },
+  {
+   "opponent": "player-3f67-8b63",
+   "round": 1,
+   "wins": 1,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "player-3f67-8b63",
+     "winner": "player-3f67-39fd"
+    },
+    {
+     "opponent": "player-3f67-8b63",
+     "winner": "player-3f67-8b63"
+    },
+    {
+     "opponent": "player-3f67-8b63",
+     "winner": "player-3f67-8b63"
+    }
+   ],
+   "winner": "player-3f67-8b63"
+  }
+ ],
+ "mainboard": [],
+ "sideboard": [],
+ "pool": [
+  "Breeding Pool",
+  "Serum Visions",
+  "Ponder",
+  "Qasali Pridemage",
+  "Hallowed Fountain",
+  "Memory Lapse",
+  "Verdurous Gearhulk",
+  "Kiora, the Rising Tide",
+  "Mana Leak",
+  "Flooded Strand",
+  "Horizon Canopy",
+  "Flooded Strand",
+  "Up the Beanstalk",
+  "Dig Through Time",
+  "Shelldock Isle",
+  "Torrential Gearhulk",
+  "Restless Vinestalk",
+  "Tarmogoyf",
+  "Verdant Catacombs",
+  "Urza's Saga",
+  "Mystic Confluence",
+  "Path to Exile",
+  "Reprieve",
+  "Wrath of God",
+  "Spell Queller",
+  "Lotus Cobra",
+  "Day of Judgment",
+  "Marsh Flats",
+  "Esika's Chariot",
+  "Daze",
+  "Lightstall Inquisitor",
+  "Heartfire Hero",
+  "Spellstutter Sprite",
+  "Faerie Vandal",
+  "The Huntsman's Redemption",
+  "Death's Shadow",
+  "Mishra's Bauble",
+  "Sphinx of Forgotten Lore",
+  "Scrabbling Claws",
+  "Knight of the Reliquary",
+  "Brightglass Gearhulk",
+  "Thalia, Guardian of Thraben",
+  "Overgrown Tomb",
+  "Brainstorm",
+  "Soul Partition"
+ ],
+ "colors": [
+  "U",
+  "G",
+  "W"
+ ]
+}

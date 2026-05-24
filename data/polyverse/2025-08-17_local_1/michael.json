@@ -1,0 +1,140 @@
+{
+ "metadata": {
+  "path": "data/polyverse/2025-08-17_local_1/michael.json",
+  "draft_id": "2025-08-17_local_1",
+  "combined_file": "data/polyverse/2025-08-17_local_1/michael.csv"
+ },
+ "macro_archetype": "control",
+ "labels": [
+  "draw"
+ ],
+ "player": "michael",
+ "date": "2025-08-17",
+ "matches": [
+  {
+   "opponent": "ben",
+   "round": 3,
+   "wins": 1,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "ben",
+     "winner": "michael"
+    },
+    {
+     "opponent": "ben",
+     "winner": "ben"
+    },
+    {
+     "opponent": "ben",
+     "winner": "ben"
+    }
+   ],
+   "winner": "ben"
+  },
+  {
+   "opponent": "brianfl",
+   "round": 4,
+   "wins": 2,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "brianfl",
+     "winner": "michael"
+    },
+    {
+     "opponent": "brianfl",
+     "winner": "michael"
+    },
+    {
+     "opponent": "brianfl",
+     "winner": "brianfl"
+    }
+   ],
+   "winner": "michael"
+  },
+  {
+   "opponent": "wilson",
+   "round": 1,
+   "wins": 0,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "wilson",
+     "winner": "wilson"
+    },
+    {
+     "opponent": "wilson",
+     "winner": "wilson"
+    }
+   ],
+   "winner": "wilson"
+  }
+ ],
+ "mainboard": [
+  "Fell",
+  "Archmage's Charm",
+  "Baleful Strix",
+  "Virtue of Persistence // Locthwain Scorn",
+  "Flooded Strand",
+  "Shark Typhoon",
+  "Swamp",
+  "Swamp",
+  "Swamp",
+  "Swamp",
+  "Swamp",
+  "Swamp",
+  "Swamp",
+  "Brainstorm",
+  "Curator of Mysteries",
+  "Portent",
+  "Puppeteer Clique",
+  "Sphinx of Forgotten Lore",
+  "Sedgemoor Witch",
+  "Tasigur, the Golden Fang",
+  "Faerie Vandal",
+  "Pile On",
+  "Ulcerate",
+  "Opt",
+  "Woe Strider",
+  "Harvester of Misery",
+  "Liliana of the Veil",
+  "Ethereal Forager",
+  "Mystic Sanctuary",
+  "Bitterblossom",
+  "Spellstutter Sprite",
+  "Watery Grave",
+  "Island",
+  "Island",
+  "Island",
+  "Island",
+  "Island",
+  "Island",
+  "Island",
+  "Mischievous Mystic",
+  "Fact or Fiction",
+  "Hostage Taker",
+  "Undercity Sewers"
+ ],
+ "sideboard": [
+  "Garruk Wildspeaker",
+  "Bloodghast",
+  "Repeal",
+  "Cut Down",
+  "Bitter Triumph",
+  "Unsummon",
+  "Kishla Skimmer",
+  "Flickerwisp",
+  "Reveillark",
+  "Viscera Seer",
+  "Brightglass Gearhulk",
+  "Faerie Dreamthief",
+  "Monastery Swiftspear",
+  "Marionette Apprentice",
+  "Goldmeadow Harrier",
+  "Restoration Angel"
+ ]
+}

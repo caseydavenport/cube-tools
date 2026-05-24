@@ -1,0 +1,90 @@
+{
+ "metadata": {
+  "path": "data/polyverse/2024-05-14_local_1/james.json",
+  "draft_id": "2024-05-14_local_1",
+  "combined_file": "data/polyverse/2024-05-14_local_1/james.txt"
+ },
+ "macro_archetype": "control",
+ "labels": [
+  "spells",
+  "draw-go"
+ ],
+ "player": "james",
+ "date": "2024-05-14",
+ "matches": [
+  {
+   "opponent": "jen",
+   "round": 3,
+   "wins": 0,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "jen",
+     "winner": "jen"
+    },
+    {
+     "opponent": "jen",
+     "winner": "jen"
+    }
+   ],
+   "winner": "jen"
+  }
+ ],
+ "mainboard": [
+  "Soul Snare",
+  "Dead Weight",
+  "Cut Down",
+  "Thing in the Ice // Awoken Horror",
+  "Curator of Mysteries",
+  "Delay",
+  "Eiganjo, Seat of the Empire",
+  "Fetid Pools",
+  "Faerie Vandal",
+  "Mana Leak",
+  "Counterspell",
+  "Lord Skitter, Sewer King",
+  "Languish",
+  "Chart a Course",
+  "Touch the Spirit Realm",
+  "Celestial Colonnade",
+  "Journey to Nowhere",
+  "Marsh Flats",
+  "Stern Scolding",
+  "Rishadan Port",
+  "Miscalculation",
+  "Mystic Sanctuary",
+  "Galepowder Mage",
+  "Watery Grave",
+  "Monastery Mentor",
+  "Spellstutter Sprite",
+  "Woe Strider",
+  "Brineborn Cutthroat",
+  "Pteramander",
+  "Soul Partition",
+  "Oust",
+  "Prismatic Vista",
+  "Ponder",
+  "Plains",
+  "Plains",
+  "Island",
+  "Island",
+  "Island",
+  "Island",
+  "Swamp"
+ ],
+ "sideboard": [
+  "Inti, Seneschal of the Sun",
+  "Reclamation Sage",
+  "Bolas's Citadel",
+  "Pyroclasm",
+  "Jolrael, Mwonvuli Recluse",
+  "Ephemerate",
+  "Glimmer Lens",
+  "Treasure Cruise",
+  "Daze",
+  "Festering Mummy",
+  "Spell Pierce",
+  "Tameshi, Reality Architect"
+ ]
+}

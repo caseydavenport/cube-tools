@@ -1,0 +1,64 @@
+{
+ "metadata": {
+  "path": "data/polyverse/2023-05-31_local_1/grant.json",
+  "draft_id": "2023-05-31_local_1",
+  "combined_file": "data/polyverse/2023-05-31_local_1/grant.csv"
+ },
+ "macro_archetype": "midrange",
+ "labels": [
+  "+1/+1"
+ ],
+ "player": "grant",
+ "date": "2023-05-31",
+ "matches": [
+  {
+   "opponent": "",
+   "wins": 4,
+   "losses": 1,
+   "draws": 0
+  }
+ ],
+ "mainboard": [
+  "Brineborn Cutthroat",
+  "Nissa, Who Shakes the World",
+  "Exclusion Mage",
+  "Terramorphic Expanse",
+  "Hinterland Harbor",
+  "Devoted Druid",
+  "Mulldrifter",
+  "Faerie Vandal",
+  "Unsummon",
+  "Chart a Course",
+  "Arctic Flats",
+  "Territorial Allosaurus",
+  "Copper Myr",
+  "Gold Myr",
+  "Llanowar Elves",
+  "Silver Myr",
+  "Into the Roil",
+  "Jace, Arcane Strategist",
+  "Touch the Spirit Realm",
+  "Plains",
+  "Island",
+  "Island",
+  "Island",
+  "Island",
+  "Vineglimmer Snarl",
+  "Arasta of the Endless Web",
+  "Merfolk Skydiver",
+  "Rampaging Baloths",
+  "Titanic Brawl",
+  "Swords to Plowshares",
+  "Azorius Guildgate",
+  "Path to Exile",
+  "Lion Sash",
+  "Forest",
+  "Forest",
+  "Forest",
+  "Forest",
+  "Forest",
+  "Forest",
+  "Arbor Elf"
+ ],
+ "sideboard": []
+}

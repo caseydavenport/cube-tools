@@ -1,0 +1,117 @@
+{
+ "metadata": {
+  "path": "data/polyverse/2025-09-13_local_1/casey.json",
+  "draft_id": "2025-09-13_local_1",
+  "mainboard_file": "data/polyverse/2025-09-13_local_1/casey-mainboard.csv",
+  "sideboard_file": "data/polyverse/2025-09-13_local_1/casey-sideboard.csv"
+ },
+ "macro_archetype": "aggro",
+ "labels": [
+  "equipment",
+  "artifacts"
+ ],
+ "player": "casey",
+ "date": "2025-09-13",
+ "matches": [
+  {
+   "opponent": "isaiah",
+   "round": 3,
+   "wins": 0,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "isaiah",
+     "winner": "isaiah"
+    },
+    {
+     "opponent": "isaiah",
+     "winner": "isaiah"
+    }
+   ],
+   "winner": "isaiah"
+  },
+  {
+   "opponent": "joe",
+   "round": 1,
+   "wins": 2,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "joe",
+     "winner": "casey"
+    },
+    {
+     "opponent": "joe",
+     "winner": "casey"
+    },
+    {
+     "opponent": "joe",
+     "winner": "joe"
+    }
+   ],
+   "winner": "casey"
+  }
+ ],
+ "mainboard": [
+  "Warleader's Call",
+  "Adanto Vanguard",
+  "Legion Extruder",
+  "Lightstall Inquisitor",
+  "Gingerbrute",
+  "Wooded Foothills",
+  "Lightning Bolt",
+  "Kor Skyfisher",
+  "Goldhound",
+  "Pia and Kiran Nalaar",
+  "Marsh Flats",
+  "Heartfire Hero",
+  "Perilous Myr",
+  "Rabbit Battery",
+  "Reinforced Ronin",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Luminarch Aspirant",
+  "Krenko, Tin Street Kingpin",
+  "Lizard Blades",
+  "Flametongue Kavu",
+  "Flame Slash",
+  "Sacred Foundry",
+  "Sacred Foundry",
+  "Reckless Charge",
+  "Cemetery Gatekeeper",
+  "Cheeky House-Mouse // Squeak By",
+  "Burst Lightning",
+  "Embercleave",
+  "Lion Sash",
+  "Recruitment Officer",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Mountain"
+ ],
+ "sideboard": [
+  "Otawara, Soaring City",
+  "Chromatic Star",
+  "Knight of the Ebon Legion",
+  "Umbral Collar Zealot",
+  "Cathar Commando",
+  "Dreadhorde Arcanist",
+  "Tasigur, the Golden Fang",
+  "Unearth",
+  "The Goose Mother",
+  "Proft's Eidetic Memory",
+  "Audacity",
+  "Canyon Slough",
+  "Blood Crypt",
+  "Lost Jitte",
+  "Murderous Cut",
+  "Tidehollow Sculler"
+ ]
+}

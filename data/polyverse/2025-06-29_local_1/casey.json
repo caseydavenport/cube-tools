@@ -1,0 +1,128 @@
+{
+ "metadata": {
+  "path": "data/polyverse/2025-06-29_local_1/casey.json",
+  "draft_id": "2025-06-29_local_1",
+  "combined_file": "data/polyverse/2025-06-29_local_1/casey.csv"
+ },
+ "macro_archetype": "midrange",
+ "labels": [
+  "saga",
+  "tameshi"
+ ],
+ "player": "casey",
+ "date": "2025-06-29",
+ "matches": [
+  {
+   "opponent": "joe2",
+   "round": 3,
+   "wins": 0,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "joe2",
+     "winner": "joe2"
+    },
+    {
+     "opponent": "joe2",
+     "winner": "joe2"
+    }
+   ],
+   "winner": "joe2"
+  },
+  {
+   "opponent": "kevin",
+   "round": 1,
+   "wins": 0,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "kevin",
+     "winner": "kevin"
+    },
+    {
+     "opponent": "kevin",
+     "winner": "kevin"
+    }
+   ],
+   "winner": "kevin"
+  },
+  {
+   "opponent": "owen",
+   "round": 2,
+   "wins": 0,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "owen",
+     "winner": "owen"
+    },
+    {
+     "opponent": "owen",
+     "winner": "owen"
+    }
+   ],
+   "winner": "owen"
+  }
+ ],
+ "mainboard": [
+  "Otawara, Soaring City",
+  "Seal of Removal",
+  "Urza's Bauble",
+  "Courser of Kruphix",
+  "Soul Snare",
+  "Spell Snare",
+  "Enlightened Tutor",
+  "Faerie Vandal",
+  "Perilous Myr",
+  "Island",
+  "Island",
+  "Arasta of the Endless Web",
+  "The Goose Mother",
+  "Forest",
+  "Forest",
+  "Forest",
+  "Pick Your Poison",
+  "Iron Apprentice",
+  "Soul Partition",
+  "Into the Roil",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Touch the Spirit Realm",
+  "Breeding Pool",
+  "Steppe Lynx",
+  "Scalding Tarn",
+  "Scryb Ranger",
+  "Polluted Delta",
+  "Temple Garden",
+  "Dreamtide Whale",
+  "Tameshi, Reality Architect",
+  "Misty Rainforest",
+  "Urza's Saga",
+  "Stern Scolding",
+  "Traverse the Ulvenwald",
+  "Windswept Heath",
+  "Sevinne's Reclamation",
+  "Arbor Elf"
+ ],
+ "sideboard": [
+  "Garruk Wildspeaker",
+  "Primeval Titan",
+  "Serum Visions",
+  "Qasali Pridemage",
+  "Grim Discovery",
+  "Bomat Courier",
+  "Scrabbling Claws",
+  "Elegant Parlor",
+  "Aether Tradewinds",
+  "Mystic Confluence",
+  "Unexpectedly Absent",
+  "Thalia, Guardian of Thraben",
+  "Marionette Apprentice",
+  "Tectonic Edge"
+ ]
+}

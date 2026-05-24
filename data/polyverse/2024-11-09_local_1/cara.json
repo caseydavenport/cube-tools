@@ -1,0 +1,127 @@
+{
+ "metadata": {
+  "path": "data/polyverse/2024-11-09_local_1/cara.json",
+  "draft_id": "2024-11-09_local_1",
+  "combined_file": "data/polyverse/2024-11-09_local_1/cara.txt"
+ },
+ "macro_archetype": "midrange",
+ "labels": [
+  "graveyard"
+ ],
+ "player": "cara",
+ "date": "2024-11-09",
+ "matches": [
+  {
+   "opponent": "jen",
+   "round": 2,
+   "wins": 2,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "jen",
+     "winner": "cara"
+    },
+    {
+     "opponent": "jen",
+     "winner": "cara"
+    }
+   ],
+   "winner": "cara"
+  },
+  {
+   "opponent": "paul",
+   "round": 3,
+   "wins": 1,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "paul",
+     "winner": "cara"
+    },
+    {
+     "opponent": "paul",
+     "winner": "paul"
+    }
+   ]
+  },
+  {
+   "opponent": "xander",
+   "round": 1,
+   "wins": 0,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "xander",
+     "winner": "xander"
+    },
+    {
+     "opponent": "xander",
+     "winner": "xander"
+    }
+   ],
+   "winner": "xander"
+  }
+ ],
+ "mainboard": [
+  "Soul-Scar Mage",
+  "Mayhem Devil",
+  "Grim Flayer",
+  "Cankerbloom",
+  "Seal of Fire",
+  "Traverse the Ulvenwald",
+  "Burst Lightning",
+  "Viscera Seer",
+  "Dragonsguard Elite",
+  "Life from the Loam",
+  "Murderous Redcap",
+  "Knight of the Ebon Legion",
+  "Archfiend of Ifnir",
+  "Magma Jet",
+  "Fungal Infection",
+  "Bloodchief's Thirst",
+  "Woe Strider",
+  "Inexorable Blob",
+  "Ravenous Squirrel",
+  "Sheltered Thicket",
+  "Underground Mortuary",
+  "Ulcerate",
+  "The Huntsman's Redemption",
+  "Krenko, Tin Street Kingpin",
+  "Commercial District",
+  "Questing Druid // Seek the Beast",
+  "Ignoble Hierarch",
+  "Prismatic Vista",
+  "Nurturing Peatland",
+  "Stomping Ground",
+  "Swamp",
+  "Swamp",
+  "Swamp",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Forest",
+  "Forest",
+  "Forest",
+  "Forest"
+ ],
+ "sideboard": [
+  "Jolrael, Mwonvuli Recluse",
+  "Engineered Explosives",
+  "Temple Garden",
+  "Arbor Elf",
+  "Sparring Construct",
+  "Portable Hole",
+  "Abundant Harvest",
+  "Utopia Sprawl",
+  "Call of the Herd",
+  "Disfigure",
+  "Flame Jab",
+  "Comet Storm",
+  "Roaring Earth",
+  "Gilded Goose",
+  "Aether Spellbomb"
+ ]
+}

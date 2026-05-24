@@ -1,0 +1,109 @@
+{
+ "metadata": {
+  "path": "data/polyverse/2026-01-03_local_1/jackson.json",
+  "draft_id": "2026-01-03_local_1",
+  "mainboard_file": "data/polyverse/2026-01-03_local_1/jackson-mainboard.txt",
+  "sideboard_file": "data/polyverse/2026-01-03_local_1/jackson-sideboard.txt"
+ },
+ "macro_archetype": "tempo",
+ "labels": [
+  "draw",
+  "skimmer",
+  "ramp"
+ ],
+ "player": "jackson",
+ "date": "2026-01-03",
+ "matches": [
+  {
+   "opponent": "kaiyo",
+   "round": 2,
+   "wins": 2,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "kaiyo",
+     "winner": "jackson"
+    },
+    {
+     "opponent": "kaiyo",
+     "winner": "jackson"
+    }
+   ],
+   "winner": "jackson"
+  },
+  {
+   "opponent": "patrick",
+   "round": 1,
+   "wins": 1,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "patrick",
+     "winner": "jackson"
+    },
+    {
+     "opponent": "patrick",
+     "winner": "patrick"
+    }
+   ]
+  }
+ ],
+ "mainboard": [
+  "Condescend",
+  "Consider",
+  "Dreamtide Whale",
+  "Fact or Fiction",
+  "Man-o'-War",
+  "Memory Lapse",
+  "Proft's Eidetic Memory",
+  "Serum Visions",
+  "Spell Pierce",
+  "Sphinx of Forgotten Lore",
+  "Irencrag Pyromancer",
+  "Birds of Paradise",
+  "Eternal Witness",
+  "Ignoble Hierarch",
+  "Jolrael, Mwonvuli Recluse",
+  "Noble Hierarch",
+  "Scavenging Ooze",
+  "Six",
+  "Tarmogoyf",
+  "Traverse the Ulvenwald",
+  "Fire // Ice",
+  "Kishla Skimmer",
+  "Mishra's Bauble",
+  "Scrabbling Claws",
+  "Celestial Colonnade",
+  "Fiery Islet",
+  "Forest",
+  "Forest",
+  "Forest",
+  "Forest",
+  "Forest",
+  "Hedge Maze",
+  "Horizon Canopy",
+  "Island",
+  "Misty Rainforest",
+  "Mountain",
+  "Restless Vinestalk",
+  "Scalding Tarn",
+  "Sheltered Thicket",
+  "Shifting Woodland"
+ ],
+ "sideboard": [
+  "Archmage's Charm",
+  "Mischievous Mystic",
+  "Thing in the Ice // Awoken Horror",
+  "Duress",
+  "Snarling Gorehound",
+  "Anje's Ravager",
+  "Flame Jab",
+  "Seal of Fire",
+  "Llanowar Elves",
+  "Renegade Rallier",
+  "Grim Flayer",
+  "Silent Clearing"
+ ]
+}

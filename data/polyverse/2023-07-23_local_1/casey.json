@@ -1,0 +1,101 @@
+{
+ "metadata": {
+  "path": "data/polyverse/2023-07-23_local_1/casey.json",
+  "draft_id": "2023-07-23_local_1",
+  "combined_file": "data/polyverse/2023-07-23_local_1/casey.csv"
+ },
+ "macro_archetype": "aggro",
+ "labels": [
+  "equipment"
+ ],
+ "player": "casey",
+ "date": "2023-07-23",
+ "matches": [
+  {
+   "opponent": "grant",
+   "round": 1,
+   "wins": 1,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "grant",
+     "winner": "casey"
+    }
+   ],
+   "winner": "casey"
+  },
+  {
+   "opponent": "jen",
+   "round": 2,
+   "wins": 1,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "jen",
+     "winner": "casey"
+    }
+   ],
+   "winner": "casey"
+  },
+  {
+   "opponent": "matt",
+   "round": 3,
+   "wins": 1,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "matt",
+     "winner": "casey"
+    }
+   ],
+   "winner": "casey"
+  }
+ ],
+ "mainboard": [
+  "Tibalt's Rager",
+  "Lion Sash",
+  "Restoration Angel",
+  "Ogre-Head Helm",
+  "Rigging Runner",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Mosquito Guard",
+  "Scalding Tarn",
+  "Triskelion",
+  "Touch the Spirit Realm",
+  "Iron Myr",
+  "Reinforced Ronin",
+  "Rabbit Battery",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Towashi Guide-Bot",
+  "Hellkite Charger",
+  "Kor Duelist",
+  "Spirited Companion",
+  "Faithless Looting",
+  "Harm's Way",
+  "Warcry Phoenix",
+  "Punishing Fire",
+  "Nobilis of War",
+  "Chain Lightning",
+  "Fateful End",
+  "Arcbound Tracker",
+  "Sai of the Shinobi"
+ ],
+ "sideboard": []
+}

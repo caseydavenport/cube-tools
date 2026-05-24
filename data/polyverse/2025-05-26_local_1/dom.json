@@ -1,0 +1,95 @@
+{
+ "metadata": {
+  "path": "data/polyverse/2025-05-26_local_1/dom.json",
+  "draft_id": "2025-05-26_local_1",
+  "combined_file": "data/polyverse/2025-05-26_local_1/dom.csv"
+ },
+ "macro_archetype": "midrange",
+ "labels": [
+  "goodstuff"
+ ],
+ "player": "dom",
+ "date": "2025-05-26",
+ "matches": [
+  {
+   "opponent": "casey",
+   "round": 1,
+   "wins": 2,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "casey",
+     "winner": "dom"
+    },
+    {
+     "opponent": "casey",
+     "winner": "dom"
+    },
+    {
+     "opponent": "casey",
+     "winner": "casey"
+    }
+   ],
+   "winner": "dom"
+  }
+ ],
+ "mainboard": [
+  "Journey to Nowhere",
+  "Dark Confidant",
+  "Knight of the Ebon Legion",
+  "Flooded Strand",
+  "Thalia, Guardian of Thraben",
+  "Gitaxian Probe",
+  "Godless Shrine",
+  "Godless Shrine",
+  "Swamp",
+  "Kor Skyfisher",
+  "Esper Sentinel",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Fungal Infection",
+  "Fearless Fledgling",
+  "Den of the Bugbear",
+  "Portable Hole",
+  "Blazing Rootwalla",
+  "Sunbaked Canyon",
+  "Comet Storm",
+  "Rabbit Battery",
+  "Reinforced Ronin",
+  "Soul Partition",
+  "Read the Bones",
+  "Cemetery Gatekeeper",
+  "Magma Jet",
+  "Seasoned Hallowblade",
+  "Oust",
+  "Steppe Lynx",
+  "Plains",
+  "Plains",
+  "Seal of Fire",
+  "Takenuma, Abandoned Mire",
+  "Silent Clearing",
+  "Ogre-Head Helm",
+  "Lion Sash"
+ ],
+ "sideboard": [
+  "Cling to Dust",
+  "Qasali Pridemage",
+  "Blackmail",
+  "Repeal",
+  "Sedgemoor Witch",
+  "Kitchen Finks",
+  "Luminarch Aspirant",
+  "Dauntless Bodyguard",
+  "Thraben Inspector",
+  "Inexorable Blob",
+  "Meticulous Archive",
+  "Restless Vinestalk",
+  "Goldmeadow Harrier",
+  "Bone Shards"
+ ]
+}

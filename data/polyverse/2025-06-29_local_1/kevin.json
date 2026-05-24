@@ -1,0 +1,127 @@
+{
+ "metadata": {
+  "path": "data/polyverse/2025-06-29_local_1/kevin.json",
+  "draft_id": "2025-06-29_local_1",
+  "combined_file": "data/polyverse/2025-06-29_local_1/kevin.csv"
+ },
+ "macro_archetype": "midrange",
+ "labels": [
+  "sacrifice"
+ ],
+ "player": "kevin",
+ "date": "2025-06-29",
+ "matches": [
+  {
+   "opponent": "casey",
+   "round": 1,
+   "wins": 2,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "casey",
+     "winner": "kevin"
+    },
+    {
+     "opponent": "casey",
+     "winner": "kevin"
+    }
+   ],
+   "winner": "kevin"
+  },
+  {
+   "opponent": "mehdi",
+   "round": 2,
+   "wins": 0,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "mehdi",
+     "winner": "mehdi"
+    },
+    {
+     "opponent": "mehdi",
+     "winner": "mehdi"
+    }
+   ],
+   "winner": "mehdi"
+  },
+  {
+   "opponent": "zephyr",
+   "round": 3,
+   "wins": 0,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "zephyr",
+     "winner": "zephyr"
+    },
+    {
+     "opponent": "zephyr",
+     "winner": "zephyr"
+    }
+   ],
+   "winner": "zephyr"
+  }
+ ],
+ "mainboard": [
+  "Six",
+  "Augur of Autumn",
+  "Wrenn and Six",
+  "Lotus Cobra",
+  "Wooded Foothills",
+  "Renata, Called to the Hunt",
+  "Stomping Ground",
+  "Murderous Redcap",
+  "Goblin Bombardment",
+  "Mayhem Devil",
+  "Tireless Tracker",
+  "Tasigur, the Golden Fang",
+  "Languish",
+  "Unearth",
+  "Lord Skitter, Sewer King",
+  "Ulcerate",
+  "Commercial District",
+  "Magma Jet",
+  "Gilded Goose",
+  "The Huntsman's Redemption",
+  "Krenko, Tin Street Kingpin",
+  "Ignoble Hierarch",
+  "Mountain",
+  "Mountain",
+  "Scalding Tarn",
+  "Chandra, Hope's Beacon",
+  "Esika's Chariot",
+  "Flame Slash",
+  "Bitterblossom",
+  "Forest",
+  "Forest",
+  "Forest",
+  "Forest",
+  "Dark Confidant",
+  "Prismatic Vista",
+  "Overgrown Tomb",
+  "Blood Crypt",
+  "Swamp",
+  "Swamp",
+  "Swamp"
+ ],
+ "sideboard": [
+  "Shark Typhoon",
+  "Pestermite",
+  "Kitchen Finks",
+  "Llanowar Elves",
+  "Fact or Fiction",
+  "Mosquito Guard",
+  "Mystic Sanctuary",
+  "Watery Grave",
+  "Restless Vinestalk",
+  "Roaring Earth",
+  "Wilderness Reclamation",
+  "Quirion Beastcaller",
+  "Searslicer Goblin",
+  "Tidehollow Sculler"
+ ]
+}

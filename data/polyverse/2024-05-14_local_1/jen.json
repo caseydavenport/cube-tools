@@ -1,0 +1,137 @@
+{
+ "metadata": {
+  "path": "data/polyverse/2024-05-14_local_1/jen.json",
+  "draft_id": "2024-05-14_local_1",
+  "combined_file": "data/polyverse/2024-05-14_local_1/jen.txt"
+ },
+ "macro_archetype": "midrange",
+ "labels": [
+  "+1/+1",
+  "lands",
+  "token"
+ ],
+ "player": "jen",
+ "date": "2024-05-14",
+ "matches": [
+  {
+   "opponent": "dom",
+   "round": 1,
+   "wins": 2,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "dom",
+     "winner": "jen"
+    },
+    {
+     "opponent": "dom",
+     "winner": "jen"
+    },
+    {
+     "opponent": "dom",
+     "winner": "dom"
+    }
+   ],
+   "winner": "jen"
+  },
+  {
+   "opponent": "greg",
+   "round": 2,
+   "wins": 0,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "greg",
+     "winner": "greg"
+    },
+    {
+     "opponent": "greg",
+     "winner": "greg"
+    }
+   ],
+   "winner": "greg"
+  },
+  {
+   "opponent": "james",
+   "round": 3,
+   "wins": 2,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "james",
+     "winner": "jen"
+    },
+    {
+     "opponent": "james",
+     "winner": "jen"
+    }
+   ],
+   "winner": "jen"
+  }
+ ],
+ "mainboard": [
+  "Ravenous Squirrel",
+  "Warden of the Inner Sky",
+  "Gilded Goose",
+  "Cankerbloom",
+  "Titania, Protector of Argoth",
+  "Gruff Triplets",
+  "Grim Flayer",
+  "Arbor Elf",
+  "Scavenging Ooze",
+  "Renata, Called to the Hunt",
+  "Greta, Sweettooth Scourge",
+  "Tireless Tracker",
+  "Courser of Kruphix",
+  "Pollenbright Druid",
+  "Parallel Lives",
+  "Hardened Scales",
+  "Roaring Earth",
+  "The Huntsman's Redemption",
+  "Intangible Virtue",
+  "Quest for the Gemblades",
+  "Intrepid Trufflesnout // Go Hog Wild",
+  "Elspeth's Smite",
+  "Verdant Catacombs",
+  "Arid Mesa",
+  "Wooded Foothills",
+  "Horizon Canopy",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Swamp",
+  "Swamp",
+  "Swamp",
+  "Forest",
+  "Forest",
+  "Forest",
+  "Forest",
+  "Forest",
+  "Forest",
+  "Forest",
+  "Hunting Triad",
+  "Sevinne's Reclamation"
+ ],
+ "sideboard": [
+  "Scrabbling Claws",
+  "Faerie Duelist",
+  "Merfolk Looter",
+  "Baird, Argivian Recruiter",
+  "Sedgemoor Witch",
+  "Scrapwork Mutt",
+  "Clarion Spirit",
+  "Knight of the Reliquary",
+  "Farsight Ritual",
+  "Lava Dart",
+  "Crimson Wisps",
+  "Demand Answers",
+  "Abrade",
+  "Questing Druid // Seek the Beast",
+  "Steam Vents",
+  "Tamiyo, Compleated Sage",
+  "Careful Study"
+ ]
+}

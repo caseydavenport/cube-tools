@@ -1,0 +1,130 @@
+{
+ "metadata": {
+  "path": "data/polyverse/2023-12-02_local_1/xander.json",
+  "draft_id": "2023-12-02_local_1",
+  "combined_file": "data/polyverse/2023-12-02_local_1/xander.txt"
+ },
+ "macro_archetype": "control",
+ "labels": [
+  "flicker",
+  "draw-go"
+ ],
+ "player": "xander",
+ "date": "2023-12-02",
+ "matches": [
+  {
+   "opponent": "cara",
+   "round": 3,
+   "wins": 2,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "cara",
+     "winner": "xander"
+    },
+    {
+     "opponent": "cara",
+     "winner": "xander"
+    }
+   ],
+   "winner": "xander"
+  },
+  {
+   "opponent": "jen",
+   "round": 2,
+   "wins": 2,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "jen",
+     "winner": "xander"
+    },
+    {
+     "opponent": "jen",
+     "winner": "xander"
+    }
+   ],
+   "winner": "xander"
+  },
+  {
+   "opponent": "paul",
+   "round": 1,
+   "wins": 2,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "paul",
+     "winner": "xander"
+    },
+    {
+     "opponent": "paul",
+     "winner": "xander"
+    },
+    {
+     "opponent": "paul",
+     "winner": "paul"
+    }
+   ],
+   "winner": "xander"
+  }
+ ],
+ "mainboard": [
+  "Hostage Taker",
+  "Cut Down",
+  "Marsh Flats",
+  "Into the Roil",
+  "Moon-Circuit Hacker",
+  "Godless Shrine",
+  "Exclusion Mage",
+  "Misty Rainforest",
+  "Ghostly Flicker",
+  "Thing in the Ice // Awoken Horror",
+  "Languish",
+  "Mulldrifter",
+  "Disfigure",
+  "Counterspell",
+  "Treasure Cruise",
+  "Spirited Companion",
+  "Sunken Ruins",
+  "Fetid Pools",
+  "Curator of Mysteries",
+  "Mana Leak",
+  "Irrigated Farmland",
+  "Ephemerate",
+  "Delay",
+  "Memory Lapse",
+  "Polluted Delta",
+  "Touch the Spirit Realm",
+  "Kitchen Finks",
+  "Mire Triton",
+  "Takenuma, Abandoned Mire",
+  "Flickerwisp",
+  "Paladin of the Bloodstained",
+  "Hallowed Fountain",
+  "Ponder",
+  "Plains",
+  "Plains",
+  "Island",
+  "Island",
+  "Island",
+  "Island",
+  "Swamp"
+ ],
+ "sideboard": [
+  "Overgrown Tomb",
+  "Sanguine Bond",
+  "Deprive",
+  "Hinterland Harbor",
+  "Shinewend",
+  "Vampire Aristocrat",
+  "Sanctum Seeker",
+  "Verdant Catacombs",
+  "Mental Note",
+  "Wilderness Reclamation",
+  "Gravedigger",
+  "Lion Sash"
+ ]
+}

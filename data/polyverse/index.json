@@ -1,978 +1,978 @@
 {
  "drafts": [
   {
-   "path": "data/polyverse/2023-03-16",
+   "path": "data/polyverse/2023-03-16_local_1",
    "date": "2023-03-16",
-   "draft_id": "2023-03-16",
+   "draft_id": "2023-03-16_local_1",
    "draft_log": "",
    "decks": [
     {
-     "path": "data/polyverse/2023-03-16/casey.json"
+     "path": "data/polyverse/2023-03-16_local_1/casey.json"
     },
     {
-     "path": "data/polyverse/2023-03-16/jen.json"
+     "path": "data/polyverse/2023-03-16_local_1/jen.json"
     },
     {
-     "path": "data/polyverse/2023-03-16/matt.json"
+     "path": "data/polyverse/2023-03-16_local_1/matt.json"
     }
    ]
   },
   {
-   "path": "data/polyverse/2023-04-19",
+   "path": "data/polyverse/2023-04-19_local_1",
    "date": "2023-04-19",
-   "draft_id": "2023-04-19",
+   "draft_id": "2023-04-19_local_1",
    "draft_log": "",
    "decks": [
     {
-     "path": "data/polyverse/2023-04-19/casey.json"
+     "path": "data/polyverse/2023-04-19_local_1/casey.json"
     },
     {
-     "path": "data/polyverse/2023-04-19/jen.json"
+     "path": "data/polyverse/2023-04-19_local_1/jen.json"
     },
     {
-     "path": "data/polyverse/2023-04-19/matt.json"
+     "path": "data/polyverse/2023-04-19_local_1/matt.json"
     }
    ]
   },
   {
-   "path": "data/polyverse/2023-04-22",
+   "path": "data/polyverse/2023-04-22_local_1",
    "date": "2023-04-22",
-   "draft_id": "2023-04-22",
+   "draft_id": "2023-04-22_local_1",
    "draft_log": "",
    "decks": [
     {
-     "path": "data/polyverse/2023-04-22/casey.json"
+     "path": "data/polyverse/2023-04-22_local_1/casey.json"
     },
     {
-     "path": "data/polyverse/2023-04-22/dom.json"
+     "path": "data/polyverse/2023-04-22_local_1/dom.json"
     },
     {
-     "path": "data/polyverse/2023-04-22/paul.json"
+     "path": "data/polyverse/2023-04-22_local_1/paul.json"
     },
     {
-     "path": "data/polyverse/2023-04-22/xander.json"
+     "path": "data/polyverse/2023-04-22_local_1/xander.json"
     }
    ]
   },
   {
-   "path": "data/polyverse/2023-04-24",
+   "path": "data/polyverse/2023-04-24_local_1",
    "date": "2023-04-24",
-   "draft_id": "2023-04-24",
+   "draft_id": "2023-04-24_local_1",
    "draft_log": "",
    "decks": [
     {
-     "path": "data/polyverse/2023-04-24/casey.json"
+     "path": "data/polyverse/2023-04-24_local_1/casey.json"
     },
     {
-     "path": "data/polyverse/2023-04-24/dom.json"
+     "path": "data/polyverse/2023-04-24_local_1/dom.json"
     },
     {
-     "path": "data/polyverse/2023-04-24/paul.json"
+     "path": "data/polyverse/2023-04-24_local_1/paul.json"
     },
     {
-     "path": "data/polyverse/2023-04-24/xander.json"
+     "path": "data/polyverse/2023-04-24_local_1/xander.json"
     }
    ]
   },
   {
-   "path": "data/polyverse/2023-04-27",
+   "path": "data/polyverse/2023-04-27_local_1",
    "date": "2023-04-27",
-   "draft_id": "2023-04-27",
+   "draft_id": "2023-04-27_local_1",
    "draft_log": "",
    "decks": [
     {
-     "path": "data/polyverse/2023-04-27/casey.json"
+     "path": "data/polyverse/2023-04-27_local_1/casey.json"
     },
     {
-     "path": "data/polyverse/2023-04-27/dom.json"
+     "path": "data/polyverse/2023-04-27_local_1/dom.json"
     },
     {
-     "path": "data/polyverse/2023-04-27/paul.json"
+     "path": "data/polyverse/2023-04-27_local_1/paul.json"
     },
     {
-     "path": "data/polyverse/2023-04-27/xander.json"
+     "path": "data/polyverse/2023-04-27_local_1/xander.json"
     }
    ]
   },
   {
-   "path": "data/polyverse/2023-05-31",
+   "path": "data/polyverse/2023-05-31_local_1",
    "date": "2023-05-31",
-   "draft_id": "2023-05-31",
+   "draft_id": "2023-05-31_local_1",
    "draft_log": "",
    "decks": [
     {
-     "path": "data/polyverse/2023-05-31/casey.json"
+     "path": "data/polyverse/2023-05-31_local_1/casey.json"
     },
     {
-     "path": "data/polyverse/2023-05-31/grant.json"
+     "path": "data/polyverse/2023-05-31_local_1/grant.json"
     },
     {
-     "path": "data/polyverse/2023-05-31/jen.json"
+     "path": "data/polyverse/2023-05-31_local_1/jen.json"
     },
     {
-     "path": "data/polyverse/2023-05-31/matt.json"
+     "path": "data/polyverse/2023-05-31_local_1/matt.json"
     }
    ]
   },
   {
-   "path": "data/polyverse/2023-06-17",
+   "path": "data/polyverse/2023-06-17_local_1",
    "date": "2023-06-17",
-   "draft_id": "2023-06-17",
+   "draft_id": "2023-06-17_local_1",
    "draft_log": "",
    "decks": [
     {
-     "path": "data/polyverse/2023-06-17/casey.json"
+     "path": "data/polyverse/2023-06-17_local_1/casey.json"
     },
     {
-     "path": "data/polyverse/2023-06-17/dom.json"
+     "path": "data/polyverse/2023-06-17_local_1/dom.json"
     },
     {
-     "path": "data/polyverse/2023-06-17/james.json"
+     "path": "data/polyverse/2023-06-17_local_1/james.json"
     },
     {
-     "path": "data/polyverse/2023-06-17/paul.json"
+     "path": "data/polyverse/2023-06-17_local_1/paul.json"
     },
     {
-     "path": "data/polyverse/2023-06-17/xander.json"
+     "path": "data/polyverse/2023-06-17_local_1/xander.json"
     }
    ]
   },
   {
-   "path": "data/polyverse/2023-07-16",
+   "path": "data/polyverse/2023-07-16_local_1",
    "date": "2023-07-16",
-   "draft_id": "2023-07-16",
-   "draft_log": "data/polyverse/2023-07-16/draft-log.json",
+   "draft_id": "2023-07-16_local_1",
+   "draft_log": "data/polyverse/2023-07-16_local_1/draft-log.json",
    "decks": [
     {
-     "path": "data/polyverse/2023-07-16/casey.json"
+     "path": "data/polyverse/2023-07-16_local_1/casey.json"
     },
     {
-     "path": "data/polyverse/2023-07-16/dom.json"
+     "path": "data/polyverse/2023-07-16_local_1/dom.json"
     },
     {
-     "path": "data/polyverse/2023-07-16/greg.json"
+     "path": "data/polyverse/2023-07-16_local_1/greg.json"
     },
     {
-     "path": "data/polyverse/2023-07-16/james.json"
+     "path": "data/polyverse/2023-07-16_local_1/james.json"
     },
     {
-     "path": "data/polyverse/2023-07-16/jen.json"
+     "path": "data/polyverse/2023-07-16_local_1/jen.json"
     },
     {
-     "path": "data/polyverse/2023-07-16/xander.json"
+     "path": "data/polyverse/2023-07-16_local_1/xander.json"
     }
    ]
   },
   {
-   "path": "data/polyverse/2023-07-23",
+   "path": "data/polyverse/2023-07-23_local_1",
    "date": "2023-07-23",
-   "draft_id": "2023-07-23",
+   "draft_id": "2023-07-23_local_1",
    "draft_log": "",
    "decks": [
     {
-     "path": "data/polyverse/2023-07-23/casey.json"
+     "path": "data/polyverse/2023-07-23_local_1/casey.json"
     },
     {
-     "path": "data/polyverse/2023-07-23/grant.json"
+     "path": "data/polyverse/2023-07-23_local_1/grant.json"
     },
     {
-     "path": "data/polyverse/2023-07-23/jen.json"
+     "path": "data/polyverse/2023-07-23_local_1/jen.json"
     },
     {
-     "path": "data/polyverse/2023-07-23/matt.json"
+     "path": "data/polyverse/2023-07-23_local_1/matt.json"
     }
    ]
   },
   {
-   "path": "data/polyverse/2023-09-17",
+   "path": "data/polyverse/2023-09-17_local_1",
    "date": "2023-09-17",
-   "draft_id": "2023-09-17",
-   "draft_log": "data/polyverse/2023-09-17/draft-log.json",
+   "draft_id": "2023-09-17_local_1",
+   "draft_log": "data/polyverse/2023-09-17_local_1/draft-log.json",
    "decks": [
     {
-     "path": "data/polyverse/2023-09-17/casey.json"
+     "path": "data/polyverse/2023-09-17_local_1/casey.json"
     },
     {
-     "path": "data/polyverse/2023-09-17/dom.json"
+     "path": "data/polyverse/2023-09-17_local_1/dom.json"
     },
     {
-     "path": "data/polyverse/2023-09-17/james.json"
+     "path": "data/polyverse/2023-09-17_local_1/james.json"
     },
     {
-     "path": "data/polyverse/2023-09-17/jen.json"
+     "path": "data/polyverse/2023-09-17_local_1/jen.json"
     },
     {
-     "path": "data/polyverse/2023-09-17/mattd.json"
+     "path": "data/polyverse/2023-09-17_local_1/mattd.json"
     },
     {
-     "path": "data/polyverse/2023-09-17/paul.json"
+     "path": "data/polyverse/2023-09-17_local_1/paul.json"
     }
    ]
   },
   {
-   "path": "data/polyverse/2023-10-15",
+   "path": "data/polyverse/2023-10-15_local_1",
    "date": "2023-10-15",
-   "draft_id": "2023-10-15",
+   "draft_id": "2023-10-15_local_1",
    "draft_log": "",
    "decks": [
     {
-     "path": "data/polyverse/2023-10-15/casey.json"
+     "path": "data/polyverse/2023-10-15_local_1/casey.json"
     },
     {
-     "path": "data/polyverse/2023-10-15/dom.json"
+     "path": "data/polyverse/2023-10-15_local_1/dom.json"
     }
    ]
   },
   {
-   "path": "data/polyverse/2023-10-21",
+   "path": "data/polyverse/2023-10-21_local_1",
    "date": "2023-10-21",
-   "draft_id": "2023-10-21",
-   "draft_log": "data/polyverse/2023-10-21/draft-log.json",
+   "draft_id": "2023-10-21_local_1",
+   "draft_log": "data/polyverse/2023-10-21_local_1/draft-log.json",
    "decks": [
     {
-     "path": "data/polyverse/2023-10-21/casey.json"
+     "path": "data/polyverse/2023-10-21_local_1/casey.json"
     },
     {
-     "path": "data/polyverse/2023-10-21/dom.json"
+     "path": "data/polyverse/2023-10-21_local_1/dom.json"
     },
     {
-     "path": "data/polyverse/2023-10-21/james.json"
+     "path": "data/polyverse/2023-10-21_local_1/james.json"
     },
     {
-     "path": "data/polyverse/2023-10-21/jen.json"
+     "path": "data/polyverse/2023-10-21_local_1/jen.json"
     },
     {
-     "path": "data/polyverse/2023-10-21/mattd.json"
+     "path": "data/polyverse/2023-10-21_local_1/mattd.json"
     },
     {
-     "path": "data/polyverse/2023-10-21/xander.json"
+     "path": "data/polyverse/2023-10-21_local_1/xander.json"
     }
    ]
   },
   {
-   "path": "data/polyverse/2023-11-16",
+   "path": "data/polyverse/2023-11-16_local_1",
    "date": "2023-11-16",
-   "draft_id": "2023-11-16",
+   "draft_id": "2023-11-16_local_1",
    "draft_log": "",
    "decks": [
     {
-     "path": "data/polyverse/2023-11-16/casey.json"
+     "path": "data/polyverse/2023-11-16_local_1/casey.json"
     },
     {
-     "path": "data/polyverse/2023-11-16/dom.json"
+     "path": "data/polyverse/2023-11-16_local_1/dom.json"
     }
    ]
   },
   {
-   "path": "data/polyverse/2023-12-02",
+   "path": "data/polyverse/2023-12-02_local_1",
    "date": "2023-12-02",
-   "draft_id": "2023-12-02",
-   "draft_log": "data/polyverse/2023-12-02/draft-log.json",
+   "draft_id": "2023-12-02_local_1",
+   "draft_log": "data/polyverse/2023-12-02_local_1/draft-log.json",
    "decks": [
     {
-     "path": "data/polyverse/2023-12-02/cara.json"
+     "path": "data/polyverse/2023-12-02_local_1/cara.json"
     },
     {
-     "path": "data/polyverse/2023-12-02/casey.json"
+     "path": "data/polyverse/2023-12-02_local_1/casey.json"
     },
     {
-     "path": "data/polyverse/2023-12-02/dom.json"
+     "path": "data/polyverse/2023-12-02_local_1/dom.json"
     },
     {
-     "path": "data/polyverse/2023-12-02/greg.json"
+     "path": "data/polyverse/2023-12-02_local_1/greg.json"
     },
     {
-     "path": "data/polyverse/2023-12-02/james.json"
+     "path": "data/polyverse/2023-12-02_local_1/james.json"
     },
     {
-     "path": "data/polyverse/2023-12-02/jen.json"
+     "path": "data/polyverse/2023-12-02_local_1/jen.json"
     },
     {
-     "path": "data/polyverse/2023-12-02/paul.json"
+     "path": "data/polyverse/2023-12-02_local_1/paul.json"
     },
     {
-     "path": "data/polyverse/2023-12-02/xander.json"
+     "path": "data/polyverse/2023-12-02_local_1/xander.json"
     }
    ]
   },
   {
-   "path": "data/polyverse/2024-01-07",
+   "path": "data/polyverse/2024-01-07_local_1",
    "date": "2024-01-07",
-   "draft_id": "2024-01-07",
-   "draft_log": "data/polyverse/2024-01-07/draft-log.json",
+   "draft_id": "2024-01-07_local_1",
+   "draft_log": "data/polyverse/2024-01-07_local_1/draft-log.json",
    "decks": [
     {
-     "path": "data/polyverse/2024-01-07/cara.json"
+     "path": "data/polyverse/2024-01-07_local_1/cara.json"
     },
     {
-     "path": "data/polyverse/2024-01-07/casey.json"
+     "path": "data/polyverse/2024-01-07_local_1/casey.json"
     },
     {
-     "path": "data/polyverse/2024-01-07/dom.json"
+     "path": "data/polyverse/2024-01-07_local_1/dom.json"
     },
     {
-     "path": "data/polyverse/2024-01-07/greg.json"
+     "path": "data/polyverse/2024-01-07_local_1/greg.json"
     },
     {
-     "path": "data/polyverse/2024-01-07/james.json"
+     "path": "data/polyverse/2024-01-07_local_1/james.json"
     },
     {
-     "path": "data/polyverse/2024-01-07/jen.json"
+     "path": "data/polyverse/2024-01-07_local_1/jen.json"
     },
     {
-     "path": "data/polyverse/2024-01-07/paul.json"
+     "path": "data/polyverse/2024-01-07_local_1/paul.json"
     },
     {
-     "path": "data/polyverse/2024-01-07/xander.json"
+     "path": "data/polyverse/2024-01-07_local_1/xander.json"
     }
    ]
   },
   {
-   "path": "data/polyverse/2024-03-23",
+   "path": "data/polyverse/2024-03-23_local_1",
    "date": "2024-03-23",
-   "draft_id": "2024-03-23",
-   "draft_log": "data/polyverse/2024-03-23/draft-log.json",
+   "draft_id": "2024-03-23_local_1",
+   "draft_log": "data/polyverse/2024-03-23_local_1/draft-log.json",
    "decks": [
     {
-     "path": "data/polyverse/2024-03-23/casey.json"
+     "path": "data/polyverse/2024-03-23_local_1/casey.json"
     },
     {
-     "path": "data/polyverse/2024-03-23/dom.json"
+     "path": "data/polyverse/2024-03-23_local_1/dom.json"
     }
    ]
   },
   {
-   "path": "data/polyverse/2024-03-28",
+   "path": "data/polyverse/2024-03-28_local_1",
    "date": "2024-03-28",
-   "draft_id": "2024-03-28",
+   "draft_id": "2024-03-28_local_1",
    "draft_log": "",
    "decks": [
     {
-     "path": "data/polyverse/2024-03-28/alexs.json"
+     "path": "data/polyverse/2024-03-28_local_1/alexs.json"
     },
     {
-     "path": "data/polyverse/2024-03-28/casey.json"
+     "path": "data/polyverse/2024-03-28_local_1/casey.json"
     },
     {
-     "path": "data/polyverse/2024-03-28/jan.json"
+     "path": "data/polyverse/2024-03-28_local_1/jan.json"
     },
     {
-     "path": "data/polyverse/2024-03-28/ken.json"
+     "path": "data/polyverse/2024-03-28_local_1/ken.json"
     },
     {
-     "path": "data/polyverse/2024-03-28/matthewbk.json"
+     "path": "data/polyverse/2024-03-28_local_1/matthewbk.json"
     },
     {
-     "path": "data/polyverse/2024-03-28/parker.json"
+     "path": "data/polyverse/2024-03-28_local_1/parker.json"
     }
    ]
   },
   {
-   "path": "data/polyverse/2024-03-31",
+   "path": "data/polyverse/2024-03-31_local_1",
    "date": "2024-03-31",
-   "draft_id": "2024-03-31",
-   "draft_log": "data/polyverse/2024-03-31/draft-log.json",
+   "draft_id": "2024-03-31_local_1",
+   "draft_log": "data/polyverse/2024-03-31_local_1/draft-log.json",
    "decks": [
     {
-     "path": "data/polyverse/2024-03-31/cara.json"
+     "path": "data/polyverse/2024-03-31_local_1/cara.json"
     },
     {
-     "path": "data/polyverse/2024-03-31/casey.json"
+     "path": "data/polyverse/2024-03-31_local_1/casey.json"
     },
     {
-     "path": "data/polyverse/2024-03-31/dom.json"
+     "path": "data/polyverse/2024-03-31_local_1/dom.json"
     },
     {
-     "path": "data/polyverse/2024-03-31/greg.json"
+     "path": "data/polyverse/2024-03-31_local_1/greg.json"
     },
     {
-     "path": "data/polyverse/2024-03-31/james.json"
+     "path": "data/polyverse/2024-03-31_local_1/james.json"
     },
     {
-     "path": "data/polyverse/2024-03-31/jen.json"
+     "path": "data/polyverse/2024-03-31_local_1/jen.json"
     },
     {
-     "path": "data/polyverse/2024-03-31/paul.json"
+     "path": "data/polyverse/2024-03-31_local_1/paul.json"
     },
     {
-     "path": "data/polyverse/2024-03-31/xander.json"
+     "path": "data/polyverse/2024-03-31_local_1/xander.json"
     }
    ]
   },
   {
-   "path": "data/polyverse/2024-04-24",
+   "path": "data/polyverse/2024-04-24_local_1",
    "date": "2024-04-24",
-   "draft_id": "2024-04-24",
-   "draft_log": "data/polyverse/2024-04-24/draft-log.json",
+   "draft_id": "2024-04-24_local_1",
+   "draft_log": "data/polyverse/2024-04-24_local_1/draft-log.json",
    "decks": [
     {
-     "path": "data/polyverse/2024-04-24/casey.json"
+     "path": "data/polyverse/2024-04-24_local_1/casey.json"
     },
     {
-     "path": "data/polyverse/2024-04-24/dom.json"
+     "path": "data/polyverse/2024-04-24_local_1/dom.json"
     }
    ]
   },
   {
-   "path": "data/polyverse/2024-05-03",
+   "path": "data/polyverse/2024-05-03_local_1",
    "date": "2024-05-03",
-   "draft_id": "2024-05-03",
-   "draft_log": "data/polyverse/2024-05-03/draft-log.json",
+   "draft_id": "2024-05-03_local_1",
+   "draft_log": "data/polyverse/2024-05-03_local_1/draft-log.json",
    "decks": [
     {
-     "path": "data/polyverse/2024-05-03/casey.json"
+     "path": "data/polyverse/2024-05-03_local_1/casey.json"
     },
     {
-     "path": "data/polyverse/2024-05-03/dom.json"
+     "path": "data/polyverse/2024-05-03_local_1/dom.json"
     }
    ]
   },
   {
-   "path": "data/polyverse/2024-05-14",
+   "path": "data/polyverse/2024-05-14_local_1",
    "date": "2024-05-14",
-   "draft_id": "2024-05-14",
-   "draft_log": "data/polyverse/2024-05-14/draft-log.json",
+   "draft_id": "2024-05-14_local_1",
+   "draft_log": "data/polyverse/2024-05-14_local_1/draft-log.json",
    "decks": [
     {
-     "path": "data/polyverse/2024-05-14/cara.json"
+     "path": "data/polyverse/2024-05-14_local_1/cara.json"
     },
     {
-     "path": "data/polyverse/2024-05-14/casey.json"
+     "path": "data/polyverse/2024-05-14_local_1/casey.json"
     },
     {
-     "path": "data/polyverse/2024-05-14/dom.json"
+     "path": "data/polyverse/2024-05-14_local_1/dom.json"
     },
     {
-     "path": "data/polyverse/2024-05-14/greg.json"
+     "path": "data/polyverse/2024-05-14_local_1/greg.json"
     },
     {
-     "path": "data/polyverse/2024-05-14/james.json"
+     "path": "data/polyverse/2024-05-14_local_1/james.json"
     },
     {
-     "path": "data/polyverse/2024-05-14/jen.json"
+     "path": "data/polyverse/2024-05-14_local_1/jen.json"
     },
     {
-     "path": "data/polyverse/2024-05-14/paul.json"
+     "path": "data/polyverse/2024-05-14_local_1/paul.json"
     },
     {
-     "path": "data/polyverse/2024-05-14/xander.json"
+     "path": "data/polyverse/2024-05-14_local_1/xander.json"
     }
    ]
   },
   {
-   "path": "data/polyverse/2024-06-28",
+   "path": "data/polyverse/2024-06-28_local_1",
    "date": "2024-06-28",
-   "draft_id": "2024-06-28",
+   "draft_id": "2024-06-28_local_1",
    "draft_log": "",
    "decks": [
     {
-     "path": "data/polyverse/2024-06-28/casey.json"
+     "path": "data/polyverse/2024-06-28_local_1/casey.json"
     },
     {
-     "path": "data/polyverse/2024-06-28/dom.json"
+     "path": "data/polyverse/2024-06-28_local_1/dom.json"
     }
    ]
   },
   {
-   "path": "data/polyverse/2024-11-09",
+   "path": "data/polyverse/2024-11-09_local_1",
    "date": "2024-11-09",
-   "draft_id": "2024-11-09",
-   "draft_log": "data/polyverse/2024-11-09/draft-log.json",
+   "draft_id": "2024-11-09_local_1",
+   "draft_log": "data/polyverse/2024-11-09_local_1/draft-log.json",
    "decks": [
     {
-     "path": "data/polyverse/2024-11-09/cara.json"
+     "path": "data/polyverse/2024-11-09_local_1/cara.json"
     },
     {
-     "path": "data/polyverse/2024-11-09/casey.json"
+     "path": "data/polyverse/2024-11-09_local_1/casey.json"
     },
     {
-     "path": "data/polyverse/2024-11-09/dom.json"
+     "path": "data/polyverse/2024-11-09_local_1/dom.json"
     },
     {
-     "path": "data/polyverse/2024-11-09/greg.json"
+     "path": "data/polyverse/2024-11-09_local_1/greg.json"
     },
     {
-     "path": "data/polyverse/2024-11-09/jen.json"
+     "path": "data/polyverse/2024-11-09_local_1/jen.json"
     },
     {
-     "path": "data/polyverse/2024-11-09/mattd.json"
+     "path": "data/polyverse/2024-11-09_local_1/mattd.json"
     },
     {
-     "path": "data/polyverse/2024-11-09/paul.json"
+     "path": "data/polyverse/2024-11-09_local_1/paul.json"
     },
     {
-     "path": "data/polyverse/2024-11-09/xander.json"
+     "path": "data/polyverse/2024-11-09_local_1/xander.json"
     }
    ]
   },
   {
-   "path": "data/polyverse/2025-04-05",
+   "path": "data/polyverse/2025-04-05_local_1",
    "date": "2025-04-05",
-   "draft_id": "2025-04-05",
-   "draft_log": "data/polyverse/2025-04-05/draft-log.json",
+   "draft_id": "2025-04-05_local_1",
+   "draft_log": "data/polyverse/2025-04-05_local_1/draft-log.json",
    "decks": [
     {
-     "path": "data/polyverse/2025-04-05/casey.json"
+     "path": "data/polyverse/2025-04-05_local_1/casey.json"
     },
     {
-     "path": "data/polyverse/2025-04-05/dom.json"
+     "path": "data/polyverse/2025-04-05_local_1/dom.json"
     }
    ]
   },
   {
-   "path": "data/polyverse/2025-04-05_2",
+   "path": "data/polyverse/2025-04-05_local_2",
    "date": "2025-04-05",
-   "draft_id": "2025-04-05_2",
-   "draft_log": "data/polyverse/2025-04-05_2/draft-log.json",
+   "draft_id": "2025-04-05_local_2",
+   "draft_log": "data/polyverse/2025-04-05_local_2/draft-log.json",
    "decks": [
     {
-     "path": "data/polyverse/2025-04-05_2/casey.json"
+     "path": "data/polyverse/2025-04-05_local_2/casey.json"
     },
     {
-     "path": "data/polyverse/2025-04-05_2/dom.json"
+     "path": "data/polyverse/2025-04-05_local_2/dom.json"
     }
    ]
   },
   {
-   "path": "data/polyverse/2025-05-26",
+   "path": "data/polyverse/2025-05-26_local_1",
    "date": "2025-05-26",
-   "draft_id": "2025-05-26",
+   "draft_id": "2025-05-26_local_1",
    "draft_log": "",
    "decks": [
     {
-     "path": "data/polyverse/2025-05-26/cara.json"
+     "path": "data/polyverse/2025-05-26_local_1/cara.json"
     },
     {
-     "path": "data/polyverse/2025-05-26/casey.json"
+     "path": "data/polyverse/2025-05-26_local_1/casey.json"
     },
     {
-     "path": "data/polyverse/2025-05-26/dom.json"
+     "path": "data/polyverse/2025-05-26_local_1/dom.json"
     },
     {
-     "path": "data/polyverse/2025-05-26/greg.json"
+     "path": "data/polyverse/2025-05-26_local_1/greg.json"
     },
     {
-     "path": "data/polyverse/2025-05-26/james.json"
+     "path": "data/polyverse/2025-05-26_local_1/james.json"
     },
     {
-     "path": "data/polyverse/2025-05-26/jen.json"
+     "path": "data/polyverse/2025-05-26_local_1/jen.json"
     },
     {
-     "path": "data/polyverse/2025-05-26/xander.json"
+     "path": "data/polyverse/2025-05-26_local_1/xander.json"
     }
    ]
   },
   {
-   "path": "data/polyverse/2025-06-12",
+   "path": "data/polyverse/2025-06-12_local_1",
    "date": "2025-06-12",
-   "draft_id": "2025-06-12",
+   "draft_id": "2025-06-12_local_1",
    "draft_log": "",
    "decks": [
     {
-     "path": "data/polyverse/2025-06-12/casey.json"
+     "path": "data/polyverse/2025-06-12_local_1/casey.json"
     },
     {
-     "path": "data/polyverse/2025-06-12/colton.json"
+     "path": "data/polyverse/2025-06-12_local_1/colton.json"
     },
     {
-     "path": "data/polyverse/2025-06-12/joe.json"
+     "path": "data/polyverse/2025-06-12_local_1/joe.json"
     },
     {
-     "path": "data/polyverse/2025-06-12/joe2.json"
+     "path": "data/polyverse/2025-06-12_local_1/joe2.json"
     },
     {
-     "path": "data/polyverse/2025-06-12/kenny.json"
+     "path": "data/polyverse/2025-06-12_local_1/kenny.json"
     },
     {
-     "path": "data/polyverse/2025-06-12/kevin.json"
+     "path": "data/polyverse/2025-06-12_local_1/kevin.json"
     },
     {
-     "path": "data/polyverse/2025-06-12/sebastian.json"
+     "path": "data/polyverse/2025-06-12_local_1/sebastian.json"
     },
     {
-     "path": "data/polyverse/2025-06-12/will.json"
+     "path": "data/polyverse/2025-06-12_local_1/will.json"
     }
    ]
   },
   {
-   "path": "data/polyverse/2025-06-29",
+   "path": "data/polyverse/2025-06-29_local_1",
    "date": "2025-06-29",
-   "draft_id": "2025-06-29",
+   "draft_id": "2025-06-29_local_1",
    "draft_log": "",
    "decks": [
     {
-     "path": "data/polyverse/2025-06-29/bryan.json"
+     "path": "data/polyverse/2025-06-29_local_1/bryan.json"
     },
     {
-     "path": "data/polyverse/2025-06-29/casey.json"
+     "path": "data/polyverse/2025-06-29_local_1/casey.json"
     },
     {
-     "path": "data/polyverse/2025-06-29/joe2.json"
+     "path": "data/polyverse/2025-06-29_local_1/joe2.json"
     },
     {
-     "path": "data/polyverse/2025-06-29/kevin.json"
+     "path": "data/polyverse/2025-06-29_local_1/kevin.json"
     },
     {
-     "path": "data/polyverse/2025-06-29/mehdi.json"
+     "path": "data/polyverse/2025-06-29_local_1/mehdi.json"
     },
     {
-     "path": "data/polyverse/2025-06-29/owen.json"
+     "path": "data/polyverse/2025-06-29_local_1/owen.json"
     },
     {
-     "path": "data/polyverse/2025-06-29/tanner.json"
+     "path": "data/polyverse/2025-06-29_local_1/tanner.json"
     },
     {
-     "path": "data/polyverse/2025-06-29/zephyr.json"
+     "path": "data/polyverse/2025-06-29_local_1/zephyr.json"
     }
    ]
   },
   {
-   "path": "data/polyverse/2025-08-17",
+   "path": "data/polyverse/2025-08-17_local_1",
    "date": "2025-08-17",
-   "draft_id": "2025-08-17",
+   "draft_id": "2025-08-17_local_1",
    "draft_log": "",
    "decks": [
     {
-     "path": "data/polyverse/2025-08-17/ben.json"
+     "path": "data/polyverse/2025-08-17_local_1/ben.json"
     },
     {
-     "path": "data/polyverse/2025-08-17/brianfl.json"
+     "path": "data/polyverse/2025-08-17_local_1/brianfl.json"
     },
     {
-     "path": "data/polyverse/2025-08-17/casey.json"
+     "path": "data/polyverse/2025-08-17_local_1/casey.json"
     },
     {
-     "path": "data/polyverse/2025-08-17/jamesdeyja.json"
+     "path": "data/polyverse/2025-08-17_local_1/jamesdeyja.json"
     },
     {
-     "path": "data/polyverse/2025-08-17/kevin.json"
+     "path": "data/polyverse/2025-08-17_local_1/kevin.json"
     },
     {
-     "path": "data/polyverse/2025-08-17/maxi.json"
+     "path": "data/polyverse/2025-08-17_local_1/maxi.json"
     },
     {
-     "path": "data/polyverse/2025-08-17/michael.json"
+     "path": "data/polyverse/2025-08-17_local_1/michael.json"
     },
     {
-     "path": "data/polyverse/2025-08-17/wilson.json"
+     "path": "data/polyverse/2025-08-17_local_1/wilson.json"
     }
    ]
   },
   {
-   "path": "data/polyverse/2025-08-31_d1",
+   "path": "data/polyverse/2025-08-31_local_1",
    "date": "2025-08-31",
-   "draft_id": "2025-08-31_d1",
-   "draft_log": "data/polyverse/2025-08-31_d1/draft-log.json",
+   "draft_id": "2025-08-31_local_1",
+   "draft_log": "data/polyverse/2025-08-31_local_1/draft-log.json",
    "decks": [
     {
-     "path": "data/polyverse/2025-08-31_d1/casey.json"
+     "path": "data/polyverse/2025-08-31_local_1/casey.json"
     },
     {
-     "path": "data/polyverse/2025-08-31_d1/dom.json"
+     "path": "data/polyverse/2025-08-31_local_1/dom.json"
     }
    ]
   },
   {
-   "path": "data/polyverse/2025-08-31_d2",
+   "path": "data/polyverse/2025-08-31_local_2",
    "date": "2025-08-31",
-   "draft_id": "2025-08-31_d2",
-   "draft_log": "data/polyverse/2025-08-31_d2/draft-log.json",
+   "draft_id": "2025-08-31_local_2",
+   "draft_log": "data/polyverse/2025-08-31_local_2/draft-log.json",
    "decks": [
     {
-     "path": "data/polyverse/2025-08-31_d2/casey.json"
+     "path": "data/polyverse/2025-08-31_local_2/casey.json"
     },
     {
-     "path": "data/polyverse/2025-08-31_d2/dom.json"
+     "path": "data/polyverse/2025-08-31_local_2/dom.json"
     }
    ]
   },
   {
-   "path": "data/polyverse/2025-08-31_d3",
+   "path": "data/polyverse/2025-08-31_local_3",
    "date": "2025-08-31",
-   "draft_id": "2025-08-31_d3",
-   "draft_log": "data/polyverse/2025-08-31_d3/draft-log.json",
+   "draft_id": "2025-08-31_local_3",
+   "draft_log": "data/polyverse/2025-08-31_local_3/draft-log.json",
    "decks": [
     {
-     "path": "data/polyverse/2025-08-31_d3/casey.json"
+     "path": "data/polyverse/2025-08-31_local_3/casey.json"
     },
     {
-     "path": "data/polyverse/2025-08-31_d3/dom.json"
+     "path": "data/polyverse/2025-08-31_local_3/dom.json"
     }
    ]
   },
   {
-   "path": "data/polyverse/2025-09-13",
+   "path": "data/polyverse/2025-09-13_local_1",
    "date": "2025-09-13",
-   "draft_id": "2025-09-13",
+   "draft_id": "2025-09-13_local_1",
    "draft_log": "",
    "decks": [
     {
-     "path": "data/polyverse/2025-09-13/casey.json"
+     "path": "data/polyverse/2025-09-13_local_1/casey.json"
     },
     {
-     "path": "data/polyverse/2025-09-13/colton.json"
+     "path": "data/polyverse/2025-09-13_local_1/colton.json"
     },
     {
-     "path": "data/polyverse/2025-09-13/eric.json"
+     "path": "data/polyverse/2025-09-13_local_1/eric.json"
     },
     {
-     "path": "data/polyverse/2025-09-13/isaiah.json"
+     "path": "data/polyverse/2025-09-13_local_1/isaiah.json"
     },
     {
-     "path": "data/polyverse/2025-09-13/joe.json"
+     "path": "data/polyverse/2025-09-13_local_1/joe.json"
     },
     {
-     "path": "data/polyverse/2025-09-13/leo.json"
+     "path": "data/polyverse/2025-09-13_local_1/leo.json"
     },
     {
-     "path": "data/polyverse/2025-09-13/zephyr.json"
+     "path": "data/polyverse/2025-09-13_local_1/zephyr.json"
     }
    ]
   },
   {
-   "path": "data/polyverse/2025-10-04_ccc1",
+   "path": "data/polyverse/2025-10-04_ccc2025_1",
    "date": "2025-10-04",
-   "draft_id": "2025-10-04_ccc1",
+   "draft_id": "2025-10-04_ccc2025_1",
    "draft_log": "",
    "decks": [
     {
-     "path": "data/polyverse/2025-10-04_ccc1/player-3a69-07d0.json"
+     "path": "data/polyverse/2025-10-04_ccc2025_1/player-3a69-07d0.json"
     },
     {
-     "path": "data/polyverse/2025-10-04_ccc1/player-3a69-119c.json"
+     "path": "data/polyverse/2025-10-04_ccc2025_1/player-3a69-119c.json"
     },
     {
-     "path": "data/polyverse/2025-10-04_ccc1/player-3a69-12a3.json"
+     "path": "data/polyverse/2025-10-04_ccc2025_1/player-3a69-12a3.json"
     },
     {
-     "path": "data/polyverse/2025-10-04_ccc1/player-3a69-4202.json"
+     "path": "data/polyverse/2025-10-04_ccc2025_1/player-3a69-4202.json"
     },
     {
-     "path": "data/polyverse/2025-10-04_ccc1/player-3a69-5792.json"
+     "path": "data/polyverse/2025-10-04_ccc2025_1/player-3a69-5792.json"
     },
     {
-     "path": "data/polyverse/2025-10-04_ccc1/player-3a69-6d24.json"
+     "path": "data/polyverse/2025-10-04_ccc2025_1/player-3a69-6d24.json"
     },
     {
-     "path": "data/polyverse/2025-10-04_ccc1/player-3a69-b258.json"
+     "path": "data/polyverse/2025-10-04_ccc2025_1/player-3a69-b258.json"
     },
     {
-     "path": "data/polyverse/2025-10-04_ccc1/player-3a69-ea32.json"
+     "path": "data/polyverse/2025-10-04_ccc2025_1/player-3a69-ea32.json"
     }
    ]
   },
   {
-   "path": "data/polyverse/2025-10-04_ccc2",
+   "path": "data/polyverse/2025-10-04_ccc2025_2",
    "date": "2025-10-04",
-   "draft_id": "2025-10-04_ccc2",
+   "draft_id": "2025-10-04_ccc2025_2",
    "draft_log": "",
    "decks": [
     {
-     "path": "data/polyverse/2025-10-04_ccc2/player-3f67-119c.json"
+     "path": "data/polyverse/2025-10-04_ccc2025_2/player-3f67-119c.json"
     },
     {
-     "path": "data/polyverse/2025-10-04_ccc2/player-3f67-2651.json"
+     "path": "data/polyverse/2025-10-04_ccc2025_2/player-3f67-2651.json"
     },
     {
-     "path": "data/polyverse/2025-10-04_ccc2/player-3f67-37bf.json"
+     "path": "data/polyverse/2025-10-04_ccc2025_2/player-3f67-37bf.json"
     },
     {
-     "path": "data/polyverse/2025-10-04_ccc2/player-3f67-386a.json"
+     "path": "data/polyverse/2025-10-04_ccc2025_2/player-3f67-386a.json"
     },
     {
-     "path": "data/polyverse/2025-10-04_ccc2/player-3f67-39fd.json"
+     "path": "data/polyverse/2025-10-04_ccc2025_2/player-3f67-39fd.json"
     },
     {
-     "path": "data/polyverse/2025-10-04_ccc2/player-3f67-8b63.json"
+     "path": "data/polyverse/2025-10-04_ccc2025_2/player-3f67-8b63.json"
     },
     {
-     "path": "data/polyverse/2025-10-04_ccc2/player-3f67-a0b7.json"
+     "path": "data/polyverse/2025-10-04_ccc2025_2/player-3f67-a0b7.json"
     },
     {
-     "path": "data/polyverse/2025-10-04_ccc2/player-3f67-bb44.json"
+     "path": "data/polyverse/2025-10-04_ccc2025_2/player-3f67-bb44.json"
     }
    ]
   },
   {
-   "path": "data/polyverse/2025-10-05_ccc3",
+   "path": "data/polyverse/2025-10-05_ccc2025_3",
    "date": "2025-10-05",
-   "draft_id": "2025-10-05_ccc3",
+   "draft_id": "2025-10-05_ccc2025_3",
    "draft_log": "",
    "decks": [
     {
-     "path": "data/polyverse/2025-10-05_ccc3/player-9f63-3f2e.json"
+     "path": "data/polyverse/2025-10-05_ccc2025_3/player-9f63-3f2e.json"
     },
     {
-     "path": "data/polyverse/2025-10-05_ccc3/player-9f63-4cef.json"
+     "path": "data/polyverse/2025-10-05_ccc2025_3/player-9f63-4cef.json"
     },
     {
-     "path": "data/polyverse/2025-10-05_ccc3/player-9f63-6bdf.json"
+     "path": "data/polyverse/2025-10-05_ccc2025_3/player-9f63-6bdf.json"
     },
     {
-     "path": "data/polyverse/2025-10-05_ccc3/player-9f63-9732.json"
+     "path": "data/polyverse/2025-10-05_ccc2025_3/player-9f63-9732.json"
     },
     {
-     "path": "data/polyverse/2025-10-05_ccc3/player-9f63-c38c.json"
+     "path": "data/polyverse/2025-10-05_ccc2025_3/player-9f63-c38c.json"
     },
     {
-     "path": "data/polyverse/2025-10-05_ccc3/player-9f63-c3c0.json"
+     "path": "data/polyverse/2025-10-05_ccc2025_3/player-9f63-c3c0.json"
     },
     {
-     "path": "data/polyverse/2025-10-05_ccc3/player-9f63-e96e.json"
+     "path": "data/polyverse/2025-10-05_ccc2025_3/player-9f63-e96e.json"
     },
     {
-     "path": "data/polyverse/2025-10-05_ccc3/player-9f63-f78b.json"
+     "path": "data/polyverse/2025-10-05_ccc2025_3/player-9f63-f78b.json"
     }
    ]
   },
   {
-   "path": "data/polyverse/2025-10-25",
+   "path": "data/polyverse/2025-10-25_local_1",
    "date": "2025-10-25",
-   "draft_id": "2025-10-25",
+   "draft_id": "2025-10-25_local_1",
    "draft_log": "",
    "decks": [
     {
-     "path": "data/polyverse/2025-10-25/casey.json"
+     "path": "data/polyverse/2025-10-25_local_1/casey.json"
     },
     {
-     "path": "data/polyverse/2025-10-25/colton.json"
+     "path": "data/polyverse/2025-10-25_local_1/colton.json"
     },
     {
-     "path": "data/polyverse/2025-10-25/isaiah.json"
+     "path": "data/polyverse/2025-10-25_local_1/isaiah.json"
     },
     {
-     "path": "data/polyverse/2025-10-25/jackson.json"
+     "path": "data/polyverse/2025-10-25_local_1/jackson.json"
     },
     {
-     "path": "data/polyverse/2025-10-25/mehdi.json"
+     "path": "data/polyverse/2025-10-25_local_1/mehdi.json"
     },
     {
-     "path": "data/polyverse/2025-10-25/perry.json"
+     "path": "data/polyverse/2025-10-25_local_1/perry.json"
     },
     {
-     "path": "data/polyverse/2025-10-25/robert.json"
+     "path": "data/polyverse/2025-10-25_local_1/robert.json"
     },
     {
-     "path": "data/polyverse/2025-10-25/taylor.json"
+     "path": "data/polyverse/2025-10-25_local_1/taylor.json"
     }
    ]
   },
   {
-   "path": "data/polyverse/2026-01-03",
+   "path": "data/polyverse/2026-01-03_local_1",
    "date": "2026-01-03",
-   "draft_id": "2026-01-03",
+   "draft_id": "2026-01-03_local_1",
    "draft_log": "",
    "decks": [
     {
-     "path": "data/polyverse/2026-01-03/casey.json"
+     "path": "data/polyverse/2026-01-03_local_1/casey.json"
     },
     {
-     "path": "data/polyverse/2026-01-03/colton.json"
+     "path": "data/polyverse/2026-01-03_local_1/colton.json"
     },
     {
-     "path": "data/polyverse/2026-01-03/darius.json"
+     "path": "data/polyverse/2026-01-03_local_1/darius.json"
     },
     {
-     "path": "data/polyverse/2026-01-03/isaiah.json"
+     "path": "data/polyverse/2026-01-03_local_1/isaiah.json"
     },
     {
-     "path": "data/polyverse/2026-01-03/jackson.json"
+     "path": "data/polyverse/2026-01-03_local_1/jackson.json"
     },
     {
-     "path": "data/polyverse/2026-01-03/kaiyo.json"
+     "path": "data/polyverse/2026-01-03_local_1/kaiyo.json"
     },
     {
-     "path": "data/polyverse/2026-01-03/patrick.json"
+     "path": "data/polyverse/2026-01-03_local_1/patrick.json"
     },
     {
-     "path": "data/polyverse/2026-01-03/wanqi.json"
+     "path": "data/polyverse/2026-01-03_local_1/wanqi.json"
     }
    ]
   },
   {
-   "path": "data/polyverse/2026-01-17",
+   "path": "data/polyverse/2026-01-17_p1p12026_1",
    "date": "2026-01-17",
-   "draft_id": "2026-01-17",
+   "draft_id": "2026-01-17_p1p12026_1",
    "draft_log": "",
    "decks": [
     {
-     "path": "data/polyverse/2026-01-17/player-1.json"
+     "path": "data/polyverse/2026-01-17_p1p12026_1/2026-01-17_p1p12026_1-p1.json"
     },
     {
-     "path": "data/polyverse/2026-01-17/player-2.json"
+     "path": "data/polyverse/2026-01-17_p1p12026_1/2026-01-17_p1p12026_1-p2.json"
     },
     {
-     "path": "data/polyverse/2026-01-17/player-3.json"
+     "path": "data/polyverse/2026-01-17_p1p12026_1/2026-01-17_p1p12026_1-p3.json"
     },
     {
-     "path": "data/polyverse/2026-01-17/player-4.json"
+     "path": "data/polyverse/2026-01-17_p1p12026_1/2026-01-17_p1p12026_1-p4.json"
     },
     {
-     "path": "data/polyverse/2026-01-17/player-5.json"
+     "path": "data/polyverse/2026-01-17_p1p12026_1/2026-01-17_p1p12026_1-p5.json"
     },
     {
-     "path": "data/polyverse/2026-01-17/player-6.json"
+     "path": "data/polyverse/2026-01-17_p1p12026_1/2026-01-17_p1p12026_1-p6.json"
     },
     {
-     "path": "data/polyverse/2026-01-17/player-7.json"
+     "path": "data/polyverse/2026-01-17_p1p12026_1/2026-01-17_p1p12026_1-p7.json"
     }
    ]
   },
   {
-   "path": "data/polyverse/2026-01-18_d1",
+   "path": "data/polyverse/2026-01-18_p1p12026_1",
    "date": "2026-01-18",
-   "draft_id": "2026-01-18_d1",
+   "draft_id": "2026-01-18_p1p12026_1",
    "draft_log": "",
    "decks": [
     {
-     "path": "data/polyverse/2026-01-18_d1/player-1.json"
+     "path": "data/polyverse/2026-01-18_p1p12026_1/2026-01-18_p1p12026_1-p1.json"
     },
     {
-     "path": "data/polyverse/2026-01-18_d1/player-2.json"
+     "path": "data/polyverse/2026-01-18_p1p12026_1/2026-01-18_p1p12026_1-p2.json"
     },
     {
-     "path": "data/polyverse/2026-01-18_d1/player-3.json"
+     "path": "data/polyverse/2026-01-18_p1p12026_1/2026-01-18_p1p12026_1-p3.json"
     },
     {
-     "path": "data/polyverse/2026-01-18_d1/player-4.json"
+     "path": "data/polyverse/2026-01-18_p1p12026_1/2026-01-18_p1p12026_1-p4.json"
     },
     {
-     "path": "data/polyverse/2026-01-18_d1/player-5.json"
+     "path": "data/polyverse/2026-01-18_p1p12026_1/2026-01-18_p1p12026_1-p5.json"
     },
     {
-     "path": "data/polyverse/2026-01-18_d1/player-6.json"
+     "path": "data/polyverse/2026-01-18_p1p12026_1/2026-01-18_p1p12026_1-p6.json"
     },
     {
-     "path": "data/polyverse/2026-01-18_d1/player-7.json"
+     "path": "data/polyverse/2026-01-18_p1p12026_1/2026-01-18_p1p12026_1-p7.json"
     },
     {
-     "path": "data/polyverse/2026-01-18_d1/player-8.json"
+     "path": "data/polyverse/2026-01-18_p1p12026_1/2026-01-18_p1p12026_1-p8.json"
     }
    ]
   },
   {
-   "path": "data/polyverse/2026-01-18_d2",
+   "path": "data/polyverse/2026-01-18_p1p12026_2",
    "date": "2026-01-18",
-   "draft_id": "2026-01-18_d2",
+   "draft_id": "2026-01-18_p1p12026_2",
    "draft_log": "",
    "decks": [
     {
-     "path": "data/polyverse/2026-01-18_d2/player-1.json"
+     "path": "data/polyverse/2026-01-18_p1p12026_2/2026-01-18_p1p12026_2-p1.json"
     },
     {
-     "path": "data/polyverse/2026-01-18_d2/player-2.json"
+     "path": "data/polyverse/2026-01-18_p1p12026_2/2026-01-18_p1p12026_2-p2.json"
     },
     {
-     "path": "data/polyverse/2026-01-18_d2/player-3.json"
+     "path": "data/polyverse/2026-01-18_p1p12026_2/2026-01-18_p1p12026_2-p3.json"
     },
     {
-     "path": "data/polyverse/2026-01-18_d2/player-4.json"
+     "path": "data/polyverse/2026-01-18_p1p12026_2/2026-01-18_p1p12026_2-p4.json"
     },
     {
-     "path": "data/polyverse/2026-01-18_d2/player-5.json"
+     "path": "data/polyverse/2026-01-18_p1p12026_2/2026-01-18_p1p12026_2-p5.json"
     },
     {
-     "path": "data/polyverse/2026-01-18_d2/player-6.json"
+     "path": "data/polyverse/2026-01-18_p1p12026_2/2026-01-18_p1p12026_2-p6.json"
     }
    ]
   }

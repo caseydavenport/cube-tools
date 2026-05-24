@@ -1,0 +1,135 @@
+{
+ "metadata": {
+  "path": "data/polyverse/2024-05-14_local_1/dom.json",
+  "draft_id": "2024-05-14_local_1",
+  "combined_file": "data/polyverse/2024-05-14_local_1/dom.txt"
+ },
+ "macro_archetype": "aggro",
+ "labels": [],
+ "player": "dom",
+ "date": "2024-05-14",
+ "matches": [
+  {
+   "opponent": "cara",
+   "round": 2,
+   "wins": 2,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "cara",
+     "winner": "dom"
+    },
+    {
+     "opponent": "cara",
+     "winner": "dom"
+    },
+    {
+     "opponent": "cara",
+     "winner": "cara"
+    }
+   ],
+   "winner": "dom"
+  },
+  {
+   "opponent": "jen",
+   "round": 1,
+   "wins": 1,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "jen",
+     "winner": "dom"
+    },
+    {
+     "opponent": "jen",
+     "winner": "jen"
+    },
+    {
+     "opponent": "jen",
+     "winner": "jen"
+    }
+   ],
+   "winner": "jen"
+  },
+  {
+   "opponent": "xander",
+   "round": 4,
+   "wins": 2,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "xander",
+     "winner": "dom"
+    },
+    {
+     "opponent": "xander",
+     "winner": "dom"
+    }
+   ],
+   "winner": "dom"
+  }
+ ],
+ "mainboard": [
+  "Rabbit Battery",
+  "Dark Confidant",
+  "Death's Shadow",
+  "Goblin Arsonist",
+  "Magma Jet",
+  "Seal of Fire",
+  "Ogre-Head Helm",
+  "Mizzium Tank",
+  "Mesmeric Fiend",
+  "Bloodstained Mire",
+  "Anje's Ravager",
+  "Dreadhorde Butcher",
+  "Tarfire",
+  "Zulaport Cutthroat",
+  "Lightning Bolt",
+  "Phoenix Chick",
+  "Twinshot Sniper",
+  "Throne of the God-Pharaoh",
+  "Read the Bones",
+  "Mishra's Bauble",
+  "Monastery Swiftspear",
+  "Gitaxian Probe",
+  "Fire // Ice",
+  "Mogg War Marshal",
+  "Bloodstained Mire",
+  "Bitter Triumph",
+  "Scalding Tarn",
+  "Wooded Foothills",
+  "Sparring Construct",
+  "Swamp",
+  "Swamp",
+  "Swamp",
+  "Swamp",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Mountain"
+ ],
+ "sideboard": [
+  "Overgrown Tomb",
+  "Steam Vents",
+  "Tectonic Reformation",
+  "Lion Sash",
+  "Mosquito Guard",
+  "Hedge Maze",
+  "Domri, Anarch of Bolas",
+  "Reprieve",
+  "Otawara, Soaring City",
+  "Scattered Groves",
+  "Containment Construct",
+  "Harm's Way",
+  "Chandra, Hope's Beacon",
+  "Canyon Slough",
+  "Windswept Heath",
+  "Battlefield Forge"
+ ]
+}

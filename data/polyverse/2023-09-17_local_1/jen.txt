@@ -1,0 +1,52 @@
+1 Clifftop Retreat
+1 Sunpetal Grove
+1 Windswept Heath
+1 Wooded Foothills
+1 Lion Sash
+1 Kor Duelist
+1 Soul Warden
+1 Goblin Arsonist
+1 Grim Initiate
+1 Rigging Runner
+1 Chainweb Aracnir
+1 Shinewend
+1 Lizard Blades
+1 Ogre-Head Helm
+1 Cankerbloom
+1 Pollenbright Druid
+1 Woodland Champion
+1 Kellan, the Fae-Blooded
+1 Krenko, Tin Street Kingpin
+1 Gilder Bairn
+1 Meadowboon
+1 Cloudgoat Ranger
+1 Skarrgan Hellkite
+1 Rampaging Baloths
+1 Anointed Procession
+1 Empty the Warrens
+1 Roaring Earth
+1 Incinerate
+1 Blade of the Bloodchief
+4 Plains
+4 Mountain
+4 Forest
+
+1 Godless Shrine
+1 Kor Skyfisher
+1 Dreadhorde Arcanist
+1 Young Pyromancer
+1 Devoted Crop-Mate
+1 Devouring Hellion
+1 Runaway Trash-Bot
+1 Knight of the Reliquary
+1 Towashi Guide-Bot
+1 Domri, Anarch of Bolas
+1 Quietus Spike
+1 Goblin Bombardment
+1 Comet Storm
+1 Prophetic Prism
+1 Kor Sanctifiers
+1 Domri's Ambush
+1 Wilderness Reclamation
+1 Throne of the God-Pharaoh
+1 Magma Phoenix

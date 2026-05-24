@@ -1,0 +1,65 @@
+{
+ "metadata": {
+  "path": "data/polyverse/2023-05-31_local_1/matt.json",
+  "draft_id": "2023-05-31_local_1",
+  "combined_file": "data/polyverse/2023-05-31_local_1/matt.csv"
+ },
+ "macro_archetype": "midrange",
+ "labels": [
+  "vampire",
+  "goodstuff"
+ ],
+ "player": "matt",
+ "date": "2023-05-31",
+ "matches": [
+  {
+   "opponent": "",
+   "wins": 1,
+   "losses": 4,
+   "draws": 0
+  }
+ ],
+ "mainboard": [
+  "Dreadmalkin",
+  "Swamp",
+  "Swamp",
+  "Swamp",
+  "Swamp",
+  "Swamp",
+  "Swamp",
+  "Swamp",
+  "Swamp",
+  "Swamp",
+  "Vampire of the Dire Moon",
+  "Fateful End",
+  "Liliana, Death's Majesty",
+  "Kalastria Highborn",
+  "Bloodghast",
+  "Warcry Phoenix",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Hellkite Charger",
+  "Grim Initiate",
+  "Manabarbs",
+  "Aphemia, the Cacophony",
+  "Quietus Spike",
+  "Mark of Mutiny",
+  "Chandra, Hope's Beacon",
+  "Magma Phoenix",
+  "Coat of Arms",
+  "Archfiend of Ifnir",
+  "Malakir Bloodwitch",
+  "Comet Storm",
+  "Panharmonicon",
+  "Sanctum Seeker",
+  "Cunning Sparkmage",
+  "Jinxed Idol"
+ ],
+ "sideboard": []
+}

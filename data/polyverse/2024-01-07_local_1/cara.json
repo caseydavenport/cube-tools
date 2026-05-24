@@ -1,0 +1,144 @@
+{
+ "metadata": {
+  "path": "data/polyverse/2024-01-07_local_1/cara.json",
+  "draft_id": "2024-01-07_local_1",
+  "combined_file": "data/polyverse/2024-01-07_local_1/cara.txt"
+ },
+ "macro_archetype": "midrange",
+ "labels": [
+  "token",
+  "vampire",
+  "ramp"
+ ],
+ "player": "cara",
+ "date": "2024-01-07",
+ "matches": [
+  {
+   "opponent": "casey",
+   "round": 3,
+   "wins": 2,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "casey",
+     "winner": "cara"
+    },
+    {
+     "opponent": "casey",
+     "winner": "cara"
+    },
+    {
+     "opponent": "casey",
+     "winner": "casey"
+    }
+   ],
+   "winner": "cara"
+  },
+  {
+   "opponent": "dom",
+   "round": 4,
+   "wins": 2,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "dom",
+     "winner": "cara"
+    },
+    {
+     "opponent": "dom",
+     "winner": "cara"
+    },
+    {
+     "opponent": "dom",
+     "winner": "dom"
+    }
+   ],
+   "winner": "cara"
+  },
+  {
+   "opponent": "james",
+   "round": 1,
+   "wins": 2,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "james",
+     "winner": "cara"
+    },
+    {
+     "opponent": "james",
+     "winner": "cara"
+    },
+    {
+     "opponent": "james",
+     "winner": "james"
+    }
+   ],
+   "winner": "cara"
+  }
+ ],
+ "mainboard": [
+  "Knight of the Ebon Legion",
+  "Woe Strider",
+  "Tangled Colony",
+  "Vampire Hexmage",
+  "Day of Judgment",
+  "Angel of Salvation",
+  "Intangible Virtue",
+  "Nurturing Peatland",
+  "Welcoming Vampire",
+  "Dark Ritual",
+  "Mavren Fein, Dusk Apostle",
+  "Touch the Spirit Realm",
+  "Fungal Infection",
+  "Restless Fortress",
+  "Paladin of the Bloodstained",
+  "Raise the Alarm",
+  "Pitiless Pontiff",
+  "Cruel Celebrant",
+  "Sanctum Seeker",
+  "Overgrown Tomb",
+  "Golgari Rot Farm",
+  "Ravenous Squirrel",
+  "Sprout Swarm",
+  "The Binding of the Titans",
+  "Vines of Vastwood",
+  "Llanowar Elves",
+  "Lotus Cobra",
+  "Acidic Slime",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Swamp",
+  "Swamp",
+  "Swamp",
+  "Swamp",
+  "Forest",
+  "Forest",
+  "Forest",
+  "Forest"
+ ],
+ "sideboard": [
+  "Cheeky House-Mouse // Squeak By",
+  "Mosquito Guard",
+  "Shinewend",
+  "Dina, Soul Steeper",
+  "Gilder Bairn",
+  "Lodestone Myr",
+  "Fall of the Thran",
+  "Sanguine Bond",
+  "Tamiyo, Compleated Sage",
+  "Black Sun's Zenith",
+  "Knight of the Reliquary",
+  "Ajani Goldmane",
+  "Inexorable Blob",
+  "Cankerbloom",
+  "Harm's Way",
+  "Portable Hole",
+  "Grateful Apparition"
+ ]
+}

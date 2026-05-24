@@ -1,0 +1,55 @@
+1 Dauntless Bodyguard
+1 Twinshot Sniper
+1 Hellrider
+1 March of Otherworldly Light
+1 Warleader's Call
+1 Six
+1 Renegade Rallier
+1 Kellan, the Fae-Blooded
+1 Monastery Mentor
+1 Seasoned Pyromancer
+1 Lightning Helix
+1 Unexpectedly Absent
+1 Abrade
+1 Questing Druid
+1 Thalia, Guardian of Thraben
+1 Emberheart Challenger
+1 Cathar Commando
+1 Audacity
+1 Bonesplitter
+1 Seal of Fire
+1 Ignoble Hierarch
+1 Noble Hierarch
+1 Gingerbrute
+1 Porcelain Legionnaire
+1 Stomping Ground
+1 Sacred Foundry
+1 Eiganjo, Seat of the Empire
+1 Sunbaked Canyon
+1 Windswept Heath
+1 Wooded Foothills
+1 Arid Mesa
+1 Plains
+1 Plains
+1 Mountain
+1 Mountain
+1 Forest
+1 Forest
+1 Forest
+1 Forest
+1 Forest
+
+1 Chainweb Aracnir
+1 Jolrael, Mwonvuli Recluse
+1 Overgrown Tomb
+1 Toxic Deluge
+1 Deep-Cavern Bat
+1 Spell Queller
+1 Rabbit Battery
+1 Heartfire Hero
+1 Llanowar Elves
+1 Seasoned Hallowblade
+1 Magmatic Sinkhole
+1 Elspeth's Smite
+1 Glass Casket
+1 Sylvan Library

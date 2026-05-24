@@ -1,0 +1,49 @@
+1 Monastery Swiftspear
+1 Chandra, Hope's Beacon
+1 Questing Druid
+1 Rootbound Crag
+1 Dreadhorde Butcher
+1 Underground Mortuary
+1 Overgrown Tomb
+1 Wilderness Reclamation
+1 Pollenbright Druid
+1 Greta, Sweettooth Scourge
+1 Black Sun's Zenith
+1 Vivien, Champion of the Wilds
+1 The Huntsman's Redemption
+1 Siege-Gang Commander
+1 Parallel Lives
+1 Saproling Migration
+1 Llanowar Elves
+1 Inexorable Blob
+1 Chromatic Star
+1 Ignoble Hierarch
+1 Krenko, Tin Street Kingpin
+1 Empty the Warrens
+1 Bloodsoaked Champion
+1 Skarrgan Hellkite
+1 Chatter of the Squirrel
+1 Sheltered Thicket
+1 Wooded Foothills
+1 Pharika's Spawn
+1 Manamorphose
+2 Swamp
+3 Mountain
+6 Forest
+
+1 Brainstorm
+1 Careful Study
+1 Tamiyo, Compleated Sage
+1 Sprout Swarm
+1 Deprive
+1 Delay
+1 Sulfur Falls
+1 Shelldock Isle
+1 Restless Vinestalk
+1 Shadowstorm Vizier
+1 Pyroclasm
+1 Stitch Together
+1 Jolrael, Mwonvuli Recluse
+1 Demand Answers
+1 Orcish Lumberjack
+1 Ravenous Squirrel

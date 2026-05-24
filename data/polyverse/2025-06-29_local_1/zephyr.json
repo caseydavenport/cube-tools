@@ -1,0 +1,135 @@
+{
+ "metadata": {
+  "path": "data/polyverse/2025-06-29_local_1/zephyr.json",
+  "draft_id": "2025-06-29_local_1",
+  "combined_file": "data/polyverse/2025-06-29_local_1/zephyr.csv"
+ },
+ "macro_archetype": "tempo",
+ "labels": [
+  "spells"
+ ],
+ "player": "zephyr",
+ "date": "2025-06-29",
+ "matches": [
+  {
+   "opponent": "joe2",
+   "round": 2,
+   "wins": 2,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "joe2",
+     "winner": "zephyr"
+    },
+    {
+     "opponent": "joe2",
+     "winner": "zephyr"
+    },
+    {
+     "opponent": "joe2",
+     "winner": "joe2"
+    }
+   ],
+   "winner": "zephyr"
+  },
+  {
+   "opponent": "kevin",
+   "round": 3,
+   "wins": 2,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "kevin",
+     "winner": "zephyr"
+    },
+    {
+     "opponent": "kevin",
+     "winner": "zephyr"
+    }
+   ],
+   "winner": "zephyr"
+  },
+  {
+   "opponent": "tanner",
+   "round": 1,
+   "wins": 2,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "tanner",
+     "winner": "zephyr"
+    },
+    {
+     "opponent": "tanner",
+     "winner": "zephyr"
+    },
+    {
+     "opponent": "tanner",
+     "winner": "tanner"
+    }
+   ],
+   "winner": "zephyr"
+  }
+ ],
+ "mainboard": [
+  "Archmage's Charm",
+  "Ephara's Dispersal",
+  "Lightning Bolt",
+  "Mana Leak",
+  "Seasoned Pyromancer",
+  "Young Pyromancer",
+  "Fire // Ice",
+  "Sprite Dragon",
+  "Thundering Falls",
+  "Chart a Course",
+  "Miscalculation",
+  "Island",
+  "Island",
+  "Island",
+  "Island",
+  "Island",
+  "Man-o'-War",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Proft's Eidetic Memory",
+  "Demand Answers",
+  "Electrostatic Infantry",
+  "Brainsurge",
+  "Remand",
+  "Dragon's Rage Channeler",
+  "Scalding Viper // Steam Clean",
+  "Tarfire",
+  "Lórien Revealed",
+  "Memory Lapse",
+  "Fiery Islet",
+  "Steam Vents",
+  "Wooded Foothills",
+  "Misty Rainforest",
+  "Mischievous Mystic",
+  "Thing in the Ice // Awoken Horror",
+  "Burst Lightning",
+  "Snapcaster Mage"
+ ],
+ "sideboard": [
+  "Merfolk Looter",
+  "Curator of Mysteries",
+  "Mesmeric Fiend",
+  "Lava Dart",
+  "Goldhound",
+  "Edge of Autumn",
+  "Aether Spellbomb",
+  "Viscera Seer",
+  "Lizard Blades",
+  "Audacity",
+  "Spell Pierce",
+  "Goblin Guide",
+  "Rielle, the Everwise",
+  "Flame Jab"
+ ]
+}

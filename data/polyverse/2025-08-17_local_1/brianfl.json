@@ -1,0 +1,127 @@
+{
+ "metadata": {
+  "path": "data/polyverse/2025-08-17_local_1/brianfl.json",
+  "draft_id": "2025-08-17_local_1",
+  "combined_file": "data/polyverse/2025-08-17_local_1/brianfl.csv"
+ },
+ "macro_archetype": "midrange",
+ "labels": [
+  "domain"
+ ],
+ "player": "brianfl",
+ "date": "2025-08-17",
+ "matches": [
+  {
+   "opponent": "jamesdeyja",
+   "round": 1,
+   "wins": 0,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "jamesdeyja",
+     "winner": "jamesdeyja"
+    },
+    {
+     "opponent": "jamesdeyja",
+     "winner": "jamesdeyja"
+    }
+   ],
+   "winner": "jamesdeyja"
+  },
+  {
+   "opponent": "kevin",
+   "round": 2,
+   "wins": 0,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "kevin",
+     "winner": "kevin"
+    },
+    {
+     "opponent": "kevin",
+     "winner": "kevin"
+    }
+   ],
+   "winner": "kevin"
+  },
+  {
+   "opponent": "michael",
+   "round": 4,
+   "wins": 1,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "michael",
+     "winner": "brianfl"
+    },
+    {
+     "opponent": "michael",
+     "winner": "michael"
+    },
+    {
+     "opponent": "michael",
+     "winner": "michael"
+    }
+   ],
+   "winner": "michael"
+  }
+ ],
+ "mainboard": [
+  "Shadowy Backstreet",
+  "Windswept Heath",
+  "Wrenn and Six",
+  "Lotus Cobra",
+  "Primeval Titan",
+  "Lightning Bolt",
+  "Stomping Ground",
+  "Ride's End",
+  "Territorial Kavu",
+  "Courser of Kruphix",
+  "Spell Snare",
+  "Jolrael, Mwonvuli Recluse",
+  "Verdurous Gearhulk",
+  "Elegant Parlor",
+  "Brainsurge",
+  "Elspeth's Smite",
+  "Up the Beanstalk",
+  "Magmatic Sinkhole",
+  "Noble Hierarch",
+  "Breeding Pool",
+  "Scalding Tarn",
+  "Esika's Chariot",
+  "Arid Mesa",
+  "Watery Grave",
+  "Bloodstained Mire",
+  "Hallowed Fountain",
+  "Hallowed Fountain",
+  "Condescend",
+  "Dig Through Time",
+  "Prismatic Vista",
+  "Forest",
+  "Forest",
+  "Forest",
+  "Forest",
+  "Overgrown Tomb",
+  "Path to Exile",
+  "Spell Pierce",
+  "Verdant Catacombs",
+  "Day of Judgment",
+  "Woodland Wanderer",
+  "Mountain",
+  "Sylvan Library"
+ ],
+ "sideboard": [
+  "Abundant Harvest",
+  "Fungal Infection",
+  "Death's Shadow",
+  "Manamorphose",
+  "Blazing Rootwalla",
+  "Life from the Loam",
+  "Moon-Circuit Hacker",
+  "Cheeky House-Mouse // Squeak By"
+ ]
+}

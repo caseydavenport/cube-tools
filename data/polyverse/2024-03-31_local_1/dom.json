@@ -1,0 +1,141 @@
+{
+ "metadata": {
+  "path": "data/polyverse/2024-03-31_local_1/dom.json",
+  "draft_id": "2024-03-31_local_1",
+  "combined_file": "data/polyverse/2024-03-31_local_1/dom.txt"
+ },
+ "macro_archetype": "control",
+ "labels": [],
+ "player": "dom",
+ "date": "2024-03-31",
+ "matches": [
+  {
+   "opponent": "casey",
+   "round": 1,
+   "wins": 1,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "casey",
+     "winner": "dom"
+    },
+    {
+     "opponent": "casey",
+     "winner": "casey"
+    },
+    {
+     "opponent": "casey",
+     "winner": "casey"
+    }
+   ],
+   "winner": "casey"
+  },
+  {
+   "opponent": "greg",
+   "round": 3,
+   "wins": 1,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "greg",
+     "winner": "dom"
+    },
+    {
+     "opponent": "greg",
+     "winner": "greg"
+    },
+    {
+     "opponent": "greg",
+     "winner": "greg"
+    }
+   ],
+   "winner": "greg"
+  },
+  {
+   "opponent": "james",
+   "round": 2,
+   "wins": 1,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "james",
+     "winner": "dom"
+    },
+    {
+     "opponent": "james",
+     "winner": "james"
+    },
+    {
+     "opponent": "james",
+     "winner": "james"
+    }
+   ],
+   "winner": "james"
+  }
+ ],
+ "mainboard": [
+  "Aether Tradewinds",
+  "Reprieve",
+  "Daze",
+  "Condescend",
+  "Memory Lapse",
+  "Otawara, Soaring City",
+  "Day of Judgment",
+  "Faerie Duelist",
+  "Exclusion Mage",
+  "Flooded Strand",
+  "Curator of Mysteries",
+  "Thing in the Ice // Awoken Horror",
+  "Sphinx of Lost Truths",
+  "Pteramander",
+  "Snapcaster Mage",
+  "Wrath of God",
+  "Vexing Gull",
+  "Touch the Spirit Realm",
+  "Oblivion Ring",
+  "Glass Casket",
+  "Meticulous Archive",
+  "Unsummon",
+  "Gomazoa",
+  "Into the Roil",
+  "Repeal",
+  "Fact or Fiction",
+  "Journey to Nowhere",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Island",
+  "Island",
+  "Island",
+  "Island",
+  "Island",
+  "Island",
+  "Island",
+  "Island",
+  "Island"
+ ],
+ "sideboard": [
+  "Mark of Mutiny",
+  "Magma Jet",
+  "Watery Grave",
+  "Rage Nimbus",
+  "Misty Rainforest",
+  "Bonesplitter",
+  "Opt",
+  "Spell Pierce",
+  "Ajani Goldmane",
+  "Farsight Ritual",
+  "Quicken",
+  "Merfolk Looter",
+  "Censor",
+  "Harm's Way",
+  "River Kelpie",
+  "Moon-Circuit Hacker",
+  "Winds of Rebuke",
+  "Tameshi, Reality Architect"
+ ]
+}

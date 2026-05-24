@@ -1,0 +1,121 @@
+{
+ "metadata": {
+  "path": "data/polyverse/2025-10-04_ccc2025_2/player-3f67-bb44.json",
+  "draft_id": "2025-10-04_ccc2025_2",
+  "pool_file": "data/polyverse/2025-10-04_ccc2025_2/player-3f67-bb44-pool.txt"
+ },
+ "macro_archetype": "control",
+ "labels": [],
+ "player": "player-3f67-bb44",
+ "date": "2025-10-04",
+ "matches": [
+  {
+   "opponent": "player-3f67-119c",
+   "round": 3,
+   "wins": 0,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "player-3f67-119c",
+     "winner": "player-3f67-119c"
+    },
+    {
+     "opponent": "player-3f67-119c",
+     "winner": "player-3f67-119c"
+    }
+   ],
+   "winner": "player-3f67-119c"
+  },
+  {
+   "opponent": "player-3f67-37bf",
+   "round": 1,
+   "wins": 0,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "player-3f67-37bf",
+     "winner": "player-3f67-37bf"
+    },
+    {
+     "opponent": "player-3f67-37bf",
+     "winner": "player-3f67-37bf"
+    }
+   ],
+   "winner": "player-3f67-37bf"
+  },
+  {
+   "opponent": "player-3f67-a0b7",
+   "round": 2,
+   "wins": 0,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "player-3f67-a0b7",
+     "winner": "player-3f67-a0b7"
+    },
+    {
+     "opponent": "player-3f67-a0b7",
+     "winner": "player-3f67-a0b7"
+    }
+   ],
+   "winner": "player-3f67-a0b7"
+  }
+ ],
+ "mainboard": [],
+ "sideboard": [],
+ "pool": [
+  "Oust",
+  "Stern Scolding",
+  "Into the Roil",
+  "Sevinne's Reclamation",
+  "Counterspell",
+  "Careful Study",
+  "Silent Clearing",
+  "Opt",
+  "Archmage's Charm",
+  "Agonizing Remorse",
+  "Brainsurge",
+  "Scalding Tarn",
+  "March of Otherworldly Light",
+  "Grim Bauble",
+  "Prismatic Ending",
+  "Fact or Fiction",
+  "Shark Typhoon",
+  "Hostage Taker",
+  "Raise the Alarm",
+  "Disfigure",
+  "Bone Shards",
+  "Dress Down",
+  "Deluge of Doom",
+  "Polluted Delta",
+  "Tasigur, the Golden Fang",
+  "Celestial Colonnade",
+  "Dreamtide Whale",
+  "Grim Flayer",
+  "Nurturing Peatland",
+  "Birthing Ritual",
+  "Undercity Sewers",
+  "Candy Trail",
+  "Voracious Hydra",
+  "Cheeky House-Mouse // Squeak By",
+  "Moon-Circuit Hacker",
+  "Luminarch Aspirant",
+  "Seal of Removal",
+  "Territorial Kavu",
+  "Man-o'-War",
+  "Otawara, Soaring City",
+  "Fell",
+  "Accursed Marauder",
+  "Umbral Collar Zealot",
+  "Marionette Apprentice",
+  "Cankerbloom"
+ ],
+ "colors": [
+  "U",
+  "B",
+  "W"
+ ]
+}

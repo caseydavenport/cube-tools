@@ -1,0 +1,49 @@
+1 Incinerate
+1 Dark Confidant
+1 Empty the Warrens
+1 Clarion Spirit
+1 Misty Rainforest
+1 Magma Jet
+1 Mizzium Tank
+1 Clifftop Retreat
+1 Remand
+1 Marsh Flats
+1 Flooded Strand
+1 Soul-Scar Mage
+1 Pyrite Spellbomb
+1 Cut Down
+1 Polluted Delta
+1 Dragon's Rage Channeler
+1 Dreadhorde Arcanist
+1 Inti, Seneschal of the Sun
+1 Saheeli, Sublime Artificer
+1 Unmake
+1 Isolated Chapel
+1 Burst Lightning
+1 Delay
+1 Oust
+1 Sunbaked Canyon
+1 Farsight Ritual
+1 Steam Vents
+1 Canyon Slough
+1 Halo Forager
+1 Blood Crypt
+1 Hallowed Fountain
+1 Dreadhorde Butcher
+1 Battlefield Forge
+1 Arcbound Tracker
+1 Exclusion Mage
+1 Pteramander
+1 Sacred Foundry
+1 Island
+1 Swamp
+1 Mountain
+
+1 Master of Etherium
+1 Life from the Loam
+1 Quicken
+1 Stitch Together
+1 The Reality Chip
+1 Dauntless Bodyguard
+1 Spell Pierce
+1 Prophetic Prism

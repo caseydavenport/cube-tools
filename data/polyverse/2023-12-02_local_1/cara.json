@@ -1,0 +1,138 @@
+{
+ "metadata": {
+  "path": "data/polyverse/2023-12-02_local_1/cara.json",
+  "draft_id": "2023-12-02_local_1",
+  "combined_file": "data/polyverse/2023-12-02_local_1/cara.txt"
+ },
+ "macro_archetype": "midrange",
+ "labels": [
+  "+1/+1"
+ ],
+ "player": "cara",
+ "date": "2023-12-02",
+ "matches": [
+  {
+   "opponent": "jen",
+   "round": 1,
+   "wins": 0,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "jen",
+     "winner": "jen"
+    },
+    {
+     "opponent": "jen",
+     "winner": "jen"
+    }
+   ],
+   "winner": "jen"
+  },
+  {
+   "opponent": "paul",
+   "round": 2,
+   "wins": 2,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "paul",
+     "winner": "cara"
+    },
+    {
+     "opponent": "paul",
+     "winner": "cara"
+    },
+    {
+     "opponent": "paul",
+     "winner": "paul"
+    }
+   ],
+   "winner": "cara"
+  },
+  {
+   "opponent": "xander",
+   "round": 3,
+   "wins": 0,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "xander",
+     "winner": "xander"
+    },
+    {
+     "opponent": "xander",
+     "winner": "xander"
+    }
+   ],
+   "winner": "xander"
+  }
+ ],
+ "mainboard": [
+  "Gruff Triplets",
+  "Krenko, Tin Street Kingpin",
+  "Tail Swipe",
+  "Manamorphose",
+  "Domri's Ambush",
+  "Quillspike",
+  "Siege-Gang Commander",
+  "The Binding of the Titans",
+  "Multani, Yavimaya's Avatar",
+  "Hardened Scales",
+  "Roaring Earth",
+  "Woodland Champion",
+  "Ignoble Hierarch",
+  "Chainweb Aracnir",
+  "Copper Myr",
+  "Pollenbright Druid",
+  "Devoted Druid",
+  "Magma Phoenix",
+  "Abrade",
+  "Satyr Wayfinder",
+  "Reinforced Ronin",
+  "Punishing Fire",
+  "Stomping Ground",
+  "Blade of the Bloodchief",
+  "Swamp",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Forest",
+  "Forest",
+  "Forest",
+  "Forest",
+  "Forest",
+  "Forest",
+  "Forest",
+  "Forest",
+  "Forest",
+  "Forest"
+ ],
+ "sideboard": [
+  "River Kelpie",
+  "Sphinx of Lost Truths",
+  "Glass Casket",
+  "Ajani Goldmane",
+  "Grateful Apparition",
+  "Intangible Virtue",
+  "The Goose Mother",
+  "Temple Garden",
+  "Knight of the Reliquary",
+  "Worm Harvest",
+  "Scavenger Drake",
+  "Cruel Celebrant",
+  "Negate",
+  "Battlefield Forge",
+  "Harrow",
+  "Liliana, Death's Majesty",
+  "Malfegor",
+  "Fate Transfer",
+  "Bloodsoaked Champion",
+  "Blood Crypt",
+  "Canyon Slough"
+ ]
+}

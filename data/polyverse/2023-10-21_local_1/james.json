@@ -1,0 +1,106 @@
+{
+ "metadata": {
+  "path": "data/polyverse/2023-10-21_local_1/james.json",
+  "draft_id": "2023-10-21_local_1",
+  "combined_file": "data/polyverse/2023-10-21_local_1/james.txt"
+ },
+ "macro_archetype": "midrange",
+ "labels": [
+  "goodstuff"
+ ],
+ "player": "james",
+ "date": "2023-10-21",
+ "matches": [
+  {
+   "opponent": "casey",
+   "round": 3,
+   "wins": 1,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "casey",
+     "winner": "james"
+    }
+   ],
+   "winner": "james"
+  },
+  {
+   "opponent": "mattd",
+   "round": 1,
+   "wins": 0,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "mattd",
+     "winner": "mattd"
+    }
+   ],
+   "winner": "mattd"
+  }
+ ],
+ "mainboard": [
+  "Dream Trawler",
+  "Siren Stormtamer",
+  "Unmake",
+  "Mother of Runes",
+  "Ponder",
+  "Spell Pierce",
+  "Welcoming Vampire",
+  "Exclusion Mage",
+  "Kor Sanctifiers",
+  "Serum Visions",
+  "Furycalm Snarl",
+  "Oblivion Ring",
+  "Werefox Bodyguard",
+  "Kitchen Finks",
+  "Goblin Guide",
+  "Flame Slash",
+  "Rabbit Battery",
+  "The Wandering Emperor",
+  "Sulfur Falls",
+  "Port Town",
+  "Abrade",
+  "Perilous Myr",
+  "Ogre-Head Helm",
+  "Unsummon",
+  "Brainstorm",
+  "Kor Skyfisher",
+  "Reprieve",
+  "Embereth Veteran",
+  "Steam Vents",
+  "Island",
+  "Island",
+  "Island",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Plains"
+ ],
+ "sideboard": [
+  "Parallel Lives",
+  "Isolated Chapel",
+  "Chromatic Sphere",
+  "Portable Hole",
+  "Sai of the Shinobi",
+  "Dauntless Bodyguard",
+  "Kor Duelist",
+  "Mosquito Guard",
+  "Legion's Landing // Adanto, the First Fort",
+  "Lightning Greaves",
+  "Prophetic Prism",
+  "Grateful Apparition",
+  "Merfolk Looter",
+  "Mistmeadow Skulk",
+  "Silver Myr",
+  "Intangible Virtue",
+  "Angelic Intervention",
+  "Into the Roil",
+  "Cunning Sparkmage"
+ ]
+}

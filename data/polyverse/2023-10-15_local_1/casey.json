@@ -1,0 +1,107 @@
+{
+ "metadata": {
+  "path": "data/polyverse/2023-10-15_local_1/casey.json",
+  "draft_id": "2023-10-15_local_1",
+  "combined_file": "data/polyverse/2023-10-15_local_1/casey.txt"
+ },
+ "macro_archetype": "control",
+ "labels": [
+  "graveyard"
+ ],
+ "player": "casey",
+ "date": "2023-10-15",
+ "matches": [
+  {
+   "opponent": "dom",
+   "round": 1,
+   "wins": 2,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "dom",
+     "winner": "dom"
+    },
+    {
+     "opponent": "dom",
+     "winner": "casey"
+    },
+    {
+     "opponent": "dom",
+     "winner": "casey"
+    }
+   ],
+   "winner": "casey"
+  }
+ ],
+ "mainboard": [
+  "Glass Casket",
+  "Restless Fortress",
+  "Virtue of Persistence // Locthwain Scorn",
+  "Feed the Cauldron",
+  "Uncharted Haven",
+  "Merfolk Looter",
+  "Gomazoa",
+  "Mavren Fein, Dusk Apostle",
+  "Faerie Vandal",
+  "Kor Sanctifiers",
+  "Godless Shrine",
+  "Fact or Fiction",
+  "Flickerwisp",
+  "Dark Ritual",
+  "Wrath of God",
+  "Thing in the Ice // Awoken Horror",
+  "Glacial Fortress",
+  "Kor Skyfisher",
+  "Day of Judgment",
+  "The Long Reach of Night // Animus of Night's Reach",
+  "Brainstorm",
+  "Welcoming Vampire",
+  "Clarion Spirit",
+  "Unmake",
+  "Serum Visions",
+  "Pteramander",
+  "Curator of Mysteries",
+  "Raven's Crime",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Island",
+  "Island",
+  "Island",
+  "Island",
+  "Swamp",
+  "Swamp",
+  "Swamp",
+  "Swamp"
+ ],
+ "sideboard": [
+  "Siege-Gang Commander",
+  "Cunning Sparkmage",
+  "Moon-Circuit Hacker",
+  "Sulfur Falls",
+  "Flame Jab",
+  "Grim Initiate",
+  "Avenger of Zendikar",
+  "Reclamation Sage",
+  "Mayhem Devil",
+  "Glory of Warfare",
+  "Persist",
+  "Ephemerate",
+  "Umbral Mantle",
+  "Sai of the Shinobi",
+  "Cruel Celebrant",
+  "Liliana, Death's Majesty",
+  "Rise from the Grave",
+  "Grateful Apparition",
+  "Quicken",
+  "Turn to Mist",
+  "Fall of the Thran",
+  "Vampire Hexmage",
+  "Field of Ruin",
+  "Silver Myr",
+  "Gold Myr",
+  "Aether Tradewinds"
+ ]
+}

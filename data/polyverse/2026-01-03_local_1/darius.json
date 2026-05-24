@@ -1,0 +1,118 @@
+{
+ "metadata": {
+  "path": "data/polyverse/2026-01-03_local_1/darius.json",
+  "draft_id": "2026-01-03_local_1",
+  "mainboard_file": "data/polyverse/2026-01-03_local_1/darius-mainboard.txt",
+  "sideboard_file": "data/polyverse/2026-01-03_local_1/darius-sideboard.txt"
+ },
+ "macro_archetype": "aggro",
+ "labels": [
+  "spells"
+ ],
+ "player": "darius",
+ "date": "2026-01-03",
+ "matches": [
+  {
+   "opponent": "casey",
+   "round": 1,
+   "wins": 2,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "casey",
+     "winner": "darius"
+    },
+    {
+     "opponent": "casey",
+     "winner": "darius"
+    }
+   ],
+   "winner": "darius"
+  },
+  {
+   "opponent": "patrick",
+   "round": 2,
+   "wins": 1,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "patrick",
+     "winner": "darius"
+    },
+    {
+     "opponent": "patrick",
+     "winner": "patrick"
+    },
+    {
+     "opponent": "patrick",
+     "winner": "patrick"
+    }
+   ],
+   "winner": "patrick"
+  }
+ ],
+ "mainboard": [
+  "Cathar Commando",
+  "Cheeky House-Mouse // Squeak By",
+  "Faerie Guidemother // Gift of the Fae",
+  "Monastery Mentor",
+  "Path to Exile",
+  "The Wandering Emperor",
+  "Abrade",
+  "Burst Lightning",
+  "Comet Storm",
+  "Demand Answers",
+  "Dragon's Rage Channeler",
+  "Emberheart Challenger",
+  "Flame Slash",
+  "Flametongue Kavu",
+  "Grim Lavamancer",
+  "Heartfire Hero",
+  "Hired Claw",
+  "Inti, Seneschal of the Sun",
+  "Magma Jet",
+  "Ogre-Head Helm",
+  "Reinforced Ronin",
+  "Seasoned Pyromancer",
+  "Bomat Courier",
+  "Bonesplitter",
+  "Gingerbrute",
+  "Arid Mesa",
+  "Barbarian Ring",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Sunbaked Canyon"
+ ],
+ "sideboard": [
+  "Glass Casket",
+  "March of Otherworldly Light",
+  "Careful Study",
+  "Agonizing Remorse",
+  "Timeline Culler",
+  "Wither and Bloom",
+  "Bedlam Reveler",
+  "Fiery Temper",
+  "Magmatic Sinkhole",
+  "Monastery Swiftspear",
+  "Unholy Heat",
+  "Call of the Herd",
+  "Gilded Goose",
+  "Questing Druid // Seek the Beast",
+  "Spell Queller",
+  "Qasali Pridemage",
+  "Manamorphose"
+ ]
+}

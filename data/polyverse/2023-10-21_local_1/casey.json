@@ -1,0 +1,118 @@
+{
+ "metadata": {
+  "path": "data/polyverse/2023-10-21_local_1/casey.json",
+  "draft_id": "2023-10-21_local_1",
+  "combined_file": "data/polyverse/2023-10-21_local_1/casey.txt"
+ },
+ "macro_archetype": "midrange",
+ "labels": [
+  "lands",
+  "spells"
+ ],
+ "player": "casey",
+ "date": "2023-10-21",
+ "matches": [
+  {
+   "opponent": "dom",
+   "round": 1,
+   "wins": 0,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "dom",
+     "winner": "dom"
+    }
+   ],
+   "winner": "dom"
+  },
+  {
+   "opponent": "james",
+   "round": 3,
+   "wins": 0,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "james",
+     "winner": "james"
+    }
+   ],
+   "winner": "james"
+  },
+  {
+   "opponent": "xander",
+   "round": 2,
+   "wins": 0,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "xander",
+     "winner": "xander"
+    }
+   ],
+   "winner": "xander"
+  }
+ ],
+ "mainboard": [
+  "Mosswood Dreadknight // Dread Whispers",
+  "Orcish Lumberjack",
+  "Abundant Harvest",
+  "Life from the Loam",
+  "Multani, Yavimaya's Avatar",
+  "Scalding Tarn",
+  "Harrow",
+  "Magma Jet",
+  "Flame Jab",
+  "Verdant Catacombs",
+  "Soul-Scar Mage",
+  "Burst Lightning",
+  "Lotus Cobra",
+  "Young Pyromancer",
+  "Worm Harvest",
+  "Chatter of the Squirrel",
+  "Stomping Ground",
+  "Wooded Foothills",
+  "Mire Triton",
+  "Woe Strider",
+  "Pharika's Spawn",
+  "Manamorphose",
+  "Kraul Harpooner",
+  "Scavenging Ooze",
+  "Foreboding Ruins",
+  "Blood Crypt",
+  "Rootbound Crag",
+  "Sheltered Thicket",
+  "Guttersnipe",
+  "Saheeli, Sublime Artificer",
+  "Faithless Looting",
+  "Chandra, Hope's Beacon",
+  "Swamp",
+  "Swamp",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Forest",
+  "Forest",
+  "Forest"
+ ],
+ "sideboard": [
+  "Vivien, Champion of the Wilds",
+  "Pyroclasm",
+  "Dark Ritual",
+  "Rubblebelt Rioters",
+  "Iron Myr",
+  "Grim Initiate",
+  "Satyr Wayfinder",
+  "Rise from the Grave",
+  "Beacon of Unrest",
+  "Edge of Autumn",
+  "Raven's Crime",
+  "Eternal Witness",
+  "Dreadhorde Arcanist",
+  "Tibalt's Rager",
+  "Grim Discovery",
+  "Liliana, Death's Majesty"
+ ]
+}

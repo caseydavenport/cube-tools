@@ -1,0 +1,49 @@
+1 Bloodghast
+1 Stitcher's Supplier
+1 Lightning Greaves
+1 Verdant Catacombs
+1 Life from the Loam
+1 Virtue of Persistence
+1 Satyr Wayfinder
+1 Scattered Groves
+1 Devoted Druid
+1 Knight of the Reliquary
+1 Crop Rotation
+1 Edge of Autumn
+1 Worm Harvest
+1 The Wandering Emperor
+1 Prismatic Vista
+1 Courser of Kruphix
+1 Chainweb Aracnir
+1 Harrow
+1 Nurturing Peatland
+1 Canopy Vista
+1 The Binding of the Titans
+1 Mosswood Dreadknight
+1 Song of the Dryads
+1 Titania, Protector of Argoth
+1 Windswept Heath
+1 Grim Discovery
+1 Infernal Grasp
+1 Horizon Canopy
+1 Marshal's Anthem
+1 Arbor Elf
+1 Eternal Witness
+1 Cloudgoat Ranger
+2 Plains
+2 Swamp
+4 Forest
+
+1 Ephara's Dispersal
+1 Misty Rainforest
+1 Gilder Bairn
+1 Brineborn Cutthroat
+1 Panharmonicon
+1 Mosquito Guard
+1 Warden of the Inner Sky
+1 Spirited Companion
+1 Reclamation Sage
+1 Turn to Mist
+1 Traverse the Ulvenwald
+1 Hardened Scales
+1 Gilded Goose

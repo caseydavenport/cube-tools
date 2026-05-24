@@ -1,0 +1,122 @@
+{
+ "metadata": {
+  "path": "data/polyverse/2024-03-28_local_1/matthewbk.json",
+  "draft_id": "2024-03-28_local_1",
+  "combined_file": "data/polyverse/2024-03-28_local_1/matthewbk.txt"
+ },
+ "macro_archetype": "tempo",
+ "labels": [],
+ "player": "matthewbk",
+ "date": "2024-03-28",
+ "matches": [
+  {
+   "opponent": "alexs",
+   "round": 1,
+   "wins": 2,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "alexs",
+     "winner": "matthewbk"
+    },
+    {
+     "opponent": "alexs",
+     "winner": "matthewbk"
+    }
+   ],
+   "winner": "matthewbk"
+  },
+  {
+   "opponent": "casey",
+   "round": 2,
+   "wins": 2,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "casey",
+     "winner": "matthewbk"
+    },
+    {
+     "opponent": "casey",
+     "winner": "matthewbk"
+    }
+   ],
+   "winner": "matthewbk"
+  },
+  {
+   "opponent": "jan",
+   "round": 4,
+   "wins": 2,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "jan",
+     "winner": "matthewbk"
+    },
+    {
+     "opponent": "jan",
+     "winner": "matthewbk"
+    }
+   ],
+   "winner": "matthewbk"
+  }
+ ],
+ "mainboard": [
+  "Arasta of the Endless Web",
+  "Blood Crypt",
+  "Bloodstained Mire",
+  "Breeding Pool",
+  "Cankerbloom",
+  "Canyon Slough",
+  "Delay",
+  "Duress",
+  "Eternal Witness",
+  "Faerie Dreamthief",
+  "Fetid Pools",
+  "Forest",
+  "Forest",
+  "Goblin Bombardment",
+  "Greta, Sweettooth Scourge",
+  "Halo Forager",
+  "Infernal Grasp",
+  "Island",
+  "Jolrael, Mwonvuli Recluse",
+  "Knight of the Ebon Legion",
+  "Liliana, Death's Majesty",
+  "Llanowar Elves",
+  "Mana Leak",
+  "Marsh Flats",
+  "Mesmeric Fiend",
+  "Mosswood Dreadknight // Dread Whispers",
+  "Mountain",
+  "Nurturing Peatland",
+  "Overgrown Tomb",
+  "Perilous Myr",
+  "Prismatic Vista",
+  "Ravenous Squirrel",
+  "Sunken Ruins",
+  "Swamp",
+  "Swamp",
+  "Tamiyo, Compleated Sage",
+  "Tangled Colony",
+  "Treasure Cruise",
+  "Woe Strider",
+  "Wooded Foothills"
+ ],
+ "sideboard": [
+  "Aether Tradewinds",
+  "Cunning Lethemancer",
+  "Harm's Way",
+  "Horizon Canopy",
+  "Lightning Greaves",
+  "Persist",
+  "Raven's Crime",
+  "Reclamation Sage",
+  "Ruthless Sniper",
+  "Tectonic Reformation",
+  "Woodland Champion"
+ ]
+}

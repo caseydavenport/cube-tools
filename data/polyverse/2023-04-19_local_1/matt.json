@@ -1,0 +1,59 @@
+{
+ "metadata": {
+  "path": "data/polyverse/2023-04-19_local_1/matt.json",
+  "draft_id": "2023-04-19_local_1",
+  "combined_file": "data/polyverse/2023-04-19_local_1/matt.csv"
+ },
+ "macro_archetype": "midrange",
+ "labels": [],
+ "player": "matt",
+ "date": "2023-04-19",
+ "matches": [
+  {
+   "opponent": "",
+   "wins": 0,
+   "losses": 1,
+   "draws": 0
+  }
+ ],
+ "mainboard": [
+  "Ajani Goldmane",
+  "Puncture Blast",
+  "Marwyn, the Nurturer",
+  "Obstinate Baloth",
+  "Warcry Phoenix",
+  "Devoted Druid",
+  "Ward of Bones",
+  "Turntimber Basilisk",
+  "Recross the Paths",
+  "Growing Rites of Itlimoc // Itlimoc, Cradle of the Sun",
+  "Sunpetal Grove",
+  "Loxodon Warhammer",
+  "Fury Charm",
+  "Copper Myr",
+  "Thornling",
+  "Quietus Spike",
+  "Mark of Mutiny",
+  "Grappling Hook",
+  "Magma Phoenix",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Arasta of the Endless Web",
+  "Skarrgan Hellkite",
+  "Forest",
+  "Forest",
+  "Forest",
+  "Forest",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Panharmonicon",
+  "Arbor Elf"
+ ],
+ "sideboard": []
+}

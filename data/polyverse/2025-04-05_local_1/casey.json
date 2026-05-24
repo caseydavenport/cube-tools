@@ -1,0 +1,81 @@
+{
+ "metadata": {
+  "path": "data/polyverse/2025-04-05_local_1/casey.json",
+  "draft_id": "2025-04-05_local_1",
+  "combined_file": "data/polyverse/2025-04-05_local_1/casey.txt"
+ },
+ "macro_archetype": "midrange",
+ "labels": [
+  "graveyard",
+  "lands"
+ ],
+ "player": "casey",
+ "date": "2025-04-05",
+ "matches": [
+  {
+   "opponent": "dom",
+   "round": 1,
+   "wins": 2,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "dom",
+     "winner": "casey"
+    },
+    {
+     "opponent": "dom",
+     "winner": "casey"
+    }
+   ],
+   "winner": "casey"
+  }
+ ],
+ "mainboard": [
+  "Verdant Catacombs",
+  "Scrabbling Claws",
+  "Luminarch Aspirant",
+  "Primeval Titan",
+  "Overgrown Tomb",
+  "Abundant Harvest",
+  "Polluted Delta",
+  "Six",
+  "Misty Rainforest",
+  "Murderous Cut",
+  "Fatal Push",
+  "Inexorable Blob",
+  "Fearless Fledgling",
+  "Phelia, Exuberant Shepherd",
+  "Roaring Earth",
+  "Tarmogoyf",
+  "Urza's Bauble",
+  "Arbor Elf",
+  "Grim Discovery",
+  "Sevinne's Reclamation",
+  "Eiganjo, Seat of the Empire",
+  "Unearth",
+  "Journey to Nowhere",
+  "Tragic Fall",
+  "Kor Skyfisher",
+  "Liliana of the Veil",
+  "Temple Garden",
+  "Cut Down",
+  "Engineered Explosives",
+  "Scavenging Ooze",
+  "Ulcerate",
+  "Werefox Bodyguard",
+  "Esika's Chariot",
+  "Faerie Dreamthief",
+  "Plains",
+  "Plains",
+  "Swamp",
+  "Swamp",
+  "Forest",
+  "Forest",
+  "Forest"
+ ],
+ "sideboard": [
+  "Fire // Ice",
+  "Spellstutter Sprite"
+ ]
+}

@@ -1,0 +1,111 @@
+{
+ "metadata": {
+  "path": "data/polyverse/2026-01-03_local_1/patrick.json",
+  "draft_id": "2026-01-03_local_1",
+  "mainboard_file": "data/polyverse/2026-01-03_local_1/patrick-mainboard.txt",
+  "sideboard_file": "data/polyverse/2026-01-03_local_1/patrick-sideboard.txt"
+ },
+ "macro_archetype": "midrange",
+ "labels": [],
+ "player": "patrick",
+ "date": "2026-01-03",
+ "matches": [
+  {
+   "opponent": "darius",
+   "round": 2,
+   "wins": 2,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "darius",
+     "winner": "patrick"
+    },
+    {
+     "opponent": "darius",
+     "winner": "patrick"
+    },
+    {
+     "opponent": "darius",
+     "winner": "darius"
+    }
+   ],
+   "winner": "patrick"
+  },
+  {
+   "opponent": "jackson",
+   "round": 1,
+   "wins": 1,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "jackson",
+     "winner": "patrick"
+    },
+    {
+     "opponent": "jackson",
+     "winner": "jackson"
+    }
+   ]
+  }
+ ],
+ "mainboard": [
+  "Brainstorm",
+  "Brainsurge",
+  "Counterspell",
+  "Ethereal Forager",
+  "Lórien Revealed",
+  "Preordain",
+  "Stern Scolding",
+  "Arasta of the Endless Web",
+  "Arbor Elf",
+  "Cankerbloom",
+  "Courser of Kruphix",
+  "Deeproot Wayfinder",
+  "Esika's Chariot",
+  "Explore",
+  "Garruk Wildspeaker",
+  "Lotus Cobra",
+  "Primeval Titan",
+  "Sandstorm Salvager",
+  "Verdurous Gearhulk",
+  "Voracious Hydra",
+  "Woodland Wanderer",
+  "Growth Spiral",
+  "Wrenn and Six",
+  "Blood Crypt",
+  "Breeding Pool",
+  "Commercial District",
+  "Forest",
+  "Forest",
+  "Forest",
+  "Forest",
+  "Forest",
+  "Forest",
+  "Island",
+  "Island",
+  "Island",
+  "Misty Rainforest",
+  "Scalding Tarn",
+  "Shelldock Isle",
+  "Verdant Catacombs",
+  "Windswept Heath"
+ ],
+ "sideboard": [
+  "Werefox Bodyguard",
+  "Dead Weight",
+  "Goblin Guide",
+  "Faithless Looting",
+  "Mizzium Tank",
+  "Collected Company",
+  "Dragonsguard Elite",
+  "Hooting Mandrills",
+  "Inexorable Blob",
+  "Life from the Loam",
+  "Quirion Beastcaller",
+  "Renata, Called to the Hunt",
+  "Chromatic Star",
+  "Scrapwork Mutt"
+ ]
+}

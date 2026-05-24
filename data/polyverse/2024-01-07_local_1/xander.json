@@ -1,0 +1,121 @@
+{
+ "metadata": {
+  "path": "data/polyverse/2024-01-07_local_1/xander.json",
+  "draft_id": "2024-01-07_local_1",
+  "combined_file": "data/polyverse/2024-01-07_local_1/xander.txt"
+ },
+ "macro_archetype": "tempo",
+ "labels": [
+  "spells"
+ ],
+ "player": "xander",
+ "date": "2024-01-07",
+ "matches": [
+  {
+   "opponent": "casey",
+   "round": 4,
+   "wins": 2,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "casey",
+     "winner": "xander"
+    },
+    {
+     "opponent": "casey",
+     "winner": "xander"
+    }
+   ],
+   "winner": "xander"
+  },
+  {
+   "opponent": "dom",
+   "round": 5,
+   "wins": 2,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "dom",
+     "winner": "xander"
+    },
+    {
+     "opponent": "dom",
+     "winner": "xander"
+    }
+   ],
+   "winner": "xander"
+  },
+  {
+   "opponent": "greg",
+   "round": 3,
+   "wins": 0,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "greg",
+     "winner": "greg"
+    },
+    {
+     "opponent": "greg",
+     "winner": "greg"
+    }
+   ],
+   "winner": "greg"
+  }
+ ],
+ "mainboard": [
+  "Incinerate",
+  "Dark Confidant",
+  "Empty the Warrens",
+  "Clarion Spirit",
+  "Misty Rainforest",
+  "Magma Jet",
+  "Mizzium Tank",
+  "Clifftop Retreat",
+  "Remand",
+  "Marsh Flats",
+  "Flooded Strand",
+  "Soul-Scar Mage",
+  "Pyrite Spellbomb",
+  "Cut Down",
+  "Polluted Delta",
+  "Dragon's Rage Channeler",
+  "Dreadhorde Arcanist",
+  "Inti, Seneschal of the Sun",
+  "Saheeli, Sublime Artificer",
+  "Unmake",
+  "Isolated Chapel",
+  "Burst Lightning",
+  "Delay",
+  "Oust",
+  "Sunbaked Canyon",
+  "Farsight Ritual",
+  "Steam Vents",
+  "Canyon Slough",
+  "Halo Forager",
+  "Blood Crypt",
+  "Hallowed Fountain",
+  "Dreadhorde Butcher",
+  "Battlefield Forge",
+  "Arcbound Tracker",
+  "Exclusion Mage",
+  "Pteramander",
+  "Sacred Foundry",
+  "Island",
+  "Swamp",
+  "Mountain"
+ ],
+ "sideboard": [
+  "Master of Etherium",
+  "Life from the Loam",
+  "Quicken",
+  "Stitch Together",
+  "The Reality Chip",
+  "Dauntless Bodyguard",
+  "Spell Pierce",
+  "Prophetic Prism"
+ ]
+}

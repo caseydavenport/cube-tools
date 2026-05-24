@@ -1,0 +1,81 @@
+{
+ "metadata": {
+  "path": "data/polyverse/2025-04-05_local_1/dom.json",
+  "draft_id": "2025-04-05_local_1",
+  "combined_file": "data/polyverse/2025-04-05_local_1/dom.txt"
+ },
+ "macro_archetype": "midrange",
+ "labels": [
+  "token"
+ ],
+ "player": "dom",
+ "date": "2025-04-05",
+ "matches": [
+  {
+   "opponent": "casey",
+   "round": 1,
+   "wins": 0,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "casey",
+     "winner": "casey"
+    },
+    {
+     "opponent": "casey",
+     "winner": "casey"
+    }
+   ],
+   "winner": "casey"
+  }
+ ],
+ "mainboard": [
+  "Gitaxian Probe",
+  "Wooded Foothills",
+  "Krenko, Tin Street Kingpin",
+  "Dreamtide Whale",
+  "Faerie Vandal",
+  "Thundering Falls",
+  "Fact or Fiction",
+  "Burst Lightning",
+  "Delay",
+  "Man-o'-War",
+  "Serum Visions",
+  "Breeding Pool",
+  "Dragon's Rage Channeler",
+  "Into the Roil",
+  "Ponder",
+  "Saheeli, Sublime Artificer",
+  "Parallel Lives",
+  "Consider",
+  "Condescend",
+  "Stomping Ground",
+  "Seasoned Pyromancer",
+  "Boseiju, Who Endures",
+  "Counterspell",
+  "Lightning Bolt",
+  "Den of the Bugbear",
+  "Scalding Tarn",
+  "Young Pyromancer",
+  "Mark of Mutiny",
+  "Spell Snare",
+  "Aether Tradewinds",
+  "Misty Rainforest",
+  "Rielle, the Everwise",
+  "Island",
+  "Island",
+  "Island",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Forest",
+  "Forest"
+ ],
+ "sideboard": [
+  "Chart a Course",
+  "Territorial Kavu",
+  "Scryb Ranger",
+  "Kiora, the Rising Tide"
+ ]
+}

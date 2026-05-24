@@ -1,0 +1,123 @@
+{
+ "metadata": {
+  "path": "data/polyverse/2023-09-17_local_1/jen.json",
+  "draft_id": "2023-09-17_local_1",
+  "combined_file": "data/polyverse/2023-09-17_local_1/jen.txt"
+ },
+ "macro_archetype": "midrange",
+ "labels": [
+  "+1/+1",
+  "token",
+  "equipment"
+ ],
+ "player": "jen",
+ "date": "2023-09-17",
+ "matches": [
+  {
+   "opponent": "casey",
+   "round": 2,
+   "wins": 0,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "casey",
+     "winner": "casey"
+    }
+   ],
+   "winner": "casey"
+  },
+  {
+   "opponent": "dom",
+   "round": 3,
+   "wins": 1,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "dom",
+     "winner": "jen"
+    }
+   ],
+   "winner": "jen"
+  },
+  {
+   "opponent": "mattd",
+   "round": 1,
+   "wins": 0,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "mattd",
+     "winner": "mattd"
+    }
+   ],
+   "winner": "mattd"
+  }
+ ],
+ "mainboard": [
+  "Clifftop Retreat",
+  "Sunpetal Grove",
+  "Windswept Heath",
+  "Wooded Foothills",
+  "Lion Sash",
+  "Kor Duelist",
+  "Soul Warden",
+  "Goblin Arsonist",
+  "Grim Initiate",
+  "Rigging Runner",
+  "Chainweb Aracnir",
+  "Shinewend",
+  "Lizard Blades",
+  "Ogre-Head Helm",
+  "Cankerbloom",
+  "Pollenbright Druid",
+  "Woodland Champion",
+  "Kellan, the Fae-Blooded // Birthright Boon",
+  "Krenko, Tin Street Kingpin",
+  "Gilder Bairn",
+  "Meadowboon",
+  "Cloudgoat Ranger",
+  "Skarrgan Hellkite",
+  "Rampaging Baloths",
+  "Anointed Procession",
+  "Empty the Warrens",
+  "Roaring Earth",
+  "Incinerate",
+  "Blade of the Bloodchief",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Forest",
+  "Forest",
+  "Forest",
+  "Forest"
+ ],
+ "sideboard": [
+  "Godless Shrine",
+  "Kor Skyfisher",
+  "Dreadhorde Arcanist",
+  "Young Pyromancer",
+  "Devoted Crop-Mate",
+  "Devouring Hellion",
+  "Runaway Trash-Bot",
+  "Knight of the Reliquary",
+  "Towashi Guide-Bot",
+  "Domri, Anarch of Bolas",
+  "Quietus Spike",
+  "Goblin Bombardment",
+  "Comet Storm",
+  "Prophetic Prism",
+  "Kor Sanctifiers",
+  "Domri's Ambush",
+  "Wilderness Reclamation",
+  "Throne of the God-Pharaoh",
+  "Magma Phoenix"
+ ]
+}

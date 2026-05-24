@@ -1,0 +1,93 @@
+{
+ "metadata": {
+  "path": "data/polyverse/2025-08-31_local_2/dom.json",
+  "draft_id": "2025-08-31_local_2",
+  "combined_file": "data/polyverse/2025-08-31_local_2/dom.txt"
+ },
+ "macro_archetype": "midrange",
+ "labels": [
+  "artifacts",
+  "coco",
+  "sacrifice"
+ ],
+ "player": "dom",
+ "date": "2025-08-31",
+ "matches": [
+  {
+   "opponent": "casey",
+   "round": 1,
+   "wins": 0,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "casey",
+     "winner": "casey"
+    }
+   ],
+   "winner": "casey"
+  }
+ ],
+ "mainboard": [
+  "Containment Construct",
+  "Boseiju, Who Endures",
+  "Wooded Foothills",
+  "Ogre-Head Helm",
+  "Seasoned Pyromancer",
+  "Mishra's Bauble",
+  "Pia and Kiran Nalaar",
+  "Anje's Ravager",
+  "Reinforced Ronin",
+  "Legion Extruder",
+  "Candy Trail",
+  "Pyrite Spellbomb",
+  "Kavaron Harrier",
+  "Faithless Looting",
+  "Flames of the Firebrand",
+  "Gingerbrute",
+  "Fiery Temper",
+  "Blazing Rootwalla",
+  "Pick Your Poison",
+  "Demand Answers",
+  "Collected Company",
+  "Sheltered Thicket",
+  "Inti, Seneschal of the Sun",
+  "Tireless Tracker",
+  "Twinshot Sniper",
+  "Perilous Myr",
+  "Lizard Blades",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Forest",
+  "Forest",
+  "Forest",
+  "Forest",
+  "Forest",
+  "Forest"
+ ],
+ "sideboard": [
+  "Brightglass Gearhulk",
+  "Flame Jab",
+  "Disfigure",
+  "Wrath of God",
+  "Faerie Guidemother // Gift of the Fae",
+  "Recruitment Officer",
+  "Sunbaked Canyon",
+  "Quirion Beastcaller",
+  "Bedlam Reveler",
+  "Bonesplitter",
+  "Sylvan Library",
+  "Roaring Earth",
+  "Goblin Bombardment",
+  "Chandra, Hope's Beacon",
+  "Chromatic Star",
+  "Cankerbloom",
+  "Mizzium Tank",
+  "Engineered Explosives"
+ ]
+}

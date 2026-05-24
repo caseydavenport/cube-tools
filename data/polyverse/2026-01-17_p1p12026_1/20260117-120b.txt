@@ -1,0 +1,54 @@
+1 Birds of Paradise
+1 Pile On
+1 Brightglass Gearhulk
+1 Esika's Chariot
+1 Caretaker's Talent
+1 Lingering Souls
+1 Sevinne's Reclamation
+1 Call of the Herd
+1 Raven Eagle
+1 Blade Splicer
+1 Qasali Pridemage
+1 Fell
+1 Phelia, Exuberant Shepherd
+1 Mosswood Dreadknight
+1 Quirion Beastcaller
+1 Prismatic Ending
+1 Abundant Harvest
+1 Inquisition of Kozilek
+1 Fatal Push
+1 Dead Weight
+1 Thoughtseize
+1 Recruitment Officer
+1 Gilded Goose
+1 Isamaru, Hound of Konda
+1 Bloodstained Mire
+1 Misty Rainforest
+1 Godless Shrine
+1 Overgrown Tomb
+1 Underground Mortuary
+1 Marsh Flats
+1 Temple Garden
+1 Hallowed Fountain
+1 Forest
+1 Forest
+1 Forest
+1 Plains
+1 Plains
+1 Plains
+1 Swamp
+1 Swamp
+
+1 Elegant Parlor
+1 Hedge Maze
+1 Agonizing Remorse
+1 Spirited Companion
+1 Reprieve
+1 Grim Lavamancer
+1 Ethereal Forager
+1 Comet Storm
+1 Curator of Mysteries
+1 Growth Spiral
+1 Werefox Bodyguard
+1 Dragonsguard Elite
+1 Saheeli, Sublime Artificer

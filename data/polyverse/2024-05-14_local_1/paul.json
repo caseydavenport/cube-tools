@@ -1,0 +1,117 @@
+{
+ "metadata": {
+  "path": "data/polyverse/2024-05-14_local_1/paul.json",
+  "draft_id": "2024-05-14_local_1",
+  "combined_file": "data/polyverse/2024-05-14_local_1/paul.txt"
+ },
+ "macro_archetype": "aggro",
+ "labels": [],
+ "player": "paul",
+ "date": "2024-05-14",
+ "matches": [
+  {
+   "opponent": "casey",
+   "round": 3,
+   "wins": 2,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "casey",
+     "winner": "paul"
+    },
+    {
+     "opponent": "casey",
+     "winner": "paul"
+    },
+    {
+     "opponent": "casey",
+     "winner": "casey"
+    }
+   ],
+   "winner": "paul"
+  },
+  {
+   "opponent": "greg",
+   "round": 4,
+   "wins": 0,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "greg",
+     "winner": "greg"
+    },
+    {
+     "opponent": "greg",
+     "winner": "greg"
+    }
+   ],
+   "winner": "greg"
+  }
+ ],
+ "mainboard": [
+  "Goblin Guide",
+  "Tangled Colony",
+  "Mark of Mutiny",
+  "Blazing Rootwalla",
+  "Sulfurous Springs",
+  "Lizard Blades",
+  "Tibalt's Rager",
+  "Cemetery Gatekeeper",
+  "Vampire of the Dire Moon",
+  "Flame Slash",
+  "Seasoned Pyromancer",
+  "Flame Jab",
+  "Perilous Myr",
+  "Blood Crypt",
+  "Reinforced Ronin",
+  "Torch the Tower",
+  "Flames of the Firebrand",
+  "Bloodsoaked Champion",
+  "Firebolt",
+  "Murderous Redcap",
+  "Siege-Gang Commander",
+  "Burst Lightning",
+  "Grim Lavamancer",
+  "Pyrite Spellbomb",
+  "Carrion Feeder",
+  "Swamp",
+  "Swamp",
+  "Swamp",
+  "Swamp",
+  "Swamp",
+  "Swamp",
+  "Swamp",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Mountain"
+ ],
+ "sideboard": [
+  "Beast Within",
+  "Bonesplitter",
+  "Nurturing Peatland",
+  "Territorial Kavu",
+  "Commercial District",
+  "Sheltered Thicket",
+  "Misty Rainforest",
+  "Stomping Ground",
+  "Flooded Strand",
+  "Brainstorm",
+  "Scryb Ranger",
+  "Arcbound Tracker",
+  "Skarrgan Hellkite",
+  "Archfiend of Ifnir",
+  "Liliana, Death's Majesty",
+  "Vampire Hexmage",
+  "Murder",
+  "Fecundity",
+  "Lórien Revealed",
+  "Unsummon"
+ ]
+}

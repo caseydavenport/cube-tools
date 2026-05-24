@@ -1,0 +1,133 @@
+{
+ "metadata": {
+  "path": "data/polyverse/2025-10-25_local_1/jackson.json",
+  "draft_id": "2025-10-25_local_1",
+  "mainboard_file": "data/polyverse/2025-10-25_local_1/jackson-mainboard.txt",
+  "sideboard_file": "data/polyverse/2025-10-25_local_1/jackson-sideboard.txt"
+ },
+ "macro_archetype": "control",
+ "labels": [
+  "delve",
+  "draw-go"
+ ],
+ "player": "jackson",
+ "date": "2025-10-25",
+ "matches": [
+  {
+   "opponent": "casey",
+   "round": 2,
+   "wins": 1,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "casey",
+     "winner": "jackson"
+    },
+    {
+     "opponent": "casey",
+     "winner": "casey"
+    },
+    {
+     "opponent": "casey",
+     "winner": "casey"
+    }
+   ],
+   "winner": "casey"
+  },
+  {
+   "opponent": "perry",
+   "round": 3,
+   "wins": 2,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "perry",
+     "winner": "jackson"
+    },
+    {
+     "opponent": "perry",
+     "winner": "jackson"
+    },
+    {
+     "opponent": "perry",
+     "winner": "perry"
+    }
+   ],
+   "winner": "jackson"
+  },
+  {
+   "opponent": "taylor",
+   "round": 4,
+   "wins": 2,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "taylor",
+     "winner": "jackson"
+    },
+    {
+     "opponent": "taylor",
+     "winner": "jackson"
+    }
+   ],
+   "winner": "jackson"
+  }
+ ],
+ "mainboard": [
+  "Thoughtseize",
+  "Baleful Strix",
+  "Serum Visions",
+  "Brainstorm",
+  "Mana Leak",
+  "Fire // Ice",
+  "Kitesail Freebooter",
+  "Repeal",
+  "Tasigur, the Golden Fang",
+  "Abrade",
+  "Disfigure",
+  "Read the Bones",
+  "Counterspell",
+  "Daze",
+  "Lórien Revealed",
+  "Condescend",
+  "Dig Through Time",
+  "Takenuma, Abandoned Mire",
+  "Careful Study",
+  "Liliana of the Veil",
+  "Preordain",
+  "Spell Pierce",
+  "Inti, Seneschal of the Sun",
+  "Murderous Cut",
+  "Mishra's Bauble",
+  "Consider",
+  "Mountain",
+  "Island",
+  "Island",
+  "Island",
+  "Swamp",
+  "Canyon Slough",
+  "Steam Vents",
+  "Bloodstained Mire",
+  "Misty Rainforest",
+  "Scalding Tarn",
+  "Mystic Sanctuary",
+  "Polluted Delta",
+  "Blood Crypt",
+  "Fetid Pools"
+ ],
+ "sideboard": [
+  "Archenemy's Charm",
+  "Puppeteer Clique",
+  "Umbral Collar Zealot",
+  "Dress Down",
+  "Ulcerate",
+  "Woe Strider",
+  "Cankerbloom",
+  "Faerie Dreamthief",
+  "Elegant Parlor",
+  "Bitterblossom"
+ ]
+}
