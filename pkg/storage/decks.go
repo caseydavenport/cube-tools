@@ -67,6 +67,7 @@ func (d *Deck) GetLabels() []string {
 	return d.Labels
 }
 func (d *Deck) GetDraftSize() int   { return d.DraftSize }
+func (d *Deck) GetEventID() string  { return d.Metadata.DraftID }
 func (d *Deck) GetMainboard() []types.Card {
 	res := make([]types.Card, len(d.Mainboard))
 	for i, c := range d.Mainboard {

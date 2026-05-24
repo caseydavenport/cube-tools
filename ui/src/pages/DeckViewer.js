@@ -268,6 +268,15 @@ export function DeckViewer(props) {
     return Array.from(seen).sort();
   }, [decks]);
 
+  const eventIDs = useMemo(() => {
+    let seen = new Set();
+    for (let deck of decks) {
+      const eid = deck.metadata && deck.metadata.draft_id;
+      if (eid) seen.add(eid);
+    }
+    return Array.from(seen).sort();
+  }, [decks]);
+
   const archetypes = useMemo(() => {
     let seen = new Set();
     for (let deck of decks) {
@@ -333,6 +342,7 @@ export function DeckViewer(props) {
             cardNames={cubeData.cards.map(c => c.name)}
             playerNames={playerNames}
             archetypes={archetypes}
+            eventIDs={eventIDs}
             onChange={(e) => setTypingStr(e.target.value)}
           />
         </div>
@@ -933,6 +943,10 @@ function PlayerFrame(input) {
         <div className="stat-item">
           <span className="player-frame-title">Tags:</span>
           <span className="player-frame-value">{labels || "—"}</span>
+        </div>
+        <div className="stat-item">
+          <span className="player-frame-title">Event:</span>
+          <span className="player-frame-value">{(deck.metadata && deck.metadata.draft_id) || "—"}</span>
         </div>
         <div className="stat-item">
           <span className="player-frame-title">Avg CMC:</span>

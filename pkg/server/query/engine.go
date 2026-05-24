@@ -17,6 +17,7 @@ type Deck interface {
 	GetSideboard() []types.Card
 	GetPool() []types.Card
 	GetColors() []string
+	GetEventID() string
 }
 
 func DeckMatches(d Deck, matchStr string) bool {
@@ -44,6 +45,9 @@ func DeckMatches(d Deck, matchStr string) bool {
 		if strings.Contains(strings.ToLower(d.GetPlayer()), fs) {
 			return true
 		}
+		if strings.Contains(strings.ToLower(d.GetEventID()), fs) {
+			return true
+		}
 		for _, label := range d.GetLabels() {
 			if strings.Contains(strings.ToLower(label), fs) {
 				return true
@@ -64,6 +68,12 @@ func DeckMatches(d Deck, matchStr string) bool {
 				val := strings.TrimPrefix(term, "player:")
 				val = strings.Trim(val, "\"")
 				if !strings.Contains(strings.ToLower(d.GetPlayer()), strings.ToLower(val)) {
+					return false
+				}
+			} else if strings.HasPrefix(term, "event:") {
+				val := strings.TrimPrefix(term, "event:")
+				val = strings.Trim(val, "\"")
+				if !strings.Contains(strings.ToLower(d.GetEventID()), strings.ToLower(val)) {
 					return false
 				}
 			} else if strings.HasPrefix(term, "dcolor") {
@@ -214,7 +224,7 @@ func parseTerms(matchStr string) []string {
 }
 
 func isTermQuery(matchStr string) bool {
-	queryTerms := []string{"color", "dcolor", "cmc", "t", "o", "name", "pow", "games", "mb", "sb", "players", "drafts", "winpct", "arch", "player", "draftSize", "minCards"}
+	queryTerms := []string{"color", "dcolor", "cmc", "t", "o", "name", "pow", "games", "mb", "sb", "players", "drafts", "winpct", "arch", "player", "event", "draftSize", "minCards"}
 	splits := parseTerms(matchStr)
 	for _, term := range splits {
 		for _, qt := range queryTerms {
@@ -227,7 +237,7 @@ func isTermQuery(matchStr string) bool {
 }
 
 func isDeckOnly(term string) bool {
-	deckOnlyTerms := []string{"arch", "player", "dcolor", "draftSize", "minCards"}
+	deckOnlyTerms := []string{"arch", "player", "event", "dcolor", "draftSize", "minCards"}
 	for _, dot := range deckOnlyTerms {
 		if strings.HasPrefix(term, dot) {
 			return true
