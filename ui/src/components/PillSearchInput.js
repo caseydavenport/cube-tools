@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { parseTerms, isTermQuery, QueryTermMetadata } from '../utils/Query.js';
 
 // Pure helper functions for autocomplete logic
-function computeSuggestions(fragment, cardNames, playerNames, archetypes) {
+function computeSuggestions(fragment, cardNames, playerNames, archetypes, eventIDs) {
   const lower = fragment.toLowerCase();
 
   // Check if we are typing a value for a specific term (e.g., color:)
@@ -46,6 +46,19 @@ function computeSuggestions(fragment, cardNames, playerNames, archetypes) {
             .map(p => ({
               term: p.includes(" ") ? `"${p}"` : p,
               description: "Player Name",
+              isValue: true,
+              prefix: prefix
+            }));
+        }
+
+        // Event IDs when typing 'event:'
+        if (meta.term === "event" && eventIDs && eventIDs.length > 0) {
+          return eventIDs
+            .filter(e => e.toLowerCase().includes(valuePart.toLowerCase()))
+            .slice(0, 10)
+            .map(e => ({
+              term: e,
+              description: "Event ID",
               isValue: true,
               prefix: prefix
             }));
@@ -181,7 +194,7 @@ function getPillType(term, playerNames) {
   return 'card';
 }
 
-export function PillSearchInput({ value, onChange, placeholder, label, cardNames, playerNames, archetypes }) {
+export function PillSearchInput({ value, onChange, placeholder, label, cardNames, playerNames, archetypes, eventIDs }) {
   const [inputValue, setInputValue] = useState("");
   const [showDropdown, setShowDropdown] = useState(false);
   const [selectedIdx, setSelectedIdx] = useState(0);
@@ -198,7 +211,7 @@ export function PillSearchInput({ value, onChange, placeholder, label, cardNames
   const currentTyping = isEndsWithSpace ? "" : (terms[terms.length - 1] || "");
 
   // Autocomplete state
-  const suggestions = useMemo(() => computeSuggestions(currentTyping, cardNames, playerNames, archetypes), [currentTyping, cardNames, playerNames, archetypes]);
+  const suggestions = useMemo(() => computeSuggestions(currentTyping, cardNames, playerNames, archetypes, eventIDs), [currentTyping, cardNames, playerNames, archetypes, eventIDs]);
   const helpText = useMemo(() => computeHelpText(currentTyping), [currentTyping]);
 
   // Sync selection index

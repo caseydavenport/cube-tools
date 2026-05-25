@@ -6,7 +6,9 @@ import (
 	"io"
 	"net/http"
 	"os"
+	"os/exec"
 	"path/filepath"
+	"sort"
 	"strings"
 
 	"github.com/caseydavenport/cube-tools/pkg/types"
@@ -37,6 +39,11 @@ var ImportHedronCmd = &cobra.Command{
 			logrus.Fatal("No drafts found for this cube on Hedron")
 		}
 
+		// Assign a stable per-draft seq within each (date, eventCode)
+		// group by flight name. Used to disambiguate multiple drafts
+		// from the same event on the same day.
+		seqByDraftID := assignDraftSeqs(drafts)
+
 		var selectedDraft *HedronDraft
 		if hedronDraftID != "" {
 			for _, d := range drafts {
@@ -51,7 +58,7 @@ var ImportHedronCmd = &cobra.Command{
 		} else {
 			fmt.Println("Available drafts:")
 			for i, d := range drafts {
-				fmt.Printf("[%d] %s - %s (%d players)\n", i, d.Date[:10], d.EventName, len(d.Players))
+				fmt.Printf("[%d] %s - %s / %s (%d players)\n", i, d.Date[:10], d.EventName, d.FlightName, len(d.Players))
 			}
 			fmt.Print("Select a draft index to import: ")
 			var index int
@@ -62,7 +69,7 @@ var ImportHedronCmd = &cobra.Command{
 			selectedDraft = &drafts[index]
 		}
 
-		importDraft(hedronOutCube, selectedDraft)
+		importDraft(hedronOutCube, selectedDraft, seqByDraftID[selectedDraft.DraftID])
 
 		// Regenerate index.
 		index(hedronOutCube)
@@ -82,22 +89,26 @@ type HedronSearchResponse struct {
 }
 
 type HedronDraft struct {
-	DraftID   string         `json:"draftId"`
-	EventCode string         `json:"eventCode"`
-	EventName string         `json:"eventName"`
-	FlightName string        `json:"flightName"`
-	Date      string         `json:"date"`
-	Players   []HedronPlayer `json:"players"`
-	Matches   []HedronMatch  `json:"matches"`
+	DraftID    string         `json:"draftId"`
+	EventCode  string         `json:"eventCode"`
+	EventName  string         `json:"eventName"`
+	FlightName string         `json:"flightName"`
+	Date       string         `json:"date"`
+	Players    []HedronPlayer `json:"players"`
+	Matches    []HedronMatch  `json:"matches"`
+}
+
+type HedronImageRef struct {
+	URL string `json:"url"`
 }
 
 type HedronPlayer struct {
 	ID     string `json:"id"`
 	Record string `json:"record"`
 	Images struct {
-		Deck []struct {
-			URL string `json:"url"`
-		} `json:"deck"`
+		Checkin  []HedronImageRef `json:"checkin"`
+		Checkout []HedronImageRef `json:"checkout"`
+		Deck     []HedronImageRef `json:"deck"`
 	} `json:"images"`
 }
 
@@ -128,28 +139,58 @@ func fetchHedronDrafts(cubeID string) ([]HedronDraft, error) {
 	return searchResp.Drafts, nil
 }
 
-func sanitizePlayerName(playerID, draftID string) string {
-	// Combine player ID and short draft ID for a globally unique ID.
-	// We use the first 8 chars of the draft UUID.
-	shortID := draftID
-	if len(shortID) > 8 {
-		shortID = shortID[:8]
+// assignDraftSeqs returns a map from draft ID to its 1-indexed seq within
+// the (date, eventCode) group, ordered by flight name. Lets the importer
+// disambiguate multiple drafts of the same event on the same day with a
+// stable, human-meaningful index.
+func assignDraftSeqs(drafts []HedronDraft) map[string]int {
+	type key struct{ date, event string }
+	groups := map[key][]HedronDraft{}
+	for _, d := range drafts {
+		k := key{d.Date[:10], d.EventCode}
+		groups[k] = append(groups[k], d)
 	}
-	name := fmt.Sprintf("%s_%s", playerID, shortID)
-	return strings.ReplaceAll(strings.ToLower(name), " ", "")
+	out := map[string]int{}
+	for _, group := range groups {
+		sort.SliceStable(group, func(i, j int) bool {
+			return group[i].FlightName < group[j].FlightName
+		})
+		for i, d := range group {
+			out[d.DraftID] = i + 1
+		}
+	}
+	return out
 }
 
-func importDraft(cube string, d *HedronDraft) {
-	// Hedron date is ISO format, cube-tools wants YYYY-MM-DD.
-	dateStr := d.Date[:10]
-	// Use draft ID as sub-directory name, but sanitized.
-	// Include the short draft ID to ensure uniqueness.
-	shortID := d.DraftID
-	if len(shortID) > 8 {
-		shortID = shortID[:8]
+// hedronPlayerNum returns the 1-indexed player number from a Hedron player
+// ID like "Player 8". Returns 0 if it doesn't fit the expected shape.
+func hedronPlayerNum(playerID string) int {
+	n := 0
+	if _, err := fmt.Sscanf(playerID, "Player %d", &n); err != nil {
+		return 0
 	}
-	draftDirName := fmt.Sprintf("%s_%s_%s", dateStr, d.EventCode, shortID)
-	outdir := filepath.Join("data", cube, draftDirName)
+	return n
+}
+
+// localPlayerID returns the canonical player ID used inside this codebase:
+// "<draftID>-p<N>" (e.g. "2026-01-17_p1p12026_1-p3").
+func localPlayerID(draftID string, hedronPlayerID string) string {
+	n := hedronPlayerNum(hedronPlayerID)
+	if n == 0 {
+		// Fall back to a sanitized form when the player ID doesn't fit
+		// the "Player N" pattern.
+		return fmt.Sprintf("%s-%s", draftID, strings.ToLower(strings.ReplaceAll(hedronPlayerID, " ", "")))
+	}
+	return fmt.Sprintf("%s-p%d", draftID, n)
+}
+
+func importDraft(cube string, d *HedronDraft, seq int) {
+	dateStr := d.Date[:10]
+	if seq < 1 {
+		seq = 1
+	}
+	draftID := fmt.Sprintf("%s_%s_%d", dateStr, d.EventCode, seq)
+	outdir := filepath.Join("data", cube, draftID)
 	imgdir := filepath.Join(outdir, "img")
 
 	// Error if the directory already exists to prevent accidental overwrites.
@@ -161,7 +202,6 @@ func importDraft(cube string, d *HedronDraft) {
 		logrus.WithError(err).Fatal("Failed to create directories")
 	}
 
-	// Write per-draft metadata once.
 	draftMeta := &types.DraftMetadata{
 		EventName:        d.EventName,
 		EventDescription: fmt.Sprintf("Imported from Hedron Network. Event Code: %s, Flight: %s", d.EventCode, d.FlightName),
@@ -170,41 +210,32 @@ func importDraft(cube string, d *HedronDraft) {
 		logrus.WithError(err).Fatal("Failed to write draft metadata")
 	}
 
-	// For each player, create a deck.
 	playerDecks := make(map[string]*types.Deck)
 
 	for _, p := range d.Players {
 		deck := types.NewDeck()
-		deck.Player = sanitizePlayerName(p.ID, d.DraftID)
+		deck.Player = localPlayerID(draftID, p.ID)
 		deck.Date = dateStr
-		deck.Metadata.DraftID = draftDirName
-		
-		// If they have a deck photo, download it.
-		if len(p.Images.Deck) > 0 {
-			imageURL := "https://hedron.network" + p.Images.Deck[0].URL
-			imageFilename := fmt.Sprintf("%s.jpg", deck.Player)
-			imagePath := filepath.Join(imgdir, imageFilename)
-			
-			logrus.Infof("Downloading deck photo for %s...", p.ID)
-			if err := downloadFile(imageURL, imagePath); err != nil {
-				logrus.WithError(err).Warnf("Failed to download image for %s", p.ID)
-			} else {
-				deck.DeckImage = filepath.Join("img", imageFilename)
-			}
-		}
-		
+		deck.Metadata.DraftID = draftID
+
+		// Download all available image variants into img/p<N>/.
+		playerShort := strings.TrimPrefix(deck.Player, draftID+"-")
+		playerImgDir := filepath.Join(imgdir, playerShort)
+		downloadVariants(playerImgDir, "checkin", p.Images.Checkin, p.ID)
+		downloadVariants(playerImgDir, "checkout", p.Images.Checkout, p.ID)
+		downloadVariants(playerImgDir, "deck", p.Images.Deck, p.ID)
+
 		playerDecks[p.ID] = deck
 	}
 
-	// Add matches to each deck.
 	for _, m := range d.Matches {
 		if m.IsBye {
 			continue
 		}
-		
+
 		p1Deck, ok1 := playerDecks[m.Player1ID]
 		p2Deck, ok2 := playerDecks[m.Player2ID]
-		
+
 		if !ok1 || !ok2 {
 			continue
 		}
@@ -239,21 +270,62 @@ func importDraft(cube string, d *HedronDraft) {
 		})
 	}
 
-	// Save all decks.
 	for _, deck := range playerDecks {
 		filename := filepath.Join(outdir, fmt.Sprintf("%s.json", deck.Player))
 		deck.Metadata.Path = filename
-		
-		bs, err := json.MarshalIndent(deck, "", " ")
-		if err != nil {
-			logrus.WithError(err).Fatal("Failed to marshal deck")
-		}
-		
-		if err := os.WriteFile(filename, bs, os.ModePerm); err != nil {
+
+		if err := deck.Save(filename); err != nil {
 			logrus.WithError(err).Fatal("Failed to write deck file")
 		}
 		logrus.Infof("Saved deck for %s", deck.Player)
 	}
+}
+
+// downloadVariants writes each image in refs to playerImgDir as
+// "<kind>-<idx>.jpg", 1-indexed. Creates playerImgDir on first use.
+func downloadVariants(playerImgDir, kind string, refs []HedronImageRef, playerLabel string) {
+	if len(refs) == 0 {
+		return
+	}
+	if err := os.MkdirAll(playerImgDir, os.ModePerm); err != nil {
+		logrus.WithError(err).Fatalf("Failed to create %s", playerImgDir)
+	}
+	for i, ref := range refs {
+		filename := fmt.Sprintf("%s-%d.jpg", kind, i+1)
+		dst := filepath.Join(playerImgDir, filename)
+		url := "https://hedron.network" + ref.URL
+		logrus.Infof("Downloading %s/%s for %s", filepath.Base(playerImgDir), filename, playerLabel)
+		if err := downloadFile(url, dst); err != nil {
+			logrus.WithError(err).Warnf("Failed to download %s for %s", filename, playerLabel)
+			continue
+		}
+		if err := forceLandscape(dst); err != nil {
+			logrus.WithError(err).Warnf("Failed to normalize orientation for %s", dst)
+		}
+	}
+}
+
+// forceLandscape applies any EXIF orientation and rotates the file 90° CCW
+// if it's still physically portrait, so the on-disk image always reads as
+// landscape regardless of viewer EXIF support.
+func forceLandscape(path string) error {
+	if err := exec.Command("mogrify", "-auto-orient", path).Run(); err != nil {
+		return fmt.Errorf("auto-orient: %w", err)
+	}
+	out, err := exec.Command("identify", "-format", "%w %h", path).Output()
+	if err != nil {
+		return fmt.Errorf("identify: %w", err)
+	}
+	var w, h int
+	if _, err := fmt.Sscanf(string(out), "%d %d", &w, &h); err != nil {
+		return fmt.Errorf("parse dims %q: %w", string(out), err)
+	}
+	if h > w {
+		if err := exec.Command("mogrify", "-rotate", "-90", path).Run(); err != nil {
+			return fmt.Errorf("rotate: %w", err)
+		}
+	}
+	return nil
 }
 
 func downloadFile(url, path string) error {

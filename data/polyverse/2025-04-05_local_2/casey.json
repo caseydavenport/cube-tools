@@ -1,0 +1,94 @@
+{
+ "metadata": {
+  "path": "data/polyverse/2025-04-05_local_2/casey.json",
+  "draft_id": "2025-04-05_local_2",
+  "combined_file": "data/polyverse/2025-04-05_local_2/casey.txt"
+ },
+ "macro_archetype": "aggro",
+ "labels": [
+  "saga",
+  "artifacts"
+ ],
+ "player": "casey",
+ "date": "2025-04-05",
+ "matches": [
+  {
+   "opponent": "dom",
+   "round": 1,
+   "wins": 0,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "dom",
+     "winner": "dom"
+    }
+   ],
+   "winner": "dom"
+  }
+ ],
+ "mainboard": [
+  "Urza's Saga",
+  "Esper Sentinel",
+  "Grim Lavamancer",
+  "Harm's Way",
+  "Soul Partition",
+  "Candy Trail",
+  "Luminarch Aspirant",
+  "Twinshot Sniper",
+  "Lizard Blades",
+  "Lava Dart",
+  "Flames of the Firebrand",
+  "Elspeth's Smite",
+  "Lost Jitte",
+  "Cheeky House-Mouse // Squeak By",
+  "Monastery Swiftspear",
+  "Oust",
+  "Flame Jab",
+  "Spirited Companion",
+  "Scalding Tarn",
+  "Marsh Flats",
+  "Sunbaked Canyon",
+  "Clarion Spirit",
+  "Manamorphose",
+  "Blazing Rootwalla",
+  "Abrade",
+  "Arid Mesa",
+  "Inti, Seneschal of the Sun",
+  "Welcoming Vampire",
+  "Wooded Foothills",
+  "Sparring Construct",
+  "Sacred Foundry",
+  "Crimson Wisps",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Mountain"
+ ],
+ "sideboard": [
+  "Grim Flayer",
+  "Boseiju, Who Endures",
+  "Llanowar Elves",
+  "Sprite Dragon",
+  "Abundant Harvest",
+  "Moon-Circuit Hacker",
+  "Six",
+  "No More Lies",
+  "Saheeli, Sublime Artificer",
+  "Brainstorm",
+  "Aether Spellbomb",
+  "Merfolk Looter",
+  "Infernal Grasp",
+  "Murderous Cut",
+  "Grim Bauble",
+  "Canyon Slough",
+  "Mesmeric Fiend",
+  "Prismatic Vista",
+  "Marsh Flats",
+  "Wooded Foothills"
+ ]
+}

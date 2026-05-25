@@ -1,0 +1,123 @@
+{
+ "metadata": {
+  "path": "data/polyverse/2024-05-14_local_1/xander.json",
+  "draft_id": "2024-05-14_local_1",
+  "combined_file": "data/polyverse/2024-05-14_local_1/xander.txt"
+ },
+ "macro_archetype": "control",
+ "labels": [
+  "spells",
+  "lands"
+ ],
+ "player": "xander",
+ "date": "2024-05-14",
+ "matches": [
+  {
+   "opponent": "casey",
+   "round": 2,
+   "wins": 1,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "casey",
+     "winner": "xander"
+    },
+    {
+     "opponent": "casey",
+     "winner": "casey"
+    },
+    {
+     "opponent": "casey",
+     "winner": "casey"
+    }
+   ],
+   "winner": "casey"
+  },
+  {
+   "opponent": "dom",
+   "round": 4,
+   "wins": 0,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "dom",
+     "winner": "dom"
+    },
+    {
+     "opponent": "dom",
+     "winner": "dom"
+    }
+   ],
+   "winner": "dom"
+  },
+  {
+   "opponent": "greg",
+   "round": 3,
+   "wins": 0,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "greg",
+     "winner": "greg"
+    },
+    {
+     "opponent": "greg",
+     "winner": "greg"
+    }
+   ],
+   "winner": "greg"
+  }
+ ],
+ "mainboard": [
+  "Restless Vinestalk",
+  "Young Pyromancer",
+  "Saheeli, Sublime Artificer",
+  "Scalding Tarn",
+  "Sacred Foundry",
+  "Polluted Delta",
+  "Prismatic Ending",
+  "Temple Garden",
+  "Negate",
+  "Memory Lapse",
+  "Hallowed Fountain",
+  "Aether Tradewinds",
+  "Fiery Islet",
+  "Breeding Pool",
+  "Exclusion Mage",
+  "Tragic Fall",
+  "Dragon's Rage Channeler",
+  "Field of the Dead",
+  "Empty the Warrens",
+  "Sprite Dragon",
+  "Manamorphose",
+  "Winds of Rebuke",
+  "Ephara's Dispersal",
+  "Murderous Cut",
+  "Ethereal Forager",
+  "Candy Trail",
+  "Blood Crypt",
+  "Serum Visions",
+  "Unholy Heat",
+  "Soul-Scar Mage",
+  "Fatal Push",
+  "Underground Mortuary",
+  "Misty Rainforest",
+  "Boseiju, Who Endures",
+  "Restless Fortress",
+  "Thundering Falls",
+  "Chatter of the Squirrel",
+  "Breeding Pool",
+  "Consider",
+  "Into the Roil"
+ ],
+ "sideboard": [
+  "Bomat Courier",
+  "Turn to Mist",
+  "Mystic Confluence",
+  "Goblin Bombardment",
+  "Fact or Fiction"
+ ]
+}

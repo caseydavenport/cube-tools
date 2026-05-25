@@ -1,0 +1,114 @@
+{
+ "metadata": {
+  "path": "data/polyverse/2025-05-26_local_1/jen.json",
+  "draft_id": "2025-05-26_local_1",
+  "combined_file": "data/polyverse/2025-05-26_local_1/jen.csv"
+ },
+ "macro_archetype": "midrange",
+ "labels": [
+  "+1/+1",
+  "token",
+  "lands",
+  "ramp"
+ ],
+ "player": "jen",
+ "date": "2025-05-26",
+ "matches": [
+  {
+   "opponent": "greg",
+   "round": 1,
+   "wins": 0,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "greg",
+     "winner": "greg"
+    },
+    {
+     "opponent": "greg",
+     "winner": "greg"
+    }
+   ],
+   "winner": "greg"
+  },
+  {
+   "opponent": "james",
+   "round": 2,
+   "wins": 2,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "james",
+     "winner": "jen"
+    },
+    {
+     "opponent": "james",
+     "winner": "jen"
+    }
+   ],
+   "winner": "jen"
+  }
+ ],
+ "mainboard": [
+  "Forest",
+  "Forest",
+  "Forest",
+  "Forest",
+  "Forest",
+  "Young Pyromancer",
+  "Wooded Foothills",
+  "Stomping Ground",
+  "Stomping Ground",
+  "Dragonsguard Elite",
+  "Crop Rotation",
+  "Abrade",
+  "Sheltered Thicket",
+  "Courser of Kruphix",
+  "Tireless Tracker",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Dreadhorde Arcanist",
+  "Abundant Harvest",
+  "Questing Druid // Seek the Beast",
+  "Renata, Called to the Hunt",
+  "Rishadan Port",
+  "Pick Your Poison",
+  "Electrostatic Infantry",
+  "Llanowar Elves",
+  "Song of the Dryads",
+  "Gilded Goose",
+  "Birds of Paradise",
+  "Hardened Scales",
+  "Pollenbright Druid",
+  "Cankerbloom",
+  "Chainweb Aracnir",
+  "Roaring Earth",
+  "Lava Dart",
+  "Wilderness Reclamation",
+  "Burst Lightning"
+ ],
+ "sideboard": [
+  "Collected Company",
+  "Opt",
+  "Ravenous Squirrel",
+  "Arbor Elf",
+  "Jolrael, Mwonvuli Recluse",
+  "Tarmogoyf",
+  "No More Lies",
+  "Elspeth's Smite",
+  "Vivien, Champion of the Wilds",
+  "Faerie Dreamthief",
+  "Warden of the Inner Sky",
+  "Audacity",
+  "Arasta of the Endless Web",
+  "Utopia Sprawl",
+  "Sylvan Library",
+  "Consider"
+ ]
+}

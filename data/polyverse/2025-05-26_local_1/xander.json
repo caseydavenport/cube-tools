@@ -1,0 +1,106 @@
+{
+ "metadata": {
+  "path": "data/polyverse/2025-05-26_local_1/xander.json",
+  "draft_id": "2025-05-26_local_1",
+  "combined_file": "data/polyverse/2025-05-26_local_1/xander.csv"
+ },
+ "macro_archetype": "midrange",
+ "labels": [
+  "lands"
+ ],
+ "player": "xander",
+ "date": "2025-05-26",
+ "matches": [
+  {
+   "opponent": "cara",
+   "round": 2,
+   "wins": 2,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "cara",
+     "winner": "xander"
+    },
+    {
+     "opponent": "cara",
+     "winner": "xander"
+    }
+   ],
+   "winner": "xander"
+  },
+  {
+   "opponent": "greg",
+   "round": 3,
+   "wins": 2,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "greg",
+     "winner": "xander"
+    },
+    {
+     "opponent": "greg",
+     "winner": "xander"
+    },
+    {
+     "opponent": "greg",
+     "winner": "greg"
+    }
+   ],
+   "winner": "xander"
+  }
+ ],
+ "mainboard": [
+  "Blood Crypt",
+  "Forest",
+  "Forest",
+  "Primeval Titan",
+  "Windswept Heath",
+  "Hedge Maze",
+  "Six",
+  "Call of the Herd",
+  "Life from the Loam",
+  "Wrenn and Six",
+  "Polluted Delta",
+  "Eternal Witness",
+  "Tamiyo, Compleated Sage",
+  "Watery Grave",
+  "Territorial Kavu",
+  "Marsh Flats",
+  "Kishla Skimmer",
+  "Edge of Autumn",
+  "Hallowed Fountain",
+  "The Goose Mother",
+  "Commercial District",
+  "Kiora, the Rising Tide",
+  "Faithless Looting",
+  "Field of the Dead",
+  "Reckless Pyrosurfer",
+  "Engineered Explosives",
+  "Titania, Protector of Argoth",
+  "Grim Flayer",
+  "Fact or Fiction",
+  "Celestial Colonnade",
+  "Infernal Grasp",
+  "Virtue of Persistence // Locthwain Scorn",
+  "Breeding Pool",
+  "Lotus Cobra",
+  "Misty Rainforest",
+  "Merfolk Looter",
+  "Traverse the Ulvenwald",
+  "Temple Garden",
+  "Temple Garden",
+  "Murderous Cut"
+ ],
+ "sideboard": [
+  "Mystic Confluence",
+  "Bloodghast",
+  "Enlightened Tutor",
+  "Golos, Tireless Pilgrim",
+  "Proft's Eidetic Memory",
+  "March of Otherworldly Light",
+  "Negate"
+ ]
+}

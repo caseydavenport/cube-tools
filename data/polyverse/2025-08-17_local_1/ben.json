@@ -1,0 +1,133 @@
+{
+ "metadata": {
+  "path": "data/polyverse/2025-08-17_local_1/ben.json",
+  "draft_id": "2025-08-17_local_1",
+  "combined_file": "data/polyverse/2025-08-17_local_1/ben.csv"
+ },
+ "macro_archetype": "aggro",
+ "labels": [],
+ "player": "ben",
+ "date": "2025-08-17",
+ "matches": [
+  {
+   "opponent": "kevin",
+   "round": 1,
+   "wins": 1,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "kevin",
+     "winner": "ben"
+    },
+    {
+     "opponent": "kevin",
+     "winner": "kevin"
+    },
+    {
+     "opponent": "kevin",
+     "winner": "kevin"
+    }
+   ],
+   "winner": "kevin"
+  },
+  {
+   "opponent": "maxi",
+   "round": 2,
+   "wins": 2,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "maxi",
+     "winner": "ben"
+    },
+    {
+     "opponent": "maxi",
+     "winner": "ben"
+    }
+   ],
+   "winner": "ben"
+  },
+  {
+   "opponent": "michael",
+   "round": 3,
+   "wins": 2,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "michael",
+     "winner": "ben"
+    },
+    {
+     "opponent": "michael",
+     "winner": "ben"
+    },
+    {
+     "opponent": "michael",
+     "winner": "michael"
+    }
+   ],
+   "winner": "ben"
+  }
+ ],
+ "mainboard": [
+  "Bloodsoaked Champion",
+  "Fatal Push",
+  "Legion Extruder",
+  "Cling to Dust",
+  "Swamp",
+  "Swamp",
+  "Swamp",
+  "Swamp",
+  "Bomat Courier",
+  "Seasoned Pyromancer",
+  "Goblin Bombardment",
+  "Pia and Kiran Nalaar",
+  "Kavaron Harrier",
+  "Marsh Flats",
+  "Unearth",
+  "Lord Skitter, Sewer King",
+  "Lingering Souls",
+  "Unholy Heat",
+  "Reckless Pyrosurfer",
+  "Read the Bones",
+  "Grim Lavamancer",
+  "Plains",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Dead Weight",
+  "Arid Mesa",
+  "Dark Confidant",
+  "Bloodstained Mire",
+  "Silent Clearing",
+  "Raucous Theater",
+  "Toxic Deluge",
+  "Verdant Catacombs",
+  "Inti, Seneschal of the Sun",
+  "Blood Crypt",
+  "Searslicer Goblin",
+  "Grim Bauble",
+  "Lost Jitte",
+  "Murderous Cut"
+ ],
+ "sideboard": [
+  "The Binding of the Titans",
+  "Merfolk Looter",
+  "Twinshot Sniper",
+  "Archenemy's Charm",
+  "Harm's Way",
+  "Kor Skyfisher",
+  "Mayhem Devil",
+  "Bloodsky Berserker",
+  "March of Otherworldly Light",
+  "Fearless Fledgling",
+  "Chandra, Hope's Beacon",
+  "Meticulous Archive",
+  "Thalia, Guardian of Thraben",
+  "Scrabbling Claws"
+ ]
+}

@@ -1,0 +1,125 @@
+{
+ "metadata": {
+  "path": "data/polyverse/2025-08-17_local_1/maxi.json",
+  "draft_id": "2025-08-17_local_1",
+  "combined_file": "data/polyverse/2025-08-17_local_1/maxi.csv"
+ },
+ "macro_archetype": "midrange",
+ "labels": [
+  "lands"
+ ],
+ "player": "maxi",
+ "date": "2025-08-17",
+ "matches": [
+  {
+   "opponent": "ben",
+   "round": 2,
+   "wins": 0,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "ben",
+     "winner": "ben"
+    },
+    {
+     "opponent": "ben",
+     "winner": "ben"
+    }
+   ],
+   "winner": "ben"
+  },
+  {
+   "opponent": "casey",
+   "round": 1,
+   "wins": 2,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "casey",
+     "winner": "maxi"
+    },
+    {
+     "opponent": "casey",
+     "winner": "maxi"
+    }
+   ],
+   "winner": "maxi"
+  },
+  {
+   "opponent": "wilson",
+   "round": 4,
+   "wins": 2,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "wilson",
+     "winner": "maxi"
+    },
+    {
+     "opponent": "wilson",
+     "winner": "maxi"
+    },
+    {
+     "opponent": "wilson",
+     "winner": "wilson"
+    }
+   ],
+   "winner": "maxi"
+  }
+ ],
+ "mainboard": [
+  "Sacred Foundry",
+  "Otawara, Soaring City",
+  "Helping Hand",
+  "Six",
+  "Augur of Autumn",
+  "Mountain",
+  "Boseiju, Who Endures",
+  "Seal of Removal",
+  "Treasure Cruise",
+  "Stomping Ground",
+  "Esper Sentinel",
+  "Faithless Looting",
+  "Thundering Falls",
+  "Questing Druid // Seek the Beast",
+  "Edge of Autumn",
+  "The Goose Mother",
+  "Explore",
+  "Portable Hole",
+  "Prismatic Ending",
+  "Rishadan Port",
+  "Shifting Woodland",
+  "Kiora, the Rising Tide",
+  "Celestial Colonnade",
+  "Field of the Dead",
+  "Wrath of God",
+  "Plains",
+  "Plains",
+  "The Huntsman's Redemption",
+  "Touch the Spirit Realm",
+  "Horizon Canopy",
+  "Knight of the Reliquary",
+  "Werefox Bodyguard",
+  "Glass Casket",
+  "Wooded Foothills",
+  "Restless Vinestalk",
+  "Careful Study",
+  "Misty Rainforest",
+  "Traverse the Ulvenwald",
+  "Journey to Nowhere",
+  "Windswept Heath",
+  "Hedge Maze"
+ ],
+ "sideboard": [
+  "Renata, Called to the Hunt",
+  "Demand Answers",
+  "Unexpectedly Absent",
+  "Fiery Islet",
+  "Steam Vents",
+  "Canyon Slough",
+  "Rielle, the Everwise"
+ ]
+}

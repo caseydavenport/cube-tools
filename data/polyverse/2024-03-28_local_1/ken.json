@@ -1,0 +1,130 @@
+{
+ "metadata": {
+  "path": "data/polyverse/2024-03-28_local_1/ken.json",
+  "draft_id": "2024-03-28_local_1",
+  "combined_file": "data/polyverse/2024-03-28_local_1/ken.txt"
+ },
+ "macro_archetype": "midrange",
+ "labels": [
+  "sacrifice"
+ ],
+ "player": "ken",
+ "date": "2024-03-28",
+ "matches": [
+  {
+   "opponent": "alexs",
+   "round": 2,
+   "wins": 2,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "alexs",
+     "winner": "ken"
+    },
+    {
+     "opponent": "alexs",
+     "winner": "ken"
+    }
+   ],
+   "winner": "ken"
+  },
+  {
+   "opponent": "casey",
+   "round": 1,
+   "wins": 2,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "casey",
+     "winner": "ken"
+    },
+    {
+     "opponent": "casey",
+     "winner": "ken"
+    }
+   ],
+   "winner": "ken"
+  },
+  {
+   "opponent": "jan",
+   "round": 3,
+   "wins": 0,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "jan",
+     "winner": "jan"
+    },
+    {
+     "opponent": "jan",
+     "winner": "jan"
+    }
+   ],
+   "winner": "jan"
+  }
+ ],
+ "mainboard": [
+  "Battlefield Forge",
+  "Bitter Triumph",
+  "Carrion Feeder",
+  "Cruel Celebrant",
+  "Dark Confidant",
+  "Faithless Looting",
+  "Feed the Cauldron",
+  "Goblin Guide",
+  "Godless Shrine",
+  "Grim Initiate",
+  "Isolated Chapel",
+  "Journey to Nowhere",
+  "Krenko, Tin Street Kingpin",
+  "Lightning Bolt",
+  "Lizard Blades",
+  "Mayhem Devil",
+  "Mogg War Marshal",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Pitiless Pontiff",
+  "Plains",
+  "Plains",
+  "Pyrite Spellbomb",
+  "Reprieve",
+  "Reveillark",
+  "Sacred Foundry",
+  "Scalding Tarn",
+  "Siege-Gang Commander",
+  "Swamp",
+  "Swamp",
+  "Swamp",
+  "Swamp",
+  "Tibalt's Rager",
+  "Unearth",
+  "Vampire Aristocrat",
+  "Welcoming Vampire"
+ ],
+ "sideboard": [
+  "Angel of Salvation",
+  "Beast Within",
+  "Crimson Wisps",
+  "Flames of the Firebrand",
+  "Goldenglow Moth",
+  "Hunting Triad",
+  "Kor Duelist",
+  "Malfegor",
+  "Orcish Lumberjack",
+  "Parallel Lives",
+  "Reinforced Ronin",
+  "Rigging Runner",
+  "Sai of the Shinobi",
+  "Seal of Fire",
+  "Skarrgan Hellkite",
+  "The Wandering Emperor",
+  "Throne of the God-Pharaoh"
+ ]
+}

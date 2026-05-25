@@ -1,0 +1,63 @@
+{
+ "metadata": {
+  "path": "data/polyverse/2023-04-24_local_1/paul.json",
+  "draft_id": "2023-04-24_local_1",
+  "combined_file": "data/polyverse/2023-04-24_local_1/paul.csv"
+ },
+ "macro_archetype": "control",
+ "labels": [],
+ "player": "paul",
+ "date": "2023-04-24",
+ "matches": [
+  {
+   "opponent": "",
+   "wins": 2,
+   "losses": 1,
+   "draws": 0
+  }
+ ],
+ "mainboard": [
+  "Tibalt, Rakish Instigator",
+  "Doom Blade",
+  "Fateful End",
+  "Liliana, Death's Majesty",
+  "Punishing Fire",
+  "Siege-Gang Commander",
+  "Dark Ritual",
+  "Murderous Redcap",
+  "Catalyst Elemental",
+  "Vampire Hexmage",
+  "Witch's Mist",
+  "Hellkite Charger",
+  "Malfegor",
+  "Loxodon Warhammer",
+  "Fury Charm",
+  "Assassinate",
+  "Swamp",
+  "Swamp",
+  "Swamp",
+  "Swamp",
+  "Swamp",
+  "Swamp",
+  "Swamp",
+  "Swamp",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Mark of Mutiny",
+  "Malakir Bloodwitch",
+  "Reckless Rage",
+  "Soul-Scar Mage",
+  "Guttersnipe",
+  "Skarrgan Hellkite",
+  "Cinder Barrens",
+  "Cunning Sparkmage",
+  "Ob Nixilis, the Hate-Twisted"
+ ],
+ "sideboard": []
+}

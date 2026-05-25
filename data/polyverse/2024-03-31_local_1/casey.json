@@ -1,0 +1,131 @@
+{
+ "metadata": {
+  "path": "data/polyverse/2024-03-31_local_1/casey.json",
+  "draft_id": "2024-03-31_local_1",
+  "combined_file": "data/polyverse/2024-03-31_local_1/casey.txt"
+ },
+ "macro_archetype": "aggro",
+ "labels": [],
+ "player": "casey",
+ "date": "2024-03-31",
+ "matches": [
+  {
+   "opponent": "dom",
+   "round": 1,
+   "wins": 2,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "dom",
+     "winner": "casey"
+    },
+    {
+     "opponent": "dom",
+     "winner": "casey"
+    },
+    {
+     "opponent": "dom",
+     "winner": "dom"
+    }
+   ],
+   "winner": "casey"
+  },
+  {
+   "opponent": "greg",
+   "round": 2,
+   "wins": 0,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "greg",
+     "winner": "greg"
+    },
+    {
+     "opponent": "greg",
+     "winner": "greg"
+    }
+   ],
+   "winner": "greg"
+  },
+  {
+   "opponent": "james",
+   "round": 3,
+   "wins": 1,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "james",
+     "winner": "casey"
+    },
+    {
+     "opponent": "james",
+     "winner": "james"
+    },
+    {
+     "opponent": "james",
+     "winner": "james"
+    }
+   ],
+   "winner": "james"
+  }
+ ],
+ "mainboard": [
+  "Verdant Catacombs",
+  "Dark Confidant",
+  "Kellan, the Fae-Blooded // Birthright Boon",
+  "Marsh Flats",
+  "Phoenix Chick",
+  "Read the Bones",
+  "Tectonic Reformation",
+  "Inti, Seneschal of the Sun",
+  "Comet Storm",
+  "Sacred Foundry",
+  "Mire Triton",
+  "Unholy Heat",
+  "Dragon's Rage Channeler",
+  "Festering Mummy",
+  "Tangled Colony",
+  "Bloodstained Mire",
+  "Ogre-Head Helm",
+  "Marsh Flats",
+  "Blood Crypt",
+  "Pyrite Spellbomb",
+  "Wooded Foothills",
+  "Tibalt's Rager",
+  "Crimson Wisps",
+  "Faerie Dreamthief",
+  "Ulcerate",
+  "Knight of the Ebon Legion",
+  "Rabbit Battery",
+  "Blood Crypt",
+  "Rigging Runner",
+  "Reinforced Ronin",
+  "Arid Mesa",
+  "Sulfurous Springs",
+  "Scalding Tarn",
+  "Swamp",
+  "Swamp",
+  "Swamp",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Mountain"
+ ],
+ "sideboard": [
+  "Hunting Triad",
+  "Temple Garden",
+  "Dauntless Bodyguard",
+  "Eidolon of Obstruction",
+  "Treasure Cruise",
+  "Ponder",
+  "Remand",
+  "Thundering Falls",
+  "The Reality Chip",
+  "Galepowder Mage",
+  "Spider Food",
+  "Negate"
+ ]
+}

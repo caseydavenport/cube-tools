@@ -1,0 +1,119 @@
+{
+ "metadata": {
+  "path": "data/polyverse/2025-06-29_local_1/bryan.json",
+  "draft_id": "2025-06-29_local_1",
+  "combined_file": "data/polyverse/2025-06-29_local_1/bryan.csv"
+ },
+ "macro_archetype": "aggro",
+ "labels": [
+  "equipment"
+ ],
+ "player": "bryan",
+ "date": "2025-06-29",
+ "matches": [
+  {
+   "opponent": "mehdi",
+   "round": 3,
+   "wins": 2,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "mehdi",
+     "winner": "bryan"
+    },
+    {
+     "opponent": "mehdi",
+     "winner": "bryan"
+    },
+    {
+     "opponent": "mehdi",
+     "winner": "mehdi"
+    }
+   ],
+   "winner": "bryan"
+  },
+  {
+   "opponent": "tanner",
+   "round": 2,
+   "wins": 1,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "tanner",
+     "winner": "bryan"
+    },
+    {
+     "opponent": "tanner",
+     "winner": "tanner"
+    },
+    {
+     "opponent": "tanner",
+     "winner": "tanner"
+    }
+   ],
+   "winner": "tanner"
+  }
+ ],
+ "mainboard": [
+  "Adanto Vanguard",
+  "Kellan, the Fae-Blooded // Birthright Boon",
+  "Anje's Ravager",
+  "Phoenix Chick",
+  "Bonesplitter",
+  "Esper Sentinel",
+  "Dreadhorde Arcanist",
+  "March of Otherworldly Light",
+  "Abrade",
+  "Unholy Heat",
+  "Lightning Helix",
+  "Welcoming Vampire",
+  "Luminarch Aspirant",
+  "Dauntless Bodyguard",
+  "Seasoned Hallowblade",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Seal of Fire",
+  "Arid Mesa",
+  "Firebolt",
+  "Sacred Foundry",
+  "Sacred Foundry",
+  "Flames of the Firebrand",
+  "Soul-Scar Mage",
+  "Goldmeadow Harrier",
+  "Cemetery Gatekeeper",
+  "Inti, Seneschal of the Sun",
+  "Ogre-Head Helm",
+  "Journey to Nowhere",
+  "Sunbaked Canyon",
+  "Lion Sash"
+ ],
+ "sideboard": [
+  "Cloudgoat Ranger",
+  "Bloodghast",
+  "Cathar Commando",
+  "Faithless Looting",
+  "Irencrag Pyromancer",
+  "Reveillark",
+  "Fiery Temper",
+  "Blazing Rootwalla",
+  "Reinforced Ronin",
+  "Elspeth's Smite",
+  "Oust",
+  "Reckless Charge",
+  "Meadowboon",
+  "Sheltered Thicket",
+  "Cheeky House-Mouse // Squeak By",
+  "Mizzium Tank"
+ ]
+}

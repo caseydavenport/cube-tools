@@ -1,0 +1,101 @@
+{
+ "metadata": {
+  "path": "data/polyverse/2023-07-23_local_1/grant.json",
+  "draft_id": "2023-07-23_local_1",
+  "combined_file": "data/polyverse/2023-07-23_local_1/grant.csv"
+ },
+ "macro_archetype": "midrange",
+ "labels": [
+  "+1/+1",
+  "ramp"
+ ],
+ "player": "grant",
+ "date": "2023-07-23",
+ "matches": [
+  {
+   "opponent": "casey",
+   "round": 1,
+   "wins": 0,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "casey",
+     "winner": "casey"
+    }
+   ],
+   "winner": "casey"
+  },
+  {
+   "opponent": "jen",
+   "round": 3,
+   "wins": 1,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "jen",
+     "winner": "grant"
+    }
+   ],
+   "winner": "grant"
+  },
+  {
+   "opponent": "matt",
+   "round": 2,
+   "wins": 1,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "matt",
+     "winner": "grant"
+    }
+   ],
+   "winner": "grant"
+  }
+ ],
+ "mainboard": [
+  "Arbor Elf",
+  "Untamed Kavu",
+  "Domri's Ambush",
+  "Swords to Plowshares",
+  "Titanic Brawl",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Misty Rainforest",
+  "Utopia Sprawl",
+  "Forest",
+  "Forest",
+  "Forest",
+  "Forest",
+  "Forest",
+  "Domri, Anarch of Bolas",
+  "Arid Mesa",
+  "Chandra, Hope's Beacon",
+  "Knight of the Reliquary",
+  "Pollenbright Druid",
+  "Gilded Goose",
+  "Llanowar Elves",
+  "Gold Myr",
+  "Beast Within",
+  "Galepowder Mage",
+  "Sunpetal Grove",
+  "Spellbreaker Behemoth",
+  "Dreadhorde Arcanist",
+  "Plains",
+  "Devoted Druid",
+  "Terramorphic Expanse",
+  "Scavenging Ooze",
+  "Fortified Village",
+  "Siege-Gang Commander",
+  "Marwyn, the Nurturer",
+  "Groundswell",
+  "Overrun",
+  "Jiang Yanggu, Wildcrafter",
+  "Flooded Strand"
+ ],
+ "sideboard": []
+}

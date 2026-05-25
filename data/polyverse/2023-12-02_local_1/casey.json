@@ -1,0 +1,132 @@
+{
+ "metadata": {
+  "path": "data/polyverse/2023-12-02_local_1/casey.json",
+  "draft_id": "2023-12-02_local_1",
+  "combined_file": "data/polyverse/2023-12-02_local_1/casey.txt"
+ },
+ "macro_archetype": "midrange",
+ "labels": [
+  "lands",
+  "graveyard",
+  "ramp"
+ ],
+ "player": "casey",
+ "date": "2023-12-02",
+ "matches": [
+  {
+   "opponent": "dom",
+   "round": 1,
+   "wins": 2,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "dom",
+     "winner": "casey"
+    },
+    {
+     "opponent": "dom",
+     "winner": "casey"
+    },
+    {
+     "opponent": "dom",
+     "winner": "dom"
+    }
+   ],
+   "winner": "casey"
+  },
+  {
+   "opponent": "greg",
+   "round": 2,
+   "wins": 0,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "greg",
+     "winner": "greg"
+    },
+    {
+     "opponent": "greg",
+     "winner": "greg"
+    }
+   ],
+   "winner": "greg"
+  },
+  {
+   "opponent": "james",
+   "round": 3,
+   "wins": 2,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "james",
+     "winner": "casey"
+    },
+    {
+     "opponent": "james",
+     "winner": "casey"
+    }
+   ],
+   "winner": "casey"
+  }
+ ],
+ "mainboard": [
+  "Puppeteer Clique",
+  "Ulcerate",
+  "Titania, Protector of Argoth",
+  "Wooded Foothills",
+  "Utopia Sprawl",
+  "Windswept Heath",
+  "Arasta of the Endless Web",
+  "Crop Rotation",
+  "Faerie Dreamthief",
+  "Spider Food",
+  "Sulfurous Springs",
+  "Golgari Rot Farm",
+  "Feed the Cauldron",
+  "Kraul Harpooner",
+  "Edge of Autumn",
+  "Nurturing Peatland",
+  "Scavenging Ooze",
+  "Boseiju, Who Endures",
+  "Chromatic Sphere",
+  "Greta, Sweettooth Scourge",
+  "Dina, Soul Steeper",
+  "Call of the Herd",
+  "Eternal Witness",
+  "Inexorable Blob",
+  "Maze of Ith",
+  "Cankerbloom",
+  "Woodland Cemetery",
+  "Mosswood Dreadknight // Dread Whispers",
+  "Pyrite Spellbomb",
+  "Bloodstained Mire",
+  "Reclamation Sage",
+  "Abundant Harvest",
+  "Swamp",
+  "Swamp",
+  "Forest",
+  "Forest",
+  "Forest",
+  "Forest",
+  "Forest",
+  "Forest"
+ ],
+ "sideboard": [
+  "Temple of Enlightenment",
+  "Vivien, Champion of the Wilds",
+  "Oathsworn Vampire",
+  "Sprout Swarm",
+  "Restless Vinestalk",
+  "Bonesplitter",
+  "Duress",
+  "Raven's Crime",
+  "Wickerbough Elder",
+  "Evolving Wilds",
+  "Sheltered Thicket",
+  "Life from the Loam",
+  "Explore"
+ ]
+}

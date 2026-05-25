@@ -1,0 +1,118 @@
+{
+ "metadata": {
+  "path": "data/polyverse/2024-05-03_local_1/casey.json",
+  "draft_id": "2024-05-03_local_1",
+  "combined_file": "data/polyverse/2024-05-03_local_1/casey.txt"
+ },
+ "macro_archetype": "midrange",
+ "labels": [
+  "token",
+  "sacrifice",
+  "graveyard"
+ ],
+ "player": "casey",
+ "date": "2024-05-03",
+ "matches": [
+  {
+   "opponent": "dom",
+   "round": 1,
+   "wins": 1,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "dom",
+     "winner": "casey"
+    },
+    {
+     "opponent": "dom",
+     "winner": "dom"
+    },
+    {
+     "opponent": "dom",
+     "winner": "dom"
+    }
+   ],
+   "winner": "dom"
+  }
+ ],
+ "mainboard": [
+  "Overgrown Tomb",
+  "Boseiju, Who Endures",
+  "Faerie Dreamthief",
+  "Glimmer Lens",
+  "Death's Shadow",
+  "Agonizing Remorse",
+  "Portable Hole",
+  "Misty Rainforest",
+  "Wooded Foothills",
+  "Journey to Nowhere",
+  "Mishra's Bauble",
+  "Kitesail Freebooter",
+  "Fatal Push",
+  "Worm Harvest",
+  "Tarmogoyf",
+  "Arasta of the Endless Web",
+  "Nurturing Peatland",
+  "Windswept Heath",
+  "Clarion Spirit",
+  "Fecundity",
+  "Dead Weight",
+  "Marsh Flats",
+  "Horizon Canopy",
+  "Ravenous Squirrel",
+  "Lion Sash",
+  "Viscera Seer",
+  "Shadowy Backstreet",
+  "Perilous Myr",
+  "Temple Garden",
+  "Temple Garden",
+  "Scattered Groves",
+  "Mosswood Dreadknight // Dread Whispers",
+  "The Wandering Emperor",
+  "Satyr Wayfinder",
+  "Polluted Delta",
+  "Cathar Commando",
+  "Grim Flayer",
+  "Plains",
+  "Swamp",
+  "Forest"
+ ],
+ "sideboard": [
+  "Stitcher's Supplier",
+  "Qasali Pridemage",
+  "Phoenix Chick",
+  "Galepowder Mage",
+  "Liliana, Death's Majesty",
+  "Quest for the Gravelord",
+  "Sprout Swarm",
+  "Torch the Tower",
+  "Counterspell",
+  "Winds of Rebuke",
+  "Comet Storm",
+  "Day of Judgment",
+  "Hunting Triad",
+  "Goblin Guide",
+  "Kellan, the Fae-Blooded // Birthright Boon",
+  "Goblin Arsonist",
+  "Grim Lavamancer",
+  "Gruff Triplets",
+  "Spider Food",
+  "Vampire of the Dire Moon",
+  "Arbor Elf",
+  "Ignoble Hierarch",
+  "Bloodghast",
+  "Pollenbright Druid",
+  "Scrapwork Mutt",
+  "Vivien, Champion of the Wilds",
+  "Explore",
+  "Utopia Sprawl",
+  "Call of the Herd",
+  "Crop Rotation",
+  "Eidolon of Obstruction",
+  "Reprieve",
+  "Helping Hand",
+  "Unearth",
+  "Warden of the Inner Sky"
+ ]
+}

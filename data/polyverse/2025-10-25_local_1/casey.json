@@ -1,0 +1,131 @@
+{
+ "metadata": {
+  "path": "data/polyverse/2025-10-25_local_1/casey.json",
+  "draft_id": "2025-10-25_local_1",
+  "mainboard_file": "data/polyverse/2025-10-25_local_1/casey-mainboard.txt",
+  "sideboard_file": "data/polyverse/2025-10-25_local_1/casey-sideboard.txt"
+ },
+ "macro_archetype": "midrange",
+ "labels": [
+  "skimmer",
+  "lands",
+  "graveyard",
+  "draw"
+ ],
+ "player": "casey",
+ "date": "2025-10-25",
+ "matches": [
+  {
+   "opponent": "colton",
+   "round": 3,
+   "wins": 1,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "colton",
+     "winner": "casey"
+    }
+   ],
+   "winner": "casey"
+  },
+  {
+   "opponent": "jackson",
+   "round": 2,
+   "wins": 2,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "jackson",
+     "winner": "casey"
+    },
+    {
+     "opponent": "jackson",
+     "winner": "casey"
+    },
+    {
+     "opponent": "jackson",
+     "winner": "jackson"
+    }
+   ],
+   "winner": "casey"
+  },
+  {
+   "opponent": "taylor",
+   "round": 1,
+   "wins": 2,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "taylor",
+     "winner": "casey"
+    },
+    {
+     "opponent": "taylor",
+     "winner": "casey"
+    },
+    {
+     "opponent": "taylor",
+     "winner": "taylor"
+    }
+   ],
+   "winner": "casey"
+  }
+ ],
+ "mainboard": [
+  "Brainsurge",
+  "Fact or Fiction",
+  "Opt",
+  "Proft's Eidetic Memory",
+  "Snapcaster Mage",
+  "Lava Dart",
+  "Reckless Charge",
+  "Reinforced Ronin",
+  "Seal of Fire",
+  "Abundant Harvest",
+  "Chainweb Aracnir",
+  "Explore",
+  "Inexorable Blob",
+  "Jolrael, Mwonvuli Recluse",
+  "Titania, Protector of Argoth",
+  "Voracious Hydra",
+  "Sprite Dragon",
+  "Kishla Skimmer",
+  "Wrenn and Six",
+  "Pyrite Spellbomb",
+  "Scrabbling Claws",
+  "Gingerbrute",
+  "Hooting Mandrills",
+  "Scrapwork Mutt",
+  "Forest",
+  "Forest",
+  "Island",
+  "Island",
+  "Boseiju, Who Endures",
+  "Mountain",
+  "Breeding Pool",
+  "Breeding Pool",
+  "Fiery Islet",
+  "Arid Mesa",
+  "Restless Vinestalk",
+  "Scalding Tarn",
+  "Sheltered Thicket",
+  "Steam Vents",
+  "Thundering Falls",
+  "Windswept Heath"
+ ],
+ "sideboard": [
+  "March of Otherworldly Light",
+  "Deluge of Doom",
+  "Anje's Ravager",
+  "Pia and Kiran Nalaar",
+  "The Binding of the Titans",
+  "Engineered Explosives",
+  "Hallowed Fountain",
+  "Horizon Canopy",
+  "Audacity",
+  "Legion Extruder"
+ ]
+}

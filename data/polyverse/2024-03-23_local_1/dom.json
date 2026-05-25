@@ -1,0 +1,98 @@
+{
+ "metadata": {
+  "path": "data/polyverse/2024-03-23_local_1/dom.json",
+  "draft_id": "2024-03-23_local_1",
+  "combined_file": "data/polyverse/2024-03-23_local_1/dom.txt"
+ },
+ "macro_archetype": "control",
+ "labels": [],
+ "player": "dom",
+ "date": "2024-03-23",
+ "matches": [
+  {
+   "opponent": "casey",
+   "round": 1,
+   "wins": 2,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "casey",
+     "winner": "dom"
+    },
+    {
+     "opponent": "casey",
+     "winner": "dom"
+    }
+   ],
+   "winner": "dom"
+  }
+ ],
+ "mainboard": [
+  "Temple Garden",
+  "Cankerbloom",
+  "The Goose Mother",
+  "Cheeky House-Mouse // Squeak By",
+  "Dress Down",
+  "Spellstutter Sprite",
+  "Oblivion Ring",
+  "Hedge Maze",
+  "Mistmeadow Skulk",
+  "Lion Sash",
+  "Touch the Spirit Realm",
+  "Censor",
+  "Flooded Strand",
+  "Tarmogoyf",
+  "Restless Vinestalk",
+  "Otawara, Soaring City",
+  "Tameshi, Reality Architect",
+  "Brainstorm",
+  "Sphinx of Lost Truths",
+  "Mana Leak",
+  "Daze",
+  "Windswept Heath",
+  "Knight of the Reliquary",
+  "Faerie Vandal",
+  "Intrepid Trufflesnout // Go Hog Wild",
+  "Reprieve",
+  "Remand",
+  "Condescend",
+  "Inexorable Blob",
+  "Negate",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Island",
+  "Island",
+  "Island",
+  "Island",
+  "Island",
+  "Forest",
+  "Forest"
+ ],
+ "sideboard": [
+  "Rabbit Battery",
+  "Goblin Arsonist",
+  "Mogg War Marshal",
+  "Lizard Blades",
+  "Ogre-Head Helm",
+  "Faithless Looting",
+  "Seal of Fire",
+  "Wooded Foothills",
+  "Abrade",
+  "Bitter Triumph",
+  "Grim Discovery",
+  "Demand Answers",
+  "Panharmonicon",
+  "Bolas's Citadel",
+  "Archfiend of Ifnir",
+  "Cunning Lethemancer",
+  "Bloodsoaked Champion",
+  "Feat of Resistance",
+  "Mosswood Dreadknight // Dread Whispers",
+  "Treasure Cruise",
+  "Woodland Champion",
+  "Parallel Lives",
+  "Angel of Salvation"
+ ]
+}

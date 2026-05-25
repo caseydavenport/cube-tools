@@ -1,0 +1,136 @@
+{
+ "metadata": {
+  "path": "data/polyverse/2025-10-04_ccc2025_1/player-3a69-119c.json",
+  "draft_id": "2025-10-04_ccc2025_1",
+  "combined_file": "data/polyverse/2025-10-04_ccc2025_1/player-3a69-119c.txt"
+ },
+ "macro_archetype": "tempo",
+ "labels": [
+  "domain"
+ ],
+ "player": "player-3a69-119c",
+ "date": "2025-10-04",
+ "matches": [
+  {
+   "opponent": "player-3a69-07d0",
+   "round": 1,
+   "wins": 2,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "player-3a69-07d0",
+     "winner": "player-3a69-119c"
+    },
+    {
+     "opponent": "player-3a69-07d0",
+     "winner": "player-3a69-119c"
+    },
+    {
+     "opponent": "player-3a69-07d0",
+     "winner": "player-3a69-07d0"
+    }
+   ],
+   "winner": "player-3a69-119c"
+  },
+  {
+   "opponent": "player-3a69-6d24",
+   "round": 2,
+   "wins": 2,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "player-3a69-6d24",
+     "winner": "player-3a69-119c"
+    },
+    {
+     "opponent": "player-3a69-6d24",
+     "winner": "player-3a69-119c"
+    },
+    {
+     "opponent": "player-3a69-6d24",
+     "winner": "player-3a69-6d24"
+    }
+   ],
+   "winner": "player-3a69-119c"
+  },
+  {
+   "opponent": "player-3a69-ea32",
+   "round": 3,
+   "wins": 1,
+   "losses": 1,
+   "draws": 1,
+   "games": [
+    {
+     "opponent": "player-3a69-ea32",
+     "winner": "player-3a69-119c"
+    },
+    {
+     "opponent": "player-3a69-ea32",
+     "winner": "player-3a69-ea32"
+    },
+    {
+     "opponent": "player-3a69-ea32",
+     "winner": "",
+     "tie": true
+    }
+   ]
+  }
+ ],
+ "mainboard": [
+  "Rabbit Battery",
+  "Journey to Nowhere",
+  "Virtue of Persistence // Locthwain Scorn",
+  "Cloudgoat Ranger",
+  "Arasta of the Endless Web",
+  "Knight of the Reliquary",
+  "Six",
+  "Mayhem Devil",
+  "Seasoned Pyromancer",
+  "Warleader's Call",
+  "Unholy Heat",
+  "Wither and Bloom",
+  "Touch the Spirit Realm",
+  "Territorial Kavu",
+  "Seasoned Hallowblade",
+  "Questing Druid // Seek the Beast",
+  "Quirion Beastcaller",
+  "Lightning Helix",
+  "Reprieve",
+  "Esper Sentinel",
+  "Dragon's Rage Channeler",
+  "Recruitment Officer",
+  "Lightstall Inquisitor",
+  "Arid Mesa",
+  "Watery Grave",
+  "Commercial District",
+  "Misty Rainforest",
+  "Bloodstained Mire",
+  "Overgrown Tomb",
+  "Windswept Heath",
+  "Godless Shrine",
+  "Elegant Parlor",
+  "Steam Vents",
+  "Scalding Tarn",
+  "Forest",
+  "Forest",
+  "Forest",
+  "Forest",
+  "Forest",
+  "Forest"
+ ],
+ "sideboard": [
+  "Urza's Bauble",
+  "Containment Construct",
+  "Delney, Streetwise Lookout",
+  "Dauntless Bodyguard",
+  "Engineered Explosives",
+  "Magmatic Sinkhole",
+  "Edge of Autumn",
+  "Field of the Dead",
+  "Fiery Temper",
+  "Scrabbling Claws",
+  "Man-o'-War"
+ ]
+}

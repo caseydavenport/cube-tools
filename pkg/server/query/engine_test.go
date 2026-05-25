@@ -17,15 +17,17 @@ type mockDeck struct {
 	sideboard []types.Card
 	pool      []types.Card
 	colors    []string
+	eventID   string
 }
 
 func (m *mockDeck) GetPlayer() string          { return m.player }
 func (m *mockDeck) GetLabels() []string        { return m.labels }
-func (m *mockDeck) GetDraftSize() int           { return m.draftSize }
+func (m *mockDeck) GetDraftSize() int          { return m.draftSize }
 func (m *mockDeck) GetMainboard() []types.Card { return m.mainboard }
 func (m *mockDeck) GetSideboard() []types.Card { return m.sideboard }
 func (m *mockDeck) GetPool() []types.Card      { return m.pool }
 func (m *mockDeck) GetColors() []string        { return m.colors }
+func (m *mockDeck) GetEventID() string         { return m.eventID }
 
 // =====================
 // parseTerms

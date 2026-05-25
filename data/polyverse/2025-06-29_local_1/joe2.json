@@ -1,0 +1,113 @@
+{
+ "metadata": {
+  "path": "data/polyverse/2025-06-29_local_1/joe2.json",
+  "draft_id": "2025-06-29_local_1",
+  "combined_file": "data/polyverse/2025-06-29_local_1/joe2.csv"
+ },
+ "macro_archetype": "tempo",
+ "labels": [
+  "flicker",
+  "coco"
+ ],
+ "player": "joe2",
+ "date": "2025-06-29",
+ "matches": [
+  {
+   "opponent": "casey",
+   "round": 3,
+   "wins": 2,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "casey",
+     "winner": "joe2"
+    },
+    {
+     "opponent": "casey",
+     "winner": "joe2"
+    }
+   ],
+   "winner": "joe2"
+  },
+  {
+   "opponent": "zephyr",
+   "round": 2,
+   "wins": 1,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "zephyr",
+     "winner": "joe2"
+    },
+    {
+     "opponent": "zephyr",
+     "winner": "zephyr"
+    },
+    {
+     "opponent": "zephyr",
+     "winner": "zephyr"
+    }
+   ],
+   "winner": "zephyr"
+  }
+ ],
+ "mainboard": [
+  "Helping Hand",
+  "Clarion Spirit",
+  "Elusive Otter // Grove's Bounty",
+  "Flooded Strand",
+  "Island",
+  "Island",
+  "Island",
+  "Monastery Mentor",
+  "Gitaxian Probe",
+  "Kor Skyfisher",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Collected Company",
+  "Dress Down",
+  "Marsh Flats",
+  "Marsh Flats",
+  "Questing Druid // Seek the Beast",
+  "Flickerwisp",
+  "Fearless Fledgling",
+  "Opt",
+  "Raise the Alarm",
+  "Hallowed Fountain",
+  "Reprieve",
+  "Shelldock Isle",
+  "Thraben Inspector",
+  "Horizon Canopy",
+  "Werefox Bodyguard",
+  "Warden of the Inner Sky",
+  "Spellstutter Sprite",
+  "Phelia, Exuberant Shepherd",
+  "Underground Mortuary",
+  "Forest",
+  "Legion's Landing // Adanto, the First Fort",
+  "Mother of Runes",
+  "Restoration Angel",
+  "Lost Jitte",
+  "Steam Vents",
+  "Consider"
+ ],
+ "sideboard": [
+  "Blood Crypt",
+  "Warleader's Call",
+  "Twinshot Sniper",
+  "Manamorphose",
+  "Den of the Bugbear",
+  "Barbarian Ring",
+  "Rabbit Battery",
+  "Reckless Pyrosurfer",
+  "Grim Lavamancer",
+  "Cankerbloom",
+  "Dig Through Time",
+  "Monastery Swiftspear",
+  "Carrion Feeder"
+ ]
+}

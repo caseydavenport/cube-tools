@@ -1,0 +1,138 @@
+{
+ "metadata": {
+  "path": "data/polyverse/2025-10-04_ccc2025_2/player-3f67-37bf.json",
+  "draft_id": "2025-10-04_ccc2025_2",
+  "combined_file": "data/polyverse/2025-10-04_ccc2025_2/player-3f67-37bf.txt"
+ },
+ "macro_archetype": "tempo",
+ "labels": [
+  "flicker"
+ ],
+ "player": "player-3f67-37bf",
+ "date": "2025-10-04",
+ "matches": [
+  {
+   "opponent": "player-3f67-2651",
+   "round": 2,
+   "wins": 0,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "player-3f67-2651",
+     "winner": "player-3f67-2651"
+    },
+    {
+     "opponent": "player-3f67-2651",
+     "winner": "player-3f67-2651"
+    }
+   ],
+   "winner": "player-3f67-2651"
+  },
+  {
+   "opponent": "player-3f67-39fd",
+   "round": 3,
+   "wins": 1,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "player-3f67-39fd",
+     "winner": "player-3f67-37bf"
+    },
+    {
+     "opponent": "player-3f67-39fd",
+     "winner": "player-3f67-39fd"
+    },
+    {
+     "opponent": "player-3f67-39fd",
+     "winner": "player-3f67-39fd"
+    }
+   ],
+   "winner": "player-3f67-39fd"
+  },
+  {
+   "opponent": "player-3f67-bb44",
+   "round": 1,
+   "wins": 2,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "player-3f67-bb44",
+     "winner": "player-3f67-37bf"
+    },
+    {
+     "opponent": "player-3f67-bb44",
+     "winner": "player-3f67-37bf"
+    }
+   ],
+   "winner": "player-3f67-37bf"
+  }
+ ],
+ "mainboard": [
+  "Prismatic Vista",
+  "Rishadan Port",
+  "Adanto Vanguard",
+  "Spirited Companion",
+  "Portable Hole",
+  "Recruitment Officer",
+  "Thraben Inspector",
+  "Dauntless Bodyguard",
+  "Cut Down",
+  "Duress",
+  "Thoughtseize",
+  "Unexpectedly Absent",
+  "Phelia, Exuberant Shepherd",
+  "Tidehollow Sculler",
+  "Lion Sash",
+  "Deep-Cavern Bat",
+  "Flickerwisp",
+  "Lingering Souls",
+  "Pile On",
+  "Restoration Angel",
+  "The Wandering Emperor",
+  "Liliana, Dreadhorde General",
+  "Kitesail Freebooter",
+  "Esper Sentinel",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Swamp",
+  "Swamp",
+  "Swamp",
+  "Swamp",
+  "Swamp",
+  "Swamp",
+  "Swamp",
+  "Swamp"
+ ],
+ "sideboard": [
+  "Ignoble Hierarch",
+  "Gilded Goose",
+  "Remand",
+  "Cloudgoat Ranger",
+  "Fetid Pools",
+  "Fiery Islet",
+  "Underground Mortuary",
+  "Archenemy's Charm",
+  "Woe Strider",
+  "Llanowar Elves",
+  "Clarion Spirit",
+  "Goldmeadow Harrier",
+  "Ride's End",
+  "Containment Construct",
+  "Pick Your Poison",
+  "Garruk Wildspeaker",
+  "Reveillark",
+  "Mosswood Dreadknight // Dread Whispers",
+  "Toxic Deluge",
+  "Warden of the Inner Sky",
+  "Scavenging Ooze"
+ ]
+}

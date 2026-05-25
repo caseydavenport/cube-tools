@@ -1,0 +1,117 @@
+{
+ "metadata": {
+  "path": "data/polyverse/2023-09-17_local_1/james.json",
+  "draft_id": "2023-09-17_local_1",
+  "combined_file": "data/polyverse/2023-09-17_local_1/james.txt"
+ },
+ "macro_archetype": "control",
+ "labels": [
+  "goodstuff"
+ ],
+ "player": "james",
+ "date": "2023-09-17",
+ "matches": [
+  {
+   "opponent": "casey",
+   "round": 1,
+   "wins": 1,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "casey",
+     "winner": "james"
+    }
+   ],
+   "winner": "james"
+  },
+  {
+   "opponent": "dom",
+   "round": 2,
+   "wins": 0,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "dom",
+     "winner": "dom"
+    }
+   ],
+   "winner": "dom"
+  },
+  {
+   "opponent": "mattd",
+   "round": 3,
+   "wins": 1,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "mattd",
+     "winner": "james"
+    }
+   ],
+   "winner": "james"
+  }
+ ],
+ "mainboard": [
+  "Lightning Bolt",
+  "Journey to Nowhere",
+  "Bone Shards",
+  "Sacred Foundry",
+  "Perilous Myr",
+  "Swans of Bryn Argoll",
+  "Foreboding Ruins",
+  "Quest for the Gravelord",
+  "Vampire Aristocrat",
+  "Path to Exile",
+  "Reckless Rage",
+  "Punishing Fire",
+  "Dragonskull Summit",
+  "Mavren Fein, Dusk Apostle",
+  "Blood Crypt",
+  "Paladin of the Bloodstained",
+  "Unearth",
+  "Reinforced Ronin",
+  "Doom Blade",
+  "Pitiless Pontiff",
+  "Knight of the Ebon Legion",
+  "Faithless Looting",
+  "Agonizing Remorse",
+  "Eidolon of Obstruction",
+  "Chain Lightning",
+  "Bloodstained Mire",
+  "Furycalm Snarl",
+  "Earthquake",
+  "Restoration Angel",
+  "Flickerwisp",
+  "Evolving Wilds",
+  "Vampire of the Dire Moon",
+  "Plains",
+  "Plains",
+  "Swamp",
+  "Swamp",
+  "Swamp",
+  "Mountain",
+  "Mountain",
+  "Mountain"
+ ],
+ "sideboard": [
+  "Cauldron of Souls",
+  "Scalding Tarn",
+  "Field of Ruin",
+  "Fungal Infection",
+  "Witch's Mist",
+  "Oathsworn Vampire",
+  "Leaden Myr",
+  "Executioner's Capsule",
+  "Ravenous Squirrel",
+  "Kathari Bomber",
+  "Liliana, Death's Majesty",
+  "Mizzium Tank",
+  "Arcbound Tracker",
+  "Puncture Blast",
+  "Mogg War Marshal",
+  "Patrol Signaler"
+ ]
+}

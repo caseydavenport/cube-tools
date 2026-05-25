@@ -1,0 +1,129 @@
+{
+ "metadata": {
+  "path": "data/polyverse/2024-11-09_local_1/xander.json",
+  "draft_id": "2024-11-09_local_1",
+  "combined_file": "data/polyverse/2024-11-09_local_1/xander.txt"
+ },
+ "macro_archetype": "control",
+ "labels": [
+  "discard"
+ ],
+ "player": "xander",
+ "date": "2024-11-09",
+ "matches": [
+  {
+   "opponent": "cara",
+   "round": 1,
+   "wins": 2,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "cara",
+     "winner": "xander"
+    },
+    {
+     "opponent": "cara",
+     "winner": "xander"
+    }
+   ],
+   "winner": "xander"
+  },
+  {
+   "opponent": "jen",
+   "round": 3,
+   "wins": 2,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "jen",
+     "winner": "xander"
+    },
+    {
+     "opponent": "jen",
+     "winner": "xander"
+    },
+    {
+     "opponent": "jen",
+     "winner": "jen"
+    }
+   ],
+   "winner": "xander"
+  },
+  {
+   "opponent": "paul",
+   "round": 2,
+   "wins": 1,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "paul",
+     "winner": "xander"
+    },
+    {
+     "opponent": "paul",
+     "winner": "paul"
+    }
+   ]
+  }
+ ],
+ "mainboard": [
+  "Psychic Frog",
+  "Snapcaster Mage",
+  "Bloodsoaked Champion",
+  "Ethereal Forager",
+  "Faerie Dreamthief",
+  "Spell Pierce",
+  "Bloodghast",
+  "Watery Grave",
+  "Serum Visions",
+  "Pile On",
+  "Repeal",
+  "Mystic Sanctuary",
+  "Monastery Mentor",
+  "Stalactite Stalker",
+  "Godless Shrine",
+  "Godless Shrine",
+  "Cling to Dust",
+  "Polluted Delta",
+  "Unearth",
+  "Undercity Sewers",
+  "Daze",
+  "Soul Partition",
+  "Silent Clearing",
+  "Counterspell",
+  "Sedgemoor Witch",
+  "Into the Roil",
+  "Liliana of the Veil",
+  "Read the Bones",
+  "Containment Construct",
+  "Cut Down",
+  "Chart a Course",
+  "Marsh Flats",
+  "Island",
+  "Island",
+  "Island",
+  "Island",
+  "Swamp",
+  "Swamp",
+  "Swamp",
+  "Swamp"
+ ],
+ "sideboard": [
+  "Explore",
+  "Seasoned Hallowblade",
+  "Sunbaked Canyon",
+  "Festering Mummy",
+  "Marionette Apprentice",
+  "Wilderness Reclamation",
+  "Dreamtide Whale",
+  "Cunning Lethemancer",
+  "Misty Rainforest",
+  "Horizon Canopy",
+  "Faerie Duelist",
+  "Turn to Mist",
+  "Remand"
+ ]
+}

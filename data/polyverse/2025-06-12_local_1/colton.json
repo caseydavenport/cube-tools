@@ -1,0 +1,130 @@
+{
+ "metadata": {
+  "path": "data/polyverse/2025-06-12_local_1/colton.json",
+  "draft_id": "2025-06-12_local_1",
+  "combined_file": "data/polyverse/2025-06-12_local_1/colton.csv"
+ },
+ "macro_archetype": "tempo",
+ "labels": [
+  "spells"
+ ],
+ "player": "colton",
+ "date": "2025-06-12",
+ "matches": [
+  {
+   "opponent": "joe",
+   "round": 1,
+   "wins": 2,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "joe",
+     "winner": "colton"
+    },
+    {
+     "opponent": "joe",
+     "winner": "colton"
+    },
+    {
+     "opponent": "joe",
+     "winner": "joe"
+    }
+   ],
+   "winner": "colton"
+  },
+  {
+   "opponent": "kenny",
+   "round": 2,
+   "wins": 0,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "kenny",
+     "winner": "kenny"
+    },
+    {
+     "opponent": "kenny",
+     "winner": "kenny"
+    }
+   ],
+   "winner": "kenny"
+  },
+  {
+   "opponent": "sebastian",
+   "round": 3,
+   "wins": 2,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "sebastian",
+     "winner": "colton"
+    },
+    {
+     "opponent": "sebastian",
+     "winner": "colton"
+    }
+   ],
+   "winner": "colton"
+  }
+ ],
+ "mainboard": [
+  "Flooded Strand",
+  "Ephara's Dispersal",
+  "Brainstorm",
+  "Treasure Cruise",
+  "Young Pyromancer",
+  "Fire // Ice",
+  "Miscalculation",
+  "Manamorphose",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Eiganjo, Seat of the Empire",
+  "Kiora, the Rising Tide",
+  "Unholy Heat",
+  "Electrostatic Infantry",
+  "Lightning Helix",
+  "Mystic Confluence",
+  "Elspeth's Smite",
+  "Counterspell",
+  "Mana Tithe",
+  "Scalding Viper // Steam Clean",
+  "Scalding Tarn",
+  "Chandra, Hope's Beacon",
+  "Arid Mesa",
+  "Flame Slash",
+  "Memory Lapse",
+  "Hallowed Fountain",
+  "Plains",
+  "Steam Vents",
+  "Dreamtide Whale",
+  "Meticulous Archive",
+  "Careful Study",
+  "Burst Lightning",
+  "Island",
+  "Island",
+  "Island",
+  "Saheeli, Sublime Artificer",
+  "Sunbaked Canyon",
+  "Rielle, the Everwise",
+  "Consider"
+ ],
+ "sideboard": [
+  "Chromatic Star",
+  "Portent",
+  "Kor Skyfisher",
+  "Jolrael, Mwonvuli Recluse",
+  "Reveillark",
+  "Pyroclasm",
+  "Raise the Alarm",
+  "Aether Tradewinds",
+  "Steppe Lynx",
+  "Seal of Fire",
+  "Scrapwork Mutt",
+  "Tamiyo, Compleated Sage"
+ ]
+}

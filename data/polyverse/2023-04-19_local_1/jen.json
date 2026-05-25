@@ -1,0 +1,64 @@
+{
+ "metadata": {
+  "path": "data/polyverse/2023-04-19_local_1/jen.json",
+  "draft_id": "2023-04-19_local_1",
+  "combined_file": "data/polyverse/2023-04-19_local_1/jen.csv"
+ },
+ "macro_archetype": "midrange",
+ "labels": [
+  "graveyard"
+ ],
+ "player": "jen",
+ "date": "2023-04-19",
+ "matches": [
+  {
+   "opponent": "",
+   "wins": 1,
+   "losses": 0,
+   "draws": 0
+  }
+ ],
+ "mainboard": [
+  "The Binding of the Titans",
+  "Beacon of Unrest",
+  "Webspinner Cuff",
+  "Vampire Aristocrat",
+  "Acolyte of Affliction",
+  "Liliana, Death's Majesty",
+  "Stitcher's Supplier",
+  "Grim Discovery",
+  "Doomgape",
+  "Stingerfling Spider",
+  "Gravedigger",
+  "Oathsworn Vampire",
+  "Unearth",
+  "Swamp",
+  "Swamp",
+  "Swamp",
+  "Swamp",
+  "Swamp",
+  "Swamp",
+  "Swamp",
+  "Swamp",
+  "Inevitable End",
+  "Rise from the Grave",
+  "Whisper, Blood Liturgist",
+  "Forest",
+  "Forest",
+  "Forest",
+  "Forest",
+  "Forest",
+  "Forest",
+  "Forest",
+  "Forest",
+  "Forsaken Drifters",
+  "River Boa",
+  "Necroblossom Snarl",
+  "Deathsprout",
+  "Malakir Bloodwitch",
+  "Morbid Bloom",
+  "Tukatongue Thallid",
+  "Tilling Treefolk"
+ ],
+ "sideboard": []
+}

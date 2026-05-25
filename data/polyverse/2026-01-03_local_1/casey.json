@@ -1,0 +1,109 @@
+{
+ "metadata": {
+  "path": "data/polyverse/2026-01-03_local_1/casey.json",
+  "draft_id": "2026-01-03_local_1",
+  "mainboard_file": "data/polyverse/2026-01-03_local_1/casey-mainboard.txt",
+  "sideboard_file": "data/polyverse/2026-01-03_local_1/casey-sideboard.txt"
+ },
+ "macro_archetype": "tempo",
+ "labels": [
+  "token"
+ ],
+ "player": "casey",
+ "date": "2026-01-03",
+ "matches": [
+  {
+   "opponent": "darius",
+   "round": 1,
+   "wins": 0,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "darius",
+     "winner": "darius"
+    },
+    {
+     "opponent": "darius",
+     "winner": "darius"
+    }
+   ],
+   "winner": "darius"
+  },
+  {
+   "opponent": "isaiah",
+   "round": 2,
+   "wins": 1,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "isaiah",
+     "winner": "casey"
+    },
+    {
+     "opponent": "isaiah",
+     "winner": "isaiah"
+    }
+   ]
+  }
+ ],
+ "mainboard": [
+  "Caretaker's Talent",
+  "Esper Sentinel",
+  "Lightstall Inquisitor",
+  "Lingering Souls",
+  "Raise the Alarm",
+  "Reprieve",
+  "Soul Partition",
+  "Warden of the Inner Sky",
+  "Welcoming Vampire",
+  "Accursed Marauder",
+  "Bitterblossom",
+  "Bone Shards",
+  "Dark Confidant",
+  "Death's Shadow",
+  "Faerie Dreamthief",
+  "Grim Bauble",
+  "Inquisition of Kozilek",
+  "Kitesail Freebooter",
+  "Knight of the Ebon Legion",
+  "Goblin Bombardment",
+  "Lava Dart",
+  "Reckless Charge",
+  "Sandbender Scavengers",
+  "Perilous Myr",
+  "Arid Mesa",
+  "Canyon Slough",
+  "Elegant Parlor",
+  "Godless Shrine",
+  "Mountain",
+  "Mountain",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Polluted Delta",
+  "Prismatic Vista",
+  "Swamp",
+  "Swamp",
+  "Swamp",
+  "Verdant Catacombs"
+ ],
+ "sideboard": [
+  "Fearless Fledgling",
+  "Goldmeadow Harrier",
+  "Kor Skyfisher",
+  "Ride's End",
+  "Archenemy's Charm",
+  "Cling to Dust",
+  "Liliana of the Veil",
+  "Tasigur, the Golden Fang",
+  "Cemetery Gatekeeper",
+  "Flames of the Firebrand",
+  "Rabbit Battery",
+  "Abundant Harvest",
+  "Augur of Autumn",
+  "Heritage Reclamation"
+ ]
+}

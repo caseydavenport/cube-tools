@@ -1,0 +1,92 @@
+{
+ "metadata": {
+  "path": "data/polyverse/2025-05-26_local_1/casey.json",
+  "draft_id": "2025-05-26_local_1",
+  "combined_file": "data/polyverse/2025-05-26_local_1/casey.csv"
+ },
+ "macro_archetype": "tempo",
+ "labels": [
+  "draw",
+  "discard"
+ ],
+ "player": "casey",
+ "date": "2025-05-26",
+ "matches": [
+  {
+   "opponent": "dom",
+   "round": 1,
+   "wins": 1,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "dom",
+     "winner": "casey"
+    },
+    {
+     "opponent": "dom",
+     "winner": "dom"
+    },
+    {
+     "opponent": "dom",
+     "winner": "dom"
+    }
+   ],
+   "winner": "dom"
+  }
+ ],
+ "mainboard": [
+  "Bloodsoaked Champion",
+  "Otawara, Soaring City",
+  "Anje's Ravager",
+  "Polluted Delta",
+  "Curator of Mysteries",
+  "Watery Grave",
+  "Treasure Cruise",
+  "Swamp",
+  "Swamp",
+  "Fire // Ice",
+  "Kitesail Freebooter",
+  "Goldhound",
+  "Mountain",
+  "Mountain",
+  "Marsh Flats",
+  "Serum Visions",
+  "Irencrag Pyromancer",
+  "Unearth",
+  "Containment Construct",
+  "Fatal Push",
+  "Brainsurge",
+  "Shelldock Isle",
+  "Duress",
+  "Accursed Marauder",
+  "Psychic Frog",
+  "Scalding Tarn",
+  "Lórien Revealed",
+  "Mystic Sanctuary",
+  "Arid Mesa",
+  "Island",
+  "Misty Rainforest",
+  "Scrapwork Mutt",
+  "Mischievous Mystic",
+  "Preordain",
+  "Hostage Taker",
+  "Stern Scolding",
+  "Grim Bauble",
+  "Thoughtseize",
+  "Steam Vents",
+  "Undercity Sewers"
+ ],
+ "sideboard": [
+  "Candy Trail",
+  "Festering Mummy",
+  "Grim Discovery",
+  "Dress Down",
+  "Scrabbling Claws",
+  "Pyrite Spellbomb",
+  "Aether Tradewinds",
+  "Breeding Pool",
+  "Delay",
+  "Tectonic Edge"
+ ]
+}

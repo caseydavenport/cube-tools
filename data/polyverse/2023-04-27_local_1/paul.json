@@ -1,0 +1,62 @@
+{
+ "metadata": {
+  "path": "data/polyverse/2023-04-27_local_1/paul.json",
+  "draft_id": "2023-04-27_local_1",
+  "combined_file": "data/polyverse/2023-04-27_local_1/paul.csv"
+ },
+ "macro_archetype": "control",
+ "labels": [],
+ "player": "paul",
+ "date": "2023-04-27",
+ "matches": [
+  {
+   "opponent": "",
+   "wins": 0,
+   "losses": 1,
+   "draws": 0
+  }
+ ],
+ "mainboard": [
+  "Beacon of Unrest",
+  "Ajani Goldmane",
+  "Vampire of the Dire Moon",
+  "Quest for the Gravelord",
+  "Liliana, Death's Majesty",
+  "Vampire's Bite",
+  "Mesmeric Fiend",
+  "Swans of Bryn Argoll",
+  "Mindslaver",
+  "Witch's Mist",
+  "Restoration Angel",
+  "Lightning Greaves",
+  "Assassinate",
+  "Alseid of Life's Bounty",
+  "Battlegrace Angel",
+  "Marshal's Anthem",
+  "Mistmeadow Skulk",
+  "Will-o'-the-Wisp",
+  "Malakir Bloodwitch",
+  "Unmake",
+  "Swamp",
+  "Swamp",
+  "Swamp",
+  "Swamp",
+  "Swamp",
+  "Swamp",
+  "Swamp",
+  "Swamp",
+  "The Long Reach of Night // Animus of Night's Reach",
+  "Day of Judgment",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Ob Nixilis, the Hate-Twisted"
+ ],
+ "sideboard": []
+}

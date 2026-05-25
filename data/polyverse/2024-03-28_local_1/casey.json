@@ -1,0 +1,151 @@
+{
+ "metadata": {
+  "path": "data/polyverse/2024-03-28_local_1/casey.json",
+  "draft_id": "2024-03-28_local_1",
+  "combined_file": "data/polyverse/2024-03-28_local_1/casey.txt"
+ },
+ "macro_archetype": "control",
+ "labels": [
+  "graveyard",
+  "tameshi"
+ ],
+ "player": "casey",
+ "date": "2024-03-28",
+ "matches": [
+  {
+   "opponent": "ken",
+   "round": 1,
+   "wins": 0,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "ken",
+     "winner": "ken"
+    },
+    {
+     "opponent": "ken",
+     "winner": "ken"
+    }
+   ],
+   "winner": "ken"
+  },
+  {
+   "opponent": "matthew",
+   "round": 4,
+   "wins": 0,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "matthew",
+     "winner": "matthew"
+    },
+    {
+     "opponent": "matthew",
+     "winner": "matthew"
+    }
+   ],
+   "winner": "matthew"
+  },
+  {
+   "opponent": "matthewbk",
+   "round": 2,
+   "wins": 0,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "matthewbk",
+     "winner": "matthewbk"
+    },
+    {
+     "opponent": "matthewbk",
+     "winner": "matthewbk"
+    }
+   ],
+   "winner": "matthewbk"
+  },
+  {
+   "opponent": "parker",
+   "round": 3,
+   "wins": 2,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "parker",
+     "winner": "casey"
+    },
+    {
+     "opponent": "parker",
+     "winner": "casey"
+    },
+    {
+     "opponent": "parker",
+     "winner": "parker"
+    }
+   ],
+   "winner": "casey"
+  }
+ ],
+ "mainboard": [
+  "Aether Spellbomb",
+  "Call of the Herd",
+  "Candy Trail",
+  "Chromatic Star",
+  "Day of Judgment",
+  "Deprive",
+  "Ephara's Dispersal",
+  "Exclusion Mage",
+  "Faerie Vandal",
+  "Flooded Strand",
+  "Forest",
+  "Forest",
+  "Forest",
+  "Forest",
+  "Forest",
+  "Galepowder Mage",
+  "Intrepid Trufflesnout // Go Hog Wild",
+  "Irrigated Farmland",
+  "Island",
+  "Island",
+  "Island",
+  "Island",
+  "Lotus Cobra",
+  "Marsh Flats",
+  "Meticulous Archive",
+  "Misty Rainforest",
+  "Mulldrifter",
+  "Oblivion Ring",
+  "Plains",
+  "Repeal",
+  "Restless Vinestalk",
+  "Chainweb Aracnir",
+  "Spell Pierce",
+  "Spellstutter Sprite",
+  "Tameshi, Reality Architect",
+  "Tarmogoyf",
+  "Temple Garden",
+  "The Goose Mother",
+  "The Reality Chip",
+  "Winds of Rebuke"
+ ],
+ "sideboard": [
+  "Cheeky House-Mouse // Squeak By",
+  "Eidolon of Obstruction",
+  "Gomazoa",
+  "Harrow",
+  "Kalastria Highborn",
+  "Manamorphose",
+  "Master of Etherium",
+  "Prophetic Prism",
+  "Quicken",
+  "Sleep of the Dead",
+  "Snapcaster Mage",
+  "Song of the Dryads",
+  "Sparring Construct",
+  "Untamed Kavu",
+  "Viscera Seer"
+ ]
+}

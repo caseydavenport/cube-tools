@@ -1,0 +1,124 @@
+{
+ "metadata": {
+  "path": "data/polyverse/2025-06-12_local_1/sebastian.json",
+  "draft_id": "2025-06-12_local_1",
+  "combined_file": "data/polyverse/2025-06-12_local_1/sebastian.csv"
+ },
+ "macro_archetype": "tempo",
+ "labels": [
+  "spells"
+ ],
+ "player": "sebastian",
+ "date": "2025-06-12",
+ "matches": [
+  {
+   "opponent": "casey",
+   "round": 2,
+   "wins": 0,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "casey",
+     "winner": "casey"
+    },
+    {
+     "opponent": "casey",
+     "winner": "casey"
+    }
+   ],
+   "winner": "casey"
+  },
+  {
+   "opponent": "colton",
+   "round": 3,
+   "wins": 0,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "colton",
+     "winner": "colton"
+    },
+    {
+     "opponent": "colton",
+     "winner": "colton"
+    }
+   ],
+   "winner": "colton"
+  },
+  {
+   "opponent": "joe2",
+   "round": 1,
+   "wins": 2,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "joe2",
+     "winner": "sebastian"
+    },
+    {
+     "opponent": "joe2",
+     "winner": "sebastian"
+    }
+   ],
+   "winner": "sebastian"
+  }
+ ],
+ "mainboard": [
+  "Otawara, Soaring City",
+  "Elusive Otter // Grove's Bounty",
+  "Merfolk Looter",
+  "Gitaxian Probe",
+  "Triton Wavebreaker",
+  "Repeal",
+  "Bonesplitter",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Faithless Looting",
+  "Unsummon",
+  "Chart a Course",
+  "Irencrag Pyromancer",
+  "Pyrite Spellbomb",
+  "Opt",
+  "Blazing Rootwalla",
+  "Into the Roil",
+  "Reckless Pyrosurfer",
+  "Shelldock Isle",
+  "Dragon's Rage Channeler",
+  "Grim Lavamancer",
+  "Lizard Blades",
+  "Psychic Frog",
+  "Scalding Tarn",
+  "Watery Grave",
+  "Bloodstained Mire",
+  "Island",
+  "Island",
+  "Island",
+  "Mischievous Mystic",
+  "Overgrown Tomb",
+  "Preordain",
+  "Stern Scolding",
+  "Spell Pierce",
+  "Blood Crypt",
+  "Blood Crypt",
+  "Snapcaster Mage",
+  "Searslicer Goblin",
+  "Mishra's Bauble"
+ ],
+ "sideboard": [
+  "Fungal Infection",
+  "Enlightened Tutor",
+  "The Goose Mother",
+  "Containment Construct",
+  "Demand Answers",
+  "Birds of Paradise",
+  "Hardened Scales",
+  "Scryb Ranger",
+  "Chainweb Aracnir",
+  "Tameshi, Reality Architect",
+  "Agonizing Remorse"
+ ]
+}

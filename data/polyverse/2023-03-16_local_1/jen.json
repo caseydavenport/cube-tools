@@ -1,0 +1,64 @@
+{
+ "metadata": {
+  "path": "data/polyverse/2023-03-16_local_1/jen.json",
+  "draft_id": "2023-03-16_local_1",
+  "combined_file": "data/polyverse/2023-03-16_local_1/jen.txt"
+ },
+ "macro_archetype": "control",
+ "labels": [
+  "spells"
+ ],
+ "player": "jen",
+ "date": "2023-03-16",
+ "matches": [
+  {
+   "opponent": "",
+   "wins": 1,
+   "losses": 1,
+   "draws": 0
+  }
+ ],
+ "mainboard": [
+  "Remove Soul",
+  "Mischievous Chimera",
+  "Island",
+  "Puncture Blast",
+  "Fateful End",
+  "Sunbird's Invocation",
+  "Stinging Lionfish",
+  "Lightning Bolt",
+  "Young Pyromancer",
+  "Warcry Phoenix",
+  "Terramorphic Expanse",
+  "Mountain",
+  "Mountain",
+  "Island",
+  "Raging Goblin",
+  "Island",
+  "Mountain",
+  "Island",
+  "Capricious Efreet",
+  "Rabbit Battery",
+  "Mountain",
+  "Reinforced Ronin",
+  "Naiad of Hidden Coves",
+  "Mark of Mutiny",
+  "Highland Lake",
+  "Island",
+  "Condescend",
+  "Discover the Impossible",
+  "Frostboil Snarl",
+  "Island",
+  "Rigging Runner",
+  "Enigma Drake",
+  "Invade the City",
+  "Mountain",
+  "Mountain",
+  "Comet Storm",
+  "Kasmina's Transmutation",
+  "Dispel",
+  "Vexing Gull",
+  "Ral, Storm Conduit"
+ ],
+ "sideboard": []
+}

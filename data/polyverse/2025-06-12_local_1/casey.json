@@ -1,0 +1,131 @@
+{
+ "metadata": {
+  "path": "data/polyverse/2025-06-12_local_1/casey.json",
+  "draft_id": "2025-06-12_local_1",
+  "combined_file": "data/polyverse/2025-06-12_local_1/casey.csv"
+ },
+ "macro_archetype": "midrange",
+ "labels": [
+  "graveyard",
+  "delirium"
+ ],
+ "player": "casey",
+ "date": "2025-06-12",
+ "matches": [
+  {
+   "opponent": "kenny",
+   "round": 1,
+   "wins": 0,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "kenny",
+     "winner": "kenny"
+    },
+    {
+     "opponent": "kenny",
+     "winner": "kenny"
+    }
+   ],
+   "winner": "kenny"
+  },
+  {
+   "opponent": "sebastian",
+   "round": 2,
+   "wins": 2,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "sebastian",
+     "winner": "casey"
+    },
+    {
+     "opponent": "sebastian",
+     "winner": "casey"
+    }
+   ],
+   "winner": "casey"
+  },
+  {
+   "opponent": "will",
+   "round": 3,
+   "wins": 2,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "will",
+     "winner": "casey"
+    },
+    {
+     "opponent": "will",
+     "winner": "casey"
+    },
+    {
+     "opponent": "will",
+     "winner": "will"
+    }
+   ],
+   "winner": "casey"
+  }
+ ],
+ "mainboard": [
+  "Six",
+  "Windswept Heath",
+  "Twinshot Sniper",
+  "Cling to Dust",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Festering Mummy",
+  "Bloodghast",
+  "Forest",
+  "Forest",
+  "Forest",
+  "Forest",
+  "Death's Shadow",
+  "Sedgemoor Witch",
+  "Marsh Flats",
+  "Bloodchief's Thirst",
+  "Unearth",
+  "Rishadan Port",
+  "Commercial District",
+  "Tarmogoyf",
+  "Rabbit Battery",
+  "Reinforced Ronin",
+  "Heritage Reclamation",
+  "The Huntsman's Redemption",
+  "Sparring Construct",
+  "Infernal Grasp",
+  "Cankerbloom",
+  "Inexorable Blob",
+  "Nurturing Peatland",
+  "Dark Confidant",
+  "Firebolt",
+  "Audacity",
+  "Takenuma, Abandoned Mire",
+  "Raucous Theater",
+  "Flames of the Firebrand",
+  "Canyon Slough",
+  "Bone Shards",
+  "Swamp",
+  "Sylvan Library"
+ ],
+ "sideboard": [
+  "Abundant Harvest",
+  "Blackmail",
+  "Mesmeric Fiend",
+  "Dreadhorde Arcanist",
+  "March of Otherworldly Light",
+  "Brightglass Gearhulk",
+  "Song of the Dryads",
+  "Krenko, Tin Street Kingpin",
+  "Touch the Spirit Realm",
+  "Mosquito Guard",
+  "Chatter of the Squirrel",
+  "Scrabbling Claws",
+  "Tibalt's Rager"
+ ]
+}

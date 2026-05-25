@@ -1,0 +1,125 @@
+{
+ "metadata": {
+  "path": "data/polyverse/2023-09-17_local_1/casey.json",
+  "draft_id": "2023-09-17_local_1",
+  "combined_file": "data/polyverse/2023-09-17_local_1/casey.txt"
+ },
+ "macro_archetype": "control",
+ "labels": [
+  "+1/+1",
+  "spells"
+ ],
+ "player": "casey",
+ "date": "2023-09-17",
+ "matches": [
+  {
+   "opponent": "james",
+   "round": 1,
+   "wins": 0,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "james",
+     "winner": "james"
+    }
+   ],
+   "winner": "james"
+  },
+  {
+   "opponent": "jen",
+   "round": 2,
+   "wins": 1,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "jen",
+     "winner": "casey"
+    }
+   ],
+   "winner": "casey"
+  },
+  {
+   "opponent": "paul",
+   "round": 3,
+   "wins": 1,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "paul",
+     "winner": "casey"
+    }
+   ],
+   "winner": "casey"
+  }
+ ],
+ "mainboard": [
+  "The Wandering Emperor",
+  "Dream Trawler",
+  "Opt",
+  "Flooded Strand",
+  "Counterspell",
+  "Faerie Vandal",
+  "Gomazoa",
+  "Aether Tradewinds",
+  "Port Town",
+  "Brineborn Cutthroat",
+  "Oblivion Ring",
+  "Spirited Companion",
+  "Mosquito Guard",
+  "The Reality Chip",
+  "Ephemerate",
+  "Alseid of Life's Bounty",
+  "Flux Channeler",
+  "Sphinx of Lost Truths",
+  "Naiad of Hidden Coves",
+  "Reveillark",
+  "Raise the Alarm",
+  "Dress Down",
+  "Ponder",
+  "Grateful Apparition",
+  "Chart a Course",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Island",
+  "Island",
+  "Island",
+  "Island",
+  "Island",
+  "Island",
+  "Island"
+ ],
+ "sideboard": [
+  "Pyroclasm",
+  "Nobilis of War",
+  "Witherscale Wurm",
+  "River Kelpie",
+  "Jaddi Lifestrider",
+  "Gilded Goose",
+  "Devoted Druid",
+  "Lotus Cobra",
+  "Reclamation Sage",
+  "Arasta of the Endless Web",
+  "Acidic Slime",
+  "Tamiyo, Compleated Sage",
+  "Nissa, Who Shakes the World",
+  "Utopia Sprawl",
+  "Groundswell",
+  "Vines of Vastwood",
+  "Beast Within",
+  "Hunting Triad",
+  "Saproling Migration",
+  "Boseiju, Who Endures",
+  "Hinterland Harbor",
+  "Fortified Village",
+  "Breeding Pool"
+ ]
+}

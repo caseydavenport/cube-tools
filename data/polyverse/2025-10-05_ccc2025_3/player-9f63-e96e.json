@@ -1,0 +1,116 @@
+{
+ "metadata": {
+  "path": "data/polyverse/2025-10-05_ccc2025_3/player-9f63-e96e.json",
+  "draft_id": "2025-10-05_ccc2025_3",
+  "pool_file": "data/polyverse/2025-10-05_ccc2025_3/player-9f63-e96e-pool.txt"
+ },
+ "macro_archetype": "midrange",
+ "labels": [
+  "discard",
+  "graveyard"
+ ],
+ "player": "player-9f63-e96e",
+ "date": "2025-10-05",
+ "matches": [
+  {
+   "opponent": "player-9f63-6bdf",
+   "round": 3,
+   "wins": 0,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "player-9f63-6bdf",
+     "winner": "player-9f63-6bdf"
+    }
+   ],
+   "winner": "player-9f63-6bdf"
+  },
+  {
+   "opponent": "player-9f63-c38c",
+   "round": 2,
+   "wins": 1,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "player-9f63-c38c",
+     "winner": "player-9f63-e96e"
+    }
+   ],
+   "winner": "player-9f63-e96e"
+  },
+  {
+   "opponent": "player-9f63-f78b",
+   "round": 1,
+   "wins": 0,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "player-9f63-f78b",
+     "winner": "player-9f63-f78b"
+    },
+    {
+     "opponent": "player-9f63-f78b",
+     "winner": "player-9f63-f78b"
+    }
+   ],
+   "winner": "player-9f63-f78b"
+  }
+ ],
+ "mainboard": [],
+ "sideboard": [],
+ "pool": [
+  "Fact or Fiction",
+  "Thoughtseize",
+  "Dress Down",
+  "Death's Shadow",
+  "Polluted Delta",
+  "Seasoned Pyromancer",
+  "Bloodghast",
+  "Comet Storm",
+  "Anje's Ravager",
+  "Baleful Strix",
+  "Cut Down",
+  "Fatal Push",
+  "Helping Hand",
+  "Woe Strider",
+  "Bloodstained Mire",
+  "Curator of Mysteries",
+  "Grim Discovery",
+  "Ravenous Squirrel",
+  "Fiery Temper",
+  "Aether Spellbomb",
+  "Deluge of Doom",
+  "Scrapwork Mutt",
+  "Dauntless Bodyguard",
+  "Containment Construct",
+  "Gitaxian Probe",
+  "Cling to Dust",
+  "Careful Study",
+  "Werefox Bodyguard",
+  "Accursed Marauder",
+  "Unearth",
+  "Duress",
+  "Marionette Apprentice",
+  "Takenuma, Abandoned Mire",
+  "Urza's Bauble",
+  "Fetid Pools",
+  "Raucous Theater",
+  "Merfolk Looter",
+  "Urza's Saga",
+  "Misty Rainforest",
+  "Watery Grave",
+  "Inquisition of Kozilek",
+  "Murderous Cut",
+  "Spell Pierce",
+  "Steam Vents",
+  "Remand"
+ ],
+ "colors": [
+  "U",
+  "B",
+  "R"
+ ]
+}

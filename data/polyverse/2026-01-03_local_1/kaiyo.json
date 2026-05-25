@@ -1,0 +1,114 @@
+{
+ "metadata": {
+  "path": "data/polyverse/2026-01-03_local_1/kaiyo.json",
+  "draft_id": "2026-01-03_local_1",
+  "mainboard_file": "data/polyverse/2026-01-03_local_1/kaiyo-mainboard.txt",
+  "sideboard_file": "data/polyverse/2026-01-03_local_1/kaiyo-sideboard.txt"
+ },
+ "macro_archetype": "tempo",
+ "labels": [
+  "artifacts",
+  "sacrifice"
+ ],
+ "player": "kaiyo",
+ "date": "2026-01-03",
+ "matches": [
+  {
+   "opponent": "isaiah",
+   "round": 1,
+   "wins": 2,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "isaiah",
+     "winner": "kaiyo"
+    },
+    {
+     "opponent": "isaiah",
+     "winner": "kaiyo"
+    }
+   ],
+   "winner": "kaiyo"
+  },
+  {
+   "opponent": "jackson",
+   "round": 2,
+   "wins": 0,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "jackson",
+     "winner": "jackson"
+    },
+    {
+     "opponent": "jackson",
+     "winner": "jackson"
+    }
+   ],
+   "winner": "jackson"
+  }
+ ],
+ "mainboard": [
+  "Bitter Triumph",
+  "Clarion Spirit",
+  "Cloudgoat Ranger",
+  "Journey to Nowhere",
+  "Sevinne's Reclamation",
+  "Gitaxian Probe",
+  "Bloodchief's Thirst",
+  "Bloodghast",
+  "Bloodsoaked Champion",
+  "Carrion Feeder",
+  "Deep-Cavern Bat",
+  "Marionette Apprentice",
+  "Midnight Reaper",
+  "Murderous Cut",
+  "Rankle, Master of Pranks",
+  "Ulcerate",
+  "Woe Strider",
+  "Legion Extruder",
+  "Pia and Kiran Nalaar",
+  "Mayhem Devil",
+  "Ravenous Squirrel",
+  "Candy Trail",
+  "Lost Jitte",
+  "Urza's Bauble",
+  "Eiganjo, Seat of the Empire",
+  "Flooded Strand",
+  "Mountain",
+  "Mountain",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Raucous Theater",
+  "Sacred Foundry",
+  "Shadowy Backstreet",
+  "Swamp",
+  "Swamp",
+  "Swamp",
+  "Swamp",
+  "Swamp",
+  "Swamp",
+  "Urza's Saga"
+ ],
+ "sideboard": [
+  "Reveillark",
+  "Grim Discovery",
+  "Unearth",
+  "Kellan, the Fae-Blooded // Birthright Boon",
+  "Reckless Pyrosurfer",
+  "Audacity",
+  "Birthing Ritual",
+  "Mosswood Dreadknight // Dread Whispers",
+  "Pick Your Poison",
+  "Roaring Earth",
+  "Utopia Sprawl",
+  "Warleader's Call",
+  "Saheeli, Sublime Artificer",
+  "Sprite Dragon",
+  "Stomping Ground",
+  "Swamp"
+ ]
+}

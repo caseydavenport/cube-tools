@@ -1,0 +1,92 @@
+{
+ "metadata": {
+  "path": "data/polyverse/2025-04-05_local_2/dom.json",
+  "draft_id": "2025-04-05_local_2",
+  "combined_file": "data/polyverse/2025-04-05_local_2/dom.txt"
+ },
+ "macro_archetype": "control",
+ "labels": [
+  "draw"
+ ],
+ "player": "dom",
+ "date": "2025-04-05",
+ "matches": [
+  {
+   "opponent": "casey",
+   "round": 1,
+   "wins": 1,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "casey",
+     "winner": "dom"
+    }
+   ],
+   "winner": "dom"
+  }
+ ],
+ "mainboard": [
+  "Windswept Heath",
+  "Monastery Mentor",
+  "Man-o'-War",
+  "Mystic Confluence",
+  "Collected Company",
+  "Careful Study",
+  "Eternal Witness",
+  "Serum Visions",
+  "Jolrael, Mwonvuli Recluse",
+  "Flooded Strand",
+  "Werefox Bodyguard",
+  "Tireless Tracker",
+  "Proft's Eidetic Memory",
+  "Misty Rainforest",
+  "Temple Garden",
+  "Lotus Cobra",
+  "Lion Sash",
+  "Tarmogoyf",
+  "Temple Garden",
+  "Faerie Vandal",
+  "Repeal",
+  "Sylvan Library",
+  "Mishra's Bauble",
+  "Counterspell",
+  "Unsummon",
+  "Consider",
+  "Hallowed Fountain",
+  "Otawara, Soaring City",
+  "Remand",
+  "Opt",
+  "Treasure Cruise",
+  "Scalding Tarn",
+  "Plains",
+  "Plains",
+  "Island",
+  "Island",
+  "Island",
+  "Forest",
+  "Forest",
+  "Forest"
+ ],
+ "sideboard": [
+  "Bloodsoaked Champion",
+  "Marionette Apprentice",
+  "Tibalt's Rager",
+  "Tragic Fall",
+  "Bloodstained Mire",
+  "Bloodstained Mire",
+  "Wildfire Wickerfolk",
+  "Mosswood Dreadknight // Dread Whispers",
+  "Edge of Autumn",
+  "Agonizing Remorse",
+  "Audacity",
+  "Cloudgoat Ranger",
+  "Overgrown Tomb",
+  "Hunting Triad",
+  "Containment Construct",
+  "Kitchen Finks",
+  "Life from the Loam",
+  "Curator of Mysteries",
+  "Warden of the Inner Sky"
+ ]
+}

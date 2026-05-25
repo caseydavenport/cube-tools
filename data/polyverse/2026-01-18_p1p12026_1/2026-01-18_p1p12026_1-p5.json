@@ -1,0 +1,102 @@
+{
+ "metadata": {
+  "path": "data/polyverse/2026-01-18_p1p12026_1/2026-01-18_p1p12026_1-p5.json",
+  "draft_id": "2026-01-18_p1p12026_1",
+  "combined_file": "data/polyverse/2026-01-18_p1p12026_1/20260118d1-120a.txt"
+ },
+ "macro_archetype": "midrange",
+ "labels": [
+  "sacrifice"
+ ],
+ "player": "2026-01-18_p1p12026_1-p5",
+ "date": "2026-01-18",
+ "matches": [
+  {
+   "opponent": "2026-01-18_p1p12026_1-p1",
+   "round": 1,
+   "wins": 2,
+   "losses": 0,
+   "draws": 0,
+   "winner": "2026-01-18_p1p12026_1-p5"
+  },
+  {
+   "opponent": "2026-01-18_p1p12026_1-p2",
+   "round": 2,
+   "wins": 1,
+   "losses": 2,
+   "draws": 0,
+   "winner": "2026-01-18_p1p12026_1-p2"
+  },
+  {
+   "opponent": "2026-01-18_p1p12026_1-p7",
+   "round": 3,
+   "wins": 1,
+   "losses": 2,
+   "draws": 0,
+   "winner": "2026-01-18_p1p12026_1-p7"
+  }
+ ],
+ "mainboard": [
+  "Gingerbrute",
+  "Burst Lightning",
+  "Comet Storm",
+  "Fireblast",
+  "Grim Lavamancer",
+  "Magmatic Sinkhole",
+  "Seal of Fire",
+  "Reckless Charge",
+  "Lightning Bolt",
+  "Magma Jet",
+  "Fiery Temper",
+  "Pia and Kiran Nalaar",
+  "Hellrider",
+  "Midnight Reaper",
+  "Alesha, Who Laughs at Fate",
+  "Drana, Liberator of Malakir",
+  "Mayhem Devil",
+  "Cemetery Gatekeeper",
+  "Marionette Apprentice",
+  "Ogre-Head Helm",
+  "Dark Confidant",
+  "Monastery Swiftspear",
+  "Grim Bauble",
+  "Dragon's Rage Channeler",
+  "Arid Mesa",
+  "Canyon Slough",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Plains"
+ ],
+ "sideboard": [
+  "Restless Vinestalk",
+  "Birthing Ritual",
+  "Arasta of the Endless Web",
+  "Noble Hierarch",
+  "Dauntless Bodyguard",
+  "Edge of Autumn",
+  "Dreamtide Whale",
+  "Seasoned Pyromancer",
+  "Legion Extruder",
+  "Hired Claw",
+  "Faerie Dreamthief",
+  "Candy Trail",
+  "Perilous Myr",
+  "Ulcerate",
+  "Bloodsky Berserker",
+  "Umbral Collar Zealot",
+  "Woe Strider",
+  "Fact or Fiction",
+  "Bomat Courier"
+ ]
+}

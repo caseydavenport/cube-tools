@@ -1,0 +1,129 @@
+{
+ "metadata": {
+  "path": "data/polyverse/2025-10-25_local_1/colton.json",
+  "draft_id": "2025-10-25_local_1",
+  "mainboard_file": "data/polyverse/2025-10-25_local_1/colton-mainboard.txt",
+  "sideboard_file": "data/polyverse/2025-10-25_local_1/colton-sideboard.txt"
+ },
+ "macro_archetype": "control",
+ "labels": [
+  "draw-go"
+ ],
+ "player": "colton",
+ "date": "2025-10-25",
+ "matches": [
+  {
+   "opponent": "casey",
+   "round": 3,
+   "wins": 0,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "casey",
+     "winner": "casey"
+    }
+   ],
+   "winner": "casey"
+  },
+  {
+   "opponent": "robert",
+   "round": 1,
+   "wins": 2,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "robert",
+     "winner": "colton"
+    },
+    {
+     "opponent": "robert",
+     "winner": "colton"
+    },
+    {
+     "opponent": "robert",
+     "winner": "robert"
+    }
+   ],
+   "winner": "colton"
+  },
+  {
+   "opponent": "taylor",
+   "round": 2,
+   "wins": 2,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "taylor",
+     "winner": "colton"
+    },
+    {
+     "opponent": "taylor",
+     "winner": "colton"
+    }
+   ],
+   "winner": "colton"
+  }
+ ],
+ "mainboard": [
+  "Island",
+  "Island",
+  "Island",
+  "Island",
+  "Otawara, Soaring City",
+  "Merfolk Looter",
+  "Deep-Cavern Bat",
+  "Liliana, Dreadhorde General",
+  "Portent",
+  "Urza's Bauble",
+  "Ponder",
+  "Sphinx of Forgotten Lore",
+  "Faerie Vandal",
+  "Bloodchief's Thirst",
+  "Miscalculation",
+  "Island",
+  "Into the Roil",
+  "Mystic Confluence",
+  "Remand",
+  "Shelldock Isle",
+  "Bitter Triumph",
+  "Swamp",
+  "Swamp",
+  "Swamp",
+  "Swamp",
+  "Swamp",
+  "Ethereal Forager",
+  "Memory Lapse",
+  "Spellstutter Sprite",
+  "Wither and Bloom",
+  "Bloodstained Mire",
+  "Watery Grave",
+  "Mischievous Mystic",
+  "Thing in the Ice // Awoken Horror",
+  "Torrential Gearhulk",
+  "Toxic Deluge",
+  "Inquisition of Kozilek",
+  "Stern Scolding",
+  "Verdant Catacombs",
+  "Undercity Sewers"
+ ],
+ "sideboard": [
+  "Chromatic Star",
+  "Call of the Herd",
+  "Curator of Mysteries",
+  "Seal of Removal",
+  "Dragonsguard Elite",
+  "Bloodsky Berserker",
+  "Spell Snare",
+  "Lingering Souls",
+  "Master of Death",
+  "Snarling Gorehound",
+  "Man-o'-War",
+  "Oust",
+  "Dreamtide Whale",
+  "Carrion Feeder",
+  "Moon-Circuit Hacker"
+ ]
+}

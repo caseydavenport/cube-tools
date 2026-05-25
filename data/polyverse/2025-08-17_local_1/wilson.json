@@ -1,0 +1,134 @@
+{
+ "metadata": {
+  "path": "data/polyverse/2025-08-17_local_1/wilson.json",
+  "draft_id": "2025-08-17_local_1",
+  "combined_file": "data/polyverse/2025-08-17_local_1/wilson.csv"
+ },
+ "macro_archetype": "tempo",
+ "labels": [
+  "spells"
+ ],
+ "player": "wilson",
+ "date": "2025-08-17",
+ "matches": [
+  {
+   "opponent": "jamesdeyja",
+   "round": 3,
+   "wins": 0,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "jamesdeyja",
+     "winner": "jamesdeyja"
+    },
+    {
+     "opponent": "jamesdeyja",
+     "winner": "jamesdeyja"
+    }
+   ],
+   "winner": "jamesdeyja"
+  },
+  {
+   "opponent": "maxi",
+   "round": 4,
+   "wins": 1,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "maxi",
+     "winner": "wilson"
+    },
+    {
+     "opponent": "maxi",
+     "winner": "maxi"
+    },
+    {
+     "opponent": "maxi",
+     "winner": "maxi"
+    }
+   ],
+   "winner": "maxi"
+  },
+  {
+   "opponent": "michael",
+   "round": 1,
+   "wins": 2,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "michael",
+     "winner": "wilson"
+    },
+    {
+     "opponent": "michael",
+     "winner": "wilson"
+    }
+   ],
+   "winner": "wilson"
+  }
+ ],
+ "mainboard": [
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Serum Visions",
+  "Gitaxian Probe",
+  "Mana Leak",
+  "Young Pyromancer",
+  "Fire // Ice",
+  "Ponder",
+  "Lava Dart",
+  "Sprite Dragon",
+  "Irencrag Pyromancer",
+  "Island",
+  "Island",
+  "Island",
+  "Island",
+  "Island",
+  "Island",
+  "Island",
+  "Remand",
+  "Shelldock Isle",
+  "Flametongue Kavu",
+  "Scalding Tarn",
+  "Memory Lapse",
+  "Polluted Delta",
+  "Dreamtide Whale",
+  "Preordain",
+  "Thing in the Ice // Awoken Horror",
+  "Torrential Gearhulk",
+  "Cemetery Gatekeeper",
+  "Stern Scolding",
+  "Ogre-Head Helm",
+  "Snapcaster Mage",
+  "Goblin Guide",
+  "Saheeli, Sublime Artificer",
+  "Steam Vents",
+  "Consider",
+  "Flame Jab"
+ ],
+ "sideboard": [
+  "Adanto Vanguard",
+  "Monastery Mentor",
+  "Pestermite",
+  "Goldhound",
+  "Dress Down",
+  "Bedlam Reveler",
+  "Miscalculation",
+  "Fetid Pools",
+  "Proft's Eidetic Memory",
+  "Reinforced Ronin",
+  "Into the Roil",
+  "Counterspell",
+  "Lórien Revealed",
+  "Mosquito Guard",
+  "Utopia Sprawl",
+  "Reckless Charge",
+  "Sunbaked Canyon"
+ ]
+}

@@ -1,0 +1,113 @@
+{
+ "metadata": {
+  "path": "data/polyverse/2025-09-13_local_1/colton.json",
+  "draft_id": "2025-09-13_local_1",
+  "mainboard_file": "data/polyverse/2025-09-13_local_1/colton-mainboard.csv",
+  "sideboard_file": "data/polyverse/2025-09-13_local_1/colton-sideboard.csv"
+ },
+ "macro_archetype": "control",
+ "labels": [
+  "draw-go"
+ ],
+ "player": "colton",
+ "date": "2025-09-13",
+ "matches": [
+  {
+   "opponent": "leo",
+   "round": 2,
+   "wins": 2,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "leo",
+     "winner": "colton"
+    },
+    {
+     "opponent": "leo",
+     "winner": "colton"
+    }
+   ],
+   "winner": "colton"
+  },
+  {
+   "opponent": "zephyr",
+   "round": 1,
+   "wins": 2,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "zephyr",
+     "winner": "colton"
+    },
+    {
+     "opponent": "zephyr",
+     "winner": "colton"
+    }
+   ],
+   "winner": "colton"
+  }
+ ],
+ "mainboard": [
+  "Fell",
+  "Virtue of Persistence // Locthwain Scorn",
+  "Ephara's Dispersal",
+  "Deep-Cavern Bat",
+  "Liliana, Dreadhorde General",
+  "Mana Leak",
+  "Kitesail Freebooter",
+  "Sphinx of Forgotten Lore",
+  "Cut Down",
+  "Marsh Flats",
+  "Miscalculation",
+  "Opt",
+  "Swamp",
+  "Swamp",
+  "Swamp",
+  "Swamp",
+  "Swamp",
+  "Swamp",
+  "Harvester of Misery",
+  "Kiora, the Rising Tide",
+  "Island",
+  "Disfigure",
+  "Into the Roil",
+  "Mystic Confluence",
+  "Shelldock Isle",
+  "Deluge of Doom",
+  "Ethereal Forager",
+  "Mystic Sanctuary",
+  "Watery Grave",
+  "Dreamtide Whale",
+  "Island",
+  "Island",
+  "Island",
+  "Island",
+  "Island",
+  "Dig Through Time",
+  "Preordain",
+  "Torrential Gearhulk",
+  "Toxic Deluge",
+  "Consider"
+ ],
+ "sideboard": [
+  "Spell Queller",
+  "Archmage's Charm",
+  "Shark Typhoon",
+  "Puppeteer Clique",
+  "Collected Company",
+  "Bloodsky Berserker",
+  "Verdurous Gearhulk",
+  "Man-o'-War",
+  "Containment Construct",
+  "Read the Bones",
+  "No More Lies",
+  "Dead Weight",
+  "Careful Study",
+  "Fact or Fiction",
+  "Day of Judgment",
+  "Grim Bauble",
+  "Agonizing Remorse"
+ ]
+}

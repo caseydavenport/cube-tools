@@ -1,0 +1,137 @@
+{
+ "metadata": {
+  "path": "data/polyverse/2023-07-16_local_1/jen.json",
+  "draft_id": "2023-07-16_local_1",
+  "combined_file": "data/polyverse/2023-07-16_local_1/jen.txt"
+ },
+ "macro_archetype": "midrange",
+ "labels": [
+  "+1/+1",
+  "token",
+  "ramp"
+ ],
+ "player": "jen",
+ "date": "2023-07-16",
+ "matches": [
+  {
+   "opponent": "casey",
+   "round": 2,
+   "wins": 0,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "casey",
+     "winner": "casey"
+    }
+   ],
+   "winner": "casey"
+  },
+  {
+   "opponent": "dom",
+   "round": 1,
+   "wins": 0,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "dom",
+     "winner": "dom"
+    }
+   ],
+   "winner": "dom"
+  },
+  {
+   "opponent": "greg",
+   "round": 5,
+   "wins": 1,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "greg",
+     "winner": "jen"
+    }
+   ],
+   "winner": "jen"
+  },
+  {
+   "opponent": "xander",
+   "round": 3,
+   "wins": 0,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "xander",
+     "winner": "xander"
+    }
+   ],
+   "winner": "xander"
+  }
+ ],
+ "mainboard": [
+  "Arasta of the Endless Web",
+  "Quest for the Gemblades",
+  "Fog",
+  "Pollenbright Druid",
+  "Gilder Bairn",
+  "Pledge of Unity",
+  "Harrow",
+  "Hunting Triad",
+  "Acidic Slime",
+  "Kor Skyfisher",
+  "Meadowboon",
+  "Misty Rainforest",
+  "Snapping Sailback",
+  "Roaring Earth",
+  "Windswept Heath",
+  "Scavenging Ooze",
+  "Fortified Village",
+  "Knight of the Reliquary",
+  "Galepowder Mage",
+  "Cankerbloom",
+  "Twinblade Slasher",
+  "Sparring Construct",
+  "Marwyn, the Nurturer",
+  "Verdant Catacombs",
+  "Llanowar Elves",
+  "Towashi Guide-Bot",
+  "Rampaging Baloths",
+  "Utopia Sprawl",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Forest",
+  "Forest",
+  "Forest",
+  "Forest",
+  "Forest",
+  "Forest",
+  "Forest"
+ ],
+ "sideboard": [
+  "Morbid Bloom",
+  "Acolyte of Affliction",
+  "Fate Transfer",
+  "Witch's Mist",
+  "Necroblossom Snarl",
+  "Woodland Cemetery",
+  "Cruel Celebrant",
+  "Eternal Witness",
+  "Reveillark",
+  "Anointed Procession",
+  "Mosquito Guard",
+  "Arbor Elf",
+  "Ajani's Pridemate",
+  "Ferocious Pup",
+  "Serpent-Blade Assailant",
+  "Woodland Champion",
+  "Tukatongue Thallid",
+  "Goldenglow Moth",
+  "Wilderness Reclamation",
+  "Throne of the God-Pharaoh"
+ ]
+}

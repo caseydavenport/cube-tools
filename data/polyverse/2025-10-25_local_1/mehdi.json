@@ -1,0 +1,134 @@
+{
+ "metadata": {
+  "path": "data/polyverse/2025-10-25_local_1/mehdi.json",
+  "draft_id": "2025-10-25_local_1",
+  "mainboard_file": "data/polyverse/2025-10-25_local_1/mehdi-mainboard.txt",
+  "sideboard_file": "data/polyverse/2025-10-25_local_1/mehdi-sideboard.txt"
+ },
+ "macro_archetype": "midrange",
+ "labels": [
+  "domain",
+  "flicker",
+  "token"
+ ],
+ "player": "mehdi",
+ "date": "2025-10-25",
+ "matches": [
+  {
+   "opponent": "perry",
+   "round": 2,
+   "wins": 2,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "perry",
+     "winner": "mehdi"
+    },
+    {
+     "opponent": "perry",
+     "winner": "mehdi"
+    },
+    {
+     "opponent": "perry",
+     "winner": "perry"
+    }
+   ],
+   "winner": "mehdi"
+  },
+  {
+   "opponent": "robert",
+   "round": 3,
+   "wins": 1,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "robert",
+     "winner": "mehdi"
+    },
+    {
+     "opponent": "robert",
+     "winner": "robert"
+    },
+    {
+     "opponent": "robert",
+     "winner": "robert"
+    }
+   ],
+   "winner": "robert"
+  },
+  {
+   "opponent": "taylor",
+   "round": 5,
+   "wins": 0,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "taylor",
+     "winner": "taylor"
+    },
+    {
+     "opponent": "taylor",
+     "winner": "taylor"
+    }
+   ],
+   "winner": "taylor"
+  }
+ ],
+ "mainboard": [
+  "Caretaker's Talent",
+  "Day of Judgment",
+  "Journey to Nowhere",
+  "Luminarch Aspirant",
+  "Phelia, Exuberant Shepherd",
+  "Wrath of God",
+  "Cryogen Relic",
+  "Shark Typhoon",
+  "Agonizing Remorse",
+  "Bone Shards",
+  "Fell",
+  "Grim Bauble",
+  "Lord Skitter, Sewer King",
+  "Marionette Apprentice",
+  "Rankle, Master of Pranks",
+  "Sedgemoor Witch",
+  "Virtue of Persistence // Locthwain Scorn",
+  "Lotus Cobra",
+  "Primeval Titan",
+  "Tireless Tracker",
+  "Growth Spiral",
+  "The Goose Mother",
+  "Ravenous Squirrel",
+  "Celestial Colonnade",
+  "Field of the Dead",
+  "Flooded Strand",
+  "Forest",
+  "Forest",
+  "Godless Shrine",
+  "Hallowed Fountain",
+  "Hedge Maze",
+  "Island",
+  "Meticulous Archive",
+  "Misty Rainforest",
+  "Plains",
+  "Polluted Delta",
+  "Shadowy Backstreet",
+  "Swamp",
+  "Watery Grave",
+  "Windswept Heath"
+ ],
+ "sideboard": [
+  "Delney, Streetwise Lookout",
+  "Spirited Companion",
+  "Cling to Dust",
+  "Dead Weight",
+  "Grim Discovery",
+  "Knight of the Ebon Legion",
+  "Verdurous Gearhulk",
+  "Tidehollow Sculler",
+  "Saheeli, Sublime Artificer",
+  "Grim Flayer"
+ ]
+}

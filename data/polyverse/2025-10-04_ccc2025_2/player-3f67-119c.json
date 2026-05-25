@@ -1,0 +1,127 @@
+{
+ "metadata": {
+  "path": "data/polyverse/2025-10-04_ccc2025_2/player-3f67-119c.json",
+  "draft_id": "2025-10-04_ccc2025_2",
+  "pool_file": "data/polyverse/2025-10-04_ccc2025_2/player-3f67-119c-pool.txt"
+ },
+ "macro_archetype": "tempo",
+ "labels": [
+  "spells"
+ ],
+ "player": "player-3f67-119c",
+ "date": "2025-10-04",
+ "matches": [
+  {
+   "opponent": "player-3f67-2651",
+   "round": 1,
+   "wins": 0,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "player-3f67-2651",
+     "winner": "player-3f67-2651"
+    },
+    {
+     "opponent": "player-3f67-2651",
+     "winner": "player-3f67-2651"
+    }
+   ],
+   "winner": "player-3f67-2651"
+  },
+  {
+   "opponent": "player-3f67-8b63",
+   "round": 2,
+   "wins": 1,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "player-3f67-8b63",
+     "winner": "player-3f67-119c"
+    },
+    {
+     "opponent": "player-3f67-8b63",
+     "winner": "player-3f67-8b63"
+    },
+    {
+     "opponent": "player-3f67-8b63",
+     "winner": "player-3f67-8b63"
+    }
+   ],
+   "winner": "player-3f67-8b63"
+  },
+  {
+   "opponent": "player-3f67-bb44",
+   "round": 3,
+   "wins": 2,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "player-3f67-bb44",
+     "winner": "player-3f67-119c"
+    },
+    {
+     "opponent": "player-3f67-bb44",
+     "winner": "player-3f67-119c"
+    }
+   ],
+   "winner": "player-3f67-119c"
+  }
+ ],
+ "mainboard": [],
+ "sideboard": [],
+ "pool": [
+  "Kavaron Harrier",
+  "Thing in the Ice // Awoken Horror",
+  "Firebolt",
+  "Polluted Delta",
+  "Arid Mesa",
+  "Bedlam Reveler",
+  "Flames of the Firebrand",
+  "Meticulous Archive",
+  "Bloodstained Mire",
+  "Faithless Looting",
+  "Hallowed Fountain",
+  "Fire // Ice",
+  "Midnight Reaper",
+  "Rankle, Master of Pranks",
+  "Sandstorm Salvager",
+  "Watery Grave",
+  "Comet Storm",
+  "Sunbaked Canyon",
+  "Fatal Push",
+  "Burst Lightning",
+  "Portent",
+  "Seal of Fire",
+  "Godless Shrine",
+  "Goldhound",
+  "Monastery Mentor",
+  "Wither and Bloom",
+  "Chromatic Star",
+  "Rabbit Battery",
+  "Perilous Myr",
+  "Blood Crypt",
+  "Abrade",
+  "Sedgemoor Witch",
+  "Flame Jab",
+  "Dreadhorde Arcanist",
+  "Gitaxian Probe",
+  "Goblin Bombardment",
+  "Scalding Tarn",
+  "Steam Vents",
+  "Harvester of Misery",
+  "Abundant Harvest",
+  "Bloodsoaked Champion",
+  "Blazing Rootwalla",
+  "Pestermite",
+  "Grim Discovery",
+  "Overgrown Tomb"
+ ],
+ "colors": [
+  "R",
+  "U",
+  "B"
+ ]
+}

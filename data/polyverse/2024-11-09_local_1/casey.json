@@ -1,0 +1,141 @@
+{
+ "metadata": {
+  "path": "data/polyverse/2024-11-09_local_1/casey.json",
+  "draft_id": "2024-11-09_local_1",
+  "combined_file": "data/polyverse/2024-11-09_local_1/casey.txt"
+ },
+ "macro_archetype": "control",
+ "labels": [
+  "draw-go"
+ ],
+ "player": "casey",
+ "date": "2024-11-09",
+ "matches": [
+  {
+   "opponent": "dom",
+   "round": 1,
+   "wins": 2,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "dom",
+     "winner": "casey"
+    },
+    {
+     "opponent": "dom",
+     "winner": "casey"
+    },
+    {
+     "opponent": "dom",
+     "winner": "dom"
+    }
+   ],
+   "winner": "casey"
+  },
+  {
+   "opponent": "greg",
+   "round": 2,
+   "wins": 2,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "greg",
+     "winner": "casey"
+    },
+    {
+     "opponent": "greg",
+     "winner": "casey"
+    },
+    {
+     "opponent": "greg",
+     "winner": "greg"
+    }
+   ],
+   "winner": "casey"
+  },
+  {
+   "opponent": "mattd",
+   "round": 3,
+   "wins": 2,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "mattd",
+     "winner": "casey"
+    },
+    {
+     "opponent": "mattd",
+     "winner": "casey"
+    },
+    {
+     "opponent": "mattd",
+     "winner": "mattd"
+    }
+   ],
+   "winner": "casey"
+  }
+ ],
+ "mainboard": [
+  "Languish",
+  "Virtue of Persistence // Locthwain Scorn",
+  "Ponder",
+  "Delay",
+  "Murderous Cut",
+  "Bitter Triumph",
+  "Stern Scolding",
+  "Takenuma, Abandoned Mire",
+  "Treasure Cruise",
+  "Mystic Confluence",
+  "Polluted Delta",
+  "Memory Lapse",
+  "Accursed Marauder",
+  "Dead Weight",
+  "Fatal Push",
+  "Urza's Saga",
+  "Rishadan Port",
+  "Condescend",
+  "Ephara's Dispersal",
+  "Dress Down",
+  "Mana Leak",
+  "Toxic Deluge",
+  "Bloodsky Berserker",
+  "Preordain",
+  "Shark Typhoon",
+  "Agonizing Remorse",
+  "Candy Trail",
+  "Otawara, Soaring City",
+  "Blackmail",
+  "Island",
+  "Island",
+  "Island",
+  "Island",
+  "Island",
+  "Island",
+  "Swamp",
+  "Swamp",
+  "Swamp",
+  "Swamp",
+  "Swamp"
+ ],
+ "sideboard": [
+  "Song of the Dryads",
+  "Six",
+  "Overgrown Tomb",
+  "Hedge Maze",
+  "Mosswood Dreadknight // Dread Whispers",
+  "Parallel Lives",
+  "Edge of Autumn",
+  "Perilous Myr",
+  "Tarfire",
+  "Thalia, Guardian of Thraben",
+  "Pollenbright Druid",
+  "Lord Skitter, Sewer King",
+  "Censor",
+  "Deprive",
+  "Flooded Strand",
+  "Bloodstained Mire"
+ ]
+}

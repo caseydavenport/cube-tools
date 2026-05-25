@@ -1,0 +1,96 @@
+{
+ "metadata": {
+  "path": "data/polyverse/2026-01-17_p1p12026_1/2026-01-17_p1p12026_1-p3.json",
+  "draft_id": "2026-01-17_p1p12026_1",
+  "combined_file": "data/polyverse/2026-01-17_p1p12026_1/20260117-120b.txt"
+ },
+ "macro_archetype": "midrange",
+ "labels": [
+  "token"
+ ],
+ "player": "2026-01-17_p1p12026_1-p3",
+ "date": "2026-01-17",
+ "matches": [
+  {
+   "opponent": "2026-01-17_p1p12026_1-p7",
+   "round": 1,
+   "wins": 2,
+   "losses": 0,
+   "draws": 0,
+   "winner": "2026-01-17_p1p12026_1-p3"
+  },
+  {
+   "opponent": "2026-01-17_p1p12026_1-p4",
+   "round": 2,
+   "wins": 1,
+   "losses": 2,
+   "draws": 0,
+   "winner": "2026-01-17_p1p12026_1-p4"
+  },
+  {
+   "opponent": "2026-01-17_p1p12026_1-p1",
+   "round": 3,
+   "wins": 0,
+   "losses": 2,
+   "draws": 0,
+   "winner": "2026-01-17_p1p12026_1-p1"
+  }
+ ],
+ "mainboard": [
+  "Birds of Paradise",
+  "Pile On",
+  "Brightglass Gearhulk",
+  "Esika's Chariot",
+  "Caretaker's Talent",
+  "Lingering Souls",
+  "Sevinne's Reclamation",
+  "Call of the Herd",
+  "Raven Eagle",
+  "Blade Splicer",
+  "Qasali Pridemage",
+  "Fell",
+  "Phelia, Exuberant Shepherd",
+  "Mosswood Dreadknight // Dread Whispers",
+  "Quirion Beastcaller",
+  "Prismatic Ending",
+  "Abundant Harvest",
+  "Inquisition of Kozilek",
+  "Fatal Push",
+  "Dead Weight",
+  "Thoughtseize",
+  "Recruitment Officer",
+  "Gilded Goose",
+  "Isamaru, Hound of Konda",
+  "Bloodstained Mire",
+  "Misty Rainforest",
+  "Godless Shrine",
+  "Overgrown Tomb",
+  "Underground Mortuary",
+  "Marsh Flats",
+  "Temple Garden",
+  "Hallowed Fountain",
+  "Forest",
+  "Forest",
+  "Forest",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Swamp",
+  "Swamp"
+ ],
+ "sideboard": [
+  "Elegant Parlor",
+  "Hedge Maze",
+  "Agonizing Remorse",
+  "Spirited Companion",
+  "Reprieve",
+  "Grim Lavamancer",
+  "Ethereal Forager",
+  "Comet Storm",
+  "Curator of Mysteries",
+  "Growth Spiral",
+  "Werefox Bodyguard",
+  "Dragonsguard Elite",
+  "Saheeli, Sublime Artificer"
+ ]
+}

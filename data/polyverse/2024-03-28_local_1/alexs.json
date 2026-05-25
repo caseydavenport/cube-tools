@@ -1,0 +1,131 @@
+{
+ "metadata": {
+  "path": "data/polyverse/2024-03-28_local_1/alexs.json",
+  "draft_id": "2024-03-28_local_1",
+  "combined_file": "data/polyverse/2024-03-28_local_1/alexs.txt"
+ },
+ "macro_archetype": "aggro",
+ "labels": [],
+ "player": "alexs",
+ "date": "2024-03-28",
+ "matches": [
+  {
+   "opponent": "ken",
+   "round": 2,
+   "wins": 0,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "ken",
+     "winner": "ken"
+    },
+    {
+     "opponent": "ken",
+     "winner": "ken"
+    }
+   ],
+   "winner": "ken"
+  },
+  {
+   "opponent": "matthewbk",
+   "round": 1,
+   "wins": 0,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "matthewbk",
+     "winner": "matthewbk"
+    },
+    {
+     "opponent": "matthewbk",
+     "winner": "matthewbk"
+    }
+   ],
+   "winner": "matthewbk"
+  },
+  {
+   "opponent": "parker",
+   "round": 4,
+   "wins": 0,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "parker",
+     "winner": "parker"
+    },
+    {
+     "opponent": "parker",
+     "winner": "parker"
+    }
+   ],
+   "winner": "parker"
+  }
+ ],
+ "mainboard": [
+  "Adanto Vanguard",
+  "Arcbound Tracker",
+  "Bonesplitter",
+  "Chandra, Hope's Beacon",
+  "Clarion Spirit",
+  "Cloudgoat Ranger",
+  "Comet Storm",
+  "Eiganjo, Seat of the Empire",
+  "Fearless Fledgling",
+  "Feat of Resistance",
+  "Flame Slash",
+  "Grateful Apparition",
+  "Kitchen Finks",
+  "Kor Skyfisher",
+  "Lion Sash",
+  "Meadowboon",
+  "Mosquito Guard",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Ogre-Head Helm",
+  "Phoenix Chick",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Rabbit Battery",
+  "Raise the Alarm",
+  "Sevinne's Reclamation",
+  "Twinshot Sniper",
+  "Warden of the Inner Sky",
+  "Young Pyromancer"
+ ],
+ "sideboard": [
+  "Ajani's Pridemate",
+  "Emergence Zone",
+  "Ephemerate",
+  "Faerie Duelist",
+  "Hardened Scales",
+  "Hinterland Harbor",
+  "Intangible Virtue",
+  "Into the Roil",
+  "Jinxed Idol",
+  "Lava Dart",
+  "Monastery Swiftspear",
+  "Oust",
+  "Rage Nimbus",
+  "Roaring Earth",
+  "Sanctum Seeker",
+  "Saproling Migration",
+  "Scattered Groves",
+  "Spider Food",
+  "Sulfur Falls",
+  "Unsummon"
+ ]
+}

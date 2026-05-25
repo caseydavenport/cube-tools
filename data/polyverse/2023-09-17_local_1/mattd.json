@@ -1,0 +1,116 @@
+{
+ "metadata": {
+  "path": "data/polyverse/2023-09-17_local_1/mattd.json",
+  "draft_id": "2023-09-17_local_1",
+  "combined_file": "data/polyverse/2023-09-17_local_1/mattd.txt"
+ },
+ "macro_archetype": "control",
+ "labels": [
+  "vampire"
+ ],
+ "player": "mattd",
+ "date": "2023-09-17",
+ "matches": [
+  {
+   "opponent": "james",
+   "round": 3,
+   "wins": 0,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "james",
+     "winner": "james"
+    }
+   ],
+   "winner": "james"
+  },
+  {
+   "opponent": "jen",
+   "round": 1,
+   "wins": 1,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "jen",
+     "winner": "mattd"
+    }
+   ],
+   "winner": "mattd"
+  },
+  {
+   "opponent": "paul",
+   "round": 2,
+   "wins": 0,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "paul",
+     "winner": "paul"
+    }
+   ],
+   "winner": "paul"
+  }
+ ],
+ "mainboard": [
+  "Angel of Salvation",
+  "Ajani Goldmane",
+  "Glory of Warfare",
+  "Mire Triton",
+  "Infuriate",
+  "Cruel Celebrant",
+  "Inspiring Cleric",
+  "Legion's Landing // Adanto, the First Fort",
+  "Welcoming Vampire",
+  "Frostboil Snarl",
+  "Irrigated Farmland",
+  "Bloodghast",
+  "Faerie Dreamthief",
+  "Goldenglow Moth",
+  "Isolated Chapel",
+  "Sparring Construct",
+  "Polluted Delta",
+  "Touch the Spirit Realm",
+  "Uncharted Haven",
+  "Kitchen Finks",
+  "Clarion Spirit",
+  "Mulldrifter",
+  "Shineshadow Snarl",
+  "Glacial Fortress",
+  "Malfegor",
+  "Hostage Taker",
+  "Kalastria Highborn",
+  "Blinding Mage",
+  "Prison Term",
+  "Marsh Flats",
+  "Harm's Way",
+  "Severed Strands",
+  "Atris, Oracle of Half-Truths",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Island",
+  "Swamp",
+  "Swamp",
+  "Mountain"
+ ],
+ "sideboard": [
+  "Fall of the Thran",
+  "Merfolk Skydiver",
+  "Trading Post",
+  "Pteramander",
+  "Gold Myr",
+  "Mischievous Chimera",
+  "Narrow Escape",
+  "Stormclaw Rager",
+  "Twinshot Sniper",
+  "Bonesplitter",
+  "Dauntless Bodyguard",
+  "Gwyllion Hedge-Mage",
+  "Merfolk Looter",
+  "Sai of the Shinobi",
+  "Reprieve"
+ ]
+}

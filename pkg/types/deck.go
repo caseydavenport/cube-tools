@@ -18,6 +18,95 @@ func NewDeck() *Deck {
 	}
 }
 
+func cardNames(cs []Card) []string {
+	out := make([]string, len(cs))
+	for i, c := range cs {
+		out[i] = c.Name
+	}
+	return out
+}
+
+func hydrateNames(names []string) []Card {
+	if names == nil {
+		return nil
+	}
+	out := make([]Card, len(names))
+	for i, n := range names {
+		out[i] = HydrateCard(n)
+	}
+	return out
+}
+
+// UnmarshalJSON hydrates a Deck from its on-disk JSON form, where card
+// lists are stored as []string of names. Names are resolved to Cards via
+// the oracle dataset at load time.
+func (d *Deck) UnmarshalJSON(data []byte) error {
+	type alias Deck
+	aux := &struct {
+		Mainboard []string `json:"mainboard"`
+		Sideboard []string `json:"sideboard"`
+		Pool      []string `json:"pool,omitempty"`
+		*alias
+	}{
+		alias: (*alias)(d),
+	}
+	if err := json.Unmarshal(data, aux); err != nil {
+		return err
+	}
+	d.Mainboard = hydrateNames(aux.Mainboard)
+	d.Sideboard = hydrateNames(aux.Sideboard)
+	d.Pool = hydrateNames(aux.Pool)
+	if d.Labels == nil {
+		d.Labels = make([]string, 0)
+	}
+	return nil
+}
+
+// MarshalCompact returns the deck's on-disk JSON form, with card lists
+// serialized as []string of names rather than full Card objects. Use this
+// for writing deck files; regular json.Marshal still emits full Card objects
+// for the API path consumed by the UI. Field order mirrors Deck so the
+// on-disk layout stays stable.
+func (d *Deck) MarshalCompact() ([]byte, error) {
+	aux := struct {
+		Metadata       Metadata `json:"metadata"`
+		MacroArchetype string   `json:"macro_archetype,omitempty"`
+		Labels         []string `json:"labels"`
+		Player         string   `json:"player"`
+		Date           string   `json:"date"`
+		Name           string   `json:"name,omitempty"`
+		Matches        []Match  `json:"matches"`
+		DeckImage      string   `json:"deck_image,omitempty"`
+		Mainboard      []string `json:"mainboard"`
+		Sideboard      []string `json:"sideboard"`
+		Pool           []string `json:"pool,omitempty"`
+		Colors         []string `json:"colors,omitempty"`
+	}{
+		Metadata:       d.Metadata,
+		MacroArchetype: d.MacroArchetype,
+		Labels:         d.Labels,
+		Player:         d.Player,
+		Date:           d.Date,
+		Name:           d.Name,
+		Matches:        d.Matches,
+		DeckImage:      d.DeckImage,
+		Mainboard:      cardNames(d.Mainboard),
+		Sideboard:      cardNames(d.Sideboard),
+		Pool:           cardNames(d.Pool),
+		Colors:         d.Colors,
+	}
+	return json.MarshalIndent(aux, "", " ")
+}
+
+// Save writes the deck to the given path in compact on-disk form.
+func (d *Deck) Save(path string) error {
+	bs, err := d.MarshalCompact()
+	if err != nil {
+		return err
+	}
+	return os.WriteFile(path, bs, 0644)
+}
+
 func LoadDeck(path string) (*Deck, error) {
 	contents, err := os.ReadFile(path)
 	if err != nil {

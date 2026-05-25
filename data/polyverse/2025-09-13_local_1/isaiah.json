@@ -1,0 +1,130 @@
+{
+ "metadata": {
+  "path": "data/polyverse/2025-09-13_local_1/isaiah.json",
+  "draft_id": "2025-09-13_local_1",
+  "mainboard_file": "data/polyverse/2025-09-13_local_1/isaiah-mainboard.csv",
+  "sideboard_file": "data/polyverse/2025-09-13_local_1/isaiah-sideboard.csv"
+ },
+ "macro_archetype": "midrange",
+ "labels": [
+  "token"
+ ],
+ "player": "isaiah",
+ "date": "2025-09-13",
+ "matches": [
+  {
+   "opponent": "casey",
+   "round": 3,
+   "wins": 2,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "casey",
+     "winner": "isaiah"
+    },
+    {
+     "opponent": "casey",
+     "winner": "isaiah"
+    }
+   ],
+   "winner": "isaiah"
+  },
+  {
+   "opponent": "eric",
+   "round": 1,
+   "wins": 0,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "eric",
+     "winner": "eric"
+    },
+    {
+     "opponent": "eric",
+     "winner": "eric"
+    }
+   ],
+   "winner": "eric"
+  },
+  {
+   "opponent": "joe",
+   "round": 2,
+   "wins": 1,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "joe",
+     "winner": "isaiah"
+    },
+    {
+     "opponent": "joe",
+     "winner": "joe"
+    },
+    {
+     "opponent": "joe",
+     "winner": "joe"
+    }
+   ],
+   "winner": "joe"
+  }
+ ],
+ "mainboard": [
+  "Garruk Wildspeaker",
+  "Boseiju, Who Endures",
+  "Primeval Titan",
+  "Faerie Guidemother // Gift of the Fae",
+  "Seasoned Pyromancer",
+  "Stomping Ground",
+  "Harm's Way",
+  "Goblin Bombardment",
+  "Esper Sentinel",
+  "Sandstorm Salvager",
+  "Questing Druid // Seek the Beast",
+  "Prismatic Ending",
+  "Shifting Woodland",
+  "Unholy Heat",
+  "Field of the Dead",
+  "Caretaker's Talent",
+  "Gilded Goose",
+  "The Huntsman's Redemption",
+  "Magmatic Sinkhole",
+  "Dragon's Rage Channeler",
+  "Thraben Inspector",
+  "Unexpectedly Absent",
+  "Arid Mesa",
+  "Arid Mesa",
+  "Temple Garden",
+  "Phelia, Exuberant Shepherd",
+  "Sheltered Thicket",
+  "The Wandering Emperor",
+  "Inti, Seneschal of the Sun",
+  "Ogre-Head Helm",
+  "Searslicer Goblin",
+  "Sunbaked Canyon",
+  "Windswept Heath",
+  "Forest",
+  "Forest",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Plains",
+  "Plains"
+ ],
+ "sideboard": [
+  "Young Pyromancer",
+  "Birthing Ritual",
+  "Thundering Falls",
+  "Spell Snare",
+  "Brainsurge",
+  "Remand",
+  "Fiery Islet",
+  "Godless Shrine",
+  "Steam Vents",
+  "Steam Vents",
+  "Comet Storm",
+  "Saheeli, Sublime Artificer"
+ ]
+}

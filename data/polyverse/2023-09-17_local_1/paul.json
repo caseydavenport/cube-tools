@@ -1,0 +1,124 @@
+{
+ "metadata": {
+  "path": "data/polyverse/2023-09-17_local_1/paul.json",
+  "draft_id": "2023-09-17_local_1",
+  "combined_file": "data/polyverse/2023-09-17_local_1/paul.txt"
+ },
+ "macro_archetype": "aggro",
+ "labels": [],
+ "player": "paul",
+ "date": "2023-09-17",
+ "matches": [
+  {
+   "opponent": "casey",
+   "round": 3,
+   "wins": 0,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "casey",
+     "winner": "casey"
+    }
+   ],
+   "winner": "casey"
+  },
+  {
+   "opponent": "dom",
+   "round": 1,
+   "wins": 0,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "dom",
+     "winner": "dom"
+    }
+   ],
+   "winner": "dom"
+  },
+  {
+   "opponent": "mattd",
+   "round": 2,
+   "wins": 1,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "mattd",
+     "winner": "paul"
+    }
+   ],
+   "winner": "paul"
+  }
+ ],
+ "mainboard": [
+  "Flame Jab",
+  "Wrath of God",
+  "Dark Ritual",
+  "Murderous Redcap",
+  "Mark of Mutiny",
+  "Swords to Plowshares",
+  "Soul-Scar Mage",
+  "Guttersnipe",
+  "Lightning Greaves",
+  "Tibalt's Rager",
+  "Mayhem Devil",
+  "Mistmeadow Skulk",
+  "Fateful End",
+  "Galepowder Mage",
+  "Manabarbs",
+  "Catalyst Elemental",
+  "Rabbit Battery",
+  "Loxodon Warhammer",
+  "Disfigure",
+  "Cunning Sparkmage",
+  "Cut Down",
+  "Vampire Hexmage",
+  "Zulaport Cutthroat",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Swamp",
+  "Swamp",
+  "Swamp",
+  "Swamp",
+  "Swamp",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Mountain"
+ ],
+ "sideboard": [
+  "Shanna, Sisay's Legacy",
+  "Avenger of Zendikar",
+  "Spellbreaker Behemoth",
+  "Raven's Crime",
+  "Dockside Chef",
+  "Ajani's Pridemate",
+  "Stitch Together",
+  "Turn to Mist",
+  "Fury Charm",
+  "Harrow",
+  "Rubblebelt Rioters",
+  "Quillspike",
+  "Rage Nimbus",
+  "Warcry Phoenix",
+  "Liliana's Mastery",
+  "Siege-Gang Commander",
+  "Malakir Bloodwitch",
+  "Miraculous Recovery",
+  "Butcher of Malakir",
+  "Hellkite Charger",
+  "Hellion Eruption",
+  "Angelic Intervention",
+  "Sanctum Seeker",
+  "Marshal's Anthem",
+  "Cunning Lethemancer"
+ ]
+}

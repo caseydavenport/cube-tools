@@ -1,0 +1,131 @@
+{
+ "metadata": {
+  "path": "data/polyverse/2025-06-29_local_1/tanner.json",
+  "draft_id": "2025-06-29_local_1",
+  "combined_file": "data/polyverse/2025-06-29_local_1/tanner.csv"
+ },
+ "macro_archetype": "midrange",
+ "labels": [
+  "domain",
+  "lands",
+  "ramp"
+ ],
+ "player": "tanner",
+ "date": "2025-06-29",
+ "matches": [
+  {
+   "opponent": "bryan",
+   "round": 2,
+   "wins": 2,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "bryan",
+     "winner": "tanner"
+    },
+    {
+     "opponent": "bryan",
+     "winner": "tanner"
+    },
+    {
+     "opponent": "bryan",
+     "winner": "bryan"
+    }
+   ],
+   "winner": "tanner"
+  },
+  {
+   "opponent": "owen",
+   "round": 3,
+   "wins": 2,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "owen",
+     "winner": "tanner"
+    },
+    {
+     "opponent": "owen",
+     "winner": "tanner"
+    }
+   ],
+   "winner": "tanner"
+  },
+  {
+   "opponent": "zephyr",
+   "round": 1,
+   "wins": 1,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "zephyr",
+     "winner": "tanner"
+    },
+    {
+     "opponent": "zephyr",
+     "winner": "zephyr"
+    },
+    {
+     "opponent": "zephyr",
+     "winner": "zephyr"
+    }
+   ],
+   "winner": "zephyr"
+  }
+ ],
+ "mainboard": [
+  "Windswept Heath",
+  "Call of the Herd",
+  "Scavenging Ooze",
+  "Stomping Ground",
+  "Crop Rotation",
+  "Territorial Kavu",
+  "Spirited Companion",
+  "Bloodchief's Thirst",
+  "Pyrite Spellbomb",
+  "Lingering Souls",
+  "Portable Hole",
+  "Prismatic Ending",
+  "Shifting Woodland",
+  "Brightglass Gearhulk",
+  "Eiganjo, Seat of the Empire",
+  "Lush Portico",
+  "Field of the Dead",
+  "Forest",
+  "Read the Bones",
+  "Titania, Protector of Argoth",
+  "Birds of Paradise",
+  "Grim Flayer",
+  "Knight of the Reliquary",
+  "Plains",
+  "Dead Weight",
+  "Glass Casket",
+  "Arid Mesa",
+  "Breeding Pool",
+  "Godless Shrine",
+  "Chainweb Aracnir",
+  "Bloodstained Mire",
+  "Raucous Theater",
+  "Scrapwork Mutt",
+  "Duress",
+  "Life from the Loam",
+  "Canyon Slough",
+  "The Wandering Emperor",
+  "Verdant Catacombs",
+  "Verdant Catacombs",
+  "Temple Garden"
+ ],
+ "sideboard": [
+  "Legion Extruder",
+  "Harm's Way",
+  "Ravenous Squirrel",
+  "Jolrael, Mwonvuli Recluse",
+  "Mountain",
+  "Heritage Reclamation",
+  "Song of the Dryads",
+  "Vivien, Champion of the Wilds"
+ ]
+}

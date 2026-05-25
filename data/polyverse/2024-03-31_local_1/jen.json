@@ -1,0 +1,135 @@
+{
+ "metadata": {
+  "path": "data/polyverse/2024-03-31_local_1/jen.json",
+  "draft_id": "2024-03-31_local_1",
+  "combined_file": "data/polyverse/2024-03-31_local_1/jen.txt"
+ },
+ "macro_archetype": "aggro",
+ "labels": [
+  "token",
+  "vampire"
+ ],
+ "player": "jen",
+ "date": "2024-03-31",
+ "matches": [
+  {
+   "opponent": "cara",
+   "round": 2,
+   "wins": 2,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "cara",
+     "winner": "jen"
+    },
+    {
+     "opponent": "cara",
+     "winner": "jen"
+    },
+    {
+     "opponent": "cara",
+     "winner": "cara"
+    }
+   ],
+   "winner": "jen"
+  },
+  {
+   "opponent": "paul",
+   "round": 3,
+   "wins": 1,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "paul",
+     "winner": "jen"
+    },
+    {
+     "opponent": "paul",
+     "winner": "paul"
+    },
+    {
+     "opponent": "paul",
+     "winner": "paul"
+    }
+   ],
+   "winner": "paul"
+  },
+  {
+   "opponent": "xander",
+   "round": 1,
+   "wins": 0,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "xander",
+     "winner": "xander"
+    },
+    {
+     "opponent": "xander",
+     "winner": "xander"
+    }
+   ],
+   "winner": "xander"
+  }
+ ],
+ "mainboard": [
+  "Kalastria Highborn",
+  "Zulaport Cutthroat",
+  "Mesmeric Fiend",
+  "Bolas's Citadel",
+  "Viscera Seer",
+  "Adanto Vanguard",
+  "Vampire of the Dire Moon",
+  "Meadowboon",
+  "Resolute Reinforcements",
+  "Woodland Cemetery",
+  "Hallowed Fountain",
+  "Undercity Sewers",
+  "Unearth",
+  "Soul Warden",
+  "Welcoming Vampire",
+  "Liliana, Death's Majesty",
+  "Throne of the God-Pharaoh",
+  "Puppeteer Clique",
+  "Pitiless Pontiff",
+  "Takenuma, Abandoned Mire",
+  "Agonizing Remorse",
+  "Feat of Resistance",
+  "Field of Ruin",
+  "Isolated Chapel",
+  "Flickerwisp",
+  "Legion's Landing // Adanto, the First Fort",
+  "Kor Sanctifiers",
+  "Goldenglow Moth",
+  "Restless Fortress",
+  "Fearless Fledgling",
+  "Shadowy Backstreet",
+  "Bone Shards",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Swamp",
+  "Swamp",
+  "Swamp",
+  "Swamp"
+ ],
+ "sideboard": [
+  "Serum Visions",
+  "Chart a Course",
+  "Ghostly Flicker",
+  "Spellstutter Sprite",
+  "Breeding Pool",
+  "Malfegor",
+  "Anje's Ravager",
+  "Grim Initiate",
+  "Kor Skyfisher",
+  "Cunning Lethemancer",
+  "Ruthless Sniper",
+  "Raven's Crime",
+  "Intangible Virtue"
+ ]
+}

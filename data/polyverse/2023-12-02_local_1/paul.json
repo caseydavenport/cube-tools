@@ -1,0 +1,147 @@
+{
+ "metadata": {
+  "path": "data/polyverse/2023-12-02_local_1/paul.json",
+  "draft_id": "2023-12-02_local_1",
+  "combined_file": "data/polyverse/2023-12-02_local_1/paul.txt"
+ },
+ "macro_archetype": "midrange",
+ "labels": [
+  "goodstuff"
+ ],
+ "player": "paul",
+ "date": "2023-12-02",
+ "matches": [
+  {
+   "opponent": "cara",
+   "round": 2,
+   "wins": 1,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "cara",
+     "winner": "paul"
+    },
+    {
+     "opponent": "cara",
+     "winner": "cara"
+    },
+    {
+     "opponent": "cara",
+     "winner": "cara"
+    }
+   ],
+   "winner": "cara"
+  },
+  {
+   "opponent": "jen",
+   "round": 3,
+   "wins": 1,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "jen",
+     "winner": "paul"
+    },
+    {
+     "opponent": "jen",
+     "winner": "jen"
+    },
+    {
+     "opponent": "jen",
+     "winner": "jen"
+    }
+   ],
+   "winner": "jen"
+  },
+  {
+   "opponent": "xander",
+   "round": 1,
+   "wins": 1,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "xander",
+     "winner": "paul"
+    },
+    {
+     "opponent": "xander",
+     "winner": "xander"
+    },
+    {
+     "opponent": "xander",
+     "winner": "xander"
+    }
+   ],
+   "winner": "xander"
+  }
+ ],
+ "mainboard": [
+  "Oblivion Ring",
+  "Day of Judgment",
+  "Mistmeadow Skulk",
+  "Throne of the God-Pharaoh",
+  "Clarion Spirit",
+  "Galepowder Mage",
+  "Reveillark",
+  "Wrath of God",
+  "Lightning Greaves",
+  "Portable Hole",
+  "Eidolon of Obstruction",
+  "Sai of the Shinobi",
+  "Mother of Runes",
+  "Mosquito Guard",
+  "Legion's Landing // Adanto, the First Fort",
+  "Unmake",
+  "Saproling Migration",
+  "Quest for the Gemblades",
+  "Shanna, Sisay's Legacy",
+  "Untamed Kavu",
+  "Tarmogoyf",
+  "Jolrael, Mwonvuli Recluse",
+  "Intrepid Trufflesnout // Go Hog Wild",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Forest",
+  "Forest",
+  "Forest",
+  "Forest",
+  "Forest",
+  "Forest"
+ ],
+ "sideboard": [
+  "Watery Grave",
+  "Beacon of Unrest",
+  "Stitcher's Supplier",
+  "Shadowstorm Vizier",
+  "Acidic Slime",
+  "Oracle of Mul Daya",
+  "Lodestone Myr",
+  "Kellan, the Fae-Blooded // Birthright Boon",
+  "Hunting Triad",
+  "Gilder Bairn",
+  "Vampire Hexmage",
+  "Canopy Vista",
+  "Scattered Groves",
+  "Llanowar Elves",
+  "Arbor Elf",
+  "Gold Myr",
+  "Turn to Mist",
+  "Parallel Lives",
+  "Goldenglow Moth",
+  "Oust",
+  "Mavren Fein, Dusk Apostle",
+  "Kor Sanctifiers"
+ ]
+}

@@ -1,0 +1,160 @@
+{
+ "metadata": {
+  "path": "data/polyverse/2024-01-07_local_1/jen.json",
+  "draft_id": "2024-01-07_local_1",
+  "combined_file": "data/polyverse/2024-01-07_local_1/jen.txt"
+ },
+ "macro_archetype": "midrange",
+ "labels": [
+  "+1/+1",
+  "token",
+  "flicker"
+ ],
+ "player": "jen",
+ "date": "2024-01-07",
+ "matches": [
+  {
+   "opponent": "casey",
+   "round": 2,
+   "wins": 1,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "casey",
+     "winner": "casey"
+    },
+    {
+     "opponent": "casey",
+     "winner": "jen"
+    }
+   ]
+  },
+  {
+   "opponent": "dom",
+   "round": 3,
+   "wins": 0,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "dom",
+     "winner": "dom"
+    },
+    {
+     "opponent": "dom",
+     "winner": "dom"
+    }
+   ],
+   "winner": "dom"
+  },
+  {
+   "opponent": "greg",
+   "round": 1,
+   "wins": 1,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "greg",
+     "winner": "jen"
+    },
+    {
+     "opponent": "greg",
+     "winner": "greg"
+    },
+    {
+     "opponent": "greg",
+     "winner": "greg"
+    }
+   ],
+   "winner": "greg"
+  },
+  {
+   "opponent": "james",
+   "round": 4,
+   "wins": 1,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "james",
+     "winner": "jen"
+    },
+    {
+     "opponent": "james",
+     "winner": "james"
+    },
+    {
+     "opponent": "james",
+     "winner": "james"
+    }
+   ],
+   "winner": "james"
+  }
+ ],
+ "mainboard": [
+  "Flickerwisp",
+  "The Wandering Emperor",
+  "Tail Swipe",
+  "Shanna, Sisay's Legacy",
+  "Galepowder Mage",
+  "Meadowboon",
+  "Parallel Lives",
+  "Hardened Scales",
+  "Saproling Migration",
+  "Roaring Earth",
+  "Cloudgoat Ranger",
+  "Throne of the God-Pharaoh",
+  "Soul Warden",
+  "Panharmonicon",
+  "Hunting Triad",
+  "Pollenbright Druid",
+  "Glass Casket",
+  "Windswept Heath",
+  "Scattered Groves",
+  "Mistmeadow Skulk",
+  "Blade of the Bloodchief",
+  "Kor Sanctifiers",
+  "Werefox Bodyguard",
+  "Reprieve",
+  "Spirited Companion",
+  "Sparring Construct",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Forest",
+  "Forest",
+  "Forest",
+  "Forest",
+  "Forest",
+  "Forest",
+  "Forest"
+ ],
+ "sideboard": [
+  "Hedron Crab",
+  "Flux Channeler",
+  "Domri's Ambush",
+  "Mental Note",
+  "Rootbound Crag",
+  "Titania, Protector of Argoth",
+  "Cauldron of Souls",
+  "Marshal's Anthem",
+  "Wilderness Reclamation",
+  "Angelic Intervention",
+  "Jinxed Idol",
+  "Chromatic Sphere",
+  "Kor Skyfisher",
+  "Worm Harvest",
+  "Eidolon of Obstruction",
+  "Kor Duelist",
+  "Multani, Yavimaya's Avatar",
+  "Oracle of Mul Daya",
+  "Harrow"
+ ]
+}

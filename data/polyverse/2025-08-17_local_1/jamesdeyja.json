@@ -1,0 +1,128 @@
+{
+ "metadata": {
+  "path": "data/polyverse/2025-08-17_local_1/jamesdeyja.json",
+  "draft_id": "2025-08-17_local_1",
+  "combined_file": "data/polyverse/2025-08-17_local_1/jamesdeyja.csv"
+ },
+ "macro_archetype": "midrange",
+ "labels": [
+  "coco",
+  "ramp"
+ ],
+ "player": "jamesdeyja",
+ "date": "2025-08-17",
+ "matches": [
+  {
+   "opponent": "brianfl",
+   "round": 1,
+   "wins": 2,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "brianfl",
+     "winner": "jamesdeyja"
+    },
+    {
+     "opponent": "brianfl",
+     "winner": "jamesdeyja"
+    }
+   ],
+   "winner": "jamesdeyja"
+  },
+  {
+   "opponent": "casey",
+   "round": 2,
+   "wins": 0,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "casey",
+     "winner": "casey"
+    },
+    {
+     "opponent": "casey",
+     "winner": "casey"
+    }
+   ],
+   "winner": "casey"
+  },
+  {
+   "opponent": "wilson",
+   "round": 3,
+   "wins": 2,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "wilson",
+     "winner": "jamesdeyja"
+    },
+    {
+     "opponent": "wilson",
+     "winner": "jamesdeyja"
+    }
+   ],
+   "winner": "jamesdeyja"
+  }
+ ],
+ "mainboard": [
+  "Lightstall Inquisitor",
+  "Scavenging Ooze",
+  "Forest",
+  "Forest",
+  "Forest",
+  "Forest",
+  "Qasali Pridemage",
+  "Godless Shrine",
+  "Godless Shrine",
+  "Bonesplitter",
+  "Tireless Tracker",
+  "Sandstorm Salvager",
+  "Collected Company",
+  "Bloodchief's Thirst",
+  "Lush Portico",
+  "Llanowar Elves",
+  "Swamp",
+  "Swamp",
+  "Dauntless Bodyguard",
+  "Ignoble Hierarch",
+  "Thraben Inspector",
+  "Cankerbloom",
+  "Nurturing Peatland",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Accursed Marauder",
+  "Warden of the Inner Sky",
+  "Flooded Strand",
+  "Temple Garden",
+  "Temple Garden",
+  "Audacity",
+  "Mosswood Dreadknight // Dread Whispers",
+  "Arasta of the Endless Web",
+  "Underground Mortuary",
+  "Midnight Reaper",
+  "Eternal Witness",
+  "Quirion Beastcaller",
+  "Sevinne's Reclamation",
+  "Tidehollow Sculler"
+ ],
+ "sideboard": [
+  "Faerie Guidemother // Gift of the Fae",
+  "Man-o'-War",
+  "Pick Your Poison",
+  "Soul Partition",
+  "Heritage Reclamation",
+  "Caretaker's Talent",
+  "Grim Flayer",
+  "Inexorable Blob",
+  "Breeding Pool",
+  "Chainweb Aracnir",
+  "Scrapwork Mutt",
+  "Sheltered Thicket",
+  "Carrion Feeder",
+  "Tectonic Edge"
+ ]
+}

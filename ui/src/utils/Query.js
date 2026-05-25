@@ -36,6 +36,7 @@ export const QueryTermMetadata = [
   { term: "winpct", description: "Win percentage", operators: ["<", ">", "="], valueType: "number", example: "winpct>50" },
   { term: "arch", description: "Deck archetype", operators: [":"], valueType: "text", example: "arch:aggro", isDeckOnly: true },
   { term: "player", description: "Player name", operators: [":"], valueType: "text", example: "player:casey", isDeckOnly: true },
+  { term: "event", description: "Draft / event ID", operators: [":"], valueType: "text", example: "event:ccc2025", isDeckOnly: true },
   { term: "draftSize", description: "Draft size", operators: ["<", ">", "="], valueType: "number", example: "draftSize>6", isDeckOnly: true },
   { term: "minCards", description: "Min matching cards", operators: [":"], valueType: "number", example: "minCards:3", isDeckOnly: true },
 ]
@@ -209,6 +210,7 @@ export function DeckMatches(deck, matchStr, mbsb) {
     // Fuzzy search: check player name and labels first.
     const fs = matchStr.toLowerCase()
     if (deck.player.toLowerCase().includes(fs)) return true;
+    if (deck.metadata && deck.metadata.draft_id && deck.metadata.draft_id.toLowerCase().includes(fs)) return true;
     if (deck.macro_archetype && deck.macro_archetype.toLowerCase().includes(fs)) return true;
     for (let label of (deck.labels || [])) {
       if (label.toLowerCase().includes(fs)) return true;
@@ -225,6 +227,10 @@ export function DeckMatches(deck, matchStr, mbsb) {
       } else if (term.startsWith("player:")) {
         const val = term.replace("player:", "").replace(/"/g, "").toLowerCase()
         if (!deck.player.toLowerCase().includes(val)) return false;
+      } else if (term.startsWith("event:")) {
+        const val = term.replace("event:", "").replace(/"/g, "").toLowerCase()
+        const eid = (deck.metadata && deck.metadata.draft_id) || ""
+        if (!eid.toLowerCase().includes(val)) return false;
       } else if (term.startsWith("dcolor")) {
         // dcolor matches the deck's overall colors.
         let deckColors = CombineColors(deck.colors).toLowerCase()

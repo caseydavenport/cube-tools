@@ -1,0 +1,97 @@
+{
+ "metadata": {
+  "path": "data/polyverse/2026-01-17_p1p12026_1/2026-01-17_p1p12026_1-p2.json",
+  "draft_id": "2026-01-17_p1p12026_1",
+  "combined_file": "data/polyverse/2026-01-17_p1p12026_1/20260117-120c.txt"
+ },
+ "macro_archetype": "midrange",
+ "labels": [
+  "lands",
+  "ramp"
+ ],
+ "player": "2026-01-17_p1p12026_1-p2",
+ "date": "2026-01-17",
+ "matches": [
+  {
+   "opponent": "2026-01-17_p1p12026_1-p4",
+   "round": 1,
+   "wins": 1,
+   "losses": 2,
+   "draws": 0,
+   "winner": "2026-01-17_p1p12026_1-p4"
+  },
+  {
+   "opponent": "2026-01-17_p1p12026_1-p1",
+   "round": 2,
+   "wins": 1,
+   "losses": 2,
+   "draws": 0,
+   "winner": "2026-01-17_p1p12026_1-p1"
+  },
+  {
+   "opponent": "",
+   "round": 3,
+   "wins": 1,
+   "losses": 0,
+   "draws": 0,
+   "winner": "2026-01-17_p1p12026_1-p2"
+  }
+ ],
+ "mainboard": [
+  "Wrenn and Six",
+  "Territorial Kavu",
+  "Flames of the Firebrand",
+  "Lotus Cobra",
+  "Garruk Wildspeaker",
+  "Woodland Wanderer",
+  "Sandstorm Salvager",
+  "Lightning Bolt",
+  "Titania, Protector of Argoth",
+  "Ozolith, the Shattered Spire",
+  "Deeproot Wayfinder",
+  "Augur of Autumn",
+  "Traverse the Ulvenwald",
+  "Arbor Elf",
+  "Tireless Tracker",
+  "Utopia Sprawl",
+  "Lizard Blades",
+  "Primeval Titan",
+  "Shifting Woodland",
+  "Wolfbriar Elemental",
+  "Pia and Kiran Nalaar",
+  "Ogre-Head Helm",
+  "Edge of Autumn",
+  "Verdurous Gearhulk",
+  "Boseiju, Who Endures",
+  "Stomping Ground",
+  "Wooded Foothills",
+  "Sheltered Thicket",
+  "Rishadan Port",
+  "Prismatic Vista",
+  "Commercial District",
+  "Breeding Pool",
+  "Forest",
+  "Forest",
+  "Forest",
+  "Forest",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Mountain"
+ ],
+ "sideboard": [
+  "Monastery Swiftspear",
+  "Scavenging Ooze",
+  "Tarmogoyf",
+  "Pick Your Poison",
+  "Candy Trail",
+  "Up the Beanstalk",
+  "Cryogen Relic",
+  "Engineered Explosives",
+  "Fiery Islet",
+  "The Goose Mother",
+  "Wrath of God",
+  "Horizon Canopy",
+  "Irencrag Pyromancer"
+ ]
+}

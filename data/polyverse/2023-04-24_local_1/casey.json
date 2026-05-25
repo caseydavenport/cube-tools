@@ -1,0 +1,64 @@
+{
+ "metadata": {
+  "path": "data/polyverse/2023-04-24_local_1/casey.json",
+  "draft_id": "2023-04-24_local_1",
+  "combined_file": "data/polyverse/2023-04-24_local_1/casey.csv"
+ },
+ "macro_archetype": "midrange",
+ "labels": [
+  "graveyard"
+ ],
+ "player": "casey",
+ "date": "2023-04-24",
+ "matches": [
+  {
+   "opponent": "",
+   "wins": 1,
+   "losses": 2,
+   "draws": 0
+  }
+ ],
+ "mainboard": [
+  "Dreadmalkin",
+  "Beacon of Unrest",
+  "Merfolk Looter",
+  "Acolyte of Affliction",
+  "Gomazoa",
+  "Stitcher's Supplier",
+  "Reclamation Sage",
+  "Bloodghast",
+  "Mesmeric Fiend",
+  "Hinterland Harbor",
+  "Doomgape",
+  "Drowned Catacomb",
+  "Whisper Agent",
+  "Turn to Mist",
+  "Mana Leak",
+  "River Kelpie",
+  "Unearth",
+  "Swamp",
+  "Swamp",
+  "Swamp",
+  "Swamp",
+  "Siren Stormtamer",
+  "Island",
+  "Island",
+  "Island",
+  "Island",
+  "Uncharted Haven",
+  "Jungle Hollow",
+  "Forest",
+  "Forest",
+  "Forest",
+  "Fact or Fiction",
+  "Inventive Iteration // Living Breakthrough",
+  "Vineglimmer Snarl",
+  "Deathsprout",
+  "Eternal Witness",
+  "The Long Reach of Night // Animus of Night's Reach",
+  "Daring Saboteur",
+  "Pharika's Spawn",
+  "Tilling Treefolk"
+ ],
+ "sideboard": []
+}

@@ -1,0 +1,135 @@
+{
+ "metadata": {
+  "path": "data/polyverse/2023-12-02_local_1/james.json",
+  "draft_id": "2023-12-02_local_1",
+  "combined_file": "data/polyverse/2023-12-02_local_1/james.txt"
+ },
+ "macro_archetype": "aggro",
+ "labels": [],
+ "player": "james",
+ "date": "2023-12-02",
+ "matches": [
+  {
+   "opponent": "casey",
+   "round": 3,
+   "wins": 0,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "casey",
+     "winner": "casey"
+    },
+    {
+     "opponent": "casey",
+     "winner": "casey"
+    }
+   ],
+   "winner": "casey"
+  },
+  {
+   "opponent": "dom",
+   "round": 2,
+   "wins": 0,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "dom",
+     "winner": "dom"
+    },
+    {
+     "opponent": "dom",
+     "winner": "dom"
+    }
+   ],
+   "winner": "dom"
+  },
+  {
+   "opponent": "greg",
+   "round": 1,
+   "wins": 1,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "greg",
+     "winner": "james"
+    },
+    {
+     "opponent": "greg",
+     "winner": "greg"
+    },
+    {
+     "opponent": "greg",
+     "winner": "greg"
+    }
+   ],
+   "winner": "greg"
+  }
+ ],
+ "mainboard": [
+  "Infernal Grasp",
+  "Archfiend of Ifnir",
+  "Severed Strands",
+  "Embereth Veteran",
+  "Reckless Rage",
+  "Woe Strider",
+  "Guttersnipe",
+  "Mogg War Marshal",
+  "Perilous Myr",
+  "Virtue of Persistence // Locthwain Scorn",
+  "Pyroclasm",
+  "Bloodghast",
+  "Skarrgan Hellkite",
+  "Pharika's Spawn",
+  "Knight of the Ebon Legion",
+  "Flame Slash",
+  "Unholy Heat",
+  "Incinerate",
+  "Black Sun's Zenith",
+  "Goblin Guide",
+  "Kalastria Highborn",
+  "Quest for the Gravelord",
+  "Dreadhorde Arcanist",
+  "Faithless Looting",
+  "Mayhem Devil",
+  "Swamp",
+  "Swamp",
+  "Swamp",
+  "Swamp",
+  "Swamp",
+  "Swamp",
+  "Swamp",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Mountain"
+ ],
+ "sideboard": [
+  "Condescend",
+  "Fecundity",
+  "Halo Forager",
+  "Whisper, Blood Liturgist",
+  "Bolas's Citadel",
+  "Orcish Lumberjack",
+  "Pteramander",
+  "Stitch Together",
+  "Journey to Nowhere",
+  "Pitiless Pontiff",
+  "Containment Construct",
+  "Iron Myr",
+  "Ravenous Squirrel",
+  "Lava Dart",
+  "Bone Shards",
+  "Persist",
+  "Flame Jab",
+  "Agonizing Remorse",
+  "Isolated Chapel",
+  "Restless Fortress"
+ ]
+}

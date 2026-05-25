@@ -1,0 +1,152 @@
+{
+ "metadata": {
+  "path": "data/polyverse/2025-08-17_local_1/kevin.json",
+  "draft_id": "2025-08-17_local_1",
+  "combined_file": "data/polyverse/2025-08-17_local_1/kevin.csv"
+ },
+ "macro_archetype": "aggro",
+ "labels": [
+  "equipment"
+ ],
+ "player": "kevin",
+ "date": "2025-08-17",
+ "matches": [
+  {
+   "opponent": "ben",
+   "round": 1,
+   "wins": 2,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "ben",
+     "winner": "kevin"
+    },
+    {
+     "opponent": "ben",
+     "winner": "kevin"
+    },
+    {
+     "opponent": "ben",
+     "winner": "ben"
+    }
+   ],
+   "winner": "kevin"
+  },
+  {
+   "opponent": "brian",
+   "round": 4,
+   "wins": 2,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "brian",
+     "winner": "kevin"
+    },
+    {
+     "opponent": "brian",
+     "winner": "kevin"
+    }
+   ],
+   "winner": "kevin"
+  },
+  {
+   "opponent": "brianfl",
+   "round": 2,
+   "wins": 2,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "brianfl",
+     "winner": "kevin"
+    },
+    {
+     "opponent": "brianfl",
+     "winner": "kevin"
+    }
+   ],
+   "winner": "kevin"
+  },
+  {
+   "opponent": "casey",
+   "round": 3,
+   "wins": 2,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "casey",
+     "winner": "kevin"
+    },
+    {
+     "opponent": "casey",
+     "winner": "kevin"
+    }
+   ],
+   "winner": "kevin"
+  }
+ ],
+ "mainboard": [
+  "Warleader's Call",
+  "Clarion Spirit",
+  "Kellan, the Fae-Blooded // Birthright Boon",
+  "Anje's Ravager",
+  "Cathar Commando",
+  "Dreadhorde Arcanist",
+  "Spirited Companion",
+  "Marsh Flats",
+  "Heartfire Hero",
+  "Den of the Bugbear",
+  "Fiery Temper",
+  "Raise the Alarm",
+  "Abrade",
+  "Eiganjo, Seat of the Empire",
+  "Rabbit Battery",
+  "Reprieve",
+  "Lightning Helix",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Welcoming Vampire",
+  "Luminarch Aspirant",
+  "Seasoned Hallowblade",
+  "Krenko, Tin Street Kingpin",
+  "Oust",
+  "Flame Slash",
+  "Sacred Foundry",
+  "Firebolt",
+  "Phelia, Exuberant Shepherd",
+  "Flames of the Firebrand",
+  "The Wandering Emperor",
+  "Embercleave",
+  "Lion Sash",
+  "Recruitment Officer",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Mountain"
+ ],
+ "sideboard": [
+  "Cloudgoat Ranger",
+  "Knight of the Ebon Legion",
+  "Mesmeric Fiend",
+  "Dragonsguard Elite",
+  "Perilous Myr",
+  "Aether Spellbomb",
+  "Containment Construct",
+  "Mystic Confluence",
+  "Daze",
+  "Lizard Blades",
+  "Meadowboon",
+  "Comet Storm",
+  "Mizzium Tank",
+  "Mishra's Bauble"
+ ]
+}

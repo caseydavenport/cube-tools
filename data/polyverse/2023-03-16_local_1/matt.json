@@ -1,0 +1,64 @@
+{
+ "metadata": {
+  "path": "data/polyverse/2023-03-16_local_1/matt.json",
+  "draft_id": "2023-03-16_local_1",
+  "combined_file": "data/polyverse/2023-03-16_local_1/matt.txt"
+ },
+ "macro_archetype": "midrange",
+ "labels": [
+  "vampire"
+ ],
+ "player": "matt",
+ "date": "2023-03-16",
+ "matches": [
+  {
+   "opponent": "",
+   "wins": 1,
+   "losses": 2,
+   "draws": 0
+  }
+ ],
+ "mainboard": [
+  "Swamp",
+  "Paladin of the Bloodstained",
+  "Reiver Demon",
+  "Liliana, Death's Majesty",
+  "Dark Ritual",
+  "Mavren Fein, Dusk Apostle",
+  "Doomgape",
+  "Plains",
+  "Vampire Hexmage",
+  "Swans of Bryn Argoll",
+  "Scoured Barrens",
+  "Witch's Mist",
+  "Malfegor",
+  "Vampire Nighthawk",
+  "Reveillark",
+  "Summoner's Egg",
+  "Swamp",
+  "Swamp",
+  "Blade of the Bloodchief",
+  "Swamp",
+  "Liliana's Mastery",
+  "Invincible Hymn",
+  "Mountain",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Mountain",
+  "Swamp",
+  "Swamp",
+  "Mountain",
+  "Throne of the God-Pharaoh",
+  "Pharika's Spawn",
+  "Swamp",
+  "Ob Nixilis, the Hate-Twisted",
+  "Pitiless Pontiff",
+  "Mountain",
+  "Prison Term",
+  "Jinxed Idol"
+ ],
+ "sideboard": []
+}

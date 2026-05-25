@@ -1,0 +1,124 @@
+{
+ "metadata": {
+  "path": "data/polyverse/2025-08-17_local_1/casey.json",
+  "draft_id": "2025-08-17_local_1",
+  "combined_file": "data/polyverse/2025-08-17_local_1/casey.csv"
+ },
+ "macro_archetype": "midrange",
+ "labels": [],
+ "player": "casey",
+ "date": "2025-08-17",
+ "matches": [
+  {
+   "opponent": "jamesdeyja",
+   "round": 2,
+   "wins": 2,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "jamesdeyja",
+     "winner": "casey"
+    },
+    {
+     "opponent": "jamesdeyja",
+     "winner": "casey"
+    }
+   ],
+   "winner": "casey"
+  },
+  {
+   "opponent": "kevin",
+   "round": 3,
+   "wins": 0,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "kevin",
+     "winner": "kevin"
+    },
+    {
+     "opponent": "kevin",
+     "winner": "kevin"
+    }
+   ],
+   "winner": "kevin"
+  },
+  {
+   "opponent": "maxi",
+   "round": 1,
+   "wins": 0,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "maxi",
+     "winner": "maxi"
+    },
+    {
+     "opponent": "maxi",
+     "winner": "maxi"
+    }
+   ],
+   "winner": "maxi"
+  }
+ ],
+ "mainboard": [
+  "Thoughtseize",
+  "Timeline Culler",
+  "Call of the Herd",
+  "Gingerbrute",
+  "Polluted Delta",
+  "Wooded Foothills",
+  "Liliana, Dreadhorde General",
+  "Mountain",
+  "Swamp",
+  "Swamp",
+  "Swamp",
+  "Kitesail Freebooter",
+  "Rankle, Master of Pranks",
+  "Pyrite Spellbomb",
+  "Barbarian Ring",
+  "Commercial District",
+  "Tarmogoyf",
+  "Disfigure",
+  "Magma Jet",
+  "Forest",
+  "Forest",
+  "Forest",
+  "Forest",
+  "Gilded Goose",
+  "Duress",
+  "Titania, Protector of Argoth",
+  "Birds of Paradise",
+  "Dragon's Rage Channeler",
+  "Deluge of Doom",
+  "Seal of Fire",
+  "Blood Crypt",
+  "Overgrown Tomb",
+  "Takenuma, Abandoned Mire",
+  "Misty Rainforest",
+  "Inquisition of Kozilek",
+  "Bone Shards",
+  "Burst Lightning",
+  "Voracious Hydra",
+  "Agonizing Remorse",
+  "Arbor Elf"
+ ],
+ "sideboard": [
+  "Chromatic Star",
+  "Candy Trail",
+  "Elusive Otter // Grove's Bounty",
+  "Ephara's Dispersal",
+  "Tamiyo, Compleated Sage",
+  "Grim Discovery",
+  "Urza's Bauble",
+  "Ravenous Squirrel",
+  "No More Lies",
+  "Engineered Explosives",
+  "Chatter of the Squirrel",
+  "Urza's Saga",
+  "Roaring Earth"
+ ]
+}

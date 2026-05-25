@@ -1,0 +1,88 @@
+{
+ "metadata": {
+  "path": "data/polyverse/2026-01-17_p1p12026_1/2026-01-17_p1p12026_1-p6.json",
+  "draft_id": "2026-01-17_p1p12026_1",
+  "pool_file": "data/polyverse/2026-01-17_p1p12026_1/20260117-210a-pool.txt"
+ },
+ "macro_archetype": "tempo",
+ "labels": [
+  "spells"
+ ],
+ "player": "2026-01-17_p1p12026_1-p6",
+ "date": "2026-01-17",
+ "matches": [
+  {
+   "opponent": "",
+   "round": 1,
+   "wins": 1,
+   "losses": 0,
+   "draws": 0,
+   "winner": "2026-01-17_p1p12026_1-p6"
+  },
+  {
+   "opponent": "2026-01-17_p1p12026_1-p5",
+   "round": 2,
+   "wins": 2,
+   "losses": 0,
+   "draws": 0,
+   "winner": "2026-01-17_p1p12026_1-p6"
+  },
+  {
+   "opponent": "2026-01-17_p1p12026_1-p4",
+   "round": 3,
+   "wins": 0,
+   "losses": 2,
+   "draws": 0,
+   "winner": "2026-01-17_p1p12026_1-p4"
+  }
+ ],
+ "mainboard": [],
+ "sideboard": [],
+ "pool": [
+  "Umbral Collar Zealot",
+  "Marionette Apprentice",
+  "Polluted Delta",
+  "Misty Rainforest",
+  "Counterspell",
+  "Mana Leak",
+  "Dragon's Rage Channeler",
+  "Flametongue Kavu",
+  "Mizzium Tank",
+  "Gitaxian Probe",
+  "Thundering Falls",
+  "Meticulous Archive",
+  "Into the Roil",
+  "Fiery Temper",
+  "Opt",
+  "Steam Vents",
+  "Steam Vents",
+  "Dreadhorde Arcanist",
+  "Ponder",
+  "Magma Jet",
+  "Stern Scolding",
+  "Spell Snare",
+  "Watery Grave",
+  "Urza's Bauble",
+  "Lava Dart",
+  "Remand",
+  "Hooting Mandrills",
+  "Demand Answers",
+  "Otawara, Soaring City",
+  "Helping Hand",
+  "Shark Typhoon",
+  "Young Pyromancer",
+  "Polluted Delta",
+  "Mystic Confluence",
+  "Mischievous Mystic",
+  "Flooded Strand",
+  "Unsummon",
+  "Brainstorm",
+  "Daze",
+  "Ephara's Dispersal",
+  "Sprite Dragon",
+  "Dress Down",
+  "Hallowed Fountain",
+  "Searslicer Goblin",
+  "Archmage's Charm"
+ ]
+}

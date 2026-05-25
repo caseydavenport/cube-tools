@@ -1,0 +1,115 @@
+{
+ "metadata": {
+  "path": "data/polyverse/2025-05-26_local_1/greg.json",
+  "draft_id": "2025-05-26_local_1",
+  "combined_file": "data/polyverse/2025-05-26_local_1/greg.csv"
+ },
+ "macro_archetype": "aggro",
+ "labels": [],
+ "player": "greg",
+ "date": "2025-05-26",
+ "matches": [
+  {
+   "opponent": "jen",
+   "round": 1,
+   "wins": 2,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "jen",
+     "winner": "greg"
+    },
+    {
+     "opponent": "jen",
+     "winner": "greg"
+    }
+   ],
+   "winner": "greg"
+  },
+  {
+   "opponent": "xander",
+   "round": 3,
+   "wins": 1,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "xander",
+     "winner": "greg"
+    },
+    {
+     "opponent": "xander",
+     "winner": "xander"
+    },
+    {
+     "opponent": "xander",
+     "winner": "xander"
+    }
+   ],
+   "winner": "xander"
+  }
+ ],
+ "mainboard": [
+  "Manamorphose",
+  "Warleader's Call",
+  "Clarion Spirit",
+  "Adanto Vanguard",
+  "Bomat Courier",
+  "Goblin Bombardment",
+  "Cathar Commando",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Monastery Swiftspear",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Perilous Myr",
+  "Reveillark",
+  "Crimson Wisps",
+  "Eiganjo, Seat of the Empire",
+  "Elegant Parlor",
+  "Wrath of God",
+  "Chandra, Hope's Beacon",
+  "Faerie Guidemother // Gift of the Fae",
+  "Glass Casket",
+  "Demand Answers",
+  "Sacred Foundry",
+  "Soul-Scar Mage",
+  "The Wandering Emperor",
+  "Cheeky House-Mouse // Squeak By",
+  "Krenko, Tin Street Kingpin",
+  "Day of Judgment",
+  "Mizzium Tank",
+  "Sevinne's Reclamation",
+  "Flame Jab"
+ ],
+ "sideboard": [
+  "The Binding of the Titans",
+  "Cloudgoat Ranger",
+  "Windswept Heath",
+  "Harm's Way",
+  "Bloodsky Berserker",
+  "Spell Snare",
+  "Chatter of the Squirrel",
+  "The Huntsman's Redemption",
+  "Sparring Construct",
+  "Ignoble Hierarch",
+  "Tarfire",
+  "Mosquito Guard",
+  "Esika's Chariot",
+  "Prismatic Vista",
+  "Overgrown Tomb",
+  "Time Wipe",
+  "Toxic Deluge",
+  "Lost Jitte"
+ ]
+}
