@@ -1,0 +1,126 @@
+{
+ "metadata": {
+  "path": "data/polyverse/2025-10-04_ccc2025_2/2025-10-04_ccc2025_2-p1.json",
+  "draft_id": "2025-10-04_ccc2025_2"
+ },
+ "labels": [
+  "coco",
+  "ritual"
+ ],
+ "player": "2025-10-04_ccc2025_2-p1",
+ "date": "2025-10-04",
+ "matches": [
+  {
+   "opponent": "2025-10-04_ccc2025_2-p8",
+   "round": 2,
+   "wins": 1,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "2025-10-04_ccc2025_2-p8",
+     "winner": "2025-10-04_ccc2025_2-p1"
+    },
+    {
+     "opponent": "2025-10-04_ccc2025_2-p8",
+     "winner": "2025-10-04_ccc2025_2-p8"
+    },
+    {
+     "opponent": "2025-10-04_ccc2025_2-p8",
+     "winner": "2025-10-04_ccc2025_2-p8"
+    }
+   ],
+   "winner": "2025-10-04_ccc2025_2-p8"
+  },
+  {
+   "opponent": "2025-10-04_ccc2025_2-p5",
+   "round": 1,
+   "wins": 2,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "2025-10-04_ccc2025_2-p5",
+     "winner": "2025-10-04_ccc2025_2-p1"
+    },
+    {
+     "opponent": "2025-10-04_ccc2025_2-p5",
+     "winner": "2025-10-04_ccc2025_2-p1"
+    }
+   ],
+   "winner": "2025-10-04_ccc2025_2-p1"
+  },
+  {
+   "opponent": "2025-10-04_ccc2025_2-p6",
+   "round": 3,
+   "wins": 2,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "2025-10-04_ccc2025_2-p6",
+     "winner": "2025-10-04_ccc2025_2-p1"
+    },
+    {
+     "opponent": "2025-10-04_ccc2025_2-p6",
+     "winner": "2025-10-04_ccc2025_2-p1"
+    },
+    {
+     "opponent": "2025-10-04_ccc2025_2-p6",
+     "winner": "2025-10-04_ccc2025_2-p6"
+    }
+   ],
+   "winner": "2025-10-04_ccc2025_2-p1"
+  }
+ ],
+ "mainboard": [],
+ "sideboard": [],
+ "pool": [
+  "Goblin Bombardment",
+  "Ignoble Hierarch",
+  "Firebolt",
+  "Garruk Wildspeaker",
+  "Titania, Protector of Argoth",
+  "Jolrael, Mwonvuli Recluse",
+  "Arbor Elf",
+  "Windswept Heath",
+  "Fire // Ice",
+  "Prismatic Vista",
+  "Inexorable Blob",
+  "Reveillark",
+  "Eternal Witness",
+  "Horizon Canopy",
+  "Audacity",
+  "Tireless Tracker",
+  "Augur of Autumn",
+  "Abrade",
+  "Call of the Herd",
+  "The Wandering Emperor",
+  "Krenko, Tin Street Kingpin",
+  "Verdurous Gearhulk",
+  "Ravenous Squirrel",
+  "Courser of Kruphix",
+  "Woe Strider",
+  "Perilous Myr",
+  "Flickerwisp",
+  "Glass Casket",
+  "Shifting Woodland",
+  "Dead Weight",
+  "Sevinne's Reclamation",
+  "Sandstorm Salvager",
+  "Bloodstained Mire",
+  "Legion Extruder",
+  "Pia and Kiran Nalaar",
+  "Sacred Foundry",
+  "Gilded Goose",
+  "Harm's Way",
+  "Burst Lightning",
+  "Renegade Rallier",
+  "Voracious Hydra",
+  "Collected Company",
+  "Den of the Bugbear",
+  "Birthing Ritual",
+  "Cemetery Gatekeeper"
+ ],
+ "macro_archetype": "midrange"
+}

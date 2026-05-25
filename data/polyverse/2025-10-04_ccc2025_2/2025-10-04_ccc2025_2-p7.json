@@ -1,0 +1,134 @@
+{
+ "metadata": {
+  "path": "data/polyverse/2025-10-04_ccc2025_2/2025-10-04_ccc2025_2-p7.json",
+  "draft_id": "2025-10-04_ccc2025_2"
+ },
+ "labels": [
+  "flicker"
+ ],
+ "player": "2025-10-04_ccc2025_2-p7",
+ "date": "2025-10-04",
+ "matches": [
+  {
+   "opponent": "2025-10-04_ccc2025_2-p8",
+   "round": 3,
+   "wins": 1,
+   "losses": 1,
+   "draws": 1,
+   "games": [
+    {
+     "opponent": "2025-10-04_ccc2025_2-p8",
+     "winner": "2025-10-04_ccc2025_2-p7"
+    },
+    {
+     "opponent": "2025-10-04_ccc2025_2-p8",
+     "winner": "2025-10-04_ccc2025_2-p8"
+    },
+    {
+     "opponent": "2025-10-04_ccc2025_2-p8",
+     "winner": "",
+     "tie": true
+    }
+   ]
+  },
+  {
+   "opponent": "2025-10-04_ccc2025_2-p3",
+   "round": 2,
+   "wins": 2,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "2025-10-04_ccc2025_2-p3",
+     "winner": "2025-10-04_ccc2025_2-p7"
+    },
+    {
+     "opponent": "2025-10-04_ccc2025_2-p3",
+     "winner": "2025-10-04_ccc2025_2-p7"
+    },
+    {
+     "opponent": "2025-10-04_ccc2025_2-p3",
+     "winner": "2025-10-04_ccc2025_2-p3"
+    }
+   ],
+   "winner": "2025-10-04_ccc2025_2-p7"
+  },
+  {
+   "opponent": "2025-10-04_ccc2025_2-p6",
+   "round": 1,
+   "wins": 2,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "2025-10-04_ccc2025_2-p6",
+     "winner": "2025-10-04_ccc2025_2-p7"
+    },
+    {
+     "opponent": "2025-10-04_ccc2025_2-p6",
+     "winner": "2025-10-04_ccc2025_2-p7"
+    }
+   ],
+   "winner": "2025-10-04_ccc2025_2-p7"
+  }
+ ],
+ "mainboard": [
+  "Thraben Inspector",
+  "Wrath of God",
+  "Day of Judgment",
+  "Hostage Taker",
+  "Liliana of the Veil",
+  "Liliana, Dreadhorde General",
+  "Sedgemoor Witch",
+  "Spell Queller",
+  "Raise the Alarm",
+  "Bitter Triumph",
+  "Proft's Eidetic Memory",
+  "Lion Sash",
+  "Spirited Companion",
+  "Cathar Commando",
+  "Phelia, Exuberant Shepherd",
+  "Tidehollow Sculler",
+  "Path to Exile",
+  "Prismatic Ending",
+  "Candy Trail",
+  "Portent",
+  "Kor Skyfisher",
+  "Unearth",
+  "Eiganjo, Seat of the Empire",
+  "Shadowy Backstreet",
+  "Marsh Flats",
+  "Marsh Flats",
+  "Polluted Delta",
+  "Undercity Sewers",
+  "Meticulous Archive",
+  "Hallowed Fountain",
+  "Mischievous Mystic",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Swamp",
+  "Swamp",
+  "Swamp",
+  "Island",
+  "Island",
+  "Island"
+ ],
+ "sideboard": [
+  "Chandra, Hope's Beacon",
+  "Master of Death",
+  "Thalia, Guardian of Thraben",
+  "Spellstutter Sprite",
+  "Bloodsky Berserker",
+  "Marionette Apprentice",
+  "Bloodghast",
+  "Puppeteer Clique",
+  "Pyrite Spellbomb",
+  "Goldmeadow Harrier",
+  "Caretaker's Talent",
+  "Warden of the Inner Sky",
+  "Lush Portico",
+  "The Binding of the Titans"
+ ],
+ "macro_archetype": "control"
+}
