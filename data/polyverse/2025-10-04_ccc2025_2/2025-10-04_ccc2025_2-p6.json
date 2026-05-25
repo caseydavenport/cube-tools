@@ -1,0 +1,134 @@
+{
+ "metadata": {
+  "path": "data/polyverse/2025-10-04_ccc2025_2/2025-10-04_ccc2025_2-p6.json",
+  "draft_id": "2025-10-04_ccc2025_2"
+ },
+ "labels": [
+  "saga"
+ ],
+ "player": "2025-10-04_ccc2025_2-p6",
+ "date": "2025-10-04",
+ "matches": [
+  {
+   "opponent": "2025-10-04_ccc2025_2-p2",
+   "round": 2,
+   "wins": 2,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "2025-10-04_ccc2025_2-p2",
+     "winner": "2025-10-04_ccc2025_2-p6"
+    },
+    {
+     "opponent": "2025-10-04_ccc2025_2-p2",
+     "winner": "2025-10-04_ccc2025_2-p6"
+    },
+    {
+     "opponent": "2025-10-04_ccc2025_2-p2",
+     "winner": "2025-10-04_ccc2025_2-p2"
+    }
+   ],
+   "winner": "2025-10-04_ccc2025_2-p6"
+  },
+  {
+   "opponent": "2025-10-04_ccc2025_2-p1",
+   "round": 3,
+   "wins": 1,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "2025-10-04_ccc2025_2-p1",
+     "winner": "2025-10-04_ccc2025_2-p6"
+    },
+    {
+     "opponent": "2025-10-04_ccc2025_2-p1",
+     "winner": "2025-10-04_ccc2025_2-p1"
+    },
+    {
+     "opponent": "2025-10-04_ccc2025_2-p1",
+     "winner": "2025-10-04_ccc2025_2-p1"
+    }
+   ],
+   "winner": "2025-10-04_ccc2025_2-p1"
+  },
+  {
+   "opponent": "2025-10-04_ccc2025_2-p7",
+   "round": 1,
+   "wins": 0,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "2025-10-04_ccc2025_2-p7",
+     "winner": "2025-10-04_ccc2025_2-p7"
+    },
+    {
+     "opponent": "2025-10-04_ccc2025_2-p7",
+     "winner": "2025-10-04_ccc2025_2-p7"
+    }
+   ],
+   "winner": "2025-10-04_ccc2025_2-p7"
+  }
+ ],
+ "mainboard": [
+  "Knight of the Ebon Legion",
+  "Stomping Ground",
+  "Blood Crypt",
+  "Canyon Slough",
+  "Barbarian Ring",
+  "Verdant Catacombs",
+  "Arid Mesa",
+  "Temple Garden",
+  "Urza's Saga",
+  "Embercleave",
+  "Sylvan Library",
+  "Wrenn and Six",
+  "Rankle, Master of Pranks",
+  "Anje's Ravager",
+  "Lightning Bolt",
+  "Fatal Push",
+  "Scrapwork Mutt",
+  "Dreadhorde Arcanist",
+  "Umbral Collar Zealot",
+  "Dark Confidant",
+  "Tarmogoyf",
+  "Ulcerate",
+  "Bonesplitter",
+  "Lost Jitte",
+  "Duress",
+  "Mishra's Bauble",
+  "Gingerbrute",
+  "Carrion Feeder",
+  "Death's Shadow",
+  "Grim Lavamancer",
+  "Kavaron Harrier",
+  "Goblin Guide",
+  "Swamp",
+  "Swamp",
+  "Swamp",
+  "Swamp",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Forest"
+ ],
+ "sideboard": [
+  "Reckless Charge",
+  "Dreamtide Whale",
+  "Thundering Falls",
+  "Elspeth's Smite",
+  "Aether Spellbomb",
+  "Brightglass Gearhulk",
+  "Seal of Removal",
+  "Ride's End",
+  "Fiery Islet",
+  "Harvester of Misery",
+  "Abundant Harvest",
+  "Bedlam Reveler",
+  "Lotus Cobra"
+ ],
+ "macro_archetype": "aggro"
+}

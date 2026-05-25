@@ -1,0 +1,132 @@
+{
+ "metadata": {
+  "path": "data/polyverse/2025-10-04_ccc2025_1/2025-10-04_ccc2025_1-p1.json",
+  "draft_id": "2025-10-04_ccc2025_1"
+ },
+ "labels": [
+  "draw"
+ ],
+ "player": "2025-10-04_ccc2025_1-p1",
+ "date": "2025-10-04",
+ "matches": [
+  {
+   "opponent": "2025-10-04_ccc2025_1-p6",
+   "round": 1,
+   "wins": 2,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "2025-10-04_ccc2025_1-p6",
+     "winner": "2025-10-04_ccc2025_1-p1"
+    },
+    {
+     "opponent": "2025-10-04_ccc2025_1-p6",
+     "winner": "2025-10-04_ccc2025_1-p1"
+    }
+   ],
+   "winner": "2025-10-04_ccc2025_1-p1"
+  },
+  {
+   "opponent": "2025-10-04_ccc2025_1-p3",
+   "round": 2,
+   "wins": 2,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "2025-10-04_ccc2025_1-p3",
+     "winner": "2025-10-04_ccc2025_1-p1"
+    },
+    {
+     "opponent": "2025-10-04_ccc2025_1-p3",
+     "winner": "2025-10-04_ccc2025_1-p1"
+    }
+   ],
+   "winner": "2025-10-04_ccc2025_1-p1"
+  },
+  {
+   "opponent": "2025-10-04_ccc2025_1-p5",
+   "round": 3,
+   "wins": 1,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "2025-10-04_ccc2025_1-p5",
+     "winner": "2025-10-04_ccc2025_1-p1"
+    },
+    {
+     "opponent": "2025-10-04_ccc2025_1-p5",
+     "winner": "2025-10-04_ccc2025_1-p5"
+    },
+    {
+     "opponent": "2025-10-04_ccc2025_1-p5",
+     "winner": "2025-10-04_ccc2025_1-p5"
+    }
+   ],
+   "winner": "2025-10-04_ccc2025_1-p5"
+  }
+ ],
+ "mainboard": [
+  "Ethereal Forager",
+  "Arbor Elf",
+  "Dragonsguard Elite",
+  "Miscalculation",
+  "Explore",
+  "Chainweb Aracnir",
+  "Mischievous Mystic",
+  "Jolrael, Mwonvuli Recluse",
+  "Snapcaster Mage",
+  "Kishla Skimmer",
+  "Merfolk Looter",
+  "Unsummon",
+  "Irencrag Pyromancer",
+  "Eternal Witness",
+  "Tireless Tracker",
+  "Courser of Kruphix",
+  "Arasta of the Endless Web",
+  "Stomping Ground",
+  "Misty Rainforest",
+  "Mystic Sanctuary",
+  "Steam Vents",
+  "Verdant Catacombs",
+  "Breeding Pool",
+  "Island",
+  "Island",
+  "Island",
+  "Mountain",
+  "Mountain",
+  "Forest",
+  "Forest",
+  "Forest",
+  "Forest",
+  "Forest",
+  "Repeal",
+  "Consider",
+  "Preordain",
+  "Proft's Eidetic Memory",
+  "Sylvan Library",
+  "Ephara's Dispersal",
+  "L\u00f3rien Revealed",
+  "Treasure Cruise"
+ ],
+ "sideboard": [
+  "Audacity",
+  "Heritage Reclamation",
+  "Embercleave",
+  "Augur of Autumn",
+  "Ulcerate",
+  "Inquisition of Kozilek",
+  "Caretaker's Talent",
+  "Touch the Spirit Realm",
+  "Dead Weight",
+  "Temple Garden",
+  "Repeal",
+  "Spell Pierce",
+  "Curator of Mysteries",
+  "Condescend",
+  "Fearless Fledgling"
+ ],
+ "macro_archetype": "midrange"
+}

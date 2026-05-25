@@ -1,0 +1,125 @@
+{
+ "metadata": {
+  "path": "data/polyverse/2025-10-04_ccc2025_3/2025-10-04_ccc2025_3-p6.json",
+  "draft_id": "2025-10-04_ccc2025_3"
+ },
+ "labels": [],
+ "player": "2025-10-04_ccc2025_3-p6",
+ "date": "2025-10-04",
+ "matches": [
+  {
+   "opponent": "2025-10-04_ccc2025_3-p4",
+   "round": 2,
+   "wins": 2,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "2025-10-04_ccc2025_3-p4",
+     "winner": "2025-10-04_ccc2025_3-p6"
+    },
+    {
+     "opponent": "2025-10-04_ccc2025_3-p4",
+     "winner": "2025-10-04_ccc2025_3-p6"
+    }
+   ],
+   "winner": "2025-10-04_ccc2025_3-p6"
+  },
+  {
+   "opponent": "2025-10-04_ccc2025_3-p2",
+   "round": 1,
+   "wins": 2,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "2025-10-04_ccc2025_3-p2",
+     "winner": "2025-10-04_ccc2025_3-p6"
+    },
+    {
+     "opponent": "2025-10-04_ccc2025_3-p2",
+     "winner": "2025-10-04_ccc2025_3-p6"
+    }
+   ],
+   "winner": "2025-10-04_ccc2025_3-p6"
+  },
+  {
+   "opponent": "2025-10-04_ccc2025_3-p1",
+   "round": 3,
+   "wins": 2,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "2025-10-04_ccc2025_3-p1",
+     "winner": "2025-10-04_ccc2025_3-p6"
+    },
+    {
+     "opponent": "2025-10-04_ccc2025_3-p1",
+     "winner": "2025-10-04_ccc2025_3-p6"
+    }
+   ],
+   "winner": "2025-10-04_ccc2025_3-p6"
+  }
+ ],
+ "mainboard": [
+  "Thraben Inspector",
+  "Bloodstained Mire",
+  "Prismatic Vista",
+  "Polluted Delta",
+  "Verdant Catacombs",
+  "Flooded Strand",
+  "Hallowed Fountain",
+  "Wrath of God",
+  "Toxic Deluge",
+  "Liliana of the Veil",
+  "Sevinne's Reclamation",
+  "Kiora, the Rising Tide",
+  "Monastery Mentor",
+  "Journey to Nowhere",
+  "Bitter Triumph",
+  "Bitterblossom",
+  "Proft's Eidetic Memory",
+  "Virtue of Persistence // Locthwain Scorn",
+  "Faerie Vandal",
+  "Luminarch Aspirant",
+  "Deep-Cavern Bat",
+  "Seasoned Hallowblade",
+  "Spirited Companion",
+  "Elspeth's Smite",
+  "Ulcerate",
+  "Bonesplitter",
+  "Bloodchief's Thirst",
+  "Disfigure",
+  "Portable Hole",
+  "Mishra's Bauble",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Swamp",
+  "Swamp",
+  "Swamp",
+  "Island",
+  "Island",
+  "Island"
+ ],
+ "sideboard": [
+  "Counterspell",
+  "Voracious Hydra",
+  "Barbarian Ring",
+  "Opt",
+  "Dig Through Time",
+  "Carrion Feeder",
+  "Thing in the Ice // Awoken Horror",
+  "Reveillark",
+  "Adanto Vanguard",
+  "Shadowy Backstreet",
+  "Liliana, Dreadhorde General",
+  "Cathar Commando",
+  "Mystic Sanctuary",
+  "No More Lies",
+  "Silent Clearing"
+ ],
+ "macro_archetype": "control"
+}

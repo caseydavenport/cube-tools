@@ -1,0 +1,115 @@
+{
+ "metadata": {
+  "path": "data/polyverse/2025-10-04_ccc2025_1/2025-10-04_ccc2025_1-p4.json",
+  "draft_id": "2025-10-04_ccc2025_1"
+ },
+ "labels": [],
+ "player": "2025-10-04_ccc2025_1-p4",
+ "date": "2025-10-04",
+ "matches": [
+  {
+   "opponent": "2025-10-04_ccc2025_1-p5",
+   "round": 1,
+   "wins": 0,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "2025-10-04_ccc2025_1-p5",
+     "winner": "2025-10-04_ccc2025_1-p5"
+    }
+   ],
+   "winner": "2025-10-04_ccc2025_1-p5"
+  },
+  {
+   "opponent": "2025-10-04_ccc2025_1-p2",
+   "round": 3,
+   "wins": 1,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "2025-10-04_ccc2025_1-p2",
+     "winner": "2025-10-04_ccc2025_1-p4"
+    },
+    {
+     "opponent": "2025-10-04_ccc2025_1-p2",
+     "winner": "2025-10-04_ccc2025_1-p2"
+    },
+    {
+     "opponent": "2025-10-04_ccc2025_1-p2",
+     "winner": "2025-10-04_ccc2025_1-p2"
+    }
+   ],
+   "winner": "2025-10-04_ccc2025_1-p2"
+  },
+  {
+   "opponent": "2025-10-04_ccc2025_1-p8",
+   "round": 2,
+   "wins": 2,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "2025-10-04_ccc2025_1-p8",
+     "winner": "2025-10-04_ccc2025_1-p4"
+    },
+    {
+     "opponent": "2025-10-04_ccc2025_1-p8",
+     "winner": "2025-10-04_ccc2025_1-p4"
+    }
+   ],
+   "winner": "2025-10-04_ccc2025_1-p4"
+  }
+ ],
+ "mainboard": [],
+ "sideboard": [],
+ "pool": [
+  "Woodland Wanderer",
+  "Arid Mesa",
+  "Misty Rainforest",
+  "Canyon Slough",
+  "Mizzium Tank",
+  "Magmatic Sinkhole",
+  "Young Pyromancer",
+  "Pia and Kiran Nalaar",
+  "Elegant Parlor",
+  "Dark Confidant",
+  "Lightning Helix",
+  "Grim Lavamancer",
+  "Bloodsky Berserker",
+  "Call of the Herd",
+  "Reckless Charge",
+  "Temple Garden",
+  "Bloodstained Mire",
+  "Questing Druid // Seek the Beast",
+  "Mayhem Devil",
+  "Flame Slash",
+  "Seasoned Hallowblade",
+  "Saheeli, Sublime Artificer",
+  "Bitter Triumph",
+  "Unholy Heat",
+  "Dragon's Rage Channeler",
+  "Spell Snare",
+  "Demand Answers",
+  "Legion Extruder",
+  "Goblin Guide",
+  "Unearth",
+  "Master of Death",
+  "Urza's Bauble",
+  "Read the Bones",
+  "Pyrite Spellbomb",
+  "Wooded Foothills",
+  "Werefox Bodyguard",
+  "Wooded Foothills",
+  "Seasoned Pyromancer",
+  "Hedge Maze",
+  "Den of the Bugbear",
+  "Lizard Blades",
+  "Commercial District",
+  "Raucous Theater",
+  "Watery Grave",
+  "Lush Portico"
+ ],
+ "macro_archetype": "aggro"
+}

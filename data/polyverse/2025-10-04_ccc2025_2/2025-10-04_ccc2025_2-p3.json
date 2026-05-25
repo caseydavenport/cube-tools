@@ -1,0 +1,127 @@
+{
+ "metadata": {
+  "path": "data/polyverse/2025-10-04_ccc2025_2/2025-10-04_ccc2025_2-p3.json",
+  "draft_id": "2025-10-04_ccc2025_2"
+ },
+ "labels": [
+  "draw-go"
+ ],
+ "player": "2025-10-04_ccc2025_2-p3",
+ "date": "2025-10-04",
+ "matches": [
+  {
+   "opponent": "2025-10-04_ccc2025_2-p5",
+   "round": 3,
+   "wins": 2,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "2025-10-04_ccc2025_2-p5",
+     "winner": "2025-10-04_ccc2025_2-p3"
+    },
+    {
+     "opponent": "2025-10-04_ccc2025_2-p5",
+     "winner": "2025-10-04_ccc2025_2-p3"
+    }
+   ],
+   "winner": "2025-10-04_ccc2025_2-p3"
+  },
+  {
+   "opponent": "2025-10-04_ccc2025_2-p2",
+   "round": 1,
+   "wins": 2,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "2025-10-04_ccc2025_2-p2",
+     "winner": "2025-10-04_ccc2025_2-p3"
+    },
+    {
+     "opponent": "2025-10-04_ccc2025_2-p2",
+     "winner": "2025-10-04_ccc2025_2-p3"
+    }
+   ],
+   "winner": "2025-10-04_ccc2025_2-p3"
+  },
+  {
+   "opponent": "2025-10-04_ccc2025_2-p7",
+   "round": 2,
+   "wins": 1,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "2025-10-04_ccc2025_2-p7",
+     "winner": "2025-10-04_ccc2025_2-p3"
+    },
+    {
+     "opponent": "2025-10-04_ccc2025_2-p7",
+     "winner": "2025-10-04_ccc2025_2-p7"
+    },
+    {
+     "opponent": "2025-10-04_ccc2025_2-p7",
+     "winner": "2025-10-04_ccc2025_2-p7"
+    }
+   ],
+   "winner": "2025-10-04_ccc2025_2-p7"
+  }
+ ],
+ "mainboard": [
+  "Spell Snare",
+  "Dig Through Time",
+  "L\u00f3rien Revealed",
+  "Murderous Cut",
+  "Sphinx of Forgotten Lore",
+  "Restoration Angel",
+  "Werefox Bodyguard",
+  "Toxic Deluge",
+  "Monastery Mentor",
+  "Brainsurge",
+  "No More Lies",
+  "Thing in the Ice // Awoken Horror",
+  "Daze",
+  "Baleful Strix",
+  "Consider",
+  "Serum Visions",
+  "Thoughtseize",
+  "March of Otherworldly Light",
+  "Ponder",
+  "Oust",
+  "Miscalculation",
+  "Into the Roil",
+  "Counterspell",
+  "Mana Leak",
+  "Flooded Strand",
+  "Polluted Delta",
+  "Mystic Sanctuary",
+  "Scalding Tarn",
+  "Hallowed Fountain",
+  "Celestial Colonnade",
+  "Silent Clearing",
+  "Shelldock Isle",
+  "Watery Grave",
+  "Deluge of Doom",
+  "Island",
+  "Island",
+  "Island",
+  "Swamp",
+  "Plains",
+  "Plains"
+ ],
+ "sideboard": [
+  "Adanto Vanguard",
+  "Unsummon",
+  "Careful Study",
+  "Midnight Reaper",
+  "Faerie Guidemother // Gift of the Fae",
+  "Llanowar Elves",
+  "Unexpectedly Absent",
+  "Steam Vents",
+  "Rishadan Port",
+  "Bomat Courier",
+  "Moon-Circuit Hacker"
+ ],
+ "macro_archetype": "control"
+}
