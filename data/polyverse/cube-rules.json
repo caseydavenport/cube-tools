@@ -64,7 +64,7 @@
       "name": "Cheap spells",
       "conditions": [
         "(t:instant OR t:sorcery) cmc\u003c2",
-        "(t:artifact OR t:enchantment) cmc\u003c2",
+        "(t:artifact OR t:enchantment) cmc\u003c2 t!=creature",
         "o:flashback (t:instant OR t:sorcery) cmc\u003c3"
       ]
     },
@@ -510,6 +510,15 @@
       ]
     },
     {
+      "label": "CoCoRit",
+      "sources": [
+        "CoCo Creatures"
+      ],
+      "targets": [
+        "Ritual - Match"
+      ]
+    },
+    {
       "label": "Counters",
       "sources": [
         "Makes counters"
@@ -553,6 +562,15 @@
       ],
       "targets": [
         "Discard triggers"
+      ]
+    },
+    {
+      "label": "Discard For Yard",
+      "sources": [
+        "Discard triggers"
+      ],
+      "targets": [
+        "Graveyard size payoffs"
       ]
     },
     {
@@ -685,12 +703,30 @@
       ]
     },
     {
+      "label": "Rit Sac",
+      "sources": [
+        "Ritual - Match"
+      ],
+      "targets": [
+        "Sacrifice payoffs"
+      ]
+    },
+    {
       "label": "Ritual",
       "sources": [
         "Ritual - Match"
       ],
       "targets": [
         "Ritual - Connect"
+      ]
+    },
+    {
+      "label": "Sac For Yard",
+      "sources": [
+        "Sacrifice effects"
+      ],
+      "targets": [
+        "Fill graveyard"
       ]
     },
     {
@@ -714,12 +750,30 @@
       ]
     },
     {
+      "label": "Saga Trinkets",
+      "sources": [
+        "Trinket artifacts"
+      ],
+      "targets": [
+        "Urza's Saga"
+      ]
+    },
+    {
       "label": "Second Draw",
       "sources": [
         "Draw matters"
       ],
       "targets": [
         "Draw effects"
+      ]
+    },
+    {
+      "label": "Selective Discard Matters",
+      "sources": [
+        "Selective discard"
+      ],
+      "targets": [
+        "Discard matters"
       ]
     },
     {
@@ -742,6 +796,24 @@
         "Recursive creatures",
         "Delve",
         "Grave hate"
+      ]
+    },
+    {
+      "label": "Sky Artifacts",
+      "sources": [
+        "Cheap artifacts"
+      ],
+      "targets": [
+        "Inner Sky"
+      ]
+    },
+    {
+      "label": "Sky Tokens",
+      "sources": [
+        "Token makers"
+      ],
+      "targets": [
+        "Inner Sky"
       ]
     },
     {
@@ -788,6 +860,15 @@
       ],
       "targets": [
         "Creature lands"
+      ]
+    },
+    {
+      "label": "Cheap Prowess",
+      "sources": [
+        "Cheap spells"
+      ],
+      "targets": [
+        "Prowess payoffs"
       ]
     }
   ]

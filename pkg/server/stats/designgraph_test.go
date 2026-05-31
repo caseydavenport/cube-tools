@@ -86,6 +86,94 @@ func TestBuildDesignGraphSharedGroup(t *testing.T) {
 	assert.True(t, labels["Graveyard Spells"])
 }
 
+// TestBuildGroupGraph verifies the aggregated group-level view: one node per
+// group with card counts, and one edge per linked group-pair with the right weight.
+func TestBuildGroupGraph(t *testing.T) {
+	cube := &types.Cube{
+		Cards: []types.Card{
+			{Name: "Mill Card", Colors: []string{"U"}, Types: []string{"Instant"}, CMC: 1, OracleText: "mill three cards"},
+			{Name: "Delve Card", Colors: []string{"B"}, Types: []string{"Creature"}, CMC: 5, OracleText: "delve", Power: "4", Toughness: "4"},
+			{Name: "Flashback Card", Colors: []string{"R"}, Types: []string{"Sorcery"}, CMC: 2, OracleText: "flashback {R}"},
+		},
+	}
+
+	config := DesignMapConfig{
+		Groups: []Group{
+			{Name: "Mill Enablers", Conditions: []string{"o:mill"}},
+			{Name: "Delve Payoffs", Conditions: []string{"o:delve"}},
+			{Name: "Flashback Payoffs", Conditions: []string{"o:flashback"}},
+		},
+		Links: []Link{
+			{Label: "Delve", Sources: []string{"Delve Payoffs"}, Targets: []string{"Mill Enablers"}},
+			{Label: "Graveyard Spells", Sources: []string{"Flashback Payoffs"}, Targets: []string{"Mill Enablers"}},
+		},
+	}
+
+	resp := buildDesignGraph(cube, config)
+
+	// One node per group, each matching a single card.
+	assert.Len(t, resp.GroupNodes, 3)
+	byName := map[string]DesignGraphGroupNode{}
+	for _, n := range resp.GroupNodes {
+		byName[n.Name] = n
+		assert.Equal(t, 1, n.CardCount)
+	}
+	assert.Equal(t, []string{"Delve Card"}, byName["Delve Payoffs"].Cards)
+
+	// Card-derived edges: Mill Enablers connects to both other groups via real card links.
+	assert.Len(t, resp.GroupEdges, 2)
+	for _, e := range resp.GroupEdges {
+		assert.Equal(t, 1, e.Weight)
+		assert.Equal(t, "Mill Enablers", e.Target)
+	}
+
+	// Link-derived edges mirror the two rule definitions, which also point at Mill Enablers.
+	assert.Len(t, resp.LinkEdges, 2)
+	for _, e := range resp.LinkEdges {
+		assert.Equal(t, "Mill Enablers", e.Target)
+	}
+}
+
+// TestBuildGroupGraphMultiGroupCard verifies that a card belonging to multiple groups
+// produces card-derived group edges the raw link definitions don't, since the link
+// view only joins groups explicitly named together in a rule.
+func TestBuildGroupGraphMultiGroupCard(t *testing.T) {
+	cube := &types.Cube{
+		Cards: []types.Card{
+			// Bridge is both red and an artifact, so it lands in two groups.
+			{Name: "Bridge", Colors: []string{"R"}, Types: []string{"Artifact"}, CMC: 2, OracleText: "tap for mana"},
+			{Name: "Payoff", Colors: []string{"G"}, Types: []string{"Creature"}, CMC: 4, OracleText: "ramp payoff", Power: "4", Toughness: "4"},
+		},
+	}
+
+	config := DesignMapConfig{
+		Groups: []Group{
+			{Name: "Red", Conditions: []string{"c:R"}},
+			{Name: "Artifacts", Conditions: []string{"t:artifact"}},
+			{Name: "Ramp Payoffs", Conditions: []string{"o:ramp"}},
+		},
+		// Only Red is linked to Ramp Payoffs. Artifacts is named in no link.
+		Links: []Link{
+			{Label: "Ramp", Sources: []string{"Red"}, Targets: []string{"Ramp Payoffs"}},
+		},
+	}
+
+	resp := buildDesignGraph(cube, config)
+
+	// Link view: just the one declared edge Red <-> Ramp Payoffs.
+	assert.Len(t, resp.LinkEdges, 1)
+	assert.Equal(t, "Ramp", resp.LinkEdges[0].Labels[0])
+
+	// Card view: Bridge is in both Red and Artifacts, so its card-level link to Payoff
+	// also pulls Artifacts <-> Ramp Payoffs into the graph.
+	pairs := map[string]bool{}
+	for _, e := range resp.GroupEdges {
+		pairs[e.Source+"|"+e.Target] = true
+	}
+	assert.True(t, pairs["Ramp Payoffs|Red"], "expected Red <-> Ramp Payoffs")
+	assert.True(t, pairs["Artifacts|Ramp Payoffs"] || pairs["Ramp Payoffs|Artifacts"], "expected Artifacts <-> Ramp Payoffs from the multi-group card")
+}
+
 func TestMatchCardsWithConditions(t *testing.T) {
 	cards := map[string]types.Card{
 		"Bolt": {

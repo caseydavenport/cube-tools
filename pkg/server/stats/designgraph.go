@@ -42,6 +42,18 @@ type DesignGraphResponse struct {
 	Edges  []DesignGraphEdge `json:"edges"`
 	Groups []Group           `json:"groups"`
 	Links  []Link            `json:"links"`
+
+	// GroupNodes is the aggregated group-level node set, where each node is a group
+	// rather than a card. The UI toggles between this and the card-level graph.
+	GroupNodes []DesignGraphGroupNode `json:"group_nodes"`
+
+	// GroupEdges connect groups based on actual card-level connections: two groups
+	// are joined when a card in one is linked to a card in the other.
+	GroupEdges []DesignGraphGroupEdge `json:"group_edges"`
+
+	// LinkEdges connect groups based on the rule/link definitions directly, mirroring
+	// how the links wire groups together regardless of card membership.
+	LinkEdges []DesignGraphGroupEdge `json:"link_edges"`
 }
 
 // DesignGraphNode represents a card in the design graph, with metadata and connection count.
@@ -72,6 +84,35 @@ type DesignGraphEdge struct {
 
 	// RuleLabels is the list of link labels that connect the source and target cards, derived from the groups they belong to.
 	RuleLabels []string `json:"rule_labels"`
+}
+
+// DesignGraphGroupNode represents a group in the aggregated group-level graph.
+type DesignGraphGroupNode struct {
+	// Name is the group name, serving as the unique identifier for the node.
+	Name string `json:"name"`
+
+	// CardCount is the number of cards matching the group's conditions.
+	CardCount int `json:"card_count"`
+
+	// Cards is the sorted list of card names in the group, so the UI can list
+	// members when the group is selected. Connection counts are view-specific
+	// (card-derived vs. link-derived), so the client computes node degree from
+	// whichever edge set is active rather than baking it in here.
+	Cards []string `json:"cards"`
+}
+
+// DesignGraphGroupEdge represents a link between two groups in the group-level graph.
+type DesignGraphGroupEdge struct {
+	// Source and Target are group names.
+	Source string `json:"source"`
+	Target string `json:"target"`
+
+	// Weight is the number of distinct card-pairs this group connection represents,
+	// so thicker edges mean denser interaction between the two groups.
+	Weight int `json:"weight"`
+
+	// Labels is the list of link labels that connect the two groups.
+	Labels []string `json:"labels"`
 }
 
 func DesignGraphHandler() http.Handler {
@@ -316,12 +357,155 @@ func buildDesignGraph(cube *types.Cube, config DesignMapConfig) DesignGraphRespo
 		return strings.Compare(strings.ToLower(a.Label), strings.ToLower(b.Label))
 	})
 
+	groupNodes, groupEdges, linkEdges := buildGroupGraph(config, groupCards, edges)
+
 	return DesignGraphResponse{
-		Nodes:  nodes,
-		Edges:  edges,
-		Groups: groups,
-		Links:  links,
+		Nodes:      nodes,
+		Edges:      edges,
+		Groups:     groups,
+		Links:      links,
+		GroupNodes: groupNodes,
+		GroupEdges: groupEdges,
+		LinkEdges:  linkEdges,
 	}
+}
+
+// buildGroupGraph aggregates the card-level graph up to the group level: one node
+// per group, plus two edge sets between groups.
+//
+// cardEdges are derived from the actual card-level connections: two groups are joined
+// whenever a card in one is linked to a card in the other, with weight equal to the
+// number of distinct card-pairs spanning them. A card in multiple groups contributes
+// to all of them, so this reflects how the groups actually relate through their cards.
+//
+// linkEdges instead mirror the rule/link definitions directly: two groups are joined
+// when a link names one as a source and the other as a target. This is the raw view of
+// how the rules wire the groups together.
+func buildGroupGraph(config DesignMapConfig, groupCards map[string]map[string]bool, edges []DesignGraphEdge) (groupNodes []DesignGraphGroupNode, cardEdges, linkEdges []DesignGraphGroupEdge) {
+	type groupEdgeKey struct{ source, target string }
+	type cardPair struct{ a, b string }
+
+	// finalize turns the accumulated card-pair and label maps into a sorted edge slice.
+	finalize := func(pairs map[groupEdgeKey]map[cardPair]bool, labelSets map[groupEdgeKey]map[string]bool) []DesignGraphGroupEdge {
+		out := make([]DesignGraphGroupEdge, 0, len(pairs))
+		for gk, ps := range pairs {
+			labels := make([]string, 0, len(labelSets[gk]))
+			for l := range labelSets[gk] {
+				labels = append(labels, l)
+			}
+			slices.Sort(labels)
+			out = append(out, DesignGraphGroupEdge{
+				Source: gk.source,
+				Target: gk.target,
+				Weight: len(ps),
+				Labels: labels,
+			})
+		}
+		slices.SortFunc(out, func(a, b DesignGraphGroupEdge) int {
+			if c := strings.Compare(a.Source, b.Source); c != 0 {
+				return c
+			}
+			return strings.Compare(a.Target, b.Target)
+		})
+		return out
+	}
+
+	// cardEdges: collapse each card-level edge onto every pair of groups its endpoints
+	// belong to. Reverse index card name -> the groups that contain it (a card can be in many).
+	cardGroups := make(map[string][]string)
+	for g, cards := range groupCards {
+		for name := range cards {
+			cardGroups[name] = append(cardGroups[name], g)
+		}
+	}
+	cardPairs := make(map[groupEdgeKey]map[cardPair]bool)
+	cardLabels := make(map[groupEdgeKey]map[string]bool)
+	for _, e := range edges {
+		ca, cb := e.Source, e.Target
+		if ca > cb {
+			ca, cb = cb, ca
+		}
+		for _, gs := range cardGroups[e.Source] {
+			for _, gt := range cardGroups[e.Target] {
+				// Normalize so (A,B) and (B,A) collapse to one group edge.
+				a, b := gs, gt
+				if a > b {
+					a, b = b, a
+				}
+				// Skip when both endpoints share a group: that's an intra-group link, not a group-to-group edge.
+				if a == b {
+					continue
+				}
+				gk := groupEdgeKey{a, b}
+				if cardPairs[gk] == nil {
+					cardPairs[gk] = make(map[cardPair]bool)
+					cardLabels[gk] = make(map[string]bool)
+				}
+				cardPairs[gk][cardPair{ca, cb}] = true
+				for _, l := range e.RuleLabels {
+					cardLabels[gk][l] = true
+				}
+			}
+		}
+	}
+	cardEdges = finalize(cardPairs, cardLabels)
+
+	// linkEdges: one edge per pair of groups named together by a link, weighted by the
+	// full set of card-pairs the link implies between the two groups.
+	linkPairs := make(map[groupEdgeKey]map[cardPair]bool)
+	linkLabels := make(map[groupEdgeKey]map[string]bool)
+	for _, link := range config.Links {
+		for _, gs := range link.Sources {
+			for _, gt := range link.Targets {
+				a, b := gs, gt
+				if a > b {
+					a, b = b, a
+				}
+				if a == b {
+					continue
+				}
+				gk := groupEdgeKey{a, b}
+				if linkPairs[gk] == nil {
+					linkPairs[gk] = make(map[cardPair]bool)
+					linkLabels[gk] = make(map[string]bool)
+				}
+				linkLabels[gk][link.Label] = true
+				for s := range groupCards[gs] {
+					for t := range groupCards[gt] {
+						if s == t {
+							continue
+						}
+						cs, ct := s, t
+						if cs > ct {
+							cs, ct = ct, cs
+						}
+						linkPairs[gk][cardPair{cs, ct}] = true
+					}
+				}
+			}
+		}
+	}
+	linkEdges = finalize(linkPairs, linkLabels)
+
+	// nodes: one per group, with card membership.
+	groupNodes = make([]DesignGraphGroupNode, 0, len(config.Groups))
+	for _, g := range config.Groups {
+		cards := make([]string, 0, len(groupCards[g.Name]))
+		for name := range groupCards[g.Name] {
+			cards = append(cards, name)
+		}
+		slices.Sort(cards)
+		groupNodes = append(groupNodes, DesignGraphGroupNode{
+			Name:      g.Name,
+			CardCount: len(cards),
+			Cards:     cards,
+		})
+	}
+	slices.SortFunc(groupNodes, func(a, b DesignGraphGroupNode) int {
+		return strings.Compare(strings.ToLower(a.Name), strings.ToLower(b.Name))
+	})
+
+	return groupNodes, cardEdges, linkEdges
 }
 
 // matchCards evaluates a query string against all cards and returns the set

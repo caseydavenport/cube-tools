@@ -7,7 +7,12 @@ export function DesignMapWidget({ show, designGraphData, onCardSelected, onRules
   const cube = useCube()
   const [selectedLink, setSelectedLink] = useState(null)
   const [selectedCard, setSelectedCard] = useState(null)
+  const [selectedGroup, setSelectedGroup] = useState(null)
   const [hoveredCard, setHoveredCard] = useState(null)
+  const [viewMode, setViewMode] = useState("card")
+  // A group->group connection drawn on the link graph, handed to the rules panel to
+  // open a pre-filled link editor. Cleared once the panel has consumed it.
+  const [drawnConnection, setDrawnConnection] = useState(null)
 
   if (!show) return null
 
@@ -16,15 +21,37 @@ export function DesignMapWidget({ show, designGraphData, onCardSelected, onRules
   const edges = data.edges || []
   const groups = data.groups || []
   const links = data.links || []
+  const groupNodes = data.group_nodes || []
+  const groupEdges = data.group_edges || []
+  const linkEdges = data.link_edges || []
 
-  // When selecting a link, clear card selection and vice versa.
+  // Card, link, and group selections are mutually exclusive.
   function handleSelectLink(link) {
     setSelectedLink(link)
     setSelectedCard(null)
+    setSelectedGroup(null)
   }
   function handleSelectCard(cardName) {
     setSelectedCard(prev => prev === cardName ? null : cardName)
     setSelectedLink(null)
+    setSelectedGroup(null)
+  }
+  function handleSelectGroup(groupName) {
+    setSelectedGroup(prev => prev === groupName ? null : groupName)
+    setSelectedCard(null)
+    setSelectedLink(null)
+  }
+  // Switching views starts from a clean slate; a card selection means nothing in
+  // the group view and vice versa.
+  function handleViewModeChange(mode) {
+    setViewMode(mode)
+    setSelectedCard(null)
+    setSelectedLink(null)
+    setSelectedGroup(null)
+  }
+  // Shift-dragging from one group to another on the link graph drafts a new link.
+  function handleDrawLink(source, target) {
+    setDrawnConnection({ source, target })
   }
 
   // Build card list based on current selection.
@@ -32,8 +59,19 @@ export function DesignMapWidget({ show, designGraphData, onCardSelected, onRules
   let listLabel = null
   const nodeMap = {}
   for (const node of nodes) nodeMap[node.name] = node
+  const groupNodeMap = {}
+  for (const g of groupNodes) groupNodeMap[g.name] = g
 
-  if (selectedCard) {
+  if (viewMode !== "card") {
+    if (selectedGroup && groupNodeMap[selectedGroup]) {
+      clusterCards = (groupNodeMap[selectedGroup].cards || [])
+        .map(name => nodeMap[name] || { name, colors: [], connection_count: 0 })
+        .sort((a, b) => b.connection_count - a.connection_count)
+      listLabel = selectedGroup
+    } else {
+      clusterCards = [...nodes].sort((a, b) => b.connection_count - a.connection_count)
+    }
+  } else if (selectedCard) {
     // Show the selected card's neighbors.
     const neighbors = new Set()
     for (const edge of edges) {
@@ -67,12 +105,16 @@ export function DesignMapWidget({ show, designGraphData, onCardSelected, onRules
   return (
     <div className="synergy-container" style={{padding: "1rem"}}>
       <div style={{display: "grid", gridTemplateColumns: "350px 1fr 350px", gap: "1rem"}}>
-        <RulesPanel cube={cube} groups={groups} links={links} nodes={nodes} edges={edges} onRulesChanged={onRulesChanged} selectedCard={selectedCard} />
+        <RulesPanel cube={cube} groups={groups} links={links} nodes={nodes} edges={edges} onRulesChanged={onRulesChanged} selectedCard={selectedCard}
+          drawnConnection={drawnConnection} onDrawnConnectionConsumed={() => setDrawnConnection(null)} />
         <DesignMapGraph
           nodes={nodes} edges={edges} links={links}
-          onCardFocused={handleSelectCard}
+          groupNodes={groupNodes} groupEdges={groupEdges} linkEdges={linkEdges}
+          viewMode={viewMode} onViewModeChange={handleViewModeChange}
+          onNodeClick={viewMode === "card" ? handleSelectCard : handleSelectGroup}
+          onDrawLink={handleDrawLink}
           selectedLink={selectedLink} onSelectedLinkChanged={handleSelectLink}
-          selectedCard={selectedCard}
+          selectedNode={viewMode === "card" ? selectedCard : selectedGroup}
           hoveredCard={hoveredCard} onHoveredCardChanged={setHoveredCard}
         />
         <ClusterCardList
@@ -109,15 +151,26 @@ function saveDesignMap(cube, groups, links, onRulesChanged, onStatus) {
   })
 }
 
-function RulesPanel({ cube, groups, links, nodes, edges, onRulesChanged, selectedCard }) {
+function RulesPanel({ cube, groups, links, nodes, edges, onRulesChanged, selectedCard, drawnConnection, onDrawnConnectionConsumed }) {
   const [activeTab, setActiveTab] = useState("links")
   const [addingGroup, setAddingGroup] = useState(false)
   const [addingLink, setAddingLink] = useState(false)
+  // A pre-filled link draft opened by drawing a connection on the link graph.
+  const [drawnLink, setDrawnLink] = useState(null)
   const [confirmDeleteGroup, setConfirmDeleteGroup] = useState(null)
   const [confirmDeleteLink, setConfirmDeleteLink] = useState(null)
   const [editingGroup, setEditingGroup] = useState(null)
   const [editingLink, setEditingLink] = useState(null)
   const [saveStatus, setSaveStatus] = useState("")
+
+  // When a connection is drawn on the graph, open a pre-filled link editor on the links tab.
+  useEffect(() => {
+    if (!drawnConnection) return
+    setDrawnLink({ label: "", sources: [drawnConnection.source], targets: [drawnConnection.target] })
+    setActiveTab("links")
+    setSaveStatus("")
+    if (onDrawnConnectionConsumed) onDrawnConnectionConsumed()
+  }, [drawnConnection])
 
   function addGroup(newGroup) {
     const conditions = newGroup.conditions.map(c => c.trim()).filter(c => c)
@@ -167,7 +220,7 @@ function RulesPanel({ cube, groups, links, nodes, edges, onRulesChanged, selecte
     const targets = (newLink.targets || []).filter(t => t)
     if (sources.length === 0 || targets.length === 0) {
       setSaveStatus("At least one source and one target group are required.")
-      return
+      return false
     }
     const updated = [...links, {
       label: newLink.label.trim() || "Untitled link",
@@ -176,6 +229,7 @@ function RulesPanel({ cube, groups, links, nodes, edges, onRulesChanged, selecte
     }]
     saveDesignMap(cube, groups, updated, onRulesChanged, setSaveStatus)
     setAddingLink(false)
+    return true
   }
 
   function updateLink(index, updatedLink) {
@@ -380,6 +434,16 @@ function RulesPanel({ cube, groups, links, nodes, edges, onRulesChanged, selecte
 
       {/* Links Tab */}
       {activeTab === "links" && <>
+        {drawnLink && (
+          <LinkEditModal
+            link={drawnLink}
+            color="var(--primary)"
+            groupNames={groupNames}
+            groups={groups}
+            onSave={(l) => { if (addLink(l)) setDrawnLink(null) }}
+            onCancel={() => { setDrawnLink(null); setSaveStatus("") }}
+          />
+        )}
         {addingLink && (
           <LinkEditModal
             link={{ label: "", sources: [""], targets: [""] }}
@@ -1289,7 +1353,7 @@ const DEFAULT_PHYSICS = {
   maxFrames: 300,
 }
 
-function DesignMapGraph({ nodes, edges, links, onCardFocused, selectedLink, onSelectedLinkChanged, selectedCard, hoveredCard, onHoveredCardChanged }) {
+function DesignMapGraph({ nodes, edges, links, groupNodes, groupEdges, linkEdges, viewMode, onViewModeChange, onNodeClick, onDrawLink, selectedLink, onSelectedLinkChanged, selectedNode, hoveredCard, onHoveredCardChanged }) {
   const canvasRef = useRef(null)
   const containerRef = useRef(null)
   const nodesRef = useRef([])
@@ -1297,15 +1361,81 @@ function DesignMapGraph({ nodes, edges, links, onCardFocused, selectedLink, onSe
   const nodeIndexRef = useRef({})
   const animRef = useRef(null)
   const dragRef = useRef(null)
+  // In-progress link draw: { from: node, x, y } while shift-dragging between groups.
+  const linkDrawRef = useRef(null)
   const hoveredRef = useRef(null)
   const drawRef = useRef(null)
   const selectedLinkRef = useRef(null)
-  const selectedCardRef = useRef(null)
+  const selectedNodeRef = useRef(null)
   const viewRef = useRef({ scale: 1, offsetX: 0, offsetY: 0 })
   const panRef = useRef(null)
   const [canvasSize, setCanvasSize] = useState({ width: 900, height: 600 })
   const [physics, setPhysics] = useState(DEFAULT_PHYSICS)
   const [showSettings, setShowSettings] = useState(false)
+  const [minConnections, setMinConnections] = useState(0)
+  const [minWeight, setMinWeight] = useState(0)
+
+  // Largest connection count across cards, for the card-view slider's upper bound.
+  const maxConnections = React.useMemo(
+    () => nodes.reduce((m, n) => Math.max(m, n.connection_count), 0),
+    [nodes],
+  )
+
+  // Largest group-edge weight in the active group view, for the group-view slider.
+  const maxWeight = React.useMemo(() => {
+    const activeEdges = viewMode === "link" ? linkEdges : groupEdges
+    return activeEdges.reduce((m, e) => Math.max(m, e.weight), 0)
+  }, [viewMode, groupEdges, linkEdges])
+
+  // Reset the filters when the view changes; their scales differ per view.
+  useEffect(() => {
+    setMinConnections(0)
+    setMinWeight(0)
+  }, [viewMode])
+
+  // Normalize the two view modes into a common {id, radius, color} node shape and
+  // {source, target, weight, ruleLabels} edge shape so the simulation and draw
+  // code don't have to branch. Card mode also applies the min-connections filter.
+  const { simNodes, simEdges } = React.useMemo(() => {
+    if (viewMode !== "card") {
+      // Group-node views. "group" edges come from real card connections; "link" edges
+      // mirror the rule definitions. Node degree is view-specific, so compute it here.
+      // The card-derived view is dense, so thin it with the min-weight filter.
+      const activeEdges = (viewMode === "link" ? linkEdges : groupEdges).filter(e => e.weight >= minWeight)
+      const degree = {}
+      for (const e of activeEdges) {
+        degree[e.source] = (degree[e.source] || 0) + 1
+        degree[e.target] = (degree[e.target] || 0) + 1
+      }
+      const metricMax = groupNodes.reduce((m, g) => Math.max(m, g.card_count), 1)
+      const sn = groupNodes.map((g, i) => ({
+        id: g.name,
+        radius: Math.max(8, Math.min(34, 8 + (g.card_count / metricMax) * 26)),
+        color: ruleColor(i),
+        connectionCount: degree[g.name] || 0,
+        count: g.card_count,
+      }))
+      const se = activeEdges.map(e => ({
+        source: e.source, target: e.target, weight: e.weight, ruleLabels: e.labels || [],
+      }))
+      return { simNodes: sn, simEdges: se }
+    }
+
+    const metricMax = nodes.reduce((m, n) => Math.max(m, n.connection_count), 1)
+    const kept = nodes.filter(n => n.connection_count >= minConnections)
+    const keepIds = new Set(kept.map(n => n.name))
+    const sn = kept.map(n => ({
+      id: n.name,
+      radius: Math.max(4, Math.min(14, 3 + (n.connection_count / metricMax) * 11)),
+      color: getNodeColor(n.colors),
+      connectionCount: n.connection_count,
+      count: null,
+    }))
+    const se = edges
+      .filter(e => keepIds.has(e.source) && keepIds.has(e.target))
+      .map(e => ({ source: e.source, target: e.target, weight: e.weight, ruleLabels: e.rule_labels || [] }))
+    return { simNodes: sn, simEdges: se }
+  }, [viewMode, nodes, edges, groupNodes, groupEdges, linkEdges, minConnections, minWeight])
 
   // Resize canvas to fill container.
   useEffect(() => {
@@ -1321,7 +1451,7 @@ function DesignMapGraph({ nodes, edges, links, onCardFocused, selectedLink, onSe
   }, [])
 
   useEffect(() => {
-    if (nodes.length === 0) return
+    if (simNodes.length === 0) return
 
     const canvas = canvasRef.current
     if (!canvas) return
@@ -1329,29 +1459,30 @@ function DesignMapGraph({ nodes, edges, links, onCardFocused, selectedLink, onSe
     const width = canvas.width
     const height = canvas.height
 
-    // Build graph nodes. Size based on connection count.
-    const maxConn = Math.max(...nodes.map(n => n.connection_count), 1)
-    const graphNodes = nodes.map((node, i) => {
-      const angle = (2 * Math.PI * i) / nodes.length
+    // Radius and color are precomputed in simNodes; this just seeds positions on a ring.
+    const graphNodes = simNodes.map((node, i) => {
+      const angle = (2 * Math.PI * i) / simNodes.length
       const radius = Math.min(width, height) * 0.45
+      const x = width / 2 + radius * Math.cos(angle) + (Math.random() - 0.5) * 40
+      const y = height / 2 + radius * Math.sin(angle) + (Math.random() - 0.5) * 40
       return {
-        id: node.name,
-        x: width / 2 + radius * Math.cos(angle) + (Math.random() - 0.5) * 40,
-        y: height / 2 + radius * Math.sin(angle) + (Math.random() - 0.5) * 40,
+        id: node.id,
+        x,
+        y,
         vx: 0,
         vy: 0,
-        radius: Math.max(4, Math.min(14, 3 + (node.connection_count / maxConn) * 11)),
-        color: getNodeColor(node.colors),
-        connectionCount: node.connection_count,
+        radius: node.radius,
+        color: node.color,
+        connectionCount: node.connectionCount,
+        count: node.count,
       }
     })
 
-    // Build edges with rule label info for coloring.
-    const graphEdges = edges.map(edge => ({
+    const graphEdges = simEdges.map(edge => ({
       source: edge.source,
       target: edge.target,
       weight: edge.weight,
-      ruleLabels: edge.rule_labels || [],
+      ruleLabels: edge.ruleLabels || [],
     }))
 
     // Build a map from link label -> link index for coloring.
@@ -1383,7 +1514,7 @@ function DesignMapGraph({ nodes, edges, links, onCardFocused, selectedLink, onSe
 
       const hovered = hoveredRef.current
       const selLink = selectedLinkRef.current
-      const selCard = selectedCardRef.current
+      const selNode = selectedNodeRef.current
 
       // Draw edges.
       for (const edge of graphEdges) {
@@ -1395,8 +1526,8 @@ function DesignMapGraph({ nodes, edges, links, onCardFocused, selectedLink, onSe
 
         // Determine if this edge should be dimmed.
         let dimmed = false
-        if (selCard) {
-          dimmed = edge.source !== selCard && edge.target !== selCard
+        if (selNode) {
+          dimmed = edge.source !== selNode && edge.target !== selNode
         } else if (selLink === "unconnected") {
           dimmed = true
         } else if (selLink !== null) {
@@ -1426,13 +1557,13 @@ function DesignMapGraph({ nodes, edges, links, onCardFocused, selectedLink, onSe
       for (const node of graphNodes) {
         // Determine if this node should be dimmed.
         let dimmed = false
-        if (selCard) {
-          // Highlight selected card and its direct neighbors.
+        if (selNode) {
+          // Highlight the selected node and its direct neighbors.
           const isNeighbor = graphEdges.some(e =>
-            (e.source === selCard && e.target === node.id) ||
-            (e.target === selCard && e.source === node.id)
+            (e.source === selNode && e.target === node.id) ||
+            (e.target === selNode && e.source === node.id)
           )
-          dimmed = node.id !== selCard && !isNeighbor
+          dimmed = node.id !== selNode && !isNeighbor
         } else if (selLink === "unconnected") {
           dimmed = node.connectionCount > 0
         } else if (selLink !== null) {
@@ -1451,7 +1582,20 @@ function DesignMapGraph({ nodes, edges, links, onCardFocused, selectedLink, onSe
         ctx.stroke()
       }
 
-      // Draw hovered node label.
+      // Rubber-band line while drawing a new link from one group to another.
+      const ld = linkDrawRef.current
+      if (ld) {
+        ctx.beginPath()
+        ctx.moveTo(ld.from.x, ld.from.y)
+        ctx.lineTo(ld.x, ld.y)
+        ctx.strokeStyle = "#7cd6ff"
+        ctx.lineWidth = 2 / v.scale
+        ctx.setLineDash([6 / v.scale, 4 / v.scale])
+        ctx.stroke()
+        ctx.setLineDash([])
+      }
+
+      // Draw hovered node label. Group nodes also show their card count.
       if (hovered) {
         const node = graphNodes.find(n => n.id === hovered)
         if (node) {
@@ -1459,7 +1603,8 @@ function DesignMapGraph({ nodes, edges, links, onCardFocused, selectedLink, onSe
           ctx.font = `${fontSize}px monospace`
           ctx.fillStyle = "#fff"
           ctx.textAlign = "center"
-          ctx.fillText(node.id, node.x, node.y - node.radius - 6 / v.scale)
+          const label = node.count != null ? `${node.id} (${node.count})` : node.id
+          ctx.fillText(label, node.x, node.y - node.radius - 6 / v.scale)
         }
       }
 
@@ -1511,7 +1656,7 @@ function DesignMapGraph({ nodes, edges, links, onCardFocused, selectedLink, onSe
         t.vy -= fy
       }
 
-      // Center gravity.
+      // Gravity pulls all nodes toward the canvas center so disconnected nodes don't drift off.
       for (const node of graphNodes) {
         node.vx += (width / 2 - node.x) * physics.gravity * alpha
         node.vy += (height / 2 - node.y) * physics.gravity * alpha
@@ -1575,7 +1720,7 @@ function DesignMapGraph({ nodes, edges, links, onCardFocused, selectedLink, onSe
       if (animRef.current) cancelAnimationFrame(animRef.current)
       drawRef.current = null
     }
-  }, [nodes, edges, links, canvasSize, physics])
+  }, [simNodes, simEdges, links, canvasSize, physics])
 
   // Sync selectedLink state to ref for use in draw().
   useEffect(() => {
@@ -1583,11 +1728,11 @@ function DesignMapGraph({ nodes, edges, links, onCardFocused, selectedLink, onSe
     if (drawRef.current) drawRef.current()
   }, [selectedLink])
 
-  // Sync selectedCard state to ref for use in draw().
+  // Sync selectedNode state to ref for use in draw().
   useEffect(() => {
-    selectedCardRef.current = selectedCard
+    selectedNodeRef.current = selectedNode
     if (drawRef.current) drawRef.current()
-  }, [selectedCard])
+  }, [selectedNode])
 
   // Sync external hoveredCard prop to ref for use in draw().
   useEffect(() => {
@@ -1674,6 +1819,18 @@ function DesignMapGraph({ nodes, edges, links, onCardFocused, selectedLink, onSe
 
     const { x, y } = screenToWorld(sx, sy)
 
+    // While drawing a link, track the cursor for the rubber-band line and highlight the
+    // group under it as the prospective target.
+    if (linkDrawRef.current) {
+      linkDrawRef.current.x = x
+      linkDrawRef.current.y = y
+      const over = getNodeAt(x, y)
+      hoveredRef.current = over && over.id !== linkDrawRef.current.from.id ? over.id : null
+      canvas.style.cursor = "crosshair"
+      if (drawRef.current) drawRef.current()
+      return
+    }
+
     if (dragRef.current) {
       dragRef.current.x = x
       dragRef.current.y = y
@@ -1690,7 +1847,11 @@ function DesignMapGraph({ nodes, edges, links, onCardFocused, selectedLink, onSe
       if (onHoveredCardChanged) onHoveredCardChanged(newHovered)
       if (drawRef.current) drawRef.current()
     }
-    canvas.style.cursor = node ? "pointer" : "default"
+    if (node && viewMode === "link" && e.shiftKey && onDrawLink) {
+      canvas.style.cursor = "crosshair"
+    } else {
+      canvas.style.cursor = node ? "pointer" : "default"
+    }
   }
 
   function handleMouseDown(e) {
@@ -1701,7 +1862,10 @@ function DesignMapGraph({ nodes, edges, links, onCardFocused, selectedLink, onSe
     const sy = e.clientY - rect.top
     const { x, y } = screenToWorld(sx, sy)
     const node = getNodeAt(x, y)
-    if (node) {
+    if (node && viewMode === "link" && e.shiftKey && onDrawLink) {
+      // Shift-drag from a group starts drawing a link to another group.
+      linkDrawRef.current = { from: node, x, y }
+    } else if (node) {
       dragRef.current = node
     } else {
       // Start panning when clicking empty space.
@@ -1711,6 +1875,22 @@ function DesignMapGraph({ nodes, edges, links, onCardFocused, selectedLink, onSe
   }
 
   function handleMouseUp(e) {
+    if (linkDrawRef.current) {
+      const canvas = canvasRef.current
+      const from = linkDrawRef.current.from
+      if (canvas) {
+        const rect = canvas.getBoundingClientRect()
+        const { x, y } = screenToWorld(e.clientX - rect.left, e.clientY - rect.top)
+        const target = getNodeAt(x, y)
+        if (target && target.id !== from.id && onDrawLink) {
+          onDrawLink(from.id, target.id)
+        }
+      }
+      linkDrawRef.current = null
+      hoveredRef.current = null
+      if (drawRef.current) drawRef.current()
+      return
+    }
     if (panRef.current) {
       panRef.current = null
       return
@@ -1723,8 +1903,8 @@ function DesignMapGraph({ nodes, edges, links, onCardFocused, selectedLink, onSe
         const sy = e.clientY - rect.top
         const { x, y } = screenToWorld(sx, sy)
         const node = getNodeAt(x, y)
-        if (node && node.id === dragRef.current.id && onCardFocused) {
-          onCardFocused(node.id)
+        if (node && node.id === dragRef.current.id && onNodeClick) {
+          onNodeClick(node.id)
         }
       }
       dragRef.current = null
@@ -1735,6 +1915,7 @@ function DesignMapGraph({ nodes, edges, links, onCardFocused, selectedLink, onSe
   function handleMouseLeave() {
     dragRef.current = null
     panRef.current = null
+    linkDrawRef.current = null
     if (hoveredRef.current) {
       hoveredRef.current = null
       if (onHoveredCardChanged) onHoveredCardChanged(null)
@@ -1754,8 +1935,59 @@ function DesignMapGraph({ nodes, edges, links, onCardFocused, selectedLink, onSe
     <div ref={containerRef} style={{textAlign: "center"}}>
       <h4 style={{color: "var(--primary)", marginBottom: "0.5rem"}}>Design Map</h4>
       <p style={{color: "var(--text-muted)", fontSize: "0.85em", marginBottom: "0.5rem"}}>
-        Group-based card associations. Node size = connection count. Edge color = link. Hover for name, click to select, drag to reposition.
+        {viewMode === "card" &&
+          "Card-level view. Node size = connection count. Edge color = link. Hover for name, click to select, drag to reposition."}
+        {viewMode === "group" &&
+          "Group view. Each node is a group; groups are joined when their cards are actually linked. Node size = card count, edge weight = shared card connections."}
+        {viewMode === "link" &&
+          "Link view. Each node is a group; edges mirror the rule definitions (a link's source groups joined to its target groups). Shift-drag from one group to another to draw a new link."}
       </p>
+      <div style={{marginBottom: "0.5rem", display: "flex", justifyContent: "center", gap: "0.5rem", alignItems: "center"}}>
+        <div style={{display: "inline-flex", border: "1px solid var(--primary)", borderRadius: "12px", overflow: "hidden"}}>
+          {[["card", "Card graph"], ["group", "Group graph"], ["link", "Link graph"]].map(([mode, label]) => (
+            <button
+              key={mode}
+              onClick={() => onViewModeChange(mode)}
+              style={{
+                background: viewMode === mode ? "var(--primary)" : "transparent",
+                color: viewMode === mode ? "#000" : "var(--primary)",
+                border: "none",
+                padding: "2px 12px",
+                fontSize: "0.75em",
+                cursor: "pointer",
+              }}
+            >
+              {label}
+            </button>
+          ))}
+        </div>
+        {viewMode === "card" && maxConnections > 0 && (
+          <label style={{color: "var(--text-muted)", fontSize: "0.75em", display: "inline-flex", alignItems: "center", gap: "0.4rem"}}>
+            Min connections: {minConnections}
+            <input
+              type="range"
+              min={0}
+              max={maxConnections}
+              value={minConnections}
+              onChange={(e) => setMinConnections(Number(e.target.value))}
+              style={{verticalAlign: "middle"}}
+            />
+          </label>
+        )}
+        {viewMode !== "card" && maxWeight > 0 && (
+          <label style={{color: "var(--text-muted)", fontSize: "0.75em", display: "inline-flex", alignItems: "center", gap: "0.4rem"}}>
+            Min link strength: {minWeight}
+            <input
+              type="range"
+              min={0}
+              max={maxWeight}
+              value={minWeight}
+              onChange={(e) => setMinWeight(Number(e.target.value))}
+              style={{verticalAlign: "middle"}}
+            />
+          </label>
+        )}
+      </div>
       <div style={{marginBottom: "0.5rem"}}>
         {links.map((link, i) => (
           <button
@@ -1844,7 +2076,7 @@ function PhysicsSettings({ physics, onChange }) {
   return (
     <div style={{
       display: "grid",
-      gridTemplateColumns: "repeat(5, 1fr)",
+      gridTemplateColumns: "repeat(auto-fit, minmax(90px, 1fr))",
       gap: "0.75rem",
       marginTop: "0.5rem",
       padding: "0.5rem 0",
