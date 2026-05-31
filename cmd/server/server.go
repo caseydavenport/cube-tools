@@ -8,10 +8,18 @@ import (
 	"github.com/caseydavenport/cube-tools/pkg/server"
 	"github.com/caseydavenport/cube-tools/pkg/server/decks"
 	"github.com/caseydavenport/cube-tools/pkg/server/stats"
+	"github.com/caseydavenport/cube-tools/pkg/types"
 	"github.com/sirupsen/logrus"
 )
 
 func main() {
+	// Deck hydration resolves card names against the oracle dataset. Without it
+	// every card loads with no metadata, so refuse to start rather than serve
+	// garbage.
+	if types.OracleCardCount() == 0 {
+		logrus.Fatal("no oracle card data loaded; run `make data/oracle-cards.json` to download it")
+	}
+
 	reg, err := cubes.Load("data/cubes.json")
 	if err != nil {
 		logrus.WithError(err).Fatal("failed to load cube registry")

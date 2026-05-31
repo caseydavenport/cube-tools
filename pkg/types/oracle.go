@@ -5,6 +5,8 @@ import (
 	"io"
 	"os"
 	"strings"
+
+	"github.com/sirupsen/logrus"
 )
 
 var oracleCards map[string]OracleCard
@@ -55,6 +57,15 @@ var replaces = map[string]string{
 	"Lorien Revealed": "Lórien Revealed",
 }
 
+// OracleCardCount returns the number of entries in the loaded oracle dataset.
+// It is zero when data/oracle-cards.json is missing. init keeps that case
+// non-fatal so tests can run without the file, but the server asserts on it
+// at startup since deck hydration would otherwise silently produce cards with
+// no metadata.
+func OracleCardCount() int {
+	return len(oracleCards)
+}
+
 func GetOracleData(name string) OracleCard {
 	// Check for common replacements first.
 	if replace, ok := replaces[name]; ok {
@@ -69,6 +80,9 @@ func GetOracleData(name string) OracleCard {
 func HydrateCard(name string) Card {
 	o := GetOracleData(name)
 	if o.Name == "" {
+		// No oracle match, so the returned card has no types, colors, etc.
+		// Log the name so we can track down decks referencing unknown cards.
+		logrus.WithField("card", name).Warn("no oracle data for card name")
 		return Card{Name: name}
 	}
 	return FromOracle(o)

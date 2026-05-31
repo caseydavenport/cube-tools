@@ -822,6 +822,11 @@ function CardMainboardTooltipContent(card) {
     }
   }
 
+  // Archetype labels this card has been mainboarded in, sorted by count.
+  let labels = Object.entries(card.archetypes || {})
+    .map(([name, num]) => ({name: name, num: num}))
+    .sort((a, b) => b.num - a.num)
+
   return (
     <div style={{"display": "flex", "flexDirection": "row", "gap": "12px", "alignItems": "flex-start"}}>
       <img
@@ -842,12 +847,32 @@ function CardMainboardTooltipContent(card) {
           mainboarders.map(function(row) {
             return (
               <tr sort={row.num} key={row.name} style={{"borderBottom": "1px solid var(--border)"}}>
-                <td style={{"padding": "4px 8px"}}>{row.name}</td>
+                <td style={{"padding": "4px 8px", "whiteSpace": "nowrap"}}>{row.name}</td>
                 <td style={{"padding": "4px 8px", "textAlign": "center"}}>{row.mb}</td>
                 <td style={{"padding": "4px 8px", "textAlign": "center"}}>{row.sb}</td>
               </tr>
             );
           }).sort(SortFunc)
+        }
+        </tbody>
+      </table>
+      <table style={{"borderCollapse": "collapse", "fontSize": "0.85rem", "width": "100%"}}>
+        <thead>
+          <tr style={{"borderBottom": "2px solid var(--border)", "textAlign": "left", "color": "var(--text-muted)"}}>
+            <th style={{"padding": "4px 8px"}}>Archetype</th>
+            <th style={{"padding": "4px 8px", "textAlign": "center"}}># MB</th>
+          </tr>
+        </thead>
+        <tbody>
+        {
+          labels.map(function(row) {
+            return (
+              <tr key={row.name} style={{"borderBottom": "1px solid var(--border)"}}>
+                <td style={{"padding": "4px 8px", "whiteSpace": "nowrap"}}>{row.name}</td>
+                <td style={{"padding": "4px 8px", "textAlign": "center"}}>{row.num}</td>
+              </tr>
+            );
+          })
         }
         </tbody>
       </table>
@@ -952,8 +977,10 @@ function PlayRateChart(input) {
 
   const data = {labels, datasets: dataset};
   return (
-    <div align="center">
-      <Line className="chart" options={options} data={data} />
+    <div className="chart-container" align="center">
+      <div align="center" style={{"height": chartHeight, "width": "100%"}}>
+        <Line className="chart" options={options} data={data} />
+      </div>
     </div>
   );
 }
@@ -1047,7 +1074,9 @@ function ELOChart(input) {
   const data = {labels, datasets: dataset};
   return (
     <div className="chart-container" align="center">
-      <Line className="chart" options={options} data={data} />
+      <div align="center" style={{"height": chartHeight, "width": "100%"}}>
+        <Line className="chart" options={options} data={data} />
+      </div>
     </div>
   );
 }
@@ -1144,7 +1173,9 @@ function WinrateChart(input) {
   const data = {labels, datasets: dataset};
   return (
     <div className="chart-container" align="center">
-      <Line className="chart" options={options} data={data} />
+      <div align="center" style={{"height": chartHeight, "width": "100%"}}>
+        <Line className="chart" options={options} data={data} />
+      </div>
     </div>
   );
 }
