@@ -227,16 +227,27 @@ function SynergyNetworkGraph({ synergyData, cube, onCardSelected }) {
       };
     });
 
-    // Build edges from pairs where both cards are in our node set.
+    // Build edges from pairs where both cards are in our node set. The endpoint
+    // returns only above-chance pairs (lift > 1), so every edge is a synergy; we
+    // normalize lift against the strongest edge so color/thickness scale to the
+    // range on screen rather than to absolute scores.
     const edges = [];
+    let maxDev = 0;
     for (const pair of pairs) {
       if (cardSet.has(pair.card1) && cardSet.has(pair.card2)) {
+        const dev = pair.synergy_score - 1;
+        if (dev > maxDev) maxDev = dev;
         edges.push({
           source: pair.card1,
           target: pair.card2,
           weight: pair.synergy_score,
+          dev: dev,
         });
       }
+    }
+    // Normalized 0..1 strength per edge for rendering.
+    for (const edge of edges) {
+      edge.strength = maxDev > 0 ? Math.max(0, edge.dev) / maxDev : 0;
     }
 
     // Create node index for fast lookup.
@@ -257,18 +268,23 @@ function SynergyNetworkGraph({ synergyData, cube, onCardSelected }) {
       ctx.clearRect(0, 0, width, height);
       const hovered = hoveredRef.current;
 
-      // Draw edges.
+      // Draw edges. Stronger synergies are brighter and thicker, scaled
+      // relative to the other edges on screen.
       for (const edge of edges) {
         const si = nodeIndex[edge.source];
         const ti = nodeIndex[edge.target];
         if (si === undefined || ti === undefined) continue;
         const s = nodes[si];
         const t = nodes[ti];
+        const connected = hovered && (edge.source === hovered || edge.target === hovered);
+        // Dim everything when hovering except edges touching the hovered node.
+        const baseAlpha = 0.25 + 0.55 * edge.strength;
+        const alpha = hovered ? (connected ? Math.min(1, baseAlpha + 0.3) : baseAlpha * 0.25) : baseAlpha;
         ctx.beginPath();
         ctx.moveTo(s.x, s.y);
         ctx.lineTo(t.x, t.y);
-        ctx.strokeStyle = `rgba(255, 255, 255, ${Math.min(0.4, edge.weight * 0.05)})`;
-        ctx.lineWidth = Math.max(0.5, Math.min(3, edge.weight * 0.3));
+        ctx.strokeStyle = `rgba(90, 200, 120, ${alpha})`;
+        ctx.lineWidth = (connected ? 1.5 : 1) * (1 + 4 * edge.strength);
         ctx.stroke();
       }
 
@@ -457,7 +473,7 @@ function SynergyNetworkGraph({ synergyData, cube, onCardSelected }) {
     <div style={{marginTop: "1rem", textAlign: "center"}}>
       <h4 style={{color: "var(--primary)", marginBottom: "0.5rem"}}>Synergy Network Graph</h4>
       <p style={{color: "var(--text-muted)", fontSize: "0.85em", marginBottom: "0.5rem"}}>
-        Node size = focal score. Color = card color identity. Hover for name, click to select, drag to reposition.
+        Node size shows focal score, node color shows color identity. Links are brighter and thicker the stronger the synergy. Hover to name, click to select, drag to move.
       </p>
       <canvas
         ref={canvasRef}
