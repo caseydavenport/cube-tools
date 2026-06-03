@@ -35,12 +35,22 @@ type SynergyStatsRequest struct {
 	// When true, restrict the expected co-occurrence baseline to decks where both
 	// cards are castable, preventing same-color pairs from getting inflated scores.
 	ColorAdjust bool `json:"color_adjust"`
+
+	// Record filters source decks by match record: "winning" (wins > losses) or
+	// "losing" (wins < losses). Any other value uses every deck. Lets the
+	// pop/synergy graph compare how cards shift between winning and losing decks.
+	Record string `json:"record"`
 }
 
 type SynergyStatsResponse struct {
 	TotalDecks int             `json:"total_decks"`
 	Pairs      []SynergyResult `json:"pairs"`
 	FocalStats []CardFocalStat `json:"focal_stats"`
+
+	// CardPlayCounts maps each played card to the number of decks in this pool that
+	// mainboarded it. Unlike FocalStats it covers every played card, so the
+	// winning-vs-losing comparison can tell "not played here" from "played, no synergy".
+	CardPlayCounts map[string]int `json:"card_play_counts"`
 }
 
 type CardFocalStat struct {
@@ -100,8 +110,27 @@ func parseSynergyRequest(r *http.Request) *SynergyStatsRequest {
 	}
 	// Default to false; only enable when explicitly set to "true".
 	p.ColorAdjust = r.URL.Query().Get("color_adjust") == "true"
+	p.Record = r.URL.Query().Get("record")
 	p.DecksRequest = decks.ParseDecksRequest(r)
 	return &p
+}
+
+// filterByRecord narrows decks to those with a winning or losing match record.
+// "winning" keeps decks with more match wins than losses, "losing" keeps the
+// reverse; even records (and decks that played no matches) fall out of both.
+// Any other value returns the decks untouched.
+func filterByRecord(in []*storage.Deck, record string) []*storage.Deck {
+	if record != "winning" && record != "losing" {
+		return in
+	}
+	out := make([]*storage.Deck, 0, len(in))
+	for _, d := range in {
+		w, l := d.MatchWins(), d.MatchLosses()
+		if (record == "winning" && w > l) || (record == "losing" && w < l) {
+			out = append(out, d)
+		}
+	}
+	return out
 }
 
 func SynergyStatsHandler() http.Handler {
@@ -138,6 +167,7 @@ func (s *synergyStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request)
 		http.Error(rw, "could not load decks", http.StatusInternalServerError)
 		return
 	}
+	allDecks = filterByRecord(allDecks, sr.Record)
 
 	numDecks := len(allDecks)
 	cooccurrence := make(map[pair]*pairStats)
@@ -257,9 +287,10 @@ func (s *synergyStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request)
 	}
 
 	resp := SynergyStatsResponse{
-		TotalDecks: numDecks,
-		Pairs:      []SynergyResult{},
-		FocalStats: []CardFocalStat{},
+		TotalDecks:     numDecks,
+		Pairs:          []SynergyResult{},
+		FocalStats:     []CardFocalStat{},
+		CardPlayCounts: cardCounts,
 	}
 
 	// Temporary map to hold synergy scores for each card.
