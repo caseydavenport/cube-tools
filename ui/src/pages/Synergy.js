@@ -4,6 +4,25 @@ import { NumericInput, Checkbox } from "../components/Dropdown.js"
 import { White, Blue, Black, Red, Green } from "../utils/Colors.js"
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Popover from 'react-bootstrap/Popover';
+import { Scatter } from 'react-chartjs-2';
+import { Chart as ChartJS, LinearScale, PointElement, Tooltip, Legend, Title } from 'chart.js';
+
+ChartJS.register(LinearScale, PointElement, Tooltip, Legend, Title);
+
+// Display color for a card based on its MTG color identity. Shared by the
+// network graph and the popularity/synergy scatter.
+function cardDisplayColor(colors) {
+  if (!colors || colors.length === 0) return "#aaa"; // colorless
+  if (colors.length > 1) return "#daa520"; // multicolor gold
+  switch (colors[0]) {
+    case "W": return White;
+    case "U": return Blue;
+    case "B": return Black;
+    case "R": return Red;
+    case "G": return Green;
+    default: return "#aaa";
+  }
+}
 
 export function SynergyWidget(input) {
   if (!input.show) {
@@ -13,11 +32,18 @@ export function SynergyWidget(input) {
   return (
     <div className="synergy-container" style={{"padding": "1rem"}}>
       <SynergyWidgetOptions {...input} />
-      <SynergyNetworkGraph
-        synergyData={input.synergyData}
-        cube={input.cube}
-        onCardSelected={input.onCardSelected}
-      />
+      <div style={{"marginTop": "1rem", "display": "grid", "gridTemplateColumns": "1fr 1fr", "gap": "2rem", "alignItems": "start"}}>
+        <SynergyNetworkGraph
+          synergyData={input.synergyData}
+          cube={input.cube}
+          onCardSelected={input.onCardSelected}
+        />
+        <SynergyScatter
+          synergyData={input.synergyData}
+          cube={input.cube}
+          onCardSelected={input.onCardSelected}
+        />
+      </div>
       <div className="synergy-grid" style={{"marginTop": "1rem", "display": "grid", "gridTemplateColumns": "1fr 1fr", "gap": "2rem"}}>
         <SynergyWidgetTable {...input} />
         <FocalPointsTable {...input} />
@@ -162,6 +188,194 @@ function FocalPointsTable(input) {
   );
 }
 
+// SynergyScatter plots cards with statistically significant synergy by how often
+// they're played (x) against their average partner lift (y). Cards below the
+// chance noise floor (avg lift 1.75) are dropped, so the bottom "low synergy"
+// classes (goodstuff staples, filler) fall away and what's left splits left/right:
+// low play = niche build-arounds, high play = established archetype cores.
+// Reference lines sit at the medians of the surviving cards.
+function SynergyScatter({ synergyData, cube, onCardSelected }) {
+  const stats = synergyData?.focal_stats || [];
+  const totalDecks = synergyData?.total_decks || 0;
+  if (stats.length === 0 || totalDecks === 0) {
+    return null;
+  }
+
+  const K = 5;
+  const NOISE_FLOOR = 1.75;
+
+  // Avg partner lift is a mean over a card's qualifying partners, so a card with
+  // one strong partner is as noisy as a card opened in a single draft. The
+  // qualifying-partner count is focal_score / avg_partner_lift (focal_score is the
+  // sum of those lifts, avg is the mean). Shrink the avg toward the pooled field
+  // mean with the same K pseudo-count used for play rate, so single-partner cards
+  // don't sit as high as well-supported ones. Note the per-pair lift is already
+  // shrunk toward 1.0 at the edge level; this is a second, aggregate-level shrink
+  // of the card's average toward the field mean.
+  const lifted = stats.filter(s => s.avg_partner_lift > 0);
+  const totalLiftSum = lifted.reduce((acc, s) => acc + s.focal_score, 0);
+  const totalPartners = lifted.reduce((acc, s) => acc + s.focal_score / s.avg_partner_lift, 0);
+  const priorLift = totalPartners > 0 ? totalLiftSum / totalPartners : 0;
+  const shrinkLift = (s) => {
+    if (s.avg_partner_lift <= 0) return 0;
+    const partners = s.focal_score / s.avg_partner_lift;
+    return (s.focal_score + K * priorLift) / (partners + K);
+  };
+
+  // Drop cards whose shrunk synergy intensity is within the chance noise floor. A
+  // frequency-preserving null shuffle p95 sits around avg partner lift 1.75, so
+  // cards below that aren't distinguishable from chance and only clutter the plot.
+  const sig = stats.filter(s => shrinkLift(s) >= NOISE_FLOOR);
+  if (sig.length === 0) {
+    return null;
+  }
+
+  const colorMap = {};
+  if (cube && cube.cards) {
+    for (const card of cube.cards) colorMap[card.name] = card.colors || [];
+  }
+
+  // Play rate is a binomial proportion (maindecked / opened), so cards opened in
+  // only a draft or two land at 0% or 100% on tiny samples and stretch the axis.
+  // Shrink each rate toward the pooled mean with the same K pseudo-count: a
+  // low-sample card sits near the field average and only earns an extreme position
+  // once it has the opened drafts to back it up.
+  const totalPlayed = sig.reduce((acc, s) => acc + s.played_drafts, 0);
+  const totalOpened = sig.reduce((acc, s) => acc + (s.opened_drafts || 0), 0);
+  const priorRate = totalOpened > 0 ? totalPlayed / totalOpened : 0;
+
+  const points = sig.map(s => {
+    // Play rate = drafts where the card was maindecked / drafts where it was
+    // opened (seen in any mainboard, sideboard or pool). This is a singleton cube
+    // drafted by 2-8 players, so scoping to drafts where the card was actually
+    // opened avoids penalizing it for small drafts that never put it in a pack.
+    const opened = s.opened_drafts || 0;
+    const shrunk = (s.played_drafts + K * priorRate) / (opened + K);
+    const rawDenom = opened > 0 ? opened : (s.played_drafts || 1);
+    return {
+      x: shrunk * 100,
+      y: shrinkLift(s),
+      name: s.card_name,
+      deckCount: s.deck_count,
+      playedDrafts: s.played_drafts,
+      openedDrafts: s.opened_drafts,
+      rawRate: (s.played_drafts / rawDenom) * 100,
+      rawLift: s.avg_partner_lift,
+      focalScore: s.focal_score,
+    };
+  });
+
+  const median = (arr) => {
+    if (arr.length === 0) return 0;
+    const sorted = [...arr].sort((a, b) => a - b);
+    const mid = Math.floor(sorted.length / 2);
+    return sorted.length % 2 ? sorted[mid] : (sorted[mid - 1] + sorted[mid]) / 2;
+  };
+  const xs = points.map(p => p.x);
+  const ys = points.map(p => p.y);
+  const medX = median(xs);
+  const medY = median(ys);
+
+  // Fit the y-axis tightly to the data range so the points spread out instead of
+  // clustering near the center. Cards pile up against the hard noise floor at the
+  // bottom, so give the lower end extra padding to keep them off the axis line.
+  const fit = (vals, loFrac, hiFrac) => {
+    const lo = Math.min(...vals);
+    const hi = Math.max(...vals);
+    const range = (hi - lo) || 1;
+    return [lo - range * loFrac, hi + range * hiFrac];
+  };
+  const [yMin, yMax] = fit(ys, 0.18, 0.05);
+
+  // Anchor the x-axis at zero so play rate distances are honest (a point twice
+  // as far right really is played twice as often), ending just past the most-
+  // played card rather than the full 0-100% that would crush everything left.
+  const xMin = 0;
+  const xMax = Math.max(...xs) * 1.05;
+
+  const data = {
+    datasets: [{
+      label: "Cards",
+      data: points,
+      pointBackgroundColor: points.map(p => cardDisplayColor(colorMap[p.name])),
+      pointBorderColor: "rgba(0,0,0,0.4)",
+      pointRadius: 5,
+      pointHoverRadius: 8,
+    }],
+  };
+
+  // Draw the median crosshairs that bound the four quadrants. Drawn solid and
+  // bright so the quadrant boundaries are unmistakable.
+  const medianLines = {
+    id: "medianLines",
+    afterDatasetsDraw: (chart) => {
+      const { ctx, chartArea, scales } = chart;
+      if (!chartArea) return;
+      const px = scales.x.getPixelForValue(medX);
+      const py = scales.y.getPixelForValue(medY);
+      ctx.save();
+      ctx.strokeStyle = "rgba(255,255,255,0.6)";
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      ctx.moveTo(px, chartArea.top);
+      ctx.lineTo(px, chartArea.bottom);
+      ctx.moveTo(chartArea.left, py);
+      ctx.lineTo(chartArea.right, py);
+      ctx.stroke();
+      ctx.restore();
+    },
+  };
+
+  const options = {
+    maintainAspectRatio: false,
+    onClick: (e, elements) => {
+      if (elements.length > 0 && onCardSelected) {
+        const p = points[elements[0].index];
+        onCardSelected({ currentTarget: { id: p.name } });
+      }
+    },
+    scales: {
+      x: {
+        min: xMin,
+        max: xMax,
+        title: { display: true, text: "Play rate (% of drafts opened, shrunk)", color: "#FFF", font: { size: 14 } },
+        ticks: { color: "#FFF" },
+        grid: { color: "rgba(255,255,255,0.08)" },
+      },
+      y: {
+        min: yMin,
+        max: yMax,
+        title: { display: true, text: "Avg partner lift (synergy intensity, shrunk)", color: "#FFF", font: { size: 14 } },
+        ticks: { color: "#FFF" },
+        grid: { color: "rgba(255,255,255,0.08)" },
+      },
+    },
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+        callbacks: {
+          label: (item) => {
+            const p = points[item.dataIndex];
+            return `${p.name}: maindecked ${p.playedDrafts}/${p.openedDrafts} drafts opened (${p.rawRate.toFixed(1)}% raw, ${p.x.toFixed(1)}% adj), avg lift ${p.rawLift.toFixed(2)} raw / ${p.y.toFixed(2)} adj, focal ${p.focalScore.toFixed(1)}`;
+          },
+        },
+      },
+    },
+  };
+
+  return (
+    <div style={{textAlign: "center"}}>
+      <h4 style={{color: "var(--primary)", marginBottom: "0.5rem"}}>Popularity vs Synergy</h4>
+      <p style={{color: "var(--text-muted)", fontSize: "0.85em", marginBottom: "0.5rem"}}>
+        The {sig.length} cards whose average partner lift clears the chance noise floor (avg lift ≥ {NOISE_FLOOR}), of {stats.length} total, by play rate (x) and average partner lift (y), colored by color identity. Play rate is how often the card was maindecked among the drafts where it was actually opened (in any mainboard, sideboard or pool), so it isn't penalized for drafts that predate it or never put it in a pack. Rates are shrunk toward the field average so cards opened only a draft or two don't get parked at 0% or 100% on a tiny sample (hover for the raw rate). Avg lift measures synergy intensity per partner, so it doesn't just reward popular cards; it's shrunk the same way so a card carried by a single strong partner doesn't rank as high as one backed by many. Left = niche build-arounds (rarely played but very synergistic), right = archetype cores (popular and synergistic). Cards below the noise floor are filtered out. The crosshair lines mark the medians. Click a point to select.
+      </p>
+      <div style={{width: "min(600px, 100%)", aspectRatio: "1 / 1", margin: "0 auto"}}>
+        <Scatter options={options} data={data} plugins={[medianLines]} />
+      </div>
+    </div>
+  );
+}
+
 function SynergyNetworkGraph({ synergyData, cube, onCardSelected }) {
   const canvasRef = useRef(null);
   const nodesRef = useRef([]);
@@ -185,16 +399,7 @@ function SynergyNetworkGraph({ synergyData, cube, onCardSelected }) {
 
   // Get a display color for a card based on its MTG colors.
   function getNodeColor(colors) {
-    if (!colors || colors.length === 0) return "#aaa"; // colorless
-    if (colors.length > 1) return "#daa520"; // multicolor gold
-    switch (colors[0]) {
-      case "W": return White;
-      case "U": return Blue;
-      case "B": return Black;
-      case "R": return Red;
-      case "G": return Green;
-      default: return "#aaa";
-    }
+    return cardDisplayColor(colors);
   }
 
   useEffect(() => {
@@ -209,21 +414,44 @@ function SynergyNetworkGraph({ synergyData, cube, onCardSelected }) {
     const height = canvas.height;
     const colorMap = cardColorMap();
 
-    // Build nodes from focal stats (limit to top 60 for performance).
+    // Primary nodes are the top focal-score cards. Satellites are the cards they
+    // synergize with that didn't themselves make the focal cut - we pull these onto
+    // the graph (gray) so a high-focal card never floats unconnected, and so you can
+    // see whether its partners are other hubs (flexible) or niche cards (parasitic).
+    const focalByName = {};
+    for (const s of focalStats) focalByName[s.card_name] = s.focal_score;
+
     const topCards = focalStats.slice(0, 60);
-    const cardSet = new Set(topCards.map(s => s.card_name));
-    const nodes = topCards.map((stat, i) => {
-      const angle = (2 * Math.PI * i) / topCards.length;
+    const primarySet = new Set(topCards.map(s => s.card_name));
+
+    const satelliteSet = new Set();
+    for (const pair of pairs) {
+      const aIn = primarySet.has(pair.card1);
+      const bIn = primarySet.has(pair.card2);
+      if (aIn && !bIn) satelliteSet.add(pair.card2);
+      else if (bIn && !aIn) satelliteSet.add(pair.card1);
+    }
+
+    const nodeDefs = [
+      ...topCards.map(s => ({ name: s.card_name, focal: s.focal_score, primary: true })),
+      ...[...satelliteSet].map(name => ({ name, focal: focalByName[name] || 0, primary: false })),
+    ];
+    const cardSet = new Set(nodeDefs.map(d => d.name));
+
+    const nodes = nodeDefs.map((def, i) => {
+      const angle = (2 * Math.PI * i) / nodeDefs.length;
       const radius = Math.min(width, height) * 0.35;
       return {
-        id: stat.card_name,
+        id: def.name,
         x: width / 2 + radius * Math.cos(angle) + (Math.random() - 0.5) * 40,
         y: height / 2 + radius * Math.sin(angle) + (Math.random() - 0.5) * 40,
         vx: 0,
         vy: 0,
-        radius: Math.max(4, Math.min(14, 3 + stat.focal_score * 0.5)),
-        color: getNodeColor(colorMap[stat.card_name]),
-        focalScore: stat.focal_score,
+        // Satellites get a small fixed dot; primaries scale with focal score.
+        radius: def.primary ? Math.max(4, Math.min(14, 3 + def.focal * 0.5)) : 3.5,
+        color: def.primary ? getNodeColor(colorMap[def.name]) : "#666",
+        primary: def.primary,
+        focalScore: def.focal,
       };
     });
 
@@ -470,10 +698,10 @@ function SynergyNetworkGraph({ synergyData, cube, onCardSelected }) {
   }
 
   return (
-    <div style={{marginTop: "1rem", textAlign: "center"}}>
+    <div style={{textAlign: "center"}}>
       <h4 style={{color: "var(--primary)", marginBottom: "0.5rem"}}>Synergy Network Graph</h4>
       <p style={{color: "var(--text-muted)", fontSize: "0.85em", marginBottom: "0.5rem"}}>
-        Node size shows focal score, node color shows color identity. Links are brighter and thicker the stronger the synergy. Hover to name, click to select, drag to move.
+        Node size shows focal score, node color shows color identity. <span style={{color: "#888"}}>Gray nodes</span> are partner cards that ranked below the focal cut, pulled in so their hubs aren't left floating. Links are brighter and thicker the stronger the synergy. Hover to name, click to select, drag to move.
       </p>
       <canvas
         ref={canvasRef}

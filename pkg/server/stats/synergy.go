@@ -44,18 +44,22 @@ type SynergyStatsResponse struct {
 }
 
 type CardFocalStat struct {
-	CardName    string   `json:"card_name"`
-	FocalScore  float64  `json:"focal_score"`
-	TopPartners []string `json:"top_partners"`
+	CardName       string   `json:"card_name"`
+	FocalScore     float64  `json:"focal_score"`
+	AvgPartnerLift float64  `json:"avg_partner_lift"`
+	DeckCount      int      `json:"deck_count"`
+	PlayedDrafts   int      `json:"played_drafts"`
+	OpenedDrafts   int      `json:"opened_drafts"`
+	TopPartners    []string `json:"top_partners"`
 }
 
 type SynergyResult struct {
-	Card1        string  `json:"card1"`
-	Card2        string  `json:"card2"`
-	Count        int     `json:"count"`
-	EligibleDecks int    `json:"eligible_decks"`
-	SynergyScore float64 `json:"synergy_score"`
-	WinPercent   float64 `json:"win_percent"`
+	Card1         string  `json:"card1"`
+	Card2         string  `json:"card2"`
+	Count         int     `json:"count"`
+	EligibleDecks int     `json:"eligible_decks"`
+	SynergyScore  float64 `json:"synergy_score"`
+	WinPercent    float64 `json:"win_percent"`
 }
 
 type pair struct {
@@ -203,6 +207,55 @@ func (s *synergyStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request)
 		deckCanCast[i] = canCast
 	}
 
+	// Measure play rate per draft over the cards actually OPENED that draft, not
+	// over the whole cube. This is a singleton cube drafted by 2-8 players, so a
+	// small draft only opens a fraction of the cube - counting unopened cards as
+	// available would understate play rates for the small-draft era. The opened set
+	// is the union of every deck's mainboard, sideboard and pool; "played" means
+	// the card made a mainboard. So the rate answers: of the drafts where this card
+	// was opened, how often did it get played.
+	//
+	// Skip pool-only decks (no recorded mainboard, e.g. the Hedron CCC re-imports):
+	// they could inflate the opened denominator without ever contributing to the
+	// played numerator, dragging down rates for cards in those drafts. Keeping both
+	// sides on the same deck population avoids that asymmetry.
+	draftDecks := make(map[string][]int)
+	for i, deck := range allDecks {
+		draftDecks[deck.Metadata.DraftID] = append(draftDecks[deck.Metadata.DraftID], i)
+	}
+
+	openedDrafts := make(map[string]int)
+	playedDrafts := make(map[string]int)
+	for _, idxs := range draftDecks {
+		opened := make(map[string]bool)
+		played := make(map[string]bool)
+		for _, i := range idxs {
+			deck := allDecks[i]
+			if len(deck.Mainboard) == 0 {
+				continue
+			}
+			// Mainboard cards (already deduped, non-land, in-cube) count as played.
+			for name := range deckHasCard[i] {
+				played[name] = true
+			}
+			// Any card seen in a mainboard, sideboard or pool was opened that draft.
+			for _, list := range [][]types.Card{deck.Mainboard, deck.Sideboard, deck.Pool} {
+				for _, c := range list {
+					if !cubeCards[c.Name] || c.IsLand() {
+						continue
+					}
+					opened[c.Name] = true
+				}
+			}
+		}
+		for name := range opened {
+			openedDrafts[name]++
+		}
+		for name := range played {
+			playedDrafts[name]++
+		}
+	}
+
 	resp := SynergyStatsResponse{
 		TotalDecks: numDecks,
 		Pairs:      []SynergyResult{},
@@ -283,6 +336,7 @@ func (s *synergyStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request)
 	for card, synergies := range cardSynergies {
 		threshold := sr.FocalThreshold
 		sumScore := 0.0
+		qualifying := 0
 		topPartners := []string{}
 
 		// Sort descending by synergy score to pick top partners for display.
@@ -295,6 +349,7 @@ func (s *synergyStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request)
 				continue
 			}
 			sumScore += syn.SynergyScore
+			qualifying++
 			// Collect up to 5 top partners for display. Only partners that
 			// contributed to the focal score qualify.
 			if len(topPartners) < 5 {
@@ -306,10 +361,22 @@ func (s *synergyStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request)
 			}
 		}
 
+		// Average partner lift decouples synergy intensity from partner count.
+		// A card with few but very high-lift partners (a narrow build-around)
+		// scores high here even if its summed focal score is modest.
+		avgLift := 0.0
+		if qualifying > 0 {
+			avgLift = sumScore / float64(qualifying)
+		}
+
 		resp.FocalStats = append(resp.FocalStats, CardFocalStat{
-			CardName:    card,
-			FocalScore:  sumScore,
-			TopPartners: topPartners,
+			CardName:       card,
+			FocalScore:     sumScore,
+			AvgPartnerLift: avgLift,
+			DeckCount:      cardCounts[card],
+			PlayedDrafts:   playedDrafts[card],
+			OpenedDrafts:   openedDrafts[card],
+			TopPartners:    topPartners,
 		})
 	}
 
