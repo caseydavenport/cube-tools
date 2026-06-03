@@ -2,7 +2,7 @@ import React from 'react'
 import { AverageWordCount, IsBasicLand, SortFunc } from "../utils/Utils.js"
 import { ColorImages } from "../utils/Colors.js"
 import { Trophies, LastPlaceFinishes, Wins, Losses } from "../utils/Deck.js"
-import { BucketName } from "../utils/Buckets.js"
+import { BucketName, bucketXScale } from "../utils/Buckets.js"
 import { DropdownHeader, NumericInput, Checkbox, DateSelector } from "../components/Dropdown.js"
 
 import {
@@ -639,7 +639,7 @@ function WinRateChart(input) {
   const options = {
     responsive: true,
     maintainAspectRatio: false,
-    scales: {y: {min: 0, max: 100}},
+    scales: {x: bucketXScale, y: {min: 0, max: 100}},
     plugins: {
       title: {
         display: true,

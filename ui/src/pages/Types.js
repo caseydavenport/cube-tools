@@ -2,7 +2,7 @@ import React from 'react'
 import { IsBasicLand, MinWinningPctDecks, Pct, SortFunc, StringToColor } from "../utils/Utils.js"
 import { Trophies, LastPlaceFinishes, Winning, Losing, Wins, Losses } from "../utils/Deck.js"
 import { DropdownHeader, NumericInput, Checkbox, DateSelector } from "../components/Dropdown.js"
-import { BucketName } from "../utils/Buckets.js"
+import { BucketName, bucketXScale } from "../utils/Buckets.js"
 import { Red, Green, Black, White, Blue, Colors, ColorImages } from "../utils/Colors.js"
 
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
@@ -848,7 +848,7 @@ function MicroArchetypesChart(input) {
   const options = {
     responsive: true,
     maintainAspectRatio: false,
-    scales: {y: {min: 0}},
+    scales: {x: bucketXScale, y: {min: 0}},
     plugins: {
       title: {
         display: true,
@@ -979,7 +979,7 @@ function MacroArchetypesChart(input) {
   const options = {
     responsive: true,
     maintainAspectRatio: false,
-    scales: {y: {min: 0}},
+    scales: {x: bucketXScale, y: {min: 0}},
     plugins: {
       title: {
         display: true,

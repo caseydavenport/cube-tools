@@ -6,6 +6,7 @@ import { Wins, Losses } from "../utils/Deck.js"
 import { ApplyTooltip } from "../utils/Tooltip.js"
 import { ColorImages } from "../utils/Colors.js"
 import { CardMatches, DeckMatches } from "../utils/Query.js"
+import { bucketTicks } from "../utils/Buckets.js"
 
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Popover from 'react-bootstrap/Popover';
@@ -890,7 +891,7 @@ function PlayRateChart(input) {
   // at least place some sense of time to the chart.
   const labels = []
   for (let bucket of buckets) {
-    labels.push(bucket.name)
+    labels.push(bucket.start)
   }
 
   let name = input.selectedCard
@@ -952,7 +953,7 @@ function PlayRateChart(input) {
       },
       x: {
         title: {display: true, text: "Dates", font: {size: 20, weight: "bold"}, color: "white"},
-        ticks: ticks,
+        ticks: bucketTicks,
       },
     },
     plugins: {
@@ -995,7 +996,7 @@ function ELOChart(input) {
   // at least place some sense of time to the chart.
   const labels = []
   for (let bucket of buckets) {
-    labels.push(bucket.name)
+    labels.push(bucket.start)
   }
 
   let name = input.selectedCard
@@ -1048,7 +1049,7 @@ function ELOChart(input) {
       },
       x: {
         title: {display: true, text: "Dates", font: {size: 20, weight: "bold"}, color: "white"},
-        ticks: ticks,
+        ticks: bucketTicks,
       },
     },
     plugins: {
@@ -1091,7 +1092,7 @@ function WinrateChart(input) {
   // at least place some sense of time to the chart.
   const labels = []
   for (let bucket of buckets) {
-    labels.push(bucket.name)
+    labels.push(bucket.start)
   }
 
   let name = input.selectedCard
@@ -1147,7 +1148,7 @@ function WinrateChart(input) {
       },
       x: {
         title: {display: true, text: "Dates", font: {size: 20, weight: "bold"}, color: "white"},
-        ticks: ticks,
+        ticks: bucketTicks,
       },
     },
     plugins: {

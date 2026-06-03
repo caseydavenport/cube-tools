@@ -47,6 +47,9 @@ type Bucket struct {
 	// Include metadata about the bucket.
 	Name string `json:"name"`
 
+	// Start is the bucket's starting date, used as the x-axis label.
+	Start string `json:"start"`
+
 	// Total number of games in this bucket.
 	Games int `json:"games,omitempty"`
 }
@@ -111,6 +114,7 @@ func (d *cardStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 			resp.Buckets = append(resp.Buckets, &Bucket{
 				Cards: *s,
 				Name:  b.Name(),
+				Start: b.Start(),
 				Games: b.TotalGames(),
 			})
 		}

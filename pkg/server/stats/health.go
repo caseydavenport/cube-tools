@@ -27,6 +27,7 @@ type HealthStatsResponse struct {
 
 type HealthBucket struct {
 	Name               string  `json:"name"`
+	Start              string  `json:"start"`
 	NumDecks           int     `json:"num_decks"`
 	ArchetypeEvenness  float64 `json:"archetype_evenness"`
 	ColorBalanceStdDev float64 `json:"color_balance_stddev"`
@@ -80,6 +81,7 @@ func (h *healthStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) 
 		bDecks := b.AllDecks()
 		hb := HealthBucket{
 			Name:     b.Name(),
+			Start:    b.Start(),
 			NumDecks: len(bDecks),
 		}
 		hb.ArchetypeEvenness = archetypeEvenness(bDecks)

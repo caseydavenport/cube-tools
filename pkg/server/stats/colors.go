@@ -21,8 +21,8 @@ type ColorStatsRequest struct {
 	*storage.DecksRequest
 
 	// Configuration for bucketed responses.
-	BucketSize   int  `json:"bucket_size"`
-	Sliding      bool `json:"sliding"`
+	BucketSize int  `json:"bucket_size"`
+	Sliding    bool `json:"sliding"`
 	// ColorMode controls how decks are bucketed by color identity.
 	// "inclusive" (default): a WU deck counts as W, U, and WU.
 	// "exact": only exact color identity matches (3+ color decks excluded from 2-color rows).
@@ -44,6 +44,9 @@ type ColorBucket struct {
 
 	// Include metadata about the bucket.
 	Name string `json:"name"`
+
+	// Start is the bucket's starting date, used as the x-axis label.
+	Start string `json:"start"`
 
 	// Total number of games in this bucket.
 	Games int `json:"games,omitempty"`
@@ -111,6 +114,7 @@ func (d *colorStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 			resp.Buckets = append(resp.Buckets, &ColorBucket{
 				Colors: *s,
 				Name:   b.Name(),
+				Start:  b.Start(),
 				Games:  b.TotalGames(),
 			})
 		}

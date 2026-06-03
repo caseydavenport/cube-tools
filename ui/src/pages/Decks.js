@@ -2,7 +2,7 @@ import React from 'react'
 import { AverageCMC, IsBasicLand, Pct, SortFunc } from "../utils/Utils.js"
 import { Red, Green, Black, White, Blue, Colors } from "../utils/Colors.js"
 import { Wins, Losses } from "../utils/Deck.js"
-import { BucketName, DeckBuckets } from "../utils/Buckets.js"
+import { BucketName, DeckBuckets, bucketXScale } from "../utils/Buckets.js"
 import { DropdownHeader, NumericInput, Checkbox, DateSelector } from "../components/Dropdown.js"
 
 import {
@@ -947,7 +947,7 @@ function OracleTextByColor(input) {
   const options = {
     responsive: true,
     maintainAspectRatio: false,
-    scales: {y: {min: 0}},
+    scales: {x: bucketXScale, y: {min: 0}},
     plugins: {
       title: {
         display: true,
@@ -1019,7 +1019,7 @@ function OracleTextOverTimeChart(input) {
   const options = {
     responsive: true,
     maintainAspectRatio: false,
-    scales: {y: {min: minY}},
+    scales: {x: bucketXScale, y: {min: minY}},
     plugins: {
       title: {
         display: true,
@@ -1096,7 +1096,7 @@ function DeckManaValueChart(input) {
   const options = {
     responsive: true,
     maintainAspectRatio: false,
-    scales: {y: {min: 0}},
+    scales: {x: bucketXScale, y: {min: 0}},
     plugins: {
       title: {
         display: true,
@@ -1212,7 +1212,7 @@ function DeckBasicLandCountChart(input) {
   const options = {
     responsive: true,
     maintainAspectRatio: false,
-    scales: {y: {min: 0}},
+    scales: {x: bucketXScale, y: {min: 0}},
     plugins: {
       title: {
         display: true,
@@ -1296,7 +1296,7 @@ function SideboardSizeOverTimeChart(input) {
   const options = {
     responsive: true,
     maintainAspectRatio: false,
-    scales: {y: {min: minY}},
+    scales: {x: bucketXScale, y: {min: minY}},
     plugins: {
       title: {
         display: true,
@@ -1371,7 +1371,7 @@ function NumColorsOverTimeChart(input) {
   const options = {
     responsive: true,
     maintainAspectRatio: false,
-    scales: {y: {min: 2, max: 3}},
+    scales: {x: bucketXScale, y: {min: 2, max: 3}},
     plugins: {
       title: {
         display: true,
@@ -1439,7 +1439,7 @@ function ManaCostByOracleTextOverTime(input) {
   const options = {
     responsive: true,
     maintainAspectRatio: false,
-    scales: {y: {min: minY}},
+    scales: {x: bucketXScale, y: {min: minY}},
     plugins: {
       title: {
         display: true,

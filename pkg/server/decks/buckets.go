@@ -42,6 +42,20 @@ func (b *Bucket) Name() string {
 	return b.Drafts[0].Name + " - " + b.Drafts[len(b.Drafts)-1].Name
 }
 
+// Start returns the bucket's starting date, used to label time-series charts.
+// The deck Date is already a clean "YYYY-MM-DD"; the draft name carries a
+// "_local_N" suffix we don't want crowding an axis tick.
+func (b *Bucket) Start() string {
+	if len(b.Drafts) == 0 {
+		return ""
+	}
+	d := b.Drafts[0]
+	if len(d.Decks) > 0 {
+		return d.Decks[0].Date
+	}
+	return d.Name
+}
+
 // A draft is a collection of decks from a single draft event.
 type Draft struct {
 	Name  string

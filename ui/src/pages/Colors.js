@@ -2,6 +2,7 @@ import React from 'react'
 import { DropdownHeader, NumericInput, DateSelector } from "../components/Dropdown.js"
 import { Colors, ColorImages, GetColorIdentity, primaryColorPair } from "../utils/Colors.js"
 import { Trophies, LastPlaceFinishes, Wins, Losses } from "../utils/Deck.js"
+import { bucketXScale } from "../utils/Buckets.js"
 import { AverageWordCount, IsBasicLand, MinWinningPctDecks, Pct, SortFunc, StringToColor } from "../utils/Utils.js"
 
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
@@ -641,7 +642,7 @@ function ColorRateChart(input) {
   // at least place some sense of time to the chart.
   const labels = []
   for (let bucket of buckets) {
-    labels.push(bucket.name)
+    labels.push(bucket.start)
   }
 
   // Parse the buckets into color data.
@@ -857,7 +858,7 @@ function ColorRateChart(input) {
     responsive: true,
     borderWidth: 3,
     maintainAspectRatio: false,
-    scales: {y: {min: min, max: max}},
+    scales: {x: bucketXScale, y: {min: min, max: max}},
     hover: {
       mode: 'dataset'
     },

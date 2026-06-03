@@ -11,6 +11,7 @@ import {
   Legend,
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
+import { bucketXScale } from "../utils/Buckets.js";
 
 ChartJS.register(
   CategoryScale,
@@ -32,7 +33,7 @@ export function HealthWidget(input) {
     return <div style={{padding: "2rem", textAlign: "center", color: "var(--text-muted)"}}>No health data available.</div>;
   }
 
-  const labels = buckets.map(b => b.name);
+  const labels = buckets.map(b => b.start);
 
   return (
     <div style={{padding: "1rem"}}>
@@ -105,6 +106,7 @@ function HealthChart({ labels, data, title, color, min, max, description }) {
     maintainAspectRatio: false,
     borderWidth: 3,
     scales: {
+      x: bucketXScale,
       y: {
         min: min,
         max: computedMax,

@@ -79,14 +79,37 @@ function deckBucketsSliding(decks, bucketSize) {
   return buckets
 }
 
-export function BucketName(bucket) {
-  // A bucket is an array of decks. The name is the interval from the first
-  // to the last.
-  if (bucket.length == 1) {
-    return bucket[0].name
-  }
-  return bucket[0].name + " - " + bucket[bucket.length-1].name
+// Draft IDs look like "2023-04-27_local_1". On an axis we only want the date,
+// so strip the "_local_N" suffix to keep labels short.
+function shortName(name) {
+  let m = name.match(/^\d{4}-\d{2}-\d{2}/)
+  return m ? m[0] : name
 }
+
+export function BucketName(bucket) {
+  // Label a bucket by its starting date. The full range is too long for an
+  // axis once you have more than a handful of buckets.
+  return shortName(bucket[0].name)
+}
+
+// Shared x-axis tick config for bucketed time-series charts: blank out all but
+// every Nth label so only ~6 evenly spaced dates show. chart.js's autoSkip
+// won't reliably cap a category axis (it just shrinks the font and keeps every
+// label), so we thin them ourselves. Labels are already clean start dates
+// (BucketName for client buckets, the bucket "start" field for server buckets).
+export const bucketTicks = {
+  color: "#FFF",
+  autoSkip: false,
+  maxRotation: 0,
+  minRotation: 0,
+  callback: function (value, index, ticks) {
+    const step = Math.max(1, Math.ceil(ticks.length / 6))
+    return index % step === 0 ? this.getLabelForValue(value) : ""
+  },
+}
+
+// Convenience wrapper for charts whose x-axis carries no other config.
+export const bucketXScale = { ticks: bucketTicks }
 
 // Wins returns the total number of game wins that occur within the bucket.
 export function BucketWins(bucket) {
