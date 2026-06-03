@@ -139,9 +139,9 @@ export function DeckViewer(props) {
   // Start of day load the draft index.
   // This is used to populate the drafts dropdown menu.
   useEffect(() => {
-    LoadDecks(cube, onDecksLoaded, startDate, endDate, 0, "", debouncedMatchStr)
+    LoadDecks(cube, onDecksLoaded, startDate, endDate, 0, "", debouncedMatchStr, mainboardSideboard)
     LoadCube(cube, setCubeData)
-  }, [startDate, endDate, debouncedMatchStr]);
+  }, [startDate, endDate, debouncedMatchStr, mainboardSideboard]);
 
   // Handle changes to the draft and deck selection dropdowns.
   function onDeckSelected(event) {

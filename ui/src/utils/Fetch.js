@@ -11,8 +11,8 @@ export async function LoadCube(cube, onFetch) {
   return c
 }
 
-export async function LoadDecks(cube, onLoad, start, end, draftSize, playerMatch, match) {
-  const resp = await fetch(`/api/${cube}/decks?start=${start}&end=${end}&size=${draftSize}&player=${playerMatch}&match=${encodeURIComponent(match || "")}`);
+export async function LoadDecks(cube, onLoad, start, end, draftSize, playerMatch, match, board) {
+  const resp = await fetch(`/api/${cube}/decks?start=${start}&end=${end}&size=${draftSize}&player=${playerMatch}&match=${encodeURIComponent(match || "")}&board=${encodeURIComponent(board || "")}`);
   let decks = await resp.json();
 
   // TODO: Move this into the server code, instead of iterate decks here.

@@ -57,17 +57,18 @@ type DecksRequest struct {
 	End       string `json:"end,omitempty"`
 	DraftSize int    `json:"size,omitempty"`
 	Match     string `json:"match,omitempty"`
+	Board     string `json:"board,omitempty"`
 }
 
-func (d *Deck) GetPlayer() string   { return d.Player }
+func (d *Deck) GetPlayer() string { return d.Player }
 func (d *Deck) GetLabels() []string {
 	if d.MacroArchetype != "" {
 		return append([]string{d.MacroArchetype}, d.Labels...)
 	}
 	return d.Labels
 }
-func (d *Deck) GetDraftSize() int   { return d.DraftSize }
-func (d *Deck) GetEventID() string  { return d.Metadata.DraftID }
+func (d *Deck) GetDraftSize() int  { return d.DraftSize }
+func (d *Deck) GetEventID() string { return d.Metadata.DraftID }
 func (d *Deck) GetMainboard() []types.Card {
 	res := make([]types.Card, len(d.Mainboard))
 	for i, c := range d.Mainboard {
@@ -337,7 +338,7 @@ func filter(decks []*Deck, r *DecksRequest) []*Deck {
 		}
 
 		// Check the query string.
-		if r.Match != "" && !query.DeckMatches(d, r.Match) {
+		if r.Match != "" && !query.DeckMatchesBoard(d, r.Match, r.Board) {
 			continue
 		}
 

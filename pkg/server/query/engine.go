@@ -21,6 +21,14 @@ type Deck interface {
 }
 
 func DeckMatches(d Deck, matchStr string) bool {
+	return DeckMatchesBoard(d, matchStr, "")
+}
+
+// DeckMatchesBoard reports whether the deck matches the query. Card terms are
+// matched against the named board ("Sideboard" or "Pool", defaulting to the
+// mainboard), so a card filter means "the deck actually ran this card" rather
+// than that it sat in the sideboard or pool.
+func DeckMatchesBoard(d Deck, matchStr, board string) bool {
 	if matchStr == "" {
 		return true
 	}
@@ -120,8 +128,7 @@ func DeckMatches(d Deck, matchStr string) bool {
 
 	// 2. All card terms must be satisfied by at least one card in the deck.
 	if len(cardTerms) > 0 {
-		cards := append(d.GetMainboard(), d.GetSideboard()...)
-		cards = append(cards, d.GetPool()...)
+		cards := boardCards(d, board)
 
 		for _, term := range cardTerms {
 			matched := false
@@ -234,6 +241,20 @@ func isTermQuery(matchStr string) bool {
 		}
 	}
 	return false
+}
+
+// boardCards returns the cards from the requested board. Card terms match
+// against the mainboard by default; the decklist view's board toggle can widen
+// this to the sideboard or pool explicitly.
+func boardCards(d Deck, board string) []types.Card {
+	switch board {
+	case "Sideboard":
+		return d.GetSideboard()
+	case "Pool":
+		return d.GetPool()
+	default:
+		return d.GetMainboard()
+	}
 }
 
 func isDeckOnly(term string) bool {

@@ -360,12 +360,17 @@ func TestDeckMatches_CardInSideboard(t *testing.T) {
 	d := &mockDeck{
 		sideboard: []types.Card{{Name: "Negate", Colors: []string{"U"}, Types: []string{"Instant"}}},
 	}
-	assert.True(t, DeckMatches(d, "name:Negate"))
+	// Card terms default to the mainboard, so a sideboard-only card doesn't match
+	// unless the query is explicitly scoped to the sideboard.
+	assert.False(t, DeckMatches(d, "name:Negate"))
+	assert.True(t, DeckMatchesBoard(d, "name:Negate", "Sideboard"))
 }
 
 func TestDeckMatches_CardInPool(t *testing.T) {
 	d := &mockDeck{
 		pool: []types.Card{{Name: "Forest", Types: []string{"Basic", "Land"}}},
 	}
-	assert.True(t, DeckMatches(d, "t:Land"))
+	// Same for pool-only cards: only matched when scoped to the pool.
+	assert.False(t, DeckMatches(d, "t:Land"))
+	assert.True(t, DeckMatchesBoard(d, "t:Land", "Pool"))
 }
