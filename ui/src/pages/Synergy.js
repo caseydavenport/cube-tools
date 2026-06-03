@@ -1,6 +1,6 @@
-import React, { useRef, useEffect, useCallback } from 'react'
+import React, { useRef, useEffect, useCallback, useState } from 'react'
 import { SortFunc } from "../utils/Utils.js"
-import { NumericInput, Checkbox } from "../components/Dropdown.js"
+import { NumericInput, Checkbox, DropdownHeader } from "../components/Dropdown.js"
 import { White, Blue, Black, Red, Green } from "../utils/Colors.js"
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Popover from 'react-bootstrap/Popover';
@@ -48,6 +48,11 @@ export function SynergyWidget(input) {
         <SynergyWidgetTable {...input} />
         <FocalPointsTable {...input} />
       </div>
+      <SynergyFocalCompare
+        synergyCompare={input.synergyCompare}
+        cube={input.cube}
+        onCardSelected={input.onCardSelected}
+      />
     </div>
   );
 }
@@ -96,6 +101,14 @@ function SynergyWidgetOptions(input) {
             text="Color adjust"
             checked={input.colorAdjust}
             onChange={input.onColorAdjustChanged}
+          />
+        </OptionTooltip>
+        <OptionTooltip id="tip-record" header="Deck Record" tip="Restrict the source decks by match record. 'Winning' keeps decks that went 2-1 or better, 'losing' keeps 1-2 or worse. Compare the two to see which cards rise or fall between winning and losing decks.">
+          <DropdownHeader
+            label="Record"
+            value={input.record}
+            options={[{ label: "All decks", value: "all" }, { label: "Winning (2-1+)", value: "winning" }, { label: "Losing (1-2-)", value: "losing" }]}
+            onChange={input.onRecordChanged}
           />
         </OptionTooltip>
       </div>
@@ -188,6 +201,169 @@ function FocalPointsTable(input) {
   );
 }
 
+// SynergyFocalCompare shows how each card's focal score (build-around hub strength)
+// shifts between winning and losing decks: a scatter of losing focal (x) vs winning
+// focal (y) around a y=x line, plus a sortable table. Click a card to select it.
+function SynergyFocalCompare({ synergyCompare, cube, onCardSelected }) {
+  const [sortCol, setSortCol] = useState("delta");
+  const [sortDir, setSortDir] = useState("desc");
+
+  const winning = synergyCompare?.winning?.focal_stats || [];
+  const losing = synergyCompare?.losing?.focal_stats || [];
+  if (winning.length === 0 && losing.length === 0) {
+    return null;
+  }
+
+  const colorMap = {};
+  if (cube && cube.cards) {
+    for (const c of cube.cards) colorMap[c.name] = c.colors || [];
+  }
+
+  const winPlay = synergyCompare?.winning?.card_play_counts || {};
+  const losePlay = synergyCompare?.losing?.card_play_counts || {};
+  const winMap = new Map(winning.map(s => [s.card_name, s.focal_score]));
+  const loseMap = new Map(losing.map(s => [s.card_name, s.focal_score]));
+
+  // Keep cards played in both pools that are a hub (focal > 0) in at least one.
+  // A card absent from a pool isn't useful, and a hub nowhere is just a staple. A
+  // played card scoring 0 focal stays on purpose - that's a card seeing play
+  // without forming synergy, which is the signal we want.
+  const names = Object.keys(winPlay)
+    .filter(n => losePlay[n] > 0)
+    .filter(n => (winMap.get(n) || 0) > 0 || (loseMap.get(n) || 0) > 0);
+  const rows = names.map(name => {
+    const win = winMap.get(name) || 0;
+    const lose = loseMap.get(name) || 0;
+    return { name, win, lose, delta: win - lose, winDecks: winPlay[name] || 0, loseDecks: losePlay[name] || 0 };
+  });
+
+  const max = Math.max(1, ...rows.map(r => Math.max(r.win, r.lose)));
+  const points = rows.map(r => ({ x: r.lose, y: r.win, name: r.name, win: r.win, lose: r.lose, delta: r.delta, winDecks: r.winDecks, loseDecks: r.loseDecks }));
+
+  const data = {
+    datasets: [{
+      label: "Cards",
+      data: points,
+      pointBackgroundColor: points.map(p => cardDisplayColor(colorMap[p.name])),
+      pointBorderColor: "rgba(0,0,0,0.4)",
+      pointRadius: 5,
+      pointHoverRadius: 8,
+    }],
+  };
+
+  // Dashed y=x reference line: same focal role in winning and losing decks.
+  const diagonalLine = {
+    id: "diagonalLine",
+    afterDatasetsDraw: (chart) => {
+      const { ctx, chartArea, scales } = chart;
+      if (!chartArea) return;
+      ctx.save();
+      ctx.strokeStyle = "rgba(255,255,255,0.4)";
+      ctx.lineWidth = 1.5;
+      ctx.setLineDash([6, 6]);
+      ctx.beginPath();
+      ctx.moveTo(scales.x.getPixelForValue(0), scales.y.getPixelForValue(0));
+      ctx.lineTo(scales.x.getPixelForValue(max), scales.y.getPixelForValue(max));
+      ctx.stroke();
+      ctx.restore();
+    },
+  };
+
+  const axis = (text) => ({
+    min: 0,
+    max: max * 1.05,
+    title: { display: true, text, color: "#FFF", font: { size: 14 } },
+    ticks: { color: "#FFF" },
+    grid: { color: "rgba(255,255,255,0.08)" },
+  });
+
+  const options = {
+    maintainAspectRatio: false,
+    onClick: (e, elements) => {
+      if (elements.length > 0 && onCardSelected) {
+        const p = points[elements[0].index];
+        onCardSelected({ currentTarget: { id: p.name } });
+      }
+    },
+    scales: {
+      x: axis("Focal score in losing decks"),
+      y: axis("Focal score in winning decks"),
+    },
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+        callbacks: {
+          label: (item) => {
+            const p = points[item.dataIndex];
+            const dir = p.delta > 0 ? "winning" : p.delta < 0 ? "losing" : "even";
+            return `${p.name}: focal ${p.win.toFixed(1)} winning (${p.winDecks} decks) / ${p.lose.toFixed(1)} losing (${p.loseDecks} decks), Δ ${p.delta >= 0 ? "+" : ""}${p.delta.toFixed(1)} leans ${dir}`;
+          },
+        },
+      },
+    },
+  };
+
+  const sorted = [...rows].sort((a, b) => {
+    const av = a[sortCol];
+    const bv = b[sortCol];
+    if (av < bv) return sortDir === "asc" ? -1 : 1;
+    if (av > bv) return sortDir === "asc" ? 1 : -1;
+    return 0;
+  });
+  const onHeader = (col) => {
+    if (col === sortCol) {
+      setSortDir(sortDir === "asc" ? "desc" : "asc");
+    } else {
+      setSortCol(col);
+      setSortDir(col === "name" ? "asc" : "desc");
+    }
+  };
+  const headers = [
+    { id: "name", text: "Card" },
+    { id: "win", text: "Winning" },
+    { id: "lose", text: "Losing" },
+    { id: "delta", text: "Δ (W-L)" },
+  ];
+
+  return (
+    <div style={{marginTop: "1.5rem"}}>
+      <h4 style={{color: "var(--primary)", marginBottom: "0.5rem", textAlign: "center"}}>Focal Score: Winning vs Losing</h4>
+      <p style={{color: "var(--text-muted)", fontSize: "0.85em", marginBottom: "0.5rem", textAlign: "center"}}>
+        How each card's focal score (build-around hub strength) shifts between winning and losing decks. Only cards played in both pools are shown; a card sitting on an axis at 0 was played in that pool but formed no significant synergy there (which is itself signal), not absent from it. Points above the dashed line are bigger hubs in winning decks, below it bigger hubs in losing decks, on it the same role in both. Focal scores run lower in each sliced pool than in the full set (fewer decks clear the min-decks pair threshold), so lower the synergy min-decks slider to fill the comparison in. Hover for the deck counts behind each score. Click a card in the plot or table to select it.
+      </p>
+      <div className="synergy-grid" style={{display: "grid", gridTemplateColumns: "1fr 1fr", gap: "2rem", alignItems: "start"}}>
+        <div style={{width: "min(600px, 100%)", aspectRatio: "1 / 1", margin: "0 auto"}}>
+          <Scatter options={options} data={data} plugins={[diagonalLine]} />
+        </div>
+        <div className="widget-scroll">
+          <table className="widget-table">
+            <thead className="table-header">
+              <tr><td colSpan="4" className="header-cell" style={{textAlign: "center", fontWeight: "bold", background: "var(--primary)", color: "var(--page-background)"}}>Winning vs Losing Focal</td></tr>
+              <tr>
+                {headers.map((hdr, i) => (
+                  <td key={i} className="header-cell" style={{cursor: "pointer"}} onClick={() => onHeader(hdr.id)}>
+                    {hdr.text}{sortCol === hdr.id ? (sortDir === "asc" ? " ▲" : " ▼") : ""}
+                  </td>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {sorted.map((r, i) => (
+                <tr className="widget-table-row" key={i}>
+                  <td onClick={onCardSelected} id={r.name}>{r.name}</td>
+                  <td>{r.win.toFixed(2)}</td>
+                  <td>{r.lose.toFixed(2)}</td>
+                  <td style={{color: r.delta > 0 ? "#7ad17a" : r.delta < 0 ? "#d17a7a" : "var(--text-muted)"}}>{r.delta >= 0 ? "+" : ""}{r.delta.toFixed(2)}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 // SynergyScatter plots cards with statistically significant synergy by how often
 // they're played (x) against their average partner lift (y). Cards below the
 // chance noise floor (avg lift 1.75) are dropped, so the bottom "low synergy"
@@ -202,7 +378,13 @@ function SynergyScatter({ synergyData, cube, onCardSelected }) {
   }
 
   const K = 5;
-  const NOISE_FLOOR = 1.75;
+
+  // Derive the noise floor from this pool's own prior (the mean lift we shrink
+  // toward) instead of hardcoding it: the floor sits a fixed fraction above the
+  // prior, ~1.6% (full pool prior ~1.723, null-shuffle p95 ~1.75). A sliced pool
+  // shifts the prior, so the floor has to track it - a fixed 1.75 emptied the
+  // winning pool, whose prior drops below it.
+  const NOISE_FLOOR_MARGIN = 1.75 / 1.723;
 
   // Avg partner lift is a mean over a card's qualifying partners, so a card with
   // one strong partner is as noisy as a card opened in a single draft. The
@@ -222,11 +404,20 @@ function SynergyScatter({ synergyData, cube, onCardSelected }) {
     return (s.focal_score + K * priorLift) / (partners + K);
   };
 
-  // Drop cards whose shrunk synergy intensity is within the chance noise floor. A
-  // frequency-preserving null shuffle p95 sits around avg partner lift 1.75, so
-  // cards below that aren't distinguishable from chance and only clutter the plot.
-  const sig = stats.filter(s => shrinkLift(s) >= NOISE_FLOOR);
-  if (sig.length === 0) {
+  // Keep cards above the pool's chance noise floor (below it isn't distinguishable
+  // from chance, just clutter). A sliced pool can have too few clear it, leaving the
+  // scatter blank, so when fewer than MIN_POINTS do, fall back to the top MIN_POINTS
+  // by lift and flag the sub-floor ones as context.
+  const MIN_POINTS = 8;
+  const noiseFloor = priorLift * NOISE_FLOOR_MARGIN;
+  const ranked = stats
+    .filter(s => s.avg_partner_lift > 0)
+    .map(s => ({ stat: s, lift: shrinkLift(s) }))
+    .sort((a, b) => b.lift - a.lift);
+  const aboveFloor = ranked.filter(r => r.lift >= noiseFloor);
+  const usingFallback = aboveFloor.length < MIN_POINTS;
+  const shown = usingFallback ? ranked.slice(0, MIN_POINTS) : aboveFloor;
+  if (shown.length === 0) {
     return null;
   }
 
@@ -240,11 +431,11 @@ function SynergyScatter({ synergyData, cube, onCardSelected }) {
   // Shrink each rate toward the pooled mean with the same K pseudo-count: a
   // low-sample card sits near the field average and only earns an extreme position
   // once it has the opened drafts to back it up.
-  const totalPlayed = sig.reduce((acc, s) => acc + s.played_drafts, 0);
-  const totalOpened = sig.reduce((acc, s) => acc + (s.opened_drafts || 0), 0);
+  const totalPlayed = shown.reduce((acc, r) => acc + r.stat.played_drafts, 0);
+  const totalOpened = shown.reduce((acc, r) => acc + (r.stat.opened_drafts || 0), 0);
   const priorRate = totalOpened > 0 ? totalPlayed / totalOpened : 0;
 
-  const points = sig.map(s => {
+  const points = shown.map(({ stat: s, lift }) => {
     // Play rate = drafts where the card was maindecked / drafts where it was
     // opened (seen in any mainboard, sideboard or pool). This is a singleton cube
     // drafted by 2-8 players, so scoping to drafts where the card was actually
@@ -254,7 +445,7 @@ function SynergyScatter({ synergyData, cube, onCardSelected }) {
     const rawDenom = opened > 0 ? opened : (s.played_drafts || 1);
     return {
       x: shrunk * 100,
-      y: shrinkLift(s),
+      y: lift,
       name: s.card_name,
       deckCount: s.deck_count,
       playedDrafts: s.played_drafts,
@@ -262,6 +453,7 @@ function SynergyScatter({ synergyData, cube, onCardSelected }) {
       rawRate: (s.played_drafts / rawDenom) * 100,
       rawLift: s.avg_partner_lift,
       focalScore: s.focal_score,
+      belowFloor: lift < noiseFloor,
     };
   });
 
@@ -297,9 +489,12 @@ function SynergyScatter({ synergyData, cube, onCardSelected }) {
     datasets: [{
       label: "Cards",
       data: points,
-      pointBackgroundColor: points.map(p => cardDisplayColor(colorMap[p.name])),
-      pointBorderColor: "rgba(0,0,0,0.4)",
-      pointRadius: 5,
+      // Below-floor cards (only shown in the fallback) render as hollow rings so
+      // they read as context rather than as cards that cleared the noise floor.
+      pointBackgroundColor: points.map(p => p.belowFloor ? "transparent" : cardDisplayColor(colorMap[p.name])),
+      pointBorderColor: points.map(p => p.belowFloor ? cardDisplayColor(colorMap[p.name]) : "rgba(0,0,0,0.4)"),
+      pointBorderWidth: points.map(p => p.belowFloor ? 1.5 : 1),
+      pointRadius: points.map(p => p.belowFloor ? 4 : 5),
       pointHoverRadius: 8,
     }],
   };
@@ -356,7 +551,8 @@ function SynergyScatter({ synergyData, cube, onCardSelected }) {
         callbacks: {
           label: (item) => {
             const p = points[item.dataIndex];
-            return `${p.name}: maindecked ${p.playedDrafts}/${p.openedDrafts} drafts opened (${p.rawRate.toFixed(1)}% raw, ${p.x.toFixed(1)}% adj), avg lift ${p.rawLift.toFixed(2)} raw / ${p.y.toFixed(2)} adj, focal ${p.focalScore.toFixed(1)}`;
+            const flag = p.belowFloor ? " [below noise floor]" : "";
+            return `${p.name}${flag}: maindecked ${p.playedDrafts}/${p.openedDrafts} drafts opened (${p.rawRate.toFixed(1)}% raw, ${p.x.toFixed(1)}% adj), avg lift ${p.rawLift.toFixed(2)} raw / ${p.y.toFixed(2)} adj, focal ${p.focalScore.toFixed(1)}`;
           },
         },
       },
@@ -367,7 +563,10 @@ function SynergyScatter({ synergyData, cube, onCardSelected }) {
     <div style={{textAlign: "center"}}>
       <h4 style={{color: "var(--primary)", marginBottom: "0.5rem"}}>Popularity vs Synergy</h4>
       <p style={{color: "var(--text-muted)", fontSize: "0.85em", marginBottom: "0.5rem"}}>
-        The {sig.length} cards whose average partner lift clears the chance noise floor (avg lift ≥ {NOISE_FLOOR}), of {stats.length} total, by play rate (x) and average partner lift (y), colored by color identity. Play rate is how often the card was maindecked among the drafts where it was actually opened (in any mainboard, sideboard or pool), so it isn't penalized for drafts that predate it or never put it in a pack. Rates are shrunk toward the field average so cards opened only a draft or two don't get parked at 0% or 100% on a tiny sample (hover for the raw rate). Avg lift measures synergy intensity per partner, so it doesn't just reward popular cards; it's shrunk the same way so a card carried by a single strong partner doesn't rank as high as one backed by many. Left = niche build-arounds (rarely played but very synergistic), right = archetype cores (popular and synergistic). Cards below the noise floor are filtered out. The crosshair lines mark the medians. Click a point to select.
+        {usingFallback
+          ? `Only ${aboveFloor.length} of ${stats.length} cards clear this pool's chance noise floor (avg lift ≥ ${noiseFloor.toFixed(2)}), so the top ${shown.length} by synergy intensity are shown; hollow points sit below the floor and aren't distinguishable from chance.`
+          : `The ${aboveFloor.length} cards whose average partner lift clears this pool's chance noise floor (avg lift ≥ ${noiseFloor.toFixed(2)}), of ${stats.length} total.`}
+        {" "}Plotted by play rate (x) and average partner lift (y), colored by color identity. Play rate is how often the card was maindecked among the drafts where it was actually opened (in any mainboard, sideboard or pool), so it isn't penalized for drafts that predate it or never put it in a pack. Rates are shrunk toward the field average so cards opened only a draft or two don't get parked at 0% or 100% on a tiny sample (hover for the raw rate). Avg lift measures synergy intensity per partner, so it doesn't just reward popular cards; it's shrunk the same way so a card carried by a single strong partner doesn't rank as high as one backed by many. Left = niche build-arounds (rarely played but very synergistic), right = archetype cores (popular and synergistic). The crosshair lines mark the medians. Click a point to select.
       </p>
       <div style={{width: "min(600px, 100%)", aspectRatio: "1 / 1", margin: "0 auto"}}>
         <Scatter options={options} data={data} plugins={[medianLines]} />

@@ -44,7 +44,7 @@ export function StatsViewer(props) {
 
   const {
     decks, cube, drafts, archetypeMatchups, cardData, cardDataBucketed,
-    colorData, colorDataBucketed, synergyData, colorMatchupData, healthData,
+    colorData, colorDataBucketed, synergyData, synergyCompare, colorMatchupData, healthData,
     designGraphData, parsed, graphData, archetypeDropdownOptions, draftLogs
   } = data;
 
@@ -70,7 +70,7 @@ export function StatsViewer(props) {
     selectedPlayer, setSelectedPlayer, selectedArchetype, setSelectedArchetype,
     sortBy, setSortBy, minSynergyDecks, setMinSynergyDecks,
     focalThreshold, setFocalThreshold, smoothingK, setSmoothingK,
-    colorAdjust, setColorAdjust, synergySortBy, setSynergySortBy,
+    colorAdjust, setColorAdjust, synergyRecord, setSynergyRecord, synergySortBy, setSynergySortBy,
   } = filters;
 
   // Map view prop to display index:
@@ -157,7 +157,7 @@ export function StatsViewer(props) {
 
       <div id="widgets" className="house-for-widgets">
         <SynergyWidget
-          show={display[6]} synergyData={synergyData} cube={cube} minSynergyDecks={minSynergyDecks}
+          show={display[6]} synergyData={synergyData} synergyCompare={synergyCompare} cube={cube} minSynergyDecks={minSynergyDecks}
           onMinSynergyDecksChanged={(e) => setMinSynergyDecks(e.target.value)}
           focalThreshold={focalThreshold}
           onFocalThresholdChanged={(e) => setFocalThreshold(e.target.value)}
@@ -165,6 +165,8 @@ export function StatsViewer(props) {
           onSmoothingKChanged={(e) => setSmoothingK(e.target.value)}
           colorAdjust={colorAdjust}
           onColorAdjustChanged={() => setColorAdjust(!colorAdjust)}
+          record={synergyRecord}
+          onRecordChanged={(e) => setSynergyRecord(e.target.value)}
           onHeaderClick={(e) => setSynergySortBy(e.currentTarget.id)}
           sortBy={synergySortBy} onCardSelected={(e) => setSelectedCard(e.currentTarget.id)}
         />

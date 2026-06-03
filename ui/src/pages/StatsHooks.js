@@ -58,6 +58,7 @@ export function useStatsFilters() {
   const [focalThreshold, setFocalThreshold] = useState(1.5);
   const [smoothingK, setSmoothingK] = useState(5);
   const [colorAdjust, setColorAdjust] = useState(false);
+  const [synergyRecord, setSynergyRecord] = useState("all");
   const [synergySortBy, setSynergySortBy] = useState("synergy");
   const [display, setDisplay] = useState([true, false, false, false, false, false, false, false, false]);
 
@@ -109,6 +110,7 @@ export function useStatsFilters() {
     focalThreshold, setFocalThreshold,
     smoothingK, setSmoothingK,
     colorAdjust, setColorAdjust,
+    synergyRecord, setSynergyRecord,
     synergySortBy, setSynergySortBy,
     display, setDisplay,
   };
@@ -127,6 +129,7 @@ export function useStatsData(filters, props, refresh) {
   const [archetypeStats, setArchetypeStats] = useState(new Map());
   const [playerStats, setPlayerStats] = useState(new Map());
   const [synergyData, setSynergyData] = useState([]);
+  const [synergyCompare, setSynergyCompare] = useState({ winning: null, losing: null });
   const [colorMatchupData, setColorMatchupData] = useState({});
   const [healthData, setHealthData] = useState([]);
   const [designGraphData, setDesignGraphData] = useState({});
@@ -135,7 +138,7 @@ export function useStatsData(filters, props, refresh) {
   const { 
     minDraftSize, cardWidgetColorSelection, minDrafts,
     minGames, bucketSize, colorMode, minSynergyDecks,
-    focalThreshold, smoothingK, colorAdjust
+    focalThreshold, smoothingK, colorAdjust, synergyRecord
   } = filters;
 
   // Initial Load
@@ -208,9 +211,19 @@ export function useStatsData(filters, props, refresh) {
 
   // Synergy Data
   useEffect(() => {
-    fetch(`/api/${cubeID}/stats/synergy?min_decks=${minSynergyDecks}&focal_threshold=${focalThreshold}&smoothing_k=${smoothingK}&color_adjust=${colorAdjust}&start=${startDate}&end=${endDate}&size=${minDraftSize}&match=${encodeURIComponent(props.matchStr || "")}`)
+    fetch(`/api/${cubeID}/stats/synergy?min_decks=${minSynergyDecks}&focal_threshold=${focalThreshold}&smoothing_k=${smoothingK}&color_adjust=${colorAdjust}&record=${synergyRecord}&start=${startDate}&end=${endDate}&size=${minDraftSize}&match=${encodeURIComponent(props.matchStr || "")}`)
       .then(r => r.json())
       .then(d => setSynergyData(d));
+  }, [minSynergyDecks, focalThreshold, smoothingK, colorAdjust, synergyRecord, minDraftSize, startDate, endDate, props.matchStr, refresh]);
+
+  // Comparison view data: fetch both pools regardless of the synergyRecord toggle,
+  // so we can show how a card's focal score shifts between winning and losing.
+  useEffect(() => {
+    const base = `min_decks=${minSynergyDecks}&focal_threshold=${focalThreshold}&smoothing_k=${smoothingK}&color_adjust=${colorAdjust}&start=${startDate}&end=${endDate}&size=${minDraftSize}&match=${encodeURIComponent(props.matchStr || "")}`;
+    Promise.all([
+      fetch(`/api/${cubeID}/stats/synergy?${base}&record=winning`).then(r => r.json()),
+      fetch(`/api/${cubeID}/stats/synergy?${base}&record=losing`).then(r => r.json()),
+    ]).then(([w, l]) => setSynergyCompare({ winning: w, losing: l }));
   }, [minSynergyDecks, focalThreshold, smoothingK, colorAdjust, minDraftSize, startDate, endDate, props.matchStr, refresh]);
 
   // Color Matchup Data
@@ -317,7 +330,7 @@ export function useStatsData(filters, props, refresh) {
 
   return {
     decks, cube, drafts, archetypeMatchups, cardData, cardDataBucketed,
-    colorData, colorDataBucketed, synergyData, colorMatchupData, healthData,
+    colorData, colorDataBucketed, synergyData, synergyCompare, colorMatchupData, healthData,
     designGraphData, parsed, graphData, archetypeDropdownOptions, draftLogs
   };
 }
