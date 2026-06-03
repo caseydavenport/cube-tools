@@ -15,6 +15,7 @@ module.exports = {
     }),
   ],
   devServer: {
+    port: 6060,
     allowedHosts: [
       "cube-tools-344508482023.us-central1.run.app"
     ],
