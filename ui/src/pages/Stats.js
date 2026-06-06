@@ -157,7 +157,7 @@ export function StatsViewer(props) {
 
       <div id="widgets" className="house-for-widgets">
         <SynergyWidget
-          show={display[6]} synergyData={synergyData} synergyCompare={synergyCompare} cube={cube} minSynergyDecks={minSynergyDecks}
+          show={display[6]} synergyData={synergyData} synergyCompare={synergyCompare} cube={cube} matchStr={debouncedMatchStr} minSynergyDecks={minSynergyDecks}
           onMinSynergyDecksChanged={(e) => setMinSynergyDecks(e.target.value)}
           focalThreshold={focalThreshold}
           onFocalThresholdChanged={(e) => setFocalThreshold(e.target.value)}

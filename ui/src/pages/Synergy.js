@@ -24,6 +24,31 @@ function cardDisplayColor(colors) {
   }
 }
 
+// colorsFromMatch pulls the color letters out of the global deck filter, so a
+// color:R (or the Scryfall-style c:R) term narrows the synergy plots down to the
+// picked colors, not just the decks feeding the math. ":" and "=" both work.
+// Returns null when there's no color term so callers skip filtering.
+function colorsFromMatch(matchStr) {
+  if (!matchStr) return null;
+  const set = new Set();
+  for (const term of matchStr.trim().split(/\s+/)) {
+    const m = term.match(/^(?:color|c)[:=]([wubrg]+)$/i);
+    if (m) {
+      for (const ch of m[1].toUpperCase()) set.add(ch);
+    }
+  }
+  return set.size > 0 ? set : null;
+}
+
+// cardInColors is the "contains any" test: a card shows when its identity holds at
+// least one picked color. Gold cards show under each of their colors; colorless
+// drops out whenever a color filter is on.
+function cardInColors(colors, colorSet) {
+  if (!colorSet) return true;
+  if (!colors || colors.length === 0) return false;
+  return colors.some(c => colorSet.has(c));
+}
+
 export function SynergyWidget(input) {
   if (!input.show) {
     return null
@@ -36,11 +61,21 @@ export function SynergyWidget(input) {
         <SynergyNetworkGraph
           synergyData={input.synergyData}
           cube={input.cube}
+          matchStr={input.matchStr}
           onCardSelected={input.onCardSelected}
         />
         <SynergyScatter
           synergyData={input.synergyData}
           cube={input.cube}
+          matchStr={input.matchStr}
+          onCardSelected={input.onCardSelected}
+        />
+      </div>
+      <div style={{"marginTop": "1rem"}}>
+        <SynergyHubScatter
+          synergyData={input.synergyData}
+          cube={input.cube}
+          matchStr={input.matchStr}
           onCardSelected={input.onCardSelected}
         />
       </div>
@@ -64,6 +99,23 @@ function OptionTooltip({ id, header, tip, children }) {
     }>
       <div>{children}</div>
     </OverlayTrigger>
+  );
+}
+
+// ChartTitle is the heading for a chart, with its description tucked into a hover
+// popover so the charts stay compact and you only pull up the explanation when you
+// want it. The ⓘ marks that there's something to hover.
+function ChartTitle({ title, description, align = "center" }) {
+  return (
+    <h4 style={{color: "var(--primary)", marginBottom: "0.5rem", textAlign: align}}>
+      <OverlayTrigger placement="bottom" delay={{ show: 100, hide: 100 }} overlay={
+        <Popover id={`chart-${title}`} style={{maxWidth: "440px"}}>
+          <Popover.Body style={{fontSize: "0.85em"}}>{description}</Popover.Body>
+        </Popover>
+      }>
+        <span style={{cursor: "help"}}>{title} <span style={{fontSize: "0.7em", opacity: 0.6}}>ⓘ</span></span>
+      </OverlayTrigger>
+    </h4>
   );
 }
 
@@ -327,10 +379,9 @@ function SynergyFocalCompare({ synergyCompare, cube, onCardSelected }) {
 
   return (
     <div style={{marginTop: "1.5rem"}}>
-      <h4 style={{color: "var(--primary)", marginBottom: "0.5rem", textAlign: "center"}}>Focal Score: Winning vs Losing</h4>
-      <p style={{color: "var(--text-muted)", fontSize: "0.85em", marginBottom: "0.5rem", textAlign: "center"}}>
-        How each card's focal score (build-around hub strength) shifts between winning and losing decks. Only cards played in both pools are shown; a card sitting on an axis at 0 was played in that pool but formed no significant synergy there (which is itself signal), not absent from it. Points above the dashed line are bigger hubs in winning decks, below it bigger hubs in losing decks, on it the same role in both. Focal scores run lower in each sliced pool than in the full set (fewer decks clear the min-decks pair threshold), so lower the synergy min-decks slider to fill the comparison in. Hover for the deck counts behind each score. Click a card in the plot or table to select it.
-      </p>
+      <ChartTitle title="Focal Score: Winning vs Losing" description={
+        "Each card's focal score (hub strength) in winning vs losing decks. Above the diagonal = bigger hub when winning, below = when losing. A point on an axis formed no synergy in that pool (itself signal), not absent from it. Sliced pools score lower, so drop the synergy min-decks slider to fill the comparison in. Hover for deck counts; click a card to select."
+      } />
       <div className="synergy-grid" style={{display: "grid", gridTemplateColumns: "1fr 1fr", gap: "2rem", alignItems: "start"}}>
         <div style={{width: "min(600px, 100%)", aspectRatio: "1 / 1", margin: "0 auto"}}>
           <Scatter options={options} data={data} plugins={[diagonalLine]} />
@@ -370,9 +421,19 @@ function SynergyFocalCompare({ synergyCompare, cube, onCardSelected }) {
 // classes (goodstuff staples, filler) fall away and what's left splits left/right:
 // low play = niche build-arounds, high play = established archetype cores.
 // Reference lines sit at the medians of the surviving cards.
-function SynergyScatter({ synergyData, cube, onCardSelected }) {
-  const stats = synergyData?.focal_stats || [];
+function SynergyScatter({ synergyData, cube, matchStr, onCardSelected }) {
+  const allStats = synergyData?.focal_stats || [];
   const totalDecks = synergyData?.total_decks || 0;
+
+  const colorMap = {};
+  if (cube && cube.cards) {
+    for (const card of cube.cards) colorMap[card.name] = card.colors || [];
+  }
+
+  // Narrow to the colors picked in the global filter so the plot shows just those
+  // cards, not every card in the decks that happen to run one.
+  const colorSet = colorsFromMatch(matchStr);
+  const stats = colorSet ? allStats.filter(s => cardInColors(colorMap[s.card_name], colorSet)) : allStats;
   if (stats.length === 0 || totalDecks === 0) {
     return null;
   }
@@ -419,11 +480,6 @@ function SynergyScatter({ synergyData, cube, onCardSelected }) {
   const shown = usingFallback ? ranked.slice(0, MIN_POINTS) : aboveFloor;
   if (shown.length === 0) {
     return null;
-  }
-
-  const colorMap = {};
-  if (cube && cube.cards) {
-    for (const card of cube.cards) colorMap[card.name] = card.colors || [];
   }
 
   // Play rate is a binomial proportion (maindecked / opened), so cards opened in
@@ -561,13 +617,14 @@ function SynergyScatter({ synergyData, cube, onCardSelected }) {
 
   return (
     <div style={{textAlign: "center"}}>
-      <h4 style={{color: "var(--primary)", marginBottom: "0.5rem"}}>Popularity vs Synergy</h4>
-      <p style={{color: "var(--text-muted)", fontSize: "0.85em", marginBottom: "0.5rem"}}>
-        {usingFallback
-          ? `Only ${aboveFloor.length} of ${stats.length} cards clear this pool's chance noise floor (avg lift ≥ ${noiseFloor.toFixed(2)}), so the top ${shown.length} by synergy intensity are shown; hollow points sit below the floor and aren't distinguishable from chance.`
-          : `The ${aboveFloor.length} cards whose average partner lift clears this pool's chance noise floor (avg lift ≥ ${noiseFloor.toFixed(2)}), of ${stats.length} total.`}
-        {" "}Plotted by play rate (x) and average partner lift (y), colored by color identity. Play rate is how often the card was maindecked among the drafts where it was actually opened (in any mainboard, sideboard or pool), so it isn't penalized for drafts that predate it or never put it in a pack. Rates are shrunk toward the field average so cards opened only a draft or two don't get parked at 0% or 100% on a tiny sample (hover for the raw rate). Avg lift measures synergy intensity per partner, so it doesn't just reward popular cards; it's shrunk the same way so a card carried by a single strong partner doesn't rank as high as one backed by many. Left = niche build-arounds (rarely played but very synergistic), right = archetype cores (popular and synergistic). The crosshair lines mark the medians. Click a point to select.
-      </p>
+      <ChartTitle title="Popularity vs Synergy" description={
+        <>
+          {usingFallback
+            ? `Top ${shown.length} by synergy intensity (only ${aboveFloor.length} of ${stats.length} clear the noise floor, avg lift ≥ ${noiseFloor.toFixed(2)}); hollow points sit below it. `
+            : `${aboveFloor.length} of ${stats.length} cards clear this pool's noise floor (avg lift ≥ ${noiseFloor.toFixed(2)}). `}
+          Play rate (x) vs average partner lift (y, synergy per partner), colored by identity. Both are shrunk toward the field average so tiny samples don't sit at the extremes (hover for raw). Left = niche build-arounds, right = archetype cores. Crosshairs mark the medians; click a point to select.
+        </>
+      } />
       <div style={{width: "min(600px, 100%)", aspectRatio: "1 / 1", margin: "0 auto"}}>
         <Scatter options={options} data={data} plugins={[medianLines]} />
       </div>
@@ -575,7 +632,137 @@ function SynergyScatter({ synergyData, cube, onCardSelected }) {
   );
 }
 
-function SynergyNetworkGraph({ synergyData, cube, onCardSelected }) {
+// SynergyHubScatter pulls apart hubs from support cards. x is breadth (focal
+// score, total synergy across partners), y is depth (the single strongest pair).
+// Glue like removal scores high breadth off lots of weak pairs but no strong one,
+// so it lands bottom-right; real hubs sit top-right, niche build-arounds top-left.
+function SynergyHubScatter({ synergyData, cube, matchStr, onCardSelected }) {
+  const stats = synergyData?.focal_stats || [];
+
+  const colorMap = {};
+  if (cube && cube.cards) {
+    for (const card of cube.cards) colorMap[card.name] = card.colors || [];
+  }
+
+  // Narrow to the colors picked in the global filter.
+  const colorSet = colorsFromMatch(matchStr);
+  const shown = stats.filter(s => s.focal_score > 0 && s.peak_synergy > 0
+    && cardInColors(colorMap[s.card_name], colorSet));
+  if (shown.length === 0) {
+    return null;
+  }
+
+  const points = shown.map(s => ({
+    x: s.focal_score,
+    y: s.peak_synergy,
+    name: s.card_name,
+    focalScore: s.focal_score,
+    peak: s.peak_synergy,
+    // top_partners is strongest-first, so the first one is the peak partner.
+    peakPartner: (s.top_partners && s.top_partners[0]) || "",
+  }));
+
+  const median = (arr) => {
+    if (arr.length === 0) return 0;
+    const sorted = [...arr].sort((a, b) => a - b);
+    const mid = Math.floor(sorted.length / 2);
+    return sorted.length % 2 ? sorted[mid] : (sorted[mid - 1] + sorted[mid]) / 2;
+  };
+  const xs = points.map(p => p.x);
+  const ys = points.map(p => p.y);
+  const medX = median(xs);
+  const medY = median(ys);
+
+  // Breadth starts at 0 (it's a sum, so distances mean something). Peak axis fit
+  // tight so the cards spread out instead of bunching up.
+  const xMax = Math.max(...xs) * 1.05;
+  const yLo = Math.min(...ys);
+  const yHi = Math.max(...ys);
+  const yRange = (yHi - yLo) || 1;
+
+  const data = {
+    datasets: [{
+      label: "Cards",
+      data: points,
+      pointBackgroundColor: points.map(p => cardDisplayColor(colorMap[p.name])),
+      pointBorderColor: "rgba(0,0,0,0.4)",
+      pointBorderWidth: 1,
+      pointRadius: 5,
+      pointHoverRadius: 8,
+    }],
+  };
+
+  const medianLines = {
+    id: "hubMedianLines",
+    afterDatasetsDraw: (chart) => {
+      const { ctx, chartArea, scales } = chart;
+      if (!chartArea) return;
+      const px = scales.x.getPixelForValue(medX);
+      const py = scales.y.getPixelForValue(medY);
+      ctx.save();
+      ctx.strokeStyle = "rgba(255,255,255,0.6)";
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      ctx.moveTo(px, chartArea.top);
+      ctx.lineTo(px, chartArea.bottom);
+      ctx.moveTo(chartArea.left, py);
+      ctx.lineTo(chartArea.right, py);
+      ctx.stroke();
+      ctx.restore();
+    },
+  };
+
+  const options = {
+    maintainAspectRatio: false,
+    onClick: (e, elements) => {
+      if (elements.length > 0 && onCardSelected) {
+        const p = points[elements[0].index];
+        onCardSelected({ currentTarget: { id: p.name } });
+      }
+    },
+    scales: {
+      x: {
+        min: 0,
+        max: xMax,
+        title: { display: true, text: "Focal score (synergy breadth)", color: "#FFF", font: { size: 14 } },
+        ticks: { color: "#FFF" },
+        grid: { color: "rgba(255,255,255,0.08)" },
+      },
+      y: {
+        min: yLo - yRange * 0.1,
+        max: yHi + yRange * 0.05,
+        title: { display: true, text: "Peak partner synergy (depth)", color: "#FFF", font: { size: 14 } },
+        ticks: { color: "#FFF" },
+        grid: { color: "rgba(255,255,255,0.08)" },
+      },
+    },
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+        callbacks: {
+          label: (item) => {
+            const p = points[item.dataIndex];
+            const peakWith = p.peakPartner ? ` with ${p.peakPartner}` : "";
+            return `${p.name}: focal ${p.focalScore.toFixed(1)} breadth, peak ${p.peak.toFixed(2)}x${peakWith}`;
+          },
+        },
+      },
+    },
+  };
+
+  return (
+    <div style={{textAlign: "center"}}>
+      <ChartTitle title="Synergy Hub vs Support" description={
+        "Breadth (x, total synergy across all partners) vs depth (y, strongest single pair). Bottom-right = support glue (broad, no strong pair), top-right = true hub (broad and deep), top-left = niche build-around (one intense pair), bottom-left = incidental. Crosshairs mark the medians; click a point to select."
+      } />
+      <div style={{width: "min(600px, 100%)", aspectRatio: "1 / 1", margin: "0 auto"}}>
+        <Scatter options={options} data={data} plugins={[medianLines]} />
+      </div>
+    </div>
+  );
+}
+
+function SynergyNetworkGraph({ synergyData, cube, matchStr, onCardSelected }) {
   const canvasRef = useRef(null);
   const nodesRef = useRef([]);
   const edgesRef = useRef([]);
@@ -602,10 +789,6 @@ function SynergyNetworkGraph({ synergyData, cube, onCardSelected }) {
   }
 
   useEffect(() => {
-    const pairs = synergyData?.pairs || [];
-    const focalStats = synergyData?.focal_stats || [];
-    if (pairs.length === 0 || focalStats.length === 0) return;
-
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
@@ -613,12 +796,28 @@ function SynergyNetworkGraph({ synergyData, cube, onCardSelected }) {
     const height = canvas.height;
     const colorMap = cardColorMap();
 
+    // Narrow to the colors picked in the global filter. Both endpoints of a pair
+    // have to match, so a color filter shows the within-color subgraph rather than
+    // dragging in off-color partners.
+    const colorSet = colorsFromMatch(matchStr);
+    const focalStats = colorSet
+      ? (synergyData?.focal_stats || []).filter(s => cardInColors(colorMap[s.card_name], colorSet))
+      : (synergyData?.focal_stats || []);
+    const pairs = colorSet
+      ? (synergyData?.pairs || []).filter(p => cardInColors(colorMap[p.card1], colorSet) && cardInColors(colorMap[p.card2], colorSet))
+      : (synergyData?.pairs || []);
+    if (pairs.length === 0 || focalStats.length === 0) return;
+
     // Primary nodes are the top focal-score cards. Satellites are the cards they
     // synergize with that didn't themselves make the focal cut - we pull these onto
     // the graph (gray) so a high-focal card never floats unconnected, and so you can
     // see whether its partners are other hubs (flexible) or niche cards (parasitic).
     const focalByName = {};
-    for (const s of focalStats) focalByName[s.card_name] = s.focal_score;
+    const peakByName = {};
+    for (const s of focalStats) {
+      focalByName[s.card_name] = s.focal_score;
+      peakByName[s.card_name] = s.peak_synergy || 0;
+    }
 
     const topCards = focalStats.slice(0, 60);
     const primarySet = new Set(topCards.map(s => s.card_name));
@@ -651,6 +850,10 @@ function SynergyNetworkGraph({ synergyData, cube, onCardSelected }) {
         color: def.primary ? getNodeColor(colorMap[def.name]) : "#666",
         primary: def.primary,
         focalScore: def.focal,
+        peak: peakByName[def.name] || 0,
+        // Depth ring strength: peak 1.5 (the focal floor) is flat, 2.5+ is a full
+        // ring. Lets a broad-but-shallow support node read apart from a real hub.
+        depth: Math.max(0, Math.min(1, (peakByName[def.name] || 0) - 1.5)),
       };
     });
 
@@ -717,6 +920,15 @@ function SynergyNetworkGraph({ synergyData, cube, onCardSelected }) {
 
       // Draw nodes.
       for (const node of nodes) {
+        // Gold depth ring: brighter and thicker the stronger the card's peak pair.
+        // A big node with no ring is broad support glue, not a synergy hub.
+        if (node.primary && node.depth > 0) {
+          ctx.beginPath();
+          ctx.arc(node.x, node.y, node.radius + 2, 0, 2 * Math.PI);
+          ctx.strokeStyle = `rgba(255, 209, 71, ${0.2 + 0.7 * node.depth})`;
+          ctx.lineWidth = 1 + 3 * node.depth;
+          ctx.stroke();
+        }
         ctx.beginPath();
         ctx.arc(node.x, node.y, node.radius, 0, 2 * Math.PI);
         ctx.fillStyle = node.color;
@@ -733,7 +945,8 @@ function SynergyNetworkGraph({ synergyData, cube, onCardSelected }) {
           ctx.font = "13px monospace";
           ctx.fillStyle = "#fff";
           ctx.textAlign = "center";
-          ctx.fillText(node.id, node.x, node.y - node.radius - 6);
+          const tag = node.peak > 0 ? `  (focal ${node.focalScore.toFixed(0)}, peak ${node.peak.toFixed(2)}x)` : "";
+          ctx.fillText(node.id + tag, node.x, node.y - node.radius - 6);
         }
       }
     }
@@ -814,7 +1027,7 @@ function SynergyNetworkGraph({ synergyData, cube, onCardSelected }) {
       if (animRef.current) cancelAnimationFrame(animRef.current);
       drawRef.current = null;
     };
-  }, [synergyData, cube, cardColorMap]);
+  }, [synergyData, cube, matchStr, cardColorMap]);
 
   // Mouse interaction handlers.
   function getNodeAt(x, y) {
@@ -890,18 +1103,21 @@ function SynergyNetworkGraph({ synergyData, cube, onCardSelected }) {
     }
   }
 
-  const pairs = synergyData?.pairs || [];
-  const focalStats = synergyData?.focal_stats || [];
+  const colorSet = colorsFromMatch(matchStr);
+  const colorMap = cardColorMap();
+  const pairs = (synergyData?.pairs || []).filter(p => cardInColors(colorMap[p.card1], colorSet) && cardInColors(colorMap[p.card2], colorSet));
+  const focalStats = (synergyData?.focal_stats || []).filter(s => cardInColors(colorMap[s.card_name], colorSet));
   if (pairs.length === 0 || focalStats.length === 0) {
     return null;
   }
 
   return (
     <div style={{textAlign: "center"}}>
-      <h4 style={{color: "var(--primary)", marginBottom: "0.5rem"}}>Synergy Network Graph</h4>
-      <p style={{color: "var(--text-muted)", fontSize: "0.85em", marginBottom: "0.5rem"}}>
-        Node size shows focal score, node color shows color identity. <span style={{color: "#888"}}>Gray nodes</span> are partner cards that ranked below the focal cut, pulled in so their hubs aren't left floating. Links are brighter and thicker the stronger the synergy. Hover to name, click to select, drag to move.
-      </p>
+      <ChartTitle title="Synergy Network Graph" description={
+        <>
+          Node size = focal score (breadth), color = identity, <span style={{color: "#ffd147"}}>gold ring</span> = peak pair (depth). A big ring-less node is support glue, not a hub. <span style={{color: "#888"}}>Gray nodes</span> are below-cut partners pulled in so their hubs aren't left floating. Links scale with synergy. Hover to name, click to select, drag to move.
+        </>
+      } />
       <canvas
         ref={canvasRef}
         width={900}
