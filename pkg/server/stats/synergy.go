@@ -61,11 +61,23 @@ type CardFocalStat struct {
 	PlayedDrafts   int      `json:"played_drafts"`
 	OpenedDrafts   int      `json:"opened_drafts"`
 	TopPartners    []string `json:"top_partners"`
+	// TopPartnerSynergies carries the synergy score for each card in TopPartners,
+	// in the same order, so the UI can show the partners with their scores without
+	// re-deriving them from the (top-100-capped) pairs list.
+	TopPartnerSynergies []float64 `json:"top_partner_synergies"`
+	// TopPartnerSaturations is the realized fraction for each card in TopPartners,
+	// in the same order: how many of the rarer card's decks the pair actually filled
+	// (count / min(deckCount of the two cards)). It tells a modest lift on a maxed-out
+	// rare pair apart from a modest lift with headroom left.
+	TopPartnerSaturations []float64 `json:"top_partner_saturations"`
 
 	// PeakSynergy is a card's single strongest pair. Focal score only measures
 	// breadth, so it can't tell a hub from glue (removal scores high off lots of
 	// weak pairs). Peak is the depth to tell them apart.
 	PeakSynergy float64 `json:"peak_synergy"`
+	// PeakSaturation is the realized fraction of the peak pair, the saturation that
+	// pairs with PeakSynergy (the y axis of the hub scatter).
+	PeakSaturation float64 `json:"peak_saturation"`
 }
 
 type SynergyResult struct {
@@ -75,6 +87,11 @@ type SynergyResult struct {
 	EligibleDecks int     `json:"eligible_decks"`
 	SynergyScore  float64 `json:"synergy_score"`
 	WinPercent    float64 `json:"win_percent"`
+	// Saturation is the realized fraction: count / min(deckCount of the two cards).
+	// The pair can't co-occur more than the rarer card is played, so this is how much
+	// of that ceiling it filled. A modest lift at high saturation is a maxed-out rare
+	// pair; the same lift at low saturation has headroom left.
+	Saturation float64 `json:"saturation"`
 }
 
 type pair struct {
@@ -349,6 +366,14 @@ func (s *synergyStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request)
 
 		stats.Finalize()
 
+		// Saturation: how much of the rarer card's deck count this pair filled. The
+		// pair can't co-occur more than min(countA, countB), so this is its realized
+		// fraction of that ceiling.
+		saturation := 0.0
+		if minCount := min(cardCounts[p.c1], cardCounts[p.c2]); minCount > 0 {
+			saturation = float64(stats.count) / float64(minCount)
+		}
+
 		result := SynergyResult{
 			Card1:         p.c1,
 			Card2:         p.c2,
@@ -356,6 +381,7 @@ func (s *synergyStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request)
 			EligibleDecks: eligibleBoth,
 			SynergyScore:  score,
 			WinPercent:    stats.WinPercent,
+			Saturation:    saturation,
 		}
 
 		resp.Pairs = append(resp.Pairs, result)
@@ -374,6 +400,8 @@ func (s *synergyStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request)
 		sumScore := 0.0
 		qualifying := 0
 		topPartners := []string{}
+		topPartnerSynergies := []float64{}
+		topPartnerSaturations := []float64{}
 
 		// Sort descending by synergy score to pick top partners for display.
 		sort.Slice(synergies, func(i, j int) bool {
@@ -383,8 +411,10 @@ func (s *synergyStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request)
 		// Strongest pair - slice is already sorted, so grab the first. Not capped
 		// like the top-100 pairs, so it sticks around even when a card's pairs don't.
 		peakSynergy := 0.0
+		peakSaturation := 0.0
 		if len(synergies) > 0 {
 			peakSynergy = synergies[0].SynergyScore
+			peakSaturation = synergies[0].Saturation
 		}
 
 		for _, syn := range synergies {
@@ -401,6 +431,8 @@ func (s *synergyStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request)
 					partner = syn.Card2
 				}
 				topPartners = append(topPartners, partner)
+				topPartnerSynergies = append(topPartnerSynergies, syn.SynergyScore)
+				topPartnerSaturations = append(topPartnerSaturations, syn.Saturation)
 			}
 		}
 
@@ -413,14 +445,17 @@ func (s *synergyStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request)
 		}
 
 		resp.FocalStats = append(resp.FocalStats, CardFocalStat{
-			CardName:       card,
-			FocalScore:     sumScore,
-			AvgPartnerLift: avgLift,
-			DeckCount:      cardCounts[card],
-			PlayedDrafts:   playedDrafts[card],
-			OpenedDrafts:   openedDrafts[card],
-			TopPartners:    topPartners,
-			PeakSynergy:    peakSynergy,
+			CardName:              card,
+			FocalScore:            sumScore,
+			AvgPartnerLift:        avgLift,
+			DeckCount:             cardCounts[card],
+			PlayedDrafts:          playedDrafts[card],
+			OpenedDrafts:          openedDrafts[card],
+			TopPartners:           topPartners,
+			TopPartnerSynergies:   topPartnerSynergies,
+			TopPartnerSaturations: topPartnerSaturations,
+			PeakSynergy:           peakSynergy,
+			PeakSaturation:        peakSaturation,
 		})
 	}
 
