@@ -61,6 +61,11 @@ type CardFocalStat struct {
 	PlayedDrafts   int      `json:"played_drafts"`
 	OpenedDrafts   int      `json:"opened_drafts"`
 	TopPartners    []string `json:"top_partners"`
+
+	// PeakSynergy is a card's single strongest pair. Focal score only measures
+	// breadth, so it can't tell a hub from glue (removal scores high off lots of
+	// weak pairs). Peak is the depth to tell them apart.
+	PeakSynergy float64 `json:"peak_synergy"`
 }
 
 type SynergyResult struct {
@@ -375,6 +380,13 @@ func (s *synergyStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request)
 			return synergies[i].SynergyScore > synergies[j].SynergyScore
 		})
 
+		// Strongest pair - slice is already sorted, so grab the first. Not capped
+		// like the top-100 pairs, so it sticks around even when a card's pairs don't.
+		peakSynergy := 0.0
+		if len(synergies) > 0 {
+			peakSynergy = synergies[0].SynergyScore
+		}
+
 		for _, syn := range synergies {
 			if syn.SynergyScore < threshold {
 				continue
@@ -408,6 +420,7 @@ func (s *synergyStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request)
 			PlayedDrafts:   playedDrafts[card],
 			OpenedDrafts:   openedDrafts[card],
 			TopPartners:    topPartners,
+			PeakSynergy:    peakSynergy,
 		})
 	}
 
