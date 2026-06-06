@@ -155,7 +155,10 @@ func CardMatches(c types.Card, matchStr string) bool {
 	if isTermQuery(matchStr) {
 		splits := parseTerms(matchStr)
 		for _, term := range splits {
-			if strings.HasPrefix(term, "color:") || strings.HasPrefix(term, "color=") || strings.HasPrefix(term, "color!=") {
+			if strings.HasPrefix(term, "color:") || strings.HasPrefix(term, "color=") || strings.HasPrefix(term, "color!=") ||
+				strings.HasPrefix(term, "c:") || strings.HasPrefix(term, "c=") || strings.HasPrefix(term, "c!=") {
+				// c: is the Scryfall-style shorthand for color:. colorMatches only
+				// looks at the separator and value, so the prefix name doesn't matter.
 				if !colorMatches(term, c) {
 					return false
 				}
@@ -231,7 +234,7 @@ func parseTerms(matchStr string) []string {
 }
 
 func isTermQuery(matchStr string) bool {
-	queryTerms := []string{"color", "dcolor", "cmc", "t", "o", "name", "pow", "games", "mb", "sb", "players", "drafts", "winpct", "arch", "player", "event", "draftSize", "minCards"}
+	queryTerms := []string{"color", "c", "dcolor", "cmc", "t", "o", "name", "pow", "games", "mb", "sb", "players", "drafts", "winpct", "arch", "player", "event", "draftSize", "minCards"}
 	splits := parseTerms(matchStr)
 	for _, term := range splits {
 		for _, qt := range queryTerms {

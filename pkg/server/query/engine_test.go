@@ -241,6 +241,14 @@ func TestCardMatches_ColorTerm(t *testing.T) {
 	assert.False(t, CardMatches(c, "color:U"))
 }
 
+func TestCardMatches_ColorShorthand(t *testing.T) {
+	// c: is the Scryfall-style alias for color:.
+	c := types.Card{Name: "Bolt", Colors: []string{"R"}}
+	assert.True(t, CardMatches(c, "c:R"))
+	assert.False(t, CardMatches(c, "c:U"))
+	assert.True(t, isTermQuery("c:R"))
+}
+
 func TestCardMatches_CmcTerm(t *testing.T) {
 	c := types.Card{Name: "Bolt", CMC: 1}
 	assert.True(t, CardMatches(c, "cmc<3"))
