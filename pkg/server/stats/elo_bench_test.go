@@ -130,6 +130,6 @@ func BenchmarkELO_Current(b *testing.B) {
 	decks := loadAllDecks(b)
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
-		ELOData(decks)
+		PickELOData(decks)
 	}
 }

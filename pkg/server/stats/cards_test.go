@@ -119,14 +119,14 @@ func TestExpectedWinPercent_WeightedNotAveraged(t *testing.T) {
 	assert.InDelta(t, 70.0, result, 0.5)
 }
 
-// --- ELOData ---
+// --- PickELOData ---
 
-func TestELOData_Empty(t *testing.T) {
-	result := ELOData(nil)
+func TestPickELOData_Empty(t *testing.T) {
+	result := PickELOData(nil)
 	assert.Empty(t, result)
 }
 
-func TestELOData_MainboardGainsELO(t *testing.T) {
+func TestPickELOData_MainboardGainsELO(t *testing.T) {
 	// A card that is consistently mainboarded over a sideboarded card should gain ELO.
 	decks := make([]*storage.Deck, 0, 10)
 	for i := 0; i < 10; i++ {
@@ -138,7 +138,7 @@ func TestELOData_MainboardGainsELO(t *testing.T) {
 		decks = append(decks, d)
 	}
 
-	result := ELOData(decks)
+	result := PickELOData(decks)
 	assert.Greater(t, result["Good Card"], 1200)
 	assert.Less(t, result["Bad Card"], 1200)
 }
@@ -164,7 +164,7 @@ func makeELODecks(n int) []*storage.Deck {
 	return decks
 }
 
-func TestELOData_InitsAt1200(t *testing.T) {
+func TestPickELOData_InitsAt1200(t *testing.T) {
 	decks := []*storage.Deck{
 		makeCardDeck("Alice", nil,
 			[]types.Card{{Name: "MB-Only", CMC: 1, Colors: []string{"R"}, ColorIdentity: []string{"R"}, Types: []string{"Instant"}}},
@@ -172,7 +172,7 @@ func TestELOData_InitsAt1200(t *testing.T) {
 		),
 	}
 	decks[0].Colors = []string{"R"}
-	result := ELOData(decks)
+	result := PickELOData(decks)
 
 	// With no sideboard to pair against, MB-Only never updates and stays at 1200.
 	assert.Equal(t, 1200, result["MB-Only"])
@@ -180,7 +180,7 @@ func TestELOData_InitsAt1200(t *testing.T) {
 	assert.False(t, exists)
 }
 
-func TestELOData_BasicLandsSkipped(t *testing.T) {
+func TestPickELOData_BasicLandsSkipped(t *testing.T) {
 	decks := []*storage.Deck{
 		makeCardDeck("Alice", nil,
 			[]types.Card{{Name: "Plains", Types: []string{"Basic", "Land"}, Colors: []string{"W"}, ColorIdentity: []string{"W"}}},
@@ -188,12 +188,12 @@ func TestELOData_BasicLandsSkipped(t *testing.T) {
 		),
 	}
 	decks[0].Colors = []string{"W"}
-	result := ELOData(decks)
+	result := PickELOData(decks)
 	assert.Equal(t, 1200, result["Plains"])
 	assert.Equal(t, 1200, result["Sideboard Spell"])
 }
 
-func TestELOData_UncastableSideboardSkipped(t *testing.T) {
+func TestPickELOData_UncastableSideboardSkipped(t *testing.T) {
 	decks := []*storage.Deck{
 		makeCardDeck("Alice", nil,
 			[]types.Card{{Name: "Red Spell", CMC: 2, Colors: []string{"R"}, ColorIdentity: []string{"R"}, Types: []string{"Instant"}}},
@@ -201,7 +201,7 @@ func TestELOData_UncastableSideboardSkipped(t *testing.T) {
 		),
 	}
 	decks[0].Colors = []string{"R"}
-	result := ELOData(decks)
+	result := PickELOData(decks)
 	assert.Equal(t, 1200, result["Red Spell"])
 	assert.Equal(t, 1200, result["Black Spell"])
 }
@@ -209,9 +209,9 @@ func TestELOData_UncastableSideboardSkipped(t *testing.T) {
 // Updates should be approximately zero-sum across all participating cards.
 // The only source of drift is int() truncation of the final float ELO per
 // card, which is bounded by the number of cards.
-func TestELOData_ApproximatelyZeroSum(t *testing.T) {
+func TestPickELOData_ApproximatelyZeroSum(t *testing.T) {
 	decks := makeELODecks(20)
-	result := ELOData(decks)
+	result := PickELOData(decks)
 
 	total := 0
 	for _, e := range result {
@@ -223,15 +223,15 @@ func TestELOData_ApproximatelyZeroSum(t *testing.T) {
 		"sum of ELO drifts from N*1200 by %d (decks=%d, cards=%d)", delta, len(decks), len(result))
 }
 
-func TestELOData_OrderIndependent(t *testing.T) {
+func TestPickELOData_OrderIndependent(t *testing.T) {
 	base := makeELODecks(30)
 	a := append([]*storage.Deck(nil), base...)
 	b := append([]*storage.Deck(nil), base...)
 	r := rand.New(rand.NewSource(42))
 	r.Shuffle(len(b), func(i, j int) { b[i], b[j] = b[j], b[i] })
 
-	ra := ELOData(a)
-	rb := ELOData(b)
+	ra := PickELOData(a)
+	rb := PickELOData(b)
 
 	maxDiff := 0
 	worstCard := ""

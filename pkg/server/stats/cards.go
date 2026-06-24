@@ -283,7 +283,7 @@ func (d *cardStatsHandler) statsForDecks(decks []*storage.Deck, cubeCards map[st
 	}
 
 	// Get ELO data to include in the response.
-	eloData := ELOData(decks)
+	eloData := PickELOData(decks)
 
 	// Now that we've gone through all the decks, calculate win percentages and mainboard/sideboard percentages,
 	// and perform any filtering based on the request parameters.
@@ -292,7 +292,7 @@ func (d *cardStatsHandler) statsForDecks(decks []*storage.Deck, cubeCards map[st
 		if elo, ok := eloData[card.Name]; ok {
 			card.ELO = elo
 		} else {
-			card.ELO = 1200
+			card.ELO = int(eloBase)
 		}
 
 		card.ExpectedWinPercent = ExpectedWinPercent(card.Name, card.Players, decks)
@@ -362,8 +362,12 @@ func ExpectedWinPercent(cardName string, players map[string]int, decks []*storag
 	return r.WinPercent
 }
 
-// K-factor for ELO updates.
+// K-factor for the pick ELO updates.
 const eloK = 4.0
+
+// eloBase is the rating every card starts at, shared by the pick and match ELO
+// calculations.
+const eloBase = 1200.0
 
 // colorsCompete reports whether two cards' color identities suggest they
 // compete for the same slot. Colorless cards fit any deck, so they compete
@@ -411,7 +415,7 @@ func eloWinValue(mb, sb types.Card) float64 {
 }
 
 // A mainboard-vs-sideboard matchup. mbIdx and sbIdx are positions into the
-// cards-by-index slice built in ELOData (so we can avoid map lookups in the
+// cards-by-index slice built in PickELOData (so we can avoid map lookups in the
 // hot loop). count is the number of decks in which this pair appears -
 // since winValue depends only on the two cards, identical pairs across
 // decks collapse to a single entry with a count.
@@ -503,7 +507,7 @@ func runELOPass(pairs []eloPair, snapshot, ratings, diffs []float64) {
 	}
 }
 
-func ELOData(decks []*storage.Deck) map[string]int {
+func PickELOData(decks []*storage.Deck) map[string]int {
 	// Assign each unique card an integer index. Throughout the rest of the
 	// calculation, cards are referred to by this index instead of by name,
 	// so we can keep ratings / diffs / etc. in plain []float64 slices keyed
@@ -528,10 +532,10 @@ func ELOData(decks []*storage.Deck) map[string]int {
 		}
 	}
 
-	// All cards start at 1200. elos[i] holds the current rating of names[i].
+	// All cards start at the baseline. elos[i] holds the current rating of names[i].
 	elos := make([]float64, len(names))
 	for i := range elos {
-		elos[i] = 1200
+		elos[i] = eloBase
 	}
 
 	pairs := buildELOPairs(decks, idx)

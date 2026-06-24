@@ -26,9 +26,9 @@ type ArchetypeStats struct {
 	LastPlace     int            `json:"last_place"`
 	Winning       int            `json:"winning"`
 	Losing        int            `json:"losing"`
-	AvgCMC          float64        `json:"avg_cmc"`
-	AvgWordCount    float64        `json:"avg_word_count"`
-	BuildPercent    float64        `json:"build_percent"`
+	AvgCMC        float64        `json:"avg_cmc"`
+	AvgWordCount  float64        `json:"avg_word_count"`
+	BuildPercent  float64        `json:"build_percent"`
 	PercentOfWins float64        `json:"percent_of_wins"`
 	SharedWith    map[string]int `json:"shared_with"`
 	Players       map[string]int `json:"players"`
