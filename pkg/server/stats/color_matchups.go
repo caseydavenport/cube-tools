@@ -58,16 +58,7 @@ func (h *colorMatchupHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request)
 		return
 	}
 
-	// Build a (player, draftID) -> deck lookup map for O(1) opponent resolution.
-	type deckKey struct {
-		player  string
-		draftID string
-	}
-	deckLookup := make(map[deckKey]*storage.Deck)
-	for _, d := range allDecks {
-		k := deckKey{player: d.Player, draftID: d.Metadata.DraftID}
-		deckLookup[k] = d
-	}
+	idx := storage.NewOpponentIndex(allDecks)
 
 	// Aggregate matchup data. matchups[myColors][oppColors] = {wins, losses}
 	matchups := make(map[string]map[string]*MatchupRecord)
@@ -83,8 +74,7 @@ func (h *colorMatchupHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request)
 		}
 
 		for _, game := range deck.Games {
-			// Look up opponent's deck.
-			oppDeck, ok := deckLookup[deckKey{player: game.Opponent, draftID: deck.Metadata.DraftID}]
+			oppDeck, ok := idx.OpponentDeck(deck, game.Opponent)
 			if !ok {
 				continue
 			}
