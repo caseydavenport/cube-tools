@@ -20,9 +20,12 @@ var IndexCmd = &cobra.Command{
 	},
 }
 
+var indexCCCubeID string
+
 func init() {
 	flags := IndexCmd.Flags()
 	flags.StringVar(&cubeFlag, "cube", "", "cube id (required)")
+	flags.StringVar(&indexCCCubeID, "cc-cube", "", "Cube Cobra cube id (shortId or UUID); when set, per-card draft Elo is fetched and merged into cube.json")
 	_ = IndexCmd.MarkFlagRequired("cube")
 }
 
@@ -104,6 +107,21 @@ func index(cube string) {
 	// As part of re-indexing, parse the cube.csv and convert it to json so
 	// that it's more easily read by the UI code.
 	cards, _ := cardsFromCSV(fmt.Sprintf("data/%s/cube.csv", cube))
+	if indexCCCubeID != "" {
+		eloByName, err := fetchCubeCobraELO("https://cubecobra.com", indexCCCubeID)
+		if err != nil {
+			logrus.WithError(err).Warn("Failed to fetch Cube Cobra draft Elo; cube.json will omit it")
+		} else {
+			matched := 0
+			for i := range cards {
+				if elo, ok := eloByName[cards[i].Name]; ok {
+					cards[i].DraftELO = elo
+					matched++
+				}
+			}
+			logrus.Infof("Merged Cube Cobra draft Elo for %d/%d cards", matched, len(cards))
+		}
+	}
 	cubeData := types.Cube{Cards: cards}
 	bytes, err := json.MarshalIndent(cubeData, "", " ")
 	if err != nil {

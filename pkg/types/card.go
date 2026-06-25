@@ -22,6 +22,12 @@ type Card struct {
 	OracleText    string   `json:"oracle_text"`
 	Power         string   `json:"power,omitempty"`
 	Toughness     string   `json:"toughness,omitempty"`
+
+	// DraftELO is Cube Cobra's global draft Elo - its pick-order rating across all
+	// cubes, not a per-card stat we compute. It isn't in our oracle data, so
+	// `index` pulls it from the cube export. Serves as the "reputation" axis
+	// against our match Elo.
+	DraftELO int `json:"draft_elo,omitempty"`
 }
 
 func (c Card) IsBasicLand() bool {

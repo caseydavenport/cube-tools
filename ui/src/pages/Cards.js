@@ -4,7 +4,7 @@ import { DropdownHeader, NumericInput, Checkbox, DateSelector } from "../compone
 import { PillSearchInput } from "../components/PillSearchInput.js"
 import { Wins, Losses } from "../utils/Deck.js"
 import { ApplyTooltip } from "../utils/Tooltip.js"
-import { ColorImages } from "../utils/Colors.js"
+import { ColorImages, Colors } from "../utils/Colors.js"
 import { CardMatches, DeckMatches } from "../utils/Query.js"
 import { bucketTicks } from "../utils/Buckets.js"
 
@@ -56,6 +56,7 @@ export const PercentOfWinsOption = "% of Wins"
 export const NumberOfWinsOption = "# Wins"
 export const ExpectedWinPercentOption = "Expected Win %"
 export const ELOOption = "Pick ELO"
+export const MatchELOOption = "Match ELO"
 export const NumGamesOption = "# Games"
 export const ManaValueOption = "Mana Value"
 export const NumPlayersOption = "# Players"
@@ -80,6 +81,7 @@ export const CardScatterAxes = [
   {label: NumberOfWinsOption, value: NumberOfWinsOption},
   {label: ExpectedWinPercentOption, value: ExpectedWinPercentOption},
   {label: ELOOption, value: ELOOption},
+  {label: MatchELOOption, value: MatchELOOption},
   {label: NumGamesOption, value: NumGamesOption},
   {label: ManaValueOption, value: ManaValueOption},
   {label: NumPlayersOption, value: NumPlayersOption},
@@ -157,6 +159,7 @@ export function CardWidget(input) {
       <WinrateChart {...input} />
       <PlayRateChart {...input} />
       <ELOChart {...input} />
+      <ReputationChart {...input} />
       <CardGraph {...input} />
     </div>
   );
@@ -188,6 +191,9 @@ function sortValue(sortBy, card) {
       break
     case "elo":
       sort = card.elo
+      break
+    case "match_elo":
+      sort = card.match_elo
       break
     case "in-color-sb":
       sort = card.playable_sideboard
@@ -306,8 +312,13 @@ function CardWidgetTable(input) {
     },
     {
       id: "elo",
-      text: "ELO",
+      text: "Pick ELO",
       tip: "An ELO ranking based on card pick order in packs, with slight weighting.",
+    },
+    {
+      id: "match_elo",
+      text: "Match ELO",
+      tip: "An ELO ranking computed from actual match results, weighted by opponent strength. Cards never played in a match sit at the 1200 baseline.",
     },
     {
       id: "lastPlayed",
@@ -506,6 +517,7 @@ function CardWidgetTable(input) {
                   <td>{players.length}</td>
                   <td>{Object.entries(card.archetypes).length}</td>
                   <td>{card.elo}</td>
+                  <td>{card.match_elo}</td>
                   <td>{card.last_mainboarded}</td>
                   <td>{card.word_count}</td>
                 </tr>
@@ -1296,6 +1308,151 @@ function CardGraph(input) {
   );
 }
 
+// reputationColor maps a card's color identity to a point color: its mana color
+// for mono, gold for multicolor, grey for colorless.
+function reputationColor(identity) {
+  if (!identity || identity.length === 0) {
+    return "#b0b0b0"
+  }
+  if (identity.length === 1) {
+    return Colors.get(identity[0]) || "#b0b0b0"
+  }
+  return "#d4af37"
+}
+
+// ReputationChart plots a card's draft-Elo percentile (Cube Cobra's global pick
+// reputation) against its match-Elo percentile (how it actually performed here).
+// Points above the diagonal overperform their reputation; below, they underperform.
+// Only renders once draft Elo has been populated (index --cc-cube) and there are
+// cards with match results to rank.
+function ReputationChart(input) {
+  // A point needs both axes: a recognized draft Elo and real match results.
+  let pts = []
+  for (let [, card] of input.cardData) {
+    if (shouldSkip(card, input)) {
+      continue
+    }
+    let games = card.wins + card.losses + card.draws
+    if (!card.draft_elo || games <= 0) {
+      continue
+    }
+    pts.push(card)
+  }
+  if (pts.length < 2) {
+    return null
+  }
+
+  // Draft Elo (global, wide range) and match Elo (local, narrow range) live on
+  // different scales, so rank each within this set before plotting.
+  let draftSorted = pts.map(c => c.draft_elo).sort((a, b) => a - b)
+  let matchSorted = pts.map(c => c.match_elo).sort((a, b) => a - b)
+  function pct(sorted, v) {
+    let less = 0
+    let equal = 0
+    for (let x of sorted) {
+      if (x < v) {
+        less++
+      } else if (x === v) {
+        equal++
+      }
+    }
+    return 100 * (less + 0.5 * equal) / sorted.length
+  }
+
+  let values = []
+  let backgroundColors = []
+  let sizes = []
+  for (let card of pts) {
+    let games = card.wins + card.losses + card.draws
+    values.push({x: pct(draftSorted, card.draft_elo), y: pct(matchSorted, card.match_elo)})
+    if (card.name === input.selectedCard) {
+      backgroundColors.push("#FFF")
+      sizes.push(11)
+    } else {
+      backgroundColors.push(reputationColor(card.color_identity))
+      // Bigger point = more games behind the match Elo, so high-sample cards read
+      // as more trustworthy.
+      sizes.push(Math.max(3, Math.min(9, 2 + Math.sqrt(games))))
+    }
+  }
+
+  let dataset = [
+    {
+      label: "Cards",
+      data: values,
+      pointBackgroundColor: backgroundColors,
+      pointRadius: sizes,
+      pointHoverRadius: 12,
+    },
+    {
+      type: "line",
+      label: "Reputation = reality",
+      data: [{x: 0, y: 0}, {x: 100, y: 100}],
+      borderColor: "#888",
+      borderDash: [6, 6],
+      pointRadius: 0,
+      pointHoverRadius: 0,
+      fill: false,
+    },
+  ]
+
+  const options = {
+    responsive: true,
+    maintainAspectRatio: false,
+    scales: {
+      y: {
+        title: {display: true, text: "Match Elo percentile (reality)", font: {size: 20, weight: "bold"}, color: "white"},
+        min: 0,
+        max: 100,
+        ticks: ticks,
+      },
+      x: {
+        title: {display: true, text: "Cube Cobra draft Elo percentile (reputation)", font: {size: 20, weight: "bold"}, color: "white"},
+        min: 0,
+        max: 100,
+        ticks: ticks,
+      },
+    },
+    plugins: {
+      title: {
+        display: true,
+        text: "Reputation vs. Reality",
+        color: "#FFF",
+        font: {size: "16pt"},
+      },
+      subtitle: {
+        display: true,
+        text: "Above the line = wins more than its draft reputation suggests",
+        color: "#BBB",
+        font: {size: "12pt"},
+      },
+      tooltip: {
+        callbacks: {
+          label: function(ctx) {
+            if (ctx.datasetIndex !== 0) {
+              return ""
+            }
+            let card = pts[ctx.dataIndex]
+            return `${card.name}: draft ${card.draft_elo} (p${Math.round(ctx.parsed.x)}) -> match ${card.match_elo} (p${Math.round(ctx.parsed.y)})`
+          },
+        },
+      },
+      legend: {
+        labels: {color: "#FFF", font: {size: "16pt"}},
+      },
+    },
+  }
+
+  const data = {datasets: dataset}
+  return (
+    <div className="chart-container" align="center">
+      <div align="center" style={{"height": "800px", "width": "100%"}}>
+        <Scatter className="chart" options={options} data={data} />
+      </div>
+    </div>
+  )
+}
+
 function getScales(axis, force) {
   if (force) {
     switch (axis) {
@@ -1319,6 +1476,8 @@ function getValue(axis, card, archetypeData, playerData, decks, draftData) {
       return card.sideboard_percent
     case ELOOption:
       return card.elo
+    case MatchELOOption:
+      return card.match_elo
     case WinPercentOption:
       return card.win_percent
     case PercentOfWinsOption:

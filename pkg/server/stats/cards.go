@@ -284,6 +284,7 @@ func (d *cardStatsHandler) statsForDecks(decks []*storage.Deck, cubeCards map[st
 
 	// Get ELO data to include in the response.
 	eloData := PickELOData(decks)
+	matchEloData := MatchELOData(decks)
 
 	// Now that we've gone through all the decks, calculate win percentages and mainboard/sideboard percentages,
 	// and perform any filtering based on the request parameters.
@@ -293,6 +294,11 @@ func (d *cardStatsHandler) statsForDecks(decks []*storage.Deck, cubeCards map[st
 			card.ELO = elo
 		} else {
 			card.ELO = int(eloBase)
+		}
+		if melo, ok := matchEloData[card.Name]; ok {
+			card.MatchELO = melo
+		} else {
+			card.MatchELO = int(eloBase)
 		}
 
 		card.ExpectedWinPercent = ExpectedWinPercent(card.Name, card.Players, decks)
@@ -783,6 +789,12 @@ type cardStats struct {
 
 	// ELO.
 	ELO int `json:"elo"`
+
+	// MatchELO is the card's Elo from actual match results (see MatchELOData),
+	// where ELO above scores draft picks. Cards that never played a match sit at
+	// the baseline, so gate on game/match counts to tell "performed at baseline"
+	// apart from "no match data".
+	MatchELO int `json:"match_elo"`
 
 	// Track how this card as fared within various archetypes. i.e., win percentages given
 	// that the card was played in a specific archetype.
