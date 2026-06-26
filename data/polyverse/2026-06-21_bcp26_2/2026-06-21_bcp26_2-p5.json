@@ -1,0 +1,91 @@
+{
+ "metadata": {
+  "path": "data/polyverse/2026-06-21_bcp26_2/2026-06-21_bcp26_2-p5.json",
+  "draft_id": "2026-06-21_bcp26_2"
+ },
+ "labels": [],
+ "player": "2026-06-21_bcp26_2-p5",
+ "date": "2026-06-21",
+ "matches": [
+  {
+   "opponent": "2026-06-21_bcp26_2-p1",
+   "round": 1,
+   "wins": 2,
+   "losses": 0,
+   "draws": 0,
+   "winner": "2026-06-21_bcp26_2-p5"
+  },
+  {
+   "opponent": "2026-06-21_bcp26_2-p3",
+   "round": 2,
+   "wins": 2,
+   "losses": 1,
+   "draws": 0,
+   "winner": "2026-06-21_bcp26_2-p5"
+  },
+  {
+   "opponent": "2026-06-21_bcp26_2-p6",
+   "round": 3,
+   "wins": 1,
+   "losses": 2,
+   "draws": 0,
+   "winner": "2026-06-21_bcp26_2-p6"
+  }
+ ],
+ "mainboard": [
+  "Arid Mesa",
+  "Bloodchief's Thirst",
+  "Bloodsky Berserker",
+  "Bloodstained Mire",
+  "Bonesplitter",
+  "Cheeky House-Mouse // Squeak By",
+  "Deep-Cavern Bat",
+  "Disfigure",
+  "Drana, Liberator of Malakir",
+  "Elegant Parlor",
+  "Helping Hand",
+  "Isamaru, Hound of Konda",
+  "Knight of the Ebon Legion",
+  "Kor Skyfisher",
+  "Lion Sash",
+  "March of Otherworldly Light",
+  "Marsh Flats",
+  "Mutavault",
+  "Prismatic Ending",
+  "Prismatic Vista",
+  "Rankle, Master of Pranks",
+  "Raven Eagle",
+  "Recruitment Officer",
+  "Reprieve",
+  "Rishadan Port",
+  "Sacred Foundry",
+  "Tasigur, the Golden Fang",
+  "Thalia, Guardian of Thraben",
+  "Timeless Dragon",
+  "Unexpectedly Absent",
+  "Wanderbrine Trapper",
+  "Welcoming Vampire",
+  "Windswept Heath",
+  "Plains",
+  "Swamp",
+  "Swamp",
+  "Swamp",
+  "Swamp",
+  "Swamp",
+  "Swamp"
+ ],
+ "sideboard": [
+  "Audacity",
+  "Barbarian Ring",
+  "Call of the Herd",
+  "Commercial District",
+  "Deluge of Doom",
+  "Flame Slash",
+  "Gilded Goose",
+  "Porcelain Legionnaire",
+  "Rabbit Battery",
+  "Raise the Alarm",
+  "Sevinne's Reclamation",
+  "Unsummon"
+ ]
+}

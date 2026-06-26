@@ -1,0 +1,87 @@
+{
+ "metadata": {
+  "path": "data/polyverse/2026-06-20_bcp26_2/2026-06-20_bcp26_2-p3.json",
+  "draft_id": "2026-06-20_bcp26_2"
+ },
+ "labels": [],
+ "player": "2026-06-20_bcp26_2-p3",
+ "date": "2026-06-20",
+ "matches": [
+  {
+   "opponent": "2026-06-20_bcp26_2-p7",
+   "round": 1,
+   "wins": 2,
+   "losses": 1,
+   "draws": 0,
+   "winner": "2026-06-20_bcp26_2-p3"
+  },
+  {
+   "opponent": "2026-06-20_bcp26_2-p4",
+   "round": 2,
+   "wins": 2,
+   "losses": 0,
+   "draws": 0,
+   "winner": "2026-06-20_bcp26_2-p3"
+  },
+  {
+   "opponent": "2026-06-20_bcp26_2-p6",
+   "round": 3,
+   "wins": 2,
+   "losses": 1,
+   "draws": 0,
+   "winner": "2026-06-20_bcp26_2-p3"
+  }
+ ],
+ "mainboard": [
+  "Arid Mesa",
+  "Blood Crypt",
+  "Bloodstained Mire",
+  "Brainstorm",
+  "Celestial Colonnade",
+  "Cling to Dust",
+  "Consider",
+  "Deluge of Doom",
+  "Dig Through Time",
+  "Fact or Fiction",
+  "Fatal Push",
+  "Fetid Pools",
+  "Flooded Strand",
+  "Grim Lavamancer",
+  "Hallowed Fountain",
+  "Lightning Bolt",
+  "Lingering Souls",
+  "Lórien Revealed",
+  "Magma Jet",
+  "Meticulous Archive",
+  "Miscalculation",
+  "Monastery Mentor",
+  "Murderous Cut",
+  "Mystic Confluence",
+  "Mystic Sanctuary",
+  "Otawara, Soaring City",
+  "Remand",
+  "Sacred Foundry",
+  "Scalding Tarn",
+  "Serum Visions",
+  "Shadowy Backstreet",
+  "Sphinx of Forgotten Lore",
+  "Sunbaked Canyon",
+  "Tasigur, the Golden Fang",
+  "The Wandering Emperor",
+  "Timeless Dragon",
+  "Toxic Deluge",
+  "Island",
+  "Island",
+  "Island"
+ ],
+ "sideboard": [
+  "Birthing Ritual",
+  "Knight of the Reliquary",
+  "Kor Skyfisher",
+  "Liliana of the Veil",
+  "Qasali Pridemage",
+  "Sevinne's Reclamation",
+  "Up the Beanstalk",
+  "Warden of the Inner Sky"
+ ]
+}

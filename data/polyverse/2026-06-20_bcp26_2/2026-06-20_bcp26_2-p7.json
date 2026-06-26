@@ -1,0 +1,87 @@
+{
+ "metadata": {
+  "path": "data/polyverse/2026-06-20_bcp26_2/2026-06-20_bcp26_2-p7.json",
+  "draft_id": "2026-06-20_bcp26_2"
+ },
+ "labels": [],
+ "player": "2026-06-20_bcp26_2-p7",
+ "date": "2026-06-20",
+ "matches": [
+  {
+   "opponent": "2026-06-20_bcp26_2-p3",
+   "round": 1,
+   "wins": 1,
+   "losses": 2,
+   "draws": 0,
+   "winner": "2026-06-20_bcp26_2-p3"
+  },
+  {
+   "opponent": "2026-06-20_bcp26_2-p2",
+   "round": 2,
+   "wins": 2,
+   "losses": 0,
+   "draws": 0,
+   "winner": "2026-06-20_bcp26_2-p7"
+  },
+  {
+   "opponent": "2026-06-20_bcp26_2-p1",
+   "round": 3,
+   "wins": 1,
+   "losses": 1,
+   "draws": 1
+  }
+ ],
+ "mainboard": [
+  "Balance",
+  "Breeding Pool",
+  "Brightglass Gearhulk",
+  "Cathar Commando",
+  "Clarion Spirit",
+  "Commercial District",
+  "Dreamtide Whale",
+  "Flooded Strand",
+  "Gilded Goose",
+  "Leyline Binding",
+  "Lush Portico",
+  "Man-o'-War",
+  "Mana Leak",
+  "Memory Lapse",
+  "Mishra's Bauble",
+  "Misty Rainforest",
+  "Oust",
+  "Phelia, Exuberant Shepherd",
+  "Prismatic Ending",
+  "Prismatic Vista",
+  "Questing Druid // Seek the Beast",
+  "Restless Vinestalk",
+  "Restoration Angel",
+  "Scalding Tarn",
+  "Six",
+  "Snapcaster Mage",
+  "Steam Vents",
+  "Temple Garden",
+  "Territorial Kavu",
+  "The Goose Mother",
+  "Thraben Inspector",
+  "Treasure Cruise",
+  "Urza's Bauble",
+  "Urza's Saga",
+  "Wooded Foothills",
+  "Woodland Wanderer",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Island"
+ ],
+ "sideboard": [
+  "Blazing Rootwalla",
+  "Daze",
+  "Dragonsguard Elite",
+  "Dress Down",
+  "Godless Shrine",
+  "Quirion Beastcaller",
+  "Thalia, Guardian of Thraben",
+  "Touch the Spirit Realm",
+  "Wrath of God"
+ ]
+}

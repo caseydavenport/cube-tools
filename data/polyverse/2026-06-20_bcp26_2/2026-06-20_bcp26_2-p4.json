@@ -1,0 +1,91 @@
+{
+ "metadata": {
+  "path": "data/polyverse/2026-06-20_bcp26_2/2026-06-20_bcp26_2-p4.json",
+  "draft_id": "2026-06-20_bcp26_2"
+ },
+ "labels": [],
+ "player": "2026-06-20_bcp26_2-p4",
+ "date": "2026-06-20",
+ "matches": [
+  {
+   "opponent": "2026-06-20_bcp26_2-p8",
+   "round": 1,
+   "wins": 2,
+   "losses": 0,
+   "draws": 0,
+   "winner": "2026-06-20_bcp26_2-p4"
+  },
+  {
+   "opponent": "2026-06-20_bcp26_2-p3",
+   "round": 2,
+   "wins": 0,
+   "losses": 2,
+   "draws": 0,
+   "winner": "2026-06-20_bcp26_2-p3"
+  },
+  {
+   "opponent": "2026-06-20_bcp26_2-p5",
+   "round": 3,
+   "wins": 2,
+   "losses": 1,
+   "draws": 0,
+   "winner": "2026-06-20_bcp26_2-p4"
+  }
+ ],
+ "mainboard": [
+  "Abrade",
+  "Bloodsoaked Champion",
+  "Breeding Pool",
+  "Caretaker's Talent",
+  "Carrion Feeder",
+  "Courser of Kruphix",
+  "Dark Confidant",
+  "Drana, Liberator of Malakir",
+  "Godless Shrine",
+  "Grim Flayer",
+  "Heritage Reclamation",
+  "Kitesail Freebooter",
+  "Legion Extruder",
+  "Lost Jitte",
+  "Mayhem Devil",
+  "Midnight Reaper",
+  "Moonshadow",
+  "Mutavault",
+  "Overgrown Tomb",
+  "Phyrexian Metamorph",
+  "Pia and Kiran Nalaar",
+  "Porcelain Legionnaire",
+  "Rabbit Battery",
+  "Raucous Theater",
+  "Raven Eagle",
+  "Rishadan Port",
+  "Scrabbling Claws",
+  "Shifting Woodland",
+  "Takenuma, Abandoned Mire",
+  "Tenacious Underdog",
+  "Thoughtseize",
+  "Tidehollow Sculler",
+  "Ulcerate",
+  "Underground Mortuary",
+  "Verdurous Gearhulk",
+  "Virtue of Persistence // Locthwain Scorn",
+  "Wanderbrine Trapper",
+  "Woe Strider",
+  "Forest",
+  "Forest",
+  "Swamp",
+  "Swamp",
+  "Swamp",
+  "Mountain",
+  "Mountain"
+ ],
+ "sideboard": [
+  "Accursed Marauder",
+  "Bloodghast",
+  "Growth Spiral",
+  "Inquisition of Kozilek",
+  "Llanowar Elves",
+  "Marsh Flats",
+  "Perilous Myr"
+ ]
+}

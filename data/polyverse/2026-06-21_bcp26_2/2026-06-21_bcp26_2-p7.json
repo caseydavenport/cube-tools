@@ -1,0 +1,91 @@
+{
+ "metadata": {
+  "path": "data/polyverse/2026-06-21_bcp26_2/2026-06-21_bcp26_2-p7.json",
+  "draft_id": "2026-06-21_bcp26_2"
+ },
+ "labels": [],
+ "player": "2026-06-21_bcp26_2-p7",
+ "date": "2026-06-21",
+ "matches": [
+  {
+   "opponent": "2026-06-21_bcp26_2-p3",
+   "round": 1,
+   "wins": 1,
+   "losses": 2,
+   "draws": 0,
+   "winner": "2026-06-21_bcp26_2-p3"
+  },
+  {
+   "opponent": "2026-06-21_bcp26_2-p1",
+   "round": 2,
+   "wins": 2,
+   "losses": 0,
+   "draws": 0,
+   "winner": "2026-06-21_bcp26_2-p7"
+  },
+  {
+   "opponent": "2026-06-21_bcp26_2-p4",
+   "round": 3,
+   "wins": 2,
+   "losses": 1,
+   "draws": 0,
+   "winner": "2026-06-21_bcp26_2-p7"
+  }
+ ],
+ "mainboard": [
+  "Brainstorm",
+  "Breeding Pool",
+  "Burst Lightning",
+  "Counterspell",
+  "Dragon's Rage Channeler",
+  "Dreamtide Whale",
+  "Faerie Vandal",
+  "Fire // Ice",
+  "Grim Lavamancer",
+  "Hedge Maze",
+  "Lava Dart",
+  "Lightning Bolt",
+  "Lórien Revealed",
+  "Misty Rainforest",
+  "Misty Rainforest",
+  "Monastery Swiftspear",
+  "Opt",
+  "Proft's Eidetic Memory",
+  "Questing Druid // Seek the Beast",
+  "Remand",
+  "Saheeli, Sublime Artificer",
+  "Scalding Tarn",
+  "Seal of Fire",
+  "Seal of Removal",
+  "Serum Visions",
+  "Spell Pierce",
+  "Sprite Dragon",
+  "Steam Vents",
+  "Steam Vents",
+  "The Goose Mother",
+  "Thing in the Ice // Awoken Horror",
+  "Thundering Falls",
+  "Unholy Heat",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Island",
+  "Island",
+  "Island"
+ ],
+ "sideboard": [
+  "Archenemy's Charm",
+  "Brightglass Gearhulk",
+  "Courser of Kruphix",
+  "Death's Shadow",
+  "Deathrite Shaman",
+  "Firebolt",
+  "Grim Discovery",
+  "Midnight Reaper",
+  "Monastery Mentor",
+  "Reckless Pyrosurfer",
+  "Spell Snare",
+  "Voracious Hydra"
+ ]
+}

@@ -1,0 +1,91 @@
+{
+ "metadata": {
+  "path": "data/polyverse/2026-06-21_bcp26_2/2026-06-21_bcp26_2-p6.json",
+  "draft_id": "2026-06-21_bcp26_2"
+ },
+ "labels": [],
+ "player": "2026-06-21_bcp26_2-p6",
+ "date": "2026-06-21",
+ "matches": [
+  {
+   "opponent": "2026-06-21_bcp26_2-p2",
+   "round": 1,
+   "wins": 1,
+   "losses": 1,
+   "draws": 1
+  },
+  {
+   "opponent": "2026-06-21_bcp26_2-p8",
+   "round": 2,
+   "wins": 2,
+   "losses": 1,
+   "draws": 0,
+   "winner": "2026-06-21_bcp26_2-p6"
+  },
+  {
+   "opponent": "2026-06-21_bcp26_2-p5",
+   "round": 3,
+   "wins": 2,
+   "losses": 1,
+   "draws": 0,
+   "winner": "2026-06-21_bcp26_2-p6"
+  }
+ ],
+ "mainboard": [
+  "Bitter Triumph",
+  "Blood Crypt",
+  "Bloodghast",
+  "Dead Weight",
+  "Den of the Bugbear",
+  "Duress",
+  "Formidable Speaker",
+  "Garruk Wildspeaker",
+  "Grim Flayer",
+  "Hunter's Talent",
+  "Ignoble Hierarch",
+  "Liliana of the Veil",
+  "Mishra's Bauble",
+  "Moonshadow",
+  "Murderous Cut",
+  "Nethergoyf",
+  "Nurturing Peatland",
+  "Overgrown Tomb",
+  "Pick Your Poison",
+  "Raucous Theater",
+  "Scavenging Ooze",
+  "Seasoned Pyromancer",
+  "Sheltered Thicket",
+  "Tarmogoyf",
+  "Tenacious Underdog",
+  "The Huntsman's Redemption",
+  "Twinshot Sniper",
+  "Urza's Bauble",
+  "Verdant Catacombs",
+  "Wither and Bloom",
+  "Wooded Foothills",
+  "Wrenn and Six",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Swamp",
+  "Swamp",
+  "Swamp",
+  "Forest",
+  "Forest"
+ ],
+ "sideboard": [
+  "Anje's Ravager",
+  "Boseiju, Who Endures",
+  "Dreadhorde Arcanist",
+  "Floral Evoker",
+  "Insidious Roots",
+  "Life from the Loam",
+  "Manamorphose",
+  "Master of Death",
+  "Read the Bones",
+  "Reinforced Ronin",
+  "Restless Vinestalk",
+  "Up the Beanstalk",
+  "Utopia Sprawl"
+ ]
+}

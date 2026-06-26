@@ -1,0 +1,89 @@
+{
+ "metadata": {
+  "path": "data/polyverse/2026-06-21_bcp26_1/2026-06-21_bcp26_1-p4.json",
+  "draft_id": "2026-06-21_bcp26_1"
+ },
+ "labels": [],
+ "player": "2026-06-21_bcp26_1-p4",
+ "date": "2026-06-21",
+ "matches": [
+  {
+   "opponent": "2026-06-21_bcp26_1-p8",
+   "round": 1,
+   "wins": 0,
+   "losses": 2,
+   "draws": 0,
+   "winner": "2026-06-21_bcp26_1-p8"
+  },
+  {
+   "opponent": "2026-06-21_bcp26_1-p2",
+   "round": 2,
+   "wins": 2,
+   "losses": 1,
+   "draws": 0,
+   "winner": "2026-06-21_bcp26_1-p4"
+  },
+  {
+   "opponent": "2026-06-21_bcp26_1-p5",
+   "round": 3,
+   "wins": 1,
+   "losses": 2,
+   "draws": 0,
+   "winner": "2026-06-21_bcp26_1-p5"
+  }
+ ],
+ "mainboard": [
+  "Arbor Elf",
+  "Bitter Triumph",
+  "Commercial District",
+  "Deeproot Wayfinder",
+  "Engineered Explosives",
+  "Fell",
+  "Field of the Dead",
+  "Grim Flayer",
+  "Horizon Canopy",
+  "Kishla Skimmer",
+  "Life from the Loam",
+  "Llanowar Elves",
+  "Lush Portico",
+  "Midnight Reaper",
+  "Misty Rainforest",
+  "Mosswood Dreadknight // Dread Whispers",
+  "Murderous Cut",
+  "Overgrown Tomb",
+  "Renegade Rallier",
+  "Scavenging Ooze",
+  "Six",
+  "Tarmogoyf",
+  "Tasigur, the Golden Fang",
+  "Temple Garden",
+  "Thalia, Guardian of Thraben",
+  "Tireless Tracker",
+  "Titania, Protector of Argoth",
+  "Touch the Spirit Realm",
+  "Underground Mortuary",
+  "Up the Beanstalk",
+  "Verdant Catacombs",
+  "Watery Grave",
+  "Windswept Heath",
+  "Wooded Foothills",
+  "Wrenn and Six",
+  "Forest",
+  "Forest",
+  "Swamp",
+  "Swamp",
+  "Swamp"
+ ],
+ "sideboard": [
+  "Agatha's Soul Cauldron",
+  "Arasta of the Endless Web",
+  "Chainweb Aracnir",
+  "Edge of Autumn",
+  "Hallowed Fountain",
+  "Heritage Reclamation",
+  "Inexorable Blob",
+  "Shelldock Isle",
+  "Soul Partition",
+  "Unearth"
+ ]
+}

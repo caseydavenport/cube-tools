@@ -1,0 +1,92 @@
+{
+ "metadata": {
+  "path": "data/polyverse/2026-06-21_bcp26_2/2026-06-21_bcp26_2-p2.json",
+  "draft_id": "2026-06-21_bcp26_2"
+ },
+ "labels": [],
+ "player": "2026-06-21_bcp26_2-p2",
+ "date": "2026-06-21",
+ "matches": [
+  {
+   "opponent": "2026-06-21_bcp26_2-p6",
+   "round": 1,
+   "wins": 1,
+   "losses": 1,
+   "draws": 1
+  },
+  {
+   "opponent": "2026-06-21_bcp26_2-p4",
+   "round": 2,
+   "wins": 1,
+   "losses": 2,
+   "draws": 0,
+   "winner": "2026-06-21_bcp26_2-p4"
+  },
+  {
+   "opponent": "2026-06-21_bcp26_2-p1",
+   "round": 3,
+   "wins": 2,
+   "losses": 0,
+   "draws": 0,
+   "winner": "2026-06-21_bcp26_2-p2"
+  }
+ ],
+ "mainboard": [
+  "Archmage's Charm",
+  "Baleful Strix",
+  "Bloodstained Mire",
+  "Consider",
+  "Cryogen Relic",
+  "Cut Down",
+  "Daze",
+  "Dig Through Time",
+  "Ephara's Dispersal",
+  "Ethereal Forager",
+  "Faerie Dreamthief",
+  "Fatal Push",
+  "Fetid Pools",
+  "Flooded Strand",
+  "Harvester of Misery",
+  "Kiora, the Rising Tide",
+  "Kitesail Freebooter",
+  "Mana Leak",
+  "Mystic Confluence",
+  "Mystic Sanctuary",
+  "Pile On",
+  "Polluted Delta",
+  "Portent",
+  "Repeal",
+  "Spellstutter Sprite",
+  "Sphinx of Forgotten Lore",
+  "Takenuma, Abandoned Mire",
+  "Toxic Deluge",
+  "Virtue of Persistence // Locthwain Scorn",
+  "Watery Grave",
+  "Watery Grave",
+  "Island",
+  "Island",
+  "Island",
+  "Island",
+  "Island",
+  "Swamp",
+  "Swamp",
+  "Swamp",
+  "Swamp"
+ ],
+ "sideboard": [
+  "Blood Crypt",
+  "Cankerbloom",
+  "Careful Study",
+  "Chainweb Aracnir",
+  "Chromatic Star",
+  "Cling to Dust",
+  "Engineered Explosives",
+  "Explore",
+  "Kellan, the Fae-Blooded // Birthright Boon",
+  "Lightning Helix",
+  "Noble Hierarch",
+  "Sedgemoor Witch",
+  "Tireless Tracker",
+  "Wooded Foothills"
+ ]
+}

@@ -1,0 +1,90 @@
+{
+ "metadata": {
+  "path": "data/polyverse/2026-06-20_bcp26_3/2026-06-20_bcp26_3-p7.json",
+  "draft_id": "2026-06-20_bcp26_3"
+ },
+ "labels": [],
+ "player": "2026-06-20_bcp26_3-p7",
+ "date": "2026-06-20",
+ "matches": [
+  {
+   "opponent": "2026-06-20_bcp26_3-p3",
+   "round": 1,
+   "wins": 1,
+   "losses": 2,
+   "draws": 0,
+   "winner": "2026-06-20_bcp26_3-p3"
+  },
+  {
+   "opponent": "2026-06-20_bcp26_3-p8",
+   "round": 2,
+   "wins": 2,
+   "losses": 1,
+   "draws": 0,
+   "winner": "2026-06-20_bcp26_3-p7"
+  },
+  {
+   "opponent": "2026-06-20_bcp26_3-p2",
+   "round": 3,
+   "wins": 2,
+   "losses": 0,
+   "draws": 0,
+   "winner": "2026-06-20_bcp26_3-p7"
+  }
+ ],
+ "mainboard": [
+  "Baleful Strix",
+  "Celestial Colonnade",
+  "Condescend",
+  "Flooded Strand",
+  "Godless Shrine",
+  "Hallowed Fountain",
+  "Leyline Binding",
+  "Liliana of the Veil",
+  "Lórien Revealed",
+  "Mana Leak",
+  "March of Otherworldly Light",
+  "Marsh Flats",
+  "Memory Lapse",
+  "Meticulous Archive",
+  "Mischievous Mystic",
+  "Monastery Mentor",
+  "Mystic Confluence",
+  "Otawara, Soaring City",
+  "Path to Exile",
+  "Polluted Delta",
+  "Preordain",
+  "Proft's Eidetic Memory",
+  "Remand",
+  "Reprieve",
+  "Restoration Angel",
+  "Serum Visions",
+  "Snapcaster Mage",
+  "Sphinx of Forgotten Lore",
+  "Stern Scolding",
+  "The Wandering Emperor",
+  "Undercity Sewers",
+  "Watery Grave",
+  "Wither and Bloom",
+  "Wrath of God",
+  "Island",
+  "Island",
+  "Swamp",
+  "Swamp",
+  "Plains",
+  "Plains"
+ ],
+ "sideboard": [
+  "Breeding Pool",
+  "Embercleave",
+  "Fetid Pools",
+  "Jolrael, Mwonvuli Recluse",
+  "Kiora, the Rising Tide",
+  "Shelldock Isle",
+  "Spell Snare",
+  "Sylvan Library",
+  "Touch the Spirit Realm",
+  "Ulcerate",
+  "Unsummon"
+ ]
+}

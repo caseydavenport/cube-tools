@@ -1,0 +1,89 @@
+{
+ "metadata": {
+  "path": "data/polyverse/2026-06-20_bcp26_1/2026-06-20_bcp26_1-p2.json",
+  "draft_id": "2026-06-20_bcp26_1"
+ },
+ "labels": [],
+ "player": "2026-06-20_bcp26_1-p2",
+ "date": "2026-06-20",
+ "matches": [
+  {
+   "opponent": "2026-06-20_bcp26_1-p6",
+   "round": 1,
+   "wins": 0,
+   "losses": 2,
+   "draws": 0,
+   "winner": "2026-06-20_bcp26_1-p6"
+  },
+  {
+   "opponent": "2026-06-20_bcp26_1-p1",
+   "round": 2,
+   "wins": 2,
+   "losses": 1,
+   "draws": 0,
+   "winner": "2026-06-20_bcp26_1-p2"
+  },
+  {
+   "opponent": "2026-06-20_bcp26_1-p5",
+   "round": 3,
+   "wins": 2,
+   "losses": 0,
+   "draws": 0,
+   "winner": "2026-06-20_bcp26_1-p2"
+  }
+ ],
+ "mainboard": [
+  "Accursed Marauder",
+  "Adanto Vanguard",
+  "Bitterblossom",
+  "Blood Crypt",
+  "Bloodsky Berserker",
+  "Cut Down",
+  "Daze",
+  "Duress",
+  "Esper Sentinel",
+  "Faerie Guidemother // Gift of the Fae",
+  "Flitterwing Nuisance",
+  "Flooded Strand",
+  "Gingerbrute",
+  "Lightning Bolt",
+  "Marionette Apprentice",
+  "Meticulous Archive",
+  "Mishra's Bauble",
+  "Pile On",
+  "Polluted Delta",
+  "Polluted Delta",
+  "Porcelain Legionnaire",
+  "Portable Hole",
+  "Reprieve",
+  "Scalding Tarn",
+  "Scrapwork Mutt",
+  "Searslicer Goblin",
+  "Shadowy Backstreet",
+  "Silent Clearing",
+  "Steam Vents",
+  "Umbral Collar Zealot",
+  "Wanderbrine Trapper",
+  "Watery Grave",
+  "Welcoming Vampire",
+  "Windswept Heath",
+  "Wither and Bloom",
+  "Swamp",
+  "Swamp",
+  "Mountain",
+  "Plains",
+  "Plains"
+ ],
+ "sideboard": [
+  "Abundant Harvest",
+  "Collected Company",
+  "Dreamtide Whale",
+  "Elspeth's Smite",
+  "Fetid Pools",
+  "Flames of the Firebrand",
+  "Horizon Canopy",
+  "Mystic Sanctuary",
+  "Read the Bones",
+  "Unexpectedly Absent"
+ ]
+}

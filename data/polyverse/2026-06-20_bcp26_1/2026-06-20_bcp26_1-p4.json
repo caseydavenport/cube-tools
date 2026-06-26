@@ -1,0 +1,90 @@
+{
+ "metadata": {
+  "path": "data/polyverse/2026-06-20_bcp26_1/2026-06-20_bcp26_1-p4.json",
+  "draft_id": "2026-06-20_bcp26_1"
+ },
+ "labels": [],
+ "player": "2026-06-20_bcp26_1-p4",
+ "date": "2026-06-20",
+ "matches": [
+  {
+   "opponent": "2026-06-20_bcp26_1-p8",
+   "round": 1,
+   "wins": 1,
+   "losses": 2,
+   "draws": 0,
+   "winner": "2026-06-20_bcp26_1-p8"
+  },
+  {
+   "opponent": "2026-06-20_bcp26_1-p3",
+   "round": 2,
+   "wins": 2,
+   "losses": 0,
+   "draws": 0,
+   "winner": "2026-06-20_bcp26_1-p4"
+  },
+  {
+   "opponent": "2026-06-20_bcp26_1-p7",
+   "round": 3,
+   "wins": 1,
+   "losses": 2,
+   "draws": 0,
+   "winner": "2026-06-20_bcp26_1-p7"
+  }
+ ],
+ "mainboard": [
+  "Arasta of the Endless Web",
+  "Balance",
+  "Blade Splicer",
+  "Brainstorm",
+  "Candy Trail",
+  "Caretaker's Talent",
+  "Celestial Colonnade",
+  "Chromatic Star",
+  "Consider",
+  "Cryogen Relic",
+  "Eternal Witness",
+  "Fact or Fiction",
+  "Garruk Wildspeaker",
+  "Gilded Goose",
+  "Gitaxian Probe",
+  "Growth Spiral",
+  "Hallowed Fountain",
+  "Hallowed Fountain",
+  "Hedge Maze",
+  "Legion Extruder",
+  "March of Otherworldly Light",
+  "Memory Lapse",
+  "Mystic Confluence",
+  "Once Upon a Time",
+  "Restoration Angel",
+  "Shark Typhoon",
+  "Stomping Ground",
+  "Temple Garden",
+  "Thundering Falls",
+  "Tireless Tracker",
+  "Torrential Gearhulk",
+  "Urza's Saga",
+  "Wooded Foothills",
+  "Wrath of God",
+  "Plains",
+  "Plains",
+  "Island",
+  "Island",
+  "Forest",
+  "Forest"
+ ],
+ "sideboard": [
+  "Explore",
+  "Fire // Ice",
+  "Journey to Nowhere",
+  "Life from the Loam",
+  "Misty Rainforest",
+  "Preordain",
+  "Qasali Pridemage",
+  "Repeal",
+  "Spell Pierce",
+  "Spell Snare",
+  "Touch the Spirit Realm"
+ ]
+}

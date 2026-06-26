@@ -1,0 +1,87 @@
+{
+ "metadata": {
+  "path": "data/polyverse/2026-06-20_bcp26_1/2026-06-20_bcp26_1-p6.json",
+  "draft_id": "2026-06-20_bcp26_1"
+ },
+ "labels": [],
+ "player": "2026-06-20_bcp26_1-p6",
+ "date": "2026-06-20",
+ "matches": [
+  {
+   "opponent": "2026-06-20_bcp26_1-p2",
+   "round": 1,
+   "wins": 2,
+   "losses": 0,
+   "draws": 0,
+   "winner": "2026-06-20_bcp26_1-p6"
+  },
+  {
+   "opponent": "2026-06-20_bcp26_1-p7",
+   "round": 2,
+   "wins": 2,
+   "losses": 0,
+   "draws": 0,
+   "winner": "2026-06-20_bcp26_1-p6"
+  },
+  {
+   "opponent": "2026-06-20_bcp26_1-p8",
+   "round": 3,
+   "wins": 0,
+   "losses": 2,
+   "draws": 0,
+   "winner": "2026-06-20_bcp26_1-p8"
+  }
+ ],
+ "mainboard": [
+  "Arid Mesa",
+  "Birds of Paradise",
+  "Boseiju, Who Endures",
+  "Commercial District",
+  "Deeproot Wayfinder",
+  "Deluge of Doom",
+  "Eiganjo, Seat of the Empire",
+  "Elegant Parlor",
+  "Fatal Push",
+  "Field of the Dead",
+  "Floral Evoker",
+  "Grim Discovery",
+  "Ignoble Hierarch",
+  "Kishla Skimmer",
+  "Knight of the Reliquary",
+  "Leyline Binding",
+  "Llanowar Elves",
+  "Lotus Cobra",
+  "Manamorphose",
+  "Misty Rainforest",
+  "Murderous Cut",
+  "Otawara, Soaring City",
+  "Overgrown Tomb",
+  "Prismatic Ending",
+  "Questing Druid // Seek the Beast",
+  "Renegade Rallier",
+  "Shelldock Isle",
+  "Six",
+  "Stomping Ground",
+  "Tasigur, the Golden Fang",
+  "Temple Garden",
+  "Territorial Kavu",
+  "The Goose Mother",
+  "Underground Mortuary",
+  "Up the Beanstalk",
+  "Verdant Catacombs",
+  "Windswept Heath",
+  "Wrenn and Six",
+  "Forest",
+  "Island",
+  "Swamp"
+ ],
+ "sideboard": [
+  "Cathar Commando",
+  "Engineered Explosives",
+  "Faerie Dreamthief",
+  "Glass Casket",
+  "Magma Jet",
+  "Mutavault",
+  "Werefox Bodyguard"
+ ]
+}

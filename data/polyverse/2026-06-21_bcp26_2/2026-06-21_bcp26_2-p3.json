@@ -1,0 +1,88 @@
+{
+ "metadata": {
+  "path": "data/polyverse/2026-06-21_bcp26_2/2026-06-21_bcp26_2-p3.json",
+  "draft_id": "2026-06-21_bcp26_2"
+ },
+ "labels": [],
+ "player": "2026-06-21_bcp26_2-p3",
+ "date": "2026-06-21",
+ "matches": [
+  {
+   "opponent": "2026-06-21_bcp26_2-p7",
+   "round": 1,
+   "wins": 2,
+   "losses": 1,
+   "draws": 0,
+   "winner": "2026-06-21_bcp26_2-p3"
+  },
+  {
+   "opponent": "2026-06-21_bcp26_2-p5",
+   "round": 2,
+   "wins": 1,
+   "losses": 2,
+   "draws": 0,
+   "winner": "2026-06-21_bcp26_2-p5"
+  },
+  {
+   "opponent": "2026-06-21_bcp26_2-p8",
+   "round": 3,
+   "wins": 1,
+   "losses": 2,
+   "draws": 0,
+   "winner": "2026-06-21_bcp26_2-p8"
+  }
+ ],
+ "mainboard": [
+  "Augur of Autumn",
+  "Balance",
+  "Birds of Paradise",
+  "Dress Down",
+  "Esika's Chariot",
+  "Eternal Witness",
+  "Fell",
+  "Field of the Dead",
+  "Flooded Strand",
+  "Glass Casket",
+  "Growth Spiral",
+  "Hallowed Fountain",
+  "Horizon Canopy",
+  "Inquisition of Kozilek",
+  "Knight of the Reliquary",
+  "Llanowar Elves",
+  "Lotus Cobra",
+  "Lush Portico",
+  "Marsh Flats",
+  "Memory Lapse",
+  "Mosswood Dreadknight // Dread Whispers",
+  "Once Upon a Time",
+  "Overgrown Tomb",
+  "Primeval Titan",
+  "Qasali Pridemage",
+  "Renegade Rallier",
+  "Shadowy Backstreet",
+  "Silent Clearing",
+  "Six",
+  "Sylvan Library",
+  "Temple Garden",
+  "Thoughtseize",
+  "Titania, Protector of Argoth",
+  "Underground Mortuary",
+  "Verdant Catacombs",
+  "Windswept Heath",
+  "Island",
+  "Swamp",
+  "Swamp",
+  "Forest"
+ ],
+ "sideboard": [
+  "Breeding Pool",
+  "Edge of Autumn",
+  "Jolrael, Mwonvuli Recluse",
+  "Magmatic Sinkhole",
+  "Sandstorm Salvager",
+  "Scrabbling Claws",
+  "Stern Scolding",
+  "Traverse the Ulvenwald",
+  "Verdurous Gearhulk"
+ ]
+}
