@@ -19,6 +19,10 @@ func (m *mockDeckStorage) List(_ string, _ *storage.DecksRequest) ([]*storage.De
 	return m.decks, nil
 }
 
+func (m *mockDeckStorage) UpdateDeckMeta(_, _, _, _ string, _, _ []string) (*storage.Deck, error) {
+	return nil, nil
+}
+
 func makeStorageDeck(player, draftID string, labels []string, games []types.Game, matches []types.Match) *storage.Deck {
 	d := &storage.Deck{}
 	d.Player = player

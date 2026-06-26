@@ -19,6 +19,10 @@ func (m *mockDeckStorage) List(_ string, _ *storage.DecksRequest) ([]*storage.De
 	return m.decks, nil
 }
 
+func (m *mockDeckStorage) UpdateDeckMeta(_, _, _, _ string, _, _ []string) (*storage.Deck, error) {
+	return nil, nil
+}
+
 func makeStorageDeck(player, draftID string, labels []string, games []types.Game, matches []types.Match) *storage.Deck {
 	d := &storage.Deck{}
 	d.Player = player
@@ -65,10 +69,10 @@ func TestLookupOpponentMacro_WrongDraft(t *testing.T) {
 func TestArchetypesHandler_DrawsExcluded(t *testing.T) {
 	decks := []*storage.Deck{
 		makeStorageDeck("Alice", "d1", []string{"aggro"}, []types.Game{
-			{Opponent: "Bob", Winner: "Alice"},          // win
-			{Opponent: "Bob", Winner: "Bob"},            // loss
-			{Opponent: "Bob", Winner: ""},               // draw - should not count
-			{Opponent: "Bob", Winner: "", Tie: true},    // draw - should not count
+			{Opponent: "Bob", Winner: "Alice"},       // win
+			{Opponent: "Bob", Winner: "Bob"},         // loss
+			{Opponent: "Bob", Winner: ""},            // draw - should not count
+			{Opponent: "Bob", Winner: "", Tie: true}, // draw - should not count
 		}, nil),
 		makeStorageDeck("Bob", "d1", []string{"control"}, []types.Game{
 			{Opponent: "Alice", Winner: "Alice"},
