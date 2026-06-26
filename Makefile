@@ -32,6 +32,14 @@ bin/server: $(GO_FILES)
 	mkdir -p bin
 	CGO_ENABLED=0 go build -o bin/server ./cmd/server/server.go
 
+# Native server with OCR support (requires OpenCV + tesseract installed locally).
+bin/server-ocr: $(GO_FILES)
+	mkdir -p bin
+	CGO_ENABLED=1 go build -tags ocr_cv -o bin/server-ocr ./cmd/server/server.go
+
+run-server-native: bin/server-ocr
+	./bin/server-ocr
+
 server: .server.created
 .server.created: $(shell find pkg -name "*.go") bin/server Dockerfile.server
 	docker build -t caseydavenport/cube-tools-server -f Dockerfile.server .
