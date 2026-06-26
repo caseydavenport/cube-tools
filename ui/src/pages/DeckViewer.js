@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react'
-import { LoadCube, LoadDecks, FetchNotes, SaveNotes } from "../utils/Fetch.js"
+import { LoadCube, LoadDecks, FetchNotes, SaveNotes, SaveDeckMeta } from "../utils/Fetch.js"
 import { useCube } from "../contexts/CubeContext.js"
 import { Record, MatchRecord, Wins, Losses, Draws, MatchWins, MatchLosses, MatchDraws, InDeckColor } from "../utils/Deck.js"
 import { RemovalMatches, CounterspellMatches } from "../pages/Decks.js"
@@ -8,6 +8,7 @@ import { CardMatches, DeckMatches } from "../utils/Query.js"
 import { ColorImages } from "../utils/Colors.js"
 import { Button, TextInput, DropdownHeader, NumericInput, Checkbox, DateSelector } from "../components/Dropdown.js"
 import { PillSearchInput } from "../components/PillSearchInput.js"
+import { TagEditor } from "../components/TagEditor.js"
 import { InitialDates } from "../components/StatsUI.js"
 import { ColorPickerHeader } from "./Types.js"
 import ReactMarkdown from "react-markdown";
@@ -91,6 +92,16 @@ export function DeckViewer(props) {
       }
     }
     setDraftDropdownOptions(draftOpts)
+  }
+
+  // Merge a server-updated deck back into both the list and the selected deck.
+  function onDeckUpdated(updated) {
+    const match = (d) =>
+      d.player === updated.player &&
+      d.metadata && d.metadata.draft_id === updated.metadata.draft_id
+    // Replace the one deck that matches with the updated version, leave every other deck as-is.
+    setDecks((prev) => prev.map((d) => (match(d) ? updated : d)))
+    setDeck((prev) => (prev && match(prev) ? updated : prev))
   }
 
   function onDeckClicked(event) {
@@ -371,6 +382,8 @@ export function DeckViewer(props) {
             description={description}
             onDescriptionFetched={onDescriptionFetched}
             viewMode={viewMode}
+            archetypes={archetypes}
+            onDeckUpdated={onDeckUpdated}
           />
         </div>
       </div>
@@ -859,6 +872,40 @@ function DeckReport(input) {
 
 function PlayerFrame(input) {
   let deck = input.deck
+  const cube = input.cube
+  const onDeckUpdated = input.onDeckUpdated
+  const [saveError, setSaveError] = useState(null)
+
+  // Build the WUBRG checkbox array from the deck's effective colors.
+  const colorBools = ["W", "U", "B", "R", "G"].map((c) => (deck.colors || []).includes(c))
+  const hasOverride = !!(deck.colors_override && deck.colors_override.length)
+
+  // Commit a change to one of the three editable fields. Omitting a field keeps
+  // its current value; pass [] for colors to clear the override.
+  const commit = async ({ macro, labels, colors }) => {
+    setSaveError(null)
+    try {
+      const updated = await SaveDeckMeta(cube, {
+        draft_id: deck.metadata.draft_id,
+        player: deck.player,
+        macro_archetype: macro !== undefined ? macro : (deck.macro_archetype || ""),
+        labels: labels !== undefined ? labels : (deck.labels || []),
+        colors: colors !== undefined ? colors : (deck.colors_override || []),
+      })
+      if (onDeckUpdated) onDeckUpdated(updated)
+    } catch (e) {
+      setSaveError("Failed to save")
+    }
+  }
+
+  const onColorChecked = (e) => {
+    const idx = ["W", "U", "B", "R", "G"].indexOf(e.target.id)
+    if (idx < 0) return
+    const next = colorBools.slice()
+    next[idx] = !next[idx]
+    commit({ colors: CheckboxesToColors(next) })
+  }
+
   let cards = deck.mainboard
   if (input.mbsb == "Sideboard") {
     cards = deck.sideboard
@@ -928,7 +975,25 @@ function PlayerFrame(input) {
           <h2 style={{"margin": "0", "color": "var(--primary)"}}>{deck.player}</h2>
           <Button text="Copy to Clipboard" onClick={copyToClipboard} />
         </div>
-        <div style={{"fontSize": "1.2rem"}}>{colors}</div>
+        <OverlayTrigger
+          trigger="click"
+          rootClose
+          placement="bottom-end"
+          overlay={
+            <Popover id={`color-picker-${deck.player}`} style={{maxWidth: "none"}}>
+              <Popover.Body style={{padding: "0.25rem"}}>
+                <ColorPickerHeader display={colorBools} onChecked={onColorChecked} />
+                {!hasOverride && <div style={{"textAlign": "center", "fontSize": "0.8rem", "opacity": "0.7"}}>(inferred)</div>}
+                {saveError && <div style={{"textAlign": "center", "color": "var(--danger, red)", "fontSize": "0.8rem"}}>{saveError}</div>}
+              </Popover.Body>
+            </Popover>
+          }
+        >
+          <div style={{"fontSize": "1.2rem", "cursor": "pointer", "display": "flex", "alignItems": "center", "gap": "0.25rem"}} title="Edit colors">
+            {colors}
+            <span style={{"fontSize": "0.7rem", "opacity": "0.6"}}>▾</span>
+          </div>
+        </OverlayTrigger>
       </div>
 
       <div className="stats-grid" style={{"display": "grid", "gridTemplateColumns": "repeat(auto-fit, minmax(200px, 1fr))", "gap": "1rem"}}>
@@ -938,11 +1003,25 @@ function PlayerFrame(input) {
         </div>
         <div className="stat-item">
           <span className="player-frame-title">Archetype:</span>
-          <span className="player-frame-value">{getMacro(deck)}</span>
+          <DropdownHeader
+            value={deck.macro_archetype || ""}
+            options={[
+              { label: "—", value: "" },
+              { label: "Aggro", value: "aggro" },
+              { label: "Midrange", value: "midrange" },
+              { label: "Tempo", value: "tempo" },
+              { label: "Control", value: "control" },
+            ]}
+            onChange={(e) => commit({ macro: e.target.value })}
+          />
         </div>
         <div className="stat-item">
           <span className="player-frame-title">Tags:</span>
-          <span className="player-frame-value">{labels || "—"}</span>
+          <TagEditor
+            tags={deck.labels || []}
+            suggestions={input.archetypes || []}
+            onChange={(next) => commit({ labels: next })}
+          />
         </div>
         <div className="stat-item">
           <span className="player-frame-title">Event:</span>

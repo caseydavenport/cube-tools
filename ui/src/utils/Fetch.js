@@ -11,20 +11,28 @@ export async function LoadCube(cube, onFetch) {
   return c
 }
 
+// decorateDeck applies the client-side derived fields the UI expects on every
+// deck. colors_override preserves the raw server override (absent when the deck
+// uses inferred colors) because ExtractColors below overwrites d.colors with the
+// effective color list.
+export function decorateDeck(d) {
+  d.avg_cmc = AverageCMC({deck: d})
+  d.avg_word_count = AverageWordCount({deck: d})
+  d.colors_override = (d.colors && d.colors.length) ? d.colors : null
+  d.colors = ExtractColors({deck: d})
+  if (d.matches === null) {
+    d.matches = []
+  }
+  return d
+}
+
 export async function LoadDecks(cube, onLoad, start, end, draftSize, playerMatch, match, board) {
   const resp = await fetch(`/api/${cube}/decks?start=${start}&end=${end}&size=${draftSize}&player=${playerMatch}&match=${encodeURIComponent(match || "")}&board=${encodeURIComponent(board || "")}`);
   let decks = await resp.json();
 
   // TODO: Move this into the server code, instead of iterate decks here.
   for (let d of decks.decks) {
-    d.avg_cmc = AverageCMC({deck: d})
-    d.avg_word_count = AverageWordCount({deck: d})
-    d.colors = ExtractColors({deck: d})
-
-    // Avoid nil errors.
-    if (d.matches === null) {
-      d.matches = []
-    }
+    decorateDeck(d)
   }
 
   onLoad(decks.decks)
@@ -100,6 +108,23 @@ export async function SaveNotes(cube, path, content) {
   if (!resp.ok) {
     throw new Error("Failed to save notes");
   }
+}
+
+// SaveDeckMeta writes the three editable metadata fields for a deck identified
+// by (draft_id, player) and returns the updated, decorated deck.
+export async function SaveDeckMeta(cube, { draft_id, player, macro_archetype, labels, colors }) {
+  const resp = await fetch(`/api/${cube}/decks/update`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ draft_id, player, macro_archetype, labels, colors }),
+  });
+  if (!resp.ok) {
+    throw new Error("Failed to save deck metadata");
+  }
+  let d = await resp.json();
+  return decorateDeck(d);
 }
 
 // FetchIndex loads the draft index file from the server.
