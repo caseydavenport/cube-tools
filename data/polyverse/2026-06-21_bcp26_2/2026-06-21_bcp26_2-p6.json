@@ -3,7 +3,11 @@
   "path": "data/polyverse/2026-06-21_bcp26_2/2026-06-21_bcp26_2-p6.json",
   "draft_id": "2026-06-21_bcp26_2"
  },
- "labels": [],
+ "macro_archetype": "midrange",
+ "labels": [
+  "graveyard",
+  "delirium"
+ ],
  "player": "2026-06-21_bcp26_2-p6",
  "date": "2026-06-21",
  "matches": [

@@ -88,5 +88,9 @@
   "Perilous Myr",
   "Reckless Charge",
   "Steam Vents"
+ ],
+ "colors": [
+  "R",
+  "G"
  ]
 }
