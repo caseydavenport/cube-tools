@@ -2,6 +2,7 @@ package storage
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"math"
 	"os"
@@ -102,8 +103,12 @@ func (d *Deck) GetColors() []string {
 	return res
 }
 
+// ErrDeckNotFound is returned when no deck matches the (draftID, player) key.
+var ErrDeckNotFound = errors.New("deck not found")
+
 type DeckStorage interface {
 	List(cube string, req *DecksRequest) ([]*Deck, error)
+	UpdateDeckMeta(cube, draftID, player, macroArchetype string, labels, colors []string) (*Deck, error)
 }
 
 func NewFileDeckStore() DeckStorage {
@@ -141,23 +146,72 @@ func (s *deckStore) List(cube string, req *DecksRequest) ([]*Deck, error) {
 	s.Lock()
 	defer s.Unlock()
 
+	c, err := s.cacheForLocked(cube)
+	if err != nil {
+		return nil, err
+	}
+	return filter(c.decks, req), nil
+}
+
+// cacheForLocked returns the cube's cache, loading and decorating it from disk
+// on a miss. The caller must hold s.Mutex.
+func (s *deckStore) cacheForLocked(cube string) (*cubeCache, error) {
 	if s.caches == nil {
 		s.caches = map[string]*cubeCache{}
 	}
 	c, ok := s.caches[cube]
-	if !ok {
-		loaded, err := loadDecks(cube)
-		if err != nil {
-			return nil, err
-		}
-		c = &cubeCache{decks: loaded, lookup: map[key]*Deck{}}
-		for _, d := range loaded {
-			c.lookup[key{player: d.Player, draft: d.Metadata.DraftID}] = d
-		}
-		process(c.lookup)
-		s.caches[cube] = c
+	if ok {
+		return c, nil
 	}
-	return filter(c.decks, req), nil
+	loaded, err := loadDecks(cube)
+	if err != nil {
+		return nil, err
+	}
+	c = &cubeCache{decks: loaded, lookup: map[key]*Deck{}}
+	for _, d := range loaded {
+		c.lookup[key{player: d.Player, draft: d.Metadata.DraftID}] = d
+	}
+	process(c.lookup)
+	s.caches[cube] = c
+	return c, nil
+}
+
+// UpdateDeckMeta rewrites the macro archetype, labels, and color override on the
+// deck identified by (draftID, player) and returns the updated, decorated deck.
+// An empty colors slice clears the override.
+func (s *deckStore) UpdateDeckMeta(cube, draftID, player, macroArchetype string, labels, colors []string) (*Deck, error) {
+	s.Lock()
+	defer s.Unlock()
+
+	c, err := s.cacheForLocked(cube)
+	if err != nil {
+		return nil, err
+	}
+	cached, ok := c.lookup[key{player: player, draft: draftID}]
+	if !ok {
+		return nil, ErrDeckNotFound
+	}
+	path := cached.Metadata.Path
+
+	// Load, mutate, and save the whole deck so the other fields survive untouched.
+	d, err := types.LoadDeck(path)
+	if err != nil {
+		return nil, err
+	}
+	d.MacroArchetype = macroArchetype
+	d.Labels = labels
+	d.Colors = colors
+	if err := d.Save(path); err != nil {
+		return nil, err
+	}
+
+	// Rebuild the cache so the returned deck is decorated the same way a GET would be.
+	delete(s.caches, cube)
+	c, err = s.cacheForLocked(cube)
+	if err != nil {
+		return nil, err
+	}
+	return c.lookup[key{player: player, draft: draftID}], nil
 }
 
 func loadDecks(cube string) ([]*Deck, error) {

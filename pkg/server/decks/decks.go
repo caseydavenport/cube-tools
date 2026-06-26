@@ -2,6 +2,7 @@ package decks
 
 import (
 	"encoding/json"
+	"errors"
 	"net/http"
 	"time"
 
@@ -14,15 +15,14 @@ type DecksResponse struct {
 	Decks []*storage.Deck `json:"decks"`
 }
 
-func DeckHandler() http.Handler {
+func DeckHandler(store storage.DeckStorage) http.Handler {
 	return &deckHandler{
-		store: storage.NewFileDeckStore(),
+		store: store,
 	}
 }
 
 type deckHandler struct {
-	store  storage.DeckStorage
-	cached []storage.Deck
+	store storage.DeckStorage
 }
 
 func (d *deckHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
@@ -51,6 +51,55 @@ func (d *deckHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 		panic(err)
 	}
 	logrus.WithField("time", time.Since(start)).Info("Write")
+}
+
+type UpdateDeckMetaRequest struct {
+	DraftID        string   `json:"draft_id"`
+	Player         string   `json:"player"`
+	MacroArchetype string   `json:"macro_archetype"`
+	Labels         []string `json:"labels"`
+	Colors         []string `json:"colors"`
+}
+
+func UpdateDeckHandler(store storage.DeckStorage) http.Handler {
+	return &updateDeckHandler{store: store}
+}
+
+type updateDeckHandler struct {
+	store storage.DeckStorage
+}
+
+func (h *updateDeckHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
+	var req UpdateDeckMetaRequest
+	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
+		http.Error(rw, "Invalid request", http.StatusBadRequest)
+		return
+	}
+	if req.DraftID == "" || req.Player == "" {
+		http.Error(rw, "draft_id and player are required", http.StatusBadRequest)
+		return
+	}
+
+	updated, err := h.store.UpdateDeckMeta(r.PathValue("cube"), req.DraftID, req.Player, req.MacroArchetype, req.Labels, req.Colors)
+	if errors.Is(err, storage.ErrDeckNotFound) {
+		http.Error(rw, "Deck not found", http.StatusNotFound)
+		return
+	}
+	if err != nil {
+		logrus.WithError(err).Error("Failed to update deck metadata")
+		http.Error(rw, "Internal server error", http.StatusInternalServerError)
+		return
+	}
+
+	b, err := json.Marshal(updated)
+	if err != nil {
+		http.Error(rw, "Internal server error", http.StatusInternalServerError)
+		return
+	}
+	rw.Header().Set("Content-Type", "application/json")
+	if _, err := rw.Write(b); err != nil {
+		logrus.WithError(err).Error("Failed to write deck update response")
+	}
 }
 
 func ParseDecksRequest(r *http.Request) *storage.DecksRequest {

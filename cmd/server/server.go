@@ -8,6 +8,7 @@ import (
 	"github.com/caseydavenport/cube-tools/pkg/server"
 	"github.com/caseydavenport/cube-tools/pkg/server/decks"
 	"github.com/caseydavenport/cube-tools/pkg/server/stats"
+	"github.com/caseydavenport/cube-tools/pkg/storage"
 	"github.com/caseydavenport/cube-tools/pkg/types"
 	"github.com/sirupsen/logrus"
 )
@@ -35,7 +36,9 @@ func main() {
 	cubeRoute("GET /api/{cube}/index", server.CubeIndexHandler())
 	cubeRoute("GET /api/{cube}/drafts/{draft_id}/log", server.DraftLogHandler())
 	cubeRoute("GET /api/{cube}/notes", server.NotesHandler())
-	cubeRoute("GET /api/{cube}/decks", decks.DeckHandler())
+	deckStore := storage.NewFileDeckStore()
+	cubeRoute("GET /api/{cube}/decks", decks.DeckHandler(deckStore))
+	cubeRoute("POST /api/{cube}/decks/update", decks.UpdateDeckHandler(deckStore))
 	cubeRoute("GET /api/{cube}/archetypes", server.ArchetypesHandler())
 	cubeRoute("GET /api/{cube}/stats/cards", stats.CardStatsHandler())
 	cubeRoute("GET /api/{cube}/stats/colors", stats.ColorStatsHandler())
