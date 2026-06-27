@@ -11,6 +11,12 @@ type ctxKey int
 
 const cubeKey ctxKey = 0
 
+// ContextWithCube returns ctx with the cube id attached, the same way WithCube
+// does. Exported for handlers in subpackages and for tests.
+func ContextWithCube(ctx context.Context, cube string) context.Context {
+	return context.WithValue(ctx, cubeKey, cube)
+}
+
 // WithCube validates the {cube} path param against the registry and stashes the
 // cube ID in the request context. Handlers retrieve it via CubeFromRequest.
 func WithCube(reg *cubes.Registry, h http.Handler) http.Handler {
@@ -20,7 +26,7 @@ func WithCube(reg *cubes.Registry, h http.Handler) http.Handler {
 			http.NotFound(rw, r)
 			return
 		}
-		ctx := context.WithValue(r.Context(), cubeKey, id)
+		ctx := ContextWithCube(r.Context(), id)
 		h.ServeHTTP(rw, r.WithContext(ctx))
 	})
 }
