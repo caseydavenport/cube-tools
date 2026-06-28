@@ -18,18 +18,10 @@ func CardsHandlerWithRoot(dataRoot string) http.Handler {
 			http.NotFound(rw, r)
 			return
 		}
-		date := ""
-		if len(draftID) >= 10 {
-			date = draftID[:10]
-		}
-		cl, err := types.LoadCubeList(types.LoadOptions{DataRoot: dataRoot, Cube: cube, Date: date})
+		cl, err := loadCubeForDraft(dataRoot, cube, draftID)
 		if err != nil {
-			// Fall back to latest snapshot when the exact date has none.
-			cl, err = types.LoadCubeList(types.LoadOptions{DataRoot: dataRoot, Cube: cube})
-			if err != nil {
-				http.Error(rw, "no cube list: "+err.Error(), http.StatusInternalServerError)
-				return
-			}
+			http.Error(rw, "no cube list: "+err.Error(), http.StatusInternalServerError)
+			return
 		}
 		var cards []CardInfo
 		for _, name := range cl.Names() {

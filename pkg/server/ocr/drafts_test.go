@@ -120,3 +120,37 @@ func TestDraftsHandlerListsDraftsWithImages(t *testing.T) {
 		t.Fatalf("flight = %q, want Saturday Morning", out.Drafts[0].Flight)
 	}
 }
+
+func TestDraftsHandlerReportsConflicts(t *testing.T) {
+	root := t.TempDir()
+	cube := "polyverse"
+	draftID := "2026-01-17_evt_1"
+	base := filepath.Join(root, cube, draftID)
+	writeFile(t, filepath.Join(base, "img", "p1", "checkin-1.jpg"), "x")
+	// Cube has 1x Brainstorm; the pool claims 2, an over-count conflict.
+	writeFile(t, filepath.Join(root, cube, "2026-01-17", "cube-snapshot.json"),
+		`{"cards":[{"name":"Brainstorm"}]}`)
+	sess := &Session{DraftID: draftID, Players: map[string]*PlayerWork{
+		"p1": pool(entry("Brainstorm", 2)),
+	}}
+	if err := sess.Save(root, cube); err != nil {
+		t.Fatal(err)
+	}
+
+	h := DraftsHandlerWithRoot(root)
+	r := reqWithCube(t, "GET", "/api/polyverse/ocr/drafts", cube)
+	w := httptest.NewRecorder()
+	h.ServeHTTP(w, r)
+	if w.Code != 200 {
+		t.Fatalf("status = %d", w.Code)
+	}
+	var out struct {
+		Drafts []DraftSummary `json:"drafts"`
+	}
+	if err := json.Unmarshal(w.Body.Bytes(), &out); err != nil {
+		t.Fatal(err)
+	}
+	if len(out.Drafts) != 1 || out.Drafts[0].Conflicts != 1 {
+		t.Fatalf("drafts = %+v", out.Drafts)
+	}
+}
