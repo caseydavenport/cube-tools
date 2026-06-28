@@ -13,9 +13,15 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
+// Rotation directions, as sent in the request and compared against below.
+const (
+	directionCW  = "cw"
+	directionCCW = "ccw"
+)
+
 type rotateRequest struct {
-	Photo string `json:"photo"`
-	Dir   string `json:"dir"` // "cw" or "ccw"
+	Photo     string `json:"photo"`
+	Direction string `json:"direction"`
 }
 
 func RotateHandler() http.Handler { return RotateHandlerWithRoot("data") }
@@ -32,7 +38,7 @@ func RotateHandlerWithRoot(dataRoot string) http.Handler {
 			http.Error(rw, "Invalid request", http.StatusBadRequest)
 			return
 		}
-		if req.Dir != "cw" && req.Dir != "ccw" {
+		if req.Direction != directionCW && req.Direction != directionCCW {
 			http.Error(rw, "Invalid direction", http.StatusBadRequest)
 			return
 		}
@@ -42,7 +48,7 @@ func RotateHandlerWithRoot(dataRoot string) http.Handler {
 			http.Error(rw, "Invalid path", http.StatusForbidden)
 			return
 		}
-		if err := rotateJPEGFile(abs, req.Dir == "cw"); err != nil {
+		if err := rotateJPEGFile(abs, req.Direction == directionCW); err != nil {
 			logrus.WithError(err).WithField("photo", req.Photo).Warn("Rotate failed")
 			http.Error(rw, "Internal server error", http.StatusInternalServerError)
 			return
