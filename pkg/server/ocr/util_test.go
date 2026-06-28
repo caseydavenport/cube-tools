@@ -35,3 +35,9 @@ func writeFile(t *testing.T, path, body string) {
 		t.Fatal(err)
 	}
 }
+
+// pool builds a PlayerWork with just the given pool entries, the common shape
+// for the pool/deck consistency checks.
+func pool(entries ...PoolEntry) *PlayerWork { return &PlayerWork{PoolEntries: entries} }
+
+func entry(name string, count int) PoolEntry { return PoolEntry{CardName: name, Count: count} }

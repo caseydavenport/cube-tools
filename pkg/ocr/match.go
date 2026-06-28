@@ -41,14 +41,9 @@ const (
 	VeryLowConfidenceGap       = 0.20
 )
 
-// BasicLandNames are always recognized even when the cube list doesn't
-// contain them - they show up in every deck photo. They get a looser
-// threshold (BasicLandThreshold) and skip the short-name substring gate.
-var BasicLandNames = []string{
-	"Plains", "Island", "Swamp", "Mountain", "Forest", "Wastes",
-	"Snow-Covered Plains", "Snow-Covered Island", "Snow-Covered Swamp",
-	"Snow-Covered Mountain", "Snow-Covered Forest", "Snow-Covered Wastes",
-}
+// Basic lands (types.BasicLandNames) are always recognized even when the cube
+// list doesn't contain them - they show up in every deck photo. They get a
+// looser threshold (BasicLandThreshold) and skip the short-name substring gate.
 
 // BasicLandThreshold is the minimum score for a basic land to count as high
 // confidence. Looser than HighConfidenceThreshold because basics are often
@@ -144,7 +139,7 @@ func MatchLine(text string, cube *types.Cube) MatchResult {
 	rawLower := strings.ToLower(text)
 	cleanedLower := strings.ToLower(cleaned)
 
-	cands := make([]Candidate, 0, len(cube.Names())+len(BasicLandNames))
+	cands := make([]Candidate, 0, len(cube.Names())+len(types.BasicLandNames))
 	scoreName := func(name string, applyShortGate bool) float64 {
 		lowerName := strings.ToLower(name)
 		targets := []string{lowerName}
@@ -188,7 +183,7 @@ func MatchLine(text string, cube *types.Cube) MatchResult {
 		return best
 	}
 	basicSet := map[string]bool{}
-	for _, name := range BasicLandNames {
+	for _, name := range types.BasicLandNames {
 		basicSet[name] = true
 	}
 	scoreAndCollect := func(name string, applyShortGate bool, minScore float64) {
@@ -205,7 +200,7 @@ func MatchLine(text string, cube *types.Cube) MatchResult {
 	// Also score basic lands, skipping the short-name gate and any already
 	// in the cube. Drop ones below their own threshold so they don't skew
 	// the gap against real cube cards.
-	for _, name := range BasicLandNames {
+	for _, name := range types.BasicLandNames {
 		if cubeSet[name] {
 			continue
 		}
