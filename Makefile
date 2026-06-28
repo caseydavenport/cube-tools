@@ -51,6 +51,19 @@ run-server: .server.created
 		-v $(PWD):/code \
 		caseydavenport/cube-tools-server
 
+# OCR server image. The Dockerfile builds the -tags ocr_cv binary itself (it
+# bundles OpenCV + tesseract), so this depends on the sources, not bin/server-ocr.
+server-ocr: .server-ocr.created
+.server-ocr.created: $(GO_FILES) Dockerfile.server-ocr
+	docker build -t caseydavenport/cube-tools-server-ocr -f Dockerfile.server-ocr .
+	touch $@
+
+run-server-ocr: .server-ocr.created
+	-docker rm -f cube-tools-server-ocr
+	docker run --rm --name=cube-tools-server-ocr --detach -p 8888:8888 \
+		-v $(PWD):/code \
+		caseydavenport/cube-tools-server-ocr
+
 ###################
 # Parse CLI build
 ###################

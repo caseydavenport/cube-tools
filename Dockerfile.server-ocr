@@ -1,0 +1,40 @@
+# OCR-enabled server. Unlike Dockerfile.server (a static CGO_ENABLED=0 binary in
+# FROM scratch), the OCR build links OpenCV via gocv and shells out to the
+# tesseract CLI, so it needs real shared libraries at runtime. Built separately
+# to keep the default server image small and OpenCV/tesseract-free.
+
+# Build stage: full OpenCV dev headers + Go toolchain to compile -tags ocr_cv.
+FROM ubuntu:24.04 AS build
+RUN apt-get update && apt-get install -y --no-install-recommends \
+	golang-go \
+	g++ \
+	libopencv-dev \
+	pkg-config \
+	ca-certificates \
+	&& rm -rf /var/lib/apt/lists/*
+WORKDIR /code
+COPY . .
+RUN CGO_ENABLED=1 go build -tags ocr_cv -o /server-ocr ./cmd/server/server.go
+
+# Runtime stage: the OpenCV 4.6 runtime libraries the gocv binding links (the
+# whole module suite, not just core), plus the tesseract CLI. The engine invokes
+# `tesseract` as a subprocess, so it needs the binary, not libtesseract.
+FROM ubuntu:24.04
+RUN apt-get update && apt-get install -y --no-install-recommends \
+	libopencv-calib3d406t64 \
+	libopencv-core406t64 \
+	libopencv-dnn406t64 \
+	libopencv-features2d406t64 \
+	libopencv-flann406t64 \
+	libopencv-highgui406t64 \
+	libopencv-imgcodecs406t64 \
+	libopencv-imgproc406t64 \
+	libopencv-objdetect406t64 \
+	libopencv-photo406t64 \
+	libopencv-video406t64 \
+	libopencv-videoio406t64 \
+	tesseract-ocr \
+	&& rm -rf /var/lib/apt/lists/*
+WORKDIR /code
+COPY --from=build /server-ocr /server-ocr
+CMD ["/server-ocr"]
