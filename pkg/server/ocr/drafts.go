@@ -135,6 +135,18 @@ func DraftsHandlerWithRoot(dataRoot string) http.Handler {
 					warned++
 				}
 			}
+			// Conflicts from the pool-vs-cube check, so the list can flag drafts
+			// with OCR errors. A missing cube list or session just means no
+			// conflicts to report rather than failing the whole listing.
+			conflicts := 0
+			if cl, err := loadCubeForDraft(dataRoot, cube, draftID); err == nil {
+				sess, err := LoadSession(dataRoot, cube, draftID)
+				if err != nil {
+					sess = &Session{Players: map[string]*PlayerWork{}}
+				}
+				conflicts = buildConsistencyReport(cl, sess, len(players)).Conflicts()
+			}
+
 			meta := readDraftMeta(dataRoot, cube, draftID)
 			summaries = append(summaries, DraftSummary{
 				DraftID:         draftID,
@@ -142,6 +154,7 @@ func DraftsHandlerWithRoot(dataRoot string) http.Handler {
 				Flight:          meta.Flight,
 				Players:         len(players),
 				Confirmed:       confirmed,
+				Conflicts:       conflicts,
 				ReconfirmNeeded: reconfirm,
 				Warnings:        warned,
 			})
