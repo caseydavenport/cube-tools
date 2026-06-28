@@ -205,6 +205,7 @@ func importDraft(cube string, d *HedronDraft, seq int) {
 	draftMeta := &types.DraftMetadata{
 		EventName:        d.EventName,
 		EventDescription: fmt.Sprintf("Imported from Hedron Network. Event Code: %s, Flight: %s", d.EventCode, d.FlightName),
+		Flight:           d.FlightName,
 	}
 	if err := draftMeta.Save(outdir); err != nil {
 		logrus.WithError(err).Fatal("Failed to write draft metadata")
