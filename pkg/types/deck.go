@@ -104,7 +104,7 @@ func (d *Deck) Save(path string) error {
 	if err != nil {
 		return err
 	}
-	return os.WriteFile(path, bs, 0644)
+	return os.WriteFile(path, bs, 0o644)
 }
 
 func LoadDeck(path string) (*Deck, error) {
@@ -173,6 +173,7 @@ type DraftMetadata struct {
 	DraftID          string `json:"draft_id,omitempty"`
 	EventName        string `json:"event_name,omitempty"`
 	EventDescription string `json:"event_description,omitempty"`
+	Flight           string `json:"flight,omitempty"`
 }
 
 // DraftMetadataFilename is the filename used for the per-draft metadata file.
@@ -202,7 +203,7 @@ func (m *DraftMetadata) Save(dir string) error {
 	if err != nil {
 		return err
 	}
-	return os.WriteFile(filepath.Join(dir, DraftMetadataFilename), bs, 0644)
+	return os.WriteFile(filepath.Join(dir, DraftMetadataFilename), bs, 0o644)
 }
 
 func (m *Metadata) GetSourceFiles() []string {
