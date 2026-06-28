@@ -69,7 +69,7 @@ func TestRotateHandlerClockwise(t *testing.T) {
 
 	h := RotateHandlerWithRoot(root)
 	r := reqWithCube(t, "POST", "/api/polyverse/ocr/rotate", "polyverse")
-	r.Body = bodyOf(`{"photo":"` + rel + `","dir":"cw"}`)
+	r.Body = bodyOf(`{"photo":"` + rel + `","direction":"cw"}`)
 	w := httptest.NewRecorder()
 	h.ServeHTTP(w, r)
 	if w.Code != 200 {
@@ -92,7 +92,7 @@ func TestRotateHandlerClockwise(t *testing.T) {
 func TestRotateHandlerRejectsBadDir(t *testing.T) {
 	h := RotateHandlerWithRoot(t.TempDir())
 	r := reqWithCube(t, "POST", "/api/polyverse/ocr/rotate", "polyverse")
-	r.Body = bodyOf(`{"photo":"x/y.jpg","dir":"sideways"}`)
+	r.Body = bodyOf(`{"photo":"x/y.jpg","direction":"sideways"}`)
 	w := httptest.NewRecorder()
 	h.ServeHTTP(w, r)
 	if w.Code != 400 {
@@ -103,7 +103,7 @@ func TestRotateHandlerRejectsBadDir(t *testing.T) {
 func TestRotateHandlerRejectsTraversal(t *testing.T) {
 	h := RotateHandlerWithRoot(t.TempDir())
 	r := reqWithCube(t, "POST", "/api/polyverse/ocr/rotate", "polyverse")
-	r.Body = bodyOf(`{"photo":"../../etc/passwd","dir":"cw"}`)
+	r.Body = bodyOf(`{"photo":"../../etc/passwd","direction":"cw"}`)
 	w := httptest.NewRecorder()
 	h.ServeHTTP(w, r)
 	if w.Code != 403 {
