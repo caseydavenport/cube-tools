@@ -7,6 +7,7 @@ import (
 	"github.com/caseydavenport/cube-tools/pkg/cubes"
 	"github.com/caseydavenport/cube-tools/pkg/server"
 	"github.com/caseydavenport/cube-tools/pkg/server/decks"
+	ocrhttp "github.com/caseydavenport/cube-tools/pkg/server/ocr"
 	"github.com/caseydavenport/cube-tools/pkg/server/stats"
 	"github.com/caseydavenport/cube-tools/pkg/storage"
 	"github.com/caseydavenport/cube-tools/pkg/types"
@@ -51,6 +52,23 @@ func main() {
 	cubeRoute("POST /api/{cube}/stats/design-graph/match", stats.DesignGraphMatchHandler())
 	cubeRoute("POST /api/{cube}/save-design-rules", stats.SaveDesignRulesHandler())
 	cubeRoute("POST /api/{cube}/save-notes", server.SaveNotesHandler())
+
+	// OCR draft-import endpoints. The detector is shared across requests; built
+	// without `-tags ocr_cv` its calls return an error explaining the rebuild.
+	det := ocrhttp.NewDetector()
+	cubeRoute("GET /api/{cube}/img/{path...}", ocrhttp.ImageHandler())
+	cubeRoute("GET /api/{cube}/ocr/drafts", ocrhttp.DraftsHandler())
+	cubeRoute("GET /api/{cube}/ocr/drafts/{draft_id}", ocrhttp.DraftDetailHandler())
+	cubeRoute("GET /api/{cube}/ocr/drafts/{draft_id}/cards", ocrhttp.CardsHandler())
+	cubeRoute("GET /api/{cube}/ocr/drafts/{draft_id}/consistency", ocrhttp.ConsistencyHandler())
+	cubeRoute("GET /api/{cube}/ocr/drafts/{draft_id}/session", ocrhttp.SessionGetHandler())
+	cubeRoute("POST /api/{cube}/ocr/drafts/{draft_id}/session", ocrhttp.SessionSaveHandler())
+	cubeRoute("POST /api/{cube}/ocr/drafts/{draft_id}/players/{player}/confirm", ocrhttp.ConfirmHandler())
+	cubeRoute("POST /api/{cube}/ocr/detect", ocrhttp.DetectHandler(det))
+	cubeRoute("POST /api/{cube}/ocr/region", ocrhttp.RegionHandler(det))
+	cubeRoute("POST /api/{cube}/ocr/rotate", ocrhttp.RotateHandler())
+	cubeRoute("POST /api/{cube}/ocr/drafts/{draft_id}/scan", ocrhttp.ScanStartHandler(det))
+	cubeRoute("GET /api/{cube}/ocr/drafts/{draft_id}/scan", ocrhttp.ScanStatusHandler())
 
 	fmt.Println("Server listening on port 8888")
 	if err := http.ListenAndServe(":8888", mux); err != nil {
