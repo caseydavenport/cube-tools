@@ -35,30 +35,93 @@ function CubeDropdown() {
   );
 }
 
+// Sections group the views by task: Browse looks up a specific record,
+// Analyze reads aggregate performance, Design tunes the cube. A view's path
+// is its segment after the cube id ("" is the Overview index). Reorder freely;
+// the nav and sub-nav render straight from this.
+const SECTIONS = [
+  { label: "Overview", views: [{ label: "Overview", path: "" }] },
+  { label: "Browse", views: [
+    { label: "Decklists", path: "decklists" },
+    { label: "Drafts", path: "drafts" },
+    { label: "Players", path: "players" },
+  ]},
+  { label: "Analyze", views: [
+    { label: "Cards", path: "cards" },
+    { label: "Colors", path: "colors" },
+    { label: "Types", path: "types" },
+    { label: "Decks", path: "deckstats" },
+  ]},
+  { label: "Design", views: [
+    { label: "Synergy", path: "synergy" },
+    { label: "Map", path: "designmap" },
+    { label: "Health", path: "health" },
+  ]},
+];
+
 const Navbar = () => {
   const location = useLocation();
-  const cube = location.pathname.split('/').filter(Boolean)[0] || null;
+  const parts = location.pathname.split('/').filter(Boolean);
+  const cube = parts[0] || null;
   if (!cube) return null;
+
+  // The segment after the cube id picks the active view; "" is Overview.
+  const view = parts[1] || "";
+  const activeSection = SECTIONS.find(s => s.views.some(v => v.path === view));
+
+  function viewTo(path) {
+    return path ? `/${cube}/${path}` : `/${cube}`;
+  }
+
   return (
-    <header className="header">
-      <div className="mid">
-        <ul className="navbar">
-          <li><NavLink end to={`/${cube}`} className={({ isActive }) => isActive ? "active" : ""}>Overview</NavLink></li>
-          <li><NavLink to={`/${cube}/cards`} className={({ isActive }) => isActive ? "active" : ""}>Cards</NavLink></li>
-          <li><NavLink to={`/${cube}/colors`} className={({ isActive }) => isActive ? "active" : ""}>Colors</NavLink></li>
-          <li><NavLink to={`/${cube}/types`} className={({ isActive }) => isActive ? "active" : ""}>Types</NavLink></li>
-          <li><NavLink to={`/${cube}/decklists`} className={({ isActive }) => isActive ? "active" : ""}>Decklists</NavLink></li>
-          <li><NavLink to={`/${cube}/import`} className={({ isActive }) => isActive ? "active" : ""}>Import</NavLink></li>
-          <li><NavLink to={`/${cube}/deckstats`} className={({ isActive }) => isActive ? "active" : ""}>Deck Stats</NavLink></li>
-          <li><NavLink to={`/${cube}/drafts`} className={({ isActive }) => isActive ? "active" : ""}>Drafts</NavLink></li>
-          <li><NavLink to={`/${cube}/players`} className={({ isActive }) => isActive ? "active" : ""}>Players</NavLink></li>
-          <li><NavLink to={`/${cube}/synergy`} className={({ isActive }) => isActive ? "active" : ""}>Synergy</NavLink></li>
-          <li><NavLink to={`/${cube}/health`} className={({ isActive }) => isActive ? "active" : ""}>Health</NavLink></li>
-          <li><NavLink to={`/${cube}/designmap`} className={({ isActive }) => isActive ? "active" : ""}>Design Map</NavLink></li>
-        </ul>
-        <CubeDropdown />
-      </div>
-    </header>
+    <>
+      <header className="header">
+        <div className="mid">
+          <ul className="navbar">
+            {SECTIONS.map(s => (
+              <li key={s.label}>
+                <NavLink
+                  end={s.views[0].path === ""}
+                  to={viewTo(s.views[0].path)}
+                  className={() => s === activeSection ? "active" : ""}
+                >
+                  {s.label}
+                </NavLink>
+              </li>
+            ))}
+          </ul>
+          <div className="nav-right">
+            <NavLink
+              to={`/${cube}/import`}
+              className={({ isActive }) => "import-btn" + (isActive ? " active" : "")}
+            >
+              Import
+            </NavLink>
+            <CubeDropdown />
+          </div>
+        </div>
+      </header>
+
+      {activeSection && activeSection.views.length > 1 && (
+        <div className="subheader">
+          <div className="mid">
+            <ul className="subnav">
+              {activeSection.views.map(v => (
+                <li key={v.path}>
+                  <NavLink
+                    end={v.path === ""}
+                    to={viewTo(v.path)}
+                    className={() => v.path === view ? "active" : ""}
+                  >
+                    {v.label}
+                  </NavLink>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      )}
+    </>
   );
 }
 export default Navbar;

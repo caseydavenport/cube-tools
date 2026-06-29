@@ -60,3 +60,66 @@
   color: var(--primary);
   background: var(--highlight);
 }
+
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.import-btn {
+  color: var(--text-muted);
+  font-weight: 500;
+  font-size: 0.95rem;
+  padding: 0.4rem 0.9rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.import-btn:hover {
+  color: var(--white);
+  border-color: var(--primary);
+}
+
+.import-btn.active {
+  color: var(--primary);
+  border-color: var(--primary);
+}
+
+/* Second-tier strip: views within the active section. */
+.subheader {
+  background: var(--card-background);
+  border-bottom: 1px solid var(--border);
+  padding: 0 2rem;
+  height: 44px;
+  display: flex;
+  align-items: center;
+}
+
+.subnav {
+  display: flex;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.subnav li a {
+  color: var(--text-muted);
+  font-weight: 500;
+  font-size: 0.875rem;
+  padding: 0.3rem 0.75rem;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+
+.subnav li a:hover {
+  color: var(--white);
+  background: var(--table-row-hover);
+}
+
+.subnav li a.active {
+  color: var(--primary);
+  background: var(--highlight);
+}
