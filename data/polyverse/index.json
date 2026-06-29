@@ -768,9 +768,6 @@
    "draft_log": "",
    "decks": [
     {
-     "path": "data/polyverse/2025-10-04_ccc2025_2/.ocr-session.json"
-    },
-    {
      "path": "data/polyverse/2025-10-04_ccc2025_2/2025-10-04_ccc2025_2-p1.json"
     },
     {
@@ -802,9 +799,6 @@
    "draft_id": "2025-10-04_ccc2025_3",
    "draft_log": "",
    "decks": [
-    {
-     "path": "data/polyverse/2025-10-04_ccc2025_3/.ocr-session.json"
-    },
     {
      "path": "data/polyverse/2025-10-04_ccc2025_3/2025-10-04_ccc2025_3-p1.json"
     },
@@ -988,9 +982,6 @@
    "draft_id": "2026-06-20_bcp26_1",
    "draft_log": "",
    "decks": [
-    {
-     "path": "data/polyverse/2026-06-20_bcp26_1/.ocr-session.json"
-    },
     {
      "path": "data/polyverse/2026-06-20_bcp26_1/2026-06-20_bcp26_1-p1.json"
     },
