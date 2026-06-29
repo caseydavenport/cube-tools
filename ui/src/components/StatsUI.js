@@ -3,8 +3,21 @@ import { Button, TextInput, NumericInput, DateSelector } from "../components/Dro
 import { PillSearchInput } from "../components/PillSearchInput.js";
 
 export function SelectorBar(input) {
+  // Publish the bar's height so the in-page section nav can stick directly
+  // below it (the bar is sticky and its height changes as filter pills wrap).
+  const ref = React.useRef(null);
+  React.useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const update = () => document.documentElement.style.setProperty('--selectorbar-height', el.offsetHeight + 'px');
+    update();
+    const ro = new ResizeObserver(update);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
+
   return (
-    <div className="selectorbar">
+    <div className="selectorbar" ref={ref}>
       <div className="selector-group">
         <Button text="Refresh" onClick={input.triggerRefresh} />
         <DateSelector label="From" id="from" value={input.startDate} onChange={input.onStartSelected} />

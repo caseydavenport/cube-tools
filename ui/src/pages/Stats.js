@@ -136,7 +136,7 @@ export function StatsViewer(props) {
   }, [decks]);
 
   return (
-    <div id="root">
+    <div id="root" className="stats-root">
       <SelectorBar
         triggerRefresh={triggerRefresh}
         startDate={props.startDate}

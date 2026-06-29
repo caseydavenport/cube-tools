@@ -199,17 +199,28 @@ table {
   border-color: var(--primary);
 }
 
+/* Small gap between the top navigation and the control bar below it. */
+.stats-root {
+  padding-top: 1rem;
+}
+
 /* Selector Bar Layout */
 .selectorbar {
   background: var(--card-background);
   padding: 1.5rem;
   border-radius: 12px;
-  margin: 1rem;
+  margin: 0 auto 1rem;
+  max-width: 1400px;
   border: 1px solid var(--border);
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
+
+  /* Travels with the page so the filters/dates stay reachable while scrolling. */
+  position: sticky;
+  top: 0;
+  z-index: 100;
 }
 
 .selector-group {
@@ -221,6 +232,109 @@ table {
 
 .search-group {
   width: 100%;
+}
+
+/* Shared Analyze page shell. Every Analyze page lives in this centered column
+   so widths stop varying between them. */
+.analyze-page {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 1rem 3rem;
+}
+
+/* Standard panel for a page's local controls (filters, dropdowns). */
+.controls-panel {
+  background: var(--card-background);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1rem 1.5rem;
+  margin: 1.5rem 0;
+}
+
+/* Section heading - matches the uppercase muted label style used elsewhere. */
+.section-heading {
+  color: var(--text-muted);
+  text-transform: uppercase;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  margin: 0 0 0.75rem 0;
+}
+
+/* A content block within a page. scroll-margin keeps anchor jumps clear of the
+   sticky section nav. */
+.page-section {
+  margin-bottom: 2.5rem;
+  scroll-margin-top: calc(var(--selectorbar-height, 0px) + 64px);
+}
+
+/* Two narrow tables side by side (e.g. paired-with / played-by). */
+.detail-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+/* Cap tall tables so a long list scrolls within the panel instead of
+   stretching the page. Headers stay pinned while the rows scroll. */
+.table-scroll {
+  max-height: 1056px; /* ~20 rows at 48px + header */
+  overflow-y: auto;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+}
+
+.table-scroll .widget-table {
+  border: none;
+  border-radius: 0;
+}
+
+.table-scroll thead.table-header {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+/* Side-by-side detail tables get a tighter cap so a long one (played-by)
+   doesn't tower over a short one (paired-with). */
+.detail-grid .table-scroll {
+  max-height: 600px;
+}
+
+/* In-page jump nav. Pins to the top once the controls scroll past it, and
+   highlights the section currently in view. */
+.section-nav {
+  position: sticky;
+  top: var(--selectorbar-height, 0px);
+  z-index: 90;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  background: var(--page-background);
+  padding: 0.6rem 0;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.section-nav a {
+  color: var(--text-muted);
+  font-weight: 500;
+  font-size: 0.875rem;
+  padding: 0.3rem 0.75rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.section-nav a:hover {
+  color: var(--white);
+  background: var(--table-row-hover);
+}
+
+.section-nav a.active {
+  color: var(--primary);
+  background: var(--highlight);
 }
 
 .navigation-group {
