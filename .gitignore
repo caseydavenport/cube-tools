@@ -1,4 +1,5 @@
 bin/
+tmp/
 input/
 node_modules/
 data/oracle-cards.json

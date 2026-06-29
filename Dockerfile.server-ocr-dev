@@ -1,0 +1,28 @@
+# Dev image for the hot-reloading server loop (make dev). Carries the full build
+# toolchain - Go, g++, OpenCV dev headers, pkg-config - so `air` can recompile
+# the -tags ocr_cv binary inside the container on every save, plus the tesseract
+# CLI the OCR engine shells out to at runtime. Unlike Dockerfile.server-ocr this
+# does NOT copy the source: it's bind-mounted at /code so host edits trigger
+# rebuilds. go.mod/go.sum are copied only to warm the module cache (and pull the
+# pinned Go toolchain) into the image so the first in-container build is quick.
+FROM ubuntu:24.04
+RUN apt-get update && apt-get install -y --no-install-recommends \
+	golang-go \
+	g++ \
+	libopencv-dev \
+	pkg-config \
+	tesseract-ocr \
+	ca-certificates \
+	git \
+	&& rm -rf /var/lib/apt/lists/*
+
+# air: Go live-reload (watches sources, rebuilds, restarts the binary).
+RUN go install github.com/air-verse/air@v1.52.3
+ENV PATH="/root/go/bin:${PATH}"
+
+# Warm the module cache and the pinned Go toolchain into an image layer.
+WORKDIR /code
+COPY go.mod go.sum ./
+RUN go mod download
+
+CMD ["air", "-c", ".air.toml"]

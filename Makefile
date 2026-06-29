@@ -21,15 +21,35 @@ reparse:
 data/oracle-cards.json:
 	./scripts/download-oracle-data $@
 
-# Full local dev stack: OCR-enabled backend on :8888 and the UI dev server on
-# :6060 (proxies /api to :8888). Ctrl-C stops both. Needs OpenCV + tesseract
-# installed locally; without tesseract the UI runs but scan/detect won't.
-run: data/oracle-cards.json bin/server-ocr
-	@command -v tesseract >/dev/null || echo "warning: tesseract not on PATH - OCR scan/detect will fail"
-	@cd ui && [ -d node_modules ] || npm install
-	./bin/server-ocr & \
-	server_pid=$$!; \
-	trap 'kill $$server_pid 2>/dev/null' EXIT INT TERM; \
+# Full local dev stack: the OCR backend on :8888 and the UI dev server on :6060
+# (proxies /api to :8888). Ctrl-C stops both. Runs the backend from the OCR
+# Docker image so OpenCV + tesseract come from the container, not the host - no
+# local install needed. The repo is mounted at /code so the container sees ./data.
+run: data/oracle-cards.json .server-ocr.created
+	@[ -d ui/node_modules ] || ( cd ui && npm install )
+	-docker rm -f cube-tools-server-ocr 2>/dev/null
+	docker run --rm --name=cube-tools-server-ocr --detach -p 8888:8888 \
+		-v $(PWD):/code \
+		caseydavenport/cube-tools-server-ocr
+	trap 'docker rm -f cube-tools-server-ocr 2>/dev/null' EXIT INT TERM; \
+	cd ui && npm start
+
+# Hot-reloading dev loop: the OCR server under `air` (rebuilds + restarts on
+# every .go save) plus the UI dev server, the same auto-update you get for the
+# UI. air runs inside a container carrying the Go toolchain + OpenCV headers +
+# tesseract, so rebuilds happen in-container and need nothing on the host. The
+# repo is bind-mounted at /code, so host edits trigger rebuilds; the named
+# gocache volume keeps the Go build cache warm across runs so rebuilds stay fast.
+# Ctrl-C stops both.
+dev: data/oracle-cards.json .server-ocr-dev.created
+	@[ -d ui/node_modules ] || ( cd ui && npm install )
+	-docker rm -f cube-tools-server-dev 2>/dev/null
+	docker run --rm --name=cube-tools-server-dev --detach -p 8888:8888 \
+		-v $(PWD):/code \
+		-v cube-tools-gocache:/root/.cache/go-build \
+		caseydavenport/cube-tools-server-dev
+	@echo "server running under air in container - edit a .go file to rebuild; tail with: docker logs -f cube-tools-server-dev"
+	trap 'docker rm -f cube-tools-server-dev 2>/dev/null' EXIT INT TERM; \
 	cd ui && npm start
 
 ###################
@@ -70,6 +90,13 @@ run-server-ocr: .server-ocr.created
 	docker run --rm --name=cube-tools-server-ocr --detach -p 8888:8888 \
 		-v $(PWD):/code \
 		caseydavenport/cube-tools-server-ocr
+
+# Dev image for `make dev`: build toolchain + OpenCV + tesseract + air. Depends
+# only on the Dockerfile (source is bind-mounted at run time, not copied in), so
+# it rebuilds when the dev image definition changes, not on every code edit.
+.server-ocr-dev.created: Dockerfile.server-ocr-dev go.mod go.sum
+	docker build -t caseydavenport/cube-tools-server-dev -f Dockerfile.server-ocr-dev .
+	touch $@
 
 ###################
 # Parse CLI build

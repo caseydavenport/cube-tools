@@ -1,0 +1,17 @@
+# air config for the in-container dev loop (see Dockerfile.server-ocr-dev). Builds
+# the OCR server with CGO + the ocr_cv tag and restarts it on any .go change.
+root = "."
+tmp_dir = "tmp"
+
+[build]
+  cmd = "CGO_ENABLED=1 go build -tags ocr_cv -o ./tmp/server-ocr ./cmd/server/server.go"
+  bin = "./tmp/server-ocr"
+  include_ext = ["go"]
+  # ui has its own watcher; the rest hold data or build output, not server source.
+  exclude_dir = ["ui", "data", "tmp", "bin", "node_modules"]
+  # Coalesce bursts of saves into one rebuild.
+  delay = 1000
+  stop_on_error = true
+
+[log]
+  time = true
