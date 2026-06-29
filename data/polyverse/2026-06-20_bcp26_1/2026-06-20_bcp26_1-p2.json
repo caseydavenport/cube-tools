@@ -3,6 +3,7 @@
   "path": "data/polyverse/2026-06-20_bcp26_1/2026-06-20_bcp26_1-p2.json",
   "draft_id": "2026-06-20_bcp26_1"
  },
+ "macro_archetype": "aggro",
  "labels": [],
  "player": "2026-06-20_bcp26_1-p2",
  "date": "2026-06-20",
@@ -85,5 +86,9 @@
   "Mystic Sanctuary",
   "Read the Bones",
   "Unexpectedly Absent"
+ ],
+ "colors": [
+  "W",
+  "B"
  ]
 }

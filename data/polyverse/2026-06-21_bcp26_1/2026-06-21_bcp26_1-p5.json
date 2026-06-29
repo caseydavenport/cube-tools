@@ -3,6 +3,7 @@
   "path": "data/polyverse/2026-06-21_bcp26_1/2026-06-21_bcp26_1-p5.json",
   "draft_id": "2026-06-21_bcp26_1"
  },
+ "macro_archetype": "midrange",
  "labels": [],
  "player": "2026-06-21_bcp26_1-p5",
  "date": "2026-06-21",
@@ -80,5 +81,10 @@
   "Verdant Catacombs",
   "Windswept Heath",
   "Woodland Wanderer"
+ ],
+ "colors": [
+  "W",
+  "U",
+  "G"
  ]
 }
