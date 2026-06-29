@@ -5,3 +5,4 @@ data/oracle-cards.json
 package-lock.json
 *.created
 venv/
+.ocr-session.json

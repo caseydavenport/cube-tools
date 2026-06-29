@@ -151,6 +151,12 @@ func decksInDraft(directory string) []IndexedDeck {
 		// Get only the base name of the file
 		fileName := filepath.Base(file)
 
+		// Skip dotfiles. Go's glob (unlike a shell) matches leading dots, so
+		// *.json picks up the OCR import's .ocr-session.json working state.
+		if strings.HasPrefix(fileName, ".") {
+			continue
+		}
+
 		// Skip non-deck files in the draft directory.
 		switch fileName {
 		case "index.json", "metadata.json", "cube.json", "cube-rules.json",
