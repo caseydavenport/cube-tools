@@ -21,8 +21,15 @@ reparse:
 data/oracle-cards.json:
 	./scripts/download-oracle-data $@
 
-run:
-	$(MAKE) run-server
+# Full local dev stack: OCR-enabled backend on :8888 and the UI dev server on
+# :6060 (proxies /api to :8888). Ctrl-C stops both. Needs OpenCV + tesseract
+# installed locally; without tesseract the UI runs but scan/detect won't.
+run: data/oracle-cards.json bin/server-ocr
+	@command -v tesseract >/dev/null || echo "warning: tesseract not on PATH - OCR scan/detect will fail"
+	@cd ui && [ -d node_modules ] || npm install
+	./bin/server-ocr & \
+	server_pid=$$!; \
+	trap 'kill $$server_pid 2>/dev/null' EXIT INT TERM; \
 	cd ui && npm start
 
 ###################
