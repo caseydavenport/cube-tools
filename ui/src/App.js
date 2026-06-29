@@ -8,6 +8,7 @@ import { useState } from "react";
 import { CubeProvider } from './contexts/CubeContext.js';
 import Landing from './pages/Landing.js';
 import Overview from './pages/Overview.js';
+import OCRImport from './pages/OCRImport.js';
 
 import "./styles.css";
 
@@ -68,6 +69,7 @@ export default function Main() {
               onMatchUpdated={onMatchUpdated}
             />
           } />
+          <Route path='import' element={<OCRImport />} />
         </Route>
       </Routes>
     </Router>
