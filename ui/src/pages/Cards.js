@@ -2,6 +2,7 @@ import React from 'react'
 import { IsBasicLand, SortFunc } from "../utils/Utils.js"
 import { DropdownHeader, NumericInput, Checkbox, DateSelector } from "../components/Dropdown.js"
 import { PillSearchInput } from "../components/PillSearchInput.js"
+import { Section, SectionNav } from "../components/PageSections.js"
 import { Wins, Losses } from "../utils/Deck.js"
 import { ApplyTooltip } from "../utils/Tooltip.js"
 import { ColorImages, Colors, CUBE_AVG_WIN_PERCENT, deltaPositiveFill, deltaNegativeFill } from "../utils/Colors.js"
@@ -145,6 +146,12 @@ const matchOpts = [
   }
 
 
+const CARD_SECTIONS = [
+  { id: "stats", label: "Stats" },
+  { id: "trends", label: "Trends" },
+  { id: "plots", label: "Plots" },
+]
+
 export function CardWidget(input) {
   if (!input.show) {
     return null
@@ -155,14 +162,25 @@ export function CardWidget(input) {
   }
 
   return (
-    <div style={{"width": "100%"}}>
+    <div className="analyze-page">
+      <SectionNav sections={CARD_SECTIONS} />
       <CardWidgetOptions {...input} {...matchInput} />
-      <CardWidgetTable {...input} />
-      <WinrateChart {...input} />
-      <PlayRateChart {...input} />
-      <ELOChart {...input} />
-      <ReputationChart {...input} />
-      <CardGraph {...input} />
+
+      <Section id="stats">
+        <h3 className="section-heading">Card Stats</h3>
+        <CardWidgetTable {...input} />
+      </Section>
+
+      <Section id="trends" heading="Trends">
+        <WinrateChart {...input} />
+        <PlayRateChart {...input} />
+        <ELOChart {...input} />
+      </Section>
+
+      <Section id="plots" heading="Plots">
+        <ReputationChart {...input} />
+        <CardGraph {...input} />
+      </Section>
     </div>
   );
 }
@@ -453,7 +471,7 @@ function CardWidgetTable(input) {
 
   if (input.dropdownSelection === "Mainboard rate") {
     return (
-      <div className="scroll-container-large">
+      <div className="table-scroll">
         <table className="widget-table">
           <thead className="table-header">
             <tr>
@@ -532,7 +550,7 @@ function CardWidgetTable(input) {
     );
   } else if (input.dropdownSelection === "Win rate") {
     return (
-      <div className="scroll-container-large">
+      <div className="table-scroll">
         <table className="widget-table">
           <thead className="table-header">
             <tr>
@@ -607,7 +625,7 @@ function CardWidgetTable(input) {
     );
   } else if (input.dropdownSelection === "Versus archetype") {
     return (
-      <div className="scroll-container-large">
+      <div className="table-scroll">
         <table className="widget-table">
           <thead className="table-header">
             <tr>
@@ -678,7 +696,7 @@ function CardWidgetTable(input) {
     );
   } else {
     return (
-      <div className="scroll-container-large">
+      <div className="table-scroll">
         <table className="widget-table">
           <thead className="table-header">
             <tr>
@@ -760,56 +778,52 @@ function CardWidgetOptions(input) {
   }
 
   return (
-    <div className="flex-column-gap" style={{marginBottom: '1.5rem'}}>
-      <div className="selector-group" style={{"padding": "1.5rem", "background": "var(--card-background)", "borderRadius": "12px", "border": "1px solid var(--border)", "display": "flex", "flexDirection": "column", "alignItems": "stretch", "gap": "1.5rem"}}>
-        <div style={{width: '100%'}}>
-          <PillSearchInput
-            label="Filter Cards"
-            placeholder="Search visible cards (e.g. name:bolt, t:creature)"
-            value={input.localMatchStr}
-            onChange={input.onLocalMatchUpdated}
-            cardNames={input.cardNames}
-          />
+    <div className="controls-panel">
+      <PillSearchInput
+        label="Filter Cards"
+        placeholder="Search visible cards (e.g. name:bolt, t:creature)"
+        value={input.localMatchStr}
+        onChange={input.onLocalMatchUpdated}
+        cardNames={input.cardNames}
+      />
+
+      <div className="selector-group" style={{justifyContent: 'flex-start', flexWrap: 'wrap', gap: '1rem', marginTop: '1rem'}}>
+        <div className="selection-cell" style={{"fontWeight": "bold", "color": "var(--primary)", "minWidth": "120px"}}>
+          Showing {num} cards
         </div>
 
-        <div className="selector-group" style={{justifyContent: 'flex-start', flexWrap: 'wrap', gap: '1rem'}}>
-          <div className="selection-cell" style={{"fontWeight": "bold", "color": "var(--primary)", "minWidth": "120px"}}>
-            Showing {num} cards
-          </div>
+        <DropdownHeader
+          label="Stats type"
+          options={input.cardWidgetOpts}
+          value={input.dropdownSelection}
+          onChange={input.onSelected}
+        />
 
-          <DropdownHeader
-            label="Stats type"
-            options={input.cardWidgetOpts}
-            value={input.dropdownSelection}
-            onChange={input.onSelected}
-          />
+        <DropdownHeader
+          label="Match"
+          options={input.matchOpts}
+          value={input.cardFilter}
+          onChange={input.onCardFilterSelected}
+        />
 
-          <DropdownHeader
-            label="Match"
-            options={input.matchOpts}
-            value={input.cardFilter}
-            onChange={input.onCardFilterSelected}
-          />
+        <DropdownHeader
+          label="Color"
+          options={input.colorWidgetOpts}
+          value={input.colorSelection}
+          onChange={input.onColorSelected}
+        />
 
-          <DropdownHeader
-            label="Color"
-            options={input.colorWidgetOpts}
-            value={input.colorSelection}
-            onChange={input.onColorSelected}
-          />
+        <NumericInput
+          label="Min drafts"
+          value={input.minDrafts}
+          onChange={input.onMinDraftsSelected}
+        />
 
-          <NumericInput
-            label="Min drafts"
-            value={input.minDrafts}
-            onChange={input.onMinDraftsSelected}
-          />
-
-          <NumericInput
-            label="Min games"
-            value={input.minGames}
-            onChange={input.onMinGamesSelected}
-          />
-        </div>
+        <NumericInput
+          label="Min games"
+          value={input.minGames}
+          onChange={input.onMinGamesSelected}
+        />
       </div>
     </div>
   );
@@ -910,7 +924,7 @@ function PlayRateChart(input) {
 
   let name = input.selectedCard
   if (name == "") {
-    return
+    return <p className="section-hint">Select a card to chart its play rate over time.</p>
   }
 
   var mb = []
@@ -1015,7 +1029,7 @@ function ELOChart(input) {
 
   let name = input.selectedCard
   if (name == "") {
-    return
+    return <p className="section-hint">Select a card to chart its ELO over time.</p>
   }
 
   let min = 850
@@ -1111,7 +1125,7 @@ function WinrateChart(input) {
 
   let name = input.selectedCard
   if (name == "") {
-    return
+    return <p className="section-hint">Select a card to chart its win rate over time.</p>
   }
 
   var wins = []

@@ -218,41 +218,28 @@ export function DeckWidget(input) {
   }
 
   return (
-    <table style={{"width": "100%"}}>
-      <tbody>
-        <tr key="charts-header">
-          <td style={{"paddingTop": "50px", "width": "50%"}}>
-            <div className="selector-group" style={{"justifyContent": "center"}}>
-              <DropdownHeader
-                label="Left Chart"
-                options={chartOptions}
-                value={leftChart}
-                onChange={(e) => setLeftChart(e.target.value)}
-              />
-            </div>
-          </td>
-          <td style={{"paddingTop": "50px", "width": "50%"}}>
-            <div className="selector-group" style={{"justifyContent": "center"}}>
-              <DropdownHeader
-                label="Right Chart"
-                options={chartOptions}
-                value={rightChart}
-                onChange={(e) => setRightChart(e.target.value)}
-              />
-            </div>
-          </td>
-        </tr>
-
-        <tr key="charts-body">
-          <td style={{"verticalAlign": "top", "width": "50%"}}>
-            {renderChart(leftChart)}
-          </td>
-          <td style={{"verticalAlign": "top", "width": "50%"}}>
-            {renderChart(rightChart)}
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    <div className="analyze-page">
+      <div className="controls-panel">
+        <div className="selector-group" style={{"justifyContent": "center"}}>
+          <DropdownHeader
+            label="Left Chart"
+            options={chartOptions}
+            value={leftChart}
+            onChange={(e) => setLeftChart(e.target.value)}
+          />
+          <DropdownHeader
+            label="Right Chart"
+            options={chartOptions}
+            value={rightChart}
+            onChange={(e) => setRightChart(e.target.value)}
+          />
+        </div>
+      </div>
+      <div className="chart-grid">
+        {renderChart(leftChart)}
+        {renderChart(rightChart)}
+      </div>
+    </div>
   )
 }
 
