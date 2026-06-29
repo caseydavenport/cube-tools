@@ -1,6 +1,6 @@
 import React from 'react'
 import { DropdownHeader, NumericInput, DateSelector } from "../components/Dropdown.js"
-import { Colors, ColorImages, GetColorIdentity, primaryColorPair } from "../utils/Colors.js"
+import { Colors, ColorImages, GetColorIdentity, primaryColorPair, CUBE_AVG_WIN_PERCENT, deltaPositiveFill, deltaNegativeFill } from "../utils/Colors.js"
 import { Trophies, LastPlaceFinishes, Wins, Losses } from "../utils/Deck.js"
 import { bucketXScale } from "../utils/Buckets.js"
 import { AverageWordCount, IsBasicLand, MinWinningPctDecks, Pct, SortFunc, StringToColor } from "../utils/Utils.js"
@@ -17,6 +17,7 @@ import {
   LinearScale,
   PointElement,
   LineElement,
+  BarElement,
   Title,
   Tooltip,
   Legend,
@@ -29,10 +30,20 @@ ChartJS.register(
   LinearScale,
   PointElement,
   LineElement,
+  BarElement,
   Title,
   Tooltip,
   Legend
 );
+
+// Human-readable names for color identities, used to label delta bars.
+const colorIdentityNames = new Map([
+  ["W", "White"], ["U", "Blue"], ["B", "Black"], ["R", "Red"], ["G", "Green"],
+  ["WU", "Azorius"], ["WB", "Orzhov"], ["WR", "Boros"], ["WG", "Selesnya"],
+  ["UB", "Dimir"], ["UR", "Izzet"], ["UG", "Simic"], ["BR", "Rakdos"], ["BG", "Golgari"], ["RG", "Gruul"],
+  ["WUB", "Esper"], ["WUR", "Jeskai"], ["WUG", "Bant"], ["WBR", "Mardu"], ["WBG", "Abzan"],
+  ["WRG", "Naya"], ["UBR", "Grixis"], ["UBG", "Sultai"], ["URG", "Temur"], ["BRG", "Jund"],
+])
 
 export function ColorWidget(input) {
   const [leftChart, setLeftChart] = React.useState("builds")
@@ -123,6 +134,17 @@ export function ColorWidget(input) {
           </td>
         </tr>
 
+        <tr key="delta-chart">
+          <td colSpan="2" style={{"paddingTop": "50px"}}>
+            <ColorPerformanceDeltaChart
+              parsed={input.parsed}
+              colorData={input.parsed.colorData}
+              colorTypeSelection={input.colorTypeSelection}
+              selectedBucket={input.selectedBucket}
+            />
+          </td>
+        </tr>
+
         <tr key="matchup-heatmap">
           <td colSpan="2" style={{"paddingTop": "50px"}}>
             <ColorMatchupHeatmap matchupData={input.colorMatchupData} colorType={input.colorTypeSelection} />
@@ -201,6 +223,11 @@ function ColorStatsTable(input) {
       id: "win",
       text: "Win %",
       tip: "Percentages of games played by this color/colors that were wins.",
+    },
+    {
+      id: "delta",
+      text: "Δ vs avg",
+      tip: "Win rate relative to the cube-wide average (50%). Positive (green) means this color wins more than its share of games; negative (red) means it loses more.",
     },
     {
       id: "build",
@@ -300,7 +327,9 @@ function ColorStatsTable(input) {
 
               // Determine what we're sorting by. Default to sorting by win percentage.
               let sort = color.win_percent
-              if (input.sortBy === "build") {
+              if (input.sortBy === "delta") {
+                sort = color.win_percent - CUBE_AVG_WIN_PERCENT
+              } else if (input.sortBy === "build") {
                 sort = color.build_percent
               } else if (input.sortBy === "decks") {
                 sort = color.num_decks
@@ -335,6 +364,9 @@ function ColorStatsTable(input) {
                 <tr key={idx} sort={sort} className="widget-table-row">
                   <td>{img}</td>
                   <td>{color.win_percent.toFixed(0)}%</td>
+                  <td className={color.win_percent - CUBE_AVG_WIN_PERCENT >= 0 ? "positive" : "negative"}>
+                    {(color.win_percent - CUBE_AVG_WIN_PERCENT >= 0 ? "+" : "") + (color.win_percent - CUBE_AVG_WIN_PERCENT).toFixed(0) + "%"}
+                  </td>
                   <td>{color.build_percent.toFixed(0)}%</td>
                   <td>{color.percent_of_wins.toFixed(0)}%</td>
                   <td>{vpsPercentage}%</td>
@@ -617,6 +649,99 @@ export function GetColorStats(decks, colorMode) {
   }
 
   return tracker
+}
+
+// ColorPerformanceDeltaChart shows, at a glance, which colors are net positive or
+// net negative relative to the cube-wide average win rate. Each bar is a color's
+// win rate minus 50%; green bars point up (overperforming), red bars point down.
+function ColorPerformanceDeltaChart(input) {
+  if (input == null || input.colorData == null) {
+    return null
+  }
+
+  // Resolve the active color set, honoring the selected bucket the same way the
+  // stats table does so the chart and table always agree.
+  let colorData = Array.from(input.colorData.values())
+  let buckets = input.parsed.colorDataBucketed
+  if (buckets.length > 0 && input.selectedBucket !== "ALL") {
+    for (let bucket of buckets) {
+      if (bucket.name === input.selectedBucket) {
+        colorData = Array.from(new Map(Object.entries(bucket.data)).values())
+        break
+      }
+    }
+  }
+
+  // Filter to the selected identity length and compute each color's delta, then
+  // sort best-to-worst so the bars read left (overperforming) to right.
+  let rows = []
+  for (let d of colorData) {
+    if (!colorIsDisplayed(d.color, input.colorTypeSelection)) {
+      continue
+    }
+    rows.push({ color: d.color, delta: d.win_percent - CUBE_AVG_WIN_PERCENT, winPercent: d.win_percent, numDecks: d.num_decks })
+  }
+  rows.sort((a, b) => b.delta - a.delta)
+
+  if (rows.length === 0) {
+    return null
+  }
+
+  const labels = rows.map(r => colorIdentityNames.get(r.color) || r.color)
+  const deltas = rows.map(r => r.delta)
+  const barColors = rows.map(r => (r.delta >= 0 ? deltaPositiveFill : deltaNegativeFill))
+
+  const data = {
+    labels,
+    datasets: [
+      {
+        label: "Win rate vs cube average",
+        data: deltas,
+        backgroundColor: barColors,
+        borderColor: barColors,
+        borderWidth: 1,
+      },
+    ],
+  }
+
+  const options = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      title: {
+        display: true,
+        text: "Net performance vs cube average (win %)",
+        color: "#FFF",
+        font: { size: "16pt" },
+      },
+      legend: { display: false },
+      tooltip: {
+        callbacks: {
+          label: function(ctx) {
+            let r = rows[ctx.dataIndex]
+            let sign = r.delta >= 0 ? "+" : ""
+            return `${sign}${r.delta.toFixed(1)}% (win ${r.winPercent.toFixed(0)}%, ${r.numDecks} decks)`
+          },
+        },
+      },
+    },
+    scales: {
+      x: { ticks: { color: "#FFF", font: { size: 14 } }, grid: { display: false } },
+      y: {
+        title: { display: true, text: "Δ win % vs 50%", color: "#FFF", font: { size: 14 } },
+        ticks: { color: "#FFF", font: { size: 14 }, callback: (v) => (v > 0 ? "+" : "") + v + "%" },
+        grid: { color: (ctx) => (ctx.tick.value === 0 ? "#FFF" : "rgba(255,255,255,0.1)") },
+      },
+    },
+  }
+
+  return (
+    <div className="chart-container">
+      <div style={{ "height": "420px" }}>
+        <Bar options={options} data={data} />
+      </div>
+    </div>
+  )
 }
 
 function ColorRateChart(input) {

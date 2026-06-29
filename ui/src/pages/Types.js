@@ -3,7 +3,7 @@ import { IsBasicLand, MinWinningPctDecks, Pct, SortFunc, StringToColor } from ".
 import { Trophies, LastPlaceFinishes, Winning, Losing, Wins, Losses } from "../utils/Deck.js"
 import { DropdownHeader, NumericInput, Checkbox, DateSelector } from "../components/Dropdown.js"
 import { BucketName, bucketXScale } from "../utils/Buckets.js"
-import { Red, Green, Black, White, Blue, Colors, ColorImages } from "../utils/Colors.js"
+import { Red, Green, Black, White, Blue, Colors, ColorImages, CUBE_AVG_WIN_PERCENT, deltaPositiveFill, deltaNegativeFill } from "../utils/Colors.js"
 
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Popover from 'react-bootstrap/Popover';
@@ -17,6 +17,7 @@ import {
   LinearScale,
   PointElement,
   LineElement,
+  BarElement,
   Title,
   Tooltip,
   Legend,
@@ -31,6 +32,7 @@ ChartJS.register(
   LinearScale,
   PointElement,
   LineElement,
+  BarElement,
   Title,
   Tooltip,
   Legend
@@ -53,6 +55,7 @@ export function ArchetypeWidget(input) {
   }
 
   const chartOptions = [
+    { label: "Macro Δ vs avg", value: "macro_delta" },
     { label: "Macro Build %", value: "macro_builds" },
     { label: "Macro Win %", value: "macro_wins" },
     { label: "Macro % of wins", value: "macro_pwin" },
@@ -76,6 +79,7 @@ export function ArchetypeWidget(input) {
 
   const renderChart = (chartId) => {
     switch (chartId) {
+      case "macro_delta": return <MacroArchetypeDeltaChart parsed={input.parsed} />;
       case "macro_builds": return <MacroArchetypesChart parsed={input.parsed} decks={input.decks} bucketSize={input.bucketSize} dataset="builds" />;
       case "macro_wins": return <MacroArchetypesChart parsed={input.parsed} decks={input.decks} bucketSize={input.bucketSize} dataset="wins" />;
       case "macro_pwin": return <MacroArchetypesChart parsed={input.parsed} decks={input.decks} bucketSize={input.bucketSize} dataset="percent_of_wins" />;
@@ -875,6 +879,87 @@ function MicroArchetypesChart(input) {
       <Line height={"300px"} width={"300px"} options={options} data={data} />
     </div>
   );
+}
+
+// MacroArchetypeDeltaChart shows which macro archetypes are net positive or net
+// negative relative to the cube-wide average win rate (50%). Green bars point up
+// (overperforming), red bars point down, sorted best-to-worst.
+function MacroArchetypeDeltaChart(input) {
+  let archetypes = input.parsed.archetypeData
+  if (archetypes == null) {
+    return null
+  }
+
+  let rows = []
+  for (let arch of archetypes.values()) {
+    if (!macroArchetypes.has(arch.type)) {
+      continue
+    }
+    // Skip archetypes with no games so an empty bucket doesn't read as a -50% loser.
+    if (arch.wins + arch.losses <= 0) {
+      continue
+    }
+    rows.push({ type: arch.type, delta: arch.win_percent - CUBE_AVG_WIN_PERCENT, winPercent: arch.win_percent, count: arch.count })
+  }
+  rows.sort((a, b) => b.delta - a.delta)
+
+  if (rows.length === 0) {
+    return null
+  }
+
+  const labels = rows.map(r => r.type.charAt(0).toUpperCase() + r.type.slice(1))
+  const deltas = rows.map(r => r.delta)
+  const barColors = rows.map(r => (r.delta >= 0 ? deltaPositiveFill : deltaNegativeFill))
+
+  const data = {
+    labels,
+    datasets: [
+      {
+        label: "Win rate vs cube average",
+        data: deltas,
+        backgroundColor: barColors,
+        borderColor: barColors,
+        borderWidth: 1,
+      },
+    ],
+  }
+
+  const options = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      title: {
+        display: true,
+        text: "Net performance vs cube average (win %)",
+        color: "#FFF",
+        font: { size: "16pt" },
+      },
+      legend: { display: false },
+      tooltip: {
+        callbacks: {
+          label: function(ctx) {
+            let r = rows[ctx.dataIndex]
+            let sign = r.delta >= 0 ? "+" : ""
+            return `${sign}${r.delta.toFixed(1)}% (win ${r.winPercent.toFixed(0)}%, ${r.count} decks)`
+          },
+        },
+      },
+    },
+    scales: {
+      x: { ticks: { color: "#FFF", font: { size: 14 } }, grid: { display: false } },
+      y: {
+        title: { display: true, text: "Δ win % vs 50%", color: "#FFF", font: { size: 14 } },
+        ticks: { color: "#FFF", font: { size: 14 }, callback: (v) => (v > 0 ? "+" : "") + v + "%" },
+        grid: { color: (ctx) => (ctx.tick.value === 0 ? "#FFF" : "rgba(255,255,255,0.1)") },
+      },
+    },
+  }
+
+  return (
+    <div style={{ "height": "700px" }}>
+      <Bar options={options} data={data} />
+    </div>
+  )
 }
 
 function MacroArchetypesChart(input) {

@@ -39,6 +39,17 @@ let order = {
  "G": 4,
 }
 
+// CUBE_AVG_WIN_PERCENT is the baseline every performance delta is measured against.
+// Every game played in the cube is one deck's win and another's loss, so the
+// pool-wide win rate is exactly 50%. A color/card/archetype above this line is a
+// net positive; below it is a net negative.
+export const CUBE_AVG_WIN_PERCENT = 50
+
+// Shared red/green fills for performance-delta visuals. Green when a row beats the
+// cube-wide average win rate, red when it trails. Matches the matchup heatmap palette.
+export const deltaPositiveFill = "rgba(40, 167, 69, 0.85)"
+export const deltaNegativeFill = "rgba(220, 53, 69, 0.85)"
+
 export let White = "#f3e29d"
 export let Blue = "#80c1e7"
 export let Black = "#9c91c9"

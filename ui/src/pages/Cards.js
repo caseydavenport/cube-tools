@@ -4,7 +4,7 @@ import { DropdownHeader, NumericInput, Checkbox, DateSelector } from "../compone
 import { PillSearchInput } from "../components/PillSearchInput.js"
 import { Wins, Losses } from "../utils/Deck.js"
 import { ApplyTooltip } from "../utils/Tooltip.js"
-import { ColorImages, Colors } from "../utils/Colors.js"
+import { ColorImages, Colors, CUBE_AVG_WIN_PERCENT, deltaPositiveFill, deltaNegativeFill } from "../utils/Colors.js"
 import { CardMatches, DeckMatches } from "../utils/Query.js"
 import { bucketTicks } from "../utils/Buckets.js"
 
@@ -52,6 +52,7 @@ export const NumSideboardOption = "# Sideboard"
 export const MainboardPercentOption = "Mainboard %"
 export const SideboardPercentOption = "Sideboard %"
 export const WinPercentOption = "Win %"
+export const WinPercentVsAvgOption = "Win % vs avg"
 export const PercentOfWinsOption = "% of Wins"
 export const NumberOfWinsOption = "# Wins"
 export const ExpectedWinPercentOption = "Expected Win %"
@@ -77,6 +78,7 @@ export const CardScatterAxes = [
   {label: MainboardPercentOption, value: MainboardPercentOption},
   {label: SideboardPercentOption, value: SideboardPercentOption},
   {label: WinPercentOption, value: WinPercentOption},
+  {label: WinPercentVsAvgOption, value: WinPercentVsAvgOption},
   {label: PercentOfWinsOption, value: PercentOfWinsOption},
   {label: NumberOfWinsOption, value: NumberOfWinsOption},
   {label: ExpectedWinPercentOption, value: ExpectedWinPercentOption},
@@ -1206,6 +1208,19 @@ function CardGraph(input) {
 
   let name = yAxis + " vs. " + xAxis
 
+  // Track the plotted range so we can span a baseline line across the whole axis.
+  let xMin = Infinity, xMax = -Infinity, yMin = Infinity, yMax = -Infinity
+  let track = function(v, isX) {
+    if (v == null || !isFinite(v)) {
+      return
+    }
+    if (isX) {
+      xMin = Math.min(xMin, v); xMax = Math.max(xMax, v)
+    } else {
+      yMin = Math.min(yMin, v); yMax = Math.max(yMax, v)
+    }
+  }
+
   // values is an array of maps with keys 'x' and 'y'.
   var values = []
   for (let [name, card] of input.cardData) {
@@ -1218,15 +1233,24 @@ function CardGraph(input) {
 
     x = getValue(xAxis, card, input.parsed.archetypeData, input.parsed.playerData, input.parsed.filteredDecks, input.parsed.pickInfo)
     y = getValue(yAxis, card, input.parsed.archetypeData, input.parsed.playerData, input.parsed.filteredDecks, input.parsed.pickInfo)
+    track(x, true)
+    track(y, false)
 
     labels.push(card.name)
 
-    // Default to green, but highlight in red if it is the selected card.
+    // Color every point by whether the card is a net positive or net negative
+    // relative to the cube average (green over 50%, red under). Cards with no games
+    // have no meaningful win rate, so they stay neutral grey. The selected card is
+    // highlighted white so it stands out from the red/green field.
+    let games = card.total_games || 0
     if (card.name === input.selectedCard) {
-      backgroundColors.push("#F00")
+      backgroundColors.push("#FFF")
       sizes.push(10)
+    } else if (games <= 0) {
+      backgroundColors.push("#b0b0b0")
+      sizes.push(3)
     } else {
-      backgroundColors.push("#0F0")
+      backgroundColors.push(card.win_percent >= CUBE_AVG_WIN_PERCENT ? deltaPositiveFill : deltaNegativeFill)
       sizes.push(3)
     }
     values.push({"x": x, "y": y})
@@ -1242,8 +1266,42 @@ function CardGraph(input) {
       },
   ]
 
+  // When an axis shows the win-rate delta, draw a dashed cube-average baseline at
+  // zero so over/underperformers read at a glance.
+  if (yAxis === WinPercentVsAvgOption && isFinite(xMin) && isFinite(xMax)) {
+    dataset.push({
+      type: "line",
+      label: "Cube average",
+      data: [{x: xMin, y: 0}, {x: xMax, y: 0}],
+      borderColor: "#888",
+      borderDash: [6, 6],
+      pointRadius: 0,
+      pointHoverRadius: 0,
+      fill: false,
+    })
+  }
+  if (xAxis === WinPercentVsAvgOption && isFinite(yMin) && isFinite(yMax)) {
+    dataset.push({
+      type: "line",
+      label: "Cube average",
+      data: [{x: 0, y: yMin}, {x: 0, y: yMax}],
+      borderColor: "#888",
+      borderDash: [6, 6],
+      pointRadius: 0,
+      pointHoverRadius: 0,
+      fill: false,
+    })
+  }
 
   let title = `${name} (all drafts)`
+
+  // Signed-percent ticks for the win-delta axis, plain ticks otherwise.
+  let axisTicks = function(axis) {
+    if (axis === WinPercentVsAvgOption) {
+      return {...ticks, callback: (v) => (v > 0 ? "+" : "") + v + "%"}
+    }
+    return ticks
+  }
 
   const options = {
     responsive: true,
@@ -1254,13 +1312,13 @@ function CardGraph(input) {
         title: {display: true, text: yAxis, font: {size: 20, weight: "bold"}, color: "white"},
         min: getScales(yAxis, false)[0],
         max: getScales(yAxis, false)[1],
-        ticks: ticks,
+        ticks: axisTicks(yAxis),
       },
       x: {
         title: {display: true, text: xAxis, font: {size: 20, weight: "bold"}, color: "white"},
         min: getScales(xAxis, false)[0],
         max: getScales(xAxis, false)[1],
-        ticks: ticks,
+        ticks: axisTicks(xAxis),
       },
     },
     plugins: {
@@ -1270,6 +1328,25 @@ function CardGraph(input) {
         color: "#FFF",
         font: {
           size: "16pt",
+        },
+      },
+      tooltip: {
+        callbacks: {
+          label: function(ctx) {
+            if (ctx.datasetIndex !== 0) {
+              return ""
+            }
+            let fmt = function(axis, v) {
+              if (v == null) {
+                return "—"
+              }
+              if (axis === WinPercentVsAvgOption) {
+                return (v > 0 ? "+" : "") + v.toFixed(1) + "%"
+              }
+              return v
+            }
+            return `${labels[ctx.dataIndex]}: ${xAxis} ${fmt(xAxis, ctx.parsed.x)}, ${yAxis} ${fmt(yAxis, ctx.parsed.y)}`
+          },
         },
       },
       legend: {
@@ -1480,6 +1557,13 @@ function getValue(axis, card, archetypeData, playerData, decks, draftData) {
       return card.match_elo
     case WinPercentOption:
       return card.win_percent
+    case WinPercentVsAvgOption:
+      // Win rate relative to the cube-wide average. Only meaningful once the card
+      // has played games; unplayed cards return null so they drop off the axis.
+      if (!card.total_games || card.total_games <= 0) {
+        return null
+      }
+      return card.win_percent - CUBE_AVG_WIN_PERCENT
     case PercentOfWinsOption:
       return card.percent_of_wins
     case NumberOfWinsOption:

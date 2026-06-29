@@ -354,6 +354,17 @@ table {
   max-width: 100% !important;
 }
 
+/* Signed performance-delta values: green when above the cube average, red when below. */
+.positive {
+  color: var(--success);
+  font-weight: bold;
+}
+
+.negative {
+  color: var(--danger);
+  font-weight: bold;
+}
+
 /* Layout */
 .house-for-widgets {
   display: block;
