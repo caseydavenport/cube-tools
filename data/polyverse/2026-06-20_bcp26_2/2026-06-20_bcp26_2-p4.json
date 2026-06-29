@@ -3,7 +3,10 @@
   "path": "data/polyverse/2026-06-20_bcp26_2/2026-06-20_bcp26_2-p4.json",
   "draft_id": "2026-06-20_bcp26_2"
  },
- "labels": [],
+ "macro_archetype": "midrange",
+ "labels": [
+  "token"
+ ],
  "player": "2026-06-20_bcp26_2-p4",
  "date": "2026-06-20",
  "matches": [

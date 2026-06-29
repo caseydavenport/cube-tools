@@ -3,6 +3,7 @@
   "path": "data/polyverse/2026-06-21_bcp26_1/2026-06-21_bcp26_1-p7.json",
   "draft_id": "2026-06-21_bcp26_1"
  },
+ "macro_archetype": "control",
  "labels": [],
  "player": "2026-06-21_bcp26_1-p7",
  "date": "2026-06-21",
@@ -80,5 +81,9 @@
   "Ulcerate",
   "Watery Grave",
   "Wrath of God"
+ ],
+ "colors": [
+  "U",
+  "B"
  ]
 }
