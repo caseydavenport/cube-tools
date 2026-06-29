@@ -2,6 +2,7 @@ import React from 'react'
 import { IsBasicLand, MinWinningPctDecks, Pct, SortFunc, StringToColor } from "../utils/Utils.js"
 import { Trophies, LastPlaceFinishes, Winning, Losing, Wins, Losses } from "../utils/Deck.js"
 import { DropdownHeader, NumericInput, Checkbox, DateSelector } from "../components/Dropdown.js"
+import { Section, SectionNav } from "../components/PageSections.js"
 import { BucketName, bucketXScale } from "../utils/Buckets.js"
 import { Red, Green, Black, White, Blue, Colors, ColorImages, CUBE_AVG_WIN_PERCENT, deltaPositiveFill, deltaNegativeFill } from "../utils/Colors.js"
 
@@ -45,6 +46,12 @@ const watermark = 100 * 1 / 32
 const winPctColor = "#fff"
 const winColor = Green
 const lossColor = Black // "#61892f"
+
+const ARCH_SECTIONS = [
+  { id: "archetypes", label: "Archetypes" },
+  { id: "selected-archetype", label: "Selected Archetype" },
+  { id: "trends", label: "Trends" },
+]
 
 export function ArchetypeWidget(input) {
   const [leftChart, setLeftChart] = React.useState("macro_builds")
@@ -104,68 +111,72 @@ export function ArchetypeWidget(input) {
   }
 
   return (
-    <div className="archetype-container">
-      <div className="archetype-top-section">
-        <div className="archetype-stats-wrapper">
-          <ArchetypeStatsTable
-            parsed={input.parsed}
-            decks={input.decks}
-            dropdownSelection={input.colorTypeSelection}
-            sortBy={input.sortBy}
-            onHeaderClick={input.onHeaderClick}
-            handleRowClick={input.handleRowClick}
-            selectedArchetype={input.selectedArchetype}
-            colorCheckboxes={input.colorCheckboxes}
-            onColorChecked={input.onColorChecked}
-          />
-        </div>
-        <div className="archetype-cards-wrapper">
-          <TopCardsInArchetypeWidget
-            parsed={input.parsed}
-            cardData={input.cardData}
-            decks={input.decks}
-            minDrafts={input.minDrafts}
-            cube={input.cube}
-            minDecksInArch={input.minDecksInArch}
-            archetypeDropdownOptions={input.archetypeDropdownOptions}
-            selectedArchetype={input.selectedArchetype}
-            onArchetypeSelected={input.onArchetypeSelected}
-            colorWidgetOpts={input.colorWidgetOpts}
-            onColorSelected={input.onColorSelected}
-            colorSelection={input.colorSelection}
-            onMinDraftsSelected={input.onMinDraftsSelected}
-            onMinGamesSelected={input.onMinGamesSelected}
-          />
-        </div>
-        <div className="archetype-details-wrapper">
-          <ArchetypeDetailsPanel
-            parsed={input.parsed}
-            decks={input.decks}
-            selectedArchetype={input.selectedArchetype}
-          />
-        </div>
+    <div className="analyze-page">
+      <SectionNav sections={ARCH_SECTIONS} />
+
+      <div className="controls-panel">
+        <span className="section-heading">Colors</span>
+        <ColorPickerHeader display={input.colorCheckboxes} onChecked={input.onColorChecked} />
       </div>
 
-      <div className="archetype-charts-section">
-        <div className="selector-group" style={{"justifyContent": "center", "marginBottom": "1rem"}}>
-          <DropdownHeader
-            label="Left Chart"
-            options={chartOptions}
-            value={leftChart}
-            onChange={(e) => setLeftChart(e.target.value)}
-          />
-          <DropdownHeader
-            label="Right Chart"
-            options={chartOptions}
-            value={rightChart}
-            onChange={(e) => setRightChart(e.target.value)}
-          />
+      <Section id="archetypes">
+        <ArchetypeStatsTable
+          parsed={input.parsed}
+          decks={input.decks}
+          dropdownSelection={input.colorTypeSelection}
+          sortBy={input.sortBy}
+          onHeaderClick={input.onHeaderClick}
+          handleRowClick={input.handleRowClick}
+          selectedArchetype={input.selectedArchetype}
+        />
+      </Section>
+
+      <Section id="selected-archetype" heading={`Selected — ${input.selectedArchetype}`}>
+        <TopCardsInArchetypeWidget
+          parsed={input.parsed}
+          cardData={input.cardData}
+          decks={input.decks}
+          minDrafts={input.minDrafts}
+          cube={input.cube}
+          minDecksInArch={input.minDecksInArch}
+          archetypeDropdownOptions={input.archetypeDropdownOptions}
+          selectedArchetype={input.selectedArchetype}
+          onArchetypeSelected={input.onArchetypeSelected}
+          colorWidgetOpts={input.colorWidgetOpts}
+          onColorSelected={input.onColorSelected}
+          colorSelection={input.colorSelection}
+          onMinDraftsSelected={input.onMinDraftsSelected}
+          onMinGamesSelected={input.onMinGamesSelected}
+        />
+        <ArchetypeDetailsPanel
+          parsed={input.parsed}
+          decks={input.decks}
+          selectedArchetype={input.selectedArchetype}
+        />
+      </Section>
+
+      <Section id="trends" heading="Trends">
+        <div className="controls-panel">
+          <div className="selector-group" style={{"justifyContent": "center"}}>
+            <DropdownHeader
+              label="Left Chart"
+              options={chartOptions}
+              value={leftChart}
+              onChange={(e) => setLeftChart(e.target.value)}
+            />
+            <DropdownHeader
+              label="Right Chart"
+              options={chartOptions}
+              value={rightChart}
+              onChange={(e) => setRightChart(e.target.value)}
+            />
+          </div>
         </div>
         <div className="chart-grid">
           {renderChart(leftChart)}
           {renderChart(rightChart)}
         </div>
-      </div>
+      </Section>
     </div>
   );
 }
@@ -344,18 +355,21 @@ function ArchetypeStatsTable(input) {
 
   return (
     <div>
-      <ColorPickerHeader display={input.colorCheckboxes} onChecked={input.onColorChecked} />
-      <h4 style={{marginTop: "1rem", marginBottom: "0.5rem"}}>Macro Archetypes</h4>
-      <table className="widget-table">
-        <ArchetypeTableHeader onHeaderClick={input.onHeaderClick} />
-        <ArchetypeTableRows data={macroData} sortBy={input.sortBy} handleRowClick={input.handleRowClick} />
-      </table>
-      {microData.length > 0 && <>
-        <h4 style={{marginTop: "1.5rem", marginBottom: "0.5rem"}}>Micro Archetypes</h4>
+      <h3 className="section-heading">Macro Archetypes</h3>
+      <div className="table-scroll">
         <table className="widget-table">
           <ArchetypeTableHeader onHeaderClick={input.onHeaderClick} />
-          <ArchetypeTableRows data={microData} sortBy={input.sortBy} handleRowClick={input.handleRowClick} />
+          <ArchetypeTableRows data={macroData} sortBy={input.sortBy} handleRowClick={input.handleRowClick} />
         </table>
+      </div>
+      {microData.length > 0 && <>
+        <h3 className="section-heading" style={{marginTop: "1.5rem"}}>Micro Archetypes</h3>
+        <div className="table-scroll">
+          <table className="widget-table">
+            <ArchetypeTableHeader onHeaderClick={input.onHeaderClick} />
+            <ArchetypeTableRows data={microData} sortBy={input.sortBy} handleRowClick={input.handleRowClick} />
+          </table>
+        </div>
       </>}
     </div>
   );
@@ -400,7 +414,7 @@ export function ColorPickerHeader(input) {
 
 function TopCardsInArchetypeWidgetOptions(input) {
   return (
-    <div className="selector-group" style={{"padding": "1rem", "background": "var(--card-background)", "borderBottom": "1px solid var(--border)"}}>
+    <div className="selector-group">
       <DropdownHeader
         label="Archetype"
         options={input.archetypeDropdownOptions}
@@ -494,8 +508,12 @@ function TopCardsInArchetypeWidget(input) {
   ]
 
   return (
-    <div className="widget-scroll">
-      <TopCardsInArchetypeWidgetOptions {...input} />
+    <div>
+      <div className="controls-panel">
+        <TopCardsInArchetypeWidgetOptions {...input} />
+      </div>
+      <h3 className="section-heading">Top Cards in Archetype</h3>
+      <div className="table-scroll">
       <table className="widget-table">
         <thead className="table-header">
           <tr>
@@ -563,6 +581,7 @@ function TopCardsInArchetypeWidget(input) {
         </tbody>
       </table>
       </div>
+    </div>
   );
 }
 
@@ -581,50 +600,58 @@ function ArchetypeDetailsPanel(input) {
     })
   }
   return (
-    <div>
-      <table className="widget-table">
-        <thead className="table-header">
-          <tr>
-            <td onClick={input.onHeaderClick} id="name" className="header-cell">Paired with</td>
-            <td onClick={input.onHeaderClick} id="num" className="header-cell">#</td>
-          </tr>
-        </thead>
-        <tbody>
-          {
-            sharedData.map(function(arch) {
-              return (
-                <tr key={arch.name} sort={arch.num} className="widget-table-row">
-                  <td key="name">{arch.name}</td>
-                  <td key="num">{arch.num}</td>
-                </tr>
-              )
-            }).sort(SortFunc)
-          }
-        </tbody>
-      </table>
+    <div className="detail-grid">
+      <div>
+        <h3 className="section-heading">Paired With</h3>
+        <div className="table-scroll">
+        <table className="widget-table">
+          <thead className="table-header">
+            <tr>
+              <td onClick={input.onHeaderClick} id="name" className="header-cell">Archetype</td>
+              <td onClick={input.onHeaderClick} id="num" className="header-cell">#</td>
+            </tr>
+          </thead>
+          <tbody>
+            {
+              sharedData.map(function(arch) {
+                return (
+                  <tr key={arch.name} sort={arch.num} className="widget-table-row">
+                    <td key="name">{arch.name}</td>
+                    <td key="num">{arch.num}</td>
+                  </tr>
+                )
+              }).sort(SortFunc)
+            }
+          </tbody>
+        </table>
+        </div>
+      </div>
 
-      <br></br>
-
-      <table className="widget-table">
-        <thead className="table-header">
-          <tr>
-            <td onClick={input.onHeaderClick} id="name" className="header-cell">Played by</td>
-            <td onClick={input.onHeaderClick} id="num" className="header-cell">#</td>
-          </tr>
-        </thead>
-        <tbody>
-          {
-            playerData.map(function(player) {
-              return (
-                <tr key={player.name} sort={player.num} className="widget-table-row">
-                  <td key="name">{player.name}</td>
-                  <td key="num">{player.num}</td>
-                </tr>
-              )
-            }).sort(SortFunc)
-          }
-        </tbody>
-      </table>
+      <div>
+        <h3 className="section-heading">Played By</h3>
+        <div className="table-scroll">
+        <table className="widget-table">
+          <thead className="table-header">
+            <tr>
+              <td onClick={input.onHeaderClick} id="name" className="header-cell">Player</td>
+              <td onClick={input.onHeaderClick} id="num" className="header-cell">#</td>
+            </tr>
+          </thead>
+          <tbody>
+            {
+              playerData.map(function(player) {
+                return (
+                  <tr key={player.name} sort={player.num} className="widget-table-row">
+                    <td key="name">{player.name}</td>
+                    <td key="num">{player.num}</td>
+                  </tr>
+                )
+              }).sort(SortFunc)
+            }
+          </tbody>
+        </table>
+        </div>
+      </div>
     </div>
   );
 }

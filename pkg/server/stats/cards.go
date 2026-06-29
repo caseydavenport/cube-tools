@@ -232,9 +232,14 @@ func (d *cardStatsHandler) statsForDecks(decks []*storage.Deck, cubeCards map[st
 			// Increment player count.
 			cbn.Players[deck.Player]++
 
-			// Include archetype data for this card
+			// Include archetype data for this card. The macro archetype is counted
+			// alongside the secondary labels so selecting a macro (aggro/midrange/
+			// control/tempo) matches the cards played in it.
 			for _, l := range deck.Labels {
 				cbn.Archetypes[l]++
+			}
+			if arch != "" {
+				cbn.Archetypes[arch]++
 			}
 
 			// Track drafts for this card.

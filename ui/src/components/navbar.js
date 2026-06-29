@@ -49,7 +49,7 @@ const SECTIONS = [
   { label: "Analyze", views: [
     { label: "Cards", path: "cards" },
     { label: "Colors", path: "colors" },
-    { label: "Types", path: "types" },
+    { label: "Archetypes", path: "types" },
     { label: "Decks", path: "deckstats" },
   ]},
   { label: "Design", views: [
