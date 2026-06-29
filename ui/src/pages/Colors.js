@@ -1,5 +1,6 @@
 import React from 'react'
 import { DropdownHeader, NumericInput, DateSelector } from "../components/Dropdown.js"
+import { Section, SectionNav } from "../components/PageSections.js"
 import { Colors, ColorImages, GetColorIdentity, primaryColorPair, CUBE_AVG_WIN_PERCENT, deltaPositiveFill, deltaNegativeFill } from "../utils/Colors.js"
 import { Trophies, LastPlaceFinishes, Wins, Losses } from "../utils/Deck.js"
 import { bucketXScale } from "../utils/Buckets.js"
@@ -45,6 +46,12 @@ const colorIdentityNames = new Map([
   ["WRG", "Naya"], ["UBR", "Grixis"], ["UBG", "Sultai"], ["URG", "Temur"], ["BRG", "Jund"],
 ])
 
+const COLOR_SECTIONS = [
+  { id: "stats", label: "Stats" },
+  { id: "trends", label: "Trends" },
+  { id: "matchups", label: "Matchups" },
+]
+
 export function ColorWidget(input) {
   const [leftChart, setLeftChart] = React.useState("builds")
   const [rightChart, setRightChart] = React.useState("wins")
@@ -67,91 +74,73 @@ export function ColorWidget(input) {
   ]
 
   return (
-    <table className="scroll-container-large">
-      <tbody>
-        <tr key="1">
-          <td colSpan="2">
-            <ColorStatsTable
-              parsed={input.parsed}
-              colorData={input.parsed.colorData}
-              ddOpts={input.ddOpts}
-              colorTypeSelection={input.colorTypeSelection}
-              decks={input.decks}
-              onSelected={input.onSelected}
-              onClick={input.onHeaderClick}
-              sortBy={input.colorSortBy}
-              colorMode={input.colorMode}
-              onColorModeChanged={input.onColorModeChanged}
-              selectedBucket={input.selectedBucket}
-              onBucketSelected={input.onBucketSelected}
-            />
-          </td>
-        </tr>
+    <div className="analyze-page">
+      <SectionNav sections={COLOR_SECTIONS} />
 
-        <tr key="charts-header">
-          <td style={{"paddingTop": "50px", "width": "50%"}}>
-            <div className="selector-group" style={{"justifyContent": "center"}}>
-              <DropdownHeader
-                label="Left Chart"
-                options={chartOptions}
-                value={leftChart}
-                onChange={(e) => setLeftChart(e.target.value)}
-              />
-            </div>
-          </td>
-          <td style={{"paddingTop": "50px", "width": "50%"}}>
-            <div className="selector-group" style={{"justifyContent": "center"}}>
-              <DropdownHeader
-                label="Right Chart"
-                options={chartOptions}
-                value={rightChart}
-                onChange={(e) => setRightChart(e.target.value)}
-              />
-            </div>
-          </td>
-        </tr>
+      <div className="controls-panel">
+        <TableHeader {...input} />
+      </div>
 
-        <tr key="charts-body">
-          <td style={{"width": "50%"}}>
-            <ColorRateChart
-              parsed={input.parsed}
-              colorData={input.parsed.colorData}
-              decks={input.decks}
-              dataset={leftChart}
-              colorMode={input.colorTypeSelection}
-              bucketSize={input.bucketSize}
-            />
-          </td>
-          <td style={{"width": "50%"}}>
-            <ColorRateChart
-              parsed={input.parsed}
-              colorData={input.parsed.colorData}
-              decks={input.decks}
-              dataset={rightChart}
-              colorMode={input.colorTypeSelection}
-              bucketSize={input.bucketSize}
-            />
-          </td>
-        </tr>
+      <Section id="stats">
+        <h3 className="section-heading">Win Rates by Color</h3>
+        <ColorStatsTable
+          parsed={input.parsed}
+          colorData={input.parsed.colorData}
+          colorTypeSelection={input.colorTypeSelection}
+          decks={input.decks}
+          onClick={input.onHeaderClick}
+          sortBy={input.colorSortBy}
+          selectedBucket={input.selectedBucket}
+        />
+        <ColorPerformanceDeltaChart
+          parsed={input.parsed}
+          colorData={input.parsed.colorData}
+          colorTypeSelection={input.colorTypeSelection}
+          selectedBucket={input.selectedBucket}
+        />
+      </Section>
 
-        <tr key="delta-chart">
-          <td colSpan="2" style={{"paddingTop": "50px"}}>
-            <ColorPerformanceDeltaChart
-              parsed={input.parsed}
-              colorData={input.parsed.colorData}
-              colorTypeSelection={input.colorTypeSelection}
-              selectedBucket={input.selectedBucket}
+      <Section id="trends" heading="Trends">
+        <div className="controls-panel">
+          <div className="selector-group" style={{"justifyContent": "center"}}>
+            <DropdownHeader
+              label="Left Chart"
+              options={chartOptions}
+              value={leftChart}
+              onChange={(e) => setLeftChart(e.target.value)}
             />
-          </td>
-        </tr>
+            <DropdownHeader
+              label="Right Chart"
+              options={chartOptions}
+              value={rightChart}
+              onChange={(e) => setRightChart(e.target.value)}
+            />
+          </div>
+        </div>
+        <div className="chart-grid">
+          <ColorRateChart
+            parsed={input.parsed}
+            colorData={input.parsed.colorData}
+            decks={input.decks}
+            dataset={leftChart}
+            colorMode={input.colorTypeSelection}
+            bucketSize={input.bucketSize}
+          />
+          <ColorRateChart
+            parsed={input.parsed}
+            colorData={input.parsed.colorData}
+            decks={input.decks}
+            dataset={rightChart}
+            colorMode={input.colorTypeSelection}
+            bucketSize={input.bucketSize}
+          />
+        </div>
+      </Section>
 
-        <tr key="matchup-heatmap">
-          <td colSpan="2" style={{"paddingTop": "50px"}}>
-            <ColorMatchupHeatmap matchupData={input.colorMatchupData} colorType={input.colorTypeSelection} />
-          </td>
-        </tr>
-      </tbody>
-    </table>
+      <Section id="matchups" heading="Matchups">
+        <ColorMatchupHeatmap matchupData={input.colorMatchupData} colorType={input.colorTypeSelection} />
+      </Section>
+    </div>
   );
 }
 
@@ -292,9 +281,7 @@ function ColorStatsTable(input) {
   ]
 
   return (
-    <div>
-      <TableHeader {...input} />
-
+    <div className="table-scroll">
       <table className="widget-table">
         <thead className="table-header">
           <tr key="header">
