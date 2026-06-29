@@ -48,6 +48,7 @@ const Navbar = () => {
           <li><NavLink to={`/${cube}/colors`} className={({ isActive }) => isActive ? "active" : ""}>Colors</NavLink></li>
           <li><NavLink to={`/${cube}/types`} className={({ isActive }) => isActive ? "active" : ""}>Types</NavLink></li>
           <li><NavLink to={`/${cube}/decklists`} className={({ isActive }) => isActive ? "active" : ""}>Decklists</NavLink></li>
+          <li><NavLink to={`/${cube}/import`} className={({ isActive }) => isActive ? "active" : ""}>Import</NavLink></li>
           <li><NavLink to={`/${cube}/deckstats`} className={({ isActive }) => isActive ? "active" : ""}>Deck Stats</NavLink></li>
           <li><NavLink to={`/${cube}/drafts`} className={({ isActive }) => isActive ? "active" : ""}>Drafts</NavLink></li>
           <li><NavLink to={`/${cube}/players`} className={({ isActive }) => isActive ? "active" : ""}>Players</NavLink></li>
