@@ -166,7 +166,7 @@ export function DeckWidget(input) {
     { label: "Wins by # Planeswalkers", value: "wins_planeswalker" },
     { label: "Wins by # Enchantments", value: "wins_enchantment" },
     { label: "Wins by # Lands", value: "wins_land" },
-    { label: "Wins by # Non-basics", value: "wins_nonbasic" },
+    { label: "Wins by # Non-basic Lands", value: "wins_nonbasic" },
     { label: "Wins by # Colors", value: "wins_num_colors" },
     { label: "Pie: # Colors", value: "pie_num_colors" },
     { label: "Deck Avg. Mana Value", value: "deck_avg_mana" },
@@ -195,7 +195,7 @@ export function DeckWidget(input) {
       case "wins_planeswalker": return <WinsByCardType type="Planeswalker" bucketSize={1} decks={input.decks} />;
       case "wins_enchantment": return <WinsByCardType type="Enchantment" decks={input.decks} />;
       case "wins_land": return <WinsByCardType type="Land" bucketSize={1} decks={input.decks} />;
-      case "wins_nonbasic": return <WinsByNonBasicDensity decks={input.decks} data={data} />;
+      case "wins_nonbasic": return <WinsByNonBasicLandDensity decks={input.decks} data={data} />;
       case "wins_num_colors": return <WinsByNumberOfColors decks={input.decks} />;
       case "pie_num_colors": return <NumColorsPieChart decks={input.decks} parsed={input.parsed} />;
       case "deck_avg_mana": return <DeckManaValueChart decks={input.decks} parsed={input.parsed} />;
@@ -347,9 +347,9 @@ export function BuildGraphData(parsed) {
   var all = {
     winsByCMC: new Map(),
     lossesByCMC: new Map(),
-    winsByNonBasic: new Map(),
-    lossesByNonBasic: new Map(),
-    nonBasicBucketSize: 2,
+    winsByNonBasicLands: new Map(),
+    lossesByNonBasicLands: new Map(),
+    nonBasicLandsBucketSize: 2,
   }
   for (let deck of parsed.filteredDecks) {
     const stats = deckStatsMap.get(deck.metadata.path)
@@ -370,15 +370,15 @@ export function BuildGraphData(parsed) {
       continue
     }
 
-    let numNonBasic = 0
+    let numNonBasicLands = 0
     for (let card of deck.mainboard) {
       if (card.types.includes("Land") && !card.types.includes("Basic")) {
-        numNonBasic += 1
+        numNonBasicLands += 1
       }
     }
-    let bucket = Math.round(numNonBasic/all.nonBasicBucketSize) * all.nonBasicBucketSize
-    all.winsByNonBasic.set(bucket, (all.winsByNonBasic.get(bucket) || 0) + wins)
-    all.lossesByNonBasic.set(bucket, (all.lossesByNonBasic.get(bucket) || 0) + losses)
+    let bucket = Math.round(numNonBasicLands/all.nonBasicLandsBucketSize) * all.nonBasicLandsBucketSize
+    all.winsByNonBasicLands.set(bucket, (all.winsByNonBasicLands.get(bucket) || 0) + wins)
+    all.lossesByNonBasicLands.set(bucket, (all.lossesByNonBasicLands.get(bucket) || 0) + losses)
   }
 
   // Calculate per-bucket, over time data.
@@ -633,9 +633,9 @@ function WinsByCardType(input) {
   );
 }
 
-function WinsByNonBasicDensity(input) {
-  let wins = input.data.all.winsByNonBasic
-  let losses = input.data.all.lossesByNonBasic
+function WinsByNonBasicLandDensity(input) {
+  let wins = input.data.all.winsByNonBasicLands
+  let losses = input.data.all.lossesByNonBasicLands
 
   const options = {
     responsive: true,
@@ -647,7 +647,7 @@ function WinsByNonBasicDensity(input) {
     plugins: {
       title: {
         display: true,
-        text: "Wins by # nonbasic",
+        text: "Wins by # nonbasic lands",
         color: "#FFF",
         font: {
           size: "16pt",
@@ -667,7 +667,7 @@ function WinsByNonBasicDensity(input) {
   const sorted = [...wins.keys()].sort(function(a, b) {return a - b})
   let labels = []
   for (let start of sorted) {
-    labels.push(`${start}-${start+input.data.all.nonBasicBucketSize}`)
+    labels.push(`${start}-${start+input.data.all.nonBasicLandsBucketSize}`)
   }
   let winsData= []
   for (let l of sorted) {

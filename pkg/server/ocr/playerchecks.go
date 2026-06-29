@@ -102,12 +102,12 @@ func deckWarnings(pw *PlayerWork) []string {
 	if poolTotal != 45 {
 		w = append(w, fmt.Sprintf("Pool has %d cards (expected 45)", poolTotal))
 	}
-	mainNonBasic := 0
+	mainDrafted := 0
 	for _, e := range pw.MainboardEntries {
 		if types.IsBasic(e.CardName) {
 			continue
 		}
-		mainNonBasic += e.Count
+		mainDrafted += e.Count
 		switch {
 		case poolByName[e.CardName] == 0:
 			w = append(w, fmt.Sprintf("%q is in the deck but not the pool", e.CardName))
@@ -115,7 +115,7 @@ func deckWarnings(pw *PlayerWork) []string {
 			w = append(w, fmt.Sprintf("%q x%d exceeds pool (%d)", e.CardName, e.Count, poolByName[e.CardName]))
 		}
 	}
-	if size := mainNonBasic + basicTotal; size > 0 && (size < 38 || size > 46) {
+	if size := mainDrafted + basicTotal; size > 0 && (size < 38 || size > 46) {
 		w = append(w, fmt.Sprintf("Mainboard has %d cards (expected ~40)", size))
 	}
 	return w
