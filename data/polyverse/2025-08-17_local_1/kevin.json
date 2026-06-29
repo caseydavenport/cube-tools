@@ -34,24 +34,6 @@
    "winner": "kevin"
   },
   {
-   "opponent": "brian",
-   "round": 4,
-   "wins": 2,
-   "losses": 0,
-   "draws": 0,
-   "games": [
-    {
-     "opponent": "brian",
-     "winner": "kevin"
-    },
-    {
-     "opponent": "brian",
-     "winner": "kevin"
-    }
-   ],
-   "winner": "kevin"
-  },
-  {
    "opponent": "brianfl",
    "round": 2,
    "wins": 2,
