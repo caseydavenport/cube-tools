@@ -73,15 +73,15 @@ func foldGamesIntoMatches(d *storage.Deck, player string, games []types.Game) {
 	}
 }
 
-// --- SharedWith: "tempo" excluded ---
+// --- SharedWith: macro archetype excluded ---
 
-func TestArchetypeStats_SharedWith_TempoSkip(t *testing.T) {
+func TestArchetypeStats_SharedWith_MacroSkip(t *testing.T) {
 	d := makeStorageDeck("Alice", "d1", []string{"spells"}, []types.Game{
 		{Opponent: "Bob", Winner: "Alice"},
 	}, []types.Match{
 		{Opponent: "Bob", Winner: "Alice"},
 	})
-	d.MacroArchetype = "tempo"
+	d.MacroArchetype = "control"
 	decks := []*storage.Deck{d}
 
 	handler := &archetypeStatsHandler{store: &mockDeckStorage{decks: decks}}
@@ -93,18 +93,16 @@ func TestArchetypeStats_SharedWith_TempoSkip(t *testing.T) {
 	err := json.Unmarshal(rr.Body.Bytes(), &resp)
 	assert.NoError(t, err)
 
-	// "spells" archetype's SharedWith should NOT contain "tempo"
+	// The macro archetype must not leak into a secondary label's SharedWith.
 	spells := resp.Archetypes["spells"]
 	assert.NotNil(t, spells)
-	_, hasTempo := spells.SharedWith["tempo"]
-	assert.False(t, hasTempo, "tempo should be excluded from SharedWith")
+	_, hasControl := spells.SharedWith["control"]
+	assert.False(t, hasControl, "macro archetype should be excluded from SharedWith")
 
-	// "tempo" archetype's SharedWith should NOT contain "spells" macro entries
-	// but should contain non-macro labels... wait, actually "tempo" IS a macro.
-	// For the "tempo" label, SharedWith should include "spells"
-	tempo := resp.Archetypes["tempo"]
-	assert.NotNil(t, tempo)
-	assert.Equal(t, 1, tempo.SharedWith["spells"])
+	// The macro archetype's own SharedWith does include secondary labels.
+	control := resp.Archetypes["control"]
+	assert.NotNil(t, control)
+	assert.Equal(t, 1, control.SharedWith["spells"])
 }
 
 // --- WinPercent ---
@@ -166,13 +164,13 @@ func TestArchetypeStats_TotalGames(t *testing.T) {
 	assert.Equal(t, 2, resp.TotalGames)
 }
 
-// A deck labeled both "tempo" and "control" contributes its wins to both
+// A deck labeled both "aggro" and "control" contributes its wins to both
 // buckets. The PercentOfWins denominator must inflate the same way so the
 // column actually sums to ~100% across rows. Small drift comes from
 // per-row math.Round and is bounded by the number of rows.
 func TestArchetypeStats_PercentOfWinsSumsTo100(t *testing.T) {
 	decks := []*storage.Deck{
-		makeStorageDeck("Alice", "d1", []string{"tempo", "control"}, []types.Game{
+		makeStorageDeck("Alice", "d1", []string{"aggro", "control"}, []types.Game{
 			{Opponent: "Bob", Winner: "Alice"},
 			{Opponent: "Bob", Winner: "Alice"},
 		}, nil),

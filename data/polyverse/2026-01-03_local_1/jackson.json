@@ -5,7 +5,7 @@
   "mainboard_file": "data/polyverse/2026-01-03_local_1/jackson-mainboard.txt",
   "sideboard_file": "data/polyverse/2026-01-03_local_1/jackson-sideboard.txt"
  },
- "macro_archetype": "tempo",
+ "macro_archetype": "midrange",
  "labels": [
   "draw",
   "skimmer",

@@ -234,7 +234,7 @@ func (d *cardStatsHandler) statsForDecks(decks []*storage.Deck, cubeCards map[st
 
 			// Include archetype data for this card. The macro archetype is counted
 			// alongside the secondary labels so selecting a macro (aggro/midrange/
-			// control/tempo) matches the cards played in it.
+			// control) matches the cards played in it.
 			for _, l := range deck.Labels {
 				cbn.Archetypes[l]++
 			}
@@ -691,13 +691,11 @@ func newCardStats(c types.Card) *cardStats {
 			"aggro":    {},
 			"midrange": {},
 			"control":  {},
-			"tempo":    {},
 		},
 		AgainstArchetype: map[string]*winStats{
 			"aggro":    {},
 			"midrange": {},
 			"control":  {},
-			"tempo":    {},
 		},
 	}
 }
