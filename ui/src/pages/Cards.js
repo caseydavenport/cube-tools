@@ -1,5 +1,5 @@
 import React from 'react'
-import { IsBasicLand, SortFunc } from "../utils/Utils.js"
+import { IsBasicLand, SortFunc, CardImageURL } from "../utils/Utils.js"
 import { DropdownHeader, NumericInput, Checkbox, DateSelector } from "../components/Dropdown.js"
 import { PillSearchInput } from "../components/PillSearchInput.js"
 import { Section, SectionNav } from "../components/PageSections.js"
@@ -864,7 +864,7 @@ function CardMainboardTooltipContent(card) {
   return (
     <div style={{"display": "flex", "flexDirection": "row", "gap": "12px", "alignItems": "flex-start"}}>
       <img
-        src={`https://api.scryfall.com/cards/named?format=image&exact=${encodeURIComponent(card.name)}`}
+        src={CardImageURL(card)}
         alt={card.name}
         style={{width: '200px', display: 'block', borderRadius: '8px', flexShrink: 0}}
       />
@@ -1816,7 +1816,7 @@ function PickOrderTooltip(pick) {
   return (
     <div style={{ display: "flex", flexDirection: "row", gap: "12px", alignItems: "flex-start" }}>
       <img
-        src={`https://api.scryfall.com/cards/named?format=image&exact=${encodeURIComponent(pick.name)}`}
+        src={CardImageURL(pick)}
         alt={pick.name}
         style={{ width: '200px', display: 'block', borderRadius: '8px', flexShrink: 0 }}
       />

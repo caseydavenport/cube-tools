@@ -3,7 +3,7 @@ import { LoadCube, LoadDecks, FetchNotes, SaveNotes, SaveDeckMeta } from "../uti
 import { useCube } from "../contexts/CubeContext.js"
 import { Record, MatchRecord, Wins, Losses, Draws, MatchWins, MatchLosses, MatchDraws, InDeckColor } from "../utils/Deck.js"
 import { RemovalMatches, CounterspellMatches } from "../pages/Decks.js"
-import { SortFunc, StringToColor, CheckboxesToColors, IsBasicLand } from "../utils/Utils.js"
+import { SortFunc, StringToColor, CheckboxesToColors, IsBasicLand, CardImageURL } from "../utils/Utils.js"
 import { CardMatches, DeckMatches } from "../utils/Query.js"
 import { ColorImages } from "../utils/Colors.js"
 import { Button, TextInput, DropdownHeader, NumericInput, Checkbox, DateSelector } from "../components/Dropdown.js"
@@ -355,6 +355,7 @@ export function DeckViewer(props) {
 
   return (
     <BrowseLayout
+      stacked
       filters={filterBar}
       index={
         <FilteredDecks
@@ -627,36 +628,50 @@ function displayDeckImages(input) {
     <div className="deck-view">
       <PlayerFrame {...input} />
       <div className="deck-images-columns">
-        <CardImagesList cards={cards} deck={deck} sb={input.mbsb == "Sideboard"} opts={{cmc: 0}} matchStr={input.matchStr} />
-        <CardImagesList cards={cards} deck={deck} sb={input.mbsb == "Sideboard"} opts={{cmc: 1}} matchStr={input.matchStr} />
+        <CardImagesList cards={cards} deck={deck} sb={input.mbsb == "Sideboard"} opts={{cmc: 1, lte: true}} matchStr={input.matchStr} />
         <CardImagesList cards={cards} deck={deck} sb={input.mbsb == "Sideboard"} opts={{cmc: 2}} matchStr={input.matchStr} />
         <CardImagesList cards={cards} deck={deck} sb={input.mbsb == "Sideboard"} opts={{cmc: 3}} matchStr={input.matchStr} />
         <CardImagesList cards={cards} deck={deck} sb={input.mbsb == "Sideboard"} opts={{cmc: 4}} matchStr={input.matchStr} />
         <CardImagesList cards={cards} deck={deck} sb={input.mbsb == "Sideboard"} opts={{cmc: 5, gt: true}} matchStr={input.matchStr} />
-        <CardImagesList cards={cards} deck={deck} sb={input.mbsb == "Sideboard"} matchStr={input.matchStr} basicsOnly={true} />
+      </div>
+      <div className="deck-images-columns">
+        <CardImagesList cards={cards} deck={deck} sb={input.mbsb == "Sideboard"} opts={{land: "Basics"}} matchStr={input.matchStr} />
+        <CardImagesList cards={cards} deck={deck} sb={input.mbsb == "Sideboard"} opts={{land: "Fetchables"}} matchStr={input.matchStr} />
+        <CardImagesList cards={cards} deck={deck} sb={input.mbsb == "Sideboard"} opts={{land: "Fetches"}} matchStr={input.matchStr} />
+        <CardImagesList cards={cards} deck={deck} sb={input.mbsb == "Sideboard"} opts={{land: "Other"}} matchStr={input.matchStr} />
       </div>
       <DeckReport cube={input.cube} player={deck.player} cardMap={cardMap} description={input.description} onDescriptionFetched={input.onDescriptionFetched} deck={deck} />
     </div>
   );
 }
 
-function CardImagesList({cards, deck, sb, opts, matchStr, basicsOnly}) {
+function CardImagesList({cards, deck, sb, opts, matchStr}) {
   let toDisplay = new Array()
   for (let card of cards) {
-    const isBasic = IsBasicLand(card)
-    if (basicsOnly) {
-      if (isBasic) {
+    const isLand = IsBasicLand(card) || (card.types && card.types.includes("Land"))
+
+    // Lands get their own per-category columns (Basics, Fetchables, ...).
+    if (opts.land) {
+      if (isLand && landCategory(card) === opts.land) {
         toDisplay.push(card)
       }
       continue
     }
 
-    // Skip basic lands for normal CMC sections.
-    if (isBasic) {
+    // CMC columns exclude all lands.
+    if (isLand) {
       continue
     }
 
-    if (opts.gt && card.cmc >= opts.cmc || card.cmc === opts.cmc) {
+    let match
+    if (opts.gt) {
+      match = card.cmc >= opts.cmc
+    } else if (opts.lte) {
+      match = card.cmc <= opts.cmc
+    } else {
+      match = card.cmc === opts.cmc
+    }
+    if (match) {
       toDisplay.push(card)
     }
   }
@@ -678,12 +693,13 @@ function CardImagesList({cards, deck, sb, opts, matchStr, basicsOnly}) {
 
   let title = "CMC=" + opts?.cmc
   if (opts?.gt) title = "CMC=" + opts.cmc + "+"
-  if (basicsOnly) title = "Basics"
+  if (opts?.lte) title = "CMC=0-" + opts.cmc
+  if (opts?.land) title = opts.land
 
-  // Split into chunks of 10 for wrapping.
+  // Split into chunks for wrapping (up to 15 cards per column).
   const chunks = [];
-  for (let i = 0; i < toDisplay.length; i += 10) {
-    chunks.push(toDisplay.slice(i, i + 10));
+  for (let i = 0; i < toDisplay.length; i += 15) {
+    chunks.push(toDisplay.slice(i, i + 15));
   }
 
   return (
@@ -712,7 +728,7 @@ function CardImagesList({cards, deck, sb, opts, matchStr, basicsOnly}) {
                         <Popover id="popover-basic" style={{maxWidth: 'none'}}>
                           <Popover.Body style={{padding: '0'}}>
                             <img
-                              src={`https://api.scryfall.com/cards/named?format=image&exact=${encodeURIComponent(card.name)}`}
+                              src={CardImageURL(card)}
                               alt={card.name}
                               style={{width: '300px', display: 'block', borderRadius: '12px'}}
                             />
@@ -721,7 +737,7 @@ function CardImagesList({cards, deck, sb, opts, matchStr, basicsOnly}) {
                       }
                     >
                       <img
-                        src={`https://api.scryfall.com/cards/named?format=image&exact=${encodeURIComponent(card.name)}`}
+                        src={CardImageURL(card)}
                         alt={card.name}
                         className={className}
                         style={{"width": "200px"}}
@@ -769,13 +785,17 @@ function displayDeck(input) {
   return (
     <div className="deck-view">
       <PlayerFrame {...input} />
-      <div className="flexhouse">
-        <CardList player={deck.player} cards={cards} deck={deck} sb={input.mbsb == "Sideboard"} opts={{cmc: 0}} matchStr={input.matchStr} />
-        <CardList player={deck.player} cards={cards} deck={deck} sb={input.mbsb == "Sideboard"} opts={{cmc: 1}} matchStr={input.matchStr} />
-        <CardList player={deck.player} cards={cards} deck={deck} sb={input.mbsb == "Sideboard"} opts={{cmc: 2}} matchStr={input.matchStr} />
-        <CardList player={deck.player} cards={cards} deck={deck} sb={input.mbsb == "Sideboard"} opts={{cmc: 3}} matchStr={input.matchStr} />
-        <CardList player={deck.player} cards={cards} deck={deck} sb={input.mbsb == "Sideboard"} opts={{cmc: 4}} matchStr={input.matchStr} />
-        <CardList player={deck.player} cards={cards} deck={deck} sb={input.mbsb == "Sideboard"} opts={{cmc: 5, gt: true}} matchStr={input.matchStr} />
+      <div className="deck-cards">
+        <div className="deck-columns">
+          <CardList player={deck.player} cards={cards} deck={deck} sb={input.mbsb == "Sideboard"} opts={{cmc: 1, lte: true}} matchStr={input.matchStr} />
+          <CardList player={deck.player} cards={cards} deck={deck} sb={input.mbsb == "Sideboard"} opts={{cmc: 2}} matchStr={input.matchStr} />
+          <CardList player={deck.player} cards={cards} deck={deck} sb={input.mbsb == "Sideboard"} opts={{cmc: 3}} matchStr={input.matchStr} />
+          <CardList player={deck.player} cards={cards} deck={deck} sb={input.mbsb == "Sideboard"} opts={{cmc: 4}} matchStr={input.matchStr} />
+          <CardList player={deck.player} cards={cards} deck={deck} sb={input.mbsb == "Sideboard"} opts={{cmc: 5, gt: true}} matchStr={input.matchStr} />
+        </div>
+        <div className="deck-lands">
+          <CardList player={deck.player} cards={cards} deck={deck} sb={input.mbsb == "Sideboard"} opts={{lands: true}} matchStr={input.matchStr} />
+        </div>
       </div>
       <DeckReport cube={input.cube} player={deck.player} cardMap={cardMap} description={input.description} onDescriptionFetched={input.onDescriptionFetched} deck={deck} />
     </div>
@@ -1087,14 +1107,27 @@ function PlayerFrame(input) {
 function CardList({player, cards, deck, sb, opts, matchStr, basicsOnly}) {
   if (basicsOnly) return null; // Basics only section removed from text view.
 
-  // Group all cards by name and count occurrences within the current CMC section.
+  // Group all cards by name and count occurrences within this section. Lands
+  // (including basics) get their own section, so skip them in the CMC columns
+  // and include only them when opts.lands is set.
   let grouped = new Map()
   let totalCount = 0
 
   for (let card of cards) {
-    // Logic for CMC grouping.
-    if (!(opts.gt && card.cmc >= opts.cmc || card.cmc === opts.cmc)) {
-      continue
+    const isLand = IsBasicLand(card) || (card.types && card.types.includes("Land"))
+    if (opts.lands) {
+      if (!isLand) continue
+    } else {
+      if (isLand) continue
+      let match
+      if (opts.gt) {
+        match = card.cmc >= opts.cmc
+      } else if (opts.lte) {
+        match = card.cmc <= opts.cmc
+      } else {
+        match = card.cmc === opts.cmc
+      }
+      if (!match) continue
     }
 
     if (grouped.has(card.name)) {
@@ -1111,77 +1144,113 @@ function CardList({player, cards, deck, sb, opts, matchStr, basicsOnly}) {
 
   let toDisplay = Array.from(grouped.values())
 
-  // Sort toDisplay by type then name.
+  // The Lands section breaks down by land role (basics, fetchables, fetches,
+  // other); the CMC columns break down by card type. Rank gives lands an
+  // explicit order; types fall back to alphabetical.
+  let categoryOf = (card) => opts.lands ? landCategory(card) : getType(card)
+  let categoryRank = (cat) => {
+    let i = landOrder.indexOf(cat)
+    return i === -1 ? landOrder.length : i
+  }
+
+  // Sort by category (ranked for lands, alphabetical for types) then name.
   toDisplay.sort((a, b) => {
-    let typeA = getType(a.card)
-    let typeB = getType(b.card)
-    if (typeA < typeB) return -1
-    if (typeA > typeB) return 1
+    let ca = categoryOf(a.card)
+    let cb = categoryOf(b.card)
+    if (opts.lands) {
+      let ra = categoryRank(ca)
+      let rb = categoryRank(cb)
+      if (ra !== rb) return ra - rb
+    }
+    if (ca < cb) return -1
+    if (ca > cb) return 1
     if (a.card.name < b.card.name) return -1
     if (a.card.name > b.card.name) return 1
     return 0
   })
 
+  // Cluster the sorted cards into groups, so each column carries a small
+  // sub-heading per category instead of a per-row type cell. The list is
+  // already category-sorted, so a new group starts whenever the category
+  // changes.
+  let groups = []
+  for (let item of toDisplay) {
+    let t = categoryOf(item.card)
+    if (groups.length === 0 || groups[groups.length - 1].type !== t) {
+      groups.push({ type: t, items: [] })
+    }
+    groups[groups.length - 1].items.push(item)
+  }
+
   let title = "CMC=" + opts?.cmc + " (" + totalCount + " cards)"
   if (opts?.gt) {
     title = "CMC=" + opts.cmc + "+ (" + totalCount + " cards)"
   }
+  if (opts?.lte) {
+    title = "CMC=0-" + opts.cmc + " (" + totalCount + " cards)"
+  }
+  if (opts?.lands) {
+    title = "Lands (" + totalCount + " cards)"
+  }
 
-  let key = player + opts.cmc
+  let key = player + (opts.lands ? "lands" : opts.cmc)
 
-  // Generate the key for this table.
   return (
-    <div className="decklist-wrapper">
-      <table key={key} className="decklist">
-        <thead className="table-header">
-          <tr>
-            <td colSpan="3" className="header-cell">{title}</td>
-          </tr>
-        </thead>
-        <tbody>
+    <div className={"decklist-wrapper" + (opts.lands ? " decklist-lands" : "")} key={key}>
+      <div className="decklist">
+        <div className="decklist-title">{title}</div>
+        <div className="decklist-body">
         {
-          toDisplay.map(function(item, idx) {
-            let card = item.card
-            let key = card.name + idx
-            let type = getType(card)
-            let text = item.count > 1 ? `${item.count}x ${card.name}` : card.name
-            let className = "widget-table-row"
-
-            // Dynamic highlighting check
-            if (matchStr && CardMatches(card, matchStr, true)) {
-              className += " button-selected"
-            } else if (sb && InDeckColor(card, deck)) {
-              className += " card-playable-highlight"
-            }
-
-            let imgs = ColorImages(card.colors)
+          groups.map(function(group, gi) {
             return (
-              <tr className={className} key={key} card={card}>
-                <td className="padded"><a href={card.url} target="_blank" rel="noopener noreferrer">{imgs}</a></td>
-                <td className="padded"><a href={card.url} target="_blank" rel="noopener noreferrer">{type}</a></td>
-                <OverlayTrigger
-                  placement="right"
-                  delay={{ show: 200, hide: 100 }}
-                  overlay={
-                    <Popover id="popover-basic" style={{maxWidth: 'none'}}>
-                      <Popover.Body style={{padding: '0'}}>
-                        <img
-                          src={`https://api.scryfall.com/cards/named?format=image&exact=${encodeURIComponent(card.name)}`}
-                          alt={card.name}
-                          style={{width: '250px', display: 'block', borderRadius: '12px'}}
-                        />
-                      </Popover.Body>
-                    </Popover>
-                  }
-                >
-                  <td className="padded"><a href={card.url} target="_blank" rel="noopener noreferrer">{text}</a></td>
-                </OverlayTrigger>
-              </tr>
+              <div className="type-group" key={group.type + gi}>
+                <div className="type-subheading">{group.type}</div>
+                {
+                  group.items.map(function(item, idx) {
+                    let card = item.card
+                    let rowKey = card.name + idx
+                    let text = item.count > 1 ? `${item.count}x ${card.name}` : card.name
+                    let className = "decklist-row"
+
+                    // Dynamic highlighting check
+                    if (matchStr && CardMatches(card, matchStr, true)) {
+                      className += " button-selected"
+                    } else if (sb && InDeckColor(card, deck)) {
+                      className += " card-playable-highlight"
+                    }
+
+                    let imgs = ColorImages(card.colors)
+                    return (
+                      <OverlayTrigger
+                        key={rowKey}
+                        placement="right"
+                        delay={{ show: 200, hide: 100 }}
+                        overlay={
+                          <Popover id="popover-basic" style={{maxWidth: 'none'}}>
+                            <Popover.Body style={{padding: '0'}}>
+                              <img
+                                src={CardImageURL(card)}
+                                alt={card.name}
+                                style={{width: '250px', display: 'block', borderRadius: '12px'}}
+                              />
+                            </Popover.Body>
+                          </Popover>
+                        }
+                      >
+                        <a className={className} href={card.url} target="_blank" rel="noopener noreferrer">
+                          <span className="decklist-pip">{imgs}</span>
+                          <span className="decklist-name">{text}</span>
+                        </a>
+                      </OverlayTrigger>
+                    )
+                  })
+                }
+              </div>
             )
           })
         }
-        </tbody>
-      </table>
+        </div>
+      </div>
     </div>
   );
 }
@@ -1209,12 +1278,51 @@ function cardSort(a, b) {
   return 0
 }
 
+// typePriority orders the real card types we care about. A card's types array
+// mixes supertypes (Legendary, Snow) with several types (e.g. "Legendary
+// Artifact Equipment"), so we walk this list and take the first match rather
+// than card.types[0], which would wrongly return "Legendary".
+const typePriority = [
+  "Creature",
+  "Planeswalker",
+  "Instant",
+  "Sorcery",
+  "Enchantment",
+  "Artifact",
+  "Basic",
+  "Land",
+]
+
 function getType(card) {
-  if (card.types.includes("Creature")) {
-    return "Creature"
-  }
-  if (card.types.includes("Planeswalker")) {
-    return "Planeswalker"
+  for (let t of typePriority) {
+    if (card.types.includes(t)) {
+      return t
+    }
   }
   return card.types[0]
+}
+
+// landOrder is the sub-heading order for the Lands section.
+const landOrder = ["Basics", "Fetchables", "Fetches", "Other"]
+
+// landCategory buckets a land for the Lands section:
+//   - Basics:     basic lands.
+//   - Fetches:    fetch lands that sacrifice to search out a land.
+//   - Fetchables: nonbasic lands with a basic land type, so a fetch can grab
+//                 them. The tell is the mana ability printed as parenthesized
+//                 reminder text - "({T}: Add ...)" - which only lands that draw
+//                 mana from a basic land type carry.
+//   - Other:      everything else (utility lands, manlands, canopy lands, ...).
+function landCategory(card) {
+  if (IsBasicLand(card)) {
+    return "Basics"
+  }
+  let text = card.oracle_text || ""
+  if (/Sacrifice this land: Search your library for/.test(text)) {
+    return "Fetches"
+  }
+  if (/\(\{T\}: Add /.test(text)) {
+    return "Fetchables"
+  }
+  return "Other"
 }

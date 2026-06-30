@@ -150,6 +150,23 @@ export function IsBasicLand(card) {
   return false
 }
 
+// CardImageURL returns a Scryfall image URL for a card. It prefers the exact
+// printing the cube recorded: card.url points at a specific printing
+// (.../card/<set>/<number>/...), so we ask Scryfall for that set+number rather
+// than a name lookup. This shows the cube's version instead of the latest
+// reprint, and avoids dead links for split/double-faced cards whose "//" names
+// don't resolve through the exact-name endpoint.
+export function CardImageURL(card) {
+  if (card.image) {
+    return card.image
+  }
+  let m = card.url && card.url.match(/scryfall\.com\/card\/([^/]+)\/([^/]+)/)
+  if (m) {
+    return `https://api.scryfall.com/cards/${m[1]}/${m[2]}?format=image`
+  }
+  return `https://api.scryfall.com/cards/named?format=image&exact=${encodeURIComponent(card.name)}`
+}
+
 export function SortFunc(a, b) {
   if (a.props.sort > b.props.sort) {
     return -1

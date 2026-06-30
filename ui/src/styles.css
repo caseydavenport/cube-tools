@@ -651,6 +651,24 @@ table {
   padding-right: 1rem;
 }
 
+/* Stacked variant (Decklists): index full-width on top, detail full-width
+   below. The detail holds the card-columns-by-mana-value explorer; stacking
+   gives it the full column width so all columns fit without scrolling
+   sideways. Keeps the same centered 1400px column as the other Browse pages. */
+.browse-stacked .browse-body {
+  flex-direction: column;
+  height: auto;
+}
+
+.browse-stacked .browse-index {
+  flex: 0 0 auto;
+  max-height: 300px;
+}
+
+.browse-stacked .browse-detail {
+  overflow-y: visible;
+}
+
 /* Placeholder shown in the detail pane before a record is selected. */
 .browse-empty {
   display: flex;
@@ -699,6 +717,119 @@ table {
   gap: 4px;
 }
 
+/* Deck text view: lay the CMC columns out as even-width tracks that fill the
+   page in one row, instead of the ragged content-sized wrap .flexhouse gives.
+   Empty CMC buckets render nothing, so the count varies per deck; auto-fill
+   keeps each column the same width and wraps cleanly if a deck has more. */
+.deck-columns {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1rem;
+  align-items: start;
+  margin-top: 1rem;
+}
+
+/* Lands sit in their own full-width section below the curve. The list flows
+   into newspaper-style columns so it reads short and wide instead of one tall
+   skinny column. */
+.deck-lands {
+  margin-top: 1.5rem;
+}
+
+.deck-lands .decklist-body {
+  column-width: 230px;
+  column-gap: 1.5rem;
+}
+
+.deck-cards .decklist {
+  width: 100%;
+}
+
+/* Column header: CMC=2, Lands, etc. */
+.deck-cards .decklist-title {
+  background: var(--table-header-background);
+  color: var(--text-muted);
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 600;
+  padding: 0.6rem 0.75rem;
+}
+
+/* Keep a type group intact when the lands section flows into columns, and give
+   each group (after the first) room above its divider so the sub-heading reads
+   as a clear break from the cards above it. */
+.deck-cards .type-group {
+  break-inside: avoid;
+}
+
+.deck-cards .type-group:not(:first-child) {
+  margin-top: 0.85rem;
+}
+
+/* Small divider that labels each card type within a column. */
+.deck-cards .type-subheading {
+  color: var(--text-muted);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 600;
+  padding: 0.15rem 0.75rem;
+}
+
+/* One card per row: color pips followed by the name. */
+.deck-cards .decklist-row {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.35rem 0.75rem;
+  border-bottom: 1px solid var(--border);
+  background-color: var(--background-color);
+  color: var(--white);
+  text-decoration: none;
+  line-height: 1.2;
+  transition: background 0.2s ease;
+}
+
+.deck-cards .decklist-row:hover {
+  background: var(--table-row-hover);
+}
+
+.deck-cards .decklist-pip {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+}
+
+/* Shrink the mana symbols so they sit congruently with the card name text
+   instead of towering over it. */
+.deck-cards .decklist-pip .mana-symbol {
+  width: 16px;
+  height: 16px;
+}
+
+/* Truncate long names with an ellipsis rather than wrapping to a second line
+   (min-width:0 lets the flex item shrink so the ellipsis can kick in). */
+.deck-cards .decklist-name {
+  flex: 1 1 auto;
+  min-width: 0;
+  font-size: 0.9rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Search-match highlight: reuse the button-selected coloring but strip the
+   button chrome so the row stays a row. */
+.deck-cards .decklist-row.button-selected {
+  padding: 0.35rem 0.75rem;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  background: var(--primary) !important;
+  color: var(--page-background) !important;
+}
+
 .flex-column-gap {
   display: flex;
   flex-direction: column;
@@ -720,7 +851,7 @@ table {
   border: 1px solid var(--border);
   border-radius: 12px;
   padding: 1rem;
-  min-width: 220px;
+  min-width: 180px;
   flex-shrink: 0;
   width: fit-content;
   display: flex;

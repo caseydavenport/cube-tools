@@ -207,7 +207,7 @@ type OracleCard struct {
 	OracleID      string            `json:"oracle_id"`
 	Name          string            `json:"name"`
 	ScryfallURI   string            `json:"scryfall_uri"`
-	ImageURLs     map[string]string `json:"image_urls"`
+	ImageURLs     map[string]string `json:"image_uris"`
 	ManaCost      string            `json:"mana_cost"`
 	CMC           float64           `json:"cmc"`
 	TypeLine      string            `json:"type_line"`

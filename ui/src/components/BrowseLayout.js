@@ -3,9 +3,13 @@ import React from 'react'
 // BrowseLayout is the master-detail shell shared by the Browse pages
 // (Decklists, Drafts, Players). It arranges three slots: a sticky filter
 // header, a scrollable index rail, and a detail pane.
-export function BrowseLayout({ filters, index, detail }) {
+//
+// By default the index and detail sit side by side. Pass stacked to put the
+// index full-width on top and the detail full-width below - used by Decklists,
+// whose detail (the card columns by mana value) needs the whole page width.
+export function BrowseLayout({ filters, index, detail, stacked }) {
   return (
-    <div className="browse-page">
+    <div className={"browse-page" + (stacked ? " browse-stacked" : "")}>
       <div className="browse-filters">{filters}</div>
       <div className="browse-body">
         <div className="browse-index">{index}</div>

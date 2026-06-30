@@ -241,7 +241,56 @@ func loadDecks(cube string) ([]*Deck, error) {
 			decks = append(decks, &d)
 		}
 	}
+
+	// Overlay the cube's chosen printings onto the hydrated deck cards.
+	printings := cubePrintings(cube)
+	for _, d := range decks {
+		overlayPrintings(d.Mainboard, printings)
+		overlayPrintings(d.Sideboard, printings)
+		overlayPrintings(d.Pool, printings)
+	}
 	return decks, nil
+}
+
+type printing struct {
+	image string
+	url   string
+}
+
+// cubePrintings maps card name to the printing (image and Scryfall page) the
+// cube runs, read from the cube's cube.json. Deck cards hydrate from the global
+// oracle dataset, which carries one arbitrary printing per name; overlaying the
+// cube's printing makes decks show the exact version the cube runs and avoids
+// dead image links. Returns nil if cube.json is missing.
+func cubePrintings(cube string) map[string]printing {
+	c, err := types.LoadCube(fmt.Sprintf("data/%s/cube.json", cube))
+	if err != nil {
+		logrus.WithError(err).Warn("Failed to load cube.json for printings; decks will use oracle printings")
+		return nil
+	}
+	out := make(map[string]printing, len(c.Cards))
+	for _, card := range c.Cards {
+		out[card.Name] = printing{image: card.Image, url: card.URL}
+	}
+	return out
+}
+
+// overlayPrintings replaces each card's image and URL with the cube's printing
+// when one is known. Cards not in the cube (e.g. cut since the deck was built)
+// keep their oracle printing.
+func overlayPrintings(cards []types.Card, printings map[string]printing) {
+	for i := range cards {
+		p, ok := printings[cards[i].Name]
+		if !ok {
+			continue
+		}
+		if p.image != "" {
+			cards[i].Image = p.image
+		}
+		if p.url != "" {
+			cards[i].URL = p.url
+		}
+	}
 }
 
 func loadDeck(path string) (Deck, error) {

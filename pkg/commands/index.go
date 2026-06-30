@@ -108,18 +108,37 @@ func index(cube string) {
 	// that it's more easily read by the UI code.
 	cards, _ := cardsFromCSV(fmt.Sprintf("data/%s/cube.csv", cube))
 	if indexCCCubeID != "" {
-		eloByName, err := fetchCubeCobraELO("https://cubecobra.com", indexCCCubeID)
+		ccCards, err := fetchCubeCobraCards("https://cubecobra.com", indexCCCubeID)
 		if err != nil {
-			logrus.WithError(err).Warn("Failed to fetch Cube Cobra draft Elo; cube.json will omit it")
+			logrus.WithError(err).Warn("Failed to fetch Cube Cobra data; cube.json will omit draft Elo and printings")
 		} else {
 			matched := 0
 			for i := range cards {
-				if elo, ok := eloByName[cards[i].Name]; ok {
-					cards[i].DraftELO = elo
-					matched++
+				info, ok := ccCards[cards[i].Name]
+				if !ok {
+					// Cube Cobra keys double-faced cards by their front-face name,
+					// while our cube list uses the full "Front // Back" name. Retry
+					// on the front face.
+					if front, _, found := strings.Cut(cards[i].Name, " // "); found {
+						info, ok = ccCards[strings.TrimSpace(front)]
+					}
 				}
+				if !ok {
+					continue
+				}
+				cards[i].DraftELO = info.elo
+
+				// Prefer the printing the cube owner picked on Cube Cobra over
+				// whatever printing our oracle bulk happens to carry.
+				if info.image != "" {
+					cards[i].Image = info.image
+				}
+				if info.url != "" {
+					cards[i].URL = info.url
+				}
+				matched++
 			}
-			logrus.Infof("Merged Cube Cobra draft Elo for %d/%d cards", matched, len(cards))
+			logrus.Infof("Merged Cube Cobra data for %d/%d cards", matched, len(cards))
 		}
 	}
 	cubeData := types.Cube{Cards: cards}
