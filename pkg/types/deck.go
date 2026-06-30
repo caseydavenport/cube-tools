@@ -233,7 +233,7 @@ type Deck struct {
 	Metadata Metadata `json:"metadata"`
 
 	// MacroArchetype is the deck's high-level strategy classification.
-	// Expected values: "aggro", "midrange", "tempo", "control", or empty.
+	// Expected values: "aggro", "midrange", "control", or empty.
 	MacroArchetype string `json:"macro_archetype,omitempty"`
 
 	// Tags represents metadata associated with this deck. Used for
@@ -414,7 +414,7 @@ func (d *Deck) AddGame(opponent, winner string) {
 }
 
 func (d *Deck) Macro() string {
-	// Return one of "aggro", "midrange", "control", "tempo", or "".
+	// Return one of "aggro", "midrange", "control", or "".
 	// Prefer the dedicated field; fall back to scanning Labels for decks
 	// that haven't been backfilled yet.
 	if d.MacroArchetype != "" {
@@ -422,7 +422,7 @@ func (d *Deck) Macro() string {
 	}
 	for _, label := range d.Labels {
 		switch strings.ToLower(label) {
-		case "aggro", "midrange", "control", "tempo":
+		case "aggro", "midrange", "control":
 			return strings.ToLower(label)
 		}
 	}

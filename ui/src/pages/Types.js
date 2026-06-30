@@ -71,7 +71,6 @@ export function ArchetypeWidget(input) {
     { label: "Macro Last Place %", value: "macro_lastplace_pct" },
     { label: "Macro CMC", value: "macro_cmc" },
     { label: "Matchup: Aggro", value: "matchup_aggro" },
-    { label: "Matchup: Tempo", value: "matchup_tempo" },
     { label: "Matchup: Midrange", value: "matchup_midrange" },
     { label: "Matchup: Control", value: "matchup_control" },
     { label: "Pie: Builds", value: "pie_builds" },
@@ -95,7 +94,6 @@ export function ArchetypeWidget(input) {
       case "macro_lastplace_pct": return <MacroArchetypesChart parsed={input.parsed} decks={input.decks} bucketSize={input.bucketSize} dataset="lastplace_pct" />;
       case "macro_cmc": return <MacroArchetypesChart parsed={input.parsed} decks={input.decks} bucketSize={input.bucketSize} dataset="cmc" />;
       case "matchup_aggro": return <WinsByMatchup focus="aggro" matchups={input.matchups} />;
-      case "matchup_tempo": return <WinsByMatchup focus="tempo" matchups={input.matchups} />;
       case "matchup_midrange": return <WinsByMatchup focus="midrange" matchups={input.matchups} />;
       case "matchup_control": return <WinsByMatchup focus="control" matchups={input.matchups} />;
       case "pie_builds": return <MacroArchetypesPieChart parsed={input.parsed} decks={input.decks} dataset="builds" />;
@@ -181,7 +179,7 @@ export function ArchetypeWidget(input) {
   );
 }
 
-const macroArchetypes = new Set(["aggro", "tempo", "midrange", "control"]);
+const macroArchetypes = new Set(["aggro", "midrange", "control"]);
 
 const archetypeHeaders = [
   {
@@ -685,12 +683,11 @@ export function ArchetypeData(decks) {
   let totalGames = 0
   let tracker = new Map()
 
-  // We set aggro/midrange/control/tempo for every set of decks, even if they are
+  // We set aggro/midrange/control for every set of decks, even if they are
   // zeroed out. This enables graphs that expect these to exist.
   tracker.set("aggro", newType("aggro"))
   tracker.set("midrange", newType("midrange"))
   tracker.set("control", newType("control"))
-  tracker.set("tempo", newType("tempo"))
 
   for (let deck of decks) {
     // We only need to count wins, because every loss is counted in another deck as a win.
@@ -790,7 +787,6 @@ function MicroArchetypesChart(input) {
   archSet.delete("aggro")
   archSet.delete("midrange")
   archSet.delete("control")
-  archSet.delete("tempo")
 
   // We want to fitler out any archtetypes that don't meet a minimum
   // criteria, in order to de-clutter the plots. Use aggregate data across all buckets
@@ -999,7 +995,7 @@ function MacroArchetypesChart(input) {
   }
 
   // Parse the buckets.
-  let archs = ["aggro", "midrange", "control", "tempo"]
+  let archs = ["aggro", "midrange", "control"]
   let datasets = new Map()
   for (let arch of archs) {
     datasets.set(arch, [])
@@ -1057,12 +1053,6 @@ function MacroArchetypesChart(input) {
         data: datasets.get("control"),
         borderColor: Colors.get("U"),
         backgroundColor: Colors.get("U"),
-      },
-      {
-        label: 'Tempo',
-        data: datasets.get("tempo"),
-        borderColor: Colors.get("B"),
-        backgroundColor: Colors.get("B"),
       },
   ]
 
@@ -1128,7 +1118,6 @@ function MacroArchetypesPieChart(input) {
     stats.get("aggro").count,
     stats.get("midrange").count,
     stats.get("control").count,
-    stats.get("tempo").count,
   ]
 
   switch (input.dataset) {
@@ -1138,12 +1127,11 @@ function MacroArchetypesPieChart(input) {
         stats.get("aggro").wins,
         stats.get("midrange").wins,
         stats.get("control").wins,
-        stats.get("tempo").wins,
       ]
   }
 
   let data = {
-    labels: ['Aggro', 'Midrange', 'Control', 'Tempo'],
+    labels: ['Aggro', 'Midrange', 'Control'],
     datasets: [
       {
         label: title,
@@ -1152,13 +1140,11 @@ function MacroArchetypesPieChart(input) {
           'rgba(255, 99, 132, 0.2)',
           'rgba(255, 206, 86, 0.2)',
           'rgba(54, 162, 235, 0.2)',
-          'rgba(94, 122, 135, 0.2)',
         ],
         borderColor: [
           'rgba(255, 99, 132, 1)',
           'rgba(255, 206, 86, 1)',
           'rgba(54, 162, 235, 1)',
-          'rgba(94, 122, 135, 1)',
         ],
         borderWidth: 1,
       },
@@ -1232,8 +1218,7 @@ function WinsByMatchup(input) {
     },
   };
 
-  // Sort the vs. by relative "speed" - i.e., aggro, tempo,
-  // midrange, control.
+  // Sort the vs. by relative "speed" - i.e., aggro, midrange, control.
   let versus = new Array()
   let find = function(t) {
     if (matchup.versus == null) {
@@ -1258,7 +1243,7 @@ function WinsByMatchup(input) {
     }
   }
 
-  let ats = ["aggro", "tempo", "midrange", "control"]
+  let ats = ["aggro", "midrange", "control"]
   for (let n of ats) {
     if (n == matchup.name) {
       continue;

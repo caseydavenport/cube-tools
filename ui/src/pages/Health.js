@@ -46,7 +46,7 @@ export function HealthWidget(input) {
             color="rgba(75, 192, 192, 1)"
             min={0}
             max={1}
-            description="Shannon entropy of macro archetype distribution (aggro/midrange/control/tempo), normalized 0-1. Higher = more balanced."
+            description="Shannon entropy of macro archetype distribution (aggro/midrange/control), normalized 0-1. Higher = more balanced."
           />
         </div>
         <div style={{height: "500px"}}>

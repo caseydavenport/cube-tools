@@ -397,7 +397,6 @@ function getMacro(deck) {
     case "aggro": return "Aggro"
     case "midrange": return "Midrange"
     case "control": return "Control"
-    case "tempo": return "Tempo"
     default: return "N/A"
   }
 }
@@ -1009,7 +1008,6 @@ function PlayerFrame(input) {
               { label: "—", value: "" },
               { label: "Aggro", value: "aggro" },
               { label: "Midrange", value: "midrange" },
-              { label: "Tempo", value: "tempo" },
               { label: "Control", value: "control" },
             ]}
             onChange={(e) => commit({ macro: e.target.value })}

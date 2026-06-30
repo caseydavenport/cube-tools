@@ -101,9 +101,9 @@ func (h *healthStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) 
 }
 
 // archetypeEvenness computes Shannon entropy of macro archetype distribution,
-// normalized by log(4) to produce a 0-1 scale.
+// normalized by log(3) to produce a 0-1 scale.
 func archetypeEvenness(allDecks []*storage.Deck) float64 {
-	macros := []string{"aggro", "midrange", "control", "tempo"}
+	macros := []string{"aggro", "midrange", "control"}
 	counts := make(map[string]int)
 	for _, m := range macros {
 		counts[m] = 0
@@ -211,7 +211,7 @@ func indexOf(s, sub string) int {
 
 // trophyGini computes the Gini coefficient of trophy counts across macro archetypes.
 func trophyGini(allDecks []*storage.Deck) float64 {
-	macros := []string{"aggro", "midrange", "control", "tempo"}
+	macros := []string{"aggro", "midrange", "control"}
 	trophyCounts := make(map[string]int)
 	for _, m := range macros {
 		trophyCounts[m] = 0

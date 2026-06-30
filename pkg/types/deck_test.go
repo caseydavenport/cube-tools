@@ -281,7 +281,7 @@ func TestMacro(t *testing.T) {
 		{"aggro", []string{"RDW", "aggro"}, "aggro"},
 		{"midrange", []string{"Midrange", "value"}, "midrange"},
 		{"control", []string{"draw-go", "Control"}, "control"},
-		{"tempo", []string{"Tempo", "flash"}, "tempo"},
+		{"tempo no longer a macro", []string{"Tempo", "flash"}, ""},
 		{"no macro", []string{"reanimator", "graveyard"}, ""},
 		{"empty", nil, ""},
 	}

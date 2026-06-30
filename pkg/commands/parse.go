@@ -119,7 +119,7 @@ func parseDeck(deckFiles []string, who, labels, date, draftID string) (*types.De
 		return nil, fmt.Errorf("Too many card sets (%d) found in deck files: %v", len(cardSets), deckFiles)
 	}
 
-	// Build the deck struct. Macro archetype values (aggro/midrange/tempo/control)
+	// Build the deck struct. Macro archetype values (aggro/midrange/control)
 	// passed through --labels are auto-promoted to the dedicated field so callers
 	// don't need to keep them in sync.
 	d := types.NewDeck()
@@ -127,7 +127,7 @@ func parseDeck(deckFiles []string, who, labels, date, draftID string) (*types.De
 		for _, l := range strings.Split(labels, ",") {
 			l = strings.TrimSpace(l)
 			switch strings.ToLower(l) {
-			case "aggro", "midrange", "tempo", "control":
+			case "aggro", "midrange", "control":
 				d.MacroArchetype = strings.ToLower(l)
 			default:
 				d.Labels = append(d.Labels, l)

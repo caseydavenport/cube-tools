@@ -74,14 +74,14 @@ func (s *archetypeStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Reques
 	}
 
 	// Initialize macro archetypes.
-	macros := []string{"aggro", "midrange", "control", "tempo"}
+	macros := []string{"aggro", "midrange", "control"}
 	for _, m := range macros {
 		resp.Archetypes[m] = &ArchetypeStats{Type: m, SharedWith: make(map[string]int), Players: make(map[string]int)}
 	}
 
 	// totalWins counts each game once (used for TotalGames display).
 	// percentOfWinsDenom is inflated the same way as.Wins is: a deck labeled both
-	// "tempo" and "control" contributes its wins to both buckets and to the
+	// "aggro" and "control" contributes its wins to both buckets and to the
 	// denominator twice, so PercentOfWins actually sums to 100% across rows.
 	totalWins := 0
 	percentOfWinsDenom := 0
