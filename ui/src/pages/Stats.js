@@ -2,7 +2,6 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { ColorWidget } from "./Colors.js";
 import { ArchetypeWidget } from "./Types.js";
 import { DeckWidget } from "./Decks.js";
-import { PlayerWidget } from "./Players.js";
 import { CardWidget } from "./Cards.js";
 import { SynergyWidget } from "./Synergy.js";
 import { DraftWidget } from "./Drafts.js";
@@ -253,33 +252,6 @@ export function StatsViewer(props) {
           onYAxisSelected={(e) => setDeckYAxis(e.target.value)}
         />
 
-        <PlayerWidget
-          parsed={parsed} decks={parsed.filteredDecks} bucketSize={bucketSize}
-          sortBy={playerSortBy} invertSort={playerSortInvert}
-          onHeaderClick={(e) => {
-            if (playerSortBy === e.currentTarget.id) setPlayerSortInvert(!playerSortInvert);
-            else { setPlayerSortInvert(false); setPlayerSortBy(e.currentTarget.id); }
-          }}
-          oppSortBy={oppSortBy} oppSortInvert={oppSortInvert}
-          onOppHeaderClick={(e) => {
-            if (oppSortBy === e.currentTarget.id) setOppSortInvert(!oppSortInvert);
-            else { setOppSortInvert(false); setOppSortBy(e.currentTarget.id); }
-          }}
-          playerArchSortBy={playerArchSortBy} playerArchSortInvert={playerArchSortInvert}
-          onPlayerArchHeaderClick={(e) => {
-            if (playerArchSortBy === e.currentTarget.id) setPlayerArchSortInvert(!playerArchSortInvert);
-            else { setPlayerArchSortInvert(false); setPlayerArchSortBy(e.currentTarget.id); }
-          }}
-          playerColorSortBy={playerColorSortBy} playerColorSortInvert={playerColorSortInvert}
-          onPlayerColorHeaderClick={(e) => {
-            if (playerColorSortBy === e.currentTarget.id) setPlayerColorSortInvert(!playerColorSortInvert);
-            else { setPlayerColorSortInvert(false); setPlayerColorSortBy(e.currentTarget.id); }
-          }}
-          handleRowClick={(e) => setSelectedPlayer(e.currentTarget.id)}
-          player={selectedPlayer} minGames={minGames}
-          onMinGamesSelected={(e) => setMinGames(e.target.value)}
-          show={display[5]}
-        />
         <HealthWidget
           show={display[7]} healthData={healthData} bucketSize={bucketSize}
         />

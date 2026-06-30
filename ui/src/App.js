@@ -3,6 +3,7 @@ import { HashRouter as Router, Routes, Route, Outlet } from "react-router-dom";
 import {DeckViewer} from './pages/DeckViewer.js'
 import NavBar from './components/navbar.js'
 import {StatsViewer} from './pages/Stats.js'
+import { PlayersPage } from './pages/PlayersPage.js'
 import {InitialDates} from './components/StatsUI.js'
 import { useState } from "react";
 import { CubeProvider } from './contexts/CubeContext.js';
@@ -55,7 +56,7 @@ export default function Main() {
           <Route path='types' element={<StatsViewer view='types' {...statsProps} />} />
           <Route path='deckstats' element={<StatsViewer view='deckstats' {...statsProps} />} />
           <Route path='drafts' element={<StatsViewer view='drafts' {...statsProps} />} />
-          <Route path='players' element={<StatsViewer view='players' {...statsProps} />} />
+          <Route path='players' element={<PlayersPage {...statsProps} />} />
           <Route path='synergy' element={<StatsViewer view='synergy' {...statsProps} />} />
           <Route path='health' element={<StatsViewer view='health' {...statsProps} />} />
           <Route path='designmap' element={<StatsViewer view='designmap' {...statsProps} />} />

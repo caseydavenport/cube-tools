@@ -3,7 +3,6 @@ import { AverageWordCount, IsBasicLand, SortFunc } from "../utils/Utils.js"
 import { ColorImages } from "../utils/Colors.js"
 import { Trophies, LastPlaceFinishes, Wins, Losses } from "../utils/Deck.js"
 import { BucketName, bucketXScale } from "../utils/Buckets.js"
-import { DropdownHeader, NumericInput, Checkbox, DateSelector } from "../components/Dropdown.js"
 
 import {
   Chart as ChartJS,
@@ -27,26 +26,6 @@ ChartJS.register(
   Tooltip,
   Legend
 );
-
-export function PlayerWidget(input) {
-  if (!input.show) {
-    return null
-  }
-  return (
-    <table style={{"width": "100%"}}>
-      <tbody>
-        <tr>
-          <td style={{"verticalAlign": "top", "width": "50%"}}>
-            <PlayerTable {...input} />
-          </td>
-          <td style={{"verticalAlign":"top"}}>
-            <PlayerDetailsPanel {...input} />
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  );
-}
 
 export function PlayerData(decks) {
 
@@ -179,7 +158,7 @@ export function PlayerData(decks) {
   return map
 }
 
-function PlayerTable(input) {
+export function PlayerTable(input) {
   let data = []
   for (let row of input.parsed.playerData.values()) {
     // Skip any players that don't meet the minimum games requirement.
@@ -191,7 +170,6 @@ function PlayerTable(input) {
 
   return (
     <div>
-      <PlayerWidgetOptions {...input} />
       <table className="widget-table">
         <thead className="table-header">
           <tr>
@@ -302,21 +280,7 @@ function PlayerTable(input) {
   );
 }
 
-function PlayerWidgetOptions(input) {
-  return (
-    <div className="selector-group" style={{"padding": "1rem", "marginBottom": "1rem", "justifyContent": "center"}}>
-      <NumericInput
-        label="Min games"
-        min={0}
-        value={input.minGames}
-        onChange={input.onMinGamesSelected}
-      />
-    </div>
-  );
-}
-
-
-function PlayerDetailsPanel(input) {
+export function PlayerDetailsPanel(input) {
   // Defensive checks for initialization
   if (!input.player || !input.parsed || !input.parsed.playerData) {
     return null;
