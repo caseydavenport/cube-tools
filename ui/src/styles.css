@@ -95,6 +95,143 @@ table {
   flex-direction: column;
 }
 
+/* Deck summary: compact detail-pane header (identity, controls, metrics, matches) */
+.deck-summary {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 1rem 1.25rem;
+}
+
+.deck-summary-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem 1rem;
+}
+
+.deck-summary-identity {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 0.6rem 0.9rem;
+}
+
+.deck-summary-name {
+  margin: 0;
+  color: var(--primary);
+  font-size: 1.2rem;
+  line-height: 1.1;
+}
+
+.deck-summary-record {
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--white);
+}
+
+.deck-summary-record .muted {
+  color: var(--text-muted);
+  font-weight: 500;
+  font-size: 0.95rem;
+}
+
+.deck-summary-controls {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem 0.6rem;
+}
+
+.deck-summary-colors {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+.deck-summary-colors .caret {
+  font-size: 0.7rem;
+  opacity: 0.6;
+}
+
+.deck-summary-metrics {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem 0.6rem;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+.deck-summary-metrics .metric strong {
+  color: var(--white);
+  font-weight: 600;
+}
+
+.deck-summary-metrics .metric.event {
+  font-size: 0.8rem;
+  opacity: 0.75;
+}
+
+.deck-summary-metrics .sep {
+  color: var(--border);
+}
+
+.deck-summary-matches {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.match-pill {
+  background: var(--table-header-background);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 0.25rem 0.7rem;
+  font-size: 0.8rem;
+}
+
+.match-pill.link {
+  cursor: pointer;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.match-pill.link:hover {
+  border-color: var(--primary);
+  background: var(--card-background);
+}
+
+.match-pill .round {
+  opacity: 0.6;
+  margin-right: 0.4rem;
+}
+
+.match-pill .opp {
+  font-weight: 600;
+  margin-right: 0.4rem;
+}
+
+.match-pill .opp.unknown {
+  font-style: italic;
+  opacity: 0.7;
+}
+
+.match-pill .res.win {
+  color: var(--success);
+}
+
+.match-pill .res.loss {
+  color: var(--danger);
+}
+
+.match-pill .score {
+  margin-left: 0.4rem;
+  opacity: 0.7;
+}
+
 /* Widget Styling */
 .widget-table {
   background: var(--card-background);
@@ -662,7 +799,44 @@ table {
 
 .browse-stacked .browse-index {
   flex: 0 0 auto;
-  max-height: 300px;
+  max-height: 60vh;
+}
+
+/* Collapsible deck list. The header is a sticky toggle bar; the body slides
+   open/closed via the grid-rows 1fr<->0fr trick (animatable, unlike height:auto). */
+.decklist-index-header {
+  background: var(--table-header-background);
+  color: var(--text-muted);
+  text-align: center;
+  padding: 1rem;
+  font-weight: 600;
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  border-bottom: 1px solid var(--border);
+}
+
+.decklist-index-header .caret {
+  margin-right: 0.5rem;
+}
+
+.decklist-index-body {
+  display: grid;
+  grid-template-rows: 1fr;
+  transition: grid-template-rows 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.decklist-index-body.collapsed {
+  grid-template-rows: 0fr;
+}
+
+.decklist-index-body-inner {
+  overflow: hidden;
+  min-height: 0;
 }
 
 .browse-stacked .browse-detail {

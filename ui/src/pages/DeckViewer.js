@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react'
+import React, { useState, useEffect, useMemo, useRef } from 'react'
 import { LoadCube, LoadDecks, FetchNotes, SaveNotes, SaveDeckMeta } from "../utils/Fetch.js"
 import { useCube } from "../contexts/CubeContext.js"
 import { Record, MatchRecord, Wins, Losses, Draws, MatchWins, MatchLosses, MatchDraws, InDeckColor } from "../utils/Deck.js"
@@ -51,8 +51,9 @@ export function DeckViewer(props) {
   // The highlighted deck path is the source of truth for the selected deck and
   // is mirrored to the URL (?deck=<path>) so the selection is linkable.
   const [highlightedDeck, setHighlightedDeck] = useSelection("deck");
-  const [selectedDraft, setSelectedDraft] = useState("");
-  const [draftDropdown, setDraftDropdown] = useState("");
+  // Whether the deck list is collapsed to just its header bar. Picking a deck
+  // collapses it so the decklist gets the screen; clicking the header toggles it.
+  const [indexCollapsed, setIndexCollapsed] = useState(false);
 
   // Track comparison decks. If any of these are set, we'll show a comparison view.
   const [comparisonDecks, setComparisonDecks] = useState(new Map());
@@ -62,9 +63,6 @@ export function DeckViewer(props) {
 
   // The deck currently being displayed.
   const [deck, setDeck] = useState("");
-
-  // Options for the draft dropdown.
-  const [draftDropdownOptions, setDraftDropdownOptions] = useState([]);
 
   // Dropdown for mainboard vs. sideboard.
   const [mainboardSideboard, setMainboardSideboard] = useState("Mainboard");
@@ -85,17 +83,6 @@ export function DeckViewer(props) {
   const [decks, setDecks] = useState([]);
   function onDecksLoaded(d) {
     setDecks([...d])
-
-    // Populate the draft dropdown options with all drafts.
-    const draftOpts = [{ label: "", value: "" }]
-    let seenDrafts = new Map()
-    for (let deck of d) {
-      if (!seenDrafts.has(deck.metadata.draft_id)) {
-        draftOpts.push({ label: deck.metadata.draft_id, value: deck.metadata.draft_id})
-        seenDrafts.set(deck.metadata.draft_id, true)
-      }
-    }
-    setDraftDropdownOptions(draftOpts)
   }
 
   // Merge a server-updated deck back into both the list and the selected deck.
@@ -112,9 +99,8 @@ export function DeckViewer(props) {
     // The ID is assigned to each deck on load.
     // <draft>/<player>/<id>
 
-    // Parse the draft and deck, and update the dropdowns.
+    // Parse the player out of the deck path (<draft>/<player>/<id>).
     let splits = event.currentTarget.id.split("/")
-    setSelectedDraft(splits[0])
     setSelectedPlayer(splits[1])
 
     // Highlight the deck in the side bar.
@@ -140,7 +126,18 @@ export function DeckViewer(props) {
     } else {
       // Clear out the comparison set and just show this deck.
       setComparisonDecks(new Map())
+
+      // Minimize the deck list so the selected decklist gets the screen.
+      setIndexCollapsed(true)
     }
+  }
+
+  // selectDeck picks a single deck by path (no comparison, no collapse change).
+  // Used by arrow-key navigation and the opponent pills; the effect on
+  // highlightedDeck resolves it to a loaded deck.
+  function selectDeck(path) {
+    setComparisonDecks(new Map())
+    setHighlightedDeck(path)
   }
 
   // Selected description.
@@ -161,14 +158,6 @@ export function DeckViewer(props) {
   // Handle changes to the draft and deck selection dropdowns.
   function onDeckSelected(event) {
     setSelectedPlayer(event.target.value)
-  }
-  function onDraftSelected(event) {
-    // Set the selected draft, and update the list of decks.
-    setDraftDropdown(event.target.value)
-    setSelectedDraft(event.target.value)
-
-    // Clear out the selected deck if a new draft is picked.
-    setSelectedPlayer("")
   }
   function onBoardSelected(event) {
     setMainboardSideboard(event.target.value)
@@ -203,7 +192,6 @@ export function DeckViewer(props) {
     for (let deck of decks) {
       if (deck.metadata.path == highlightedDeck) {
         setDeck(deck)
-        setSelectedDraft(deck.metadata.draft_id)
         setSelectedPlayer(deck.player)
 
         // The highlighted deck is always a comparison deck.
@@ -236,8 +224,6 @@ export function DeckViewer(props) {
     let colorIdx = 0;
 
     for (let d of decks) {
-      if (draftDropdown !== "" && draftDropdown !== d.date) continue;
-
       if (!draftToColor.has(d.metadata.draft_id)) {
         draftToColor.set(d.metadata.draft_id, grayscaleColors[colorIdx % grayscaleColors.length]);
         colorIdx++;
@@ -275,7 +261,34 @@ export function DeckViewer(props) {
     });
 
     return { decks: filtered, colors: draftToColor };
-  }, [decks, draftDropdown, debouncedMatchStr, mainboardSideboard, deckSort]);
+  }, [decks, debouncedMatchStr, mainboardSideboard, deckSort]);
+
+  // Left/right arrows step to the previous/next deck in the current list.
+  useEffect(() => {
+    function onKeyDown(e) {
+      if (e.key !== "ArrowLeft" && e.key !== "ArrowRight") return
+
+      // Don't hijack arrows while typing in a form field.
+      const tag = (e.target.tagName || "").toLowerCase()
+      if (tag === "input" || tag === "textarea" || tag === "select" || e.target.isContentEditable) return
+
+      const list = filteredAndSortedDecks.decks
+      if (!list.length) return
+
+      const idx = list.findIndex((d) => d.metadata.path === highlightedDeck)
+      let nextIdx
+      if (idx === -1) {
+        nextIdx = 0
+      } else {
+        nextIdx = idx + (e.key === "ArrowRight" ? 1 : -1)
+        if (nextIdx < 0 || nextIdx >= list.length) return
+      }
+      e.preventDefault()
+      selectDeck(list[nextIdx].metadata.path)
+    }
+    window.addEventListener("keydown", onKeyDown)
+    return () => window.removeEventListener("keydown", onKeyDown)
+  }, [filteredAndSortedDecks.decks, highlightedDeck]);
 
   const playerNames = useMemo(() => {
     let seen = new Set();
@@ -312,12 +325,6 @@ export function DeckViewer(props) {
   const filterBar = (
     <>
       <div className="selector-group">
-        <DropdownHeader
-          label="Draft"
-          options={draftDropdownOptions}
-          value={selectedDraft}
-          onChange={onDraftSelected}
-        />
         <DateSelector label="From" id="from" value={startDate} onChange={props.onStartSelected} />
         <DateSelector label="To" id="to" value={endDate} onChange={props.onEndSelected} />
         <DropdownHeader
@@ -364,7 +371,9 @@ export function DeckViewer(props) {
           highlight={highlightedDecks}
           onDeckClicked={onDeckClicked}
           onSortHeader={onDeckSort}
-          isFiltered={debouncedMatchStr !== "" || draftDropdown !== ""}
+          isFiltered={debouncedMatchStr !== ""}
+          collapsed={indexCollapsed}
+          onToggleCollapse={() => setIndexCollapsed((c) => !c)}
         />
       }
       detail={
@@ -381,6 +390,7 @@ export function DeckViewer(props) {
             viewMode={viewMode}
             archetypes={archetypes}
             onDeckUpdated={onDeckUpdated}
+            onSelectDeck={selectDeck}
           />
         ) : (
           <BrowseEmptyState message="Select a deck to view its decklist." />
@@ -419,6 +429,19 @@ export function DropdownSelector({ label, value, options, onChange }) {
 function FilteredDecks(input) {
   const decks = input.decks;
   const draftToColor = input.draftToColor;
+  const selectedRowRef = useRef(null);
+
+  useEffect(() => {
+    if (input.collapsed || !selectedRowRef.current) {
+      return;
+    }
+    // Re-opening: wait for the slide to finish, then bring the selected deck
+    // back into view instead of snapping to the top of the list.
+    const t = setTimeout(() => {
+      selectedRowRef.current?.scrollIntoView({ block: "center", behavior: "smooth" });
+    }, 480);
+    return () => clearTimeout(t);
+  }, [input.collapsed]);
 
   let totalMatchWins = 0;
   let totalMatchLosses = 0;
@@ -445,47 +468,52 @@ function FilteredDecks(input) {
 
   return (
     <div className="filtered-decks">
-      <table className="widget-table" style={{"border": "none", "borderRadius": "0"}}>
-        <thead className="table-header">
-          <tr>
-            <td colSpan="4" id="decklist-title" className="header-cell" style={{"textAlign": "center", "background": "var(--primary)", "color": "var(--page-background)"}}>{title}</td>
-          </tr>
-          <tr>
-            <td style={{"width": "25%", "paddingLeft": "10px"}} onClick={input.onSortHeader} id="date" className="header-cell">Date</td>
-            <td style={{"width": "25%", "paddingLeft": "0px"}} onClick={input.onSortHeader} id="player" className="header-cell">Player</td>
-            <td style={{"width": "25%", "paddingLeft": "0px"}} onClick={input.onSortHeader} id="wins" className="header-cell">Record</td>
-            <td style={{"width": "25%", "paddingLeft": "0px"}} onClick={input.onSortHeader} id="macro" className="header-cell">Macro</td>
-          </tr>
-        </thead>
-        <tbody>
-          {
-            decks.map(function(deck, idx) {
-              let color = draftToColor.get(deck.metadata.draft_id)
-              let className = "widget-table-row"
+      <div className="decklist-index-header" onClick={input.onToggleCollapse}>
+        <span className="caret">{input.collapsed ? "▸" : "▾"}</span>{title}
+      </div>
+      <div className={"decklist-index-body" + (input.collapsed ? " collapsed" : "")}>
+        <div className="decklist-index-body-inner">
+          <table className="widget-table" style={{"border": "none", "borderRadius": "0"}}>
+            <thead className="table-header">
+              <tr>
+                <td style={{"width": "25%", "paddingLeft": "10px"}} onClick={input.onSortHeader} id="date" className="header-cell">Date</td>
+                <td style={{"width": "25%", "paddingLeft": "0px"}} onClick={input.onSortHeader} id="player" className="header-cell">Player</td>
+                <td style={{"width": "25%", "paddingLeft": "0px"}} onClick={input.onSortHeader} id="wins" className="header-cell">Record</td>
+                <td style={{"width": "25%", "paddingLeft": "0px"}} onClick={input.onSortHeader} id="macro" className="header-cell">Macro</td>
+              </tr>
+            </thead>
+            <tbody>
+              {
+                decks.map(function(deck, idx) {
+                  let color = draftToColor.get(deck.metadata.draft_id)
+                  let className = "widget-table-row"
 
-              if (input.highlight.includes(deck.metadata.path)) {
-                className += " button-selected"
+                  const isSelected = input.highlight.includes(deck.metadata.path)
+                  if (isSelected) {
+                    className += " button-selected"
+                  }
+
+                  let record = MatchWins(deck) + "-" + MatchLosses(deck) + "-" + MatchDraws(deck)
+                  if (MatchWins(deck) == 0 && MatchLosses(deck) == 0 && MatchDraws(deck) == 0) {
+                    record = "N/A"
+                  }
+                  let winPercent = Math.round(100 * gameWinPercent(deck))
+                  let macro = getMacro(deck)
+
+                  return (
+                    <tr ref={isSelected ? selectedRowRef : null} className={className} key={idx} style={{"--background-color": color}} onClick={input.onDeckClicked} id={deck.metadata.path}>
+                      <td style={{"width": "25%", "paddingLeft": "10px", "whiteSpace": "nowrap"}} id={deck.metadata.path} key="date">{deck.date}</td>
+                      <td style={{"width": "30%", "paddingRight": "10px", "whiteSpace": "nowrap"}} id={deck.metadata.path} key="player">{deck.player}</td>
+                      <td style={{"width": "25%", "paddingLeft": "10px", "whiteSpace": "nowrap"}} id={deck.metadata.path} key="wins">{record} ({winPercent}%)</td>
+                      <td style={{"width": "20%", "paddingRight": "10px", "whiteSpace": "nowrap"}} id={deck.metadata.path} key="macro">{macro}</td>
+                    </tr>
+                  )
+                })
               }
-
-              let record = MatchWins(deck) + "-" + MatchLosses(deck) + "-" + MatchDraws(deck)
-              if (MatchWins(deck) == 0 && MatchLosses(deck) == 0 && MatchDraws(deck) == 0) {
-                record = "N/A"
-              }
-              let winPercent = Math.round(100 * gameWinPercent(deck))
-              let macro = getMacro(deck)
-
-              return (
-                <tr className={className} key={idx} style={{"--background-color": color}} onClick={input.onDeckClicked} id={deck.metadata.path}>
-                  <td style={{"width": "25%", "paddingLeft": "10px", "whiteSpace": "nowrap"}} id={deck.metadata.path} key="date">{deck.date}</td>
-                  <td style={{"width": "30%", "paddingRight": "10px", "whiteSpace": "nowrap"}} id={deck.metadata.path} key="player">{deck.player}</td>
-                  <td style={{"width": "25%", "paddingLeft": "10px", "whiteSpace": "nowrap"}} id={deck.metadata.path} key="wins">{record} ({winPercent}%)</td>
-                  <td style={{"width": "20%", "paddingRight": "10px", "whiteSpace": "nowrap"}} id={deck.metadata.path} key="macro">{macro}</td>
-                </tr>
-              )
-            })
-          }
-        </tbody>
-      </table>
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
   );
 }
@@ -932,7 +960,6 @@ function PlayerFrame(input) {
   }
 
   // Get fields to display.
-  let labels = (deck.labels || []).join(', ')
   let acmc = deck.avg_cmc
   let colors = ColorImages(deck.colors)
   let cardCount = cards.length
@@ -985,41 +1012,48 @@ function PlayerFrame(input) {
     });
   };
 
-  return (
-    <div className="player-frame">
-      <div className="player-frame-header" style={{"display": "flex", "justifyContent": "space-between", "alignItems": "center", "marginBottom": "1rem", "borderBottom": "1px solid var(--border)", "paddingBottom": "0.5rem"}}>
-        <div style={{"display": "flex", "alignItems": "center", "gap": "1rem"}}>
-          <h2 style={{"margin": "0", "color": "var(--primary)"}}>{deck.player}</h2>
-          <Button text="Copy to Clipboard" onClick={copyToClipboard} />
-        </div>
-        <OverlayTrigger
-          trigger="click"
-          rootClose
-          placement="bottom-end"
-          overlay={
-            <Popover id={`color-picker-${deck.player}`} style={{maxWidth: "none"}}>
-              <Popover.Body style={{padding: "0.25rem"}}>
-                <ColorPickerHeader display={colorBools} onChecked={onColorChecked} />
-                {!hasOverride && <div style={{"textAlign": "center", "fontSize": "0.8rem", "opacity": "0.7"}}>(inferred)</div>}
-                {saveError && <div style={{"textAlign": "center", "color": "var(--danger, red)", "fontSize": "0.8rem"}}>{saveError}</div>}
-              </Popover.Body>
-            </Popover>
-          }
-        >
-          <div style={{"fontSize": "1.2rem", "cursor": "pointer", "display": "flex", "alignItems": "center", "gap": "0.25rem"}} title="Edit colors">
-            {colors}
-            <span style={{"fontSize": "0.7rem", "opacity": "0.6"}}>▾</span>
-          </div>
-        </OverlayTrigger>
-      </div>
+  // Compact metric chips for the muted stat strip. Drop CMC when unknown.
+  const metrics = [
+    <span className="metric"><strong>{cardCount}</strong> cards</span>,
+    <span className="metric"><strong>{creatures}</strong> creatures</span>,
+    <span className="metric"><strong>{interaction}</strong> interaction</span>,
+    acmc ? <span className="metric">CMC <strong>{acmc}</strong></span> : null,
+    <span className="metric">Opp <strong>{deck.opponent_win_percentage}%</strong></span>,
+    (deck.metadata && deck.metadata.draft_id) ? <span className="metric event">{deck.metadata.draft_id}</span> : null,
+  ].filter(Boolean)
 
-      <div className="stats-grid" style={{"display": "grid", "gridTemplateColumns": "repeat(auto-fit, minmax(200px, 1fr))", "gap": "1rem"}}>
-        <div className="stat-item">
-          <span className="player-frame-title">Record:</span>
-          <span className="player-frame-value">{MatchWins(deck)}-{MatchLosses(deck)} ({Wins(deck)}-{Losses(deck)})</span>
+  return (
+    <div className="player-frame deck-summary">
+      <div className="deck-summary-header">
+        <div className="deck-summary-identity">
+          <h2 className="deck-summary-name">{deck.player}</h2>
+          <span className="deck-summary-record">
+            {MatchWins(deck)}-{MatchLosses(deck)}{" "}
+            <span className="muted">({Wins(deck)}-{Losses(deck)})</span>
+          </span>
         </div>
-        <div className="stat-item">
-          <span className="player-frame-title">Archetype:</span>
+
+        <div className="deck-summary-controls">
+          <OverlayTrigger
+            trigger="click"
+            rootClose
+            placement="bottom-end"
+            overlay={
+              <Popover id={`color-picker-${deck.player}`} style={{maxWidth: "none"}}>
+                <Popover.Body style={{padding: "0.25rem"}}>
+                  <ColorPickerHeader display={colorBools} onChecked={onColorChecked} />
+                  {!hasOverride && <div style={{"textAlign": "center", "fontSize": "0.8rem", "opacity": "0.7"}}>(inferred)</div>}
+                  {saveError && <div style={{"textAlign": "center", "color": "var(--danger, red)", "fontSize": "0.8rem"}}>{saveError}</div>}
+                </Popover.Body>
+              </Popover>
+            }
+          >
+            <div className="deck-summary-colors" title="Edit colors">
+              {colors}
+              <span className="caret">▾</span>
+            </div>
+          </OverlayTrigger>
+
           <DropdownHeader
             value={deck.macro_archetype || ""}
             options={[
@@ -1030,74 +1064,72 @@ function PlayerFrame(input) {
             ]}
             onChange={(e) => commit({ macro: e.target.value })}
           />
-        </div>
-        <div className="stat-item">
-          <span className="player-frame-title">Tags:</span>
+
           <TagEditor
             tags={deck.labels || []}
             suggestions={input.archetypes || []}
             onChange={(next) => commit({ labels: next })}
           />
-        </div>
-        <div className="stat-item">
-          <span className="player-frame-title">Event:</span>
-          <span className="player-frame-value">{(deck.metadata && deck.metadata.draft_id) || "—"}</span>
-        </div>
-        <div className="stat-item">
-          <span className="player-frame-title">Avg CMC:</span>
-          <span className="player-frame-value">{acmc || "N/A"}</span>
-        </div>
-        <div className="stat-item">
-          <span className="player-frame-title">Cards:</span>
-          <span className="player-frame-value">{cardCount} ({creatures} Creatures, {interaction} Interaction)</span>
-        </div>
-        <div className="stat-item">
-          <span className="player-frame-title">Opp. Win %:</span>
-          <span className="player-frame-value">{deck.opponent_win_percentage}%</span>
+
+          <Button text="Copy" onClick={copyToClipboard} />
         </div>
       </div>
 
-      {deck.matches.length > 0 && (
-        <div className="matches-section" style={{"marginTop": "1.5rem"}}>
-          <h4 style={{"marginBottom": "0.5rem", "fontSize": "1rem", "color": "var(--text-muted)", "textTransform": "uppercase"}}>Match Details</h4>
-          <div className="matches-grid" style={{"display": "flex", "flexWrap": "wrap", "gap": "0.5rem"}}>
-            {[...deck.matches].sort((a, b) => (a.round || Infinity) - (b.round || Infinity)).map(function(match, i) {
-              let result = "W"
-              if (match.wins == match.losses) {
-                result = "D"
-              } else if (match.winner && deck.player.toLowerCase() != match.winner.toLowerCase()) {
-                result = "L"
-              } else if (!match.winner && match.losses > match.wins) {
-                result = "L"
-              }
+      <div className="deck-summary-metrics">
+        {metrics.map((m, i) => (
+          <React.Fragment key={i}>
+            {i > 0 && <span className="sep">·</span>}
+            {m}
+          </React.Fragment>
+        ))}
+      </div>
 
-              let oppLabel = match.opponent || "Unknown"
-              let oppArch = ""
-              if (match.opponent) {
-                for (let d of input.decks) {
-                  if (d.player.toLowerCase() == match.opponent.toLowerCase() && d.date == deck.date) {
-                    oppArch = getMacro(d)
-                    break
-                  }
+      {deck.matches.length > 0 && (
+        <div className="deck-summary-matches">
+          {[...deck.matches].sort((a, b) => (a.round || Infinity) - (b.round || Infinity)).map(function(match, i) {
+            let result = "W"
+            if (match.wins == match.losses) {
+              result = "D"
+            } else if (match.winner && deck.player.toLowerCase() != match.winner.toLowerCase()) {
+              result = "L"
+            } else if (!match.winner && match.losses > match.wins) {
+              result = "L"
+            }
+
+            let oppLabel = match.opponent || "Unknown"
+            let oppArch = ""
+            let oppPath = ""
+            if (match.opponent) {
+              for (let d of input.decks) {
+                if (d.player.toLowerCase() == match.opponent.toLowerCase() && d.date == deck.date) {
+                  oppArch = getMacro(d)
+                  oppPath = d.metadata.path
+                  break
                 }
               }
+            }
 
-              // Use explicit match scores if available, otherwise fall back to games lookup.
-              let score = MatchRecord(match)
-              if (match.wins === 0 && match.losses === 0 && match.draws === 0) {
-                score = Record(deck, match.opponent)
-              }
+            // Use explicit match scores if available, otherwise fall back to games lookup.
+            let score = MatchRecord(match)
+            if (match.wins === 0 && match.losses === 0 && match.draws === 0) {
+              score = Record(deck, match.opponent)
+            }
 
-              return (
-                <div key={i} className="match-pill" style={{"background": "var(--table-header-background)", "padding": "0.4rem 0.8rem", "borderRadius": "20px", "fontSize": "0.85rem", "border": "1px solid var(--border)"}}>
-                  {match.round > 0 && <span style={{"opacity": "0.6", "marginRight": "0.5rem"}}>R{match.round}</span>}
-                  <span style={{"fontWeight": "bold", "marginRight": "0.5rem", "fontStyle": match.opponent ? "normal" : "italic", "opacity": match.opponent ? 1 : 0.7}}>{oppLabel}:</span>
-                  <span style={{"color": result === "W" ? "var(--success)" : result === "L" ? "var(--danger)" : "var(--white)"}}>{result}</span>
-                  <span style={{"marginLeft": "0.5rem", "opacity": "0.7"}}>({score}){oppArch && ` | ${oppArch}`}</span>
-                </div>
-              );
-            })}
-          </div>
+            const canLink = oppPath && input.onSelectDeck
+            return (
+              <div
+                key={i}
+                className={"match-pill" + (canLink ? " link" : "")}
+                onClick={canLink ? () => input.onSelectDeck(oppPath) : undefined}
+                title={canLink ? `View ${oppLabel}'s deck` : undefined}
+              >
+                {match.round > 0 && <span className="round">R{match.round}</span>}
+                <span className={"opp" + (match.opponent ? "" : " unknown")}>{oppLabel}:</span>
+                <span className={"res " + (result === "W" ? "win" : result === "L" ? "loss" : "draw")}>{result}</span>
+                <span className="score">({score}){oppArch && ` | ${oppArch}`}</span>
+              </div>
+            );
+          })}
         </div>
       )}
     </div>
