@@ -605,6 +605,62 @@ table {
   padding-right: 1rem;
 }
 
+/* Browse master-detail shell. Shared by Decklists, Drafts, and Players.
+   Mirrors the Analyze shell's centered column and primitives, but arranges an
+   index rail beside a detail pane instead of stacked sections. */
+.browse-page {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 1rem 1rem;
+}
+
+/* Light sticky filter header - only browse-relevant controls (search, dates,
+   and per-page selectors), not the Analyze chart-tuning controls. */
+.browse-filters {
+  background: var(--card-background);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1rem 1.5rem;
+  margin: 1rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+/* Index rail beside the detail pane; each scrolls independently. */
+.browse-body {
+  display: flex;
+  gap: 1.5rem;
+  height: calc(100vh - 220px);
+}
+
+.browse-index {
+  flex: 0 0 480px;
+  overflow-y: auto;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--card-background);
+}
+
+.browse-detail {
+  flex: 1;
+  overflow-y: auto;
+  padding-right: 1rem;
+}
+
+/* Placeholder shown in the detail pane before a record is selected. */
+.browse-empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: var(--text-muted);
+  font-size: 1.1rem;
+}
+
 .filtered-decks {
   width: 100%;
   max-height: none;
