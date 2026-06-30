@@ -4,7 +4,6 @@ import { ArchetypeWidget } from "./Types.js";
 import { DeckWidget } from "./Decks.js";
 import { CardWidget } from "./Cards.js";
 import { SynergyWidget } from "./Synergy.js";
-import { DraftWidget } from "./Drafts.js";
 import { HealthWidget } from "./Health.js";
 import { DesignMapWidget } from "./DesignMap.js";
 import { useStatsFilters, useStatsData } from "./StatsHooks.js";
@@ -42,9 +41,9 @@ export function StatsViewer(props) {
   const data = useStatsData(filters, debouncedProps, refresh);
 
   const {
-    decks, cube, drafts, archetypeMatchups, cardData, cardDataBucketed,
+    decks, cube, archetypeMatchups, cardData, cardDataBucketed,
     colorData, colorDataBucketed, synergyData, synergyCompare, colorMatchupData, healthData,
-    designGraphData, parsed, graphData, archetypeDropdownOptions, draftLogs
+    designGraphData, parsed, graphData, archetypeDropdownOptions,
   } = data;
 
   // Destructure filter setters for the SelectorBar and Widgets
@@ -57,11 +56,6 @@ export function StatsViewer(props) {
     cardFilter, setCardFilter, cardWidgetColorSelection, setCardWidgetColorSelection,
     cardWidgetSortBy, setCardWidgetSortBy, cardXAxis, setCardXAxis, cardYAxis, setCardYAxis,
     deckXAxis, setDeckXAxis, deckYAxis, setDeckYAxis,
-    draftSortBy, setDraftSortBy, draftSortInvert, setDraftSortInvert,
-    minDeviation, setMinDeviation, maxDeviation, setMaxDeviation,
-    minAvgPick, setMinAvgPick, maxAvgPick, setMaxAvgPick,
-    selectedDraftLog, setSelectedDraftLog, selectedDraftPlayer, setSelectedDraftPlayer,
-    draftPlayers, setDraftPlayers, draftPacks, setDraftPacks, selectedPack, setSelectedPack,
     playerSortBy, setPlayerSortBy, playerSortInvert, setPlayerSortInvert,
     oppSortBy, setOppSortBy, oppSortInvert, setOppSortInvert,
     playerArchSortBy, setPlayerArchSortBy, playerArchSortInvert, setPlayerArchSortInvert,
@@ -80,38 +74,6 @@ export function StatsViewer(props) {
   };
   const activeIdx = viewIndexMap[props.view] ?? 0;
   const display = Array.from({ length: 9 }, (_, i) => i === activeIdx);
-
-  const onDraftLogSelected = (event) => {
-    setSelectedDraftLog(event.target.value);
-    let users = [{ label: "", value: "" }];
-    for (let draft of Object.values(drafts || {})) {
-      if (draft.date === event.target.value) {
-        for (let user of Object.values(draft.users)) {
-          if (!user.isBot) users.push({ label: user.userID, value: user.userName });
-        }
-      }
-    }
-    setDraftPlayers(users);
-  };
-
-  const onDraftPlayerSelected = (event) => {
-    setSelectedDraftPlayer(event.target.value);
-    let numPicks = 0;
-    for (let draft of Object.values(drafts || {})) {
-      if (draft.date === selectedDraftLog) {
-        for (let user of Object.values(draft.users)) {
-          if (user.userName === event.target.value) {
-            numPicks = user.picks.length;
-            break;
-          }
-        }
-        break;
-      }
-    }
-    let pickOpts = [];
-    for (let i = 1; i <= numPicks; i++) pickOpts.push({ label: i, value: i });
-    setDraftPacks(pickOpts);
-  };
 
   const playerNames = useMemo(() => {
     let seen = new Set();
@@ -224,26 +186,6 @@ export function StatsViewer(props) {
           localMatchStr={localMatchStr}
           onLocalMatchUpdated={(e) => setLocalMatchStr(e.target.value)}
           cardNames={cube.cards.map(c => c.name)}
-        />
-
-        <DraftWidget
-          parsed={parsed} decks={parsed.filteredDecks} drafts={drafts} cube={cube}
-          sortBy={draftSortBy} invertSort={draftSortInvert}
-          onHeaderClick={(e) => {
-            if (draftSortBy === e.currentTarget.id) setDraftSortInvert(!draftSortInvert);
-            else { setDraftSortInvert(false); setDraftSortBy(e.currentTarget.id); }
-          }}
-          minDrafts={minDrafts} onMinDraftsSelected={(e) => setMinDrafts(e.target.value)}
-          minDeviation={minDeviation} onMinDeviationChanged={(e) => setMinDeviation(e.target.value)}
-          maxDeviation={maxDeviation} onMaxDeviationChanged={(e) => setMaxDeviation(e.target.value)}
-          minAvgPick={minAvgPick} onMinAvgPickSelected={(e) => setMinAvgPick(e.target.value)}
-          maxAvgPick={maxAvgPick} onMaxAvgPickSelected={(e) => setMaxAvgPick(e.target.value)}
-          playerMatch={playerMatch} draftLogs={draftLogs}
-          selectedDraftLog={selectedDraftLog} onDraftLogSelected={onDraftLogSelected}
-          draftPlayers={draftPlayers} onDraftPlayerSelected={onDraftPlayerSelected}
-          selectedPlayer={selectedDraftPlayer} draftPacks={draftPacks}
-          onPackSelected={(e) => setSelectedPack(e.target.value)}
-          selectedPack={selectedPack} show={display[4]}
         />
 
         <DeckWidget

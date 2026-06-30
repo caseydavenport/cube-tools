@@ -1,280 +1,10 @@
 import React from 'react'
-import { AggregatedPickInfo } from "../utils/DraftLog.js"
-import { ApplyTooltip } from "../utils/Tooltip.js"
 import { SortFunc } from "../utils/Utils.js"
-import { Button, TextInput, DropdownHeader, NumericInput, Checkbox, DateSelector } from "../components/Dropdown.js"
+import { DropdownHeader } from "../components/Dropdown.js"
+import { Trophies } from "../utils/Deck.js"
 
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Popover from 'react-bootstrap/Popover';
-import {
-  Tooltip as TooltipJS,
-} from 'react-bootstrap';
-
-export function DraftWidget(input) {
-  if (!input.show) {
-    return
-  }
-  if (input.drafts == null) {
-    return
-  }
-
-  let picks = AggregatedPickInfo(input.drafts, input.cube, input.playerMatch)
-  let pickList = []
-  for (let [name, pick] of picks) {
-    pickList.push(pick)
-  }
-
-  return (
-    <div className="draft-container" style={{"display": "flex", "gap": "1.5rem", "padding": "1rem"}}>
-      <div className="draft-order-section" style={{"flex": "1.5", "minWidth": "0"}}>
-        <DraftOrderWidgetOptions {...input} />
-        <div className="widget-scroll" style={{"marginTop": "1rem"}}>
-          <DraftOrderWidget {...input} pickList={pickList} />
-        </div>
-      </div>
-
-      <div className="draft-pack-section" style={{"flex": "1", "minWidth": "0"}}>
-        <DraftPackWidgetOptions {...input} />
-        <div className="widget-scroll" style={{"marginTop": "1rem", "padding": "1rem", "background": "var(--card-background)"}}>
-          <DraftPackWidget {...input} />
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function DraftOrderWidgetOptions(input) {
-  return (
-    <div className="selector-group" style={{"justifyContent": "center"}}>
-      <NumericInput
-        label="Min dev"
-        value={input.minDeviation}
-        onChange={input.onMinDeviationChanged}
-      />
-      <NumericInput
-        label="Max dev"
-        value={input.maxDeviation}
-        onChange={input.onMaxDeviationChanged}
-      />
-      <NumericInput
-        label="Min drafts"
-        value={input.minDrafts}
-        onChange={input.onMinDraftsSelected}
-      />
-      <NumericInput
-        label="Min avg"
-        value={input.minAvgPick}
-        onChange={input.onMinAvgPickSelected}
-      />
-      <NumericInput
-        label="Max avg"
-        value={input.maxAvgPick}
-        onChange={input.onMaxAvgPickSelected}
-      />
-    </div>
-  );
-}
-
-
-function DraftOrderWidget(input) {
-  let headers = [
-    {
-      id: "name",
-      text: "Card name",
-      tip: "The card's name."
-    },
-    {
-      id: "count",
-      text: "# Drafts",
-      tip: "Number of drafts that have included this card.",
-    },
-    {
-      id: "p1p1",
-      text: "# P1P1",
-      tip: "Number of times this card has been selected pick 1 of pack 1.",
-    },
-    {
-      id: "avgp1pick",
-      text: "Avg. p1 pick",
-      tip: "Average pick, limited exclusively to instances where this card was present in pack #1.",
-    },
-    {
-      id: "avgpick",
-      text: "Avg. pick",
-      tip: "Average pick for this card within a pack (i.e., out of 15).",
-    },
-    {
-      id: "avgpickabs",
-      text: "Avg. pick (abs)",
-      tip: "Average pick for this card across all packs (i.e., out of 45). Mostly silly, but fun to look at.",
-    },
-    {
-      id: "stddev",
-      text: "Pick deviation",
-      tip: "Pick order standard deviation. A higher number means this card has a higher variance in pick order.",
-    },
-    {
-      id: "p1burn",
-      text: "# P1 Burns",
-      tip: "For drafts that burn cards, the number of times this card was burned in pack #1.",
-    },
-    {
-      id: "burn",
-      text: "# Burns",
-      tip: "For drafts that burn cards, the number of times that this card was burned in total.",
-    },
-  ]
-  return (
-    <table className="widget-table">
-      <thead className="table-header">
-        <tr>
-          {
-            headers.map(function(hdr, i) {
-              return (
-                <OverlayTrigger
-                  key={hdr.id}
-                  placement="top"
-                  delay={{ show: 100, hide: 100 }}
-                  overlay={
-                    <Popover id="popover-basic">
-                      <Popover.Header as="h3">{hdr.text}</Popover.Header>
-                      <Popover.Body>
-                        {hdr.tip}
-                      </Popover.Body>
-                    </Popover>
-                  }
-                >
-                  <td onClick={input.onHeaderClick} id={hdr.id} className="header-cell">{hdr.text}</td>
-                </OverlayTrigger>
-              );
-            })
-          }
-        </tr>
-      </thead>
-      <tbody>
-        {
-          input.pickList.map(function(pick) {
-            // Filter out any picks that don't meet the filter criteria.
-            if (input.minDrafts > 0 && pick.count < input.minDrafts) {
-              return
-            }
-
-            let avgPackPick = "-"
-            let avgPackPickAbsolute = "-"
-            if (pick.count > 0) {
-              avgPackPick = Math.round(pick.pickNumSum / pick.count * 10) / 10
-              avgPackPickAbsolute = Math.round(pick.pickNumSumAbs / pick.count * 10) / 10
-            }
-
-            // Filter based on average pack pick.
-            if (input.minAvgPick > 0 && avgPackPick < input.minAvgPick) {
-              return
-            }
-            if (input.maxAvgPick > 0 && avgPackPick > input.maxAvgPick) {
-              return
-            }
-
-            let avgPack1Pick = "-"
-            if (pick.p1Count > 0) {
-              avgPack1Pick = Math.round(pick.p1PickNumSum / pick.p1Count * 100) / 100
-            }
-
-            let firstPicks = "-"
-            if (pick.firstPicks > 0) {
-              firstPicks = pick.firstPicks
-            }
-
-            let burns = "-"
-            if (pick.burns > 0) {
-              burns = pick.burns
-            }
-
-            let p1Burns = "-"
-            if (pick.p1Burns > 0) {
-              p1Burns = pick.p1Burns
-            }
-
-            // Calculate the sample standard deviation for this card.
-            let sumOfSquares = 0
-            for (let p of pick.picks) {
-              let diff = avgPackPick - p.pick
-              sumOfSquares += diff*diff
-            }
-            let stddev = pick.count < 2 ? 0 : Math.round(Math.sqrt(sumOfSquares / (pick.count - 1))*10) / 10
-
-            // Filter out if the pick doesn't meet deviation filter.
-            if (input.minDeviation > 0 && stddev < input.minDeviation) {
-              return
-            }
-            if (input.maxDeviation > 0 && stddev > input.maxDeviation) {
-              return
-            }
-
-
-            // sort uses raw numeric data, not display strings. null means
-            // "no data" and is translated to an end-of-list sentinel below.
-            let sort = pick.count
-            if (input.sortBy === "p1p1") {
-              sort = pick.firstPicks
-            } else if (input.sortBy === "avgp1pick") {
-              sort = pick.p1Count > 0 ? pick.p1PickNumSum / pick.p1Count : null
-            } else if (input.sortBy === "avgpick") {
-              sort = pick.count > 0 ? pick.pickNumSum / pick.count : null
-            } else if (input.sortBy === "avgpickabs") {
-              sort = pick.count > 0 ? pick.pickNumSumAbs / pick.count : null
-            } else if (input.sortBy === "burn") {
-              sort = pick.burns
-            } else if (input.sortBy === "p1burn") {
-              sort = pick.p1Burns
-            } else if (input.sortBy === "name") {
-              sort = pick.name
-            } else if (input.sortBy === "count") {
-              sort = pick.count
-            } else if (input.sortBy === "stddev") {
-              sort = stddev
-            }
-
-            if (sort === null) {
-              // Empties sort to the bottom regardless of direction.
-              sort = input.invertSort ? 100000 : -1
-            } else if (input.invertSort && typeof sort === "number") {
-              // Don't multiply strings (e.g. name sort) — that yields NaN.
-              sort = -1 * sort
-            }
-
-            return (
-              <tr sort={sort} className="widget-table-row" key={pick.name}>
-                <OverlayTrigger
-                  placement="right"
-                  delay={{ show: 500, hide: 100 }}
-                  overlay={
-                    <Popover id="popover-basic" style={{maxWidth: 'none'}}>
-                      <Popover.Header as="h3">{pick.name}</Popover.Header>
-                      <Popover.Body>
-                        {DraftPickTooltipContent(pick)}
-                      </Popover.Body>
-                    </Popover>
-                  }
-                >
-                  <td ><a href={pick.card.url} target="_blank" rel="noopener noreferrer">{pick.name}</a></td>
-                </OverlayTrigger>
-
-                <td>{pick.count}</td>
-                <td>{firstPicks}</td>
-                <td>{avgPack1Pick}</td>
-                <td>{avgPackPick}</td>
-                <td>{avgPackPickAbsolute}</td>
-                <td>{stddev}</td>
-                <td>{p1Burns}</td>
-                <td>{burns}</td>
-              </tr>
-            )
-          }).sort(SortFunc)
-        }
-      </tbody>
-    </table>
-  );
-}
 
 function DraftPackWidgetOptions(input) {
   return (
@@ -375,40 +105,76 @@ export function DraftPackWidget(input) {
   );
 }
 
-function DraftPickTooltipContent(pick) {
-  let k = 0
+// draftRows turns the drafts map into sortable index rows: date, non-bot
+// player count, and the trophy winner (derived from decks of that date).
+function draftRows(drafts, decks) {
+  // Map each draft date to its trophy winner, if any deck that date won one.
+  let winnerByDate = new Map();
+  for (let deck of decks) {
+    if (Trophies(deck) > 0 && deck.date) {
+      winnerByDate.set(deck.date, deck.player);
+    }
+  }
+
+  let rows = [];
+  for (let draft of Object.values(drafts || {})) {
+    if (draft.type !== "Draft") continue;
+    let players = 0;
+    for (let user of Object.values(draft.users || {})) {
+      if (!user.isBot) players += 1;
+    }
+    rows.push({
+      date: draft.date,
+      players,
+      winner: winnerByDate.get(draft.date) || "—",
+    });
+  }
+  // Most recent first.
+  rows.sort((a, b) => (a.date < b.date ? 1 : a.date > b.date ? -1 : 0));
+  return rows;
+}
+
+// DraftIndex is the left-rail list of drafts.
+export function DraftIndex({ drafts, decks, selected, onSelect }) {
+  let rows = draftRows(drafts, decks);
   return (
-    <div style={{"display": "flex", "flexDirection": "row", "gap": "12px", "alignItems": "flex-start"}}>
-      <img
-        src={`https://api.scryfall.com/cards/named?format=image&exact=${encodeURIComponent(pick.name)}`}
-        alt={pick.name}
-        style={{width: '200px', display: 'block', borderRadius: '8px', flexShrink: 0}}
-      />
-      <table style={{"width": "100%", "borderCollapse": "collapse", "fontSize": "0.85rem"}}>
-        <thead>
-          <tr style={{"borderBottom": "2px solid var(--border)", "textAlign": "left", "color": "var(--text-muted)"}}>
-            <th style={{"padding": "4px 8px"}}>Date</th>
-            <th style={{"padding": "4px 8px"}}>Player</th>
-            <th style={{"padding": "4px 8px", "textAlign": "center"}}>Pack</th>
-            <th style={{"padding": "4px 8px", "textAlign": "center"}}>Pick</th>
-          </tr>
-        </thead>
-        <tbody>
-        {
-          pick.picks.map(function(p) {
-            k += 1
-            return (
-              <tr key={k} style={{"borderBottom": "1px solid var(--border)"}}>
-                <td style={{"padding": "4px 8px"}}>{p.date}</td>
-                <td style={{"padding": "4px 8px"}}>{p.player}</td>
-                <td style={{"padding": "4px 8px", "textAlign": "center"}}>{p.pack + 1}</td>
-                <td style={{"padding": "4px 8px", "textAlign": "center"}}>{p.pick + 1}</td>
-              </tr>
-            )
-          })
-        }
-        </tbody>
-      </table>
+    <table className="widget-table">
+      <thead className="table-header">
+        <tr>
+          <td colSpan="3" className="header-cell" style={{ textAlign: "center" }}>{rows.length} Drafts</td>
+        </tr>
+        <tr>
+          <td className="header-cell">Date</td>
+          <td className="header-cell">Players</td>
+          <td className="header-cell">Winner</td>
+        </tr>
+      </thead>
+      <tbody>
+        {rows.map(function (row) {
+          let className = "widget-table-row";
+          if (row.date === selected) className += " button-selected";
+          return (
+            <tr key={row.date} className={className} id={row.date} onClick={onSelect}>
+              <td id={row.date} style={{ whiteSpace: "nowrap" }}>{row.date}</td>
+              <td id={row.date}>{row.players}</td>
+              <td id={row.date} style={{ whiteSpace: "nowrap" }}>{row.winner}</td>
+            </tr>
+          );
+        })}
+      </tbody>
+    </table>
+  );
+}
+
+// DraftPackBrowser shows the packs of the selected draft: pick a player and a
+// pick number to see that pack, with the player's selection highlighted.
+export function DraftPackBrowser(input) {
+  return (
+    <div>
+      <DraftPackWidgetOptions {...input} />
+      <div className="widget-scroll" style={{ marginTop: "1rem", padding: "1rem", background: "var(--card-background)" }}>
+        <DraftPackWidget {...input} />
+      </div>
     </div>
-  )
+  );
 }
