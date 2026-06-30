@@ -31,24 +31,6 @@
    "winner": "ken"
   },
   {
-   "opponent": "matthew",
-   "round": 4,
-   "wins": 0,
-   "losses": 2,
-   "draws": 0,
-   "games": [
-    {
-     "opponent": "matthew",
-     "winner": "matthew"
-    },
-    {
-     "opponent": "matthew",
-     "winner": "matthew"
-    }
-   ],
-   "winner": "matthew"
-  },
-  {
    "opponent": "matthewbk",
    "round": 2,
    "wins": 0,
