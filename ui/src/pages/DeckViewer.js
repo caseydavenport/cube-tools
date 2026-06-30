@@ -14,6 +14,8 @@ import { ColorPickerHeader } from "./Types.js"
 import ReactMarkdown from "react-markdown";
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Popover from 'react-bootstrap/Popover';
+import { BrowseLayout, BrowseEmptyState } from "../components/BrowseLayout.js"
+import { useSelection } from "../hooks/useSelection.js"
 
 
 // This function builds the DeckViewer widget for selecting and viewing statistics
@@ -46,7 +48,9 @@ export function DeckViewer(props) {
   // and another for the actual deck we want to display.
   // The dropdown values are just for filtering the deck list.
   const [selectedPlayer, setSelectedPlayer] = useState("");
-  const [highlightedDeck, setHighlightedDeck] = useState("");
+  // The highlighted deck path is the source of truth for the selected deck and
+  // is mirrored to the URL (?deck=<path>) so the selection is linkable.
+  const [highlightedDeck, setHighlightedDeck] = useSelection("deck");
   const [selectedDraft, setSelectedDraft] = useState("");
   const [draftDropdown, setDraftDropdown] = useState("");
 
@@ -186,19 +190,21 @@ export function DeckViewer(props) {
     setFetched(new Map(fetched))
   }
 
-  // Whenever the selected deck is updated.
+  // Whenever the selected deck (highlightedDeck path) changes, resolve it to a
+  // loaded deck. highlightedDeck may arrive from the URL on page load, so we
+  // key off it directly and derive draft/player from the matched deck rather
+  // than requiring the dropdowns to be set first.
   useEffect(() => {
-    if (!selectedPlayer || !selectedDraft) {
-      // On page load, selected deck will be empty.
+    if (!highlightedDeck) {
       setDeck({})
       return
     }
 
-
-    // Find the deck and set the active deck.
     for (let deck of decks) {
       if (deck.metadata.path == highlightedDeck) {
         setDeck(deck)
+        setSelectedDraft(deck.metadata.draft_id)
+        setSelectedPlayer(deck.player)
 
         // The highlighted deck is always a comparison deck.
         let newComparisonDecks = new Map(comparisonDecks)
@@ -211,7 +217,7 @@ export function DeckViewer(props) {
         return
       }
     }
-  }, [highlightedDeck])
+  }, [highlightedDeck, decks])
 
   // We want to highlight any selected / comparison decks.
   let highlightedDecks = new Array()
@@ -303,75 +309,65 @@ export function DeckViewer(props) {
     return Array.from(seen).sort();
   }, [decks]);
 
-  return (
-    <div className="deck-viewer-page">
-      <div className="selectorbar" style={{"margin": "1rem"}}>
-        <div className="selector-group">
-          <DropdownHeader
-            label="Draft"
-            options={draftDropdownOptions}
-            value={selectedDraft}
-            onChange={onDraftSelected}
-          />
-
-          <DateSelector
-            label="From"
-            id="from"
-            value={startDate}
-            onChange={props.onStartSelected}
-          />
-          <DateSelector
-            label="To"
-            id="to"
-            value={endDate}
-            onChange={props.onEndSelected}
-          />
-
-          <DropdownHeader
-            label="Board"
-            options={boardOptions}
-            value={mainboardSideboard}
-            onChange={onBoardSelected}
-          />
-
-          <DropdownHeader
-            label="View"
-            options={[
-              { label: "Text", value: "Text" },
-              { label: "Images", value: "Images" },
-            ]}
-            value={viewMode}
-            onChange={(e) => setViewMode(e.target.value)}
-          />
-        </div>
-
-        <div className="search-group">
-          <PillSearchInput
-            label={`Global Deck Filter (${filteredAndSortedDecks.decks.length} decks)`}
-            placeholder="Search cards (e.g. color:ug, cmc<3, t:creature)"
-            value={typingStr}
-            cardNames={cubeData.cards.map(c => c.name)}
-            playerNames={playerNames}
-            archetypes={archetypes}
-            eventIDs={eventIDs}
-            onChange={(e) => setTypingStr(e.target.value)}
-          />
-        </div>
+  const filterBar = (
+    <>
+      <div className="selector-group">
+        <DropdownHeader
+          label="Draft"
+          options={draftDropdownOptions}
+          value={selectedDraft}
+          onChange={onDraftSelected}
+        />
+        <DateSelector label="From" id="from" value={startDate} onChange={props.onStartSelected} />
+        <DateSelector label="To" id="to" value={endDate} onChange={props.onEndSelected} />
+        <DropdownHeader
+          label="Board"
+          options={boardOptions}
+          value={mainboardSideboard}
+          onChange={onBoardSelected}
+        />
+        <DropdownHeader
+          label="View"
+          options={[
+            { label: "Text", value: "Text" },
+            { label: "Images", value: "Images" },
+          ]}
+          value={viewMode}
+          onChange={(e) => setViewMode(e.target.value)}
+        />
       </div>
+      <div className="search-group">
+        <PillSearchInput
+          label={`Global Deck Filter (${filteredAndSortedDecks.decks.length} decks)`}
+          placeholder="Search cards (e.g. color:ug, cmc<3, t:creature)"
+          value={typingStr}
+          cardNames={cubeData.cards.map(c => c.name)}
+          playerNames={playerNames}
+          archetypes={archetypes}
+          eventIDs={eventIDs}
+          onChange={(e) => setTypingStr(e.target.value)}
+        />
+      </div>
+    </>
+  );
 
-      <div className="deck-viewer-container">
-        <div className="deck-list-sidebar">
-          <FilteredDecks
-            decks={filteredAndSortedDecks.decks}
-            draftToColor={filteredAndSortedDecks.colors}
-            highlight={highlightedDecks}
-            onDeckClicked={onDeckClicked}
-            onSortHeader={onDeckSort}
-            isFiltered={debouncedMatchStr !== "" || draftDropdown !== ""}
-          />
-        </div>
+  const hasDeck = deck && deck.metadata;
 
-        <div className="deck-main-content">
+  return (
+    <BrowseLayout
+      filters={filterBar}
+      index={
+        <FilteredDecks
+          decks={filteredAndSortedDecks.decks}
+          draftToColor={filteredAndSortedDecks.colors}
+          highlight={highlightedDecks}
+          onDeckClicked={onDeckClicked}
+          onSortHeader={onDeckSort}
+          isFiltered={debouncedMatchStr !== "" || draftDropdown !== ""}
+        />
+      }
+      detail={
+        hasDeck ? (
           <MainDisplay
             cube={cube}
             deck={deck}
@@ -385,9 +381,11 @@ export function DeckViewer(props) {
             archetypes={archetypes}
             onDeckUpdated={onDeckUpdated}
           />
-        </div>
-      </div>
-    </div>
+        ) : (
+          <BrowseEmptyState message="Select a deck to view its decklist." />
+        )
+      }
+    />
   );
 }
 
