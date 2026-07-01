@@ -4,10 +4,7 @@
   "draft_id": "2026-06-20_bcp26_3"
  },
  "macro_archetype": "aggro",
- "labels": [
-  "prowess",
-  "sacrifice"
- ],
+ "labels": [],
  "player": "2026-06-20_bcp26_3-p6",
  "date": "2026-06-20",
  "matches": [
@@ -94,6 +91,7 @@
   "Steam Vents"
  ],
  "colors": [
-  "R"
+  "R",
+  "G"
  ]
 }

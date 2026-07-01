@@ -4,7 +4,9 @@
   "draft_id": "2026-06-20_bcp26_3"
  },
  "macro_archetype": "control",
- "labels": [],
+ "labels": [
+  "draw-go"
+ ],
  "player": "2026-06-20_bcp26_3-p7",
  "date": "2026-06-20",
  "matches": [
