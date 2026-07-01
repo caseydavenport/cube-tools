@@ -215,7 +215,11 @@ func cardSetsDiffer(a, b []types.Card) bool {
 func cardsFromDeckFile(deckFile string) ([]types.Card, []types.Card, error) {
 	var mb, sb []types.Card
 	if strings.HasSuffix(deckFile, ".csv") {
-		mb, sb = cardsFromCSV(deckFile)
+		var err error
+		mb, sb, err = cardsFromCSV(deckFile)
+		if err != nil {
+			return nil, nil, err
+		}
 	} else if strings.HasSuffix(deckFile, ".txt") {
 		mb, sb = cardsFromTXT(deckFile)
 	} else {
@@ -433,10 +437,10 @@ func cardsFromTXT(txt string) ([]types.Card, []types.Card) {
 	return mb, sb
 }
 
-func cardsFromCSV(path string) ([]types.Card, []types.Card) {
+func cardsFromCSV(path string) ([]types.Card, []types.Card, error) {
 	f, err := os.Open(path)
 	if err != nil {
-		panic(err)
+		return nil, nil, err
 	}
 	defer f.Close()
 
@@ -444,15 +448,18 @@ func cardsFromCSV(path string) ([]types.Card, []types.Card) {
 	r.FieldsPerRecord = -1 // tolerate variable column counts (e.g. "Sideboard" rows)
 	records, err := r.ReadAll()
 	if err != nil {
-		panic(err)
+		return nil, nil, err
 	}
 	if len(records) == 0 {
-		return nil, nil
+		return nil, nil, nil
 	}
 
-	// First row is the header.
+	// First row is the header. CubeCobra exports have one row per card (no
+	// Quantity/Count column) and a "maybeboard" column marking cards that
+	// aren't actually in the cube.
 	quantityIdx := -1
 	nameIdx := -1
+	maybeboardIdx := -1
 	for i, header := range records[0] {
 		h := strings.TrimSpace(header)
 		if strings.EqualFold(h, "Quantity") || strings.EqualFold(h, "Count") {
@@ -461,9 +468,12 @@ func cardsFromCSV(path string) ([]types.Card, []types.Card) {
 		if strings.EqualFold(h, "Name") {
 			nameIdx = i
 		}
+		if strings.EqualFold(h, "maybeboard") {
+			maybeboardIdx = i
+		}
 	}
-	if quantityIdx < 0 || nameIdx < 0 {
-		panic("Failed to find quantity / name indices")
+	if nameIdx < 0 {
+		return nil, nil, fmt.Errorf("no name column in %s", path)
 	}
 
 	mb := []types.Card{}
@@ -478,13 +488,25 @@ func cardsFromCSV(path string) ([]types.Card, []types.Card) {
 			sideboard = true
 			continue
 		}
-		if quantityIdx >= len(row) || nameIdx >= len(row) {
+		if nameIdx >= len(row) {
 			continue
 		}
-		count, err := strconv.Atoi(strings.TrimSpace(row[quantityIdx]))
-		if err != nil {
-			panic(fmt.Errorf("error parsing row %v: %w", row, err))
+
+		// Default to one copy when there's no quantity column (CubeCobra format).
+		count := 1
+		if quantityIdx >= 0 {
+			if quantityIdx >= len(row) {
+				continue
+			}
+			count, err = strconv.Atoi(strings.TrimSpace(row[quantityIdx]))
+			if err != nil {
+				return nil, nil, fmt.Errorf("error parsing row %v: %w", row, err)
+			}
 		}
+
+		// Maybeboard cards aren't in the cube, so keep them out of the mainboard.
+		maybeboard := maybeboardIdx >= 0 && maybeboardIdx < len(row) &&
+			strings.EqualFold(strings.TrimSpace(row[maybeboardIdx]), "true")
 		name := strings.TrimSpace(row[nameIdx])
 
 		for i := 0; i < count; i++ {
@@ -493,12 +515,12 @@ func cardsFromCSV(path string) ([]types.Card, []types.Card) {
 				logrus.Errorf("Failed to find oracle data for: %s", name)
 				continue
 			}
-			if sideboard {
+			if sideboard || maybeboard {
 				sb = append(sb, types.FromOracle(oracleData))
 			} else {
 				mb = append(mb, types.FromOracle(oracleData))
 			}
 		}
 	}
-	return mb, sb
+	return mb, sb, nil
 }

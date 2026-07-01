@@ -10,6 +10,10 @@ type Cube struct {
 	ID          string `json:"id"`
 	Name        string `json:"name"`
 	Description string `json:"description,omitempty"`
+
+	// CubeCobraID is the cube's shortId or UUID on Cube Cobra. When set, the
+	// cube can be refreshed from its Cube Cobra list.
+	CubeCobraID string `json:"cubecobra_id,omitempty"`
 }
 
 type Registry struct {

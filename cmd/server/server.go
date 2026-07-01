@@ -52,6 +52,7 @@ func main() {
 	cubeRoute("POST /api/{cube}/stats/design-graph/match", stats.DesignGraphMatchHandler())
 	cubeRoute("POST /api/{cube}/save-design-rules", stats.SaveDesignRulesHandler())
 	cubeRoute("POST /api/{cube}/save-notes", server.SaveNotesHandler())
+	cubeRoute("POST /api/{cube}/refresh", server.RefreshHandler(reg))
 
 	// OCR draft-import endpoints. The detector is shared across requests; built
 	// without `-tags ocr_cv` its calls return an error explaining the rebuild.

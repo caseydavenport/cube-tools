@@ -34,10 +34,10 @@ type ccCardInfo struct {
 	url   string
 }
 
-// fetchCubeCobraCards returns per-card Cube Cobra data keyed by name, from the
-// public cube export at /cube/api/cubeJSON/<cubeID>. cubeID may be a shortId or
-// UUID. The endpoint is public, so no auth is needed.
-func fetchCubeCobraCards(baseURL, cubeID string) (map[string]ccCardInfo, error) {
+// fetchCubeCobra fetches and decodes the public cube export at
+// /cube/api/cubeJSON/<cubeID>. cubeID may be a shortId or UUID. The endpoint is
+// public, so no auth is needed.
+func fetchCubeCobra(baseURL, cubeID string) (*ccCubeJSON, error) {
 	resp, err := http.Get(fmt.Sprintf("%s/cube/api/cubeJSON/%s", baseURL, cubeID))
 	if err != nil {
 		return nil, fmt.Errorf("fetch cube JSON: %w", err)
@@ -51,22 +51,47 @@ func fetchCubeCobraCards(baseURL, cubeID string) (map[string]ccCardInfo, error) 
 	if err := json.NewDecoder(resp.Body).Decode(&cube); err != nil {
 		return nil, fmt.Errorf("decode cube JSON: %w", err)
 	}
+	return &cube, nil
+}
 
+// cardInfo returns per-card data keyed by name across both boards.
+func (c *ccCubeJSON) cardInfo() map[string]ccCardInfo {
 	cards := make(map[string]ccCardInfo)
 	add := func(list []ccCubeCard) {
-		for _, c := range list {
-			if c.Details.Name == "" {
+		for _, card := range list {
+			if card.Details.Name == "" {
 				continue
 			}
-			cards[c.Details.Name] = ccCardInfo{
-				elo:   int(math.Round(c.Details.Elo)),
-				image: c.Details.ImageNormal,
-				url:   c.Details.ScryfallURI,
+			cards[card.Details.Name] = ccCardInfo{
+				elo:   int(math.Round(card.Details.Elo)),
+				image: card.Details.ImageNormal,
+				url:   card.Details.ScryfallURI,
 			}
 		}
 	}
 	// Mainboard last so a card present in both boards keeps its mainboard data.
-	add(cube.Cards.Maybeboard)
-	add(cube.Cards.Mainboard)
-	return cards, nil
+	add(c.Cards.Maybeboard)
+	add(c.Cards.Mainboard)
+	return cards
+}
+
+// mainboardNames returns the mainboard card names in list order, skipping blanks.
+func (c *ccCubeJSON) mainboardNames() []string {
+	names := make([]string, 0, len(c.Cards.Mainboard))
+	for _, card := range c.Cards.Mainboard {
+		if card.Details.Name == "" {
+			continue
+		}
+		names = append(names, card.Details.Name)
+	}
+	return names
+}
+
+// fetchCubeCobraCards returns per-card Cube Cobra data keyed by name.
+func fetchCubeCobraCards(baseURL, cubeID string) (map[string]ccCardInfo, error) {
+	cube, err := fetchCubeCobra(baseURL, cubeID)
+	if err != nil {
+		return nil, err
+	}
+	return cube.cardInfo(), nil
 }
