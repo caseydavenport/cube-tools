@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import { SortFunc } from "../utils/Utils.js"
 import { DropdownHeader } from "../components/Dropdown.js"
 import { Trophies } from "../utils/Deck.js"
+import { CollapsibleIndex } from "../components/BrowseLayout.js"
 
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Popover from 'react-bootstrap/Popover';
@@ -9,12 +10,14 @@ import Popover from 'react-bootstrap/Popover';
 function DraftPackWidgetOptions(input) {
   return (
     <div className="selector-group" style={{"justifyContent": "center"}}>
-      <DropdownHeader
-        label="Draft"
-        options={input.draftLogs}
-        value={input.selectedDraftLog}
-        onChange={input.onDraftLogSelected}
-      />
+      {input.draftLogs.length > 1 && (
+        <DropdownHeader
+          label="Draft"
+          options={input.draftLogs}
+          value={input.selectedDraftLog}
+          onChange={input.onDraftLogSelected}
+        />
+      )}
 
       <DropdownHeader
         label="Player"
@@ -107,7 +110,7 @@ export function DraftPackWidget(input) {
 
 // draftRows turns the drafts map into sortable index rows: date, non-bot
 // player count, and the trophy winner (derived from decks of that date).
-function draftRows(drafts, decks) {
+export function draftRows(drafts, decks) {
   // Map each draft date to its trophy winner, if any deck that date won one.
   let winnerByDate = new Map();
   for (let deck of decks) {
@@ -134,35 +137,47 @@ function draftRows(drafts, decks) {
   return rows;
 }
 
-// DraftIndex is the left-rail list of drafts.
-export function DraftIndex({ drafts, decks, selected, onSelect }) {
+// DraftIndex is the collapsible list of drafts. Picking a draft collapses it;
+// the winner cell links to that player's page when onSelectWinner is provided.
+export function DraftIndex({ drafts, decks, selected, onSelect, collapsed, onToggleCollapse, onSelectWinner }) {
   let rows = draftRows(drafts, decks);
+  const selectedRowRef = useRef(null);
   return (
-    <table className="widget-table">
-      <thead className="table-header">
-        <tr>
-          <td colSpan="3" className="header-cell" style={{ textAlign: "center" }}>{rows.length} Drafts</td>
-        </tr>
-        <tr>
-          <td className="header-cell">Date</td>
-          <td className="header-cell">Players</td>
-          <td className="header-cell">Winner</td>
-        </tr>
-      </thead>
-      <tbody>
-        {rows.map(function (row) {
-          let className = "widget-table-row";
-          if (row.date === selected) className += " button-selected";
-          return (
-            <tr key={row.date} className={className} id={row.date} onClick={onSelect}>
-              <td id={row.date} style={{ whiteSpace: "nowrap" }}>{row.date}</td>
-              <td id={row.date}>{row.players}</td>
-              <td id={row.date} style={{ whiteSpace: "nowrap" }}>{row.winner}</td>
-            </tr>
-          );
-        })}
-      </tbody>
-    </table>
+    <CollapsibleIndex
+      title={rows.length + " Drafts"}
+      collapsed={collapsed}
+      onToggleCollapse={onToggleCollapse}
+      selectedRef={selectedRowRef}
+    >
+      <table className="widget-table" style={{ border: "none", borderRadius: "0" }}>
+        <thead className="table-header">
+          <tr>
+            <td className="header-cell">Date</td>
+            <td className="header-cell">Players</td>
+            <td className="header-cell">Winner</td>
+          </tr>
+        </thead>
+        <tbody>
+          {rows.map(function (row) {
+            let className = "widget-table-row";
+            const isSelected = row.date === selected;
+            if (isSelected) className += " button-selected";
+            const canLink = onSelectWinner && row.winner !== "—";
+            return (
+              <tr ref={isSelected ? selectedRowRef : null} key={row.date} className={className} id={row.date} onClick={onSelect}>
+                <td id={row.date} style={{ whiteSpace: "nowrap" }}>{row.date}</td>
+                <td id={row.date}>{row.players}</td>
+                <td
+                  style={{ whiteSpace: "nowrap" }}
+                  className={canLink ? "xlink" : undefined}
+                  onClick={canLink ? (e) => { e.stopPropagation(); onSelectWinner(row.winner); } : undefined}
+                >{row.winner}</td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+    </CollapsibleIndex>
   );
 }
 
@@ -171,6 +186,20 @@ export function DraftIndex({ drafts, decks, selected, onSelect }) {
 export function DraftPackBrowser(input) {
   return (
     <div>
+      {input.summary && (
+        <div className="player-frame deck-summary">
+          <div className="deck-summary-header">
+            <div className="deck-summary-identity">
+              <h2 className="deck-summary-name">{input.summary.date}</h2>
+            </div>
+          </div>
+          <div className="deck-summary-metrics">
+            <span className="metric"><strong>{input.summary.players}</strong> players</span>
+            <span className="sep">·</span>
+            <span className="metric">Winner <strong>{input.summary.winner}</strong></span>
+          </div>
+        </div>
+      )}
       <DraftPackWidgetOptions {...input} />
       <div className="widget-scroll" style={{ marginTop: "1rem", padding: "1rem", background: "var(--card-background)" }}>
         <DraftPackWidget {...input} />

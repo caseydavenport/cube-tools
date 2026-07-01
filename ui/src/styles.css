@@ -232,6 +232,17 @@ table {
   opacity: 0.7;
 }
 
+/* Cross-link cell: a table cell that navigates to a related record (e.g. an
+   opponent's player page). */
+.xlink {
+  cursor: pointer;
+  color: var(--primary);
+}
+
+.xlink:hover {
+  text-decoration: underline;
+}
+
 /* Widget Styling */
 .widget-table {
   background: var(--card-background);

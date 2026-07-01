@@ -2,9 +2,10 @@ import React, { useState, useEffect, useMemo } from 'react'
 import { useStatsFilters, useStatsData } from "./StatsHooks.js"
 import { useSelection } from "../hooks/useSelection.js"
 import { BrowseLayout, BrowseEmptyState } from "../components/BrowseLayout.js"
-import { PlayerTable, PlayerDetailsPanel } from "./Players.js"
+import { PlayerTable, PlayerDetailsPanel, playerRowsInOrder } from "./Players.js"
 import { PillSearchInput } from "../components/PillSearchInput.js"
 import { Button, DateSelector, NumericInput } from "../components/Dropdown.js"
+import { useArrowNav } from "../hooks/useArrowNav.js"
 
 // PlayersPage is the Browse > Players master-detail page: a roster index on the
 // left, the selected player's detail (records vs opponents, by archetype, by
@@ -30,6 +31,10 @@ export function PlayersPage(props) {
   const { cube, parsed } = data;
 
   const [selectedPlayer, setSelectedPlayer] = useSelection("player");
+
+  // Picking a player collapses the index so the detail gets the screen; the
+  // header toggles it back open.
+  const [indexCollapsed, setIndexCollapsed] = useState(false);
 
   const {
     playerSortBy, setPlayerSortBy, playerSortInvert, setPlayerSortInvert,
@@ -72,11 +77,18 @@ export function PlayersPage(props) {
       if (playerColorSortBy === e.currentTarget.id) setPlayerColorSortInvert(!playerColorSortInvert);
       else { setPlayerColorSortInvert(false); setPlayerColorSortBy(e.currentTarget.id); }
     },
-    handleRowClick: (e) => setSelectedPlayer(e.currentTarget.id),
+    handleRowClick: (e) => { setSelectedPlayer(e.currentTarget.id); setIndexCollapsed(true); },
     player: selectedPlayer,
     minGames,
     onMinGamesSelected: (e) => setMinGames(e.target.value),
+    collapsed: indexCollapsed,
+    onToggleCollapse: () => setIndexCollapsed((c) => !c),
+    onSelectPlayer: (name) => setSelectedPlayer(name),
   };
+
+  // Left/right arrows step through the roster in its current sort order.
+  const orderedRows = playerRowsInOrder(widgetProps);
+  useArrowNav(orderedRows, selectedPlayer, (r) => r.name, (name) => setSelectedPlayer(name));
 
   const filterBar = (
     <>
@@ -101,6 +113,7 @@ export function PlayersPage(props) {
 
   return (
     <BrowseLayout
+      stacked
       filters={filterBar}
       index={<PlayerTable {...widgetProps} />}
       detail={

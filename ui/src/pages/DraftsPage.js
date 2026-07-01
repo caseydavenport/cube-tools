@@ -1,14 +1,22 @@
 import React, { useState, useEffect, useMemo } from 'react'
+import { useParams, useNavigate } from "react-router-dom"
 import { useStatsFilters, useStatsData } from "./StatsHooks.js"
 import { useSelection } from "../hooks/useSelection.js"
+import { useArrowNav } from "../hooks/useArrowNav.js"
 import { BrowseLayout, BrowseEmptyState } from "../components/BrowseLayout.js"
-import { DraftIndex, DraftPackBrowser } from "./Drafts.js"
+import { DraftIndex, DraftPackBrowser, draftRows } from "./Drafts.js"
 import { Button, DateSelector } from "../components/Dropdown.js"
 
 // DraftsPage is the Browse > Drafts master-detail page: a list of drafts on the
 // left, and the selected draft's pack-by-pack browser on the right.
 export function DraftsPage(props) {
   const [refresh, setRefresh] = useState(1);
+  const { cube } = useParams();
+  const navigate = useNavigate();
+
+  // Picking a draft collapses the index so the pack browser gets the screen;
+  // the header toggles it back open.
+  const [indexCollapsed, setIndexCollapsed] = useState(false);
 
   const filters = useStatsFilters();
   const dataProps = useMemo(() => ({
@@ -63,6 +71,14 @@ export function DraftsPage(props) {
     setSelectedPack(1);
   };
 
+  // The index rows in display order (date descending), plus the selected
+  // draft's summary for the detail header.
+  const rows = draftRows(drafts || {}, parsed.filteredDecks);
+  const selectedSummary = rows.find((r) => r.date === selectedDraftLog) || null;
+
+  // Left/right arrows step through the drafts in the index order.
+  useArrowNav(rows, selectedDraftLog, (r) => r.date, (date) => setSelectedDraftLog(date));
+
   const browserProps = {
     drafts: drafts || {},
     draftPlayers,
@@ -72,9 +88,9 @@ export function DraftsPage(props) {
     selectedPack,
     onPackSelected: (e) => setSelectedPack(e.target.value),
     selectedDraftLog,
-    // DraftPackWidgetOptions renders a Draft dropdown too; in Browse the index
-    // is the draft selector, so hide that control by passing an empty list and
-    // a no-op handler.
+    summary: selectedSummary,
+    // The index is the draft selector in Browse, so DraftPackWidgetOptions hides
+    // its own Draft dropdown when handed a single-entry list.
     draftLogs: [{ label: selectedDraftLog, value: selectedDraftLog }],
     onDraftLogSelected: () => {},
   };
@@ -89,13 +105,17 @@ export function DraftsPage(props) {
 
   return (
     <BrowseLayout
+      stacked
       filters={filterBar}
       index={
         <DraftIndex
           drafts={drafts || {}}
           decks={parsed.filteredDecks}
           selected={selectedDraftLog}
-          onSelect={(e) => setSelectedDraftLog(e.currentTarget.id)}
+          onSelect={(e) => { setSelectedDraftLog(e.currentTarget.id); setIndexCollapsed(true); }}
+          collapsed={indexCollapsed}
+          onToggleCollapse={() => setIndexCollapsed((c) => !c)}
+          onSelectWinner={(name) => navigate(`/${cube}/players?player=${encodeURIComponent(name)}`)}
         />
       }
       detail={

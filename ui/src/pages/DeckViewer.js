@@ -14,8 +14,9 @@ import { ColorPickerHeader } from "./Types.js"
 import ReactMarkdown from "react-markdown";
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Popover from 'react-bootstrap/Popover';
-import { BrowseLayout, BrowseEmptyState } from "../components/BrowseLayout.js"
+import { BrowseLayout, BrowseEmptyState, CollapsibleIndex } from "../components/BrowseLayout.js"
 import { useSelection } from "../hooks/useSelection.js"
+import { useArrowNav } from "../hooks/useArrowNav.js"
 
 
 // This function builds the DeckViewer widget for selecting and viewing statistics
@@ -264,31 +265,7 @@ export function DeckViewer(props) {
   }, [decks, debouncedMatchStr, mainboardSideboard, deckSort]);
 
   // Left/right arrows step to the previous/next deck in the current list.
-  useEffect(() => {
-    function onKeyDown(e) {
-      if (e.key !== "ArrowLeft" && e.key !== "ArrowRight") return
-
-      // Don't hijack arrows while typing in a form field.
-      const tag = (e.target.tagName || "").toLowerCase()
-      if (tag === "input" || tag === "textarea" || tag === "select" || e.target.isContentEditable) return
-
-      const list = filteredAndSortedDecks.decks
-      if (!list.length) return
-
-      const idx = list.findIndex((d) => d.metadata.path === highlightedDeck)
-      let nextIdx
-      if (idx === -1) {
-        nextIdx = 0
-      } else {
-        nextIdx = idx + (e.key === "ArrowRight" ? 1 : -1)
-        if (nextIdx < 0 || nextIdx >= list.length) return
-      }
-      e.preventDefault()
-      selectDeck(list[nextIdx].metadata.path)
-    }
-    window.addEventListener("keydown", onKeyDown)
-    return () => window.removeEventListener("keydown", onKeyDown)
-  }, [filteredAndSortedDecks.decks, highlightedDeck]);
+  useArrowNav(filteredAndSortedDecks.decks, highlightedDeck, (d) => d.metadata.path, selectDeck);
 
   const playerNames = useMemo(() => {
     let seen = new Set();
@@ -431,18 +408,6 @@ function FilteredDecks(input) {
   const draftToColor = input.draftToColor;
   const selectedRowRef = useRef(null);
 
-  useEffect(() => {
-    if (input.collapsed || !selectedRowRef.current) {
-      return;
-    }
-    // Re-opening: wait for the slide to finish, then bring the selected deck
-    // back into view instead of snapping to the top of the list.
-    const t = setTimeout(() => {
-      selectedRowRef.current?.scrollIntoView({ block: "center", behavior: "smooth" });
-    }, 480);
-    return () => clearTimeout(t);
-  }, [input.collapsed]);
-
   let totalMatchWins = 0;
   let totalMatchLosses = 0;
   let totalMatchDraws = 0;
@@ -467,12 +432,12 @@ function FilteredDecks(input) {
   }
 
   return (
-    <div className="filtered-decks">
-      <div className="decklist-index-header" onClick={input.onToggleCollapse}>
-        <span className="caret">{input.collapsed ? "▸" : "▾"}</span>{title}
-      </div>
-      <div className={"decklist-index-body" + (input.collapsed ? " collapsed" : "")}>
-        <div className="decklist-index-body-inner">
+    <CollapsibleIndex
+      title={title}
+      collapsed={input.collapsed}
+      onToggleCollapse={input.onToggleCollapse}
+      selectedRef={selectedRowRef}
+    >
           <table className="widget-table" style={{"border": "none", "borderRadius": "0"}}>
             <thead className="table-header">
               <tr>
@@ -512,9 +477,7 @@ function FilteredDecks(input) {
               }
             </tbody>
           </table>
-        </div>
-      </div>
-    </div>
+    </CollapsibleIndex>
   );
 }
 

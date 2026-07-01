@@ -1,8 +1,9 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import { AverageWordCount, IsBasicLand, SortFunc } from "../utils/Utils.js"
 import { ColorImages } from "../utils/Colors.js"
 import { Trophies, LastPlaceFinishes, Wins, Losses } from "../utils/Deck.js"
 import { BucketName, bucketXScale } from "../utils/Buckets.js"
+import { CollapsibleIndex } from "../components/BrowseLayout.js"
 
 import {
   Chart as ChartJS,
@@ -158,19 +159,70 @@ export function PlayerData(decks) {
   return map
 }
 
-export function PlayerTable(input) {
-  let data = []
-  for (let row of input.parsed.playerData.values()) {
-    // Skip any players that don't meet the minimum games requirement.
-    if (row.wins + row.losses < input.minGames) {
-      continue
-    }
-    data.push(row)
+// playerSortValue returns the sort key for a player row under the active sort
+// column. Pulled out so the table render and arrow-key navigation order the
+// roster the same way.
+function playerSortValue(row, sortBy) {
+  switch (sortBy) {
+    case "win_pct":
+    case "win_percent": return row.win_percent
+    case "loss_percent": return row.loss_percent
+    case "games": return row.games
+    case "white_percent":
+    case "W": return row.white_percent
+    case "blue_percent":
+    case "U": return row.blue_percent
+    case "black_percent":
+    case "B": return row.black_percent
+    case "red_percent":
+    case "R": return row.red_percent
+    case "green_percent":
+    case "G": return row.green_percent
+    case "uniqueness":
+    case "unique": return row.uniqueness ?? -1
+    case "num_decks":
+    case "decks": return row.num_decks
+    case "trophies": return row.trophies
+    case "last_place":
+    case "lastplace": return row.last_place
+    case "opponent_win_percentage":
+    case "opp_%": return row.opponent_win_percentage
+    case "avg_word_count": return row.avg_word_count || 0
+    default: return row.name
   }
+}
+
+// playerRowsInOrder returns the roster rows meeting the min-games cutoff, in the
+// table's current sort order.
+export function playerRowsInOrder(input) {
+  let rows = []
+  for (let row of input.parsed.playerData.values()) {
+    if (row.wins + row.losses < input.minGames) continue
+    rows.push(row)
+  }
+  rows.sort((a, b) => {
+    let sa = playerSortValue(a, input.sortBy)
+    let sb = playerSortValue(b, input.sortBy)
+    let cmp = sa > sb ? -1 : sa < sb ? 1 : 0
+    // Numeric columns honor the invert toggle; the name fallback stays as-is.
+    if (input.invertSort && typeof sa === "number") cmp = -cmp
+    return cmp
+  })
+  return rows
+}
+
+export function PlayerTable(input) {
+  const rows = playerRowsInOrder(input)
+  const selectedRowRef = useRef(null)
 
   return (
-    <div>
-      <table className="widget-table">
+    <CollapsibleIndex
+      title={rows.length + " Players"}
+      collapsed={input.collapsed}
+      onToggleCollapse={input.onToggleCollapse}
+      selectedRef={selectedRowRef}
+    >
+      <table className="widget-table" style={{"border": "none", "borderRadius": "0"}}>
         <thead className="table-header">
           <tr>
             <td onClick={input.onHeaderClick} id="name" className="header-cell">Player</td>
@@ -192,70 +244,13 @@ export function PlayerTable(input) {
         </thead>
         <tbody>
         {
-          data.map(function(row) {
-            // Determine sort value for this row.
-            let sort = row.name
-            switch(input.sortBy) {
-              case "win_pct":
-              case "win_percent":
-                sort = row.win_percent
-                break;
-              case "loss_percent":
-                sort = row.loss_percent
-                break;
-              case "games":
-                sort = row.games
-                break;
-              case "white_percent":
-              case "W":
-                sort = row.white_percent
-                break
-              case "blue_percent":
-              case "U":
-                sort = row.blue_percent
-                break
-              case "black_percent":
-              case "B":
-                sort = row.black_percent
-                break
-              case "red_percent":
-              case "R":
-                sort = row.red_percent
-                break
-              case "green_percent":
-              case "G":
-                sort = row.green_percent
-                break
-              case "uniqueness":
-              case "unique":
-                sort = row.uniqueness ?? -1
-                break
-              case "num_decks":
-              case "decks":
-                sort = row.num_decks
-                break
-              case "trophies":
-                sort = row.trophies;
-                break;
-              case "last_place":
-              case "lastplace":
-                sort = row.last_place;
-                break;
-              case "opponent_win_percentage":
-              case "opp_%":
-                sort = row.opponent_win_percentage
-                break;
-              case "avg_word_count":
-                sort = row.avg_word_count || 0
-                break;
-            }
-            if (input.invertSort) {
-              sort = -1 * sort
-            }
-
+          rows.map(function(row) {
+            let className = "widget-table-row"
+            const isSelected = row.name === input.player
+            if (isSelected) className += " button-selected"
             return (
-              <tr sort={sort} className="widget-table-row" key={row.name}>
-                <td id={row.name} onClick={input.handleRowClick}>{row.name}</td>
+              <tr ref={isSelected ? selectedRowRef : null} id={row.name} className={className} key={row.name} onClick={input.handleRowClick}>
+                <td id={row.name}>{row.name}</td>
                 <td>{row.num_decks}</td>
                 <td>{row.games}</td>
                 <td>{row.win_percent.toFixed(0)}%</td>
@@ -272,11 +267,11 @@ export function PlayerTable(input) {
                 <td>{row.avg_word_count || 0}</td>
               </tr>
             )
-          }).sort(SortFunc)
+          })
         }
         </tbody>
       </table>
-    </div>
+    </CollapsibleIndex>
   );
 }
 
@@ -381,13 +376,40 @@ export function PlayerDetailsPanel(input) {
   let minGames = 5
 
   let oppRows = Array.from(recordByOpponent.values())
+
+  // Compact summary bar across the top, mirroring the deck detail header.
+  const summaryMetrics = [
+    <span className="metric"><strong>{playerEntry.num_decks}</strong> decks</span>,
+    <span className="metric"><strong>{playerEntry.games}</strong> games</span>,
+    <span className="metric"><strong>{playerEntry.trophies}</strong> trophies</span>,
+    <span className="metric"><strong>{playerEntry.last_place}</strong> last</span>,
+    <span className="metric">Opp <strong>{playerEntry.opponent_win_percentage.toFixed(0)}%</strong></span>,
+    playerEntry.uniqueness != null ? <span className="metric">Uniq <strong>{playerEntry.uniqueness.toFixed(0)}%</strong></span> : null,
+  ].filter(Boolean)
+
   return (
     <div>
+      <div className="player-frame deck-summary">
+        <div className="deck-summary-header">
+          <div className="deck-summary-identity">
+            <h2 className="deck-summary-name">{input.player}</h2>
+            <span className="deck-summary-record">
+              {playerEntry.win_percent.toFixed(0)}% <span className="muted">({playerEntry.wins}-{playerEntry.losses})</span>
+            </span>
+          </div>
+        </div>
+        <div className="deck-summary-metrics">
+          {summaryMetrics.map((m, i) => (
+            <React.Fragment key={i}>
+              {i > 0 && <span className="sep">·</span>}
+              {m}
+            </React.Fragment>
+          ))}
+        </div>
+      </div>
+
       <table className="widget-table">
         <thead className="table-header">
-          <tr>
-            <td colSpan="3" id="who" className="header-cell">Selected player: {input.player}</td>
-          </tr>
           <tr>
             <td onClick={input.onOppHeaderClick} id="name" className="header-cell">Opponent (min {minGames} games)</td>
             <td onClick={input.onOppHeaderClick} id="win_pct" className="header-cell">Win %</td>
@@ -417,9 +439,11 @@ export function PlayerDetailsPanel(input) {
               if (input.oppSortInvert && typeof sort === 'number') {
                 sort = -1 * sort
               }
+              // Opponents who are themselves in the roster link to their page.
+              const canLink = input.onSelectPlayer && playerData.has(opponent.name)
               return (
                 <tr key={opponent.name} sort={sort} className="widget-table-row">
-                  <td key="name">{opponent.name}</td>
+                  <td key="name" className={canLink ? "xlink" : undefined} onClick={canLink ? () => input.onSelectPlayer(opponent.name) : undefined}>{opponent.name}</td>
                   <td key="win_pct">{win_pct}%</td>
                   <td key="total">{opponent.wins + opponent.losses}</td>
                 </tr>
