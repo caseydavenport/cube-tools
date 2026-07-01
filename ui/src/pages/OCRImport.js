@@ -8,7 +8,7 @@ import { PlayerWorkspace } from './PlayerWorkspace.js';
 // OCRImport is the top-level OCR screen. It walks three views: pick a draft,
 // then a player (with the scan-all control and the pool-vs-cube consistency
 // check), then that player's reconciliation workspace.
-export default function OCRImport() {
+export default function OCRImport({ initialDraftId }) {
   const cube = useCube();
 
   // drafts is the list view; draft is the open DraftDetail; playerId selects a
@@ -22,6 +22,12 @@ export default function OCRImport() {
   const [cards, setCards] = useState([]);
 
   useEffect(() => { LoadOCRDrafts(cube).then(setDrafts); }, [cube]);
+
+  // Coming from the Hedron import, open the freshly-created draft directly
+  // instead of the list.
+  useEffect(() => {
+    if (initialDraftId) openDraft(initialDraftId);
+  }, [cube, initialDraftId]);
 
   // Recompute the pool-vs-cube consistency check. Called when the open draft
   // changes (including the reload after a scan finishes) and after each fix.
