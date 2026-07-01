@@ -84,7 +84,8 @@ export default function OCRImport({ initialDraftId }) {
     return (
       <div className="ocr-import wide">
         <button className="ocr-back" onClick={() => setPlayerId(null)}>&larr; Players</button>
-        <PlayerWorkspace cube={cube} draft={draft} player={player} />
+        <PlayerWorkspace cube={cube} draft={draft} player={player}
+          onConfirmed={() => openDraft(draft.draft_id)} />
       </div>
     );
   }

@@ -7,7 +7,7 @@ import { allWarnings, previewSideboard, mainboardBreakdown } from '../utils/Cros
 
 // PlayerWorkspace is the per-player OCR screen: reconcile the detected pool and
 // deck against the photos across the pool/deck/confirm tabs, then write the deck.
-export function PlayerWorkspace({ cube, draft, player }) {
+export function PlayerWorkspace({ cube, draft, player, onConfirmed }) {
   const poolPhotos = [...(player.photos.checkin || []), ...(player.photos.checkout || [])];
   const deckPhotos = player.photos.deck || [];
 
@@ -260,7 +260,9 @@ export function PlayerWorkspace({ cube, draft, player }) {
       ? { pool: toCounted(pool), mainboard: toCounted(mainboard), basics }
       : { pool: toCounted(pool) };
     await ConfirmPlayer(cube, draft.draft_id, player.id, payload);
-    alert(`Saved ${player.id}`);
+    // Let the parent reload the draft (so this player turns green) and drop back
+    // to the players list.
+    if (onConfirmed) await onConfirmed();
   }
 
   return (
