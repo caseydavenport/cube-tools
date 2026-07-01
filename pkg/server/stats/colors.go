@@ -289,6 +289,20 @@ func (d *colorStatsHandler) statsForDecks(decks []*storage.Deck, sr *ColorStatsR
 			totalCardsInDeck++
 		}
 
+		// Count the colored mana symbols in the deck (its true devotion), so we can
+		// measure how much a deck leans on each color by mana cost rather than card count.
+		deckPips := map[string]int{}
+		totalPips := 0
+		for _, card := range deck.Mainboard {
+			if card.IsLand() {
+				continue
+			}
+			for color, n := range card.ColorPips() {
+				deckPips[color] += n
+				totalPips += n
+			}
+		}
+
 		// Go through each color in the deck's color identity, and increment
 		// the count of cards within the deck that match that color identity.
 		//
@@ -316,9 +330,19 @@ func (d *colorStatsHandler) statsForDecks(decks []*storage.Deck, sr *ColorStatsR
 		}
 
 		for color, num := range cardsPerColorInDeck {
-			// Track the percentage of cards in the deck that belong to this color.
+			// Track this color's devotion in the deck: the share of colored mana symbols
+			// that belong to it, summed over the letters of its identity (e.g. "WU" -> W + U pips).
+			if totalPips > 0 {
+				colorPips := 0
+				for _, c := range color {
+					colorPips += deckPips[string(c)]
+				}
+				resp.Data[color].DeckPercentages = append(resp.Data[color].DeckPercentages, float64(colorPips)/float64(totalPips))
+			}
+
+			// The percentage of cards in the deck that belong to this color, used to
+			// weight wins into victory points.
 			deckFrac := float64(num) / float64(totalCardsInDeck)
-			resp.Data[color].DeckPercentages = append(resp.Data[color].DeckPercentages, deckFrac)
 
 			// Calculate "victory points" - the number of wins attributed to this color by weighting
 			// the deck's total number of wins by the percentage of cards that belong to this color.
@@ -345,8 +369,8 @@ func (d *colorStatsHandler) statsForDecks(decks []*storage.Deck, sr *ColorStatsR
 
 	// Summarize resp.Data stats and calculate percentages.
 	for _, color := range resp.Data {
-		// First, calculate the average color devotion of each deck based on card count (not true devotion, as in mana cost).
-		// This is a measure of, on average, how many cards of a given color appear in
+		// First, calculate the average color devotion of each deck based on colored mana symbols.
+		// This is a measure of, on average, what share of a deck's mana pips are a given color in
 		// decks with that color identity. A lower percentage means a splash, a higher percentage
 		// means it is a primary staple.
 		densitySum := 0.0

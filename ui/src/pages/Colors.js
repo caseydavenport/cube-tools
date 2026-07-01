@@ -3,7 +3,7 @@ import { DropdownHeader, NumericInput, DateSelector } from "../components/Dropdo
 import { Colors, ColorImages, GetColorIdentity, primaryColorPair, CUBE_AVG_WIN_PERCENT, deltaPositiveFill, deltaNegativeFill } from "../utils/Colors.js"
 import { Trophies, LastPlaceFinishes, Wins, Losses } from "../utils/Deck.js"
 import { bucketXScale } from "../utils/Buckets.js"
-import { AverageWordCount, IsBasicLand, MinWinningPctDecks, Pct, SortFunc, StringToColor } from "../utils/Utils.js"
+import { AverageWordCount, CountManaPips, IsBasicLand, MinWinningPctDecks, Pct, SortFunc, StringToColor } from "../utils/Utils.js"
 
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Popover from 'react-bootstrap/Popover';
@@ -284,7 +284,7 @@ function ColorStatsTable(input) {
     {
       id: "splash",
       text: "Avg Deck Devotion",
-      tip: "For each deck, the fraction of non-land cards matching this color identity, then averaged across decks. Each deck contributes equally regardless of size.",
+      tip: "For each deck, the fraction of colored mana symbols matching this color identity, then averaged across decks. Each deck contributes equally regardless of size.",
     },
     {
       id: "avg_word_count",
@@ -570,6 +570,11 @@ export function GetColorStats(decks, colorMode) {
       totalCardsInDeck += 1
     }
 
+    // Count the colored mana symbols in the deck (its true devotion), so we can
+    // measure how much a deck leans on each color by mana cost rather than card count.
+    let pips = CountManaPips(decks[i].mainboard)
+    let totalPips = pips.W + pips.U + pips.B + pips.R + pips.G
+
     // Go through each color in the deck's color identity, and increment
     // the count of cards within the deck that match that color identity.
     // TODO: This calculation excludes colorless cards, meaning percentages for colors
@@ -603,9 +608,19 @@ export function GetColorStats(decks, colorMode) {
       // Get the number of cards that match this color within the deck.
       let num = cardsPerColorInDeck[color]
 
-      // Track the percentage of cards in the deck that belong to this color.
+      // Track this color's devotion in the deck: the share of colored mana symbols
+      // that belong to it, summed over the letters of its identity (e.g. "WU" -> W + U pips).
+      if (totalPips > 0) {
+        let colorPips = 0
+        for (let c of color) {
+          colorPips += pips[c]
+        }
+        tracker.get(color).deck_percentages.push(colorPips / totalPips)
+      }
+
+      // The percentage of cards in the deck that belong to this color, used to
+      // weight wins into victory points.
       let deckFrac = num / totalCardsInDeck
-      tracker.get(color).deck_percentages.push(deckFrac)
 
       // Calculate "victory points" - the number of wins attributed to this color by weighting
       // the deck's total number of wins by the percentage of cards that belong to this color.
@@ -631,8 +646,8 @@ export function GetColorStats(decks, colorMode) {
 
   // Summarize tracker stats and calculate percentages.
   for (let color of tracker.values()) {
-    // First, calculate the average color devotion of each deck based on card count.
-    // This is a measure of, on average, how many cards of a given color appear in
+    // First, calculate the average color devotion of each deck based on colored mana symbols.
+    // This is a measure of, on average, what share of a deck's mana pips are a given color in
     // decks with that color identity. A lower percentage means a splash, a higher percentage
     // means it is a primary staple.
     const densitySum = color.deck_percentages.reduce((sum, a) => sum + a, 0);
