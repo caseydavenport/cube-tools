@@ -19,8 +19,9 @@ export default function ImportHub() {
   const [mode, setMode] = useState(null);
 
   if (mode) {
+    // The photo-scan workspace manages its own full-bleed width, so don't cap it.
     return (
-      <div className="import-hub">
+      <div className={mode.kind === 'ocr' ? 'import-hub wide' : 'import-hub'}>
         <button className="ocr-back" onClick={() => setMode(null)}>&larr; Import modes</button>
         {mode.kind === 'text' && <ImportWizard source={mode.key} onDone={() => setMode(null)} />}
         {mode.kind === 'hedron' && <HedronImport />}
