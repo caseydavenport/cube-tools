@@ -7,6 +7,7 @@ import (
 	"github.com/caseydavenport/cube-tools/pkg/cubes"
 	"github.com/caseydavenport/cube-tools/pkg/server"
 	"github.com/caseydavenport/cube-tools/pkg/server/decks"
+	"github.com/caseydavenport/cube-tools/pkg/server/importer"
 	ocrhttp "github.com/caseydavenport/cube-tools/pkg/server/ocr"
 	"github.com/caseydavenport/cube-tools/pkg/server/stats"
 	"github.com/caseydavenport/cube-tools/pkg/storage"
@@ -70,6 +71,14 @@ func main() {
 	cubeRoute("POST /api/{cube}/ocr/rotate", ocrhttp.RotateHandler())
 	cubeRoute("POST /api/{cube}/ocr/drafts/{draft_id}/scan", ocrhttp.ScanStartHandler(det))
 	cubeRoute("GET /api/{cube}/ocr/drafts/{draft_id}/scan", ocrhttp.ScanStatusHandler())
+
+	// Text and Hedron import endpoints.
+	cubeRoute("GET /api/{cube}/import/cards", importer.ImportCardsHandler())
+	cubeRoute("POST /api/{cube}/import/parse", importer.ParseHandler())
+	cubeRoute("POST /api/{cube}/import/parse-dir", importer.ParseDirHandler())
+	cubeRoute("POST /api/{cube}/import/commit", importer.CommitHandler())
+	cubeRoute("GET /api/{cube}/import/hedron", importer.HedronListHandler())
+	cubeRoute("POST /api/{cube}/import/hedron", importer.HedronImportHandler())
 
 	fmt.Println("Server listening on port 8888")
 	if err := http.ListenAndServe(":8888", mux); err != nil {
