@@ -62,11 +62,11 @@ type DetectedCard struct {
 
 // DetectCards builds the sleeve-color mask, splits the photo into per-column
 // regions, and returns one DetectedCard per visible sleeve top.
-func DetectCards(img gocv.Mat) ([]DetectedCard, error) {
+func DetectCards(img gocv.Mat, pal SleevePalette) ([]DetectedCard, error) {
 	if img.Empty() {
 		return nil, errors.New("DetectCards: input image is empty")
 	}
-	mask := BuildSleeveMask(img)
+	mask := BuildSleeveMask(img, pal)
 	defer mask.Close()
 
 	cardHeightEstimate := float64(img.Rows()) / CardHeightDivisor
@@ -366,7 +366,11 @@ func DetectAndMatch(imagePath string, cube *types.Cube, opts DetectOptions) ([]M
 		src = rotated
 	}
 
-	cards, err := DetectCards(src)
+	pal := opts.Sleeve
+	if pal == (SleevePalette{}) {
+		pal = DefaultSleevePalette
+	}
+	cards, err := DetectCards(src, pal)
 	if err != nil {
 		return nil, err
 	}

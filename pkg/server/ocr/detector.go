@@ -9,7 +9,7 @@ import (
 // binary built with `-tags ocr_cv`; without it the underlying calls return an
 // error explaining how to rebuild.
 type Detector interface {
-	DetectPhoto(imagePath string, cube *types.Cube) ([]ocrpkg.MatchResult, error)
+	DetectPhoto(imagePath string, cube *types.Cube, sleeveColor string) ([]ocrpkg.MatchResult, error)
 	MatchRegion(imagePath string, box ocrpkg.Bbox, cube *types.Cube) (ocrpkg.MatchResult, error)
 }
 
@@ -17,8 +17,10 @@ type pipelineDetector struct{}
 
 func NewDetector() Detector { return pipelineDetector{} }
 
-func (pipelineDetector) DetectPhoto(imagePath string, cube *types.Cube) ([]ocrpkg.MatchResult, error) {
-	return ocrpkg.DetectAndMatch(imagePath, cube, ocrpkg.DetectOptions{})
+func (pipelineDetector) DetectPhoto(imagePath string, cube *types.Cube, sleeveColor string) ([]ocrpkg.MatchResult, error) {
+	return ocrpkg.DetectAndMatch(imagePath, cube, ocrpkg.DetectOptions{
+		Sleeve: ocrpkg.SleevePaletteByName(sleeveColor),
+	})
 }
 
 func (pipelineDetector) MatchRegion(imagePath string, box ocrpkg.Bbox, cube *types.Cube) (ocrpkg.MatchResult, error) {

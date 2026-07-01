@@ -14,6 +14,10 @@ type Cube struct {
 	// CubeCobraID is the cube's shortId or UUID on Cube Cobra. When set, the
 	// cube can be refreshed from its Cube Cobra list.
 	CubeCobraID string `json:"cubecobra_id,omitempty"`
+
+	// SleeveColor names the sleeve color the OCR photo scanner keys on for this
+	// cube (e.g. "orange", "purple"). Empty means the default (orange).
+	SleeveColor string `json:"sleeve_color,omitempty"`
 }
 
 type Registry struct {

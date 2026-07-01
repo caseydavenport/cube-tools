@@ -6,6 +6,7 @@ import (
 	"path/filepath"
 	"strings"
 
+	"github.com/caseydavenport/cube-tools/pkg/cubes"
 	ocrpkg "github.com/caseydavenport/cube-tools/pkg/ocr"
 	"github.com/caseydavenport/cube-tools/pkg/server"
 	"github.com/caseydavenport/cube-tools/pkg/types"
@@ -47,6 +48,21 @@ func resolvePhoto(dataRoot, cube, rel string) (string, *types.Cube, bool) {
 	return abs, cube2, true
 }
 
+// sleeveColorFor looks up a cube's configured sleeve color in the registry.
+// Returns "" (the default sleeve color) when the registry can't be read or the
+// cube has no sleeve color set.
+func sleeveColorFor(dataRoot, cube string) string {
+	reg, err := cubes.Load(filepath.Join(dataRoot, "cubes.json"))
+	if err != nil {
+		return ""
+	}
+	c, ok := reg.Get(cube)
+	if !ok {
+		return ""
+	}
+	return c.SleeveColor
+}
+
 func DetectHandler(det Detector) http.Handler { return DetectHandlerWithRoot(det, "data") }
 
 func DetectHandlerWithRoot(det Detector, dataRoot string) http.Handler {
@@ -62,7 +78,7 @@ func DetectHandlerWithRoot(det Detector, dataRoot string) http.Handler {
 			http.Error(rw, "Invalid path", http.StatusForbidden)
 			return
 		}
-		results, err := det.DetectPhoto(abs, cl)
+		results, err := det.DetectPhoto(abs, cl, sleeveColorFor(dataRoot, cube))
 		if err != nil {
 			http.Error(rw, err.Error(), http.StatusInternalServerError)
 			return

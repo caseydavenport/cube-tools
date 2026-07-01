@@ -168,6 +168,7 @@ func ScanStatusHandlerWithRoot(_ string) http.Handler {
 }
 
 func runScan(det Detector, dataRoot, cube, draftID string, items []scanItem, job *scanJob) {
+	sleeveColor := sleeveColorFor(dataRoot, cube)
 	workers := min(scanWorkers, len(items))
 	ch := make(chan scanItem)
 	var wg sync.WaitGroup
@@ -176,7 +177,7 @@ func runScan(det Detector, dataRoot, cube, draftID string, items []scanItem, job
 		go func() {
 			defer wg.Done()
 			for it := range ch {
-				scanOne(det, dataRoot, cube, draftID, it, job)
+				scanOne(det, dataRoot, cube, draftID, it, sleeveColor, job)
 			}
 		}()
 	}
@@ -192,7 +193,7 @@ func runScan(det Detector, dataRoot, cube, draftID string, items []scanItem, job
 	job.mu.Unlock()
 }
 
-func scanOne(det Detector, dataRoot, cube, draftID string, it scanItem, job *scanJob) {
+func scanOne(det Detector, dataRoot, cube, draftID string, it scanItem, sleeveColor string, job *scanJob) {
 	job.mu.Lock()
 	job.current = it.photo
 	job.mu.Unlock()
@@ -206,7 +207,7 @@ func scanOne(det Detector, dataRoot, cube, draftID string, it scanItem, job *sca
 	if !ok {
 		return
 	}
-	results, err := det.DetectPhoto(abs, cl)
+	results, err := det.DetectPhoto(abs, cl, sleeveColor)
 	if err != nil {
 		// Leave this photo empty so the operator can scan it by hand later, but
 		// surface the first failure in the job status and the log.

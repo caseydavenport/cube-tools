@@ -12,12 +12,13 @@ import (
 )
 
 type fakeDetector struct {
-	gotPath string
-	gotBox  ocrpkg.Bbox
+	gotPath   string
+	gotBox    ocrpkg.Bbox
+	gotSleeve string
 }
 
-func (f *fakeDetector) DetectPhoto(p string, _ *types.Cube) ([]ocrpkg.MatchResult, error) {
-	f.gotPath = p
+func (f *fakeDetector) DetectPhoto(p string, _ *types.Cube, sleeveColor string) ([]ocrpkg.MatchResult, error) {
+	f.gotPath, f.gotSleeve = p, sleeveColor
 	return []ocrpkg.MatchResult{{
 		DetectedText: "Brainstom", Band: ocrpkg.ConfidenceHigh,
 		Candidates: []ocrpkg.Candidate{{Name: "Brainstorm", Score: 0.92}},
@@ -37,6 +38,8 @@ func setupCube(t *testing.T, root string) {
 	t.Helper()
 	writeFile(t, filepath.Join(root, "polyverse", "2026-01-17", "cube-snapshot.json"),
 		`{"cards":[{"name":"Brainstorm"},{"name":"Island"}]}`)
+	writeFile(t, filepath.Join(root, "cubes.json"),
+		`{"cubes":[{"id":"polyverse","name":"Polyverse","sleeve_color":"purple"}]}`)
 }
 
 func TestDetectHandler(t *testing.T) {
@@ -56,6 +59,9 @@ func TestDetectHandler(t *testing.T) {
 	}
 	if !strings.HasSuffix(fd.gotPath, rel) {
 		t.Fatalf("detector got path %q", fd.gotPath)
+	}
+	if fd.gotSleeve != "purple" {
+		t.Fatalf("detector got sleeve color %q, want purple", fd.gotSleeve)
 	}
 	var out struct {
 		Lines []LineJSON `json:"lines"`

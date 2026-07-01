@@ -13,19 +13,13 @@ import (
 //
 // We work in HSV color space (hue, saturation, value) instead of RGB. Hue is
 // the color itself, kept separate from how bright or washed-out the pixel is,
-// so we can pick out "orange" without lighting throwing us off. OpenCV packs
-// hue into 0-179 (half the usual 0-360 degrees, so it fits in one byte).
+// so we can pick out a sleeve color without lighting throwing us off. OpenCV
+// packs hue into 0-179 (half the usual 0-360 degrees, so it fits in one byte).
+//
+// The hue/saturation/value band that defines a sleeve color lives in
+// SleevePalette (see palette.go), since it varies per cube. The constants here
+// are color-independent cleanup knobs.
 const (
-	// Low and high ends of the orange hue band. Every cube we handle uses
-	// orange sleeves.
-	SleeveHueLo = 5
-	SleeveHueHi = 22
-
-	// A pixel only counts as sleeve if it's at least this saturated (vivid,
-	// not grey) and this bright. Drops washed-out and shadowed pixels.
-	SleeveSatMin = 120
-	SleeveValMin = 100
-
 	// Kernel sizes (in pixels) for the cleanup at the end. "Close" fills small
 	// holes inside the mask; "dilate" grows the mask outward a little.
 	SealCloseKernel  = 5
@@ -33,38 +27,38 @@ const (
 	SealDilateIter   = 1
 
 	// Glossy sleeves catch glare: bright spots that wash out to near-white and
-	// fall outside the orange band, punching holes in the mask. This is the
-	// near-white band we treat as possible glare: high brightness (value), low
-	// saturation (close to white).
+	// fall outside the sleeve's hue band, punching holes in the mask. This is
+	// the near-white band we treat as possible glare: high brightness (value),
+	// low saturation (close to white).
 	GlareValMin = 220
 	GlareSatMax = 60
 
 	// We only trust a near-white pixel as glare if it sits just above real
-	// orange (glare runs along the top edge, since light comes from above).
+	// sleeve (glare runs along the top edge, since light comes from above).
 	// GlareVicinity is how far up to look (px); GlareVicinityHalfWidth is a
 	// little sideways slack.
 	GlareVicinity          = 40
 	GlareVicinityHalfWidth = 6
 )
 
-// BuildSleeveMask finds the orange sleeves and returns a mask: a black-and-white
-// image (one byte per pixel, which OpenCV calls CV_8UC1) that's white where the
-// pixel looks like sleeve and black everywhere else.
+// BuildSleeveMask finds the sleeves in the palette's color and returns a mask:
+// a black-and-white image (one byte per pixel, which OpenCV calls CV_8UC1)
+// that's white where the pixel looks like sleeve and black everywhere else.
 //
-// It keeps the pixels in the orange band, adds back glare that washed out of
-// that band, then cleans up the result with morphology (fills small holes and
-// grows the shape) to seal gaps. The caller is responsible for freeing the
-// returned Mat by calling Close on it.
-func BuildSleeveMask(img gocv.Mat) gocv.Mat {
+// It keeps the pixels in the palette's hue band, adds back glare that washed
+// out of that band, then cleans up the result with morphology (fills small
+// holes and grows the shape) to seal gaps. The caller is responsible for
+// freeing the returned Mat by calling Close on it.
+func BuildSleeveMask(img gocv.Mat, pal SleevePalette) gocv.Mat {
 	hsv := gocv.NewMat()
 	defer hsv.Close()
 	gocv.CvtColor(img, &hsv, gocv.ColorBGRToHSV)
 
-	// Keep pixels inside the orange band that are vivid and bright enough.
+	// Keep pixels inside the sleeve's hue band that are vivid and bright enough.
 	raw := gocv.NewMat()
 	defer raw.Close()
-	lower := gocv.NewScalar(SleeveHueLo, SleeveSatMin, SleeveValMin, 0)
-	upper := gocv.NewScalar(SleeveHueHi, 255, 255, 0)
+	lower := gocv.NewScalar(float64(pal.HueLo), float64(pal.SatMin), float64(pal.ValMin), 0)
+	upper := gocv.NewScalar(float64(pal.HueHi), 255, 255, 0)
 	gocv.InRangeWithScalar(hsv, lower, upper, &raw)
 
 	// Find every near-white pixel (bright, low saturation). On its own this

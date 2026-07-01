@@ -14,7 +14,7 @@ import (
 // without racing on shared fields.
 type scanFakeDetector struct{}
 
-func (scanFakeDetector) DetectPhoto(_ string, _ *types.Cube) ([]ocrpkg.MatchResult, error) {
+func (scanFakeDetector) DetectPhoto(_ string, _ *types.Cube, _ string) ([]ocrpkg.MatchResult, error) {
 	return []ocrpkg.MatchResult{
 		{
 			DetectedText: "Brainstom",
