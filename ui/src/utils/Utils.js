@@ -39,6 +39,32 @@ export function AverageCMC({deck}) {
   return Math.round(t / c * 100) / 100
 }
 
+// CountManaPips counts colored mana symbols across the deck's spells (non-land
+// cards), returning a {W, U, B, R, G} map. Each colored symbol in a card's
+// mana_cost adds one pip to its color. Hybrid and Phyrexian symbols count toward
+// each color they name, so {G/W} adds to both G and W and {B/P} adds to B.
+// Generic ({2}), colorless ({C}), and {X} contribute nothing.
+export function CountManaPips(cards) {
+  const counts = { W: 0, U: 0, B: 0, R: 0, G: 0 }
+  for (const card of (cards || [])) {
+    if (!card || !card.mana_cost) continue
+    if (card.types && card.types.includes("Land")) continue
+    // Pull each {...} symbol out of the Scryfall mana cost string.
+    const symbols = card.mana_cost.match(/\{[^}]+\}/g) || []
+    for (const sym of symbols) {
+      // Strip braces and split hybrid/Phyrexian symbols on "/". Each part that
+      // names a color adds a pip to that color, so {G/W} counts for both G and W.
+      const inner = sym.slice(1, -1)
+      for (const part of inner.split("/")) {
+        if (Object.prototype.hasOwnProperty.call(counts, part)) {
+          counts[part] += 1
+        }
+      }
+    }
+  }
+  return counts
+}
+
 // Returns the average word count of non-land cards in the deck,
 // excluding reminder text (parenthesized).
 export function AverageWordCount({deck}) {

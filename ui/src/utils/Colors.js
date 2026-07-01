@@ -116,6 +116,51 @@ export function primaryColorPair(deck) {
   return CombineColors([sorted[0], sorted[1]])
 }
 
+// pipImgSrc maps a single color to its mana-symbol image. Anything that isn't a
+// color (including "X") falls back to the colorless symbol.
+function pipImgSrc(color) {
+  switch (color) {
+    case "W": return "img/plains.png"
+    case "U": return "img/island.png"
+    case "B": return "img/swamp.png"
+    case "R": return "img/mountain.png"
+    case "G": return "img/forest.png"
+    default:  return "img/colorless.svg"
+  }
+}
+
+// ManaPipBar renders a proportional stacked bar of colored mana symbol counts,
+// e.g. the output of Utils.CountManaPips. Each segment is one color, ordered
+// most to least pips, its width proportional to that color's share, labeled with
+// the pip icon and count. Colors with zero pips are dropped; returns null when
+// there are no colored pips at all.
+export function ManaPipBar({counts}) {
+  if (!counts) return null
+  let entries = ["W", "U", "B", "R", "G"]
+    .map((c) => [c, counts[c] || 0])
+    .filter(([, n]) => n > 0)
+    .sort((a, b) => b[1] - a[1])
+  let total = entries.reduce((sum, [, n]) => sum + n, 0)
+  if (total === 0) return null
+
+  return (
+    <div className="mana-pip-bar" title="Colored mana symbols among spells">
+      <div className="mana-pip-bar-track">
+        {entries.map(([color, n]) => (
+          <div
+            key={color}
+            className="mana-pip-seg"
+            style={{flexGrow: n, backgroundColor: Colors.get(color)}}
+          >
+            <img className="mana-symbol" width="16px" height="16px" src={pipImgSrc(color)} />
+            <span>{n}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
+
 export function ColorImages(colors) {
   // Sort correctly to start. Input may be one of several things:
   // - An array of color primitives. e.g., ["W", "G"]
@@ -134,27 +179,7 @@ export function ColorImages(colors) {
     <div id={colors}>
       {
         colors.split('').map(function(color) {
-          let img = "img/colorless.svg"
-          switch (color) {
-            case "W":
-              img = "img/plains.png"
-              break;
-            case "U":
-              img = "img/island.png"
-              break;
-            case "B":
-              img = "img/swamp.png"
-              break;
-            case "R":
-              img = "img/mountain.png"
-              break;
-            case "G":
-              img = "img/forest.png"
-              break;
-            case "X":
-              img = "img/colorless.svg"
-              break;
-          }
+          let img = pipImgSrc(color)
           return (
             <img id={color} key={color} className="mana-symbol" width="24px" height="24px" src={img} />
           )

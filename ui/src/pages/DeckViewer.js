@@ -3,9 +3,9 @@ import { LoadCube, LoadDecks, FetchNotes, SaveNotes, SaveDeckMeta } from "../uti
 import { useCube } from "../contexts/CubeContext.js"
 import { Record, MatchRecord, Wins, Losses, Draws, MatchWins, MatchLosses, MatchDraws, InDeckColor } from "../utils/Deck.js"
 import { RemovalMatches, CounterspellMatches } from "../pages/Decks.js"
-import { SortFunc, StringToColor, CheckboxesToColors, IsBasicLand, CardImageURL } from "../utils/Utils.js"
+import { SortFunc, StringToColor, CheckboxesToColors, IsBasicLand, CardImageURL, CountManaPips } from "../utils/Utils.js"
 import { CardMatches, DeckMatches } from "../utils/Query.js"
-import { ColorImages } from "../utils/Colors.js"
+import { ColorImages, ManaPipBar } from "../utils/Colors.js"
 import { Button, TextInput, DropdownHeader, NumericInput, Checkbox, DateSelector } from "../components/Dropdown.js"
 import { PillSearchInput } from "../components/PillSearchInput.js"
 import { TagEditor } from "../components/TagEditor.js"
@@ -1046,6 +1046,8 @@ function PlayerFrame(input) {
           </React.Fragment>
         ))}
       </div>
+
+      <ManaPipBar counts={CountManaPips(cards)} />
 
       {deck.matches.length > 0 && (
         <div className="deck-summary-matches">

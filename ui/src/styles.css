@@ -180,6 +180,37 @@ table {
   color: var(--border);
 }
 
+.mana-pip-bar {
+  margin-top: 0.5rem;
+}
+
+.mana-pip-bar-track {
+  display: flex;
+  align-items: stretch;
+  width: 100%;
+  max-width: 420px;
+  height: 22px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.mana-pip-seg {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.2rem;
+  min-width: 36px;
+  padding: 0 0.3rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
+.mana-pip-seg .mana-symbol {
+  display: block;
+}
+
 .deck-summary-matches {
   display: flex;
   flex-wrap: wrap;
