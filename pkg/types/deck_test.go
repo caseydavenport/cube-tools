@@ -525,40 +525,66 @@ func TestRemoveGamesForOpponent(t *testing.T) {
 
 // --- PrimaryColorPair ---
 
-// Build a non-land card with the given colors for tests below.
-func ccard(colors ...string) Card {
-	return Card{Colors: colors, Types: []string{"Creature"}}
+// Build a non-land card with the given mana cost for tests below.
+func ccard(manaCost string) Card {
+	return Card{ManaCost: manaCost, Types: []string{"Creature"}}
 }
 
-func TestPrimaryColorPair_MulticolorDoesNotInflateDenominator(t *testing.T) {
-	// 5 mono-W, 5 mono-U, 10 WU, 8 R. Counting per card (not per color slot),
-	// total = 28 and R = 8 / 28 = 28.6% which is NOT a splash.
-	// The old per-slot count gave total = 38 and R = 8 / 38 = 21%, which
-	// misclassified R as a splash.
-	d := &Deck{Colors: []string{"W", "U", "R"}}
-	for i := 0; i < 5; i++ {
-		d.Mainboard = append(d.Mainboard, ccard("W"))
-		d.Mainboard = append(d.Mainboard, ccard("U"))
+func addN(d *Deck, n int, manaCost string) {
+	for range n {
+		d.Mainboard = append(d.Mainboard, ccard(manaCost))
 	}
-	for i := 0; i < 10; i++ {
-		d.Mainboard = append(d.Mainboard, ccard("W", "U"))
-	}
-	for i := 0; i < 8; i++ {
-		d.Mainboard = append(d.Mainboard, ccard("R"))
-	}
-	assert.Nil(t, d.PrimaryColorPair(), "R at 28.6% should not be a splash")
 }
 
-func TestPrimaryColorPair_ClearSplashStillDetected(t *testing.T) {
-	// 10 mono-W, 10 mono-U, 2 R. R is well under 25% by either denominator.
+func TestPrimaryColorPair_ClearSplashCollapses(t *testing.T) {
+	// W=10, U=10, R=2. R is under half of the weaker main (10/2 = 5), so it's a splash.
 	d := &Deck{Colors: []string{"W", "U", "R"}}
-	for i := 0; i < 10; i++ {
-		d.Mainboard = append(d.Mainboard, ccard("W"))
-		d.Mainboard = append(d.Mainboard, ccard("U"))
-	}
-	for i := 0; i < 2; i++ {
-		d.Mainboard = append(d.Mainboard, ccard("R"))
-	}
-	pair := d.PrimaryColorPair()
-	assert.Equal(t, []string{"W", "U"}, pair)
+	addN(d, 10, "{W}")
+	addN(d, 10, "{U}")
+	addN(d, 2, "{R}")
+	assert.Equal(t, []string{"W", "U"}, d.PrimaryColorPair())
+}
+
+func TestPrimaryColorPair_BalancedThirdColorNotCollapsed(t *testing.T) {
+	// W=10, U=10, R=8. R is above half the weaker main (5), so it's a real third color.
+	d := &Deck{Colors: []string{"W", "U", "R"}}
+	addN(d, 10, "{W}")
+	addN(d, 10, "{U}")
+	addN(d, 8, "{R}")
+	assert.Nil(t, d.PrimaryColorPair())
+}
+
+func TestPrimaryColorPair_FiveColorEvenStays(t *testing.T) {
+	// 5 pips of every color - none is under half of another, so nothing collapses.
+	d := &Deck{Colors: []string{"W", "U", "B", "R", "G"}}
+	addN(d, 5, "{W}")
+	addN(d, 5, "{U}")
+	addN(d, 5, "{B}")
+	addN(d, 5, "{R}")
+	addN(d, 5, "{G}")
+	assert.Nil(t, d.PrimaryColorPair())
+}
+
+func TestPrimaryColorPair_HeavyPairSmallSplash(t *testing.T) {
+	// W=15, U=15, B=5. B is under half the weaker main (7.5), so it's a splash.
+	d := &Deck{Colors: []string{"W", "U", "B"}}
+	addN(d, 15, "{W}")
+	addN(d, 15, "{U}")
+	addN(d, 5, "{B}")
+	assert.Equal(t, []string{"W", "U"}, d.PrimaryColorPair())
+}
+
+func TestPrimaryColorPair_HybridCountsBothColors(t *testing.T) {
+	// {W/U} pips push both W and U to 10, leaving R (2) as the only splash.
+	d := &Deck{Colors: []string{"W", "U", "R"}}
+	addN(d, 10, "{W/U}")
+	addN(d, 2, "{R}")
+	assert.Equal(t, []string{"W", "U"}, d.PrimaryColorPair())
+}
+
+func TestPrimaryColorPair_TwoColorReturnsNil(t *testing.T) {
+	d := &Deck{Colors: []string{"W", "U"}}
+	addN(d, 10, "{W}")
+	addN(d, 10, "{U}")
+	assert.Nil(t, d.PrimaryColorPair())
 }

@@ -234,15 +234,15 @@ func TestColorStats_InclusivePercentagesSumTo100(t *testing.T) {
 // primary pair must contribute only to that pair's bucket in "primary" mode,
 // not to every 2-char sub-identity (WU, WG, UG for a WUG deck).
 func TestColorStats_PrimaryModeNoDoubleCounting(t *testing.T) {
-	// Build a WUG deck where W and U are primary (10 each) and G is a splash
-	// (2 cards = ~9% of colored cards, well under the 25% splash threshold).
+	// Build a WUG deck where W and U are primary (10 pips each) and G is a splash
+	// (2 pips, under half the weaker main color).
 	mb := []types.Card{}
 	for i := 0; i < 10; i++ {
-		mb = append(mb, types.Card{Name: "W card", Colors: []string{"W"}, Types: []string{"Creature"}})
-		mb = append(mb, types.Card{Name: "U card", Colors: []string{"U"}, Types: []string{"Creature"}})
+		mb = append(mb, types.Card{Name: "W card", Colors: []string{"W"}, ManaCost: "{W}", Types: []string{"Creature"}})
+		mb = append(mb, types.Card{Name: "U card", Colors: []string{"U"}, ManaCost: "{U}", Types: []string{"Creature"}})
 	}
 	for i := 0; i < 2; i++ {
-		mb = append(mb, types.Card{Name: "G card", Colors: []string{"G"}, Types: []string{"Creature"}})
+		mb = append(mb, types.Card{Name: "G card", Colors: []string{"G"}, ManaCost: "{G}", Types: []string{"Creature"}})
 	}
 	decks := []*storage.Deck{
 		makeColorDeck("Alice", []string{"W", "U", "G"}, []types.Game{

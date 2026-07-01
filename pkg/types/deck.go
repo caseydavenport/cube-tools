@@ -598,55 +598,54 @@ func combineColors(colors []string) string {
 	return strings.Join(colors, "")
 }
 
+// splashPipRatio is the fraction of the weaker main color's pips below which an
+// extra color counts as a splash. A color with fewer than half the pips of the
+// deck's second-most-played color is a splash.
+const splashPipRatio = 0.5
+
 // PrimaryColorPair returns the deck's two primary colors if the deck has 3+ colors
-// but appears to be a two-color deck with splash(es). A color is considered a splash
-// if it represents less than 25% of the deck's non-land colored cards.
-// Returns nil if the deck has fewer than 3 colors or is a balanced multi-color deck.
+// but plays like a two-color deck with splash(es). Colors are ranked by how many
+// colored mana pips they contribute across the deck's spells (hybrids count toward
+// each color they name); the top two are the candidate pair. If every other color
+// is a splash - fewer than half the pips of the weaker main color - we collapse to
+// the pair. Otherwise it's a genuine multi-color deck and we return nil.
 func (d *Deck) PrimaryColorPair() []string {
 	colors := d.GetColors()
 	if len(colors) < 3 {
 		return nil
 	}
 
-	// Count non-land, non-hybrid cards per color. Total is incremented once
-	// per card (not once per color slot), so multicolor cards don't inflate
-	// the denominator and depress splash percentages.
-	colorCounts := make(map[string]int)
-	total := 0
+	// Tally colored pips per color across the deck's spells, restricted to the
+	// deck's colors so off-color hybrid halves don't invent a third color.
+	pips := map[string]int{}
 	for _, card := range d.Mainboard {
-		if card.IsLand() || card.IsHybrid() {
+		if card.IsLand() {
 			continue
 		}
-		matched := false
-		for _, c := range card.Colors {
+		for c, n := range card.ColorPips() {
 			if colors[c] {
-				colorCounts[c]++
-				matched = true
+				pips[c] += n
 			}
 		}
-		if matched {
-			total++
-		}
-	}
-	if total == 0 {
-		return nil
 	}
 
-	// Sort colors by card count descending.
-	sorted := make([]string, 0, len(colorCounts))
-	for c := range colorCounts {
+	// Rank the deck's colors by pips descending, breaking ties by WUBRG order
+	// so the result is deterministic.
+	sorted := make([]string, 0, len(colors))
+	for c := range colors {
 		sorted = append(sorted, c)
 	}
 	sort.Slice(sorted, func(i, j int) bool {
-		return colorCounts[sorted[i]] > colorCounts[sorted[j]]
+		if pips[sorted[i]] != pips[sorted[j]] {
+			return pips[sorted[i]] > pips[sorted[j]]
+		}
+		return strings.Index("WUBRG", sorted[i]) < strings.Index("WUBRG", sorted[j])
 	})
-	if len(sorted) < 3 {
-		return nil
-	}
 
-	// Check that all colors beyond the top 2 are splashes (each < 25% of total).
+	// Every color past the top two must be a splash for the pair to hold.
+	threshold := float64(pips[sorted[1]]) * splashPipRatio
 	for _, c := range sorted[2:] {
-		if float64(colorCounts[c])/float64(total) >= 0.25 {
+		if float64(pips[c]) >= threshold {
 			return nil
 		}
 	}

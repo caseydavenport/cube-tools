@@ -46,6 +46,27 @@ func (c Card) IsHybrid() bool {
 	return stringContains(c.ManaCost, "/")
 }
 
+// manaSymbolPattern pulls each {...} symbol out of a Scryfall mana cost.
+var manaSymbolPattern = regexp.MustCompile(`\{[^}]+\}`)
+
+// ColorPips counts the colored mana symbols in the card's cost, keyed by color.
+// Hybrid and Phyrexian symbols count toward every color they name, so {G/W} adds
+// a pip to both G and W and {B/P} adds one to B. Generic, colorless, and {X}
+// symbols contribute nothing.
+func (c Card) ColorPips() map[string]int {
+	pips := map[string]int{}
+	for _, sym := range manaSymbolPattern.FindAllString(c.ManaCost, -1) {
+		// Strip the braces, then split hybrid/Phyrexian symbols on "/".
+		for _, part := range strings.Split(sym[1:len(sym)-1], "/") {
+			switch part {
+			case "W", "U", "B", "R", "G":
+				pips[part]++
+			}
+		}
+	}
+	return pips
+}
+
 // oraclePattern is either a case-insensitive substring or a pre-compiled
 // regex. Use sub() for plain phrases, rx() when you need anchoring or
 // alternation - e.g. requiring that "deals damage equal to" is followed by

@@ -52,6 +52,22 @@ func TestIsHybrid(t *testing.T) {
 	assert.False(t, Card{ManaCost: ""}.IsHybrid())
 }
 
+// --- ColorPips ---
+
+func TestColorPips(t *testing.T) {
+	assert.Equal(t, map[string]int{"R": 1, "W": 1}, Card{ManaCost: "{1}{R}{W}"}.ColorPips())
+	assert.Equal(t, map[string]int{"R": 2}, Card{ManaCost: "{R}{R}"}.ColorPips())
+
+	// Hybrid and Phyrexian symbols count toward every color they name.
+	assert.Equal(t, map[string]int{"G": 1, "W": 1}, Card{ManaCost: "{3}{G/W}"}.ColorPips())
+	assert.Equal(t, map[string]int{"U": 1}, Card{ManaCost: "{2/U}"}.ColorPips())
+	assert.Equal(t, map[string]int{"B": 1}, Card{ManaCost: "{B/P}"}.ColorPips())
+
+	// Generic, colorless, and {X} contribute nothing.
+	assert.Equal(t, map[string]int{}, Card{ManaCost: "{2}{C}{X}"}.ColorPips())
+	assert.Equal(t, map[string]int{}, Card{ManaCost: ""}.ColorPips())
+}
+
 // --- MatchesColor ---
 
 func TestMatchesColor(t *testing.T) {

@@ -1,4 +1,5 @@
 import React from 'react'
+import { CountManaPips } from './Utils.js'
 
 // GetColorIdentity returns all the color identities of this deck.
 // e.g., a WUG deck will return [W, U, G, WU, WG, UG, WUG]
@@ -76,43 +77,43 @@ export function CombineColors(colors) {
   return arr.join('').toUpperCase()
 }
 
+// splashPipRatio is the fraction of the weaker main color's pips below which an
+// extra color counts as a splash. Mirror of PrimaryColorPair in pkg/types/deck.go.
+const splashPipRatio = 0.5
+
 // primaryColorPair returns the deck's two primary colors if the deck has 3+ colors
-// but appears to be a two-color deck with splash(es). A color is considered a splash
-// if it represents less than 25% of the deck's non-land colored cards.
-// Returns null if the deck has fewer than 3 colors or is a balanced multi-color deck.
+// but plays like a two-color deck with splash(es). Colors are ranked by colored mana
+// pips across the deck's spells (hybrids count toward each color they name, matching
+// the pip bar); the top two are the candidate pair. If every other color is a splash -
+// fewer than half the pips of the weaker main color - we collapse to the pair.
+// Otherwise it's a genuine multi-color deck and we return null.
 export function primaryColorPair(deck) {
   if (!deck.colors || deck.colors.length < 3) {
     return null
   }
 
-  // Count non-land, non-hybrid cards per color.
-  let colorCounts = {}
-  let total = 0
-  for (let card of (deck.mainboard || [])) {
-    if (!card.colors || card.colors.length === 0) continue
-    if (card.types && card.types.includes("Land")) continue
-    if (card.mana_cost && card.mana_cost.includes("/")) continue
-    for (let c of card.colors) {
-      if (deck.colors.includes(c)) {
-        colorCounts[c] = (colorCounts[c] || 0) + 1
-        total++
-      }
-    }
+  // Tally colored pips per color, restricted to the deck's colors so off-color
+  // hybrid halves don't invent a third color.
+  let allPips = CountManaPips(deck.mainboard)
+  let pips = {}
+  for (let c of deck.colors) {
+    pips[c] = allPips[c] || 0
   }
-  if (total === 0) return null
 
-  // Sort colors by count descending.
-  let sorted = Object.keys(colorCounts).sort((a, b) => colorCounts[b] - colorCounts[a])
-  if (sorted.length < 3) return null
+  // Rank the deck's colors by pips descending, breaking ties by WUBRG order.
+  let sorted = [...deck.colors].sort((a, b) => {
+    if (pips[b] !== pips[a]) return pips[b] - pips[a]
+    return order[a] - order[b]
+  })
 
-  // Check that all colors beyond the top 2 are splashes (each < 25% of total).
+  // Every color past the top two must be a splash for the pair to hold.
+  let threshold = pips[sorted[1]] * splashPipRatio
   for (let i = 2; i < sorted.length; i++) {
-    if (colorCounts[sorted[i]] / total >= 0.25) {
+    if (pips[sorted[i]] >= threshold) {
       return null
     }
   }
 
-  // Return the primary pair in WUBRG order.
   return CombineColors([sorted[0], sorted[1]])
 }
 
