@@ -14,6 +14,17 @@ function withList(deck, list) {
   return { ...deck, mainboard: list };
 }
 
+// duplicatePlayers returns player names shared by more than one deck. Commit
+// writes one file per player, so a shared name would clobber a deck on disk.
+function duplicatePlayers(decks) {
+  const counts = new Map();
+  decks.forEach(d => {
+    const p = (d.player || '').trim();
+    if (p) counts.set(p, (counts.get(p) || 0) + 1);
+  });
+  return [...counts.entries()].filter(([, n]) => n > 1).map(([p]) => p);
+}
+
 // ImportReview shows the parsed decks with inline fixes and commits them.
 export default function ImportReview({ cube, initialDecks, initialReport, draftId, date, eventName, onBack, onCommitted }) {
   const [decks, setDecks] = useState(initialDecks);
@@ -86,6 +97,7 @@ export default function ImportReview({ cube, initialDecks, initialReport, draftI
 
   const clean = report && report.clean;
   const unknownNames = (report ? report.discrepancies : []).filter(d => d.kind === 'unknown').map(d => d.card_name);
+  const dupPlayers = duplicatePlayers(decks);
 
   return (
     <div className="import-review">
@@ -125,6 +137,9 @@ export default function ImportReview({ cube, initialDecks, initialReport, draftI
         ))}
       </div>
 
+      {dupPlayers.length > 0 && (
+        <div className="import-error">Duplicate player {dupPlayers.length > 1 ? 'names' : 'name'} ({dupPlayers.join(', ')}) would overwrite each other. Give each deck a unique player.</div>
+      )}
       {error && <div className="import-error">{error}</div>}
       <div className="import-actions">
         <button onClick={onBack} disabled={busy}>Back</button>
@@ -134,7 +149,7 @@ export default function ImportReview({ cube, initialDecks, initialReport, draftI
             commit anyway ({(report ? report.discrepancies : []).filter(d => d.kind !== 'missing').length} conflicts)
           </label>
         )}
-        <button className="import-commit" onClick={commit} disabled={busy || (!clean && !override)}>
+        <button className="import-commit" onClick={commit} disabled={busy || dupPlayers.length > 0 || (!clean && !override)}>
           {busy ? 'Committing…' : 'Commit draft'}
         </button>
       </div>
