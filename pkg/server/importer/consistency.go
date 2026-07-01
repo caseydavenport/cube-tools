@@ -14,30 +14,30 @@ type CountedCard = types.CountedCard
 // ParsedDeck is one player's deck as parsed from import text, before it is
 // hydrated into full types.Card records.
 type ParsedDeck struct {
-	Player    string
-	Filename  string
-	Pool      []CountedCard
-	Mainboard []CountedCard
-	Sideboard []CountedCard
-	Warnings  []string
+	Player    string        `json:"player"`
+	Filename  string        `json:"filename,omitempty"`
+	Pool      []CountedCard `json:"pool,omitempty"`
+	Mainboard []CountedCard `json:"mainboard,omitempty"`
+	Sideboard []CountedCard `json:"sideboard,omitempty"`
+	Warnings  []string      `json:"warnings,omitempty"`
 }
 
 // Discrepancy describes a single card whose count across all parsed decks
 // doesn't match the cube list. Kind is one of "over", "missing", "unknown".
 type Discrepancy struct {
-	CardName string
-	Seen     int
-	Cube     int
-	Kind     string
+	CardName string `json:"card_name"`
+	Seen     int    `json:"seen"`
+	Cube     int    `json:"cube"`
+	Kind     string `json:"kind"`
 }
 
 // ConsistencyReport summarizes how the parsed decks compare to the cube
 // list.
 type ConsistencyReport struct {
-	Clean         bool
-	Discrepancies []Discrepancy
-	CubeTotal     int
-	SeenTotal     int
+	Clean         bool          `json:"clean"`
+	Discrepancies []Discrepancy `json:"discrepancies"`
+	CubeTotal     int           `json:"cube_total"`
+	SeenTotal     int           `json:"seen_total"`
 }
 
 // discrepancyOrder ranks kinds so the loudest errors sort first.
