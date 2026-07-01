@@ -2,6 +2,7 @@ package types
 
 import (
 	"encoding/json"
+	"errors"
 	"io"
 	"os"
 	"strings"
@@ -9,47 +10,49 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
-var oracleCards map[string]OracleCard
+var oracleCards = map[string]OracleCard{}
 
 func init() {
-	// Load the oracle data from disk and build a lookup table,
-	// so that we can quickly find card information when parsing decks.
-	oracleCards = make(map[string]OracleCard, 0)
-	f, err := os.Open("./data/oracle-cards.json")
+	// A missing oracle file is non-fatal so tests and fresh checkouts run
+	// without it; a present-but-malformed file is still a hard error.
+	if err := LoadOracleData("./data/oracle-cards.json"); err != nil && !errors.Is(err, os.ErrNotExist) {
+		panic(err)
+	}
+}
+
+// LoadOracleData loads the Scryfall oracle dataset from path into the lookup
+// table, replacing any previously loaded data. Tokens and art-series cards are
+// skipped, and dual names (with "//") are also indexed by their front face.
+func LoadOracleData(path string) error {
+	f, err := os.Open(path)
 	if err != nil {
-		// Gracefully handle missing file (e.g., during tests).
-		return
+		return err
 	}
 	defer f.Close()
-	bytes, err := io.ReadAll(f)
+	data, err := io.ReadAll(f)
 	if err != nil {
-		panic(err)
+		return err
 	}
 	oracleList := OracleData{}
-	err = json.Unmarshal(bytes, &oracleList)
-	if err != nil {
-		panic(err)
+	if err := json.Unmarshal(data, &oracleList); err != nil {
+		return err
 	}
+	cards := make(map[string]OracleCard, len(oracleList))
 	for _, card := range oracleList {
-		// Skip tokens. Sometimes they have the same name
-		// as real cards, but they never actually belong in a deck.
 		if strings.Contains(card.TypeLine, "Token") {
 			continue
 		}
-
-		// Skip art cards as well.
 		if card.Layout == "art_series" {
 			continue
 		}
-
-		oracleCards[card.Name] = card
+		cards[card.Name] = card
 		if strings.Contains(card.Name, "//") {
-			// Dual-cards with // in the name can be tricky. We store them both with the slashes
-			// and without, so that we can find them when parsing decks no matter how they're written.
 			trimmed := strings.TrimSpace(strings.Split(card.Name, "//")[0])
-			oracleCards[trimmed] = card
+			cards[trimmed] = card
 		}
 	}
+	oracleCards = cards
+	return nil
 }
 
 // This is a bit of a hack to catch common issues when looking up oracle data.

@@ -1,6 +1,7 @@
 package commands
 
 import (
+	"bytes"
 	"encoding/csv"
 	"fmt"
 	"io"
@@ -212,6 +213,22 @@ func cardSetsDiffer(a, b []types.Card) bool {
 	return false
 }
 
+// ParseDeckBytes parses an in-memory decklist. format is ".txt" (draftmancer
+// style, "<count> <name>" per line, a blank line splitting mainboard from
+// sideboard) or ".csv" (Delver Lens / CubeCobra export). It returns the
+// mainboard and sideboard card lists.
+func ParseDeckBytes(data []byte, format string) (mainboard, sideboard []types.Card, err error) {
+	switch format {
+	case ".txt":
+		mb, sb := cardsFromTXTBytes(data)
+		return mb, sb, nil
+	case ".csv":
+		return cardsFromCSVBytes(data)
+	default:
+		return nil, nil, fmt.Errorf("unsupported deck format: %q", format)
+	}
+}
+
 func cardsFromDeckFile(deckFile string) ([]types.Card, []types.Card, error) {
 	var mb, sb []types.Card
 	if strings.HasSuffix(deckFile, ".csv") {
@@ -377,13 +394,17 @@ func cardsFromTXT(txt string) ([]types.Card, []types.Card) {
 	if err != nil {
 		panic(err)
 	}
-	bytes, err := io.ReadAll(f)
+	b, err := io.ReadAll(f)
 	if err != nil {
 		panic(err)
 	}
+	return cardsFromTXTBytes(b)
+}
 
+// cardsFromTXTBytes is the byte-based core of cardsFromTXT.
+func cardsFromTXTBytes(b []byte) ([]types.Card, []types.Card) {
 	// Add in cards.
-	lines := strings.Split(string(bytes), "\n")
+	lines := strings.Split(string(b), "\n")
 
 	mainboard := true
 	sawCard := false
@@ -444,7 +465,16 @@ func cardsFromCSV(path string) ([]types.Card, []types.Card, error) {
 	}
 	defer f.Close()
 
-	r := csv.NewReader(f)
+	b, err := io.ReadAll(f)
+	if err != nil {
+		return nil, nil, err
+	}
+	return cardsFromCSVBytes(b)
+}
+
+// cardsFromCSVBytes is the byte-based core of cardsFromCSV.
+func cardsFromCSVBytes(b []byte) ([]types.Card, []types.Card, error) {
+	r := csv.NewReader(bytes.NewReader(b))
 	r.FieldsPerRecord = -1 // tolerate variable column counts (e.g. "Sideboard" rows)
 	records, err := r.ReadAll()
 	if err != nil {
@@ -473,7 +503,7 @@ func cardsFromCSV(path string) ([]types.Card, []types.Card, error) {
 		}
 	}
 	if nameIdx < 0 {
-		return nil, nil, fmt.Errorf("no name column in %s", path)
+		return nil, nil, fmt.Errorf("no name column in csv data")
 	}
 
 	mb := []types.Card{}

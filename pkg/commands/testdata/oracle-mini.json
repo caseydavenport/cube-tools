@@ -1,0 +1,5 @@
+[
+  { "name": "Plains", "type_line": "Basic Land — Plains", "layout": "normal" },
+  { "name": "Monastery Mentor", "type_line": "Creature — Human Monk", "layout": "normal" },
+  { "name": "Snapcaster Mage", "type_line": "Creature — Human Wizard", "layout": "normal" }
+]
