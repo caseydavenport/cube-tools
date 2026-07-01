@@ -72,6 +72,7 @@ export default function Main() {
             />
           } />
           <Route path='import' element={<ImportHub />} />
+          <Route path='import/:mode' element={<ImportHub />} />
         </Route>
       </Routes>
     </Router>
