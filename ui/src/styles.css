@@ -1560,3 +1560,146 @@ table {
   background: var(--card-background); border: 1px solid var(--border); color: var(--white);
   border-radius: 7px; padding: 7px 14px; cursor: pointer;
 }
+
+/* ── Import hub / wizard / review ─────────────────────────────────── */
+.import-hub { max-width: 940px; padding: 0 24px; }
+
+.import-modes {
+  list-style: none; padding: 0; margin: 0;
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 14px;
+}
+.import-mode {
+  width: 100%; display: flex; flex-direction: column; align-items: flex-start; gap: 6px;
+  background: var(--card-background); border: 1px solid var(--border); border-radius: 10px;
+  padding: 16px 18px; color: inherit; text-align: left; cursor: pointer;
+  transition: border-color 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease;
+}
+.import-mode:hover {
+  border-color: var(--primary); transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.3);
+}
+.import-mode-title { font-weight: 600; font-size: 1.02em; }
+.import-mode-blurb { color: var(--text-muted); font-size: 0.85em; }
+
+/* Source → Configure → Review → Commit breadcrumb. */
+.import-steps {
+  list-style: none; display: flex; align-items: center; gap: 8px;
+  padding: 0; margin: 0 0 18px; color: var(--text-muted); font-size: 0.85em;
+}
+.import-steps li { padding: 4px 12px; border-radius: 999px; border: 1px solid var(--border); }
+.import-steps li + li::before { content: none; }
+.import-steps li.active { color: var(--primary); border-color: var(--primary); background: var(--highlight); font-weight: 600; }
+
+.import-wizard { display: flex; flex-direction: column; gap: 4px; }
+
+.import-source, .import-configure { display: flex; flex-direction: column; gap: 14px; }
+
+.import-paste {
+  width: 100%; box-sizing: border-box; background: var(--page-background); color: var(--white);
+  border: 1px solid var(--border); border-radius: 8px; padding: 12px; font-family: 'Fira Code', monospace;
+  font-size: 0.9em; resize: vertical;
+}
+.import-paste:focus { outline: none; border-color: var(--primary); }
+
+.import-upload { display: flex; flex-direction: column; gap: 10px; }
+
+.import-file-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 4px; font-size: 0.9em; }
+
+.import-dir, .import-configure {
+  display: flex; flex-direction: column; gap: 10px;
+}
+.import-dir label, .import-configure label {
+  display: flex; flex-direction: column; gap: 4px; font-size: 0.85em; color: var(--text-muted); max-width: 360px;
+}
+.import-dir label input, .import-dir label select,
+.import-configure label input, .import-configure label select {
+  background: var(--page-background); border: 1px solid var(--border); color: var(--white);
+  padding: 8px 10px; border-radius: 6px; font-size: 0.95em; font-family: inherit;
+}
+.import-dir label input:focus, .import-dir label select:focus,
+.import-configure label input:focus, .import-configure label select:focus {
+  outline: none; border-color: var(--primary);
+}
+
+.import-actions {
+  display: flex; justify-content: flex-end; gap: 10px; margin-top: 8px;
+}
+.import-actions button {
+  background: var(--table-header-background); border: 1px solid var(--border); color: var(--white);
+  border-radius: 8px; padding: 8px 16px; cursor: pointer; font-weight: 600; transition: all 0.15s ease;
+}
+.import-actions button:hover:not(:disabled) { background: var(--table-row-hover); }
+.import-actions button:disabled { opacity: 0.5; cursor: default; }
+.import-actions .import-commit {
+  background: var(--primary); border-color: var(--primary); color: #0f172a;
+}
+.import-actions .import-commit:hover:not(:disabled) { background: var(--primary-hover); }
+
+.import-error {
+  background: rgba(248,113,113,0.12); border: 1px solid rgba(248,113,113,0.4); border-left: 3px solid var(--danger);
+  color: var(--danger); border-radius: 8px; padding: 8px 14px; margin: 0 0 16px; font-size: 0.9em;
+}
+
+.import-empty { color: var(--text-muted); padding: 16px 0; font-size: 0.9em; }
+
+/* Review grid: one card per deck. */
+.import-review { display: flex; flex-direction: column; gap: 4px; }
+
+.import-decks {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 16px; margin: 16px 0;
+}
+.import-deck {
+  background: var(--card-background); border: 1px solid var(--border); border-radius: 10px;
+  padding: 14px 16px; display: flex; flex-direction: column; gap: 10px;
+}
+.import-deck-head {
+  display: flex; align-items: center; justify-content: space-between; gap: 10px;
+}
+.import-deck-head label {
+  display: flex; align-items: center; gap: 6px; font-size: 0.85em; color: var(--text-muted);
+}
+.import-deck-head label input {
+  background: var(--page-background); border: 1px solid var(--border); color: var(--white);
+  padding: 4px 8px; border-radius: 6px; font-size: 0.95em; font-family: inherit;
+}
+
+.import-warnings {
+  list-style: none; padding: 0; margin: 0; color: var(--text-muted); font-size: 0.82em;
+}
+.import-warnings li { padding: 1px 0; }
+
+.import-card-list {
+  list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 4px;
+}
+.import-card-list li {
+  display: flex; align-items: center; gap: 10px; padding: 4px 6px; border-radius: 6px;
+}
+.import-card-list li.unknown { background: rgba(239,68,68,0.12); box-shadow: inset 2px 0 0 var(--danger); }
+.import-card-list li input[type="number"] {
+  flex: none; width: 44px; background: var(--page-background); border: 1px solid var(--border);
+  color: var(--white); border-radius: 6px; padding: 3px 4px; text-align: center; font-family: inherit;
+}
+.import-card-name { flex: 1 1 auto; min-width: 0; }
+.import-card-fix { flex: 1 1 auto; min-width: 0; }
+
+.import-override {
+  display: flex; align-items: center; gap: 6px; color: var(--text-muted); font-size: 0.85em; margin-right: auto;
+}
+
+.import-review.done { text-align: center; padding: 40px 0; color: var(--text-muted); }
+.import-review.done p { color: var(--white); font-size: 1.05em; }
+
+/* Hedron screen. */
+.import-hedron { max-width: 940px; padding: 0 24px; }
+.import-hedron-lookup { display: flex; gap: 10px; margin-bottom: 16px; }
+.import-hedron-lookup input {
+  flex: 1 1 auto; background: var(--page-background); border: 1px solid var(--border); color: var(--white);
+  padding: 8px 12px; border-radius: 6px; font-family: inherit;
+}
+.import-hedron-lookup input:focus { outline: none; border-color: var(--primary); }
+.import-hedron-lookup button {
+  background: var(--table-header-background); border: 1px solid var(--border); color: var(--white);
+  border-radius: 8px; padding: 8px 16px; cursor: pointer; font-weight: 600;
+}
+.import-hedron-lookup button:hover:not(:disabled) { background: var(--table-row-hover); }
+.import-hedron-lookup button:disabled { opacity: 0.5; cursor: default; }
