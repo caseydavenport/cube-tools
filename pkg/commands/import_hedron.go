@@ -39,11 +39,6 @@ var ImportHedronCmd = &cobra.Command{
 			logrus.Fatal("No drafts found for this cube on Hedron")
 		}
 
-		// Assign a stable per-draft seq within each (date, eventCode)
-		// group by flight name. Used to disambiguate multiple drafts
-		// from the same event on the same day.
-		seqByDraftID := assignDraftSeqs(drafts)
-
 		var selectedDraft *HedronDraft
 		if hedronDraftID != "" {
 			for _, d := range drafts {
@@ -69,10 +64,11 @@ var ImportHedronCmd = &cobra.Command{
 			selectedDraft = &drafts[index]
 		}
 
-		importDraft(hedronOutCube, selectedDraft, seqByDraftID[selectedDraft.DraftID])
-
-		// Regenerate index.
-		index(hedronOutCube)
+		localID, err := ImportHedronDraft(hedronOutCube, hedronCubeID, selectedDraft.DraftID)
+		if err != nil {
+			logrus.WithError(err).Fatal("Failed to import Hedron draft")
+		}
+		logrus.WithField("draft", localID).Info("Imported Hedron draft")
 	},
 }
 
@@ -184,7 +180,7 @@ func localPlayerID(draftID string, hedronPlayerID string) string {
 	return fmt.Sprintf("%s-p%d", draftID, n)
 }
 
-func importDraft(cube string, d *HedronDraft, seq int) {
+func importDraft(cube string, d *HedronDraft, seq int) (string, error) {
 	dateStr := d.Date[:10]
 	if seq < 1 {
 		seq = 1
@@ -195,11 +191,11 @@ func importDraft(cube string, d *HedronDraft, seq int) {
 
 	// Error if the directory already exists to prevent accidental overwrites.
 	if _, err := os.Stat(outdir); !os.IsNotExist(err) {
-		logrus.Fatalf("Directory %s already exists. Please remove it before importing.", outdir)
+		return "", fmt.Errorf("directory %s already exists; remove it before importing", outdir)
 	}
 
 	if err := os.MkdirAll(imgdir, os.ModePerm); err != nil {
-		logrus.WithError(err).Fatal("Failed to create directories")
+		return "", fmt.Errorf("create directories: %w", err)
 	}
 
 	draftMeta := &types.DraftMetadata{
@@ -208,7 +204,7 @@ func importDraft(cube string, d *HedronDraft, seq int) {
 		Flight:           d.FlightName,
 	}
 	if err := draftMeta.Save(outdir); err != nil {
-		logrus.WithError(err).Fatal("Failed to write draft metadata")
+		return "", fmt.Errorf("write draft metadata: %w", err)
 	}
 
 	playerDecks := make(map[string]*types.Deck)
@@ -276,10 +272,50 @@ func importDraft(cube string, d *HedronDraft, seq int) {
 		deck.Metadata.Path = filename
 
 		if err := deck.Save(filename); err != nil {
-			logrus.WithError(err).Fatal("Failed to write deck file")
+			return "", fmt.Errorf("write deck file: %w", err)
 		}
 		logrus.Infof("Saved deck for %s", deck.Player)
 	}
+
+	return draftID, nil
+}
+
+// ListHedronDrafts returns every draft Hedron Network has for the given
+// CubeCobra cube id.
+func ListHedronDrafts(cubeID string) ([]HedronDraft, error) {
+	return fetchHedronDrafts(cubeID)
+}
+
+// ImportHedronDraft imports one Hedron draft into outCube: it downloads the
+// player photos, writes the draft directory and match records, reindexes, and
+// returns the local draft id. It returns an error rather than exiting.
+func ImportHedronDraft(outCube, cubeID, draftID string) (string, error) {
+	drafts, err := ListHedronDrafts(cubeID)
+	if err != nil {
+		return "", err
+	}
+	if len(drafts) == 0 {
+		return "", fmt.Errorf("no drafts found for cube %s", cubeID)
+	}
+	seqByDraftID := assignDraftSeqs(drafts)
+	var selected *HedronDraft
+	for i := range drafts {
+		if drafts[i].DraftID == draftID {
+			selected = &drafts[i]
+			break
+		}
+	}
+	if selected == nil {
+		return "", fmt.Errorf("draft %s not found for cube %s", draftID, cubeID)
+	}
+	localID, err := importDraft(outCube, selected, seqByDraftID[selected.DraftID])
+	if err != nil {
+		return "", err
+	}
+	if err := Index(outCube); err != nil {
+		return "", err
+	}
+	return localID, nil
 }
 
 // downloadVariants writes each image in refs to playerImgDir as
@@ -289,7 +325,8 @@ func downloadVariants(playerImgDir, kind string, refs []HedronImageRef, playerLa
 		return
 	}
 	if err := os.MkdirAll(playerImgDir, os.ModePerm); err != nil {
-		logrus.WithError(err).Fatalf("Failed to create %s", playerImgDir)
+		logrus.WithError(err).Warnf("Failed to create %s; skipping images", playerImgDir)
+		return
 	}
 	for i, ref := range refs {
 		filename := fmt.Sprintf("%s-%d.jpg", kind, i+1)
