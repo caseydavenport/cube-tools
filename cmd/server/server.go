@@ -77,6 +77,7 @@ func main() {
 	cubeRoute("POST /api/{cube}/import/parse", importer.ParseHandler())
 	cubeRoute("POST /api/{cube}/import/parse-dir", importer.ParseDirHandler())
 	cubeRoute("POST /api/{cube}/import/commit", importer.CommitHandler())
+	cubeRoute("POST /api/{cube}/import/check", importer.CheckHandler())
 	cubeRoute("GET /api/{cube}/import/hedron", importer.HedronListHandler())
 	cubeRoute("POST /api/{cube}/import/hedron", importer.HedronImportHandler())
 
