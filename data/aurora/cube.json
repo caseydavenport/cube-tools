@@ -383,30 +383,6 @@
    "draft_elo": 1158
   },
   {
-   "name": "Suture Spirit",
-   "types": [
-    "Creature"
-   ],
-   "sub_types": [
-    "Spirit"
-   ],
-   "cmc": 2,
-   "image": "https://cards.scryfall.io/normal/front/0/8/08520f97-e7f5-45fc-9423-fa6a3a507671.jpg?1782716067",
-   "colors": [
-    "W"
-   ],
-   "color_identity": [
-    "B",
-    "W"
-   ],
-   "mana_cost": "{1}{W}",
-   "url": "https://scryfall.com/card/eve/16/suture-spirit?utm_source=api",
-   "oracle_text": "Flying\n{W/B}{W/B}{W/B}: Regenerate target creature.",
-   "power": "1",
-   "toughness": "1",
-   "draft_elo": 1136
-  },
-  {
    "name": "Avian Changeling",
    "types": [
     "Creature"
@@ -499,30 +475,6 @@
    "power": "3",
    "toughness": "1",
    "draft_elo": 1269
-  },
-  {
-   "name": "Kithkin Billyrider",
-   "types": [
-    "Creature"
-   ],
-   "sub_types": [
-    "Kithkin",
-    "Knight"
-   ],
-   "cmc": 3,
-   "image": "https://cards.scryfall.io/normal/front/0/5/0535b69f-247d-49c9-97e1-d988700578ab.jpg?1782697813",
-   "colors": [
-    "W"
-   ],
-   "color_identity": [
-    "W"
-   ],
-   "mana_cost": "{2}{W}",
-   "url": "https://scryfall.com/card/mom/24/kithkin-billyrider?utm_source=api",
-   "oracle_text": "Double strike",
-   "power": "1",
-   "toughness": "3",
-   "draft_elo": 1162
   },
   {
    "name": "Kithkin Zephyrnaut",
@@ -833,31 +785,6 @@
    "draft_elo": 1109
   },
   {
-   "name": "Rune-Cervin Rider",
-   "types": [
-    "Creature"
-   ],
-   "sub_types": [
-    "Elf",
-    "Knight"
-   ],
-   "cmc": 4,
-   "image": "https://cards.scryfall.io/normal/front/9/d/9d9574f6-40b3-4fe2-950c-234bc358ecf6.jpg?1782716191",
-   "colors": [
-    "W"
-   ],
-   "color_identity": [
-    "G",
-    "W"
-   ],
-   "mana_cost": "{3}{W}",
-   "url": "https://scryfall.com/card/shm/20/rune-cervin-rider?utm_source=api",
-   "oracle_text": "Flying\n{G/W}{G/W}: This creature gets +1/+1 until end of turn.",
-   "power": "2",
-   "toughness": "2",
-   "draft_elo": 1028
-  },
-  {
    "name": "Springjack Shepherd",
    "types": [
     "Creature"
@@ -904,52 +831,6 @@
    "power": "5",
    "toughness": "5",
    "draft_elo": 1140
-  },
-  {
-   "name": "Archon of Justice",
-   "types": [
-    "Creature"
-   ],
-   "sub_types": [
-    "Archon"
-   ],
-   "cmc": 5,
-   "image": "https://cards.scryfall.io/normal/front/0/4/042b0148-5821-4105-9cda-a0e405eb8bee.jpg?1600716696",
-   "colors": [
-    "W"
-   ],
-   "color_identity": [
-    "W"
-   ],
-   "mana_cost": "{3}{W}{W}",
-   "url": "https://scryfall.com/card/jmp/89/archon-of-justice?utm_source=api",
-   "oracle_text": "Flying\nWhen this creature dies, exile target permanent.",
-   "power": "4",
-   "toughness": "4"
-  },
-  {
-   "name": "Barrenton Medic",
-   "types": [
-    "Creature"
-   ],
-   "sub_types": [
-    "Kithkin",
-    "Cleric"
-   ],
-   "cmc": 5,
-   "image": "https://cards.scryfall.io/normal/front/8/8/8888e0aa-3682-4800-9c50-fff5d5c9547d.jpg?1782716197",
-   "colors": [
-    "W"
-   ],
-   "color_identity": [
-    "W"
-   ],
-   "mana_cost": "{4}{W}",
-   "url": "https://scryfall.com/card/shm/4/barrenton-medic?utm_source=api",
-   "oracle_text": "{T}: Prevent the next 1 damage that would be dealt to any target this turn.\nPut a -1/-1 counter on this creature: Untap this creature.",
-   "power": "0",
-   "toughness": "4",
-   "draft_elo": 1057
   },
   {
    "name": "Changeling Hero",
@@ -1255,6 +1136,46 @@
    "draft_elo": 1249
   },
   {
+   "name": "Crib Swap",
+   "types": [
+    "Kindred",
+    "Instant"
+   ],
+   "sub_types": [
+    "Shapeshifter"
+   ],
+   "cmc": 3,
+   "image": "https://cards.scryfall.io/normal/front/a/9/a9044585-4d44-42fb-ad7b-e0e224fbc502.jpg?1782716396",
+   "colors": [
+    "W"
+   ],
+   "color_identity": [
+    "W"
+   ],
+   "mana_cost": "{2}{W}",
+   "url": "https://scryfall.com/card/lrw/11/crib-swap?utm_source=api",
+   "oracle_text": "Changeling (This card is every creature type.)\nExile target creature. Its controller creates a 1/1 colorless Shapeshifter creature token with changeling.",
+   "draft_elo": 1249
+  },
+  {
+   "name": "Protective Response",
+   "types": [
+    "Instant"
+   ],
+   "cmc": 3,
+   "image": "https://cards.scryfall.io/normal/front/1/1/113975e1-7712-4760-96ad-405f8b4e41e3.jpg?1782684134",
+   "colors": [
+    "W"
+   ],
+   "color_identity": [
+    "W"
+   ],
+   "mana_cost": "{2}{W}",
+   "url": "https://scryfall.com/card/ecl/29/protective-response?utm_source=api",
+   "oracle_text": "Convoke (Your creatures can help cast this spell. Each creature you tap while casting this spell pays for {1} or one mana of that creature's color.)\nDestroy target attacking or blocking creature.",
+   "draft_elo": 1279
+  },
+  {
    "name": "Neck Snap",
    "types": [
     "Instant"
@@ -1307,6 +1228,24 @@
    "url": "https://scryfall.com/card/shm/13/mine-excavation?utm_source=api",
    "oracle_text": "Return target artifact or enchantment card from a graveyard to its owner's hand.\nConspire (As you cast this spell, you may tap two untapped creatures you control that share a color with it. When you do, copy it and you may choose a new target for the copy.)",
    "draft_elo": 1069
+  },
+  {
+   "name": "Idyllic Tutor",
+   "types": [
+    "Sorcery"
+   ],
+   "cmc": 3,
+   "image": "https://cards.scryfall.io/normal/front/0/a/0a5e7a59-7322-46eb-9903-00131234b310.jpg?1782716262",
+   "colors": [
+    "W"
+   ],
+   "color_identity": [
+    "W"
+   ],
+   "mana_cost": "{2}{W}",
+   "url": "https://scryfall.com/card/mor/12/idyllic-tutor?utm_source=api",
+   "oracle_text": "Search your library for an enchantment card, reveal it, put it into your hand, then shuffle.",
+   "draft_elo": 1183
   },
   {
    "name": "Spectral Procession",
@@ -1419,6 +1358,24 @@
    "url": "https://scryfall.com/card/shm/12/mass-calcify?utm_source=api",
    "oracle_text": "Destroy all nonwhite creatures.",
    "draft_elo": 1148
+  },
+  {
+   "name": "Entangling Trap",
+   "types": [
+    "Enchantment"
+   ],
+   "cmc": 2,
+   "image": "https://cards.scryfall.io/normal/front/0/d/0d1cec6f-5308-4bff-b19a-df9e3325bb06.jpg?1782716395",
+   "colors": [
+    "W"
+   ],
+   "color_identity": [
+    "W"
+   ],
+   "mana_cost": "{1}{W}",
+   "url": "https://scryfall.com/card/lrw/13/entangling-trap?utm_source=api",
+   "oracle_text": "Whenever you clash, tap target creature an opponent controls. If you won, that creature doesn't untap during its controller's next untap step. (This ability triggers after the clash ends.)",
+   "draft_elo": 1162
   },
   {
    "name": "Favor of the Mighty",
@@ -1916,6 +1873,30 @@
    "draft_elo": 1174
   },
   {
+   "name": "Ink Dissolver",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Merfolk",
+    "Wizard"
+   ],
+   "cmc": 2,
+   "image": "https://cards.scryfall.io/normal/front/6/e/6e1bf0ad-f718-4118-9e9b-19041cfbb5cf.jpg?1782716251",
+   "colors": [
+    "U"
+   ],
+   "color_identity": [
+    "U"
+   ],
+   "mana_cost": "{1}{U}",
+   "url": "https://scryfall.com/card/mor/36/ink-dissolver?utm_source=api",
+   "oracle_text": "Kinship — At the beginning of your upkeep, you may look at the top card of your library. If it shares a creature type with this creature, you may reveal it. If you do, each opponent mills three cards.",
+   "power": "2",
+   "toughness": "1",
+   "draft_elo": 1166
+  },
+  {
    "name": "Shapesharer",
    "types": [
     "Creature"
@@ -1985,6 +1966,54 @@
    "power": "1",
    "toughness": "1",
    "draft_elo": 1380
+  },
+  {
+   "name": "Stonybrook Angler",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Merfolk",
+    "Wizard"
+   ],
+   "cmc": 2,
+   "image": "https://cards.scryfall.io/normal/front/0/4/047709e7-c44f-47e4-a9cc-1d941264e454.jpg?1782716364",
+   "colors": [
+    "U"
+   ],
+   "color_identity": [
+    "U"
+   ],
+   "mana_cost": "{1}{U}",
+   "url": "https://scryfall.com/card/lrw/90/stonybrook-angler?utm_source=api",
+   "oracle_text": "{1}{U}, {T}: You may tap or untap target creature.",
+   "power": "1",
+   "toughness": "2",
+   "draft_elo": 1176
+  },
+  {
+   "name": "Stonybrook Angler",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Merfolk",
+    "Wizard"
+   ],
+   "cmc": 2,
+   "image": "https://cards.scryfall.io/normal/front/0/4/047709e7-c44f-47e4-a9cc-1d941264e454.jpg?1782716364",
+   "colors": [
+    "U"
+   ],
+   "color_identity": [
+    "U"
+   ],
+   "mana_cost": "{1}{U}",
+   "url": "https://scryfall.com/card/lrw/90/stonybrook-angler?utm_source=api",
+   "oracle_text": "{1}{U}, {T}: You may tap or untap target creature.",
+   "power": "1",
+   "toughness": "2",
+   "draft_elo": 1176
   },
   {
    "name": "Stonybrook Banneret",
@@ -2152,31 +2181,6 @@
    "power": "2",
    "toughness": "2",
    "draft_elo": 1275
-  },
-  {
-   "name": "Parapet Watchers",
-   "types": [
-    "Creature"
-   ],
-   "sub_types": [
-    "Kithkin",
-    "Soldier"
-   ],
-   "cmc": 3,
-   "image": "https://cards.scryfall.io/normal/front/4/9/499f9987-87d8-4cd3-98c4-b6976c70739e.jpg?1782716179",
-   "colors": [
-    "U"
-   ],
-   "color_identity": [
-    "U",
-    "W"
-   ],
-   "mana_cost": "{2}{U}",
-   "url": "https://scryfall.com/card/shm/45/parapet-watchers?utm_source=api",
-   "oracle_text": "{W/U}: This creature gets +0/+1 until end of turn.",
-   "power": "2",
-   "toughness": "2",
-   "draft_elo": 1039
   },
   {
    "name": "Pestermite",
@@ -2396,29 +2400,6 @@
    "draft_elo": 1144
   },
   {
-   "name": "Kinscaer Harpoonist",
-   "types": [
-    "Creature"
-   ],
-   "sub_types": [
-    "Kithkin",
-    "Soldier"
-   ],
-   "cmc": 4,
-   "image": "https://cards.scryfall.io/normal/front/1/3/13cfde34-f76b-47ab-b83e-1c188d61a613.jpg?1562827007",
-   "colors": [
-    "U"
-   ],
-   "color_identity": [
-    "U"
-   ],
-   "mana_cost": "{3}{U}",
-   "url": "https://scryfall.com/card/shm/41/kinscaer-harpoonist?utm_source=api",
-   "oracle_text": "Flying\nWhenever this creature attacks, you may have target creature lose flying until end of turn.",
-   "power": "2",
-   "toughness": "2"
-  },
-  {
    "name": "Knacksaw Clique",
    "types": [
     "Creature"
@@ -2467,29 +2448,6 @@
    "draft_elo": 1146
   },
   {
-   "name": "Merrow Levitator",
-   "types": [
-    "Creature"
-   ],
-   "sub_types": [
-    "Merfolk",
-    "Wizard"
-   ],
-   "cmc": 4,
-   "image": "https://cards.scryfall.io/normal/front/e/2/e2b2f122-0406-44f4-82b0-9f46b52e7d99.jpg?1562942834",
-   "colors": [
-    "U"
-   ],
-   "color_identity": [
-    "U"
-   ],
-   "mana_cost": "{3}{U}",
-   "url": "https://scryfall.com/card/eve/26/merrow-levitator?utm_source=api",
-   "oracle_text": "{T}: Target creature gains flying until end of turn.\nWhenever you cast a blue spell, you may untap this creature.",
-   "power": "2",
-   "toughness": "3"
-  },
-  {
    "name": "Mistbind Clique",
    "types": [
     "Creature"
@@ -2512,6 +2470,29 @@
    "power": "4",
    "toughness": "4",
    "draft_elo": 1215
+  },
+  {
+   "name": "Turtleshell Changeling",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Shapeshifter"
+   ],
+   "cmc": 4,
+   "image": "https://cards.scryfall.io/normal/front/a/7/a72b078e-e324-4775-9d38-08943017a48e.jpg?1782716363",
+   "colors": [
+    "U"
+   ],
+   "color_identity": [
+    "U"
+   ],
+   "mana_cost": "{3}{U}",
+   "url": "https://scryfall.com/card/lrw/94/turtleshell-changeling?utm_source=api",
+   "oracle_text": "Changeling (This card is every creature type.)\n{1}{U}: Switch this creature's power and toughness until end of turn.",
+   "power": "1",
+   "toughness": "4",
+   "draft_elo": 1107
   },
   {
    "name": "Mulldrifter",
@@ -2560,28 +2541,6 @@
    "draft_elo": 1243
   },
   {
-   "name": "Isleback Spawn",
-   "types": [
-    "Creature"
-   ],
-   "sub_types": [
-    "Kraken"
-   ],
-   "cmc": 7,
-   "image": "https://cards.scryfall.io/normal/front/e/7/e769b1b2-c2a9-4db1-bf1f-01863aa2cd0b.jpg?1562837544",
-   "colors": [
-    "U"
-   ],
-   "color_identity": [
-    "U"
-   ],
-   "mana_cost": "{5}{U}{U}",
-   "url": "https://scryfall.com/card/shm/40/isleback-spawn?utm_source=api",
-   "oracle_text": "Shroud (This creature can't be the target of spells or abilities.)\nThis creature gets +4/+8 as long as a library has twenty or fewer cards in it.",
-   "power": "4",
-   "toughness": "8"
-  },
-  {
    "name": "Jace Beleren",
    "types": [
     "Legendary",
@@ -2620,6 +2579,24 @@
    "url": "https://scryfall.com/card/eve/17/banishing-knack?utm_source=api",
    "oracle_text": "Until end of turn, target creature gains \"{T}: Return target nonland permanent to its owner's hand.\"",
    "draft_elo": 1255
+  },
+  {
+   "name": "Broken Ambitions",
+   "types": [
+    "Instant"
+   ],
+   "cmc": 1,
+   "image": "https://cards.scryfall.io/normal/front/8/0/8052d90b-bc49-4a9e-9211-159a54aa2bcd.jpg?1782716379",
+   "colors": [
+    "U"
+   ],
+   "color_identity": [
+    "U"
+   ],
+   "mana_cost": "{X}{U}",
+   "url": "https://scryfall.com/card/lrw/54/broken-ambitions?utm_source=api",
+   "oracle_text": "Counter target spell unless its controller pays {X}. Clash with an opponent. If you win, that spell's controller mills four cards. (Each clashing player reveals the top card of their library, then puts that card on their choice of the top or bottom. A player wins if their card had a greater mana value.)",
+   "draft_elo": 1320
   },
   {
    "name": "Broken Ambitions",
@@ -2768,6 +2745,28 @@
    "url": "https://scryfall.com/card/lrw/96/whirlpool-whelm?utm_source=api",
    "oracle_text": "Clash with an opponent, then return target creature to its owner's hand. If you win, you may put that creature on top of its owner's library instead. (Each clashing player reveals the top card of their library, then puts that card on their choice of the top or bottom. A player wins if their card had a greater mana value.)",
    "draft_elo": 1221
+  },
+  {
+   "name": "Wings of Velis Vel",
+   "types": [
+    "Kindred",
+    "Instant"
+   ],
+   "sub_types": [
+    "Shapeshifter"
+   ],
+   "cmc": 2,
+   "image": "https://cards.scryfall.io/normal/front/f/b/fb3c1f39-b6ac-4663-9623-bd573a1117b0.jpg?1782716360",
+   "colors": [
+    "U"
+   ],
+   "color_identity": [
+    "U"
+   ],
+   "mana_cost": "{1}{U}",
+   "url": "https://scryfall.com/card/lrw/97/wings-of-velis-vel?utm_source=api",
+   "oracle_text": "Changeling (This card is every creature type.)\nUntil end of turn, target creature has base power and toughness 4/4, gains all creature types, and gains flying.",
+   "draft_elo": 1100
   },
   {
    "name": "Consign to Dream",
@@ -3018,6 +3017,24 @@
    "url": "https://scryfall.com/card/shm/39/ghastly-discovery?utm_source=api",
    "oracle_text": "Draw two cards, then discard a card.\nConspire (As you cast this spell, you may tap two untapped creatures you control that share a color with it. When you do, copy it.)",
    "draft_elo": 1219
+  },
+  {
+   "name": "Sanity Grinding",
+   "types": [
+    "Sorcery"
+   ],
+   "cmc": 3,
+   "image": "https://cards.scryfall.io/normal/front/7/d/7d3e377f-6bb7-4fa1-b58b-7e2af06ca4b7.jpg?1782716061",
+   "colors": [
+    "U"
+   ],
+   "color_identity": [
+    "U"
+   ],
+   "mana_cost": "{U}{U}{U}",
+   "url": "https://scryfall.com/card/eve/29/sanity-grinding?utm_source=api",
+   "oracle_text": "Chroma — Reveal the top ten cards of your library. For each blue mana symbol in the mana costs of the revealed cards, target opponent mills a card. Then put the cards you revealed this way on the bottom of your library in any order.",
+   "draft_elo": 1165
   },
   {
    "name": "Savor the Moment",
@@ -3306,30 +3323,6 @@
    "draft_elo": 1092
   },
   {
-   "name": "Gnarlroot Trapper",
-   "types": [
-    "Creature"
-   ],
-   "sub_types": [
-    "Elf",
-    "Druid"
-   ],
-   "cmc": 1,
-   "image": "https://cards.scryfall.io/normal/front/e/0/e05572ba-3a26-41f5-96c1-960ec9367178.jpg?1562046118",
-   "colors": [
-    "B"
-   ],
-   "color_identity": [
-    "B",
-    "G"
-   ],
-   "mana_cost": "{B}",
-   "url": "https://scryfall.com/card/ori/100/gnarlroot-trapper?utm_source=api",
-   "oracle_text": "{T}, Pay 1 life: Add {G}. Spend this mana only to cast an Elf creature spell.\n{T}: Target attacking Elf you control gains deathtouch until end of turn. (Any amount of damage it deals to a creature is enough to destroy it.)",
-   "power": "1",
-   "toughness": "1"
-  },
-  {
    "name": "Knucklebone Witch",
    "types": [
     "Creature"
@@ -3352,30 +3345,6 @@
    "power": "1",
    "toughness": "1",
    "draft_elo": 1197
-  },
-  {
-   "name": "Merrow Bonegnawer",
-   "types": [
-    "Creature"
-   ],
-   "sub_types": [
-    "Merfolk",
-    "Rogue"
-   ],
-   "cmc": 1,
-   "image": "https://cards.scryfall.io/normal/front/0/9/09e49aa4-ac23-49b1-b9b7-49d45b56b21d.jpg?1782716057",
-   "colors": [
-    "B"
-   ],
-   "color_identity": [
-    "B"
-   ],
-   "mana_cost": "{B}",
-   "url": "https://scryfall.com/card/eve/37/merrow-bonegnawer?utm_source=api",
-   "oracle_text": "{T}: Target player exiles a card from their graveyard.\nWhenever you cast a black spell, you may untap this creature.",
-   "power": "1",
-   "toughness": "1",
-   "draft_elo": 1098
   },
   {
    "name": "Nightshade Stinger",
@@ -3424,29 +3393,6 @@
    "power": "1",
    "toughness": "1",
    "draft_elo": 1194
-  },
-  {
-   "name": "Thornbow Archer",
-   "types": [
-    "Creature"
-   ],
-   "sub_types": [
-    "Elf",
-    "Archer"
-   ],
-   "cmc": 1,
-   "image": "https://cards.scryfall.io/normal/front/3/2/3290c60a-f9a0-464d-a15e-8473a6d50d96.jpg?1562013760",
-   "colors": [
-    "B"
-   ],
-   "color_identity": [
-    "B"
-   ],
-   "mana_cost": "{B}",
-   "url": "https://scryfall.com/card/ori/121/thornbow-archer?utm_source=api",
-   "oracle_text": "Whenever this creature attacks, each opponent who doesn't control an Elf loses 1 life.",
-   "power": "1",
-   "toughness": "2"
   },
   {
    "name": "Blightsoil Druid",
@@ -4209,30 +4155,6 @@
    "draft_elo": 1213
   },
   {
-   "name": "Cinderhaze Wretch",
-   "types": [
-    "Creature"
-   ],
-   "sub_types": [
-    "Elemental",
-    "Shaman"
-   ],
-   "cmc": 5,
-   "image": "https://cards.scryfall.io/normal/front/6/4/644319c2-f122-4369-b1f8-56ad7d8ce861.jpg?1782716172",
-   "colors": [
-    "B"
-   ],
-   "color_identity": [
-    "B"
-   ],
-   "mana_cost": "{4}{B}",
-   "url": "https://scryfall.com/card/shm/60/cinderhaze-wretch?utm_source=api",
-   "oracle_text": "{T}: Target player discards a card. Activate only during your turn.\nPut a -1/-1 counter on this creature: Untap this creature.",
-   "power": "3",
-   "toughness": "2",
-   "draft_elo": 1124
-  },
-  {
    "name": "Fendeep Summoner",
    "types": [
     "Creature"
@@ -4486,21 +4408,26 @@
    "draft_elo": 1182
   },
   {
-   "name": "Touch of Moonglove",
+   "name": "Nameless Inversion",
    "types": [
+    "Kindred",
     "Instant"
    ],
-   "cmc": 1,
-   "image": "https://cards.scryfall.io/normal/front/b/f/bf659f2f-983c-4a62-a969-4176e5fbe193.jpg?1562039890",
+   "sub_types": [
+    "Shapeshifter"
+   ],
+   "cmc": 2,
+   "image": "https://cards.scryfall.io/normal/front/9/4/94b4e4d2-2358-48d2-9a2a-3d17afea28f5.jpg?1782716347",
    "colors": [
     "B"
    ],
    "color_identity": [
     "B"
    ],
-   "mana_cost": "{B}",
-   "url": "https://scryfall.com/card/ori/123/touch-of-moonglove?utm_source=api",
-   "oracle_text": "Target creature you control gets +1/+0 and gains deathtouch until end of turn. Whenever a creature dealt damage by that creature dies this turn, its controller loses 2 life. (Any amount of damage a creature with deathtouch deals to a creature is enough to destroy it.)"
+   "mana_cost": "{1}{B}",
+   "url": "https://scryfall.com/card/lrw/128/nameless-inversion?utm_source=api",
+   "oracle_text": "Changeling (This card is every creature type.)\nTarget creature gets +3/-3 and loses all creature types until end of turn.",
+   "draft_elo": 1363
   },
   {
    "name": "Nameless Inversion",
@@ -4540,6 +4467,24 @@
    "mana_cost": "{1}{B}",
    "url": "https://scryfall.com/card/mor/73/packs-disdain?utm_source=api",
    "oracle_text": "Choose a creature type. Target creature gets -1/-1 until end of turn for each permanent of the chosen type you control.",
+   "draft_elo": 1253
+  },
+  {
+   "name": "Unbury",
+   "types": [
+    "Instant"
+   ],
+   "cmc": 2,
+   "image": "https://cards.scryfall.io/normal/front/b/0/b00766db-4109-4225-a62a-fa12fd526970.jpg?1782684035",
+   "colors": [
+    "B"
+   ],
+   "color_identity": [
+    "B"
+   ],
+   "mana_cost": "{1}{B}",
+   "url": "https://scryfall.com/card/ecl/123/unbury?utm_source=api",
+   "oracle_text": "Choose one —\n• Return target creature card from your graveyard to your hand.\n• Return two target creature cards that share a creature type from your graveyard to your hand.",
    "draft_elo": 1253
   },
   {
@@ -4657,6 +4602,24 @@
    "url": "https://scryfall.com/card/lrw/145/thoughtseize?utm_source=api",
    "oracle_text": "Target player reveals their hand. You choose a nonland card from it. That player discards that card. You lose 2 life.",
    "draft_elo": 1672
+  },
+  {
+   "name": "Auntie's Sentence",
+   "types": [
+    "Sorcery"
+   ],
+   "cmc": 2,
+   "image": "https://cards.scryfall.io/normal/front/e/6/e64bfe16-7362-4982-9136-1f4e0d335441.jpg?1782684076",
+   "colors": [
+    "B"
+   ],
+   "color_identity": [
+    "B"
+   ],
+   "mana_cost": "{1}{B}",
+   "url": "https://scryfall.com/card/ecl/85/aunties-sentence?utm_source=api",
+   "oracle_text": "Choose one —\n• Target opponent reveals their hand. You choose a nonland permanent card from it. That player discards that card.\n• Target creature gets -2/-2 until end of turn.",
+   "draft_elo": 1249
   },
   {
    "name": "Disturbing Plot",
@@ -4823,23 +4786,6 @@
    "url": "https://scryfall.com/card/shm/70/incremental-blight?utm_source=api",
    "oracle_text": "Put a -1/-1 counter on target creature, two -1/-1 counters on another target creature, and three -1/-1 counters on a third target creature.",
    "draft_elo": 1321
-  },
-  {
-   "name": "Corrupt",
-   "types": [
-    "Sorcery"
-   ],
-   "cmc": 6,
-   "image": "https://cards.scryfall.io/normal/front/c/9/c92ea561-80da-4fe1-ad87-ce47d9eb80bc.jpg?1674420792",
-   "colors": [
-    "B"
-   ],
-   "color_identity": [
-    "B"
-   ],
-   "mana_cost": "{5}{B}",
-   "url": "https://scryfall.com/card/bro/88/corrupt?utm_source=api",
-   "oracle_text": "Corrupt deals damage to any target equal to the number of Swamps you control. You gain life equal to the damage dealt this way."
   },
   {
    "name": "Torture",
@@ -5957,53 +5903,6 @@
    "draft_elo": 1148
   },
   {
-   "name": "Lunk Errant",
-   "types": [
-    "Creature"
-   ],
-   "sub_types": [
-    "Giant",
-    "Warrior"
-   ],
-   "cmc": 6,
-   "image": "https://cards.scryfall.io/normal/front/f/4/f459acfa-a9db-43c6-b0e9-ed66d772a335.jpg?1562882420",
-   "colors": [
-    "R"
-   ],
-   "color_identity": [
-    "R"
-   ],
-   "mana_cost": "{5}{R}",
-   "url": "https://scryfall.com/card/mor/94/lunk-errant?utm_source=api",
-   "oracle_text": "Whenever this creature attacks alone, it gets +1/+1 and gains trample until end of turn.",
-   "power": "4",
-   "toughness": "4"
-  },
-  {
-   "name": "Sunrise Sovereign",
-   "types": [
-    "Creature"
-   ],
-   "sub_types": [
-    "Giant",
-    "Warrior"
-   ],
-   "cmc": 6,
-   "image": "https://cards.scryfall.io/normal/front/b/6/b62a4703-9e8d-4164-a529-b2dbc4069aa8.jpg?1782716316",
-   "colors": [
-    "R"
-   ],
-   "color_identity": [
-    "R"
-   ],
-   "mana_cost": "{5}{R}",
-   "url": "https://scryfall.com/card/lrw/192/sunrise-sovereign?utm_source=api",
-   "oracle_text": "Other Giant creatures you control get +2/+2 and have trample.",
-   "power": "5",
-   "toughness": "5",
-   "draft_elo": 1130
-  },
-  {
    "name": "Boldwyr Intimidator",
    "types": [
     "Creature"
@@ -6187,6 +6086,24 @@
    "url": "https://scryfall.com/card/lrw/152/blades-of-velis-vel?utm_source=api",
    "oracle_text": "Changeling (This card is every creature type.)\nUp to two target creatures each get +2/+0 and gain all creature types until end of turn.",
    "draft_elo": 1124
+  },
+  {
+   "name": "Lash Out",
+   "types": [
+    "Instant"
+   ],
+   "cmc": 2,
+   "image": "https://cards.scryfall.io/normal/front/d/e/de2c0c8b-5442-44fb-9686-d3dff5742501.jpg?1782716321",
+   "colors": [
+    "R"
+   ],
+   "color_identity": [
+    "R"
+   ],
+   "mana_cost": "{1}{R}",
+   "url": "https://scryfall.com/card/lrw/183/lash-out?utm_source=api",
+   "oracle_text": "Lash Out deals 3 damage to target creature. Clash with an opponent. If you win, Lash Out deals 3 damage to that creature's controller. (Each clashing player reveals the top card of their library, then puts that card on their choice of the top or bottom. A player wins if their card had a greater mana value.)",
+   "draft_elo": 1336
   },
   {
    "name": "Lash Out",
@@ -6698,29 +6615,6 @@
    "draft_elo": 1226
   },
   {
-   "name": "Glimmer Bairn",
-   "types": [
-    "Creature"
-   ],
-   "sub_types": [
-    "Ouphe"
-   ],
-   "cmc": 1,
-   "image": "https://cards.scryfall.io/normal/front/0/3/03250752-bd85-485a-b19a-fa344c4ffd50.jpg?1782704635",
-   "colors": [
-    "G"
-   ],
-   "color_identity": [
-    "G"
-   ],
-   "mana_cost": "{G}",
-   "url": "https://scryfall.com/card/mh2/163/glimmer-bairn?utm_source=api",
-   "oracle_text": "Sacrifice a token: This creature gets +2/+2 until end of turn.",
-   "power": "1",
-   "toughness": "2",
-   "draft_elo": 1097
-  },
-  {
    "name": "Heritage Druid",
    "types": [
     "Creature"
@@ -6936,6 +6830,30 @@
    "draft_elo": 1316
   },
   {
+   "name": "Devoted Druid",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Elf",
+    "Druid"
+   ],
+   "cmc": 2,
+   "image": "https://cards.scryfall.io/normal/front/8/2/820e2f07-f637-4144-b45a-0e1430dcf55e.jpg?1782716149",
+   "colors": [
+    "G"
+   ],
+   "color_identity": [
+    "G"
+   ],
+   "mana_cost": "{1}{G}",
+   "url": "https://scryfall.com/card/shm/110/devoted-druid?utm_source=api",
+   "oracle_text": "{T}: Add {G}.\nPut a -1/-1 counter on this creature: Untap this creature.",
+   "power": "0",
+   "toughness": "2",
+   "draft_elo": 1316
+  },
+  {
    "name": "Elvish Warrior",
    "types": [
     "Creature"
@@ -6958,6 +6876,30 @@
    "power": "2",
    "toughness": "3",
    "draft_elo": 1103
+  },
+  {
+   "name": "Great Forest Druid",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Treefolk",
+    "Druid"
+   ],
+   "cmc": 2,
+   "image": "https://cards.scryfall.io/normal/front/8/7/8793a19e-6743-4031-86d9-2ff55f384549.jpg?1782683985",
+   "colors": [
+    "G"
+   ],
+   "color_identity": [
+    "G"
+   ],
+   "mana_cost": "{1}{G}",
+   "url": "https://scryfall.com/card/ecl/178/great-forest-druid?utm_source=api",
+   "oracle_text": "{T}: Add one mana of any color.",
+   "power": "0",
+   "toughness": "4",
+   "draft_elo": 1349
   },
   {
    "name": "Juvenile Gloomwidow",
@@ -7556,28 +7498,6 @@
    "draft_elo": 1208
   },
   {
-   "name": "Aerie Ouphes",
-   "types": [
-    "Creature"
-   ],
-   "sub_types": [
-    "Ouphe"
-   ],
-   "cmc": 5,
-   "image": "https://cards.scryfall.io/normal/front/b/2/b2e4cb09-c99f-4a17-a6fd-55c9a169a808.jpg?1562932733",
-   "colors": [
-    "G"
-   ],
-   "color_identity": [
-    "G"
-   ],
-   "mana_cost": "{4}{G}",
-   "url": "https://scryfall.com/card/eve/65/aerie-ouphes?utm_source=api",
-   "oracle_text": "Sacrifice this creature: It deals damage equal to its power to target creature with flying.\nPersist (When this creature dies, if it had no -1/-1 counters on it, return it to the battlefield under its owner's control with a -1/-1 counter on it.)",
-   "power": "3",
-   "toughness": "3"
-  },
-  {
    "name": "Everbark Shaman",
    "types": [
     "Creature"
@@ -7646,53 +7566,6 @@
    "power": "7",
    "toughness": "7",
    "draft_elo": 1139
-  },
-  {
-   "name": "Foxfire Oak",
-   "types": [
-    "Creature"
-   ],
-   "sub_types": [
-    "Treefolk",
-    "Shaman"
-   ],
-   "cmc": 6,
-   "image": "https://cards.scryfall.io/normal/front/4/6/46e23eae-7630-40db-b265-2fa00715878e.jpg?1562829586",
-   "colors": [
-    "G"
-   ],
-   "color_identity": [
-    "G",
-    "R"
-   ],
-   "mana_cost": "{5}{G}",
-   "url": "https://scryfall.com/card/shm/115/foxfire-oak?utm_source=api",
-   "oracle_text": "{R/G}{R/G}{R/G}: This creature gets +3/+0 until end of turn.",
-   "power": "3",
-   "toughness": "6"
-  },
-  {
-   "name": "Roughshod Mentor",
-   "types": [
-    "Creature"
-   ],
-   "sub_types": [
-    "Giant",
-    "Warrior"
-   ],
-   "cmc": 6,
-   "image": "https://cards.scryfall.io/normal/front/a/b/abe77862-516f-4eb2-9a41-0c6401d02843.jpg?1562834499",
-   "colors": [
-    "G"
-   ],
-   "color_identity": [
-    "G"
-   ],
-   "mana_cost": "{5}{G}",
-   "url": "https://scryfall.com/card/shm/128/roughshod-mentor?utm_source=api",
-   "oracle_text": "Green creatures you control have trample.",
-   "power": "5",
-   "toughness": "4"
   },
   {
    "name": "Witherscale Wurm",
@@ -7842,12 +7715,52 @@
    "draft_elo": 1118
   },
   {
-   "name": "Luminescent Rain",
+   "name": "Fistful of Force",
    "types": [
     "Instant"
    ],
+   "cmc": 2,
+   "image": "https://cards.scryfall.io/normal/front/f/7/f7f77c7e-d35f-477e-acc4-a393044319ea.jpg?1782716309",
+   "colors": [
+    "G"
+   ],
+   "color_identity": [
+    "G"
+   ],
+   "mana_cost": "{1}{G}",
+   "url": "https://scryfall.com/card/lrw/212/fistful-of-force?utm_source=api",
+   "oracle_text": "Target creature gets +2/+2 until end of turn. Clash with an opponent. If you win, that creature gets an additional +2/+2 and gains trample until end of turn. (Each clashing player reveals the top card of their library, then puts that card on their choice of the top or bottom. A player wins if their card had a greater mana value.)",
+   "draft_elo": 1114
+  },
+  {
+   "name": "Fistful of Force",
+   "types": [
+    "Instant"
+   ],
+   "cmc": 2,
+   "image": "https://cards.scryfall.io/normal/front/f/7/f7f77c7e-d35f-477e-acc4-a393044319ea.jpg?1782716309",
+   "colors": [
+    "G"
+   ],
+   "color_identity": [
+    "G"
+   ],
+   "mana_cost": "{1}{G}",
+   "url": "https://scryfall.com/card/lrw/212/fistful-of-force?utm_source=api",
+   "oracle_text": "Target creature gets +2/+2 until end of turn. Clash with an opponent. If you win, that creature gets an additional +2/+2 and gains trample until end of turn. (Each clashing player reveals the top card of their library, then puts that card on their choice of the top or bottom. A player wins if their card had a greater mana value.)",
+   "draft_elo": 1114
+  },
+  {
+   "name": "Gilt-Leaf Ambush",
+   "types": [
+    "Kindred",
+    "Instant"
+   ],
+   "sub_types": [
+    "Elf"
+   ],
    "cmc": 3,
-   "image": "https://cards.scryfall.io/normal/front/5/f/5f9903cc-350c-44cf-9c0b-5df7922ed766.jpg?1782716208",
+   "image": "https://cards.scryfall.io/normal/front/4/7/47bf7254-4302-41a0-bc87-d7dc437ff38d.jpg?1782716307",
    "colors": [
     "G"
    ],
@@ -7855,9 +7768,9 @@
     "G"
    ],
    "mana_cost": "{2}{G}",
-   "url": "https://scryfall.com/card/mor/129/luminescent-rain?utm_source=api",
-   "oracle_text": "Choose a creature type. You gain 2 life for each permanent you control of that type.",
-   "draft_elo": 1107
+   "url": "https://scryfall.com/card/lrw/214/gilt-leaf-ambush?utm_source=api",
+   "oracle_text": "Create two 1/1 green Elf Warrior creature tokens. Clash with an opponent. If you win, those creatures gain deathtouch until end of turn. (Each clashing player reveals the top card of their library, then puts that card on their choice of the top or bottom. A player wins if their card had a greater mana value. Any amount of damage a creature with deathtouch deals to a creature is enough to destroy it.)",
+   "draft_elo": 1161
   },
   {
    "name": "Reach of Branches",
@@ -7898,6 +7811,24 @@
    "url": "https://scryfall.com/card/shm/116/gleeful-sabotage?utm_source=api",
    "oracle_text": "Destroy target artifact or enchantment.\nConspire (As you cast this spell, you may tap two untapped creatures you control that share a color with it. When you do, copy it and you may choose a new target for the copy.)",
    "draft_elo": 1056
+  },
+  {
+   "name": "Recross the Paths",
+   "types": [
+    "Sorcery"
+   ],
+   "cmc": 3,
+   "image": "https://cards.scryfall.io/normal/front/0/b/0bfe1d8e-ae3c-4144-a44b-e13ab33da95c.jpg?1782716207",
+   "colors": [
+    "G"
+   ],
+   "color_identity": [
+    "G"
+   ],
+   "mana_cost": "{2}{G}",
+   "url": "https://scryfall.com/card/mor/133/recross-the-paths?utm_source=api",
+   "oracle_text": "Reveal cards from the top of your library until you reveal a land card. Put that card onto the battlefield and the rest on the bottom of your library in any order. Clash with an opponent. If you win, return Recross the Paths to its owner's hand. (Each clashing player reveals the top card of their library, then puts that card on their choice of the top or bottom. A player wins if their card had a greater mana value.)",
+   "draft_elo": 1240
   },
   {
    "name": "Recross the Paths",
@@ -8337,6 +8268,26 @@
    "draft_elo": 1080
   },
   {
+   "name": "Chainbreaker",
+   "types": [
+    "Artifact",
+    "Creature"
+   ],
+   "sub_types": [
+    "Scarecrow"
+   ],
+   "cmc": 2,
+   "image": "https://cards.scryfall.io/normal/front/0/9/094b023e-d5a3-4a57-adf0-898f3dcc8de2.jpg?1782716097",
+   "colors": [],
+   "color_identity": [],
+   "mana_cost": "{2}",
+   "url": "https://scryfall.com/card/shm/249/chainbreaker?utm_source=api",
+   "oracle_text": "This creature enters with two -1/-1 counters on it.\n{3}, {T}: Remove a -1/-1 counter from target creature.",
+   "power": "3",
+   "toughness": "3",
+   "draft_elo": 1080
+  },
+  {
    "name": "Fang Skulkin",
    "types": [
     "Artifact",
@@ -8355,6 +8306,26 @@
    "power": "2",
    "toughness": "1",
    "draft_elo": 1091
+  },
+  {
+   "name": "Foraging Wickermaw",
+   "types": [
+    "Artifact",
+    "Creature"
+   ],
+   "sub_types": [
+    "Scarecrow"
+   ],
+   "cmc": 2,
+   "image": "https://cards.scryfall.io/normal/front/f/5/f524bc08-caeb-4362-b960-eb8e0e4159d0.jpg?1782683920",
+   "colors": [],
+   "color_identity": [],
+   "mana_cost": "{2}",
+   "url": "https://scryfall.com/card/ecl/256/foraging-wickermaw?utm_source=api",
+   "oracle_text": "When this creature enters, surveil 1. (Look at the top card of your library. You may put it into your graveyard.)\n{1}: Add one mana of any color. This creature becomes that color until end of turn. Activate only once each turn.",
+   "power": "1",
+   "toughness": "3",
+   "draft_elo": 1214
   },
   {
    "name": "Pili-Pala",
@@ -8377,7 +8348,7 @@
    "draft_elo": 1310
   },
   {
-   "name": "Hoof Skulkin",
+   "name": "Pili-Pala",
    "types": [
     "Artifact",
     "Creature"
@@ -8385,16 +8356,16 @@
    "sub_types": [
     "Scarecrow"
    ],
-   "cmc": 3,
-   "image": "https://cards.scryfall.io/normal/front/e/a/ea91be37-aca0-484a-ab94-0186073269d2.jpg?1782716004",
+   "cmc": 2,
+   "image": "https://cards.scryfall.io/normal/front/4/8/4892c152-1f4a-4616-8e7f-0ca4911e621a.jpg?1782716094",
    "colors": [],
    "color_identity": [],
-   "mana_cost": "{3}",
-   "url": "https://scryfall.com/card/eve/169/hoof-skulkin?utm_source=api",
-   "oracle_text": "{3}: Target green creature gets +1/+1 until end of turn.",
-   "power": "2",
-   "toughness": "2",
-   "draft_elo": 1044
+   "mana_cost": "{2}",
+   "url": "https://scryfall.com/card/shm/258/pili-pala?utm_source=api",
+   "oracle_text": "Flying\n{2}, {Q}: Add one mana of any color. ({Q} is the untap symbol.)",
+   "power": "1",
+   "toughness": "1",
+   "draft_elo": 1310
   },
   {
    "name": "Lurebound Scarecrow",
@@ -8417,6 +8388,46 @@
    "draft_elo": 1172
   },
   {
+   "name": "Lurebound Scarecrow",
+   "types": [
+    "Artifact",
+    "Creature"
+   ],
+   "sub_types": [
+    "Scarecrow"
+   ],
+   "cmc": 3,
+   "image": "https://cards.scryfall.io/normal/front/8/9/89503bf6-d720-4fd5-b2cf-fc1197bf0f16.jpg?1782716095",
+   "colors": [],
+   "color_identity": [],
+   "mana_cost": "{3}",
+   "url": "https://scryfall.com/card/shm/256/lurebound-scarecrow?utm_source=api",
+   "oracle_text": "As this creature enters, choose a color.\nWhen you control no permanents of the chosen color, sacrifice this creature.",
+   "power": "4",
+   "toughness": "4",
+   "draft_elo": 1172
+  },
+  {
+   "name": "Scarecrone",
+   "types": [
+    "Artifact",
+    "Creature"
+   ],
+   "sub_types": [
+    "Scarecrow"
+   ],
+   "cmc": 3,
+   "image": "https://cards.scryfall.io/normal/front/1/9/1978400d-a8f1-4df7-8caf-b9ca81334bce.jpg?1782716002",
+   "colors": [],
+   "color_identity": [],
+   "mana_cost": "{3}",
+   "url": "https://scryfall.com/card/eve/172/scarecrone?utm_source=api",
+   "oracle_text": "{1}, Sacrifice a Scarecrow: Draw a card.\n{4}, {T}: Return target artifact creature card from your graveyard to the battlefield.",
+   "power": "1",
+   "toughness": "2",
+   "draft_elo": 1249
+  },
+  {
    "name": "Scuttlemutt",
    "types": [
     "Artifact",
@@ -8435,6 +8446,26 @@
    "power": "2",
    "toughness": "2",
    "draft_elo": 1208
+  },
+  {
+   "name": "Tatterkite",
+   "types": [
+    "Artifact",
+    "Creature"
+   ],
+   "sub_types": [
+    "Scarecrow"
+   ],
+   "cmc": 3,
+   "image": "https://cards.scryfall.io/normal/front/d/f/dfaf852c-b8a9-44d4-b2cd-3f1e071a8be9.jpg?1782716091",
+   "colors": [],
+   "color_identity": [],
+   "mana_cost": "{3}",
+   "url": "https://scryfall.com/card/shm/264/tatterkite?utm_source=api",
+   "oracle_text": "Flying\nThis creature can't have counters put on it.",
+   "power": "2",
+   "toughness": "1",
+   "draft_elo": 1125
   },
   {
    "name": "Tatterkite",
@@ -8517,66 +8548,6 @@
    "draft_elo": 1048
   },
   {
-   "name": "Watchwing Scarecrow",
-   "types": [
-    "Artifact",
-    "Creature"
-   ],
-   "sub_types": [
-    "Scarecrow"
-   ],
-   "cmc": 4,
-   "image": "https://cards.scryfall.io/normal/front/5/c/5c7774fd-3460-46e3-9c9c-7aa70f2ff6d8.jpg?1782716089",
-   "colors": [],
-   "color_identity": [],
-   "mana_cost": "{4}",
-   "url": "https://scryfall.com/card/shm/268/watchwing-scarecrow?utm_source=api",
-   "oracle_text": "This creature has vigilance as long as you control a white creature.\nThis creature has flying as long as you control a blue creature.",
-   "power": "2",
-   "toughness": "4",
-   "draft_elo": 1049
-  },
-  {
-   "name": "Antler Skulkin",
-   "types": [
-    "Artifact",
-    "Creature"
-   ],
-   "sub_types": [
-    "Scarecrow"
-   ],
-   "cmc": 5,
-   "image": "https://cards.scryfall.io/normal/front/c/a/ca66c361-3cea-4f9c-836d-3513f05d6b22.jpg?1782716005",
-   "colors": [],
-   "color_identity": [],
-   "mana_cost": "{5}",
-   "url": "https://scryfall.com/card/eve/167/antler-skulkin?utm_source=api",
-   "oracle_text": "{2}: Target white creature gains persist until end of turn. (When it dies, if it had no -1/-1 counters on it, return it to the battlefield under its owner's control with a -1/-1 counter on it.)",
-   "power": "3",
-   "toughness": "3",
-   "draft_elo": 1111
-  },
-  {
-   "name": "Blazethorn Scarecrow",
-   "types": [
-    "Artifact",
-    "Creature"
-   ],
-   "sub_types": [
-    "Scarecrow"
-   ],
-   "cmc": 5,
-   "image": "https://cards.scryfall.io/normal/front/4/4/44793043-82b4-415b-a9ab-d564fdbcd314.jpg?1782716099",
-   "colors": [],
-   "color_identity": [],
-   "mana_cost": "{5}",
-   "url": "https://scryfall.com/card/shm/246/blazethorn-scarecrow?utm_source=api",
-   "oracle_text": "This creature has haste as long as you control a red creature.\nThis creature has wither as long as you control a green creature. (It deals damage to creatures in the form of -1/-1 counters.)",
-   "power": "3",
-   "toughness": "3",
-   "draft_elo": 1009
-  },
-  {
    "name": "Wicker Warcrawler",
    "types": [
     "Artifact",
@@ -8595,46 +8566,6 @@
    "power": "6",
    "toughness": "6",
    "draft_elo": 1238
-  },
-  {
-   "name": "Rattleblaze Scarecrow",
-   "types": [
-    "Artifact",
-    "Creature"
-   ],
-   "sub_types": [
-    "Scarecrow"
-   ],
-   "cmc": 6,
-   "image": "https://cards.scryfall.io/normal/front/4/b/4b46425f-516c-42f5-8df1-79af17d02a4a.jpg?1782716094",
-   "colors": [],
-   "color_identity": [],
-   "mana_cost": "{6}",
-   "url": "https://scryfall.com/card/shm/259/rattleblaze-scarecrow?utm_source=api",
-   "oracle_text": "This creature has persist as long as you control a black creature. (When this creature dies, if it had no -1/-1 counters on it, return it to the battlefield under its owner's control with a -1/-1 counter on it.)\nThis creature has haste as long as you control a red creature.",
-   "power": "5",
-   "toughness": "3",
-   "draft_elo": 1040
-  },
-  {
-   "name": "Thornwatch Scarecrow",
-   "types": [
-    "Artifact",
-    "Creature"
-   ],
-   "sub_types": [
-    "Scarecrow"
-   ],
-   "cmc": 6,
-   "image": "https://cards.scryfall.io/normal/front/3/4/3489ac0a-cbdb-43d5-be73-6cb65ae54a20.jpg?1782716091",
-   "colors": [],
-   "color_identity": [],
-   "mana_cost": "{6}",
-   "url": "https://scryfall.com/card/shm/265/thornwatch-scarecrow?utm_source=api",
-   "oracle_text": "This creature has wither as long as you control a green creature. (It deals damage to creatures in the form of -1/-1 counters.)\nThis creature has vigilance as long as you control a white creature.",
-   "power": "4",
-   "toughness": "4",
-   "draft_elo": 1033
   },
   {
    "name": "Grim Poppet",
@@ -8731,20 +8662,6 @@
    "url": "https://scryfall.com/card/shm/250/elsewhere-flask?utm_source=api",
    "oracle_text": "When this artifact enters, draw a card.\nSacrifice this artifact: Choose a basic land type. Each land you control becomes that type until end of turn.",
    "draft_elo": 1274
-  },
-  {
-   "name": "Revelsong Horn",
-   "types": [
-    "Artifact"
-   ],
-   "cmc": 2,
-   "image": "https://cards.scryfall.io/normal/front/1/0/10a4801c-fa69-47a0-bdfa-f5f110fd0976.jpg?1782716092",
-   "colors": [],
-   "color_identity": [],
-   "mana_cost": "{2}",
-   "url": "https://scryfall.com/card/shm/261/revelsong-horn?utm_source=api",
-   "oracle_text": "{1}, {T}, Tap an untapped creature you control: Target creature gets +1/+1 until end of turn.",
-   "draft_elo": 1271
   },
   {
    "name": "Trip Noose",
@@ -8844,23 +8761,6 @@
    "draft_elo": 1214
   },
   {
-   "name": "Illuminated Folio",
-   "types": [
-    "Artifact"
-   ],
-   "sub_types": [
-    "Book"
-   ],
-   "cmc": 5,
-   "image": "https://cards.scryfall.io/normal/front/7/3/73d473d9-f52e-4357-b25a-e8bdcc833f09.jpg?1782716095",
-   "colors": [],
-   "color_identity": [],
-   "mana_cost": "{5}",
-   "url": "https://scryfall.com/card/shm/254/illuminated-folio?utm_source=api",
-   "oracle_text": "{1}, {T}, Reveal two cards from your hand that share a color: Draw a card.",
-   "draft_elo": 1131
-  },
-  {
    "name": "Ward of Bones",
    "types": [
     "Artifact"
@@ -8906,6 +8806,20 @@
    "power": "6",
    "toughness": "6",
    "draft_elo": 1237
+  },
+  {
+   "name": "Eclipsed Realms",
+   "types": [
+    "Land"
+   ],
+   "cmc": 0,
+   "image": "https://cards.scryfall.io/normal/front/a/1/a174f0db-8b4f-4c37-9583-44c92d37b9c0.jpg?1782683915",
+   "colors": [],
+   "color_identity": [],
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/ecl/263/eclipsed-realms?utm_source=api",
+   "oracle_text": "As this land enters, choose Elemental, Elf, Faerie, Giant, Goblin, Kithkin, Merfolk, or Treefolk.\n{T}: Add {C}.\n{T}: Add one mana of any color. Spend this mana only to cast a spell of the chosen type or activate an ability of a source of the chosen type.",
+   "draft_elo": 1315
   },
   {
    "name": "Primal Beyond",
@@ -8964,6 +8878,576 @@
    "draft_elo": 1099
   },
   {
+   "name": "Mystic Gate",
+   "types": [
+    "Land"
+   ],
+   "cmc": 0,
+   "image": "https://cards.scryfall.io/normal/front/3/d/3dfa866b-93e2-4365-91b0-f12d1f7c5395.jpg?1782716085",
+   "colors": [],
+   "color_identity": [
+    "U",
+    "W"
+   ],
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/shm/277/mystic-gate?utm_source=api",
+   "oracle_text": "{T}: Add {C}.\n{W/U}, {T}: Add {W}{W}, {W}{U}, or {U}{U}.",
+   "draft_elo": 1282
+  },
+  {
+   "name": "Mystic Gate",
+   "types": [
+    "Land"
+   ],
+   "cmc": 0,
+   "image": "https://cards.scryfall.io/normal/front/3/d/3dfa866b-93e2-4365-91b0-f12d1f7c5395.jpg?1782716085",
+   "colors": [],
+   "color_identity": [
+    "U",
+    "W"
+   ],
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/shm/277/mystic-gate?utm_source=api",
+   "oracle_text": "{T}: Add {C}.\n{W/U}, {T}: Add {W}{W}, {W}{U}, or {U}{U}.",
+   "draft_elo": 1282
+  },
+  {
+   "name": "Sygg, River Guide",
+   "types": [
+    "Legendary",
+    "Creature"
+   ],
+   "sub_types": [
+    "Merfolk",
+    "Wizard"
+   ],
+   "cmc": 2,
+   "image": "https://cards.scryfall.io/normal/front/f/b/fb1aefaf-1b96-4c08-a73e-98e401655965.jpg?1782716291",
+   "colors": [
+    "U",
+    "W"
+   ],
+   "color_identity": [
+    "U",
+    "W"
+   ],
+   "mana_cost": "{W}{U}",
+   "url": "https://scryfall.com/card/lrw/251/sygg-river-guide?utm_source=api",
+   "oracle_text": "Islandwalk (This creature can't be blocked as long as defending player controls an Island.)\n{1}{W}: Target Merfolk you control gains protection from the color of your choice until end of turn.",
+   "power": "2",
+   "toughness": "2",
+   "draft_elo": 1173
+  },
+  {
+   "name": "Sunken Ruins",
+   "types": [
+    "Land"
+   ],
+   "cmc": 0,
+   "image": "https://cards.scryfall.io/normal/front/9/d/9d91a31c-b70a-45bd-a8dd-48d49b277f24.jpg?1782716084",
+   "colors": [],
+   "color_identity": [
+    "B",
+    "U"
+   ],
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/shm/280/sunken-ruins?utm_source=api",
+   "oracle_text": "{T}: Add {C}.\n{U/B}, {T}: Add {U}{U}, {U}{B}, or {B}{B}.",
+   "draft_elo": 1330
+  },
+  {
+   "name": "Sunken Ruins",
+   "types": [
+    "Land"
+   ],
+   "cmc": 0,
+   "image": "https://cards.scryfall.io/normal/front/9/d/9d91a31c-b70a-45bd-a8dd-48d49b277f24.jpg?1782716084",
+   "colors": [],
+   "color_identity": [
+    "B",
+    "U"
+   ],
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/shm/280/sunken-ruins?utm_source=api",
+   "oracle_text": "{T}: Add {C}.\n{U/B}, {T}: Add {U}{U}, {U}{B}, or {B}{B}.",
+   "draft_elo": 1330
+  },
+  {
+   "name": "Graven Cairns",
+   "types": [
+    "Land"
+   ],
+   "cmc": 0,
+   "image": "https://cards.scryfall.io/normal/front/c/3/c355bf63-f456-43ad-a6df-6c2a17511f43.jpg?1782716088",
+   "colors": [],
+   "color_identity": [
+    "B",
+    "R"
+   ],
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/shm/272/graven-cairns?utm_source=api",
+   "oracle_text": "{T}: Add {C}.\n{B/R}, {T}: Add {B}{B}, {B}{R}, or {R}{R}.",
+   "draft_elo": 1213
+  },
+  {
+   "name": "Graven Cairns",
+   "types": [
+    "Land"
+   ],
+   "cmc": 0,
+   "image": "https://cards.scryfall.io/normal/front/c/3/c355bf63-f456-43ad-a6df-6c2a17511f43.jpg?1782716088",
+   "colors": [],
+   "color_identity": [
+    "B",
+    "R"
+   ],
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/shm/272/graven-cairns?utm_source=api",
+   "oracle_text": "{T}: Add {C}.\n{B/R}, {T}: Add {B}{B}, {B}{R}, or {R}{R}.",
+   "draft_elo": 1213
+  },
+  {
+   "name": "Wort, Boggart Auntie",
+   "types": [
+    "Legendary",
+    "Creature"
+   ],
+   "sub_types": [
+    "Goblin",
+    "Shaman"
+   ],
+   "cmc": 4,
+   "image": "https://cards.scryfall.io/normal/front/a/0/a08a1377-dede-47c8-8447-c9df125f3b14.jpg?1782716289",
+   "colors": [
+    "B",
+    "R"
+   ],
+   "color_identity": [
+    "B",
+    "R"
+   ],
+   "mana_cost": "{2}{B}{R}",
+   "url": "https://scryfall.com/card/lrw/252/wort-boggart-auntie?utm_source=api",
+   "oracle_text": "Fear (This creature can't be blocked except by artifact creatures and/or black creatures.)\nAt the beginning of your upkeep, you may return target Goblin card from your graveyard to your hand.",
+   "power": "3",
+   "toughness": "3",
+   "draft_elo": 1225
+  },
+  {
+   "name": "Fire-Lit Thicket",
+   "types": [
+    "Land"
+   ],
+   "cmc": 0,
+   "image": "https://cards.scryfall.io/normal/front/0/a/0ab9d6ad-f819-4a1e-b4ff-8dc00791f0fd.jpg?1782716088",
+   "colors": [],
+   "color_identity": [
+    "G",
+    "R"
+   ],
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/shm/271/fire-lit-thicket?utm_source=api",
+   "oracle_text": "{T}: Add {C}.\n{R/G}, {T}: Add {R}{R}, {R}{G}, or {G}{G}.",
+   "draft_elo": 1228
+  },
+  {
+   "name": "Fire-Lit Thicket",
+   "types": [
+    "Land"
+   ],
+   "cmc": 0,
+   "image": "https://cards.scryfall.io/normal/front/0/a/0ab9d6ad-f819-4a1e-b4ff-8dc00791f0fd.jpg?1782716088",
+   "colors": [],
+   "color_identity": [
+    "G",
+    "R"
+   ],
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/shm/271/fire-lit-thicket?utm_source=api",
+   "oracle_text": "{T}: Add {C}.\n{R/G}, {T}: Add {R}{R}, {R}{G}, or {G}{G}.",
+   "draft_elo": 1228
+  },
+  {
+   "name": "Impromptu Raid",
+   "types": [
+    "Enchantment"
+   ],
+   "cmc": 4,
+   "image": "https://cards.scryfall.io/normal/front/f/2/f2171e1c-fd36-43a6-ade3-c3aba8915139.jpg?1782716113",
+   "colors": [
+    "G",
+    "R"
+   ],
+   "color_identity": [
+    "G",
+    "R"
+   ],
+   "mana_cost": "{3}{R/G}",
+   "url": "https://scryfall.com/card/shm/209/impromptu-raid?utm_source=api",
+   "oracle_text": "{2}{R/G}: Reveal the top card of your library. If it isn't a creature card, put it into your graveyard. Otherwise, put that card onto the battlefield. That creature gains haste. Sacrifice it at the beginning of the next end step.",
+   "draft_elo": 1172
+  },
+  {
+   "name": "Impromptu Raid",
+   "types": [
+    "Enchantment"
+   ],
+   "cmc": 4,
+   "image": "https://cards.scryfall.io/normal/front/f/2/f2171e1c-fd36-43a6-ade3-c3aba8915139.jpg?1782716113",
+   "colors": [
+    "G",
+    "R"
+   ],
+   "color_identity": [
+    "G",
+    "R"
+   ],
+   "mana_cost": "{3}{R/G}",
+   "url": "https://scryfall.com/card/shm/209/impromptu-raid?utm_source=api",
+   "oracle_text": "{2}{R/G}: Reveal the top card of your library. If it isn't a creature card, put it into your graveyard. Otherwise, put that card onto the battlefield. That creature gains haste. Sacrifice it at the beginning of the next end step.",
+   "draft_elo": 1172
+  },
+  {
+   "name": "Wooded Bastion",
+   "types": [
+    "Land"
+   ],
+   "cmc": 0,
+   "image": "https://cards.scryfall.io/normal/front/7/e/7e088fe6-e47a-4e27-b07e-ec35db045359.jpg?1782716083",
+   "colors": [],
+   "color_identity": [
+    "G",
+    "W"
+   ],
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/shm/281/wooded-bastion?utm_source=api",
+   "oracle_text": "{T}: Add {C}.\n{G/W}, {T}: Add {G}{G}, {G}{W}, or {W}{W}.",
+   "draft_elo": 1209
+  },
+  {
+   "name": "Wooded Bastion",
+   "types": [
+    "Land"
+   ],
+   "cmc": 0,
+   "image": "https://cards.scryfall.io/normal/front/7/e/7e088fe6-e47a-4e27-b07e-ec35db045359.jpg?1782716083",
+   "colors": [],
+   "color_identity": [
+    "G",
+    "W"
+   ],
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/shm/281/wooded-bastion?utm_source=api",
+   "oracle_text": "{T}: Add {C}.\n{G/W}, {T}: Add {G}{G}, {G}{W}, or {W}{W}.",
+   "draft_elo": 1209
+  },
+  {
+   "name": "Fetid Heath",
+   "types": [
+    "Land"
+   ],
+   "cmc": 0,
+   "image": "https://cards.scryfall.io/normal/front/0/f/0fbb9790-3744-4dcb-881a-452573298822.jpg?1782716001",
+   "colors": [],
+   "color_identity": [
+    "B",
+    "W"
+   ],
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/eve/176/fetid-heath?utm_source=api",
+   "oracle_text": "{T}: Add {C}.\n{W/B}, {T}: Add {W}{W}, {W}{B}, or {B}{B}.",
+   "draft_elo": 1268
+  },
+  {
+   "name": "Fetid Heath",
+   "types": [
+    "Land"
+   ],
+   "cmc": 0,
+   "image": "https://cards.scryfall.io/normal/front/0/f/0fbb9790-3744-4dcb-881a-452573298822.jpg?1782716001",
+   "colors": [],
+   "color_identity": [
+    "B",
+    "W"
+   ],
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/eve/176/fetid-heath?utm_source=api",
+   "oracle_text": "{T}: Add {C}.\n{W/B}, {T}: Add {W}{W}, {W}{B}, or {B}{B}.",
+   "draft_elo": 1268
+  },
+  {
+   "name": "Cascade Bluffs",
+   "types": [
+    "Land"
+   ],
+   "cmc": 0,
+   "image": "https://cards.scryfall.io/normal/front/c/3/c3eede44-270a-481d-850b-b4862b9685ea.jpg?1782716001",
+   "colors": [],
+   "color_identity": [
+    "R",
+    "U"
+   ],
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/eve/175/cascade-bluffs?utm_source=api",
+   "oracle_text": "{T}: Add {C}.\n{U/R}, {T}: Add {U}{U}, {U}{R}, or {R}{R}.",
+   "draft_elo": 1296
+  },
+  {
+   "name": "Cascade Bluffs",
+   "types": [
+    "Land"
+   ],
+   "cmc": 0,
+   "image": "https://cards.scryfall.io/normal/front/c/3/c3eede44-270a-481d-850b-b4862b9685ea.jpg?1782716001",
+   "colors": [],
+   "color_identity": [
+    "R",
+    "U"
+   ],
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/eve/175/cascade-bluffs?utm_source=api",
+   "oracle_text": "{T}: Add {C}.\n{U/R}, {T}: Add {U}{U}, {U}{R}, or {R}{R}.",
+   "draft_elo": 1296
+  },
+  {
+   "name": "Twilight Mire",
+   "types": [
+    "Land"
+   ],
+   "cmc": 0,
+   "image": "https://cards.scryfall.io/normal/front/f/f/ff619a09-4fe5-4341-9077-88a0a9f4fbf9.jpg?1782716000",
+   "colors": [],
+   "color_identity": [
+    "B",
+    "G"
+   ],
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/eve/180/twilight-mire?utm_source=api",
+   "oracle_text": "{T}: Add {C}.\n{B/G}, {T}: Add {B}{B}, {B}{G}, or {G}{G}.",
+   "draft_elo": 1260
+  },
+  {
+   "name": "Twilight Mire",
+   "types": [
+    "Land"
+   ],
+   "cmc": 0,
+   "image": "https://cards.scryfall.io/normal/front/f/f/ff619a09-4fe5-4341-9077-88a0a9f4fbf9.jpg?1782716000",
+   "colors": [],
+   "color_identity": [
+    "B",
+    "G"
+   ],
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/eve/180/twilight-mire?utm_source=api",
+   "oracle_text": "{T}: Add {C}.\n{B/G}, {T}: Add {B}{B}, {B}{G}, or {G}{G}.",
+   "draft_elo": 1260
+  },
+  {
+   "name": "Nath of the Gilt-Leaf",
+   "types": [
+    "Legendary",
+    "Creature"
+   ],
+   "sub_types": [
+    "Elf",
+    "Warrior"
+   ],
+   "cmc": 5,
+   "image": "https://cards.scryfall.io/normal/front/0/c/0c6c69bd-a8bf-4085-85fa-364b8e92b88a.jpg?1782716291",
+   "colors": [
+    "B",
+    "G"
+   ],
+   "color_identity": [
+    "B",
+    "G"
+   ],
+   "mana_cost": "{3}{B}{G}",
+   "url": "https://scryfall.com/card/lrw/250/nath-of-the-gilt-leaf?utm_source=api",
+   "oracle_text": "At the beginning of your upkeep, you may have target opponent discard a card at random.\nWhenever an opponent discards a card, you may create a 1/1 green Elf Warrior creature token.",
+   "power": "4",
+   "toughness": "4",
+   "draft_elo": 1238
+  },
+  {
+   "name": "Rugged Prairie",
+   "types": [
+    "Land"
+   ],
+   "cmc": 0,
+   "image": "https://cards.scryfall.io/normal/front/e/3/e31f8b2a-acf4-423c-bc99-8cf44f3c018a.jpg?1782716000",
+   "colors": [],
+   "color_identity": [
+    "R",
+    "W"
+   ],
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/eve/178/rugged-prairie?utm_source=api",
+   "oracle_text": "{T}: Add {C}.\n{R/W}, {T}: Add {R}{R}, {R}{W}, or {W}{W}.",
+   "draft_elo": 1277
+  },
+  {
+   "name": "Rugged Prairie",
+   "types": [
+    "Land"
+   ],
+   "cmc": 0,
+   "image": "https://cards.scryfall.io/normal/front/e/3/e31f8b2a-acf4-423c-bc99-8cf44f3c018a.jpg?1782716000",
+   "colors": [],
+   "color_identity": [
+    "R",
+    "W"
+   ],
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/eve/178/rugged-prairie?utm_source=api",
+   "oracle_text": "{T}: Add {C}.\n{R/W}, {T}: Add {R}{R}, {R}{W}, or {W}{W}.",
+   "draft_elo": 1277
+  },
+  {
+   "name": "Brion Stoutarm",
+   "types": [
+    "Legendary",
+    "Creature"
+   ],
+   "sub_types": [
+    "Giant",
+    "Warrior"
+   ],
+   "cmc": 4,
+   "image": "https://cards.scryfall.io/normal/front/a/a/aa21cfc2-9671-4bf3-b922-2f436f284cb1.jpg?1782716292",
+   "colors": [
+    "R",
+    "W"
+   ],
+   "color_identity": [
+    "R",
+    "W"
+   ],
+   "mana_cost": "{2}{R}{W}",
+   "url": "https://scryfall.com/card/lrw/246/brion-stoutarm?utm_source=api",
+   "oracle_text": "Lifelink\n{R}, {T}, Sacrifice another creature: Brion Stoutarm deals damage equal to the sacrificed creature's power to target player or planeswalker.",
+   "power": "4",
+   "toughness": "4",
+   "draft_elo": 1189
+  },
+  {
+   "name": "Flooded Grove",
+   "types": [
+    "Land"
+   ],
+   "cmc": 0,
+   "image": "https://cards.scryfall.io/normal/front/4/e/4e45d16b-8320-4a9b-ad15-9687dfb52bed.jpg?1782716001",
+   "colors": [],
+   "color_identity": [
+    "G",
+    "U"
+   ],
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/eve/177/flooded-grove?utm_source=api",
+   "oracle_text": "{T}: Add {C}.\n{G/U}, {T}: Add {G}{G}, {G}{U}, or {U}{U}.",
+   "draft_elo": 1251
+  },
+  {
+   "name": "Flooded Grove",
+   "types": [
+    "Land"
+   ],
+   "cmc": 0,
+   "image": "https://cards.scryfall.io/normal/front/4/e/4e45d16b-8320-4a9b-ad15-9687dfb52bed.jpg?1782716001",
+   "colors": [],
+   "color_identity": [
+    "G",
+    "U"
+   ],
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/eve/177/flooded-grove?utm_source=api",
+   "oracle_text": "{T}: Add {C}.\n{G/U}, {T}: Add {G}{G}, {G}{U}, or {U}{U}.",
+   "draft_elo": 1251
+  },
+  {
+   "name": "Murmuring Bosk",
+   "types": [
+    "Land"
+   ],
+   "sub_types": [
+    "Forest"
+   ],
+   "cmc": 0,
+   "image": "https://cards.scryfall.io/normal/front/8/7/87d11136-c8d6-402d-8cb4-cc0117fe2f1a.jpg?1782725632",
+   "colors": [],
+   "color_identity": [
+    "B",
+    "G",
+    "W"
+   ],
+   "mana_cost": "",
+   "url": "https://scryfall.com/card/plst/DMC-220/murmuring-bosk?utm_source=api",
+   "oracle_text": "({T}: Add {G}.)\nAs this land enters, you may reveal a Treefolk card from your hand. If you don't, this land enters tapped.\n{T}: Add {W} or {B}. This land deals 1 damage to you.",
+   "draft_elo": 1298
+  },
+  {
+   "name": "Doran, the Siege Tower",
+   "types": [
+    "Legendary",
+    "Creature"
+   ],
+   "sub_types": [
+    "Treefolk",
+    "Shaman"
+   ],
+   "cmc": 3,
+   "image": "https://cards.scryfall.io/normal/front/b/0/b006b169-295d-4ead-8e8e-29a9c3246025.jpg?1782716292",
+   "colors": [
+    "B",
+    "G",
+    "W"
+   ],
+   "color_identity": [
+    "B",
+    "G",
+    "W"
+   ],
+   "mana_cost": "{W}{B}{G}",
+   "url": "https://scryfall.com/card/lrw/247/doran-the-siege-tower?utm_source=api",
+   "oracle_text": "Each creature assigns combat damage equal to its toughness rather than its power.",
+   "power": "0",
+   "toughness": "5",
+   "draft_elo": 1106
+  },
+  {
+   "name": "Horde of Notions",
+   "types": [
+    "Legendary",
+    "Creature"
+   ],
+   "sub_types": [
+    "Elemental"
+   ],
+   "cmc": 5,
+   "image": "https://cards.scryfall.io/normal/front/8/0/80b9ea46-ae9b-4729-b206-0ba3ddc7660d.jpg?1782716292",
+   "colors": [
+    "B",
+    "G",
+    "R",
+    "U",
+    "W"
+   ],
+   "color_identity": [
+    "B",
+    "G",
+    "R",
+    "U",
+    "W"
+   ],
+   "mana_cost": "{W}{U}{B}{R}{G}",
+   "url": "https://scryfall.com/card/lrw/249/horde-of-notions?utm_source=api",
+   "oracle_text": "Vigilance, trample, haste\n{W}{U}{B}{R}{G}: You may play target Elemental card from your graveyard without paying its mana cost.",
+   "power": "5",
+   "toughness": "5",
+   "draft_elo": 1123
+  },
+  {
    "name": "Zealous Guardian",
    "types": [
     "Creature"
@@ -8988,6 +9472,29 @@
    "power": "1",
    "toughness": "1",
    "draft_elo": 1127
+  },
+  {
+   "name": "Curse of Chains",
+   "types": [
+    "Enchantment"
+   ],
+   "sub_types": [
+    "Aura"
+   ],
+   "cmc": 2,
+   "image": "https://cards.scryfall.io/normal/front/5/d/5db21bcb-60e8-4d15-8ea7-7298c2b1607c.jpg?1782716139",
+   "colors": [
+    "U",
+    "W"
+   ],
+   "color_identity": [
+    "U",
+    "W"
+   ],
+   "mana_cost": "{1}{W/U}",
+   "url": "https://scryfall.com/card/shm/139/curse-of-chains?utm_source=api",
+   "oracle_text": "Enchant creature\nAt the beginning of each upkeep, tap enchanted creature.",
+   "draft_elo": 1249
   },
   {
    "name": "Curse of Chains",
@@ -9089,33 +9596,6 @@
    "power": "2",
    "toughness": "1",
    "draft_elo": 1176
-  },
-  {
-   "name": "Sygg, River Guide",
-   "types": [
-    "Legendary",
-    "Creature"
-   ],
-   "sub_types": [
-    "Merfolk",
-    "Wizard"
-   ],
-   "cmc": 2,
-   "image": "https://cards.scryfall.io/normal/front/f/b/fb1aefaf-1b96-4c08-a73e-98e401655965.jpg?1782716291",
-   "colors": [
-    "U",
-    "W"
-   ],
-   "color_identity": [
-    "U",
-    "W"
-   ],
-   "mana_cost": "{W}{U}",
-   "url": "https://scryfall.com/card/lrw/251/sygg-river-guide?utm_source=api",
-   "oracle_text": "Islandwalk (This creature can't be blocked as long as defending player controls an Island.)\n{1}{W}: Target Merfolk you control gains protection from the color of your choice until end of turn.",
-   "power": "2",
-   "toughness": "2",
-   "draft_elo": 1173
   },
   {
    "name": "Turn to Mist",
@@ -9321,12 +9801,12 @@
    "draft_elo": 1154
   },
   {
-   "name": "Dream Salvage",
+   "name": "Memory Sluice",
    "types": [
-    "Instant"
+    "Sorcery"
    ],
    "cmc": 1,
-   "image": "https://cards.scryfall.io/normal/front/c/a/cac999cc-c5c0-4309-a255-3eb7399af340.jpg?1782716131",
+   "image": "https://cards.scryfall.io/normal/front/5/f/5fd93980-55f6-43a0-87db-5fa1203aa7b6.jpg?1782716127",
    "colors": [
     "B",
     "U"
@@ -9336,9 +9816,9 @@
     "U"
    ],
    "mana_cost": "{U/B}",
-   "url": "https://scryfall.com/card/shm/160/dream-salvage?utm_source=api",
-   "oracle_text": "Draw cards equal to the number of cards target opponent discarded this turn.",
-   "draft_elo": 1240
+   "url": "https://scryfall.com/card/shm/170/memory-sluice?utm_source=api",
+   "oracle_text": "Target player mills four cards.\nConspire (As you cast this spell, you may tap two untapped creatures you control that share a color with it. When you do, copy it and you may choose a new target for the copy.)",
+   "draft_elo": 1180
   },
   {
    "name": "Memory Sluice",
@@ -9453,6 +9933,26 @@
    "draft_elo": 1234
   },
   {
+   "name": "Scarscale Ritual",
+   "types": [
+    "Sorcery"
+   ],
+   "cmc": 2,
+   "image": "https://cards.scryfall.io/normal/front/7/1/71d3f64a-ffb9-4f66-91c0-463b5d2d381b.jpg?1782716125",
+   "colors": [
+    "B",
+    "U"
+   ],
+   "color_identity": [
+    "B",
+    "U"
+   ],
+   "mana_cost": "{1}{U/B}",
+   "url": "https://scryfall.com/card/shm/175/scarscale-ritual?utm_source=api",
+   "oracle_text": "As an additional cost to cast this spell, put a -1/-1 counter on a creature you control.\nDraw two cards.",
+   "draft_elo": 1234
+  },
+  {
    "name": "Sygg, River Cutthroat",
    "types": [
     "Legendary",
@@ -9518,31 +10018,6 @@
    "url": "https://scryfall.com/card/shm/174/rivers-grasp?utm_source=api",
    "oracle_text": "If {U} was spent to cast this spell, return up to one target creature to its owner's hand. If {B} was spent to cast this spell, target player reveals their hand, you choose a nonland card from it, then that player discards that card. (Do both if {U}{B} was spent.)",
    "draft_elo": 1201
-  },
-  {
-   "name": "Gravelgill Axeshark",
-   "types": [
-    "Creature"
-   ],
-   "sub_types": [
-    "Merfolk",
-    "Soldier"
-   ],
-   "cmc": 5,
-   "image": "https://cards.scryfall.io/normal/front/5/e/5efc174a-f710-4602-aace-c2165473f6c2.jpg?1562830735",
-   "colors": [
-    "B",
-    "U"
-   ],
-   "color_identity": [
-    "B",
-    "U"
-   ],
-   "mana_cost": "{4}{U/B}",
-   "url": "https://scryfall.com/card/shm/164/gravelgill-axeshark?utm_source=api",
-   "oracle_text": "Persist (When this creature dies, if it had no -1/-1 counters on it, return it to the battlefield under its owner's control with a -1/-1 counter on it.)",
-   "power": "3",
-   "toughness": "3"
   },
   {
    "name": "Oona, Queen of the Fae",
@@ -9690,33 +10165,6 @@
    "draft_elo": 1210
   },
   {
-   "name": "Wort, Boggart Auntie",
-   "types": [
-    "Legendary",
-    "Creature"
-   ],
-   "sub_types": [
-    "Goblin",
-    "Shaman"
-   ],
-   "cmc": 4,
-   "image": "https://cards.scryfall.io/normal/front/a/0/a08a1377-dede-47c8-8447-c9df125f3b14.jpg?1782716289",
-   "colors": [
-    "B",
-    "R"
-   ],
-   "color_identity": [
-    "B",
-    "R"
-   ],
-   "mana_cost": "{2}{B}{R}",
-   "url": "https://scryfall.com/card/lrw/252/wort-boggart-auntie?utm_source=api",
-   "oracle_text": "Fear (This creature can't be blocked except by artifact creatures and/or black creatures.)\nAt the beginning of your upkeep, you may return target Goblin card from your graveyard to your hand.",
-   "power": "3",
-   "toughness": "3",
-   "draft_elo": 1225
-  },
-  {
    "name": "Kulrath Knight",
    "types": [
     "Creature"
@@ -9761,26 +10209,6 @@
    "url": "https://scryfall.com/card/shm/199/torrent-of-souls?utm_source=api",
    "oracle_text": "Return up to one target creature card from your graveyard to the battlefield if {B} was spent to cast this spell. Creatures target player controls get +2/+0 and gain haste until end of turn if {R} was spent to cast this spell. (Do both if {B}{R} was spent.)",
    "draft_elo": 1214
-  },
-  {
-   "name": "Traitor's Roar",
-   "types": [
-    "Sorcery"
-   ],
-   "cmc": 5,
-   "image": "https://cards.scryfall.io/normal/front/7/5/751e2700-6425-45b8-b026-8c78098f08b2.jpg?1782716115",
-   "colors": [
-    "B",
-    "R"
-   ],
-   "color_identity": [
-    "B",
-    "R"
-   ],
-   "mana_cost": "{4}{B/R}",
-   "url": "https://scryfall.com/card/shm/200/traitors-roar?utm_source=api",
-   "oracle_text": "Tap target untapped creature. It deals damage equal to its power to its controller.\nConspire (As you cast this spell, you may tap two untapped creatures you control that share a color with it. When you do, copy it and you may choose a new target for the copy.)",
-   "draft_elo": 1177
   },
   {
    "name": "Scuzzback Scrapper",
@@ -9953,31 +10381,6 @@
    "draft_elo": 1124
   },
   {
-   "name": "Loamdragger Giant",
-   "types": [
-    "Creature"
-   ],
-   "sub_types": [
-    "Giant",
-    "Warrior"
-   ],
-   "cmc": 7,
-   "image": "https://cards.scryfall.io/normal/front/0/a/0a27bbe4-5341-4b2b-9ae8-eb56585a9c3a.jpg?1562826562",
-   "colors": [
-    "G",
-    "R"
-   ],
-   "color_identity": [
-    "G",
-    "R"
-   ],
-   "mana_cost": "{4}{R/G}{R/G}{R/G}",
-   "url": "https://scryfall.com/card/shm/210/loamdragger-giant?utm_source=api",
-   "oracle_text": "",
-   "power": "7",
-   "toughness": "6"
-  },
-  {
    "name": "Barkshell Blessing",
    "types": [
     "Instant"
@@ -10069,6 +10472,32 @@
    "power": "2",
    "toughness": "1",
    "draft_elo": 1165
+  },
+  {
+   "name": "Safehold Elite",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Elf",
+    "Scout"
+   ],
+   "cmc": 2,
+   "image": "https://cards.scryfall.io/normal/front/1/4/14dee5be-94fd-4b5d-9265-edd1b58c8026.jpg?1782716101",
+   "colors": [
+    "G",
+    "W"
+   ],
+   "color_identity": [
+    "G",
+    "W"
+   ],
+   "mana_cost": "{1}{G/W}",
+   "url": "https://scryfall.com/card/shm/239/safehold-elite?utm_source=api",
+   "oracle_text": "Persist (When this creature dies, if it had no -1/-1 counters on it, return it to the battlefield under its owner's control with a -1/-1 counter on it.)",
+   "power": "2",
+   "toughness": "2",
+   "draft_elo": 1280
   },
   {
    "name": "Safehold Elite",
@@ -10355,31 +10784,6 @@
    "draft_elo": 1158
   },
   {
-   "name": "Restless Apparition",
-   "types": [
-    "Creature"
-   ],
-   "sub_types": [
-    "Spirit"
-   ],
-   "cmc": 3,
-   "image": "https://cards.scryfall.io/normal/front/d/c/dc6480d0-17c5-4ac2-afb2-4d44f089de22.jpg?1782716034",
-   "colors": [
-    "B",
-    "W"
-   ],
-   "color_identity": [
-    "B",
-    "W"
-   ],
-   "mana_cost": "{W/B}{W/B}{W/B}",
-   "url": "https://scryfall.com/card/eve/94/restless-apparition?utm_source=api",
-   "oracle_text": "{W/B}{W/B}{W/B}: This creature gets +3/+3 until end of turn.\nPersist (When this creature dies, if it had no -1/-1 counters on it, return it to the battlefield under its owner's control with a -1/-1 counter on it.)",
-   "power": "2",
-   "toughness": "2",
-   "draft_elo": 1120
-  },
-  {
    "name": "Unmake",
    "types": [
     "Instant"
@@ -10468,6 +10872,26 @@
    "power": "1",
    "toughness": "1",
    "draft_elo": 1168
+  },
+  {
+   "name": "Inside Out",
+   "types": [
+    "Instant"
+   ],
+   "cmc": 2,
+   "image": "https://cards.scryfall.io/normal/front/a/5/a51180ee-8677-4d5a-9685-3861c67a1d1f.jpg?1782716031",
+   "colors": [
+    "R",
+    "U"
+   ],
+   "color_identity": [
+    "R",
+    "U"
+   ],
+   "mana_cost": "{1}{U/R}",
+   "url": "https://scryfall.com/card/eve/103/inside-out?utm_source=api",
+   "oracle_text": "Switch target creature's power and toughness until end of turn.\nDraw a card.",
+   "draft_elo": 1205
   },
   {
    "name": "Noggle Ransacker",
@@ -10597,6 +11021,31 @@
    "draft_elo": 1253
   },
   {
+   "name": "Rendclaw Trow",
+   "types": [
+    "Creature"
+   ],
+   "sub_types": [
+    "Troll"
+   ],
+   "cmc": 3,
+   "image": "https://cards.scryfall.io/normal/front/b/c/bc293a4b-abd6-47b6-99d1-578bc22580de.jpg?1782716021",
+   "colors": [
+    "B",
+    "G"
+   ],
+   "color_identity": [
+    "B",
+    "G"
+   ],
+   "mana_cost": "{2}{B/G}",
+   "url": "https://scryfall.com/card/eve/127/rendclaw-trow?utm_source=api",
+   "oracle_text": "Wither (This deals damage to creatures in the form of -1/-1 counters.)\nPersist (When this creature dies, if it had no -1/-1 counters on it, return it to the battlefield under its owner's control with a -1/-1 counter on it.)",
+   "power": "2",
+   "toughness": "2",
+   "draft_elo": 1253
+  },
+  {
    "name": "Canker Abomination",
    "types": [
     "Creature"
@@ -10646,33 +11095,6 @@
    "power": "2",
    "toughness": "2",
    "draft_elo": 1212
-  },
-  {
-   "name": "Nath of the Gilt-Leaf",
-   "types": [
-    "Legendary",
-    "Creature"
-   ],
-   "sub_types": [
-    "Elf",
-    "Warrior"
-   ],
-   "cmc": 5,
-   "image": "https://cards.scryfall.io/normal/front/0/c/0c6c69bd-a8bf-4085-85fa-364b8e92b88a.jpg?1782716291",
-   "colors": [
-    "B",
-    "G"
-   ],
-   "color_identity": [
-    "B",
-    "G"
-   ],
-   "mana_cost": "{3}{B}{G}",
-   "url": "https://scryfall.com/card/lrw/250/nath-of-the-gilt-leaf?utm_source=api",
-   "oracle_text": "At the beginning of your upkeep, you may have target opponent discard a card at random.\nWhenever an opponent discards a card, you may create a 1/1 green Elf Warrior creature token.",
-   "power": "4",
-   "toughness": "4",
-   "draft_elo": 1238
   },
   {
    "name": "Worm Harvest",
@@ -10882,33 +11304,6 @@
    "power": "1",
    "toughness": "2",
    "draft_elo": 1181
-  },
-  {
-   "name": "Brion Stoutarm",
-   "types": [
-    "Legendary",
-    "Creature"
-   ],
-   "sub_types": [
-    "Giant",
-    "Warrior"
-   ],
-   "cmc": 4,
-   "image": "https://cards.scryfall.io/normal/front/a/a/aa21cfc2-9671-4bf3-b922-2f436f284cb1.jpg?1782716292",
-   "colors": [
-    "R",
-    "W"
-   ],
-   "color_identity": [
-    "R",
-    "W"
-   ],
-   "mana_cost": "{2}{R}{W}",
-   "url": "https://scryfall.com/card/lrw/246/brion-stoutarm?utm_source=api",
-   "oracle_text": "Lifelink\n{R}, {T}, Sacrifice another creature: Brion Stoutarm deals damage equal to the sacrificed creature's power to target player or planeswalker.",
-   "power": "4",
-   "toughness": "4",
-   "draft_elo": 1189
   },
   {
    "name": "Spitemare",
@@ -11141,453 +11536,6 @@
    "url": "https://scryfall.com/card/eve/162/spitting-image?utm_source=api",
    "oracle_text": "Create a token that's a copy of target creature.\nRetrace (You may cast this card from your graveyard by discarding a land card in addition to paying its other costs.)",
    "draft_elo": 1221
-  },
-  {
-   "name": "Trapjaw Kelpie",
-   "types": [
-    "Creature"
-   ],
-   "sub_types": [
-    "Beast"
-   ],
-   "cmc": 6,
-   "image": "https://cards.scryfall.io/normal/front/6/2/62615f86-0431-4709-b41c-af43f7793fdb.jpg?1782716006",
-   "colors": [
-    "G",
-    "U"
-   ],
-   "color_identity": [
-    "G",
-    "U"
-   ],
-   "mana_cost": "{4}{G/U}{G/U}",
-   "url": "https://scryfall.com/card/eve/164/trapjaw-kelpie?utm_source=api",
-   "oracle_text": "Flash\nPersist (When this creature dies, if it had no -1/-1 counters on it, return it to the battlefield under its owner's control with a -1/-1 counter on it.)",
-   "power": "3",
-   "toughness": "3",
-   "draft_elo": 1145
-  },
-  {
-   "name": "Murmuring Bosk",
-   "types": [
-    "Land"
-   ],
-   "sub_types": [
-    "Forest"
-   ],
-   "cmc": 0,
-   "image": "https://cards.scryfall.io/normal/front/8/7/87d11136-c8d6-402d-8cb4-cc0117fe2f1a.jpg?1782725632",
-   "colors": [],
-   "color_identity": [
-    "B",
-    "G",
-    "W"
-   ],
-   "mana_cost": "",
-   "url": "https://scryfall.com/card/plst/DMC-220/murmuring-bosk?utm_source=api",
-   "oracle_text": "({T}: Add {G}.)\nAs this land enters, you may reveal a Treefolk card from your hand. If you don't, this land enters tapped.\n{T}: Add {W} or {B}. This land deals 1 damage to you.",
-   "draft_elo": 1298
-  },
-  {
-   "name": "Doran, the Siege Tower",
-   "types": [
-    "Legendary",
-    "Creature"
-   ],
-   "sub_types": [
-    "Treefolk",
-    "Shaman"
-   ],
-   "cmc": 3,
-   "image": "https://cards.scryfall.io/normal/front/b/0/b006b169-295d-4ead-8e8e-29a9c3246025.jpg?1782716292",
-   "colors": [
-    "B",
-    "G",
-    "W"
-   ],
-   "color_identity": [
-    "B",
-    "G",
-    "W"
-   ],
-   "mana_cost": "{W}{B}{G}",
-   "url": "https://scryfall.com/card/lrw/247/doran-the-siege-tower?utm_source=api",
-   "oracle_text": "Each creature assigns combat damage equal to its toughness rather than its power.",
-   "power": "0",
-   "toughness": "5",
-   "draft_elo": 1106
-  },
-  {
-   "name": "Horde of Notions",
-   "types": [
-    "Legendary",
-    "Creature"
-   ],
-   "sub_types": [
-    "Elemental"
-   ],
-   "cmc": 5,
-   "image": "https://cards.scryfall.io/normal/front/8/0/80b9ea46-ae9b-4729-b206-0ba3ddc7660d.jpg?1782716292",
-   "colors": [
-    "B",
-    "G",
-    "R",
-    "U",
-    "W"
-   ],
-   "color_identity": [
-    "B",
-    "G",
-    "R",
-    "U",
-    "W"
-   ],
-   "mana_cost": "{W}{U}{B}{R}{G}",
-   "url": "https://scryfall.com/card/lrw/249/horde-of-notions?utm_source=api",
-   "oracle_text": "Vigilance, trample, haste\n{W}{U}{B}{R}{G}: You may play target Elemental card from your graveyard without paying its mana cost.",
-   "power": "5",
-   "toughness": "5",
-   "draft_elo": 1123
-  },
-  {
-   "name": "Mystic Gate",
-   "types": [
-    "Land"
-   ],
-   "cmc": 0,
-   "image": "https://cards.scryfall.io/normal/front/3/d/3dfa866b-93e2-4365-91b0-f12d1f7c5395.jpg?1782716085",
-   "colors": [],
-   "color_identity": [
-    "U",
-    "W"
-   ],
-   "mana_cost": "",
-   "url": "https://scryfall.com/card/shm/277/mystic-gate?utm_source=api",
-   "oracle_text": "{T}: Add {C}.\n{W/U}, {T}: Add {W}{W}, {W}{U}, or {U}{U}.",
-   "draft_elo": 1282
-  },
-  {
-   "name": "Mystic Gate",
-   "types": [
-    "Land"
-   ],
-   "cmc": 0,
-   "image": "https://cards.scryfall.io/normal/front/3/d/3dfa866b-93e2-4365-91b0-f12d1f7c5395.jpg?1782716085",
-   "colors": [],
-   "color_identity": [
-    "U",
-    "W"
-   ],
-   "mana_cost": "",
-   "url": "https://scryfall.com/card/shm/277/mystic-gate?utm_source=api",
-   "oracle_text": "{T}: Add {C}.\n{W/U}, {T}: Add {W}{W}, {W}{U}, or {U}{U}.",
-   "draft_elo": 1282
-  },
-  {
-   "name": "Sunken Ruins",
-   "types": [
-    "Land"
-   ],
-   "cmc": 0,
-   "image": "https://cards.scryfall.io/normal/front/9/d/9d91a31c-b70a-45bd-a8dd-48d49b277f24.jpg?1782716084",
-   "colors": [],
-   "color_identity": [
-    "B",
-    "U"
-   ],
-   "mana_cost": "",
-   "url": "https://scryfall.com/card/shm/280/sunken-ruins?utm_source=api",
-   "oracle_text": "{T}: Add {C}.\n{U/B}, {T}: Add {U}{U}, {U}{B}, or {B}{B}.",
-   "draft_elo": 1330
-  },
-  {
-   "name": "Sunken Ruins",
-   "types": [
-    "Land"
-   ],
-   "cmc": 0,
-   "image": "https://cards.scryfall.io/normal/front/9/d/9d91a31c-b70a-45bd-a8dd-48d49b277f24.jpg?1782716084",
-   "colors": [],
-   "color_identity": [
-    "B",
-    "U"
-   ],
-   "mana_cost": "",
-   "url": "https://scryfall.com/card/shm/280/sunken-ruins?utm_source=api",
-   "oracle_text": "{T}: Add {C}.\n{U/B}, {T}: Add {U}{U}, {U}{B}, or {B}{B}.",
-   "draft_elo": 1330
-  },
-  {
-   "name": "Graven Cairns",
-   "types": [
-    "Land"
-   ],
-   "cmc": 0,
-   "image": "https://cards.scryfall.io/normal/front/c/3/c355bf63-f456-43ad-a6df-6c2a17511f43.jpg?1782716088",
-   "colors": [],
-   "color_identity": [
-    "B",
-    "R"
-   ],
-   "mana_cost": "",
-   "url": "https://scryfall.com/card/shm/272/graven-cairns?utm_source=api",
-   "oracle_text": "{T}: Add {C}.\n{B/R}, {T}: Add {B}{B}, {B}{R}, or {R}{R}.",
-   "draft_elo": 1213
-  },
-  {
-   "name": "Graven Cairns",
-   "types": [
-    "Land"
-   ],
-   "cmc": 0,
-   "image": "https://cards.scryfall.io/normal/front/c/3/c355bf63-f456-43ad-a6df-6c2a17511f43.jpg?1782716088",
-   "colors": [],
-   "color_identity": [
-    "B",
-    "R"
-   ],
-   "mana_cost": "",
-   "url": "https://scryfall.com/card/shm/272/graven-cairns?utm_source=api",
-   "oracle_text": "{T}: Add {C}.\n{B/R}, {T}: Add {B}{B}, {B}{R}, or {R}{R}.",
-   "draft_elo": 1213
-  },
-  {
-   "name": "Fire-Lit Thicket",
-   "types": [
-    "Land"
-   ],
-   "cmc": 0,
-   "image": "https://cards.scryfall.io/normal/front/0/a/0ab9d6ad-f819-4a1e-b4ff-8dc00791f0fd.jpg?1782716088",
-   "colors": [],
-   "color_identity": [
-    "G",
-    "R"
-   ],
-   "mana_cost": "",
-   "url": "https://scryfall.com/card/shm/271/fire-lit-thicket?utm_source=api",
-   "oracle_text": "{T}: Add {C}.\n{R/G}, {T}: Add {R}{R}, {R}{G}, or {G}{G}.",
-   "draft_elo": 1228
-  },
-  {
-   "name": "Fire-Lit Thicket",
-   "types": [
-    "Land"
-   ],
-   "cmc": 0,
-   "image": "https://cards.scryfall.io/normal/front/0/a/0ab9d6ad-f819-4a1e-b4ff-8dc00791f0fd.jpg?1782716088",
-   "colors": [],
-   "color_identity": [
-    "G",
-    "R"
-   ],
-   "mana_cost": "",
-   "url": "https://scryfall.com/card/shm/271/fire-lit-thicket?utm_source=api",
-   "oracle_text": "{T}: Add {C}.\n{R/G}, {T}: Add {R}{R}, {R}{G}, or {G}{G}.",
-   "draft_elo": 1228
-  },
-  {
-   "name": "Wooded Bastion",
-   "types": [
-    "Land"
-   ],
-   "cmc": 0,
-   "image": "https://cards.scryfall.io/normal/front/7/e/7e088fe6-e47a-4e27-b07e-ec35db045359.jpg?1782716083",
-   "colors": [],
-   "color_identity": [
-    "G",
-    "W"
-   ],
-   "mana_cost": "",
-   "url": "https://scryfall.com/card/shm/281/wooded-bastion?utm_source=api",
-   "oracle_text": "{T}: Add {C}.\n{G/W}, {T}: Add {G}{G}, {G}{W}, or {W}{W}.",
-   "draft_elo": 1209
-  },
-  {
-   "name": "Wooded Bastion",
-   "types": [
-    "Land"
-   ],
-   "cmc": 0,
-   "image": "https://cards.scryfall.io/normal/front/7/e/7e088fe6-e47a-4e27-b07e-ec35db045359.jpg?1782716083",
-   "colors": [],
-   "color_identity": [
-    "G",
-    "W"
-   ],
-   "mana_cost": "",
-   "url": "https://scryfall.com/card/shm/281/wooded-bastion?utm_source=api",
-   "oracle_text": "{T}: Add {C}.\n{G/W}, {T}: Add {G}{G}, {G}{W}, or {W}{W}.",
-   "draft_elo": 1209
-  },
-  {
-   "name": "Fetid Heath",
-   "types": [
-    "Land"
-   ],
-   "cmc": 0,
-   "image": "https://cards.scryfall.io/normal/front/0/f/0fbb9790-3744-4dcb-881a-452573298822.jpg?1782716001",
-   "colors": [],
-   "color_identity": [
-    "B",
-    "W"
-   ],
-   "mana_cost": "",
-   "url": "https://scryfall.com/card/eve/176/fetid-heath?utm_source=api",
-   "oracle_text": "{T}: Add {C}.\n{W/B}, {T}: Add {W}{W}, {W}{B}, or {B}{B}.",
-   "draft_elo": 1268
-  },
-  {
-   "name": "Fetid Heath",
-   "types": [
-    "Land"
-   ],
-   "cmc": 0,
-   "image": "https://cards.scryfall.io/normal/front/0/f/0fbb9790-3744-4dcb-881a-452573298822.jpg?1782716001",
-   "colors": [],
-   "color_identity": [
-    "B",
-    "W"
-   ],
-   "mana_cost": "",
-   "url": "https://scryfall.com/card/eve/176/fetid-heath?utm_source=api",
-   "oracle_text": "{T}: Add {C}.\n{W/B}, {T}: Add {W}{W}, {W}{B}, or {B}{B}.",
-   "draft_elo": 1268
-  },
-  {
-   "name": "Cascade Bluffs",
-   "types": [
-    "Land"
-   ],
-   "cmc": 0,
-   "image": "https://cards.scryfall.io/normal/front/c/3/c3eede44-270a-481d-850b-b4862b9685ea.jpg?1782716001",
-   "colors": [],
-   "color_identity": [
-    "R",
-    "U"
-   ],
-   "mana_cost": "",
-   "url": "https://scryfall.com/card/eve/175/cascade-bluffs?utm_source=api",
-   "oracle_text": "{T}: Add {C}.\n{U/R}, {T}: Add {U}{U}, {U}{R}, or {R}{R}.",
-   "draft_elo": 1296
-  },
-  {
-   "name": "Cascade Bluffs",
-   "types": [
-    "Land"
-   ],
-   "cmc": 0,
-   "image": "https://cards.scryfall.io/normal/front/c/3/c3eede44-270a-481d-850b-b4862b9685ea.jpg?1782716001",
-   "colors": [],
-   "color_identity": [
-    "R",
-    "U"
-   ],
-   "mana_cost": "",
-   "url": "https://scryfall.com/card/eve/175/cascade-bluffs?utm_source=api",
-   "oracle_text": "{T}: Add {C}.\n{U/R}, {T}: Add {U}{U}, {U}{R}, or {R}{R}.",
-   "draft_elo": 1296
-  },
-  {
-   "name": "Twilight Mire",
-   "types": [
-    "Land"
-   ],
-   "cmc": 0,
-   "image": "https://cards.scryfall.io/normal/front/f/f/ff619a09-4fe5-4341-9077-88a0a9f4fbf9.jpg?1782716000",
-   "colors": [],
-   "color_identity": [
-    "B",
-    "G"
-   ],
-   "mana_cost": "",
-   "url": "https://scryfall.com/card/eve/180/twilight-mire?utm_source=api",
-   "oracle_text": "{T}: Add {C}.\n{B/G}, {T}: Add {B}{B}, {B}{G}, or {G}{G}.",
-   "draft_elo": 1260
-  },
-  {
-   "name": "Twilight Mire",
-   "types": [
-    "Land"
-   ],
-   "cmc": 0,
-   "image": "https://cards.scryfall.io/normal/front/f/f/ff619a09-4fe5-4341-9077-88a0a9f4fbf9.jpg?1782716000",
-   "colors": [],
-   "color_identity": [
-    "B",
-    "G"
-   ],
-   "mana_cost": "",
-   "url": "https://scryfall.com/card/eve/180/twilight-mire?utm_source=api",
-   "oracle_text": "{T}: Add {C}.\n{B/G}, {T}: Add {B}{B}, {B}{G}, or {G}{G}.",
-   "draft_elo": 1260
-  },
-  {
-   "name": "Rugged Prairie",
-   "types": [
-    "Land"
-   ],
-   "cmc": 0,
-   "image": "https://cards.scryfall.io/normal/front/e/3/e31f8b2a-acf4-423c-bc99-8cf44f3c018a.jpg?1782716000",
-   "colors": [],
-   "color_identity": [
-    "R",
-    "W"
-   ],
-   "mana_cost": "",
-   "url": "https://scryfall.com/card/eve/178/rugged-prairie?utm_source=api",
-   "oracle_text": "{T}: Add {C}.\n{R/W}, {T}: Add {R}{R}, {R}{W}, or {W}{W}.",
-   "draft_elo": 1277
-  },
-  {
-   "name": "Rugged Prairie",
-   "types": [
-    "Land"
-   ],
-   "cmc": 0,
-   "image": "https://cards.scryfall.io/normal/front/e/3/e31f8b2a-acf4-423c-bc99-8cf44f3c018a.jpg?1782716000",
-   "colors": [],
-   "color_identity": [
-    "R",
-    "W"
-   ],
-   "mana_cost": "",
-   "url": "https://scryfall.com/card/eve/178/rugged-prairie?utm_source=api",
-   "oracle_text": "{T}: Add {C}.\n{R/W}, {T}: Add {R}{R}, {R}{W}, or {W}{W}.",
-   "draft_elo": 1277
-  },
-  {
-   "name": "Flooded Grove",
-   "types": [
-    "Land"
-   ],
-   "cmc": 0,
-   "image": "https://cards.scryfall.io/normal/front/4/e/4e45d16b-8320-4a9b-ad15-9687dfb52bed.jpg?1782716001",
-   "colors": [],
-   "color_identity": [
-    "G",
-    "U"
-   ],
-   "mana_cost": "",
-   "url": "https://scryfall.com/card/eve/177/flooded-grove?utm_source=api",
-   "oracle_text": "{T}: Add {C}.\n{G/U}, {T}: Add {G}{G}, {G}{U}, or {U}{U}.",
-   "draft_elo": 1251
-  },
-  {
-   "name": "Flooded Grove",
-   "types": [
-    "Land"
-   ],
-   "cmc": 0,
-   "image": "https://cards.scryfall.io/normal/front/4/e/4e45d16b-8320-4a9b-ad15-9687dfb52bed.jpg?1782716001",
-   "colors": [],
-   "color_identity": [
-    "G",
-    "U"
-   ],
-   "mana_cost": "",
-   "url": "https://scryfall.com/card/eve/177/flooded-grove?utm_source=api",
-   "oracle_text": "{T}: Add {C}.\n{G/U}, {T}: Add {G}{G}, {G}{U}, or {U}{U}.",
-   "draft_elo": 1251
   }
  ]
 }
