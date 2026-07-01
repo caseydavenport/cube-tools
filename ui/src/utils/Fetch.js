@@ -31,11 +31,12 @@ export async function LoadDecks(cube, onLoad, start, end, draftSize, playerMatch
   let decks = await resp.json();
 
   // TODO: Move this into the server code, instead of iterate decks here.
-  for (let d of decks.decks) {
+  let list = decks.decks || []
+  for (let d of list) {
     decorateDeck(d)
   }
 
-  onLoad(decks.decks)
+  onLoad(list)
 }
 
 export async function LoadArchetypeData(cube, onLoad, start, end, draftSize, playerMatch, match) {
@@ -50,7 +51,8 @@ export async function LoadDrafts(cube, onLoad, start, end) {
   let idx = await FetchIndex(cube, null)
 
   let ids = []
-  idx.drafts.forEach(function(draft, i) {
+  // A cube with no drafts yet serves {"drafts": null}, so default to empty.
+  ;(idx.drafts || []).forEach(function(draft, i) {
     if (!isDateBetween(draft.date, start, end)) {
       return
     }
