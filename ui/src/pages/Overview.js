@@ -7,6 +7,23 @@ export default function Overview() {
   const [cubeMeta, setCubeMeta] = useState(null);
   const [drafts, setDrafts] = useState(null);
   const [error, setError] = useState(null);
+  const [refreshing, setRefreshing] = useState(false);
+  const [refreshMsg, setRefreshMsg] = useState(null);
+
+  async function refreshFromCubeCobra() {
+    setRefreshing(true);
+    setRefreshMsg(null);
+    try {
+      const r = await fetch(`/api/${cube}/refresh`, { method: 'POST' });
+      if (!r.ok) throw new Error(await r.text());
+      const data = await r.json();
+      setRefreshMsg(`Updated from CubeCobra: ${data.cards} cards.`);
+    } catch (err) {
+      setRefreshMsg(`Refresh failed: ${String(err)}`);
+    } finally {
+      setRefreshing(false);
+    }
+  }
 
   useEffect(() => {
     fetch('/api/cubes')
@@ -20,7 +37,13 @@ export default function Overview() {
 
   useEffect(() => {
     fetch(`/api/${cube}/index`)
-      .then(r => r.json())
+      .then(r => {
+        // A cube with no generated data yet has no index.json; treat that as
+        // an empty cube rather than surfacing the 404 body as a parse error.
+        if (r.status === 404) return { drafts: [] };
+        if (!r.ok) throw new Error(`index fetch failed: ${r.status}`);
+        return r.json();
+      })
       .then(data => setDrafts(data.drafts || []))
       .catch(err => setError(String(err)));
   }, [cube]);
@@ -39,6 +62,15 @@ export default function Overview() {
         {numDrafts} draft{numDrafts !== 1 ? 's' : ''}
         {numDecks > 0 ? `, ${numDecks} deck${numDecks !== 1 ? 's' : ''}` : ''}
       </p>
+
+      {cubeMeta && cubeMeta.cubecobra_id && (
+        <p className="overview-refresh">
+          <button onClick={refreshFromCubeCobra} disabled={refreshing}>
+            {refreshing ? 'Refreshing…' : 'Refresh from CubeCobra'}
+          </button>
+          {refreshMsg ? <span className="overview-refresh-msg"> {refreshMsg}</span> : null}
+        </p>
+      )}
 
       {recentDrafts.length > 0 && (
         <div className="overview-recent">
