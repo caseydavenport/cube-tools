@@ -44,7 +44,17 @@ type IndexedDeck struct {
 	Path string `json:"path"`
 }
 
+// index regenerates the index files for the given cube's drafts directory,
+// fataling on error. See Index for the non-fatal equivalent used by the
+// server.
 func index(cube string) {
+	if err := Index(cube); err != nil {
+		logrus.WithError(err).Fatal("Failed to index drafts")
+	}
+}
+
+// Index regenerates the index files for the given cube's drafts directory.
+func Index(cube string) error {
 	// Specify the draftsDirectory that holds the drafts.
 	draftsDirectory := fmt.Sprintf("./data/%s", cube)
 
@@ -52,8 +62,7 @@ func index(cube string) {
 	// each subdir represents a draft.
 	draftIDs, err := getSubDirectories(draftsDirectory)
 	if err != nil {
-		logrus.WithError(err).Fatal("Failed to get subdirectories")
-		return
+		return fmt.Errorf("get subdirectories: %w", err)
 	}
 
 	index := MainIndex{}
@@ -87,29 +96,29 @@ func index(cube string) {
 	// Create and open the file for writing
 	file, err := os.Create(indexFile)
 	if err != nil {
-		logrus.WithError(err).Fatal("Failed to create index file")
+		return fmt.Errorf("create index file: %w", err)
 	}
 	defer file.Close()
 
 	// Encode the directories to JSON
 	fileData, err := json.MarshalIndent(index, "", " ")
 	if err != nil {
-		logrus.WithError(err).Fatal("Failed to marshal directories to JSON")
+		return fmt.Errorf("marshal directories to JSON: %w", err)
 	}
 
 	// Write the JSON data to the file
-	_, err = file.Write(fileData)
-	if err != nil {
-		logrus.WithError(err).Fatal("Failed to write JSON data to file")
+	if _, err := file.Write(fileData); err != nil {
+		return fmt.Errorf("write JSON data to file: %w", err)
 	}
 
 	// As part of re-indexing, parse cube.csv into cube.json so the UI can read
 	// it directly.
 	if _, err := GenerateCubeJSON(cube); err != nil {
-		logrus.WithError(err).Fatal("Failed to generate cube.json")
+		return fmt.Errorf("generate cube.json: %w", err)
 	}
 
 	logrus.Debug("Finished indexing all drafts")
+	return nil
 }
 
 // cubeCobraID returns the cube's Cube Cobra id from the registry, or "" if the
