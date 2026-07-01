@@ -15,9 +15,11 @@ type CountedCard = types.CountedCard
 // hydrated into full types.Card records.
 type ParsedDeck struct {
 	Player    string
+	Filename  string
 	Pool      []CountedCard
 	Mainboard []CountedCard
 	Sideboard []CountedCard
+	Warnings  []string
 }
 
 // Discrepancy describes a single card whose count across all parsed decks
