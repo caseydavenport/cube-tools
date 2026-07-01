@@ -42,8 +42,14 @@ export default function ImportReview({ cube, initialDecks, initialReport, draftI
     editDeck(i, withList(decks[i], list));
   }
   function rename(i, oldName, newName) {
-    const list = deckList(decks[i]).map(c => c.name === oldName ? { ...c, name: newName } : c);
-    editDeck(i, withList(decks[i], list));
+    const list = deckList(decks[i]);
+    const target = list.find(c => c.name === oldName);
+    if (!target) return;
+    const existing = list.find(c => c.name === newName && c !== target);
+    const next = existing
+      ? list.map(c => c === existing ? { ...c, count: c.count + target.count } : c).filter(c => c !== target)
+      : list.map(c => c === target ? { ...c, name: newName } : c);
+    editDeck(i, withList(decks[i], next));
   }
   function addCard(i, name) {
     const list = deckList(decks[i]);
