@@ -10,7 +10,7 @@
       ]
     },
     {
-      "name": "Artifact sac outlets",
+      "name": "Sac artifacts",
       "conditions": [
         "o:\"sacrifice another creature or artifact\"",
         "o:\"sacrifice an artifact\"",
@@ -86,8 +86,10 @@
       "conditions": [
         "o:proliferate",
         "o:\"that many plus one\"",
-        "o:\"less than or equal to its power\"",
-        "o:\"or more counters on it\""
+        "o:\"or more counters on it\"",
+        "o:\"with +1/+1 counters on them\"",
+        "o:\"for each +1/+1 counter\"",
+        "o:\"remove a +1/+1 counter\""
       ]
     },
     {
@@ -159,20 +161,34 @@
       ]
     },
     {
+      "name": "Auras",
+      "conditions": [
+        "t:aura"
+      ]
+    },
+    {
+      "name": "Kellan",
+      "conditions": [
+        "n:Kellan"
+      ]
+    },
+    {
       "name": "Equipment",
       "conditions": [
         "t:equipment"
       ]
     },
     {
-      "name": "Equipment matters",
+      "name": "Buff targets",
       "conditions": [
-        "o:\"an equipment\" t:creature",
-        "o:flying t:creature",
-        "o:trample t:creature",
-        "o:menace t:creature",
-        "o:\"first strike\" t:creature",
-        "o:\"double strike\" t:creature"
+        "t:creature o:flying",
+        "t:creature o:trample",
+        "t:creature o:menace",
+        "t:creature o:\"can't be blocked\" !o:\"creatures you control\"",
+        "t:creature o:\"first strike\"",
+        "t:creature o:\"double strike\"",
+        "t:creature o:\"its power\"",
+        "t:creature o:\"'s power\" !o:\"card types\""
       ]
     },
     {
@@ -264,9 +280,31 @@
       ]
     },
     {
-      "name": "Makes counters",
+      "name": "Counters on others",
       "conditions": [
-        "o:\"+1/+1 counter\""
+        "o:\"+1/+1 counter on target\"",
+        "o:\"+1/+1 counters on target\"",
+        "o:\"+1/+1 counter on each\"",
+        "o:\"counters among\"",
+        "o:\"+1/+1 counter on up to\"",
+        "o:\"+1/+1 counter on another\"",
+        "o:\"+1/+1 counter on equipped\""
+      ]
+    },
+    {
+      "name": "Counters on self",
+      "conditions": [
+        "o:\"+1/+1 counter on this creature\"",
+        "o:\"+1/+1 counter on this permanent\"",
+        "o:\"+1/+1 counter on it\"",
+        "o:\"+1/+1 counter on itself\"",
+        "o:\"enters with a +1/+1\"",
+        "o:\"enters with x +1/+1\"",
+        "o:\"enters with two +1/+1\"",
+        "o:\"enters with three +1/+1\"",
+        "o:\"escapes with a +1/+1\"",
+        "o:\"escapes with two +1/+1\"",
+        "o:\"escapes with three +1/+1\""
       ]
     },
     {
@@ -347,27 +385,37 @@
       ]
     },
     {
-      "name": "Sacrifice effects",
+      "name": "Self-sac",
       "conditions": [
-        "o:\"sacrifice this\"",
-        "o:\"sacrifice a\"",
-        "o:\"player sacrifices a\"",
-        "o:\"you may sacrifice\""
+        "o:\"sacrifice this\""
       ]
     },
     {
-      "name": "Sacrifice outlets",
+      "name": "Sac creatures",
       "conditions": [
         "o:\"sacrifice a creature\"",
-        "o:\"sacrifice another creature\""
+        "o:\"sacrifice another creature\"",
+        "o:\"each player sacrifices\"",
+        "o:\"target player sacrifices\""
       ]
     },
     {
-      "name": "Sacrifice payoffs",
+      "name": "Sac payoff: any",
       "conditions": [
-        "o:\"whenever you sacrifice\" !n:\"Tireless Tracker\"",
-        "o:\"are put into your graveyard\"",
-        "o:\"whenever a player sacrifices\""
+        "o:\"whenever a player sacrifices\"",
+        "o:\"are put into your graveyard\""
+      ]
+    },
+    {
+      "name": "Sac payoff: creature",
+      "conditions": [
+        "o:\"whenever you sacrifice a creature\""
+      ]
+    },
+    {
+      "name": "Sac payoff: artifact",
+      "conditions": [
+        "o:\"whenever you sacrifice an artifact\""
       ]
     },
     {
@@ -416,7 +464,7 @@
       ]
     },
     {
-      "name": "Token makers",
+      "name": "Creature tokens",
       "conditions": [
         "o:\"create\" o:\"creature token\""
       ]
@@ -484,10 +532,11 @@
     {
       "label": "Artifacts",
       "sources": [
-        "Artifact sac outlets"
+        "Sac artifacts"
       ],
       "targets": [
-        "Trinket artifacts"
+        "Trinket artifacts",
+        "Sac payoff: any"
       ]
     },
     {
@@ -530,10 +579,21 @@
     {
       "label": "Counters",
       "sources": [
-        "Makes counters"
+        "Counters on others"
       ],
       "targets": [
-        "Counters matter"
+        "Counters matter",
+        "Buff targets"
+      ]
+    },
+    {
+      "label": "Kellan",
+      "sources": [
+        "Kellan"
+      ],
+      "targets": [
+        "Auras",
+        "Equipment"
       ]
     },
     {
@@ -543,7 +603,7 @@
       ],
       "targets": [
         "Card types in graveyard",
-        "Artifact sac outlets"
+        "Sac artifacts"
       ]
     },
     {
@@ -603,7 +663,7 @@
     {
       "label": "Equipment",
       "sources": [
-        "Equipment matters"
+        "Buff targets"
       ],
       "targets": [
         "Equipment"
@@ -624,7 +684,7 @@
         "Wide payoffs"
       ],
       "targets": [
-        "Token makers"
+        "Creature tokens"
       ]
     },
     {
@@ -635,7 +695,7 @@
       "targets": [
         "Fill graveyard",
         "Selective discard",
-        "Sacrifice outlets"
+        "Sac creatures"
       ]
     },
     {
@@ -707,7 +767,7 @@
         "Recursive creatures"
       ],
       "targets": [
-        "Sacrifice outlets",
+        "Sac creatures",
         "Selective discard"
       ]
     },
@@ -717,7 +777,7 @@
         "Ritual - Match"
       ],
       "targets": [
-        "Sacrifice payoffs"
+        "Sac payoff: any"
       ]
     },
     {
@@ -732,30 +792,36 @@
     {
       "label": "Sac For Yard",
       "sources": [
-        "Sacrifice effects"
+        "Self-sac"
       ],
       "targets": [
-        "Fill graveyard"
+        "Fill graveyard",
+        "Delirium",
+        "Graveyard size payoffs"
       ]
     },
     {
       "label": "Sacrifice",
       "sources": [
-        "Sacrifice outlets"
+        "Sac creatures"
       ],
       "targets": [
-        "Token makers",
+        "Creature tokens",
         "Recursive creatures",
-        "Sacrifice payoffs"
+        "Sac payoff: any"
       ]
     },
     {
-      "label": "Sacrifice effects",
+      "label": "Sac payoff",
       "sources": [
-        "Sacrifice payoffs"
+        "Sac payoff: any"
       ],
       "targets": [
-        "Sacrifice effects"
+        "Self-sac",
+        "Sac creatures",
+        "Sac artifacts",
+        "Creature tokens",
+        "Trinket artifacts"
       ]
     },
     {
@@ -819,7 +885,7 @@
     {
       "label": "Sky Tokens",
       "sources": [
-        "Token makers"
+        "Creature tokens"
       ],
       "targets": [
         "Inner Sky"
@@ -840,7 +906,7 @@
         "Token payoffs"
       ],
       "targets": [
-        "Token makers"
+        "Creature tokens"
       ]
     },
     {
