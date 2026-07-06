@@ -1,0 +1,617 @@
+{
+  "groups": [
+    {
+      "name": "Changelings",
+      "conditions": [
+        "o:changeling"
+      ]
+    },
+    {
+      "name": "Elves",
+      "conditions": [
+        "st:elf"
+      ]
+    },
+    {
+      "name": "Goblins",
+      "conditions": [
+        "st:goblin"
+      ]
+    },
+    {
+      "name": "Kithkin",
+      "conditions": [
+        "st:kithkin"
+      ]
+    },
+    {
+      "name": "Merfolk",
+      "conditions": [
+        "st:merfolk"
+      ]
+    },
+    {
+      "name": "Treefolk",
+      "conditions": [
+        "st:treefolk"
+      ]
+    },
+    {
+      "name": "Faeries",
+      "conditions": [
+        "st:faerie"
+      ]
+    },
+    {
+      "name": "Giants",
+      "conditions": [
+        "st:giant"
+      ]
+    },
+    {
+      "name": "Elementals",
+      "conditions": [
+        "st:elemental"
+      ]
+    },
+    {
+      "name": "Scarecrows",
+      "conditions": [
+        "st:scarecrow"
+      ]
+    },
+    {
+      "name": "Warriors",
+      "conditions": [
+        "st:warrior"
+      ]
+    },
+    {
+      "name": "Wizards",
+      "conditions": [
+        "st:wizard"
+      ]
+    },
+    {
+      "name": "Shamans",
+      "conditions": [
+        "st:shaman"
+      ]
+    },
+    {
+      "name": "Rogues",
+      "conditions": [
+        "st:rogue"
+      ]
+    },
+    {
+      "name": "Soldiers",
+      "conditions": [
+        "st:soldier"
+      ]
+    },
+    {
+      "name": "Druids",
+      "conditions": [
+        "st:druid"
+      ]
+    },
+    {
+      "name": "Elf payoffs",
+      "conditions": [
+        "o:\"elves you control\"",
+        "o:\"other elf\"",
+        "o:\"elf creatures\"",
+        "o:\"each elf\""
+      ]
+    },
+    {
+      "name": "Goblin payoffs",
+      "conditions": [
+        "o:\"goblins you control\"",
+        "o:\"other goblin\"",
+        "o:\"goblin creatures\"",
+        "o:\"each goblin\""
+      ]
+    },
+    {
+      "name": "Kithkin payoffs",
+      "conditions": [
+        "o:\"kithkin you control\"",
+        "o:\"other kithkin\"",
+        "o:\"kithkin creatures\"",
+        "o:\"each kithkin\""
+      ]
+    },
+    {
+      "name": "Merfolk payoffs",
+      "conditions": [
+        "o:\"merfolk you control\"",
+        "o:\"other merfolk\"",
+        "o:\"merfolk creatures\"",
+        "o:\"each merfolk\""
+      ]
+    },
+    {
+      "name": "Treefolk payoffs",
+      "conditions": [
+        "o:\"treefolk you control\"",
+        "o:\"other treefolk\"",
+        "o:\"treefolk creatures\"",
+        "o:\"each treefolk\"",
+        "o:\"treefolk and\""
+      ]
+    },
+    {
+      "name": "Faerie payoffs",
+      "conditions": [
+        "o:\"faeries you control\"",
+        "o:\"other faerie\"",
+        "o:\"faerie creatures\"",
+        "o:\"each faerie\""
+      ]
+    },
+    {
+      "name": "Elemental payoffs",
+      "conditions": [
+        "o:\"elementals you control\"",
+        "o:\"other elemental\"",
+        "o:\"elemental creatures\"",
+        "o:\"each elemental\""
+      ]
+    },
+    {
+      "name": "Warrior payoffs",
+      "conditions": [
+        "o:\"warriors you control\"",
+        "o:\"other warrior\"",
+        "o:\"warrior creatures\"",
+        "o:\"each warrior\""
+      ]
+    },
+    {
+      "name": "Wizard payoffs",
+      "conditions": [
+        "o:\"wizards you control\"",
+        "o:\"other wizard\"",
+        "o:\"wizard creatures\"",
+        "o:\"each wizard\""
+      ]
+    },
+    {
+      "name": "Rogue payoffs",
+      "conditions": [
+        "o:\"rogues you control\"",
+        "o:\"other rogue\"",
+        "o:\"rogue creatures\"",
+        "o:\"each rogue\""
+      ]
+    },
+    {
+      "name": "Soldier payoffs",
+      "conditions": [
+        "o:\"soldiers you control\"",
+        "o:\"other soldier\"",
+        "o:\"soldier creatures\"",
+        "o:\"each soldier\"",
+        "o:\"target soldier\""
+      ]
+    },
+    {
+      "name": "Type matters",
+      "conditions": [
+        "o:\"creature type\" !o:changeling",
+        "o:\"chosen type\"",
+        "o:\"share a creature type\"",
+        "o:\"creatures of the creature type\"",
+        "o:\"the same creature type\""
+      ]
+    },
+    {
+      "name": "Places -1/-1 counters",
+      "conditions": [
+        "o:wither",
+        "o:\"-1/-1 counter on\"",
+        "o:\"-1/-1 counters on\""
+      ]
+    },
+    {
+      "name": "-1/-1 counters matter",
+      "conditions": [
+        "o:persist",
+        "o:\"with a -1/-1 counter\"",
+        "o:\"remove a -1/-1\"",
+        "o:\"one or more -1/-1\"",
+        "o:\"remove all -1/-1\"",
+        "o:\"where x is\""
+      ]
+    },
+    {
+      "name": "Places +1/+1 counters",
+      "conditions": [
+        "o:\"+1/+1 counter on\"",
+        "o:\"+1/+1 counters on\"",
+        "o:reinforce"
+      ]
+    },
+    {
+      "name": "+1/+1 counters matter",
+      "conditions": [
+        "o:\"with a +1/+1 counter\"",
+        "o:\"one or more +1/+1\"",
+        "o:\"for each +1/+1\"",
+        "o:\"moved a +1/+1\""
+      ]
+    },
+    {
+      "name": "Evoke",
+      "conditions": [
+        "o:evoke"
+      ]
+    },
+    {
+      "name": "Sacrifice outlets",
+      "conditions": [
+        "o:\"sacrifice a creature\"",
+        "o:\"sacrifice another\"",
+        "o:\"sacrifice a\""
+      ]
+    },
+    {
+      "name": "Dies triggers",
+      "conditions": [
+        "o:\"dies,\"",
+        "o:\"when this creature dies\"",
+        "o:\"whenever a creature you control dies\"",
+        "o:\"whenever another creature you control dies\""
+      ]
+    },
+    {
+      "name": "Mill",
+      "conditions": [
+        "o:mill"
+      ]
+    },
+    {
+      "name": "Graveyard payoffs",
+      "conditions": [
+        "o:\"from your graveyard\"",
+        "o:\"in your graveyard\"",
+        "o:\"return target creature card\""
+      ]
+    },
+    {
+      "name": "Token makers",
+      "conditions": [
+        "o:\"create\" o:\"token\"",
+        "o:\"put a\" o:\"token\""
+      ]
+    },
+    {
+      "name": "Go-wide payoffs",
+      "conditions": [
+        "o:\"creatures you control get\"",
+        "o:\"for each creature you control\"",
+        "o:conspire"
+      ]
+    },
+    {
+      "name": "Clash",
+      "conditions": [
+        "o:clash"
+      ]
+    },
+    {
+      "name": "Kinship",
+      "conditions": [
+        "o:kinship"
+      ]
+    },
+    {
+      "name": "Conspire",
+      "conditions": [
+        "o:conspire"
+      ]
+    },
+    {
+      "name": "Prowl",
+      "conditions": [
+        "o:prowl"
+      ]
+    },
+    {
+      "name": "Chroma / mana symbols",
+      "conditions": [
+        "o:chroma",
+        "o:\"mana symbols\""
+      ]
+    },
+    {
+      "name": "Untap engines",
+      "conditions": [
+        "o:\"untap this creature\"",
+        "o:\"untap target creature you control\"",
+        "o:\"untap another target\"",
+        "o:\"becomes untapped\"",
+        "o:\"{q}\"",
+        "o:\"untap all creatures you control\"",
+        "o:\"untap up to\"",
+        "n:\"Umbral Mantle\""
+      ]
+    },
+    {
+      "name": "Tap for value",
+      "conditions": [
+        "o:\"tap an untapped\"",
+        "o:\"tap two untapped\"",
+        "o:\"tap three untapped\"",
+        "o:convoke"
+      ]
+    },
+    {
+      "name": "Tap-down tempo",
+      "conditions": [
+        "o:\"doesn't untap\"",
+        "o:\"tap target creature an opponent\"",
+        "n:Pestermite",
+        "n:\"Silkbind Faerie\"",
+        "n:\"Stonybrook Angler\"",
+        "n:\"Ballynock Trapper\"",
+        "n:\"Trip Noose\"",
+        "n:\"Curse of Chains\""
+      ]
+    },
+    {
+      "name": "Impromptu Raid",
+      "conditions": [
+        "n:\"Impromptu Raid\""
+      ]
+    },
+    {
+      "name": "Big creatures",
+      "conditions": [
+        "t:creature cmc>=5"
+      ]
+    },
+    {
+      "name": "Top-deck control",
+      "conditions": [
+        "o:\"top of your library\" !n:\"Impromptu Raid\"",
+        "o:\"top card of your library\"",
+        "o:\"on top of your library\"",
+        "o:scry",
+        "o:kinship",
+        "o:clash"
+      ]
+    }
+  ],
+  "links": [
+    {
+      "label": "Elves",
+      "sources": [
+        "Elf payoffs"
+      ],
+      "targets": [
+        "Elves",
+        "Changelings"
+      ]
+    },
+    {
+      "label": "Goblins",
+      "sources": [
+        "Goblin payoffs"
+      ],
+      "targets": [
+        "Goblins",
+        "Changelings"
+      ]
+    },
+    {
+      "label": "Kithkin",
+      "sources": [
+        "Kithkin payoffs"
+      ],
+      "targets": [
+        "Kithkin",
+        "Changelings"
+      ]
+    },
+    {
+      "label": "Merfolk",
+      "sources": [
+        "Merfolk payoffs"
+      ],
+      "targets": [
+        "Merfolk",
+        "Changelings"
+      ]
+    },
+    {
+      "label": "Treefolk",
+      "sources": [
+        "Treefolk payoffs"
+      ],
+      "targets": [
+        "Treefolk",
+        "Changelings"
+      ]
+    },
+    {
+      "label": "Faeries",
+      "sources": [
+        "Faerie payoffs"
+      ],
+      "targets": [
+        "Faeries",
+        "Changelings"
+      ]
+    },
+    {
+      "label": "Elementals",
+      "sources": [
+        "Elemental payoffs"
+      ],
+      "targets": [
+        "Elementals",
+        "Changelings"
+      ]
+    },
+    {
+      "label": "Warriors",
+      "sources": [
+        "Warrior payoffs"
+      ],
+      "targets": [
+        "Warriors",
+        "Changelings"
+      ]
+    },
+    {
+      "label": "Wizards",
+      "sources": [
+        "Wizard payoffs"
+      ],
+      "targets": [
+        "Wizards",
+        "Changelings"
+      ]
+    },
+    {
+      "label": "Rogues",
+      "sources": [
+        "Rogue payoffs"
+      ],
+      "targets": [
+        "Rogues",
+        "Changelings"
+      ]
+    },
+    {
+      "label": "Soldiers",
+      "sources": [
+        "Soldier payoffs"
+      ],
+      "targets": [
+        "Soldiers",
+        "Changelings"
+      ]
+    },
+    {
+      "label": "Type matters",
+      "sources": [
+        "Type matters"
+      ],
+      "targets": [
+        "Changelings"
+      ]
+    },
+    {
+      "label": "Kinship",
+      "sources": [
+        "Kinship"
+      ],
+      "targets": [
+        "Changelings"
+      ]
+    },
+    {
+      "label": "-1/-1 counters",
+      "sources": [
+        "-1/-1 counters matter"
+      ],
+      "targets": [
+        "Places -1/-1 counters"
+      ]
+    },
+    {
+      "label": "+1/+1 counters",
+      "sources": [
+        "+1/+1 counters matter"
+      ],
+      "targets": [
+        "Places +1/+1 counters"
+      ]
+    },
+    {
+      "label": "Sacrifice",
+      "sources": [
+        "Sacrifice outlets",
+        "Dies triggers"
+      ],
+      "targets": [
+        "Evoke",
+        "-1/-1 counters matter",
+        "Token makers"
+      ]
+    },
+    {
+      "label": "Mill",
+      "sources": [
+        "Graveyard payoffs"
+      ],
+      "targets": [
+        "Mill"
+      ]
+    },
+    {
+      "label": "Go wide",
+      "sources": [
+        "Go-wide payoffs"
+      ],
+      "targets": [
+        "Token makers"
+      ]
+    },
+    {
+      "label": "Conspire",
+      "sources": [
+        "Conspire"
+      ],
+      "targets": [
+        "Token makers",
+        "Changelings"
+      ]
+    },
+    {
+      "label": "Prowl",
+      "sources": [
+        "Prowl"
+      ],
+      "targets": [
+        "Rogues",
+        "Goblins"
+      ]
+    },
+    {
+      "label": "Tap / untap",
+      "sources": [
+        "Untap engines"
+      ],
+      "targets": [
+        "Tap for value"
+      ]
+    },
+    {
+      "label": "Tap-down",
+      "sources": [
+        "Tap-down tempo"
+      ],
+      "targets": [
+        "Faeries",
+        "Merfolk"
+      ]
+    },
+    {
+      "label": "Impromptu Raid",
+      "sources": [
+        "Impromptu Raid"
+      ],
+      "targets": [
+        "Big creatures",
+        "Evoke",
+        "Dies triggers",
+        "Top-deck control"
+      ]
+    }
+  ]
+}

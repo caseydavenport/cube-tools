@@ -3,7 +3,10 @@
   "path": "data/aurora/2026-05-16_sfbcc_1/2026-05-16_sfbcc_1-p4.json",
   "draft_id": "2026-05-16_sfbcc_1"
  },
- "labels": [],
+ "macro_archetype": "midrange",
+ "labels": [
+  "scarecrows"
+ ],
  "player": "2026-05-16_sfbcc_1-p4",
  "date": "2026-05-16",
  "matches": [

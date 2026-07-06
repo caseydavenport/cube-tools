@@ -3,7 +3,10 @@
   "path": "data/aurora/2026-05-16_sfbcc_1/2026-05-16_sfbcc_1-p5.json",
   "draft_id": "2026-05-16_sfbcc_1"
  },
- "labels": [],
+ "macro_archetype": "aggro",
+ "labels": [
+  "goblins"
+ ],
  "player": "2026-05-16_sfbcc_1-p5",
  "date": "2026-05-16",
  "matches": [
