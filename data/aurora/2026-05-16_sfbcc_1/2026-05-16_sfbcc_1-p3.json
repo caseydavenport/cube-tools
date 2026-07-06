@@ -1,0 +1,93 @@
+{
+ "metadata": {
+  "path": "data/aurora/2026-05-16_sfbcc_1/2026-05-16_sfbcc_1-p3.json",
+  "draft_id": "2026-05-16_sfbcc_1"
+ },
+ "labels": [],
+ "player": "2026-05-16_sfbcc_1-p3",
+ "date": "2026-05-16",
+ "matches": [
+  {
+   "opponent": "2026-05-16_sfbcc_1-p7",
+   "round": 1,
+   "wins": 1,
+   "losses": 2,
+   "draws": 0,
+   "winner": "2026-05-16_sfbcc_1-p7"
+  },
+  {
+   "opponent": "2026-05-16_sfbcc_1-p6",
+   "round": 2,
+   "wins": 0,
+   "losses": 2,
+   "draws": 0,
+   "winner": "2026-05-16_sfbcc_1-p6"
+  },
+  {
+   "opponent": "2026-05-16_sfbcc_1-p8",
+   "round": 3,
+   "wins": 0,
+   "losses": 2,
+   "draws": 0,
+   "winner": "2026-05-16_sfbcc_1-p8"
+  }
+ ],
+ "mainboard": [
+  "Ashling the Pilgrim",
+  "Boldwyr Intimidator",
+  "Countryside Crusher",
+  "Deep-Slumber Titan",
+  "Doomgape",
+  "Favor of the Mighty",
+  "Fire at Will",
+  "Fire-Lit Thicket",
+  "Flamekin Spitfire",
+  "Hoofprints of the Stag",
+  "Horde of Boggarts",
+  "Horde of Notions",
+  "Incandescent Soulstoke",
+  "Intimidator Initiate",
+  "Last Breath",
+  "Persist",
+  "Primal Beyond",
+  "Prismatic Omen",
+  "Rage Reflection",
+  "Rugged Prairie",
+  "Sensation Gorger",
+  "Spitemare",
+  "Springleaf Drum",
+  "Thunderblust",
+  "Tower Above",
+  "Twilight Shepherd",
+  "Valleymaker",
+  "Vivid Crag",
+  "Vivid Crag",
+  "Vivid Grove",
+  "Vivid Marsh",
+  "Forest",
+  "Forest",
+  "Forest",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Mountain",
+  "Mountain",
+  "Mountain"
+ ],
+ "sideboard": [
+  "Ashling's Prerogative",
+  "Boon Reflection",
+  "Elemental Mastery",
+  "Entangling Trap",
+  "Giant's Ire",
+  "Goldmeadow Stalwart",
+  "Nip Gwyllion",
+  "Oaken Brawler",
+  "Recross the Paths",
+  "Roar of the Crowd",
+  "Stingmoggie",
+  "Thoughtweft Gambit",
+  "Unbury",
+  "War-Spike Changeling"
+ ]
+}

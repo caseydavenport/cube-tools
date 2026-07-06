@@ -1,3 +1,68 @@
 {
- "drafts": null
+ "drafts": [
+  {
+   "path": "data/aurora/2026-05-16_sfbcc_1",
+   "date": "2026-05-16",
+   "draft_id": "2026-05-16_sfbcc_1",
+   "draft_log": "",
+   "decks": [
+    {
+     "path": "data/aurora/2026-05-16_sfbcc_1/2026-05-16_sfbcc_1-p1.json"
+    },
+    {
+     "path": "data/aurora/2026-05-16_sfbcc_1/2026-05-16_sfbcc_1-p2.json"
+    },
+    {
+     "path": "data/aurora/2026-05-16_sfbcc_1/2026-05-16_sfbcc_1-p3.json"
+    },
+    {
+     "path": "data/aurora/2026-05-16_sfbcc_1/2026-05-16_sfbcc_1-p4.json"
+    },
+    {
+     "path": "data/aurora/2026-05-16_sfbcc_1/2026-05-16_sfbcc_1-p5.json"
+    },
+    {
+     "path": "data/aurora/2026-05-16_sfbcc_1/2026-05-16_sfbcc_1-p6.json"
+    },
+    {
+     "path": "data/aurora/2026-05-16_sfbcc_1/2026-05-16_sfbcc_1-p7.json"
+    },
+    {
+     "path": "data/aurora/2026-05-16_sfbcc_1/2026-05-16_sfbcc_1-p8.json"
+    }
+   ]
+  },
+  {
+   "path": "data/aurora/2026-06-20_bcp26_1",
+   "date": "2026-06-20",
+   "draft_id": "2026-06-20_bcp26_1",
+   "draft_log": "",
+   "decks": [
+    {
+     "path": "data/aurora/2026-06-20_bcp26_1/2026-06-20_bcp26_1-p1.json"
+    },
+    {
+     "path": "data/aurora/2026-06-20_bcp26_1/2026-06-20_bcp26_1-p2.json"
+    },
+    {
+     "path": "data/aurora/2026-06-20_bcp26_1/2026-06-20_bcp26_1-p3.json"
+    },
+    {
+     "path": "data/aurora/2026-06-20_bcp26_1/2026-06-20_bcp26_1-p4.json"
+    },
+    {
+     "path": "data/aurora/2026-06-20_bcp26_1/2026-06-20_bcp26_1-p5.json"
+    },
+    {
+     "path": "data/aurora/2026-06-20_bcp26_1/2026-06-20_bcp26_1-p6.json"
+    },
+    {
+     "path": "data/aurora/2026-06-20_bcp26_1/2026-06-20_bcp26_1-p7.json"
+    },
+    {
+     "path": "data/aurora/2026-06-20_bcp26_1/2026-06-20_bcp26_1-p8.json"
+    }
+   ]
+  }
+ ]
 }

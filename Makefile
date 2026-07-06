@@ -1,6 +1,12 @@
 GIT_VERSION=$(shell git describe --tags --dirty --long --always --abbrev=12)
 GO_FILES=$(shell find ./pkg -type f) $(shell find ./cmd -type f)
 
+# Run the server containers as the host user so files they write into the
+# bind-mounted /code (imported decks, OCR images, index.json) are owned by us,
+# not root. Without this the container's root writes files we can't edit or
+# git-add on the host.
+DOCKER_USER=--user $(shell id -u):$(shell id -g)
+
 all: data/oracle-cards.json bin/parser
 build: bin/server bin/parser
 
@@ -29,6 +35,7 @@ run: data/oracle-cards.json .server-ocr.created
 	@[ -d ui/node_modules ] || ( cd ui && npm install )
 	-docker rm -f cube-tools-server-ocr 2>/dev/null
 	docker run --rm --name=cube-tools-server-ocr --detach -p 8888:8888 \
+		$(DOCKER_USER) \
 		-v $(PWD):/code \
 		caseydavenport/cube-tools-server-ocr
 	trap 'docker rm -f cube-tools-server-ocr 2>/dev/null' EXIT INT TERM; \
@@ -45,8 +52,9 @@ dev: data/oracle-cards.json .server-ocr-dev.created
 	@[ -d ui/node_modules ] || ( cd ui && npm install )
 	-docker rm -f cube-tools-server-dev 2>/dev/null
 	docker run --rm --name=cube-tools-server-dev --detach -p 8888:8888 \
+		$(DOCKER_USER) \
 		-v $(PWD):/code \
-		-v cube-tools-gocache:/root/.cache/go-build \
+		-v cube-tools-gocache-user:/gocache \
 		caseydavenport/cube-tools-server-dev
 	@echo "server running under air in container - edit a .go file to rebuild; tail with: docker logs -f cube-tools-server-dev"
 	trap 'docker rm -f cube-tools-server-dev 2>/dev/null' EXIT INT TERM; \
@@ -75,6 +83,7 @@ server: .server.created
 run-server: .server.created
 	-docker rm -f cube-tools-server
 	docker run --rm --name=cube-tools-server --detach -p 8888:8888 \
+		$(DOCKER_USER) \
 		-v $(PWD):/code \
 		caseydavenport/cube-tools-server
 
@@ -88,6 +97,7 @@ server-ocr: .server-ocr.created
 run-server-ocr: .server-ocr.created
 	-docker rm -f cube-tools-server-ocr
 	docker run --rm --name=cube-tools-server-ocr --detach -p 8888:8888 \
+		$(DOCKER_USER) \
 		-v $(PWD):/code \
 		caseydavenport/cube-tools-server-ocr
 

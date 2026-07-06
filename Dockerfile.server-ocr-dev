@@ -5,6 +5,12 @@
 # does NOT copy the source: it's bind-mounted at /code so host edits trigger
 # rebuilds. go.mod/go.sum are copied only to warm the module cache (and pull the
 # pinned Go toolchain) into the image so the first in-container build is quick.
+#
+# make dev runs this with --user $(id -u):$(id -g) so files written into the
+# bind-mounted /code are owned by the host user, not root. That means nothing
+# here may assume it runs as root or writes under /root: air goes on the system
+# PATH, and Go's caches live in world-writable top-level dirs so any uid can
+# read and write them.
 FROM ubuntu:24.04
 RUN apt-get update && apt-get install -y --no-install-recommends \
 	golang-go \
@@ -16,13 +22,28 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 	git \
 	&& rm -rf /var/lib/apt/lists/*
 
-# air: Go live-reload (watches sources, rebuilds, restarts the binary).
-RUN go install github.com/air-verse/air@v1.52.3
-ENV PATH="/root/go/bin:${PATH}"
+# Put GOPATH, the module cache, and the build cache in top-level dirs rather than
+# under /root, so the container works when run as an arbitrary host uid. HOME is
+# set for the same reason: a --user uid has no /etc/passwd entry, so it would
+# otherwise default to / (unwritable).
+ENV GOPATH=/go \
+	GOMODCACHE=/go/pkg/mod \
+	GOCACHE=/gocache \
+	HOME=/tmp \
+	PATH="/usr/local/bin:${PATH}"
+
+# air: Go live-reload (watches sources, rebuilds, restarts the binary). Install
+# to /usr/local/bin so it's on PATH for any uid, not just root.
+RUN GOBIN=/usr/local/bin go install github.com/air-verse/air@v1.52.3
 
 # Warm the module cache and the pinned Go toolchain into an image layer.
 WORKDIR /code
 COPY go.mod go.sum ./
 RUN go mod download
+
+# Make the Go caches world-writable so a non-root --user can rebuild. The
+# /gocache volume (see make dev) inherits these perms when first initialized
+# from the image.
+RUN mkdir -p /gocache && chmod -R 0777 /go /gocache
 
 CMD ["air", "-c", ".air.toml"]
