@@ -98,23 +98,27 @@ export function StatsViewer(props) {
 
   return (
     <div id="root" className="stats-root">
-      <SelectorBar
-        triggerRefresh={triggerRefresh}
-        startDate={props.startDate}
-        onStartSelected={props.onStartSelected}
-        endDate={props.endDate}
-        onEndSelected={props.onEndSelected}
-        bucketSize={bucketSize}
-        onBucketsChanged={(e) => setBucketSize(Math.max(1, e.target.value))}
-        minDraftSize={minDraftSize}
-        onMinDraftSizeChanged={(e) => setMinDraftSize(e.target.value)}
-        parsed={parsed}
-        matchStr={typingStr}
-        cardNames={cube.cards.map(c => c.name)}
-        playerNames={playerNames}
-        archetypes={archetypes}
-        onMatchUpdated={(e) => setTypingStr(e.target.value)}
-      />
+      {/* The design map is built from the cube list and its rules, not from decks
+          or date ranges, so the deck/date filter bar has nothing to act on there. */}
+      {props.view !== "designmap" && (
+        <SelectorBar
+          triggerRefresh={triggerRefresh}
+          startDate={props.startDate}
+          onStartSelected={props.onStartSelected}
+          endDate={props.endDate}
+          onEndSelected={props.onEndSelected}
+          bucketSize={bucketSize}
+          onBucketsChanged={(e) => setBucketSize(Math.max(1, e.target.value))}
+          minDraftSize={minDraftSize}
+          onMinDraftSizeChanged={(e) => setMinDraftSize(e.target.value)}
+          parsed={parsed}
+          matchStr={typingStr}
+          cardNames={cube.cards.map(c => c.name)}
+          playerNames={playerNames}
+          archetypes={archetypes}
+          onMatchUpdated={(e) => setTypingStr(e.target.value)}
+        />
+      )}
 
       <div id="widgets" className="house-for-widgets">
         <SynergyWidget
@@ -198,7 +202,7 @@ export function StatsViewer(props) {
           show={display[7]} healthData={healthData} bucketSize={bucketSize}
         />
         <DesignMapWidget
-          show={display[8]} designGraphData={designGraphData}
+          show={display[8]} designGraphData={designGraphData} cards={cube.cards}
           onCardSelected={(e) => setSelectedCard(e.currentTarget.id)}
           onRulesChanged={triggerRefresh}
         />

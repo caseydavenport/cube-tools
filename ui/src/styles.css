@@ -1704,3 +1704,194 @@ table {
 }
 .import-hedron-lookup button:hover:not(:disabled) { background: var(--table-row-hover); }
 .import-hedron-lookup button:disabled { opacity: 0.5; cursor: default; }
+
+/* ============================================================
+   Design Map - drill-in explorer
+   ============================================================ */
+.dm-explore { padding: 1rem 1.25rem 1.5rem; }
+
+.dm-topbar {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 1rem; margin-bottom: 0.85rem; flex-wrap: wrap;
+}
+
+/* Breadcrumb */
+.dm-crumbs { display: flex; align-items: center; flex-wrap: wrap; gap: 2px; }
+.dm-crumb-wrap { display: inline-flex; align-items: center; }
+.dm-crumb-sep { color: var(--text-muted); margin: 0 6px; font-size: 1.1em; }
+.dm-crumb {
+  background: none; border: none; cursor: pointer; padding: 2px 4px;
+  color: var(--text-muted); font-size: 1.35rem; font-weight: 700; letter-spacing: -0.01em;
+  font-family: inherit; transition: color 0.12s;
+}
+.dm-crumb:hover:not(:disabled) { color: var(--primary); }
+.dm-crumb-current { color: var(--white); cursor: default; }
+
+/* Mode switch (Explore / Edit) */
+.dm-modeswitch {
+  display: inline-flex; border: 1px solid var(--border); border-radius: 999px;
+  overflow: hidden; background: var(--card-background);
+}
+.dm-mode {
+  background: transparent; border: none; cursor: pointer; font-family: inherit;
+  color: var(--text-muted); padding: 5px 16px; font-size: 0.82rem; font-weight: 600;
+  transition: background 0.12s, color 0.12s;
+}
+.dm-mode:hover { color: var(--white); }
+.dm-mode-on { background: var(--primary); color: #04121e; }
+
+.dm-editwrap { max-width: 420px; height: calc(100vh - 230px); min-height: 560px; }
+
+/* Three-zone layout */
+.dm-grid {
+  display: grid;
+  grid-template-columns: 250px minmax(0, 1fr) 350px;
+  gap: 14px;
+  height: calc(100vh - 230px);
+  min-height: 560px;
+}
+
+.dm-panel {
+  background: var(--card-background);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  display: flex; flex-direction: column;
+  min-height: 0; overflow: hidden;
+}
+
+/* Shared bits */
+.dm-count {
+  color: var(--text-muted); font-family: 'Fira Code', monospace;
+  font-size: 0.8rem; font-weight: 400;
+}
+.dm-muted { color: var(--text-muted); font-size: 0.85rem; }
+.dm-pad { padding: 0.5rem 0.75rem; font-style: italic; }
+.dm-ellipsis { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex: 1; min-width: 0; }
+.dm-dot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; display: inline-block; }
+.dm-dot-lg { width: 13px; height: 13px; }
+.dm-swatch { width: 11px; height: 11px; border-radius: 3px; flex-shrink: 0; display: inline-block; }
+.dm-swatch-lg { width: 14px; height: 14px; border-radius: 4px; }
+.dm-subhead {
+  color: var(--text-muted); text-transform: uppercase; font-size: 0.68rem;
+  font-weight: 700; letter-spacing: 0.06em; margin: 0.9rem 0.85rem 0.4rem;
+  display: flex; align-items: baseline; gap: 8px;
+}
+.dm-why-note { text-transform: none; letter-spacing: 0; font-weight: 400; font-size: 0.72rem; opacity: 0.7; }
+
+/* Legend */
+.dm-legend { padding: 0.85rem 0 0.5rem; }
+.dm-legend-head { display: flex; align-items: baseline; justify-content: space-between; padding: 0 0.85rem; }
+.dm-search {
+  margin: 0.6rem 0.85rem 0.4rem; padding: 6px 10px; border-radius: 7px;
+  background: var(--page-background); border: 1px solid var(--border);
+  color: var(--white); font-family: inherit; font-size: 0.85rem;
+}
+.dm-search::placeholder { color: var(--text-muted); }
+.dm-sortrow { display: flex; gap: 6px; padding: 0 0.85rem 0.5rem; }
+.dm-sort {
+  background: transparent; border: 1px solid var(--border); border-radius: 6px;
+  color: var(--text-muted); font-family: inherit; font-size: 0.72rem; font-weight: 600;
+  padding: 2px 10px; cursor: pointer;
+}
+.dm-sort-on { background: var(--border); color: var(--white); }
+.dm-legend-list { flex: 1; overflow-y: auto; padding: 0 0.4rem; }
+.dm-legend-row {
+  display: flex; align-items: center; gap: 8px; width: 100%;
+  background: transparent; border: none; border-radius: 6px; cursor: pointer;
+  padding: 5px 8px; font-family: inherit; text-align: left;
+  color: var(--white); font-size: 0.85rem; transition: background 0.1s;
+}
+.dm-legend-row:hover, .dm-legend-hot { background: var(--page-background); }
+.dm-legend-on { background: var(--highlight); }
+.dm-legend-name { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.dm-legend-count { color: var(--text-muted); font-family: 'Fira Code', monospace; font-size: 0.78rem; }
+
+/* Map */
+.dm-map { position: relative; }
+.dm-canvaswrap { flex: 1; min-height: 0; position: relative; cursor: grab; }
+.dm-map-caption {
+  position: absolute; left: 12px; bottom: 10px;
+  color: var(--text-muted); font-size: 0.75rem; font-family: 'Fira Code', monospace;
+  background: rgba(15,23,42,0.65); padding: 3px 8px; border-radius: 6px;
+  pointer-events: none;
+}
+
+/* Detail rail */
+.dm-detail { overflow-y: auto; padding-bottom: 0.75rem; }
+.dm-detail > .section-heading { margin: 0.85rem 0.85rem 0.5rem; }
+.dm-detail-title {
+  display: flex; align-items: center; gap: 9px; flex-wrap: wrap;
+  font-size: 1.05rem; font-weight: 700; color: var(--white);
+  padding: 0.85rem 0.85rem 0.2rem;
+}
+.dm-types { color: var(--text-muted); font-size: 0.8rem; padding: 0 0.85rem 0.2rem; font-family: 'Fira Code', monospace; }
+.dm-statgrid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; padding: 0 0.85rem; }
+.dm-stat { background: var(--page-background); border-radius: 8px; padding: 0.6rem 0.7rem; }
+.dm-stat-value { font-size: 1.4rem; font-weight: 700; color: var(--primary); font-family: 'Fira Code', monospace; }
+.dm-stat-label { color: var(--text-muted); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.04em; }
+.dm-hint { color: var(--text-muted); font-size: 0.8rem; padding: 0.75rem 0.85rem 0; font-style: italic; }
+.dm-detail-list { display: flex; flex-direction: column; padding: 0 0.45rem; }
+.dm-detail-row {
+  display: flex; align-items: center; gap: 7px; width: 100%;
+  background: transparent; border: none; border-radius: 5px; cursor: pointer;
+  padding: 3px 8px; font-family: inherit; text-align: left;
+  color: var(--white); font-size: 0.85rem; transition: background 0.1s;
+}
+.dm-detail-row:hover { background: var(--page-background); }
+.dm-chiprow { display: flex; flex-wrap: wrap; gap: 6px; padding: 0 0.85rem; }
+.dm-chip {
+  background: transparent; border: 1px solid var(--border); border-radius: 999px;
+  padding: 3px 11px; font-family: inherit; font-size: 0.78rem; font-weight: 600;
+  cursor: pointer; transition: background 0.1s;
+}
+.dm-chip:hover { background: var(--page-background); }
+.dm-rulegroup { margin: 0.15rem 0 0.35rem; }
+.dm-rulelabel {
+  display: flex; align-items: center; gap: 7px; font-size: 0.78rem; font-weight: 700;
+  padding: 0.3rem 0.85rem 0.15rem;
+}
+
+/* Empty state */
+.dm-empty { padding: 3rem 1.5rem; text-align: center; }
+.dm-empty p { margin: 0.4rem 0; }
+.dm-linkbtn { background: none; border: none; color: var(--primary); cursor: pointer; font: inherit; padding: 0; text-decoration: underline; }
+
+/* Card-level "why linked" hover tooltip */
+.dm-why-tip {
+  position: absolute; left: 14px; top: 14px; z-index: 50;
+  max-width: 300px; pointer-events: none;
+  background: var(--card-background); border: 1px solid var(--border);
+  border-radius: 8px; padding: 8px 10px; box-shadow: 0 6px 18px rgba(0,0,0,0.55);
+}
+.dm-why-tip-head {
+  display: flex; align-items: center; gap: 6px;
+  color: var(--white); font-weight: 700; font-size: 0.85rem; margin-bottom: 5px;
+}
+.dm-why-rule { margin-top: 5px; }
+.dm-why-rulelabel { display: flex; align-items: center; gap: 6px; font-size: 0.75rem; font-weight: 700; margin-bottom: 3px; }
+.dm-why-bridge { border-left: 2px solid var(--border); padding-left: 7px; margin: 2px 0 4px; }
+.dm-why-line { font-size: 0.78rem; color: var(--text-color); line-height: 1.5; }
+.dm-why-line b { color: var(--white); font-weight: 600; }
+.dm-why-card { color: var(--text-muted); }
+.dm-why-cond {
+  display: block; font-family: 'Fira Code', monospace; font-size: 0.7rem;
+  color: var(--text-muted); opacity: 0.85; margin-left: 2px;
+}
+
+/* Card preview overlay (image / rules text of hovered or selected card) */
+.dm-preview {
+  position: absolute; top: 12px; right: 12px; z-index: 40;
+  width: 220px; pointer-events: none;
+}
+.dm-preview-img {
+  width: 100%; display: block; border-radius: 11px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.65);
+}
+.dm-preview-text {
+  background: var(--card-background); border: 1px solid var(--border);
+  border-radius: 10px; padding: 10px 12px; box-shadow: 0 8px 24px rgba(0,0,0,0.65);
+}
+.dm-preview-name { color: var(--white); font-weight: 700; font-size: 0.9rem; }
+.dm-preview-mana { color: var(--text-muted); font-family: 'Fira Code', monospace; font-size: 0.78rem; font-weight: 400; }
+.dm-preview-type { color: var(--text-muted); font-size: 0.75rem; margin: 3px 0 6px; }
+.dm-preview-oracle { color: var(--text-color); font-size: 0.8rem; line-height: 1.45; white-space: pre-wrap; }

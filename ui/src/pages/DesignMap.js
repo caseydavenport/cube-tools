@@ -1,20 +1,19 @@
-import React, { useRef, useEffect, useCallback, useState } from 'react'
+import React, { useRef, useEffect, useCallback, useState, useMemo } from 'react'
 import ReactDOM from 'react-dom'
 import { White, Blue, Black, Red, Green } from "../utils/Colors.js"
 import { useCube } from "../contexts/CubeContext.js"
 
-export function DesignMapWidget({ show, designGraphData, onCardSelected, onRulesChanged }) {
+// The design map is a drill-in explorer. Focus is a stack of levels the user has
+// drilled through, so the breadcrumb can climb back out:
+//   themes            -> the whole set of groups (the overview constellation)
+//   group:<name>      -> a single group's member cards
+//   card:<name>       -> a card and its directly-linked neighbors
+// Selecting anywhere (legend, map, detail rail) drives all three panels in sync.
+export function DesignMapWidget({ show, designGraphData, cards, onCardSelected, onRulesChanged }) {
   const cube = useCube()
-  const [selectedLink, setSelectedLink] = useState(null)
-  const [selectedCard, setSelectedCard] = useState(null)
-  const [selectedGroup, setSelectedGroup] = useState(null)
-  const [hoveredCard, setHoveredCard] = useState(null)
-  const [viewMode, setViewMode] = useState("card")
-  // A group->group connection drawn on the link graph, handed to the rules panel to
-  // open a pre-filled link editor. Cleared once the panel has consumed it.
-  const [drawnConnection, setDrawnConnection] = useState(null)
-
-  if (!show) return null
+  const [trail, setTrail] = useState([{ level: "themes" }])
+  const [hovered, setHovered] = useState(null)
+  const [mode, setMode] = useState("explore")
 
   const data = designGraphData || {}
   const nodes = data.nodes || []
@@ -22,116 +21,769 @@ export function DesignMapWidget({ show, designGraphData, onCardSelected, onRules
   const groups = data.groups || []
   const links = data.links || []
   const groupNodes = data.group_nodes || []
-  const groupEdges = data.group_edges || []
-  const linkEdges = data.link_edges || []
+  // Wire the theme constellation from the rule-defined links (sparse, meaningful),
+  // not from incidental card co-membership (near-complete graph, unreadable).
+  const groupEdges = data.link_edges || []
+  const dataKey = groupNodes.length
 
-  // Card, link, and group selections are mutually exclusive.
-  function handleSelectLink(link) {
-    setSelectedLink(link)
-    setSelectedCard(null)
-    setSelectedGroup(null)
+  // Memoized so that hovering a node - which re-renders this component - doesn't
+  // hand the map freshly-built node/edge arrays and restart the force simulation.
+  const nodeMap = useMemo(() => {
+    const m = {}
+    for (const n of nodes) m[n.name] = n
+    return m
+  }, [nodes])
+  // Stable per-group color, shared by the legend swatches and the map nodes so a
+  // theme reads the same everywhere.
+  const groupColor = useMemo(() => {
+    const idx = {}
+    groupNodes.forEach((g, i) => { idx[g.name] = i })
+    return (name) => ruleColor(idx[name] ?? 0)
+  }, [groupNodes])
+
+  // Every card's group memberships, so the map can explain exactly why two cards link.
+  const cardGroups = useAllMemberships(cube, groups)
+
+  // Full card data (image, oracle text) keyed by name, for the preview panel. The
+  // graph nodes only carry name/colors/types, so pull the rest from the cube.
+  const cardData = useMemo(() => {
+    const m = {}
+    for (const c of (cards || [])) m[c.name] = c
+    return m
+  }, [cards])
+
+  if (!show) return null
+
+  const focus = trail[trail.length - 1]
+
+  function drillTo(step) {
+    setTrail(prev => {
+      // Re-clicking the current focus is a no-op; otherwise push a new level.
+      const cur = prev[prev.length - 1]
+      if (cur && cur.level === step.level && cur.group === step.group && cur.card === step.card) return prev
+      return [...prev, step]
+    })
   }
-  function handleSelectCard(cardName) {
-    setSelectedCard(prev => prev === cardName ? null : cardName)
-    setSelectedLink(null)
-    setSelectedGroup(null)
+  function goToCrumb(i) {
+    setTrail(prev => prev.slice(0, i + 1))
   }
-  function handleSelectGroup(groupName) {
-    setSelectedGroup(prev => prev === groupName ? null : groupName)
-    setSelectedCard(null)
-    setSelectedLink(null)
-  }
-  // Switching views starts from a clean slate; a card selection means nothing in
-  // the group view and vice versa.
-  function handleViewModeChange(mode) {
-    setViewMode(mode)
-    setSelectedCard(null)
-    setSelectedLink(null)
-    setSelectedGroup(null)
-  }
-  // Shift-dragging from one group to another on the link graph drafts a new link.
-  function handleDrawLink(source, target) {
-    setDrawnConnection({ source, target })
+  // Jumping to a theme from the legend resets the trail to that theme (a fresh dive).
+  function jumpToGroup(name) {
+    setTrail([{ level: "themes" }, { level: "group", group: name }])
   }
 
-  // Build card list based on current selection.
-  let clusterCards = []
-  let listLabel = null
-  const nodeMap = {}
-  for (const node of nodes) nodeMap[node.name] = node
-  const groupNodeMap = {}
-  for (const g of groupNodes) groupNodeMap[g.name] = g
-
-  if (viewMode !== "card") {
-    if (selectedGroup && groupNodeMap[selectedGroup]) {
-      clusterCards = (groupNodeMap[selectedGroup].cards || [])
-        .map(name => nodeMap[name] || { name, colors: [], connection_count: 0 })
-        .sort((a, b) => b.connection_count - a.connection_count)
-      listLabel = selectedGroup
-    } else {
-      clusterCards = [...nodes].sort((a, b) => b.connection_count - a.connection_count)
-    }
-  } else if (selectedCard) {
-    // Show the selected card's neighbors.
-    const neighbors = new Set()
-    for (const edge of edges) {
-      if (edge.source === selectedCard) neighbors.add(edge.target)
-      if (edge.target === selectedCard) neighbors.add(edge.source)
-    }
-    neighbors.add(selectedCard)
-    clusterCards = Array.from(neighbors)
-      .map(name => nodeMap[name] || { name, colors: [], connection_count: 0 })
-      .sort((a, b) => b.connection_count - a.connection_count)
-    listLabel = selectedCard
-  } else if (selectedLink === "unconnected") {
-    clusterCards = nodes.filter(n => n.connection_count === 0).sort((a, b) => a.name.localeCompare(b.name))
-    listLabel = "Unconnected"
-  } else if (selectedLink !== null && links[selectedLink]) {
-    const linkLabel = links[selectedLink].label
-    const cardNames = new Set()
-    for (const edge of edges) {
-      if ((edge.rule_labels || []).includes(linkLabel)) {
-        cardNames.add(edge.source)
-        cardNames.add(edge.target)
-      }
-    }
-    clusterCards = Array.from(cardNames)
-      .map(name => nodeMap[name] || { name, colors: [], connection_count: 0 })
-      .sort((a, b) => b.connection_count - a.connection_count)
-  } else {
-    clusterCards = [...nodes].sort((a, b) => b.connection_count - a.connection_count)
+  if (groupNodes.length === 0) {
+    return (
+      <div className="dm-explore">
+        <div className="dm-empty">
+          <p>No design map yet.</p>
+          <p className="dm-muted">
+            Switch to <button className="dm-linkbtn" onClick={() => setMode("edit")}>Edit</button> to define
+            groups (card queries) and links (how groups relate). The map is built from those rules.
+          </p>
+        </div>
+      </div>
+    )
   }
 
   return (
-    <div className="synergy-container" style={{padding: "1rem"}}>
-      <div style={{display: "grid", gridTemplateColumns: "350px 1fr 350px", gap: "1rem"}}>
-        <RulesPanel cube={cube} groups={groups} links={links} nodes={nodes} edges={edges} onRulesChanged={onRulesChanged} selectedCard={selectedCard}
-          drawnConnection={drawnConnection} onDrawnConnectionConsumed={() => setDrawnConnection(null)} />
-        <DesignMapGraph
-          nodes={nodes} edges={edges} links={links}
-          groupNodes={groupNodes} groupEdges={groupEdges} linkEdges={linkEdges}
-          viewMode={viewMode} onViewModeChange={handleViewModeChange}
-          onNodeClick={viewMode === "card" ? handleSelectCard : handleSelectGroup}
-          onDrawLink={handleDrawLink}
-          selectedLink={selectedLink} onSelectedLinkChanged={handleSelectLink}
-          selectedNode={viewMode === "card" ? selectedCard : selectedGroup}
-          hoveredCard={hoveredCard} onHoveredCardChanged={setHoveredCard}
-        />
-        <ClusterCardList
-          cards={clusterCards}
-          edges={edges}
-          links={links}
-          selectedCard={selectedCard}
-          link={typeof selectedLink === "number" ? links[selectedLink] : null}
-          linkIndex={typeof selectedLink === "number" ? selectedLink : null}
-          listLabel={listLabel}
-          onCardFocused={handleSelectCard}
-          hoveredCard={hoveredCard}
-          onHoveredCardChanged={setHoveredCard}
-        />
+    <div className="dm-explore">
+      <div className="dm-topbar">
+        <Breadcrumb trail={trail} onCrumb={goToCrumb} groupColor={groupColor} />
+        <div className="dm-modeswitch">
+          {["explore", "edit"].map(m => (
+            <button
+              key={m}
+              className={mode === m ? "dm-mode dm-mode-on" : "dm-mode"}
+              onClick={() => setMode(m)}
+            >
+              {m === "explore" ? "Explore" : "Edit rules"}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {mode === "edit" ? (
+        <div className="dm-editwrap">
+          <RulesPanel
+            cube={cube} groups={groups} links={links} nodes={nodes} edges={edges}
+            onRulesChanged={onRulesChanged} selectedCard={focus.level === "card" ? focus.card : null}
+          />
+        </div>
+      ) : (
+        <div className="dm-grid">
+          <Legend
+            groupNodes={groupNodes}
+            groupColor={groupColor}
+            focus={focus}
+            hovered={hovered}
+            onHover={setHovered}
+            onPick={jumpToGroup}
+          />
+          <DrillMap
+            key={dataKey}
+            focus={focus}
+            nodeMap={nodeMap}
+            edges={edges}
+            groupNodes={groupNodes}
+            groupEdges={groupEdges}
+            links={links}
+            groupColor={groupColor}
+            cardGroups={cardGroups}
+            cardData={cardData}
+            hovered={hovered}
+            onHover={setHovered}
+            onDrill={drillTo}
+          />
+          <DetailPanel
+            cube={cube}
+            focus={focus}
+            groups={groups}
+            groupNodes={groupNodes}
+            links={links}
+            edges={edges}
+            nodeMap={nodeMap}
+            groupColor={groupColor}
+            hovered={hovered}
+            onHover={setHovered}
+            onDrill={drillTo}
+          />
+        </div>
+      )}
+    </div>
+  )
+}
+
+// --- Breadcrumb --------------------------------------------------------------
+
+function Breadcrumb({ trail, onCrumb, groupColor }) {
+  function label(step) {
+    if (step.level === "themes") return "All themes"
+    if (step.level === "group") return step.group
+    return step.card
+  }
+  return (
+    <nav className="dm-crumbs" aria-label="Map location">
+      {trail.map((step, i) => {
+        const last = i === trail.length - 1
+        const color = step.level === "group" ? groupColor(step.group) : "var(--primary)"
+        return (
+          <span key={i} className="dm-crumb-wrap">
+            {i > 0 && <span className="dm-crumb-sep">›</span>}
+            <button
+              className={last ? "dm-crumb dm-crumb-current" : "dm-crumb"}
+              style={last && step.level !== "themes" ? { color } : undefined}
+              onClick={() => onCrumb(i)}
+              disabled={last}
+            >
+              {label(step)}
+            </button>
+          </span>
+        )
+      })}
+    </nav>
+  )
+}
+
+// --- Legend (searchable table of contents) -----------------------------------
+
+function Legend({ groupNodes, groupColor, focus, hovered, onHover, onPick }) {
+  const [query, setQuery] = useState("")
+  const [sort, setSort] = useState("size")
+
+  const rows = useMemo(() => {
+    const q = query.trim().toLowerCase()
+    let out = groupNodes.filter(g => !q || g.name.toLowerCase().includes(q))
+    out = [...out].sort((a, b) => sort === "name"
+      ? a.name.localeCompare(b.name)
+      : b.card_count - a.card_count)
+    return out
+  }, [groupNodes, query, sort])
+
+  const activeGroup = focus.level === "group" ? focus.group : null
+
+  return (
+    <div className="dm-panel dm-legend">
+      <div className="dm-legend-head">
+        <span className="section-heading" style={{ margin: 0 }}>Themes</span>
+        <span className="dm-count">{groupNodes.length}</span>
+      </div>
+      <input
+        className="dm-search"
+        placeholder="Filter themes…"
+        value={query}
+        onChange={e => setQuery(e.target.value)}
+      />
+      <div className="dm-sortrow">
+        {[["size", "Size"], ["name", "A–Z"]].map(([k, l]) => (
+          <button key={k} className={sort === k ? "dm-sort dm-sort-on" : "dm-sort"} onClick={() => setSort(k)}>{l}</button>
+        ))}
+      </div>
+      <div className="dm-legend-list">
+        {rows.map(g => {
+          const on = activeGroup === g.name
+          const hot = hovered === g.name
+          return (
+            <button
+              key={g.name}
+              className={"dm-legend-row" + (on ? " dm-legend-on" : "") + (hot ? " dm-legend-hot" : "")}
+              onMouseEnter={() => onHover(g.name)}
+              onMouseLeave={() => onHover(null)}
+              onClick={() => onPick(g.name)}
+            >
+              <span className="dm-swatch" style={{ background: groupColor(g.name) }} />
+              <span className="dm-legend-name">{g.name}</span>
+              <span className="dm-legend-count">{g.card_count}</span>
+            </button>
+          )
+        })}
+        {rows.length === 0 && <p className="dm-muted dm-pad">No themes match.</p>}
       </div>
     </div>
   )
+}
+
+// --- Detail rail (the readable substance) ------------------------------------
+
+// Fetch which cards match a set of conditions, each annotated with the condition(s)
+// it matched - the "why" behind group membership.
+function useMatchCards(cube, conditions, groups) {
+  const [cards, setCards] = useState([])
+  const [loading, setLoading] = useState(false)
+  const debounceRef = useRef(null)
+  const key = (conditions || []).join("|") + "::" + (groups || []).join("|")
+  useEffect(() => {
+    if (debounceRef.current) clearTimeout(debounceRef.current)
+    const conds = (conditions || []).filter(c => c)
+    if (conds.length === 0) { setCards([]); return }
+    setLoading(true)
+    debounceRef.current = setTimeout(() => {
+      fetch(`/api/${cube}/stats/design-graph/match`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ conditions: conds, groups: groups || [] }),
+      })
+        .then(r => r.json())
+        .then(d => { setCards(d.cards || []); setLoading(false) })
+        .catch(() => { setCards([]); setLoading(false) })
+    }, 200)
+    return () => { if (debounceRef.current) clearTimeout(debounceRef.current) }
+  }, [cube, key])
+  return { cards, loading }
+}
+
+// Fetch every card's group memberships once, each with the specific condition(s)
+// that matched. Returns name -> [{ group, conds: [...] }]. Used to explain exactly
+// why two cards are linked (which group each sits in, via which rule).
+function useAllMemberships(cube, groups) {
+  const [map, setMap] = useState({})
+  const key = (groups || []).map(g => g.name + ":" + (g.conditions || []).join(",")).join("|")
+  useEffect(() => {
+    const conditions = []
+    const labels = []
+    for (const g of (groups || [])) {
+      for (const c of (g.conditions || [])) { conditions.push(c); labels.push(g.name) }
+    }
+    if (conditions.length === 0) { setMap({}); return }
+    let alive = true
+    fetch(`/api/${cube}/stats/design-graph/match`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ conditions, groups: labels }),
+    })
+      .then(r => r.json())
+      .then(d => {
+        if (!alive) return
+        const m = {}
+        for (const card of (d.cards || [])) {
+          const byGroup = {}
+          for (const mc of card.conditions) {
+            if (!mc.group) continue
+            if (!byGroup[mc.group]) byGroup[mc.group] = []
+            byGroup[mc.group].push(mc.condition)
+          }
+          m[card.name] = Object.entries(byGroup).map(([group, conds]) => ({ group, conds }))
+        }
+        setMap(m)
+      })
+      .catch(() => { if (alive) setMap({}) })
+    return () => { alive = false }
+  }, [cube, key])
+  return map
+}
+
+// Explain why two cards are linked: for each rule connecting them, the specific
+// group each card belongs to (and the condition that put it there).
+function whyLinked(focusCard, neighbor, edges, linkByLabel, cardGroups) {
+  const labels = new Set()
+  for (const e of edges) {
+    const hit = (e.source === focusCard && e.target === neighbor) || (e.target === focusCard && e.source === neighbor)
+    if (hit) for (const l of (e.rule_labels || [])) labels.add(l)
+  }
+  const fg = cardGroups[focusCard] || []
+  const ng = cardGroups[neighbor] || []
+  const groupConds = (mem, name) => { const g = mem.find(x => x.group === name); return g ? g.conds : [] }
+  const out = []
+  for (const label of labels) {
+    const link = linkByLabel[label]
+    const bridges = []
+    if (link) {
+      const seen = new Set()
+      const add = (fGroup, nGroup) => {
+        const k = fGroup + ">" + nGroup
+        if (seen.has(k)) return
+        seen.add(k)
+        bridges.push({
+          focusGroup: fGroup, neighGroup: nGroup,
+          focusConds: groupConds(fg, fGroup), neighConds: groupConds(ng, nGroup),
+        })
+      }
+      const fgNames = fg.map(x => x.group)
+      const ngNames = ng.map(x => x.group)
+      for (const s of (link.sources || [])) {
+        for (const t of (link.targets || [])) {
+          if (fgNames.includes(s) && ngNames.includes(t)) add(s, t)
+          if (ngNames.includes(s) && fgNames.includes(t)) add(t, s)
+        }
+      }
+    }
+    out.push({ label, bridges })
+  }
+  return out
+}
+
+function DetailPanel(props) {
+  const { focus } = props
+  if (focus.level === "card") return <CardDetail {...props} />
+  if (focus.level === "group") return <GroupDetail {...props} />
+  return <OverviewDetail {...props} />
+}
+
+function OverviewDetail({ groupNodes, links, nodeMap, onDrill }) {
+  const biggest = useMemo(
+    () => [...groupNodes].sort((a, b) => b.card_count - a.card_count).slice(0, 8),
+    [groupNodes],
+  )
+  const totalCards = Object.keys(nodeMap).length
+  const unconnected = Object.values(nodeMap).filter(n => (n.connection_count || 0) === 0).length
+  return (
+    <div className="dm-panel dm-detail">
+      <span className="section-heading">Overview</span>
+      <div className="dm-statgrid">
+        <Stat label="Themes" value={groupNodes.length} />
+        <Stat label="Links" value={links.length} />
+        <Stat label="Cards" value={totalCards} />
+        <Stat label="Unlinked" value={unconnected} />
+      </div>
+      <p className="dm-hint">Click a theme in the map or legend to drill in.</p>
+      <div className="dm-subhead">Largest themes</div>
+      <div className="dm-detail-list">
+        {biggest.map(g => (
+          <button key={g.name} className="dm-detail-row" onClick={() => onDrill({ level: "group", group: g.name })}>
+            <span className="dm-legend-name">{g.name}</span>
+            <span className="dm-legend-count">{g.card_count}</span>
+          </button>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+function Stat({ label, value }) {
+  return (
+    <div className="dm-stat">
+      <div className="dm-stat-value">{value}</div>
+      <div className="dm-stat-label">{label}</div>
+    </div>
+  )
+}
+
+function GroupDetail({ cube, focus, groups, groupNodes, links, groupColor, onDrill, onHover, hovered, nodeMap }) {
+  const group = groups.find(g => g.name === focus.group)
+  const gnode = groupNodes.find(g => g.name === focus.group)
+  const { cards, loading } = useMatchCards(cube, group ? group.conditions : [], null)
+  const color = groupColor(focus.group)
+
+  // Which other groups this one links to, and via which link labels.
+  const linkedGroups = useMemo(() => {
+    const out = {}
+    for (const l of links) {
+      const inSrc = (l.sources || []).includes(focus.group)
+      const inTgt = (l.targets || []).includes(focus.group)
+      if (!inSrc && !inTgt) continue
+      const others = inSrc ? (l.targets || []) : (l.sources || [])
+      for (const o of others) {
+        if (o === focus.group) continue
+        if (!out[o]) out[o] = new Set()
+        out[o].add(l.label)
+      }
+    }
+    return Object.entries(out).map(([name, labels]) => ({ name, labels: [...labels] }))
+      .sort((a, b) => a.name.localeCompare(b.name))
+  }, [links, focus.group])
+
+  const sorted = useMemo(() => [...cards].sort((a, b) => a.name.localeCompare(b.name)), [cards])
+
+  return (
+    <div className="dm-panel dm-detail">
+      <div className="dm-detail-title" style={{ color }}>
+        <span className="dm-swatch dm-swatch-lg" style={{ background: color }} />
+        {focus.group}
+        <span className="dm-count">{gnode ? gnode.card_count : cards.length}</span>
+      </div>
+
+      {linkedGroups.length > 0 && (
+        <>
+          <div className="dm-subhead">Links to</div>
+          <div className="dm-chiprow">
+            {linkedGroups.map(lg => (
+              <button
+                key={lg.name}
+                className="dm-chip"
+                style={{ borderColor: groupColor(lg.name), color: groupColor(lg.name) }}
+                title={"via " + lg.labels.join(", ")}
+                onClick={() => onDrill({ level: "group", group: lg.name })}
+              >
+                {lg.name}
+              </button>
+            ))}
+          </div>
+        </>
+      )}
+
+      <div className="dm-subhead">Cards {loading ? "…" : `(${sorted.length})`} <span className="dm-why-note">hover a card for why it matched</span></div>
+      <div className="dm-detail-list">
+        {sorted.map(c => {
+          const node = nodeMap[c.name] || { colors: [] }
+          return (
+            <ConditionTooltip
+              key={c.name}
+              conditions={c.conditions}
+              onClick={() => onDrill({ level: "card", card: c.name })}
+              style={{
+                display: "flex", alignItems: "center", gap: "6px",
+                padding: "3px 6px", borderRadius: "4px", cursor: "pointer",
+                fontSize: "0.85em",
+                background: hovered === c.name ? "var(--page-background)" : "transparent",
+              }}
+            >
+              <span
+                onMouseEnter={() => onHover(c.name)}
+                onMouseLeave={() => onHover(null)}
+                style={{ display: "flex", alignItems: "center", gap: "6px", flex: 1, minWidth: 0 }}
+              >
+                <span className="dm-dot" style={{ background: getNodeColor(node.colors) }} />
+                <span className="dm-ellipsis">{c.name}</span>
+              </span>
+            </ConditionTooltip>
+          )
+        })}
+      </div>
+    </div>
+  )
+}
+
+// Fetch which groups a given card belongs to, with the condition(s) that matched.
+function useCardMemberships(cube, cardName, groups) {
+  const [memberships, setMemberships] = useState([])
+  useEffect(() => {
+    if (!cardName || !groups || groups.length === 0) { setMemberships([]); return }
+    const conditions = []
+    const groupLabels = []
+    for (const g of groups) {
+      for (const c of (g.conditions || [])) { conditions.push(c); groupLabels.push(g.name) }
+    }
+    if (conditions.length === 0) { setMemberships([]); return }
+    let alive = true
+    fetch(`/api/${cube}/stats/design-graph/match`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ conditions, groups: groupLabels }),
+    })
+      .then(r => r.json())
+      .then(d => {
+        if (!alive) return
+        const card = (d.cards || []).find(c => c.name === cardName)
+        if (!card) { setMemberships([]); return }
+        const byGroup = {}
+        for (const mc of card.conditions) {
+          if (!mc.group) continue
+          if (!byGroup[mc.group]) byGroup[mc.group] = []
+          byGroup[mc.group].push(mc.condition)
+        }
+        setMemberships(Object.entries(byGroup).map(([name, conds]) => ({ name, conds })))
+      })
+      .catch(() => { if (alive) setMemberships([]) })
+    return () => { alive = false }
+  }, [cube, cardName, groups])
+  return memberships
+}
+
+function CardDetail({ cube, focus, groups, edges, links, nodeMap, groupColor, onDrill, onHover, hovered }) {
+  const card = nodeMap[focus.card] || { name: focus.card, colors: [], types: [] }
+  const memberships = useCardMemberships(cube, focus.card, groups)
+
+  // Neighbors grouped by the rule label that connects them.
+  const byRule = useMemo(() => {
+    const map = {}
+    for (const e of edges) {
+      let other = null
+      if (e.source === focus.card) other = e.target
+      else if (e.target === focus.card) other = e.source
+      if (!other) continue
+      for (const label of (e.rule_labels || ["(unlabeled)"])) {
+        if (!map[label]) map[label] = new Set()
+        map[label].add(other)
+      }
+    }
+    return Object.entries(map)
+      .map(([label, set]) => ({ label, cards: [...set].sort((a, b) => a.name?.localeCompare?.(b.name) ?? String(a).localeCompare(String(b))) }))
+      .sort((a, b) => a.label.localeCompare(b.label))
+  }, [edges, focus.card])
+
+  const linkIndex = {}
+  links.forEach((l, i) => { linkIndex[l.label] = i })
+
+  return (
+    <div className="dm-panel dm-detail">
+      <div className="dm-detail-title">
+        <span className="dm-dot dm-dot-lg" style={{ background: getNodeColor(card.colors) }} />
+        {card.name}
+      </div>
+      {card.types && card.types.length > 0 && (
+        <div className="dm-types">{card.types.join(" · ")}{typeof card.cmc === "number" ? ` · ${card.cmc} MV` : ""}</div>
+      )}
+
+      {memberships.length > 0 && (
+        <>
+          <div className="dm-subhead">In themes</div>
+          <div className="dm-chiprow">
+            {memberships.map(m => (
+              <button
+                key={m.name}
+                className="dm-chip"
+                style={{ borderColor: groupColor(m.name), color: groupColor(m.name) }}
+                title={m.conds.join(", ")}
+                onClick={() => onDrill({ level: "group", group: m.name })}
+              >
+                {m.name}
+              </button>
+            ))}
+          </div>
+        </>
+      )}
+
+      <div className="dm-subhead">Linked cards {byRule.length > 0 ? `(${new Set(byRule.flatMap(r => r.cards)).size})` : ""}</div>
+      {byRule.length === 0 && <p className="dm-muted dm-pad">No links from this card.</p>}
+      {byRule.map(r => {
+        const li = linkIndex[r.label]
+        const color = li != null ? ruleColor(li) : "var(--text-muted)"
+        return (
+          <div key={r.label} className="dm-rulegroup">
+            <div className="dm-rulelabel" style={{ color }}>
+              <span className="dm-swatch" style={{ background: color }} /> {r.label}
+            </div>
+            {r.cards.map(name => {
+              const node = nodeMap[name] || { colors: [] }
+              return (
+                <button
+                  key={name}
+                  className={"dm-detail-row" + (hovered === name ? " dm-legend-hot" : "")}
+                  onMouseEnter={() => onHover(name)}
+                  onMouseLeave={() => onHover(null)}
+                  onClick={() => onDrill({ level: "card", card: name })}
+                >
+                  <span className="dm-dot" style={{ background: getNodeColor(node.colors) }} />
+                  <span className="dm-ellipsis">{name}</span>
+                </button>
+              )
+            })}
+          </div>
+        )
+      })}
+    </div>
+  )
+}
+
+// --- Drill map (the leveled constellation) -----------------------------------
+
+function DrillMap({ focus, nodeMap, edges, groupNodes, groupEdges, links, groupColor, cardGroups, cardData, hovered, onHover, onDrill }) {
+  const mapRef = useRef(null)
+  const tipRef = useRef(null)
+  const linkIndex = {}
+  links.forEach((l, i) => { linkIndex[l.label] = i })
+  const linkByLabel = {}
+  links.forEach(l => { linkByLabel[l.label] = l })
+
+  // At card level, hovering a neighbor explains exactly why it links to the focused
+  // card: the specific rule, plus which group each card sits in and the condition
+  // that matched. Recomputed only when the hovered neighbor changes.
+  const why = useMemo(() => {
+    if (focus.level !== "card" || !hovered || hovered === focus.card) return null
+    const w = whyLinked(focus.card, hovered, edges, linkByLabel, cardGroups || {})
+    return w.length > 0 ? w : null
+  }, [focus, hovered, edges, cardGroups])
+
+  // Position the tooltip at the cursor without re-rendering (avoids disturbing the sim).
+  useEffect(() => {
+    const el = mapRef.current
+    if (!el) return
+    function move(e) {
+      const tip = tipRef.current
+      if (!tip) return
+      const rect = el.getBoundingClientRect()
+      let x = e.clientX - rect.left + 14
+      let y = e.clientY - rect.top + 14
+      // Keep the tooltip inside the map panel.
+      const tw = tip.offsetWidth, th = tip.offsetHeight
+      if (x + tw > rect.width) x = e.clientX - rect.left - tw - 14
+      if (y + th > rect.height) y = Math.max(4, rect.height - th - 4)
+      tip.style.left = x + "px"
+      tip.style.top = y + "px"
+    }
+    el.addEventListener("mousemove", move)
+    return () => el.removeEventListener("mousemove", move)
+  }, [])
+
+  // Build the node/edge set for the current drill level.
+  const { simNodes, simEdges, showLabels, caption } = useMemo(() => {
+    if (focus.level === "themes") {
+      const max = groupNodes.reduce((m, g) => Math.max(m, g.card_count), 1)
+      const sn = groupNodes.map(g => ({
+        id: g.name,
+        radius: Math.max(10, Math.min(38, 10 + (g.card_count / max) * 28)),
+        color: groupColor(g.name),
+        label: g.name,
+        count: g.card_count,
+      }))
+      const se = groupEdges.map(e => ({
+        source: e.source, target: e.target, weight: e.weight,
+        color: edgeColorFor(e.labels, linkIndex),
+      }))
+      return { simNodes: sn, simEdges: se, showLabels: true, caption: `${sn.length} themes · click to drill in` }
+    }
+
+    if (focus.level === "group") {
+      const g = groupNodes.find(x => x.name === focus.group)
+      const names = new Set(g ? g.cards : [])
+      const max = [...names].reduce((m, n) => Math.max(m, (nodeMap[n]?.connection_count) || 0), 1)
+      const sn = [...names].map(n => {
+        const c = nodeMap[n] || { colors: [], connection_count: 0 }
+        return {
+          id: n,
+          radius: Math.max(6, Math.min(18, 6 + ((c.connection_count || 0) / max) * 12)),
+          color: getNodeColor(c.colors),
+          label: n,
+        }
+      })
+      const se = edges
+        .filter(e => names.has(e.source) && names.has(e.target))
+        .map(e => ({ source: e.source, target: e.target, weight: e.weight, color: edgeColorFor(e.rule_labels, linkIndex) }))
+      return { simNodes: sn, simEdges: se, showLabels: sn.length <= 34, caption: `${sn.length} cards in ${focus.group} · click a card` }
+    }
+
+    // card level: the focused card and its direct neighbors.
+    const center = focus.card
+    const nbrs = new Set([center])
+    for (const e of edges) {
+      if (e.source === center) nbrs.add(e.target)
+      else if (e.target === center) nbrs.add(e.source)
+    }
+    const sn = [...nbrs].map(n => {
+      const c = nodeMap[n] || { colors: [] }
+      return {
+        id: n,
+        radius: n === center ? 16 : 9,
+        color: getNodeColor(c.colors),
+        label: n,
+      }
+    })
+    const se = edges
+      .filter(e => nbrs.has(e.source) && nbrs.has(e.target) && (e.source === center || e.target === center))
+      .map(e => ({ source: e.source, target: e.target, weight: e.weight, color: edgeColorFor(e.rule_labels, linkIndex) }))
+    return { simNodes: sn, simEdges: se, showLabels: true, caption: `${sn.length - 1} cards linked to ${center}` }
+  }, [focus, groupNodes, groupEdges, edges, nodeMap])
+
+  return (
+    <div className="dm-panel dm-map" ref={mapRef}>
+      <ForceGraph
+        nodes={simNodes}
+        edges={simEdges}
+        showLabels={showLabels}
+        hoveredId={hovered}
+        selectedId={focus.level === "card" ? focus.card : null}
+        onHover={onHover}
+        onSelect={(id) => {
+          if (focus.level === "themes") onDrill({ level: "group", group: id })
+          else onDrill({ level: "card", card: id })
+        }}
+      />
+      <div className="dm-map-caption">{caption}</div>
+      {(() => {
+        // Preview the hovered card, or the focused card when nothing's hovered.
+        const name = (hovered && cardData[hovered]) ? hovered : (focus.level === "card" ? focus.card : null)
+        const card = name ? cardData[name] : null
+        return card ? <CardPreview card={card} /> : null
+      })()}
+      {why && (
+        <div ref={tipRef} className="dm-why-tip">
+          <div className="dm-why-tip-head">
+            <span className="dm-dot" style={{ background: getNodeColor((nodeMap[hovered] || {}).colors) }} />
+            {hovered}
+          </div>
+          {why.map(w => (
+            <div key={w.label} className="dm-why-rule">
+              <div className="dm-why-rulelabel" style={{ color: ruleColor(linkIndex[w.label] ?? 0) }}>
+                <span className="dm-swatch" style={{ background: ruleColor(linkIndex[w.label] ?? 0) }} /> {w.label}
+              </div>
+              {w.bridges.length === 0 && (
+                <div className="dm-why-line dm-muted">shared rule</div>
+              )}
+              {w.bridges.map((b, i) => (
+                <div key={i} className="dm-why-bridge">
+                  <div className="dm-why-line">
+                    <span className="dm-why-card">{focus.card}</span> in <b>{b.focusGroup}</b>
+                    {b.focusConds[0] && <span className="dm-why-cond">{b.focusConds[0]}</span>}
+                  </div>
+                  <div className="dm-why-line">
+                    <span className="dm-why-card">{hovered}</span> in <b>{b.neighGroup}</b>
+                    {b.neighConds[0] && <span className="dm-why-cond">{b.neighConds[0]}</span>}
+                  </div>
+                </div>
+              ))}
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  )
+}
+
+// CardPreview overlays the hovered/selected card's actual image (or its rules text
+// if no image is available) in the corner of the map.
+function CardPreview({ card }) {
+  if (!card) return null
+  return (
+    <div className="dm-preview">
+      {card.image ? (
+        <img className="dm-preview-img" src={card.image} alt={card.name} />
+      ) : (
+        <div className="dm-preview-text">
+          <div className="dm-preview-name">{card.name} <span className="dm-preview-mana">{card.mana_cost}</span></div>
+          <div className="dm-preview-type">{[...(card.types || []), ...(card.sub_types || [])].join(" ")}</div>
+          <div className="dm-preview-oracle">{card.oracle_text}</div>
+        </div>
+      )}
+    </div>
+  )
+}
+
+function edgeColorFor(labels, linkIndex) {
+  if (labels && labels.length > 0) {
+    const idx = linkIndex[labels[0]] ?? 0
+    return RULE_COLORS[idx % RULE_COLORS.length]
+  }
+  return null
 }
 
 function saveDesignMap(cube, groups, links, onRulesChanged, onStatus) {
@@ -635,7 +1287,13 @@ function ConditionTooltip({ children, conditions, style, onClick }) {
     if (timeoutRef.current) clearTimeout(timeoutRef.current)
     if (elRef.current) {
       const rect = elRef.current.getBoundingClientRect()
-      setPos({ top: rect.top + rect.height / 2, left: rect.right + 2 })
+      // Anchor the tooltip on whichever side has room. In the right-hand detail
+      // rail there's no space to the right, so grow leftward instead of clipping.
+      if (rect.right > window.innerWidth * 0.55) {
+        setPos({ top: rect.top + rect.height / 2, right: window.innerWidth - rect.left + 6 })
+      } else {
+        setPos({ top: rect.top + rect.height / 2, left: rect.right + 6 })
+      }
     }
     setShow(true)
   }
@@ -659,6 +1317,7 @@ function ConditionTooltip({ children, conditions, style, onClick }) {
         <div style={{
           position: "fixed",
           left: pos.left,
+          right: pos.right,
           top: pos.top,
           transform: "translateY(-50%)",
           background: "var(--card-background)",
@@ -1346,103 +2005,46 @@ function ruleColor(index) {
 }
 
 const DEFAULT_PHYSICS = {
-  repulsion: 6000,
-  attraction: 0.015,
-  gravity: 0.001,
+  repulsion: 10000,
+  attraction: 0.014,
+  gravity: 0.0007,
   damping: 0.92,
-  maxFrames: 300,
+  maxFrames: 340,
 }
 
-function DesignMapGraph({ nodes, edges, links, groupNodes, groupEdges, linkEdges, viewMode, onViewModeChange, onNodeClick, onDrawLink, selectedLink, onSelectedLinkChanged, selectedNode, hoveredCard, onHoveredCardChanged }) {
+// ForceGraph is a small force-directed canvas renderer. It draws whatever nodes
+// and edges it's handed - theme constellation, a group's cards, or a card's
+// neighborhood - so every drill level shares one engine. Nodes: {id, radius,
+// color, label, count?}. Edges: {source, target, weight, color?}.
+function ForceGraph({ nodes, edges, showLabels, hoveredId, selectedId, onHover, onSelect }) {
   const canvasRef = useRef(null)
   const containerRef = useRef(null)
   const nodesRef = useRef([])
-  const edgesRef = useRef([])
   const nodeIndexRef = useRef({})
+  const adjacencyRef = useRef({})
   const animRef = useRef(null)
   const dragRef = useRef(null)
-  // In-progress link draw: { from: node, x, y } while shift-dragging between groups.
-  const linkDrawRef = useRef(null)
+  const movedRef = useRef(false)
   const hoveredRef = useRef(null)
+  const selectedRef = useRef(null)
   const drawRef = useRef(null)
-  const selectedLinkRef = useRef(null)
-  const selectedNodeRef = useRef(null)
   const viewRef = useRef({ scale: 1, offsetX: 0, offsetY: 0 })
   const panRef = useRef(null)
-  const [canvasSize, setCanvasSize] = useState({ width: 900, height: 600 })
-  const [physics, setPhysics] = useState(DEFAULT_PHYSICS)
-  const [showSettings, setShowSettings] = useState(false)
-  const [minConnections, setMinConnections] = useState(0)
-  const [minWeight, setMinWeight] = useState(0)
+  const [canvasSize, setCanvasSize] = useState({ width: 900, height: 620 })
 
-  // Largest connection count across cards, for the card-view slider's upper bound.
-  const maxConnections = React.useMemo(
-    () => nodes.reduce((m, n) => Math.max(m, n.connection_count), 0),
-    [nodes],
-  )
-
-  // Largest group-edge weight in the active group view, for the group-view slider.
-  const maxWeight = React.useMemo(() => {
-    const activeEdges = viewMode === "link" ? linkEdges : groupEdges
-    return activeEdges.reduce((m, e) => Math.max(m, e.weight), 0)
-  }, [viewMode, groupEdges, linkEdges])
-
-  // Reset the filters when the view changes; their scales differ per view.
+  // Keep refs in step with props so the imperative draw loop sees current values.
+  useEffect(() => { selectedRef.current = selectedId; if (drawRef.current) drawRef.current() }, [selectedId])
   useEffect(() => {
-    setMinConnections(0)
-    setMinWeight(0)
-  }, [viewMode])
+    if (hoveredId !== hoveredRef.current) { hoveredRef.current = hoveredId; if (drawRef.current) drawRef.current() }
+  }, [hoveredId])
 
-  // Normalize the two view modes into a common {id, radius, color} node shape and
-  // {source, target, weight, ruleLabels} edge shape so the simulation and draw
-  // code don't have to branch. Card mode also applies the min-connections filter.
-  const { simNodes, simEdges } = React.useMemo(() => {
-    if (viewMode !== "card") {
-      // Group-node views. "group" edges come from real card connections; "link" edges
-      // mirror the rule definitions. Node degree is view-specific, so compute it here.
-      // The card-derived view is dense, so thin it with the min-weight filter.
-      const activeEdges = (viewMode === "link" ? linkEdges : groupEdges).filter(e => e.weight >= minWeight)
-      const degree = {}
-      for (const e of activeEdges) {
-        degree[e.source] = (degree[e.source] || 0) + 1
-        degree[e.target] = (degree[e.target] || 0) + 1
-      }
-      const metricMax = groupNodes.reduce((m, g) => Math.max(m, g.card_count), 1)
-      const sn = groupNodes.map((g, i) => ({
-        id: g.name,
-        radius: Math.max(8, Math.min(34, 8 + (g.card_count / metricMax) * 26)),
-        color: ruleColor(i),
-        connectionCount: degree[g.name] || 0,
-        count: g.card_count,
-      }))
-      const se = activeEdges.map(e => ({
-        source: e.source, target: e.target, weight: e.weight, ruleLabels: e.labels || [],
-      }))
-      return { simNodes: sn, simEdges: se }
-    }
-
-    const metricMax = nodes.reduce((m, n) => Math.max(m, n.connection_count), 1)
-    const kept = nodes.filter(n => n.connection_count >= minConnections)
-    const keepIds = new Set(kept.map(n => n.name))
-    const sn = kept.map(n => ({
-      id: n.name,
-      radius: Math.max(4, Math.min(14, 3 + (n.connection_count / metricMax) * 11)),
-      color: getNodeColor(n.colors),
-      connectionCount: n.connection_count,
-      count: null,
-    }))
-    const se = edges
-      .filter(e => keepIds.has(e.source) && keepIds.has(e.target))
-      .map(e => ({ source: e.source, target: e.target, weight: e.weight, ruleLabels: e.rule_labels || [] }))
-    return { simNodes: sn, simEdges: se }
-  }, [viewMode, nodes, edges, groupNodes, groupEdges, linkEdges, minConnections, minWeight])
-
-  // Resize canvas to fill container.
+  // Fit the canvas to its column.
   useEffect(() => {
     function measure() {
       if (containerRef.current) {
         const w = containerRef.current.clientWidth
-        if (w > 0) setCanvasSize({ width: w, height: Math.round(w * 0.65) })
+        const h = containerRef.current.clientHeight
+        if (w > 0 && h > 0) setCanvasSize({ width: w, height: h })
       }
     }
     measure()
@@ -1451,59 +2053,44 @@ function DesignMapGraph({ nodes, edges, links, groupNodes, groupEdges, linkEdges
   }, [])
 
   useEffect(() => {
-    if (simNodes.length === 0) return
-
     const canvas = canvasRef.current
-    if (!canvas) return
+    if (!canvas || nodes.length === 0) return
     const ctx = canvas.getContext("2d")
     const width = canvas.width
     const height = canvas.height
 
-    // Radius and color are precomputed in simNodes; this just seeds positions on a ring.
-    const graphNodes = simNodes.map((node, i) => {
-      const angle = (2 * Math.PI * i) / simNodes.length
-      const radius = Math.min(width, height) * 0.45
-      const x = width / 2 + radius * Math.cos(angle) + (Math.random() - 0.5) * 40
-      const y = height / 2 + radius * Math.sin(angle) + (Math.random() - 0.5) * 40
+    const graphNodes = nodes.map((node, i) => {
+      const angle = (2 * Math.PI * i) / nodes.length
+      const r = Math.min(width, height) * 0.4
       return {
         id: node.id,
-        x,
-        y,
-        vx: 0,
-        vy: 0,
-        radius: node.radius,
-        color: node.color,
-        connectionCount: node.connectionCount,
-        count: node.count,
+        x: width / 2 + r * Math.cos(angle) + (Math.random() - 0.5) * 40,
+        y: height / 2 + r * Math.sin(angle) + (Math.random() - 0.5) * 40,
+        vx: 0, vy: 0,
+        radius: node.radius, color: node.color, label: node.label, count: node.count,
       }
     })
-
-    const graphEdges = simEdges.map(edge => ({
-      source: edge.source,
-      target: edge.target,
-      weight: edge.weight,
-      ruleLabels: edge.ruleLabels || [],
-    }))
-
-    // Build a map from link label -> link index for coloring.
-    const linkLabelIndex = {}
-    for (let i = 0; i < links.length; i++) {
-      linkLabelIndex[links[i].label] = i
-    }
-
     const nodeIndex = {}
-    for (let i = 0; i < graphNodes.length; i++) {
-      nodeIndex[graphNodes[i].id] = i
+    graphNodes.forEach((n, i) => { nodeIndex[n.id] = i })
+
+    const graphEdges = edges
+      .filter(e => nodeIndex[e.source] !== undefined && nodeIndex[e.target] !== undefined)
+      .map(e => ({ source: e.source, target: e.target, weight: e.weight || 1, color: e.color }))
+
+    const adjacency = {}
+    for (const e of graphEdges) {
+      (adjacency[e.source] = adjacency[e.source] || new Set()).add(e.target);
+      (adjacency[e.target] = adjacency[e.target] || new Set()).add(e.source)
     }
 
     nodesRef.current = graphNodes
-    edgesRef.current = graphEdges
     nodeIndexRef.current = nodeIndex
+    adjacencyRef.current = adjacency
     viewRef.current = { scale: 1, offsetX: 0, offsetY: 0 }
 
+    const physics = DEFAULT_PHYSICS
     let frame = 0
     const maxFrames = physics.maxFrames
-    const damping = physics.damping
 
     function draw() {
       const v = viewRef.current
@@ -1512,258 +2099,152 @@ function DesignMapGraph({ nodes, edges, links, groupNodes, groupEdges, linkEdges
       ctx.translate(v.offsetX, v.offsetY)
       ctx.scale(v.scale, v.scale)
 
-      const hovered = hoveredRef.current
-      const selLink = selectedLinkRef.current
-      const selNode = selectedNodeRef.current
+      const hov = hoveredRef.current
+      const sel = selectedRef.current
+      const focusId = sel || hov
+      const neighbors = focusId ? adjacencyRef.current[focusId] : null
 
-      // Draw edges.
       for (const edge of graphEdges) {
-        const si = nodeIndex[edge.source]
-        const ti = nodeIndex[edge.target]
-        if (si === undefined || ti === undefined) continue
-        const s = graphNodes[si]
-        const t = graphNodes[ti]
-
-        // Determine if this edge should be dimmed.
-        let dimmed = false
-        if (selNode) {
-          dimmed = edge.source !== selNode && edge.target !== selNode
-        } else if (selLink === "unconnected") {
-          dimmed = true
-        } else if (selLink !== null) {
-          dimmed = !edge.ruleLabels.includes(links[selLink]?.label)
-        }
-
-        // Color by primary link.
-        let edgeColor
-        if (edge.ruleLabels.length > 0) {
-          const primaryIdx = linkLabelIndex[edge.ruleLabels[0]] ?? 0
-          const c = RULE_COLORS[primaryIdx % RULE_COLORS.length]
-          const alpha = dimmed ? 0.05 : Math.min(0.5, 0.1 + edge.weight * 0.1)
-          edgeColor = hexToRGBA(c, alpha)
-        } else {
-          edgeColor = dimmed ? "rgba(255,255,255,0.02)" : `rgba(255,255,255,${Math.min(0.3, edge.weight * 0.05)})`
-        }
-
+        const s = graphNodes[nodeIndex[edge.source]]
+        const t = graphNodes[nodeIndex[edge.target]]
+        const touches = focusId && (edge.source === focusId || edge.target === focusId)
+        const dimmed = focusId && !touches
+        const base = edge.color || "#7c8aa0"
+        // At rest the web stays faint so the nodes read as a constellation; focusing a
+        // node lights up just the edges that touch it.
+        let alpha
+        if (dimmed) alpha = 0.03
+        else if (focusId) alpha = Math.min(0.75, 0.28 + edge.weight * 0.08)
+        else alpha = Math.min(0.2, 0.03 + edge.weight * 0.022)
         ctx.beginPath()
         ctx.moveTo(s.x, s.y)
         ctx.lineTo(t.x, t.y)
-        ctx.strokeStyle = edgeColor
-        ctx.lineWidth = dimmed ? 0.3 : Math.max(0.5, Math.min(3, edge.weight * 0.5))
+        ctx.strokeStyle = hexToRGBA(base, alpha)
+        ctx.lineWidth = (touches ? 1.6 : Math.max(0.5, Math.min(2.5, edge.weight * 0.4))) / v.scale
         ctx.stroke()
       }
 
-      // Draw nodes.
       for (const node of graphNodes) {
-        // Determine if this node should be dimmed.
-        let dimmed = false
-        if (selNode) {
-          // Highlight the selected node and its direct neighbors.
-          const isNeighbor = graphEdges.some(e =>
-            (e.source === selNode && e.target === node.id) ||
-            (e.target === selNode && e.source === node.id)
-          )
-          dimmed = node.id !== selNode && !isNeighbor
-        } else if (selLink === "unconnected") {
-          dimmed = node.connectionCount > 0
-        } else if (selLink !== null) {
-          const linkLabel = links[selLink]?.label
-          dimmed = !graphEdges.some(e =>
-            (e.source === node.id || e.target === node.id) && e.ruleLabels.includes(linkLabel)
-          )
-        }
-
+        const isFocus = node.id === focusId
+        const isNeighbor = neighbors && neighbors.has(node.id)
+        const dimmed = focusId && !isFocus && !isNeighbor
         ctx.beginPath()
         ctx.arc(node.x, node.y, node.radius, 0, 2 * Math.PI)
-        ctx.fillStyle = dimmed ? "rgba(100,100,100,0.3)" : node.color
+        ctx.fillStyle = dimmed ? hexToRGBA(node.color, 0.18) : node.color
         ctx.fill()
-        ctx.strokeStyle = hovered === node.id ? "#fff" : "rgba(0,0,0,0.5)"
-        ctx.lineWidth = hovered === node.id ? 2 : 1
-        ctx.stroke()
-      }
-
-      // Rubber-band line while drawing a new link from one group to another.
-      const ld = linkDrawRef.current
-      if (ld) {
-        ctx.beginPath()
-        ctx.moveTo(ld.from.x, ld.from.y)
-        ctx.lineTo(ld.x, ld.y)
-        ctx.strokeStyle = "#7cd6ff"
-        ctx.lineWidth = 2 / v.scale
-        ctx.setLineDash([6 / v.scale, 4 / v.scale])
-        ctx.stroke()
-        ctx.setLineDash([])
-      }
-
-      // Draw hovered node label. Group nodes also show their card count.
-      if (hovered) {
-        const node = graphNodes.find(n => n.id === hovered)
-        if (node) {
-          const fontSize = Math.max(8, 13 / v.scale)
-          ctx.font = `${fontSize}px monospace`
-          ctx.fillStyle = "#fff"
-          ctx.textAlign = "center"
-          const label = node.count != null ? `${node.id} (${node.count})` : node.id
-          ctx.fillText(label, node.x, node.y - node.radius - 6 / v.scale)
+        if (isFocus) {
+          ctx.lineWidth = 2.5 / v.scale
+          ctx.strokeStyle = "#f8fafc"
+        } else {
+          ctx.lineWidth = 1 / v.scale
+          ctx.strokeStyle = dimmed ? "rgba(0,0,0,0.3)" : "rgba(0,0,0,0.55)"
         }
+        ctx.stroke()
+      }
+
+      // Labels: all of them when showLabels, otherwise just the focused/hovered one.
+      const fontSize = Math.max(9, 12 / v.scale)
+      ctx.font = `${fontSize}px Inter, sans-serif`
+      ctx.textAlign = "center"
+      ctx.lineJoin = "round"
+      for (const node of graphNodes) {
+        const isFocus = node.id === focusId
+        const isNeighbor = neighbors && neighbors.has(node.id)
+        const dimmed = focusId && !isFocus && !isNeighbor
+        const show = isFocus || (showLabels && !dimmed) || (!showLabels && isFocus)
+        if (!show) continue
+        const text = node.count != null ? `${node.label} (${node.count})` : node.label
+        const ty = node.y - node.radius - 5 / v.scale
+        ctx.lineWidth = 3 / v.scale
+        ctx.strokeStyle = "rgba(15,23,42,0.9)"
+        ctx.strokeText(text, node.x, ty)
+        ctx.fillStyle = isFocus ? "#f8fafc" : "rgba(226,232,240,0.85)"
+        ctx.fillText(text, node.x, ty)
       }
 
       ctx.restore()
     }
-
     drawRef.current = draw
-
-    const stepsPerFrame = 5
 
     function step() {
       if (frame > maxFrames) return
       frame++
-
       const alpha = 1 - frame / maxFrames
-
-      // Repulsion between all node pairs.
       for (let i = 0; i < graphNodes.length; i++) {
         for (let j = i + 1; j < graphNodes.length; j++) {
           let dx = graphNodes[j].x - graphNodes[i].x
           let dy = graphNodes[j].y - graphNodes[i].y
           let dist = Math.sqrt(dx * dx + dy * dy) || 1
           if (dist < 20) dist = 20
-          let force = (physics.repulsion * alpha) / (dist * dist)
-          let fx = (dx / dist) * force
-          let fy = (dy / dist) * force
-          graphNodes[i].vx -= fx
-          graphNodes[i].vy -= fy
-          graphNodes[j].vx += fx
-          graphNodes[j].vy += fy
+          const force = (physics.repulsion * alpha) / (dist * dist)
+          const fx = (dx / dist) * force
+          const fy = (dy / dist) * force
+          graphNodes[i].vx -= fx; graphNodes[i].vy -= fy
+          graphNodes[j].vx += fx; graphNodes[j].vy += fy
         }
       }
-
-      // Attraction along edges.
       for (const edge of graphEdges) {
-        const si = nodeIndex[edge.source]
-        const ti = nodeIndex[edge.target]
-        if (si === undefined || ti === undefined) continue
-        const s = graphNodes[si]
-        const t = graphNodes[ti]
-        let dx = t.x - s.x
-        let dy = t.y - s.y
-        let strength = physics.attraction * Math.min(edge.weight, 5) * alpha
-        let fx = dx * strength
-        let fy = dy * strength
-        s.vx += fx
-        s.vy += fy
-        t.vx -= fx
-        t.vy -= fy
+        const s = graphNodes[nodeIndex[edge.source]]
+        const t = graphNodes[nodeIndex[edge.target]]
+        const dx = t.x - s.x, dy = t.y - s.y
+        const strength = physics.attraction * Math.min(edge.weight, 5) * alpha
+        s.vx += dx * strength; s.vy += dy * strength
+        t.vx -= dx * strength; t.vy -= dy * strength
       }
-
-      // Gravity pulls all nodes toward the canvas center so disconnected nodes don't drift off.
       for (const node of graphNodes) {
         node.vx += (width / 2 - node.x) * physics.gravity * alpha
         node.vy += (height / 2 - node.y) * physics.gravity * alpha
       }
-
-      // Apply velocities.
       const pad = 8
       for (const node of graphNodes) {
         if (dragRef.current && dragRef.current.id === node.id) continue
-        node.vx *= damping
-        node.vy *= damping
-        node.x += node.vx
-        node.y += node.vy
+        node.vx *= physics.damping; node.vy *= physics.damping
+        node.x += node.vx; node.y += node.vy
         node.x = Math.max(node.radius + pad, Math.min(width - node.radius - pad, node.x))
         node.y = Math.max(node.radius + pad, Math.min(height - node.radius - pad, node.y))
       }
-
-      // Collision resolution: only kick in once layout has mostly settled (last 40% of sim).
       if (frame < maxFrames * 0.6) return
-      const collisionPad = 6
+      const cpad = 6
       for (let i = 0; i < graphNodes.length; i++) {
         for (let j = i + 1; j < graphNodes.length; j++) {
-          const a = graphNodes[i]
-          const b = graphNodes[j]
-          const dx = b.x - a.x
-          const dy = b.y - a.y
+          const a = graphNodes[i], b = graphNodes[j]
+          const dx = b.x - a.x, dy = b.y - a.y
           const dist = Math.sqrt(dx * dx + dy * dy) || 0.1
-          const minDist = a.radius + b.radius + collisionPad
+          const minDist = a.radius + b.radius + cpad
           if (dist < minDist) {
             const overlap = (minDist - dist) / 2
-            const nx = dx / dist
-            const ny = dy / dist
-            if (!(dragRef.current && dragRef.current.id === a.id)) {
-              a.x -= nx * overlap
-              a.y -= ny * overlap
-            }
-            if (!(dragRef.current && dragRef.current.id === b.id)) {
-              b.x += nx * overlap
-              b.y += ny * overlap
-            }
+            const nx = dx / dist, ny = dy / dist
+            if (!(dragRef.current && dragRef.current.id === a.id)) { a.x -= nx * overlap; a.y -= ny * overlap }
+            if (!(dragRef.current && dragRef.current.id === b.id)) { b.x += nx * overlap; b.y += ny * overlap }
           }
         }
       }
     }
 
     function simulate() {
-      if (frame > maxFrames) {
-        draw()
-        return
-      }
-      for (let s = 0; s < stepsPerFrame && frame <= maxFrames; s++) {
-        step()
-      }
+      if (frame > maxFrames) { draw(); return }
+      for (let s = 0; s < 5 && frame <= maxFrames; s++) step()
       draw()
       animRef.current = requestAnimationFrame(simulate)
     }
-
     animRef.current = requestAnimationFrame(simulate)
 
-    return () => {
-      if (animRef.current) cancelAnimationFrame(animRef.current)
-      drawRef.current = null
-    }
-  }, [simNodes, simEdges, links, canvasSize, physics])
+    return () => { if (animRef.current) cancelAnimationFrame(animRef.current); drawRef.current = null }
+  }, [nodes, edges, canvasSize, showLabels])
 
-  // Sync selectedLink state to ref for use in draw().
-  useEffect(() => {
-    selectedLinkRef.current = selectedLink
-    if (drawRef.current) drawRef.current()
-  }, [selectedLink])
-
-  // Sync selectedNode state to ref for use in draw().
-  useEffect(() => {
-    selectedNodeRef.current = selectedNode
-    if (drawRef.current) drawRef.current()
-  }, [selectedNode])
-
-  // Sync external hoveredCard prop to ref for use in draw().
-  useEffect(() => {
-    if (hoveredCard !== hoveredRef.current) {
-      hoveredRef.current = hoveredCard
-      if (drawRef.current) drawRef.current()
-    }
-  }, [hoveredCard])
-
-  // Convert screen coordinates (relative to canvas element) to world coordinates.
   function screenToWorld(sx, sy) {
     const canvas = canvasRef.current
     if (!canvas) return { x: sx, y: sy }
-    // Account for CSS scaling (canvas pixel size vs display size).
     const rect = canvas.getBoundingClientRect()
     const cx = sx * (canvas.width / rect.width)
     const cy = sy * (canvas.height / rect.height)
     const v = viewRef.current
-    return {
-      x: (cx - v.offsetX) / v.scale,
-      y: (cy - v.offsetY) / v.scale,
-    }
+    return { x: (cx - v.offsetX) / v.scale, y: (cy - v.offsetY) / v.scale }
   }
-
-  function getNodeAt(wx, wy) {
+  function nodeAt(wx, wy) {
     for (const node of nodesRef.current) {
-      const dx = node.x - wx
-      const dy = node.y - wy
-      if (dx * dx + dy * dy < (node.radius + 4) * (node.radius + 4)) {
-        return node
-      }
+      const dx = node.x - wx, dy = node.y - wy
+      if (dx * dx + dy * dy < (node.radius + 4) * (node.radius + 4)) return node
     }
     return null
   }
@@ -1773,25 +2254,16 @@ function DesignMapGraph({ nodes, edges, links, groupNodes, groupEdges, linkEdges
     const canvas = canvasRef.current
     if (!canvas) return
     const rect = canvas.getBoundingClientRect()
-    const sx = e.clientX - rect.left
-    const sy = e.clientY - rect.top
-    // Canvas pixel coords before zoom.
-    const cx = sx * (canvas.width / rect.width)
-    const cy = sy * (canvas.height / rect.height)
-
+    const cx = (e.clientX - rect.left) * (canvas.width / rect.width)
+    const cy = (e.clientY - rect.top) * (canvas.height / rect.height)
     const v = viewRef.current
-    const zoomFactor = e.deltaY < 0 ? 1.1 : 1 / 1.1
-    const newScale = Math.max(0.2, Math.min(10, v.scale * zoomFactor))
-
-    // Zoom toward cursor: adjust offset so the world point under cursor stays fixed.
+    const factor = e.deltaY < 0 ? 1.1 : 1 / 1.1
+    const newScale = Math.max(0.3, Math.min(6, v.scale * factor))
     v.offsetX = cx - (cx - v.offsetX) * (newScale / v.scale)
     v.offsetY = cy - (cy - v.offsetY) * (newScale / v.scale)
     v.scale = newScale
-
     if (drawRef.current) drawRef.current()
   }
-
-  // Attach wheel handler with { passive: false } to allow preventDefault.
   useEffect(() => {
     const canvas = canvasRef.current
     if (!canvas) return
@@ -1803,435 +2275,77 @@ function DesignMapGraph({ nodes, edges, links, groupNodes, groupEdges, linkEdges
     const canvas = canvasRef.current
     if (!canvas) return
     const rect = canvas.getBoundingClientRect()
-    const sx = e.clientX - rect.left
-    const sy = e.clientY - rect.top
-
-    // Handle panning (middle-click or drag on empty space with right mouse).
+    const sx = e.clientX - rect.left, sy = e.clientY - rect.top
     if (panRef.current) {
       const v = viewRef.current
-      const dx = (sx - panRef.current.sx) * (canvas.width / rect.width)
-      const dy = (sy - panRef.current.sy) * (canvas.height / rect.height)
-      v.offsetX = panRef.current.startOffsetX + dx
-      v.offsetY = panRef.current.startOffsetY + dy
+      v.offsetX = panRef.current.startOffsetX + (sx - panRef.current.sx) * (canvas.width / rect.width)
+      v.offsetY = panRef.current.startOffsetY + (sy - panRef.current.sy) * (canvas.height / rect.height)
+      movedRef.current = true
       if (drawRef.current) drawRef.current()
       return
     }
-
     const { x, y } = screenToWorld(sx, sy)
-
-    // While drawing a link, track the cursor for the rubber-band line and highlight the
-    // group under it as the prospective target.
-    if (linkDrawRef.current) {
-      linkDrawRef.current.x = x
-      linkDrawRef.current.y = y
-      const over = getNodeAt(x, y)
-      hoveredRef.current = over && over.id !== linkDrawRef.current.from.id ? over.id : null
-      canvas.style.cursor = "crosshair"
-      if (drawRef.current) drawRef.current()
-      return
-    }
-
     if (dragRef.current) {
-      dragRef.current.x = x
-      dragRef.current.y = y
-      dragRef.current.vx = 0
-      dragRef.current.vy = 0
+      dragRef.current.x = x; dragRef.current.y = y
+      dragRef.current.vx = 0; dragRef.current.vy = 0
+      movedRef.current = true
       if (drawRef.current) drawRef.current()
       return
     }
-
-    const node = getNodeAt(x, y)
-    const newHovered = node ? node.id : null
-    if (newHovered !== hoveredRef.current) {
-      hoveredRef.current = newHovered
-      if (onHoveredCardChanged) onHoveredCardChanged(newHovered)
+    const node = nodeAt(x, y)
+    const id = node ? node.id : null
+    if (id !== hoveredRef.current) {
+      hoveredRef.current = id
+      if (onHover) onHover(id)
       if (drawRef.current) drawRef.current()
     }
-    if (node && viewMode === "link" && e.shiftKey && onDrawLink) {
-      canvas.style.cursor = "crosshair"
-    } else {
-      canvas.style.cursor = node ? "pointer" : "default"
-    }
+    canvas.style.cursor = node ? "pointer" : "grab"
   }
-
   function handleMouseDown(e) {
     const canvas = canvasRef.current
     if (!canvas) return
     const rect = canvas.getBoundingClientRect()
-    const sx = e.clientX - rect.left
-    const sy = e.clientY - rect.top
+    const sx = e.clientX - rect.left, sy = e.clientY - rect.top
     const { x, y } = screenToWorld(sx, sy)
-    const node = getNodeAt(x, y)
-    if (node && viewMode === "link" && e.shiftKey && onDrawLink) {
-      // Shift-drag from a group starts drawing a link to another group.
-      linkDrawRef.current = { from: node, x, y }
-    } else if (node) {
-      dragRef.current = node
-    } else {
-      // Start panning when clicking empty space.
+    const node = nodeAt(x, y)
+    movedRef.current = false
+    if (node) dragRef.current = node
+    else {
       const v = viewRef.current
       panRef.current = { sx, sy, startOffsetX: v.offsetX, startOffsetY: v.offsetY }
     }
   }
-
   function handleMouseUp(e) {
-    if (linkDrawRef.current) {
-      const canvas = canvasRef.current
-      const from = linkDrawRef.current.from
-      if (canvas) {
-        const rect = canvas.getBoundingClientRect()
-        const { x, y } = screenToWorld(e.clientX - rect.left, e.clientY - rect.top)
-        const target = getNodeAt(x, y)
-        if (target && target.id !== from.id && onDrawLink) {
-          onDrawLink(from.id, target.id)
-        }
-      }
-      linkDrawRef.current = null
-      hoveredRef.current = null
-      if (drawRef.current) drawRef.current()
-      return
-    }
-    if (panRef.current) {
-      panRef.current = null
-      return
-    }
     if (dragRef.current) {
-      const canvas = canvasRef.current
-      if (canvas) {
-        const rect = canvas.getBoundingClientRect()
-        const sx = e.clientX - rect.left
-        const sy = e.clientY - rect.top
-        const { x, y } = screenToWorld(sx, sy)
-        const node = getNodeAt(x, y)
-        if (node && node.id === dragRef.current.id && onNodeClick) {
-          onNodeClick(node.id)
-        }
-      }
+      const node = dragRef.current
       dragRef.current = null
+      if (!movedRef.current && onSelect) onSelect(node.id)
       if (drawRef.current) drawRef.current()
     }
+    panRef.current = null
   }
-
   function handleMouseLeave() {
     dragRef.current = null
     panRef.current = null
-    linkDrawRef.current = null
     if (hoveredRef.current) {
       hoveredRef.current = null
-      if (onHoveredCardChanged) onHoveredCardChanged(null)
+      if (onHover) onHover(null)
       if (drawRef.current) drawRef.current()
     }
   }
 
-  if (nodes.length === 0) {
-    return (
-      <div style={{textAlign: "center", padding: "2rem", color: "var(--text-muted)"}}>
-        <p>No design graph data. Use the "+ Add Group" and "+ Add Link" buttons in the panel to define card associations.</p>
-      </div>
-    )
-  }
-
   return (
-    <div ref={containerRef} style={{textAlign: "center"}}>
-      <h4 style={{color: "var(--primary)", marginBottom: "0.5rem"}}>Design Map</h4>
-      <p style={{color: "var(--text-muted)", fontSize: "0.85em", marginBottom: "0.5rem"}}>
-        {viewMode === "card" &&
-          "Card-level view. Node size = connection count. Edge color = link. Hover for name, click to select, drag to reposition."}
-        {viewMode === "group" &&
-          "Group view. Each node is a group; groups are joined when their cards are actually linked. Node size = card count, edge weight = shared card connections."}
-        {viewMode === "link" &&
-          "Link view. Each node is a group; edges mirror the rule definitions (a link's source groups joined to its target groups). Shift-drag from one group to another to draw a new link."}
-      </p>
-      <div style={{marginBottom: "0.5rem", display: "flex", justifyContent: "center", gap: "0.5rem", alignItems: "center"}}>
-        <div style={{display: "inline-flex", border: "1px solid var(--primary)", borderRadius: "12px", overflow: "hidden"}}>
-          {[["card", "Card graph"], ["group", "Group graph"], ["link", "Link graph"]].map(([mode, label]) => (
-            <button
-              key={mode}
-              onClick={() => onViewModeChange(mode)}
-              style={{
-                background: viewMode === mode ? "var(--primary)" : "transparent",
-                color: viewMode === mode ? "#000" : "var(--primary)",
-                border: "none",
-                padding: "2px 12px",
-                fontSize: "0.75em",
-                cursor: "pointer",
-              }}
-            >
-              {label}
-            </button>
-          ))}
-        </div>
-        {viewMode === "card" && maxConnections > 0 && (
-          <label style={{color: "var(--text-muted)", fontSize: "0.75em", display: "inline-flex", alignItems: "center", gap: "0.4rem"}}>
-            Min connections: {minConnections}
-            <input
-              type="range"
-              min={0}
-              max={maxConnections}
-              value={minConnections}
-              onChange={(e) => setMinConnections(Number(e.target.value))}
-              style={{verticalAlign: "middle"}}
-            />
-          </label>
-        )}
-        {viewMode !== "card" && maxWeight > 0 && (
-          <label style={{color: "var(--text-muted)", fontSize: "0.75em", display: "inline-flex", alignItems: "center", gap: "0.4rem"}}>
-            Min link strength: {minWeight}
-            <input
-              type="range"
-              min={0}
-              max={maxWeight}
-              value={minWeight}
-              onChange={(e) => setMinWeight(Number(e.target.value))}
-              style={{verticalAlign: "middle"}}
-            />
-          </label>
-        )}
-      </div>
-      <div style={{marginBottom: "0.5rem"}}>
-        {links.map((link, i) => (
-          <button
-            key={i}
-            onClick={() => onSelectedLinkChanged(selectedLink === i ? null : i)}
-            style={{
-              background: selectedLink === i ? ruleColor(i) : "transparent",
-              color: selectedLink === i ? "#000" : ruleColor(i),
-              border: `1px solid ${ruleColor(i)}`,
-              borderRadius: "12px",
-              padding: "2px 10px",
-              margin: "2px",
-              fontSize: "0.75em",
-              cursor: "pointer",
-            }}
-          >
-            {link.label || `Link ${i + 1}`}
-          </button>
-        ))}
-        <button
-          onClick={() => onSelectedLinkChanged(selectedLink === "unconnected" ? null : "unconnected")}
-          style={{
-            background: selectedLink === "unconnected" ? "var(--text-muted)" : "transparent",
-            color: selectedLink === "unconnected" ? "#000" : "var(--text-muted)",
-            border: "1px solid var(--text-muted)",
-            borderRadius: "12px",
-            padding: "2px 10px",
-            margin: "2px",
-            fontSize: "0.75em",
-            cursor: "pointer",
-          }}
-        >
-          Unconnected
-        </button>
-      </div>
+    <div ref={containerRef} className="dm-canvaswrap">
       <canvas
         ref={canvasRef}
         width={canvasSize.width}
         height={canvasSize.height}
-        style={{
-          border: "1px solid var(--card-background)",
-          borderRadius: "8px",
-          background: "var(--page-background)",
-          width: "100%",
-        }}
+        style={{ width: "100%", height: "100%", display: "block" }}
         onMouseMove={handleMouseMove}
         onMouseDown={handleMouseDown}
         onMouseUp={handleMouseUp}
         onMouseLeave={handleMouseLeave}
       />
-      <div style={{textAlign: "left", marginTop: "0.5rem"}}>
-        <button
-          onClick={() => setShowSettings(!showSettings)}
-          style={{
-            background: "transparent",
-            border: "none",
-            color: "var(--text-muted)",
-            cursor: "pointer",
-            fontSize: "0.75em",
-            padding: 0,
-          }}
-        >
-          {showSettings ? "- Hide Settings" : "+ Settings"}
-        </button>
-        {showSettings && (
-          <PhysicsSettings physics={physics} onChange={setPhysics} />
-        )}
-      </div>
-    </div>
-  )
-}
-
-function PhysicsSettings({ physics, onChange }) {
-  function set(key, value) {
-    onChange({ ...physics, [key]: value })
-  }
-
-  const params = [
-    { key: "repulsion", label: "Repulsion", min: 0, max: 10000, step: 100 },
-    { key: "attraction", label: "Attraction", min: 0, max: 0.1, step: 0.001 },
-    { key: "gravity", label: "Gravity", min: 0, max: 0.01, step: 0.0005 },
-    { key: "damping", label: "Damping", min: 0.5, max: 0.99, step: 0.01 },
-    { key: "maxFrames", label: "Sim Frames", min: 50, max: 1000, step: 50 },
-  ]
-
-  return (
-    <div style={{
-      display: "grid",
-      gridTemplateColumns: "repeat(auto-fit, minmax(90px, 1fr))",
-      gap: "0.75rem",
-      marginTop: "0.5rem",
-      padding: "0.5rem 0",
-    }}>
-      {params.map(p => (
-        <div key={p.key}>
-          <label style={{fontSize: "0.7em", color: "var(--text-muted)", display: "block", marginBottom: "2px"}}>
-            {p.label}
-          </label>
-          <input
-            type="number"
-            value={physics[p.key]}
-            min={p.min}
-            max={p.max}
-            step={p.step}
-            onChange={e => set(p.key, parseFloat(e.target.value) || 0)}
-            style={{
-              width: "100%",
-              background: "var(--card-background)",
-              color: "var(--text-color)",
-              border: "1px solid var(--card-background)",
-              borderRadius: "4px",
-              padding: "3px 5px",
-              fontSize: "0.75em",
-              fontFamily: "monospace",
-              boxSizing: "border-box",
-            }}
-          />
-        </div>
-      ))}
-    </div>
-  )
-}
-
-function ClusterCardList({ cards, edges, links, selectedCard, link, linkIndex, listLabel, onCardFocused, hoveredCard, onHoveredCardChanged }) {
-  const title = link
-    ? (link.label || `Link ${linkIndex + 1}`)
-    : (listLabel || "All Cards")
-  const titleColor = link ? ruleColor(linkIndex) : "var(--primary)"
-
-  // Build a lookup: for the focused card, map each neighbor -> list of shared link labels.
-  const sharedLinks = {}
-  if (selectedCard && edges) {
-    for (const edge of edges) {
-      let neighbor = null
-      if (edge.source === selectedCard) neighbor = edge.target
-      else if (edge.target === selectedCard) neighbor = edge.source
-      if (neighbor && neighbor !== selectedCard) {
-        if (!sharedLinks[neighbor]) sharedLinks[neighbor] = []
-        for (const label of (edge.rule_labels || [])) {
-          if (!sharedLinks[neighbor].includes(label)) {
-            sharedLinks[neighbor].push(label)
-          }
-        }
-      }
-    }
-  }
-
-  // Count edges per card.
-  const edgeCount = {}
-  if (edges) {
-    for (const edge of edges) {
-      edgeCount[edge.source] = (edgeCount[edge.source] || 0) + 1
-      edgeCount[edge.target] = (edgeCount[edge.target] || 0) + 1
-    }
-  }
-
-  return (
-    <div style={{
-      background: "var(--card-background)",
-      borderRadius: "8px",
-      padding: "0.75rem",
-      overflowY: "auto",
-      height: 0,
-      minHeight: "100%",
-    }}>
-      <h5 style={{
-        color: titleColor,
-        margin: "0 0 0.5rem 0",
-        fontSize: "0.9em",
-      }}>
-        {title}
-      </h5>
-      <p style={{color: "var(--text-muted)", fontSize: "0.75em", margin: "0 0 0.5rem 0"}}>
-        {cards.length} cards
-      </p>
-      {cards.map(card => {
-        const labels = sharedLinks[card.name]
-        const isHovered = hoveredCard === card.name
-        return (
-          <div
-            key={card.name}
-            onClick={() => onCardFocused && onCardFocused(card.name)}
-            onMouseEnter={() => onHoveredCardChanged && onHoveredCardChanged(card.name)}
-            onMouseLeave={() => onHoveredCardChanged && onHoveredCardChanged(null)}
-            style={{
-              position: "relative",
-              display: "flex",
-              alignItems: "center",
-              gap: "6px",
-              padding: "3px 6px",
-              borderRadius: "4px",
-              cursor: "pointer",
-              fontSize: "0.8em",
-              color: "var(--text-color)",
-              background: isHovered ? "var(--page-background)" : "transparent",
-            }}
-          >
-            <span style={{
-              display: "inline-block",
-              width: "8px",
-              height: "8px",
-              borderRadius: "50%",
-              background: getNodeColor(card.colors),
-              flexShrink: 0,
-            }} />
-            <span style={{overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", flex: 1}}>
-              {card.name}
-            </span>
-            {(edgeCount[card.name] || 0) > 0 && (
-              <span style={{color: "var(--text-muted)", fontSize: "0.85em", flexShrink: 0}}>
-                {edgeCount[card.name]}
-              </span>
-            )}
-            {isHovered && labels && labels.length > 0 && (
-              <div style={{
-                position: "absolute",
-                left: "16px",
-                top: "100%",
-                marginTop: "2px",
-                background: "#222",
-                border: "1px solid #555",
-                borderRadius: "6px",
-                padding: "6px 10px",
-                fontSize: "0.85em",
-                whiteSpace: "nowrap",
-                zIndex: 100,
-                pointerEvents: "none",
-              }}>
-                <div style={{ color: "var(--text-muted)", fontSize: "0.85em", marginBottom: "3px" }}>
-                  Linked via:
-                </div>
-                {labels.map((label, i) => {
-                  const li = links ? links.findIndex(l => l.label === label) : -1
-                  return (
-                    <div key={i} style={{ color: li >= 0 ? ruleColor(li) : "var(--text-color)", lineHeight: "1.4" }}>
-                      {label}
-                    </div>
-                  )
-                })}
-              </div>
-            )}
-          </div>
-        )
-      })}
     </div>
   )
 }
