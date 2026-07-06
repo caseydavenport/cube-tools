@@ -326,8 +326,8 @@
       "conditions": [
         "n:\"Master of Death\"",
         "o:\"from your graveyard to the\" o:\"target creature\" t:creature",
-        "o:\"you may cast this\" t:creature",
-        "o:\"escape\"",
+        "o:\"you may cast this\" o:\"graveyard\" t:creature",
+        "o:\"escape\" t:creature",
         "n:Bloodghast",
         "n:Mosswood",
         "n:Bloodsoaked"
@@ -498,6 +498,15 @@
       "targets": [
         "Delve",
         "Beans Triggers"
+      ]
+    },
+    {
+      "label": "Cheap Prowess",
+      "sources": [
+        "Cheap spells"
+      ],
+      "targets": [
+        "Prowess payoffs"
       ]
     },
     {
@@ -860,15 +869,6 @@
       ],
       "targets": [
         "Creature lands"
-      ]
-    },
-    {
-      "label": "Cheap Prowess",
-      "sources": [
-        "Cheap spells"
-      ],
-      "targets": [
-        "Prowess payoffs"
       ]
     }
   ]
