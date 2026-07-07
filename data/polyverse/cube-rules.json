@@ -443,11 +443,16 @@
       "name": "Selective discard",
       "conditions": [
         "o:\"discard a card\"",
-        "o:\"discard your hand\"",
         "o:\"discard two cards\"",
         "o:\"each player discards\"",
         "o:\"Players discard cards\"",
         "o:\"target player discards\""
+      ]
+    },
+    {
+      "name": "Discard hand",
+      "conditions": [
+        "o:\"discard your hand\""
       ]
     },
     {
