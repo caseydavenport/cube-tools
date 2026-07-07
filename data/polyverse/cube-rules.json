@@ -398,7 +398,11 @@
     {
       "name": "Self-sac",
       "conditions": [
-        "o:\"sacrifice this\""
+        "o:\"sacrifice this artifact\"",
+        "o:\"sacrifice this creature\"",
+        "o:\"sacrifice this land\"",
+        "o:\"sacrifice this enchantment\"",
+        "o:\"sacrifice this permanent\""
       ]
     },
     {
