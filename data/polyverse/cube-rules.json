@@ -204,7 +204,7 @@
     {
       "name": "ETB/LTB",
       "conditions": [
-        "o:\"enters\" (t:creature OR t:enchantment OR t:artifact) !o:landfall",
+        "o:\"enters\" (t:creature OR t:enchantment OR t:artifact) !o:landfall !o:\"enters with\"",
         "o:\"leaves the battlefield\" (t:creature OR t:enchantment OR t:artifact)"
       ]
     },
