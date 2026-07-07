@@ -358,9 +358,9 @@
     {
       "name": "Value creatures",
       "conditions": [
-        "t:creature cmc\u003c4 o:\"when this creature enters\"",
-        "t:creature cmc\u003c4 o:\"when this creature dies\"",
-        "t:creature cmc\u003c4 o:\"dies,\""
+        "t:creature cmc\u003c4 o:\"when this creature enters\" !m:x",
+        "t:creature cmc\u003c4 o:\"when this creature dies\" !m:x",
+        "t:creature cmc\u003c4 o:\"dies,\" !m:x"
       ]
     },
     {
