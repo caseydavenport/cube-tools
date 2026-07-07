@@ -350,7 +350,7 @@
     {
       "name": "Ramp payoffs",
       "conditions": [
-        "cmc\u003e4",
+        "cmc\u003e4 !o:delve !o:\"less to cast\" !o:\"rather than pay\"",
         "m:X",
         "o:\"mana value\" o:\"or greater\""
       ]
