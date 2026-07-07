@@ -348,14 +348,22 @@
     {
       "name": "Reanimate targets",
       "conditions": [
-        "t:creature cmc\u003c4"
+        "t:creature cmc\u003c4 o:\"when this creature enters\"",
+        "t:creature cmc\u003c4 o:\"when this creature dies\"",
+        "t:creature cmc\u003c4 o:\"dies,\""
+      ]
+    },
+    {
+      "name": "Renegade Rallier",
+      "conditions": [
+        "n:\"Renegade Rallier\""
       ]
     },
     {
       "name": "Reanimates",
       "conditions": [
         "o:\"graveyard onto the battlefield\" o:\"target creature\"",
-        "o:\"mana value\" o:\"or less\" o:\"graveyard to the\"",
+        "o:\"mana value\" o:\"or less\" o:\"graveyard to the\" !n:\"Renegade Rallier\"",
         "o:\"graveyard to the battle\" o:\"target creature\""
       ]
     },
@@ -759,6 +767,19 @@
       ],
       "targets": [
         "Reanimates"
+      ]
+    },
+    {
+      "label": "Renegade Rallier",
+      "sources": [
+        "Renegade Rallier"
+      ],
+      "targets": [
+        "Self-sac",
+        "Sac creatures",
+        "Sac artifacts",
+        "Reanimate targets",
+        "Trinket artifacts"
       ]
     },
     {
