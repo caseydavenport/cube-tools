@@ -26,7 +26,7 @@
     {
       "name": "Beans Triggers",
       "conditions": [
-        "cmc\u003e4 !o:delve",
+        "cmc\u003e4",
         "m:X"
       ]
     },
