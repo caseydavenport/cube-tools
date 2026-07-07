@@ -130,7 +130,9 @@
     {
       "name": "Delney matters",
       "conditions": [
-        "pow\u003c3 o:\"whenever\" t:creature"
+        "pow\u003c3 t:creature o:\"whenever\"",
+        "pow\u003c3 t:creature o:\"when this creature enters\"",
+        "pow\u003c3 t:creature o:\"when this creature dies\""
       ]
     },
     {
