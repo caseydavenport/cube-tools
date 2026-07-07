@@ -266,10 +266,9 @@
     {
       "name": "Landfall enablers",
       "conditions": [
-        "t:land o:sacrifice",
-        "o:\"search\" o:\"land\"",
-        "o:\"land you control to its owner's hand\"",
-        "o:\"land card from among them\""
+        "o:\"search your library\" o:\"land\" o:\"onto the battlefield\"",
+        "o:\"land\" o:\"from your hand\" o:\"onto the battlefield\"",
+        "o:\"additional land\""
       ]
     },
     {
