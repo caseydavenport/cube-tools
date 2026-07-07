@@ -388,7 +388,7 @@
       ]
     },
     {
-      "name": "Ritual - Match",
+      "name": "Birthing Ritual",
       "conditions": [
         "n:\"Birthing Ritual\""
       ]
@@ -582,7 +582,7 @@
         "CoCo Creatures"
       ],
       "targets": [
-        "Ritual - Match"
+        "Birthing Ritual"
       ]
     },
     {
@@ -796,7 +796,7 @@
     {
       "label": "Rit Sac",
       "sources": [
-        "Ritual - Match"
+        "Birthing Ritual"
       ],
       "targets": [
         "Sac payoff: any"
@@ -805,7 +805,7 @@
     {
       "label": "Ritual",
       "sources": [
-        "Ritual - Match"
+        "Birthing Ritual"
       ],
       "targets": [
         "Value creatures"
