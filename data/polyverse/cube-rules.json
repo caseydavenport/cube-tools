@@ -46,12 +46,22 @@
     {
       "name": "Cast from graveyard",
       "conditions": [
-        "o:flashback",
-        "o:retrace",
+        "o:flashback !o:\"gains flashback\"",
+        "o:retrace !o:\"have retrace\"",
         "o:escape",
         "o:dredge",
         "o:eternalize",
-        "o:\"you may cast\" o:\"from your graveyard\""
+        "o:blitz",
+        "o:\"cast this\" o:\"from your graveyard\" !o:\"gains flashback\"",
+        "o:\"cast it\" o:\"from your graveyard\""
+      ]
+    },
+    {
+      "name": "Recast spells",
+      "conditions": [
+        "o:\"gains flashback\"",
+        "o:\"have retrace\"",
+        "o:\"cast target\" o:\"from your graveyard\""
       ]
     },
     {
@@ -956,6 +966,16 @@
       ],
       "targets": [
         "Creature lands"
+      ]
+    },
+    {
+      "label": "Recast spells",
+      "sources": [
+        "Recast spells"
+      ],
+      "targets": [
+        "Cheap spells",
+        "Fill graveyard"
       ]
     }
   ]
