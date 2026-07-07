@@ -221,8 +221,9 @@
     {
       "name": "Fixing",
       "conditions": [
-        "o:\"mana of any color\"",
-        "t:land o:\"add {*} or {*}\""
+        "o:\"mana of any color\" !o:\"to activate abilities\"",
+        "t:land o:\"add {*} or {*}\"",
+        "t:land o:\"sacrifice this land\" o:\"search your library\""
       ]
     },
     {
