@@ -33,14 +33,10 @@
     {
       "name": "Card types in graveyard",
       "conditions": [
-        "t:artifact AND (o:\"sacrifice this\" OR o:discard)",
-        "t:enchantment AND (o:\"sacrifice this\" OR o:discard)",
-        "t:instant cmc\u003c3 c:G",
-        "t:sorcery cmc\u003c3 c:G",
-        "o:surveil",
-        "o:mill",
-        "t:land (o:sacrifice OR o:discard)",
-        "o:\"into your graveyard\""
+        "t:land (o:\"sacrifice this\" OR o:cycling)",
+        "t:artifact (o:\"sacrifice this\" OR o:cycling)",
+        "t:enchantment (o:\"sacrifice this\" OR o:cycling)",
+        "t:saga"
       ]
     },
     {
