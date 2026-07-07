@@ -36,7 +36,9 @@
         "t:land (o:\"sacrifice this\" OR o:cycling)",
         "t:artifact (o:\"sacrifice this\" OR o:cycling)",
         "t:enchantment (o:\"sacrifice this\" OR o:cycling)",
-        "t:saga"
+        "t:saga",
+        "t:artifact t:creature",
+        "t:enchantment t:creature"
       ]
     },
     {
