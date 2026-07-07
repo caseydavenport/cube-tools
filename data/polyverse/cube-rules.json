@@ -356,7 +356,7 @@
       ]
     },
     {
-      "name": "Reanimate targets",
+      "name": "Value creatures",
       "conditions": [
         "t:creature cmc\u003c4 o:\"when this creature enters\"",
         "t:creature cmc\u003c4 o:\"when this creature dies\"",
@@ -387,13 +387,6 @@
         "n:Bloodghast",
         "n:Mosswood",
         "n:Bloodsoaked"
-      ]
-    },
-    {
-      "name": "Ritual - Connect",
-      "conditions": [
-        "t:creature cmc\u003c4 o:\"enters\"",
-        "t:creature cmc\u003c4 o:\"dies\""
       ]
     },
     {
@@ -773,7 +766,7 @@
     {
       "label": "Reanimate",
       "sources": [
-        "Reanimate targets"
+        "Value creatures"
       ],
       "targets": [
         "Reanimates"
@@ -788,7 +781,7 @@
         "Self-sac",
         "Sac creatures",
         "Sac artifacts",
-        "Reanimate targets",
+        "Value creatures",
         "Trinket artifacts"
       ]
     },
@@ -817,7 +810,7 @@
         "Ritual - Match"
       ],
       "targets": [
-        "Ritual - Connect"
+        "Value creatures"
       ]
     },
     {
