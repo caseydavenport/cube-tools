@@ -334,8 +334,8 @@
       "name": "Prowess triggers",
       "conditions": [
         "(t:artifact OR t:enchantment) cmc\u003c2 !t:creature",
-        "o:\"you may cast\" o:\"without paying its mana cost\"",
-        "o:flashback",
+        "o:\"you may cast\" o:\"without paying its mana cost\" !t:creature",
+        "o:flashback !t:creature",
         "n:\"Fire // Ice\"",
         "(t:instant OR t:sorcery) cmc\u003c3"
       ]
