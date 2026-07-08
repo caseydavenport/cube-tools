@@ -24,14 +24,20 @@ type ccCubeCard struct {
 		ImageNormal string  `json:"image_normal"`
 		ScryfallURI string  `json:"scryfall_uri"`
 	} `json:"details"`
+
+	// Tags are the cube owner's per-card tags. They live on the cube card
+	// object itself, not inside details.
+	Tags []string `json:"tags"`
 }
 
 // ccCardInfo is the per-card data we pull from the Cube Cobra export: the global
-// draft Elo plus the exact printing (image and Scryfall page) the cube runs.
+// draft Elo, the exact printing (image and Scryfall page) the cube runs, and the
+// owner's per-card tags.
 type ccCardInfo struct {
 	elo   int
 	image string
 	url   string
+	tags  []string
 }
 
 // fetchCubeCobra fetches and decodes the public cube export at
@@ -62,10 +68,17 @@ func (c *ccCubeJSON) cardInfo() map[string]ccCardInfo {
 			if card.Details.Name == "" {
 				continue
 			}
+			// Some cards run multiple copies (fetches, shocks) and Cube Cobra
+			// tags each copy independently, so a name can recur with tags on
+			// only some copies. Union the tags across every copy - a card is
+			// tagged if any of its copies is - rather than letting a tagless
+			// duplicate clobber a tagged one.
+			existing := cards[card.Details.Name]
 			cards[card.Details.Name] = ccCardInfo{
 				elo:   int(math.Round(card.Details.Elo)),
 				image: card.Details.ImageNormal,
 				url:   card.Details.ScryfallURI,
+				tags:  unionTags(existing.tags, card.Tags),
 			}
 		}
 	}
@@ -73,6 +86,21 @@ func (c *ccCubeJSON) cardInfo() map[string]ccCardInfo {
 	add(c.Cards.Maybeboard)
 	add(c.Cards.Mainboard)
 	return cards
+}
+
+// unionTags merges two tag lists, preserving first-seen order and dropping
+// duplicates and blanks.
+func unionTags(a, b []string) []string {
+	seen := make(map[string]bool, len(a)+len(b))
+	out := make([]string, 0, len(a)+len(b))
+	for _, t := range append(append([]string{}, a...), b...) {
+		if t == "" || seen[t] {
+			continue
+		}
+		seen[t] = true
+		out = append(out, t)
+	}
+	return out
 }
 
 // mainboardNames returns the mainboard card names in list order, skipping blanks.

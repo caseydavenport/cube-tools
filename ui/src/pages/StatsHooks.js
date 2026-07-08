@@ -26,6 +26,7 @@ export function useStatsFilters() {
   const [maxPlayers, setMaxPlayers] = useState(0);
   const [selectedCard, setSelectedCard] = useState("");
   const [cardFilter, setCardFilter] = useState("");
+  const [tagFilter, setTagFilter] = useState("");
   const [cardWidgetColorSelection, setCardWidgetColorSelection] = useState("");
   const [cardWidgetSortBy, setCardWidgetSortBy] = useState("");
   const [cardXAxis, setCardXAxis] = useState("# Decks");
@@ -78,6 +79,7 @@ export function useStatsFilters() {
     maxPlayers, setMaxPlayers,
     selectedCard, setSelectedCard,
     cardFilter, setCardFilter,
+    tagFilter, setTagFilter,
     cardWidgetColorSelection, setCardWidgetColorSelection,
     cardWidgetSortBy, setCardWidgetSortBy,
     cardXAxis, setCardXAxis,

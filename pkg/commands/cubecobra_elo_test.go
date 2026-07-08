@@ -13,8 +13,10 @@ func TestFetchCubeCobraCards(t *testing.T) {
 	const body = `{
 		"cards": {
 			"mainboard": [
-				{"details": {"name": "Brainstorm", "elo": 1456.7, "image_normal": "https://img/bs-main.jpg", "scryfall_uri": "https://scryfall.com/card/ice/61/brainstorm"}},
+				{"details": {"name": "Brainstorm", "elo": 1456.7, "image_normal": "https://img/bs-main.jpg", "scryfall_uri": "https://scryfall.com/card/ice/61/brainstorm"}, "tags": ["🧬"]},
 				{"details": {"name": "Lightning Bolt", "elo": 1602.2, "image_normal": "https://img/bolt.jpg"}},
+				{"details": {"name": "Flooded Strand", "elo": 1500}, "tags": ["🧬"]},
+				{"details": {"name": "Flooded Strand", "elo": 1500}, "tags": []},
 				{"details": {"name": "", "elo": 1300}}
 			],
 			"maybeboard": [
@@ -42,6 +44,13 @@ func TestFetchCubeCobraCards(t *testing.T) {
 	assert.Equal(t, 1399, cards["Counterspell"].elo)
 	_, blankPresent := cards[""]
 	assert.False(t, blankPresent)
+
+	// Tags come through, and a card duplicated across copies (fetches, shocks)
+	// keeps its tag even when only one copy carries it - the tagless duplicate
+	// must not clobber the tagged one.
+	assert.Equal(t, []string{"🧬"}, cards["Brainstorm"].tags)
+	assert.Equal(t, []string{"🧬"}, cards["Flooded Strand"].tags)
+	assert.Empty(t, cards["Lightning Bolt"].tags)
 }
 
 func TestFetchCubeCobraCards_HTTPError(t *testing.T) {

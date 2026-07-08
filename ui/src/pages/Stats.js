@@ -53,7 +53,7 @@ export function StatsViewer(props) {
     colorSortBy, setColorSortBy, colorMode, setColorMode, colorCheckboxes, setColorCheckboxes,
     cardWidgetSelection, setCardWidgetSelection, minDrafts, setMinDrafts, minGames, setMinGames,
     minPlayers, setMinPlayers, maxPlayers, setMaxPlayers, selectedCard, setSelectedCard,
-    cardFilter, setCardFilter, cardWidgetColorSelection, setCardWidgetColorSelection,
+    cardFilter, setCardFilter, tagFilter, setTagFilter, cardWidgetColorSelection, setCardWidgetColorSelection,
     cardWidgetSortBy, setCardWidgetSortBy, cardXAxis, setCardXAxis, cardYAxis, setCardYAxis,
     deckXAxis, setDeckXAxis, deckYAxis, setDeckYAxis,
     playerSortBy, setPlayerSortBy, playerSortInvert, setPlayerSortInvert,
@@ -171,6 +171,7 @@ export function StatsViewer(props) {
           parsed={parsed} matchStr={debouncedMatchStr} cardData={cardData} cardDataBucketed={cardDataBucketed}
           decks={parsed.filteredDecks} dropdownSelection={cardWidgetSelection}
           cardFilter={cardFilter} onCardFilterSelected={(e) => setCardFilter(e.target.value)}
+          tagFilter={tagFilter} onTagFilterSelected={(e) => setTagFilter(e.target.value)}
           cardWidgetOpts={[{ label: "Mainboard rate", value: "Mainboard rate" }, { label: "Win rate", value: "Win rate" }, { label: "Versus archetype", value: "Versus archetype" }, { label: "By archetype", value: "By archetype" }]}
           onSelected={(e) => setCardWidgetSelection(e.target.value)}
           onCardSelected={(e) => setSelectedCard(e.currentTarget.id)}

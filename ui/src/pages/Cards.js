@@ -114,6 +114,16 @@ const matchOpts = [
   {label: Nonland, value: Nonland},
 ]
 
+// tagOpts drives the Tag filter dropdown. These are the cube owner's curated
+// Cube Cobra tags (card.tags), kept separate from the heuristic-driven Match
+// filter above. `value` is the raw tag string as it appears in the export;
+// `label` is a friendlier display name. Add entries here as more tags become
+// useful to filter on.
+const tagOpts = [
+  {label: "", value: ""},
+  {label: "DNA", value: "🧬"},
+]
+
   // shouldSkip returns true if the card should be skipped, and false otherwise.
   function shouldSkip(card, input) {
     let players = Object.entries(card.players)
@@ -127,6 +137,10 @@ const matchOpts = [
       return true
     }
     if (input.localMatchStr != "" && !CardMatches(card, input.localMatchStr, true)) {
+      return true
+    }
+
+    if (input.tagFilter && !(card.tags || []).includes(input.tagFilter)) {
       return true
     }
 
@@ -160,6 +174,7 @@ export function CardWidget(input) {
 
   let matchInput = {
     "matchOpts": matchOpts,
+    "tagOpts": tagOpts,
   }
 
   return (
@@ -809,6 +824,13 @@ function CardWidgetOptions(input) {
           options={input.matchOpts}
           value={input.cardFilter}
           onChange={input.onCardFilterSelected}
+        />
+
+        <DropdownHeader
+          label="Tag"
+          options={input.tagOpts}
+          value={input.tagFilter}
+          onChange={input.onTagFilterSelected}
         />
 
         <DropdownHeader

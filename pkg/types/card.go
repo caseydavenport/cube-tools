@@ -28,6 +28,13 @@ type Card struct {
 	// `index` pulls it from the cube export. Serves as the "reputation" axis
 	// against our match Elo.
 	DraftELO int `json:"draft_elo,omitempty"`
+
+	// Tags are the cube owner's per-card tags from Cube Cobra (e.g. "🧬" for
+	// signature build-around cards). They're curated metadata, distinct from
+	// the oracle-text-derived classifications above, and `index` pulls them
+	// from the cube export. Used as a filter dimension in the UI, not to drive
+	// the IsRemoval/IsInteraction heuristics (tags drift out of sync).
+	Tags []string `json:"tags,omitempty"`
 }
 
 func (c Card) IsBasicLand() bool {

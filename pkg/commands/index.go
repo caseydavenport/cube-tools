@@ -204,6 +204,7 @@ func mergeCubeCobra(cards []types.Card, ccCards map[string]ccCardInfo) int {
 		if info.url != "" {
 			cards[i].URL = info.url
 		}
+		cards[i].Tags = info.tags
 		matched++
 	}
 	return matched
