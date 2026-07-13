@@ -3,6 +3,7 @@ import { useCube } from "../contexts/CubeContext.js"
 import { DropdownHeader, DateSelector, NumericInput, Button } from "../components/Dropdown.js"
 import { PredicateBuilder } from "../components/PredicateBuilder.js"
 import { bucketXScale } from "../utils/Buckets.js"
+import { Colors as COLOR_HEXES } from "../utils/Colors.js"
 
 import {
   Chart as ChartJS,
@@ -80,13 +81,49 @@ function cellGames(c) {
   return (c.wins || 0) + (c.losses || 0) + (c.draws || 0)
 }
 
-// cellColor scales a win% from red (0) through neutral (50) to green (100),
-// graying out low-sample cells. Same ramp as the color matchup heatmap.
-function cellColor(winPct, games) {
+// absColor scales a win% from red (0) through neutral (50) to green (100),
+// graying out low-sample cells. Used where the reference point is the 50%
+// break-even line (the group table, and a heatmap's Overall column).
+function absColor(winPct, games) {
   if (games < 10) return "var(--card-background)"
   const t = Math.max(0, Math.min(1, winPct / 100))
   if (t >= 0.5) return `rgba(40, 167, 69, ${0.15 + (t - 0.5) * 2 * 0.55})`
   return `rgba(220, 53, 69, ${0.15 + (0.5 - t) * 2 * 0.55})`
+}
+
+// relColor scales a cell relative to its row's own overall win rate, so a
+// heatmap reads as "better or worse than usual for this group" rather than
+// against 50%. This is what surfaces confounders: White overall sits near 50%,
+// but its vs-Black cell is far below White's own baseline. A ±15pp swing
+// saturates.
+function relColor(winPct, baseline, games) {
+  if (games < 10) return "var(--card-background)"
+  const d = winPct - baseline
+  const mag = Math.min(1, Math.abs(d) / 15)
+  if (d >= 0) return `rgba(40, 167, 69, ${0.1 + mag * 0.6})`
+  return `rgba(220, 53, 69, ${0.1 + mag * 0.6})`
+}
+
+// barColor tints a group's bar by its color identity (mono uses the color, a
+// guild pair blends its two). Non-color dimensions fall back to green.
+function barColor(dim, key) {
+  if (isColorDim(dim) && key) {
+    if (key.length === 1) return COLOR_HEXES.get(key) || "rgba(40, 167, 69, 0.7)"
+    const parts = [...key].map(c => COLOR_HEXES.get(c)).filter(Boolean)
+    if (parts.length) return blendHex(parts)
+  }
+  return "rgba(40, 167, 69, 0.7)"
+}
+
+function blendHex(hexes) {
+  let r = 0, g = 0, b = 0
+  for (const h of hexes) {
+    r += parseInt(h.slice(1, 3), 16)
+    g += parseInt(h.slice(3, 5), 16)
+    b += parseInt(h.slice(5, 7), 16)
+  }
+  const n = hexes.length
+  return `rgb(${Math.round(r / n)}, ${Math.round(g / n)}, ${Math.round(b / n)})`
 }
 
 function metricText(metric, c) {
@@ -225,13 +262,14 @@ function PivotTable({ result, groupBy, metric }) {
   const labels = rows.map(r => keyLabel(groupBy.dim, r.key))
   const data = rows.map(r => r.cells[""]?.win_pct || 0)
 
+  const barColors = rows.map(r => barColor(groupBy.dim, r.key))
   const chartData = {
     labels,
     datasets: [{
       label: "Win %",
       data,
-      backgroundColor: "rgba(40, 167, 69, 0.6)",
-      borderColor: "rgba(40, 167, 69, 1)",
+      backgroundColor: barColors,
+      borderColor: barColors,
       borderWidth: 1,
     }],
   }
@@ -259,7 +297,7 @@ function PivotTable({ result, groupBy, metric }) {
               return (
                 <tr key={r.key} className="widget-table-row">
                   <td className="header-cell" style={{ fontWeight: "bold" }}>{keyLabel(groupBy.dim, r.key)}</td>
-                  <td style={{ textAlign: "center", background: cellColor(c.win_pct, cellGames(c)) }}>
+                  <td style={{ textAlign: "center", background: absColor(c.win_pct, cellGames(c)) }}>
                     {cellGames(c) > 0 ? `${c.win_pct}%` : "-"}
                   </td>
                   <td style={{ textAlign: "center" }}>{c.wins}-{c.losses}{c.draws ? `-${c.draws}` : ""}</td>
@@ -307,25 +345,35 @@ function PivotHeatmap({ result, groupBy, splitBy, metric }) {
           </tr>
         </thead>
         <tbody>
-          {rows.map(r => (
-            <tr key={r.key} className="widget-table-row">
-              <td className="header-cell" style={{ fontWeight: "bold" }}>{keyLabel(groupBy.dim, r.key)}</td>
-              {cols.map(col => {
-                const c = r.cells[col]
-                const games = c ? cellGames(c) : 0
-                return (
-                  <td key={col} title={c ? `${c.wins}W-${c.losses}L${c.draws ? "-" + c.draws + "D" : ""} (${games} games)` : ""}
-                    style={{
-                      textAlign: "center",
-                      background: metric === "win_pct" && c ? cellColor(c.win_pct, games) : undefined,
-                      opacity: games > 0 && games < 10 ? 0.45 : 1,
-                    }}>
-                    {metricText(metric, c)}
-                  </td>
-                )
-              })}
-            </tr>
-          ))}
+          {rows.map(r => {
+            // The row's overall win rate is the baseline the split cells are
+            // shaded against, so each cell reads as better/worse than usual for
+            // this group. The Overall column keeps the absolute 50% reference.
+            const baseline = r.cells[""]?.win_pct ?? 50
+            return (
+              <tr key={r.key} className="widget-table-row">
+                <td className="header-cell" style={{ fontWeight: "bold" }}>{keyLabel(groupBy.dim, r.key)}</td>
+                {cols.map(col => {
+                  const c = r.cells[col]
+                  const games = c ? cellGames(c) : 0
+                  let bg
+                  if (metric === "win_pct" && c) {
+                    bg = col === "" ? absColor(c.win_pct, games) : relColor(c.win_pct, baseline, games)
+                  }
+                  return (
+                    <td key={col} title={c ? `${c.wins}W-${c.losses}L${c.draws ? "-" + c.draws + "D" : ""} (${games} games)${col !== "" ? `, ${(c.win_pct - baseline >= 0 ? "+" : "")}${(c.win_pct - baseline).toFixed(1)} vs row avg` : ""}` : ""}
+                      style={{
+                        textAlign: "center",
+                        background: bg,
+                        opacity: games > 0 && games < 10 ? 0.45 : 1,
+                      }}>
+                      {metricText(metric, c)}
+                    </td>
+                  )
+                })}
+              </tr>
+            )
+          })}
         </tbody>
       </table>
     </div>
