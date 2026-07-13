@@ -178,6 +178,41 @@ func TestPivot_TimeGrouping(t *testing.T) {
 	assert.Equal(t, "2025-02-01", resp.Rows[1].Key)
 }
 
+// Excluding a player drops both their decks and every game played against them,
+// so a heavy outlier can be removed from the aggregate entirely.
+func TestPivot_ExcludePlayers(t *testing.T) {
+	decks := []*storage.Deck{
+		makePivotDeck("Alice", "d1", "2025-01-01", []string{"W"}, "", nil, []types.Game{
+			{Opponent: "Bob", Winner: "Alice"},   // dropped: vs excluded Bob
+			{Opponent: "Carol", Winner: "Carol"}, // kept: Alice loss
+		}),
+		makePivotDeck("Bob", "d1", "2025-01-01", []string{"R"}, "", nil, []types.Game{
+			{Opponent: "Alice", Winner: "Alice"},
+			{Opponent: "Carol", Winner: "Bob"},
+		}),
+		makePivotDeck("Carol", "d1", "2025-01-01", []string{"U"}, "", nil, []types.Game{
+			{Opponent: "Alice", Winner: "Carol"}, // kept: Carol win
+			{Opponent: "Bob", Winner: "Bob"},     // dropped: vs excluded Bob
+		}),
+	}
+	resp := computePivot(decks, &PivotRequest{
+		GroupBy:        dim("color", 1, "inclusive"),
+		ExcludePlayers: []string{"bob"}, // case-insensitive
+	}, nil)
+
+	assert.Nil(t, rowByKey(resp, "R"), "excluded player's own deck is gone")
+
+	w := rowByKey(resp, "W")
+	require.NotNil(t, w)
+	assert.Equal(t, 0, w.Cells[""].Wins)
+	assert.Equal(t, 1, w.Cells[""].Losses) // only the vs-Carol game survives
+
+	u := rowByKey(resp, "U")
+	require.NotNil(t, u)
+	assert.Equal(t, 1, u.Cells[""].Wins) // only the vs-Alice game survives
+	assert.Equal(t, 0, u.Cells[""].Losses)
+}
+
 // composition counts nonland cards by classifier and reports the land count and
 // average mana value separately.
 func TestComposition(t *testing.T) {

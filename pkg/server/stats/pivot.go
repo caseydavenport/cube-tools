@@ -51,6 +51,11 @@ type PivotRequest struct {
 	SplitBy    PivotDimension   `json:"split_by"`
 	BucketSize int              `json:"bucket_size"`
 	Predicates []PivotPredicate `json:"predicates"`
+
+	// ExcludePlayers drops these players entirely - both their own decks and
+	// any game played against them - so a few heavy, outlier players can be
+	// removed from the aggregate rather than skewing it.
+	ExcludePlayers []string `json:"exclude_players,omitempty"`
 }
 
 // PivotCell is one group×split record. deckSet is internal bookkeeping for the
@@ -158,6 +163,11 @@ func computePivot(allDecks []*storage.Deck, req *PivotRequest, cubeCards map[str
 		splitKeyer = deckKeyer(req.SplitBy, draftBucket, cubeCards)
 	}
 
+	excluded := make(map[string]bool, len(req.ExcludePlayers))
+	for _, p := range req.ExcludePlayers {
+		excluded[strings.ToLower(p)] = true
+	}
+
 	rows := map[string]*PivotRow{}
 	colsSet := map[string]bool{}
 
@@ -176,6 +186,9 @@ func computePivot(allDecks []*storage.Deck, req *PivotRequest, cubeCards map[str
 	}
 
 	for _, d := range allDecks {
+		if excluded[strings.ToLower(d.Player)] {
+			continue
+		}
 		if !deckPasses(d, req.Predicates, cubeCards) {
 			continue
 		}
@@ -190,6 +203,9 @@ func computePivot(allDecks []*storage.Deck, req *PivotRequest, cubeCards map[str
 		deckID := d.Metadata.DraftID + "|" + d.Player
 
 		for _, g := range d.Games {
+			if excluded[strings.ToLower(g.Opponent)] {
+				continue
+			}
 			outcome := gameOutcome(g, d)
 
 			// Overall column, counted once per group key.

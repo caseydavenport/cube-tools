@@ -131,7 +131,9 @@ export function ExplorePage(props) {
   const [predicates, setPredicates] = useState([])
 
   const [result, setResult] = useState(null)
-  const [meta, setMeta] = useState({ archetypes: [], players: [], labels: [] })
+  const [meta, setMeta] = useState({ archetypes: [], players: [], labels: [], playerFreq: [] })
+  // Players unchecked in the player filter - dropped from the aggregate entirely.
+  const [excluded, setExcluded] = useState(new Set())
 
   const start = props.startDate || ""
   const end = props.endDate || ""
@@ -145,16 +147,22 @@ export function ExplorePage(props) {
     fetch(`/api/${cubeID}/decks?${p}`)
       .then(r => r.json())
       .then(d => {
-        const arch = new Set(), players = new Set(), labels = new Set()
+        const arch = new Set(), labels = new Set(), playerCounts = {}
         for (const deck of d.decks || []) {
           if (deck.macro_archetype) arch.add(deck.macro_archetype)
-          if (deck.player) players.add(deck.player)
+          if (deck.player) playerCounts[deck.player] = (playerCounts[deck.player] || 0) + 1
           for (const l of deck.labels || []) labels.add(l)
         }
+        // Sort players by deck count (heavy players first, so outliers are easy
+        // to find and uncheck), tie-broken alphabetically.
+        const playerFreq = Object.entries(playerCounts)
+          .map(([name, count]) => ({ name, count }))
+          .sort((a, b) => b.count - a.count || a.name.localeCompare(b.name))
         setMeta({
           archetypes: [...arch].sort(),
-          players: [...players].sort(),
+          players: playerFreq.map(p => p.name).sort(),
           labels: [...labels].sort(),
+          playerFreq,
         })
       })
       .catch(() => {})
@@ -168,6 +176,7 @@ export function ExplorePage(props) {
       split_by: splitBy,
       bucket_size: usesTime ? Number(bucketSize) : 0,
       predicates: predicates.filter(p => p.dim === "card_query" ? p.value !== "" : p.value !== ""),
+      exclude_players: [...excluded],
     }
     fetch(`/api/${cubeID}/stats/pivot`, {
       method: "POST",
@@ -177,7 +186,16 @@ export function ExplorePage(props) {
       .then(r => r.json())
       .then(setResult)
       .catch(() => setResult(null))
-  }, [cubeID, start, end, groupBy, splitBy, bucketSize, predicates, refresh, usesTime])
+  }, [cubeID, start, end, groupBy, splitBy, bucketSize, predicates, refresh, usesTime, excluded])
+
+  function togglePlayer(name) {
+    setExcluded(prev => {
+      const next = new Set(prev)
+      if (next.has(name)) next.delete(name)
+      else next.add(name)
+      return next
+    })
+  }
 
   const controls = (
     <div className="explore-controls">
@@ -217,6 +235,28 @@ export function ExplorePage(props) {
             onChange={(e) => setBucketSize(Math.max(1, Number(e.target.value)))} />
         )}
       </div>
+
+      {meta.playerFreq.length > 0 && (
+        <div className="player-filter">
+          <div className="player-filter-head">
+            <span className="section-heading">Players</span>
+            <span className="player-filter-hint">uncheck to exclude (and their games)</span>
+            {excluded.size > 0 && (
+              <button className="button" onClick={() => setExcluded(new Set())}>
+                Reset ({excluded.size} excluded)
+              </button>
+            )}
+          </div>
+          <div className="player-checkboxes">
+            {meta.playerFreq.map(p => (
+              <label key={p.name} className={"player-chip" + (excluded.has(p.name) ? " excluded" : "")}>
+                <input type="checkbox" checked={!excluded.has(p.name)} onChange={() => togglePlayer(p.name)} />
+                {p.name} <span className="player-count">{p.count}</span>
+              </label>
+            ))}
+          </div>
+        </div>
+      )}
 
       <PredicateBuilder predicates={predicates} onChange={setPredicates} meta={meta} />
     </div>

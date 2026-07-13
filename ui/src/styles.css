@@ -1930,3 +1930,38 @@ table {
 }
 .predicate-remove:hover { color: #dc3545; border-color: #dc3545; }
 .predicate-add { align-self: flex-start; }
+
+/* Explore player filter: checkbox chips to opt players in/out of the aggregate. */
+.player-filter {
+  border-top: 1px solid var(--border);
+  padding-top: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.player-filter-head {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+.player-filter-hint { color: var(--text-muted); font-size: 0.8rem; }
+.player-checkboxes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 0.75rem;
+  max-height: 132px;
+  overflow-y: auto;
+}
+.player-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.85rem;
+  padding: 0.1rem 0.4rem;
+  border-radius: 6px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.player-chip.excluded { opacity: 0.45; text-decoration: line-through; }
+.player-chip input { cursor: pointer; }
+.player-count { color: var(--text-muted); font-size: 0.75rem; }
