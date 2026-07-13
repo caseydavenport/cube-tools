@@ -134,6 +134,7 @@ export function ExplorePage(props) {
   const [meta, setMeta] = useState({ archetypes: [], players: [], labels: [], playerFreq: [] })
   // Players unchecked in the player filter - dropped from the aggregate entirely.
   const [excluded, setExcluded] = useState(new Set())
+  const [playersOpen, setPlayersOpen] = useState(false)
 
   const start = props.startDate || ""
   const end = props.endDate || ""
@@ -238,23 +239,31 @@ export function ExplorePage(props) {
 
       {meta.playerFreq.length > 0 && (
         <div className="player-filter">
-          <div className="player-filter-head">
+          <div className="player-filter-head" style={{ cursor: "pointer" }} onClick={() => setPlayersOpen(o => !o)}>
+            <span className="caret">{playersOpen ? "▾" : "▸"}</span>
             <span className="section-heading">Players</span>
-            <span className="player-filter-hint">uncheck to exclude (and their games)</span>
-            {excluded.size > 0 && (
-              <button className="button" onClick={() => setExcluded(new Set())}>
-                Reset ({excluded.size} excluded)
-              </button>
-            )}
+            <span className="player-filter-hint">
+              {excluded.size > 0
+                ? `${excluded.size} excluded (${meta.playerFreq.length - excluded.size} kept)`
+                : "all included - expand to exclude players and their games"}
+            </span>
           </div>
-          <div className="player-checkboxes">
-            {meta.playerFreq.map(p => (
-              <label key={p.name} className={"player-chip" + (excluded.has(p.name) ? " excluded" : "")}>
-                <input type="checkbox" checked={!excluded.has(p.name)} onChange={() => togglePlayer(p.name)} />
-                {p.name} <span className="player-count">{p.count}</span>
-              </label>
-            ))}
-          </div>
+          {playersOpen && (
+            <>
+              <div className="selector-group" style={{ gap: "0.5rem" }}>
+                <Button text="Select all" onClick={() => setExcluded(new Set())} />
+                <Button text="Deselect all" onClick={() => setExcluded(new Set(meta.playerFreq.map(p => p.name)))} />
+              </div>
+              <div className="player-checkboxes">
+                {meta.playerFreq.map(p => (
+                  <label key={p.name} className={"player-chip" + (excluded.has(p.name) ? " excluded" : "")}>
+                    <input type="checkbox" checked={!excluded.has(p.name)} onChange={() => togglePlayer(p.name)} />
+                    {p.name} <span className="player-count">{p.count}</span>
+                  </label>
+                ))}
+              </div>
+            </>
+          )}
         </div>
       )}
 
