@@ -6,6 +6,7 @@ import {StatsViewer} from './pages/Stats.js'
 import { PlayersPage } from './pages/PlayersPage.js'
 import { DraftsPage } from './pages/DraftsPage.js'
 import { ExplorePage } from './pages/ExplorePage.js'
+import { RemovalPage } from './pages/RemovalPage.js'
 import {InitialDates} from './components/StatsUI.js'
 import { useState } from "react";
 import { CubeProvider } from './contexts/CubeContext.js';
@@ -56,6 +57,7 @@ export default function Main() {
           <Route path='cards' element={<StatsViewer view='cards' {...statsProps} />} />
           <Route path='colors' element={<StatsViewer view='colors' {...statsProps} />} />
           <Route path='explore' element={<ExplorePage {...statsProps} />} />
+          <Route path='removal' element={<RemovalPage />} />
           <Route path='types' element={<StatsViewer view='types' {...statsProps} />} />
           <Route path='deckstats' element={<StatsViewer view='deckstats' {...statsProps} />} />
           <Route path='drafts' element={<DraftsPage {...statsProps} />} />

@@ -50,6 +50,7 @@ const SECTIONS = [
     { label: "Cards", path: "cards" },
     { label: "Colors", path: "colors" },
     { label: "Explore", path: "explore" },
+    { label: "Removal", path: "removal" },
     { label: "Archetypes", path: "types" },
     { label: "Decks", path: "deckstats" },
   ]},

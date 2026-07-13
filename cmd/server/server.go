@@ -49,6 +49,7 @@ func main() {
 	cubeRoute("GET /api/{cube}/stats/players", stats.PlayerStatsHandler())
 	cubeRoute("GET /api/{cube}/stats/color-matchups", stats.ColorMatchupHandler())
 	cubeRoute("POST /api/{cube}/stats/pivot", stats.PivotHandler())
+	cubeRoute("GET /api/{cube}/stats/removal", stats.RemovalHandler())
 	cubeRoute("GET /api/{cube}/stats/health", stats.HealthStatsHandler())
 	cubeRoute("GET /api/{cube}/stats/design-graph", stats.DesignGraphHandler())
 	cubeRoute("POST /api/{cube}/stats/design-graph/match", stats.DesignGraphMatchHandler())
