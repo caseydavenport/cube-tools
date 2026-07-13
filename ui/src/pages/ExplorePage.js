@@ -120,6 +120,34 @@ function metricText(metric, c) {
   return cellGames(c) > 0 ? `${Math.round(c.win_pct)}%` : ""
 }
 
+// winCI computes a 95% confidence interval for a cell's win rate, scoring each
+// game 1 / 0.5 / 0 (win / draw / loss) and taking the sample SE, so ties are
+// handled correctly - a draw is a fixed 0.5 that shrinks the spread. The pool
+// win rate is exactly 50% by construction, so 50% is the null: a result is
+// "distinguishable" when the interval excludes it (with a small-sample floor to
+// avoid calling a handful of games significant).
+function winCI(c) {
+  const W = c.wins || 0, L = c.losses || 0, D = c.draws || 0
+  const n = W + L + D
+  if (n === 0) return null
+  const p = (W + 0.5 * D) / n
+  const varS = (W * (1 - p) ** 2 + D * (0.5 - p) ** 2 + L * p ** 2) / n
+  const margin = 1.96 * Math.sqrt(varS / n) * 100
+  const lo = p * 100 - margin, hi = p * 100 + margin
+  return { margin, lo, hi, significant: n >= 10 && (lo > 50 || hi < 50) }
+}
+
+// ciTooltip is the hover text carrying the record, sample size, and the 95%
+// margin + significance verdict - kept out of the cell itself to avoid clutter.
+function ciTooltip(c) {
+  if (!c) return ""
+  const games = cellGames(c)
+  const rec = `${c.wins}W-${c.losses}L${c.draws ? "-" + c.draws + "D" : ""}`
+  const s = winCI(c)
+  if (!s) return `${rec} (0 games)`
+  return `${rec} (${games} games)\n95% CI: ${c.win_pct}% ±${s.margin.toFixed(1)} (${s.lo.toFixed(0)}–${s.hi.toFixed(0)}%)\n${s.significant ? "distinguishable from 50%" : "not distinguishable from 50%"}`
+}
+
 export function ExplorePage(props) {
   const cubeID = useCube()
   const [refresh, setRefresh] = useState(1)
@@ -333,7 +361,7 @@ function PivotTable({ result, groupBy, metric }) {
               return (
                 <tr key={r.key} className="widget-table-row">
                   <td className="header-cell" style={{ fontWeight: "bold" }}>{keyLabel(groupBy.dim, r.key)}</td>
-                  <td style={{ textAlign: "center", background: absColor(c.win_pct, cellGames(c)) }}>
+                  <td title={ciTooltip(c)} style={{ textAlign: "center", background: absColor(c.win_pct, cellGames(c)) }}>
                     {cellGames(c) > 0 ? `${c.win_pct}%` : "-"}
                   </td>
                   <td style={{ textAlign: "center" }}>{c.wins}-{c.losses}{c.draws ? `-${c.draws}` : ""}</td>
@@ -388,7 +416,7 @@ function PivotHeatmap({ result, groupBy, splitBy, metric }) {
                 const c = r.cells[col]
                 const games = c ? cellGames(c) : 0
                 return (
-                  <td key={col} title={c ? `${c.wins}W-${c.losses}L${c.draws ? "-" + c.draws + "D" : ""} (${games} games)` : ""}
+                  <td key={col} title={ciTooltip(c)}
                     style={{
                       textAlign: "center",
                       background: metric === "win_pct" && c ? absColor(c.win_pct, games) : undefined,
