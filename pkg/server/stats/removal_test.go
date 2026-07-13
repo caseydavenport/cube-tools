@@ -15,8 +15,15 @@ func TestClassifyRemoval(t *testing.T) {
 	// Unconditional destroy (delve noted).
 	p := classifyRemoval(removalCard("Murderous Cut", "Delve (Each card you exile from your graveyard while casting this spell pays for {1}.)\nDestroy target creature."))
 	assert.True(t, p.Spot)
-	assert.True(t, p.Unconditional)
+	assert.Equal(t, "destroy", p.Kind)
 	assert.Equal(t, "any creature (delve)", p.Restriction)
+	assert.Equal(t, 0, p.MaxToughness, "unconditional has no toughness cap")
+
+	// Exile verb is labelled distinctly from destroy.
+	p = classifyRemoval(removalCard("Path to Exile", "Exile target creature. Its controller may search their library for a basic land card, put that card onto the battlefield tapped, then shuffle."))
+	assert.True(t, p.Spot)
+	assert.Equal(t, "exile", p.Kind)
+	assert.Equal(t, "any creature", p.Restriction)
 
 	// Total power and toughness.
 	p = classifyRemoval(removalCard("Cut Down", "Destroy target creature with total power and toughness 5 or less."))
@@ -42,25 +49,62 @@ func TestClassifyRemoval(t *testing.T) {
 	assert.Equal(t, 3, p.MaxToughness)
 
 	// Sweeper and edict are excluded.
-	p = classifyRemoval(removalCard("Toxic Deluge", "As an additional cost to cast this spell, pay X life.\nAll creatures get -X/-X until end of turn."))
-	assert.False(t, p.Spot)
-	p = classifyRemoval(removalCard("Diabolic Edict", "Target player sacrifices a creature."))
-	assert.False(t, p.Spot)
+	assert.False(t, classifyRemoval(removalCard("Toxic Deluge", "As an additional cost to cast this spell, pay X life.\nAll creatures get -X/-X until end of turn.")).Spot)
+	assert.False(t, classifyRemoval(removalCard("Diabolic Edict", "Target player sacrifices a creature.")).Spot)
+
+	// Graveyard-card exile (Deathrite Shaman) is not battlefield removal.
+	p = classifyRemoval(types.Card{Name: "Deathrite Shaman", Types: []string{"Creature"}, OracleText: "{1}{G}, {T}: Exile target creature card from a graveyard. You gain 3 life."})
+	assert.False(t, p.Spot, "exiling a creature card from a graveyard isn't removal")
 
 	// Non-removal returns the zero profile.
-	p = classifyRemoval(types.Card{Name: "Bear", Types: []string{"Creature"}, OracleText: "Vanilla."})
-	assert.False(t, p.Spot)
+	assert.False(t, classifyRemoval(types.Card{Name: "Bear", Types: []string{"Creature"}, OracleText: "Vanilla."}).Spot)
+}
+
+func TestClassifyRemoval_Override(t *testing.T) {
+	// Curated profile override: Chainweb Aracnir is flying-restricted.
+	p := classifyRemoval(types.Card{Name: "Chainweb Aracnir", OracleText: "When this creature enters, it deals damage equal to its power to target creature with flying an opponent controls."})
+	assert.True(t, p.Spot)
+	assert.True(t, p.FlyingOnly)
+	assert.Equal(t, 1, p.MaxToughness)
+
+	// Prismatic Ending resolves to a representative X.
+	p = classifyRemoval(types.Card{Name: "Prismatic Ending", OracleText: "Converge — Exile target nonland permanent if its mana value is less than or equal to the number of colors of mana spent to cast this spell."})
+	assert.Equal(t, representativeX, p.MaxMV)
+}
+
+func TestEffectiveCost(t *testing.T) {
+	// Delve: drop the generic, assume fully delved. {4}{B} -> {B}.
+	assert.Equal(t, 1, effectiveCost(types.Card{Name: "Murderous Cut", CMC: 5, ManaCost: "{4}{B}", OracleText: "Delve\nDestroy target creature."}))
+	// Curated override (activated ability on a land).
+	assert.Equal(t, 1, effectiveCost(types.Card{Name: "Barbarian Ring", CMC: 0, ManaCost: ""}))
+	// Plain spell: printed mana value (no X guessing).
+	assert.Equal(t, 2, effectiveCost(types.Card{Name: "Whatever", CMC: 2, ManaCost: "{1}{B}", OracleText: "Destroy target creature with toughness 2 or less."}))
+}
+
+func TestClassifyRemoval_ScalableX(t *testing.T) {
+	// A literal X in damage stays scalable rather than being force-fit to a number.
+	p := classifyRemoval(removalCard("Fireball", "Fireball deals X damage to target creature."))
+	assert.True(t, p.Spot)
+	assert.True(t, p.Scalable)
+	assert.Equal(t, 0, p.MaxToughness)
+
+	// Scalable cards get no fabricated coverage/efficiency.
+	rc := buildRemovalCard(types.Card{Name: "Fireball", CMC: 1, ManaCost: "{X}{R}"}, p, 1, []creatureInfo{{name: "a", toughness: 1, mv: 1, known: true}}, map[string]int{"a": 1}, 1)
+	assert.True(t, rc.Scalable)
+	assert.Equal(t, 0, rc.Targets)
+	assert.Equal(t, 0.0, rc.ReachEff)
 }
 
 func TestKillable(t *testing.T) {
 	small := creatureInfo{name: "Elf", power: 1, toughness: 1, mv: 1, colors: []string{"G"}, known: true}
 	big := creatureInfo{name: "Titan", power: 6, toughness: 6, mv: 6, colors: []string{"G"}, known: true}
 	star := creatureInfo{name: "Tarmogoyf", mv: 2, colors: []string{"G"}, known: false}
+	flier := creatureInfo{name: "Bird", power: 1, toughness: 1, mv: 1, flying: true, known: true}
 
-	unconditional := RemovalProfile{Unconditional: true}
-	assert.True(t, unconditional.killable(small))
-	assert.True(t, unconditional.killable(big))
-	assert.True(t, unconditional.killable(star), "unconditional removal kills even unknown-P/T creatures")
+	anyCreature := RemovalProfile{} // no constraints
+	assert.True(t, anyCreature.killable(small))
+	assert.True(t, anyCreature.killable(big))
+	assert.True(t, anyCreature.killable(star), "unconditional removal kills even unknown-P/T creatures")
 
 	tough2 := RemovalProfile{MaxToughness: 2}
 	assert.True(t, tough2.killable(small))
@@ -72,14 +116,13 @@ func TestKillable(t *testing.T) {
 	assert.False(t, mv3.killable(big))
 	assert.True(t, mv3.killable(star), "MV is known even when P/T isn't")
 
-	nonGreen := RemovalProfile{ColorExclude: "G"}
-	assert.False(t, nonGreen.killable(small), "green creature excluded by nonGreen removal")
-	white := creatureInfo{power: 2, toughness: 2, colors: []string{"W"}, known: true}
-	assert.True(t, nonGreen.killable(white))
+	flyOnly := RemovalProfile{FlyingOnly: true}
+	assert.False(t, flyOnly.killable(small))
+	assert.True(t, flyOnly.killable(flier))
 }
 
-// Coverage counts scale with restrictiveness: an unconditional spell hits every
-// creature; a toughness-limited one hits fewer.
+// Coverage counts scale with restrictiveness, and both efficiency metrics use the
+// effective cost.
 func TestRemovalCoverage(t *testing.T) {
 	creatures := []creatureInfo{
 		{name: "a", power: 1, toughness: 1, mv: 1, known: true},
@@ -90,24 +133,25 @@ func TestRemovalCoverage(t *testing.T) {
 	total := 16
 
 	uncond := buildRemovalCard(
-		types.Card{Name: "Doom", CMC: 2, OracleText: "Destroy target creature."},
+		types.Card{Name: "Doom", CMC: 2, ManaCost: "{1}{B}", OracleText: "Destroy target creature."},
 		classifyRemoval(removalCard("Doom", "Destroy target creature.")),
-		creatures, weights, total,
+		2, creatures, weights, total,
 	)
 	assert.Equal(t, 3, uncond.Targets)
 	assert.Equal(t, 100.0, uncond.PctCube)
-	// Raw avg MV killed = (1+3+6)/3 = 3.33; play-weighted leans to the popular 'a'
-	// (mv1): (10*1+5*3+1*6)/16 = 1.94, so weighting drops the average.
-	assert.InDelta(t, 3.3, uncond.AvgMVKilled, 0.1)
-	assert.InDelta(t, 1.9, uncond.PlayedAvgMVKilled, 0.1)
-	assert.Equal(t, 100.0, uncond.PctPlayed)
+	assert.Equal(t, 6, uncond.MaxMVKilled)
+	// Reach = ceiling (6) - cost (2) = 4; avg = (1+3+6)/3 - 2 = 1.3.
+	assert.InDelta(t, 4.0, uncond.ReachEff, 0.01)
+	assert.InDelta(t, 1.3, uncond.Efficiency, 0.1)
 
-	tough2 := buildRemovalCard(
-		types.Card{Name: "Shrink", CMC: 1, OracleText: "Target creature gets -2/-2 until end of turn."},
-		classifyRemoval(removalCard("Shrink", "Target creature gets -2/-2 until end of turn.")),
-		creatures, weights, total,
+	// Glass-Casket-style MV≤3 at cost 2: reach = 3 - 2 = +1 (matches intuition),
+	// average pulled down by cheap creatures.
+	casket := buildRemovalCard(
+		types.Card{Name: "Casket", CMC: 2, ManaCost: "{1}{W}", OracleText: "exile target creature with mana value 3 or less."},
+		classifyRemoval(removalCard("Casket", "exile target creature with mana value 3 or less.")),
+		2, creatures, weights, total,
 	)
-	assert.Equal(t, 1, tough2.Targets) // only creature 'a' (toughness 1)
-	assert.InDelta(t, 33.3, tough2.PctCube, 0.1)
-	assert.InDelta(t, 62.5, tough2.PctPlayed, 0.1) // 10/16 - 'a' is heavily played
+	assert.Equal(t, 3, casket.MaxMVKilled)
+	assert.InDelta(t, 1.0, casket.ReachEff, 0.01)
+	assert.Equal(t, "exile", casket.Kind)
 }
