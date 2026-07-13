@@ -49,6 +49,7 @@ const SECTIONS = [
   { label: "Analyze", views: [
     { label: "Cards", path: "cards" },
     { label: "Colors", path: "colors" },
+    { label: "Explore", path: "explore" },
     { label: "Archetypes", path: "types" },
     { label: "Decks", path: "deckstats" },
   ]},

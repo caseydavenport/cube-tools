@@ -1895,3 +1895,38 @@ table {
 .dm-preview-mana { color: var(--text-muted); font-family: 'Fira Code', monospace; font-size: 0.78rem; font-weight: 400; }
 .dm-preview-type { color: var(--text-muted); font-size: 0.75rem; margin: 3px 0 6px; }
 .dm-preview-oracle { color: var(--text-color); font-size: 0.8rem; line-height: 1.45; white-space: pre-wrap; }
+
+/* Explore view: pivot controls + structured predicate builder. */
+.explore-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  background: var(--card-background);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1rem 1.5rem;
+  margin: 1.5rem 0;
+}
+.predicate-builder {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  border-top: 1px solid var(--border);
+  padding-top: 0.75rem;
+}
+.predicate-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+}
+.predicate-remove {
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 0.15rem 0.5rem;
+}
+.predicate-remove:hover { color: #dc3545; border-color: #dc3545; }
+.predicate-add { align-self: flex-start; }
