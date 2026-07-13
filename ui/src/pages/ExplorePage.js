@@ -91,19 +91,6 @@ function absColor(winPct, games) {
   return `rgba(220, 53, 69, ${0.15 + (0.5 - t) * 2 * 0.55})`
 }
 
-// relColor scales a cell relative to its row's own overall win rate, so a
-// heatmap reads as "better or worse than usual for this group" rather than
-// against 50%. This is what surfaces confounders: White overall sits near 50%,
-// but its vs-Black cell is far below White's own baseline. A ±15pp swing
-// saturates.
-function relColor(winPct, baseline, games) {
-  if (games < 10) return "var(--card-background)"
-  const d = winPct - baseline
-  const mag = Math.min(1, Math.abs(d) / 15)
-  if (d >= 0) return `rgba(40, 167, 69, ${0.1 + mag * 0.6})`
-  return `rgba(220, 53, 69, ${0.1 + mag * 0.6})`
-}
-
 // barColor tints a group's bar by its color identity (mono uses the color, a
 // guild pair blends its two). Non-color dimensions fall back to green.
 function barColor(dim, key) {
@@ -345,35 +332,25 @@ function PivotHeatmap({ result, groupBy, splitBy, metric }) {
           </tr>
         </thead>
         <tbody>
-          {rows.map(r => {
-            // The row's overall win rate is the baseline the split cells are
-            // shaded against, so each cell reads as better/worse than usual for
-            // this group. The Overall column keeps the absolute 50% reference.
-            const baseline = r.cells[""]?.win_pct ?? 50
-            return (
-              <tr key={r.key} className="widget-table-row">
-                <td className="header-cell" style={{ fontWeight: "bold" }}>{keyLabel(groupBy.dim, r.key)}</td>
-                {cols.map(col => {
-                  const c = r.cells[col]
-                  const games = c ? cellGames(c) : 0
-                  let bg
-                  if (metric === "win_pct" && c) {
-                    bg = col === "" ? absColor(c.win_pct, games) : relColor(c.win_pct, baseline, games)
-                  }
-                  return (
-                    <td key={col} title={c ? `${c.wins}W-${c.losses}L${c.draws ? "-" + c.draws + "D" : ""} (${games} games)${col !== "" ? `, ${(c.win_pct - baseline >= 0 ? "+" : "")}${(c.win_pct - baseline).toFixed(1)} vs row avg` : ""}` : ""}
-                      style={{
-                        textAlign: "center",
-                        background: bg,
-                        opacity: games > 0 && games < 10 ? 0.45 : 1,
-                      }}>
-                      {metricText(metric, c)}
-                    </td>
-                  )
-                })}
-              </tr>
-            )
-          })}
+          {rows.map(r => (
+            <tr key={r.key} className="widget-table-row">
+              <td className="header-cell" style={{ fontWeight: "bold" }}>{keyLabel(groupBy.dim, r.key)}</td>
+              {cols.map(col => {
+                const c = r.cells[col]
+                const games = c ? cellGames(c) : 0
+                return (
+                  <td key={col} title={c ? `${c.wins}W-${c.losses}L${c.draws ? "-" + c.draws + "D" : ""} (${games} games)` : ""}
+                    style={{
+                      textAlign: "center",
+                      background: metric === "win_pct" && c ? absColor(c.win_pct, games) : undefined,
+                      opacity: games > 0 && games < 10 ? 0.45 : 1,
+                    }}>
+                    {metricText(metric, c)}
+                  </td>
+                )
+              })}
+            </tr>
+          ))}
         </tbody>
       </table>
     </div>
