@@ -120,10 +120,16 @@ function metricText(metric, c) {
   return cellGames(c) > 0 ? `${Math.round(c.win_pct)}%` : ""
 }
 
-// winCI computes a 95% confidence interval for a cell's win rate, scoring each
-// game 1 / 0.5 / 0 (win / draw / loss) and taking the sample SE, so ties are
-// handled correctly - a draw is a fixed 0.5 that shrinks the spread. The pool
-// win rate is exactly 50% by construction, so 50% is the null: a result is
+// CI_Z is the z-score for the confidence interval. 90% (1.645) rather than 95%
+// on purpose: this data set is small and the cost of acting on a wrong signal
+// is tiny (swap a card, watch, revert), so a lower bar that surfaces more
+// suggestive effects is the better trade here.
+const CI_Z = 1.645
+
+// winCI computes a confidence interval for a cell's win rate, scoring each game
+// 1 / 0.5 / 0 (win / draw / loss) and taking the sample SE, so ties are handled
+// correctly - a draw is a fixed 0.5 that shrinks the spread. The pool win rate
+// is exactly 50% by construction, so 50% is the null: a result is
 // "distinguishable" when the interval excludes it (with a small-sample floor to
 // avoid calling a handful of games significant).
 function winCI(c) {
@@ -132,7 +138,7 @@ function winCI(c) {
   if (n === 0) return null
   const p = (W + 0.5 * D) / n
   const varS = (W * (1 - p) ** 2 + D * (0.5 - p) ** 2 + L * p ** 2) / n
-  const margin = 1.96 * Math.sqrt(varS / n) * 100
+  const margin = CI_Z * Math.sqrt(varS / n) * 100
   const lo = p * 100 - margin, hi = p * 100 + margin
   return { margin, lo, hi, significant: n >= 10 && (lo > 50 || hi < 50) }
 }
@@ -145,7 +151,7 @@ function ciTooltip(c) {
   const rec = `${c.wins}W-${c.losses}L${c.draws ? "-" + c.draws + "D" : ""}`
   const s = winCI(c)
   if (!s) return `${rec} (0 games)`
-  return `${rec} (${games} games)\n95% CI: ${c.win_pct}% ±${s.margin.toFixed(1)} (${s.lo.toFixed(0)}–${s.hi.toFixed(0)}%)\n${s.significant ? "distinguishable from 50%" : "not distinguishable from 50%"}`
+  return `${rec} (${games} games)\n90% CI: ${c.win_pct}% ±${s.margin.toFixed(1)} (${s.lo.toFixed(0)}–${s.hi.toFixed(0)}%)\n${s.significant ? "distinguishable from 50%" : "not distinguishable from 50%"}`
 }
 
 export function ExplorePage(props) {
