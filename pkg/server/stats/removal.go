@@ -70,6 +70,9 @@ var removalOverrides = map[string]removalOverride{
 	// Reduced / alternate cast costs.
 	"Leyline Binding": {cost: 2}, // domain, typically ~{1}-{2} in a 5-color cube
 	"Ride's End":      {cost: 2}, // {3} less targeting a tapped permanent
+	// The removal is the adventure/back face (Locthwain Scorn, {1}{B}), not the
+	// {5}{B}{B} front face the printed mana value reflects.
+	"Virtue of Persistence // Locthwain Scorn": {cost: 2},
 	// Activated / channel removal on permanents & lands: cost is the ability, not
 	// the card's mana value.
 	"Barbarian Ring":              {cost: 1},
