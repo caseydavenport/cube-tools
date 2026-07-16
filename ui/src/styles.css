@@ -1971,3 +1971,7 @@ table {
 .popover-table td { padding: 2px 0; font-size: 0.85rem; }
 .popover-table-label { color: var(--text-muted); padding-right: 1.25rem !important; }
 .popover-table-value { text-align: right; font-weight: 600; }
+
+/* Cards table: link to the decks that mainboarded a card. */
+.deck-link { color: var(--text-muted); text-decoration: none; font-size: 0.9em; }
+.deck-link:hover { color: var(--primary); }

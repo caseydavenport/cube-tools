@@ -311,7 +311,26 @@ function sortValue(sortBy, card) {
 // exact board counts and win detail tucked into per-cell hover popovers.
 // ---------------------------------------------------------------------------
 
-// cardNameCell renders the clickable card name with a "played by" popover.
+// currentCubeId pulls the cube segment out of the HashRouter URL (#/{cube}/...).
+function currentCubeId() {
+  const m = (window.location.hash || "").match(/#\/([^/?]+)/)
+  return m ? m[1] : ""
+}
+
+// deckLinkHref builds a link to the Decklists page filtered to decks that
+// mainboarded this card, carrying the current deck filter and time range so a
+// new tab reproduces the same view.
+function deckLinkHref(card, input) {
+  const query = [input.matchStr, `name:"${card.name}"`].filter(s => s && s.trim()).join(" ")
+  const params = new URLSearchParams()
+  if (input.startDate) params.set("start", input.startDate)
+  if (input.endDate) params.set("end", input.endDate)
+  params.set("match", query)
+  return `${window.location.pathname}#/${currentCubeId()}/decklists?${params.toString()}`
+}
+
+// cardNameCell renders the clickable card name with a "played by" popover, plus a
+// link that opens the decks which mainboarded the card in a new tab.
 function cardNameCell(card, input, key) {
   return (
     <OverlayTrigger key={key} placement="right" delay={{ show: 500, hide: 100 }}
@@ -323,6 +342,10 @@ function cardNameCell(card, input, key) {
       }>
       <td id={card.name} onClick={input.onCardSelected}>
         <a href={card.url} target="_blank" rel="noopener noreferrer">{card.name}</a>
+        {" "}
+        <a className="deck-link" href={deckLinkHref(card, input)} target="_blank" rel="noopener noreferrer"
+          title="Open decks that mainboarded this card (same filters & time range)"
+          onClick={(e) => e.stopPropagation()}>⧉</a>
       </td>
     </OverlayTrigger>
   )

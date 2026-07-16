@@ -168,7 +168,8 @@ export function StatsViewer(props) {
         />
 
         <CardWidget
-          parsed={parsed} matchStr={debouncedMatchStr} cardData={cardData} cardDataBucketed={cardDataBucketed}
+          parsed={parsed} matchStr={debouncedMatchStr} startDate={props.startDate} endDate={props.endDate}
+          cardData={cardData} cardDataBucketed={cardDataBucketed}
           decks={parsed.filteredDecks} dropdownSelection={cardWidgetSelection}
           cardFilter={cardFilter} onCardFilterSelected={(e) => setCardFilter(e.target.value)}
           tagFilter={tagFilter} onTagFilterSelected={(e) => setTagFilter(e.target.value)}
