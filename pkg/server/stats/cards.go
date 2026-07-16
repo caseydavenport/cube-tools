@@ -316,6 +316,7 @@ func (d *cardStatsHandler) statsForDecks(decks []*storage.Deck, cubeCards map[st
 		decksWithCard := card.Mainboard + card.Sideboard
 		card.MainboardPercent = pct(float64(card.Mainboard), float64(decksWithCard))
 		card.SideboardPercent = pct(float64(card.Sideboard), float64(decksWithCard))
+		card.PlayableSideboardPercent = pct(float64(card.PlayableSideboard), float64(decksWithCard))
 
 		// Calculate per-archetype win percentages. Only show archetype-specific
 		// win percentages with at least 15 games played; smaller samples are
@@ -762,6 +763,10 @@ type cardStats struct {
 
 	// Sideboard percentage
 	SideboardPercent float64 `json:"sideboard_percent"`
+
+	// Playable sideboard percentage: share of appearances (mainboard+sideboard)
+	// where the card sat in the sideboard but was on-color for the deck.
+	PlayableSideboardPercent float64 `json:"playable_sideboard_percent"`
 
 	// Map of archetype to times played in that archetype
 	Archetypes map[string]int `json:"archetypes"`
