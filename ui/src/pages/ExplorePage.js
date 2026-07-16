@@ -14,6 +14,41 @@ import { Line, Bar } from 'react-chartjs-2'
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, BarElement, Title, Tooltip, Legend)
 
+// winErrorBars draws a confidence whisker on each bar of any dataset that carries
+// an `errorMargins` array (half-widths, in the y-axis's units). Registered once
+// and reads straight off the dataset, so it stays correct when the chart's data
+// changes (react-chartjs-2 doesn't refresh a per-chart `plugins` prop on
+// re-render, which silently reused stale margins).
+const winErrorBars = {
+  id: "winErrorBars",
+  afterDatasetsDraw(chart) {
+    const { ctx } = chart
+    const y = chart.scales.y
+    chart.data.datasets.forEach((ds, di) => {
+      const margins = ds.errorMargins
+      if (!margins) return
+      const meta = chart.getDatasetMeta(di)
+      ctx.save()
+      ctx.strokeStyle = "rgba(255, 255, 255, 0.7)"
+      ctx.lineWidth = 1.5
+      meta.data.forEach((bar, i) => {
+        const m = margins[i]
+        if (m == null) return
+        const v = ds.data[i]
+        const top = y.getPixelForValue(Math.min(100, v + m))
+        const bot = y.getPixelForValue(Math.max(0, v - m))
+        ctx.beginPath()
+        ctx.moveTo(bar.x, top); ctx.lineTo(bar.x, bot)
+        ctx.moveTo(bar.x - 5, top); ctx.lineTo(bar.x + 5, top)
+        ctx.moveTo(bar.x - 5, bot); ctx.lineTo(bar.x + 5, bot)
+        ctx.stroke()
+      })
+      ctx.restore()
+    })
+  },
+}
+ChartJS.register(winErrorBars)
+
 // The Explore view is a general deck-slicing pivot: group decks/games by a
 // dimension, optionally split by a second, over a filtered subpopulation, and
 // read a win-rate metric. Compute is server-side (POST /stats/pivot); this page
@@ -351,37 +386,13 @@ function PivotTable({ result, groupBy, metric }) {
       backgroundColor: barColors,
       borderColor: barColors,
       borderWidth: 1,
+      errorMargins: margins, // consumed by the winErrorBars plugin
     }],
   }
   const options = {
     responsive: true, maintainAspectRatio: false,
     plugins: { legend: { display: false } },
     scales: { y: { min: 0, max: 100, ticks: { color: "white" } }, x: { ticks: { color: "white" } } },
-  }
-  // Draw a 90% confidence whisker on each bar so you can see at a glance whether
-  // its interval crosses the 50% break-even line.
-  const errorBars = {
-    id: "winErrorBars",
-    afterDatasetsDraw(chart) {
-      const { ctx, scales: { y } } = chart
-      const meta = chart.getDatasetMeta(0)
-      ctx.save()
-      ctx.strokeStyle = "rgba(255, 255, 255, 0.7)"
-      ctx.lineWidth = 1.5
-      meta.data.forEach((bar, i) => {
-        const m = margins[i]
-        if (m == null) return
-        const top = y.getPixelForValue(Math.min(100, data[i] + m))
-        const bot = y.getPixelForValue(Math.max(0, data[i] - m))
-        const x = bar.x
-        ctx.beginPath()
-        ctx.moveTo(x, top); ctx.lineTo(x, bot)
-        ctx.moveTo(x - 5, top); ctx.lineTo(x + 5, top)
-        ctx.moveTo(x - 5, bot); ctx.lineTo(x + 5, bot)
-        ctx.stroke()
-      })
-      ctx.restore()
-    },
   }
 
   return (
@@ -414,7 +425,7 @@ function PivotTable({ result, groupBy, metric }) {
         </table>
       </div>
       <div style={{ height: "320px", marginTop: "2rem" }}>
-        <Bar options={options} data={chartData} plugins={[errorBars]} />
+        <Bar options={options} data={chartData} />
       </div>
     </div>
   )
