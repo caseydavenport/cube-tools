@@ -560,25 +560,6 @@ function CardWidgetOptions(input) {
           value={input.tagFilter}
           onChange={input.onTagFilterSelected}
         />
-
-        <DropdownHeader
-          label="Color"
-          options={input.colorWidgetOpts}
-          value={input.colorSelection}
-          onChange={input.onColorSelected}
-        />
-
-        <NumericInput
-          label="Min drafts"
-          value={input.minDrafts}
-          onChange={input.onMinDraftsSelected}
-        />
-
-        <NumericInput
-          label="Min games"
-          value={input.minGames}
-          onChange={input.onMinGamesSelected}
-        />
       </div>
     </div>
   );
