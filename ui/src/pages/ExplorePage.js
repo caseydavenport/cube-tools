@@ -81,14 +81,22 @@ function cellGames(c) {
   return (c.wins || 0) + (c.losses || 0) + (c.draws || 0)
 }
 
-// absColor scales a win% from red (0) through neutral (50) to green (100),
-// graying out low-sample cells. Used where the reference point is the 50%
-// break-even line (the group table, and a heatmap's Overall column).
-function absColor(winPct, games) {
-  if (games < 10) return "var(--card-background)"
+// absColor scales a win% from red (0) through neutral (50) to green (100).
+function absColor(winPct) {
   const t = Math.max(0, Math.min(1, winPct / 100))
   if (t >= 0.5) return `rgba(40, 167, 69, ${0.15 + (t - 0.5) * 2 * 0.55})`
   return `rgba(220, 53, 69, ${0.15 + (0.5 - t) * 2 * 0.55})`
+}
+
+// winColor tints a win% cell red/green vs 50%, but only when the rate is
+// statistically distinguishable from 50%; otherwise it's the neutral gray. There's
+// no separate "not enough data" case - a small sample simply fails the
+// significance check (which requires >=10 games), so both read the same gray.
+function winColor(c) {
+  if (!c) return undefined
+  const s = winCI(c)
+  if (!s || !s.significant) return "var(--card-background)"
+  return absColor(c.win_pct)
 }
 
 // barColor tints a group's bar by its color identity (mono uses the color, a
@@ -333,6 +341,8 @@ function PivotTable({ result, groupBy, metric }) {
   const data = rows.map(r => r.cells[""]?.win_pct || 0)
 
   const barColors = rows.map(r => barColor(groupBy.dim, r.key))
+  // 90% CI half-widths per bar, for the error whiskers.
+  const margins = rows.map(r => { const s = winCI(r.cells[""]); return s ? s.margin : null })
   const chartData = {
     labels,
     datasets: [{
@@ -347,6 +357,31 @@ function PivotTable({ result, groupBy, metric }) {
     responsive: true, maintainAspectRatio: false,
     plugins: { legend: { display: false } },
     scales: { y: { min: 0, max: 100, ticks: { color: "white" } }, x: { ticks: { color: "white" } } },
+  }
+  // Draw a 90% confidence whisker on each bar so you can see at a glance whether
+  // its interval crosses the 50% break-even line.
+  const errorBars = {
+    id: "winErrorBars",
+    afterDatasetsDraw(chart) {
+      const { ctx, scales: { y } } = chart
+      const meta = chart.getDatasetMeta(0)
+      ctx.save()
+      ctx.strokeStyle = "rgba(255, 255, 255, 0.7)"
+      ctx.lineWidth = 1.5
+      meta.data.forEach((bar, i) => {
+        const m = margins[i]
+        if (m == null) return
+        const top = y.getPixelForValue(Math.min(100, data[i] + m))
+        const bot = y.getPixelForValue(Math.max(0, data[i] - m))
+        const x = bar.x
+        ctx.beginPath()
+        ctx.moveTo(x, top); ctx.lineTo(x, bot)
+        ctx.moveTo(x - 5, top); ctx.lineTo(x + 5, top)
+        ctx.moveTo(x - 5, bot); ctx.lineTo(x + 5, bot)
+        ctx.stroke()
+      })
+      ctx.restore()
+    },
   }
 
   return (
@@ -367,7 +402,7 @@ function PivotTable({ result, groupBy, metric }) {
               return (
                 <tr key={r.key} className="widget-table-row">
                   <td className="header-cell" style={{ fontWeight: "bold" }}>{keyLabel(groupBy.dim, r.key)}</td>
-                  <td title={ciTooltip(c)} style={{ textAlign: "center", background: absColor(c.win_pct, cellGames(c)) }}>
+                  <td title={ciTooltip(c)} style={{ textAlign: "center", background: winColor(c) }}>
                     {cellGames(c) > 0 ? `${c.win_pct}%` : "-"}
                   </td>
                   <td style={{ textAlign: "center" }}>{c.wins}-{c.losses}{c.draws ? `-${c.draws}` : ""}</td>
@@ -379,7 +414,7 @@ function PivotTable({ result, groupBy, metric }) {
         </table>
       </div>
       <div style={{ height: "320px", marginTop: "2rem" }}>
-        <Bar options={options} data={chartData} />
+        <Bar options={options} data={chartData} plugins={[errorBars]} />
       </div>
     </div>
   )
@@ -420,13 +455,11 @@ function PivotHeatmap({ result, groupBy, splitBy, metric }) {
               <td className="header-cell" style={{ fontWeight: "bold" }}>{keyLabel(groupBy.dim, r.key)}</td>
               {cols.map(col => {
                 const c = r.cells[col]
-                const games = c ? cellGames(c) : 0
                 return (
                   <td key={col} title={ciTooltip(c)}
                     style={{
                       textAlign: "center",
-                      background: metric === "win_pct" && c ? absColor(c.win_pct, games) : undefined,
-                      opacity: games > 0 && games < 10 ? 0.45 : 1,
+                      background: metric === "win_pct" && c ? winColor(c) : undefined,
                     }}>
                     {metricText(metric, c)}
                   </td>
