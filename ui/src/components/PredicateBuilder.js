@@ -22,7 +22,7 @@ const OPS_BY_KIND = {
   color: [{ value: "contains", label: "contains" }, { value: "excludes", label: "excludes" }],
   choice: [{ value: "eq", label: "is" }, { value: "neq", label: "is not" }],
   numeric: [{ value: "gte", label: "≥" }, { value: "lte", label: "≤" }, { value: "eq", label: "=" }],
-  query: [{ value: "match", label: "matches" }],
+  query: [{ value: "match", label: "matches" }, { value: "excludes", label: "excludes" }],
 }
 
 function dimMeta(dim) {

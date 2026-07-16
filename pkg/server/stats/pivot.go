@@ -483,7 +483,11 @@ func predicatePasses(d *storage.Deck, p PivotPredicate, cubeCards map[string]typ
 		}
 		return has
 	case "card_query":
-		return query.DeckMatchesBoard(d, p.Value, "mainboard")
+		m := query.DeckMatchesBoard(d, p.Value, "mainboard")
+		if p.Op == "excludes" {
+			return !m
+		}
+		return m
 	case "removal", "interaction", "counterspell", "creatures", "lands", "dna", "avg_cmc":
 		got := composition(d, cubeCards).value(p.Dim)
 		want, err := strconv.ParseFloat(p.Value, 64)
