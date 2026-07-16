@@ -306,11 +306,26 @@ func loadDeck(path string) (Deck, error) {
 }
 
 func process(decks map[key]*Deck) {
-	// First pass: populate flattened games list for each deck.
+	// First pass: populate the flattened games list for each deck. When a match
+	// recorded per-game detail, use it; when it only recorded aggregate
+	// Win/Loss/Draw counts (no per-game rows), synthesize one game per result so
+	// consumers that walk the flattened list still count these decks.
 	for _, d := range decks {
 		d.Games = make([]types.Game, 0)
 		for _, m := range d.Matches {
-			d.Games = append(d.Games, m.Games...)
+			if len(m.Games) > 0 {
+				d.Games = append(d.Games, m.Games...)
+				continue
+			}
+			for i := 0; i < m.Wins; i++ {
+				d.Games = append(d.Games, types.Game{Opponent: m.Opponent, Winner: d.Player})
+			}
+			for i := 0; i < m.Losses; i++ {
+				d.Games = append(d.Games, types.Game{Opponent: m.Opponent, Winner: m.Opponent})
+			}
+			for i := 0; i < m.Draws; i++ {
+				d.Games = append(d.Games, types.Game{Opponent: m.Opponent, Tie: true})
+			}
 		}
 	}
 

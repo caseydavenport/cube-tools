@@ -84,6 +84,41 @@ func TestProcess_Stats(t *testing.T) {
 	assert.Equal(t, 0, d.Stats.Trophies) // only 1 match win, need >=3
 }
 
+// A match that recorded only aggregate Win/Loss/Draw counts (no per-game rows)
+// still yields flattened games, so consumers that walk deck.Games count it.
+func TestProcess_SynthesizesGamesFromMatchCounts(t *testing.T) {
+	d := &Deck{}
+	d.Player = "Alice"
+	d.Metadata.DraftID = "draft1"
+	d.Matches = []types.Match{
+		{Opponent: "Bob", Wins: 2, Losses: 1},
+		{Opponent: "Carol", Wins: 0, Losses: 1, Draws: 1},
+	}
+
+	process(map[key]*Deck{{player: "Alice", draft: "draft1"}: d})
+
+	assert.Len(t, d.Games, 5) // 2+1 + 0+1+1
+	wins, losses, draws := 0, 0, 0
+	for _, g := range d.Games {
+		assert.Contains(t, []string{"Bob", "Carol"}, g.Opponent)
+		switch {
+		case g.Tie:
+			draws++
+		case g.Winner == "Alice":
+			wins++
+		default:
+			losses++
+			assert.NotEqual(t, "Alice", g.Winner) // opponent stands in as winner
+		}
+	}
+	assert.Equal(t, 2, wins)
+	assert.Equal(t, 2, losses)
+	assert.Equal(t, 1, draws)
+	assert.Equal(t, 2, d.Stats.GameWins)
+	assert.Equal(t, 2, d.Stats.GameLosses)
+	assert.Equal(t, 1, d.Stats.GameDraws)
+}
+
 func TestProcess_OpponentWinPercentage(t *testing.T) {
 	// 4-player draft: Alice, Bob, Charlie, Dave
 	// Alice played Bob. Bob's games (excluding vs Alice): 2 games vs Charlie, won 1 → 50%
