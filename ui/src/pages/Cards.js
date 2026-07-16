@@ -194,7 +194,6 @@ export function CardWidget(input) {
       </Section>
 
       <Section id="plots" heading="Plots">
-        <ReputationChart {...input} />
         <CardGraph {...input} />
       </Section>
 
@@ -297,494 +296,189 @@ function sortValue(sortBy, card) {
   return sort
 }
 
+// ---------------------------------------------------------------------------
+// Card stats table.
+//
+// One renderer drives every mode; a mode is just a list of column descriptors
+// {id, text, tip, cell}, where cell(card, input, key) returns the <td>. The
+// default "Overview" mode puts play rate and win rate side by side, with the
+// exact board counts and win detail tucked into per-cell hover popovers.
+// ---------------------------------------------------------------------------
+
+// cardNameCell renders the clickable card name with a "played by" popover.
+function cardNameCell(card, input, key) {
+  return (
+    <OverlayTrigger key={key} placement="right" delay={{ show: 500, hide: 100 }}
+      overlay={
+        <Popover id="popover-basic" style={{ maxWidth: 'none' }}>
+          <Popover.Header as="h3">Played by</Popover.Header>
+          <Popover.Body>{CardMainboardTooltipContent(card)}</Popover.Body>
+        </Popover>
+      }>
+      <td id={card.name} onClick={input.onCardSelected}>
+        <a href={card.url} target="_blank" rel="noopener noreferrer">{card.name}</a>
+      </td>
+    </OverlayTrigger>
+  )
+}
+
+// valueCell is a plain clickable value cell that focuses the card on click.
+function valueCell(card, input, key, value) {
+  return <td key={key} id={card.name} onClick={input.onCardSelected}>{value}</td>
+}
+
+// popoverValueCell is a clickable value cell with an on-hover detail popover.
+function popoverValueCell(card, input, key, value, title, body) {
+  return (
+    <OverlayTrigger key={key} placement="top" delay={{ show: 150, hide: 100 }}
+      overlay={
+        <Popover id="popover-basic">
+          <Popover.Header as="h3">{title}</Popover.Header>
+          <Popover.Body>{body}</Popover.Body>
+        </Popover>
+      }>
+      <td id={card.name} onClick={input.onCardSelected}>{value}</td>
+    </OverlayTrigger>
+  )
+}
+
+// deckPctCell shows mainboard rate, with exact mainboard/sideboard counts on hover.
+function deckPctCell(card, input, key) {
+  const body = (
+    <div>
+      Mainboarded: {card.mainboard}<br />
+      Sideboarded: {card.sideboard}<br />
+      Playable sideboard: {card.playable_sideboard}
+    </div>
+  )
+  return popoverValueCell(card, input, key, `${card.mainboard_percent.toFixed(0)}%`, "Board counts", body)
+}
+
+// winPctCell shows win rate, with the full record detail on hover.
+function winPctCell(card, input, key) {
+  const body = (
+    <div>
+      Record: {card.wins}W - {card.losses}L - {card.draws}D<br />
+      Trophies (3-0): {card.trophies}<br />
+      Last place (0-3): {card.last_place}<br />
+      % of all wins: {card.percent_of_wins.toFixed(0)}%
+    </div>
+  )
+  return popoverValueCell(card, input, key, `${card.win_percent.toFixed(0)}%`, "Win detail", body)
+}
+
+// deltaExpCell shows Win% minus expected Win%, coloured. Blank when there's no
+// expected win % (too few games to establish a baseline).
+function deltaExpCell(card, input, key) {
+  if (!card.expected_win_percent) {
+    return <td key={key} id={card.name} onClick={input.onCardSelected} style={{ color: "var(--text-muted)" }}>—</td>
+  }
+  const d = Math.round(card.win_percent - card.expected_win_percent)
+  const color = d >= 0 ? "rgb(120, 200, 120)" : "rgb(220, 120, 120)"
+  return <td key={key} id={card.name} onClick={input.onCardSelected} style={{ color }}>{d > 0 ? "+" : ""}{d}</td>
+}
+
+const colorsColumn = {
+  id: "colors", text: "Color Identity", tip: "Color identity of the card.",
+  cell: (card, input, key) => <td key={key}>{ColorImages(card.color_identity)}</td>,
+}
+const cardColumn = {
+  id: "card", text: "Card", tip: "Card name. Click a row cell to focus the card in the graphs below.",
+  cell: cardNameCell,
+}
+const gamesColumn = {
+  id: "games", text: "# Games", tip: "Number of games played by decks that included this card.",
+  cell: (c, i, k) => valueCell(c, i, k, c.total_games),
+}
+
+const OVERVIEW_COLUMNS = [
+  colorsColumn,
+  cardColumn,
+  { id: "mainboarded", text: "Deck%", tip: "Percentage of drafts this card is mainboarded. Hover for exact board counts.", cell: deckPctCell },
+  { id: "wins", text: "Win%", tip: "Win rate of decks that mainboard this card. Hover for record detail.", cell: winPctCell },
+  { id: "delta_exp", text: "Δ Exp", tip: "Win% minus expected win% - how the card over/underperforms relative to the players who ran it.", cell: deltaExpCell },
+  { id: "elo", text: "Pick ELO", tip: "An ELO ranking based on card pick order in packs.", cell: (c, i, k) => valueCell(c, i, k, c.elo) },
+  { id: "match_elo", text: "Match ELO", tip: "An ELO ranking computed from match results, weighted by opponent strength.", cell: (c, i, k) => valueCell(c, i, k, c.match_elo) },
+  { id: "lastPlayed", text: "Last played", tip: "Date of the draft this card was last mainboarded.", cell: (c, i, k) => valueCell(c, i, k, c.last_mainboarded) },
+]
+
+const METADATA_COLUMNS = [
+  colorsColumn,
+  cardColumn,
+  { id: "wordcount", text: "Words", tip: "Words in the card's oracle text, excluding reminder text.", cell: (c, i, k) => valueCell(c, i, k, c.word_count) },
+  { id: "labels", text: "# Labels", tip: "Number of unique archetype labels that have mainboarded this card.", cell: (c, i, k) => valueCell(c, i, k, Object.entries(c.archetypes).length) },
+  gamesColumn,
+  { id: "players", text: "# Players", tip: "Number of unique players who have mainboarded this card.", cell: (c, i, k) => valueCell(c, i, k, Object.entries(c.players).length) },
+]
+
+const VS_ARCH_COLUMNS = [
+  colorsColumn, cardColumn, gamesColumn,
+  { id: "vsaggro", text: "vs Aggro", tip: "Win rate when this card's deck plays against aggro archetypes.", cell: (c, i, k) => valueCell(c, i, k, `${c.against_archetype.aggro.win_percent.toFixed(0)}%`) },
+  { id: "vscontrol", text: "vs Control", tip: "Win rate when this card's deck plays against control archetypes.", cell: (c, i, k) => valueCell(c, i, k, `${c.against_archetype.control.win_percent.toFixed(0)}%`) },
+  { id: "vsmidrange", text: "vs Midrange", tip: "Win rate when this card's deck plays against midrange archetypes.", cell: (c, i, k) => valueCell(c, i, k, `${c.against_archetype.midrange.win_percent.toFixed(0)}%`) },
+]
+
+const BY_ARCH_COLUMNS = [
+  colorsColumn, cardColumn, gamesColumn,
+  { id: "inaggro", text: "in Aggro", tip: "Win rate of this card when played in aggro decks.", cell: (c, i, k) => valueCell(c, i, k, `${c.by_archetype.aggro.win_percent.toFixed(0)}%`) },
+  { id: "incontrol", text: "in Control", tip: "Win rate of this card when played in control decks.", cell: (c, i, k) => valueCell(c, i, k, `${c.by_archetype.control.win_percent.toFixed(0)}%`) },
+  { id: "inmidrange", text: "in Midrange", tip: "Win rate of this card when played in midrange decks.", cell: (c, i, k) => valueCell(c, i, k, `${c.by_archetype.midrange.win_percent.toFixed(0)}%`) },
+]
+
+// CardStatsTable renders a list of column descriptors over the card list.
+function CardStatsTable(cards, columns, input) {
+  return (
+    <div className="table-scroll">
+      <table className="widget-table">
+        <thead className="table-header">
+          <tr>
+            {columns.map(function (hdr, i) {
+              return (
+                <OverlayTrigger key={i} placement="top" delay={{ show: 100, hide: 100 }}
+                  overlay={
+                    <Popover id="popover-basic">
+                      <Popover.Header as="h3">{hdr.text}</Popover.Header>
+                      <Popover.Body>{hdr.tip}</Popover.Body>
+                    </Popover>
+                  }>
+                  <td onClick={input.onHeaderClick} id={hdr.id} className="header-cell">{hdr.text}</td>
+                </OverlayTrigger>
+              )
+            })}
+          </tr>
+        </thead>
+        <tbody>
+          {cards.map(function (card) {
+            if (shouldSkip(card, input)) {
+              return
+            }
+            let sort = sortValue(input.sortBy, card)
+            return (
+              <tr className="widget-table-row" sort={sort} key={card.name}>
+                {columns.map((col, ci) => col.cell(card, input, ci))}
+              </tr>
+            )
+          }).sort(SortFunc)}
+        </tbody>
+      </table>
+    </div>
+  )
+}
+
 function CardWidgetTable(input) {
-  // Convert the cardData map to a list for sorting purposes.
   let cards = []
   for (let [name, card] of input.cardData) {
     cards.push(card)
   }
-
-  let headers = [
-    {
-      id: "colors",
-      text: "Color Identity",
-      tip: "Color identity of the card.",
-    },
-    {
-      id: "card",
-      text: "Card",
-      tip: "Card name. Click on the cell to focus the card and display it in graphs."
-    },
-    {
-      id: "mainboarded",
-      text: "Deck%",
-      tip: "Percentage of drafts this card is included in a mainboard."
-    },
-    {
-      id: "mb",
-      text: "# M",
-      tip: "Number of times this card has been mainboarded.",
-    },
-    {
-      id: "sb",
-      text: "# S",
-      tip: "Number of times this card has been sideboarded.",
-    },
-    {
-      id: "in-color-sb",
-      text: "# S (playable)",
-      tip: "Number of times this card has been sideboarded but was playable based on the decks color identity.",
-    },
-    {
-      id: "games",
-      text: "# Games",
-      tip: "Number of games played by decks that included this card.",
-    },
-    {
-      id: "players",
-      text: "# Players",
-      tip: "Number of unique players who have mainboarded this card.",
-    },
-    {
-      id: "labels",
-      text: "# Labels",
-      tip: "Number of unique archetype labels that have mainboarded this card.",
-    },
-    {
-      id: "elo",
-      text: "Pick ELO",
-      tip: "An ELO ranking based on card pick order in packs, with slight weighting.",
-    },
-    {
-      id: "match_elo",
-      text: "Match ELO",
-      tip: "An ELO ranking computed from actual match results, weighted by opponent strength. Cards never played in a match sit at the 1200 baseline.",
-    },
-    {
-      id: "lastPlayed",
-      text: "Last played",
-      tip: "Date of the draft that this card was last included in a mainboard.",
-    },
-    {
-      id: "wordcount",
-      text: "Words",
-      tip: "Number of words in the card's oracle text, excluding reminder text.",
-    },
-  ]
-
-
-  let winTableHeaders = [
-    {
-      id: "colors",
-      text: "Color Identity",
-      tip: "Color identity of the card.",
-    },
-    {
-      id: "card",
-      text: "Card",
-      tip: "Card name. Click on the cell to focus the card and display it in graphs."
-    },
-    {
-      id: "wins",
-      text: "Win%",
-      tip: "Win percentage of decks that include this card in their mainboard.",
-    },
-    {
-      id: "pow",
-      text: "% of Wins",
-      tip: "Percentage of all wins that included this card in the winning deck.",
-    },
-    {
-      id: "trophies",
-      text: "Trophies",
-      tip: "Number of 3-0 decks this card has been in.",
-    },
-    {
-      id: "last_place",
-      text: "Last place",
-      tip: "Number of 0-3 decks this card has been in.",
-    },
-    {
-      id: "games",
-      text: "# Games",
-      tip: "Number of games played by decks that included this card.",
-    },
-    {
-      id: "draws",
-      text: "# Draws",
-      tip: "Number of drawn matches played by decks that included this card.",
-    },
-    {
-      id: "expected_win_percent",
-      text: "Exp. Win %",
-      tip: "Expected win % of this card based on win percentages of players who have played this card.",
-    },
-  ]
-
-  let vsArchTableHeaders = [
-    {
-      id: "colors",
-      text: "Color Identity",
-      tip: "Color identity of the card.",
-    },
-    {
-      id: "card",
-      text: "Card",
-      tip: "Card name. Click on the cell to focus the card and display it in graphs."
-    },
-    {
-      id: "games",
-      text: "# Games",
-      tip: "Number of games played by decks that included this card.",
-    },
-    {
-      id: "vsaggro",
-      text: "vs Aggro",
-      tip: "Win percentage of decks that included this card in their mainboard when playing against aggro archetypes.",
-    },
-    {
-      id: "vscontrol",
-      text: "vs Control",
-      tip: "Win percentage of decks that included this card in their mainboard when playing against control archetypes.",
-    },
-    {
-      id: "vsmidrange",
-      text: "vs Midrange",
-      tip: "Win percentage of decks that included this card in their mainboard when playing against midrange archetypes.",
-    },
-  ]
-
-  let byArchTableHeaders = [
-    {
-      id: "colors",
-      text: "Color Identity",
-      tip: "Color identity of the card.",
-    },
-    {
-      id: "card",
-      text: "Card",
-      tip: "Card name. Click on the cell to focus the card and display it in graphs."
-    },
-    {
-      id: "games",
-      text: "# Games",
-      tip: "Number of games played by decks that included this card.",
-    },
-    {
-      id: "inaggro",
-      text: "in Aggro",
-      tip: "Win percentage of this card when played in aggro decks.",
-    },
-    {
-      id: "incontrol",
-      text: "in Control",
-      tip: "Win percentage of this card when played in control decks.",
-    },
-    {
-      id: "inmidrange",
-      text: "in Midrange",
-      tip: "Win percentage of this card when played in midrange decks.",
-    },
-  ]
-
-
-
-  if (input.dropdownSelection === "Mainboard rate") {
-    return (
-      <div className="table-scroll">
-        <table className="widget-table">
-          <thead className="table-header">
-            <tr>
-            {
-              headers.map(function(hdr, i) {
-                return (
-                  <OverlayTrigger
-                    key={i}
-                    placement="top"
-                    delay={{ show: 100, hide: 100 }}
-                    overlay={
-                      <Popover id="popover-basic">
-                        <Popover.Header as="h3">{hdr.text}</Popover.Header>
-                        <Popover.Body>
-                          {hdr.tip}
-                        </Popover.Body>
-                      </Popover>
-                    }
-                  >
-                    <td onClick={input.onHeaderClick} id={hdr.id} className="header-cell">{hdr.text}</td>
-                  </OverlayTrigger>
-                );
-              })
-            }
-            </tr>
-          </thead>
-          <tbody>
-          {
-            cards.map(function(card) {
-              if (shouldSkip(card, input)) {
-                return
-              }
-
-              let imgs = ColorImages(card.color_identity)
-
-              // Determine sort order.
-              let sort = sortValue(input.sortBy, card)
-              let players = Object.entries(card.players)
-
-              return (
-                <tr className="widget-table-row" sort={sort} key={card.name}>
-                  <td>{imgs}</td>
-                  <OverlayTrigger
-                    placement="right"
-                    delay={{ show: 500, hide: 100 }}
-                    overlay={
-                      <Popover id="popover-basic" style={{maxWidth: 'none'}}>
-                        <Popover.Header as="h3">Played by</Popover.Header>
-                        <Popover.Body>
-                          {CardMainboardTooltipContent(card)}
-                        </Popover.Body>
-                      </Popover>
-                    }
-                  >
-                    <td id={card.name} onClick={input.onCardSelected}><a href={card.url} target="_blank" rel="noopener noreferrer">{card.name}</a></td>
-                  </OverlayTrigger>
-
-                  <td id={card.name} onClick={input.onCardSelected} key="name">{card.mainboard_percent.toFixed(0)}%</td>
-                  <td>{card.mainboard}</td>
-                  <td>{card.sideboard}</td>
-                  <td>{card.playable_sideboard}</td>
-                  <td>{card.total_games}</td>
-                  <td>{players.length}</td>
-                  <td>{Object.entries(card.archetypes).length}</td>
-                  <td>{card.elo}</td>
-                  <td>{card.match_elo}</td>
-                  <td>{card.last_mainboarded}</td>
-                  <td>{card.word_count}</td>
-                </tr>
-              )
-            }).sort(SortFunc)
-          }
-          </tbody>
-        </table>
-      </div>
-    );
-  } else if (input.dropdownSelection === "Win rate") {
-    return (
-      <div className="table-scroll">
-        <table className="widget-table">
-          <thead className="table-header">
-            <tr>
-            {
-              winTableHeaders.map(function(hdr, i) {
-                return (
-                  <OverlayTrigger
-                    key={i}
-                    placement="top"
-                    delay={{ show: 100, hide: 100 }}
-                    overlay={
-                      <Popover id="popover-basic">
-                        <Popover.Header as="h3">{hdr.text}</Popover.Header>
-                        <Popover.Body>
-                          {hdr.tip}
-                        </Popover.Body>
-                      </Popover>
-                    }
-                  >
-                    <td onClick={input.onHeaderClick} id={hdr.id} className="header-cell">{hdr.text}</td>
-                  </OverlayTrigger>
-                );
-              })
-            }
-            </tr>
-          </thead>
-          <tbody>
-            {
-              cards.map(function(card) {
-                if (shouldSkip(card, input)) {
-                  return
-                }
-
-                let imgs = ColorImages(card.color_identity)
-
-                // Determine sort value. Default to win percentage.
-                let sort = sortValue(input.sortBy, card)
-
-                // Return the row.
-                return (
-                  <tr sort={sort} className="widget-table-row" key={card.name}>
-                    <td>{imgs}</td>
-                    <OverlayTrigger
-                      placement="right"
-                      delay={{ show: 500, hide: 100 }}
-                      overlay={
-                        <Popover id="popover-basic" style={{maxWidth: 'none'}}>
-                          <Popover.Header as="h3">Played by</Popover.Header>
-                          <Popover.Body>
-                            {CardMainboardTooltipContent(card)}
-                          </Popover.Body>
-                        </Popover>
-                      }
-                    >
-                      <td id={card.name} onClick={input.onCardSelected}><a href={card.url} target="_blank" rel="noopener noreferrer">{card.name}</a></td>
-                    </OverlayTrigger>
-
-                    <td id={card.name} onClick={input.onCardSelected} key="win_percent">{card.win_percent.toFixed(0)}%</td>
-                    <td id={card.name} onClick={input.onCardSelected} key="pow">{card.percent_of_wins.toFixed(0)}%</td>
-                    <td id={card.name} onClick={input.onCardSelected} key="trophies">{card.trophies}</td>
-                    <td id={card.name} onClick={input.onCardSelected} key="lastplace">{card.last_place}</td>
-                    <td id={card.name} onClick={input.onCardSelected} key="games">{card.total_games}</td>
-                    <td id={card.name} onClick={input.onCardSelected} key="draws">{card.draws}</td>
-                    <td>{card.expected_win_percent.toFixed(0)}%</td>
-                  </tr>
-                )
-              }).sort(SortFunc)
-            }
-          </tbody>
-        </table>
-      </div>
-    );
-  } else if (input.dropdownSelection === "Versus archetype") {
-    return (
-      <div className="table-scroll">
-        <table className="widget-table">
-          <thead className="table-header">
-            <tr>
-            {
-              vsArchTableHeaders.map(function(hdr, i) {
-                return (
-                  <OverlayTrigger
-                    key={i}
-                    placement="top"
-                    delay={{ show: 100, hide: 100 }}
-                    overlay={
-                      <Popover id="popover-basic">
-                        <Popover.Header as="h3">{hdr.text}</Popover.Header>
-                        <Popover.Body>
-                          {hdr.tip}
-                        </Popover.Body>
-                      </Popover>
-                    }
-                  >
-                    <td onClick={input.onHeaderClick} id={hdr.id} className="header-cell">{hdr.text}</td>
-                  </OverlayTrigger>
-                );
-              })
-            }
-            </tr>
-          </thead>
-          <tbody>
-            {
-              cards.map(function(card) {
-                if (shouldSkip(card, input)) {
-                  return
-                }
-
-                let imgs = ColorImages(card.color_identity)
-
-                // Determine sort value. Default to win percentage.
-                let sort = sortValue(input.sortBy, card)
-
-                // Return the row.
-                return (
-                  <tr sort={sort} className="widget-table-row" key={card.name}>
-                    <td>{imgs}</td>
-                    <OverlayTrigger
-                      placement="right"
-                      delay={{ show: 500, hide: 100 }}
-                      overlay={
-                        <Popover id="popover-basic" style={{maxWidth: 'none'}}>
-                          <Popover.Header as="h3">Played by</Popover.Header>
-                          <Popover.Body>
-                            {CardMainboardTooltipContent(card)}
-                          </Popover.Body>
-                        </Popover>
-                      }
-                    >
-                      <td id={card.name} onClick={input.onCardSelected}><a href={card.url} target="_blank" rel="noopener noreferrer">{card.name}</a></td>
-                    </OverlayTrigger>
-                    <td id={card.name} onClick={input.onCardSelected} key="games">{card.total_games}</td>
-                    <td id={card.name} onClick={input.onCardSelected} key="vsaggro">{card.against_archetype.aggro.win_percent.toFixed(0)}%</td>
-                    <td id={card.name} onClick={input.onCardSelected} key="vscontrol">{card.against_archetype.control.win_percent.toFixed(0)}%</td>
-                    <td id={card.name} onClick={input.onCardSelected} key="vsmidrange">{card.against_archetype.midrange.win_percent.toFixed(0)}%</td>
-                  </tr>
-                )
-              }).sort(SortFunc)
-            }
-          </tbody>
-        </table>
-      </div>
-    );
-  } else {
-    return (
-      <div className="table-scroll">
-        <table className="widget-table">
-          <thead className="table-header">
-            <tr>
-            {
-              byArchTableHeaders.map(function(hdr, i) {
-                return (
-                  <OverlayTrigger
-                    key={i}
-                    placement="top"
-                    delay={{ show: 100, hide: 100 }}
-                    overlay={
-                      <Popover id="popover-basic">
-                        <Popover.Header as="h3">{hdr.text}</Popover.Header>
-                        <Popover.Body>
-                          {hdr.tip}
-                        </Popover.Body>
-                      </Popover>
-                    }
-                  >
-                    <td onClick={input.onHeaderClick} id={hdr.id} className="header-cell">{hdr.text}</td>
-                  </OverlayTrigger>
-                );
-              })
-            }
-            </tr>
-          </thead>
-          <tbody>
-            {
-              cards.map(function(card) {
-                if (shouldSkip(card, input)) {
-                  return
-                }
-
-                let imgs = ColorImages(card.color_identity)
-
-                // Determine sort value. Default to win percentage.
-                let sort = sortValue(input.sortBy, card)
-
-                // Return the row.
-                return (
-                  <tr sort={sort} className="widget-table-row" key={card.name}>
-                    <td>{imgs}</td>
-                    <OverlayTrigger
-                      placement="right"
-                      delay={{ show: 500, hide: 100 }}
-                      overlay={
-                        <Popover id="popover-basic" style={{maxWidth: 'none'}}>
-                          <Popover.Header as="h3">Played by</Popover.Header>
-                          <Popover.Body>
-                            {CardMainboardTooltipContent(card)}
-                          </Popover.Body>
-                        </Popover>
-                      }
-                    >
-                      <td id={card.name} onClick={input.onCardSelected}><a href={card.url} target="_blank" rel="noopener noreferrer">{card.name}</a></td>
-                    </OverlayTrigger>
-                    <td id={card.name} onClick={input.onCardSelected} key="games">{card.total_games}</td>
-                    <td id={card.name} onClick={input.onCardSelected} key="inaggro">{card.by_archetype.aggro.win_percent.toFixed(0)}%</td>
-                    <td id={card.name} onClick={input.onCardSelected} key="incontrol">{card.by_archetype.control.win_percent.toFixed(0)}%</td>
-                    <td id={card.name} onClick={input.onCardSelected} key="inmidrange">{card.by_archetype.midrange.win_percent.toFixed(0)}%</td>
-                  </tr>
-                )
-              }).sort(SortFunc)
-            }
-          </tbody>
-        </table>
-      </div>
-    );
+  switch (input.dropdownSelection) {
+    case "Metadata":
+      return CardStatsTable(cards, METADATA_COLUMNS, input)
+    case "Versus archetype":
+      return CardStatsTable(cards, VS_ARCH_COLUMNS, input)
+    case "By archetype":
+      return CardStatsTable(cards, BY_ARCH_COLUMNS, input)
+    default:
+      return CardStatsTable(cards, OVERVIEW_COLUMNS, input)
   }
 }
 
@@ -1436,139 +1130,6 @@ function reputationColor(identity) {
     return Colors.get(identity[0]) || "#b0b0b0"
   }
   return "#d4af37"
-}
-
-// ReputationChart plots a card's draft-Elo percentile (Cube Cobra's global pick
-// reputation) against its match-Elo percentile (how it actually performed here).
-// Points above the diagonal overperform their reputation; below, they underperform.
-// Only renders once draft Elo has been populated (index --cc-cube) and there are
-// cards with match results to rank.
-function ReputationChart(input) {
-  // A point needs both axes: a recognized draft Elo and real match results.
-  let pts = []
-  for (let [, card] of input.cardData) {
-    if (shouldSkip(card, input)) {
-      continue
-    }
-    let games = card.wins + card.losses + card.draws
-    if (!card.draft_elo || games <= 0) {
-      continue
-    }
-    pts.push(card)
-  }
-  if (pts.length < 2) {
-    return null
-  }
-
-  // Draft Elo (global, wide range) and match Elo (local, narrow range) live on
-  // different scales, so rank each within this set before plotting.
-  let draftSorted = pts.map(c => c.draft_elo).sort((a, b) => a - b)
-  let matchSorted = pts.map(c => c.match_elo).sort((a, b) => a - b)
-  function pct(sorted, v) {
-    let less = 0
-    let equal = 0
-    for (let x of sorted) {
-      if (x < v) {
-        less++
-      } else if (x === v) {
-        equal++
-      }
-    }
-    return 100 * (less + 0.5 * equal) / sorted.length
-  }
-
-  let values = []
-  let backgroundColors = []
-  let sizes = []
-  for (let card of pts) {
-    let games = card.wins + card.losses + card.draws
-    values.push({x: pct(draftSorted, card.draft_elo), y: pct(matchSorted, card.match_elo)})
-    if (card.name === input.selectedCard) {
-      backgroundColors.push("#FFF")
-      sizes.push(11)
-    } else {
-      backgroundColors.push(reputationColor(card.color_identity))
-      // Bigger point = more games behind the match Elo, so high-sample cards read
-      // as more trustworthy.
-      sizes.push(Math.max(3, Math.min(9, 2 + Math.sqrt(games))))
-    }
-  }
-
-  let dataset = [
-    {
-      label: "Cards",
-      data: values,
-      pointBackgroundColor: backgroundColors,
-      pointRadius: sizes,
-      pointHoverRadius: 12,
-    },
-    {
-      type: "line",
-      label: "Reputation = reality",
-      data: [{x: 0, y: 0}, {x: 100, y: 100}],
-      borderColor: "#888",
-      borderDash: [6, 6],
-      pointRadius: 0,
-      pointHoverRadius: 0,
-      fill: false,
-    },
-  ]
-
-  const options = {
-    responsive: true,
-    maintainAspectRatio: false,
-    scales: {
-      y: {
-        title: {display: true, text: "Match Elo percentile (reality)", font: {size: 20, weight: "bold"}, color: "white"},
-        min: 0,
-        max: 100,
-        ticks: ticks,
-      },
-      x: {
-        title: {display: true, text: "Cube Cobra draft Elo percentile (reputation)", font: {size: 20, weight: "bold"}, color: "white"},
-        min: 0,
-        max: 100,
-        ticks: ticks,
-      },
-    },
-    plugins: {
-      title: {
-        display: true,
-        text: "Reputation vs. Reality",
-        color: "#FFF",
-        font: {size: "16pt"},
-      },
-      subtitle: {
-        display: true,
-        text: "Above the line = wins more than its draft reputation suggests",
-        color: "#BBB",
-        font: {size: "12pt"},
-      },
-      tooltip: {
-        callbacks: {
-          label: function(ctx) {
-            if (ctx.datasetIndex !== 0) {
-              return ""
-            }
-            let card = pts[ctx.dataIndex]
-            return `${card.name}: draft ${card.draft_elo} (p${Math.round(ctx.parsed.x)}) -> match ${card.match_elo} (p${Math.round(ctx.parsed.y)})`
-          },
-        },
-      },
-      legend: {
-        labels: {color: "#FFF", font: {size: "16pt"}},
-      },
-    },
-  }
-
-  const data = {datasets: dataset}
-  return (
-    <div className="chart-container" align="center">
-      <div align="center" style={{"height": "800px", "width": "100%"}}>
-        <Scatter className="chart" options={options} data={data} />
-      </div>
-    </div>
-  )
 }
 
 function getScales(axis, force) {

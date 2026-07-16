@@ -19,7 +19,7 @@ export function useStatsFilters() {
   const [colorSortBy, setColorSortBy] = useState("win");
   const [colorMode, setColorMode] = useState("inclusive");
   const [colorCheckboxes, setColorCheckboxes] = useState([false, false, false, false, false]);
-  const [cardWidgetSelection, setCardWidgetSelection] = useState("Mainboard rate");
+  const [cardWidgetSelection, setCardWidgetSelection] = useState("Overview");
   const [minDrafts, setMinDrafts] = useState(0);
   const [minGames, setMinGames] = useState(0);
   const [minPlayers, setMinPlayers] = useState(0);
