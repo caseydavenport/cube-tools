@@ -3,7 +3,7 @@ import { useCube } from "../contexts/CubeContext.js"
 import { DropdownHeader, DateSelector, NumericInput, Button } from "../components/Dropdown.js"
 import { PredicateBuilder } from "../components/PredicateBuilder.js"
 import { bucketXScale } from "../utils/Buckets.js"
-import { Colors as COLOR_HEXES } from "../utils/Colors.js"
+import { guildColor } from "../utils/Colors.js"
 
 import {
   Chart as ChartJS,
@@ -134,26 +134,11 @@ function winColor(c) {
   return absColor(c.win_pct)
 }
 
-// barColor tints a group's bar by its color identity (mono uses the color, a
-// guild pair blends its two). Non-color dimensions fall back to green.
+// barColor tints a group's bar by its color identity (shared guildColor scheme).
+// Non-color dimensions fall back to green.
 function barColor(dim, key) {
-  if (isColorDim(dim) && key) {
-    if (key.length === 1) return COLOR_HEXES.get(key) || "rgba(40, 167, 69, 0.7)"
-    const parts = [...key].map(c => COLOR_HEXES.get(c)).filter(Boolean)
-    if (parts.length) return blendHex(parts)
-  }
+  if (isColorDim(dim) && key) return guildColor(key)
   return "rgba(40, 167, 69, 0.7)"
-}
-
-function blendHex(hexes) {
-  let r = 0, g = 0, b = 0
-  for (const h of hexes) {
-    r += parseInt(h.slice(1, 3), 16)
-    g += parseInt(h.slice(3, 5), 16)
-    b += parseInt(h.slice(5, 7), 16)
-  }
-  const n = hexes.length
-  return `rgb(${Math.round(r / n)}, ${Math.round(g / n)}, ${Math.round(b / n)})`
 }
 
 function metricText(metric, c) {

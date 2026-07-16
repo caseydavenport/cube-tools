@@ -64,6 +64,25 @@ export let Colors = new Map([
   ["G", Green],
 ])
 
+// guildColor returns a display color for a color identity (a string like "WU" or
+// an array of letters): the single-color hex for mono, or an even blend of the
+// component hexes for multicolor - so Azorius reads as a white/blue blend, etc.
+// Colorless or unknown falls back to neutral gray. Shared so every page that
+// shows guilds as colors uses the same scheme.
+export function guildColor(identity) {
+  const parts = [...(identity || [])].map((c) => Colors.get(c)).filter(Boolean)
+  if (parts.length === 0) return "#888888"
+  if (parts.length === 1) return parts[0]
+  let r = 0, g = 0, b = 0
+  for (const h of parts) {
+    r += parseInt(h.slice(1, 3), 16)
+    g += parseInt(h.slice(3, 5), 16)
+    b += parseInt(h.slice(5, 7), 16)
+  }
+  const n = parts.length
+  return `rgb(${Math.round(r / n)}, ${Math.round(g / n)}, ${Math.round(b / n)})`
+}
+
 // CombineColors returns the canonical name for the color pairing,
 // so that we don't double count. e.g., UB and BU.
 export function CombineColors(colors) {

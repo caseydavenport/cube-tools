@@ -1,9 +1,9 @@
 import React from 'react'
 import { DropdownHeader, NumericInput, DateSelector } from "../components/Dropdown.js"
-import { Colors, ColorImages, GetColorIdentity, primaryColorPair, CUBE_AVG_WIN_PERCENT, deltaPositiveFill, deltaNegativeFill } from "../utils/Colors.js"
+import { Colors, ColorImages, GetColorIdentity, primaryColorPair, CUBE_AVG_WIN_PERCENT, deltaPositiveFill, deltaNegativeFill, guildColor } from "../utils/Colors.js"
 import { Trophies, LastPlaceFinishes, Wins, Losses } from "../utils/Deck.js"
 import { bucketXScale } from "../utils/Buckets.js"
-import { AverageWordCount, CountManaPips, IsBasicLand, MinWinningPctDecks, Pct, SortFunc, StringToColor } from "../utils/Utils.js"
+import { AverageWordCount, CountManaPips, IsBasicLand, MinWinningPctDecks, Pct, SortFunc } from "../utils/Utils.js"
 
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Popover from 'react-bootstrap/Popover';
@@ -909,8 +909,8 @@ function ColorRateChart(input) {
     dualColorDatasets.push({
       label: colorNames.get(color) ?? color,
       data: colorDatasets.get(color),
-      borderColor: StringToColor(color),
-      backgroundColor: StringToColor(color),
+      borderColor: guildColor(color),
+      backgroundColor: guildColor(color),
       hoverBorderColor: hoverBorderColor,
       hoverBorderWidth: hoverBorderWidth,
     })
@@ -921,8 +921,8 @@ function ColorRateChart(input) {
     triColorDatasets.push({
       label: colorNames.get(color) ?? color,
       data: colorDatasets.get(color),
-      borderColor: StringToColor(color),
-      backgroundColor: StringToColor(color),
+      borderColor: guildColor(color),
+      backgroundColor: guildColor(color),
       hoverBorderColor: hoverBorderColor,
       hoverBorderWidth: hoverBorderWidth,
     })
