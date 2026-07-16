@@ -1965,3 +1965,9 @@ table {
 .player-chip.excluded { opacity: 0.45; text-decoration: line-through; }
 .player-chip input { cursor: pointer; }
 .player-count { color: var(--text-muted); font-size: 0.75rem; }
+
+/* Compact key/value table used inside Cards page hover popovers. */
+.popover-table { border-collapse: collapse; width: 100%; }
+.popover-table td { padding: 2px 0; font-size: 0.85rem; }
+.popover-table-label { color: var(--text-muted); padding-right: 1.25rem !important; }
+.popover-table-value { text-align: right; font-weight: 600; }

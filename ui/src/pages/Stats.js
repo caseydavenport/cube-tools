@@ -54,7 +54,7 @@ export function StatsViewer(props) {
     cardWidgetSelection, setCardWidgetSelection, minDrafts, setMinDrafts, minGames, setMinGames,
     minPlayers, setMinPlayers, maxPlayers, setMaxPlayers, selectedCard, setSelectedCard,
     cardFilter, setCardFilter, tagFilter, setTagFilter, cardWidgetColorSelection, setCardWidgetColorSelection,
-    cardWidgetSortBy, setCardWidgetSortBy, cardXAxis, setCardXAxis, cardYAxis, setCardYAxis,
+    cardWidgetSortBy, setCardWidgetSortBy, cardWidgetSortInvert, setCardWidgetSortInvert, cardXAxis, setCardXAxis, cardYAxis, setCardYAxis,
     deckXAxis, setDeckXAxis, deckYAxis, setDeckYAxis,
     playerSortBy, setPlayerSortBy, playerSortInvert, setPlayerSortInvert,
     oppSortBy, setOppSortBy, oppSortInvert, setOppSortInvert,
@@ -182,9 +182,17 @@ export function StatsViewer(props) {
           minGames={minGames} onMinGamesSelected={(e) => setMinGames(e.target.value)}
           minPlayers={minPlayers} maxPlayers={maxPlayers} onMinPlayersSelected={(e) => setMinPlayers(e.target.value)}
           onMaxPlayersSelected={(e) => setMaxPlayers(e.target.value)}
-          onHeaderClick={(e) => setCardWidgetSortBy(e.currentTarget.id)}
+          onHeaderClick={(e) => {
+            const id = e.currentTarget.id
+            if (id === cardWidgetSortBy) {
+              setCardWidgetSortInvert(v => !v)
+            } else {
+              setCardWidgetSortBy(id)
+              setCardWidgetSortInvert(false)
+            }
+          }}
           manaValue={manaValue} onManaValueSelected={(e) => setManaValue(e.target.value)}
-          sortBy={cardWidgetSortBy} bucketSize={bucketSize} cube={cube}
+          sortBy={cardWidgetSortBy} sortInvert={cardWidgetSortInvert} bucketSize={bucketSize} cube={cube}
           xAxis={cardXAxis} yAxis={cardYAxis} onXAxisSelected={(e) => setCardXAxis(e.target.value)}
           onYAxisSelected={(e) => setCardYAxis(e.target.value)}
           show={display[2]}

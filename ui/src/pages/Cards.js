@@ -259,6 +259,12 @@ function sortValue(sortBy, card) {
     case "expected_win_percent":
       sort = card.expected_win_percent
       break;
+    case "delta_exp":
+      // Cards with no expected win % (too few games) are blank (NaN) so they sink
+      // to the bottom in both sort directions rather than sorting as if their
+      // whole win rate were the delta.
+      sort = card.expected_win_percent ? (card.win_percent - card.expected_win_percent) : NaN
+      break;
     case "trophies":
       sort = card.trophies
       break
@@ -343,27 +349,40 @@ function popoverValueCell(card, input, key, value, title, body) {
 }
 
 // deckPctCell shows mainboard rate, with exact mainboard/sideboard counts on hover.
-function deckPctCell(card, input, key) {
-  const body = (
-    <div>
-      Mainboarded: {card.mainboard}<br />
-      Sideboarded: {card.sideboard}<br />
-      Playable sideboard: {card.playable_sideboard}
-    </div>
+// popoverTable renders label/value rows as a compact two-column table for
+// popover bodies.
+function popoverTable(rows) {
+  return (
+    <table className="popover-table">
+      <tbody>
+        {rows.map(([label, value], i) => (
+          <tr key={i}>
+            <td className="popover-table-label">{label}</td>
+            <td className="popover-table-value">{value}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
   )
+}
+
+function deckPctCell(card, input, key) {
+  const body = popoverTable([
+    ["Mainboarded", card.mainboard],
+    ["Sideboarded", card.sideboard],
+    ["Playable sideboard", card.playable_sideboard],
+  ])
   return popoverValueCell(card, input, key, `${card.mainboard_percent.toFixed(0)}%`, "Board counts", body)
 }
 
 // winPctCell shows win rate, with the full record detail on hover.
 function winPctCell(card, input, key) {
-  const body = (
-    <div>
-      Record: {card.wins}W - {card.losses}L - {card.draws}D<br />
-      Trophies (3-0): {card.trophies}<br />
-      Last place (0-3): {card.last_place}<br />
-      % of all wins: {card.percent_of_wins.toFixed(0)}%
-    </div>
-  )
+  const body = popoverTable([
+    ["Record", `${card.wins}-${card.losses}-${card.draws}`],
+    ["Trophies (3-0)", card.trophies],
+    ["Last place (0-3)", card.last_place],
+    ["% of all wins", `${card.percent_of_wins.toFixed(0)}%`],
+  ])
   return popoverValueCell(card, input, key, `${card.win_percent.toFixed(0)}%`, "Win detail", body)
 }
 
@@ -441,24 +460,39 @@ function CardStatsTable(cards, columns, input) {
                       <Popover.Body>{hdr.tip}</Popover.Body>
                     </Popover>
                   }>
-                  <td onClick={input.onHeaderClick} id={hdr.id} className="header-cell">{hdr.text}</td>
+                  <td onClick={input.onHeaderClick} id={hdr.id} className="header-cell">
+                    {hdr.text}{input.sortBy === hdr.id ? (input.sortInvert ? " ▲" : " ▼") : ""}
+                  </td>
                 </OverlayTrigger>
               )
             })}
           </tr>
         </thead>
         <tbody>
-          {cards.map(function (card) {
-            if (shouldSkip(card, input)) {
-              return
-            }
-            let sort = sortValue(input.sortBy, card)
-            return (
-              <tr className="widget-table-row" sort={sort} key={card.name}>
-                {columns.map((col, ci) => col.cell(card, input, ci))}
-              </tr>
-            )
-          }).sort(SortFunc)}
+          {(() => {
+            let rows = cards.filter(card => !shouldSkip(card, input)).map(function (card) {
+              let sort = sortValue(input.sortBy, card)
+              return (
+                <tr className="widget-table-row" sort={sort} key={card.name}>
+                  {columns.map((col, ci) => col.cell(card, input, ci))}
+                </tr>
+              )
+            })
+            // Descending by default; sortInvert flips to ascending. Blank (NaN)
+            // sort values always sink to the bottom, regardless of direction.
+            const dir = input.sortInvert ? -1 : 1
+            const blank = v => v === undefined || v === null || (typeof v === "number" && Number.isNaN(v))
+            rows.sort((a, b) => {
+              const av = a.props.sort, bv = b.props.sort
+              if (blank(av) && blank(bv)) return 0
+              if (blank(av)) return 1
+              if (blank(bv)) return -1
+              if (av < bv) return dir
+              if (av > bv) return -dir
+              return 0
+            })
+            return rows
+          })()}
         </tbody>
       </table>
     </div>

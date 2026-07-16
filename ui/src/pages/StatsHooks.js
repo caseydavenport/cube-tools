@@ -29,6 +29,7 @@ export function useStatsFilters() {
   const [tagFilter, setTagFilter] = useState("");
   const [cardWidgetColorSelection, setCardWidgetColorSelection] = useState("");
   const [cardWidgetSortBy, setCardWidgetSortBy] = useState("");
+  const [cardWidgetSortInvert, setCardWidgetSortInvert] = useState(false);
   const [cardXAxis, setCardXAxis] = useState("# Decks");
   const [cardYAxis, setCardYAxis] = useState("Pick ELO");
   const [deckXAxis, setDeckXAxis] = useState("# creatures");
@@ -82,6 +83,7 @@ export function useStatsFilters() {
     tagFilter, setTagFilter,
     cardWidgetColorSelection, setCardWidgetColorSelection,
     cardWidgetSortBy, setCardWidgetSortBy,
+    cardWidgetSortInvert, setCardWidgetSortInvert,
     cardXAxis, setCardXAxis,
     cardYAxis, setCardYAxis,
     deckXAxis, setDeckXAxis,
