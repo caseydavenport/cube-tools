@@ -1522,6 +1522,9 @@ export function GroupEditModal({ group, color, onSave, onCancel }) {
   const [highlightCondition, setHighlightCondition] = useState(null)
   const [highlightCard, setHighlightCard] = useState(null)
   const debounceRef = useRef(null)
+  // Baseline: the cards matching the group as currently saved, so the live preview
+  // can show which cards the pending edits add (green) or remove (red).
+  const [baseline, setBaseline] = useState(null)
 
   // Fetch matching cards whenever conditions change (debounced).
   useEffect(() => {
@@ -1544,6 +1547,35 @@ export function GroupEditModal({ group, color, onSave, onCancel }) {
     }, 300)
     return () => { if (debounceRef.current) clearTimeout(debounceRef.current) }
   }, [editConditions])
+
+  // Fetch the saved group's members once (the diff baseline). A brand-new group
+  // (no saved conditions) has an empty baseline, so every match reads as added.
+  useEffect(() => {
+    const conditions = (group.conditions || []).map(c => c.trim()).filter(c => c)
+    if (conditions.length === 0) { setBaseline(new Set()); return }
+    let alive = true
+    fetch(`/api/${cube}/stats/design-graph/match`, {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({ conditions }),
+    })
+      .then(r => r.json())
+      .then(d => { if (alive) setBaseline(new Set((d.cards || []).map(c => c.name))) })
+      .catch(() => { if (alive) setBaseline(new Set()) })
+    return () => { alive = false }
+  }, [cube, (group.conditions || []).join("|")])
+
+  // Diff the live match against the baseline: added = now-matching but weren't;
+  // removed = were matching but no longer are (so they aren't in matchedCards).
+  const currentNames = React.useMemo(() => new Set(matchedCards.map(c => c.name)), [matchedCards])
+  const addedSet = React.useMemo(
+    () => baseline ? new Set([...currentNames].filter(n => !baseline.has(n))) : new Set(),
+    [currentNames, baseline],
+  )
+  const removedCards = React.useMemo(
+    () => baseline ? [...baseline].filter(n => !currentNames.has(n)).sort() : [],
+    [baseline, currentNames],
+  )
 
   // Clear highlights when conditions change.
   useEffect(() => {
@@ -1715,6 +1747,8 @@ export function GroupEditModal({ group, color, onSave, onCancel }) {
             <span style={{fontWeight: "normal", fontSize: "0.85em", marginLeft: "0.5rem"}}>
               {loading ? "..." : `(${matchedCards.length})`}
             </span>
+            {addedSet.size > 0 && <span style={{fontSize: "0.85em", marginLeft: "0.5rem", color: "#3fb950"}}>+{addedSet.size}</span>}
+            {removedCards.length > 0 && <span style={{fontSize: "0.85em", marginLeft: "0.35rem", color: "#f85149"}}>−{removedCards.length}</span>}
           </h4>
           <div style={{flex: 1, overflowY: "auto"}}>
             {matchedCards.length === 0 && !loading && (
@@ -1724,6 +1758,7 @@ export function GroupEditModal({ group, color, onSave, onCancel }) {
             )}
             {matchedCards.map(card => {
               const dimmed = highlightedCards && !highlightedCards.has(card.name)
+              const added = addedSet.has(card.name)
               return (
                 <ConditionTooltip
                   key={card.name}
@@ -1731,7 +1766,8 @@ export function GroupEditModal({ group, color, onSave, onCancel }) {
                   onClick={() => handleCardClick(card.name)}
                   style={{
                     fontSize: "0.8em",
-                    color: "var(--text-color)",
+                    color: added ? "#3fb950" : "var(--text-color)",
+                    fontWeight: added ? 600 : "normal",
                     padding: "2px 4px",
                     borderRadius: "3px",
                     cursor: "pointer",
@@ -1740,10 +1776,23 @@ export function GroupEditModal({ group, color, onSave, onCancel }) {
                     background: highlightCard === card.name ? "var(--page-background)" : "transparent",
                   }}
                 >
-                  {card.name}
+                  {added ? `+ ${card.name}` : card.name}
                 </ConditionTooltip>
               )
             })}
+            {removedCards.map(name => (
+              <div
+                key={"rm-" + name}
+                style={{
+                  fontSize: "0.8em",
+                  color: "#f85149",
+                  textDecoration: "line-through",
+                  padding: "2px 4px",
+                }}
+              >
+                − {name}
+              </div>
+            ))}
           </div>
         </div>
       </div>
