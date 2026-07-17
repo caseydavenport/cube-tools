@@ -7,6 +7,7 @@ import { PlayersPage } from './pages/PlayersPage.js'
 import { DraftsPage } from './pages/DraftsPage.js'
 import { ExplorePage } from './pages/ExplorePage.js'
 import { RemovalPage } from './pages/RemovalPage.js'
+import { DesignEditorPage } from './pages/DesignEditorPage.js'
 import {InitialDates} from './components/StatsUI.js'
 import { useState } from "react";
 import { CubeProvider } from './contexts/CubeContext.js';
@@ -103,6 +104,7 @@ export default function Main() {
           <Route path='synergy' element={<StatsViewer view='synergy' {...statsProps} />} />
           <Route path='health' element={<StatsViewer view='health' {...statsProps} />} />
           <Route path='designmap' element={<StatsViewer view='designmap' {...statsProps} />} />
+          <Route path='design-editor' element={<DesignEditorPage />} />
           <Route path='decklists' element={
             <DeckViewer
               startDate={startDate}

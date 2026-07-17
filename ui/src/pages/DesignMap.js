@@ -275,7 +275,7 @@ function useMatchCards(cube, conditions, groups) {
 // Fetch every card's group memberships once, each with the specific condition(s)
 // that matched. Returns name -> [{ group, conds: [...] }]. Used to explain exactly
 // why two cards are linked (which group each sits in, via which rule).
-function useAllMemberships(cube, groups) {
+export function useAllMemberships(cube, groups) {
   const [map, setMap] = useState({})
   const key = (groups || []).map(g => g.name + ":" + (g.conditions || []).join(",")).join("|")
   useEffect(() => {
@@ -314,7 +314,7 @@ function useAllMemberships(cube, groups) {
 
 // Explain why two cards are linked: for each rule connecting them, the specific
 // group each card belongs to (and the condition that put it there).
-function whyLinked(focusCard, neighbor, edges, linkByLabel, cardGroups) {
+export function whyLinked(focusCard, neighbor, edges, linkByLabel, cardGroups) {
   const labels = new Set()
   for (const e of edges) {
     const hit = (e.source === focusCard && e.target === neighbor) || (e.target === focusCard && e.source === neighbor)
@@ -786,7 +786,7 @@ function edgeColorFor(labels, linkIndex) {
   return null
 }
 
-function saveDesignMap(cube, groups, links, onRulesChanged, onStatus) {
+export function saveDesignMap(cube, groups, links, onRulesChanged, onStatus) {
   fetch(`/api/${cube}/save-design-rules`, {
     method: "POST",
     headers: {"Content-Type": "application/json"},
@@ -1497,7 +1497,7 @@ function GroupCard({ group, index, unused, confirmDelete, onDeleteClick, onConfi
   )
 }
 
-function GroupEditModal({ group, color, onSave, onCancel }) {
+export function GroupEditModal({ group, color, onSave, onCancel }) {
   const cube = useCube()
   const [editName, setEditName] = useState(group.name)
   const [editConditions, setEditConditions] = useState([...(group.conditions || [""])])
@@ -1778,7 +1778,7 @@ function useFetchGroupCards(selectedGroupNames, allGroups) {
   return { cards, loading }
 }
 
-function LinkEditModal({ link, color, groupNames, groups, onSave, onCancel, onGroupSaved }) {
+export function LinkEditModal({ link, color, groupNames, groups, onSave, onCancel, onGroupSaved }) {
   const [editLabel, setEditLabel] = useState(link.label || "")
   const [editSources, setEditSources] = useState([...(link.sources || [""])])
   const [editTargets, setEditTargets] = useState([...(link.targets || [""])])
@@ -2000,7 +2000,7 @@ const RULE_COLORS = [
   "#4ae6d9", "#e64a6a", "#8a6ae6", "#6ae68a", "#e6a64a",
 ]
 
-function ruleColor(index) {
+export function ruleColor(index) {
   return RULE_COLORS[index % RULE_COLORS.length]
 }
 
@@ -2350,7 +2350,7 @@ function ForceGraph({ nodes, edges, showLabels, hoveredId, selectedId, onHover, 
   )
 }
 
-function getNodeColor(colors) {
+export function getNodeColor(colors) {
   if (!colors || colors.length === 0) return "#aaa"
   if (colors.length > 1) return "#daa520"
   switch (colors[0]) {

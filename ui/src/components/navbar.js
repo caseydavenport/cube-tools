@@ -57,6 +57,7 @@ const SECTIONS = [
   { label: "Design", views: [
     { label: "Synergy", path: "synergy" },
     { label: "Map", path: "designmap" },
+    { label: "Editor", path: "design-editor" },
     { label: "Health", path: "health" },
   ]},
 ];
