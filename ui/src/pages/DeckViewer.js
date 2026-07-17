@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo, useRef } from 'react'
+import React, { useState, useEffect, useMemo, useRef, useLayoutEffect } from 'react'
 import { LoadCube, LoadDecks, FetchNotes, SaveNotes, SaveDeckMeta } from "../utils/Fetch.js"
 import { useCube } from "../contexts/CubeContext.js"
 import { Record, MatchRecord, Wins, Losses, Draws, MatchWins, MatchLosses, MatchDraws, InDeckColor } from "../utils/Deck.js"
@@ -64,6 +64,34 @@ export function DeckViewer(props) {
 
   // The deck currently being displayed.
   const [deck, setDeck] = useState("");
+
+  // Design-map edges (card-name to card-name synergy links), fetched once per
+  // cube. Used to show, on card hover, which other cards in the same deck a card
+  // links to. Just the edges - the deck viewer doesn't need the full graph.
+  const [synergyEdges, setSynergyEdges] = useState([]);
+  useEffect(() => {
+    let alive = true
+    fetch(`/api/${cube}/stats/design-graph`)
+      .then(r => r.json())
+      .then(d => { if (alive) setSynergyEdges(d.edges || []) })
+      .catch(() => { if (alive) setSynergyEdges([]) })
+    return () => { alive = false }
+  }, [cube]);
+
+  // Adjacency map: card name -> [{ other, labels }] for every card it links to,
+  // built once from the edges. Popovers filter this to the current deck.
+  const synergy = useMemo(() => {
+    const m = new Map()
+    const add = (a, b, labels) => {
+      if (!m.has(a)) m.set(a, [])
+      m.get(a).push({ other: b, labels: labels || [] })
+    }
+    for (const e of synergyEdges) {
+      add(e.source, e.target, e.rule_labels)
+      add(e.target, e.source, e.rule_labels)
+    }
+    return m
+  }, [synergyEdges]);
 
   // Dropdown for mainboard vs. sideboard.
   const [mainboardSideboard, setMainboardSideboard] = useState("Mainboard");
@@ -359,6 +387,7 @@ export function DeckViewer(props) {
             cube={cube}
             deck={deck}
             decks={decks}
+            synergy={synergy}
             comparisonDecks={comparisonDecks}
             mbsb={mainboardSideboard}
             matchStr={debouncedMatchStr}
@@ -527,6 +556,98 @@ function DeckTableCell(input) {
   );
 }
 
+
+// linkedInDeck returns the set of card names that the given card links to via the
+// design map and that are also present in this deck section. `synergy` is the
+// cube-wide adjacency (name -> [{other, labels}]); `present` is the set of names
+// rendered in this section.
+function linkedInDeck(name, synergy, present) {
+  const out = new Set()
+  if (!synergy || !present) return out
+  for (const n of (synergy.get(name) || [])) {
+    if (n.other !== name && present.has(n.other)) out.add(n.other)
+  }
+  return out
+}
+
+// DeckGrid renders the text decklist columns and overlays synergy connections:
+// hovering a card highlights the other cards in the deck it links to (per the
+// design map) and draws lines to them, so you can see how a deck's pieces fit
+// together without leaving the list.
+function DeckGrid({ deck, cards, sb, matchStr, synergy }) {
+  const [hovered, setHovered] = useState(null)
+  const containerRef = useRef(null)
+  const nodeRefs = useRef(new Map())
+  const [lines, setLines] = useState([])
+
+  // Reset the hover when the displayed cards change (e.g. switching decks or
+  // mainboard/sideboard), so stale highlights don't linger.
+  useEffect(() => { setHovered(null) }, [cards])
+
+  const byName = useMemo(() => new Map(cards.map(c => [c.name, c])), [cards])
+  const present = useMemo(() => new Set(byName.keys()), [byName])
+  const linked = useMemo(
+    () => hovered ? linkedInDeck(hovered, synergy, present) : null,
+    [hovered, synergy, present],
+  )
+  const hoveredCard = hovered ? byName.get(hovered) : null
+
+  const registerNode = (name, el) => {
+    if (el) nodeRefs.current.set(name, el)
+    else nodeRefs.current.delete(name)
+  }
+
+  // Recompute the connector lines whenever the hovered card (and thus its linked
+  // set) changes. Coordinates are relative to the grid container so they line up
+  // regardless of page scroll.
+  useLayoutEffect(() => {
+    if (!hovered || !linked || linked.size === 0 || !containerRef.current) {
+      setLines([])
+      return
+    }
+    const src = nodeRefs.current.get(hovered)
+    if (!src) { setLines([]); return }
+    const crect = containerRef.current.getBoundingClientRect()
+    const sr = src.getBoundingClientRect()
+    const sx = sr.left + sr.width / 2 - crect.left
+    const sy = sr.top + sr.height / 2 - crect.top
+    const next = []
+    for (const nm of linked) {
+      const el = nodeRefs.current.get(nm)
+      if (!el) continue
+      const r = el.getBoundingClientRect()
+      next.push({ key: nm, x1: sx, y1: sy, x2: r.left + r.width / 2 - crect.left, y2: r.top + r.height / 2 - crect.top })
+    }
+    setLines(next)
+  }, [hovered, linked])
+
+  const shared = { deck, cards, sb, matchStr, hovered, linked, onHover: setHovered, registerNode }
+
+  return (
+    <div className="deck-cards" ref={containerRef}>
+      {lines.length > 0 &&
+        <svg className="synergy-lines">
+          {lines.map(l => <line key={l.key} x1={l.x1} y1={l.y1} x2={l.x2} y2={l.y2} />)}
+        </svg>
+      }
+      <div className="deck-columns">
+        <CardList player={deck.player} {...shared} opts={{cmc: 1, lte: true}} />
+        <CardList player={deck.player} {...shared} opts={{cmc: 2}} />
+        <CardList player={deck.player} {...shared} opts={{cmc: 3}} />
+        <CardList player={deck.player} {...shared} opts={{cmc: 4}} />
+        <CardList player={deck.player} {...shared} opts={{cmc: 5, gt: true}} />
+      </div>
+      <div className="deck-lands">
+        <CardList player={deck.player} {...shared} opts={{lands: true}} />
+      </div>
+      {hoveredCard &&
+        <div className="deck-hover-preview">
+          <img src={CardImageURL(hoveredCard)} alt={hoveredCard.name} />
+        </div>
+      }
+    </div>
+  )
+}
 
 // MainDisplay prints out the given deck.
 function MainDisplay(input) {
@@ -776,18 +897,7 @@ function displayDeck(input) {
   return (
     <div className="deck-view">
       <PlayerFrame {...input} />
-      <div className="deck-cards">
-        <div className="deck-columns">
-          <CardList player={deck.player} cards={cards} deck={deck} sb={input.mbsb == "Sideboard"} opts={{cmc: 1, lte: true}} matchStr={input.matchStr} />
-          <CardList player={deck.player} cards={cards} deck={deck} sb={input.mbsb == "Sideboard"} opts={{cmc: 2}} matchStr={input.matchStr} />
-          <CardList player={deck.player} cards={cards} deck={deck} sb={input.mbsb == "Sideboard"} opts={{cmc: 3}} matchStr={input.matchStr} />
-          <CardList player={deck.player} cards={cards} deck={deck} sb={input.mbsb == "Sideboard"} opts={{cmc: 4}} matchStr={input.matchStr} />
-          <CardList player={deck.player} cards={cards} deck={deck} sb={input.mbsb == "Sideboard"} opts={{cmc: 5, gt: true}} matchStr={input.matchStr} />
-        </div>
-        <div className="deck-lands">
-          <CardList player={deck.player} cards={cards} deck={deck} sb={input.mbsb == "Sideboard"} opts={{lands: true}} matchStr={input.matchStr} />
-        </div>
-      </div>
+      <DeckGrid deck={deck} cards={cards} sb={input.mbsb == "Sideboard"} matchStr={input.matchStr} synergy={input.synergy} />
       <DeckReport cube={input.cube} player={deck.player} cardMap={cardMap} description={input.description} onDescriptionFetched={input.onDescriptionFetched} deck={deck} />
     </div>
   );
@@ -1101,7 +1211,7 @@ function PlayerFrame(input) {
   );
 }
 
-function CardList({player, cards, deck, sb, opts, matchStr, basicsOnly}) {
+function CardList({player, cards, deck, sb, opts, matchStr, basicsOnly, hovered, linked, onHover, registerNode}) {
   if (basicsOnly) return null; // Basics only section removed from text view.
 
   // Group all cards by name and count occurrences within this section. Lands
@@ -1216,29 +1326,34 @@ function CardList({player, cards, deck, sb, opts, matchStr, basicsOnly}) {
                       className += " card-playable-highlight"
                     }
 
+                    // Synergy hover: mark the hovered card, its linked cards, and
+                    // fade everything else so the connections stand out. Only when
+                    // the hovered card actually has in-deck links.
+                    if (linked && linked.size > 0) {
+                      if (hovered === card.name) {
+                        className += " synergy-source"
+                      } else if (linked.has(card.name)) {
+                        className += " synergy-linked"
+                      } else {
+                        className += " synergy-dim"
+                      }
+                    }
+
                     let imgs = ColorImages(card.colors)
                     return (
-                      <OverlayTrigger
+                      <a
                         key={rowKey}
-                        placement="right"
-                        delay={{ show: 200, hide: 100 }}
-                        overlay={
-                          <Popover id="popover-basic" style={{maxWidth: 'none'}}>
-                            <Popover.Body style={{padding: '0'}}>
-                              <img
-                                src={CardImageURL(card)}
-                                alt={card.name}
-                                style={{width: '250px', display: 'block', borderRadius: '12px'}}
-                              />
-                            </Popover.Body>
-                          </Popover>
-                        }
+                        ref={registerNode ? (el) => registerNode(card.name, el) : undefined}
+                        className={className}
+                        href={card.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onMouseEnter={onHover ? () => onHover(card.name) : undefined}
+                        onMouseLeave={onHover ? () => onHover(null) : undefined}
                       >
-                        <a className={className} href={card.url} target="_blank" rel="noopener noreferrer">
-                          <span className="decklist-pip">{imgs}</span>
-                          <span className="decklist-name">{text}</span>
-                        </a>
-                      </OverlayTrigger>
+                        <span className="decklist-pip">{imgs}</span>
+                        <span className="decklist-name">{text}</span>
+                      </a>
                     )
                   })
                 }

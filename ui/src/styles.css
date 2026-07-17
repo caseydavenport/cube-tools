@@ -1975,3 +1975,58 @@ table {
 /* Cards table: link to the decks that mainboarded a card. */
 .deck-link { color: var(--text-muted); text-decoration: none; font-size: 0.9em; }
 .deck-link:hover { color: var(--primary); }
+
+/* Synergy hover (deck text view): hovering a card highlights the other cards it
+   links to (per the design map) and draws connector lines between them. */
+.deck-cards { position: relative; }
+
+/* SVG overlay carrying the connector lines. Sits above the columns but lets
+   mouse events through so hovering still works. */
+.synergy-lines {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: visible;
+  z-index: 4;
+}
+.synergy-lines line {
+  stroke: var(--primary);
+  stroke-width: 2;
+  stroke-linecap: round;
+  opacity: 0.85;
+}
+
+/* The hovered card and the cards it links to stay fully lit and get an accent
+   rail; everything else fades back so the connections read at a glance. */
+.deck-cards .decklist-row.synergy-source,
+.deck-cards .decklist-row.synergy-linked {
+  background: var(--table-row-hover);
+  box-shadow: inset 3px 0 0 var(--primary);
+  position: relative;
+  z-index: 5;
+}
+.deck-cards .decklist-row.synergy-source { font-weight: 700; }
+.deck-cards .decklist-row.synergy-dim { opacity: 0.3; }
+
+/* Card image preview, pinned to the viewport corner so it never covers the grid
+   or the connector lines. Driven by the same hover as the highlight. */
+.deck-hover-preview {
+  position: fixed;
+  bottom: 1rem;
+  right: 1rem;
+  z-index: 50;
+  pointer-events: none;
+  animation: deck-hover-preview-in 0.12s ease-out;
+}
+.deck-hover-preview img {
+  display: block;
+  width: 240px;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.55);
+}
+@keyframes deck-hover-preview-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
