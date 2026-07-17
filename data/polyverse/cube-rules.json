@@ -10,11 +10,9 @@
       ]
     },
     {
-      "name": "Sac artifacts",
+      "name": "Auras",
       "conditions": [
-        "o:\"sacrifice another creature or artifact\"",
-        "o:\"sacrifice an artifact\"",
-        "o:\"sacrifice another artifact\""
+        "t:aura"
       ]
     },
     {
@@ -28,6 +26,25 @@
       "conditions": [
         "cmc\u003e4 !o:delve",
         "m:X"
+      ]
+    },
+    {
+      "name": "Birthing Ritual",
+      "conditions": [
+        "n:\"Birthing Ritual\""
+      ]
+    },
+    {
+      "name": "Buff targets",
+      "conditions": [
+        "t:creature o:flying",
+        "t:creature o:trample",
+        "t:creature o:menace",
+        "t:creature o:\"can't be blocked\" !o:\"creatures you control\"",
+        "t:creature o:\"first strike\"",
+        "t:creature o:\"double strike\"",
+        "t:creature o:\"its power\"",
+        "t:creature o:\"'s power\" !o:\"card types\""
       ]
     },
     {
@@ -52,14 +69,6 @@
         "o:blitz",
         "o:\"cast this\" o:\"from your graveyard\" !o:\"gains flashback\"",
         "o:\"cast it\" o:\"from your graveyard\""
-      ]
-    },
-    {
-      "name": "Recast spells",
-      "conditions": [
-        "o:\"gains flashback\"",
-        "o:\"have retrace\"",
-        "o:\"cast target\" o:\"from your graveyard\""
       ]
     },
     {
@@ -101,6 +110,34 @@
       ]
     },
     {
+      "name": "Counters on others",
+      "conditions": [
+        "o:\"+1/+1 counter on target\"",
+        "o:\"+1/+1 counters on target\"",
+        "o:\"+1/+1 counter on each\"",
+        "o:\"counters among\"",
+        "o:\"+1/+1 counter on up to\"",
+        "o:\"+1/+1 counter on another\"",
+        "o:\"+1/+1 counter on equipped\""
+      ]
+    },
+    {
+      "name": "Counters on self",
+      "conditions": [
+        "o:\"+1/+1 counter on this creature\"",
+        "o:\"+1/+1 counter on this permanent\"",
+        "o:\"+1/+1 counter on it\"",
+        "o:\"+1/+1 counter on itself\"",
+        "o:\"enters with a +1/+1\"",
+        "o:\"enters with x +1/+1\"",
+        "o:\"enters with two +1/+1\"",
+        "o:\"enters with three +1/+1\"",
+        "o:\"escapes with a +1/+1\"",
+        "o:\"escapes with two +1/+1\"",
+        "o:\"escapes with three +1/+1\""
+      ]
+    },
+    {
       "name": "Counterspells",
       "conditions": [
         "o:\"counter target\"",
@@ -112,6 +149,12 @@
       "name": "Creature lands",
       "conditions": [
         "t:land o:\"becomes a\""
+      ]
+    },
+    {
+      "name": "Creature tokens",
+      "conditions": [
+        "o:\"create\" o:\"creature token\""
       ]
     },
     {
@@ -139,6 +182,12 @@
       "name": "Delve",
       "conditions": [
         "o:delve"
+      ]
+    },
+    {
+      "name": "Discard hand",
+      "conditions": [
+        "o:\"discard your hand\""
       ]
     },
     {
@@ -171,34 +220,9 @@
       ]
     },
     {
-      "name": "Auras",
-      "conditions": [
-        "t:aura"
-      ]
-    },
-    {
-      "name": "Kellan",
-      "conditions": [
-        "n:Kellan"
-      ]
-    },
-    {
       "name": "Equipment",
       "conditions": [
         "t:equipment"
-      ]
-    },
-    {
-      "name": "Buff targets",
-      "conditions": [
-        "t:creature o:flying",
-        "t:creature o:trample",
-        "t:creature o:menace",
-        "t:creature o:\"can't be blocked\" !o:\"creatures you control\"",
-        "t:creature o:\"first strike\"",
-        "t:creature o:\"double strike\"",
-        "t:creature o:\"its power\"",
-        "t:creature o:\"'s power\" !o:\"card types\""
       ]
     },
     {
@@ -252,15 +276,22 @@
       "conditions": [
         "o:threshold",
         "o:\"in your graveyard\"",
-        "o:retrace",
+        "o:retrace t:instant",
         "o:delve",
-        "o:\"all graveyards\""
+        "o:\"all graveyards\"",
+        "o:retrace t:sorcery"
       ]
     },
     {
       "name": "Inner Sky",
       "conditions": [
         "n:\"Warden of the Inner Sky\""
+      ]
+    },
+    {
+      "name": "Kellan",
+      "conditions": [
+        "n:Kellan"
       ]
     },
     {
@@ -287,34 +318,6 @@
       "name": "Life Loss matters",
       "conditions": [
         "n:\"Death's Shadow\""
-      ]
-    },
-    {
-      "name": "Counters on others",
-      "conditions": [
-        "o:\"+1/+1 counter on target\"",
-        "o:\"+1/+1 counters on target\"",
-        "o:\"+1/+1 counter on each\"",
-        "o:\"counters among\"",
-        "o:\"+1/+1 counter on up to\"",
-        "o:\"+1/+1 counter on another\"",
-        "o:\"+1/+1 counter on equipped\""
-      ]
-    },
-    {
-      "name": "Counters on self",
-      "conditions": [
-        "o:\"+1/+1 counter on this creature\"",
-        "o:\"+1/+1 counter on this permanent\"",
-        "o:\"+1/+1 counter on it\"",
-        "o:\"+1/+1 counter on itself\"",
-        "o:\"enters with a +1/+1\"",
-        "o:\"enters with x +1/+1\"",
-        "o:\"enters with two +1/+1\"",
-        "o:\"enters with three +1/+1\"",
-        "o:\"escapes with a +1/+1\"",
-        "o:\"escapes with two +1/+1\"",
-        "o:\"escapes with three +1/+1\""
       ]
     },
     {
@@ -356,25 +359,19 @@
       ]
     },
     {
-      "name": "Value creatures",
-      "conditions": [
-        "t:creature cmc\u003c4 o:\"when this creature enters\" !m:x",
-        "t:creature cmc\u003c4 o:\"when this creature dies\" !m:x",
-        "t:creature cmc\u003c4 o:\"dies,\" !m:x"
-      ]
-    },
-    {
-      "name": "Renegade Rallier",
-      "conditions": [
-        "n:\"Renegade Rallier\""
-      ]
-    },
-    {
       "name": "Reanimates",
       "conditions": [
         "o:\"graveyard onto the battlefield\" o:\"target creature\"",
         "o:\"mana value\" o:\"or less\" o:\"graveyard to the\" !n:\"Renegade Rallier\"",
         "o:\"graveyard to the battle\" o:\"target creature\""
+      ]
+    },
+    {
+      "name": "Recast spells",
+      "conditions": [
+        "o:\"gains flashback\"",
+        "o:\"have retrace\" o:\"instant and sorcery\" !o:emblem",
+        "o:\"cast target\" o:\"from your graveyard\""
       ]
     },
     {
@@ -390,19 +387,17 @@
       ]
     },
     {
-      "name": "Birthing Ritual",
+      "name": "Renegade Rallier",
       "conditions": [
-        "n:\"Birthing Ritual\""
+        "n:\"Renegade Rallier\""
       ]
     },
     {
-      "name": "Self-sac",
+      "name": "Sac artifacts",
       "conditions": [
-        "o:\"sacrifice this artifact\"",
-        "o:\"sacrifice this creature\"",
-        "o:\"sacrifice this land\"",
-        "o:\"sacrifice this enchantment\"",
-        "o:\"sacrifice this permanent\""
+        "o:\"sacrifice another creature or artifact\"",
+        "o:\"sacrifice an artifact\"",
+        "o:\"sacrifice another artifact\""
       ]
     },
     {
@@ -415,6 +410,15 @@
       ]
     },
     {
+      "name": "Sac Lands",
+      "conditions": [
+        "o:\"sacrifice a land\"",
+        "o:\"sacrifice two lands\"",
+        "o:\"sacrifice a plains\" OR o:\"sacrifice a mountain\" OR o:\"sacrifice an island\" OR o:\"sacrifice a swamp\" OR o:\"sacrifice a forest\"",
+        "o:\"sacrifice two plains\" OR o:\"sacrifice two mountains\" OR o:\"sacrifice two islands\" OR o:\"sacrifice two swamps\" OR o:\"sacrifice two forests\""
+      ]
+    },
+    {
       "name": "Sac payoff: any",
       "conditions": [
         "o:\"whenever a player sacrifices\"",
@@ -422,15 +426,15 @@
       ]
     },
     {
-      "name": "Sac payoff: creature",
-      "conditions": [
-        "o:\"whenever you sacrifice a creature\""
-      ]
-    },
-    {
       "name": "Sac payoff: artifact",
       "conditions": [
         "o:\"whenever you sacrifice an artifact\""
+      ]
+    },
+    {
+      "name": "Sac payoff: creature",
+      "conditions": [
+        "o:\"whenever you sacrifice a creature\""
       ]
     },
     {
@@ -450,9 +454,13 @@
       ]
     },
     {
-      "name": "Discard hand",
+      "name": "Self-sac",
       "conditions": [
-        "o:\"discard your hand\""
+        "o:\"sacrifice this artifact\"",
+        "o:\"sacrifice this creature\"",
+        "o:\"sacrifice this land\"",
+        "o:\"sacrifice this enchantment\"",
+        "o:\"sacrifice this permanent\""
       ]
     },
     {
@@ -481,12 +489,6 @@
       "conditions": [
         "o:\"whenever you cast an instant or sorcery spell\"",
         "o:magecraft"
-      ]
-    },
-    {
-      "name": "Creature tokens",
-      "conditions": [
-        "o:\"create\" o:\"creature token\""
       ]
     },
     {
@@ -519,6 +521,14 @@
       "conditions": [
         "o:valiant",
         "o:\"target of a spell or ability you control\""
+      ]
+    },
+    {
+      "name": "Value creatures",
+      "conditions": [
+        "t:creature cmc\u003c4 o:\"when this creature enters\" !m:x",
+        "t:creature cmc\u003c4 o:\"when this creature dies\" !m:x",
+        "t:creature cmc\u003c4 o:\"dies,\" !m:x"
       ]
     },
     {
@@ -604,16 +614,6 @@
       "targets": [
         "Counters matter",
         "Buff targets"
-      ]
-    },
-    {
-      "label": "Kellan",
-      "sources": [
-        "Kellan"
-      ],
-      "targets": [
-        "Auras",
-        "Equipment"
       ]
     },
     {
@@ -737,6 +737,16 @@
       ]
     },
     {
+      "label": "Kellan",
+      "sources": [
+        "Kellan"
+      ],
+      "targets": [
+        "Auras",
+        "Equipment"
+      ]
+    },
+    {
       "label": "Landfall",
       "sources": [
         "Landfall payoff"
@@ -782,16 +792,13 @@
       ]
     },
     {
-      "label": "Renegade Rallier",
+      "label": "Recast spells",
       "sources": [
-        "Renegade Rallier"
+        "Recast spells"
       ],
       "targets": [
-        "Self-sac",
-        "Sac creatures",
-        "Sac artifacts",
-        "Value creatures",
-        "Trinket artifacts"
+        "Cheap spells",
+        "Fill graveyard"
       ]
     },
     {
@@ -802,6 +809,19 @@
       "targets": [
         "Sac creatures",
         "Selective discard"
+      ]
+    },
+    {
+      "label": "Renegade Rallier",
+      "sources": [
+        "Renegade Rallier"
+      ],
+      "targets": [
+        "Self-sac",
+        "Sac creatures",
+        "Sac artifacts",
+        "Value creatures",
+        "Trinket artifacts"
       ]
     },
     {
@@ -828,9 +848,22 @@
         "Self-sac"
       ],
       "targets": [
-        "Fill graveyard",
         "Delirium",
         "Graveyard size payoffs"
+      ]
+    },
+    {
+      "label": "Sac payoff",
+      "sources": [
+        "Sac payoff: any"
+      ],
+      "targets": [
+        "Self-sac",
+        "Sac Lands",
+        "Sac creatures",
+        "Sac artifacts",
+        "Creature tokens",
+        "Trinket artifacts"
       ]
     },
     {
@@ -842,19 +875,6 @@
         "Creature tokens",
         "Recursive creatures",
         "Sac payoff: any"
-      ]
-    },
-    {
-      "label": "Sac payoff",
-      "sources": [
-        "Sac payoff: any"
-      ],
-      "targets": [
-        "Self-sac",
-        "Sac creatures",
-        "Sac artifacts",
-        "Creature tokens",
-        "Trinket artifacts"
       ]
     },
     {
@@ -968,16 +988,6 @@
       ],
       "targets": [
         "Creature lands"
-      ]
-    },
-    {
-      "label": "Recast spells",
-      "sources": [
-        "Recast spells"
-      ],
-      "targets": [
-        "Cheap spells",
-        "Fill graveyard"
       ]
     }
   ]
