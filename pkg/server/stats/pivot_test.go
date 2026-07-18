@@ -232,3 +232,50 @@ func TestComposition(t *testing.T) {
 	// Average CMC over the 3 nonland cards: (2+2+4)/3.
 	assert.InDelta(t, 2.67, comp.AvgCMC, 0.01)
 }
+
+// Opponent composition and archetype splits key each game by the opponent
+// deck's bucket, and skip opponents with no recorded mainboard rather than
+// bucketing them at zero.
+func TestPivot_OpponentCompositionSplit(t *testing.T) {
+	creature := types.Card{Name: "Bear", Types: []string{"Creature"}, OracleText: "A bear."}
+	board := make([]types.Card, 12)
+	for i := range board {
+		board[i] = creature
+	}
+
+	decks := []*storage.Deck{
+		makePivotDeck("Alice", "d1", "2025-01-01", []string{"B"}, "control", []types.Card{creature},
+			[]types.Game{{Opponent: "Bob", Winner: "Alice"}, {Opponent: "Carol", Winner: "Alice"}}),
+		// 12-creature opponent lands in the "12-14" bucket.
+		makePivotDeck("Bob", "d1", "2025-01-01", []string{"G"}, "midrange", board,
+			[]types.Game{{Opponent: "Alice", Winner: "Alice"}}),
+		// No mainboard recorded: contributes no composition column.
+		makePivotDeck("Carol", "d1", "2025-01-01", []string{"W"}, "aggro", nil,
+			[]types.Game{{Opponent: "Alice", Winner: "Alice"}}),
+	}
+
+	resp := computePivot(decks, &PivotRequest{
+		GroupBy: dim("color", 1, "inclusive"),
+		SplitBy: dim("opponent_creatures", 0, ""),
+	}, nil)
+
+	b := rowByKey(resp, "B")
+	require.NotNil(t, b)
+	require.NotNil(t, b.Cells["12-14"])
+	assert.Equal(t, 1, b.Cells["12-14"].Wins)
+	assert.Equal(t, 2, b.Cells[""].Wins, "overall column still counts the empty-mainboard opponent")
+	// Columns: overall, "0-8" (Alice as Bob's opponent), "12-14" (Bob as
+	// Alice's opponent). Carol's empty mainboard adds no zero bucket.
+	assert.Equal(t, []string{"", "0-8", "12-14"}, resp.Columns)
+
+	byArch := computePivot(decks, &PivotRequest{
+		GroupBy: dim("color", 1, "inclusive"),
+		SplitBy: dim("opponent_archetype", 0, ""),
+	}, nil)
+	b = rowByKey(byArch, "B")
+	require.NotNil(t, b)
+	require.NotNil(t, b.Cells["midrange"])
+	assert.Equal(t, 1, b.Cells["midrange"].Wins)
+	require.NotNil(t, b.Cells["aggro"])
+	assert.Equal(t, 1, b.Cells["aggro"].Wins)
+}

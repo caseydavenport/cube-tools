@@ -153,11 +153,12 @@ func computePivot(allDecks []*storage.Deck, req *PivotRequest, cubeCards map[str
 	// deck). splitLevel tells the loop which path to take.
 	splitLevel := ""
 	var splitKeyer func(*storage.Deck) []string
-	switch req.SplitBy.Dim {
-	case "":
+	switch {
+	case req.SplitBy.Dim == "":
 		// No split; only the overall column.
-	case "opponent_color":
+	case strings.HasPrefix(req.SplitBy.Dim, "opponent_"):
 		splitLevel = "opponent"
+		splitKeyer = opponentKeyer(req.SplitBy, cubeCards)
 	default:
 		splitLevel = "deck"
 		splitKeyer = deckKeyer(req.SplitBy, draftBucket, cubeCards)
@@ -222,7 +223,7 @@ func computePivot(allDecks []*storage.Deck, req *PivotRequest, cubeCards map[str
 				if !ok {
 					continue
 				}
-				splitKeys = colorGroups(opp, colorModeOf(req.SplitBy), granularityOf(req.SplitBy))
+				splitKeys = splitKeyer(opp)
 			}
 			for _, sk := range splitKeys {
 				colsSet[sk] = true
@@ -328,6 +329,36 @@ func deckKeyer(dim PivotDimension, draftBucket map[string]string, cubeCards map[
 	return func(*storage.Deck) []string { return nil }
 }
 
+// opponentKeyer maps an opponent's deck to split keys for an "opponent_*" dim:
+// color identity for opponent_color, composition buckets for the rest. Decks
+// with no recorded mainboard produce no composition key rather than a bogus
+// zero bucket.
+func opponentKeyer(dim PivotDimension, cubeCards map[string]types.Card) func(*storage.Deck) []string {
+	if dim.Dim == "opponent_color" {
+		return func(opp *storage.Deck) []string {
+			return colorGroups(opp, colorModeOf(dim), granularityOf(dim))
+		}
+	}
+	base := strings.TrimPrefix(dim.Dim, "opponent_")
+	switch base {
+	case "archetype":
+		return func(opp *storage.Deck) []string {
+			if opp.MacroArchetype == "" {
+				return nil
+			}
+			return []string{opp.MacroArchetype}
+		}
+	case "removal", "interaction", "counterspell", "creatures", "lands", "dna", "avg_cmc":
+		return func(opp *storage.Deck) []string {
+			if len(opp.Mainboard) == 0 {
+				return nil
+			}
+			return []string{compBucketLabel(base, composition(opp, cubeCards).value(base))}
+		}
+	}
+	return func(*storage.Deck) []string { return nil }
+}
+
 // buildDraftBuckets maps each draft ID to a bucket label (the bucket's start
 // date), reusing the shared discrete bucketing.
 func buildDraftBuckets(allDecks []*storage.Deck, bucketSize int) map[string]string {
@@ -416,13 +447,36 @@ func composition(d *storage.Deck, cubeCards map[string]types.Card) deckCompositi
 }
 
 // compBucketLabel buckets a numeric composition value into a range label for use
-// as a group/split key.
+// as a group/split key. Creatures and lands get their own schemes centered on
+// where limited decks actually sit (10-16 creatures, 15-17 lands); the default
+// 0-2/3-5/6-8/9+ fits spell counts like removal and interaction.
 func compBucketLabel(dim string, v float64) string {
-	if dim == "avg_cmc" {
+	n := int(v)
+	switch dim {
+	case "avg_cmc":
 		lo := math.Floor(v*2) / 2
 		return fmt.Sprintf("%.1f-%.1f", lo, lo+0.5)
+	case "creatures":
+		switch {
+		case n <= 8:
+			return "0-8"
+		case n <= 11:
+			return "9-11"
+		case n <= 14:
+			return "12-14"
+		default:
+			return "15+"
+		}
+	case "lands":
+		switch {
+		case n <= 14:
+			return "0-14"
+		case n <= 16:
+			return "15-16"
+		default:
+			return "17+"
+		}
 	}
-	n := int(v)
 	switch {
 	case n <= 2:
 		return "0-2"
@@ -575,8 +629,9 @@ func sortKeys(keys []string, dim string) {
 
 // keyRanks assigns each key a sortable rank based on the dimension: color keys
 // by WUBRG position, composition/time by their leading number, everything else
-// alphabetically.
+// alphabetically. Opponent dims rank the same as their subject counterparts.
 func keyRanks(keys []string, dim string) map[string]float64 {
+	dim = strings.TrimPrefix(dim, "opponent_")
 	rank := map[string]float64{}
 	switch dim {
 	case "color", "opponent_color":

@@ -73,6 +73,10 @@ const GROUP_DIMS = [
 const SPLIT_DIMS = [
   { value: "", label: "(none)" },
   { value: "opponent_color", label: "Opponent color", color: true },
+  { value: "opponent_archetype", label: "Opponent archetype" },
+  { value: "opponent_removal", label: "Opponent removal count" },
+  { value: "opponent_creatures", label: "Opponent creature count" },
+  { value: "opponent_avg_cmc", label: "Opponent avg mana value" },
   ...GROUP_DIMS,
 ]
 
