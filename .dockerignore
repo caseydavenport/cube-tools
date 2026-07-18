@@ -1,0 +1,9 @@
+# Keep the build context small: none of these are copied into any image, but
+# without this file all 3GB of them get shipped to the Docker daemon on every
+# build. data/ and the repo generally are bind-mounted at runtime (-v $PWD:/code),
+# not baked in. bin/ is deliberately NOT ignored - Dockerfile.server copies it.
+.git
+data
+**/node_modules
+tmp
+*.created
