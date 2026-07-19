@@ -23,8 +23,8 @@ func TestBuildDesignGraphWithConfig(t *testing.T) {
 			{Name: "Artifacts", Conditions: []string{"t:artifact"}},
 		},
 		Links: []Link{
-			{Label: "Red-Damage", Sources: []string{"Red Stuff"}, Targets: []string{"Damage Dealers"}},
-			{Label: "Artifact Link", Sources: []string{"Artifacts"}, Targets: []string{"Red Stuff"}},
+			{Label: "Red-Damage", Wires: []Wire{{Sources: []string{"Red Stuff"}, Targets: []string{"Damage Dealers"}}}},
+			{Label: "Artifact Link", Wires: []Wire{{Sources: []string{"Artifacts"}, Targets: []string{"Red Stuff"}}}},
 		},
 	}
 
@@ -65,8 +65,8 @@ func TestBuildDesignGraphSharedGroup(t *testing.T) {
 			{Name: "Flashback Payoffs", Conditions: []string{"o:flashback"}},
 		},
 		Links: []Link{
-			{Label: "Delve", Sources: []string{"Delve Payoffs"}, Targets: []string{"Mill Enablers"}},
-			{Label: "Graveyard Spells", Sources: []string{"Flashback Payoffs"}, Targets: []string{"Mill Enablers"}},
+			{Label: "Delve", Wires: []Wire{{Sources: []string{"Delve Payoffs"}, Targets: []string{"Mill Enablers"}}}},
+			{Label: "Graveyard Spells", Wires: []Wire{{Sources: []string{"Flashback Payoffs"}, Targets: []string{"Mill Enablers"}}}},
 		},
 	}
 
@@ -84,6 +84,50 @@ func TestBuildDesignGraphSharedGroup(t *testing.T) {
 	}
 	assert.True(t, labels["Delve"])
 	assert.True(t, labels["Graveyard Spells"])
+}
+
+// TestBuildDesignGraphMultiWire verifies that wires within a link stay
+// independent: two wires sharing a group don't cross-product with each other.
+func TestBuildDesignGraphMultiWire(t *testing.T) {
+	cube := &types.Cube{
+		Cards: []types.Card{
+			{Name: "Outlet", Colors: []string{"B"}, Types: []string{"Creature"}, CMC: 2, OracleText: "sacrifice a creature", Power: "2", Toughness: "2"},
+			{Name: "Payoff", Colors: []string{"B"}, Types: []string{"Enchantment"}, CMC: 3, OracleText: "whenever a creature dies"},
+			{Name: "Token Maker", Colors: []string{"W"}, Types: []string{"Sorcery"}, CMC: 2, OracleText: "create two tokens"},
+		},
+	}
+
+	config := DesignMapConfig{
+		Groups: []Group{
+			{Name: "Outlets", Conditions: []string{"o:sacrifice"}},
+			{Name: "Payoffs", Conditions: []string{"o:dies"}},
+			{Name: "Token Makers", Conditions: []string{"o:token"}},
+		},
+		Links: []Link{
+			{
+				Label: "Sacrifice",
+				Wires: []Wire{
+					{Sources: []string{"Outlets"}, Targets: []string{"Payoffs"}},
+					{Sources: []string{"Token Makers"}, Targets: []string{"Outlets"}},
+				},
+			},
+		},
+	}
+
+	resp := buildDesignGraph(cube, config)
+
+	// Outlet<->Payoff and Token Maker<->Outlet, but NOT Token Maker<->Payoff.
+	assert.Len(t, resp.Edges, 2)
+	pairs := map[string]bool{}
+	for _, e := range resp.Edges {
+		pairs[e.Source+"|"+e.Target] = true
+		assert.Contains(t, e.RuleLabels, "Sacrifice")
+	}
+	assert.True(t, pairs["Outlet|Payoff"])
+	assert.True(t, pairs["Outlet|Token Maker"])
+
+	// Same independence in the link-derived group view.
+	assert.Len(t, resp.LinkEdges, 2)
 }
 
 // TestBuildGroupGraph verifies the aggregated group-level view: one node per
@@ -104,8 +148,8 @@ func TestBuildGroupGraph(t *testing.T) {
 			{Name: "Flashback Payoffs", Conditions: []string{"o:flashback"}},
 		},
 		Links: []Link{
-			{Label: "Delve", Sources: []string{"Delve Payoffs"}, Targets: []string{"Mill Enablers"}},
-			{Label: "Graveyard Spells", Sources: []string{"Flashback Payoffs"}, Targets: []string{"Mill Enablers"}},
+			{Label: "Delve", Wires: []Wire{{Sources: []string{"Delve Payoffs"}, Targets: []string{"Mill Enablers"}}}},
+			{Label: "Graveyard Spells", Wires: []Wire{{Sources: []string{"Flashback Payoffs"}, Targets: []string{"Mill Enablers"}}}},
 		},
 	}
 
@@ -154,7 +198,7 @@ func TestBuildGroupGraphMultiGroupCard(t *testing.T) {
 		},
 		// Only Red is linked to Ramp Payoffs. Artifacts is named in no link.
 		Links: []Link{
-			{Label: "Ramp", Sources: []string{"Red"}, Targets: []string{"Ramp Payoffs"}},
+			{Label: "Ramp", Wires: []Wire{{Sources: []string{"Red"}, Targets: []string{"Ramp Payoffs"}}}},
 		},
 	}
 

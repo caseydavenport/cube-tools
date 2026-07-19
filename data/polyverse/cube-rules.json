@@ -22,13 +22,6 @@
       ]
     },
     {
-      "name": "Beans Triggers",
-      "conditions": [
-        "cmc\u003e4 !o:delve",
-        "m:X"
-      ]
-    },
-    {
       "name": "Birthing Ritual",
       "conditions": [
         "n:\"Birthing Ritual\""
@@ -48,18 +41,7 @@
       ]
     },
     {
-      "name": "Card types in graveyard",
-      "conditions": [
-        "t:land (o:\"sacrifice this\" OR o:cycling)",
-        "t:artifact (o:\"sacrifice this\" OR o:cycling)",
-        "t:enchantment (o:\"sacrifice this\" OR o:cycling)",
-        "t:saga",
-        "t:artifact t:creature",
-        "t:enchantment t:creature"
-      ]
-    },
-    {
-      "name": "Cast from graveyard",
+      "name": "Castable from graveyard",
       "conditions": [
         "o:flashback !o:\"gains flashback\"",
         "o:retrace !o:\"have retrace\"",
@@ -89,13 +71,6 @@
       "name": "CoCo",
       "conditions": [
         "n:\"Collected Company\""
-      ]
-    },
-    {
-      "name": "CoCo Creatures",
-      "conditions": [
-        "t:creature (cmc:2 OR cmc:3) o:\"this creature enters\"",
-        "t:creature cmc\u003c4 o:\"flash\""
       ]
     },
     {
@@ -237,7 +212,6 @@
       "conditions": [
         "o:surveil",
         "o:mill",
-        "t:land o:sacrifice",
         "o:\"draw\" o:\"discard\"",
         "o:\"the other into your graveyard\""
       ]
@@ -248,12 +222,6 @@
         "o:\"mana of any color\" !o:\"to activate abilities\"",
         "t:land o:\"add {*} or {*}\"",
         "t:land o:\"sacrifice this land\" o:\"search your library\""
-      ]
-    },
-    {
-      "name": "Flash creatures",
-      "conditions": [
-        "o:\"flash\" !o:flashback"
       ]
     },
     {
@@ -289,6 +257,13 @@
       ]
     },
     {
+      "name": "Instant speed",
+      "conditions": [
+        "o:\"flash\" !o:flashback",
+        "t:instant"
+      ]
+    },
+    {
       "name": "Kellan",
       "conditions": [
         "n:Kellan"
@@ -317,13 +292,15 @@
     {
       "name": "Life Loss matters",
       "conditions": [
-        "n:\"Death's Shadow\""
+        "n:\"Death's Shadow\"",
+        "n:\"Knight of the Ebon Legion\""
       ]
     },
     {
       "name": "Pay life",
       "conditions": [
-        "o:\"pay\" o:\"life\""
+        "o:\"pay\" o:\"life\"",
+        "o:\"you lose life\""
       ]
     },
     {
@@ -347,7 +324,8 @@
       "name": "Ramp enablers",
       "conditions": [
         "o:\"Add one mana\" !t:land",
-        "o:\": add\" !t:land"
+        "o:\": add\" !t:land",
+        "n:\"Arbor Elf\""
       ]
     },
     {
@@ -379,11 +357,12 @@
       "conditions": [
         "n:\"Master of Death\"",
         "o:\"from your graveyard to the\" o:\"target creature\" t:creature",
-        "o:\"you may cast this\" o:\"graveyard\" t:creature",
+        "o:\"you may cast this creature\" o:\"graveyard\" t:creature",
         "o:\"escape\" t:creature",
         "n:Bloodghast",
-        "n:Mosswood",
-        "n:Bloodsoaked"
+        "n:Mosswood Dreadknight",
+        "n:Bloodsoaked Champion",
+        "n:Tenacious Underdog"
       ]
     },
     {
@@ -410,7 +389,7 @@
       ]
     },
     {
-      "name": "Sac Lands",
+      "name": "Sac lands",
       "conditions": [
         "o:\"sacrifice a land\"",
         "o:\"sacrifice two lands\"",
@@ -419,22 +398,10 @@
       ]
     },
     {
-      "name": "Sac payoff: any",
+      "name": "Sacrifice Matters",
       "conditions": [
         "o:\"whenever a player sacrifices\"",
         "o:\"are put into your graveyard\""
-      ]
-    },
-    {
-      "name": "Sac payoff: artifact",
-      "conditions": [
-        "o:\"whenever you sacrifice an artifact\""
-      ]
-    },
-    {
-      "name": "Sac payoff: creature",
-      "conditions": [
-        "o:\"whenever you sacrifice a creature\""
       ]
     },
     {
@@ -464,15 +431,6 @@
       ]
     },
     {
-      "name": "Self-target",
-      "conditions": [
-        "o:\"Target creature you control\"",
-        "o:\"Target creature gets +\"",
-        "o:\"Target permanent you control\"",
-        "n:\"Flames of the Firebrand\""
-      ]
-    },
-    {
       "name": "Shuffle effects",
       "conditions": [
         "o:shuffle"
@@ -492,13 +450,23 @@
       ]
     },
     {
+      "name": "Targets own board",
+      "conditions": [
+        "o:\"Target creature you control\"",
+        "o:\"Target creature gets +\"",
+        "o:\"Target permanent you control\"",
+        "n:\"Flames of the Firebrand\""
+      ]
+    },
+    {
       "name": "Token payoffs",
       "conditions": [
         "o:\"whenever a token\"",
         "o:\"one or more tokens\"",
         "o:\"target token you control\"",
         "o:\"sacrifice a creature\" !n:\"Birthing\"",
-        "o:\"whenever a creature you control attacks,\""
+        "o:\"whenever a creature you control attacks,\"",
+        "n:\"Warden of the Inner Sky\""
       ]
     },
     {
@@ -508,6 +476,17 @@
         "o:\"clue\"",
         "o:\"food\"",
         "o:\"treasure\""
+      ]
+    },
+    {
+      "name": "Types in graveyard",
+      "conditions": [
+        "t:land (o:\"sacrifice this\" OR o:cycling)",
+        "t:artifact (o:\"sacrifice this\" OR o:cycling)",
+        "t:enchantment (o:\"sacrifice this\" OR o:cycling)",
+        "t:saga",
+        "t:artifact t:creature",
+        "t:enchantment t:creature"
       ]
     },
     {
@@ -526,9 +505,9 @@
     {
       "name": "Value creatures",
       "conditions": [
-        "t:creature cmc\u003c4 o:\"when this creature enters\" !m:x",
-        "t:creature cmc\u003c4 o:\"when this creature dies\" !m:x",
-        "t:creature cmc\u003c4 o:\"dies,\" !m:x"
+        "t:creature cmc\u003c4 o:\"when this creature enters\" !o:\"enters with\"",
+        "t:creature cmc\u003c4 o:\"when this creature dies\"",
+        "t:creature cmc\u003c4 o:\"dies,\""
       ]
     },
     {
@@ -537,7 +516,8 @@
         "n:Hellrider",
         "n:Embercleave",
         "n:\"Warleader's Call\"",
-        "n:Adeline"
+        "n:Adeline",
+        "o:\"number of creatures you control\""
       ]
     },
     {
@@ -552,442 +532,416 @@
   "links": [
     {
       "label": "5-color",
-      "sources": [
-        "5-color"
-      ],
-      "targets": [
-        "Fixing"
+      "wires": [
+        {
+          "sources": [
+            "5-color"
+          ],
+          "targets": [
+            "Fixing"
+          ]
+        }
       ]
     },
     {
       "label": "Artifacts",
-      "sources": [
-        "Sac artifacts"
-      ],
-      "targets": [
-        "Trinket artifacts",
-        "Sac payoff: any"
+      "wires": [
+        {
+          "sources": [
+            "Sac artifacts"
+          ],
+          "targets": [
+            "Trinket artifacts"
+          ]
+        },
+        {
+          "sources": [
+            "Urza's Saga",
+            "Inner Sky"
+          ],
+          "targets": [
+            "Cheap artifacts",
+            "Trinket artifacts"
+          ]
+        }
       ]
     },
     {
-      "label": "Beans",
-      "sources": [
-        "Beans"
-      ],
-      "targets": [
-        "Delve",
-        "Beans Triggers"
-      ]
-    },
-    {
-      "label": "Cheap Prowess",
-      "sources": [
-        "Cheap spells"
-      ],
-      "targets": [
-        "Prowess payoffs"
-      ]
-    },
-    {
-      "label": "CoCo",
-      "sources": [
-        "CoCo"
-      ],
-      "targets": [
-        "CoCo Creatures"
-      ]
-    },
-    {
-      "label": "CoCoRit",
-      "sources": [
-        "CoCo Creatures"
-      ],
-      "targets": [
-        "Birthing Ritual"
+      "label": "Auras/Equipment",
+      "wires": [
+        {
+          "sources": [
+            "Buff targets",
+            "Kellan"
+          ],
+          "targets": [
+            "Equipment",
+            "Auras"
+          ]
+        }
       ]
     },
     {
       "label": "Counters",
-      "sources": [
-        "Counters on others"
-      ],
-      "targets": [
-        "Counters matter",
-        "Buff targets"
+      "wires": [
+        {
+          "sources": [
+            "Counters on others",
+            "Counters on self"
+          ],
+          "targets": [
+            "Counters matter"
+          ]
+        },
+        {
+          "sources": [
+            "Counters on others"
+          ],
+          "targets": [
+            "Buff targets"
+          ]
+        }
+      ]
+    },
+    {
+      "label": "Creature Value",
+      "wires": [
+        {
+          "sources": [
+            "Birthing Ritual",
+            "CoCo"
+          ],
+          "targets": [
+            "Value creatures"
+          ]
+        }
       ]
     },
     {
       "label": "Delirium",
-      "sources": [
-        "Delirium"
-      ],
-      "targets": [
-        "Card types in graveyard",
-        "Sac artifacts"
-      ]
-    },
-    {
-      "label": "Delney",
-      "sources": [
-        "Delney"
-      ],
-      "targets": [
-        "Delney matters"
-      ]
-    },
-    {
-      "label": "Delve",
-      "sources": [
-        "Delve"
-      ],
-      "targets": [
-        "Fill graveyard"
+      "wires": [
+        {
+          "sources": [
+            "Delirium"
+          ],
+          "targets": [
+            "Types in graveyard",
+            "Sac artifacts"
+          ]
+        }
       ]
     },
     {
       "label": "Discard",
-      "sources": [
-        "Discard matters"
-      ],
-      "targets": [
-        "Discard triggers"
-      ]
-    },
-    {
-      "label": "Discard For Yard",
-      "sources": [
-        "Discard triggers"
-      ],
-      "targets": [
-        "Graveyard size payoffs"
-      ]
-    },
-    {
-      "label": "Double Spell",
-      "sources": [
-        "Second Spell"
-      ],
-      "targets": [
-        "Cheap spells"
+      "wires": [
+        {
+          "sources": [
+            "Discard matters",
+            "Recursive creatures"
+          ],
+          "targets": [
+            "Discard triggers",
+            "Discard hand",
+            "Selective discard"
+          ]
+        },
+        {
+          "sources": [
+            "Discard triggers"
+          ],
+          "targets": [
+            "Graveyard size payoffs"
+          ]
+        }
       ]
     },
     {
       "label": "Draw-go",
-      "sources": [
-        "Flash creatures"
-      ],
-      "targets": [
-        "Counterspells"
-      ]
-    },
-    {
-      "label": "Equipment",
-      "sources": [
-        "Buff targets"
-      ],
-      "targets": [
-        "Equipment"
+      "wires": [
+        {
+          "sources": [
+            "Instant speed"
+          ],
+          "targets": [
+            "Counterspells"
+          ]
+        }
       ]
     },
     {
       "label": "ETB",
-      "sources": [
-        "ETB/LTB"
-      ],
-      "targets": [
-        "Flicker Enablers"
+      "wires": [
+        {
+          "sources": [
+            "ETB/LTB"
+          ],
+          "targets": [
+            "Flicker Enablers"
+          ]
+        },
+        {
+          "sources": [
+            "Delney"
+          ],
+          "targets": [
+            "Delney matters"
+          ]
+        }
       ]
     },
     {
-      "label": "Go Wide",
-      "sources": [
-        "Wide payoffs"
-      ],
-      "targets": [
-        "Creature tokens"
-      ]
-    },
-    {
-      "label": "Graveyard Size",
-      "sources": [
-        "Graveyard size payoffs"
-      ],
-      "targets": [
-        "Fill graveyard",
-        "Selective discard",
-        "Sac creatures"
-      ]
-    },
-    {
-      "label": "Graveyard Spells",
-      "sources": [
-        "Cast from graveyard"
-      ],
-      "targets": [
-        "Selective discard"
-      ]
-    },
-    {
-      "label": "Inner Sky",
-      "sources": [
-        "Inner Sky"
-      ],
-      "targets": [
-        "Trinket artifacts"
-      ]
-    },
-    {
-      "label": "Kellan",
-      "sources": [
-        "Kellan"
-      ],
-      "targets": [
-        "Auras",
-        "Equipment"
+      "label": "Graveyard",
+      "wires": [
+        {
+          "sources": [
+            "Graveyard size payoffs"
+          ],
+          "targets": [
+            "Fill graveyard",
+            "Selective discard",
+            "Sac creatures",
+            "Self-sac"
+          ]
+        },
+        {
+          "sources": [
+            "Castable from graveyard"
+          ],
+          "targets": [
+            "Selective discard"
+          ]
+        }
       ]
     },
     {
       "label": "Landfall",
-      "sources": [
-        "Landfall payoff"
-      ],
-      "targets": [
-        "Landfall enablers"
+      "wires": [
+        {
+          "sources": [
+            "Landfall payoff"
+          ],
+          "targets": [
+            "Landfall enablers"
+          ]
+        }
       ]
     },
     {
       "label": "Life Loss",
-      "sources": [
-        "Pay life"
-      ],
-      "targets": [
-        "Life Loss matters"
-      ]
-    },
-    {
-      "label": "Prowess",
-      "sources": [
-        "Prowess payoffs"
-      ],
-      "targets": [
-        "Prowess triggers"
+      "wires": [
+        {
+          "sources": [
+            "Pay life"
+          ],
+          "targets": [
+            "Life Loss matters"
+          ]
+        }
       ]
     },
     {
       "label": "Ramp",
-      "sources": [
-        "Ramp enablers"
-      ],
-      "targets": [
-        "Ramp payoffs"
+      "wires": [
+        {
+          "sources": [
+            "Ramp enablers"
+          ],
+          "targets": [
+            "Ramp payoffs"
+          ]
+        },
+        {
+          "sources": [
+            "Beans"
+          ],
+          "targets": [
+            "Delve",
+            "Ramp payoffs"
+          ]
+        }
       ]
     },
     {
       "label": "Reanimate",
-      "sources": [
-        "Value creatures"
-      ],
-      "targets": [
-        "Reanimates"
-      ]
-    },
-    {
-      "label": "Recast spells",
-      "sources": [
-        "Recast spells"
-      ],
-      "targets": [
-        "Cheap spells",
-        "Fill graveyard"
-      ]
-    },
-    {
-      "label": "Recursion",
-      "sources": [
-        "Recursive creatures"
-      ],
-      "targets": [
-        "Sac creatures",
-        "Selective discard"
+      "wires": [
+        {
+          "sources": [
+            "Value creatures"
+          ],
+          "targets": [
+            "Reanimates"
+          ]
+        }
       ]
     },
     {
       "label": "Renegade Rallier",
-      "sources": [
-        "Renegade Rallier"
-      ],
-      "targets": [
-        "Self-sac",
-        "Sac creatures",
-        "Sac artifacts",
-        "Value creatures",
-        "Trinket artifacts"
-      ]
-    },
-    {
-      "label": "Rit Sac",
-      "sources": [
-        "Birthing Ritual"
-      ],
-      "targets": [
-        "Sac payoff: any"
-      ]
-    },
-    {
-      "label": "Ritual",
-      "sources": [
-        "Birthing Ritual"
-      ],
-      "targets": [
-        "Value creatures"
-      ]
-    },
-    {
-      "label": "Sac For Yard",
-      "sources": [
-        "Self-sac"
-      ],
-      "targets": [
-        "Delirium",
-        "Graveyard size payoffs"
-      ]
-    },
-    {
-      "label": "Sac payoff",
-      "sources": [
-        "Sac payoff: any"
-      ],
-      "targets": [
-        "Self-sac",
-        "Sac Lands",
-        "Sac creatures",
-        "Sac artifacts",
-        "Creature tokens",
-        "Trinket artifacts"
+      "wires": [
+        {
+          "sources": [
+            "Renegade Rallier"
+          ],
+          "targets": [
+            "Self-sac",
+            "Sac creatures",
+            "Sac artifacts",
+            "Value creatures",
+            "Trinket artifacts"
+          ]
+        }
       ]
     },
     {
       "label": "Sacrifice",
-      "sources": [
-        "Sac creatures"
-      ],
-      "targets": [
-        "Creature tokens",
-        "Recursive creatures",
-        "Sac payoff: any"
-      ]
-    },
-    {
-      "label": "Saga Trinkets",
-      "sources": [
-        "Trinket artifacts"
-      ],
-      "targets": [
-        "Urza's Saga"
+      "wires": [
+        {
+          "sources": [
+            "Sac creatures"
+          ],
+          "targets": [
+            "Creature tokens",
+            "Recursive creatures",
+            "Sacrifice Matters"
+          ]
+        },
+        {
+          "sources": [
+            "Trinket artifacts",
+            "Creature tokens",
+            "Sac artifacts",
+            "Sac lands",
+            "Self-sac",
+            "Birthing Ritual"
+          ],
+          "targets": [
+            "Sacrifice Matters"
+          ]
+        },
+        {
+          "sources": [
+            "Self-sac"
+          ],
+          "targets": [
+            "Delirium",
+            "Graveyard size payoffs"
+          ]
+        }
       ]
     },
     {
       "label": "Second Draw",
-      "sources": [
-        "Draw matters"
-      ],
-      "targets": [
-        "Draw effects"
-      ]
-    },
-    {
-      "label": "Selective Discard Matters",
-      "sources": [
-        "Selective discard"
-      ],
-      "targets": [
-        "Discard matters"
+      "wires": [
+        {
+          "sources": [
+            "Draw matters"
+          ],
+          "targets": [
+            "Draw effects"
+          ]
+        }
       ]
     },
     {
       "label": "Shuffle",
-      "sources": [
-        "Shuffle matters"
-      ],
-      "targets": [
-        "Shuffle effects"
+      "wires": [
+        {
+          "sources": [
+            "Shuffle matters"
+          ],
+          "targets": [
+            "Shuffle effects"
+          ]
+        }
       ]
     },
     {
       "label": "Skimmer",
-      "sources": [
-        "Leaves Graveyard Matters"
-      ],
-      "targets": [
-        "Cast from graveyard",
-        "Reanimates",
-        "Recursive creatures",
-        "Delve",
-        "Grave hate"
+      "wires": [
+        {
+          "sources": [
+            "Leaves Graveyard Matters"
+          ],
+          "targets": [
+            "Castable from graveyard",
+            "Reanimates",
+            "Recursive creatures",
+            "Delve",
+            "Grave hate"
+          ]
+        }
       ]
     },
     {
-      "label": "Sky Artifacts",
-      "sources": [
-        "Cheap artifacts"
-      ],
-      "targets": [
-        "Inner Sky"
-      ]
-    },
-    {
-      "label": "Sky Tokens",
-      "sources": [
-        "Creature tokens"
-      ],
-      "targets": [
-        "Inner Sky"
-      ]
-    },
-    {
-      "label": "Spells Matter",
-      "sources": [
-        "Spells matter"
-      ],
-      "targets": [
-        "Cheap spells"
+      "label": "Spells",
+      "wires": [
+        {
+          "sources": [
+            "Second Spell",
+            "Spells matter"
+          ],
+          "targets": [
+            "Cheap spells"
+          ]
+        },
+        {
+          "sources": [
+            "Recast spells"
+          ],
+          "targets": [
+            "Cheap spells",
+            "Fill graveyard"
+          ]
+        },
+        {
+          "sources": [
+            "Prowess triggers",
+            "Cheap spells"
+          ],
+          "targets": [
+            "Prowess payoffs"
+          ]
+        }
       ]
     },
     {
       "label": "Tokens",
-      "sources": [
-        "Token payoffs"
-      ],
-      "targets": [
-        "Creature tokens"
-      ]
-    },
-    {
-      "label": "Urza's Saga",
-      "sources": [
-        "Urza's Saga"
-      ],
-      "targets": [
-        "Cheap artifacts"
+      "wires": [
+        {
+          "sources": [
+            "Token payoffs",
+            "Wide payoffs"
+          ],
+          "targets": [
+            "Creature tokens"
+          ]
+        }
       ]
     },
     {
       "label": "Valiant",
-      "sources": [
-        "Valiant"
-      ],
-      "targets": [
-        "Self-target",
-        "Equipment"
+      "wires": [
+        {
+          "sources": [
+            "Valiant"
+          ],
+          "targets": [
+            "Targets own board",
+            "Equipment"
+          ]
+        }
       ]
     },
     {
       "label": "Wraths",
-      "sources": [
-        "Wraths"
-      ],
-      "targets": [
-        "Creature lands"
+      "wires": [
+        {
+          "sources": [
+            "Wraths"
+          ],
+          "targets": [
+            "Creature lands"
+          ]
+        }
       ]
     }
   ]

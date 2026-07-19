@@ -388,229 +388,321 @@
   "links": [
     {
       "label": "Elves",
-      "sources": [
-        "Elf payoffs"
-      ],
-      "targets": [
-        "Elves",
-        "Changelings"
+      "wires": [
+        {
+          "sources": [
+            "Elf payoffs"
+          ],
+          "targets": [
+            "Elves",
+            "Changelings"
+          ]
+        }
       ]
     },
     {
       "label": "Goblins",
-      "sources": [
-        "Goblin payoffs"
-      ],
-      "targets": [
-        "Goblins",
-        "Changelings"
+      "wires": [
+        {
+          "sources": [
+            "Goblin payoffs"
+          ],
+          "targets": [
+            "Goblins",
+            "Changelings"
+          ]
+        }
       ]
     },
     {
       "label": "Kithkin",
-      "sources": [
-        "Kithkin payoffs"
-      ],
-      "targets": [
-        "Kithkin",
-        "Changelings"
+      "wires": [
+        {
+          "sources": [
+            "Kithkin payoffs"
+          ],
+          "targets": [
+            "Kithkin",
+            "Changelings"
+          ]
+        }
       ]
     },
     {
       "label": "Merfolk",
-      "sources": [
-        "Merfolk payoffs"
-      ],
-      "targets": [
-        "Merfolk",
-        "Changelings"
+      "wires": [
+        {
+          "sources": [
+            "Merfolk payoffs"
+          ],
+          "targets": [
+            "Merfolk",
+            "Changelings"
+          ]
+        }
       ]
     },
     {
       "label": "Treefolk",
-      "sources": [
-        "Treefolk payoffs"
-      ],
-      "targets": [
-        "Treefolk",
-        "Changelings"
+      "wires": [
+        {
+          "sources": [
+            "Treefolk payoffs"
+          ],
+          "targets": [
+            "Treefolk",
+            "Changelings"
+          ]
+        }
       ]
     },
     {
       "label": "Faeries",
-      "sources": [
-        "Faerie payoffs"
-      ],
-      "targets": [
-        "Faeries",
-        "Changelings"
+      "wires": [
+        {
+          "sources": [
+            "Faerie payoffs"
+          ],
+          "targets": [
+            "Faeries",
+            "Changelings"
+          ]
+        }
       ]
     },
     {
       "label": "Elementals",
-      "sources": [
-        "Elemental payoffs"
-      ],
-      "targets": [
-        "Elementals",
-        "Changelings"
+      "wires": [
+        {
+          "sources": [
+            "Elemental payoffs"
+          ],
+          "targets": [
+            "Elementals",
+            "Changelings"
+          ]
+        }
       ]
     },
     {
       "label": "Warriors",
-      "sources": [
-        "Warrior payoffs"
-      ],
-      "targets": [
-        "Warriors",
-        "Changelings"
+      "wires": [
+        {
+          "sources": [
+            "Warrior payoffs"
+          ],
+          "targets": [
+            "Warriors",
+            "Changelings"
+          ]
+        }
       ]
     },
     {
       "label": "Wizards",
-      "sources": [
-        "Wizard payoffs"
-      ],
-      "targets": [
-        "Wizards",
-        "Changelings"
+      "wires": [
+        {
+          "sources": [
+            "Wizard payoffs"
+          ],
+          "targets": [
+            "Wizards",
+            "Changelings"
+          ]
+        }
       ]
     },
     {
       "label": "Rogues",
-      "sources": [
-        "Rogue payoffs"
-      ],
-      "targets": [
-        "Rogues",
-        "Changelings"
+      "wires": [
+        {
+          "sources": [
+            "Rogue payoffs"
+          ],
+          "targets": [
+            "Rogues",
+            "Changelings"
+          ]
+        }
       ]
     },
     {
       "label": "Soldiers",
-      "sources": [
-        "Soldier payoffs"
-      ],
-      "targets": [
-        "Soldiers",
-        "Changelings"
+      "wires": [
+        {
+          "sources": [
+            "Soldier payoffs"
+          ],
+          "targets": [
+            "Soldiers",
+            "Changelings"
+          ]
+        }
       ]
     },
     {
       "label": "Type matters",
-      "sources": [
-        "Type matters"
-      ],
-      "targets": [
-        "Changelings"
+      "wires": [
+        {
+          "sources": [
+            "Type matters"
+          ],
+          "targets": [
+            "Changelings"
+          ]
+        }
       ]
     },
     {
       "label": "Kinship",
-      "sources": [
-        "Kinship"
-      ],
-      "targets": [
-        "Changelings"
+      "wires": [
+        {
+          "sources": [
+            "Kinship"
+          ],
+          "targets": [
+            "Changelings"
+          ]
+        }
       ]
     },
     {
       "label": "-1/-1 counters",
-      "sources": [
-        "-1/-1 counters matter"
-      ],
-      "targets": [
-        "Places -1/-1 counters"
+      "wires": [
+        {
+          "sources": [
+            "-1/-1 counters matter"
+          ],
+          "targets": [
+            "Places -1/-1 counters"
+          ]
+        }
       ]
     },
     {
       "label": "+1/+1 counters",
-      "sources": [
-        "+1/+1 counters matter"
-      ],
-      "targets": [
-        "Places +1/+1 counters"
+      "wires": [
+        {
+          "sources": [
+            "+1/+1 counters matter"
+          ],
+          "targets": [
+            "Places +1/+1 counters"
+          ]
+        }
       ]
     },
     {
       "label": "Sacrifice",
-      "sources": [
-        "Sacrifice outlets",
-        "Dies triggers"
-      ],
-      "targets": [
-        "Evoke",
-        "-1/-1 counters matter",
-        "Token makers"
+      "wires": [
+        {
+          "sources": [
+            "Sacrifice outlets",
+            "Dies triggers"
+          ],
+          "targets": [
+            "Evoke",
+            "-1/-1 counters matter",
+            "Token makers"
+          ]
+        }
       ]
     },
     {
       "label": "Mill",
-      "sources": [
-        "Graveyard payoffs"
-      ],
-      "targets": [
-        "Mill"
+      "wires": [
+        {
+          "sources": [
+            "Graveyard payoffs"
+          ],
+          "targets": [
+            "Mill"
+          ]
+        }
       ]
     },
     {
       "label": "Go wide",
-      "sources": [
-        "Go-wide payoffs"
-      ],
-      "targets": [
-        "Token makers"
+      "wires": [
+        {
+          "sources": [
+            "Go-wide payoffs"
+          ],
+          "targets": [
+            "Token makers"
+          ]
+        }
       ]
     },
     {
       "label": "Conspire",
-      "sources": [
-        "Conspire"
-      ],
-      "targets": [
-        "Token makers",
-        "Changelings"
+      "wires": [
+        {
+          "sources": [
+            "Conspire"
+          ],
+          "targets": [
+            "Token makers",
+            "Changelings"
+          ]
+        }
       ]
     },
     {
       "label": "Prowl",
-      "sources": [
-        "Prowl"
-      ],
-      "targets": [
-        "Rogues",
-        "Goblins"
+      "wires": [
+        {
+          "sources": [
+            "Prowl"
+          ],
+          "targets": [
+            "Rogues",
+            "Goblins"
+          ]
+        }
       ]
     },
     {
       "label": "Tap / untap",
-      "sources": [
-        "Untap engines"
-      ],
-      "targets": [
-        "Tap for value"
+      "wires": [
+        {
+          "sources": [
+            "Untap engines"
+          ],
+          "targets": [
+            "Tap for value"
+          ]
+        }
       ]
     },
     {
       "label": "Tap-down",
-      "sources": [
-        "Tap-down tempo"
-      ],
-      "targets": [
-        "Faeries",
-        "Merfolk"
+      "wires": [
+        {
+          "sources": [
+            "Tap-down tempo"
+          ],
+          "targets": [
+            "Faeries",
+            "Merfolk"
+          ]
+        }
       ]
     },
     {
       "label": "Impromptu Raid",
-      "sources": [
-        "Impromptu Raid"
-      ],
-      "targets": [
-        "Big creatures",
-        "Evoke",
-        "Dies triggers",
-        "Top-deck control"
+      "wires": [
+        {
+          "sources": [
+            "Impromptu Raid"
+          ],
+          "targets": [
+            "Big creatures",
+            "Evoke",
+            "Dies triggers",
+            "Top-deck control"
+          ]
+        }
       ]
     }
   ]

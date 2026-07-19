@@ -340,10 +340,12 @@ export function whyLinked(focusCard, neighbor, edges, linkByLabel, cardGroups) {
       }
       const fgNames = fg.map(x => x.group)
       const ngNames = ng.map(x => x.group)
-      for (const s of (link.sources || [])) {
-        for (const t of (link.targets || [])) {
-          if (fgNames.includes(s) && ngNames.includes(t)) add(s, t)
-          if (ngNames.includes(s) && fgNames.includes(t)) add(t, s)
+      for (const wire of (link.wires || [])) {
+        for (const s of (wire.sources || [])) {
+          for (const t of (wire.targets || [])) {
+            if (fgNames.includes(s) && ngNames.includes(t)) add(s, t)
+            if (ngNames.includes(s) && fgNames.includes(t)) add(t, s)
+          }
         }
       }
     }
@@ -408,14 +410,16 @@ function GroupDetail({ cube, focus, groups, groupNodes, links, groupColor, onDri
   const linkedGroups = useMemo(() => {
     const out = {}
     for (const l of links) {
-      const inSrc = (l.sources || []).includes(focus.group)
-      const inTgt = (l.targets || []).includes(focus.group)
-      if (!inSrc && !inTgt) continue
-      const others = inSrc ? (l.targets || []) : (l.sources || [])
-      for (const o of others) {
-        if (o === focus.group) continue
-        if (!out[o]) out[o] = new Set()
-        out[o].add(l.label)
+      for (const w of (l.wires || [])) {
+        const inSrc = (w.sources || []).includes(focus.group)
+        const inTgt = (w.targets || []).includes(focus.group)
+        if (!inSrc && !inTgt) continue
+        const others = inSrc ? (w.targets || []) : (w.sources || [])
+        for (const o of others) {
+          if (o === focus.group) continue
+          if (!out[o]) out[o] = new Set()
+          out[o].add(l.label)
+        }
       }
     }
     return Object.entries(out).map(([name, labels]) => ({ name, labels: [...labels] }))
@@ -803,6 +807,20 @@ export function saveDesignMap(cube, groups, links, onRulesChanged, onStatus) {
   })
 }
 
+// Normalize a link's wires for saving: drop empty selector slots and fully
+// blank wires. Returns null if no wires survive or any wire is one-sided.
+export function cleanWires(rawWires) {
+  const wires = []
+  for (const w of (rawWires || [])) {
+    const sources = (w.sources || []).filter(s => s)
+    const targets = (w.targets || []).filter(t => t)
+    if (sources.length === 0 && targets.length === 0) continue
+    if (sources.length === 0 || targets.length === 0) return null
+    wires.push({ sources, targets })
+  }
+  return wires.length > 0 ? wires : null
+}
+
 function RulesPanel({ cube, groups, links, nodes, edges, onRulesChanged, selectedCard, drawnConnection, onDrawnConnectionConsumed }) {
   const [activeTab, setActiveTab] = useState("links")
   const [addingGroup, setAddingGroup] = useState(false)
@@ -818,7 +836,7 @@ function RulesPanel({ cube, groups, links, nodes, edges, onRulesChanged, selecte
   // When a connection is drawn on the graph, open a pre-filled link editor on the links tab.
   useEffect(() => {
     if (!drawnConnection) return
-    setDrawnLink({ label: "", sources: [drawnConnection.source], targets: [drawnConnection.target] })
+    setDrawnLink({ label: "", wires: [{ sources: [drawnConnection.source], targets: [drawnConnection.target] }] })
     setActiveTab("links")
     setSaveStatus("")
     if (onDrawnConnectionConsumed) onDrawnConnectionConsumed()
@@ -853,8 +871,10 @@ function RulesPanel({ cube, groups, links, nodes, edges, onRulesChanged, selecte
     if (oldName !== newName) {
       updatedLinks = links.map(l => ({
         ...l,
-        sources: (l.sources || []).map(s => s === oldName ? newName : s),
-        targets: (l.targets || []).map(t => t === oldName ? newName : t),
+        wires: (l.wires || []).map(w => ({
+          sources: (w.sources || []).map(s => s === oldName ? newName : s),
+          targets: (w.targets || []).map(t => t === oldName ? newName : t),
+        })),
       }))
     }
     saveDesignMap(cube, updatedGroups, updatedLinks, onRulesChanged, setSaveStatus)
@@ -868,16 +888,14 @@ function RulesPanel({ cube, groups, links, nodes, edges, onRulesChanged, selecte
   }
 
   function addLink(newLink) {
-    const sources = (newLink.sources || []).filter(s => s)
-    const targets = (newLink.targets || []).filter(t => t)
-    if (sources.length === 0 || targets.length === 0) {
-      setSaveStatus("At least one source and one target group are required.")
+    const wires = cleanWires(newLink.wires)
+    if (!wires) {
+      setSaveStatus("Every wire needs at least one source and one target group.")
       return false
     }
     const updated = [...links, {
       label: newLink.label.trim() || "Untitled link",
-      sources,
-      targets,
+      wires,
     }]
     saveDesignMap(cube, groups, updated, onRulesChanged, setSaveStatus)
     setAddingLink(false)
@@ -885,16 +903,14 @@ function RulesPanel({ cube, groups, links, nodes, edges, onRulesChanged, selecte
   }
 
   function updateLink(index, updatedLink) {
-    const sources = (updatedLink.sources || []).filter(s => s)
-    const targets = (updatedLink.targets || []).filter(t => t)
-    if (sources.length === 0 || targets.length === 0) {
-      setSaveStatus("At least one source and one target group are required.")
+    const wires = cleanWires(updatedLink.wires)
+    if (!wires) {
+      setSaveStatus("Every wire needs at least one source and one target group.")
       return
     }
     const updated = links.map((l, i) => i === index ? {
       label: updatedLink.label.trim() || "Untitled link",
-      sources,
-      targets,
+      wires,
     } : l)
     saveDesignMap(cube, groups, updated, onRulesChanged, setSaveStatus)
     setEditingLink(null)
@@ -981,7 +997,7 @@ function RulesPanel({ cube, groups, links, nodes, edges, onRulesChanged, selecte
   }, [groups, activeGroupNames])
 
   const groupNames = groups.map(g => g.name)
-  const usedGroupNames = new Set(links.flatMap(l => [...(l.sources || []), ...(l.targets || [])]))
+  const usedGroupNames = new Set(links.flatMap(l => (l.wires || []).flatMap(w => [...(w.sources || []), ...(w.targets || [])])))
 
   return (
     <div style={{
@@ -1098,7 +1114,7 @@ function RulesPanel({ cube, groups, links, nodes, edges, onRulesChanged, selecte
         )}
         {addingLink && (
           <LinkEditModal
-            link={{ label: "", sources: [""], targets: [""] }}
+            link={{ label: "", wires: [{ sources: [""], targets: [""] }] }}
             color="var(--primary)"
             groupNames={groupNames}
             groups={groups}
@@ -1780,12 +1796,33 @@ function useFetchGroupCards(selectedGroupNames, allGroups) {
 
 export function LinkEditModal({ link, color, groupNames, groups, onSave, onCancel, onGroupSaved }) {
   const [editLabel, setEditLabel] = useState(link.label || "")
-  const [editSources, setEditSources] = useState([...(link.sources || [""])])
-  const [editTargets, setEditTargets] = useState([...(link.targets || [""])])
+  const [editWires, setEditWires] = useState(() =>
+    (link.wires && link.wires.length > 0 ? link.wires : [{ sources: [""], targets: [""] }])
+      .map(w => ({
+        sources: (w.sources && w.sources.length > 0) ? [...w.sources] : [""],
+        targets: (w.targets && w.targets.length > 0) ? [...w.targets] : [""],
+      })))
+  // Which wire the flanking source/target card lists reflect.
+  const [activeWire, setActiveWire] = useState(0)
   const [editingGroupName, setEditingGroupName] = useState(null)
 
-  const sourceCards = useFetchGroupCards(editSources, groups)
-  const targetCards = useFetchGroupCards(editTargets, groups)
+  const wire = editWires[Math.min(activeWire, editWires.length - 1)] || { sources: [], targets: [] }
+  const sourceCards = useFetchGroupCards(wire.sources, groups)
+  const targetCards = useFetchGroupCards(wire.targets, groups)
+
+  function updateWire(i, patch) {
+    setEditWires(prev => prev.map((w, j) => j === i ? { ...w, ...patch } : w))
+  }
+
+  function addWire() {
+    setEditWires(prev => [...prev, { sources: [""], targets: [""] }])
+    setActiveWire(editWires.length)
+  }
+
+  function removeWire(i) {
+    setEditWires(prev => prev.filter((_, j) => j !== i))
+    setActiveWire(a => Math.min(a > i ? a - 1 : a, editWires.length - 2))
+  }
 
   const editingGroup = editingGroupName ? groups.find(g => g.name === editingGroupName) : null
   const editingGroupIndex = editingGroupName ? groups.findIndex(g => g.name === editingGroupName) : -1
@@ -1869,8 +1906,8 @@ export function LinkEditModal({ link, color, groupNames, groups, onSave, onCance
           overflow: "hidden",
         }}
       >
-        {/* Left: source cards */}
-        {renderCardList("Source Cards", sourceCards)}
+        {/* Left: source cards (for the active wire) */}
+        {renderCardList(editWires.length > 1 ? `Source Cards · Wire ${activeWire + 1}` : "Source Cards", sourceCards)}
 
         {/* Center: edit form */}
         <div style={{
@@ -1885,17 +1922,46 @@ export function LinkEditModal({ link, color, groupNames, groups, onSave, onCance
             Edit Link
           </h4>
           <RuleInput label="Label" value={editLabel} onChange={setEditLabel} placeholder="e.g. Delve" />
-          <GroupMultiSelect label="Sources" values={editSources} onChange={setEditSources} groupNames={groupNames} onEditGroup={setEditingGroupName} />
-          <GroupMultiSelect label="Targets" values={editTargets} onChange={setEditTargets} groupNames={groupNames} onEditGroup={setEditingGroupName} />
+          {editWires.map((w, wi) => (
+            <div
+              key={wi}
+              onClick={() => setActiveWire(wi)}
+              style={{
+                border: `1px solid ${wi === activeWire ? color : "var(--page-background)"}`,
+                borderRadius: "6px",
+                padding: "0.5rem 0.6rem",
+                marginBottom: "0.6rem",
+                cursor: editWires.length > 1 ? "pointer" : "default",
+              }}
+            >
+              {editWires.length > 1 && (
+                <div style={{display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "0.35rem"}}>
+                  <span style={{fontSize: "0.75em", fontWeight: "bold", color: wi === activeWire ? color : "var(--text-muted)"}}>
+                    Wire {wi + 1}
+                  </span>
+                  <button
+                    onClick={(e) => { e.stopPropagation(); removeWire(wi); }}
+                    title="Remove wire"
+                    style={{background: "transparent", border: "none", color: "var(--text-muted)", cursor: "pointer", fontSize: "1em", lineHeight: "1", padding: "0 2px"}}
+                  >
+                    &times;
+                  </button>
+                </div>
+              )}
+              <GroupMultiSelect label="Sources" values={w.sources} onChange={(v) => updateWire(wi, { sources: v })} groupNames={groupNames} onEditGroup={setEditingGroupName} />
+              <GroupMultiSelect label="Targets" values={w.targets} onChange={(v) => updateWire(wi, { targets: v })} groupNames={groupNames} onEditGroup={setEditingGroupName} />
+            </div>
+          ))}
+          <button onClick={addWire} className="button" style={{fontSize: "0.8em", alignSelf: "flex-start"}}>+ Add wire</button>
           <div style={{flex: 1}} />
           <div style={{display: "flex", gap: "0.5rem", marginTop: "1rem"}}>
-            <button onClick={() => onSave({ label: editLabel, sources: editSources, targets: editTargets })} className="button" style={{fontSize: "0.85em"}}>Save</button>
+            <button onClick={() => onSave({ label: editLabel, wires: editWires })} className="button" style={{fontSize: "0.85em"}}>Save</button>
             <button onClick={onCancel} className="button" style={{fontSize: "0.85em"}}>Cancel</button>
           </div>
         </div>
 
-        {/* Right: target cards */}
-        {renderCardList("Target Cards", targetCards)}
+        {/* Right: target cards (for the active wire) */}
+        {renderCardList(editWires.length > 1 ? `Target Cards · Wire ${activeWire + 1}` : "Target Cards", targetCards)}
       </div>
 
       {editingGroup && (
@@ -1907,10 +1973,12 @@ export function LinkEditModal({ link, color, groupNames, groups, onSave, onCance
               const oldName = editingGroup.name
               const newName = updated.name.trim() || "Untitled group"
               onGroupSaved(editingGroupIndex, updated)
-              // Update local source/target references if name changed.
+              // Update local wire references if name changed.
               if (oldName !== newName) {
-                setEditSources(prev => prev.map(s => s === oldName ? newName : s))
-                setEditTargets(prev => prev.map(t => t === oldName ? newName : t))
+                setEditWires(prev => prev.map(w => ({
+                  sources: w.sources.map(s => s === oldName ? newName : s),
+                  targets: w.targets.map(t => t === oldName ? newName : t),
+                })))
               }
             }
             setEditingGroupName(null)
@@ -1929,8 +1997,7 @@ function LinkCard({ link, index, groupNames, groups, confirmDelete, onDeleteClic
     return <LinkEditModal link={link} color={color} groupNames={groupNames} groups={groups} onSave={onEditSave} onCancel={onEditCancel} onGroupSaved={onGroupSaved} />
   }
 
-  const sources = link.sources || []
-  const targets = link.targets || []
+  const wires = link.wires || []
 
   return (
     <div onClick={onEditClick} style={{
@@ -1981,14 +2048,11 @@ function LinkCard({ link, index, groupNames, groups, confirmDelete, onDeleteClic
           </div>
         </div>
       )}
-      {sources.map((s, i) => (
-        <div key={"s" + i} style={{fontSize: "0.75em", color: "var(--text-muted)"}}>
-          <span style={{color: "var(--text-color)"}}>{i === 0 ? "source:" : "+"}</span> {s}
-        </div>
-      ))}
-      {targets.map((t, i) => (
-        <div key={"t" + i} style={{fontSize: "0.75em", color: "var(--text-muted)"}}>
-          <span style={{color: "var(--text-color)"}}>{i === 0 ? "target:" : "+"}</span> {t}
+      {wires.map((w, i) => (
+        <div key={"w" + i} style={{fontSize: "0.75em", color: "var(--text-muted)", marginTop: i > 0 ? "0.2rem" : 0}}>
+          <span style={{color: "var(--text-color)"}}>{(w.sources || []).join(", ")}</span>
+          {" → "}
+          <span style={{color: "var(--text-color)"}}>{(w.targets || []).join(", ")}</span>
         </div>
       ))}
     </div>

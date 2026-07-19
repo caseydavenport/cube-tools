@@ -21,13 +21,17 @@ type Group struct {
 	Conditions []string `json:"conditions"`
 }
 
-// Link connects named groups, creating edges between their cards.
-// Sources and targets are lists of group names; cards from all source groups
+// Wire pairs source groups with target groups; cards from all source groups
 // get edges to cards from all target groups.
-type Link struct {
-	Label   string   `json:"label"`
+type Wire struct {
 	Sources []string `json:"sources"`
 	Targets []string `json:"targets"`
+}
+
+// Link connects named groups under a single label, via one or more wires.
+type Link struct {
+	Label string `json:"label"`
+	Wires []Wire `json:"wires"`
 }
 
 // DesignMapConfig is the persistent format stored in cube-rules.json.
@@ -282,35 +286,37 @@ func buildDesignGraph(cube *types.Cube, config DesignMapConfig) DesignGraphRespo
 	edgeLabels := make(map[edgeKey]map[string]bool)
 
 	for _, link := range config.Links {
-		// Union cards from all source groups and all target groups.
-		sources := make(map[string]bool)
-		for _, gn := range link.Sources {
-			for name := range groupCards[gn] {
-				sources[name] = true
+		for _, wire := range link.Wires {
+			// Union cards from all source groups and all target groups.
+			sources := make(map[string]bool)
+			for _, gn := range wire.Sources {
+				for name := range groupCards[gn] {
+					sources[name] = true
+				}
 			}
-		}
-		targets := make(map[string]bool)
-		for _, gn := range link.Targets {
-			for name := range groupCards[gn] {
-				targets[name] = true
+			targets := make(map[string]bool)
+			for _, gn := range wire.Targets {
+				for name := range groupCards[gn] {
+					targets[name] = true
+				}
 			}
-		}
 
-		for s := range sources {
-			for t := range targets {
-				if s == t {
-					continue
+			for s := range sources {
+				for t := range targets {
+					if s == t {
+						continue
+					}
+					// Normalize edge direction so (A,B) and (B,A) are the same edge.
+					a, b := s, t
+					if a > b {
+						a, b = b, a
+					}
+					k := edgeKey{a, b}
+					if edgeLabels[k] == nil {
+						edgeLabels[k] = make(map[string]bool)
+					}
+					edgeLabels[k][link.Label] = true
 				}
-				// Normalize edge direction so (A,B) and (B,A) are the same edge.
-				a, b := s, t
-				if a > b {
-					a, b = b, a
-				}
-				k := edgeKey{a, b}
-				if edgeLabels[k] == nil {
-					edgeLabels[k] = make(map[string]bool)
-				}
-				edgeLabels[k][link.Label] = true
 			}
 		}
 	}
@@ -455,31 +461,33 @@ func buildGroupGraph(config DesignMapConfig, groupCards map[string]map[string]bo
 	linkPairs := make(map[groupEdgeKey]map[cardPair]bool)
 	linkLabels := make(map[groupEdgeKey]map[string]bool)
 	for _, link := range config.Links {
-		for _, gs := range link.Sources {
-			for _, gt := range link.Targets {
-				a, b := gs, gt
-				if a > b {
-					a, b = b, a
-				}
-				if a == b {
-					continue
-				}
-				gk := groupEdgeKey{a, b}
-				if linkPairs[gk] == nil {
-					linkPairs[gk] = make(map[cardPair]bool)
-					linkLabels[gk] = make(map[string]bool)
-				}
-				linkLabels[gk][link.Label] = true
-				for s := range groupCards[gs] {
-					for t := range groupCards[gt] {
-						if s == t {
-							continue
+		for _, wire := range link.Wires {
+			for _, gs := range wire.Sources {
+				for _, gt := range wire.Targets {
+					a, b := gs, gt
+					if a > b {
+						a, b = b, a
+					}
+					if a == b {
+						continue
+					}
+					gk := groupEdgeKey{a, b}
+					if linkPairs[gk] == nil {
+						linkPairs[gk] = make(map[cardPair]bool)
+						linkLabels[gk] = make(map[string]bool)
+					}
+					linkLabels[gk][link.Label] = true
+					for s := range groupCards[gs] {
+						for t := range groupCards[gt] {
+							if s == t {
+								continue
+							}
+							cs, ct := s, t
+							if cs > ct {
+								cs, ct = ct, cs
+							}
+							linkPairs[gk][cardPair{cs, ct}] = true
 						}
-						cs, ct := s, t
-						if cs > ct {
-							cs, ct = ct, cs
-						}
-						linkPairs[gk][cardPair{cs, ct}] = true
 					}
 				}
 			}
