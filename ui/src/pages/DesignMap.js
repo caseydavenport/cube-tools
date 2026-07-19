@@ -3,6 +3,14 @@ import ReactDOM from 'react-dom'
 import { White, Blue, Black, Red, Green } from "../utils/Colors.js"
 import { useCube } from "../contexts/CubeContext.js"
 
+// Wire entries are group names, except entries prefixed "card:" which reference
+// a single card directly. cardRefName strips the prefix, or returns null for
+// plain group entries.
+export const CARD_REF_PREFIX = "card:"
+export function cardRefName(entry) {
+  return entry && entry.startsWith(CARD_REF_PREFIX) ? entry.slice(CARD_REF_PREFIX.length) : null
+}
+
 // The design map is a drill-in explorer. Focus is a stack of levels the user has
 // drilled through, so the breadcrumb can climb back out:
 //   themes            -> the whole set of groups (the overview constellation)
@@ -170,14 +178,18 @@ function Legend({ groupNodes, groupColor, focus, hovered, onHover, onPick }) {
   const [query, setQuery] = useState("")
   const [sort, setSort] = useState("size")
 
+  // Card: wire refs show up as pseudo-groups on the map, but they aren't themes -
+  // keep them out of the legend.
+  const themes = useMemo(() => groupNodes.filter(g => g.kind !== "card"), [groupNodes])
+
   const rows = useMemo(() => {
     const q = query.trim().toLowerCase()
-    let out = groupNodes.filter(g => !q || g.name.toLowerCase().includes(q))
+    let out = themes.filter(g => !q || g.name.toLowerCase().includes(q))
     out = [...out].sort((a, b) => sort === "name"
       ? a.name.localeCompare(b.name)
       : b.card_count - a.card_count)
     return out
-  }, [groupNodes, query, sort])
+  }, [themes, query, sort])
 
   const activeGroup = focus.level === "group" ? focus.group : null
 
@@ -185,7 +197,7 @@ function Legend({ groupNodes, groupColor, focus, hovered, onHover, onPick }) {
     <div className="dm-panel dm-legend">
       <div className="dm-legend-head">
         <span className="section-heading" style={{ margin: 0 }}>Themes</span>
-        <span className="dm-count">{groupNodes.length}</span>
+        <span className="dm-count">{themes.length}</span>
       </div>
       <input
         className="dm-search"
@@ -317,8 +329,10 @@ export function whyLinked(focusCard, neighbor, edges, linkByLabel, cardGroups) {
           focusConds: groupConds(fg, fGroup), neighConds: groupConds(ng, nGroup),
         })
       }
-      const fgNames = fg.map(x => x.group)
-      const ngNames = ng.map(x => x.group)
+      // A card can also sit on a wire directly via a card: ref, alongside any
+      // group memberships.
+      const fgNames = [...fg.map(x => x.group), CARD_REF_PREFIX + focusCard]
+      const ngNames = [...ng.map(x => x.group), CARD_REF_PREFIX + neighbor]
       for (const wire of (link.wires || [])) {
         for (const s of (wire.sources || [])) {
           for (const t of (wire.targets || [])) {
@@ -341,9 +355,10 @@ function DetailPanel(props) {
 }
 
 function OverviewDetail({ groupNodes, links, nodeMap, onDrill }) {
+  const themes = useMemo(() => groupNodes.filter(g => g.kind !== "card"), [groupNodes])
   const biggest = useMemo(
-    () => [...groupNodes].sort((a, b) => b.card_count - a.card_count).slice(0, 8),
-    [groupNodes],
+    () => [...themes].sort((a, b) => b.card_count - a.card_count).slice(0, 8),
+    [themes],
   )
   const totalCards = Object.keys(nodeMap).length
   const unconnected = Object.values(nodeMap).filter(n => (n.connection_count || 0) === 0).length
@@ -351,7 +366,7 @@ function OverviewDetail({ groupNodes, links, nodeMap, onDrill }) {
     <div className="dm-panel dm-detail">
       <span className="section-heading">Overview</span>
       <div className="dm-statgrid">
-        <Stat label="Themes" value={groupNodes.length} />
+        <Stat label="Themes" value={themes.length} />
         <Stat label="Links" value={links.length} />
         <Stat label="Cards" value={totalCards} />
         <Stat label="Unlinked" value={unconnected} />
@@ -419,17 +434,23 @@ function GroupDetail({ cube, focus, groups, groupNodes, links, groupColor, onDri
         <>
           <div className="dm-subhead">Links to</div>
           <div className="dm-chiprow">
-            {linkedGroups.map(lg => (
-              <button
-                key={lg.name}
-                className="dm-chip"
-                style={{ borderColor: groupColor(lg.name), color: groupColor(lg.name) }}
-                title={"via " + lg.labels.join(", ")}
-                onClick={() => onDrill({ level: "group", group: lg.name })}
-              >
-                {lg.name}
-              </button>
-            ))}
+            {linkedGroups.map(lg => {
+              // A card: ref links to a single card, not a group - color it like the
+              // card and drill straight to card level.
+              const cardName = cardRefName(lg.name)
+              const color = cardName ? getNodeColor((nodeMap[cardName] || {}).colors) : groupColor(lg.name)
+              return (
+                <button
+                  key={lg.name}
+                  className="dm-chip"
+                  style={{ borderColor: color, color }}
+                  title={"via " + lg.labels.join(", ")}
+                  onClick={() => onDrill(cardName ? { level: "card", card: cardName } : { level: "group", group: lg.name })}
+                >
+                  {cardName || lg.name}
+                </button>
+              )
+            })}
           </div>
         </>
       )}
@@ -632,18 +653,32 @@ function DrillMap({ focus, nodeMap, edges, groupNodes, groupEdges, links, groupC
   const { simNodes, simEdges, showLabels, caption } = useMemo(() => {
     if (focus.level === "themes") {
       const max = groupNodes.reduce((m, g) => Math.max(m, g.card_count), 1)
-      const sn = groupNodes.map(g => ({
-        id: g.name,
-        radius: Math.max(10, Math.min(38, 10 + (g.card_count / max) * 28)),
-        color: groupColor(g.name),
-        label: g.name,
-        count: g.card_count,
-      }))
+      const sn = groupNodes.map(g => {
+        // Card: wire refs appear as small card-colored satellites among the themes.
+        const refName = cardRefName(g.name)
+        if (refName) {
+          return {
+            id: g.name,
+            radius: 8,
+            color: getNodeColor((nodeMap[refName] || {}).colors),
+            label: refName,
+          }
+        }
+        return {
+          id: g.name,
+          radius: Math.max(10, Math.min(38, 10 + (g.card_count / max) * 28)),
+          color: groupColor(g.name),
+          label: g.name,
+          count: g.card_count,
+        }
+      })
       const se = groupEdges.map(e => ({
         source: e.source, target: e.target, weight: e.weight,
         color: edgeColorFor(e.labels, linkIndex),
       }))
-      return { simNodes: sn, simEdges: se, showLabels: true, caption: `${sn.length} themes · click to drill in` }
+      const nRefs = sn.filter(n => cardRefName(n.id)).length
+      const counts = nRefs ? `${sn.length - nRefs} themes + ${nRefs} cards` : `${sn.length} themes`
+      return { simNodes: sn, simEdges: se, showLabels: true, caption: `${counts} · click to drill in` }
     }
 
     if (focus.level === "group") {
@@ -697,14 +732,21 @@ function DrillMap({ focus, nodeMap, edges, groupNodes, groupEdges, links, groupC
         selectedId={focus.level === "card" ? focus.card : null}
         onHover={onHover}
         onSelect={(id) => {
-          if (focus.level === "themes") onDrill({ level: "group", group: id })
-          else onDrill({ level: "card", card: id })
+          if (focus.level === "themes") {
+            const refName = cardRefName(id)
+            if (refName) onDrill({ level: "card", card: refName })
+            else onDrill({ level: "group", group: id })
+          } else {
+            onDrill({ level: "card", card: id })
+          }
         }}
       />
       <div className="dm-map-caption">{caption}</div>
       {(() => {
         // Preview the hovered card, or the focused card when nothing's hovered.
-        const name = (hovered && cardData[hovered]) ? hovered : (focus.level === "card" ? focus.card : null)
+        // At themes level a hovered card: ref previews the card it names.
+        const hoveredName = hovered && (cardData[hovered] ? hovered : cardRefName(hovered))
+        const name = (hoveredName && cardData[hoveredName]) ? hoveredName : (focus.level === "card" ? focus.card : null)
         const card = name ? cardData[name] : null
         return card ? <CardPreview card={card} /> : null
       })()}
@@ -725,11 +767,11 @@ function DrillMap({ focus, nodeMap, edges, groupNodes, groupEdges, links, groupC
               {w.bridges.map((b, i) => (
                 <div key={i} className="dm-why-bridge">
                   <div className="dm-why-line">
-                    <span className="dm-why-card">{focus.card}</span> in <b>{b.focusGroup}</b>
+                    <span className="dm-why-card">{focus.card}</span> {cardRefName(b.focusGroup) ? <b>linked directly</b> : <>in <b>{b.focusGroup}</b></>}
                     {b.focusConds[0] && <span className="dm-why-cond">{b.focusConds[0]}</span>}
                   </div>
                   <div className="dm-why-line">
-                    <span className="dm-why-card">{hovered}</span> in <b>{b.neighGroup}</b>
+                    <span className="dm-why-card">{hovered}</span> {cardRefName(b.neighGroup) ? <b>linked directly</b> : <>in <b>{b.neighGroup}</b></>}
                     {b.neighConds[0] && <span className="dm-why-cond">{b.neighConds[0]}</span>}
                   </div>
                 </div>
@@ -907,6 +949,9 @@ function GroupMultiSelect({ label, values, onChange, groupNames, cardNames, onEd
 
   const selectStyle = {
     flex: 1,
+    // Long card option labels would otherwise set the select's minimum width and
+    // push the edit/remove buttons out of the row (flex min-width:auto).
+    minWidth: 0,
     background: "var(--card-background)",
     color: "var(--text-color)",
     border: "1px solid var(--card-background)",
@@ -923,12 +968,21 @@ function GroupMultiSelect({ label, values, onChange, groupNames, cardNames, onEd
       {values.map((v, i) => (
         <div key={i} style={{display: "flex", gap: "4px", marginBottom: "3px", alignItems: "center"}}>
           <select value={v} onChange={e => updateAt(i, e.target.value)} style={selectStyle}>
-            <option value="">-- Select group --</option>
-            {groupNames.map(name => (
-              <option key={name} value={name}>{name}</option>
-            ))}
+            <option value="">{cardNames ? "-- Select group or card --" : "-- Select group --"}</option>
+            <optgroup label="Groups">
+              {groupNames.map(name => (
+                <option key={name} value={name}>{name}</option>
+              ))}
+            </optgroup>
+            {cardNames && cardNames.length > 0 && (
+              <optgroup label="Cards">
+                {cardNames.map(name => (
+                  <option key={CARD_REF_PREFIX + name} value={CARD_REF_PREFIX + name}>{name}</option>
+                ))}
+              </optgroup>
+            )}
           </select>
-          {onEditGroup && v && (
+          {onEditGroup && v && !cardRefName(v) && (
             <button
               onClick={() => onEditGroup(v)}
               title="Edit group"
@@ -1426,6 +1480,13 @@ function useFetchGroupCards(selectedGroupNames, allGroups) {
     const conditions = []
     const groups = []
     for (const n of names) {
+      // A card: entry matches by name instead of by group conditions.
+      const refName = cardRefName(n)
+      if (refName) {
+        conditions.push(`n:"${refName}"`)
+        groups.push(n)
+        continue
+      }
       for (const c of (groupMap[n] || [])) {
         conditions.push(c)
         groups.push(n)
@@ -1450,7 +1511,7 @@ function useFetchGroupCards(selectedGroupNames, allGroups) {
   return { cards, loading }
 }
 
-export function LinkEditModal({ link, color, groupNames, groups, onSave, onCancel, onGroupSaved }) {
+export function LinkEditModal({ link, color, groupNames, cardNames, groups, onSave, onCancel, onGroupSaved }) {
   const [editLabel, setEditLabel] = useState(link.label || "")
   const [editWires, setEditWires] = useState(() =>
     (link.wires && link.wires.length > 0 ? link.wires : [{ sources: [""], targets: [""] }])
@@ -1604,8 +1665,8 @@ export function LinkEditModal({ link, color, groupNames, groups, onSave, onCance
                   </button>
                 </div>
               )}
-              <GroupMultiSelect label="Sources" values={w.sources} onChange={(v) => updateWire(wi, { sources: v })} groupNames={groupNames} onEditGroup={setEditingGroupName} />
-              <GroupMultiSelect label="Targets" values={w.targets} onChange={(v) => updateWire(wi, { targets: v })} groupNames={groupNames} onEditGroup={setEditingGroupName} />
+              <GroupMultiSelect label="Sources" values={w.sources} onChange={(v) => updateWire(wi, { sources: v })} groupNames={groupNames} cardNames={cardNames} onEditGroup={setEditingGroupName} />
+              <GroupMultiSelect label="Targets" values={w.targets} onChange={(v) => updateWire(wi, { targets: v })} groupNames={groupNames} cardNames={cardNames} onEditGroup={setEditingGroupName} />
             </div>
           ))}
           <button onClick={addWire} className="button" style={{fontSize: "0.8em", alignSelf: "flex-start"}}>+ Add wire</button>

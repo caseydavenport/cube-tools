@@ -22,10 +22,23 @@ type Group struct {
 }
 
 // Wire pairs source groups with target groups; cards from all source groups
-// get edges to cards from all target groups.
+// get edges to cards from all target groups. An entry prefixed "card:" names a
+// single card directly instead of a group.
 type Wire struct {
 	Sources []string `json:"sources"`
 	Targets []string `json:"targets"`
+}
+
+const cardRefPrefix = "card:"
+
+// cardRefName returns the card name for a "card:" wire entry, or "" if the
+// entry is a group name.
+func cardRefName(entry string) string {
+	name, ok := strings.CutPrefix(entry, cardRefPrefix)
+	if !ok {
+		return ""
+	}
+	return name
 }
 
 // Link connects named groups under a single label, via one or more wires.
@@ -94,6 +107,10 @@ type DesignGraphEdge struct {
 type DesignGraphGroupNode struct {
 	// Name is the group name, serving as the unique identifier for the node.
 	Name string `json:"name"`
+
+	// Kind distinguishes regular groups from "card:" wire references, which
+	// appear in the group graph as single-card pseudo-groups.
+	Kind string `json:"kind"`
 
 	// CardCount is the number of cards matching the group's conditions.
 	CardCount int `json:"card_count"`
@@ -279,6 +296,25 @@ func buildDesignGraph(cube *types.Cube, config DesignMapConfig) DesignGraphRespo
 			}
 		}
 		groupCards[g.Name] = cards
+	}
+
+	// Register each card: wire entry as a single-card pseudo-group, so the wire
+	// and group-graph loops below need no special cases. An unknown card (typo,
+	// or cut from the cube) resolves empty, same as a dangling group name.
+	for _, link := range config.Links {
+		for _, wire := range link.Wires {
+			for _, entry := range slices.Concat(wire.Sources, wire.Targets) {
+				name := cardRefName(entry)
+				if name == "" {
+					continue
+				}
+				cards := make(map[string]bool)
+				if _, ok := cardMap[name]; ok {
+					cards[name] = true
+				}
+				groupCards[entry] = cards
+			}
+		}
 	}
 
 	// Process links: look up source/target groups, create edges.
@@ -505,8 +541,28 @@ func buildGroupGraph(config DesignMapConfig, groupCards map[string]map[string]bo
 		slices.Sort(cards)
 		groupNodes = append(groupNodes, DesignGraphGroupNode{
 			Name:      g.Name,
+			Kind:      "group",
 			CardCount: len(cards),
 			Cards:     cards,
+		})
+	}
+
+	// Card: wire references get their own nodes so card endpoints show up on the
+	// theme-level map alongside the groups.
+	for key, cards := range groupCards {
+		if cardRefName(key) == "" {
+			continue
+		}
+		members := make([]string, 0, len(cards))
+		for name := range cards {
+			members = append(members, name)
+		}
+		slices.Sort(members)
+		groupNodes = append(groupNodes, DesignGraphGroupNode{
+			Name:      key,
+			Kind:      "card",
+			CardCount: len(members),
+			Cards:     members,
 		})
 	}
 	slices.SortFunc(groupNodes, func(a, b DesignGraphGroupNode) int {

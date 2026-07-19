@@ -218,6 +218,97 @@ func TestBuildGroupGraphMultiGroupCard(t *testing.T) {
 	assert.True(t, pairs["Artifacts|Ramp Payoffs"] || pairs["Ramp Payoffs|Artifacts"], "expected Artifacts <-> Ramp Payoffs from the multi-group card")
 }
 
+// TestBuildDesignGraphCardRef verifies card: wire entries act as single-card
+// endpoints: they produce card-level edges, mix with group entries, resolve
+// empty for unknown names, and appear in the group graph as kind=card nodes.
+func TestBuildDesignGraphCardRef(t *testing.T) {
+	cube := &types.Cube{
+		Cards: []types.Card{
+			{Name: "Flooded Strand", Colors: []string{}, Types: []string{"Land"}, OracleText: "search your library for a Plains or Island card"},
+			{Name: "Hallowed Fountain", Colors: []string{}, Types: []string{"Land"}, OracleText: "plains island"},
+			{Name: "Steam Vents", Colors: []string{}, Types: []string{"Land"}, OracleText: "island mountain"},
+			{Name: "Bear", Colors: []string{"G"}, Types: []string{"Creature"}, CMC: 2, OracleText: "just a bear", Power: "2", Toughness: "2"},
+		},
+	}
+
+	config := DesignMapConfig{
+		Groups: []Group{
+			{Name: "Blue Fetchables", Conditions: []string{"o:island t:land"}},
+		},
+		Links: []Link{
+			{Label: "Fetches", Wires: []Wire{{Sources: []string{"card:Flooded Strand"}, Targets: []string{"Blue Fetchables"}}}},
+			{Label: "Bogus", Wires: []Wire{{Sources: []string{"card:No Such Card"}, Targets: []string{"Blue Fetchables"}}}},
+		},
+	}
+
+	resp := buildDesignGraph(cube, config)
+
+	// Flooded Strand is itself a Blue Fetchable, so the wire yields edges to the
+	// other two duals only; the unknown card ref yields nothing.
+	assert.Len(t, resp.Edges, 2)
+	pairs := map[string]bool{}
+	for _, e := range resp.Edges {
+		pairs[e.Source+"|"+e.Target] = true
+		assert.Equal(t, []string{"Fetches"}, e.RuleLabels)
+	}
+	assert.True(t, pairs["Flooded Strand|Hallowed Fountain"])
+	assert.True(t, pairs["Flooded Strand|Steam Vents"])
+
+	// Group graph: the real group plus one pseudo-node per card ref.
+	byName := map[string]DesignGraphGroupNode{}
+	for _, n := range resp.GroupNodes {
+		byName[n.Name] = n
+	}
+	assert.Equal(t, "group", byName["Blue Fetchables"].Kind)
+	assert.Equal(t, "card", byName["card:Flooded Strand"].Kind)
+	assert.Equal(t, []string{"Flooded Strand"}, byName["card:Flooded Strand"].Cards)
+	assert.Equal(t, "card", byName["card:No Such Card"].Kind)
+	assert.Equal(t, 0, byName["card:No Such Card"].CardCount)
+
+	// Both group edge views join the card ref to the group it fetches.
+	assert.Len(t, resp.LinkEdges, 2)
+	linkPairs := map[string]bool{}
+	for _, e := range resp.LinkEdges {
+		linkPairs[e.Source+"|"+e.Target] = true
+	}
+	assert.True(t, linkPairs["Blue Fetchables|card:Flooded Strand"])
+	assert.Len(t, resp.GroupEdges, 1)
+	assert.Equal(t, "Blue Fetchables", resp.GroupEdges[0].Source)
+	assert.Equal(t, "card:Flooded Strand", resp.GroupEdges[0].Target)
+}
+
+// TestBuildDesignGraphCardRefMixed verifies a wire can mix card refs and group
+// names on the same side, unioning their members.
+func TestBuildDesignGraphCardRefMixed(t *testing.T) {
+	cube := &types.Cube{
+		Cards: []types.Card{
+			{Name: "Fetch", Colors: []string{}, Types: []string{"Land"}, OracleText: "search your library"},
+			{Name: "Tutor", Colors: []string{"B"}, Types: []string{"Sorcery"}, CMC: 1, OracleText: "search your library for a card"},
+			{Name: "Payoff", Colors: []string{"U"}, Types: []string{"Creature"}, CMC: 3, OracleText: "shuffle payoff", Power: "2", Toughness: "2"},
+		},
+	}
+
+	config := DesignMapConfig{
+		Groups: []Group{
+			{Name: "Tutors", Conditions: []string{"t:sorcery"}},
+			{Name: "Shuffle Payoffs", Conditions: []string{"o:shuffle"}},
+		},
+		Links: []Link{
+			{Label: "Shuffles", Wires: []Wire{{Sources: []string{"card:Fetch", "Tutors"}, Targets: []string{"Shuffle Payoffs"}}}},
+		},
+	}
+
+	resp := buildDesignGraph(cube, config)
+
+	assert.Len(t, resp.Edges, 2)
+	pairs := map[string]bool{}
+	for _, e := range resp.Edges {
+		pairs[e.Source+"|"+e.Target] = true
+	}
+	assert.True(t, pairs["Fetch|Payoff"])
+	assert.True(t, pairs["Payoff|Tutor"])
+}
+
 func TestMatchCardsWithConditions(t *testing.T) {
 	cards := map[string]types.Card{
 		"Bolt": {

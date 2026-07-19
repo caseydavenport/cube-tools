@@ -9,6 +9,7 @@ import {
   saveDesignMap,
   cleanWires,
   ruleColor,
+  cardRefName,
   GroupEditModal,
   LinkEditModal,
 } from './DesignMap.js'
@@ -90,13 +91,18 @@ export function DesignEditorPage() {
   // the audit board.
   const audit = useMemo(() => {
     const groupSet = new Set(groupNames)
+    const cardSet = new Set(names)
     const referenced = new Set()
     const brokenLinks = []
     for (const l of links) {
       const wires = l.wires || []
       const ends = wires.flatMap(w => [...(w.sources || []), ...(w.targets || [])])
       ends.forEach(n => referenced.add(n))
-      const missing = ends.filter(n => !groupSet.has(n))
+      // A card: entry is broken when the named card isn't in the cube (typo, or cut).
+      const missing = ends.filter(n => {
+        const refName = cardRefName(n)
+        return refName ? !cardSet.has(refName) : !groupSet.has(n)
+      })
       const oneSided = wires.some(w => !(w.sources || []).length || !(w.targets || []).length)
       if (missing.length || !wires.length || oneSided) {
         brokenLinks.push({ label: l.label, missing })
@@ -140,7 +146,10 @@ export function DesignEditorPage() {
     similarGroups.sort((x, y) => y.pct - x.pct)
     const unlinkedGroups = groupNames.filter(n => !referenced.has(n))
     const emptyGroups = groupNames.filter(n => (groupCards[n]?.card_count ?? (groupCards[n]?.cards || []).length) === 0)
-    const ungroupedCards = membershipsLoading ? null : names.filter(n => !(cardGroups[n] || []).length)
+    // A card named directly on a wire gets edges without any group, so it isn't
+    // invisible to the map - leave it off the ungrouped list.
+    const directlyWired = new Set([...referenced].map(cardRefName).filter(Boolean))
+    const ungroupedCards = membershipsLoading ? null : names.filter(n => !(cardGroups[n] || []).length && !directlyWired.has(n))
     const isolatedCards = membershipsLoading ? null :
       names.filter(n => (cardGroups[n] || []).length > 0 && !(neighborsOf[n] || []).length)
     const structural = brokenLinks.length + unlinkedGroups.length + emptyGroups.length
@@ -158,7 +167,7 @@ export function DesignEditorPage() {
   const linkWarn = (label) => {
     const b = audit.brokenLinks.find(x => x.label === label)
     if (!b) return null
-    return b.missing.length ? `References missing group: ${b.missing.join(', ')}` : 'A wire is missing a source or target'
+    return b.missing.length ? `References missing group/card: ${b.missing.join(', ')}` : 'A wire is missing a source or target'
   }
 
   // --- URL state ---------------------------------------------------------------
@@ -295,7 +304,7 @@ export function DesignEditorPage() {
       edgeCount={linkEdgeCounts[l.label] || 0}
       groupIndex={groupIndex} groupCards={groupCards} warn={linkWarn(l.label)}
       onEdit={() => openLink(l.label)} onDelete={() => deleteLink(l.label)}
-      onSelectGroup={selectGroup}
+      onSelectGroup={selectGroup} onFocusCard={setFocal}
     />
   } else if (view === 'audit') {
     detail = <AuditBoard
@@ -379,6 +388,7 @@ export function DesignEditorPage() {
           link={linkEditor.original || { label: '', wires: [{ sources: [''], targets: [''] }] }}
           color={ruleColor(linkEditor.original ? (linkIndex[linkEditor.original.label] ?? 0) : links.length)}
           groupNames={groupNames}
+          cardNames={names}
           groups={groups}
           onSave={saveLink}
           onCancel={() => setLinkEditor(null)}
@@ -620,22 +630,37 @@ function GroupDetail({
 }
 
 function Emph({ me, name }) {
-  return <span className={'de-end' + (name === me ? ' de-end-me' : '')}>{name}</span>
+  // Card: wire refs display as the bare card name.
+  return <span className={'de-end' + (name === me ? ' de-end-me' : '')}>{cardRefName(name) || name}</span>
 }
 
 // LinkDetail shows one link as a wiring diagram: source groups on the left,
 // target groups on the right, one thread per declared wire pair.
-function LinkDetail({ link, color, edgeCount, groupIndex, groupCards, warn, onEdit, onDelete, onSelectGroup }) {
+function LinkDetail({ link, color, edgeCount, groupIndex, groupCards, warn, onEdit, onDelete, onSelectGroup, onFocusCard }) {
   const [confirming, setConfirming] = useState(false)
-  const chip = (name) => ({
-    key: name,
-    color: groupIndex[name] !== undefined ? ruleColor(groupIndex[name]) : 'var(--danger)',
-    label: name,
-    sub: groupIndex[name] !== undefined
-      ? `${groupCards[name]?.card_count ?? (groupCards[name]?.cards || []).length} cards`
-      : 'missing group',
-    onClick: groupIndex[name] !== undefined ? () => onSelectGroup(name) : undefined,
-  })
+  const chip = (name) => {
+    // A card: ref is a single-card end. Known iff the pseudo-group resolved it.
+    const refName = cardRefName(name)
+    if (refName) {
+      const known = (groupCards[name]?.card_count ?? 0) > 0
+      return {
+        key: name,
+        color: known ? 'var(--text-muted)' : 'var(--danger)',
+        label: refName,
+        sub: known ? 'card' : 'missing card',
+        onClick: known && onFocusCard ? () => onFocusCard(refName) : undefined,
+      }
+    }
+    return {
+      key: name,
+      color: groupIndex[name] !== undefined ? ruleColor(groupIndex[name]) : 'var(--danger)',
+      label: name,
+      sub: groupIndex[name] !== undefined
+        ? `${groupCards[name]?.card_count ?? (groupCards[name]?.cards || []).length} cards`
+        : 'missing group',
+      onClick: groupIndex[name] !== undefined ? () => onSelectGroup(name) : undefined,
+    }
+  }
   const seenLeft = new Set(), seenRight = new Set(), seenThreads = new Set()
   const left = [], right = [], threads = []
   for (const w of (link.wires || [])) {
@@ -681,10 +706,15 @@ function CompareDetail({
   focal, vs, between, nodeByName, cardGroups, groupIndex, linkIndex,
   onSelectGroup, onSelectLink, onEditLink, onSwap, onClear,
 }) {
-  const chipFor = (name) => ({
-    key: name, color: ruleColor(groupIndex[name] ?? 0), label: name,
-    onClick: () => onSelectGroup(name),
-  })
+  const chipFor = (name) => {
+    // Direct card: refs render as the card name, with no group to select.
+    const refName = cardRefName(name)
+    if (refName) return { key: name, color: 'var(--text-muted)', label: refName }
+    return {
+      key: name, color: ruleColor(groupIndex[name] ?? 0), label: name,
+      onClick: () => onSelectGroup(name),
+    }
+  }
   const leftSeen = new Set(), rightSeen = new Set()
   const left = [], right = [], threads = []
   for (const r of between) {
@@ -731,10 +761,10 @@ function CompareDetail({
           </button>
           {r.bridges.map((b, i) => (
             <div key={i} className="de-why">
-              <span className="de-why-group">{b.focusGroup}</span>
+              <span className="de-why-group">{cardRefName(b.focusGroup) ? <em>direct</em> : b.focusGroup}</span>
               {b.focusConds.length > 0 && <code className="de-why-cond">{b.focusConds.join(' · ')}</code>}
               <span className="de-why-arrow">→</span>
-              <span className="de-why-group">{b.neighGroup}</span>
+              <span className="de-why-group">{cardRefName(b.neighGroup) ? <em>direct</em> : b.neighGroup}</span>
               {b.neighConds.length > 0 && <code className="de-why-cond">{b.neighConds.join(' · ')}</code>}
             </div>
           ))}
