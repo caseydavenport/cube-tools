@@ -1761,17 +1761,17 @@ function ForceGraph({ nodes, edges, showLabels, hoveredId, selectedId, onHover, 
         const touches = focusId && (edge.source === focusId || edge.target === focusId)
         const dimmed = focusId && !touches
         const base = edge.color || "#7c8aa0"
-        // At rest the web stays faint so the nodes read as a constellation; focusing a
-        // node lights up just the edges that touch it.
+        // At rest the web stays subdued so the nodes still read as a constellation;
+        // focusing a node lights up just the edges that touch it.
         let alpha
         if (dimmed) alpha = 0.03
         else if (focusId) alpha = Math.min(0.75, 0.28 + edge.weight * 0.08)
-        else alpha = Math.min(0.2, 0.03 + edge.weight * 0.022)
+        else alpha = Math.min(0.55, 0.26 + edge.weight * 0.05)
         ctx.beginPath()
         ctx.moveTo(s.x, s.y)
         ctx.lineTo(t.x, t.y)
         ctx.strokeStyle = hexToRGBA(base, alpha)
-        ctx.lineWidth = (touches ? 1.6 : Math.max(0.5, Math.min(2.5, edge.weight * 0.4))) / v.scale
+        ctx.lineWidth = (touches ? 1.6 : Math.max(1, Math.min(2.5, edge.weight * 0.4))) / v.scale
         ctx.stroke()
       }
 
