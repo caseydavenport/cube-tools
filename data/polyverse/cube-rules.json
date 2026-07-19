@@ -16,18 +16,6 @@
       ]
     },
     {
-      "name": "Beans",
-      "conditions": [
-        "n:\"Up the Beanstalk\""
-      ]
-    },
-    {
-      "name": "Birthing Ritual",
-      "conditions": [
-        "n:\"Birthing Ritual\""
-      ]
-    },
-    {
       "name": "Buff targets",
       "conditions": [
         "t:creature o:flying",
@@ -60,17 +48,42 @@
       ]
     },
     {
+      "name": "Cheap creatures",
+      "conditions": [
+        "t:creature cmc\u003c2"
+      ]
+    },
+    {
+      "name": "Cheap enchantments",
+      "conditions": [
+        "t:enchantment !t=creature cmc\u003c2"
+      ]
+    },
+    {
+      "name": "Cheap evasion",
+      "conditions": [
+        "o:flying t:creature cmc\u003c2",
+        "o:menace t:creature cmc\u003c2"
+      ]
+    },
+    {
+      "name": "Cheap instants",
+      "conditions": [
+        "t:instant cmc\u003c2"
+      ]
+    },
+    {
+      "name": "Cheap sorceries",
+      "conditions": [
+        "t:sorcery cmc\u003c2"
+      ]
+    },
+    {
       "name": "Cheap spells",
       "conditions": [
         "(t:instant OR t:sorcery) cmc\u003c2",
         "(t:artifact OR t:enchantment) cmc\u003c2 t!=creature",
         "o:flashback (t:instant OR t:sorcery) cmc\u003c3"
-      ]
-    },
-    {
-      "name": "CoCo",
-      "conditions": [
-        "n:\"Collected Company\""
       ]
     },
     {
@@ -140,12 +153,6 @@
       ]
     },
     {
-      "name": "Delney",
-      "conditions": [
-        "n:Delney"
-      ]
-    },
-    {
       "name": "Delney matters",
       "conditions": [
         "pow\u003c3 t:creature o:\"whenever\"",
@@ -208,6 +215,12 @@
       ]
     },
     {
+      "name": "Fetches",
+      "conditions": [
+        "t:land o:sacrifice o:search o:land"
+      ]
+    },
+    {
       "name": "Fill graveyard",
       "conditions": [
         "o:surveil",
@@ -217,11 +230,15 @@
       ]
     },
     {
-      "name": "Fixing",
+      "name": "Fixing creatures",
       "conditions": [
-        "o:\"mana of any color\" !o:\"to activate abilities\"",
-        "t:land o:\"add {*} or {*}\"",
-        "t:land o:\"sacrifice this land\" o:\"search your library\""
+        "o:\"mana of any color\" !o:\"to activate abilities\""
+      ]
+    },
+    {
+      "name": "Fixing lands",
+      "conditions": [
+        "t:land o:\"add {*} or {*}\""
       ]
     },
     {
@@ -234,6 +251,12 @@
       ]
     },
     {
+      "name": "Forests",
+      "conditions": [
+        "t:forest"
+      ]
+    },
+    {
       "name": "Grave hate",
       "conditions": [
         "o:\"from a graveyard\" o:\"exile\""
@@ -243,17 +266,11 @@
       "name": "Graveyard size payoffs",
       "conditions": [
         "o:threshold",
-        "o:\"in your graveyard\"",
-        "o:retrace t:instant",
         "o:delve",
         "o:\"all graveyards\"",
-        "o:retrace t:sorcery"
-      ]
-    },
-    {
-      "name": "Inner Sky",
-      "conditions": [
-        "n:\"Warden of the Inner Sky\""
+        "o:delirium",
+        "o:escape",
+        "n:\"Grim Lavamancer\""
       ]
     },
     {
@@ -264,9 +281,15 @@
       ]
     },
     {
-      "name": "Kellan",
+      "name": "Islands",
       "conditions": [
-        "n:Kellan"
+        "t:island"
+      ]
+    },
+    {
+      "name": "Land recursion",
+      "conditions": [
+        "o:\"land card from your graveyard\""
       ]
     },
     {
@@ -274,7 +297,8 @@
       "conditions": [
         "o:\"search your library\" o:\"land\" o:\"onto the battlefield\"",
         "o:\"land\" o:\"from your hand\" o:\"onto the battlefield\"",
-        "o:\"additional land\""
+        "o:\"additional land\"",
+        "o:\"lands from the top of your library\""
       ]
     },
     {
@@ -297,10 +321,28 @@
       ]
     },
     {
+      "name": "Mountains",
+      "conditions": [
+        "t:mountain"
+      ]
+    },
+    {
+      "name": "Ninjas",
+      "conditions": [
+        "o:ninjutsu"
+      ]
+    },
+    {
       "name": "Pay life",
       "conditions": [
         "o:\"pay\" o:\"life\"",
         "o:\"you lose life\""
+      ]
+    },
+    {
+      "name": "Plains",
+      "conditions": [
+        "t:plains"
       ]
     },
     {
@@ -349,7 +391,8 @@
       "conditions": [
         "o:\"gains flashback\"",
         "o:\"have retrace\" o:\"instant and sorcery\" !o:emblem",
-        "o:\"cast target\" o:\"from your graveyard\""
+        "o:\"cast target instant or\" o:\"from your graveyard\"",
+        "n:\"Mystic Sanctuary\""
       ]
     },
     {
@@ -366,9 +409,9 @@
       ]
     },
     {
-      "name": "Renegade Rallier",
+      "name": "Retrace",
       "conditions": [
-        "n:\"Renegade Rallier\""
+        "o:retrace"
       ]
     },
     {
@@ -450,6 +493,12 @@
       ]
     },
     {
+      "name": "Swamps",
+      "conditions": [
+        "t:swamp"
+      ]
+    },
+    {
       "name": "Targets own board",
       "conditions": [
         "o:\"Target creature you control\"",
@@ -487,12 +536,6 @@
         "t:saga",
         "t:artifact t:creature",
         "t:enchantment t:creature"
-      ]
-    },
-    {
-      "name": "Urza's Saga",
-      "conditions": [
-        "n:\"Urza's Saga\""
       ]
     },
     {
@@ -538,7 +581,13 @@
             "5-color"
           ],
           "targets": [
-            "Fixing"
+            "Fixing creatures",
+            "Mountains",
+            "Plains",
+            "Islands",
+            "Swamps",
+            "Forests",
+            "Fetches"
           ]
         }
       ]
@@ -556,8 +605,8 @@
         },
         {
           "sources": [
-            "Urza's Saga",
-            "Inner Sky"
+            "card:Urza's Saga",
+            "card:Warden of the Inner Sky"
           ],
           "targets": [
             "Cheap artifacts",
@@ -572,7 +621,7 @@
         {
           "sources": [
             "Buff targets",
-            "Kellan"
+            "card:Kellan, the Fae-Blooded // Birthright Boon"
           ],
           "targets": [
             "Equipment",
@@ -608,11 +657,21 @@
       "wires": [
         {
           "sources": [
-            "Birthing Ritual",
-            "CoCo"
+            "card:Birthing Ritual",
+            "card:Collected Company"
           ],
           "targets": [
             "Value creatures"
+          ]
+        },
+        {
+          "sources": [
+            "card:Brightglass Gearhulk"
+          ],
+          "targets": [
+            "Cheap artifacts",
+            "Cheap enchantments",
+            "Cheap creatures"
           ]
         }
       ]
@@ -665,6 +724,15 @@
           "targets": [
             "Counterspells"
           ]
+        },
+        {
+          "sources": [
+            "Wraths"
+          ],
+          "targets": [
+            "Creature lands",
+            "Recursive creatures"
+          ]
         }
       ]
     },
@@ -681,10 +749,105 @@
         },
         {
           "sources": [
-            "Delney"
+            "card:Delney, Streetwise Lookout"
           ],
           "targets": [
             "Delney matters"
+          ]
+        }
+      ]
+    },
+    {
+      "label": "Fetches",
+      "wires": [
+        {
+          "sources": [
+            "card:Arid Mesa"
+          ],
+          "targets": [
+            "Mountains",
+            "Plains"
+          ]
+        },
+        {
+          "sources": [
+            "card:Flooded Strand"
+          ],
+          "targets": [
+            "Plains",
+            "Islands"
+          ]
+        },
+        {
+          "sources": [
+            "card:Polluted Delta"
+          ],
+          "targets": [
+            "Swamps",
+            "Islands"
+          ]
+        },
+        {
+          "sources": [
+            "card:Bloodstained Mire"
+          ],
+          "targets": [
+            "Swamps",
+            "Mountains"
+          ]
+        },
+        {
+          "sources": [
+            "card:Wooded Foothills"
+          ],
+          "targets": [
+            "Mountains",
+            "Forests"
+          ]
+        },
+        {
+          "sources": [
+            "card:Windswept Heath"
+          ],
+          "targets": [
+            "Forests",
+            "Plains"
+          ]
+        },
+        {
+          "sources": [
+            "card:Marsh Flats"
+          ],
+          "targets": [
+            "Plains",
+            "Swamps"
+          ]
+        },
+        {
+          "sources": [
+            "card:Scalding Tarn"
+          ],
+          "targets": [
+            "Islands",
+            "Mountains"
+          ]
+        },
+        {
+          "sources": [
+            "card:Verdant Catacombs"
+          ],
+          "targets": [
+            "Swamps",
+            "Forests"
+          ]
+        },
+        {
+          "sources": [
+            "card:Misty Rainforest"
+          ],
+          "targets": [
+            "Islands",
+            "Forests"
           ]
         }
       ]
@@ -714,14 +877,34 @@
       ]
     },
     {
-      "label": "Landfall",
+      "label": "Lands",
       "wires": [
         {
           "sources": [
             "Landfall payoff"
           ],
           "targets": [
-            "Landfall enablers"
+            "Landfall enablers",
+            "Land recursion"
+          ]
+        },
+        {
+          "sources": [
+            "Retrace",
+            "Creature lands",
+            "Fetches"
+          ],
+          "targets": [
+            "Land recursion"
+          ]
+        },
+        {
+          "sources": [
+            "card:Knight of the Reliquary"
+          ],
+          "targets": [
+            "Forests",
+            "Plains"
           ]
         }
       ]
@@ -740,6 +923,19 @@
       ]
     },
     {
+      "label": "Ninjas",
+      "wires": [
+        {
+          "sources": [
+            "Cheap evasion"
+          ],
+          "targets": [
+            "Ninjas"
+          ]
+        }
+      ]
+    },
+    {
       "label": "Ramp",
       "wires": [
         {
@@ -752,7 +948,7 @@
         },
         {
           "sources": [
-            "Beans"
+            "card:Up the Beanstalk"
           ],
           "targets": [
             "Delve",
@@ -779,14 +975,13 @@
       "wires": [
         {
           "sources": [
-            "Renegade Rallier"
+            "card:Renegade Rallier"
           ],
           "targets": [
             "Self-sac",
             "Sac creatures",
             "Sac artifacts",
-            "Value creatures",
-            "Trinket artifacts"
+            "Value creatures"
           ]
         }
       ]
@@ -811,7 +1006,7 @@
             "Sac artifacts",
             "Sac lands",
             "Self-sac",
-            "Birthing Ritual"
+            "card:Birthing Ritual"
           ],
           "targets": [
             "Sacrifice Matters"
@@ -822,8 +1017,15 @@
             "Self-sac"
           ],
           "targets": [
-            "Delirium",
-            "Graveyard size payoffs"
+            "Delirium"
+          ]
+        },
+        {
+          "sources": [
+            "Mountains"
+          ],
+          "targets": [
+            "card:Fireblast"
           ]
         }
       ]
@@ -866,7 +1068,8 @@
             "Reanimates",
             "Recursive creatures",
             "Delve",
-            "Grave hate"
+            "Grave hate",
+            "Land recursion"
           ]
         }
       ]
@@ -889,7 +1092,7 @@
           ],
           "targets": [
             "Cheap spells",
-            "Fill graveyard"
+            "Selective discard"
           ]
         },
         {
@@ -899,6 +1102,14 @@
           ],
           "targets": [
             "Prowess payoffs"
+          ]
+        },
+        {
+          "sources": [
+            "card:Sphinx of Forgotten Lore"
+          ],
+          "targets": [
+            "Cheap instants"
           ]
         }
       ]
@@ -927,19 +1138,6 @@
           "targets": [
             "Targets own board",
             "Equipment"
-          ]
-        }
-      ]
-    },
-    {
-      "label": "Wraths",
-      "wires": [
-        {
-          "sources": [
-            "Wraths"
-          ],
-          "targets": [
-            "Creature lands"
           ]
         }
       ]
