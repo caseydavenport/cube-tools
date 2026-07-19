@@ -5,7 +5,8 @@
  },
  "macro_archetype": "midrange",
  "labels": [
-  "token"
+  "token",
+  "sacrifice"
  ],
  "player": "2026-06-20_bcp26_2-p4",
  "date": "2026-06-20",

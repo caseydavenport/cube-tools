@@ -5,7 +5,8 @@
  },
  "macro_archetype": "midrange",
  "labels": [
-  "token"
+  "token",
+  "graveyard"
  ],
  "player": "2026-06-20_bcp26_3-p2",
  "date": "2026-06-20",

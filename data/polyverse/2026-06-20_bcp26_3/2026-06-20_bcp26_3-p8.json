@@ -5,7 +5,8 @@
  },
  "macro_archetype": "midrange",
  "labels": [
-  "lands"
+  "lands",
+  "token"
  ],
  "player": "2026-06-20_bcp26_3-p8",
  "date": "2026-06-20",

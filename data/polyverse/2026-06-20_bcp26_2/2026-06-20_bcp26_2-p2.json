@@ -5,7 +5,9 @@
  },
  "macro_archetype": "control",
  "labels": [
-  "delney"
+  "delney",
+  "spells",
+  "prowess"
  ],
  "player": "2026-06-20_bcp26_2-p2",
  "date": "2026-06-20",

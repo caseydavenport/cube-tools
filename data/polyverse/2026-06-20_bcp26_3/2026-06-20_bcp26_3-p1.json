@@ -5,7 +5,8 @@
  },
  "macro_archetype": "midrange",
  "labels": [
-  "saga"
+  "saga",
+  "+1/+1"
  ],
  "player": "2026-06-20_bcp26_3-p1",
  "date": "2026-06-20",
