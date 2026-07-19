@@ -26,6 +26,9 @@
         "t:creature o:\"double strike\"",
         "t:creature o:\"its power\"",
         "t:creature o:\"'s power\" !o:\"card types\""
+      ],
+      "exclude": [
+        "Blade Splicer"
       ]
     },
     {
@@ -122,7 +125,8 @@
         "o:\"enters with three +1/+1\"",
         "o:\"escapes with a +1/+1\"",
         "o:\"escapes with two +1/+1\"",
-        "o:\"escapes with three +1/+1\""
+        "o:\"escapes with three +1/+1\"",
+        "o:\"+1/+1 counters on this\""
       ]
     },
     {
@@ -134,15 +138,33 @@
       ]
     },
     {
+      "name": "Creature ETB",
+      "conditions": [
+        "t:creature o:\"enters\" !o:landfall"
+      ]
+    },
+    {
       "name": "Creature lands",
       "conditions": [
         "t:land o:\"becomes a\""
       ]
     },
     {
-      "name": "Creature tokens",
+      "name": "Creature LTB",
+      "conditions": [
+        "t:creature o:\"leaves the battlefiled\""
+      ]
+    },
+    {
+      "name": "Creature token generator",
       "conditions": [
         "o:\"create\" o:\"creature token\""
+      ]
+    },
+    {
+      "name": "Cycling",
+      "conditions": [
+        "o:cycling OR o:channel"
       ]
     },
     {
@@ -158,6 +180,9 @@
         "pow\u003c3 t:creature o:\"whenever\"",
         "pow\u003c3 t:creature o:\"when this creature enters\"",
         "pow\u003c3 t:creature o:\"when this creature dies\""
+      ],
+      "exclude": [
+        "Bloodghast"
       ]
     },
     {
@@ -167,7 +192,7 @@
       ]
     },
     {
-      "name": "Discard hand",
+      "name": "Discard entire hand",
       "conditions": [
         "o:\"discard your hand\""
       ]
@@ -176,15 +201,6 @@
       "name": "Discard matters",
       "conditions": [
         "o:\"whenever you discard\""
-      ]
-    },
-    {
-      "name": "Discard triggers",
-      "conditions": [
-        "o:cycling OR o:channel OR o:madness",
-        "o:\"discard your hand\" OR o:\"discard their hand\"",
-        "o:\"discard a card\"",
-        "o:\"Each player discards a card\""
       ]
     },
     {
@@ -208,10 +224,12 @@
       ]
     },
     {
-      "name": "ETB/LTB",
+      "name": "ETB",
       "conditions": [
-        "o:\"enters\" (t:creature OR t:enchantment OR t:artifact) !o:landfall !o:\"enters with\"",
-        "o:\"leaves the battlefield\" (t:creature OR t:enchantment OR t:artifact)"
+        "o:\"enters\" !t:creature !t:land"
+      ],
+      "exclude": [
+        "Engineered Explosives"
       ]
     },
     {
@@ -321,6 +339,21 @@
       ]
     },
     {
+      "name": "LTB",
+      "conditions": [
+        "o:leaves !t:creature !t:land !o:until"
+      ],
+      "exclude": [
+        "Journey to Nowhere"
+      ]
+    },
+    {
+      "name": "Madness",
+      "conditions": [
+        "o:madness"
+      ]
+    },
+    {
       "name": "Mountains",
       "conditions": [
         "t:mountain"
@@ -415,7 +448,14 @@
       ]
     },
     {
-      "name": "Sac artifacts",
+      "name": "Sacrifice Matters",
+      "conditions": [
+        "o:\"whenever a player sacrifices\"",
+        "o:\"are put into your graveyard\""
+      ]
+    },
+    {
+      "name": "Sacs artifacts",
       "conditions": [
         "o:\"sacrifice another creature or artifact\"",
         "o:\"sacrifice an artifact\"",
@@ -423,7 +463,7 @@
       ]
     },
     {
-      "name": "Sac creatures",
+      "name": "Sacs creatures",
       "conditions": [
         "o:\"sacrifice a creature\"",
         "o:\"sacrifice another creature\"",
@@ -432,19 +472,12 @@
       ]
     },
     {
-      "name": "Sac lands",
+      "name": "Sacs lands",
       "conditions": [
         "o:\"sacrifice a land\"",
         "o:\"sacrifice two lands\"",
         "o:\"sacrifice a plains\" OR o:\"sacrifice a mountain\" OR o:\"sacrifice an island\" OR o:\"sacrifice a swamp\" OR o:\"sacrifice a forest\"",
         "o:\"sacrifice two plains\" OR o:\"sacrifice two mountains\" OR o:\"sacrifice two islands\" OR o:\"sacrifice two swamps\" OR o:\"sacrifice two forests\""
-      ]
-    },
-    {
-      "name": "Sacrifice Matters",
-      "conditions": [
-        "o:\"whenever a player sacrifices\"",
-        "o:\"are put into your graveyard\""
       ]
     },
     {
@@ -464,7 +497,7 @@
       ]
     },
     {
-      "name": "Self-sac",
+      "name": "Self-sacs",
       "conditions": [
         "o:\"sacrifice this artifact\"",
         "o:\"sacrifice this creature\"",
@@ -597,7 +630,7 @@
       "wires": [
         {
           "sources": [
-            "Sac artifacts"
+            "Sacs artifacts"
           ],
           "targets": [
             "Trinket artifacts"
@@ -685,7 +718,7 @@
           ],
           "targets": [
             "Types in graveyard",
-            "Sac artifacts"
+            "Sacs artifacts"
           ]
         }
       ]
@@ -696,20 +729,21 @@
         {
           "sources": [
             "Discard matters",
-            "Recursive creatures"
+            "Recursive creatures",
+            "Madness"
           ],
           "targets": [
-            "Discard triggers",
-            "Discard hand",
+            "Discard entire hand",
             "Selective discard"
           ]
         },
         {
           "sources": [
-            "Discard triggers"
+            "Graveyard size payoffs",
+            "Discard matters"
           ],
           "targets": [
-            "Graveyard size payoffs"
+            "Cycling"
           ]
         }
       ]
@@ -741,7 +775,10 @@
       "wires": [
         {
           "sources": [
-            "ETB/LTB"
+            "ETB",
+            "Creature ETB",
+            "Creature LTB",
+            "LTB"
           ],
           "targets": [
             "Flicker Enablers"
@@ -862,8 +899,8 @@
           "targets": [
             "Fill graveyard",
             "Selective discard",
-            "Sac creatures",
-            "Self-sac"
+            "Sacs creatures",
+            "Self-sacs"
           ]
         },
         {
@@ -971,30 +1008,14 @@
       ]
     },
     {
-      "label": "Renegade Rallier",
-      "wires": [
-        {
-          "sources": [
-            "card:Renegade Rallier"
-          ],
-          "targets": [
-            "Self-sac",
-            "Sac creatures",
-            "Sac artifacts",
-            "Value creatures"
-          ]
-        }
-      ]
-    },
-    {
       "label": "Sacrifice",
       "wires": [
         {
           "sources": [
-            "Sac creatures"
+            "Sacs creatures"
           ],
           "targets": [
-            "Creature tokens",
+            "Creature token generator",
             "Recursive creatures",
             "Sacrifice Matters"
           ]
@@ -1002,10 +1023,10 @@
         {
           "sources": [
             "Trinket artifacts",
-            "Creature tokens",
-            "Sac artifacts",
-            "Sac lands",
-            "Self-sac",
+            "Creature token generator",
+            "Sacs artifacts",
+            "Sacs lands",
+            "Self-sacs",
             "card:Birthing Ritual"
           ],
           "targets": [
@@ -1014,7 +1035,7 @@
         },
         {
           "sources": [
-            "Self-sac"
+            "Self-sacs"
           ],
           "targets": [
             "Delirium"
@@ -1026,6 +1047,16 @@
           ],
           "targets": [
             "card:Fireblast"
+          ]
+        },
+        {
+          "sources": [
+            "Sacs lands",
+            "Sacs creatures",
+            "Value creatures"
+          ],
+          "targets": [
+            "card:Renegade Rallier"
           ]
         }
       ]
@@ -1123,7 +1154,7 @@
             "Wide payoffs"
           ],
           "targets": [
-            "Creature tokens"
+            "Creature token generator"
           ]
         }
       ]
