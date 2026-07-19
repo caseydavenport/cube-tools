@@ -214,7 +214,6 @@ export function StatsViewer(props) {
         <DesignMapWidget
           show={display[8]} designGraphData={designGraphData} cards={cube.cards}
           onCardSelected={(e) => setSelectedCard(e.currentTarget.id)}
-          onRulesChanged={triggerRefresh}
         />
       </div>
     </div>

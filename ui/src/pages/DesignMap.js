@@ -9,11 +9,10 @@ import { useCube } from "../contexts/CubeContext.js"
 //   group:<name>      -> a single group's member cards
 //   card:<name>       -> a card and its directly-linked neighbors
 // Selecting anywhere (legend, map, detail rail) drives all three panels in sync.
-export function DesignMapWidget({ show, designGraphData, cards, onCardSelected, onRulesChanged }) {
+export function DesignMapWidget({ show, designGraphData, cards, onCardSelected }) {
   const cube = useCube()
   const [trail, setTrail] = useState([{ level: "themes" }])
   const [hovered, setHovered] = useState(null)
-  const [mode, setMode] = useState("explore")
 
   const data = designGraphData || {}
   const nodes = data.nodes || []
@@ -78,7 +77,7 @@ export function DesignMapWidget({ show, designGraphData, cards, onCardSelected, 
         <div className="dm-empty">
           <p>No design map yet.</p>
           <p className="dm-muted">
-            Switch to <button className="dm-linkbtn" onClick={() => setMode("edit")}>Edit</button> to define
+            Use the <a className="dm-linkbtn" href={`#/${cube}/design-editor`}>Design Editor</a> to define
             groups (card queries) and links (how groups relate). The map is built from those rules.
           </p>
         </div>
@@ -90,66 +89,46 @@ export function DesignMapWidget({ show, designGraphData, cards, onCardSelected, 
     <div className="dm-explore">
       <div className="dm-topbar">
         <Breadcrumb trail={trail} onCrumb={goToCrumb} groupColor={groupColor} />
-        <div className="dm-modeswitch">
-          {["explore", "edit"].map(m => (
-            <button
-              key={m}
-              className={mode === m ? "dm-mode dm-mode-on" : "dm-mode"}
-              onClick={() => setMode(m)}
-            >
-              {m === "explore" ? "Explore" : "Edit rules"}
-            </button>
-          ))}
-        </div>
       </div>
 
-      {mode === "edit" ? (
-        <div className="dm-editwrap">
-          <RulesPanel
-            cube={cube} groups={groups} links={links} nodes={nodes} edges={edges}
-            onRulesChanged={onRulesChanged} selectedCard={focus.level === "card" ? focus.card : null}
-          />
-        </div>
-      ) : (
-        <div className="dm-grid">
-          <Legend
-            groupNodes={groupNodes}
-            groupColor={groupColor}
-            focus={focus}
-            hovered={hovered}
-            onHover={setHovered}
-            onPick={jumpToGroup}
-          />
-          <DrillMap
-            key={dataKey}
-            focus={focus}
-            nodeMap={nodeMap}
-            edges={edges}
-            groupNodes={groupNodes}
-            groupEdges={groupEdges}
-            links={links}
-            groupColor={groupColor}
-            cardGroups={cardGroups}
-            cardData={cardData}
-            hovered={hovered}
-            onHover={setHovered}
-            onDrill={drillTo}
-          />
-          <DetailPanel
-            cube={cube}
-            focus={focus}
-            groups={groups}
-            groupNodes={groupNodes}
-            links={links}
-            edges={edges}
-            nodeMap={nodeMap}
-            groupColor={groupColor}
-            hovered={hovered}
-            onHover={setHovered}
-            onDrill={drillTo}
-          />
-        </div>
-      )}
+      <div className="dm-grid">
+        <Legend
+          groupNodes={groupNodes}
+          groupColor={groupColor}
+          focus={focus}
+          hovered={hovered}
+          onHover={setHovered}
+          onPick={jumpToGroup}
+        />
+        <DrillMap
+          key={dataKey}
+          focus={focus}
+          nodeMap={nodeMap}
+          edges={edges}
+          groupNodes={groupNodes}
+          groupEdges={groupEdges}
+          links={links}
+          groupColor={groupColor}
+          cardGroups={cardGroups}
+          cardData={cardData}
+          hovered={hovered}
+          onHover={setHovered}
+          onDrill={drillTo}
+        />
+        <DetailPanel
+          cube={cube}
+          focus={focus}
+          groups={groups}
+          groupNodes={groupNodes}
+          links={links}
+          edges={edges}
+          nodeMap={nodeMap}
+          groupColor={groupColor}
+          hovered={hovered}
+          onHover={setHovered}
+          onDrill={drillTo}
+        />
+      </div>
     </div>
   )
 }
@@ -821,355 +800,6 @@ export function cleanWires(rawWires) {
   return wires.length > 0 ? wires : null
 }
 
-function RulesPanel({ cube, groups, links, nodes, edges, onRulesChanged, selectedCard, drawnConnection, onDrawnConnectionConsumed }) {
-  const [activeTab, setActiveTab] = useState("links")
-  const [addingGroup, setAddingGroup] = useState(false)
-  const [addingLink, setAddingLink] = useState(false)
-  // A pre-filled link draft opened by drawing a connection on the link graph.
-  const [drawnLink, setDrawnLink] = useState(null)
-  const [confirmDeleteGroup, setConfirmDeleteGroup] = useState(null)
-  const [confirmDeleteLink, setConfirmDeleteLink] = useState(null)
-  const [editingGroup, setEditingGroup] = useState(null)
-  const [editingLink, setEditingLink] = useState(null)
-  const [saveStatus, setSaveStatus] = useState("")
-
-  // When a connection is drawn on the graph, open a pre-filled link editor on the links tab.
-  useEffect(() => {
-    if (!drawnConnection) return
-    setDrawnLink({ label: "", wires: [{ sources: [drawnConnection.source], targets: [drawnConnection.target] }] })
-    setActiveTab("links")
-    setSaveStatus("")
-    if (onDrawnConnectionConsumed) onDrawnConnectionConsumed()
-  }, [drawnConnection])
-
-  function addGroup(newGroup) {
-    const conditions = newGroup.conditions.map(c => c.trim()).filter(c => c)
-    if (conditions.length === 0) {
-      setSaveStatus("At least one condition is required.")
-      return
-    }
-    const updated = [...groups, {
-      name: newGroup.name.trim() || "Untitled group",
-      conditions,
-    }]
-    saveDesignMap(cube, updated, links, onRulesChanged, setSaveStatus)
-    setAddingGroup(false)
-  }
-
-  function updateGroup(index, updatedGroup) {
-    const conditions = updatedGroup.conditions.map(c => c.trim()).filter(c => c)
-    if (conditions.length === 0) {
-      setSaveStatus("At least one condition is required.")
-      return
-    }
-    const newName = updatedGroup.name.trim() || "Untitled group"
-    const oldName = groups[index].name
-    const updatedGroups = groups.map((g, i) => i === index ? { name: newName, conditions } : g)
-
-    // If the name changed, update any links that reference the old name.
-    let updatedLinks = links
-    if (oldName !== newName) {
-      updatedLinks = links.map(l => ({
-        ...l,
-        wires: (l.wires || []).map(w => ({
-          sources: (w.sources || []).map(s => s === oldName ? newName : s),
-          targets: (w.targets || []).map(t => t === oldName ? newName : t),
-        })),
-      }))
-    }
-    saveDesignMap(cube, updatedGroups, updatedLinks, onRulesChanged, setSaveStatus)
-    setEditingGroup(null)
-  }
-
-  function deleteGroup(index) {
-    const updated = groups.filter((_, i) => i !== index)
-    saveDesignMap(cube, updated, links, onRulesChanged, setSaveStatus)
-    setConfirmDeleteGroup(null)
-  }
-
-  function addLink(newLink) {
-    const wires = cleanWires(newLink.wires)
-    if (!wires) {
-      setSaveStatus("Every wire needs at least one source and one target group.")
-      return false
-    }
-    const updated = [...links, {
-      label: newLink.label.trim() || "Untitled link",
-      wires,
-    }]
-    saveDesignMap(cube, groups, updated, onRulesChanged, setSaveStatus)
-    setAddingLink(false)
-    return true
-  }
-
-  function updateLink(index, updatedLink) {
-    const wires = cleanWires(updatedLink.wires)
-    if (!wires) {
-      setSaveStatus("Every wire needs at least one source and one target group.")
-      return
-    }
-    const updated = links.map((l, i) => i === index ? {
-      label: updatedLink.label.trim() || "Untitled link",
-      wires,
-    } : l)
-    saveDesignMap(cube, groups, updated, onRulesChanged, setSaveStatus)
-    setEditingLink(null)
-  }
-
-  function deleteLink(index) {
-    const updated = links.filter((_, i) => i !== index)
-    saveDesignMap(cube, groups, updated, onRulesChanged, setSaveStatus)
-    setConfirmDeleteLink(null)
-  }
-
-  // When a card is selected, find which link labels connect to it via edges.
-  const activeLabels = React.useMemo(() => {
-    if (!selectedCard) return null
-    const labels = new Set()
-    for (const e of edges) {
-      if (e.source === selectedCard || e.target === selectedCard) {
-        for (const l of (e.rule_labels || [])) labels.add(l)
-      }
-    }
-    return labels.size > 0 ? labels : null
-  }, [selectedCard, edges])
-
-  // Auto-switch to links tab when a card with links is selected.
-  useEffect(() => {
-    if (activeLabels && activeLabels.size > 0) setActiveTab("links")
-  }, [activeLabels])
-
-  // When a card is selected, query the backend to find which groups actually contain it.
-  const [activeGroupNames, setActiveGroupNames] = useState(null)
-  useEffect(() => {
-    if (!selectedCard || groups.length === 0) {
-      setActiveGroupNames(null)
-      return
-    }
-    // Build parallel conditions/groups arrays from all groups.
-    const conditions = []
-    const groupLabels = []
-    for (const g of groups) {
-      for (const c of (g.conditions || [])) {
-        conditions.push(c)
-        groupLabels.push(g.name)
-      }
-    }
-    if (conditions.length === 0) { setActiveGroupNames(null); return }
-
-    fetch(`/api/${cube}/stats/design-graph/match`, {
-      method: "POST",
-      headers: {"Content-Type": "application/json"},
-      body: JSON.stringify({ conditions, groups: groupLabels }),
-    })
-      .then(r => r.json())
-      .then(data => {
-        const card = (data.cards || []).find(c => c.name === selectedCard)
-        if (card) {
-          setActiveGroupNames(new Set(card.conditions.map(mc => mc.group).filter(g => g)))
-        } else {
-          setActiveGroupNames(null)
-        }
-      })
-      .catch(() => setActiveGroupNames(null))
-  }, [selectedCard, groups])
-
-  // Sort links so matching ones appear first when a card is selected.
-  const sortedLinkIndices = React.useMemo(() => {
-    const indices = links.map((_, i) => i)
-    if (!activeLabels) return indices
-    return indices.sort((a, b) => {
-      const aMatch = activeLabels.has(links[a].label) ? 0 : 1
-      const bMatch = activeLabels.has(links[b].label) ? 0 : 1
-      return aMatch - bMatch
-    })
-  }, [links, activeLabels])
-
-  // Sort groups so matching ones appear first when a card is selected.
-  const sortedGroupIndices = React.useMemo(() => {
-    const indices = groups.map((_, i) => i)
-    if (!activeGroupNames) return indices
-    return indices.sort((a, b) => {
-      const aMatch = activeGroupNames.has(groups[a].name) ? 0 : 1
-      const bMatch = activeGroupNames.has(groups[b].name) ? 0 : 1
-      return aMatch - bMatch
-    })
-  }, [groups, activeGroupNames])
-
-  const groupNames = groups.map(g => g.name)
-  const usedGroupNames = new Set(links.flatMap(l => (l.wires || []).flatMap(w => [...(w.sources || []), ...(w.targets || [])])))
-
-  return (
-    <div style={{
-      background: "var(--card-background)",
-      borderRadius: "8px",
-      padding: "1rem",
-      overflowY: "auto",
-      height: 0,
-      minHeight: "100%",
-    }}>
-      <h4 style={{color: "var(--primary)", margin: "0 0 0.5rem 0", fontSize: "1rem"}}>
-        Design Map
-      </h4>
-
-      <p style={{color: "var(--text-muted)", fontSize: "0.8em", margin: "0 0 0.75rem 0"}}>
-        {nodes.length} cards, {edges.length} edges from {links.length} links, {groups.length} groups
-      </p>
-
-      {saveStatus && (
-        <p style={{color: "#e55", fontSize: "0.8em", margin: "0.25rem 0 0.5rem 0"}}>{saveStatus}</p>
-      )}
-
-      {/* Tab bar */}
-      <div style={{display: "flex", gap: 0, marginBottom: "0.75rem", borderBottom: "1px solid var(--page-background)"}}>
-        {[
-          { key: "groups", label: `Groups (${groups.length})` },
-          { key: "links", label: `Links (${links.length})` },
-        ].map(tab => (
-          <button
-            key={tab.key}
-            onClick={() => setActiveTab(tab.key)}
-            style={{
-              background: "transparent",
-              border: "none",
-              borderBottom: activeTab === tab.key ? "2px solid var(--primary)" : "2px solid transparent",
-              color: activeTab === tab.key ? "var(--primary)" : "var(--text-muted)",
-              padding: "0.4rem 1rem",
-              cursor: "pointer",
-              fontSize: "0.85em",
-              fontWeight: activeTab === tab.key ? "bold" : "normal",
-            }}
-          >
-            {tab.label}
-          </button>
-        ))}
-      </div>
-
-      {/* Groups Tab */}
-      {activeTab === "groups" && <>
-        {addingGroup && (
-          <GroupEditModal
-            group={{ name: "", conditions: [""] }}
-            color="var(--primary)"
-            onSave={addGroup}
-            onCancel={() => { setAddingGroup(false); setSaveStatus("") }}
-          />
-        )}
-        <button
-          onClick={() => { setAddingGroup(true); setSaveStatus("") }}
-          style={{
-            background: "transparent",
-            border: "1px dashed var(--text-muted)",
-            borderRadius: "6px",
-            color: "var(--text-muted)",
-            width: "100%",
-            padding: "0.4rem",
-            cursor: "pointer",
-            fontSize: "0.85em",
-            marginBottom: "0.5rem",
-          }}
-        >
-          + Add Group
-        </button>
-
-        {sortedGroupIndices.map(i => {
-          const group = groups[i]
-          const highlighted = activeGroupNames && activeGroupNames.has(group.name)
-          const dimmed = activeGroupNames && !highlighted
-          return (
-            <GroupCard
-              key={i} group={group} index={i}
-              unused={!usedGroupNames.has(group.name)}
-              confirmDelete={confirmDeleteGroup === i}
-              onDeleteClick={() => setConfirmDeleteGroup(confirmDeleteGroup === i ? null : i)}
-              onConfirmDelete={() => deleteGroup(i)}
-              onCancelDelete={() => setConfirmDeleteGroup(null)}
-              isEditing={editingGroup === i}
-              onEditClick={() => { setEditingGroup(editingGroup === i ? null : i); setConfirmDeleteGroup(null); setSaveStatus("") }}
-              onEditSave={(updated) => updateGroup(i, updated)}
-              onEditCancel={() => setEditingGroup(null)}
-              dimmed={dimmed}
-            />
-          )
-        })}
-
-        {groups.length === 0 && !addingGroup && (
-          <p style={{color: "var(--text-muted)", fontSize: "0.85em", fontStyle: "italic"}}>
-            No groups defined yet.
-          </p>
-        )}
-      </>}
-
-      {/* Links Tab */}
-      {activeTab === "links" && <>
-        {drawnLink && (
-          <LinkEditModal
-            link={drawnLink}
-            color="var(--primary)"
-            groupNames={groupNames}
-            groups={groups}
-            onSave={(l) => { if (addLink(l)) setDrawnLink(null) }}
-            onCancel={() => { setDrawnLink(null); setSaveStatus("") }}
-          />
-        )}
-        {addingLink && (
-          <LinkEditModal
-            link={{ label: "", wires: [{ sources: [""], targets: [""] }] }}
-            color="var(--primary)"
-            groupNames={groupNames}
-            groups={groups}
-            onSave={addLink}
-            onCancel={() => { setAddingLink(false); setSaveStatus("") }}
-          />
-        )}
-        <button
-          onClick={() => { setAddingLink(true); setSaveStatus("") }}
-          style={{
-            background: "transparent",
-            border: "1px dashed var(--text-muted)",
-            borderRadius: "6px",
-            color: "var(--text-muted)",
-            width: "100%",
-            padding: "0.4rem",
-            cursor: "pointer",
-            fontSize: "0.85em",
-            marginBottom: "0.5rem",
-          }}
-        >
-          + Add Link
-        </button>
-
-        {sortedLinkIndices.map(i => {
-          const link = links[i]
-          const highlighted = activeLabels && activeLabels.has(link.label)
-          const dimmed = activeLabels && !highlighted
-          return (
-            <LinkCard
-              key={i} link={link} index={i} groupNames={groupNames} groups={groups}
-              confirmDelete={confirmDeleteLink === i}
-              onDeleteClick={() => setConfirmDeleteLink(confirmDeleteLink === i ? null : i)}
-              onConfirmDelete={() => deleteLink(i)}
-              onCancelDelete={() => setConfirmDeleteLink(null)}
-              isEditing={editingLink === i}
-              onEditClick={() => { setEditingLink(editingLink === i ? null : i); setConfirmDeleteLink(null); setSaveStatus("") }}
-              onEditSave={(updated) => updateLink(i, updated)}
-              onEditCancel={() => setEditingLink(null)}
-              onGroupSaved={(groupIndex, updated) => updateGroup(groupIndex, updated)}
-              dimmed={dimmed}
-            />
-          )
-        })}
-
-        {links.length === 0 && !addingLink && (
-          <p style={{color: "var(--text-muted)", fontSize: "0.85em", fontStyle: "italic"}}>
-            No links defined yet.
-          </p>
-        )}
-      </>}
-    </div>
-  )
-}
-
 function RuleInput({ label, value, onChange, placeholder }) {
   return (
     <div style={{marginBottom: "0.35rem"}}>
@@ -1195,35 +825,7 @@ function RuleInput({ label, value, onChange, placeholder }) {
   )
 }
 
-function GroupSelect({ label, value, onChange, groupNames }) {
-  return (
-    <div style={{marginBottom: "0.35rem"}}>
-      <label style={{fontSize: "0.7em", color: "var(--text-muted)", display: "block", marginBottom: "2px"}}>{label}</label>
-      <select
-        value={value}
-        onChange={e => onChange(e.target.value)}
-        style={{
-          width: "100%",
-          background: "var(--card-background)",
-          color: "var(--text-color)",
-          border: "1px solid var(--card-background)",
-          borderRadius: "4px",
-          padding: "4px 6px",
-          fontSize: "0.8em",
-          fontFamily: "monospace",
-          boxSizing: "border-box",
-        }}
-      >
-        <option value="">-- Select group --</option>
-        {groupNames.map(name => (
-          <option key={name} value={name}>{name}</option>
-        ))}
-      </select>
-    </div>
-  )
-}
-
-function GroupMultiSelect({ label, values, onChange, groupNames, onEditGroup }) {
+function GroupMultiSelect({ label, values, onChange, groupNames, cardNames, onEditGroup }) {
   function updateAt(i, val) {
     const next = [...values]
     next[i] = val
@@ -1449,66 +1051,6 @@ function ClauseInputs({ label, connects, onChange, placeholder, highlightedCondi
           cursor: "pointer", fontSize: "0.75em", padding: "0",
         }}
       >+ Add OR clause</button>
-    </div>
-  )
-}
-
-function GroupCard({ group, index, unused, confirmDelete, onDeleteClick, onConfirmDelete, onCancelDelete, isEditing, onEditClick, onEditSave, onEditCancel, dimmed }) {
-  const color = unused ? "var(--text-muted)" : ruleColor(index)
-
-  if (isEditing) {
-    return <GroupEditModal group={group} color={ruleColor(index)} onSave={onEditSave} onCancel={onEditCancel} />
-  }
-
-  return (
-    <div onClick={onEditClick} style={{
-      background: "var(--page-background)",
-      borderRadius: "6px",
-      padding: "0.4rem 0.7rem",
-      marginBottom: "0.3rem",
-      borderLeft: `3px solid ${color}`,
-      opacity: dimmed ? 0.35 : unused ? 0.5 : 1,
-      position: "relative",
-      cursor: "pointer",
-      transition: "opacity 0.15s",
-    }}>
-      <div style={{display: "flex", justifyContent: "space-between", alignItems: "center"}}>
-        <div style={{fontWeight: "bold", fontSize: "0.9em", color}}>
-          {group.name || `Group ${index + 1}`}{unused ? " (unused)" : ""}
-        </div>
-        <div style={{display: "flex", gap: "4px"}}>
-          <button
-            onClick={(e) => { e.stopPropagation(); onDeleteClick(); }}
-            title="Delete group"
-            style={{
-              background: "transparent",
-              border: "none",
-              color: "var(--text-muted)",
-              cursor: "pointer",
-              fontSize: "1em",
-              lineHeight: "1",
-              padding: "0 2px",
-            }}
-          >
-            &times;
-          </button>
-        </div>
-      </div>
-      {confirmDelete && (
-        <div style={{
-          background: "var(--card-background)",
-          borderRadius: "4px",
-          padding: "0.4rem 0.5rem",
-          marginBottom: "0.35rem",
-          fontSize: "0.75em",
-        }}>
-          <span style={{color: "#e55"}}>Delete this group?</span>
-          <div style={{display: "flex", gap: "0.4rem", marginTop: "0.3rem"}}>
-            <button onClick={onConfirmDelete} className="button" style={{fontSize: "0.75em", background: "#e55", color: "#fff", border: "none", borderRadius: "4px", padding: "2px 8px", cursor: "pointer"}}>Delete</button>
-            <button onClick={onCancelDelete} className="button" style={{fontSize: "0.75em"}}>Cancel</button>
-          </div>
-        </div>
-      )}
     </div>
   )
 }
@@ -2035,75 +1577,6 @@ export function LinkEditModal({ link, color, groupNames, groups, onSave, onCance
           onCancel={() => setEditingGroupName(null)}
         />
       )}
-    </div>
-  )
-}
-
-function LinkCard({ link, index, groupNames, groups, confirmDelete, onDeleteClick, onConfirmDelete, onCancelDelete, isEditing, onEditClick, onEditSave, onEditCancel, onGroupSaved, dimmed }) {
-  const color = ruleColor(index)
-
-  if (isEditing) {
-    return <LinkEditModal link={link} color={color} groupNames={groupNames} groups={groups} onSave={onEditSave} onCancel={onEditCancel} onGroupSaved={onGroupSaved} />
-  }
-
-  const wires = link.wires || []
-
-  return (
-    <div onClick={onEditClick} style={{
-      background: "var(--page-background)",
-      borderRadius: "6px",
-      padding: "0.5rem 0.75rem",
-      marginBottom: "0.5rem",
-      borderLeft: `3px solid ${color}`,
-      position: "relative",
-      cursor: "pointer",
-      opacity: dimmed ? 0.35 : 1,
-      transition: "opacity 0.15s",
-    }}>
-      <div style={{display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "0.25rem"}}>
-        <div style={{fontWeight: "bold", fontSize: "0.9em", color}}>
-          {link.label || `Link ${index + 1}`}
-        </div>
-        <div style={{display: "flex", gap: "4px"}}>
-          <button
-            onClick={(e) => { e.stopPropagation(); onDeleteClick(); }}
-            title="Delete link"
-            style={{
-              background: "transparent",
-              border: "none",
-              color: "var(--text-muted)",
-              cursor: "pointer",
-              fontSize: "1em",
-              lineHeight: "1",
-              padding: "0 2px",
-            }}
-          >
-            &times;
-          </button>
-        </div>
-      </div>
-      {confirmDelete && (
-        <div style={{
-          background: "var(--card-background)",
-          borderRadius: "4px",
-          padding: "0.4rem 0.5rem",
-          marginBottom: "0.35rem",
-          fontSize: "0.75em",
-        }}>
-          <span style={{color: "#e55"}}>Delete this link?</span>
-          <div style={{display: "flex", gap: "0.4rem", marginTop: "0.3rem"}}>
-            <button onClick={onConfirmDelete} className="button" style={{fontSize: "0.75em", background: "#e55", color: "#fff", border: "none", borderRadius: "4px", padding: "2px 8px", cursor: "pointer"}}>Delete</button>
-            <button onClick={onCancelDelete} className="button" style={{fontSize: "0.75em"}}>Cancel</button>
-          </div>
-        </div>
-      )}
-      {wires.map((w, i) => (
-        <div key={"w" + i} style={{fontSize: "0.75em", color: "var(--text-muted)", marginTop: i > 0 ? "0.2rem" : 0}}>
-          <span style={{color: "var(--text-color)"}}>{(w.sources || []).join(", ")}</span>
-          {" → "}
-          <span style={{color: "var(--text-color)"}}>{(w.targets || []).join(", ")}</span>
-        </div>
-      ))}
     </div>
   )
 }
