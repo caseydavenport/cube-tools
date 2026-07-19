@@ -15,6 +15,7 @@ import ReactMarkdown from "react-markdown";
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Popover from 'react-bootstrap/Popover';
 import { BrowseLayout, BrowseEmptyState, CollapsibleIndex } from "../components/BrowseLayout.js"
+import { CardSynergyMap } from "./DesignMap.js"
 import { useSelection } from "../hooks/useSelection.js"
 import { useArrowNav } from "../hooks/useArrowNav.js"
 
@@ -65,16 +66,21 @@ export function DeckViewer(props) {
   // The deck currently being displayed.
   const [deck, setDeck] = useState("");
 
-  // Design-map edges (card-name to card-name synergy links), fetched once per
-  // cube. Used to show, on card hover, which other cards in the same deck a card
-  // links to. Just the edges - the deck viewer doesn't need the full graph.
+  // Design-map edges (card-name to card-name synergy links) and links (rules,
+  // used for edge coloring in the map view), fetched once per cube. Edges drive
+  // the on-hover synergy popovers; edges + links drive the Map view mode.
   const [synergyEdges, setSynergyEdges] = useState([]);
+  const [synergyLinks, setSynergyLinks] = useState([]);
   useEffect(() => {
     let alive = true
     fetch(`/api/${cube}/stats/design-graph`)
       .then(r => r.json())
-      .then(d => { if (alive) setSynergyEdges(d.edges || []) })
-      .catch(() => { if (alive) setSynergyEdges([]) })
+      .then(d => {
+        if (!alive) return
+        setSynergyEdges(d.edges || [])
+        setSynergyLinks(d.links || [])
+      })
+      .catch(() => { if (alive) { setSynergyEdges([]); setSynergyLinks([]) } })
     return () => { alive = false }
   }, [cube]);
 
@@ -343,6 +349,7 @@ export function DeckViewer(props) {
           options={[
             { label: "Text", value: "Text" },
             { label: "Images", value: "Images" },
+            { label: "Map", value: "Map" },
           ]}
           value={viewMode}
           onChange={(e) => setViewMode(e.target.value)}
@@ -388,6 +395,8 @@ export function DeckViewer(props) {
             deck={deck}
             decks={decks}
             synergy={synergy}
+            synergyEdges={synergyEdges}
+            synergyLinks={synergyLinks}
             comparisonDecks={comparisonDecks}
             mbsb={mainboardSideboard}
             matchStr={debouncedMatchStr}
@@ -657,7 +666,41 @@ function MainDisplay(input) {
   if (input.viewMode === "Images") {
     return displayDeckImages(input);
   }
+  if (input.viewMode === "Map") {
+    return displayDeckMap(input);
+  }
   return displayDeck(input);
+}
+
+// displayDeckMap shows the selected board as a design-map style force graph,
+// wired by the cube's design rules.
+function displayDeckMap(input) {
+  let deck = input.deck
+
+  let missing = (input.mbsb == "Mainboard" && !deck.mainboard)
+  missing = missing || (input.mbsb == "Sideboard" && !deck.sideboard)
+  missing = missing || (input.mbsb == "Pool" && !deck.pool)
+  if (!deck || missing) {
+    return null;
+  }
+
+  let cards = deck.mainboard
+  if (input.mbsb == "Sideboard") {
+    cards = deck.sideboard
+  }
+  if (input.mbsb == "Pool") {
+    cards = deck.pool
+  }
+
+  // Basics aren't part of the design graph - leave them off the map.
+  const mapCards = cards.filter(c => !IsBasicLand(c))
+
+  return (
+    <div className="deck-view">
+      <PlayerFrame {...input} />
+      <CardSynergyMap cards={mapCards} edges={input.synergyEdges} links={input.synergyLinks} />
+    </div>
+  );
 }
 
 function compareDecks(input) {

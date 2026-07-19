@@ -1793,6 +1793,7 @@ table {
 
 /* Map */
 .dm-map { position: relative; }
+.dm-deckmap { height: calc(100vh - 340px); min-height: 480px; margin-top: 0.75rem; }
 .dm-canvaswrap { flex: 1; min-height: 0; position: relative; cursor: grab; }
 .dm-map-caption {
   position: absolute; left: 12px; bottom: 10px;

@@ -769,6 +769,71 @@ function edgeColorFor(labels, linkIndex) {
   return null
 }
 
+// CardSynergyMap renders an arbitrary pool of cards (e.g. a decklist) as a force
+// graph wired by the design rules - the same engine as the design map, scoped to
+// the given cards. Hover previews a card; click pins the focus on it.
+export function CardSynergyMap({ cards, edges, links }) {
+  const [hovered, setHovered] = useState(null)
+  const [selected, setSelected] = useState(null)
+
+  const linkIndex = useMemo(() => {
+    const idx = {}
+    ;(links || []).forEach((l, i) => { idx[l.label] = i })
+    return idx
+  }, [links])
+
+  const byName = useMemo(() => new Map((cards || []).map(c => [c.name, c])), [cards])
+
+  const { simNodes, simEdges } = useMemo(() => {
+    const names = new Set(byName.keys())
+    const se = (edges || [])
+      .filter(e => names.has(e.source) && names.has(e.target))
+      .map(e => ({ source: e.source, target: e.target, weight: e.weight, color: edgeColorFor(e.rule_labels, linkIndex) }))
+    // Size nodes by how connected they are within this pool, not the whole cube.
+    const degree = {}
+    for (const e of se) {
+      degree[e.source] = (degree[e.source] || 0) + 1
+      degree[e.target] = (degree[e.target] || 0) + 1
+    }
+    const max = Math.max(1, ...Object.values(degree))
+    const sn = [...names].map(n => ({
+      id: n,
+      radius: Math.max(6, Math.min(18, 6 + ((degree[n] || 0) / max) * 12)),
+      color: getNodeColor((byName.get(n) || {}).colors),
+      label: n,
+    }))
+    return { simNodes: sn, simEdges: se }
+  }, [byName, edges, linkIndex])
+
+  // Drop stale focus when the pool changes (deck or board switch).
+  useEffect(() => { setHovered(null); setSelected(null) }, [byName])
+
+  if (simNodes.length === 0) {
+    return <p className="dm-muted dm-pad">No cards to map.</p>
+  }
+
+  const previewName = (hovered && byName.has(hovered)) ? hovered : selected
+  const previewCard = previewName ? byName.get(previewName) : null
+
+  return (
+    <div className="dm-panel dm-map dm-deckmap">
+      <ForceGraph
+        nodes={simNodes}
+        edges={simEdges}
+        showLabels={simNodes.length <= 34}
+        hoveredId={hovered}
+        selectedId={selected}
+        onHover={setHovered}
+        onSelect={(id) => setSelected(prev => prev === id ? null : id)}
+      />
+      <div className="dm-map-caption">
+        {simNodes.length} cards · {simEdges.length} links · hover to trace, click to pin
+      </div>
+      {previewCard && <CardPreview card={previewCard} />}
+    </div>
+  )
+}
+
 export function saveDesignMap(cube, groups, links, onRulesChanged, onStatus) {
   fetch(`/api/${cube}/save-design-rules`, {
     method: "POST",
