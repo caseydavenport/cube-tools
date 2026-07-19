@@ -14,6 +14,15 @@ import {
   LinkEditModal,
 } from './DesignMap.js'
 
+// Rebuild a group with the given exclude list, dropping the key entirely when
+// empty so saved JSON doesn't grow "exclude": [] on every group.
+function withExclude(group, exclude) {
+  const next = { ...group }
+  if (exclude.length) next.exclude = exclude
+  else delete next.exclude
+  return next
+}
+
 // Propagate a group rename through every wire end of a link.
 function renameInLink(link, oldName, newName) {
   return {
@@ -146,23 +155,27 @@ export function DesignEditorPage() {
     similarGroups.sort((x, y) => y.pct - x.pct)
     const unlinkedGroups = groupNames.filter(n => !referenced.has(n))
     const emptyGroups = groupNames.filter(n => (groupCards[n]?.card_count ?? (groupCards[n]?.cards || []).length) === 0)
+    // An excluded name not in the cube does nothing — a typo, or a card that
+    // was renamed or cut. Same failure mode as a missing card: wire ref.
+    const staleExcludes = groups.flatMap(g =>
+      (g.exclude || []).filter(n => !cardSet.has(n)).map(n => ({ group: g.name, name: n })))
     // A card named directly on a wire gets edges without any group, so it isn't
     // invisible to the map - leave it off the ungrouped list.
     const directlyWired = new Set([...referenced].map(cardRefName).filter(Boolean))
     const ungroupedCards = membershipsLoading ? null : names.filter(n => !(cardGroups[n] || []).length && !directlyWired.has(n))
     const isolatedCards = membershipsLoading ? null :
       names.filter(n => (cardGroups[n] || []).length > 0 && !(neighborsOf[n] || []).length)
-    const structural = brokenLinks.length + unlinkedGroups.length + emptyGroups.length
-    return { brokenLinks, duplicatePairs, similarGroups, unlinkedGroups, emptyGroups, ungroupedCards, isolatedCards, structural }
-  }, [links, groupNames, groupCards, names, cardGroups, membershipsLoading, neighborsOf])
+    const structural = brokenLinks.length + unlinkedGroups.length + emptyGroups.length + staleExcludes.length
+    return { brokenLinks, duplicatePairs, similarGroups, unlinkedGroups, emptyGroups, staleExcludes, ungroupedCards, isolatedCards, structural }
+  }, [links, groups, groupNames, groupCards, names, cardGroups, membershipsLoading, neighborsOf])
 
   const groupWarn = (name) => {
-    const empty = audit.emptyGroups.includes(name)
-    const unlinked = audit.unlinkedGroups.includes(name)
-    if (empty && unlinked) return 'Matches no cards; no link uses it'
-    if (empty) return 'Matches no cards'
-    if (unlinked) return 'No link uses this group'
-    return null
+    const msgs = []
+    if (audit.emptyGroups.includes(name)) msgs.push('Matches no cards')
+    if (audit.unlinkedGroups.includes(name)) msgs.push('No link uses this group')
+    const stale = audit.staleExcludes.filter(s => s.group === name).map(s => s.name)
+    if (stale.length) msgs.push(`Excludes unknown card${stale.length === 1 ? '' : 's'}: ${stale.join(', ')}`)
+    return msgs.length ? msgs.join('; ') : null
   }
   const linkWarn = (label) => {
     const b = audit.brokenLinks.find(x => x.label === label)
@@ -197,16 +210,17 @@ export function DesignEditorPage() {
     const conditions = updated.conditions.map(c => c.trim()).filter(Boolean)
     if (conditions.length === 0) { setStatus('At least one condition is required.'); return }
     const newName = updated.name.trim() || 'Untitled group'
+    const entry = withExclude({ name: newName, conditions }, (updated.exclude || []).filter(Boolean))
     const orig = groupEditor?.original
     let newGroups, newLinks = links
     if (orig) {
-      newGroups = groups.map(g => g.name === orig.name ? { name: newName, conditions } : g)
+      newGroups = groups.map(g => g.name === orig.name ? entry : g)
       if (orig.name !== newName) {
         newLinks = links.map(l => renameInLink(l, orig.name, newName))
         if (view === 'g:' + orig.name) selectGroup(newName)
       }
     } else {
-      newGroups = [...groups, { name: newName, conditions }]
+      newGroups = [...groups, entry]
     }
     saveDesignMap(cube, newGroups, newLinks, refetch, setStatus)
     setGroupEditor(null)
@@ -234,13 +248,26 @@ export function DesignEditorPage() {
     if (conditions.length === 0) { setStatus('At least one condition is required.'); return }
     const orig = groups[idx]
     const newName = updated.name.trim() || 'Untitled group'
-    const newGroups = groups.map((g, i) => i === idx ? { name: newName, conditions } : g)
+    const entry = withExclude({ name: newName, conditions }, (updated.exclude || []).filter(Boolean))
+    const newGroups = groups.map((g, i) => i === idx ? entry : g)
     let newLinks = links
     if (orig.name !== newName) {
       newLinks = links.map(l => renameInLink(l, orig.name, newName))
     }
     saveDesignMap(cube, newGroups, newLinks, refetch, setStatus)
     setGroupEditor(null)
+  }
+
+  // One-click hole-poking from the group roster: add or remove a card on the
+  // group's exclude list and save immediately.
+  function setCardExcluded(groupName, cardName, excluded) {
+    const g = groups.find(x => x.name === groupName)
+    if (!g) return
+    const exclude = excluded
+      ? [...(g.exclude || []).filter(n => n !== cardName), cardName]
+      : (g.exclude || []).filter(n => n !== cardName)
+    const newGroups = groups.map(x => x.name === groupName ? withExclude(x, exclude) : x)
+    saveDesignMap(cube, newGroups, links, refetch, setStatus)
   }
 
   // Deleting a group also removes it from every wire end; a wire left with an
@@ -290,10 +317,13 @@ export function DesignEditorPage() {
       key={g.name}
       group={g} color={ruleColor(groupIndex[g.name])}
       members={(groupCards[g.name]?.cards || []).slice().sort()}
+      excluded={(groupCards[g.name]?.excluded_cards || []).slice().sort()}
       cardGroups={cardGroups} nodeByName={nodeByName}
       linksTouching={links.filter(l => (l.wires || []).some(w => (w.sources || []).includes(g.name) || (w.targets || []).includes(g.name)))}
       linkIndex={linkIndex} warn={groupWarn(g.name)}
       onEdit={() => openGroup(g.name)} onDelete={() => deleteGroup(g.name)}
+      onExclude={(card) => setCardExcluded(g.name, card, true)}
+      onRestore={(card) => setCardExcluded(g.name, card, false)}
       onSelectLink={selectLink} onFocusCard={setFocal} onHoverCard={setHoverCard}
     />
   } else if (view.startsWith('l:') && linkByLabel[view.slice(2)]) {
@@ -557,8 +587,8 @@ function Vital({ value, label }) {
 // use it, and every member with the condition that pulled it in - hover for the
 // card image, so scanning a group for intruders is fast.
 function GroupDetail({
-  group, color, members, cardGroups, nodeByName, linksTouching, linkIndex, warn,
-  onEdit, onDelete, onSelectLink, onFocusCard, onHoverCard,
+  group, color, members, excluded, cardGroups, nodeByName, linksTouching, linkIndex, warn,
+  onEdit, onDelete, onExclude, onRestore, onSelectLink, onFocusCard, onHoverCard,
 }) {
   const [confirming, setConfirming] = useState(false)
   const memberConds = (name) => (cardGroups[name] || []).find(m => m.group === group.name)?.conds || []
@@ -568,7 +598,9 @@ function GroupDetail({
       <div className="de-pane-head">
         <span className="dm-swatch dm-swatch-lg" style={{ background: color }} />
         <h3 className="de-pane-title">{group.name}</h3>
-        <span className="de-pane-sub">{members.length} card{members.length === 1 ? '' : 's'}</span>
+        <span className="de-pane-sub">
+          {members.length} card{members.length === 1 ? '' : 's'}{excluded.length > 0 && ` · ${excluded.length} excluded`}
+        </span>
         <span className="de-pane-actions">
           <button className="de-btn" onClick={onEdit}>Edit</button>
           {!confirming && <button className="de-btn de-btn-danger" onClick={() => setConfirming(true)}>Delete</button>}
@@ -622,9 +654,36 @@ function GroupDetail({
               </span>
             }
             <code className="de-member-cond">{memberConds(name).join(' · ')}</code>
+            <span
+              className="de-member-x" title="Exclude from this group"
+              onClick={e => { e.stopPropagation(); onExclude(name) }}
+            >×</span>
           </button>
         ))}
       </div>
+
+      {excluded.length > 0 && <>
+        <div className="de-subhead">Excluded ({excluded.length})</div>
+        <div className="de-roster" onMouseLeave={() => onHoverCard('')}>
+          {excluded.map(name => (
+            <button
+              key={name} className="de-member de-member-excluded"
+              onClick={() => onFocusCard(name)}
+              onMouseEnter={() => onHoverCard(name)}
+              onFocus={() => onHoverCard(name)}
+              title="Open in the card lens"
+            >
+              <span className="de-pips">{ColorImages(nodeByName[name]?.colors)}</span>
+              <span className="de-member-name">{name}</span>
+              <span className="de-excluded-tag">excluded</span>
+              <span
+                className="de-member-x" title="Restore to this group"
+                onClick={e => { e.stopPropagation(); onRestore(name) }}
+              >↺</span>
+            </button>
+          ))}
+        </div>
+      </>}
     </div>
   )
 }
@@ -831,6 +890,20 @@ function AuditBoard({
             <span className="dm-swatch" style={{ background: ruleColor(linkIndex[b.label] ?? 0) }} />
             {b.label}
             <span className="de-chip-sub">{b.missing.length ? `missing: ${b.missing.join(', ')}` : 'empty wire side'}</span>
+          </button>
+        ))}
+      </AuditSection>
+
+      <AuditSection
+        title="Stale excludes" count={audit.staleExcludes.length}
+        blurb="A group excludes a card name that isn't in the cube — a typo, or a card that was renamed or cut."
+        okMsg="Every excluded card name exists in the cube."
+      >
+        {audit.staleExcludes.map(s => (
+          <button key={s.group + '>' + s.name} className="de-chip" onClick={() => onSelectGroup(s.group)}>
+            <span className="dm-swatch" style={{ background: ruleColor(groupIndex[s.group] ?? 0) }} />
+            {s.group}
+            <span className="de-chip-sub">excludes: {s.name}</span>
           </button>
         ))}
       </AuditSection>

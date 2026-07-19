@@ -309,6 +309,102 @@ func TestBuildDesignGraphCardRefMixed(t *testing.T) {
 	assert.True(t, pairs["Payoff|Tutor"])
 }
 
+// TestBuildDesignGraphExclude verifies a group's exclude list carves cards out
+// of its condition matches: no edges, not a member, but reported on the group
+// node so the editor can offer a restore.
+func TestBuildDesignGraphExclude(t *testing.T) {
+	cube := &types.Cube{
+		Cards: []types.Card{
+			{Name: "Bolt", Colors: []string{"R"}, Types: []string{"Instant"}, CMC: 1, OracleText: "deals 3 damage"},
+			{Name: "Goblin", Colors: []string{"R"}, Types: []string{"Creature"}, CMC: 1, OracleText: "haste", Power: "2", Toughness: "2"},
+			{Name: "Bear", Colors: []string{"G"}, Types: []string{"Creature"}, CMC: 2, OracleText: "just a bear", Power: "2", Toughness: "2"},
+		},
+	}
+
+	config := DesignMapConfig{
+		Groups: []Group{
+			// "No Such Card" exercises a stale exclude: ignored, not reported.
+			{Name: "Red Stuff", Conditions: []string{"c:R"}, Exclude: []string{"Bolt", "No Such Card"}},
+			{Name: "Creatures", Conditions: []string{"t:creature"}},
+		},
+		Links: []Link{
+			{Label: "Red-Creature", Wires: []Wire{{Sources: []string{"Red Stuff"}, Targets: []string{"Creatures"}}}},
+		},
+	}
+
+	resp := buildDesignGraph(cube, config)
+
+	// Bolt is excluded from Red Stuff, so the only source card is Goblin.
+	// Goblin is also a Creature (self-edge skipped), leaving Goblin<->Bear.
+	assert.Len(t, resp.Edges, 1)
+	assert.Equal(t, "Bear", resp.Edges[0].Source)
+	assert.Equal(t, "Goblin", resp.Edges[0].Target)
+
+	byName := map[string]DesignGraphGroupNode{}
+	for _, n := range resp.GroupNodes {
+		byName[n.Name] = n
+	}
+	assert.Equal(t, []string{"Goblin"}, byName["Red Stuff"].Cards)
+	assert.Equal(t, 1, byName["Red Stuff"].CardCount)
+	assert.Equal(t, []string{"Bolt"}, byName["Red Stuff"].ExcludedCards)
+	assert.Empty(t, byName["Creatures"].ExcludedCards)
+}
+
+// TestMatchConditionsExcluded verifies the match endpoint marks (not drops)
+// conditions whose owning group excludes the card, and only for that group.
+func TestMatchConditionsExcluded(t *testing.T) {
+	cards := map[string]types.Card{
+		"Bolt": {
+			Name: "Lightning Bolt", Colors: []string{"R"},
+			Types: []string{"Instant"}, CMC: 1,
+			OracleText: "Lightning Bolt deals 3 damage to any target.",
+		},
+		"Goblin": {
+			Name: "Goblin Guide", Colors: []string{"R"},
+			Types: []string{"Creature"}, CMC: 1,
+			OracleText: "Haste", Power: "2", Toughness: "2",
+		},
+	}
+
+	config := DesignMapConfig{
+		Groups: []Group{
+			{Name: "Red Cards", Conditions: []string{"c:R"}, Exclude: []string{"Bolt"}},
+			{Name: "Damage", Conditions: []string{"o:damage"}},
+		},
+	}
+	req := DesignGraphMatchRequest{
+		Conditions: []string{"c:R", "o:damage"},
+		Groups:     []string{"Red Cards", "Damage"},
+	}
+
+	matched := matchConditions(cards, config, req)
+
+	byName := map[string][]MatchedCondition{}
+	for _, c := range matched {
+		byName[c.Name] = c.Conditions
+	}
+
+	// Bolt still appears, with the Red Cards condition marked excluded but the
+	// Damage condition untouched.
+	assert.Len(t, byName["Bolt"], 2)
+	for _, mc := range byName["Bolt"] {
+		assert.Equal(t, mc.Group == "Red Cards", mc.Excluded)
+	}
+
+	// Goblin matches Red Cards and isn't excluded.
+	assert.Len(t, byName["Goblin"], 1)
+	assert.False(t, byName["Goblin"][0].Excluded)
+
+	// No groups in the request (the group edit modal's raw preview) means no
+	// exclusion marking at all.
+	rawReq := DesignGraphMatchRequest{Conditions: []string{"c:R"}}
+	for _, c := range matchConditions(cards, config, rawReq) {
+		for _, mc := range c.Conditions {
+			assert.False(t, mc.Excluded)
+		}
+	}
+}
+
 func TestMatchCardsWithConditions(t *testing.T) {
 	cards := map[string]types.Card{
 		"Bolt": {

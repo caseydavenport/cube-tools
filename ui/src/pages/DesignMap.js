@@ -289,7 +289,8 @@ export function useAllMemberships(cube, groups) {
         for (const card of (d.cards || [])) {
           const byGroup = {}
           for (const mc of card.conditions) {
-            if (!mc.group) continue
+            // An excluded condition means the group carves this card out.
+            if (!mc.group || mc.excluded) continue
             if (!byGroup[mc.group]) byGroup[mc.group] = []
             byGroup[mc.group].push(mc.condition)
           }
@@ -1174,10 +1175,72 @@ function ClauseInputs({ label, connects, onChange, placeholder, highlightedCondi
   )
 }
 
+// ExcludeInputs manages a group's excluded-card list: one select per exclusion,
+// offering the currently matched cards (plus any stale saved excludes). Unlike
+// GroupMultiSelect the list may be empty, so rows only exist once added.
+function ExcludeInputs({ values, onChange, options }) {
+  function updateAt(i, val) {
+    const next = [...values]
+    next[i] = val
+    onChange(next)
+  }
+  function removeAt(i) {
+    onChange(values.filter((_, idx) => idx !== i))
+  }
+  return (
+    <div style={{marginTop: "0.75rem"}}>
+      <label style={{fontSize: "0.7em", color: "var(--text-muted)", display: "block", marginBottom: "2px"}}>Exclude cards</label>
+      {values.map((v, i) => (
+        <div key={i} style={{display: "flex", gap: "4px", marginBottom: "3px", alignItems: "center"}}>
+          <select
+            value={v}
+            onChange={e => updateAt(i, e.target.value)}
+            style={{
+              flex: 1,
+              minWidth: 0,
+              background: "var(--card-background)",
+              color: "var(--text-color)",
+              border: "1px solid var(--card-background)",
+              borderRadius: "4px",
+              padding: "4px 6px",
+              fontSize: "0.8em",
+              fontFamily: "monospace",
+              boxSizing: "border-box",
+            }}
+          >
+            <option value="">-- Select card --</option>
+            <optgroup label="Cards">
+              {options.map(name => (
+                <option key={name} value={name}>{name}</option>
+              ))}
+            </optgroup>
+          </select>
+          <button
+            onClick={() => removeAt(i)}
+            title="Remove exclusion"
+            style={{
+              background: "transparent", border: "none", color: "var(--text-muted)",
+              cursor: "pointer", fontSize: "1em", lineHeight: "1", padding: "0 2px",
+            }}
+          >&times;</button>
+        </div>
+      ))}
+      <button
+        onClick={() => onChange([...values, ""])}
+        style={{
+          background: "transparent", border: "none", color: "var(--text-muted)",
+          cursor: "pointer", fontSize: "0.75em", padding: "0",
+        }}
+      >+ Exclude a card</button>
+    </div>
+  )
+}
+
 export function GroupEditModal({ group, color, onSave, onCancel }) {
   const cube = useCube()
   const [editName, setEditName] = useState(group.name)
   const [editConditions, setEditConditions] = useState([...(group.conditions || [""])])
+  const [editExclude, setEditExclude] = useState([...(group.exclude || [])])
   const [matchedCards, setMatchedCards] = useState([])
   const [loading, setLoading] = useState(false)
   const [highlightCondition, setHighlightCondition] = useState(null)
@@ -1286,6 +1349,21 @@ export function GroupEditModal({ group, color, onSave, onCancel }) {
     setHighlightCard(prev => prev === name ? null : name)
   }
 
+  const excludedSet = React.useMemo(() => new Set(editExclude.filter(n => n)), [editExclude])
+  function toggleExclude(name) {
+    setEditExclude(prev => prev.includes(name) ? prev.filter(n => n !== name) : [...prev.filter(n => n), name])
+  }
+
+  // Picker options: matched cards plus any saved excludes that no longer match,
+  // so a stale exclude stays visible and removable.
+  const excludeOptions = React.useMemo(() => {
+    const s = new Set(matchedCards.map(c => c.name))
+    for (const n of editExclude) if (n) s.add(n)
+    return [...s].sort()
+  }, [matchedCards, editExclude])
+
+  const excludedMatchCount = matchedCards.filter(c => excludedSet.has(c.name)).length
+
   return (
     <div
       onClick={onCancel}
@@ -1389,9 +1467,10 @@ export function GroupEditModal({ group, color, onSave, onCancel }) {
               highlightedConditions={highlightedConditions}
               onConditionClick={handleConditionClick}
             />
+            <ExcludeInputs values={editExclude} onChange={setEditExclude} options={excludeOptions} />
           </div>
           <div style={{display: "flex", gap: "0.5rem", marginTop: "1rem"}}>
-            <button onClick={() => onSave({ name: editName, conditions: editConditions })} className="button" style={{fontSize: "0.85em"}}>Save</button>
+            <button onClick={() => onSave({ name: editName, conditions: editConditions, exclude: editExclude })} className="button" style={{fontSize: "0.85em"}}>Save</button>
             <button onClick={onCancel} className="button" style={{fontSize: "0.85em"}}>Cancel</button>
           </div>
         </div>
@@ -1406,7 +1485,8 @@ export function GroupEditModal({ group, color, onSave, onCancel }) {
           <h4 style={{color: "var(--text-muted)", margin: "0 0 0.5rem 0", fontSize: "1rem"}}>
             Matching Cards
             <span style={{fontWeight: "normal", fontSize: "0.85em", marginLeft: "0.5rem"}}>
-              {loading ? "..." : `(${matchedCards.length})`}
+              {loading ? "..." : `(${matchedCards.length - excludedMatchCount})`}
+              {!loading && excludedMatchCount > 0 && ` · ${excludedMatchCount} excluded`}
             </span>
             {addedSet.size > 0 && <span style={{fontSize: "0.85em", marginLeft: "0.5rem", color: "#3fb950"}}>+{addedSet.size}</span>}
             {removedCards.length > 0 && <span style={{fontSize: "0.85em", marginLeft: "0.35rem", color: "#f85149"}}>−{removedCards.length}</span>}
@@ -1420,24 +1500,37 @@ export function GroupEditModal({ group, color, onSave, onCancel }) {
             {matchedCards.map(card => {
               const dimmed = highlightedCards && !highlightedCards.has(card.name)
               const added = addedSet.has(card.name)
+              const excluded = excludedSet.has(card.name)
               return (
                 <ConditionTooltip
                   key={card.name}
                   conditions={card.conditions}
                   onClick={() => handleCardClick(card.name)}
                   style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "4px",
                     fontSize: "0.8em",
                     color: added ? "#3fb950" : "var(--text-color)",
                     fontWeight: added ? 600 : "normal",
                     padding: "2px 4px",
                     borderRadius: "3px",
                     cursor: "pointer",
-                    opacity: dimmed ? 0.3 : 1,
+                    opacity: dimmed ? 0.3 : (excluded ? 0.45 : 1),
                     transition: "opacity 0.15s",
                     background: highlightCard === card.name ? "var(--page-background)" : "transparent",
                   }}
                 >
-                  {added ? `+ ${card.name}` : card.name}
+                  <span style={{flex: 1, minWidth: 0, textDecoration: excluded ? "line-through" : "none"}}>{added ? `+ ${card.name}` : card.name}</span>
+                  {excluded && <span className="de-excluded-tag">excluded</span>}
+                  <button
+                    onClick={e => { e.stopPropagation(); toggleExclude(card.name) }}
+                    title={excluded ? "Restore to group" : "Exclude from group"}
+                    style={{
+                      background: "transparent", border: "none", color: "var(--text-muted)",
+                      cursor: "pointer", fontSize: "1em", lineHeight: "1", padding: "0 2px",
+                    }}
+                  >{excluded ? "↺" : "×"}</button>
                 </ConditionTooltip>
               )
             })}
@@ -1502,7 +1595,15 @@ function useFetchGroupCards(selectedGroupNames, allGroups) {
         body: JSON.stringify({ conditions, groups }),
       })
         .then(r => r.json())
-        .then(data => { setCards(data.cards || []); setLoading(false) })
+        .then(data => {
+          // Drop conditions negated by a group's exclude list; a card with no
+          // surviving conditions isn't an effective member of any selection.
+          const effective = (data.cards || [])
+            .map(c => ({ ...c, conditions: (c.conditions || []).filter(mc => !mc.excluded) }))
+            .filter(c => c.conditions.length > 0)
+          setCards(effective)
+          setLoading(false)
+        })
         .catch(() => { setCards([]); setLoading(false) })
     }, 300)
     return () => { if (debounceRef.current) clearTimeout(debounceRef.current) }

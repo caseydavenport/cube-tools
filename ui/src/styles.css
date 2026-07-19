@@ -2190,6 +2190,19 @@ table {
   white-space: nowrap; color: var(--text-muted); font-size: 0.72rem;
   background: transparent; padding: 0;
 }
+.de-member-x {
+  flex-shrink: 0; margin-left: auto; padding: 0 0.25rem; border-radius: 4px;
+  color: var(--text-muted); font-size: 0.85rem; line-height: 1; visibility: hidden;
+}
+.de-member:hover .de-member-x { visibility: visible; }
+.de-member-x:hover { color: var(--white); background: var(--card-background); }
+.de-member-excluded { opacity: 0.45; }
+.de-member-excluded .de-member-name { text-decoration: line-through; }
+.de-excluded-tag {
+  flex-shrink: 0; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.5px;
+  color: var(--text-muted); border: 1px solid var(--text-muted); border-radius: 999px;
+  padding: 0 0.35rem;
+}
 
 /* Loom: two chip columns with measured SVG threads between them. */
 .de-loom {

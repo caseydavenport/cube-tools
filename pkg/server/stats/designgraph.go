@@ -19,6 +19,10 @@ import (
 type Group struct {
 	Name       string   `json:"name"`
 	Conditions []string `json:"conditions"`
+
+	// Exclude carves specific cards out of the condition matches by exact name,
+	// so a query can stay broad without per-condition negations.
+	Exclude []string `json:"exclude,omitempty"`
 }
 
 // Wire pairs source groups with target groups; cards from all source groups
@@ -120,6 +124,11 @@ type DesignGraphGroupNode struct {
 	// (card-derived vs. link-derived), so the client computes node degree from
 	// whichever edge set is active rather than baking it in here.
 	Cards []string `json:"cards"`
+
+	// ExcludedCards lists cards that matched the group's conditions but were
+	// carved out by the group's exclude list, so the editor can show them
+	// greyed with a restore action.
+	ExcludedCards []string `json:"excluded_cards,omitempty"`
 }
 
 // DesignGraphGroupEdge represents a link between two groups in the group-level graph.
@@ -175,6 +184,11 @@ type MatchedCard struct {
 type MatchedCondition struct {
 	Condition string `json:"condition"`
 	Group     string `json:"group,omitempty"`
+
+	// Excluded means the condition matched, but the owning group's exclude
+	// list carves this card out - the card is not an effective member via
+	// this condition.
+	Excluded bool `json:"excluded,omitempty"`
 }
 
 // DesignGraphMatchRequest is the request body for /api/stats/design-graph/match, containing conditions and groups to match against.
@@ -213,33 +227,15 @@ func DesignGraphMatchHandler() http.Handler {
 		// Build a map of card name to card data for efficient lookups, excluding basic lands.
 		cardMap := buildCardMap(cube)
 
-		// For each condition, find matching cards and record which conditions each card matches. This
-		// allows us to return a per-card breakdown of which conditions it matched, which is useful for debugging complex queries.
-		cardConditions := make(map[string][]MatchedCondition)
-		for i, cond := range req.Conditions {
-			group := ""
-			if i < len(req.Groups) {
-				group = req.Groups[i]
-			}
-			for name := range matchCards(cardMap, cond) {
-				cardConditions[name] = append(cardConditions[name], MatchedCondition{
-					Condition: cond,
-					Group:     group,
-				})
-			}
+		// Saved rules supply the per-group exclude lists so matches can be
+		// marked. Missing rules just means nothing gets marked excluded.
+		config, err := loadDesignMap(fmt.Sprintf("data/%s/cube-rules.json", cubeID))
+		if err != nil {
+			logrus.WithError(err).Debug("could not load cube rules for match")
+			config = DesignMapConfig{}
 		}
 
-		// Convert to a slice for JSON response and sort by card name for consistent display.
-		cards := make([]MatchedCard, 0, len(cardConditions))
-		for name, conds := range cardConditions {
-			cards = append(cards, MatchedCard{Name: name, Conditions: conds})
-		}
-		slices.SortFunc(cards, func(a, b MatchedCard) int {
-			return strings.Compare(a.Name, b.Name)
-		})
-
-		// Return the list of matched cards with their conditions.
-		resp := DesignGraphMatchResponse{Cards: cards}
+		resp := DesignGraphMatchResponse{Cards: matchConditions(cardMap, config, req)}
 		b, err := json.Marshal(resp)
 		if err != nil {
 			http.Error(rw, "could not marshal response", http.StatusInternalServerError)
@@ -248,6 +244,48 @@ func DesignGraphMatchHandler() http.Handler {
 		rw.Header().Set("Content-Type", "application/json")
 		rw.Write(b)
 	})
+}
+
+// matchConditions evaluates each request condition against the card map and
+// returns the per-card breakdown, sorted by name. A condition whose owning
+// group excludes the card is marked rather than dropped, so the editor can
+// show the card greyed instead of silently losing it.
+func matchConditions(cardMap map[string]types.Card, config DesignMapConfig, req DesignGraphMatchRequest) []MatchedCard {
+	excludes := make(map[string]map[string]bool)
+	for _, g := range config.Groups {
+		if len(g.Exclude) == 0 {
+			continue
+		}
+		set := make(map[string]bool, len(g.Exclude))
+		for _, name := range g.Exclude {
+			set[name] = true
+		}
+		excludes[g.Name] = set
+	}
+
+	cardConditions := make(map[string][]MatchedCondition)
+	for i, cond := range req.Conditions {
+		group := ""
+		if i < len(req.Groups) {
+			group = req.Groups[i]
+		}
+		for name := range matchCards(cardMap, cond) {
+			cardConditions[name] = append(cardConditions[name], MatchedCondition{
+				Condition: cond,
+				Group:     group,
+				Excluded:  excludes[group][name],
+			})
+		}
+	}
+
+	cards := make([]MatchedCard, 0, len(cardConditions))
+	for name, conds := range cardConditions {
+		cards = append(cards, MatchedCard{Name: name, Conditions: conds})
+	}
+	slices.SortFunc(cards, func(a, b MatchedCard) int {
+		return strings.Compare(a.Name, b.Name)
+	})
+	return cards
 }
 
 // buildCardMap creates a name->card lookup from a cube, excluding basic lands
@@ -286,8 +324,11 @@ func loadDesignMap(path string) (DesignMapConfig, error) {
 func buildDesignGraph(cube *types.Cube, config DesignMapConfig) DesignGraphResponse {
 	cardMap := buildCardMap(cube)
 
-	// Pre-resolve all groups to card sets.
+	// Pre-resolve all groups to card sets. Excluded cards are subtracted here,
+	// so everything downstream (edges, group nodes, group edges) never sees
+	// them; the carved-out matches are kept aside for the editor to display.
 	groupCards := make(map[string]map[string]bool)
+	groupExcluded := make(map[string][]string)
 	for _, g := range config.Groups {
 		cards := make(map[string]bool)
 		for _, cond := range g.Conditions {
@@ -295,6 +336,13 @@ func buildDesignGraph(cube *types.Cube, config DesignMapConfig) DesignGraphRespo
 				cards[name] = true
 			}
 		}
+		for _, name := range g.Exclude {
+			if cards[name] {
+				delete(cards, name)
+				groupExcluded[g.Name] = append(groupExcluded[g.Name], name)
+			}
+		}
+		slices.Sort(groupExcluded[g.Name])
 		groupCards[g.Name] = cards
 	}
 
@@ -399,7 +447,7 @@ func buildDesignGraph(cube *types.Cube, config DesignMapConfig) DesignGraphRespo
 		return strings.Compare(strings.ToLower(a.Label), strings.ToLower(b.Label))
 	})
 
-	groupNodes, groupEdges, linkEdges := buildGroupGraph(config, groupCards, edges)
+	groupNodes, groupEdges, linkEdges := buildGroupGraph(config, groupCards, groupExcluded, edges)
 
 	return DesignGraphResponse{
 		Nodes:      nodes,
@@ -423,7 +471,7 @@ func buildDesignGraph(cube *types.Cube, config DesignMapConfig) DesignGraphRespo
 // linkEdges instead mirror the rule/link definitions directly: two groups are joined
 // when a link names one as a source and the other as a target. This is the raw view of
 // how the rules wire the groups together.
-func buildGroupGraph(config DesignMapConfig, groupCards map[string]map[string]bool, edges []DesignGraphEdge) (groupNodes []DesignGraphGroupNode, cardEdges, linkEdges []DesignGraphGroupEdge) {
+func buildGroupGraph(config DesignMapConfig, groupCards map[string]map[string]bool, groupExcluded map[string][]string, edges []DesignGraphEdge) (groupNodes []DesignGraphGroupNode, cardEdges, linkEdges []DesignGraphGroupEdge) {
 	type groupEdgeKey struct{ source, target string }
 	type cardPair struct{ a, b string }
 
@@ -540,10 +588,11 @@ func buildGroupGraph(config DesignMapConfig, groupCards map[string]map[string]bo
 		}
 		slices.Sort(cards)
 		groupNodes = append(groupNodes, DesignGraphGroupNode{
-			Name:      g.Name,
-			Kind:      "group",
-			CardCount: len(cards),
-			Cards:     cards,
+			Name:          g.Name,
+			Kind:          "group",
+			CardCount:     len(cards),
+			Cards:         cards,
+			ExcludedCards: groupExcluded[g.Name],
 		})
 	}
 
