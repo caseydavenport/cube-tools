@@ -2063,7 +2063,9 @@ function ForceGraph({ nodes, edges, showLabels, hoveredId, selectedId, onHover, 
 }
 
 export function getNodeColor(colors) {
-  if (!colors || colors.length === 0) return "#aaa"
+  // Must be 6-digit hex: hexToRGBA slices out the channel pairs, and a
+  // 3-digit form produces an invalid rgba() that canvas silently ignores.
+  if (!colors || colors.length === 0) return "#aaaaaa"
   if (colors.length > 1) return "#daa520"
   switch (colors[0]) {
     case "W": return White
@@ -2071,7 +2073,7 @@ export function getNodeColor(colors) {
     case "B": return Black
     case "R": return Red
     case "G": return Green
-    default: return "#aaa"
+    default: return "#aaaaaa"
   }
 }
 
