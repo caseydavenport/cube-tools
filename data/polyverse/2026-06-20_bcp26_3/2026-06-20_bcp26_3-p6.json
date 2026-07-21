@@ -5,9 +5,9 @@
  },
  "macro_archetype": "aggro",
  "labels": [
-  "prowess",
   "delirium",
-  "graveyard"
+  "graveyard",
+  "spells"
  ],
  "player": "2026-06-20_bcp26_3-p6",
  "date": "2026-06-20",

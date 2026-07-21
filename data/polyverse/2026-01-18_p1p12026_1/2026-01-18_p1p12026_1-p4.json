@@ -5,7 +5,9 @@
   "combined_file": "data/polyverse/2026-01-18_p1p12026_1/20260118d1-021a.txt"
  },
  "macro_archetype": "midrange",
- "labels": [],
+ "labels": [
+  "+1/+1"
+ ],
  "player": "2026-01-18_p1p12026_1-p4",
  "date": "2026-01-18",
  "matches": [
