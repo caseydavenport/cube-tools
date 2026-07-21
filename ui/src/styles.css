@@ -263,6 +263,33 @@ table {
   opacity: 0.7;
 }
 
+.deck-summary-groups {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.deck-summary-groups-label {
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  margin-right: 0.1rem;
+}
+
+.group-chip {
+  background: var(--table-header-background);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 0.2rem 0.6rem;
+  font-size: 0.8rem;
+  cursor: default;
+}
+
+.group-chip-pct {
+  color: var(--text-muted);
+  margin-left: 0.2rem;
+}
+
 /* Cross-link cell: a table cell that navigates to a related record (e.g. an
    opponent's player page). */
 .xlink {

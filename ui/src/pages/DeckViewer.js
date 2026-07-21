@@ -84,6 +84,18 @@ export function DeckViewer(props) {
     return () => { alive = false }
   }, [cube]);
 
+  // Per-group deck-count distributions, so the summary can rank a deck's groups
+  // by how far it over-indexes on each versus the deck population.
+  const [groupDist, setGroupDist] = useState(null);
+  useEffect(() => {
+    let alive = true
+    fetch(`/api/${cube}/stats/group-distributions`)
+      .then(r => r.json())
+      .then(d => { if (alive) setGroupDist(d) })
+      .catch(() => { if (alive) setGroupDist(null) })
+    return () => { alive = false }
+  }, [cube]);
+
   // Adjacency map: card name -> [{ other, labels }] for every card it links to,
   // built once from the edges. Popovers filter this to the current deck.
   const synergy = useMemo(() => {
@@ -397,6 +409,7 @@ export function DeckViewer(props) {
             synergy={synergy}
             synergyEdges={synergyEdges}
             synergyLinks={synergyLinks}
+            groupDist={groupDist}
             comparisonDecks={comparisonDecks}
             mbsb={mainboardSideboard}
             matchStr={debouncedMatchStr}
@@ -1075,6 +1088,32 @@ function PlayerFrame(input) {
     cards = deck.pool
   }
 
+  // Rank the deck's design-map groups by how far it over-indexes versus the
+  // deck population: for each group, the fraction of decks that run fewer of its
+  // cards than this deck does. That surfaces the strategy the deck leaned into
+  // (e.g. more prowess triggers than 94% of decks) rather than whatever groups
+  // are simply largest cube-wide. Manabase groups are dropped server side; a
+  // group needs a few cards here and a clearly above-average count to qualify.
+  const topGroups = useMemo(() => {
+    const dist = input.groupDist
+    if (!dist || !dist.deck_count) return []
+    const deckNames = new Set((cards || []).map(c => c.name))
+    const ranked = []
+    for (const g of dist.groups || []) {
+      if (g.manabase) continue
+      let count = 0
+      for (const n of g.cards || []) {
+        if (deckNames.has(n)) count++
+      }
+      if (count < 3) continue
+      const below = (g.deck_counts || []).filter(x => x < count).length / dist.deck_count
+      if (below < 0.6) continue
+      ranked.push({ name: g.name, count, below, topPct: Math.max(1, Math.round((1 - below) * 100)) })
+    }
+    ranked.sort((a, b) => b.below - a.below || b.count - a.count)
+    return ranked.slice(0, 5)
+  }, [input.groupDist, cards])
+
   // Get fields to display.
   let acmc = deck.avg_cmc
   let colors = ColorImages(deck.colors)
@@ -1201,6 +1240,21 @@ function PlayerFrame(input) {
       </div>
 
       <ManaPipBar counts={CountManaPips(cards)} />
+
+      {topGroups.length > 0 && (
+        <div className="deck-summary-groups">
+          <span className="deck-summary-groups-label">Leans into</span>
+          {topGroups.map((g) => (
+            <span
+              key={g.name}
+              className="group-chip"
+              title={`${g.count} cards - more than ${100 - g.topPct}% of decks`}
+            >
+              {g.name} <span className="group-chip-pct">top {g.topPct}%</span>
+            </span>
+          ))}
+        </div>
+      )}
 
       {deck.matches.length > 0 && (
         <div className="deck-summary-matches">

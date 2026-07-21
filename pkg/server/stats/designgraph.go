@@ -11,6 +11,7 @@ import (
 	"strings"
 
 	"github.com/caseydavenport/cube-tools/pkg/server"
+	"github.com/caseydavenport/cube-tools/pkg/storage"
 	"github.com/caseydavenport/cube-tools/pkg/types"
 	"github.com/sirupsen/logrus"
 )
@@ -288,6 +289,144 @@ func matchConditions(cardMap map[string]types.Card, config DesignMapConfig, req 
 	return cards
 }
 
+// GroupDistribution reports, for one design-map group, how many of the group's
+// cards each deck runs. The client ranks a deck's groups by where its count
+// falls in this distribution, so the widget surfaces the strategies a deck
+// over-indexes on rather than whatever groups are simply largest in the cube.
+type GroupDistribution struct {
+	Name string `json:"name"`
+
+	// Cards is the group's effective membership, so the client can count the
+	// current deck without also fetching the design graph.
+	Cards []string `json:"cards"`
+
+	// DeckCounts holds one entry per deck: the number of the group's cards in
+	// that deck's mainboard. Unordered; the client derives percentiles from it.
+	DeckCounts []int `json:"deck_counts"`
+
+	// Manabase marks groups that are almost entirely lands (fetches, duals,
+	// basics). Running extra fixing isn't a strategy, so the client hides these.
+	Manabase bool `json:"manabase"`
+}
+
+// GroupDistributionsResponse is the API response for /api/{cube}/stats/group-distributions.
+type GroupDistributionsResponse struct {
+	DeckCount int                 `json:"deck_count"`
+	Groups    []GroupDistribution `json:"groups"`
+}
+
+// A deck needs at least this many mainboard cards to feed the distribution.
+// Below it the deck is a pool-only record (games but no built decklist) whose
+// zero counts would skew every group's percentiles downward.
+const distributionMinDeckSize = 20
+
+// manabaseLandFraction is the share of a group's cards that must be lands for it
+// to read as manabase plumbing rather than a strategy.
+const manabaseLandFraction = 0.8
+
+func GroupDistributionsHandler() http.Handler {
+	return &groupDistributionsHandler{store: storage.NewFileDeckStoreWithCache()}
+}
+
+type groupDistributionsHandler struct {
+	store storage.DeckStorage
+}
+
+func (h *groupDistributionsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
+	logrus.Info("/api/stats/group-distributions")
+
+	cubeID := server.CubeFromRequest(r)
+	cube, err := types.LoadCube(fmt.Sprintf("data/%s/cube.json", cubeID))
+	if err != nil {
+		http.Error(rw, "could not load cube", http.StatusInternalServerError)
+		return
+	}
+
+	config, err := loadDesignMap(fmt.Sprintf("data/%s/cube-rules.json", cubeID))
+	if err != nil {
+		logrus.WithError(err).Warn("could not load cube rules")
+		config = DesignMapConfig{}
+	}
+
+	allDecks, err := h.store.List(cubeID, &storage.DecksRequest{})
+	if err != nil {
+		http.Error(rw, "could not load decks", http.StatusInternalServerError)
+		return
+	}
+
+	resp := groupDistributions(cube, config, allDecks)
+	b, err := json.Marshal(resp)
+	if err != nil {
+		http.Error(rw, "could not marshal response", http.StatusInternalServerError)
+		return
+	}
+	rw.Header().Set("Content-Type", "application/json")
+	if _, err := rw.Write(b); err != nil {
+		logrus.WithError(err).Error("could not write group distributions response")
+	}
+}
+
+// groupDistributions counts each group's cards in every deck's mainboard. Only
+// decks with a real mainboard contribute, so the percentiles the client derives
+// aren't diluted by pool-only records.
+func groupDistributions(cube *types.Cube, config DesignMapConfig, decks []*storage.Deck) GroupDistributionsResponse {
+	cardMap := buildCardMap(cube)
+	groupCards, _ := resolveGroupCards(cardMap, config.Groups)
+
+	mainboards := make([]map[string]bool, 0, len(decks))
+	for _, d := range decks {
+		mb := d.GetMainboard()
+		if len(mb) < distributionMinDeckSize {
+			continue
+		}
+		names := make(map[string]bool, len(mb))
+		for _, c := range mb {
+			names[c.Name] = true
+		}
+		mainboards = append(mainboards, names)
+	}
+
+	groups := make([]GroupDistribution, 0, len(config.Groups))
+	for _, g := range config.Groups {
+		members := groupCards[g.Name]
+		if len(members) == 0 {
+			continue
+		}
+
+		cards := make([]string, 0, len(members))
+		lands := 0
+		for name := range members {
+			cards = append(cards, name)
+
+			// cardMap excludes basic lands, so a basic won't be found here - but
+			// basics never match group conditions anyway, so it can't skew the
+			// land fraction.
+			if c, ok := cardMap[name]; ok && c.IsLand() {
+				lands++
+			}
+		}
+		slices.Sort(cards)
+
+		counts := make([]int, len(mainboards))
+		for i, names := range mainboards {
+			for name := range members {
+				if names[name] {
+					counts[i]++
+				}
+			}
+		}
+
+		groups = append(groups, GroupDistribution{
+			Name:       g.Name,
+			Cards:      cards,
+			DeckCounts: counts,
+			Manabase:   float64(lands)/float64(len(members)) >= manabaseLandFraction,
+		})
+	}
+
+	return GroupDistributionsResponse{DeckCount: len(mainboards), Groups: groups}
+}
+
 // buildCardMap creates a name->card lookup from a cube, excluding basic lands
 // and enriching multi-face cards with oracle data.
 func buildCardMap(cube *types.Cube) map[string]types.Card {
@@ -321,15 +460,13 @@ func loadDesignMap(path string) (DesignMapConfig, error) {
 	return config, nil
 }
 
-func buildDesignGraph(cube *types.Cube, config DesignMapConfig) DesignGraphResponse {
-	cardMap := buildCardMap(cube)
-
-	// Pre-resolve all groups to card sets. Excluded cards are subtracted here,
-	// so everything downstream (edges, group nodes, group edges) never sees
-	// them; the carved-out matches are kept aside for the editor to display.
-	groupCards := make(map[string]map[string]bool)
-	groupExcluded := make(map[string][]string)
-	for _, g := range config.Groups {
+// resolveGroupCards resolves each group's conditions to its effective member set
+// with the group's exclude list subtracted, returning the members per group and
+// the carved-out names per group (which the editor shows greyed).
+func resolveGroupCards(cardMap map[string]types.Card, groups []Group) (map[string]map[string]bool, map[string][]string) {
+	groupCards := make(map[string]map[string]bool, len(groups))
+	excluded := make(map[string][]string)
+	for _, g := range groups {
 		cards := make(map[string]bool)
 		for _, cond := range g.Conditions {
 			for name := range matchCards(cardMap, cond) {
@@ -339,12 +476,22 @@ func buildDesignGraph(cube *types.Cube, config DesignMapConfig) DesignGraphRespo
 		for _, name := range g.Exclude {
 			if cards[name] {
 				delete(cards, name)
-				groupExcluded[g.Name] = append(groupExcluded[g.Name], name)
+				excluded[g.Name] = append(excluded[g.Name], name)
 			}
 		}
-		slices.Sort(groupExcluded[g.Name])
+		slices.Sort(excluded[g.Name])
 		groupCards[g.Name] = cards
 	}
+	return groupCards, excluded
+}
+
+func buildDesignGraph(cube *types.Cube, config DesignMapConfig) DesignGraphResponse {
+	cardMap := buildCardMap(cube)
+
+	// Pre-resolve all groups to card sets. Excluded cards are subtracted here,
+	// so everything downstream (edges, group nodes, group edges) never sees
+	// them; the carved-out matches are kept aside for the editor to display.
+	groupCards, groupExcluded := resolveGroupCards(cardMap, config.Groups)
 
 	// Register each card: wire entry as a single-card pseudo-group, so the wire
 	// and group-graph loops below need no special cases. An unknown card (typo,
