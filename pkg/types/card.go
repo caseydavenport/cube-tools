@@ -159,8 +159,25 @@ var removalPatterns = []oraclePattern{
 	sub("put a stun counter on"),
 }
 
+var (
+	// A destroy/exile verb whose object is a card in a graveyard is graveyard
+	// hate, not battlefield removal (Deathrite Shaman, Raven Eagle). The clause
+	// is stripped before the removal check rather than disqualifying the whole
+	// card, so a modal spell that also blows up a permanent still counts
+	// (Heritage Reclamation's "destroy target artifact" mode).
+	reGraveyardHate = regexp.MustCompile(`(?i)(exile|destroy)[a-z ]*\b(up to \w+ )?(other )?target[a-z ]*card[a-z ]*(from|in)[a-z ]*graveyard`)
+
+	// Exile that hands the permanent back at the next end step is a temporary
+	// blink (Phelia), not removal - unlike an O-Ring whose exile lasts until the
+	// enchantment leaves (Journey to Nowhere, Touch the Spirit Realm).
+	reTemporaryBlink = regexp.MustCompile(`(?i)at the beginning of the next end step, return [^.]*to the battlefield`)
+)
+
 func (c Card) IsRemoval() bool {
-	return anyPattern(c.OracleText, removalPatterns)
+	if reTemporaryBlink.MatchString(c.OracleText) {
+		return false
+	}
+	return anyPattern(reGraveyardHate.ReplaceAllString(c.OracleText, ""), removalPatterns)
 }
 
 var counterspellPatterns = []oraclePattern{

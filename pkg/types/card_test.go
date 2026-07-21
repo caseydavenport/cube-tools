@@ -375,6 +375,58 @@ func TestIsRemoval_RealCards(t *testing.T) {
 	}
 }
 
+// Regression: substring matching flagged graveyard hate and temporary blink as
+// removal. Guards drop those without catching modal removal that also touches a
+// graveyard, or O-Rings that exile until the enchantment leaves.
+func TestIsRemoval_NotBattlefieldRemoval(t *testing.T) {
+	tests := []struct {
+		name string
+		card Card
+		want bool
+	}{
+		{
+			name: "deathrite shaman is graveyard hate",
+			card: Card{OracleText: "{G}, {T}: Exile target creature card from a graveyard. You gain 2 life."},
+			want: false,
+		},
+		{
+			name: "raven eagle is graveyard hate",
+			card: Card{OracleText: "Whenever this creature enters or attacks, exile up to one target card from a graveyard."},
+			want: false,
+		},
+		{
+			name: "territorial kavu is graveyard hate",
+			card: Card{OracleText: "Whenever this creature attacks, choose one - Discard a card. If you do, draw a card. Exile up to one target card from a graveyard."},
+			want: false,
+		},
+		{
+			name: "phelia is a temporary blink",
+			card: Card{OracleText: "Whenever Phelia attacks, exile up to one other target nonland permanent. At the beginning of the next end step, return that card to the battlefield under its owner's control."},
+			want: false,
+		},
+		{
+			name: "heritage reclamation still destroys artifacts",
+			card: Card{OracleText: "Choose one - Destroy target artifact. Destroy target enchantment. Exile up to one target card from a graveyard. Draw a card."},
+			want: true,
+		},
+		{
+			name: "journey to nowhere exiles until it leaves",
+			card: Card{OracleText: "When this enchantment enters, exile target creature. When this enchantment leaves the battlefield, return the exiled card to the battlefield under its owner's control."},
+			want: true,
+		},
+		{
+			name: "accursed marauder is a real edict",
+			card: Card{Name: "Accursed Marauder", OracleText: "When this creature enters, each player sacrifices a creature."},
+			want: true,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			assert.Equal(t, tt.want, tt.card.IsRemoval())
+		})
+	}
+}
+
 func TestIsCounterspell_RealCards(t *testing.T) {
 	tests := []struct {
 		name string
