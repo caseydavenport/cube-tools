@@ -320,7 +320,7 @@ func deckKeyer(dim PivotDimension, draftBucket map[string]string, cubeCards map[
 			}
 			return nil
 		}
-	case "removal", "interaction", "counterspell", "creatures", "lands", "dna", "avg_cmc":
+	case "removal", "interaction", "counterspell", "creatures", "multicolor", "lands", "dna", "avg_cmc":
 		return func(d *storage.Deck) []string {
 			comp := composition(d, cubeCards)
 			return []string{compBucketLabel(dim.Dim, comp.value(dim.Dim))}
@@ -348,7 +348,7 @@ func opponentKeyer(dim PivotDimension, cubeCards map[string]types.Card) func(*st
 			}
 			return []string{opp.MacroArchetype}
 		}
-	case "removal", "interaction", "counterspell", "creatures", "lands", "dna", "avg_cmc":
+	case "removal", "interaction", "counterspell", "creatures", "multicolor", "lands", "dna", "avg_cmc":
 		return func(opp *storage.Deck) []string {
 			if len(opp.Mainboard) == 0 {
 				return nil
@@ -382,6 +382,7 @@ type deckComposition struct {
 	Interaction  int
 	Counterspell int
 	Creatures    int
+	Multicolor   int
 	Lands        int
 	DNA          int
 	AvgCMC       float64
@@ -397,6 +398,8 @@ func (c deckComposition) value(dim string) float64 {
 		return float64(c.Counterspell)
 	case "creatures":
 		return float64(c.Creatures)
+	case "multicolor":
+		return float64(c.Multicolor)
 	case "lands":
 		return float64(c.Lands)
 	case "dna":
@@ -433,6 +436,9 @@ func composition(d *storage.Deck, cubeCards map[string]types.Card) deckCompositi
 		if c.IsCreature() {
 			comp.Creatures++
 		}
+		if len(c.Colors) >= 2 {
+			comp.Multicolor++
+		}
 		for _, t := range c.Tags {
 			if t == dnaTag {
 				comp.DNA++
@@ -447,9 +453,10 @@ func composition(d *storage.Deck, cubeCards map[string]types.Card) deckCompositi
 }
 
 // compBucketLabel buckets a numeric composition value into a range label for use
-// as a group/split key. Creatures and lands get their own schemes centered on
-// where limited decks actually sit (10-16 creatures, 15-17 lands); the default
-// 0-2/3-5/6-8/9+ fits spell counts like removal and interaction.
+// as a group/split key. Creatures, lands, and multicolor get their own schemes
+// centered on where limited decks actually sit (10-16 creatures, 15-17 lands,
+// most decks 0-2 gold); the default 0-2/3-5/6-8/9+ fits spell counts like
+// removal and interaction.
 func compBucketLabel(dim string, v float64) string {
 	n := int(v)
 	switch dim {
@@ -475,6 +482,15 @@ func compBucketLabel(dim string, v float64) string {
 			return "15-16"
 		default:
 			return "17+"
+		}
+	case "multicolor":
+		switch {
+		case n == 0:
+			return "0"
+		case n <= 2:
+			return "1-2"
+		default:
+			return "3+"
 		}
 	}
 	switch {
