@@ -110,6 +110,9 @@
         "o:\"+1/+1 counter on up to\"",
         "o:\"+1/+1 counter on another\"",
         "o:\"+1/+1 counter on equipped\""
+      ],
+      "exclude": [
+        "Sandstorm Salvager"
       ]
     },
     {
@@ -138,21 +141,9 @@
       ]
     },
     {
-      "name": "Creature ETB",
-      "conditions": [
-        "t:creature o:\"enters\" !o:landfall"
-      ]
-    },
-    {
       "name": "Creature lands",
       "conditions": [
         "t:land o:\"becomes a\""
-      ]
-    },
-    {
-      "name": "Creature LTB",
-      "conditions": [
-        "t:creature o:\"leaves the battlefiled\""
       ]
     },
     {
@@ -224,7 +215,13 @@
       ]
     },
     {
-      "name": "ETB",
+      "name": "ETB creatures",
+      "conditions": [
+        "t:creature o:\"enters\" !o:landfall !o:\"enters with\""
+      ]
+    },
+    {
+      "name": "ETB noncreatures",
       "conditions": [
         "o:\"enters\" !t:creature !t:land"
       ],
@@ -260,12 +257,17 @@
       ]
     },
     {
-      "name": "Flicker Enablers",
+      "name": "Flickers creatures",
       "conditions": [
-        "o:\"exile target\" o:\"return that\"",
-        "o:\"return target\" o:\"owners hand\"",
-        "o:\"exile up to\" o:\"return that\"",
-        "o:\"exile another target\" o:\"return that\""
+        "o:\"exile target\" o:creature o:\"return that\"",
+        "o:\"return target creature to its owners hand\""
+      ]
+    },
+    {
+      "name": "Flickers permanents",
+      "conditions": [
+        "o:\"exile up to one other target nonland\" o:\"return that\"",
+        "o:\"exile another target permanent\" o:\"return that\""
       ]
     },
     {
@@ -339,12 +341,18 @@
       ]
     },
     {
-      "name": "LTB",
+      "name": "LTB noncreature",
       "conditions": [
         "o:leaves !t:creature !t:land !o:until"
       ],
       "exclude": [
         "Journey to Nowhere"
+      ]
+    },
+    {
+      "name": "LTB creatures",
+      "conditions": [
+        "t:creature o:\"leaves the battlefiled\""
       ]
     },
     {
@@ -682,6 +690,14 @@
           "targets": [
             "Buff targets"
           ]
+        },
+        {
+          "sources": [
+            "card:Sandstorm Salvager"
+          ],
+          "targets": [
+            "Creature token generator"
+          ]
         }
       ]
     },
@@ -775,13 +791,11 @@
       "wires": [
         {
           "sources": [
-            "ETB",
-            "Creature ETB",
-            "Creature LTB",
-            "LTB"
+            "ETB creatures",
+            "LTB creatures"
           ],
           "targets": [
-            "Flicker Enablers"
+            "Flickers creatures"
           ]
         },
         {
@@ -790,6 +804,17 @@
           ],
           "targets": [
             "Delney matters"
+          ]
+        },
+        {
+          "sources": [
+            "Flickers permanents"
+          ],
+          "targets": [
+            "ETB noncreatures",
+            "LTB noncreature",
+            "ETB creatures",
+            "LTB creatures"
           ]
         }
       ]
