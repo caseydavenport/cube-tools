@@ -224,7 +224,7 @@ function ColorStatsTable(input) {
     {
       id: "win",
       text: "Win %",
-      tip: "Percentages of games played by this color/colors that were wins.",
+      tip: "Percentage of games played by this color/colors that were wins. Greyed when it can't be told apart from a coin flip at the chosen confidence; hover for the interval.",
     },
     {
       id: "delta",
@@ -362,10 +362,19 @@ function ColorStatsTable(input) {
               let img = ColorImages(color.color)
               let vpsPercentage = Pct(color.victory_points, totalVictoryPoints)
 
+              // Grey the win rate when it can't be told apart from a coin flip.
+              let hasCI = color.win_percent_low != null
+              let winMuted = hasCI && !color.significant
+
               return (
                 <tr key={idx} sort={sort} className="widget-table-row">
                   <td>{img}</td>
-                  <td>{color.win_percent.toFixed(0)}%</td>
+                  <td
+                    style={winMuted ? { color: "var(--text-muted)" } : undefined}
+                    title={hasCI ? `${color.win_percent_low.toFixed(0)}–${color.win_percent_high.toFixed(0)}% · ${color.significant ? "distinguishable from 50%" : "not distinguishable from 50%"}` : undefined}
+                  >
+                    {color.win_percent.toFixed(0)}%
+                  </td>
                   <td className={color.win_percent - CUBE_AVG_WIN_PERCENT >= 0 ? "positive" : "negative"}>
                     {(color.win_percent - CUBE_AVG_WIN_PERCENT >= 0 ? "+" : "") + (color.win_percent - CUBE_AVG_WIN_PERCENT).toFixed(0) + "%"}
                   </td>

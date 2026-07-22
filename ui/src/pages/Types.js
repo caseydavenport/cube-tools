@@ -5,6 +5,7 @@ import { DropdownHeader, NumericInput, Checkbox, DateSelector } from "../compone
 import { Section, SectionNav } from "../components/PageSections.js"
 import { BucketName, bucketXScale } from "../utils/Buckets.js"
 import { Red, Green, Black, White, Blue, Colors, ColorImages, CUBE_AVG_WIN_PERCENT, deltaPositiveFill, deltaNegativeFill } from "../utils/Colors.js"
+import { winInterval } from "../utils/Stats.js"
 
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Popover from 'react-bootstrap/Popover';
@@ -195,7 +196,7 @@ const archetypeHeaders = [
   {
     id: "win_percent",
     text: "Win %",
-    tip: "Win percentage of decks that have this archetype / tag.",
+    tip: "Win percentage of decks that have this archetype / tag. Greyed when it can't be told apart from a coin flip at the chosen confidence; hover for the interval.",
   },
   {
     id: "pwin",
@@ -319,7 +320,11 @@ function ArchetypeTableRows(input) {
             <tr key={t.type} sort={sort} className="widget-table-row">
               <td id={t.type} onClick={input.handleRowClick} key="type">{t.type}</td>
               <td key="build_percent">{t.build_percent.toFixed(0)}%</td>
-              <td key="win_percent">{t.win_percent.toFixed(0)}%</td>
+              <td key="win_percent"
+                style={t.win_percent_low != null && !t.significant ? { color: "var(--text-muted)" } : undefined}
+                title={t.win_percent_low != null ? `${t.win_percent_low.toFixed(0)}–${t.win_percent_high.toFixed(0)}% · ${t.significant ? "distinguishable from 50%" : "not distinguishable from 50%"}` : undefined}>
+                {t.win_percent.toFixed(0)}%
+              </td>
               <td key="pwin">{t.percent_of_wins.toFixed(0)}%</td>
               <td key="trophies">{t.trophies}</td>
               <td key="lastplace">{t.last_place}</td>
@@ -654,7 +659,7 @@ function ArchetypeDetailsPanel(input) {
   );
 }
 
-export function ArchetypeData(decks) {
+export function ArchetypeData(decks, confidence) {
   let newType = function(type) {
     return {
       type: type,
@@ -745,6 +750,10 @@ export function ArchetypeData(decks) {
   tracker.forEach(function(archetype) {
     archetype.build_percent = Math.round(archetype.count / decks.length * 100)
     archetype.win_percent = Math.round(archetype.wins / (archetype.wins + archetype.losses) * 100)
+    const ci = winInterval(archetype.wins, archetype.losses, 0, confidence)
+    archetype.win_percent_low = ci.low
+    archetype.win_percent_high = ci.high
+    archetype.significant = ci.significant
     archetype.percent_of_wins = Math.round(archetype.wins / totalGames * 100)
     archetype.record = archetype.wins + "-" + archetype.losses + "-" + 0
     archetype.avg_shared = Math.round(archetype.num_shared_with / archetype.count * 100) / 100

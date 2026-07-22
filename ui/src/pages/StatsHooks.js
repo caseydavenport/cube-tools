@@ -174,10 +174,10 @@ export function useStatsData(filters, props, refresh) {
 
   // Color Data
   useEffect(() => {
-    fetch(`/api/${cubeID}/stats/colors?start=${startDate}&end=${endDate}&size=${minDraftSize}&color_mode=${colorMode}&match=${encodeURIComponent(props.matchStr || "")}`)
+    fetch(`/api/${cubeID}/stats/colors?start=${startDate}&end=${endDate}&size=${minDraftSize}&color_mode=${colorMode}&confidence=${winConfidence}&match=${encodeURIComponent(props.matchStr || "")}`)
       .then(r => r.json())
       .then(d => setColorData(new Map(Object.entries(d.all.data))));
-  }, [colorMode, startDate, endDate, minDraftSize, props.matchStr, refresh]);
+  }, [colorMode, winConfidence, startDate, endDate, minDraftSize, props.matchStr, refresh]);
 
   useEffect(() => {
     fetch(`/api/${cubeID}/stats/colors?start=${startDate}&end=${endDate}&size=${minDraftSize}&color_mode=${colorMode}&bucket_size=${bucketSize}&sliding=true&match=${encodeURIComponent(props.matchStr || "")}`)
@@ -187,7 +187,7 @@ export function useStatsData(filters, props, refresh) {
 
   // Archetype & Player Stats (Aggregated)
   useEffect(() => {
-    fetch(`/api/${cubeID}/stats/archetypes?start=${startDate}&end=${endDate}&size=${minDraftSize}&match=${encodeURIComponent(props.matchStr || "")}`)
+    fetch(`/api/${cubeID}/stats/archetypes?start=${startDate}&end=${endDate}&size=${minDraftSize}&confidence=${winConfidence}&match=${encodeURIComponent(props.matchStr || "")}`)
       .then(r => r.json())
       .then(d => {
         const archetypes = new Map();
@@ -215,7 +215,7 @@ export function useStatsData(filters, props, refresh) {
         }
         setPlayerStats(players);
       });
-  }, [startDate, endDate, minDraftSize, props.matchStr, refresh]);
+  }, [startDate, endDate, minDraftSize, winConfidence, props.matchStr, refresh]);
 
   // Synergy Data
   useEffect(() => {
@@ -273,22 +273,22 @@ export function useStatsData(filters, props, refresh) {
 
   const archetypeData = useMemo(() => {
     let filterByColor = filters.colorCheckboxes.some(e => e);
-    if (filterByColor || props.matchStr) return ArchetypeData(filteredDecks);
+    if (filterByColor || props.matchStr) return ArchetypeData(filteredDecks, winConfidence);
     return archetypeStats instanceof Map ? archetypeStats : new Map(Object.entries(archetypeStats));
-  }, [filteredDecks, archetypeStats, filters.colorCheckboxes, props.matchStr]);
+  }, [filteredDecks, archetypeStats, filters.colorCheckboxes, props.matchStr, winConfidence]);
 
   const playerData = useMemo(() => {
     let filterByColor = filters.colorCheckboxes.some(e => e);
     if (filterByColor || props.matchStr) {
       const pd = PlayerData(filteredDecks);
       for (let d of pd.values()) {
-        d.archetypeData = ArchetypeData(d.decks);
+        d.archetypeData = ArchetypeData(d.decks, winConfidence);
         d.colorStats = GetColorStats(d.decks, filters.colorMode);
       }
       return pd;
     }
     return playerStats instanceof Map ? playerStats : new Map(Object.entries(playerStats));
-  }, [filteredDecks, playerStats, filters.colorCheckboxes, props.matchStr, filters.colorMode]);
+  }, [filteredDecks, playerStats, filters.colorCheckboxes, props.matchStr, filters.colorMode, winConfidence]);
 
   const deckBuckets = useMemo(() => {
     if (filteredDecks.length === 0) return [];
@@ -296,11 +296,11 @@ export function useStatsData(filters, props, refresh) {
     for (let b of db) {
       let bucketDecks = [];
       for (let draft of b) bucketDecks = bucketDecks.concat(draft.decks);
-      b.archetypeData = ArchetypeData(bucketDecks);
+      b.archetypeData = ArchetypeData(bucketDecks, winConfidence);
       b.playerData = PlayerData(bucketDecks);
     }
     return db;
-  }, [filteredDecks, bucketSize]);
+  }, [filteredDecks, bucketSize, winConfidence]);
 
   const pickInfo = useMemo(() => AggregatedPickInfo(drafts, cube, ""), [drafts, cube]);
 

@@ -418,16 +418,12 @@ function winPctCell(card, input, key) {
   rows.push(["% of all wins", `${card.percent_of_wins.toFixed(0)}%`])
   const body = popoverTable(rows)
 
-  // A non-significant win rate is greyed so the eye skips the coin-flips.
+  // A non-significant win rate is greyed so the eye skips the coin-flips. The
+  // interval itself lives in the hover popover to keep the column uncluttered.
   const muted = hasCI && !card.significant
   const value = (
     <span style={{ color: muted ? "var(--text-muted)" : undefined }}>
       {card.win_percent.toFixed(0)}%
-      {hasCI &&
-        <span style={{ color: "var(--text-muted)", fontSize: "0.8em", marginLeft: "5px" }}>
-          {card.win_percent_low.toFixed(0)}–{card.win_percent_high.toFixed(0)}
-        </span>
-      }
     </span>
   )
   return popoverValueCell(card, input, key, value, "Win detail", body)
@@ -457,18 +453,11 @@ const gamesColumn = {
   cell: (c, i, k) => valueCell(c, i, k, c.total_games),
 }
 
-const WIN_CONFIDENCE_OPTS = [
-  { label: "80%", value: "0.8" },
-  { label: "90%", value: "0.9" },
-  { label: "95%", value: "0.95" },
-  { label: "99%", value: "0.99" },
-]
-
 const OVERVIEW_COLUMNS = [
   colorsColumn,
   cardColumn,
   { id: "mainboarded", text: "Deck%", tip: "Percentage of drafts this card is mainboarded. Hover for exact board counts.", cell: deckPctCell },
-  { id: "wins", text: "Win%", tip: "Win rate of decks that mainboard this card, with its confidence interval. Greyed when it can't be told apart from a coin flip at the chosen confidence. Hover for detail.", cell: winPctCell },
+  { id: "wins", text: "Win%", tip: "Win rate of decks that mainboard this card. Greyed when it can't be told apart from a coin flip at the chosen confidence. Hover for the confidence interval and record.", cell: winPctCell },
   { id: "delta_exp", text: "Δ Exp", tip: "Win% minus expected win% - how the card over/underperforms relative to the players who ran it.", cell: deltaExpCell },
   { id: "elo", text: "Pick ELO", tip: "An ELO ranking based on card pick order in packs.", cell: (c, i, k) => valueCell(c, i, k, c.elo) },
   { id: "match_elo", text: "Match ELO", tip: "An ELO ranking computed from match results, weighted by opponent strength.", cell: (c, i, k) => valueCell(c, i, k, c.match_elo) },
@@ -613,13 +602,6 @@ function CardWidgetOptions(input) {
           options={input.tagOpts}
           value={input.tagFilter}
           onChange={input.onTagFilterSelected}
-        />
-
-        <DropdownHeader
-          label="Win% confidence"
-          options={WIN_CONFIDENCE_OPTS}
-          value={input.winConfidence}
-          onChange={input.onWinConfidenceSelected}
         />
 
         <Checkbox

@@ -112,6 +112,8 @@ export function StatsViewer(props) {
           onBucketsChanged={(e) => setBucketSize(Math.max(1, e.target.value))}
           minDraftSize={minDraftSize}
           onMinDraftSizeChanged={(e) => setMinDraftSize(e.target.value)}
+          winConfidence={winConfidence}
+          onWinConfidenceSelected={(e) => setWinConfidence(e.target.value)}
           parsed={parsed}
           matchStr={typingStr}
           cardNames={cube.cards.map(c => c.name)}

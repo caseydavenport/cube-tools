@@ -1,6 +1,7 @@
 import React from 'react';
-import { Button, TextInput, NumericInput, DateSelector } from "../components/Dropdown.js";
+import { Button, TextInput, NumericInput, DateSelector, DropdownHeader } from "../components/Dropdown.js";
 import { PillSearchInput } from "../components/PillSearchInput.js";
+import { WIN_CONFIDENCE_OPTS } from "../utils/Stats.js";
 
 export function SelectorBar(input) {
   // Publish the bar's height so the in-page section nav can stick directly
@@ -24,6 +25,7 @@ export function SelectorBar(input) {
         <DateSelector label="To" id="to" value={input.endDate} onChange={input.onEndSelected} />
         <NumericInput label="Bucket size" value={input.bucketSize} onChange={input.onBucketsChanged} />
         <NumericInput label="Draft size" value={input.minDraftSize} onChange={input.onMinDraftSizeChanged} />
+        <DropdownHeader label="Win% confidence" options={WIN_CONFIDENCE_OPTS} value={input.winConfidence} onChange={input.onWinConfidenceSelected} />
         <Overview decks={input.parsed.filteredDecks} />
       </div>
 
