@@ -52,6 +52,7 @@ export function StatsViewer(props) {
     manaValue, setManaValue, selectedBucket, setSelectedBucket, colorTypeSelection, setColorTypeSelection,
     colorSortBy, setColorSortBy, colorMode, setColorMode, colorCheckboxes, setColorCheckboxes,
     cardWidgetSelection, setCardWidgetSelection, minDrafts, setMinDrafts, minGames, setMinGames,
+    winConfidence, setWinConfidence, significantOnly, setSignificantOnly,
     minPlayers, setMinPlayers, maxPlayers, setMaxPlayers, selectedCard, setSelectedCard,
     cardFilter, setCardFilter, tagFilter, setTagFilter, cardWidgetColorSelection, setCardWidgetColorSelection,
     cardWidgetSortBy, setCardWidgetSortBy, cardWidgetSortInvert, setCardWidgetSortInvert, cardXAxis, setCardXAxis, cardYAxis, setCardYAxis,
@@ -181,6 +182,8 @@ export function StatsViewer(props) {
           colorSelection={cardWidgetColorSelection} onColorSelected={(e) => setCardWidgetColorSelection(e.target.value)}
           minDrafts={minDrafts} onMinDraftsSelected={(e) => setMinDrafts(e.target.value)}
           minGames={minGames} onMinGamesSelected={(e) => setMinGames(e.target.value)}
+          winConfidence={winConfidence} onWinConfidenceSelected={(e) => setWinConfidence(e.target.value)}
+          significantOnly={significantOnly} onSignificantOnlyToggled={(e) => setSignificantOnly(e.target.checked)}
           minPlayers={minPlayers} maxPlayers={maxPlayers} onMinPlayersSelected={(e) => setMinPlayers(e.target.value)}
           onMaxPlayersSelected={(e) => setMaxPlayers(e.target.value)}
           onHeaderClick={(e) => {

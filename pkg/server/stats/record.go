@@ -14,6 +14,16 @@ type Record struct {
 	Losses     int     `json:"losses"`
 	Draws      int     `json:"draws"`
 	WinPercent float64 `json:"win_percent"`
+
+	// Wilson score interval around WinPercent at the request's confidence
+	// level, on the same 0-100 scale. Zero when there are no games. See
+	// confidence.go.
+	WinPercentLow  float64 `json:"win_percent_low"`
+	WinPercentHigh float64 `json:"win_percent_high"`
+
+	// Significant reports whether the interval excludes 50%, i.e. the record is
+	// distinguishable from a coin flip at the chosen confidence.
+	Significant bool `json:"significant"`
 }
 
 func (r *Record) Add(d *storage.Deck) {
@@ -26,6 +36,15 @@ func (r *Record) Add(d *storage.Deck) {
 // all Add calls.
 func (r *Record) Finalize() {
 	r.WinPercent = winPctOf(r.Wins, r.Losses, r.Draws)
+}
+
+// SetInterval computes the Wilson confidence interval and significance flag for
+// the accumulated record at critical value z. Call after Finalize.
+func (r *Record) SetInterval(z float64) {
+	r.WinPercentLow, r.WinPercentHigh = wilsonInterval(r.Wins, r.Losses, r.Draws, z)
+	if r.Wins+r.Losses+r.Draws > 0 {
+		r.Significant = r.WinPercentLow > 50 || r.WinPercentHigh < 50
+	}
 }
 
 // winPctOf computes a win percentage where draws count as half a win.

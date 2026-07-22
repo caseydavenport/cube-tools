@@ -56,15 +56,29 @@ type PivotRequest struct {
 	// any game played against them - so a few heavy, outlier players can be
 	// removed from the aggregate rather than skewing it.
 	ExcludePlayers []string `json:"exclude_players,omitempty"`
+
+	// Confidence level for the per-cell win-rate interval (0,1). Defaults to
+	// defaultConfidence. See confidence.go.
+	Confidence float64 `json:"confidence"`
 }
 
 // PivotCell is one group×split record. deckSet is internal bookkeeping for the
 // distinct-deck count; it isn't serialized.
 type PivotCell struct {
-	Wins    int             `json:"wins"`
-	Losses  int             `json:"losses"`
-	Draws   int             `json:"draws"`
-	WinPct  float64         `json:"win_pct"`
+	Wins   int     `json:"wins"`
+	Losses int     `json:"losses"`
+	Draws  int     `json:"draws"`
+	WinPct float64 `json:"win_pct"`
+
+	// Wilson score interval around WinPct at the request's confidence level, on
+	// the same 0-100 scale. See confidence.go.
+	WinPctLow  float64 `json:"win_pct_low"`
+	WinPctHigh float64 `json:"win_pct_high"`
+
+	// Significant reports whether the interval excludes 50%, i.e. the cell is
+	// distinguishable from a coin flip at the chosen confidence.
+	Significant bool `json:"significant"`
+
 	Decks   int             `json:"decks"`
 	deckSet map[string]bool `json:"-"`
 }
@@ -234,10 +248,15 @@ func computePivot(allDecks []*storage.Deck, req *PivotRequest, cubeCards map[str
 		}
 	}
 
-	// Finalize win percentages and distinct-deck counts.
+	// Finalize win percentages, intervals, and distinct-deck counts.
+	z := zForConfidence(req.Confidence)
 	for _, row := range rows {
 		for _, cell := range row.Cells {
 			cell.WinPct = winPctOf(cell.Wins, cell.Losses, cell.Draws)
+			cell.WinPctLow, cell.WinPctHigh = wilsonInterval(cell.Wins, cell.Losses, cell.Draws, z)
+			if cell.Wins+cell.Losses+cell.Draws > 0 {
+				cell.Significant = cell.WinPctLow > 50 || cell.WinPctHigh < 50
+			}
 			cell.Decks = len(cell.deckSet)
 		}
 	}

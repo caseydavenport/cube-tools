@@ -30,6 +30,14 @@ type CardStatsRequest struct {
 	MinDrafts int `json:"min_drafts"`
 	// Minimum number of games a card must have been in to be included.
 	MinGames int `json:"min_games"`
+
+	// Confidence level for the win-rate interval (0,1). Defaults to
+	// defaultConfidence. Higher demands a stronger signal - see confidence.go.
+	Confidence float64 `json:"confidence"`
+
+	// SignificantOnly drops cards whose interval doesn't exclude 50% at the
+	// chosen confidence, i.e. cards we can't tell apart from a coin flip.
+	SignificantOnly bool `json:"significant_only"`
 }
 
 type CardStatsResponse struct {
@@ -62,6 +70,8 @@ func parseCardsRequest(r *http.Request) *CardStatsRequest {
 	p.Sliding = query.GetBool(r, "sliding")
 	p.MinDrafts = query.GetInt(r, "min_drafts")
 	p.MinGames = query.GetInt(r, "min_games")
+	p.Confidence = query.GetFloat(r, "confidence")
+	p.SignificantOnly = query.GetBool(r, "significant_only")
 
 	// Parse the embedded deck request.
 	p.DecksRequest = decks.ParseDecksRequest(r)
@@ -293,6 +303,7 @@ func (d *cardStatsHandler) statsForDecks(decks []*storage.Deck, cubeCards map[st
 
 	// Now that we've gone through all the decks, calculate win percentages and mainboard/sideboard percentages,
 	// and perform any filtering based on the request parameters.
+	z := zForConfidence(sr.Confidence)
 	for _, card := range resp.Data {
 		// Add ELO data.
 		if elo, ok := eloData[card.Name]; ok {
@@ -311,6 +322,10 @@ func (d *cardStatsHandler) statsForDecks(decks []*storage.Deck, cubeCards map[st
 		// Calculate win percentage and mainboard/sideboard percentages.
 		card.TotalGames = card.Wins + card.Losses + card.Draws
 		card.WinPercent = winPctOf(card.Wins, card.Losses, card.Draws)
+		card.WinPercentLow, card.WinPercentHigh = wilsonInterval(card.Wins, card.Losses, card.Draws, z)
+		if card.TotalGames > 0 {
+			card.Significant = card.WinPercentLow > 50 || card.WinPercentHigh < 50
+		}
 		card.PercentOfWins = pct(float64(card.Wins), float64(totalWins))
 
 		decksWithCard := card.Mainboard + card.Sideboard
@@ -324,11 +339,13 @@ func (d *cardStatsHandler) statsForDecks(decks []*storage.Deck, cubeCards map[st
 		for _, ws := range card.ByArchetype {
 			if ws.Wins+ws.Losses+ws.Draws > 15 {
 				ws.Finalize()
+				ws.SetInterval(z)
 			}
 		}
 		for _, ws := range card.AgainstArchetype {
 			if ws.Wins+ws.Losses+ws.Draws > 15 {
 				ws.Finalize()
+				ws.SetInterval(z)
 			}
 		}
 
@@ -598,6 +615,11 @@ func shouldFilterCard(cbn *cardStats, sr *CardStatsRequest) bool {
 	if sr.MinGames > 0 && cbn.Wins+cbn.Losses < sr.MinGames {
 		return true
 	}
+
+	// Drop cards we can't distinguish from a coin flip at the chosen confidence.
+	if sr.SignificantOnly && !cbn.Significant {
+		return true
+	}
 	return false
 }
 
@@ -749,6 +771,15 @@ type cardStats struct {
 
 	// Win percentage
 	WinPercent float64 `json:"win_percent"`
+
+	// Wilson score interval around WinPercent at the request's confidence level,
+	// on the same 0-100 scale. See confidence.go.
+	WinPercentLow  float64 `json:"win_percent_low"`
+	WinPercentHigh float64 `json:"win_percent_high"`
+
+	// Significant reports whether the interval excludes 50%, i.e. the card's win
+	// rate is distinguishable from a coin flip at the chosen confidence.
+	Significant bool `json:"significant"`
 
 	// Expected win percentage is the win percentage of players who have mainboarded this card,
 	// excluding decks that included this card.

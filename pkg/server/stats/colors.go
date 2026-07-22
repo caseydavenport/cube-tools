@@ -28,6 +28,10 @@ type ColorStatsRequest struct {
 	// "exact": only exact color identity matches (3+ color decks excluded from 2-color rows).
 	// "primary": exact match, but 3+ color decks with a clear primary pair count as that pair.
 	ColorMode string `json:"color_mode"`
+
+	// Confidence level for the win-rate interval (0,1). Defaults to
+	// defaultConfidence. See confidence.go.
+	Confidence float64 `json:"confidence"`
 }
 
 type ColorStatsResponse struct {
@@ -61,6 +65,7 @@ func parseColorsRequest(r *http.Request) *ColorStatsRequest {
 	if p.ColorMode == "" {
 		p.ColorMode = "inclusive"
 	}
+	p.Confidence = query.GetFloat(r, "confidence")
 
 	// Parse the embedded deck request.
 	p.DecksRequest = decks.ParseDecksRequest(r)
@@ -368,6 +373,7 @@ func (d *colorStatsHandler) statsForDecks(decks []*storage.Deck, sr *ColorStatsR
 	}
 
 	// Summarize resp.Data stats and calculate percentages.
+	z := zForConfidence(sr.Confidence)
 	for _, color := range resp.Data {
 		// First, calculate the average color devotion of each deck based on colored mana symbols.
 		// This is a measure of, on average, what share of a deck's mana pips are a given color in
@@ -389,6 +395,7 @@ func (d *colorStatsHandler) statsForDecks(decks []*storage.Deck, sr *ColorStatsR
 		color.BuildPercent = pct(float64(color.NumDecks), float64(len(decks)))
 		color.TotalPickPercentage = pct(float64(color.Cards), float64(totalCards))
 		color.Finalize()
+		color.SetInterval(z)
 		logrus.WithFields(logrus.Fields{
 			"color":       color.Color,
 			"wins":        color.Wins,

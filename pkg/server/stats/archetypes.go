@@ -8,6 +8,7 @@ import (
 
 	"github.com/caseydavenport/cube-tools/pkg/server"
 	"github.com/caseydavenport/cube-tools/pkg/server/decks"
+	"github.com/caseydavenport/cube-tools/pkg/server/query"
 	"github.com/caseydavenport/cube-tools/pkg/storage"
 	"github.com/caseydavenport/cube-tools/pkg/types"
 	"github.com/sirupsen/logrus"
@@ -144,9 +145,11 @@ func (s *archetypeStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Reques
 	resp.TotalGames = totalWins
 	numDecks := len(allDecks)
 
+	z := zForConfidence(query.GetFloat(r, "confidence"))
 	for _, as := range resp.Archetypes {
 		as.BuildPercent = pct(float64(as.Count), float64(numDecks))
 		as.Finalize()
+		as.SetInterval(z)
 		as.PercentOfWins = pct(float64(as.Wins), float64(percentOfWinsDenom))
 		if as.cmcCount > 0 {
 			as.AvgCMC = math.Round(as.AvgCMC/float64(as.cmcCount)*100) / 100

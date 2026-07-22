@@ -22,6 +22,8 @@ export function useStatsFilters() {
   const [cardWidgetSelection, setCardWidgetSelection] = useState("Overview");
   const [minDrafts, setMinDrafts] = useState(0);
   const [minGames, setMinGames] = useState(0);
+  const [winConfidence, setWinConfidence] = useState("0.8");
+  const [significantOnly, setSignificantOnly] = useState(false);
   const [minPlayers, setMinPlayers] = useState(0);
   const [maxPlayers, setMaxPlayers] = useState(0);
   const [selectedCard, setSelectedCard] = useState("");
@@ -76,6 +78,8 @@ export function useStatsFilters() {
     cardWidgetSelection, setCardWidgetSelection,
     minDrafts, setMinDrafts,
     minGames, setMinGames,
+    winConfidence, setWinConfidence,
+    significantOnly, setSignificantOnly,
     minPlayers, setMinPlayers,
     maxPlayers, setMaxPlayers,
     selectedCard, setSelectedCard,
@@ -139,9 +143,9 @@ export function useStatsData(filters, props, refresh) {
   const [designGraphData, setDesignGraphData] = useState({});
 
   const { startDate, endDate } = props;
-  const { 
+  const {
     minDraftSize, cardWidgetColorSelection, minDrafts,
-    minGames, bucketSize, colorMode, minSynergyDecks,
+    minGames, winConfidence, significantOnly, bucketSize, colorMode, minSynergyDecks,
     focalThreshold, smoothingK, colorAdjust, synergyRecord
   } = filters;
 
@@ -157,10 +161,10 @@ export function useStatsData(filters, props, refresh) {
 
   // Card Data
   useEffect(() => {
-    fetch(`/api/${cubeID}/stats/cards?color=${cardWidgetColorSelection}&min_drafts=${minDrafts}&min_games=${minGames}&start=${startDate}&end=${endDate}&size=${minDraftSize}&match=${encodeURIComponent(props.matchStr || "")}`)
+    fetch(`/api/${cubeID}/stats/cards?color=${cardWidgetColorSelection}&min_drafts=${minDrafts}&min_games=${minGames}&confidence=${winConfidence}&significant_only=${significantOnly}&start=${startDate}&end=${endDate}&size=${minDraftSize}&match=${encodeURIComponent(props.matchStr || "")}`)
       .then(r => r.json())
       .then(d => setCardData(new Map(Object.entries(d.all.data))));
-  }, [cardWidgetColorSelection, minDrafts, minGames, startDate, endDate, minDraftSize, props.matchStr, refresh]);
+  }, [cardWidgetColorSelection, minDrafts, minGames, winConfidence, significantOnly, startDate, endDate, minDraftSize, props.matchStr, refresh]);
 
   useEffect(() => {
     fetch(`/api/${cubeID}/stats/cards?color=${cardWidgetColorSelection}&min_drafts=${minDrafts}&min_games=${minGames}&bucket_size=${bucketSize}&sliding=true&match=${encodeURIComponent(props.matchStr || "")}`)

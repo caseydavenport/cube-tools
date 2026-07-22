@@ -398,15 +398,39 @@ function deckPctCell(card, input, key) {
   return popoverValueCell(card, input, key, `${card.mainboard_percent.toFixed(0)}%`, "Board counts", body)
 }
 
-// winPctCell shows win rate, with the full record detail on hover.
+// winPctCell shows win rate next to its Wilson confidence interval, muted when
+// the card can't be told apart from a coin flip at the chosen confidence. Full
+// record and interval on hover.
 function winPctCell(card, input, key) {
-  const body = popoverTable([
+  const hasCI = card.win_percent_low != null && card.win_percent_high != null
+  const confPct = Math.round(parseFloat(input.winConfidence || "0.8") * 100)
+
+  const rows = [
     ["Record", `${card.wins}-${card.losses}-${card.draws}`],
-    ["Trophies (3-0)", card.trophies],
-    ["Last place (0-3)", card.last_place],
-    ["% of all wins", `${card.percent_of_wins.toFixed(0)}%`],
-  ])
-  return popoverValueCell(card, input, key, `${card.win_percent.toFixed(0)}%`, "Win detail", body)
+    ["Win %", `${card.win_percent.toFixed(0)}%`],
+  ]
+  if (hasCI) {
+    rows.push([`${confPct}% interval`, `${card.win_percent_low.toFixed(0)}% – ${card.win_percent_high.toFixed(0)}%`])
+    rows.push(["Beats a coin flip", card.significant ? "yes" : "no"])
+  }
+  rows.push(["Trophies (3-0)", card.trophies])
+  rows.push(["Last place (0-3)", card.last_place])
+  rows.push(["% of all wins", `${card.percent_of_wins.toFixed(0)}%`])
+  const body = popoverTable(rows)
+
+  // A non-significant win rate is greyed so the eye skips the coin-flips.
+  const muted = hasCI && !card.significant
+  const value = (
+    <span style={{ color: muted ? "var(--text-muted)" : undefined }}>
+      {card.win_percent.toFixed(0)}%
+      {hasCI &&
+        <span style={{ color: "var(--text-muted)", fontSize: "0.8em", marginLeft: "5px" }}>
+          {card.win_percent_low.toFixed(0)}–{card.win_percent_high.toFixed(0)}
+        </span>
+      }
+    </span>
+  )
+  return popoverValueCell(card, input, key, value, "Win detail", body)
 }
 
 // deltaExpCell shows Win% minus expected Win%, coloured. Blank when there's no
@@ -433,11 +457,18 @@ const gamesColumn = {
   cell: (c, i, k) => valueCell(c, i, k, c.total_games),
 }
 
+const WIN_CONFIDENCE_OPTS = [
+  { label: "80%", value: "0.8" },
+  { label: "90%", value: "0.9" },
+  { label: "95%", value: "0.95" },
+  { label: "99%", value: "0.99" },
+]
+
 const OVERVIEW_COLUMNS = [
   colorsColumn,
   cardColumn,
   { id: "mainboarded", text: "Deck%", tip: "Percentage of drafts this card is mainboarded. Hover for exact board counts.", cell: deckPctCell },
-  { id: "wins", text: "Win%", tip: "Win rate of decks that mainboard this card. Hover for record detail.", cell: winPctCell },
+  { id: "wins", text: "Win%", tip: "Win rate of decks that mainboard this card, with its confidence interval. Greyed when it can't be told apart from a coin flip at the chosen confidence. Hover for detail.", cell: winPctCell },
   { id: "delta_exp", text: "Δ Exp", tip: "Win% minus expected win% - how the card over/underperforms relative to the players who ran it.", cell: deltaExpCell },
   { id: "elo", text: "Pick ELO", tip: "An ELO ranking based on card pick order in packs.", cell: (c, i, k) => valueCell(c, i, k, c.elo) },
   { id: "match_elo", text: "Match ELO", tip: "An ELO ranking computed from match results, weighted by opponent strength.", cell: (c, i, k) => valueCell(c, i, k, c.match_elo) },
@@ -582,6 +613,19 @@ function CardWidgetOptions(input) {
           options={input.tagOpts}
           value={input.tagFilter}
           onChange={input.onTagFilterSelected}
+        />
+
+        <DropdownHeader
+          label="Win% confidence"
+          options={WIN_CONFIDENCE_OPTS}
+          value={input.winConfidence}
+          onChange={input.onWinConfidenceSelected}
+        />
+
+        <Checkbox
+          text="Significant only"
+          checked={input.significantOnly}
+          onChange={input.onSignificantOnlyToggled}
         />
       </div>
     </div>

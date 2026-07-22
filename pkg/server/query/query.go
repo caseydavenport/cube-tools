@@ -27,6 +27,18 @@ func GetString(r *http.Request, f string) string {
 	return s
 }
 
+func GetFloat(r *http.Request, f string) float64 {
+	s := r.URL.Query().Get(f)
+	if s == "" {
+		return 0
+	}
+	v, err := strconv.ParseFloat(s, 64)
+	if err != nil {
+		logrus.WithError(err).Warn("failed to parse value")
+	}
+	return v
+}
+
 func GetBool(r *http.Request, f string) bool {
 	s := r.URL.Query().Get(f)
 	if s == "" {
