@@ -5,7 +5,10 @@
  },
  "macro_archetype": "midrange",
  "labels": [
-  "domain"
+  "domain",
+  "graveyard",
+  "lands",
+  "beans"
  ],
  "player": "2026-06-20_bcp26_1-p6",
  "date": "2026-06-20",
