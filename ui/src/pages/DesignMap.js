@@ -839,6 +839,7 @@ export function CardSynergyMap({ cards, edges, links }) {
   const cube = useCube()
   const [hovered, setHovered] = useState(null)
   const [selected, setSelected] = useState(null)
+  const [hoveredCommunity, setHoveredCommunity] = useState(null)
 
   const linkIndex = useMemo(() => {
     const idx = {}
@@ -877,7 +878,7 @@ export function CardSynergyMap({ cards, edges, links }) {
       }
       used.add(color)
       for (const n of comm) communityColorOf[n] = color
-      list.push({ color, label, size: comm.length })
+      list.push({ color, label, size: comm.length, members: comm })
     }
     return { ranking, communities: list, q, communityColorOf }
   }, [byName, edges, linkIndex])
@@ -905,7 +906,7 @@ export function CardSynergyMap({ cards, edges, links }) {
   }, [byName, edges, linkIndex, analytics])
 
   // Drop stale focus when the pool changes (deck or board switch).
-  useEffect(() => { setHovered(null); setSelected(null) }, [byName])
+  useEffect(() => { setHovered(null); setSelected(null); setHoveredCommunity(null) }, [byName])
 
   if (simNodes.length === 0) {
     return <p className="dm-muted dm-pad">No cards to map.</p>
@@ -945,6 +946,7 @@ export function CardSynergyMap({ cards, edges, links }) {
           colorBy={colorBy}
           hoveredId={hovered}
           selectedId={selected}
+          highlightIds={hoveredCommunity}
           onHover={setHovered}
           onSelect={(id) => setSelected(prev => prev === id ? null : id)}
         />
@@ -962,6 +964,8 @@ export function CardSynergyMap({ cards, edges, links }) {
               key={r.card}
               className={"dm-legend-row" + (selected === r.card ? " dm-legend-on" : "")}
               onClick={() => setSelected(prev => prev === r.card ? null : r.card)}
+              onMouseEnter={() => setHovered(r.card)}
+              onMouseLeave={() => setHovered(null)}
             >
               <span className="dm-legend-name">{r.card}</span>
               <span className="dm-legend-count">{r.weightedDegree}·{r.degree}</span>
@@ -971,7 +975,12 @@ export function CardSynergyMap({ cards, edges, links }) {
           {analytics.communities.length === 0 ? (
             <p className="dm-muted dm-pad">No clusters.</p>
           ) : analytics.communities.map((c, i) => (
-            <div key={i} className="dm-legend-row dm-legend-static">
+            <div
+              key={i}
+              className="dm-legend-row"
+              onMouseEnter={() => setHoveredCommunity(new Set(c.members))}
+              onMouseLeave={() => setHoveredCommunity(null)}
+            >
               <span className="dm-swatch" style={{ background: c.color }} />
               <span className="dm-legend-name">{c.label || "mixed"}</span>
               <span className="dm-legend-count">{c.size}</span>
@@ -1957,7 +1966,7 @@ export function ruleColor(index) {
 // Nodes: {id, radius, color, label, count?, communityColor?}. Edges: {source,
 // target, weight, color?}. The library owns the physics, pan/zoom, and drag; we
 // keep the look by painting the nodes and edges ourselves.
-function ForceGraph({ nodes, edges, showLabels, colorBy, hoveredId, selectedId, onHover, onSelect }) {
+function ForceGraph({ nodes, edges, showLabels, colorBy, hoveredId, selectedId, highlightIds, onHover, onSelect }) {
   const fgRef = useRef(null)
   const containerRef = useRef(null)
   const [size, setSize] = useState({ width: 900, height: 620 })
@@ -2021,14 +2030,17 @@ function ForceGraph({ nodes, edges, showLabels, colorBy, hoveredId, selectedId, 
 
   // Paint callbacks read the focus state directly, so a new closure is handed to
   // the library whenever hover/selection/colorBy change - that's what drives a
-  // repaint. focusId is the selected node, or the hovered one when nothing's pinned.
-  const focusId = selectedId || hoveredId
+  // repaint. A highlight set (a hovered community) lights a whole group and wins
+  // over single-node focus; otherwise focusId is the selected node, or the hovered
+  // one when nothing's pinned.
+  const hlSet = highlightIds && highlightIds.size > 0 ? highlightIds : null
+  const focusId = hlSet ? null : (selectedId || hoveredId)
   const neighbors = focusId ? adjacency[focusId] : null
 
   const paintNode = (node, ctx, globalScale) => {
     const isFocus = node.id === focusId
     const isNeighbor = neighbors && neighbors.has(node.id)
-    const dimmed = focusId && !isFocus && !isNeighbor
+    const dimmed = hlSet ? !hlSet.has(node.id) : (focusId && !isFocus && !isNeighbor)
     const fill = colorBy === "community" && node.communityColor ? node.communityColor : node.color
     ctx.beginPath()
     ctx.arc(node.x, node.y, node.radius, 0, 2 * Math.PI)
@@ -2065,14 +2077,17 @@ function ForceGraph({ nodes, edges, showLabels, colorBy, hoveredId, selectedId, 
   const paintLink = (link, ctx, globalScale) => {
     const s = link.source, t = link.target
     if (!s || !t || typeof s !== "object" || typeof t !== "object") return
-    const touches = focusId && (s.id === focusId || t.id === focusId)
-    const dimmed = focusId && !touches
+    const touches = hlSet
+      ? (hlSet.has(s.id) && hlSet.has(t.id))
+      : (focusId && (s.id === focusId || t.id === focusId))
+    const dimmed = (hlSet || focusId) && !touches
     const base = link.color || "#7c8aa0"
     // At rest the web stays subdued so the nodes still read as a constellation;
-    // focusing a node lights up just the edges that touch it.
+    // focusing a node lights up just the edges that touch it, and a hovered
+    // community lights the edges inside it.
     let alpha
     if (dimmed) alpha = 0.03
-    else if (focusId) alpha = Math.min(0.75, 0.28 + link.weight * 0.08)
+    else if (hlSet || focusId) alpha = Math.min(0.75, 0.28 + link.weight * 0.08)
     else alpha = Math.min(0.55, 0.26 + link.weight * 0.05)
     ctx.beginPath()
     ctx.moveTo(s.x, s.y)
