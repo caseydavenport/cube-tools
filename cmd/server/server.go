@@ -39,7 +39,7 @@ func main() {
 	cubeRoute("GET /api/{cube}/drafts/{draft_id}/log", server.DraftLogHandler())
 	cubeRoute("GET /api/{cube}/notes", server.NotesHandler())
 	deckStore := storage.NewFileDeckStore()
-	cubeRoute("GET /api/{cube}/decks", decks.DeckHandler(deckStore))
+	cubeRoute("GET /api/{cube}/decks", decks.DeckHandler(deckStore, stats.EdgesForCube))
 	cubeRoute("POST /api/{cube}/decks/update", decks.UpdateDeckHandler(deckStore))
 	cubeRoute("GET /api/{cube}/archetypes", server.ArchetypesHandler())
 	cubeRoute("GET /api/{cube}/stats/cards", stats.CardStatsHandler())

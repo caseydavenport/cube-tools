@@ -11,6 +11,7 @@ import (
 	"time"
 
 	"github.com/caseydavenport/cube-tools/pkg/commands"
+	"github.com/caseydavenport/cube-tools/pkg/graph"
 	"github.com/caseydavenport/cube-tools/pkg/server/query"
 	"github.com/caseydavenport/cube-tools/pkg/types"
 	"github.com/sirupsen/logrus"
@@ -59,6 +60,10 @@ type DecksRequest struct {
 	DraftSize int    `json:"size,omitempty"`
 	Match     string `json:"match,omitempty"`
 	Board     string `json:"board,omitempty"`
+
+	// CommunityEdges carries the cube design graph for a community: term in Match.
+	// The handler sets it only when Match needs it; nil means no community filter.
+	CommunityEdges []graph.Edge `json:"-"`
 }
 
 func (d *Deck) GetPlayer() string { return d.Player }
@@ -407,9 +412,9 @@ func opponentRecordExcluding(opponentDeck *Deck, exclude string) (int, int) {
 }
 
 func filter(decks []*Deck, r *DecksRequest) []*Deck {
-	// Check if we need to do any filtering.
-	var empty DecksRequest
-	if r == nil || *r == empty {
+	// Check if we need to do any filtering. CommunityEdges alone never filters -
+	// it's inert without a community: term in Match - so it's left out here.
+	if r == nil || (r.Player == "" && r.Start == "" && r.End == "" && r.DraftSize == 0 && r.Match == "" && r.Board == "") {
 		return decks
 	}
 
@@ -456,7 +461,7 @@ func filter(decks []*Deck, r *DecksRequest) []*Deck {
 		}
 
 		// Check the query string.
-		if r.Match != "" && !query.DeckMatchesBoard(d, r.Match, r.Board) {
+		if r.Match != "" && !query.DeckMatchesBoardGraph(d, r.Match, r.Board, r.CommunityEdges) {
 			continue
 		}
 

@@ -18,6 +18,7 @@ export const QueryTerms = [
   "player",
   "dcolor",
   "draftSize",
+  "community",
 ]
 
 export const QueryTermMetadata = [
@@ -39,6 +40,7 @@ export const QueryTermMetadata = [
   { term: "event", description: "Draft / event ID", operators: [":"], valueType: "text", example: "event:ccc2025", isDeckOnly: true },
   { term: "draftSize", description: "Draft size", operators: ["<", ">", "="], valueType: "number", example: "draftSize>6", isDeckOnly: true },
   { term: "minCards", description: "Min matching cards", operators: [":"], valueType: "number", example: "minCards:3", isDeckOnly: true },
+  { term: "community", description: "Builds a package (cohesive community); bare community: means any", operators: [":", "!="], valueType: "text", example: "community:graveyard", isDeckOnly: true },
 ]
 
 export function CardMatches(card, matchStr, checkText) {

@@ -4,8 +4,10 @@ import (
 	"encoding/json"
 	"errors"
 	"net/http"
+	"strings"
 	"time"
 
+	"github.com/caseydavenport/cube-tools/pkg/graph"
 	"github.com/caseydavenport/cube-tools/pkg/server/query"
 	"github.com/caseydavenport/cube-tools/pkg/storage"
 	"github.com/sirupsen/logrus"
@@ -15,25 +17,44 @@ type DecksResponse struct {
 	Decks []*storage.Deck `json:"decks"`
 }
 
-func DeckHandler(store storage.DeckStorage) http.Handler {
+// EdgesLoader returns a cube's design-graph clustering edges. DeckHandler uses it
+// to answer a community: filter term; injected by the caller so this package
+// needn't import the stats package (which imports this one).
+type EdgesLoader func(cubeID string) ([]graph.Edge, error)
+
+func DeckHandler(store storage.DeckStorage, edgesFor EdgesLoader) http.Handler {
 	return &deckHandler{
-		store: store,
+		store:    store,
+		edgesFor: edgesFor,
 	}
 }
 
 type deckHandler struct {
-	store storage.DeckStorage
+	store    storage.DeckStorage
+	edgesFor EdgesLoader
 }
 
 func (d *deckHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 	start := time.Now()
 
+	cubeID := r.PathValue("cube")
 	dr := ParseDecksRequest(r)
+
+	// A community: term needs the cube design graph to cluster each deck. Load it
+	// only when the filter actually asks for one.
+	if d.edgesFor != nil && strings.Contains(dr.Match, "community") {
+		if edges, err := d.edgesFor(cubeID); err != nil {
+			logrus.WithError(err).Warn("could not load design graph for community filter")
+		} else {
+			dr.CommunityEdges = edges
+		}
+	}
+
 	logrus.WithField("params", dr).Info("/api/decks")
 
 	logrus.WithField("time", time.Since(start)).Info("Parse")
 	resp := DecksResponse{}
-	decks, err := d.store.List(r.PathValue("cube"), dr)
+	decks, err := d.store.List(cubeID, dr)
 	if err != nil {
 		panic(err)
 	}

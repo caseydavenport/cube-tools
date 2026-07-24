@@ -5,6 +5,7 @@ import (
 	"strconv"
 	"strings"
 
+	"github.com/caseydavenport/cube-tools/pkg/graph"
 	"github.com/caseydavenport/cube-tools/pkg/types"
 )
 
@@ -24,11 +25,18 @@ func DeckMatches(d Deck, matchStr string) bool {
 	return DeckMatchesBoard(d, matchStr, "")
 }
 
-// DeckMatchesBoard reports whether the deck matches the query. Card terms are
-// matched against the named board ("Sideboard" or "Pool", defaulting to the
-// mainboard), so a card filter means "the deck actually ran this card" rather
-// than that it sat in the sideboard or pool.
+// DeckMatchesBoard reports whether the deck matches the query. It can't evaluate
+// a community: term without the cube's design graph, so callers that support one
+// use DeckMatchesBoardGraph instead.
 func DeckMatchesBoard(d Deck, matchStr, board string) bool {
+	return DeckMatchesBoardGraph(d, matchStr, board, nil)
+}
+
+// DeckMatchesBoardGraph reports whether the deck matches the query. Card terms
+// match against the named board ("Sideboard" or "Pool", else the mainboard). A
+// community: term clusters the mainboard against edges (the cube design graph);
+// pass nil when no community term is present.
+func DeckMatchesBoardGraph(d Deck, matchStr, board string, edges []graph.Edge) bool {
 	if matchStr == "" {
 		return true
 	}
@@ -120,6 +128,10 @@ func DeckMatchesBoard(d Deck, matchStr, board string) bool {
 					matches = d.GetDraftSize() == val
 				}
 				if !matches {
+					return false
+				}
+			} else if label, negate, ok := communityTerm(term); ok {
+				if deckFormsPackage(d, edges, label) == negate {
 					return false
 				}
 			}
@@ -237,6 +249,9 @@ func isTermQuery(matchStr string) bool {
 	queryTerms := []string{"color", "c", "dcolor", "cmc", "t", "o", "name", "pow", "games", "mb", "sb", "players", "drafts", "winpct", "arch", "player", "event", "draftSize", "minCards"}
 	splits := parseTerms(matchStr)
 	for _, term := range splits {
+		if _, _, ok := communityTerm(term); ok {
+			return true
+		}
 		for _, qt := range queryTerms {
 			if strings.HasPrefix(term, qt) && (strings.Contains(term, ":") || strings.Contains(term, "=") || strings.Contains(term, "<") || strings.Contains(term, ">") || strings.Contains(term, "!=")) {
 				return true
@@ -261,9 +276,58 @@ func boardCards(d Deck, board string) []types.Card {
 }
 
 func isDeckOnly(term string) bool {
+	if _, _, ok := communityTerm(term); ok {
+		return true
+	}
 	deckOnlyTerms := []string{"arch", "player", "event", "dcolor", "draftSize", "minCards"}
 	for _, dot := range deckOnlyTerms {
 		if strings.HasPrefix(term, dot) {
+			return true
+		}
+	}
+	return false
+}
+
+// communityTerm parses a community: term, returning the target label (empty means
+// "any package"), whether it's negated, and whether it's a community term at all.
+// Negation is a leading "-" or the "!=" operator, as elsewhere in the grammar.
+func communityTerm(term string) (label string, negate bool, ok bool) {
+	t := term
+	if strings.HasPrefix(t, "-") {
+		negate = true
+		t = t[1:]
+	}
+	if v, found := strings.CutPrefix(t, "community!="); found {
+		return strings.Trim(v, "\""), !negate, true
+	}
+	if v, found := strings.CutPrefix(t, "community:"); found {
+		return strings.Trim(v, "\""), negate, true
+	}
+	return "", false, false
+}
+
+// deckFormsPackage clusters the deck's non-basic mainboard against the design
+// graph and reports whether a package forms - any package for an empty label,
+// else one whose dominant label matches. Always the mainboard, since packages are
+// a mainboard notion. False when no edges are supplied (can't cluster without).
+func deckFormsPackage(d Deck, edges []graph.Edge, label string) bool {
+	if len(edges) == 0 {
+		return false
+	}
+	var names []string
+	for _, c := range d.GetMainboard() {
+		if types.IsBasic(c.Name) {
+			continue
+		}
+		names = append(names, c.Name)
+	}
+	g := graph.BuildDeckSubgraph(names, edges)
+	labels := g.PackageLabels()
+	if label == "" {
+		return len(labels) > 0
+	}
+	for _, l := range labels {
+		if strings.EqualFold(l, label) {
 			return true
 		}
 	}
