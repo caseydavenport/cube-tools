@@ -1,342 +1,361 @@
-Count,Name,Section
-1,Abrade,main
-1,Abundant Harvest,main
-1,Accursed Marauder,main
-1,Adanto Vanguard,main
-1,Agatha's Soul Cauldron,main
-1,"Alesha, Who Laughs at Fate",main
-1,Anje's Ravager,main
-1,Arasta of the Endless Web,main
-1,Arbor Elf,main
-1,Archenemy's Charm,main
-1,Archmage's Charm,main
-2,Arid Mesa,main
-1,Audacity,main
-1,Augur of Autumn,main
-1,Balance,main
-1,Baleful Strix,main
-1,Barbarian Ring,main
-1,Birds of Paradise,main
-1,Birthing Ritual,main
-1,Bitter Triumph,main
-1,Bitterblossom,main
-1,Blade Splicer,main
-1,Blazing Rootwalla,main
-2,Blood Crypt,main
-1,Bloodchief's Thirst,main
-1,Bloodghast,main
-1,Bloodsky Berserker,main
-1,Bloodsoaked Champion,main
-2,Bloodstained Mire,main
-1,Bomat Courier,main
-1,Bone Shards,main
-1,Bonesplitter,main
-1,"Boseiju, Who Endures",main
-1,Brainstorm,main
-1,Brainsurge,main
-2,Breeding Pool,main
-1,Brightglass Gearhulk,main
-1,Burst Lightning,main
-1,Call of the Herd,main
-1,Candy Trail,main
-1,Cankerbloom,main
-1,Canyon Slough,main
-1,Careful Study,main
-1,Caretaker's Talent,main
-1,Carrion Feeder,main
-1,Cathar Commando,main
-1,Celestial Colonnade,main
-1,Cemetery Gatekeeper,main
-1,Chainweb Aracnir,main
-1,Cheeky House-Mouse // Squeak By,main
-1,Chromatic Star,main
-1,Clarion Spirit,main
-1,Cling to Dust,main
-1,Collected Company,main
-1,Comet Storm,main
-1,Commercial District,main
-1,Condescend,main
-1,Consider,main
-1,Counterspell,main
-1,Courser of Kruphix,main
-1,Cryogen Relic,main
-1,Cut Down,main
-1,Dark Confidant,main
-1,Daze,main
-1,Dead Weight,main
-1,Death's Shadow,main
-1,Deathrite Shaman,main
-1,Deep-Cavern Bat,main
-1,Deeproot Wayfinder,main
-1,"Delney, Streetwise Lookout",main
-1,Deluge of Doom,main
-1,Den of the Bugbear,main
-1,Dig Through Time,main
-1,Disfigure,main
-1,Dragon's Rage Channeler,main
-1,Dragonsguard Elite,main
-1,"Drana, Liberator of Malakir",main
-1,Dreadhorde Arcanist,main
-1,Dreamtide Whale,main
-1,Dress Down,main
-1,Duress,main
-1,Edge of Autumn,main
-1,"Eiganjo, Seat of the Empire",main
-1,Elegant Parlor,main
-1,Elspeth's Smite,main
-1,Embercleave,main
-1,Emberheart Challenger,main
-1,Engineered Explosives,main
-1,Ephara's Dispersal,main
-1,Esika's Chariot,main
-1,Esper Sentinel,main
-1,Eternal Witness,main
-1,Ethereal Forager,main
-1,Explore,main
-1,Fact or Fiction,main
-1,Faerie Dreamthief,main
-1,Faerie Guidemother // Gift of the Fae,main
-1,Faerie Vandal,main
-1,Faithless Looting,main
-1,Fatal Push,main
-1,Fell,main
-1,Fetid Pools,main
-1,Field of the Dead,main
-1,Fiery Islet,main
-1,Fiery Temper,main
-1,Fire // Ice,main
-1,Fireblast,main
-1,Firebolt,main
-1,Flame Jab,main
-1,Flame Slash,main
-1,Flames of the Firebrand,main
-1,Flametongue Kavu,main
-1,Flickerwisp,main
-1,Flitterwing Nuisance,main
-2,Flooded Strand,main
-1,Floral Evoker,main
-1,Formidable Speaker,main
-1,Garruk Wildspeaker,main
-1,Gilded Goose,main
-1,Gingerbrute,main
-1,Gitaxian Probe,main
-1,Glass Casket,main
-1,Goblin Bombardment,main
-1,Goblin Guide,main
-2,Godless Shrine,main
-1,Grim Bauble,main
-1,Grim Discovery,main
-1,Grim Flayer,main
-1,Grim Lavamancer,main
-1,Growth Spiral,main
-2,Hallowed Fountain,main
-1,Harm's Way,main
-1,Harvester of Misery,main
-1,Heartfire Hero,main
-1,Hedge Maze,main
-1,Helping Hand,main
-1,Heritage Reclamation,main
-1,Hired Claw,main
-1,Hooting Mandrills,main
-1,Horizon Canopy,main
-1,Hunter's Talent,main
-1,Ignoble Hierarch,main
-1,Inexorable Blob,main
-1,Inquisition of Kozilek,main
-1,Insidious Roots,main
-1,"Inti, Seneschal of the Sun",main
-1,Into the Roil,main
-1,Irencrag Pyromancer,main
-1,Iron-Shield Elf,main
-1,"Isamaru, Hound of Konda",main
-1,"Jolrael, Mwonvuli Recluse",main
-1,Journey to Nowhere,main
-1,"Kellan, the Fae-Blooded // Birthright Boon",main
-1,"Kiora, the Rising Tide",main
-1,Kishla Skimmer,main
-1,Kitesail Freebooter,main
-1,Knight of the Ebon Legion,main
-1,Knight of the Reliquary,main
-1,Kor Skyfisher,main
-1,"Krenko, Tin Street Kingpin",main
-1,Lava Dart,main
-1,Legion Extruder,main
-1,Leyline Binding,main
-1,Life from the Loam,main
-1,Lightning Bolt,main
-1,Lightning Helix,main
-1,Lightstall Inquisitor,main
-1,Liliana of the Veil,main
-1,Lingering Souls,main
-1,Lion Sash,main
-1,Lizard Blades,main
-1,Llanowar Elves,main
-1,Lórien Revealed,main
-1,Lost Jitte,main
-1,Lotus Cobra,main
-1,Lush Portico,main
-1,Magma Jet,main
-1,Magmatic Sinkhole,main
-1,Man-o'-War,main
-1,Mana Leak,main
-1,Manamorphose,main
-1,March of Otherworldly Light,main
-1,Marionette Apprentice,main
-2,Marsh Flats,main
-1,Master of Death,main
-1,Mayhem Devil,main
-1,Memory Lapse,main
-1,Meticulous Archive,main
-1,Midnight Reaper,main
-1,Miscalculation,main
-1,Mischievous Mystic,main
-1,Mishra's Bauble,main
-2,Misty Rainforest,main
-1,Mizzium Tank,main
-1,Monastery Mentor,main
-1,Monastery Swiftspear,main
-1,Moonshadow,main
-1,Mosswood Dreadknight // Dread Whispers,main
-1,Murderous Cut,main
-1,Mutagenic Growth,main
-1,Mutavault,main
-1,Mystic Confluence,main
-1,Mystic Sanctuary,main
-1,Nethergoyf,main
-1,Ninja of the Deep Hours,main
-1,Noble Hierarch,main
-1,Nurturing Peatland,main
-1,Once Upon a Time,main
-1,Opt,main
-1,"Otawara, Soaring City",main
-1,Oust,main
-2,Overgrown Tomb,main
-1,"Ozolith, the Shattered Spire",main
-1,Path to Exile,main
-1,Perilous Myr,main
-1,"Phelia, Exuberant Shepherd",main
-1,Phoenix of Ash,main
-1,Phyrexian Metamorph,main
-1,Pia and Kiran Nalaar,main
-1,Pick Your Poison,main
-1,Pile On,main
-2,Polluted Delta,main
-1,Ponder,main
-1,Porcelain Legionnaire,main
-1,Portable Hole,main
-1,Portent,main
-1,Preordain,main
-1,Primeval Titan,main
-1,Prismatic Ending,main
-1,Prismatic Vista,main
-1,Proft's Eidetic Memory,main
-1,Pyrite Spellbomb,main
-1,Qasali Pridemage,main
-1,Questing Druid // Seek the Beast,main
-1,Quirion Beastcaller,main
-1,Rabbit Battery,main
-1,Raise the Alarm,main
-1,"Rankle, Master of Pranks",main
-1,Raucous Theater,main
-1,Raven Eagle,main
-1,Read the Bones,main
-1,Reckless Charge,main
-1,Reckless Pyrosurfer,main
-1,Recruitment Officer,main
-1,Reinforced Ronin,main
-1,Remand,main
-1,Renegade Rallier,main
-1,Repeal,main
-1,Reprieve,main
-1,Restless Vinestalk,main
-1,Restoration Angel,main
-1,Ride's End,main
-1,Rishadan Port,main
-2,Sacred Foundry,main
-1,"Saheeli, Sublime Artificer",main
-1,Sandstorm Salvager,main
-2,Scalding Tarn,main
-1,Scavenging Ooze,main
-1,Scrabbling Claws,main
-1,Scrapwork Mutt,main
-1,Seal of Fire,main
-1,Seal of Removal,main
-1,Searslicer Goblin,main
-1,Seasoned Pyromancer,main
-1,Sedgemoor Witch,main
-1,Serum Visions,main
-1,Sevinne's Reclamation,main
-1,Shadowy Backstreet,main
-1,Shark Typhoon,main
-1,Shelldock Isle,main
-1,Sheltered Thicket,main
-1,Shifting Woodland,main
-1,Silent Clearing,main
-1,Six,main
-1,Snapcaster Mage,main
-1,Soul Partition,main
-1,Spell Pierce,main
-1,Spell Snare,main
-1,Spellstutter Sprite,main
-1,Sphinx of Forgotten Lore,main
-1,Spirited Companion,main
-1,Sprite Dragon,main
-2,Steam Vents,main
-1,Stern Scolding,main
-2,Stomping Ground,main
-1,Sunbaked Canyon,main
-1,Sylvan Library,main
-1,"Takenuma, Abandoned Mire",main
-1,Tarmogoyf,main
-1,"Tasigur, the Golden Fang",main
-2,Temple Garden,main
-1,Tenacious Underdog,main
-1,Territorial Kavu,main
-1,"Thalia, Guardian of Thraben",main
-1,The Goose Mother,main
-1,The Huntsman's Redemption,main
-1,The Wandering Emperor,main
-1,Thing in the Ice // Awoken Horror,main
-1,Thoughtseize,main
-1,Thraben Inspector,main
-1,Thundering Falls,main
-1,Tidehollow Sculler,main
-1,Timeless Dragon,main
-1,Tireless Tracker,main
-1,"Titania, Protector of Argoth",main
-1,Torrential Gearhulk,main
-1,Touch the Spirit Realm,main
-1,Toxic Deluge,main
-1,Traverse the Ulvenwald,main
-1,Treasure Cruise,main
-1,Twinshot Sniper,main
-1,Ulcerate,main
-1,Umbral Collar Zealot,main
-1,Undercity Sewers,main
-1,Underground Mortuary,main
-1,Unearth,main
-1,Unexpectedly Absent,main
-1,Unholy Heat,main
-1,Unsummon,main
-1,Up the Beanstalk,main
-1,Urza's Bauble,main
-1,Urza's Saga,main
-1,Utopia Sprawl,main
-2,Verdant Catacombs,main
-1,Verdurous Gearhulk,main
-1,Virtue of Persistence // Locthwain Scorn,main
-1,Voracious Hydra,main
-1,Wanderbrine Trapper,main
-1,Warden of the Inner Sky,main
-2,Watery Grave,main
-1,Welcoming Vampire,main
-1,Werefox Bodyguard,main
-2,Windswept Heath,main
-1,Wither and Bloom,main
-1,Woe Strider,main
-2,Wooded Foothills,main
-1,Woodland Wanderer,main
-1,Wrath of God,main
-1,Wrenn and Six,main
-1,Young Pyromancer,main
-
+name
+Cheeky House-Mouse
+Esper Sentinel
+Faerie Guidemother
+"Isamaru, Hound of Konda"
+Lightstall Inquisitor
+Recruitment Officer
+Thraben Inspector
+Wanderbrine Trapper
+Warden of the Inner Sky
+Adanto Vanguard
+Cathar Commando
+Clarion Spirit
+Kor Skyfisher
+Lion Sash
+"Phelia, Exuberant Shepherd"
+Spirited Companion
+"Thalia, Guardian of Thraben"
+Blade Splicer
+"Delney, Streetwise Lookout"
+Flickerwisp
+Monastery Mentor
+Skyclave Apparition
+Welcoming Vampire
+Werefox Bodyguard
+Restoration Angel
+Timeless Dragon
+The Wandering Emperor
+Elspeth's Smite
+Harm's Way
+March of Otherworldly Light
+Path to Exile
+Brought Back
+Raise the Alarm
+Reprieve
+Ride's End
+Soul Partition
+Unexpectedly Absent
+Helping Hand
+Oust
+Prismatic Ending
+Balance
+Sevinne's Reclamation
+Wrath of God
+Portable Hole
+Glass Casket
+Seam Rip
+Journey to Nowhere
+Caretaker's Talent
+Leyline Binding
+Touch the Spirit Realm
+"Eiganjo, Seat of the Empire"
+Flitterwing Nuisance
+Ethereal Forager
+Faerie Vandal
+Mischievous Mystic
+Ninja of the Deep Hours
+Snapcaster Mage
+Spellstutter Sprite
+Thing in the Ice
+Dreamtide Whale
+"Kiora, the Rising Tide"
+Sphinx of Forgotten Lore
+Torrential Gearhulk
+"Jace, the Mind Sculptor"
+Daze
+Brainstorm
+Consider
+Ephara's Dispersal
+Lórien Revealed
+Opt
+Repeal
+Spell Pierce
+Spell Snare
+Stern Scolding
+Condescend
+Counterspell
+Dig Through Time
+Into the Roil
+Mana Leak
+Memory Lapse
+Miscalculation
+Remand
+Archmage's Charm
+Brainsurge
+Fact or Fiction
+Mystic Confluence
+Careful Study
+Ponder
+Portent
+Preordain
+Serum Visions
+Treasure Cruise
+Cryogen Relic
+Seal of Removal
+Dress Down
+Proft's Eidetic Memory
+Shark Typhoon
+Mystic Sanctuary
+"Otawara, Soaring City"
+Bloodsoaked Champion
+Carrion Feeder
+Death's Shadow
+Faerie Dreamthief
+Knight of the Ebon Legion
+Moonshadow
+Nethergoyf
+"Tasigur, the Golden Fang"
+Accursed Marauder
+Bloodghast
+Bloodsky Berserker
+Dark Confidant
+Deep-Cavern Bat
+Iron-Shield Elf
+Kitesail Freebooter
+Marionette Apprentice
+Tenacious Underdog
+Umbral Collar Zealot
+"Drana, Liberator of Malakir"
+Midnight Reaper
+Raven Eagle
+Sedgemoor Witch
+"Rankle, Master of Pranks"
+Harvester of Misery
+Liliana of the Veil
+Cling to Dust
+Cut Down
+Disfigure
+Fatal Push
+Murderous Cut
+Ulcerate
+Bitter Triumph
+Wither and Bloom
+Archenemy's Charm
+Pile On
+Bloodchief's Thirst
+Bone Shards
+Duress
+Inquisition of Kozilek
+Thoughtseize
+Unearth
+Fell
+Grim Discovery
+Virtue of Persistence
+Deluge of Doom
+Read the Bones
+Toxic Deluge
+Grim Bauble
+Dead Weight
+Bitterblossom
+"Takenuma, Abandoned Mire"
+Blazing Rootwalla
+Bomat Courier
+Dragon's Rage Channeler
+Goblin Guide
+Grim Lavamancer
+Heartfire Hero
+Hired Claw
+Monastery Swiftspear
+Rabbit Battery
+Reinforced Ronin
+Cemetery Gatekeeper
+Dreadhorde Arcanist
+Emberheart Challenger
+"Inti, Seneschal of the Sun"
+Lizard Blades
+Reckless Pyrosurfer
+Searslicer Goblin
+Young Pyromancer
+Anje's Ravager
+Irencrag Pyromancer
+"Krenko, Tin Street Kingpin"
+Phoenix of Ash
+Seasoned Pyromancer
+Flametongue Kavu
+Pia and Kiran Nalaar
+Burst Lightning
+Lava Dart
+Lightning Bolt
+Unholy Heat
+Abrade
+Fireblast
+Fists of Flame
+Magma Jet
+Magmatic Sinkhole
+Twinshot Sniper
+Fiery Temper
+Comet Storm
+Faithless Looting
+Firebolt
+Flame Jab
+Flame Slash
+Reckless Charge
+Flames of the Firebrand
+Pyrite Spellbomb
+Legion Extruder
+Embercleave
+Seal of Fire
+Goblin Bombardment
+Barbarian Ring
+Den of the Bugbear
+Arbor Elf
+Birds of Paradise
+Chainweb Aracnir
+Gilded Goose
+Hooting Mandrills
+Ignoble Hierarch
+Llanowar Elves
+Noble Hierarch
+Cankerbloom
+Deeproot Wayfinder
+Dragonsguard Elite
+"Jolrael, Mwonvuli Recluse"
+Lotus Cobra
+Quirion Beastcaller
+Scavenging Ooze
+Tarmogoyf
+Augur of Autumn
+Briarbridge Tracker
+Courser of Kruphix
+Eternal Witness
+Floral Evoker
+Formidable Speaker
+Inexorable Blob
+Sandstorm Salvager
+Six
+Tireless Tracker
+Arasta of the Endless Web
+Esika's Chariot
+Vengevine
+Voracious Hydra
+Woodland Wanderer
+"Titania, Protector of Argoth"
+Primeval Titan
+Garruk Wildspeaker
+Heritage Reclamation
+Once Upon a Time
+Collected Company
+Abundant Harvest
+Pick Your Poison
+Traverse the Ulvenwald
+Edge of Autumn
+Explore
+Life from the Loam
+Call of the Herd
+"Ozolith, the Shattered Spire"
+Audacity
+Utopia Sprawl
+Birthing Ritual
+Hunter's Talent
+Sylvan Library
+Up the Beanstalk
+The Huntsman's Redemption
+"Boseiju, Who Endures"
+Shifting Woodland
+Gingerbrute
+Perilous Myr
+Porcelain Legionnaire
+Scrapwork Mutt
+Phyrexian Metamorph
+Mutagenic Growth
+Gitaxian Probe
+Engineered Explosives
+Mishra's Bauble
+Urza's Bauble
+Bonesplitter
+Candy Trail
+Chromatic Star
+Lost Jitte
+Scrabbling Claws
+Agatha's Soul Cauldron
+Field of the Dead
+Mutavault
+Rishadan Port
+Urza's Saga
+Celestial Colonnade
+Hallowed Fountain
+Hallowed Fountain
+Meticulous Archive
+Fetid Pools
+Undercity Sewers
+Watery Grave
+Watery Grave
+Baleful Strix
+Master of Death
+Blood Crypt
+Blood Crypt
+Canyon Slough
+Raucous Theater
+"Alesha, Who Laughs at Fate"
+Mayhem Devil
+Commercial District
+Sheltered Thicket
+Stomping Ground
+Stomping Ground
+Questing Druid
+Territorial Kavu
+Wrenn and Six
+Horizon Canopy
+Lush Portico
+Temple Garden
+Temple Garden
+Knight of the Reliquary
+Renegade Rallier
+Brightglass Gearhulk
+Godless Shrine
+Godless Shrine
+Shadowy Backstreet
+Silent Clearing
+Tidehollow Sculler
+Lingering Souls
+Fiery Islet
+Steam Vents
+Steam Vents
+Thundering Falls
+Fire // Ice
+Sprite Dragon
+"Saheeli, Sublime Artificer"
+Nurturing Peatland
+Overgrown Tomb
+Overgrown Tomb
+Underground Mortuary
+Grim Flayer
+Mosswood Dreadknight
+Elegant Parlor
+Sacred Foundry
+Sacred Foundry
+Sunbaked Canyon
+Hardened Academic
+Lightning Helix
+"Kellan, the Fae-Blooded"
+Breeding Pool
+Breeding Pool
+Hedge Maze
+Restless Vinestalk
+Growth Spiral
+Kishla Skimmer
+The Goose Mother
+Flooded Strand
+Flooded Strand
+Polluted Delta
+Polluted Delta
+Bloodstained Mire
+Bloodstained Mire
+Wooded Foothills
+Wooded Foothills
+Manamorphose
+Windswept Heath
+Windswept Heath
+Marsh Flats
+Marsh Flats
+Scalding Tarn
+Scalding Tarn
+Verdant Catacombs
+Verdant Catacombs
+Deathrite Shaman
+Arid Mesa
+Arid Mesa
+Misty Rainforest
+Misty Rainforest
+Prismatic Vista
