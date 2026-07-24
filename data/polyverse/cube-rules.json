@@ -1,6 +1,24 @@
 {
   "groups": [
     {
+      "name": "1mv artifacts",
+      "conditions": [
+        "t:artifact cmc\u003c2"
+      ]
+    },
+    {
+      "name": "1mv creatures",
+      "conditions": [
+        "t:creature cmc:1"
+      ]
+    },
+    {
+      "name": "1mv enchantments",
+      "conditions": [
+        "t:enchantment !t=creature cmc\u003c2"
+      ]
+    },
+    {
       "name": "5-color",
       "conditions": [
         "o:\"number of colors\"",
@@ -28,7 +46,8 @@
         "t:creature o:\"'s power\" !o:\"card types\""
       ],
       "exclude": [
-        "Blade Splicer"
+        "Blade Splicer",
+        "Inti, Seneschal of the Sun"
       ]
     },
     {
@@ -47,25 +66,15 @@
         "o:eternalize",
         "o:blitz",
         "o:\"cast this\" o:\"from your graveyard\" !o:\"gains flashback\"",
-        "o:\"cast it\" o:\"from your graveyard\""
-      ]
-    },
-    {
-      "name": "Cheap artifacts",
-      "conditions": [
-        "t:artifact cmc\u003c2"
+        "o:\"cast it\" o:\"from your graveyard\"",
+        "o:unearth",
+        "o:\":\" o:\"this card from your graveyard\""
       ]
     },
     {
       "name": "Cheap creatures",
       "conditions": [
-        "t:creature cmc\u003c2"
-      ]
-    },
-    {
-      "name": "Cheap enchantments",
-      "conditions": [
-        "t:enchantment !t=creature cmc\u003c2"
+        "t:creature cmc\u003c3"
       ]
     },
     {
@@ -84,9 +93,7 @@
     {
       "name": "Cheap spells",
       "conditions": [
-        "(t:instant OR t:sorcery) cmc\u003c2",
-        "(t:artifact OR t:enchantment) cmc\u003c2 t!=creature",
-        "o:flashback (t:instant OR t:sorcery) cmc\u003c3"
+        "(t:instant OR t:sorcery) cmc\u003c3"
       ]
     },
     {
@@ -186,6 +193,12 @@
       "name": "Delve",
       "conditions": [
         "o:delve"
+      ]
+    },
+    {
+      "name": "Dies triggers",
+      "conditions": [
+        "o:\"whenever\" o:\"dies\""
       ]
     },
     {
@@ -403,6 +416,18 @@
       ]
     },
     {
+      "name": "Planeswalkers",
+      "conditions": [
+        "t:planeswalker"
+      ]
+    },
+    {
+      "name": "Pow\u003c2",
+      "conditions": [
+        "t:creature pow\u003c3 !o:\"enters with X\""
+      ]
+    },
+    {
       "name": "Power \u003e3",
       "conditions": [
         "pow\u003e3",
@@ -470,7 +495,6 @@
       "name": "Recursive creatures",
       "conditions": [
         "n:\"Master of Death\"",
-        "o:\"from your graveyard to the\" o:\"target creature\" t:creature",
         "o:\"you may cast this creature\" o:\"graveyard\" t:creature",
         "o:\"escape\" t:creature",
         "n:Bloodghast",
@@ -680,7 +704,7 @@
             "card:Warden of the Inner Sky"
           ],
           "targets": [
-            "Cheap artifacts",
+            "1mv artifacts",
             "Trinket artifacts"
           ]
         }
@@ -702,6 +726,29 @@
       ]
     },
     {
+      "label": "Control",
+      "wires": [
+        {
+          "sources": [
+            "Instant speed"
+          ],
+          "targets": [
+            "Counterspells"
+          ]
+        },
+        {
+          "sources": [
+            "Wraths"
+          ],
+          "targets": [
+            "Creature lands",
+            "Recursive creatures",
+            "Planeswalkers"
+          ]
+        }
+      ]
+    },
+    {
       "label": "Counters",
       "wires": [
         {
@@ -711,14 +758,6 @@
           ],
           "targets": [
             "Counters matter"
-          ]
-        },
-        {
-          "sources": [
-            "Counters on others"
-          ],
-          "targets": [
-            "Buff targets"
           ]
         },
         {
@@ -748,9 +787,9 @@
             "card:Brightglass Gearhulk"
           ],
           "targets": [
-            "Cheap artifacts",
-            "Cheap enchantments",
-            "Cheap creatures"
+            "1mv artifacts",
+            "1mv enchantments",
+            "1mv creatures"
           ]
         }
       ]
@@ -776,7 +815,8 @@
           "sources": [
             "Discard matters",
             "Recursive creatures",
-            "Madness"
+            "Madness",
+            "Recast spells"
           ],
           "targets": [
             "Discard entire hand",
@@ -795,28 +835,6 @@
       ]
     },
     {
-      "label": "Draw-go",
-      "wires": [
-        {
-          "sources": [
-            "Instant speed"
-          ],
-          "targets": [
-            "Counterspells"
-          ]
-        },
-        {
-          "sources": [
-            "Wraths"
-          ],
-          "targets": [
-            "Creature lands",
-            "Recursive creatures"
-          ]
-        }
-      ]
-    },
-    {
       "label": "ETB",
       "wires": [
         {
@@ -826,14 +844,6 @@
           ],
           "targets": [
             "Flickers creatures"
-          ]
-        },
-        {
-          "sources": [
-            "card:Delney, Streetwise Lookout"
-          ],
-          "targets": [
-            "Delney matters"
           ]
         },
         {
@@ -1033,6 +1043,21 @@
       ]
     },
     {
+      "label": "Pump",
+      "wires": [
+        {
+          "sources": [
+            "Buff targets"
+          ],
+          "targets": [
+            "Equipment",
+            "Auras",
+            "Counters on others"
+          ]
+        }
+      ]
+    },
+    {
       "label": "Ramp",
       "wires": [
         {
@@ -1067,7 +1092,8 @@
       "wires": [
         {
           "sources": [
-            "Value creatures"
+            "Value creatures",
+            "Cheap creatures"
           ],
           "targets": [
             "Reanimates"
@@ -1085,7 +1111,8 @@
           "targets": [
             "Creature token generator",
             "Recursive creatures",
-            "Sacrifice Matters"
+            "Sacrifice Matters",
+            "Dies triggers"
           ]
         },
         {
@@ -1107,14 +1134,6 @@
           ],
           "targets": [
             "Delirium"
-          ]
-        },
-        {
-          "sources": [
-            "Mountains"
-          ],
-          "targets": [
-            "card:Fireblast"
           ]
         },
         {
@@ -1187,15 +1206,6 @@
         },
         {
           "sources": [
-            "Recast spells"
-          ],
-          "targets": [
-            "Cheap spells",
-            "Selective discard"
-          ]
-        },
-        {
-          "sources": [
             "Prowess triggers",
             "Cheap spells"
           ],
@@ -1237,6 +1247,35 @@
           "targets": [
             "Targets own board",
             "Equipment"
+          ]
+        }
+      ]
+    },
+    {
+      "label": "Weenies",
+      "wires": [
+        {
+          "sources": [
+            "card:Welcoming Vampire"
+          ],
+          "targets": [
+            "Pow\u003c2"
+          ]
+        },
+        {
+          "sources": [
+            "card:Delney, Streetwise Lookout"
+          ],
+          "targets": [
+            "Delney matters"
+          ]
+        },
+        {
+          "sources": [
+            "card:Recruitment Officer"
+          ],
+          "targets": [
+            "Value creatures"
           ]
         }
       ]
