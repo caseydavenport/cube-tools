@@ -27,6 +27,14 @@ func TestMemoryConformance(t *testing.T) {
 	storage.RunDeckConformance(t, s, storage.Detect(b))
 }
 
+func TestMemoryRawDecksSetsID(t *testing.T) {
+	b := New()
+	b.Seed("c", deck("Alice", "d1", nil))
+	got, err := b.RawDecks("c")
+	assert.NoError(t, err)
+	assert.Equal(t, "Alice", got[0].ID)
+}
+
 func TestMemoryBackend_UpdateRoundTrips(t *testing.T) {
 	b := New()
 	b.Seed("cubeA",

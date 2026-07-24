@@ -28,6 +28,10 @@ type Deck struct {
 
 	// The size of the draft, used for filtering.
 	DraftSize int `json:"draft_size"`
+
+	// ID is the deck's opaque identity, unique within its draft. Clients treat
+	// it as opaque. Backends assign it; the file backend uses the player name.
+	ID string `json:"id"`
 }
 
 type Stats struct {

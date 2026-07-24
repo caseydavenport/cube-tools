@@ -50,6 +50,7 @@ func (b *Backend) RawDecks(cube string) ([]*storage.Deck, error) {
 				continue
 			}
 			d.DraftSize = len(draft.Decks)
+			d.ID = d.Player
 			decks = append(decks, &d)
 		}
 	}

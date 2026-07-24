@@ -22,6 +22,20 @@ func TestFileBackend_ListPolyverse(t *testing.T) {
 	var _ *storage.Store = s
 }
 
+func TestFileRawDecksSetsID(t *testing.T) {
+	root := t.TempDir()
+	if err := os.Chdir(root); err != nil {
+		t.Fatalf("chdir temp root: %v", err)
+	}
+	writeConfFixture(t, root)
+	b := New(nil)
+	got, err := b.RawDecks("conf")
+	assert.NoError(t, err)
+	for _, d := range got {
+		assert.Equal(t, d.Player, d.ID)
+	}
+}
+
 func TestFileConformance(t *testing.T) {
 	root := t.TempDir()
 	if err := os.Chdir(root); err != nil {

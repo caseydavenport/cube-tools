@@ -43,6 +43,9 @@ func (b *Backend) RawDecks(cube string) ([]*storage.Deck, error) {
 	out := make([]*storage.Deck, len(src))
 	for i, d := range src {
 		cp := *d
+		if cp.ID == "" {
+			cp.ID = cp.Player
+		}
 		out[i] = &cp
 	}
 	return out, nil
