@@ -28,9 +28,16 @@
       ]
     },
     {
-      "name": "Auras",
+      "name": "All Auras",
       "conditions": [
         "t:aura"
+      ]
+    },
+    {
+      "name": "Aura Buffs",
+      "conditions": [
+        "t:aura o:\"gets +\"",
+        "t:aura o:gains"
       ]
     },
     {
@@ -145,6 +152,17 @@
         "o:\"counter target\"",
         "o:\"return target spell\"",
         "o:\"exile target spell\""
+      ]
+    },
+    {
+      "name": "Creature activated abilities",
+      "conditions": [
+        "t:creature o:\":\" !o:cycling !o:madness !o:channel !o:\"clue token\""
+      ],
+      "exclude": [
+        "Harvester of Misery",
+        "Bloodsoaked Champion",
+        "Bomat Courier"
       ]
     },
     {
@@ -719,8 +737,28 @@
             "card:Kellan, the Fae-Blooded // Birthright Boon"
           ],
           "targets": [
-            "Equipment",
-            "Auras"
+            "Equipment"
+          ]
+        },
+        {
+          "sources": [
+            "card:Kellan, the Fae-Blooded // Birthright Boon"
+          ],
+          "targets": [
+            "All Auras"
+          ]
+        }
+      ]
+    },
+    {
+      "label": "Cauldron",
+      "wires": [
+        {
+          "sources": [
+            "card:Agatha's Soul Cauldron"
+          ],
+          "targets": [
+            "Creature activated abilities"
           ]
         }
       ]
@@ -1050,8 +1088,7 @@
             "Buff targets"
           ],
           "targets": [
-            "Equipment",
-            "Auras",
+            "Aura Buffs",
             "Counters on others"
           ]
         }
