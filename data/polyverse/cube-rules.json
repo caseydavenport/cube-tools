@@ -625,9 +625,9 @@
         "o:\"whenever a token\"",
         "o:\"one or more tokens\"",
         "o:\"target token you control\"",
-        "o:\"sacrifice a creature\" !n:\"Birthing\"",
         "o:\"whenever a creature you control attacks,\"",
-        "n:\"Warden of the Inner Sky\""
+        "n:\"Warden of the Inner Sky\"",
+        "o:\"as long as you control a token\""
       ]
     },
     {
@@ -1304,7 +1304,8 @@
             "card:Delney, Streetwise Lookout"
           ],
           "targets": [
-            "Delney matters"
+            "Delney matters",
+            "Pow\u003c2"
           ]
         },
         {
