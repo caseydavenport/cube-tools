@@ -537,6 +537,8 @@ function CardDetail({ cube, focus, groups, edges, links, nodeMap, groupColor, on
       if (e.source === focus.card) other = e.target
       else if (e.target === focus.card) other = e.source
       if (!other) continue
+      // Skip neighbors cut from the cube; the editor is cube-only.
+      if (!nodeMap[other]) continue
       for (const label of (e.rule_labels || ["(unlabeled)"])) {
         if (!map[label]) map[label] = new Set()
         map[label].add(other)
@@ -545,7 +547,7 @@ function CardDetail({ cube, focus, groups, edges, links, nodeMap, groupColor, on
     return Object.entries(map)
       .map(([label, set]) => ({ label, cards: [...set].sort((a, b) => a.name?.localeCompare?.(b.name) ?? String(a).localeCompare(String(b))) }))
       .sort((a, b) => a.label.localeCompare(b.label))
-  }, [edges, focus.card])
+  }, [edges, focus.card, nodeMap])
 
   const linkIndex = {}
   links.forEach((l, i) => { linkIndex[l.label] = i })
@@ -705,9 +707,12 @@ function DrillMap({ focus, nodeMap, edges, groupNodes, groupEdges, links, groupC
     // card level: the focused card and its direct neighbors.
     const center = focus.card
     const nbrs = new Set([center])
+    // Edges can reach cards cut from the cube (they carry edges so old decks
+    // stay connected). The cube editor only shows cube cards, so skip neighbors
+    // absent from nodeMap.
     for (const e of edges) {
-      if (e.source === center) nbrs.add(e.target)
-      else if (e.target === center) nbrs.add(e.source)
+      if (e.source === center && nodeMap[e.target]) nbrs.add(e.target)
+      else if (e.target === center && nodeMap[e.source]) nbrs.add(e.source)
     }
     const sn = [...nbrs].map(n => {
       const c = nodeMap[n] || { colors: [] }

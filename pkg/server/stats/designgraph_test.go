@@ -1,6 +1,8 @@
 package stats
 
 import (
+	"os"
+	"path/filepath"
 	"testing"
 
 	"github.com/caseydavenport/cube-tools/pkg/types"
@@ -29,7 +31,7 @@ func TestBuildDesignGraphWithConfig(t *testing.T) {
 		},
 	}
 
-	resp := buildDesignGraph(cube, config)
+	resp := buildDesignGraph(cube, config, nil)
 
 	// Should have all 3 cards as nodes.
 	assert.Len(t, resp.Nodes, 3)
@@ -71,7 +73,7 @@ func TestBuildDesignGraphSharedGroup(t *testing.T) {
 		},
 	}
 
-	resp := buildDesignGraph(cube, config)
+	resp := buildDesignGraph(cube, config, nil)
 
 	// Mill Enablers = {Mill Card}, Delve = {Delve Card}, Flashback = {Flashback Card}
 	// Edges: Delve Card <-> Mill Card (Delve), Flashback Card <-> Mill Card (Graveyard Spells)
@@ -115,7 +117,7 @@ func TestBuildDesignGraphMultiWire(t *testing.T) {
 		},
 	}
 
-	resp := buildDesignGraph(cube, config)
+	resp := buildDesignGraph(cube, config, nil)
 
 	// Outlet<->Payoff and Token Maker<->Outlet, but NOT Token Maker<->Payoff.
 	assert.Len(t, resp.Edges, 2)
@@ -154,7 +156,7 @@ func TestBuildGroupGraph(t *testing.T) {
 		},
 	}
 
-	resp := buildDesignGraph(cube, config)
+	resp := buildDesignGraph(cube, config, nil)
 
 	// One node per group, each matching a single card.
 	assert.Len(t, resp.GroupNodes, 3)
@@ -203,7 +205,7 @@ func TestBuildGroupGraphMultiGroupCard(t *testing.T) {
 		},
 	}
 
-	resp := buildDesignGraph(cube, config)
+	resp := buildDesignGraph(cube, config, nil)
 
 	// Link view: just the one declared edge Red <-> Ramp Payoffs.
 	assert.Len(t, resp.LinkEdges, 1)
@@ -242,7 +244,7 @@ func TestBuildDesignGraphCardRef(t *testing.T) {
 		},
 	}
 
-	resp := buildDesignGraph(cube, config)
+	resp := buildDesignGraph(cube, config, nil)
 
 	// Flooded Strand is itself a Blue Fetchable, so the wire yields edges to the
 	// other two duals only; the unknown card ref yields nothing.
@@ -299,7 +301,7 @@ func TestBuildDesignGraphCardRefMixed(t *testing.T) {
 		},
 	}
 
-	resp := buildDesignGraph(cube, config)
+	resp := buildDesignGraph(cube, config, nil)
 
 	assert.Len(t, resp.Edges, 2)
 	pairs := map[string]bool{}
@@ -333,7 +335,7 @@ func TestBuildDesignGraphExclude(t *testing.T) {
 		},
 	}
 
-	resp := buildDesignGraph(cube, config)
+	resp := buildDesignGraph(cube, config, nil)
 
 	// Bolt is excluded from Red Stuff, so the only source card is Goblin.
 	// Goblin is also a Creature (self-edge skipped), leaving Goblin<->Bear.
@@ -536,6 +538,59 @@ func TestMatchCards(t *testing.T) {
 			assert.ElementsMatch(t, tt.expected, got)
 		})
 	}
+}
+
+// TestBuildDesignGraphIncludesCutCards verifies that a card appearing in a deck
+// but cut from the cube still resolves group membership and keeps its edges, so
+// old decks don't render it disconnected. The cube view stays cube-only: the cut
+// card is not a node and doesn't inflate a cube card's connection count.
+func TestBuildDesignGraphIncludesCutCards(t *testing.T) {
+	// Seed oracle data with just the cut card so hydration is deterministic.
+	dir := t.TempDir()
+	path := filepath.Join(dir, "oracle-cards.json")
+	require.NoError(t, os.WriteFile(path, []byte(`[
+		{"name":"Shock","type_line":"Instant","oracle_text":"Shock deals 2 damage to any target.","colors":["R"],"cmc":1}
+	]`), 0o644))
+	require.NoError(t, types.LoadOracleData(path))
+	t.Cleanup(func() {
+		empty := filepath.Join(dir, "empty.json")
+		if os.WriteFile(empty, []byte("[]"), 0o644) == nil {
+			_ = types.LoadOracleData(empty)
+		}
+	})
+
+	cube := &types.Cube{
+		Cards: []types.Card{
+			{Name: "Bear", Colors: []string{"G"}, Types: []string{"Creature"}, CMC: 2, OracleText: "vanilla", Power: "2", Toughness: "2"},
+		},
+	}
+	config := DesignMapConfig{
+		Groups: []Group{
+			{Name: "Creatures", Conditions: []string{"t:creature"}},
+			{Name: "Burn", Conditions: []string{"o:damage"}},
+		},
+		Links: []Link{
+			{Label: "Burn-Creature", Wires: []Wire{{Sources: []string{"Burn"}, Targets: []string{"Creatures"}}}},
+		},
+	}
+
+	// Without the deck card, Shock isn't known, so there's no edge.
+	base := buildDesignGraph(cube, config, nil)
+	assert.Empty(t, base.Edges)
+
+	// With Shock referenced by a deck, the cut card resolves into "Burn" and
+	// links to Bear.
+	resp := buildDesignGraph(cube, config, []string{"Shock"})
+	require.Len(t, resp.Edges, 1)
+	edge := resp.Edges[0]
+	assert.Equal(t, "Bear", edge.Source) // "Bear" < "Shock"
+	assert.Equal(t, "Shock", edge.Target)
+
+	// Cube view unchanged: only Bear is a node, and the cut-card edge doesn't
+	// count toward Bear's connection total.
+	require.Len(t, resp.Nodes, 1)
+	assert.Equal(t, "Bear", resp.Nodes[0].Name)
+	assert.Equal(t, 0, resp.Nodes[0].ConnectionCount)
 }
 
 func TestDesignGraphForCube(t *testing.T) {

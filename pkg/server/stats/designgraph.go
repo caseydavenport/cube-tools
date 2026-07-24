@@ -163,7 +163,12 @@ func DesignGraphHandler() http.Handler {
 			config = DesignMapConfig{}
 		}
 
-		resp := buildDesignGraph(cube, config)
+		names, err := deckCardNames(cubeID)
+		if err != nil {
+			logrus.WithError(err).Warn("could not load deck cards; cut cards may show disconnected")
+		}
+
+		resp := buildDesignGraph(cube, config, names)
 
 		b, err := json.Marshal(resp)
 		if err != nil {
@@ -189,7 +194,34 @@ func DesignGraphForCube(cubeID string) (DesignGraphResponse, error) {
 	if err != nil {
 		return DesignGraphResponse{}, err
 	}
-	return buildDesignGraph(cube, config), nil
+	names, err := deckCardNames(cubeID)
+	if err != nil {
+		logrus.WithError(err).Warn("could not load deck cards; cut cards may show disconnected")
+	}
+	return buildDesignGraph(cube, config, names), nil
+}
+
+// deckCardNames returns the distinct non-basic mainboard card names across all of
+// a cube's decks. The design graph uses these to widen its edge set so cards cut
+// from the cube still resolve group membership and stay connected on old decks.
+func deckCardNames(cubeID string) ([]string, error) {
+	store := storage.NewFileDeckStoreWithCache()
+	decks, err := store.List(cubeID, &storage.DecksRequest{})
+	if err != nil {
+		return nil, err
+	}
+	seen := make(map[string]bool)
+	var names []string
+	for _, d := range decks {
+		for _, name := range nonBasicMainboard(d) {
+			if seen[name] {
+				continue
+			}
+			seen[name] = true
+			names = append(names, name)
+		}
+	}
+	return names, nil
 }
 
 // MatchedCard describes a card and which conditions it matched.
@@ -502,18 +534,48 @@ func resolveGroupCards(cardMap map[string]types.Card, groups []Group) (map[strin
 	return groupCards, excluded
 }
 
-func buildDesignGraph(cube *types.Cube, config DesignMapConfig) DesignGraphResponse {
-	cardMap := buildCardMap(cube)
+// widenWithDeckCards returns cardMap plus any deck-referenced cards not in the
+// cube, hydrated from oracle data. It returns cardMap unchanged when there's
+// nothing to add, so callers can detect widening by comparing lengths.
+func widenWithDeckCards(cardMap map[string]types.Card, deckCardNames []string) map[string]types.Card {
+	var missing []string
+	for _, name := range deckCardNames {
+		if _, ok := cardMap[name]; !ok {
+			missing = append(missing, name)
+		}
+	}
+	if len(missing) == 0 {
+		return cardMap
+	}
 
-	// Pre-resolve all groups to card sets. Excluded cards are subtracted here,
-	// so everything downstream (edges, group nodes, group edges) never sees
-	// them; the carved-out matches are kept aside for the editor to display.
-	groupCards, groupExcluded := resolveGroupCards(cardMap, config.Groups)
+	widened := make(map[string]types.Card, len(cardMap)+len(missing))
+	for name, c := range cardMap {
+		widened[name] = c
+	}
+	for _, name := range missing {
+		o := types.GetOracleData(name)
+		if o.Name == "" {
+			continue
+		}
+		c := types.FromOracle(o)
+		if c.IsBasicLand() {
+			continue
+		}
+		widened[name] = c
+	}
 
-	// Register each card: wire entry as a single-card pseudo-group, so the wire
-	// and group-graph loops below need no special cases. An unknown card (typo,
-	// or cut from the cube) resolves empty, same as a dangling group name.
-	for _, link := range config.Links {
+	if len(widened) == len(cardMap) {
+		return cardMap
+	}
+	return widened
+}
+
+// registerCardRefs adds each wire's card references as single-card pseudo-groups,
+// keyed by the raw wire entry, so the wire and group-graph loops need no special
+// case for a card named directly in a link. An unknown card (typo, or cut from
+// the cube) resolves empty, same as a dangling group name.
+func registerCardRefs(links []Link, cardMap map[string]types.Card, groupCards map[string]map[string]bool) {
+	for _, link := range links {
 		for _, wire := range link.Wires {
 			for _, entry := range slices.Concat(wire.Sources, wire.Targets) {
 				name := cardRefName(entry)
@@ -528,12 +590,15 @@ func buildDesignGraph(cube *types.Cube, config DesignMapConfig) DesignGraphRespo
 			}
 		}
 	}
+}
 
-	// Process links: look up source/target groups, create edges.
+// buildCardEdges creates one undirected edge per pair of cards joined by a link,
+// stamped with every link label that joins them.
+func buildCardEdges(links []Link, groupCards map[string]map[string]bool) []DesignGraphEdge {
 	type edgeKey struct{ source, target string }
 	edgeLabels := make(map[edgeKey]map[string]bool)
 
-	for _, link := range config.Links {
+	for _, link := range links {
 		for _, wire := range link.Wires {
 			// Union cards from all source groups and all target groups.
 			sources := make(map[string]bool)
@@ -569,22 +634,59 @@ func buildDesignGraph(cube *types.Cube, config DesignMapConfig) DesignGraphRespo
 		}
 	}
 
-	// Build edges and count connections per node.
-	nodeCounts := make(map[string]int)
 	var edges []DesignGraphEdge
 	for k, labelSet := range edgeLabels {
 		labels := make([]string, 0, len(labelSet))
 		for l := range labelSet {
 			labels = append(labels, l)
 		}
-		nodeCounts[k.source]++
-		nodeCounts[k.target]++
 		edges = append(edges, DesignGraphEdge{
 			Source:     k.source,
 			Target:     k.target,
 			Weight:     len(labels),
 			RuleLabels: labels,
 		})
+	}
+	return edges
+}
+
+func buildDesignGraph(cube *types.Cube, config DesignMapConfig, deckCardNames []string) DesignGraphResponse {
+	cardMap := buildCardMap(cube)
+
+	// The edge set spans the cube plus any cards that appear in decks but were
+	// cut from the cube; cut cards hydrate from oracle data so they still resolve
+	// group membership and keep their edges. Without this, old decks render their
+	// cut cards as disconnected. Nodes and the group graph stay cube-only, so the
+	// cube's own design view is unchanged.
+	edgeCardMap := widenWithDeckCards(cardMap, deckCardNames)
+
+	// Pre-resolve all groups to card sets. Excluded cards are subtracted here,
+	// so everything downstream (nodes, group edges) never sees them; the
+	// carved-out matches are kept aside for the editor to display. Resolve over
+	// the cube for the display graph, and over the wider set for edges only.
+	groupCards, groupExcluded := resolveGroupCards(cardMap, config.Groups)
+	registerCardRefs(config.Links, cardMap, groupCards)
+
+	edgeGroupCards := groupCards
+	if len(edgeCardMap) != len(cardMap) {
+		edgeGroupCards, _ = resolveGroupCards(edgeCardMap, config.Groups)
+		registerCardRefs(config.Links, edgeCardMap, edgeGroupCards)
+	}
+
+	edges := buildCardEdges(config.Links, edgeGroupCards)
+
+	// Connection counts reflect cube-to-cube edges only, so a cut card's edges
+	// don't inflate the counts shown in the cube's design view.
+	nodeCounts := make(map[string]int)
+	for _, e := range edges {
+		if _, ok := cardMap[e.Source]; !ok {
+			continue
+		}
+		if _, ok := cardMap[e.Target]; !ok {
+			continue
+		}
+		nodeCounts[e.Source]++
+		nodeCounts[e.Target]++
 	}
 
 	// Include all cards as nodes, not just connected ones.
