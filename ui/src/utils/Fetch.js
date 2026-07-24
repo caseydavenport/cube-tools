@@ -113,14 +113,14 @@ export async function SaveNotes(cube, path, content) {
 }
 
 // SaveDeckMeta writes the three editable metadata fields for a deck identified
-// by (draft_id, player) and returns the updated, decorated deck.
-export async function SaveDeckMeta(cube, { draft_id, player, macro_archetype, labels, colors }) {
+// by (draft_id, id) and returns the updated, decorated deck.
+export async function SaveDeckMeta(cube, { draft_id, id, macro_archetype, labels, colors }) {
   const resp = await fetch(`/api/${cube}/decks/update`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ draft_id, player, macro_archetype, labels, colors }),
+    body: JSON.stringify({ draft_id, id, macro_archetype, labels, colors }),
   });
   if (!resp.ok) {
     throw new Error("Failed to save deck metadata");

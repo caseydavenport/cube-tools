@@ -135,7 +135,7 @@ export function DeckViewer(props) {
   // Merge a server-updated deck back into both the list and the selected deck.
   function onDeckUpdated(updated) {
     const match = (d) =>
-      d.player === updated.player &&
+      d.id === updated.id &&
       d.metadata && d.metadata.draft_id === updated.metadata.draft_id
     // Replace the one deck that matches with the updated version, leave every other deck as-is.
     setDecks((prev) => prev.map((d) => (match(d) ? updated : d)))
@@ -1061,7 +1061,7 @@ function PlayerFrame(input) {
     try {
       const updated = await SaveDeckMeta(cube, {
         draft_id: deck.metadata.draft_id,
-        player: deck.player,
+        id: deck.id,
         macro_archetype: macro !== undefined ? macro : (deck.macro_archetype || ""),
         labels: labels !== undefined ? labels : (deck.labels || []),
         colors: colors !== undefined ? colors : (deck.colors_override || []),
