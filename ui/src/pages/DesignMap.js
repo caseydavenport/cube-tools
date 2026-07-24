@@ -2,6 +2,7 @@ import React, { useRef, useEffect, useCallback, useState, useMemo } from 'react'
 import ReactDOM from 'react-dom'
 import { White, Blue, Black, Red, Green } from "../utils/Colors.js"
 import { useCube } from "../contexts/CubeContext.js"
+import { buildDeckSubgraph, rankByDegree, greedyModularityCommunities, dominantLabel, NEUTRAL } from "../utils/DeckGraph"
 
 // Wire entries are group names, except entries prefixed "card:" which reference
 // a single card directly. cardRefName strips the prefix, or returns null for
@@ -827,6 +828,40 @@ export function CardSynergyMap({ cards, edges, links }) {
 
   const byName = useMemo(() => new Map((cards || []).map(c => [c.name, c])), [cards])
 
+  const [colorBy, setColorBy] = useState("identity")
+
+  // Deck-subgraph analytics: most-linked ranking, and communities with a color
+  // and dominant rule label each. Multi-card communities get a palette color;
+  // singletons and isolated cards stay neutral and aren't listed.
+  const analytics = useMemo(() => {
+    const names = [...byName.keys()]
+    const g = buildDeckSubgraph(names, edges || [])
+    const ranking = rankByDegree(g)
+    const { communities, q } = greedyModularityCommunities(g)
+    const communityColorOf = {}
+    const list = []
+    // Color each community by its label so a package looks the same across decks.
+    // Communities come back largest-first; if a smaller one wants a color already
+    // taken in this deck, bump it to the next free slot so the two stay distinct.
+    const used = new Set()
+    for (const comm of communities) {
+      const label = comm.length >= 2 ? dominantLabel(g, comm) : ""
+      if (!label) {
+        for (const n of comm) communityColorOf[n] = NEUTRAL
+        continue
+      }
+      let color = ruleColor(linkIndex[label] ?? 0)
+      if (used.has(color)) {
+        const free = RULE_COLORS.find(c => !used.has(c))
+        if (free) color = free
+      }
+      used.add(color)
+      for (const n of comm) communityColorOf[n] = color
+      list.push({ color, label, size: comm.length })
+    }
+    return { ranking, communities: list, q, communityColorOf }
+  }, [byName, edges, linkIndex])
+
   const { simNodes, simEdges } = useMemo(() => {
     const names = new Set(byName.keys())
     const se = (edges || [])
@@ -843,10 +878,11 @@ export function CardSynergyMap({ cards, edges, links }) {
       id: n,
       radius: Math.max(6, Math.min(18, 6 + ((degree[n] || 0) / max) * 12)),
       color: getNodeColor((byName.get(n) || {}).colors),
+      communityColor: analytics.communityColorOf[n] || NEUTRAL,
       label: n,
     }))
     return { simNodes: sn, simEdges: se }
-  }, [byName, edges, linkIndex])
+  }, [byName, edges, linkIndex, analytics])
 
   // Drop stale focus when the pool changes (deck or board switch).
   useEffect(() => { setHovered(null); setSelected(null) }, [byName])
@@ -858,21 +894,58 @@ export function CardSynergyMap({ cards, edges, links }) {
   const previewName = (hovered && byName.has(hovered)) ? hovered : selected
   const previewCard = previewName ? byName.get(previewName) : null
 
+  const topLinked = analytics.ranking.filter(r => r.weightedDegree > 0).slice(0, 8)
+
   return (
-    <div className="dm-panel dm-map dm-deckmap">
-      <ForceGraph
-        nodes={simNodes}
-        edges={simEdges}
-        showLabels={simNodes.length <= 34}
-        hoveredId={hovered}
-        selectedId={selected}
-        onHover={setHovered}
-        onSelect={(id) => setSelected(prev => prev === id ? null : id)}
-      />
-      <div className="dm-map-caption">
-        {simNodes.length} cards · {simEdges.length} links · hover to trace, click to pin
+    <div className="dm-deckmap-layout">
+      <div className="dm-panel dm-map dm-deckmap-main">
+        <div className="dm-map-toolbar">
+          <span className="dm-map-toolbar-label">Color by</span>
+          <button className={"dm-sort" + (colorBy === "identity" ? " dm-sort-on" : "")} onClick={() => setColorBy("identity")}>Identity</button>
+          <button className={"dm-sort" + (colorBy === "community" ? " dm-sort-on" : "")} onClick={() => setColorBy("community")}>Community</button>
+        </div>
+        <ForceGraph
+          nodes={simNodes}
+          edges={simEdges}
+          showLabels={simNodes.length <= 34}
+          colorBy={colorBy}
+          hoveredId={hovered}
+          selectedId={selected}
+          onHover={setHovered}
+          onSelect={(id) => setSelected(prev => prev === id ? null : id)}
+        />
+        <div className="dm-map-caption">
+          {simNodes.length} cards · {simEdges.length} links · {analytics.communities.length} clusters (Q {analytics.q.toFixed(2)}) · hover to trace, click to pin
+        </div>
       </div>
-      {previewCard && <CardPreview card={previewCard} />}
+      <aside className="dm-deckmap-side">
+        <div className="dm-panel dm-deckmap-stats">
+          <div className="dm-subhead">Most linked</div>
+          {topLinked.length === 0 ? (
+            <p className="dm-muted dm-pad">No linked cards.</p>
+          ) : topLinked.map(r => (
+            <button
+              key={r.card}
+              className={"dm-legend-row" + (selected === r.card ? " dm-legend-on" : "")}
+              onClick={() => setSelected(prev => prev === r.card ? null : r.card)}
+            >
+              <span className="dm-legend-name">{r.card}</span>
+              <span className="dm-legend-count">{r.weightedDegree}·{r.degree}</span>
+            </button>
+          ))}
+          <div className="dm-subhead">Communities</div>
+          {analytics.communities.length === 0 ? (
+            <p className="dm-muted dm-pad">No clusters.</p>
+          ) : analytics.communities.map((c, i) => (
+            <div key={i} className="dm-legend-row dm-legend-static">
+              <span className="dm-swatch" style={{ background: c.color }} />
+              <span className="dm-legend-name">{c.label || "mixed"}</span>
+              <span className="dm-legend-count">{c.size}</span>
+            </div>
+          ))}
+        </div>
+        {previewCard && <CardPreview card={previewCard} />}
+      </aside>
     </div>
   )
 }
@@ -1808,9 +1881,14 @@ export function LinkEditModal({ link, color, groupNames, cardNames, groups, onSa
   )
 }
 
+// 20 categorical colors, keyed by label index - more colors, fewer collisions.
+// Hues step by the golden angle so neighbors land far apart, lightness cycles
+// three levels, and dark blues/purples are lifted to read on the slate bg.
 const RULE_COLORS = [
-  "#e6794a", "#4a9de6", "#5ec26a", "#c25ec2", "#e6c74a",
-  "#4ae6d9", "#e64a6a", "#8a6ae6", "#6ae68a", "#e6a64a",
+  "#cb2a2a", "#56dc7d", "#c999ea", "#c3af28", "#56c6dc",
+  "#ea99c5", "#4ec328", "#5b56dc", "#eab499", "#28c389",
+  "#d156dc", "#d9ea99", "#2875c3", "#dc5671", "#99eaa0",
+  "#834ddb", "#dcb056", "#99eae7", "#c3289c", "#93dc56",
 ]
 
 export function ruleColor(index) {
@@ -1828,8 +1906,8 @@ const DEFAULT_PHYSICS = {
 // ForceGraph is a small force-directed canvas renderer. It draws whatever nodes
 // and edges it's handed - theme constellation, a group's cards, or a card's
 // neighborhood - so every drill level shares one engine. Nodes: {id, radius,
-// color, label, count?}. Edges: {source, target, weight, color?}.
-function ForceGraph({ nodes, edges, showLabels, hoveredId, selectedId, onHover, onSelect }) {
+// color, label, count?, communityColor?}. Edges: {source, target, weight, color?}.
+function ForceGraph({ nodes, edges, showLabels, colorBy, hoveredId, selectedId, onHover, onSelect }) {
   const canvasRef = useRef(null)
   const containerRef = useRef(null)
   const nodesRef = useRef([])
@@ -1840,6 +1918,7 @@ function ForceGraph({ nodes, edges, showLabels, hoveredId, selectedId, onHover, 
   const movedRef = useRef(false)
   const hoveredRef = useRef(null)
   const selectedRef = useRef(null)
+  const colorByRef = useRef(colorBy)
   const drawRef = useRef(null)
   const viewRef = useRef({ scale: 1, offsetX: 0, offsetY: 0 })
   const panRef = useRef(null)
@@ -1847,6 +1926,7 @@ function ForceGraph({ nodes, edges, showLabels, hoveredId, selectedId, onHover, 
 
   // Keep refs in step with props so the imperative draw loop sees current values.
   useEffect(() => { selectedRef.current = selectedId; if (drawRef.current) drawRef.current() }, [selectedId])
+  useEffect(() => { colorByRef.current = colorBy; if (drawRef.current) drawRef.current() }, [colorBy])
   useEffect(() => {
     if (hoveredId !== hoveredRef.current) { hoveredRef.current = hoveredId; if (drawRef.current) drawRef.current() }
   }, [hoveredId])
@@ -1880,7 +1960,7 @@ function ForceGraph({ nodes, edges, showLabels, hoveredId, selectedId, onHover, 
         x: width / 2 + r * Math.cos(angle) + (Math.random() - 0.5) * 40,
         y: height / 2 + r * Math.sin(angle) + (Math.random() - 0.5) * 40,
         vx: 0, vy: 0,
-        radius: node.radius, color: node.color, label: node.label, count: node.count,
+        radius: node.radius, color: node.color, communityColor: node.communityColor, label: node.label, count: node.count,
       }
     })
     const nodeIndex = {}
@@ -1943,7 +2023,8 @@ function ForceGraph({ nodes, edges, showLabels, hoveredId, selectedId, onHover, 
         const dimmed = focusId && !isFocus && !isNeighbor
         ctx.beginPath()
         ctx.arc(node.x, node.y, node.radius, 0, 2 * Math.PI)
-        ctx.fillStyle = dimmed ? hexToRGBA(node.color, 0.18) : node.color
+        const fill = colorByRef.current === "community" && node.communityColor ? node.communityColor : node.color
+        ctx.fillStyle = dimmed ? hexToRGBA(fill, 0.18) : fill
         ctx.fill()
         if (isFocus) {
           ctx.lineWidth = 2.5 / v.scale
