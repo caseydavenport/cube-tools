@@ -55,7 +55,7 @@ func (s *Store) cacheForLocked(cube string) (*cubeCache, error) {
 	Enrich(loaded)
 	c := &cubeCache{decks: loaded, lookup: map[key]*Deck{}, loadedAt: time.Now()}
 	for _, d := range loaded {
-		c.lookup[key{player: d.Player, draft: d.Metadata.DraftID}] = d
+		c.lookup[key{id: d.ID, draft: d.Metadata.DraftID}] = d
 	}
 	s.caches[cube] = c
 	return c, nil
@@ -63,14 +63,14 @@ func (s *Store) cacheForLocked(cube string) (*cubeCache, error) {
 
 // UpdateDeckMeta writes the annotation via the backend (if it supports writes),
 // invalidates the cube's cache, and returns the freshly enriched deck.
-func (s *Store) UpdateDeckMeta(cube, draftID, player, macroArchetype string, labels, colors []string) (*Deck, error) {
+func (s *Store) UpdateDeckMeta(cube, draftID, deckID, macroArchetype string, labels, colors []string) (*Deck, error) {
 	w, ok := s.backend.(DeckMetaBackend)
 	if !ok {
 		return nil, ErrUnsupported
 	}
 	s.Lock()
 	defer s.Unlock()
-	if _, err := w.WriteDeckMeta(cube, draftID, player, macroArchetype, labels, colors); err != nil {
+	if _, err := w.WriteDeckMeta(cube, draftID, deckID, macroArchetype, labels, colors); err != nil {
 		return nil, err
 	}
 	delete(s.caches, cube)
@@ -78,7 +78,7 @@ func (s *Store) UpdateDeckMeta(cube, draftID, player, macroArchetype string, lab
 	if err != nil {
 		return nil, err
 	}
-	updated, ok := c.lookup[key{player: player, draft: draftID}]
+	updated, ok := c.lookup[key{id: deckID, draft: draftID}]
 	if !ok {
 		return nil, ErrDeckNotFound
 	}

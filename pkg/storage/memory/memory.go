@@ -27,10 +27,17 @@ func NewStore(seed func(*Backend)) *storage.Store {
 	return storage.NewStore(b)
 }
 
-// Seed adds decks for a cube. Call before wrapping in a Store.
+// Seed adds decks for a cube. Call before wrapping in a Store. Defaults ID to
+// Player when unset, matching RawDecks, since WriteDeckMeta matches by ID
+// against these stored decks directly.
 func (b *Backend) Seed(cube string, decks ...*storage.Deck) {
 	b.mu.Lock()
 	defer b.mu.Unlock()
+	for _, d := range decks {
+		if d.ID == "" {
+			d.ID = d.Player
+		}
+	}
 	b.decks[cube] = append(b.decks[cube], decks...)
 }
 
@@ -52,11 +59,11 @@ func (b *Backend) RawDecks(cube string) ([]*storage.Deck, error) {
 }
 
 // WriteDeckMeta updates the annotation on the stored deck in place.
-func (b *Backend) WriteDeckMeta(cube, draftID, player, macroArchetype string, labels, colors []string) (*storage.Deck, error) {
+func (b *Backend) WriteDeckMeta(cube, draftID, deckID, macroArchetype string, labels, colors []string) (*storage.Deck, error) {
 	b.mu.Lock()
 	defer b.mu.Unlock()
 	for _, d := range b.decks[cube] {
-		if d.Player == player && d.Metadata.DraftID == draftID {
+		if d.ID == deckID && d.Metadata.DraftID == draftID {
 			d.MacroArchetype = macroArchetype
 			d.Labels = labels
 			d.Colors = colors

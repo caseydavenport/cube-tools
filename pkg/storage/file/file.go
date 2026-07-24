@@ -67,14 +67,14 @@ func (b *Backend) RawDecks(cube string) ([]*storage.Deck, error) {
 // WriteDeckMeta rewrites the macro archetype, labels, and color override on the
 // deck's on-disk file, loading the whole deck first so other fields survive. An
 // empty colors slice clears the override.
-func (b *Backend) WriteDeckMeta(cube, draftID, player, macroArchetype string, labels, colors []string) (*storage.Deck, error) {
+func (b *Backend) WriteDeckMeta(cube, draftID, deckID, macroArchetype string, labels, colors []string) (*storage.Deck, error) {
 	decks, err := b.RawDecks(cube)
 	if err != nil {
 		return nil, err
 	}
 	var path string
 	for _, d := range decks {
-		if d.Player == player && d.Metadata.DraftID == draftID {
+		if d.ID == deckID && d.Metadata.DraftID == draftID {
 			path = d.Metadata.Path
 			break
 		}

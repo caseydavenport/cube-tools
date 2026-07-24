@@ -13,7 +13,7 @@ type OpponentIndex struct {
 func NewOpponentIndex(decks []*Deck) *OpponentIndex {
 	byKey := make(map[key]*Deck, len(decks))
 	for _, d := range decks {
-		byKey[key{player: d.Player, draft: d.Metadata.DraftID}] = d
+		byKey[key{id: d.Player, draft: d.Metadata.DraftID}] = d
 	}
 	return &OpponentIndex{byKey: byKey}
 }
@@ -26,6 +26,6 @@ func (i *OpponentIndex) OpponentDeck(deck *Deck, opponent string) (*Deck, bool) 
 	if opponent == "" || deck.Metadata.DraftID == "" {
 		return nil, false
 	}
-	d, ok := i.byKey[key{player: opponent, draft: deck.Metadata.DraftID}]
+	d, ok := i.byKey[key{id: opponent, draft: deck.Metadata.DraftID}]
 	return d, ok
 }

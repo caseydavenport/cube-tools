@@ -21,5 +21,5 @@ type DeckBackend interface {
 // deck annotations (macro archetype, labels, color override). Read-only backends
 // omit it, so Store reports ErrUnsupported.
 type DeckMetaBackend interface {
-	WriteDeckMeta(cube, draftID, player, macroArchetype string, labels, colors []string) (*Deck, error)
+	WriteDeckMeta(cube, draftID, deckID, macroArchetype string, labels, colors []string) (*Deck, error)
 }
