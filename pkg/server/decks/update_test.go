@@ -10,7 +10,7 @@ import (
 	"testing"
 
 	"github.com/caseydavenport/cube-tools/pkg/commands"
-	"github.com/caseydavenport/cube-tools/pkg/storage"
+	"github.com/caseydavenport/cube-tools/pkg/storage/file"
 	"github.com/caseydavenport/cube-tools/pkg/types"
 	"github.com/stretchr/testify/require"
 )
@@ -49,7 +49,7 @@ func TestUpdateDeckHandler_OK(t *testing.T) {
 	require.NoError(t, os.Chdir(t.TempDir()))
 	deckPath := seedCube(t, "testcube", "d1", "p1")
 
-	store := storage.NewFileDeckStoreWithCache(nil)
+	store := file.NewStore(nil)
 	rec := httptest.NewRecorder()
 	UpdateDeckHandler(store).ServeHTTP(rec, updateReq(t, "testcube", UpdateDeckMetaRequest{
 		DraftID: "d1", Player: "p1", MacroArchetype: "control",
@@ -76,7 +76,7 @@ func TestUpdateDeckHandler_NotFound(t *testing.T) {
 	require.NoError(t, os.Chdir(t.TempDir()))
 	seedCube(t, "testcube", "d1", "p1")
 
-	store := storage.NewFileDeckStoreWithCache(nil)
+	store := file.NewStore(nil)
 	rec := httptest.NewRecorder()
 	UpdateDeckHandler(store).ServeHTTP(rec, updateReq(t, "testcube", UpdateDeckMetaRequest{
 		DraftID: "d1", Player: "ghost",
@@ -85,7 +85,7 @@ func TestUpdateDeckHandler_NotFound(t *testing.T) {
 }
 
 func TestUpdateDeckHandler_BadRequest(t *testing.T) {
-	store := storage.NewFileDeckStoreWithCache(nil)
+	store := file.NewStore(nil)
 	rec := httptest.NewRecorder()
 	UpdateDeckHandler(store).ServeHTTP(rec, updateReq(t, "testcube", UpdateDeckMetaRequest{
 		Player: "p1", // missing DraftID
@@ -94,7 +94,7 @@ func TestUpdateDeckHandler_BadRequest(t *testing.T) {
 }
 
 func TestUpdateDeckHandler_MalformedJSON(t *testing.T) {
-	store := storage.NewFileDeckStoreWithCache(nil)
+	store := file.NewStore(nil)
 	rec := httptest.NewRecorder()
 	req := httptest.NewRequest(http.MethodPost, "/api/testcube/decks/update", bytes.NewReader([]byte("{not json")))
 	req.SetPathValue("cube", "testcube")

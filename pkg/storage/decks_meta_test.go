@@ -1,4 +1,4 @@
-package storage
+package storage_test
 
 import (
 	"encoding/json"
@@ -7,6 +7,8 @@ import (
 	"testing"
 
 	"github.com/caseydavenport/cube-tools/pkg/commands"
+	"github.com/caseydavenport/cube-tools/pkg/storage"
+	"github.com/caseydavenport/cube-tools/pkg/storage/file"
 	"github.com/caseydavenport/cube-tools/pkg/types"
 	"github.com/stretchr/testify/require"
 )
@@ -46,7 +48,7 @@ func TestUpdateDeckMeta(t *testing.T) {
 		Colors:    []string{"W"},
 	})
 
-	s := NewFileDeckStoreWithCache(nil)
+	s := file.NewStore(nil)
 	updated, err := s.UpdateDeckMeta("testcube", "2025-01-01_d1", "p1",
 		"control", []string{"removal", "wraths"}, []string{"W", "U"})
 	require.NoError(t, err)
@@ -71,7 +73,7 @@ func TestUpdateDeckMeta_ClearsColorOverride(t *testing.T) {
 		Colors:    []string{"W"},
 	})
 
-	s := NewFileDeckStoreWithCache(nil)
+	s := file.NewStore(nil)
 	_, err := s.UpdateDeckMeta("testcube", "2025-01-01_d1", "p1", "", nil, []string{})
 	require.NoError(t, err)
 
@@ -90,7 +92,7 @@ func TestUpdateDeckMeta_UnknownDeck(t *testing.T) {
 		Mainboard: []types.Card{{Name: "Wrath of God"}},
 	})
 
-	s := NewFileDeckStoreWithCache(nil)
+	s := file.NewStore(nil)
 	_, err := s.UpdateDeckMeta("testcube", "2025-01-01_d1", "nobody", "control", nil, nil)
-	require.ErrorIs(t, err, ErrDeckNotFound)
+	require.ErrorIs(t, err, storage.ErrDeckNotFound)
 }

@@ -9,6 +9,7 @@ import (
 	"github.com/caseydavenport/cube-tools/pkg/server"
 	"github.com/caseydavenport/cube-tools/pkg/server/query"
 	"github.com/caseydavenport/cube-tools/pkg/storage"
+	"github.com/caseydavenport/cube-tools/pkg/storage/file"
 	"github.com/caseydavenport/cube-tools/pkg/types"
 	"github.com/sirupsen/logrus"
 )
@@ -42,7 +43,7 @@ type PackageStatsResponse struct {
 }
 
 func PackageStatsHandler(src types.CubeSource) http.Handler {
-	return &packageStatsHandler{store: storage.NewFileDeckStoreWithCache(src), src: src}
+	return &packageStatsHandler{store: file.NewStore(src), src: src}
 }
 
 type packageStatsHandler struct {

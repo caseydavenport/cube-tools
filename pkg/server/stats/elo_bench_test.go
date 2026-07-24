@@ -7,6 +7,7 @@ import (
 	"testing"
 
 	"github.com/caseydavenport/cube-tools/pkg/storage"
+	"github.com/caseydavenport/cube-tools/pkg/storage/file"
 	"github.com/caseydavenport/cube-tools/pkg/types"
 )
 
@@ -18,7 +19,7 @@ func loadAllDecks(b *testing.B) []*storage.Deck {
 			b.Fatal(err)
 		}
 	}
-	store := storage.NewFileDeckStoreWithCache(nil)
+	store := file.NewStore(nil)
 	decks, err := store.List("polyverse", &storage.DecksRequest{})
 	if err != nil {
 		b.Fatal(err)

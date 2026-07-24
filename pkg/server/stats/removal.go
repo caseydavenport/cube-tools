@@ -12,6 +12,7 @@ import (
 
 	"github.com/caseydavenport/cube-tools/pkg/server"
 	"github.com/caseydavenport/cube-tools/pkg/storage"
+	"github.com/caseydavenport/cube-tools/pkg/storage/file"
 	"github.com/caseydavenport/cube-tools/pkg/types"
 	"github.com/sirupsen/logrus"
 )
@@ -331,7 +332,7 @@ type RemovalResponse struct {
 }
 
 func RemovalHandler(src types.CubeSource) http.Handler {
-	return &removalHandler{store: storage.NewFileDeckStoreWithCache(src), src: src}
+	return &removalHandler{store: file.NewStore(src), src: src}
 }
 
 type removalHandler struct {
