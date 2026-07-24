@@ -1,5 +1,7 @@
-import React, { useRef, useEffect, useCallback, useState, useMemo } from 'react'
+import React, { useRef, useEffect, useState, useMemo } from 'react'
 import ReactDOM from 'react-dom'
+import ForceGraph2D from 'react-force-graph-2d'
+import { forceX, forceY, forceCollide } from 'd3-force-3d'
 import { White, Blue, Black, Red, Green } from "../utils/Colors.js"
 import { useCube } from "../contexts/CubeContext.js"
 import { buildDeckSubgraph, rankByDegree, greedyModularityCommunities, dominantLabel, NEUTRAL } from "../utils/DeckGraph"
@@ -1949,350 +1951,155 @@ export function ruleColor(index) {
   return RULE_COLORS[index % RULE_COLORS.length]
 }
 
-const DEFAULT_PHYSICS = {
-  repulsion: 10000,
-  attraction: 0.014,
-  gravity: 0.0007,
-  damping: 0.92,
-  maxFrames: 340,
-}
-
-// ForceGraph is a small force-directed canvas renderer. It draws whatever nodes
-// and edges it's handed - theme constellation, a group's cards, or a card's
-// neighborhood - so every drill level shares one engine. Nodes: {id, radius,
-// color, label, count?, communityColor?}. Edges: {source, target, weight, color?}.
+// ForceGraph is a force-directed canvas renderer built on react-force-graph-2d.
+// It draws whatever nodes and edges it's handed - theme constellation, a group's
+// cards, or a card's neighborhood - so every drill level shares one engine.
+// Nodes: {id, radius, color, label, count?, communityColor?}. Edges: {source,
+// target, weight, color?}. The library owns the physics, pan/zoom, and drag; we
+// keep the look by painting the nodes and edges ourselves.
 function ForceGraph({ nodes, edges, showLabels, colorBy, hoveredId, selectedId, onHover, onSelect }) {
-  const canvasRef = useRef(null)
+  const fgRef = useRef(null)
   const containerRef = useRef(null)
-  const nodesRef = useRef([])
-  const nodeIndexRef = useRef({})
-  const adjacencyRef = useRef({})
-  const animRef = useRef(null)
-  const dragRef = useRef(null)
-  const movedRef = useRef(false)
-  const hoveredRef = useRef(null)
-  const selectedRef = useRef(null)
-  const colorByRef = useRef(colorBy)
-  const drawRef = useRef(null)
-  const viewRef = useRef({ scale: 1, offsetX: 0, offsetY: 0 })
-  const panRef = useRef(null)
-  const [canvasSize, setCanvasSize] = useState({ width: 900, height: 620 })
-
-  // Keep refs in step with props so the imperative draw loop sees current values.
-  useEffect(() => { selectedRef.current = selectedId; if (drawRef.current) drawRef.current() }, [selectedId])
-  useEffect(() => { colorByRef.current = colorBy; if (drawRef.current) drawRef.current() }, [colorBy])
-  useEffect(() => {
-    if (hoveredId !== hoveredRef.current) { hoveredRef.current = hoveredId; if (drawRef.current) drawRef.current() }
-  }, [hoveredId])
+  const [size, setSize] = useState({ width: 900, height: 620 })
 
   // Fit the canvas to its column.
   useEffect(() => {
+    const el = containerRef.current
+    if (!el) return
     function measure() {
-      if (containerRef.current) {
-        const w = containerRef.current.clientWidth
-        const h = containerRef.current.clientHeight
-        if (w > 0 && h > 0) setCanvasSize({ width: w, height: h })
-      }
+      const w = el.clientWidth, h = el.clientHeight
+      if (w > 0 && h > 0) setSize({ width: w, height: h })
     }
     measure()
-    window.addEventListener("resize", measure)
-    return () => window.removeEventListener("resize", measure)
+    const ro = new ResizeObserver(measure)
+    ro.observe(el)
+    return () => ro.disconnect()
   }, [])
 
+  // The library mutates node/link objects in place (adds x/y/vx/vy, swaps link
+  // endpoints for node refs), so hand it fresh copies whenever the data changes.
+  const graphData = useMemo(() => {
+    const ids = new Set(nodes.map(n => n.id))
+    return {
+      nodes: nodes.map(n => ({ ...n })),
+      links: edges
+        .filter(e => ids.has(e.source) && ids.has(e.target))
+        .map(e => ({ source: e.source, target: e.target, weight: e.weight || 1, color: e.color })),
+    }
+  }, [nodes, edges])
+
+  const adjacency = useMemo(() => {
+    const ids = new Set(nodes.map(n => n.id))
+    const adj = {}
+    for (const e of edges) {
+      if (!ids.has(e.source) || !ids.has(e.target)) continue
+      ;(adj[e.source] = adj[e.source] || new Set()).add(e.target)
+      ;(adj[e.target] = adj[e.target] || new Set()).add(e.source)
+    }
+    return adj
+  }, [nodes, edges])
+
+  // A gentle pull toward center keeps disconnected nodes near the pack instead of
+  // drifting to the edge, and collision keeps nodes from overlapping.
   useEffect(() => {
-    const canvas = canvasRef.current
-    if (!canvas || nodes.length === 0) return
-    const ctx = canvas.getContext("2d")
-    const width = canvas.width
-    const height = canvas.height
+    const fg = fgRef.current
+    if (!fg) return
+    fg.d3Force("x", forceX(0).strength(0.07))
+    fg.d3Force("y", forceY(0).strength(0.07))
+    fg.d3Force("collide", forceCollide(n => (n.radius || 6) + 4))
+    const charge = fg.d3Force("charge")
+    if (charge) charge.strength(-180)
+    const link = fg.d3Force("link")
+    if (link) link.distance(38)
+    fg.d3ReheatSimulation()
+  }, [graphData])
 
-    const graphNodes = nodes.map((node, i) => {
-      const angle = (2 * Math.PI * i) / nodes.length
-      const r = Math.min(width, height) * 0.4
-      return {
-        id: node.id,
-        x: width / 2 + r * Math.cos(angle) + (Math.random() - 0.5) * 40,
-        y: height / 2 + r * Math.sin(angle) + (Math.random() - 0.5) * 40,
-        vx: 0, vy: 0,
-        radius: node.radius, color: node.color, communityColor: node.communityColor, label: node.label, count: node.count,
-      }
-    })
-    const nodeIndex = {}
-    graphNodes.forEach((n, i) => { nodeIndex[n.id] = i })
+  // Frame the whole graph once per dataset, after its layout settles. Only the
+  // first settle fits - later reheats (from dragging) leave the user's view alone.
+  const fittedRef = useRef(false)
+  useEffect(() => { fittedRef.current = false }, [graphData])
 
-    const graphEdges = edges
-      .filter(e => nodeIndex[e.source] !== undefined && nodeIndex[e.target] !== undefined)
-      .map(e => ({ source: e.source, target: e.target, weight: e.weight || 1, color: e.color }))
+  // Paint callbacks read the focus state directly, so a new closure is handed to
+  // the library whenever hover/selection/colorBy change - that's what drives a
+  // repaint. focusId is the selected node, or the hovered one when nothing's pinned.
+  const focusId = selectedId || hoveredId
+  const neighbors = focusId ? adjacency[focusId] : null
 
-    const adjacency = {}
-    for (const e of graphEdges) {
-      (adjacency[e.source] = adjacency[e.source] || new Set()).add(e.target);
-      (adjacency[e.target] = adjacency[e.target] || new Set()).add(e.source)
-    }
+  const paintNode = (node, ctx, globalScale) => {
+    const isFocus = node.id === focusId
+    const isNeighbor = neighbors && neighbors.has(node.id)
+    const dimmed = focusId && !isFocus && !isNeighbor
+    const fill = colorBy === "community" && node.communityColor ? node.communityColor : node.color
+    ctx.beginPath()
+    ctx.arc(node.x, node.y, node.radius, 0, 2 * Math.PI)
+    ctx.fillStyle = dimmed ? hexToRGBA(fill, 0.18) : fill
+    ctx.fill()
+    ctx.lineWidth = (isFocus ? 2.5 : 1) / globalScale
+    ctx.strokeStyle = isFocus ? "#f8fafc" : (dimmed ? "rgba(0,0,0,0.3)" : "rgba(0,0,0,0.55)")
+    ctx.stroke()
 
-    nodesRef.current = graphNodes
-    nodeIndexRef.current = nodeIndex
-    adjacencyRef.current = adjacency
-    viewRef.current = { scale: 1, offsetX: 0, offsetY: 0 }
-
-    const physics = DEFAULT_PHYSICS
-    let frame = 0
-    const maxFrames = physics.maxFrames
-
-    function draw() {
-      const v = viewRef.current
-      ctx.clearRect(0, 0, width, height)
-      ctx.save()
-      ctx.translate(v.offsetX, v.offsetY)
-      ctx.scale(v.scale, v.scale)
-
-      const hov = hoveredRef.current
-      const sel = selectedRef.current
-      const focusId = sel || hov
-      const neighbors = focusId ? adjacencyRef.current[focusId] : null
-
-      for (const edge of graphEdges) {
-        const s = graphNodes[nodeIndex[edge.source]]
-        const t = graphNodes[nodeIndex[edge.target]]
-        const touches = focusId && (edge.source === focusId || edge.target === focusId)
-        const dimmed = focusId && !touches
-        const base = edge.color || "#7c8aa0"
-        // At rest the web stays subdued so the nodes still read as a constellation;
-        // focusing a node lights up just the edges that touch it.
-        let alpha
-        if (dimmed) alpha = 0.03
-        else if (focusId) alpha = Math.min(0.75, 0.28 + edge.weight * 0.08)
-        else alpha = Math.min(0.55, 0.26 + edge.weight * 0.05)
-        ctx.beginPath()
-        ctx.moveTo(s.x, s.y)
-        ctx.lineTo(t.x, t.y)
-        ctx.strokeStyle = hexToRGBA(base, alpha)
-        ctx.lineWidth = (touches ? 1.6 : Math.max(1, Math.min(2.5, edge.weight * 0.4))) / v.scale
-        ctx.stroke()
-      }
-
-      for (const node of graphNodes) {
-        const isFocus = node.id === focusId
-        const isNeighbor = neighbors && neighbors.has(node.id)
-        const dimmed = focusId && !isFocus && !isNeighbor
-        ctx.beginPath()
-        ctx.arc(node.x, node.y, node.radius, 0, 2 * Math.PI)
-        const fill = colorByRef.current === "community" && node.communityColor ? node.communityColor : node.color
-        ctx.fillStyle = dimmed ? hexToRGBA(fill, 0.18) : fill
-        ctx.fill()
-        if (isFocus) {
-          ctx.lineWidth = 2.5 / v.scale
-          ctx.strokeStyle = "#f8fafc"
-        } else {
-          ctx.lineWidth = 1 / v.scale
-          ctx.strokeStyle = dimmed ? "rgba(0,0,0,0.3)" : "rgba(0,0,0,0.55)"
-        }
-        ctx.stroke()
-      }
-
-      // Labels: all of them when showLabels, otherwise just the focused/hovered one.
-      const fontSize = Math.max(9, 12 / v.scale)
-      ctx.font = `${fontSize}px Inter, sans-serif`
-      ctx.textAlign = "center"
-      ctx.lineJoin = "round"
-      for (const node of graphNodes) {
-        const isFocus = node.id === focusId
-        const isNeighbor = neighbors && neighbors.has(node.id)
-        const dimmed = focusId && !isFocus && !isNeighbor
-        const show = isFocus || (showLabels && !dimmed) || (!showLabels && isFocus)
-        if (!show) continue
-        const text = node.count != null ? `${node.label} (${node.count})` : node.label
-        const ty = node.y - node.radius - 5 / v.scale
-        ctx.lineWidth = 3 / v.scale
-        ctx.strokeStyle = "rgba(15,23,42,0.9)"
-        ctx.strokeText(text, node.x, ty)
-        ctx.fillStyle = isFocus ? "#f8fafc" : "rgba(226,232,240,0.85)"
-        ctx.fillText(text, node.x, ty)
-      }
-
-      ctx.restore()
-    }
-    drawRef.current = draw
-
-    function step() {
-      if (frame > maxFrames) return
-      frame++
-      const alpha = 1 - frame / maxFrames
-      for (let i = 0; i < graphNodes.length; i++) {
-        for (let j = i + 1; j < graphNodes.length; j++) {
-          let dx = graphNodes[j].x - graphNodes[i].x
-          let dy = graphNodes[j].y - graphNodes[i].y
-          let dist = Math.sqrt(dx * dx + dy * dy) || 1
-          if (dist < 20) dist = 20
-          const force = (physics.repulsion * alpha) / (dist * dist)
-          const fx = (dx / dist) * force
-          const fy = (dy / dist) * force
-          graphNodes[i].vx -= fx; graphNodes[i].vy -= fy
-          graphNodes[j].vx += fx; graphNodes[j].vy += fy
-        }
-      }
-      for (const edge of graphEdges) {
-        const s = graphNodes[nodeIndex[edge.source]]
-        const t = graphNodes[nodeIndex[edge.target]]
-        const dx = t.x - s.x, dy = t.y - s.y
-        const strength = physics.attraction * Math.min(edge.weight, 5) * alpha
-        s.vx += dx * strength; s.vy += dy * strength
-        t.vx -= dx * strength; t.vy -= dy * strength
-      }
-      for (const node of graphNodes) {
-        node.vx += (width / 2 - node.x) * physics.gravity * alpha
-        node.vy += (height / 2 - node.y) * physics.gravity * alpha
-      }
-      const pad = 8
-      for (const node of graphNodes) {
-        if (dragRef.current && dragRef.current.id === node.id) continue
-        node.vx *= physics.damping; node.vy *= physics.damping
-        node.x += node.vx; node.y += node.vy
-        node.x = Math.max(node.radius + pad, Math.min(width - node.radius - pad, node.x))
-        node.y = Math.max(node.radius + pad, Math.min(height - node.radius - pad, node.y))
-      }
-      if (frame < maxFrames * 0.6) return
-      const cpad = 6
-      for (let i = 0; i < graphNodes.length; i++) {
-        for (let j = i + 1; j < graphNodes.length; j++) {
-          const a = graphNodes[i], b = graphNodes[j]
-          const dx = b.x - a.x, dy = b.y - a.y
-          const dist = Math.sqrt(dx * dx + dy * dy) || 0.1
-          const minDist = a.radius + b.radius + cpad
-          if (dist < minDist) {
-            const overlap = (minDist - dist) / 2
-            const nx = dx / dist, ny = dy / dist
-            if (!(dragRef.current && dragRef.current.id === a.id)) { a.x -= nx * overlap; a.y -= ny * overlap }
-            if (!(dragRef.current && dragRef.current.id === b.id)) { b.x += nx * overlap; b.y += ny * overlap }
-          }
-        }
-      }
-    }
-
-    function simulate() {
-      if (frame > maxFrames) { draw(); return }
-      for (let s = 0; s < 5 && frame <= maxFrames; s++) step()
-      draw()
-      animRef.current = requestAnimationFrame(simulate)
-    }
-    animRef.current = requestAnimationFrame(simulate)
-
-    return () => { if (animRef.current) cancelAnimationFrame(animRef.current); drawRef.current = null }
-  }, [nodes, edges, canvasSize, showLabels])
-
-  function screenToWorld(sx, sy) {
-    const canvas = canvasRef.current
-    if (!canvas) return { x: sx, y: sy }
-    const rect = canvas.getBoundingClientRect()
-    const cx = sx * (canvas.width / rect.width)
-    const cy = sy * (canvas.height / rect.height)
-    const v = viewRef.current
-    return { x: (cx - v.offsetX) / v.scale, y: (cy - v.offsetY) / v.scale }
-  }
-  function nodeAt(wx, wy) {
-    for (const node of nodesRef.current) {
-      const dx = node.x - wx, dy = node.y - wy
-      if (dx * dx + dy * dy < (node.radius + 4) * (node.radius + 4)) return node
-    }
-    return null
+    // Labels: all of them when showLabels, otherwise just the focused/hovered one.
+    const show = isFocus || (showLabels && !dimmed)
+    if (!show) return
+    const fontSize = Math.max(9, 12 / globalScale)
+    ctx.font = `${fontSize}px Inter, sans-serif`
+    ctx.textAlign = "center"
+    ctx.lineJoin = "round"
+    const text = node.count != null ? `${node.label} (${node.count})` : node.label
+    const ty = node.y - node.radius - 5 / globalScale
+    ctx.lineWidth = 3 / globalScale
+    ctx.strokeStyle = "rgba(15,23,42,0.9)"
+    ctx.strokeText(text, node.x, ty)
+    ctx.fillStyle = isFocus ? "#f8fafc" : "rgba(226,232,240,0.85)"
+    ctx.fillText(text, node.x, ty)
   }
 
-  function handleWheel(e) {
-    e.preventDefault()
-    const canvas = canvasRef.current
-    if (!canvas) return
-    const rect = canvas.getBoundingClientRect()
-    const cx = (e.clientX - rect.left) * (canvas.width / rect.width)
-    const cy = (e.clientY - rect.top) * (canvas.height / rect.height)
-    const v = viewRef.current
-    const factor = e.deltaY < 0 ? 1.1 : 1 / 1.1
-    const newScale = Math.max(0.3, Math.min(6, v.scale * factor))
-    v.offsetX = cx - (cx - v.offsetX) * (newScale / v.scale)
-    v.offsetY = cy - (cy - v.offsetY) * (newScale / v.scale)
-    v.scale = newScale
-    if (drawRef.current) drawRef.current()
+  // Hit area for hover/click - a disc matching the drawn node.
+  const paintPointerArea = (node, color, ctx) => {
+    ctx.fillStyle = color
+    ctx.beginPath()
+    ctx.arc(node.x, node.y, node.radius + 2, 0, 2 * Math.PI)
+    ctx.fill()
   }
-  useEffect(() => {
-    const canvas = canvasRef.current
-    if (!canvas) return
-    canvas.addEventListener("wheel", handleWheel, { passive: false })
-    return () => canvas.removeEventListener("wheel", handleWheel)
-  }, [canvasSize])
 
-  function handleMouseMove(e) {
-    const canvas = canvasRef.current
-    if (!canvas) return
-    const rect = canvas.getBoundingClientRect()
-    const sx = e.clientX - rect.left, sy = e.clientY - rect.top
-    if (panRef.current) {
-      const v = viewRef.current
-      v.offsetX = panRef.current.startOffsetX + (sx - panRef.current.sx) * (canvas.width / rect.width)
-      v.offsetY = panRef.current.startOffsetY + (sy - panRef.current.sy) * (canvas.height / rect.height)
-      movedRef.current = true
-      if (drawRef.current) drawRef.current()
-      return
-    }
-    const { x, y } = screenToWorld(sx, sy)
-    if (dragRef.current) {
-      dragRef.current.x = x; dragRef.current.y = y
-      dragRef.current.vx = 0; dragRef.current.vy = 0
-      movedRef.current = true
-      if (drawRef.current) drawRef.current()
-      return
-    }
-    const node = nodeAt(x, y)
-    const id = node ? node.id : null
-    if (id !== hoveredRef.current) {
-      hoveredRef.current = id
-      if (onHover) onHover(id)
-      if (drawRef.current) drawRef.current()
-    }
-    canvas.style.cursor = node ? "pointer" : "grab"
-  }
-  function handleMouseDown(e) {
-    const canvas = canvasRef.current
-    if (!canvas) return
-    const rect = canvas.getBoundingClientRect()
-    const sx = e.clientX - rect.left, sy = e.clientY - rect.top
-    const { x, y } = screenToWorld(sx, sy)
-    const node = nodeAt(x, y)
-    movedRef.current = false
-    if (node) dragRef.current = node
-    else {
-      const v = viewRef.current
-      panRef.current = { sx, sy, startOffsetX: v.offsetX, startOffsetY: v.offsetY }
-    }
-  }
-  function handleMouseUp(e) {
-    if (dragRef.current) {
-      const node = dragRef.current
-      dragRef.current = null
-      if (!movedRef.current && onSelect) onSelect(node.id)
-      if (drawRef.current) drawRef.current()
-    }
-    panRef.current = null
-  }
-  function handleMouseLeave() {
-    dragRef.current = null
-    panRef.current = null
-    if (hoveredRef.current) {
-      hoveredRef.current = null
-      if (onHover) onHover(null)
-      if (drawRef.current) drawRef.current()
-    }
+  const paintLink = (link, ctx, globalScale) => {
+    const s = link.source, t = link.target
+    if (!s || !t || typeof s !== "object" || typeof t !== "object") return
+    const touches = focusId && (s.id === focusId || t.id === focusId)
+    const dimmed = focusId && !touches
+    const base = link.color || "#7c8aa0"
+    // At rest the web stays subdued so the nodes still read as a constellation;
+    // focusing a node lights up just the edges that touch it.
+    let alpha
+    if (dimmed) alpha = 0.03
+    else if (focusId) alpha = Math.min(0.75, 0.28 + link.weight * 0.08)
+    else alpha = Math.min(0.55, 0.26 + link.weight * 0.05)
+    ctx.beginPath()
+    ctx.moveTo(s.x, s.y)
+    ctx.lineTo(t.x, t.y)
+    ctx.strokeStyle = hexToRGBA(base, alpha)
+    ctx.lineWidth = (touches ? 1.6 : Math.max(1, Math.min(2.5, link.weight * 0.4))) / globalScale
+    ctx.stroke()
   }
 
   return (
     <div ref={containerRef} className="dm-canvaswrap">
-      <canvas
-        ref={canvasRef}
-        width={canvasSize.width}
-        height={canvasSize.height}
-        style={{ width: "100%", height: "100%", display: "block" }}
-        onMouseMove={handleMouseMove}
-        onMouseDown={handleMouseDown}
-        onMouseUp={handleMouseUp}
-        onMouseLeave={handleMouseLeave}
+      <ForceGraph2D
+        ref={fgRef}
+        width={size.width}
+        height={size.height}
+        graphData={graphData}
+        backgroundColor="rgba(0,0,0,0)"
+        cooldownTicks={200}
+        d3VelocityDecay={0.3}
+        nodeCanvasObject={paintNode}
+        nodePointerAreaPaint={paintPointerArea}
+        linkCanvasObject={paintLink}
+        onNodeHover={node => { if (onHover) onHover(node ? node.id : null) }}
+        onNodeClick={node => { if (onSelect && node) onSelect(node.id) }}
+        onEngineStop={() => {
+          if (!fittedRef.current && fgRef.current) { fgRef.current.zoomToFit(400, 40); fittedRef.current = true }
+        }}
       />
     </div>
   )
