@@ -32,6 +32,12 @@
       ]
     },
     {
+      "name": "Burn",
+      "conditions": [
+        "o:\"damage to any target\""
+      ]
+    },
+    {
       "name": "Castable from graveyard",
       "conditions": [
         "o:flashback !o:\"gains flashback\"",
@@ -156,6 +162,12 @@
       "name": "Cycling",
       "conditions": [
         "o:cycling OR o:channel"
+      ]
+    },
+    {
+      "name": "Cycling Lands",
+      "conditions": [
+        "t:land o:cycling"
       ]
     },
     {
@@ -294,6 +306,12 @@
       ]
     },
     {
+      "name": "Horizon Lands",
+      "conditions": [
+        "t:land o:sacrifice o:\": draw\""
+      ]
+    },
+    {
       "name": "Instant speed",
       "conditions": [
         "o:\"flash\" !o:flashback",
@@ -324,7 +342,8 @@
     {
       "name": "Landfall payoff",
       "conditions": [
-        "o:landfall"
+        "o:landfall",
+        "o:\"Whenever this land or another land you control enters\""
       ]
     },
     {
@@ -341,18 +360,18 @@
       ]
     },
     {
+      "name": "LTB creatures",
+      "conditions": [
+        "t:creature o:\"leaves the battlefield\""
+      ]
+    },
+    {
       "name": "LTB noncreature",
       "conditions": [
         "o:leaves !t:creature !t:land !o:until"
       ],
       "exclude": [
         "Journey to Nowhere"
-      ]
-    },
-    {
-      "name": "LTB creatures",
-      "conditions": [
-        "t:creature o:\"leaves the battlefiled\""
       ]
     },
     {
@@ -378,6 +397,9 @@
       "conditions": [
         "o:\"pay\" o:\"life\"",
         "o:\"you lose life\""
+      ],
+      "exclude": [
+        "Sedgemoor Witch"
       ]
     },
     {
@@ -509,7 +531,6 @@
       "conditions": [
         "o:\"sacrifice this artifact\"",
         "o:\"sacrifice this creature\"",
-        "o:\"sacrifice this land\"",
         "o:\"sacrifice this enchantment\"",
         "o:\"sacrifice this permanent\""
       ]
@@ -628,7 +649,8 @@
             "Islands",
             "Swamps",
             "Forests",
-            "Fetches"
+            "Fetches",
+            "Fixing lands"
           ]
         }
       ]
@@ -820,8 +842,62 @@
       ]
     },
     {
-      "label": "Fetches",
+      "label": "Graveyard",
       "wires": [
+        {
+          "sources": [
+            "Graveyard size payoffs"
+          ],
+          "targets": [
+            "Fill graveyard",
+            "Selective discard",
+            "Sacs creatures",
+            "Self-sacs"
+          ]
+        },
+        {
+          "sources": [
+            "Castable from graveyard"
+          ],
+          "targets": [
+            "Selective discard"
+          ]
+        }
+      ]
+    },
+    {
+      "label": "Lands",
+      "wires": [
+        {
+          "sources": [
+            "Landfall payoff"
+          ],
+          "targets": [
+            "Landfall enablers",
+            "Land recursion"
+          ]
+        },
+        {
+          "sources": [
+            "Retrace",
+            "Creature lands",
+            "Fetches",
+            "Cycling Lands",
+            "Horizon Lands"
+          ],
+          "targets": [
+            "Land recursion"
+          ]
+        },
+        {
+          "sources": [
+            "card:Knight of the Reliquary"
+          ],
+          "targets": [
+            "Forests",
+            "Plains"
+          ]
+        },
         {
           "sources": [
             "card:Arid Mesa"
@@ -915,63 +991,6 @@
       ]
     },
     {
-      "label": "Graveyard",
-      "wires": [
-        {
-          "sources": [
-            "Graveyard size payoffs"
-          ],
-          "targets": [
-            "Fill graveyard",
-            "Selective discard",
-            "Sacs creatures",
-            "Self-sacs"
-          ]
-        },
-        {
-          "sources": [
-            "Castable from graveyard"
-          ],
-          "targets": [
-            "Selective discard"
-          ]
-        }
-      ]
-    },
-    {
-      "label": "Lands",
-      "wires": [
-        {
-          "sources": [
-            "Landfall payoff"
-          ],
-          "targets": [
-            "Landfall enablers",
-            "Land recursion"
-          ]
-        },
-        {
-          "sources": [
-            "Retrace",
-            "Creature lands",
-            "Fetches"
-          ],
-          "targets": [
-            "Land recursion"
-          ]
-        },
-        {
-          "sources": [
-            "card:Knight of the Reliquary"
-          ],
-          "targets": [
-            "Forests",
-            "Plains"
-          ]
-        }
-      ]
-    },
-    {
       "label": "Life Loss",
       "wires": [
         {
@@ -980,6 +999,14 @@
           ],
           "targets": [
             "Life Loss matters"
+          ]
+        },
+        {
+          "sources": [
+            "card:Knight of the Ebon Legion"
+          ],
+          "targets": [
+            "Burn"
           ]
         }
       ]
