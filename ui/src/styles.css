@@ -1843,6 +1843,16 @@ table {
 .dm-legend-static { cursor: default; }
 .dm-legend-static:hover { background: transparent; }
 
+.dm-linked-head {
+  display: flex; align-items: center; gap: 8px;
+  padding: 0.75rem 0.85rem 0.3rem; font-weight: 700; font-size: 0.9rem;
+}
+.dm-editor-link {
+  flex-shrink: 0; color: var(--text-muted); text-decoration: none;
+  font-size: 0.95rem; line-height: 1; padding: 2px 5px; border-radius: 4px;
+}
+.dm-editor-link:hover { color: var(--white); background: var(--page-background); }
+
 /* Detail rail */
 .dm-detail { overflow-y: auto; padding-bottom: 0.75rem; }
 .dm-detail > .section-heading { margin: 0.85rem 0.85rem 0.5rem; }

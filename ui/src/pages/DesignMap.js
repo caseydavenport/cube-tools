@@ -813,10 +813,23 @@ function edgeColorFor(labels, linkIndex) {
   return null
 }
 
+// editorHref deep-links into the design editor for a single card, or a card pair
+// when vs is set (opens the compare pane). The editor reads card/vs/view off the
+// query string, so this just builds the hash URL to open in a new tab.
+function editorHref(cube, card, vs) {
+  const p = new URLSearchParams({ card })
+  if (vs) {
+    p.set("vs", vs)
+    p.set("view", "compare")
+  }
+  return `${window.location.pathname}#/${cube}/design-editor?${p.toString()}`
+}
+
 // CardSynergyMap renders an arbitrary pool of cards (e.g. a decklist) as a force
 // graph wired by the design rules - the same engine as the design map, scoped to
 // the given cards. Hover previews a card; click pins the focus on it.
 export function CardSynergyMap({ cards, edges, links }) {
+  const cube = useCube()
   const [hovered, setHovered] = useState(null)
   const [selected, setSelected] = useState(null)
 
@@ -896,6 +909,20 @@ export function CardSynergyMap({ cards, edges, links }) {
 
   const topLinked = analytics.ranking.filter(r => r.weightedDegree > 0).slice(0, 8)
 
+  // Neighbors of the pinned card in this pool, heaviest link first. Feeds the
+  // "Linked with" list, whose rows deep-link the pair into the design editor.
+  const linkedTo = []
+  if (selected) {
+    const w = {}
+    for (const e of simEdges) {
+      if (e.source === selected) w[e.target] = (w[e.target] || 0) + e.weight
+      else if (e.target === selected) w[e.source] = (w[e.source] || 0) + e.weight
+    }
+    linkedTo.push(...Object.entries(w)
+      .map(([card, weight]) => ({ card, weight }))
+      .sort((a, b) => b.weight - a.weight || (a.card < b.card ? -1 : 1)))
+  }
+
   return (
     <div className="dm-deckmap-layout">
       <div className="dm-panel dm-map dm-deckmap-main">
@@ -944,6 +971,28 @@ export function CardSynergyMap({ cards, edges, links }) {
             </div>
           ))}
         </div>
+        {selected && (
+          <div className="dm-panel dm-deckmap-stats">
+            <div className="dm-linked-head">
+              <span className="dm-legend-name">{selected}</span>
+              <a className="dm-editor-link" href={editorHref(cube, selected)} target="_blank" rel="noopener noreferrer" title="Open in the design editor">⧉</a>
+            </div>
+            {linkedTo.length === 0 ? (
+              <p className="dm-muted dm-pad">No links in this pool.</p>
+            ) : (
+              <>
+                <div className="dm-subhead">Linked with</div>
+                {linkedTo.map(n => (
+                  <div key={n.card} className="dm-legend-row dm-legend-static">
+                    <span className="dm-legend-name">{n.card}</span>
+                    <span className="dm-legend-count">{n.weight}</span>
+                    <a className="dm-editor-link" href={editorHref(cube, selected, n.card)} target="_blank" rel="noopener noreferrer" title={`Compare with ${selected} in the editor`}>⧉</a>
+                  </div>
+                ))}
+              </>
+            )}
+          </div>
+        )}
         {previewCard && <CardPreview card={previewCard} />}
       </aside>
     </div>
