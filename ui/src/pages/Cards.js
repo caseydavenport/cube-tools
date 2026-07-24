@@ -122,6 +122,8 @@ const matchOpts = [
 const tagOpts = [
   {label: "", value: ""},
   {label: "DNA", value: "🧬"},
+  {label: "Watch", value: "watch"},
+  {label: "Remove", value: "remove"},
 ]
 
   // shouldSkip returns true if the card should be skipped, and false otherwise.

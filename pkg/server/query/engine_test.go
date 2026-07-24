@@ -235,6 +235,15 @@ func TestCardMatches_OracleTextTerm(t *testing.T) {
 	assert.False(t, CardMatches(c, "o:counter"))
 }
 
+func TestCardMatches_CCTagTerm(t *testing.T) {
+	c := types.Card{Name: "Bolt", Tags: []string{"watch", "creature removal"}}
+	assert.True(t, CardMatches(c, "cctag:watch"))
+	assert.True(t, CardMatches(c, "cctag:Watch")) // case insensitive
+	assert.True(t, CardMatches(c, `cctag:"creature removal"`))
+	assert.False(t, CardMatches(c, "cctag:removal")) // exact, not substring
+	assert.False(t, CardMatches(c, "cctag:remove"))
+}
+
 func TestCardMatches_ColorTerm(t *testing.T) {
 	c := types.Card{Name: "Bolt", Colors: []string{"R"}}
 	assert.True(t, CardMatches(c, "color:R"))

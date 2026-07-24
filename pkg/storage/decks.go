@@ -247,53 +247,58 @@ func loadDecks(cube string) ([]*Deck, error) {
 		}
 	}
 
-	// Overlay the cube's chosen printings onto the hydrated deck cards.
-	printings := cubePrintings(cube)
+	// Overlay the cube's printings and tags onto the hydrated deck cards.
+	overlay := cubeCards(cube)
 	for _, d := range decks {
-		overlayPrintings(d.Mainboard, printings)
-		overlayPrintings(d.Sideboard, printings)
-		overlayPrintings(d.Pool, printings)
+		overlayCubeCards(d.Mainboard, overlay)
+		overlayCubeCards(d.Sideboard, overlay)
+		overlayCubeCards(d.Pool, overlay)
 	}
 	return decks, nil
 }
 
-type printing struct {
+type cubeCard struct {
 	image string
 	url   string
+	tags  []string
 }
 
-// cubePrintings maps card name to the printing (image and Scryfall page) the
-// cube runs, read from the cube's cube.json. Deck cards hydrate from the global
-// oracle dataset, which carries one arbitrary printing per name; overlaying the
-// cube's printing makes decks show the exact version the cube runs and avoids
-// dead image links. Returns nil if cube.json is missing.
-func cubePrintings(cube string) map[string]printing {
+// cubeCards maps card name to the data a deck card inherits from the cube's
+// cube.json: the printing (image and Scryfall page) the cube runs and the owner's
+// Cube Cobra tags. Deck cards hydrate from the global oracle dataset, which carries
+// one arbitrary printing per name and no tags; overlaying the cube's data shows the
+// exact printing the cube runs (no dead image links) and lets cctag: filter decks.
+// Returns nil if cube.json is missing.
+func cubeCards(cube string) map[string]cubeCard {
 	c, err := types.LoadCube(fmt.Sprintf("data/%s/cube.json", cube))
 	if err != nil {
-		logrus.WithError(err).Warn("Failed to load cube.json for printings; decks will use oracle printings")
+		logrus.WithError(err).Warn("Failed to load cube.json; decks will use oracle printings and no tags")
 		return nil
 	}
-	out := make(map[string]printing, len(c.Cards))
+	out := make(map[string]cubeCard, len(c.Cards))
 	for _, card := range c.Cards {
-		out[card.Name] = printing{image: card.Image, url: card.URL}
+		out[card.Name] = cubeCard{image: card.Image, url: card.URL, tags: card.Tags}
 	}
 	return out
 }
 
-// overlayPrintings replaces each card's image and URL with the cube's printing
-// when one is known. Cards not in the cube (e.g. cut since the deck was built)
-// keep their oracle printing.
-func overlayPrintings(cards []types.Card, printings map[string]printing) {
+// overlayCubeCards replaces each card's printing and tags with the cube's when the
+// card is in the cube. Cards cut since the deck was built keep their oracle printing
+// and stay tagless.
+func overlayCubeCards(cards []types.Card, cube map[string]cubeCard) {
 	for i := range cards {
-		p, ok := printings[cards[i].Name]
+		cc, ok := cube[cards[i].Name]
 		if !ok {
 			continue
 		}
-		if p.image != "" {
-			cards[i].Image = p.image
+		if cc.image != "" {
+			cards[i].Image = cc.image
 		}
-		if p.url != "" {
-			cards[i].URL = p.url
+		if cc.url != "" {
+			cards[i].URL = cc.url
+		}
+		if len(cc.tags) > 0 {
+			cards[i].Tags = cc.tags
 		}
 	}
 }

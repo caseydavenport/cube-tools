@@ -207,6 +207,13 @@ func CardMatches(c types.Card, matchStr string) bool {
 				if !strings.Contains(strings.ToLower(c.OracleText), strings.ToLower(val)) {
 					return false
 				}
+			} else if strings.HasPrefix(term, "cctag:") {
+				// Exact match against the card's Cube Cobra tags (case-insensitive).
+				val := strings.TrimPrefix(term, "cctag:")
+				val = strings.Trim(val, "\"")
+				if !slices.ContainsFunc(c.Tags, func(t string) bool { return strings.EqualFold(t, val) }) {
+					return false
+				}
 			}
 			// Add other card terms as needed
 		}
@@ -246,7 +253,7 @@ func parseTerms(matchStr string) []string {
 }
 
 func isTermQuery(matchStr string) bool {
-	queryTerms := []string{"color", "c", "dcolor", "cmc", "t", "o", "name", "pow", "games", "mb", "sb", "players", "drafts", "winpct", "arch", "player", "event", "draftSize", "minCards"}
+	queryTerms := []string{"color", "c", "dcolor", "cmc", "t", "o", "name", "pow", "games", "mb", "sb", "players", "drafts", "winpct", "arch", "player", "event", "draftSize", "minCards", "cctag"}
 	splits := parseTerms(matchStr)
 	for _, term := range splits {
 		if _, _, ok := communityTerm(term); ok {

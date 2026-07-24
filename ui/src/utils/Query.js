@@ -19,6 +19,7 @@ export const QueryTerms = [
   "dcolor",
   "draftSize",
   "community",
+  "cctag",
 ]
 
 export const QueryTermMetadata = [
@@ -41,6 +42,7 @@ export const QueryTermMetadata = [
   { term: "draftSize", description: "Draft size", operators: ["<", ">", "="], valueType: "number", example: "draftSize>6", isDeckOnly: true },
   { term: "minCards", description: "Min matching cards", operators: [":"], valueType: "number", example: "minCards:3", isDeckOnly: true },
   { term: "community", description: "Builds a package (cohesive community); bare community: means any", operators: [":", "!="], valueType: "text", example: "community:graveyard", isDeckOnly: true },
+  { term: "cctag", description: "Cube Cobra tag", operators: [":"], valueType: "text", example: "cctag:watch", values: ["🧬", "watch", "remove", "\"creature removal\"", "\"artifact removal\"", "\"enchantment removal\"", "\"planeswalker removal\"", "\"land removal\"", "\"board wipe\"", "burn", "\"grave hate\""] },
 ]
 
 export function CardMatches(card, matchStr, checkText) {
@@ -90,6 +92,14 @@ export function CardMatches(card, matchStr, checkText) {
       matchedAnyCardTerm = true
       // If there are name terms, we need to match at least one of them.
       if (!namesMatch(splits, card)) {
+        return false
+      }
+    }
+
+    // Check if any Cube Cobra tag terms match.
+    if (splits.some(term => isCCTagTerm(term))) {
+      matchedAnyCardTerm = true
+      if (!ccTagsMatch(splits, card)) {
         return false
       }
     }
@@ -876,6 +886,31 @@ function deckTypeMatches(term, deck) {
   }
 
   return false
+}
+
+function isCCTagTerm(term) {
+  return term.startsWith("cctag:")
+}
+
+function ccTagsMatch(terms, card) {
+  for (let term of terms) {
+    if (!isCCTagTerm(term)) {
+      continue
+    }
+    if (ccTagMatches(term, card)) {
+      return true
+    }
+  }
+  return false
+}
+
+function ccTagMatches(term, card) {
+  if (!isCCTagTerm(term)) {
+    return true
+  }
+  // Exact match against a Cube Cobra tag, ignoring case.
+  let query = term.replace("cctag:", "").replace(/"/g, "").toLowerCase()
+  return (card.tags || []).some(t => t.toLowerCase() == query)
 }
 
 function isTypeTerm(term) {
