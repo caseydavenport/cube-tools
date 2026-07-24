@@ -2,7 +2,6 @@ package stats
 
 import (
 	"encoding/json"
-	"fmt"
 	"math"
 	"net/http"
 	"strings"
@@ -73,14 +72,16 @@ func parseColorsRequest(r *http.Request) *ColorStatsRequest {
 	return &p
 }
 
-func ColorStatsHandler() http.Handler {
+func ColorStatsHandler(src types.CubeSource) http.Handler {
 	return &colorStatsHandler{
-		store: storage.NewFileDeckStoreWithCache(),
+		store: storage.NewFileDeckStoreWithCache(src),
+		src:   src,
 	}
 }
 
 type colorStatsHandler struct {
 	store storage.DeckStorage
+	src   types.CubeSource
 }
 
 func (d *colorStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
@@ -89,7 +90,7 @@ func (d *colorStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 
 	cubeID := server.CubeFromRequest(r)
 	cubeCards := make(map[string]types.Card)
-	cube, err := types.LoadCube(fmt.Sprintf("data/%s/cube.json", cubeID))
+	cube, err := d.src.Current(cubeID)
 	if err == nil {
 		for _, c := range cube.Cards {
 			cubeCards[c.Name] = c

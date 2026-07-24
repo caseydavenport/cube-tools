@@ -129,10 +129,7 @@ func parseSources(sources []ImportSource) ([]ParsedDeck, error) {
 }
 
 // ParseHandler parses submitted decklists and checks them against the cube.
-func ParseHandler() http.Handler { return ParseHandlerWithRoot("data") }
-
-// ParseHandlerWithRoot is ParseHandler with an overridable data root.
-func ParseHandlerWithRoot(dataRoot string) http.Handler {
+func ParseHandler(src types.CubeSource) http.Handler {
 	return http.HandlerFunc(func(rw http.ResponseWriter, r *http.Request) {
 		cube := server.CubeFromRequest(r)
 		if cube == "" {
@@ -149,9 +146,9 @@ func ParseHandlerWithRoot(dataRoot string) http.Handler {
 			http.Error(rw, err.Error(), http.StatusBadRequest)
 			return
 		}
-		cl, err := types.LoadCube(cubePath(dataRoot, cube))
+		cl, err := src.Current(cube)
 		if err != nil {
-			http.Error(rw, "no cube list: "+err.Error(), http.StatusInternalServerError)
+			http.Error(rw, "no cube list: "+err.Error(), http.StatusServiceUnavailable)
 			return
 		}
 		writeJSON(rw, ParseResponse{Decks: decks, Report: CheckConsistency(cl, decks)})

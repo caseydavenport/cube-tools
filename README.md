@@ -19,7 +19,6 @@ Data for each draft can be found in [data](data). Structure is as follows:
 ```
 data/                        # data root directory, with a sub-directory per-cube.
 |-- <cube-name>/             # cube directory
-   |-- cube.json             # current cube JSON file.
    |-- index.json            # auto-generated index file of decks.
    |-- YYYY-MM-DD/           # draft directory containing per-draft information.
       |-- player.json        # deck file for <player>

@@ -330,17 +330,18 @@ type RemovalResponse struct {
 	Excluded        int           `json:"excluded"`
 }
 
-func RemovalHandler() http.Handler {
-	return &removalHandler{store: storage.NewFileDeckStoreWithCache()}
+func RemovalHandler(src types.CubeSource) http.Handler {
+	return &removalHandler{store: storage.NewFileDeckStoreWithCache(src), src: src}
 }
 
 type removalHandler struct {
 	store storage.DeckStorage
+	src   types.CubeSource
 }
 
 func (h *removalHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 	cubeID := server.CubeFromRequest(r)
-	cube, err := types.LoadCube(fmt.Sprintf("data/%s/cube.json", cubeID))
+	cube, err := h.src.Current(cubeID)
 	if err != nil {
 		http.Error(rw, "could not load cube", http.StatusInternalServerError)
 		return

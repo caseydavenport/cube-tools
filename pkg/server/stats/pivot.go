@@ -96,12 +96,13 @@ type PivotResponse struct {
 	Rows    []*PivotRow `json:"rows"`
 }
 
-func PivotHandler() http.Handler {
-	return &pivotHandler{store: storage.NewFileDeckStoreWithCache()}
+func PivotHandler(src types.CubeSource) http.Handler {
+	return &pivotHandler{store: storage.NewFileDeckStoreWithCache(src), src: src}
 }
 
 type pivotHandler struct {
 	store storage.DeckStorage
+	src   types.CubeSource
 }
 
 func (h *pivotHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
@@ -122,7 +123,7 @@ func (h *pivotHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 	// Cube cards carry the richer oracle text and Tags, so composition dims
 	// prefer them over the deck's own (possibly sparser) card copies.
 	cubeCards := make(map[string]types.Card)
-	if cube, err := types.LoadCube(fmt.Sprintf("data/%s/cube.json", cubeID)); err == nil {
+	if cube, err := h.src.Current(cubeID); err == nil {
 		for _, c := range cube.Cards {
 			cubeCards[c.Name] = c
 		}

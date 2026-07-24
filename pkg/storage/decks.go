@@ -116,14 +116,14 @@ type DeckStorage interface {
 	UpdateDeckMeta(cube, draftID, player, macroArchetype string, labels, colors []string) (*Deck, error)
 }
 
-func NewFileDeckStore() DeckStorage {
-	d := &deckStore{}
+func NewFileDeckStore(src types.CubeSource) DeckStorage {
+	d := &deckStore{src: src}
 	go d.maintainCache()
 	return d
 }
 
-func NewFileDeckStoreWithCache() DeckStorage {
-	return &deckStore{}
+func NewFileDeckStoreWithCache(src types.CubeSource) DeckStorage {
+	return &deckStore{src: src}
 }
 
 type cubeCache struct {
@@ -134,6 +134,7 @@ type cubeCache struct {
 type deckStore struct {
 	sync.Mutex
 	caches map[string]*cubeCache
+	src    types.CubeSource
 }
 
 // Maintain the cache in a separate goroutine.
@@ -168,7 +169,7 @@ func (s *deckStore) cacheForLocked(cube string) (*cubeCache, error) {
 	if ok {
 		return c, nil
 	}
-	loaded, err := loadDecks(cube)
+	loaded, err := loadDecks(cube, s.src)
 	if err != nil {
 		return nil, err
 	}
@@ -219,7 +220,7 @@ func (s *deckStore) UpdateDeckMeta(cube, draftID, player, macroArchetype string,
 	return c.lookup[key{player: player, draft: draftID}], nil
 }
 
-func loadDecks(cube string) ([]*Deck, error) {
+func loadDecks(cube string, src types.CubeSource) ([]*Deck, error) {
 	logrus.Info("Loading decks from disk")
 
 	// Load index file.
@@ -248,7 +249,7 @@ func loadDecks(cube string) ([]*Deck, error) {
 	}
 
 	// Overlay the cube's printings and tags onto the hydrated deck cards.
-	overlay := cubeCards(cube)
+	overlay := cubeCards(cube, src)
 	for _, d := range decks {
 		overlayCubeCards(d.Mainboard, overlay)
 		overlayCubeCards(d.Sideboard, overlay)
@@ -263,16 +264,20 @@ type cubeCard struct {
 	tags  []string
 }
 
-// cubeCards maps card name to the data a deck card inherits from the cube's
-// cube.json: the printing (image and Scryfall page) the cube runs and the owner's
+// cubeCards maps card name to the data a deck card inherits from the current
+// cube: the printing (image and Scryfall page) the cube runs and the owner's
 // Cube Cobra tags. Deck cards hydrate from the global oracle dataset, which carries
 // one arbitrary printing per name and no tags; overlaying the cube's data shows the
 // exact printing the cube runs (no dead image links) and lets cctag: filter decks.
-// Returns nil if cube.json is missing.
-func cubeCards(cube string) map[string]cubeCard {
-	c, err := types.LoadCube(fmt.Sprintf("data/%s/cube.json", cube))
+// Returns nil if the cube can't be loaded.
+func cubeCards(cube string, src types.CubeSource) map[string]cubeCard {
+	// Nil outside the server (CLI, tests), where there's no live cube to overlay.
+	if src == nil {
+		return nil
+	}
+	c, err := src.Current(cube)
 	if err != nil {
-		logrus.WithError(err).Warn("Failed to load cube.json; decks will use oracle printings and no tags")
+		logrus.WithError(err).Warn("Failed to load cube; decks will use oracle printings and no tags")
 		return nil
 	}
 	out := make(map[string]cubeCard, len(c.Cards))

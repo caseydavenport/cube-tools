@@ -41,19 +41,20 @@ type PackageStatsResponse struct {
 	Packages       []PackageStat `json:"packages"`
 }
 
-func PackageStatsHandler() http.Handler {
-	return &packageStatsHandler{store: storage.NewFileDeckStoreWithCache()}
+func PackageStatsHandler(src types.CubeSource) http.Handler {
+	return &packageStatsHandler{store: storage.NewFileDeckStoreWithCache(src), src: src}
 }
 
 type packageStatsHandler struct {
 	store storage.DeckStorage
+	src   types.CubeSource
 }
 
 func (h *packageStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 	logrus.Info("/api/stats/packages")
 
 	cubeID := server.CubeFromRequest(r)
-	graph, err := DesignGraphForCube(cubeID)
+	graph, err := DesignGraphForCube(h.src, cubeID)
 	if err != nil {
 		http.Error(rw, "could not load design graph", http.StatusInternalServerError)
 		return
@@ -174,8 +175,8 @@ func packageStats(designGraph DesignGraphResponse, decks []*storage.Deck, conf f
 // EdgesForCube loads a cube's design graph and returns its clustering edges, so
 // the deck filter can ask whether a deck's cards cohere into a package without
 // depending on the stats package's response types.
-func EdgesForCube(cubeID string) ([]graph.Edge, error) {
-	resp, err := DesignGraphForCube(cubeID)
+func EdgesForCube(src types.CubeSource, cubeID string) ([]graph.Edge, error) {
+	resp, err := DesignGraphForCube(src, cubeID)
 	if err != nil {
 		return nil, err
 	}

@@ -1,23 +1,14 @@
 package commands
 
 import (
-	"os"
-	"path/filepath"
 	"testing"
 )
 
 func TestIndexMissingCubeReturnsError(t *testing.T) {
-	// Point the working dir somewhere with no data/<cube> tree; Index should
-	// return an error rather than exit the process.
-	dir := t.TempDir()
-	if err := os.MkdirAll(filepath.Join(dir, "data", "nope"), 0o755); err != nil {
-		t.Fatal(err)
-	}
-	// cube.json is absent, so GenerateCubeJSON fails and Index returns non-nil.
-	cwd, _ := os.Getwd()
-	defer os.Chdir(cwd)
-	os.Chdir(dir)
+	// Point the working dir at a tree with no data/<cube> directory; Index
+	// should return an error rather than exit the process.
+	t.Chdir(t.TempDir())
 	if err := Index("nope"); err == nil {
-		t.Fatal("expected error when cube.json is missing")
+		t.Fatal("expected error when the drafts directory is missing")
 	}
 }

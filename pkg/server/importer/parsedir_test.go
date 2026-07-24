@@ -9,8 +9,7 @@ import (
 )
 
 func TestParseDirHandler(t *testing.T) {
-	root := t.TempDir()
-	writeTestCube(t, root, "polyverse", []string{"Monastery Mentor", "Snapcaster Mage"})
+	src := testCubeSource("polyverse", []string{"Monastery Mentor", "Snapcaster Mage"})
 
 	deckDir := t.TempDir()
 	if err := os.WriteFile(filepath.Join(deckDir, "casey.txt"), []byte("1 Monastery Mentor\n"), 0o644); err != nil {
@@ -21,7 +20,7 @@ func TestParseDirHandler(t *testing.T) {
 	}
 
 	body := ParseDirRequest{Dir: deckDir, Filetype: ".txt"}
-	rw := postJSON(t, ParseDirHandlerWithRoot(root), "polyverse", "/api/polyverse/import/parse-dir", body)
+	rw := postJSON(t, ParseDirHandler(src), "polyverse", "/api/polyverse/import/parse-dir", body)
 	if rw.Code != http.StatusOK {
 		t.Fatalf("status %d: %s", rw.Code, rw.Body.String())
 	}
@@ -35,10 +34,9 @@ func TestParseDirHandler(t *testing.T) {
 }
 
 func TestParseDirHandlerMissingDir(t *testing.T) {
-	root := t.TempDir()
-	writeTestCube(t, root, "polyverse", []string{"Monastery Mentor"})
+	src := testCubeSource("polyverse", []string{"Monastery Mentor"})
 	body := ParseDirRequest{Dir: filepath.Join(t.TempDir(), "nope"), Filetype: ".txt"}
-	rw := postJSON(t, ParseDirHandlerWithRoot(root), "polyverse", "/api/polyverse/import/parse-dir", body)
+	rw := postJSON(t, ParseDirHandler(src), "polyverse", "/api/polyverse/import/parse-dir", body)
 	if rw.Code != http.StatusBadRequest {
 		t.Fatalf("want 400 for missing dir, got %d", rw.Code)
 	}

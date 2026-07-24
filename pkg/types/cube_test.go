@@ -36,15 +36,17 @@ func TestLoadCubeList_FromSnapshot(t *testing.T) {
 	require.Equal(t, 1, c.MaxCopies("Lightning Bolt"))
 }
 
-func TestLoadCubeList_FallsBackToCubeJSON(t *testing.T) {
-	dir := t.TempDir()
-	writeCubeFile(t, filepath.Join(dir, "polyverse", "cube.json"), `{
-		"cards": [{"name": "Brainstorm"}]
-	}`)
+// fakeCubeSource serves a fixed cube list, standing in for the live provider.
+type fakeCubeSource struct{ c *Cube }
 
+func (f fakeCubeSource) Current(string) (*Cube, error) { return f.c, nil }
+func (f fakeCubeSource) Refresh(string) (*Cube, error) { return f.c, nil }
+
+func TestLoadCubeList_FallsBackToLiveCube(t *testing.T) {
 	c, err := LoadCubeList(LoadOptions{
-		DataRoot: dir,
+		DataRoot: t.TempDir(),
 		Cube:     "polyverse",
+		Source:   fakeCubeSource{c: &Cube{Cards: []Card{{Name: "Brainstorm"}}}},
 	})
 	require.NoError(t, err)
 	require.Equal(t, []string{"Brainstorm"}, c.Names())
@@ -67,7 +69,7 @@ func TestLoadCubeList_PicksLatestDate(t *testing.T) {
 
 func TestMaxCopiesCaseInsensitiveNonASCII(t *testing.T) {
 	dir := t.TempDir()
-	writeCubeFile(t, filepath.Join(dir, "cube", "cube.json"), `{
+	writeCubeFile(t, filepath.Join(dir, "cube", "2024-01-01", "cube-snapshot.json"), `{
 		"cards": [
 			{"name": "Lim-Dûl's Vault"},
 			{"name": "Jötun Grunt"}

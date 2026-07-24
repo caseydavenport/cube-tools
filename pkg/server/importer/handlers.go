@@ -2,7 +2,6 @@ package importer
 
 import (
 	"encoding/json"
-	"fmt"
 	"net/http"
 	"strings"
 
@@ -28,26 +27,18 @@ func validID(s string) bool {
 	return s != "" && !strings.ContainsAny(s, `/\`) && !strings.Contains(s, "..")
 }
 
-// cubePath returns data/<cube>/cube.json under dataRoot.
-func cubePath(dataRoot, cube string) string {
-	return fmt.Sprintf("%s/%s/cube.json", dataRoot, cube)
-}
-
 // ImportCardsHandler serves the cube's card list for the import UI's rename
 // autocomplete. Unlike the OCR cards endpoint it isn't scoped to a draft.
-func ImportCardsHandler() http.Handler { return ImportCardsHandlerWithRoot("data") }
-
-// ImportCardsHandlerWithRoot is ImportCardsHandler with an overridable data root.
-func ImportCardsHandlerWithRoot(dataRoot string) http.Handler {
+func ImportCardsHandler(src types.CubeSource) http.Handler {
 	return http.HandlerFunc(func(rw http.ResponseWriter, r *http.Request) {
 		cube := server.CubeFromRequest(r)
 		if cube == "" {
 			http.NotFound(rw, r)
 			return
 		}
-		cl, err := types.LoadCube(cubePath(dataRoot, cube))
+		cl, err := src.Current(cube)
 		if err != nil {
-			http.Error(rw, "no cube list: "+err.Error(), http.StatusInternalServerError)
+			http.Error(rw, "no cube list: "+err.Error(), http.StatusServiceUnavailable)
 			return
 		}
 		cards := []CardInfo{}

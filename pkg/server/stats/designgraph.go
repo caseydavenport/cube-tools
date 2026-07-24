@@ -146,12 +146,12 @@ type DesignGraphGroupEdge struct {
 	Labels []string `json:"labels"`
 }
 
-func DesignGraphHandler() http.Handler {
+func DesignGraphHandler(src types.CubeSource) http.Handler {
 	return http.HandlerFunc(func(rw http.ResponseWriter, r *http.Request) {
 		logrus.Info("/api/stats/design-graph")
 
 		cubeID := server.CubeFromRequest(r)
-		cube, err := types.LoadCube(fmt.Sprintf("data/%s/cube.json", cubeID))
+		cube, err := src.Current(cubeID)
 		if err != nil {
 			http.Error(rw, "could not load cube", http.StatusInternalServerError)
 			return
@@ -185,8 +185,8 @@ func DesignGraphHandler() http.Handler {
 // malformed cube-rules.json is a hard error, not an empty-config fallback, so a
 // caller fails loudly rather than getting an edgeless graph. Paths resolve from
 // the working directory, so run from the repo root.
-func DesignGraphForCube(cubeID string) (DesignGraphResponse, error) {
-	cube, err := types.LoadCube(fmt.Sprintf("data/%s/cube.json", cubeID))
+func DesignGraphForCube(src types.CubeSource, cubeID string) (DesignGraphResponse, error) {
+	cube, err := src.Current(cubeID)
 	if err != nil {
 		return DesignGraphResponse{}, err
 	}
@@ -205,7 +205,9 @@ func DesignGraphForCube(cubeID string) (DesignGraphResponse, error) {
 // a cube's decks. The design graph uses these to widen its edge set so cards cut
 // from the cube still resolve group membership and stay connected on old decks.
 func deckCardNames(cubeID string) ([]string, error) {
-	store := storage.NewFileDeckStoreWithCache()
+	// Only the card names matter here, so the cube overlay (printings, tags) is
+	// irrelevant; skip it with a nil source.
+	store := storage.NewFileDeckStoreWithCache(nil)
 	decks, err := store.List(cubeID, &storage.DecksRequest{})
 	if err != nil {
 		return nil, err
@@ -254,7 +256,7 @@ type DesignGraphMatchResponse struct {
 // DesignGraphMatchHandler handles POST /api/stats/design-graph/match.
 // It accepts {"conditions": ["o:mill", ...], "groups": ["GroupA", ...]} and returns
 // matching cards with per-card condition info.
-func DesignGraphMatchHandler() http.Handler {
+func DesignGraphMatchHandler(src types.CubeSource) http.Handler {
 	return http.HandlerFunc(func(rw http.ResponseWriter, r *http.Request) {
 		if r.Method != http.MethodPost {
 			http.Error(rw, "method not allowed", http.StatusMethodNotAllowed)
@@ -268,7 +270,7 @@ func DesignGraphMatchHandler() http.Handler {
 		}
 
 		cubeID := server.CubeFromRequest(r)
-		cube, err := types.LoadCube(fmt.Sprintf("data/%s/cube.json", cubeID))
+		cube, err := src.Current(cubeID)
 		if err != nil {
 			http.Error(rw, "could not load cube", http.StatusInternalServerError)
 			return
@@ -373,19 +375,20 @@ const distributionMinDeckSize = 20
 // to read as manabase plumbing rather than a strategy.
 const manabaseLandFraction = 0.8
 
-func GroupDistributionsHandler() http.Handler {
-	return &groupDistributionsHandler{store: storage.NewFileDeckStoreWithCache()}
+func GroupDistributionsHandler(src types.CubeSource) http.Handler {
+	return &groupDistributionsHandler{store: storage.NewFileDeckStoreWithCache(src), src: src}
 }
 
 type groupDistributionsHandler struct {
 	store storage.DeckStorage
+	src   types.CubeSource
 }
 
 func (h *groupDistributionsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 	logrus.Info("/api/stats/group-distributions")
 
 	cubeID := server.CubeFromRequest(r)
-	cube, err := types.LoadCube(fmt.Sprintf("data/%s/cube.json", cubeID))
+	cube, err := h.src.Current(cubeID)
 	if err != nil {
 		http.Error(rw, "could not load cube", http.StatusInternalServerError)
 		return

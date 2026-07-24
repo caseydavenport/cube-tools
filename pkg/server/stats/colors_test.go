@@ -36,7 +36,7 @@ func TestColorStats_WinPercent(t *testing.T) {
 		}),
 	}
 
-	handler := &colorStatsHandler{store: &mockDeckStorage{decks: decks}}
+	handler := &colorStatsHandler{store: &mockDeckStorage{decks: decks}, src: testCubeSource{}}
 	req := httptest.NewRequest(http.MethodGet, "/api/stats/colors", nil)
 	rr := httptest.NewRecorder()
 	handler.ServeHTTP(rr, req)
@@ -68,7 +68,7 @@ func TestColorStats_MultipleColors(t *testing.T) {
 		}),
 	}
 
-	handler := &colorStatsHandler{store: &mockDeckStorage{decks: decks}}
+	handler := &colorStatsHandler{store: &mockDeckStorage{decks: decks}, src: testCubeSource{}}
 	req := httptest.NewRequest(http.MethodGet, "/api/stats/colors", nil)
 	rr := httptest.NewRecorder()
 	handler.ServeHTTP(rr, req)
@@ -100,7 +100,7 @@ func TestColorStats_Trophies(t *testing.T) {
 		}),
 	}
 
-	handler := &colorStatsHandler{store: &mockDeckStorage{decks: decks}}
+	handler := &colorStatsHandler{store: &mockDeckStorage{decks: decks}, src: testCubeSource{}}
 	req := httptest.NewRequest(http.MethodGet, "/api/stats/colors", nil)
 	rr := httptest.NewRecorder()
 	handler.ServeHTTP(rr, req)
@@ -131,7 +131,7 @@ func TestColorStats_TopBottomHalf(t *testing.T) {
 		}, []types.Card{{Name: "Bolt", Colors: []string{"R"}}}),
 	}
 
-	handler := &colorStatsHandler{store: &mockDeckStorage{decks: decks}}
+	handler := &colorStatsHandler{store: &mockDeckStorage{decks: decks}, src: testCubeSource{}}
 	req := httptest.NewRequest(http.MethodGet, "/api/stats/colors", nil)
 	rr := httptest.NewRecorder()
 	handler.ServeHTTP(rr, req)
@@ -153,7 +153,7 @@ func TestColorStats_BuildPercent(t *testing.T) {
 		makeColorDeck("Charlie", []string{"R"}, nil, nil, []types.Card{{Name: "Bolt", Colors: []string{"R"}}}),
 	}
 
-	handler := &colorStatsHandler{store: &mockDeckStorage{decks: decks}}
+	handler := &colorStatsHandler{store: &mockDeckStorage{decks: decks}, src: testCubeSource{}}
 	req := httptest.NewRequest(http.MethodGet, "/api/stats/colors", nil)
 	rr := httptest.NewRecorder()
 	handler.ServeHTTP(rr, req)
@@ -202,7 +202,7 @@ func TestColorStats_InclusivePercentagesSumTo100(t *testing.T) {
 			}),
 	}
 
-	handler := &colorStatsHandler{store: &mockDeckStorage{decks: decks}}
+	handler := &colorStatsHandler{store: &mockDeckStorage{decks: decks}, src: testCubeSource{}}
 	req := httptest.NewRequest(http.MethodGet, "/api/stats/colors?color_mode=inclusive", nil)
 	rr := httptest.NewRecorder()
 	handler.ServeHTTP(rr, req)
@@ -252,7 +252,7 @@ func TestColorStats_PrimaryModeNoDoubleCounting(t *testing.T) {
 		}, mb),
 	}
 
-	handler := &colorStatsHandler{store: &mockDeckStorage{decks: decks}}
+	handler := &colorStatsHandler{store: &mockDeckStorage{decks: decks}, src: testCubeSource{}}
 	req := httptest.NewRequest(http.MethodGet, "/api/stats/colors?color_mode=primary", nil)
 	rr := httptest.NewRecorder()
 	handler.ServeHTTP(rr, req)
@@ -274,7 +274,7 @@ func TestColorStats_PrimaryModeNoDoubleCounting(t *testing.T) {
 }
 
 func TestColorStats_NoDecks(t *testing.T) {
-	handler := &colorStatsHandler{store: &mockDeckStorage{decks: nil}}
+	handler := &colorStatsHandler{store: &mockDeckStorage{decks: nil}, src: testCubeSource{}}
 	req := httptest.NewRequest(http.MethodGet, "/api/stats/colors", nil)
 	rr := httptest.NewRecorder()
 	handler.ServeHTTP(rr, req)

@@ -2,9 +2,9 @@ package commands
 
 import (
 	"crypto/sha256"
+	"encoding/json"
 	"fmt"
 	"os"
-	"os/exec"
 	"strings"
 
 	"github.com/caseydavenport/cube-tools/pkg/flag"
@@ -252,30 +252,33 @@ func parseDeckDir(deckDir, fileType, date, draftID string) {
 }
 
 func writeCubeSnapshot(cube, outdir string) error {
-	snaptshotFilename := fmt.Sprintf("%s/cube-snapshot.json", outdir)
-	if _, err := os.Stat(snaptshotFilename); err != nil {
-		// Write the cube-snapshot file to the draft directory if it doesn't exist already.
-		//
-		// This ensures we have a snapshot of the cube as it was on this date
-		// for historical tracking and comparisons.
-		// TODO: This is a bit of a hack, and assumes this command is being run
-		// within the root of this project. That's OK for now since I am the only user.
-		cmd := exec.Command("cp", fmt.Sprintf("data/%s/cube.json", cube), snaptshotFilename)
-		if err := cmd.Run(); err != nil {
-			return err
-		}
+	snapshotFilename := fmt.Sprintf("%s/cube-snapshot.json", outdir)
+	if _, err := os.Stat(snapshotFilename); err == nil {
+		// Already snapshotted for this draft; leave it be.
+		return nil
 	}
-	return nil
+
+	// Snapshot the cube as it is now, live from Cube Cobra, for historical
+	// tracking and comparisons.
+	c, err := liveCube(cube)
+	if err != nil {
+		return err
+	}
+	data, err := json.MarshalIndent(c, "", "  ")
+	if err != nil {
+		return err
+	}
+	return os.WriteFile(snapshotFilename, data, 0o644)
 }
 
 // checkDraftConsistency checks that the seen cards in the draft match the expected counts based on the latest cube snapshot.
 func checkDraftConsistency(logc *logrus.Entry, cubeID string, seenInDraft map[string]int) error {
 	passed := true
 
-	// Load the cube snapshot and count the number of unique cards we expect to see.
-	cube, err := types.LoadCube(fmt.Sprintf("data/%s/cube.json", cubeID))
+	// Load the current cube from Cube Cobra and count the unique cards we expect to see.
+	cube, err := liveCube(cubeID)
 	if err != nil {
-		logc.WithError(err).Fatal("Failed to load cube snapshot.")
+		logc.WithError(err).Fatal("Failed to load cube.")
 	}
 
 	// Count the number of unique cards in the cube (and track duplicates).

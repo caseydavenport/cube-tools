@@ -7,14 +7,13 @@ import (
 )
 
 func TestCheckHandlerReportsOverCopies(t *testing.T) {
-	root := t.TempDir()
-	writeTestCube(t, root, "polyverse", []string{"Monastery Mentor"})
+	src := testCubeSource("polyverse", []string{"Monastery Mentor"})
 
 	body := CheckRequest{Decks: []ParsedDeck{{
 		Player:    "casey",
 		Mainboard: []CountedCard{{Name: "Monastery Mentor", Count: 2}},
 	}}}
-	rw := postJSON(t, CheckHandlerWithRoot(root), "polyverse", "/api/polyverse/import/check", body)
+	rw := postJSON(t, CheckHandler(src), "polyverse", "/api/polyverse/import/check", body)
 	if rw.Code != http.StatusOK {
 		t.Fatalf("status %d: %s", rw.Code, rw.Body.String())
 	}

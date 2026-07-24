@@ -1,7 +1,6 @@
 package commands
 
 import (
-	"encoding/csv"
 	"encoding/json"
 	"fmt"
 	"os"
@@ -9,7 +8,6 @@ import (
 	"strings"
 
 	"github.com/caseydavenport/cube-tools/pkg/cubes"
-	"github.com/caseydavenport/cube-tools/pkg/types"
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 )
@@ -111,12 +109,6 @@ func Index(cube string) error {
 		return fmt.Errorf("write JSON data to file: %w", err)
 	}
 
-	// As part of re-indexing, parse cube.csv into cube.json so the UI can read
-	// it directly.
-	if _, err := GenerateCubeJSON(cube); err != nil {
-		return fmt.Errorf("generate cube.json: %w", err)
-	}
-
 	logrus.Debug("Finished indexing all drafts")
 	return nil
 }
@@ -134,101 +126,6 @@ func cubeCobraID(cube string) string {
 		return ""
 	}
 	return meta.CubeCobraID
-}
-
-// GenerateCubeJSON reads data/{cube}/cube.csv, enriches it with Cube Cobra draft
-// Elo and printings when the cube has a Cube Cobra id, and writes
-// data/{cube}/cube.json. It returns the number of mainboard cards written.
-func GenerateCubeJSON(cube string) (int, error) {
-	cards, _, err := cardsFromCSV(fmt.Sprintf("data/%s/cube.csv", cube))
-	if err != nil {
-		return 0, fmt.Errorf("parse cube.csv: %w", err)
-	}
-	if ccID := cubeCobraID(cube); ccID != "" {
-		if ccCards, err := fetchCubeCobraCards(ccBaseURL, ccID); err != nil {
-			logrus.WithError(err).Warn("Failed to fetch Cube Cobra data; cube.json will omit draft Elo and printings")
-		} else {
-			matched := mergeCubeCobra(cards, ccCards)
-			logrus.Infof("Merged Cube Cobra data for %d/%d cards", matched, len(cards))
-		}
-	}
-
-	bytes, err := json.MarshalIndent(types.Cube{Cards: cards}, "", " ")
-	if err != nil {
-		return 0, err
-	}
-	if err := os.WriteFile(fmt.Sprintf("data/%s/cube.json", cube), bytes, os.ModePerm); err != nil {
-		return 0, err
-	}
-	return len(cards), nil
-}
-
-// RefreshCube pulls the cube's current mainboard from Cube Cobra, rewrites
-// data/{cube}/cube.csv from it, and regenerates cube.json. It returns the number
-// of cards written.
-func RefreshCube(cube, ccID string) (int, error) {
-	ccCube, err := fetchCubeCobra(ccBaseURL, ccID)
-	if err != nil {
-		return 0, err
-	}
-	if err := writeCubeCSV(cube, ccCube.mainboardNames()); err != nil {
-		return 0, err
-	}
-	return GenerateCubeJSON(cube)
-}
-
-// mergeCubeCobra overlays Cube Cobra draft Elo and printings onto cards, keyed
-// by name. It returns the number of cards matched.
-func mergeCubeCobra(cards []types.Card, ccCards map[string]ccCardInfo) int {
-	matched := 0
-	for i := range cards {
-		info, ok := ccCards[cards[i].Name]
-		if !ok {
-			// Cube Cobra keys double-faced cards by their front-face name,
-			// while our cube list uses the full "Front // Back" name. Retry
-			// on the front face.
-			if front, _, found := strings.Cut(cards[i].Name, " // "); found {
-				info, ok = ccCards[strings.TrimSpace(front)]
-			}
-		}
-		if !ok {
-			continue
-		}
-		cards[i].DraftELO = info.elo
-
-		// Prefer the printing the cube owner picked on Cube Cobra over
-		// whatever printing our oracle bulk happens to carry.
-		if info.image != "" {
-			cards[i].Image = info.image
-		}
-		if info.url != "" {
-			cards[i].URL = info.url
-		}
-		cards[i].Tags = info.tags
-		matched++
-	}
-	return matched
-}
-
-// writeCubeCSV writes data/{cube}/cube.csv as a name-per-row list.
-func writeCubeCSV(cube string, names []string) error {
-	f, err := os.Create(fmt.Sprintf("data/%s/cube.csv", cube))
-	if err != nil {
-		return err
-	}
-	defer f.Close()
-
-	w := csv.NewWriter(f)
-	if err := w.Write([]string{"name"}); err != nil {
-		return err
-	}
-	for _, name := range names {
-		if err := w.Write([]string{name}); err != nil {
-			return err
-		}
-	}
-	w.Flush()
-	return w.Error()
 }
 
 // decksInDraft returns a []Path pointing to all the decks in the given directory.

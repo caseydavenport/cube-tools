@@ -2,7 +2,6 @@ package stats
 
 import (
 	"encoding/json"
-	"fmt"
 	"math"
 	"net/http"
 	"sort"
@@ -46,14 +45,16 @@ func parseHealthRequest(r *http.Request) *HealthStatsRequest {
 	return &p
 }
 
-func HealthStatsHandler() http.Handler {
+func HealthStatsHandler(src types.CubeSource) http.Handler {
 	return &healthStatsHandler{
-		store: storage.NewFileDeckStoreWithCache(),
+		store: storage.NewFileDeckStoreWithCache(src),
+		src:   src,
 	}
 }
 
 type healthStatsHandler struct {
 	store storage.DeckStorage
+	src   types.CubeSource
 }
 
 func (h *healthStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
@@ -68,7 +69,7 @@ func (h *healthStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) 
 	}
 
 	cubeCards := make(map[string]types.Card)
-	cube, err := types.LoadCube(fmt.Sprintf("data/%s/cube.json", cubeID))
+	cube, err := h.src.Current(cubeID)
 	if err == nil {
 		for _, c := range cube.Cards {
 			cubeCards[c.Name] = c

@@ -2,7 +2,6 @@ package stats
 
 import (
 	"encoding/json"
-	"fmt"
 	"math"
 	"net/http"
 	"strings"
@@ -52,14 +51,16 @@ type opponentWinAccum struct {
 	totalMatches int
 }
 
-func PlayerStatsHandler() http.Handler {
+func PlayerStatsHandler(src types.CubeSource) http.Handler {
 	return &playerStatsHandler{
-		store: storage.NewFileDeckStoreWithCache(),
+		store: storage.NewFileDeckStoreWithCache(src),
+		src:   src,
 	}
 }
 
 type playerStatsHandler struct {
 	store storage.DeckStorage
+	src   types.CubeSource
 }
 
 func (s *playerStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
@@ -74,7 +75,7 @@ func (s *playerStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) 
 	}
 
 	cubeCards := make(map[string]types.Card)
-	cube, err := types.LoadCube(fmt.Sprintf("data/%s/cube.json", cubeID))
+	cube, err := s.src.Current(cubeID)
 	if err == nil {
 		for _, c := range cube.Cards {
 			cubeCards[c.Name] = c

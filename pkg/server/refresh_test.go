@@ -7,6 +7,7 @@ import (
 	"path/filepath"
 	"testing"
 
+	"github.com/caseydavenport/cube-tools/pkg/commands"
 	"github.com/caseydavenport/cube-tools/pkg/cubes"
 )
 
@@ -24,13 +25,15 @@ func TestRefreshHandlerNoCubeCobraID(t *testing.T) {
 		t.Fatal(err)
 	}
 
+	provider := commands.NewCubeProvider(reg)
 	mux := http.NewServeMux()
-	mux.Handle("POST /api/{cube}/refresh", WithCube(reg, RefreshHandler(reg)))
+	mux.Handle("POST /api/{cube}/refresh", WithCube(reg, RefreshHandler(provider)))
 
 	rec := httptest.NewRecorder()
 	mux.ServeHTTP(rec, httptest.NewRequest(http.MethodPost, "/api/plain/refresh", nil))
 
-	if rec.Code != http.StatusBadRequest {
-		t.Fatalf("status = %d, want 400", rec.Code)
+	// The cube has no Cube Cobra id, so the provider can't refresh it.
+	if rec.Code != http.StatusBadGateway {
+		t.Fatalf("status = %d, want 502", rec.Code)
 	}
 }

@@ -597,7 +597,7 @@ func TestDesignGraphForCube(t *testing.T) {
 	// data/ paths resolve from the repo root, three levels up from this package.
 	t.Chdir("../../..")
 
-	resp, err := DesignGraphForCube("polyverse")
+	resp, err := DesignGraphForCube(testCubeSource{}, "polyverse")
 	require.NoError(t, err)
 	require.NotEmpty(t, resp.Nodes, "expected card nodes from the polyverse cube")
 	require.NotEmpty(t, resp.Edges, "expected rule-derived edges from cube-rules.json")

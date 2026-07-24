@@ -17,6 +17,18 @@ type Cube struct {
 	counts map[string]int
 }
 
+// CubeSource provides cube card lists to the server. The server backs it with
+// the CubeCobra-fed provider and injects it into handlers, rather than reaching
+// for a package global.
+type CubeSource interface {
+	// Current returns the cube's card list, cached copy included.
+	Current(cube string) (*Cube, error)
+
+	// Refresh force-fetches the cube's card list, bypassing any cache. Used to
+	// snapshot the cube when a new draft is created.
+	Refresh(cube string) (*Cube, error)
+}
+
 // LoadOptions selects which cube list to load from disk.
 type LoadOptions struct {
 	// DataRoot is the path to the repo's data directory.
@@ -27,6 +39,10 @@ type LoadOptions struct {
 
 	// Date is a YYYY-MM-DD snapshot date; empty means the latest snapshot.
 	Date string
+
+	// Source, when set, supplies the live cube list to fall back on if no
+	// snapshot exists on disk.
+	Source CubeSource
 }
 
 // LoadCube reads a single cube file at path.
@@ -72,13 +88,11 @@ func LoadCubeList(opts LoadOptions) (*Cube, error) {
 		return LoadCube(path)
 	}
 
-	// Fall back to the un-snapshotted cube.json.
-	path = filepath.Join(cubeDir, "cube.json")
-	c, err := LoadCube(path)
-	if err != nil {
-		return nil, fmt.Errorf("no cube list found for %q: %w", opts.Cube, err)
+	// No snapshot yet, so fall back to the live cube from CubeCobra.
+	if opts.Source != nil {
+		return opts.Source.Current(opts.Cube)
 	}
-	return c, nil
+	return nil, fmt.Errorf("no cube list found for %q", opts.Cube)
 }
 
 // Names returns the unique card names in iteration order of first appearance.

@@ -45,10 +45,10 @@ func buildDeck(d ParsedDeck, date, draftID string) *types.Deck {
 }
 
 // CommitHandler writes a reviewed draft to disk and reindexes.
-func CommitHandler() http.Handler { return CommitHandlerWithRoot("data") }
+func CommitHandler(src types.CubeSource) http.Handler { return CommitHandlerWithRoot(src, "data") }
 
 // CommitHandlerWithRoot is CommitHandler with an overridable data root.
-func CommitHandlerWithRoot(dataRoot string) http.Handler {
+func CommitHandlerWithRoot(src types.CubeSource, dataRoot string) http.Handler {
 	return http.HandlerFunc(func(rw http.ResponseWriter, r *http.Request) {
 		cube := server.CubeFromRequest(r)
 		if cube == "" {
@@ -74,6 +74,21 @@ func CommitHandlerWithRoot(dataRoot string) http.Handler {
 			http.Error(rw, "draft already exists", http.StatusConflict)
 			return
 		}
+
+		// Snapshot the cube as it is right now, straight from Cube Cobra, before
+		// creating anything. If that fetch fails we don't want a half-written
+		// draft with no snapshot, so block the whole commit.
+		cl, err := src.Refresh(cube)
+		if err != nil {
+			http.Error(rw, "could not snapshot cube: "+err.Error(), http.StatusBadGateway)
+			return
+		}
+		snapshot, err := json.Marshal(cl)
+		if err != nil {
+			http.Error(rw, "internal server error", http.StatusInternalServerError)
+			return
+		}
+
 		if err := os.MkdirAll(outdir, os.ModePerm); err != nil {
 			http.Error(rw, "internal server error", http.StatusInternalServerError)
 			return
@@ -85,9 +100,9 @@ func CommitHandlerWithRoot(dataRoot string) http.Handler {
 			return
 		}
 
-		// Snapshot the cube as it is now, for historical comparisons.
-		if src, err := os.ReadFile(cubePath(dataRoot, cube)); err == nil {
-			_ = os.WriteFile(filepath.Join(outdir, "cube-snapshot.json"), src, 0o644)
+		if err := os.WriteFile(filepath.Join(outdir, "cube-snapshot.json"), snapshot, 0o644); err != nil {
+			http.Error(rw, "internal server error", http.StatusInternalServerError)
+			return
 		}
 
 		for _, pd := range req.Decks {

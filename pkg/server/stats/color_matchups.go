@@ -9,6 +9,7 @@ import (
 	"github.com/caseydavenport/cube-tools/pkg/server"
 	"github.com/caseydavenport/cube-tools/pkg/server/decks"
 	"github.com/caseydavenport/cube-tools/pkg/storage"
+	"github.com/caseydavenport/cube-tools/pkg/types"
 	"github.com/sirupsen/logrus"
 )
 
@@ -23,9 +24,9 @@ type MatchupRecord struct {
 	WinPct float64 `json:"win_pct"`
 }
 
-func ColorMatchupHandler() http.Handler {
+func ColorMatchupHandler(src types.CubeSource) http.Handler {
 	return &colorMatchupHandler{
-		store: storage.NewFileDeckStoreWithCache(),
+		store: storage.NewFileDeckStoreWithCache(src),
 	}
 }
 

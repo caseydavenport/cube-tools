@@ -15,10 +15,7 @@ type CheckRequest struct {
 }
 
 // CheckHandler re-runs the consistency check on edited decks.
-func CheckHandler() http.Handler { return CheckHandlerWithRoot("data") }
-
-// CheckHandlerWithRoot is CheckHandler with an overridable data root.
-func CheckHandlerWithRoot(dataRoot string) http.Handler {
+func CheckHandler(src types.CubeSource) http.Handler {
 	return http.HandlerFunc(func(rw http.ResponseWriter, r *http.Request) {
 		cube := server.CubeFromRequest(r)
 		if cube == "" {
@@ -30,9 +27,9 @@ func CheckHandlerWithRoot(dataRoot string) http.Handler {
 			http.Error(rw, "invalid request", http.StatusBadRequest)
 			return
 		}
-		cl, err := types.LoadCube(cubePath(dataRoot, cube))
+		cl, err := src.Current(cube)
 		if err != nil {
-			http.Error(rw, "no cube list: "+err.Error(), http.StatusInternalServerError)
+			http.Error(rw, "no cube list: "+err.Error(), http.StatusServiceUnavailable)
 			return
 		}
 		writeJSON(rw, CheckConsistency(cl, req.Decks))

@@ -6,6 +6,7 @@ import (
 
 	"github.com/caseydavenport/cube-tools/pkg/server/decks"
 	"github.com/caseydavenport/cube-tools/pkg/storage"
+	"github.com/caseydavenport/cube-tools/pkg/types"
 	"github.com/sirupsen/logrus"
 )
 
@@ -24,9 +25,9 @@ type VersusData struct {
 	Loss int    `json:"loss"`
 }
 
-func ArchetypesHandler() http.Handler {
+func ArchetypesHandler(src types.CubeSource) http.Handler {
 	return &archetypesHandler{
-		store: storage.NewFileDeckStore(),
+		store: storage.NewFileDeckStore(src),
 	}
 }
 

@@ -28,10 +28,7 @@ func playerFromFilename(name, prefix string) string {
 }
 
 // ParseDirHandler parses every matching deck file in a server-side directory.
-func ParseDirHandler() http.Handler { return ParseDirHandlerWithRoot("data") }
-
-// ParseDirHandlerWithRoot is ParseDirHandler with an overridable data root.
-func ParseDirHandlerWithRoot(dataRoot string) http.Handler {
+func ParseDirHandler(src types.CubeSource) http.Handler {
 	return http.HandlerFunc(func(rw http.ResponseWriter, r *http.Request) {
 		cube := server.CubeFromRequest(r)
 		if cube == "" {
@@ -79,9 +76,9 @@ func ParseDirHandlerWithRoot(dataRoot string) http.Handler {
 			decks = append(decks, d)
 		}
 
-		cl, err := types.LoadCube(cubePath(dataRoot, cube))
+		cl, err := src.Current(cube)
 		if err != nil {
-			http.Error(rw, "no cube list: "+err.Error(), http.StatusInternalServerError)
+			http.Error(rw, "no cube list: "+err.Error(), http.StatusServiceUnavailable)
 			return
 		}
 		writeJSON(rw, ParseResponse{Decks: decks, Report: CheckConsistency(cl, decks)})

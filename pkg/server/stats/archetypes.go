@@ -2,7 +2,6 @@ package stats
 
 import (
 	"encoding/json"
-	"fmt"
 	"math"
 	"net/http"
 
@@ -41,14 +40,16 @@ type ArchetypeStats struct {
 	wordCountCount int
 }
 
-func ArchetypeStatsHandler() http.Handler {
+func ArchetypeStatsHandler(src types.CubeSource) http.Handler {
 	return &archetypeStatsHandler{
-		store: storage.NewFileDeckStoreWithCache(),
+		store: storage.NewFileDeckStoreWithCache(src),
+		src:   src,
 	}
 }
 
 type archetypeStatsHandler struct {
 	store storage.DeckStorage
+	src   types.CubeSource
 }
 
 func (s *archetypeStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
@@ -63,7 +64,7 @@ func (s *archetypeStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Reques
 	}
 
 	cubeCards := make(map[string]types.Card)
-	cube, err := types.LoadCube(fmt.Sprintf("data/%s/cube.json", cubeID))
+	cube, err := s.src.Current(cubeID)
 	if err == nil {
 		for _, c := range cube.Cards {
 			cubeCards[c.Name] = c

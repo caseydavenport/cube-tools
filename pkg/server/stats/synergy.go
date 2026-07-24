@@ -2,7 +2,6 @@ package stats
 
 import (
 	"encoding/json"
-	"fmt"
 	"net/http"
 	"sort"
 	"strconv"
@@ -155,14 +154,16 @@ func filterByRecord(in []*storage.Deck, record string) []*storage.Deck {
 	return out
 }
 
-func SynergyStatsHandler() http.Handler {
+func SynergyStatsHandler(src types.CubeSource) http.Handler {
 	return &synergyStatsHandler{
-		store: storage.NewFileDeckStoreWithCache(),
+		store: storage.NewFileDeckStoreWithCache(src),
+		src:   src,
 	}
 }
 
 type synergyStatsHandler struct {
 	store storage.DeckStorage
+	src   types.CubeSource
 }
 
 func (s *synergyStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
@@ -171,7 +172,7 @@ func (s *synergyStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request)
 
 	// Load the current cube to filter cards.
 	cubeID := server.CubeFromRequest(r)
-	cube, err := types.LoadCube(fmt.Sprintf("data/%s/cube.json", cubeID))
+	cube, err := s.src.Current(cubeID)
 	if err != nil {
 		http.Error(rw, "could not load cube", http.StatusInternalServerError)
 		return

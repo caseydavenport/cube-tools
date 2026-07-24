@@ -46,7 +46,7 @@ func TestUpdateDeckMeta(t *testing.T) {
 		Colors:    []string{"W"},
 	})
 
-	s := NewFileDeckStoreWithCache()
+	s := NewFileDeckStoreWithCache(nil)
 	updated, err := s.UpdateDeckMeta("testcube", "2025-01-01_d1", "p1",
 		"control", []string{"removal", "wraths"}, []string{"W", "U"})
 	require.NoError(t, err)
@@ -71,7 +71,7 @@ func TestUpdateDeckMeta_ClearsColorOverride(t *testing.T) {
 		Colors:    []string{"W"},
 	})
 
-	s := NewFileDeckStoreWithCache()
+	s := NewFileDeckStoreWithCache(nil)
 	_, err := s.UpdateDeckMeta("testcube", "2025-01-01_d1", "p1", "", nil, []string{})
 	require.NoError(t, err)
 
@@ -90,7 +90,7 @@ func TestUpdateDeckMeta_UnknownDeck(t *testing.T) {
 		Mainboard: []types.Card{{Name: "Wrath of God"}},
 	})
 
-	s := NewFileDeckStoreWithCache()
+	s := NewFileDeckStoreWithCache(nil)
 	_, err := s.UpdateDeckMeta("testcube", "2025-01-01_d1", "nobody", "control", nil, nil)
 	require.ErrorIs(t, err, ErrDeckNotFound)
 }

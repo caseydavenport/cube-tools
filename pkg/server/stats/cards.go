@@ -2,7 +2,6 @@ package stats
 
 import (
 	"encoding/json"
-	"fmt"
 	"math"
 	"net/http"
 	"slices"
@@ -78,14 +77,16 @@ func parseCardsRequest(r *http.Request) *CardStatsRequest {
 	return &p
 }
 
-func CardStatsHandler() http.Handler {
+func CardStatsHandler(src types.CubeSource) http.Handler {
 	return &cardStatsHandler{
-		store: storage.NewFileDeckStoreWithCache(),
+		store: storage.NewFileDeckStoreWithCache(src),
+		src:   src,
 	}
 }
 
 type cardStatsHandler struct {
 	store storage.DeckStorage
+	src   types.CubeSource
 }
 
 func (d *cardStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
@@ -98,7 +99,7 @@ func (d *cardStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 	// not curerently in the cube.
 	cubeID := server.CubeFromRequest(r)
 	cubeCards := make(map[string]types.Card)
-	cube, err := types.LoadCube(fmt.Sprintf("data/%s/cube.json", cubeID))
+	cube, err := d.src.Current(cubeID)
 	if err != nil {
 		http.Error(rw, "could not load cube", http.StatusInternalServerError)
 		return

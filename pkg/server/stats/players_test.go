@@ -40,7 +40,7 @@ func TestPlayerStats_OpponentWinPercent_Weighted(t *testing.T) {
 	})
 	d2.OpponentWinPercentage = 40
 
-	handler := &playerStatsHandler{store: &mockDeckStorage{decks: []*storage.Deck{d1, d2}}}
+	handler := &playerStatsHandler{store: &mockDeckStorage{decks: []*storage.Deck{d1, d2}}, src: testCubeSource{}}
 	req := httptest.NewRequest(http.MethodGet, "/api/stats/players", nil)
 	rr := httptest.NewRecorder()
 	handler.ServeHTTP(rr, req)
@@ -77,7 +77,7 @@ func TestPlayerStats_BasicAggregation(t *testing.T) {
 		{Opponent: "Grace", Winner: "Grace"},
 	})
 
-	handler := &playerStatsHandler{store: &mockDeckStorage{decks: []*storage.Deck{d1, d2}}}
+	handler := &playerStatsHandler{store: &mockDeckStorage{decks: []*storage.Deck{d1, d2}}, src: testCubeSource{}}
 	req := httptest.NewRequest(http.MethodGet, "/api/stats/players", nil)
 	rr := httptest.NewRecorder()
 	handler.ServeHTTP(rr, req)

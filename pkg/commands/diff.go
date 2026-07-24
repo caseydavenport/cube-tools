@@ -45,20 +45,23 @@ var DiffCubeCmd = &cobra.Command{
 		if from == "" {
 			logrus.Fatal("Must specify a cube file to diff from.")
 		}
-		fromPath := fmt.Sprintf("data/%s/%s/cube-snapshot.json", cubeFlag, from)
-
-		toPath := fmt.Sprintf("data/%s/%s/cube-snapshot.json", cubeFlag, to)
-		if to == "" {
-			// If no "to" draft is specified, diff against the current cube.
-			toPath = fmt.Sprintf("data/%s/cube.json", cubeFlag)
-		}
-
-		// Diff the cubes.
-		diff, err := diffCubes(fromPath, toPath)
+		fromCube, err := loadCubeFile(fmt.Sprintf("data/%s/%s/cube-snapshot.json", cubeFlag, from))
 		if err != nil {
-			logrus.WithError(err).Fatal("Failed to diff cubes")
+			logrus.WithError(err).Fatal("Failed to load 'from' cube")
 		}
-		diff.Print()
+
+		// Without a "to" draft, diff against the current cube live from Cube Cobra.
+		var toCube *types.Cube
+		if to == "" {
+			toCube, err = liveCube(cubeFlag)
+		} else {
+			toCube, err = loadCubeFile(fmt.Sprintf("data/%s/%s/cube-snapshot.json", cubeFlag, to))
+		}
+		if err != nil {
+			logrus.WithError(err).Fatal("Failed to load 'to' cube")
+		}
+
+		diffCubes(fromCube, toCube).Print()
 	},
 }
 
@@ -98,17 +101,8 @@ func (d *cubeDiff) Print() {
 	}
 }
 
-// diffCubes compares two cube files and returns the difference between them.
-func diffCubes(fromPath, toPath string) (*cubeDiff, error) {
-	fromCube, err := loadCubeFile(fromPath)
-	if err != nil {
-		return nil, err
-	}
-	toCube, err := loadCubeFile(toPath)
-	if err != nil {
-		return nil, err
-	}
-
+// diffCubes compares two cubes and returns the difference between them.
+func diffCubes(fromCube, toCube *types.Cube) *cubeDiff {
 	// Build maps of card names for each cube.
 	fromMap := make(map[string]int)
 	for _, card := range fromCube.Cards {
@@ -160,7 +154,7 @@ func diffCubes(fromPath, toPath string) (*cubeDiff, error) {
 	return &cubeDiff{
 		Added:   added,
 		Removed: removed,
-	}, nil
+	}
 }
 
 func loadCubeFile(filename string) (*types.Cube, error) {

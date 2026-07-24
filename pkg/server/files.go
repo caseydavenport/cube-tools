@@ -1,11 +1,13 @@
 package server
 
 import (
+	"encoding/json"
 	"net/http"
 	"os"
 	"path/filepath"
 	"strings"
 
+	"github.com/caseydavenport/cube-tools/pkg/types"
 	"github.com/sirupsen/logrus"
 )
 
@@ -22,8 +24,25 @@ func cubeFileHandler(name string) http.Handler {
 	})
 }
 
-// CubeContentHandler serves data/{cube}/cube.json.
-func CubeContentHandler() http.Handler { return cubeFileHandler("cube.json") }
+// CubeContentHandler serves the cube's current card list, sourced live from
+// Cube Cobra via the injected source rather than a file on disk.
+func CubeContentHandler(src types.CubeSource) http.Handler {
+	return http.HandlerFunc(func(rw http.ResponseWriter, r *http.Request) {
+		cube := CubeFromRequest(r)
+		if cube == "" {
+			http.NotFound(rw, r)
+			return
+		}
+		c, err := src.Current(cube)
+		if err != nil {
+			logrus.WithError(err).WithField("cube", cube).Error("Failed to load cube from Cube Cobra")
+			http.Error(rw, err.Error(), http.StatusServiceUnavailable)
+			return
+		}
+		rw.Header().Set("Content-Type", "application/json")
+		_ = json.NewEncoder(rw).Encode(c)
+	})
+}
 
 // CubeIndexHandler serves data/{cube}/index.json.
 func CubeIndexHandler() http.Handler { return cubeFileHandler("index.json") }
