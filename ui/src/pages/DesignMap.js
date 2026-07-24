@@ -897,7 +897,7 @@ export function CardSynergyMap({ cards, edges, links }) {
     const max = Math.max(1, ...Object.values(degree))
     const sn = [...names].map(n => ({
       id: n,
-      radius: Math.max(6, Math.min(18, 6 + ((degree[n] || 0) / max) * 12)),
+      radius: Math.max(5, Math.min(12, 5 + ((degree[n] || 0) / max) * 7)),
       color: getNodeColor((byName.get(n) || {}).colors),
       communityColor: analytics.communityColorOf[n] || NEUTRAL,
       label: n,
@@ -2015,11 +2015,11 @@ function ForceGraph({ nodes, edges, showLabels, colorBy, hoveredId, selectedId, 
     if (!fg) return
     fg.d3Force("x", forceX(0).strength(0.07))
     fg.d3Force("y", forceY(0).strength(0.07))
-    fg.d3Force("collide", forceCollide(n => (n.radius || 6) + 4))
+    fg.d3Force("collide", forceCollide(n => (n.radius || 6) + 14))
     const charge = fg.d3Force("charge")
-    if (charge) charge.strength(-180)
+    if (charge) charge.strength(-220)
     const link = fg.d3Force("link")
-    if (link) link.distance(38)
+    if (link) link.distance(46)
     fg.d3ReheatSimulation()
   }, [graphData])
 
