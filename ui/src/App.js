@@ -7,6 +7,7 @@ import { PlayersPage } from './pages/PlayersPage.js'
 import { DraftsPage } from './pages/DraftsPage.js'
 import { ExplorePage } from './pages/ExplorePage.js'
 import { RemovalPage } from './pages/RemovalPage.js'
+import { Packages } from './pages/Packages.js'
 import { DesignEditorPage } from './pages/DesignEditorPage.js'
 import {InitialDates} from './components/StatsUI.js'
 import { useState } from "react";
@@ -97,6 +98,7 @@ export default function Main() {
           <Route path='colors' element={<StatsViewer view='colors' {...statsProps} />} />
           <Route path='explore' element={<ExplorePage {...statsProps} />} />
           <Route path='removal' element={<RemovalPage />} />
+          <Route path='packages' element={<Packages />} />
           <Route path='types' element={<StatsViewer view='types' {...statsProps} />} />
           <Route path='deckstats' element={<StatsViewer view='deckstats' {...statsProps} />} />
           <Route path='drafts' element={<DraftsPage {...statsProps} />} />

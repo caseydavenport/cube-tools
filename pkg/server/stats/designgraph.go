@@ -175,6 +175,23 @@ func DesignGraphHandler() http.Handler {
 	})
 }
 
+// DesignGraphForCube builds the design graph from a cube's catalog and rules,
+// same builder as /api/stats/design-graph. Unlike the handler, a missing or
+// malformed cube-rules.json is a hard error, not an empty-config fallback, so a
+// caller fails loudly rather than getting an edgeless graph. Paths resolve from
+// the working directory, so run from the repo root.
+func DesignGraphForCube(cubeID string) (DesignGraphResponse, error) {
+	cube, err := types.LoadCube(fmt.Sprintf("data/%s/cube.json", cubeID))
+	if err != nil {
+		return DesignGraphResponse{}, err
+	}
+	config, err := loadDesignMap(fmt.Sprintf("data/%s/cube-rules.json", cubeID))
+	if err != nil {
+		return DesignGraphResponse{}, err
+	}
+	return buildDesignGraph(cube, config), nil
+}
+
 // MatchedCard describes a card and which conditions it matched.
 type MatchedCard struct {
 	Name       string             `json:"name"`

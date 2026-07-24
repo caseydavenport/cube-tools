@@ -5,6 +5,7 @@ import (
 
 	"github.com/caseydavenport/cube-tools/pkg/types"
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 )
 
 func TestBuildDesignGraphWithConfig(t *testing.T) {
@@ -534,5 +535,21 @@ func TestMatchCards(t *testing.T) {
 			}
 			assert.ElementsMatch(t, tt.expected, got)
 		})
+	}
+}
+
+func TestDesignGraphForCube(t *testing.T) {
+	// data/ paths resolve from the repo root, three levels up from this package.
+	t.Chdir("../../..")
+
+	resp, err := DesignGraphForCube("polyverse")
+	require.NoError(t, err)
+	require.NotEmpty(t, resp.Nodes, "expected card nodes from the polyverse cube")
+	require.NotEmpty(t, resp.Edges, "expected rule-derived edges from cube-rules.json")
+
+	for _, e := range resp.Edges {
+		require.NotEmpty(t, e.Source)
+		require.NotEmpty(t, e.Target)
+		require.GreaterOrEqual(t, e.Weight, 1)
 	}
 }

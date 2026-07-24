@@ -54,6 +54,7 @@ func main() {
 	cubeRoute("GET /api/{cube}/stats/design-graph", stats.DesignGraphHandler())
 	cubeRoute("POST /api/{cube}/stats/design-graph/match", stats.DesignGraphMatchHandler())
 	cubeRoute("GET /api/{cube}/stats/group-distributions", stats.GroupDistributionsHandler())
+	cubeRoute("GET /api/{cube}/stats/packages", stats.PackageStatsHandler())
 	cubeRoute("POST /api/{cube}/save-design-rules", stats.SaveDesignRulesHandler())
 	cubeRoute("POST /api/{cube}/save-notes", server.SaveNotesHandler())
 	cubeRoute("POST /api/{cube}/refresh", server.RefreshHandler(reg))

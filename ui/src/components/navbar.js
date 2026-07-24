@@ -53,6 +53,7 @@ const SECTIONS = [
     { label: "Removal", path: "removal" },
     { label: "Archetypes", path: "types" },
     { label: "Decks", path: "deckstats" },
+    { label: "Packages", path: "packages" },
   ]},
   { label: "Design", views: [
     { label: "Synergy", path: "synergy" },
