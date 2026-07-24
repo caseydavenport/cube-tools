@@ -9,6 +9,7 @@ import (
 	"github.com/caseydavenport/cube-tools/pkg/server/decks"
 	"github.com/caseydavenport/cube-tools/pkg/server/query"
 	"github.com/caseydavenport/cube-tools/pkg/storage"
+	"github.com/caseydavenport/cube-tools/pkg/storage/file"
 	"github.com/caseydavenport/cube-tools/pkg/types"
 	"github.com/sirupsen/logrus"
 )
@@ -42,7 +43,7 @@ type ArchetypeStats struct {
 
 func ArchetypeStatsHandler(src types.CubeSource) http.Handler {
 	return &archetypeStatsHandler{
-		store: storage.NewFileDeckStoreWithCache(src),
+		store: file.NewStore(src),
 		src:   src,
 	}
 }

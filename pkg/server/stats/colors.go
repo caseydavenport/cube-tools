@@ -10,6 +10,7 @@ import (
 	"github.com/caseydavenport/cube-tools/pkg/server/decks"
 	"github.com/caseydavenport/cube-tools/pkg/server/query"
 	"github.com/caseydavenport/cube-tools/pkg/storage"
+	"github.com/caseydavenport/cube-tools/pkg/storage/file"
 	"github.com/caseydavenport/cube-tools/pkg/types"
 	"github.com/sirupsen/logrus"
 	"gonum.org/v1/gonum/stat"
@@ -74,7 +75,7 @@ func parseColorsRequest(r *http.Request) *ColorStatsRequest {
 
 func ColorStatsHandler(src types.CubeSource) http.Handler {
 	return &colorStatsHandler{
-		store: storage.NewFileDeckStoreWithCache(src),
+		store: file.NewStore(src),
 		src:   src,
 	}
 }

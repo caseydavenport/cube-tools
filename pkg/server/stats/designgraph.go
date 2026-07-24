@@ -12,6 +12,7 @@ import (
 
 	"github.com/caseydavenport/cube-tools/pkg/server"
 	"github.com/caseydavenport/cube-tools/pkg/storage"
+	"github.com/caseydavenport/cube-tools/pkg/storage/file"
 	"github.com/caseydavenport/cube-tools/pkg/types"
 	"github.com/sirupsen/logrus"
 )
@@ -207,7 +208,7 @@ func DesignGraphForCube(src types.CubeSource, cubeID string) (DesignGraphRespons
 func deckCardNames(cubeID string) ([]string, error) {
 	// Only the card names matter here, so the cube overlay (printings, tags) is
 	// irrelevant; skip it with a nil source.
-	store := storage.NewFileDeckStoreWithCache(nil)
+	store := file.NewStore(nil)
 	decks, err := store.List(cubeID, &storage.DecksRequest{})
 	if err != nil {
 		return nil, err
@@ -376,7 +377,7 @@ const distributionMinDeckSize = 20
 const manabaseLandFraction = 0.8
 
 func GroupDistributionsHandler(src types.CubeSource) http.Handler {
-	return &groupDistributionsHandler{store: storage.NewFileDeckStoreWithCache(src), src: src}
+	return &groupDistributionsHandler{store: file.NewStore(src), src: src}
 }
 
 type groupDistributionsHandler struct {

@@ -6,6 +6,7 @@ import (
 
 	"github.com/caseydavenport/cube-tools/pkg/server/decks"
 	"github.com/caseydavenport/cube-tools/pkg/storage"
+	"github.com/caseydavenport/cube-tools/pkg/storage/file"
 	"github.com/caseydavenport/cube-tools/pkg/types"
 	"github.com/sirupsen/logrus"
 )
@@ -27,7 +28,7 @@ type VersusData struct {
 
 func ArchetypesHandler(src types.CubeSource) http.Handler {
 	return &archetypesHandler{
-		store: storage.NewFileDeckStore(src),
+		store: file.NewStore(src),
 	}
 }
 

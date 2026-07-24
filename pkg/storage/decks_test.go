@@ -71,10 +71,7 @@ func TestProcess_Stats(t *testing.T) {
 		nil,
 	)
 
-	lookup := map[key]*Deck{
-		{player: "Alice", draft: "draft1"}: d,
-	}
-	process(lookup)
+	Enrich([]*Deck{d})
 
 	assert.Equal(t, 2, d.Stats.GameWins)
 	assert.Equal(t, 1, d.Stats.GameLosses)
@@ -95,7 +92,7 @@ func TestProcess_SynthesizesGamesFromMatchCounts(t *testing.T) {
 		{Opponent: "Carol", Wins: 0, Losses: 1, Draws: 1},
 	}
 
-	process(map[key]*Deck{{player: "Alice", draft: "draft1"}: d})
+	Enrich([]*Deck{d})
 
 	assert.Len(t, d.Games, 5) // 2+1 + 0+1+1
 	wins, losses, draws := 0, 0, 0
@@ -158,12 +155,7 @@ func TestProcess_OpponentWinPercentage(t *testing.T) {
 		nil,
 	)
 
-	lookup := map[key]*Deck{
-		{player: "Alice", draft: "draft1"}:   alice,
-		{player: "Bob", draft: "draft1"}:     bob,
-		{player: "Charlie", draft: "draft1"}: charlie,
-	}
-	process(lookup)
+	Enrich([]*Deck{alice, bob, charlie})
 
 	// Alice's opponent is Bob. Bob's games excluding vs Alice: vs Charlie (won 1, lost 1) = 50%.
 	// OWP = round(100 * 0.5) = 50
@@ -222,12 +214,7 @@ func TestProcess_OpponentWinPercentage_NoDoubleCountRematches(t *testing.T) {
 		nil,
 	)
 
-	lookup := map[key]*Deck{
-		{player: "Alice", draft: "draft1"}:   alice,
-		{player: "Bob", draft: "draft1"}:     bob,
-		{player: "Charlie", draft: "draft1"}: charlie,
-	}
-	process(lookup)
+	Enrich([]*Deck{alice, bob, charlie})
 
 	assert.InDelta(t, 50.0, alice.OpponentWinPercentage, 0.5)
 }
@@ -269,12 +256,7 @@ func TestProcess_OpponentWinPercentage_LegacyMatchesIncluded(t *testing.T) {
 		{Opponent: "Bob", Round: 2, Wins: 1, Losses: 2, Winner: "Bob"},
 	}
 
-	lookup := map[key]*Deck{
-		{player: "Alice", draft: "draft1"}:   alice,
-		{player: "Bob", draft: "draft1"}:     bob,
-		{player: "Charlie", draft: "draft1"}: charlie,
-	}
-	process(lookup)
+	Enrich([]*Deck{alice, bob, charlie})
 
 	// Bob's record excluding Alice: 2-1 vs Charlie (legacy) = 66.67%.
 	// Alice's only opponent is Bob, so OWP = 67.
@@ -359,7 +341,7 @@ func TestDeckStore_ScopedByCube(t *testing.T) {
 		}
 	}
 
-	s := &deckStore{}
+	s := NewStore(&fakeBackend{})
 	// polyverse has a real index.json on disk; aurora does not. Both calls are
 	// exercised to verify the cache map tracks independent entries. Because
 	// errors are not cached (we only store on success), we only assert the

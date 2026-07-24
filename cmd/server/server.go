@@ -12,7 +12,7 @@ import (
 	"github.com/caseydavenport/cube-tools/pkg/server/importer"
 	ocrhttp "github.com/caseydavenport/cube-tools/pkg/server/ocr"
 	"github.com/caseydavenport/cube-tools/pkg/server/stats"
-	"github.com/caseydavenport/cube-tools/pkg/storage"
+	"github.com/caseydavenport/cube-tools/pkg/storage/file"
 	"github.com/caseydavenport/cube-tools/pkg/types"
 	"github.com/sirupsen/logrus"
 )
@@ -47,7 +47,7 @@ func main() {
 	cubeRoute("GET /api/{cube}/index", server.CubeIndexHandler())
 	cubeRoute("GET /api/{cube}/drafts/{draft_id}/log", server.DraftLogHandler())
 	cubeRoute("GET /api/{cube}/notes", server.NotesHandler())
-	deckStore := storage.NewFileDeckStore(provider)
+	deckStore := file.NewStore(provider)
 	cubeRoute("GET /api/{cube}/decks", decks.DeckHandler(deckStore, func(cubeID string) ([]graph.Edge, error) {
 		return stats.EdgesForCube(provider, cubeID)
 	}))
