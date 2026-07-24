@@ -62,8 +62,16 @@ export function DesignEditorPage() {
   const nodes = data?.nodes || []
   const groups = data?.groups || []
   const links = data?.links || []
-  const edges = data?.edges || []
+  const allEdges = data?.edges || []
   const groupNodes = data?.group_nodes || []
+
+  // Edges can reach cards cut from the cube - the graph widens its edge set so
+  // old decks still render cut cards. The editor is a cube-only design view, so
+  // drop any edge touching a card that isn't a cube node.
+  const edges = useMemo(() => {
+    const inCube = new Set(nodes.map(n => n.name))
+    return allEdges.filter(e => inCube.has(e.source) && inCube.has(e.target))
+  }, [allEdges, nodes])
 
   // name -> [{ group, conds }] : which groups each card is in, and via which conditions.
   const cardGroups = useAllMemberships(cube, groups)
