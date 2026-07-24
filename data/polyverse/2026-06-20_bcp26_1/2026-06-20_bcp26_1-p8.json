@@ -5,11 +5,9 @@
  },
  "macro_archetype": "midrange",
  "labels": [
-  "valiant",
-  "heartfire",
-  "prowess",
   "graveyard",
-  "delirium"
+  "delirium",
+  "spells"
  ],
  "player": "2026-06-20_bcp26_1-p8",
  "date": "2026-06-20",

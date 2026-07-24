@@ -6,7 +6,8 @@
  },
  "macro_archetype": "aggro",
  "labels": [
-  "equipment"
+  "equipment",
+  "discard"
  ],
  "player": "bryan",
  "date": "2025-06-29",

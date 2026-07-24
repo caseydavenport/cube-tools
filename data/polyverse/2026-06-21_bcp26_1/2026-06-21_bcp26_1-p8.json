@@ -5,11 +5,9 @@
  },
  "macro_archetype": "aggro",
  "labels": [
-  "valiant",
-  "heartfire",
   "equipment",
-  "prowess",
-  "spells"
+  "spells",
+  "valiant"
  ],
  "player": "2026-06-21_bcp26_1-p8",
  "date": "2026-06-21",
