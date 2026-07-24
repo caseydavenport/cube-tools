@@ -82,12 +82,6 @@
       ]
     },
     {
-      "name": "Cheap sorceries",
-      "conditions": [
-        "t:sorcery cmc\u003c2"
-      ]
-    },
-    {
       "name": "Cheap spells",
       "conditions": [
         "(t:instant OR t:sorcery) cmc\u003c2",
@@ -406,6 +400,20 @@
       "name": "Plains",
       "conditions": [
         "t:plains"
+      ]
+    },
+    {
+      "name": "Power \u003e3",
+      "conditions": [
+        "pow\u003e3",
+        "o:\"power is equal to\"",
+        "o:\"enters with\" o:\"+1/+1 counters\""
+      ]
+    },
+    {
+      "name": "Power matters",
+      "conditions": [
+        "o:\"you control a creature with power\" o:\"or greater\""
       ]
     },
     {
@@ -1042,6 +1050,14 @@
           "targets": [
             "Delve",
             "Ramp payoffs"
+          ]
+        },
+        {
+          "sources": [
+            "Power \u003e3"
+          ],
+          "targets": [
+            "Power matters"
           ]
         }
       ]
