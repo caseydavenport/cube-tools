@@ -2074,15 +2074,14 @@ table {
 .de-page {
   --warn: #fbbf24;
   display: grid;
-  grid-template-columns: 250px minmax(0, 1fr) 300px;
+  grid-template-columns: 250px minmax(0, 1fr);
   gap: 1.1rem;
   padding: 1.25rem 1.5rem;
   align-items: start;
 }
-@media (max-width: 1200px) {
-  .de-page { grid-template-columns: 220px minmax(0, 1fr); }
-  .de-lens { grid-column: 1 / -1; position: static; max-height: none; }
-}
+/* Detail pane and card lens stack in one column so the registry's height can't
+   stretch the rows apart and open a gap between them. */
+.de-main-col { min-width: 0; display: flex; flex-direction: column; gap: 1.1rem; }
 @media (max-width: 800px) {
   .de-page { grid-template-columns: 1fr; }
   .de-registry { position: static; max-height: 320px; }
@@ -2355,10 +2354,17 @@ button.de-loom-chip:hover { border-color: var(--primary); }
 
 /* --- Card lens (right rail) --- */
 .de-lens {
-  position: sticky; top: 12px; max-height: calc(100vh - 88px); overflow-y: auto;
+  display: flex; flex-wrap: wrap; gap: 1.1rem 1.4rem; align-items: flex-start;
   background: var(--card-background); border: 1px solid var(--border); border-radius: 10px;
-  padding: 0.9rem;
+  padding: 0.9rem 1.1rem;
 }
+.de-lens-media { flex: 0 0 220px; max-width: 220px; }
+.de-lens-body {
+  flex: 1 1 320px; min-width: 0;
+  display: flex; flex-wrap: wrap; gap: 0.4rem 1.6rem; align-items: flex-start;
+}
+.de-lens-col { flex: 1 1 240px; min-width: 0; }
+.de-lens-col-links { flex: 2 1 340px; }
 .de-lens-img { width: 100%; border-radius: 4.75% / 3.5%; margin-top: 0.75rem; display: block; }
 .de-lens-name {
   display: flex; align-items: center; gap: 0.4rem; flex-wrap: wrap;
@@ -2372,8 +2378,8 @@ button.de-loom-chip:hover { border-color: var(--primary); }
 }
 .de-lens-group:hover { background: var(--table-row-hover); }
 .de-lens-group-name { font-weight: 600; font-size: 0.85rem; }
-.de-lens-links { max-height: 340px; overflow-y: auto; }
-.de-lens-rule { padding-left: 0.55rem; margin-bottom: 0.55rem; }
+.de-lens-links { columns: 200px; column-gap: 1.4rem; }
+.de-lens-rule { padding-left: 0.55rem; margin-bottom: 0.55rem; break-inside: avoid; }
 .de-lens-rule-label {
   display: block; background: transparent; border: none; cursor: pointer; padding: 0.1rem 0.35rem;
   color: var(--white); font-family: inherit; font-size: 0.78rem; font-weight: 700;

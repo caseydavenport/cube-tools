@@ -395,18 +395,20 @@ export function DesignEditorPage() {
         onNewLink={() => setLinkEditor({ original: null })}
       />
 
-      <main className="de-detail">{detail}</main>
+      <div className="de-main-col">
+        <main className="de-detail">{detail}</main>
 
-      {view !== 'review' && <CardLens
-        names={names} focal={focal} vs={vs} node={nodeByName[focal]}
-        memberships={(cardGroups[focal] || []).slice().sort((a, b) => a.group.localeCompare(b.group))}
-        membershipsLoading={membershipsLoading}
-        neighbors={neighborsOf[focal] || []}
-        groupIndex={groupIndex} linkIndex={linkIndex}
-        onPickFocal={setFocal} onPickVs={setVs}
-        onSelectGroup={selectGroup} onSelectLink={selectLink}
-        onCompare={() => selectView('compare')} onHoverCard={setHoverCard}
-      />}
+        {view !== 'review' && <CardLens
+          names={names} focal={focal} vs={vs} node={nodeByName[focal]}
+          memberships={(cardGroups[focal] || []).slice().sort((a, b) => a.group.localeCompare(b.group))}
+          membershipsLoading={membershipsLoading}
+          neighbors={neighborsOf[focal] || []}
+          groupIndex={groupIndex} linkIndex={linkIndex}
+          onPickFocal={setFocal} onPickVs={setVs}
+          onSelectGroup={selectGroup} onSelectLink={selectLink}
+          onCompare={() => selectView('compare')} onHoverCard={setHoverCard}
+        />}
+      </div>
 
       {status && <div className="de-status" role="status">{status}</div>}
       {hoverCard && !groupEditor && !linkEditor &&
@@ -1120,48 +1122,56 @@ function CardLens({
 
   return (
     <aside className="de-lens">
-      <CardSearch value={focal} onPick={onPickFocal} names={names} placeholder="Search a card…" />
-      {!focal && <div className="de-empty">Search a card to inspect its groups and links.</div>}
-      {focal && <>
-        <img className="de-lens-img" src={CardImageURL({ name: focal })} alt={focal} />
-        <div className="de-lens-name">
-          {node && <span className="de-pips">{ColorImages(node.colors)}</span>}
-          {focal}
-        </div>
+      <div className="de-lens-media">
+        <CardSearch value={focal} onPick={onPickFocal} names={names} placeholder="Search a card…" />
+        {!focal && <div className="de-empty">Search a card to inspect its groups and links.</div>}
+        {focal && <>
+          <img className="de-lens-img" src={CardImageURL({ name: focal })} alt={focal} />
+          <div className="de-lens-name">
+            {node && <span className="de-pips">{ColorImages(node.colors)}</span>}
+            {focal}
+          </div>
+        </>}
+      </div>
 
-        <div className="de-subhead">In groups {memberships.length ? `(${memberships.length})` : ''}</div>
-        {membershipsLoading && <div className="de-muted">Measuring…</div>}
-        {!membershipsLoading && memberships.length === 0 && <div className="de-muted">Not in any group.</div>}
-        {memberships.map(m => (
-          <button key={m.group} className="de-lens-group" onClick={() => onSelectGroup(m.group)}
-            style={{ boxShadow: `inset 3px 0 0 ${ruleColor(groupIndex[m.group] ?? 0)}` }}>
-            <span className="de-lens-group-name">{m.group}</span>
-            <code className="de-conds">{(m.conds || []).join(' · ')}</code>
-          </button>
-        ))}
-
-        <div className="de-subhead">Linked cards {neighbors.length ? `(${new Set(neighbors.map(n => n.name)).size})` : ''}</div>
-        {byLabel.length === 0 && <div className="de-muted">No links from this card.</div>}
-        <div className="de-lens-links" onMouseLeave={() => onHoverCard('')}>
-          {byLabel.map(([label, cards]) => (
-            <div key={label} className="de-lens-rule" style={{ borderLeft: `3px solid ${ruleColor(linkIndex[label] ?? 0)}` }}>
-              <button className="de-lens-rule-label" onClick={() => onSelectLink(label)}>{label}</button>
-              {cards.map(c => (
-                <button
-                  key={c} className="de-lens-linked"
-                  onClick={() => onPickVs(c)}
-                  onMouseEnter={() => onHoverCard(c)} onFocus={() => onHoverCard(c)}
-                  title="Compare with this card"
-                >{c}</button>
-              ))}
-            </div>
+      {focal && <div className="de-lens-body">
+        <div className="de-lens-col">
+          <div className="de-subhead">In groups {memberships.length ? `(${memberships.length})` : ''}</div>
+          {membershipsLoading && <div className="de-muted">Measuring…</div>}
+          {!membershipsLoading && memberships.length === 0 && <div className="de-muted">Not in any group.</div>}
+          {memberships.map(m => (
+            <button key={m.group} className="de-lens-group" onClick={() => onSelectGroup(m.group)}
+              style={{ boxShadow: `inset 3px 0 0 ${ruleColor(groupIndex[m.group] ?? 0)}` }}>
+              <span className="de-lens-group-name">{m.group}</span>
+              <code className="de-conds">{(m.conds || []).join(' · ')}</code>
+            </button>
           ))}
+
+          <div className="de-subhead">Compare</div>
+          <CardSearch value={vs} onPick={onPickVs} names={names} placeholder="Compare with another card…" />
+          {focal && vs && <button className="de-btn de-compare-btn" onClick={onCompare}>View links between ⇄</button>}
         </div>
 
-        <div className="de-subhead">Compare</div>
-        <CardSearch value={vs} onPick={onPickVs} names={names} placeholder="Compare with another card…" />
-        {focal && vs && <button className="de-btn de-compare-btn" onClick={onCompare}>View links between ⇄</button>}
-      </>}
+        <div className="de-lens-col de-lens-col-links">
+          <div className="de-subhead">Linked cards {neighbors.length ? `(${new Set(neighbors.map(n => n.name)).size})` : ''}</div>
+          {byLabel.length === 0 && <div className="de-muted">No links from this card.</div>}
+          <div className="de-lens-links" onMouseLeave={() => onHoverCard('')}>
+            {byLabel.map(([label, cards]) => (
+              <div key={label} className="de-lens-rule" style={{ borderLeft: `3px solid ${ruleColor(linkIndex[label] ?? 0)}` }}>
+                <button className="de-lens-rule-label" onClick={() => onSelectLink(label)}>{label}</button>
+                {cards.map(c => (
+                  <button
+                    key={c} className="de-lens-linked"
+                    onClick={() => onPickVs(c)}
+                    onMouseEnter={() => onHoverCard(c)} onFocus={() => onHoverCard(c)}
+                    title="Compare with this card"
+                  >{c}</button>
+                ))}
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>}
     </aside>
   )
 }
