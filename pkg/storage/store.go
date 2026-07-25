@@ -1,8 +1,11 @@
 package storage
 
 import (
+	"encoding/json"
 	"sync"
 	"time"
+
+	"github.com/caseydavenport/cube-tools/pkg/design"
 )
 
 // Store adds enrichment, caching, and filtering on top of a DeckBackend. It
@@ -83,4 +86,63 @@ func (s *Store) UpdateDeckMeta(cube, draftID, deckID, macroArchetype string, lab
 		return nil, ErrDeckNotFound
 	}
 	return updated, nil
+}
+
+// GetNotes returns the deck's notes, or ErrUnsupported if the backend has none.
+func (s *Store) GetNotes(cube, draftID, deckID string) (string, error) {
+	b, ok := s.backend.(NotesBackend)
+	if !ok {
+		return "", ErrUnsupported
+	}
+	return b.GetNotes(cube, draftID, deckID)
+}
+
+// PutNotes writes the deck's notes, or returns ErrUnsupported if the backend
+// has none.
+func (s *Store) PutNotes(cube, draftID, deckID, content string) error {
+	b, ok := s.backend.(NotesBackend)
+	if !ok {
+		return ErrUnsupported
+	}
+	return b.PutNotes(cube, draftID, deckID, content)
+}
+
+// GetRules returns the cube's design-map rules, or ErrUnsupported if the
+// backend has none.
+func (s *Store) GetRules(cube string) (*design.DesignMapConfig, error) {
+	b, ok := s.backend.(RulesBackend)
+	if !ok {
+		return nil, ErrUnsupported
+	}
+	return b.GetRules(cube)
+}
+
+// PutRules writes the cube's design-map rules, or returns ErrUnsupported if
+// the backend has none.
+func (s *Store) PutRules(cube string, rules *design.DesignMapConfig) error {
+	b, ok := s.backend.(RulesBackend)
+	if !ok {
+		return ErrUnsupported
+	}
+	return b.PutRules(cube, rules)
+}
+
+// Index returns the cube's path-free draft/deck index, or ErrUnsupported if
+// the backend has none.
+func (s *Store) Index(cube string) (*CubeIndex, error) {
+	b, ok := s.backend.(IndexBackend)
+	if !ok {
+		return nil, ErrUnsupported
+	}
+	return b.Index(cube)
+}
+
+// GetDraftLog returns a draft's raw log, or ErrUnsupported if the backend has
+// none.
+func (s *Store) GetDraftLog(cube, draftID string) (json.RawMessage, error) {
+	b, ok := s.backend.(DraftLogBackend)
+	if !ok {
+		return nil, ErrUnsupported
+	}
+	return b.GetDraftLog(cube, draftID)
 }

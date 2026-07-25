@@ -1,6 +1,11 @@
 package storage
 
-import "errors"
+import (
+	"encoding/json"
+	"errors"
+
+	"github.com/caseydavenport/cube-tools/pkg/design"
+)
 
 // ErrUnsupported is returned by Store when the active backend does not implement
 // the capability a caller asked for (for example, a read-only backend asked to
@@ -22,4 +27,31 @@ type DeckBackend interface {
 // omit it, so Store reports ErrUnsupported.
 type DeckMetaBackend interface {
 	WriteDeckMeta(cube, draftID, deckID, macroArchetype string, labels, colors []string) (*Deck, error)
+}
+
+// NotesBackend is implemented by backends that can persist free-form notes
+// against a deck.
+type NotesBackend interface {
+	GetNotes(cube, draftID, deckID string) (string, error)
+	PutNotes(cube, draftID, deckID, content string) error
+}
+
+// RulesBackend is implemented by backends that can persist a cube's design-map
+// rules.
+type RulesBackend interface {
+	GetRules(cube string) (*design.DesignMapConfig, error)
+	PutRules(cube string, rules *design.DesignMapConfig) error
+}
+
+// IndexBackend is implemented by backends that can produce a path-free index
+// of a cube's drafts and decks.
+type IndexBackend interface {
+	Index(cube string) (*CubeIndex, error)
+}
+
+// DraftLogBackend is implemented by backends that can return a draft's raw
+// log. The log's shape is backend-defined, so Store passes it through
+// unparsed.
+type DraftLogBackend interface {
+	GetDraftLog(cube, draftID string) (json.RawMessage, error)
 }
