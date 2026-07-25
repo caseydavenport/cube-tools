@@ -17,11 +17,15 @@ import (
 	"github.com/spf13/cobra"
 )
 
+// DefaultCubeCobraURL is the public CubeCobra base URL used by the server and
+// as the default for the export-cc command.
+const DefaultCubeCobraURL = "https://cubecobra.com"
+
 var (
 	ccCubeID   string
 	ccDraftDir string
 	ccCookie   string
-	ccBaseURL  string = "https://cubecobra.com"
+	ccBaseURL  string = DefaultCubeCobraURL
 )
 
 var ExportCCCmd = &cobra.Command{
@@ -50,7 +54,7 @@ func init() {
 	flags.StringVarP(&ccCubeID, "cube", "c", "", "CubeCobra ID")
 	flags.StringVarP(&ccDraftDir, "dir", "d", "", "Draft directory to export")
 	flags.StringVarP(&ccCookie, "cookie", "k", "", "CubeCobra session cookie (full raw string)")
-	flags.StringVar(&ccBaseURL, "url", "https://cubecobra.com", "CubeCobra base URL")
+	flags.StringVar(&ccBaseURL, "url", DefaultCubeCobraURL, "CubeCobra base URL")
 }
 
 type CCRound struct {

@@ -106,13 +106,19 @@ func (p *CubeProvider) Current(cube string) (*types.Cube, error) {
 	return p.Refresh(cube)
 }
 
-// Refresh re-fetches the cube from CubeCobra and replaces the cached copy.
+// Refresh re-fetches the cube from CubeCobra and replaces the cached copy. A
+// cc: cube resolves straight to its CubeCobra id, bypassing the registry.
 func (p *CubeProvider) Refresh(cube string) (*types.Cube, error) {
-	meta, ok := p.reg.Get(cube)
-	if !ok || meta.CubeCobraID == "" {
+	ccID := ""
+	if cubes.IsCubeCobra(cube) {
+		ccID = cubes.CubeCobraID(cube)
+	} else if meta, ok := p.reg.Get(cube); ok {
+		ccID = meta.CubeCobraID
+	}
+	if ccID == "" {
 		return nil, fmt.Errorf("cube %q has no CubeCobra id", cube)
 	}
-	c, err := FetchCube(ccBaseURL, meta.CubeCobraID)
+	c, err := FetchCube(ccBaseURL, ccID)
 	if err != nil {
 		return nil, err
 	}

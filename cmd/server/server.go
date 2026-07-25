@@ -12,7 +12,10 @@ import (
 	"github.com/caseydavenport/cube-tools/pkg/server/importer"
 	ocrhttp "github.com/caseydavenport/cube-tools/pkg/server/ocr"
 	"github.com/caseydavenport/cube-tools/pkg/server/stats"
+	"github.com/caseydavenport/cube-tools/pkg/storage"
+	"github.com/caseydavenport/cube-tools/pkg/storage/cubecobra"
 	"github.com/caseydavenport/cube-tools/pkg/storage/file"
+	"github.com/caseydavenport/cube-tools/pkg/storage/router"
 	"github.com/caseydavenport/cube-tools/pkg/types"
 	"github.com/sirupsen/logrus"
 )
@@ -43,7 +46,9 @@ func main() {
 	cubeRoute := func(pattern string, h http.Handler) {
 		mux.Handle(pattern, server.WithCube(reg, h))
 	}
-	deckStore := file.NewStore(provider)
+	fileBackend := file.New(provider)
+	ccBackend := cubecobra.New(commands.DefaultCubeCobraURL, provider)
+	deckStore := storage.NewStore(router.New(fileBackend, ccBackend))
 	cubeRoute("GET /api/{cube}/cube", server.CubeContentHandler(provider))
 	cubeRoute("GET /api/{cube}/index", server.CubeIndexHandler(deckStore))
 	cubeRoute("GET /api/{cube}/drafts/{draft_id}/log", server.DraftLogHandler(deckStore))

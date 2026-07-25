@@ -17,12 +17,23 @@ func ContextWithCube(ctx context.Context, cube string) context.Context {
 	return context.WithValue(ctx, cubeKey, cube)
 }
 
-// WithCube validates the {cube} path param against the registry and stashes the
-// cube ID in the request context. Handlers retrieve it via CubeFromRequest.
+// WithCube validates the {cube} path param and stashes the cube id in the
+// request context. A registry cube must be in the registry; a cc: cube must
+// carry a syntactically valid CubeCobra id. Handlers retrieve it via
+// CubeFromRequest.
 func WithCube(reg *cubes.Registry, h http.Handler) http.Handler {
 	return http.HandlerFunc(func(rw http.ResponseWriter, r *http.Request) {
 		id := r.PathValue("cube")
-		if id == "" || !reg.Has(id) {
+		if id == "" {
+			http.NotFound(rw, r)
+			return
+		}
+		if cubes.IsCubeCobra(id) {
+			if !cubes.ValidCubeCobraID(cubes.CubeCobraID(id)) {
+				http.NotFound(rw, r)
+				return
+			}
+		} else if !reg.Has(id) {
 			http.NotFound(rw, r)
 			return
 		}
