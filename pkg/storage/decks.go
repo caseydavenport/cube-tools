@@ -28,6 +28,10 @@ type Deck struct {
 
 	// The size of the draft, used for filtering.
 	DraftSize int `json:"draft_size"`
+
+	// ID is the deck's opaque identity, unique within its draft. Clients treat
+	// it as opaque. Backends assign it; the file backend uses the player name.
+	ID string `json:"id"`
 }
 
 type Stats struct {
@@ -43,8 +47,8 @@ type Stats struct {
 
 // Key identifies a precise deck.
 type key struct {
-	player string
-	draft  string
+	id    string
+	draft string
 }
 
 type DecksRequest struct {
@@ -107,11 +111,8 @@ var ErrDeckNotFound = errors.New("deck not found")
 
 type DeckStorage interface {
 	List(cube string, req *DecksRequest) ([]*Deck, error)
-	UpdateDeckMeta(cube, draftID, player, macroArchetype string, labels, colors []string) (*Deck, error)
+	UpdateDeckMeta(cube, draftID, deckID, macroArchetype string, labels, colors []string) (*Deck, error)
 }
-
-
-
 
 func filter(decks []*Deck, r *DecksRequest) []*Deck {
 	// Check if we need to do any filtering. CommunityEdges alone never filters -

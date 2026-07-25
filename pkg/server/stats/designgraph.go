@@ -2,38 +2,21 @@ package stats
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"net/http"
-	"os"
 	"regexp"
 	"slices"
 	"strconv"
 	"strings"
 
+	"github.com/caseydavenport/cube-tools/pkg/design"
 	"github.com/caseydavenport/cube-tools/pkg/server"
 	"github.com/caseydavenport/cube-tools/pkg/storage"
 	"github.com/caseydavenport/cube-tools/pkg/storage/file"
 	"github.com/caseydavenport/cube-tools/pkg/types"
 	"github.com/sirupsen/logrus"
 )
-
-// Group defines a named set of cards selected by query conditions.
-type Group struct {
-	Name       string   `json:"name"`
-	Conditions []string `json:"conditions"`
-
-	// Exclude carves specific cards out of the condition matches by exact name,
-	// so a query can stay broad without per-condition negations.
-	Exclude []string `json:"exclude,omitempty"`
-}
-
-// Wire pairs source groups with target groups; cards from all source groups
-// get edges to cards from all target groups. An entry prefixed "card:" names a
-// single card directly instead of a group.
-type Wire struct {
-	Sources []string `json:"sources"`
-	Targets []string `json:"targets"`
-}
 
 const cardRefPrefix = "card:"
 
@@ -47,24 +30,12 @@ func cardRefName(entry string) string {
 	return name
 }
 
-// Link connects named groups under a single label, via one or more wires.
-type Link struct {
-	Label string `json:"label"`
-	Wires []Wire `json:"wires"`
-}
-
-// DesignMapConfig is the persistent format stored in cube-rules.json.
-type DesignMapConfig struct {
-	Groups []Group `json:"groups"`
-	Links  []Link  `json:"links"`
-}
-
 // DesignGraphResponse is the API response for /api/stats/design-graph.
 type DesignGraphResponse struct {
 	Nodes  []DesignGraphNode `json:"nodes"`
 	Edges  []DesignGraphEdge `json:"edges"`
-	Groups []Group           `json:"groups"`
-	Links  []Link            `json:"links"`
+	Groups []design.Group    `json:"groups"`
+	Links  []design.Link     `json:"links"`
 
 	// GroupNodes is the aggregated group-level node set, where each node is a group
 	// rather than a card. The UI toggles between this and the card-level graph.
@@ -158,10 +129,12 @@ func DesignGraphHandler(src types.CubeSource) http.Handler {
 			return
 		}
 
-		config, err := loadDesignMap(fmt.Sprintf("data/%s/cube-rules.json", cubeID))
-		if err != nil {
+		var config design.DesignMapConfig
+		if cfg, err := file.NewStore(src).GetRules(cubeID); err != nil {
 			logrus.WithError(err).Warn("could not load cube rules")
-			config = DesignMapConfig{}
+			config = design.DesignMapConfig{}
+		} else {
+			config = *cfg
 		}
 
 		names, err := deckCardNames(cubeID)
@@ -191,10 +164,11 @@ func DesignGraphForCube(src types.CubeSource, cubeID string) (DesignGraphRespons
 	if err != nil {
 		return DesignGraphResponse{}, err
 	}
-	config, err := loadDesignMap(fmt.Sprintf("data/%s/cube-rules.json", cubeID))
+	cfg, err := file.NewStore(src).GetRules(cubeID)
 	if err != nil {
 		return DesignGraphResponse{}, err
 	}
+	config := *cfg
 	names, err := deckCardNames(cubeID)
 	if err != nil {
 		logrus.WithError(err).Warn("could not load deck cards; cut cards may show disconnected")
@@ -282,10 +256,12 @@ func DesignGraphMatchHandler(src types.CubeSource) http.Handler {
 
 		// Saved rules supply the per-group exclude lists so matches can be
 		// marked. Missing rules just means nothing gets marked excluded.
-		config, err := loadDesignMap(fmt.Sprintf("data/%s/cube-rules.json", cubeID))
-		if err != nil {
+		var config design.DesignMapConfig
+		if cfg, err := file.NewStore(src).GetRules(cubeID); err != nil {
 			logrus.WithError(err).Debug("could not load cube rules for match")
-			config = DesignMapConfig{}
+			config = design.DesignMapConfig{}
+		} else {
+			config = *cfg
 		}
 
 		resp := DesignGraphMatchResponse{Cards: matchConditions(cardMap, config, req)}
@@ -303,7 +279,7 @@ func DesignGraphMatchHandler(src types.CubeSource) http.Handler {
 // returns the per-card breakdown, sorted by name. A condition whose owning
 // group excludes the card is marked rather than dropped, so the editor can
 // show the card greyed instead of silently losing it.
-func matchConditions(cardMap map[string]types.Card, config DesignMapConfig, req DesignGraphMatchRequest) []MatchedCard {
+func matchConditions(cardMap map[string]types.Card, config design.DesignMapConfig, req DesignGraphMatchRequest) []MatchedCard {
 	excludes := make(map[string]map[string]bool)
 	for _, g := range config.Groups {
 		if len(g.Exclude) == 0 {
@@ -381,7 +357,7 @@ func GroupDistributionsHandler(src types.CubeSource) http.Handler {
 }
 
 type groupDistributionsHandler struct {
-	store storage.DeckStorage
+	store *storage.Store
 	src   types.CubeSource
 }
 
@@ -395,10 +371,12 @@ func (h *groupDistributionsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Re
 		return
 	}
 
-	config, err := loadDesignMap(fmt.Sprintf("data/%s/cube-rules.json", cubeID))
-	if err != nil {
+	var config design.DesignMapConfig
+	if cfg, err := h.store.GetRules(cubeID); err != nil {
 		logrus.WithError(err).Warn("could not load cube rules")
-		config = DesignMapConfig{}
+		config = design.DesignMapConfig{}
+	} else {
+		config = *cfg
 	}
 
 	allDecks, err := h.store.List(cubeID, &storage.DecksRequest{})
@@ -422,7 +400,7 @@ func (h *groupDistributionsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Re
 // groupDistributions counts each group's cards in every deck's mainboard. Only
 // decks with a real mainboard contribute, so the percentiles the client derives
 // aren't diluted by pool-only records.
-func groupDistributions(cube *types.Cube, config DesignMapConfig, decks []*storage.Deck) GroupDistributionsResponse {
+func groupDistributions(cube *types.Cube, config design.DesignMapConfig, decks []*storage.Deck) GroupDistributionsResponse {
 	cardMap := buildCardMap(cube)
 	groupCards, _ := resolveGroupCards(cardMap, config.Groups)
 
@@ -500,23 +478,10 @@ func buildCardMap(cube *types.Cube) map[string]types.Card {
 	return cardMap
 }
 
-// loadDesignMap reads the design map configuration from a JSON file and unmarshals it into a DesignMapConfig struct.
-func loadDesignMap(path string) (DesignMapConfig, error) {
-	data, err := os.ReadFile(path)
-	if err != nil {
-		return DesignMapConfig{}, err
-	}
-	var config DesignMapConfig
-	if err := json.Unmarshal(data, &config); err != nil {
-		return DesignMapConfig{}, err
-	}
-	return config, nil
-}
-
 // resolveGroupCards resolves each group's conditions to its effective member set
 // with the group's exclude list subtracted, returning the members per group and
 // the carved-out names per group (which the editor shows greyed).
-func resolveGroupCards(cardMap map[string]types.Card, groups []Group) (map[string]map[string]bool, map[string][]string) {
+func resolveGroupCards(cardMap map[string]types.Card, groups []design.Group) (map[string]map[string]bool, map[string][]string) {
 	groupCards := make(map[string]map[string]bool, len(groups))
 	excluded := make(map[string][]string)
 	for _, g := range groups {
@@ -578,7 +543,7 @@ func widenWithDeckCards(cardMap map[string]types.Card, deckCardNames []string) m
 // keyed by the raw wire entry, so the wire and group-graph loops need no special
 // case for a card named directly in a link. An unknown card (typo, or cut from
 // the cube) resolves empty, same as a dangling group name.
-func registerCardRefs(links []Link, cardMap map[string]types.Card, groupCards map[string]map[string]bool) {
+func registerCardRefs(links []design.Link, cardMap map[string]types.Card, groupCards map[string]map[string]bool) {
 	for _, link := range links {
 		for _, wire := range link.Wires {
 			for _, entry := range slices.Concat(wire.Sources, wire.Targets) {
@@ -598,7 +563,7 @@ func registerCardRefs(links []Link, cardMap map[string]types.Card, groupCards ma
 
 // buildCardEdges creates one undirected edge per pair of cards joined by a link,
 // stamped with every link label that joins them.
-func buildCardEdges(links []Link, groupCards map[string]map[string]bool) []DesignGraphEdge {
+func buildCardEdges(links []design.Link, groupCards map[string]map[string]bool) []DesignGraphEdge {
 	type edgeKey struct{ source, target string }
 	edgeLabels := make(map[edgeKey]map[string]bool)
 
@@ -654,7 +619,7 @@ func buildCardEdges(links []Link, groupCards map[string]map[string]bool) []Desig
 	return edges
 }
 
-func buildDesignGraph(cube *types.Cube, config DesignMapConfig, deckCardNames []string) DesignGraphResponse {
+func buildDesignGraph(cube *types.Cube, config design.DesignMapConfig, deckCardNames []string) DesignGraphResponse {
 	cardMap := buildCardMap(cube)
 
 	// The edge set spans the cube plus any cards that appear in decks but were
@@ -706,14 +671,14 @@ func buildDesignGraph(cube *types.Cube, config DesignMapConfig, deckCardNames []
 	}
 
 	// Sort groups and links by name/label for consistent display order.
-	groups := make([]Group, len(config.Groups))
+	groups := make([]design.Group, len(config.Groups))
 	copy(groups, config.Groups)
-	slices.SortFunc(groups, func(a, b Group) int {
+	slices.SortFunc(groups, func(a, b design.Group) int {
 		return strings.Compare(strings.ToLower(a.Name), strings.ToLower(b.Name))
 	})
-	links := make([]Link, len(config.Links))
+	links := make([]design.Link, len(config.Links))
 	copy(links, config.Links)
-	slices.SortFunc(links, func(a, b Link) int {
+	slices.SortFunc(links, func(a, b design.Link) int {
 		return strings.Compare(strings.ToLower(a.Label), strings.ToLower(b.Label))
 	})
 
@@ -741,7 +706,7 @@ func buildDesignGraph(cube *types.Cube, config DesignMapConfig, deckCardNames []
 // linkEdges instead mirror the rule/link definitions directly: two groups are joined
 // when a link names one as a source and the other as a target. This is the raw view of
 // how the rules wire the groups together.
-func buildGroupGraph(config DesignMapConfig, groupCards map[string]map[string]bool, groupExcluded map[string][]string, edges []DesignGraphEdge) (groupNodes []DesignGraphGroupNode, cardEdges, linkEdges []DesignGraphGroupEdge) {
+func buildGroupGraph(config design.DesignMapConfig, groupCards map[string]map[string]bool, groupExcluded map[string][]string, edges []DesignGraphEdge) (groupNodes []DesignGraphGroupNode, cardEdges, linkEdges []DesignGraphGroupEdge) {
 	type groupEdgeKey struct{ source, target string }
 	type cardPair struct{ a, b string }
 
@@ -1316,22 +1281,16 @@ func matchComparison(card types.Card, field, op, valueStr string) bool {
 }
 
 // SaveDesignRulesHandler handles POST /api/save-design-rules to persist design map config.
-func SaveDesignRulesHandler() http.Handler {
+func SaveDesignRulesHandler(store *storage.Store) http.Handler {
 	return http.HandlerFunc(func(rw http.ResponseWriter, r *http.Request) {
 		if r.Method != http.MethodPost {
 			http.Error(rw, "method not allowed", http.StatusMethodNotAllowed)
 			return
 		}
 
-		var config DesignMapConfig
+		var config design.DesignMapConfig
 		if err := json.NewDecoder(r.Body).Decode(&config); err != nil {
 			http.Error(rw, fmt.Sprintf("invalid JSON: %v", err), http.StatusBadRequest)
-			return
-		}
-
-		data, err := json.MarshalIndent(config, "", "  ")
-		if err != nil {
-			http.Error(rw, "could not marshal config", http.StatusInternalServerError)
 			return
 		}
 
@@ -1340,7 +1299,11 @@ func SaveDesignRulesHandler() http.Handler {
 			http.Error(rw, "no cube in request", http.StatusForbidden)
 			return
 		}
-		if err := os.WriteFile(fmt.Sprintf("data/%s/cube-rules.json", cubeID), data, 0o644); err != nil {
+		if err := store.PutRules(cubeID, &config); err != nil {
+			if errors.Is(err, storage.ErrUnsupported) {
+				http.Error(rw, "Not supported", http.StatusNotImplemented)
+				return
+			}
 			http.Error(rw, "could not save config", http.StatusInternalServerError)
 			return
 		}

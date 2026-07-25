@@ -14,7 +14,7 @@ import (
 func Enrich(decks []*Deck) {
 	byKey := make(map[key]*Deck, len(decks))
 	for _, d := range decks {
-		byKey[key{player: d.Player, draft: d.Metadata.DraftID}] = d
+		byKey[key{id: d.Player, draft: d.Metadata.DraftID}] = d
 	}
 
 	for _, d := range byKey {
@@ -44,12 +44,12 @@ func Enrich(decks []*Deck) {
 				continue
 			}
 			seen[m.Opponent] = true
-			opponentDeck, ok := byKey[key{player: m.Opponent, draft: k.draft}]
+			opponentDeck, ok := byKey[key{id: m.Opponent, draft: k.draft}]
 			if !ok {
 				logrus.WithField("opponent", m.Opponent).Warn("failed to find opponent deck")
 				continue
 			}
-			wins, games := opponentRecordExcluding(opponentDeck, k.player)
+			wins, games := opponentRecordExcluding(opponentDeck, k.id)
 			if games > 0 {
 				percentages = append(percentages, float64(wins)/float64(games))
 			}

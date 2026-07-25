@@ -5,6 +5,7 @@ import (
 	"path/filepath"
 	"testing"
 
+	"github.com/caseydavenport/cube-tools/pkg/design"
 	"github.com/caseydavenport/cube-tools/pkg/types"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
@@ -19,15 +20,15 @@ func TestBuildDesignGraphWithConfig(t *testing.T) {
 		},
 	}
 
-	config := DesignMapConfig{
-		Groups: []Group{
+	config := design.DesignMapConfig{
+		Groups: []design.Group{
 			{Name: "Red Stuff", Conditions: []string{"c:R"}},
 			{Name: "Damage Dealers", Conditions: []string{"o:damage"}},
 			{Name: "Artifacts", Conditions: []string{"t:artifact"}},
 		},
-		Links: []Link{
-			{Label: "Red-Damage", Wires: []Wire{{Sources: []string{"Red Stuff"}, Targets: []string{"Damage Dealers"}}}},
-			{Label: "Artifact Link", Wires: []Wire{{Sources: []string{"Artifacts"}, Targets: []string{"Red Stuff"}}}},
+		Links: []design.Link{
+			{Label: "Red-Damage", Wires: []design.Wire{{Sources: []string{"Red Stuff"}, Targets: []string{"Damage Dealers"}}}},
+			{Label: "Artifact Link", Wires: []design.Wire{{Sources: []string{"Artifacts"}, Targets: []string{"Red Stuff"}}}},
 		},
 	}
 
@@ -61,15 +62,15 @@ func TestBuildDesignGraphSharedGroup(t *testing.T) {
 		},
 	}
 
-	config := DesignMapConfig{
-		Groups: []Group{
+	config := design.DesignMapConfig{
+		Groups: []design.Group{
 			{Name: "Mill Enablers", Conditions: []string{"o:mill"}},
 			{Name: "Delve Payoffs", Conditions: []string{"o:delve"}},
 			{Name: "Flashback Payoffs", Conditions: []string{"o:flashback"}},
 		},
-		Links: []Link{
-			{Label: "Delve", Wires: []Wire{{Sources: []string{"Delve Payoffs"}, Targets: []string{"Mill Enablers"}}}},
-			{Label: "Graveyard Spells", Wires: []Wire{{Sources: []string{"Flashback Payoffs"}, Targets: []string{"Mill Enablers"}}}},
+		Links: []design.Link{
+			{Label: "Delve", Wires: []design.Wire{{Sources: []string{"Delve Payoffs"}, Targets: []string{"Mill Enablers"}}}},
+			{Label: "Graveyard Spells", Wires: []design.Wire{{Sources: []string{"Flashback Payoffs"}, Targets: []string{"Mill Enablers"}}}},
 		},
 	}
 
@@ -100,16 +101,16 @@ func TestBuildDesignGraphMultiWire(t *testing.T) {
 		},
 	}
 
-	config := DesignMapConfig{
-		Groups: []Group{
+	config := design.DesignMapConfig{
+		Groups: []design.Group{
 			{Name: "Outlets", Conditions: []string{"o:sacrifice"}},
 			{Name: "Payoffs", Conditions: []string{"o:dies"}},
 			{Name: "Token Makers", Conditions: []string{"o:token"}},
 		},
-		Links: []Link{
+		Links: []design.Link{
 			{
 				Label: "Sacrifice",
-				Wires: []Wire{
+				Wires: []design.Wire{
 					{Sources: []string{"Outlets"}, Targets: []string{"Payoffs"}},
 					{Sources: []string{"Token Makers"}, Targets: []string{"Outlets"}},
 				},
@@ -144,15 +145,15 @@ func TestBuildGroupGraph(t *testing.T) {
 		},
 	}
 
-	config := DesignMapConfig{
-		Groups: []Group{
+	config := design.DesignMapConfig{
+		Groups: []design.Group{
 			{Name: "Mill Enablers", Conditions: []string{"o:mill"}},
 			{Name: "Delve Payoffs", Conditions: []string{"o:delve"}},
 			{Name: "Flashback Payoffs", Conditions: []string{"o:flashback"}},
 		},
-		Links: []Link{
-			{Label: "Delve", Wires: []Wire{{Sources: []string{"Delve Payoffs"}, Targets: []string{"Mill Enablers"}}}},
-			{Label: "Graveyard Spells", Wires: []Wire{{Sources: []string{"Flashback Payoffs"}, Targets: []string{"Mill Enablers"}}}},
+		Links: []design.Link{
+			{Label: "Delve", Wires: []design.Wire{{Sources: []string{"Delve Payoffs"}, Targets: []string{"Mill Enablers"}}}},
+			{Label: "Graveyard Spells", Wires: []design.Wire{{Sources: []string{"Flashback Payoffs"}, Targets: []string{"Mill Enablers"}}}},
 		},
 	}
 
@@ -193,15 +194,15 @@ func TestBuildGroupGraphMultiGroupCard(t *testing.T) {
 		},
 	}
 
-	config := DesignMapConfig{
-		Groups: []Group{
+	config := design.DesignMapConfig{
+		Groups: []design.Group{
 			{Name: "Red", Conditions: []string{"c:R"}},
 			{Name: "Artifacts", Conditions: []string{"t:artifact"}},
 			{Name: "Ramp Payoffs", Conditions: []string{"o:ramp"}},
 		},
 		// Only Red is linked to Ramp Payoffs. Artifacts is named in no link.
-		Links: []Link{
-			{Label: "Ramp", Wires: []Wire{{Sources: []string{"Red"}, Targets: []string{"Ramp Payoffs"}}}},
+		Links: []design.Link{
+			{Label: "Ramp", Wires: []design.Wire{{Sources: []string{"Red"}, Targets: []string{"Ramp Payoffs"}}}},
 		},
 	}
 
@@ -234,13 +235,13 @@ func TestBuildDesignGraphCardRef(t *testing.T) {
 		},
 	}
 
-	config := DesignMapConfig{
-		Groups: []Group{
+	config := design.DesignMapConfig{
+		Groups: []design.Group{
 			{Name: "Blue Fetchables", Conditions: []string{"o:island t:land"}},
 		},
-		Links: []Link{
-			{Label: "Fetches", Wires: []Wire{{Sources: []string{"card:Flooded Strand"}, Targets: []string{"Blue Fetchables"}}}},
-			{Label: "Bogus", Wires: []Wire{{Sources: []string{"card:No Such Card"}, Targets: []string{"Blue Fetchables"}}}},
+		Links: []design.Link{
+			{Label: "Fetches", Wires: []design.Wire{{Sources: []string{"card:Flooded Strand"}, Targets: []string{"Blue Fetchables"}}}},
+			{Label: "Bogus", Wires: []design.Wire{{Sources: []string{"card:No Such Card"}, Targets: []string{"Blue Fetchables"}}}},
 		},
 	}
 
@@ -291,13 +292,13 @@ func TestBuildDesignGraphCardRefMixed(t *testing.T) {
 		},
 	}
 
-	config := DesignMapConfig{
-		Groups: []Group{
+	config := design.DesignMapConfig{
+		Groups: []design.Group{
 			{Name: "Tutors", Conditions: []string{"t:sorcery"}},
 			{Name: "Shuffle Payoffs", Conditions: []string{"o:shuffle"}},
 		},
-		Links: []Link{
-			{Label: "Shuffles", Wires: []Wire{{Sources: []string{"card:Fetch", "Tutors"}, Targets: []string{"Shuffle Payoffs"}}}},
+		Links: []design.Link{
+			{Label: "Shuffles", Wires: []design.Wire{{Sources: []string{"card:Fetch", "Tutors"}, Targets: []string{"Shuffle Payoffs"}}}},
 		},
 	}
 
@@ -324,14 +325,14 @@ func TestBuildDesignGraphExclude(t *testing.T) {
 		},
 	}
 
-	config := DesignMapConfig{
-		Groups: []Group{
+	config := design.DesignMapConfig{
+		Groups: []design.Group{
 			// "No Such Card" exercises a stale exclude: ignored, not reported.
 			{Name: "Red Stuff", Conditions: []string{"c:R"}, Exclude: []string{"Bolt", "No Such Card"}},
 			{Name: "Creatures", Conditions: []string{"t:creature"}},
 		},
-		Links: []Link{
-			{Label: "Red-Creature", Wires: []Wire{{Sources: []string{"Red Stuff"}, Targets: []string{"Creatures"}}}},
+		Links: []design.Link{
+			{Label: "Red-Creature", Wires: []design.Wire{{Sources: []string{"Red Stuff"}, Targets: []string{"Creatures"}}}},
 		},
 	}
 
@@ -369,8 +370,8 @@ func TestMatchConditionsExcluded(t *testing.T) {
 		},
 	}
 
-	config := DesignMapConfig{
-		Groups: []Group{
+	config := design.DesignMapConfig{
+		Groups: []design.Group{
 			{Name: "Red Cards", Conditions: []string{"c:R"}, Exclude: []string{"Bolt"}},
 			{Name: "Damage", Conditions: []string{"o:damage"}},
 		},
@@ -564,13 +565,13 @@ func TestBuildDesignGraphIncludesCutCards(t *testing.T) {
 			{Name: "Bear", Colors: []string{"G"}, Types: []string{"Creature"}, CMC: 2, OracleText: "vanilla", Power: "2", Toughness: "2"},
 		},
 	}
-	config := DesignMapConfig{
-		Groups: []Group{
+	config := design.DesignMapConfig{
+		Groups: []design.Group{
 			{Name: "Creatures", Conditions: []string{"t:creature"}},
 			{Name: "Burn", Conditions: []string{"o:damage"}},
 		},
-		Links: []Link{
-			{Label: "Burn-Creature", Wires: []Wire{{Sources: []string{"Burn"}, Targets: []string{"Creatures"}}}},
+		Links: []design.Link{
+			{Label: "Burn-Creature", Wires: []design.Wire{{Sources: []string{"Burn"}, Targets: []string{"Creatures"}}}},
 		},
 	}
 

@@ -19,6 +19,11 @@ import { CardSynergyMap } from "./DesignMap.js"
 import { useSelection } from "../hooks/useSelection.js"
 import { useArrowNav } from "../hooks/useArrowNav.js"
 
+// deckRef is the opaque selection token for a deck: its draft plus its opaque
+// id. Unique across drafts; never split the id back out of it.
+export function deckRef(d) {
+  return `${d.metadata.draft_id}/${d.id}`
+}
 
 // This function builds the DeckViewer widget for selecting and viewing statistics
 // about a particular deck.
@@ -135,7 +140,7 @@ export function DeckViewer(props) {
   // Merge a server-updated deck back into both the list and the selected deck.
   function onDeckUpdated(updated) {
     const match = (d) =>
-      d.player === updated.player &&
+      d.id === updated.id &&
       d.metadata && d.metadata.draft_id === updated.metadata.draft_id
     // Replace the one deck that matches with the updated version, leave every other deck as-is.
     setDecks((prev) => prev.map((d) => (match(d) ? updated : d)))
@@ -143,29 +148,33 @@ export function DeckViewer(props) {
   }
 
   function onDeckClicked(event) {
-    // The ID is assigned to each deck on load.
-    // <draft>/<player>/<id>
+    // The element's id is the deck's ref, assigned via deckRef() below.
+    let ref = event.currentTarget.id
 
-    // Parse the player out of the deck path (<draft>/<player>/<id>).
-    let splits = event.currentTarget.id.split("/")
-    setSelectedPlayer(splits[1])
+    // Find the deck in the list of decks and use it to set the selected player.
+    for (let deck of decks) {
+      if (deckRef(deck) === ref) {
+        setSelectedPlayer(deck.player)
+        break
+      }
+    }
 
     // Highlight the deck in the side bar.
-    setHighlightedDeck(event.currentTarget.id)
+    setHighlightedDeck(ref)
 
     // If control is held, add this deck to the comparison set. Otherwise,
     // clear out the comparison set and just show this deck.
     if (event.ctrlKey || event.metaKey) {
       // Find the deck in the list of decks.
       for (let deck of decks) {
-        if (deck.metadata.path == event.currentTarget.id) {
+        if (deckRef(deck) === ref) {
           // Add to the comparison set.
           let newComparisonDecks = new Map(comparisonDecks)
-          if (newComparisonDecks.has(event.currentTarget.id)) {
+          if (newComparisonDecks.has(ref)) {
             // Deck is already in the comparison set - remove it.
-            newComparisonDecks.delete(event.currentTarget.id)
+            newComparisonDecks.delete(ref)
           } else {
-            newComparisonDecks.set(event.currentTarget.id, deck)
+            newComparisonDecks.set(ref, deck)
           }
           setComparisonDecks(newComparisonDecks)
         }
@@ -179,12 +188,12 @@ export function DeckViewer(props) {
     }
   }
 
-  // selectDeck picks a single deck by path (no comparison, no collapse change).
+  // selectDeck picks a single deck by ref (no comparison, no collapse change).
   // Used by arrow-key navigation and the opponent pills; the effect on
   // highlightedDeck resolves it to a loaded deck.
-  function selectDeck(path) {
+  function selectDeck(ref) {
     setComparisonDecks(new Map())
-    setHighlightedDeck(path)
+    setHighlightedDeck(ref)
   }
 
   // Selected description.
@@ -226,7 +235,7 @@ export function DeckViewer(props) {
     setFetched(new Map(fetched))
   }
 
-  // Whenever the selected deck (highlightedDeck path) changes, resolve it to a
+  // Whenever the selected deck (highlightedDeck ref) changes, resolve it to a
   // loaded deck. highlightedDeck may arrive from the URL on page load, so we
   // key off it directly and derive draft/player from the matched deck rather
   // than requiring the dropdowns to be set first.
@@ -237,18 +246,17 @@ export function DeckViewer(props) {
     }
 
     for (let deck of decks) {
-      if (deck.metadata.path == highlightedDeck) {
+      if (deckRef(deck) === highlightedDeck) {
         setDeck(deck)
         setSelectedPlayer(deck.player)
 
         // The highlighted deck is always a comparison deck.
         let newComparisonDecks = new Map(comparisonDecks)
-        newComparisonDecks.set(deck.metadata.path, deck)
+        newComparisonDecks.set(deckRef(deck), deck)
         setComparisonDecks(newComparisonDecks)
 
         // Load the deck description, if it exists.
-        let f = `data/${cube}/${deck.metadata.draft_id}/${deck.player}.report.md`
-        FetchNotes(cube, f.toLowerCase(), onDescriptionFetched)
+        FetchNotes(cube, deck.metadata.draft_id, deck.id, onDescriptionFetched)
         return
       }
     }
@@ -259,8 +267,8 @@ export function DeckViewer(props) {
   if (highlightedDeck) {
     highlightedDecks.push(highlightedDeck)
   }
-  for (let deckPath of comparisonDecks.keys()) {
-    highlightedDecks.push(deckPath)
+  for (let ref of comparisonDecks.keys()) {
+    highlightedDecks.push(ref)
   }
 
   // Memoize filtered and sorted decks to reduce lag during typing/filtering.
@@ -311,7 +319,7 @@ export function DeckViewer(props) {
   }, [decks, debouncedMatchStr, mainboardSideboard, deckSort]);
 
   // Left/right arrows step to the previous/next deck in the current list.
-  useArrowNav(filteredAndSortedDecks.decks, highlightedDeck, (d) => d.metadata.path, selectDeck);
+  useArrowNav(filteredAndSortedDecks.decks, highlightedDeck, (d) => deckRef(d), selectDeck);
 
   const playerNames = useMemo(() => {
     let seen = new Set();
@@ -504,7 +512,8 @@ function FilteredDecks(input) {
                   let color = draftToColor.get(deck.metadata.draft_id)
                   let className = "widget-table-row"
 
-                  const isSelected = input.highlight.includes(deck.metadata.path)
+                  const ref = deckRef(deck)
+                  const isSelected = input.highlight.includes(ref)
                   if (isSelected) {
                     className += " button-selected"
                   }
@@ -517,11 +526,11 @@ function FilteredDecks(input) {
                   let macro = getMacro(deck)
 
                   return (
-                    <tr ref={isSelected ? selectedRowRef : null} className={className} key={idx} style={{"--background-color": color}} onClick={input.onDeckClicked} id={deck.metadata.path}>
-                      <td style={{"width": "25%", "paddingLeft": "10px", "whiteSpace": "nowrap"}} id={deck.metadata.path} key="date">{deck.date}</td>
-                      <td style={{"width": "30%", "paddingRight": "10px", "whiteSpace": "nowrap"}} id={deck.metadata.path} key="player">{deck.player}</td>
-                      <td style={{"width": "25%", "paddingLeft": "10px", "whiteSpace": "nowrap"}} id={deck.metadata.path} key="wins">{record} ({winPercent}%)</td>
-                      <td style={{"width": "20%", "paddingRight": "10px", "whiteSpace": "nowrap"}} id={deck.metadata.path} key="macro">{macro}</td>
+                    <tr ref={isSelected ? selectedRowRef : null} className={className} key={idx} style={{"--background-color": color}} onClick={input.onDeckClicked} id={ref}>
+                      <td style={{"width": "25%", "paddingLeft": "10px", "whiteSpace": "nowrap"}} id={ref} key="date">{deck.date}</td>
+                      <td style={{"width": "30%", "paddingRight": "10px", "whiteSpace": "nowrap"}} id={ref} key="player">{deck.player}</td>
+                      <td style={{"width": "25%", "paddingLeft": "10px", "whiteSpace": "nowrap"}} id={ref} key="wins">{record} ({winPercent}%)</td>
+                      <td style={{"width": "20%", "paddingRight": "10px", "whiteSpace": "nowrap"}} id={ref} key="macro">{macro}</td>
                     </tr>
                   )
                 })
@@ -564,14 +573,15 @@ function DeckTableCell(input) {
   }
   let winPercent = Math.round(100 * gameWinPercent(input.deck))
   let macro = getMacro(input.deck)
+  let ref = deckRef(deck)
   return (
       <table className="deck-meta-table">
       <tbody>
         <tr className="deck-entry" style={{"--background-color": input.color}}>
-          <td style={{"width": "25%", "paddingLeft": "10px"}} id={deck.metadata.path} idx={input.idx} onClick={input.onDeckClicked} key="date">{deck.date}</td>
-          <td style={{"width": "30%", "paddingRight": "10px"}} id={deck.metadata.path} idx={input.idx} onClick={input.onDeckClicked} key="player">{deck.player}</td>
-          <td style={{"width": "25%", "paddingLeft": "10px"}} id={deck.metadata.path} idx={input.idx} onClick={input.onDeckClicked} key="wins">{record} ({winPercent}%)</td>
-          <td style={{"width": "20%", "paddingRight": "10px"}} id={deck.metadata.path} idx={input.idx} onClick={input.onDeckClicked} key="macro">{macro}</td>
+          <td style={{"width": "25%", "paddingLeft": "10px"}} id={ref} idx={input.idx} onClick={input.onDeckClicked} key="date">{deck.date}</td>
+          <td style={{"width": "30%", "paddingRight": "10px"}} id={ref} idx={input.idx} onClick={input.onDeckClicked} key="player">{deck.player}</td>
+          <td style={{"width": "25%", "paddingLeft": "10px"}} id={ref} idx={input.idx} onClick={input.onDeckClicked} key="wins">{record} ({winPercent}%)</td>
+          <td style={{"width": "20%", "paddingRight": "10px"}} id={ref} idx={input.idx} onClick={input.onDeckClicked} key="macro">{macro}</td>
         </tr>
       </tbody>
       </table>
@@ -733,11 +743,11 @@ function compareDecks(input) {
       if (allCards.has(card.name)) {
         // Add this deck.
         let entry = allCards.get(card.name)
-        entry.decks.set(deck.metadata.path, true)
+        entry.decks.set(deckRef(deck), true)
         allCards.set(card.name, entry)
       } else {
         // New card - add it to the map.
-        allCards.set(card.name, { card: card, decks: new Map([[deck.metadata.path, true]])})
+        allCards.set(card.name, { card: card, decks: new Map([[deckRef(deck), true]])})
       }
     }
   }
@@ -978,8 +988,7 @@ function DeckReport(input) {
 
   const onSave = async () => {
     try {
-      let f = `data/${input.cube}/${input.deck.metadata.draft_id}/${input.deck.player}.report.md`
-      await SaveNotes(input.cube, f.toLowerCase(), editContent);
+      await SaveNotes(input.cube, input.deck.metadata.draft_id, input.deck.id, editContent);
       input.onDescriptionFetched(editContent);
       setIsEditing(false);
     } catch (err) {
@@ -1061,7 +1070,7 @@ function PlayerFrame(input) {
     try {
       const updated = await SaveDeckMeta(cube, {
         draft_id: deck.metadata.draft_id,
-        player: deck.player,
+        id: deck.id,
         macro_archetype: macro !== undefined ? macro : (deck.macro_archetype || ""),
         labels: labels !== undefined ? labels : (deck.labels || []),
         colors: colors !== undefined ? colors : (deck.colors_override || []),
@@ -1270,12 +1279,15 @@ function PlayerFrame(input) {
 
             let oppLabel = match.opponent || "Unknown"
             let oppArch = ""
-            let oppPath = ""
+            let oppRef = ""
             if (match.opponent) {
+              // Find the opponent's deck by player + date - this is opponent
+              // lookup, not deck identity. The token we hand to onSelectDeck
+              // below is still the opponent deck's own deckRef.
               for (let d of input.decks) {
                 if (d.player.toLowerCase() == match.opponent.toLowerCase() && d.date == deck.date) {
                   oppArch = getMacro(d)
-                  oppPath = d.metadata.path
+                  oppRef = deckRef(d)
                   break
                 }
               }
@@ -1287,12 +1299,12 @@ function PlayerFrame(input) {
               score = Record(deck, match.opponent)
             }
 
-            const canLink = oppPath && input.onSelectDeck
+            const canLink = oppRef && input.onSelectDeck
             return (
               <div
                 key={i}
                 className={"match-pill" + (canLink ? " link" : "")}
-                onClick={canLink ? () => input.onSelectDeck(oppPath) : undefined}
+                onClick={canLink ? () => input.onSelectDeck(oppRef) : undefined}
                 title={canLink ? `View ${oppLabel}'s deck` : undefined}
               >
                 {match.round > 0 && <span className="round">R{match.round}</span>}

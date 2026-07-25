@@ -56,7 +56,7 @@ export async function LoadDrafts(cube, onLoad, start, end) {
     if (!isDateBetween(draft.date, start, end)) {
       return
     }
-    if (draft.draft_log === "") {
+    if (!draft.has_log) {
       return
     }
     ids.push(draft.draft_id)
@@ -84,9 +84,9 @@ export async function LoadDrafts(cube, onLoad, start, end) {
   onLoad(drafts)
 }
 
-// FetchNotes returns the raw contents of a notes file under data/{cube}/.
-export async function FetchNotes(cube, path, onFetch) {
-  const resp = await fetch(`/api/${cube}/notes?path=${encodeURIComponent(path)}`);
+// FetchNotes returns the notes for the deck identified by draftID and id.
+export async function FetchNotes(cube, draftID, id, onFetch) {
+  const resp = await fetch(`/api/${cube}/notes?draft_id=${encodeURIComponent(draftID)}&id=${encodeURIComponent(id)}`);
   let txt = await resp.text();
   if (resp.status != 200) {
     txt = ""
@@ -98,14 +98,14 @@ export async function FetchNotes(cube, path, onFetch) {
   return txt;
 }
 
-// SaveNotes saves the given content to the specified path.
-export async function SaveNotes(cube, path, content) {
+// SaveNotes saves notes for the deck identified by draftID and id.
+export async function SaveNotes(cube, draftID, id, content) {
   const resp = await fetch(`/api/${cube}/save-notes`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ path, content }),
+    body: JSON.stringify({ draft_id: draftID, id, content }),
   });
   if (!resp.ok) {
     throw new Error("Failed to save notes");
@@ -113,14 +113,14 @@ export async function SaveNotes(cube, path, content) {
 }
 
 // SaveDeckMeta writes the three editable metadata fields for a deck identified
-// by (draft_id, player) and returns the updated, decorated deck.
-export async function SaveDeckMeta(cube, { draft_id, player, macro_archetype, labels, colors }) {
+// by (draft_id, id) and returns the updated, decorated deck.
+export async function SaveDeckMeta(cube, { draft_id, id, macro_archetype, labels, colors }) {
   const resp = await fetch(`/api/${cube}/decks/update`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ draft_id, player, macro_archetype, labels, colors }),
+    body: JSON.stringify({ draft_id, id, macro_archetype, labels, colors }),
   });
   if (!resp.ok) {
     throw new Error("Failed to save deck metadata");

@@ -2,24 +2,28 @@ package server
 
 import (
 	"encoding/json"
+	"errors"
 	"net/http"
-	"os"
-	"path/filepath"
-	"strings"
 
+	"github.com/caseydavenport/cube-tools/pkg/storage"
 	"github.com/sirupsen/logrus"
 )
 
 type SaveNotesRequest struct {
-	Path    string `json:"path"`
+	DraftID string `json:"draft_id"`
+	ID      string `json:"id"`
 	Content string `json:"content"`
 }
 
-func SaveNotesHandler() http.Handler {
-	return &saveNotesHandler{}
+// SaveNotesHandler persists a deck's notes through the store, which routes to
+// whatever backend is active.
+func SaveNotesHandler(store *storage.Store) http.Handler {
+	return &saveNotesHandler{store: store}
 }
 
-type saveNotesHandler struct{}
+type saveNotesHandler struct {
+	store *storage.Store
+}
 
 func (h *saveNotesHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 	if r.Method != http.MethodPost {
@@ -28,42 +32,27 @@ func (h *saveNotesHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 	}
 
 	var req SaveNotesRequest
-	err := json.NewDecoder(r.Body).Decode(&req)
-	if err != nil {
+	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
 		http.Error(rw, "Invalid request", http.StatusBadRequest)
 		return
 	}
 
-	// Validate path: must live under data/<cube>/ for the cube on this request,
-	// and must not traverse out. The trailing separator guards against
-	// lookalike prefixes like data/polyverse-evil.
-	cubeID := CubeFromRequest(r)
-	cleanPath := filepath.Clean(req.Path)
-	prefix := filepath.Clean(filepath.Join("data", cubeID)) + string(filepath.Separator)
-	if cubeID == "" || strings.Contains(req.Path, "..") || !strings.HasPrefix(cleanPath+string(filepath.Separator), prefix) {
-		logrus.WithFields(logrus.Fields{"cube": cubeID, "path": req.Path}).Warn("Blocked invalid notes path")
-		http.Error(rw, "Invalid path", http.StatusForbidden)
+	cube := CubeFromRequest(r)
+	if cube == "" || req.DraftID == "" || req.ID == "" {
+		http.Error(rw, "Missing required field", http.StatusBadRequest)
 		return
 	}
 
-	// Ensure directory exists.
-	dir := filepath.Dir(cleanPath)
-	if _, err := os.Stat(dir); os.IsNotExist(err) {
-		err = os.MkdirAll(dir, 0o755)
-		if err != nil {
-			logrus.WithError(err).Error("Failed to create directory")
-			http.Error(rw, "Internal server error", http.StatusInternalServerError)
+	if err := h.store.PutNotes(cube, req.DraftID, req.ID, req.Content); err != nil {
+		if errors.Is(err, storage.ErrUnsupported) {
+			http.Error(rw, "Not supported", http.StatusNotImplemented)
 			return
 		}
-	}
-
-	err = os.WriteFile(cleanPath, []byte(req.Content), 0o644)
-	if err != nil {
-		logrus.WithError(err).Error("Failed to write notes file")
+		logrus.WithError(err).WithFields(logrus.Fields{"cube": cube, "draft_id": req.DraftID, "id": req.ID}).Error("Failed to save notes")
 		http.Error(rw, "Internal server error", http.StatusInternalServerError)
 		return
 	}
 
-	logrus.WithField("path", cleanPath).Info("Saved notes")
+	logrus.WithFields(logrus.Fields{"cube": cube, "draft_id": req.DraftID, "id": req.ID}).Info("Saved notes")
 	rw.WriteHeader(http.StatusOK)
 }

@@ -52,7 +52,7 @@ func TestUpdateDeckHandler_OK(t *testing.T) {
 	store := file.NewStore(nil)
 	rec := httptest.NewRecorder()
 	UpdateDeckHandler(store).ServeHTTP(rec, updateReq(t, "testcube", UpdateDeckMetaRequest{
-		DraftID: "d1", Player: "p1", MacroArchetype: "control",
+		DraftID: "d1", ID: "p1", MacroArchetype: "control",
 		Labels: []string{"removal"}, Colors: []string{"W"},
 	}))
 	require.Equal(t, http.StatusOK, rec.Code)
@@ -79,7 +79,7 @@ func TestUpdateDeckHandler_NotFound(t *testing.T) {
 	store := file.NewStore(nil)
 	rec := httptest.NewRecorder()
 	UpdateDeckHandler(store).ServeHTTP(rec, updateReq(t, "testcube", UpdateDeckMetaRequest{
-		DraftID: "d1", Player: "ghost",
+		DraftID: "d1", ID: "ghost",
 	}))
 	require.Equal(t, http.StatusNotFound, rec.Code)
 }
@@ -88,7 +88,7 @@ func TestUpdateDeckHandler_BadRequest(t *testing.T) {
 	store := file.NewStore(nil)
 	rec := httptest.NewRecorder()
 	UpdateDeckHandler(store).ServeHTTP(rec, updateReq(t, "testcube", UpdateDeckMetaRequest{
-		Player: "p1", // missing DraftID
+		ID: "p1", // missing DraftID
 	}))
 	require.Equal(t, http.StatusBadRequest, rec.Code)
 }
