@@ -108,3 +108,31 @@ func TestRawDecks(t *testing.T) {
 		}
 	}
 }
+
+func TestIndex(t *testing.T) {
+	srv := newFixtureServer(t)
+	defer srv.Close()
+	b := New(srv.URL, fakeCube{})
+
+	idx, err := b.Index("cc:polyversal")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if len(idx.Drafts) != 1 {
+		t.Fatalf("got %d drafts, want 1", len(idx.Drafts))
+	}
+	d := idx.Drafts[0]
+	if d.DraftID != "rec1" || d.Date != "2023-04-19" || d.HasLog {
+		t.Errorf("draft = %+v, want rec1 2023-04-19 HasLog=false", d)
+	}
+	if len(d.Decks) != 2 {
+		t.Fatalf("got %d decks, want 2", len(d.Decks))
+	}
+	ids := map[string]bool{}
+	for _, dk := range d.Decks {
+		ids[dk.ID] = true
+	}
+	if !ids["casey"] || !ids["matt"] {
+		t.Errorf("deck ids = %v, want casey and matt", ids)
+	}
+}

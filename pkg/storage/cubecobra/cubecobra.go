@@ -19,8 +19,8 @@ import (
 const fetchTTL = 60 * time.Second
 
 // Backend is a read-only deck source for a public CubeCobra cube, loaded on
-// demand via the analysisdata endpoint. It implements DeckBackend only; it
-// has no writers, so Store reports ErrUnsupported for notes, rules, deck
+// demand via the analysisdata endpoint. It implements DeckBackend and IndexBackend;
+// it has no writers, so Store reports ErrUnsupported for notes, rules, deck
 // metadata, and draft logs.
 type Backend struct {
 	baseURL string
@@ -183,4 +183,25 @@ func matchesFor(player string, rounds []commands.CCRound) []types.Match {
 		}
 	}
 	return matches
+}
+
+// Index returns the path-free index of the cube's records and their decks.
+func (b *Backend) Index(cube string) (*storage.CubeIndex, error) {
+	data, err := b.fetch(cube)
+	if err != nil {
+		return nil, err
+	}
+	out := &storage.CubeIndex{}
+	for _, rec := range data.Records {
+		draft := storage.IndexedDraft{
+			DraftID: rec.ID,
+			Date:    time.UnixMilli(rec.Date).UTC().Format("2006-01-02"),
+			HasLog:  false,
+		}
+		for _, p := range rec.Players {
+			draft.Decks = append(draft.Decks, storage.IndexedDeck{ID: p.Name})
+		}
+		out.Drafts = append(out.Drafts, draft)
+	}
+	return out, nil
 }
