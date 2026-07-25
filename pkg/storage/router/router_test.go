@@ -9,7 +9,10 @@ import (
 	"github.com/caseydavenport/cube-tools/pkg/storage"
 )
 
-type fakeFile struct{ wrote bool }
+type fakeFile struct {
+	wrote     bool
+	rulesCube string
+}
 
 func (f *fakeFile) RawDecks(cube string) ([]*storage.Deck, error) {
 	return []*storage.Deck{{ID: "file:" + cube}}, nil
@@ -22,6 +25,7 @@ func (f *fakeFile) WriteDeckMeta(cube, d, id, m string, l, c []string) (*storage
 func (f *fakeFile) GetNotes(cube, d, id string) (string, error) { return "notes", nil }
 func (f *fakeFile) PutNotes(cube, d, id, content string) error  { f.wrote = true; return nil }
 func (f *fakeFile) GetRules(cube string) (*design.DesignMapConfig, error) {
+	f.rulesCube = cube
 	return &design.DesignMapConfig{}, nil
 }
 func (f *fakeFile) PutRules(cube string, r *design.DesignMapConfig) error { f.wrote = true; return nil }
@@ -71,10 +75,18 @@ func TestRouterWritesGatedForCC(t *testing.T) {
 	if _, err := r.GetNotes("cc:polyversal", "d", "id"); !errors.Is(err, storage.ErrUnsupported) {
 		t.Errorf("cc GetNotes err = %v, want ErrUnsupported", err)
 	}
-	if _, err := r.GetRules("cc:polyversal"); !errors.Is(err, storage.ErrUnsupported) {
-		t.Errorf("cc GetRules err = %v, want ErrUnsupported", err)
-	}
 	if _, err := r.GetDraftLog("cc:polyversal", "d"); !errors.Is(err, storage.ErrUnsupported) {
 		t.Errorf("cc GetDraftLog err = %v, want ErrUnsupported", err)
+	}
+}
+
+func TestRouterCCRulesBaseline(t *testing.T) {
+	ff := &fakeFile{}
+	r := New(ff, fakeCC{})
+	if _, err := r.GetRules("cc:polyversal"); err != nil {
+		t.Fatalf("cc GetRules errored: %v", err)
+	}
+	if ff.rulesCube != baselineRulesCube {
+		t.Errorf("cc GetRules read rules for %q, want baseline %q", ff.rulesCube, baselineRulesCube)
 	}
 }

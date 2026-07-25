@@ -37,6 +37,11 @@ type Router struct {
 	cc   CCBackend
 }
 
+// baselineRulesCube is the registry cube whose design-map ruleset cc: cubes
+// borrow. CubeCobra exposes no rules API, so serving this baseline gives cc:
+// cubes a design map instead of nothing.
+const baselineRulesCube = "polyverse"
+
 // New builds a router over a writable file backend and a read-only CubeCobra
 // backend.
 func New(file FileBackend, cc CCBackend) *Router {
@@ -80,7 +85,7 @@ func (r *Router) PutNotes(cube, draftID, deckID, content string) error {
 
 func (r *Router) GetRules(cube string) (*design.DesignMapConfig, error) {
 	if cubes.IsCubeCobra(cube) {
-		return nil, storage.ErrUnsupported
+		return r.file.GetRules(baselineRulesCube)
 	}
 	return r.file.GetRules(cube)
 }
