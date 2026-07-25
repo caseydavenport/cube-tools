@@ -25,6 +25,17 @@ func TestMemoryConformance(t *testing.T) {
 		deck("Alice", "d1", []types.Match{{Opponent: "Bob", Wins: 2, Losses: 0}}),
 		deck("Bob", "d1", []types.Match{{Opponent: "Alice", Wins: 0, Losses: 2}}),
 	)
+	b.SeedIndex("conf", &storage.CubeIndex{
+		Drafts: []storage.IndexedDraft{
+			{
+				DraftID: "d1",
+				Date:    "2024-01-01",
+				HasLog:  true,
+				Decks:   []storage.IndexedDeck{{ID: "Alice"}, {ID: "Bob"}},
+			},
+		},
+	})
+	b.SeedDraftLog("conf", "d1", json.RawMessage(`{"picks":[]}`))
 	s := storage.NewStore(b)
 	storage.RunDeckConformance(t, s, storage.Detect(b))
 }

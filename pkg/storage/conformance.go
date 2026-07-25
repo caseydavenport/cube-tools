@@ -1,8 +1,10 @@
 package storage
 
 import (
+	"errors"
 	"testing"
 
+	"github.com/caseydavenport/cube-tools/pkg/design"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -46,4 +48,86 @@ func RunDeckConformance(t *testing.T, s *Store, caps Capabilities) {
 			}
 		}
 	}
+
+	RunNotesConformance(t, s, caps)
+	RunRulesConformance(t, s, caps)
+	RunIndexConformance(t, s)
+	RunDraftLogConformance(t, s)
+}
+
+// RunNotesConformance checks deck-notes round-tripping when caps.Notes is set:
+// writing then reading a deck's notes returns the same content, and reading an
+// unknown deck's notes returns ("", nil) rather than an error.
+func RunNotesConformance(t *testing.T, s *Store, caps Capabilities) {
+	t.Helper()
+	if !caps.Notes {
+		return
+	}
+
+	assert.NoError(t, s.PutNotes("conf", "d1", "Alice", "hi"))
+	got, err := s.GetNotes("conf", "d1", "Alice")
+	assert.NoError(t, err)
+	assert.Equal(t, "hi", got)
+
+	got, err = s.GetNotes("conf", "d1", "Nobody")
+	assert.NoError(t, err)
+	assert.Equal(t, "", got)
+}
+
+// RunRulesConformance checks design-map rules round-tripping when caps.Rules
+// is set: writing a small config and reading it back returns equal groups and
+// links.
+func RunRulesConformance(t *testing.T, s *Store, caps Capabilities) {
+	t.Helper()
+	if !caps.Rules {
+		return
+	}
+
+	rules := &design.DesignMapConfig{
+		Groups: []design.Group{{Name: "Aggro"}},
+		Links:  []design.Link{{Label: "combo"}},
+	}
+	assert.NoError(t, s.PutRules("conf", rules))
+
+	got, err := s.GetRules("conf")
+	assert.NoError(t, err)
+	assert.Equal(t, rules.Groups, got.Groups)
+	assert.Equal(t, rules.Links, got.Links)
+}
+
+// RunIndexConformance checks the read-only cube index against the canonical
+// dataset's draft "d1" and its two decks. Index has no capability flag, so a
+// backend that doesn't implement it is expected to return ErrUnsupported,
+// which this skips rather than fails on.
+func RunIndexConformance(t *testing.T, s *Store) {
+	t.Helper()
+
+	idx, err := s.Index("conf")
+	if errors.Is(err, ErrUnsupported) {
+		return
+	}
+	if !assert.NoError(t, err) {
+		return
+	}
+
+	assert.Len(t, idx.Drafts, 1)
+	draft := idx.Drafts[0]
+	assert.Equal(t, "d1", draft.DraftID)
+	assert.True(t, draft.HasLog)
+	assert.ElementsMatch(t, []IndexedDeck{{ID: "Alice"}, {ID: "Bob"}}, draft.Decks)
+}
+
+// RunDraftLogConformance checks that a seeded draft log round-trips through
+// GetDraftLog. Like Index, GetDraftLog has no capability flag; a backend that
+// doesn't implement it is expected to return ErrUnsupported, which this skips
+// rather than fails on.
+func RunDraftLogConformance(t *testing.T, s *Store) {
+	t.Helper()
+
+	got, err := s.GetDraftLog("conf", "d1")
+	if errors.Is(err, ErrUnsupported) {
+		return
+	}
+	assert.NoError(t, err)
+	assert.JSONEq(t, `{"picks":[]}`, string(got))
 }

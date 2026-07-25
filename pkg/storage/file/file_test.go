@@ -43,6 +43,7 @@ func TestFileConformance(t *testing.T) {
 		t.Fatalf("chdir temp root: %v", err)
 	}
 	writeConfFixture(t, root)
+	writeConfDraftLog(t, root)
 	s := NewStore(nil)
 	storage.RunDeckConformance(t, s, storage.Detect(New(nil)))
 }
@@ -141,6 +142,36 @@ func writeConfFixture(t *testing.T, root string) {
 	}
 }
 
+// writeConfDraftLog extends the conf fixture with a draft log: it points
+// index.json at "d1"'s draft-log.json and writes that file, matching what
+// commands.Index produces once a draft has been logged.
+func writeConfDraftLog(t *testing.T, root string) {
+	t.Helper()
+
+	index := `{
+ "drafts": [
+  {
+   "path": "data/conf/d1",
+   "date": "2024-01-01",
+   "draft_id": "d1",
+   "draft_log": "data/conf/d1/draft-log.json",
+   "decks": [
+    {"path": "data/conf/d1/alice.json"},
+    {"path": "data/conf/d1/bob.json"}
+   ]
+  }
+ ]
+}`
+	if err := os.WriteFile(filepath.Join(root, "data/conf/index.json"), []byte(index), 0o644); err != nil {
+		t.Fatalf("write index.json: %v", err)
+	}
+
+	logPath := filepath.Join(root, "data/conf/d1/draft-log.json")
+	if err := os.WriteFile(logPath, []byte(`{"picks":[]}`), 0o644); err != nil {
+		t.Fatalf("write draft-log.json: %v", err)
+	}
+}
+
 func TestFileNotesRoundTrip(t *testing.T) {
 	root := t.TempDir()
 	if err := os.Chdir(root); err != nil {
@@ -214,24 +245,7 @@ func TestFileIndex(t *testing.T) {
 		t.Fatalf("chdir temp root: %v", err)
 	}
 	writeConfFixture(t, root)
-
-	// Overwrite the index to mark the draft as having a log, matching what
-	// commands.Index produces once a draft-log.json is present.
-	index := `{
- "drafts": [
-  {
-   "path": "data/conf/d1",
-   "date": "2024-01-01",
-   "draft_id": "d1",
-   "draft_log": "data/conf/d1/draft-log.json",
-   "decks": [
-    {"path": "data/conf/d1/alice.json"},
-    {"path": "data/conf/d1/bob.json"}
-   ]
-  }
- ]
-}`
-	assert.NoError(t, os.WriteFile(filepath.Join(root, "data/conf/index.json"), []byte(index), 0o644))
+	writeConfDraftLog(t, root)
 
 	b := New(nil)
 	got, err := b.Index("conf")
@@ -250,9 +264,7 @@ func TestFileGetDraftLog(t *testing.T) {
 		t.Fatalf("chdir temp root: %v", err)
 	}
 	writeConfFixture(t, root)
-
-	logPath := filepath.Join(root, "data/conf/d1/draft-log.json")
-	assert.NoError(t, os.WriteFile(logPath, []byte(`{"picks":[]}`), 0o644))
+	writeConfDraftLog(t, root)
 
 	b := New(nil)
 	got, err := b.GetDraftLog("conf", "d1")
