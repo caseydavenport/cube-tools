@@ -9,7 +9,6 @@ import (
 	"github.com/caseydavenport/cube-tools/pkg/server"
 	"github.com/caseydavenport/cube-tools/pkg/server/decks"
 	"github.com/caseydavenport/cube-tools/pkg/storage"
-	"github.com/caseydavenport/cube-tools/pkg/storage/file"
 	"github.com/caseydavenport/cube-tools/pkg/types"
 	"github.com/sirupsen/logrus"
 )
@@ -52,9 +51,9 @@ type opponentWinAccum struct {
 	totalMatches int
 }
 
-func PlayerStatsHandler(src types.CubeSource) http.Handler {
+func PlayerStatsHandler(store storage.DeckStorage, src types.CubeSource) http.Handler {
 	return &playerStatsHandler{
-		store: file.NewStore(src),
+		store: store,
 		src:   src,
 	}
 }

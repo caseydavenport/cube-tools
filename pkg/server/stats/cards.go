@@ -11,7 +11,6 @@ import (
 	"github.com/caseydavenport/cube-tools/pkg/server/decks"
 	"github.com/caseydavenport/cube-tools/pkg/server/query"
 	"github.com/caseydavenport/cube-tools/pkg/storage"
-	"github.com/caseydavenport/cube-tools/pkg/storage/file"
 	"github.com/caseydavenport/cube-tools/pkg/types"
 	"github.com/sirupsen/logrus"
 )
@@ -78,9 +77,9 @@ func parseCardsRequest(r *http.Request) *CardStatsRequest {
 	return &p
 }
 
-func CardStatsHandler(src types.CubeSource) http.Handler {
+func CardStatsHandler(store storage.DeckStorage, src types.CubeSource) http.Handler {
 	return &cardStatsHandler{
-		store: file.NewStore(src),
+		store: store,
 		src:   src,
 	}
 }

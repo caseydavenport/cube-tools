@@ -6,6 +6,7 @@ import (
 	"net/http/httptest"
 	"testing"
 
+	"github.com/caseydavenport/cube-tools/pkg/design"
 	"github.com/caseydavenport/cube-tools/pkg/storage"
 	"github.com/caseydavenport/cube-tools/pkg/types"
 	"github.com/stretchr/testify/assert"
@@ -21,6 +22,10 @@ func (m *mockDeckStorage) List(_ string, _ *storage.DecksRequest) ([]*storage.De
 
 func (m *mockDeckStorage) UpdateDeckMeta(_, _, _, _ string, _, _ []string) (*storage.Deck, error) {
 	return nil, nil
+}
+
+func (m *mockDeckStorage) GetRules(_ string) (*design.DesignMapConfig, error) {
+	return nil, storage.ErrUnsupported
 }
 
 func makeStorageDeck(player, draftID string, labels []string, games []types.Game, matches []types.Match) *storage.Deck {

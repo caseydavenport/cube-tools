@@ -12,7 +12,6 @@ import (
 
 	"github.com/caseydavenport/cube-tools/pkg/server"
 	"github.com/caseydavenport/cube-tools/pkg/storage"
-	"github.com/caseydavenport/cube-tools/pkg/storage/file"
 	"github.com/caseydavenport/cube-tools/pkg/types"
 	"github.com/sirupsen/logrus"
 )
@@ -331,8 +330,8 @@ type RemovalResponse struct {
 	Excluded        int           `json:"excluded"`
 }
 
-func RemovalHandler(src types.CubeSource) http.Handler {
-	return &removalHandler{store: file.NewStore(src), src: src}
+func RemovalHandler(store storage.DeckStorage, src types.CubeSource) http.Handler {
+	return &removalHandler{store: store, src: src}
 }
 
 type removalHandler struct {

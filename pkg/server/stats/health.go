@@ -10,7 +10,6 @@ import (
 	"github.com/caseydavenport/cube-tools/pkg/server/decks"
 	"github.com/caseydavenport/cube-tools/pkg/server/query"
 	"github.com/caseydavenport/cube-tools/pkg/storage"
-	"github.com/caseydavenport/cube-tools/pkg/storage/file"
 	"github.com/caseydavenport/cube-tools/pkg/types"
 	"github.com/sirupsen/logrus"
 )
@@ -46,9 +45,9 @@ func parseHealthRequest(r *http.Request) *HealthStatsRequest {
 	return &p
 }
 
-func HealthStatsHandler(src types.CubeSource) http.Handler {
+func HealthStatsHandler(store storage.DeckStorage, src types.CubeSource) http.Handler {
 	return &healthStatsHandler{
-		store: file.NewStore(src),
+		store: store,
 		src:   src,
 	}
 }

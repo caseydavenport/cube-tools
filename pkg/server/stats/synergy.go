@@ -10,7 +10,6 @@ import (
 	"github.com/caseydavenport/cube-tools/pkg/server/decks"
 	"github.com/caseydavenport/cube-tools/pkg/server/query"
 	"github.com/caseydavenport/cube-tools/pkg/storage"
-	"github.com/caseydavenport/cube-tools/pkg/storage/file"
 	"github.com/caseydavenport/cube-tools/pkg/types"
 	"github.com/sirupsen/logrus"
 )
@@ -155,9 +154,9 @@ func filterByRecord(in []*storage.Deck, record string) []*storage.Deck {
 	return out
 }
 
-func SynergyStatsHandler(src types.CubeSource) http.Handler {
+func SynergyStatsHandler(store storage.DeckStorage, src types.CubeSource) http.Handler {
 	return &synergyStatsHandler{
-		store: file.NewStore(src),
+		store: store,
 		src:   src,
 	}
 }

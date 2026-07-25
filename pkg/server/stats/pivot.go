@@ -13,7 +13,6 @@ import (
 	"github.com/caseydavenport/cube-tools/pkg/server/decks"
 	"github.com/caseydavenport/cube-tools/pkg/server/query"
 	"github.com/caseydavenport/cube-tools/pkg/storage"
-	"github.com/caseydavenport/cube-tools/pkg/storage/file"
 	"github.com/caseydavenport/cube-tools/pkg/types"
 	"github.com/sirupsen/logrus"
 )
@@ -97,8 +96,8 @@ type PivotResponse struct {
 	Rows    []*PivotRow `json:"rows"`
 }
 
-func PivotHandler(src types.CubeSource) http.Handler {
-	return &pivotHandler{store: file.NewStore(src), src: src}
+func PivotHandler(store storage.DeckStorage, src types.CubeSource) http.Handler {
+	return &pivotHandler{store: store, src: src}
 }
 
 type pivotHandler struct {

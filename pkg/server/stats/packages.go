@@ -9,7 +9,6 @@ import (
 	"github.com/caseydavenport/cube-tools/pkg/server"
 	"github.com/caseydavenport/cube-tools/pkg/server/query"
 	"github.com/caseydavenport/cube-tools/pkg/storage"
-	"github.com/caseydavenport/cube-tools/pkg/storage/file"
 	"github.com/caseydavenport/cube-tools/pkg/types"
 	"github.com/sirupsen/logrus"
 )
@@ -42,8 +41,8 @@ type PackageStatsResponse struct {
 	Packages       []PackageStat `json:"packages"`
 }
 
-func PackageStatsHandler(src types.CubeSource) http.Handler {
-	return &packageStatsHandler{store: file.NewStore(src), src: src}
+func PackageStatsHandler(store storage.DeckStorage, src types.CubeSource) http.Handler {
+	return &packageStatsHandler{store: store, src: src}
 }
 
 type packageStatsHandler struct {
@@ -55,7 +54,7 @@ func (h *packageStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request)
 	logrus.Info("/api/stats/packages")
 
 	cubeID := server.CubeFromRequest(r)
-	graph, err := DesignGraphForCube(h.src, cubeID)
+	graph, err := DesignGraphForCube(h.store, h.src, cubeID)
 	if err != nil {
 		http.Error(rw, "could not load design graph", http.StatusInternalServerError)
 		return
@@ -176,8 +175,8 @@ func packageStats(designGraph DesignGraphResponse, decks []*storage.Deck, conf f
 // EdgesForCube loads a cube's design graph and returns its clustering edges, so
 // the deck filter can ask whether a deck's cards cohere into a package without
 // depending on the stats package's response types.
-func EdgesForCube(src types.CubeSource, cubeID string) ([]graph.Edge, error) {
-	resp, err := DesignGraphForCube(src, cubeID)
+func EdgesForCube(store storage.DeckStorage, src types.CubeSource, cubeID string) ([]graph.Edge, error) {
+	resp, err := DesignGraphForCube(store, src, cubeID)
 	if err != nil {
 		return nil, err
 	}

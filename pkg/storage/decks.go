@@ -5,6 +5,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/caseydavenport/cube-tools/pkg/design"
 	"github.com/caseydavenport/cube-tools/pkg/graph"
 	"github.com/caseydavenport/cube-tools/pkg/server/query"
 	"github.com/caseydavenport/cube-tools/pkg/types"
@@ -112,6 +113,10 @@ var ErrDeckNotFound = errors.New("deck not found")
 type DeckStorage interface {
 	List(cube string, req *DecksRequest) ([]*Deck, error)
 	UpdateDeckMeta(cube, draftID, deckID, macroArchetype string, labels, colors []string) (*Deck, error)
+
+	// GetRules returns the cube's design-map rules, or ErrUnsupported if the
+	// backend has none (e.g. a read-only cc: cube).
+	GetRules(cube string) (*design.DesignMapConfig, error)
 }
 
 func filter(decks []*Deck, r *DecksRequest) []*Deck {

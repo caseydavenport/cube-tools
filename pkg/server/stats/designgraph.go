@@ -118,7 +118,7 @@ type DesignGraphGroupEdge struct {
 	Labels []string `json:"labels"`
 }
 
-func DesignGraphHandler(src types.CubeSource) http.Handler {
+func DesignGraphHandler(store storage.DeckStorage, src types.CubeSource) http.Handler {
 	return http.HandlerFunc(func(rw http.ResponseWriter, r *http.Request) {
 		logrus.Info("/api/stats/design-graph")
 
@@ -130,7 +130,7 @@ func DesignGraphHandler(src types.CubeSource) http.Handler {
 		}
 
 		var config design.DesignMapConfig
-		if cfg, err := file.NewStore(src).GetRules(cubeID); err != nil {
+		if cfg, err := store.GetRules(cubeID); err != nil {
 			logrus.WithError(err).Warn("could not load cube rules")
 			config = design.DesignMapConfig{}
 		} else {
@@ -157,18 +157,24 @@ func DesignGraphHandler(src types.CubeSource) http.Handler {
 // DesignGraphForCube builds the design graph from a cube's catalog and rules,
 // same builder as /api/stats/design-graph. Unlike the handler, a missing or
 // malformed cube-rules.json is a hard error, not an empty-config fallback, so a
-// caller fails loudly rather than getting an edgeless graph. Paths resolve from
-// the working directory, so run from the repo root.
-func DesignGraphForCube(src types.CubeSource, cubeID string) (DesignGraphResponse, error) {
+// caller fails loudly rather than getting an edgeless graph - except when the
+// backend simply doesn't support rules (e.g. a read-only cc: cube), which is
+// treated as an empty config since that cube legitimately has none. Paths
+// resolve from the working directory, so run from the repo root.
+func DesignGraphForCube(store storage.DeckStorage, src types.CubeSource, cubeID string) (DesignGraphResponse, error) {
 	cube, err := src.Current(cubeID)
 	if err != nil {
 		return DesignGraphResponse{}, err
 	}
-	cfg, err := file.NewStore(src).GetRules(cubeID)
-	if err != nil {
+	cfg, err := store.GetRules(cubeID)
+	var config design.DesignMapConfig
+	if errors.Is(err, storage.ErrUnsupported) {
+		config = design.DesignMapConfig{}
+	} else if err != nil {
 		return DesignGraphResponse{}, err
+	} else {
+		config = *cfg
 	}
-	config := *cfg
 	names, err := deckCardNames(cubeID)
 	if err != nil {
 		logrus.WithError(err).Warn("could not load deck cards; cut cards may show disconnected")
@@ -231,7 +237,7 @@ type DesignGraphMatchResponse struct {
 // DesignGraphMatchHandler handles POST /api/stats/design-graph/match.
 // It accepts {"conditions": ["o:mill", ...], "groups": ["GroupA", ...]} and returns
 // matching cards with per-card condition info.
-func DesignGraphMatchHandler(src types.CubeSource) http.Handler {
+func DesignGraphMatchHandler(store storage.DeckStorage, src types.CubeSource) http.Handler {
 	return http.HandlerFunc(func(rw http.ResponseWriter, r *http.Request) {
 		if r.Method != http.MethodPost {
 			http.Error(rw, "method not allowed", http.StatusMethodNotAllowed)
@@ -257,7 +263,7 @@ func DesignGraphMatchHandler(src types.CubeSource) http.Handler {
 		// Saved rules supply the per-group exclude lists so matches can be
 		// marked. Missing rules just means nothing gets marked excluded.
 		var config design.DesignMapConfig
-		if cfg, err := file.NewStore(src).GetRules(cubeID); err != nil {
+		if cfg, err := store.GetRules(cubeID); err != nil {
 			logrus.WithError(err).Debug("could not load cube rules for match")
 			config = design.DesignMapConfig{}
 		} else {
@@ -352,12 +358,12 @@ const distributionMinDeckSize = 20
 // to read as manabase plumbing rather than a strategy.
 const manabaseLandFraction = 0.8
 
-func GroupDistributionsHandler(src types.CubeSource) http.Handler {
-	return &groupDistributionsHandler{store: file.NewStore(src), src: src}
+func GroupDistributionsHandler(store storage.DeckStorage, src types.CubeSource) http.Handler {
+	return &groupDistributionsHandler{store: store, src: src}
 }
 
 type groupDistributionsHandler struct {
-	store *storage.Store
+	store storage.DeckStorage
 	src   types.CubeSource
 }
 

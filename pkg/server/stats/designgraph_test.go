@@ -6,6 +6,7 @@ import (
 	"testing"
 
 	"github.com/caseydavenport/cube-tools/pkg/design"
+	"github.com/caseydavenport/cube-tools/pkg/storage/file"
 	"github.com/caseydavenport/cube-tools/pkg/types"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
@@ -598,7 +599,7 @@ func TestDesignGraphForCube(t *testing.T) {
 	// data/ paths resolve from the repo root, three levels up from this package.
 	t.Chdir("../../..")
 
-	resp, err := DesignGraphForCube(testCubeSource{}, "polyverse")
+	resp, err := DesignGraphForCube(file.NewStore(testCubeSource{}), testCubeSource{}, "polyverse")
 	require.NoError(t, err)
 	require.NotEmpty(t, resp.Nodes, "expected card nodes from the polyverse cube")
 	require.NotEmpty(t, resp.Edges, "expected rule-derived edges from cube-rules.json")
