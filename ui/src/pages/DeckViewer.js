@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useMemo, useRef, useLayoutEffect } from 'react'
 import { LoadCube, LoadDecks, FetchNotes, SaveNotes, SaveDeckMeta } from "../utils/Fetch.js"
 import { useCube } from "../contexts/CubeContext.js"
+import { isReadOnly } from "../utils/readonly.js"
 import { Record, MatchRecord, Wins, Losses, Draws, MatchWins, MatchLosses, MatchDraws, InDeckColor } from "../utils/Deck.js"
 import { RemovalMatches, CounterspellMatches } from "../pages/Decks.js"
 import { SortFunc, StringToColor, CheckboxesToColors, IsBasicLand, CardImageURL, CountManaPips } from "../utils/Utils.js"
@@ -970,6 +971,7 @@ function displayDeck(input) {
 }
 
 function DeckReport(input) {
+  const readOnly = isReadOnly(input.cube);
   const [isEditing, setIsEditing] = useState(false);
   const [editContent, setEditContent] = useState(input.description);
 
@@ -979,6 +981,10 @@ function DeckReport(input) {
   }, [input.description]);
 
   if (input.description == "" && !isEditing) {
+    if (readOnly) {
+      // No notes and nothing to add - render nothing.
+      return null;
+    }
     return (
       <div className="player-frame" style={{"marginTop": "2rem", "textAlign": "center"}}>
         <Button text="Add Notes" onClick={() => setIsEditing(true)} />
@@ -1016,16 +1022,18 @@ function DeckReport(input) {
     <div className="player-frame" style={{"marginTop": "2rem"}}>
       <div className="player-frame-header" style={{"display": "flex", "justifyContent": "space-between", "alignItems": "center", "marginBottom": "1rem", "borderBottom": "1px solid var(--border)", "paddingBottom": "0.5rem"}}>
         <h2 style={{"margin": "0", "color": "var(--primary)"}}>Notes from the draft</h2>
-        <div style={{"display": "flex", "gap": "0.5rem"}}>
-          {isEditing ? (
-            <>
-              <Button text="Save" onClick={onSave} />
-              <Button text="Cancel" onClick={() => { setIsEditing(false); setEditContent(input.description); }} />
-            </>
-          ) : (
-            <Button text="Edit" onClick={() => setIsEditing(true)} />
-          )}
-        </div>
+        {!readOnly && (
+          <div style={{"display": "flex", "gap": "0.5rem"}}>
+            {isEditing ? (
+              <>
+                <Button text="Save" onClick={onSave} />
+                <Button text="Cancel" onClick={() => { setIsEditing(false); setEditContent(input.description); }} />
+              </>
+            ) : (
+              <Button text="Edit" onClick={() => setIsEditing(true)} />
+            )}
+          </div>
+        )}
       </div>
 
       {isEditing ? (
@@ -1056,6 +1064,7 @@ function DeckReport(input) {
 function PlayerFrame(input) {
   let deck = input.deck
   const cube = input.cube
+  const readOnly = isReadOnly(cube)
   const onDeckUpdated = input.onDeckUpdated
   const [saveError, setSaveError] = useState(null)
 
@@ -1198,42 +1207,56 @@ function PlayerFrame(input) {
         </div>
 
         <div className="deck-summary-controls">
-          <OverlayTrigger
-            trigger="click"
-            rootClose
-            placement="bottom-end"
-            overlay={
-              <Popover id={`color-picker-${deck.player}`} style={{maxWidth: "none"}}>
-                <Popover.Body style={{padding: "0.25rem"}}>
-                  <ColorPickerHeader display={colorBools} onChecked={onColorChecked} />
-                  {!hasOverride && <div style={{"textAlign": "center", "fontSize": "0.8rem", "opacity": "0.7"}}>(inferred)</div>}
-                  {saveError && <div style={{"textAlign": "center", "color": "var(--danger, red)", "fontSize": "0.8rem"}}>{saveError}</div>}
-                </Popover.Body>
-              </Popover>
-            }
-          >
-            <div className="deck-summary-colors" title="Edit colors">
-              {colors}
-              <span className="caret">▾</span>
-            </div>
-          </OverlayTrigger>
+          {readOnly ? (
+            <div className="deck-summary-colors">{colors}</div>
+          ) : (
+            <OverlayTrigger
+              trigger="click"
+              rootClose
+              placement="bottom-end"
+              overlay={
+                <Popover id={`color-picker-${deck.player}`} style={{maxWidth: "none"}}>
+                  <Popover.Body style={{padding: "0.25rem"}}>
+                    <ColorPickerHeader display={colorBools} onChecked={onColorChecked} />
+                    {!hasOverride && <div style={{"textAlign": "center", "fontSize": "0.8rem", "opacity": "0.7"}}>(inferred)</div>}
+                    {saveError && <div style={{"textAlign": "center", "color": "var(--danger, red)", "fontSize": "0.8rem"}}>{saveError}</div>}
+                  </Popover.Body>
+                </Popover>
+              }
+            >
+              <div className="deck-summary-colors" title="Edit colors">
+                {colors}
+                <span className="caret">▾</span>
+              </div>
+            </OverlayTrigger>
+          )}
 
-          <DropdownHeader
-            value={deck.macro_archetype || ""}
-            options={[
-              { label: "—", value: "" },
-              { label: "Aggro", value: "aggro" },
-              { label: "Midrange", value: "midrange" },
-              { label: "Control", value: "control" },
-            ]}
-            onChange={(e) => commit({ macro: e.target.value })}
-          />
+          {readOnly ? (
+            deck.macro_archetype && <span className="metric">{deck.macro_archetype}</span>
+          ) : (
+            <DropdownHeader
+              value={deck.macro_archetype || ""}
+              options={[
+                { label: "—", value: "" },
+                { label: "Aggro", value: "aggro" },
+                { label: "Midrange", value: "midrange" },
+                { label: "Control", value: "control" },
+              ]}
+              onChange={(e) => commit({ macro: e.target.value })}
+            />
+          )}
 
-          <TagEditor
-            tags={deck.labels || []}
-            suggestions={input.archetypes || []}
-            onChange={(next) => commit({ labels: next })}
-          />
+          {readOnly ? (
+            (deck.labels || []).map((t) => (
+              <span key={t} className="tag-pill" style={{"display": "inline-flex", "padding": "0.1rem 0.4rem", "borderRadius": "0.75rem", "background": "var(--border)"}}>{t}</span>
+            ))
+          ) : (
+            <TagEditor
+              tags={deck.labels || []}
+              suggestions={input.archetypes || []}
+              onChange={(next) => commit({ labels: next })}
+            />
+          )}
 
           <Button text="Copy" onClick={copyToClipboard} />
         </div>

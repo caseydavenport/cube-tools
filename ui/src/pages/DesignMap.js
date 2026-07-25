@@ -4,6 +4,7 @@ import ForceGraph2D from 'react-force-graph-2d'
 import { forceX, forceY, forceCollide } from 'd3-force-3d'
 import { White, Blue, Black, Red, Green } from "../utils/Colors.js"
 import { useCube } from "../contexts/CubeContext.js"
+import { isReadOnly } from "../utils/readonly.js"
 import { buildDeckSubgraph, rankByDegree, greedyModularityCommunities, dominantLabel, NEUTRAL } from "../utils/DeckGraph"
 
 // Wire entries are group names, except entries prefixed "card:" which reference
@@ -1016,6 +1017,11 @@ export function CardSynergyMap({ cards, edges, links }) {
 }
 
 export function saveDesignMap(cube, groups, links, onRulesChanged, onStatus) {
+  // CubeCobra cubes have no writable backend - nothing to save.
+  if (isReadOnly(cube)) {
+    if (onStatus) onStatus("")
+    return
+  }
   fetch(`/api/${cube}/save-design-rules`, {
     method: "POST",
     headers: {"Content-Type": "application/json"},
