@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import "./navbar.css"
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
+import { Button } from "./Dropdown.js";
+import { isReadOnly } from "../utils/readonly.js";
 
 function CubeDropdown() {
   const [cubes, setCubes] = useState([]);
+  const [ccInput, setCcInput] = useState("");
   const location = useLocation();
   const navigate = useNavigate();
   const cube = location.pathname.split('/').filter(Boolean)[0] || null;
@@ -28,10 +31,35 @@ function CubeDropdown() {
     navigate('/' + parts.join('/'));
   }
 
+  function loadCC(e) {
+    e.preventDefault();
+    const id = ccInput.trim();
+    if (id === "") return;
+    setCcInput("");
+    navigate('/cc:' + id);
+  }
+
+  // A cc: cube isn't in /api/cubes; show it as its own selected option so the
+  // select doesn't blank out.
+  const isCC = cube.startsWith("cc:");
+
   return (
-    <select className="cube-select" value={cube} onChange={onChange}>
-      {cubes.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
-    </select>
+    <div className="cube-picker">
+      <select className="cube-select" value={cube} onChange={onChange}>
+        {isCC && <option value={cube}>{"CubeCobra: " + cube.slice(3)}</option>}
+        {cubes.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
+      </select>
+      <form className="cc-load" onSubmit={loadCC}>
+        <input
+          className="cc-load-input"
+          type="text"
+          placeholder="CubeCobra ID"
+          value={ccInput}
+          onChange={e => setCcInput(e.target.value)}
+        />
+        <Button text="Load" onClick={loadCC} />
+      </form>
+    </div>
   );
 }
 
@@ -69,9 +97,14 @@ const Navbar = () => {
   const cube = parts[0] || null;
   if (!cube) return null;
 
+  const readOnly = isReadOnly(cube);
+
   // The segment after the cube id picks the active view; "" is Overview.
   const view = parts[1] || "";
   const activeSection = SECTIONS.find(s => s.views.some(v => v.path === view));
+  const activeViews = activeSection
+    ? activeSection.views.filter(v => !(readOnly && v.path === "design-editor"))
+    : [];
 
   function viewTo(path) {
     return path ? `/${cube}/${path}` : `/${cube}`;
@@ -95,22 +128,24 @@ const Navbar = () => {
             ))}
           </ul>
           <div className="nav-right">
-            <NavLink
-              to={`/${cube}/import`}
-              className={({ isActive }) => "import-btn" + (isActive ? " active" : "")}
-            >
-              Import
-            </NavLink>
+            {!readOnly && (
+              <NavLink
+                to={`/${cube}/import`}
+                className={({ isActive }) => "import-btn" + (isActive ? " active" : "")}
+              >
+                Import
+              </NavLink>
+            )}
             <CubeDropdown />
           </div>
         </div>
       </header>
 
-      {activeSection && activeSection.views.length > 1 && (
+      {activeSection && activeViews.length > 1 && (
         <div className="subheader">
           <div className="mid">
             <ul className="subnav">
-              {activeSection.views.map(v => (
+              {activeViews.map(v => (
                 <li key={v.path}>
                   <NavLink
                     end={v.path === ""}
