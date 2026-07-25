@@ -2,6 +2,7 @@ import React from 'react'
 import { AverageCMC, IsBasicLand, Pct, SortFunc } from "../utils/Utils.js"
 import { Red, Green, Black, White, Blue, Colors } from "../utils/Colors.js"
 import { Wins, Losses } from "../utils/Deck.js"
+import { deckRef } from "./DeckViewer.js"
 import { BucketName, DeckBuckets, bucketXScale } from "../utils/Buckets.js"
 import { DropdownHeader, NumericInput, Checkbox, DateSelector } from "../components/Dropdown.js"
 
@@ -320,7 +321,7 @@ export function BuildGraphData(parsed) {
       }
     }
 
-    deckStatsMap.set(deck.metadata.path, {
+    deckStatsMap.set(deckRef(deck), {
       wins: Wins(deck),
       losses: Losses(deck),
       mbCounterspells,
@@ -339,7 +340,7 @@ export function BuildGraphData(parsed) {
     nonBasicLandsBucketSize: 2,
   }
   for (let deck of parsed.filteredDecks) {
-    const stats = deckStatsMap.get(deck.metadata.path)
+    const stats = deckStatsMap.get(deckRef(deck))
     if (!stats) continue
 
     let wins = stats.wins
@@ -397,7 +398,7 @@ export function BuildGraphData(parsed) {
 
     for (let draft of bucket) {
       for (let deck of draft.decks) {
-        const stats = deckStatsMap.get(deck.metadata.path)
+        const stats = deckStatsMap.get(deckRef(deck))
         if (!stats) continue
         deckCount++
         mbCounterspells += stats.mbCounterspells
