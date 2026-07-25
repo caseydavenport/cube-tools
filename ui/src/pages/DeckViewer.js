@@ -799,7 +799,7 @@ function displayDeckImages(input) {
   for (let card of deck.mainboard) {
     cardMap.set(card.name, card)
   }
-  for (let card of deck.sideboard) {
+  for (let card of (deck.sideboard || [])) {
     cardMap.set(card.name, card)
   }
 
@@ -957,7 +957,7 @@ function displayDeck(input) {
   for (let card of deck.mainboard) {
     cardMap.set(card.name, card)
   }
-  for (let card of deck.sideboard) {
+  for (let card of (deck.sideboard || [])) {
     cardMap.set(card.name, card)
   }
 

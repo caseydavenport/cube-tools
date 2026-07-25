@@ -70,6 +70,9 @@ func TestRawDecks(t *testing.T) {
 		if d.DraftSize != 2 {
 			t.Errorf("deck %s: DraftSize=%d, want 2", d.Player, d.DraftSize)
 		}
+		if d.Sideboard == nil {
+			t.Errorf("deck %s: Sideboard is nil, want non-nil empty slice", d.Player)
+		}
 	}
 	if byPlayer["casey"] != 2 || byPlayer["matt"] != 1 {
 		t.Fatalf("mainboard sizes: %v, want casey=2 matt=1", byPlayer)

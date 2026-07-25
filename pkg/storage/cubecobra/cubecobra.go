@@ -121,6 +121,9 @@ func (b *Backend) RawDecks(cube string) ([]*storage.Deck, error) {
 			d.DraftSize = len(rec.Players)
 			d.Labels = []string{}
 			d.Mainboard = buildMainboard(rec.Decks[p.Name], data.Cards, byName)
+			// analysisdata is mainboard-only; keep Sideboard a non-nil empty
+			// slice so the UI can iterate it like any other deck.
+			d.Sideboard = []types.Card{}
 			d.Matches = matchesFor(p.Name, rec.Matches)
 			decks = append(decks, d)
 		}
