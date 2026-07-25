@@ -238,6 +238,12 @@ func FromOracle(o OracleCard) Card {
 	c.ManaCost = o.ManaCost
 	c.OracleText = o.OracleText
 	if len(o.CardFaces) > 0 {
+		// Transform and modal_dfc layouts carry no top-level image; the art
+		// lives on each face. Use the front face so DFCs like flip sagas still
+		// get a picture.
+		if c.Image == "" {
+			c.Image = o.CardFaces[0].ImageURLs["normal"]
+		}
 		if len(c.Colors) == 0 {
 			c.Colors = unionFaceColors(o.CardFaces)
 		}

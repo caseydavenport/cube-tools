@@ -5,6 +5,7 @@ import { forceX, forceY, forceCollide } from 'd3-force-3d'
 import { White, Blue, Black, Red, Green } from "../utils/Colors.js"
 import { useCube } from "../contexts/CubeContext.js"
 import { isReadOnly } from "../utils/readonly.js"
+import { CardImageURL } from "../utils/Utils.js"
 import { buildDeckSubgraph, rankByDegree, greedyModularityCommunities, dominantLabel, NEUTRAL } from "../utils/DeckGraph"
 
 // Wire entries are group names, except entries prefixed "card:" which reference
@@ -800,8 +801,8 @@ function CardPreview({ card }) {
   if (!card) return null
   return (
     <div className="dm-preview">
-      {card.image ? (
-        <img className="dm-preview-img" src={card.image} alt={card.name} />
+      {(card.image || card.url) ? (
+        <img className="dm-preview-img" src={CardImageURL(card)} alt={card.name} />
       ) : (
         <div className="dm-preview-text">
           <div className="dm-preview-name">{card.name} <span className="dm-preview-mana">{card.mana_cost}</span></div>

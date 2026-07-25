@@ -261,6 +261,22 @@ func TestFromOracle_ModalDFC_BackLandVisible(t *testing.T) {
 	assert.True(t, c.IsCreature())
 }
 
+// Transform / MDFC / flip cards carry no top-level image; the art lives on
+// each face. The front face's image should fall through so DFCs still show a
+// picture.
+func TestFromOracle_DFCImageFromFace(t *testing.T) {
+	o := OracleCard{
+		Name:     "Fable of the Mirror-Breaker // Reflection of Kiki-Rikki",
+		TypeLine: "Enchantment — Saga // Enchantment Creature — Goblin",
+		CardFaces: []OracleCardFace{
+			{TypeLine: "Enchantment — Saga", ImageURLs: map[string]string{"normal": "https://img/front.jpg"}},
+			{TypeLine: "Enchantment Creature — Goblin", ImageURLs: map[string]string{"normal": "https://img/back.jpg"}},
+		},
+	}
+	c := FromOracle(o)
+	assert.Equal(t, "https://img/front.jpg", c.Image)
+}
+
 // Transform / MDFC cards have no top-level colors. The card-face colors
 // should fall through so color stats see the right identity.
 func TestFromOracle_TransformColorsFromFaces(t *testing.T) {
