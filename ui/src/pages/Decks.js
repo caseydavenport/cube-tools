@@ -127,7 +127,7 @@ export function DeckSplits(deck) {
   let interaction = 0
 
   for (let card of deck.mainboard) {
-    if (card.types.includes("Creature")) {
+    if ((card.types || []).includes("Creature")) {
       creatures += 1
     }
 
@@ -360,7 +360,8 @@ export function BuildGraphData(parsed) {
 
     let numNonBasicLands = 0
     for (let card of deck.mainboard) {
-      if (card.types.includes("Land") && !card.types.includes("Basic")) {
+      const types = card.types || []
+      if (types.includes("Land") && !types.includes("Basic")) {
         numNonBasicLands += 1
       }
     }
@@ -526,7 +527,7 @@ function WinsByCardType(input) {
     // Count the number of creatures in this deck.
     let num = 0
     for (let card of deck.mainboard) {
-      if (card.types.includes(input.type)) {
+      if ((card.types || []).includes(input.type)) {
         num += 1
       }
     }
