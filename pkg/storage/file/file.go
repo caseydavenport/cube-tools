@@ -4,8 +4,11 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
+	"path/filepath"
+	"strings"
 
 	"github.com/caseydavenport/cube-tools/pkg/commands"
+	"github.com/caseydavenport/cube-tools/pkg/design"
 	"github.com/caseydavenport/cube-tools/pkg/storage"
 	"github.com/caseydavenport/cube-tools/pkg/types"
 	"github.com/sirupsen/logrus"
@@ -125,6 +128,121 @@ func loadDeck(path string) (storage.Deck, error) {
 		return d, err
 	}
 	return d, nil
+}
+
+// validPathComponent rejects an id that could escape the data directory it's
+// interpolated into, e.g. a draft or deck id containing a path separator or
+// "..".
+func validPathComponent(id string) error {
+	if strings.ContainsAny(id, `/\`) || strings.Contains(id, "..") {
+		return fmt.Errorf("invalid id %q", id)
+	}
+	return nil
+}
+
+// GetNotes returns the free-form notes saved against a deck, or "" if none
+// have been saved yet.
+func (b *Backend) GetNotes(cube, draftID, deckID string) (string, error) {
+	if err := validPathComponent(draftID); err != nil {
+		return "", err
+	}
+	if err := validPathComponent(deckID); err != nil {
+		return "", err
+	}
+	path := strings.ToLower(fmt.Sprintf("data/%s/%s/%s.report.md", cube, draftID, deckID))
+	contents, err := os.ReadFile(path)
+	if err != nil {
+		if os.IsNotExist(err) {
+			return "", nil
+		}
+		return "", err
+	}
+	return string(contents), nil
+}
+
+// PutNotes saves free-form notes against a deck, creating the draft directory
+// if needed.
+func (b *Backend) PutNotes(cube, draftID, deckID, content string) error {
+	if err := validPathComponent(draftID); err != nil {
+		return err
+	}
+	if err := validPathComponent(deckID); err != nil {
+		return err
+	}
+	path := strings.ToLower(fmt.Sprintf("data/%s/%s/%s.report.md", cube, draftID, deckID))
+	if err := os.MkdirAll(filepath.Dir(path), 0o755); err != nil {
+		return err
+	}
+	return os.WriteFile(path, []byte(content), 0o644)
+}
+
+// GetRules returns a cube's design-map rules.
+func (b *Backend) GetRules(cube string) (*design.DesignMapConfig, error) {
+	data, err := os.ReadFile(fmt.Sprintf("data/%s/cube-rules.json", cube))
+	if err != nil {
+		return nil, err
+	}
+	var config design.DesignMapConfig
+	if err := json.Unmarshal(data, &config); err != nil {
+		return nil, err
+	}
+	return &config, nil
+}
+
+// PutRules saves a cube's design-map rules.
+func (b *Backend) PutRules(cube string, rules *design.DesignMapConfig) error {
+	data, err := json.MarshalIndent(rules, "", "  ")
+	if err != nil {
+		return err
+	}
+	return os.WriteFile(fmt.Sprintf("data/%s/cube-rules.json", cube), data, 0o644)
+}
+
+// Index returns the path-free index of a cube's drafts and decks.
+func (b *Backend) Index(cube string) (*storage.CubeIndex, error) {
+	contents, err := os.ReadFile(fmt.Sprintf("data/%s/index.json", cube))
+	if err != nil {
+		return nil, err
+	}
+	var index commands.MainIndex
+	if err := json.Unmarshal(contents, &index); err != nil {
+		return nil, err
+	}
+
+	out := &storage.CubeIndex{}
+	for _, draft := range index.Drafts {
+		id := storage.IndexedDraft{
+			DraftID: draft.DraftID,
+			Date:    draft.Date,
+			HasLog:  draft.DraftLog != "",
+		}
+		for _, ideck := range draft.Decks {
+			d, err := loadDeck(ideck.Path)
+			if err != nil {
+				logrus.WithError(err).Warn("Failed to load deck")
+				continue
+			}
+			id.Decks = append(id.Decks, storage.IndexedDeck{ID: d.Player})
+		}
+		out.Drafts = append(out.Drafts, id)
+	}
+	return out, nil
+}
+
+// GetDraftLog returns a draft's raw log bytes.
+func (b *Backend) GetDraftLog(cube, draftID string) (json.RawMessage, error) {
+	if err := validPathComponent(draftID); err != nil {
+		return nil, err
+	}
+	path := fmt.Sprintf("data/%s/%s/draft-log.json", cube, draftID)
+	contents, err := os.ReadFile(path)
+	if err != nil {
+		if os.IsNotExist(err) {
+			return nil, storage.ErrDeckNotFound
+		}
+		return nil, err
+	}
+	return json.RawMessage(contents), nil
 }
 
 type cubeCard struct {

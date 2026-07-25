@@ -5,6 +5,7 @@ import (
 	"path/filepath"
 	"testing"
 
+	"github.com/caseydavenport/cube-tools/pkg/design"
 	"github.com/caseydavenport/cube-tools/pkg/storage"
 	"github.com/stretchr/testify/assert"
 )
@@ -138,4 +139,135 @@ func writeConfFixture(t *testing.T, root string) {
 	if err := os.WriteFile(filepath.Join(root, bobPath), []byte(bob), 0o644); err != nil {
 		t.Fatalf("write bob.json: %v", err)
 	}
+}
+
+func TestFileNotesRoundTrip(t *testing.T) {
+	root := t.TempDir()
+	if err := os.Chdir(root); err != nil {
+		t.Fatalf("chdir temp root: %v", err)
+	}
+	writeConfFixture(t, root)
+	b := New(nil)
+
+	err := b.PutNotes("conf", "d1", "Alice", "great deck")
+	assert.NoError(t, err)
+
+	got, err := b.GetNotes("conf", "d1", "Alice")
+	assert.NoError(t, err)
+	assert.Equal(t, "great deck", got)
+
+	// Path is lowercased end-to-end, matching today's client convention.
+	contents, err := os.ReadFile(filepath.Join(root, "data/conf/d1/alice.report.md"))
+	assert.NoError(t, err)
+	assert.Equal(t, "great deck", string(contents))
+}
+
+func TestFileNotesMissingReturnsEmpty(t *testing.T) {
+	root := t.TempDir()
+	if err := os.Chdir(root); err != nil {
+		t.Fatalf("chdir temp root: %v", err)
+	}
+	writeConfFixture(t, root)
+	b := New(nil)
+
+	got, err := b.GetNotes("conf", "d1", "Nobody")
+	assert.NoError(t, err)
+	assert.Equal(t, "", got)
+}
+
+func TestFileNotesRejectsPathEscape(t *testing.T) {
+	root := t.TempDir()
+	if err := os.Chdir(root); err != nil {
+		t.Fatalf("chdir temp root: %v", err)
+	}
+	writeConfFixture(t, root)
+	b := New(nil)
+
+	_, err := b.GetNotes("conf", "../escape", "Alice")
+	assert.Error(t, err)
+
+	err = b.PutNotes("conf", "d1", "../escape", "x")
+	assert.Error(t, err)
+}
+
+func TestFileRulesRoundTrip(t *testing.T) {
+	root := t.TempDir()
+	if err := os.Chdir(root); err != nil {
+		t.Fatalf("chdir temp root: %v", err)
+	}
+	writeConfFixture(t, root)
+	b := New(nil)
+
+	rules := &design.DesignMapConfig{
+		Groups: []design.Group{{Name: "Aggro"}},
+	}
+	assert.NoError(t, b.PutRules("conf", rules))
+
+	got, err := b.GetRules("conf")
+	assert.NoError(t, err)
+	assert.Equal(t, rules, got)
+}
+
+func TestFileIndex(t *testing.T) {
+	root := t.TempDir()
+	if err := os.Chdir(root); err != nil {
+		t.Fatalf("chdir temp root: %v", err)
+	}
+	writeConfFixture(t, root)
+
+	// Overwrite the index to mark the draft as having a log, matching what
+	// commands.Index produces once a draft-log.json is present.
+	index := `{
+ "drafts": [
+  {
+   "path": "data/conf/d1",
+   "date": "2024-01-01",
+   "draft_id": "d1",
+   "draft_log": "data/conf/d1/draft-log.json",
+   "decks": [
+    {"path": "data/conf/d1/alice.json"},
+    {"path": "data/conf/d1/bob.json"}
+   ]
+  }
+ ]
+}`
+	assert.NoError(t, os.WriteFile(filepath.Join(root, "data/conf/index.json"), []byte(index), 0o644))
+
+	b := New(nil)
+	got, err := b.Index("conf")
+	assert.NoError(t, err)
+	assert.Len(t, got.Drafts, 1)
+	draft := got.Drafts[0]
+	assert.Equal(t, "d1", draft.DraftID)
+	assert.Equal(t, "2024-01-01", draft.Date)
+	assert.True(t, draft.HasLog)
+	assert.ElementsMatch(t, []storage.IndexedDeck{{ID: "Alice"}, {ID: "Bob"}}, draft.Decks)
+}
+
+func TestFileGetDraftLog(t *testing.T) {
+	root := t.TempDir()
+	if err := os.Chdir(root); err != nil {
+		t.Fatalf("chdir temp root: %v", err)
+	}
+	writeConfFixture(t, root)
+
+	logPath := filepath.Join(root, "data/conf/d1/draft-log.json")
+	assert.NoError(t, os.WriteFile(logPath, []byte(`{"picks":[]}`), 0o644))
+
+	b := New(nil)
+	got, err := b.GetDraftLog("conf", "d1")
+	assert.NoError(t, err)
+	assert.JSONEq(t, `{"picks":[]}`, string(got))
+}
+
+func TestFileGetDraftLogMissing(t *testing.T) {
+	root := t.TempDir()
+	if err := os.Chdir(root); err != nil {
+		t.Fatalf("chdir temp root: %v", err)
+	}
+	writeConfFixture(t, root)
+
+	b := New(nil)
+	_, err := b.GetDraftLog("conf", "d1")
+	assert.ErrorIs(t, err, storage.ErrDeckNotFound)
 }
