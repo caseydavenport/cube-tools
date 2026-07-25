@@ -51,6 +51,7 @@ func (b *Backend) RawDecks(cube string) ([]*storage.Deck, error) {
 			}
 			d.DraftSize = len(draft.Decks)
 			d.ID = d.Player
+			d.Metadata.Path = ""
 			decks = append(decks, &d)
 		}
 	}
@@ -68,19 +69,9 @@ func (b *Backend) RawDecks(cube string) ([]*storage.Deck, error) {
 // deck's on-disk file, loading the whole deck first so other fields survive. An
 // empty colors slice clears the override.
 func (b *Backend) WriteDeckMeta(cube, draftID, deckID, macroArchetype string, labels, colors []string) (*storage.Deck, error) {
-	decks, err := b.RawDecks(cube)
+	path, err := b.deckFilePath(cube, draftID, deckID)
 	if err != nil {
 		return nil, err
-	}
-	var path string
-	for _, d := range decks {
-		if d.ID == deckID && d.Metadata.DraftID == draftID {
-			path = d.Metadata.Path
-			break
-		}
-	}
-	if path == "" {
-		return nil, storage.ErrDeckNotFound
 	}
 	d, err := types.LoadDeck(path)
 	if err != nil {
@@ -93,6 +84,35 @@ func (b *Backend) WriteDeckMeta(cube, draftID, deckID, macroArchetype string, la
 		return nil, err
 	}
 	return &storage.Deck{Deck: *d}, nil
+}
+
+// deckFilePath returns the on-disk file for a deck by loading the cube's index
+// and matching the draft and player (the file backend's id). It keeps path
+// resolution inside the backend so callers never handle filesystem paths.
+func (b *Backend) deckFilePath(cube, draftID, deckID string) (string, error) {
+	contents, err := os.ReadFile(fmt.Sprintf("data/%s/index.json", cube))
+	if err != nil {
+		return "", err
+	}
+	var index commands.MainIndex
+	if err := json.Unmarshal(contents, &index); err != nil {
+		return "", err
+	}
+	for _, draft := range index.Drafts {
+		if draft.DraftID != draftID {
+			continue
+		}
+		for _, ideck := range draft.Decks {
+			d, err := loadDeck(ideck.Path)
+			if err != nil {
+				continue
+			}
+			if d.Player == deckID {
+				return ideck.Path, nil
+			}
+		}
+	}
+	return "", storage.ErrDeckNotFound
 }
 
 func loadDeck(path string) (storage.Deck, error) {

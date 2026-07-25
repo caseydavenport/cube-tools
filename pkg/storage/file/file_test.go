@@ -46,6 +46,41 @@ func TestFileConformance(t *testing.T) {
 	storage.RunDeckConformance(t, s, storage.Detect(New(nil)))
 }
 
+func TestFileRawDecksBlanksPath(t *testing.T) {
+	root := t.TempDir()
+	if err := os.Chdir(root); err != nil {
+		t.Fatalf("chdir temp root: %v", err)
+	}
+	writeConfFixture(t, root)
+	b := New(nil)
+	got, err := b.RawDecks("conf")
+	assert.NoError(t, err)
+	assert.NotEmpty(t, got)
+	for _, d := range got {
+		assert.Empty(t, d.Metadata.Path)
+	}
+}
+
+func TestFileWriteDeckMetaRoundTripsOnDiskPath(t *testing.T) {
+	root := t.TempDir()
+	if err := os.Chdir(root); err != nil {
+		t.Fatalf("chdir temp root: %v", err)
+	}
+	writeConfFixture(t, root)
+	b := New(nil)
+
+	updated, err := b.WriteDeckMeta("conf", "d1", "Alice", "Aggro", []string{"fast"}, nil)
+	assert.NoError(t, err)
+	assert.Equal(t, "Aggro", updated.MacroArchetype)
+
+	// The on-disk file must still carry its path; only the in-memory,
+	// enriched copy returned to callers loses it.
+	alicePath := filepath.Join(root, "data/conf/d1/alice.json")
+	contents, err := os.ReadFile(alicePath)
+	assert.NoError(t, err)
+	assert.Contains(t, string(contents), `"path": "data/conf/d1/alice.json"`)
+}
+
 // writeConfFixture writes a throwaway "conf" cube under root/data, matching
 // the canonical conformance dataset: draft "d1" with Alice (2-0 vs Bob) and
 // Bob (0-2 vs Alice).

@@ -145,7 +145,7 @@ func LoadDeck(path string) (*Deck, error) {
 
 type Metadata struct {
 	// Path is the path to the deck file itself, relative to the repository root.
-	Path string `json:"path"`
+	Path string `json:"path,omitempty"`
 
 	// DraftID is a unique identifier for the draft from which this deck was created.
 	// Typically this is the date of the draft, plus another unique identifier in case
