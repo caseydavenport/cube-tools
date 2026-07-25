@@ -256,8 +256,7 @@ export function DeckViewer(props) {
         setComparisonDecks(newComparisonDecks)
 
         // Load the deck description, if it exists.
-        let f = `data/${cube}/${deck.metadata.draft_id}/${deck.player}.report.md`
-        FetchNotes(cube, f.toLowerCase(), onDescriptionFetched)
+        FetchNotes(cube, deck.metadata.draft_id, deck.id, onDescriptionFetched)
         return
       }
     }
@@ -989,8 +988,7 @@ function DeckReport(input) {
 
   const onSave = async () => {
     try {
-      let f = `data/${input.cube}/${input.deck.metadata.draft_id}/${input.deck.player}.report.md`
-      await SaveNotes(input.cube, f.toLowerCase(), editContent);
+      await SaveNotes(input.cube, input.deck.metadata.draft_id, input.deck.id, editContent);
       input.onDescriptionFetched(editContent);
       setIsEditing(false);
     } catch (err) {
