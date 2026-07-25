@@ -795,7 +795,7 @@ function DrillMap({ focus, nodeMap, edges, groupNodes, groupEdges, links, groupC
 }
 
 // CardPreview overlays the hovered/selected card's actual image (or its rules text
-// if no image is available) in the corner of the map.
+// if no image is available), pinned to the bottom-right of the viewport.
 function CardPreview({ card }) {
   if (!card) return null
   return (
