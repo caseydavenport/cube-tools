@@ -2,9 +2,9 @@ package stats
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"net/http"
-	"os"
 	"regexp"
 	"slices"
 	"strconv"
@@ -129,10 +129,12 @@ func DesignGraphHandler(src types.CubeSource) http.Handler {
 			return
 		}
 
-		config, err := loadDesignMap(fmt.Sprintf("data/%s/cube-rules.json", cubeID))
-		if err != nil {
+		var config design.DesignMapConfig
+		if cfg, err := file.NewStore(src).GetRules(cubeID); err != nil {
 			logrus.WithError(err).Warn("could not load cube rules")
 			config = design.DesignMapConfig{}
+		} else {
+			config = *cfg
 		}
 
 		names, err := deckCardNames(cubeID)
@@ -162,10 +164,11 @@ func DesignGraphForCube(src types.CubeSource, cubeID string) (DesignGraphRespons
 	if err != nil {
 		return DesignGraphResponse{}, err
 	}
-	config, err := loadDesignMap(fmt.Sprintf("data/%s/cube-rules.json", cubeID))
+	cfg, err := file.NewStore(src).GetRules(cubeID)
 	if err != nil {
 		return DesignGraphResponse{}, err
 	}
+	config := *cfg
 	names, err := deckCardNames(cubeID)
 	if err != nil {
 		logrus.WithError(err).Warn("could not load deck cards; cut cards may show disconnected")
@@ -253,10 +256,12 @@ func DesignGraphMatchHandler(src types.CubeSource) http.Handler {
 
 		// Saved rules supply the per-group exclude lists so matches can be
 		// marked. Missing rules just means nothing gets marked excluded.
-		config, err := loadDesignMap(fmt.Sprintf("data/%s/cube-rules.json", cubeID))
-		if err != nil {
+		var config design.DesignMapConfig
+		if cfg, err := file.NewStore(src).GetRules(cubeID); err != nil {
 			logrus.WithError(err).Debug("could not load cube rules for match")
 			config = design.DesignMapConfig{}
+		} else {
+			config = *cfg
 		}
 
 		resp := DesignGraphMatchResponse{Cards: matchConditions(cardMap, config, req)}
@@ -352,7 +357,7 @@ func GroupDistributionsHandler(src types.CubeSource) http.Handler {
 }
 
 type groupDistributionsHandler struct {
-	store storage.DeckStorage
+	store *storage.Store
 	src   types.CubeSource
 }
 
@@ -366,10 +371,12 @@ func (h *groupDistributionsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Re
 		return
 	}
 
-	config, err := loadDesignMap(fmt.Sprintf("data/%s/cube-rules.json", cubeID))
-	if err != nil {
+	var config design.DesignMapConfig
+	if cfg, err := h.store.GetRules(cubeID); err != nil {
 		logrus.WithError(err).Warn("could not load cube rules")
 		config = design.DesignMapConfig{}
+	} else {
+		config = *cfg
 	}
 
 	allDecks, err := h.store.List(cubeID, &storage.DecksRequest{})
@@ -469,19 +476,6 @@ func buildCardMap(cube *types.Cube) map[string]types.Card {
 		cardMap[c.Name] = c
 	}
 	return cardMap
-}
-
-// loadDesignMap reads the design map configuration from a JSON file and unmarshals it into a design.DesignMapConfig struct.
-func loadDesignMap(path string) (design.DesignMapConfig, error) {
-	data, err := os.ReadFile(path)
-	if err != nil {
-		return design.DesignMapConfig{}, err
-	}
-	var config design.DesignMapConfig
-	if err := json.Unmarshal(data, &config); err != nil {
-		return design.DesignMapConfig{}, err
-	}
-	return config, nil
 }
 
 // resolveGroupCards resolves each group's conditions to its effective member set
@@ -1287,7 +1281,7 @@ func matchComparison(card types.Card, field, op, valueStr string) bool {
 }
 
 // SaveDesignRulesHandler handles POST /api/save-design-rules to persist design map config.
-func SaveDesignRulesHandler() http.Handler {
+func SaveDesignRulesHandler(store *storage.Store) http.Handler {
 	return http.HandlerFunc(func(rw http.ResponseWriter, r *http.Request) {
 		if r.Method != http.MethodPost {
 			http.Error(rw, "method not allowed", http.StatusMethodNotAllowed)
@@ -1300,18 +1294,16 @@ func SaveDesignRulesHandler() http.Handler {
 			return
 		}
 
-		data, err := json.MarshalIndent(config, "", "  ")
-		if err != nil {
-			http.Error(rw, "could not marshal config", http.StatusInternalServerError)
-			return
-		}
-
 		cubeID := server.CubeFromRequest(r)
 		if cubeID == "" {
 			http.Error(rw, "no cube in request", http.StatusForbidden)
 			return
 		}
-		if err := os.WriteFile(fmt.Sprintf("data/%s/cube-rules.json", cubeID), data, 0o644); err != nil {
+		if err := store.PutRules(cubeID, &config); err != nil {
+			if errors.Is(err, storage.ErrUnsupported) {
+				http.Error(rw, "Not supported", http.StatusNotImplemented)
+				return
+			}
 			http.Error(rw, "could not save config", http.StatusInternalServerError)
 			return
 		}
