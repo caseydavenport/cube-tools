@@ -1142,7 +1142,7 @@ function PlayerFrame(input) {
   let interaction = 0
   for (let card of cards) {
     // Creature
-    if (card.types.includes("Creature")) {
+    if ((card.types || []).includes("Creature")) {
       creatures += 1
     }
 
@@ -1538,12 +1538,13 @@ const typePriority = [
 ]
 
 function getType(card) {
+  const types = card.types || []
   for (let t of typePriority) {
-    if (card.types.includes(t)) {
+    if (types.includes(t)) {
       return t
     }
   }
-  return card.types[0]
+  return types[0] || "Unknown"
 }
 
 // landOrder is the sub-heading order for the Lands section.

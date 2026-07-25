@@ -939,7 +939,7 @@ function typeMatches(term, card) {
   let query = term.replace("t:", "").replace(/"/g, "").toLowerCase()
   // Return true if any of the card's types match the query.
 
-  if (card.types.some(t => t.toLowerCase() == query)) {
+  if ((card.types || []).some(t => t.toLowerCase() == query)) {
     return true
   }
 
