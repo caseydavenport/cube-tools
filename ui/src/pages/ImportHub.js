@@ -3,6 +3,7 @@ import { useParams, useNavigate, Navigate } from 'react-router-dom';
 import OCRImport from './OCRImport.js';
 import ImportWizard from './ImportWizard.js';
 import HedronImport from './HedronImport.js';
+import PhotoImport from './PhotoImport.js';
 
 // MODES drives the picker grid and the dispatch below. `kind` selects the flow;
 // text kinds are handled by ImportWizard, image kinds by their own components.
@@ -11,6 +12,7 @@ const MODES = [
   { key: 'upload', kind: 'text',   title: 'Upload deck files',  blurb: 'One or more .txt / .csv files.' },
   { key: 'dir',    kind: 'text',   title: 'Server directory',   blurb: 'Parse a folder of deck files on the server.' },
   { key: 'hedron', kind: 'hedron', title: 'Hedron Network',     blurb: 'Fetch draft photos from CubeCobra/Hedron, then OCR.' },
+  { key: 'photos', kind: 'photos', title: 'Photo folder',       blurb: 'Build a draft from a folder of deck photos, then OCR.' },
   { key: 'ocr',    kind: 'ocr',    title: 'Photo scan',         blurb: 'Reconcile scanned deck photos already on disk.' },
 ];
 
@@ -35,6 +37,7 @@ export default function ImportHub() {
         <button className="ocr-back" onClick={back}>&larr; Import modes</button>
         {mode.kind === 'text' && <ImportWizard source={mode.key} onDone={back} />}
         {mode.kind === 'hedron' && <HedronImport />}
+        {mode.kind === 'photos' && <PhotoImport />}
         {mode.kind === 'ocr' && <OCRImport />}
       </div>
     );

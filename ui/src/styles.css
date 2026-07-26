@@ -1732,6 +1732,25 @@ table {
 .import-hedron-lookup button:hover:not(:disabled) { background: var(--table-row-hover); }
 .import-hedron-lookup button:disabled { opacity: 0.5; cursor: default; }
 
+/* Photo folder screen. */
+.import-photos { max-width: 940px; padding: 0 24px; }
+.import-photos-form { display: flex; flex-direction: column; gap: 12px; margin-bottom: 16px; max-width: 420px; }
+.import-photos-form label { display: flex; flex-direction: column; gap: 4px; color: var(--text-muted); font-size: 0.9em; }
+.import-photos-form input {
+  background: var(--page-background); border: 1px solid var(--border); color: var(--white);
+  padding: 8px 12px; border-radius: 6px; font-family: inherit;
+}
+.import-photos-form input:focus { outline: none; border-color: var(--primary); }
+.import-photos-actions { display: flex; gap: 10px; margin-top: 4px; }
+.import-photos-actions button {
+  background: var(--table-header-background); border: 1px solid var(--border); color: var(--white);
+  border-radius: 8px; padding: 8px 16px; cursor: pointer; font-weight: 600;
+}
+.import-photos-actions button:hover:not(:disabled) { background: var(--table-row-hover); }
+.import-photos-actions button:disabled { opacity: 0.5; cursor: default; }
+.import-photos-scan { color: var(--text-muted); }
+.import-photos-scan ul { margin: 6px 0 0; padding-left: 20px; }
+
 /* ============================================================
    Design Map - drill-in explorer
    ============================================================ */

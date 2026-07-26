@@ -56,3 +56,17 @@ export async function ImportHedronDraft(cube, cubeCobraId, hedronDraftId) {
   });
   return draft_id;
 }
+
+// ScanPhotoFolder lists the image files under a server-side folder so the UI
+// can show how many players it found. Returns {images, count}.
+export function ScanPhotoFolder(cube, sourcePath) {
+  return postJSON(`/api/${cube}/import/photos/scan`, { source_path: sourcePath });
+}
+
+// CreatePhotoDraft builds a draft from a folder of deck photos and returns the
+// local draft id to open in the OCR flow. req is
+// {source_path, date, slug, event_name, flight}.
+export async function CreatePhotoDraft(cube, req) {
+  const { draft_id } = await postJSON(`/api/${cube}/import/photos`, req);
+  return draft_id;
+}
