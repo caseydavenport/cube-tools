@@ -31,9 +31,10 @@ export default function ImportHub() {
 
   if (mode) {
     const back = () => navigate(`/${cube}/import`);
-    // The photo-scan workspace manages its own full-bleed width, so don't cap it.
+    // Every image mode ends in the OCR workspace, which manages its own
+    // full-bleed width, so only cap the text flows.
     return (
-      <div className={mode.kind === 'ocr' ? 'import-hub wide' : 'import-hub'}>
+      <div className={mode.kind === 'text' ? 'import-hub' : 'import-hub wide'}>
         <button className="ocr-back" onClick={back}>&larr; Import modes</button>
         {mode.kind === 'text' && <ImportWizard source={mode.key} onDone={back} />}
         {mode.kind === 'hedron' && <HedronImport />}
