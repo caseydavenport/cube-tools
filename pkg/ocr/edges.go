@@ -33,34 +33,51 @@ const (
 	// EdgePlateauMaxAngleDeg keeps only edges that are roughly horizontal.
 	EdgePlateauMaxAngleDeg = 45.0
 
-	// EdgePolaritySampleRows is how many rows to average on each side of a
-	// candidate edge for the bright-above / dark-below check.
+	// EdgePolaritySampleRows is how many rows to average just above a candidate
+	// edge to confirm bright sleeve sits there.
 	EdgePolaritySampleRows = 6
 
 	// EdgePolaritySampleOffset is the gap (px) left between the edge and the
-	// sampled rows, so blurry edge pixels don't skew the averages.
+	// sampled rows, so blurry edge pixels don't skew the average.
 	EdgePolaritySampleOffset = 3
 
-	// EdgePolarityMinDelta is how much darker below must be than above (light
-	// sleeve over black border) to pass.
-	EdgePolarityMinDelta = 15.0
+	// EdgePolarityAboveMin is how bright the rows above an edge must be to read as
+	// the bright sleeve rim. A card top with fully-visible art below it clears this
+	// on its own. See isCardTopPolarity for how it combines with the dark-border
+	// test below.
+	EdgePolarityAboveMin = 130.0
 
-	// EdgePolarityBelowMax is the brightest below can be and still read as a
-	// black card border.
+	// EdgePolarityBelowMax and EdgePolarityMinDelta catch the other kind of card
+	// top: a rim that isn't bright enough to pass EdgePolarityAboveMin, but sits
+	// clearly brighter than a dark printed border just below it. The rows below
+	// must be dark (<= BelowMax) and the rim above must beat them by MinDelta. This
+	// recovers fully-visible cards; on a fanned name-band stack the pixels below a
+	// top are the bright title bar, so this test misses those and the rim-above
+	// test carries them instead.
 	EdgePolarityBelowMax = 140.0
+	EdgePolarityMinDelta = 15.0
 
 	// EdgeMinSleeveRun is how many sleeve pixels a column must run before a
 	// sleeve-to-card transition counts, filtering stray flecks of sleeve color.
 	EdgeMinSleeveRun = 6
 
 	// EdgePlateauGapBudget is how many empty columns the left-to-right walk may
-	// skip before giving up, to bridge small holes in the mask.
-	EdgePlateauGapBudget = 6
+	// skip before giving up. Card-top rims come through the sleeve mask dashed (the
+	// printed border breaks the orange edge into segments), so this has to span a
+	// dash gap or every edge shatters into sub-minWidth fragments. Keep it small:
+	// too generous and the walk bridges onto a neighboring card's edge, which
+	// spawns spurious detections that then suppress real matches in anchor dedup.
+	EdgePlateauGapBudget = 8
+
+	// EdgePlateauMaxStepGrowth caps how much the allowed vertical drift grows while
+	// bridging a gap. Without a cap, the wide gap budget lets a walk wander onto a
+	// neighboring card's edge; with it, drift stays bounded regardless of gap width.
+	EdgePlateauMaxStepGrowth = 3
 )
 
 // refineCardEdges finds card top borders inside ccBbox: it marks sleeve-to-card
 // transitions, groups them into roughly level edges, and keeps those with
-// card-top polarity (light sleeve above, dark border below).
+// card-top polarity (see isCardTopPolarity).
 //
 // The second return is a ccBbox-sized debug image of the raw transition pixels.
 // Callers that don't want it should Close it.
@@ -149,9 +166,14 @@ func refineCardEdges(src, sleeveMask gocv.Mat, ccBbox image.Rectangle, cardHeigh
 			for xNext := xSeed + 1; xNext < ccBbox.Dx(); xNext++ {
 				bestY := -1
 
-				// Allow more vertical drift after skipping columns: a longer
-				// skip can cover more rise or fall on a tilted edge.
-				maxStep := EdgePlateauMaxStep * (gap + 1)
+				// Allow more vertical drift after skipping columns: a longer skip can
+				// cover more rise or fall on a tilted edge. Cap the growth so bridging
+				// a wide dash gap doesn't let the walk drift onto a neighboring edge.
+				step := gap + 1
+				if step > EdgePlateauMaxStepGrowth {
+					step = EdgePlateauMaxStepGrowth
+				}
+				maxStep := EdgePlateauMaxStep * step
 				bestDist := maxStep + 1
 
 				// Find the transition in this column closest to the current y.
@@ -198,7 +220,10 @@ func refineCardEdges(src, sleeveMask gocv.Mat, ccBbox image.Rectangle, cardHeigh
 
 	var refined []RefinedCard
 	for _, p := range plateaus {
-		if len(p) < minWidth {
+		// Measure the edge by horizontal pixel span, not point count: rims come
+		// through dashed, so a full-width edge has far fewer attached points than
+		// pixels wide. The walk appends in ascending x, so the ends bound the span.
+		if p[len(p)-1].x-p[0].x < minWidth {
 			continue
 		}
 		x1, y1, x2, y2, angle, ok := fitPlateauLine(p)
@@ -312,32 +337,42 @@ func approxCardRect(pLeft, pRight image.Point, angleDeg float64, cardH, srcW, sr
 	return image.Rect(minX, minY, maxX, maxY)
 }
 
-// isCardTopPolarity samples grayscale rows above and below the edge midpoint
-// (full-image coordinates) and returns true when above is clearly brighter:
-// light sleeve over black card border.
+// isCardTopPolarity decides whether the edge at (midX, midY) looks like a real
+// card top rather than art or a playmat streak that faked a sleeve-to-card
+// transition. It samples grayscale rows just above and just below the edge (in
+// full-image coordinates) and accepts if either polarity holds: the rim above is
+// bright sleeve, or the rim above is clearly brighter than a dark printed border
+// below. Fanned name-band stacks only pass the first test (the row below a top is
+// the next card's bright title bar); fully-visible cards over dark art only pass
+// the second. A single test misses one or the other, so we take both.
 func isCardTopPolarity(gray gocv.Mat, midX, midY int) bool {
 	if midX < 0 || midX >= gray.Cols() {
 		return false
 	}
-	// Row bands to sample, offset above and below the edge.
 	aboveLo := midY - EdgePolaritySampleRows - EdgePolaritySampleOffset
 	aboveHi := midY - EdgePolaritySampleOffset
-	belowLo := midY + EdgePolaritySampleOffset
-	belowHi := midY + EdgePolaritySampleRows + EdgePolaritySampleOffset
-	if aboveLo < 0 || belowHi >= gray.Rows() {
+	if aboveLo < 0 || aboveHi > gray.Rows() {
 		return false
 	}
+	above := rowMean(gray, midX, aboveLo, aboveHi)
 
-	// Average brightness of each band.
-	aboveSum, belowSum := 0.0, 0.0
-	for y := aboveLo; y < aboveHi; y++ {
-		aboveSum += float64(gray.GetUCharAt(y, midX))
+	belowLo := midY + EdgePolaritySampleOffset
+	belowHi := midY + EdgePolaritySampleOffset + EdgePolaritySampleRows
+	if belowHi > gray.Rows() {
+		return false
 	}
-	above := aboveSum / float64(aboveHi-aboveLo)
-	for y := belowLo; y < belowHi; y++ {
-		belowSum += float64(gray.GetUCharAt(y, midX))
-	}
-	below := belowSum / float64(belowHi-belowLo)
+	below := rowMean(gray, midX, belowLo, belowHi)
 
-	return below <= EdgePolarityBelowMax && above-below >= EdgePolarityMinDelta
+	brightRim := above >= EdgePolarityAboveMin
+	darkBorderBelow := below <= EdgePolarityBelowMax && above-below >= EdgePolarityMinDelta
+	return brightRim || darkBorderBelow
+}
+
+// rowMean averages column midX of gray over rows [loY, hiY).
+func rowMean(gray gocv.Mat, midX, loY, hiY int) float64 {
+	sum := 0.0
+	for y := loY; y < hiY; y++ {
+		sum += float64(gray.GetUCharAt(y, midX))
+	}
+	return sum / float64(hiY-loY)
 }
