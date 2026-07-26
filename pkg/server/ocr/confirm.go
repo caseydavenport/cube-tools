@@ -16,6 +16,7 @@ type CountedCard = types.CountedCard
 type ConfirmRequest struct {
 	Pool      []CountedCard  `json:"pool"`
 	Mainboard []CountedCard  `json:"mainboard"`
+	Sideboard []CountedCard  `json:"sideboard"`
 	Basics    map[string]int `json:"basics"`
 }
 
@@ -35,7 +36,14 @@ func buildDeck(existing *types.Deck, req ConfirmRequest) *types.Deck {
 	}
 	main = append(main, types.ExpandCounted(basics)...)
 	d.Mainboard = main
-	d.Sideboard = types.DeriveSideboard(req.Pool, req.Mainboard)
+	// The client sends an explicit sideboard so cards can be moved between the
+	// mainboard and sideboard by hand, even for a deck-only scan with no pool.
+	// Fall back to deriving it from the pool for older callers that don't.
+	if req.Sideboard != nil {
+		d.Sideboard = types.ExpandCounted(req.Sideboard)
+	} else {
+		d.Sideboard = types.DeriveSideboard(req.Pool, req.Mainboard)
+	}
 	d.Pool = nil
 	return d
 }

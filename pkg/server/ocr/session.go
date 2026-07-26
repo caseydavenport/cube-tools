@@ -22,11 +22,12 @@ type PlayerWork struct {
 	// OCR regions (detected or hand-drawn). The pool and mainboard lists are
 	// derived from these on the client, so persisting them lets a reload
 	// resume exactly where the user left off without re-running OCR.
-	Boxes     map[string][]Box `json:"boxes,omitempty"`      // pool photo -> boxes
-	DeckBoxes map[string][]Box `json:"deck_boxes,omitempty"` // deck photo -> boxes
-	Bonus     map[string]int   `json:"bonus,omitempty"`      // manual pool count deltas
-	DeckBonus map[string]int   `json:"deck_bonus,omitempty"` // manual mainboard count deltas
-	Basics    map[string]int   `json:"basics,omitempty"`
+	Boxes         map[string][]Box `json:"boxes,omitempty"`          // pool photo -> boxes
+	DeckBoxes     map[string][]Box `json:"deck_boxes,omitempty"`     // deck photo -> boxes
+	Overrides     map[string]int   `json:"overrides,omitempty"`      // manual pool counts
+	DeckOverrides map[string]int   `json:"deck_overrides,omitempty"` // manual mainboard counts
+	Sideboard     map[string]int   `json:"sideboard,omitempty"`      // hand-assigned sideboard counts
+	Basics        map[string]int   `json:"basics,omitempty"`
 
 	// PoolEntries/MainboardEntries are the derived lists at last save, kept so
 	// the draft list can report progress without replaying the client logic.

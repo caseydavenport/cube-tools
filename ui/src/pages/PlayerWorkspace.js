@@ -21,8 +21,14 @@ export function PlayerWorkspace({ cube, draft, player, onConfirmed }) {
   const [basics, setBasics] = useState({});
   const [cards, setCards] = useState([]);
 
-  // stage is the active tab: pool, deck, or confirm.
-  const [stage, setStage] = useState("pool");
+  // A deck-only scan (photo-folder import) has no pool photos. Without a pool
+  // to derive the sideboard from, cards moved out of the mainboard are tracked
+  // by hand in this name->count map instead.
+  const deckOnly = poolPhotos.length === 0;
+  const [sideboard, setSideboard] = useState({});
+
+  // stage is the active tab. A deck-only scan skips the pool tab entirely.
+  const [stage, setStage] = useState(deckOnly ? "deck" : "pool");
   const [currentPhoto, setCurrentPhoto] = useState(poolPhotos[0] || null);
   const [deckPhoto, setDeckPhoto] = useState(deckPhotos[0] || null);
   const [hoveredName, setHoveredName] = useState(null);
@@ -61,6 +67,18 @@ export function PlayerWorkspace({ cube, draft, player, onConfirmed }) {
     ...deckCaptures.map(c => ({ ...c, group: "Mainboard" })),
   ], [poolCaptures, deckCaptures]);
 
+  // For a pool scan the sideboard is what's left of the pool after the
+  // mainboard, derived live. For a deck-only scan it's the hand-tracked map.
+  const sideboardList = React.useMemo(() => {
+    if (deckOnly) {
+      return Object.entries(sideboard)
+        .filter(([, n]) => n > 0)
+        .map(([card_name, count]) => ({ card_name, count }))
+        .sort((a, b) => a.card_name.localeCompare(b.card_name));
+    }
+    return previewSideboard(pool, mainboard);
+  }, [deckOnly, sideboard, pool, mainboard]);
+
   const warnings = allWarnings(pool, mainboard, basics);
   const breakdown = mainboardBreakdown(mainboard, basics, cardsByName);
 
@@ -80,6 +98,7 @@ export function PlayerWorkspace({ cube, draft, player, onConfirmed }) {
         setOverrides(pw.overrides || {});
         setDeckOverrides(pw.deck_overrides || {});
         setBasics(pw.basics || {});
+        setSideboard(pw.sideboard || {});
 
         // Resume the manual-id counter above the highest loaded id so newly
         // drawn boxes can't reuse an id already in the session.
@@ -102,14 +121,14 @@ export function PlayerWorkspace({ cube, draft, player, onConfirmed }) {
         draft_id: draft.draft_id,
         players: { [player.id]: {
           status: "in_progress",
-          boxes, deck_boxes: deckBoxes, overrides, deck_overrides: deckOverrides, basics,
+          boxes, deck_boxes: deckBoxes, overrides, deck_overrides: deckOverrides, basics, sideboard,
           pool_entries: pool, mainboard_entries: mainboard,
         } },
       }).catch(() => {});
     }, 800);
     return () => clearTimeout(t);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [boxes, deckBoxes, overrides, deckOverrides, basics]);
+  }, [boxes, deckBoxes, overrides, deckOverrides, basics, sideboard]);
 
   // makeBoxOps builds the add/resize/delete/rename operations for one box map.
   // It takes the state setter so the pool and deck photos share one
@@ -246,6 +265,19 @@ export function PlayerWorkspace({ cube, draft, player, onConfirmed }) {
   const deckList = listOps(setDeckBoxes, setDeckOverrides, deckBoxCount);
   const setDeckCount = (name, n) => setDeckOverrides(prev => ({ ...prev, [name]: n }));
 
+  // Move one copy between the mainboard and sideboard. For a pool scan the
+  // sideboard is derived from the pool, so shrinking the mainboard is enough.
+  // For a deck-only scan there's no pool, so track the copy in the sideboard
+  // map too, otherwise it would just vanish.
+  const moveToSideboard = name => {
+    setDeckCount(name, (mainCount[name] || 1) - 1);
+    if (deckOnly) setSideboard(prev => ({ ...prev, [name]: (prev[name] || 0) + 1 }));
+  };
+  const moveToMainboard = name => {
+    setDeckCount(name, (mainCount[name] || 0) + 1);
+    if (deckOnly) setSideboard(prev => ({ ...prev, [name]: (prev[name] || 0) - 1 }));
+  };
+
   // Reassign one capture's card from the confirm slideshow. Routes to the box's
   // own list (pool vs deck) by the group tag and resolves it by hand (status
   // "high"), same as picking a name on the pool/deck tabs.
@@ -257,7 +289,7 @@ export function PlayerWorkspace({ cube, draft, player, onConfirmed }) {
   async function confirm() {
     const toCounted = es => es.map(e => ({ name: e.card_name, count: e.count }));
     const payload = mainboard.length > 0 || Object.values(basics).some(n => n > 0)
-      ? { pool: toCounted(pool), mainboard: toCounted(mainboard), basics }
+      ? { pool: toCounted(pool), mainboard: toCounted(mainboard), sideboard: toCounted(sideboardList), basics }
       : { pool: toCounted(pool) };
     await ConfirmPlayer(cube, draft.draft_id, player.id, payload);
     // Let the parent reload the draft (so this player turns green) and drop back
@@ -268,7 +300,7 @@ export function PlayerWorkspace({ cube, draft, player, onConfirmed }) {
   return (
     <div className="ocr-workspace">
       <div className="ocr-tabs">
-        {["pool", "deck", "confirm"].map(s => (
+        {(deckOnly ? ["deck", "confirm"] : ["pool", "deck", "confirm"]).map(s => (
           <button key={s} className={stage === s ? "active" : ""} onClick={() => setStage(s)}>{s}</button>
         ))}
       </div>
@@ -320,11 +352,11 @@ export function PlayerWorkspace({ cube, draft, player, onConfirmed }) {
               onSetCount={deckList.setCount} onRemove={deckList.remove}
               onChangeName={deckList.changeName} onAdd={deckList.add}
               unmatched={deckUnmatched} onFillName={deckOps.setName} onRemoveBox={deckOps.del}
-              onMove={name => setDeckCount(name, (mainCount[name] || 1) - 1)} moveLabel="→ SB"
+              onMove={moveToSideboard} moveLabel="→ SB"
               basics={basics} onSetBasic={(b, n) => setBasics(prev => ({ ...prev, [b]: n }))} />
-            <SideboardPreview side={previewSideboard(pool, mainboard)}
+            <SideboardPreview side={sideboardList}
               hoveredName={hoveredName} setHoveredName={setHoveredName}
-              onMove={name => setDeckCount(name, (mainCount[name] || 0) + 1)} />
+              onMove={moveToMainboard} />
           </div>
         </div>
       )}
@@ -474,7 +506,7 @@ function Warnings({ items }) {
 function SideboardPreview({ side, hoveredName, setHoveredName, onMove }) {
   return (
     <div className="ocr-sideboard">
-      <h4>Sideboard (derived, {side.reduce((s, e) => s + e.count, 0)})</h4>
+      <h4>Sideboard ({side.reduce((s, e) => s + e.count, 0)})</h4>
       <ul>
         {side.map(e => (
           <li key={e.card_name} className={e.card_name === hoveredName ? "hot" : ""}

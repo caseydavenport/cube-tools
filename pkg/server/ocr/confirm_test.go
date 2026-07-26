@@ -43,6 +43,20 @@ func TestBuildDeckDerivesSideboardAndBasics(t *testing.T) {
 	}
 }
 
+func TestBuildDeckExplicitSideboard(t *testing.T) {
+	// A deck-only scan has no pool, so the sideboard can't be derived. The
+	// client sends it explicitly and buildDeck must trust it.
+	req := ConfirmRequest{
+		Mainboard: []CountedCard{{Name: "Brainstorm", Count: 1}},
+		Sideboard: []CountedCard{{Name: "Counterspell", Count: 2}},
+	}
+	d := buildDeck(types.NewDeck(), req)
+	side := cardCounts(d.Sideboard)
+	if side["Counterspell"] != 2 || len(side) != 1 {
+		t.Fatalf("sideboard = %+v, want 2 Counterspell", side)
+	}
+}
+
 func TestBuildDeckPoolOnly(t *testing.T) {
 	req := ConfirmRequest{Pool: []CountedCard{{Name: "Brainstorm", Count: 1}, {Name: "Counterspell", Count: 1}}}
 	d := buildDeck(types.NewDeck(), req)

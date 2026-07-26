@@ -25,7 +25,7 @@ func TestSessionRoundTrip(t *testing.T) {
 				Status: "high",
 				Chosen: "Counterspell",
 			}}},
-			Bonus:  map[string]int{"Counterspell": 1},
+			Overrides: map[string]int{"Counterspell": 1},
 			Basics: map[string]int{"Island": 7},
 			PoolEntries: []PoolEntry{{
 				CardName: "Counterspell", Count: 1,
@@ -44,8 +44,8 @@ func TestSessionRoundTrip(t *testing.T) {
 	if got.Players["p3"].Boxes[photo][0].Chosen != "Counterspell" {
 		t.Fatalf("round-trip lost box data: %+v", got.Players["p3"])
 	}
-	if got.Players["p3"].Bonus["Counterspell"] != 1 {
-		t.Fatalf("bonus lost: %+v", got.Players["p3"].Bonus)
+	if got.Players["p3"].Overrides["Counterspell"] != 1 {
+		t.Fatalf("overrides lost: %+v", got.Players["p3"].Overrides)
 	}
 	if got.Players["p3"].Basics["Island"] != 7 {
 		t.Fatalf("basics lost: %+v", got.Players["p3"].Basics)
