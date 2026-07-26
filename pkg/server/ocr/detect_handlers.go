@@ -40,7 +40,7 @@ func resolvePhoto(dataRoot, cube, rel string) (string, *types.Cube, bool) {
 	}
 	cube2, err := types.LoadCubeList(types.LoadOptions{DataRoot: dataRoot, Cube: cube, Date: date})
 	if err != nil {
-		cube2, err = types.LoadCubeList(types.LoadOptions{DataRoot: dataRoot, Cube: cube})
+		cube2, err = types.LoadCubeList(types.LoadOptions{DataRoot: dataRoot, Cube: cube, Source: cubeSource})
 		if err != nil {
 			return "", nil, false
 		}
