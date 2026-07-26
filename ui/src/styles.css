@@ -1394,6 +1394,8 @@ table {
 .ocr-zoom span { min-width: 44px; text-align: center; color: var(--text-muted); font-size: 0.85em; font-variant-numeric: tabular-nums; }
 .ocr-zoom .ocr-redetect { margin-left: auto; font-size: 0.85em; white-space: nowrap; }
 .ocr-zoom .ocr-clear { font-size: 0.85em; white-space: nowrap; }
+.ocr-zoom .ocr-select-toggle { font-size: 0.85em; white-space: nowrap; }
+.ocr-zoom .ocr-select-toggle.active { border-color: #22c55e; color: #22c55e; }
 
 .ocr-canvas-scroll {
   flex: 1 1 auto; overflow: auto; min-height: 0;

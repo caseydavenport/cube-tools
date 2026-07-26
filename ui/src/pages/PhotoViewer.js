@@ -17,18 +17,26 @@ export function PhotoViewer({
   boxes, onDrawBox, onResizeBox, onDeleteBox,
   hoveredName, setHoveredName,
   onRedetect, onRotate, onClear, detecting, bust,
+  onMoveNames, moveNamesLabel,
 }) {
   const ver = p => (bust ? bust(p) : 0);
   const svgRef = useRef(null);
   const stageRef = useRef(null);
   const [dim, setDim] = useState({ w: 0, h: 0 });
   const [region, setRegion] = useState({ w: 0, h: 0 });
-  const [drag, setDrag] = useState(null);       // new-box rubber band {x0,y0,x1,y1}
+  const [drag, setDrag] = useState(null);       // rubber band {x0,y0,x1,y1,select?}
   const [selectedId, setSelectedId] = useState(null);
   const [active, setActive] = useState(null);   // {type,id,corner,startBox,startPt,current}
   const [zoom, setZoom] = useState(DEFAULT_ZOOM);
 
-  useEffect(() => { setSelectedId(null); setZoom(DEFAULT_ZOOM); }, [photo]);
+  // Select mode turns the rubber band into a lasso: drag a rectangle over the
+  // photo and every named box whose center falls inside is selected, ready to
+  // push to the sideboard in one action. Only offered when onMoveNames is set.
+  const canSelect = !!onMoveNames;
+  const [selectMode, setSelectMode] = useState(false);
+  const [selectedIds, setSelectedIds] = useState(() => new Set());
+
+  useEffect(() => { setSelectedId(null); setSelectedIds(new Set()); setZoom(DEFAULT_ZOOM); }, [photo]);
 
   // Track the stage's inner size so we can fit the photo into it without
   // distortion, at a consistent size regardless of the image's dimensions.
@@ -69,7 +77,18 @@ export function PhotoViewer({
       setActive(a => ({ ...a, current: roundBox(nb) }));
     }
     function onUp() {
-      if (drag) {
+      if (drag && drag.select) {
+        // Lasso: select every named box whose center lands inside the rectangle.
+        const x0 = Math.min(drag.x0, drag.x1), y0 = Math.min(drag.y0, drag.y1);
+        const x1 = Math.max(drag.x0, drag.x1), y1 = Math.max(drag.y0, drag.y1);
+        const hit = (boxes || []).filter(b => {
+          if (!b.chosen) return false;
+          const cx = b.bbox.X + b.bbox.Width / 2, cy = b.bbox.Y + b.bbox.Height / 2;
+          return cx >= x0 && cx <= x1 && cy >= y0 && cy <= y1;
+        }).map(b => b.id);
+        setDrag(null);
+        setSelectedIds(new Set(hit));
+      } else if (drag) {
         const box = {
           X: Math.round(Math.min(drag.x0, drag.x1)), Y: Math.round(Math.min(drag.y0, drag.y1)),
           Width: Math.round(Math.abs(drag.x1 - drag.x0)), Height: Math.round(Math.abs(drag.y1 - drag.y0)),
@@ -111,6 +130,12 @@ export function PhotoViewer({
     if (!dim.w) return;
     setSelectedId(null);
     const p = toImg(e);
+    // In select mode a drag lassoes boxes rather than drawing one. A fresh drag
+    // replaces the current selection (a bare click clears it).
+    if (selectMode) {
+      setDrag({ x0: p.x, y0: p.y, x1: p.x, y1: p.y, select: true });
+      return;
+    }
     // Ctrl/Cmd-click drops a default-sized box with its left edge at the
     // click, instead of drawing it by hand. Quick way to tag nameplates when
     // they're all about the same size.
@@ -120,6 +145,16 @@ export function PhotoViewer({
       return;
     }
     setDrag({ x0: p.x, y0: p.y, x1: p.x, y1: p.y });
+  }
+
+  // Names of the currently selected boxes, one per box so a 2-of moves both.
+  const selectedNames = () =>
+    (boxes || []).filter(b => selectedIds.has(b.id) && b.chosen).map(b => b.chosen);
+  function moveSelected() {
+    const names = selectedNames();
+    if (names.length) onMoveNames(names);
+    setSelectedIds(new Set());
+    setSelectMode(false);
   }
 
   function boxDisplayBbox(b) {
@@ -158,6 +193,18 @@ export function PhotoViewer({
             Clear
           </button>
         )}
+        {canSelect && (
+          <button className={`ocr-select-toggle${selectMode ? " active" : ""}`}
+            onClick={() => { setSelectMode(m => !m); setSelectedIds(new Set()); }}
+            title="Drag a box over the photo to select cards by position">
+            {selectMode ? "Selecting…" : "Select"}
+          </button>
+        )}
+        {canSelect && selectMode && selectedIds.size > 0 && (
+          <button className="ocr-move" onClick={moveSelected}>
+            {moveNamesLabel || "→ SB"} ({selectedIds.size})
+          </button>
+        )}
       </div>
       <div className="ocr-canvas-scroll" ref={stageRef}>
         <div className="ocr-canvas" style={canvasW ? { width: `${canvasW}px` } : undefined}>
@@ -178,20 +225,32 @@ export function PhotoViewer({
               const bb = boxDisplayBbox(b);
               const color = STATUS_COLOR[b.status] || "#ef4444";
               const highlit = b.chosen && b.chosen === hoveredName;
+              const lassoed = selectMode && selectedIds.has(b.id);
               const selected = b.id === selectedId;
               return (
                 <g key={b.id}>
                   <rect
                     x={bb.X} y={bb.Y} width={bb.Width} height={bb.Height}
-                    fill={highlit ? "rgba(56,189,248,0.18)" : "transparent"}
-                    stroke={selected ? "#38bdf8" : color}
-                    strokeWidth={highlit || selected ? sw * 1.8 : sw}
+                    fill={lassoed ? "rgba(34,197,94,0.25)" : highlit ? "rgba(56,189,248,0.18)" : "transparent"}
+                    stroke={lassoed ? "#22c55e" : selected ? "#38bdf8" : color}
+                    strokeWidth={highlit || selected || lassoed ? sw * 1.8 : sw}
                     strokeDasharray={b.status === "pending" ? `${sw * 3} ${sw * 2}` : undefined}
-                    style={{ cursor: "move" }}
+                    style={{ cursor: selectMode ? "pointer" : "move" }}
                     onMouseEnter={() => b.chosen && setHoveredName(b.chosen)}
                     onMouseLeave={() => setHoveredName(null)}
                     onMouseDown={e => {
                       e.stopPropagation();
+                      // In select mode a click toggles this box in the selection
+                      // instead of starting a move.
+                      if (selectMode) {
+                        if (!b.chosen) return;
+                        setSelectedIds(prev => {
+                          const next = new Set(prev);
+                          if (next.has(b.id)) next.delete(b.id); else next.add(b.id);
+                          return next;
+                        });
+                        return;
+                      }
                       setSelectedId(b.id);
                       setActive({ type: "move", id: b.id, startBox: bb, startPt: toImg(e) });
                     }}
@@ -233,7 +292,9 @@ export function PhotoViewer({
               <rect
                 x={Math.min(drag.x0, drag.x1)} y={Math.min(drag.y0, drag.y1)}
                 width={Math.abs(drag.x1 - drag.x0)} height={Math.abs(drag.y1 - drag.y0)}
-                fill="rgba(56,189,248,0.2)" stroke="#38bdf8" strokeWidth={sw} strokeDasharray={`${sw * 3} ${sw * 2}`}
+                fill={drag.select ? "rgba(34,197,94,0.15)" : "rgba(56,189,248,0.2)"}
+                stroke={drag.select ? "#22c55e" : "#38bdf8"}
+                strokeWidth={sw} strokeDasharray={`${sw * 3} ${sw * 2}`}
               />
             )}
           </svg>

@@ -278,6 +278,22 @@ export function PlayerWorkspace({ cube, draft, player, onConfirmed }) {
     if (deckOnly) setSideboard(prev => ({ ...prev, [name]: (prev[name] || 0) - 1 }));
   };
 
+  // Move a batch of cards to the sideboard at once, from a lasso selection on
+  // the deck photo. The lasso hands back one name per selected box, so repeats
+  // mean multiple copies; total the names and move that many of each, clamped
+  // to what the mainboard actually holds.
+  const moveNamesToSideboard = names => {
+    const counts = {};
+    names.forEach(n => { counts[n] = (counts[n] || 0) + 1; });
+    Object.entries(counts).forEach(([name, want]) => {
+      const cur = mainCount[name] || 0;
+      const moved = Math.min(want, cur);
+      if (moved <= 0) return;
+      setDeckCount(name, cur - moved);
+      if (deckOnly) setSideboard(prev => ({ ...prev, [name]: (prev[name] || 0) + moved }));
+    });
+  };
+
   // Reassign one capture's card from the confirm slideshow. Routes to the box's
   // own list (pool vs deck) by the group tag and resolves it by hand (status
   // "high"), same as picking a name on the pool/deck tabs.
@@ -344,6 +360,7 @@ export function PlayerWorkspace({ cube, draft, player, onConfirmed }) {
               onRedetect={() => redetect(setDeckBoxes, deckPhoto, deckBoxes[deckPhoto])}
               onRotate={dir => rotate(setDeckBoxes, deckPhoto, deckBoxes[deckPhoto], dir)}
               onClear={() => clearPhoto(setDeckBoxes, deckPhoto, deckBoxes[deckPhoto])}
+              onMoveNames={moveNamesToSideboard} moveNamesLabel="→ SB"
               detecting={redetecting} bust={bust} />}
           </div>
           <div className="ocr-right">
