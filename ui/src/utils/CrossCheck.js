@@ -45,8 +45,12 @@ function mainboardWarnings(pool, mainboard, basics) {
 }
 
 // allWarnings aggregates every check across the pool and deck so the same list
-// shows on every tab; fixing a deck warning often means editing the pool.
+// shows on every tab; fixing a deck warning often means editing the pool. A
+// deck-only scan has no pool photos, so an empty pool means there's nothing to
+// cross-check - skip the warnings entirely (mirrors deckWarnings in
+// pkg/server/ocr/playerchecks.go).
 export function allWarnings(pool, mainboard, basics) {
+  if (pool.length === 0) return [];
   return [...poolWarnings(pool), ...mainboardWarnings(pool, mainboard, basics)];
 }
 

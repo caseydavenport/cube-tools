@@ -1548,9 +1548,11 @@ table {
 .ocr-tabs button:hover { color: var(--white); }
 .ocr-tabs button.active { border-color: var(--primary); color: var(--primary); background: rgba(56,189,248,0.08); }
 
+.ocr-warnings-bar { height: 64px; margin: 0 0 16px; }
 .ocr-warnings {
   background: rgba(234,179,8,0.1); border: 1px solid rgba(234,179,8,0.3); border-left: 3px solid #eab308;
-  border-radius: 8px; padding: 8px 14px; list-style: none; margin: 0 0 16px;
+  border-radius: 8px; padding: 8px 14px; list-style: none; margin: 0;
+  height: 100%; overflow-y: auto; box-sizing: border-box;
 }
 .ocr-warnings li { padding: 2px 0; font-size: 0.9em; }
 

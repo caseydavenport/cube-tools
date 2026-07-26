@@ -459,9 +459,16 @@ function ConfirmSlideshow({ captures, cards, cube, bust, onCorrect }) {
   );
 }
 
+// Warnings always renders its fixed-height bar so the page below it doesn't
+// jump as warnings appear and disappear while editing. The yellow box only
+// shows when there's something to say.
 function Warnings({ items }) {
-  if (!items || items.length === 0) return null;
-  return <ul className="ocr-warnings">{items.map((w, i) => <li key={i}>{w}</li>)}</ul>;
+  return (
+    <div className="ocr-warnings-bar">
+      {items && items.length > 0 &&
+        <ul className="ocr-warnings">{items.map((w, i) => <li key={i}>{w}</li>)}</ul>}
+    </div>
+  );
 }
 
 function SideboardPreview({ side, hoveredName, setHoveredName, onMove }) {
