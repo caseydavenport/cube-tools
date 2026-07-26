@@ -37,20 +37,20 @@ func TestRecallAgainstRealPhotos(t *testing.T) {
 	// than a quality bar - low floors flag the photos worth improving next.
 	minRecall := map[string]float64{
 		"2026-01-17_p1p12026_1/p1/checkin-1.jpg":  0.65,
-		"2026-01-17_p1p12026_1/p1/checkout-1.jpg": 0.70,
+		"2026-01-17_p1p12026_1/p1/checkout-1.jpg": 0.75,
 		"2026-01-17_p1p12026_1/p1/deck-1.jpg":     0.20,
-		"2026-01-17_p1p12026_1/p2/checkin-1.jpg":  0.50,
-		"2026-01-17_p1p12026_1/p2/checkout-1.jpg": 0.70,
+		"2026-01-17_p1p12026_1/p2/checkin-1.jpg":  0.55,
+		"2026-01-17_p1p12026_1/p2/checkout-1.jpg": 0.75,
 		"2026-01-17_p1p12026_1/p2/deck-1.jpg":     0.45,
-		"2026-01-17_p1p12026_1/p3/checkin-1.jpg":  0.70,
-		"2026-01-17_p1p12026_1/p3/checkout-1.jpg": 0.75,
+		"2026-01-17_p1p12026_1/p3/checkin-1.jpg":  0.75,
+		"2026-01-17_p1p12026_1/p3/checkout-1.jpg": 0.80,
 		"2026-01-17_p1p12026_1/p3/deck-1.jpg":     0.40,
-		"2026-01-17_p1p12026_1/p4/checkin-1.jpg":  0.65,
-		"2026-01-17_p1p12026_1/p4/checkout-1.jpg": 0.65,
-		"2026-01-17_p1p12026_1/p4/deck-1.jpg":     0.50,
-		"2026-01-17_p1p12026_1/p5/checkin-1.jpg":  0.55,
-		"2026-01-17_p1p12026_1/p5/checkout-1.jpg": 0.55,
-		"2026-01-17_p1p12026_1/p5/deck-1.jpg":     0.50,
+		"2026-01-17_p1p12026_1/p4/checkin-1.jpg":  0.70,
+		"2026-01-17_p1p12026_1/p4/checkout-1.jpg": 0.70,
+		"2026-01-17_p1p12026_1/p4/deck-1.jpg":     0.45,
+		"2026-01-17_p1p12026_1/p5/checkin-1.jpg":  0.60,
+		"2026-01-17_p1p12026_1/p5/checkout-1.jpg": 0.60,
+		"2026-01-17_p1p12026_1/p5/deck-1.jpg":     0.55,
 		"2026-01-17_p1p12026_1/p6/checkin-1.jpg":  0.50,
 		"2026-01-17_p1p12026_1/p6/checkout-1.jpg": 0.30,
 		"2026-01-17_p1p12026_1/p7/checkin-1.jpg":  0.75,
@@ -58,25 +58,25 @@ func TestRecallAgainstRealPhotos(t *testing.T) {
 		"2026-01-17_p1p12026_1/p7/deck-1.jpg":     0.75,
 		"2026-01-18_p1p12026_1/p1/checkin-1.jpg":  0.55,
 		"2026-01-18_p1p12026_1/p1/checkout-1.jpg": 0.70,
-		"2026-01-18_p1p12026_1/p1/deck-1.jpg":     0.45,
-		"2026-01-18_p1p12026_1/p2/checkin-1.jpg":  0.80,
-		"2026-01-18_p1p12026_1/p2/checkout-1.jpg": 0.70,
+		"2026-01-18_p1p12026_1/p1/deck-1.jpg":     0.50,
+		"2026-01-18_p1p12026_1/p2/checkin-1.jpg":  0.85,
+		"2026-01-18_p1p12026_1/p2/checkout-1.jpg": 0.75,
 		"2026-01-18_p1p12026_1/p2/deck-1.jpg":     0.55,
 		"2026-01-18_p1p12026_1/p3/checkin-1.jpg":  0.55,
 		"2026-01-18_p1p12026_1/p3/checkout-1.jpg": 0.55,
-		"2026-01-18_p1p12026_1/p3/deck-1.jpg":     0.45,
+		"2026-01-18_p1p12026_1/p3/deck-1.jpg":     0.40,
 		"2026-01-18_p1p12026_1/p4/checkin-1.jpg":  0.85,
-		"2026-01-18_p1p12026_1/p4/checkout-1.jpg": 0.75,
+		"2026-01-18_p1p12026_1/p4/checkout-1.jpg": 0.80,
 		"2026-01-18_p1p12026_1/p4/deck-1.jpg":     0.50,
 		"2026-01-18_p1p12026_1/p5/checkin-1.jpg":  0.85,
-		"2026-01-18_p1p12026_1/p5/checkout-1.jpg": 0.85,
+		"2026-01-18_p1p12026_1/p5/checkout-1.jpg": 0.90,
 		"2026-01-18_p1p12026_1/p5/deck-1.jpg":     0.45,
 		"2026-01-18_p1p12026_1/p6/checkin-1.jpg":  0.15,
-		"2026-01-18_p1p12026_1/p6/checkout-1.jpg": 0.70,
-		"2026-01-18_p1p12026_1/p7/checkin-1.jpg":  0.80,
-		"2026-01-18_p1p12026_1/p7/checkout-1.jpg": 0.55,
-		"2026-01-18_p1p12026_1/p7/deck-1.jpg":     0.85,
-		"2026-01-18_p1p12026_1/p8/checkin-1.jpg":  0.70,
+		"2026-01-18_p1p12026_1/p6/checkout-1.jpg": 0.75,
+		"2026-01-18_p1p12026_1/p7/checkin-1.jpg":  0.85,
+		"2026-01-18_p1p12026_1/p7/checkout-1.jpg": 0.60,
+		"2026-01-18_p1p12026_1/p7/deck-1.jpg":     0.90,
+		"2026-01-18_p1p12026_1/p8/checkin-1.jpg":  0.75,
 		"2026-01-18_p1p12026_1/p8/checkout-1.jpg": 0.75,
 		"2026-01-18_p1p12026_1/p8/deck-1.jpg":     0.40,
 	}
@@ -183,7 +183,9 @@ func TestRecallAgainstRealPhotos(t *testing.T) {
 // loadExpectedCards reads a player JSON and returns the union of mainboard,
 // sideboard, and pool card names. The fields are mutually exclusive in practice
 // (a record describes either a built deck or a raw pool), so the union is the
-// player's full card set for the event.
+// player's full card set for the event. Basics are dropped: the pipeline no
+// longer matches them (they're entered by hand), so they don't belong in a
+// recall measurement.
 func loadExpectedCards(path string) ([]string, error) {
 	raw, err := os.ReadFile(path)
 	if err != nil {
@@ -201,6 +203,9 @@ func loadExpectedCards(path string) ([]string, error) {
 	out := []string{}
 	for _, group := range [][]string{doc.Mainboard, doc.Sideboard, doc.Pool} {
 		for _, name := range group {
+			if types.IsBasic(name) {
+				continue
+			}
 			key := strings.ToLower(name)
 			if seen[key] {
 				continue

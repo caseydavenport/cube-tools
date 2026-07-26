@@ -108,20 +108,20 @@ func TestMatch_RightSplitHalfMatches(t *testing.T) {
 	require.GreaterOrEqual(t, r.Top().Score, HighConfidenceThreshold)
 }
 
-func TestMatch_BasicLandRecognizedNotInCube(t *testing.T) {
-	// Plains is not in this cube, but should still be recognized.
+func TestMatch_BasicLandNotDetected(t *testing.T) {
+	// Basics are entered by hand, not matched, so an exact basic-land name
+	// never wins and never lands in the high band.
 	cl := miniCube("Lightning Bolt", "Counterspell")
 	r := MatchLine("Plains", cl)
-	require.Equal(t, "Plains", r.Top().Name)
-	require.Equal(t, ConfidenceHigh, r.Band)
+	require.NotEqual(t, "Plains", r.Top().Name)
+	require.NotEqual(t, ConfidenceHigh, r.Band)
 }
 
-func TestMatch_BasicLandFuzzyRead(t *testing.T) {
+func TestMatch_BasicLandFuzzyNotDetected(t *testing.T) {
 	cl := miniCube("Lightning Bolt", "Counterspell")
-	// Noisy reads of a Forest strip with icon junk on either side.
+	// A noisy Forest strip must not match now that basics are off.
 	r := MatchLine("Be Forest DS caged Bi ft", cl)
-	require.Equal(t, "Forest", r.Top().Name)
-	require.Equal(t, ConfidenceHigh, r.Band)
+	require.NotEqual(t, "Forest", r.Top().Name)
 }
 
 func TestMatch_BasicLandIgnoredWhenCubeMatchBetter(t *testing.T) {

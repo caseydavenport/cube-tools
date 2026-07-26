@@ -22,7 +22,7 @@ func TestGoodbyeSFRecall(t *testing.T) {
 	// Per-player recall floors, same regression-guard idea as the e2e suite. The
 	// goal for these photos is >60% recall; the floor sits a little above that.
 	floors := map[string]float64{
-		"p1": 0.65,
+		"p1": 0.70,
 	}
 
 	draft := "2026-07-26_goodbyesf_1"

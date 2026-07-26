@@ -41,14 +41,9 @@ const (
 	VeryLowConfidenceGap       = 0.20
 )
 
-// Basic lands (types.BasicLandNames) are always recognized even when the cube
-// list doesn't contain them - they show up in every deck photo. They get a
-// looser threshold (BasicLandThreshold) and skip the short-name substring gate.
-
-// BasicLandThreshold is the minimum score for a basic land to count as high
-// confidence. Looser than HighConfidenceThreshold because basics are often
-// shot at low res and OCR mangles them.
-const BasicLandThreshold = 0.75
+// Basic lands aren't matched at all: they're entered by hand through the basics
+// control, not the cube list, and OCR on their big-art strips was noisy enough
+// to cost more than it saved. Only cube names are scored below.
 
 // Short names (below ShortNameLen) only count their substring score if it
 // clears ShortNameSubstringMin. They otherwise match letters mid-word in
@@ -139,7 +134,7 @@ func MatchLine(text string, cube *types.Cube) MatchResult {
 	rawLower := strings.ToLower(text)
 	cleanedLower := strings.ToLower(cleaned)
 
-	cands := make([]Candidate, 0, len(cube.Names())+len(types.BasicLandNames))
+	cands := make([]Candidate, 0, len(cube.Names()))
 	scoreName := func(name string, applyShortGate bool) float64 {
 		lowerName := strings.ToLower(name)
 		targets := []string{lowerName}
@@ -182,29 +177,8 @@ func MatchLine(text string, cube *types.Cube) MatchResult {
 		}
 		return best
 	}
-	basicSet := map[string]bool{}
-	for _, name := range types.BasicLandNames {
-		basicSet[name] = true
-	}
-	scoreAndCollect := func(name string, applyShortGate bool, minScore float64) {
-		if best := scoreName(name, applyShortGate); best >= minScore {
-			cands = append(cands, Candidate{Name: name, Score: best})
-		}
-	}
-	cubeSet := map[string]bool{}
 	for _, name := range cube.Names() {
-		cubeSet[name] = true
-		scoreAndCollect(name, true, 0)
-	}
-
-	// Also score basic lands, skipping the short-name gate and any already
-	// in the cube. Drop ones below their own threshold so they don't skew
-	// the gap against real cube cards.
-	for _, name := range types.BasicLandNames {
-		if cubeSet[name] {
-			continue
-		}
-		scoreAndCollect(name, false, BasicLandThreshold)
+		cands = append(cands, Candidate{Name: name, Score: scoreName(name, true)})
 	}
 	sort.SliceStable(cands, func(i, j int) bool { return cands[i].Score > cands[j].Score })
 	promoteContainedTop(cands)
@@ -220,12 +194,9 @@ func MatchLine(text string, cube *types.Cube) MatchResult {
 	if len(cands) > 1 {
 		second = cands[1].Score
 	}
-	topIsBasic := len(cands) > 0 && basicSet[cands[0].Name] && !cubeSet[cands[0].Name]
 	switch {
 	case len(cands) == 0:
 		r.Band = ConfidenceUnmatched
-	case topIsBasic && cands[0].Score >= BasicLandThreshold:
-		r.Band = ConfidenceHigh
 	case cands[0].Score >= HighConfidenceThreshold:
 		r.Band = ConfidenceHigh
 	case cands[0].Score >= LowConfidenceThreshold && cands[0].Score-second >= HighConfidenceGap:
