@@ -70,9 +70,10 @@ func (r ConsistencyReport) Conflicts() int {
 }
 
 func buildConsistencyReport(cl *types.Cube, sess *Session, playersTotal int) ConsistencyReport {
-	// Pool counts summed across players, keyed by lowercased name so they line
-	// up with the cube's case-insensitive copy counts. Basics are entered
-	// through their own control and aren't part of the cube list, so skip them.
+	// Each player's drafted cards summed across the draft, keyed by lowercased
+	// name so they line up with the cube's case-insensitive copy counts. Basics
+	// are entered through their own control and aren't part of the cube list, so
+	// they're skipped in deckCounts.
 	pooled := map[string]int{}
 	display := map[string]string{}
 	counted := 0
@@ -80,19 +81,7 @@ func buildConsistencyReport(cl *types.Cube, sess *Session, playersTotal int) Con
 		if pw == nil {
 			continue
 		}
-		had := false
-		for _, e := range pw.PoolEntries {
-			if e.Count <= 0 || types.IsBasic(e.CardName) {
-				continue
-			}
-			key := strings.ToLower(e.CardName)
-			pooled[key] += e.Count
-			if _, ok := display[key]; !ok {
-				display[key] = e.CardName
-			}
-			had = true
-		}
-		if had {
+		if deckCounts(pw, pooled, display) {
 			counted++
 		}
 	}
@@ -127,6 +116,40 @@ func buildConsistencyReport(cl *types.Cube, sess *Session, playersTotal int) Con
 		return a.CardName < b.CardName
 	})
 	return report
+}
+
+// deckCounts adds a player's drafted non-basic cards to counts (keyed by
+// lowercased name, with a real-cased name recorded in display) and reports
+// whether it added anything. A pool scan stores the full pool, which is the 45
+// drafted cards, so use it directly. A deck-only scan has no pool, so its
+// mainboard plus hand-tracked sideboard is the same list. Mirrors
+// poolCountsFromDeck's pool-then-deck fallback.
+func deckCounts(pw *PlayerWork, counts map[string]int, display map[string]string) bool {
+	had := false
+	add := func(name string, n int) {
+		if n <= 0 || types.IsBasic(name) {
+			return
+		}
+		key := strings.ToLower(name)
+		counts[key] += n
+		if _, ok := display[key]; !ok {
+			display[key] = name
+		}
+		had = true
+	}
+	if len(pw.PoolEntries) > 0 {
+		for _, e := range pw.PoolEntries {
+			add(e.CardName, e.Count)
+		}
+		return had
+	}
+	for _, e := range pw.MainboardEntries {
+		add(e.CardName, e.Count)
+	}
+	for name, n := range pw.Sideboard {
+		add(name, n)
+	}
+	return had
 }
 
 // attachCaptures fills in the pool boxes behind each over/unknown discrepancy

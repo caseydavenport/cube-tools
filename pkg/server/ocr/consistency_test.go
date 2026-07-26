@@ -161,6 +161,28 @@ func TestBuildConsistencyReport(t *testing.T) {
 			t.Fatalf("pool total should exclude basics, got %d", got.PoolTotal)
 		}
 	})
+
+	t.Run("deck-only scan counts mainboard plus sideboard", func(t *testing.T) {
+		// No pool photos, so no PoolEntries: the drafted cards live in the
+		// mainboard plus the hand-tracked sideboard. They still reconcile against
+		// the cube the same way a pooled scan does.
+		sess := &Session{Players: map[string]*PlayerWork{
+			"a": {
+				MainboardEntries: []PoolEntry{entry("Brainstorm", 1), entry("Misty Rainforest", 1)},
+				Sideboard:        map[string]int{"Brainstorm": 1},
+			},
+		}}
+		got := buildConsistencyReport(cl, sess, 1)
+		if len(got.Discrepancies) != 0 {
+			t.Fatalf("expected no discrepancies, got %+v", got.Discrepancies)
+		}
+		if got.PoolTotal != 3 {
+			t.Fatalf("pool total = %d, want 3", got.PoolTotal)
+		}
+		if got.PlayersCounted != 1 {
+			t.Fatalf("players counted = %d, want 1", got.PlayersCounted)
+		}
+	})
 }
 
 func TestConsistencyHandler(t *testing.T) {

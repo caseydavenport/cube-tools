@@ -41,3 +41,13 @@ func writeFile(t *testing.T, path, body string) {
 func pool(entries ...PoolEntry) *PlayerWork { return &PlayerWork{PoolEntries: entries} }
 
 func entry(name string, count int) PoolEntry { return PoolEntry{CardName: name, Count: count} }
+
+// hasWarning reports whether want is among the warnings.
+func hasWarning(warnings []string, want string) bool {
+	for _, w := range warnings {
+		if w == want {
+			return true
+		}
+	}
+	return false
+}

@@ -8,3 +8,8 @@ export const STATUS_COLOR = {
   very_low: "#eab308",
   unmatched: "#ef4444",
 };
+
+// SIDEBOARD_COLOR overrides the status color for a box whose card landed in the
+// sideboard, so mainboard and sideboard cards read apart at a glance on the
+// photo (blue vs the greens/yellows above).
+export const SIDEBOARD_COLOR = "#3b82f6";

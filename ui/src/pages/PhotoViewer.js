@@ -1,6 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { ImageURL } from '../utils/OCRFetch.js';
-import { STATUS_COLOR } from '../utils/OCRStatus.js';
+import { STATUS_COLOR, SIDEBOARD_COLOR } from '../utils/OCRStatus.js';
 
 const CORNERS = ["nw", "ne", "sw", "se"];
 
@@ -17,7 +17,7 @@ export function PhotoViewer({
   boxes, onDrawBox, onResizeBox, onDeleteBox,
   hoveredName, setHoveredName,
   onRedetect, onRotate, onClear, detecting, bust,
-  onMoveNames, moveNamesLabel,
+  onMoveNames, moveNamesLabel, sideboardNames,
 }) {
   const ver = p => (bust ? bust(p) : 0);
   const svgRef = useRef(null);
@@ -223,7 +223,10 @@ export function PhotoViewer({
           >
             {(boxes || []).map(b => {
               const bb = boxDisplayBbox(b);
-              const color = STATUS_COLOR[b.status] || "#ef4444";
+              // A box whose card sits in the sideboard draws blue, so it's clear
+              // on the photo which cards didn't make the mainboard.
+              const isSideboard = sideboardNames && b.chosen && sideboardNames.has(b.chosen);
+              const color = isSideboard ? SIDEBOARD_COLOR : (STATUS_COLOR[b.status] || "#ef4444");
               const highlit = b.chosen && b.chosen === hoveredName;
               const lassoed = selectMode && selectedIds.has(b.id);
               const selected = b.id === selectedId;

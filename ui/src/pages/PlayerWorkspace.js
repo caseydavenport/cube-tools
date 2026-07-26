@@ -79,7 +79,10 @@ export function PlayerWorkspace({ cube, draft, player, onConfirmed }) {
     return previewSideboard(pool, mainboard);
   }, [deckOnly, sideboard, pool, mainboard]);
 
-  const warnings = allWarnings(pool, mainboard, basics);
+  const sideboardNames = React.useMemo(
+    () => new Set(sideboardList.map(e => e.card_name)), [sideboardList]);
+
+  const warnings = allWarnings(pool, mainboard, sideboardList, basics);
   const breakdown = mainboardBreakdown(mainboard, basics, cardsByName);
 
   // Load cards + saved session once.
@@ -335,6 +338,7 @@ export function PlayerWorkspace({ cube, draft, player, onConfirmed }) {
                 onRedetect={() => redetect(setBoxes, currentPhoto, boxes[currentPhoto])}
                 onRotate={dir => rotate(setBoxes, currentPhoto, boxes[currentPhoto], dir)}
                 onClear={() => clearPhoto(setBoxes, currentPhoto, boxes[currentPhoto])}
+                sideboardNames={sideboardNames}
                 detecting={redetecting} bust={bust} />}
             </div>
             <div className="ocr-right">
@@ -361,6 +365,7 @@ export function PlayerWorkspace({ cube, draft, player, onConfirmed }) {
               onRotate={dir => rotate(setDeckBoxes, deckPhoto, deckBoxes[deckPhoto], dir)}
               onClear={() => clearPhoto(setDeckBoxes, deckPhoto, deckBoxes[deckPhoto])}
               onMoveNames={moveNamesToSideboard} moveNamesLabel="→ SB"
+              sideboardNames={sideboardNames}
               detecting={redetecting} bust={bust} />}
           </div>
           <div className="ocr-right">

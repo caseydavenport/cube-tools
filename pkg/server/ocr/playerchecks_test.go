@@ -74,20 +74,30 @@ func TestDeckWarnings(t *testing.T) {
 		}
 	})
 
-	t.Run("deck-only session with no pool work has no warnings", func(t *testing.T) {
-		// Mainboard scanned but no pool: the pool-relative checks can't run, so
-		// don't emit a bogus "Pool has 0 cards" or not-in-pool warning.
-		pw := &PlayerWork{MainboardEntries: []PoolEntry{entry("Wrath of God", 1)}}
+	t.Run("deck-only complete deck has no warnings", func(t *testing.T) {
+		// Mainboard scanned but no pool: the pool-relative checks can't run, so a
+		// full 45-card deck-only scan draws no warnings (no bogus "Pool has 0").
+		pw := &PlayerWork{MainboardEntries: []PoolEntry{entry("Wrath of God", 45)}}
 		if w := deckWarnings(pw); len(w) != 0 {
-			t.Fatalf("expected no warnings for deck-only session, got %v", w)
+			t.Fatalf("expected no warnings for complete deck-only session, got %v", w)
+		}
+	})
+
+	t.Run("deck-only short of 45 warns on size", func(t *testing.T) {
+		// No pool to cross-check, so mainboard + sideboard is the only guard.
+		pw := &PlayerWork{
+			MainboardEntries: []PoolEntry{entry("Wrath of God", 40)},
+			Sideboard:        map[string]int{"Brainstorm": 3},
+		}
+		if !hasWarning(deckWarnings(pw), "Mainboard + sideboard has 43 non-basic cards (expected 45)") {
+			t.Fatalf("expected deck-size warning, got %v", deckWarnings(pw))
 		}
 	})
 
 	t.Run("pool not 45", func(t *testing.T) {
 		pw := pool(entry("Brainstorm", 44))
-		w := deckWarnings(pw)
-		if len(w) != 1 {
-			t.Fatalf("expected 1 warning, got %v", w)
+		if !hasWarning(deckWarnings(pw), "Pool has 44 cards (expected 45)") {
+			t.Fatalf("expected pool-size warning, got %v", deckWarnings(pw))
 		}
 	})
 

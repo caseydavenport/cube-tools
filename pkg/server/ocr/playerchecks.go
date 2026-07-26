@@ -81,42 +81,85 @@ func deckWarnings(pw *PlayerWork) []string {
 		return nil
 	}
 
-	// Every check below is relative to the scanned pool, so without one there's
-	// nothing meaningful to say. Skips deck-only scans and stray scratch work,
-	// which would otherwise report a bogus "Pool has 0 cards".
-	if len(pw.PoolEntries) == 0 {
-		return nil
-	}
-	poolTotal := 0
-	poolByName := map[string]int{}
-	for _, e := range pw.PoolEntries {
-		poolTotal += e.Count
-		poolByName[e.CardName] = e.Count
-	}
-	basicTotal := 0
-	for _, n := range pw.Basics {
-		basicTotal += n
+	var w []string
+
+	// The checks in this block are relative to the scanned pool, so without one
+	// there's nothing meaningful to say. Skips deck-only scans and stray scratch
+	// work, which would otherwise report a bogus "Pool has 0 cards".
+	if len(pw.PoolEntries) > 0 {
+		poolTotal := 0
+		poolByName := map[string]int{}
+		for _, e := range pw.PoolEntries {
+			poolTotal += e.Count
+			poolByName[e.CardName] = e.Count
+		}
+		basicTotal := 0
+		for _, n := range pw.Basics {
+			basicTotal += n
+		}
+		if poolTotal != 45 {
+			w = append(w, fmt.Sprintf("Pool has %d cards (expected 45)", poolTotal))
+		}
+		mainDrafted := 0
+		for _, e := range pw.MainboardEntries {
+			if types.IsBasic(e.CardName) {
+				continue
+			}
+			mainDrafted += e.Count
+			switch {
+			case poolByName[e.CardName] == 0:
+				w = append(w, fmt.Sprintf("%q is in the deck but not the pool", e.CardName))
+			case e.Count > poolByName[e.CardName]:
+				w = append(w, fmt.Sprintf("%q x%d exceeds pool (%d)", e.CardName, e.Count, poolByName[e.CardName]))
+			}
+		}
+		if size := mainDrafted + basicTotal; size > 0 && (size < 38 || size > 46) {
+			w = append(w, fmt.Sprintf("Mainboard has %d cards (expected ~40)", size))
+		}
 	}
 
-	var w []string
-	if poolTotal != 45 {
-		w = append(w, fmt.Sprintf("Pool has %d cards (expected 45)", poolTotal))
-	}
-	mainDrafted := 0
-	for _, e := range pw.MainboardEntries {
-		if types.IsBasic(e.CardName) {
-			continue
-		}
-		mainDrafted += e.Count
-		switch {
-		case poolByName[e.CardName] == 0:
-			w = append(w, fmt.Sprintf("%q is in the deck but not the pool", e.CardName))
-		case e.Count > poolByName[e.CardName]:
-			w = append(w, fmt.Sprintf("%q x%d exceeds pool (%d)", e.CardName, e.Count, poolByName[e.CardName]))
-		}
-	}
-	if size := mainDrafted + basicTotal; size > 0 && (size < 38 || size > 46) {
-		w = append(w, fmt.Sprintf("Mainboard has %d cards (expected ~40)", size))
+	// A drafted deck is 45 non-basic cards. Unlike the checks above this runs
+	// even for a deck-only scan - it's that scan's only size guard. Mirrors
+	// deckSizeWarnings in ui/src/utils/CrossCheck.js.
+	if total := nonBasicDeckTotal(pw); total > 0 && total != 45 {
+		w = append(w, fmt.Sprintf("Mainboard + sideboard has %d non-basic cards (expected 45)", total))
 	}
 	return w
+}
+
+// nonBasicDeckTotal counts the non-basic cards across a player's mainboard and
+// sideboard. The sideboard is the hand-tracked map for a deck-only scan, or
+// derived from pool minus mainboard for a pool scan, matching how the client
+// and confirm split the two.
+func nonBasicDeckTotal(pw *PlayerWork) int {
+	total := 0
+	for _, e := range pw.MainboardEntries {
+		if !types.IsBasic(e.CardName) {
+			total += e.Count
+		}
+	}
+	if len(pw.Sideboard) > 0 {
+		for name, n := range pw.Sideboard {
+			if !types.IsBasic(name) {
+				total += n
+			}
+		}
+		return total
+	}
+	for _, c := range types.DeriveSideboard(countedFromEntries(pw.PoolEntries), countedFromEntries(pw.MainboardEntries)) {
+		if !types.IsBasic(c.Name) {
+			total++
+		}
+	}
+	return total
+}
+
+// countedFromEntries adapts saved pool entries to the counted-card shape the
+// types helpers take.
+func countedFromEntries(entries []PoolEntry) []types.CountedCard {
+	out := make([]types.CountedCard, len(entries))
+	for i, e := range entries {
+		out[i] = types.CountedCard{Name: e.CardName, Count: e.Count}
+	}
+	return out
 }

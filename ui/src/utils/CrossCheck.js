@@ -44,14 +44,27 @@ function mainboardWarnings(pool, mainboard, basics) {
   return w;
 }
 
+// deckSizeWarnings flags a drafted deck whose mainboard + sideboard (basics
+// excluded) isn't the 45 cards each player drafts. It's the only size check a
+// deck-only scan gets - there's no pool to cross-check against - and a useful
+// second opinion on a pool scan.
+function deckSizeWarnings(mainboard, sideboard) {
+  const nonBasic = list => list.reduce((s, e) => s + (isBasic(e.card_name) ? 0 : e.count), 0);
+  const total = nonBasic(mainboard) + nonBasic(sideboard);
+  const w = [];
+  if (total > 0 && total !== 45) w.push(`Mainboard + sideboard has ${total} non-basic cards (expected 45)`);
+  return w;
+}
+
 // allWarnings aggregates every check across the pool and deck so the same list
 // shows on every tab; fixing a deck warning often means editing the pool. A
-// deck-only scan has no pool photos, so an empty pool means there's nothing to
-// cross-check - skip the warnings entirely (mirrors deckWarnings in
+// deck-only scan has no pool photos, so the pool-relative checks are skipped -
+// but the deck-size check still runs (mirrors deckWarnings in
 // pkg/server/ocr/playerchecks.go).
-export function allWarnings(pool, mainboard, basics) {
-  if (pool.length === 0) return [];
-  return [...poolWarnings(pool), ...mainboardWarnings(pool, mainboard, basics)];
+export function allWarnings(pool, mainboard, sideboard, basics) {
+  const deckSize = deckSizeWarnings(mainboard, sideboard);
+  if (pool.length === 0) return deckSize;
+  return [...poolWarnings(pool), ...mainboardWarnings(pool, mainboard, basics), ...deckSize];
 }
 
 // mainboardBreakdown reports cards / lands / basics for the deck. Lands counts
