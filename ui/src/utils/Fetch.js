@@ -131,6 +131,26 @@ export async function SaveDeckMeta(cube, { draft_id, id, macro_archetype, labels
   return decorateDeck(d);
 }
 
+// SaveDeckRecord writes a deck's player name and match record, reconciling the
+// rest of the draft server-side (opponent mirrors and name references). It
+// returns every deck the server changed, each decorated. player and matches
+// are optional: omitted (undefined) they drop out of the JSON body and the
+// server leaves that field unchanged.
+export async function SaveDeckRecord(cube, { draft_id, id, player, matches }) {
+  const resp = await fetch(`/api/${cube}/decks/record`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ draft_id, id, player, matches }),
+  });
+  if (!resp.ok) {
+    throw new Error("Failed to save deck record");
+  }
+  const data = await resp.json();
+  return (data.decks || []).map(decorateDeck);
+}
+
 // FetchIndex loads the draft index file from the server.
 // The draft index file is an index of all the available drafts
 // available on the server.

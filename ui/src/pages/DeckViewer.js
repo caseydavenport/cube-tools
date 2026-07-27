@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo, useRef, useLayoutEffect } from 'react'
-import { LoadCube, LoadDecks, FetchNotes, SaveNotes, SaveDeckMeta } from "../utils/Fetch.js"
+import { LoadCube, LoadDecks, FetchNotes, SaveNotes, SaveDeckMeta, SaveDeckRecord } from "../utils/Fetch.js"
 import { useCube } from "../contexts/CubeContext.js"
 import { isReadOnly } from "../utils/readonly.js"
 import { Record, MatchRecord, Wins, Losses, Draws, MatchWins, MatchLosses, MatchDraws, InDeckColor } from "../utils/Deck.js"
@@ -1128,8 +1128,16 @@ function PlayerFrame(input) {
 
   const saveRecord = () => {
     const matches = buildMatches(recordMode, rounds, override)
-    commit({ player: playerDraft || deck.player, matches })
+    saveRecordAndName({ player: playerDraft || deck.player, matches })
   }
+
+  // Opponent suggestions: the other players in this deck's draft.
+  const draftPlayers = useMemo(() => {
+    const did = deck.metadata && deck.metadata.draft_id
+    return (input.decks || [])
+      .filter((d) => d.metadata && d.metadata.draft_id === did && d.player !== deck.player)
+      .map((d) => d.player)
+  }, [input.decks, deck.metadata && deck.metadata.draft_id, deck.player])
 
   // Build the WUBRG checkbox array from the deck's effective colors.
   const colorBools = ["W", "U", "B", "R", "G"].map((c) => (deck.colors || []).includes(c))
@@ -1154,6 +1162,33 @@ function PlayerFrame(input) {
         matches,
       })
       if (onDeckUpdated) onDeckUpdated(updated, player !== undefined ? prevId : undefined)
+    } catch (e) {
+      setSaveError("Failed to save")
+    }
+  }
+
+  // Save the player name and/or record through the reconcile endpoint, which
+  // renames references across the draft and mirrors results onto opponents,
+  // then merges every returned deck. A rename changes the edited deck's id (the
+  // file backend derives it from the player name), so the edited deck is
+  // merged with its pre-rename id; the others keep their ids.
+  const saveRecordAndName = async ({ player, matches }) => {
+    setSaveError(null)
+    const prevId = deck.id
+    const renamed = player !== undefined && player !== deck.player
+    try {
+      const changed = await SaveDeckRecord(cube, {
+        draft_id: deck.metadata.draft_id,
+        id: deck.id,
+        player,
+        matches,
+      })
+      if (onDeckUpdated) {
+        for (const d of changed) {
+          const prev = renamed && d.id === player ? prevId : undefined
+          onDeckUpdated(d, prev)
+        }
+      }
     } catch (e) {
       setSaveError("Failed to save")
     }
@@ -1276,7 +1311,7 @@ function PlayerFrame(input) {
               value={playerDraft}
               onChange={(e) => setPlayerDraft(e.target.value)}
               onBlur={() => {
-                if (playerDraft && playerDraft !== deck.player) commit({ player: playerDraft })
+                if (playerDraft && playerDraft !== deck.player) saveRecordAndName({ player: playerDraft })
               }}
             />
           )}
@@ -1301,11 +1336,15 @@ function PlayerFrame(input) {
 
                     {recordMode === "rounds" ? (
                       <div>
+                        <datalist id={`opp-${deck.id}`}>
+                          {draftPlayers.map((p) => <option key={p} value={p} />)}
+                        </datalist>
                         {rounds.map((r, i) => (
                           <div key={i} style={{display: "flex", gap: "0.25rem", alignItems: "center", marginBottom: "0.25rem"}}>
                             <input
                               className="text-input"
                               placeholder="opponent"
+                              list={`opp-${deck.id}`}
                               value={r.opponent}
                               onChange={(e) => updateRound(i, "opponent", e.target.value)}
                               style={{width: "8rem"}}
