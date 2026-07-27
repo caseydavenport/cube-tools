@@ -112,15 +112,17 @@ export async function SaveNotes(cube, draftID, id, content) {
   }
 }
 
-// SaveDeckMeta writes the three editable metadata fields for a deck identified
-// by (draft_id, id) and returns the updated, decorated deck.
-export async function SaveDeckMeta(cube, { draft_id, id, macro_archetype, labels, colors }) {
+// SaveDeckMeta writes the editable metadata fields for a deck identified
+// by (draft_id, id) and returns the updated, decorated deck. player and
+// matches are optional: omitted (undefined) they drop out of the JSON body
+// and the server leaves the existing name/record untouched.
+export async function SaveDeckMeta(cube, { draft_id, id, macro_archetype, labels, colors, player, matches }) {
   const resp = await fetch(`/api/${cube}/decks/update`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ draft_id, id, macro_archetype, labels, colors }),
+    body: JSON.stringify({ draft_id, id, macro_archetype, labels, colors, player, matches }),
   });
   if (!resp.ok) {
     throw new Error("Failed to save deck metadata");

@@ -139,13 +139,22 @@ export function DeckViewer(props) {
   }
 
   // Merge a server-updated deck back into both the list and the selected deck.
-  function onDeckUpdated(updated) {
+  // prevId is the deck's id before this save; pass it when a rename may have
+  // changed the id (the file backend derives id from player name) so the old
+  // row still matches.
+  function onDeckUpdated(updated, prevId) {
+    const targetId = prevId ?? updated.id
     const match = (d) =>
-      d.id === updated.id &&
+      d.id === targetId &&
       d.metadata && d.metadata.draft_id === updated.metadata.draft_id
     // Replace the one deck that matches with the updated version, leave every other deck as-is.
     setDecks((prev) => prev.map((d) => (match(d) ? updated : d)))
-    setDeck((prev) => (prev && match(prev) ? updated : prev))
+    setDeck((prev) => {
+      if (!prev || !match(prev)) return prev
+      // Follow a rename so the detail view keeps showing the same deck.
+      if (selectedPlayer === prev.player) setSelectedPlayer(updated.player)
+      return updated
+    })
   }
 
   function onDeckClicked(event) {
@@ -1061,6 +1070,23 @@ function DeckReport(input) {
   );
 }
 
+// buildMatches turns record-editor state into the deck.matches array. Rounds
+// mode keeps one match per round with its game score; override mode emits
+// opponent-less stub matches, one per match result, so the derived record
+// reads back exactly as typed.
+function buildMatches(mode, rounds, override) {
+  if (mode === "rounds") {
+    return rounds
+      .filter((r) => r.opponent || r.wins || r.losses || r.draws)
+      .map((r) => ({ opponent: r.opponent, wins: Number(r.wins) || 0, losses: Number(r.losses) || 0, draws: Number(r.draws) || 0 }))
+  }
+  const out = []
+  for (let i = 0; i < (Number(override.wins) || 0); i++) out.push({ wins: 1, losses: 0, draws: 0 })
+  for (let i = 0; i < (Number(override.losses) || 0); i++) out.push({ wins: 0, losses: 1, draws: 0 })
+  for (let i = 0; i < (Number(override.draws) || 0); i++) out.push({ wins: 0, losses: 0, draws: 1 })
+  return out
+}
+
 function PlayerFrame(input) {
   let deck = input.deck
   const cube = input.cube
@@ -1068,14 +1094,55 @@ function PlayerFrame(input) {
   const onDeckUpdated = input.onDeckUpdated
   const [saveError, setSaveError] = useState(null)
 
+  // Record editor: player name plus a Rounds (per-opponent) or Override
+  // (raw W-L-D) view onto deck.matches. Re-seeded whenever the selected
+  // deck changes.
+  const [playerDraft, setPlayerDraft] = useState(deck.player)
+  const [recordMode, setRecordMode] = useState(
+    (deck.matches || []).some((m) => m.opponent) ? "rounds" : "override"
+  )
+  const [rounds, setRounds] = useState(
+    (deck.matches && deck.matches.length)
+      ? deck.matches.map((m) => ({ opponent: m.opponent || "", wins: m.wins || 0, losses: m.losses || 0, draws: m.draws || 0 }))
+      : [{ opponent: "", wins: 0, losses: 0, draws: 0 }]
+  )
+  const [override, setOverride] = useState({
+    wins: MatchWins(deck) || 0,
+    losses: MatchLosses(deck) || 0,
+    draws: MatchDraws(deck) || 0,
+  })
+  useEffect(() => {
+    setPlayerDraft(deck.player)
+    setRecordMode((deck.matches || []).some((m) => m.opponent) ? "rounds" : "override")
+    setRounds(
+      (deck.matches && deck.matches.length)
+        ? deck.matches.map((m) => ({ opponent: m.opponent || "", wins: m.wins || 0, losses: m.losses || 0, draws: m.draws || 0 }))
+        : [{ opponent: "", wins: 0, losses: 0, draws: 0 }]
+    )
+    setOverride({ wins: MatchWins(deck) || 0, losses: MatchLosses(deck) || 0, draws: MatchDraws(deck) || 0 })
+  }, [deck.id, deck.metadata && deck.metadata.draft_id])
+
+  const addRound = () => setRounds((prev) => [...prev, { opponent: "", wins: 0, losses: 0, draws: 0 }])
+  const removeRound = (idx) => setRounds((prev) => prev.filter((_, i) => i !== idx))
+  const updateRound = (idx, field, value) => setRounds((prev) => prev.map((r, i) => (i === idx ? { ...r, [field]: value } : r)))
+
+  const saveRecord = () => {
+    const matches = buildMatches(recordMode, rounds, override)
+    commit({ player: playerDraft || deck.player, matches })
+  }
+
   // Build the WUBRG checkbox array from the deck's effective colors.
   const colorBools = ["W", "U", "B", "R", "G"].map((c) => (deck.colors || []).includes(c))
   const hasOverride = !!(deck.colors_override && deck.colors_override.length)
 
-  // Commit a change to one of the three editable fields. Omitting a field keeps
-  // its current value; pass [] for colors to clear the override.
-  const commit = async ({ macro, labels, colors }) => {
+  // Commit a change to one of the editable fields. Omitting a field keeps its
+  // current value; pass [] for colors to clear the override. player/matches
+  // are only sent by the record editor; a rename changes the deck's id (the
+  // file backend derives it from the player name), so callers that rename
+  // must pass the pre-rename id through to onDeckUpdated.
+  const commit = async ({ macro, labels, colors, player, matches }) => {
     setSaveError(null)
+    const prevId = deck.id
     try {
       const updated = await SaveDeckMeta(cube, {
         draft_id: deck.metadata.draft_id,
@@ -1083,8 +1150,10 @@ function PlayerFrame(input) {
         macro_archetype: macro !== undefined ? macro : (deck.macro_archetype || ""),
         labels: labels !== undefined ? labels : (deck.labels || []),
         colors: colors !== undefined ? colors : (deck.colors_override || []),
+        player,
+        matches,
       })
-      if (onDeckUpdated) onDeckUpdated(updated)
+      if (onDeckUpdated) onDeckUpdated(updated, player !== undefined ? prevId : undefined)
     } catch (e) {
       setSaveError("Failed to save")
     }
@@ -1199,11 +1268,79 @@ function PlayerFrame(input) {
     <div className="player-frame deck-summary">
       <div className="deck-summary-header">
         <div className="deck-summary-identity">
-          <h2 className="deck-summary-name">{deck.player}</h2>
-          <span className="deck-summary-record">
-            {MatchWins(deck)}-{MatchLosses(deck)}{" "}
-            <span className="muted">({Wins(deck)}-{Losses(deck)})</span>
-          </span>
+          {readOnly ? (
+            <h2 className="deck-summary-name">{deck.player}</h2>
+          ) : (
+            <input
+              className="deck-summary-name-input"
+              value={playerDraft}
+              onChange={(e) => setPlayerDraft(e.target.value)}
+              onBlur={() => {
+                if (playerDraft && playerDraft !== deck.player) commit({ player: playerDraft })
+              }}
+            />
+          )}
+
+          {readOnly ? (
+            <span className="deck-summary-record">
+              {MatchWins(deck)}-{MatchLosses(deck)}{" "}
+              <span className="muted">({Wins(deck)}-{Losses(deck)})</span>
+            </span>
+          ) : (
+            <OverlayTrigger
+              trigger="click"
+              rootClose
+              placement="bottom-start"
+              overlay={
+                <Popover id={`record-editor-${deck.id}`} style={{maxWidth: "none"}}>
+                  <Popover.Body style={{padding: "0.5rem"}}>
+                    <div style={{display: "flex", gap: "0.5rem", marginBottom: "0.5rem"}}>
+                      <Button text="Rounds" onClick={() => setRecordMode("rounds")} checked={recordMode === "rounds"} />
+                      <Button text="Override" onClick={() => setRecordMode("override")} checked={recordMode === "override"} />
+                    </div>
+
+                    {recordMode === "rounds" ? (
+                      <div>
+                        {rounds.map((r, i) => (
+                          <div key={i} style={{display: "flex", gap: "0.25rem", alignItems: "center", marginBottom: "0.25rem"}}>
+                            <input
+                              className="text-input"
+                              placeholder="opponent"
+                              value={r.opponent}
+                              onChange={(e) => updateRound(i, "opponent", e.target.value)}
+                              style={{width: "8rem"}}
+                            />
+                            <input type="number" className="numeric-input" value={r.wins} onChange={(e) => updateRound(i, "wins", e.target.value)} style={{width: "3rem"}} />
+                            <input type="number" className="numeric-input" value={r.losses} onChange={(e) => updateRound(i, "losses", e.target.value)} style={{width: "3rem"}} />
+                            <input type="number" className="numeric-input" value={r.draws} onChange={(e) => updateRound(i, "draws", e.target.value)} style={{width: "3rem"}} />
+                            <Button text="x" onClick={() => removeRound(i)} />
+                          </div>
+                        ))}
+                        <Button text="+ Round" onClick={addRound} />
+                      </div>
+                    ) : (
+                      <div style={{display: "flex", gap: "0.5rem", alignItems: "center"}}>
+                        <NumericInput label="W" value={override.wins} onChange={(e) => setOverride({ ...override, wins: e.target.value })} />
+                        <NumericInput label="L" value={override.losses} onChange={(e) => setOverride({ ...override, losses: e.target.value })} />
+                        <NumericInput label="D" value={override.draws} onChange={(e) => setOverride({ ...override, draws: e.target.value })} />
+                      </div>
+                    )}
+
+                    <div style={{marginTop: "0.5rem", textAlign: "right"}}>
+                      <Button text="Save" onClick={saveRecord} />
+                    </div>
+                    {saveError && <div style={{"textAlign": "center", "color": "var(--danger, red)", "fontSize": "0.8rem"}}>{saveError}</div>}
+                  </Popover.Body>
+                </Popover>
+              }
+            >
+              <span className="deck-summary-record" title="Edit record">
+                {MatchWins(deck)}-{MatchLosses(deck)}{" "}
+                <span className="muted">({Wins(deck)}-{Losses(deck)})</span>
+                <span className="caret">▾</span>
+              </span>
+            </OverlayTrigger>
+          )}
         </div>
 
         <div className="deck-summary-controls">
