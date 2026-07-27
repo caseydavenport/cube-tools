@@ -40,6 +40,6 @@ func TestStore_ListEnriches(t *testing.T) {
 
 func TestStore_UpdateDeckMetaUnsupported(t *testing.T) {
 	s := NewStore(&fakeBackend{})
-	_, err := s.UpdateDeckMeta("c", "d", "p", "aggro", nil, nil)
+	_, err := s.UpdateDeckMeta("c", DeckMetaWrite{DraftID: "d", DeckID: "p", MacroArchetype: "aggro"})
 	assert.ErrorIs(t, err, ErrUnsupported)
 }

@@ -35,7 +35,7 @@ func RunDeckConformance(t *testing.T, s *Store, caps Capabilities) {
 	assert.Equal(t, "Alice", filtered[0].Player)
 
 	if caps.WriteMeta {
-		updated, err := s.UpdateDeckMeta("conf", "d1", "Alice", "Aggro", []string{"fast"}, nil)
+		updated, err := s.UpdateDeckMeta("conf", DeckMetaWrite{DraftID: "d1", DeckID: "Alice", MacroArchetype: "Aggro", Labels: []string{"fast"}})
 		assert.NoError(t, err)
 		assert.Equal(t, "Aggro", updated.MacroArchetype)
 		assert.Equal(t, 1, updated.Stats.MatchWins)

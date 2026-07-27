@@ -71,7 +71,7 @@ func TestFileWriteDeckMetaRoundTripsOnDiskPath(t *testing.T) {
 	writeConfFixture(t, root)
 	b := New(nil)
 
-	updated, err := b.WriteDeckMeta("conf", "d1", "Alice", "Aggro", []string{"fast"}, nil)
+	updated, err := b.WriteDeckMeta("conf", storage.DeckMetaWrite{DraftID: "d1", DeckID: "Alice", MacroArchetype: "Aggro", Labels: []string{"fast"}})
 	assert.NoError(t, err)
 	assert.Equal(t, "Aggro", updated.MacroArchetype)
 

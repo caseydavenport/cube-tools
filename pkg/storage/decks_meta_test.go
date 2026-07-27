@@ -49,8 +49,10 @@ func TestUpdateDeckMeta(t *testing.T) {
 	})
 
 	s := file.NewStore(nil)
-	updated, err := s.UpdateDeckMeta("testcube", "2025-01-01_d1", "p1",
-		"control", []string{"removal", "wraths"}, []string{"W", "U"})
+	updated, err := s.UpdateDeckMeta("testcube", storage.DeckMetaWrite{
+		DraftID: "2025-01-01_d1", DeckID: "p1",
+		MacroArchetype: "control", Labels: []string{"removal", "wraths"}, Colors: []string{"W", "U"},
+	})
 	require.NoError(t, err)
 	require.Equal(t, "control", updated.MacroArchetype)
 	require.Equal(t, []string{"removal", "wraths"}, updated.Labels)
@@ -74,7 +76,7 @@ func TestUpdateDeckMeta_ClearsColorOverride(t *testing.T) {
 	})
 
 	s := file.NewStore(nil)
-	_, err := s.UpdateDeckMeta("testcube", "2025-01-01_d1", "p1", "", nil, []string{})
+	_, err := s.UpdateDeckMeta("testcube", storage.DeckMetaWrite{DraftID: "2025-01-01_d1", DeckID: "p1", Colors: []string{}})
 	require.NoError(t, err)
 
 	// colors is omitempty - an empty override drops the key entirely on disk.
@@ -93,6 +95,6 @@ func TestUpdateDeckMeta_UnknownDeck(t *testing.T) {
 	})
 
 	s := file.NewStore(nil)
-	_, err := s.UpdateDeckMeta("testcube", "2025-01-01_d1", "nobody", "control", nil, nil)
+	_, err := s.UpdateDeckMeta("testcube", storage.DeckMetaWrite{DraftID: "2025-01-01_d1", DeckID: "nobody", MacroArchetype: "control"})
 	require.ErrorIs(t, err, storage.ErrDeckNotFound)
 }

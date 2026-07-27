@@ -12,7 +12,7 @@ func (readOnly) RawDecks(string) ([]*Deck, error) { return nil, nil }
 
 type readWrite struct{ readOnly }
 
-func (readWrite) WriteDeckMeta(_, _, _, _ string, _, _ []string) (*Deck, error) { return nil, nil }
+func (readWrite) WriteDeckMeta(_ string, _ DeckMetaWrite) (*Deck, error) { return nil, nil }
 
 type notesBackend struct{ readOnly }
 

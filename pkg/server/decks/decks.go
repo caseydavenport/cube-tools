@@ -101,7 +101,13 @@ func (h *updateDeckHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	updated, err := h.store.UpdateDeckMeta(r.PathValue("cube"), req.DraftID, req.ID, req.MacroArchetype, req.Labels, req.Colors)
+	updated, err := h.store.UpdateDeckMeta(r.PathValue("cube"), storage.DeckMetaWrite{
+		DraftID:        req.DraftID,
+		DeckID:         req.ID,
+		MacroArchetype: req.MacroArchetype,
+		Labels:         req.Labels,
+		Colors:         req.Colors,
+	})
 	if errors.Is(err, storage.ErrDeckNotFound) {
 		http.Error(rw, "Deck not found", http.StatusNotFound)
 		return

@@ -81,14 +81,14 @@ func (b *Backend) RawDecks(cube string) ([]*storage.Deck, error) {
 }
 
 // WriteDeckMeta updates the annotation on the stored deck in place.
-func (b *Backend) WriteDeckMeta(cube, draftID, deckID, macroArchetype string, labels, colors []string) (*storage.Deck, error) {
+func (b *Backend) WriteDeckMeta(cube string, w storage.DeckMetaWrite) (*storage.Deck, error) {
 	b.mu.Lock()
 	defer b.mu.Unlock()
 	for _, d := range b.decks[cube] {
-		if d.ID == deckID && d.Metadata.DraftID == draftID {
-			d.MacroArchetype = macroArchetype
-			d.Labels = labels
-			d.Colors = colors
+		if d.ID == w.DeckID && d.Metadata.DraftID == w.DraftID {
+			d.MacroArchetype = w.MacroArchetype
+			d.Labels = w.Labels
+			d.Colors = w.Colors
 			cp := *d
 			return &cp, nil
 		}

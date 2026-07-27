@@ -20,7 +20,7 @@ func (m *mockDeckStorage) List(_ string, _ *storage.DecksRequest) ([]*storage.De
 	return m.decks, nil
 }
 
-func (m *mockDeckStorage) UpdateDeckMeta(_, _, _, _ string, _, _ []string) (*storage.Deck, error) {
+func (m *mockDeckStorage) UpdateDeckMeta(_ string, _ storage.DeckMetaWrite) (*storage.Deck, error) {
 	return nil, nil
 }
 

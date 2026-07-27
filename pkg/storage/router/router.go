@@ -13,7 +13,7 @@ import (
 type FileBackend interface {
 	RawDecks(cube string) ([]*storage.Deck, error)
 	Index(cube string) (*storage.CubeIndex, error)
-	WriteDeckMeta(cube, draftID, deckID, macroArchetype string, labels, colors []string) (*storage.Deck, error)
+	WriteDeckMeta(cube string, w storage.DeckMetaWrite) (*storage.Deck, error)
 	GetNotes(cube, draftID, deckID string) (string, error)
 	PutNotes(cube, draftID, deckID, content string) error
 	GetRules(cube string) (*design.DesignMapConfig, error)
@@ -62,11 +62,11 @@ func (r *Router) Index(cube string) (*storage.CubeIndex, error) {
 	return r.file.Index(cube)
 }
 
-func (r *Router) WriteDeckMeta(cube, draftID, deckID, macroArchetype string, labels, colors []string) (*storage.Deck, error) {
+func (r *Router) WriteDeckMeta(cube string, w storage.DeckMetaWrite) (*storage.Deck, error) {
 	if cubes.IsCubeCobra(cube) {
 		return nil, storage.ErrUnsupported
 	}
-	return r.file.WriteDeckMeta(cube, draftID, deckID, macroArchetype, labels, colors)
+	return r.file.WriteDeckMeta(cube, w)
 }
 
 func (r *Router) GetNotes(cube, draftID, deckID string) (string, error) {

@@ -18,9 +18,9 @@ func (f *fakeFile) RawDecks(cube string) ([]*storage.Deck, error) {
 	return []*storage.Deck{{ID: "file:" + cube}}, nil
 }
 func (f *fakeFile) Index(cube string) (*storage.CubeIndex, error) { return &storage.CubeIndex{}, nil }
-func (f *fakeFile) WriteDeckMeta(cube, d, id, m string, l, c []string) (*storage.Deck, error) {
+func (f *fakeFile) WriteDeckMeta(cube string, w storage.DeckMetaWrite) (*storage.Deck, error) {
 	f.wrote = true
-	return &storage.Deck{ID: id}, nil
+	return &storage.Deck{ID: w.DeckID}, nil
 }
 func (f *fakeFile) GetNotes(cube, d, id string) (string, error) { return "notes", nil }
 func (f *fakeFile) PutNotes(cube, d, id, content string) error  { f.wrote = true; return nil }
@@ -56,14 +56,14 @@ func TestRouterWritesGatedForCC(t *testing.T) {
 	ff := &fakeFile{}
 	r := New(ff, fakeCC{})
 
-	if _, err := r.WriteDeckMeta("polyverse", "d", "id", "m", nil, nil); err != nil {
+	if _, err := r.WriteDeckMeta("polyverse", storage.DeckMetaWrite{DraftID: "d", DeckID: "id", MacroArchetype: "m"}); err != nil {
 		t.Fatalf("registry write errored: %v", err)
 	}
 	if !ff.wrote {
 		t.Error("registry write did not reach file backend")
 	}
 
-	if _, err := r.WriteDeckMeta("cc:polyversal", "d", "id", "m", nil, nil); !errors.Is(err, storage.ErrUnsupported) {
+	if _, err := r.WriteDeckMeta("cc:polyversal", storage.DeckMetaWrite{DraftID: "d", DeckID: "id", MacroArchetype: "m"}); !errors.Is(err, storage.ErrUnsupported) {
 		t.Errorf("cc WriteDeckMeta err = %v, want ErrUnsupported", err)
 	}
 	if err := r.PutNotes("cc:polyversal", "d", "id", "x"); !errors.Is(err, storage.ErrUnsupported) {

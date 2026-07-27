@@ -112,11 +112,22 @@ var ErrDeckNotFound = errors.New("deck not found")
 
 type DeckStorage interface {
 	List(cube string, req *DecksRequest) ([]*Deck, error)
-	UpdateDeckMeta(cube, draftID, deckID, macroArchetype string, labels, colors []string) (*Deck, error)
+	UpdateDeckMeta(cube string, w DeckMetaWrite) (*Deck, error)
 
 	// GetRules returns the cube's design-map rules, or ErrUnsupported if the
 	// backend has none (e.g. a read-only cc: cube).
 	GetRules(cube string) (*design.DesignMapConfig, error)
+}
+
+// DeckMetaWrite carries the editable fields for a deck-meta update. Player
+// empty leaves the name unchanged; Matches nil leaves the record unchanged,
+// an empty non-nil slice clears it.
+type DeckMetaWrite struct {
+	DraftID        string
+	DeckID         string
+	MacroArchetype string
+	Labels         []string
+	Colors         []string
 }
 
 func filter(decks []*Deck, r *DecksRequest) []*Deck {

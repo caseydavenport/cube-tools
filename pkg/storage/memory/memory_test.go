@@ -56,7 +56,9 @@ func TestMemoryBackend_UpdateRoundTrips(t *testing.T) {
 	)
 	s := storage.NewStore(b)
 
-	_, err := s.UpdateDeckMeta("cubeA", "d1", "Alice", "Aggro", []string{"fast"}, []string{"R"})
+	_, err := s.UpdateDeckMeta("cubeA", storage.DeckMetaWrite{
+		DraftID: "d1", DeckID: "Alice", MacroArchetype: "Aggro", Labels: []string{"fast"}, Colors: []string{"R"},
+	})
 	assert.NoError(t, err)
 
 	got, err := s.List("cubeA", nil)
