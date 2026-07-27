@@ -5,6 +5,7 @@ import (
 	"testing"
 
 	"github.com/caseydavenport/cube-tools/pkg/design"
+	"github.com/caseydavenport/cube-tools/pkg/types"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -47,6 +48,37 @@ func RunDeckConformance(t *testing.T, s *Store, caps Capabilities) {
 				assert.Equal(t, "Aggro", d.MacroArchetype)
 			}
 		}
+
+		updated, err = s.UpdateDeckMeta("conf", DeckMetaWrite{
+			DraftID: "d1",
+			DeckID:  "Alice",
+			Player:  "Alice2",
+			Matches: []types.Match{{Wins: 1}, {Wins: 1}, {Losses: 1}},
+		})
+		assert.NoError(t, err)
+		assert.Equal(t, "Alice2", updated.Player)
+		assert.Equal(t, 2, updated.Stats.MatchWins)
+		assert.Equal(t, 1, updated.Stats.MatchLosses)
+
+		reread, err = s.List("conf", nil)
+		assert.NoError(t, err)
+		for _, d := range reread {
+			if d.Player == "Alice2" {
+				assert.Equal(t, 2, d.Stats.MatchWins)
+				assert.Equal(t, 1, d.Stats.MatchLosses)
+			}
+		}
+
+		// Restore the canonical fixture so later conformance checks (Index,
+		// Notes) still see "Alice" as they expect. updated.ID is the deck's
+		// post-rename identity, which some backends key off the player name.
+		_, err = s.UpdateDeckMeta("conf", DeckMetaWrite{
+			DraftID: "d1",
+			DeckID:  updated.ID,
+			Player:  "Alice",
+			Matches: []types.Match{{Opponent: "Bob", Wins: 2, Losses: 0}},
+		})
+		assert.NoError(t, err)
 	}
 
 	RunNotesConformance(t, s, caps)

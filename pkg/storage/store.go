@@ -82,6 +82,11 @@ func (s *Store) UpdateDeckMeta(cube string, w DeckMetaWrite) (*Deck, error) {
 		return nil, err
 	}
 	updated, ok := c.lookup[key{id: w.DeckID, draft: w.DraftID}]
+	if !ok && w.Player != "" {
+		// Some backends (e.g. the file backend) derive a deck's ID from its
+		// player name, so a rename moves it under a new key.
+		updated, ok = c.lookup[key{id: w.Player, draft: w.DraftID}]
+	}
 	if !ok {
 		return nil, ErrDeckNotFound
 	}

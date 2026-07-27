@@ -10,6 +10,7 @@ import (
 	"github.com/caseydavenport/cube-tools/pkg/graph"
 	"github.com/caseydavenport/cube-tools/pkg/server/query"
 	"github.com/caseydavenport/cube-tools/pkg/storage"
+	"github.com/caseydavenport/cube-tools/pkg/types"
 	"github.com/sirupsen/logrus"
 )
 
@@ -75,11 +76,13 @@ func (d *deckHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 }
 
 type UpdateDeckMetaRequest struct {
-	DraftID        string   `json:"draft_id"`
-	ID             string   `json:"id"`
-	MacroArchetype string   `json:"macro_archetype"`
-	Labels         []string `json:"labels"`
-	Colors         []string `json:"colors"`
+	DraftID        string        `json:"draft_id"`
+	ID             string        `json:"id"`
+	MacroArchetype string        `json:"macro_archetype"`
+	Labels         []string      `json:"labels"`
+	Colors         []string      `json:"colors"`
+	Player         string        `json:"player"`
+	Matches        []types.Match `json:"matches"`
 }
 
 func UpdateDeckHandler(store storage.DeckStorage) http.Handler {
@@ -107,6 +110,8 @@ func (h *updateDeckHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 		MacroArchetype: req.MacroArchetype,
 		Labels:         req.Labels,
 		Colors:         req.Colors,
+		Player:         req.Player,
+		Matches:        req.Matches,
 	})
 	if errors.Is(err, storage.ErrDeckNotFound) {
 		http.Error(rw, "Deck not found", http.StatusNotFound)

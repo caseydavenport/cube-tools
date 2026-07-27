@@ -128,6 +128,13 @@ type DeckMetaWrite struct {
 	MacroArchetype string
 	Labels         []string
 	Colors         []string
+
+	// Player empty leaves the deck's existing player name unchanged.
+	Player string
+
+	// Matches nil leaves the deck's existing record unchanged; a non-nil
+	// (including empty) slice replaces it.
+	Matches []types.Match
 }
 
 func filter(decks []*Deck, r *DecksRequest) []*Deck {

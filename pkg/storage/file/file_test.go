@@ -7,6 +7,7 @@ import (
 
 	"github.com/caseydavenport/cube-tools/pkg/design"
 	"github.com/caseydavenport/cube-tools/pkg/storage"
+	"github.com/caseydavenport/cube-tools/pkg/types"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -81,6 +82,58 @@ func TestFileWriteDeckMetaRoundTripsOnDiskPath(t *testing.T) {
 	contents, err := os.ReadFile(alicePath)
 	assert.NoError(t, err)
 	assert.Contains(t, string(contents), `"path": "data/conf/d1/alice.json"`)
+}
+
+func TestFileWriteDeckMetaPersistsPlayerAndMatches(t *testing.T) {
+	root := t.TempDir()
+	if err := os.Chdir(root); err != nil {
+		t.Fatalf("chdir temp root: %v", err)
+	}
+	writeConfFixture(t, root)
+	b := New(nil)
+
+	_, err := b.WriteDeckMeta("conf", storage.DeckMetaWrite{
+		DraftID: "d1",
+		DeckID:  "Alice",
+		Player:  "casey",
+		Matches: []types.Match{
+			{Opponent: "bob", Wins: 2, Losses: 1},
+			{Opponent: "sue", Wins: 1, Losses: 2},
+		},
+	})
+	assert.NoError(t, err)
+
+	reloaded, err := types.LoadDeck(filepath.Join(root, "data/conf/d1/alice.json"))
+	assert.NoError(t, err)
+	assert.Equal(t, "casey", reloaded.Player)
+	assert.Equal(t, []types.Match{
+		{Opponent: "bob", Wins: 2, Losses: 1},
+		{Opponent: "sue", Wins: 1, Losses: 2},
+	}, reloaded.Matches)
+
+	_, err = b.WriteDeckMeta("conf", storage.DeckMetaWrite{
+		DraftID: "d1",
+		DeckID:  "casey",
+		Matches: []types.Match{{Wins: 1}, {Wins: 1}, {Losses: 1}},
+	})
+	assert.NoError(t, err)
+
+	reloaded, err = types.LoadDeck(filepath.Join(root, "data/conf/d1/alice.json"))
+	assert.NoError(t, err)
+	assert.Equal(t, 2, reloaded.MatchWins())
+	assert.Equal(t, 1, reloaded.MatchLosses())
+
+	_, err = b.WriteDeckMeta("conf", storage.DeckMetaWrite{
+		DraftID: "d1",
+		DeckID:  "casey",
+	})
+	assert.NoError(t, err)
+
+	reloaded, err = types.LoadDeck(filepath.Join(root, "data/conf/d1/alice.json"))
+	assert.NoError(t, err)
+	assert.Equal(t, "casey", reloaded.Player)
+	assert.Equal(t, 2, reloaded.MatchWins())
+	assert.Equal(t, 1, reloaded.MatchLosses())
 }
 
 // writeConfFixture writes a throwaway "conf" cube under root/data, matching

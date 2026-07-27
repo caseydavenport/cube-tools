@@ -83,6 +83,12 @@ func (b *Backend) WriteDeckMeta(cube string, w storage.DeckMetaWrite) (*storage.
 	d.MacroArchetype = w.MacroArchetype
 	d.Labels = w.Labels
 	d.Colors = w.Colors
+	if w.Player != "" {
+		d.Player = w.Player
+	}
+	if w.Matches != nil {
+		d.Matches = w.Matches
+	}
 	if err := d.Save(path); err != nil {
 		return nil, err
 	}
