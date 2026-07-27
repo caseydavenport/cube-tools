@@ -4,7 +4,10 @@
   "draft_id": "2026-07-26_goodbyesf_1"
  },
  "macro_archetype": "midrange",
- "labels": [],
+ "labels": [
+  "domain",
+  "graveyard"
+ ],
  "player": "Patrick",
  "date": "2026-07-26",
  "matches": [
@@ -44,10 +47,10 @@
   "Gilded Goose",
   "Harvester of Misery",
   "Hunter's Talent",
+  "Ignoble Hierarch",
   "Knight of the Ebon Legion",
   "Moonshadow",
   "Murderous Cut",
-  "Noble Hierarch",
   "Noble Hierarch",
   "Overgrown Tomb",
   "Pia and Kiran Nalaar",
