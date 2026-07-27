@@ -1,12 +1,97 @@
 {
-  "metadata": {
-    "path": "data/polyverse/2026-07-26_goodbyesf_1/2026-07-26_goodbyesf_1-p7.json",
-    "draft_id": "2026-07-26_goodbyesf_1"
+ "metadata": {
+  "path": "data/polyverse/2026-07-26_goodbyesf_1/2026-07-26_goodbyesf_1-p7.json",
+  "draft_id": "2026-07-26_goodbyesf_1"
+ },
+ "macro_archetype": "aggro",
+ "labels": [
+  "token",
+  "delney"
+ ],
+ "player": "An",
+ "date": "2026-07-26",
+ "matches": [
+  {
+   "opponent": "Darius",
+   "wins": 2,
+   "losses": 0,
+   "draws": 0
   },
-  "labels": [],
-  "player": "2026-07-26_goodbyesf_1-p7",
-  "date": "2026-07-26",
-  "matches": null,
-  "mainboard": [],
-  "sideboard": []
+  {
+   "opponent": "Sarah",
+   "wins": 2,
+   "losses": 1,
+   "draws": 0
+  },
+  {
+   "opponent": "Braf",
+   "wins": 2,
+   "losses": 0,
+   "draws": 0
+  }
+ ],
+ "mainboard": [
+  "Blade Splicer",
+  "Caretaker's Talent",
+  "Cathar Commando",
+  "Celestial Colonnade",
+  "Clarion Spirit",
+  "Dark Confidant",
+  "Deep-Cavern Bat",
+  "Delney, Streetwise Lookout",
+  "Esper Sentinel",
+  "Hallowed Fountain",
+  "Lingering Souls",
+  "Lion Sash",
+  "Marionette Apprentice",
+  "Marsh Flats",
+  "Oust",
+  "Phelia, Exuberant Shepherd",
+  "Porcelain Legionnaire",
+  "Prismatic Ending",
+  "Prismatic Vista",
+  "Raise the Alarm",
+  "Raven Eagle",
+  "Sedgemoor Witch",
+  "Shadowy Backstreet",
+  "Spirited Companion",
+  "Thalia, Guardian of Thraben",
+  "The Wandering Emperor",
+  "Thraben Inspector",
+  "Touch the Spirit Realm",
+  "Welcoming Vampire",
+  "Island",
+  "Swamp",
+  "Swamp",
+  "Swamp",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Plains"
+ ],
+ "sideboard": [
+  "Birthing Ritual",
+  "Breeding Pool",
+  "Cheeky House-Mouse // Squeak By",
+  "Dead Weight",
+  "Faerie Guidemother // Gift of the Fae",
+  "Horizon Canopy",
+  "Kor Skyfisher",
+  "Llanowar Elves",
+  "Mutagenic Growth",
+  "Rankle, Master of Pranks",
+  "Recruitment Officer",
+  "Restoration Angel",
+  "Sevinne's Reclamation",
+  "Unexpectedly Absent",
+  "Wanderbrine Trapper",
+  "Wrath of God"
+ ],
+ "colors": [
+  "W",
+  "B"
+ ]
 }

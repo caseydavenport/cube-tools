@@ -3,10 +3,30 @@
   "path": "data/polyverse/2026-07-26_goodbyesf_1/2026-07-26_goodbyesf_1-p1.json",
   "draft_id": "2026-07-26_goodbyesf_1"
  },
+ "macro_archetype": "midrange",
  "labels": [],
- "player": "2026-07-26_goodbyesf_1-p1",
+ "player": "Patrick",
  "date": "2026-07-26",
- "matches": null,
+ "matches": [
+  {
+   "opponent": "Casey",
+   "wins": 2,
+   "losses": 0,
+   "draws": 0
+  },
+  {
+   "opponent": "Sarah",
+   "wins": 2,
+   "losses": 1,
+   "draws": 0
+  },
+  {
+   "opponent": "Bret",
+   "wins": 1,
+   "losses": 2,
+   "draws": 0
+  }
+ ],
  "mainboard": [
   "Alesha, Who Laughs at Fate",
   "Arbor Elf",

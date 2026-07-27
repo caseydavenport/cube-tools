@@ -1,12 +1,99 @@
 {
-  "metadata": {
-    "path": "data/polyverse/2026-07-26_goodbyesf_1/2026-07-26_goodbyesf_1-p2.json",
-    "draft_id": "2026-07-26_goodbyesf_1"
+ "metadata": {
+  "path": "data/polyverse/2026-07-26_goodbyesf_1/2026-07-26_goodbyesf_1-p2.json",
+  "draft_id": "2026-07-26_goodbyesf_1"
+ },
+ "macro_archetype": "aggro",
+ "labels": [
+  "sacrifice"
+ ],
+ "player": "Sarah",
+ "date": "2026-07-26",
+ "matches": [
+  {
+   "opponent": "Braf",
+   "wins": 2,
+   "losses": 1,
+   "draws": 0
   },
-  "labels": [],
-  "player": "2026-07-26_goodbyesf_1-p2",
-  "date": "2026-07-26",
-  "matches": null,
-  "mainboard": [],
-  "sideboard": []
+  {
+   "opponent": "Patrick",
+   "wins": 1,
+   "losses": 2,
+   "draws": 0
+  },
+  {
+   "opponent": "An",
+   "wins": 1,
+   "losses": 2,
+   "draws": 0
+  }
+ ],
+ "mainboard": [
+  "Abrade",
+  "Accursed Marauder",
+  "Bloodsky Berserker",
+  "Bloodsoaked Champion",
+  "Bone Shards",
+  "Burst Lightning",
+  "Canyon Slough",
+  "Embercleave",
+  "Fatal Push",
+  "Goblin Bombardment",
+  "Heartfire Hero",
+  "Krenko, Tin Street Kingpin",
+  "Lava Dart",
+  "Lizard Blades",
+  "Mayhem Devil",
+  "Midnight Reaper",
+  "Perilous Myr",
+  "Pile On",
+  "Rabbit Battery",
+  "Raucous Theater",
+  "Reckless Charge",
+  "Reckless Pyrosurfer",
+  "Reinforced Ronin",
+  "Searslicer Goblin",
+  "Tenacious Underdog",
+  "Umbral Collar Zealot",
+  "Wither and Bloom",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Swamp",
+  "Swamp",
+  "Swamp",
+  "Swamp",
+  "Swamp",
+  "Swamp",
+  "Swamp",
+  "Swamp",
+  "Swamp"
+ ],
+ "sideboard": [
+  "Archenemy's Charm",
+  "Candy Trail",
+  "Cryogen Relic",
+  "Deathrite Shaman",
+  "Fireblast",
+  "Flametongue Kavu",
+  "Grim Discovery",
+  "Iron-Shield Elf",
+  "Knight of the Reliquary",
+  "Legion Extruder",
+  "Monastery Swiftspear",
+  "Pyrite Spellbomb",
+  "Read the Bones",
+  "Sacred Foundry",
+  "Saheeli, Sublime Artificer",
+  "Seam Rip",
+  "Tasigur, the Golden Fang",
+  "Up the Beanstalk",
+  "Warden of the Inner Sky"
+ ]
 }

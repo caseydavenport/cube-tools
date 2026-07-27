@@ -1,12 +1,87 @@
 {
-  "metadata": {
-    "path": "data/polyverse/2026-07-26_goodbyesf_1/2026-07-26_goodbyesf_1-p3.json",
-    "draft_id": "2026-07-26_goodbyesf_1"
+ "metadata": {
+  "path": "data/polyverse/2026-07-26_goodbyesf_1/2026-07-26_goodbyesf_1-p3.json",
+  "draft_id": "2026-07-26_goodbyesf_1"
+ },
+ "macro_archetype": "midrange",
+ "labels": [
+  "lands"
+ ],
+ "player": "Bret",
+ "date": "2026-07-26",
+ "matches": [
+  {
+   "opponent": "Darius",
+   "wins": 0,
+   "losses": 2,
+   "draws": 0
   },
-  "labels": [],
-  "player": "2026-07-26_goodbyesf_1-p3",
-  "date": "2026-07-26",
-  "matches": null,
-  "mainboard": [],
-  "sideboard": []
+  {
+   "opponent": "Isaiah",
+   "wins": 2,
+   "losses": 1,
+   "draws": 0
+  },
+  {
+   "opponent": "Patrick",
+   "wins": 2,
+   "losses": 1,
+   "draws": 0
+  }
+ ],
+ "mainboard": [
+  "Birds of Paradise",
+  "Bitterblossom",
+  "Bloodchief's Thirst",
+  "Breeding Pool",
+  "Counterspell",
+  "Cut Down",
+  "Deeproot Wayfinder",
+  "Eternal Witness",
+  "Fact or Fiction",
+  "Field of the Dead",
+  "Gitaxian Probe",
+  "Hedge Maze",
+  "Kitesail Freebooter",
+  "Life from the Loam",
+  "Liliana of the Veil",
+  "Lotus Cobra",
+  "Mana Leak",
+  "Marsh Flats",
+  "Master of Death",
+  "Misty Rainforest",
+  "Otawara, Soaring City",
+  "Polluted Delta",
+  "Remand",
+  "Serum Visions",
+  "Shifting Woodland",
+  "Snapcaster Mage",
+  "Sylvan Library",
+  "Takenuma, Abandoned Mire",
+  "Titania, Protector of Argoth",
+  "Torrential Gearhulk",
+  "Ulcerate",
+  "Undercity Sewers",
+  "Verdant Catacombs",
+  "Island",
+  "Island",
+  "Island",
+  "Swamp",
+  "Swamp",
+  "Forest",
+  "Forest"
+ ],
+ "sideboard": [
+  "Abundant Harvest",
+  "Adanto Vanguard",
+  "Bonesplitter",
+  "Daze",
+  "Death's Shadow",
+  "Dreadhorde Arcanist",
+  "Dress Down",
+  "Journey to Nowhere",
+  "Portable Hole",
+  "Ride's End",
+  "Temple Garden"
+ ]
 }

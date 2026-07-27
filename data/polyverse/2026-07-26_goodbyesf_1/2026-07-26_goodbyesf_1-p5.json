@@ -1,12 +1,83 @@
 {
-  "metadata": {
-    "path": "data/polyverse/2026-07-26_goodbyesf_1/2026-07-26_goodbyesf_1-p5.json",
-    "draft_id": "2026-07-26_goodbyesf_1"
+ "metadata": {
+  "path": "data/polyverse/2026-07-26_goodbyesf_1/2026-07-26_goodbyesf_1-p5.json",
+  "draft_id": "2026-07-26_goodbyesf_1"
+ },
+ "macro_archetype": "aggro",
+ "labels": [
+  "discard",
+  "cauldron"
+ ],
+ "player": "Casey",
+ "date": "2026-07-26",
+ "matches": [
+  {
+   "opponent": "Isaiah",
+   "wins": 1,
+   "losses": 2,
+   "draws": 0
   },
-  "labels": [],
-  "player": "2026-07-26_goodbyesf_1-p5",
-  "date": "2026-07-26",
-  "matches": null,
-  "mainboard": [],
-  "sideboard": []
+  {
+   "opponent": "Patrick",
+   "wins": 0,
+   "losses": 2,
+   "draws": 0
+  }
+ ],
+ "mainboard": [
+  "Agatha's Soul Cauldron",
+  "Anje's Ravager",
+  "Arid Mesa",
+  "Arid Mesa",
+  "Balance",
+  "Blazing Rootwalla",
+  "Bomat Courier",
+  "Den of the Bugbear",
+  "Dragon's Rage Channeler",
+  "Eiganjo, Seat of the Empire",
+  "Elegant Parlor",
+  "Esika's Chariot",
+  "Fiery Temper",
+  "Firebolt",
+  "Formidable Speaker",
+  "Gingerbrute",
+  "Hardened Academic",
+  "Hired Claw",
+  "Hooting Mandrills",
+  "Inti, Seneschal of the Sun",
+  "Isamaru, Hound of Konda",
+  "Lightning Bolt",
+  "Lightning Helix",
+  "Mishra's Bauble",
+  "Once Upon a Time",
+  "Path to Exile",
+  "Phoenix of Ash",
+  "Sacred Foundry",
+  "Seal of Fire",
+  "Skyclave Apparition",
+  "Stomping Ground",
+  "Urza's Saga",
+  "Vengevine",
+  "Windswept Heath",
+  "Forest",
+  "Forest",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Plains",
+  "Plains"
+ ],
+ "sideboard": [
+  "Audacity",
+  "Brightglass Gearhulk",
+  "Fire // Ice",
+  "Glass Casket",
+  "Kellan, the Fae-Blooded // Birthright Boon",
+  "Leyline Binding",
+  "Memory Lapse",
+  "Renegade Rallier",
+  "Spellstutter Sprite",
+  "The Huntsman's Redemption",
+  "Utopia Sprawl"
+ ]
 }

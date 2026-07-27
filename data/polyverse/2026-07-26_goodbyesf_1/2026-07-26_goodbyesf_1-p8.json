@@ -1,12 +1,92 @@
 {
-  "metadata": {
-    "path": "data/polyverse/2026-07-26_goodbyesf_1/2026-07-26_goodbyesf_1-p8.json",
-    "draft_id": "2026-07-26_goodbyesf_1"
+ "metadata": {
+  "path": "data/polyverse/2026-07-26_goodbyesf_1/2026-07-26_goodbyesf_1-p8.json",
+  "draft_id": "2026-07-26_goodbyesf_1"
+ },
+ "macro_archetype": "midrange",
+ "labels": [
+  "graveyard",
+  "delirium",
+  "coco"
+ ],
+ "player": "Braf",
+ "date": "2026-07-26",
+ "matches": [
+  {
+   "opponent": "Darius",
+   "wins": 0,
+   "losses": 2,
+   "draws": 0
   },
-  "labels": [],
-  "player": "2026-07-26_goodbyesf_1-p8",
-  "date": "2026-07-26",
-  "matches": null,
-  "mainboard": [],
-  "sideboard": []
+  {
+   "opponent": "Sarah",
+   "wins": 1,
+   "losses": 2,
+   "draws": 0
+  },
+  {
+   "opponent": "An",
+   "wins": 0,
+   "losses": 2,
+   "draws": 0
+  }
+ ],
+ "mainboard": [
+  "Augur of Autumn",
+  "Bloodghast",
+  "Bloodstained Mire",
+  "Collected Company",
+  "Comet Storm",
+  "Commercial District",
+  "Duress",
+  "Faerie Dreamthief",
+  "Faithless Looting",
+  "Flame Jab",
+  "Garruk Wildspeaker",
+  "Grim Flayer",
+  "Grim Lavamancer",
+  "Inexorable Blob",
+  "Lost Jitte",
+  "Nethergoyf",
+  "Nurturing Peatland",
+  "Ozolith, the Shattered Spire",
+  "Quirion Beastcaller",
+  "Sandstorm Salvager",
+  "Scalding Tarn",
+  "Scavenging Ooze",
+  "Six",
+  "Six",
+  "Tarmogoyf",
+  "Twinshot Sniper",
+  "Underground Mortuary",
+  "Urza's Bauble",
+  "Voracious Hydra",
+  "Werefox Bodyguard",
+  "Windswept Heath",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Forest",
+  "Forest",
+  "Forest",
+  "Swamp",
+  "Swamp",
+  "Swamp"
+ ],
+ "sideboard": [
+  "Arasta of the Endless Web",
+  "Brought Back",
+  "Carrion Feeder",
+  "Dragonsguard Elite",
+  "Edge of Autumn",
+  "Fists of Flame",
+  "Floral Evoker",
+  "Heritage Reclamation",
+  "Jolrael, Mwonvuli Recluse",
+  "Magma Jet",
+  "Portent",
+  "Primeval Titan",
+  "Reprieve",
+  "Restless Vinestalk"
+ ]
 }

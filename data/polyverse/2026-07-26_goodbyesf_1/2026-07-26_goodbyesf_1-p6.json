@@ -1,12 +1,81 @@
 {
-  "metadata": {
-    "path": "data/polyverse/2026-07-26_goodbyesf_1/2026-07-26_goodbyesf_1-p6.json",
-    "draft_id": "2026-07-26_goodbyesf_1"
+ "metadata": {
+  "path": "data/polyverse/2026-07-26_goodbyesf_1/2026-07-26_goodbyesf_1-p6.json",
+  "draft_id": "2026-07-26_goodbyesf_1"
+ },
+ "macro_archetype": "control",
+ "labels": [
+  "spells"
+ ],
+ "player": "Isaiah",
+ "date": "2026-07-26",
+ "matches": [
+  {
+   "opponent": "Casey",
+   "wins": 2,
+   "losses": 1,
+   "draws": 0
   },
-  "labels": [],
-  "player": "2026-07-26_goodbyesf_1-p6",
-  "date": "2026-07-26",
-  "matches": null,
-  "mainboard": [],
-  "sideboard": []
+  {
+   "opponent": "Bret",
+   "wins": 1,
+   "losses": 2,
+   "draws": 0
+  }
+ ],
+ "mainboard": [
+  "Archmage's Charm",
+  "Brainsurge",
+  "Consider",
+  "Dig Through Time",
+  "Dreamtide Whale",
+  "Elspeth's Smite",
+  "Ephara's Dispersal",
+  "Ethereal Forager",
+  "Flame Slash",
+  "Flooded Strand",
+  "Flooded Strand",
+  "Hallowed Fountain",
+  "Harm's Way",
+  "Manamorphose",
+  "March of Otherworldly Light",
+  "Meticulous Archive",
+  "Miscalculation",
+  "Misty Rainforest",
+  "Monastery Mentor",
+  "Mystic Confluence",
+  "Mystic Sanctuary",
+  "Ponder",
+  "Scalding Tarn",
+  "Seasoned Pyromancer",
+  "Soul Partition",
+  "Spell Pierce",
+  "Sprite Dragon",
+  "Steam Vents",
+  "Stern Scolding",
+  "Sunbaked Canyon",
+  "Thing in the Ice // Awoken Horror",
+  "Thundering Falls",
+  "Unholy Heat",
+  "Young Pyromancer",
+  "Mountain",
+  "Island",
+  "Island",
+  "Island",
+  "Island",
+  "Plains"
+ ],
+ "sideboard": [
+  "Cemetery Gatekeeper",
+  "Condescend",
+  "Emberheart Challenger",
+  "Faerie Vandal",
+  "Goblin Guide",
+  "Growth Spiral",
+  "Helping Hand",
+  "Mutavault",
+  "Overgrown Tomb",
+  "The Goose Mother",
+  "Verdant Catacombs"
+ ]
 }

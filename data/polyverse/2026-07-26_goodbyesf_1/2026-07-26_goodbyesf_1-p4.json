@@ -1,12 +1,97 @@
 {
-  "metadata": {
-    "path": "data/polyverse/2026-07-26_goodbyesf_1/2026-07-26_goodbyesf_1-p4.json",
-    "draft_id": "2026-07-26_goodbyesf_1"
+ "metadata": {
+  "path": "data/polyverse/2026-07-26_goodbyesf_1/2026-07-26_goodbyesf_1-p4.json",
+  "draft_id": "2026-07-26_goodbyesf_1"
+ },
+ "macro_archetype": "control",
+ "labels": [
+  "draw"
+ ],
+ "player": "Darius",
+ "date": "2026-07-26",
+ "matches": [
+  {
+   "opponent": "Braf",
+   "wins": 2,
+   "losses": 0,
+   "draws": 0
   },
-  "labels": [],
-  "player": "2026-07-26_goodbyesf_1-p4",
-  "date": "2026-07-26",
-  "matches": null,
-  "mainboard": [],
-  "sideboard": []
+  {
+   "opponent": "Bret",
+   "wins": 2,
+   "losses": 0,
+   "draws": 0
+  },
+  {
+   "opponent": "An",
+   "wins": 0,
+   "losses": 2,
+   "draws": 0
+  }
+ ],
+ "mainboard": [
+  "Baleful Strix",
+  "Bitter Triumph",
+  "Bloodstained Mire",
+  "Brainstorm",
+  "Careful Study",
+  "Deluge of Doom",
+  "Fell",
+  "Fiery Islet",
+  "Flitterwing Nuisance",
+  "Grim Bauble",
+  "Into the Roil",
+  "Irencrag Pyromancer",
+  "Jace, the Mind Sculptor",
+  "Kiora, the Rising Tide",
+  "Lórien Revealed",
+  "Mischievous Mystic",
+  "Polluted Delta",
+  "Preordain",
+  "Proft's Eidetic Memory",
+  "Repeal",
+  "Shark Typhoon",
+  "Sphinx of Forgotten Lore",
+  "Steam Vents",
+  "Thoughtseize",
+  "Toxic Deluge",
+  "Treasure Cruise",
+  "Unearth",
+  "Virtue of Persistence // Locthwain Scorn",
+  "Watery Grave",
+  "Island",
+  "Island",
+  "Island",
+  "Island",
+  "Island",
+  "Island",
+  "Swamp",
+  "Swamp",
+  "Swamp",
+  "Swamp",
+  "Swamp",
+  "Mountain"
+ ],
+ "sideboard": [
+  "Chromatic Star",
+  "Cling to Dust",
+  "Godless Shrine",
+  "Godless Shrine",
+  "Lightstall Inquisitor",
+  "Magmatic Sinkhole",
+  "Mosswood Dreadknight // Dread Whispers",
+  "Ninja of the Deep Hours",
+  "Opt",
+  "Phyrexian Metamorph",
+  "Rishadan Port",
+  "Scrabbling Claws",
+  "Seal of Removal",
+  "Sheltered Thicket",
+  "Spell Snare",
+  "Tidehollow Sculler"
+ ],
+ "colors": [
+  "U",
+  "B"
+ ]
 }

@@ -4,9 +4,10 @@
   "draft_id": "2025-08-17_local_1",
   "combined_file": "data/polyverse/2025-08-17_local_1/brianfl.csv"
  },
- "macro_archetype": "midrange",
+ "macro_archetype": "control",
  "labels": [
-  "domain"
+  "domain",
+  "beans"
  ],
  "player": "brianfl",
  "date": "2025-08-17",
