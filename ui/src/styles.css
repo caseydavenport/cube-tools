@@ -125,6 +125,23 @@ table {
   line-height: 1.1;
 }
 
+.deck-summary-name-input {
+  margin: 0;
+  font-size: 1.2rem;
+  line-height: 1.1;
+  color: var(--primary);
+  background: var(--page-background);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 0.25rem 0.5rem;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.deck-summary-name-input:focus {
+  border-color: var(--primary);
+}
+
 .deck-summary-record {
   font-size: 1.15rem;
   font-weight: 600;
