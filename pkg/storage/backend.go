@@ -5,6 +5,7 @@ import (
 	"errors"
 
 	"github.com/caseydavenport/cube-tools/pkg/design"
+	"github.com/caseydavenport/cube-tools/pkg/types"
 )
 
 // ErrUnsupported is returned by Store when the active backend does not implement
@@ -27,6 +28,14 @@ type DeckBackend interface {
 // omit it, so Store reports ErrUnsupported.
 type DeckMetaBackend interface {
 	WriteDeckMeta(cube string, w DeckMetaWrite) (*Deck, error)
+}
+
+// DraftRecordBackend is implemented by backends that can save a deck's record
+// and reconcile the rest of its draft: renaming references to the edited
+// player and mirroring its per-round results onto its opponents. It returns
+// every deck it changed.
+type DraftRecordBackend interface {
+	SaveDeckRecord(cube, draftID, deckID, player string, matches []types.Match) ([]*Deck, error)
 }
 
 // NotesBackend is implemented by backends that can persist free-form notes

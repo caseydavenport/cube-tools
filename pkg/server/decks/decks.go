@@ -134,6 +134,62 @@ func (h *updateDeckHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 	}
 }
 
+// RecordSaver saves a deck's record and reconciles its draft. UpdateDeckRecordHandler
+// depends on this narrow interface rather than the full DeckStorage.
+type RecordSaver interface {
+	SaveDeckRecord(cube, draftID, deckID, player string, matches []types.Match) ([]*storage.Deck, error)
+}
+
+type UpdateDeckRecordRequest struct {
+	DraftID string        `json:"draft_id"`
+	ID      string        `json:"id"`
+	Player  string        `json:"player"`
+	Matches []types.Match `json:"matches"`
+}
+
+func UpdateDeckRecordHandler(store RecordSaver) http.Handler {
+	return &updateDeckRecordHandler{store: store}
+}
+
+type updateDeckRecordHandler struct {
+	store RecordSaver
+}
+
+func (h *updateDeckRecordHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
+	var req UpdateDeckRecordRequest
+	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
+		http.Error(rw, "Invalid request", http.StatusBadRequest)
+		return
+	}
+	if req.DraftID == "" || req.ID == "" {
+		http.Error(rw, "draft_id and id are required", http.StatusBadRequest)
+		return
+	}
+	changed, err := h.store.SaveDeckRecord(r.PathValue("cube"), req.DraftID, req.ID, req.Player, req.Matches)
+	if errors.Is(err, storage.ErrDeckNotFound) {
+		http.Error(rw, "Deck not found", http.StatusNotFound)
+		return
+	}
+	if errors.Is(err, storage.ErrUnsupported) {
+		http.Error(rw, "Not supported for this cube", http.StatusBadRequest)
+		return
+	}
+	if err != nil {
+		logrus.WithError(err).Error("Failed to save deck record")
+		http.Error(rw, "Internal server error", http.StatusInternalServerError)
+		return
+	}
+	b, err := json.Marshal(DecksResponse{Decks: changed})
+	if err != nil {
+		http.Error(rw, "Internal server error", http.StatusInternalServerError)
+		return
+	}
+	rw.Header().Set("Content-Type", "application/json")
+	if _, err := rw.Write(b); err != nil {
+		logrus.WithError(err).Error("Failed to write deck record response")
+	}
+}
+
 func ParseDecksRequest(r *http.Request) *storage.DecksRequest {
 	// Pull deck params from the request.
 	p := storage.DecksRequest{}

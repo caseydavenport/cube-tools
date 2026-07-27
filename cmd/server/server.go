@@ -57,6 +57,7 @@ func main() {
 		return stats.EdgesForCube(deckStore, provider, cubeID)
 	}))
 	cubeRoute("POST /api/{cube}/decks/update", decks.UpdateDeckHandler(deckStore))
+	cubeRoute("POST /api/{cube}/decks/record", decks.UpdateDeckRecordHandler(deckStore))
 	cubeRoute("GET /api/{cube}/archetypes", server.ArchetypesHandler(provider))
 	cubeRoute("GET /api/{cube}/stats/cards", stats.CardStatsHandler(deckStore, provider))
 	cubeRoute("GET /api/{cube}/stats/colors", stats.ColorStatsHandler(deckStore, provider))

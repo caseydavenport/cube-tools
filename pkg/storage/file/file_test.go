@@ -136,6 +136,43 @@ func TestFileWriteDeckMetaPersistsPlayerAndMatches(t *testing.T) {
 	assert.Equal(t, 1, reloaded.MatchLosses())
 }
 
+func TestFileSaveDeckRecordMirrorsAndPersists(t *testing.T) {
+	root := t.TempDir()
+	if err := os.Chdir(root); err != nil {
+		t.Fatalf("chdir temp root: %v", err)
+	}
+	writeConfFixture(t, root)
+	b := New(nil)
+
+	changed, err := b.SaveDeckRecord("conf", "d1", "Alice", "", []types.Match{{Opponent: "Bob", Wins: 2, Losses: 1}})
+	assert.NoError(t, err)
+	assert.Len(t, changed, 2)
+
+	bob, err := types.LoadDeck(filepath.Join(root, "data/conf/d1/bob.json"))
+	assert.NoError(t, err)
+	assert.Equal(t, []types.Match{{Opponent: "Alice", Wins: 1, Losses: 2}}, bob.Matches)
+}
+
+func TestFileSaveDeckRecordRenamePropagates(t *testing.T) {
+	root := t.TempDir()
+	if err := os.Chdir(root); err != nil {
+		t.Fatalf("chdir temp root: %v", err)
+	}
+	writeConfFixture(t, root)
+	b := New(nil)
+
+	_, err := b.SaveDeckRecord("conf", "d1", "Alice", "casey", nil)
+	assert.NoError(t, err)
+
+	alice, err := types.LoadDeck(filepath.Join(root, "data/conf/d1/alice.json"))
+	assert.NoError(t, err)
+	assert.Equal(t, "casey", alice.Player)
+
+	bob, err := types.LoadDeck(filepath.Join(root, "data/conf/d1/bob.json"))
+	assert.NoError(t, err)
+	assert.Equal(t, "casey", bob.Matches[0].Opponent)
+}
+
 // writeConfFixture writes a throwaway "conf" cube under root/data, matching
 // the canonical conformance dataset: draft "d1" with Alice (2-0 vs Bob) and
 // Bob (0-2 vs Alice).

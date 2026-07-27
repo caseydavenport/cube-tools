@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"github.com/caseydavenport/cube-tools/pkg/design"
+	"github.com/caseydavenport/cube-tools/pkg/types"
 )
 
 // Store adds enrichment, caching, and filtering on top of a DeckBackend. It
@@ -91,6 +92,35 @@ func (s *Store) UpdateDeckMeta(cube string, w DeckMetaWrite) (*Deck, error) {
 		return nil, ErrDeckNotFound
 	}
 	return updated, nil
+}
+
+// SaveDeckRecord writes a deck's player name and record and reconciles the
+// rest of the draft (opponent mirrors and name references) via the backend,
+// then invalidates the cube cache and returns every changed deck freshly
+// enriched. It returns ErrUnsupported if the backend cannot reconcile.
+func (s *Store) SaveDeckRecord(cube, draftID, deckID, player string, matches []types.Match) ([]*Deck, error) {
+	b, ok := s.backend.(DraftRecordBackend)
+	if !ok {
+		return nil, ErrUnsupported
+	}
+	s.Lock()
+	defer s.Unlock()
+	changed, err := b.SaveDeckRecord(cube, draftID, deckID, player, matches)
+	if err != nil {
+		return nil, err
+	}
+	delete(s.caches, cube)
+	c, err := s.cacheForLocked(cube)
+	if err != nil {
+		return nil, err
+	}
+	out := make([]*Deck, 0, len(changed))
+	for _, ch := range changed {
+		if d, ok := c.lookup[key{id: ch.ID, draft: draftID}]; ok {
+			out = append(out, d)
+		}
+	}
+	return out, nil
 }
 
 // GetNotes returns the deck's notes, or ErrUnsupported if the backend has none.

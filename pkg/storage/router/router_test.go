@@ -7,6 +7,7 @@ import (
 
 	"github.com/caseydavenport/cube-tools/pkg/design"
 	"github.com/caseydavenport/cube-tools/pkg/storage"
+	"github.com/caseydavenport/cube-tools/pkg/types"
 )
 
 type fakeFile struct {
@@ -21,6 +22,10 @@ func (f *fakeFile) Index(cube string) (*storage.CubeIndex, error) { return &stor
 func (f *fakeFile) WriteDeckMeta(cube string, w storage.DeckMetaWrite) (*storage.Deck, error) {
 	f.wrote = true
 	return &storage.Deck{ID: w.DeckID}, nil
+}
+func (f *fakeFile) SaveDeckRecord(cube, draftID, deckID, player string, matches []types.Match) ([]*storage.Deck, error) {
+	f.wrote = true
+	return []*storage.Deck{{ID: deckID}}, nil
 }
 func (f *fakeFile) GetNotes(cube, d, id string) (string, error) { return "notes", nil }
 func (f *fakeFile) PutNotes(cube, d, id, content string) error  { f.wrote = true; return nil }

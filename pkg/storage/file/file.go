@@ -95,6 +95,73 @@ func (b *Backend) WriteDeckMeta(cube string, w storage.DeckMetaWrite) (*storage.
 	return &storage.Deck{Deck: *d}, nil
 }
 
+// SaveDeckRecord loads every deck in the draft, applies the record edit via
+// ReconcileRecord, and writes each changed deck's file whole so unrelated
+// fields survive. It returns the changed decks with their ids set.
+func (b *Backend) SaveDeckRecord(cube, draftID, deckID, player string, matches []types.Match) ([]*storage.Deck, error) {
+	contents, err := os.ReadFile(fmt.Sprintf("data/%s/index.json", cube))
+	if err != nil {
+		return nil, err
+	}
+	var index commands.MainIndex
+	if err := json.Unmarshal(contents, &index); err != nil {
+		return nil, err
+	}
+
+	var loaded []*storage.Deck
+	paths := map[*types.Deck]string{}
+	found := false
+	for _, draft := range index.Drafts {
+		if draft.DraftID != draftID {
+			continue
+		}
+		found = true
+		for _, ideck := range draft.Decks {
+			d, err := types.LoadDeck(ideck.Path)
+			if err != nil {
+				return nil, err
+			}
+			sd := &storage.Deck{Deck: *d}
+			sd.ID = sd.Player
+			loaded = append(loaded, sd)
+			paths[&sd.Deck] = ideck.Path
+		}
+	}
+	if !found {
+		return nil, storage.ErrDeckNotFound
+	}
+
+	targetOldName := ""
+	for _, sd := range loaded {
+		if sd.ID == deckID {
+			targetOldName = sd.Player
+			break
+		}
+	}
+	if targetOldName == "" {
+		return nil, storage.ErrDeckNotFound
+	}
+
+	tds := make([]*types.Deck, len(loaded))
+	byTD := map[*types.Deck]*storage.Deck{}
+	for i, sd := range loaded {
+		tds[i] = &sd.Deck
+		byTD[&sd.Deck] = sd
+	}
+	changed := types.ReconcileRecord(tds, targetOldName, player, matches)
+
+	var out []*storage.Deck
+	for _, td := range changed {
+		if err := td.Save(paths[td]); err != nil {
+			return nil, err
+		}
+		sd := byTD[td]
+		sd.ID = sd.Player
+		out = append(out, sd)
+	}
+	return out, nil
+}
+
 // deckFilePath returns the on-disk file for a deck by loading the cube's index
 // and matching the draft and player (the file backend's id). It keeps path
 // resolution inside the backend so callers never handle filesystem paths.

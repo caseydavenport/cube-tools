@@ -6,6 +6,7 @@ import (
 
 	"github.com/caseydavenport/cube-tools/pkg/design"
 	"github.com/caseydavenport/cube-tools/pkg/storage"
+	"github.com/caseydavenport/cube-tools/pkg/types"
 )
 
 // Backend is an in-memory deck store for tests. It holds decks per cube and
@@ -100,6 +101,40 @@ func (b *Backend) WriteDeckMeta(cube string, w storage.DeckMetaWrite) (*storage.
 		}
 	}
 	return nil, storage.ErrDeckNotFound
+}
+
+// SaveDeckRecord reconciles the draft's in-memory decks in place via
+// ReconcileRecord and returns copies of the changed decks with their ids set.
+func (b *Backend) SaveDeckRecord(cube, draftID, deckID, player string, matches []types.Match) ([]*storage.Deck, error) {
+	b.mu.Lock()
+	defer b.mu.Unlock()
+
+	var tds []*types.Deck
+	byTD := map[*types.Deck]*storage.Deck{}
+	targetOldName := ""
+	for _, d := range b.decks[cube] {
+		if d.Metadata.DraftID != draftID {
+			continue
+		}
+		tds = append(tds, &d.Deck)
+		byTD[&d.Deck] = d
+		if d.ID == deckID {
+			targetOldName = d.Player
+		}
+	}
+	if targetOldName == "" {
+		return nil, storage.ErrDeckNotFound
+	}
+
+	changed := types.ReconcileRecord(tds, targetOldName, player, matches)
+	var out []*storage.Deck
+	for _, td := range changed {
+		sd := byTD[td]
+		sd.ID = sd.Player
+		cp := *sd
+		out = append(out, &cp)
+	}
+	return out, nil
 }
 
 // GetNotes returns the free-form notes saved against a deck, or "" if none
