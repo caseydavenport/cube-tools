@@ -29,16 +29,28 @@ func LoadOracleData(path string) error {
 		return err
 	}
 	defer f.Close()
-	data, err := io.ReadAll(f)
-	if err != nil {
+
+	// Scryfall ships this as JSONL.
+	dec := json.NewDecoder(f)
+	tok, err := dec.Token()
+	if err == io.EOF {
+		return errors.New("oracle data file is empty")
+	} else if err != nil {
 		return err
 	}
-	oracleList := OracleData{}
-	if err := json.Unmarshal(data, &oracleList); err != nil {
-		return err
+	if d, ok := tok.(json.Delim); !ok || d != '[' {
+		if _, err := f.Seek(0, io.SeekStart); err != nil {
+			return err
+		}
+		dec = json.NewDecoder(f)
 	}
-	cards := make(map[string]OracleCard, len(oracleList))
-	for _, card := range oracleList {
+
+	cards := map[string]OracleCard{}
+	for dec.More() {
+		card := OracleCard{}
+		if err := dec.Decode(&card); err != nil {
+			return err
+		}
 		if strings.Contains(card.TypeLine, "Token") {
 			continue
 		}

@@ -4,6 +4,12 @@
 META_URL=https://api.scryfall.com/bulk-data
 
 # Fetch the metadata and extract the URL for the oracle cards JSON file.
-ORACLE_URL=$(curl -s $META_URL | jq -r '.data[] | select(.type == "oracle_cards") | .download_uri')
+ORACLE_URL=$(curl -s $META_URL | jq -r '.data[] | select(.type == "oracle_cards") | .jsonl_download_uri')
+if [ -z "$ORACLE_URL" ] || [ "$ORACLE_URL" = "null" ]; then
+	echo "No oracle_cards download URL in $META_URL metadata" >&2
+	exit 1
+fi
+
 echo "Downloading oracle cards from: $ORACLE_URL"
-wget $ORACLE_URL -O $@
+wget $ORACLE_URL -O $@.gz
+gunzip $@.gz
