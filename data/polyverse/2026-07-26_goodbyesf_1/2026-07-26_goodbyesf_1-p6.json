@@ -11,15 +11,17 @@
  "date": "2026-07-26",
  "matches": [
   {
-   "opponent": "Casey",
-   "wins": 2,
-   "losses": 1,
+   "opponent": "Brett",
+   "round": 1,
+   "wins": 1,
+   "losses": 2,
    "draws": 0
   },
   {
-   "opponent": "Brett",
-   "wins": 1,
-   "losses": 2,
+   "opponent": "Casey",
+   "round": 3,
+   "wins": 2,
+   "losses": 1,
    "draws": 0
   }
  ],

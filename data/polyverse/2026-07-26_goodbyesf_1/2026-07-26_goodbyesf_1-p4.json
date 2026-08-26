@@ -12,18 +12,21 @@
  "matches": [
   {
    "opponent": "Braf",
+   "round": 1,
    "wins": 2,
    "losses": 0,
    "draws": 0
   },
   {
    "opponent": "Brett",
+   "round": 2,
    "wins": 2,
    "losses": 0,
    "draws": 0
   },
   {
    "opponent": "An",
+   "round": 3,
    "wins": 0,
    "losses": 2,
    "draws": 0
@@ -44,7 +47,7 @@
   "Irencrag Pyromancer",
   "Jace, the Mind Sculptor",
   "Kiora, the Rising Tide",
-  "Lórien Revealed",
+  "L\u00f3rien Revealed",
   "Mischievous Mystic",
   "Polluted Delta",
   "Preordain",

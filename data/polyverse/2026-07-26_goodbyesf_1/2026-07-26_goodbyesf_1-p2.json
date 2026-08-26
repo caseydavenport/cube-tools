@@ -12,21 +12,24 @@
  "date": "2026-07-26",
  "matches": [
   {
-   "opponent": "Braf",
-   "wins": 2,
-   "losses": 1,
+   "opponent": "An",
+   "round": 1,
+   "wins": 1,
+   "losses": 2,
    "draws": 0
   },
   {
    "opponent": "Patrick",
+   "round": 2,
    "wins": 1,
    "losses": 2,
    "draws": 0
   },
   {
-   "opponent": "An",
-   "wins": 1,
-   "losses": 2,
+   "opponent": "Braf",
+   "round": 3,
+   "wins": 2,
+   "losses": 1,
    "draws": 0
   }
  ],

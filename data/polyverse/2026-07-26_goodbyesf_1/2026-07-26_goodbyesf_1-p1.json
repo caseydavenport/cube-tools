@@ -13,18 +13,21 @@
  "matches": [
   {
    "opponent": "Casey",
+   "round": 1,
    "wins": 2,
    "losses": 0,
    "draws": 0
   },
   {
    "opponent": "Sarah",
+   "round": 2,
    "wins": 2,
    "losses": 1,
    "draws": 0
   },
   {
    "opponent": "Brett",
+   "round": 3,
    "wins": 1,
    "losses": 2,
    "draws": 0

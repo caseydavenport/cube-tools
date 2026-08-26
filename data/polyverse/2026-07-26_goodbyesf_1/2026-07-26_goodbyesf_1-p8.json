@@ -14,19 +14,22 @@
  "matches": [
   {
    "opponent": "Darius",
+   "round": 1,
+   "wins": 0,
+   "losses": 2,
+   "draws": 0
+  },
+  {
+   "opponent": "An",
+   "round": 2,
    "wins": 0,
    "losses": 2,
    "draws": 0
   },
   {
    "opponent": "Sarah",
+   "round": 3,
    "wins": 1,
-   "losses": 2,
-   "draws": 0
-  },
-  {
-   "opponent": "An",
-   "wins": 0,
    "losses": 2,
    "draws": 0
   }

@@ -11,19 +11,22 @@
  "date": "2026-07-26",
  "matches": [
   {
-   "opponent": "Darius",
-   "wins": 0,
-   "losses": 2,
-   "draws": 0
-  },
-  {
    "opponent": "Isaiah",
+   "round": 1,
    "wins": 2,
    "losses": 1,
    "draws": 0
   },
   {
+   "opponent": "Darius",
+   "round": 2,
+   "wins": 0,
+   "losses": 2,
+   "draws": 0
+  },
+  {
    "opponent": "Patrick",
+   "round": 3,
    "wins": 2,
    "losses": 1,
    "draws": 0
