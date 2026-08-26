@@ -95,7 +95,7 @@ func exportToCC() {
 		case "index.json", "cube.json", "cube-rules.json", types.DraftMetadataFilename:
 			continue
 		}
-		if strings.Contains(f, "snapshot") || strings.Contains(f, "draft-log") {
+		if strings.HasPrefix(base, ".") || strings.Contains(f, "snapshot") || strings.Contains(f, "draft-log") {
 			continue
 		}
 		d, err := types.LoadDeck(f)
