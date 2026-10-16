@@ -1167,6 +1167,29 @@
      "path": "data/polyverse/2026-07-26_goodbyesf_1/2026-07-26_goodbyesf_1-p8.json"
     }
    ]
+  },
+  {
+   "path": "data/polyverse/2026-10-13_advguild_1",
+   "date": "2026-10-13",
+   "draft_id": "2026-10-13_advguild_1",
+   "draft_log": "",
+   "decks": [
+    {
+     "path": "data/polyverse/2026-10-13_advguild_1/2026-10-13_advguild_1-p1.json"
+    },
+    {
+     "path": "data/polyverse/2026-10-13_advguild_1/2026-10-13_advguild_1-p2.json"
+    },
+    {
+     "path": "data/polyverse/2026-10-13_advguild_1/2026-10-13_advguild_1-p3.json"
+    },
+    {
+     "path": "data/polyverse/2026-10-13_advguild_1/2026-10-13_advguild_1-p4.json"
+    },
+    {
+     "path": "data/polyverse/2026-10-13_advguild_1/2026-10-13_advguild_1-p5.json"
+    }
+   ]
   }
  ]
 }

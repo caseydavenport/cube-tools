@@ -1,0 +1,75 @@
+{
+ "metadata": {
+  "path": "data/polyverse/2026-10-13_advguild_1/2026-10-13_advguild_1-p4.json",
+  "draft_id": "2026-10-13_advguild_1"
+ },
+ "macro_archetype": "midrange",
+ "labels": [
+  "coco"
+ ],
+ "player": "Taamira",
+ "date": "2026-10-13",
+ "matches": [
+  {
+   "opponent": "Taylor Pack",
+   "wins": 0,
+   "losses": 2,
+   "draws": 0
+  },
+  {
+   "opponent": "",
+   "wins": 1,
+   "losses": 0,
+   "draws": 0
+  },
+  {
+   "opponent": "",
+   "wins": 1,
+   "losses": 0,
+   "draws": 0
+  }
+ ],
+ "mainboard": [
+  "Blade Splicer",
+  "Collected Company",
+  "Daze",
+  "Delney, Streetwise Lookout",
+  "Eternal Witness",
+  "Into the Roil",
+  "Journey to Nowhere",
+  "Miscalculation",
+  "Monastery Mentor",
+  "Noble Hierarch",
+  "Path to Exile",
+  "Remand",
+  "Renegade Rallier",
+  "Restoration Angel",
+  "Ride's End",
+  "Seam Rip",
+  "Snapcaster Mage",
+  "The Wandering Emperor",
+  "Thing in the Ice // Awoken Horror",
+  "Thraben Inspector",
+  "Timeless Dragon",
+  "Torrential Gearhulk",
+  "Touch the Spirit Realm",
+  "Welcoming Vampire",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Island",
+  "Island",
+  "Island",
+  "Island",
+  "Island",
+  "Island",
+  "Forest",
+  "Forest",
+  "Forest",
+  "Forest"
+ ],
+ "sideboard": []
+}

@@ -41,6 +41,12 @@
       ]
     },
     {
+      "name": "Big Instants",
+      "conditions": [
+        "t:instant cmc\u003e2"
+      ]
+    },
+    {
       "name": "Buff targets",
       "conditions": [
         "t:creature o:flying",
@@ -917,6 +923,14 @@
           ],
           "targets": [
             "Selective discard"
+          ]
+        },
+        {
+          "sources": [
+            "card:Torrential Gearhulk"
+          ],
+          "targets": [
+            "Big Instants"
           ]
         }
       ]

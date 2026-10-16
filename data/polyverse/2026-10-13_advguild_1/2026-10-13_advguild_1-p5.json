@@ -1,0 +1,77 @@
+{
+ "metadata": {
+  "path": "data/polyverse/2026-10-13_advguild_1/2026-10-13_advguild_1-p5.json",
+  "draft_id": "2026-10-13_advguild_1"
+ },
+ "labels": [
+  "sacrifice",
+  "aggro",
+  "recursion",
+  "cauldron"
+ ],
+ "player": "Taylor Pack",
+ "date": "2026-10-13",
+ "matches": [
+  {
+   "opponent": "Casey",
+   "wins": 2,
+   "losses": 0,
+   "draws": 0
+  },
+  {
+   "opponent": "",
+   "wins": 2,
+   "losses": 0,
+   "draws": 0
+  },
+  {
+   "opponent": "Taamira",
+   "wins": 2,
+   "losses": 0,
+   "draws": 0
+  }
+ ],
+ "mainboard": [
+  "Agatha's Soul Cauldron",
+  "Arid Mesa",
+  "Bitterblossom",
+  "Bloodghast",
+  "Bloodsoaked Champion",
+  "Bone Shards",
+  "Canyon Slough",
+  "Carrion Feeder",
+  "Clarion Spirit",
+  "Deep-Cavern Bat",
+  "Faerie Dreamthief",
+  "Gingerbrute",
+  "Goblin Bombardment",
+  "Godless Shrine",
+  "Grim Bauble",
+  "Hired Claw",
+  "Legion Extruder",
+  "Lightning Bolt",
+  "Lion Sash",
+  "Marionette Apprentice",
+  "Mishra's Bauble",
+  "Moonshadow",
+  "Raucous Theater",
+  "Sacred Foundry",
+  "Scalding Tarn",
+  "Seal of Fire",
+  "Spirited Companion",
+  "Thoughtseize",
+  "Toxic Deluge",
+  "Umbral Collar Zealot",
+  "Urza's Bauble",
+  "Urza's Saga",
+  "Verdant Catacombs",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Swamp",
+  "Swamp",
+  "Swamp",
+  "Swamp"
+ ],
+ "sideboard": []
+}

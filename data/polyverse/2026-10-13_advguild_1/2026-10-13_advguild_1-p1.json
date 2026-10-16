@@ -1,0 +1,91 @@
+{
+ "metadata": {
+  "path": "data/polyverse/2026-10-13_advguild_1/2026-10-13_advguild_1-p1.json",
+  "draft_id": "2026-10-13_advguild_1"
+ },
+ "macro_archetype": "control",
+ "labels": [
+  "spells",
+  "draw",
+  "tempo"
+ ],
+ "player": "Casey",
+ "date": "2026-10-13",
+ "matches": [
+  {
+   "opponent": "Mystic Tenny",
+   "wins": 1,
+   "losses": 2,
+   "draws": 0
+  },
+  {
+   "opponent": "Jon Miller",
+   "wins": 1,
+   "losses": 1,
+   "draws": 0
+  },
+  {
+   "opponent": "Taylor Pack",
+   "wins": 0,
+   "losses": 2,
+   "draws": 0
+  }
+ ],
+ "mainboard": [
+  "Barbarian Ring",
+  "Bonesplitter",
+  "Brainsurge",
+  "Cling to Dust",
+  "Cryogen Relic",
+  "Cut Down",
+  "Dig Through Time",
+  "Disfigure",
+  "Dragon's Rage Channeler",
+  "Emberheart Challenger",
+  "Faerie Vandal",
+  "Fists of Flame",
+  "Flitterwing Nuisance",
+  "Flooded Strand",
+  "Harvester of Misery",
+  "Inti, Seneschal of the Sun",
+  "Irencrag Pyromancer",
+  "Jace, the Mind Sculptor",
+  "Kiora, the Rising Tide",
+  "Magma Jet",
+  "Master of Death",
+  "Memory Lapse",
+  "Meticulous Archive",
+  "Mischievous Mystic",
+  "Misty Rainforest",
+  "Ninja of the Deep Hours",
+  "Perilous Myr",
+  "Rishadan Port",
+  "Saheeli, Sublime Artificer",
+  "Scalding Tarn",
+  "Scrabbling Claws",
+  "Scrapwork Mutt",
+  "Seal of Removal",
+  "Searslicer Goblin",
+  "Serum Visions",
+  "Spell Pierce",
+  "Sprite Dragon",
+  "Steam Vents",
+  "Thundering Falls",
+  "Ulcerate",
+  "Undercity Sewers",
+  "Island",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Swamp",
+  "Swamp",
+  "Swamp"
+ ],
+ "sideboard": [
+  "Commercial District",
+  "Esper Sentinel",
+  "Helping Hand",
+  "Knight of the Reliquary"
+ ]
+}

@@ -1,0 +1,75 @@
+{
+ "metadata": {
+  "path": "data/polyverse/2026-10-13_advguild_1/2026-10-13_advguild_1-p2.json",
+  "draft_id": "2026-10-13_advguild_1"
+ },
+ "macro_archetype": "aggro",
+ "labels": [
+  "recursion",
+  "shadow"
+ ],
+ "player": "Jon Miller",
+ "date": "2026-10-13",
+ "matches": [
+  {
+   "opponent": "Casey",
+   "wins": 1,
+   "losses": 1,
+   "draws": 0
+  },
+  {
+   "opponent": "",
+   "wins": 1,
+   "losses": 0,
+   "draws": 0
+  },
+  {
+   "opponent": "",
+   "wins": 0,
+   "losses": 1,
+   "draws": 0
+  }
+ ],
+ "mainboard": [
+  "Accursed Marauder",
+  "Alesha, Who Laughs at Fate",
+  "Bloodchief's Thirst",
+  "Bloodsky Berserker",
+  "Dark Confidant",
+  "Death's Shadow",
+  "Deathrite Shaman",
+  "Dreadhorde Arcanist",
+  "Embercleave",
+  "Faithless Looting",
+  "Fatal Push",
+  "Inquisition of Kozilek",
+  "Kitesail Freebooter",
+  "Knight of the Ebon Legion",
+  "Liliana of the Veil",
+  "Lotus Cobra",
+  "Mosswood Dreadknight // Dread Whispers",
+  "Nethergoyf",
+  "Questing Druid // Seek the Beast",
+  "Rabbit Battery",
+  "Reckless Charge",
+  "Reinforced Ronin",
+  "Seasoned Pyromancer",
+  "Sedgemoor Witch",
+  "Sylvan Library",
+  "Tenacious Underdog",
+  "Unearth",
+  "Swamp",
+  "Swamp",
+  "Swamp",
+  "Swamp",
+  "Swamp",
+  "Forest",
+  "Forest",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Mountain"
+ ],
+ "sideboard": []
+}
