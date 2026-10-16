@@ -33,9 +33,7 @@
  ],
  "mainboard": [
   "Barbarian Ring",
-  "Bonesplitter",
   "Brainsurge",
-  "Cling to Dust",
   "Cryogen Relic",
   "Cut Down",
   "Dig Through Time",
@@ -58,14 +56,9 @@
   "Mischievous Mystic",
   "Misty Rainforest",
   "Ninja of the Deep Hours",
-  "Perilous Myr",
-  "Rishadan Port",
-  "Saheeli, Sublime Artificer",
   "Scalding Tarn",
   "Scrabbling Claws",
-  "Scrapwork Mutt",
   "Seal of Removal",
-  "Searslicer Goblin",
   "Serum Visions",
   "Spell Pierce",
   "Sprite Dragon",
@@ -86,6 +79,13 @@
   "Commercial District",
   "Esper Sentinel",
   "Helping Hand",
-  "Knight of the Reliquary"
+  "Cling to Dust",
+  "Scrapwork Mutt",
+  "Knight of the Reliquary",
+  "Searslicer Goblin",
+  "Bonesplitter",
+  "Saheeli, Sublime Artificer",
+  "Perilous Myr",
+  "Rishadan Port"
  ]
 }
