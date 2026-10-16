@@ -248,7 +248,8 @@
       "name": "Draw matters",
       "conditions": [
         "o:\"second card each turn\"",
-        "o:\"number of cards you've drawn\""
+        "o:\"number of cards you've drawn\"",
+        "o:\"for each card you've drawn\""
       ]
     },
     {
@@ -1270,6 +1271,14 @@
           ],
           "targets": [
             "Cheap instants"
+          ]
+        },
+        {
+          "sources": [
+            "card:Dreadhorde Arcanist"
+          ],
+          "targets": [
+            "Cheap spells"
           ]
         }
       ]
