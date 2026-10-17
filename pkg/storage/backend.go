@@ -5,13 +5,16 @@ import (
 	"errors"
 
 	"github.com/caseydavenport/cube-tools/pkg/design"
-	"github.com/caseydavenport/cube-tools/pkg/types"
 )
 
 // ErrUnsupported is returned by Store when the active backend does not implement
 // the capability a caller asked for (for example, a read-only backend asked to
 // write deck metadata).
 var ErrUnsupported = errors.New("operation not supported by this storage backend")
+
+// ErrPlayerExists is returned when a record edit would rename a deck to a
+// player name another deck in the same draft already has.
+var ErrPlayerExists = errors.New("another deck in this draft already has that player name")
 
 // DeckBackend is a raw data source for one cube's decks. It performs no
 // enrichment, caching, or filtering; Store layers those on top. Every backend
@@ -23,26 +26,18 @@ type DeckBackend interface {
 	RawDecks(cube string) ([]*Deck, error)
 }
 
-// DeckMetaBackend is implemented by backends that can persist cube-tools' own
-// deck annotations (macro archetype, labels, color override). Read-only backends
-// omit it, so Store reports ErrUnsupported.
-type DeckMetaBackend interface {
-	WriteDeckMeta(cube string, w DeckMetaWrite) (*Deck, error)
-}
+// DraftBackend is implemented by backends that can load and save one draft's
+// decks. Store layers annotation writes and record reconciliation on top, so
+// backends only do I/O. Read-only backends omit it, and Store reports
+// ErrUnsupported for writes.
+type DraftBackend interface {
+	// LoadDraft returns every deck in the draft, or ErrDeckNotFound if the
+	// draft doesn't exist.
+	LoadDraft(cube, draftID string) ([]*Deck, error)
 
-// DraftRecordBackend is implemented by backends that can save a deck's record
-// and reconcile the rest of its draft: renaming references to the edited
-// player and mirroring its per-round results onto its opponents. It returns
-// every deck it changed.
-type DraftRecordBackend interface {
-	SaveDeckRecord(cube, draftID, deckID, player string, matches []types.Match) ([]*Deck, error)
-}
-
-// NotesBackend is implemented by backends that can persist free-form notes
-// against a deck.
-type NotesBackend interface {
-	GetNotes(cube, draftID, deckID string) (string, error)
-	PutNotes(cube, draftID, deckID, content string) error
+	// SaveDecks persists the given decks, each identified by its ID within
+	// draftID. It returns ErrDeckNotFound for a deck the draft doesn't hold.
+	SaveDecks(cube, draftID string, decks []*Deck) error
 }
 
 // RulesBackend is implemented by backends that can persist a cube's design-map

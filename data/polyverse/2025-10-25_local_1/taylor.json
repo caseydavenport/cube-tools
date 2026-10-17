@@ -5,6 +5,7 @@
   "mainboard_file": "data/polyverse/2025-10-25_local_1/taylor-mainboard.txt",
   "sideboard_file": "data/polyverse/2025-10-25_local_1/taylor-sideboard.txt"
  },
+ "id": 8,
  "macro_archetype": "aggro",
  "labels": [],
  "player": "taylor",
@@ -12,6 +13,7 @@
  "matches": [
   {
    "opponent": "casey",
+   "opponent_id": 1,
    "round": 1,
    "wins": 1,
    "losses": 2,
@@ -34,6 +36,7 @@
   },
   {
    "opponent": "colton",
+   "opponent_id": 2,
    "round": 2,
    "wins": 0,
    "losses": 2,
@@ -52,6 +55,7 @@
   },
   {
    "opponent": "isaiah",
+   "opponent_id": 3,
    "round": 3,
    "wins": 0,
    "losses": 2,
@@ -70,6 +74,7 @@
   },
   {
    "opponent": "jackson",
+   "opponent_id": 4,
    "round": 4,
    "wins": 0,
    "losses": 2,
@@ -88,6 +93,7 @@
   },
   {
    "opponent": "mehdi",
+   "opponent_id": 5,
    "round": 5,
    "wins": 2,
    "losses": 0,

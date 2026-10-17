@@ -6,7 +6,6 @@ import (
 	"github.com/caseydavenport/cube-tools/pkg/cubes"
 	"github.com/caseydavenport/cube-tools/pkg/design"
 	"github.com/caseydavenport/cube-tools/pkg/storage"
-	"github.com/caseydavenport/cube-tools/pkg/types"
 )
 
 // FileBackend is the writable, registry-cube backend the router delegates to
@@ -14,10 +13,8 @@ import (
 type FileBackend interface {
 	RawDecks(cube string) ([]*storage.Deck, error)
 	Index(cube string) (*storage.CubeIndex, error)
-	WriteDeckMeta(cube string, w storage.DeckMetaWrite) (*storage.Deck, error)
-	SaveDeckRecord(cube, draftID, deckID, player string, matches []types.Match) ([]*storage.Deck, error)
-	GetNotes(cube, draftID, deckID string) (string, error)
-	PutNotes(cube, draftID, deckID, content string) error
+	LoadDraft(cube, draftID string) ([]*storage.Deck, error)
+	SaveDecks(cube, draftID string, decks []*storage.Deck) error
 	GetRules(cube string) (*design.DesignMapConfig, error)
 	PutRules(cube string, rules *design.DesignMapConfig) error
 	GetDraftLog(cube, draftID string) (json.RawMessage, error)
@@ -64,32 +61,22 @@ func (r *Router) Index(cube string) (*storage.CubeIndex, error) {
 	return r.file.Index(cube)
 }
 
-func (r *Router) WriteDeckMeta(cube string, w storage.DeckMetaWrite) (*storage.Deck, error) {
+// LoadDraft returns a registry cube's draft from the file backend. CubeCobra
+// cubes are read-only, so it returns ErrUnsupported for them.
+func (r *Router) LoadDraft(cube, draftID string) ([]*storage.Deck, error) {
 	if cubes.IsCubeCobra(cube) {
 		return nil, storage.ErrUnsupported
 	}
-	return r.file.WriteDeckMeta(cube, w)
+	return r.file.LoadDraft(cube, draftID)
 }
 
-func (r *Router) SaveDeckRecord(cube, draftID, deckID, player string, matches []types.Match) ([]*storage.Deck, error) {
-	if cubes.IsCubeCobra(cube) {
-		return nil, storage.ErrUnsupported
-	}
-	return r.file.SaveDeckRecord(cube, draftID, deckID, player, matches)
-}
-
-func (r *Router) GetNotes(cube, draftID, deckID string) (string, error) {
-	if cubes.IsCubeCobra(cube) {
-		return "", storage.ErrUnsupported
-	}
-	return r.file.GetNotes(cube, draftID, deckID)
-}
-
-func (r *Router) PutNotes(cube, draftID, deckID, content string) error {
+// SaveDecks writes a registry cube's decks through the file backend, returning
+// ErrUnsupported for CubeCobra cubes.
+func (r *Router) SaveDecks(cube, draftID string, decks []*storage.Deck) error {
 	if cubes.IsCubeCobra(cube) {
 		return storage.ErrUnsupported
 	}
-	return r.file.PutNotes(cube, draftID, deckID, content)
+	return r.file.SaveDecks(cube, draftID, decks)
 }
 
 func (r *Router) GetRules(cube string) (*design.DesignMapConfig, error) {
@@ -114,11 +101,9 @@ func (r *Router) GetDraftLog(cube, draftID string) (json.RawMessage, error) {
 }
 
 var (
-	_ storage.DeckBackend        = (*Router)(nil)
-	_ storage.IndexBackend       = (*Router)(nil)
-	_ storage.DeckMetaBackend    = (*Router)(nil)
-	_ storage.DraftRecordBackend = (*Router)(nil)
-	_ storage.NotesBackend       = (*Router)(nil)
-	_ storage.RulesBackend       = (*Router)(nil)
-	_ storage.DraftLogBackend    = (*Router)(nil)
+	_ storage.DeckBackend     = (*Router)(nil)
+	_ storage.IndexBackend    = (*Router)(nil)
+	_ storage.DraftBackend    = (*Router)(nil)
+	_ storage.RulesBackend    = (*Router)(nil)
+	_ storage.DraftLogBackend = (*Router)(nil)
 )

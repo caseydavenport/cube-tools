@@ -14,7 +14,7 @@ type IndexedDraft struct {
 	Decks   []IndexedDeck `json:"decks"`
 }
 
-// IndexedDeck names a deck within a draft by its opaque id.
+// IndexedDeck names a deck within a draft by its ID.
 type IndexedDeck struct {
-	ID string `json:"id"`
+	ID int `json:"id"`
 }

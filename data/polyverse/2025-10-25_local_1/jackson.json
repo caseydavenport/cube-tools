@@ -5,6 +5,7 @@
   "mainboard_file": "data/polyverse/2025-10-25_local_1/jackson-mainboard.txt",
   "sideboard_file": "data/polyverse/2025-10-25_local_1/jackson-sideboard.txt"
  },
+ "id": 4,
  "macro_archetype": "control",
  "labels": [
   "delve",
@@ -15,6 +16,7 @@
  "matches": [
   {
    "opponent": "casey",
+   "opponent_id": 1,
    "round": 2,
    "wins": 1,
    "losses": 2,
@@ -37,6 +39,7 @@
   },
   {
    "opponent": "perry",
+   "opponent_id": 6,
    "round": 3,
    "wins": 2,
    "losses": 1,
@@ -59,6 +62,7 @@
   },
   {
    "opponent": "taylor",
+   "opponent_id": 8,
    "round": 4,
    "wins": 2,
    "losses": 0,

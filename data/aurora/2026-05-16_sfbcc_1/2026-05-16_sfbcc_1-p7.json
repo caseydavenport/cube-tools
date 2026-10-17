@@ -3,6 +3,7 @@
   "path": "data/aurora/2026-05-16_sfbcc_1/2026-05-16_sfbcc_1-p7.json",
   "draft_id": "2026-05-16_sfbcc_1"
  },
+ "id": 7,
  "macro_archetype": "midrange",
  "labels": [
   "merfolk",
@@ -13,6 +14,7 @@
  "matches": [
   {
    "opponent": "2026-05-16_sfbcc_1-p3",
+   "opponent_id": 3,
    "round": 1,
    "wins": 2,
    "losses": 1,
@@ -21,6 +23,7 @@
   },
   {
    "opponent": "2026-05-16_sfbcc_1-p2",
+   "opponent_id": 2,
    "round": 2,
    "wins": 0,
    "losses": 2,
@@ -29,6 +32,7 @@
   },
   {
    "opponent": "2026-05-16_sfbcc_1-p5",
+   "opponent_id": 5,
    "round": 3,
    "wins": 0,
    "losses": 2,

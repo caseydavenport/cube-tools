@@ -81,7 +81,7 @@ func TestConfirmHandlerWritesDeckFile(t *testing.T) {
 	draftID := "2026-01-17_evt_1"
 	deckPath := filepath.Join(root, "polyverse", draftID, draftID+"-p3.json")
 	writeFile(t, deckPath,
-		`{"metadata":{"draft_id":"`+draftID+`","path":"`+deckPath+`"},"player":"`+draftID+`-p3","date":"2026-01-17","labels":[],"matches":[],"mainboard":[],"sideboard":[]}`)
+		`{"metadata":{"draft_id":"`+draftID+`","path":"`+deckPath+`"},"id":3,"player":"`+draftID+`-p3","date":"2026-01-17","labels":[],"matches":[],"mainboard":[],"sideboard":[]}`)
 
 	h := ConfirmHandlerWithRoot(root)
 	r := reqWithCube(t, "POST", "/api/polyverse/ocr/drafts/"+draftID+"/players/p3/confirm", "polyverse")
@@ -99,5 +99,8 @@ func TestConfirmHandlerWritesDeckFile(t *testing.T) {
 	}
 	if len(d.Pool) != 1 || d.Pool[0].Name != "Brainstorm" {
 		t.Fatalf("written pool = %+v", d.Pool)
+	}
+	if d.ID != 3 {
+		t.Fatalf("id = %d after confirm, want 3", d.ID)
 	}
 }

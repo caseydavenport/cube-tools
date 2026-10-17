@@ -7,7 +7,6 @@ import (
 
 	"github.com/caseydavenport/cube-tools/pkg/design"
 	"github.com/caseydavenport/cube-tools/pkg/storage"
-	"github.com/caseydavenport/cube-tools/pkg/types"
 )
 
 type fakeFile struct {
@@ -15,20 +14,27 @@ type fakeFile struct {
 	rulesCube string
 }
 
+// deckFor builds a deck whose player names the backend and cube it came from,
+// so dispatch tests can tell which backend answered.
+func deckFor(source string) *storage.Deck {
+	d := &storage.Deck{}
+	d.Player = source
+	return d
+}
+
 func (f *fakeFile) RawDecks(cube string) ([]*storage.Deck, error) {
-	return []*storage.Deck{{ID: "file:" + cube}}, nil
+	return []*storage.Deck{deckFor("file:" + cube)}, nil
 }
 func (f *fakeFile) Index(cube string) (*storage.CubeIndex, error) { return &storage.CubeIndex{}, nil }
-func (f *fakeFile) WriteDeckMeta(cube string, w storage.DeckMetaWrite) (*storage.Deck, error) {
-	f.wrote = true
-	return &storage.Deck{ID: w.DeckID}, nil
+func (f *fakeFile) LoadDraft(cube, draftID string) ([]*storage.Deck, error) {
+	return []*storage.Deck{deckFor("file:" + cube)}, nil
 }
-func (f *fakeFile) SaveDeckRecord(cube, draftID, deckID, player string, matches []types.Match) ([]*storage.Deck, error) {
+
+func (f *fakeFile) SaveDecks(cube, draftID string, decks []*storage.Deck) error {
 	f.wrote = true
-	return []*storage.Deck{{ID: deckID}}, nil
+	return nil
 }
-func (f *fakeFile) GetNotes(cube, d, id string) (string, error) { return "notes", nil }
-func (f *fakeFile) PutNotes(cube, d, id, content string) error  { f.wrote = true; return nil }
+
 func (f *fakeFile) GetRules(cube string) (*design.DesignMapConfig, error) {
 	f.rulesCube = cube
 	return &design.DesignMapConfig{}, nil
@@ -41,19 +47,19 @@ func (f *fakeFile) GetDraftLog(cube, d string) (json.RawMessage, error) {
 type fakeCC struct{}
 
 func (fakeCC) RawDecks(cube string) ([]*storage.Deck, error) {
-	return []*storage.Deck{{ID: "cc:" + cube}}, nil
+	return []*storage.Deck{deckFor("cc:" + cube)}, nil
 }
 func (fakeCC) Index(cube string) (*storage.CubeIndex, error) { return &storage.CubeIndex{}, nil }
 
 func TestRouterReadDispatch(t *testing.T) {
 	r := New(&fakeFile{}, fakeCC{})
 	fd, _ := r.RawDecks("polyverse")
-	if fd[0].ID != "file:polyverse" {
-		t.Errorf("registry cube routed to %q, want file", fd[0].ID)
+	if fd[0].Player != "file:polyverse" {
+		t.Errorf("registry cube routed to %q, want file", fd[0].Player)
 	}
 	cd, _ := r.RawDecks("cc:polyversal")
-	if cd[0].ID != "cc:cc:polyversal" {
-		t.Errorf("cc cube routed to %q, want cc backend", cd[0].ID)
+	if cd[0].Player != "cc:cc:polyversal" {
+		t.Errorf("cc cube routed to %q, want cc backend", cd[0].Player)
 	}
 }
 
@@ -61,24 +67,24 @@ func TestRouterWritesGatedForCC(t *testing.T) {
 	ff := &fakeFile{}
 	r := New(ff, fakeCC{})
 
-	if _, err := r.WriteDeckMeta("polyverse", storage.DeckMetaWrite{DraftID: "d", DeckID: "id", MacroArchetype: "m"}); err != nil {
+	if err := r.SaveDecks("polyverse", "d", nil); err != nil {
 		t.Fatalf("registry write errored: %v", err)
 	}
 	if !ff.wrote {
 		t.Error("registry write did not reach file backend")
 	}
-
-	if _, err := r.WriteDeckMeta("cc:polyversal", storage.DeckMetaWrite{DraftID: "d", DeckID: "id", MacroArchetype: "m"}); !errors.Is(err, storage.ErrUnsupported) {
-		t.Errorf("cc WriteDeckMeta err = %v, want ErrUnsupported", err)
+	if _, err := r.LoadDraft("polyverse", "d"); err != nil {
+		t.Fatalf("registry LoadDraft errored: %v", err)
 	}
-	if err := r.PutNotes("cc:polyversal", "d", "id", "x"); !errors.Is(err, storage.ErrUnsupported) {
-		t.Errorf("cc PutNotes err = %v, want ErrUnsupported", err)
+
+	if err := r.SaveDecks("cc:polyversal", "d", nil); !errors.Is(err, storage.ErrUnsupported) {
+		t.Errorf("cc SaveDecks err = %v, want ErrUnsupported", err)
+	}
+	if _, err := r.LoadDraft("cc:polyversal", "d"); !errors.Is(err, storage.ErrUnsupported) {
+		t.Errorf("cc LoadDraft err = %v, want ErrUnsupported", err)
 	}
 	if err := r.PutRules("cc:polyversal", &design.DesignMapConfig{}); !errors.Is(err, storage.ErrUnsupported) {
 		t.Errorf("cc PutRules err = %v, want ErrUnsupported", err)
-	}
-	if _, err := r.GetNotes("cc:polyversal", "d", "id"); !errors.Is(err, storage.ErrUnsupported) {
-		t.Errorf("cc GetNotes err = %v, want ErrUnsupported", err)
 	}
 	if _, err := r.GetDraftLog("cc:polyversal", "d"); !errors.Is(err, storage.ErrUnsupported) {
 		t.Errorf("cc GetDraftLog err = %v, want ErrUnsupported", err)

@@ -5,164 +5,137 @@ import (
 	"encoding/json"
 	"net/http"
 	"net/http/httptest"
-	"os"
-	"path/filepath"
 	"testing"
 
-	"github.com/caseydavenport/cube-tools/pkg/commands"
 	"github.com/caseydavenport/cube-tools/pkg/storage"
-	"github.com/caseydavenport/cube-tools/pkg/storage/file"
+	"github.com/caseydavenport/cube-tools/pkg/storage/memory"
+	"github.com/caseydavenport/cube-tools/pkg/storage/router"
 	"github.com/caseydavenport/cube-tools/pkg/types"
 	"github.com/stretchr/testify/require"
 )
 
-func seedCube(t *testing.T, cube, draftID, player string) string {
-	t.Helper()
-	deckPath := filepath.Join("data", cube, draftID, draftID+"-"+player+".json")
-	require.NoError(t, os.MkdirAll(filepath.Dir(deckPath), 0o755))
-	d := types.NewDeck()
-	d.Player = player
-	d.Metadata.DraftID = draftID
-	d.Metadata.Path = deckPath
-	d.Mainboard = []types.Card{{Name: "Wrath of God"}}
-	require.NoError(t, d.Save(deckPath))
+// seededBackend returns a memory backend holding draft "d1" of "testcube" with
+// Alice (id 1) and Bob (id 2), who played each other in round 1.
+func seededBackend() *memory.Backend {
+	alice := &storage.Deck{}
+	alice.Player = "Alice"
+	alice.Metadata.DraftID = "d1"
+	alice.Matches = []types.Match{{Opponent: "Bob", OpponentID: 2, Round: 1, Wins: 2}}
+	bob := &storage.Deck{}
+	bob.Player = "Bob"
+	bob.Metadata.DraftID = "d1"
+	bob.Matches = []types.Match{{Opponent: "Alice", OpponentID: 1, Round: 1, Losses: 2}}
 
-	idx := commands.MainIndex{Drafts: []commands.Draft{{
-		DraftID: draftID,
-		Decks:   []commands.IndexedDeck{{Path: deckPath}},
-	}}}
-	b, _ := json.Marshal(idx)
-	require.NoError(t, os.WriteFile(filepath.Join("data", cube, "index.json"), b, 0o644))
-	return deckPath
+	b := memory.New()
+	b.Seed("testcube", alice, bob)
+	return b
 }
 
-func updateReq(t *testing.T, cube string, body UpdateDeckMetaRequest) *http.Request {
+// deckView decodes just the fields these tests check. The full deck's card
+// lists don't round-trip through types.Deck, so a minimal struct sidesteps that.
+type deckView struct {
+	ID             int    `json:"id"`
+	Player         string `json:"player"`
+	MacroArchetype string `json:"macro_archetype"`
+	Notes          string `json:"notes"`
+}
+
+type decksView struct {
+	Decks []deckView `json:"decks"`
+}
+
+func post(t *testing.T, h http.Handler, cube, path, body string) *httptest.ResponseRecorder {
 	t.Helper()
-	b, _ := json.Marshal(body)
-	req := httptest.NewRequest(http.MethodPost, "/api/"+cube+"/decks/update", bytes.NewReader(b))
+	req := httptest.NewRequest(http.MethodPost, "/api/"+cube+path, bytes.NewReader([]byte(body)))
 	req.SetPathValue("cube", cube)
-	return req
+	rec := httptest.NewRecorder()
+	h.ServeHTTP(rec, req)
+	return rec
 }
 
 func TestUpdateDeckHandler_OK(t *testing.T) {
-	cwd, _ := os.Getwd()
-	t.Cleanup(func() { _ = os.Chdir(cwd) })
-	require.NoError(t, os.Chdir(t.TempDir()))
-	deckPath := seedCube(t, "testcube", "d1", "p1")
-
-	store := file.NewStore(nil)
-	rec := httptest.NewRecorder()
-	UpdateDeckHandler(store).ServeHTTP(rec, updateReq(t, "testcube", UpdateDeckMetaRequest{
-		DraftID: "d1", ID: "p1", MacroArchetype: "control",
-		Labels: []string{"removal"}, Colors: []string{"W"},
-	}))
+	store := storage.NewStore(seededBackend())
+	body := `{"draft_id": "d1", "id": 1, "macro_archetype": "control", "labels": ["removal"], "notes": "nice"}`
+	rec := post(t, UpdateDeckHandler(store), "testcube", "/decks/update", body)
 	require.Equal(t, http.StatusOK, rec.Code)
 
-	// Decode just the edited field. The full deck's card lists are objects on
-	// the wire but strings on disk, so a minimal struct sidesteps the mismatch.
-	var got struct {
-		MacroArchetype string `json:"macro_archetype"`
-	}
+	var got deckView
 	require.NoError(t, json.Unmarshal(rec.Body.Bytes(), &got))
+	require.Equal(t, 1, got.ID)
 	require.Equal(t, "control", got.MacroArchetype)
+	require.Equal(t, "nice", got.Notes)
+}
 
-	reloaded, err := types.LoadDeck(deckPath)
-	require.NoError(t, err)
-	require.Equal(t, "control", reloaded.MacroArchetype)
+func TestUpdateDeckHandler_NotesAbsentVsEmpty(t *testing.T) {
+	store := storage.NewStore(seededBackend())
+	h := UpdateDeckHandler(store)
+	post(t, h, "testcube", "/decks/update", `{"draft_id": "d1", "id": 1, "notes": "keep me"}`)
+
+	rec := post(t, h, "testcube", "/decks/update", `{"draft_id": "d1", "id": 1, "labels": ["x"]}`)
+	var got deckView
+	require.NoError(t, json.Unmarshal(rec.Body.Bytes(), &got))
+	require.Equal(t, "keep me", got.Notes)
+
+	rec = post(t, h, "testcube", "/decks/update", `{"draft_id": "d1", "id": 1, "notes": ""}`)
+	var cleared deckView
+	require.NoError(t, json.Unmarshal(rec.Body.Bytes(), &cleared))
+	require.Equal(t, "", cleared.Notes)
 }
 
 func TestUpdateDeckHandler_NotFound(t *testing.T) {
-	cwd, _ := os.Getwd()
-	t.Cleanup(func() { _ = os.Chdir(cwd) })
-	require.NoError(t, os.Chdir(t.TempDir()))
-	seedCube(t, "testcube", "d1", "p1")
-
-	store := file.NewStore(nil)
-	rec := httptest.NewRecorder()
-	UpdateDeckHandler(store).ServeHTTP(rec, updateReq(t, "testcube", UpdateDeckMetaRequest{
-		DraftID: "d1", ID: "ghost",
-	}))
+	store := storage.NewStore(seededBackend())
+	rec := post(t, UpdateDeckHandler(store), "testcube", "/decks/update", `{"draft_id": "d1", "id": 9}`)
 	require.Equal(t, http.StatusNotFound, rec.Code)
 }
 
 func TestUpdateDeckHandler_BadRequest(t *testing.T) {
-	store := file.NewStore(nil)
-	rec := httptest.NewRecorder()
-	UpdateDeckHandler(store).ServeHTTP(rec, updateReq(t, "testcube", UpdateDeckMetaRequest{
-		ID: "p1", // missing DraftID
-	}))
-	require.Equal(t, http.StatusBadRequest, rec.Code)
+	store := storage.NewStore(seededBackend())
+	h := UpdateDeckHandler(store)
+	require.Equal(t, http.StatusBadRequest, post(t, h, "testcube", "/decks/update", `{"id": 1}`).Code)
+	require.Equal(t, http.StatusBadRequest, post(t, h, "testcube", "/decks/update", `{"draft_id": "d1"}`).Code)
+	require.Equal(t, http.StatusBadRequest, post(t, h, "testcube", "/decks/update", `{not json`).Code)
 }
 
-type fakeRecordSaver struct {
-	gotCube, gotDraft, gotDeck, gotPlayer string
-	gotMatches                            []types.Match
-	ret                                   []*storage.Deck
-	err                                   error
-}
-
-func (f *fakeRecordSaver) SaveDeckRecord(cube, draftID, deckID, player string, matches []types.Match) ([]*storage.Deck, error) {
-	f.gotCube, f.gotDraft, f.gotDeck, f.gotPlayer, f.gotMatches = cube, draftID, deckID, player, matches
-	return f.ret, f.err
-}
-
-func recordReq(t *testing.T, cube string, body UpdateDeckRecordRequest) *http.Request {
-	t.Helper()
-	b, _ := json.Marshal(body)
-	req := httptest.NewRequest(http.MethodPost, "/api/"+cube+"/decks/record", bytes.NewReader(b))
-	req.SetPathValue("cube", cube)
-	return req
-}
-
-func TestUpdateDeckRecordHandler_OK(t *testing.T) {
-	fake := &fakeRecordSaver{ret: []*storage.Deck{{ID: "casey"}, {ID: "Bob"}}}
-	rec := httptest.NewRecorder()
-	UpdateDeckRecordHandler(fake).ServeHTTP(rec, recordReq(t, "testcube", UpdateDeckRecordRequest{
-		DraftID: "d1", ID: "Alice", Player: "casey",
-		Matches: []types.Match{{Opponent: "Bob", Wins: 2, Losses: 1}},
-	}))
+func TestUpdateDeckRecordHandler_Rename(t *testing.T) {
+	store := storage.NewStore(seededBackend())
+	rec := post(t, UpdateDeckRecordHandler(store), "testcube", "/decks/record", `{"draft_id": "d1", "id": 1, "player": "casey"}`)
 	require.Equal(t, http.StatusOK, rec.Code)
 
-	var resp DecksResponse
+	var resp decksView
 	require.NoError(t, json.Unmarshal(rec.Body.Bytes(), &resp))
 	require.Len(t, resp.Decks, 2)
-	require.Equal(t, "d1", fake.gotDraft)
-	require.Equal(t, "Alice", fake.gotDeck)
-	require.Equal(t, "casey", fake.gotPlayer)
+	require.ElementsMatch(t, []int{1, 2}, []int{resp.Decks[0].ID, resp.Decks[1].ID})
+	for _, d := range resp.Decks {
+		if d.ID == 1 {
+			require.Equal(t, "casey", d.Player)
+		}
+	}
+}
+
+func TestUpdateDeckRecordHandler_NameTaken(t *testing.T) {
+	store := storage.NewStore(seededBackend())
+	rec := post(t, UpdateDeckRecordHandler(store), "testcube", "/decks/record", `{"draft_id": "d1", "id": 1, "player": "bob"}`)
+	require.Equal(t, http.StatusConflict, rec.Code)
 }
 
 func TestUpdateDeckRecordHandler_NotFound(t *testing.T) {
-	fake := &fakeRecordSaver{err: storage.ErrDeckNotFound}
-	rec := httptest.NewRecorder()
-	UpdateDeckRecordHandler(fake).ServeHTTP(rec, recordReq(t, "testcube", UpdateDeckRecordRequest{
-		DraftID: "d1", ID: "ghost",
-	}))
+	store := storage.NewStore(seededBackend())
+	rec := post(t, UpdateDeckRecordHandler(store), "testcube", "/decks/record", `{"draft_id": "d1", "id": 9}`)
 	require.Equal(t, http.StatusNotFound, rec.Code)
 }
 
 func TestUpdateDeckRecordHandler_BadRequest(t *testing.T) {
-	fake := &fakeRecordSaver{}
-	rec := httptest.NewRecorder()
-	UpdateDeckRecordHandler(fake).ServeHTTP(rec, recordReq(t, "testcube", UpdateDeckRecordRequest{
-		ID: "Alice", // missing DraftID
-	}))
-	require.Equal(t, http.StatusBadRequest, rec.Code)
+	store := storage.NewStore(seededBackend())
+	h := UpdateDeckRecordHandler(store)
+	require.Equal(t, http.StatusBadRequest, post(t, h, "testcube", "/decks/record", `{"id": 1}`).Code)
+	require.Equal(t, http.StatusBadRequest, post(t, h, "testcube", "/decks/record", `{"draft_id": "d1", "id": 0}`).Code)
+	require.Equal(t, http.StatusBadRequest, post(t, h, "testcube", "/decks/record", `{not json`).Code)
 }
 
-func TestUpdateDeckRecordHandler_MalformedJSON(t *testing.T) {
-	fake := &fakeRecordSaver{}
-	rec := httptest.NewRecorder()
-	req := httptest.NewRequest(http.MethodPost, "/api/testcube/decks/record", bytes.NewReader([]byte("{not json")))
-	req.SetPathValue("cube", "testcube")
-	UpdateDeckRecordHandler(fake).ServeHTTP(rec, req)
+func TestWritesToCubeCobraCubeAreBadRequest(t *testing.T) {
+	store := storage.NewStore(router.New(seededBackend(), nil))
+	rec := post(t, UpdateDeckHandler(store), "cc:polyversal", "/decks/update", `{"draft_id": "d1", "id": 1}`)
 	require.Equal(t, http.StatusBadRequest, rec.Code)
-}
-
-func TestUpdateDeckHandler_MalformedJSON(t *testing.T) {
-	store := file.NewStore(nil)
-	rec := httptest.NewRecorder()
-	req := httptest.NewRequest(http.MethodPost, "/api/testcube/decks/update", bytes.NewReader([]byte("{not json")))
-	req.SetPathValue("cube", "testcube")
-	UpdateDeckHandler(store).ServeHTTP(rec, req)
+	rec = post(t, UpdateDeckRecordHandler(store), "cc:polyversal", "/decks/record", `{"draft_id": "d1", "id": 1, "player": "x"}`)
 	require.Equal(t, http.StatusBadRequest, rec.Code)
 }

@@ -5,6 +5,7 @@
   "mainboard_file": "data/polyverse/2025-09-13_local_1/zephyr-mainboard.csv",
   "sideboard_file": "data/polyverse/2025-09-13_local_1/zephyr-sideboard.csv"
  },
+ "id": 7,
  "macro_archetype": "midrange",
  "labels": [
   "sacrifice",
@@ -16,6 +17,7 @@
  "matches": [
   {
    "opponent": "colton",
+   "opponent_id": 2,
    "round": 1,
    "wins": 0,
    "losses": 2,
@@ -34,6 +36,7 @@
   },
   {
    "opponent": "eric",
+   "opponent_id": 3,
    "round": 2,
    "wins": 2,
    "losses": 0,
@@ -52,6 +55,7 @@
   },
   {
    "opponent": "joe",
+   "opponent_id": 5,
    "round": 3,
    "wins": 2,
    "losses": 1,

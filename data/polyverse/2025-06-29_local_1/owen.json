@@ -4,6 +4,7 @@
   "draft_id": "2025-06-29_local_1",
   "combined_file": "data/polyverse/2025-06-29_local_1/owen.csv"
  },
+ "id": 6,
  "macro_archetype": "midrange",
  "labels": [
   "graveyard",
@@ -11,9 +12,11 @@
  ],
  "player": "owen",
  "date": "2025-06-29",
+ "notes": "This deck started out as a control deck, but had to pivot midway through as it was getting cut by the other control players.\n\nIt ended up in a graveyard centric midrange build, which was fairly resilient.\n\nIt made good use of:\n\n- Tarmogoyf: Did great in the games against me. I didn't really have an answer for it, though.\n- Inexorable Blob: Loved seeing this pop out a bunch of slimes. I don't see this card picked much but I think if it can get an attack in it is very good.\n- Toxic Deluge: Played great with the big toughness guys like Tarmogoyf. Allowed for breaking symmetry.\n- Tamiyo, Compleated Sage: Played great using the -X to pull back cheap things like Mishra's Bauble, and Eternal Witness.\n",
  "matches": [
   {
    "opponent": "casey",
+   "opponent_id": 2,
    "round": 2,
    "wins": 2,
    "losses": 0,
@@ -32,6 +35,7 @@
   },
   {
    "opponent": "mehdi",
+   "opponent_id": 5,
    "round": 1,
    "wins": 2,
    "losses": 0,
@@ -50,6 +54,7 @@
   },
   {
    "opponent": "tanner",
+   "opponent_id": 7,
    "round": 3,
    "wins": 0,
    "losses": 2,

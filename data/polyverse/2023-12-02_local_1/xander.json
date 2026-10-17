@@ -4,6 +4,7 @@
   "draft_id": "2023-12-02_local_1",
   "combined_file": "data/polyverse/2023-12-02_local_1/xander.txt"
  },
+ "id": 8,
  "macro_archetype": "control",
  "labels": [
   "flicker",
@@ -14,6 +15,7 @@
  "matches": [
   {
    "opponent": "cara",
+   "opponent_id": 1,
    "round": 3,
    "wins": 2,
    "losses": 0,
@@ -32,6 +34,7 @@
   },
   {
    "opponent": "jen",
+   "opponent_id": 6,
    "round": 2,
    "wins": 2,
    "losses": 0,
@@ -50,6 +53,7 @@
   },
   {
    "opponent": "paul",
+   "opponent_id": 7,
    "round": 1,
    "wins": 2,
    "losses": 1,

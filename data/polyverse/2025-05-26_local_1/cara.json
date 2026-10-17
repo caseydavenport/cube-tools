@@ -4,6 +4,7 @@
   "draft_id": "2025-05-26_local_1",
   "combined_file": "data/polyverse/2025-05-26_local_1/cara.csv"
  },
+ "id": 1,
  "macro_archetype": "aggro",
  "labels": [],
  "player": "cara",
@@ -11,6 +12,7 @@
  "matches": [
   {
    "opponent": "james",
+   "opponent_id": 5,
    "round": 1,
    "wins": 1,
    "losses": 0,
@@ -25,6 +27,7 @@
   },
   {
    "opponent": "xander",
+   "opponent_id": 7,
    "round": 2,
    "wins": 0,
    "losses": 2,

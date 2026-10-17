@@ -4,6 +4,7 @@
   "draft_id": "2024-05-14_local_1",
   "combined_file": "data/polyverse/2024-05-14_local_1/james.txt"
  },
+ "id": 5,
  "macro_archetype": "control",
  "labels": [
   "spells",
@@ -14,6 +15,7 @@
  "matches": [
   {
    "opponent": "jen",
+   "opponent_id": 6,
    "round": 3,
    "wins": 0,
    "losses": 2,

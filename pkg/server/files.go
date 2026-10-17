@@ -85,30 +85,3 @@ func DraftLogHandler(store *storage.Store) http.Handler {
 		_, _ = rw.Write(raw)
 	})
 }
-
-// NotesHandler serves a deck's notes via ?draft_id=...&id=..., writing an
-// empty body with 200 when none have been saved yet, matching the previous
-// client behavior that tolerated missing notes.
-func NotesHandler(store *storage.Store) http.Handler {
-	return http.HandlerFunc(func(rw http.ResponseWriter, r *http.Request) {
-		cube := CubeFromRequest(r)
-		draftID := r.URL.Query().Get("draft_id")
-		id := r.URL.Query().Get("id")
-		if cube == "" || draftID == "" || id == "" {
-			http.Error(rw, "Missing required field", http.StatusBadRequest)
-			return
-		}
-		content, err := store.GetNotes(cube, draftID, id)
-		if err != nil {
-			if errors.Is(err, storage.ErrUnsupported) {
-				http.Error(rw, "Not supported", http.StatusNotImplemented)
-				return
-			}
-			logrus.WithError(err).WithFields(logrus.Fields{"cube": cube, "draft_id": draftID, "id": id}).Error("Failed to load notes")
-			http.Error(rw, "Internal server error", http.StatusInternalServerError)
-			return
-		}
-		rw.Header().Set("Content-Type", "text/markdown; charset=utf-8")
-		_, _ = rw.Write([]byte(content))
-	})
-}

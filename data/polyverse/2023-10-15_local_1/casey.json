@@ -4,6 +4,7 @@
   "draft_id": "2023-10-15_local_1",
   "combined_file": "data/polyverse/2023-10-15_local_1/casey.txt"
  },
+ "id": 1,
  "macro_archetype": "control",
  "labels": [
   "graveyard"
@@ -13,6 +14,7 @@
  "matches": [
   {
    "opponent": "dom",
+   "opponent_id": 2,
    "round": 1,
    "wins": 2,
    "losses": 1,

@@ -4,6 +4,7 @@
   "draft_id": "2023-09-17_local_1",
   "combined_file": "data/polyverse/2023-09-17_local_1/jen.txt"
  },
+ "id": 4,
  "macro_archetype": "midrange",
  "labels": [
   "+1/+1",
@@ -15,6 +16,7 @@
  "matches": [
   {
    "opponent": "casey",
+   "opponent_id": 1,
    "round": 2,
    "wins": 0,
    "losses": 1,
@@ -29,6 +31,7 @@
   },
   {
    "opponent": "dom",
+   "opponent_id": 2,
    "round": 3,
    "wins": 1,
    "losses": 0,
@@ -43,6 +46,7 @@
   },
   {
    "opponent": "mattd",
+   "opponent_id": 5,
    "round": 1,
    "wins": 0,
    "losses": 1,

@@ -4,6 +4,7 @@
   "draft_id": "2024-01-07_local_1",
   "combined_file": "data/polyverse/2024-01-07_local_1/paul.txt"
  },
+ "id": 7,
  "macro_archetype": "aggro",
  "labels": [],
  "player": "paul",
@@ -11,6 +12,7 @@
  "matches": [
   {
    "opponent": "casey",
+   "opponent_id": 2,
    "round": 5,
    "wins": 2,
    "losses": 1,
@@ -33,6 +35,7 @@
   },
   {
    "opponent": "greg",
+   "opponent_id": 4,
    "round": 4,
    "wins": 2,
    "losses": 0,
@@ -51,6 +54,7 @@
   },
   {
    "opponent": "james",
+   "opponent_id": 5,
    "round": 2,
    "wins": 1,
    "losses": 2,

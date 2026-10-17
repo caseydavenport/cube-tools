@@ -8,6 +8,7 @@ import (
 	"strings"
 
 	"github.com/caseydavenport/cube-tools/pkg/cubes"
+	"github.com/caseydavenport/cube-tools/pkg/drafts"
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 )
@@ -130,32 +131,12 @@ func cubeCobraID(cube string) string {
 
 // decksInDraft returns a []Path pointing to all the decks in the given directory.
 func decksInDraft(directory string) []IndexedDeck {
-	// Get a list of all JSON files in the directory
-	jsonFiles, err := filepath.Glob(filepath.Join(directory, "*.json"))
+	files, err := drafts.DeckFiles(directory)
 	if err != nil {
-		logrus.WithError(err).Fatal("Failed to get JSON files")
+		logrus.WithError(err).Fatal("Failed to get deck files")
 	}
-
-	// Create a slice to store the maps
 	var decks []IndexedDeck
-
-	// Iterate over the JSON files and create maps
-	for _, file := range jsonFiles {
-		// Get only the base name of the file
-		fileName := filepath.Base(file)
-
-		// Skip dotfiles. Go's glob (unlike a shell) matches leading dots, so
-		// *.json picks up the OCR import's .ocr-session.json working state.
-		if strings.HasPrefix(fileName, ".") {
-			continue
-		}
-
-		// Skip non-deck files in the draft directory.
-		switch fileName {
-		case "index.json", "metadata.json", "cube.json", "cube-rules.json",
-			"cube-snapshot.json", "draft-log.json":
-			continue
-		}
+	for _, file := range files {
 		decks = append(decks, IndexedDeck{Path: file})
 	}
 	return decks

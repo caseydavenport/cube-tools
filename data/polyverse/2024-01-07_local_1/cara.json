@@ -4,6 +4,7 @@
   "draft_id": "2024-01-07_local_1",
   "combined_file": "data/polyverse/2024-01-07_local_1/cara.txt"
  },
+ "id": 1,
  "macro_archetype": "midrange",
  "labels": [
   "token",
@@ -15,6 +16,7 @@
  "matches": [
   {
    "opponent": "casey",
+   "opponent_id": 2,
    "round": 3,
    "wins": 2,
    "losses": 1,
@@ -37,6 +39,7 @@
   },
   {
    "opponent": "dom",
+   "opponent_id": 3,
    "round": 4,
    "wins": 2,
    "losses": 1,
@@ -59,6 +62,7 @@
   },
   {
    "opponent": "james",
+   "opponent_id": 5,
    "round": 1,
    "wins": 2,
    "losses": 1,

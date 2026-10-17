@@ -4,15 +4,18 @@
   "draft_id": "2025-08-17_local_1",
   "combined_file": "data/polyverse/2025-08-17_local_1/maxi.csv"
  },
+ "id": 6,
  "macro_archetype": "midrange",
  "labels": [
   "lands"
  ],
  "player": "maxi",
  "date": "2025-08-17",
+ "notes": "A few notes:\n\n- Still plenty of ways to tutor for Field of the Dead even without Crop Rotation. So happy I cut that - Traverse is just so much cooler.\n- This deck ran lots of removal to help get it to the late game, which was a cool strategy. I had 4-5 threats neutralized in one game I played.\n- [[Touch the Spirit Realm]] did some cool things in my game - e.g., flickering impactful tokens for instant-speed interaction.\n- [[Kiora, The Rising Tide]] is very cool, and quite achievable.\n\nMaxi noted that activating the man-lands in this deck was often times painful / too costly to go on the offensive, and better left as defensive options.\n",
  "matches": [
   {
    "opponent": "ben",
+   "opponent_id": 1,
    "round": 2,
    "wins": 0,
    "losses": 2,
@@ -31,6 +34,7 @@
   },
   {
    "opponent": "casey",
+   "opponent_id": 3,
    "round": 1,
    "wins": 2,
    "losses": 0,
@@ -49,6 +53,7 @@
   },
   {
    "opponent": "wilson",
+   "opponent_id": 8,
    "round": 4,
    "wins": 2,
    "losses": 1,

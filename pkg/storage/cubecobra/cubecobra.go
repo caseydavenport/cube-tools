@@ -112,10 +112,10 @@ func (b *Backend) RawDecks(cube string) ([]*storage.Deck, error) {
 	var decks []*storage.Deck
 	for _, rec := range data.Records {
 		date := time.UnixMilli(rec.Date).UTC().Format("2006-01-02")
-		for _, p := range rec.Players {
+		for i, p := range rec.Players {
 			d := &storage.Deck{}
 			d.Player = p.Name
-			d.ID = p.Name
+			d.ID = i + 1
 			d.Date = date
 			d.Metadata.DraftID = rec.ID
 			d.DraftSize = len(rec.Players)
@@ -201,8 +201,8 @@ func (b *Backend) Index(cube string) (*storage.CubeIndex, error) {
 			Date:    time.UnixMilli(rec.Date).UTC().Format("2006-01-02"),
 			HasLog:  false,
 		}
-		for _, p := range rec.Players {
-			draft.Decks = append(draft.Decks, storage.IndexedDeck{ID: p.Name})
+		for i := range rec.Players {
+			draft.Decks = append(draft.Decks, storage.IndexedDeck{ID: i + 1})
 		}
 		out.Drafts = append(out.Drafts, draft)
 	}

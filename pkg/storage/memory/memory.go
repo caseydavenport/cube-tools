@@ -2,11 +2,11 @@ package memory
 
 import (
 	"encoding/json"
+	"slices"
 	"sync"
 
 	"github.com/caseydavenport/cube-tools/pkg/design"
 	"github.com/caseydavenport/cube-tools/pkg/storage"
-	"github.com/caseydavenport/cube-tools/pkg/types"
 )
 
 // Backend is an in-memory deck store for tests. It holds decks per cube and
@@ -14,7 +14,6 @@ import (
 type Backend struct {
 	mu        sync.Mutex
 	decks     map[string][]*storage.Deck
-	notes     map[string]string
 	rules     map[string]*design.DesignMapConfig
 	index     map[string]*storage.CubeIndex
 	draftLogs map[string]json.RawMessage
@@ -24,16 +23,10 @@ type Backend struct {
 func New() *Backend {
 	return &Backend{
 		decks:     map[string][]*storage.Deck{},
-		notes:     map[string]string{},
 		rules:     map[string]*design.DesignMapConfig{},
 		index:     map[string]*storage.CubeIndex{},
 		draftLogs: map[string]json.RawMessage{},
 	}
-}
-
-// notesKey builds the map key for a deck's notes.
-func notesKey(cube, draftID, deckID string) string {
-	return cube + "\x00" + draftID + "\x00" + deckID
 }
 
 // draftLogKey builds the map key for a draft's log.
@@ -50,15 +43,23 @@ func NewStore(seed func(*Backend)) *storage.Store {
 	return storage.NewStore(b)
 }
 
-// Seed adds decks for a cube. Call before wrapping in a Store. Defaults ID to
-// Player when unset, matching RawDecks, since WriteDeckMeta matches by ID
-// against these stored decks directly.
+// Seed adds decks for a cube. Call before wrapping in a Store. A deck with no
+// ID is numbered after the highest ID already in its draft, matching how
+// writers number new decks.
 func (b *Backend) Seed(cube string, decks ...*storage.Deck) {
 	b.mu.Lock()
 	defer b.mu.Unlock()
+	highestIDByDraft := map[string]int{}
+	for _, d := range b.decks[cube] {
+		highestIDByDraft[d.Metadata.DraftID] = max(highestIDByDraft[d.Metadata.DraftID], d.ID)
+	}
 	for _, d := range decks {
-		if d.ID == "" {
-			d.ID = d.Player
+		highestIDByDraft[d.Metadata.DraftID] = max(highestIDByDraft[d.Metadata.DraftID], d.ID)
+	}
+	for _, d := range decks {
+		if d.ID == 0 {
+			highestIDByDraft[d.Metadata.DraftID]++
+			d.ID = highestIDByDraft[d.Metadata.DraftID]
 		}
 	}
 	b.decks[cube] = append(b.decks[cube], decks...)
@@ -72,85 +73,55 @@ func (b *Backend) RawDecks(cube string) ([]*storage.Deck, error) {
 	src := b.decks[cube]
 	out := make([]*storage.Deck, len(src))
 	for i, d := range src {
-		cp := *d
-		if cp.ID == "" {
-			cp.ID = cp.Player
-		}
-		out[i] = &cp
+		out[i] = copyDeck(d)
 	}
 	return out, nil
 }
 
-// WriteDeckMeta updates the annotation on the stored deck in place.
-func (b *Backend) WriteDeckMeta(cube string, w storage.DeckMetaWrite) (*storage.Deck, error) {
+// LoadDraft returns copies of the draft's decks, or ErrDeckNotFound if the
+// cube has no deck in that draft.
+func (b *Backend) LoadDraft(cube, draftID string) ([]*storage.Deck, error) {
 	b.mu.Lock()
 	defer b.mu.Unlock()
+	var out []*storage.Deck
 	for _, d := range b.decks[cube] {
-		if d.ID == w.DeckID && d.Metadata.DraftID == w.DraftID {
-			d.MacroArchetype = w.MacroArchetype
-			d.Labels = w.Labels
-			d.Colors = w.Colors
-			if w.Player != "" {
-				d.Player = w.Player
-			}
-			if w.Matches != nil {
-				d.Matches = w.Matches
-			}
-			cp := *d
-			return &cp, nil
+		if d.Metadata.DraftID == draftID {
+			out = append(out, copyDeck(d))
 		}
 	}
-	return nil, storage.ErrDeckNotFound
-}
-
-// SaveDeckRecord reconciles the draft's in-memory decks in place via
-// ReconcileRecord and returns copies of the changed decks with their ids set.
-func (b *Backend) SaveDeckRecord(cube, draftID, deckID, player string, matches []types.Match) ([]*storage.Deck, error) {
-	b.mu.Lock()
-	defer b.mu.Unlock()
-
-	var tds []*types.Deck
-	byTD := map[*types.Deck]*storage.Deck{}
-	targetOldName := ""
-	for _, d := range b.decks[cube] {
-		if d.Metadata.DraftID != draftID {
-			continue
-		}
-		tds = append(tds, &d.Deck)
-		byTD[&d.Deck] = d
-		if d.ID == deckID {
-			targetOldName = d.Player
-		}
-	}
-	if targetOldName == "" {
+	if len(out) == 0 {
 		return nil, storage.ErrDeckNotFound
 	}
-
-	changed := types.ReconcileRecord(tds, targetOldName, player, matches)
-	var out []*storage.Deck
-	for _, td := range changed {
-		sd := byTD[td]
-		sd.ID = sd.Player
-		cp := *sd
-		out = append(out, &cp)
-	}
 	return out, nil
 }
 
-// GetNotes returns the free-form notes saved against a deck, or "" if none
-// have been saved yet.
-func (b *Backend) GetNotes(cube, draftID, deckID string) (string, error) {
+// SaveDecks replaces the stored decks with the given ones, matched by ID
+// within draftID.
+func (b *Backend) SaveDecks(cube, draftID string, decks []*storage.Deck) error {
 	b.mu.Lock()
 	defer b.mu.Unlock()
-	return b.notes[notesKey(cube, draftID, deckID)], nil
+	for _, d := range decks {
+		i := slices.IndexFunc(b.decks[cube], func(s *storage.Deck) bool {
+			return s.Metadata.DraftID == draftID && s.ID == d.ID
+		})
+		if i < 0 {
+			return storage.ErrDeckNotFound
+		}
+		b.decks[cube][i] = copyDeck(d)
+	}
+	return nil
 }
 
-// PutNotes saves free-form notes against a deck.
-func (b *Backend) PutNotes(cube, draftID, deckID, content string) error {
-	b.mu.Lock()
-	defer b.mu.Unlock()
-	b.notes[notesKey(cube, draftID, deckID)] = content
-	return nil
+// copyDeck returns a copy of d whose matches and games can be changed without
+// touching d's, since reconciling renames references inside both. Cards are
+// shared; nothing edits them in place.
+func copyDeck(d *storage.Deck) *storage.Deck {
+	cp := *d
+	cp.Matches = slices.Clone(d.Matches)
+	for i := range cp.Matches {
+		cp.Matches[i].Games = slices.Clone(cp.Matches[i].Games)
+	}
+	return &cp
 }
 
 // GetRules returns a cube's design-map rules.
@@ -192,13 +163,6 @@ func (b *Backend) GetDraftLog(cube, draftID string) (json.RawMessage, error) {
 		return nil, storage.ErrDeckNotFound
 	}
 	return log, nil
-}
-
-// SeedNotes preloads notes for a deck. Call before wrapping in a Store.
-func (b *Backend) SeedNotes(cube, draftID, deckID, content string) {
-	b.mu.Lock()
-	defer b.mu.Unlock()
-	b.notes[notesKey(cube, draftID, deckID)] = content
 }
 
 // SeedRules preloads a cube's design-map rules. Call before wrapping in a Store.

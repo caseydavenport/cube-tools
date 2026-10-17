@@ -4,6 +4,7 @@
   "draft_id": "2024-03-31_local_1",
   "combined_file": "data/polyverse/2024-03-31_local_1/jen.txt"
  },
+ "id": 6,
  "macro_archetype": "aggro",
  "labels": [
   "token",
@@ -14,6 +15,7 @@
  "matches": [
   {
    "opponent": "cara",
+   "opponent_id": 1,
    "round": 2,
    "wins": 2,
    "losses": 1,
@@ -36,6 +38,7 @@
   },
   {
    "opponent": "paul",
+   "opponent_id": 7,
    "round": 3,
    "wins": 1,
    "losses": 2,
@@ -58,6 +61,7 @@
   },
   {
    "opponent": "xander",
+   "opponent_id": 8,
    "round": 1,
    "wins": 0,
    "losses": 2,

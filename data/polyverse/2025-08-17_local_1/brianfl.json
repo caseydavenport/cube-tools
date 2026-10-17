@@ -4,6 +4,7 @@
   "draft_id": "2025-08-17_local_1",
   "combined_file": "data/polyverse/2025-08-17_local_1/brianfl.csv"
  },
+ "id": 2,
  "macro_archetype": "control",
  "labels": [
   "domain",
@@ -11,9 +12,11 @@
  ],
  "player": "brianfl",
  "date": "2025-08-17",
+ "notes": "Brian's deck actually has some bangers in it, but I think it was probably just a bit too greedy to see success. I worry that the domain cards will push folks beyond what is tactically sound...\n\nEither way, I am somewhat glad to see that a deck with [[Primevil Titan]], [[Dig Through Time]], [[Wrenn and Six]], [[Sylvan Library]], [[Esika's Chariot]] (i.e., a smattering of very good cards) isn't a shoe-in to win.\n\nI did see [[Woodland Wanderer]] get some play, and it looked cool! So a promising start.\n",
  "matches": [
   {
    "opponent": "jamesdeyja",
+   "opponent_id": 4,
    "round": 1,
    "wins": 0,
    "losses": 2,
@@ -32,6 +35,7 @@
   },
   {
    "opponent": "kevin",
+   "opponent_id": 5,
    "round": 2,
    "wins": 0,
    "losses": 2,
@@ -50,6 +54,7 @@
   },
   {
    "opponent": "michael",
+   "opponent_id": 7,
    "round": 4,
    "wins": 1,
    "losses": 2,

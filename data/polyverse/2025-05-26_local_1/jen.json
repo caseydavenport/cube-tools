@@ -4,6 +4,7 @@
   "draft_id": "2025-05-26_local_1",
   "combined_file": "data/polyverse/2025-05-26_local_1/jen.csv"
  },
+ "id": 6,
  "macro_archetype": "midrange",
  "labels": [
   "+1/+1",
@@ -16,6 +17,7 @@
  "matches": [
   {
    "opponent": "greg",
+   "opponent_id": 4,
    "round": 1,
    "wins": 0,
    "losses": 2,
@@ -34,6 +36,7 @@
   },
   {
    "opponent": "james",
+   "opponent_id": 5,
    "round": 2,
    "wins": 2,
    "losses": 0,

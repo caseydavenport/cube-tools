@@ -4,13 +4,16 @@
   "draft_id": "2024-11-09_local_1",
   "combined_file": "data/polyverse/2024-11-09_local_1/dom.txt"
  },
+ "id": 3,
  "macro_archetype": "midrange",
  "labels": [],
  "player": "dom",
  "date": "2024-11-09",
+ "notes": "This deck came together as a bit of a pile. The main problem with this deck was its lack of things to do in the early game. It was often very far behind by the time it managed to cast its 5 and 6 drops.\n\nFirst timers:\n\n- [[Phelia, Exuberand Shepherd]] only came down once that I saw, and played exactly like how I expected. Pretty strong, and the lack of evasion meant that it was usually for nullifying a blocker.\n- [[Thoughtseize]] is good stuff.\n\nNoteworthy:\n\n- [[Gruff Triplets]] is still strong, but this deck showed that casting it on turn 6 with no other support isn't a winning strategy.\n- [[Goldmeadow Harrier]] saw some play, which was nice. I think this card is often undervalued, and played pretty well here.\n- [[Puppeteer Clique]] also saw some good action, which was nice. I have been on the verge of cutting it due to underperformance, but this gives it a bit more runway for now.\n- [[Beast Within]] has gotten a lot worse. A 3/3 is a fairly threatening body nowadays. There are still times where you'd prefer a 3/3 with no abilities, but for 3 mana it never really feels good. This one will probably be cut.\n\n",
  "matches": [
   {
    "opponent": "casey",
+   "opponent_id": 2,
    "round": 1,
    "wins": 1,
    "losses": 2,
@@ -33,6 +36,7 @@
   },
   {
    "opponent": "greg",
+   "opponent_id": 4,
    "round": 3,
    "wins": 0,
    "losses": 2,
@@ -51,6 +55,7 @@
   },
   {
    "opponent": "mattd",
+   "opponent_id": 6,
    "round": 2,
    "wins": 0,
    "losses": 2,

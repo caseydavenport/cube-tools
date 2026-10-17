@@ -5,6 +5,7 @@
   "mainboard_file": "data/polyverse/2025-10-25_local_1/isaiah-mainboard.txt",
   "sideboard_file": "data/polyverse/2025-10-25_local_1/isaiah-sideboard.txt"
  },
+ "id": 3,
  "macro_archetype": "midrange",
  "labels": [
   "ritual",
@@ -15,6 +16,7 @@
  "matches": [
   {
    "opponent": "perry",
+   "opponent_id": 6,
    "round": 1,
    "wins": 1,
    "losses": 2,
@@ -37,6 +39,7 @@
   },
   {
    "opponent": "robert",
+   "opponent_id": 7,
    "round": 2,
    "wins": 2,
    "losses": 1,
@@ -59,6 +62,7 @@
   },
   {
    "opponent": "taylor",
+   "opponent_id": 8,
    "round": 3,
    "wins": 2,
    "losses": 0,

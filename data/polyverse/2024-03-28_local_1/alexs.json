@@ -4,6 +4,7 @@
   "draft_id": "2024-03-28_local_1",
   "combined_file": "data/polyverse/2024-03-28_local_1/alexs.txt"
  },
+ "id": 1,
  "macro_archetype": "aggro",
  "labels": [],
  "player": "alexs",
@@ -11,6 +12,7 @@
  "matches": [
   {
    "opponent": "ken",
+   "opponent_id": 4,
    "round": 2,
    "wins": 0,
    "losses": 2,
@@ -29,6 +31,7 @@
   },
   {
    "opponent": "matthewbk",
+   "opponent_id": 5,
    "round": 1,
    "wins": 0,
    "losses": 2,
@@ -47,6 +50,7 @@
   },
   {
    "opponent": "parker",
+   "opponent_id": 6,
    "round": 4,
    "wins": 0,
    "losses": 2,

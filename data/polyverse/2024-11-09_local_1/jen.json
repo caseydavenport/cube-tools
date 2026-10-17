@@ -4,15 +4,18 @@
   "draft_id": "2024-11-09_local_1",
   "combined_file": "data/polyverse/2024-11-09_local_1/jen.txt"
  },
+ "id": 5,
  "macro_archetype": "midrange",
  "labels": [
   "spells"
  ],
  "player": "jen",
  "date": "2024-11-09",
+ "notes": "Pulled into this deck by [[Irencrag Pyromancer]].\n\nThis deck played well but often found itself in the unlucky position of having only one-half of its synergy pieces. i.e., a bunch of [[Opt]] with no [[Faerie Vandal]]'s and vice-versa.\n\nFirst timers:\n\n- [[Irencrag Pyromancer]]\n- [[Triton Wavebreaker]]\n\nNoteworthy:\n\n- [[Brineborn Cutthroat]] is a card that hasn't shown up much in recent times but actually did some work this time around. Unfortunate it has no evasion, as it was able to just be chump blocked indefinitely.\n\n",
  "matches": [
   {
    "opponent": "cara",
+   "opponent_id": 1,
    "round": 2,
    "wins": 0,
    "losses": 2,
@@ -31,6 +34,7 @@
   },
   {
    "opponent": "xander",
+   "opponent_id": 8,
    "round": 3,
    "wins": 1,
    "losses": 2,

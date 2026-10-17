@@ -5,6 +5,7 @@
   "mainboard_file": "data/polyverse/2026-01-03_local_1/wanqi-mainboard.txt",
   "sideboard_file": "data/polyverse/2026-01-03_local_1/wanqi-sideboard.txt"
  },
+ "id": 8,
  "macro_archetype": "aggro",
  "labels": [
   "flicker",
@@ -15,6 +16,7 @@
  "matches": [
   {
    "opponent": "colton",
+   "opponent_id": 2,
    "round": 1,
    "wins": 1,
    "losses": 2,

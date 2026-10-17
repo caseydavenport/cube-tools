@@ -4,6 +4,7 @@
   "draft_id": "2024-01-07_local_1",
   "combined_file": "data/polyverse/2024-01-07_local_1/dom.txt"
  },
+ "id": 3,
  "macro_archetype": "control",
  "labels": [
   "discard"
@@ -13,6 +14,7 @@
  "matches": [
   {
    "opponent": "cara",
+   "opponent_id": 1,
    "round": 4,
    "wins": 1,
    "losses": 2,
@@ -35,6 +37,7 @@
   },
   {
    "opponent": "casey",
+   "opponent_id": 2,
    "round": 1,
    "wins": 1,
    "losses": 0,
@@ -49,6 +52,7 @@
   },
   {
    "opponent": "greg",
+   "opponent_id": 4,
    "round": 2,
    "wins": 1,
    "losses": 0,
@@ -63,6 +67,7 @@
   },
   {
    "opponent": "jen",
+   "opponent_id": 6,
    "round": 3,
    "wins": 2,
    "losses": 0,
@@ -81,6 +86,7 @@
   },
   {
    "opponent": "xander",
+   "opponent_id": 8,
    "round": 5,
    "wins": 0,
    "losses": 2,

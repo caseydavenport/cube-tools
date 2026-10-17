@@ -4,6 +4,7 @@
   "draft_id": "2023-07-16_local_1",
   "combined_file": "data/polyverse/2023-07-16_local_1/greg.txt"
  },
+ "id": 3,
  "macro_archetype": "midrange",
  "labels": [
   "sacrifice"
@@ -13,6 +14,7 @@
  "matches": [
   {
    "opponent": "casey",
+   "opponent_id": 1,
    "round": 4,
    "wins": 0,
    "losses": 1,
@@ -27,6 +29,7 @@
   },
   {
    "opponent": "james",
+   "opponent_id": 4,
    "round": 3,
    "wins": 0,
    "losses": 1,
@@ -41,6 +44,7 @@
   },
   {
    "opponent": "jen",
+   "opponent_id": 5,
    "round": 5,
    "wins": 0,
    "losses": 1,

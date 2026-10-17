@@ -4,6 +4,7 @@
   "draft_id": "2024-03-28_local_1",
   "combined_file": "data/polyverse/2024-03-28_local_1/parker.txt"
  },
+ "id": 6,
  "macro_archetype": "midrange",
  "labels": [
   "lands"
@@ -13,6 +14,7 @@
  "matches": [
   {
    "opponent": "alexs",
+   "opponent_id": 1,
    "round": 4,
    "wins": 2,
    "losses": 0,
@@ -31,6 +33,7 @@
   },
   {
    "opponent": "casey",
+   "opponent_id": 2,
    "round": 3,
    "wins": 1,
    "losses": 2,
@@ -53,6 +56,7 @@
   },
   {
    "opponent": "jan",
+   "opponent_id": 3,
    "round": 1,
    "wins": 2,
    "losses": 0,

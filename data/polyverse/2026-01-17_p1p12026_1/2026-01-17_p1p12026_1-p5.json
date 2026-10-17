@@ -4,6 +4,7 @@
   "draft_id": "2026-01-17_p1p12026_1",
   "combined_file": "data/polyverse/2026-01-17_p1p12026_1/20260117-120a.txt"
  },
+ "id": 5,
  "macro_archetype": "aggro",
  "labels": [],
  "player": "2026-01-17_p1p12026_1-p5",
@@ -11,6 +12,7 @@
  "matches": [
   {
    "opponent": "2026-01-17_p1p12026_1-p1",
+   "opponent_id": 1,
    "round": 1,
    "wins": 2,
    "losses": 0,
@@ -19,6 +21,7 @@
   },
   {
    "opponent": "2026-01-17_p1p12026_1-p6",
+   "opponent_id": 6,
    "round": 2,
    "wins": 0,
    "losses": 2,
@@ -27,6 +30,7 @@
   },
   {
    "opponent": "2026-01-17_p1p12026_1-p7",
+   "opponent_id": 7,
    "round": 3,
    "wins": 1,
    "losses": 2,

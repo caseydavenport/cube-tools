@@ -2,6 +2,7 @@ package storage
 
 import (
 	"encoding/json"
+	"strings"
 	"sync"
 	"time"
 
@@ -59,87 +60,120 @@ func (s *Store) cacheForLocked(cube string) (*cubeCache, error) {
 	Enrich(loaded)
 	c := &cubeCache{decks: loaded, lookup: map[key]*Deck{}, loadedAt: time.Now()}
 	for _, d := range loaded {
-		c.lookup[key{id: d.ID, draft: d.Metadata.DraftID}] = d
+		c.lookup[key{draft: d.Metadata.DraftID, id: d.ID}] = d
 	}
 	s.caches[cube] = c
 	return c, nil
 }
 
-// UpdateDeckMeta writes the annotation via the backend (if it supports writes),
-// invalidates the cube's cache, and returns the freshly enriched deck.
+// UpdateDeckMeta applies an annotation write to one deck, saves it,
+// invalidates the cube's cache, and returns the freshly enriched deck. It
+// returns ErrUnsupported if the backend can't write and ErrDeckNotFound if the
+// draft has no deck with w.DeckID.
 func (s *Store) UpdateDeckMeta(cube string, w DeckMetaWrite) (*Deck, error) {
-	b, ok := s.backend.(DeckMetaBackend)
+	backend, ok := s.backend.(DraftBackend)
 	if !ok {
 		return nil, ErrUnsupported
 	}
 	s.Lock()
 	defer s.Unlock()
-	if _, err := b.WriteDeckMeta(cube, w); err != nil {
-		return nil, err
-	}
-	delete(s.caches, cube)
-	c, err := s.cacheForLocked(cube)
+	decks, err := backend.LoadDraft(cube, w.DraftID)
 	if err != nil {
 		return nil, err
 	}
-	updated, ok := c.lookup[key{id: w.DeckID, draft: w.DraftID}]
-	if !ok && w.Player != "" {
-		// Some backends (e.g. the file backend) derive a deck's ID from its
-		// player name, so a rename moves it under a new key.
-		updated, ok = c.lookup[key{id: w.Player, draft: w.DraftID}]
-	}
-	if !ok {
+	target := findDeck(decks, w.DeckID)
+	if target == nil {
 		return nil, ErrDeckNotFound
 	}
-	return updated, nil
+	target.MacroArchetype = w.MacroArchetype
+	target.Labels = w.Labels
+	target.Colors = w.Colors
+	if w.Notes != nil {
+		target.Notes = *w.Notes
+	}
+	if err := backend.SaveDecks(cube, w.DraftID, []*Deck{target}); err != nil {
+		return nil, err
+	}
+	changed, err := s.reloadLocked(cube, w.DraftID, []*Deck{target})
+	if err != nil {
+		return nil, err
+	}
+	return changed[0], nil
 }
 
-// SaveDeckRecord writes a deck's player name and record and reconciles the
-// rest of the draft (opponent mirrors and name references) via the backend,
-// then invalidates the cube cache and returns every changed deck freshly
-// enriched. It returns ErrUnsupported if the backend cannot reconcile.
-func (s *Store) SaveDeckRecord(cube, draftID, deckID, player string, matches []types.Match) ([]*Deck, error) {
-	b, ok := s.backend.(DraftRecordBackend)
+// SaveDeckRecord applies a record edit and reconciles the rest of the draft:
+// references to a renamed player follow the new name, and the deck's per-round
+// results are mirrored onto its opponents. It saves every changed deck,
+// invalidates the cube's cache, and returns them freshly enriched. It returns
+// ErrUnsupported if the backend can't write, ErrDeckNotFound if the draft has
+// no deck with e.DeckID, and ErrPlayerExists if the new name (compared without
+// case) belongs to another deck in the draft.
+func (s *Store) SaveDeckRecord(cube string, e RecordEdit) ([]*Deck, error) {
+	backend, ok := s.backend.(DraftBackend)
 	if !ok {
 		return nil, ErrUnsupported
 	}
 	s.Lock()
 	defer s.Unlock()
-	changed, err := b.SaveDeckRecord(cube, draftID, deckID, player, matches)
+	decks, err := backend.LoadDraft(cube, e.DraftID)
 	if err != nil {
 		return nil, err
 	}
+	target := findDeck(decks, e.DeckID)
+	if target == nil {
+		return nil, ErrDeckNotFound
+	}
+	if e.Player != "" {
+		for _, d := range decks {
+			if d != target && strings.EqualFold(d.Player, e.Player) {
+				return nil, ErrPlayerExists
+			}
+		}
+	}
+
+	tds := make([]*types.Deck, len(decks))
+	byTD := make(map[*types.Deck]*Deck, len(decks))
+	for i, d := range decks {
+		tds[i] = &d.Deck
+		byTD[&d.Deck] = d
+	}
+	var changed []*Deck
+	for _, td := range types.ReconcileRecord(tds, e.DeckID, e.Player, e.Matches) {
+		changed = append(changed, byTD[td])
+	}
+	if err := backend.SaveDecks(cube, e.DraftID, changed); err != nil {
+		return nil, err
+	}
+	return s.reloadLocked(cube, e.DraftID, changed)
+}
+
+// reloadLocked drops the cube's cache after a write and returns the freshly
+// enriched copies of the given decks. The caller must hold s.Mutex.
+func (s *Store) reloadLocked(cube, draftID string, written []*Deck) ([]*Deck, error) {
 	delete(s.caches, cube)
 	c, err := s.cacheForLocked(cube)
 	if err != nil {
 		return nil, err
 	}
-	out := make([]*Deck, 0, len(changed))
-	for _, ch := range changed {
-		if d, ok := c.lookup[key{id: ch.ID, draft: draftID}]; ok {
-			out = append(out, d)
+	out := make([]*Deck, 0, len(written))
+	for _, w := range written {
+		d, ok := c.lookup[key{draft: draftID, id: w.ID}]
+		if !ok {
+			return nil, ErrDeckNotFound
 		}
+		out = append(out, d)
 	}
 	return out, nil
 }
 
-// GetNotes returns the deck's notes, or ErrUnsupported if the backend has none.
-func (s *Store) GetNotes(cube, draftID, deckID string) (string, error) {
-	b, ok := s.backend.(NotesBackend)
-	if !ok {
-		return "", ErrUnsupported
+// findDeck returns the deck with the given ID, or nil.
+func findDeck(decks []*Deck, id int) *Deck {
+	for _, d := range decks {
+		if d.ID == id {
+			return d
+		}
 	}
-	return b.GetNotes(cube, draftID, deckID)
-}
-
-// PutNotes writes the deck's notes, or returns ErrUnsupported if the backend
-// has none.
-func (s *Store) PutNotes(cube, draftID, deckID, content string) error {
-	b, ok := s.backend.(NotesBackend)
-	if !ok {
-		return ErrUnsupported
-	}
-	return b.PutNotes(cube, draftID, deckID, content)
+	return nil
 }
 
 // GetRules returns the cube's design-map rules, or ErrUnsupported if the

@@ -4,15 +4,18 @@
   "draft_id": "2025-06-29_local_1",
   "combined_file": "data/polyverse/2025-06-29_local_1/kevin.csv"
  },
+ "id": 4,
  "macro_archetype": "midrange",
  "labels": [
   "sacrifice"
  ],
  "player": "kevin",
  "date": "2025-06-29",
+ "notes": "Kevin went for a sacrifice build, and his only success came against my pretty unimpressive Tameshi deck. This was a larger build than I usually expect to see for a sacrifice themed build, going into green instead of white as its splash.\n\nHe did manage to pull off an infinite combo to finish me off, just in time too! Murderous Redcap + Goblin Bombardment + Renata did me in.\n\nSome other notes:\n\n- Gilded Goose is excellent. Using Esika's Chariot to copy the food was clutch in my game as well.\n- The Huntsman's Redemption is great for the mini-overrun, but the second chapter rarely seems like the right thing to do.\n- Six is very cool. It was fun in the matchup with my Tameshi deck, as we both had recursion engines we were trying to balance.\n",
  "matches": [
   {
    "opponent": "casey",
+   "opponent_id": 2,
    "round": 1,
    "wins": 2,
    "losses": 0,
@@ -31,6 +34,7 @@
   },
   {
    "opponent": "mehdi",
+   "opponent_id": 5,
    "round": 2,
    "wins": 0,
    "losses": 2,
@@ -49,6 +53,7 @@
   },
   {
    "opponent": "zephyr",
+   "opponent_id": 8,
    "round": 3,
    "wins": 0,
    "losses": 2,

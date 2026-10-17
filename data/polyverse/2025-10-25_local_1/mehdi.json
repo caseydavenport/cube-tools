@@ -5,6 +5,7 @@
   "mainboard_file": "data/polyverse/2025-10-25_local_1/mehdi-mainboard.txt",
   "sideboard_file": "data/polyverse/2025-10-25_local_1/mehdi-sideboard.txt"
  },
+ "id": 5,
  "macro_archetype": "midrange",
  "labels": [
   "domain",
@@ -16,6 +17,7 @@
  "matches": [
   {
    "opponent": "perry",
+   "opponent_id": 6,
    "round": 2,
    "wins": 2,
    "losses": 1,
@@ -38,6 +40,7 @@
   },
   {
    "opponent": "robert",
+   "opponent_id": 7,
    "round": 3,
    "wins": 1,
    "losses": 2,
@@ -60,6 +63,7 @@
   },
   {
    "opponent": "taylor",
+   "opponent_id": 8,
    "round": 5,
    "wins": 0,
    "losses": 2,

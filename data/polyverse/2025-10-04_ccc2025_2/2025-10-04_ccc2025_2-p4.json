@@ -3,6 +3,8 @@
   "path": "data/polyverse/2025-10-04_ccc2025_2/2025-10-04_ccc2025_2-p4.json",
   "draft_id": "2025-10-04_ccc2025_2"
  },
+ "id": 4,
+ "macro_archetype": "midrange",
  "labels": [
   "graveyard",
   "ramp"
@@ -12,6 +14,7 @@
  "matches": [
   {
    "opponent": "2025-10-04_ccc2025_2-p8",
+   "opponent_id": 8,
    "round": 1,
    "wins": 1,
    "losses": 2,
@@ -34,6 +37,7 @@
   },
   {
    "opponent": "2025-10-04_ccc2025_2-p5",
+   "opponent_id": 5,
    "round": 2,
    "wins": 2,
    "losses": 0,
@@ -52,6 +56,7 @@
   },
   {
    "opponent": "2025-10-04_ccc2025_2-p2",
+   "opponent_id": 2,
    "round": 3,
    "wins": 1,
    "losses": 1,
@@ -129,6 +134,5 @@
   "Cling to Dust",
   "Soul Partition",
   "Repeal"
- ],
- "macro_archetype": "midrange"
+ ]
 }

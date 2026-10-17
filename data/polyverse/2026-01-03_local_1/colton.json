@@ -5,6 +5,7 @@
   "mainboard_file": "data/polyverse/2026-01-03_local_1/colton-mainboard.txt",
   "sideboard_file": "data/polyverse/2026-01-03_local_1/colton-sideboard.txt"
  },
+ "id": 2,
  "macro_archetype": "control",
  "labels": [
   "draw-go"
@@ -14,6 +15,7 @@
  "matches": [
   {
    "opponent": "wanqi",
+   "opponent_id": 8,
    "round": 1,
    "wins": 2,
    "losses": 1,

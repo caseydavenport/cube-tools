@@ -4,6 +4,7 @@
   "draft_id": "2026-01-17_p1p12026_1",
   "pool_file": "data/polyverse/2026-01-17_p1p12026_1/20260117-210a-pool.txt"
  },
+ "id": 6,
  "macro_archetype": "control",
  "labels": [
   "spells"
@@ -21,6 +22,7 @@
   },
   {
    "opponent": "2026-01-17_p1p12026_1-p5",
+   "opponent_id": 5,
    "round": 2,
    "wins": 2,
    "losses": 0,
@@ -29,6 +31,7 @@
   },
   {
    "opponent": "2026-01-17_p1p12026_1-p4",
+   "opponent_id": 4,
    "round": 3,
    "wins": 0,
    "losses": 2,

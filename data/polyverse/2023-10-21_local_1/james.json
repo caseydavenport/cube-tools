@@ -4,6 +4,7 @@
   "draft_id": "2023-10-21_local_1",
   "combined_file": "data/polyverse/2023-10-21_local_1/james.txt"
  },
+ "id": 3,
  "macro_archetype": "midrange",
  "labels": [
   "goodstuff"
@@ -13,6 +14,7 @@
  "matches": [
   {
    "opponent": "casey",
+   "opponent_id": 1,
    "round": 3,
    "wins": 1,
    "losses": 0,
@@ -27,6 +29,7 @@
   },
   {
    "opponent": "mattd",
+   "opponent_id": 5,
    "round": 1,
    "wins": 0,
    "losses": 1,

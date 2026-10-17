@@ -4,6 +4,7 @@
   "draft_id": "2023-07-16_local_1",
   "combined_file": "data/polyverse/2023-07-16_local_1/xander.txt"
  },
+ "id": 6,
  "macro_archetype": "control",
  "labels": [
   "spells",
@@ -14,6 +15,7 @@
  "matches": [
   {
    "opponent": "casey",
+   "opponent_id": 1,
    "round": 5,
    "wins": 1,
    "losses": 0,
@@ -28,6 +30,7 @@
   },
   {
    "opponent": "james",
+   "opponent_id": 4,
    "round": 4,
    "wins": 0,
    "losses": 1,
@@ -42,6 +45,7 @@
   },
   {
    "opponent": "jen",
+   "opponent_id": 5,
    "round": 3,
    "wins": 1,
    "losses": 0,

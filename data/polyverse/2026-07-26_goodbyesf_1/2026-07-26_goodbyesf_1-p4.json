@@ -3,6 +3,7 @@
   "path": "data/polyverse/2026-07-26_goodbyesf_1/2026-07-26_goodbyesf_1-p4.json",
   "draft_id": "2026-07-26_goodbyesf_1"
  },
+ "id": 4,
  "macro_archetype": "control",
  "labels": [
   "draw"
@@ -12,6 +13,7 @@
  "matches": [
   {
    "opponent": "Braf",
+   "opponent_id": 8,
    "round": 1,
    "wins": 2,
    "losses": 0,
@@ -19,6 +21,7 @@
   },
   {
    "opponent": "Brett",
+   "opponent_id": 3,
    "round": 2,
    "wins": 2,
    "losses": 0,
@@ -26,6 +29,7 @@
   },
   {
    "opponent": "An",
+   "opponent_id": 7,
    "round": 3,
    "wins": 0,
    "losses": 2,
@@ -47,7 +51,7 @@
   "Irencrag Pyromancer",
   "Jace, the Mind Sculptor",
   "Kiora, the Rising Tide",
-  "L\u00f3rien Revealed",
+  "Lórien Revealed",
   "Mischievous Mystic",
   "Polluted Delta",
   "Preordain",

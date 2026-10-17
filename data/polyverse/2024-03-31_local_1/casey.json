@@ -4,6 +4,7 @@
   "draft_id": "2024-03-31_local_1",
   "combined_file": "data/polyverse/2024-03-31_local_1/casey.txt"
  },
+ "id": 2,
  "macro_archetype": "aggro",
  "labels": [],
  "player": "casey",
@@ -11,6 +12,7 @@
  "matches": [
   {
    "opponent": "dom",
+   "opponent_id": 3,
    "round": 1,
    "wins": 2,
    "losses": 1,
@@ -33,6 +35,7 @@
   },
   {
    "opponent": "greg",
+   "opponent_id": 4,
    "round": 2,
    "wins": 0,
    "losses": 2,
@@ -51,6 +54,7 @@
   },
   {
    "opponent": "james",
+   "opponent_id": 5,
    "round": 3,
    "wins": 1,
    "losses": 2,

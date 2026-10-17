@@ -1,8 +1,10 @@
 package file
 
 import (
+	"encoding/json"
 	"os"
 	"path/filepath"
+	"strings"
 	"testing"
 
 	"github.com/caseydavenport/cube-tools/pkg/design"
@@ -24,7 +26,7 @@ func TestFileBackend_ListPolyverse(t *testing.T) {
 	var _ *storage.Store = s
 }
 
-func TestFileRawDecksSetsID(t *testing.T) {
+func TestFileRawDecksReadsIDFromFile(t *testing.T) {
 	root := t.TempDir()
 	if err := os.Chdir(root); err != nil {
 		t.Fatalf("chdir temp root: %v", err)
@@ -33,9 +35,14 @@ func TestFileRawDecksSetsID(t *testing.T) {
 	b := New(nil)
 	got, err := b.RawDecks("conf")
 	assert.NoError(t, err)
+	ids := map[string]int{}
 	for _, d := range got {
-		assert.Equal(t, d.Player, d.ID)
+		ids[d.Player] = d.ID
 	}
+	assert.Equal(t, map[string]int{
+		"Alice": 1,
+		"Bob":   2,
+	}, ids)
 }
 
 func TestFileConformance(t *testing.T) {
@@ -64,118 +71,97 @@ func TestFileRawDecksBlanksPath(t *testing.T) {
 	}
 }
 
-func TestFileWriteDeckMetaRoundTripsOnDiskPath(t *testing.T) {
+func TestFileSaveDecksKeepsFileAndPath(t *testing.T) {
 	root := t.TempDir()
 	if err := os.Chdir(root); err != nil {
 		t.Fatalf("chdir temp root: %v", err)
 	}
 	writeConfFixture(t, root)
-	b := New(nil)
+	s := storage.NewStore(New(nil))
 
-	updated, err := b.WriteDeckMeta("conf", storage.DeckMetaWrite{DraftID: "d1", DeckID: "Alice", MacroArchetype: "Aggro", Labels: []string{"fast"}})
-	assert.NoError(t, err)
-	assert.Equal(t, "Aggro", updated.MacroArchetype)
-
-	// The on-disk file must still carry its path; only the in-memory,
-	// enriched copy returned to callers loses it.
-	alicePath := filepath.Join(root, "data/conf/d1/alice.json")
-	contents, err := os.ReadFile(alicePath)
-	assert.NoError(t, err)
-	assert.Contains(t, string(contents), `"path": "data/conf/d1/alice.json"`)
-}
-
-func TestFileWriteDeckMetaPersistsPlayerAndMatches(t *testing.T) {
-	root := t.TempDir()
-	if err := os.Chdir(root); err != nil {
-		t.Fatalf("chdir temp root: %v", err)
-	}
-	writeConfFixture(t, root)
-	b := New(nil)
-
-	_, err := b.WriteDeckMeta("conf", storage.DeckMetaWrite{
-		DraftID: "d1",
-		DeckID:  "Alice",
-		Player:  "casey",
-		Matches: []types.Match{
-			{Opponent: "bob", Wins: 2, Losses: 1},
-			{Opponent: "sue", Wins: 1, Losses: 2},
-		},
-	})
-	assert.NoError(t, err)
-
-	reloaded, err := types.LoadDeck(filepath.Join(root, "data/conf/d1/alice.json"))
-	assert.NoError(t, err)
-	assert.Equal(t, "casey", reloaded.Player)
-	assert.Equal(t, []types.Match{
-		{Opponent: "bob", Wins: 2, Losses: 1},
-		{Opponent: "sue", Wins: 1, Losses: 2},
-	}, reloaded.Matches)
-
-	_, err = b.WriteDeckMeta("conf", storage.DeckMetaWrite{
-		DraftID: "d1",
-		DeckID:  "casey",
-		Matches: []types.Match{{Wins: 1}, {Wins: 1}, {Losses: 1}},
-	})
-	assert.NoError(t, err)
-
-	reloaded, err = types.LoadDeck(filepath.Join(root, "data/conf/d1/alice.json"))
-	assert.NoError(t, err)
-	assert.Equal(t, 2, reloaded.MatchWins())
-	assert.Equal(t, 1, reloaded.MatchLosses())
-
-	_, err = b.WriteDeckMeta("conf", storage.DeckMetaWrite{
-		DraftID: "d1",
-		DeckID:  "casey",
-	})
-	assert.NoError(t, err)
-
-	reloaded, err = types.LoadDeck(filepath.Join(root, "data/conf/d1/alice.json"))
-	assert.NoError(t, err)
-	assert.Equal(t, "casey", reloaded.Player)
-	assert.Equal(t, 2, reloaded.MatchWins())
-	assert.Equal(t, 1, reloaded.MatchLosses())
-}
-
-func TestFileSaveDeckRecordMirrorsAndPersists(t *testing.T) {
-	root := t.TempDir()
-	if err := os.Chdir(root); err != nil {
-		t.Fatalf("chdir temp root: %v", err)
-	}
-	writeConfFixture(t, root)
-	b := New(nil)
-
-	changed, err := b.SaveDeckRecord("conf", "d1", "Alice", "", []types.Match{{Opponent: "Bob", Wins: 2, Losses: 1}})
-	assert.NoError(t, err)
-	assert.Len(t, changed, 2)
-
-	bob, err := types.LoadDeck(filepath.Join(root, "data/conf/d1/bob.json"))
-	assert.NoError(t, err)
-	assert.Equal(t, []types.Match{{Opponent: "Alice", Wins: 1, Losses: 2}}, bob.Matches)
-}
-
-func TestFileSaveDeckRecordRenamePropagates(t *testing.T) {
-	root := t.TempDir()
-	if err := os.Chdir(root); err != nil {
-		t.Fatalf("chdir temp root: %v", err)
-	}
-	writeConfFixture(t, root)
-	b := New(nil)
-
-	_, err := b.SaveDeckRecord("conf", "d1", "Alice", "casey", nil)
+	_, err := s.SaveDeckRecord("conf", storage.RecordEdit{DraftID: "d1", DeckID: 1, Player: "casey"})
 	assert.NoError(t, err)
 
 	alice, err := types.LoadDeck(filepath.Join(root, "data/conf/d1/alice.json"))
 	assert.NoError(t, err)
 	assert.Equal(t, "casey", alice.Player)
+	assert.Equal(t, 1, alice.ID)
+	assert.Equal(t, "data/conf/d1/alice.json", alice.Metadata.Path)
 
-	bob, err := types.LoadDeck(filepath.Join(root, "data/conf/d1/bob.json"))
+	files, err := filepath.Glob(filepath.Join(root, "data/conf/d1/*.json"))
 	assert.NoError(t, err)
-	assert.Equal(t, "casey", bob.Matches[0].Opponent)
+	assert.Len(t, files, 2)
+}
+
+func TestFileSaveDecksUnknownID(t *testing.T) {
+	root := t.TempDir()
+	if err := os.Chdir(root); err != nil {
+		t.Fatalf("chdir temp root: %v", err)
+	}
+	writeConfFixture(t, root)
+	b := New(nil)
+
+	d := &storage.Deck{}
+	d.ID = 9
+	assert.ErrorIs(t, b.SaveDecks("conf", "d1", []*storage.Deck{d}), storage.ErrDeckNotFound)
+	assert.Error(t, b.SaveDecks("conf", "../escape", []*storage.Deck{d}))
+	_, err := b.LoadDraft("conf", "missing")
+	assert.ErrorIs(t, err, storage.ErrDeckNotFound)
+}
+
+func TestFileRefusesDraftWithDuplicateOrMissingIDs(t *testing.T) {
+	for name, bobID := range map[string]string{
+		"duplicate": `"id": 1,`,
+		"missing":   ``,
+	} {
+		t.Run(name, func(t *testing.T) {
+			root := t.TempDir()
+			t.Chdir(root)
+			writeConfFixture(t, root)
+			bobPath := filepath.Join(root, "data/conf/d1/bob.json")
+			raw, err := os.ReadFile(bobPath)
+			assert.NoError(t, err)
+			assert.NoError(t, os.WriteFile(bobPath, []byte(strings.Replace(string(raw), `"id": 2,`, bobID, 1)), 0o644))
+			b := New(nil)
+
+			_, err = b.LoadDraft("conf", "d1")
+			assert.ErrorContains(t, err, "bob.json")
+
+			alice := &storage.Deck{}
+			alice.ID = 1
+			alice.Player = "overwritten"
+			assert.Error(t, b.SaveDecks("conf", "d1", []*storage.Deck{alice}))
+			after, err := os.ReadFile(bobPath)
+			assert.NoError(t, err)
+			assert.NotContains(t, string(after), "overwritten")
+		})
+	}
+}
+
+func TestFileClearedColorOverrideIsAbsentOnDisk(t *testing.T) {
+	root := t.TempDir()
+	if err := os.Chdir(root); err != nil {
+		t.Fatalf("chdir temp root: %v", err)
+	}
+	writeConfFixture(t, root)
+	s := storage.NewStore(New(nil))
+
+	_, err := s.UpdateDeckMeta("conf", storage.DeckMetaWrite{DraftID: "d1", DeckID: 1, Colors: []string{"R"}})
+	assert.NoError(t, err)
+	_, err = s.UpdateDeckMeta("conf", storage.DeckMetaWrite{DraftID: "d1", DeckID: 1, Colors: []string{}})
+	assert.NoError(t, err)
+
+	raw, err := os.ReadFile(filepath.Join(root, "data/conf/d1/alice.json"))
+	assert.NoError(t, err)
+	var onDisk map[string]any
+	assert.NoError(t, json.Unmarshal(raw, &onDisk))
+	_, present := onDisk["colors"]
+	assert.False(t, present, "cleared color override should be absent on disk")
 }
 
 // writeConfFixture writes a throwaway "conf" cube under root/data, matching
-// the canonical conformance dataset: draft "d1" with Alice (2-0 vs Bob) and
-// Bob (0-2 vs Alice).
+// the canonical conformance dataset: draft "d1" with Alice (id 1, 2-0 vs Bob in
+// round 1, two games) and Bob (id 2, the mirror).
 func writeConfFixture(t *testing.T, root string) {
 	t.Helper()
 
@@ -207,10 +193,12 @@ func writeConfFixture(t *testing.T, root string) {
 
 	alice := `{
  "metadata": {"path": "` + alicePath + `", "draft_id": "d1"},
+ "id": 1,
  "labels": [],
  "player": "Alice",
  "date": "2024-01-01",
- "matches": [{"opponent": "Bob", "wins": 2, "losses": 0}],
+ "matches": [{"opponent": "Bob", "opponent_id": 2, "round": 1, "wins": 2, "losses": 0, "winner": "Alice",
+   "games": [{"opponent": "Bob", "winner": "Alice"}, {"opponent": "Bob", "winner": "Alice"}]}],
  "mainboard": [],
  "sideboard": []
 }`
@@ -220,10 +208,12 @@ func writeConfFixture(t *testing.T, root string) {
 
 	bob := `{
  "metadata": {"path": "` + bobPath + `", "draft_id": "d1"},
+ "id": 2,
  "labels": [],
  "player": "Bob",
  "date": "2024-01-01",
- "matches": [{"opponent": "Alice", "wins": 0, "losses": 2}],
+ "matches": [{"opponent": "Alice", "opponent_id": 1, "round": 1, "wins": 0, "losses": 2, "winner": "Alice",
+   "games": [{"opponent": "Alice", "winner": "Alice"}, {"opponent": "Alice", "winner": "Alice"}]}],
  "mainboard": [],
  "sideboard": []
 }`
@@ -262,55 +252,6 @@ func writeConfDraftLog(t *testing.T, root string) {
 	}
 }
 
-func TestFileNotesRoundTrip(t *testing.T) {
-	root := t.TempDir()
-	if err := os.Chdir(root); err != nil {
-		t.Fatalf("chdir temp root: %v", err)
-	}
-	writeConfFixture(t, root)
-	b := New(nil)
-
-	err := b.PutNotes("conf", "d1", "Alice", "great deck")
-	assert.NoError(t, err)
-
-	got, err := b.GetNotes("conf", "d1", "Alice")
-	assert.NoError(t, err)
-	assert.Equal(t, "great deck", got)
-
-	// Path is lowercased end-to-end, matching today's client convention.
-	contents, err := os.ReadFile(filepath.Join(root, "data/conf/d1/alice.report.md"))
-	assert.NoError(t, err)
-	assert.Equal(t, "great deck", string(contents))
-}
-
-func TestFileNotesMissingReturnsEmpty(t *testing.T) {
-	root := t.TempDir()
-	if err := os.Chdir(root); err != nil {
-		t.Fatalf("chdir temp root: %v", err)
-	}
-	writeConfFixture(t, root)
-	b := New(nil)
-
-	got, err := b.GetNotes("conf", "d1", "Nobody")
-	assert.NoError(t, err)
-	assert.Equal(t, "", got)
-}
-
-func TestFileNotesRejectsPathEscape(t *testing.T) {
-	root := t.TempDir()
-	if err := os.Chdir(root); err != nil {
-		t.Fatalf("chdir temp root: %v", err)
-	}
-	writeConfFixture(t, root)
-	b := New(nil)
-
-	_, err := b.GetNotes("conf", "../escape", "Alice")
-	assert.Error(t, err)
-
-	err = b.PutNotes("conf", "d1", "../escape", "x")
-	assert.Error(t, err)
-}
-
 func TestFileRulesRoundTrip(t *testing.T) {
 	root := t.TempDir()
 	if err := os.Chdir(root); err != nil {
@@ -345,7 +286,7 @@ func TestFileIndex(t *testing.T) {
 	assert.Equal(t, "d1", draft.DraftID)
 	assert.Equal(t, "2024-01-01", draft.Date)
 	assert.True(t, draft.HasLog)
-	assert.ElementsMatch(t, []storage.IndexedDeck{{ID: "Alice"}, {ID: "Bob"}}, draft.Decks)
+	assert.ElementsMatch(t, []storage.IndexedDeck{{ID: 1}, {ID: 2}}, draft.Decks)
 }
 
 func TestFileGetDraftLog(t *testing.T) {

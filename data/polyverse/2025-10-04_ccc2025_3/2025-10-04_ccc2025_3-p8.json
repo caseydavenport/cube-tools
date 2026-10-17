@@ -3,6 +3,8 @@
   "path": "data/polyverse/2025-10-04_ccc2025_3/2025-10-04_ccc2025_3-p8.json",
   "draft_id": "2025-10-04_ccc2025_3"
  },
+ "id": 8,
+ "macro_archetype": "midrange",
  "labels": [
   "spells"
  ],
@@ -11,6 +13,7 @@
  "matches": [
   {
    "opponent": "2025-10-04_ccc2025_3-p4",
+   "opponent_id": 4,
    "round": 1,
    "wins": 0,
    "losses": 2,
@@ -29,6 +32,7 @@
   },
   {
    "opponent": "2025-10-04_ccc2025_3-p2",
+   "opponent_id": 2,
    "round": 2,
    "wins": 2,
    "losses": 1,
@@ -51,6 +55,7 @@
   },
   {
    "opponent": "2025-10-04_ccc2025_3-p3",
+   "opponent_id": 3,
    "round": 3,
    "wins": 2,
    "losses": 1,
@@ -120,6 +125,5 @@
   "Steam Vents",
   "Wooded Foothills",
   "Arid Mesa"
- ],
- "macro_archetype": "midrange"
+ ]
 }

@@ -3,6 +3,8 @@
   "path": "data/polyverse/2025-10-04_ccc2025_1/2025-10-04_ccc2025_1-p1.json",
   "draft_id": "2025-10-04_ccc2025_1"
  },
+ "id": 1,
+ "macro_archetype": "midrange",
  "labels": [
   "draw"
  ],
@@ -11,6 +13,7 @@
  "matches": [
   {
    "opponent": "2025-10-04_ccc2025_1-p6",
+   "opponent_id": 6,
    "round": 1,
    "wins": 2,
    "losses": 0,
@@ -29,6 +32,7 @@
   },
   {
    "opponent": "2025-10-04_ccc2025_1-p3",
+   "opponent_id": 3,
    "round": 2,
    "wins": 2,
    "losses": 0,
@@ -47,6 +51,7 @@
   },
   {
    "opponent": "2025-10-04_ccc2025_1-p5",
+   "opponent_id": 5,
    "round": 3,
    "wins": 1,
    "losses": 2,
@@ -108,7 +113,7 @@
   "Proft's Eidetic Memory",
   "Sylvan Library",
   "Ephara's Dispersal",
-  "L\u00f3rien Revealed",
+  "Lórien Revealed",
   "Treasure Cruise"
  ],
  "sideboard": [
@@ -127,6 +132,5 @@
   "Curator of Mysteries",
   "Condescend",
   "Fearless Fledgling"
- ],
- "macro_archetype": "midrange"
+ ]
 }

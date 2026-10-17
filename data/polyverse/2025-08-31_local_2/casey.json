@@ -4,6 +4,7 @@
   "draft_id": "2025-08-31_local_2",
   "combined_file": "data/polyverse/2025-08-31_local_2/casey.txt"
  },
+ "id": 1,
  "macro_archetype": "midrange",
  "labels": [
   "skimmer",
@@ -14,6 +15,7 @@
  "matches": [
   {
    "opponent": "dom",
+   "opponent_id": 2,
    "round": 1,
    "wins": 1,
    "losses": 0,

@@ -4,6 +4,7 @@
   "draft_id": "2024-05-03_local_1",
   "combined_file": "data/polyverse/2024-05-03_local_1/dom.txt"
  },
+ "id": 2,
  "macro_archetype": "midrange",
  "labels": [
   "discard"
@@ -13,6 +14,7 @@
  "matches": [
   {
    "opponent": "casey",
+   "opponent_id": 1,
    "round": 1,
    "wins": 2,
    "losses": 1,

@@ -3,6 +3,7 @@
   "path": "data/polyverse/2026-06-20_bcp26_1/2026-06-20_bcp26_1-p1.json",
   "draft_id": "2026-06-20_bcp26_1"
  },
+ "id": 1,
  "macro_archetype": "aggro",
  "labels": [
   "sacrifice",
@@ -13,6 +14,7 @@
  "matches": [
   {
    "opponent": "2026-06-20_bcp26_1-p5",
+   "opponent_id": 5,
    "round": 1,
    "wins": 1,
    "losses": 1,
@@ -20,6 +22,7 @@
   },
   {
    "opponent": "2026-06-20_bcp26_1-p2",
+   "opponent_id": 2,
    "round": 2,
    "wins": 1,
    "losses": 2,
@@ -28,6 +31,7 @@
   },
   {
    "opponent": "2026-06-20_bcp26_1-p3",
+   "opponent_id": 3,
    "round": 3,
    "wins": 2,
    "losses": 1,

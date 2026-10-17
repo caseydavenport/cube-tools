@@ -8,6 +8,7 @@ import (
 	"strings"
 
 	"github.com/caseydavenport/cube-tools/pkg/commands"
+	"github.com/caseydavenport/cube-tools/pkg/drafts"
 	"github.com/caseydavenport/cube-tools/pkg/server"
 	"github.com/caseydavenport/cube-tools/pkg/types"
 )
@@ -113,6 +114,12 @@ func CommitHandlerWithRoot(src types.CubeSource, dataRoot string) http.Handler {
 			deck := buildDeck(pd, req.Date, req.DraftID)
 			path := filepath.Join(outdir, strings.ToLower(pd.Player)+".json")
 			deck.Metadata.Path = path
+			id, err := drafts.NextDeckID(outdir)
+			if err != nil {
+				http.Error(rw, "internal server error", http.StatusInternalServerError)
+				return
+			}
+			deck.ID = id
 			if err := deck.Save(path); err != nil {
 				http.Error(rw, "internal server error", http.StatusInternalServerError)
 				return

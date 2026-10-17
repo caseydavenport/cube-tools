@@ -70,11 +70,13 @@ func (d *Deck) UnmarshalJSON(data []byte) error {
 func (d *Deck) MarshalCompact() ([]byte, error) {
 	aux := struct {
 		Metadata       Metadata `json:"metadata"`
+		ID             int      `json:"id"`
 		MacroArchetype string   `json:"macro_archetype,omitempty"`
 		Labels         []string `json:"labels"`
 		Player         string   `json:"player"`
 		Date           string   `json:"date"`
 		Name           string   `json:"name,omitempty"`
+		Notes          string   `json:"notes,omitempty"`
 		Matches        []Match  `json:"matches"`
 		DeckImage      string   `json:"deck_image,omitempty"`
 		Mainboard      []string `json:"mainboard"`
@@ -83,11 +85,13 @@ func (d *Deck) MarshalCompact() ([]byte, error) {
 		Colors         []string `json:"colors,omitempty"`
 	}{
 		Metadata:       d.Metadata,
+		ID:             d.ID,
 		MacroArchetype: d.MacroArchetype,
 		Labels:         d.Labels,
 		Player:         d.Player,
 		Date:           d.Date,
 		Name:           d.Name,
+		Notes:          d.Notes,
 		Matches:        d.Matches,
 		DeckImage:      d.DeckImage,
 		Mainboard:      cardNames(d.Mainboard),
@@ -232,6 +236,11 @@ type Deck struct {
 	// Contains metadata about the deck file itself.
 	Metadata Metadata `json:"metadata"`
 
+	// ID identifies the deck within its draft. It is 1-based, never reused, and
+	// independent of the player name, so renaming a player keeps the same deck.
+	// Zero means no id has been assigned yet.
+	ID int `json:"id"`
+
 	// MacroArchetype is the deck's high-level strategy classification.
 	// Expected values: "aggro", "midrange", "control", or empty.
 	MacroArchetype string `json:"macro_archetype,omitempty"`
@@ -247,6 +256,9 @@ type Deck struct {
 
 	// Optional user-defined name for the deck.
 	Name string `json:"name,omitempty"`
+
+	// Notes is a free-form markdown write-up about the deck.
+	Notes string `json:"notes,omitempty"`
 
 	// Matches played with this deck.
 	Matches []Match `json:"matches"`
@@ -271,6 +283,11 @@ type Deck struct {
 
 type Match struct {
 	Opponent string `json:"opponent"`
+
+	// OpponentID is the opponent deck's ID within the same draft. When set it is
+	// the source of truth and Opponent is a display copy; zero means only the
+	// name is known.
+	OpponentID int `json:"opponent_id,omitempty"`
 
 	// Round number this match was played in (1-indexed). 0 means unknown.
 	// Lets us preserve multi-round events (Swiss, brackets, rematches) where

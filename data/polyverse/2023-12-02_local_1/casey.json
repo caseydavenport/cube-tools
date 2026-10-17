@@ -4,6 +4,7 @@
   "draft_id": "2023-12-02_local_1",
   "combined_file": "data/polyverse/2023-12-02_local_1/casey.txt"
  },
+ "id": 2,
  "macro_archetype": "midrange",
  "labels": [
   "lands",
@@ -15,6 +16,7 @@
  "matches": [
   {
    "opponent": "dom",
+   "opponent_id": 3,
    "round": 1,
    "wins": 2,
    "losses": 1,
@@ -37,6 +39,7 @@
   },
   {
    "opponent": "greg",
+   "opponent_id": 4,
    "round": 2,
    "wins": 0,
    "losses": 2,
@@ -55,6 +58,7 @@
   },
   {
    "opponent": "james",
+   "opponent_id": 5,
    "round": 3,
    "wins": 2,
    "losses": 0,

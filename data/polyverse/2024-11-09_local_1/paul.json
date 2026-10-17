@@ -4,6 +4,7 @@
   "draft_id": "2024-11-09_local_1",
   "combined_file": "data/polyverse/2024-11-09_local_1/paul.txt"
  },
+ "id": 7,
  "macro_archetype": "aggro",
  "labels": [],
  "player": "paul",
@@ -11,6 +12,7 @@
  "matches": [
   {
    "opponent": "cara",
+   "opponent_id": 1,
    "round": 3,
    "wins": 1,
    "losses": 1,
@@ -28,6 +30,7 @@
   },
   {
    "opponent": "xander",
+   "opponent_id": 8,
    "round": 2,
    "wins": 1,
    "losses": 1,

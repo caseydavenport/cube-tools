@@ -11,6 +11,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/caseydavenport/cube-tools/pkg/drafts"
 	"github.com/caseydavenport/cube-tools/pkg/flag"
 	"github.com/caseydavenport/cube-tools/pkg/types"
 	"github.com/sirupsen/logrus"
@@ -299,6 +300,8 @@ func writeDeck(cube string, d *types.Deck, draftID string) error {
 		if err != nil {
 			return fmt.Errorf("Failed to load existing deck %s: %w", path, err)
 		}
+		d.ID = existing.ID
+		d.Notes = existing.Notes
 		d.Player = existing.Player
 		d.Labels = existing.Labels
 		d.MacroArchetype = existing.MacroArchetype
@@ -306,6 +309,14 @@ func writeDeck(cube string, d *types.Deck, draftID string) error {
 		d.Colors = existing.Colors
 
 		logrus.WithField("matches", d.Matches).Debug("Preserved existing deck data")
+	}
+
+	if d.ID == 0 {
+		id, err := drafts.NextDeckID(outdir)
+		if err != nil {
+			return fmt.Errorf("assign deck id: %w", err)
+		}
+		d.ID = id
 	}
 
 	// Ensure capitalization is consistent for player names (all lowercase).

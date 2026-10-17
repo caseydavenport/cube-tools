@@ -5,6 +5,7 @@
   "mainboard_file": "data/polyverse/2026-01-03_local_1/patrick-mainboard.txt",
   "sideboard_file": "data/polyverse/2026-01-03_local_1/patrick-sideboard.txt"
  },
+ "id": 7,
  "macro_archetype": "midrange",
  "labels": [],
  "player": "patrick",
@@ -12,6 +13,7 @@
  "matches": [
   {
    "opponent": "darius",
+   "opponent_id": 3,
    "round": 2,
    "wins": 2,
    "losses": 1,
@@ -34,6 +36,7 @@
   },
   {
    "opponent": "jackson",
+   "opponent_id": 5,
    "round": 1,
    "wins": 1,
    "losses": 1,

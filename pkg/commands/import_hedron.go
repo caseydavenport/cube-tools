@@ -11,6 +11,7 @@ import (
 	"sort"
 	"strings"
 
+	"github.com/caseydavenport/cube-tools/pkg/drafts"
 	"github.com/caseydavenport/cube-tools/pkg/types"
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
@@ -270,6 +271,11 @@ func importDraft(cube string, d *HedronDraft, seq int) (string, error) {
 	for _, deck := range playerDecks {
 		filename := filepath.Join(outdir, fmt.Sprintf("%s.json", deck.Player))
 		deck.Metadata.Path = filename
+		id, err := drafts.NextDeckID(outdir)
+		if err != nil {
+			return "", fmt.Errorf("assign deck id: %w", err)
+		}
+		deck.ID = id
 
 		if err := deck.Save(filename); err != nil {
 			return "", fmt.Errorf("write deck file: %w", err)

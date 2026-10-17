@@ -3,6 +3,7 @@
   "path": "data/aurora/2026-05-16_sfbcc_1/2026-05-16_sfbcc_1-p3.json",
   "draft_id": "2026-05-16_sfbcc_1"
  },
+ "id": 3,
  "macro_archetype": "midrange",
  "labels": [
   "elementals"
@@ -12,6 +13,7 @@
  "matches": [
   {
    "opponent": "2026-05-16_sfbcc_1-p7",
+   "opponent_id": 7,
    "round": 1,
    "wins": 1,
    "losses": 2,
@@ -20,6 +22,7 @@
   },
   {
    "opponent": "2026-05-16_sfbcc_1-p6",
+   "opponent_id": 6,
    "round": 2,
    "wins": 0,
    "losses": 2,
@@ -28,6 +31,7 @@
   },
   {
    "opponent": "2026-05-16_sfbcc_1-p8",
+   "opponent_id": 8,
    "round": 3,
    "wins": 0,
    "losses": 2,

@@ -29,10 +29,6 @@ type Deck struct {
 
 	// The size of the draft, used for filtering.
 	DraftSize int `json:"draft_size"`
-
-	// ID is the deck's opaque identity, unique within its draft. Clients treat
-	// it as opaque. Backends assign it; the file backend uses the player name.
-	ID string `json:"id"`
 }
 
 type Stats struct {
@@ -46,10 +42,17 @@ type Stats struct {
 	LastPlace   int `json:"last_place"`
 }
 
-// Key identifies a precise deck.
+// key identifies a precise deck: its ID within its draft.
 type key struct {
-	id    string
 	draft string
+	id    int
+}
+
+// nameKey finds a deck by player name within its draft, for matches that only
+// record the opponent's name.
+type nameKey struct {
+	draft  string
+	player string
 }
 
 type DecksRequest struct {
@@ -107,7 +110,8 @@ func (d *Deck) GetColors() []string {
 	return res
 }
 
-// ErrDeckNotFound is returned when no deck matches the (draftID, player) key.
+// ErrDeckNotFound is returned when no deck matches the (draftID, ID) key, or
+// the draft itself doesn't exist.
 var ErrDeckNotFound = errors.New("deck not found")
 
 type DeckStorage interface {
@@ -119,21 +123,25 @@ type DeckStorage interface {
 	GetRules(cube string) (*design.DesignMapConfig, error)
 }
 
-// DeckMetaWrite carries the editable fields for a deck-meta update. Player
-// empty leaves the name unchanged; Matches nil leaves the record unchanged,
-// an empty non-nil slice clears it.
+// DeckMetaWrite carries the annotation fields for a deck. MacroArchetype,
+// Labels and Colors are replaced as given; an empty Colors clears the override.
+// Notes nil leaves the notes unchanged, a pointer to "" clears them.
 type DeckMetaWrite struct {
 	DraftID        string
-	DeckID         string
+	DeckID         int
 	MacroArchetype string
 	Labels         []string
 	Colors         []string
+	Notes          *string
+}
 
-	// Player empty leaves the deck's existing player name unchanged.
-	Player string
-
-	// Matches nil leaves the deck's existing record unchanged; a non-nil
-	// (including empty) slice replaces it.
+// RecordEdit carries a change to a deck's player name and match record. Player
+// empty leaves the name unchanged; Matches nil leaves the record unchanged, an
+// empty non-nil slice clears it.
+type RecordEdit struct {
+	DraftID string
+	DeckID  int
+	Player  string
 	Matches []types.Match
 }
 

@@ -3,6 +3,7 @@
   "path": "data/polyverse/2026-06-20_bcp26_1/2026-06-20_bcp26_1-p6.json",
   "draft_id": "2026-06-20_bcp26_1"
  },
+ "id": 6,
  "macro_archetype": "midrange",
  "labels": [
   "domain",
@@ -16,6 +17,7 @@
  "matches": [
   {
    "opponent": "2026-06-20_bcp26_1-p2",
+   "opponent_id": 2,
    "round": 1,
    "wins": 2,
    "losses": 0,
@@ -24,6 +26,7 @@
   },
   {
    "opponent": "2026-06-20_bcp26_1-p7",
+   "opponent_id": 7,
    "round": 2,
    "wins": 2,
    "losses": 0,
@@ -32,6 +35,7 @@
   },
   {
    "opponent": "2026-06-20_bcp26_1-p8",
+   "opponent_id": 8,
    "round": 3,
    "wins": 0,
    "losses": 2,

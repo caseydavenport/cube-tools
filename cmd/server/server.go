@@ -52,7 +52,6 @@ func main() {
 	cubeRoute("GET /api/{cube}/cube", server.CubeContentHandler(provider))
 	cubeRoute("GET /api/{cube}/index", server.CubeIndexHandler(deckStore))
 	cubeRoute("GET /api/{cube}/drafts/{draft_id}/log", server.DraftLogHandler(deckStore))
-	cubeRoute("GET /api/{cube}/notes", server.NotesHandler(deckStore))
 	cubeRoute("GET /api/{cube}/decks", decks.DeckHandler(deckStore, func(cubeID string) ([]graph.Edge, error) {
 		return stats.EdgesForCube(deckStore, provider, cubeID)
 	}))
@@ -73,7 +72,6 @@ func main() {
 	cubeRoute("GET /api/{cube}/stats/group-distributions", stats.GroupDistributionsHandler(deckStore, provider))
 	cubeRoute("GET /api/{cube}/stats/packages", stats.PackageStatsHandler(deckStore, provider))
 	cubeRoute("POST /api/{cube}/save-design-rules", stats.SaveDesignRulesHandler(deckStore))
-	cubeRoute("POST /api/{cube}/save-notes", server.SaveNotesHandler(deckStore))
 	cubeRoute("POST /api/{cube}/refresh", server.RefreshHandler(provider))
 
 	// OCR draft-import endpoints. The detector is shared across requests; built

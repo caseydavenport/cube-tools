@@ -84,45 +84,17 @@ export async function LoadDrafts(cube, onLoad, start, end) {
   onLoad(drafts)
 }
 
-// FetchNotes returns the notes for the deck identified by draftID and id.
-export async function FetchNotes(cube, draftID, id, onFetch) {
-  const resp = await fetch(`/api/${cube}/notes?draft_id=${encodeURIComponent(draftID)}&id=${encodeURIComponent(id)}`);
-  let txt = await resp.text();
-  if (resp.status != 200) {
-    txt = ""
-  }
-  if (onFetch != null) {
-    onFetch(txt);
-    return
-  }
-  return txt;
-}
-
-// SaveNotes saves notes for the deck identified by draftID and id.
-export async function SaveNotes(cube, draftID, id, content) {
-  const resp = await fetch(`/api/${cube}/save-notes`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ draft_id: draftID, id, content }),
-  });
-  if (!resp.ok) {
-    throw new Error("Failed to save notes");
-  }
-}
-
-// SaveDeckMeta writes the editable metadata fields for a deck identified
-// by (draft_id, id) and returns the updated, decorated deck. player and
-// matches are optional: omitted (undefined) they drop out of the JSON body
-// and the server leaves the existing name/record untouched.
-export async function SaveDeckMeta(cube, { draft_id, id, macro_archetype, labels, colors, player, matches }) {
+// SaveDeckMeta writes a deck's annotations (macro archetype, labels, color
+// override, notes) for the deck identified by (draft_id, id) and returns the
+// updated, decorated deck. notes is optional: omitted (undefined) it drops out
+// of the JSON body and the server leaves the existing notes untouched.
+export async function SaveDeckMeta(cube, { draft_id, id, macro_archetype, labels, colors, notes }) {
   const resp = await fetch(`/api/${cube}/decks/update`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ draft_id, id, macro_archetype, labels, colors, player, matches }),
+    body: JSON.stringify({ draft_id, id, macro_archetype, labels, colors, notes }),
   });
   if (!resp.ok) {
     throw new Error("Failed to save deck metadata");

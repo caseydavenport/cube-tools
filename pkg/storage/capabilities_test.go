@@ -12,12 +12,13 @@ func (readOnly) RawDecks(string) ([]*Deck, error) { return nil, nil }
 
 type readWrite struct{ readOnly }
 
-func (readWrite) WriteDeckMeta(_ string, _ DeckMetaWrite) (*Deck, error) { return nil, nil }
+func (readWrite) LoadDraft(_, _ string) ([]*Deck, error) {
+	return nil, nil
+}
 
-type notesBackend struct{ readOnly }
-
-func (notesBackend) GetNotes(_, _, _ string) (string, error) { return "", nil }
-func (notesBackend) PutNotes(_, _, _, _ string) error        { return nil }
+func (readWrite) SaveDecks(_, _ string, _ []*Deck) error {
+	return nil
+}
 
 type rulesBackend struct{ readOnly }
 
@@ -25,17 +26,11 @@ func (rulesBackend) GetRules(string) (*design.DesignMapConfig, error) { return n
 func (rulesBackend) PutRules(string, *design.DesignMapConfig) error   { return nil }
 
 func TestDetect(t *testing.T) {
-	if Detect(readOnly{}).WriteMeta {
-		t.Fatal("read-only backend should not report WriteMeta")
+	if Detect(readOnly{}).WriteDecks {
+		t.Fatal("read-only backend should not report WriteDecks")
 	}
-	if !Detect(readWrite{}).WriteMeta {
-		t.Fatal("read-write backend should report WriteMeta")
-	}
-	if Detect(readOnly{}).Notes {
-		t.Fatal("read-only backend should not report Notes")
-	}
-	if !Detect(notesBackend{}).Notes {
-		t.Fatal("notes backend should report Notes")
+	if !Detect(readWrite{}).WriteDecks {
+		t.Fatal("read-write backend should report WriteDecks")
 	}
 	if Detect(readOnly{}).Rules {
 		t.Fatal("read-only backend should not report Rules")

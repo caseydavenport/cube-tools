@@ -12,12 +12,9 @@ import (
 // callers must pass the full set of decks for a cube in one call; opponents are
 // matched within the same draft.
 func Enrich(decks []*Deck) {
-	byKey := make(map[key]*Deck, len(decks))
-	for _, d := range decks {
-		byKey[key{id: d.Player, draft: d.Metadata.DraftID}] = d
-	}
+	idx := NewOpponentIndex(decks)
 
-	for _, d := range byKey {
+	for _, d := range decks {
 		d.Games = make([]types.Game, 0)
 		for _, m := range d.Matches {
 			if len(m.Games) > 0 {
@@ -36,20 +33,23 @@ func Enrich(decks []*Deck) {
 		}
 	}
 
-	for k, d := range byKey {
+	for _, d := range decks {
 		percentages := []float64{}
-		seen := map[string]bool{}
+		seen := map[*Deck]bool{}
 		for _, m := range d.Matches {
-			if m.Opponent == "" || seen[m.Opponent] {
+			if m.Opponent == "" && m.OpponentID == 0 {
 				continue
 			}
-			seen[m.Opponent] = true
-			opponentDeck, ok := byKey[key{id: m.Opponent, draft: k.draft}]
+			opponentDeck, ok := idx.find(d.Metadata.DraftID, m)
 			if !ok {
 				logrus.WithField("opponent", m.Opponent).Warn("failed to find opponent deck")
 				continue
 			}
-			wins, games := opponentRecordExcluding(opponentDeck, k.id)
+			if seen[opponentDeck] {
+				continue
+			}
+			seen[opponentDeck] = true
+			wins, games := opponentRecordExcluding(opponentDeck, d)
 			if games > 0 {
 				percentages = append(percentages, float64(wins)/float64(games))
 			}
@@ -77,12 +77,13 @@ func Enrich(decks []*Deck) {
 }
 
 // opponentRecordExcluding returns (wins, total games) for opponentDeck across all
-// of its matches, excluding matches played against exclude. Prefers per-game
-// records when present and falls back to the match-level tally for legacy data.
-func opponentRecordExcluding(opponentDeck *Deck, exclude string) (int, int) {
+// of its matches, excluding matches played against exclude (by ID when the match
+// has one, else by name). Prefers per-game records when present and falls back
+// to the match-level tally for legacy data.
+func opponentRecordExcluding(opponentDeck, exclude *Deck) (int, int) {
 	wins, total := 0, 0
 	for _, om := range opponentDeck.Matches {
-		if om.Opponent == exclude {
+		if (om.OpponentID != 0 && om.OpponentID == exclude.ID) || (om.OpponentID == 0 && om.Opponent == exclude.Player) {
 			continue
 		}
 		if len(om.Games) > 0 {

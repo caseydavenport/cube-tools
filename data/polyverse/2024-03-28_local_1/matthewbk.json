@@ -4,6 +4,7 @@
   "draft_id": "2024-03-28_local_1",
   "combined_file": "data/polyverse/2024-03-28_local_1/matthewbk.txt"
  },
+ "id": 5,
  "macro_archetype": "midrange",
  "labels": [],
  "player": "matthewbk",
@@ -11,6 +12,7 @@
  "matches": [
   {
    "opponent": "alexs",
+   "opponent_id": 1,
    "round": 1,
    "wins": 2,
    "losses": 0,
@@ -29,6 +31,7 @@
   },
   {
    "opponent": "casey",
+   "opponent_id": 2,
    "round": 2,
    "wins": 2,
    "losses": 0,
@@ -47,6 +50,7 @@
   },
   {
    "opponent": "jan",
+   "opponent_id": 3,
    "round": 4,
    "wins": 2,
    "losses": 0,

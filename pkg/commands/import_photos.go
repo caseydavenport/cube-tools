@@ -11,6 +11,7 @@ import (
 
 	"github.com/sirupsen/logrus"
 
+	"github.com/caseydavenport/cube-tools/pkg/drafts"
 	"github.com/caseydavenport/cube-tools/pkg/types"
 )
 
@@ -127,6 +128,9 @@ func buildPhotoDraftDir(dataRoot, cube, sourcePath, date, slug, eventName, fligh
 		deck.Metadata.DraftID = draftID
 		filename := filepath.Join(outdir, deck.Player+".json")
 		deck.Metadata.Path = filename
+		if deck.ID, err = drafts.NextDeckID(outdir); err != nil {
+			return "", nil, fmt.Errorf("assign deck id: %w", err)
+		}
 		if err := deck.Save(filename); err != nil {
 			return "", nil, fmt.Errorf("write deck stub: %w", err)
 		}

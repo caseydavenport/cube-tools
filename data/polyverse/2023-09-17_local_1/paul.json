@@ -4,6 +4,7 @@
   "draft_id": "2023-09-17_local_1",
   "combined_file": "data/polyverse/2023-09-17_local_1/paul.txt"
  },
+ "id": 6,
  "macro_archetype": "aggro",
  "labels": [],
  "player": "paul",
@@ -11,6 +12,7 @@
  "matches": [
   {
    "opponent": "casey",
+   "opponent_id": 1,
    "round": 3,
    "wins": 0,
    "losses": 1,
@@ -25,6 +27,7 @@
   },
   {
    "opponent": "dom",
+   "opponent_id": 2,
    "round": 1,
    "wins": 0,
    "losses": 1,
@@ -39,6 +42,7 @@
   },
   {
    "opponent": "mattd",
+   "opponent_id": 5,
    "round": 2,
    "wins": 1,
    "losses": 0,

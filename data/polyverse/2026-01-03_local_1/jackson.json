@@ -5,6 +5,7 @@
   "mainboard_file": "data/polyverse/2026-01-03_local_1/jackson-mainboard.txt",
   "sideboard_file": "data/polyverse/2026-01-03_local_1/jackson-sideboard.txt"
  },
+ "id": 5,
  "macro_archetype": "midrange",
  "labels": [
   "draw",
@@ -18,6 +19,7 @@
  "matches": [
   {
    "opponent": "kaiyo",
+   "opponent_id": 6,
    "round": 2,
    "wins": 2,
    "losses": 0,
@@ -36,6 +38,7 @@
   },
   {
    "opponent": "patrick",
+   "opponent_id": 7,
    "round": 1,
    "wins": 1,
    "losses": 1,

@@ -22,8 +22,14 @@ func deck(player, draft string, matches []types.Match) *storage.Deck {
 func TestMemoryConformance(t *testing.T) {
 	b := New()
 	b.Seed("conf",
-		deck("Alice", "d1", []types.Match{{Opponent: "Bob", Wins: 2, Losses: 0}}),
-		deck("Bob", "d1", []types.Match{{Opponent: "Alice", Wins: 0, Losses: 2}}),
+		deck("Alice", "d1", []types.Match{{
+			Opponent: "Bob", OpponentID: 2, Round: 1, Wins: 2, Losses: 0, Winner: "Alice",
+			Games: []types.Game{{Opponent: "Bob", Winner: "Alice"}, {Opponent: "Bob", Winner: "Alice"}},
+		}}),
+		deck("Bob", "d1", []types.Match{{
+			Opponent: "Alice", OpponentID: 1, Round: 1, Wins: 0, Losses: 2, Winner: "Alice",
+			Games: []types.Game{{Opponent: "Alice", Winner: "Alice"}, {Opponent: "Alice", Winner: "Alice"}},
+		}}),
 	)
 	b.SeedIndex("conf", &storage.CubeIndex{
 		Drafts: []storage.IndexedDraft{
@@ -31,7 +37,7 @@ func TestMemoryConformance(t *testing.T) {
 				DraftID: "d1",
 				Date:    "2024-01-01",
 				HasLog:  true,
-				Decks:   []storage.IndexedDeck{{ID: "Alice"}, {ID: "Bob"}},
+				Decks:   []storage.IndexedDeck{{ID: 1}, {ID: 2}},
 			},
 		},
 	})
@@ -40,12 +46,35 @@ func TestMemoryConformance(t *testing.T) {
 	storage.RunDeckConformance(t, s, storage.Detect(b))
 }
 
-func TestMemoryRawDecksSetsID(t *testing.T) {
+func TestMemorySeedNumbersDecksPerDraft(t *testing.T) {
 	b := New()
-	b.Seed("c", deck("Alice", "d1", nil))
+	b.Seed("c", deck("Alice", "d1", nil), deck("Bob", "d1", nil), deck("Alice", "d2", nil))
 	got, err := b.RawDecks("c")
 	assert.NoError(t, err)
-	assert.Equal(t, "Alice", got[0].ID)
+	ids := map[string]int{}
+	for _, d := range got {
+		ids[d.Metadata.DraftID+"/"+d.Player] = d.ID
+	}
+	assert.Equal(t, map[string]int{
+		"d1/Alice": 1,
+		"d1/Bob":   2,
+		"d2/Alice": 1,
+	}, ids)
+}
+
+func TestMemoryLoadDraftReturnsCopies(t *testing.T) {
+	b := New()
+	b.Seed("c", deck("Alice", "d1", nil))
+	got, err := b.LoadDraft("c", "d1")
+	assert.NoError(t, err)
+	got[0].Player = "changed"
+
+	again, err := b.LoadDraft("c", "d1")
+	assert.NoError(t, err)
+	assert.Equal(t, "Alice", again[0].Player)
+
+	_, err = b.LoadDraft("c", "missing")
+	assert.ErrorIs(t, err, storage.ErrDeckNotFound)
 }
 
 func TestMemoryBackend_UpdateRoundTrips(t *testing.T) {
@@ -57,7 +86,7 @@ func TestMemoryBackend_UpdateRoundTrips(t *testing.T) {
 	s := storage.NewStore(b)
 
 	_, err := s.UpdateDeckMeta("cubeA", storage.DeckMetaWrite{
-		DraftID: "d1", DeckID: "Alice", MacroArchetype: "Aggro", Labels: []string{"fast"}, Colors: []string{"R"},
+		DraftID: "d1", DeckID: 1, MacroArchetype: "Aggro", Labels: []string{"fast"}, Colors: []string{"R"},
 	})
 	assert.NoError(t, err)
 
@@ -72,32 +101,6 @@ func TestMemoryBackend_UpdateRoundTrips(t *testing.T) {
 	assert.NotNil(t, alice)
 	assert.Equal(t, "Aggro", alice.MacroArchetype)
 	assert.Equal(t, []string{"fast"}, alice.Labels)
-}
-
-func TestMemoryNotesRoundTrip(t *testing.T) {
-	b := New()
-	err := b.PutNotes("conf", "d1", "Alice", "great deck")
-	assert.NoError(t, err)
-
-	got, err := b.GetNotes("conf", "d1", "Alice")
-	assert.NoError(t, err)
-	assert.Equal(t, "great deck", got)
-}
-
-func TestMemoryNotesMissingReturnsEmpty(t *testing.T) {
-	b := New()
-	got, err := b.GetNotes("conf", "d1", "Nobody")
-	assert.NoError(t, err)
-	assert.Equal(t, "", got)
-}
-
-func TestMemoryNotesSeed(t *testing.T) {
-	b := New()
-	b.SeedNotes("conf", "d1", "Alice", "seeded notes")
-
-	got, err := b.GetNotes("conf", "d1", "Alice")
-	assert.NoError(t, err)
-	assert.Equal(t, "seeded notes", got)
 }
 
 func TestMemoryRulesRoundTrip(t *testing.T) {
@@ -130,7 +133,7 @@ func TestMemoryIndexRoundTrip(t *testing.T) {
 	b := New()
 	idx := &storage.CubeIndex{
 		Drafts: []storage.IndexedDraft{
-			{DraftID: "d1", Date: "2024-01-01", HasLog: true, Decks: []storage.IndexedDeck{{ID: "Alice"}}},
+			{DraftID: "d1", Date: "2024-01-01", HasLog: true, Decks: []storage.IndexedDeck{{ID: 1}}},
 		},
 	}
 	b.SeedIndex("conf", idx)

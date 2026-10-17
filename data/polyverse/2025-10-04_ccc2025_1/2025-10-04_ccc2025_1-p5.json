@@ -3,6 +3,8 @@
   "path": "data/polyverse/2025-10-04_ccc2025_1/2025-10-04_ccc2025_1-p5.json",
   "draft_id": "2025-10-04_ccc2025_1"
  },
+ "id": 5,
+ "macro_archetype": "midrange",
  "labels": [
   "coco",
   "lands"
@@ -12,6 +14,7 @@
  "matches": [
   {
    "opponent": "2025-10-04_ccc2025_1-p1",
+   "opponent_id": 1,
    "round": 3,
    "wins": 2,
    "losses": 1,
@@ -34,6 +37,7 @@
   },
   {
    "opponent": "2025-10-04_ccc2025_1-p7",
+   "opponent_id": 7,
    "round": 2,
    "wins": 0,
    "losses": 2,
@@ -52,6 +56,7 @@
   },
   {
    "opponent": "2025-10-04_ccc2025_1-p4",
+   "opponent_id": 4,
    "round": 1,
    "wins": 1,
    "losses": 0,
@@ -113,6 +118,5 @@
   "Twinshot Sniper",
   "Quirion Beastcaller",
   "Inexorable Blob"
- ],
- "macro_archetype": "midrange"
+ ]
 }

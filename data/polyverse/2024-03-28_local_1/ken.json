@@ -4,6 +4,7 @@
   "draft_id": "2024-03-28_local_1",
   "combined_file": "data/polyverse/2024-03-28_local_1/ken.txt"
  },
+ "id": 4,
  "macro_archetype": "midrange",
  "labels": [
   "sacrifice"
@@ -13,6 +14,7 @@
  "matches": [
   {
    "opponent": "alexs",
+   "opponent_id": 1,
    "round": 2,
    "wins": 2,
    "losses": 0,
@@ -31,6 +33,7 @@
   },
   {
    "opponent": "casey",
+   "opponent_id": 2,
    "round": 1,
    "wins": 2,
    "losses": 0,
@@ -49,6 +52,7 @@
   },
   {
    "opponent": "jan",
+   "opponent_id": 3,
    "round": 3,
    "wins": 0,
    "losses": 2,

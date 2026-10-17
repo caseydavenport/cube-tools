@@ -5,6 +5,7 @@
   "mainboard_file": "data/polyverse/2026-01-03_local_1/isaiah-mainboard.txt",
   "sideboard_file": "data/polyverse/2026-01-03_local_1/isaiah-sideboard.txt"
  },
+ "id": 4,
  "macro_archetype": "control",
  "labels": [
   "domain"
@@ -14,6 +15,7 @@
  "matches": [
   {
    "opponent": "casey",
+   "opponent_id": 1,
    "round": 2,
    "wins": 1,
    "losses": 1,
@@ -31,6 +33,7 @@
   },
   {
    "opponent": "kaiyo",
+   "opponent_id": 6,
    "round": 1,
    "wins": 0,
    "losses": 2,

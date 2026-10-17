@@ -9,6 +9,7 @@ import (
 
 	"github.com/caseydavenport/cube-tools/pkg/commands"
 	"github.com/caseydavenport/cube-tools/pkg/design"
+	"github.com/caseydavenport/cube-tools/pkg/drafts"
 	"github.com/caseydavenport/cube-tools/pkg/storage"
 	"github.com/caseydavenport/cube-tools/pkg/types"
 	"github.com/sirupsen/logrus"
@@ -53,7 +54,6 @@ func (b *Backend) RawDecks(cube string) ([]*storage.Deck, error) {
 				continue
 			}
 			d.DraftSize = len(draft.Decks)
-			d.ID = d.Player
 			d.Metadata.Path = ""
 			decks = append(decks, &d)
 		}
@@ -68,127 +68,89 @@ func (b *Backend) RawDecks(cube string) ([]*storage.Deck, error) {
 	return decks, nil
 }
 
-// WriteDeckMeta rewrites the macro archetype, labels, and color override on the
-// deck's on-disk file, loading the whole deck first so other fields survive. An
-// empty colors slice clears the override.
-func (b *Backend) WriteDeckMeta(cube string, w storage.DeckMetaWrite) (*storage.Deck, error) {
-	path, err := b.deckFilePath(cube, w.DraftID, w.DeckID)
+// LoadDraft returns every deck in the draft's directory, or ErrDeckNotFound if
+// it holds none. It reads the directory rather than the cube index so a draft
+// written since the last reindex is still editable.
+func (b *Backend) LoadDraft(cube, draftID string) ([]*storage.Deck, error) {
+	files, err := loadDraftFiles(cube, draftID)
 	if err != nil {
 		return nil, err
 	}
-	d, err := types.LoadDeck(path)
-	if err != nil {
-		return nil, err
-	}
-	d.MacroArchetype = w.MacroArchetype
-	d.Labels = w.Labels
-	d.Colors = w.Colors
-	if w.Player != "" {
-		d.Player = w.Player
-	}
-	if w.Matches != nil {
-		d.Matches = w.Matches
-	}
-	if err := d.Save(path); err != nil {
-		return nil, err
-	}
-	return &storage.Deck{Deck: *d}, nil
-}
-
-// SaveDeckRecord loads every deck in the draft, applies the record edit via
-// ReconcileRecord, and writes each changed deck's file whole so unrelated
-// fields survive. It returns the changed decks with their ids set.
-func (b *Backend) SaveDeckRecord(cube, draftID, deckID, player string, matches []types.Match) ([]*storage.Deck, error) {
-	contents, err := os.ReadFile(fmt.Sprintf("data/%s/index.json", cube))
-	if err != nil {
-		return nil, err
-	}
-	var index commands.MainIndex
-	if err := json.Unmarshal(contents, &index); err != nil {
-		return nil, err
-	}
-
-	var loaded []*storage.Deck
-	paths := map[*types.Deck]string{}
-	found := false
-	for _, draft := range index.Drafts {
-		if draft.DraftID != draftID {
-			continue
-		}
-		found = true
-		for _, ideck := range draft.Decks {
-			d, err := types.LoadDeck(ideck.Path)
-			if err != nil {
-				return nil, err
-			}
-			sd := &storage.Deck{Deck: *d}
-			sd.ID = sd.Player
-			loaded = append(loaded, sd)
-			paths[&sd.Deck] = ideck.Path
-		}
-	}
-	if !found {
+	if len(files) == 0 {
 		return nil, storage.ErrDeckNotFound
 	}
-
-	targetOldName := ""
-	for _, sd := range loaded {
-		if sd.ID == deckID {
-			targetOldName = sd.Player
-			break
-		}
-	}
-	if targetOldName == "" {
-		return nil, storage.ErrDeckNotFound
-	}
-
-	tds := make([]*types.Deck, len(loaded))
-	byTD := map[*types.Deck]*storage.Deck{}
-	for i, sd := range loaded {
-		tds[i] = &sd.Deck
-		byTD[&sd.Deck] = sd
-	}
-	changed := types.ReconcileRecord(tds, targetOldName, player, matches)
-
-	var out []*storage.Deck
-	for _, td := range changed {
-		if err := td.Save(paths[td]); err != nil {
-			return nil, err
-		}
-		sd := byTD[td]
-		sd.ID = sd.Player
-		out = append(out, sd)
+	out := make([]*storage.Deck, 0, len(files))
+	for _, f := range files {
+		out = append(out, &storage.Deck{Deck: *f.deck})
 	}
 	return out, nil
 }
 
-// deckFilePath returns the on-disk file for a deck by loading the cube's index
-// and matching the draft and player (the file backend's id). It keeps path
-// resolution inside the backend so callers never handle filesystem paths.
-func (b *Backend) deckFilePath(cube, draftID, deckID string) (string, error) {
-	contents, err := os.ReadFile(fmt.Sprintf("data/%s/index.json", cube))
+// SaveDecks writes each deck back to the file in the draft's directory that
+// holds its ID, so a renamed player keeps the same file. It returns
+// ErrDeckNotFound for an ID no file in the draft has.
+func (b *Backend) SaveDecks(cube, draftID string, decks []*storage.Deck) error {
+	files, err := loadDraftFiles(cube, draftID)
 	if err != nil {
-		return "", err
+		return err
 	}
-	var index commands.MainIndex
-	if err := json.Unmarshal(contents, &index); err != nil {
-		return "", err
+	paths := make(map[int]string, len(files))
+	for _, f := range files {
+		paths[f.deck.ID] = f.path
 	}
-	for _, draft := range index.Drafts {
-		if draft.DraftID != draftID {
-			continue
+	for _, d := range decks {
+		path, ok := paths[d.ID]
+		if !ok {
+			return storage.ErrDeckNotFound
 		}
-		for _, ideck := range draft.Decks {
-			d, err := loadDeck(ideck.Path)
-			if err != nil {
-				continue
-			}
-			if d.Player == deckID {
-				return ideck.Path, nil
-			}
+		td := d.Deck
+		td.Metadata.Path = path
+		if err := td.Save(path); err != nil {
+			return fmt.Errorf("save deck %s: %w", path, err)
 		}
 	}
-	return "", storage.ErrDeckNotFound
+	return nil
+}
+
+// draftFile is one deck file in a draft directory, as loaded from disk.
+type draftFile struct {
+	path string
+	deck *types.Deck
+}
+
+// loadDraftFiles loads every deck file in a draft's directory. It refuses a
+// draft where a deck has no ID or two decks share one, since writes find their
+// file by ID and would otherwise overwrite the wrong deck.
+func loadDraftFiles(cube, draftID string) ([]draftFile, error) {
+	if err := validPathComponent(draftID); err != nil {
+		return nil, err
+	}
+	paths, err := drafts.DeckFiles(draftDir(cube, draftID))
+	if err != nil {
+		return nil, err
+	}
+	seen := make(map[int]string, len(paths))
+	out := make([]draftFile, 0, len(paths))
+	for _, path := range paths {
+		d, err := types.LoadDeck(path)
+		if err != nil {
+			return nil, fmt.Errorf("load deck %s: %w", path, err)
+		}
+		if d.ID == 0 {
+			return nil, fmt.Errorf("deck %s has no id", path)
+		}
+		if other, ok := seen[d.ID]; ok {
+			return nil, fmt.Errorf("decks %s and %s share id %d", other, path, d.ID)
+		}
+		seen[d.ID] = path
+		out = append(out, draftFile{path: path, deck: d})
+	}
+	return out, nil
+}
+
+// draftDir returns a draft's directory under the data root.
+func draftDir(cube, draftID string) string {
+	return filepath.Join("data", cube, draftID)
 }
 
 func loadDeck(path string) (storage.Deck, error) {
@@ -211,42 +173,6 @@ func validPathComponent(id string) error {
 		return fmt.Errorf("invalid id %q", id)
 	}
 	return nil
-}
-
-// GetNotes returns the free-form notes saved against a deck, or "" if none
-// have been saved yet.
-func (b *Backend) GetNotes(cube, draftID, deckID string) (string, error) {
-	if err := validPathComponent(draftID); err != nil {
-		return "", err
-	}
-	if err := validPathComponent(deckID); err != nil {
-		return "", err
-	}
-	path := strings.ToLower(fmt.Sprintf("data/%s/%s/%s.report.md", cube, draftID, deckID))
-	contents, err := os.ReadFile(path)
-	if err != nil {
-		if os.IsNotExist(err) {
-			return "", nil
-		}
-		return "", err
-	}
-	return string(contents), nil
-}
-
-// PutNotes saves free-form notes against a deck, creating the draft directory
-// if needed.
-func (b *Backend) PutNotes(cube, draftID, deckID, content string) error {
-	if err := validPathComponent(draftID); err != nil {
-		return err
-	}
-	if err := validPathComponent(deckID); err != nil {
-		return err
-	}
-	path := strings.ToLower(fmt.Sprintf("data/%s/%s/%s.report.md", cube, draftID, deckID))
-	if err := os.MkdirAll(filepath.Dir(path), 0o755); err != nil {
-		return err
-	}
-	return os.WriteFile(path, []byte(content), 0o644)
 }
 
 // GetRules returns a cube's design-map rules.
@@ -295,7 +221,7 @@ func (b *Backend) Index(cube string) (*storage.CubeIndex, error) {
 				logrus.WithError(err).Warn("Failed to load deck")
 				continue
 			}
-			id.Decks = append(id.Decks, storage.IndexedDeck{ID: d.Player})
+			id.Decks = append(id.Decks, storage.IndexedDeck{ID: d.ID})
 		}
 		out.Drafts = append(out.Drafts, id)
 	}

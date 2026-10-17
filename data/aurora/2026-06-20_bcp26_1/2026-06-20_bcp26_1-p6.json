@@ -3,6 +3,7 @@
   "path": "data/aurora/2026-06-20_bcp26_1/2026-06-20_bcp26_1-p6.json",
   "draft_id": "2026-06-20_bcp26_1"
  },
+ "id": 6,
  "macro_archetype": "aggro",
  "labels": [],
  "player": "2026-06-20_bcp26_1-p6",
@@ -10,6 +11,7 @@
  "matches": [
   {
    "opponent": "2026-06-20_bcp26_1-p2",
+   "opponent_id": 2,
    "round": 1,
    "wins": 2,
    "losses": 0,
@@ -18,6 +20,7 @@
   },
   {
    "opponent": "2026-06-20_bcp26_1-p1",
+   "opponent_id": 1,
    "round": 2,
    "wins": 2,
    "losses": 0,
@@ -26,6 +29,7 @@
   },
   {
    "opponent": "2026-06-20_bcp26_1-p7",
+   "opponent_id": 7,
    "round": 3,
    "wins": 2,
    "losses": 0,

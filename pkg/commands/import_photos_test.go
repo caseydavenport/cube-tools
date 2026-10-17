@@ -1,6 +1,7 @@
 package commands
 
 import (
+	"fmt"
 	"os"
 	"path/filepath"
 	"testing"
@@ -134,5 +135,27 @@ func TestBuildPhotoDraftDirErrors(t *testing.T) {
 	// nonexistent source path
 	if _, _, err := buildPhotoDraftDir(root, "aurora", filepath.Join(t.TempDir(), "nope"), "2026-06-20", "evt", "", ""); err == nil {
 		t.Fatal("expected error for missing source path")
+	}
+}
+
+func TestBuildPhotoDraftAssignsIDs(t *testing.T) {
+	root := t.TempDir()
+	src := t.TempDir()
+	for _, name := range []string{"a.jpg", "b.jpg", "c.jpg"} {
+		writeFile(t, filepath.Join(src, name))
+	}
+
+	draftID, _, err := buildPhotoDraftDir(root, "aurora", src, "2026-06-20", "evt", "My Event", "")
+	if err != nil {
+		t.Fatal(err)
+	}
+	for n := 1; n <= 3; n++ {
+		deck, err := types.LoadDeck(filepath.Join(root, "aurora", draftID, fmt.Sprintf("%s-p%d.json", draftID, n)))
+		if err != nil {
+			t.Fatal(err)
+		}
+		if deck.ID != n {
+			t.Errorf("p%d id = %d, want %d", n, deck.ID, n)
+		}
 	}
 }

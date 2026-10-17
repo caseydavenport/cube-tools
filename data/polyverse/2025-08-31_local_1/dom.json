@@ -4,6 +4,7 @@
   "draft_id": "2025-08-31_local_1",
   "combined_file": "data/polyverse/2025-08-31_local_1/dom.txt"
  },
+ "id": 2,
  "macro_archetype": "aggro",
  "labels": [
   "equipment",
@@ -15,6 +16,7 @@
  "matches": [
   {
    "opponent": "casey",
+   "opponent_id": 1,
    "round": 1,
    "wins": 1,
    "losses": 0,

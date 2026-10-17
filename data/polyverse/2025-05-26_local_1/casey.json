@@ -4,6 +4,7 @@
   "draft_id": "2025-05-26_local_1",
   "combined_file": "data/polyverse/2025-05-26_local_1/casey.csv"
  },
+ "id": 2,
  "macro_archetype": "midrange",
  "labels": [
   "draw",
@@ -14,6 +15,7 @@
  "matches": [
   {
    "opponent": "dom",
+   "opponent_id": 3,
    "round": 1,
    "wins": 1,
    "losses": 2,

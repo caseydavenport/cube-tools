@@ -38,8 +38,10 @@ func TestStore_ListEnriches(t *testing.T) {
 	assert.Equal(t, 1, a.Stats.MatchWins)
 }
 
-func TestStore_UpdateDeckMetaUnsupported(t *testing.T) {
+func TestStore_WritesUnsupported(t *testing.T) {
 	s := NewStore(&fakeBackend{})
-	_, err := s.UpdateDeckMeta("c", DeckMetaWrite{DraftID: "d", DeckID: "p", MacroArchetype: "aggro"})
+	_, err := s.UpdateDeckMeta("c", DeckMetaWrite{DraftID: "d", DeckID: 1, MacroArchetype: "aggro"})
+	assert.ErrorIs(t, err, ErrUnsupported)
+	_, err = s.SaveDeckRecord("c", RecordEdit{DraftID: "d", DeckID: 1, Player: "x"})
 	assert.ErrorIs(t, err, ErrUnsupported)
 }

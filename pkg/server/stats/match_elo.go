@@ -74,7 +74,7 @@ func buildMatchEvents(decks []*storage.Deck) []matchEvent {
 	var events []matchEvent
 	for _, d := range decks {
 		for _, m := range d.Matches {
-			opp, ok := idx.OpponentDeck(d, m.Opponent)
+			opp, ok := idx.MatchOpponent(d, m)
 			if !ok {
 				continue
 			}

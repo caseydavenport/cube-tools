@@ -80,3 +80,33 @@ func TestCommitHandlerRejectsBadDraftID(t *testing.T) {
 		t.Fatalf("want 400 for bad draft id, got %d", rw.Code)
 	}
 }
+
+func TestCommitAssignsIDs(t *testing.T) {
+	root := t.TempDir()
+	src := testCubeSource("polyverse", []string{"Monastery Mentor"})
+
+	body := CommitRequest{
+		DraftID: "2026-06-30_local_1",
+		Date:    "2026-06-30",
+		Decks: []ParsedDeck{
+			{Player: "casey", Mainboard: []CountedCard{{Name: "Monastery Mentor", Count: 1}}},
+			{Player: "jen", Mainboard: []CountedCard{{Name: "Monastery Mentor", Count: 1}}},
+		},
+	}
+	rw := postJSON(t, CommitHandlerWithRoot(src, root), "polyverse", "/api/polyverse/import/commit", body)
+	if rw.Code != http.StatusOK {
+		t.Fatalf("status %d: %s", rw.Code, rw.Body.String())
+	}
+
+	ids := map[string]int{}
+	for _, player := range []string{"casey", "jen"} {
+		d, err := types.LoadDeck(filepath.Join(root, "polyverse", "2026-06-30_local_1", player+".json"))
+		if err != nil {
+			t.Fatal(err)
+		}
+		ids[player] = d.ID
+	}
+	if ids["casey"] != 1 || ids["jen"] != 2 {
+		t.Fatalf("ids = %v, want casey 1 and jen 2", ids)
+	}
+}

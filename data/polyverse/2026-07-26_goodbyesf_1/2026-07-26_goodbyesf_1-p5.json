@@ -3,6 +3,7 @@
   "path": "data/polyverse/2026-07-26_goodbyesf_1/2026-07-26_goodbyesf_1-p5.json",
   "draft_id": "2026-07-26_goodbyesf_1"
  },
+ "id": 5,
  "macro_archetype": "aggro",
  "labels": [
   "discard",
@@ -13,6 +14,7 @@
  "matches": [
   {
    "opponent": "Patrick",
+   "opponent_id": 1,
    "round": 1,
    "wins": 0,
    "losses": 2,
@@ -20,6 +22,7 @@
   },
   {
    "opponent": "Isaiah",
+   "opponent_id": 6,
    "round": 3,
    "wins": 1,
    "losses": 2,

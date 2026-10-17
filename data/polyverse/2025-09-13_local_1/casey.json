@@ -5,6 +5,7 @@
   "mainboard_file": "data/polyverse/2025-09-13_local_1/casey-mainboard.csv",
   "sideboard_file": "data/polyverse/2025-09-13_local_1/casey-sideboard.csv"
  },
+ "id": 1,
  "macro_archetype": "aggro",
  "labels": [
   "equipment",
@@ -16,6 +17,7 @@
  "matches": [
   {
    "opponent": "isaiah",
+   "opponent_id": 4,
    "round": 3,
    "wins": 0,
    "losses": 2,
@@ -34,6 +36,7 @@
   },
   {
    "opponent": "joe",
+   "opponent_id": 5,
    "round": 1,
    "wins": 2,
    "losses": 1,

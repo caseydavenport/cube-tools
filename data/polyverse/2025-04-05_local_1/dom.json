@@ -4,15 +4,18 @@
   "draft_id": "2025-04-05_local_1",
   "combined_file": "data/polyverse/2025-04-05_local_1/dom.txt"
  },
+ "id": 2,
  "macro_archetype": "midrange",
  "labels": [
   "token"
  ],
  "player": "dom",
  "date": "2025-04-05",
+ "notes": "I think this deck largely got unlucky - it rarely (if ever) drew its removal when it needed it.\n\nIt was still able to crank out a bunch of tokens with [[Parallel Lives]], [[Young Pyromancer]], and [[Saheeli, Sublime Artificer]].\n\nOther notes:\n\n- [[Rielle, the Everwise]] was _fine_, but not super. Dom said he would probably cut for another cantrip in this deck instead.\n- [[Dreamtide Whale]] never came down, but Dom also said he would probably prefer another spell. Take with a grain of salt since it never actually saw play time.\n- [[Into the Roil]] and [[Aether Tradewinds]] are a bit expensive in this type of deck. Still were fairly useful though.\n",
  "matches": [
   {
    "opponent": "casey",
+   "opponent_id": 1,
    "round": 1,
    "wins": 0,
    "losses": 2,

@@ -4,6 +4,7 @@
   "draft_id": "2025-06-12_local_1",
   "combined_file": "data/polyverse/2025-06-12_local_1/will.csv"
  },
+ "id": 8,
  "macro_archetype": "control",
  "labels": [],
  "player": "will",
@@ -11,6 +12,7 @@
  "matches": [
   {
    "opponent": "casey",
+   "opponent_id": 1,
    "round": 3,
    "wins": 1,
    "losses": 2,
@@ -33,6 +35,7 @@
   },
   {
    "opponent": "joe",
+   "opponent_id": 3,
    "round": 2,
    "wins": 2,
    "losses": 1,
@@ -55,6 +58,7 @@
   },
   {
    "opponent": "kevin",
+   "opponent_id": 6,
    "round": 1,
    "wins": 1,
    "losses": 2,

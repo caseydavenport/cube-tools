@@ -4,6 +4,7 @@
   "draft_id": "2025-05-26_local_1",
   "combined_file": "data/polyverse/2025-05-26_local_1/greg.csv"
  },
+ "id": 4,
  "macro_archetype": "aggro",
  "labels": [],
  "player": "greg",
@@ -11,6 +12,7 @@
  "matches": [
   {
    "opponent": "jen",
+   "opponent_id": 6,
    "round": 1,
    "wins": 2,
    "losses": 0,
@@ -29,6 +31,7 @@
   },
   {
    "opponent": "xander",
+   "opponent_id": 7,
    "round": 3,
    "wins": 1,
    "losses": 2,

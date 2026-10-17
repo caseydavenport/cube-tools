@@ -4,6 +4,7 @@
   "draft_id": "2023-12-02_local_1",
   "combined_file": "data/polyverse/2023-12-02_local_1/james.txt"
  },
+ "id": 5,
  "macro_archetype": "aggro",
  "labels": [],
  "player": "james",
@@ -11,6 +12,7 @@
  "matches": [
   {
    "opponent": "casey",
+   "opponent_id": 2,
    "round": 3,
    "wins": 0,
    "losses": 2,
@@ -29,6 +31,7 @@
   },
   {
    "opponent": "dom",
+   "opponent_id": 3,
    "round": 2,
    "wins": 0,
    "losses": 2,
@@ -47,6 +50,7 @@
   },
   {
    "opponent": "greg",
+   "opponent_id": 4,
    "round": 1,
    "wins": 1,
    "losses": 2,

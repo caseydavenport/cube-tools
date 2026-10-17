@@ -4,6 +4,7 @@
   "draft_id": "2024-03-31_local_1",
   "combined_file": "data/polyverse/2024-03-31_local_1/james.txt"
  },
+ "id": 5,
  "macro_archetype": "midrange",
  "labels": [],
  "player": "james",
@@ -11,6 +12,7 @@
  "matches": [
   {
    "opponent": "casey",
+   "opponent_id": 2,
    "round": 3,
    "wins": 2,
    "losses": 1,
@@ -33,6 +35,7 @@
   },
   {
    "opponent": "dom",
+   "opponent_id": 3,
    "round": 2,
    "wins": 2,
    "losses": 1,
@@ -55,6 +58,7 @@
   },
   {
    "opponent": "greg",
+   "opponent_id": 4,
    "round": 1,
    "wins": 1,
    "losses": 2,

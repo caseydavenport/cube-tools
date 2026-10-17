@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useMemo, useRef, useLayoutEffect } from 'react'
-import { LoadCube, LoadDecks, FetchNotes, SaveNotes, SaveDeckMeta, SaveDeckRecord } from "../utils/Fetch.js"
+import { LoadCube, LoadDecks, SaveDeckMeta, SaveDeckRecord } from "../utils/Fetch.js"
+import { seedRecordEditor, buildMatches, mergeChangedDecks, emptyRow, opponentOptions } from "../utils/RecordEditor.js"
 import { useCube } from "../contexts/CubeContext.js"
 import { isReadOnly } from "../utils/readonly.js"
 import { Record, MatchRecord, Wins, Losses, Draws, MatchWins, MatchLosses, MatchDraws, InDeckColor } from "../utils/Deck.js"
@@ -55,7 +56,6 @@ export function DeckViewer(props) {
   // We keep two sets of variables - one for the dropdown values,
   // and another for the actual deck we want to display.
   // The dropdown values are just for filtering the deck list.
-  const [selectedPlayer, setSelectedPlayer] = useState("");
   // The highlighted deck path is the source of truth for the selected deck and
   // is mirrored to the URL (?deck=<path>) so the selection is linkable.
   const [highlightedDeck, setHighlightedDeck] = useSelection("deck");
@@ -65,9 +65,6 @@ export function DeckViewer(props) {
 
   // Track comparison decks. If any of these are set, we'll show a comparison view.
   const [comparisonDecks, setComparisonDecks] = useState(new Map());
-
-  // The cache of loaded deck.
-  const [fetched, setFetched] = useState(new Map());
 
   // The deck currently being displayed.
   const [deck, setDeck] = useState("");
@@ -138,36 +135,15 @@ export function DeckViewer(props) {
     setDecks([...d])
   }
 
-  // Merge a server-updated deck back into both the list and the selected deck.
-  // prevId is the deck's id before this save; pass it when a rename may have
-  // changed the id (the file backend derives id from player name) so the old
-  // row still matches.
-  function onDeckUpdated(updated, prevId) {
-    const targetId = prevId ?? updated.id
-    const match = (d) =>
-      d.id === targetId &&
-      d.metadata && d.metadata.draft_id === updated.metadata.draft_id
-    // Replace the one deck that matches with the updated version, leave every other deck as-is.
-    setDecks((prev) => prev.map((d) => (match(d) ? updated : d)))
-    setDeck((prev) => {
-      if (!prev || !match(prev)) return prev
-      // Follow a rename so the detail view keeps showing the same deck.
-      if (selectedPlayer === prev.player) setSelectedPlayer(updated.player)
-      return updated
-    })
+  // Merge the decks a save changed back into the list. Deck ids never change,
+  // so the selection effect below re-resolves the displayed deck by its ref.
+  function onDecksUpdated(changed) {
+    setDecks((prev) => mergeChangedDecks(prev, changed))
   }
 
   function onDeckClicked(event) {
     // The element's id is the deck's ref, assigned via deckRef() below.
     let ref = event.currentTarget.id
-
-    // Find the deck in the list of decks and use it to set the selected player.
-    for (let deck of decks) {
-      if (deckRef(deck) === ref) {
-        setSelectedPlayer(deck.player)
-        break
-      }
-    }
 
     // Highlight the deck in the side bar.
     setHighlightedDeck(ref)
@@ -206,12 +182,6 @@ export function DeckViewer(props) {
     setHighlightedDeck(ref)
   }
 
-  // Selected description.
-  const [description, setDescription] = useState("");
-  function onDescriptionFetched(f) {
-    setDescription(f)
-  }
-
   const [cubeData, setCubeData] = useState({ "cards": [] });
 
   // Start of day load the draft index.
@@ -221,10 +191,6 @@ export function DeckViewer(props) {
     LoadCube(cube, setCubeData)
   }, [startDate, endDate, debouncedMatchStr, mainboardSideboard]);
 
-  // Handle changes to the draft and deck selection dropdowns.
-  function onDeckSelected(event) {
-    setSelectedPlayer(event.target.value)
-  }
   function onBoardSelected(event) {
     setMainboardSideboard(event.target.value)
   }
@@ -233,17 +199,6 @@ export function DeckViewer(props) {
     { label: "Sideboard", value: "Sideboard" },
     { label: "Pool", value: "Pool" },
   ]
-
-  // Callback for sucessfully fetching a Deck.
-  // This function updates the UI with the deck's contents.
-  function onFetch(d) {
-    const newDeck = {...d}
-    setDeck(newDeck);
-
-    // Update cache.
-    fetched.set(selectedPlayer, newDeck)
-    setFetched(new Map(fetched))
-  }
 
   // Whenever the selected deck (highlightedDeck ref) changes, resolve it to a
   // loaded deck. highlightedDeck may arrive from the URL on page load, so we
@@ -258,15 +213,11 @@ export function DeckViewer(props) {
     for (let deck of decks) {
       if (deckRef(deck) === highlightedDeck) {
         setDeck(deck)
-        setSelectedPlayer(deck.player)
 
         // The highlighted deck is always a comparison deck.
         let newComparisonDecks = new Map(comparisonDecks)
         newComparisonDecks.set(deckRef(deck), deck)
         setComparisonDecks(newComparisonDecks)
-
-        // Load the deck description, if it exists.
-        FetchNotes(cube, deck.metadata.draft_id, deck.id, onDescriptionFetched)
         return
       }
     }
@@ -431,11 +382,9 @@ export function DeckViewer(props) {
             comparisonDecks={comparisonDecks}
             mbsb={mainboardSideboard}
             matchStr={debouncedMatchStr}
-            description={description}
-            onDescriptionFetched={onDescriptionFetched}
             viewMode={viewMode}
             archetypes={archetypes}
-            onDeckUpdated={onDeckUpdated}
+            onDecksUpdated={onDecksUpdated}
             onSelectDeck={selectDeck}
           />
         ) : (
@@ -828,7 +777,7 @@ function displayDeckImages(input) {
         <CardImagesList cards={cards} deck={deck} sb={input.mbsb == "Sideboard"} opts={{land: "Fetches"}} matchStr={input.matchStr} />
         <CardImagesList cards={cards} deck={deck} sb={input.mbsb == "Sideboard"} opts={{land: "Other"}} matchStr={input.matchStr} />
       </div>
-      <DeckReport cube={input.cube} player={deck.player} cardMap={cardMap} description={input.description} onDescriptionFetched={input.onDescriptionFetched} deck={deck} />
+      <DeckReport cube={input.cube} cardMap={cardMap} deck={deck} onDecksUpdated={input.onDecksUpdated} />
     </div>
   );
 }
@@ -974,22 +923,23 @@ function displayDeck(input) {
     <div className="deck-view">
       <PlayerFrame {...input} />
       <DeckGrid deck={deck} cards={cards} sb={input.mbsb == "Sideboard"} matchStr={input.matchStr} synergy={input.synergy} />
-      <DeckReport cube={input.cube} player={deck.player} cardMap={cardMap} description={input.description} onDescriptionFetched={input.onDescriptionFetched} deck={deck} />
+      <DeckReport cube={input.cube} cardMap={cardMap} deck={deck} onDecksUpdated={input.onDecksUpdated} />
     </div>
   );
 }
 
 function DeckReport(input) {
   const readOnly = isReadOnly(input.cube);
+  const notes = input.deck.notes || "";
   const [isEditing, setIsEditing] = useState(false);
-  const [editContent, setEditContent] = useState(input.description);
+  const [editContent, setEditContent] = useState(notes);
 
-  // Sync editContent when description changes from props.
+  // Sync editContent when the deck's notes change underneath us.
   useEffect(() => {
-    setEditContent(input.description);
-  }, [input.description]);
+    setEditContent(notes);
+  }, [notes]);
 
-  if (input.description == "" && !isEditing) {
+  if (notes == "" && !isEditing) {
     if (readOnly) {
       // No notes and nothing to add - render nothing.
       return null;
@@ -1003,8 +953,8 @@ function DeckReport(input) {
 
   const onSave = async () => {
     try {
-      await SaveNotes(input.cube, input.deck.metadata.draft_id, input.deck.id, editContent);
-      input.onDescriptionFetched(editContent);
+      const updated = await saveAnnotations(input.cube, input.deck, { notes: editContent });
+      input.onDecksUpdated([updated]);
       setIsEditing(false);
     } catch (err) {
       alert("Failed to save notes: " + err.message);
@@ -1012,7 +962,7 @@ function DeckReport(input) {
   };
 
   // Replace [[cardname]] with links to the card.
-  let description = input.description
+  let description = notes
   const match = /\[\[.*\]\]/g
   let replace = function(val) {
     // Determine the card name.
@@ -1036,7 +986,7 @@ function DeckReport(input) {
             {isEditing ? (
               <>
                 <Button text="Save" onClick={onSave} />
-                <Button text="Cancel" onClick={() => { setIsEditing(false); setEditContent(input.description); }} />
+                <Button text="Cancel" onClick={() => { setIsEditing(false); setEditContent(notes); }} />
               </>
             ) : (
               <Button text="Edit" onClick={() => setIsEditing(true)} />
@@ -1070,98 +1020,71 @@ function DeckReport(input) {
   );
 }
 
-// buildMatches turns record-editor state into the deck.matches array. Rounds
-// mode keeps one match per round with its game score; override mode emits
-// opponent-less stub matches, one per match result, so the derived record
-// reads back exactly as typed.
-function buildMatches(mode, rounds, override) {
-  if (mode === "rounds") {
-    return rounds
-      .filter((r) => r.opponent || r.wins || r.losses || r.draws)
-      .map((r) => ({ opponent: r.opponent, wins: Number(r.wins) || 0, losses: Number(r.losses) || 0, draws: Number(r.draws) || 0 }))
-  }
-  const out = []
-  for (let i = 0; i < (Number(override.wins) || 0); i++) out.push({ wins: 1, losses: 0, draws: 0 })
-  for (let i = 0; i < (Number(override.losses) || 0); i++) out.push({ wins: 0, losses: 1, draws: 0 })
-  for (let i = 0; i < (Number(override.draws) || 0); i++) out.push({ wins: 0, losses: 0, draws: 1 })
-  return out
+// saveAnnotations writes a deck's annotations, sending its current values for
+// any field not in changes since the server replaces them all. Notes are only
+// sent when changed, so other annotation edits never touch them.
+function saveAnnotations(cube, deck, { macro, labels, colors, notes }) {
+  return SaveDeckMeta(cube, {
+    draft_id: deck.metadata.draft_id,
+    id: deck.id,
+    macro_archetype: macro !== undefined ? macro : (deck.macro_archetype || ""),
+    labels: labels !== undefined ? labels : (deck.labels || []),
+    colors: colors !== undefined ? colors : (deck.colors_override || []),
+    notes,
+  })
 }
 
 function PlayerFrame(input) {
   let deck = input.deck
   const cube = input.cube
   const readOnly = isReadOnly(cube)
-  const onDeckUpdated = input.onDeckUpdated
+  const onDecksUpdated = input.onDecksUpdated
   const [saveError, setSaveError] = useState(null)
 
   // Record editor: player name plus a Rounds (per-opponent) or Override
   // (raw W-L-D) view onto deck.matches. Re-seeded whenever the selected
   // deck changes.
   const [playerDraft, setPlayerDraft] = useState(deck.player)
-  const [recordMode, setRecordMode] = useState(
-    (deck.matches || []).some((m) => m.opponent) ? "rounds" : "override"
-  )
-  const [rounds, setRounds] = useState(
-    (deck.matches && deck.matches.length)
-      ? deck.matches.map((m) => ({ opponent: m.opponent || "", wins: m.wins || 0, losses: m.losses || 0, draws: m.draws || 0 }))
-      : [{ opponent: "", wins: 0, losses: 0, draws: 0 }]
-  )
-  const [override, setOverride] = useState({
-    wins: MatchWins(deck) || 0,
-    losses: MatchLosses(deck) || 0,
-    draws: MatchDraws(deck) || 0,
-  })
+  const [editor, setEditor] = useState(() => seedRecordEditor(deck))
   useEffect(() => {
     setPlayerDraft(deck.player)
-    setRecordMode((deck.matches || []).some((m) => m.opponent) ? "rounds" : "override")
-    setRounds(
-      (deck.matches && deck.matches.length)
-        ? deck.matches.map((m) => ({ opponent: m.opponent || "", wins: m.wins || 0, losses: m.losses || 0, draws: m.draws || 0 }))
-        : [{ opponent: "", wins: 0, losses: 0, draws: 0 }]
-    )
-    setOverride({ wins: MatchWins(deck) || 0, losses: MatchLosses(deck) || 0, draws: MatchDraws(deck) || 0 })
-  }, [deck.id, deck.metadata && deck.metadata.draft_id])
+    setEditor(seedRecordEditor(deck))
+  }, [deckRef(deck)])
 
-  const addRound = () => setRounds((prev) => [...prev, { opponent: "", wins: 0, losses: 0, draws: 0 }])
-  const removeRound = (idx) => setRounds((prev) => prev.filter((_, i) => i !== idx))
-  const updateRound = (idx, field, value) => setRounds((prev) => prev.map((r, i) => (i === idx ? { ...r, [field]: value } : r)))
+  const setRecordMode = (mode) => setEditor((prev) => ({ ...prev, mode }))
+  const setOverride = (override) => setEditor((prev) => ({ ...prev, override }))
+  const addRound = () => setEditor((prev) => ({ ...prev, rows: [...prev.rows, emptyRow()] }))
+  const removeRound = (idx) => setEditor((prev) => ({ ...prev, rows: prev.rows.filter((_, i) => i !== idx) }))
+  const updateRound = (idx, fields) => setEditor((prev) => ({
+    ...prev,
+    rows: prev.rows.map((r, i) => (i === idx ? { ...r, ...fields } : r)),
+  }))
 
   const saveRecord = () => {
-    const matches = buildMatches(recordMode, rounds, override)
-    saveRecordAndName({ player: playerDraft || deck.player, matches })
+    saveRecordAndName({ player: playerDraft || deck.player, matches: buildMatches(editor, deck) })
   }
 
-  // Opponent suggestions: the other players in this deck's draft.
-  const draftPlayers = useMemo(() => {
-    const did = deck.metadata && deck.metadata.draft_id
-    return (input.decks || [])
-      .filter((d) => d.metadata && d.metadata.draft_id === did && d.player !== deck.player)
-      .map((d) => d.player)
-  }, [input.decks, deck.metadata && deck.metadata.draft_id, deck.player])
+  // Opponent choices come from the deck's whole draft, loaded without the
+  // page's search filter so a filtered deck list can't hide opponents.
+  const [draftDecks, setDraftDecks] = useState([])
+  useEffect(() => {
+    if (readOnly) return
+    let alive = true
+    LoadDecks(cube, (list) => { if (alive) setDraftDecks(list) }, deck.date, deck.date, 0, "", "", "")
+    return () => { alive = false }
+  }, [cube, deckRef(deck), input.decks])
 
   // Build the WUBRG checkbox array from the deck's effective colors.
   const colorBools = ["W", "U", "B", "R", "G"].map((c) => (deck.colors || []).includes(c))
   const hasOverride = !!(deck.colors_override && deck.colors_override.length)
 
-  // Commit a change to one of the editable fields. Omitting a field keeps its
-  // current value; pass [] for colors to clear the override. player/matches
-  // are only sent by the record editor; a rename changes the deck's id (the
-  // file backend derives it from the player name), so callers that rename
-  // must pass the pre-rename id through to onDeckUpdated.
-  const commit = async ({ macro, labels, colors, player, matches }) => {
+  // Commit a change to one of the annotation fields. Omitting a field keeps its
+  // current value; pass [] for colors to clear the override.
+  const commit = async (changes) => {
     setSaveError(null)
-    const prevId = deck.id
     try {
-      const updated = await SaveDeckMeta(cube, {
-        draft_id: deck.metadata.draft_id,
-        id: deck.id,
-        macro_archetype: macro !== undefined ? macro : (deck.macro_archetype || ""),
-        labels: labels !== undefined ? labels : (deck.labels || []),
-        colors: colors !== undefined ? colors : (deck.colors_override || []),
-        player,
-        matches,
-      })
-      if (onDeckUpdated) onDeckUpdated(updated, player !== undefined ? prevId : undefined)
+      const updated = await saveAnnotations(cube, deck, changes)
+      if (onDecksUpdated) onDecksUpdated([updated])
     } catch (e) {
       setSaveError("Failed to save")
     }
@@ -1169,13 +1092,9 @@ function PlayerFrame(input) {
 
   // Save the player name and/or record through the reconcile endpoint, which
   // renames references across the draft and mirrors results onto opponents,
-  // then merges every returned deck. A rename changes the edited deck's id (the
-  // file backend derives it from the player name), so the edited deck is
-  // merged with its pre-rename id; the others keep their ids.
+  // then merges every returned deck.
   const saveRecordAndName = async ({ player, matches }) => {
     setSaveError(null)
-    const prevId = deck.id
-    const renamed = player !== undefined && player !== deck.player
     try {
       const changed = await SaveDeckRecord(cube, {
         draft_id: deck.metadata.draft_id,
@@ -1183,12 +1102,7 @@ function PlayerFrame(input) {
         player,
         matches,
       })
-      if (onDeckUpdated) {
-        for (const d of changed) {
-          const prev = renamed && d.id === player ? prevId : undefined
-          onDeckUpdated(d, prev)
-        }
-      }
+      if (onDecksUpdated) onDecksUpdated(changed)
     } catch (e) {
       setSaveError("Failed to save")
     }
@@ -1330,28 +1244,30 @@ function PlayerFrame(input) {
                 <Popover id={`record-editor-${deck.id}`} style={{maxWidth: "none"}}>
                   <Popover.Body style={{padding: "0.5rem"}}>
                     <div style={{display: "flex", gap: "0.5rem", marginBottom: "0.5rem"}}>
-                      <Button text="Rounds" onClick={() => setRecordMode("rounds")} checked={recordMode === "rounds"} />
-                      <Button text="Override" onClick={() => setRecordMode("override")} checked={recordMode === "override"} />
+                      <Button text="Rounds" onClick={() => setRecordMode("rounds")} checked={editor.mode === "rounds"} />
+                      <Button text="Override" onClick={() => setRecordMode("override")} checked={editor.mode === "override"} />
                     </div>
 
-                    {recordMode === "rounds" ? (
+                    {editor.mode === "rounds" ? (
                       <div>
-                        <datalist id={`opp-${deck.id}`}>
-                          {draftPlayers.map((p) => <option key={p} value={p} />)}
-                        </datalist>
-                        {rounds.map((r, i) => (
+                        {editor.rows.map((r, i) => (
                           <div key={i} style={{display: "flex", gap: "0.25rem", alignItems: "center", marginBottom: "0.25rem"}}>
-                            <input
+                            <input type="number" className="numeric-input" placeholder="rd" title="Round" value={r.round || ""} onChange={(e) => updateRound(i, { round: e.target.value })} style={{width: "3rem"}} />
+                            <select
                               className="text-input"
-                              placeholder="opponent"
-                              list={`opp-${deck.id}`}
-                              value={r.opponent}
-                              onChange={(e) => updateRound(i, "opponent", e.target.value)}
+                              value={r.opponentId || ""}
+                              onChange={(e) => {
+                                const opp = opponentOptions(draftDecks, deck, r).find((o) => o.id === Number(e.target.value))
+                                updateRound(i, { opponentId: opp ? opp.id : 0, opponent: opp ? opp.player : "" })
+                              }}
                               style={{width: "8rem"}}
-                            />
-                            <input type="number" className="numeric-input" value={r.wins} onChange={(e) => updateRound(i, "wins", e.target.value)} style={{width: "3rem"}} />
-                            <input type="number" className="numeric-input" value={r.losses} onChange={(e) => updateRound(i, "losses", e.target.value)} style={{width: "3rem"}} />
-                            <input type="number" className="numeric-input" value={r.draws} onChange={(e) => updateRound(i, "draws", e.target.value)} style={{width: "3rem"}} />
+                            >
+                              <option value="">{r.opponentId ? "" : (r.opponent || "opponent")}</option>
+                              {opponentOptions(draftDecks, deck, r).map((o) => <option key={o.id} value={o.id}>{o.player}</option>)}
+                            </select>
+                            <input type="number" className="numeric-input" value={r.wins} onChange={(e) => updateRound(i, { wins: e.target.value })} style={{width: "3rem"}} />
+                            <input type="number" className="numeric-input" value={r.losses} onChange={(e) => updateRound(i, { losses: e.target.value })} style={{width: "3rem"}} />
+                            <input type="number" className="numeric-input" value={r.draws} onChange={(e) => updateRound(i, { draws: e.target.value })} style={{width: "3rem"}} />
                             <Button text="x" onClick={() => removeRound(i)} />
                           </div>
                         ))}
@@ -1359,9 +1275,9 @@ function PlayerFrame(input) {
                       </div>
                     ) : (
                       <div style={{display: "flex", gap: "0.5rem", alignItems: "center"}}>
-                        <NumericInput label="W" value={override.wins} onChange={(e) => setOverride({ ...override, wins: e.target.value })} />
-                        <NumericInput label="L" value={override.losses} onChange={(e) => setOverride({ ...override, losses: e.target.value })} />
-                        <NumericInput label="D" value={override.draws} onChange={(e) => setOverride({ ...override, draws: e.target.value })} />
+                        <NumericInput label="W" value={editor.override.wins} onChange={(e) => setOverride({ ...editor.override, wins: e.target.value })} />
+                        <NumericInput label="L" value={editor.override.losses} onChange={(e) => setOverride({ ...editor.override, losses: e.target.value })} />
+                        <NumericInput label="D" value={editor.override.draws} onChange={(e) => setOverride({ ...editor.override, draws: e.target.value })} />
                       </div>
                     )}
 
@@ -1479,16 +1395,16 @@ function PlayerFrame(input) {
             let oppLabel = match.opponent || "Unknown"
             let oppArch = ""
             let oppRef = ""
-            if (match.opponent) {
-              // Find the opponent's deck by player + date - this is opponent
-              // lookup, not deck identity. The token we hand to onSelectDeck
-              // below is still the opponent deck's own deckRef.
-              for (let d of input.decks) {
-                if (d.player.toLowerCase() == match.opponent.toLowerCase() && d.date == deck.date) {
-                  oppArch = getMacro(d)
-                  oppRef = deckRef(d)
-                  break
-                }
+            if (match.opponent || match.opponent_id) {
+              // Find the opponent's deck in the same draft: by opponent_id when
+              // the match has one, else by player name for older records.
+              const did = deck.metadata.draft_id
+              const opp = input.decks.find((d) => d.metadata.draft_id === did && (match.opponent_id
+                ? d.id === match.opponent_id
+                : d.player.toLowerCase() == match.opponent.toLowerCase()))
+              if (opp) {
+                oppArch = getMacro(opp)
+                oppRef = deckRef(opp)
               }
             }
 

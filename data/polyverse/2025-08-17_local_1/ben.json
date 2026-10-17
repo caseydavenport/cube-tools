@@ -4,13 +4,16 @@
   "draft_id": "2025-08-17_local_1",
   "combined_file": "data/polyverse/2025-08-17_local_1/ben.csv"
  },
+ "id": 1,
  "macro_archetype": "aggro",
  "labels": [],
  "player": "ben",
  "date": "2025-08-17",
+ "notes": "This deck was the runner up in the trophy bracket. It was a Rakdos aggro deck splashing white for lingering souls.\n\nI didn't see too much of the gameplay unfortunately. It got out-aggro'd in the finals by the Boros embercleave deck.\n",
  "matches": [
   {
    "opponent": "kevin",
+   "opponent_id": 5,
    "round": 1,
    "wins": 1,
    "losses": 2,
@@ -33,6 +36,7 @@
   },
   {
    "opponent": "maxi",
+   "opponent_id": 6,
    "round": 2,
    "wins": 2,
    "losses": 0,
@@ -51,6 +55,7 @@
   },
   {
    "opponent": "michael",
+   "opponent_id": 7,
    "round": 3,
    "wins": 2,
    "losses": 1,

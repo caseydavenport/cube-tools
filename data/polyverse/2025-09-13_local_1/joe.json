@@ -5,6 +5,7 @@
   "mainboard_file": "data/polyverse/2025-09-13_local_1/joe-mainboard.csv",
   "sideboard_file": "data/polyverse/2025-09-13_local_1/joe-sideboard.csv"
  },
+ "id": 5,
  "macro_archetype": "midrange",
  "labels": [
   "lands",
@@ -15,6 +16,7 @@
  "matches": [
   {
    "opponent": "casey",
+   "opponent_id": 1,
    "round": 1,
    "wins": 1,
    "losses": 2,
@@ -37,6 +39,7 @@
   },
   {
    "opponent": "isaiah",
+   "opponent_id": 4,
    "round": 2,
    "wins": 2,
    "losses": 1,
@@ -59,6 +62,7 @@
   },
   {
    "opponent": "zephyr",
+   "opponent_id": 7,
    "round": 3,
    "wins": 1,
    "losses": 2,

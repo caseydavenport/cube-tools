@@ -4,6 +4,7 @@
   "draft_id": "2023-10-21_local_1",
   "combined_file": "data/polyverse/2023-10-21_local_1/mattd.txt"
  },
+ "id": 5,
  "macro_archetype": "aggro",
  "labels": [],
  "player": "mattd",
@@ -11,6 +12,7 @@
  "matches": [
   {
    "opponent": "dom",
+   "opponent_id": 2,
    "round": 2,
    "wins": 0,
    "losses": 1,
@@ -25,6 +27,7 @@
   },
   {
    "opponent": "james",
+   "opponent_id": 3,
    "round": 1,
    "wins": 1,
    "losses": 0,
@@ -39,6 +42,7 @@
   },
   {
    "opponent": "xander",
+   "opponent_id": 6,
    "round": 3,
    "wins": 1,
    "losses": 0,

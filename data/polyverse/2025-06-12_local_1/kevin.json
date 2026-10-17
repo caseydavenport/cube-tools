@@ -4,6 +4,7 @@
   "draft_id": "2025-06-12_local_1",
   "combined_file": "data/polyverse/2025-06-12_local_1/kevin.csv"
  },
+ "id": 6,
  "macro_archetype": "midrange",
  "labels": [
   "lands"
@@ -13,6 +14,7 @@
  "matches": [
   {
    "opponent": "joe2",
+   "opponent_id": 4,
    "round": 2,
    "wins": 1,
    "losses": 2,
@@ -35,6 +37,7 @@
   },
   {
    "opponent": "kenny",
+   "opponent_id": 5,
    "round": 3,
    "wins": 1,
    "losses": 2,
@@ -57,6 +60,7 @@
   },
   {
    "opponent": "will",
+   "opponent_id": 8,
    "round": 1,
    "wins": 2,
    "losses": 1,

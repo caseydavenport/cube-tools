@@ -56,11 +56,10 @@ func TestRawDecks(t *testing.T) {
 		t.Fatalf("got %d decks, want 2", len(decks))
 	}
 	byPlayer := map[string]int{}
+	ids := map[int]bool{}
 	for _, d := range decks {
 		byPlayer[d.Player] = len(d.Mainboard)
-		if d.ID != d.Player {
-			t.Errorf("deck %s: ID=%q, want ID==Player", d.Player, d.ID)
-		}
+		ids[d.ID] = true
 		if d.Metadata.DraftID != "rec1" {
 			t.Errorf("deck %s: DraftID=%q, want rec1", d.Player, d.Metadata.DraftID)
 		}
@@ -73,6 +72,9 @@ func TestRawDecks(t *testing.T) {
 		if d.Sideboard == nil {
 			t.Errorf("deck %s: Sideboard is nil, want non-nil empty slice", d.Player)
 		}
+	}
+	if !ids[1] || !ids[2] {
+		t.Errorf("deck ids = %v, want 1 and 2", ids)
 	}
 	if byPlayer["casey"] != 2 || byPlayer["matt"] != 1 {
 		t.Fatalf("mainboard sizes: %v, want casey=2 matt=1", byPlayer)
@@ -131,11 +133,11 @@ func TestIndex(t *testing.T) {
 	if len(d.Decks) != 2 {
 		t.Fatalf("got %d decks, want 2", len(d.Decks))
 	}
-	ids := map[string]bool{}
+	ids := map[int]bool{}
 	for _, dk := range d.Decks {
 		ids[dk.ID] = true
 	}
-	if !ids["casey"] || !ids["matt"] {
-		t.Errorf("deck ids = %v, want casey and matt", ids)
+	if !ids[1] || !ids[2] {
+		t.Errorf("deck ids = %v, want 1 and 2", ids)
 	}
 }

@@ -4,6 +4,7 @@
   "draft_id": "2023-07-23_local_1",
   "combined_file": "data/polyverse/2023-07-23_local_1/casey.csv"
  },
+ "id": 1,
  "macro_archetype": "aggro",
  "labels": [
   "equipment"
@@ -13,6 +14,7 @@
  "matches": [
   {
    "opponent": "grant",
+   "opponent_id": 2,
    "round": 1,
    "wins": 1,
    "losses": 0,
@@ -27,6 +29,7 @@
   },
   {
    "opponent": "jen",
+   "opponent_id": 3,
    "round": 2,
    "wins": 1,
    "losses": 0,
@@ -41,6 +44,7 @@
   },
   {
    "opponent": "matt",
+   "opponent_id": 4,
    "round": 3,
    "wins": 1,
    "losses": 0,
