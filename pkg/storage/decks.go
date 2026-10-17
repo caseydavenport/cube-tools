@@ -90,18 +90,21 @@ type DecksRequest struct {
 
 func (d *Deck) GetPlayer() string { return d.Player }
 
-// PersonKey identifies who played the deck, for counting distinct people: the
-// player ID when known, the draft and seat for an anonymous deck, and the
-// lowercased name for a deck from a source without player IDs.
-func (d *Deck) PersonKey() string {
-	switch {
-	case d.PlayerID != 0:
-		return fmt.Sprintf("id:%d", d.PlayerID)
-	case d.Player == players.SeatLabel(d.ID):
-		return fmt.Sprintf("seat:%d:%d", d.Metadata.DraftID, d.ID)
-	default:
-		return "name:" + strings.ToLower(d.Player)
+// IsAnonymous reports whether the deck is an anonymous seat: no player ID,
+// shown by its seat label. Per-player rollups leave these out, since the same
+// seat label recurs in every draft.
+func (d *Deck) IsAnonymous() bool {
+	return d.PlayerID == 0 && d.Player == players.SeatLabel(d.ID)
+}
+
+// PersonLabel names who played the deck, distinct across a cube's drafts: the
+// player's name, or for an anonymous seat its label and draft. Use it to count
+// or list distinct people, where bare seat labels would merge.
+func (d *Deck) PersonLabel() string {
+	if d.IsAnonymous() {
+		return fmt.Sprintf("%s (draft %d)", d.Player, d.Metadata.DraftID)
 	}
+	return d.Player
 }
 func (d *Deck) GetLabels() []string {
 	if d.MacroArchetype != "" {

@@ -299,3 +299,19 @@ func TestEloWinValue_ColorPenalty(t *testing.T) {
 	assert.Greater(t, eloWinValue(base, sameColor), eloWinValue(base, monoVsDualDisjoint),
 		"disjoint colors should drop winValue")
 }
+
+func TestCardPlayersCountsSeatsSeparately(t *testing.T) {
+	seat := func(draft int) *storage.Deck {
+		d := makeStorageDeck("p3", draft, nil, nil, nil)
+		d.ID = 3
+		d.Date = "2024-01-01"
+		d.Mainboard = []types.Card{{Name: "Lightning Bolt"}}
+		return d
+	}
+	h := &cardStatsHandler{}
+	got := h.statsForDecks([]*storage.Deck{seat(1), seat(2)}, map[string]types.Card{"Lightning Bolt": {Name: "Lightning Bolt"}}, &CardStatsRequest{DecksRequest: &storage.DecksRequest{}})
+	bolt := got.Data["Lightning Bolt"]
+	if assert.NotNil(t, bolt) {
+		assert.Len(t, bolt.Players, 2)
+	}
+}

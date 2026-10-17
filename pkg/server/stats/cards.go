@@ -241,7 +241,7 @@ func (d *cardStatsHandler) statsForDecks(decks []*storage.Deck, cubeCards map[st
 			}
 
 			// Increment player count.
-			cbn.Players[deck.Player]++
+			cbn.Players[deck.PersonLabel()]++
 
 			// Include archetype data for this card. The macro archetype is counted
 			// alongside the secondary labels so selecting a macro (aggro/midrange/
@@ -276,7 +276,7 @@ func (d *cardStatsHandler) statsForDecks(decks []*storage.Deck, cubeCards map[st
 			}
 
 			// Increment player count.
-			cbn.Sideboarders[deck.Player]++
+			cbn.Sideboarders[deck.PersonLabel()]++
 
 			// Track drafts for this card.
 			seeCardInDraft(card.Name, deck.Metadata.DraftID)
@@ -368,7 +368,7 @@ func ExpectedWinPercent(cardName string, players map[string]int, decks []*storag
 	r := Record{}
 	for _, d := range decks {
 		// Skip decks that were not played by one of the specified players.
-		if _, ok := players[d.Player]; !ok {
+		if _, ok := players[d.PersonLabel()]; !ok {
 			continue
 		}
 

@@ -7,6 +7,7 @@ import (
 	"github.com/caseydavenport/cube-tools/pkg/commands"
 	"github.com/caseydavenport/cube-tools/pkg/cubes"
 	"github.com/caseydavenport/cube-tools/pkg/graph"
+	"github.com/caseydavenport/cube-tools/pkg/players"
 	"github.com/caseydavenport/cube-tools/pkg/server"
 	"github.com/caseydavenport/cube-tools/pkg/server/decks"
 	"github.com/caseydavenport/cube-tools/pkg/server/importer"
@@ -48,7 +49,10 @@ func main() {
 	}
 	fileBackend := file.New(provider)
 	ccBackend := cubecobra.New(commands.DefaultCubeCobraURL, provider)
-	deckStore := storage.NewStore(router.New(fileBackend, ccBackend))
+	deckStore := storage.NewStore(router.New(fileBackend, ccBackend), storage.WithPlayers(players.FileSource{DataRoot: "data"}))
+	mux.Handle("GET /api/players", server.PlayersListHandler("data"))
+	mux.Handle("POST /api/players", server.PlayerAddHandler("data"))
+	mux.Handle("PATCH /api/players/{id}", server.PlayerRenameHandler("data", deckStore))
 	cubeRoute("GET /api/{cube}/cube", server.CubeContentHandler(provider))
 	cubeRoute("GET /api/{cube}/index", server.CubeIndexHandler(deckStore))
 	cubeRoute("GET /api/{cube}/drafts/{draft_id}/log", server.DraftLogHandler(deckStore))

@@ -328,7 +328,7 @@ func deckKeyer(dim PivotDimension, draftBucket map[int]string, cubeCards map[str
 		return func(d *storage.Deck) []string { return d.Labels }
 	case "player":
 		return func(d *storage.Deck) []string {
-			if d.Player == "" {
+			if d.Player == "" || d.IsAnonymous() {
 				return nil
 			}
 			return []string{d.Player}

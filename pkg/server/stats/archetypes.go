@@ -129,7 +129,7 @@ func (s *archetypeStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Reques
 				as.wordCountCount++
 			}
 
-			as.Players[deck.Player]++
+			as.Players[deck.PersonLabel()]++
 
 			// Track shared labels (secondary tags only; macro archetype excluded).
 			for _, other := range deck.Labels {

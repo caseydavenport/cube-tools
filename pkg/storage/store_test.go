@@ -76,19 +76,23 @@ func TestStoreResolvesNames(t *testing.T) {
 	assert.Equal(t, "Freddie", got[2].Player)
 }
 
-func TestPersonKey(t *testing.T) {
+func TestPersonLabel(t *testing.T) {
 	seat := func(draft int) *Deck {
 		d := &Deck{}
 		d.ID, d.Player, d.Metadata.DraftID = 3, "p3", draft
 		return d
 	}
-	assert.NotEqual(t, seat(1).PersonKey(), seat(2).PersonKey())
+	assert.True(t, seat(1).IsAnonymous())
+	assert.Equal(t, "p3 (draft 1)", seat(1).PersonLabel())
+	assert.NotEqual(t, seat(1).PersonLabel(), seat(2).PersonLabel())
 
 	named := &Deck{}
 	named.ID, named.PlayerID, named.Player = 3, 7, "Joan Jett"
-	assert.Equal(t, "id:7", named.PersonKey())
+	assert.False(t, named.IsAnonymous())
+	assert.Equal(t, "Joan Jett", named.PersonLabel())
 
 	remote := &Deck{}
-	remote.ID, remote.Player = 3, "Cc-User"
-	assert.Equal(t, "name:cc-user", remote.PersonKey())
+	remote.ID, remote.Player = 3, "cc-user"
+	assert.False(t, remote.IsAnonymous())
+	assert.Equal(t, "cc-user", remote.PersonLabel())
 }

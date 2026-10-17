@@ -19,6 +19,10 @@ type PlayerStatsResponse struct {
 
 type PlayerStats struct {
 	Record
+
+	// ID is the player's ID in the player list, or zero for a source without
+	// player IDs.
+	ID                 int                      `json:"id,omitempty"`
 	Name               string                   `json:"name"`
 	NumDecks           int                      `json:"num_decks"`
 	Games              int                      `json:"games"`
@@ -97,8 +101,14 @@ func (s *playerStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) 
 	wcAccum := make(map[string]*wordCountAccum)
 
 	for _, deck := range allDecks {
+		// Seat labels repeat in every draft, so anonymous decks belong to no
+		// player. Names are unique, so keying by name keeps people apart.
+		if deck.IsAnonymous() {
+			continue
+		}
 		if _, ok := resp.Players[deck.Player]; !ok {
 			resp.Players[deck.Player] = &PlayerStats{
+				ID:             deck.PlayerID,
 				Name:           deck.Player,
 				UniqueCards:    make(map[string]int),
 				ColorPicks:     make(map[string]int),

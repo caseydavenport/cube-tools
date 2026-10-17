@@ -95,3 +95,30 @@ func TestPlayerStats_BasicAggregation(t *testing.T) {
 	assert.Equal(t, 1, alice.Trophies)
 	assert.Equal(t, 1, alice.LastPlace)
 }
+
+func TestPlayerStatsSkipsAnonymous(t *testing.T) {
+	seat := func(draft int) *storage.Deck {
+		d := makeStorageDeck("p3", draft, nil, nil, []types.Match{{OpponentID: 1, Wins: 2}})
+		d.ID = 3
+		return d
+	}
+	named := func(draft int) *storage.Deck {
+		d := makeStorageDeck("Freddie", draft, nil, nil, []types.Match{{OpponentID: 3, Wins: 2}})
+		d.ID, d.PlayerID = 1, 1
+		return d
+	}
+	decks := []*storage.Deck{seat(1), seat(2), named(1), named(2)}
+
+	handler := &playerStatsHandler{store: &mockDeckStorage{decks: decks}, src: testCubeSource{}}
+	rr := httptest.NewRecorder()
+	handler.ServeHTTP(rr, httptest.NewRequest(http.MethodGet, "/api/stats/players", nil))
+
+	var resp PlayerStatsResponse
+	assert.NoError(t, json.Unmarshal(rr.Body.Bytes(), &resp))
+	assert.Len(t, resp.Players, 1)
+	freddie := resp.Players["Freddie"]
+	if assert.NotNil(t, freddie) {
+		assert.Equal(t, 1, freddie.ID)
+		assert.Equal(t, 2, freddie.NumDecks)
+	}
+}
