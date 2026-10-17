@@ -156,10 +156,10 @@ func (d *cardStatsHandler) statsForDecks(decks []*storage.Deck, cubeCards map[st
 	var totalWins int
 
 	// Track the drafts that this card has been seen in.
-	draftsByCard := make(map[string]map[string]bool)
-	seeCardInDraft := func(cardName, draftID string) {
+	draftsByCard := make(map[string]map[int]bool)
+	seeCardInDraft := func(cardName string, draftID int) {
 		if _, ok := draftsByCard[cardName]; !ok {
-			draftsByCard[cardName] = make(map[string]bool)
+			draftsByCard[cardName] = make(map[int]bool)
 		}
 		draftsByCard[cardName][draftID] = true
 	}

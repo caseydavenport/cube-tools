@@ -78,7 +78,7 @@ func buildMatchEvents(decks []*storage.Deck) []matchEvent {
 			if !ok {
 				continue
 			}
-			id := matchID(d.Metadata.DraftID, d.Player, m.Opponent, m.Round)
+			id := matchID(d.Metadata.DraftID, d.Player, opp.Player, m.Round)
 			if seen[id] {
 				continue
 			}
@@ -108,11 +108,11 @@ func buildMatchEvents(decks []*storage.Deck) []matchEvent {
 
 // matchID is a canonical identifier for a match, stable across the two decks that
 // recorded it. Sorting the player pair collapses both sides onto one key.
-func matchID(draftID, a, b string, round int) string {
+func matchID(draftID int, a, b string, round int) string {
 	if a > b {
 		a, b = b, a
 	}
-	return fmt.Sprintf("%s|%d|%s|%s", draftID, round, a, b)
+	return fmt.Sprintf("%d|%d|%s|%s", draftID, round, a, b)
 }
 
 // matchScore returns the match result from player's perspective: 1 win, 0 loss,

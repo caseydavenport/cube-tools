@@ -1,6 +1,9 @@
 package ocr
 
-import "github.com/caseydavenport/cube-tools/pkg/types"
+import (
+	"github.com/caseydavenport/cube-tools/pkg/storage"
+	"github.com/caseydavenport/cube-tools/pkg/types"
+)
 
 type PhotoSet struct {
 	Checkin  []string `json:"checkin"`
@@ -28,18 +31,14 @@ type PlayerDetail struct {
 }
 
 type DraftDetail struct {
-	DraftID   string         `json:"draft_id"`
-	EventName string         `json:"event_name"`
-	Flight    string         `json:"flight,omitempty"`
-	Players   []PlayerDetail `json:"players"`
+	Draft   storage.DraftInfo `json:"draft"`
+	Players []PlayerDetail    `json:"players"`
 }
 
 type DraftSummary struct {
-	DraftID   string `json:"draft_id"`
-	EventName string `json:"event_name"`
-	Flight    string `json:"flight,omitempty"`
-	Players   int    `json:"players"`
-	Confirmed int    `json:"confirmed"`
+	Draft     storage.DraftInfo `json:"draft"`
+	Players   int               `json:"players"`
+	Confirmed int               `json:"confirmed"`
 
 	// Conflicts is the number of over-count/unknown discrepancies from the
 	// pool-vs-cube check, surfaced as a warning badge on the draft list.

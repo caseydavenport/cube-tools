@@ -79,7 +79,6 @@ func main() {
 	// Cube lists resolve live from CubeCobra when no snapshot is on disk.
 	det := ocrhttp.NewDetector()
 	ocrhttp.SetCubeSource(provider)
-	cubeRoute("GET /api/{cube}/img/{path...}", ocrhttp.ImageHandler())
 	cubeRoute("GET /api/{cube}/ocr/drafts", ocrhttp.DraftsHandler())
 	cubeRoute("GET /api/{cube}/ocr/drafts/{draft_id}", ocrhttp.DraftDetailHandler())
 	cubeRoute("GET /api/{cube}/ocr/drafts/{draft_id}/cards", ocrhttp.CardsHandler())
@@ -87,9 +86,10 @@ func main() {
 	cubeRoute("GET /api/{cube}/ocr/drafts/{draft_id}/session", ocrhttp.SessionGetHandler())
 	cubeRoute("POST /api/{cube}/ocr/drafts/{draft_id}/session", ocrhttp.SessionSaveHandler())
 	cubeRoute("POST /api/{cube}/ocr/drafts/{draft_id}/players/{player}/confirm", ocrhttp.ConfirmHandler())
-	cubeRoute("POST /api/{cube}/ocr/detect", ocrhttp.DetectHandler(det))
-	cubeRoute("POST /api/{cube}/ocr/region", ocrhttp.RegionHandler(det))
-	cubeRoute("POST /api/{cube}/ocr/rotate", ocrhttp.RotateHandler())
+	cubeRoute("GET /api/{cube}/ocr/drafts/{draft_id}/img/{path...}", ocrhttp.ImageHandler())
+	cubeRoute("POST /api/{cube}/ocr/drafts/{draft_id}/detect", ocrhttp.DetectHandler(det))
+	cubeRoute("POST /api/{cube}/ocr/drafts/{draft_id}/region", ocrhttp.RegionHandler(det))
+	cubeRoute("POST /api/{cube}/ocr/drafts/{draft_id}/rotate", ocrhttp.RotateHandler())
 	cubeRoute("POST /api/{cube}/ocr/drafts/{draft_id}/scan", ocrhttp.ScanStartHandler(det))
 	cubeRoute("GET /api/{cube}/ocr/drafts/{draft_id}/scan", ocrhttp.ScanStatusHandler())
 

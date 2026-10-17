@@ -10,7 +10,7 @@ import (
 
 // RunDeckConformance checks the deck-storage contract against a Store that the
 // caller has already seeded with the canonical dataset: cube "conf" containing
-// draft "d1" with Alice (id 1, 2-0 vs Bob in round 1, two games) and Bob (id 2,
+// draft 1 with Alice (id 1, 2-0 vs Bob in round 1, two games) and Bob (id 2,
 // the mirror), each match carrying the opponent's id. caps controls which
 // optional behaviors are exercised.
 func RunDeckConformance(t *testing.T, s *Store, caps Capabilities) {
@@ -68,27 +68,27 @@ func deckByPlayer(t *testing.T, s *Store, player string) *Deck {
 func runAnnotationConformance(t *testing.T, s *Store) {
 	t.Helper()
 
-	updated, err := s.UpdateDeckMeta("conf", DeckMetaWrite{DraftID: "d1", DeckID: 1, MacroArchetype: "Aggro", Labels: []string{"fast"}})
+	updated, err := s.UpdateDeckMeta("conf", DeckMetaWrite{DraftID: 1, DeckID: 1, MacroArchetype: "Aggro", Labels: []string{"fast"}})
 	assert.NoError(t, err)
 	assert.Equal(t, "Aggro", updated.MacroArchetype)
 	assert.Equal(t, 1, updated.Stats.MatchWins)
 	assert.Equal(t, "Aggro", deckByPlayer(t, s, "Alice").MacroArchetype)
 
 	notes := "hi"
-	_, err = s.UpdateDeckMeta("conf", DeckMetaWrite{DraftID: "d1", DeckID: 1, MacroArchetype: "Aggro", Notes: &notes})
+	_, err = s.UpdateDeckMeta("conf", DeckMetaWrite{DraftID: 1, DeckID: 1, MacroArchetype: "Aggro", Notes: &notes})
 	assert.NoError(t, err)
 	assert.Equal(t, "hi", deckByPlayer(t, s, "Alice").Notes)
 
-	_, err = s.UpdateDeckMeta("conf", DeckMetaWrite{DraftID: "d1", DeckID: 1, Labels: []string{"slow"}})
+	_, err = s.UpdateDeckMeta("conf", DeckMetaWrite{DraftID: 1, DeckID: 1, Labels: []string{"slow"}})
 	assert.NoError(t, err)
 	assert.Equal(t, "hi", deckByPlayer(t, s, "Alice").Notes)
 
 	empty := ""
-	_, err = s.UpdateDeckMeta("conf", DeckMetaWrite{DraftID: "d1", DeckID: 1, Notes: &empty})
+	_, err = s.UpdateDeckMeta("conf", DeckMetaWrite{DraftID: 1, DeckID: 1, Notes: &empty})
 	assert.NoError(t, err)
 	assert.Equal(t, "", deckByPlayer(t, s, "Alice").Notes)
 
-	_, err = s.UpdateDeckMeta("conf", DeckMetaWrite{DraftID: "d1", DeckID: 9})
+	_, err = s.UpdateDeckMeta("conf", DeckMetaWrite{DraftID: 1, DeckID: 9})
 	assert.ErrorIs(t, err, ErrDeckNotFound)
 }
 
@@ -98,7 +98,7 @@ func runAnnotationConformance(t *testing.T, s *Store) {
 func runRecordConformance(t *testing.T, s *Store) {
 	t.Helper()
 
-	changed, err := s.SaveDeckRecord("conf", RecordEdit{DraftID: "d1", DeckID: 1, Player: "Alicia"})
+	changed, err := s.SaveDeckRecord("conf", RecordEdit{DraftID: 1, DeckID: 1, Player: "Alicia"})
 	assert.NoError(t, err)
 	assert.Len(t, changed, 2)
 	alicia := deckByPlayer(t, s, "Alicia")
@@ -110,16 +110,16 @@ func runRecordConformance(t *testing.T, s *Store) {
 	assert.Equal(t, 1, bob.Matches[0].OpponentID)
 	assert.Len(t, bob.Matches[0].Games, 2)
 
-	_, err = s.SaveDeckRecord("conf", RecordEdit{DraftID: "d1", DeckID: 1, Player: "bob"})
+	_, err = s.SaveDeckRecord("conf", RecordEdit{DraftID: 1, DeckID: 1, Player: "bob"})
 	assert.ErrorIs(t, err, ErrPlayerExists)
 
-	_, err = s.SaveDeckRecord("conf", RecordEdit{DraftID: "d1", DeckID: 1, Player: "ALICIA"})
+	_, err = s.SaveDeckRecord("conf", RecordEdit{DraftID: 1, DeckID: 1, Player: "ALICIA"})
 	assert.NoError(t, err)
 
-	_, err = s.SaveDeckRecord("conf", RecordEdit{DraftID: "d1", DeckID: 9, Player: "x"})
+	_, err = s.SaveDeckRecord("conf", RecordEdit{DraftID: 1, DeckID: 9, Player: "x"})
 	assert.ErrorIs(t, err, ErrDeckNotFound)
 
-	_, err = s.SaveDeckRecord("conf", RecordEdit{DraftID: "d1", DeckID: 1, Player: "Alice"})
+	_, err = s.SaveDeckRecord("conf", RecordEdit{DraftID: 1, DeckID: 1, Player: "Alice"})
 	assert.NoError(t, err)
 	assert.Equal(t, "Alice", deckByPlayer(t, s, "Bob").Matches[0].Opponent)
 }
@@ -146,7 +146,7 @@ func RunRulesConformance(t *testing.T, s *Store, caps Capabilities) {
 }
 
 // RunIndexConformance checks the read-only cube index against the canonical
-// dataset's draft "d1" and its two decks. Index has no capability flag, so a
+// dataset's draft 1 and its two decks. Index has no capability flag, so a
 // backend that doesn't implement it is expected to return ErrUnsupported,
 // which this skips rather than fails on.
 func RunIndexConformance(t *testing.T, s *Store) {
@@ -162,7 +162,7 @@ func RunIndexConformance(t *testing.T, s *Store) {
 
 	assert.Len(t, idx.Drafts, 1)
 	draft := idx.Drafts[0]
-	assert.Equal(t, "d1", draft.DraftID)
+	assert.Equal(t, 1, draft.ID)
 	assert.True(t, draft.HasLog)
 	assert.ElementsMatch(t, []IndexedDeck{{ID: 1}, {ID: 2}}, draft.Decks)
 }
@@ -174,7 +174,7 @@ func RunIndexConformance(t *testing.T, s *Store) {
 func RunDraftLogConformance(t *testing.T, s *Store) {
 	t.Helper()
 
-	got, err := s.GetDraftLog("conf", "d1")
+	got, err := s.GetDraftLog("conf", 1)
 	if errors.Is(err, ErrUnsupported) {
 		return
 	}

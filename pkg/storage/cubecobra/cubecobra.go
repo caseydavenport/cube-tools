@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"slices"
+	"sort"
 	"sync"
 	"time"
 
@@ -110,14 +112,15 @@ func (b *Backend) RawDecks(cube string) ([]*storage.Deck, error) {
 	byName := b.cubeCardsByName(cube)
 
 	var decks []*storage.Deck
-	for _, rec := range data.Records {
-		date := time.UnixMilli(rec.Date).UTC().Format("2006-01-02")
+	for _, nr := range numberRecords(data.Records) {
+		rec := nr.rec
 		for i, p := range rec.Players {
 			d := &storage.Deck{}
 			d.Player = p.Name
 			d.ID = i + 1
-			d.Date = date
-			d.Metadata.DraftID = rec.ID
+			d.Date = nr.info.Date
+			d.Metadata.DraftID = nr.info.ID
+			d.Draft = nr.info
 			d.DraftSize = len(rec.Players)
 			d.Labels = []string{}
 			d.Mainboard = buildMainboard(rec.Decks[p.Name], data.Cards, byName)
@@ -129,6 +132,35 @@ func (b *Backend) RawDecks(cube string) ([]*storage.Deck, error) {
 		}
 	}
 	return decks, nil
+}
+
+// numberedRecord is a CubeCobra record with the draft identity it is served
+// under.
+type numberedRecord struct {
+	rec  analysisRecord
+	info storage.DraftInfo
+}
+
+// numberRecords gives each record a draft ID, numbering them 1..N by date and
+// then record ID so the numbering is stable however CubeCobra orders them. The
+// record's name becomes the draft's event name.
+func numberRecords(recs []analysisRecord) []numberedRecord {
+	sorted := slices.Clone(recs)
+	sort.SliceStable(sorted, func(i, j int) bool {
+		if sorted[i].Date != sorted[j].Date {
+			return sorted[i].Date < sorted[j].Date
+		}
+		return sorted[i].ID < sorted[j].ID
+	})
+	out := make([]numberedRecord, len(sorted))
+	for i, rec := range sorted {
+		out[i] = numberedRecord{rec: rec, info: storage.DraftInfo{
+			ID:        i + 1,
+			Date:      time.UnixMilli(rec.Date).UTC().Format("2006-01-02"),
+			EventName: rec.Name,
+		}}
+	}
+	return out
 }
 
 // cubeCardsByName indexes the cube's live card list (printing + tags) by name.
@@ -195,13 +227,9 @@ func (b *Backend) Index(cube string) (*storage.CubeIndex, error) {
 		return nil, err
 	}
 	out := &storage.CubeIndex{}
-	for _, rec := range data.Records {
-		draft := storage.IndexedDraft{
-			DraftID: rec.ID,
-			Date:    time.UnixMilli(rec.Date).UTC().Format("2006-01-02"),
-			HasLog:  false,
-		}
-		for i := range rec.Players {
+	for _, nr := range numberRecords(data.Records) {
+		draft := storage.IndexedDraft{DraftInfo: nr.info}
+		for i := range nr.rec.Players {
 			draft.Decks = append(draft.Decks, storage.IndexedDeck{ID: i + 1})
 		}
 		out.Drafts = append(out.Drafts, draft)

@@ -149,7 +149,7 @@ func (s *Store) SaveDeckRecord(cube string, e RecordEdit) ([]*Deck, error) {
 
 // reloadLocked drops the cube's cache after a write and returns the freshly
 // enriched copies of the given decks. The caller must hold s.Mutex.
-func (s *Store) reloadLocked(cube, draftID string, written []*Deck) ([]*Deck, error) {
+func (s *Store) reloadLocked(cube string, draftID int, written []*Deck) ([]*Deck, error) {
 	delete(s.caches, cube)
 	c, err := s.cacheForLocked(cube)
 	if err != nil {
@@ -208,7 +208,7 @@ func (s *Store) Index(cube string) (*CubeIndex, error) {
 
 // GetDraftLog returns a draft's raw log, or ErrUnsupported if the backend has
 // none.
-func (s *Store) GetDraftLog(cube, draftID string) (json.RawMessage, error) {
+func (s *Store) GetDraftLog(cube string, draftID int) (json.RawMessage, error) {
 	b, ok := s.backend.(DraftLogBackend)
 	if !ok {
 		return nil, ErrUnsupported

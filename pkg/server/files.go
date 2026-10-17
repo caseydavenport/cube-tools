@@ -5,6 +5,7 @@ import (
 	"errors"
 	"io/fs"
 	"net/http"
+	"strconv"
 
 	"github.com/caseydavenport/cube-tools/pkg/storage"
 	"github.com/caseydavenport/cube-tools/pkg/types"
@@ -63,8 +64,8 @@ func CubeIndexHandler(store *storage.Store) http.Handler {
 func DraftLogHandler(store *storage.Store) http.Handler {
 	return http.HandlerFunc(func(rw http.ResponseWriter, r *http.Request) {
 		cube := CubeFromRequest(r)
-		draftID := r.PathValue("draft_id")
-		if cube == "" || draftID == "" {
+		draftID, err := strconv.Atoi(r.PathValue("draft_id"))
+		if cube == "" || err != nil || draftID < 1 {
 			http.NotFound(rw, r)
 			return
 		}

@@ -1,11 +1,11 @@
 package commands
 
 import (
-	"fmt"
 	"os"
 	"path/filepath"
 	"testing"
 
+	"github.com/caseydavenport/cube-tools/pkg/drafts"
 	"github.com/caseydavenport/cube-tools/pkg/types"
 )
 
@@ -53,65 +53,51 @@ func TestScanPhotoFolderErrors(t *testing.T) {
 	}
 }
 
-func TestNextDraftSeq(t *testing.T) {
-	root := t.TempDir()
-	cube := "aurora"
-	base := filepath.Join(root, cube)
-	os.MkdirAll(filepath.Join(base, "2026-06-20_evt_1"), 0o755)
-	os.MkdirAll(filepath.Join(base, "2026-06-20_evt_2"), 0o755)
-	os.MkdirAll(filepath.Join(base, "2026-06-20_other_1"), 0o755)
-
-	if n := nextDraftSeq(root, cube, "2026-06-20", "evt"); n != 3 {
-		t.Fatalf("want 3, got %d", n)
-	}
-	if n := nextDraftSeq(root, cube, "2026-06-20", "fresh"); n != 1 {
-		t.Fatalf("want 1, got %d", n)
-	}
-}
-
 func TestBuildPhotoDraftDir(t *testing.T) {
 	root := t.TempDir()
 	src := t.TempDir()
 	writeFile(t, filepath.Join(src, "img_2.jpg"))
 	writeFile(t, filepath.Join(src, "img_1.png"))
 
-	draftID, imgs, err := buildPhotoDraftDir(root, "aurora", src, "2026-06-20", "evt", "My Event", "Sat AM")
+	// An existing draft, so the new one takes the next id.
+	if _, err := drafts.Create(filepath.Join(root, "aurora"), types.DraftMetadata{ID: 0, Date: "2026-01-01"}); err != nil {
+		t.Fatal(err)
+	}
+
+	draft, imgs, err := buildPhotoDraftDir(root, "aurora", src, "2026-06-20", "evt", "My Event", "Sat AM")
 	if err != nil {
 		t.Fatal(err)
 	}
-	if draftID != "2026-06-20_evt_1" {
-		t.Fatalf("draftID = %q", draftID)
+	if draft.ID != 2 || draft.Dir != filepath.Join(root, "aurora", "0002_2026-06-20") {
+		t.Fatalf("draft = %+v, want id 2 in 0002_2026-06-20", draft)
 	}
 	if len(imgs) != 2 {
 		t.Fatalf("wrote %d images, want 2", len(imgs))
 	}
 
-	draftDir := filepath.Join(root, "aurora", draftID)
-
-	// metadata.json
-	meta, err := types.LoadDraftMetadata(draftDir)
+	meta, err := types.LoadDraftMetadata(draft.Dir)
 	if err != nil {
 		t.Fatal(err)
 	}
-	if meta.DraftID != draftID || meta.EventName != "My Event" || meta.Flight != "Sat AM" {
-		t.Fatalf("bad metadata: %+v", meta)
+	want := types.DraftMetadata{ID: 2, Date: "2026-06-20", EventName: "My Event", EventCode: "evt", Flight: "Sat AM"}
+	if *meta != want {
+		t.Fatalf("metadata = %+v, want %+v", *meta, want)
 	}
 
 	// p1 gets img_1.png (sorted), p2 gets img_2.jpg; extension preserved.
-	if _, err := os.Stat(filepath.Join(draftDir, "img", "p1", "deck-1.png")); err != nil {
+	if _, err := os.Stat(filepath.Join(draft.Dir, "img", "p1", "deck-1.png")); err != nil {
 		t.Fatalf("p1 image: %v", err)
 	}
-	if _, err := os.Stat(filepath.Join(draftDir, "img", "p2", "deck-1.jpg")); err != nil {
+	if _, err := os.Stat(filepath.Join(draft.Dir, "img", "p2", "deck-1.jpg")); err != nil {
 		t.Fatalf("p2 image: %v", err)
 	}
 
-	// deck stub for p1
-	deck, err := types.LoadDeck(filepath.Join(draftDir, draftID+"-p1.json"))
+	deck, err := types.LoadDeck(filepath.Join(draft.Dir, "1.json"))
 	if err != nil {
 		t.Fatal(err)
 	}
-	if deck.Player != draftID+"-p1" || deck.Date != "2026-06-20" || deck.Metadata.DraftID != draftID {
-		t.Fatalf("bad stub: player=%q date=%q draftID=%q", deck.Player, deck.Date, deck.Metadata.DraftID)
+	if deck.ID != 1 || deck.Player != "0002-p1" || deck.Date != "2026-06-20" || deck.Metadata.DraftID != 2 {
+		t.Fatalf("bad stub: id=%d player=%q date=%q draft=%d", deck.ID, deck.Player, deck.Date, deck.Metadata.DraftID)
 	}
 }
 
@@ -135,27 +121,5 @@ func TestBuildPhotoDraftDirErrors(t *testing.T) {
 	// nonexistent source path
 	if _, _, err := buildPhotoDraftDir(root, "aurora", filepath.Join(t.TempDir(), "nope"), "2026-06-20", "evt", "", ""); err == nil {
 		t.Fatal("expected error for missing source path")
-	}
-}
-
-func TestBuildPhotoDraftAssignsIDs(t *testing.T) {
-	root := t.TempDir()
-	src := t.TempDir()
-	for _, name := range []string{"a.jpg", "b.jpg", "c.jpg"} {
-		writeFile(t, filepath.Join(src, name))
-	}
-
-	draftID, _, err := buildPhotoDraftDir(root, "aurora", src, "2026-06-20", "evt", "My Event", "")
-	if err != nil {
-		t.Fatal(err)
-	}
-	for n := 1; n <= 3; n++ {
-		deck, err := types.LoadDeck(filepath.Join(root, "aurora", draftID, fmt.Sprintf("%s-p%d.json", draftID, n)))
-		if err != nil {
-			t.Fatal(err)
-		}
-		if deck.ID != n {
-			t.Errorf("p%d id = %d, want %d", n, deck.ID, n)
-		}
 	}
 }

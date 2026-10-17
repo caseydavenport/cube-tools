@@ -18,10 +18,8 @@ func (f *fakeBackend) RawDecks(cube string) ([]*Deck, error) {
 }
 
 func TestStore_ListEnriches(t *testing.T) {
-	alice := makeStorageDeck("Alice", "draft1", "2024-01-01", nil,
-		[]types.Match{{Opponent: "Bob", Wins: 2, Losses: 1}}, nil)
-	bob := makeStorageDeck("Bob", "draft1", "2024-01-01", nil,
-		[]types.Match{{Opponent: "Alice", Wins: 1, Losses: 2}}, nil)
+	alice := makeStorageDeck("Alice", 1, "2024-01-01", nil, []types.Match{{Opponent: "Bob", Wins: 2, Losses: 1}}, nil)
+	bob := makeStorageDeck("Bob", 1, "2024-01-01", nil, []types.Match{{Opponent: "Alice", Wins: 1, Losses: 2}}, nil)
 
 	s := NewStore(&fakeBackend{decks: []*Deck{alice, bob}})
 	got, err := s.List("anycube", nil)
@@ -40,8 +38,8 @@ func TestStore_ListEnriches(t *testing.T) {
 
 func TestStore_WritesUnsupported(t *testing.T) {
 	s := NewStore(&fakeBackend{})
-	_, err := s.UpdateDeckMeta("c", DeckMetaWrite{DraftID: "d", DeckID: 1, MacroArchetype: "aggro"})
+	_, err := s.UpdateDeckMeta("c", DeckMetaWrite{DraftID: 1, DeckID: 1, MacroArchetype: "aggro"})
 	assert.ErrorIs(t, err, ErrUnsupported)
-	_, err = s.SaveDeckRecord("c", RecordEdit{DraftID: "d", DeckID: 1, Player: "x"})
+	_, err = s.SaveDeckRecord("c", RecordEdit{DraftID: 1, DeckID: 1, Player: "x"})
 	assert.ErrorIs(t, err, ErrUnsupported)
 }

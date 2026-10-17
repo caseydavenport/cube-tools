@@ -12,11 +12,11 @@ func (readOnly) RawDecks(string) ([]*Deck, error) { return nil, nil }
 
 type readWrite struct{ readOnly }
 
-func (readWrite) LoadDraft(_, _ string) ([]*Deck, error) {
+func (readWrite) LoadDraft(_ string, _ int) ([]*Deck, error) {
 	return nil, nil
 }
 
-func (readWrite) SaveDecks(_, _ string, _ []*Deck) error {
+func (readWrite) SaveDecks(_ string, _ int, _ []*Deck) error {
 	return nil
 }
 

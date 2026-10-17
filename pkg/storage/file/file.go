@@ -2,10 +2,10 @@ package file
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"os"
 	"path/filepath"
-	"strings"
 
 	"github.com/caseydavenport/cube-tools/pkg/commands"
 	"github.com/caseydavenport/cube-tools/pkg/design"
@@ -47,6 +47,10 @@ func (b *Backend) RawDecks(cube string) ([]*storage.Deck, error) {
 
 	var decks []*storage.Deck
 	for _, draft := range index.Drafts {
+		info, err := draftInfo(draft.Path)
+		if err != nil {
+			logrus.WithError(err).WithField("draft", draft.Path).Warn("Failed to load draft metadata")
+		}
 		for _, deck := range draft.Decks {
 			d, err := loadDeck(deck.Path)
 			if err != nil {
@@ -54,6 +58,7 @@ func (b *Backend) RawDecks(cube string) ([]*storage.Deck, error) {
 				continue
 			}
 			d.DraftSize = len(draft.Decks)
+			d.Draft = info
 			d.Metadata.Path = ""
 			decks = append(decks, &d)
 		}
@@ -71,7 +76,7 @@ func (b *Backend) RawDecks(cube string) ([]*storage.Deck, error) {
 // LoadDraft returns every deck in the draft's directory, or ErrDeckNotFound if
 // it holds none. It reads the directory rather than the cube index so a draft
 // written since the last reindex is still editable.
-func (b *Backend) LoadDraft(cube, draftID string) ([]*storage.Deck, error) {
+func (b *Backend) LoadDraft(cube string, draftID int) ([]*storage.Deck, error) {
 	files, err := loadDraftFiles(cube, draftID)
 	if err != nil {
 		return nil, err
@@ -89,7 +94,7 @@ func (b *Backend) LoadDraft(cube, draftID string) ([]*storage.Deck, error) {
 // SaveDecks writes each deck back to the file in the draft's directory that
 // holds its ID, so a renamed player keeps the same file. It returns
 // ErrDeckNotFound for an ID no file in the draft has.
-func (b *Backend) SaveDecks(cube, draftID string, decks []*storage.Deck) error {
+func (b *Backend) SaveDecks(cube string, draftID int, decks []*storage.Deck) error {
 	files, err := loadDraftFiles(cube, draftID)
 	if err != nil {
 		return err
@@ -121,11 +126,12 @@ type draftFile struct {
 // loadDraftFiles loads every deck file in a draft's directory. It refuses a
 // draft where a deck has no ID or two decks share one, since writes find their
 // file by ID and would otherwise overwrite the wrong deck.
-func loadDraftFiles(cube, draftID string) ([]draftFile, error) {
-	if err := validPathComponent(draftID); err != nil {
+func loadDraftFiles(cube string, draftID int) ([]draftFile, error) {
+	draft, err := findDraft(cube, draftID)
+	if err != nil {
 		return nil, err
 	}
-	paths, err := drafts.DeckFiles(draftDir(cube, draftID))
+	paths, err := drafts.DeckFiles(draft.Dir)
 	if err != nil {
 		return nil, err
 	}
@@ -148,9 +154,14 @@ func loadDraftFiles(cube, draftID string) ([]draftFile, error) {
 	return out, nil
 }
 
-// draftDir returns a draft's directory under the data root.
-func draftDir(cube, draftID string) string {
-	return filepath.Join("data", cube, draftID)
+// findDraft resolves a draft ID to its directory under the data root,
+// mapping an unknown ID to ErrDeckNotFound.
+func findDraft(cube string, draftID int) (drafts.Draft, error) {
+	draft, err := drafts.Find(filepath.Join("data", cube), draftID)
+	if errors.Is(err, drafts.ErrNotFound) {
+		return drafts.Draft{}, storage.ErrDeckNotFound
+	}
+	return draft, err
 }
 
 func loadDeck(path string) (storage.Deck, error) {
@@ -163,16 +174,6 @@ func loadDeck(path string) (storage.Deck, error) {
 		return d, err
 	}
 	return d, nil
-}
-
-// validPathComponent rejects an id that could escape the data directory it's
-// interpolated into, e.g. a draft or deck id containing a path separator or
-// "..".
-func validPathComponent(id string) error {
-	if strings.ContainsAny(id, `/\`) || strings.Contains(id, "..") {
-		return fmt.Errorf("invalid id %q", id)
-	}
-	return nil
 }
 
 // GetRules returns a cube's design-map rules.
@@ -210,11 +211,11 @@ func (b *Backend) Index(cube string) (*storage.CubeIndex, error) {
 
 	out := &storage.CubeIndex{}
 	for _, draft := range index.Drafts {
-		id := storage.IndexedDraft{
-			DraftID: draft.DraftID,
-			Date:    draft.Date,
-			HasLog:  draft.DraftLog != "",
+		info, err := draftInfo(draft.Path)
+		if err != nil {
+			return nil, err
 		}
+		id := storage.IndexedDraft{DraftInfo: info, HasLog: draft.DraftLog != ""}
 		for _, ideck := range draft.Decks {
 			d, err := loadDeck(ideck.Path)
 			if err != nil {
@@ -228,13 +229,23 @@ func (b *Backend) Index(cube string) (*storage.CubeIndex, error) {
 	return out, nil
 }
 
-// GetDraftLog returns a draft's raw log bytes.
-func (b *Backend) GetDraftLog(cube, draftID string) (json.RawMessage, error) {
-	if err := validPathComponent(draftID); err != nil {
+// draftInfo reads the display fields from a draft directory's metadata.json.
+func draftInfo(dir string) (storage.DraftInfo, error) {
+	meta, err := types.LoadDraftMetadata(dir)
+	if err != nil {
+		return storage.DraftInfo{}, err
+	}
+	return storage.NewDraftInfo(*meta), nil
+}
+
+// GetDraftLog returns a draft's raw log bytes, or ErrDeckNotFound if the draft
+// doesn't exist or has no log.
+func (b *Backend) GetDraftLog(cube string, draftID int) (json.RawMessage, error) {
+	draft, err := findDraft(cube, draftID)
+	if err != nil {
 		return nil, err
 	}
-	path := fmt.Sprintf("data/%s/%s/draft-log.json", cube, draftID)
-	contents, err := os.ReadFile(path)
+	contents, err := os.ReadFile(filepath.Join(draft.Dir, "draft-log.json"))
 	if err != nil {
 		if os.IsNotExist(err) {
 			return nil, storage.ErrDeckNotFound

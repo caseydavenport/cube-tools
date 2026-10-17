@@ -210,13 +210,12 @@ func ConsistencyHandler() http.Handler { return ConsistencyHandlerWithRoot("data
 
 func ConsistencyHandlerWithRoot(dataRoot string) http.Handler {
 	return http.HandlerFunc(func(rw http.ResponseWriter, r *http.Request) {
-		cube := server.CubeFromRequest(r)
-		draftID := r.PathValue("draft_id")
-		if cube == "" || !validDraftID(draftID) {
+		draft, ok := draftFromRequest(dataRoot, r)
+		if !ok {
 			http.NotFound(rw, r)
 			return
 		}
-		players, err := discoverPlayers(dataRoot, cube, draftID)
+		players, err := discoverPlayers(draft)
 		if err != nil {
 			http.Error(rw, "Internal server error", http.StatusInternalServerError)
 			return
@@ -226,13 +225,13 @@ func ConsistencyHandlerWithRoot(dataRoot string) http.Handler {
 			return
 		}
 
-		cl, err := loadCubeForDraft(dataRoot, cube, draftID)
+		cl, err := loadCubeForDraft(dataRoot, server.CubeFromRequest(r), draft)
 		if err != nil {
 			http.Error(rw, "no cube list: "+err.Error(), http.StatusInternalServerError)
 			return
 		}
 
-		sess, err := LoadSession(dataRoot, cube, draftID)
+		sess, err := LoadSession(draft.Dir)
 		if err != nil {
 			sess = &Session{Players: map[string]*PlayerWork{}}
 		}

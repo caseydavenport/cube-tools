@@ -1,10 +1,11 @@
 package commands
 
 import (
-	"encoding/json"
 	"fmt"
 	"os"
+	"path/filepath"
 
+	"github.com/caseydavenport/cube-tools/pkg/drafts"
 	"github.com/caseydavenport/cube-tools/pkg/types"
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
@@ -28,24 +29,22 @@ func init() {
 }
 
 func reparse(cube string) error {
-	// Get the list of drafts to reparse by loading the Index file.
-	indexFile := fmt.Sprintf("data/%s/index.json", cube)
-	contents, err := os.ReadFile(indexFile)
+	all, err := drafts.List(filepath.Join("data", cube))
 	if err != nil {
-		return fmt.Errorf("failed to read index file: %w", err)
-	}
-	var index MainIndex
-	if err := json.Unmarshal(contents, &index); err != nil {
-		return fmt.Errorf("failed to unmarshal index file: %w", err)
+		return fmt.Errorf("failed to list drafts: %w", err)
 	}
 
 	// Iterate over the drafts and reparse each one.
-	for _, draft := range index.Drafts {
-		for _, deckIndex := range draft.Decks {
+	for _, draft := range all {
+		paths, err := drafts.DeckFiles(draft.Dir)
+		if err != nil {
+			return err
+		}
+		for _, deckPath := range paths {
 			// Open the deck file.
-			deck, err := types.LoadDeck(deckIndex.Path)
+			deck, err := types.LoadDeck(deckPath)
 			if err != nil {
-				return fmt.Errorf("failed to load deck file %s: %w", deckIndex.Path, err)
+				return fmt.Errorf("failed to load deck file %s: %w", deckPath, err)
 			}
 
 			// Build path to the .txt or csv file.
@@ -65,18 +64,17 @@ func reparse(cube string) error {
 			}
 
 			logrus.WithFields(logrus.Fields{
-				"deck": deckIndex.Path,
+				"deck": deckPath,
 				"src":  srcFiles,
 			}).Info("Reparsing deck")
 
-			if d, err := parseDeck(srcFiles, deck.Player, "", draft.Date, draft.DraftID); err != nil {
-				logrus.WithError(err).WithField("deck", deckIndex.Path).Warn("Failed to parse deck")
+			if d, err := parseDeck(srcFiles, deck.Player, "", draft.Date, draft.ID); err != nil {
+				logrus.WithError(err).WithField("deck", deckPath).Warn("Failed to parse deck")
 			} else {
-				// Preserve the existing canonical path so reparse overwrites
-				// in place rather than writing a new file under the lowercased
-				// player name.
+				// Preserve the existing path so reparse overwrites the deck in
+				// place.
 				d.Metadata.Path = deck.Metadata.Path
-				if err := writeDeck(cube, d, draft.DraftID); err != nil {
+				if err := writeDeck(d, draft); err != nil {
 					logrus.WithError(err).Fatal("Failed to write deck")
 				}
 			}

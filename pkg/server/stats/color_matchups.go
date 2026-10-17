@@ -65,7 +65,7 @@ func (h *colorMatchupHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request)
 	matchups := make(map[string]map[string]*MatchupRecord)
 
 	for _, deck := range allDecks {
-		if deck.Metadata.DraftID == "" {
+		if deck.Metadata.DraftID == 0 {
 			continue
 		}
 

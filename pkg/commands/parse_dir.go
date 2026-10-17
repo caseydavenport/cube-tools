@@ -5,8 +5,10 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
+	"path/filepath"
 	"strings"
 
+	"github.com/caseydavenport/cube-tools/pkg/drafts"
 	"github.com/caseydavenport/cube-tools/pkg/flag"
 	"github.com/caseydavenport/cube-tools/pkg/types"
 	"github.com/sirupsen/logrus"
@@ -18,15 +20,20 @@ var ParseDirectoryCmd = &cobra.Command{
 	Use:   "parse-dir",
 	Short: "Parse a directory of deck files",
 	Run: func(cmd *cobra.Command, args []string) {
-		// Verify input.
-		if date == "" {
-			logrus.Fatal("Must specify a date for the deck.")
+		// An existing draft supplies the date and event; a new one needs --date.
+		if draftID != 0 {
+			draft, err := drafts.Find(filepath.Join("data", cubeFlag), draftID)
+			if err != nil {
+				logrus.WithError(err).Fatalf("Failed to find draft %d", draftID)
+			}
+			date = draft.Date
+			eventCode = draft.EventCode
 		}
-		if draftID == "" {
-			logrus.Fatal("Must specify a draft ID for the deck.")
+		if date == "" {
+			logrus.Fatal("Must specify --draft or a --date for a new draft.")
 		}
 
-		parseDeckDir(deckInputDir, fileType, date, draftID)
+		parseDeckDir(deckInputDir, fileType, date)
 	},
 }
 
@@ -38,11 +45,10 @@ var (
 func init() {
 	// Add flags for the command to parse a directory of deck files.
 	flags := ParseDirectoryCmd.Flags()
-	flag.StringVarP(flags, &date, "date", "t", "DATE", "", "Date, in YYYY-MM-DD format")
+	addDraftFlags(flags)
 	flag.StringVarP(flags, &deckInputDir, "deck-dir", "d", "DIR", "", "Directory containing deck files to parse.")
 	flag.StringVarP(flags, &fileType, "filetype", "f", "TYPE", ".csv", "File type to look for in the deck-dir.")
 	flag.StringVarP(flags, &prefix, "prefix", "p", "PREFIX", "", "Prefix to match in the deck file names. Stripped before parsing.")
-	flag.StringVarP(flags, &draftID, "draft", "", "DRAFT", "", "Draft ID - used as the output directory")
 	flag.BoolVarP(flags, &anon, "anonymous", "a", "", false, "If set, anonymize player names in the output files.")
 	flag.BoolVarP(flags, &force, "force", "", "", false, "If set, force writing of files even if errors are encountered.")
 	flags.StringVar(&cubeFlag, "cube", "", "cube id (required)")
@@ -117,8 +123,8 @@ func generateWork(deckDir, fileType string) (map[string]work, error) {
 
 			player := determinePlayer(f.Name())
 			if anon {
-				// Use a deterministic hash of the draft ID + player name to generate an anonymous player name.
-				player = Anonymize(draftID, player)
+				// Use a deterministic hash of the draft's date and event + player name to generate an anonymous player name.
+				player = Anonymize(AnonymizeSalt(date, eventCode), player)
 			}
 
 			// Check if we already have a work item for this player.
@@ -139,39 +145,41 @@ func generateWork(deckDir, fileType string) (map[string]work, error) {
 	return workMap, nil
 }
 
-func Anonymize(draftID, player string) string {
+// AnonymizeSalt is the per-draft salt Anonymize hashes into player names, so
+// every command anonymizing a draft's players produces the same names.
+func AnonymizeSalt(date, eventCode string) string {
+	return date + "_" + eventCode
+}
+
+func Anonymize(salt, player string) string {
 	logrus.WithFields(logrus.Fields{
-		"draftID": draftID,
-		"player":  player,
+		"salt":   salt,
+		"player": player,
 	}).Info("Anonymizing player name")
 
 	h := sha256.New()
-	h.Write([]byte(draftID))
+	h.Write([]byte(salt))
 	hashBytes := h.Sum(nil)
-	draftIDPart := fmt.Sprintf("%x", hashBytes)[:4]
-	logrus.WithField("draftPart", draftIDPart).Info("Draft ID part of anonymized name")
+	saltPart := fmt.Sprintf("%x", hashBytes)[:4]
+	logrus.WithField("saltPart", saltPart).Info("Salt part of anonymized name")
 
 	h.Reset()
 	h.Write([]byte(player))
 	hashBytes = h.Sum(nil)
 	playerPart := fmt.Sprintf("%x", hashBytes)[:4]
 
-	// Combine parts of the draft ID and player hash to create an anonymous name.
-	return fmt.Sprintf("player-%s-%s", draftIDPart, playerPart)
+	// Combine parts of the salt and player hash to create an anonymous name.
+	return fmt.Sprintf("player-%s-%s", saltPart, playerPart)
 }
 
-func parseDeckDir(deckDir, fileType, date, draftID string) {
+// parseDeckDir parses every deck in deckDir and, if they all parse and the
+// draft is consistent with the cube, writes them into the --draft draft or a
+// new one. A new draft is only created once there is something to write.
+func parseDeckDir(deckDir, fileType, date string) {
 	logc := logrus.WithFields(logrus.Fields{
 		"directory": deckDir,
 		"filetype":  fileType,
 	})
-
-	// Make sure the output directory exists.
-	outdir := fmt.Sprintf("data/%s/%s", cubeFlag, draftID)
-	err := os.MkdirAll(outdir, os.ModePerm)
-	if err != nil {
-		logc.WithError(err).Fatal("Failed to create output directory.")
-	}
 
 	// Load work items from the directory.
 	workMap, err := generateWork(deckDir, fileType)
@@ -195,7 +203,7 @@ func parseDeckDir(deckDir, fileType, date, draftID string) {
 	var decks []*types.Deck
 	for _, work := range workMap {
 		// Parse the deck.
-		d, err := parseDeck(work.paths, work.player, labels, date, draftID)
+		d, err := parseDeck(work.paths, work.player, labels, date, 0)
 		if err != nil {
 			logc.WithError(err).Error("Failed to parse deck file.")
 			errs = append(errs, err)
@@ -227,12 +235,6 @@ func parseDeckDir(deckDir, fileType, date, draftID string) {
 		return
 	}
 
-	// Wite out the cube snapshot to the draft directory.
-	if err := writeCubeSnapshot(cubeFlag, outdir); err != nil {
-		logc.WithError(err).Error("Failed to write cube snapshot to draft directory.")
-		return
-	}
-
 	// Check that the seen cards in the draft match the expected counts based on the latest cube snapshot.
 	if err = checkDraftConsistency(logc, cubeFlag, seenInDraft); err != nil {
 		if !force {
@@ -242,9 +244,21 @@ func parseDeckDir(deckDir, fileType, date, draftID string) {
 		logc.WithError(err).Warn("Draft consistency check failed, but continuing due to --force flag.")
 	}
 
+	draft, err := resolveDraft(cubeFlag)
+	if err != nil {
+		logc.WithError(err).Error("Failed to find or create the draft.")
+		return
+	}
+
+	// Write out the cube snapshot to the draft directory.
+	if err := writeCubeSnapshot(cubeFlag, draft.Dir); err != nil {
+		logc.WithError(err).Error("Failed to write cube snapshot to draft directory.")
+		return
+	}
+
 	// Finally, write out each deck file.
 	for _, d := range decks {
-		if err := writeDeck(cubeFlag, d, draftID); err != nil {
+		if err := writeDeck(d, draft); err != nil {
 			logc.WithError(err).WithField("player", d.Player).Error("Failed to write deck file.")
 			return
 		}

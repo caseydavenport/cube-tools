@@ -5,7 +5,8 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
-	"sort"
+	"regexp"
+	"strconv"
 	"strings"
 )
 
@@ -37,8 +38,9 @@ type LoadOptions struct {
 	// Cube is the cube name, e.g. "polyverse".
 	Cube string
 
-	// Date is a YYYY-MM-DD snapshot date; empty means the latest snapshot.
-	Date string
+	// DraftDir pins the cube list to the snapshot in that draft's directory;
+	// empty means the latest snapshot.
+	DraftDir string
 
 	// Source, when set, supplies the live cube list to fall back on if no
 	// snapshot exists on disk.
@@ -66,17 +68,16 @@ func LoadCubeList(opts LoadOptions) (*Cube, error) {
 	}
 	cubeDir := filepath.Join(opts.DataRoot, opts.Cube)
 
-	// A specific date pins us to that snapshot, with no fallback.
-	if opts.Date != "" {
-		path := filepath.Join(cubeDir, opts.Date, "cube-snapshot.json")
-		c, err := LoadCube(path)
+	// A specific draft pins us to its snapshot, with no fallback.
+	if opts.DraftDir != "" {
+		c, err := LoadCube(filepath.Join(opts.DraftDir, "cube-snapshot.json"))
 		if err == nil {
 			return c, nil
 		}
 		if !os.IsNotExist(err) {
 			return nil, err
 		}
-		return nil, fmt.Errorf("no snapshot for cube %q on %s", opts.Cube, opts.Date)
+		return nil, fmt.Errorf("no snapshot for cube %q in %s", opts.Cube, opts.DraftDir)
 	}
 
 	// Otherwise prefer the most recent snapshot.
@@ -121,8 +122,12 @@ func (c *Cube) MaxCopies(name string) int {
 	return c.counts[strings.ToLower(name)]
 }
 
-// latestSnapshot returns the path to the cube-snapshot.json under the
-// most-recent YYYY-MM-DD subdirectory of cubeDir, or ok=false if none exists.
+// draftDirName matches a draft directory: a zero-padded draft ID, then its date.
+var draftDirName = regexp.MustCompile(`^\d{4,}_\d{4}-\d{2}-\d{2}$`)
+
+// latestSnapshot returns the path to the cube-snapshot.json in the draft
+// directory with the highest ID, or ok=false if no draft has one. IDs are
+// assigned in order, so the highest is the most recently added draft.
 func latestSnapshot(cubeDir string) (string, bool, error) {
 	entries, err := os.ReadDir(cubeDir)
 	if err != nil {
@@ -131,21 +136,19 @@ func latestSnapshot(cubeDir string) (string, bool, error) {
 		}
 		return "", false, err
 	}
-	var dates []string
+	best, bestID := "", 0
 	for _, e := range entries {
-		if !e.IsDir() {
+		if !e.IsDir() || !draftDirName.MatchString(e.Name()) {
 			continue
 		}
-		name := e.Name()
-		if len(name) == 10 && name[4] == '-' && name[7] == '-' {
-			if _, err := os.Stat(filepath.Join(cubeDir, name, "cube-snapshot.json")); err == nil {
-				dates = append(dates, name)
-			}
+		id, err := strconv.Atoi(strings.SplitN(e.Name(), "_", 2)[0])
+		if err != nil || id <= bestID {
+			continue
+		}
+		path := filepath.Join(cubeDir, e.Name(), "cube-snapshot.json")
+		if _, err := os.Stat(path); err == nil {
+			best, bestID = path, id
 		}
 	}
-	if len(dates) == 0 {
-		return "", false, nil
-	}
-	sort.Strings(dates)
-	return filepath.Join(cubeDir, dates[len(dates)-1], "cube-snapshot.json"), true, nil
+	return best, best != "", nil
 }

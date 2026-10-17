@@ -6,12 +6,12 @@ type CubeIndex struct {
 	Drafts []IndexedDraft `json:"drafts"`
 }
 
-// IndexedDraft is one draft in the index.
+// IndexedDraft is one draft in the index: its display fields, flattened into
+// the JSON, plus whether it has a draft log and which decks it holds.
 type IndexedDraft struct {
-	DraftID string        `json:"draft_id"`
-	Date    string        `json:"date"`
-	HasLog  bool          `json:"has_log"`
-	Decks   []IndexedDeck `json:"decks"`
+	DraftInfo
+	HasLog bool          `json:"has_log"`
+	Decks  []IndexedDeck `json:"decks"`
 }
 
 // IndexedDeck names a deck within a draft by its ID.

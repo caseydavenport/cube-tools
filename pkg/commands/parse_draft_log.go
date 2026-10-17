@@ -4,8 +4,10 @@ import (
 	"encoding/json"
 	"io"
 	"os"
+	"path/filepath"
 	"strings"
 
+	"github.com/caseydavenport/cube-tools/pkg/drafts"
 	"github.com/caseydavenport/cube-tools/pkg/flag"
 	"github.com/caseydavenport/cube-tools/pkg/types"
 	"github.com/sirupsen/logrus"
@@ -16,7 +18,11 @@ var DraftLogCmd = &cobra.Command{
 	Use:   "parse-draft-log",
 	Short: "Parse a draft log",
 	Run: func(cmd *cobra.Command, args []string) {
-		parseDraftLog(draftLog, date)
+		draft, err := drafts.Find(filepath.Join("data", cubeFlag), draftID)
+		if err != nil {
+			logrus.WithError(err).Fatalf("Failed to find draft %d", draftID)
+		}
+		parseDraftLog(draftLog, draft)
 	},
 }
 
@@ -24,19 +30,20 @@ func init() {
 	// Add flags for the command to parse a single deck.
 	flags := DraftLogCmd.Flags()
 	flag.StringVarP(flags, &draftLog, "log-file", "f", "", "", "Path to the draft log file to parse.")
-	flag.StringVarP(flags, &date, "date", "t", "DATE", "", "Date, in YYYY-MM-DD format")
+	flags.IntVar(&draftID, "draft", 0, "ID of the draft the log belongs to")
 	flags.StringVar(&cubeFlag, "cube", "", "cube id (required)")
 	_ = DraftLogCmd.MarkFlagRequired("cube")
 }
 
-func parseDraftLog(draftLog string, date string) {
+// parseDraftLog writes a deck into the draft for each player in the log.
+func parseDraftLog(draftLog string, draft drafts.Draft) {
 	logrus.Infof("Parsing draft log: %s", draftLog)
 	log := loadDraftLog(draftLog)
 
-	// Determine if we need to auto-name the file.
-	for _, d := range decksFromDraftLog(log, date) {
-		// Write the deck for storage.
-		writeDeck(cubeFlag, &d, date)
+	for _, d := range decksFromDraftLog(log, draft.Date) {
+		if err := writeDeck(&d, draft); err != nil {
+			logrus.WithError(err).WithField("player", d.Player).Fatal("Failed to write deck")
+		}
 	}
 }
 

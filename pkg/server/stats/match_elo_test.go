@@ -8,7 +8,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func eloDeck(player, draftID, date string, mainboard []string, matches []types.Match) *storage.Deck {
+func eloDeck(player string, draftID int, date string, mainboard []string, matches []types.Match) *storage.Deck {
 	d := &storage.Deck{}
 	d.Player = player
 	d.Metadata.DraftID = draftID
@@ -24,10 +24,10 @@ func TestMatchELOData_WinLoss(t *testing.T) {
 	// Alice beats Bob, all cards start at 1200, so expected = 0.5 and the step is
 	// K*(1-0.5) = 12. The match is recorded on both decks; it must be applied
 	// once (a 1212 result, not the ~1223 a double-apply would give).
-	alice := eloDeck("alice", "d1", "2026-01-01", []string{"Swords", "Brainstorm"}, []types.Match{
+	alice := eloDeck("alice", 1, "2026-01-01", []string{"Swords", "Brainstorm"}, []types.Match{
 		{Opponent: "bob", Winner: "alice"},
 	})
-	bob := eloDeck("bob", "d1", "2026-01-01", []string{"Lightning Bolt", "Goblin Guide"}, []types.Match{
+	bob := eloDeck("bob", 1, "2026-01-01", []string{"Lightning Bolt", "Goblin Guide"}, []types.Match{
 		{Opponent: "alice", Winner: "alice"},
 	})
 
@@ -41,10 +41,10 @@ func TestMatchELOData_WinLoss(t *testing.T) {
 
 func TestMatchELOData_Draw(t *testing.T) {
 	// A draw against an equal-rated deck is the expected result, so nothing moves.
-	alice := eloDeck("alice", "d1", "2026-01-01", []string{"Swords"}, []types.Match{
+	alice := eloDeck("alice", 1, "2026-01-01", []string{"Swords"}, []types.Match{
 		{Opponent: "bob", Wins: 1, Losses: 1},
 	})
-	bob := eloDeck("bob", "d1", "2026-01-01", []string{"Lightning Bolt"}, []types.Match{
+	bob := eloDeck("bob", 1, "2026-01-01", []string{"Lightning Bolt"}, []types.Match{
 		{Opponent: "alice", Wins: 1, Losses: 1},
 	})
 
@@ -55,11 +55,11 @@ func TestMatchELOData_Draw(t *testing.T) {
 }
 
 func TestMatchELOData_ExcludesBasicsAndUnplayed(t *testing.T) {
-	alice := eloDeck("alice", "d1", "2026-01-01", []string{"Swords"}, []types.Match{
+	alice := eloDeck("alice", 1, "2026-01-01", []string{"Swords"}, []types.Match{
 		{Opponent: "bob", Winner: "alice"},
 	})
 	alice.Mainboard = append(alice.Mainboard, types.Card{Name: "Plains", Types: []string{"Basic", "Land"}})
-	bob := eloDeck("bob", "d1", "2026-01-01", []string{"Lightning Bolt"}, []types.Match{
+	bob := eloDeck("bob", 1, "2026-01-01", []string{"Lightning Bolt"}, []types.Match{
 		{Opponent: "alice", Winner: "alice"},
 	})
 
@@ -75,7 +75,7 @@ func TestMatchELOData_ExcludesBasicsAndUnplayed(t *testing.T) {
 func TestMatchELOData_NoOpponentDeck(t *testing.T) {
 	// Opponent isn't in the deck set, so there's nothing to pair against and no
 	// rating moves.
-	alice := eloDeck("alice", "d1", "2026-01-01", []string{"Swords"}, []types.Match{
+	alice := eloDeck("alice", 1, "2026-01-01", []string{"Swords"}, []types.Match{
 		{Opponent: "ghost", Winner: "alice"},
 	})
 

@@ -12,7 +12,7 @@ import (
 // makePivotDeck builds a storage deck with everything the pivot engine reads:
 // colors, archetype, mainboard (for composition), a draft ID + date (for
 // opponent matching and time buckets), and a flattened Games slice.
-func makePivotDeck(player, draftID, date string, colors []string, arch string, mainboard []types.Card, games []types.Game) *storage.Deck {
+func makePivotDeck(player string, draftID int, date string, colors []string, arch string, mainboard []types.Card, games []types.Game) *storage.Deck {
 	d := &storage.Deck{}
 	d.Player = player
 	d.Metadata.DraftID = draftID
@@ -43,13 +43,25 @@ func rowByKey(resp *PivotResponse, key string) *PivotRow {
 func TestPivot_ColorExcludesBlack(t *testing.T) {
 	decks := []*storage.Deck{
 		// Orzhov (WB) deck, winning.
-		makePivotDeck("Alice", "d1", "2025-01-01", []string{"W", "B"}, "midrange",
+		makePivotDeck(
+			"Alice",
+			1,
+			"2025-01-01",
+			[]string{"W", "B"},
+			"midrange",
 			[]types.Card{{Name: "wc", Colors: []string{"W"}}, {Name: "bc", Colors: []string{"B"}}},
-			[]types.Game{{Opponent: "Bob", Winner: "Alice"}, {Opponent: "Bob", Winner: "Alice"}}),
+			[]types.Game{{Opponent: "Bob", Winner: "Alice"}, {Opponent: "Bob", Winner: "Alice"}},
+		),
 		// Mono-white deck, even.
-		makePivotDeck("Carol", "d1", "2025-01-01", []string{"W"}, "aggro",
+		makePivotDeck(
+			"Carol",
+			1,
+			"2025-01-01",
+			[]string{"W"},
+			"aggro",
 			[]types.Card{{Name: "wc", Colors: []string{"W"}}},
-			[]types.Game{{Opponent: "Dave", Winner: "Carol"}, {Opponent: "Dave", Winner: "Dave"}}),
+			[]types.Game{{Opponent: "Dave", Winner: "Carol"}, {Opponent: "Dave", Winner: "Dave"}},
+		),
 	}
 
 	group := dim("color", 1, "inclusive")
@@ -79,10 +91,8 @@ func TestPivot_ColorExcludesBlack(t *testing.T) {
 // Group by color at Dual granularity yields guild pairs.
 func TestPivot_DualGuildPairs(t *testing.T) {
 	decks := []*storage.Deck{
-		makePivotDeck("Alice", "d1", "2025-01-01", []string{"W", "U"}, "control", nil,
-			[]types.Game{{Opponent: "Bob", Winner: "Alice"}}),
-		makePivotDeck("Carol", "d1", "2025-01-01", []string{"B", "G"}, "midrange", nil,
-			[]types.Game{{Opponent: "Dave", Winner: "Eve"}}),
+		makePivotDeck("Alice", 1, "2025-01-01", []string{"W", "U"}, "control", nil, []types.Game{{Opponent: "Bob", Winner: "Alice"}}),
+		makePivotDeck("Carol", 1, "2025-01-01", []string{"B", "G"}, "midrange", nil, []types.Game{{Opponent: "Dave", Winner: "Eve"}}),
 	}
 	resp := computePivot(decks, &PivotRequest{GroupBy: dim("color", 2, "exact")}, nil)
 
@@ -101,10 +111,8 @@ func TestPivot_DualGuildPairs(t *testing.T) {
 // the subject's color (row) and the opponent's color (column).
 func TestPivot_OpponentColorMatchup(t *testing.T) {
 	decks := []*storage.Deck{
-		makePivotDeck("Alice", "d1", "2025-01-01", []string{"W"}, "", nil,
-			[]types.Game{{Opponent: "Bob", Winner: "Alice"}}),
-		makePivotDeck("Bob", "d1", "2025-01-01", []string{"R"}, "", nil,
-			[]types.Game{{Opponent: "Alice", Winner: "Alice"}}),
+		makePivotDeck("Alice", 1, "2025-01-01", []string{"W"}, "", nil, []types.Game{{Opponent: "Bob", Winner: "Alice"}}),
+		makePivotDeck("Bob", 1, "2025-01-01", []string{"R"}, "", nil, []types.Game{{Opponent: "Alice", Winner: "Alice"}}),
 	}
 	resp := computePivot(decks, &PivotRequest{
 		GroupBy: dim("color", 1, "inclusive"),
@@ -136,13 +144,17 @@ func TestPivot_CompositionPredicate(t *testing.T) {
 
 	decks := []*storage.Deck{
 		// 3 removal spells - passes removal >= 3.
-		makePivotDeck("Alice", "d1", "2025-01-01", []string{"B"}, "control",
+		makePivotDeck(
+			"Alice",
+			1,
+			"2025-01-01",
+			[]string{"B"},
+			"control",
 			[]types.Card{removalCard, removalCard, removalCard, vanilla},
-			[]types.Game{{Opponent: "Bob", Winner: "Alice"}}),
+			[]types.Game{{Opponent: "Bob", Winner: "Alice"}},
+		),
 		// 0 removal - filtered out.
-		makePivotDeck("Carol", "d1", "2025-01-01", []string{"B"}, "aggro",
-			[]types.Card{vanilla, vanilla},
-			[]types.Game{{Opponent: "Dave", Winner: "Dave"}}),
+		makePivotDeck("Carol", 1, "2025-01-01", []string{"B"}, "aggro", []types.Card{vanilla, vanilla}, []types.Game{{Opponent: "Dave", Winner: "Dave"}}),
 	}
 	resp := computePivot(decks, &PivotRequest{
 		GroupBy:    dim("color", 1, "inclusive"),
@@ -159,10 +171,8 @@ func TestPivot_CompositionPredicate(t *testing.T) {
 // Grouping by time yields one row per bucket, labeled by the bucket's start date.
 func TestPivot_TimeGrouping(t *testing.T) {
 	decks := []*storage.Deck{
-		makePivotDeck("Alice", "2025-01-01_a", "2025-01-01", []string{"R"}, "", nil,
-			[]types.Game{{Opponent: "Bob", Winner: "Alice"}}),
-		makePivotDeck("Carol", "2025-02-01_b", "2025-02-01", []string{"R"}, "", nil,
-			[]types.Game{{Opponent: "Dave", Winner: "Dave"}}),
+		makePivotDeck("Alice", 1, "2025-01-01", []string{"R"}, "", nil, []types.Game{{Opponent: "Bob", Winner: "Alice"}}),
+		makePivotDeck("Carol", 2, "2025-02-01", []string{"R"}, "", nil, []types.Game{{Opponent: "Dave", Winner: "Dave"}}),
 	}
 	resp := computePivot(decks, &PivotRequest{GroupBy: dim("time", 0, ""), BucketSize: 1}, nil)
 
@@ -182,15 +192,15 @@ func TestPivot_TimeGrouping(t *testing.T) {
 // so a heavy outlier can be removed from the aggregate entirely.
 func TestPivot_ExcludePlayers(t *testing.T) {
 	decks := []*storage.Deck{
-		makePivotDeck("Alice", "d1", "2025-01-01", []string{"W"}, "", nil, []types.Game{
+		makePivotDeck("Alice", 1, "2025-01-01", []string{"W"}, "", nil, []types.Game{
 			{Opponent: "Bob", Winner: "Alice"},   // dropped: vs excluded Bob
 			{Opponent: "Carol", Winner: "Carol"}, // kept: Alice loss
 		}),
-		makePivotDeck("Bob", "d1", "2025-01-01", []string{"R"}, "", nil, []types.Game{
+		makePivotDeck("Bob", 1, "2025-01-01", []string{"R"}, "", nil, []types.Game{
 			{Opponent: "Alice", Winner: "Alice"},
 			{Opponent: "Carol", Winner: "Bob"},
 		}),
-		makePivotDeck("Carol", "d1", "2025-01-01", []string{"U"}, "", nil, []types.Game{
+		makePivotDeck("Carol", 1, "2025-01-01", []string{"U"}, "", nil, []types.Game{
 			{Opponent: "Alice", Winner: "Carol"}, // kept: Carol win
 			{Opponent: "Bob", Winner: "Bob"},     // dropped: vs excluded Bob
 		}),
@@ -244,14 +254,19 @@ func TestPivot_OpponentCompositionSplit(t *testing.T) {
 	}
 
 	decks := []*storage.Deck{
-		makePivotDeck("Alice", "d1", "2025-01-01", []string{"B"}, "control", []types.Card{creature},
-			[]types.Game{{Opponent: "Bob", Winner: "Alice"}, {Opponent: "Carol", Winner: "Alice"}}),
+		makePivotDeck(
+			"Alice",
+			1,
+			"2025-01-01",
+			[]string{"B"},
+			"control",
+			[]types.Card{creature},
+			[]types.Game{{Opponent: "Bob", Winner: "Alice"}, {Opponent: "Carol", Winner: "Alice"}},
+		),
 		// 12-creature opponent lands in the "12-14" bucket.
-		makePivotDeck("Bob", "d1", "2025-01-01", []string{"G"}, "midrange", board,
-			[]types.Game{{Opponent: "Alice", Winner: "Alice"}}),
+		makePivotDeck("Bob", 1, "2025-01-01", []string{"G"}, "midrange", board, []types.Game{{Opponent: "Alice", Winner: "Alice"}}),
 		// No mainboard recorded: contributes no composition column.
-		makePivotDeck("Carol", "d1", "2025-01-01", []string{"W"}, "aggro", nil,
-			[]types.Game{{Opponent: "Alice", Winner: "Alice"}}),
+		makePivotDeck("Carol", 1, "2025-01-01", []string{"W"}, "aggro", nil, []types.Game{{Opponent: "Alice", Winner: "Alice"}}),
 	}
 
 	resp := computePivot(decks, &PivotRequest{

@@ -157,7 +157,7 @@ func computePivot(allDecks []*storage.Deck, req *PivotRequest, cubeCards map[str
 
 	// A time dimension needs a stable draft->bucket label map, built over the
 	// whole population so the axis doesn't shift when predicates change.
-	var draftBucket map[string]string
+	var draftBucket map[int]string
 	if req.GroupBy.Dim == "time" || req.SplitBy.Dim == "time" {
 		draftBucket = buildDraftBuckets(allDecks, req.BucketSize)
 	}
@@ -216,7 +216,7 @@ func computePivot(allDecks []*storage.Deck, req *PivotRequest, cubeCards map[str
 		if splitLevel == "deck" {
 			deckSplitKeys = splitKeyer(d)
 		}
-		deckID := d.Metadata.DraftID + "|" + d.Player
+		deckID := fmt.Sprintf("%d|%s", d.Metadata.DraftID, d.Player)
 
 		for _, g := range d.Games {
 			if excluded[strings.ToLower(g.Opponent)] {
@@ -311,7 +311,7 @@ func granularityOf(dim PivotDimension) int {
 // deckKeyer returns a function mapping a deck to zero or more keys for the given
 // dimension. A deck can produce several keys (inclusive color mode, multiple
 // labels); an empty result drops the deck from that dimension.
-func deckKeyer(dim PivotDimension, draftBucket map[string]string, cubeCards map[string]types.Card) func(*storage.Deck) []string {
+func deckKeyer(dim PivotDimension, draftBucket map[int]string, cubeCards map[string]types.Card) func(*storage.Deck) []string {
 	switch dim.Dim {
 	case "color":
 		return func(d *storage.Deck) []string {
@@ -381,15 +381,15 @@ func opponentKeyer(dim PivotDimension, cubeCards map[string]types.Card) func(*st
 
 // buildDraftBuckets maps each draft ID to a bucket label (the bucket's start
 // date), reusing the shared discrete bucketing.
-func buildDraftBuckets(allDecks []*storage.Deck, bucketSize int) map[string]string {
+func buildDraftBuckets(allDecks []*storage.Deck, bucketSize int) map[int]string {
 	if bucketSize < 1 {
 		bucketSize = 1
 	}
-	out := map[string]string{}
+	out := map[int]string{}
 	for _, b := range decks.DeckBuckets(allDecks, bucketSize, true) {
 		label := b.Start()
 		for _, draft := range b.Drafts {
-			out[draft.Name] = label
+			out[draft.Info.ID] = label
 		}
 	}
 	return out

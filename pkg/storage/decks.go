@@ -29,6 +29,24 @@ type Deck struct {
 
 	// The size of the draft, used for filtering.
 	DraftSize int `json:"draft_size"`
+
+	// Draft describes the draft the deck was played in, for display.
+	Draft DraftInfo `json:"draft"`
+}
+
+// DraftInfo is the part of a draft's metadata clients need to label and order
+// it: its ID, date, and event details.
+type DraftInfo struct {
+	ID        int    `json:"id"`
+	Date      string `json:"date"`
+	EventName string `json:"event_name,omitempty"`
+	EventCode string `json:"event_code,omitempty"`
+	Flight    string `json:"flight,omitempty"`
+}
+
+// NewDraftInfo picks the display fields out of a draft's metadata.
+func NewDraftInfo(m types.DraftMetadata) DraftInfo {
+	return DraftInfo{ID: m.ID, Date: m.Date, EventName: m.EventName, EventCode: m.EventCode, Flight: m.Flight}
 }
 
 type Stats struct {
@@ -44,14 +62,14 @@ type Stats struct {
 
 // key identifies a precise deck: its ID within its draft.
 type key struct {
-	draft string
+	draft int
 	id    int
 }
 
 // nameKey finds a deck by player name within its draft, for matches that only
 // record the opponent's name.
 type nameKey struct {
-	draft  string
+	draft  int
 	player string
 }
 
@@ -75,8 +93,24 @@ func (d *Deck) GetLabels() []string {
 	}
 	return d.Labels
 }
-func (d *Deck) GetDraftSize() int  { return d.DraftSize }
-func (d *Deck) GetEventID() string { return d.Metadata.DraftID }
+
+// GetDraftSize returns the size of the draft the deck came from.
+func (d *Deck) GetDraftSize() int {
+	return d.DraftSize
+}
+
+// GetEventTerms returns the deck's event code, event name, and flight, skipping
+// any that are empty.
+func (d *Deck) GetEventTerms() []string {
+	var out []string
+	for _, t := range []string{d.Draft.EventCode, d.Draft.EventName, d.Draft.Flight} {
+		if t != "" {
+			out = append(out, t)
+		}
+	}
+	return out
+}
+
 func (d *Deck) GetMainboard() []types.Card {
 	res := make([]types.Card, len(d.Mainboard))
 	for i, c := range d.Mainboard {
@@ -127,7 +161,7 @@ type DeckStorage interface {
 // Labels and Colors are replaced as given; an empty Colors clears the override.
 // Notes nil leaves the notes unchanged, a pointer to "" clears them.
 type DeckMetaWrite struct {
-	DraftID        string
+	DraftID        int
 	DeckID         int
 	MacroArchetype string
 	Labels         []string
@@ -139,7 +173,7 @@ type DeckMetaWrite struct {
 // empty leaves the name unchanged; Matches nil leaves the record unchanged, an
 // empty non-nil slice clears it.
 type RecordEdit struct {
-	DraftID string
+	DraftID int
 	DeckID  int
 	Player  string
 	Matches []types.Match

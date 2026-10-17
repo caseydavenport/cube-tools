@@ -32,34 +32,60 @@ func (b *Bucket) TotalGames() int {
 	return total
 }
 
+// Name labels the bucket by the dates it spans.
 func (b *Bucket) Name() string {
 	if len(b.Drafts) == 0 {
 		return "Empty Bucket"
 	}
-	if len(b.Drafts) == 1 {
-		return b.Drafts[0].Name
+	first, last := b.Start(), b.Drafts[len(b.Drafts)-1].Info.Date
+	if first == last {
+		return first
 	}
-	return b.Drafts[0].Name + " - " + b.Drafts[len(b.Drafts)-1].Name
+	return first + " – " + last
 }
 
 // Start returns the bucket's starting date, used to label time-series charts.
-// The deck Date is already a clean "YYYY-MM-DD"; the draft name carries a
-// "_local_N" suffix we don't want crowding an axis tick.
 func (b *Bucket) Start() string {
 	if len(b.Drafts) == 0 {
 		return ""
 	}
-	d := b.Drafts[0]
-	if len(d.Decks) > 0 {
-		return d.Decks[0].Date
-	}
-	return d.Name
+	return b.Drafts[0].Info.Date
 }
 
 // A draft is a collection of decks from a single draft event.
 type Draft struct {
-	Name  string
+	Info  storage.DraftInfo
 	Decks []*storage.Deck
+}
+
+// groupDrafts groups decks by draft ID, ordered by date and then ID.
+func groupDrafts(decks []*storage.Deck) []*Draft {
+	byID := make(map[int]*Draft)
+	var out []*Draft
+	for _, deck := range decks {
+		id := deck.Metadata.DraftID
+		d, ok := byID[id]
+		if !ok {
+			info := deck.Draft
+			info.ID = id
+			if info.Date == "" {
+				info.Date = deck.Date
+			}
+			d = &Draft{Info: info}
+			byID[id] = d
+			out = append(out, d)
+		}
+		d.Decks = append(d.Decks, deck)
+	}
+	sort.Slice(out, func(i, j int) bool { return lessDraft(out[i], out[j]) })
+	return out
+}
+
+func lessDraft(a, b *Draft) bool {
+	if a.Info.Date != b.Info.Date {
+		return a.Info.Date < b.Info.Date
+	}
+	return a.Info.ID < b.Info.ID
 }
 
 // DeckBuckets splits the given decks into buckets of the given size.
@@ -79,29 +105,7 @@ func deckBucketsDiscrete(decks []*storage.Deck, bucketSize int) []Bucket {
 		}}}}
 	}
 
-	// Create a map of draft ID to Draft structure containing decks for that draft.
-	draftMap := make(map[string]*Draft)
-	for _, deck := range decks {
-		draftID := deck.Metadata.DraftID
-		if _, ok := draftMap[draftID]; !ok {
-			draftMap[draftID] = &Draft{
-				Name:  draftID,
-				Decks: []*storage.Deck{},
-			}
-		}
-		draftMap[draftID].Decks = append(draftMap[draftID].Decks, deck)
-	}
-
-	// Convert map to slice
-	drafts := make([]*Draft, 0, len(draftMap))
-	for _, draft := range draftMap {
-		drafts = append(drafts, draft)
-	}
-
-	// Sort drafts by name (assuming name is date string)
-	sort.Slice(drafts, func(i, j int) bool {
-		return drafts[i].Name < drafts[j].Name
-	})
+	drafts := groupDrafts(decks)
 
 	// If the bucket size is larger than the number of drafts, return a single bucket.
 	if bucketSize >= len(drafts) {
@@ -117,10 +121,7 @@ func deckBucketsDiscrete(decks []*storage.Deck, bucketSize int) []Bucket {
 			bucket.Drafts = append(bucket.Drafts, drafts[k])
 		}
 
-		// Sort drafts within the bucket by name.
-		sort.Slice(bucket.Drafts, func(i, j int) bool {
-			return bucket.Drafts[i].Name < bucket.Drafts[j].Name
-		})
+		sort.Slice(bucket.Drafts, func(i, j int) bool { return lessDraft(bucket.Drafts[i], bucket.Drafts[j]) })
 		buckets = append(buckets, bucket)
 	}
 
@@ -132,28 +133,7 @@ func deckBucketsDiscrete(decks []*storage.Deck, bucketSize int) []Bucket {
 }
 
 func deckBucketsSliding(decks []*storage.Deck, bucketSize int) []Bucket {
-	// Map draft_id to Draft
-	draftMap := make(map[string]*Draft)
-	for _, deck := range decks {
-		draftID := deck.Metadata.DraftID
-		if _, ok := draftMap[draftID]; !ok {
-			draftMap[draftID] = &Draft{
-				Name:  draftID,
-				Decks: []*storage.Deck{},
-			}
-		}
-		draftMap[draftID].Decks = append(draftMap[draftID].Decks, deck)
-	}
-
-	// Convert map to slice
-	drafts := make([]*Draft, 0, len(draftMap))
-	for _, draft := range draftMap {
-		drafts = append(drafts, draft)
-	}
-	// Sort drafts by name (assuming name is date string)
-	sort.Slice(drafts, func(i, j int) bool {
-		return drafts[i].Name < drafts[j].Name
-	})
+	drafts := groupDrafts(decks)
 
 	// If the bucket size is larger than the number of drafts, return a single bucket.
 	if bucketSize >= len(drafts) {

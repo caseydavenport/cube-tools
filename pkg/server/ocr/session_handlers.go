@@ -5,8 +5,6 @@ import (
 	"maps"
 	"net/http"
 	"sync"
-
-	"github.com/caseydavenport/cube-tools/pkg/server"
 )
 
 // sessionSaveMu serializes the load-merge-write in SessionSaveHandler. The
@@ -18,13 +16,12 @@ func SessionGetHandler() http.Handler { return SessionGetHandlerWithRoot("data")
 
 func SessionGetHandlerWithRoot(dataRoot string) http.Handler {
 	return http.HandlerFunc(func(rw http.ResponseWriter, r *http.Request) {
-		cube := server.CubeFromRequest(r)
-		draftID := r.PathValue("draft_id")
-		if cube == "" || !validDraftID(draftID) {
+		draft, ok := draftFromRequest(dataRoot, r)
+		if !ok {
 			http.NotFound(rw, r)
 			return
 		}
-		s, err := LoadSession(dataRoot, cube, draftID)
+		s, err := LoadSession(draft.Dir)
 		if err != nil {
 			http.Error(rw, "Internal server error", http.StatusInternalServerError)
 			return
@@ -37,9 +34,8 @@ func SessionSaveHandler() http.Handler { return SessionSaveHandlerWithRoot("data
 
 func SessionSaveHandlerWithRoot(dataRoot string) http.Handler {
 	return http.HandlerFunc(func(rw http.ResponseWriter, r *http.Request) {
-		cube := server.CubeFromRequest(r)
-		draftID := r.PathValue("draft_id")
-		if cube == "" || !validDraftID(draftID) {
+		draft, ok := draftFromRequest(dataRoot, r)
+		if !ok {
 			http.NotFound(rw, r)
 			return
 		}
@@ -55,14 +51,16 @@ func SessionSaveHandlerWithRoot(dataRoot string) http.Handler {
 		// Merge the posted players into what's already on disk rather than
 		// replacing the file. The client sends only the player it's editing, so
 		// a full replace would wipe every other player's saved work.
-		s, err := LoadSession(dataRoot, cube, draftID)
+		s, err := LoadSession(draft.Dir)
 		if err != nil {
 			http.Error(rw, "Internal server error", http.StatusInternalServerError)
 			return
 		}
-		s.DraftID = draftID // trust the path, not the body
+
+		// Trust the path, not the body.
+		s.DraftID = draft.ID
 		maps.Copy(s.Players, posted.Players)
-		if err := s.Save(dataRoot, cube); err != nil {
+		if err := s.Save(draft.Dir); err != nil {
 			http.Error(rw, "Internal server error", http.StatusInternalServerError)
 			return
 		}

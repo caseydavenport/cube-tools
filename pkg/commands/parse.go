@@ -3,6 +3,7 @@ package commands
 import (
 	"bytes"
 	"encoding/csv"
+	"errors"
 	"fmt"
 	"io"
 	"os"
@@ -17,6 +18,7 @@ import (
 	"github.com/sirupsen/logrus"
 
 	"github.com/spf13/cobra"
+	"github.com/spf13/pflag"
 )
 
 var (
@@ -26,9 +28,9 @@ var (
 	who       string
 	date      string
 
-	// draftID is the ID of the draft to which this deck belongs. It
-	// is used to determine the output directory for generated files.
-	draftID string
+	// draftID is the ID of an existing draft to add decks to. Zero means
+	// create a new draft from date and the event flags.
+	draftID int
 
 	// deckInputDir is the path to the directory containing deck files to parse.
 	deckInputDir string
@@ -42,6 +44,7 @@ var (
 
 	// Per-draft metadata. If set, written to <draftDir>/metadata.json.
 	eventName        string
+	eventCode        string
 	eventDescription string
 
 	// cubeFlag is the cube ID used to determine the data directory for all commands.
@@ -57,26 +60,21 @@ var ParseCmd = &cobra.Command{
 		if deckInput == "" {
 			logrus.Fatal("Must specify a deck file to parse.")
 		}
-		if date == "" {
-			logrus.Fatal("Must specify a date for the deck.")
-		}
-		if _, err := time.Parse("2006-01-02", date); err != nil {
-			logrus.Fatalf("Invalid date format: %s. Must be YYYY-MM-DD.", date)
-		}
 		if who == "" {
 			logrus.Fatal("Must specify a player name.")
 		}
-		if draftID == "" {
-			logrus.Fatal("Must specify a draft ID.")
+		draft, err := resolveDraft(cubeFlag)
+		if err != nil {
+			logrus.WithError(err).Fatal("Failed to find or create the draft")
 		}
 
 		// Parse the deck.
-		d, err := parseDeck([]string{deckInput}, who, labels, date, draftID)
+		d, err := parseDeck([]string{deckInput}, who, labels, draft.Date, draft.ID)
 		if err != nil {
 			logrus.WithError(err).Fatal("Failed to parse deck")
 		}
 		// Write the deck for storage.
-		if err := writeDeck(cubeFlag, d, draftID); err != nil {
+		if err := writeDeck(d, draft); err != nil {
 			logrus.WithError(err).Fatal("Failed to write deck")
 		}
 	},
@@ -88,16 +86,41 @@ func init() {
 	flag.StringVarP(flags, &deckInput, "deck", "d", "DECK", "", "Path to the deck file to import")
 	flag.StringVarP(flags, &who, "who", "w", "WHO", "", "Who made the deck")
 	flag.StringVarP(flags, &labels, "labels", "l", "LABELS", "", "Labels describing the deck. e.g., aggro,sacrifice")
-	flag.StringVarP(flags, &date, "date", "t", "DATE", "", "Date, in YYYY-MM-DD format")
-	flag.StringVarP(flags, &draftID, "draft", "", "DRAFT", "", "Draft ID - used as the output directory")
-	flag.StringVarP(flags, &eventName, "event-name", "", "EVENT_NAME", "", "Human-readable event name (written to metadata.json)")
+	addDraftFlags(flags)
 	flag.StringVarP(flags, &eventDescription, "event-description", "", "EVENT_DESCRIPTION", "", "Event description (written to metadata.json)")
 	flags.StringVar(&cubeFlag, "cube", "", "cube id (required)")
 	_ = ParseCmd.MarkFlagRequired("cube")
 }
 
-// parseDeck parses a single deck file and writes the output to the given directory.
-func parseDeck(deckFiles []string, who, labels, date, draftID string) (*types.Deck, error) {
+// addDraftFlags registers the flags that pick an existing draft (--draft) or
+// describe a new one (--date and the event flags).
+func addDraftFlags(flags *pflag.FlagSet) {
+	flags.IntVar(&draftID, "draft", 0, "ID of an existing draft to add to; omit to create a new draft")
+	flag.StringVarP(flags, &date, "date", "t", "DATE", "", "Date of a new draft, in YYYY-MM-DD format")
+	flag.StringVarP(flags, &eventCode, "event-code", "", "EVENT_CODE", "", "Short code for a new draft's event, e.g. local or bcp26")
+	flag.StringVarP(flags, &eventName, "event-name", "", "EVENT_NAME", "", "Human-readable event name (written to metadata.json)")
+}
+
+// resolveDraft returns the draft named by --draft, or creates a new one from
+// --date and the event flags when --draft is unset.
+func resolveDraft(cube string) (drafts.Draft, error) {
+	cubeDir := filepath.Join("data", cube)
+	if draftID != 0 {
+		return drafts.Find(cubeDir, draftID)
+	}
+	if _, err := time.Parse("2006-01-02", date); err != nil {
+		return drafts.Draft{}, fmt.Errorf("a new draft needs --date in YYYY-MM-DD format, got %q", date)
+	}
+	return drafts.Create(cubeDir, types.DraftMetadata{
+		Date:             date,
+		EventName:        eventName,
+		EventCode:        eventCode,
+		EventDescription: eventDescription,
+	})
+}
+
+// parseDeck parses a deck's source files into a deck for the given draft.
+func parseDeck(deckFiles []string, who, labels, date string, draftID int) (*types.Deck, error) {
 	// Go through each file, and parse it. We allow multiple files
 	// to be specified, in case a deck is split across multiple files - namely, a mainboard and
 	// sideboard file.
@@ -246,54 +269,42 @@ func cardsFromDeckFile(deckFile string) ([]types.Card, []types.Card, error) {
 	return mb, sb, nil
 }
 
-func writeDeck(cube string, d *types.Deck, draftID string) error {
-	// Make sure the output directory exists.
-	outdir := fmt.Sprintf("data/%s/%s", cube, draftID)
-	err := os.MkdirAll(outdir, os.ModePerm)
-	if err != nil {
-		return fmt.Errorf("Failed to create output directory: %w", err)
-	}
+// writeDeck writes a parsed deck into a draft. A deck the draft already has,
+// found by its path or else by player name, keeps its ID, notes, record, and
+// annotations; a new deck gets the next ID and a file named for it.
+func writeDeck(d *types.Deck, draft drafts.Draft) error {
+	outdir := draft.Dir
 
-	// Upsert per-draft metadata.json. Existing values are preserved unless the
-	// caller passed --event-name / --event-description to override them. The
-	// draft_id is always (re)written to match the directory.
-	meta, err := types.LoadDraftMetadata(outdir)
-	if err != nil {
-		return fmt.Errorf("Failed to load draft metadata: %w", err)
-	}
-	meta.DraftID = draftID
-	if eventName != "" {
-		meta.EventName = eventName
-	}
-	if eventDescription != "" {
-		meta.EventDescription = eventDescription
-	}
-	if err := meta.Save(outdir); err != nil {
-		return fmt.Errorf("Failed to write draft metadata: %w", err)
+	// Event flags passed on the command line override the draft's metadata.
+	if eventName != "" || eventDescription != "" {
+		meta := draft.DraftMetadata
+		if eventName != "" {
+			meta.EventName = eventName
+		}
+		if eventDescription != "" {
+			meta.EventDescription = eventDescription
+		}
+		if err := meta.Save(outdir); err != nil {
+			return fmt.Errorf("failed to write draft metadata: %w", err)
+		}
 	}
 
 	if len(d.Player) == 0 {
 		return fmt.Errorf("Player name is required to write deck")
 	}
-	if len(draftID) == 0 {
-		return fmt.Errorf("Draft ID is required to write deck")
-	}
 
-	// Generate the filename for the deck.
 	path := d.Metadata.Path
 	if path == "" {
-		path = fmt.Sprintf("%s/%s.json", outdir, strings.ToLower(d.Player))
+		_, existingPath, err := drafts.FindDeckByPlayer(outdir, d.Player)
+		if err != nil && !errors.Is(err, drafts.ErrNotFound) {
+			return err
+		}
+		path = existingPath
 	}
 
-	// Ensure the correct metadata is set on the deck.
-	d.Metadata.DraftID = draftID
-	d.Metadata.Path = path
-
-	// If the file already exists, load it and save some fields.
-	// This allows us to re-run this script without overwriting manually
-	// captured metadata. Load from path (not the conventional <draft>/<player>.json
-	// location) so we preserve data when the canonical file uses legacy naming.
-	if _, err := os.Stat(path); err == nil {
+	// If the deck already exists, keep the fields captured since it was first
+	// parsed so re-running the parse doesn't lose them.
+	if path != "" {
 		logrus.WithField("file", path).Debug("File already exists, loading and updating")
 
 		existing, err := types.LoadDeck(path)
@@ -318,6 +329,11 @@ func writeDeck(cube string, d *types.Deck, draftID string) error {
 		}
 		d.ID = id
 	}
+	if path == "" {
+		path = drafts.DeckPath(outdir, d.ID)
+	}
+	d.Metadata.DraftID = draft.ID
+	d.Metadata.Path = path
 
 	// Ensure capitalization is consistent for player names (all lowercase).
 	d.Player = strings.ToLower(d.Player)
@@ -364,7 +380,7 @@ func writeDeck(cube string, d *types.Deck, draftID string) error {
 	// truth - the `export-cc` command handles cubecobra exports on demand, so
 	// we no longer write a per-deck .cubecobra.txt alongside.
 	logc.WithField("file", path).Debug("Writing canonical deck file")
-	if err := SaveDeck(cube, d); err != nil {
+	if err := SaveDeck(d); err != nil {
 		logrus.WithError(err).Fatal("Failed to save deck")
 	}
 	return nil

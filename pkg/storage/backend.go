@@ -33,11 +33,11 @@ type DeckBackend interface {
 type DraftBackend interface {
 	// LoadDraft returns every deck in the draft, or ErrDeckNotFound if the
 	// draft doesn't exist.
-	LoadDraft(cube, draftID string) ([]*Deck, error)
+	LoadDraft(cube string, draftID int) ([]*Deck, error)
 
 	// SaveDecks persists the given decks, each identified by its ID within
 	// draftID. It returns ErrDeckNotFound for a deck the draft doesn't hold.
-	SaveDecks(cube, draftID string, decks []*Deck) error
+	SaveDecks(cube string, draftID int, decks []*Deck) error
 }
 
 // RulesBackend is implemented by backends that can persist a cube's design-map
@@ -57,5 +57,5 @@ type IndexBackend interface {
 // log. The log's shape is backend-defined, so Store passes it through
 // unparsed.
 type DraftLogBackend interface {
-	GetDraftLog(cube, draftID string) (json.RawMessage, error)
+	GetDraftLog(cube string, draftID int) (json.RawMessage, error)
 }

@@ -2,6 +2,7 @@ package memory
 
 import (
 	"encoding/json"
+	"fmt"
 	"testing"
 
 	"github.com/caseydavenport/cube-tools/pkg/design"
@@ -10,7 +11,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func deck(player, draft string, matches []types.Match) *storage.Deck {
+func deck(player string, draft int, matches []types.Match) *storage.Deck {
 	d := &storage.Deck{}
 	d.Player = player
 	d.Metadata.DraftID = draft
@@ -22,11 +23,11 @@ func deck(player, draft string, matches []types.Match) *storage.Deck {
 func TestMemoryConformance(t *testing.T) {
 	b := New()
 	b.Seed("conf",
-		deck("Alice", "d1", []types.Match{{
+		deck("Alice", 1, []types.Match{{
 			Opponent: "Bob", OpponentID: 2, Round: 1, Wins: 2, Losses: 0, Winner: "Alice",
 			Games: []types.Game{{Opponent: "Bob", Winner: "Alice"}, {Opponent: "Bob", Winner: "Alice"}},
 		}}),
-		deck("Bob", "d1", []types.Match{{
+		deck("Bob", 1, []types.Match{{
 			Opponent: "Alice", OpponentID: 1, Round: 1, Wins: 0, Losses: 2, Winner: "Alice",
 			Games: []types.Game{{Opponent: "Alice", Winner: "Alice"}, {Opponent: "Alice", Winner: "Alice"}},
 		}}),
@@ -34,59 +35,58 @@ func TestMemoryConformance(t *testing.T) {
 	b.SeedIndex("conf", &storage.CubeIndex{
 		Drafts: []storage.IndexedDraft{
 			{
-				DraftID: "d1",
-				Date:    "2024-01-01",
-				HasLog:  true,
-				Decks:   []storage.IndexedDeck{{ID: 1}, {ID: 2}},
+				DraftInfo: storage.DraftInfo{ID: 1, Date: "2024-01-01"},
+				HasLog:    true,
+				Decks:     []storage.IndexedDeck{{ID: 1}, {ID: 2}},
 			},
 		},
 	})
-	b.SeedDraftLog("conf", "d1", json.RawMessage(`{"picks":[]}`))
+	b.SeedDraftLog("conf", 1, json.RawMessage(`{"picks":[]}`))
 	s := storage.NewStore(b)
 	storage.RunDeckConformance(t, s, storage.Detect(b))
 }
 
 func TestMemorySeedNumbersDecksPerDraft(t *testing.T) {
 	b := New()
-	b.Seed("c", deck("Alice", "d1", nil), deck("Bob", "d1", nil), deck("Alice", "d2", nil))
+	b.Seed("c", deck("Alice", 1, nil), deck("Bob", 1, nil), deck("Alice", 2, nil))
 	got, err := b.RawDecks("c")
 	assert.NoError(t, err)
 	ids := map[string]int{}
 	for _, d := range got {
-		ids[d.Metadata.DraftID+"/"+d.Player] = d.ID
+		ids[fmt.Sprintf("%d/%s", d.Metadata.DraftID, d.Player)] = d.ID
 	}
 	assert.Equal(t, map[string]int{
-		"d1/Alice": 1,
-		"d1/Bob":   2,
-		"d2/Alice": 1,
+		"1/Alice": 1,
+		"1/Bob":   2,
+		"2/Alice": 1,
 	}, ids)
 }
 
 func TestMemoryLoadDraftReturnsCopies(t *testing.T) {
 	b := New()
-	b.Seed("c", deck("Alice", "d1", nil))
-	got, err := b.LoadDraft("c", "d1")
+	b.Seed("c", deck("Alice", 1, nil))
+	got, err := b.LoadDraft("c", 1)
 	assert.NoError(t, err)
 	got[0].Player = "changed"
 
-	again, err := b.LoadDraft("c", "d1")
+	again, err := b.LoadDraft("c", 1)
 	assert.NoError(t, err)
 	assert.Equal(t, "Alice", again[0].Player)
 
-	_, err = b.LoadDraft("c", "missing")
+	_, err = b.LoadDraft("c", 99)
 	assert.ErrorIs(t, err, storage.ErrDeckNotFound)
 }
 
 func TestMemoryBackend_UpdateRoundTrips(t *testing.T) {
 	b := New()
 	b.Seed("cubeA",
-		deck("Alice", "d1", []types.Match{{Opponent: "Bob", Wins: 2, Losses: 0}}),
-		deck("Bob", "d1", []types.Match{{Opponent: "Alice", Wins: 0, Losses: 2}}),
+		deck("Alice", 1, []types.Match{{Opponent: "Bob", Wins: 2, Losses: 0}}),
+		deck("Bob", 1, []types.Match{{Opponent: "Alice", Wins: 0, Losses: 2}}),
 	)
 	s := storage.NewStore(b)
 
 	_, err := s.UpdateDeckMeta("cubeA", storage.DeckMetaWrite{
-		DraftID: "d1", DeckID: 1, MacroArchetype: "Aggro", Labels: []string{"fast"}, Colors: []string{"R"},
+		DraftID: 1, DeckID: 1, MacroArchetype: "Aggro", Labels: []string{"fast"}, Colors: []string{"R"},
 	})
 	assert.NoError(t, err)
 
@@ -133,7 +133,7 @@ func TestMemoryIndexRoundTrip(t *testing.T) {
 	b := New()
 	idx := &storage.CubeIndex{
 		Drafts: []storage.IndexedDraft{
-			{DraftID: "d1", Date: "2024-01-01", HasLog: true, Decks: []storage.IndexedDeck{{ID: 1}}},
+			{DraftInfo: storage.DraftInfo{ID: 1, Date: "2024-01-01"}, HasLog: true, Decks: []storage.IndexedDeck{{ID: 1}}},
 		},
 	}
 	b.SeedIndex("conf", idx)
@@ -152,15 +152,15 @@ func TestMemoryIndexMissing(t *testing.T) {
 func TestMemoryGetDraftLogRoundTrip(t *testing.T) {
 	b := New()
 	log := json.RawMessage(`{"picks":[]}`)
-	b.SeedDraftLog("conf", "d1", log)
+	b.SeedDraftLog("conf", 1, log)
 
-	got, err := b.GetDraftLog("conf", "d1")
+	got, err := b.GetDraftLog("conf", 1)
 	assert.NoError(t, err)
 	assert.Equal(t, log, got)
 }
 
 func TestMemoryGetDraftLogMissing(t *testing.T) {
 	b := New()
-	_, err := b.GetDraftLog("conf", "d1")
+	_, err := b.GetDraftLog("conf", 1)
 	assert.ErrorIs(t, err, storage.ErrDeckNotFound)
 }

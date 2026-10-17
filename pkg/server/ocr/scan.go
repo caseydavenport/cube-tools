@@ -7,6 +7,7 @@ import (
 
 	"github.com/sirupsen/logrus"
 
+	"github.com/caseydavenport/cube-tools/pkg/drafts"
 	ocrpkg "github.com/caseydavenport/cube-tools/pkg/ocr"
 	"github.com/caseydavenport/cube-tools/pkg/server"
 )
@@ -61,7 +62,9 @@ var (
 	scanJobs   = map[string]*scanJob{}
 )
 
-func scanKey(cube, draftID string) string { return cube + "/" + draftID }
+func scanKey(cube string, draftID int) string {
+	return fmt.Sprintf("%s/%d", cube, draftID)
+}
 
 // scanItem is one photo to detect, tagged with the player it belongs to and
 // whether it's a deck photo (so the boxes land in the right session map).
@@ -74,12 +77,12 @@ type scanItem struct {
 // buildScanWorklist lists every pool and deck photo across all players that has
 // no boxes yet. Photos already scanned or hand-corrected are skipped, so the
 // scan is idempotent and never clobbers existing work.
-func buildScanWorklist(dataRoot, cube, draftID string) ([]scanItem, error) {
-	players, err := discoverPlayers(dataRoot, cube, draftID)
+func buildScanWorklist(draft drafts.Draft) ([]scanItem, error) {
+	players, err := discoverPlayers(draft)
 	if err != nil {
 		return nil, err
 	}
-	sess, err := LoadSession(dataRoot, cube, draftID)
+	sess, err := LoadSession(draft.Dir)
 	if err != nil {
 		sess = &Session{Players: map[string]*PlayerWork{}}
 	}
@@ -109,12 +112,12 @@ func ScanStartHandler(det Detector) http.Handler { return ScanStartHandlerWithRo
 func ScanStartHandlerWithRoot(det Detector, dataRoot string) http.Handler {
 	return http.HandlerFunc(func(rw http.ResponseWriter, r *http.Request) {
 		cube := server.CubeFromRequest(r)
-		draftID := r.PathValue("draft_id")
-		if cube == "" || !validDraftID(draftID) {
+		draft, ok := draftFromRequest(dataRoot, r)
+		if !ok {
 			http.NotFound(rw, r)
 			return
 		}
-		key := scanKey(cube, draftID)
+		key := scanKey(cube, draft.ID)
 
 		scanJobsMu.Lock()
 		// A scan is already running for this draft: report it rather than
@@ -131,7 +134,7 @@ func ScanStartHandlerWithRoot(det Detector, dataRoot string) http.Handler {
 				delete(scanJobs, k)
 			}
 		}
-		items, err := buildScanWorklist(dataRoot, cube, draftID)
+		items, err := buildScanWorklist(draft)
 		if err != nil {
 			scanJobsMu.Unlock()
 			http.Error(rw, "Internal server error", http.StatusInternalServerError)
@@ -141,23 +144,24 @@ func ScanStartHandlerWithRoot(det Detector, dataRoot string) http.Handler {
 		scanJobs[key] = job
 		scanJobsMu.Unlock()
 
-		go runScan(det, dataRoot, cube, draftID, items, job)
+		go runScan(det, dataRoot, cube, draft, items, job)
 		writeJSON(rw, job.status())
 	})
 }
 
 func ScanStatusHandler() http.Handler { return ScanStatusHandlerWithRoot("data") }
 
-func ScanStatusHandlerWithRoot(_ string) http.Handler {
+// ScanStatusHandlerWithRoot reports the progress of a draft's photo scan,
+// finding the draft under dataRoot.
+func ScanStatusHandlerWithRoot(dataRoot string) http.Handler {
 	return http.HandlerFunc(func(rw http.ResponseWriter, r *http.Request) {
-		cube := server.CubeFromRequest(r)
-		draftID := r.PathValue("draft_id")
-		if cube == "" || !validDraftID(draftID) {
+		draft, ok := draftFromRequest(dataRoot, r)
+		if !ok {
 			http.NotFound(rw, r)
 			return
 		}
 		scanJobsMu.Lock()
-		j := scanJobs[scanKey(cube, draftID)]
+		j := scanJobs[scanKey(server.CubeFromRequest(r), draft.ID)]
 		scanJobsMu.Unlock()
 		if j == nil {
 			writeJSON(rw, scanStatus{State: scanIdle})
@@ -167,7 +171,7 @@ func ScanStatusHandlerWithRoot(_ string) http.Handler {
 	})
 }
 
-func runScan(det Detector, dataRoot, cube, draftID string, items []scanItem, job *scanJob) {
+func runScan(det Detector, dataRoot, cube string, draft drafts.Draft, items []scanItem, job *scanJob) {
 	sleeveColor := sleeveColorFor(dataRoot, cube)
 	workers := min(scanWorkers, len(items))
 	ch := make(chan scanItem)
@@ -177,7 +181,7 @@ func runScan(det Detector, dataRoot, cube, draftID string, items []scanItem, job
 		go func() {
 			defer wg.Done()
 			for it := range ch {
-				scanOne(det, dataRoot, cube, draftID, it, sleeveColor, job)
+				scanOne(det, dataRoot, cube, draft, it, sleeveColor, job)
 			}
 		}()
 	}
@@ -193,7 +197,7 @@ func runScan(det Detector, dataRoot, cube, draftID string, items []scanItem, job
 	job.mu.Unlock()
 }
 
-func scanOne(det Detector, dataRoot, cube, draftID string, it scanItem, sleeveColor string, job *scanJob) {
+func scanOne(det Detector, dataRoot, cube string, draft drafts.Draft, it scanItem, sleeveColor string, job *scanJob) {
 	job.mu.Lock()
 	job.current = it.photo
 	job.mu.Unlock()
@@ -203,7 +207,7 @@ func scanOne(det Detector, dataRoot, cube, draftID string, it scanItem, sleeveCo
 		job.mu.Unlock()
 	}()
 
-	abs, cl, ok := resolvePhoto(dataRoot, cube, it.photo)
+	abs, cl, ok := resolvePhoto(dataRoot, cube, draft, it.photo)
 	if !ok {
 		return
 	}
@@ -223,7 +227,7 @@ func scanOne(det Detector, dataRoot, cube, draftID string, it scanItem, sleeveCo
 	for i, res := range results {
 		boxes = append(boxes, resultToBox(it.photo, i, res))
 	}
-	writeScannedBoxes(dataRoot, cube, draftID, it, boxes)
+	writeScannedBoxes(draft, it, boxes)
 }
 
 // resultToBox mirrors the client's linesToBoxes so background-scanned boxes are
@@ -242,39 +246,39 @@ func resultToBox(photo string, i int, r ocrpkg.MatchResult) Box {
 // writeScannedBoxes merges one photo's boxes into the session. It takes the same
 // lock as the client autosave and re-checks that the photo is still empty, so a
 // player the operator opened and started correcting mid-scan is never clobbered.
-func writeScannedBoxes(dataRoot, cube, draftID string, it scanItem, boxes []Box) {
+func writeScannedBoxes(draft drafts.Draft, it scanItem, boxes []Box) {
 	sessionSaveMu.Lock()
 	defer sessionSaveMu.Unlock()
 
-	s, err := LoadSession(dataRoot, cube, draftID)
+	session, err := LoadSession(draft.Dir)
 	if err != nil {
-		logrus.WithError(err).WithField("draft", draftID).Warn("Background scan could not load session")
+		logrus.WithError(err).WithField("draft", draft.ID).Warn("Background scan could not load session")
 		return
 	}
-	s.DraftID = draftID
-	pw := s.Players[it.player]
-	if pw == nil {
-		pw = &PlayerWork{}
-		s.Players[it.player] = pw
+	session.DraftID = draft.ID
+	playerWork := session.Players[it.player]
+	if playerWork == nil {
+		playerWork = &PlayerWork{}
+		session.Players[it.player] = playerWork
 	}
 	if it.deck {
-		if pw.DeckBoxes == nil {
-			pw.DeckBoxes = map[string][]Box{}
+		if playerWork.DeckBoxes == nil {
+			playerWork.DeckBoxes = map[string][]Box{}
 		}
-		if len(pw.DeckBoxes[it.photo]) > 0 {
+		if len(playerWork.DeckBoxes[it.photo]) > 0 {
 			return
 		}
-		pw.DeckBoxes[it.photo] = boxes
+		playerWork.DeckBoxes[it.photo] = boxes
 	} else {
-		if pw.Boxes == nil {
-			pw.Boxes = map[string][]Box{}
+		if playerWork.Boxes == nil {
+			playerWork.Boxes = map[string][]Box{}
 		}
-		if len(pw.Boxes[it.photo]) > 0 {
+		if len(playerWork.Boxes[it.photo]) > 0 {
 			return
 		}
-		pw.Boxes[it.photo] = boxes
+		playerWork.Boxes[it.photo] = boxes
 	}
-	if err := s.Save(dataRoot, cube); err != nil {
-		logrus.WithError(err).WithField("draft", draftID).Warn("Background scan could not save session")
+	if err := session.Save(draft.Dir); err != nil {
+		logrus.WithError(err).WithField("draft", draft.ID).Warn("Background scan could not save session")
 	}
 }

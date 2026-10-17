@@ -2,11 +2,18 @@ package commands
 
 import "testing"
 
-func TestLocalPlayerID(t *testing.T) {
-	got := localPlayerID("2026-06-30_evt_1", "Player 3")
-	want := "2026-06-30_evt_1-p3"
-	if got != want {
-		t.Fatalf("localPlayerID: want %q, got %q", want, got)
+func TestHedronPlayerNum(t *testing.T) {
+	if got := hedronPlayerNum("Player 3"); got != 3 {
+		t.Fatalf("hedronPlayerNum: want 3, got %d", got)
+	}
+	if got := hedronPlayerNum("Somebody"); got != 0 {
+		t.Fatalf("hedronPlayerNum: want 0 for an unexpected shape, got %d", got)
+	}
+}
+
+func TestPlaceholderPlayer(t *testing.T) {
+	if got := PlaceholderPlayer(51, 3); got != "0051-p3" {
+		t.Fatalf("PlaceholderPlayer: want 0051-p3, got %q", got)
 	}
 }
 

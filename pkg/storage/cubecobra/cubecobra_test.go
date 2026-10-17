@@ -60,8 +60,8 @@ func TestRawDecks(t *testing.T) {
 	for _, d := range decks {
 		byPlayer[d.Player] = len(d.Mainboard)
 		ids[d.ID] = true
-		if d.Metadata.DraftID != "rec1" {
-			t.Errorf("deck %s: DraftID=%q, want rec1", d.Player, d.Metadata.DraftID)
+		if d.Metadata.DraftID != 1 {
+			t.Errorf("deck %s: DraftID=%d, want 1", d.Player, d.Metadata.DraftID)
 		}
 		if d.Date != "2023-04-19" {
 			t.Errorf("deck %s: Date=%q, want 2023-04-19", d.Player, d.Date)
@@ -127,8 +127,8 @@ func TestIndex(t *testing.T) {
 		t.Fatalf("got %d drafts, want 1", len(idx.Drafts))
 	}
 	d := idx.Drafts[0]
-	if d.DraftID != "rec1" || d.Date != "2023-04-19" || d.HasLog {
-		t.Errorf("draft = %+v, want rec1 2023-04-19 HasLog=false", d)
+	if d.ID != 1 || d.Date != "2023-04-19" || d.EventName != "Draft 1" || d.HasLog {
+		t.Errorf("draft = %+v, want 1 2023-04-19 \"Draft 1\" HasLog=false", d)
 	}
 	if len(d.Decks) != 2 {
 		t.Fatalf("got %d decks, want 2", len(d.Decks))
@@ -139,5 +139,47 @@ func TestIndex(t *testing.T) {
 	}
 	if !ids[1] || !ids[2] {
 		t.Errorf("deck ids = %v, want 1 and 2", ids)
+	}
+}
+
+// twoRecordFixture lists a later record before an earlier one, so draft IDs
+// must come from dates rather than response order.
+const twoRecordFixture = `{"success":"true",
+  "records":[
+    {"id":"late","name":"Later","date":1700000000000,"players":[{"name":"casey"}],"matches":[],"decks":{"casey":[]}},
+    {"id":"early","name":"Earlier","date":1600000000000,"players":[{"name":"casey"}],"matches":[],"decks":{"casey":[]}}],
+  "cards":{}}`
+
+func TestCubeCobraDraftIDsByDate(t *testing.T) {
+	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "application/json")
+		if _, err := w.Write([]byte(twoRecordFixture)); err != nil {
+			t.Error(err)
+		}
+	}))
+	defer srv.Close()
+	backend := New(srv.URL, fakeCube{})
+
+	decks, err := backend.RawDecks("cc:polyversal")
+	if err != nil {
+		t.Fatal(err)
+	}
+	idsByName := map[string]int{}
+	for _, d := range decks {
+		idsByName[d.Draft.EventName] = d.Metadata.DraftID
+		if d.Draft.ID != d.Metadata.DraftID {
+			t.Errorf("deck draft info id %d != metadata draft id %d", d.Draft.ID, d.Metadata.DraftID)
+		}
+	}
+	if idsByName["Earlier"] != 1 || idsByName["Later"] != 2 {
+		t.Errorf("draft ids by record name = %v, want Earlier 1 and Later 2", idsByName)
+	}
+
+	idx, err := backend.Index("cc:polyversal")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if idx.Drafts[0].EventName != "Earlier" || idx.Drafts[0].ID != 1 {
+		t.Errorf("first indexed draft = %+v, want Earlier with id 1", idx.Drafts[0].DraftInfo)
 	}
 }

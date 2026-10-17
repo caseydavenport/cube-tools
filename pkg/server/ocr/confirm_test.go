@@ -1,6 +1,7 @@
 package ocr
 
 import (
+	"fmt"
 	"net/http/httptest"
 	"path/filepath"
 	"testing"
@@ -10,7 +11,7 @@ import (
 
 func TestBuildDeckDerivesSideboardAndBasics(t *testing.T) {
 	existing := types.NewDeck()
-	existing.Player = "2026-01-17_evt_1-p3"
+	existing.Player = "0001-p3"
 	existing.Matches = []types.Match{{Opponent: "x", Wins: 2, Losses: 1}}
 
 	req := ConfirmRequest{
@@ -76,16 +77,18 @@ func cardCounts(cs []types.Card) map[string]int {
 	return m
 }
 
-func TestConfirmHandlerWritesDeckFile(t *testing.T) {
+func TestConfirmFindsDeckByID(t *testing.T) {
 	root := t.TempDir()
-	draftID := "2026-01-17_evt_1"
-	deckPath := filepath.Join(root, "polyverse", draftID, draftID+"-p3.json")
-	writeFile(t, deckPath,
-		`{"metadata":{"draft_id":"`+draftID+`","path":"`+deckPath+`"},"id":3,"player":"`+draftID+`-p3","date":"2026-01-17","labels":[],"matches":[],"mainboard":[],"sideboard":[]}`)
+	d := newDraft(t, root, types.DraftMetadata{})
+	for id := 1; id <= 3; id++ {
+		deck := types.NewDeck()
+		deck.ID = id
+		deck.Player = fmt.Sprintf("0001-p%d", id)
+		writeDeck(t, d, deck)
+	}
 
 	h := ConfirmHandlerWithRoot(root)
-	r := reqWithCube(t, "POST", "/api/polyverse/ocr/drafts/"+draftID+"/players/p3/confirm", "polyverse")
-	r.SetPathValue("draft_id", draftID)
+	r := draftReq(t, "POST", "/players/p3/confirm", d)
 	r.SetPathValue("player", "p3")
 	r.Body = bodyOf(`{"pool":[{"name":"Brainstorm","count":1}]}`)
 	w := httptest.NewRecorder()
@@ -93,14 +96,37 @@ func TestConfirmHandlerWritesDeckFile(t *testing.T) {
 	if w.Code != 200 {
 		t.Fatalf("status = %d body=%s", w.Code, w.Body.String())
 	}
-	d, err := types.LoadDeck(deckPath)
+	got, err := types.LoadDeck(filepath.Join(d.Dir, "3.json"))
 	if err != nil {
 		t.Fatal(err)
 	}
-	if len(d.Pool) != 1 || d.Pool[0].Name != "Brainstorm" {
-		t.Fatalf("written pool = %+v", d.Pool)
+	if len(got.Pool) != 1 || got.Pool[0].Name != "Brainstorm" {
+		t.Fatalf("written pool = %+v", got.Pool)
 	}
-	if d.ID != 3 {
-		t.Fatalf("id = %d after confirm, want 3", d.ID)
+	if got.ID != 3 || got.Player != "0001-p3" {
+		t.Fatalf("deck = id %d player %q after confirm, want 3 0001-p3", got.ID, got.Player)
+	}
+	other, err := types.LoadDeck(filepath.Join(d.Dir, "1.json"))
+	if err != nil {
+		t.Fatal(err)
+	}
+	if len(other.Pool) != 0 {
+		t.Fatalf("deck 1 was written: %+v", other.Pool)
+	}
+}
+
+func TestConfirmRejectsBadPlayer(t *testing.T) {
+	root := t.TempDir()
+	d := newDraft(t, root, types.DraftMetadata{})
+	h := ConfirmHandlerWithRoot(root)
+	for _, player := range []string{"casey", "p0", "p", "p1x", "../p1"} {
+		r := draftReq(t, "POST", "/players/x/confirm", d)
+		r.SetPathValue("player", player)
+		r.Body = bodyOf(`{}`)
+		w := httptest.NewRecorder()
+		h.ServeHTTP(w, r)
+		if w.Code != 404 {
+			t.Errorf("player %q: status = %d, want 404", player, w.Code)
+		}
 	}
 }

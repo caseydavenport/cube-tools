@@ -8,8 +8,6 @@ import (
 	"os"
 	"os/exec"
 	"path/filepath"
-	"sort"
-	"strings"
 
 	"github.com/caseydavenport/cube-tools/pkg/drafts"
 	"github.com/caseydavenport/cube-tools/pkg/types"
@@ -31,18 +29,18 @@ var ImportHedronCmd = &cobra.Command{
 			logrus.Fatal("Must specify a CubeCobra ID or URL (--cube)")
 		}
 
-		drafts, err := fetchHedronDrafts(hedronCubeID)
+		hedronDrafts, err := fetchHedronDrafts(hedronCubeID)
 		if err != nil {
 			logrus.WithError(err).Fatal("Failed to fetch drafts from Hedron")
 		}
 
-		if len(drafts) == 0 {
+		if len(hedronDrafts) == 0 {
 			logrus.Fatal("No drafts found for this cube on Hedron")
 		}
 
 		var selectedDraft *HedronDraft
 		if hedronDraftID != "" {
-			for _, d := range drafts {
+			for _, d := range hedronDrafts {
 				if d.DraftID == hedronDraftID {
 					selectedDraft = &d
 					break
@@ -53,16 +51,16 @@ var ImportHedronCmd = &cobra.Command{
 			}
 		} else {
 			fmt.Println("Available drafts:")
-			for i, d := range drafts {
+			for i, d := range hedronDrafts {
 				fmt.Printf("[%d] %s - %s / %s (%d players)\n", i, d.Date[:10], d.EventName, d.FlightName, len(d.Players))
 			}
 			fmt.Print("Select a draft index to import: ")
 			var index int
 			_, err := fmt.Scanln(&index)
-			if err != nil || index < 0 || index >= len(drafts) {
+			if err != nil || index < 0 || index >= len(hedronDrafts) {
 				logrus.Fatal("Invalid selection")
 			}
-			selectedDraft = &drafts[index]
+			selectedDraft = &hedronDrafts[index]
 		}
 
 		localID, err := ImportHedronDraft(hedronOutCube, hedronCubeID, selectedDraft.DraftID)
@@ -136,29 +134,6 @@ func fetchHedronDrafts(cubeID string) ([]HedronDraft, error) {
 	return searchResp.Drafts, nil
 }
 
-// assignDraftSeqs returns a map from draft ID to its 1-indexed seq within
-// the (date, eventCode) group, ordered by flight name. Lets the importer
-// disambiguate multiple drafts of the same event on the same day with a
-// stable, human-meaningful index.
-func assignDraftSeqs(drafts []HedronDraft) map[string]int {
-	type key struct{ date, event string }
-	groups := map[key][]HedronDraft{}
-	for _, d := range drafts {
-		k := key{d.Date[:10], d.EventCode}
-		groups[k] = append(groups[k], d)
-	}
-	out := map[string]int{}
-	for _, group := range groups {
-		sort.SliceStable(group, func(i, j int) bool {
-			return group[i].FlightName < group[j].FlightName
-		})
-		for i, d := range group {
-			out[d.DraftID] = i + 1
-		}
-	}
-	return out
-}
-
 // hedronPlayerNum returns the 1-indexed player number from a Hedron player
 // ID like "Player 8". Returns 0 if it doesn't fit the expected shape.
 func hedronPlayerNum(playerID string) int {
@@ -169,56 +144,52 @@ func hedronPlayerNum(playerID string) int {
 	return n
 }
 
-// localPlayerID returns the canonical player ID used inside this codebase:
-// "<draftID>-p<N>" (e.g. "2026-01-17_p1p12026_1-p3").
-func localPlayerID(draftID string, hedronPlayerID string) string {
-	n := hedronPlayerNum(hedronPlayerID)
-	if n == 0 {
-		// Fall back to a sanitized form when the player ID doesn't fit
-		// the "Player N" pattern.
-		return fmt.Sprintf("%s-%s", draftID, strings.ToLower(strings.ReplaceAll(hedronPlayerID, " ", "")))
-	}
-	return fmt.Sprintf("%s-p%d", draftID, n)
-}
-
-func importDraft(cube string, d *HedronDraft, seq int) (string, error) {
+// importDraft writes a Hedron draft into a new numbered draft of cube: one deck
+// per player, with ID N and a placeholder name for Hedron's "Player N", their
+// downloaded photos under img/pN/, and both sides of every match. It returns
+// the new draft's ID.
+func importDraft(cube string, d *HedronDraft) (int, error) {
 	dateStr := d.Date[:10]
-	if seq < 1 {
-		seq = 1
-	}
-	draftID := fmt.Sprintf("%s_%s_%d", dateStr, d.EventCode, seq)
-	outdir := filepath.Join("data", cube, draftID)
-	imgdir := filepath.Join(outdir, "img")
-
-	// Error if the directory already exists to prevent accidental overwrites.
-	if _, err := os.Stat(outdir); !os.IsNotExist(err) {
-		return "", fmt.Errorf("directory %s already exists; remove it before importing", outdir)
-	}
-
-	if err := os.MkdirAll(imgdir, os.ModePerm); err != nil {
-		return "", fmt.Errorf("create directories: %w", err)
-	}
-
-	draftMeta := &types.DraftMetadata{
+	draft, err := drafts.Create(filepath.Join("data", cube), types.DraftMetadata{
+		Date:             dateStr,
 		EventName:        d.EventName,
+		EventCode:        d.EventCode,
 		EventDescription: fmt.Sprintf("Imported from Hedron Network. Event Code: %s, Flight: %s", d.EventCode, d.FlightName),
 		Flight:           d.FlightName,
+	})
+	if err != nil {
+		return 0, err
 	}
-	if err := draftMeta.Save(outdir); err != nil {
-		return "", fmt.Errorf("write draft metadata: %w", err)
+	imgdir := filepath.Join(draft.Dir, "img")
+
+	// Number players by Hedron's "Player N", giving any that don't fit that
+	// shape the next free numbers.
+	playerNumbers := map[string]int{}
+	highest := 0
+	for _, p := range d.Players {
+		if n := hedronPlayerNum(p.ID); n > 0 {
+			playerNumbers[p.ID] = n
+			highest = max(highest, n)
+		}
+	}
+	for _, p := range d.Players {
+		if playerNumbers[p.ID] == 0 {
+			highest++
+			playerNumbers[p.ID] = highest
+		}
 	}
 
 	playerDecks := make(map[string]*types.Deck)
-
 	for _, p := range d.Players {
+		n := playerNumbers[p.ID]
 		deck := types.NewDeck()
-		deck.Player = localPlayerID(draftID, p.ID)
+		deck.ID = n
+		deck.Player = PlaceholderPlayer(draft.ID, n)
 		deck.Date = dateStr
-		deck.Metadata.DraftID = draftID
+		deck.Metadata.DraftID = draft.ID
 
 		// Download all available image variants into img/p<N>/.
-		playerShort := strings.TrimPrefix(deck.Player, draftID+"-")
-		playerImgDir := filepath.Join(imgdir, playerShort)
+		playerImgDir := filepath.Join(imgdir, fmt.Sprintf("p%d", n))
 		downloadVariants(playerImgDir, "checkin", p.Images.Checkin, p.ID)
 		downloadVariants(playerImgDir, "checkout", p.Images.Checkout, p.ID)
 		downloadVariants(playerImgDir, "deck", p.Images.Deck, p.ID)
@@ -251,39 +222,34 @@ func importDraft(cube string, d *HedronDraft, seq int) (string, error) {
 		}
 
 		p1Deck.Matches = append(p1Deck.Matches, types.Match{
-			Opponent: p2Deck.Player,
-			Round:    m.Round,
-			Wins:     m.Result[0],
-			Losses:   m.Result[1],
-			Draws:    draws,
-			Winner:   winner,
+			Opponent:   p2Deck.Player,
+			OpponentID: p2Deck.ID,
+			Round:      m.Round,
+			Wins:       m.Result[0],
+			Losses:     m.Result[1],
+			Draws:      draws,
+			Winner:     winner,
 		})
 		p2Deck.Matches = append(p2Deck.Matches, types.Match{
-			Opponent: p1Deck.Player,
-			Round:    m.Round,
-			Wins:     m.Result[1],
-			Losses:   m.Result[0],
-			Draws:    draws,
-			Winner:   winner,
+			Opponent:   p1Deck.Player,
+			OpponentID: p1Deck.ID,
+			Round:      m.Round,
+			Wins:       m.Result[1],
+			Losses:     m.Result[0],
+			Draws:      draws,
+			Winner:     winner,
 		})
 	}
 
 	for _, deck := range playerDecks {
-		filename := filepath.Join(outdir, fmt.Sprintf("%s.json", deck.Player))
-		deck.Metadata.Path = filename
-		id, err := drafts.NextDeckID(outdir)
-		if err != nil {
-			return "", fmt.Errorf("assign deck id: %w", err)
-		}
-		deck.ID = id
-
-		if err := deck.Save(filename); err != nil {
-			return "", fmt.Errorf("write deck file: %w", err)
+		deck.Metadata.Path = drafts.DeckPath(draft.Dir, deck.ID)
+		if err := deck.Save(deck.Metadata.Path); err != nil {
+			return 0, fmt.Errorf("write deck file: %w", err)
 		}
 		logrus.Infof("Saved deck for %s", deck.Player)
 	}
 
-	return draftID, nil
+	return draft.ID, nil
 }
 
 // ListHedronDrafts returns every draft Hedron Network has for the given
@@ -294,32 +260,31 @@ func ListHedronDrafts(cubeID string) ([]HedronDraft, error) {
 
 // ImportHedronDraft imports one Hedron draft into outCube: it downloads the
 // player photos, writes the draft directory and match records, reindexes, and
-// returns the local draft id. It returns an error rather than exiting.
-func ImportHedronDraft(outCube, cubeID, draftID string) (string, error) {
-	drafts, err := ListHedronDrafts(cubeID)
+// returns the local draft ID. It returns an error rather than exiting.
+func ImportHedronDraft(outCube, cubeID, hedronDraftID string) (int, error) {
+	hedronDrafts, err := ListHedronDrafts(cubeID)
 	if err != nil {
-		return "", err
+		return 0, err
 	}
-	if len(drafts) == 0 {
-		return "", fmt.Errorf("no drafts found for cube %s", cubeID)
+	if len(hedronDrafts) == 0 {
+		return 0, fmt.Errorf("no drafts found for cube %s", cubeID)
 	}
-	seqByDraftID := assignDraftSeqs(drafts)
 	var selected *HedronDraft
-	for i := range drafts {
-		if drafts[i].DraftID == draftID {
-			selected = &drafts[i]
+	for i := range hedronDrafts {
+		if hedronDrafts[i].DraftID == hedronDraftID {
+			selected = &hedronDrafts[i]
 			break
 		}
 	}
 	if selected == nil {
-		return "", fmt.Errorf("draft %s not found for cube %s", draftID, cubeID)
+		return 0, fmt.Errorf("draft %s not found for cube %s", hedronDraftID, cubeID)
 	}
-	localID, err := importDraft(outCube, selected, seqByDraftID[selected.DraftID])
+	localID, err := importDraft(outCube, selected)
 	if err != nil {
-		return "", err
+		return 0, err
 	}
 	if err := Index(outCube); err != nil {
-		return "", err
+		return 0, err
 	}
 	return localID, nil
 }

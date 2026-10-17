@@ -151,10 +151,9 @@ type Metadata struct {
 	// Path is the path to the deck file itself, relative to the repository root.
 	Path string `json:"path,omitempty"`
 
-	// DraftID is a unique identifier for the draft from which this deck was created.
-	// Typically this is the date of the draft, plus another unique identifier in case
-	// there are multiple drafts on the same day.
-	DraftID string `json:"draft_id"`
+	// DraftID is the ID of the draft this deck was played in, unique within its
+	// cube.
+	DraftID int `json:"draft_id"`
 
 	// MainboardFile is the name of the file containing the mainboard, relative to the deck file.
 	MainboardFile string `json:"mainboard_file,omitempty"`
@@ -171,13 +170,18 @@ type Metadata struct {
 	PoolFile string `json:"pool_file,omitempty"`
 }
 
-// DraftMetadata is per-draft metadata stored once at <draftDir>/metadata.json.
-// It avoids duplicating identical fields across every deck file in the draft.
+// DraftMetadata is a draft's identity and event details, stored once at
+// <draftDir>/metadata.json. ID is unique within the cube and never reused;
+// EventCode is a short tag for the event (e.g. "bcp26", "local"), and
+// CubeCobraRecord is the CubeCobra record the draft was exported to, if any.
 type DraftMetadata struct {
-	DraftID          string `json:"draft_id,omitempty"`
+	ID               int    `json:"id"`
+	Date             string `json:"date"`
 	EventName        string `json:"event_name,omitempty"`
+	EventCode        string `json:"event_code,omitempty"`
 	EventDescription string `json:"event_description,omitempty"`
 	Flight           string `json:"flight,omitempty"`
+	CubeCobraRecord  string `json:"cubecobra_record,omitempty"`
 }
 
 // DraftMetadataFilename is the filename used for the per-draft metadata file.

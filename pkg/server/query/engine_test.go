@@ -17,7 +17,7 @@ type mockDeck struct {
 	sideboard []types.Card
 	pool      []types.Card
 	colors    []string
-	eventID   string
+	events    []string
 }
 
 func (m *mockDeck) GetPlayer() string          { return m.player }
@@ -27,7 +27,7 @@ func (m *mockDeck) GetMainboard() []types.Card { return m.mainboard }
 func (m *mockDeck) GetSideboard() []types.Card { return m.sideboard }
 func (m *mockDeck) GetPool() []types.Card      { return m.pool }
 func (m *mockDeck) GetColors() []string        { return m.colors }
-func (m *mockDeck) GetEventID() string         { return m.eventID }
+func (m *mockDeck) GetEventTerms() []string    { return m.events }
 
 // =====================
 // parseTerms
@@ -390,4 +390,18 @@ func TestDeckMatches_CardInPool(t *testing.T) {
 	// Same for pool-only cards: only matched when scoped to the pool.
 	assert.False(t, DeckMatches(d, "t:Land"))
 	assert.True(t, DeckMatchesBoard(d, "t:Land", "Pool"))
+}
+
+func TestEventTermMatchesCodeNameAndFlight(t *testing.T) {
+	d := &mockDeck{events: []string{"bcp26", "Boston Cube Party 2026", "Saturday Morning"}}
+	assert.True(t, DeckMatches(d, "event:bcp26"))
+	assert.True(t, DeckMatches(d, `event:"boston cube"`))
+	assert.True(t, DeckMatches(d, "event:saturday"))
+	assert.False(t, DeckMatches(d, "event:2026-06-20_bcp26_2"))
+	assert.False(t, DeckMatches(d, "event:local"))
+}
+
+func TestFreeTextMatchesEventName(t *testing.T) {
+	d := &mockDeck{events: []string{"advguild", "Adventurer's Guild"}}
+	assert.True(t, DeckMatches(d, "adventurer"))
 }

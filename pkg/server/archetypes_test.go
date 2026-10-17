@@ -28,7 +28,7 @@ func (m *mockDeckStorage) GetRules(_ string) (*design.DesignMapConfig, error) {
 	return nil, storage.ErrUnsupported
 }
 
-func makeStorageDeck(player, draftID string, labels []string, games []types.Game, matches []types.Match) *storage.Deck {
+func makeStorageDeck(player string, draftID int, labels []string, games []types.Game, matches []types.Match) *storage.Deck {
 	d := &storage.Deck{}
 	d.Player = player
 	d.Metadata.DraftID = draftID
@@ -42,8 +42,8 @@ func makeStorageDeck(player, draftID string, labels []string, games []types.Game
 
 func TestLookupOpponentMacro_Found(t *testing.T) {
 	decks := []*storage.Deck{
-		makeStorageDeck("Alice", "draft1", []string{"aggro"}, nil, nil),
-		makeStorageDeck("Bob", "draft1", []string{"control"}, nil, nil),
+		makeStorageDeck("Alice", 1, []string{"aggro"}, nil, nil),
+		makeStorageDeck("Bob", 1, []string{"control"}, nil, nil),
 	}
 
 	result := LookupOpponentMacro(decks, decks[0], "Bob")
@@ -52,7 +52,7 @@ func TestLookupOpponentMacro_Found(t *testing.T) {
 
 func TestLookupOpponentMacro_NotFound(t *testing.T) {
 	decks := []*storage.Deck{
-		makeStorageDeck("Alice", "draft1", []string{"aggro"}, nil, nil),
+		makeStorageDeck("Alice", 1, []string{"aggro"}, nil, nil),
 	}
 
 	result := LookupOpponentMacro(decks, decks[0], "Unknown")
@@ -61,8 +61,9 @@ func TestLookupOpponentMacro_NotFound(t *testing.T) {
 
 func TestLookupOpponentMacro_WrongDraft(t *testing.T) {
 	decks := []*storage.Deck{
-		makeStorageDeck("Alice", "draft1", []string{"aggro"}, nil, nil),
-		makeStorageDeck("Bob", "draft2", []string{"control"}, nil, nil), // different draft
+		makeStorageDeck("Alice", 1, []string{"aggro"}, nil, nil),
+		// Bob's deck is from a different draft.
+		makeStorageDeck("Bob", 2, []string{"control"}, nil, nil),
 	}
 
 	result := LookupOpponentMacro(decks, decks[0], "Bob")
@@ -73,13 +74,13 @@ func TestLookupOpponentMacro_WrongDraft(t *testing.T) {
 
 func TestArchetypesHandler_DrawsExcluded(t *testing.T) {
 	decks := []*storage.Deck{
-		makeStorageDeck("Alice", "d1", []string{"aggro"}, []types.Game{
+		makeStorageDeck("Alice", 1, []string{"aggro"}, []types.Game{
 			{Opponent: "Bob", Winner: "Alice"},       // win
 			{Opponent: "Bob", Winner: "Bob"},         // loss
 			{Opponent: "Bob", Winner: ""},            // draw - should not count
 			{Opponent: "Bob", Winner: "", Tie: true}, // draw - should not count
 		}, nil),
-		makeStorageDeck("Bob", "d1", []string{"control"}, []types.Game{
+		makeStorageDeck("Bob", 1, []string{"control"}, []types.Game{
 			{Opponent: "Alice", Winner: "Alice"},
 			{Opponent: "Alice", Winner: "Bob"},
 			{Opponent: "Alice", Winner: ""},

@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
-	"strings"
 
 	"github.com/caseydavenport/cube-tools/pkg/cubes"
 	"github.com/caseydavenport/cube-tools/pkg/drafts"
@@ -34,7 +33,7 @@ type MainIndex struct {
 type Draft struct {
 	Path     string        `json:"path"`
 	Date     string        `json:"date"`
-	DraftID  string        `json:"draft_id"`
+	DraftID  int           `json:"draft_id"`
 	DraftLog string        `json:"draft_log"`
 	Decks    []IndexedDeck `json:"decks"`
 }
@@ -52,41 +51,31 @@ func index(cube string) {
 	}
 }
 
-// Index regenerates the index files for the given cube's drafts directory.
+// Index regenerates the index files for the given cube's drafts directory,
+// listing drafts by date and then ID.
 func Index(cube string) error {
-	// Specify the draftsDirectory that holds the drafts.
 	draftsDirectory := fmt.Sprintf("./data/%s", cube)
-
-	// Get a list of sub-directories in the directory
-	// each subdir represents a draft.
-	draftIDs, err := getSubDirectories(draftsDirectory)
+	if _, err := os.Stat(draftsDirectory); err != nil {
+		return fmt.Errorf("read cube directory: %w", err)
+	}
+	all, err := drafts.List(draftsDirectory)
 	if err != nil {
-		return fmt.Errorf("get subdirectories: %w", err)
+		return fmt.Errorf("list drafts: %w", err)
 	}
 
 	index := MainIndex{}
-
-	// Iterate over the sub-directories and create maps
-	for _, draftID := range draftIDs {
-		// Determine if there is a draft log.
-		draftLogPath := filepath.Join(draftsDirectory, draftID, "draft-log.json")
+	for _, d := range all {
+		draftLogPath := filepath.Join(d.Dir, "draft-log.json")
 		if _, err := os.Stat(draftLogPath); os.IsNotExist(err) {
 			draftLogPath = ""
 		}
-
-		// Construct the draft.
-		draft := Draft{
-			Path:     filepath.Join(draftsDirectory, draftID),
-			DraftID:  draftID,
-			Date:     dateFromDir(draftID),
+		index.Drafts = append(index.Drafts, Draft{
+			Path:     d.Dir,
+			DraftID:  d.ID,
+			Date:     d.Date,
 			DraftLog: draftLogPath,
-		}
-
-		// Add decks to the draft.
-		draft.Decks = decksInDraft(draft.Path)
-
-		// Add this draft to the main index.
-		index.Drafts = append(index.Drafts, draft)
+			Decks:    decksInDraft(d.Dir),
+		})
 	}
 
 	// Create the index file
@@ -140,31 +129,4 @@ func decksInDraft(directory string) []IndexedDeck {
 		decks = append(decks, IndexedDeck{Path: file})
 	}
 	return decks
-}
-
-// getSubDirectories returns a list of sub-directories in the given directory
-func getSubDirectories(directory string) ([]string, error) {
-	// Read the directory content
-	files, err := os.ReadDir(directory)
-	if err != nil {
-		return nil, err
-	}
-
-	// Create a slice to store the sub-directory names
-	var subDirs []string
-
-	// Iterate over the directory content
-	for _, file := range files {
-		if file.IsDir() {
-			subDirs = append(subDirs, file.Name())
-		}
-	}
-
-	return subDirs, nil
-}
-
-func dateFromDir(dir string) string {
-	// Split the directory name by underscores. Draft directories can have a suffix,
-	// which we need to strip.
-	return strings.Split(dir, "_")[0]
 }

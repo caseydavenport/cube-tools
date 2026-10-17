@@ -272,7 +272,7 @@ func (s *synergyStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request)
 	// they could inflate the opened denominator without ever contributing to the
 	// played numerator, dragging down rates for cards in those drafts. Keeping both
 	// sides on the same deck population avoids that asymmetry.
-	draftDecks := make(map[string][]int)
+	draftDecks := make(map[int][]int)
 	for i, deck := range allDecks {
 		draftDecks[deck.Metadata.DraftID] = append(draftDecks[deck.Metadata.DraftID], i)
 	}

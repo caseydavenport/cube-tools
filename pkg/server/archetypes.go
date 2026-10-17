@@ -51,7 +51,7 @@ func (d *archetypesHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 	// Go through each deck, and add up the win/loss counts for each archetype it faced.
 	for _, deck := range decks {
 		// Skip decks that don't have a draft ID.
-		if deck.Metadata.DraftID == "" {
+		if deck.Metadata.DraftID == 0 {
 			continue
 		}
 

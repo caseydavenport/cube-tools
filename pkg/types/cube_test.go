@@ -16,7 +16,7 @@ func writeCubeFile(t *testing.T, path, body string) {
 
 func TestLoadCubeList_FromSnapshot(t *testing.T) {
 	dir := t.TempDir()
-	writeCubeFile(t, filepath.Join(dir, "polyverse", "2024-05-03", "cube-snapshot.json"), `{
+	writeCubeFile(t, filepath.Join(dir, "polyverse", "0003_2024-05-03", "cube-snapshot.json"), `{
 		"cards": [
 			{"name": "Lightning Bolt"},
 			{"name": "Counterspell"},
@@ -28,7 +28,7 @@ func TestLoadCubeList_FromSnapshot(t *testing.T) {
 	c, err := LoadCubeList(LoadOptions{
 		DataRoot: dir,
 		Cube:     "polyverse",
-		Date:     "2024-05-03",
+		DraftDir: filepath.Join(dir, "polyverse", "0003_2024-05-03"),
 	})
 	require.NoError(t, err)
 	require.Equal(t, 3, len(c.Names()))
@@ -52,12 +52,22 @@ func TestLoadCubeList_FallsBackToLiveCube(t *testing.T) {
 	require.Equal(t, []string{"Brainstorm"}, c.Names())
 }
 
-func TestLoadCubeList_PicksLatestDate(t *testing.T) {
+func TestLoadCubeList_DraftDirWithoutSnapshot(t *testing.T) {
 	dir := t.TempDir()
-	writeCubeFile(t, filepath.Join(dir, "polyverse", "2024-01-01", "cube-snapshot.json"),
-		`{"cards":[{"name":"Old Card"}]}`)
-	writeCubeFile(t, filepath.Join(dir, "polyverse", "2025-12-31", "cube-snapshot.json"),
-		`{"cards":[{"name":"New Card"}]}`)
+	_, err := LoadCubeList(LoadOptions{
+		DataRoot: dir,
+		Cube:     "polyverse",
+		DraftDir: filepath.Join(dir, "polyverse", "0001_2024-01-01"),
+		Source:   fakeCubeSource{c: &Cube{Cards: []Card{{Name: "Brainstorm"}}}},
+	})
+	require.Error(t, err)
+}
+
+func TestLoadCubeList_PicksLatestDraft(t *testing.T) {
+	dir := t.TempDir()
+	writeCubeFile(t, filepath.Join(dir, "polyverse", "0002_2026-01-01", "cube-snapshot.json"), `{"cards":[{"name":"Old Card"}]}`)
+	writeCubeFile(t, filepath.Join(dir, "polyverse", "0010_2025-12-01", "cube-snapshot.json"), `{"cards":[{"name":"New Card"}]}`)
+	writeCubeFile(t, filepath.Join(dir, "polyverse", "2027-01-01_local_1", "cube-snapshot.json"), `{"cards":[{"name":"Old Format"}]}`)
 
 	c, err := LoadCubeList(LoadOptions{
 		DataRoot: dir,
@@ -69,7 +79,7 @@ func TestLoadCubeList_PicksLatestDate(t *testing.T) {
 
 func TestMaxCopiesCaseInsensitiveNonASCII(t *testing.T) {
 	dir := t.TempDir()
-	writeCubeFile(t, filepath.Join(dir, "cube", "2024-01-01", "cube-snapshot.json"), `{
+	writeCubeFile(t, filepath.Join(dir, "cube", "0001_2024-01-01", "cube-snapshot.json"), `{
 		"cards": [
 			{"name": "Lim-Dûl's Vault"},
 			{"name": "Jötun Grunt"}

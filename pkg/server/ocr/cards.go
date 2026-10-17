@@ -12,13 +12,12 @@ func CardsHandler() http.Handler { return CardsHandlerWithRoot("data") }
 
 func CardsHandlerWithRoot(dataRoot string) http.Handler {
 	return http.HandlerFunc(func(rw http.ResponseWriter, r *http.Request) {
-		cube := server.CubeFromRequest(r)
-		draftID := r.PathValue("draft_id")
-		if cube == "" || draftID == "" || strings.ContainsAny(draftID, `/\`) || strings.Contains(draftID, "..") {
+		draft, ok := draftFromRequest(dataRoot, r)
+		if !ok {
 			http.NotFound(rw, r)
 			return
 		}
-		cl, err := loadCubeForDraft(dataRoot, cube, draftID)
+		cl, err := loadCubeForDraft(dataRoot, server.CubeFromRequest(r), draft)
 		if err != nil {
 			http.Error(rw, "no cube list: "+err.Error(), http.StatusInternalServerError)
 			return

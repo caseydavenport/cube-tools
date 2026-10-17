@@ -14,16 +14,16 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-// seededBackend returns a memory backend holding draft "d1" of "testcube" with
+// seededBackend returns a memory backend holding draft 1 of "testcube" with
 // Alice (id 1) and Bob (id 2), who played each other in round 1.
 func seededBackend() *memory.Backend {
 	alice := &storage.Deck{}
 	alice.Player = "Alice"
-	alice.Metadata.DraftID = "d1"
+	alice.Metadata.DraftID = 1
 	alice.Matches = []types.Match{{Opponent: "Bob", OpponentID: 2, Round: 1, Wins: 2}}
 	bob := &storage.Deck{}
 	bob.Player = "Bob"
-	bob.Metadata.DraftID = "d1"
+	bob.Metadata.DraftID = 1
 	bob.Matches = []types.Match{{Opponent: "Alice", OpponentID: 1, Round: 1, Losses: 2}}
 
 	b := memory.New()
@@ -55,7 +55,7 @@ func post(t *testing.T, h http.Handler, cube, path, body string) *httptest.Respo
 
 func TestUpdateDeckHandler_OK(t *testing.T) {
 	store := storage.NewStore(seededBackend())
-	body := `{"draft_id": "d1", "id": 1, "macro_archetype": "control", "labels": ["removal"], "notes": "nice"}`
+	body := `{"draft_id": 1, "id": 1, "macro_archetype": "control", "labels": ["removal"], "notes": "nice"}`
 	rec := post(t, UpdateDeckHandler(store), "testcube", "/decks/update", body)
 	require.Equal(t, http.StatusOK, rec.Code)
 
@@ -69,14 +69,14 @@ func TestUpdateDeckHandler_OK(t *testing.T) {
 func TestUpdateDeckHandler_NotesAbsentVsEmpty(t *testing.T) {
 	store := storage.NewStore(seededBackend())
 	h := UpdateDeckHandler(store)
-	post(t, h, "testcube", "/decks/update", `{"draft_id": "d1", "id": 1, "notes": "keep me"}`)
+	post(t, h, "testcube", "/decks/update", `{"draft_id": 1, "id": 1, "notes": "keep me"}`)
 
-	rec := post(t, h, "testcube", "/decks/update", `{"draft_id": "d1", "id": 1, "labels": ["x"]}`)
+	rec := post(t, h, "testcube", "/decks/update", `{"draft_id": 1, "id": 1, "labels": ["x"]}`)
 	var got deckView
 	require.NoError(t, json.Unmarshal(rec.Body.Bytes(), &got))
 	require.Equal(t, "keep me", got.Notes)
 
-	rec = post(t, h, "testcube", "/decks/update", `{"draft_id": "d1", "id": 1, "notes": ""}`)
+	rec = post(t, h, "testcube", "/decks/update", `{"draft_id": 1, "id": 1, "notes": ""}`)
 	var cleared deckView
 	require.NoError(t, json.Unmarshal(rec.Body.Bytes(), &cleared))
 	require.Equal(t, "", cleared.Notes)
@@ -84,7 +84,7 @@ func TestUpdateDeckHandler_NotesAbsentVsEmpty(t *testing.T) {
 
 func TestUpdateDeckHandler_NotFound(t *testing.T) {
 	store := storage.NewStore(seededBackend())
-	rec := post(t, UpdateDeckHandler(store), "testcube", "/decks/update", `{"draft_id": "d1", "id": 9}`)
+	rec := post(t, UpdateDeckHandler(store), "testcube", "/decks/update", `{"draft_id": 1, "id": 9}`)
 	require.Equal(t, http.StatusNotFound, rec.Code)
 }
 
@@ -92,13 +92,13 @@ func TestUpdateDeckHandler_BadRequest(t *testing.T) {
 	store := storage.NewStore(seededBackend())
 	h := UpdateDeckHandler(store)
 	require.Equal(t, http.StatusBadRequest, post(t, h, "testcube", "/decks/update", `{"id": 1}`).Code)
-	require.Equal(t, http.StatusBadRequest, post(t, h, "testcube", "/decks/update", `{"draft_id": "d1"}`).Code)
+	require.Equal(t, http.StatusBadRequest, post(t, h, "testcube", "/decks/update", `{"draft_id": 1}`).Code)
 	require.Equal(t, http.StatusBadRequest, post(t, h, "testcube", "/decks/update", `{not json`).Code)
 }
 
 func TestUpdateDeckRecordHandler_Rename(t *testing.T) {
 	store := storage.NewStore(seededBackend())
-	rec := post(t, UpdateDeckRecordHandler(store), "testcube", "/decks/record", `{"draft_id": "d1", "id": 1, "player": "casey"}`)
+	rec := post(t, UpdateDeckRecordHandler(store), "testcube", "/decks/record", `{"draft_id": 1, "id": 1, "player": "casey"}`)
 	require.Equal(t, http.StatusOK, rec.Code)
 
 	var resp decksView
@@ -114,13 +114,13 @@ func TestUpdateDeckRecordHandler_Rename(t *testing.T) {
 
 func TestUpdateDeckRecordHandler_NameTaken(t *testing.T) {
 	store := storage.NewStore(seededBackend())
-	rec := post(t, UpdateDeckRecordHandler(store), "testcube", "/decks/record", `{"draft_id": "d1", "id": 1, "player": "bob"}`)
+	rec := post(t, UpdateDeckRecordHandler(store), "testcube", "/decks/record", `{"draft_id": 1, "id": 1, "player": "bob"}`)
 	require.Equal(t, http.StatusConflict, rec.Code)
 }
 
 func TestUpdateDeckRecordHandler_NotFound(t *testing.T) {
 	store := storage.NewStore(seededBackend())
-	rec := post(t, UpdateDeckRecordHandler(store), "testcube", "/decks/record", `{"draft_id": "d1", "id": 9}`)
+	rec := post(t, UpdateDeckRecordHandler(store), "testcube", "/decks/record", `{"draft_id": 1, "id": 9}`)
 	require.Equal(t, http.StatusNotFound, rec.Code)
 }
 
@@ -128,14 +128,14 @@ func TestUpdateDeckRecordHandler_BadRequest(t *testing.T) {
 	store := storage.NewStore(seededBackend())
 	h := UpdateDeckRecordHandler(store)
 	require.Equal(t, http.StatusBadRequest, post(t, h, "testcube", "/decks/record", `{"id": 1}`).Code)
-	require.Equal(t, http.StatusBadRequest, post(t, h, "testcube", "/decks/record", `{"draft_id": "d1", "id": 0}`).Code)
+	require.Equal(t, http.StatusBadRequest, post(t, h, "testcube", "/decks/record", `{"draft_id": 1, "id": 0}`).Code)
 	require.Equal(t, http.StatusBadRequest, post(t, h, "testcube", "/decks/record", `{not json`).Code)
 }
 
 func TestWritesToCubeCobraCubeAreBadRequest(t *testing.T) {
 	store := storage.NewStore(router.New(seededBackend(), nil))
-	rec := post(t, UpdateDeckHandler(store), "cc:polyversal", "/decks/update", `{"draft_id": "d1", "id": 1}`)
+	rec := post(t, UpdateDeckHandler(store), "cc:polyversal", "/decks/update", `{"draft_id": 1, "id": 1}`)
 	require.Equal(t, http.StatusBadRequest, rec.Code)
-	rec = post(t, UpdateDeckRecordHandler(store), "cc:polyversal", "/decks/record", `{"draft_id": "d1", "id": 1, "player": "x"}`)
+	rec = post(t, UpdateDeckRecordHandler(store), "cc:polyversal", "/decks/record", `{"draft_id": 1, "id": 1, "player": "x"}`)
 	require.Equal(t, http.StatusBadRequest, rec.Code)
 }

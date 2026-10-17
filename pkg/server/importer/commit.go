@@ -6,6 +6,7 @@ import (
 	"os"
 	"path/filepath"
 	"strings"
+	"time"
 
 	"github.com/caseydavenport/cube-tools/pkg/commands"
 	"github.com/caseydavenport/cube-tools/pkg/drafts"
@@ -13,19 +14,19 @@ import (
 	"github.com/caseydavenport/cube-tools/pkg/types"
 )
 
-// CommitRequest is the reviewed, ready-to-write draft. v1 only creates new
-// drafts, so DraftID must not already exist on disk.
+// CommitRequest is the reviewed, ready-to-write draft. A commit always
+// creates a new draft, numbered after the cube's existing ones.
 type CommitRequest struct {
-	DraftID   string       `json:"draft_id"`
 	Date      string       `json:"date"`
 	EventName string       `json:"event_name,omitempty"`
+	EventCode string       `json:"event_code,omitempty"`
 	Decks     []ParsedDeck `json:"decks"`
 }
 
 // buildDeck assembles a types.Deck for one reviewed player. A pool-only deck is
 // stored as a pool; a deck with a mainboard stores main + sideboard. Card
 // expansion uses the shared types.ExpandCounted helper (Task 1b).
-func buildDeck(d ParsedDeck, date, draftID string) *types.Deck {
+func buildDeck(d ParsedDeck, date string, draftID int) *types.Deck {
 	deck := types.NewDeck()
 	deck.Player = strings.ToLower(d.Player)
 	deck.Date = date
@@ -61,19 +62,15 @@ func CommitHandlerWithRoot(src types.CubeSource, dataRoot string) http.Handler {
 			http.Error(rw, "invalid request", http.StatusBadRequest)
 			return
 		}
-		if !validID(req.DraftID) {
-			http.Error(rw, "invalid draft id", http.StatusBadRequest)
+		if _, err := time.Parse(time.DateOnly, req.Date); err != nil || len(req.Decks) == 0 {
+			http.Error(rw, "a YYYY-MM-DD date and at least one deck are required", http.StatusBadRequest)
 			return
 		}
-		if req.Date == "" || len(req.Decks) == 0 {
-			http.Error(rw, "date and at least one deck are required", http.StatusBadRequest)
-			return
-		}
-
-		outdir := filepath.Join(dataRoot, cube, req.DraftID)
-		if _, err := os.Stat(outdir); err == nil {
-			http.Error(rw, "draft already exists", http.StatusConflict)
-			return
+		for _, pd := range req.Decks {
+			if !validID(pd.Player) {
+				http.Error(rw, "invalid player name: "+pd.Player, http.StatusBadRequest)
+				return
+			}
 		}
 
 		// Snapshot the cube as it is right now, straight from Cube Cobra, before
@@ -90,37 +87,26 @@ func CommitHandlerWithRoot(src types.CubeSource, dataRoot string) http.Handler {
 			return
 		}
 
-		if err := os.MkdirAll(outdir, os.ModePerm); err != nil {
+		draft, err := drafts.Create(filepath.Join(dataRoot, cube), types.DraftMetadata{
+			Date:      req.Date,
+			EventName: req.EventName,
+			EventCode: req.EventCode,
+		})
+		if err != nil {
 			http.Error(rw, "internal server error", http.StatusInternalServerError)
 			return
 		}
 
-		meta := &types.DraftMetadata{DraftID: req.DraftID, EventName: req.EventName}
-		if err := meta.Save(outdir); err != nil {
+		if err := os.WriteFile(filepath.Join(draft.Dir, "cube-snapshot.json"), snapshot, 0o644); err != nil {
 			http.Error(rw, "internal server error", http.StatusInternalServerError)
 			return
 		}
 
-		if err := os.WriteFile(filepath.Join(outdir, "cube-snapshot.json"), snapshot, 0o644); err != nil {
-			http.Error(rw, "internal server error", http.StatusInternalServerError)
-			return
-		}
-
-		for _, pd := range req.Decks {
-			if !validID(pd.Player) {
-				http.Error(rw, "invalid player name: "+pd.Player, http.StatusBadRequest)
-				return
-			}
-			deck := buildDeck(pd, req.Date, req.DraftID)
-			path := filepath.Join(outdir, strings.ToLower(pd.Player)+".json")
-			deck.Metadata.Path = path
-			id, err := drafts.NextDeckID(outdir)
-			if err != nil {
-				http.Error(rw, "internal server error", http.StatusInternalServerError)
-				return
-			}
-			deck.ID = id
-			if err := deck.Save(path); err != nil {
+		for i, pd := range req.Decks {
+			deck := buildDeck(pd, req.Date, draft.ID)
+			deck.ID = i + 1
+			deck.Metadata.Path = drafts.DeckPath(draft.Dir, deck.ID)
+			if err := deck.Save(deck.Metadata.Path); err != nil {
 				http.Error(rw, "internal server error", http.StatusInternalServerError)
 				return
 			}
@@ -132,6 +118,6 @@ func CommitHandlerWithRoot(src types.CubeSource, dataRoot string) http.Handler {
 				return
 			}
 		}
-		writeJSON(rw, map[string]any{"draft_id": req.DraftID})
+		writeJSON(rw, map[string]any{"draft_id": draft.ID})
 	})
 }

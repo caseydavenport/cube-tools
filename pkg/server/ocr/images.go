@@ -4,24 +4,25 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
-	"strings"
 
-	"github.com/caseydavenport/cube-tools/pkg/server"
 	"github.com/sirupsen/logrus"
 )
 
-// ImageHandler serves draft photos from data/<cube>/<path>.
+// ImageHandler serves a draft's photos, addressed relative to the draft.
 func ImageHandler() http.Handler { return ImageHandlerWithRoot("data") }
 
 // ImageHandlerWithRoot is ImageHandler with an injectable data root for tests.
 func ImageHandlerWithRoot(dataRoot string) http.Handler {
 	return http.HandlerFunc(func(rw http.ResponseWriter, r *http.Request) {
-		cube := server.CubeFromRequest(r)
+		draft, ok := draftFromRequest(dataRoot, r)
+		if !ok {
+			http.NotFound(rw, r)
+			return
+		}
 		raw := r.PathValue("path")
-		cleanPath := filepath.Clean(filepath.Join(dataRoot, cube, raw))
-		prefix := filepath.Clean(filepath.Join(dataRoot, cube)) + string(filepath.Separator)
-		if cube == "" || raw == "" || strings.Contains(raw, "..") || !strings.HasPrefix(cleanPath, prefix) {
-			logrus.WithFields(logrus.Fields{"cube": cube, "path": raw}).Warn("Blocked invalid image path")
+		cleanPath, ok := photoPath(draft, raw)
+		if !ok {
+			logrus.WithFields(logrus.Fields{"draft": draft.ID, "path": raw}).Warn("Blocked invalid image path")
 			http.Error(rw, "Invalid path", http.StatusForbidden)
 			return
 		}

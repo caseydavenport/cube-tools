@@ -3,8 +3,12 @@ package ocr
 import (
 	"encoding/json"
 	"net/http"
+	"path/filepath"
+	"strconv"
 	"strings"
 
+	"github.com/caseydavenport/cube-tools/pkg/drafts"
+	"github.com/caseydavenport/cube-tools/pkg/server"
 	"github.com/caseydavenport/cube-tools/pkg/types"
 )
 
@@ -19,21 +23,39 @@ func SetCubeSource(s types.CubeSource) {
 	cubeSource = s
 }
 
-// validDraftID rejects empty ids and anything that could escape the data dir
-// (path separators or "..") - draft ids land directly in filesystem paths.
-func validDraftID(id string) bool {
-	return id != "" && !strings.ContainsAny(id, `/\`) && !strings.Contains(id, "..")
+// draftFromRequest resolves the request's {draft_id} to a draft of its cube.
+// It reports false for a missing cube, a non-numeric ID or an unknown draft.
+func draftFromRequest(dataRoot string, r *http.Request) (drafts.Draft, bool) {
+	cube := server.CubeFromRequest(r)
+	id, err := strconv.Atoi(r.PathValue("draft_id"))
+	if cube == "" || err != nil || id < 1 {
+		return drafts.Draft{}, false
+	}
+	d, err := drafts.Find(filepath.Join(dataRoot, cube), id)
+	if err != nil {
+		return drafts.Draft{}, false
+	}
+	return d, true
 }
 
-// loadCubeForDraft loads the cube list for a draft, preferring the snapshot for
-// the draft's date (the first 10 chars of the ID) and falling back to the
-// latest snapshot, then the live source, when that date has none.
-func loadCubeForDraft(dataRoot, cube, draftID string) (*types.Cube, error) {
-	date := ""
-	if len(draftID) >= 10 {
-		date = draftID[:10]
+// photoPath returns the on-disk path of a photo given relative to the draft,
+// or false if rel is absolute or would leave the draft directory.
+func photoPath(draft drafts.Draft, rel string) (string, bool) {
+	if rel == "" || filepath.IsAbs(rel) || strings.Contains(rel, "..") {
+		return "", false
 	}
-	cl, err := types.LoadCubeList(types.LoadOptions{DataRoot: dataRoot, Cube: cube, Date: date})
+	abs := filepath.Join(draft.Dir, rel)
+	if !strings.HasPrefix(abs, filepath.Clean(draft.Dir)+string(filepath.Separator)) {
+		return "", false
+	}
+	return abs, true
+}
+
+// loadCubeForDraft loads the cube list for a draft, preferring the draft's own
+// snapshot and falling back to the cube's latest snapshot, then the live
+// source, when it has none.
+func loadCubeForDraft(dataRoot, cube string, draft drafts.Draft) (*types.Cube, error) {
+	cl, err := types.LoadCubeList(types.LoadOptions{Cube: cube, DraftDir: draft.Dir})
 	if err != nil {
 		return types.LoadCubeList(types.LoadOptions{DataRoot: dataRoot, Cube: cube, Source: cubeSource})
 	}

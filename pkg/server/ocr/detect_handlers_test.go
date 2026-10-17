@@ -2,11 +2,12 @@ package ocr
 
 import (
 	"encoding/json"
+	"net/http"
 	"net/http/httptest"
 	"path/filepath"
-	"strings"
 	"testing"
 
+	"github.com/caseydavenport/cube-tools/pkg/drafts"
 	ocrpkg "github.com/caseydavenport/cube-tools/pkg/ocr"
 	"github.com/caseydavenport/cube-tools/pkg/types"
 )
@@ -34,30 +35,33 @@ func (f *fakeDetector) MatchRegion(p string, box ocrpkg.Bbox, _ *types.Cube) (oc
 	}, nil
 }
 
-func setupCube(t *testing.T, root string) {
+// setupCube creates a draft with a cube snapshot, in a cube registered with a
+// sleeve color.
+func setupCube(t *testing.T, root string) drafts.Draft {
 	t.Helper()
-	writeFile(t, filepath.Join(root, "polyverse", "2026-01-17", "cube-snapshot.json"),
-		`{"cards":[{"name":"Brainstorm"},{"name":"Island"}]}`)
+	d := newDraft(t, root, types.DraftMetadata{})
+	writeFile(t, filepath.Join(d.Dir, "cube-snapshot.json"), `{"cards":[{"name":"Brainstorm"},{"name":"Island"}]}`)
 	writeFile(t, filepath.Join(root, "cubes.json"),
 		`{"cubes":[{"id":"polyverse","name":"Polyverse","sleeve_color":"purple"}]}`)
+	return d
 }
 
 func TestDetectHandler(t *testing.T) {
 	root := t.TempDir()
-	setupCube(t, root)
-	rel := "2026-01-17_evt_1/img/p3/checkin-1.jpg"
-	writeFile(t, filepath.Join(root, "polyverse", rel), "x")
+	d := setupCube(t, root)
+	rel := "img/p3/checkin-1.jpg"
+	writeFile(t, filepath.Join(d.Dir, rel), "x")
 
 	fd := &fakeDetector{}
 	h := DetectHandlerWithRoot(fd, root)
-	r := reqWithCube(t, "POST", "/api/polyverse/ocr/detect", "polyverse")
+	r := draftReq(t, "POST", "/detect", d)
 	r.Body = bodyOf(`{"photo":"` + rel + `"}`)
 	w := httptest.NewRecorder()
 	h.ServeHTTP(w, r)
 	if w.Code != 200 {
 		t.Fatalf("status = %d body=%s", w.Code, w.Body.String())
 	}
-	if !strings.HasSuffix(fd.gotPath, rel) {
+	if fd.gotPath != filepath.Join(d.Dir, rel) {
 		t.Fatalf("detector got path %q", fd.gotPath)
 	}
 	if fd.gotSleeve != "purple" {
@@ -76,13 +80,48 @@ func TestDetectHandler(t *testing.T) {
 
 func TestRegionHandlerRejectsTraversal(t *testing.T) {
 	root := t.TempDir()
-	setupCube(t, root)
+	d := setupCube(t, root)
+	other := newDraft(t, root, types.DraftMetadata{})
+	writeFile(t, filepath.Join(other.Dir, "img", "p1", "a.jpg"), "x")
 	h := RegionHandlerWithRoot(&fakeDetector{}, root)
-	r := reqWithCube(t, "POST", "/api/polyverse/ocr/region", "polyverse")
-	r.Body = bodyOf(`{"photo":"../../etc/passwd","box":{"X":0,"Y":0,"Width":1,"Height":1}}`)
-	w := httptest.NewRecorder()
-	h.ServeHTTP(w, r)
-	if w.Code != 403 {
-		t.Fatalf("status = %d, want 403", w.Code)
+	for _, photo := range []string{"../../etc/passwd", "../" + filepath.Base(other.Dir) + "/img/p1/a.jpg", "/etc/passwd"} {
+		r := draftReq(t, "POST", "/region", d)
+		r.Body = bodyOf(`{"photo":"` + photo + `","box":{"X":0,"Y":0,"Width":1,"Height":1}}`)
+		w := httptest.NewRecorder()
+		h.ServeHTTP(w, r)
+		if w.Code != 403 {
+			t.Errorf("photo %q: status = %d, want 403", photo, w.Code)
+		}
+	}
+}
+
+func TestUnknownDraftIs404(t *testing.T) {
+	root := t.TempDir()
+	setupCube(t, root)
+	handlers := map[string]http.Handler{
+		"detect":      DetectHandlerWithRoot(&fakeDetector{}, root),
+		"region":      RegionHandlerWithRoot(&fakeDetector{}, root),
+		"rotate":      RotateHandlerWithRoot(root),
+		"image":       ImageHandlerWithRoot(root),
+		"detail":      DraftDetailHandlerWithRoot(root),
+		"cards":       CardsHandlerWithRoot(root),
+		"consistency": ConsistencyHandlerWithRoot(root),
+		"session":     SessionGetHandlerWithRoot(root),
+		"confirm":     ConfirmHandlerWithRoot(root),
+		"scan":        ScanStatusHandlerWithRoot(root),
+	}
+	for name, h := range handlers {
+		for _, id := range []string{"99", "abc", "0001_2026-01-17", "../1"} {
+			r := reqWithCube(t, "POST", "/api/polyverse/ocr/drafts/x", "polyverse")
+			r.SetPathValue("draft_id", id)
+			r.SetPathValue("player", "p1")
+			r.SetPathValue("path", "img/p1/a.jpg")
+			r.Body = bodyOf(`{"photo":"img/p1/a.jpg","direction":"cw"}`)
+			w := httptest.NewRecorder()
+			h.ServeHTTP(w, r)
+			if w.Code != http.StatusNotFound {
+				t.Errorf("%s draft %q: status = %d, want 404", name, id, w.Code)
+			}
+		}
 	}
 }

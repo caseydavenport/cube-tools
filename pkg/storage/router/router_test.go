@@ -26,11 +26,11 @@ func (f *fakeFile) RawDecks(cube string) ([]*storage.Deck, error) {
 	return []*storage.Deck{deckFor("file:" + cube)}, nil
 }
 func (f *fakeFile) Index(cube string) (*storage.CubeIndex, error) { return &storage.CubeIndex{}, nil }
-func (f *fakeFile) LoadDraft(cube, draftID string) ([]*storage.Deck, error) {
+func (f *fakeFile) LoadDraft(cube string, draftID int) ([]*storage.Deck, error) {
 	return []*storage.Deck{deckFor("file:" + cube)}, nil
 }
 
-func (f *fakeFile) SaveDecks(cube, draftID string, decks []*storage.Deck) error {
+func (f *fakeFile) SaveDecks(cube string, draftID int, decks []*storage.Deck) error {
 	f.wrote = true
 	return nil
 }
@@ -40,7 +40,7 @@ func (f *fakeFile) GetRules(cube string) (*design.DesignMapConfig, error) {
 	return &design.DesignMapConfig{}, nil
 }
 func (f *fakeFile) PutRules(cube string, r *design.DesignMapConfig) error { f.wrote = true; return nil }
-func (f *fakeFile) GetDraftLog(cube, d string) (json.RawMessage, error) {
+func (f *fakeFile) GetDraftLog(cube string, d int) (json.RawMessage, error) {
 	return json.RawMessage(`{}`), nil
 }
 
@@ -67,26 +67,26 @@ func TestRouterWritesGatedForCC(t *testing.T) {
 	ff := &fakeFile{}
 	r := New(ff, fakeCC{})
 
-	if err := r.SaveDecks("polyverse", "d", nil); err != nil {
+	if err := r.SaveDecks("polyverse", 1, nil); err != nil {
 		t.Fatalf("registry write errored: %v", err)
 	}
 	if !ff.wrote {
 		t.Error("registry write did not reach file backend")
 	}
-	if _, err := r.LoadDraft("polyverse", "d"); err != nil {
+	if _, err := r.LoadDraft("polyverse", 1); err != nil {
 		t.Fatalf("registry LoadDraft errored: %v", err)
 	}
 
-	if err := r.SaveDecks("cc:polyversal", "d", nil); !errors.Is(err, storage.ErrUnsupported) {
+	if err := r.SaveDecks("cc:polyversal", 1, nil); !errors.Is(err, storage.ErrUnsupported) {
 		t.Errorf("cc SaveDecks err = %v, want ErrUnsupported", err)
 	}
-	if _, err := r.LoadDraft("cc:polyversal", "d"); !errors.Is(err, storage.ErrUnsupported) {
+	if _, err := r.LoadDraft("cc:polyversal", 1); !errors.Is(err, storage.ErrUnsupported) {
 		t.Errorf("cc LoadDraft err = %v, want ErrUnsupported", err)
 	}
 	if err := r.PutRules("cc:polyversal", &design.DesignMapConfig{}); !errors.Is(err, storage.ErrUnsupported) {
 		t.Errorf("cc PutRules err = %v, want ErrUnsupported", err)
 	}
-	if _, err := r.GetDraftLog("cc:polyversal", "d"); !errors.Is(err, storage.ErrUnsupported) {
+	if _, err := r.GetDraftLog("cc:polyversal", 1); !errors.Is(err, storage.ErrUnsupported) {
 		t.Errorf("cc GetDraftLog err = %v, want ErrUnsupported", err)
 	}
 }

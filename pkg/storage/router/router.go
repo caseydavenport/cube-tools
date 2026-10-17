@@ -13,11 +13,11 @@ import (
 type FileBackend interface {
 	RawDecks(cube string) ([]*storage.Deck, error)
 	Index(cube string) (*storage.CubeIndex, error)
-	LoadDraft(cube, draftID string) ([]*storage.Deck, error)
-	SaveDecks(cube, draftID string, decks []*storage.Deck) error
+	LoadDraft(cube string, draftID int) ([]*storage.Deck, error)
+	SaveDecks(cube string, draftID int, decks []*storage.Deck) error
 	GetRules(cube string) (*design.DesignMapConfig, error)
 	PutRules(cube string, rules *design.DesignMapConfig) error
-	GetDraftLog(cube, draftID string) (json.RawMessage, error)
+	GetDraftLog(cube string, draftID int) (json.RawMessage, error)
 }
 
 // CCBackend is the read-only CubeCobra backend the router delegates to for cc:
@@ -63,7 +63,7 @@ func (r *Router) Index(cube string) (*storage.CubeIndex, error) {
 
 // LoadDraft returns a registry cube's draft from the file backend. CubeCobra
 // cubes are read-only, so it returns ErrUnsupported for them.
-func (r *Router) LoadDraft(cube, draftID string) ([]*storage.Deck, error) {
+func (r *Router) LoadDraft(cube string, draftID int) ([]*storage.Deck, error) {
 	if cubes.IsCubeCobra(cube) {
 		return nil, storage.ErrUnsupported
 	}
@@ -72,7 +72,7 @@ func (r *Router) LoadDraft(cube, draftID string) ([]*storage.Deck, error) {
 
 // SaveDecks writes a registry cube's decks through the file backend, returning
 // ErrUnsupported for CubeCobra cubes.
-func (r *Router) SaveDecks(cube, draftID string, decks []*storage.Deck) error {
+func (r *Router) SaveDecks(cube string, draftID int, decks []*storage.Deck) error {
 	if cubes.IsCubeCobra(cube) {
 		return storage.ErrUnsupported
 	}
@@ -93,7 +93,9 @@ func (r *Router) PutRules(cube string, rules *design.DesignMapConfig) error {
 	return r.file.PutRules(cube, rules)
 }
 
-func (r *Router) GetDraftLog(cube, draftID string) (json.RawMessage, error) {
+// GetDraftLog returns a draft's log from the file backend. Cube Cobra cubes
+// keep no draft logs.
+func (r *Router) GetDraftLog(cube string, draftID int) (json.RawMessage, error) {
 	if cubes.IsCubeCobra(cube) {
 		return nil, storage.ErrUnsupported
 	}

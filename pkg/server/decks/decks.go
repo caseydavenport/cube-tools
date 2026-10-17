@@ -78,7 +78,7 @@ func (d *deckHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 // UpdateDeckMetaRequest is the body of POST /api/{cube}/decks/update. Notes
 // absent leaves the deck's notes unchanged; "" clears them.
 type UpdateDeckMetaRequest struct {
-	DraftID        string   `json:"draft_id"`
+	DraftID        int      `json:"draft_id"`
 	ID             int      `json:"id"`
 	MacroArchetype string   `json:"macro_archetype"`
 	Labels         []string `json:"labels"`
@@ -109,7 +109,7 @@ func (h *updateDeckHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 		http.Error(rw, "Invalid request", http.StatusBadRequest)
 		return
 	}
-	if req.DraftID == "" || req.ID == 0 {
+	if req.DraftID == 0 || req.ID == 0 {
 		http.Error(rw, "draft_id and id are required", http.StatusBadRequest)
 		return
 	}
@@ -137,7 +137,7 @@ type RecordSaver interface {
 // UpdateDeckRecordRequest is the body of POST /api/{cube}/decks/record. Player
 // absent keeps the name; matches absent keeps the record.
 type UpdateDeckRecordRequest struct {
-	DraftID string        `json:"draft_id"`
+	DraftID int           `json:"draft_id"`
 	ID      int           `json:"id"`
 	Player  string        `json:"player"`
 	Matches []types.Match `json:"matches"`
@@ -157,7 +157,7 @@ func (h *updateDeckRecordHandler) ServeHTTP(rw http.ResponseWriter, r *http.Requ
 		http.Error(rw, "Invalid request", http.StatusBadRequest)
 		return
 	}
-	if req.DraftID == "" || req.ID == 0 {
+	if req.DraftID == 0 || req.ID == 0 {
 		http.Error(rw, "draft_id and id are required", http.StatusBadRequest)
 		return
 	}

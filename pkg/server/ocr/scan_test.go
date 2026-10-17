@@ -6,6 +6,7 @@ import (
 	"testing"
 	"time"
 
+	"github.com/caseydavenport/cube-tools/pkg/drafts"
 	ocrpkg "github.com/caseydavenport/cube-tools/pkg/ocr"
 	"github.com/caseydavenport/cube-tools/pkg/types"
 )
@@ -29,11 +30,10 @@ func (scanFakeDetector) MatchRegion(_ string, box ocrpkg.Bbox, _ *types.Cube) (o
 	return ocrpkg.MatchResult{Bbox: box}, nil
 }
 
-func startScan(t *testing.T, root, draftID string) {
+func startScan(t *testing.T, root string, d drafts.Draft) {
 	t.Helper()
 	h := ScanStartHandlerWithRoot(scanFakeDetector{}, root)
-	r := reqWithCube(t, "POST", "/api/polyverse/ocr/drafts/"+draftID+"/scan", "polyverse")
-	r.SetPathValue("draft_id", draftID)
+	r := draftReq(t, "POST", "/scan", d)
 	w := httptest.NewRecorder()
 	h.ServeHTTP(w, r)
 	if w.Code != 200 {
@@ -41,7 +41,7 @@ func startScan(t *testing.T, root, draftID string) {
 	}
 }
 
-func waitScanDone(t *testing.T, draftID string) scanStatus {
+func waitScanDone(t *testing.T, draftID int) scanStatus {
 	t.Helper()
 	for range 200 {
 		scanJobsMu.Lock()
@@ -60,20 +60,19 @@ func waitScanDone(t *testing.T, draftID string) scanStatus {
 
 func TestScanFillsSession(t *testing.T) {
 	root := t.TempDir()
-	setupCube(t, root)
-	draftID := "2026-01-17_evt_1"
-	checkin := draftID + "/img/p3/checkin-1.jpg"
-	deck := draftID + "/img/p3/deck-1.jpg"
-	writeFile(t, filepath.Join(root, "polyverse", checkin), "x")
-	writeFile(t, filepath.Join(root, "polyverse", deck), "x")
+	d := setupCube(t, root)
+	checkin := "img/p3/checkin-1.jpg"
+	deck := "img/p3/deck-1.jpg"
+	writeFile(t, filepath.Join(d.Dir, checkin), "x")
+	writeFile(t, filepath.Join(d.Dir, deck), "x")
 
-	startScan(t, root, draftID)
-	st := waitScanDone(t, draftID)
+	startScan(t, root, d)
+	st := waitScanDone(t, d.ID)
 	if st.Total != 2 {
 		t.Fatalf("total = %d, want 2", st.Total)
 	}
 
-	s, err := LoadSession(root, "polyverse", draftID)
+	s, err := LoadSession(d.Dir)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -93,33 +92,32 @@ func TestScanFillsSession(t *testing.T) {
 // the worklist skips it, so a re-run never re-detects or clobbers it.
 func TestScanSkipsExistingBoxes(t *testing.T) {
 	root := t.TempDir()
-	setupCube(t, root)
-	draftID := "2026-01-17_evt_1"
-	checkin := draftID + "/img/p3/checkin-1.jpg"
-	deck := draftID + "/img/p3/deck-1.jpg"
-	writeFile(t, filepath.Join(root, "polyverse", checkin), "x")
-	writeFile(t, filepath.Join(root, "polyverse", deck), "x")
+	d := setupCube(t, root)
+	checkin := "img/p3/checkin-1.jpg"
+	deck := "img/p3/deck-1.jpg"
+	writeFile(t, filepath.Join(d.Dir, checkin), "x")
+	writeFile(t, filepath.Join(d.Dir, deck), "x")
 
 	// Seed the pool photo with a hand-corrected box.
 	manual := Box{ID: checkin + ":0", Status: "high", Chosen: "Ponder", Bbox: ocrpkg.Bbox{X: 1, Y: 2, Width: 3, Height: 4}}
 	seed := &Session{
-		DraftID: draftID,
+		DraftID: d.ID,
 		Players: map[string]*PlayerWork{
 			"p3": {Boxes: map[string][]Box{checkin: {manual}}},
 		},
 	}
-	if err := seed.Save(root, "polyverse"); err != nil {
+	if err := seed.Save(d.Dir); err != nil {
 		t.Fatal(err)
 	}
 
-	startScan(t, root, draftID)
-	st := waitScanDone(t, draftID)
+	startScan(t, root, d)
+	st := waitScanDone(t, d.ID)
 	// Only the deck photo is unscanned, so the worklist should be just that one.
 	if st.Total != 1 {
 		t.Fatalf("total = %d, want 1 (only the unscanned deck photo)", st.Total)
 	}
 
-	s, err := LoadSession(root, "polyverse", draftID)
+	s, err := LoadSession(d.Dir)
 	if err != nil {
 		t.Fatal(err)
 	}

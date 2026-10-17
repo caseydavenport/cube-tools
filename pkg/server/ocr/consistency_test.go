@@ -13,9 +13,9 @@ import (
 // tests. The snapshot repeats a name once per copy, matching the real format.
 func loadTestCube(t *testing.T, body string) *types.Cube {
 	t.Helper()
-	root := t.TempDir()
-	writeFile(t, filepath.Join(root, "polyverse", "2026-01-17", "cube-snapshot.json"), body)
-	cl, err := types.LoadCubeList(types.LoadOptions{DataRoot: root, Cube: "polyverse", Date: "2026-01-17"})
+	dir := t.TempDir()
+	writeFile(t, filepath.Join(dir, "cube-snapshot.json"), body)
+	cl, err := types.LoadCubeList(types.LoadOptions{Cube: "polyverse", DraftDir: dir})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -187,24 +187,21 @@ func TestBuildConsistencyReport(t *testing.T) {
 
 func TestConsistencyHandler(t *testing.T) {
 	root := t.TempDir()
-	draftID := "2026-01-17_evt_1"
-	cube := "polyverse"
-	writeFile(t, filepath.Join(root, cube, "2026-01-17", "cube-snapshot.json"),
-		`{"cards":[{"name":"Brainstorm"},{"name":"Brainstorm"},{"name":"Misty Rainforest"}]}`)
+	d := newDraft(t, root, types.DraftMetadata{})
+	writeFile(t, filepath.Join(d.Dir, "cube-snapshot.json"), `{"cards":[{"name":"Brainstorm"},{"name":"Brainstorm"},{"name":"Misty Rainforest"}]}`)
 	// Two players need img dirs so discoverPlayers reports them.
-	writeFile(t, filepath.Join(root, cube, draftID, "img", "p1", "checkin-1.jpg"), "x")
-	writeFile(t, filepath.Join(root, cube, draftID, "img", "p2", "checkin-1.jpg"), "x")
+	writeFile(t, filepath.Join(d.Dir, "img", "p1", "checkin-1.jpg"), "x")
+	writeFile(t, filepath.Join(d.Dir, "img", "p2", "checkin-1.jpg"), "x")
 
-	sess := &Session{DraftID: draftID, Players: map[string]*PlayerWork{
+	sess := &Session{DraftID: d.ID, Players: map[string]*PlayerWork{
 		"p1": pool(entry("Brainstorm", 2), entry("Misty Rainforest", 1)),
 	}}
-	if err := sess.Save(root, cube); err != nil {
+	if err := sess.Save(d.Dir); err != nil {
 		t.Fatal(err)
 	}
 
 	h := ConsistencyHandlerWithRoot(root)
-	r := reqWithCube(t, "GET", "/api/polyverse/ocr/drafts/"+draftID+"/consistency", cube)
-	r.SetPathValue("draft_id", draftID)
+	r := draftReq(t, "GET", "/consistency", d)
 	w := httptest.NewRecorder()
 	h.ServeHTTP(w, r)
 	if w.Code != 200 {

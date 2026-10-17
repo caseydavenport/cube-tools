@@ -42,8 +42,6 @@ func init() {
 	rootCmd.AddCommand(commands.IndexCmd)
 	rootCmd.AddCommand(commands.DraftLogCmd)
 	rootCmd.AddCommand(edit.EditRoot)
-	rootCmd.AddCommand(commands.DiffCubeCmd)
-	rootCmd.AddCommand(commands.PrintCube)
 	rootCmd.AddCommand(commands.ManapoolCommand)
 	rootCmd.AddCommand(commands.ImportHedronCmd)
 	rootCmd.AddCommand(commands.ExportCCCmd)

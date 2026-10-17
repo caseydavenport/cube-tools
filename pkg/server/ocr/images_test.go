@@ -6,12 +6,15 @@ import (
 	"os"
 	"path/filepath"
 	"testing"
+
+	"github.com/caseydavenport/cube-tools/pkg/types"
 )
 
 func TestImageHandlerServesFile(t *testing.T) {
 	root := t.TempDir()
-	rel := "2026-01-17_evt_1/img/p3/checkin-1.jpg"
-	full := filepath.Join(root, "polyverse", rel)
+	d := newDraft(t, root, types.DraftMetadata{})
+	rel := "img/p3/checkin-1.jpg"
+	full := filepath.Join(d.Dir, rel)
 	if err := os.MkdirAll(filepath.Dir(full), 0o755); err != nil {
 		t.Fatal(err)
 	}
@@ -20,7 +23,7 @@ func TestImageHandlerServesFile(t *testing.T) {
 	}
 
 	h := ImageHandlerWithRoot(root)
-	r := reqWithCube(t, "GET", "/api/polyverse/img/"+rel, "polyverse")
+	r := draftReq(t, "GET", "/img/"+rel, d)
 	r.SetPathValue("path", rel)
 	w := httptest.NewRecorder()
 	h.ServeHTTP(w, r)
@@ -33,13 +36,19 @@ func TestImageHandlerServesFile(t *testing.T) {
 	}
 }
 
-func TestImageHandlerRejectsTraversal(t *testing.T) {
-	h := ImageHandlerWithRoot(t.TempDir())
-	r := reqWithCube(t, "GET", "/api/polyverse/img/../../etc/passwd", "polyverse")
-	r.SetPathValue("path", "../../etc/passwd")
-	w := httptest.NewRecorder()
-	h.ServeHTTP(w, r)
-	if w.Code != http.StatusForbidden {
-		t.Fatalf("status = %d, want 403", w.Code)
+func TestImageHandlerRefusesEscape(t *testing.T) {
+	root := t.TempDir()
+	d := newDraft(t, root, types.DraftMetadata{})
+	other := newDraft(t, root, types.DraftMetadata{})
+	writeFile(t, filepath.Join(other.Dir, "img", "a.jpg"), "x")
+	h := ImageHandlerWithRoot(root)
+	for _, path := range []string{"../" + filepath.Base(other.Dir) + "/img/a.jpg", "/etc/passwd", "../../etc/passwd"} {
+		r := draftReq(t, "GET", "/img/x", d)
+		r.SetPathValue("path", path)
+		w := httptest.NewRecorder()
+		h.ServeHTTP(w, r)
+		if w.Code != http.StatusForbidden {
+			t.Errorf("path %q: status = %d, want 403", path, w.Code)
+		}
 	}
 }

@@ -2,9 +2,11 @@ package edit
 
 import (
 	"fmt"
+	"path/filepath"
 	"strconv"
 
 	"github.com/caseydavenport/cube-tools/pkg/commands"
+	"github.com/caseydavenport/cube-tools/pkg/drafts"
 	"github.com/caseydavenport/cube-tools/pkg/flag"
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
@@ -14,8 +16,8 @@ var AddMatchCmd = &cobra.Command{
 	Use:   "add-match",
 	Short: "Add a match to draft",
 	Run: func(cmd *cobra.Command, args []string) {
-		if date == "" {
-			logrus.Fatal("Date is required")
+		if draftID == 0 {
+			logrus.Fatal("Draft is required")
 		}
 		if who == "" {
 			logrus.Fatal("Player is required")
@@ -26,7 +28,7 @@ var AddMatchCmd = &cobra.Command{
 		if record == "" {
 			logrus.Fatal("Record is required")
 		}
-		clog := logrus.WithFields(logrus.Fields{"player1": who, "player2": opp, "date": date})
+		clog := logrus.WithFields(logrus.Fields{"player1": who, "player2": opp, "draft": draftID})
 		clog.WithField("record", record).Info("Adding match to draft")
 
 		// Parse the record string.
@@ -35,12 +37,17 @@ var AddMatchCmd = &cobra.Command{
 			clog.WithError(err).Fatal("Failed to parse record")
 		}
 
+		draft, err := drafts.Find(filepath.Join("data", cubeFlag), draftID)
+		if err != nil {
+			clog.WithError(err).Fatal("Failed to find draft")
+		}
+
 		// Add the individual games, as well as the overall match to the first player.
-		if err := addMatchToPlayer(cubeFlag, who, opp, date, w, l, t); err != nil {
+		if err := addMatchToPlayer(draft, who, opp, w, l, t); err != nil {
 			clog.WithField("who", who).WithError(err).Fatal("Failed to add match to player")
 		}
 		// Add the individual games, as well as the overall match to the second player.
-		if err := addMatchToPlayer(cubeFlag, opp, who, date, l, w, t); err != nil {
+		if err := addMatchToPlayer(draft, opp, who, l, w, t); err != nil {
 			clog.WithField("who", opp).WithError(err).Fatal("Failed to add match to player")
 		}
 	},
@@ -49,7 +56,7 @@ var AddMatchCmd = &cobra.Command{
 var (
 	who      string
 	opp      string
-	date     string
+	draftID  int
 	record   string
 	force    bool
 	anon     bool
@@ -61,7 +68,7 @@ func init() {
 	flags := AddMatchCmd.Flags()
 	flag.StringVarP(flags, &who, "who", "p", "WHO", "", "The player who played the match")
 	flag.StringVarP(flags, &opp, "opponent", "o", "OPPONENT", "", "The opponent of the player who played the match")
-	flag.StringVarP(flags, &date, "date", "d", "DATE", "", "The date of the draft.")
+	flags.IntVar(&draftID, "draft", 0, "ID of the draft the match was played in (required)")
 	flag.StringVarP(flags, &record, "record", "r", "RECORD", "", "The record of the player passed to 'who', formatted as 'W-L-T'")
 	flag.BoolVarP(flags, &force, "force", "", "FORCE", false, "Force overwrite of any existing games against the opponent")
 	flag.BoolVarP(flags, &anon, "anonymous", "a", "", false, "If set, anonymize player names in the output files.")
@@ -96,15 +103,19 @@ func parseRecord(record string) (wins, losses, ties int, err error) {
 }
 
 // addMatchToPlayer adds a match to the player's deck file within the draft.
-func addMatchToPlayer(cube, player, opponent string, date string, wins, losses, ties int) error {
+func addMatchToPlayer(draft drafts.Draft, player, opponent string, wins, losses, ties int) error {
 	// If anon is set, anonymize the player and opponent names using the same scheme as when parsing decks.
 	if anon {
-		player = commands.Anonymize(date, player)
-		opponent = commands.Anonymize(date, opponent)
+		salt := commands.AnonymizeSalt(draft.Date, draft.EventCode)
+		player = commands.Anonymize(salt, player)
+		opponent = commands.Anonymize(salt, opponent)
 	}
 
-	// First, load the player's deck file from the draft.
-	deck := commands.LoadParsedDeckFile(cube, date, player)
+	deck, path, err := drafts.FindDeckByPlayer(draft.Dir, player)
+	if err != nil {
+		return fmt.Errorf("find deck for %s: %w", player, err)
+	}
+	deck.Metadata.Path = path
 
 	// Check if there are already games against this opponent. If there are, cowardly refuse to overwrite them
 	// with the new match unless override is given.
@@ -112,8 +123,13 @@ func addMatchToPlayer(cube, player, opponent string, date string, wins, losses, 
 		return fmt.Errorf("games against opponent already exist, cowardly refusing to overwrite")
 	}
 
-	// First, remove any games against this opponent, as we're going to write the new ones.
-	deck.RemoveGamesForOpponent(opponent)
+	// The lookup ignores case, so use the stored name or AddGame won't count
+	// the player's wins as theirs.
+	player = deck.Player
+
+	// Replace any earlier result against this opponent. AddGame recreates the
+	// match and tallies its record from the games.
+	deck.RemoveMatchesForOpponent(opponent)
 	for range wins {
 		deck.AddGame(opponent, player)
 	}
@@ -124,18 +140,20 @@ func addMatchToPlayer(cube, player, opponent string, date string, wins, losses, 
 		deck.AddGame(opponent, "")
 	}
 
-	// Remove any matches against this opponent, as we're going to write the new one.
-	deck.RemoveMatchesForOpponent(opponent)
+	winner := ""
 	if wins > losses {
-		deck.AddMatch(opponent, player)
+		winner = player
 	} else if losses > wins {
-		deck.AddMatch(opponent, opponent)
+		winner = opponent
 	} else {
-		// Match was a draw.
 		logrus.WithFields(logrus.Fields{"player": player, "opponent": opponent}).Info("Match was a draw")
-		deck.AddMatch(opponent, "")
+	}
+	for i := range deck.Matches {
+		if deck.Matches[i].Opponent == opponent {
+			deck.Matches[i].Winner = winner
+		}
 	}
 
 	// Save the updated deck.
-	return commands.SaveDeck(cube, deck)
+	return commands.SaveDeck(deck)
 }

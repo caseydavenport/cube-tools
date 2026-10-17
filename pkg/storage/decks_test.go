@@ -8,7 +8,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func makeStorageDeck(player, draftID, date string, games []types.Game, matches []types.Match, labels []string) *Deck {
+func makeStorageDeck(player string, draftID int, date string, games []types.Game, matches []types.Match, labels []string) *Deck {
 	d := &Deck{}
 	d.Player = player
 	d.Metadata.DraftID = draftID
@@ -59,7 +59,10 @@ func makeStorageDeck(player, draftID, date string, games []types.Game, matches [
 // --- process() tests ---
 
 func TestProcess_Stats(t *testing.T) {
-	d := makeStorageDeck("Alice", "draft1", "2024-01-01",
+	d := makeStorageDeck(
+		"Alice",
+		1,
+		"2024-01-01",
 		[]types.Game{
 			{Opponent: "Bob", Winner: "Alice"},
 			{Opponent: "Bob", Winner: "Bob"},
@@ -86,7 +89,7 @@ func TestProcess_Stats(t *testing.T) {
 func TestProcess_SynthesizesGamesFromMatchCounts(t *testing.T) {
 	d := &Deck{}
 	d.Player = "Alice"
-	d.Metadata.DraftID = "draft1"
+	d.Metadata.DraftID = 1
 	d.Matches = []types.Match{
 		{Opponent: "Bob", Wins: 2, Losses: 1},
 		{Opponent: "Carol", Wins: 0, Losses: 1, Draws: 1},
@@ -119,7 +122,10 @@ func TestProcess_SynthesizesGamesFromMatchCounts(t *testing.T) {
 func TestProcess_OpponentWinPercentage(t *testing.T) {
 	// 4-player draft: Alice, Bob, Charlie, Dave
 	// Alice played Bob. Bob's games (excluding vs Alice): 2 games vs Charlie, won 1 → 50%
-	alice := makeStorageDeck("Alice", "draft1", "2024-01-01",
+	alice := makeStorageDeck(
+		"Alice",
+		1,
+		"2024-01-01",
 		[]types.Game{
 			{Opponent: "Bob", Winner: "Alice"},
 			{Opponent: "Bob", Winner: "Alice"},
@@ -130,7 +136,10 @@ func TestProcess_OpponentWinPercentage(t *testing.T) {
 		nil,
 	)
 
-	bob := makeStorageDeck("Bob", "draft1", "2024-01-01",
+	bob := makeStorageDeck(
+		"Bob",
+		1,
+		"2024-01-01",
 		[]types.Game{
 			{Opponent: "Alice", Winner: "Alice"},
 			{Opponent: "Alice", Winner: "Alice"},
@@ -144,7 +153,10 @@ func TestProcess_OpponentWinPercentage(t *testing.T) {
 		nil,
 	)
 
-	charlie := makeStorageDeck("Charlie", "draft1", "2024-01-01",
+	charlie := makeStorageDeck(
+		"Charlie",
+		1,
+		"2024-01-01",
 		[]types.Game{
 			{Opponent: "Bob", Winner: "Bob"},
 			{Opponent: "Bob", Winner: "Charlie"},
@@ -174,7 +186,10 @@ func TestProcess_OpponentWinPercentage_NoDoubleCountRematches(t *testing.T) {
 	// Bob's record excluding Alice: 0-2 vs Charlie = 0%.
 	// Charlie's record excluding Alice: 2-0 vs Bob = 100%.
 	// Correct OWP = (0 + 100) / 2 = 50. Buggy (Bob counted twice) = 33.
-	alice := makeStorageDeck("Alice", "draft1", "2024-01-01",
+	alice := makeStorageDeck(
+		"Alice",
+		1,
+		"2024-01-01",
 		[]types.Game{
 			{Opponent: "Bob", Winner: "Alice"},
 			{Opponent: "Bob", Winner: "Alice"},
@@ -187,7 +202,10 @@ func TestProcess_OpponentWinPercentage_NoDoubleCountRematches(t *testing.T) {
 		},
 		nil,
 	)
-	bob := makeStorageDeck("Bob", "draft1", "2024-01-01",
+	bob := makeStorageDeck(
+		"Bob",
+		1,
+		"2024-01-01",
 		[]types.Game{
 			{Opponent: "Alice", Winner: "Alice"},
 			{Opponent: "Alice", Winner: "Alice"},
@@ -201,7 +219,10 @@ func TestProcess_OpponentWinPercentage_NoDoubleCountRematches(t *testing.T) {
 		},
 		nil,
 	)
-	charlie := makeStorageDeck("Charlie", "draft1", "2024-01-01",
+	charlie := makeStorageDeck(
+		"Charlie",
+		1,
+		"2024-01-01",
 		[]types.Game{
 			{Opponent: "Alice", Winner: "Alice"},
 			{Opponent: "Bob", Winner: "Charlie"},
@@ -267,8 +288,8 @@ func TestProcess_OpponentWinPercentage_LegacyMatchesIncluded(t *testing.T) {
 
 func TestFilter_EmptyRequest(t *testing.T) {
 	decks := []*Deck{
-		makeStorageDeck("Alice", "d1", "2024-01-01", nil, nil, nil),
-		makeStorageDeck("Bob", "d1", "2024-01-01", nil, nil, nil),
+		makeStorageDeck("Alice", 1, "2024-01-01", nil, nil, nil),
+		makeStorageDeck("Bob", 1, "2024-01-01", nil, nil, nil),
 	}
 
 	// nil request
@@ -282,9 +303,10 @@ func TestFilter_EmptyRequest(t *testing.T) {
 
 func TestFilter_ByPlayer(t *testing.T) {
 	decks := []*Deck{
-		makeStorageDeck("Alice", "d1", "2024-01-01", nil, nil, nil),
-		makeStorageDeck("Bob", "d1", "2024-01-01", nil, nil, nil),
-		makeStorageDeck("alice", "d2", "2024-01-02", nil, nil, nil), // case-insensitive match
+		makeStorageDeck("Alice", 1, "2024-01-01", nil, nil, nil),
+		makeStorageDeck("Bob", 1, "2024-01-01", nil, nil, nil),
+		// Matches "Alice" case-insensitively.
+		makeStorageDeck("alice", 2, "2024-01-02", nil, nil, nil),
 	}
 
 	result := filter(decks, &DecksRequest{Player: "Alice"})
@@ -296,9 +318,9 @@ func TestFilter_ByPlayer(t *testing.T) {
 
 func TestFilter_ByDateRange(t *testing.T) {
 	decks := []*Deck{
-		makeStorageDeck("Alice", "d1", "2024-01-01", nil, nil, nil),
-		makeStorageDeck("Alice", "d2", "2024-06-15", nil, nil, nil),
-		makeStorageDeck("Alice", "d3", "2024-12-31", nil, nil, nil),
+		makeStorageDeck("Alice", 1, "2024-01-01", nil, nil, nil),
+		makeStorageDeck("Alice", 2, "2024-06-15", nil, nil, nil),
+		makeStorageDeck("Alice", 3, "2024-12-31", nil, nil, nil),
 	}
 
 	// Start only
@@ -316,11 +338,11 @@ func TestFilter_ByDateRange(t *testing.T) {
 }
 
 func TestFilter_ByDraftSize(t *testing.T) {
-	d1 := makeStorageDeck("Alice", "d1", "2024-01-01", nil, nil, nil)
+	d1 := makeStorageDeck("Alice", 1, "2024-01-01", nil, nil, nil)
 	d1.DraftSize = 4
-	d2 := makeStorageDeck("Bob", "d2", "2024-01-01", nil, nil, nil)
+	d2 := makeStorageDeck("Bob", 2, "2024-01-01", nil, nil, nil)
 	d2.DraftSize = 8
-	d3 := makeStorageDeck("Charlie", "d3", "2024-01-01", nil, nil, nil)
+	d3 := makeStorageDeck("Charlie", 3, "2024-01-01", nil, nil, nil)
 	d3.DraftSize = 6
 
 	decks := []*Deck{d1, d2, d3}

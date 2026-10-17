@@ -9,6 +9,8 @@ import (
 	"os"
 	"path/filepath"
 	"testing"
+
+	"github.com/caseydavenport/cube-tools/pkg/types"
 )
 
 // writeTestJPEG writes a wxh image whose top half is red and bottom half white.
@@ -58,8 +60,9 @@ func isRedish(c color.Color) bool {
 
 func TestRotateHandlerClockwise(t *testing.T) {
 	root := t.TempDir()
-	rel := "2026-01-17_evt_1/img/p3/deck-1.jpg"
-	full := filepath.Join(root, "polyverse", rel)
+	d := newDraft(t, root, types.DraftMetadata{})
+	rel := "img/p3/deck-1.jpg"
+	full := filepath.Join(d.Dir, rel)
 	if err := os.MkdirAll(filepath.Dir(full), 0o755); err != nil {
 		t.Fatal(err)
 	}
@@ -68,7 +71,7 @@ func TestRotateHandlerClockwise(t *testing.T) {
 	writeTestJPEG(t, full, 40, 20)
 
 	h := RotateHandlerWithRoot(root)
-	r := reqWithCube(t, "POST", "/api/polyverse/ocr/rotate", "polyverse")
+	r := draftReq(t, "POST", "/rotate", d)
 	r.Body = bodyOf(`{"photo":"` + rel + `","direction":"cw"}`)
 	w := httptest.NewRecorder()
 	h.ServeHTTP(w, r)
@@ -90,8 +93,9 @@ func TestRotateHandlerClockwise(t *testing.T) {
 }
 
 func TestRotateHandlerRejectsBadDir(t *testing.T) {
-	h := RotateHandlerWithRoot(t.TempDir())
-	r := reqWithCube(t, "POST", "/api/polyverse/ocr/rotate", "polyverse")
+	root := t.TempDir()
+	h := RotateHandlerWithRoot(root)
+	r := draftReq(t, "POST", "/rotate", newDraft(t, root, types.DraftMetadata{}))
 	r.Body = bodyOf(`{"photo":"x/y.jpg","direction":"sideways"}`)
 	w := httptest.NewRecorder()
 	h.ServeHTTP(w, r)
@@ -101,8 +105,9 @@ func TestRotateHandlerRejectsBadDir(t *testing.T) {
 }
 
 func TestRotateHandlerRejectsTraversal(t *testing.T) {
-	h := RotateHandlerWithRoot(t.TempDir())
-	r := reqWithCube(t, "POST", "/api/polyverse/ocr/rotate", "polyverse")
+	root := t.TempDir()
+	h := RotateHandlerWithRoot(root)
+	r := draftReq(t, "POST", "/rotate", newDraft(t, root, types.DraftMetadata{}))
 	r.Body = bodyOf(`{"photo":"../../etc/passwd","direction":"cw"}`)
 	w := httptest.NewRecorder()
 	h.ServeHTTP(w, r)

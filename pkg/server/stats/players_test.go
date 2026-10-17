@@ -58,7 +58,7 @@ func TestPlayerStats_OpponentWinPercent_Weighted(t *testing.T) {
 // --- Basic aggregation ---
 
 func TestPlayerStats_BasicAggregation(t *testing.T) {
-	d1 := makeStorageDeck("Alice", "d1", []string{"aggro"}, []types.Game{
+	d1 := makeStorageDeck("Alice", 1, []string{"aggro"}, []types.Game{
 		{Opponent: "Bob", Winner: "Alice"},
 		{Opponent: "Bob", Winner: "Alice"},
 		{Opponent: "Bob", Winner: "Bob"},
@@ -68,7 +68,7 @@ func TestPlayerStats_BasicAggregation(t *testing.T) {
 		{Opponent: "Dave", Winner: "Alice"},
 	})
 
-	d2 := makeStorageDeck("Alice", "d2", []string{"control"}, []types.Game{
+	d2 := makeStorageDeck("Alice", 2, []string{"control"}, []types.Game{
 		{Opponent: "Eve", Winner: "Eve"},
 		{Opponent: "Eve", Winner: "Alice"},
 	}, []types.Match{

@@ -1,31 +1,34 @@
 package ocr
 
 import (
+	"fmt"
 	"net/http"
 	"os"
 	"path/filepath"
+	"slices"
 	"sort"
+	"strconv"
 	"strings"
 
+	"github.com/caseydavenport/cube-tools/pkg/drafts"
 	"github.com/caseydavenport/cube-tools/pkg/server"
-	"github.com/caseydavenport/cube-tools/pkg/types"
+	"github.com/caseydavenport/cube-tools/pkg/storage"
 )
 
-func isDraftDir(name string) bool {
-	// YYYY-MM-DD_... — date prefix then an underscore.
-	return len(name) >= 11 && name[4] == '-' && name[7] == '-' && name[10] == '_'
-}
-
-func readDraftMeta(dataRoot, cube, draftID string) *types.DraftMetadata {
-	m, err := types.LoadDraftMetadata(filepath.Join(dataRoot, cube, draftID))
-	if err != nil {
-		return &types.DraftMetadata{}
+// playerNum parses a photo folder name "pN" into the player's deck ID N.
+func playerNum(short string) (int, bool) {
+	n, err := strconv.Atoi(strings.TrimPrefix(short, "p"))
+	if !strings.HasPrefix(short, "p") || err != nil || n < 1 || short != fmt.Sprintf("p%d", n) {
+		return 0, false
 	}
-	return m
+	return n, true
 }
 
-func discoverPlayers(dataRoot, cube, draftID string) ([]PlayerDetail, error) {
-	imgDir := filepath.Join(dataRoot, cube, draftID, "img")
+// discoverPlayers lists the players with a photo folder under the draft's
+// img/, with their photos and the state of their deck and OCR work. A draft
+// without photos gives nil.
+func discoverPlayers(draft drafts.Draft) ([]PlayerDetail, error) {
+	imgDir := filepath.Join(draft.Dir, "img")
 	entries, err := os.ReadDir(imgDir)
 	if os.IsNotExist(err) {
 		return nil, nil
@@ -37,7 +40,7 @@ func discoverPlayers(dataRoot, cube, draftID string) ([]PlayerDetail, error) {
 	// The session (if any) tells us which players have OCR work saved, so we
 	// can distinguish "in progress" from "unstarted". A missing or unreadable
 	// session just means no work has been saved yet.
-	sess, err := LoadSession(dataRoot, cube, draftID)
+	sess, err := LoadSession(draft.Dir)
 	if err != nil {
 		sess = &Session{Players: map[string]*PlayerWork{}}
 	}
@@ -54,7 +57,7 @@ func discoverPlayers(dataRoot, cube, draftID string) ([]PlayerDetail, error) {
 			return nil, err
 		}
 		for _, f := range files {
-			rel := draftID + "/img/" + short + "/" + f.Name()
+			rel := "img/" + short + "/" + f.Name()
 			switch {
 			case strings.HasPrefix(f.Name(), "checkin-"):
 				pd.Photos.Checkin = append(pd.Photos.Checkin, rel)
@@ -69,13 +72,14 @@ func discoverPlayers(dataRoot, cube, draftID string) ([]PlayerDetail, error) {
 		sort.Strings(pd.Photos.Deck)
 
 		pw := sess.Players[short]
-		deckPath := filepath.Join(dataRoot, cube, draftID, draftID+"-"+short+".json")
-		if d, err := types.LoadDeck(deckPath); err == nil {
-			pd.Matches = d.Matches
-			pd.HasDeck = len(d.Mainboard) > 0 || len(d.Pool) > 0
-			if pd.HasDeck {
-				pd.NeedsReconfirm = needsReconfirm(pw, d)
-				pd.Warnings = deckWarnings(pw)
+		if n, ok := playerNum(short); ok {
+			if d, _, err := drafts.LoadDeck(draft.Dir, n); err == nil {
+				pd.Matches = d.Matches
+				pd.HasDeck = len(d.Mainboard) > 0 || len(d.Pool) > 0
+				if pd.HasDeck {
+					pd.NeedsReconfirm = needsReconfirm(pw, d)
+					pd.Warnings = deckWarnings(pw)
+				}
 			}
 		}
 		pd.Status = playerStatus(pw, pd.HasDeck)
@@ -104,22 +108,16 @@ func DraftsHandler() http.Handler { return DraftsHandlerWithRoot("data") }
 func DraftsHandlerWithRoot(dataRoot string) http.Handler {
 	return http.HandlerFunc(func(rw http.ResponseWriter, r *http.Request) {
 		cube := server.CubeFromRequest(r)
-		entries, err := os.ReadDir(filepath.Join(dataRoot, cube))
-		if os.IsNotExist(err) {
-			writeJSON(rw, map[string]any{"drafts": []DraftSummary{}})
-			return
-		}
+		all, err := drafts.List(filepath.Join(dataRoot, cube))
 		if err != nil {
 			http.Error(rw, "Internal server error", http.StatusInternalServerError)
 			return
 		}
-		var summaries []DraftSummary
-		for _, e := range entries {
-			if !e.IsDir() || !isDraftDir(e.Name()) {
-				continue
-			}
-			draftID := e.Name()
-			players, err := discoverPlayers(dataRoot, cube, draftID)
+		summaries := []DraftSummary{}
+
+		// drafts.List is oldest first; the OCR list shows the newest first.
+		for _, draft := range slices.Backward(all) {
+			players, err := discoverPlayers(draft)
 			if err != nil || len(players) == 0 {
 				continue
 			}
@@ -139,19 +137,16 @@ func DraftsHandlerWithRoot(dataRoot string) http.Handler {
 			// with OCR errors. A missing cube list or session just means no
 			// conflicts to report rather than failing the whole listing.
 			conflicts := 0
-			if cl, err := loadCubeForDraft(dataRoot, cube, draftID); err == nil {
-				sess, err := LoadSession(dataRoot, cube, draftID)
+			if cl, err := loadCubeForDraft(dataRoot, cube, draft); err == nil {
+				sess, err := LoadSession(draft.Dir)
 				if err != nil {
 					sess = &Session{Players: map[string]*PlayerWork{}}
 				}
 				conflicts = buildConsistencyReport(cl, sess, len(players)).Conflicts()
 			}
 
-			meta := readDraftMeta(dataRoot, cube, draftID)
 			summaries = append(summaries, DraftSummary{
-				DraftID:         draftID,
-				EventName:       meta.EventName,
-				Flight:          meta.Flight,
+				Draft:           storage.NewDraftInfo(draft.DraftMetadata),
 				Players:         len(players),
 				Confirmed:       confirmed,
 				Conflicts:       conflicts,
@@ -159,7 +154,6 @@ func DraftsHandlerWithRoot(dataRoot string) http.Handler {
 				Warnings:        warned,
 			})
 		}
-		sort.Slice(summaries, func(i, j int) bool { return summaries[i].DraftID > summaries[j].DraftID })
 		writeJSON(rw, map[string]any{"drafts": summaries})
 	})
 }
@@ -168,13 +162,12 @@ func DraftDetailHandler() http.Handler { return DraftDetailHandlerWithRoot("data
 
 func DraftDetailHandlerWithRoot(dataRoot string) http.Handler {
 	return http.HandlerFunc(func(rw http.ResponseWriter, r *http.Request) {
-		cube := server.CubeFromRequest(r)
-		draftID := r.PathValue("draft_id")
-		if cube == "" || draftID == "" || strings.ContainsAny(draftID, `/\`) || strings.Contains(draftID, "..") {
+		draft, ok := draftFromRequest(dataRoot, r)
+		if !ok {
 			http.NotFound(rw, r)
 			return
 		}
-		players, err := discoverPlayers(dataRoot, cube, draftID)
+		players, err := discoverPlayers(draft)
 		if err != nil {
 			http.Error(rw, "Internal server error", http.StatusInternalServerError)
 			return
@@ -183,12 +176,9 @@ func DraftDetailHandlerWithRoot(dataRoot string) http.Handler {
 			http.NotFound(rw, r)
 			return
 		}
-		meta := readDraftMeta(dataRoot, cube, draftID)
 		writeJSON(rw, DraftDetail{
-			DraftID:   draftID,
-			EventName: meta.EventName,
-			Flight:    meta.Flight,
-			Players:   players,
+			Draft:   storage.NewDraftInfo(draft.DraftMetadata),
+			Players: players,
 		})
 	})
 }

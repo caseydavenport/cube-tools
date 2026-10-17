@@ -11,7 +11,7 @@ import (
 const sessionFileName = ".ocr-session.json"
 
 type Session struct {
-	DraftID string                 `json:"draft_id"`
+	DraftID int                    `json:"draft_id"`
 	Players map[string]*PlayerWork `json:"players"`
 }
 
@@ -57,13 +57,13 @@ type Source struct {
 	Box   ocrpkg.Bbox `json:"box"`
 }
 
-// LoadSession reads the working session for a draft. A missing file yields an
-// empty session, not an error.
-func LoadSession(dataRoot, cube, draftID string) (*Session, error) {
-	path := filepath.Join(dataRoot, cube, draftID, sessionFileName)
+// LoadSession reads the working session from a draft directory. A missing
+// file yields an empty session, not an error.
+func LoadSession(draftDir string) (*Session, error) {
+	path := filepath.Join(draftDir, sessionFileName)
 	data, err := os.ReadFile(path)
 	if os.IsNotExist(err) {
-		return &Session{DraftID: draftID, Players: map[string]*PlayerWork{}}, nil
+		return &Session{Players: map[string]*PlayerWork{}}, nil
 	}
 	if err != nil {
 		return nil, err
@@ -78,9 +78,9 @@ func LoadSession(dataRoot, cube, draftID string) (*Session, error) {
 	return &s, nil
 }
 
-// Save writes the session to data/<cube>/<draftID>/.ocr-session.json.
-func (s *Session) Save(dataRoot, cube string) error {
-	path := filepath.Join(dataRoot, cube, s.DraftID, sessionFileName)
+// Save writes the session to the draft directory's .ocr-session.json.
+func (s *Session) Save(draftDir string) error {
+	path := filepath.Join(draftDir, sessionFileName)
 	if err := os.MkdirAll(filepath.Dir(path), 0o755); err != nil {
 		return err
 	}

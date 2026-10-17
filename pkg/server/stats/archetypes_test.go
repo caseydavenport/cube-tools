@@ -28,7 +28,7 @@ func (m *mockDeckStorage) GetRules(_ string) (*design.DesignMapConfig, error) {
 	return nil, storage.ErrUnsupported
 }
 
-func makeStorageDeck(player, draftID string, labels []string, games []types.Game, matches []types.Match) *storage.Deck {
+func makeStorageDeck(player string, draftID int, labels []string, games []types.Game, matches []types.Match) *storage.Deck {
 	d := &storage.Deck{}
 	d.Player = player
 	d.Metadata.DraftID = draftID
@@ -81,7 +81,7 @@ func foldGamesIntoMatches(d *storage.Deck, player string, games []types.Game) {
 // --- SharedWith: macro archetype excluded ---
 
 func TestArchetypeStats_SharedWith_MacroSkip(t *testing.T) {
-	d := makeStorageDeck("Alice", "d1", []string{"spells"}, []types.Game{
+	d := makeStorageDeck("Alice", 1, []string{"spells"}, []types.Game{
 		{Opponent: "Bob", Winner: "Alice"},
 	}, []types.Match{
 		{Opponent: "Bob", Winner: "Alice"},
@@ -114,12 +114,12 @@ func TestArchetypeStats_SharedWith_MacroSkip(t *testing.T) {
 
 func TestArchetypeStats_WinPercent(t *testing.T) {
 	decks := []*storage.Deck{
-		makeStorageDeck("Alice", "d1", []string{"aggro"}, []types.Game{
+		makeStorageDeck("Alice", 1, []string{"aggro"}, []types.Game{
 			{Opponent: "Bob", Winner: "Alice"},
 			{Opponent: "Bob", Winner: "Alice"},
 			{Opponent: "Bob", Winner: "Bob"},
 		}, nil),
-		makeStorageDeck("Bob", "d1", []string{"aggro"}, []types.Game{
+		makeStorageDeck("Bob", 1, []string{"aggro"}, []types.Game{
 			{Opponent: "Alice", Winner: "Alice"},
 			{Opponent: "Alice", Winner: "Alice"},
 			{Opponent: "Alice", Winner: "Bob"},
@@ -145,11 +145,11 @@ func TestArchetypeStats_WinPercent(t *testing.T) {
 
 func TestArchetypeStats_TotalGames(t *testing.T) {
 	decks := []*storage.Deck{
-		makeStorageDeck("Alice", "d1", []string{"aggro"}, []types.Game{
+		makeStorageDeck("Alice", 1, []string{"aggro"}, []types.Game{
 			{Opponent: "Bob", Winner: "Alice"},
 			{Opponent: "Bob", Winner: "Bob"},
 		}, nil),
-		makeStorageDeck("Bob", "d1", []string{"control"}, []types.Game{
+		makeStorageDeck("Bob", 1, []string{"control"}, []types.Game{
 			{Opponent: "Alice", Winner: "Alice"},
 			{Opponent: "Alice", Winner: "Bob"},
 		}, nil),
@@ -175,15 +175,15 @@ func TestArchetypeStats_TotalGames(t *testing.T) {
 // per-row math.Round and is bounded by the number of rows.
 func TestArchetypeStats_PercentOfWinsSumsTo100(t *testing.T) {
 	decks := []*storage.Deck{
-		makeStorageDeck("Alice", "d1", []string{"aggro", "control"}, []types.Game{
+		makeStorageDeck("Alice", 1, []string{"aggro", "control"}, []types.Game{
 			{Opponent: "Bob", Winner: "Alice"},
 			{Opponent: "Bob", Winner: "Alice"},
 		}, nil),
-		makeStorageDeck("Bob", "d1", []string{"aggro"}, []types.Game{
+		makeStorageDeck("Bob", 1, []string{"aggro"}, []types.Game{
 			{Opponent: "Alice", Winner: "Bob"},
 			{Opponent: "Alice", Winner: "Alice"},
 		}, nil),
-		makeStorageDeck("Carol", "d2", []string{"midrange", "ramp"}, []types.Game{
+		makeStorageDeck("Carol", 2, []string{"midrange", "ramp"}, []types.Game{
 			{Opponent: "Dave", Winner: "Carol"},
 			{Opponent: "Dave", Winner: "Carol"},
 		}, nil),

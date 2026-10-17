@@ -18,7 +18,21 @@ type Deck interface {
 	GetSideboard() []types.Card
 	GetPool() []types.Card
 	GetColors() []string
-	GetEventID() string
+
+	// GetEventTerms returns the words an event: term or free-text search can
+	// match the deck's draft by: its event code, name, and flight.
+	GetEventTerms() []string
+}
+
+// eventMatches reports whether any of the deck's event terms contains the
+// lowercased query.
+func eventMatches(d Deck, query string) bool {
+	for _, t := range d.GetEventTerms() {
+		if strings.Contains(strings.ToLower(t), query) {
+			return true
+		}
+	}
+	return false
 }
 
 func DeckMatches(d Deck, matchStr string) bool {
@@ -61,7 +75,7 @@ func DeckMatchesBoardGraph(d Deck, matchStr, board string, edges []graph.Edge) b
 		if strings.Contains(strings.ToLower(d.GetPlayer()), fs) {
 			return true
 		}
-		if strings.Contains(strings.ToLower(d.GetEventID()), fs) {
+		if eventMatches(d, fs) {
 			return true
 		}
 		for _, label := range d.GetLabels() {
@@ -89,7 +103,7 @@ func DeckMatchesBoardGraph(d Deck, matchStr, board string, edges []graph.Edge) b
 			} else if strings.HasPrefix(term, "event:") {
 				val := strings.TrimPrefix(term, "event:")
 				val = strings.Trim(val, "\"")
-				if !strings.Contains(strings.ToLower(d.GetEventID()), strings.ToLower(val)) {
+				if !eventMatches(d, strings.ToLower(val)) {
 					return false
 				}
 			} else if strings.HasPrefix(term, "dcolor") {

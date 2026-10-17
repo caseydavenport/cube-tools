@@ -66,3 +66,113 @@ func TestNextDeckIDBadDeckFile(t *testing.T) {
 	_, err := NextDeckID(dir)
 	assert.ErrorContains(t, err, "broken.json")
 }
+
+func TestCreateAssignsNextIDAndDir(t *testing.T) {
+	cubeDir := t.TempDir()
+
+	first, err := Create(cubeDir, types.DraftMetadata{Date: "2026-01-02", EventName: "Local", EventCode: "local"})
+	require.NoError(t, err)
+	assert.Equal(t, 1, first.ID)
+	assert.Equal(t, filepath.Join(cubeDir, "0001_2026-01-02"), first.Dir)
+
+	meta, err := types.LoadDraftMetadata(first.Dir)
+	require.NoError(t, err)
+	assert.Equal(t, types.DraftMetadata{ID: 1, Date: "2026-01-02", EventName: "Local", EventCode: "local"}, *meta)
+
+	second, err := Create(cubeDir, types.DraftMetadata{Date: "2025-12-31"})
+	require.NoError(t, err)
+	assert.Equal(t, 2, second.ID)
+	assert.Equal(t, filepath.Join(cubeDir, "0002_2025-12-31"), second.Dir)
+}
+
+func TestCreateRequiresDate(t *testing.T) {
+	_, err := Create(t.TempDir(), types.DraftMetadata{EventName: "No date"})
+	assert.Error(t, err)
+}
+
+func TestCreateRejectsMalformedDate(t *testing.T) {
+	cubeDir := filepath.Join(t.TempDir(), "cube")
+	for _, date := range []string{"../escape", "2026-1-2", "2026-01-02/x"} {
+		_, err := Create(cubeDir, types.DraftMetadata{Date: date})
+		assert.Error(t, err, date)
+	}
+	entries, err := os.ReadDir(filepath.Dir(cubeDir))
+	require.NoError(t, err)
+	assert.Len(t, entries, 0, "nothing should be created")
+}
+
+// writeDraft writes a draft directory with the given metadata.
+func writeDraft(t *testing.T, cubeDir, name string, meta types.DraftMetadata) {
+	t.Helper()
+	dir := filepath.Join(cubeDir, name)
+	require.NoError(t, os.MkdirAll(dir, 0o755))
+	require.NoError(t, meta.Save(dir))
+}
+
+func TestListSortsByDateThenID(t *testing.T) {
+	cubeDir := t.TempDir()
+	writeDraft(t, cubeDir, "0003_2026-01-01", types.DraftMetadata{ID: 3, Date: "2026-01-01"})
+	writeDraft(t, cubeDir, "0001_2026-02-01", types.DraftMetadata{ID: 1, Date: "2026-02-01"})
+	writeDraft(t, cubeDir, "0002_2026-01-01", types.DraftMetadata{ID: 2, Date: "2026-01-01"})
+	writeDraft(t, cubeDir, "2023-01-01_local_1", types.DraftMetadata{EventName: "old format"})
+	require.NoError(t, os.MkdirAll(filepath.Join(cubeDir, "no-metadata"), 0o755))
+	writeFile(t, filepath.Join(cubeDir, "index.json"), "{}")
+
+	got, err := List(cubeDir)
+	require.NoError(t, err)
+	var ids []int
+	for _, d := range got {
+		ids = append(ids, d.ID)
+	}
+	assert.Equal(t, []int{2, 3, 1}, ids)
+	assert.Equal(t, filepath.Join(cubeDir, "0002_2026-01-01"), got[0].Dir)
+
+	missing, err := List(filepath.Join(cubeDir, "nope"))
+	require.NoError(t, err)
+	assert.Empty(t, missing)
+}
+
+func TestFind(t *testing.T) {
+	cubeDir := t.TempDir()
+	writeDraft(t, cubeDir, "0007_2026-01-01", types.DraftMetadata{ID: 7, Date: "2026-01-01", EventCode: "bcp26"})
+
+	got, err := Find(cubeDir, 7)
+	require.NoError(t, err)
+	assert.Equal(t, "bcp26", got.EventCode)
+
+	_, err = Find(cubeDir, 8)
+	assert.ErrorIs(t, err, ErrNotFound)
+}
+
+func TestLoadDeckByID(t *testing.T) {
+	dir := t.TempDir()
+	writeDeck(t, filepath.Join(dir, "5.json"), 5)
+	writeDeck(t, filepath.Join(dir, "casey.json"), 2)
+
+	d, path, err := LoadDeck(dir, 2)
+	require.NoError(t, err)
+	assert.Equal(t, 2, d.ID)
+	assert.Equal(t, filepath.Join(dir, "casey.json"), path)
+
+	_, _, err = LoadDeck(dir, 9)
+	assert.ErrorIs(t, err, ErrNotFound)
+
+	assert.Equal(t, filepath.Join(dir, "5.json"), DeckPath(dir, 5))
+	assert.Equal(t, "0042_2026-10-13", DirName(42, "2026-10-13"))
+}
+
+func TestFindDeckByPlayer(t *testing.T) {
+	dir := t.TempDir()
+	d := types.NewDeck()
+	d.ID = 4
+	d.Player = "Casey"
+	require.NoError(t, d.Save(filepath.Join(dir, "4.json")))
+
+	got, path, err := FindDeckByPlayer(dir, "casey")
+	require.NoError(t, err)
+	assert.Equal(t, 4, got.ID)
+	assert.Equal(t, filepath.Join(dir, "4.json"), path)
+
+	_, _, err = FindDeckByPlayer(dir, "nobody")
+	assert.ErrorIs(t, err, ErrNotFound)
+}

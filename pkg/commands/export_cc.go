@@ -12,6 +12,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/caseydavenport/cube-tools/pkg/drafts"
 	"github.com/caseydavenport/cube-tools/pkg/types"
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
@@ -22,10 +23,9 @@ import (
 const DefaultCubeCobraURL = "https://cubecobra.com"
 
 var (
-	ccCubeID   string
-	ccDraftDir string
-	ccCookie   string
-	ccBaseURL  string = DefaultCubeCobraURL
+	ccCubeID  string
+	ccCookie  string
+	ccBaseURL string = DefaultCubeCobraURL
 )
 
 var ExportCCCmd = &cobra.Command{
@@ -33,10 +33,17 @@ var ExportCCCmd = &cobra.Command{
 	Short: "Export a draft to Cube Cobra",
 	Run: func(cmd *cobra.Command, args []string) {
 		if ccCubeID == "" {
-			logrus.Fatal("Must specify a CubeCobra ID (--cube)")
+			ccCubeID = cubeCobraID(cubeFlag)
 		}
-		if ccDraftDir == "" {
-			logrus.Fatal("Must specify a draft directory (--dir)")
+		if ccCubeID == "" {
+			logrus.Fatalf("Cube %q has no CubeCobra ID in data/cubes.json; pass --cc-cube", cubeFlag)
+		}
+		if draftID == 0 {
+			logrus.Fatal("Must specify a draft (--draft)")
+		}
+		draft, err := drafts.Find(filepath.Join("data", cubeFlag), draftID)
+		if err != nil {
+			logrus.WithError(err).Fatalf("Failed to find draft %d", draftID)
 		}
 		if ccCookie == "" {
 			ccCookie = os.Getenv("CUBECOBRA_COOKIE")
@@ -45,14 +52,15 @@ var ExportCCCmd = &cobra.Command{
 			logrus.Fatal("Must specify a CubeCobra session cookie (--cookie or CUBECOBRA_COOKIE env var)")
 		}
 
-		exportToCC()
+		exportToCC(draft)
 	},
 }
 
 func init() {
 	flags := ExportCCCmd.Flags()
-	flags.StringVarP(&ccCubeID, "cube", "c", "", "CubeCobra ID")
-	flags.StringVarP(&ccDraftDir, "dir", "d", "", "Draft directory to export")
+	flags.StringVar(&cubeFlag, "cube", "", "cube id (required)")
+	flags.IntVar(&draftID, "draft", 0, "ID of the draft to export (required)")
+	flags.StringVar(&ccCubeID, "cc-cube", "", "CubeCobra cube ID; defaults to the cube's entry in data/cubes.json")
 	flags.StringVarP(&ccCookie, "cookie", "k", "", "CubeCobra session cookie (full raw string)")
 	flags.StringVar(&ccBaseURL, "url", DefaultCubeCobraURL, "CubeCobra base URL")
 }
@@ -82,22 +90,17 @@ type CCRecord struct {
 	Trophy      []string   `json:"trophy"`
 }
 
-func exportToCC() {
+// exportToCC uploads a draft to CubeCobra: it updates the record named in the
+// draft's metadata, or creates one and saves its ID there so the next export
+// updates it instead of making a duplicate.
+func exportToCC(draft drafts.Draft) {
 	decks := make([]*types.Deck, 0)
-	files, err := filepath.Glob(filepath.Join(ccDraftDir, "*.json"))
+	files, err := drafts.DeckFiles(draft.Dir)
 	if err != nil {
-		logrus.WithError(err).Fatal("Failed to glob deck files")
+		logrus.WithError(err).Fatal("Failed to list deck files")
 	}
 
 	for _, f := range files {
-		base := filepath.Base(f)
-		switch base {
-		case "index.json", "cube.json", "cube-rules.json", types.DraftMetadataFilename:
-			continue
-		}
-		if strings.HasPrefix(base, ".") || strings.Contains(f, "snapshot") || strings.Contains(f, "draft-log") {
-			continue
-		}
 		d, err := types.LoadDeck(f)
 		if err != nil {
 			logrus.WithError(err).Warnf("Failed to load deck %s", f)
@@ -116,52 +119,19 @@ func exportToCC() {
 		},
 	}
 
-	draftMeta, err := types.LoadDraftMetadata(ccDraftDir)
-	if err != nil {
-		logrus.WithError(err).Warnf("Failed to load draft metadata from %s", ccDraftDir)
-		draftMeta = &types.DraftMetadata{}
-	}
+	recordID := draft.CubeCobraRecord
 
-	draftID := draftMeta.DraftID
-	if draftID == "" {
-		draftID = decks[0].Metadata.DraftID
-	}
-
-	// Resolve cube ID to actual UUID if it's a shortId.
-	// CubeCobra's record list API requires the internal UUID for GSI lookups.
-	cubeUUID := getCubeUUID(client, ccCubeID)
-	if cubeUUID == "" {
-		logrus.Warnf("Could not resolve UUID for cube %s, falling back to literal ID", ccCubeID)
-		cubeUUID = ccCubeID
-	} else {
-		logrus.Debugf("Resolved cube %s to UUID %s", ccCubeID, cubeUUID)
-	}
-
-	recordID := findExistingRecord(client, cubeUUID, draftID)
-
-	recordName := draftMeta.EventName
+	recordName := draft.EventName
 	if recordName == "" {
-		recordName = filepath.Base(ccDraftDir)
+		recordName = filepath.Base(draft.Dir)
 	}
 
-	recordDescription := draftMeta.EventDescription
+	recordDescription := draft.EventDescription
 	if recordDescription == "" {
 		// Try to read a REPORT file in the draft directory.
-		reportPath := filepath.Join(ccDraftDir, "REPORT")
+		reportPath := filepath.Join(draft.Dir, "REPORT")
 		if bs, err := os.ReadFile(reportPath); err == nil {
 			recordDescription = string(bs)
-		}
-	}
-
-	// Always include the Draft ID marker in the description so future exports
-	// can find the existing record. Don't duplicate it if the user already put
-	// one in event_description.
-	draftIDMarker := fmt.Sprintf("Draft ID: %s", draftID)
-	if !strings.Contains(recordDescription, draftIDMarker) {
-		if recordDescription == "" {
-			recordDescription = draftIDMarker
-		} else {
-			recordDescription = strings.TrimRight(recordDescription, "\n") + "\n\n" + draftIDMarker
 		}
 	}
 
@@ -272,7 +242,7 @@ func exportToCC() {
 	}
 
 	if recordID == "" {
-		logrus.Infof("No existing record found for Draft ID %s, creating new one...", draftID)
+		logrus.Infof("Draft %d has no CubeCobra record yet, creating one...", draft.ID)
 		recordJSON, _ := json.Marshal(record)
 
 		form := url.Values{}
@@ -297,6 +267,12 @@ func exportToCC() {
 		parts := strings.Split(location, "/")
 		recordID = parts[len(parts)-1]
 		logrus.Infof("Created record %s", recordID)
+
+		meta := draft.DraftMetadata
+		meta.CubeCobraRecord = recordID
+		if err := meta.Save(draft.Dir); err != nil {
+			logrus.WithError(err).Fatal("Failed to save the CubeCobra record ID to the draft's metadata")
+		}
 	} else {
 		logrus.Infof("Using existing record %s, updating overview...", recordID)
 
@@ -419,96 +395,4 @@ func exportToCC() {
 	}
 
 	logrus.Infof("Export complete! Record: %s/cube/record/%s", ccBaseURL, recordID)
-}
-
-func findExistingRecord(client *http.Client, cubeID string, draftID string) string {
-	logrus.Infof("Checking for existing record with Draft ID %s...", draftID)
-
-	searchStr := fmt.Sprintf("Draft ID: %s", draftID)
-	var lastKey any
-
-	for {
-		body := map[string]any{}
-		if lastKey != nil {
-			body["lastKey"] = lastKey
-		}
-		bodyJSON, _ := json.Marshal(body)
-
-		req, _ := http.NewRequest("POST", fmt.Sprintf("%s/cube/records/list/%s", ccBaseURL, cubeID), strings.NewReader(string(bodyJSON)))
-		req.Header.Add("Content-Type", "application/json")
-		req.Header.Add("Cookie", ccCookie)
-
-		resp, err := client.Do(req)
-		if err != nil {
-			logrus.WithError(err).Warn("Failed to list records")
-			return ""
-		}
-
-		if resp.StatusCode != http.StatusOK {
-			body, _ := io.ReadAll(resp.Body)
-			resp.Body.Close()
-			logrus.Warnf("Failed to list records: status %d, body: %s", resp.StatusCode, string(body))
-			return ""
-		}
-
-		var result struct {
-			Records []CCRecord `json:"records"`
-			LastKey any        `json:"lastKey"`
-		}
-		if err := json.NewDecoder(resp.Body).Decode(&result); err != nil {
-			resp.Body.Close()
-			logrus.WithError(err).Warn("Failed to decode record list")
-			return ""
-		}
-		resp.Body.Close()
-
-		logrus.Infof("Fetched %d records from CubeCobra...", len(result.Records))
-		for _, r := range result.Records {
-			logrus.Debugf("Checking record %s: %s (Description: %s)", r.ID, r.Name, r.Description)
-			if strings.Contains(r.Description, searchStr) {
-				logrus.Infof("Found existing record: %s", r.ID)
-				return r.ID
-			}
-		}
-
-		if result.LastKey == nil {
-			break
-		}
-		lastKey = result.LastKey
-	}
-
-	logrus.Info("No existing record found for this Draft ID")
-	return ""
-}
-
-func getCubeUUID(client *http.Client, cubeID string) string {
-	logrus.Infof("Resolving cube ID for %s...", cubeID)
-
-	req, _ := http.NewRequest("POST", fmt.Sprintf("%s/cube/api/cubemetadata/%s", ccBaseURL, cubeID), nil)
-	req.Header.Add("Cookie", ccCookie)
-
-	resp, err := client.Do(req)
-	if err != nil {
-		logrus.WithError(err).Warn("Failed to get cube metadata")
-		return ""
-	}
-	defer resp.Body.Close()
-
-	if resp.StatusCode != http.StatusOK {
-		logrus.Warnf("Failed to get cube metadata: status %d", resp.StatusCode)
-		return ""
-	}
-
-	var result struct {
-		Success string `json:"success"`
-		Cube    struct {
-			ID string `json:"id"`
-		} `json:"cube"`
-	}
-	if err := json.NewDecoder(resp.Body).Decode(&result); err != nil {
-		logrus.WithError(err).Warn("Failed to decode cube metadata")
-		return ""
-	}
-
-	return result.Cube.ID
 }

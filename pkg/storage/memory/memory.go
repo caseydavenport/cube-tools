@@ -2,6 +2,7 @@ package memory
 
 import (
 	"encoding/json"
+	"fmt"
 	"slices"
 	"sync"
 
@@ -30,8 +31,8 @@ func New() *Backend {
 }
 
 // draftLogKey builds the map key for a draft's log.
-func draftLogKey(cube, draftID string) string {
-	return cube + "\x00" + draftID
+func draftLogKey(cube string, draftID int) string {
+	return fmt.Sprintf("%s\x00%d", cube, draftID)
 }
 
 // NewStore builds a Store over a fresh in-memory backend, applying seed if given.
@@ -49,7 +50,7 @@ func NewStore(seed func(*Backend)) *storage.Store {
 func (b *Backend) Seed(cube string, decks ...*storage.Deck) {
 	b.mu.Lock()
 	defer b.mu.Unlock()
-	highestIDByDraft := map[string]int{}
+	highestIDByDraft := map[int]int{}
 	for _, d := range b.decks[cube] {
 		highestIDByDraft[d.Metadata.DraftID] = max(highestIDByDraft[d.Metadata.DraftID], d.ID)
 	}
@@ -80,7 +81,7 @@ func (b *Backend) RawDecks(cube string) ([]*storage.Deck, error) {
 
 // LoadDraft returns copies of the draft's decks, or ErrDeckNotFound if the
 // cube has no deck in that draft.
-func (b *Backend) LoadDraft(cube, draftID string) ([]*storage.Deck, error) {
+func (b *Backend) LoadDraft(cube string, draftID int) ([]*storage.Deck, error) {
 	b.mu.Lock()
 	defer b.mu.Unlock()
 	var out []*storage.Deck
@@ -97,7 +98,7 @@ func (b *Backend) LoadDraft(cube, draftID string) ([]*storage.Deck, error) {
 
 // SaveDecks replaces the stored decks with the given ones, matched by ID
 // within draftID.
-func (b *Backend) SaveDecks(cube, draftID string, decks []*storage.Deck) error {
+func (b *Backend) SaveDecks(cube string, draftID int, decks []*storage.Deck) error {
 	b.mu.Lock()
 	defer b.mu.Unlock()
 	for _, d := range decks {
@@ -155,7 +156,7 @@ func (b *Backend) Index(cube string) (*storage.CubeIndex, error) {
 }
 
 // GetDraftLog returns a draft's raw log bytes.
-func (b *Backend) GetDraftLog(cube, draftID string) (json.RawMessage, error) {
+func (b *Backend) GetDraftLog(cube string, draftID int) (json.RawMessage, error) {
 	b.mu.Lock()
 	defer b.mu.Unlock()
 	log, ok := b.draftLogs[draftLogKey(cube, draftID)]
@@ -180,7 +181,7 @@ func (b *Backend) SeedIndex(cube string, idx *storage.CubeIndex) {
 }
 
 // SeedDraftLog preloads a draft's raw log bytes. Call before wrapping in a Store.
-func (b *Backend) SeedDraftLog(cube, draftID string, log json.RawMessage) {
+func (b *Backend) SeedDraftLog(cube string, draftID int, log json.RawMessage) {
 	b.mu.Lock()
 	defer b.mu.Unlock()
 	b.draftLogs[draftLogKey(cube, draftID)] = log

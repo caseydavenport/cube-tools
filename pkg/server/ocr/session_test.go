@@ -1,7 +1,6 @@
 package ocr
 
 import (
-	"os"
 	"path/filepath"
 	"testing"
 
@@ -9,14 +8,9 @@ import (
 )
 
 func TestSessionRoundTrip(t *testing.T) {
-	root := t.TempDir()
-	draftID := "2026-01-17_evt_1"
-	if err := os.MkdirAll(filepath.Join(root, "polyverse", draftID), 0o755); err != nil {
-		t.Fatal(err)
-	}
-
-	photo := draftID + "/img/p3/checkin-1.jpg"
-	s := &Session{DraftID: draftID, Players: map[string]*PlayerWork{
+	dir := t.TempDir()
+	photo := "img/p3/checkin-1.jpg"
+	s := &Session{DraftID: 1, Players: map[string]*PlayerWork{
 		"p3": {
 			Status: "in_progress",
 			Boxes: map[string][]Box{photo: {{
@@ -26,18 +20,18 @@ func TestSessionRoundTrip(t *testing.T) {
 				Chosen: "Counterspell",
 			}}},
 			Overrides: map[string]int{"Counterspell": 1},
-			Basics: map[string]int{"Island": 7},
+			Basics:    map[string]int{"Island": 7},
 			PoolEntries: []PoolEntry{{
 				CardName: "Counterspell", Count: 1,
 				Source: Source{Photo: photo, Box: ocrpkg.Bbox{X: 1, Y: 2, Width: 3, Height: 4}},
 			}},
 		},
 	}}
-	if err := s.Save(root, "polyverse"); err != nil {
+	if err := s.Save(dir); err != nil {
 		t.Fatal(err)
 	}
 
-	got, err := LoadSession(root, "polyverse", draftID)
+	got, err := LoadSession(dir)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -53,8 +47,7 @@ func TestSessionRoundTrip(t *testing.T) {
 }
 
 func TestLoadSessionMissingIsEmpty(t *testing.T) {
-	root := t.TempDir()
-	s, err := LoadSession(root, "polyverse", "2026-01-17_evt_1")
+	s, err := LoadSession(t.TempDir())
 	if err != nil {
 		t.Fatalf("missing file should not error: %v", err)
 	}
@@ -64,20 +57,19 @@ func TestLoadSessionMissingIsEmpty(t *testing.T) {
 }
 
 func TestSaveCreatesDirectory(t *testing.T) {
-	root := t.TempDir()
-	draftID := "2026-01-17_evt_2"
+	dir := filepath.Join(t.TempDir(), "0002_2026-01-17")
 
-	s := &Session{DraftID: draftID, Players: map[string]*PlayerWork{
+	s := &Session{DraftID: 2, Players: map[string]*PlayerWork{
 		"p1": {
 			Status: "in_progress",
 			Basics: map[string]int{"Plains": 3},
 		},
 	}}
-	if err := s.Save(root, "polyverse"); err != nil {
+	if err := s.Save(dir); err != nil {
 		t.Fatalf("Save failed: %v", err)
 	}
 
-	got, err := LoadSession(root, "polyverse", draftID)
+	got, err := LoadSession(dir)
 	if err != nil {
 		t.Fatalf("LoadSession failed: %v", err)
 	}

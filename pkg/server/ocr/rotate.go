@@ -7,9 +7,7 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
-	"strings"
 
-	"github.com/caseydavenport/cube-tools/pkg/server"
 	"github.com/sirupsen/logrus"
 )
 
@@ -32,7 +30,11 @@ func RotateHandler() http.Handler { return RotateHandlerWithRoot("data") }
 // through each endpoint.
 func RotateHandlerWithRoot(dataRoot string) http.Handler {
 	return http.HandlerFunc(func(rw http.ResponseWriter, r *http.Request) {
-		cube := server.CubeFromRequest(r)
+		draft, ok := draftFromRequest(dataRoot, r)
+		if !ok {
+			http.NotFound(rw, r)
+			return
+		}
 		var req rotateRequest
 		if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
 			http.Error(rw, "Invalid request", http.StatusBadRequest)
@@ -42,9 +44,9 @@ func RotateHandlerWithRoot(dataRoot string) http.Handler {
 			http.Error(rw, "Invalid direction", http.StatusBadRequest)
 			return
 		}
-		abs, ok := safePhotoPath(dataRoot, cube, req.Photo)
+		abs, ok := photoPath(draft, req.Photo)
 		if !ok {
-			logrus.WithFields(logrus.Fields{"cube": cube, "path": req.Photo}).Warn("Blocked invalid rotate path")
+			logrus.WithFields(logrus.Fields{"draft": draft.ID, "path": req.Photo}).Warn("Blocked invalid rotate path")
 			http.Error(rw, "Invalid path", http.StatusForbidden)
 			return
 		}
@@ -55,20 +57,6 @@ func RotateHandlerWithRoot(dataRoot string) http.Handler {
 		}
 		rw.WriteHeader(http.StatusOK)
 	})
-}
-
-// safePhotoPath validates that rel stays within data/<cube> and returns the
-// absolute on-disk path.
-func safePhotoPath(dataRoot, cube, rel string) (string, bool) {
-	if cube == "" || rel == "" || strings.Contains(rel, "..") {
-		return "", false
-	}
-	abs := filepath.Clean(filepath.Join(dataRoot, cube, rel))
-	prefix := filepath.Clean(filepath.Join(dataRoot, cube)) + string(filepath.Separator)
-	if !strings.HasPrefix(abs, prefix) {
-		return "", false
-	}
-	return abs, true
 }
 
 // rotateJPEGFile rotates a JPEG on disk 90 degrees and rewrites it. Re-encoding

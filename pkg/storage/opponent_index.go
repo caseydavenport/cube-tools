@@ -32,7 +32,7 @@ func NewOpponentIndex(decks []*Deck) *OpponentIndex {
 // deck has no draft, the opponent is unnamed, or the opponent's deck wasn't
 // loaded (e.g. an unrecorded player).
 func (i *OpponentIndex) OpponentDeck(deck *Deck, opponent string) (*Deck, bool) {
-	if opponent == "" || deck.Metadata.DraftID == "" {
+	if opponent == "" || deck.Metadata.DraftID == 0 {
 		return nil, false
 	}
 	d, ok := i.byName[nameKey{draft: deck.Metadata.DraftID, player: opponent}]
@@ -43,16 +43,16 @@ func (i *OpponentIndex) OpponentDeck(deck *Deck, opponent string) (*Deck, bool) 
 // when set, otherwise by m.Opponent's name. ok is false when the opponent
 // can't be found in the deck's draft.
 func (i *OpponentIndex) MatchOpponent(deck *Deck, m types.Match) (*Deck, bool) {
-	if deck.Metadata.DraftID == "" {
+	if deck.Metadata.DraftID == 0 {
 		return nil, false
 	}
 	return i.find(deck.Metadata.DraftID, m)
 }
 
-// find resolves m's opponent within draft, which may be empty. Enrich uses it
+// find resolves m's opponent within draft, which may be zero. Enrich uses it
 // directly because it also enriches draft-less decks built in tests and
 // legacy data.
-func (i *OpponentIndex) find(draft string, m types.Match) (*Deck, bool) {
+func (i *OpponentIndex) find(draft int, m types.Match) (*Deck, bool) {
 	if m.OpponentID != 0 {
 		d, ok := i.byID[key{draft: draft, id: m.OpponentID}]
 		return d, ok

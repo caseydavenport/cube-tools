@@ -3,9 +3,8 @@ package ocr
 import (
 	"encoding/json"
 	"net/http"
-	"path/filepath"
 
-	"github.com/caseydavenport/cube-tools/pkg/server"
+	"github.com/caseydavenport/cube-tools/pkg/drafts"
 	"github.com/caseydavenport/cube-tools/pkg/types"
 )
 
@@ -52,10 +51,10 @@ func ConfirmHandler() http.Handler { return ConfirmHandlerWithRoot("data") }
 
 func ConfirmHandlerWithRoot(dataRoot string) http.Handler {
 	return http.HandlerFunc(func(rw http.ResponseWriter, r *http.Request) {
-		cube := server.CubeFromRequest(r)
-		draftID := r.PathValue("draft_id")
+		draft, ok := draftFromRequest(dataRoot, r)
 		player := r.PathValue("player")
-		if cube == "" || !validDraftID(draftID) || player == "" || !validDraftID(player) {
+		n, okPlayer := playerNum(player)
+		if !ok || !okPlayer {
 			http.NotFound(rw, r)
 			return
 		}
@@ -64,10 +63,9 @@ func ConfirmHandlerWithRoot(dataRoot string) http.Handler {
 			http.Error(rw, "Invalid request", http.StatusBadRequest)
 			return
 		}
-		deckPath := filepath.Join(dataRoot, cube, draftID, draftID+"-"+player+".json")
-		existing, err := types.LoadDeck(deckPath)
+		existing, deckPath, err := drafts.LoadDeck(draft.Dir, n)
 		if err != nil {
-			http.Error(rw, "deck file not found: "+err.Error(), http.StatusNotFound)
+			http.Error(rw, "deck not found: "+err.Error(), http.StatusNotFound)
 			return
 		}
 		d := buildDeck(existing, req)
@@ -81,10 +79,10 @@ func ConfirmHandlerWithRoot(dataRoot string) http.Handler {
 		// on the shared session file and would otherwise race with them.
 		sessionSaveMu.Lock()
 		defer sessionSaveMu.Unlock()
-		if s, err := LoadSession(dataRoot, cube, draftID); err == nil {
+		if s, err := LoadSession(draft.Dir); err == nil {
 			if pw := s.Players[player]; pw != nil {
 				pw.Status = "confirmed"
-				if err := s.Save(dataRoot, cube); err != nil {
+				if err := s.Save(draft.Dir); err != nil {
 					http.Error(rw, "Internal server error", http.StatusInternalServerError)
 					return
 				}
