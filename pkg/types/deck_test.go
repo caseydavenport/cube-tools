@@ -69,7 +69,7 @@ func TestGameLosses(t *testing.T) {
 func TestGameLosses_DrawsNotCounted(t *testing.T) {
 	// Regression: draws (Winner="" or Tie=true) must NOT count as losses.
 	d := makeDeck("Alice", []Game{
-		{Opponent: "Bob", Winner: ""},           // draw via empty winner
+		{Opponent: "Bob", Winner: ""},            // draw via empty winner
 		{Opponent: "Bob", Winner: "", Tie: true}, // draw via Tie flag
 		{Opponent: "Bob", Winner: "Bob"},         // real loss
 	}, nil)
@@ -81,9 +81,9 @@ func TestGameLosses_DrawsNotCounted(t *testing.T) {
 func TestGameDraws(t *testing.T) {
 	d := makeDeck("Alice", []Game{
 		{Opponent: "Bob", Winner: ""},            // draw (empty winner)
-		{Opponent: "Bob", Winner: "", Tie: true},  // draw (Tie flag)
-		{Opponent: "Bob", Winner: "Bob"},          // loss, not a draw
-		{Opponent: "Charlie", Winner: "Alice"},    // win, not a draw
+		{Opponent: "Bob", Winner: "", Tie: true}, // draw (Tie flag)
+		{Opponent: "Bob", Winner: "Bob"},         // loss, not a draw
+		{Opponent: "Charlie", Winner: "Alice"},   // win, not a draw
 	}, nil)
 	assert.Equal(t, 2, d.GameDraws())
 }
@@ -105,7 +105,7 @@ func TestMatchLosses(t *testing.T) {
 	d := makeDeck("Alice", nil, []Match{
 		{Opponent: "Bob", Winner: "Bob"},
 		{Opponent: "Charlie", Winner: "Alice"},
-		{Opponent: "Dave", Winner: ""},  // draw, not a loss
+		{Opponent: "Dave", Winner: ""}, // draw, not a loss
 	})
 	assert.Equal(t, 1, d.MatchLosses())
 }
@@ -587,4 +587,25 @@ func TestPrimaryColorPair_TwoColorReturnsNil(t *testing.T) {
 	addN(d, 10, "{W}")
 	addN(d, 10, "{U}")
 	assert.Nil(t, d.PrimaryColorPair())
+}
+
+func TestMatchResultsFromCounts(t *testing.T) {
+	d := NewDeck()
+	d.Matches = []Match{
+		{OpponentID: 2, Wins: 2, Losses: 1},
+		{OpponentID: 3, Wins: 1, Losses: 1, Draws: 1},
+		{OpponentID: 4},
+		{},
+	}
+	assert.Equal(t, 1, d.MatchWins())
+	assert.Equal(t, 0, d.MatchLosses())
+	assert.Equal(t, 2, d.MatchDraws())
+}
+
+func TestAddGameSetsWon(t *testing.T) {
+	d := NewDeck()
+	d.Player = "Freddie"
+	d.AddGame("Ozzy", "Freddie")
+	d.AddGame("Ozzy", "Ozzy")
+	assert.Equal(t, []bool{true, false}, []bool{d.Matches[0].Games[0].Won, d.Matches[0].Games[1].Won})
 }

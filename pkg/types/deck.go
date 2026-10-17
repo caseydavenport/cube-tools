@@ -62,37 +62,36 @@ func (d *Deck) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
-// MarshalCompact returns the deck's on-disk JSON form, with card lists
-// serialized as []string of names rather than full Card objects. Use this
-// for writing deck files; regular json.Marshal still emits full Card objects
-// for the API path consumed by the UI. Field order mirrors Deck so the
-// on-disk layout stays stable.
+// MarshalCompact returns the deck's on-disk JSON form: card lists as names
+// rather than full Card objects, and no player names anywhere, only
+// PlayerID and opponent deck IDs. Use it for writing deck files; regular
+// json.Marshal emits the API form the UI consumes.
 func (d *Deck) MarshalCompact() ([]byte, error) {
 	aux := struct {
-		Metadata       Metadata `json:"metadata"`
-		ID             int      `json:"id"`
-		MacroArchetype string   `json:"macro_archetype,omitempty"`
-		Labels         []string `json:"labels"`
-		Player         string   `json:"player"`
-		Date           string   `json:"date"`
-		Name           string   `json:"name,omitempty"`
-		Notes          string   `json:"notes,omitempty"`
-		Matches        []Match  `json:"matches"`
-		DeckImage      string   `json:"deck_image,omitempty"`
-		Mainboard      []string `json:"mainboard"`
-		Sideboard      []string `json:"sideboard"`
-		Pool           []string `json:"pool,omitempty"`
-		Colors         []string `json:"colors,omitempty"`
+		Metadata       Metadata    `json:"metadata"`
+		ID             int         `json:"id"`
+		MacroArchetype string      `json:"macro_archetype,omitempty"`
+		Labels         []string    `json:"labels"`
+		PlayerID       int         `json:"player_id,omitempty"`
+		Date           string      `json:"date"`
+		Name           string      `json:"name,omitempty"`
+		Notes          string      `json:"notes,omitempty"`
+		Matches        []diskMatch `json:"matches"`
+		DeckImage      string      `json:"deck_image,omitempty"`
+		Mainboard      []string    `json:"mainboard"`
+		Sideboard      []string    `json:"sideboard"`
+		Pool           []string    `json:"pool,omitempty"`
+		Colors         []string    `json:"colors,omitempty"`
 	}{
 		Metadata:       d.Metadata,
 		ID:             d.ID,
 		MacroArchetype: d.MacroArchetype,
 		Labels:         d.Labels,
-		Player:         d.Player,
+		PlayerID:       d.PlayerID,
 		Date:           d.Date,
 		Name:           d.Name,
 		Notes:          d.Notes,
-		Matches:        d.Matches,
+		Matches:        diskMatches(d.Matches),
 		DeckImage:      d.DeckImage,
 		Mainboard:      cardNames(d.Mainboard),
 		Sideboard:      cardNames(d.Sideboard),
@@ -254,7 +253,13 @@ type Deck struct {
 	// MacroArchetype values are stored separately and should not appear here.
 	Labels []string `json:"labels"`
 
-	// Who built the deck.
+	// PlayerID is the deck's player in the global player list; zero means an
+	// anonymous seat. It is the only player reference stored on disk.
+	PlayerID int `json:"player_id,omitempty"`
+
+	// Player is the display name of whoever built the deck: the player's name,
+	// an anonymous seat label, or a remote source's name. Deck files never store
+	// it; players.List.ResolveDraft fills it in.
 	Player string `json:"player"`
 	Date   string `json:"date"`
 
@@ -286,12 +291,18 @@ type Deck struct {
 }
 
 type Match struct {
+	// Opponent is the opponent's display name, filled in on load and never
+	// written to disk.
 	Opponent string `json:"opponent"`
 
 	// OpponentID is the opponent deck's ID within the same draft. When set it is
 	// the source of truth and Opponent is a display copy; zero means only the
 	// name is known.
 	OpponentID int `json:"opponent_id,omitempty"`
+
+	// OpponentPlayerID is the opponent deck's PlayerID, filled in on load for
+	// clients that group by person. Never written to disk.
+	OpponentPlayerID int `json:"opponent_player_id,omitempty"`
 
 	// Round number this match was played in (1-indexed). 0 means unknown.
 	// Lets us preserve multi-round events (Swiss, brackets, rematches) where
@@ -307,16 +318,50 @@ type Match struct {
 	// Optional: individual game details.
 	Games []Game `json:"games,omitempty"`
 
-	// The winner of the match. Usually d.Player or m.Opponent.
-	// If empty, the match is a draw.
+	// The winner's display name, derived from the game counts on load and
+	// never written to disk. Empty means a draw.
 	Winner string `json:"winner,omitempty"`
 }
 
+// Game is one game of a match. Won and Tie are the stored result, from the
+// deck's point of view; Opponent and Winner are display names filled in on
+// load.
 type Game struct {
-	// Opponent is redundant if nested, but kept for compatibility/standalone use.
 	Opponent string `json:"opponent"`
 	Winner   string `json:"winner"`
+	Won      bool   `json:"won,omitempty"`
 	Tie      bool   `json:"tie,omitempty"`
+}
+
+// diskMatch is a Match as stored in a deck file, with no player names.
+type diskMatch struct {
+	OpponentID int        `json:"opponent_id,omitempty"`
+	Round      int        `json:"round,omitempty"`
+	Wins       int        `json:"wins"`
+	Losses     int        `json:"losses"`
+	Draws      int        `json:"draws"`
+	Games      []diskGame `json:"games,omitempty"`
+}
+
+// diskGame is a Game as stored in a deck file, with no player names.
+type diskGame struct {
+	Won bool `json:"won,omitempty"`
+	Tie bool `json:"tie,omitempty"`
+}
+
+// diskMatches strips the display names from matches for writing.
+func diskMatches(ms []Match) []diskMatch {
+	if ms == nil {
+		return nil
+	}
+	out := make([]diskMatch, len(ms))
+	for i, m := range ms {
+		out[i] = diskMatch{OpponentID: m.OpponentID, Round: m.Round, Wins: m.Wins, Losses: m.Losses, Draws: m.Draws}
+		for _, g := range m.Games {
+			out[i].Games = append(out[i].Games, diskGame{Won: g.Won, Tie: g.Tie})
+		}
+	}
+	return out
 }
 
 func (d *Deck) AllCards() []Card {
@@ -394,7 +439,7 @@ func (d *Deck) AddMatch(opponent, winner string) {
 
 // AddGame adds a game to the deck.
 func (d *Deck) AddGame(opponent, winner string) {
-	g := Game{Opponent: opponent, Winner: winner}
+	g := Game{Opponent: opponent, Winner: winner, Won: winner != "" && winner == d.Player}
 	if winner == "" {
 		g.Tie = true
 	}
@@ -477,7 +522,7 @@ func (d *Deck) GameDraws() int {
 func (d *Deck) MatchWins() int {
 	wins := 0
 	for _, m := range d.Matches {
-		if m.Winner == d.Player {
+		if m.Winner != "" && m.Winner == d.Player {
 			wins++
 		} else if m.Winner == "" && m.Wins > m.Losses {
 			wins++
@@ -511,7 +556,7 @@ func (d *Deck) MatchDraws() int {
 			draws++
 			continue
 		}
-		if m.Wins == m.Losses && (m.Wins > 0 || len(m.Games) > 0 || m.Opponent != "") {
+		if m.Wins == m.Losses && (m.Wins > 0 || len(m.Games) > 0 || m.Opponent != "" || m.OpponentID != 0) {
 			draws++
 		}
 	}

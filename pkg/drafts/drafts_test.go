@@ -10,6 +10,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
+	"github.com/caseydavenport/cube-tools/pkg/players"
 	"github.com/caseydavenport/cube-tools/pkg/types"
 )
 
@@ -163,20 +164,40 @@ func TestLoadDeckByID(t *testing.T) {
 	assert.Equal(t, "0042_2026-10-13", DirName(42, "2026-10-13"))
 }
 
-func TestFindDeckByPlayer(t *testing.T) {
+func TestFindDeckByPlayerID(t *testing.T) {
 	dir := t.TempDir()
 	d := types.NewDeck()
 	d.ID = 4
-	d.Player = "Casey"
+	d.PlayerID = 7
 	require.NoError(t, d.Save(filepath.Join(dir, "4.json")))
 
-	got, path, err := FindDeckByPlayer(dir, "casey")
+	got, path, err := FindDeckByPlayerID(dir, 7)
 	require.NoError(t, err)
 	assert.Equal(t, 4, got.ID)
 	assert.Equal(t, filepath.Join(dir, "4.json"), path)
 
-	_, _, err = FindDeckByPlayer(dir, "nobody")
+	_, _, err = FindDeckByPlayerID(dir, 8)
 	assert.ErrorIs(t, err, ErrNotFound)
+}
+
+func TestLoadDecksResolves(t *testing.T) {
+	dir := t.TempDir()
+	a := types.NewDeck()
+	a.ID = 1
+	a.PlayerID = 1
+	a.Matches = []types.Match{{OpponentID: 2, Wins: 2}}
+	require.NoError(t, a.Save(filepath.Join(dir, "1.json")))
+	b := types.NewDeck()
+	b.ID = 2
+	require.NoError(t, b.Save(filepath.Join(dir, "2.json")))
+
+	pl := &players.List{Players: []players.Player{{ID: 1, Name: "Joan Jett"}}}
+	got, err := LoadDecks(dir, pl)
+	require.NoError(t, err)
+	require.Len(t, got, 2)
+	assert.Equal(t, "Joan Jett", got[0].Player)
+	assert.Equal(t, "p2", got[0].Matches[0].Opponent)
+	assert.Equal(t, "p2", got[1].Player)
 }
 
 func TestCreateConcurrentGetsUniqueIDs(t *testing.T) {

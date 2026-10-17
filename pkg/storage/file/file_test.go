@@ -9,6 +9,7 @@ import (
 
 	"github.com/caseydavenport/cube-tools/pkg/design"
 	"github.com/caseydavenport/cube-tools/pkg/drafts"
+	"github.com/caseydavenport/cube-tools/pkg/players"
 	"github.com/caseydavenport/cube-tools/pkg/storage"
 	"github.com/caseydavenport/cube-tools/pkg/types"
 	"github.com/stretchr/testify/assert"
@@ -36,14 +37,11 @@ func TestFileRawDecksReadsIDFromFile(t *testing.T) {
 	b := New(nil)
 	got, err := b.RawDecks("conf")
 	assert.NoError(t, err)
-	ids := map[string]int{}
+	ids := map[int]int{}
 	for _, d := range got {
-		ids[d.Player] = d.ID
+		ids[d.PlayerID] = d.ID
 	}
-	assert.Equal(t, map[string]int{
-		"Alice": 1,
-		"Bob":   2,
-	}, ids)
+	assert.Equal(t, map[int]int{1: 1, 2: 2}, ids)
 }
 
 func TestFileConformance(t *testing.T) {
@@ -78,14 +76,15 @@ func TestFileSaveDecksKeepsFileAndPath(t *testing.T) {
 		t.Fatalf("chdir temp root: %v", err)
 	}
 	writeConfFixture(t, root)
-	s := storage.NewStore(New(nil))
+	s := NewStore(nil)
 
-	_, err := s.SaveDeckRecord("conf", storage.RecordEdit{DraftID: 1, DeckID: 1, Player: "casey"})
+	carol := 3
+	_, err := s.SaveDeckRecord("conf", storage.RecordEdit{DraftID: 1, DeckID: 1, PlayerID: &carol})
 	assert.NoError(t, err)
 
 	alice, err := types.LoadDeck(filepath.Join(root, "data/conf/0001_2024-01-01/alice.json"))
 	assert.NoError(t, err)
-	assert.Equal(t, "casey", alice.Player)
+	assert.Equal(t, 3, alice.PlayerID)
 	assert.Equal(t, 1, alice.ID)
 	assert.Equal(t, "data/conf/0001_2024-01-01/alice.json", alice.Metadata.Path)
 
@@ -130,7 +129,7 @@ func TestFileRefusesDraftWithDuplicateOrMissingIDs(t *testing.T) {
 
 			alice := &storage.Deck{}
 			alice.ID = 1
-			alice.Player = "overwritten"
+			alice.Notes = "overwritten"
 			assert.Error(t, b.SaveDecks("conf", 1, []*storage.Deck{alice}))
 			after, err := os.ReadFile(bobPath)
 			assert.NoError(t, err)
@@ -158,7 +157,7 @@ func TestFileClearedColorOverrideIsAbsentOnDisk(t *testing.T) {
 		t.Fatalf("chdir temp root: %v", err)
 	}
 	writeConfFixture(t, root)
-	s := storage.NewStore(New(nil))
+	s := NewStore(nil)
 
 	_, err := s.UpdateDeckMeta("conf", storage.DeckMetaWrite{DraftID: 1, DeckID: 1, Colors: []string{"R"}})
 	assert.NoError(t, err)
@@ -174,10 +173,19 @@ func TestFileClearedColorOverrideIsAbsentOnDisk(t *testing.T) {
 }
 
 // writeConfFixture writes a throwaway "conf" cube under root/data, matching
-// the canonical conformance dataset: draft 1 with Alice (id 1, 2-0 vs Bob in
-// round 1, two games) and Bob (id 2, the mirror).
+// the canonical conformance dataset: players Alice (1), Bob (2) and Carol (3),
+// and draft 1 with Alice's deck (id 1, 2-0 vs Bob in round 1, two games) and
+// Bob's (id 2, the mirror).
 func writeConfFixture(t *testing.T, root string) {
 	t.Helper()
+
+	roster := `{"players": [{"id": 1, "name": "Alice"}, {"id": 2, "name": "Bob"}, {"id": 3, "name": "Carol"}]}`
+	if err := os.MkdirAll(filepath.Join(root, "data"), 0o755); err != nil {
+		t.Fatalf("mkdir data: %v", err)
+	}
+	if err := os.WriteFile(filepath.Join(root, "data", players.Filename), []byte(roster), 0o644); err != nil {
+		t.Fatalf("write players.json: %v", err)
+	}
 
 	cubeDir := filepath.Join(root, "data", "conf")
 	draftDir := filepath.Join(cubeDir, "0001_2024-01-01")
@@ -213,10 +221,10 @@ func writeConfFixture(t *testing.T, root string) {
  "metadata": {"path": "` + alicePath + `", "draft_id": 1},
  "id": 1,
  "labels": [],
- "player": "Alice",
+ "player_id": 1,
  "date": "2024-01-01",
- "matches": [{"opponent": "Bob", "opponent_id": 2, "round": 1, "wins": 2, "losses": 0, "winner": "Alice",
-   "games": [{"opponent": "Bob", "winner": "Alice"}, {"opponent": "Bob", "winner": "Alice"}]}],
+ "matches": [{"opponent_id": 2, "round": 1, "wins": 2, "losses": 0, "draws": 0,
+   "games": [{"won": true}, {"won": true}]}],
  "mainboard": [],
  "sideboard": []
 }`
@@ -228,10 +236,10 @@ func writeConfFixture(t *testing.T, root string) {
  "metadata": {"path": "` + bobPath + `", "draft_id": 1},
  "id": 2,
  "labels": [],
- "player": "Bob",
+ "player_id": 2,
  "date": "2024-01-01",
- "matches": [{"opponent": "Alice", "opponent_id": 1, "round": 1, "wins": 0, "losses": 2, "winner": "Alice",
-   "games": [{"opponent": "Alice", "winner": "Alice"}, {"opponent": "Alice", "winner": "Alice"}]}],
+ "matches": [{"opponent_id": 1, "round": 1, "wins": 0, "losses": 2, "draws": 0,
+   "games": [{}, {}]}],
  "mainboard": [],
  "sideboard": []
 }`

@@ -22,7 +22,7 @@ func Enrich(decks []*Deck) {
 				continue
 			}
 			for i := 0; i < m.Wins; i++ {
-				d.Games = append(d.Games, types.Game{Opponent: m.Opponent, Winner: d.Player})
+				d.Games = append(d.Games, types.Game{Opponent: m.Opponent, Winner: d.Player, Won: true})
 			}
 			for i := 0; i < m.Losses; i++ {
 				d.Games = append(d.Games, types.Game{Opponent: m.Opponent, Winner: m.Opponent})

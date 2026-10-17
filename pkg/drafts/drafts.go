@@ -15,6 +15,7 @@ import (
 	"sync"
 	"time"
 
+	"github.com/caseydavenport/cube-tools/pkg/players"
 	"github.com/caseydavenport/cube-tools/pkg/types"
 )
 
@@ -239,9 +240,9 @@ func LoadDeck(draftDir string, deckID int) (*types.Deck, string, error) {
 	return nil, "", ErrNotFound
 }
 
-// FindDeckByPlayer finds the deck in a draft played by the named player,
-// ignoring case, and returns it with its path, or ErrNotFound.
-func FindDeckByPlayer(draftDir, player string) (*types.Deck, string, error) {
+// FindDeckByPlayerID finds the deck in a draft played by the given player and
+// returns it with its path, or ErrNotFound. The deck's names are not resolved.
+func FindDeckByPlayerID(draftDir string, playerID int) (*types.Deck, string, error) {
 	files, err := DeckFiles(draftDir)
 	if err != nil {
 		return nil, "", err
@@ -251,9 +252,29 @@ func FindDeckByPlayer(draftDir, player string) (*types.Deck, string, error) {
 		if err != nil {
 			return nil, "", fmt.Errorf("load deck %s: %w", path, err)
 		}
-		if strings.EqualFold(d.Player, player) {
+		if playerID != 0 && d.PlayerID == playerID {
 			return d, path, nil
 		}
 	}
 	return nil, "", ErrNotFound
+}
+
+// LoadDecks returns every deck in a draft with its display names resolved
+// against pl, for callers that show or export names rather than just edit
+// stored fields.
+func LoadDecks(draftDir string, pl *players.List) ([]*types.Deck, error) {
+	files, err := DeckFiles(draftDir)
+	if err != nil {
+		return nil, err
+	}
+	decks := make([]*types.Deck, 0, len(files))
+	for _, path := range files {
+		d, err := types.LoadDeck(path)
+		if err != nil {
+			return nil, fmt.Errorf("load deck %s: %w", path, err)
+		}
+		decks = append(decks, d)
+	}
+	pl.ResolveDraft(decks)
+	return decks, nil
 }

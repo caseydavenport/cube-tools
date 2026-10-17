@@ -134,13 +134,14 @@ type RecordSaver interface {
 	SaveDeckRecord(cube string, e storage.RecordEdit) ([]*storage.Deck, error)
 }
 
-// UpdateDeckRecordRequest is the body of POST /api/{cube}/decks/record. Player
-// absent keeps the name; matches absent keeps the record.
+// UpdateDeckRecordRequest is the body of POST /api/{cube}/decks/record.
+// player_id absent keeps the player, 0 makes the deck an anonymous seat, and
+// any other value assigns that player; matches absent keeps the record.
 type UpdateDeckRecordRequest struct {
-	DraftID int           `json:"draft_id"`
-	ID      int           `json:"id"`
-	Player  string        `json:"player"`
-	Matches []types.Match `json:"matches"`
+	DraftID  int           `json:"draft_id"`
+	ID       int           `json:"id"`
+	PlayerID *int          `json:"player_id"`
+	Matches  []types.Match `json:"matches"`
 }
 
 func UpdateDeckRecordHandler(store RecordSaver) http.Handler {
@@ -162,10 +163,10 @@ func (h *updateDeckRecordHandler) ServeHTTP(rw http.ResponseWriter, r *http.Requ
 		return
 	}
 	changed, err := h.store.SaveDeckRecord(r.PathValue("cube"), storage.RecordEdit{
-		DraftID: req.DraftID,
-		DeckID:  req.ID,
-		Player:  req.Player,
-		Matches: req.Matches,
+		DraftID:  req.DraftID,
+		DeckID:   req.ID,
+		PlayerID: req.PlayerID,
+		Matches:  req.Matches,
 	})
 	if writeStoreError(rw, err, "Failed to save deck record") {
 		return
@@ -183,7 +184,9 @@ func writeStoreError(rw http.ResponseWriter, err error, msg string) bool {
 	case errors.Is(err, storage.ErrDeckNotFound):
 		http.Error(rw, "Deck not found", http.StatusNotFound)
 	case errors.Is(err, storage.ErrPlayerExists):
-		http.Error(rw, "Another deck in this draft already has that player name", http.StatusConflict)
+		http.Error(rw, "That player already has a deck in this draft", http.StatusConflict)
+	case errors.Is(err, storage.ErrUnknownPlayer):
+		http.Error(rw, "Unknown player", http.StatusBadRequest)
 	case errors.Is(err, storage.ErrUnsupported):
 		http.Error(rw, "Not supported for this cube", http.StatusBadRequest)
 	default:

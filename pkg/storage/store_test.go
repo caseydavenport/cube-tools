@@ -3,6 +3,7 @@ package storage
 import (
 	"testing"
 
+	"github.com/caseydavenport/cube-tools/pkg/players"
 	"github.com/caseydavenport/cube-tools/pkg/types"
 	"github.com/stretchr/testify/assert"
 )
@@ -40,6 +41,54 @@ func TestStore_WritesUnsupported(t *testing.T) {
 	s := NewStore(&fakeBackend{})
 	_, err := s.UpdateDeckMeta("c", DeckMetaWrite{DraftID: 1, DeckID: 1, MacroArchetype: "aggro"})
 	assert.ErrorIs(t, err, ErrUnsupported)
-	_, err = s.SaveDeckRecord("c", RecordEdit{DraftID: 1, DeckID: 1, Player: "x"})
+	id := 1
+	_, err = s.SaveDeckRecord("c", RecordEdit{DraftID: 1, DeckID: 1, PlayerID: &id})
 	assert.ErrorIs(t, err, ErrUnsupported)
+}
+
+// rosterSource is a fixed player list for Store tests.
+type rosterSource struct{}
+
+// Players returns Freddie (1) and Ozzy (2).
+func (rosterSource) Players() (*players.List, error) {
+	return &players.List{Players: []players.Player{{ID: 1, Name: "Freddie"}, {ID: 2, Name: "Ozzy"}}}, nil
+}
+
+func TestStoreResolvesNames(t *testing.T) {
+	freddie := &Deck{}
+	freddie.ID, freddie.PlayerID, freddie.Metadata.DraftID = 1, 1, 1
+	freddie.Matches = []types.Match{{OpponentID: 2, Wins: 2, Losses: 1}}
+	ozzy := &Deck{}
+	ozzy.ID, ozzy.PlayerID, ozzy.Metadata.DraftID = 2, 2, 1
+	ozzy.Matches = []types.Match{{OpponentID: 1, Wins: 1, Losses: 2}}
+	other := &Deck{}
+	other.ID, other.PlayerID, other.Metadata.DraftID = 2, 1, 2
+
+	s := NewStore(&fakeBackend{decks: []*Deck{freddie, ozzy, other}}, WithPlayers(rosterSource{}))
+	got, err := s.List("c", nil)
+	assert.NoError(t, err)
+	assert.Equal(t, "Freddie", got[0].Player)
+	assert.Equal(t, "Ozzy", got[0].Matches[0].Opponent)
+	assert.Equal(t, "Freddie", got[0].Matches[0].Winner)
+	assert.Equal(t, 1, got[0].Stats.MatchWins)
+	assert.Equal(t, "Ozzy", got[1].Player)
+	assert.Equal(t, 1, got[1].Stats.MatchLosses)
+	assert.Equal(t, "Freddie", got[2].Player)
+}
+
+func TestPersonKey(t *testing.T) {
+	seat := func(draft int) *Deck {
+		d := &Deck{}
+		d.ID, d.Player, d.Metadata.DraftID = 3, "p3", draft
+		return d
+	}
+	assert.NotEqual(t, seat(1).PersonKey(), seat(2).PersonKey())
+
+	named := &Deck{}
+	named.ID, named.PlayerID, named.Player = 3, 7, "Joan Jett"
+	assert.Equal(t, "id:7", named.PersonKey())
+
+	remote := &Deck{}
+	remote.ID, remote.Player = 3, "Cc-User"
+	assert.Equal(t, "name:cc-user", remote.PersonKey())
 }

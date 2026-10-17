@@ -10,6 +10,7 @@ import (
 	"github.com/caseydavenport/cube-tools/pkg/commands"
 	"github.com/caseydavenport/cube-tools/pkg/design"
 	"github.com/caseydavenport/cube-tools/pkg/drafts"
+	"github.com/caseydavenport/cube-tools/pkg/players"
 	"github.com/caseydavenport/cube-tools/pkg/storage"
 	"github.com/caseydavenport/cube-tools/pkg/types"
 	"github.com/sirupsen/logrus"
@@ -27,9 +28,10 @@ func New(src types.CubeSource) *Backend {
 	return &Backend{src: src}
 }
 
-// NewStore wires a filesystem backend into a Store.
+// NewStore wires a filesystem backend into a Store that resolves player names
+// from data/players.json.
 func NewStore(src types.CubeSource) *storage.Store {
-	return storage.NewStore(New(src))
+	return storage.NewStore(New(src), storage.WithPlayers(players.FileSource{DataRoot: "data"}))
 }
 
 // RawDecks loads every deck listed in the cube's index, overlays cube printings

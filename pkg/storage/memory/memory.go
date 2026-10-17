@@ -7,6 +7,7 @@ import (
 	"sync"
 
 	"github.com/caseydavenport/cube-tools/pkg/design"
+	"github.com/caseydavenport/cube-tools/pkg/players"
 	"github.com/caseydavenport/cube-tools/pkg/storage"
 )
 
@@ -18,6 +19,7 @@ type Backend struct {
 	rules     map[string]*design.DesignMapConfig
 	index     map[string]*storage.CubeIndex
 	draftLogs map[string]json.RawMessage
+	players   *players.List
 }
 
 // New returns an empty in-memory backend.
@@ -41,12 +43,28 @@ func NewStore(seed func(*Backend)) *storage.Store {
 	if seed != nil {
 		seed(b)
 	}
-	return storage.NewStore(b)
+	return storage.NewStore(b, storage.WithPlayers(b))
+}
+
+// SeedPlayers sets the player list the backend serves as a PlayerSource.
+func (b *Backend) SeedPlayers(ps ...players.Player) {
+	b.mu.Lock()
+	defer b.mu.Unlock()
+	b.players = &players.List{Players: ps}
+}
+
+// Players returns the seeded player list, making the backend its own
+// PlayerSource.
+func (b *Backend) Players() (*players.List, error) {
+	b.mu.Lock()
+	defer b.mu.Unlock()
+	return b.players, nil
 }
 
 // Seed adds decks for a cube. Call before wrapping in a Store. A deck with no
 // ID is numbered after the highest ID already in its draft, matching how
-// writers number new decks.
+// writers number new decks. A game whose Winner names the deck's player is
+// marked Won, so tests can describe games by name as deck files once did.
 func (b *Backend) Seed(cube string, decks ...*storage.Deck) {
 	b.mu.Lock()
 	defer b.mu.Unlock()
@@ -61,6 +79,14 @@ func (b *Backend) Seed(cube string, decks ...*storage.Deck) {
 		if d.ID == 0 {
 			highestIDByDraft[d.Metadata.DraftID]++
 			d.ID = highestIDByDraft[d.Metadata.DraftID]
+		}
+		for i := range d.Matches {
+			for j := range d.Matches[i].Games {
+				g := &d.Matches[i].Games[j]
+				if !g.Tie && g.Winner != "" && g.Winner == d.Player {
+					g.Won = true
+				}
+			}
 		}
 	}
 	b.decks[cube] = append(b.decks[cube], decks...)

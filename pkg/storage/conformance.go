@@ -8,11 +8,10 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-// RunDeckConformance checks the deck-storage contract against a Store that the
-// caller has already seeded with the canonical dataset: cube "conf" containing
-// draft 1 with Alice (id 1, 2-0 vs Bob in round 1, two games) and Bob (id 2,
-// the mirror), each match carrying the opponent's id. caps controls which
-// optional behaviors are exercised.
+// RunDeckConformance checks the deck-storage contract against a Store seeded
+// with the canonical dataset: players Alice (1), Bob (2) and Carol (3); cube
+// "conf" with draft 1 holding Alice's deck (id 1, 2-0 vs Bob in round 1, two
+// games) and Bob's (id 2, the mirror). caps picks the optional behaviors.
 func RunDeckConformance(t *testing.T, s *Store, caps Capabilities) {
 	t.Helper()
 
@@ -92,34 +91,47 @@ func runAnnotationConformance(t *testing.T, s *Store) {
 	assert.ErrorIs(t, err, ErrDeckNotFound)
 }
 
-// runRecordConformance checks record edits: a rename keeps the deck's id and
-// reaches the opponent, a name already in the draft is refused regardless of
-// case, and the canonical fixture is restored afterward.
+// runRecordConformance checks player assignment: reassigning keeps the deck's
+// id and record and reaches the opponent's view without rewriting it, a player
+// already in the draft or missing from the list is refused, an anonymous deck
+// shows its seat label, and the canonical fixture is restored afterward.
 func runRecordConformance(t *testing.T, s *Store) {
 	t.Helper()
+	assign := func(deckID, playerID int) ([]*Deck, error) {
+		return s.SaveDeckRecord("conf", RecordEdit{DraftID: 1, DeckID: deckID, PlayerID: &playerID})
+	}
 
-	changed, err := s.SaveDeckRecord("conf", RecordEdit{DraftID: 1, DeckID: 1, Player: "Alicia"})
+	changed, err := assign(1, 3)
 	assert.NoError(t, err)
-	assert.Len(t, changed, 2)
-	alicia := deckByPlayer(t, s, "Alicia")
-	assert.Equal(t, 1, alicia.ID)
-	assert.Equal(t, 1, alicia.Matches[0].Round)
-	assert.Len(t, alicia.Matches[0].Games, 2)
+	assert.Len(t, changed, 1)
+	carol := deckByPlayer(t, s, "Carol")
+	assert.Equal(t, 1, carol.ID)
+	assert.Equal(t, 3, carol.PlayerID)
+	assert.Equal(t, 1, carol.Matches[0].Round)
+	assert.Len(t, carol.Matches[0].Games, 2)
+	assert.Equal(t, 1, carol.Stats.MatchWins)
 	bob := deckByPlayer(t, s, "Bob")
-	assert.Equal(t, "Alicia", bob.Matches[0].Opponent)
-	assert.Equal(t, 1, bob.Matches[0].OpponentID)
+	assert.Equal(t, "Carol", bob.Matches[0].Opponent)
+	assert.Equal(t, 3, bob.Matches[0].OpponentPlayerID)
+	assert.Equal(t, "Carol", bob.Matches[0].Winner)
 	assert.Len(t, bob.Matches[0].Games, 2)
 
-	_, err = s.SaveDeckRecord("conf", RecordEdit{DraftID: 1, DeckID: 1, Player: "bob"})
+	_, err = assign(1, 2)
 	assert.ErrorIs(t, err, ErrPlayerExists)
 
-	_, err = s.SaveDeckRecord("conf", RecordEdit{DraftID: 1, DeckID: 1, Player: "ALICIA"})
-	assert.NoError(t, err)
+	_, err = assign(1, 99)
+	assert.ErrorIs(t, err, ErrUnknownPlayer)
 
-	_, err = s.SaveDeckRecord("conf", RecordEdit{DraftID: 1, DeckID: 9, Player: "x"})
+	_, err = assign(9, 3)
 	assert.ErrorIs(t, err, ErrDeckNotFound)
 
-	_, err = s.SaveDeckRecord("conf", RecordEdit{DraftID: 1, DeckID: 1, Player: "Alice"})
+	_, err = assign(1, 0)
+	assert.NoError(t, err)
+	seat := deckByPlayer(t, s, "p1")
+	assert.Equal(t, 0, seat.PlayerID)
+	assert.Equal(t, "p1", deckByPlayer(t, s, "Bob").Matches[0].Opponent)
+
+	_, err = assign(1, 1)
 	assert.NoError(t, err)
 	assert.Equal(t, "Alice", deckByPlayer(t, s, "Bob").Matches[0].Opponent)
 }

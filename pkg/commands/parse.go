@@ -286,8 +286,9 @@ func cardsFromDeckFile(deckFile string) ([]types.Card, []types.Card, error) {
 }
 
 // writeDeck writes a parsed deck into a draft. A deck the draft already has,
-// found by its path or else by player name, keeps its ID, notes, record, and
-// annotations; a new deck gets the next ID and a file named for it.
+// found by its path or else by player ID, keeps its ID, player, notes, record,
+// and annotations; a new deck gets the next ID and a file named for it. A deck
+// with no player ID is an anonymous seat.
 func writeDeck(d *types.Deck, draft drafts.Draft) error {
 	outdir := draft.Dir
 
@@ -305,13 +306,9 @@ func writeDeck(d *types.Deck, draft drafts.Draft) error {
 		}
 	}
 
-	if len(d.Player) == 0 {
-		return fmt.Errorf("Player name is required to write deck")
-	}
-
 	path := d.Metadata.Path
-	if path == "" {
-		_, existingPath, err := drafts.FindDeckByPlayer(outdir, d.Player)
+	if path == "" && d.PlayerID != 0 {
+		_, existingPath, err := drafts.FindDeckByPlayerID(outdir, d.PlayerID)
 		if err != nil && !errors.Is(err, drafts.ErrNotFound) {
 			return err
 		}
@@ -329,7 +326,7 @@ func writeDeck(d *types.Deck, draft drafts.Draft) error {
 		}
 		d.ID = existing.ID
 		d.Notes = existing.Notes
-		d.Player = existing.Player
+		d.PlayerID = existing.PlayerID
 		d.Labels = existing.Labels
 		d.MacroArchetype = existing.MacroArchetype
 		d.Matches = existing.Matches
@@ -351,21 +348,11 @@ func writeDeck(d *types.Deck, draft drafts.Draft) error {
 	d.Metadata.DraftID = draft.ID
 	d.Metadata.Path = path
 
-	// Ensure capitalization is consistent for player names (all lowercase).
-	d.Player = strings.ToLower(d.Player)
-	for i := range d.Matches {
-		d.Matches[i].Opponent = strings.ToLower(d.Matches[i].Opponent)
-		d.Matches[i].Winner = strings.ToLower(d.Matches[i].Winner)
-		for j := range d.Matches[i].Games {
-			d.Matches[i].Games[j].Opponent = strings.ToLower(d.Matches[i].Games[j].Opponent)
-			d.Matches[i].Games[j].Winner = strings.ToLower(d.Matches[i].Games[j].Winner)
-		}
-	}
-
 	logc := logrus.WithFields(logrus.Fields{
-		"player": d.Player,
-		"outdir": outdir,
-		"count":  d.PickCount(),
+		"player_id": d.PlayerID,
+		"deck":      d.ID,
+		"outdir":    outdir,
+		"count":     d.PickCount(),
 	})
 	logc.Infof("Writing deck")
 
@@ -381,7 +368,7 @@ func writeDeck(d *types.Deck, draft drafts.Draft) error {
 		if filepath.Dir(src) == outdir {
 			return src
 		}
-		dst := fmt.Sprintf("%s/%s%s%s", outdir, d.Player, suffix, fileSuffix(src))
+		dst := fmt.Sprintf("%s/%d%s%s", outdir, d.ID, suffix, fileSuffix(src))
 		if err := copyFile(*logc, src, dst); err != nil {
 			logc.WithError(err).Warnf("Failed to copy %s file", label)
 		}

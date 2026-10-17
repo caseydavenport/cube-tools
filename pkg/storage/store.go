@@ -2,11 +2,12 @@ package storage
 
 import (
 	"encoding/json"
-	"strings"
+	"fmt"
 	"sync"
 	"time"
 
 	"github.com/caseydavenport/cube-tools/pkg/design"
+	"github.com/caseydavenport/cube-tools/pkg/players"
 	"github.com/caseydavenport/cube-tools/pkg/types"
 )
 
@@ -16,6 +17,7 @@ import (
 type Store struct {
 	sync.Mutex
 	backend DeckBackend
+	players PlayerSource
 	caches  map[string]*cubeCache
 }
 
@@ -29,9 +31,50 @@ type cubeCache struct {
 // reloads it from the backend.
 const cacheTTL = 10 * time.Second
 
-// NewStore wraps a backend with caching and enrichment.
-func NewStore(backend DeckBackend) *Store {
-	return &Store{backend: backend}
+// NewStore wraps a backend with caching, name resolution and enrichment.
+func NewStore(backend DeckBackend, opts ...StoreOption) *Store {
+	s := &Store{backend: backend}
+	for _, o := range opts {
+		o(s)
+	}
+	return s
+}
+
+// playerList returns the current player list, or nil when the Store has no
+// source.
+func (s *Store) playerList() (*players.List, error) {
+	if s.players == nil {
+		return nil, nil
+	}
+	return s.players.Players()
+}
+
+// resolve fills in display names on decks, which may span several drafts.
+func (s *Store) resolve(decks []*Deck) error {
+	pl, err := s.playerList()
+	if err != nil {
+		return err
+	}
+	byDraft := map[int][]*types.Deck{}
+	var order []int
+	for _, d := range decks {
+		if _, ok := byDraft[d.Metadata.DraftID]; !ok {
+			order = append(order, d.Metadata.DraftID)
+		}
+		byDraft[d.Metadata.DraftID] = append(byDraft[d.Metadata.DraftID], &d.Deck)
+	}
+	for _, id := range order {
+		pl.ResolveDraft(byDraft[id])
+	}
+	return nil
+}
+
+// InvalidatePlayers drops every cached cube, so the next read shows player
+// names as they are now. Call it after renaming a player.
+func (s *Store) InvalidatePlayers() {
+	s.Lock()
+	defer s.Unlock()
+	s.caches = nil
 }
 
 func (s *Store) List(cube string, req *DecksRequest) ([]*Deck, error) {
@@ -55,6 +98,9 @@ func (s *Store) cacheForLocked(cube string) (*cubeCache, error) {
 	}
 	loaded, err := s.backend.RawDecks(cube)
 	if err != nil {
+		return nil, err
+	}
+	if err := s.resolve(loaded); err != nil {
 		return nil, err
 	}
 	Enrich(loaded)
@@ -81,6 +127,9 @@ func (s *Store) UpdateDeckMeta(cube string, w DeckMetaWrite) (*Deck, error) {
 	if err != nil {
 		return nil, err
 	}
+	if err := s.resolve(decks); err != nil {
+		return nil, err
+	}
 	target := findDeck(decks, w.DeckID)
 	if target == nil {
 		return nil, ErrDeckNotFound
@@ -101,13 +150,13 @@ func (s *Store) UpdateDeckMeta(cube string, w DeckMetaWrite) (*Deck, error) {
 	return changed[0], nil
 }
 
-// SaveDeckRecord applies a record edit and reconciles the rest of the draft:
-// references to a renamed player follow the new name, and the deck's per-round
-// results are mirrored onto its opponents. It saves every changed deck,
-// invalidates the cube's cache, and returns them freshly enriched. It returns
-// ErrUnsupported if the backend can't write, ErrDeckNotFound if the draft has
-// no deck with e.DeckID, and ErrPlayerExists if the new name (compared without
-// case) belongs to another deck in the draft.
+// SaveDeckRecord applies a record edit: it reassigns the deck's player and
+// replaces its matches, mirroring the per-round results onto its opponents.
+// It saves every changed deck, invalidates the cube's cache, and returns them
+// freshly enriched. It returns ErrUnsupported if the backend can't write,
+// ErrDeckNotFound if the draft has no deck with e.DeckID, ErrUnknownPlayer for
+// a player ID not in the list, and ErrPlayerExists if another deck in the
+// draft already has that player.
 func (s *Store) SaveDeckRecord(cube string, e RecordEdit) ([]*Deck, error) {
 	backend, ok := s.backend.(DraftBackend)
 	if !ok {
@@ -123,28 +172,57 @@ func (s *Store) SaveDeckRecord(cube string, e RecordEdit) ([]*Deck, error) {
 	if target == nil {
 		return nil, ErrDeckNotFound
 	}
-	if e.Player != "" {
-		for _, d := range decks {
-			if d != target && strings.EqualFold(d.Player, e.Player) {
-				return nil, ErrPlayerExists
-			}
+	if e.PlayerID != nil {
+		if err := s.assignPlayer(decks, target, *e.PlayerID); err != nil {
+			return nil, err
 		}
 	}
-
-	tds := make([]*types.Deck, len(decks))
-	byTD := make(map[*types.Deck]*Deck, len(decks))
-	for i, d := range decks {
-		tds[i] = &d.Deck
-		byTD[&d.Deck] = d
+	if err := s.resolve(decks); err != nil {
+		return nil, err
 	}
-	var changed []*Deck
-	for _, td := range types.ReconcileRecord(tds, e.DeckID, e.Player, e.Matches) {
-		changed = append(changed, byTD[td])
+
+	changed := []*Deck{target}
+	if e.Matches != nil {
+		tds := make([]*types.Deck, len(decks))
+		byTD := make(map[*types.Deck]*Deck, len(decks))
+		for i, d := range decks {
+			tds[i] = &d.Deck
+			byTD[&d.Deck] = d
+		}
+		changed = changed[:0]
+		for _, td := range types.ReconcileRecord(tds, e.DeckID, e.Matches) {
+			changed = append(changed, byTD[td])
+		}
 	}
 	if err := backend.SaveDecks(cube, e.DraftID, changed); err != nil {
 		return nil, err
 	}
 	return s.reloadLocked(cube, e.DraftID, changed)
+}
+
+// assignPlayer points target at playerID, or makes it anonymous for zero,
+// after checking the player exists and holds no other deck in the draft.
+func (s *Store) assignPlayer(decks []*Deck, target *Deck, playerID int) error {
+	if playerID != 0 {
+		pl, err := s.playerList()
+		if err != nil {
+			return err
+		}
+		if _, ok := pl.ByID(playerID); pl == nil || !ok {
+			return fmt.Errorf("%w: id %d", ErrUnknownPlayer, playerID)
+		}
+		for _, d := range decks {
+			if d != target && d.PlayerID == playerID {
+				return ErrPlayerExists
+			}
+		}
+	}
+	target.PlayerID = playerID
+
+	// Clear the stale name so resolving gives the new player's name or, for
+	// an anonymous deck, its seat label.
+	target.Player = ""
+	return nil
 }
 
 // reloadLocked drops the cube's cache after a write and returns the freshly

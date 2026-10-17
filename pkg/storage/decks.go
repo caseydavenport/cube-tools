@@ -2,11 +2,13 @@ package storage
 
 import (
 	"errors"
+	"fmt"
 	"strings"
 	"time"
 
 	"github.com/caseydavenport/cube-tools/pkg/design"
 	"github.com/caseydavenport/cube-tools/pkg/graph"
+	"github.com/caseydavenport/cube-tools/pkg/players"
 	"github.com/caseydavenport/cube-tools/pkg/server/query"
 	"github.com/caseydavenport/cube-tools/pkg/types"
 	"github.com/sirupsen/logrus"
@@ -87,6 +89,20 @@ type DecksRequest struct {
 }
 
 func (d *Deck) GetPlayer() string { return d.Player }
+
+// PersonKey identifies who played the deck, for counting distinct people: the
+// player ID when known, the draft and seat for an anonymous deck, and the
+// lowercased name for a deck from a source without player IDs.
+func (d *Deck) PersonKey() string {
+	switch {
+	case d.PlayerID != 0:
+		return fmt.Sprintf("id:%d", d.PlayerID)
+	case d.Player == players.SeatLabel(d.ID):
+		return fmt.Sprintf("seat:%d:%d", d.Metadata.DraftID, d.ID)
+	default:
+		return "name:" + strings.ToLower(d.Player)
+	}
+}
 func (d *Deck) GetLabels() []string {
 	if d.MacroArchetype != "" {
 		return append([]string{d.MacroArchetype}, d.Labels...)
@@ -169,14 +185,15 @@ type DeckMetaWrite struct {
 	Notes          *string
 }
 
-// RecordEdit carries a change to a deck's player name and match record. Player
-// empty leaves the name unchanged; Matches nil leaves the record unchanged, an
-// empty non-nil slice clears it.
+// RecordEdit carries a change to a deck's player and match record. PlayerID
+// nil leaves the player unchanged, zero makes the deck an anonymous seat, and
+// anything else assigns that player. Matches nil leaves the record unchanged;
+// an empty non-nil slice clears it.
 type RecordEdit struct {
-	DraftID int
-	DeckID  int
-	Player  string
-	Matches []types.Match
+	DraftID  int
+	DeckID   int
+	PlayerID *int
+	Matches  []types.Match
 }
 
 func filter(decks []*Deck, r *DecksRequest) []*Deck {

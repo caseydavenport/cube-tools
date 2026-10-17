@@ -5,6 +5,7 @@ import (
 	"errors"
 
 	"github.com/caseydavenport/cube-tools/pkg/design"
+	"github.com/caseydavenport/cube-tools/pkg/players"
 )
 
 // ErrUnsupported is returned by Store when the active backend does not implement
@@ -12,9 +13,13 @@ import (
 // write deck metadata).
 var ErrUnsupported = errors.New("operation not supported by this storage backend")
 
-// ErrPlayerExists is returned when a record edit would rename a deck to a
-// player name another deck in the same draft already has.
-var ErrPlayerExists = errors.New("another deck in this draft already has that player name")
+// ErrPlayerExists is returned when a record edit would assign a deck to a
+// player who already has another deck in the same draft.
+var ErrPlayerExists = errors.New("that player already has a deck in this draft")
+
+// ErrUnknownPlayer is returned when a record edit names a player ID that isn't
+// in the player list.
+var ErrUnknownPlayer = players.ErrUnknownPlayer
 
 // DeckBackend is a raw data source for one cube's decks. It performs no
 // enrichment, caching, or filtering; Store layers those on top. Every backend
