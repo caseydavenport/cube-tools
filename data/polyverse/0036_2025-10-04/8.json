@@ -1,0 +1,129 @@
+{
+ "metadata": {
+  "path": "data/polyverse/0036_2025-10-04/8.json",
+  "draft_id": 36
+ },
+ "id": 8,
+ "macro_archetype": "midrange",
+ "labels": [
+  "spells"
+ ],
+ "player": "2025-10-04_ccc2025_3-p8",
+ "date": "2025-10-04",
+ "matches": [
+  {
+   "opponent": "2025-10-04_ccc2025_3-p4",
+   "opponent_id": 4,
+   "round": 1,
+   "wins": 0,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "2025-10-04_ccc2025_3-p4",
+     "winner": "2025-10-04_ccc2025_3-p4"
+    },
+    {
+     "opponent": "2025-10-04_ccc2025_3-p4",
+     "winner": "2025-10-04_ccc2025_3-p4"
+    }
+   ],
+   "winner": "2025-10-04_ccc2025_3-p4"
+  },
+  {
+   "opponent": "2025-10-04_ccc2025_3-p2",
+   "opponent_id": 2,
+   "round": 2,
+   "wins": 2,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "2025-10-04_ccc2025_3-p2",
+     "winner": "2025-10-04_ccc2025_3-p8"
+    },
+    {
+     "opponent": "2025-10-04_ccc2025_3-p2",
+     "winner": "2025-10-04_ccc2025_3-p8"
+    },
+    {
+     "opponent": "2025-10-04_ccc2025_3-p2",
+     "winner": "2025-10-04_ccc2025_3-p2"
+    }
+   ],
+   "winner": "2025-10-04_ccc2025_3-p8"
+  },
+  {
+   "opponent": "2025-10-04_ccc2025_3-p3",
+   "opponent_id": 3,
+   "round": 3,
+   "wins": 2,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "2025-10-04_ccc2025_3-p3",
+     "winner": "2025-10-04_ccc2025_3-p8"
+    },
+    {
+     "opponent": "2025-10-04_ccc2025_3-p3",
+     "winner": "2025-10-04_ccc2025_3-p8"
+    },
+    {
+     "opponent": "2025-10-04_ccc2025_3-p3",
+     "winner": "2025-10-04_ccc2025_3-p3"
+    }
+   ],
+   "winner": "2025-10-04_ccc2025_3-p8"
+  }
+ ],
+ "mainboard": [],
+ "sideboard": [],
+ "pool": [
+  "Flames of the Firebrand",
+  "Man-o'-War",
+  "Dreamtide Whale",
+  "Flametongue Kavu",
+  "Sphinx of Forgotten Lore",
+  "Spell Snare",
+  "Faithless Looting",
+  "Serum Visions",
+  "Brainstorm",
+  "Saheeli, Sublime Artificer",
+  "Grim Lavamancer",
+  "Stern Scolding",
+  "Treasure Cruise",
+  "Ponder",
+  "Seal of Fire",
+  "Daze",
+  "Lava Dart",
+  "Unsummon",
+  "Consider",
+  "Seal of Removal",
+  "Ethereal Forager",
+  "Manamorphose",
+  "Abrade",
+  "Perilous Myr",
+  "Bedlam Reveler",
+  "Goldmeadow Harrier",
+  "Mayhem Devil",
+  "Blood Crypt",
+  "Mosquito Guard",
+  "Engineered Explosives",
+  "Harvester of Misery",
+  "Umbral Collar Zealot",
+  "Sandstorm Salvager",
+  "Ride's End",
+  "Moon-Circuit Hacker",
+  "Fiery Islet",
+  "Thundering Falls",
+  "Scalding Tarn",
+  "Otawara, Soaring City",
+  "Renegade Rallier",
+  "Miscalculation",
+  "Condescend",
+  "Steam Vents",
+  "Wooded Foothills",
+  "Arid Mesa"
+ ]
+}

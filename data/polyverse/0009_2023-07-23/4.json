@@ -1,0 +1,106 @@
+{
+ "metadata": {
+  "path": "data/polyverse/0009_2023-07-23/4.json",
+  "draft_id": 9,
+  "combined_file": "data/polyverse/0009_2023-07-23/matt.csv"
+ },
+ "id": 4,
+ "macro_archetype": "midrange",
+ "labels": [
+  "sacrifice",
+  "graveyard",
+  "vampire"
+ ],
+ "player": "matt",
+ "date": "2023-07-23",
+ "matches": [
+  {
+   "opponent": "casey",
+   "opponent_id": 1,
+   "round": 3,
+   "wins": 0,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "casey",
+     "winner": "casey"
+    }
+   ],
+   "winner": "casey"
+  },
+  {
+   "opponent": "grant",
+   "opponent_id": 2,
+   "round": 2,
+   "wins": 0,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "grant",
+     "winner": "grant"
+    }
+   ],
+   "winner": "grant"
+  },
+  {
+   "opponent": "jen",
+   "opponent_id": 3,
+   "round": 1,
+   "wins": 0,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "jen",
+     "winner": "jen"
+    }
+   ],
+   "winner": "jen"
+  }
+ ],
+ "mainboard": [
+  "Mountain",
+  "Mountain",
+  "Sanctum Seeker",
+  "Pharika's Spawn",
+  "Verdant Catacombs",
+  "The Long Reach of Night // Animus of Night's Reach",
+  "Forest",
+  "Forest",
+  "Forest",
+  "Forest",
+  "Forest",
+  "Malakir Bloodwitch",
+  "Chainweb Aracnir",
+  "Cankerbloom",
+  "Uncharted Haven",
+  "Rise from the Grave",
+  "Acidic Slime",
+  "Swamp",
+  "Swamp",
+  "Swamp",
+  "Swamp",
+  "Swamp",
+  "Swamp",
+  "Swamp",
+  "Blade of the Bloodchief",
+  "Butcher of Malakir",
+  "Executioner's Capsule",
+  "Serpent-Blade Assailant",
+  "Cut Down",
+  "Mayhem Devil",
+  "Doomgape",
+  "Grim Discovery",
+  "Woodland Cemetery",
+  "Nissa, Who Shakes the World",
+  "Liliana, Death's Majesty",
+  "Sprout Swarm",
+  "Vampire Aristocrat",
+  "Stitch Together",
+  "Slimefoot, the Stowaway",
+  "Knight of the Ebon Legion"
+ ],
+ "sideboard": []
+}

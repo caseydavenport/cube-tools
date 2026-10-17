@@ -1,0 +1,132 @@
+{
+ "metadata": {
+  "path": "data/polyverse/0028_2025-06-29/4.json",
+  "draft_id": 28,
+  "combined_file": "data/polyverse/0028_2025-06-29/kevin.csv"
+ },
+ "id": 4,
+ "macro_archetype": "midrange",
+ "labels": [
+  "sacrifice"
+ ],
+ "player": "kevin",
+ "date": "2025-06-29",
+ "notes": "Kevin went for a sacrifice build, and his only success came against my pretty unimpressive Tameshi deck. This was a larger build than I usually expect to see for a sacrifice themed build, going into green instead of white as its splash.\n\nHe did manage to pull off an infinite combo to finish me off, just in time too! Murderous Redcap + Goblin Bombardment + Renata did me in.\n\nSome other notes:\n\n- Gilded Goose is excellent. Using Esika's Chariot to copy the food was clutch in my game as well.\n- The Huntsman's Redemption is great for the mini-overrun, but the second chapter rarely seems like the right thing to do.\n- Six is very cool. It was fun in the matchup with my Tameshi deck, as we both had recursion engines we were trying to balance.\n",
+ "matches": [
+  {
+   "opponent": "casey",
+   "opponent_id": 2,
+   "round": 1,
+   "wins": 2,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "casey",
+     "winner": "kevin"
+    },
+    {
+     "opponent": "casey",
+     "winner": "kevin"
+    }
+   ],
+   "winner": "kevin"
+  },
+  {
+   "opponent": "mehdi",
+   "opponent_id": 5,
+   "round": 2,
+   "wins": 0,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "mehdi",
+     "winner": "mehdi"
+    },
+    {
+     "opponent": "mehdi",
+     "winner": "mehdi"
+    }
+   ],
+   "winner": "mehdi"
+  },
+  {
+   "opponent": "zephyr",
+   "opponent_id": 8,
+   "round": 3,
+   "wins": 0,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "zephyr",
+     "winner": "zephyr"
+    },
+    {
+     "opponent": "zephyr",
+     "winner": "zephyr"
+    }
+   ],
+   "winner": "zephyr"
+  }
+ ],
+ "mainboard": [
+  "Six",
+  "Augur of Autumn",
+  "Wrenn and Six",
+  "Lotus Cobra",
+  "Wooded Foothills",
+  "Renata, Called to the Hunt",
+  "Stomping Ground",
+  "Murderous Redcap",
+  "Goblin Bombardment",
+  "Mayhem Devil",
+  "Tireless Tracker",
+  "Tasigur, the Golden Fang",
+  "Languish",
+  "Unearth",
+  "Lord Skitter, Sewer King",
+  "Ulcerate",
+  "Commercial District",
+  "Magma Jet",
+  "Gilded Goose",
+  "The Huntsman's Redemption",
+  "Krenko, Tin Street Kingpin",
+  "Ignoble Hierarch",
+  "Mountain",
+  "Mountain",
+  "Scalding Tarn",
+  "Chandra, Hope's Beacon",
+  "Esika's Chariot",
+  "Flame Slash",
+  "Bitterblossom",
+  "Forest",
+  "Forest",
+  "Forest",
+  "Forest",
+  "Dark Confidant",
+  "Prismatic Vista",
+  "Overgrown Tomb",
+  "Blood Crypt",
+  "Swamp",
+  "Swamp",
+  "Swamp"
+ ],
+ "sideboard": [
+  "Shark Typhoon",
+  "Pestermite",
+  "Kitchen Finks",
+  "Llanowar Elves",
+  "Fact or Fiction",
+  "Mosquito Guard",
+  "Mystic Sanctuary",
+  "Watery Grave",
+  "Restless Vinestalk",
+  "Roaring Earth",
+  "Wilderness Reclamation",
+  "Quirion Beastcaller",
+  "Searslicer Goblin",
+  "Tidehollow Sculler"
+ ]
+}

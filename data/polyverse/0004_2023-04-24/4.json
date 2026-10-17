@@ -1,0 +1,67 @@
+{
+ "metadata": {
+  "path": "data/polyverse/0004_2023-04-24/4.json",
+  "draft_id": 4,
+  "combined_file": "data/polyverse/0004_2023-04-24/xander.csv"
+ },
+ "id": 4,
+ "macro_archetype": "control",
+ "labels": [
+  "voltron"
+ ],
+ "player": "xander",
+ "date": "2023-04-24",
+ "matches": [
+  {
+   "opponent": "",
+   "wins": 1,
+   "losses": 2,
+   "draws": 0
+  }
+ ],
+ "mainboard": [
+  "Vines of Vastwood",
+  "Fortified Village",
+  "Outrider en-Kor",
+  "Terramorphic Expanse",
+  "Ward of Bones",
+  "Swans of Bryn Argoll",
+  "Canopy Cover",
+  "Sunpetal Grove",
+  "Flickerwisp",
+  "Galepowder Mage",
+  "Lightning Greaves",
+  "Wickerbough Elder",
+  "Hunting Triad",
+  "Arctic Flats",
+  "Dawn Charm",
+  "Emergence Zone",
+  "Alseid of Life's Bounty",
+  "Quietus Spike",
+  "Battlegrace Angel",
+  "Knight of Glory",
+  "Arasta of the Endless Web",
+  "Forest",
+  "Forest",
+  "Forest",
+  "Forest",
+  "Forest",
+  "Forest",
+  "Forest",
+  "Shinewend",
+  "Twinblade Slasher",
+  "Journey to Nowhere",
+  "The Wanderer",
+  "Lion Sash",
+  "Untamed Kavu",
+  "Sixth Sense",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Prison Term"
+ ],
+ "sideboard": []
+}

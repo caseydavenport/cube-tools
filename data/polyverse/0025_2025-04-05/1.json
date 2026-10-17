@@ -1,0 +1,97 @@
+{
+ "metadata": {
+  "path": "data/polyverse/0025_2025-04-05/1.json",
+  "draft_id": 25,
+  "combined_file": "data/polyverse/0025_2025-04-05/casey.txt"
+ },
+ "id": 1,
+ "macro_archetype": "aggro",
+ "labels": [
+  "saga",
+  "artifacts"
+ ],
+ "player": "casey",
+ "date": "2025-04-05",
+ "notes": "Only played one game, but it didn't go super well for me. I made an early mistake which cost me this one. Namely, I tried to remove a [[Tarmogoyf]] and failed to see that my removal spell would buff it. I ended up losing [[Esper Sentinel]] in the aftermath, which even further buffed the 'Goyf. I eventually stabilized, but it cost me a lot to do so.\n\n- [[Esper Sentinel]] felt really good until I needlessly threw it away.\n- [[Lost Jitte]] was a bit underwhelming, but it came out once the game was already effectively lost to hard to say too much.\n- [[Harm's Way]] is what lost me this one. It's a nifty trick sometimes, but this felt pretty bad.\n",
+ "matches": [
+  {
+   "opponent": "dom",
+   "opponent_id": 2,
+   "round": 1,
+   "wins": 0,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "dom",
+     "winner": "dom"
+    }
+   ],
+   "winner": "dom"
+  }
+ ],
+ "mainboard": [
+  "Urza's Saga",
+  "Esper Sentinel",
+  "Grim Lavamancer",
+  "Harm's Way",
+  "Soul Partition",
+  "Candy Trail",
+  "Luminarch Aspirant",
+  "Twinshot Sniper",
+  "Lizard Blades",
+  "Lava Dart",
+  "Flames of the Firebrand",
+  "Elspeth's Smite",
+  "Lost Jitte",
+  "Cheeky House-Mouse // Squeak By",
+  "Monastery Swiftspear",
+  "Oust",
+  "Flame Jab",
+  "Spirited Companion",
+  "Scalding Tarn",
+  "Marsh Flats",
+  "Sunbaked Canyon",
+  "Clarion Spirit",
+  "Manamorphose",
+  "Blazing Rootwalla",
+  "Abrade",
+  "Arid Mesa",
+  "Inti, Seneschal of the Sun",
+  "Welcoming Vampire",
+  "Wooded Foothills",
+  "Sparring Construct",
+  "Sacred Foundry",
+  "Crimson Wisps",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Mountain"
+ ],
+ "sideboard": [
+  "Grim Flayer",
+  "Boseiju, Who Endures",
+  "Llanowar Elves",
+  "Sprite Dragon",
+  "Abundant Harvest",
+  "Moon-Circuit Hacker",
+  "Six",
+  "No More Lies",
+  "Saheeli, Sublime Artificer",
+  "Brainstorm",
+  "Aether Spellbomb",
+  "Merfolk Looter",
+  "Infernal Grasp",
+  "Murderous Cut",
+  "Grim Bauble",
+  "Canyon Slough",
+  "Mesmeric Fiend",
+  "Prismatic Vista",
+  "Marsh Flats",
+  "Wooded Foothills"
+ ]
+}

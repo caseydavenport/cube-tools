@@ -1,0 +1,140 @@
+{
+ "metadata": {
+  "path": "data/polyverse/0029_2025-08-17/5.json",
+  "draft_id": 29,
+  "combined_file": "data/polyverse/0029_2025-08-17/kevin.csv"
+ },
+ "id": 5,
+ "macro_archetype": "aggro",
+ "labels": [
+  "equipment",
+  "valiant"
+ ],
+ "player": "kevin",
+ "date": "2025-08-17",
+ "notes": "A very strong boros aggro deck. This deck did cool stuff as well. Just a couple that I witnessed personally:\n\n- Launching [[Embercleave]] onto [[Heartfire Hero]] for a trigger and power boost.\n- Combining [[Clarion Spirit]] with [[Warleader's Call]] for lots of triggers.\n\nKevin said he enjoyed piloting the deck. I'm glad to see an aggro deck 3-0 for the first time in a while!\n",
+ "matches": [
+  {
+   "opponent": "ben",
+   "opponent_id": 1,
+   "round": 1,
+   "wins": 2,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "ben",
+     "winner": "kevin"
+    },
+    {
+     "opponent": "ben",
+     "winner": "kevin"
+    },
+    {
+     "opponent": "ben",
+     "winner": "ben"
+    }
+   ],
+   "winner": "kevin"
+  },
+  {
+   "opponent": "brianfl",
+   "opponent_id": 2,
+   "round": 2,
+   "wins": 2,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "brianfl",
+     "winner": "kevin"
+    },
+    {
+     "opponent": "brianfl",
+     "winner": "kevin"
+    }
+   ],
+   "winner": "kevin"
+  },
+  {
+   "opponent": "casey",
+   "opponent_id": 3,
+   "round": 3,
+   "wins": 2,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "casey",
+     "winner": "kevin"
+    },
+    {
+     "opponent": "casey",
+     "winner": "kevin"
+    }
+   ],
+   "winner": "kevin"
+  }
+ ],
+ "mainboard": [
+  "Warleader's Call",
+  "Clarion Spirit",
+  "Kellan, the Fae-Blooded // Birthright Boon",
+  "Anje's Ravager",
+  "Cathar Commando",
+  "Dreadhorde Arcanist",
+  "Spirited Companion",
+  "Marsh Flats",
+  "Heartfire Hero",
+  "Den of the Bugbear",
+  "Fiery Temper",
+  "Raise the Alarm",
+  "Abrade",
+  "Eiganjo, Seat of the Empire",
+  "Rabbit Battery",
+  "Reprieve",
+  "Lightning Helix",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Welcoming Vampire",
+  "Luminarch Aspirant",
+  "Seasoned Hallowblade",
+  "Krenko, Tin Street Kingpin",
+  "Oust",
+  "Flame Slash",
+  "Sacred Foundry",
+  "Firebolt",
+  "Phelia, Exuberant Shepherd",
+  "Flames of the Firebrand",
+  "The Wandering Emperor",
+  "Embercleave",
+  "Lion Sash",
+  "Recruitment Officer",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Mountain"
+ ],
+ "sideboard": [
+  "Cloudgoat Ranger",
+  "Knight of the Ebon Legion",
+  "Mesmeric Fiend",
+  "Dragonsguard Elite",
+  "Perilous Myr",
+  "Aether Spellbomb",
+  "Containment Construct",
+  "Mystic Confluence",
+  "Daze",
+  "Lizard Blades",
+  "Meadowboon",
+  "Comet Storm",
+  "Mizzium Tank",
+  "Mishra's Bauble"
+ ]
+}

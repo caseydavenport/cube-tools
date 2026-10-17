@@ -1,0 +1,78 @@
+{
+ "metadata": {
+  "path": "data/polyverse/0048_2026-10-13/2.json",
+  "draft_id": 48
+ },
+ "id": 2,
+ "macro_archetype": "aggro",
+ "labels": [
+  "recursion",
+  "shadow"
+ ],
+ "player": "Jon Miller",
+ "date": "2026-10-13",
+ "notes": "Dreadhorde Arcanist was great here in the match against me. The 3 toughness was super relevant, and was able to re-cast many of his 1-mana instants / sorceries. \n\nBloodsky Berserker was also quite valuable, getting 4 counters quite easily. \n\nEmbercleave was always a game changing surprise, even on a 1/1. Not unbeatable but certainly tough!\n\nDeath's Shadow was solid. \n\nFun deck to play against. ",
+ "matches": [
+  {
+   "opponent": "Casey",
+   "opponent_id": 1,
+   "wins": 1,
+   "losses": 1,
+   "draws": 0
+  },
+  {
+   "opponent": "",
+   "wins": 1,
+   "losses": 0,
+   "draws": 0
+  },
+  {
+   "opponent": "",
+   "wins": 0,
+   "losses": 1,
+   "draws": 0
+  }
+ ],
+ "mainboard": [
+  "Accursed Marauder",
+  "Alesha, Who Laughs at Fate",
+  "Bloodchief's Thirst",
+  "Bloodsky Berserker",
+  "Dark Confidant",
+  "Death's Shadow",
+  "Deathrite Shaman",
+  "Dreadhorde Arcanist",
+  "Embercleave",
+  "Faithless Looting",
+  "Fatal Push",
+  "Inquisition of Kozilek",
+  "Kitesail Freebooter",
+  "Knight of the Ebon Legion",
+  "Liliana of the Veil",
+  "Lotus Cobra",
+  "Mosswood Dreadknight // Dread Whispers",
+  "Nethergoyf",
+  "Questing Druid // Seek the Beast",
+  "Rabbit Battery",
+  "Reckless Charge",
+  "Reinforced Ronin",
+  "Seasoned Pyromancer",
+  "Sedgemoor Witch",
+  "Sylvan Library",
+  "Tenacious Underdog",
+  "Unearth",
+  "Swamp",
+  "Swamp",
+  "Swamp",
+  "Swamp",
+  "Swamp",
+  "Forest",
+  "Forest",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Mountain"
+ ],
+ "sideboard": []
+}

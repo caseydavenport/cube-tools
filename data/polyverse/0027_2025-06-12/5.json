@@ -1,0 +1,135 @@
+{
+ "metadata": {
+  "path": "data/polyverse/0027_2025-06-12/5.json",
+  "draft_id": 27,
+  "combined_file": "data/polyverse/0027_2025-06-12/kenny.csv"
+ },
+ "id": 5,
+ "macro_archetype": "aggro",
+ "labels": [
+  "sacrifice",
+  "token"
+ ],
+ "player": "kenny",
+ "date": "2025-06-12",
+ "matches": [
+  {
+   "opponent": "casey",
+   "opponent_id": 1,
+   "round": 1,
+   "wins": 2,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "casey",
+     "winner": "kenny"
+    },
+    {
+     "opponent": "casey",
+     "winner": "kenny"
+    }
+   ],
+   "winner": "kenny"
+  },
+  {
+   "opponent": "colton",
+   "opponent_id": 2,
+   "round": 2,
+   "wins": 2,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "colton",
+     "winner": "kenny"
+    },
+    {
+     "opponent": "colton",
+     "winner": "kenny"
+    }
+   ],
+   "winner": "kenny"
+  },
+  {
+   "opponent": "kevin",
+   "opponent_id": 6,
+   "round": 3,
+   "wins": 2,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "kevin",
+     "winner": "kenny"
+    },
+    {
+     "opponent": "kevin",
+     "winner": "kenny"
+    },
+    {
+     "opponent": "kevin",
+     "winner": "kevin"
+    }
+   ],
+   "winner": "kenny"
+  }
+ ],
+ "mainboard": [
+  "Bloodsoaked Champion",
+  "Cloudgoat Ranger",
+  "Warleader's Call",
+  "Knight of the Ebon Legion",
+  "Clarion Spirit",
+  "Monastery Mentor",
+  "Faerie Guidemother // Gift of the Fae",
+  "Godless Shrine",
+  "Seasoned Pyromancer",
+  "Goblin Bombardment",
+  "Mayhem Devil",
+  "Cut Down",
+  "Esper Sentinel",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Woe Strider",
+  "Swamp",
+  "Swamp",
+  "Swamp",
+  "Swamp",
+  "Elegant Parlor",
+  "Welcoming Vampire",
+  "Luminarch Aspirant",
+  "Seasoned Hallowblade",
+  "Werefox Bodyguard",
+  "Mountain",
+  "Arid Mesa",
+  "Sacred Foundry",
+  "Sacred Foundry",
+  "Prismatic Vista",
+  "Bloodstained Mire",
+  "Silent Clearing",
+  "Marionette Apprentice",
+  "Legion's Landing // Adanto, the First Fort",
+  "Mother of Runes",
+  "The Wandering Emperor",
+  "Cheeky House-Mouse // Squeak By",
+  "Journey to Nowhere",
+  "Tidehollow Sculler"
+ ],
+ "sideboard": [
+  "The Binding of the Titans",
+  "Archmage's Charm",
+  "Kellan, the Fae-Blooded // Birthright Boon",
+  "Phoenix Chick",
+  "Spirited Companion",
+  "Fiery Temper",
+  "Prismatic Ending",
+  "Viscera Seer",
+  "Liliana of the Veil",
+  "Oust",
+  "Duress",
+  "Goblin Guide",
+  "Lost Jitte"
+ ]
+}

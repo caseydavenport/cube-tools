@@ -1,0 +1,66 @@
+{
+ "metadata": {
+  "path": "data/polyverse/0006_2023-05-31/3.json",
+  "draft_id": 6,
+  "combined_file": "data/polyverse/0006_2023-05-31/jen.csv"
+ },
+ "id": 3,
+ "macro_archetype": "midrange",
+ "labels": [
+  "token",
+  "flicker"
+ ],
+ "player": "jen",
+ "date": "2023-05-31",
+ "matches": [
+  {
+   "opponent": "",
+   "wins": 2,
+   "losses": 2,
+   "draws": 0
+  }
+ ],
+ "mainboard": [
+  "Cloudgoat Ranger",
+  "Jiang Yanggu, Wildcrafter",
+  "Paladin of the Bloodstained",
+  "Pledge of Unity",
+  "Fortified Village",
+  "Doomgape",
+  "Blinding Mage",
+  "Cloudshift",
+  "Sprouting Renewal",
+  "Galepowder Mage",
+  "Chatter of the Squirrel",
+  "Dawn Charm",
+  "Raise the Alarm",
+  "Forest",
+  "Forest",
+  "Forest",
+  "Forest",
+  "Forest",
+  "Forest",
+  "Shanna, Sisay's Legacy",
+  "Sparring Construct",
+  "Soul Warden",
+  "Woodland Champion",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Patrol Signaler",
+  "Throne of the God-Pharaoh",
+  "Gwyllion Hedge-Mage",
+  "Tukatongue Thallid",
+  "Anointed Procession",
+  "Verdant Force",
+  "Journey to Nowhere",
+  "Restoration Angel"
+ ],
+ "sideboard": []
+}

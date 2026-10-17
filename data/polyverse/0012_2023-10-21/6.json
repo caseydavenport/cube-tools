@@ -1,0 +1,123 @@
+{
+ "metadata": {
+  "path": "data/polyverse/0012_2023-10-21/6.json",
+  "draft_id": 12,
+  "combined_file": "data/polyverse/0012_2023-10-21/xander.txt"
+ },
+ "id": 6,
+ "macro_archetype": "midrange",
+ "labels": [
+  "artifacts",
+  "food",
+  "ramp"
+ ],
+ "player": "xander",
+ "date": "2023-10-21",
+ "matches": [
+  {
+   "opponent": "casey",
+   "opponent_id": 1,
+   "round": 2,
+   "wins": 1,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "casey",
+     "winner": "xander"
+    }
+   ],
+   "winner": "xander"
+  },
+  {
+   "opponent": "jen",
+   "opponent_id": 4,
+   "round": 1,
+   "wins": 1,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "jen",
+     "winner": "xander"
+    }
+   ],
+   "winner": "xander"
+  },
+  {
+   "opponent": "mattd",
+   "opponent_id": 5,
+   "round": 3,
+   "wins": 0,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "mattd",
+     "winner": "mattd"
+    }
+   ],
+   "winner": "mattd"
+  }
+ ],
+ "mainboard": [
+  "Greta, Sweettooth Scourge",
+  "Beast Within",
+  "Quillspike",
+  "Overgrown Tomb",
+  "Tezzeret, Betrayer of Flesh",
+  "Woodland Cemetery",
+  "Choked Estuary",
+  "Black Sun's Zenith",
+  "The Goose Mother",
+  "Master of Etherium",
+  "Gruff Triplets",
+  "Lodestone Myr",
+  "Woodland Champion",
+  "Disfigure",
+  "Marsh Flats",
+  "Devoted Druid",
+  "Persist",
+  "Spider Food",
+  "Ravenous Squirrel",
+  "Drowned Catacomb",
+  "Utopia Sprawl",
+  "Ulcerate",
+  "Infernal Grasp",
+  "Breeding Pool",
+  "Ignoble Hierarch",
+  "Virtue of Persistence // Locthwain Scorn",
+  "Necroblossom Snarl",
+  "Feed the Cauldron",
+  "Sanguine Bond",
+  "Mulldrifter",
+  "Arbor Elf",
+  "Watery Grave",
+  "Swamp",
+  "Swamp",
+  "Swamp",
+  "Forest",
+  "Forest",
+  "Forest",
+  "Forest",
+  "Forest"
+ ],
+ "sideboard": [
+  "Puncture Blast",
+  "Jolrael, Mwonvuli Recluse",
+  "Reclamation Sage",
+  "Panharmonicon",
+  "Bloodsoaked Champion",
+  "Turn to Mist",
+  "Throne of the God-Pharaoh",
+  "Scavenger Drake",
+  "Delay",
+  "Treasure Cruise",
+  "Bone Shards",
+  "Vines of Vastwood",
+  "Winds of Rebuke",
+  "Languish",
+  "Stitch Together",
+  "Wickerbough Elder"
+ ]
+}

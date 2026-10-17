@@ -1,0 +1,133 @@
+{
+ "metadata": {
+  "path": "data/polyverse/0035_2025-10-04/5.json",
+  "draft_id": 35
+ },
+ "id": 5,
+ "macro_archetype": "midrange",
+ "labels": [
+  "spells"
+ ],
+ "player": "2025-10-04_ccc2025_2-p5",
+ "date": "2025-10-04",
+ "matches": [
+  {
+   "opponent": "2025-10-04_ccc2025_2-p4",
+   "opponent_id": 4,
+   "round": 2,
+   "wins": 0,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "2025-10-04_ccc2025_2-p4",
+     "winner": "2025-10-04_ccc2025_2-p4"
+    },
+    {
+     "opponent": "2025-10-04_ccc2025_2-p4",
+     "winner": "2025-10-04_ccc2025_2-p4"
+    }
+   ],
+   "winner": "2025-10-04_ccc2025_2-p4"
+  },
+  {
+   "opponent": "2025-10-04_ccc2025_2-p3",
+   "opponent_id": 3,
+   "round": 3,
+   "wins": 0,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "2025-10-04_ccc2025_2-p3",
+     "winner": "2025-10-04_ccc2025_2-p3"
+    },
+    {
+     "opponent": "2025-10-04_ccc2025_2-p3",
+     "winner": "2025-10-04_ccc2025_2-p3"
+    }
+   ],
+   "winner": "2025-10-04_ccc2025_2-p3"
+  },
+  {
+   "opponent": "2025-10-04_ccc2025_2-p1",
+   "opponent_id": 1,
+   "round": 1,
+   "wins": 0,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "2025-10-04_ccc2025_2-p1",
+     "winner": "2025-10-04_ccc2025_2-p1"
+    },
+    {
+     "opponent": "2025-10-04_ccc2025_2-p1",
+     "winner": "2025-10-04_ccc2025_2-p1"
+    }
+   ],
+   "winner": "2025-10-04_ccc2025_2-p1"
+  }
+ ],
+ "mainboard": [
+  "Faithless Looting",
+  "Ethereal Forager",
+  "Curator of Mysteries",
+  "Treasure Cruise",
+  "Saheeli, Sublime Artificer",
+  "Ephara's Dispersal",
+  "Flames of the Firebrand",
+  "Dragonsguard Elite",
+  "Kishla Skimmer",
+  "Cankerbloom",
+  "Sprite Dragon",
+  "Faerie Vandal",
+  "Merfolk Looter",
+  "Explore",
+  "Scavenging Ooze",
+  "Manamorphose",
+  "Demand Answers",
+  "Irencrag Pyromancer",
+  "Monastery Swiftspear",
+  "Chromatic Star",
+  "Gitaxian Probe",
+  "Preordain",
+  "Flame Slash",
+  "Breeding Pool",
+  "Misty Rainforest",
+  "Wooded Foothills",
+  "Sheltered Thicket",
+  "Stomping Ground",
+  "Island",
+  "Island",
+  "Island",
+  "Island",
+  "Island",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Forest",
+  "Forest",
+  "Forest"
+ ],
+ "sideboard": [
+  "Temple Garden",
+  "Fetid Pools",
+  "Shark Typhoon",
+  "Condescend",
+  "Brainstorm",
+  "Reckless Pyrosurfer",
+  "Goldhound",
+  "Kellan, the Fae-Blooded // Birthright Boon",
+  "The Goose Mother",
+  "Grim Flayer",
+  "Welcoming Vampire",
+  "Qasali Pridemage",
+  "Rielle, the Everwise",
+  "Pick Your Poison",
+  "Traverse the Ulvenwald",
+  "Twinshot Sniper",
+  "Flame Jab"
+ ]
+}

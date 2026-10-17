@@ -1,0 +1,79 @@
+{
+ "metadata": {
+  "path": "data/polyverse/0048_2026-10-13/3.json",
+  "draft_id": 48
+ },
+ "id": 3,
+ "macro_archetype": "midrange",
+ "labels": [
+  "lands",
+  "domain"
+ ],
+ "player": "Mystic Tenny",
+ "date": "2026-10-13",
+ "notes": "Mystic started off trying to build an aggro deck but ended up pivoting into what they described as \"4 color aggro\". Not how I'd describe this deck!\n\nMain win condition here seemed to be Titania, at least in my matchup, where most of the game was trying to stall / control until 5 mana to bring out Titania and get some big 5/3s \n\nI continue to love Titania here - really strong, hard to deal with, but still not oppressive. The three toughness means there are ways to deal with her. Just makes for fun games.\n\nWrenn and Six was tough to deal with at times. \n\nTerritorial Kavu and Leyline Binding were very cool in this deck, which regularly got to 5 basic land types in play. Cemetery Gatekeeper was also great at putting on the squeeze against my deck at least. \n\nLightstall Inquisitor is a bit annoying to track in paper to be honest - I can never remember if the card is exiled face up or down. Not super inspiring - might be a cut candidate. ",
+ "matches": [
+  {
+   "opponent": "Casey",
+   "opponent_id": 1,
+   "wins": 2,
+   "losses": 1,
+   "draws": 0
+  },
+  {
+   "opponent": "",
+   "wins": 1,
+   "losses": 0,
+   "draws": 0
+  },
+  {
+   "opponent": "",
+   "wins": 0,
+   "losses": 1,
+   "draws": 0
+  }
+ ],
+ "mainboard": [
+  "Balance",
+  "Bloodghast",
+  "Boseiju, Who Endures",
+  "Call of the Herd",
+  "Cemetery Gatekeeper",
+  "Dead Weight",
+  "Den of the Bugbear",
+  "Field of the Dead",
+  "Fire // Ice",
+  "Fireblast",
+  "Firebolt",
+  "Flametongue Kavu",
+  "Goblin Guide",
+  "Godless Shrine",
+  "Hedge Maze",
+  "Iron-Shield Elf",
+  "Krenko, Tin Street Kingpin",
+  "Leyline Binding",
+  "Lightning Helix",
+  "Lightstall Inquisitor",
+  "Marsh Flats",
+  "Marsh Flats",
+  "Monastery Swiftspear",
+  "Murderous Cut",
+  "Mutavault",
+  "Overgrown Tomb",
+  "Pile On",
+  "Reckless Pyrosurfer",
+  "Sacred Foundry",
+  "Sevinne's Reclamation",
+  "Shadowy Backstreet",
+  "Steam Vents",
+  "Territorial Kavu",
+  "Thalia, Guardian of Thraben",
+  "Titania, Protector of Argoth",
+  "Verdant Catacombs",
+  "Wooded Foothills",
+  "Wrenn and Six",
+  "Forest",
+  "Mountain"
+ ],
+ "sideboard": []
+}

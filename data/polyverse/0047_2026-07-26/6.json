@@ -1,0 +1,86 @@
+{
+ "metadata": {
+  "path": "data/polyverse/0047_2026-07-26/6.json",
+  "draft_id": 47
+ },
+ "id": 6,
+ "macro_archetype": "control",
+ "labels": [
+  "spells"
+ ],
+ "player": "Isaiah",
+ "date": "2026-07-26",
+ "matches": [
+  {
+   "opponent": "Brett",
+   "opponent_id": 3,
+   "round": 1,
+   "wins": 1,
+   "losses": 2,
+   "draws": 0
+  },
+  {
+   "opponent": "Casey",
+   "opponent_id": 5,
+   "round": 3,
+   "wins": 2,
+   "losses": 1,
+   "draws": 0
+  }
+ ],
+ "mainboard": [
+  "Archmage's Charm",
+  "Brainsurge",
+  "Consider",
+  "Dig Through Time",
+  "Dreamtide Whale",
+  "Elspeth's Smite",
+  "Ephara's Dispersal",
+  "Ethereal Forager",
+  "Flame Slash",
+  "Flooded Strand",
+  "Flooded Strand",
+  "Hallowed Fountain",
+  "Harm's Way",
+  "Manamorphose",
+  "March of Otherworldly Light",
+  "Meticulous Archive",
+  "Miscalculation",
+  "Misty Rainforest",
+  "Monastery Mentor",
+  "Mystic Confluence",
+  "Mystic Sanctuary",
+  "Ponder",
+  "Scalding Tarn",
+  "Seasoned Pyromancer",
+  "Soul Partition",
+  "Spell Pierce",
+  "Sprite Dragon",
+  "Steam Vents",
+  "Stern Scolding",
+  "Sunbaked Canyon",
+  "Thing in the Ice // Awoken Horror",
+  "Thundering Falls",
+  "Unholy Heat",
+  "Young Pyromancer",
+  "Mountain",
+  "Island",
+  "Island",
+  "Island",
+  "Island",
+  "Plains"
+ ],
+ "sideboard": [
+  "Cemetery Gatekeeper",
+  "Condescend",
+  "Emberheart Challenger",
+  "Faerie Vandal",
+  "Goblin Guide",
+  "Growth Spiral",
+  "Helping Hand",
+  "Mutavault",
+  "Overgrown Tomb",
+  "The Goose Mother",
+  "Verdant Catacombs"
+ ]
+}

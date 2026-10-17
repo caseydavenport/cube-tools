@@ -1,0 +1,141 @@
+{
+ "metadata": {
+  "path": "data/polyverse/0015_2024-01-07/7.json",
+  "draft_id": 15,
+  "combined_file": "data/polyverse/0015_2024-01-07/paul.txt"
+ },
+ "id": 7,
+ "macro_archetype": "aggro",
+ "labels": [],
+ "player": "paul",
+ "date": "2024-01-07",
+ "matches": [
+  {
+   "opponent": "casey",
+   "opponent_id": 2,
+   "round": 5,
+   "wins": 2,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "casey",
+     "winner": "paul"
+    },
+    {
+     "opponent": "casey",
+     "winner": "paul"
+    },
+    {
+     "opponent": "casey",
+     "winner": "casey"
+    }
+   ],
+   "winner": "paul"
+  },
+  {
+   "opponent": "greg",
+   "opponent_id": 4,
+   "round": 4,
+   "wins": 2,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "greg",
+     "winner": "paul"
+    },
+    {
+     "opponent": "greg",
+     "winner": "paul"
+    }
+   ],
+   "winner": "paul"
+  },
+  {
+   "opponent": "james",
+   "opponent_id": 5,
+   "round": 2,
+   "wins": 1,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "james",
+     "winner": "paul"
+    },
+    {
+     "opponent": "james",
+     "winner": "james"
+    },
+    {
+     "opponent": "james",
+     "winner": "james"
+    }
+   ],
+   "winner": "james"
+  }
+ ],
+ "mainboard": [
+  "Maze of Ith",
+  "Orcish Lumberjack",
+  "Stomping Ground",
+  "Domri, Anarch of Bolas",
+  "Punishing Fire",
+  "Sheltered Thicket",
+  "Quest for the Gemblades",
+  "Lizard Blades",
+  "Reinforced Ronin",
+  "Wooded Foothills",
+  "Twinshot Sniper",
+  "Goblin Guide",
+  "Rubblebelt Rioters",
+  "Skarrgan Hellkite",
+  "Arid Mesa",
+  "Flame Jab",
+  "Comet Storm",
+  "Perilous Myr",
+  "Rabbit Battery",
+  "Intrepid Trufflesnout // Go Hog Wild",
+  "Kraul Harpooner",
+  "Kellan, the Fae-Blooded // Birthright Boon",
+  "Grim Initiate",
+  "Rigging Runner",
+  "Spider Food",
+  "Siege-Gang Commander",
+  "Manabarbs",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Forest",
+  "Forest",
+  "Forest",
+  "Forest",
+  "Forest",
+  "Forest"
+ ],
+ "sideboard": [
+  "Kalastria Highborn",
+  "Mischievous Chimera",
+  "Fate Transfer",
+  "Fact or Fiction",
+  "Glory of Warfare",
+  "Fearless Fledgling",
+  "Mother of Runes",
+  "Scalding Tarn",
+  "Kitchen Finks",
+  "Condescend",
+  "Nobilis of War",
+  "Pyroclasm",
+  "Devoted Druid",
+  "Containment Construct",
+  "Crop Rotation",
+  "Satyr Wayfinder",
+  "Woodland Champion",
+  "Lightning Greaves"
+ ]
+}

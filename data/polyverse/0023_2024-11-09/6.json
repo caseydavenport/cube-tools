@@ -1,0 +1,134 @@
+{
+ "metadata": {
+  "path": "data/polyverse/0023_2024-11-09/6.json",
+  "draft_id": 23,
+  "combined_file": "data/polyverse/0023_2024-11-09/mattd.txt"
+ },
+ "id": 6,
+ "macro_archetype": "midrange",
+ "labels": [
+  "lands"
+ ],
+ "player": "mattd",
+ "date": "2024-11-09",
+ "notes": "All 5 colors! Drafted [[Golos, Tireless Pilgrim]] but then didn't play it, which made me a bit sad.\n\nThe deck actually played pretty well, despite going 1-2. It almost always had the mana it needed, reaching all 5 colors by its 5th land drop. It had some nice synergies show up as well.\n\nFirst timers:\n\n- [[Steppe Lynx]] the only time I saw it, it was removed right away. Could imagine it being scary though.\n- [[Thraben Inspector]] - not much of note here. A solid one drop, but nothing too exciting.\n- [[Scalding Viper]] played pretty nicely. [[Steam Clean]] is super useful, and the \"tax\" on cheap spells was pretty effective too. The body is a bit underwhelming.\n- [[Brainsurge]] seemed to play well in this deck.\n\nNoteworthy:\n\n- [[Scryb Ranger]] provided some very cool and unique gameplay.  I don't love the protection from blue, but for now am willing to let it slide due to the synergies and decisions this card provides in game. Especially late game, when lands on the field are perhaps less important, this allowed pseudo-vigilance, while also fueling landfall synergies with cards like [[Fearless Fledgling]].\n- [[Tamiyo, Compleated Sage]]. Planeswalkers are kind of just good. This one seems pretty bland at first glance, but the ability to repeatedly tap down a threat is just solid, and the \"reanimation\" mode was also quite powerful when used. The main problem with this one is that it feels kinda boring if you can't turn the corner and start reanimating things. Will keep an eye on it.\n- [[Reveillark]] - don't bounce this boy. It's \"leaves the battlefield\", not dies.\n\n",
+ "matches": [
+  {
+   "opponent": "casey",
+   "opponent_id": 2,
+   "round": 3,
+   "wins": 1,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "casey",
+     "winner": "mattd"
+    },
+    {
+     "opponent": "casey",
+     "winner": "casey"
+    },
+    {
+     "opponent": "casey",
+     "winner": "casey"
+    }
+   ],
+   "winner": "casey"
+  },
+  {
+   "opponent": "dom",
+   "opponent_id": 3,
+   "round": 2,
+   "wins": 2,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "dom",
+     "winner": "mattd"
+    },
+    {
+     "opponent": "dom",
+     "winner": "mattd"
+    }
+   ],
+   "winner": "mattd"
+  },
+  {
+   "opponent": "greg",
+   "opponent_id": 4,
+   "round": 1,
+   "wins": 0,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "greg",
+     "winner": "greg"
+    },
+    {
+     "opponent": "greg",
+     "winner": "greg"
+    }
+   ],
+   "winner": "greg"
+  }
+ ],
+ "mainboard": [
+  "The Goose Mother",
+  "Windswept Heath",
+  "Brainstorm",
+  "Arid Mesa",
+  "Steppe Lynx",
+  "Wooded Foothills",
+  "Windswept Heath",
+  "Spirited Companion",
+  "Tamiyo, Compleated Sage",
+  "Chainweb Aracnir",
+  "Lotus Cobra",
+  "Kor Skyfisher",
+  "Stomping Ground",
+  "Kitchen Finks",
+  "Brainsurge",
+  "Steam Vents",
+  "Hallowed Fountain",
+  "Scryb Ranger",
+  "Reveillark",
+  "Harm's Way",
+  "Knight of the Reliquary",
+  "Fearless Fledgling",
+  "Flooded Strand",
+  "Clarion Spirit",
+  "Territorial Kavu",
+  "Verdant Catacombs",
+  "Thraben Inspector",
+  "Courser of Kruphix",
+  "Scalding Viper // Steam Clean",
+  "Crop Rotation",
+  "Intrepid Trufflesnout // Go Hog Wild",
+  "Carrion Feeder",
+  "Tragic Fall",
+  "Plains",
+  "Plains",
+  "Island",
+  "Swamp",
+  "Mountain",
+  "Forest",
+  "Forest"
+ ],
+ "sideboard": [
+  "Prismatic Ending",
+  "Scrabbling Claws",
+  "Kellan, the Fae-Blooded // Birthright Boon",
+  "Merfolk Looter",
+  "Wrath of God",
+  "Goldhound",
+  "Scrapwork Mutt",
+  "Sprite Dragon",
+  "Golos, Tireless Pilgrim",
+  "Dauntless Bodyguard",
+  "Cathar Commando",
+  "Bonesplitter"
+ ]
+}

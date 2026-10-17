@@ -1,0 +1,148 @@
+{
+ "metadata": {
+  "path": "data/polyverse/0037_2025-10-25/7.json",
+  "draft_id": 37,
+  "mainboard_file": "data/polyverse/0037_2025-10-25/robert-mainboard.txt",
+  "sideboard_file": "data/polyverse/0037_2025-10-25/robert-sideboard.txt"
+ },
+ "id": 7,
+ "macro_archetype": "aggro",
+ "labels": [
+  "spells"
+ ],
+ "player": "robert",
+ "date": "2025-10-25",
+ "matches": [
+  {
+   "opponent": "colton",
+   "opponent_id": 2,
+   "round": 1,
+   "wins": 1,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "colton",
+     "winner": "robert"
+    },
+    {
+     "opponent": "colton",
+     "winner": "colton"
+    },
+    {
+     "opponent": "colton",
+     "winner": "colton"
+    }
+   ],
+   "winner": "colton"
+  },
+  {
+   "opponent": "isaiah",
+   "opponent_id": 3,
+   "round": 2,
+   "wins": 1,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "isaiah",
+     "winner": "robert"
+    },
+    {
+     "opponent": "isaiah",
+     "winner": "isaiah"
+    },
+    {
+     "opponent": "isaiah",
+     "winner": "isaiah"
+    }
+   ],
+   "winner": "isaiah"
+  },
+  {
+   "opponent": "mehdi",
+   "opponent_id": 5,
+   "round": 3,
+   "wins": 2,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "mehdi",
+     "winner": "robert"
+    },
+    {
+     "opponent": "mehdi",
+     "winner": "robert"
+    },
+    {
+     "opponent": "mehdi",
+     "winner": "mehdi"
+    }
+   ],
+   "winner": "robert"
+  }
+ ],
+ "mainboard": [
+  "Monastery Mentor",
+  "Bomat Courier",
+  "Young Pyromancer",
+  "Esper Sentinel",
+  "Cathar Commando",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Mountain",
+  "Dreadhorde Arcanist",
+  "Faithless Looting",
+  "Kavaron Harrier",
+  "Heartfire Hero",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Manamorphose",
+  "Portable Hole",
+  "Rabbit Battery",
+  "Unholy Heat",
+  "Lightning Helix",
+  "Welcoming Vampire",
+  "Dauntless Bodyguard",
+  "Krenko, Tin Street Kingpin",
+  "Touch the Spirit Realm",
+  "Dragon's Rage Channeler",
+  "Path to Exile",
+  "Flooded Strand",
+  "Flames of the Firebrand",
+  "The Wandering Emperor",
+  "Cheeky House-Mouse // Squeak By",
+  "Burst Lightning",
+  "Searslicer Goblin",
+  "Sunbaked Canyon"
+ ],
+ "sideboard": [
+  "Candy Trail",
+  "Kellan, the Fae-Blooded // Birthright Boon",
+  "Ephara's Dispersal",
+  "Twinshot Sniper",
+  "Wolfbriar Elemental",
+  "Death's Shadow",
+  "Unsummon",
+  "Irencrag Pyromancer",
+  "Rishadan Port",
+  "Demand Answers",
+  "Elspeth's Smite",
+  "Werefox Bodyguard",
+  "Glass Casket",
+  "Raucous Theater",
+  "Life from the Loam",
+  "Cemetery Gatekeeper",
+  "Blood Crypt",
+  "Flame Jab"
+ ]
+}

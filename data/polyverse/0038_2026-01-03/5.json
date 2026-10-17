@@ -1,0 +1,114 @@
+{
+ "metadata": {
+  "path": "data/polyverse/0038_2026-01-03/5.json",
+  "draft_id": 38,
+  "mainboard_file": "data/polyverse/0038_2026-01-03/jackson-mainboard.txt",
+  "sideboard_file": "data/polyverse/0038_2026-01-03/jackson-sideboard.txt"
+ },
+ "id": 5,
+ "macro_archetype": "midrange",
+ "labels": [
+  "draw",
+  "skimmer",
+  "ramp",
+  "graveyard",
+  "delirium"
+ ],
+ "player": "jackson",
+ "date": "2026-01-03",
+ "matches": [
+  {
+   "opponent": "kaiyo",
+   "opponent_id": 6,
+   "round": 2,
+   "wins": 2,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "kaiyo",
+     "winner": "jackson"
+    },
+    {
+     "opponent": "kaiyo",
+     "winner": "jackson"
+    }
+   ],
+   "winner": "jackson"
+  },
+  {
+   "opponent": "patrick",
+   "opponent_id": 7,
+   "round": 1,
+   "wins": 1,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "patrick",
+     "winner": "jackson"
+    },
+    {
+     "opponent": "patrick",
+     "winner": "patrick"
+    }
+   ]
+  }
+ ],
+ "mainboard": [
+  "Condescend",
+  "Consider",
+  "Dreamtide Whale",
+  "Fact or Fiction",
+  "Man-o'-War",
+  "Memory Lapse",
+  "Proft's Eidetic Memory",
+  "Serum Visions",
+  "Spell Pierce",
+  "Sphinx of Forgotten Lore",
+  "Irencrag Pyromancer",
+  "Birds of Paradise",
+  "Eternal Witness",
+  "Ignoble Hierarch",
+  "Jolrael, Mwonvuli Recluse",
+  "Noble Hierarch",
+  "Scavenging Ooze",
+  "Six",
+  "Tarmogoyf",
+  "Traverse the Ulvenwald",
+  "Fire // Ice",
+  "Kishla Skimmer",
+  "Mishra's Bauble",
+  "Scrabbling Claws",
+  "Celestial Colonnade",
+  "Fiery Islet",
+  "Forest",
+  "Forest",
+  "Forest",
+  "Forest",
+  "Forest",
+  "Hedge Maze",
+  "Horizon Canopy",
+  "Island",
+  "Misty Rainforest",
+  "Mountain",
+  "Restless Vinestalk",
+  "Scalding Tarn",
+  "Sheltered Thicket",
+  "Shifting Woodland"
+ ],
+ "sideboard": [
+  "Archmage's Charm",
+  "Mischievous Mystic",
+  "Thing in the Ice // Awoken Horror",
+  "Duress",
+  "Snarling Gorehound",
+  "Anje's Ravager",
+  "Flame Jab",
+  "Seal of Fire",
+  "Llanowar Elves",
+  "Renegade Rallier",
+  "Grim Flayer",
+  "Silent Clearing"
+ ]
+}

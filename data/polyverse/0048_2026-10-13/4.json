@@ -1,0 +1,78 @@
+{
+ "metadata": {
+  "path": "data/polyverse/0048_2026-10-13/4.json",
+  "draft_id": 48
+ },
+ "id": 4,
+ "macro_archetype": "midrange",
+ "labels": [
+  "coco"
+ ],
+ "player": "Taamira",
+ "date": "2026-10-13",
+ "notes": "Collected Company had a few whiffs in this deck, but that's not too unexpected given the # of creatures here being a few shy of what I'd want personally. \n\nI didn't get to see much of this deck - I did hear a few cool things going on in the distance though. Delney seemed to be putting in some good work for one.\n\nTorrential Gearhulk and Collected Company is pretty cool in concept at least. ",
+ "matches": [
+  {
+   "opponent": "Taylor Pack",
+   "opponent_id": 5,
+   "wins": 0,
+   "losses": 2,
+   "draws": 0
+  },
+  {
+   "opponent": "",
+   "wins": 1,
+   "losses": 0,
+   "draws": 0
+  },
+  {
+   "opponent": "",
+   "wins": 1,
+   "losses": 0,
+   "draws": 0
+  }
+ ],
+ "mainboard": [
+  "Blade Splicer",
+  "Collected Company",
+  "Daze",
+  "Delney, Streetwise Lookout",
+  "Eternal Witness",
+  "Into the Roil",
+  "Journey to Nowhere",
+  "Miscalculation",
+  "Monastery Mentor",
+  "Noble Hierarch",
+  "Path to Exile",
+  "Remand",
+  "Renegade Rallier",
+  "Restoration Angel",
+  "Ride's End",
+  "Seam Rip",
+  "Snapcaster Mage",
+  "The Wandering Emperor",
+  "Thing in the Ice // Awoken Horror",
+  "Thraben Inspector",
+  "Timeless Dragon",
+  "Torrential Gearhulk",
+  "Touch the Spirit Realm",
+  "Welcoming Vampire",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Island",
+  "Island",
+  "Island",
+  "Island",
+  "Island",
+  "Island",
+  "Forest",
+  "Forest",
+  "Forest",
+  "Forest"
+ ],
+ "sideboard": []
+}

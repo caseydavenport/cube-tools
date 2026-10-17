@@ -1,0 +1,136 @@
+{
+ "metadata": {
+  "path": "data/polyverse/0014_2023-12-02/4.json",
+  "draft_id": 14,
+  "combined_file": "data/polyverse/0014_2023-12-02/greg.txt"
+ },
+ "id": 4,
+ "macro_archetype": "midrange",
+ "labels": [
+  "goodstuff"
+ ],
+ "player": "greg",
+ "date": "2023-12-02",
+ "matches": [
+  {
+   "opponent": "casey",
+   "opponent_id": 2,
+   "round": 2,
+   "wins": 2,
+   "losses": 0,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "casey",
+     "winner": "greg"
+    },
+    {
+     "opponent": "casey",
+     "winner": "greg"
+    }
+   ],
+   "winner": "greg"
+  },
+  {
+   "opponent": "dom",
+   "opponent_id": 3,
+   "round": 3,
+   "wins": 0,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "dom",
+     "winner": "dom"
+    },
+    {
+     "opponent": "dom",
+     "winner": "dom"
+    }
+   ],
+   "winner": "dom"
+  },
+  {
+   "opponent": "james",
+   "opponent_id": 5,
+   "round": 1,
+   "wins": 2,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "james",
+     "winner": "greg"
+    },
+    {
+     "opponent": "james",
+     "winner": "greg"
+    },
+    {
+     "opponent": "james",
+     "winner": "james"
+    }
+   ],
+   "winner": "greg"
+  }
+ ],
+ "mainboard": [
+  "Marshal's Anthem",
+  "Angel of Salvation",
+  "The Wandering Emperor",
+  "Werefox Bodyguard",
+  "Clifftop Retreat",
+  "Cheeky House-Mouse // Squeak By",
+  "Sacred Foundry",
+  "Meadowboon",
+  "Cloudgoat Ranger",
+  "Nobilis of War",
+  "Reprieve",
+  "Lizard Blades",
+  "Welcoming Vampire",
+  "Fearless Fledgling",
+  "Ajani's Pridemate",
+  "Sunbaked Canyon",
+  "Angelic Intervention",
+  "Kor Skyfisher",
+  "Harm's Way",
+  "Glory of Warfare",
+  "Arid Mesa",
+  "Sparring Construct",
+  "Dauntless Bodyguard",
+  "Domri, Anarch of Bolas",
+  "Rubblebelt Rioters",
+  "Beast Within",
+  "Lotus Cobra",
+  "Gilded Goose",
+  "Rootbound Crag",
+  "Horizon Canopy",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Plains",
+  "Mountain",
+  "Mountain",
+  "Forest",
+  "Forest"
+ ],
+ "sideboard": [
+  "Rielle, the Everwise",
+  "Merfolk Skydiver",
+  "Trading Post",
+  "Cauldron of Souls",
+  "Panharmonicon",
+  "Sulfur Falls",
+  "Leaden Myr",
+  "Fall of the Thran",
+  "Chart a Course",
+  "Prophetic Prism",
+  "Soul Warden",
+  "Dragon's Rage Channeler",
+  "Vines of Vastwood",
+  "Chatter of the Squirrel",
+  "Raise the Alarm"
+ ]
+}

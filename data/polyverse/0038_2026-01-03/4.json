@@ -1,0 +1,105 @@
+{
+ "metadata": {
+  "path": "data/polyverse/0038_2026-01-03/4.json",
+  "draft_id": 38,
+  "mainboard_file": "data/polyverse/0038_2026-01-03/isaiah-mainboard.txt",
+  "sideboard_file": "data/polyverse/0038_2026-01-03/isaiah-sideboard.txt"
+ },
+ "id": 4,
+ "macro_archetype": "control",
+ "labels": [
+  "domain"
+ ],
+ "player": "isaiah",
+ "date": "2026-01-03",
+ "matches": [
+  {
+   "opponent": "casey",
+   "opponent_id": 1,
+   "round": 2,
+   "wins": 1,
+   "losses": 1,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "casey",
+     "winner": "isaiah"
+    },
+    {
+     "opponent": "casey",
+     "winner": "casey"
+    }
+   ]
+  },
+  {
+   "opponent": "kaiyo",
+   "opponent_id": 6,
+   "round": 1,
+   "wins": 0,
+   "losses": 2,
+   "draws": 0,
+   "games": [
+    {
+     "opponent": "kaiyo",
+     "winner": "kaiyo"
+    },
+    {
+     "opponent": "kaiyo",
+     "winner": "kaiyo"
+    }
+   ],
+   "winner": "kaiyo"
+  }
+ ],
+ "mainboard": [
+  "Elspeth's Smite",
+  "Harm's Way",
+  "Oust",
+  "Phelia, Exuberant Shepherd",
+  "Wrath of God",
+  "Cryogen Relic",
+  "Dig Through Time",
+  "Dress Down",
+  "Mystic Confluence",
+  "Opt",
+  "Portent",
+  "Treasure Cruise",
+  "Cut Down",
+  "Deluge of Doom",
+  "Disfigure",
+  "Dreadhorde Arcanist",
+  "Firebolt",
+  "The Huntsman's Redemption",
+  "Tireless Tracker",
+  "Titania, Protector of Argoth",
+  "Up the Beanstalk",
+  "Baleful Strix",
+  "Territorial Kavu",
+  "Engineered Explosives",
+  "Blood Crypt",
+  "Boseiju, Who Endures",
+  "Field of the Dead",
+  "Flooded Strand",
+  "Godless Shrine",
+  "Hallowed Fountain",
+  "Island",
+  "Overgrown Tomb",
+  "Plains",
+  "Steam Vents",
+  "Stomping Ground",
+  "Temple Garden",
+  "Thundering Falls",
+  "Underground Mortuary",
+  "Windswept Heath",
+  "Wooded Foothills",
+  "Wooded Foothills"
+ ],
+ "sideboard": [
+  "Curator of Mysteries",
+  "Seal of Removal",
+  "Spellstutter Sprite",
+  "Blazing Rootwalla",
+  "Edge of Autumn",
+  "Ozolith, the Shattered Spire"
+ ]
+}
