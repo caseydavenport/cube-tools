@@ -12,7 +12,7 @@ const BASIC_NAMES = ["Plains", "Island", "Swamp", "Mountain", "Forest"];
 // sharing a photo reuse one download.
 const SNIP_W = 132, SNIP_H = 30;
 
-export function Snippet({ cube, source, bust, w = SNIP_W, h = SNIP_H }) {
+export function Snippet({ cube, draftId, source, bust, w = SNIP_W, h = SNIP_H }) {
   const [dim, setDim] = useState(null);
   const photo = source && source.photo;
   const box = source && source.box;
@@ -22,7 +22,7 @@ export function Snippet({ cube, source, bust, w = SNIP_W, h = SNIP_H }) {
   return (
     <span className="ocr-snip" style={{ width: `${w}px`, height: `${h}px` }}>
       <img
-        src={ImageURL(cube, photo, bust ? bust(photo) : 0)} alt=""
+        src={ImageURL(cube, draftId, photo, bust ? bust(photo) : 0)} alt=""
         onLoad={e => setDim({ w: e.target.naturalWidth, h: e.target.naturalHeight })}
         style={dim ? {
           position: "absolute", maxWidth: "none",
@@ -134,11 +134,11 @@ export function Autocomplete({ cards, onPick, placeholder, tabNav, autoFocus }) 
 // snippet, any low-confidence guesses as quick-picks, and a free-text search so
 // the operator can fill the name in by hand. Picking resolves the box, which
 // drops the row and adds the card to the list above.
-function UnmatchedRow({ cube, row, cards, onFillName, onRemoveBox, bust }) {
+function UnmatchedRow({ cube, draftId, row, cards, onFillName, onRemoveBox, bust }) {
   const fill = name => onFillName(row.photo, row.boxId, name);
   return (
     <li className="ocr-unmatched">
-      <Snippet cube={cube} source={row.source} bust={bust} w={UNMATCHED_SNIP_W} h={UNMATCHED_SNIP_H} />
+      <Snippet cube={cube} draftId={draftId} source={row.source} bust={bust} w={UNMATCHED_SNIP_W} h={UNMATCHED_SNIP_H} />
       <span className="ocr-conf-dot" style={{ background: STATUS_COLOR.unmatched }} title="unmatched" />
       <div className="ocr-unmatched-pick">
         <Autocomplete cards={cards} onPick={fill} placeholder="name this card…" tabNav />
@@ -156,7 +156,7 @@ function UnmatchedRow({ cube, row, cards, onFillName, onRemoveBox, bust }) {
 }
 
 export function PoolList({
-  title, entries, cards, target, cube,
+  title, entries, cards, target, cube, draftId,
   onSetCount, onRemove, onChangeName, onAdd,
   unmatched, onFillName, onRemoveBox,
   basics, onSetBasic,
@@ -189,7 +189,7 @@ export function PoolList({
       </div>
       <ul className="ocr-pool-list">
         {(unmatched || []).map(row => (
-          <UnmatchedRow key={row.boxId} cube={cube} row={row} cards={cards}
+          <UnmatchedRow key={row.boxId} cube={cube} draftId={draftId} row={row} cards={cards}
             onFillName={onFillName} onRemoveBox={onRemoveBox} bust={bust} />
         ))}
         {sorted.map((e, i) => {
@@ -200,7 +200,7 @@ export function PoolList({
               onMouseEnter={() => setHoveredName && setHoveredName(e.card_name)}
               onMouseLeave={() => setHoveredName && setHoveredName(null)}>
               <span className="ocr-rownum">{i + 1}</span>
-              <Snippet cube={cube} source={e.source} bust={bust} />
+              <Snippet cube={cube} draftId={draftId} source={e.source} bust={bust} />
               <select value={e.card_name} onChange={ev => onChangeName(e.card_name, ev.target.value)}>
                 <option value={e.card_name}>{e.card_name}</option>
                 {(e.candidates || []).filter(c => c.name !== e.card_name).map(c => (

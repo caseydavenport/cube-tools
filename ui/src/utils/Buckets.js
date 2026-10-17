@@ -1,12 +1,19 @@
 import React from 'react'
 import { Wins, Losses } from "./Deck.js"
+import { compareDrafts } from "./DraftInfo.js"
 
-// Draft names are date strings (YYYY-MM-DD), so a plain string compare
-// orders them chronologically.
-function sortByName(a, b) {
-  if (a.name < b.name) return -1
-  if (a.name > b.name) return 1
-  return 0
+// groupDrafts turns a list of decks into a list of drafts, each holding the
+// draft info and its decks, ordered by date and then id.
+function groupDrafts(decks) {
+  let draftMap = new Map()
+  for (let deck of decks) {
+    const id = deck.metadata.draft_id
+    if (!draftMap.has(id)) {
+      draftMap.set(id, { draft: deck.draft, decks: [] })
+    }
+    draftMap.get(id).decks.push(deck)
+  }
+  return Array.from(draftMap.values()).sort((a, b) => compareDrafts(a.draft, b.draft))
 }
 
 // Split the given drafts into rolling buckets of the given size.
@@ -18,22 +25,7 @@ export function DeckBuckets(decks, bucketSize, discrete) {
 }
 
 function deckBucketsDiscrete(decks, bucketSize) {
-  // We need to turn the list of decks into a list of drafts instead.
-  let draftMap = new Map()
-  for (var i in decks) {
-    let deck = decks[i]
-    if (!draftMap.has(deck.metadata.draft_id)) {
-      draftMap.set(deck.metadata.draft_id, {
-        name: deck.metadata.draft_id,
-        decks: new Array(),
-      })
-    }
-    draftMap.get(deck.metadata.draft_id).decks.push(deck)
-  }
-  // We now have a map of draft -> list of decks within it.
-  // Turn this into an ordered array. The name of the draft is its date.
-  let drafts = Array.from(draftMap.values())
-  drafts.sort(sortByName)
+  let drafts = groupDrafts(decks)
 
   // Create an array of buckets, starting from the end.
   const buckets = new Array()
@@ -49,22 +41,7 @@ function deckBucketsDiscrete(decks, bucketSize) {
 }
 
 function deckBucketsSliding(decks, bucketSize) {
-  // We need to turn the list of decks into a list of drafts instead.
-  let draftMap = new Map()
-  for (var i in decks) {
-    let deck = decks[i]
-    if (!draftMap.has(deck.metadata.draft_id)) {
-      draftMap.set(deck.metadata.draft_id, {
-        name: deck.metadata.draft_id,
-        decks: new Array(),
-      })
-    }
-    draftMap.get(deck.metadata.draft_id).decks.push(deck)
-  }
-  // We now have a map of draft -> list of decks within it.
-  // Turn this into an ordered array. The name of the draft is its date.
-  let drafts = Array.from(draftMap.values())
-  drafts.sort(sortByName)
+  let drafts = groupDrafts(decks)
 
   // Now build up an array of rolling buckets. Each bucket contains bucketSize drafts.
   var i = 0;
@@ -79,17 +56,10 @@ function deckBucketsSliding(decks, bucketSize) {
   return buckets
 }
 
-// Draft IDs look like "2023-04-27_local_1". On an axis we only want the date,
-// so strip the "_local_N" suffix to keep labels short.
-function shortName(name) {
-  let m = name.match(/^\d{4}-\d{2}-\d{2}/)
-  return m ? m[0] : name
-}
-
 export function BucketName(bucket) {
   // Label a bucket by its starting date. The full range is too long for an
   // axis once you have more than a handful of buckets.
-  return shortName(bucket[0].name)
+  return bucket[0].draft.date
 }
 
 // Shared x-axis tick config for bucketed time-series charts: blank out all but

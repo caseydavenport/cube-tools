@@ -3,7 +3,7 @@ import assert from "node:assert/strict"
 import { seedRecordEditor, buildMatches, mergeChangedDecks, opponentOptions } from "./RecordEditor.js"
 
 const deck = {
-  id: 1, player: "Sarah", metadata: { draft_id: "d" },
+  id: 1, player: "Sarah", metadata: { draft_id: 1 },
   stats: { match_wins: 0, match_losses: 2, match_draws: 0 },
   matches: [
     { opponent: "An", opponent_id: 2, round: 1, wins: 1, losses: 2, draws: 0, winner: "An",
@@ -80,10 +80,10 @@ test("a deck with no matches seeds one empty row", () => {
 })
 
 test("mergeChangedDecks replaces by draft and id, leaves others", () => {
-  const a1 = { id: 1, player: "A", metadata: { draft_id: "d1" } }
-  const b1 = { id: 2, player: "B", metadata: { draft_id: "d1" } }
-  const a2 = { id: 1, player: "A", metadata: { draft_id: "d2" } }
-  const renamed = { id: 1, player: "Z", metadata: { draft_id: "d1" } }
+  const a1 = { id: 1, player: "A", metadata: { draft_id: 1 } }
+  const b1 = { id: 2, player: "B", metadata: { draft_id: 1 } }
+  const a2 = { id: 1, player: "A", metadata: { draft_id: 2 } }
+  const renamed = { id: 1, player: "Z", metadata: { draft_id: 1 } }
   const out = mergeChangedDecks([a1, b1, a2], [renamed])
   assert.deepEqual(out, [renamed, b1, a2])
 })
@@ -106,9 +106,9 @@ test("override save with changed totals rebuilds stubs", () => {
 
 test("opponentOptions lists the draft's other decks", () => {
   const draftDecks = [
-    { id: 1, player: "Sarah", metadata: { draft_id: "d" } },
-    { id: 2, player: "An", metadata: { draft_id: "d" } },
-    { id: 9, player: "Elsewhere", metadata: { draft_id: "other" } },
+    { id: 1, player: "Sarah", metadata: { draft_id: 1 } },
+    { id: 2, player: "An", metadata: { draft_id: 1 } },
+    { id: 9, player: "Elsewhere", metadata: { draft_id: 2 } },
   ]
   const row = { opponentId: 2, opponent: "An" }
   assert.deepEqual(opponentOptions(draftDecks, deck, row), [{ id: 2, player: "An" }])

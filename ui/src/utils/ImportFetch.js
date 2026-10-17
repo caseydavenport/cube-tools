@@ -36,7 +36,8 @@ export function CheckDecks(cube, decks) {
 }
 
 // CommitDraft writes the reviewed draft. payload is
-// {draft_id, date, event_name, decks}. Returns {draft_id}.
+// {date, event_name, event_code, decks}. Returns {draft_id}, the new draft's
+// number.
 export function CommitDraft(cube, payload) {
   return postJSON(`/api/${cube}/import/commit`, payload);
 }

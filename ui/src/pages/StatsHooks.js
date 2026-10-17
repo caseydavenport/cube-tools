@@ -6,6 +6,7 @@ import { PlayerData } from "./Players.js";
 import { GetColorStats } from "./Colors.js";
 import { DeckBuckets } from "../utils/Buckets.js";
 import { AggregatedPickInfo } from "../utils/DraftLog.js";
+import { draftLabel } from "../utils/DraftInfo.js";
 import { DeckMatches } from "../utils/Query.js";
 import { BuildGraphData } from "./Decks.js";
 import { CheckboxesToColors } from "../utils/Utils.js";
@@ -331,7 +332,7 @@ export function useStatsData(filters, props, refresh) {
     let opts = [{ label: "", value: "" }];
     for (let draft of Object.values(drafts || {})) {
       if (draft.type !== "Draft") continue;
-      opts.push({ label: draft.date, value: draft.date });
+      opts.push({ label: draftLabel(draft.draft), value: String(draft.draft.id) });
     }
     return opts;
   }, [drafts]);

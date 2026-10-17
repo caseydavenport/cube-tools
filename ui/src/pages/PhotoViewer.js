@@ -13,7 +13,7 @@ function roundBox(b) {
 }
 
 export function PhotoViewer({
-  cube, photo, photos, onSelectPhoto,
+  cube, draftId, photo, photos, onSelectPhoto,
   boxes, onDrawBox, onResizeBox, onDeleteBox,
   hoveredName, setHoveredName,
   onRedetect, onRotate, onClear, detecting, bust,
@@ -209,7 +209,7 @@ export function PhotoViewer({
       <div className="ocr-canvas-scroll" ref={stageRef}>
         <div className="ocr-canvas" style={canvasW ? { width: `${canvasW}px` } : undefined}>
         <img
-          src={ImageURL(cube, photo, ver(photo))}
+          src={ImageURL(cube, draftId, photo, ver(photo))}
           alt={photo}
           onLoad={e => setDim({ w: e.target.naturalWidth, h: e.target.naturalHeight })}
         />
@@ -307,7 +307,7 @@ export function PhotoViewer({
       <div className="ocr-thumbs">
         {photos.map(p => (
           <button key={p} className={p === photo ? "active" : ""} onClick={() => onSelectPhoto(p)}>
-            <img src={ImageURL(cube, p, ver(p))} alt={p} />
+            <img src={ImageURL(cube, draftId, p, ver(p))} alt={p} />
           </button>
         ))}
       </div>

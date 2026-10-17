@@ -1,4 +1,5 @@
 import { CombineColors } from "../utils/Colors.js"
+import { eventTerms } from "../utils/DraftInfo.js"
 
 
 export const QueryTerms = [
@@ -222,7 +223,7 @@ export function DeckMatches(deck, matchStr, mbsb) {
     // Fuzzy search: check player name and labels first.
     const fs = matchStr.toLowerCase()
     if (deck.player.toLowerCase().includes(fs)) return true;
-    if (deck.metadata && deck.metadata.draft_id && deck.metadata.draft_id.toLowerCase().includes(fs)) return true;
+    if (eventTerms(deck.draft).some((t) => t.toLowerCase().includes(fs))) return true;
     if (deck.macro_archetype && deck.macro_archetype.toLowerCase().includes(fs)) return true;
     for (let label of (deck.labels || [])) {
       if (label.toLowerCase().includes(fs)) return true;
@@ -241,8 +242,7 @@ export function DeckMatches(deck, matchStr, mbsb) {
         if (!deck.player.toLowerCase().includes(val)) return false;
       } else if (term.startsWith("event:")) {
         const val = term.replace("event:", "").replace(/"/g, "").toLowerCase()
-        const eid = (deck.metadata && deck.metadata.draft_id) || ""
-        if (!eid.toLowerCase().includes(val)) return false;
+        if (!eventTerms(deck.draft).some((t) => t.toLowerCase().includes(val))) return false;
       } else if (term.startsWith("dcolor")) {
         // dcolor matches the deck's overall colors.
         let deckColors = CombineColors(deck.colors).toLowerCase()

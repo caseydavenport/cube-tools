@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Autocomplete } from './PoolList.js';
 import { LoadImportCards, CheckDecks, CommitDraft } from '../utils/ImportFetch.js';
+import { draftLabel } from '../utils/DraftInfo.js';
 
 // deckList returns the editable card list for a deck: its pool if pool-only,
 // else the mainboard. Sideboard is preserved but not edited in v1.
@@ -26,7 +27,7 @@ function duplicatePlayers(decks) {
 }
 
 // ImportReview shows the parsed decks with inline fixes and commits them.
-export default function ImportReview({ cube, initialDecks, initialReport, draftId, date, eventName, onBack, onCommitted }) {
+export default function ImportReview({ cube, initialDecks, initialReport, date, eventName, eventCode, onBack, onCommitted }) {
   const [decks, setDecks] = useState(initialDecks);
   const [report, setReport] = useState(initialReport);
   const [cards, setCards] = useState([]);
@@ -76,7 +77,7 @@ export default function ImportReview({ cube, initialDecks, initialReport, draftI
     if (busy) return;
     setBusy(true); setError('');
     try {
-      const res = await CommitDraft(cube, { draft_id: draftId, date, event_name: eventName, decks });
+      const res = await CommitDraft(cube, { date, event_name: eventName, event_code: eventCode, decks });
       setDone(res.draft_id);
       if (onCommitted) onCommitted(res.draft_id);
     } catch (e) {
@@ -89,7 +90,7 @@ export default function ImportReview({ cube, initialDecks, initialReport, draftI
   if (done) {
     return (
       <div className="import-review done">
-        <p>Imported draft <code>{done}</code>.</p>
+        <p>Imported draft <code>{draftLabel({ id: done, date, event_name: eventName })}</code>.</p>
         <a href={`#/${cube}/decklists`}>View decklists</a>
       </div>
     );

@@ -4,6 +4,7 @@ import { LoadOCRDrafts, LoadOCRDraft, StartDraftScan, GetDraftScan, LoadOCRConsi
 import { Snippet, Autocomplete } from './PoolList.js';
 import { deriveList } from '../utils/Reconcile.js';
 import { PlayerWorkspace } from './PlayerWorkspace.js';
+import { draftLabel } from '../utils/DraftInfo.js';
 
 // OCRImport is the top-level OCR screen. It walks three views: pick a draft,
 // then a player (with the scan-all control and the pool-vs-cube consistency
@@ -33,7 +34,7 @@ export default function OCRImport({ initialDraftId }) {
   // changes (including the reload after a scan finishes) and after each fix.
   const reloadConsistency = useCallback(() => {
     if (!draft) return Promise.resolve();
-    return LoadOCRConsistency(cube, draft.draft_id)
+    return LoadOCRConsistency(cube, draft.draft.id)
       .then(setConsistency)
       .catch(() => setConsistency(null));
   }, [cube, draft]);
@@ -41,10 +42,10 @@ export default function OCRImport({ initialDraftId }) {
   useEffect(() => {
     if (!draft) { setConsistency(null); setCards([]); return; }
     let alive = true;
-    LoadOCRConsistency(cube, draft.draft_id)
+    LoadOCRConsistency(cube, draft.draft.id)
       .then(c => { if (alive) setConsistency(c); })
       .catch(() => { if (alive) setConsistency(null); });
-    LoadOCRCards(cube, draft.draft_id).then(c => { if (alive) setCards(c); });
+    LoadOCRCards(cube, draft.draft.id).then(c => { if (alive) setCards(c); });
     return () => { alive = false; };
   }, [cube, draft]);
 
@@ -53,7 +54,7 @@ export default function OCRImport({ initialDraftId }) {
   useEffect(() => {
     if (!draft) { setScan(null); return; }
     let alive = true;
-    GetDraftScan(cube, draft.draft_id).then(s => { if (alive) setScan(s); });
+    GetDraftScan(cube, draft.draft.id).then(s => { if (alive) setScan(s); });
     return () => { alive = false; };
   }, [cube, draft]);
 
@@ -62,9 +63,9 @@ export default function OCRImport({ initialDraftId }) {
   useEffect(() => {
     if (!draft || !scan || scan.state !== "running") return;
     const t = setTimeout(async () => {
-      const s = await GetDraftScan(cube, draft.draft_id);
+      const s = await GetDraftScan(cube, draft.draft.id);
       setScan(s);
-      if (s.state !== "running") setDraft(await LoadOCRDraft(cube, draft.draft_id));
+      if (s.state !== "running") setDraft(await LoadOCRDraft(cube, draft.draft.id));
     }, 1500);
     return () => clearTimeout(t);
   }, [cube, draft, scan]);
@@ -76,7 +77,7 @@ export default function OCRImport({ initialDraftId }) {
   }
 
   async function startScan() {
-    setScan(await StartDraftScan(cube, draft.draft_id));
+    setScan(await StartDraftScan(cube, draft.draft.id));
   }
 
   if (draft && playerId) {
@@ -85,7 +86,7 @@ export default function OCRImport({ initialDraftId }) {
       <div className="ocr-import wide">
         <button className="ocr-back" onClick={() => setPlayerId(null)}>&larr; Players</button>
         <PlayerWorkspace cube={cube} draft={draft} player={player}
-          onConfirmed={() => openDraft(draft.draft_id)} />
+          onConfirmed={() => openDraft(draft.draft.id)} />
       </div>
     );
   }
@@ -94,10 +95,7 @@ export default function OCRImport({ initialDraftId }) {
     return (
       <div className="ocr-import">
         <button className="ocr-back" onClick={() => setDraft(null)}>&larr; Drafts</button>
-        <h2 className="ocr-title">
-          {draft.event_name || draft.draft_id}
-          {draft.flight && <span className="ocr-title-flight">{draft.flight}</span>}
-        </h2>
+        <h2 className="ocr-title">{draftLabel(draft.draft)}</h2>
         <div className="ocr-scan-bar">
           <button className="ocr-scan-all" onClick={startScan} disabled={scan && scan.state === "running"}>
             {scan && scan.state === "running" ? "Scanning…" : "Scan all photos"}
@@ -116,7 +114,7 @@ export default function OCRImport({ initialDraftId }) {
           {scan && scan.error && <span className="ocr-scan-error">some photos failed: {scan.error}</span>}
         </div>
         {consistency && (
-          <ConsistencyPanel report={consistency} cube={cube} draftId={draft.draft_id}
+          <ConsistencyPanel report={consistency} cube={cube} draftId={draft.draft.id}
             cards={cards} onFixed={reloadConsistency} />
         )}
         <ul className="ocr-card-list">
@@ -157,11 +155,10 @@ export default function OCRImport({ initialDraftId }) {
         {drafts.map(d => {
           const done = d.players > 0 && d.confirmed >= d.players;
           return (
-            <li key={d.draft_id}>
-              <button className="ocr-card-row" onClick={() => openDraft(d.draft_id)}>
+            <li key={d.draft.id}>
+              <button className="ocr-card-row" onClick={() => openDraft(d.draft.id)}>
                 <span className="ocr-card-head">
-                  <span className="ocr-card-title">{d.event_name || d.draft_id}</span>
-                  {d.flight && <span className="ocr-meta">{d.flight}</span>}
+                  <span className="ocr-card-title">{draftLabel(d.draft)}</span>
                 </span>
                 <span className="ocr-badges">
                   {d.conflicts > 0 && (
@@ -322,7 +319,7 @@ function CaptureFix({ cap, cube, draftId, cards, missingNames, onFixed }) {
   return (
     <li className={`ocr-capture ${busy ? "busy" : ""}`}>
       <div className="ocr-capture-top">
-        <Snippet cube={cube} source={source} w={264} h={56} />
+        <Snippet cube={cube} draftId={draftId} source={source} w={264} h={56} />
         <span className="ocr-capture-meta">
           <span className="ocr-capture-player">{cap.player}</span>
           <span className="ocr-capture-name">{cap.chosen}</span>

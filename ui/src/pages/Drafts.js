@@ -3,6 +3,7 @@ import { SortFunc } from "../utils/Utils.js"
 import { DropdownHeader } from "../components/Dropdown.js"
 import { Trophies } from "../utils/Deck.js"
 import { CollapsibleIndex } from "../components/BrowseLayout.js"
+import { draftLabel, compareDrafts } from "../utils/DraftInfo.js"
 
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Popover from 'react-bootstrap/Popover';
@@ -40,7 +41,7 @@ function DraftPackWidgetOptions(input) {
 export function DraftPackWidget(input) {
   let draft = {users: []};
   for (var [idx, log] of Object.entries(input.drafts)) {
-    if (log.date === input.selectedDraftLog) {
+    if (String(log.draft.id) === String(input.selectedDraftLog)) {
       draft = log;
       break;
     }
@@ -108,14 +109,13 @@ export function DraftPackWidget(input) {
   );
 }
 
-// draftRows turns the drafts map into sortable index rows: date, non-bot
-// player count, and the trophy winner (derived from decks of that date).
+// draftRows turns the drafts map into index rows: draft id and label, non-bot
+// player count, and the trophy winner from that draft's decks.
 export function draftRows(drafts, decks) {
-  // Map each draft date to its trophy winner, if any deck that date won one.
-  let winnerByDate = new Map();
+  let winnerByDraft = new Map();
   for (let deck of decks) {
-    if (Trophies(deck) > 0 && deck.date) {
-      winnerByDate.set(deck.date, deck.player);
+    if (Trophies(deck) > 0) {
+      winnerByDraft.set(deck.metadata.draft_id, deck.player);
     }
   }
 
@@ -127,13 +127,15 @@ export function draftRows(drafts, decks) {
       if (!user.isBot) players += 1;
     }
     rows.push({
-      date: draft.date,
+      id: String(draft.draft.id),
+      draft: draft.draft,
+      label: draftLabel(draft.draft),
       players,
-      winner: winnerByDate.get(draft.date) || "—",
+      winner: winnerByDraft.get(draft.draft.id) || "—",
     });
   }
   // Most recent first.
-  rows.sort((a, b) => (a.date < b.date ? 1 : a.date > b.date ? -1 : 0));
+  rows.sort((a, b) => compareDrafts(b.draft, a.draft));
   return rows;
 }
 
@@ -152,7 +154,7 @@ export function DraftIndex({ drafts, decks, selected, onSelect, collapsed, onTog
       <table className="widget-table" style={{ border: "none", borderRadius: "0" }}>
         <thead className="table-header">
           <tr>
-            <td className="header-cell">Date</td>
+            <td className="header-cell">Draft</td>
             <td className="header-cell">Players</td>
             <td className="header-cell">Winner</td>
           </tr>
@@ -160,13 +162,13 @@ export function DraftIndex({ drafts, decks, selected, onSelect, collapsed, onTog
         <tbody>
           {rows.map(function (row) {
             let className = "widget-table-row";
-            const isSelected = row.date === selected;
+            const isSelected = row.id === selected;
             if (isSelected) className += " button-selected";
             const canLink = onSelectWinner && row.winner !== "—";
             return (
-              <tr ref={isSelected ? selectedRowRef : null} key={row.date} className={className} id={row.date} onClick={onSelect}>
-                <td id={row.date} style={{ whiteSpace: "nowrap" }}>{row.date}</td>
-                <td id={row.date}>{row.players}</td>
+              <tr ref={isSelected ? selectedRowRef : null} key={row.id} className={className} id={row.id} onClick={onSelect}>
+                <td id={row.id} style={{ whiteSpace: "nowrap" }}>{row.label}</td>
+                <td id={row.id}>{row.players}</td>
                 <td
                   style={{ whiteSpace: "nowrap" }}
                   className={canLink ? "xlink" : undefined}
@@ -190,7 +192,7 @@ export function DraftPackBrowser(input) {
         <div className="player-frame deck-summary">
           <div className="deck-summary-header">
             <div className="deck-summary-identity">
-              <h2 className="deck-summary-name">{input.summary.date}</h2>
+              <h2 className="deck-summary-name">{input.summary.label}</h2>
             </div>
           </div>
           <div className="deck-summary-metrics">

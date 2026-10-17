@@ -8,13 +8,6 @@ function today() {
   return new Date().toISOString().slice(0, 10);
 }
 
-// slugId builds a filesystem-safe draft id from the date and event name.
-// validID on the server rejects "/", "\\", and "..", so keep to [a-z0-9_-].
-function slugId(date, eventName) {
-  const slug = (eventName || 'import').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
-  return `${date}_${slug || 'import'}`;
-}
-
 // playerFromFilename mirrors the server: strip the extension and any "_suffix".
 function playerFromFilename(name) {
   return name.split('.')[0].split('_')[0].toLowerCase();
@@ -34,7 +27,7 @@ export default function ImportWizard({ source, onDone }) {
   // Configure inputs.
   const [date, setDate] = useState(today());
   const [eventName, setEventName] = useState('');
-  const [draftId, setDraftId] = useState('');
+  const [eventCode, setEventCode] = useState('local');
 
   const [parsed, setParsed] = useState(null);     // {decks, report}
   const [busy, setBusy] = useState(false);
@@ -53,7 +46,6 @@ export default function ImportWizard({ source, onDone }) {
 
   function toConfigure() {
     if (!sourceReady) return;
-    if (!draftId) setDraftId(slugId(date, eventName));
     setStep('configure');
   }
 
@@ -85,9 +77,9 @@ export default function ImportWizard({ source, onDone }) {
         cube={cube}
         initialDecks={parsed.decks}
         initialReport={parsed.report}
-        draftId={draftId}
         date={date}
         eventName={eventName}
+        eventCode={eventCode}
         onBack={() => setStep('configure')}
         onCommitted={onDone}
       />
@@ -137,12 +129,12 @@ export default function ImportWizard({ source, onDone }) {
 
       {step === 'configure' && (
         <div className="import-configure">
-          <label>Draft id<input value={draftId} onChange={e => setDraftId(e.target.value)} /></label>
           <label>Date<input type="date" value={date} onChange={e => setDate(e.target.value)} /></label>
+          <label>Event code<input value={eventCode} onChange={e => setEventCode(e.target.value)} placeholder="e.g. local, bcp26" /></label>
           <label>Event name<input value={eventName} onChange={e => setEventName(e.target.value)} placeholder="optional" /></label>
           <div className="import-actions">
             <button onClick={() => setStep('source')}>Back</button>
-            <button onClick={toReview} disabled={busy || !draftId || !date}>{busy ? 'Parsing…' : 'Review'}</button>
+            <button onClick={toReview} disabled={busy || !date}>{busy ? 'Parsing…' : 'Review'}</button>
           </div>
         </div>
       )}

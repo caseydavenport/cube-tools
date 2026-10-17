@@ -50,20 +50,11 @@ export async function LoadDrafts(cube, onLoad, start, end) {
   // all the drafts and decks therein.
   let idx = await FetchIndex(cube, null)
 
-  let ids = []
   // A cube with no drafts yet serves {"drafts": null}, so default to empty.
-  ;(idx.drafts || []).forEach(function(draft, i) {
-    if (!isDateBetween(draft.date, start, end)) {
-      return
-    }
-    if (!draft.has_log) {
-      return
-    }
-    ids.push(draft.draft_id)
-  })
+  let withLogs = (idx.drafts || []).filter((draft) => draft.has_log && isDateBetween(draft.date, start, end))
 
   // Query draft logs in parallel.
-  let requests = ids.map((id) => fetch(`/api/${cube}/drafts/${id}/log`));
+  let requests = withLogs.map((draft) => fetch(`/api/${cube}/drafts/${draft.id}/log`));
   let responses = await Promise.all(requests);
   let errors = responses.filter((response) => !response.ok);
   if (errors.length > 0) {
@@ -72,11 +63,11 @@ export async function LoadDrafts(cube, onLoad, start, end) {
   let json = responses.map(function(response) { return response.json() });
   let draftResponses = await Promise.all(json);
 
+  // Attach the draft each log belongs to, in the same shape decks carry.
   let drafts = []
-  draftResponses.forEach(function(resp, idx) {
-    // Add the date as a field so it can be used in the UI.
-    // TODO: Rename this field from date -> id
-    resp.date = ids[idx]
+  draftResponses.forEach(function(resp, i) {
+    const { id, date, event_name, event_code, flight } = withLogs[i]
+    resp.draft = { id, date, event_name, event_code, flight }
     drafts.push(resp)
   })
 

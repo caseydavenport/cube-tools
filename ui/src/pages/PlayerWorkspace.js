@@ -8,6 +8,7 @@ import { allWarnings, previewSideboard, mainboardBreakdown } from '../utils/Cros
 // PlayerWorkspace is the per-player OCR screen: reconcile the detected pool and
 // deck against the photos across the pool/deck/confirm tabs, then write the deck.
 export function PlayerWorkspace({ cube, draft, player, onConfirmed }) {
+  const draftId = draft.draft.id;
   const poolPhotos = [...(player.photos.checkin || []), ...(player.photos.checkout || [])];
   const deckPhotos = player.photos.deck || [];
 
@@ -87,8 +88,8 @@ export function PlayerWorkspace({ cube, draft, player, onConfirmed }) {
 
   // Load cards + saved session once.
   useEffect(() => {
-    LoadOCRCards(cube, draft.draft_id).then(setCards);
-    LoadOCRSession(cube, draft.draft_id).then(s => {
+    LoadOCRCards(cube, draftId).then(setCards);
+    LoadOCRSession(cube, draftId).then(s => {
       const pw = s.players && s.players[player.id];
       if (pw) {
         // Dedupe by id: a box id is unique per box, so two entries sharing one
@@ -110,7 +111,7 @@ export function PlayerWorkspace({ cube, draft, player, onConfirmed }) {
       setLoaded(true);
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [cube, draft.draft_id, player.id]);
+  }, [cube, draftId, player.id]);
 
   // Photos are scanned on demand (the "Scan photo" button), not automatically,
   // so the operator can rotate a photo into the right orientation before OCR
@@ -120,8 +121,8 @@ export function PlayerWorkspace({ cube, draft, player, onConfirmed }) {
   useEffect(() => {
     if (!loaded) return;
     const t = setTimeout(() => {
-      SaveOCRSession(cube, draft.draft_id, {
-        draft_id: draft.draft_id,
+      SaveOCRSession(cube, draftId, {
+        draft_id: draftId,
         players: { [player.id]: {
           status: "in_progress",
           boxes, deck_boxes: deckBoxes, overrides, deck_overrides: deckOverrides, basics, sideboard,
@@ -143,7 +144,7 @@ export function PlayerWorkspace({ cube, draft, player, onConfirmed }) {
     }
     async function rematch(photo, id, bbox) {
       try {
-        const line = await MatchRegion(cube, photo, bbox);
+        const line = await MatchRegion(cube, draftId, photo, bbox);
         setMap(prev => patch(prev, photo, id, {
           status: line.confidence_band, chosen: line.chosen || "",
           candidates: line.candidates || [], bbox: line.bbox || bbox,
@@ -182,7 +183,7 @@ export function PlayerWorkspace({ cube, draft, player, onConfirmed }) {
   // boxes contributed, then add the fresh detection (basics are seeded from
   // detected basic lands).
   function applyDetection(setMap, photo, existing) {
-    return DetectPhoto(cube, photo).then(lines => {
+    return DetectPhoto(cube, draftId, photo).then(lines => {
       const detected = linesToBoxes(photo, lines);
       setMap(prev => ({ ...prev, [photo]: detected }));
       if (setMap === setDeckBoxes) {
@@ -212,7 +213,7 @@ export function PlayerWorkspace({ cube, draft, player, onConfirmed }) {
   function rotate(setMap, photo, existing, dir) {
     if (!photo || redetecting) return;
     setRedetecting(true);
-    RotatePhoto(cube, photo, dir)
+    RotatePhoto(cube, draftId, photo, dir)
       .then(() => {
         setPhotoVersions(prev => ({ ...prev, [photo]: (prev[photo] || 0) + 1 }));
         setMap(prev => ({ ...prev, [photo]: [] }));
@@ -310,7 +311,7 @@ export function PlayerWorkspace({ cube, draft, player, onConfirmed }) {
     const payload = mainboard.length > 0 || Object.values(basics).some(n => n > 0)
       ? { pool: toCounted(pool), mainboard: toCounted(mainboard), sideboard: toCounted(sideboardList), basics }
       : { pool: toCounted(pool) };
-    await ConfirmPlayer(cube, draft.draft_id, player.id, payload);
+    await ConfirmPlayer(cube, draftId, player.id, payload);
     // Let the parent reload the draft (so this player turns green) and drop back
     // to the players list.
     if (onConfirmed) await onConfirmed();
@@ -330,7 +331,7 @@ export function PlayerWorkspace({ cube, draft, player, onConfirmed }) {
         <>
           <div className="ocr-cols">
             <div className="ocr-left">
-              {currentPhoto && <PhotoViewer cube={cube} photo={currentPhoto} photos={poolPhotos} onSelectPhoto={setCurrentPhoto}
+              {currentPhoto && <PhotoViewer cube={cube} draftId={draftId} photo={currentPhoto} photos={poolPhotos} onSelectPhoto={setCurrentPhoto}
                 boxes={boxes[currentPhoto]} hoveredName={hoveredName} setHoveredName={setHoveredName}
                 onDrawBox={b => poolOps.add(currentPhoto, b)}
                 onResizeBox={(id, b) => poolOps.resize(currentPhoto, id, b)}
@@ -342,7 +343,7 @@ export function PlayerWorkspace({ cube, draft, player, onConfirmed }) {
                 detecting={redetecting} bust={bust} />}
             </div>
             <div className="ocr-right">
-              <PoolList title="Pool" entries={pool} cards={cards} target={45} cube={cube} bust={bust}
+              <PoolList title="Pool" entries={pool} cards={cards} target={45} cube={cube} draftId={draftId} bust={bust}
                 hoveredName={hoveredName} setHoveredName={setHoveredName}
                 onSetCount={poolList.setCount} onRemove={poolList.remove}
                 onChangeName={poolList.changeName} onAdd={poolList.add}
@@ -356,7 +357,7 @@ export function PlayerWorkspace({ cube, draft, player, onConfirmed }) {
       {stage === "deck" && (
         <div className="ocr-cols">
           <div className="ocr-left">
-            {deckPhoto && <PhotoViewer cube={cube} photo={deckPhoto} photos={deckPhotos} onSelectPhoto={setDeckPhoto}
+            {deckPhoto && <PhotoViewer cube={cube} draftId={draftId} photo={deckPhoto} photos={deckPhotos} onSelectPhoto={setDeckPhoto}
               boxes={deckBoxes[deckPhoto]} hoveredName={hoveredName} setHoveredName={setHoveredName}
               onDrawBox={b => deckOps.add(deckPhoto, b)}
               onResizeBox={(id, b) => deckOps.resize(deckPhoto, id, b)}
@@ -369,7 +370,7 @@ export function PlayerWorkspace({ cube, draft, player, onConfirmed }) {
               detecting={redetecting} bust={bust} />}
           </div>
           <div className="ocr-right">
-            <PoolList title="Mainboard" entries={mainboard} cards={cards} breakdown={breakdown} cube={cube} bust={bust}
+            <PoolList title="Mainboard" entries={mainboard} cards={cards} breakdown={breakdown} cube={cube} draftId={draftId} bust={bust}
               hoveredName={hoveredName} setHoveredName={setHoveredName}
               onSetCount={deckList.setCount} onRemove={deckList.remove}
               onChangeName={deckList.changeName} onAdd={deckList.add}
@@ -386,7 +387,7 @@ export function PlayerWorkspace({ cube, draft, player, onConfirmed }) {
       {stage === "confirm" && (
         <div className="ocr-confirm">
           <p>Pool: {pool.reduce((s, e) => s + e.count, 0)} cards. Mainboard: {breakdown.cards} ({breakdown.lands} lands, {breakdown.basics} basics).</p>
-          <ConfirmSlideshow captures={confirmCaptures} cards={cards} cube={cube} bust={bust} onCorrect={correctCapture} />
+          <ConfirmSlideshow captures={confirmCaptures} cards={cards} cube={cube} draftId={draftId} bust={bust} onCorrect={correctCapture} />
           <button className="ocr-confirm-btn" onClick={confirm}>Confirm &amp; write deck</button>
         </div>
       )}
@@ -442,7 +443,7 @@ const SLIDE_SNIP_W = 620, SLIDE_SNIP_H = 150;
 // check before writing the deck. Accept (✓ / Enter / →) advances; reject (✗ /
 // ↓) opens an inline correction (candidate quick-picks + a name search) that
 // reassigns the card and advances. ← steps back, Esc closes a correction.
-function ConfirmSlideshow({ captures, cards, cube, bust, onCorrect }) {
+function ConfirmSlideshow({ captures, cards, cube, draftId, bust, onCorrect }) {
   const [idx, setIdx] = useState(0);
   const [correcting, setCorrecting] = useState(false);
   const total = captures.length;
@@ -487,7 +488,7 @@ function ConfirmSlideshow({ captures, cards, cube, bust, onCorrect }) {
   return (
     <div className="ocr-slideshow">
       <div className="ocr-slide-progress">{idx + 1} / {total} · {cap.group}</div>
-      <Snippet cube={cube} source={cap.source} bust={bust} w={SLIDE_SNIP_W} h={SLIDE_SNIP_H} />
+      <Snippet cube={cube} draftId={draftId} source={cap.source} bust={bust} w={SLIDE_SNIP_W} h={SLIDE_SNIP_H} />
       <div className="ocr-slide-name">{cap.chosen}</div>
       <div className="ocr-slide-actions">
         <button className="ocr-slide-yes" onClick={accept} title="Looks right (Enter)">✓</button>

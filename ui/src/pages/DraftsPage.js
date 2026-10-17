@@ -27,7 +27,7 @@ export function DraftsPage(props) {
   const data = useStatsData(filters, dataProps, refresh);
   const { drafts, parsed } = data;
 
-  // Selected draft (by date), plus pack-browser sub-selections.
+  // Selected draft (by id), plus pack-browser sub-selections.
   const [selectedDraftLog, setSelectedDraftLog] = useSelection("draft");
   const [selectedDraftPlayer, setSelectedDraftPlayer] = useState("");
   const [draftPlayers, setDraftPlayers] = useState([]);
@@ -39,7 +39,7 @@ export function DraftsPage(props) {
   useEffect(() => {
     let users = [{ label: "", value: "" }];
     for (let draft of Object.values(drafts || {})) {
-      if (draft.date === selectedDraftLog) {
+      if (String(draft.draft.id) === selectedDraftLog) {
         for (let user of Object.values(draft.users)) {
           if (!user.isBot) users.push({ label: user.userID, value: user.userName });
         }
@@ -55,7 +55,7 @@ export function DraftsPage(props) {
     setSelectedDraftPlayer(event.target.value);
     let numPicks = 0;
     for (let draft of Object.values(drafts || {})) {
-      if (draft.date === selectedDraftLog) {
+      if (String(draft.draft.id) === selectedDraftLog) {
         for (let user of Object.values(draft.users)) {
           if (user.userName === event.target.value) {
             numPicks = user.picks.length;
@@ -71,13 +71,13 @@ export function DraftsPage(props) {
     setSelectedPack(1);
   };
 
-  // The index rows in display order (date descending), plus the selected
+  // The index rows in display order (newest first), plus the selected
   // draft's summary for the detail header.
   const rows = draftRows(drafts || {}, parsed.filteredDecks);
-  const selectedSummary = rows.find((r) => r.date === selectedDraftLog) || null;
+  const selectedSummary = rows.find((r) => r.id === selectedDraftLog) || null;
 
   // Left/right arrows step through the drafts in the index order.
-  useArrowNav(rows, selectedDraftLog, (r) => r.date, (date) => setSelectedDraftLog(date));
+  useArrowNav(rows, selectedDraftLog, (r) => r.id, (id) => setSelectedDraftLog(id));
 
   const browserProps = {
     drafts: drafts || {},
@@ -91,7 +91,7 @@ export function DraftsPage(props) {
     summary: selectedSummary,
     // The index is the draft selector in Browse, so DraftPackWidgetOptions hides
     // its own Draft dropdown when handed a single-entry list.
-    draftLogs: [{ label: selectedDraftLog, value: selectedDraftLog }],
+    draftLogs: [{ label: selectedSummary ? selectedSummary.label : selectedDraftLog, value: selectedDraftLog }],
     onDraftLogSelected: () => {},
   };
 

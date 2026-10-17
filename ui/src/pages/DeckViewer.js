@@ -20,6 +20,7 @@ import { BrowseLayout, BrowseEmptyState, CollapsibleIndex } from "../components/
 import { CardSynergyMap } from "./DesignMap.js"
 import { useSelection } from "../hooks/useSelection.js"
 import { useArrowNav } from "../hooks/useArrowNav.js"
+import { draftLabel, compareDrafts } from "../utils/DraftInfo.js"
 
 // deckRef is the opaque selection token for a deck: its draft plus its opaque
 // id. Unique across drafts; never split the id back out of it.
@@ -268,8 +269,8 @@ export function DeckViewer(props) {
           sortB = b.opponent_win_percentage;
           break;
         default:
-          sortA = a.date + a.metadata.draft_id;
-          sortB = b.date + b.metadata.draft_id;
+          // Newest draft first.
+          return compareDrafts(b.draft, a.draft);
       }
       if (sortA > sortB) return -1;
       if (sortA < sortB) return 1;
@@ -290,11 +291,10 @@ export function DeckViewer(props) {
     return Array.from(seen).sort();
   }, [decks]);
 
-  const eventIDs = useMemo(() => {
+  const eventCodes = useMemo(() => {
     let seen = new Set();
     for (let deck of decks) {
-      const eid = deck.metadata && deck.metadata.draft_id;
-      if (eid) seen.add(eid);
+      if (deck.draft.event_code) seen.add(deck.draft.event_code);
     }
     return Array.from(seen).sort();
   }, [decks]);
@@ -344,7 +344,7 @@ export function DeckViewer(props) {
           cardNames={cubeData.cards.map(c => c.name)}
           playerNames={playerNames}
           archetypes={archetypes}
-          eventIDs={eventIDs}
+          eventCodes={eventCodes}
           onChange={(e) => setTypingStr(e.target.value)}
         />
       </div>
@@ -1210,7 +1210,7 @@ function PlayerFrame(input) {
     <span className="metric"><strong>{interaction}</strong> interaction</span>,
     acmc ? <span className="metric">CMC <strong>{acmc}</strong></span> : null,
     <span className="metric">Opp <strong>{deck.opponent_win_percentage}%</strong></span>,
-    (deck.metadata && deck.metadata.draft_id) ? <span className="metric event">{deck.metadata.draft_id}</span> : null,
+    <span className="metric event">{draftLabel(deck.draft)}</span>,
   ].filter(Boolean)
 
   return (

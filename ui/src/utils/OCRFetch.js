@@ -1,7 +1,7 @@
 // ImageURL builds a photo URL. Pass a version (bumped when the photo is rotated
 // in place) to bust the browser cache so the rotated file loads.
-export function ImageURL(cube, photo, version) {
-  return `/api/${cube}/img/${photo}${version ? `?v=${version}` : ""}`;
+export function ImageURL(cube, draftId, photo, version) {
+  return `/api/${cube}/ocr/drafts/${draftId}/img/${photo}${version ? `?v=${version}` : ""}`;
 }
 
 export async function LoadOCRDrafts(cube) {
@@ -25,8 +25,8 @@ export async function LoadOCRConsistency(cube, draftId) {
   return await r.json();
 }
 
-export async function DetectPhoto(cube, photo) {
-  const r = await fetch(`/api/${cube}/ocr/detect`, {
+export async function DetectPhoto(cube, draftId, photo) {
+  const r = await fetch(`/api/${cube}/ocr/drafts/${draftId}/detect`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ photo }),
@@ -36,8 +36,8 @@ export async function DetectPhoto(cube, photo) {
 }
 
 // RotatePhoto rotates a photo 90 degrees in place. direction is "cw" or "ccw".
-export async function RotatePhoto(cube, photo, direction) {
-  const r = await fetch(`/api/${cube}/ocr/rotate`, {
+export async function RotatePhoto(cube, draftId, photo, direction) {
+  const r = await fetch(`/api/${cube}/ocr/drafts/${draftId}/rotate`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ photo, direction }),
@@ -45,8 +45,8 @@ export async function RotatePhoto(cube, photo, direction) {
   if (!r.ok) throw new Error(`rotate failed: ${await r.text()}`);
 }
 
-export async function MatchRegion(cube, photo, box) {
-  const r = await fetch(`/api/${cube}/ocr/region`, {
+export async function MatchRegion(cube, draftId, photo, box) {
+  const r = await fetch(`/api/${cube}/ocr/drafts/${draftId}/region`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ photo, box }),

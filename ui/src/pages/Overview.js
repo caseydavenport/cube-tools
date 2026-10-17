@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useCube } from '../contexts/CubeContext.js';
+import { draftLabel } from '../utils/DraftInfo.js';
 
 export default function Overview() {
   const cube = useCube();
@@ -76,9 +77,9 @@ export default function Overview() {
         <div className="overview-recent">
           <h2>Recent drafts</h2>
           <ul>
-            {recentDrafts.map((d, i) => (
-              <li key={i}>
-                <Link to={`/${cube}/drafts`}>{d.date}</Link>
+            {recentDrafts.map((d) => (
+              <li key={d.id}>
+                <Link to={`/${cube}/drafts`}>{draftLabel(d)}</Link>
               </li>
             ))}
           </ul>
