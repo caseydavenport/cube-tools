@@ -150,11 +150,25 @@ func hedronPlayerNum(playerID string) int {
 // the new draft's ID.
 func importDraft(cube string, d *HedronDraft) (int, error) {
 	dateStr := d.Date[:10]
-	draft, err := drafts.Create(filepath.Join("data", cube), types.DraftMetadata{
+	cubeDir := filepath.Join("data", cube)
+
+	// The description names the event and flight, so with the date it marks a
+	// Hedron draft as already imported, including imports from before numbering.
+	desc := fmt.Sprintf("Imported from Hedron Network. Event Code: %s, Flight: %s", d.EventCode, d.FlightName)
+	existing, err := drafts.List(cubeDir)
+	if err != nil {
+		return 0, err
+	}
+	for _, e := range existing {
+		if e.Date == dateStr && e.EventDescription == desc {
+			return 0, fmt.Errorf("already imported as draft %d", e.ID)
+		}
+	}
+	draft, err := drafts.Create(cubeDir, types.DraftMetadata{
 		Date:             dateStr,
 		EventName:        d.EventName,
 		EventCode:        d.EventCode,
-		EventDescription: fmt.Sprintf("Imported from Hedron Network. Event Code: %s, Flight: %s", d.EventCode, d.FlightName),
+		EventDescription: desc,
 		Flight:           d.FlightName,
 	})
 	if err != nil {

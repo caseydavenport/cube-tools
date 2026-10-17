@@ -53,3 +53,15 @@ func TestWriteDeckNewDeckGetsNextIDFile(t *testing.T) {
 	require.Equal(t, "carol", got.Player)
 	require.Equal(t, drafts.DeckPath(draft.Dir, 3), got.Metadata.Path)
 }
+
+func TestParseBadDeckLeavesNoDraft(t *testing.T) {
+	t.Chdir(t.TempDir())
+	date, draftID = "2026-01-02", 0
+	defer func() { date = "" }()
+
+	err := parseOne("polyverse", "deck.pdf", "freddie", "")
+	require.Error(t, err)
+	all, err := drafts.List(filepath.Join("data", "polyverse"))
+	require.NoError(t, err)
+	require.Empty(t, all)
+}

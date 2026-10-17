@@ -207,3 +207,16 @@ func TestDeckBucketsSliding_GroupsMultipleDecksPerDraft(t *testing.T) {
 	assert.Equal(t, 4, len(buckets[0].AllDecks()))
 	assert.Equal(t, 4, len(buckets[1].AllDecks()))
 }
+
+func TestDeckBucketsFewDecksKeepsDates(t *testing.T) {
+	decks := []*storage.Deck{
+		makeDeck("Freddie", 2, "2024-02-01", nil),
+		makeDeck("Ozzy", 1, "2024-01-01", nil),
+	}
+	for _, discrete := range []bool{true, false} {
+		buckets := DeckBuckets(decks, 10, discrete)
+		assert.Equal(t, 1, len(buckets))
+		assert.Equal(t, "2024-01-01", buckets[0].Start(), "discrete=%v", discrete)
+		assert.Equal(t, "2024-01-01 – 2024-02-01", buckets[0].Name(), "discrete=%v", discrete)
+	}
+}

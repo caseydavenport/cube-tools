@@ -1,8 +1,10 @@
 package drafts
 
 import (
+	"fmt"
 	"os"
 	"path/filepath"
+	"sync"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -175,4 +177,40 @@ func TestFindDeckByPlayer(t *testing.T) {
 
 	_, _, err = FindDeckByPlayer(dir, "nobody")
 	assert.ErrorIs(t, err, ErrNotFound)
+}
+
+func TestCreateConcurrentGetsUniqueIDs(t *testing.T) {
+	cubeDir := t.TempDir()
+	const n = 20
+	ids := make(chan int, n)
+	var wg sync.WaitGroup
+	for i := range n {
+		wg.Add(1)
+		go func() {
+			defer wg.Done()
+			d, err := Create(cubeDir, types.DraftMetadata{Date: fmt.Sprintf("2026-01-%02d", i+1)})
+			assert.NoError(t, err)
+			ids <- d.ID
+		}()
+	}
+	wg.Wait()
+	close(ids)
+	seen := map[int]bool{}
+	for id := range ids {
+		assert.False(t, seen[id], "id %d handed out twice", id)
+		seen[id] = true
+	}
+	assert.Len(t, seen, n)
+}
+
+func TestCreateNeverReusesAnOrphanedDirsID(t *testing.T) {
+	cubeDir := t.TempDir()
+	writeDraft(t, cubeDir, "0001_2026-01-01", types.DraftMetadata{ID: 1, Date: "2026-01-01"})
+
+	// A crash between mkdir and writing metadata leaves a numbered dir with no id.
+	require.NoError(t, os.Mkdir(filepath.Join(cubeDir, "0005_2026-01-02"), 0o755))
+
+	d, err := Create(cubeDir, types.DraftMetadata{Date: "2026-01-03"})
+	require.NoError(t, err)
+	assert.Equal(t, 6, d.ID)
 }

@@ -8,8 +8,11 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+	"regexp"
 	"sort"
+	"strconv"
 	"strings"
+	"sync"
 	"time"
 
 	"github.com/caseydavenport/cube-tools/pkg/types"
@@ -129,6 +132,42 @@ func Find(cubeDir string, id int) (Draft, error) {
 	return Draft{}, ErrNotFound
 }
 
+// createMu serializes Create, so concurrent server requests can't pick the
+// same next ID.
+var createMu sync.Mutex
+
+// numberedDirRE matches a draft directory name's ID prefix.
+var numberedDirRE = regexp.MustCompile(`^(\d{4,})_`)
+
+// highestID is the largest draft ID used under cubeDir, from metadata or a
+// directory name, so a directory left without metadata still reserves its ID.
+func highestID(cubeDir string) (int, error) {
+	all, err := List(cubeDir)
+	if err != nil {
+		return 0, err
+	}
+	highest := 0
+	for _, d := range all {
+		highest = max(highest, d.ID)
+	}
+	entries, err := os.ReadDir(cubeDir)
+	if err != nil && !os.IsNotExist(err) {
+		return 0, err
+	}
+	for _, e := range entries {
+		m := numberedDirRE.FindStringSubmatch(e.Name())
+		if !e.IsDir() || m == nil {
+			continue
+		}
+		n, err := strconv.Atoi(m[1])
+		if err != nil {
+			return 0, err
+		}
+		highest = max(highest, n)
+	}
+	return highest, nil
+}
+
 // Create makes a new draft under cubeDir from meta, which must have a Date. It
 // assigns the next unused ID, creates the draft's directory, and writes its
 // metadata.json. It refuses to reuse a directory that already exists.
@@ -142,20 +181,32 @@ func Create(cubeDir string, meta types.DraftMetadata) (Draft, error) {
 	if _, err := time.Parse(time.DateOnly, meta.Date); err != nil {
 		return Draft{}, fmt.Errorf("draft date %q must be YYYY-MM-DD", meta.Date)
 	}
-	all, err := List(cubeDir)
+
+	createMu.Lock()
+	defer createMu.Unlock()
+	highest, err := highestID(cubeDir)
 	if err != nil {
 		return Draft{}, err
 	}
-	meta.ID = 1
-	for _, d := range all {
-		meta.ID = max(meta.ID, d.ID+1)
-	}
+	meta.ID = highest + 1
 	dir := filepath.Join(cubeDir, DirName(meta.ID, meta.Date))
 	if err := os.MkdirAll(cubeDir, 0o755); err != nil {
 		return Draft{}, err
 	}
 	if err := os.Mkdir(dir, 0o755); err != nil {
 		return Draft{}, fmt.Errorf("create draft directory: %w", err)
+	}
+
+	// Another process may have taken the same ID under a different date.
+	same, err := filepath.Glob(filepath.Join(cubeDir, fmt.Sprintf("%04d_*", meta.ID)))
+	if err != nil {
+		return Draft{}, err
+	}
+	if len(same) > 1 {
+		if err := os.Remove(dir); err != nil {
+			return Draft{}, fmt.Errorf("draft %d was created concurrently, and removing ours failed: %w", meta.ID, err)
+		}
+		return Draft{}, fmt.Errorf("draft %d was created concurrently; try again", meta.ID)
 	}
 	if err := meta.Save(dir); err != nil {
 		return Draft{}, fmt.Errorf("write draft metadata: %w", err)

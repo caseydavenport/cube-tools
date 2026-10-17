@@ -20,9 +20,9 @@ Data for each draft can be found in [data](data). Structure is as follows:
 data/                        # data root directory, with a sub-directory per-cube.
 |-- <cube-name>/             # cube directory
    |-- index.json            # auto-generated index file of decks.
-   |-- YYYY-MM-DD/           # draft directory containing per-draft information.
-      |-- player.json        # deck file for <player>
-      |-- player.report.md   # optional report markdown file for this deck.
+   |-- NNNN_YYYY-MM-DD/      # draft directory, named for the draft's number and date.
+      |-- metadata.json      # draft number, date, event name, code, and flight.
+      |-- N.json             # deck file for the draft's deck number N.
       |-- cube-snapshot.json # snapshot of the cube at this date.
       |-- draft-log.json     # optional draft log from Draftmancer.com
       |-- replays/           # optional cockatrice replays directory.
@@ -44,7 +44,6 @@ Usage:
 
 Available Commands:
   completion      Generate the autocompletion script for the specified shell
-  diff            Show the difference between two cube files
   edit            Edit an existing deck file
   help            Help about any command
   index           Regenerate index files for the drafts directory.
@@ -70,12 +69,15 @@ You can also use the "Download all decks" feature of [Draftmancer](https://draft
 Once you have downloaded / created deck files within a directory, use can parse them like so:
 
 ```
-./bin/parser \
-    -deck-dir ~/Downloads/draft/ \     # Path to deck files.
-    -date 2024-01-07 \                 # Date to assign.
+./bin/parser parse-dir --cube polyverse \
+    --deck-dir ~/Downloads/draft/ \    # Path to deck files.
+    --date 2024-01-07 \                # Date of the new draft.
+    --event-code local \               # Short event code, searchable with event:.
     -p Prefix \                        # Optional prefix to match for each deck file.
-    -filetype ".txt"                   # Filetype to check.
+    --filetype ".txt"                  # Filetype to check.
 ```
+
+This creates a new numbered draft and logs its number. Pass `--draft <number>` instead of `--date` to add decks to an existing draft.
 
 This will also run a consistency check to ensure decks have the correct number of cards, and that the drafted card list matches the expected cube contents (i.e., check for missing or extra cards).
 
@@ -83,12 +85,12 @@ Optional next steps:
 
 - Add replays to `replays/`
 - Add a `draft-log.json`
-- Update parsed `player.json` files with labels.
+- Update parsed deck files with labels.
 
 You can then add match information. e.g., the following adds a match that was won 2-1 by player1.
 
 ```
-DATE=2024-01-07 ./bin/parser edit add-match -p player1 -o player2 -r "2-1"
+./bin/parser edit add-match --cube polyverse --draft 15 -p player1 -o player2 -r "2-1-0"
 ```
 
 Finally, index the new draft information so it can be discovered by the UI:
@@ -109,7 +111,7 @@ make reparse
 
 Each draft can optionally include a log exported from draftmancer including draft pick ordering. This is included in the UI.
 
-Draft logs are found at `drafts/YYYY-MM-DD/draft-log.json`
+Draft logs are found at `data/<cube>/NNNN_YYYY-MM-DD/draft-log.json`, and are added with `./bin/parser parse-draft-log --cube <cube> --draft <number> -f <log file>`.
 
 ## Running the UI
 
@@ -128,4 +130,4 @@ make run
 
 ## Cockatrice replays
 
-Cockatrice replay files are stored in `data/polyverse/YYYY-MM-DD/replays/`
+Cockatrice replay files are stored in `data/polyverse/NNNN_YYYY-MM-DD/replays/`

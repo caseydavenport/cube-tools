@@ -98,13 +98,6 @@ func DeckBuckets(decks []*storage.Deck, bucketSize int, discrete bool) []Bucket 
 }
 
 func deckBucketsDiscrete(decks []*storage.Deck, bucketSize int) []Bucket {
-	// If the bucket size is larger than the number of decks, return a single bucket.
-	if bucketSize >= len(decks) {
-		return []Bucket{{Drafts: []*Draft{{
-			Decks: decks,
-		}}}}
-	}
-
 	drafts := groupDrafts(decks)
 
 	// If the bucket size is larger than the number of drafts, return a single bucket.

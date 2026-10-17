@@ -63,21 +63,33 @@ var ParseCmd = &cobra.Command{
 		if who == "" {
 			logrus.Fatal("Must specify a player name.")
 		}
-		draft, err := resolveDraft(cubeFlag)
-		if err != nil {
-			logrus.WithError(err).Fatal("Failed to find or create the draft")
-		}
-
-		// Parse the deck.
-		d, err := parseDeck([]string{deckInput}, who, labels, draft.Date, draft.ID)
-		if err != nil {
+		if err := parseOne(cubeFlag, deckInput, who, labels); err != nil {
 			logrus.WithError(err).Fatal("Failed to parse deck")
 		}
-		// Write the deck for storage.
-		if err := writeDeck(d, draft); err != nil {
-			logrus.WithError(err).Fatal("Failed to write deck")
-		}
 	},
+}
+
+// parseOne parses one deck file and writes it into the --draft draft, or a new
+// draft created only once the deck has parsed.
+func parseOne(cube, deckFile, player, labels string) error {
+	deckDate := date
+	if draftID != 0 {
+		draft, err := drafts.Find(filepath.Join("data", cube), draftID)
+		if err != nil {
+			return fmt.Errorf("find draft %d: %w", draftID, err)
+		}
+		deckDate = draft.Date
+	}
+	d, err := parseDeck([]string{deckFile}, player, labels, deckDate, draftID)
+	if err != nil {
+		return err
+	}
+	draft, err := resolveDraft(cube)
+	if err != nil {
+		return fmt.Errorf("find or create the draft: %w", err)
+	}
+	d.Date = draft.Date
+	return writeDeck(d, draft)
 }
 
 func init() {
@@ -111,12 +123,16 @@ func resolveDraft(cube string) (drafts.Draft, error) {
 	if _, err := time.Parse("2006-01-02", date); err != nil {
 		return drafts.Draft{}, fmt.Errorf("a new draft needs --date in YYYY-MM-DD format, got %q", date)
 	}
-	return drafts.Create(cubeDir, types.DraftMetadata{
+	draft, err := drafts.Create(cubeDir, types.DraftMetadata{
 		Date:             date,
 		EventName:        eventName,
 		EventCode:        eventCode,
 		EventDescription: eventDescription,
 	})
+	if err == nil {
+		logrus.WithField("draft", draft.ID).Info("Created draft; pass --draft to add more decks to it")
+	}
+	return draft, err
 }
 
 // parseDeck parses a deck's source files into a deck for the given draft.
