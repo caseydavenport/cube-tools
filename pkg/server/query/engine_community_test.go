@@ -89,3 +89,18 @@ func TestCommunity_NoEdgesMeansNoMatch(t *testing.T) {
 	// DeckMatchesBoard passes no graph, so a community term can't be evaluated.
 	assert.False(t, DeckMatchesBoard(deck, "community:graveyard", ""))
 }
+
+func TestHasCommunityTerm(t *testing.T) {
+	for match, want := range map[string]bool{
+		"community:graveyard":            true,
+		"community:":                     true,
+		"-community:graveyard":           true,
+		"community!=graveyard":           true,
+		"arch:aggro community:graveyard": true,
+		"Community Garden":               false,
+		"name:community":                 false,
+		"":                               false,
+	} {
+		assert.Equal(t, want, HasCommunityTerm(match), match)
+	}
+}

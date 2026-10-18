@@ -309,6 +309,18 @@ func isDeckOnly(term string) bool {
 	return false
 }
 
+// HasCommunityTerm reports whether the query has a community: term, which needs
+// the cube's design graph to answer. Callers use it to load the graph only
+// when a query asks for it.
+func HasCommunityTerm(matchStr string) bool {
+	for _, term := range parseTerms(matchStr) {
+		if _, _, ok := communityTerm(term); ok {
+			return true
+		}
+	}
+	return false
+}
+
 // communityTerm parses a community: term, returning the target label (empty means
 // "any package"), whether it's negated, and whether it's a community term at all.
 // Negation is a leading "-" or the "!=" operator, as elsewhere in the grammar.
