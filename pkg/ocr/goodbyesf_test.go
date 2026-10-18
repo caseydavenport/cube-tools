@@ -9,8 +9,6 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/require"
-
-	"github.com/caseydavenport/cube-tools/pkg/types"
 )
 
 // TestGoodbyeSFRecall measures per-player recall against the goodbyesf deck
@@ -29,11 +27,7 @@ func TestGoodbyeSFRecall(t *testing.T) {
 	dataRoot, err := filepath.Abs(filepath.Join("..", "..", "data"))
 	require.NoError(t, err)
 
-	cube, err := types.LoadCubeList(types.LoadOptions{
-		DataRoot: dataRoot,
-		Cube:     "polyverse",
-		Date:     "2026-06-20_bcp26_1",
-	})
+	cube, err := latestPolyverseCube(dataRoot)
 	require.NoError(t, err)
 	inCube := map[string]bool{}
 	for _, n := range cube.Names() {

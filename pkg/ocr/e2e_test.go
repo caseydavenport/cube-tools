@@ -103,11 +103,7 @@ func TestRecallAgainstRealPhotos(t *testing.T) {
 			continue
 		}
 
-		cube, err := types.LoadCubeList(types.LoadOptions{
-			DataRoot: dataRoot,
-			Cube:     "polyverse",
-			Date:     draft,
-		})
+		cube, err := latestPolyverseCube(dataRoot)
 		require.NoErrorf(t, err, "load cube for %s", draft)
 		require.NotEmptyf(t, cube.Names(), "empty cube for %s", draft)
 

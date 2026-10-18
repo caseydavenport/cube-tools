@@ -12,12 +12,12 @@ import (
 
 // nonDeckFiles are the JSON files a draft directory holds besides its decks.
 var nonDeckFiles = map[string]bool{
-	"index.json":         true,
-	metadataFile:         true,
-	"cube.json":          true,
-	"cube-rules.json":    true,
-	"cube-snapshot.json": true,
-	"draft-log.json":     true,
+	"index.json":      true,
+	metadataFile:      true,
+	"cube.json":       true,
+	"cube-rules.json": true,
+	snapshotFile:      true,
+	logFile:           true,
 }
 
 // deckFiles returns the paths of the deck files in a draft directory, in

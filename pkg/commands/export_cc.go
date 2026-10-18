@@ -124,11 +124,7 @@ func exportToCC(draft drafts.Draft) {
 
 	recordDescription := draft.EventDescription
 	if recordDescription == "" {
-		// Try to read a REPORT file in the draft directory.
-		reportPath := filepath.Join(draft.Dir, "REPORT")
-		if bs, err := os.ReadFile(reportPath); err == nil {
-			recordDescription = string(bs)
-		}
+		recordDescription = draft.Report()
 	}
 
 	record := CCRecord{

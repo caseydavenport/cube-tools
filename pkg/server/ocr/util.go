@@ -2,6 +2,8 @@ package ocr
 
 import (
 	"encoding/json"
+	"errors"
+	"fmt"
 	"net/http"
 	"path/filepath"
 	"strconv"
@@ -55,11 +57,24 @@ func photoPath(draft drafts.Draft, rel string) (string, bool) {
 // snapshot and falling back to the cube's latest snapshot, then the live
 // source, when it has none.
 func loadCubeForDraft(dataRoot, cube string, draft drafts.Draft) (*types.Cube, error) {
-	cl, err := types.LoadCubeList(types.LoadOptions{Cube: cube, DraftDir: draft.Dir})
-	if err != nil {
-		return types.LoadCubeList(types.LoadOptions{DataRoot: dataRoot, Cube: cube, Source: cubeSource})
+	cl, err := draft.Snapshot()
+	if err == nil {
+		return cl, nil
 	}
-	return cl, nil
+	if !errors.Is(err, drafts.ErrNotFound) {
+		return nil, err
+	}
+	cl, ok, err := drafts.LatestSnapshot(filepath.Join(dataRoot, cube))
+	if err != nil {
+		return nil, err
+	}
+	if ok {
+		return cl, nil
+	}
+	if cubeSource != nil {
+		return cubeSource.Current(cube)
+	}
+	return nil, fmt.Errorf("no cube list found for %q", cube)
 }
 
 // writeJSON encodes v as indented JSON to the response. Encode errors are

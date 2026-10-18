@@ -14,8 +14,9 @@ import (
 func loadTestCube(t *testing.T, body string) *types.Cube {
 	t.Helper()
 	dir := t.TempDir()
-	writeFile(t, filepath.Join(dir, "cube-snapshot.json"), body)
-	cl, err := types.LoadCubeList(types.LoadOptions{Cube: "polyverse", DraftDir: dir})
+	path := filepath.Join(dir, "cube-snapshot.json")
+	writeFile(t, path, body)
+	cl, err := types.LoadCube(path)
 	if err != nil {
 		t.Fatal(err)
 	}

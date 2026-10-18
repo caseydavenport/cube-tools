@@ -1,7 +1,6 @@
 package commands
 
 import (
-	"encoding/json"
 	"fmt"
 	"os"
 	"path/filepath"
@@ -256,7 +255,7 @@ func parseDeckDir(deckDir, fileType, date string) {
 	}
 
 	// Write out the cube snapshot to the draft directory.
-	if err := writeCubeSnapshot(cubeFlag, draft.Dir); err != nil {
+	if err := writeCubeSnapshot(cubeFlag, draft); err != nil {
 		logc.WithError(err).Error("Failed to write cube snapshot to draft directory.")
 		return
 	}
@@ -270,24 +269,18 @@ func parseDeckDir(deckDir, fileType, date string) {
 	}
 }
 
-func writeCubeSnapshot(cube, outdir string) error {
-	snapshotFilename := fmt.Sprintf("%s/cube-snapshot.json", outdir)
-	if _, err := os.Stat(snapshotFilename); err == nil {
-		// Already snapshotted for this draft; leave it be.
+// writeCubeSnapshot saves the cube as it is now, live from Cube Cobra, with
+// the draft for historical tracking and comparisons. A draft that already has
+// a snapshot keeps it.
+func writeCubeSnapshot(cube string, draft drafts.Draft) error {
+	if draft.HasSnapshot() {
 		return nil
 	}
-
-	// Snapshot the cube as it is now, live from Cube Cobra, for historical
-	// tracking and comparisons.
 	c, err := liveCube(cube)
 	if err != nil {
 		return err
 	}
-	data, err := json.MarshalIndent(c, "", "  ")
-	if err != nil {
-		return err
-	}
-	return os.WriteFile(snapshotFilename, data, 0o644)
+	return draft.SaveSnapshot(c)
 }
 
 // checkDraftConsistency checks that the seen cards in the draft match the expected counts based on the latest cube snapshot.

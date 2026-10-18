@@ -221,11 +221,11 @@ func (b *Backend) GetDraftLog(cube string, draftID int) (json.RawMessage, error)
 	if err != nil {
 		return nil, err
 	}
-	contents, err := os.ReadFile(filepath.Join(draft.Dir, "draft-log.json"))
+	contents, err := draft.Log()
+	if errors.Is(err, drafts.ErrNotFound) {
+		return nil, storage.ErrDeckNotFound
+	}
 	if err != nil {
-		if os.IsNotExist(err) {
-			return nil, storage.ErrDeckNotFound
-		}
 		return nil, err
 	}
 	return json.RawMessage(contents), nil

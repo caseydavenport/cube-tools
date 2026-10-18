@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
-	"os"
 	"path/filepath"
 	"time"
 
@@ -103,11 +102,6 @@ func CommitHandlerWithRoot(src types.CubeSource, dataRoot string) http.Handler {
 			http.Error(rw, "could not snapshot cube: "+err.Error(), http.StatusBadGateway)
 			return
 		}
-		snapshot, err := json.Marshal(cl)
-		if err != nil {
-			http.Error(rw, "internal server error", http.StatusInternalServerError)
-			return
-		}
 
 		draft, err := drafts.Create(filepath.Join(dataRoot, cube), types.DraftMetadata{
 			Date:      req.Date,
@@ -119,7 +113,7 @@ func CommitHandlerWithRoot(src types.CubeSource, dataRoot string) http.Handler {
 			return
 		}
 
-		if err := os.WriteFile(filepath.Join(draft.Dir, "cube-snapshot.json"), snapshot, 0o644); err != nil {
+		if err := draft.SaveSnapshot(cl); err != nil {
 			http.Error(rw, "internal server error", http.StatusInternalServerError)
 			return
 		}

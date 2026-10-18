@@ -12,8 +12,6 @@ import (
 
 	"github.com/sirupsen/logrus"
 	"gocv.io/x/gocv"
-
-	"github.com/caseydavenport/cube-tools/pkg/types"
 )
 
 // TestDiagPhoto dumps per-card detection, OCR text, and match scores for a
@@ -31,11 +29,7 @@ func TestDiagPhoto(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	cube, err := types.LoadCubeList(types.LoadOptions{
-		DataRoot: dataRoot,
-		Cube:     "polyverse",
-		Date:     os.Getenv("DIAG_DRAFT"),
-	})
+	cube, err := latestPolyverseCube(dataRoot)
 	if err != nil {
 		t.Fatal(err)
 	}

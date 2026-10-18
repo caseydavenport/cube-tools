@@ -300,8 +300,6 @@ func cardsFromDeckFile(deckFile string) ([]types.Card, []types.Card, error) {
 // and annotations; a new deck gets the next ID and a file named for it. A deck
 // with no player ID is an anonymous seat.
 func writeDeck(d *types.Deck, draft drafts.Draft) error {
-	outdir := draft.Dir
-
 	// Event flags passed on the command line override the draft's metadata.
 	if eventName != "" || eventDescription != "" {
 		if eventName != "" {
@@ -352,25 +350,19 @@ func writeDeck(d *types.Deck, draft drafts.Draft) error {
 	logc := logrus.WithFields(logrus.Fields{
 		"player_id": d.PlayerID,
 		"deck":      d.ID,
-		"outdir":    outdir,
+		"draft":     draft.ID,
 		"count":     d.PickCount(),
 	})
 	logc.Infof("Writing deck")
 
-	// Write the original "raw" decklist for posterity, tracking source files.
-	// We also update the metadata to point to the copied files.
-	// This allows us to re-run the parsing process without losing the original
-	// source files. If the source is already inside outdir (reparse case),
-	// keep the existing filename so reparse is idempotent.
+	// Keep the original "raw" decklist with the draft and point the metadata at
+	// the copy, so a reparse never needs the files it came from.
 	copyOrKeep := func(src, suffix, label string) string {
 		if src == "" {
 			return ""
 		}
-		if filepath.Dir(src) == outdir {
-			return src
-		}
-		dst := fmt.Sprintf("%s/%d%s%s", outdir, d.ID, suffix, fileSuffix(src))
-		if err := copyFile(*logc, src, dst); err != nil {
+		dst, err := draft.CopySource(src, d.ID, suffix)
+		if err != nil {
 			logc.WithError(err).Warnf("Failed to copy %s file", label)
 		}
 		return dst
@@ -422,15 +414,6 @@ func copyFile(logc logrus.Entry, src, dst string) error {
 		panic(err)
 	}
 	return os.WriteFile(dst, bytes, os.ModePerm)
-}
-
-func fileSuffix(f string) string {
-	if strings.HasSuffix(f, ".txt") {
-		return ".txt"
-	} else if strings.HasSuffix(f, ".csv") {
-		return ".csv"
-	}
-	return ""
 }
 
 // cardsFromTXT imports cards from a .txt file, where the format is
