@@ -72,6 +72,7 @@ func loadDraftLog(file string) *types.DraftLog {
 // set; an unknown username fails before any deck is built.
 func decksFromDraftLog(log *types.DraftLog, date string) ([]types.Deck, error) {
 	decks := []types.Deck{}
+	userByPlayer := map[int]string{}
 	for _, user := range log.Users {
 		deck := types.Deck{
 			Date: date,
@@ -81,6 +82,10 @@ func decksFromDraftLog(log *types.DraftLog, date string) ([]types.Deck, error) {
 			if err != nil {
 				return nil, fmt.Errorf("draft log user %q: %w", user.UserName, err)
 			}
+			if other, dup := userByPlayer[id]; dup {
+				return nil, fmt.Errorf("draft log users %q and %q both map to player %d", other, user.UserName, id)
+			}
+			userByPlayer[id] = user.UserName
 			deck.PlayerID = id
 		}
 		for _, id := range user.Decklist.Main {

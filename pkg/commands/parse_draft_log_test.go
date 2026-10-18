@@ -28,3 +28,16 @@ func TestParseDraftLogResolvesNicknames(t *testing.T) {
 	_, err = decksFromDraftLog(log, "2026-01-02")
 	require.ErrorContains(t, err, "players add")
 }
+
+func TestParseDraftLogRejectsTwoUsersForOnePlayer(t *testing.T) {
+	t.Chdir(t.TempDir())
+	_, err := players.Add("data", "Dom")
+	require.NoError(t, err)
+	log := &types.DraftLog{Users: map[string]types.User{
+		"u1": {UserName: "maserstorm"},
+		"u2": {UserName: "Dom"},
+	}}
+
+	_, err = decksFromDraftLog(log, "2026-01-02")
+	require.ErrorContains(t, err, "both")
+}

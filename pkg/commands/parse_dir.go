@@ -143,6 +143,29 @@ func generateWork(deckDir, fileType string) (map[string]work, error) {
 	return workMap, nil
 }
 
+// checkAnonymousRerun refuses to write anonymous decks into a draft that
+// already has some unless --force is set. Seats have no key to match an
+// existing deck by, so re-running an anonymous parse would duplicate them.
+func checkAnonymousRerun(draft drafts.Draft) error {
+	if force {
+		return nil
+	}
+	files, err := drafts.DeckFiles(draft.Dir)
+	if err != nil {
+		return err
+	}
+	for _, f := range files {
+		d, err := types.LoadDeck(f)
+		if err != nil {
+			return fmt.Errorf("load deck %s: %w", f, err)
+		}
+		if d.PlayerID == 0 {
+			return fmt.Errorf("draft %d already has anonymous decks, which a re-run would duplicate; pass --force to add more", draft.ID)
+		}
+	}
+	return nil
+}
+
 // parseDeckDir parses every deck in deckDir and, if they all parse and the
 // draft is consistent with the cube, writes them into the --draft draft or a
 // new one. A new draft is only created once there is something to write.
@@ -227,6 +250,13 @@ func parseDeckDir(deckDir, fileType, date string) {
 	if err != nil {
 		logc.WithError(err).Error("Failed to find or create the draft.")
 		return
+	}
+
+	if anon {
+		if err := checkAnonymousRerun(draft); err != nil {
+			logc.WithError(err).Error("Not writing anonymous decks.")
+			return
+		}
 	}
 
 	// Write out the cube snapshot to the draft directory.

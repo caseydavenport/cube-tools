@@ -139,3 +139,17 @@ func TestParseAnonymousWritesNoPlayer(t *testing.T) {
 	require.NoError(t, err)
 	require.Equal(t, 0, got.PlayerID)
 }
+
+func TestAnonymousParseIntoDraftWithSeatsNeedsForce(t *testing.T) {
+	draft := newDraft(t)
+	require.NoError(t, checkAnonymousRerun(draft))
+
+	seat := types.NewDeck()
+	seat.ID = 1
+	require.NoError(t, seat.Save(drafts.DeckPath(draft.Dir, 1)))
+	require.ErrorContains(t, checkAnonymousRerun(draft), "--force")
+
+	force = true
+	defer func() { force = false }()
+	require.NoError(t, checkAnonymousRerun(draft))
+}
