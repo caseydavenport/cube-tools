@@ -296,7 +296,8 @@ func TestPivot_OpponentCompositionSplit(t *testing.T) {
 }
 
 func TestPivotCardQueryCommunity(t *testing.T) {
-	edges, _ := graveyardEdges("testcube")
+	edges, err := graveyardEdges("testcube")
+	require.NoError(t, err)
 	ozzy := queryDeck(1, "2026-01-10", "gy1", "gy2", "gy3")
 	stevie := queryDeck(2, "2026-01-10", "gy1", "gy2", "Forest")
 	p := PivotPredicate{Dim: "card_query", Op: "includes", Value: "community:graveyard"}

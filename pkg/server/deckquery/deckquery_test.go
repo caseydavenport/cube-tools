@@ -43,7 +43,9 @@ func testStore() storage.DeckStorage {
 	})
 }
 
-func staticEdges(cubeID string) ([]graph.Edge, error) { return graveyardEdges(), nil }
+func staticEdges(string) ([]graph.Edge, error) {
+	return graveyardEdges(), nil
+}
 
 func playersOf(decks []*storage.Deck) []string {
 	var out []string

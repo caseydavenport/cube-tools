@@ -25,6 +25,9 @@ type VersusData struct {
 	Loss int    `json:"loss"`
 }
 
+// ArchetypesHandler serves each archetype's win/loss record against every other
+// archetype, over the decks the request's filters select. edgesFor answers
+// community: terms; nil makes them match no decks.
 func ArchetypesHandler(store storage.DeckStorage, edgesFor deckquery.EdgesLoader) http.Handler {
 	return &archetypesHandler{q: deckquery.New(store, nil, edgesFor)}
 }

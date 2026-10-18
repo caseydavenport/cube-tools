@@ -6,9 +6,8 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/caseydavenport/cube-tools/pkg/server/deckquery"
-
 	"github.com/caseydavenport/cube-tools/pkg/server"
+	"github.com/caseydavenport/cube-tools/pkg/server/deckquery"
 	"github.com/caseydavenport/cube-tools/pkg/server/decks"
 	"github.com/caseydavenport/cube-tools/pkg/storage"
 	"github.com/caseydavenport/cube-tools/pkg/types"

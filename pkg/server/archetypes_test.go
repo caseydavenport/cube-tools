@@ -124,9 +124,13 @@ type stubCubeCobra struct {
 	decks []*storage.Deck
 }
 
-func (s stubCubeCobra) RawDecks(string) ([]*storage.Deck, error) { return s.decks, nil }
+func (s stubCubeCobra) RawDecks(string) ([]*storage.Deck, error) {
+	return s.decks, nil
+}
 
-func (s stubCubeCobra) Index(string) (*storage.CubeIndex, error) { return &storage.CubeIndex{}, nil }
+func (s stubCubeCobra) Index(string) (*storage.CubeIndex, error) {
+	return &storage.CubeIndex{}, nil
+}
 
 func archetypesRequest(cube, query string) *http.Request {
 	r := httptest.NewRequest(http.MethodGet, "/api/"+cube+"/archetypes?"+query, nil)

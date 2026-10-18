@@ -6,9 +6,8 @@ import (
 	"sort"
 	"strconv"
 
-	"github.com/caseydavenport/cube-tools/pkg/server/deckquery"
-
 	"github.com/caseydavenport/cube-tools/pkg/server"
+	"github.com/caseydavenport/cube-tools/pkg/server/deckquery"
 	"github.com/caseydavenport/cube-tools/pkg/server/decks"
 	"github.com/caseydavenport/cube-tools/pkg/server/query"
 	"github.com/caseydavenport/cube-tools/pkg/storage"
