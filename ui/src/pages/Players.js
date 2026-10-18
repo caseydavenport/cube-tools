@@ -4,7 +4,7 @@ import { ColorImages } from "../utils/Colors.js"
 import { Trophies, LastPlaceFinishes, Wins, Losses } from "../utils/Deck.js"
 import { BucketName, bucketXScale } from "../utils/Buckets.js"
 import { CollapsibleIndex } from "../components/BrowseLayout.js"
-import { isAnonymous, isSeatLabel } from "../utils/Players.js"
+import { isAnonymous, recordsByOpponent } from "../utils/Players.js"
 
 import {
   Chart as ChartJS,
@@ -360,33 +360,6 @@ export function PlayerDetailsPanel(input) {
     return m
   }
 
-  let recordByOpponent = new Map()
-  let recordByColor = new Map()
-  for (let deck of decks) {
-    if (deck.games != null) {
-      // Include per-game stats.
-      for (let game of deck.games) {
-        // Anonymous opponents in different drafts share labels; skip them.
-        if (isSeatLabel(game.opponent)) {
-          continue
-        }
-        if (!recordByOpponent.has(game.opponent)) {
-          recordByOpponent.set(game.opponent, {
-            "name": game.opponent,
-            "wins": 0,
-            "losses": 0,
-          })
-        }
-        let r = recordByOpponent.get(game.opponent)
-        if (game.opponent == game.winner) {
-          r.losses += 1
-        } else {
-          r.wins += 1
-        }
-        recordByOpponent.set(game.opponent, r)
-      }
-    }
-  }
 
   // Get the player's total deck count for percentage calculations
   const playerEntry = playerData.get(input.player);
@@ -431,7 +404,7 @@ export function PlayerDetailsPanel(input) {
 
   let minGames = 5
 
-  let oppRows = Array.from(recordByOpponent.values())
+  let oppRows = recordsByOpponent(decks)
 
   // Compact summary bar across the top, mirroring the deck detail header.
   const summaryMetrics = [

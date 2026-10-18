@@ -337,6 +337,7 @@ func writeDeck(d *types.Deck, draft drafts.Draft) error {
 		d.ID = existing.ID
 		d.Notes = existing.Notes
 		d.PlayerID = existing.PlayerID
+		d.Seat = existing.Seat
 		d.Labels = existing.Labels
 		d.MacroArchetype = existing.MacroArchetype
 		d.Matches = existing.Matches
@@ -354,6 +355,12 @@ func writeDeck(d *types.Deck, draft drafts.Draft) error {
 	}
 	if path == "" {
 		path = drafts.DeckPath(outdir, d.ID)
+	}
+
+	// An anonymous deck needs a seat to be told apart; without one from the
+	// source, it sits at its deck number.
+	if d.PlayerID == 0 && d.Seat == 0 {
+		d.Seat = d.ID
 	}
 	d.Metadata.DraftID = draft.ID
 	d.Metadata.Path = path

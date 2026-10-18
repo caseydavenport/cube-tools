@@ -83,6 +83,9 @@ func TestPersonLabel(t *testing.T) {
 		return d
 	}
 	assert.True(t, seat(1).IsAnonymous())
+	moved := seat(1)
+	moved.ID, moved.Seat = 2, 3
+	assert.True(t, moved.IsAnonymous(), "the seat number, not the deck ID, names the seat")
 	assert.Equal(t, "p3 (draft 1)", seat(1).PersonLabel())
 	assert.NotEqual(t, seat(1).PersonLabel(), seat(2).PersonLabel())
 

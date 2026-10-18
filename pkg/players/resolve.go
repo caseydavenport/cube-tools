@@ -8,10 +8,10 @@ import (
 	"github.com/caseydavenport/cube-tools/pkg/types"
 )
 
-// SeatLabel is the display name of an anonymous deck: "p" and its deck ID,
-// which is unique within its draft.
-func SeatLabel(deckID int) string {
-	return fmt.Sprintf("p%d", deckID)
+// SeatLabel is the display name of an anonymous deck: "p" and its seat
+// number, which is unique within its draft.
+func SeatLabel(seat int) string {
+	return fmt.Sprintf("p%d", seat)
 }
 
 // ResolveDraft fills in the display names deck files don't store: each deck's
@@ -28,7 +28,7 @@ func (l *List) ResolveDraft(decks []*types.Deck) {
 		case d.PlayerID != 0:
 			d.Player = l.nameFor(d.PlayerID)
 		case d.Player == "":
-			d.Player = SeatLabel(d.ID)
+			d.Player = SeatLabel(d.SeatNumber())
 		}
 	}
 	for _, d := range decks {

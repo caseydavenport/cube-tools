@@ -127,6 +127,11 @@ func CommitHandlerWithRoot(src types.CubeSource, dataRoot string) http.Handler {
 		for i, pd := range req.Decks {
 			deck := buildDeck(pd, req.Date, draft.ID)
 			deck.ID = i + 1
+
+			// An anonymous deck sits at its deck number, the order it was imported in.
+			if deck.PlayerID == 0 {
+				deck.Seat = deck.ID
+			}
 			deck.Metadata.Path = drafts.DeckPath(draft.Dir, deck.ID)
 			if err := deck.Save(deck.Metadata.Path); err != nil {
 				http.Error(rw, "internal server error", http.StatusInternalServerError)

@@ -9,10 +9,10 @@ export function isSeatLabel(name) {
 }
 
 // isAnonymous reports whether a deck is an anonymous seat: no player id, shown
-// by its seat label. Per-player views leave these out, since every draft
-// reuses the same labels.
+// by its seat label (its seat, or its deck id when no seat is stored).
+// Per-player views leave these out, since every draft reuses the same labels.
 export function isAnonymous(deck) {
-  return !deck.player_id && deck.player === `p${deck.id}`
+  return !deck.player_id && deck.player === `p${deck.seat || deck.id}`
 }
 
 // personLabel names who played a deck, distinct across drafts: the player's
@@ -23,6 +23,26 @@ export function personLabel(deck) {
     return `${deck.player} (draft ${deck.metadata && deck.metadata.draft_id})`
   }
   return deck.player
+}
+
+// recordsByOpponent tallies a player's games by opponent: wins, losses, and
+// ties, which count as neither. Anonymous opponents are skipped, since seats
+// in different drafts share labels.
+export function recordsByOpponent(decks) {
+  const byOpponent = new Map()
+  for (const deck of decks) {
+    for (const game of deck.games || []) {
+      if (isSeatLabel(game.opponent)) continue
+      if (!byOpponent.has(game.opponent)) {
+        byOpponent.set(game.opponent, { name: game.opponent, wins: 0, losses: 0, ties: 0 })
+      }
+      const r = byOpponent.get(game.opponent)
+      if (game.tie || !game.winner) r.ties += 1
+      else if (game.winner === game.opponent) r.losses += 1
+      else r.wins += 1
+    }
+  }
+  return Array.from(byOpponent.values())
 }
 
 // matchPlayerByName returns the id of the player whose name matches hint,

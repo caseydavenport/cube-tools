@@ -67,3 +67,12 @@ func TestResolveDraftNilList(t *testing.T) {
 func TestSeatLabel(t *testing.T) {
 	assert.Equal(t, "p7", SeatLabel(7))
 }
+
+func TestResolveDraftUsesSeat(t *testing.T) {
+	seat := &types.Deck{ID: 2, Seat: 5}
+	named := &types.Deck{ID: 3, Seat: 6, PlayerID: 1, Matches: []types.Match{{OpponentID: 2, Wins: 2}}}
+	rockList().ResolveDraft([]*types.Deck{seat, named})
+	assert.Equal(t, "p5", seat.Player)
+	assert.Equal(t, "Freddie", named.Player)
+	assert.Equal(t, "p5", named.Matches[0].Opponent)
+}

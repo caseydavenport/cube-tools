@@ -63,6 +63,13 @@ func TestCommitCreatesNumberedDraft(t *testing.T) {
 		if d.ID != id || d.PlayerID != player || d.Metadata.DraftID != 1 {
 			t.Errorf("deck %d.json = id %d player %d draft %d, want id %d player %d draft 1", id, d.ID, d.PlayerID, d.Metadata.DraftID, id, player)
 		}
+		wantSeat := 0
+		if player == 0 {
+			wantSeat = id
+		}
+		if d.Seat != wantSeat {
+			t.Errorf("deck %d.json seat = %d, want %d", id, d.Seat, wantSeat)
+		}
 	}
 
 	// Committing a draft snapshots the cube from Cube Cobra.

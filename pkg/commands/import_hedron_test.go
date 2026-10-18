@@ -75,7 +75,7 @@ func TestImportHedronDecksAreAnonymous(t *testing.T) {
 		t.Fatalf("decks = %d, want 2", len(decks))
 	}
 	for _, d := range decks {
-		if d.PlayerID != 0 || d.Player != fmt.Sprintf("p%d", d.ID) {
+		if d.PlayerID != 0 || d.Seat != d.ID || d.Player != fmt.Sprintf("p%d", d.ID) {
 			t.Fatalf("deck %d: player %d %q, want an anonymous seat", d.ID, d.PlayerID, d.Player)
 		}
 	}

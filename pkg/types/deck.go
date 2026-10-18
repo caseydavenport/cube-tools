@@ -73,6 +73,7 @@ func (d *Deck) MarshalCompact() ([]byte, error) {
 		MacroArchetype string      `json:"macro_archetype,omitempty"`
 		Labels         []string    `json:"labels"`
 		PlayerID       int         `json:"player_id,omitempty"`
+		Seat           int         `json:"seat,omitempty"`
 		Date           string      `json:"date"`
 		Name           string      `json:"name,omitempty"`
 		Notes          string      `json:"notes,omitempty"`
@@ -88,6 +89,7 @@ func (d *Deck) MarshalCompact() ([]byte, error) {
 		MacroArchetype: d.MacroArchetype,
 		Labels:         d.Labels,
 		PlayerID:       d.PlayerID,
+		Seat:           d.Seat,
 		Date:           d.Date,
 		Name:           d.Name,
 		Notes:          d.Notes,
@@ -257,6 +259,11 @@ type Deck struct {
 	// anonymous seat. It is the only player reference stored on disk.
 	PlayerID int `json:"player_id,omitempty"`
 
+	// Seat is the deck's seat number in its draft, from the event or import
+	// (Hedron's "Player 3"), or zero when unknown. Assigning the deck to a
+	// player keeps it.
+	Seat int `json:"seat,omitempty"`
+
 	// Player is the display name of whoever built the deck: the player's name,
 	// an anonymous seat label, or a remote source's name. Deck files never store
 	// it; players.List.ResolveDraft fills it in.
@@ -362,6 +369,15 @@ func diskMatches(ms []Match) []diskMatch {
 		}
 	}
 	return out
+}
+
+// SeatNumber is the deck's seat, falling back to its deck ID for a deck with
+// no stored seat, so every deck in a draft has a distinct one.
+func (d *Deck) SeatNumber() int {
+	if d.Seat != 0 {
+		return d.Seat
+	}
+	return d.ID
 }
 
 func (d *Deck) AllCards() []Card {

@@ -199,6 +199,7 @@ func importDraft(cube string, d *HedronDraft) (int, error) {
 		n := playerNumbers[p.ID]
 		deck := types.NewDeck()
 		deck.ID = n
+		deck.Seat = n
 		deck.Date = dateStr
 		deck.Metadata.DraftID = draft.ID
 
@@ -249,7 +250,7 @@ func importDraft(cube string, d *HedronDraft) (int, error) {
 		if err := deck.Save(deck.Metadata.Path); err != nil {
 			return 0, fmt.Errorf("write deck file: %w", err)
 		}
-		logrus.Infof("Saved deck for seat %s", players.SeatLabel(deck.ID))
+		logrus.Infof("Saved deck for seat %s", players.SeatLabel(deck.Seat))
 	}
 
 	return draft.ID, nil

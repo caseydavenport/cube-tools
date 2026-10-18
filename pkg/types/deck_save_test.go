@@ -82,3 +82,22 @@ type diskShape struct {
 type diskShapeMatch struct {
 	Games []map[string]bool `json:"games"`
 }
+
+func TestMarshalCompactKeepsSeat(t *testing.T) {
+	path := filepath.Join(t.TempDir(), "2.json")
+	d := NewDeck()
+	d.ID = 2
+	d.Seat = 5
+	require.NoError(t, d.Save(path))
+
+	raw, err := os.ReadFile(path)
+	require.NoError(t, err)
+	assert.Contains(t, string(raw), `"seat": 5`)
+	got, err := LoadDeck(path)
+	require.NoError(t, err)
+	assert.Equal(t, 5, got.Seat)
+	assert.Equal(t, 5, got.SeatNumber())
+
+	d.Seat = 0
+	assert.Equal(t, 2, d.SeatNumber(), "a deck with no stored seat falls back to its ID")
+}

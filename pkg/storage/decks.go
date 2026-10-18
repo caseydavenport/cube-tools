@@ -94,7 +94,7 @@ func (d *Deck) GetPlayer() string { return d.Player }
 // shown by its seat label. Per-player rollups leave these out, since the same
 // seat label recurs in every draft.
 func (d *Deck) IsAnonymous() bool {
-	return d.PlayerID == 0 && d.Player == players.SeatLabel(d.ID)
+	return d.PlayerID == 0 && d.Player == players.SeatLabel(d.SeatNumber())
 }
 
 // PersonLabel names who played the deck, distinct across a cube's drafts: the

@@ -29,7 +29,7 @@ A person in the global player list, shared by every cube. A player has a number 
 _Avoid_: drafter, user
 
 **Seat**:
-An anonymous deck whose player isn't known, labeled `p` and its deck number (`p3`). A seat can be assigned to a player later.
+A deck's place in its draft, numbered by the event or import (Hedron's "Player 3", the third photo). A deck whose player isn't known is shown by its seat label, `p` and the seat number (`p3`), and can be assigned to a player later; the deck keeps its seat number either way.
 _Avoid_: placeholder, anonymous player
 
 **Notes**:

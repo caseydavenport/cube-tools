@@ -27,16 +27,22 @@ func TestAddMatchBySeatAndName(t *testing.T) {
 		require.NoError(t, d.Save(drafts.DeckPath(draft.Dir, d.ID)))
 	}
 
-	require.NoError(t, addMatch(draft, "joan jett", "p2", 2, 1, 0))
+	seat, err := types.LoadDeck(drafts.DeckPath(draft.Dir, 2))
+	require.NoError(t, err)
+	seat.Seat = 5
+	require.NoError(t, seat.Save(drafts.DeckPath(draft.Dir, 2)))
+	require.Error(t, addMatch(draft, "joan jett", "p2", 2, 1, 0), "p2 names seat 2, which no deck holds")
+
+	require.NoError(t, addMatch(draft, "joan jett", "p5", 2, 1, 0))
 
 	joan, err := types.LoadDeck(drafts.DeckPath(draft.Dir, 1))
 	require.NoError(t, err)
 	require.Equal(t, []types.Match{{OpponentID: 2, Wins: 2, Losses: 1, Games: []types.Game{{Won: true}, {Won: true}, {}}}}, joan.Matches)
-	seat, err := types.LoadDeck(drafts.DeckPath(draft.Dir, 2))
+	seat, err = types.LoadDeck(drafts.DeckPath(draft.Dir, 2))
 	require.NoError(t, err)
 	require.Equal(t, []types.Match{{OpponentID: 1, Wins: 1, Losses: 2, Games: []types.Game{{}, {}, {Won: true}}}}, seat.Matches)
 
-	require.ErrorContains(t, addMatch(draft, "joan jett", "p2", 2, 0, 0), "already")
-	require.ErrorContains(t, addMatch(draft, "Stevie Nicks", "p2", 2, 0, 0), "players add")
-	require.ErrorContains(t, addMatch(draft, "p1", "p2", 2, 0, 0), "not an anonymous seat")
+	require.ErrorContains(t, addMatch(draft, "joan jett", "p5", 2, 0, 0), "already")
+	require.ErrorContains(t, addMatch(draft, "Stevie Nicks", "p5", 2, 0, 0), "players add")
+	require.ErrorContains(t, addMatch(draft, "p1", "p5", 2, 0, 0), "not an anonymous seat")
 }

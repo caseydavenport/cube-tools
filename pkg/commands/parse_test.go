@@ -27,6 +27,7 @@ func TestWriteDeckKeepsExistingIDAndNotes(t *testing.T) {
 	existing := types.NewDeck()
 	existing.ID = 7
 	existing.PlayerID = 5
+	existing.Seat = 4
 	existing.Notes = "keep me"
 	path := filepath.Join(draft.Dir, "casey.json")
 	require.NoError(t, existing.Save(path))
@@ -39,6 +40,7 @@ func TestWriteDeckKeepsExistingIDAndNotes(t *testing.T) {
 	require.NoError(t, err)
 	require.Equal(t, 7, got.ID)
 	require.Equal(t, "keep me", got.Notes)
+	require.Equal(t, 4, got.Seat)
 	require.Equal(t, 1, got.Metadata.DraftID)
 }
 
@@ -138,6 +140,7 @@ func TestParseAnonymousWritesNoPlayer(t *testing.T) {
 	got, err := types.LoadDeck(filepath.Join("data", "polyverse", "0001_2026-01-02", "1.json"))
 	require.NoError(t, err)
 	require.Equal(t, 0, got.PlayerID)
+	require.Equal(t, 1, got.Seat)
 }
 
 func TestAnonymousParseIntoDraftWithSeatsNeedsForce(t *testing.T) {

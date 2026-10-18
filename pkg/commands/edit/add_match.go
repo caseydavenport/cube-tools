@@ -96,23 +96,23 @@ func parseRecord(record string) (wins, losses, ties int, err error) {
 	return wins, losses, ties, nil
 }
 
-// seatRE matches a seat label naming an anonymous deck by its deck ID.
+// seatRE matches a seat label naming an anonymous deck by its seat number.
 var seatRE = regexp.MustCompile(`^[pP](\d+)$`)
 
 // findDeck returns the deck in the draft that ref names: a seat label like
 // "p3" for an anonymous deck, or a player's ID or name.
 func findDeck(draft drafts.Draft, ref string) (*types.Deck, string, error) {
 	if m := seatRE.FindStringSubmatch(ref); m != nil {
-		id, err := strconv.Atoi(m[1])
+		seat, err := strconv.Atoi(m[1])
 		if err != nil {
 			return nil, "", err
 		}
-		deck, path, err := drafts.LoadDeck(draft.Dir, id)
+		deck, path, err := findSeat(draft, seat)
 		if err != nil {
-			return nil, "", fmt.Errorf("find deck %d: %w", id, err)
+			return nil, "", err
 		}
 		if deck.PlayerID != 0 {
-			return nil, "", fmt.Errorf("deck %d is not an anonymous seat; name its player instead", id)
+			return nil, "", fmt.Errorf("seat %d is not an anonymous seat; name its player instead", seat)
 		}
 		return deck, path, nil
 	}
@@ -125,6 +125,24 @@ func findDeck(draft drafts.Draft, ref string) (*types.Deck, string, error) {
 		return nil, "", fmt.Errorf("find deck for %s: %w", ref, err)
 	}
 	return deck, path, nil
+}
+
+// findSeat returns the deck in the draft sitting at the given seat number.
+func findSeat(draft drafts.Draft, seat int) (*types.Deck, string, error) {
+	files, err := drafts.DeckFiles(draft.Dir)
+	if err != nil {
+		return nil, "", err
+	}
+	for _, f := range files {
+		d, err := types.LoadDeck(f)
+		if err != nil {
+			return nil, "", fmt.Errorf("load deck %s: %w", f, err)
+		}
+		if d.SeatNumber() == seat {
+			return d, f, nil
+		}
+	}
+	return nil, "", fmt.Errorf("no deck at seat %d in draft %d", seat, draft.ID)
 }
 
 // addMatch records a match between two decks of the draft, from who's side

@@ -99,6 +99,7 @@ func buildPhotoDraftDir(dataRoot, cube, sourcePath, date, slug, eventName, fligh
 
 		deck := types.NewDeck()
 		deck.ID = deckID
+		deck.Seat = deckID
 		deck.Date = date
 		deck.Metadata.DraftID = draft.ID
 		deck.Metadata.Path = drafts.DeckPath(draft.Dir, deckID)
