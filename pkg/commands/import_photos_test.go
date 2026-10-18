@@ -96,8 +96,8 @@ func TestBuildPhotoDraftDir(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	if deck.ID != 1 || deck.Player != "0002-p1" || deck.Date != "2026-06-20" || deck.Metadata.DraftID != 2 {
-		t.Fatalf("bad stub: id=%d player=%q date=%q draft=%d", deck.ID, deck.Player, deck.Date, deck.Metadata.DraftID)
+	if deck.ID != 1 || deck.PlayerID != 0 || deck.Date != "2026-06-20" || deck.Metadata.DraftID != 2 {
+		t.Fatalf("bad stub: id=%d player=%d date=%q draft=%d", deck.ID, deck.PlayerID, deck.Date, deck.Metadata.DraftID)
 	}
 }
 

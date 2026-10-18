@@ -2,10 +2,10 @@ package commands
 
 import (
 	"encoding/json"
+	"fmt"
 	"io"
 	"os"
 	"path/filepath"
-	"strings"
 
 	"github.com/caseydavenport/cube-tools/pkg/drafts"
 	"github.com/caseydavenport/cube-tools/pkg/flag"
@@ -31,6 +31,7 @@ func init() {
 	flags := DraftLogCmd.Flags()
 	flag.StringVarP(flags, &draftLog, "log-file", "f", "", "", "Path to the draft log file to parse.")
 	flags.IntVar(&draftID, "draft", 0, "ID of the draft the log belongs to")
+	flag.BoolVarP(flags, &anon, "anonymous", "a", "", false, "If set, every deck is an anonymous seat with no player")
 	flags.StringVar(&cubeFlag, "cube", "", "cube id (required)")
 	_ = DraftLogCmd.MarkFlagRequired("cube")
 }
@@ -40,9 +41,13 @@ func parseDraftLog(draftLog string, draft drafts.Draft) {
 	logrus.Infof("Parsing draft log: %s", draftLog)
 	log := loadDraftLog(draftLog)
 
-	for _, d := range decksFromDraftLog(log, draft.Date) {
+	decks, err := decksFromDraftLog(log, draft.Date)
+	if err != nil {
+		logrus.WithError(err).Fatal("Failed to match draft log users to players")
+	}
+	for _, d := range decks {
 		if err := writeDeck(&d, draft); err != nil {
-			logrus.WithError(err).WithField("player", d.Player).Fatal("Failed to write deck")
+			logrus.WithError(err).WithField("player_id", d.PlayerID).Fatal("Failed to write deck")
 		}
 	}
 }
@@ -62,14 +67,22 @@ func loadDraftLog(file string) *types.DraftLog {
 	return &draftLog
 }
 
-func decksFromDraftLog(log *types.DraftLog, date string) []types.Deck {
-	// Go through each user and build a deck for them.
+// decksFromDraftLog builds a deck per user in the log. Each username goes
+// through the nickname table and then the player list, unless --anonymous is
+// set; an unknown username fails before any deck is built.
+func decksFromDraftLog(log *types.DraftLog, date string) ([]types.Deck, error) {
 	decks := []types.Deck{}
 	for _, user := range log.Users {
 		deck := types.Deck{
 			Date: date,
 		}
-		deck.Player = strings.ToLower(user.UserName)
+		if !anon {
+			id, err := ResolvePlayer(determinePlayer(user.UserName))
+			if err != nil {
+				return nil, fmt.Errorf("draft log user %q: %w", user.UserName, err)
+			}
+			deck.PlayerID = id
+		}
 		for _, id := range user.Decklist.Main {
 			oracleData := types.GetOracleData(log.Card(id).Name)
 			deck.Mainboard = append(deck.Mainboard, types.FromOracle(oracleData))
@@ -80,5 +93,5 @@ func decksFromDraftLog(log *types.DraftLog, date string) []types.Deck {
 		}
 		decks = append(decks, deck)
 	}
-	return decks
+	return decks, nil
 }

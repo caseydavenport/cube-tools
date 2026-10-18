@@ -3,11 +3,13 @@ package edit
 import (
 	"fmt"
 	"path/filepath"
+	"regexp"
 	"strconv"
 
 	"github.com/caseydavenport/cube-tools/pkg/commands"
 	"github.com/caseydavenport/cube-tools/pkg/drafts"
 	"github.com/caseydavenport/cube-tools/pkg/flag"
+	"github.com/caseydavenport/cube-tools/pkg/types"
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 )
@@ -41,14 +43,8 @@ var AddMatchCmd = &cobra.Command{
 		if err != nil {
 			clog.WithError(err).Fatal("Failed to find draft")
 		}
-
-		// Add the individual games, as well as the overall match to the first player.
-		if err := addMatchToPlayer(draft, who, opp, w, l, t); err != nil {
-			clog.WithField("who", who).WithError(err).Fatal("Failed to add match to player")
-		}
-		// Add the individual games, as well as the overall match to the second player.
-		if err := addMatchToPlayer(draft, opp, who, l, w, t); err != nil {
-			clog.WithField("who", opp).WithError(err).Fatal("Failed to add match to player")
+		if err := addMatch(draft, who, opp, w, l, t); err != nil {
+			clog.WithError(err).Fatal("Failed to add match")
 		}
 	},
 }
@@ -59,19 +55,17 @@ var (
 	draftID  int
 	record   string
 	force    bool
-	anon     bool
 	cubeFlag string
 )
 
 func init() {
 	// Add flags for the command to parse a single deck.
 	flags := AddMatchCmd.Flags()
-	flag.StringVarP(flags, &who, "who", "p", "WHO", "", "The player who played the match")
-	flag.StringVarP(flags, &opp, "opponent", "o", "OPPONENT", "", "The opponent of the player who played the match")
+	flag.StringVarP(flags, &who, "who", "p", "WHO", "", "The player who played the match: an ID, a name, or a seat label like p3")
+	flag.StringVarP(flags, &opp, "opponent", "o", "OPPONENT", "", "The opponent, in the same forms as --who")
 	flags.IntVar(&draftID, "draft", 0, "ID of the draft the match was played in (required)")
 	flag.StringVarP(flags, &record, "record", "r", "RECORD", "", "The record of the player passed to 'who', formatted as 'W-L-T'")
 	flag.BoolVarP(flags, &force, "force", "", "FORCE", false, "Force overwrite of any existing games against the opponent")
-	flag.BoolVarP(flags, &anon, "anonymous", "a", "", false, "If set, anonymize player names in the output files.")
 	flags.StringVar(&cubeFlag, "cube", "", "cube id (required)")
 	_ = AddMatchCmd.MarkFlagRequired("cube")
 }
@@ -102,58 +96,93 @@ func parseRecord(record string) (wins, losses, ties int, err error) {
 	return wins, losses, ties, nil
 }
 
-// addMatchToPlayer adds a match to the player's deck file within the draft.
-func addMatchToPlayer(draft drafts.Draft, player, opponent string, wins, losses, ties int) error {
-	// If anon is set, anonymize the player and opponent names using the same scheme as when parsing decks.
-	if anon {
-		salt := commands.AnonymizeSalt(draft.Date, draft.EventCode)
-		player = commands.Anonymize(salt, player)
-		opponent = commands.Anonymize(salt, opponent)
-	}
+// seatRE matches a seat label naming an anonymous deck by its deck ID.
+var seatRE = regexp.MustCompile(`^[pP](\d+)$`)
 
-	deck, path, err := drafts.FindDeckByPlayer(draft.Dir, player)
+// findDeck returns the deck in the draft that ref names: a seat label like
+// "p3" for an anonymous deck, or a player's ID or name.
+func findDeck(draft drafts.Draft, ref string) (*types.Deck, string, error) {
+	if m := seatRE.FindStringSubmatch(ref); m != nil {
+		id, err := strconv.Atoi(m[1])
+		if err != nil {
+			return nil, "", err
+		}
+		deck, path, err := drafts.LoadDeck(draft.Dir, id)
+		if err != nil {
+			return nil, "", fmt.Errorf("find deck %d: %w", id, err)
+		}
+		if deck.PlayerID != 0 {
+			return nil, "", fmt.Errorf("deck %d is not an anonymous seat; name its player instead", id)
+		}
+		return deck, path, nil
+	}
+	playerID, err := commands.ResolvePlayer(ref)
 	if err != nil {
-		return fmt.Errorf("find deck for %s: %w", player, err)
+		return nil, "", err
 	}
-	deck.Metadata.Path = path
+	deck, path, err := drafts.FindDeckByPlayerID(draft.Dir, playerID)
+	if err != nil {
+		return nil, "", fmt.Errorf("find deck for %s: %w", ref, err)
+	}
+	return deck, path, nil
+}
 
-	// Check if there are already games against this opponent. If there are, cowardly refuse to overwrite them
-	// with the new match unless override is given.
-	if !force && len(deck.GamesForOpponent(opponent)) > 0 {
-		return fmt.Errorf("games against opponent already exist, cowardly refusing to overwrite")
+// addMatch records a match between two decks of the draft, from who's side
+// with the given game counts, and mirrors it onto the opponent's deck. It
+// refuses to replace an existing match between them unless --force is set.
+func addMatch(draft drafts.Draft, whoRef, oppRef string, wins, losses, ties int) error {
+	deck, path, err := findDeck(draft, whoRef)
+	if err != nil {
+		return err
+	}
+	oppDeck, oppPath, err := findDeck(draft, oppRef)
+	if err != nil {
+		return err
 	}
 
-	// The lookup ignores case, so use the stored name or AddGame won't count
-	// the player's wins as theirs.
-	player = deck.Player
-
-	// Replace any earlier result against this opponent. AddGame recreates the
-	// match and tallies its record from the games.
-	deck.RemoveMatchesForOpponent(opponent)
+	var games []types.Game
 	for range wins {
-		deck.AddGame(opponent, player)
+		games = append(games, types.Game{Won: true})
 	}
 	for range losses {
-		deck.AddGame(opponent, opponent)
+		games = append(games, types.Game{})
 	}
 	for range ties {
-		deck.AddGame(opponent, "")
+		games = append(games, types.Game{Tie: true})
+	}
+	mirrored := make([]types.Game, len(games))
+	for i, g := range games {
+		mirrored[i] = types.Game{Won: !g.Won && !g.Tie, Tie: g.Tie}
+	}
+	if wins == losses {
+		logrus.WithFields(logrus.Fields{"player": whoRef, "opponent": oppRef}).Info("Match was a draw")
 	}
 
-	winner := ""
-	if wins > losses {
-		winner = player
-	} else if losses > wins {
-		winner = opponent
-	} else {
-		logrus.WithFields(logrus.Fields{"player": player, "opponent": opponent}).Info("Match was a draw")
+	if err := setMatch(deck, types.Match{OpponentID: oppDeck.ID, Wins: wins, Losses: losses, Draws: ties, Games: games}); err != nil {
+		return err
 	}
-	for i := range deck.Matches {
-		if deck.Matches[i].Opponent == opponent {
-			deck.Matches[i].Winner = winner
+	if err := setMatch(oppDeck, types.Match{OpponentID: deck.ID, Wins: losses, Losses: wins, Draws: ties, Games: mirrored}); err != nil {
+		return err
+	}
+	if err := deck.Save(path); err != nil {
+		return err
+	}
+	return oppDeck.Save(oppPath)
+}
+
+// setMatch replaces the deck's match against m's opponent with m, refusing to
+// overwrite an existing one unless --force is set.
+func setMatch(deck *types.Deck, m types.Match) error {
+	var kept []types.Match
+	for _, existing := range deck.Matches {
+		if existing.OpponentID == m.OpponentID {
+			if !force {
+				return fmt.Errorf("deck %d already has a match against deck %d; pass --force to replace it", deck.ID, m.OpponentID)
+			}
+			continue
 		}
+		kept = append(kept, existing)
 	}
-
-	// Save the updated deck.
-	return commands.SaveDeck(deck)
+	deck.Matches = append(kept, m)
+	return nil
 }

@@ -18,12 +18,6 @@ func TestHedronPlayerNum(t *testing.T) {
 	}
 }
 
-func TestPlaceholderPlayer(t *testing.T) {
-	if got := PlaceholderPlayer(51, 3); got != "0051-p3" {
-		t.Fatalf("PlaceholderPlayer: want 0051-p3, got %q", got)
-	}
-}
-
 func TestImportHedronDraftUnknownID(t *testing.T) {
 	// A draft ID absent from the (empty, since the cube is bogus) result set
 	// must return an error, not fatal. Network failure also returns an error.
@@ -55,5 +49,37 @@ func TestImportHedronRefusesDuplicate(t *testing.T) {
 	other.FlightName = "Saturday Evening"
 	if _, err := importDraft("polyverse", &other); err != nil {
 		t.Fatalf("other flight: %v", err)
+	}
+}
+
+func TestImportHedronDecksAreAnonymous(t *testing.T) {
+	t.Chdir(t.TempDir())
+	hedronDraft := &HedronDraft{
+		DraftID: "h1", EventCode: "bcp26", Date: "2026-06-20T10:00:00Z",
+		Players: []HedronPlayer{{ID: "Player 1"}, {ID: "Player 2"}},
+		Matches: []HedronMatch{{Round: 1, Player1ID: "Player 1", Player2ID: "Player 2", Result: []int{2, 1}}},
+	}
+	id, err := importDraft("polyverse", hedronDraft)
+	if err != nil {
+		t.Fatal(err)
+	}
+	draft, err := drafts.Find(filepath.Join("data", "polyverse"), id)
+	if err != nil {
+		t.Fatal(err)
+	}
+	decks, err := drafts.LoadDecks(draft.Dir, nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if len(decks) != 2 {
+		t.Fatalf("decks = %d, want 2", len(decks))
+	}
+	for _, d := range decks {
+		if d.PlayerID != 0 || d.Player != fmt.Sprintf("p%d", d.ID) {
+			t.Fatalf("deck %d: player %d %q, want an anonymous seat", d.ID, d.PlayerID, d.Player)
+		}
+	}
+	if m := decks[0].Matches[0]; m.OpponentID != 2 || m.Winner != "p1" {
+		t.Fatalf("p1 match = %+v, want a win against deck 2", m)
 	}
 }

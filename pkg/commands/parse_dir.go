@@ -1,7 +1,6 @@
 package commands
 
 import (
-	"crypto/sha256"
 	"encoding/json"
 	"fmt"
 	"os"
@@ -49,26 +48,29 @@ func init() {
 	flag.StringVarP(flags, &deckInputDir, "deck-dir", "d", "DIR", "", "Directory containing deck files to parse.")
 	flag.StringVarP(flags, &fileType, "filetype", "f", "TYPE", ".csv", "File type to look for in the deck-dir.")
 	flag.StringVarP(flags, &prefix, "prefix", "p", "PREFIX", "", "Prefix to match in the deck file names. Stripped before parsing.")
-	flag.BoolVarP(flags, &anon, "anonymous", "a", "", false, "If set, anonymize player names in the output files.")
+	flag.BoolVarP(flags, &anon, "anonymous", "a", "", false, "If set, every deck is an anonymous seat with no player.")
 	flag.BoolVarP(flags, &force, "force", "", "", false, "If set, force writing of files even if errors are encountered.")
 	flags.StringVar(&cubeFlag, "cube", "", "cube id (required)")
 	_ = ParseDirectoryCmd.MarkFlagRequired("cube")
 }
 
-// work represents a piece of parsing work to be done.
+// work represents a piece of parsing work to be done: one player's files,
+// keyed by the player name or nickname derived from the file name.
 type work struct {
 	player string
 	paths  []string
 }
 
+// determinePlayer derives a player name from a deck file name, mapping known
+// nicknames to the name in the player list.
 func determinePlayer(filename string) string {
 	nicknames := map[string]string{
 		"jumms":      "james",
 		"maserstorm": "dom",
 		"phinsup":    "cara",
 
-		"pawl noerros": "paul",
-		"pawl nawwwis": "paul",
+		"pawl noerros": "paul norris",
+		"pawl nawwwis": "paul norris",
 
 		"grrg": "greg",
 
@@ -122,10 +124,6 @@ func generateWork(deckDir, fileType string) (map[string]work, error) {
 			path := fmt.Sprintf("%s/%s", deckDir, f.Name())
 
 			player := determinePlayer(f.Name())
-			if anon {
-				// Use a deterministic hash of the draft's date and event + player name to generate an anonymous player name.
-				player = Anonymize(AnonymizeSalt(date, eventCode), player)
-			}
 
 			// Check if we already have a work item for this player.
 			if w, ok := workMap[player]; ok {
@@ -143,33 +141,6 @@ func generateWork(deckDir, fileType string) (map[string]work, error) {
 	}
 
 	return workMap, nil
-}
-
-// AnonymizeSalt is the per-draft salt Anonymize hashes into player names, so
-// every command anonymizing a draft's players produces the same names.
-func AnonymizeSalt(date, eventCode string) string {
-	return date + "_" + eventCode
-}
-
-func Anonymize(salt, player string) string {
-	logrus.WithFields(logrus.Fields{
-		"salt":   salt,
-		"player": player,
-	}).Info("Anonymizing player name")
-
-	h := sha256.New()
-	h.Write([]byte(salt))
-	hashBytes := h.Sum(nil)
-	saltPart := fmt.Sprintf("%x", hashBytes)[:4]
-	logrus.WithField("saltPart", saltPart).Info("Salt part of anonymized name")
-
-	h.Reset()
-	h.Write([]byte(player))
-	hashBytes = h.Sum(nil)
-	playerPart := fmt.Sprintf("%x", hashBytes)[:4]
-
-	// Combine parts of the salt and player hash to create an anonymous name.
-	return fmt.Sprintf("player-%s-%s", saltPart, playerPart)
 }
 
 // parseDeckDir parses every deck in deckDir and, if they all parse and the
@@ -202,8 +173,16 @@ func parseDeckDir(deckDir, fileType, date string) {
 	var errs []error
 	var decks []*types.Deck
 	for _, work := range workMap {
-		// Parse the deck.
-		d, err := parseDeck(work.paths, work.player, labels, date, 0)
+		// Resolve the player, then parse the deck.
+		playerID := 0
+		if !anon {
+			if playerID, err = ResolvePlayer(work.player); err != nil {
+				logc.WithError(err).Error("Unknown player.")
+				errs = append(errs, err)
+				continue
+			}
+		}
+		d, err := parseDeck(work.paths, playerID, labels, date, 0)
 		if err != nil {
 			logc.WithError(err).Error("Failed to parse deck file.")
 			errs = append(errs, err)
@@ -259,7 +238,7 @@ func parseDeckDir(deckDir, fileType, date string) {
 	// Finally, write out each deck file.
 	for _, d := range decks {
 		if err := writeDeck(d, draft); err != nil {
-			logc.WithError(err).WithField("player", d.Player).Error("Failed to write deck file.")
+			logc.WithError(err).WithField("player_id", d.PlayerID).Error("Failed to write deck file.")
 			return
 		}
 	}

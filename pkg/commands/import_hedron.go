@@ -144,8 +144,8 @@ func hedronPlayerNum(playerID string) int {
 	return n
 }
 
-// importDraft writes a Hedron draft into a new numbered draft of cube: one deck
-// per player, with ID N and a placeholder name for Hedron's "Player N", their
+// importDraft writes a Hedron draft into a new numbered draft of cube: one
+// anonymous deck per player, with ID N for Hedron's "Player N", their
 // downloaded photos under img/pN/, and both sides of every match. It returns
 // the new draft's ID.
 func importDraft(cube string, d *HedronDraft) (int, error) {
@@ -198,7 +198,6 @@ func importDraft(cube string, d *HedronDraft) (int, error) {
 		n := playerNumbers[p.ID]
 		deck := types.NewDeck()
 		deck.ID = n
-		deck.Player = PlaceholderPlayer(draft.ID, n)
 		deck.Date = dateStr
 		deck.Metadata.DraftID = draft.ID
 
@@ -223,35 +222,24 @@ func importDraft(cube string, d *HedronDraft) (int, error) {
 			continue
 		}
 
-		winner := ""
-		if m.Result[0] > m.Result[1] {
-			winner = p1Deck.Player
-		} else if m.Result[1] > m.Result[0] {
-			winner = p2Deck.Player
-		}
-
 		draws := 0
 		if len(m.Result) > 2 {
 			draws = m.Result[2]
 		}
 
 		p1Deck.Matches = append(p1Deck.Matches, types.Match{
-			Opponent:   p2Deck.Player,
 			OpponentID: p2Deck.ID,
 			Round:      m.Round,
 			Wins:       m.Result[0],
 			Losses:     m.Result[1],
 			Draws:      draws,
-			Winner:     winner,
 		})
 		p2Deck.Matches = append(p2Deck.Matches, types.Match{
-			Opponent:   p1Deck.Player,
 			OpponentID: p1Deck.ID,
 			Round:      m.Round,
 			Wins:       m.Result[1],
 			Losses:     m.Result[0],
 			Draws:      draws,
-			Winner:     winner,
 		})
 	}
 
@@ -260,7 +248,7 @@ func importDraft(cube string, d *HedronDraft) (int, error) {
 		if err := deck.Save(deck.Metadata.Path); err != nil {
 			return 0, fmt.Errorf("write deck file: %w", err)
 		}
-		logrus.Infof("Saved deck for %s", deck.Player)
+		logrus.Infof("Saved deck for seat p%d", deck.ID)
 	}
 
 	return draft.ID, nil

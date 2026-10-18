@@ -13,6 +13,7 @@ import (
 	"time"
 
 	"github.com/caseydavenport/cube-tools/pkg/drafts"
+	"github.com/caseydavenport/cube-tools/pkg/players"
 	"github.com/caseydavenport/cube-tools/pkg/types"
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
@@ -94,19 +95,13 @@ type CCRecord struct {
 // draft's metadata, or creates one and saves its ID there so the next export
 // updates it instead of making a duplicate.
 func exportToCC(draft drafts.Draft) {
-	decks := make([]*types.Deck, 0)
-	files, err := drafts.DeckFiles(draft.Dir)
+	pl, err := players.Load("data")
 	if err != nil {
-		logrus.WithError(err).Fatal("Failed to list deck files")
+		logrus.WithError(err).Fatal("Failed to load the player list")
 	}
-
-	for _, f := range files {
-		d, err := types.LoadDeck(f)
-		if err != nil {
-			logrus.WithError(err).Warnf("Failed to load deck %s", f)
-			continue
-		}
-		decks = append(decks, d)
+	decks, err := drafts.LoadDecks(draft.Dir, pl)
+	if err != nil {
+		logrus.WithError(err).Fatal("Failed to load decks")
 	}
 
 	if len(decks) == 0 {

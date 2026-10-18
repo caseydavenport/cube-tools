@@ -12,9 +12,12 @@ import (
 type CountedCard = types.CountedCard
 
 // ParsedDeck is one player's deck as parsed from import text, before it is
-// hydrated into full types.Card records.
+// hydrated into full types.Card records. Player is the name hint parsing
+// derived from the file name; PlayerID is the player the reviewer picked,
+// zero for an anonymous seat.
 type ParsedDeck struct {
 	Player    string        `json:"player"`
+	PlayerID  int           `json:"player_id,omitempty"`
 	Filename  string        `json:"filename,omitempty"`
 	Pool      []CountedCard `json:"pool,omitempty"`
 	Mainboard []CountedCard `json:"mainboard,omitempty"`

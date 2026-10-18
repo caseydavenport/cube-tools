@@ -60,8 +60,8 @@ var ParseCmd = &cobra.Command{
 		if deckInput == "" {
 			logrus.Fatal("Must specify a deck file to parse.")
 		}
-		if who == "" {
-			logrus.Fatal("Must specify a player name.")
+		if who == "" && !anon {
+			logrus.Fatal("Must specify a player with --who, or --anonymous.")
 		}
 		if err := parseOne(cubeFlag, deckInput, who, labels); err != nil {
 			logrus.WithError(err).Fatal("Failed to parse deck")
@@ -70,8 +70,16 @@ var ParseCmd = &cobra.Command{
 }
 
 // parseOne parses one deck file and writes it into the --draft draft, or a new
-// draft created only once the deck has parsed.
+// draft created only once the deck has parsed. player is a player ID or name
+// from the player list, ignored under --anonymous.
 func parseOne(cube, deckFile, player, labels string) error {
+	playerID := 0
+	if !anon {
+		var err error
+		if playerID, err = ResolvePlayer(player); err != nil {
+			return err
+		}
+	}
 	deckDate := date
 	if draftID != 0 {
 		draft, err := drafts.Find(filepath.Join("data", cube), draftID)
@@ -80,7 +88,7 @@ func parseOne(cube, deckFile, player, labels string) error {
 		}
 		deckDate = draft.Date
 	}
-	d, err := parseDeck([]string{deckFile}, player, labels, deckDate, draftID)
+	d, err := parseDeck([]string{deckFile}, playerID, labels, deckDate, draftID)
 	if err != nil {
 		return err
 	}
@@ -96,7 +104,8 @@ func init() {
 	// Add flags for the command to parse a single deck.
 	flags := ParseCmd.Flags()
 	flag.StringVarP(flags, &deckInput, "deck", "d", "DECK", "", "Path to the deck file to import")
-	flag.StringVarP(flags, &who, "who", "w", "WHO", "", "Who made the deck")
+	flag.StringVarP(flags, &who, "who", "w", "WHO", "", "ID or name of the player who made the deck")
+	flag.BoolVarP(flags, &anon, "anonymous", "a", "", false, "If set, the deck is an anonymous seat with no player")
 	flag.StringVarP(flags, &labels, "labels", "l", "LABELS", "", "Labels describing the deck. e.g., aggro,sacrifice")
 	addDraftFlags(flags)
 	flag.StringVarP(flags, &eventDescription, "event-description", "", "EVENT_DESCRIPTION", "", "Event description (written to metadata.json)")
@@ -135,8 +144,9 @@ func resolveDraft(cube string) (drafts.Draft, error) {
 	return draft, err
 }
 
-// parseDeck parses a deck's source files into a deck for the given draft.
-func parseDeck(deckFiles []string, who, labels, date string, draftID int) (*types.Deck, error) {
+// parseDeck parses a deck's source files into a deck for the given draft and
+// player, where player zero is an anonymous seat.
+func parseDeck(deckFiles []string, playerID int, labels, date string, draftID int) (*types.Deck, error) {
 	// Go through each file, and parse it. We allow multiple files
 	// to be specified, in case a deck is split across multiple files - namely, a mainboard and
 	// sideboard file.
@@ -175,7 +185,7 @@ func parseDeck(deckFiles []string, who, labels, date string, draftID int) (*type
 			}
 		}
 	}
-	d.Player = who
+	d.PlayerID = playerID
 	d.Date = date
 	d.Metadata.DraftID = draftID
 

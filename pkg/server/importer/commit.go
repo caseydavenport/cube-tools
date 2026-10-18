@@ -2,14 +2,15 @@ package importer
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
 	"os"
 	"path/filepath"
-	"strings"
 	"time"
 
 	"github.com/caseydavenport/cube-tools/pkg/commands"
 	"github.com/caseydavenport/cube-tools/pkg/drafts"
+	"github.com/caseydavenport/cube-tools/pkg/players"
 	"github.com/caseydavenport/cube-tools/pkg/server"
 	"github.com/caseydavenport/cube-tools/pkg/types"
 )
@@ -28,7 +29,7 @@ type CommitRequest struct {
 // expansion uses the shared types.ExpandCounted helper (Task 1b).
 func buildDeck(d ParsedDeck, date string, draftID int) *types.Deck {
 	deck := types.NewDeck()
-	deck.Player = strings.ToLower(d.Player)
+	deck.PlayerID = d.PlayerID
 	deck.Date = date
 	deck.Metadata.DraftID = draftID
 	if len(d.Mainboard) == 0 && len(d.Pool) > 0 {
@@ -44,6 +45,29 @@ func buildDeck(d ParsedDeck, date string, draftID int) *types.Deck {
 		deck.Sideboard = []types.Card{}
 	}
 	return deck
+}
+
+// checkPlayerIDs reports a deck whose player isn't in the list, or a player
+// picked for two decks. Zero, an anonymous seat, always passes.
+func checkPlayerIDs(dataRoot string, decks []ParsedDeck) error {
+	pl, err := players.Load(dataRoot)
+	if err != nil {
+		return err
+	}
+	seen := map[int]bool{}
+	for _, pd := range decks {
+		if pd.PlayerID == 0 {
+			continue
+		}
+		if _, ok := pl.ByID(pd.PlayerID); !ok {
+			return fmt.Errorf("unknown player id %d", pd.PlayerID)
+		}
+		if seen[pd.PlayerID] {
+			return fmt.Errorf("player id %d is picked for two decks", pd.PlayerID)
+		}
+		seen[pd.PlayerID] = true
+	}
+	return nil
 }
 
 // CommitHandler writes a reviewed draft to disk and reindexes.
@@ -66,11 +90,9 @@ func CommitHandlerWithRoot(src types.CubeSource, dataRoot string) http.Handler {
 			http.Error(rw, "a YYYY-MM-DD date and at least one deck are required", http.StatusBadRequest)
 			return
 		}
-		for _, pd := range req.Decks {
-			if !validID(pd.Player) {
-				http.Error(rw, "invalid player name: "+pd.Player, http.StatusBadRequest)
-				return
-			}
+		if err := checkPlayerIDs(dataRoot, req.Decks); err != nil {
+			http.Error(rw, err.Error(), http.StatusBadRequest)
+			return
 		}
 
 		// Snapshot the cube as it is right now, straight from Cube Cobra, before

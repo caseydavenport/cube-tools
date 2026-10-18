@@ -1,12 +1,15 @@
 package commands
 
 import (
+	"encoding/json"
+	"os"
 	"path/filepath"
 	"testing"
 
 	"github.com/stretchr/testify/require"
 
 	"github.com/caseydavenport/cube-tools/pkg/drafts"
+	"github.com/caseydavenport/cube-tools/pkg/players"
 	"github.com/caseydavenport/cube-tools/pkg/types"
 )
 
@@ -23,13 +26,13 @@ func TestWriteDeckKeepsExistingIDAndNotes(t *testing.T) {
 	draft := newDraft(t)
 	existing := types.NewDeck()
 	existing.ID = 7
-	existing.Player = "casey"
+	existing.PlayerID = 5
 	existing.Notes = "keep me"
 	path := filepath.Join(draft.Dir, "casey.json")
 	require.NoError(t, existing.Save(path))
 
 	d := types.NewDeck()
-	d.Player = "Casey"
+	d.PlayerID = 5
 	require.NoError(t, writeDeck(d, draft))
 
 	got, err := types.LoadDeck(path)
@@ -41,16 +44,16 @@ func TestWriteDeckKeepsExistingIDAndNotes(t *testing.T) {
 
 func TestWriteDeckNewDeckGetsNextIDFile(t *testing.T) {
 	draft := newDraft(t)
-	for _, player := range []string{"alice", "bob", "carol"} {
+	for _, player := range []int{1, 2, 3} {
 		d := types.NewDeck()
-		d.Player = player
+		d.PlayerID = player
 		require.NoError(t, writeDeck(d, draft))
 	}
 
 	got, err := types.LoadDeck(drafts.DeckPath(draft.Dir, 3))
 	require.NoError(t, err)
 	require.Equal(t, 3, got.ID)
-	require.Equal(t, "carol", got.Player)
+	require.Equal(t, 3, got.PlayerID)
 	require.Equal(t, drafts.DeckPath(draft.Dir, 3), got.Metadata.Path)
 }
 
@@ -64,4 +67,75 @@ func TestParseBadDeckLeavesNoDraft(t *testing.T) {
 	all, err := drafts.List(filepath.Join("data", "polyverse"))
 	require.NoError(t, err)
 	require.Empty(t, all)
+}
+
+// seedPlayers writes data/players.json with Freddie (1), Ozzy (2) and Joan
+// Jett (3) in the current working directory.
+func seedPlayers(t *testing.T) {
+	t.Helper()
+	for _, name := range []string{"Freddie Mercury", "Ozzy Osbourne", "Joan Jett"} {
+		_, err := players.Add("data", name)
+		require.NoError(t, err)
+	}
+}
+
+// oracleMini is the test oracle data, resolved before tests change directory.
+var oracleMini = absPath("testdata/oracle-mini.json")
+
+// absPath resolves path against the package directory, panicking if it can't.
+func absPath(path string) string {
+	abs, err := filepath.Abs(path)
+	if err != nil {
+		panic(err)
+	}
+	return abs
+}
+
+// writeDeckList writes a small deck list, with a sideboard, and returns its
+// path.
+func writeDeckList(t *testing.T) string {
+	t.Helper()
+	require.NoError(t, types.LoadOracleData(oracleMini))
+	path := filepath.Join(t.TempDir(), "deck.txt")
+	require.NoError(t, os.WriteFile(path, []byte("1 Monastery Mentor\n1 Plains\n\n1 Snapcaster Mage\n"), 0o644))
+	return path
+}
+
+func TestParseUnknownPlayerFails(t *testing.T) {
+	t.Chdir(t.TempDir())
+	seedPlayers(t)
+	date, draftID = "2026-01-02", 0
+	defer func() { date = "" }()
+
+	err := parseOne("polyverse", writeDeckList(t), "Stevie Nicks", "")
+	require.ErrorContains(t, err, `players add "Stevie Nicks"`)
+	all, err := drafts.List(filepath.Join("data", "polyverse"))
+	require.NoError(t, err)
+	require.Empty(t, all)
+}
+
+func TestParseByNameWritesPlayerID(t *testing.T) {
+	t.Chdir(t.TempDir())
+	seedPlayers(t)
+	date, draftID = "2026-01-02", 0
+	defer func() { date = "" }()
+
+	require.NoError(t, parseOne("polyverse", writeDeckList(t), "joan jett", ""))
+	raw, err := os.ReadFile(filepath.Join("data", "polyverse", "0001_2026-01-02", "1.json"))
+	require.NoError(t, err)
+	var onDisk map[string]any
+	require.NoError(t, json.Unmarshal(raw, &onDisk))
+	require.EqualValues(t, 3, onDisk["player_id"])
+	require.NotContains(t, onDisk, "player")
+}
+
+func TestParseAnonymousWritesNoPlayer(t *testing.T) {
+	t.Chdir(t.TempDir())
+	date, draftID, anon = "2026-01-02", 0, true
+	defer func() { date, anon = "", false }()
+
+	require.NoError(t, parseOne("polyverse", writeDeckList(t), "", ""))
+	got, err := types.LoadDeck(filepath.Join("data", "polyverse", "0001_2026-01-02", "1.json"))
+	require.NoError(t, err)
+	require.Equal(t, 0, got.PlayerID)
 }

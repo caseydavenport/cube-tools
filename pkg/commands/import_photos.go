@@ -53,7 +53,7 @@ func ScanPhotoFolder(dir string) ([]string, error) {
 
 // buildPhotoDraftDir writes an OCR-ready draft skeleton under dataRoot/cube from
 // a folder of deck photos: metadata.json, one img/pN/deck-1.<ext> per image
-// (pN by sorted filename), and a per-player deck stub. It returns the new
+// (pN by sorted filename), and an anonymous deck stub per photo. It returns the new
 // draft and the deck image paths it wrote, for the caller to normalize. It
 // does not reindex.
 func buildPhotoDraftDir(dataRoot, cube, sourcePath, date, slug, eventName, flight string) (drafts.Draft, []string, error) {
@@ -99,7 +99,6 @@ func buildPhotoDraftDir(dataRoot, cube, sourcePath, date, slug, eventName, fligh
 
 		deck := types.NewDeck()
 		deck.ID = deckID
-		deck.Player = PlaceholderPlayer(draft.ID, deckID)
 		deck.Date = date
 		deck.Metadata.DraftID = draft.ID
 		deck.Metadata.Path = drafts.DeckPath(draft.Dir, deckID)
@@ -111,15 +110,9 @@ func buildPhotoDraftDir(dataRoot, cube, sourcePath, date, slug, eventName, fligh
 	return draft, written, nil
 }
 
-// PlaceholderPlayer names the nth player of a draft whose real name isn't
-// known yet. Draft IDs are unique within a cube, so the name is too.
-func PlaceholderPlayer(draftID, n int) string {
-	return fmt.Sprintf("%04d-p%d", draftID, n)
-}
-
 // BuildPhotoDraft builds a draft under data/ from a folder of deck photos,
 // normalizes each photo to landscape, reindexes the cube, and returns the draft
-// ID. Player names and match records are not set here.
+// ID. Decks start as anonymous seats with no match records.
 func BuildPhotoDraft(cube, sourcePath, date, slug, eventName, flight string) (int, error) {
 	draft, images, err := buildPhotoDraftDir("data", cube, sourcePath, date, slug, eventName, flight)
 	if err != nil {

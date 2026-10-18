@@ -8,6 +8,7 @@ import (
 	"path/filepath"
 	"testing"
 
+	"github.com/caseydavenport/cube-tools/pkg/players"
 	"github.com/caseydavenport/cube-tools/pkg/types"
 )
 
@@ -18,6 +19,9 @@ type commitResponse struct {
 
 func TestCommitCreatesNumberedDraft(t *testing.T) {
 	root := t.TempDir()
+	if _, err := players.Add(root, "Joan Jett"); err != nil {
+		t.Fatal(err)
+	}
 	src := testCubeSource("polyverse", []string{"Monastery Mentor", "Snapcaster Mage"})
 
 	body := CommitRequest{
@@ -26,11 +30,12 @@ func TestCommitCreatesNumberedDraft(t *testing.T) {
 		EventCode: "local",
 		Decks: []ParsedDeck{
 			{
-				Player:    "casey",
+				Player:    "joan",
+				PlayerID:  1,
 				Mainboard: []CountedCard{{Name: "Monastery Mentor", Count: 1}, {Name: "Plains", Count: 7}},
 				Sideboard: []CountedCard{{Name: "Snapcaster Mage", Count: 1}},
 			},
-			{Player: "Jen", Mainboard: []CountedCard{{Name: "Monastery Mentor", Count: 1}}},
+			{Player: "p2", Mainboard: []CountedCard{{Name: "Monastery Mentor", Count: 1}}},
 		},
 	}
 	rw := postJSON(t, CommitHandlerWithRoot(src, root), "polyverse", "/api/polyverse/import/commit", body)
@@ -46,17 +51,14 @@ func TestCommitCreatesNumberedDraft(t *testing.T) {
 	}
 
 	dir := filepath.Join(root, "polyverse", "0001_2026-06-30")
-	wantPlayers := map[int]string{
-		1: "casey",
-		2: "jen",
-	}
+	wantPlayers := map[int]int{1: 1, 2: 0}
 	for id, player := range wantPlayers {
 		d, err := types.LoadDeck(filepath.Join(dir, fmt.Sprintf("%d.json", id)))
 		if err != nil {
 			t.Fatal(err)
 		}
-		if d.ID != id || d.Player != player || d.Metadata.DraftID != 1 {
-			t.Errorf("deck %d.json = id %d player %q draft %d, want id %d player %q draft 1", id, d.ID, d.Player, d.Metadata.DraftID, id, player)
+		if d.ID != id || d.PlayerID != player || d.Metadata.DraftID != 1 {
+			t.Errorf("deck %d.json = id %d player %d draft %d, want id %d player %d draft 1", id, d.ID, d.PlayerID, d.Metadata.DraftID, id, player)
 		}
 	}
 
@@ -97,5 +99,23 @@ func TestCommitHandlerRejectsBadDate(t *testing.T) {
 	}
 	if len(entries) != 0 {
 		t.Fatalf("bad date left files behind: %v", entries)
+	}
+}
+
+func TestCommitRejectsBadPlayerIDs(t *testing.T) {
+	root := t.TempDir()
+	if _, err := players.Add(root, "Joan Jett"); err != nil {
+		t.Fatal(err)
+	}
+	src := testCubeSource("polyverse", []string{"Monastery Mentor"})
+	for name, ids := range map[string][]int{"unknown": {1, 9}, "duplicate": {1, 1}} {
+		body := CommitRequest{Date: "2026-06-30", Decks: []ParsedDeck{{PlayerID: ids[0]}, {PlayerID: ids[1]}}}
+		rw := postJSON(t, CommitHandlerWithRoot(src, root), "polyverse", "/api/polyverse/import/commit", body)
+		if rw.Code != http.StatusBadRequest {
+			t.Errorf("%s: status %d, want 400", name, rw.Code)
+		}
+	}
+	if _, err := os.Stat(filepath.Join(root, "polyverse")); !os.IsNotExist(err) {
+		t.Fatalf("a rejected commit created the cube dir: %v", err)
 	}
 }

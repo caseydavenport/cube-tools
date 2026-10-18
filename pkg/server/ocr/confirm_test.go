@@ -1,7 +1,6 @@
 package ocr
 
 import (
-	"fmt"
 	"net/http/httptest"
 	"path/filepath"
 	"testing"
@@ -83,7 +82,7 @@ func TestConfirmFindsDeckByID(t *testing.T) {
 	for id := 1; id <= 3; id++ {
 		deck := types.NewDeck()
 		deck.ID = id
-		deck.Player = fmt.Sprintf("0001-p%d", id)
+		deck.PlayerID = id * 10
 		writeDeck(t, d, deck)
 	}
 
@@ -103,8 +102,8 @@ func TestConfirmFindsDeckByID(t *testing.T) {
 	if len(got.Pool) != 1 || got.Pool[0].Name != "Brainstorm" {
 		t.Fatalf("written pool = %+v", got.Pool)
 	}
-	if got.ID != 3 || got.Player != "0001-p3" {
-		t.Fatalf("deck = id %d player %q after confirm, want 3 0001-p3", got.ID, got.Player)
+	if got.ID != 3 || got.PlayerID != 30 {
+		t.Fatalf("deck = id %d player %d after confirm, want 3 and 30", got.ID, got.PlayerID)
 	}
 	other, err := types.LoadDeck(filepath.Join(d.Dir, "1.json"))
 	if err != nil {

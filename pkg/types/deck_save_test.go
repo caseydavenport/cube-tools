@@ -47,8 +47,9 @@ func TestMarshalCompactNameFree(t *testing.T) {
 	for _, banned := range []string{`"opponent"`, `"winner"`, `"opponent_player_id"`} {
 		assert.NotContains(t, string(raw), banned)
 	}
-	m := generic["matches"].([]any)[0].(map[string]any)
-	assert.Equal(t, []any{map[string]any{"won": true}, map[string]any{}}, m["games"])
+	var shape diskShape
+	require.NoError(t, json.Unmarshal(raw, &shape))
+	assert.Equal(t, []map[string]bool{{"won": true}, {}}, shape.Matches[0].Games)
 
 	got, err := LoadDeck(path)
 	require.NoError(t, err)
@@ -70,4 +71,14 @@ func TestMarshalCompactIgnoresNames(t *testing.T) {
 	got, err := LoadDeck(path)
 	require.NoError(t, err)
 	assert.Equal(t, []Game{{Won: true}, {Tie: true}}, got.Matches[0].Games)
+}
+
+// diskShape decodes just the games of a deck file, keeping keys as written.
+type diskShape struct {
+	Matches []diskShapeMatch `json:"matches"`
+}
+
+// diskShapeMatch is one match of diskShape.
+type diskShapeMatch struct {
+	Games []map[string]bool `json:"games"`
 }

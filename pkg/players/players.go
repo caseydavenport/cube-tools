@@ -13,6 +13,8 @@ import (
 	"strconv"
 	"strings"
 	"sync"
+
+	"github.com/sirupsen/logrus"
 )
 
 // Filename is the player list's file name within the data root.
@@ -189,17 +191,26 @@ func save(dataRoot string, l *List) error {
 		return fmt.Errorf("write player list: %w", err)
 	}
 	if _, err := tmp.Write(append(bs, '\n')); err != nil {
-		_ = tmp.Close()
-		_ = os.Remove(tmp.Name())
+		if cerr := tmp.Close(); cerr != nil {
+			logrus.WithError(cerr).Warn("Failed to close temp player list")
+		}
+		removeTemp(tmp.Name())
 		return fmt.Errorf("write player list: %w", err)
 	}
 	if err := tmp.Close(); err != nil {
-		_ = os.Remove(tmp.Name())
+		removeTemp(tmp.Name())
 		return fmt.Errorf("write player list: %w", err)
 	}
 	if err := os.Rename(tmp.Name(), filepath.Join(dataRoot, Filename)); err != nil {
-		_ = os.Remove(tmp.Name())
+		removeTemp(tmp.Name())
 		return fmt.Errorf("write player list: %w", err)
 	}
 	return nil
+}
+
+// removeTemp deletes a temp file left by a failed save, logging if it can't.
+func removeTemp(name string) {
+	if err := os.Remove(name); err != nil {
+		logrus.WithError(err).WithField("file", name).Warn("Failed to remove temp player list")
+	}
 }

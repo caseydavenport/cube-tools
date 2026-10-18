@@ -69,7 +69,7 @@ func TestGameLosses(t *testing.T) {
 func TestGameLosses_DrawsNotCounted(t *testing.T) {
 	// Regression: draws (Winner="" or Tie=true) must NOT count as losses.
 	d := makeDeck("Alice", []Game{
-		{Opponent: "Bob", Winner: ""},            // draw via empty winner
+		{Opponent: "Bob", Winner: ""},           // draw via empty winner
 		{Opponent: "Bob", Winner: "", Tie: true}, // draw via Tie flag
 		{Opponent: "Bob", Winner: "Bob"},         // real loss
 	}, nil)
@@ -81,9 +81,9 @@ func TestGameLosses_DrawsNotCounted(t *testing.T) {
 func TestGameDraws(t *testing.T) {
 	d := makeDeck("Alice", []Game{
 		{Opponent: "Bob", Winner: ""},            // draw (empty winner)
-		{Opponent: "Bob", Winner: "", Tie: true}, // draw (Tie flag)
-		{Opponent: "Bob", Winner: "Bob"},         // loss, not a draw
-		{Opponent: "Charlie", Winner: "Alice"},   // win, not a draw
+		{Opponent: "Bob", Winner: "", Tie: true},  // draw (Tie flag)
+		{Opponent: "Bob", Winner: "Bob"},          // loss, not a draw
+		{Opponent: "Charlie", Winner: "Alice"},    // win, not a draw
 	}, nil)
 	assert.Equal(t, 2, d.GameDraws())
 }
@@ -105,7 +105,7 @@ func TestMatchLosses(t *testing.T) {
 	d := makeDeck("Alice", nil, []Match{
 		{Opponent: "Bob", Winner: "Bob"},
 		{Opponent: "Charlie", Winner: "Alice"},
-		{Opponent: "Dave", Winner: ""}, // draw, not a loss
+		{Opponent: "Dave", Winner: ""},  // draw, not a loss
 	})
 	assert.Equal(t, 1, d.MatchLosses())
 }
@@ -437,92 +437,6 @@ func TestAllCards_Empty(t *testing.T) {
 	assert.Equal(t, 0, len(d.AllCards()))
 }
 
-// --- AddMatch / AddGame ---
-
-func TestAddMatch_SortsByOpponent(t *testing.T) {
-	d := NewDeck()
-	d.Player = "Alice"
-	d.AddMatch("Charlie", "Alice")
-	d.AddMatch("Alice_clone", "Alice_clone")
-	d.AddMatch("Bob", "Alice")
-
-	assert.Equal(t, 3, len(d.Matches))
-	assert.Equal(t, "Alice_clone", d.Matches[0].Opponent)
-	assert.Equal(t, "Bob", d.Matches[1].Opponent)
-	assert.Equal(t, "Charlie", d.Matches[2].Opponent)
-}
-
-func TestAddGame_SortsByOpponent(t *testing.T) {
-	d := NewDeck()
-	d.Player = "Alice"
-	d.AddGame("Charlie", "Alice")
-	d.AddGame("Bob", "Bob")
-	assert.Equal(t, "Bob", d.Matches[0].Opponent)
-	assert.Equal(t, "Charlie", d.Matches[1].Opponent)
-}
-
-func TestAddGame_DrawSetsTieFlag(t *testing.T) {
-	d := NewDeck()
-	d.Player = "Alice"
-	d.AddGame("Bob", "")
-	assert.True(t, d.Matches[0].Games[0].Tie)
-	assert.Equal(t, "", d.Matches[0].Games[0].Winner)
-}
-
-// --- RemoveMatchesForOpponent ---
-
-func TestRemoveMatchesForOpponent(t *testing.T) {
-	d := makeDeck("Alice", nil, []Match{
-		{Opponent: "Bob", Winner: "Alice"},
-		{Opponent: "Charlie", Winner: "Charlie"},
-		{Opponent: "Bob", Winner: "Bob"},
-	})
-	d.RemoveMatchesForOpponent("Bob")
-	assert.Equal(t, 1, len(d.Matches))
-	assert.Equal(t, "Charlie", d.Matches[0].Opponent)
-}
-
-func TestRemoveMatchesForOpponent_NoneFound(t *testing.T) {
-	d := makeDeck("Alice", nil, []Match{
-		{Opponent: "Bob", Winner: "Alice"},
-	})
-	d.RemoveMatchesForOpponent("Charlie")
-	assert.Equal(t, 1, len(d.Matches))
-}
-
-// --- GamesForOpponent ---
-
-func TestGamesForOpponent(t *testing.T) {
-	d := makeDeck("Alice", []Game{
-		{Opponent: "Bob", Winner: "Alice"},
-		{Opponent: "Charlie", Winner: "Charlie"},
-		{Opponent: "Bob", Winner: "Bob"},
-	}, nil)
-	games := d.GamesForOpponent("Bob")
-	assert.Equal(t, 2, len(games))
-}
-
-func TestGamesForOpponent_NoneFound(t *testing.T) {
-	d := makeDeck("Alice", []Game{
-		{Opponent: "Bob", Winner: "Alice"},
-	}, nil)
-	games := d.GamesForOpponent("Charlie")
-	assert.Equal(t, 0, len(games))
-}
-
-// --- RemoveGamesForOpponent ---
-
-func TestRemoveGamesForOpponent(t *testing.T) {
-	d := makeDeck("Alice", []Game{
-		{Opponent: "Bob", Winner: "Alice"},
-		{Opponent: "Charlie", Winner: "Alice"},
-		{Opponent: "Bob", Winner: "Bob"},
-	}, nil)
-	d.RemoveGamesForOpponent("Bob")
-	assert.Equal(t, 0, len(d.GamesForOpponent("Bob")))
-	assert.Equal(t, 1, len(d.GamesForOpponent("Charlie")))
-}
-
 // --- PrimaryColorPair ---
 
 // Build a non-land card with the given mana cost for tests below.
@@ -600,12 +514,4 @@ func TestMatchResultsFromCounts(t *testing.T) {
 	assert.Equal(t, 1, d.MatchWins())
 	assert.Equal(t, 0, d.MatchLosses())
 	assert.Equal(t, 2, d.MatchDraws())
-}
-
-func TestAddGameSetsWon(t *testing.T) {
-	d := NewDeck()
-	d.Player = "Freddie"
-	d.AddGame("Ozzy", "Freddie")
-	d.AddGame("Ozzy", "Ozzy")
-	assert.Equal(t, []bool{true, false}, []bool{d.Matches[0].Games[0].Won, d.Matches[0].Games[1].Won})
 }

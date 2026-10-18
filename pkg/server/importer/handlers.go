@@ -22,11 +22,6 @@ func writeJSON(rw http.ResponseWriter, v any) {
 	_ = json.NewEncoder(rw).Encode(v)
 }
 
-// validID rejects path or body values that could escape the data directory.
-func validID(s string) bool {
-	return s != "" && !strings.ContainsAny(s, `/\`) && !strings.Contains(s, "..")
-}
-
 // ImportCardsHandler serves the cube's card list for the import UI's rename
 // autocomplete. Unlike the OCR cards endpoint it isn't scoped to a draft.
 func ImportCardsHandler(src types.CubeSource) http.Handler {

@@ -45,4 +45,5 @@ func init() {
 	rootCmd.AddCommand(commands.ManapoolCommand)
 	rootCmd.AddCommand(commands.ImportHedronCmd)
 	rootCmd.AddCommand(commands.ExportCCCmd)
+	rootCmd.AddCommand(commands.PlayersCmd)
 }

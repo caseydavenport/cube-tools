@@ -106,6 +106,7 @@ func (d *Deck) PersonLabel() string {
 	}
 	return d.Player
 }
+
 func (d *Deck) GetLabels() []string {
 	if d.MacroArchetype != "" {
 		return append([]string{d.MacroArchetype}, d.Labels...)

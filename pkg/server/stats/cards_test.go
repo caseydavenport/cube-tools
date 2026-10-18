@@ -309,7 +309,8 @@ func TestCardPlayersCountsSeatsSeparately(t *testing.T) {
 		return d
 	}
 	h := &cardStatsHandler{}
-	got := h.statsForDecks([]*storage.Deck{seat(1), seat(2)}, map[string]types.Card{"Lightning Bolt": {Name: "Lightning Bolt"}}, &CardStatsRequest{DecksRequest: &storage.DecksRequest{}})
+	cube := map[string]types.Card{"Lightning Bolt": {Name: "Lightning Bolt"}}
+	got := h.statsForDecks([]*storage.Deck{seat(1), seat(2)}, cube, &CardStatsRequest{DecksRequest: &storage.DecksRequest{}})
 	bolt := got.Data["Lightning Bolt"]
 	if assert.NotNil(t, bolt) {
 		assert.Len(t, bolt.Players, 2)
