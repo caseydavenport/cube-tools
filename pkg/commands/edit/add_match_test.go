@@ -17,7 +17,11 @@ func TestAddMatchBySeatAndName(t *testing.T) {
 	require.NoError(t, err)
 	draft, err := drafts.Create(filepath.Join("data", "polyverse"), types.DraftMetadata{Date: "2026-01-02"})
 	require.NoError(t, err)
-	for id, playerID := range map[int]int{1: 1, 2: 0} {
+	playerIDByDeck := map[int]int{
+		1: 1,
+		2: 0,
+	}
+	for id, playerID := range playerIDByDeck {
 		d := types.NewDeck()
 		d.ID, d.PlayerID = id, playerID
 		require.NoError(t, d.Save(drafts.DeckPath(draft.Dir, d.ID)))

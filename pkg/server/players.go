@@ -6,8 +6,10 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/caseydavenport/cube-tools/pkg/players"
 	"github.com/sirupsen/logrus"
+
+	"github.com/caseydavenport/cube-tools/pkg/players"
+	"github.com/caseydavenport/cube-tools/pkg/storage"
 )
 
 // PlayerInvalidator drops cached deck names after a rename. storage.Store
@@ -16,8 +18,10 @@ type PlayerInvalidator interface {
 	InvalidatePlayers()
 }
 
-// PlayerNameRequest is the body of the add and rename routes.
-type PlayerNameRequest struct {
+var _ PlayerInvalidator = &storage.Store{}
+
+// playerNameRequest is the body of the add and rename routes.
+type playerNameRequest struct {
 	Name string `json:"name"`
 }
 
@@ -41,7 +45,7 @@ func PlayersListHandler(dataRoot string) http.Handler {
 // with 201, or 400 for an invalid name and 409 for a taken one.
 func PlayerAddHandler(dataRoot string) http.Handler {
 	return http.HandlerFunc(func(rw http.ResponseWriter, r *http.Request) {
-		var req PlayerNameRequest
+		var req playerNameRequest
 		if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
 			http.Error(rw, "Invalid request", http.StatusBadRequest)
 			return
@@ -63,7 +67,7 @@ func PlayerRenameHandler(dataRoot string, inv PlayerInvalidator) http.Handler {
 			http.NotFound(rw, r)
 			return
 		}
-		var req PlayerNameRequest
+		var req playerNameRequest
 		if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
 			http.Error(rw, "Invalid request", http.StatusBadRequest)
 			return

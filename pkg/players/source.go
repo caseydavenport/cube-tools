@@ -10,13 +10,3 @@ type FileSource struct {
 func (s FileSource) Players() (*List, error) {
 	return Load(s.DataRoot)
 }
-
-// StaticSource serves a fixed list, for tests and in-memory stores.
-type StaticSource struct {
-	List *List
-}
-
-// Players returns the fixed list.
-func (s StaticSource) Players() (*List, error) {
-	return s.List, nil
-}

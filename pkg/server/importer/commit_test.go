@@ -51,8 +51,11 @@ func TestCommitCreatesNumberedDraft(t *testing.T) {
 	}
 
 	dir := filepath.Join(root, "polyverse", "0001_2026-06-30")
-	wantPlayers := map[int]int{1: 1, 2: 0}
-	for id, player := range wantPlayers {
+	wantPlayerIDByDeck := map[int]int{
+		1: 1,
+		2: 0,
+	}
+	for id, player := range wantPlayerIDByDeck {
 		d, err := types.LoadDeck(filepath.Join(dir, fmt.Sprintf("%d.json", id)))
 		if err != nil {
 			t.Fatal(err)
@@ -108,7 +111,11 @@ func TestCommitRejectsBadPlayerIDs(t *testing.T) {
 		t.Fatal(err)
 	}
 	src := testCubeSource("polyverse", []string{"Monastery Mentor"})
-	for name, ids := range map[string][]int{"unknown": {1, 9}, "duplicate": {1, 1}} {
+	playerIDsByCase := map[string][]int{
+		"unknown":   {1, 9},
+		"duplicate": {1, 1},
+	}
+	for name, ids := range playerIDsByCase {
 		body := CommitRequest{Date: "2026-06-30", Decks: []ParsedDeck{{PlayerID: ids[0]}, {PlayerID: ids[1]}}}
 		rw := postJSON(t, CommitHandlerWithRoot(src, root), "polyverse", "/api/polyverse/import/commit", body)
 		if rw.Code != http.StatusBadRequest {

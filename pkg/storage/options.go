@@ -8,6 +8,8 @@ type PlayerSource interface {
 	Players() (*players.List, error)
 }
 
+var _ PlayerSource = players.FileSource{}
+
 // StoreOption configures a Store at construction.
 type StoreOption func(*Store)
 

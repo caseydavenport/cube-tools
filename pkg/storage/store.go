@@ -69,8 +69,8 @@ func (s *Store) resolve(decks []*Deck) error {
 	return nil
 }
 
-// InvalidatePlayers drops every cached cube, so the next read shows player
-// names as they are now. Call it after renaming a player.
+// InvalidatePlayers drops every cached cube, so the next read resolves the
+// current player names. Call it after renaming a player.
 func (s *Store) InvalidatePlayers() {
 	s.Lock()
 	defer s.Unlock()
@@ -208,7 +208,7 @@ func (s *Store) assignPlayer(decks []*Deck, target *Deck, playerID int) error {
 		if err != nil {
 			return err
 		}
-		if _, ok := pl.ByID(playerID); pl == nil || !ok {
+		if _, ok := pl.ByID(playerID); !ok {
 			return fmt.Errorf("%w: id %d", ErrUnknownPlayer, playerID)
 		}
 		for _, d := range decks {

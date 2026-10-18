@@ -3,8 +3,9 @@ package players
 import (
 	"fmt"
 
-	"github.com/caseydavenport/cube-tools/pkg/types"
 	"github.com/sirupsen/logrus"
+
+	"github.com/caseydavenport/cube-tools/pkg/types"
 )
 
 // SeatLabel is the display name of an anonymous deck: "p" and its deck ID,
@@ -32,29 +33,29 @@ func (l *List) ResolveDraft(decks []*types.Deck) {
 	}
 	for _, d := range decks {
 		for i := range d.Matches {
-			m := &d.Matches[i]
-			if opp, ok := byID[m.OpponentID]; ok && m.OpponentID != 0 {
-				m.Opponent = opp.Player
-				m.OpponentPlayerID = opp.PlayerID
+			match := &d.Matches[i]
+			if opp, ok := byID[match.OpponentID]; ok && match.OpponentID != 0 {
+				match.Opponent = opp.Player
+				match.OpponentPlayerID = opp.PlayerID
 			}
 			switch {
-			case m.Wins > m.Losses:
-				m.Winner = d.Player
-			case m.Losses > m.Wins:
-				m.Winner = m.Opponent
+			case match.Wins > match.Losses:
+				match.Winner = d.Player
+			case match.Losses > match.Wins:
+				match.Winner = match.Opponent
 			default:
-				m.Winner = ""
+				match.Winner = ""
 			}
-			for j := range m.Games {
-				g := &m.Games[j]
-				g.Opponent = m.Opponent
+			for j := range match.Games {
+				g := &match.Games[j]
+				g.Opponent = match.Opponent
 				switch {
 				case g.Won:
 					g.Winner = d.Player
 				case g.Tie:
 					g.Winner = ""
 				default:
-					g.Winner = m.Opponent
+					g.Winner = match.Opponent
 				}
 			}
 		}
@@ -64,10 +65,8 @@ func (l *List) ResolveDraft(decks []*types.Deck) {
 // nameFor returns the player's display name, or a placeholder naming the ID
 // when the list doesn't have it.
 func (l *List) nameFor(id int) string {
-	if l != nil {
-		if p, ok := l.ByID(id); ok {
-			return p.Name
-		}
+	if p, ok := l.ByID(id); ok {
+		return p.Name
 	}
 	logrus.WithField("player_id", id).Warn("Deck references a player not in the player list")
 	return fmt.Sprintf("player #%d", id)

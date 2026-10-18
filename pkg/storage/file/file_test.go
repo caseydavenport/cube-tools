@@ -37,11 +37,14 @@ func TestFileRawDecksReadsIDFromFile(t *testing.T) {
 	b := New(nil)
 	got, err := b.RawDecks("conf")
 	assert.NoError(t, err)
-	ids := map[int]int{}
+	deckIDByPlayer := map[int]int{}
 	for _, d := range got {
-		ids[d.PlayerID] = d.ID
+		deckIDByPlayer[d.PlayerID] = d.ID
 	}
-	assert.Equal(t, map[int]int{1: 1, 2: 2}, ids)
+	assert.Equal(t, map[int]int{
+		1: 1,
+		2: 2,
+	}, deckIDByPlayer)
 }
 
 func TestFileConformance(t *testing.T) {

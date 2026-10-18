@@ -6,10 +6,11 @@ import (
 	"path/filepath"
 	"strconv"
 
-	"github.com/caseydavenport/cube-tools/pkg/drafts"
-	"github.com/caseydavenport/cube-tools/pkg/players"
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
+
+	"github.com/caseydavenport/cube-tools/pkg/drafts"
+	"github.com/caseydavenport/cube-tools/pkg/players"
 )
 
 // anonymousRef is the word `players assign` takes to make a deck an anonymous

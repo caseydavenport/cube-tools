@@ -1,7 +1,6 @@
 package commands
 
 import (
-	"path/filepath"
 	"testing"
 
 	"github.com/stretchr/testify/require"
@@ -28,7 +27,7 @@ func TestPlayersAssign(t *testing.T) {
 	require.ErrorContains(t, assignPlayer("polyverse", draft.ID, 2, "Stevie Nicks"), "players add")
 
 	require.NoError(t, assignPlayer("polyverse", draft.ID, 1, "anonymous"))
-	got, err = types.LoadDeck(filepath.Join(draft.Dir, "1.json"))
+	got, err = types.LoadDeck(drafts.DeckPath(draft.Dir, 1))
 	require.NoError(t, err)
 	require.Equal(t, 0, got.PlayerID)
 }

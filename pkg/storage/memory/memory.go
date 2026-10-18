@@ -22,6 +22,8 @@ type Backend struct {
 	players   *players.List
 }
 
+var _ storage.PlayerSource = &Backend{}
+
 // New returns an empty in-memory backend.
 func New() *Backend {
 	return &Backend{
@@ -64,7 +66,7 @@ func (b *Backend) Players() (*players.List, error) {
 // Seed adds decks for a cube. Call before wrapping in a Store. A deck with no
 // ID is numbered after the highest ID already in its draft, matching how
 // writers number new decks. A game whose Winner names the deck's player is
-// marked Won, so tests can describe games by name as deck files once did.
+// marked Won, so tests can describe games by the winner's name.
 func (b *Backend) Seed(cube string, decks ...*storage.Deck) {
 	b.mu.Lock()
 	defer b.mu.Unlock()

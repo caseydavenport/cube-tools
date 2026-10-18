@@ -28,7 +28,8 @@ var (
 	// compared without case.
 	ErrNameTaken = errors.New("another player already has that name")
 
-	// ErrInvalidName is returned for a name ValidateName rejects.
+	// ErrInvalidName is returned by Add and Rename for a name that is empty,
+	// only digits, or a seat label.
 	ErrInvalidName = errors.New("invalid player name")
 )
 
@@ -44,8 +45,11 @@ type List struct {
 	Players []Player `json:"players"`
 }
 
-// ByID returns the player with the given ID.
+// ByID returns the player with the given ID. A nil list has no players.
 func (l *List) ByID(id int) (Player, bool) {
+	if l == nil {
+		return Player{}, false
+	}
 	for _, p := range l.Players {
 		if p.ID == id {
 			return p, true
@@ -86,10 +90,10 @@ var seatNameRE = regexp.MustCompile(`^[pP]\d+$`)
 // digitsRE matches names that would read as a player ID.
 var digitsRE = regexp.MustCompile(`^\d+$`)
 
-// ValidateName returns the trimmed name, or ErrInvalidName if it is empty,
+// validateName returns the trimmed name, or ErrInvalidName if it is empty,
 // only digits (it would read as an ID), or a seat label like "p3" (it would
 // read as an anonymous deck).
-func ValidateName(name string) (string, error) {
+func validateName(name string) (string, error) {
 	name = strings.TrimSpace(name)
 	switch {
 	case name == "":
@@ -124,7 +128,7 @@ var writeMu sync.Mutex
 
 // Add appends a player with the next unused ID and returns it.
 func Add(dataRoot, name string) (Player, error) {
-	name, err := ValidateName(name)
+	name, err := validateName(name)
 	if err != nil {
 		return Player{}, err
 	}
@@ -151,7 +155,7 @@ func Add(dataRoot, name string) (Player, error) {
 
 // Rename changes a player's display name. A change of case alone is allowed.
 func Rename(dataRoot string, id int, name string) (Player, error) {
-	name, err := ValidateName(name)
+	name, err := validateName(name)
 	if err != nil {
 		return Player{}, err
 	}

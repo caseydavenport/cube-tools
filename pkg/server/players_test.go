@@ -30,6 +30,7 @@ func playersMux(dataRoot string, inv PlayerInvalidator) *http.ServeMux {
 	return mux
 }
 
+// call sends one request through mux and returns the recorded response.
 func call(mux *http.ServeMux, method, path, body string) *httptest.ResponseRecorder {
 	rec := httptest.NewRecorder()
 	mux.ServeHTTP(rec, httptest.NewRequest(method, path, bytes.NewBufferString(body)))

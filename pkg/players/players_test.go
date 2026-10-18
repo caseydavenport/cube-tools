@@ -32,16 +32,16 @@ func TestAddRejectsDuplicateIgnoringCase(t *testing.T) {
 }
 
 func TestValidateName(t *testing.T) {
-	got, err := ValidateName("  Joan Jett ")
+	got, err := validateName("  Joan Jett ")
 	require.NoError(t, err)
 	assert.Equal(t, "Joan Jett", got)
 
 	for _, bad := range []string{"", "   ", "42", "p3", "P12"} {
-		_, err := ValidateName(bad)
+		_, err := validateName(bad)
 		assert.ErrorIs(t, err, ErrInvalidName, bad)
 	}
 	for _, ok := range []string{"p3x", "Prince"} {
-		_, err := ValidateName(ok)
+		_, err := validateName(ok)
 		assert.NoError(t, err, ok)
 	}
 }

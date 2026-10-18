@@ -10,6 +10,7 @@ import (
 	"path/filepath"
 
 	"github.com/caseydavenport/cube-tools/pkg/drafts"
+	"github.com/caseydavenport/cube-tools/pkg/players"
 	"github.com/caseydavenport/cube-tools/pkg/types"
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
@@ -248,7 +249,7 @@ func importDraft(cube string, d *HedronDraft) (int, error) {
 		if err := deck.Save(deck.Metadata.Path); err != nil {
 			return 0, fmt.Errorf("write deck file: %w", err)
 		}
-		logrus.Infof("Saved deck for seat p%d", deck.ID)
+		logrus.Infof("Saved deck for seat %s", players.SeatLabel(deck.ID))
 	}
 
 	return draft.ID, nil
