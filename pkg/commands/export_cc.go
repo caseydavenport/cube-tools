@@ -263,9 +263,8 @@ func exportToCC(draft drafts.Draft) {
 		recordID = parts[len(parts)-1]
 		logrus.Infof("Created record %s", recordID)
 
-		meta := draft.DraftMetadata
-		meta.CubeCobraRecord = recordID
-		if err := meta.Save(draft.Dir); err != nil {
+		draft.CubeCobraRecord = recordID
+		if err := draft.SaveMetadata(); err != nil {
 			logrus.WithError(err).Fatal("Failed to save the CubeCobra record ID to the draft's metadata")
 		}
 	} else {

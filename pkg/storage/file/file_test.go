@@ -196,7 +196,7 @@ func writeConfFixture(t *testing.T, root string) {
 		t.Fatalf("mkdir draft dir: %v", err)
 	}
 	meta := types.DraftMetadata{ID: 1, Date: "2024-01-01", EventName: "Conf", EventCode: "local"}
-	if err := meta.Save(draftDir); err != nil {
+	if err := (drafts.Draft{Dir: draftDir, DraftMetadata: meta}).SaveMetadata(); err != nil {
 		t.Fatalf("write draft metadata: %v", err)
 	}
 

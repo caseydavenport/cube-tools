@@ -78,7 +78,7 @@ func TestCreateAssignsNextIDAndDir(t *testing.T) {
 	assert.Equal(t, 1, first.ID)
 	assert.Equal(t, filepath.Join(cubeDir, "0001_2026-01-02"), first.Dir)
 
-	meta, err := types.LoadDraftMetadata(first.Dir)
+	meta, err := loadMetadata(first.Dir)
 	require.NoError(t, err)
 	assert.Equal(t, types.DraftMetadata{ID: 1, Date: "2026-01-02", EventName: "Local", EventCode: "local"}, *meta)
 
@@ -109,7 +109,7 @@ func writeDraft(t *testing.T, cubeDir, name string, meta types.DraftMetadata) {
 	t.Helper()
 	dir := filepath.Join(cubeDir, name)
 	require.NoError(t, os.MkdirAll(dir, 0o755))
-	require.NoError(t, meta.Save(dir))
+	require.NoError(t, Draft{Dir: dir, DraftMetadata: meta}.SaveMetadata())
 }
 
 func TestListSortsByDateThenID(t *testing.T) {

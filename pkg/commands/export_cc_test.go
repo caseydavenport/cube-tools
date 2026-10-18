@@ -41,7 +41,7 @@ func draftWithRecord(t *testing.T, record string) drafts.Draft {
 	t.Helper()
 	draft := newDraft(t)
 	draft.CubeCobraRecord = record
-	require.NoError(t, draft.DraftMetadata.Save(draft.Dir))
+	require.NoError(t, draft.SaveMetadata())
 	d := types.NewDeck()
 	d.ID = 1
 	require.NoError(t, d.Save(drafts.DeckPath(draft.Dir, 1)))

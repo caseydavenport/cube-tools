@@ -185,36 +185,6 @@ type DraftMetadata struct {
 	CubeCobraRecord  string `json:"cubecobra_record,omitempty"`
 }
 
-// DraftMetadataFilename is the filename used for the per-draft metadata file.
-const DraftMetadataFilename = "metadata.json"
-
-// LoadDraftMetadata reads metadata.json from a draft directory. Returns a
-// zero-valued DraftMetadata (and no error) if the file does not exist.
-func LoadDraftMetadata(dir string) (*DraftMetadata, error) {
-	path := filepath.Join(dir, DraftMetadataFilename)
-	bs, err := os.ReadFile(path)
-	if err != nil {
-		if os.IsNotExist(err) {
-			return &DraftMetadata{}, nil
-		}
-		return nil, err
-	}
-	m := &DraftMetadata{}
-	if err := json.Unmarshal(bs, m); err != nil {
-		return nil, err
-	}
-	return m, nil
-}
-
-// Save writes metadata.json into the given draft directory.
-func (m *DraftMetadata) Save(dir string) error {
-	bs, err := json.MarshalIndent(m, "", " ")
-	if err != nil {
-		return err
-	}
-	return os.WriteFile(filepath.Join(dir, DraftMetadataFilename), bs, 0o644)
-}
-
 func (m *Metadata) GetSourceFiles() []string {
 	files := make([]string, 0)
 	if m.CombinedFile != "" {

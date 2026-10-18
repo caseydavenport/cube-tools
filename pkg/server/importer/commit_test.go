@@ -8,6 +8,7 @@ import (
 	"path/filepath"
 	"testing"
 
+	"github.com/caseydavenport/cube-tools/pkg/drafts"
 	"github.com/caseydavenport/cube-tools/pkg/players"
 	"github.com/caseydavenport/cube-tools/pkg/types"
 )
@@ -85,13 +86,13 @@ func TestCommitCreatesNumberedDraft(t *testing.T) {
 		t.Fatalf("want 2 cards in snapshot, got %d", len(snap.Names()))
 	}
 
-	meta, err := types.LoadDraftMetadata(dir)
+	found, err := drafts.Find(filepath.Dir(dir), 1)
 	if err != nil {
 		t.Fatal(err)
 	}
 	want := types.DraftMetadata{ID: 1, Date: "2026-06-30", EventName: "Test Draft", EventCode: "local"}
-	if *meta != want {
-		t.Fatalf("metadata = %+v, want %+v", *meta, want)
+	if found.DraftMetadata != want {
+		t.Fatalf("metadata = %+v, want %+v", found.DraftMetadata, want)
 	}
 }
 

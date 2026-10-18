@@ -304,14 +304,13 @@ func writeDeck(d *types.Deck, draft drafts.Draft) error {
 
 	// Event flags passed on the command line override the draft's metadata.
 	if eventName != "" || eventDescription != "" {
-		meta := draft.DraftMetadata
 		if eventName != "" {
-			meta.EventName = eventName
+			draft.EventName = eventName
 		}
 		if eventDescription != "" {
-			meta.EventDescription = eventDescription
+			draft.EventDescription = eventDescription
 		}
-		if err := meta.Save(outdir); err != nil {
+		if err := draft.SaveMetadata(); err != nil {
 			return fmt.Errorf("failed to write draft metadata: %w", err)
 		}
 	}

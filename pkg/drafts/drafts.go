@@ -15,6 +15,8 @@ import (
 	"sync"
 	"time"
 
+	"github.com/sirupsen/logrus"
+
 	"github.com/caseydavenport/cube-tools/pkg/players"
 	"github.com/caseydavenport/cube-tools/pkg/types"
 )
@@ -85,8 +87,9 @@ func DirName(id int, date string) string {
 }
 
 // List returns every draft under cubeDir, sorted by date and then ID. A
-// subdirectory counts as a draft only if its metadata.json has an ID; a
-// missing cubeDir has no drafts.
+// subdirectory counts as a draft only if its metadata.json has an ID; one with
+// no ID or unreadable metadata is logged and skipped. A missing cubeDir has no
+// drafts.
 func List(cubeDir string) ([]Draft, error) {
 	entries, err := os.ReadDir(cubeDir)
 	if os.IsNotExist(err) {
@@ -101,11 +104,13 @@ func List(cubeDir string) ([]Draft, error) {
 			continue
 		}
 		dir := filepath.Join(cubeDir, e.Name())
-		meta, err := types.LoadDraftMetadata(dir)
+		meta, err := loadMetadata(dir)
 		if err != nil {
-			return nil, fmt.Errorf("load draft metadata in %s: %w", dir, err)
+			logrus.WithError(err).WithField("dir", dir).Warn("Skipping draft with unreadable metadata")
+			continue
 		}
 		if meta.ID == 0 {
+			logrus.WithField("dir", dir).Warn("Skipping directory with no draft ID")
 			continue
 		}
 		out = append(out, Draft{Dir: dir, DraftMetadata: *meta})
@@ -209,10 +214,11 @@ func Create(cubeDir string, meta types.DraftMetadata) (Draft, error) {
 		}
 		return Draft{}, fmt.Errorf("draft %d was created concurrently; try again", meta.ID)
 	}
-	if err := meta.Save(dir); err != nil {
+	d := Draft{Dir: dir, DraftMetadata: meta}
+	if err := d.SaveMetadata(); err != nil {
 		return Draft{}, fmt.Errorf("write draft metadata: %w", err)
 	}
-	return Draft{Dir: dir, DraftMetadata: meta}, nil
+	return d, nil
 }
 
 // DeckPath returns where a new deck with the given ID is written in a draft.

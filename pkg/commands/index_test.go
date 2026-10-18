@@ -30,7 +30,7 @@ func TestIndexBuildsFromDraftMetadata(t *testing.T) {
 	} {
 		dir := filepath.Join(cubeDir, drafts.DirName(m.ID, m.Date))
 		require.NoError(t, os.MkdirAll(dir, 0o755))
-		require.NoError(t, m.Save(dir))
+		require.NoError(t, drafts.Draft{Dir: dir, DraftMetadata: m}.SaveMetadata())
 		d := types.NewDeck()
 		d.ID = 1
 		d.Metadata.DraftID = m.ID

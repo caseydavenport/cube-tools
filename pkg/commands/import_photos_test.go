@@ -75,13 +75,13 @@ func TestBuildPhotoDraftDir(t *testing.T) {
 		t.Fatalf("wrote %d images, want 2", len(imgs))
 	}
 
-	meta, err := types.LoadDraftMetadata(draft.Dir)
+	found, err := drafts.Find(filepath.Join(root, "aurora"), 2)
 	if err != nil {
 		t.Fatal(err)
 	}
 	want := types.DraftMetadata{ID: 2, Date: "2026-06-20", EventName: "My Event", EventCode: "evt", Flight: "Sat AM"}
-	if *meta != want {
-		t.Fatalf("metadata = %+v, want %+v", *meta, want)
+	if found.DraftMetadata != want {
+		t.Fatalf("metadata = %+v, want %+v", found.DraftMetadata, want)
 	}
 
 	// p1 gets img_1.png (sorted), p2 gets img_2.jpg; extension preserved.

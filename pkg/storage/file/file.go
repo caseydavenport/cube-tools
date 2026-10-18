@@ -49,7 +49,7 @@ func (b *Backend) RawDecks(cube string) ([]*storage.Deck, error) {
 
 	var decks []*storage.Deck
 	for _, draft := range index.Drafts {
-		info, err := draftInfo(draft.Path)
+		info, err := draftInfo(cube, draft.Path)
 		if err != nil {
 			logrus.WithError(err).WithField("draft", draft.Path).Warn("Failed to load draft metadata")
 		}
@@ -213,7 +213,7 @@ func (b *Backend) Index(cube string) (*storage.CubeIndex, error) {
 
 	out := &storage.CubeIndex{}
 	for _, draft := range index.Drafts {
-		info, err := draftInfo(draft.Path)
+		info, err := draftInfo(cube, draft.Path)
 		if err != nil {
 			return nil, err
 		}
@@ -231,13 +231,19 @@ func (b *Backend) Index(cube string) (*storage.CubeIndex, error) {
 	return out, nil
 }
 
-// draftInfo reads the display fields from a draft directory's metadata.json.
-func draftInfo(dir string) (storage.DraftInfo, error) {
-	meta, err := types.LoadDraftMetadata(dir)
+// draftInfo returns the display fields of the draft in dir, found by listing
+// the cube's drafts. It errors when dir is not one of them.
+func draftInfo(cube, dir string) (storage.DraftInfo, error) {
+	all, err := drafts.List(filepath.Join("data", cube))
 	if err != nil {
 		return storage.DraftInfo{}, err
 	}
-	return storage.NewDraftInfo(*meta), nil
+	for _, d := range all {
+		if filepath.Clean(d.Dir) == filepath.Clean(dir) {
+			return storage.NewDraftInfo(d.DraftMetadata), nil
+		}
+	}
+	return storage.DraftInfo{}, fmt.Errorf("no draft metadata in %s", dir)
 }
 
 // GetDraftLog returns a draft's raw log bytes, or ErrDeckNotFound if the draft
