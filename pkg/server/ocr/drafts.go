@@ -29,25 +29,25 @@ func discoverPlayers(draft drafts.Draft) ([]PlayerDetail, error) {
 
 	var out []PlayerDetail
 	for _, seat := range seats {
-		pd := PlayerDetail{ID: seat.Folder}
-		pd.Photos.Checkin = seat.Checkin
-		pd.Photos.Checkout = seat.Checkout
-		pd.Photos.Deck = seat.Deck
+		detail := PlayerDetail{ID: seat.Folder}
+		detail.Photos.Checkin = seat.Checkin
+		detail.Photos.Checkout = seat.Checkout
+		detail.Photos.Deck = seat.Deck
 
 		pw := sess.Players[seat.Folder]
 		if seat.Seat != 0 {
 			if d, err := draft.Deck(seat.Seat); err == nil {
-				pd.Matches = d.Matches
-				pd.PlayerID = d.PlayerID
-				pd.HasDeck = len(d.Mainboard) > 0 || len(d.Pool) > 0
-				if pd.HasDeck {
-					pd.NeedsReconfirm = needsReconfirm(pw, d)
-					pd.Warnings = deckWarnings(pw)
+				detail.Matches = d.Matches
+				detail.PlayerID = d.PlayerID
+				detail.HasDeck = len(d.Mainboard) > 0 || len(d.Pool) > 0
+				if detail.HasDeck {
+					detail.NeedsReconfirm = needsReconfirm(pw, d)
+					detail.Warnings = deckWarnings(pw)
 				}
 			}
 		}
-		pd.Status = playerStatus(pw, pd.HasDeck)
-		out = append(out, pd)
+		detail.Status = playerStatus(pw, detail.HasDeck)
+		out = append(out, detail)
 	}
 	return out, nil
 }

@@ -15,10 +15,14 @@ type fixedCubeSource struct {
 }
 
 // Current returns the fixed cube list.
-func (f fixedCubeSource) Current(string) (*types.Cube, error) { return f.cube, nil }
+func (f fixedCubeSource) Current(string) (*types.Cube, error) {
+	return f.cube, nil
+}
 
 // Refresh returns the fixed cube list.
-func (f fixedCubeSource) Refresh(string) (*types.Cube, error) { return f.cube, nil }
+func (f fixedCubeSource) Refresh(string) (*types.Cube, error) {
+	return f.cube, nil
+}
 
 // withCubeSource swaps the live cube source for the length of a test.
 func withCubeSource(t *testing.T, src types.CubeSource) {

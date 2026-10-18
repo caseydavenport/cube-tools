@@ -123,18 +123,18 @@ func addDraftFlags(flags *pflag.FlagSet) {
 }
 
 // resolveDraft returns the draft named by --draft, or creates a new one from
-// --date and the event flags when --draft is unset. created reports which, so
-// a failed import removes only a draft it made.
-func resolveDraft(cube string) (draft drafts.Draft, created bool, err error) {
+// --date and the event flags when --draft is unset. The bool reports whether
+// it created the draft, so a failed import removes only a draft it made.
+func resolveDraft(cube string) (drafts.Draft, bool, error) {
 	cubeDir := filepath.Join("data", cube)
 	if draftID != 0 {
-		draft, err = drafts.Find(cubeDir, draftID)
+		draft, err := drafts.Find(cubeDir, draftID)
 		return draft, false, err
 	}
 	if _, err := time.Parse("2006-01-02", date); err != nil {
 		return drafts.Draft{}, false, fmt.Errorf("a new draft needs --date in YYYY-MM-DD format, got %q", date)
 	}
-	draft, err = drafts.Create(cubeDir, types.DraftMetadata{
+	draft, err := drafts.Create(cubeDir, types.DraftMetadata{
 		Date:             date,
 		EventName:        eventName,
 		EventCode:        eventCode,
@@ -403,16 +403,6 @@ func existingDeck(d *types.Deck, draft drafts.Draft) (*types.Deck, error) {
 		return nil, nil
 	}
 	return existing, err
-}
-
-// copyFile copies src to dst.
-func copyFile(logc logrus.Entry, src, dst string) error {
-	logc.WithField("file", src).Debugf("Copying file")
-	bs, err := os.ReadFile(src)
-	if err != nil {
-		return err
-	}
-	return os.WriteFile(dst, bs, 0o644)
 }
 
 // cardsFromTXT imports cards from a .txt file, where the format is

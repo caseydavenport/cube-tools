@@ -43,12 +43,8 @@ func draftFromRequest(dataRoot string, r *http.Request) (drafts.Draft, bool) {
 // snapshot and falling back to the cube's latest snapshot, then the live
 // source, when it has none.
 func loadCubeForDraft(dataRoot, cube string, draft drafts.Draft) (*types.Cube, error) {
-	cl, err := draft.Snapshot()
-	if err == nil {
-		return cl, nil
-	}
-	if !errors.Is(err, drafts.ErrNotFound) {
-		return nil, err
+	if cl, err := draft.Snapshot(); !errors.Is(err, drafts.ErrNotFound) {
+		return cl, err
 	}
 	cl, ok, err := drafts.LatestSnapshot(filepath.Join(dataRoot, cube))
 	if err != nil {

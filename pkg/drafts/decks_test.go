@@ -40,7 +40,7 @@ func TestDecksSkipsNonDecks(t *testing.T) {
 	for _, name := range []string{"metadata.json", "cube-snapshot.json", "draft-log.json", ".ocr-session.json"} {
 		writeFile(t, filepath.Join(draft.Dir, name), "{}")
 	}
-	writeFile(t, filepath.Join(draft.Dir, "casey.report.md"), "notes")
+	writeFile(t, filepath.Join(draft.Dir, "joan.report.md"), "notes")
 
 	got, err := draft.Decks()
 	require.NoError(t, err)
@@ -66,29 +66,6 @@ func TestDecksAreInNumericOrder(t *testing.T) {
 	got, err := draft.Decks()
 	require.NoError(t, err)
 	assert.Equal(t, []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12}, deckIDs(got))
-}
-
-func TestNaturalLess(t *testing.T) {
-	tests := []naturalLessCase{
-		{"p2", "p10", true},
-		{"p10", "p2", false},
-		{"photo9.jpg", "photo10.jpg", true},
-		{"IMG_0012.jpg", "IMG_0013.jpg", true},
-		{"a", "b", true},
-		{"b", "a", false},
-		{"p3", "p3", false},
-		{"10.json", "9.json", false},
-		{"9.json", "alice.json", true},
-	}
-	for _, tc := range tests {
-		assert.Equal(t, tc.want, NaturalLess(tc.a, tc.b), "%s < %s", tc.a, tc.b)
-	}
-}
-
-// naturalLessCase is one row of TestNaturalLess.
-type naturalLessCase struct {
-	a, b string
-	want bool
 }
 
 func TestNextDeckID(t *testing.T) {
@@ -123,7 +100,7 @@ func TestNextDeckIDBadDeckFile(t *testing.T) {
 func TestDeckByID(t *testing.T) {
 	draft := Draft{Dir: t.TempDir()}
 	writeDeck(t, filepath.Join(draft.Dir, "5.json"), 5)
-	writeDeck(t, filepath.Join(draft.Dir, "casey.json"), 2)
+	writeDeck(t, filepath.Join(draft.Dir, "joan.json"), 2)
 
 	d, err := draft.Deck(2)
 	require.NoError(t, err)

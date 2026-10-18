@@ -2,7 +2,6 @@ package commands
 
 import (
 	"errors"
-	"path/filepath"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -23,7 +22,7 @@ func TestDiscardOnErrorRemovesNewDraft(t *testing.T) {
 	assert.ErrorIs(t, err, drafts.ErrNotFound)
 }
 
-func TestParseFailureKeepsExistingDraft(t *testing.T) {
+func TestDiscardOnErrorKeepsExistingDraft(t *testing.T) {
 	cubeDir := t.TempDir()
 	d, err := drafts.Create(cubeDir, types.DraftMetadata{Date: "2026-01-01"})
 	require.NoError(t, err)
@@ -45,6 +44,6 @@ func TestDiscardOnErrorKeepsDraftOnSuccess(t *testing.T) {
 	require.NoError(t, err)
 
 	assert.NoError(t, discardOnError(d, true, nil))
-	_, err = drafts.Find(filepath.Clean(cubeDir), d.ID)
+	_, err = drafts.Find(cubeDir, d.ID)
 	assert.NoError(t, err)
 }

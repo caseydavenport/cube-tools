@@ -40,7 +40,6 @@ func reparse(cube string) error {
 			return err
 		}
 		for _, deck := range decks {
-
 			// Build path to the .txt or csv file.
 			srcFiles := deck.Metadata.GetSourceFiles()
 

@@ -23,8 +23,8 @@ var photoImageExts = map[string]bool{
 	".png":  true,
 }
 
-// ScanPhotoFolder lists image files (jpg/jpeg/png) directly under dir, sorted by
-// name. Subdirectories and non-image files are ignored. It errors if dir does
+// ScanPhotoFolder lists image files (jpg/jpeg/png) directly under dir, in
+// natural filename order. Subdirectories and non-image files are ignored. It errors if dir does
 // not exist or is not a directory.
 func ScanPhotoFolder(dir string) ([]string, error) {
 	info, err := os.Stat(dir)
@@ -53,8 +53,9 @@ func ScanPhotoFolder(dir string) ([]string, error) {
 
 // buildPhotoDraftDir writes an OCR-ready draft skeleton under dataRoot/cube from
 // a folder of deck photos: metadata.json, one img/pN/deck-1.<ext> per image
-// (pN in natural filename order), and an anonymous deck stub per photo. It returns the new
-// draft and the deck image paths it wrote, for the caller to normalize.
+// (pN in natural filename order), and an anonymous deck stub per photo. It
+// returns the new draft and the deck image paths it wrote, for the caller to
+// normalize. A failure partway removes the draft.
 func buildPhotoDraftDir(dataRoot, cube, sourcePath, date, slug, eventName, flight string) (drafts.Draft, []string, error) {
 	if !photoSlugRE.MatchString(slug) {
 		return drafts.Draft{}, nil, fmt.Errorf("slug %q must be lowercase letters, digits, or hyphens", slug)
@@ -81,7 +82,8 @@ func buildPhotoDraftDir(dataRoot, cube, sourcePath, date, slug, eventName, fligh
 	}
 	written, err := writePhotoDraft(draft, sourcePath, date, images)
 	if err != nil {
-		return drafts.Draft{}, nil, discardOnError(draft, true, err)
+		discardDraft(draft)
+		return drafts.Draft{}, nil, err
 	}
 	return draft, written, nil
 }
@@ -112,6 +114,16 @@ func writePhotoDraft(draft drafts.Draft, sourcePath, date string, images []strin
 		}
 	}
 	return written, nil
+}
+
+// copyFile copies a source photo to dst, replacing any file already there.
+func copyFile(logc logrus.Entry, src, dst string) error {
+	logc.WithField("file", src).Debugf("Copying file")
+	bs, err := os.ReadFile(src)
+	if err != nil {
+		return err
+	}
+	return os.WriteFile(dst, bs, 0o644)
 }
 
 // BuildPhotoDraft builds a draft under data/ from a folder of deck photos,

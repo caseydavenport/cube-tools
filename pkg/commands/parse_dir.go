@@ -268,8 +268,8 @@ func writeDraftDecks(draft drafts.Draft, decks []*types.Deck) error {
 	return nil
 }
 
-// writeCubeSnapshot saves the cube as it is now, live from Cube Cobra, with
-// the draft for historical tracking and comparisons. A draft that already has
+// writeCubeSnapshot saves the live cube list from Cube Cobra with the draft,
+// for historical tracking and comparisons. A draft that already has
 // a snapshot keeps it.
 func writeCubeSnapshot(cube string, draft drafts.Draft) error {
 	if draft.HasSnapshot() {
