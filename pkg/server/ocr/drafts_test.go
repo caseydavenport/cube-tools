@@ -20,8 +20,8 @@ func TestDiscoverPlayers(t *testing.T) {
 	// A deck with no cards yet, as import-hedron leaves it.
 	deck := types.NewDeck()
 	deck.ID = 3
-	deck.Player = "0001-p3"
-	deck.Matches = []types.Match{{Opponent: "0001-p5", Wins: 2, Losses: 1}}
+	deck.PlayerID = 7
+	deck.Matches = []types.Match{{OpponentID: 5, Wins: 2, Losses: 1}}
 	writeDeck(t, d, deck)
 
 	players, err := discoverPlayers(d)
@@ -46,6 +46,9 @@ func TestDiscoverPlayers(t *testing.T) {
 	}
 	if len(p.Matches) != 1 {
 		t.Fatalf("matches = %d, want 1", len(p.Matches))
+	}
+	if p.PlayerID != 7 {
+		t.Fatalf("player id = %d, want 7", p.PlayerID)
 	}
 }
 

@@ -12,10 +12,14 @@ type PhotoSet struct {
 }
 
 type PlayerDetail struct {
-	ID      string        `json:"id"`
-	Photos  PhotoSet      `json:"photos"`
-	Matches []types.Match `json:"matches"`
-	HasDeck bool          `json:"has_deck"`
+	ID string `json:"id"`
+
+	// PlayerID is the player the seat's deck is assigned to, zero while it is
+	// still an anonymous seat.
+	PlayerID int           `json:"player_id,omitempty"`
+	Photos   PhotoSet      `json:"photos"`
+	Matches  []types.Match `json:"matches"`
+	HasDeck  bool          `json:"has_deck"`
 
 	// Status is the progress indicator for the player list:
 	// "done" (deck confirmed), "in_progress" (OCR work saved), or "unstarted".
