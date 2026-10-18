@@ -6,6 +6,8 @@ import (
 	"sort"
 	"strconv"
 
+	"github.com/caseydavenport/cube-tools/pkg/server/deckquery"
+
 	"github.com/caseydavenport/cube-tools/pkg/server"
 	"github.com/caseydavenport/cube-tools/pkg/server/decks"
 	"github.com/caseydavenport/cube-tools/pkg/server/query"
@@ -155,15 +157,11 @@ func filterByRecord(in []*storage.Deck, record string) []*storage.Deck {
 }
 
 func SynergyStatsHandler(store storage.DeckStorage, src types.CubeSource) http.Handler {
-	return &synergyStatsHandler{
-		store: store,
-		src:   src,
-	}
+	return &synergyStatsHandler{q: newQuery(store, src)}
 }
 
 type synergyStatsHandler struct {
-	store storage.DeckStorage
-	src   types.CubeSource
+	q *deckquery.Query
 }
 
 func (s *synergyStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
@@ -172,7 +170,7 @@ func (s *synergyStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request)
 
 	// Load the current cube to filter cards.
 	cubeID := server.CubeFromRequest(r)
-	cube, err := s.src.Current(cubeID)
+	cube, err := s.q.Cube(cubeID)
 	if err != nil {
 		http.Error(rw, "could not load cube", http.StatusInternalServerError)
 		return
@@ -185,7 +183,7 @@ func (s *synergyStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request)
 	}
 
 	// Load allDecks matching the request.
-	allDecks, err := s.store.List(cubeID, sr.DecksRequest)
+	allDecks, err := s.q.Decks(cubeID, sr.DecksRequest)
 	if err != nil {
 		http.Error(rw, "could not load decks", http.StatusInternalServerError)
 		return

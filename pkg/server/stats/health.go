@@ -6,6 +6,8 @@ import (
 	"net/http"
 	"sort"
 
+	"github.com/caseydavenport/cube-tools/pkg/server/deckquery"
+
 	"github.com/caseydavenport/cube-tools/pkg/server"
 	"github.com/caseydavenport/cube-tools/pkg/server/decks"
 	"github.com/caseydavenport/cube-tools/pkg/server/query"
@@ -46,15 +48,11 @@ func parseHealthRequest(r *http.Request) *HealthStatsRequest {
 }
 
 func HealthStatsHandler(store storage.DeckStorage, src types.CubeSource) http.Handler {
-	return &healthStatsHandler{
-		store: store,
-		src:   src,
-	}
+	return &healthStatsHandler{q: newQuery(store, src)}
 }
 
 type healthStatsHandler struct {
-	store storage.DeckStorage
-	src   types.CubeSource
+	q *deckquery.Query
 }
 
 func (h *healthStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
@@ -62,14 +60,14 @@ func (h *healthStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) 
 	logrus.WithField("params", sr).Info("/api/stats/health")
 
 	cubeID := server.CubeFromRequest(r)
-	allDecks, err := h.store.List(cubeID, sr.DecksRequest)
+	allDecks, err := h.q.Decks(cubeID, sr.DecksRequest)
 	if err != nil {
 		http.Error(rw, "could not load decks", http.StatusInternalServerError)
 		return
 	}
 
 	cubeCards := make(map[string]types.Card)
-	cube, err := h.src.Current(cubeID)
+	cube, err := h.q.Cube(cubeID)
 	if err == nil {
 		for _, c := range cube.Cards {
 			cubeCards[c.Name] = c

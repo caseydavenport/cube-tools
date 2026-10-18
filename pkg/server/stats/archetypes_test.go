@@ -89,7 +89,7 @@ func TestArchetypeStats_SharedWith_MacroSkip(t *testing.T) {
 	d.MacroArchetype = "control"
 	decks := []*storage.Deck{d}
 
-	handler := &archetypeStatsHandler{store: &mockDeckStorage{decks: decks}, src: testCubeSource{}}
+	handler := &archetypeStatsHandler{q: newQuery(&mockDeckStorage{decks: decks}, testCubeSource{})}
 	req := httptest.NewRequest(http.MethodGet, "/api/stats/archetypes", nil)
 	rr := httptest.NewRecorder()
 	handler.ServeHTTP(rr, req)
@@ -126,7 +126,7 @@ func TestArchetypeStats_WinPercent(t *testing.T) {
 		}, nil),
 	}
 
-	handler := &archetypeStatsHandler{store: &mockDeckStorage{decks: decks}, src: testCubeSource{}}
+	handler := &archetypeStatsHandler{q: newQuery(&mockDeckStorage{decks: decks}, testCubeSource{})}
 	req := httptest.NewRequest(http.MethodGet, "/api/stats/archetypes", nil)
 	rr := httptest.NewRecorder()
 	handler.ServeHTTP(rr, req)
@@ -155,7 +155,7 @@ func TestArchetypeStats_TotalGames(t *testing.T) {
 		}, nil),
 	}
 
-	handler := &archetypeStatsHandler{store: &mockDeckStorage{decks: decks}, src: testCubeSource{}}
+	handler := &archetypeStatsHandler{q: newQuery(&mockDeckStorage{decks: decks}, testCubeSource{})}
 	req := httptest.NewRequest(http.MethodGet, "/api/stats/archetypes", nil)
 	rr := httptest.NewRecorder()
 	handler.ServeHTTP(rr, req)
@@ -189,7 +189,7 @@ func TestArchetypeStats_PercentOfWinsSumsTo100(t *testing.T) {
 		}, nil),
 	}
 
-	handler := &archetypeStatsHandler{store: &mockDeckStorage{decks: decks}, src: testCubeSource{}}
+	handler := &archetypeStatsHandler{q: newQuery(&mockDeckStorage{decks: decks}, testCubeSource{})}
 	req := httptest.NewRequest(http.MethodGet, "/api/stats/archetypes", nil)
 	rr := httptest.NewRecorder()
 	handler.ServeHTTP(rr, req)

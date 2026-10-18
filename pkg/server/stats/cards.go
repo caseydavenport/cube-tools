@@ -7,6 +7,8 @@ import (
 	"slices"
 	"time"
 
+	"github.com/caseydavenport/cube-tools/pkg/server/deckquery"
+
 	"github.com/caseydavenport/cube-tools/pkg/server"
 	"github.com/caseydavenport/cube-tools/pkg/server/decks"
 	"github.com/caseydavenport/cube-tools/pkg/server/query"
@@ -78,15 +80,11 @@ func parseCardsRequest(r *http.Request) *CardStatsRequest {
 }
 
 func CardStatsHandler(store storage.DeckStorage, src types.CubeSource) http.Handler {
-	return &cardStatsHandler{
-		store: store,
-		src:   src,
-	}
+	return &cardStatsHandler{q: newQuery(store, src)}
 }
 
 type cardStatsHandler struct {
-	store storage.DeckStorage
-	src   types.CubeSource
+	q *deckquery.Query
 }
 
 func (d *cardStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
@@ -99,7 +97,7 @@ func (d *cardStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 	// not curerently in the cube.
 	cubeID := server.CubeFromRequest(r)
 	cubeCards := make(map[string]types.Card)
-	cube, err := d.src.Current(cubeID)
+	cube, err := d.q.Cube(cubeID)
 	if err != nil {
 		http.Error(rw, "could not load cube", http.StatusInternalServerError)
 		return
@@ -109,7 +107,7 @@ func (d *cardStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 	}
 
 	// Load allDecks matching the request.
-	allDecks, err := d.store.List(cubeID, sr.DecksRequest)
+	allDecks, err := d.q.Decks(cubeID, sr.DecksRequest)
 	if err != nil {
 		http.Error(rw, "could not load decks", http.StatusInternalServerError)
 		return

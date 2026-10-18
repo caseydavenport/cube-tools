@@ -40,7 +40,7 @@ func TestPlayerStats_OpponentWinPercent_Weighted(t *testing.T) {
 	})
 	d2.OpponentWinPercentage = 40
 
-	handler := &playerStatsHandler{store: &mockDeckStorage{decks: []*storage.Deck{d1, d2}}, src: testCubeSource{}}
+	handler := &playerStatsHandler{q: newQuery(&mockDeckStorage{decks: []*storage.Deck{d1, d2}}, testCubeSource{})}
 	req := httptest.NewRequest(http.MethodGet, "/api/stats/players", nil)
 	rr := httptest.NewRecorder()
 	handler.ServeHTTP(rr, req)
@@ -77,7 +77,7 @@ func TestPlayerStats_BasicAggregation(t *testing.T) {
 		{Opponent: "Grace", Winner: "Grace"},
 	})
 
-	handler := &playerStatsHandler{store: &mockDeckStorage{decks: []*storage.Deck{d1, d2}}, src: testCubeSource{}}
+	handler := &playerStatsHandler{q: newQuery(&mockDeckStorage{decks: []*storage.Deck{d1, d2}}, testCubeSource{})}
 	req := httptest.NewRequest(http.MethodGet, "/api/stats/players", nil)
 	rr := httptest.NewRecorder()
 	handler.ServeHTTP(rr, req)
@@ -109,7 +109,7 @@ func TestPlayerStatsSkipsAnonymous(t *testing.T) {
 	}
 	decks := []*storage.Deck{seat(1), seat(2), named(1), named(2)}
 
-	handler := &playerStatsHandler{store: &mockDeckStorage{decks: decks}, src: testCubeSource{}}
+	handler := &playerStatsHandler{q: newQuery(&mockDeckStorage{decks: decks}, testCubeSource{})}
 	rr := httptest.NewRecorder()
 	handler.ServeHTTP(rr, httptest.NewRequest(http.MethodGet, "/api/stats/players", nil))
 

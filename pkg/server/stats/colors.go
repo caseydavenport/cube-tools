@@ -6,6 +6,8 @@ import (
 	"net/http"
 	"strings"
 
+	"github.com/caseydavenport/cube-tools/pkg/server/deckquery"
+
 	"github.com/caseydavenport/cube-tools/pkg/server"
 	"github.com/caseydavenport/cube-tools/pkg/server/decks"
 	"github.com/caseydavenport/cube-tools/pkg/server/query"
@@ -73,15 +75,11 @@ func parseColorsRequest(r *http.Request) *ColorStatsRequest {
 }
 
 func ColorStatsHandler(store storage.DeckStorage, src types.CubeSource) http.Handler {
-	return &colorStatsHandler{
-		store: store,
-		src:   src,
-	}
+	return &colorStatsHandler{q: newQuery(store, src)}
 }
 
 type colorStatsHandler struct {
-	store storage.DeckStorage
-	src   types.CubeSource
+	q *deckquery.Query
 }
 
 func (d *colorStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
@@ -90,7 +88,7 @@ func (d *colorStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 
 	cubeID := server.CubeFromRequest(r)
 	cubeCards := make(map[string]types.Card)
-	cube, err := d.src.Current(cubeID)
+	cube, err := d.q.Cube(cubeID)
 	if err == nil {
 		for _, c := range cube.Cards {
 			cubeCards[c.Name] = c
@@ -100,7 +98,7 @@ func (d *colorStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 	resp := ColorStatsResponse{}
 
 	// Load allDecks matching the request.
-	allDecks, err := d.store.List(cubeID, sr.DecksRequest)
+	allDecks, err := d.q.Decks(cubeID, sr.DecksRequest)
 	if err != nil {
 		http.Error(rw, "could not load decks", http.StatusInternalServerError)
 		return

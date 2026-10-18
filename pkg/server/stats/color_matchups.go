@@ -6,6 +6,8 @@ import (
 	"sort"
 	"strings"
 
+	"github.com/caseydavenport/cube-tools/pkg/server/deckquery"
+
 	"github.com/caseydavenport/cube-tools/pkg/server"
 	"github.com/caseydavenport/cube-tools/pkg/server/decks"
 	"github.com/caseydavenport/cube-tools/pkg/storage"
@@ -25,13 +27,11 @@ type MatchupRecord struct {
 }
 
 func ColorMatchupHandler(store storage.DeckStorage, src types.CubeSource) http.Handler {
-	return &colorMatchupHandler{
-		store: store,
-	}
+	return &colorMatchupHandler{q: newQuery(store, src)}
 }
 
 type colorMatchupHandler struct {
-	store storage.DeckStorage
+	q *deckquery.Query
 }
 
 func (h *colorMatchupHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
@@ -53,7 +53,7 @@ func (h *colorMatchupHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request)
 	}
 	logrus.WithField("params", dr).Info("/api/stats/color-matchups")
 
-	allDecks, err := h.store.List(server.CubeFromRequest(r), dr)
+	allDecks, err := h.q.Decks(server.CubeFromRequest(r), dr)
 	if err != nil {
 		http.Error(rw, "could not load decks", http.StatusInternalServerError)
 		return

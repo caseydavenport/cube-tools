@@ -5,6 +5,8 @@ import (
 	"math"
 	"net/http"
 
+	"github.com/caseydavenport/cube-tools/pkg/server/deckquery"
+
 	"github.com/caseydavenport/cube-tools/pkg/server"
 	"github.com/caseydavenport/cube-tools/pkg/server/decks"
 	"github.com/caseydavenport/cube-tools/pkg/server/query"
@@ -41,15 +43,11 @@ type ArchetypeStats struct {
 }
 
 func ArchetypeStatsHandler(store storage.DeckStorage, src types.CubeSource) http.Handler {
-	return &archetypeStatsHandler{
-		store: store,
-		src:   src,
-	}
+	return &archetypeStatsHandler{q: newQuery(store, src)}
 }
 
 type archetypeStatsHandler struct {
-	store storage.DeckStorage
-	src   types.CubeSource
+	q *deckquery.Query
 }
 
 func (s *archetypeStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
@@ -57,14 +55,14 @@ func (s *archetypeStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Reques
 	logrus.WithField("params", dr).Info("/api/stats/archetypes")
 
 	cubeID := server.CubeFromRequest(r)
-	allDecks, err := s.store.List(cubeID, dr)
+	allDecks, err := s.q.Decks(cubeID, dr)
 	if err != nil {
 		http.Error(rw, "could not load decks", http.StatusInternalServerError)
 		return
 	}
 
 	cubeCards := make(map[string]types.Card)
-	cube, err := s.src.Current(cubeID)
+	cube, err := s.q.Cube(cubeID)
 	if err == nil {
 		for _, c := range cube.Cards {
 			cubeCards[c.Name] = c
