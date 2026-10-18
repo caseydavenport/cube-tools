@@ -9,6 +9,9 @@ import (
 	"strconv"
 	"strings"
 
+	"github.com/caseydavenport/cube-tools/pkg/graph"
+	"github.com/caseydavenport/cube-tools/pkg/server/deckquery"
+
 	"github.com/caseydavenport/cube-tools/pkg/server"
 	"github.com/caseydavenport/cube-tools/pkg/server/decks"
 	"github.com/caseydavenport/cube-tools/pkg/server/query"
@@ -97,12 +100,11 @@ type PivotResponse struct {
 }
 
 func PivotHandler(store storage.DeckStorage, src types.CubeSource) http.Handler {
-	return &pivotHandler{store: store, src: src}
+	return &pivotHandler{q: newQuery(store, src)}
 }
 
 type pivotHandler struct {
-	store storage.DeckStorage
-	src   types.CubeSource
+	q *deckquery.Query
 }
 
 func (h *pivotHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
@@ -123,7 +125,7 @@ func (h *pivotHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 	// Cube cards carry the richer oracle text and Tags, so composition dims
 	// prefer them over the deck's own (possibly sparser) card copies.
 	cubeCards := make(map[string]types.Card)
-	if cube, err := h.src.Current(cubeID); err == nil {
+	if cube, err := h.q.Cube(cubeID); err == nil {
 		for _, c := range cube.Cards {
 			cubeCards[c.Name] = c
 		}
@@ -133,13 +135,20 @@ func (h *pivotHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 	// out the subject decks, but the opponent index is built over the full
 	// date-filtered set so matchup opponents always resolve even when a
 	// predicate would have excluded them as a subject.
-	allDecks, err := h.store.List(cubeID, &storage.DecksRequest{Start: req.Start, End: req.End})
+	allDecks, err := h.q.Decks(cubeID, &storage.DecksRequest{Start: req.Start, End: req.End})
 	if err != nil {
 		http.Error(rw, "could not load decks", http.StatusInternalServerError)
 		return
 	}
 
-	resp := computePivot(allDecks, &req, cubeCards)
+	edges, err := pivotEdges(h.q, cubeID, req.Predicates)
+	if err != nil {
+		logrus.WithError(err).Error("could not load design graph")
+		http.Error(rw, "could not load design graph", http.StatusInternalServerError)
+		return
+	}
+
+	resp := computePivot(allDecks, &req, cubeCards, edges)
 
 	b, err := json.Marshal(resp)
 	if err != nil {
@@ -152,7 +161,18 @@ func (h *pivotHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func computePivot(allDecks []*storage.Deck, req *PivotRequest, cubeCards map[string]types.Card) *PivotResponse {
+// pivotEdges loads the cube's design graph when a card query predicate has a
+// community: term, and returns nil otherwise.
+func pivotEdges(q *deckquery.Query, cubeID string, preds []PivotPredicate) ([]graph.Edge, error) {
+	for _, p := range preds {
+		if p.Dim == "card_query" && query.HasCommunityTerm(p.Value) {
+			return q.Edges(cubeID, p.Value)
+		}
+	}
+	return nil, nil
+}
+
+func computePivot(allDecks []*storage.Deck, req *PivotRequest, cubeCards map[string]types.Card, edges []graph.Edge) *PivotResponse {
 	idx := storage.NewOpponentIndex(allDecks)
 
 	// A time dimension needs a stable draft->bucket label map, built over the
@@ -205,7 +225,7 @@ func computePivot(allDecks []*storage.Deck, req *PivotRequest, cubeCards map[str
 		if excluded[strings.ToLower(d.Player)] {
 			continue
 		}
-		if !deckPasses(d, req.Predicates, cubeCards) {
+		if !deckPasses(d, req.Predicates, cubeCards, edges) {
 			continue
 		}
 		groupKeys := groupKeyer(d)
@@ -526,16 +546,16 @@ func compBucketLabel(dim string, v float64) string {
 }
 
 // deckPasses reports whether a deck satisfies every predicate (implicit AND).
-func deckPasses(d *storage.Deck, preds []PivotPredicate, cubeCards map[string]types.Card) bool {
+func deckPasses(d *storage.Deck, preds []PivotPredicate, cubeCards map[string]types.Card, edges []graph.Edge) bool {
 	for _, p := range preds {
-		if !predicatePasses(d, p, cubeCards) {
+		if !predicatePasses(d, p, cubeCards, edges) {
 			return false
 		}
 	}
 	return true
 }
 
-func predicatePasses(d *storage.Deck, p PivotPredicate, cubeCards map[string]types.Card) bool {
+func predicatePasses(d *storage.Deck, p PivotPredicate, cubeCards map[string]types.Card, edges []graph.Edge) bool {
 	switch p.Dim {
 	case "color":
 		colors := deckColorSet(d)
@@ -573,7 +593,7 @@ func predicatePasses(d *storage.Deck, p PivotPredicate, cubeCards map[string]typ
 		}
 		return has
 	case "card_query":
-		m := query.DeckMatchesBoard(d, p.Value, "mainboard")
+		m := query.DeckMatchesBoardGraph(d, p.Value, "mainboard", edges)
 		if p.Op == "excludes" {
 			return !m
 		}

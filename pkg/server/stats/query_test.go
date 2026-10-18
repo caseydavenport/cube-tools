@@ -2,8 +2,10 @@ package stats
 
 import (
 	"context"
+	"encoding/json"
 	"net/http"
 	"net/http/httptest"
+	"strings"
 	"sync"
 	"testing"
 
@@ -109,5 +111,69 @@ func TestFilteredHandlersAttachCommunityEdges(t *testing.T) {
 			require.NotEmpty(t, spy.requests)
 			assert.NotNil(t, spy.requests[len(spy.requests)-1].CommunityEdges)
 		})
+	}
+}
+
+func serveBody(t *testing.T, h http.Handler, method, target, body string) *httptest.ResponseRecorder {
+	t.Helper()
+	req := httptest.NewRequest(method, target, strings.NewReader(body))
+	req = req.WithContext(server.ContextWithCube(context.Background(), "testcube"))
+	rec := httptest.NewRecorder()
+	h.ServeHTTP(rec, req)
+	return rec
+}
+
+func TestWholePopulationHandlersKeepPopulation(t *testing.T) {
+	const filters = "player=Ozzy&match=arch:aggro&size=99&board=Sideboard"
+	const dates = "&start=2026-01-01&end=2026-06-30"
+	dateRange := storage.DecksRequest{Start: "2026-01-01", End: "2026-06-30"}
+	for _, tc := range []struct {
+		name    string
+		handler func(storage.DeckStorage) http.Handler
+		method  string
+		target  string
+		body    string
+		want    storage.DecksRequest
+	}{
+		{"removal", func(s storage.DeckStorage) http.Handler { return RemovalHandler(s, stubCubes{}) }, http.MethodGet, "/stats/removal?" + filters, "", storage.DecksRequest{}},
+		{"removal with dates", func(s storage.DeckStorage) http.Handler { return RemovalHandler(s, stubCubes{}) }, http.MethodGet, "/stats/removal?" + filters + dates, "", dateRange},
+		{"packages", func(s storage.DeckStorage) http.Handler { return PackageStatsHandler(s, stubCubes{}) }, http.MethodGet, "/stats/packages?" + filters, "", storage.DecksRequest{}},
+		{"packages with dates", func(s storage.DeckStorage) http.Handler { return PackageStatsHandler(s, stubCubes{}) }, http.MethodGet, "/stats/packages?" + filters + dates, "", dateRange},
+		{"group distributions", func(s storage.DeckStorage) http.Handler { return GroupDistributionsHandler(s, stubCubes{}) }, http.MethodGet, "/stats/group-distributions?" + filters + dates, "", storage.DecksRequest{}},
+		{"pivot", func(s storage.DeckStorage) http.Handler { return PivotHandler(s, stubCubes{}) }, http.MethodPost, "/stats/pivot?" + filters, `{"start":"2026-01-01","end":"2026-06-30"}`, dateRange},
+	} {
+		t.Run(tc.name, func(t *testing.T) {
+			spy := newSpy()
+			rec := serveBody(t, tc.handler(spy), tc.method, "/api/testcube"+tc.target, tc.body)
+			require.Equal(t, http.StatusOK, rec.Code, rec.Body.String())
+			// The design graph's card-name pass always reads every deck, so
+			// a request is either that or the handler's own population.
+			assert.Contains(t, spy.requests, tc.want)
+			for _, got := range spy.requests {
+				assert.Contains(t, []storage.DecksRequest{{}, tc.want}, got)
+			}
+		})
+	}
+}
+
+func TestDeckCardNamesUsesGivenStore(t *testing.T) {
+	store := memory.NewStore(func(b *memory.Backend) {
+		b.Seed("cc:abc", queryDeck(1, "2026-01-10", "gy1", "gy2", "gy3", "Forest"))
+	})
+	names, err := deckCardNames(store, "cc:abc")
+	require.NoError(t, err)
+	assert.ElementsMatch(t, []string{"gy1", "gy2", "gy3"}, names)
+}
+
+func TestRemovalDateRangeWeights(t *testing.T) {
+	for query, want := range map[string]int{
+		"":                                 2,
+		"?start=2026-01-01&end=2026-06-30": 1,
+	} {
+		rec := serve(t, RemovalHandler(newSpy(), stubCubes{}), http.MethodGet, "/api/testcube/stats/removal"+query)
+		require.Equal(t, http.StatusOK, rec.Code)
+		var resp RemovalResponse
+		require.NoError(t, json.Unmarshal(rec.Body.Bytes(), &resp))
+		assert.Equal(t, want, resp.TotalPlayWeight, query)
 	}
 }

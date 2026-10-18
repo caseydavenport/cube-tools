@@ -10,10 +10,11 @@ import (
 	"strconv"
 	"strings"
 
+	"github.com/caseydavenport/cube-tools/pkg/server/deckquery"
+
 	"github.com/caseydavenport/cube-tools/pkg/design"
 	"github.com/caseydavenport/cube-tools/pkg/server"
 	"github.com/caseydavenport/cube-tools/pkg/storage"
-	"github.com/caseydavenport/cube-tools/pkg/storage/file"
 	"github.com/caseydavenport/cube-tools/pkg/types"
 	"github.com/sirupsen/logrus"
 )
@@ -137,7 +138,7 @@ func DesignGraphHandler(store storage.DeckStorage, src types.CubeSource) http.Ha
 			config = *cfg
 		}
 
-		names, err := deckCardNames(cubeID)
+		names, err := deckCardNames(store, cubeID)
 		if err != nil {
 			logrus.WithError(err).Warn("could not load deck cards; cut cards may show disconnected")
 		}
@@ -175,7 +176,7 @@ func DesignGraphForCube(store storage.DeckStorage, src types.CubeSource, cubeID 
 	} else {
 		config = *cfg
 	}
-	names, err := deckCardNames(cubeID)
+	names, err := deckCardNames(store, cubeID)
 	if err != nil {
 		logrus.WithError(err).Warn("could not load deck cards; cut cards may show disconnected")
 	}
@@ -185,10 +186,7 @@ func DesignGraphForCube(store storage.DeckStorage, src types.CubeSource, cubeID 
 // deckCardNames returns the distinct non-basic mainboard card names across all of
 // a cube's decks. The design graph uses these to widen its edge set so cards cut
 // from the cube still resolve group membership and stay connected on old decks.
-func deckCardNames(cubeID string) ([]string, error) {
-	// Only the card names matter here, so the cube overlay (printings, tags) is
-	// irrelevant; skip it with a nil source.
-	store := file.NewStore(nil)
+func deckCardNames(store storage.DeckStorage, cubeID string) ([]string, error) {
 	decks, err := store.List(cubeID, &storage.DecksRequest{})
 	if err != nil {
 		return nil, err
@@ -359,19 +357,19 @@ const distributionMinDeckSize = 20
 const manabaseLandFraction = 0.8
 
 func GroupDistributionsHandler(store storage.DeckStorage, src types.CubeSource) http.Handler {
-	return &groupDistributionsHandler{store: store, src: src}
+	return &groupDistributionsHandler{store: store, q: newQuery(store, src)}
 }
 
 type groupDistributionsHandler struct {
 	store storage.DeckStorage
-	src   types.CubeSource
+	q     *deckquery.Query
 }
 
 func (h *groupDistributionsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 	logrus.Info("/api/stats/group-distributions")
 
 	cubeID := server.CubeFromRequest(r)
-	cube, err := h.src.Current(cubeID)
+	cube, err := h.q.Cube(cubeID)
 	if err != nil {
 		http.Error(rw, "could not load cube", http.StatusInternalServerError)
 		return
@@ -385,7 +383,7 @@ func (h *groupDistributionsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Re
 		config = *cfg
 	}
 
-	allDecks, err := h.store.List(cubeID, &storage.DecksRequest{})
+	allDecks, err := h.q.Decks(cubeID, &storage.DecksRequest{})
 	if err != nil {
 		http.Error(rw, "could not load decks", http.StatusInternalServerError)
 		return

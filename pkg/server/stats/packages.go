@@ -5,6 +5,8 @@ import (
 	"net/http"
 	"sort"
 
+	"github.com/caseydavenport/cube-tools/pkg/server/deckquery"
+
 	"github.com/caseydavenport/cube-tools/pkg/graph"
 	"github.com/caseydavenport/cube-tools/pkg/server"
 	"github.com/caseydavenport/cube-tools/pkg/server/query"
@@ -42,12 +44,13 @@ type PackageStatsResponse struct {
 }
 
 func PackageStatsHandler(store storage.DeckStorage, src types.CubeSource) http.Handler {
-	return &packageStatsHandler{store: store, src: src}
+	return &packageStatsHandler{store: store, src: src, q: newQuery(store, src)}
 }
 
 type packageStatsHandler struct {
 	store storage.DeckStorage
 	src   types.CubeSource
+	q     *deckquery.Query
 }
 
 func (h *packageStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
@@ -60,7 +63,10 @@ func (h *packageStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request)
 		return
 	}
 
-	allDecks, err := h.store.List(cubeID, &storage.DecksRequest{})
+	// The design graph is cube-wide; only the decks it's measured over follow
+	// the date range.
+	dr := &storage.DecksRequest{Start: query.GetString(r, "start"), End: query.GetString(r, "end")}
+	allDecks, err := h.q.Decks(cubeID, dr)
 	if err != nil {
 		http.Error(rw, "could not load decks", http.StatusInternalServerError)
 		return

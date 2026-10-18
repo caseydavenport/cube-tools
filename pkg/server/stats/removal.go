@@ -10,6 +10,9 @@ import (
 	"strconv"
 	"strings"
 
+	"github.com/caseydavenport/cube-tools/pkg/server/deckquery"
+	"github.com/caseydavenport/cube-tools/pkg/server/query"
+
 	"github.com/caseydavenport/cube-tools/pkg/server"
 	"github.com/caseydavenport/cube-tools/pkg/storage"
 	"github.com/caseydavenport/cube-tools/pkg/types"
@@ -331,17 +334,16 @@ type RemovalResponse struct {
 }
 
 func RemovalHandler(store storage.DeckStorage, src types.CubeSource) http.Handler {
-	return &removalHandler{store: store, src: src}
+	return &removalHandler{q: newQuery(store, src)}
 }
 
 type removalHandler struct {
-	store storage.DeckStorage
-	src   types.CubeSource
+	q *deckquery.Query
 }
 
 func (h *removalHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 	cubeID := server.CubeFromRequest(r)
-	cube, err := h.src.Current(cubeID)
+	cube, err := h.q.Cube(cubeID)
 	if err != nil {
 		http.Error(rw, "could not load cube", http.StatusInternalServerError)
 		return
@@ -354,8 +356,11 @@ func (h *removalHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 		}
 	}
 
+	// The date range weights creatures by how often they were played in it. The
+	// card list always comes from the current cube.
+	dr := &storage.DecksRequest{Start: query.GetString(r, "start"), End: query.GetString(r, "end")}
 	playWeight := map[string]int{}
-	if decks, err := h.store.List(cubeID, &storage.DecksRequest{}); err == nil {
+	if decks, err := h.q.Decks(cubeID, dr); err == nil {
 		for _, d := range decks {
 			for _, c := range d.Mainboard {
 				playWeight[c.Name]++
