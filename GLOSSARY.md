@@ -25,8 +25,12 @@ What one player built and played in one draft. A deck has an identity of its own
 _Avoid_: entry, seat, player (as a synonym for deck)
 
 **Player**:
-The name of the person who played a deck. A player name is an editable property of a deck, not its identity.
+A person in the global player list, shared by every cube. A player has a number that never changes and an editable display name; decks point at the number.
 _Avoid_: drafter, user
+
+**Seat**:
+An anonymous deck whose player isn't known, labeled `p` and its deck number (`p3`). A seat can be assigned to a player later.
+_Avoid_: placeholder, anonymous player
 
 **Notes**:
 Free-form write-up about a deck, kept as part of the deck.

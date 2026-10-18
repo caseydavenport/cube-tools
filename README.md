@@ -64,6 +64,19 @@ I typically use an Android app called "Delver Lens" to scan each decklist after 
 
 You can also use the "Download all decks" feature of [Draftmancer](https://draftmancer.com/) to get `.txt` files, if you draft there.
 
+## Players
+
+Every deck belongs to a player from the global list in `data/players.json`, or is an anonymous seat (`p1`, `p2`, ...) until you assign one. Add a player before parsing their decks:
+
+```
+./bin/parser players add "Joe Strummer"
+./bin/parser players list                       # id<TAB>name
+./bin/parser players rename "Joe Strummer" "Joe Mellor"
+./bin/parser players assign --cube polyverse --draft 15 --deck 3 "Joe Mellor"   # or: anonymous
+```
+
+Commands that take a player (`parse --who`, `edit add-match -p/-o`) accept a player's number or name, ignoring case, and fail on a name that isn't in the list. `parse-dir` and `parse-draft-log` map file names and draft-log usernames to players the same way, through a small nickname table. Pass `--anonymous` to make every deck a seat instead. The browser can do all of this too: the Players page renames, and the deck record editor and import screens pick or add players.
+
 ## Adding draft information
 
 Once you have downloaded / created deck files within a directory, use can parse them like so:
@@ -87,10 +100,10 @@ Optional next steps:
 - Add a `draft-log.json`
 - Update parsed deck files with labels.
 
-You can then add match information. e.g., the following adds a match that was won 2-1 by player1.
+You can then add match information. e.g., the following adds a match that Joe won 2-1 against the anonymous seat p2. `-p` and `-o` take a player's number or name, or a seat label.
 
 ```
-./bin/parser edit add-match --cube polyverse --draft 15 -p player1 -o player2 -r "2-1-0"
+./bin/parser edit add-match --cube polyverse --draft 15 -p "Joe Mellor" -o p2 -r "2-1-0"
 ```
 
 Finally, index the new draft information so it can be discovered by the UI:
