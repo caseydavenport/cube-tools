@@ -20,7 +20,8 @@ import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Popover from 'react-bootstrap/Popover';
 import { BrowseLayout, BrowseEmptyState, CollapsibleIndex } from "../components/BrowseLayout.js"
 import { CardSynergyMap } from "./DesignMap.js"
-import { useSelection } from "../hooks/useSelection.js"
+import { useSearchParams } from "react-router-dom"
+import { addToComparison, comparisonMap, formatCompare, parseCompare } from "../utils/Compare.js"
 import { useArrowNav } from "../hooks/useArrowNav.js"
 import { draftLabel, compareDrafts } from "../utils/DraftInfo.js"
 
@@ -59,15 +60,23 @@ export function DeckViewer(props) {
   // We keep two sets of variables - one for the dropdown values,
   // and another for the actual deck we want to display.
   // The dropdown values are just for filtering the deck list.
-  // The highlighted deck path is the source of truth for the selected deck and
-  // is mirrored to the URL (?deck=<path>) so the selection is linkable.
-  const [highlightedDeck, setHighlightedDeck] = useSelection("deck");
+  // The highlighted deck and the comparison set live in the URL (?deck=<ref>
+  // and ?compare=<ref>,<ref>) so both are linkable. They change together, so
+  // they're written in one update.
+  const [params, setParams] = useSearchParams();
+  const highlightedDeck = params.get("deck") || "";
+  const compareParam = params.get("compare") || "";
+  function setSelection(ref, refs) {
+    const p = new URLSearchParams(params);
+    const compare = formatCompare(refs);
+    ref ? p.set("deck", ref) : p.delete("deck");
+    compare ? p.set("compare", compare) : p.delete("compare");
+    setParams(p, { replace: true });
+  }
   // Whether the deck list is collapsed to just its header bar. Picking a deck
   // collapses it so the decklist gets the screen; clicking the header toggles it.
   const [indexCollapsed, setIndexCollapsed] = useState(false);
 
-  // Track comparison decks. If any of these are set, we'll show a comparison view.
-  const [comparisonDecks, setComparisonDecks] = useState(new Map());
 
   // The deck currently being displayed.
   const [deck, setDeck] = useState("");
@@ -148,29 +157,13 @@ export function DeckViewer(props) {
     // The element's id is the deck's ref, assigned via deckRef() below.
     let ref = event.currentTarget.id
 
-    // Highlight the deck in the side bar.
-    setHighlightedDeck(ref)
-
-    // If control is held, add this deck to the comparison set. Otherwise,
-    // clear out the comparison set and just show this deck.
+    // If control is held, add this deck to the comparison set (or drop it).
+    // Otherwise, show just this deck.
     if (event.ctrlKey || event.metaKey) {
-      // Find the deck in the list of decks.
-      for (let deck of decks) {
-        if (deckRef(deck) === ref) {
-          // Add to the comparison set.
-          let newComparisonDecks = new Map(comparisonDecks)
-          if (newComparisonDecks.has(ref)) {
-            // Deck is already in the comparison set - remove it.
-            newComparisonDecks.delete(ref)
-          } else {
-            newComparisonDecks.set(ref, deck)
-          }
-          setComparisonDecks(newComparisonDecks)
-        }
-      }
+      const next = addToComparison(parseCompare(compareParam), highlightedDeck, ref)
+      setSelection(next.highlighted, next.refs)
     } else {
-      // Clear out the comparison set and just show this deck.
-      setComparisonDecks(new Map())
+      setSelection(ref, [])
 
       // Minimize the deck list so the selected decklist gets the screen.
       setIndexCollapsed(true)
@@ -181,8 +174,7 @@ export function DeckViewer(props) {
   // Used by arrow-key navigation and the opponent pills; the effect on
   // highlightedDeck resolves it to a loaded deck.
   function selectDeck(ref) {
-    setComparisonDecks(new Map())
-    setHighlightedDeck(ref)
+    setSelection(ref, [])
   }
 
   const [cubeData, setCubeData] = useState({ "cards": [] });
@@ -216,15 +208,17 @@ export function DeckViewer(props) {
     for (let deck of decks) {
       if (deckRef(deck) === highlightedDeck) {
         setDeck(deck)
-
-        // The highlighted deck is always a comparison deck.
-        let newComparisonDecks = new Map(comparisonDecks)
-        newComparisonDecks.set(deckRef(deck), deck)
-        setComparisonDecks(newComparisonDecks)
         return
       }
     }
   }, [highlightedDeck, decks])
+
+  // The decks being compared, resolved from the URL. The highlighted deck is
+  // always one of them; a view with more than one shows the comparison.
+  const comparisonDecks = useMemo(
+    () => comparisonMap(parseCompare(compareParam), highlightedDeck, decks, deckRef),
+    [compareParam, highlightedDeck, decks],
+  )
 
   // We want to highlight any selected / comparison decks.
   let highlightedDecks = new Array()
