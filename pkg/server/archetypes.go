@@ -4,10 +4,9 @@ import (
 	"encoding/json"
 	"net/http"
 
+	"github.com/caseydavenport/cube-tools/pkg/server/deckquery"
 	"github.com/caseydavenport/cube-tools/pkg/server/decks"
 	"github.com/caseydavenport/cube-tools/pkg/storage"
-	"github.com/caseydavenport/cube-tools/pkg/storage/file"
-	"github.com/caseydavenport/cube-tools/pkg/types"
 	"github.com/sirupsen/logrus"
 )
 
@@ -26,15 +25,12 @@ type VersusData struct {
 	Loss int    `json:"loss"`
 }
 
-func ArchetypesHandler(src types.CubeSource) http.Handler {
-	return &archetypesHandler{
-		store: file.NewStore(src),
-	}
+func ArchetypesHandler(store storage.DeckStorage, edgesFor deckquery.EdgesLoader) http.Handler {
+	return &archetypesHandler{q: deckquery.New(store, nil, edgesFor)}
 }
 
 type archetypesHandler struct {
-	store  storage.DeckStorage
-	cached []storage.Deck
+	q *deckquery.Query
 }
 
 func (d *archetypesHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
@@ -43,9 +39,11 @@ func (d *archetypesHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 
 	// Get all of the decks from the store.
 	resp := ArchetypesResponse{}
-	decks, err := d.store.List(CubeFromRequest(r), dr)
+	decks, err := d.q.Decks(CubeFromRequest(r), dr)
 	if err != nil {
-		panic(err)
+		logrus.WithError(err).Error("could not load decks")
+		http.Error(rw, "could not load decks", http.StatusInternalServerError)
+		return
 	}
 
 	// Go through each deck, and add up the win/loss counts for each archetype it faced.
@@ -104,11 +102,11 @@ func (d *archetypesHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 	// Marshal the response and write it back.
 	b, err := json.Marshal(resp)
 	if err != nil {
-		panic(err)
+		http.Error(rw, "could not marshal response", http.StatusInternalServerError)
+		return
 	}
-	_, err = rw.Write(b)
-	if err != nil {
-		panic(err)
+	if _, err := rw.Write(b); err != nil {
+		logrus.WithError(err).Error("could not write archetypes response")
 	}
 }
 

@@ -50,18 +50,19 @@ func main() {
 	fileBackend := file.New(provider)
 	ccBackend := cubecobra.New(commands.DefaultCubeCobraURL, provider)
 	deckStore := storage.NewStore(router.New(fileBackend, ccBackend), storage.WithPlayers(players.FileSource{DataRoot: "data"}))
+	edgesFor := func(cubeID string) ([]graph.Edge, error) {
+		return stats.EdgesForCube(deckStore, provider, cubeID)
+	}
 	mux.Handle("GET /api/players", server.PlayersListHandler("data"))
 	mux.Handle("POST /api/players", server.PlayerAddHandler("data"))
 	mux.Handle("PATCH /api/players/{id}", server.PlayerRenameHandler("data", deckStore))
 	cubeRoute("GET /api/{cube}/cube", server.CubeContentHandler(provider))
 	cubeRoute("GET /api/{cube}/index", server.CubeIndexHandler(deckStore))
 	cubeRoute("GET /api/{cube}/drafts/{draft_id}/log", server.DraftLogHandler(deckStore))
-	cubeRoute("GET /api/{cube}/decks", decks.DeckHandler(deckStore, func(cubeID string) ([]graph.Edge, error) {
-		return stats.EdgesForCube(deckStore, provider, cubeID)
-	}))
+	cubeRoute("GET /api/{cube}/decks", decks.DeckHandler(deckStore, edgesFor))
 	cubeRoute("POST /api/{cube}/decks/update", decks.UpdateDeckHandler(deckStore))
 	cubeRoute("POST /api/{cube}/decks/record", decks.UpdateDeckRecordHandler(deckStore))
-	cubeRoute("GET /api/{cube}/archetypes", server.ArchetypesHandler(provider))
+	cubeRoute("GET /api/{cube}/archetypes", server.ArchetypesHandler(deckStore, edgesFor))
 	cubeRoute("GET /api/{cube}/stats/cards", stats.CardStatsHandler(deckStore, provider))
 	cubeRoute("GET /api/{cube}/stats/colors", stats.ColorStatsHandler(deckStore, provider))
 	cubeRoute("GET /api/{cube}/stats/synergy", stats.SynergyStatsHandler(deckStore, provider))

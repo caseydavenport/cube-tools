@@ -4,10 +4,9 @@ import (
 	"encoding/json"
 	"errors"
 	"net/http"
-	"strings"
 	"time"
 
-	"github.com/caseydavenport/cube-tools/pkg/graph"
+	"github.com/caseydavenport/cube-tools/pkg/server/deckquery"
 	"github.com/caseydavenport/cube-tools/pkg/server/query"
 	"github.com/caseydavenport/cube-tools/pkg/storage"
 	"github.com/caseydavenport/cube-tools/pkg/types"
@@ -18,21 +17,12 @@ type DecksResponse struct {
 	Decks []*storage.Deck `json:"decks"`
 }
 
-// EdgesLoader returns a cube's design-graph clustering edges. DeckHandler uses it
-// to answer a community: filter term; injected by the caller so this package
-// needn't import the stats package (which imports this one).
-type EdgesLoader func(cubeID string) ([]graph.Edge, error)
-
-func DeckHandler(store storage.DeckStorage, edgesFor EdgesLoader) http.Handler {
-	return &deckHandler{
-		store:    store,
-		edgesFor: edgesFor,
-	}
+func DeckHandler(store storage.DeckStorage, edgesFor deckquery.EdgesLoader) http.Handler {
+	return &deckHandler{q: deckquery.New(store, nil, edgesFor)}
 }
 
 type deckHandler struct {
-	store    storage.DeckStorage
-	edgesFor EdgesLoader
+	q *deckquery.Query
 }
 
 func (d *deckHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
@@ -40,37 +30,25 @@ func (d *deckHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 
 	cubeID := r.PathValue("cube")
 	dr := ParseDecksRequest(r)
-
-	// A community: term needs the cube design graph to cluster each deck. Load it
-	// only when the filter actually asks for one.
-	if d.edgesFor != nil && strings.Contains(dr.Match, "community") {
-		if edges, err := d.edgesFor(cubeID); err != nil {
-			logrus.WithError(err).Warn("could not load design graph for community filter")
-		} else {
-			dr.CommunityEdges = edges
-		}
-	}
-
 	logrus.WithField("params", dr).Info("/api/decks")
 
 	logrus.WithField("time", time.Since(start)).Info("Parse")
-	resp := DecksResponse{}
-	decks, err := d.store.List(cubeID, dr)
+	decks, err := d.q.Decks(cubeID, dr)
 	if err != nil {
-		panic(err)
+		logrus.WithError(err).Error("could not load decks")
+		http.Error(rw, "could not load decks", http.StatusInternalServerError)
+		return
 	}
-	resp.Decks = decks
 	logrus.WithField("time", time.Since(start)).Info("List")
 
-	// Marshal the response and write it back.
-	b, err := json.Marshal(resp)
+	b, err := json.Marshal(DecksResponse{Decks: decks})
 	if err != nil {
-		panic(err)
+		http.Error(rw, "could not marshal response", http.StatusInternalServerError)
+		return
 	}
 	logrus.WithField("time", time.Since(start)).Info("Marshal")
-	_, err = rw.Write(b)
-	if err != nil {
-		panic(err)
+	if _, err := rw.Write(b); err != nil {
+		logrus.WithError(err).Error("could not write decks response")
 	}
 	logrus.WithField("time", time.Since(start)).Info("Write")
 }
