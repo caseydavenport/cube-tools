@@ -97,8 +97,8 @@ export default function Main() {
           <Route path='cards' element={<StatsViewer view='cards' {...statsProps} />} />
           <Route path='colors' element={<StatsViewer view='colors' {...statsProps} />} />
           <Route path='explore' element={<ExplorePage {...statsProps} />} />
-          <Route path='removal' element={<RemovalPage />} />
-          <Route path='packages' element={<Packages />} />
+          <Route path='removal' element={<RemovalPage {...statsProps} />} />
+          <Route path='packages' element={<Packages {...statsProps} />} />
           <Route path='types' element={<StatsViewer view='types' {...statsProps} />} />
           <Route path='deckstats' element={<StatsViewer view='deckstats' {...statsProps} />} />
           <Route path='drafts' element={<DraftsPage {...statsProps} />} />

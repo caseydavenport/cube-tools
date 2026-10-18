@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useCube } from "../contexts/CubeContext.js"
-import { DropdownHeader } from "../components/Dropdown.js"
+import { DropdownHeader, DateSelector } from "../components/Dropdown.js"
 
 // The Removal page scores each piece of spot removal by how much of the cube's
 // creature base it can kill (given its restrictions) and how mana-efficient it is
@@ -32,19 +32,24 @@ function effColor(v) {
 
 const fmtDelta = v => v >= 0 ? `+${v}` : `${v}`
 
-export function RemovalPage() {
+export function RemovalPage(props) {
   const cubeID = useCube()
+  const start = props.startDate || ""
+  const end = props.endDate || ""
   const [data, setData] = useState(null)
   const [mode, setMode] = useState("raw")
   const [colorFilter, setColorFilter] = useState("")
   const [sort, setSort] = useState({ key: "reach", dir: "desc" })
 
   useEffect(() => {
-    fetch(`/api/${cubeID}/stats/removal`)
+    const p = new URLSearchParams()
+    if (start) p.set("start", start)
+    if (end) p.set("end", end)
+    fetch(`/api/${cubeID}/stats/removal?${p}`)
       .then(r => r.json())
       .then(setData)
       .catch(() => setData(null))
-  }, [cubeID])
+  }, [cubeID, start, end])
 
   if (!data) return <div className="analyze-page"><div className="browse-empty">Loading removal…</div></div>
 
@@ -83,6 +88,8 @@ export function RemovalPage() {
     <div className="analyze-page">
       <div className="explore-controls">
         <div className="selector-group">
+          <DateSelector label="From" id="removal-from" value={start} onChange={props.onStartSelected} />
+          <DateSelector label="To" id="removal-to" value={end} onChange={props.onEndSelected} />
           <DropdownHeader label="Coverage" value={mode} options={COVERAGE_OPTS} onChange={e => setMode(e.target.value)} />
           <DropdownHeader label="Color" value={colorFilter} options={COLOR_OPTS} onChange={e => setColorFilter(e.target.value)} />
           <span className="player-filter-hint">

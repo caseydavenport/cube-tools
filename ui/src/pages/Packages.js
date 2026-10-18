@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useCube } from "../contexts/CubeContext.js"
-import { DropdownHeader } from "../components/Dropdown.js"
+import { DropdownHeader, DateSelector } from "../components/Dropdown.js"
 import { WIN_CONFIDENCE_OPTS } from "../utils/Stats.js"
 
 // The Packages page shows how often each rule label coheres into a package across
@@ -25,18 +25,23 @@ function ciTooltip(s, populated, confidence) {
     `${level}% CI: ${pct(s.buildRate)} (${pct(s.buildRateLow)}–${pct(s.buildRateHigh)})`
 }
 
-export function Packages() {
+export function Packages(props) {
   const cubeID = useCube()
+  const start = props.startDate || ""
+  const end = props.endDate || ""
   const [data, setData] = useState(null)
   const [confidence, setConfidence] = useState("0.8")
   const [sort, setSort] = useState({ key: "buildRate", dir: "desc" })
 
   useEffect(() => {
-    fetch(`/api/${cubeID}/stats/packages?confidence=${confidence}`)
+    const p = new URLSearchParams({ confidence })
+    if (start) p.set("start", start)
+    if (end) p.set("end", end)
+    fetch(`/api/${cubeID}/stats/packages?${p}`)
       .then(r => r.json())
       .then(setData)
       .catch(() => setData(null))
-  }, [cubeID, confidence])
+  }, [cubeID, confidence, start, end])
 
   if (!data) return <div className="analyze-page"><div className="browse-empty">Loading packages…</div></div>
 
@@ -69,6 +74,8 @@ export function Packages() {
     <div className="analyze-page">
       <div className="explore-controls">
         <div className="selector-group">
+          <DateSelector label="From" id="packages-from" value={start} onChange={props.onStartSelected} />
+          <DateSelector label="To" id="packages-to" value={end} onChange={props.onEndSelected} />
           <DropdownHeader label="Build-rate confidence" value={confidence} options={WIN_CONFIDENCE_OPTS} onChange={e => setConfidence(e.target.value)} />
           <span className="player-filter-hint">
             {rows.length} labels · {data.populatedDecks} populated decks
