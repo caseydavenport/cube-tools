@@ -7,7 +7,6 @@ import (
 	"path/filepath"
 	"time"
 
-	"github.com/caseydavenport/cube-tools/pkg/commands"
 	"github.com/caseydavenport/cube-tools/pkg/drafts"
 	"github.com/caseydavenport/cube-tools/pkg/players"
 	"github.com/caseydavenport/cube-tools/pkg/server"
@@ -69,7 +68,7 @@ func checkPlayerIDs(dataRoot string, decks []ParsedDeck) error {
 	return nil
 }
 
-// CommitHandler writes a reviewed draft to disk and reindexes.
+// CommitHandler writes a reviewed draft to disk.
 func CommitHandler(src types.CubeSource) http.Handler { return CommitHandlerWithRoot(src, "data") }
 
 // CommitHandlerWithRoot is CommitHandler with an overridable data root.
@@ -132,12 +131,6 @@ func CommitHandlerWithRoot(src types.CubeSource, dataRoot string) http.Handler {
 			}
 		}
 
-		if dataRoot == "data" {
-			if err := commands.Index(cube); err != nil {
-				http.Error(rw, "indexing failed: "+err.Error(), http.StatusInternalServerError)
-				return
-			}
-		}
 		writeJSON(rw, map[string]any{"draft_id": draft.ID})
 	})
 }

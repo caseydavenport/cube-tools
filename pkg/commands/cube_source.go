@@ -141,3 +141,18 @@ func (p *CubeProvider) Warm() {
 		}
 	}
 }
+
+// cubeCobraID returns the cube's Cube Cobra id from the registry, or "" if the
+// registry is missing or the cube has no id set.
+func cubeCobraID(cube string) string {
+	reg, err := cubes.Load("data/cubes.json")
+	if err != nil {
+		logrus.WithError(err).Debug("No cube registry; skipping Cube Cobra enrichment")
+		return ""
+	}
+	meta, ok := reg.Get(cube)
+	if !ok {
+		return ""
+	}
+	return meta.CubeCobraID
+}

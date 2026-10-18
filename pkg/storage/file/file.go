@@ -7,7 +7,6 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/caseydavenport/cube-tools/pkg/commands"
 	"github.com/caseydavenport/cube-tools/pkg/design"
 	"github.com/caseydavenport/cube-tools/pkg/drafts"
 	"github.com/caseydavenport/cube-tools/pkg/players"
@@ -34,35 +33,30 @@ func NewStore(src types.CubeSource) *storage.Store {
 	return storage.NewStore(New(src), storage.WithPlayers(players.FileSource{DataRoot: "data"}))
 }
 
-// RawDecks loads every deck listed in the cube's index, overlays cube printings
-// and tags, and sets DraftSize. It does not enrich; Store does that.
+// RawDecks loads every deck in the cube's draft directories, overlays cube
+// printings and tags, and sets DraftSize. A draft whose decks won't load is
+// logged and skipped. It does not enrich; Store does that.
 func (b *Backend) RawDecks(cube string) ([]*storage.Deck, error) {
 	logrus.Info("Loading decks from disk")
-	contents, err := os.ReadFile(fmt.Sprintf("data/%s/index.json", cube))
+	all, err := drafts.List(filepath.Join("data", cube))
 	if err != nil {
-		return nil, err
-	}
-	var index commands.MainIndex
-	if err := json.Unmarshal(contents, &index); err != nil {
 		return nil, err
 	}
 
 	var decks []*storage.Deck
-	for _, draft := range index.Drafts {
-		info, err := draftInfo(cube, draft.Path)
+	for _, draft := range all {
+		loaded, err := draft.Decks()
 		if err != nil {
-			logrus.WithError(err).WithField("draft", draft.Path).Warn("Failed to load draft metadata")
+			logrus.WithError(err).WithField("draft", draft.ID).Warn("Failed to load draft decks")
+			continue
 		}
-		for _, deck := range draft.Decks {
-			d, err := loadDeck(deck.Path)
-			if err != nil {
-				logrus.WithError(err).Warn("Failed to load deck")
-				continue
-			}
-			d.DraftSize = len(draft.Decks)
-			d.Draft = info
-			d.Metadata.Path = ""
-			decks = append(decks, &d)
+		info := storage.NewDraftInfo(draft.DraftMetadata)
+		for _, d := range loaded {
+			deck := &storage.Deck{Deck: *d}
+			deck.DraftSize = len(loaded)
+			deck.Draft = info
+			deck.Metadata.Path = ""
+			decks = append(decks, deck)
 		}
 	}
 
@@ -134,18 +128,6 @@ func findDraft(cube string, draftID int) (drafts.Draft, error) {
 	return draft, err
 }
 
-func loadDeck(path string) (storage.Deck, error) {
-	var d storage.Deck
-	contents, err := os.ReadFile(path)
-	if err != nil {
-		return d, err
-	}
-	if err = json.Unmarshal(contents, &d); err != nil {
-		return d, err
-	}
-	return d, nil
-}
-
 // GetRules returns a cube's design-map rules.
 func (b *Backend) GetRules(cube string) (*design.DesignMapConfig, error) {
 	data, err := os.ReadFile(fmt.Sprintf("data/%s/cube-rules.json", cube))
@@ -168,50 +150,27 @@ func (b *Backend) PutRules(cube string, rules *design.DesignMapConfig) error {
 	return os.WriteFile(fmt.Sprintf("data/%s/cube-rules.json", cube), data, 0o644)
 }
 
-// Index returns the path-free index of a cube's drafts and decks.
+// Index returns the path-free index of a cube's drafts and decks. A cube with
+// no drafts, or no directory, has an empty index.
 func (b *Backend) Index(cube string) (*storage.CubeIndex, error) {
-	contents, err := os.ReadFile(fmt.Sprintf("data/%s/index.json", cube))
+	all, err := drafts.List(filepath.Join("data", cube))
 	if err != nil {
 		return nil, err
 	}
-	var index commands.MainIndex
-	if err := json.Unmarshal(contents, &index); err != nil {
-		return nil, err
-	}
-
-	out := &storage.CubeIndex{}
-	for _, draft := range index.Drafts {
-		info, err := draftInfo(cube, draft.Path)
+	out := &storage.CubeIndex{Drafts: []storage.IndexedDraft{}}
+	for _, draft := range all {
+		decks, err := draft.Decks()
 		if err != nil {
-			return nil, err
+			logrus.WithError(err).WithField("draft", draft.ID).Warn("Failed to load draft decks")
+			continue
 		}
-		id := storage.IndexedDraft{DraftInfo: info, HasLog: draft.DraftLog != ""}
-		for _, ideck := range draft.Decks {
-			d, err := loadDeck(ideck.Path)
-			if err != nil {
-				logrus.WithError(err).Warn("Failed to load deck")
-				continue
-			}
+		id := storage.IndexedDraft{DraftInfo: storage.NewDraftInfo(draft.DraftMetadata), HasLog: draft.HasLog()}
+		for _, d := range decks {
 			id.Decks = append(id.Decks, storage.IndexedDeck{ID: d.ID})
 		}
 		out.Drafts = append(out.Drafts, id)
 	}
 	return out, nil
-}
-
-// draftInfo returns the display fields of the draft in dir, found by listing
-// the cube's drafts. It errors when dir is not one of them.
-func draftInfo(cube, dir string) (storage.DraftInfo, error) {
-	all, err := drafts.List(filepath.Join("data", cube))
-	if err != nil {
-		return storage.DraftInfo{}, err
-	}
-	for _, d := range all {
-		if filepath.Clean(d.Dir) == filepath.Clean(dir) {
-			return storage.NewDraftInfo(d.DraftMetadata), nil
-		}
-	}
-	return storage.DraftInfo{}, fmt.Errorf("no draft metadata in %s", dir)
 }
 
 // GetDraftLog returns a draft's raw log bytes, or ErrDeckNotFound if the draft

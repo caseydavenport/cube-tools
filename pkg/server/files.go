@@ -3,7 +3,6 @@ package server
 import (
 	"encoding/json"
 	"errors"
-	"io/fs"
 	"net/http"
 	"strconv"
 
@@ -42,11 +41,7 @@ func CubeIndexHandler(store *storage.Store) http.Handler {
 		}
 		index, err := store.Index(cube)
 		if err != nil {
-			// The file backend returns a raw fs.ErrNotExist-wrapping error when
-			// index.json is missing, matching Overview.js's empty-cube path.
 			switch {
-			case errors.Is(err, fs.ErrNotExist):
-				http.NotFound(rw, r)
 			case errors.Is(err, storage.ErrUnsupported):
 				http.Error(rw, "Not supported", http.StatusNotImplemented)
 			default:

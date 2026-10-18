@@ -260,8 +260,8 @@ func ListHedronDrafts(cubeID string) ([]HedronDraft, error) {
 }
 
 // ImportHedronDraft imports one Hedron draft into outCube: it downloads the
-// player photos, writes the draft directory and match records, reindexes, and
-// returns the local draft ID. It returns an error rather than exiting.
+// player photos, writes the draft directory and match records, and returns the
+// local draft ID. It returns an error rather than exiting.
 func ImportHedronDraft(outCube, cubeID, hedronDraftID string) (int, error) {
 	hedronDrafts, err := ListHedronDrafts(cubeID)
 	if err != nil {
@@ -282,9 +282,6 @@ func ImportHedronDraft(outCube, cubeID, hedronDraftID string) (int, error) {
 	}
 	localID, err := importDraft(outCube, selected)
 	if err != nil {
-		return 0, err
-	}
-	if err := Index(outCube); err != nil {
 		return 0, err
 	}
 	return localID, nil

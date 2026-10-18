@@ -39,9 +39,6 @@ export default function Overview() {
   useEffect(() => {
     fetch(`/api/${cube}/index`)
       .then(r => {
-        // A cube with no generated data yet has no index.json; treat that as
-        // an empty cube rather than surfacing the 404 body as a parse error.
-        if (r.status === 404) return { drafts: [] };
         if (!r.ok) throw new Error(`index fetch failed: ${r.status}`);
         return r.json();
       })

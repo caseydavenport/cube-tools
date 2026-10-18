@@ -2,7 +2,7 @@ GIT_VERSION=$(shell git describe --tags --dirty --long --always --abbrev=12)
 GO_FILES=$(shell find ./pkg -type f) $(shell find ./cmd -type f)
 
 # Run the server containers as the host user so files they write into the
-# bind-mounted /code (imported decks, OCR images, index.json) are owned by us,
+# bind-mounted /code (imported decks, OCR images) are owned by us,
 # not root. Without this the container's root writes files we can't edit or
 # git-add on the host.
 DOCKER_USER=--user $(shell id -u):$(shell id -g)
@@ -14,9 +14,6 @@ test: ut
 
 ut:
 	go test ./...
-
-index: data/oracle-cards.json
-	go run ./main.go index
 
 clean:
 	rm -f data/oracle-cards.json bin/parser

@@ -53,9 +53,8 @@ func ScanPhotoFolder(dir string) ([]string, error) {
 
 // buildPhotoDraftDir writes an OCR-ready draft skeleton under dataRoot/cube from
 // a folder of deck photos: metadata.json, one img/pN/deck-1.<ext> per image
-// (pN by sorted filename), and an anonymous deck stub per photo. It returns the new
-// draft and the deck image paths it wrote, for the caller to normalize. It
-// does not reindex.
+// (pN in natural filename order), and an anonymous deck stub per photo. It returns the new
+// draft and the deck image paths it wrote, for the caller to normalize.
 func buildPhotoDraftDir(dataRoot, cube, sourcePath, date, slug, eventName, flight string) (drafts.Draft, []string, error) {
 	if !photoSlugRE.MatchString(slug) {
 		return drafts.Draft{}, nil, fmt.Errorf("slug %q must be lowercase letters, digits, or hyphens", slug)
@@ -108,8 +107,7 @@ func buildPhotoDraftDir(dataRoot, cube, sourcePath, date, slug, eventName, fligh
 }
 
 // BuildPhotoDraft builds a draft under data/ from a folder of deck photos,
-// normalizes each photo to landscape, reindexes the cube, and returns the draft
-// ID. Decks start as anonymous seats with no match records.
+// normalizes each photo to landscape, and returns the draft ID. Decks start as anonymous seats with no match records.
 func BuildPhotoDraft(cube, sourcePath, date, slug, eventName, flight string) (int, error) {
 	draft, images, err := buildPhotoDraftDir("data", cube, sourcePath, date, slug, eventName, flight)
 	if err != nil {
@@ -119,9 +117,6 @@ func BuildPhotoDraft(cube, sourcePath, date, slug, eventName, flight string) (in
 		if err := forceLandscape(p); err != nil {
 			logrus.WithError(err).Warnf("normalize orientation for %s", p)
 		}
-	}
-	if err := Index(cube); err != nil {
-		return 0, err
 	}
 	return draft.ID, nil
 }

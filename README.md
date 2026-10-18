@@ -19,7 +19,6 @@ Data for each draft can be found in [data](data). Structure is as follows:
 ```
 data/                        # data root directory, with a sub-directory per-cube.
 |-- <cube-name>/             # cube directory
-   |-- index.json            # auto-generated index file of decks.
    |-- NNNN_YYYY-MM-DD/      # draft directory, named for the draft's number and date.
       |-- metadata.json      # draft number, date, event name, code, and flight.
       |-- N.json             # deck file for the draft's deck number N.
@@ -46,7 +45,6 @@ Available Commands:
   completion      Generate the autocompletion script for the specified shell
   edit            Edit an existing deck file
   help            Help about any command
-  index           Regenerate index files for the drafts directory.
   parse           Parse a single deck file
   parse-dir       Parse a directory of deck files
   parse-draft-log Parse a draft log
@@ -106,11 +104,7 @@ You can then add match information. e.g., the following adds a match that Joe wo
 ./bin/parser edit add-match --cube polyverse --draft 15 -p "Joe Mellor" -o p2 -r "2-1-0"
 ```
 
-Finally, index the new draft information so it can be discovered by the UI:
-
-```
-./bin/parser index
-```
+A running server picks up new decks on its own within 10 seconds.
 
 ## Updating metadata
 

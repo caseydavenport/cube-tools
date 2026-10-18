@@ -250,22 +250,26 @@ func TestProcess_OpponentWinPercentage_LegacyMatchesIncluded(t *testing.T) {
 	alice.Player = "Alice"
 	alice.Date = "2024-01-01"
 	alice.Matches = []types.Match{
-		{Opponent: "Bob", Round: 1, Wins: 2, Losses: 0, Winner: "Alice",
+		{
+			Opponent: "Bob", Round: 1, Wins: 2, Losses: 0, Winner: "Alice",
 			Games: []types.Game{
 				{Opponent: "Bob", Winner: "Alice"},
 				{Opponent: "Bob", Winner: "Alice"},
-			}},
+			},
+		},
 	}
 
 	bob := &Deck{}
 	bob.Player = "Bob"
 	bob.Date = "2024-01-01"
 	bob.Matches = []types.Match{
-		{Opponent: "Alice", Round: 1, Wins: 0, Losses: 2, Winner: "Alice",
+		{
+			Opponent: "Alice", Round: 1, Wins: 0, Losses: 2, Winner: "Alice",
 			Games: []types.Game{
 				{Opponent: "Alice", Winner: "Alice"},
 				{Opponent: "Alice", Winner: "Alice"},
-			}},
+			},
+		},
 		// Legacy match: no nested games, just the tally.
 		{Opponent: "Charlie", Round: 2, Wins: 2, Losses: 1, Winner: "Bob"},
 	}
@@ -357,17 +361,17 @@ func TestFilter_ByDraftSize(t *testing.T) {
 func TestDeckStore_ScopedByCube(t *testing.T) {
 	// Tests run with CWD=pkg/storage; chdir to repo root so loadDecks can find
 	// the data directory.
-	if _, err := os.Stat("data/polyverse/index.json"); err != nil {
+	if _, err := os.Stat("data/polyverse"); err != nil {
 		if err := os.Chdir("../.."); err != nil {
 			t.Fatal(err)
 		}
 	}
 
 	s := NewStore(&fakeBackend{})
-	// polyverse has a real index.json on disk; aurora does not. Both calls are
-	// exercised to verify the cache map tracks independent entries. Because
-	// errors are not cached (we only store on success), we only assert the
-	// polyverse entry — that's the one guaranteed to succeed.
+
+	// Both cubes are listed to verify the cache map tracks independent entries.
+	// Errors are not cached (we only store on success), so only the polyverse
+	// entry is asserted.
 	_, _ = s.List("polyverse", &DecksRequest{})
 	_, _ = s.List("aurora", &DecksRequest{})
 	if _, ok := s.caches["polyverse"]; !ok {

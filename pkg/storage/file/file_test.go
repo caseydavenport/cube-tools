@@ -16,7 +16,7 @@ import (
 )
 
 func TestFileBackend_ListPolyverse(t *testing.T) {
-	if _, err := os.Stat("data/polyverse/index.json"); err != nil {
+	if _, err := os.Stat("data/polyverse"); err != nil {
 		if err := os.Chdir("../../.."); err != nil {
 			t.Fatalf("chdir to repo root: %v", err)
 		}
@@ -205,23 +205,6 @@ func writeConfFixture(t *testing.T, root string) {
 	alicePath := "data/conf/0001_2024-01-01/alice.json"
 	bobPath := "data/conf/0001_2024-01-01/bob.json"
 
-	index := `{
- "drafts": [
-  {
-   "path": "data/conf/0001_2024-01-01",
-   "date": "2024-01-01",
-   "draft_id": 1,
-   "decks": [
-    {"path": "` + alicePath + `"},
-    {"path": "` + bobPath + `"}
-   ]
-  }
- ]
-}`
-	if err := os.WriteFile(filepath.Join(cubeDir, "index.json"), []byte(index), 0o644); err != nil {
-		t.Fatalf("write index.json: %v", err)
-	}
-
 	alice := `{
  "metadata": {"path": "` + alicePath + `", "draft_id": 1},
  "id": 1,
@@ -253,29 +236,9 @@ func writeConfFixture(t *testing.T, root string) {
 	}
 }
 
-// writeConfDraftLog extends the conf fixture with a draft log: it points
-// index.json at draft 1's draft-log.json and writes that file, matching what
-// commands.Index produces once a draft has been logged.
+// writeConfDraftLog extends the conf fixture with a draft log for draft 1.
 func writeConfDraftLog(t *testing.T, root string) {
 	t.Helper()
-
-	index := `{
- "drafts": [
-  {
-   "path": "data/conf/0001_2024-01-01",
-   "date": "2024-01-01",
-   "draft_id": 1,
-   "draft_log": "data/conf/0001_2024-01-01/draft-log.json",
-   "decks": [
-    {"path": "data/conf/0001_2024-01-01/alice.json"},
-    {"path": "data/conf/0001_2024-01-01/bob.json"}
-   ]
-  }
- ]
-}`
-	if err := os.WriteFile(filepath.Join(root, "data/conf/index.json"), []byte(index), 0o644); err != nil {
-		t.Fatalf("write index.json: %v", err)
-	}
 
 	logPath := filepath.Join(root, "data/conf/0001_2024-01-01/draft-log.json")
 	if err := os.WriteFile(logPath, []byte(`{"picks":[]}`), 0o644); err != nil {
@@ -344,4 +307,31 @@ func TestFileGetDraftLogMissing(t *testing.T) {
 	b := New(nil)
 	_, err := b.GetDraftLog("conf", 1)
 	assert.ErrorIs(t, err, storage.ErrDeckNotFound)
+}
+
+func TestFileIndexEmptyCube(t *testing.T) {
+	t.Chdir(t.TempDir())
+
+	got, err := New(nil).Index("empty")
+	assert.NoError(t, err)
+	encoded, err := json.Marshal(got)
+	assert.NoError(t, err)
+	assert.JSONEq(t, `{"drafts":[]}`, string(encoded))
+}
+
+func TestFileRawDecksSeesNewDeckWithoutReindex(t *testing.T) {
+	root := t.TempDir()
+	t.Chdir(root)
+	writeConfFixture(t, root)
+	b := New(nil)
+
+	draft, err := drafts.Find(filepath.Join(root, "data/conf"), 1)
+	assert.NoError(t, err)
+	deck := types.NewDeck()
+	deck.ID = 3
+	assert.NoError(t, draft.SaveDeck(deck))
+
+	got, err := b.RawDecks("conf")
+	assert.NoError(t, err)
+	assert.Len(t, got, 3)
 }
