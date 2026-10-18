@@ -31,7 +31,7 @@ func TestSessionSaveThenGet(t *testing.T) {
 	if !strings.Contains(wg.Body.String(), "Brainstorm") {
 		t.Fatalf("get body missing data: %s", wg.Body.String())
 	}
-	s, err := LoadSession(d.Dir)
+	s, err := LoadSession(d)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -59,7 +59,7 @@ func TestSessionSaveMergesPlayers(t *testing.T) {
 	post(`{"players":{"p1":{"status":"in_progress","pool_entries":[{"card_name":"Brainstorm","count":1}]}}}`)
 	post(`{"players":{"p2":{"status":"in_progress","pool_entries":[{"card_name":"Ponder","count":1}]}}}`)
 
-	s, err := LoadSession(d.Dir)
+	s, err := LoadSession(d)
 	if err != nil {
 		t.Fatal(err)
 	}

@@ -7,7 +7,6 @@ import (
 	"net/http"
 	"path/filepath"
 	"strconv"
-	"strings"
 
 	"github.com/caseydavenport/cube-tools/pkg/drafts"
 	"github.com/caseydavenport/cube-tools/pkg/server"
@@ -38,19 +37,6 @@ func draftFromRequest(dataRoot string, r *http.Request) (drafts.Draft, bool) {
 		return drafts.Draft{}, false
 	}
 	return d, true
-}
-
-// photoPath returns the on-disk path of a photo given relative to the draft,
-// or false if rel is absolute or would leave the draft directory.
-func photoPath(draft drafts.Draft, rel string) (string, bool) {
-	if rel == "" || filepath.IsAbs(rel) || strings.Contains(rel, "..") {
-		return "", false
-	}
-	abs := filepath.Join(draft.Dir, rel)
-	if !strings.HasPrefix(abs, filepath.Clean(draft.Dir)+string(filepath.Separator)) {
-		return "", false
-	}
-	return abs, true
 }
 
 // loadCubeForDraft loads the cube list for a draft, preferring the draft's own

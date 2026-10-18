@@ -1,9 +1,9 @@
 package ocr
 
 import (
-	"path/filepath"
 	"testing"
 
+	"github.com/caseydavenport/cube-tools/pkg/drafts"
 	ocrpkg "github.com/caseydavenport/cube-tools/pkg/ocr"
 )
 
@@ -27,11 +27,11 @@ func TestSessionRoundTrip(t *testing.T) {
 			}},
 		},
 	}}
-	if err := s.Save(dir); err != nil {
+	if err := s.Save(drafts.Draft{Dir: dir}); err != nil {
 		t.Fatal(err)
 	}
 
-	got, err := LoadSession(dir)
+	got, err := LoadSession(drafts.Draft{Dir: dir})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -47,33 +47,11 @@ func TestSessionRoundTrip(t *testing.T) {
 }
 
 func TestLoadSessionMissingIsEmpty(t *testing.T) {
-	s, err := LoadSession(t.TempDir())
+	s, err := LoadSession(drafts.Draft{Dir: t.TempDir()})
 	if err != nil {
 		t.Fatalf("missing file should not error: %v", err)
 	}
 	if s == nil || len(s.Players) != 0 {
 		t.Fatalf("expected empty session, got %+v", s)
-	}
-}
-
-func TestSaveCreatesDirectory(t *testing.T) {
-	dir := filepath.Join(t.TempDir(), "0002_2026-01-17")
-
-	s := &Session{DraftID: 2, Players: map[string]*PlayerWork{
-		"p1": {
-			Status: "in_progress",
-			Basics: map[string]int{"Plains": 3},
-		},
-	}}
-	if err := s.Save(dir); err != nil {
-		t.Fatalf("Save failed: %v", err)
-	}
-
-	got, err := LoadSession(dir)
-	if err != nil {
-		t.Fatalf("LoadSession failed: %v", err)
-	}
-	if got.Players["p1"].Basics["Plains"] != 3 {
-		t.Fatalf("basics lost: %+v", got.Players["p1"].Basics)
 	}
 }

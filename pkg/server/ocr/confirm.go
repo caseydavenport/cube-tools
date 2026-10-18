@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"net/http"
 
+	"github.com/caseydavenport/cube-tools/pkg/drafts"
 	"github.com/caseydavenport/cube-tools/pkg/types"
 )
 
@@ -52,8 +53,8 @@ func ConfirmHandlerWithRoot(dataRoot string) http.Handler {
 	return http.HandlerFunc(func(rw http.ResponseWriter, r *http.Request) {
 		draft, ok := draftFromRequest(dataRoot, r)
 		player := r.PathValue("player")
-		n, okPlayer := playerNum(player)
-		if !ok || !okPlayer {
+		n := drafts.SeatNumber(player)
+		if !ok || n == 0 {
 			http.NotFound(rw, r)
 			return
 		}
@@ -78,10 +79,10 @@ func ConfirmHandlerWithRoot(dataRoot string) http.Handler {
 		// on the shared session file and would otherwise race with them.
 		sessionSaveMu.Lock()
 		defer sessionSaveMu.Unlock()
-		if s, err := LoadSession(draft.Dir); err == nil {
+		if s, err := LoadSession(draft); err == nil {
 			if pw := s.Players[player]; pw != nil {
 				pw.Status = "confirmed"
-				if err := s.Save(draft.Dir); err != nil {
+				if err := s.Save(draft); err != nil {
 					http.Error(rw, "Internal server error", http.StatusInternalServerError)
 					return
 				}

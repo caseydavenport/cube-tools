@@ -72,7 +72,7 @@ func TestScanFillsSession(t *testing.T) {
 		t.Fatalf("total = %d, want 2", st.Total)
 	}
 
-	s, err := LoadSession(d.Dir)
+	s, err := LoadSession(d)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -106,7 +106,7 @@ func TestScanSkipsExistingBoxes(t *testing.T) {
 			"p3": {Boxes: map[string][]Box{checkin: {manual}}},
 		},
 	}
-	if err := seed.Save(d.Dir); err != nil {
+	if err := seed.Save(d); err != nil {
 		t.Fatal(err)
 	}
 
@@ -117,7 +117,7 @@ func TestScanSkipsExistingBoxes(t *testing.T) {
 		t.Fatalf("total = %d, want 1 (only the unscanned deck photo)", st.Total)
 	}
 
-	s, err := LoadSession(d.Dir)
+	s, err := LoadSession(d)
 	if err != nil {
 		t.Fatal(err)
 	}

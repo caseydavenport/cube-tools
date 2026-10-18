@@ -47,7 +47,7 @@ func ScanPhotoFolder(dir string) ([]string, error) {
 			names = append(names, e.Name())
 		}
 	}
-	sort.Strings(names)
+	sort.Slice(names, func(i, j int) bool { return drafts.NaturalLess(names[i], names[j]) })
 	return names, nil
 }
 
@@ -80,18 +80,15 @@ func buildPhotoDraftDir(dataRoot, cube, sourcePath, date, slug, eventName, fligh
 	if err != nil {
 		return drafts.Draft{}, nil, err
 	}
-	imgdir := filepath.Join(draft.Dir, "img")
 
 	logc := logrus.WithField("draft", draft.ID)
 	var written []string
 	for i, name := range images {
 		deckID := i + 1
-		short := fmt.Sprintf("p%d", deckID)
-		playerImgDir := filepath.Join(imgdir, short)
-		if err := os.MkdirAll(playerImgDir, os.ModePerm); err != nil {
-			return drafts.Draft{}, nil, fmt.Errorf("create player dir: %w", err)
+		dst, err := draft.NewPhotoPath(deckID, drafts.PhotoDeck, 1, strings.ToLower(filepath.Ext(name)))
+		if err != nil {
+			return drafts.Draft{}, nil, err
 		}
-		dst := filepath.Join(playerImgDir, "deck-1"+strings.ToLower(filepath.Ext(name)))
 		if err := copyFile(*logc, filepath.Join(sourcePath, name), dst); err != nil {
 			return drafts.Draft{}, nil, fmt.Errorf("copy image %s: %w", name, err)
 		}

@@ -175,7 +175,6 @@ func importDraft(cube string, d *HedronDraft) (int, error) {
 	if err != nil {
 		return 0, err
 	}
-	imgdir := filepath.Join(draft.Dir, "img")
 
 	// Number players by Hedron's "Player N", giving any that don't fit that
 	// shape the next free numbers.
@@ -203,11 +202,10 @@ func importDraft(cube string, d *HedronDraft) (int, error) {
 		deck.Date = dateStr
 		deck.Metadata.DraftID = draft.ID
 
-		// Download all available image variants into img/p<N>/.
-		playerImgDir := filepath.Join(imgdir, fmt.Sprintf("p%d", n))
-		downloadVariants(playerImgDir, "checkin", p.Images.Checkin, p.ID)
-		downloadVariants(playerImgDir, "checkout", p.Images.Checkout, p.ID)
-		downloadVariants(playerImgDir, "deck", p.Images.Deck, p.ID)
+		// Download all available image variants into the seat's photo folder.
+		downloadVariants(draft, n, drafts.PhotoCheckin, p.Images.Checkin, p.ID)
+		downloadVariants(draft, n, drafts.PhotoCheckout, p.Images.Checkout, p.ID)
+		downloadVariants(draft, n, drafts.PhotoDeck, p.Images.Deck, p.ID)
 
 		playerDecks[p.ID] = deck
 	}
@@ -292,21 +290,18 @@ func ImportHedronDraft(outCube, cubeID, hedronDraftID string) (int, error) {
 	return localID, nil
 }
 
-// downloadVariants writes each image in refs to playerImgDir as
-// "<kind>-<idx>.jpg", 1-indexed. Creates playerImgDir on first use.
-func downloadVariants(playerImgDir, kind string, refs []HedronImageRef, playerLabel string) {
-	if len(refs) == 0 {
-		return
-	}
-	if err := os.MkdirAll(playerImgDir, os.ModePerm); err != nil {
-		logrus.WithError(err).Warnf("Failed to create %s; skipping images", playerImgDir)
-		return
-	}
+// downloadVariants writes each image in refs to the seat's photo folder as
+// "<kind>-<idx>.jpg", 1-indexed. A failed download is logged and skipped.
+func downloadVariants(draft drafts.Draft, seat int, kind drafts.PhotoKind, refs []HedronImageRef, playerLabel string) {
 	for i, ref := range refs {
-		filename := fmt.Sprintf("%s-%d.jpg", kind, i+1)
-		dst := filepath.Join(playerImgDir, filename)
+		dst, err := draft.NewPhotoPath(seat, kind, i+1, ".jpg")
+		if err != nil {
+			logrus.WithError(err).Warnf("Failed to create the photo folder for seat %d; skipping images", seat)
+			return
+		}
+		filename := filepath.Base(dst)
 		url := "https://hedron.network" + ref.URL
-		logrus.Infof("Downloading %s/%s for %s", filepath.Base(playerImgDir), filename, playerLabel)
+		logrus.Infof("Downloading p%d/%s for %s", seat, filename, playerLabel)
 		if err := downloadFile(url, dst); err != nil {
 			logrus.WithError(err).Warnf("Failed to download %s for %s", filename, playerLabel)
 			continue

@@ -21,7 +21,7 @@ func SessionGetHandlerWithRoot(dataRoot string) http.Handler {
 			http.NotFound(rw, r)
 			return
 		}
-		s, err := LoadSession(draft.Dir)
+		s, err := LoadSession(draft)
 		if err != nil {
 			http.Error(rw, "Internal server error", http.StatusInternalServerError)
 			return
@@ -51,7 +51,7 @@ func SessionSaveHandlerWithRoot(dataRoot string) http.Handler {
 		// Merge the posted players into what's already on disk rather than
 		// replacing the file. The client sends only the player it's editing, so
 		// a full replace would wipe every other player's saved work.
-		s, err := LoadSession(draft.Dir)
+		s, err := LoadSession(draft)
 		if err != nil {
 			http.Error(rw, "Internal server error", http.StatusInternalServerError)
 			return
@@ -60,7 +60,7 @@ func SessionSaveHandlerWithRoot(dataRoot string) http.Handler {
 		// Trust the path, not the body.
 		s.DraftID = draft.ID
 		maps.Copy(s.Players, posted.Players)
-		if err := s.Save(draft.Dir); err != nil {
+		if err := s.Save(draft); err != nil {
 			http.Error(rw, "Internal server error", http.StatusInternalServerError)
 			return
 		}

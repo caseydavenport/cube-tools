@@ -1,79 +1,42 @@
 package ocr
 
 import (
-	"fmt"
 	"net/http"
-	"os"
 	"path/filepath"
 	"slices"
-	"sort"
-	"strconv"
-	"strings"
 
 	"github.com/caseydavenport/cube-tools/pkg/drafts"
 	"github.com/caseydavenport/cube-tools/pkg/server"
 	"github.com/caseydavenport/cube-tools/pkg/storage"
 )
 
-// playerNum parses a photo folder name "pN" into the player's deck ID N.
-func playerNum(short string) (int, bool) {
-	n, err := strconv.Atoi(strings.TrimPrefix(short, "p"))
-	if !strings.HasPrefix(short, "p") || err != nil || n < 1 || short != fmt.Sprintf("p%d", n) {
-		return 0, false
-	}
-	return n, true
-}
-
 // discoverPlayers lists the players with a photo folder under the draft's
-// img/, with their photos and the state of their deck and OCR work. A draft
-// without photos gives nil.
+// img/, in seat order, with their photos and the state of their deck and OCR
+// work. A draft without photos gives nil.
 func discoverPlayers(draft drafts.Draft) ([]PlayerDetail, error) {
-	imgDir := filepath.Join(draft.Dir, "img")
-	entries, err := os.ReadDir(imgDir)
-	if os.IsNotExist(err) {
-		return nil, nil
-	}
-	if err != nil {
+	seats, err := draft.Photos()
+	if err != nil || seats == nil {
 		return nil, err
 	}
 
 	// The session (if any) tells us which players have OCR work saved, so we
 	// can distinguish "in progress" from "unstarted". A missing or unreadable
 	// session just means no work has been saved yet.
-	sess, err := LoadSession(draft.Dir)
+	sess, err := LoadSession(draft)
 	if err != nil {
 		sess = &Session{Players: map[string]*PlayerWork{}}
 	}
 
 	var out []PlayerDetail
-	for _, e := range entries {
-		if !e.IsDir() {
-			continue
-		}
-		short := e.Name()
-		pd := PlayerDetail{ID: short}
-		files, err := os.ReadDir(filepath.Join(imgDir, short))
-		if err != nil {
-			return nil, err
-		}
-		for _, f := range files {
-			rel := "img/" + short + "/" + f.Name()
-			switch {
-			case strings.HasPrefix(f.Name(), "checkin-"):
-				pd.Photos.Checkin = append(pd.Photos.Checkin, rel)
-			case strings.HasPrefix(f.Name(), "checkout-"):
-				pd.Photos.Checkout = append(pd.Photos.Checkout, rel)
-			case strings.HasPrefix(f.Name(), "deck-"):
-				pd.Photos.Deck = append(pd.Photos.Deck, rel)
-			}
-		}
-		sort.Strings(pd.Photos.Checkin)
-		sort.Strings(pd.Photos.Checkout)
-		sort.Strings(pd.Photos.Deck)
+	for _, seat := range seats {
+		pd := PlayerDetail{ID: seat.Folder}
+		pd.Photos.Checkin = seat.Checkin
+		pd.Photos.Checkout = seat.Checkout
+		pd.Photos.Deck = seat.Deck
 
-		pw := sess.Players[short]
-		if n, ok := playerNum(short); ok {
-			if d, err := draft.Deck(n); err == nil {
+		pw := sess.Players[seat.Folder]
+		if seat.Seat != 0 {
+			if d, err := draft.Deck(seat.Seat); err == nil {
 				pd.Matches = d.Matches
 				pd.PlayerID = d.PlayerID
 				pd.HasDeck = len(d.Mainboard) > 0 || len(d.Pool) > 0
@@ -86,7 +49,6 @@ func discoverPlayers(draft drafts.Draft) ([]PlayerDetail, error) {
 		pd.Status = playerStatus(pw, pd.HasDeck)
 		out = append(out, pd)
 	}
-	sort.Slice(out, func(i, j int) bool { return out[i].ID < out[j].ID })
 	return out, nil
 }
 
@@ -139,7 +101,7 @@ func DraftsHandlerWithRoot(dataRoot string) http.Handler {
 			// conflicts to report rather than failing the whole listing.
 			conflicts := 0
 			if cl, err := loadCubeForDraft(dataRoot, cube, draft); err == nil {
-				sess, err := LoadSession(draft.Dir)
+				sess, err := LoadSession(draft)
 				if err != nil {
 					sess = &Session{Players: map[string]*PlayerWork{}}
 				}

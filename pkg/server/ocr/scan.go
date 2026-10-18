@@ -82,7 +82,7 @@ func buildScanWorklist(draft drafts.Draft) ([]scanItem, error) {
 	if err != nil {
 		return nil, err
 	}
-	sess, err := LoadSession(draft.Dir)
+	sess, err := LoadSession(draft)
 	if err != nil {
 		sess = &Session{Players: map[string]*PlayerWork{}}
 	}
@@ -250,7 +250,7 @@ func writeScannedBoxes(draft drafts.Draft, it scanItem, boxes []Box) {
 	sessionSaveMu.Lock()
 	defer sessionSaveMu.Unlock()
 
-	session, err := LoadSession(draft.Dir)
+	session, err := LoadSession(draft)
 	if err != nil {
 		logrus.WithError(err).WithField("draft", draft.ID).Warn("Background scan could not load session")
 		return
@@ -278,7 +278,7 @@ func writeScannedBoxes(draft drafts.Draft, it scanItem, boxes []Box) {
 		}
 		playerWork.Boxes[it.photo] = boxes
 	}
-	if err := session.Save(draft.Dir); err != nil {
+	if err := session.Save(draft); err != nil {
 		logrus.WithError(err).WithField("draft", draft.ID).Warn("Background scan could not save session")
 	}
 }

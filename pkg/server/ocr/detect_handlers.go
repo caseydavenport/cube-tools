@@ -24,7 +24,7 @@ type regionRequest struct {
 // resolvePhoto validates a photo path relative to the draft and returns its
 // absolute on-disk path plus the draft's cube list.
 func resolvePhoto(dataRoot, cube string, draft drafts.Draft, rel string) (string, *types.Cube, bool) {
-	abs, ok := photoPath(draft, rel)
+	abs, ok := draft.PhotoPath(rel)
 	if !ok {
 		return "", nil, false
 	}

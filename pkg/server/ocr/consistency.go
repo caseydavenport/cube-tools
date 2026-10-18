@@ -231,7 +231,7 @@ func ConsistencyHandlerWithRoot(dataRoot string) http.Handler {
 			return
 		}
 
-		sess, err := LoadSession(draft.Dir)
+		sess, err := LoadSession(draft)
 		if err != nil {
 			sess = &Session{Players: map[string]*PlayerWork{}}
 		}

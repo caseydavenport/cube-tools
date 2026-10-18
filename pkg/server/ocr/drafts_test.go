@@ -138,7 +138,7 @@ func TestDraftsHandlerReportsConflicts(t *testing.T) {
 	sess := &Session{DraftID: d.ID, Players: map[string]*PlayerWork{
 		"p1": pool(entry("Brainstorm", 2)),
 	}}
-	if err := sess.Save(d.Dir); err != nil {
+	if err := sess.Save(d); err != nil {
 		t.Fatal(err)
 	}
 

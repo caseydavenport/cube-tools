@@ -2,13 +2,10 @@ package ocr
 
 import (
 	"encoding/json"
-	"os"
-	"path/filepath"
 
+	"github.com/caseydavenport/cube-tools/pkg/drafts"
 	ocrpkg "github.com/caseydavenport/cube-tools/pkg/ocr"
 )
-
-const sessionFileName = ".ocr-session.json"
 
 type Session struct {
 	DraftID int                    `json:"draft_id"`
@@ -57,16 +54,15 @@ type Source struct {
 	Box   ocrpkg.Bbox `json:"box"`
 }
 
-// LoadSession reads the working session from a draft directory. A missing
-// file yields an empty session, not an error.
-func LoadSession(draftDir string) (*Session, error) {
-	path := filepath.Join(draftDir, sessionFileName)
-	data, err := os.ReadFile(path)
-	if os.IsNotExist(err) {
-		return &Session{Players: map[string]*PlayerWork{}}, nil
-	}
+// LoadSession reads the draft's saved working session. A missing session
+// yields an empty one, not an error.
+func LoadSession(draft drafts.Draft) (*Session, error) {
+	data, err := draft.Session()
 	if err != nil {
 		return nil, err
+	}
+	if data == nil {
+		return &Session{Players: map[string]*PlayerWork{}}, nil
 	}
 	var s Session
 	if err := json.Unmarshal(data, &s); err != nil {
@@ -78,15 +74,11 @@ func LoadSession(draftDir string) (*Session, error) {
 	return &s, nil
 }
 
-// Save writes the session to the draft directory's .ocr-session.json.
-func (s *Session) Save(draftDir string) error {
-	path := filepath.Join(draftDir, sessionFileName)
-	if err := os.MkdirAll(filepath.Dir(path), 0o755); err != nil {
-		return err
-	}
+// Save writes the session as the draft's working state.
+func (s *Session) Save(draft drafts.Draft) error {
 	data, err := json.MarshalIndent(s, "", " ")
 	if err != nil {
 		return err
 	}
-	return os.WriteFile(path, data, 0o644)
+	return draft.SaveSession(data)
 }

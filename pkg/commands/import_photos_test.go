@@ -1,8 +1,10 @@
 package commands
 
 import (
+	"fmt"
 	"os"
 	"path/filepath"
+	"slices"
 	"testing"
 
 	"github.com/caseydavenport/cube-tools/pkg/drafts"
@@ -39,6 +41,24 @@ func TestScanPhotoFolder(t *testing.T) {
 		if got[i] != want[i] {
 			t.Fatalf("got %v, want %v", got, want)
 		}
+	}
+}
+
+func TestScanPhotoFolderNaturalOrder(t *testing.T) {
+	dir := t.TempDir()
+	var want []string
+	for n := 1; n <= 12; n++ {
+		name := fmt.Sprintf("photo%d.jpg", n)
+		writeFile(t, filepath.Join(dir, name))
+		want = append(want, name)
+	}
+
+	got, err := ScanPhotoFolder(dir)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if !slices.Equal(got, want) {
+		t.Fatalf("order = %v, want %v", got, want)
 	}
 }
 

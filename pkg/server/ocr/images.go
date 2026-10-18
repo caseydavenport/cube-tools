@@ -20,7 +20,7 @@ func ImageHandlerWithRoot(dataRoot string) http.Handler {
 			return
 		}
 		raw := r.PathValue("path")
-		cleanPath, ok := photoPath(draft, raw)
+		cleanPath, ok := draft.PhotoPath(raw)
 		if !ok {
 			logrus.WithFields(logrus.Fields{"draft": draft.ID, "path": raw}).Warn("Blocked invalid image path")
 			http.Error(rw, "Invalid path", http.StatusForbidden)

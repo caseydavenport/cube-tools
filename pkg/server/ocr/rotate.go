@@ -44,7 +44,7 @@ func RotateHandlerWithRoot(dataRoot string) http.Handler {
 			http.Error(rw, "Invalid direction", http.StatusBadRequest)
 			return
 		}
-		abs, ok := photoPath(draft, req.Photo)
+		abs, ok := draft.PhotoPath(req.Photo)
 		if !ok {
 			logrus.WithFields(logrus.Fields{"draft": draft.ID, "path": req.Photo}).Warn("Blocked invalid rotate path")
 			http.Error(rw, "Invalid path", http.StatusForbidden)
