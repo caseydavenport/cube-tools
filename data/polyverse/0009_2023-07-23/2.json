@@ -10,26 +10,20 @@
   "+1/+1",
   "ramp"
  ],
- "player": "grant",
+ "player_id": 9,
  "date": "2023-07-23",
  "matches": [
   {
-   "opponent": "casey",
    "opponent_id": 1,
    "round": 1,
    "wins": 0,
    "losses": 1,
    "draws": 0,
    "games": [
-    {
-     "opponent": "casey",
-     "winner": "casey"
-    }
-   ],
-   "winner": "casey"
+    {}
+   ]
   },
   {
-   "opponent": "jen",
    "opponent_id": 3,
    "round": 3,
    "wins": 1,
@@ -37,14 +31,11 @@
    "draws": 0,
    "games": [
     {
-     "opponent": "jen",
-     "winner": "grant"
+     "won": true
     }
-   ],
-   "winner": "grant"
+   ]
   },
   {
-   "opponent": "matt",
    "opponent_id": 4,
    "round": 2,
    "wins": 1,
@@ -52,11 +43,9 @@
    "draws": 0,
    "games": [
     {
-     "opponent": "matt",
-     "winner": "grant"
+     "won": true
     }
-   ],
-   "winner": "grant"
+   ]
   }
  ],
  "mainboard": [

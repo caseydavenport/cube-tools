@@ -10,11 +10,10 @@
  "labels": [
   "draw-go"
  ],
- "player": "colton",
+ "player_id": 17,
  "date": "2025-09-13",
  "matches": [
   {
-   "opponent": "leo",
    "opponent_id": 6,
    "round": 2,
    "wins": 2,
@@ -22,18 +21,14 @@
    "draws": 0,
    "games": [
     {
-     "opponent": "leo",
-     "winner": "colton"
+     "won": true
     },
     {
-     "opponent": "leo",
-     "winner": "colton"
+     "won": true
     }
-   ],
-   "winner": "colton"
+   ]
   },
   {
-   "opponent": "zephyr",
    "opponent_id": 7,
    "round": 1,
    "wins": 2,
@@ -41,15 +36,12 @@
    "draws": 0,
    "games": [
     {
-     "opponent": "zephyr",
-     "winner": "colton"
+     "won": true
     },
     {
-     "opponent": "zephyr",
-     "winner": "colton"
+     "won": true
     }
-   ],
-   "winner": "colton"
+   ]
   }
  ],
  "mainboard": [

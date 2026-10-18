@@ -10,11 +10,10 @@
  "labels": [
   "draw-go"
  ],
- "player": "colton",
+ "player_id": 17,
  "date": "2026-01-03",
  "matches": [
   {
-   "opponent": "wanqi",
    "opponent_id": 8,
    "round": 1,
    "wins": 2,
@@ -22,19 +21,13 @@
    "draws": 0,
    "games": [
     {
-     "opponent": "wanqi",
-     "winner": "colton"
+     "won": true
     },
     {
-     "opponent": "wanqi",
-     "winner": "colton"
+     "won": true
     },
-    {
-     "opponent": "wanqi",
-     "winner": "wanqi"
-    }
-   ],
-   "winner": "colton"
+    {}
+   ]
   }
  ],
  "mainboard": [

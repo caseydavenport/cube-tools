@@ -9,11 +9,9 @@
   "graveyard",
   "ramp"
  ],
- "player": "2025-10-04_ccc2025_2-p4",
  "date": "2025-10-04",
  "matches": [
   {
-   "opponent": "2025-10-04_ccc2025_2-p8",
    "opponent_id": 8,
    "round": 1,
    "wins": 1,
@@ -21,22 +19,13 @@
    "draws": 0,
    "games": [
     {
-     "opponent": "2025-10-04_ccc2025_2-p8",
-     "winner": "2025-10-04_ccc2025_2-p4"
+     "won": true
     },
-    {
-     "opponent": "2025-10-04_ccc2025_2-p8",
-     "winner": "2025-10-04_ccc2025_2-p8"
-    },
-    {
-     "opponent": "2025-10-04_ccc2025_2-p8",
-     "winner": "2025-10-04_ccc2025_2-p8"
-    }
-   ],
-   "winner": "2025-10-04_ccc2025_2-p8"
+    {},
+    {}
+   ]
   },
   {
-   "opponent": "2025-10-04_ccc2025_2-p5",
    "opponent_id": 5,
    "round": 2,
    "wins": 2,
@@ -44,18 +33,14 @@
    "draws": 0,
    "games": [
     {
-     "opponent": "2025-10-04_ccc2025_2-p5",
-     "winner": "2025-10-04_ccc2025_2-p4"
+     "won": true
     },
     {
-     "opponent": "2025-10-04_ccc2025_2-p5",
-     "winner": "2025-10-04_ccc2025_2-p4"
+     "won": true
     }
-   ],
-   "winner": "2025-10-04_ccc2025_2-p4"
+   ]
   },
   {
-   "opponent": "2025-10-04_ccc2025_2-p2",
    "opponent_id": 2,
    "round": 3,
    "wins": 1,
@@ -63,16 +48,10 @@
    "draws": 1,
    "games": [
     {
-     "opponent": "2025-10-04_ccc2025_2-p2",
-     "winner": "2025-10-04_ccc2025_2-p4"
+     "won": true
     },
+    {},
     {
-     "opponent": "2025-10-04_ccc2025_2-p2",
-     "winner": "2025-10-04_ccc2025_2-p2"
-    },
-    {
-     "opponent": "2025-10-04_ccc2025_2-p2",
-     "winner": "",
      "tie": true
     }
    ]

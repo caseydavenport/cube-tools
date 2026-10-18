@@ -9,11 +9,10 @@
  "labels": [
   "flicker"
  ],
- "player": "james",
+ "player_id": 6,
  "date": "2023-06-17",
  "matches": [
   {
-   "opponent": "",
    "wins": 0,
    "losses": 1,
    "draws": 0

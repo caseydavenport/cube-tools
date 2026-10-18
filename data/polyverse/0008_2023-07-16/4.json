@@ -9,56 +9,40 @@
  "labels": [
   "vampire"
  ],
- "player": "james",
+ "player_id": 6,
  "date": "2023-07-16",
  "matches": [
   {
-   "opponent": "casey",
    "opponent_id": 1,
    "round": 1,
    "wins": 0,
    "losses": 1,
    "draws": 0,
    "games": [
-    {
-     "opponent": "casey",
-     "winner": "casey"
-    }
-   ],
-   "winner": "casey"
+    {}
+   ]
   },
   {
-   "opponent": "dom",
    "opponent_id": 2,
    "round": 2,
    "wins": 0,
    "losses": 1,
    "draws": 0,
    "games": [
-    {
-     "opponent": "dom",
-     "winner": "dom"
-    }
-   ],
-   "winner": "dom"
+    {}
+   ]
   },
   {
-   "opponent": "greg",
    "opponent_id": 3,
    "round": 3,
    "wins": 0,
    "losses": 1,
    "draws": 0,
    "games": [
-    {
-     "opponent": "greg",
-     "winner": "greg"
-    }
-   ],
-   "winner": "greg"
+    {}
+   ]
   },
   {
-   "opponent": "xander",
    "opponent_id": 6,
    "round": 4,
    "wins": 1,
@@ -66,11 +50,9 @@
    "draws": 0,
    "games": [
     {
-     "opponent": "xander",
-     "winner": "james"
+     "won": true
     }
-   ],
-   "winner": "james"
+   ]
   }
  ],
  "mainboard": [

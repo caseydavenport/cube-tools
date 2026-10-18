@@ -9,11 +9,10 @@
   "discard",
   "cauldron"
  ],
- "player": "Casey",
+ "player_id": 1,
  "date": "2026-07-26",
  "matches": [
   {
-   "opponent": "Patrick",
    "opponent_id": 1,
    "round": 1,
    "wins": 0,
@@ -21,7 +20,6 @@
    "draws": 0
   },
   {
-   "opponent": "Isaiah",
    "opponent_id": 6,
    "round": 3,
    "wins": 1,

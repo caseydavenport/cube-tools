@@ -10,11 +10,10 @@
   "sacrifice",
   "token"
  ],
- "player": "kenny",
+ "player_id": 20,
  "date": "2025-06-12",
  "matches": [
   {
-   "opponent": "casey",
    "opponent_id": 1,
    "round": 1,
    "wins": 2,
@@ -22,18 +21,14 @@
    "draws": 0,
    "games": [
     {
-     "opponent": "casey",
-     "winner": "kenny"
+     "won": true
     },
     {
-     "opponent": "casey",
-     "winner": "kenny"
+     "won": true
     }
-   ],
-   "winner": "kenny"
+   ]
   },
   {
-   "opponent": "colton",
    "opponent_id": 2,
    "round": 2,
    "wins": 2,
@@ -41,18 +36,14 @@
    "draws": 0,
    "games": [
     {
-     "opponent": "colton",
-     "winner": "kenny"
+     "won": true
     },
     {
-     "opponent": "colton",
-     "winner": "kenny"
+     "won": true
     }
-   ],
-   "winner": "kenny"
+   ]
   },
   {
-   "opponent": "kevin",
    "opponent_id": 6,
    "round": 3,
    "wins": 2,
@@ -60,19 +51,13 @@
    "draws": 0,
    "games": [
     {
-     "opponent": "kevin",
-     "winner": "kenny"
+     "won": true
     },
     {
-     "opponent": "kevin",
-     "winner": "kenny"
+     "won": true
     },
-    {
-     "opponent": "kevin",
-     "winner": "kevin"
-    }
-   ],
-   "winner": "kenny"
+    {}
+   ]
   }
  ],
  "mainboard": [

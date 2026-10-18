@@ -8,35 +8,28 @@
  "labels": [
   "elementals"
  ],
- "player": "2026-06-20_bcp26_1-p2",
  "date": "2026-06-20",
  "matches": [
   {
-   "opponent": "2026-06-20_bcp26_1-p6",
    "opponent_id": 6,
    "round": 1,
    "wins": 0,
    "losses": 2,
-   "draws": 0,
-   "winner": "2026-06-20_bcp26_1-p6"
+   "draws": 0
   },
   {
-   "opponent": "2026-06-20_bcp26_1-p8",
    "opponent_id": 8,
    "round": 2,
    "wins": 0,
    "losses": 2,
-   "draws": 0,
-   "winner": "2026-06-20_bcp26_1-p8"
+   "draws": 0
   },
   {
-   "opponent": "2026-06-20_bcp26_1-p5",
    "opponent_id": 5,
    "round": 3,
    "wins": 2,
    "losses": 0,
-   "draws": 0,
-   "winner": "2026-06-20_bcp26_1-p2"
+   "draws": 0
   }
  ],
  "mainboard": [

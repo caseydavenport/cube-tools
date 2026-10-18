@@ -10,12 +10,11 @@
   "flicker",
   "graveyard"
  ],
- "player": "greg",
+ "player_id": 5,
  "date": "2024-05-14",
  "notes": "This deck leaned into [[Panharmonicon]]. It's been a while since we've seen a deck built like this, but when it shows up it's very strong.\n\nKey cards included:\n\n- [[Hostage Taker]], who is so brutal when the ETB is doubled up. Even managed to steal and deal with a resolved [[Gruff Triplets]].\n- [[Soul Warden]], who was just oppressive and will likely finally be coming out of the cube. I was already eyeing this one for being a feels-bad card, but it probably generated 30+ life across two games and so I feel confident in removing it now.\n- [[Panharmonicon]], which is often looked over in drafts but has a lot of potential clearly.\n- [[Halo Forager]] and [[Snapcaster Mage]], which allowed for awesome graveyard shenanigans like flashing back [[Wrath of God]] and [[Unearth]] in the same turn.\n\n",
  "matches": [
   {
-   "opponent": "casey",
    "opponent_id": 2,
    "round": 1,
    "wins": 1,
@@ -23,14 +22,11 @@
    "draws": 0,
    "games": [
     {
-     "opponent": "casey",
-     "winner": "greg"
+     "won": true
     }
-   ],
-   "winner": "greg"
+   ]
   },
   {
-   "opponent": "jen",
    "opponent_id": 6,
    "round": 2,
    "wins": 2,
@@ -38,18 +34,14 @@
    "draws": 0,
    "games": [
     {
-     "opponent": "jen",
-     "winner": "greg"
+     "won": true
     },
     {
-     "opponent": "jen",
-     "winner": "greg"
+     "won": true
     }
-   ],
-   "winner": "greg"
+   ]
   },
   {
-   "opponent": "paul",
    "opponent_id": 7,
    "round": 4,
    "wins": 2,
@@ -57,18 +49,14 @@
    "draws": 0,
    "games": [
     {
-     "opponent": "paul",
-     "winner": "greg"
+     "won": true
     },
     {
-     "opponent": "paul",
-     "winner": "greg"
+     "won": true
     }
-   ],
-   "winner": "greg"
+   ]
   },
   {
-   "opponent": "xander",
    "opponent_id": 8,
    "round": 3,
    "wins": 2,
@@ -76,15 +64,12 @@
    "draws": 0,
    "games": [
     {
-     "opponent": "xander",
-     "winner": "greg"
+     "won": true
     },
     {
-     "opponent": "xander",
-     "winner": "greg"
+     "won": true
     }
-   ],
-   "winner": "greg"
+   ]
   }
  ],
  "mainboard": [

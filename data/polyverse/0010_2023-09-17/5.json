@@ -9,26 +9,20 @@
  "labels": [
   "vampire"
  ],
- "player": "mattd",
+ "player_id": 10,
  "date": "2023-09-17",
  "matches": [
   {
-   "opponent": "james",
    "opponent_id": 3,
    "round": 3,
    "wins": 0,
    "losses": 1,
    "draws": 0,
    "games": [
-    {
-     "opponent": "james",
-     "winner": "james"
-    }
-   ],
-   "winner": "james"
+    {}
+   ]
   },
   {
-   "opponent": "jen",
    "opponent_id": 4,
    "round": 1,
    "wins": 1,
@@ -36,26 +30,19 @@
    "draws": 0,
    "games": [
     {
-     "opponent": "jen",
-     "winner": "mattd"
+     "won": true
     }
-   ],
-   "winner": "mattd"
+   ]
   },
   {
-   "opponent": "paul",
    "opponent_id": 6,
    "round": 2,
    "wins": 0,
    "losses": 1,
    "draws": 0,
    "games": [
-    {
-     "opponent": "paul",
-     "winner": "paul"
-    }
-   ],
-   "winner": "paul"
+    {}
+   ]
   }
  ],
  "mainboard": [

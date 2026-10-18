@@ -7,12 +7,11 @@
  "id": 5,
  "macro_archetype": "control",
  "labels": [],
- "player": "mehdi",
+ "player_id": 25,
  "date": "2025-06-29",
  "notes": "This deck did a lot of sideboarding, which was awesome - often swapping in white for board wipes.\n\nThe one thing Mehdi said it could use was another strong win condition.\n",
  "matches": [
   {
-   "opponent": "bryan",
    "opponent_id": 1,
    "round": 3,
    "wins": 1,
@@ -20,22 +19,13 @@
    "draws": 0,
    "games": [
     {
-     "opponent": "bryan",
-     "winner": "mehdi"
+     "won": true
     },
-    {
-     "opponent": "bryan",
-     "winner": "bryan"
-    },
-    {
-     "opponent": "bryan",
-     "winner": "bryan"
-    }
-   ],
-   "winner": "bryan"
+    {},
+    {}
+   ]
   },
   {
-   "opponent": "kevin",
    "opponent_id": 4,
    "round": 2,
    "wins": 2,
@@ -43,34 +33,23 @@
    "draws": 0,
    "games": [
     {
-     "opponent": "kevin",
-     "winner": "mehdi"
+     "won": true
     },
     {
-     "opponent": "kevin",
-     "winner": "mehdi"
+     "won": true
     }
-   ],
-   "winner": "mehdi"
+   ]
   },
   {
-   "opponent": "owen",
    "opponent_id": 6,
    "round": 1,
    "wins": 0,
    "losses": 2,
    "draws": 0,
    "games": [
-    {
-     "opponent": "owen",
-     "winner": "owen"
-    },
-    {
-     "opponent": "owen",
-     "winner": "owen"
-    }
-   ],
-   "winner": "owen"
+    {},
+    {}
+   ]
   }
  ],
  "mainboard": [

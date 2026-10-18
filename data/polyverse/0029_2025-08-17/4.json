@@ -10,12 +10,11 @@
   "coco",
   "ramp"
  ],
- "player": "jamesdeyja",
+ "player_id": 31,
  "date": "2025-08-17",
  "notes": "James P1P1'd Collected Company and ran with it - drafting a deck that was almost exclusively creatures with very little interaction.\n\nHe did splash blue for some games to play [[Man-O-War]] and said he got success in doing so!\n\nThis deck did some cool things - like recurring [[Collected Company]] with [[Eternal Witness]] and recurring [[Eternal Witness]] with [[Sevinne's Reclamation]].\n\nAlso solid reviews for [[Accursed Marauder]], who continues to justify his presence in the cube.\n\nJames recommended [[Reflector Mage]] as an option that would have gone well in his deck - and I largely agree, although Man-O-War is pretty similar and scratches that \"classic\" itch.\n",
  "matches": [
   {
-   "opponent": "brianfl",
    "opponent_id": 2,
    "round": 1,
    "wins": 2,
@@ -23,37 +22,25 @@
    "draws": 0,
    "games": [
     {
-     "opponent": "brianfl",
-     "winner": "jamesdeyja"
+     "won": true
     },
     {
-     "opponent": "brianfl",
-     "winner": "jamesdeyja"
+     "won": true
     }
-   ],
-   "winner": "jamesdeyja"
+   ]
   },
   {
-   "opponent": "casey",
    "opponent_id": 3,
    "round": 2,
    "wins": 0,
    "losses": 2,
    "draws": 0,
    "games": [
-    {
-     "opponent": "casey",
-     "winner": "casey"
-    },
-    {
-     "opponent": "casey",
-     "winner": "casey"
-    }
-   ],
-   "winner": "casey"
+    {},
+    {}
+   ]
   },
   {
-   "opponent": "wilson",
    "opponent_id": 8,
    "round": 3,
    "wins": 2,
@@ -61,15 +48,12 @@
    "draws": 0,
    "games": [
     {
-     "opponent": "wilson",
-     "winner": "jamesdeyja"
+     "won": true
     },
     {
-     "opponent": "wilson",
-     "winner": "jamesdeyja"
+     "won": true
     }
-   ],
-   "winner": "jamesdeyja"
+   ]
   }
  ],
  "mainboard": [

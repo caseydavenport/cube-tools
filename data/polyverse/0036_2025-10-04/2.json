@@ -8,11 +8,9 @@
  "labels": [
   "hatebears"
  ],
- "player": "2025-10-04_ccc2025_3-p2",
  "date": "2025-10-04",
  "matches": [
   {
-   "opponent": "2025-10-04_ccc2025_3-p8",
    "opponent_id": 8,
    "round": 2,
    "wins": 1,
@@ -20,41 +18,24 @@
    "draws": 0,
    "games": [
     {
-     "opponent": "2025-10-04_ccc2025_3-p8",
-     "winner": "2025-10-04_ccc2025_3-p2"
+     "won": true
     },
-    {
-     "opponent": "2025-10-04_ccc2025_3-p8",
-     "winner": "2025-10-04_ccc2025_3-p8"
-    },
-    {
-     "opponent": "2025-10-04_ccc2025_3-p8",
-     "winner": "2025-10-04_ccc2025_3-p8"
-    }
-   ],
-   "winner": "2025-10-04_ccc2025_3-p8"
+    {},
+    {}
+   ]
   },
   {
-   "opponent": "2025-10-04_ccc2025_3-p6",
    "opponent_id": 6,
    "round": 1,
    "wins": 0,
    "losses": 2,
    "draws": 0,
    "games": [
-    {
-     "opponent": "2025-10-04_ccc2025_3-p6",
-     "winner": "2025-10-04_ccc2025_3-p6"
-    },
-    {
-     "opponent": "2025-10-04_ccc2025_3-p6",
-     "winner": "2025-10-04_ccc2025_3-p6"
-    }
-   ],
-   "winner": "2025-10-04_ccc2025_3-p6"
+    {},
+    {}
+   ]
   },
   {
-   "opponent": "2025-10-04_ccc2025_3-p5",
    "opponent_id": 5,
    "round": 3,
    "wins": 2,
@@ -62,15 +43,12 @@
    "draws": 0,
    "games": [
     {
-     "opponent": "2025-10-04_ccc2025_3-p5",
-     "winner": "2025-10-04_ccc2025_3-p2"
+     "won": true
     },
     {
-     "opponent": "2025-10-04_ccc2025_3-p5",
-     "winner": "2025-10-04_ccc2025_3-p2"
+     "won": true
     }
-   ],
-   "winner": "2025-10-04_ccc2025_3-p2"
+   ]
   }
  ],
  "mainboard": [

@@ -9,11 +9,10 @@
  "labels": [
   "spells"
  ],
- "player": "xander",
+ "player_id": 4,
  "date": "2024-01-07",
  "matches": [
   {
-   "opponent": "casey",
    "opponent_id": 2,
    "round": 4,
    "wins": 2,
@@ -21,18 +20,14 @@
    "draws": 0,
    "games": [
     {
-     "opponent": "casey",
-     "winner": "xander"
+     "won": true
     },
     {
-     "opponent": "casey",
-     "winner": "xander"
+     "won": true
     }
-   ],
-   "winner": "xander"
+   ]
   },
   {
-   "opponent": "dom",
    "opponent_id": 3,
    "round": 5,
    "wins": 2,
@@ -40,34 +35,23 @@
    "draws": 0,
    "games": [
     {
-     "opponent": "dom",
-     "winner": "xander"
+     "won": true
     },
     {
-     "opponent": "dom",
-     "winner": "xander"
+     "won": true
     }
-   ],
-   "winner": "xander"
+   ]
   },
   {
-   "opponent": "greg",
    "opponent_id": 4,
    "round": 3,
    "wins": 0,
    "losses": 2,
    "draws": 0,
    "games": [
-    {
-     "opponent": "greg",
-     "winner": "greg"
-    },
-    {
-     "opponent": "greg",
-     "winner": "greg"
-    }
-   ],
-   "winner": "greg"
+    {},
+    {}
+   ]
   }
  ],
  "mainboard": [

@@ -8,11 +8,9 @@
  "labels": [
   "draw"
  ],
- "player": "2025-10-04_ccc2025_1-p1",
  "date": "2025-10-04",
  "matches": [
   {
-   "opponent": "2025-10-04_ccc2025_1-p6",
    "opponent_id": 6,
    "round": 1,
    "wins": 2,
@@ -20,18 +18,14 @@
    "draws": 0,
    "games": [
     {
-     "opponent": "2025-10-04_ccc2025_1-p6",
-     "winner": "2025-10-04_ccc2025_1-p1"
+     "won": true
     },
     {
-     "opponent": "2025-10-04_ccc2025_1-p6",
-     "winner": "2025-10-04_ccc2025_1-p1"
+     "won": true
     }
-   ],
-   "winner": "2025-10-04_ccc2025_1-p1"
+   ]
   },
   {
-   "opponent": "2025-10-04_ccc2025_1-p3",
    "opponent_id": 3,
    "round": 2,
    "wins": 2,
@@ -39,18 +33,14 @@
    "draws": 0,
    "games": [
     {
-     "opponent": "2025-10-04_ccc2025_1-p3",
-     "winner": "2025-10-04_ccc2025_1-p1"
+     "won": true
     },
     {
-     "opponent": "2025-10-04_ccc2025_1-p3",
-     "winner": "2025-10-04_ccc2025_1-p1"
+     "won": true
     }
-   ],
-   "winner": "2025-10-04_ccc2025_1-p1"
+   ]
   },
   {
-   "opponent": "2025-10-04_ccc2025_1-p5",
    "opponent_id": 5,
    "round": 3,
    "wins": 1,
@@ -58,19 +48,11 @@
    "draws": 0,
    "games": [
     {
-     "opponent": "2025-10-04_ccc2025_1-p5",
-     "winner": "2025-10-04_ccc2025_1-p1"
+     "won": true
     },
-    {
-     "opponent": "2025-10-04_ccc2025_1-p5",
-     "winner": "2025-10-04_ccc2025_1-p5"
-    },
-    {
-     "opponent": "2025-10-04_ccc2025_1-p5",
-     "winner": "2025-10-04_ccc2025_1-p5"
-    }
-   ],
-   "winner": "2025-10-04_ccc2025_1-p5"
+    {},
+    {}
+   ]
   }
  ],
  "mainboard": [

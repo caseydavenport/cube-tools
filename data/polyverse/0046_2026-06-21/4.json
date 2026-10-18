@@ -10,35 +10,28 @@
   "delney",
   "artifacts"
  ],
- "player": "2026-06-21_bcp26_2-p4",
  "date": "2026-06-21",
  "matches": [
   {
-   "opponent": "2026-06-21_bcp26_2-p8",
    "opponent_id": 8,
    "round": 1,
    "wins": 0,
    "losses": 2,
-   "draws": 0,
-   "winner": "2026-06-21_bcp26_2-p8"
+   "draws": 0
   },
   {
-   "opponent": "2026-06-21_bcp26_2-p2",
    "opponent_id": 2,
    "round": 2,
    "wins": 2,
    "losses": 1,
-   "draws": 0,
-   "winner": "2026-06-21_bcp26_2-p4"
+   "draws": 0
   },
   {
-   "opponent": "2026-06-21_bcp26_2-p7",
    "opponent_id": 7,
    "round": 3,
    "wins": 1,
    "losses": 2,
-   "draws": 0,
-   "winner": "2026-06-21_bcp26_2-p7"
+   "draws": 0
   }
  ],
  "mainboard": [

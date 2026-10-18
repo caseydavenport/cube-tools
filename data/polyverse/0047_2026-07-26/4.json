@@ -8,11 +8,10 @@
  "labels": [
   "draw"
  ],
- "player": "Darius",
+ "player_id": 42,
  "date": "2026-07-26",
  "matches": [
   {
-   "opponent": "Braf",
    "opponent_id": 8,
    "round": 1,
    "wins": 2,
@@ -20,7 +19,6 @@
    "draws": 0
   },
   {
-   "opponent": "Brett",
    "opponent_id": 3,
    "round": 2,
    "wins": 2,
@@ -28,7 +26,6 @@
    "draws": 0
   },
   {
-   "opponent": "An",
    "opponent_id": 7,
    "round": 3,
    "wins": 0,

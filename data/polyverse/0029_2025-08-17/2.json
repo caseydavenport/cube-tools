@@ -10,50 +10,33 @@
   "domain",
   "beans"
  ],
- "player": "brianfl",
+ "player_id": 30,
  "date": "2025-08-17",
  "notes": "Brian's deck actually has some bangers in it, but I think it was probably just a bit too greedy to see success. I worry that the domain cards will push folks beyond what is tactically sound...\n\nEither way, I am somewhat glad to see that a deck with [[Primevil Titan]], [[Dig Through Time]], [[Wrenn and Six]], [[Sylvan Library]], [[Esika's Chariot]] (i.e., a smattering of very good cards) isn't a shoe-in to win.\n\nI did see [[Woodland Wanderer]] get some play, and it looked cool! So a promising start.\n",
  "matches": [
   {
-   "opponent": "jamesdeyja",
    "opponent_id": 4,
    "round": 1,
    "wins": 0,
    "losses": 2,
    "draws": 0,
    "games": [
-    {
-     "opponent": "jamesdeyja",
-     "winner": "jamesdeyja"
-    },
-    {
-     "opponent": "jamesdeyja",
-     "winner": "jamesdeyja"
-    }
-   ],
-   "winner": "jamesdeyja"
+    {},
+    {}
+   ]
   },
   {
-   "opponent": "kevin",
    "opponent_id": 5,
    "round": 2,
    "wins": 0,
    "losses": 2,
    "draws": 0,
    "games": [
-    {
-     "opponent": "kevin",
-     "winner": "kevin"
-    },
-    {
-     "opponent": "kevin",
-     "winner": "kevin"
-    }
-   ],
-   "winner": "kevin"
+    {},
+    {}
+   ]
   },
   {
-   "opponent": "michael",
    "opponent_id": 7,
    "round": 4,
    "wins": 1,
@@ -61,19 +44,11 @@
    "draws": 0,
    "games": [
     {
-     "opponent": "michael",
-     "winner": "brianfl"
+     "won": true
     },
-    {
-     "opponent": "michael",
-     "winner": "michael"
-    },
-    {
-     "opponent": "michael",
-     "winner": "michael"
-    }
-   ],
-   "winner": "michael"
+    {},
+    {}
+   ]
   }
  ],
  "mainboard": [

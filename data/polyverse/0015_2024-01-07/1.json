@@ -11,11 +11,10 @@
   "vampire",
   "ramp"
  ],
- "player": "cara",
+ "player_id": 11,
  "date": "2024-01-07",
  "matches": [
   {
-   "opponent": "casey",
    "opponent_id": 2,
    "round": 3,
    "wins": 2,
@@ -23,22 +22,15 @@
    "draws": 0,
    "games": [
     {
-     "opponent": "casey",
-     "winner": "cara"
+     "won": true
     },
     {
-     "opponent": "casey",
-     "winner": "cara"
+     "won": true
     },
-    {
-     "opponent": "casey",
-     "winner": "casey"
-    }
-   ],
-   "winner": "cara"
+    {}
+   ]
   },
   {
-   "opponent": "dom",
    "opponent_id": 3,
    "round": 4,
    "wins": 2,
@@ -46,22 +38,15 @@
    "draws": 0,
    "games": [
     {
-     "opponent": "dom",
-     "winner": "cara"
+     "won": true
     },
     {
-     "opponent": "dom",
-     "winner": "cara"
+     "won": true
     },
-    {
-     "opponent": "dom",
-     "winner": "dom"
-    }
-   ],
-   "winner": "cara"
+    {}
+   ]
   },
   {
-   "opponent": "james",
    "opponent_id": 5,
    "round": 1,
    "wins": 2,
@@ -69,19 +54,13 @@
    "draws": 0,
    "games": [
     {
-     "opponent": "james",
-     "winner": "cara"
+     "won": true
     },
     {
-     "opponent": "james",
-     "winner": "cara"
+     "won": true
     },
-    {
-     "opponent": "james",
-     "winner": "james"
-    }
-   ],
-   "winner": "cara"
+    {}
+   ]
   }
  ],
  "mainboard": [

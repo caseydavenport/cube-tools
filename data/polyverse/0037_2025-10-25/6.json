@@ -10,11 +10,10 @@
  "labels": [
   "ramp"
  ],
- "player": "perry",
+ "player_id": 39,
  "date": "2025-10-25",
  "matches": [
   {
-   "opponent": "isaiah",
    "opponent_id": 3,
    "round": 1,
    "wins": 2,
@@ -22,22 +21,15 @@
    "draws": 0,
    "games": [
     {
-     "opponent": "isaiah",
-     "winner": "perry"
+     "won": true
     },
     {
-     "opponent": "isaiah",
-     "winner": "perry"
+     "won": true
     },
-    {
-     "opponent": "isaiah",
-     "winner": "isaiah"
-    }
-   ],
-   "winner": "perry"
+    {}
+   ]
   },
   {
-   "opponent": "jackson",
    "opponent_id": 4,
    "round": 3,
    "wins": 1,
@@ -45,22 +37,13 @@
    "draws": 0,
    "games": [
     {
-     "opponent": "jackson",
-     "winner": "perry"
+     "won": true
     },
-    {
-     "opponent": "jackson",
-     "winner": "jackson"
-    },
-    {
-     "opponent": "jackson",
-     "winner": "jackson"
-    }
-   ],
-   "winner": "jackson"
+    {},
+    {}
+   ]
   },
   {
-   "opponent": "mehdi",
    "opponent_id": 5,
    "round": 2,
    "wins": 1,
@@ -68,19 +51,11 @@
    "draws": 0,
    "games": [
     {
-     "opponent": "mehdi",
-     "winner": "perry"
+     "won": true
     },
-    {
-     "opponent": "mehdi",
-     "winner": "mehdi"
-    },
-    {
-     "opponent": "mehdi",
-     "winner": "mehdi"
-    }
-   ],
-   "winner": "mehdi"
+    {},
+    {}
+   ]
   }
  ],
  "mainboard": [

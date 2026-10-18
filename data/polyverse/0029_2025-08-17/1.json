@@ -7,12 +7,11 @@
  "id": 1,
  "macro_archetype": "aggro",
  "labels": [],
- "player": "ben",
+ "player_id": 29,
  "date": "2025-08-17",
  "notes": "This deck was the runner up in the trophy bracket. It was a Rakdos aggro deck splashing white for lingering souls.\n\nI didn't see too much of the gameplay unfortunately. It got out-aggro'd in the finals by the Boros embercleave deck.\n",
  "matches": [
   {
-   "opponent": "kevin",
    "opponent_id": 5,
    "round": 1,
    "wins": 1,
@@ -20,22 +19,13 @@
    "draws": 0,
    "games": [
     {
-     "opponent": "kevin",
-     "winner": "ben"
+     "won": true
     },
-    {
-     "opponent": "kevin",
-     "winner": "kevin"
-    },
-    {
-     "opponent": "kevin",
-     "winner": "kevin"
-    }
-   ],
-   "winner": "kevin"
+    {},
+    {}
+   ]
   },
   {
-   "opponent": "maxi",
    "opponent_id": 6,
    "round": 2,
    "wins": 2,
@@ -43,18 +33,14 @@
    "draws": 0,
    "games": [
     {
-     "opponent": "maxi",
-     "winner": "ben"
+     "won": true
     },
     {
-     "opponent": "maxi",
-     "winner": "ben"
+     "won": true
     }
-   ],
-   "winner": "ben"
+   ]
   },
   {
-   "opponent": "michael",
    "opponent_id": 7,
    "round": 3,
    "wins": 2,
@@ -62,19 +48,13 @@
    "draws": 0,
    "games": [
     {
-     "opponent": "michael",
-     "winner": "ben"
+     "won": true
     },
     {
-     "opponent": "michael",
-     "winner": "ben"
+     "won": true
     },
-    {
-     "opponent": "michael",
-     "winner": "michael"
-    }
-   ],
-   "winner": "ben"
+    {}
+   ]
   }
  ],
  "mainboard": [

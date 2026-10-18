@@ -9,11 +9,10 @@
  "labels": [
   "spells"
  ],
- "player": "jen",
+ "player_id": 3,
  "date": "2023-12-02",
  "matches": [
   {
-   "opponent": "cara",
    "opponent_id": 1,
    "round": 1,
    "wins": 2,
@@ -21,18 +20,14 @@
    "draws": 0,
    "games": [
     {
-     "opponent": "cara",
-     "winner": "jen"
+     "won": true
     },
     {
-     "opponent": "cara",
-     "winner": "jen"
+     "won": true
     }
-   ],
-   "winner": "jen"
+   ]
   },
   {
-   "opponent": "paul",
    "opponent_id": 7,
    "round": 3,
    "wins": 2,
@@ -40,38 +35,24 @@
    "draws": 0,
    "games": [
     {
-     "opponent": "paul",
-     "winner": "jen"
+     "won": true
     },
     {
-     "opponent": "paul",
-     "winner": "jen"
+     "won": true
     },
-    {
-     "opponent": "paul",
-     "winner": "paul"
-    }
-   ],
-   "winner": "jen"
+    {}
+   ]
   },
   {
-   "opponent": "xander",
    "opponent_id": 8,
    "round": 2,
    "wins": 0,
    "losses": 2,
    "draws": 0,
    "games": [
-    {
-     "opponent": "xander",
-     "winner": "xander"
-    },
-    {
-     "opponent": "xander",
-     "winner": "xander"
-    }
-   ],
-   "winner": "xander"
+    {},
+    {}
+   ]
   }
  ],
  "mainboard": [

@@ -9,26 +9,20 @@
  "labels": [
   "sacrifice"
  ],
- "player": "greg",
+ "player_id": 5,
  "date": "2024-01-07",
  "matches": [
   {
-   "opponent": "dom",
    "opponent_id": 3,
    "round": 2,
    "wins": 0,
    "losses": 1,
    "draws": 0,
    "games": [
-    {
-     "opponent": "dom",
-     "winner": "dom"
-    }
-   ],
-   "winner": "dom"
+    {}
+   ]
   },
   {
-   "opponent": "jen",
    "opponent_id": 6,
    "round": 1,
    "wins": 2,
@@ -36,41 +30,26 @@
    "draws": 0,
    "games": [
     {
-     "opponent": "jen",
-     "winner": "greg"
+     "won": true
     },
     {
-     "opponent": "jen",
-     "winner": "greg"
+     "won": true
     },
-    {
-     "opponent": "jen",
-     "winner": "jen"
-    }
-   ],
-   "winner": "greg"
+    {}
+   ]
   },
   {
-   "opponent": "paul",
    "opponent_id": 7,
    "round": 4,
    "wins": 0,
    "losses": 2,
    "draws": 0,
    "games": [
-    {
-     "opponent": "paul",
-     "winner": "paul"
-    },
-    {
-     "opponent": "paul",
-     "winner": "paul"
-    }
-   ],
-   "winner": "paul"
+    {},
+    {}
+   ]
   },
   {
-   "opponent": "xander",
    "opponent_id": 8,
    "round": 3,
    "wins": 2,
@@ -78,15 +57,12 @@
    "draws": 0,
    "games": [
     {
-     "opponent": "xander",
-     "winner": "greg"
+     "won": true
     },
     {
-     "opponent": "xander",
-     "winner": "greg"
+     "won": true
     }
-   ],
-   "winner": "greg"
+   ]
   }
  ],
  "mainboard": [

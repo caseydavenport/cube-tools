@@ -9,11 +9,10 @@
  "labels": [
   "voltron"
  ],
- "player": "xander",
+ "player_id": 4,
  "date": "2023-04-24",
  "matches": [
   {
-   "opponent": "",
    "wins": 1,
    "losses": 2,
    "draws": 0

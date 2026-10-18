@@ -9,25 +9,22 @@
   "lands",
   "domain"
  ],
- "player": "Mystic Tenny",
+ "player_id": 51,
  "date": "2026-10-13",
  "notes": "Mystic started off trying to build an aggro deck but ended up pivoting into what they described as \"4 color aggro\". Not how I'd describe this deck!\n\nMain win condition here seemed to be Titania, at least in my matchup, where most of the game was trying to stall / control until 5 mana to bring out Titania and get some big 5/3s \n\nI continue to love Titania here - really strong, hard to deal with, but still not oppressive. The three toughness means there are ways to deal with her. Just makes for fun games.\n\nWrenn and Six was tough to deal with at times. \n\nTerritorial Kavu and Leyline Binding were very cool in this deck, which regularly got to 5 basic land types in play. Cemetery Gatekeeper was also great at putting on the squeeze against my deck at least. \n\nLightstall Inquisitor is a bit annoying to track in paper to be honest - I can never remember if the card is exiled face up or down. Not super inspiring - might be a cut candidate. ",
  "matches": [
   {
-   "opponent": "Casey",
    "opponent_id": 1,
    "wins": 2,
    "losses": 1,
    "draws": 0
   },
   {
-   "opponent": "",
    "wins": 1,
    "losses": 0,
    "draws": 0
   },
   {
-   "opponent": "",
    "wins": 0,
    "losses": 1,
    "draws": 0

@@ -12,11 +12,10 @@
   "flicker",
   "token"
  ],
- "player": "mehdi",
+ "player_id": 25,
  "date": "2025-10-25",
  "matches": [
   {
-   "opponent": "perry",
    "opponent_id": 6,
    "round": 2,
    "wins": 2,
@@ -24,22 +23,15 @@
    "draws": 0,
    "games": [
     {
-     "opponent": "perry",
-     "winner": "mehdi"
+     "won": true
     },
     {
-     "opponent": "perry",
-     "winner": "mehdi"
+     "won": true
     },
-    {
-     "opponent": "perry",
-     "winner": "perry"
-    }
-   ],
-   "winner": "mehdi"
+    {}
+   ]
   },
   {
-   "opponent": "robert",
    "opponent_id": 7,
    "round": 3,
    "wins": 1,
@@ -47,38 +39,22 @@
    "draws": 0,
    "games": [
     {
-     "opponent": "robert",
-     "winner": "mehdi"
+     "won": true
     },
-    {
-     "opponent": "robert",
-     "winner": "robert"
-    },
-    {
-     "opponent": "robert",
-     "winner": "robert"
-    }
-   ],
-   "winner": "robert"
+    {},
+    {}
+   ]
   },
   {
-   "opponent": "taylor",
    "opponent_id": 8,
    "round": 5,
    "wins": 0,
    "losses": 2,
    "draws": 0,
    "games": [
-    {
-     "opponent": "taylor",
-     "winner": "taylor"
-    },
-    {
-     "opponent": "taylor",
-     "winner": "taylor"
-    }
-   ],
-   "winner": "taylor"
+    {},
+    {}
+   ]
   }
  ],
  "mainboard": [

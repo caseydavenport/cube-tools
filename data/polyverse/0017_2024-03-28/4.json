@@ -9,11 +9,10 @@
  "labels": [
   "sacrifice"
  ],
- "player": "ken",
+ "player_id": 14,
  "date": "2024-03-28",
  "matches": [
   {
-   "opponent": "alexs",
    "opponent_id": 1,
    "round": 2,
    "wins": 2,
@@ -21,18 +20,14 @@
    "draws": 0,
    "games": [
     {
-     "opponent": "alexs",
-     "winner": "ken"
+     "won": true
     },
     {
-     "opponent": "alexs",
-     "winner": "ken"
+     "won": true
     }
-   ],
-   "winner": "ken"
+   ]
   },
   {
-   "opponent": "casey",
    "opponent_id": 2,
    "round": 1,
    "wins": 2,
@@ -40,34 +35,23 @@
    "draws": 0,
    "games": [
     {
-     "opponent": "casey",
-     "winner": "ken"
+     "won": true
     },
     {
-     "opponent": "casey",
-     "winner": "ken"
+     "won": true
     }
-   ],
-   "winner": "ken"
+   ]
   },
   {
-   "opponent": "jan",
    "opponent_id": 3,
    "round": 3,
    "wins": 0,
    "losses": 2,
    "draws": 0,
    "games": [
-    {
-     "opponent": "jan",
-     "winner": "jan"
-    },
-    {
-     "opponent": "jan",
-     "winner": "jan"
-    }
-   ],
-   "winner": "jan"
+    {},
+    {}
+   ]
   }
  ],
  "mainboard": [

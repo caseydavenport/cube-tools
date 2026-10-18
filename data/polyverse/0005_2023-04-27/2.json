@@ -7,11 +7,10 @@
  "id": 2,
  "macro_archetype": "midrange",
  "labels": [],
- "player": "dom",
+ "player_id": 2,
  "date": "2023-04-27",
  "matches": [
   {
-   "opponent": "",
    "wins": 0,
    "losses": 1,
    "draws": 0

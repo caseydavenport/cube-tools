@@ -10,46 +10,30 @@
  "labels": [
   "lands"
  ],
- "player": "leo",
+ "player_id": 37,
  "date": "2025-09-13",
  "matches": [
   {
-   "opponent": "colton",
    "opponent_id": 2,
    "round": 2,
    "wins": 0,
    "losses": 2,
    "draws": 0,
    "games": [
-    {
-     "opponent": "colton",
-     "winner": "colton"
-    },
-    {
-     "opponent": "colton",
-     "winner": "colton"
-    }
-   ],
-   "winner": "colton"
+    {},
+    {}
+   ]
   },
   {
-   "opponent": "eric",
    "opponent_id": 3,
    "round": 3,
    "wins": 0,
    "losses": 2,
    "draws": 0,
    "games": [
-    {
-     "opponent": "eric",
-     "winner": "eric"
-    },
-    {
-     "opponent": "eric",
-     "winner": "eric"
-    }
-   ],
-   "winner": "eric"
+    {},
+    {}
+   ]
   }
  ],
  "mainboard": [

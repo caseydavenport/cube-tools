@@ -9,11 +9,10 @@
  "labels": [
   "lands"
  ],
- "player": "xander",
+ "player_id": 4,
  "date": "2025-05-26",
  "matches": [
   {
-   "opponent": "cara",
    "opponent_id": 1,
    "round": 2,
    "wins": 2,
@@ -21,18 +20,14 @@
    "draws": 0,
    "games": [
     {
-     "opponent": "cara",
-     "winner": "xander"
+     "won": true
     },
     {
-     "opponent": "cara",
-     "winner": "xander"
+     "won": true
     }
-   ],
-   "winner": "xander"
+   ]
   },
   {
-   "opponent": "greg",
    "opponent_id": 4,
    "round": 3,
    "wins": 2,
@@ -40,19 +35,13 @@
    "draws": 0,
    "games": [
     {
-     "opponent": "greg",
-     "winner": "xander"
+     "won": true
     },
     {
-     "opponent": "greg",
-     "winner": "xander"
+     "won": true
     },
-    {
-     "opponent": "greg",
-     "winner": "greg"
-    }
-   ],
-   "winner": "xander"
+    {}
+   ]
   }
  ],
  "mainboard": [

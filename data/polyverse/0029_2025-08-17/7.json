@@ -9,12 +9,11 @@
  "labels": [
   "draw"
  ],
- "player": "michael",
+ "player_id": 33,
  "date": "2025-08-17",
  "notes": "Michael went for a dimir control deck, that struggled a little bit. From looking at the list, I would guess it was lacking in early game interaction. It seems to have a fair bit at the top-end in terms of threats / win conditions, but I would guess he was often too far behind by the time the were deployed.\n\n[[Curator of Mysteries]] is sort of a dumb beater. It rarely is relelvant for either of it's cycling abilities. I suspect there is a more fun card I can find here, but for now the Curator is simple, clean, and solid enough.\n",
  "matches": [
   {
-   "opponent": "ben",
    "opponent_id": 1,
    "round": 3,
    "wins": 1,
@@ -22,22 +21,13 @@
    "draws": 0,
    "games": [
     {
-     "opponent": "ben",
-     "winner": "michael"
+     "won": true
     },
-    {
-     "opponent": "ben",
-     "winner": "ben"
-    },
-    {
-     "opponent": "ben",
-     "winner": "ben"
-    }
-   ],
-   "winner": "ben"
+    {},
+    {}
+   ]
   },
   {
-   "opponent": "brianfl",
    "opponent_id": 2,
    "round": 4,
    "wins": 2,
@@ -45,38 +35,24 @@
    "draws": 0,
    "games": [
     {
-     "opponent": "brianfl",
-     "winner": "michael"
+     "won": true
     },
     {
-     "opponent": "brianfl",
-     "winner": "michael"
+     "won": true
     },
-    {
-     "opponent": "brianfl",
-     "winner": "brianfl"
-    }
-   ],
-   "winner": "michael"
+    {}
+   ]
   },
   {
-   "opponent": "wilson",
    "opponent_id": 8,
    "round": 1,
    "wins": 0,
    "losses": 2,
    "draws": 0,
    "games": [
-    {
-     "opponent": "wilson",
-     "winner": "wilson"
-    },
-    {
-     "opponent": "wilson",
-     "winner": "wilson"
-    }
-   ],
-   "winner": "wilson"
+    {},
+    {}
+   ]
   }
  ],
  "mainboard": [

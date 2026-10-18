@@ -9,11 +9,10 @@
   "domain",
   "graveyard"
  ],
- "player": "Patrick",
+ "player_id": 44,
  "date": "2026-07-26",
  "matches": [
   {
-   "opponent": "Casey",
    "opponent_id": 5,
    "round": 1,
    "wins": 2,
@@ -21,7 +20,6 @@
    "draws": 0
   },
   {
-   "opponent": "Sarah",
    "opponent_id": 2,
    "round": 2,
    "wins": 2,
@@ -29,7 +27,6 @@
    "draws": 0
   },
   {
-   "opponent": "Brett",
    "opponent_id": 3,
    "round": 3,
    "wins": 1,

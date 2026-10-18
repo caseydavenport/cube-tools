@@ -9,35 +9,28 @@
   "saga",
   "token"
  ],
- "player": "2026-06-20_bcp26_1-p4",
  "date": "2026-06-20",
  "matches": [
   {
-   "opponent": "2026-06-20_bcp26_1-p8",
    "opponent_id": 8,
    "round": 1,
    "wins": 1,
    "losses": 2,
-   "draws": 0,
-   "winner": "2026-06-20_bcp26_1-p8"
+   "draws": 0
   },
   {
-   "opponent": "2026-06-20_bcp26_1-p3",
    "opponent_id": 3,
    "round": 2,
    "wins": 2,
    "losses": 0,
-   "draws": 0,
-   "winner": "2026-06-20_bcp26_1-p4"
+   "draws": 0
   },
   {
-   "opponent": "2026-06-20_bcp26_1-p7",
    "opponent_id": 7,
    "round": 3,
    "wins": 1,
    "losses": 2,
-   "draws": 0,
-   "winner": "2026-06-20_bcp26_1-p7"
+   "draws": 0
   }
  ],
  "mainboard": [

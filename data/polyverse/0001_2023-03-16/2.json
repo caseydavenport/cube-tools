@@ -9,11 +9,10 @@
  "labels": [
   "spells"
  ],
- "player": "jen",
+ "player_id": 3,
  "date": "2023-03-16",
  "matches": [
   {
-   "opponent": "",
    "wins": 1,
    "losses": 1,
    "draws": 0

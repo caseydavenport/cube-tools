@@ -9,12 +9,11 @@
  "labels": [
   "spells"
  ],
- "player": "zephyr",
+ "player_id": 28,
  "date": "2025-06-29",
  "notes": "Zephyr got the 3-0 this time with a prime example of an Izzet spells build. Some feedback:\n\n- Izzet spells is so easy to oversupport. In this case, Zephyr passed up a bunch of cantrips and still had plenty to work with in the end. This is something I'm aware of, but not sure yet what (if anything) to do about it.\n- Proft's Eidetic Memory was very strong - one of the main win conditions alongside Sprite Dragon and Thing in the Ice.\n- One option for trimming down this deck would be to cut some of the more generic burn spells in favor of more situational / synergy driven ones, or to reduce reach by e.g., using more sorcery or creature-only damage spells.\n- Counterspells felt good, according to Zephyr. Dropping a threat and protecting it to victory was a common play.\n- Archmage's Charm won him three games, stealing: Lost Jitte, Warden of the Inner Sky, and a Titania Token.\n",
  "matches": [
   {
-   "opponent": "joe2",
    "opponent_id": 3,
    "round": 2,
    "wins": 2,
@@ -22,22 +21,15 @@
    "draws": 0,
    "games": [
     {
-     "opponent": "joe2",
-     "winner": "zephyr"
+     "won": true
     },
     {
-     "opponent": "joe2",
-     "winner": "zephyr"
+     "won": true
     },
-    {
-     "opponent": "joe2",
-     "winner": "joe2"
-    }
-   ],
-   "winner": "zephyr"
+    {}
+   ]
   },
   {
-   "opponent": "kevin",
    "opponent_id": 4,
    "round": 3,
    "wins": 2,
@@ -45,18 +37,14 @@
    "draws": 0,
    "games": [
     {
-     "opponent": "kevin",
-     "winner": "zephyr"
+     "won": true
     },
     {
-     "opponent": "kevin",
-     "winner": "zephyr"
+     "won": true
     }
-   ],
-   "winner": "zephyr"
+   ]
   },
   {
-   "opponent": "tanner",
    "opponent_id": 7,
    "round": 1,
    "wins": 2,
@@ -64,19 +52,13 @@
    "draws": 0,
    "games": [
     {
-     "opponent": "tanner",
-     "winner": "zephyr"
+     "won": true
     },
     {
-     "opponent": "tanner",
-     "winner": "zephyr"
+     "won": true
     },
-    {
-     "opponent": "tanner",
-     "winner": "tanner"
-    }
-   ],
-   "winner": "zephyr"
+    {}
+   ]
   }
  ],
  "mainboard": [

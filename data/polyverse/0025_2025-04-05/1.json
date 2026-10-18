@@ -10,24 +10,19 @@
   "saga",
   "artifacts"
  ],
- "player": "casey",
+ "player_id": 1,
  "date": "2025-04-05",
  "notes": "Only played one game, but it didn't go super well for me. I made an early mistake which cost me this one. Namely, I tried to remove a [[Tarmogoyf]] and failed to see that my removal spell would buff it. I ended up losing [[Esper Sentinel]] in the aftermath, which even further buffed the 'Goyf. I eventually stabilized, but it cost me a lot to do so.\n\n- [[Esper Sentinel]] felt really good until I needlessly threw it away.\n- [[Lost Jitte]] was a bit underwhelming, but it came out once the game was already effectively lost to hard to say too much.\n- [[Harm's Way]] is what lost me this one. It's a nifty trick sometimes, but this felt pretty bad.\n",
  "matches": [
   {
-   "opponent": "dom",
    "opponent_id": 2,
    "round": 1,
    "wins": 0,
    "losses": 1,
    "draws": 0,
    "games": [
-    {
-     "opponent": "dom",
-     "winner": "dom"
-    }
-   ],
-   "winner": "dom"
+    {}
+   ]
   }
  ],
  "mainboard": [

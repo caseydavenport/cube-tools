@@ -9,11 +9,10 @@
  "labels": [
   "sacrifice"
  ],
- "player": "xander",
+ "player_id": 4,
  "date": "2023-04-27",
  "matches": [
   {
-   "opponent": "",
    "wins": 1,
    "losses": 0,
    "draws": 0

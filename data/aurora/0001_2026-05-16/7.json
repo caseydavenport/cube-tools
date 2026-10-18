@@ -9,35 +9,28 @@
   "merfolk",
   "faeries"
  ],
- "player": "2026-05-16_sfbcc_1-p7",
  "date": "2026-05-16",
  "matches": [
   {
-   "opponent": "2026-05-16_sfbcc_1-p3",
    "opponent_id": 3,
    "round": 1,
    "wins": 2,
    "losses": 1,
-   "draws": 0,
-   "winner": "2026-05-16_sfbcc_1-p7"
+   "draws": 0
   },
   {
-   "opponent": "2026-05-16_sfbcc_1-p2",
    "opponent_id": 2,
    "round": 2,
    "wins": 0,
    "losses": 2,
-   "draws": 0,
-   "winner": "2026-05-16_sfbcc_1-p2"
+   "draws": 0
   },
   {
-   "opponent": "2026-05-16_sfbcc_1-p5",
    "opponent_id": 5,
    "round": 3,
    "wins": 0,
    "losses": 2,
-   "draws": 0,
-   "winner": "2026-05-16_sfbcc_1-p5"
+   "draws": 0
   }
  ],
  "mainboard": [

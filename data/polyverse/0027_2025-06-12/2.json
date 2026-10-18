@@ -9,11 +9,10 @@
  "labels": [
   "spells"
  ],
- "player": "colton",
+ "player_id": 17,
  "date": "2025-06-12",
  "matches": [
   {
-   "opponent": "joe",
    "opponent_id": 3,
    "round": 1,
    "wins": 2,
@@ -21,41 +20,26 @@
    "draws": 0,
    "games": [
     {
-     "opponent": "joe",
-     "winner": "colton"
+     "won": true
     },
     {
-     "opponent": "joe",
-     "winner": "colton"
+     "won": true
     },
-    {
-     "opponent": "joe",
-     "winner": "joe"
-    }
-   ],
-   "winner": "colton"
+    {}
+   ]
   },
   {
-   "opponent": "kenny",
    "opponent_id": 5,
    "round": 2,
    "wins": 0,
    "losses": 2,
    "draws": 0,
    "games": [
-    {
-     "opponent": "kenny",
-     "winner": "kenny"
-    },
-    {
-     "opponent": "kenny",
-     "winner": "kenny"
-    }
-   ],
-   "winner": "kenny"
+    {},
+    {}
+   ]
   },
   {
-   "opponent": "sebastian",
    "opponent_id": 7,
    "round": 3,
    "wins": 2,
@@ -63,15 +47,12 @@
    "draws": 0,
    "games": [
     {
-     "opponent": "sebastian",
-     "winner": "colton"
+     "won": true
     },
     {
-     "opponent": "sebastian",
-     "winner": "colton"
+     "won": true
     }
-   ],
-   "winner": "colton"
+   ]
   }
  ],
  "mainboard": [

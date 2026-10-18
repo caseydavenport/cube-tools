@@ -7,26 +7,20 @@
  "id": 5,
  "macro_archetype": "aggro",
  "labels": [],
- "player": "mattd",
+ "player_id": 10,
  "date": "2023-10-21",
  "matches": [
   {
-   "opponent": "dom",
    "opponent_id": 2,
    "round": 2,
    "wins": 0,
    "losses": 1,
    "draws": 0,
    "games": [
-    {
-     "opponent": "dom",
-     "winner": "dom"
-    }
-   ],
-   "winner": "dom"
+    {}
+   ]
   },
   {
-   "opponent": "james",
    "opponent_id": 3,
    "round": 1,
    "wins": 1,
@@ -34,14 +28,11 @@
    "draws": 0,
    "games": [
     {
-     "opponent": "james",
-     "winner": "mattd"
+     "won": true
     }
-   ],
-   "winner": "mattd"
+   ]
   },
   {
-   "opponent": "xander",
    "opponent_id": 6,
    "round": 3,
    "wins": 1,
@@ -49,11 +40,9 @@
    "draws": 0,
    "games": [
     {
-     "opponent": "xander",
-     "winner": "mattd"
+     "won": true
     }
-   ],
-   "winner": "mattd"
+   ]
   }
  ],
  "mainboard": [

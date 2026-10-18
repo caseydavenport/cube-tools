@@ -9,11 +9,10 @@
  "labels": [
   "token"
  ],
- "player": "dom",
+ "player_id": 2,
  "date": "2023-10-15",
  "matches": [
   {
-   "opponent": "casey",
    "opponent_id": 1,
    "round": 1,
    "wins": 1,
@@ -21,19 +20,11 @@
    "draws": 0,
    "games": [
     {
-     "opponent": "casey",
-     "winner": "dom"
+     "won": true
     },
-    {
-     "opponent": "casey",
-     "winner": "casey"
-    },
-    {
-     "opponent": "casey",
-     "winner": "casey"
-    }
-   ],
-   "winner": "casey"
+    {},
+    {}
+   ]
   }
  ],
  "mainboard": [

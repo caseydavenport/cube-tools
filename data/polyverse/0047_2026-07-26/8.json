@@ -10,11 +10,10 @@
   "delirium",
   "coco"
  ],
- "player": "Braf",
+ "player_id": 49,
  "date": "2026-07-26",
  "matches": [
   {
-   "opponent": "Darius",
    "opponent_id": 4,
    "round": 1,
    "wins": 0,
@@ -22,7 +21,6 @@
    "draws": 0
   },
   {
-   "opponent": "An",
    "opponent_id": 7,
    "round": 2,
    "wins": 0,
@@ -30,7 +28,6 @@
    "draws": 0
   },
   {
-   "opponent": "Sarah",
    "opponent_id": 2,
    "round": 3,
    "wins": 1,

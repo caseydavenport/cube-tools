@@ -10,11 +10,10 @@
   "token",
   "flicker"
  ],
- "player": "jen",
+ "player_id": 3,
  "date": "2023-05-31",
  "matches": [
   {
-   "opponent": "",
    "wins": 2,
    "losses": 2,
    "draws": 0

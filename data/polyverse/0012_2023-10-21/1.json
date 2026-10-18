@@ -10,53 +10,38 @@
   "lands",
   "spells"
  ],
- "player": "casey",
+ "player_id": 1,
  "date": "2023-10-21",
  "matches": [
   {
-   "opponent": "dom",
    "opponent_id": 2,
    "round": 1,
    "wins": 0,
    "losses": 1,
    "draws": 0,
    "games": [
-    {
-     "opponent": "dom",
-     "winner": "dom"
-    }
-   ],
-   "winner": "dom"
+    {}
+   ]
   },
   {
-   "opponent": "james",
    "opponent_id": 3,
    "round": 3,
    "wins": 0,
    "losses": 1,
    "draws": 0,
    "games": [
-    {
-     "opponent": "james",
-     "winner": "james"
-    }
-   ],
-   "winner": "james"
+    {}
+   ]
   },
   {
-   "opponent": "xander",
    "opponent_id": 6,
    "round": 2,
    "wins": 0,
    "losses": 1,
    "draws": 0,
    "games": [
-    {
-     "opponent": "xander",
-     "winner": "xander"
-    }
-   ],
-   "winner": "xander"
+    {}
+   ]
   }
  ],
  "mainboard": [

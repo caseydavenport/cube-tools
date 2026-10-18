@@ -9,11 +9,10 @@
  "labels": [
   "equipment"
  ],
- "player": "casey",
+ "player_id": 1,
  "date": "2023-07-23",
  "matches": [
   {
-   "opponent": "grant",
    "opponent_id": 2,
    "round": 1,
    "wins": 1,
@@ -21,14 +20,11 @@
    "draws": 0,
    "games": [
     {
-     "opponent": "grant",
-     "winner": "casey"
+     "won": true
     }
-   ],
-   "winner": "casey"
+   ]
   },
   {
-   "opponent": "jen",
    "opponent_id": 3,
    "round": 2,
    "wins": 1,
@@ -36,14 +32,11 @@
    "draws": 0,
    "games": [
     {
-     "opponent": "jen",
-     "winner": "casey"
+     "won": true
     }
-   ],
-   "winner": "casey"
+   ]
   },
   {
-   "opponent": "matt",
    "opponent_id": 4,
    "round": 3,
    "wins": 1,
@@ -51,11 +44,9 @@
    "draws": 0,
    "games": [
     {
-     "opponent": "matt",
-     "winner": "casey"
+     "won": true
     }
-   ],
-   "winner": "casey"
+   ]
   }
  ],
  "mainboard": [

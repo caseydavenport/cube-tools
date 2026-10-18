@@ -9,49 +9,32 @@
  "labels": [
   "spells"
  ],
- "player": "sebastian",
+ "player_id": 22,
  "date": "2025-06-12",
  "matches": [
   {
-   "opponent": "casey",
    "opponent_id": 1,
    "round": 2,
    "wins": 0,
    "losses": 2,
    "draws": 0,
    "games": [
-    {
-     "opponent": "casey",
-     "winner": "casey"
-    },
-    {
-     "opponent": "casey",
-     "winner": "casey"
-    }
-   ],
-   "winner": "casey"
+    {},
+    {}
+   ]
   },
   {
-   "opponent": "colton",
    "opponent_id": 2,
    "round": 3,
    "wins": 0,
    "losses": 2,
    "draws": 0,
    "games": [
-    {
-     "opponent": "colton",
-     "winner": "colton"
-    },
-    {
-     "opponent": "colton",
-     "winner": "colton"
-    }
-   ],
-   "winner": "colton"
+    {},
+    {}
+   ]
   },
   {
-   "opponent": "joe2",
    "opponent_id": 4,
    "round": 1,
    "wins": 2,
@@ -59,15 +42,12 @@
    "draws": 0,
    "games": [
     {
-     "opponent": "joe2",
-     "winner": "sebastian"
+     "won": true
     },
     {
-     "opponent": "joe2",
-     "winner": "sebastian"
+     "won": true
     }
-   ],
-   "winner": "sebastian"
+   ]
   }
  ],
  "mainboard": [

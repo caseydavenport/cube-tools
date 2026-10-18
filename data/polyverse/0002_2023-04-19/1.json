@@ -9,11 +9,10 @@
  "labels": [
   "sacrifice"
  ],
- "player": "casey",
+ "player_id": 1,
  "date": "2023-04-19",
  "matches": [
   {
-   "opponent": "",
    "wins": 1,
    "losses": 1,
    "draws": 0

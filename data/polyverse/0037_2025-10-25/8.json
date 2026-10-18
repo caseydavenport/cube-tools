@@ -8,11 +8,10 @@
  "id": 8,
  "macro_archetype": "aggro",
  "labels": [],
- "player": "taylor",
+ "player_id": 41,
  "date": "2025-10-25",
  "matches": [
   {
-   "opponent": "casey",
    "opponent_id": 1,
    "round": 1,
    "wins": 1,
@@ -20,79 +19,46 @@
    "draws": 0,
    "games": [
     {
-     "opponent": "casey",
-     "winner": "taylor"
+     "won": true
     },
-    {
-     "opponent": "casey",
-     "winner": "casey"
-    },
-    {
-     "opponent": "casey",
-     "winner": "casey"
-    }
-   ],
-   "winner": "casey"
+    {},
+    {}
+   ]
   },
   {
-   "opponent": "colton",
    "opponent_id": 2,
    "round": 2,
    "wins": 0,
    "losses": 2,
    "draws": 0,
    "games": [
-    {
-     "opponent": "colton",
-     "winner": "colton"
-    },
-    {
-     "opponent": "colton",
-     "winner": "colton"
-    }
-   ],
-   "winner": "colton"
+    {},
+    {}
+   ]
   },
   {
-   "opponent": "isaiah",
    "opponent_id": 3,
    "round": 3,
    "wins": 0,
    "losses": 2,
    "draws": 0,
    "games": [
-    {
-     "opponent": "isaiah",
-     "winner": "isaiah"
-    },
-    {
-     "opponent": "isaiah",
-     "winner": "isaiah"
-    }
-   ],
-   "winner": "isaiah"
+    {},
+    {}
+   ]
   },
   {
-   "opponent": "jackson",
    "opponent_id": 4,
    "round": 4,
    "wins": 0,
    "losses": 2,
    "draws": 0,
    "games": [
-    {
-     "opponent": "jackson",
-     "winner": "jackson"
-    },
-    {
-     "opponent": "jackson",
-     "winner": "jackson"
-    }
-   ],
-   "winner": "jackson"
+    {},
+    {}
+   ]
   },
   {
-   "opponent": "mehdi",
    "opponent_id": 5,
    "round": 5,
    "wins": 2,
@@ -100,15 +66,12 @@
    "draws": 0,
    "games": [
     {
-     "opponent": "mehdi",
-     "winner": "taylor"
+     "won": true
     },
     {
-     "opponent": "mehdi",
-     "winner": "taylor"
+     "won": true
     }
-   ],
-   "winner": "taylor"
+   ]
   }
  ],
  "mainboard": [

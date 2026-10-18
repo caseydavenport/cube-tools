@@ -10,38 +10,28 @@
   "+1/+1",
   "spells"
  ],
- "player": "jen",
+ "player_id": 3,
  "date": "2023-10-21",
  "matches": [
   {
-   "opponent": "dom",
    "opponent_id": 2,
    "round": 3,
    "wins": 0,
    "losses": 1,
    "draws": 0,
    "games": [
-    {
-     "opponent": "dom",
-     "winner": "dom"
-    }
-   ],
-   "winner": "dom"
+    {}
+   ]
   },
   {
-   "opponent": "xander",
    "opponent_id": 6,
    "round": 1,
    "wins": 0,
    "losses": 1,
    "draws": 0,
    "games": [
-    {
-     "opponent": "xander",
-     "winner": "xander"
-    }
-   ],
-   "winner": "xander"
+    {}
+   ]
   }
  ],
  "mainboard": [

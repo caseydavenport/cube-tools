@@ -9,11 +9,10 @@
  "labels": [
   "+1/+1"
  ],
- "player": "grant",
+ "player_id": 9,
  "date": "2023-05-31",
  "matches": [
   {
-   "opponent": "",
    "wins": 4,
    "losses": 1,
    "draws": 0

@@ -11,11 +11,10 @@
   "artifacts",
   "sacrifice"
  ],
- "player": "kaiyo",
+ "player_id": 43,
  "date": "2026-01-03",
  "matches": [
   {
-   "opponent": "isaiah",
    "opponent_id": 4,
    "round": 1,
    "wins": 2,
@@ -23,34 +22,23 @@
    "draws": 0,
    "games": [
     {
-     "opponent": "isaiah",
-     "winner": "kaiyo"
+     "won": true
     },
     {
-     "opponent": "isaiah",
-     "winner": "kaiyo"
+     "won": true
     }
-   ],
-   "winner": "kaiyo"
+   ]
   },
   {
-   "opponent": "jackson",
    "opponent_id": 5,
    "round": 2,
    "wins": 0,
    "losses": 2,
    "draws": 0,
    "games": [
-    {
-     "opponent": "jackson",
-     "winner": "jackson"
-    },
-    {
-     "opponent": "jackson",
-     "winner": "jackson"
-    }
-   ],
-   "winner": "jackson"
+    {},
+    {}
+   ]
   }
  ],
  "mainboard": [

@@ -9,23 +9,18 @@
  "labels": [
   "draw-go"
  ],
- "player": "casey",
+ "player_id": 1,
  "date": "2025-08-31",
  "matches": [
   {
-   "opponent": "dom",
    "opponent_id": 2,
    "round": 1,
    "wins": 0,
    "losses": 1,
    "draws": 0,
    "games": [
-    {
-     "opponent": "dom",
-     "winner": "dom"
-    }
-   ],
-   "winner": "dom"
+    {}
+   ]
   }
  ],
  "mainboard": [

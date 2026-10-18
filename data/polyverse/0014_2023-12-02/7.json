@@ -9,11 +9,10 @@
  "labels": [
   "goodstuff"
  ],
- "player": "paul",
+ "player_id": 7,
  "date": "2023-12-02",
  "matches": [
   {
-   "opponent": "cara",
    "opponent_id": 1,
    "round": 2,
    "wins": 1,
@@ -21,22 +20,13 @@
    "draws": 0,
    "games": [
     {
-     "opponent": "cara",
-     "winner": "paul"
+     "won": true
     },
-    {
-     "opponent": "cara",
-     "winner": "cara"
-    },
-    {
-     "opponent": "cara",
-     "winner": "cara"
-    }
-   ],
-   "winner": "cara"
+    {},
+    {}
+   ]
   },
   {
-   "opponent": "jen",
    "opponent_id": 6,
    "round": 3,
    "wins": 1,
@@ -44,22 +34,13 @@
    "draws": 0,
    "games": [
     {
-     "opponent": "jen",
-     "winner": "paul"
+     "won": true
     },
-    {
-     "opponent": "jen",
-     "winner": "jen"
-    },
-    {
-     "opponent": "jen",
-     "winner": "jen"
-    }
-   ],
-   "winner": "jen"
+    {},
+    {}
+   ]
   },
   {
-   "opponent": "xander",
    "opponent_id": 8,
    "round": 1,
    "wins": 1,
@@ -67,19 +48,11 @@
    "draws": 0,
    "games": [
     {
-     "opponent": "xander",
-     "winner": "paul"
+     "won": true
     },
-    {
-     "opponent": "xander",
-     "winner": "xander"
-    },
-    {
-     "opponent": "xander",
-     "winner": "xander"
-    }
-   ],
-   "winner": "xander"
+    {},
+    {}
+   ]
   }
  ],
  "mainboard": [

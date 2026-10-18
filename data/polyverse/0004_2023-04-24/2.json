@@ -9,11 +9,10 @@
  "labels": [
   "token"
  ],
- "player": "dom",
+ "player_id": 2,
  "date": "2023-04-24",
  "matches": [
   {
-   "opponent": "",
    "wins": 2,
    "losses": 1,
    "draws": 0

@@ -10,26 +10,20 @@
  "labels": [
   "draw-go"
  ],
- "player": "colton",
+ "player_id": 17,
  "date": "2025-10-25",
  "matches": [
   {
-   "opponent": "casey",
    "opponent_id": 1,
    "round": 3,
    "wins": 0,
    "losses": 1,
    "draws": 0,
    "games": [
-    {
-     "opponent": "casey",
-     "winner": "casey"
-    }
-   ],
-   "winner": "casey"
+    {}
+   ]
   },
   {
-   "opponent": "robert",
    "opponent_id": 7,
    "round": 1,
    "wins": 2,
@@ -37,22 +31,15 @@
    "draws": 0,
    "games": [
     {
-     "opponent": "robert",
-     "winner": "colton"
+     "won": true
     },
     {
-     "opponent": "robert",
-     "winner": "colton"
+     "won": true
     },
-    {
-     "opponent": "robert",
-     "winner": "robert"
-    }
-   ],
-   "winner": "colton"
+    {}
+   ]
   },
   {
-   "opponent": "taylor",
    "opponent_id": 8,
    "round": 2,
    "wins": 2,
@@ -60,15 +47,12 @@
    "draws": 0,
    "games": [
     {
-     "opponent": "taylor",
-     "winner": "colton"
+     "won": true
     },
     {
-     "opponent": "taylor",
-     "winner": "colton"
+     "won": true
     }
-   ],
-   "winner": "colton"
+   ]
   }
  ],
  "mainboard": [

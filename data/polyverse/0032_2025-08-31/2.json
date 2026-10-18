@@ -11,23 +11,18 @@
   "coco",
   "ramp"
  ],
- "player": "dom",
+ "player_id": 2,
  "date": "2025-08-31",
  "matches": [
   {
-   "opponent": "casey",
    "opponent_id": 1,
    "round": 1,
    "wins": 0,
    "losses": 1,
    "draws": 0,
    "games": [
-    {
-     "opponent": "casey",
-     "winner": "casey"
-    }
-   ],
-   "winner": "casey"
+    {}
+   ]
   }
  ],
  "mainboard": [

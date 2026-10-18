@@ -12,30 +12,21 @@
   "lands",
   "ramp"
  ],
- "player": "jen",
+ "player_id": 3,
  "date": "2025-05-26",
  "matches": [
   {
-   "opponent": "greg",
    "opponent_id": 4,
    "round": 1,
    "wins": 0,
    "losses": 2,
    "draws": 0,
    "games": [
-    {
-     "opponent": "greg",
-     "winner": "greg"
-    },
-    {
-     "opponent": "greg",
-     "winner": "greg"
-    }
-   ],
-   "winner": "greg"
+    {},
+    {}
+   ]
   },
   {
-   "opponent": "james",
    "opponent_id": 5,
    "round": 2,
    "wins": 2,
@@ -43,15 +34,12 @@
    "draws": 0,
    "games": [
     {
-     "opponent": "james",
-     "winner": "jen"
+     "won": true
     },
     {
-     "opponent": "james",
-     "winner": "jen"
+     "won": true
     }
-   ],
-   "winner": "jen"
+   ]
   }
  ],
  "mainboard": [

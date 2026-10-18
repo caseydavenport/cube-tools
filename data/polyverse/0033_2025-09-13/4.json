@@ -10,11 +10,10 @@
  "labels": [
   "token"
  ],
- "player": "isaiah",
+ "player_id": 36,
  "date": "2025-09-13",
  "matches": [
   {
-   "opponent": "casey",
    "opponent_id": 1,
    "round": 3,
    "wins": 2,
@@ -22,37 +21,25 @@
    "draws": 0,
    "games": [
     {
-     "opponent": "casey",
-     "winner": "isaiah"
+     "won": true
     },
     {
-     "opponent": "casey",
-     "winner": "isaiah"
+     "won": true
     }
-   ],
-   "winner": "isaiah"
+   ]
   },
   {
-   "opponent": "eric",
    "opponent_id": 3,
    "round": 1,
    "wins": 0,
    "losses": 2,
    "draws": 0,
    "games": [
-    {
-     "opponent": "eric",
-     "winner": "eric"
-    },
-    {
-     "opponent": "eric",
-     "winner": "eric"
-    }
-   ],
-   "winner": "eric"
+    {},
+    {}
+   ]
   },
   {
-   "opponent": "joe",
    "opponent_id": 5,
    "round": 2,
    "wins": 1,
@@ -60,19 +47,11 @@
    "draws": 0,
    "games": [
     {
-     "opponent": "joe",
-     "winner": "isaiah"
+     "won": true
     },
-    {
-     "opponent": "joe",
-     "winner": "joe"
-    },
-    {
-     "opponent": "joe",
-     "winner": "joe"
-    }
-   ],
-   "winner": "joe"
+    {},
+    {}
+   ]
   }
  ],
  "mainboard": [

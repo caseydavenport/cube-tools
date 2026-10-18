@@ -9,42 +9,29 @@
  "labels": [
   "spells"
  ],
- "player": "james",
+ "player_id": 6,
  "date": "2025-05-26",
  "matches": [
   {
-   "opponent": "cara",
    "opponent_id": 1,
    "round": 1,
    "wins": 0,
    "losses": 1,
    "draws": 0,
    "games": [
-    {
-     "opponent": "cara",
-     "winner": "cara"
-    }
-   ],
-   "winner": "cara"
+    {}
+   ]
   },
   {
-   "opponent": "jen",
    "opponent_id": 6,
    "round": 2,
    "wins": 0,
    "losses": 2,
    "draws": 0,
    "games": [
-    {
-     "opponent": "jen",
-     "winner": "jen"
-    },
-    {
-     "opponent": "jen",
-     "winner": "jen"
-    }
-   ],
-   "winner": "jen"
+    {},
+    {}
+   ]
   }
  ],
  "mainboard": [

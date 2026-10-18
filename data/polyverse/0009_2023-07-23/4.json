@@ -11,53 +11,38 @@
   "graveyard",
   "vampire"
  ],
- "player": "matt",
+ "player_id": 8,
  "date": "2023-07-23",
  "matches": [
   {
-   "opponent": "casey",
    "opponent_id": 1,
    "round": 3,
    "wins": 0,
    "losses": 1,
    "draws": 0,
    "games": [
-    {
-     "opponent": "casey",
-     "winner": "casey"
-    }
-   ],
-   "winner": "casey"
+    {}
+   ]
   },
   {
-   "opponent": "grant",
    "opponent_id": 2,
    "round": 2,
    "wins": 0,
    "losses": 1,
    "draws": 0,
    "games": [
-    {
-     "opponent": "grant",
-     "winner": "grant"
-    }
-   ],
-   "winner": "grant"
+    {}
+   ]
   },
   {
-   "opponent": "jen",
    "opponent_id": 3,
    "round": 1,
    "wins": 0,
    "losses": 1,
    "draws": 0,
    "games": [
-    {
-     "opponent": "jen",
-     "winner": "jen"
-    }
-   ],
-   "winner": "jen"
+    {}
+   ]
   }
  ],
  "mainboard": [

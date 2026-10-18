@@ -9,25 +9,22 @@
   "recursion",
   "shadow"
  ],
- "player": "Jon Miller",
+ "player_id": 50,
  "date": "2026-10-13",
  "notes": "Dreadhorde Arcanist was great here in the match against me. The 3 toughness was super relevant, and was able to re-cast many of his 1-mana instants / sorceries. \n\nBloodsky Berserker was also quite valuable, getting 4 counters quite easily. \n\nEmbercleave was always a game changing surprise, even on a 1/1. Not unbeatable but certainly tough!\n\nDeath's Shadow was solid. \n\nFun deck to play against. ",
  "matches": [
   {
-   "opponent": "Casey",
    "opponent_id": 1,
    "wins": 1,
    "losses": 1,
    "draws": 0
   },
   {
-   "opponent": "",
    "wins": 1,
    "losses": 0,
    "draws": 0
   },
   {
-   "opponent": "",
    "wins": 0,
    "losses": 1,
    "draws": 0

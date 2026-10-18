@@ -9,29 +9,23 @@
  "labels": [
   "draw-go"
  ],
- "player": "2026-01-18_p1p12026_1-p6",
  "date": "2026-01-18",
  "matches": [
   {
-   "opponent": "2026-01-18_p1p12026_1-p2",
    "opponent_id": 2,
    "round": 1,
    "wins": 1,
    "losses": 2,
-   "draws": 0,
-   "winner": "2026-01-18_p1p12026_1-p2"
+   "draws": 0
   },
   {
-   "opponent": "2026-01-18_p1p12026_1-p1",
    "opponent_id": 1,
    "round": 2,
    "wins": 0,
    "losses": 2,
-   "draws": 0,
-   "winner": "2026-01-18_p1p12026_1-p1"
+   "draws": 0
   },
   {
-   "opponent": "2026-01-18_p1p12026_1-p4",
    "opponent_id": 4,
    "round": 3,
    "wins": 1,

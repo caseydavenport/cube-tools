@@ -7,11 +7,10 @@
  "id": 7,
  "macro_archetype": "aggro",
  "labels": [],
- "player": "paul",
+ "player_id": 7,
  "date": "2024-05-14",
  "matches": [
   {
-   "opponent": "casey",
    "opponent_id": 2,
    "round": 3,
    "wins": 2,
@@ -19,38 +18,24 @@
    "draws": 0,
    "games": [
     {
-     "opponent": "casey",
-     "winner": "paul"
+     "won": true
     },
     {
-     "opponent": "casey",
-     "winner": "paul"
+     "won": true
     },
-    {
-     "opponent": "casey",
-     "winner": "casey"
-    }
-   ],
-   "winner": "paul"
+    {}
+   ]
   },
   {
-   "opponent": "greg",
    "opponent_id": 4,
    "round": 4,
    "wins": 0,
    "losses": 2,
    "draws": 0,
    "games": [
-    {
-     "opponent": "greg",
-     "winner": "greg"
-    },
-    {
-     "opponent": "greg",
-     "winner": "greg"
-    }
-   ],
-   "winner": "greg"
+    {},
+    {}
+   ]
   }
  ],
  "mainboard": [

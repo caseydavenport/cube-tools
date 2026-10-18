@@ -10,41 +10,30 @@
   "vampire",
   "sacrifice"
  ],
- "player": "jen",
+ "player_id": 3,
  "date": "2023-07-23",
  "matches": [
   {
-   "opponent": "casey",
    "opponent_id": 1,
    "round": 2,
    "wins": 0,
    "losses": 1,
    "draws": 0,
    "games": [
-    {
-     "opponent": "casey",
-     "winner": "casey"
-    }
-   ],
-   "winner": "casey"
+    {}
+   ]
   },
   {
-   "opponent": "grant",
    "opponent_id": 2,
    "round": 3,
    "wins": 0,
    "losses": 1,
    "draws": 0,
    "games": [
-    {
-     "opponent": "grant",
-     "winner": "grant"
-    }
-   ],
-   "winner": "grant"
+    {}
+   ]
   },
   {
-   "opponent": "matt",
    "opponent_id": 4,
    "round": 1,
    "wins": 1,
@@ -52,11 +41,9 @@
    "draws": 0,
    "games": [
     {
-     "opponent": "matt",
-     "winner": "jen"
+     "won": true
     }
-   ],
-   "winner": "jen"
+   ]
   }
  ],
  "mainboard": [

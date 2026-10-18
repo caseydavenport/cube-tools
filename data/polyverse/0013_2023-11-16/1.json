@@ -9,11 +9,10 @@
  "labels": [
   "spells"
  ],
- "player": "casey",
+ "player_id": 1,
  "date": "2023-11-16",
  "matches": [
   {
-   "opponent": "dom",
    "opponent_id": 2,
    "round": 1,
    "wins": 1,
@@ -21,11 +20,9 @@
    "draws": 0,
    "games": [
     {
-     "opponent": "dom",
-     "winner": "casey"
+     "won": true
     }
-   ],
-   "winner": "casey"
+   ]
   }
  ],
  "mainboard": [

@@ -10,12 +10,11 @@
   "flicker",
   "coco"
  ],
- "player": "joe2",
+ "player_id": 19,
  "date": "2025-06-29",
  "notes": "Joe had to dip a bit early, but he was my first matchup, where he beat me soundly. He pivoted mid draft to pick up a Collected Company and I think just barely met the creature threshold for it to pay off. It certainly did the one time he cast it against me!\n\nTwo first turn Mother of Runes were impossible for me to deal with, and solidified my hunch going in to this draft that Mom doesn't belong here. Interactivity is too important.\n\nJoe's deck did go off with a few things:\n\n- Phelia was his first pick, and was very solid. Another card that demands removal, and might not have been so bad without Mom on the field.\n- Warden of the Inner Sky was very cool, using its own ability to add counters (with multiple bodies from Thraben Inspector) as well as...\n- Lost Jitte saw its first real playing time and Joe reported it as underwhelming - only being used for counters. Pumping up Warden was great in the matchup against me, and it was used for untapping lands to double spell for Clarion Spirit.\n- werefox Bodyguard did well against me, but I had little in the way of counterplay.\n",
  "matches": [
   {
-   "opponent": "casey",
    "opponent_id": 2,
    "round": 3,
    "wins": 2,
@@ -23,18 +22,14 @@
    "draws": 0,
    "games": [
     {
-     "opponent": "casey",
-     "winner": "joe2"
+     "won": true
     },
     {
-     "opponent": "casey",
-     "winner": "joe2"
+     "won": true
     }
-   ],
-   "winner": "joe2"
+   ]
   },
   {
-   "opponent": "zephyr",
    "opponent_id": 8,
    "round": 2,
    "wins": 1,
@@ -42,19 +37,11 @@
    "draws": 0,
    "games": [
     {
-     "opponent": "zephyr",
-     "winner": "joe2"
+     "won": true
     },
-    {
-     "opponent": "zephyr",
-     "winner": "zephyr"
-    },
-    {
-     "opponent": "zephyr",
-     "winner": "zephyr"
-    }
-   ],
-   "winner": "zephyr"
+    {},
+    {}
+   ]
   }
  ],
  "mainboard": [

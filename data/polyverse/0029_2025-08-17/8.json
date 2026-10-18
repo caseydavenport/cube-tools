@@ -9,31 +9,22 @@
  "labels": [
   "spells"
  ],
- "player": "wilson",
+ "player_id": 34,
  "date": "2025-08-17",
  "notes": "I didn't catch ANY of the games for this one, but I heard it did some cool things like making a copy of Thing in the Ice with Saheeli and having the token insta flip (!!).\n\nThis deck has many of the usual suspects, although is missing some of the stronger burn / removal spells. I am happy to see a mid performance here after this deck swept the floor last draft!\n",
  "matches": [
   {
-   "opponent": "jamesdeyja",
    "opponent_id": 4,
    "round": 3,
    "wins": 0,
    "losses": 2,
    "draws": 0,
    "games": [
-    {
-     "opponent": "jamesdeyja",
-     "winner": "jamesdeyja"
-    },
-    {
-     "opponent": "jamesdeyja",
-     "winner": "jamesdeyja"
-    }
-   ],
-   "winner": "jamesdeyja"
+    {},
+    {}
+   ]
   },
   {
-   "opponent": "maxi",
    "opponent_id": 6,
    "round": 4,
    "wins": 1,
@@ -41,22 +32,13 @@
    "draws": 0,
    "games": [
     {
-     "opponent": "maxi",
-     "winner": "wilson"
+     "won": true
     },
-    {
-     "opponent": "maxi",
-     "winner": "maxi"
-    },
-    {
-     "opponent": "maxi",
-     "winner": "maxi"
-    }
-   ],
-   "winner": "maxi"
+    {},
+    {}
+   ]
   },
   {
-   "opponent": "michael",
    "opponent_id": 7,
    "round": 1,
    "wins": 2,
@@ -64,15 +46,12 @@
    "draws": 0,
    "games": [
     {
-     "opponent": "michael",
-     "winner": "wilson"
+     "won": true
     },
     {
-     "opponent": "michael",
-     "winner": "wilson"
+     "won": true
     }
-   ],
-   "winner": "wilson"
+   ]
   }
  ],
  "mainboard": [

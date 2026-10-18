@@ -9,31 +9,24 @@
  "labels": [
   "graveyard"
  ],
- "player": "casey",
+ "player_id": 1,
  "date": "2023-10-15",
  "matches": [
   {
-   "opponent": "dom",
    "opponent_id": 2,
    "round": 1,
    "wins": 2,
    "losses": 1,
    "draws": 0,
    "games": [
+    {},
     {
-     "opponent": "dom",
-     "winner": "dom"
+     "won": true
     },
     {
-     "opponent": "dom",
-     "winner": "casey"
-    },
-    {
-     "opponent": "dom",
-     "winner": "casey"
+     "won": true
     }
-   ],
-   "winner": "casey"
+   ]
   }
  ],
  "mainboard": [

@@ -7,11 +7,10 @@
  "id": 1,
  "macro_archetype": "midrange",
  "labels": [],
- "player": "casey",
+ "player_id": 1,
  "date": "2023-05-31",
  "matches": [
   {
-   "opponent": "",
    "wins": 2,
    "losses": 2,
    "draws": 0

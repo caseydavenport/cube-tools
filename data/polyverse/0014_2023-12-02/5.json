@@ -7,49 +7,32 @@
  "id": 5,
  "macro_archetype": "aggro",
  "labels": [],
- "player": "james",
+ "player_id": 6,
  "date": "2023-12-02",
  "matches": [
   {
-   "opponent": "casey",
    "opponent_id": 2,
    "round": 3,
    "wins": 0,
    "losses": 2,
    "draws": 0,
    "games": [
-    {
-     "opponent": "casey",
-     "winner": "casey"
-    },
-    {
-     "opponent": "casey",
-     "winner": "casey"
-    }
-   ],
-   "winner": "casey"
+    {},
+    {}
+   ]
   },
   {
-   "opponent": "dom",
    "opponent_id": 3,
    "round": 2,
    "wins": 0,
    "losses": 2,
    "draws": 0,
    "games": [
-    {
-     "opponent": "dom",
-     "winner": "dom"
-    },
-    {
-     "opponent": "dom",
-     "winner": "dom"
-    }
-   ],
-   "winner": "dom"
+    {},
+    {}
+   ]
   },
   {
-   "opponent": "greg",
    "opponent_id": 4,
    "round": 1,
    "wins": 1,
@@ -57,19 +40,11 @@
    "draws": 0,
    "games": [
     {
-     "opponent": "greg",
-     "winner": "james"
+     "won": true
     },
-    {
-     "opponent": "greg",
-     "winner": "greg"
-    },
-    {
-     "opponent": "greg",
-     "winner": "greg"
-    }
-   ],
-   "winner": "greg"
+    {},
+    {}
+   ]
   }
  ],
  "mainboard": [

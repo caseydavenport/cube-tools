@@ -10,11 +10,10 @@
   "spells",
   "token"
  ],
- "player": "xander",
+ "player_id": 4,
  "date": "2023-07-16",
  "matches": [
   {
-   "opponent": "casey",
    "opponent_id": 1,
    "round": 5,
    "wins": 1,
@@ -22,29 +21,21 @@
    "draws": 0,
    "games": [
     {
-     "opponent": "casey",
-     "winner": "xander"
+     "won": true
     }
-   ],
-   "winner": "xander"
+   ]
   },
   {
-   "opponent": "james",
    "opponent_id": 4,
    "round": 4,
    "wins": 0,
    "losses": 1,
    "draws": 0,
    "games": [
-    {
-     "opponent": "james",
-     "winner": "james"
-    }
-   ],
-   "winner": "james"
+    {}
+   ]
   },
   {
-   "opponent": "jen",
    "opponent_id": 5,
    "round": 3,
    "wins": 1,
@@ -52,11 +43,9 @@
    "draws": 0,
    "games": [
     {
-     "opponent": "jen",
-     "winner": "xander"
+     "won": true
     }
-   ],
-   "winner": "xander"
+   ]
   }
  ],
  "mainboard": [

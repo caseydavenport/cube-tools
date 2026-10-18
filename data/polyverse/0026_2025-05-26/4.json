@@ -7,11 +7,10 @@
  "id": 4,
  "macro_archetype": "aggro",
  "labels": [],
- "player": "greg",
+ "player_id": 5,
  "date": "2025-05-26",
  "matches": [
   {
-   "opponent": "jen",
    "opponent_id": 6,
    "round": 1,
    "wins": 2,
@@ -19,18 +18,14 @@
    "draws": 0,
    "games": [
     {
-     "opponent": "jen",
-     "winner": "greg"
+     "won": true
     },
     {
-     "opponent": "jen",
-     "winner": "greg"
+     "won": true
     }
-   ],
-   "winner": "greg"
+   ]
   },
   {
-   "opponent": "xander",
    "opponent_id": 7,
    "round": 3,
    "wins": 1,
@@ -38,19 +33,11 @@
    "draws": 0,
    "games": [
     {
-     "opponent": "xander",
-     "winner": "greg"
+     "won": true
     },
-    {
-     "opponent": "xander",
-     "winner": "xander"
-    },
-    {
-     "opponent": "xander",
-     "winner": "xander"
-    }
-   ],
-   "winner": "xander"
+    {},
+    {}
+   ]
   }
  ],
  "mainboard": [

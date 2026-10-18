@@ -11,11 +11,10 @@
   "graveyard",
   "ramp"
  ],
- "player": "casey",
+ "player_id": 1,
  "date": "2023-12-02",
  "matches": [
   {
-   "opponent": "dom",
    "opponent_id": 3,
    "round": 1,
    "wins": 2,
@@ -23,41 +22,26 @@
    "draws": 0,
    "games": [
     {
-     "opponent": "dom",
-     "winner": "casey"
+     "won": true
     },
     {
-     "opponent": "dom",
-     "winner": "casey"
+     "won": true
     },
-    {
-     "opponent": "dom",
-     "winner": "dom"
-    }
-   ],
-   "winner": "casey"
+    {}
+   ]
   },
   {
-   "opponent": "greg",
    "opponent_id": 4,
    "round": 2,
    "wins": 0,
    "losses": 2,
    "draws": 0,
    "games": [
-    {
-     "opponent": "greg",
-     "winner": "greg"
-    },
-    {
-     "opponent": "greg",
-     "winner": "greg"
-    }
-   ],
-   "winner": "greg"
+    {},
+    {}
+   ]
   },
   {
-   "opponent": "james",
    "opponent_id": 5,
    "round": 3,
    "wins": 2,
@@ -65,15 +49,12 @@
    "draws": 0,
    "games": [
     {
-     "opponent": "james",
-     "winner": "casey"
+     "won": true
     },
     {
-     "opponent": "james",
-     "winner": "casey"
+     "won": true
     }
-   ],
-   "winner": "casey"
+   ]
   }
  ],
  "mainboard": [

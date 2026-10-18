@@ -10,11 +10,10 @@
  "labels": [
   "spells"
  ],
- "player": "robert",
+ "player_id": 40,
  "date": "2025-10-25",
  "matches": [
   {
-   "opponent": "colton",
    "opponent_id": 2,
    "round": 1,
    "wins": 1,
@@ -22,22 +21,13 @@
    "draws": 0,
    "games": [
     {
-     "opponent": "colton",
-     "winner": "robert"
+     "won": true
     },
-    {
-     "opponent": "colton",
-     "winner": "colton"
-    },
-    {
-     "opponent": "colton",
-     "winner": "colton"
-    }
-   ],
-   "winner": "colton"
+    {},
+    {}
+   ]
   },
   {
-   "opponent": "isaiah",
    "opponent_id": 3,
    "round": 2,
    "wins": 1,
@@ -45,22 +35,13 @@
    "draws": 0,
    "games": [
     {
-     "opponent": "isaiah",
-     "winner": "robert"
+     "won": true
     },
-    {
-     "opponent": "isaiah",
-     "winner": "isaiah"
-    },
-    {
-     "opponent": "isaiah",
-     "winner": "isaiah"
-    }
-   ],
-   "winner": "isaiah"
+    {},
+    {}
+   ]
   },
   {
-   "opponent": "mehdi",
    "opponent_id": 5,
    "round": 3,
    "wins": 2,
@@ -68,19 +49,13 @@
    "draws": 0,
    "games": [
     {
-     "opponent": "mehdi",
-     "winner": "robert"
+     "won": true
     },
     {
-     "opponent": "mehdi",
-     "winner": "robert"
+     "won": true
     },
-    {
-     "opponent": "mehdi",
-     "winner": "mehdi"
-    }
-   ],
-   "winner": "robert"
+    {}
+   ]
   }
  ],
  "mainboard": [

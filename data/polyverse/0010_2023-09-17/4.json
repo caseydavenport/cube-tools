@@ -11,26 +11,20 @@
   "token",
   "equipment"
  ],
- "player": "jen",
+ "player_id": 3,
  "date": "2023-09-17",
  "matches": [
   {
-   "opponent": "casey",
    "opponent_id": 1,
    "round": 2,
    "wins": 0,
    "losses": 1,
    "draws": 0,
    "games": [
-    {
-     "opponent": "casey",
-     "winner": "casey"
-    }
-   ],
-   "winner": "casey"
+    {}
+   ]
   },
   {
-   "opponent": "dom",
    "opponent_id": 2,
    "round": 3,
    "wins": 1,
@@ -38,26 +32,19 @@
    "draws": 0,
    "games": [
     {
-     "opponent": "dom",
-     "winner": "jen"
+     "won": true
     }
-   ],
-   "winner": "jen"
+   ]
   },
   {
-   "opponent": "mattd",
    "opponent_id": 5,
    "round": 1,
    "wins": 0,
    "losses": 1,
    "draws": 0,
    "games": [
-    {
-     "opponent": "mattd",
-     "winner": "mattd"
-    }
-   ],
-   "winner": "mattd"
+    {}
+   ]
   }
  ],
  "mainboard": [

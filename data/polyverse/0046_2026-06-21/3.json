@@ -8,35 +8,28 @@
  "labels": [
   "lands"
  ],
- "player": "2026-06-21_bcp26_2-p3",
  "date": "2026-06-21",
  "matches": [
   {
-   "opponent": "2026-06-21_bcp26_2-p7",
    "opponent_id": 7,
    "round": 1,
    "wins": 2,
    "losses": 1,
-   "draws": 0,
-   "winner": "2026-06-21_bcp26_2-p3"
+   "draws": 0
   },
   {
-   "opponent": "2026-06-21_bcp26_2-p5",
    "opponent_id": 5,
    "round": 2,
    "wins": 1,
    "losses": 2,
-   "draws": 0,
-   "winner": "2026-06-21_bcp26_2-p5"
+   "draws": 0
   },
   {
-   "opponent": "2026-06-21_bcp26_2-p8",
    "opponent_id": 8,
    "round": 3,
    "wins": 1,
    "losses": 2,
-   "draws": 0,
-   "winner": "2026-06-21_bcp26_2-p8"
+   "draws": 0
   }
  ],
  "mainboard": [

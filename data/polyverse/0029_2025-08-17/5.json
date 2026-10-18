@@ -10,12 +10,11 @@
   "equipment",
   "valiant"
  ],
- "player": "kevin",
+ "player_id": 21,
  "date": "2025-08-17",
  "notes": "A very strong boros aggro deck. This deck did cool stuff as well. Just a couple that I witnessed personally:\n\n- Launching [[Embercleave]] onto [[Heartfire Hero]] for a trigger and power boost.\n- Combining [[Clarion Spirit]] with [[Warleader's Call]] for lots of triggers.\n\nKevin said he enjoyed piloting the deck. I'm glad to see an aggro deck 3-0 for the first time in a while!\n",
  "matches": [
   {
-   "opponent": "ben",
    "opponent_id": 1,
    "round": 1,
    "wins": 2,
@@ -23,22 +22,15 @@
    "draws": 0,
    "games": [
     {
-     "opponent": "ben",
-     "winner": "kevin"
+     "won": true
     },
     {
-     "opponent": "ben",
-     "winner": "kevin"
+     "won": true
     },
-    {
-     "opponent": "ben",
-     "winner": "ben"
-    }
-   ],
-   "winner": "kevin"
+    {}
+   ]
   },
   {
-   "opponent": "brianfl",
    "opponent_id": 2,
    "round": 2,
    "wins": 2,
@@ -46,18 +38,14 @@
    "draws": 0,
    "games": [
     {
-     "opponent": "brianfl",
-     "winner": "kevin"
+     "won": true
     },
     {
-     "opponent": "brianfl",
-     "winner": "kevin"
+     "won": true
     }
-   ],
-   "winner": "kevin"
+   ]
   },
   {
-   "opponent": "casey",
    "opponent_id": 3,
    "round": 3,
    "wins": 2,
@@ -65,15 +53,12 @@
    "draws": 0,
    "games": [
     {
-     "opponent": "casey",
-     "winner": "kevin"
+     "won": true
     },
     {
-     "opponent": "casey",
-     "winner": "kevin"
+     "won": true
     }
-   ],
-   "winner": "kevin"
+   ]
   }
  ],
  "mainboard": [

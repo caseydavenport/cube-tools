@@ -7,11 +7,10 @@
  "id": 8,
  "macro_archetype": "control",
  "labels": [],
- "player": "will",
+ "player_id": 23,
  "date": "2025-06-12",
  "matches": [
   {
-   "opponent": "casey",
    "opponent_id": 1,
    "round": 3,
    "wins": 1,
@@ -19,22 +18,13 @@
    "draws": 0,
    "games": [
     {
-     "opponent": "casey",
-     "winner": "will"
+     "won": true
     },
-    {
-     "opponent": "casey",
-     "winner": "casey"
-    },
-    {
-     "opponent": "casey",
-     "winner": "casey"
-    }
-   ],
-   "winner": "casey"
+    {},
+    {}
+   ]
   },
   {
-   "opponent": "joe",
    "opponent_id": 3,
    "round": 2,
    "wins": 2,
@@ -42,22 +32,15 @@
    "draws": 0,
    "games": [
     {
-     "opponent": "joe",
-     "winner": "will"
+     "won": true
     },
     {
-     "opponent": "joe",
-     "winner": "will"
+     "won": true
     },
-    {
-     "opponent": "joe",
-     "winner": "joe"
-    }
-   ],
-   "winner": "will"
+    {}
+   ]
   },
   {
-   "opponent": "kevin",
    "opponent_id": 6,
    "round": 1,
    "wins": 1,
@@ -65,19 +48,11 @@
    "draws": 0,
    "games": [
     {
-     "opponent": "kevin",
-     "winner": "will"
+     "won": true
     },
-    {
-     "opponent": "kevin",
-     "winner": "kevin"
-    },
-    {
-     "opponent": "kevin",
-     "winner": "kevin"
-    }
-   ],
-   "winner": "kevin"
+    {},
+    {}
+   ]
   }
  ],
  "mainboard": [

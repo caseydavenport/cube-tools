@@ -10,35 +10,28 @@
   "token",
   "hatebears"
  ],
- "player": "2026-01-18_p1p12026_1-p8",
  "date": "2026-01-18",
  "matches": [
   {
-   "opponent": "2026-01-18_p1p12026_1-p4",
    "opponent_id": 4,
    "round": 1,
    "wins": 2,
    "losses": 0,
-   "draws": 0,
-   "winner": "2026-01-18_p1p12026_1-p8"
+   "draws": 0
   },
   {
-   "opponent": "2026-01-18_p1p12026_1-p7",
    "opponent_id": 7,
    "round": 2,
    "wins": 2,
    "losses": 0,
-   "draws": 0,
-   "winner": "2026-01-18_p1p12026_1-p8"
+   "draws": 0
   },
   {
-   "opponent": "2026-01-18_p1p12026_1-p2",
    "opponent_id": 2,
    "round": 3,
    "wins": 2,
    "losses": 0,
-   "draws": 0,
-   "winner": "2026-01-18_p1p12026_1-p8"
+   "draws": 0
   }
  ],
  "mainboard": [

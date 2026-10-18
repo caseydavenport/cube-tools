@@ -8,11 +8,10 @@
  "id": 7,
  "macro_archetype": "midrange",
  "labels": [],
- "player": "patrick",
+ "player_id": 44,
  "date": "2026-01-03",
  "matches": [
   {
-   "opponent": "darius",
    "opponent_id": 3,
    "round": 2,
    "wins": 2,
@@ -20,22 +19,15 @@
    "draws": 0,
    "games": [
     {
-     "opponent": "darius",
-     "winner": "patrick"
+     "won": true
     },
     {
-     "opponent": "darius",
-     "winner": "patrick"
+     "won": true
     },
-    {
-     "opponent": "darius",
-     "winner": "darius"
-    }
-   ],
-   "winner": "patrick"
+    {}
+   ]
   },
   {
-   "opponent": "jackson",
    "opponent_id": 5,
    "round": 1,
    "wins": 1,
@@ -43,13 +35,9 @@
    "draws": 0,
    "games": [
     {
-     "opponent": "jackson",
-     "winner": "patrick"
+     "won": true
     },
-    {
-     "opponent": "jackson",
-     "winner": "jackson"
-    }
+    {}
    ]
   }
  ],

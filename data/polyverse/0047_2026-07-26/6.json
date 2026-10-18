@@ -8,11 +8,10 @@
  "labels": [
   "spells"
  ],
- "player": "Isaiah",
+ "player_id": 36,
  "date": "2026-07-26",
  "matches": [
   {
-   "opponent": "Brett",
    "opponent_id": 3,
    "round": 1,
    "wins": 1,
@@ -20,7 +19,6 @@
    "draws": 0
   },
   {
-   "opponent": "Casey",
    "opponent_id": 5,
    "round": 3,
    "wins": 2,

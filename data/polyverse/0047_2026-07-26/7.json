@@ -9,11 +9,10 @@
   "token",
   "delney"
  ],
- "player": "An",
+ "player_id": 48,
  "date": "2026-07-26",
  "matches": [
   {
-   "opponent": "Sarah",
    "opponent_id": 2,
    "round": 1,
    "wins": 2,
@@ -21,7 +20,6 @@
    "draws": 0
   },
   {
-   "opponent": "Braf",
    "opponent_id": 8,
    "round": 2,
    "wins": 2,
@@ -29,7 +27,6 @@
    "draws": 0
   },
   {
-   "opponent": "Darius",
    "opponent_id": 4,
    "round": 3,
    "wins": 2,

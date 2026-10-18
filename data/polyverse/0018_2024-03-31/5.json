@@ -7,11 +7,10 @@
  "id": 5,
  "macro_archetype": "midrange",
  "labels": [],
- "player": "james",
+ "player_id": 6,
  "date": "2024-03-31",
  "matches": [
   {
-   "opponent": "casey",
    "opponent_id": 2,
    "round": 3,
    "wins": 2,
@@ -19,22 +18,15 @@
    "draws": 0,
    "games": [
     {
-     "opponent": "casey",
-     "winner": "james"
+     "won": true
     },
     {
-     "opponent": "casey",
-     "winner": "james"
+     "won": true
     },
-    {
-     "opponent": "casey",
-     "winner": "casey"
-    }
-   ],
-   "winner": "james"
+    {}
+   ]
   },
   {
-   "opponent": "dom",
    "opponent_id": 3,
    "round": 2,
    "wins": 2,
@@ -42,22 +34,15 @@
    "draws": 0,
    "games": [
     {
-     "opponent": "dom",
-     "winner": "james"
+     "won": true
     },
     {
-     "opponent": "dom",
-     "winner": "james"
+     "won": true
     },
-    {
-     "opponent": "dom",
-     "winner": "dom"
-    }
-   ],
-   "winner": "james"
+    {}
+   ]
   },
   {
-   "opponent": "greg",
    "opponent_id": 4,
    "round": 1,
    "wins": 1,
@@ -65,19 +50,11 @@
    "draws": 0,
    "games": [
     {
-     "opponent": "greg",
-     "winner": "james"
+     "won": true
     },
-    {
-     "opponent": "greg",
-     "winner": "greg"
-    },
-    {
-     "opponent": "greg",
-     "winner": "greg"
-    }
-   ],
-   "winner": "greg"
+    {},
+    {}
+   ]
   }
  ],
  "mainboard": [

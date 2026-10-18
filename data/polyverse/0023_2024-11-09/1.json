@@ -9,11 +9,10 @@
  "labels": [
   "graveyard"
  ],
- "player": "cara",
+ "player_id": 11,
  "date": "2024-11-09",
  "matches": [
   {
-   "opponent": "jen",
    "opponent_id": 5,
    "round": 2,
    "wins": 2,
@@ -21,18 +20,14 @@
    "draws": 0,
    "games": [
     {
-     "opponent": "jen",
-     "winner": "cara"
+     "won": true
     },
     {
-     "opponent": "jen",
-     "winner": "cara"
+     "won": true
     }
-   ],
-   "winner": "cara"
+   ]
   },
   {
-   "opponent": "paul",
    "opponent_id": 7,
    "round": 3,
    "wins": 1,
@@ -40,33 +35,21 @@
    "draws": 0,
    "games": [
     {
-     "opponent": "paul",
-     "winner": "cara"
+     "won": true
     },
-    {
-     "opponent": "paul",
-     "winner": "paul"
-    }
+    {}
    ]
   },
   {
-   "opponent": "xander",
    "opponent_id": 8,
    "round": 1,
    "wins": 0,
    "losses": 2,
    "draws": 0,
    "games": [
-    {
-     "opponent": "xander",
-     "winner": "xander"
-    },
-    {
-     "opponent": "xander",
-     "winner": "xander"
-    }
-   ],
-   "winner": "xander"
+    {},
+    {}
+   ]
   }
  ],
  "mainboard": [

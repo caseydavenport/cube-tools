@@ -10,35 +10,28 @@
   "equipment",
   "valiant"
  ],
- "player": "2026-01-18_p1p12026_2-p1",
  "date": "2026-01-18",
  "matches": [
   {
-   "opponent": "2026-01-18_p1p12026_2-p6",
    "opponent_id": 6,
    "round": 1,
    "wins": 2,
    "losses": 0,
-   "draws": 0,
-   "winner": "2026-01-18_p1p12026_2-p1"
+   "draws": 0
   },
   {
-   "opponent": "2026-01-18_p1p12026_2-p2",
    "opponent_id": 2,
    "round": 2,
    "wins": 2,
    "losses": 0,
-   "draws": 0,
-   "winner": "2026-01-18_p1p12026_2-p1"
+   "draws": 0
   },
   {
-   "opponent": "2026-01-18_p1p12026_2-p3",
    "opponent_id": 3,
    "round": 3,
    "wins": 2,
    "losses": 0,
-   "draws": 0,
-   "winner": "2026-01-18_p1p12026_2-p1"
+   "draws": 0
   }
  ],
  "mainboard": [

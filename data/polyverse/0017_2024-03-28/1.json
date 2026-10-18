@@ -7,65 +7,41 @@
  "id": 1,
  "macro_archetype": "aggro",
  "labels": [],
- "player": "alexs",
+ "player_id": 12,
  "date": "2024-03-28",
  "matches": [
   {
-   "opponent": "ken",
    "opponent_id": 4,
    "round": 2,
    "wins": 0,
    "losses": 2,
    "draws": 0,
    "games": [
-    {
-     "opponent": "ken",
-     "winner": "ken"
-    },
-    {
-     "opponent": "ken",
-     "winner": "ken"
-    }
-   ],
-   "winner": "ken"
+    {},
+    {}
+   ]
   },
   {
-   "opponent": "matthewbk",
    "opponent_id": 5,
    "round": 1,
    "wins": 0,
    "losses": 2,
    "draws": 0,
    "games": [
-    {
-     "opponent": "matthewbk",
-     "winner": "matthewbk"
-    },
-    {
-     "opponent": "matthewbk",
-     "winner": "matthewbk"
-    }
-   ],
-   "winner": "matthewbk"
+    {},
+    {}
+   ]
   },
   {
-   "opponent": "parker",
    "opponent_id": 6,
    "round": 4,
    "wins": 0,
    "losses": 2,
    "draws": 0,
    "games": [
-    {
-     "opponent": "parker",
-     "winner": "parker"
-    },
-    {
-     "opponent": "parker",
-     "winner": "parker"
-    }
-   ],
-   "winner": "parker"
+    {},
+    {}
+   ]
   }
  ],
  "mainboard": [

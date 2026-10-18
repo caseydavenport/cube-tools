@@ -6,35 +6,28 @@
  "id": 5,
  "macro_archetype": "midrange",
  "labels": [],
- "player": "2026-06-21_bcp26_1-p5",
  "date": "2026-06-21",
  "matches": [
   {
-   "opponent": "2026-06-21_bcp26_1-p1",
    "opponent_id": 1,
    "round": 1,
    "wins": 1,
    "losses": 0,
-   "draws": 1,
-   "winner": "2026-06-21_bcp26_1-p5"
+   "draws": 1
   },
   {
-   "opponent": "2026-06-21_bcp26_1-p6",
    "opponent_id": 6,
    "round": 2,
    "wins": 1,
    "losses": 2,
-   "draws": 0,
-   "winner": "2026-06-21_bcp26_1-p6"
+   "draws": 0
   },
   {
-   "opponent": "2026-06-21_bcp26_1-p4",
    "opponent_id": 4,
    "round": 3,
    "wins": 2,
    "losses": 1,
-   "draws": 0,
-   "winner": "2026-06-21_bcp26_1-p5"
+   "draws": 0
   }
  ],
  "mainboard": [],

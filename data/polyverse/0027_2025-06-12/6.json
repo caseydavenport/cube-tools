@@ -9,11 +9,10 @@
  "labels": [
   "lands"
  ],
- "player": "kevin",
+ "player_id": 21,
  "date": "2025-06-12",
  "matches": [
   {
-   "opponent": "joe2",
    "opponent_id": 4,
    "round": 2,
    "wins": 1,
@@ -21,22 +20,13 @@
    "draws": 0,
    "games": [
     {
-     "opponent": "joe2",
-     "winner": "kevin"
+     "won": true
     },
-    {
-     "opponent": "joe2",
-     "winner": "joe2"
-    },
-    {
-     "opponent": "joe2",
-     "winner": "joe2"
-    }
-   ],
-   "winner": "joe2"
+    {},
+    {}
+   ]
   },
   {
-   "opponent": "kenny",
    "opponent_id": 5,
    "round": 3,
    "wins": 1,
@@ -44,22 +34,13 @@
    "draws": 0,
    "games": [
     {
-     "opponent": "kenny",
-     "winner": "kevin"
+     "won": true
     },
-    {
-     "opponent": "kenny",
-     "winner": "kenny"
-    },
-    {
-     "opponent": "kenny",
-     "winner": "kenny"
-    }
-   ],
-   "winner": "kenny"
+    {},
+    {}
+   ]
   },
   {
-   "opponent": "will",
    "opponent_id": 8,
    "round": 1,
    "wins": 2,
@@ -67,19 +48,13 @@
    "draws": 0,
    "games": [
     {
-     "opponent": "will",
-     "winner": "kevin"
+     "won": true
     },
     {
-     "opponent": "will",
-     "winner": "kevin"
+     "won": true
     },
-    {
-     "opponent": "will",
-     "winner": "will"
-    }
-   ],
-   "winner": "kevin"
+    {}
+   ]
   }
  ],
  "mainboard": [

@@ -9,11 +9,10 @@
  "labels": [
   "graveyard"
  ],
- "player": "casey",
+ "player_id": 1,
  "date": "2024-01-07",
  "matches": [
   {
-   "opponent": "cara",
    "opponent_id": 1,
    "round": 3,
    "wins": 1,
@@ -21,37 +20,23 @@
    "draws": 0,
    "games": [
     {
-     "opponent": "cara",
-     "winner": "casey"
+     "won": true
     },
-    {
-     "opponent": "cara",
-     "winner": "cara"
-    },
-    {
-     "opponent": "cara",
-     "winner": "cara"
-    }
-   ],
-   "winner": "cara"
+    {},
+    {}
+   ]
   },
   {
-   "opponent": "dom",
    "opponent_id": 3,
    "round": 1,
    "wins": 0,
    "losses": 1,
    "draws": 0,
    "games": [
-    {
-     "opponent": "dom",
-     "winner": "dom"
-    }
-   ],
-   "winner": "dom"
+    {}
+   ]
   },
   {
-   "opponent": "jen",
    "opponent_id": 6,
    "round": 2,
    "wins": 1,
@@ -59,17 +44,12 @@
    "draws": 0,
    "games": [
     {
-     "opponent": "jen",
-     "winner": "casey"
+     "won": true
     },
-    {
-     "opponent": "jen",
-     "winner": "jen"
-    }
+    {}
    ]
   },
   {
-   "opponent": "paul",
    "opponent_id": 7,
    "round": 5,
    "wins": 1,
@@ -77,38 +57,22 @@
    "draws": 0,
    "games": [
     {
-     "opponent": "paul",
-     "winner": "casey"
+     "won": true
     },
-    {
-     "opponent": "paul",
-     "winner": "paul"
-    },
-    {
-     "opponent": "paul",
-     "winner": "paul"
-    }
-   ],
-   "winner": "paul"
+    {},
+    {}
+   ]
   },
   {
-   "opponent": "xander",
    "opponent_id": 8,
    "round": 4,
    "wins": 0,
    "losses": 2,
    "draws": 0,
    "games": [
-    {
-     "opponent": "xander",
-     "winner": "xander"
-    },
-    {
-     "opponent": "xander",
-     "winner": "xander"
-    }
-   ],
-   "winner": "xander"
+    {},
+    {}
+   ]
   }
  ],
  "mainboard": [

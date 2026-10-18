@@ -9,35 +9,28 @@
   "sacrifice",
   "discard"
  ],
- "player": "2026-06-21_bcp26_2-p1",
  "date": "2026-06-21",
  "matches": [
   {
-   "opponent": "2026-06-21_bcp26_2-p5",
    "opponent_id": 5,
    "round": 1,
    "wins": 0,
    "losses": 2,
-   "draws": 0,
-   "winner": "2026-06-21_bcp26_2-p5"
+   "draws": 0
   },
   {
-   "opponent": "2026-06-21_bcp26_2-p7",
    "opponent_id": 7,
    "round": 2,
    "wins": 0,
    "losses": 2,
-   "draws": 0,
-   "winner": "2026-06-21_bcp26_2-p7"
+   "draws": 0
   },
   {
-   "opponent": "2026-06-21_bcp26_2-p2",
    "opponent_id": 2,
    "round": 3,
    "wins": 0,
    "losses": 2,
-   "draws": 0,
-   "winner": "2026-06-21_bcp26_2-p2"
+   "draws": 0
   }
  ],
  "mainboard": [

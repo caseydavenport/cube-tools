@@ -7,11 +7,10 @@
  "id": 2,
  "macro_archetype": "control",
  "labels": [],
- "player": "dom",
+ "player_id": 2,
  "date": "2023-09-17",
  "matches": [
   {
-   "opponent": "james",
    "opponent_id": 3,
    "round": 2,
    "wins": 1,
@@ -19,29 +18,21 @@
    "draws": 0,
    "games": [
     {
-     "opponent": "james",
-     "winner": "dom"
+     "won": true
     }
-   ],
-   "winner": "dom"
+   ]
   },
   {
-   "opponent": "jen",
    "opponent_id": 4,
    "round": 3,
    "wins": 0,
    "losses": 1,
    "draws": 0,
    "games": [
-    {
-     "opponent": "jen",
-     "winner": "jen"
-    }
-   ],
-   "winner": "jen"
+    {}
+   ]
   },
   {
-   "opponent": "paul",
    "opponent_id": 6,
    "round": 1,
    "wins": 1,
@@ -49,11 +40,9 @@
    "draws": 0,
    "games": [
     {
-     "opponent": "paul",
-     "winner": "dom"
+     "won": true
     }
-   ],
-   "winner": "dom"
+   ]
   }
  ],
  "mainboard": [

@@ -10,12 +10,11 @@
   "equipment",
   "discard"
  ],
- "player": "bryan",
+ "player_id": 24,
  "date": "2025-06-29",
  "notes": "Bryan scooped up a pretty open boros aggro deck. Unfortunately Joe2 had to run early for an interview so neither he nor Bryan got their third match in.\n\nBryan played versus Mehdi's control deck in the opener, and managed to get the win. Planeswalkers like Lilliana of the Veil were very strong against him (I theorize due to the inherent resource advantage they provide).\n\nOther bits of feedback:\n\n- Kellan did his thing, and played well with the equipment creatures (Lion Sash, Ogre-Head) and Bonesplitter\n- Ogre-Head was also valuable, and 'did the thing' once or twice.\n- Anje's Ravager and Luminarch Aspirant were the MVPs.\n",
  "matches": [
   {
-   "opponent": "mehdi",
    "opponent_id": 5,
    "round": 3,
    "wins": 2,
@@ -23,22 +22,15 @@
    "draws": 0,
    "games": [
     {
-     "opponent": "mehdi",
-     "winner": "bryan"
+     "won": true
     },
     {
-     "opponent": "mehdi",
-     "winner": "bryan"
+     "won": true
     },
-    {
-     "opponent": "mehdi",
-     "winner": "mehdi"
-    }
-   ],
-   "winner": "bryan"
+    {}
+   ]
   },
   {
-   "opponent": "tanner",
    "opponent_id": 7,
    "round": 2,
    "wins": 1,
@@ -46,19 +38,11 @@
    "draws": 0,
    "games": [
     {
-     "opponent": "tanner",
-     "winner": "bryan"
+     "won": true
     },
-    {
-     "opponent": "tanner",
-     "winner": "tanner"
-    },
-    {
-     "opponent": "tanner",
-     "winner": "tanner"
-    }
-   ],
-   "winner": "tanner"
+    {},
+    {}
+   ]
   }
  ],
  "mainboard": [

@@ -10,12 +10,11 @@
   "graveyard",
   "ramp"
  ],
- "player": "cara",
+ "player_id": 11,
  "date": "2024-05-14",
  "notes": "Discussing this one, I think the main issue was that it was lacking some focus - it used 3 slots for ramp spells that probably would have better been used on removal or some more beef.\n\n- [[Inexorable Blob]] was the real standout here - it's incredibly scary when it manages to attack with _delirium_. Certainly requires a bit of building around, but it adds up in damage quickly.\n- [[Quest for the Gravelord]] always does better than I give it credit for. It may be a bit slow in some decks, but a 5/5 for 1 mana can be quite troublesome.\n- [[Satyr Wayfinder]] is always underwhelming. Even in this deck which ostensibly wants cards in the yard, it feels bad to mill your gas. I think this needs to become [[Deeproot Wayfinder]] instead - a bit more pricey, but a might higher floor and I think more interesting gameplay decisions as well. Deeproot should also fit into a wider variety of decks than Satyr.\n- [[Cunning Lethemancer]] made an appearance, but didn't get a ton of playing time. He looked interesting for the couple of turns he was alive.\n",
  "matches": [
   {
-   "opponent": "casey",
    "opponent_id": 2,
    "round": 4,
    "wins": 1,
@@ -23,22 +22,13 @@
    "draws": 0,
    "games": [
     {
-     "opponent": "casey",
-     "winner": "cara"
+     "won": true
     },
-    {
-     "opponent": "casey",
-     "winner": "casey"
-    },
-    {
-     "opponent": "casey",
-     "winner": "casey"
-    }
-   ],
-   "winner": "casey"
+    {},
+    {}
+   ]
   },
   {
-   "opponent": "dom",
    "opponent_id": 3,
    "round": 2,
    "wins": 1,
@@ -46,19 +36,11 @@
    "draws": 0,
    "games": [
     {
-     "opponent": "dom",
-     "winner": "cara"
+     "won": true
     },
-    {
-     "opponent": "dom",
-     "winner": "dom"
-    },
-    {
-     "opponent": "dom",
-     "winner": "dom"
-    }
-   ],
-   "winner": "dom"
+    {},
+    {}
+   ]
   }
  ],
  "mainboard": [

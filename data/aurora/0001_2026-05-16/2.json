@@ -8,35 +8,28 @@
  "labels": [
   "faeries"
  ],
- "player": "2026-05-16_sfbcc_1-p2",
  "date": "2026-05-16",
  "matches": [
   {
-   "opponent": "2026-05-16_sfbcc_1-p6",
    "opponent_id": 6,
    "round": 1,
    "wins": 2,
    "losses": 0,
-   "draws": 0,
-   "winner": "2026-05-16_sfbcc_1-p2"
+   "draws": 0
   },
   {
-   "opponent": "2026-05-16_sfbcc_1-p7",
    "opponent_id": 7,
    "round": 2,
    "wins": 2,
    "losses": 0,
-   "draws": 0,
-   "winner": "2026-05-16_sfbcc_1-p2"
+   "draws": 0
   },
   {
-   "opponent": "2026-05-16_sfbcc_1-p4",
    "opponent_id": 4,
    "round": 3,
    "wins": 1,
    "losses": 2,
-   "draws": 0,
-   "winner": "2026-05-16_sfbcc_1-p4"
+   "draws": 0
   }
  ],
  "mainboard": [

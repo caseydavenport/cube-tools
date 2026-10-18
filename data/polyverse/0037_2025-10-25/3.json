@@ -11,11 +11,10 @@
   "ritual",
   "flicker"
  ],
- "player": "isaiah",
+ "player_id": 36,
  "date": "2025-10-25",
  "matches": [
   {
-   "opponent": "perry",
    "opponent_id": 6,
    "round": 1,
    "wins": 1,
@@ -23,22 +22,13 @@
    "draws": 0,
    "games": [
     {
-     "opponent": "perry",
-     "winner": "isaiah"
+     "won": true
     },
-    {
-     "opponent": "perry",
-     "winner": "perry"
-    },
-    {
-     "opponent": "perry",
-     "winner": "perry"
-    }
-   ],
-   "winner": "perry"
+    {},
+    {}
+   ]
   },
   {
-   "opponent": "robert",
    "opponent_id": 7,
    "round": 2,
    "wins": 2,
@@ -46,22 +36,15 @@
    "draws": 0,
    "games": [
     {
-     "opponent": "robert",
-     "winner": "isaiah"
+     "won": true
     },
     {
-     "opponent": "robert",
-     "winner": "isaiah"
+     "won": true
     },
-    {
-     "opponent": "robert",
-     "winner": "robert"
-    }
-   ],
-   "winner": "isaiah"
+    {}
+   ]
   },
   {
-   "opponent": "taylor",
    "opponent_id": 8,
    "round": 3,
    "wins": 2,
@@ -69,15 +52,12 @@
    "draws": 0,
    "games": [
     {
-     "opponent": "taylor",
-     "winner": "isaiah"
+     "won": true
     },
     {
-     "opponent": "taylor",
-     "winner": "isaiah"
+     "won": true
     }
-   ],
-   "winner": "isaiah"
+   ]
   }
  ],
  "mainboard": [

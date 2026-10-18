@@ -10,11 +10,10 @@
   "lands",
   "graveyard"
  ],
- "player": "greg",
+ "player_id": 5,
  "date": "2024-03-31",
  "matches": [
   {
-   "opponent": "casey",
    "opponent_id": 2,
    "round": 2,
    "wins": 2,
@@ -22,18 +21,14 @@
    "draws": 0,
    "games": [
     {
-     "opponent": "casey",
-     "winner": "greg"
+     "won": true
     },
     {
-     "opponent": "casey",
-     "winner": "greg"
+     "won": true
     }
-   ],
-   "winner": "greg"
+   ]
   },
   {
-   "opponent": "dom",
    "opponent_id": 3,
    "round": 3,
    "wins": 2,
@@ -41,22 +36,15 @@
    "draws": 0,
    "games": [
     {
-     "opponent": "dom",
-     "winner": "greg"
+     "won": true
     },
     {
-     "opponent": "dom",
-     "winner": "greg"
+     "won": true
     },
-    {
-     "opponent": "dom",
-     "winner": "dom"
-    }
-   ],
-   "winner": "greg"
+    {}
+   ]
   },
   {
-   "opponent": "james",
    "opponent_id": 5,
    "round": 1,
    "wins": 2,
@@ -64,19 +52,13 @@
    "draws": 0,
    "games": [
     {
-     "opponent": "james",
-     "winner": "greg"
+     "won": true
     },
     {
-     "opponent": "james",
-     "winner": "greg"
+     "won": true
     },
-    {
-     "opponent": "james",
-     "winner": "james"
-    }
-   ],
-   "winner": "greg"
+    {}
+   ]
   }
  ],
  "mainboard": [

@@ -11,11 +11,10 @@
   "spells",
   "valiant"
  ],
- "player": "darius",
+ "player_id": 42,
  "date": "2026-01-03",
  "matches": [
   {
-   "opponent": "casey",
    "opponent_id": 1,
    "round": 1,
    "wins": 2,
@@ -23,18 +22,14 @@
    "draws": 0,
    "games": [
     {
-     "opponent": "casey",
-     "winner": "darius"
+     "won": true
     },
     {
-     "opponent": "casey",
-     "winner": "darius"
+     "won": true
     }
-   ],
-   "winner": "darius"
+   ]
   },
   {
-   "opponent": "patrick",
    "opponent_id": 7,
    "round": 2,
    "wins": 1,
@@ -42,19 +37,11 @@
    "draws": 0,
    "games": [
     {
-     "opponent": "patrick",
-     "winner": "darius"
+     "won": true
     },
-    {
-     "opponent": "patrick",
-     "winner": "patrick"
-    },
-    {
-     "opponent": "patrick",
-     "winner": "patrick"
-    }
-   ],
-   "winner": "patrick"
+    {},
+    {}
+   ]
   }
  ],
  "mainboard": [

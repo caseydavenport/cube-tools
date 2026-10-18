@@ -12,30 +12,21 @@
   "artifacts",
   "valiant"
  ],
- "player": "casey",
+ "player_id": 1,
  "date": "2025-09-13",
  "matches": [
   {
-   "opponent": "isaiah",
    "opponent_id": 4,
    "round": 3,
    "wins": 0,
    "losses": 2,
    "draws": 0,
    "games": [
-    {
-     "opponent": "isaiah",
-     "winner": "isaiah"
-    },
-    {
-     "opponent": "isaiah",
-     "winner": "isaiah"
-    }
-   ],
-   "winner": "isaiah"
+    {},
+    {}
+   ]
   },
   {
-   "opponent": "joe",
    "opponent_id": 5,
    "round": 1,
    "wins": 2,
@@ -43,19 +34,13 @@
    "draws": 0,
    "games": [
     {
-     "opponent": "joe",
-     "winner": "casey"
+     "won": true
     },
     {
-     "opponent": "joe",
-     "winner": "casey"
+     "won": true
     },
-    {
-     "opponent": "joe",
-     "winner": "joe"
-    }
-   ],
-   "winner": "casey"
+    {}
+   ]
   }
  ],
  "mainboard": [

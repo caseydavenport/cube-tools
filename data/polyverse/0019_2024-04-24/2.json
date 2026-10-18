@@ -9,27 +9,19 @@
  "labels": [
   "discard"
  ],
- "player": "dom",
+ "player_id": 2,
  "date": "2024-04-24",
  "matches": [
   {
-   "opponent": "casey",
    "opponent_id": 1,
    "round": 1,
    "wins": 0,
    "losses": 2,
    "draws": 0,
    "games": [
-    {
-     "opponent": "casey",
-     "winner": "casey"
-    },
-    {
-     "opponent": "casey",
-     "winner": "casey"
-    }
-   ],
-   "winner": "casey"
+    {},
+    {}
+   ]
   }
  ],
  "mainboard": [

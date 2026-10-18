@@ -7,35 +7,28 @@
  "id": 6,
  "macro_archetype": "control",
  "labels": [],
- "player": "2026-01-18_p1p12026_2-p6",
  "date": "2026-01-18",
  "matches": [
   {
-   "opponent": "2026-01-18_p1p12026_2-p1",
    "opponent_id": 1,
    "round": 1,
    "wins": 0,
    "losses": 2,
-   "draws": 0,
-   "winner": "2026-01-18_p1p12026_2-p1"
+   "draws": 0
   },
   {
-   "opponent": "2026-01-18_p1p12026_2-p5",
    "opponent_id": 5,
    "round": 2,
    "wins": 0,
    "losses": 2,
-   "draws": 0,
-   "winner": "2026-01-18_p1p12026_2-p5"
+   "draws": 0
   },
   {
-   "opponent": "2026-01-18_p1p12026_2-p4",
    "opponent_id": 4,
    "round": 3,
    "wins": 0,
    "losses": 2,
-   "draws": 0,
-   "winner": "2026-01-18_p1p12026_2-p4"
+   "draws": 0
   }
  ],
  "mainboard": [],

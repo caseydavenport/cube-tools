@@ -14,11 +14,10 @@
   "graveyard",
   "delirium"
  ],
- "player": "jackson",
+ "player_id": 38,
  "date": "2026-01-03",
  "matches": [
   {
-   "opponent": "kaiyo",
    "opponent_id": 6,
    "round": 2,
    "wins": 2,
@@ -26,18 +25,14 @@
    "draws": 0,
    "games": [
     {
-     "opponent": "kaiyo",
-     "winner": "jackson"
+     "won": true
     },
     {
-     "opponent": "kaiyo",
-     "winner": "jackson"
+     "won": true
     }
-   ],
-   "winner": "jackson"
+   ]
   },
   {
-   "opponent": "patrick",
    "opponent_id": 7,
    "round": 1,
    "wins": 1,
@@ -45,13 +40,9 @@
    "draws": 0,
    "games": [
     {
-     "opponent": "patrick",
-     "winner": "jackson"
+     "won": true
     },
-    {
-     "opponent": "patrick",
-     "winner": "patrick"
-    }
+    {}
    ]
   }
  ],

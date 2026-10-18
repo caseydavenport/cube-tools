@@ -11,11 +11,10 @@
   "spells",
   "ramp"
  ],
- "player": "cara",
+ "player_id": 11,
  "date": "2024-03-31",
  "matches": [
   {
-   "opponent": "jen",
    "opponent_id": 6,
    "round": 2,
    "wins": 1,
@@ -23,22 +22,13 @@
    "draws": 0,
    "games": [
     {
-     "opponent": "jen",
-     "winner": "cara"
+     "won": true
     },
-    {
-     "opponent": "jen",
-     "winner": "jen"
-    },
-    {
-     "opponent": "jen",
-     "winner": "jen"
-    }
-   ],
-   "winner": "jen"
+    {},
+    {}
+   ]
   },
   {
-   "opponent": "xander",
    "opponent_id": 8,
    "round": 3,
    "wins": 2,
@@ -46,19 +36,13 @@
    "draws": 0,
    "games": [
     {
-     "opponent": "xander",
-     "winner": "cara"
+     "won": true
     },
     {
-     "opponent": "xander",
-     "winner": "cara"
+     "won": true
     },
-    {
-     "opponent": "xander",
-     "winner": "xander"
-    }
-   ],
-   "winner": "cara"
+    {}
+   ]
   }
  ],
  "mainboard": [

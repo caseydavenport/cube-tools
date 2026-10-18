@@ -10,11 +10,10 @@
   "flicker",
   "draw-go"
  ],
- "player": "xander",
+ "player_id": 4,
  "date": "2023-12-02",
  "matches": [
   {
-   "opponent": "cara",
    "opponent_id": 1,
    "round": 3,
    "wins": 2,
@@ -22,18 +21,14 @@
    "draws": 0,
    "games": [
     {
-     "opponent": "cara",
-     "winner": "xander"
+     "won": true
     },
     {
-     "opponent": "cara",
-     "winner": "xander"
+     "won": true
     }
-   ],
-   "winner": "xander"
+   ]
   },
   {
-   "opponent": "jen",
    "opponent_id": 6,
    "round": 2,
    "wins": 2,
@@ -41,18 +36,14 @@
    "draws": 0,
    "games": [
     {
-     "opponent": "jen",
-     "winner": "xander"
+     "won": true
     },
     {
-     "opponent": "jen",
-     "winner": "xander"
+     "won": true
     }
-   ],
-   "winner": "xander"
+   ]
   },
   {
-   "opponent": "paul",
    "opponent_id": 7,
    "round": 1,
    "wins": 2,
@@ -60,19 +51,13 @@
    "draws": 0,
    "games": [
     {
-     "opponent": "paul",
-     "winner": "xander"
+     "won": true
     },
     {
-     "opponent": "paul",
-     "winner": "xander"
+     "won": true
     },
-    {
-     "opponent": "paul",
-     "winner": "paul"
-    }
-   ],
-   "winner": "xander"
+    {}
+   ]
   }
  ],
  "mainboard": [

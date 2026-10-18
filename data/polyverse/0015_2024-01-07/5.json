@@ -9,11 +9,10 @@
  "labels": [
   "ramp"
  ],
- "player": "james",
+ "player_id": 6,
  "date": "2024-01-07",
  "matches": [
   {
-   "opponent": "cara",
    "opponent_id": 1,
    "round": 1,
    "wins": 1,
@@ -21,22 +20,13 @@
    "draws": 0,
    "games": [
     {
-     "opponent": "cara",
-     "winner": "james"
+     "won": true
     },
-    {
-     "opponent": "cara",
-     "winner": "cara"
-    },
-    {
-     "opponent": "cara",
-     "winner": "cara"
-    }
-   ],
-   "winner": "cara"
+    {},
+    {}
+   ]
   },
   {
-   "opponent": "jen",
    "opponent_id": 6,
    "round": 4,
    "wins": 2,
@@ -44,22 +34,15 @@
    "draws": 0,
    "games": [
     {
-     "opponent": "jen",
-     "winner": "james"
+     "won": true
     },
     {
-     "opponent": "jen",
-     "winner": "james"
+     "won": true
     },
-    {
-     "opponent": "jen",
-     "winner": "jen"
-    }
-   ],
-   "winner": "james"
+    {}
+   ]
   },
   {
-   "opponent": "paul",
    "opponent_id": 7,
    "round": 2,
    "wins": 2,
@@ -67,19 +50,13 @@
    "draws": 0,
    "games": [
     {
-     "opponent": "paul",
-     "winner": "james"
+     "won": true
     },
     {
-     "opponent": "paul",
-     "winner": "james"
+     "won": true
     },
-    {
-     "opponent": "paul",
-     "winner": "paul"
-    }
-   ],
-   "winner": "james"
+    {}
+   ]
   }
  ],
  "mainboard": [

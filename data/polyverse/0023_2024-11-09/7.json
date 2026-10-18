@@ -7,11 +7,10 @@
  "id": 7,
  "macro_archetype": "aggro",
  "labels": [],
- "player": "paul",
+ "player_id": 7,
  "date": "2024-11-09",
  "matches": [
   {
-   "opponent": "cara",
    "opponent_id": 1,
    "round": 3,
    "wins": 1,
@@ -19,17 +18,12 @@
    "draws": 0,
    "games": [
     {
-     "opponent": "cara",
-     "winner": "paul"
+     "won": true
     },
-    {
-     "opponent": "cara",
-     "winner": "cara"
-    }
+    {}
    ]
   },
   {
-   "opponent": "xander",
    "opponent_id": 8,
    "round": 2,
    "wins": 1,
@@ -37,13 +31,9 @@
    "draws": 0,
    "games": [
     {
-     "opponent": "xander",
-     "winner": "paul"
+     "won": true
     },
-    {
-     "opponent": "xander",
-     "winner": "xander"
-    }
+    {}
    ]
   }
  ],

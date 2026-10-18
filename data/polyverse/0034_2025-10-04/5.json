@@ -9,11 +9,9 @@
   "coco",
   "lands"
  ],
- "player": "2025-10-04_ccc2025_1-p5",
  "date": "2025-10-04",
  "matches": [
   {
-   "opponent": "2025-10-04_ccc2025_1-p1",
    "opponent_id": 1,
    "round": 3,
    "wins": 2,
@@ -21,41 +19,26 @@
    "draws": 0,
    "games": [
     {
-     "opponent": "2025-10-04_ccc2025_1-p1",
-     "winner": "2025-10-04_ccc2025_1-p5"
+     "won": true
     },
     {
-     "opponent": "2025-10-04_ccc2025_1-p1",
-     "winner": "2025-10-04_ccc2025_1-p5"
+     "won": true
     },
-    {
-     "opponent": "2025-10-04_ccc2025_1-p1",
-     "winner": "2025-10-04_ccc2025_1-p1"
-    }
-   ],
-   "winner": "2025-10-04_ccc2025_1-p5"
+    {}
+   ]
   },
   {
-   "opponent": "2025-10-04_ccc2025_1-p7",
    "opponent_id": 7,
    "round": 2,
    "wins": 0,
    "losses": 2,
    "draws": 0,
    "games": [
-    {
-     "opponent": "2025-10-04_ccc2025_1-p7",
-     "winner": "2025-10-04_ccc2025_1-p7"
-    },
-    {
-     "opponent": "2025-10-04_ccc2025_1-p7",
-     "winner": "2025-10-04_ccc2025_1-p7"
-    }
-   ],
-   "winner": "2025-10-04_ccc2025_1-p7"
+    {},
+    {}
+   ]
   },
   {
-   "opponent": "2025-10-04_ccc2025_1-p4",
    "opponent_id": 4,
    "round": 1,
    "wins": 1,
@@ -63,11 +46,9 @@
    "draws": 0,
    "games": [
     {
-     "opponent": "2025-10-04_ccc2025_1-p4",
-     "winner": "2025-10-04_ccc2025_1-p5"
+     "won": true
     }
-   ],
-   "winner": "2025-10-04_ccc2025_1-p5"
+   ]
   }
  ],
  "mainboard": [],

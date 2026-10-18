@@ -10,11 +10,10 @@
   "token",
   "vampire"
  ],
- "player": "jen",
+ "player_id": 3,
  "date": "2024-03-31",
  "matches": [
   {
-   "opponent": "cara",
    "opponent_id": 1,
    "round": 2,
    "wins": 2,
@@ -22,22 +21,15 @@
    "draws": 0,
    "games": [
     {
-     "opponent": "cara",
-     "winner": "jen"
+     "won": true
     },
     {
-     "opponent": "cara",
-     "winner": "jen"
+     "won": true
     },
-    {
-     "opponent": "cara",
-     "winner": "cara"
-    }
-   ],
-   "winner": "jen"
+    {}
+   ]
   },
   {
-   "opponent": "paul",
    "opponent_id": 7,
    "round": 3,
    "wins": 1,
@@ -45,38 +37,22 @@
    "draws": 0,
    "games": [
     {
-     "opponent": "paul",
-     "winner": "jen"
+     "won": true
     },
-    {
-     "opponent": "paul",
-     "winner": "paul"
-    },
-    {
-     "opponent": "paul",
-     "winner": "paul"
-    }
-   ],
-   "winner": "paul"
+    {},
+    {}
+   ]
   },
   {
-   "opponent": "xander",
    "opponent_id": 8,
    "round": 1,
    "wins": 0,
    "losses": 2,
    "draws": 0,
    "games": [
-    {
-     "opponent": "xander",
-     "winner": "xander"
-    },
-    {
-     "opponent": "xander",
-     "winner": "xander"
-    }
-   ],
-   "winner": "xander"
+    {},
+    {}
+   ]
   }
  ],
  "mainboard": [

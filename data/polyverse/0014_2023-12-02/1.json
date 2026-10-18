@@ -9,30 +9,21 @@
  "labels": [
   "+1/+1"
  ],
- "player": "cara",
+ "player_id": 11,
  "date": "2023-12-02",
  "matches": [
   {
-   "opponent": "jen",
    "opponent_id": 6,
    "round": 1,
    "wins": 0,
    "losses": 2,
    "draws": 0,
    "games": [
-    {
-     "opponent": "jen",
-     "winner": "jen"
-    },
-    {
-     "opponent": "jen",
-     "winner": "jen"
-    }
-   ],
-   "winner": "jen"
+    {},
+    {}
+   ]
   },
   {
-   "opponent": "paul",
    "opponent_id": 7,
    "round": 2,
    "wins": 2,
@@ -40,38 +31,24 @@
    "draws": 0,
    "games": [
     {
-     "opponent": "paul",
-     "winner": "cara"
+     "won": true
     },
     {
-     "opponent": "paul",
-     "winner": "cara"
+     "won": true
     },
-    {
-     "opponent": "paul",
-     "winner": "paul"
-    }
-   ],
-   "winner": "cara"
+    {}
+   ]
   },
   {
-   "opponent": "xander",
    "opponent_id": 8,
    "round": 3,
    "wins": 0,
    "losses": 2,
    "draws": 0,
    "games": [
-    {
-     "opponent": "xander",
-     "winner": "xander"
-    },
-    {
-     "opponent": "xander",
-     "winner": "xander"
-    }
-   ],
-   "winner": "xander"
+    {},
+    {}
+   ]
   }
  ],
  "mainboard": [
