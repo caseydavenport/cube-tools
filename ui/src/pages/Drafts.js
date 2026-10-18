@@ -110,12 +110,13 @@ export function DraftPackWidget(input) {
 }
 
 // draftRows turns the drafts map into index rows: draft id and label, non-bot
-// player count, and the trophy winner from that draft's decks.
+// player count, and the trophy winner from that draft's decks, with the
+// winner's player id when they have one.
 export function draftRows(drafts, decks) {
   let winnerByDraft = new Map();
   for (let deck of decks) {
     if (Trophies(deck) > 0) {
-      winnerByDraft.set(deck.metadata.draft_id, deck.player);
+      winnerByDraft.set(deck.metadata.draft_id, deck);
     }
   }
 
@@ -131,7 +132,8 @@ export function draftRows(drafts, decks) {
       draft: draft.draft,
       label: draftLabel(draft.draft),
       players,
-      winner: winnerByDraft.get(draft.draft.id) || "—",
+      winner: winnerByDraft.has(draft.draft.id) ? winnerByDraft.get(draft.draft.id).player : "—",
+      winnerId: winnerByDraft.has(draft.draft.id) ? (winnerByDraft.get(draft.draft.id).player_id || 0) : 0,
     });
   }
   // Most recent first.
@@ -164,7 +166,7 @@ export function DraftIndex({ drafts, decks, selected, onSelect, collapsed, onTog
             let className = "widget-table-row";
             const isSelected = row.id === selected;
             if (isSelected) className += " button-selected";
-            const canLink = onSelectWinner && row.winner !== "—";
+            const canLink = onSelectWinner && row.winnerId;
             return (
               <tr ref={isSelected ? selectedRowRef : null} key={row.id} className={className} id={row.id} onClick={onSelect}>
                 <td id={row.id} style={{ whiteSpace: "nowrap" }}>{row.label}</td>
@@ -172,7 +174,7 @@ export function DraftIndex({ drafts, decks, selected, onSelect, collapsed, onTog
                 <td
                   style={{ whiteSpace: "nowrap" }}
                   className={canLink ? "xlink" : undefined}
-                  onClick={canLink ? (e) => { e.stopPropagation(); onSelectWinner(row.winner); } : undefined}
+                  onClick={canLink ? (e) => { e.stopPropagation(); onSelectWinner(row.winnerId); } : undefined}
                 >{row.winner}</td>
               </tr>
             );

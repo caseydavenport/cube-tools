@@ -53,8 +53,8 @@ function rowUnchanged(row) {
 
 // buildMatches turns editor state into deck.matches. In Rounds mode an
 // untouched row returns its original match unchanged, games and all. An edited
-// row keeps its round, recomputes the winner from the score, and drops its
-// games, since the stored games would contradict the new score. Override mode
+// row keeps its round and drops its games, since the stored games would
+// contradict the new score; the server derives the winner from the score. Override mode
 // emits opponent-less stubs, one per match result, so the record reads back
 // exactly as typed; unchanged totals keep the stored matches, which may carry
 // game counts the stubs can't.
@@ -62,7 +62,7 @@ export function buildMatches(state, deck) {
   if (state.mode === "rounds") {
     return state.rows
       .filter((r) => r.opponent || r.opponentId || Number(r.wins) || Number(r.losses) || Number(r.draws))
-      .map((r) => (rowUnchanged(r) ? r.original : editedMatch(r, deck)))
+      .map((r) => (rowUnchanged(r) ? r.original : editedMatch(r)))
   }
   const o = state.override
   const seeded = state.seededOverride
@@ -78,7 +78,7 @@ export function buildMatches(state, deck) {
 
 // editedMatch builds the match for a row the user changed. Round and opponent
 // id are omitted when unknown so the server's zero values stay implicit.
-function editedMatch(r, deck) {
+function editedMatch(r) {
   const m = {}
   if (Number(r.round)) m.round = Number(r.round)
   m.opponent = r.opponent
@@ -86,8 +86,6 @@ function editedMatch(r, deck) {
   m.wins = Number(r.wins) || 0
   m.losses = Number(r.losses) || 0
   m.draws = Number(r.draws) || 0
-  if (m.wins > m.losses) m.winner = deck.player
-  else if (m.losses > m.wins) m.winner = r.opponent
   return m
 }
 

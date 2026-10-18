@@ -94,21 +94,21 @@ export async function SaveDeckMeta(cube, { draft_id, id, macro_archetype, labels
   return decorateDeck(d);
 }
 
-// SaveDeckRecord writes a deck's player name and match record, reconciling the
-// rest of the draft server-side (opponent mirrors and name references). It
-// returns every deck the server changed, each decorated. player and matches
-// are optional: omitted (undefined) they drop out of the JSON body and the
-// server leaves that field unchanged.
-export async function SaveDeckRecord(cube, { draft_id, id, player, matches }) {
+// SaveDeckRecord writes a deck's player and match record, mirroring results
+// onto opponents server-side. It returns every deck the server changed, each
+// decorated. player_id (0 for an anonymous seat) and matches are optional:
+// omitted (undefined) they drop out of the JSON body and the server leaves
+// that field unchanged. A failed save throws with the server's message.
+export async function SaveDeckRecord(cube, { draft_id, id, player_id, matches }) {
   const resp = await fetch(`/api/${cube}/decks/record`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ draft_id, id, player, matches }),
+    body: JSON.stringify({ draft_id, id, player_id, matches }),
   });
   if (!resp.ok) {
-    throw new Error("Failed to save deck record");
+    throw new Error((await resp.text()).trim() || "Failed to save deck record");
   }
   const data = await resp.json();
   return (data.decks || []).map(decorateDeck);

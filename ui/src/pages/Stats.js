@@ -8,6 +8,7 @@ import { HealthWidget } from "./Health.js";
 import { DesignMapWidget } from "./DesignMap.js";
 import { useStatsFilters, useStatsData } from "./StatsHooks.js";
 import { SelectorBar } from "../components/StatsUI.js";
+import { isAnonymous } from "../utils/Players.js"
 
 // StatsViewer displays stats spanning the selected drafts.
 export function StatsViewer(props) {
@@ -79,7 +80,7 @@ export function StatsViewer(props) {
   const playerNames = useMemo(() => {
     let seen = new Set();
     for (let deck of decks) {
-      if (deck.player) seen.add(deck.player);
+      if (deck.player && !isAnonymous(deck)) seen.add(deck.player);
     }
     return Array.from(seen).sort();
   }, [decks]);

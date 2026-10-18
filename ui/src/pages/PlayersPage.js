@@ -6,6 +6,7 @@ import { PlayerTable, PlayerDetailsPanel, playerRowsInOrder } from "./Players.js
 import { PillSearchInput } from "../components/PillSearchInput.js"
 import { Button, DateSelector, NumericInput } from "../components/Dropdown.js"
 import { useArrowNav } from "../hooks/useArrowNav.js"
+import { fetchPlayers, renamePlayer, isAnonymous } from "../utils/Players.js"
 
 // PlayersPage is the Browse > Players master-detail page: a roster index on the
 // left, the selected player's detail (records vs opponents, by archetype, by
@@ -30,7 +31,26 @@ export function PlayersPage(props) {
   const data = useStatsData(filters, dataProps, refresh);
   const { cube, parsed } = data;
 
-  const [selectedPlayer, setSelectedPlayer] = useSelection("player");
+  // The URL carries the player's id so links survive renames; the roster
+  // and stats are keyed by name, so map between the two.
+  const [selectedID, setSelectedID] = useSelection("player");
+  const [players, setPlayers] = useState([]);
+  useEffect(() => {
+    let alive = true;
+    fetchPlayers().then((list) => { if (alive) setPlayers(list); }).catch(() => {});
+    return () => { alive = false; };
+  }, [refresh]);
+  // A player not in the list (a CubeCobra cube's) is selected by name.
+  const selectedEntry = players.find((p) => String(p.id) === selectedID);
+  const selectedPlayer = selectedEntry ? selectedEntry.name : (/^\d+$/.test(selectedID || "") ? "" : selectedID);
+  const setSelectedPlayer = (name) => {
+    const p = players.find((p) => p.name === name);
+    setSelectedID(p ? String(p.id) : name);
+  };
+  const onRename = async (name) => {
+    await renamePlayer(selectedEntry.id, name);
+    setRefresh((r) => r + 1);
+  };
 
   // Picking a player collapses the index so the detail gets the screen; the
   // header toggles it back open.
@@ -46,7 +66,7 @@ export function PlayersPage(props) {
 
   const playerNames = useMemo(() => {
     let seen = new Set();
-    for (let d of parsed.filteredDecks) if (d.player) seen.add(d.player);
+    for (let d of parsed.filteredDecks) if (d.player && !isAnonymous(d)) seen.add(d.player);
     return Array.from(seen).sort();
   }, [parsed.filteredDecks]);
 
@@ -84,6 +104,7 @@ export function PlayersPage(props) {
     collapsed: indexCollapsed,
     onToggleCollapse: () => setIndexCollapsed((c) => !c),
     onSelectPlayer: (name) => setSelectedPlayer(name),
+    onRename: selectedEntry ? onRename : null,
   };
 
   // Left/right arrows step through the roster in its current sort order.

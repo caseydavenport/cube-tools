@@ -12,6 +12,7 @@ import {
   Title, Tooltip, Legend,
 } from 'chart.js'
 import { Line, Bar } from 'react-chartjs-2'
+import { isAnonymous } from "../utils/Players.js"
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, BarElement, Title, Tooltip, Legend)
 
@@ -211,7 +212,7 @@ export function ExplorePage(props) {
         const arch = new Set(), labels = new Set(), playerCounts = {}
         for (const deck of d.decks || []) {
           if (deck.macro_archetype) arch.add(deck.macro_archetype)
-          if (deck.player) playerCounts[deck.player] = (playerCounts[deck.player] || 0) + 1
+          if (deck.player && !isAnonymous(deck)) playerCounts[deck.player] = (playerCounts[deck.player] || 0) + 1
           for (const l of deck.labels || []) labels.add(l)
         }
         // Sort players by deck count (heavy players first, so outliers are easy

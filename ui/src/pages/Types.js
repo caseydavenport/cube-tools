@@ -26,6 +26,7 @@ import {
   ArcElement,
 } from 'chart.js';
 import { Line, Bar, Pie } from 'react-chartjs-2';
+import { personLabel } from "../utils/Players.js"
 
 // Register chart JS objects that we need to use.
 ChartJS.register(
@@ -723,10 +724,11 @@ export function ArchetypeData(decks, confidence) {
       }
 
       // Track who plays this archetype, and how often.
-      if (!tracker.get(type).players.has(deck.player)) {
-        tracker.get(type).players.set(deck.player, 0)
+      const who = personLabel(deck)
+      if (!tracker.get(type).players.has(who)) {
+        tracker.get(type).players.set(who, 0)
       }
-      tracker.get(type).players.set(deck.player, tracker.get(type).players.get(deck.player) + 1)
+      tracker.get(type).players.set(who, tracker.get(type).players.get(who) + 1)
 
       // Track other types shared with this one, and how frequent.
       for (var k in types) {

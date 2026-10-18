@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { Autocomplete } from './PoolList.js';
 import { LoadImportCards, CheckDecks, CommitDraft } from '../utils/ImportFetch.js';
 import { draftLabel } from '../utils/DraftInfo.js';
+import { fetchPlayers, matchPlayerByName } from '../utils/Players.js';
+import { PlayerPicker } from '../components/PlayerPicker.js';
 
 // deckList returns the editable card list for a deck: its pool if pool-only,
 // else the mainboard. Sideboard is preserved but not edited in v1.
@@ -15,15 +17,15 @@ function withList(deck, list) {
   return { ...deck, mainboard: list };
 }
 
-// duplicatePlayers returns player names shared by more than one deck. Commit
-// writes one file per player, so a shared name would clobber a deck on disk.
-function duplicatePlayers(decks) {
+// duplicatePlayers returns the names of players picked for more than one
+// deck. A player plays one deck per draft, so the server refuses those.
+function duplicatePlayers(decks, players) {
   const counts = new Map();
   decks.forEach(d => {
-    const p = (d.player || '').trim();
-    if (p) counts.set(p, (counts.get(p) || 0) + 1);
+    if (d.player_id) counts.set(d.player_id, (counts.get(d.player_id) || 0) + 1);
   });
-  return [...counts.entries()].filter(([, n]) => n > 1).map(([p]) => p);
+  return [...counts.entries()].filter(([, n]) => n > 1)
+    .map(([id]) => (players.find(p => p.id === id) || { name: `#${id}` }).name);
 }
 
 // ImportReview shows the parsed decks with inline fixes and commits them.
@@ -37,6 +39,19 @@ export default function ImportReview({ cube, initialDecks, initialReport, date, 
   const [done, setDone] = useState(null);
 
   useEffect(() => { LoadImportCards(cube).then(setCards).catch(() => setCards([])); }, [cube]);
+
+  // Load the player list and preselect each deck's player from the name
+  // parsing derived from its file, when that name is in the list.
+  const [players, setPlayers] = useState([]);
+  useEffect(() => {
+    let alive = true;
+    fetchPlayers().then(list => {
+      if (!alive) return;
+      setPlayers(list);
+      setDecks(prev => prev.map(d => d.player_id !== undefined ? d : { ...d, player_id: matchPlayerByName(list, d.player) }));
+    }).catch(() => {});
+    return () => { alive = false; };
+  }, []);
 
   // recheck re-validates the current decks against the cube after an edit.
   async function recheck(next) {
@@ -69,8 +84,8 @@ export default function ImportReview({ cube, initialDecks, initialReport, date, 
     const next = existing ? list.map(c => c.name === name ? { ...c, count: c.count + 1 } : c) : [...list, { name, count: 1 }];
     editDeck(i, withList(decks[i], next));
   }
-  function setPlayer(i, player) {
-    editDeck(i, { ...decks[i], player });
+  function setPlayer(i, playerID) {
+    setDecks(decks.map((d, j) => j === i ? { ...d, player_id: playerID } : d));
   }
 
   async function commit() {
@@ -98,7 +113,7 @@ export default function ImportReview({ cube, initialDecks, initialReport, date, 
 
   const clean = report && report.clean;
   const unknownNames = (report ? report.discrepancies : []).filter(d => d.kind === 'unknown').map(d => d.card_name);
-  const dupPlayers = duplicatePlayers(decks);
+  const dupPlayers = duplicatePlayers(decks, players);
 
   return (
     <div className="import-review">
@@ -107,7 +122,14 @@ export default function ImportReview({ cube, initialDecks, initialReport, date, 
         {decks.map((deck, i) => (
           <div className="import-deck" key={i}>
             <div className="import-deck-head">
-              <label>Player<input value={deck.player || ''} onChange={e => setPlayer(i, e.target.value)} placeholder="player" /></label>
+              <label>Player <PlayerPicker
+                players={players}
+                value={deck.player_id || 0}
+                takenIds={decks.filter((d, j) => j !== i && d.player_id).map(d => d.player_id)}
+                onAdded={p => setPlayers(prev => [...prev, p])}
+                onChange={id => setPlayer(i, id)}
+              /></label>
+              {deck.player && !deck.player_id && <span className="ocr-meta">parsed as “{deck.player}”</span>}
               {deck.filename && <span className="ocr-meta">{deck.filename}</span>}
             </div>
             {deck.warnings && deck.warnings.length > 0 && (
@@ -139,7 +161,7 @@ export default function ImportReview({ cube, initialDecks, initialReport, date, 
       </div>
 
       {dupPlayers.length > 0 && (
-        <div className="import-error">Duplicate player {dupPlayers.length > 1 ? 'names' : 'name'} ({dupPlayers.join(', ')}) would overwrite each other. Give each deck a unique player.</div>
+        <div className="import-error">{dupPlayers.join(', ')} {dupPlayers.length > 1 ? 'are' : 'is'} picked for more than one deck. Each player plays one deck per draft.</div>
       )}
       {error && <div className="import-error">{error}</div>}
       <div className="import-actions">

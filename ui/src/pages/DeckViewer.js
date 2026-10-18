@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useMemo, useRef, useLayoutEffect } from 'react'
 import { LoadCube, LoadDecks, SaveDeckMeta, SaveDeckRecord } from "../utils/Fetch.js"
 import { seedRecordEditor, buildMatches, mergeChangedDecks, emptyRow, opponentOptions } from "../utils/RecordEditor.js"
+import { fetchPlayers } from "../utils/Players.js"
+import { PlayerPicker } from "../components/PlayerPicker.js"
 import { useCube } from "../contexts/CubeContext.js"
 import { isReadOnly } from "../utils/readonly.js"
 import { Record, MatchRecord, Wins, Losses, Draws, MatchWins, MatchLosses, MatchDraws, InDeckColor } from "../utils/Deck.js"
@@ -1041,15 +1043,21 @@ function PlayerFrame(input) {
   const onDecksUpdated = input.onDecksUpdated
   const [saveError, setSaveError] = useState(null)
 
-  // Record editor: player name plus a Rounds (per-opponent) or Override
-  // (raw W-L-D) view onto deck.matches. Re-seeded whenever the selected
-  // deck changes.
-  const [playerDraft, setPlayerDraft] = useState(deck.player)
+  // Record editor: a Rounds (per-opponent) or Override (raw W-L-D) view onto
+  // deck.matches. Re-seeded whenever the selected deck changes.
   const [editor, setEditor] = useState(() => seedRecordEditor(deck))
   useEffect(() => {
-    setPlayerDraft(deck.player)
     setEditor(seedRecordEditor(deck))
   }, [deckRef(deck)])
+
+  // The player list feeds the player picker.
+  const [players, setPlayers] = useState([])
+  useEffect(() => {
+    if (readOnly) return
+    let alive = true
+    fetchPlayers().then((list) => { if (alive) setPlayers(list) }).catch(() => {})
+    return () => { alive = false }
+  }, [readOnly])
 
   const setRecordMode = (mode) => setEditor((prev) => ({ ...prev, mode }))
   const setOverride = (override) => setEditor((prev) => ({ ...prev, override }))
@@ -1061,7 +1069,7 @@ function PlayerFrame(input) {
   }))
 
   const saveRecord = () => {
-    saveRecordAndName({ player: playerDraft || deck.player, matches: buildMatches(editor, deck) })
+    saveRecordAndPlayer({ matches: buildMatches(editor, deck) })
   }
 
   // Opponent choices come from the deck's whole draft, loaded without the
@@ -1090,23 +1098,27 @@ function PlayerFrame(input) {
     }
   }
 
-  // Save the player name and/or record through the reconcile endpoint, which
-  // renames references across the draft and mirrors results onto opponents,
-  // then merges every returned deck.
-  const saveRecordAndName = async ({ player, matches }) => {
+  // Save the player and/or record through the record endpoint, which mirrors
+  // results onto opponents, then merge every returned deck.
+  const saveRecordAndPlayer = async ({ player_id, matches }) => {
     setSaveError(null)
     try {
       const changed = await SaveDeckRecord(cube, {
         draft_id: deck.metadata.draft_id,
         id: deck.id,
-        player,
+        player_id,
         matches,
       })
       if (onDecksUpdated) onDecksUpdated(changed)
     } catch (e) {
-      setSaveError("Failed to save")
+      setSaveError(e.message || "Failed to save")
     }
   }
+
+  // Players already holding another deck in this draft.
+  const takenIds = draftDecks
+    .filter((d) => d.metadata && d.metadata.draft_id === deck.metadata.draft_id && d.id !== deck.id && d.player_id)
+    .map((d) => d.player_id)
 
   const onColorChecked = (e) => {
     const idx = ["W", "U", "B", "R", "G"].indexOf(e.target.id)
@@ -1220,12 +1232,14 @@ function PlayerFrame(input) {
           {readOnly ? (
             <h2 className="deck-summary-name">{deck.player}</h2>
           ) : (
-            <input
+            <PlayerPicker
               className="deck-summary-name-input"
-              value={playerDraft}
-              onChange={(e) => setPlayerDraft(e.target.value)}
-              onBlur={() => {
-                if (playerDraft && playerDraft !== deck.player) saveRecordAndName({ player: playerDraft })
+              players={players}
+              value={deck.player_id || 0}
+              takenIds={takenIds}
+              onAdded={(p) => setPlayers((prev) => [...prev, p])}
+              onChange={(id) => {
+                if (id !== (deck.player_id || 0)) saveRecordAndPlayer({ player_id: id })
               }}
             />
           )}

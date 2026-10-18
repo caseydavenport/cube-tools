@@ -115,7 +115,7 @@ export function DraftsPage(props) {
           onSelect={(e) => { setSelectedDraftLog(e.currentTarget.id); setIndexCollapsed(true); }}
           collapsed={indexCollapsed}
           onToggleCollapse={() => setIndexCollapsed((c) => !c)}
-          onSelectWinner={(name) => navigate(`/${cube}/players?player=${encodeURIComponent(name)}`)}
+          onSelectWinner={(id) => navigate(`/${cube}/players?player=${id}`)}
         />
       }
       detail={

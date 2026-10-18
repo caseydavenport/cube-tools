@@ -5,6 +5,9 @@ import { Snippet, Autocomplete } from './PoolList.js';
 import { deriveList } from '../utils/Reconcile.js';
 import { PlayerWorkspace } from './PlayerWorkspace.js';
 import { draftLabel } from '../utils/DraftInfo.js';
+import { fetchPlayers } from '../utils/Players.js';
+import { SaveDeckRecord } from '../utils/Fetch.js';
+import { PlayerPicker } from '../components/PlayerPicker.js';
 
 // OCRImport is the top-level OCR screen. It walks three views: pick a draft,
 // then a player (with the scan-all control and the pool-vs-cube consistency
@@ -23,6 +26,24 @@ export default function OCRImport({ initialDraftId }) {
   const [cards, setCards] = useState([]);
 
   useEffect(() => { LoadOCRDrafts(cube).then(setDrafts); }, [cube]);
+
+  // The player list names each seat's assigned player and feeds the picker.
+  const [players, setPlayers] = useState([]);
+  useEffect(() => { fetchPlayers().then(setPlayers).catch(() => {}); }, []);
+  const playerName = (id) => (players.find(p => p.id === id) || {}).name;
+  const [assignError, setAssignError] = useState(null);
+
+  // assignSeat points a seat's deck (deck id N for seat pN) at a player, or
+  // back to anonymous for 0, then reloads the draft in place.
+  async function assignSeat(seat, playerID) {
+    setAssignError(null);
+    try {
+      await SaveDeckRecord(cube, { draft_id: draft.draft.id, id: Number(seat.slice(1)), player_id: playerID });
+      setDraft(await LoadOCRDraft(cube, draft.draft.id));
+    } catch (e) {
+      setAssignError(e.message);
+    }
+  }
 
   // Coming from the Hedron import, open the freshly-created draft directly
   // instead of the list.
@@ -85,6 +106,16 @@ export default function OCRImport({ initialDraftId }) {
     return (
       <div className="ocr-import wide">
         <button className="ocr-back" onClick={() => setPlayerId(null)}>&larr; Players</button>
+        <label className="ocr-seat-player">Player{" "}
+          <PlayerPicker
+            players={players}
+            value={player.player_id || 0}
+            takenIds={draft.players.filter(p => p.id !== player.id && p.player_id).map(p => p.player_id)}
+            onAdded={p => setPlayers(prev => [...prev, p])}
+            onChange={id => assignSeat(player.id, id)}
+          />
+          {assignError && <span className="error"> {assignError}</span>}
+        </label>
         <PlayerWorkspace cube={cube} draft={draft} player={player}
           onConfirmed={() => openDraft(draft.draft.id)} />
       </div>
@@ -126,7 +157,7 @@ export default function OCRImport({ initialDraftId }) {
                 <button className="ocr-card-row" onClick={() => setPlayerId(p.id)}>
                   <span className="ocr-card-title">
                     <span className={`ocr-status-dot ${p.status || 'unstarted'}`} />
-                    {p.id}
+                    {p.id}{p.player_id ? ` · ${playerName(p.player_id) || `player #${p.player_id}`}` : ""}
                   </span>
                   <span className="ocr-badges">
                     {p.needs_reconfirm && (

@@ -1,9 +1,10 @@
-import React, { useRef } from 'react'
+import React, { useRef, useState } from 'react'
 import { AverageWordCount, IsBasicLand, SortFunc } from "../utils/Utils.js"
 import { ColorImages } from "../utils/Colors.js"
 import { Trophies, LastPlaceFinishes, Wins, Losses } from "../utils/Deck.js"
 import { BucketName, bucketXScale } from "../utils/Buckets.js"
 import { CollapsibleIndex } from "../components/BrowseLayout.js"
+import { isAnonymous, isSeatLabel } from "../utils/Players.js"
 
 import {
   Chart as ChartJS,
@@ -34,10 +35,16 @@ export function PlayerData(decks) {
   let map = new Map()
   for (var i in decks) {
     let deck = decks[i]
+
+    // Seat labels recur in every draft, so anonymous decks belong to no player.
+    if (isAnonymous(deck)) {
+      continue
+    }
     let player = deck.player
     if (!map.has(player)) {
       // Player not seen yet - initialize.
       map.set(player, {
+        id: deck.player_id || 0,
         name: player,
         num_decks: 0,
         decks: new Array(),
@@ -275,6 +282,51 @@ export function PlayerTable(input) {
   );
 }
 
+// PlayerNameEditor shows a player's name with a control to rename them in the
+// global player list. onRename returns a promise that rejects with the
+// server's message, which is shown inline.
+function PlayerNameEditor({ name, onRename }) {
+  const [editing, setEditing] = useState(false)
+  const [draft, setDraft] = useState(name)
+  const [error, setError] = useState(null)
+
+  const submit = async () => {
+    setError(null)
+    try {
+      await onRename(draft)
+      setEditing(false)
+    } catch (e) {
+      setError(e.message)
+    }
+  }
+
+  if (!editing) {
+    return (
+      <h2 className="deck-summary-name">
+        {name}{" "}
+        <button type="button" className="link-button" onClick={() => { setDraft(name); setEditing(true) }}>Rename</button>
+      </h2>
+    )
+  }
+  return (
+    <span>
+      <input
+        className="deck-summary-name-input"
+        autoFocus
+        value={draft}
+        onChange={(e) => setDraft(e.target.value)}
+        onKeyDown={(e) => {
+          if (e.key === "Enter") submit()
+          if (e.key === "Escape") setEditing(false)
+        }}
+      />
+      <button type="button" onClick={submit} disabled={!draft.trim() || draft === name}>Save</button>
+      <button type="button" onClick={() => setEditing(false)}>Cancel</button>
+      {error ? <span className="error">{error}</span> : null}
+    </span>
+  )
+}
+
 export function PlayerDetailsPanel(input) {
   // Defensive checks for initialization
   if (!input.player || !input.parsed || !input.parsed.playerData) {
@@ -314,6 +366,10 @@ export function PlayerDetailsPanel(input) {
     if (deck.games != null) {
       // Include per-game stats.
       for (let game of deck.games) {
+        // Anonymous opponents in different drafts share labels; skip them.
+        if (isSeatLabel(game.opponent)) {
+          continue
+        }
         if (!recordByOpponent.has(game.opponent)) {
           recordByOpponent.set(game.opponent, {
             "name": game.opponent,
@@ -392,7 +448,9 @@ export function PlayerDetailsPanel(input) {
       <div className="player-frame deck-summary">
         <div className="deck-summary-header">
           <div className="deck-summary-identity">
-            <h2 className="deck-summary-name">{input.player}</h2>
+            {input.onRename && playerEntry.id
+              ? <PlayerNameEditor key={playerEntry.id} name={input.player} onRename={input.onRename} />
+              : <h2 className="deck-summary-name">{input.player}</h2>}
             <span className="deck-summary-record">
               {playerEntry.win_percent.toFixed(0)}% <span className="muted">({playerEntry.wins}-{playerEntry.losses})</span>
             </span>

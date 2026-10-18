@@ -53,6 +53,9 @@ export default function HedronImport() {
       {error && <div className="import-error">{error}</div>}
       {drafts && drafts.length === 0 && <div className="import-empty">No drafts found for that cube.</div>}
       {drafts && drafts.length > 0 && (
+        <div className="ocr-meta">Decks come in as anonymous seats (p1, p2, …). Pick each seat's player on its screen once you know who sat there.</div>
+      )}
+      {drafts && drafts.length > 0 && (
         <ul className="ocr-card-list">
           {drafts.map(d => (
             <li key={d.draftId}>

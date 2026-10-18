@@ -2,6 +2,7 @@ import React from 'react';
 import { Button, TextInput, NumericInput, DateSelector, DropdownHeader } from "../components/Dropdown.js";
 import { PillSearchInput } from "../components/PillSearchInput.js";
 import { WIN_CONFIDENCE_OPTS } from "../utils/Stats.js";
+import { personLabel } from "../utils/Players.js"
 
 export function SelectorBar(input) {
   // Publish the bar's height so the in-page section nav can stick directly
@@ -51,7 +52,7 @@ export function Overview(input) {
   let players = new Map();
   for (let deck of input.decks) {
     drafts.set(deck.metadata.draft_id, true);
-    players.set(deck.player, true);
+    players.set(personLabel(deck), true);
   }
   let numDrafts = drafts.size;
   let numPlayers = players.size;

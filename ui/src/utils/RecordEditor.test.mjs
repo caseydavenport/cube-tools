@@ -16,18 +16,12 @@ test("untouched rows round-trip exactly", () => {
   assert.deepEqual(buildMatches(seedRecordEditor(deck), deck), deck.matches)
 })
 
-test("edited row keeps round, recomputes winner, drops games", () => {
+test("edited row keeps round, leaves the winner to the server, drops games", () => {
   const s = seedRecordEditor(deck)
   s.rows[0] = { ...s.rows[0], wins: 2, losses: 1 }
   const [m, other] = buildMatches(s, deck)
-  assert.deepEqual(m, { round: 1, opponent: "An", opponent_id: 2, wins: 2, losses: 1, draws: 0, winner: "Sarah" })
+  assert.deepEqual(m, { round: 1, opponent: "An", opponent_id: 2, wins: 2, losses: 1, draws: 0 })
   assert.equal(other, deck.matches[1])
-})
-
-test("a loss names the opponent as winner", () => {
-  const s = seedRecordEditor(deck)
-  s.rows[1] = { ...s.rows[1], wins: 0 }
-  assert.equal(buildMatches(s, deck)[1].winner, "Patrick")
 })
 
 test("draw omits winner", () => {
@@ -48,7 +42,7 @@ test("new rows without a round or opponent id omit those keys; empty rows drop",
   s.rows.push({ round: 0, opponentId: 0, opponent: "Ghost", wins: 2, losses: 0, draws: 0, original: null })
   const out = buildMatches(s, deck)
   assert.equal(out.length, 3)
-  assert.deepEqual(out[2], { opponent: "Ghost", wins: 2, losses: 0, draws: 0, winner: "Sarah" })
+  assert.deepEqual(out[2], { opponent: "Ghost", wins: 2, losses: 0, draws: 0 })
 })
 
 test("seed picks rounds mode when any match has an opponent", () => {
