@@ -198,3 +198,16 @@ func TestCheckDeckIDs(t *testing.T) {
 func TestSaveDeckRequiresID(t *testing.T) {
 	assert.Error(t, Draft{Dir: t.TempDir()}.SaveDeck(types.NewDeck()))
 }
+
+func TestSaveDeckRefusesNameHeldByAnotherDeck(t *testing.T) {
+	draft := Draft{Dir: t.TempDir()}
+	writeDeck(t, filepath.Join(draft.Dir, "5.json"), 1)
+
+	d := types.NewDeck()
+	d.ID = 5
+	assert.ErrorContains(t, draft.SaveDeck(d), "5.json")
+
+	kept, err := draft.Deck(1)
+	require.NoError(t, err)
+	assert.Equal(t, filepath.Join(draft.Dir, "5.json"), kept.Metadata.Path)
+}

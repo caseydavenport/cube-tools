@@ -128,6 +128,10 @@ func (d Draft) SaveDeck(deck *types.Deck) error {
 	path := deckPath(d.Dir, deck.ID)
 	switch holders := byID[deck.ID]; len(holders) {
 	case 0:
+		// The new deck's file name may already hold another deck, renamed by hand.
+		if exists(path) {
+			return fmt.Errorf("deck file %s already holds another deck", path)
+		}
 	case 1:
 		path = holders[0]
 	default:

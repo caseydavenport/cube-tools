@@ -5,6 +5,7 @@ import (
 	"sort"
 	"strings"
 
+	"github.com/caseydavenport/cube-tools/pkg/drafts"
 	ocrpkg "github.com/caseydavenport/cube-tools/pkg/ocr"
 	"github.com/caseydavenport/cube-tools/pkg/server"
 	"github.com/caseydavenport/cube-tools/pkg/types"
@@ -197,9 +198,9 @@ func attachCaptures(report *ConsistencyReport, sess *Session) {
 		if caps := byName[strings.ToLower(d.CardName)]; len(caps) > 0 {
 			sort.Slice(caps, func(a, b int) bool {
 				if caps[a].Player != caps[b].Player {
-					return caps[a].Player < caps[b].Player
+					return drafts.NaturalLess(caps[a].Player, caps[b].Player)
 				}
-				return caps[a].Photo < caps[b].Photo
+				return drafts.NaturalLess(caps[a].Photo, caps[b].Photo)
 			})
 			d.Captures = caps
 		}

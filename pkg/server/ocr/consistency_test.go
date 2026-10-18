@@ -2,8 +2,10 @@ package ocr
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http/httptest"
 	"path/filepath"
+	"slices"
 	"testing"
 
 	"github.com/caseydavenport/cube-tools/pkg/types"
@@ -96,6 +98,33 @@ func TestBuildConsistencyReport(t *testing.T) {
 		// unknown sorts ahead of any missing/over.
 		if got.Discrepancies[0].Kind != "unknown" {
 			t.Fatalf("expected unknown first, got %+v", got.Discrepancies)
+		}
+	})
+
+	t.Run("captures sort by seat number", func(t *testing.T) {
+		// Twelve seats each pooled one unknown card, so its captures span p1-p12.
+		players := map[string]*PlayerWork{}
+		for seat := 1; seat <= 12; seat++ {
+			name := fmt.Sprintf("p%d", seat)
+			players[name] = &PlayerWork{
+				PoolEntries: []PoolEntry{entry("Brainstrm", 1)},
+				Boxes: map[string][]Box{
+					name + "/checkin-1.jpg": {{ID: name, Chosen: "Brainstrm", Status: "low"}},
+				},
+			}
+		}
+		got := buildConsistencyReport(cl, &Session{Players: players}, 12)
+		var order []string
+		for _, d := range got.Discrepancies {
+			if d.CardName == "Brainstrm" {
+				for _, c := range d.Captures {
+					order = append(order, c.Player)
+				}
+			}
+		}
+		want := []string{"p1", "p2", "p3", "p4", "p5", "p6", "p7", "p8", "p9", "p10", "p11", "p12"}
+		if !slices.Equal(order, want) {
+			t.Fatalf("capture order = %v, want %v", order, want)
 		}
 	})
 
