@@ -10,6 +10,7 @@ import (
 	"github.com/caseydavenport/cube-tools/pkg/server/query"
 	"github.com/caseydavenport/cube-tools/pkg/storage"
 	"github.com/caseydavenport/cube-tools/pkg/types"
+	"github.com/sirupsen/logrus"
 )
 
 // EdgesLoader returns a cube's design-graph edges. It's injected because the
@@ -53,7 +54,10 @@ func (q *Query) Edges(cubeID, match string) ([]graph.Edge, error) {
 	}
 	edges, err := q.edges(cubeID)
 	if err != nil {
-		return nil, fmt.Errorf("load design graph for %s: %w", cubeID, err)
+		// Handlers answer this with a bare 500, so the cause is logged here.
+		err = fmt.Errorf("load design graph for %s: %w", cubeID, err)
+		logrus.WithError(err).Error("could not answer community filter")
+		return nil, err
 	}
 	return edges, nil
 }

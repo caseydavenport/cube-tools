@@ -9,6 +9,8 @@ import (
 	"github.com/caseydavenport/cube-tools/pkg/storage"
 	"github.com/caseydavenport/cube-tools/pkg/storage/memory"
 	"github.com/caseydavenport/cube-tools/pkg/types"
+	"github.com/sirupsen/logrus"
+	logtest "github.com/sirupsen/logrus/hooks/test"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
@@ -101,4 +103,16 @@ func TestDecksNilRequestListsAll(t *testing.T) {
 	decks, err := q.Decks("testcube", nil)
 	require.NoError(t, err)
 	assert.ElementsMatch(t, []string{"Ozzy", "Stevie"}, playersOf(decks))
+}
+
+func TestDecksLoaderErrorIsLogged(t *testing.T) {
+	hook := logtest.NewGlobal()
+	defer hook.Reset()
+	q := New(testStore(), nil, func(string) ([]graph.Edge, error) { return nil, errors.New("no rules") })
+
+	_, err := q.Decks("testcube", &storage.DecksRequest{Match: "community:graveyard"})
+	require.Error(t, err)
+	require.NotNil(t, hook.LastEntry())
+	assert.Equal(t, logrus.ErrorLevel, hook.LastEntry().Level)
+	assert.ErrorContains(t, hook.LastEntry().Data[logrus.ErrorKey].(error), "no rules")
 }
