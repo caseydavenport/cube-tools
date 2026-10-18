@@ -142,3 +142,23 @@ func TestCreateNeverReusesAnOrphanedDirsID(t *testing.T) {
 	require.NoError(t, err)
 	assert.Equal(t, 6, d.ID)
 }
+
+func TestRemoveDeletesDraft(t *testing.T) {
+	cubeDir := t.TempDir()
+	d, err := Create(cubeDir, types.DraftMetadata{Date: "2026-01-01"})
+	require.NoError(t, err)
+	writeDeck(t, filepath.Join(d.Dir, "1.json"), 1)
+
+	require.NoError(t, d.Remove())
+	_, err = Find(cubeDir, d.ID)
+	assert.ErrorIs(t, err, ErrNotFound)
+	_, err = os.Stat(d.Dir)
+	assert.True(t, os.IsNotExist(err))
+}
+
+func TestRemoveRefusesUnnumberedDraft(t *testing.T) {
+	dir := t.TempDir()
+	assert.Error(t, Draft{Dir: dir}.Remove())
+	_, err := os.Stat(dir)
+	assert.NoError(t, err, "nothing removed")
+}

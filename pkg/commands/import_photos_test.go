@@ -121,6 +121,35 @@ func TestBuildPhotoDraftDir(t *testing.T) {
 	}
 }
 
+func TestBuildPhotoDraftDirRemovesDraftOnFailure(t *testing.T) {
+	root := t.TempDir()
+	src := t.TempDir()
+	writeFile(t, filepath.Join(src, "a.jpg"))
+	unreadable := filepath.Join(src, "b.jpg")
+	writeFile(t, unreadable)
+	if err := os.Chmod(unreadable, 0); err != nil {
+		t.Fatal(err)
+	}
+
+	if _, _, err := buildPhotoDraftDir(root, "aurora", src, "2026-06-20", "evt", "", ""); err == nil {
+		t.Fatal("expected an error copying the unreadable photo")
+	}
+	left, err := drafts.List(filepath.Join(root, "aurora"))
+	if err != nil {
+		t.Fatal(err)
+	}
+	if len(left) != 0 {
+		t.Fatalf("drafts left behind: %+v", left)
+	}
+	entries, err := os.ReadDir(filepath.Join(root, "aurora"))
+	if err != nil {
+		t.Fatal(err)
+	}
+	if len(entries) != 0 {
+		t.Fatalf("cube dir not empty: %v", entries)
+	}
+}
+
 func TestBuildPhotoDraftDirErrors(t *testing.T) {
 	root := t.TempDir()
 	src := t.TempDir()

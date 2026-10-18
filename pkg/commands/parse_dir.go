@@ -1,6 +1,7 @@
 package commands
 
 import (
+	"errors"
 	"fmt"
 	"os"
 	"path/filepath"
@@ -31,7 +32,9 @@ var ParseDirectoryCmd = &cobra.Command{
 			logrus.Fatal("Must specify --draft or a --date for a new draft.")
 		}
 
-		parseDeckDir(deckInputDir, fileType, date)
+		if err := parseDeckDir(deckInputDir, fileType, date); err != nil {
+			logrus.WithError(err).Fatal("Failed to parse the deck directory")
+		}
 	},
 }
 
@@ -164,7 +167,7 @@ func checkAnonymousRerun(draft drafts.Draft) error {
 // parseDeckDir parses every deck in deckDir and, if they all parse and the
 // draft is consistent with the cube, writes them into the --draft draft or a
 // new one. A new draft is only created once there is something to write.
-func parseDeckDir(deckDir, fileType, date string) {
+func parseDeckDir(deckDir, fileType, date string) error {
 	logc := logrus.WithFields(logrus.Fields{
 		"directory": deckDir,
 		"filetype":  fileType,
@@ -173,13 +176,13 @@ func parseDeckDir(deckDir, fileType, date string) {
 	// Load work items from the directory.
 	workMap, err := generateWork(deckDir, fileType)
 	if err != nil {
-		logc.WithError(err).Fatal("Failed to generate work from deck directory.")
+		return fmt.Errorf("generate work from deck directory: %w", err)
 	}
 
 	// If no work to do, exit early.
 	if len(workMap) == 0 {
 		logc.Info("No files to process.")
-		return
+		return nil
 	}
 
 	logc.WithField("numPlayers", len(workMap)).Info("Processing deck files.")
@@ -228,45 +231,41 @@ func parseDeckDir(deckDir, fileType, date string) {
 
 	// If we hit any errors, return now before we write out any files.
 	if len(errs) > 0 {
-		logc.WithField("numErrors", len(errs)).Error("Errors occurred while parsing decks, not writing output files.")
-		return
+		return fmt.Errorf("%d decks failed to parse, not writing output files: %w", len(errs), errors.Join(errs...))
 	}
 
 	// Check that the seen cards in the draft match the expected counts based on the latest cube snapshot.
 	if err = checkDraftConsistency(logc, cubeFlag, seenInDraft); err != nil {
 		if !force {
-			logc.WithError(err).Error("Draft consistency check failed, not writing output files.")
-			return
+			return fmt.Errorf("draft consistency check failed, not writing output files: %w", err)
 		}
 		logc.WithError(err).Warn("Draft consistency check failed, but continuing due to --force flag.")
 	}
 
-	draft, err := resolveDraft(cubeFlag)
+	draft, created, err := resolveDraft(cubeFlag)
 	if err != nil {
-		logc.WithError(err).Error("Failed to find or create the draft.")
-		return
+		return fmt.Errorf("find or create the draft: %w", err)
 	}
+	return discardOnError(draft, created, writeDraftDecks(draft, decks))
+}
 
+// writeDraftDecks writes parsed decks and the cube snapshot into the draft,
+// refusing an anonymous re-run that would duplicate its seats.
+func writeDraftDecks(draft drafts.Draft, decks []*types.Deck) error {
 	if anon {
 		if err := checkAnonymousRerun(draft); err != nil {
-			logc.WithError(err).Error("Not writing anonymous decks.")
-			return
+			return fmt.Errorf("not writing anonymous decks: %w", err)
 		}
 	}
-
-	// Write out the cube snapshot to the draft directory.
 	if err := writeCubeSnapshot(cubeFlag, draft); err != nil {
-		logc.WithError(err).Error("Failed to write cube snapshot to draft directory.")
-		return
+		return fmt.Errorf("write cube snapshot: %w", err)
 	}
-
-	// Finally, write out each deck file.
 	for _, d := range decks {
 		if err := writeDeck(d, draft); err != nil {
-			logc.WithError(err).WithField("player_id", d.PlayerID).Error("Failed to write deck file.")
-			return
+			return fmt.Errorf("write deck for player %d: %w", d.PlayerID, err)
 		}
 	}
+	return nil
 }
 
 // writeCubeSnapshot saves the cube as it is now, live from Cube Cobra, with

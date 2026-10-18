@@ -79,17 +79,26 @@ func buildPhotoDraftDir(dataRoot, cube, sourcePath, date, slug, eventName, fligh
 	if err != nil {
 		return drafts.Draft{}, nil, err
 	}
+	written, err := writePhotoDraft(draft, sourcePath, date, images)
+	if err != nil {
+		return drafts.Draft{}, nil, discardOnError(draft, true, err)
+	}
+	return draft, written, nil
+}
 
+// writePhotoDraft copies each photo into its seat's folder in the new draft and
+// writes an anonymous deck stub for the seat, returning the photo paths.
+func writePhotoDraft(draft drafts.Draft, sourcePath, date string, images []string) ([]string, error) {
 	logc := logrus.WithField("draft", draft.ID)
 	var written []string
 	for i, name := range images {
 		deckID := i + 1
 		dst, err := draft.NewPhotoPath(deckID, drafts.PhotoDeck, 1, strings.ToLower(filepath.Ext(name)))
 		if err != nil {
-			return drafts.Draft{}, nil, err
+			return nil, err
 		}
 		if err := copyFile(*logc, filepath.Join(sourcePath, name), dst); err != nil {
-			return drafts.Draft{}, nil, fmt.Errorf("copy image %s: %w", name, err)
+			return nil, fmt.Errorf("copy image %s: %w", name, err)
 		}
 		written = append(written, dst)
 
@@ -99,15 +108,15 @@ func buildPhotoDraftDir(dataRoot, cube, sourcePath, date, slug, eventName, fligh
 		deck.Date = date
 		deck.Metadata.DraftID = draft.ID
 		if err := draft.SaveDeck(deck); err != nil {
-			return drafts.Draft{}, nil, fmt.Errorf("write deck stub: %w", err)
+			return nil, fmt.Errorf("write deck stub: %w", err)
 		}
 	}
-
-	return draft, written, nil
+	return written, nil
 }
 
 // BuildPhotoDraft builds a draft under data/ from a folder of deck photos,
-// normalizes each photo to landscape, and returns the draft ID. Decks start as anonymous seats with no match records.
+// normalizes each photo to landscape, and returns the draft ID. Decks start as
+// anonymous seats with no match records.
 func BuildPhotoDraft(cube, sourcePath, date, slug, eventName, flight string) (int, error) {
 	draft, images, err := buildPhotoDraftDir("data", cube, sourcePath, date, slug, eventName, flight)
 	if err != nil {

@@ -11,6 +11,7 @@ import (
 	"github.com/caseydavenport/cube-tools/pkg/players"
 	"github.com/caseydavenport/cube-tools/pkg/server"
 	"github.com/caseydavenport/cube-tools/pkg/types"
+	"github.com/sirupsen/logrus"
 )
 
 // CommitRequest is the reviewed, ready-to-write draft. A commit always
@@ -112,25 +113,36 @@ func CommitHandlerWithRoot(src types.CubeSource, dataRoot string) http.Handler {
 			return
 		}
 
-		if err := draft.SaveSnapshot(cl); err != nil {
+		if err := writeImport(draft, cl, req); err != nil {
+			logrus.WithError(err).WithField("draft", draft.ID).Error("Import failed; removing the half-written draft")
+			if err := draft.Remove(); err != nil {
+				logrus.WithError(err).WithField("draft", draft.ID).Error("Failed to remove the half-written draft")
+			}
 			http.Error(rw, "internal server error", http.StatusInternalServerError)
 			return
 		}
 
-		for i, pd := range req.Decks {
-			deck := buildDeck(pd, req.Date, draft.ID)
-			deck.ID = i + 1
-
-			// An anonymous deck sits at its deck number, the order it was imported in.
-			if deck.PlayerID == 0 {
-				deck.Seat = deck.ID
-			}
-			if err := draft.SaveDeck(deck); err != nil {
-				http.Error(rw, "internal server error", http.StatusInternalServerError)
-				return
-			}
-		}
-
 		writeJSON(rw, map[string]any{"draft_id": draft.ID})
 	})
+}
+
+// writeImport writes a new draft's cube snapshot and its reviewed decks,
+// numbered in the order they were imported.
+func writeImport(draft drafts.Draft, cl *types.Cube, req CommitRequest) error {
+	if err := draft.SaveSnapshot(cl); err != nil {
+		return err
+	}
+	for i, pd := range req.Decks {
+		deck := buildDeck(pd, req.Date, draft.ID)
+		deck.ID = i + 1
+
+		// An anonymous deck sits at its deck number, the order it was imported in.
+		if deck.PlayerID == 0 {
+			deck.Seat = deck.ID
+		}
+		if err := draft.SaveDeck(deck); err != nil {
+			return err
+		}
+	}
+	return nil
 }

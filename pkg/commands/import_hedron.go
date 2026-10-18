@@ -245,7 +245,7 @@ func importDraft(cube string, d *HedronDraft) (int, error) {
 
 	for _, deck := range playerDecks {
 		if err := draft.SaveDeck(deck); err != nil {
-			return 0, fmt.Errorf("write deck file: %w", err)
+			return 0, discardOnError(draft, true, fmt.Errorf("write deck file: %w", err))
 		}
 		logrus.Infof("Saved deck for seat %s", players.SeatLabel(deck.Seat))
 	}

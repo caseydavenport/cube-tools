@@ -168,3 +168,13 @@ func Create(cubeDir string, meta types.DraftMetadata) (Draft, error) {
 	}
 	return d, nil
 }
+
+// Remove deletes the draft's directory and everything in it. Importers call
+// it to clean up a draft they created when the import fails partway. It
+// refuses a Draft with no ID, which never came from List, Find or Create.
+func (d Draft) Remove() error {
+	if d.ID == 0 || d.Dir == "" {
+		return errors.New("refusing to remove a draft with no ID")
+	}
+	return os.RemoveAll(d.Dir)
+}

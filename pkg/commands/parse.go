@@ -92,12 +92,12 @@ func parseOne(cube, deckFile, player, labels string) error {
 	if err != nil {
 		return err
 	}
-	draft, err := resolveDraft(cube)
+	draft, created, err := resolveDraft(cube)
 	if err != nil {
 		return fmt.Errorf("find or create the draft: %w", err)
 	}
 	d.Date = draft.Date
-	return writeDeck(d, draft)
+	return discardOnError(draft, created, writeDeck(d, draft))
 }
 
 func init() {
@@ -123,25 +123,28 @@ func addDraftFlags(flags *pflag.FlagSet) {
 }
 
 // resolveDraft returns the draft named by --draft, or creates a new one from
-// --date and the event flags when --draft is unset.
-func resolveDraft(cube string) (drafts.Draft, error) {
+// --date and the event flags when --draft is unset. created reports which, so
+// a failed import removes only a draft it made.
+func resolveDraft(cube string) (draft drafts.Draft, created bool, err error) {
 	cubeDir := filepath.Join("data", cube)
 	if draftID != 0 {
-		return drafts.Find(cubeDir, draftID)
+		draft, err = drafts.Find(cubeDir, draftID)
+		return draft, false, err
 	}
 	if _, err := time.Parse("2006-01-02", date); err != nil {
-		return drafts.Draft{}, fmt.Errorf("a new draft needs --date in YYYY-MM-DD format, got %q", date)
+		return drafts.Draft{}, false, fmt.Errorf("a new draft needs --date in YYYY-MM-DD format, got %q", date)
 	}
-	draft, err := drafts.Create(cubeDir, types.DraftMetadata{
+	draft, err = drafts.Create(cubeDir, types.DraftMetadata{
 		Date:             date,
 		EventName:        eventName,
 		EventCode:        eventCode,
 		EventDescription: eventDescription,
 	})
-	if err == nil {
-		logrus.WithField("draft", draft.ID).Info("Created draft; pass --draft to add more decks to it")
+	if err != nil {
+		return drafts.Draft{}, false, err
 	}
-	return draft, err
+	logrus.WithField("draft", draft.ID).Info("Created draft; pass --draft to add more decks to it")
+	return draft, true, nil
 }
 
 // parseDeck parses a deck's source files into a deck for the given draft and
@@ -377,7 +380,7 @@ func writeDeck(d *types.Deck, draft drafts.Draft) error {
 	// we no longer write a per-deck .cubecobra.txt alongside.
 	logc.Debug("Writing canonical deck file")
 	if err := draft.SaveDeck(d); err != nil {
-		logrus.WithError(err).Fatal("Failed to save deck")
+		return fmt.Errorf("save deck %d: %w", d.ID, err)
 	}
 	return nil
 }
@@ -402,18 +405,14 @@ func existingDeck(d *types.Deck, draft drafts.Draft) (*types.Deck, error) {
 	return existing, err
 }
 
+// copyFile copies src to dst.
 func copyFile(logc logrus.Entry, src, dst string) error {
-	logc.WithField("file", src).Debugf("Writing source file for posterity")
-	f, err := os.Open(src)
-	defer f.Close()
+	logc.WithField("file", src).Debugf("Copying file")
+	bs, err := os.ReadFile(src)
 	if err != nil {
-		panic(err)
+		return err
 	}
-	bytes, err := io.ReadAll(f)
-	if err != nil {
-		panic(err)
-	}
-	return os.WriteFile(dst, bytes, os.ModePerm)
+	return os.WriteFile(dst, bs, 0o644)
 }
 
 // cardsFromTXT imports cards from a .txt file, where the format is
