@@ -119,7 +119,7 @@ func exportToCC(draft drafts.Draft) {
 
 	recordName := draft.EventName
 	if recordName == "" {
-		recordName = filepath.Base(draft.Dir)
+		recordName = drafts.DirName(draft.ID, draft.Date)
 	}
 
 	recordDescription := draft.EventDescription
