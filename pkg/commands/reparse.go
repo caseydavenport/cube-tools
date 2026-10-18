@@ -6,7 +6,6 @@ import (
 	"path/filepath"
 
 	"github.com/caseydavenport/cube-tools/pkg/drafts"
-	"github.com/caseydavenport/cube-tools/pkg/types"
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 )
@@ -36,16 +35,11 @@ func reparse(cube string) error {
 
 	// Iterate over the drafts and reparse each one.
 	for _, draft := range all {
-		paths, err := drafts.DeckFiles(draft.Dir)
+		decks, err := draft.Decks()
 		if err != nil {
 			return err
 		}
-		for _, deckPath := range paths {
-			// Open the deck file.
-			deck, err := types.LoadDeck(deckPath)
-			if err != nil {
-				return fmt.Errorf("failed to load deck file %s: %w", deckPath, err)
-			}
+		for _, deck := range decks {
 
 			// Build path to the .txt or csv file.
 			srcFiles := deck.Metadata.GetSourceFiles()
@@ -64,16 +58,15 @@ func reparse(cube string) error {
 			}
 
 			logrus.WithFields(logrus.Fields{
-				"deck": deckPath,
+				"deck": deck.ID,
 				"src":  srcFiles,
 			}).Info("Reparsing deck")
 
 			if d, err := parseDeck(srcFiles, deck.PlayerID, "", draft.Date, draft.ID); err != nil {
-				logrus.WithError(err).WithField("deck", deckPath).Warn("Failed to parse deck")
+				logrus.WithError(err).WithField("deck", deck.ID).Warn("Failed to parse deck")
 			} else {
-				// Preserve the existing path so reparse overwrites the deck in
-				// place.
-				d.Metadata.Path = deck.Metadata.Path
+				// Keep the deck's ID so reparse overwrites it in place.
+				d.ID = deck.ID
 				if err := writeDeck(d, draft); err != nil {
 					logrus.WithError(err).Fatal("Failed to write deck")
 				}

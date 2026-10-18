@@ -42,13 +42,10 @@ func draftReq(t *testing.T, method, suffix string, d drafts.Draft) *http.Request
 // writeDeck writes a deck file with the given id into draft d.
 func writeDeck(t *testing.T, d drafts.Draft, deck *types.Deck) string {
 	t.Helper()
-	deck.Metadata.DraftID = d.ID
-	path := drafts.DeckPath(d.Dir, deck.ID)
-	deck.Metadata.Path = path
-	if err := deck.Save(path); err != nil {
+	if err := d.SaveDeck(deck); err != nil {
 		t.Fatal(err)
 	}
-	return path
+	return deck.Metadata.Path
 }
 
 // reqWithCube builds a test request with the cube id attached the way the

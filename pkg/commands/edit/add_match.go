@@ -101,59 +101,55 @@ var seatRE = regexp.MustCompile(`^[pP](\d+)$`)
 
 // findDeck returns the deck in the draft that ref names: a seat label like
 // "p3" for an anonymous deck, or a player's ID or name.
-func findDeck(draft drafts.Draft, ref string) (*types.Deck, string, error) {
+func findDeck(draft drafts.Draft, ref string) (*types.Deck, error) {
 	if m := seatRE.FindStringSubmatch(ref); m != nil {
 		seat, err := strconv.Atoi(m[1])
 		if err != nil {
-			return nil, "", err
+			return nil, err
 		}
-		deck, path, err := findSeat(draft, seat)
+		deck, err := findSeat(draft, seat)
 		if err != nil {
-			return nil, "", err
+			return nil, err
 		}
 		if deck.PlayerID != 0 {
-			return nil, "", fmt.Errorf("seat %d is not an anonymous seat; name its player instead", seat)
+			return nil, fmt.Errorf("seat %d is not an anonymous seat; name its player instead", seat)
 		}
-		return deck, path, nil
+		return deck, nil
 	}
 	playerID, err := commands.ResolvePlayer(ref)
 	if err != nil {
-		return nil, "", err
+		return nil, err
 	}
-	deck, path, err := drafts.FindDeckByPlayerID(draft.Dir, playerID)
+	deck, err := draft.DeckByPlayer(playerID)
 	if err != nil {
-		return nil, "", fmt.Errorf("find deck for %s: %w", ref, err)
+		return nil, fmt.Errorf("find deck for %s: %w", ref, err)
 	}
-	return deck, path, nil
+	return deck, nil
 }
 
 // findSeat returns the deck in the draft sitting at the given seat number.
-func findSeat(draft drafts.Draft, seat int) (*types.Deck, string, error) {
-	files, err := drafts.DeckFiles(draft.Dir)
+func findSeat(draft drafts.Draft, seat int) (*types.Deck, error) {
+	decks, err := draft.Decks()
 	if err != nil {
-		return nil, "", err
+		return nil, err
 	}
-	for _, f := range files {
-		d, err := types.LoadDeck(f)
-		if err != nil {
-			return nil, "", fmt.Errorf("load deck %s: %w", f, err)
-		}
+	for _, d := range decks {
 		if d.SeatNumber() == seat {
-			return d, f, nil
+			return d, nil
 		}
 	}
-	return nil, "", fmt.Errorf("no deck at seat %d in draft %d", seat, draft.ID)
+	return nil, fmt.Errorf("no deck at seat %d in draft %d", seat, draft.ID)
 }
 
 // addMatch records a match between two decks of the draft, from who's side
 // with the given game counts, and mirrors it onto the opponent's deck. It
 // refuses to replace an existing match between them unless --force is set.
 func addMatch(draft drafts.Draft, whoRef, oppRef string, wins, losses, ties int) error {
-	deck, path, err := findDeck(draft, whoRef)
+	deck, err := findDeck(draft, whoRef)
 	if err != nil {
 		return err
 	}
-	oppDeck, oppPath, err := findDeck(draft, oppRef)
+	oppDeck, err := findDeck(draft, oppRef)
 	if err != nil {
 		return err
 	}
@@ -182,10 +178,10 @@ func addMatch(draft drafts.Draft, whoRef, oppRef string, wins, losses, ties int)
 	if err := setMatch(oppDeck, types.Match{OpponentID: deck.ID, Wins: losses, Losses: wins, Draws: ties, Games: mirrored}); err != nil {
 		return err
 	}
-	if err := deck.Save(path); err != nil {
+	if err := draft.SaveDeck(deck); err != nil {
 		return err
 	}
-	return oppDeck.Save(oppPath)
+	return draft.SaveDeck(oppDeck)
 }
 
 // setMatch replaces the deck's match against m's opponent with m, refusing to

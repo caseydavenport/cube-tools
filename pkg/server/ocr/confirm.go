@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"net/http"
 
-	"github.com/caseydavenport/cube-tools/pkg/drafts"
 	"github.com/caseydavenport/cube-tools/pkg/types"
 )
 
@@ -63,13 +62,13 @@ func ConfirmHandlerWithRoot(dataRoot string) http.Handler {
 			http.Error(rw, "Invalid request", http.StatusBadRequest)
 			return
 		}
-		existing, deckPath, err := drafts.LoadDeck(draft.Dir, n)
+		existing, err := draft.Deck(n)
 		if err != nil {
 			http.Error(rw, "deck not found: "+err.Error(), http.StatusNotFound)
 			return
 		}
 		d := buildDeck(existing, req)
-		if err := d.Save(deckPath); err != nil {
+		if err := draft.SaveDeck(d); err != nil {
 			http.Error(rw, "Internal server error", http.StatusInternalServerError)
 			return
 		}

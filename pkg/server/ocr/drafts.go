@@ -73,7 +73,7 @@ func discoverPlayers(draft drafts.Draft) ([]PlayerDetail, error) {
 
 		pw := sess.Players[short]
 		if n, ok := playerNum(short); ok {
-			if d, _, err := drafts.LoadDeck(draft.Dir, n); err == nil {
+			if d, err := draft.Deck(n); err == nil {
 				pd.Matches = d.Matches
 				pd.PlayerID = d.PlayerID
 				pd.HasDeck = len(d.Mainboard) > 0 || len(d.Pool) > 0

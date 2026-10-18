@@ -44,7 +44,7 @@ func draftWithRecord(t *testing.T, record string) drafts.Draft {
 	require.NoError(t, draft.SaveMetadata())
 	d := types.NewDeck()
 	d.ID = 1
-	require.NoError(t, d.Save(drafts.DeckPath(draft.Dir, 1)))
+	require.NoError(t, draft.SaveDeck(d))
 	return draft
 }
 

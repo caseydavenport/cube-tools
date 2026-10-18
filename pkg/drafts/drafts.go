@@ -11,65 +11,13 @@ import (
 	"regexp"
 	"sort"
 	"strconv"
-	"strings"
 	"sync"
 	"time"
 
 	"github.com/sirupsen/logrus"
 
-	"github.com/caseydavenport/cube-tools/pkg/players"
 	"github.com/caseydavenport/cube-tools/pkg/types"
 )
-
-// nonDeckFiles are the JSON files a draft directory holds besides its decks.
-var nonDeckFiles = map[string]bool{
-	"index.json":         true,
-	"metadata.json":      true,
-	"cube.json":          true,
-	"cube-rules.json":    true,
-	"cube-snapshot.json": true,
-	"draft-log.json":     true,
-}
-
-// DeckFiles returns the paths of the deck files in a draft directory, sorted.
-// Dotfiles (such as the OCR import's working state) and the draft's other JSON
-// files are skipped. A missing directory has no decks.
-func DeckFiles(dir string) ([]string, error) {
-	matches, err := filepath.Glob(filepath.Join(dir, "*.json"))
-	if err != nil {
-		return nil, fmt.Errorf("list deck files in %s: %w", dir, err)
-	}
-	var out []string
-	for _, path := range matches {
-		name := filepath.Base(path)
-		if strings.HasPrefix(name, ".") || nonDeckFiles[name] {
-			continue
-		}
-		out = append(out, path)
-	}
-	sort.Strings(out)
-	return out, nil
-}
-
-// NextDeckID returns the ID a new deck in the draft directory should get: one
-// more than the highest ID among its existing decks, or 1 for an empty or
-// missing directory. A gap left by a deleted deck stays unused, unless the
-// deleted deck held the highest ID, which the next new deck takes.
-func NextDeckID(dir string) (int, error) {
-	files, err := DeckFiles(dir)
-	if err != nil {
-		return 0, err
-	}
-	highest := 0
-	for _, path := range files {
-		d, err := types.LoadDeck(path)
-		if err != nil {
-			return 0, fmt.Errorf("load deck %s: %w", path, err)
-		}
-		highest = max(highest, d.ID)
-	}
-	return highest + 1, nil
-}
 
 // ErrNotFound is returned when no draft or deck has the requested ID.
 var ErrNotFound = errors.New("draft not found")
@@ -219,68 +167,4 @@ func Create(cubeDir string, meta types.DraftMetadata) (Draft, error) {
 		return Draft{}, fmt.Errorf("write draft metadata: %w", err)
 	}
 	return d, nil
-}
-
-// DeckPath returns where a new deck with the given ID is written in a draft.
-func DeckPath(draftDir string, deckID int) string {
-	return filepath.Join(draftDir, fmt.Sprintf("%d.json", deckID))
-}
-
-// LoadDeck finds the deck with the given ID among a draft's deck files and
-// returns it with its path, or ErrNotFound. Older decks may live in files not
-// named for their ID, so this reads the files rather than trusting DeckPath.
-func LoadDeck(draftDir string, deckID int) (*types.Deck, string, error) {
-	files, err := DeckFiles(draftDir)
-	if err != nil {
-		return nil, "", err
-	}
-	for _, path := range files {
-		d, err := types.LoadDeck(path)
-		if err != nil {
-			return nil, "", fmt.Errorf("load deck %s: %w", path, err)
-		}
-		if d.ID == deckID {
-			return d, path, nil
-		}
-	}
-	return nil, "", ErrNotFound
-}
-
-// FindDeckByPlayerID finds the deck in a draft played by the given player and
-// returns it with its path, or ErrNotFound. The deck's names are not resolved.
-func FindDeckByPlayerID(draftDir string, playerID int) (*types.Deck, string, error) {
-	files, err := DeckFiles(draftDir)
-	if err != nil {
-		return nil, "", err
-	}
-	for _, path := range files {
-		d, err := types.LoadDeck(path)
-		if err != nil {
-			return nil, "", fmt.Errorf("load deck %s: %w", path, err)
-		}
-		if playerID != 0 && d.PlayerID == playerID {
-			return d, path, nil
-		}
-	}
-	return nil, "", ErrNotFound
-}
-
-// LoadDecks returns every deck in a draft with its display names resolved
-// against pl, for callers that show or export names rather than just edit
-// stored fields.
-func LoadDecks(draftDir string, pl *players.List) ([]*types.Deck, error) {
-	files, err := DeckFiles(draftDir)
-	if err != nil {
-		return nil, err
-	}
-	decks := make([]*types.Deck, 0, len(files))
-	for _, path := range files {
-		d, err := types.LoadDeck(path)
-		if err != nil {
-			return nil, fmt.Errorf("load deck %s: %w", path, err)
-		}
-		decks = append(decks, d)
-	}
-	pl.ResolveDraft(decks)
-	return decks, nil
 }

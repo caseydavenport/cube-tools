@@ -102,8 +102,7 @@ func buildPhotoDraftDir(dataRoot, cube, sourcePath, date, slug, eventName, fligh
 		deck.Seat = deckID
 		deck.Date = date
 		deck.Metadata.DraftID = draft.ID
-		deck.Metadata.Path = drafts.DeckPath(draft.Dir, deckID)
-		if err := deck.Save(deck.Metadata.Path); err != nil {
+		if err := draft.SaveDeck(deck); err != nil {
 			return drafts.Draft{}, nil, fmt.Errorf("write deck stub: %w", err)
 		}
 	}

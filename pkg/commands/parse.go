@@ -296,7 +296,7 @@ func cardsFromDeckFile(deckFile string) ([]types.Card, []types.Card, error) {
 }
 
 // writeDeck writes a parsed deck into a draft. A deck the draft already has,
-// found by its path or else by player ID, keeps its ID, player, notes, record,
+// found by its ID or else by player ID, keeps its ID, player, notes, record,
 // and annotations; a new deck gets the next ID and a file named for it. A deck
 // with no player ID is an anonymous seat.
 func writeDeck(d *types.Deck, draft drafts.Draft) error {
@@ -315,24 +315,14 @@ func writeDeck(d *types.Deck, draft drafts.Draft) error {
 		}
 	}
 
-	path := d.Metadata.Path
-	if path == "" && d.PlayerID != 0 {
-		_, existingPath, err := drafts.FindDeckByPlayerID(outdir, d.PlayerID)
-		if err != nil && !errors.Is(err, drafts.ErrNotFound) {
-			return err
-		}
-		path = existingPath
-	}
-
 	// If the deck already exists, keep the fields captured since it was first
 	// parsed so re-running the parse doesn't lose them.
-	if path != "" {
-		logrus.WithField("file", path).Debug("File already exists, loading and updating")
-
-		existing, err := types.LoadDeck(path)
-		if err != nil {
-			return fmt.Errorf("Failed to load existing deck %s: %w", path, err)
-		}
+	existing, err := existingDeck(d, draft)
+	if err != nil {
+		return err
+	}
+	if existing != nil {
+		logrus.WithField("deck", existing.ID).Debug("Deck already exists, loading and updating")
 		d.ID = existing.ID
 		d.Notes = existing.Notes
 		d.PlayerID = existing.PlayerID
@@ -346,14 +336,11 @@ func writeDeck(d *types.Deck, draft drafts.Draft) error {
 	}
 
 	if d.ID == 0 {
-		id, err := drafts.NextDeckID(outdir)
+		id, err := draft.NextDeckID()
 		if err != nil {
 			return fmt.Errorf("assign deck id: %w", err)
 		}
 		d.ID = id
-	}
-	if path == "" {
-		path = drafts.DeckPath(outdir, d.ID)
 	}
 
 	// An anonymous deck needs a seat to be told apart; without one from the
@@ -361,8 +348,6 @@ func writeDeck(d *types.Deck, draft drafts.Draft) error {
 	if d.PlayerID == 0 && d.Seat == 0 {
 		d.Seat = d.ID
 	}
-	d.Metadata.DraftID = draft.ID
-	d.Metadata.Path = path
 
 	logc := logrus.WithFields(logrus.Fields{
 		"player_id": d.PlayerID,
@@ -398,11 +383,31 @@ func writeDeck(d *types.Deck, draft drafts.Draft) error {
 	// Write the canonical deck file in our format. The JSON is the source of
 	// truth - the `export-cc` command handles cubecobra exports on demand, so
 	// we no longer write a per-deck .cubecobra.txt alongside.
-	logc.WithField("file", path).Debug("Writing canonical deck file")
-	if err := SaveDeck(d); err != nil {
+	logc.Debug("Writing canonical deck file")
+	if err := draft.SaveDeck(d); err != nil {
 		logrus.WithError(err).Fatal("Failed to save deck")
 	}
 	return nil
+}
+
+// existingDeck returns the deck in the draft that d replaces: the one with
+// d's ID when it has one (a reparse), otherwise the one played by d's player.
+// It returns nil for a new deck.
+func existingDeck(d *types.Deck, draft drafts.Draft) (*types.Deck, error) {
+	var existing *types.Deck
+	var err error
+	switch {
+	case d.ID != 0:
+		existing, err = draft.Deck(d.ID)
+	case d.PlayerID != 0:
+		existing, err = draft.DeckByPlayer(d.PlayerID)
+	default:
+		return nil, nil
+	}
+	if errors.Is(err, drafts.ErrNotFound) {
+		return nil, nil
+	}
+	return existing, err
 }
 
 func copyFile(logc logrus.Entry, src, dst string) error {

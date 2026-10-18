@@ -74,7 +74,7 @@ func Index(cube string) error {
 			DraftID:  d.ID,
 			Date:     d.Date,
 			DraftLog: draftLogPath,
-			Decks:    decksInDraft(d.Dir),
+			Decks:    decksInDraft(d),
 		})
 	}
 
@@ -118,15 +118,15 @@ func cubeCobraID(cube string) string {
 	return meta.CubeCobraID
 }
 
-// decksInDraft returns a []Path pointing to all the decks in the given directory.
-func decksInDraft(directory string) []IndexedDeck {
-	files, err := drafts.DeckFiles(directory)
+// decksInDraft returns a []Path pointing to all the decks in the given draft.
+func decksInDraft(draft drafts.Draft) []IndexedDeck {
+	decks, err := draft.Decks()
 	if err != nil {
 		logrus.WithError(err).Fatal("Failed to get deck files")
 	}
-	var decks []IndexedDeck
-	for _, file := range files {
-		decks = append(decks, IndexedDeck{Path: file})
+	var out []IndexedDeck
+	for _, d := range decks {
+		out = append(out, IndexedDeck{Path: d.Metadata.Path})
 	}
-	return decks
+	return out
 }

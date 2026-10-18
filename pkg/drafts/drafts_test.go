@@ -10,7 +10,6 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/caseydavenport/cube-tools/pkg/players"
 	"github.com/caseydavenport/cube-tools/pkg/types"
 )
 
@@ -25,49 +24,6 @@ func writeDeck(t *testing.T, path string, id int) {
 	d.ID = id
 	d.Player = filepath.Base(path)
 	require.NoError(t, d.Save(path))
-}
-
-func TestDeckFilesSkipsNonDecks(t *testing.T) {
-	dir := t.TempDir()
-	writeDeck(t, filepath.Join(dir, "b.json"), 2)
-	writeDeck(t, filepath.Join(dir, "a.json"), 1)
-	for _, name := range []string{"metadata.json", "cube-snapshot.json", "draft-log.json", ".ocr-session.json"} {
-		writeFile(t, filepath.Join(dir, name), "{}")
-	}
-	writeFile(t, filepath.Join(dir, "casey.report.md"), "notes")
-
-	got, err := DeckFiles(dir)
-	require.NoError(t, err)
-	assert.Equal(t, []string{filepath.Join(dir, "a.json"), filepath.Join(dir, "b.json")}, got)
-}
-
-func TestNextDeckID(t *testing.T) {
-	dir := t.TempDir()
-	writeDeck(t, filepath.Join(dir, "a.json"), 1)
-	writeDeck(t, filepath.Join(dir, "b.json"), 4)
-	writeFile(t, filepath.Join(dir, "metadata.json"), `{"id": 99}`)
-
-	got, err := NextDeckID(dir)
-	require.NoError(t, err)
-	assert.Equal(t, 5, got)
-}
-
-func TestNextDeckIDEmptyDir(t *testing.T) {
-	got, err := NextDeckID(t.TempDir())
-	require.NoError(t, err)
-	assert.Equal(t, 1, got)
-
-	got, err = NextDeckID(filepath.Join(t.TempDir(), "missing"))
-	require.NoError(t, err)
-	assert.Equal(t, 1, got)
-}
-
-func TestNextDeckIDBadDeckFile(t *testing.T) {
-	dir := t.TempDir()
-	writeFile(t, filepath.Join(dir, "broken.json"), "{not json")
-
-	_, err := NextDeckID(dir)
-	assert.ErrorContains(t, err, "broken.json")
 }
 
 func TestCreateAssignsNextIDAndDir(t *testing.T) {
@@ -147,57 +103,8 @@ func TestFind(t *testing.T) {
 	assert.ErrorIs(t, err, ErrNotFound)
 }
 
-func TestLoadDeckByID(t *testing.T) {
-	dir := t.TempDir()
-	writeDeck(t, filepath.Join(dir, "5.json"), 5)
-	writeDeck(t, filepath.Join(dir, "casey.json"), 2)
-
-	d, path, err := LoadDeck(dir, 2)
-	require.NoError(t, err)
-	assert.Equal(t, 2, d.ID)
-	assert.Equal(t, filepath.Join(dir, "casey.json"), path)
-
-	_, _, err = LoadDeck(dir, 9)
-	assert.ErrorIs(t, err, ErrNotFound)
-
-	assert.Equal(t, filepath.Join(dir, "5.json"), DeckPath(dir, 5))
+func TestDirName(t *testing.T) {
 	assert.Equal(t, "0042_2026-10-13", DirName(42, "2026-10-13"))
-}
-
-func TestFindDeckByPlayerID(t *testing.T) {
-	dir := t.TempDir()
-	d := types.NewDeck()
-	d.ID = 4
-	d.PlayerID = 7
-	require.NoError(t, d.Save(filepath.Join(dir, "4.json")))
-
-	got, path, err := FindDeckByPlayerID(dir, 7)
-	require.NoError(t, err)
-	assert.Equal(t, 4, got.ID)
-	assert.Equal(t, filepath.Join(dir, "4.json"), path)
-
-	_, _, err = FindDeckByPlayerID(dir, 8)
-	assert.ErrorIs(t, err, ErrNotFound)
-}
-
-func TestLoadDecksResolves(t *testing.T) {
-	dir := t.TempDir()
-	a := types.NewDeck()
-	a.ID = 1
-	a.PlayerID = 1
-	a.Matches = []types.Match{{OpponentID: 2, Wins: 2}}
-	require.NoError(t, a.Save(filepath.Join(dir, "1.json")))
-	b := types.NewDeck()
-	b.ID = 2
-	require.NoError(t, b.Save(filepath.Join(dir, "2.json")))
-
-	pl := &players.List{Players: []players.Player{{ID: 1, Name: "Joan Jett"}}}
-	got, err := LoadDecks(dir, pl)
-	require.NoError(t, err)
-	require.Len(t, got, 2)
-	assert.Equal(t, "Joan Jett", got[0].Player)
-	assert.Equal(t, "p2", got[0].Matches[0].Opponent)
-	assert.Equal(t, "p2", got[1].Player)
 }
 
 func TestCreateConcurrentGetsUniqueIDs(t *testing.T) {

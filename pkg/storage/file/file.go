@@ -76,84 +76,52 @@ func (b *Backend) RawDecks(cube string) ([]*storage.Deck, error) {
 }
 
 // LoadDraft returns every deck in the draft's directory, or ErrDeckNotFound if
-// it holds none. It reads the directory rather than the cube index so a draft
-// written since the last reindex is still editable.
+// it holds none. It refuses a draft where a deck has no ID or two decks share
+// one, since writes find their file by ID and would otherwise overwrite the
+// wrong deck.
 func (b *Backend) LoadDraft(cube string, draftID int) ([]*storage.Deck, error) {
-	files, err := loadDraftFiles(cube, draftID)
+	draft, err := findDraft(cube, draftID)
 	if err != nil {
 		return nil, err
 	}
-	if len(files) == 0 {
+	if err := draft.CheckDeckIDs(); err != nil {
+		return nil, err
+	}
+	decks, err := draft.Decks()
+	if err != nil {
+		return nil, err
+	}
+	if len(decks) == 0 {
 		return nil, storage.ErrDeckNotFound
 	}
-	out := make([]*storage.Deck, 0, len(files))
-	for _, f := range files {
-		out = append(out, &storage.Deck{Deck: *f.deck})
+	out := make([]*storage.Deck, 0, len(decks))
+	for _, d := range decks {
+		out = append(out, &storage.Deck{Deck: *d})
 	}
 	return out, nil
 }
 
 // SaveDecks writes each deck back to the file in the draft's directory that
 // holds its ID, so a renamed player keeps the same file. It returns
-// ErrDeckNotFound for an ID no file in the draft has.
+// ErrDeckNotFound for an ID no file in the draft has, rather than creating one.
 func (b *Backend) SaveDecks(cube string, draftID int, decks []*storage.Deck) error {
-	files, err := loadDraftFiles(cube, draftID)
+	draft, err := findDraft(cube, draftID)
 	if err != nil {
 		return err
 	}
-	paths := make(map[int]string, len(files))
-	for _, f := range files {
-		paths[f.deck.ID] = f.path
-	}
 	for _, d := range decks {
-		path, ok := paths[d.ID]
-		if !ok {
-			return storage.ErrDeckNotFound
+		if _, err := draft.Deck(d.ID); err != nil {
+			if errors.Is(err, drafts.ErrNotFound) {
+				return storage.ErrDeckNotFound
+			}
+			return err
 		}
 		td := d.Deck
-		td.Metadata.Path = path
-		if err := td.Save(path); err != nil {
-			return fmt.Errorf("save deck %s: %w", path, err)
+		if err := draft.SaveDeck(&td); err != nil {
+			return fmt.Errorf("save deck %d: %w", d.ID, err)
 		}
 	}
 	return nil
-}
-
-// draftFile is one deck file in a draft directory, as loaded from disk.
-type draftFile struct {
-	path string
-	deck *types.Deck
-}
-
-// loadDraftFiles loads every deck file in a draft's directory. It refuses a
-// draft where a deck has no ID or two decks share one, since writes find their
-// file by ID and would otherwise overwrite the wrong deck.
-func loadDraftFiles(cube string, draftID int) ([]draftFile, error) {
-	draft, err := findDraft(cube, draftID)
-	if err != nil {
-		return nil, err
-	}
-	paths, err := drafts.DeckFiles(draft.Dir)
-	if err != nil {
-		return nil, err
-	}
-	seen := make(map[int]string, len(paths))
-	out := make([]draftFile, 0, len(paths))
-	for _, path := range paths {
-		d, err := types.LoadDeck(path)
-		if err != nil {
-			return nil, fmt.Errorf("load deck %s: %w", path, err)
-		}
-		if d.ID == 0 {
-			return nil, fmt.Errorf("deck %s has no id", path)
-		}
-		if other, ok := seen[d.ID]; ok {
-			return nil, fmt.Errorf("decks %s and %s share id %d", other, path, d.ID)
-		}
-		seen[d.ID] = path
-		out = append(out, draftFile{path: path, deck: d})
-	}
-	return out, nil
 }
 
 // findDraft resolves a draft ID to its directory under the data root,

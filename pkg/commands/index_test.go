@@ -34,7 +34,7 @@ func TestIndexBuildsFromDraftMetadata(t *testing.T) {
 		d := types.NewDeck()
 		d.ID = 1
 		d.Metadata.DraftID = m.ID
-		require.NoError(t, d.Save(drafts.DeckPath(dir, 1)))
+		require.NoError(t, d.Save(filepath.Join(dir, "1.json")))
 	}
 
 	require.NoError(t, Index("conf"))

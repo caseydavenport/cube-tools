@@ -123,7 +123,7 @@ func assignPlayer(cube string, draftID, deckID int, ref string) error {
 	if err != nil {
 		return fmt.Errorf("find draft %d: %w", draftID, err)
 	}
-	deck, path, err := drafts.LoadDeck(draft.Dir, deckID)
+	deck, err := draft.Deck(deckID)
 	if err != nil {
 		return fmt.Errorf("find deck %d: %w", deckID, err)
 	}
@@ -132,7 +132,7 @@ func assignPlayer(cube string, draftID, deckID int, ref string) error {
 		if playerID, err = ResolvePlayer(ref); err != nil {
 			return err
 		}
-		other, _, err := drafts.FindDeckByPlayerID(draft.Dir, playerID)
+		other, err := draft.DeckByPlayer(playerID)
 		if err != nil && !errors.Is(err, drafts.ErrNotFound) {
 			return err
 		}
@@ -141,5 +141,5 @@ func assignPlayer(cube string, draftID, deckID int, ref string) error {
 		}
 	}
 	deck.PlayerID = playerID
-	return deck.Save(path)
+	return draft.SaveDeck(deck)
 }

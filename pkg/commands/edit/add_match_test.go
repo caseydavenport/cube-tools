@@ -24,21 +24,21 @@ func TestAddMatchBySeatAndName(t *testing.T) {
 	for id, playerID := range playerIDByDeck {
 		d := types.NewDeck()
 		d.ID, d.PlayerID = id, playerID
-		require.NoError(t, d.Save(drafts.DeckPath(draft.Dir, d.ID)))
+		require.NoError(t, draft.SaveDeck(d))
 	}
 
-	seat, err := types.LoadDeck(drafts.DeckPath(draft.Dir, 2))
+	seat, err := draft.Deck(2)
 	require.NoError(t, err)
 	seat.Seat = 5
-	require.NoError(t, seat.Save(drafts.DeckPath(draft.Dir, 2)))
+	require.NoError(t, draft.SaveDeck(seat))
 	require.Error(t, addMatch(draft, "joan jett", "p2", 2, 1, 0), "p2 names seat 2, which no deck holds")
 
 	require.NoError(t, addMatch(draft, "joan jett", "p5", 2, 1, 0))
 
-	joan, err := types.LoadDeck(drafts.DeckPath(draft.Dir, 1))
+	joan, err := draft.Deck(1)
 	require.NoError(t, err)
 	require.Equal(t, []types.Match{{OpponentID: 2, Wins: 2, Losses: 1, Games: []types.Game{{Won: true}, {Won: true}, {}}}}, joan.Matches)
-	seat, err = types.LoadDeck(drafts.DeckPath(draft.Dir, 2))
+	seat, err = draft.Deck(2)
 	require.NoError(t, err)
 	require.Equal(t, []types.Match{{OpponentID: 1, Wins: 1, Losses: 2, Games: []types.Game{{}, {}, {Won: true}}}}, seat.Matches)
 

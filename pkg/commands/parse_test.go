@@ -52,11 +52,11 @@ func TestWriteDeckNewDeckGetsNextIDFile(t *testing.T) {
 		require.NoError(t, writeDeck(d, draft))
 	}
 
-	got, err := types.LoadDeck(drafts.DeckPath(draft.Dir, 3))
+	got, err := draft.Deck(3)
 	require.NoError(t, err)
 	require.Equal(t, 3, got.ID)
 	require.Equal(t, 3, got.PlayerID)
-	require.Equal(t, drafts.DeckPath(draft.Dir, 3), got.Metadata.Path)
+	require.Equal(t, filepath.Join(draft.Dir, "3.json"), got.Metadata.Path)
 }
 
 func TestParseBadDeckLeavesNoDraft(t *testing.T) {
@@ -149,7 +149,7 @@ func TestAnonymousParseIntoDraftWithSeatsNeedsForce(t *testing.T) {
 
 	seat := types.NewDeck()
 	seat.ID = 1
-	require.NoError(t, seat.Save(drafts.DeckPath(draft.Dir, 1)))
+	require.NoError(t, draft.SaveDeck(seat))
 	require.ErrorContains(t, checkAnonymousRerun(draft), "--force")
 
 	force = true

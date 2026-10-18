@@ -99,10 +99,11 @@ func exportToCC(draft drafts.Draft) {
 	if err != nil {
 		logrus.WithError(err).Fatal("Failed to load the player list")
 	}
-	decks, err := drafts.LoadDecks(draft.Dir, pl)
+	decks, err := draft.Decks()
 	if err != nil {
 		logrus.WithError(err).Fatal("Failed to load decks")
 	}
+	pl.ResolveDraft(decks)
 
 	if len(decks) == 0 {
 		logrus.Fatal("No decks found in directory")

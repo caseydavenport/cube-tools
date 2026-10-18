@@ -150,15 +150,11 @@ func checkAnonymousRerun(draft drafts.Draft) error {
 	if force {
 		return nil
 	}
-	files, err := drafts.DeckFiles(draft.Dir)
+	decks, err := draft.Decks()
 	if err != nil {
 		return err
 	}
-	for _, f := range files {
-		d, err := types.LoadDeck(f)
-		if err != nil {
-			return fmt.Errorf("load deck %s: %w", f, err)
-		}
+	for _, d := range decks {
 		if d.PlayerID == 0 {
 			return fmt.Errorf("draft %d already has anonymous decks, which a re-run would duplicate; pass --force to add more", draft.ID)
 		}

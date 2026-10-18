@@ -91,9 +91,11 @@ func TestFileSaveDecksKeepsFileAndPath(t *testing.T) {
 	assert.Equal(t, 1, alice.ID)
 	assert.Equal(t, "data/conf/0001_2024-01-01/alice.json", alice.Metadata.Path)
 
-	files, err := drafts.DeckFiles(filepath.Join(root, "data/conf/0001_2024-01-01"))
+	draft, err := drafts.Find(filepath.Join(root, "data/conf"), 1)
 	assert.NoError(t, err)
-	assert.Len(t, files, 2)
+	decks, err := draft.Decks()
+	assert.NoError(t, err)
+	assert.Len(t, decks, 2)
 }
 
 func TestFileSaveDecksUnknownID(t *testing.T) {

@@ -7,6 +7,7 @@ import (
 	"testing"
 
 	"github.com/caseydavenport/cube-tools/pkg/drafts"
+	"github.com/caseydavenport/cube-tools/pkg/players"
 )
 
 func TestHedronPlayerNum(t *testing.T) {
@@ -67,10 +68,12 @@ func TestImportHedronDecksAreAnonymous(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	decks, err := drafts.LoadDecks(draft.Dir, nil)
+	decks, err := draft.Decks()
 	if err != nil {
 		t.Fatal(err)
 	}
+	var noPlayers *players.List
+	noPlayers.ResolveDraft(decks)
 	if len(decks) != 2 {
 		t.Fatalf("decks = %d, want 2", len(decks))
 	}
