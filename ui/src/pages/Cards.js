@@ -26,6 +26,7 @@ import {
   Legend,
 } from 'chart.js';
 import { Line, Bar, Scatter } from 'react-chartjs-2';
+import { chartTextColor } from "../theme/chartColors.js"
 
 // Register chart JS objects that we need to use.
 ChartJS.register(
@@ -42,7 +43,7 @@ ChartJS.register(
 const chartHeight = "1000px"
 const chartWidth = "300px"
 const ticks = {
-  color: "#FFF",
+  get color() { return chartTextColor() },
   font: {
     size: 16,
   },
@@ -775,14 +776,14 @@ function PlayRateChart(input) {
       title: {
         display: true,
         text: title,
-        color: "#FFF",
+        color: chartTextColor(),
         font: {
           size: "16pt",
         },
       },
       legend: {
         labels: {
-          color: "#FFF",
+          color: chartTextColor(),
           font: {
             size: "16pt",
           },
@@ -871,14 +872,14 @@ function ELOChart(input) {
       title: {
         display: true,
         text: title,
-        color: "#FFF",
+        color: chartTextColor(),
         font: {
           size: "16pt",
         },
       },
       legend: {
         labels: {
-          color: "#FFF",
+          color: chartTextColor(),
           font: {
             size: "16pt",
           },
@@ -970,14 +971,14 @@ function WinrateChart(input) {
       title: {
         display: true,
         text: title,
-        color: "#FFF",
+        color: chartTextColor(),
         font: {
           size: "16pt",
         },
       },
       legend: {
         labels: {
-          color: "#FFF",
+          color: chartTextColor(),
           font: {
             size: "16pt",
           },
@@ -1045,7 +1046,7 @@ function CardGraph(input) {
     // highlighted white so it stands out from the red/green field.
     let games = card.total_games || 0
     if (card.name === input.selectedCard) {
-      backgroundColors.push("#FFF")
+      backgroundColors.push(chartTextColor())
       sizes.push(10)
     } else if (games <= 0) {
       backgroundColors.push("#b0b0b0")
@@ -1126,7 +1127,7 @@ function CardGraph(input) {
       title: {
         display: true,
         text: title,
-        color: "#FFF",
+        color: chartTextColor(),
         font: {
           size: "16pt",
         },
@@ -1152,7 +1153,7 @@ function CardGraph(input) {
       },
       legend: {
         labels: {
-          color: "#FFF",
+          color: chartTextColor(),
           font: {
             size: "16pt",
           },

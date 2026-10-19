@@ -19,6 +19,7 @@ import { MantineProvider } from "@mantine/core";
 import { theme, cssVariablesResolver } from "./theme/theme.js";
 
 import "./styles.css";
+import "./theme/legacy-bridge.css";
 
 // hashParams reads the query string that follows the route in a HashRouter URL
 // (e.g. "#/cube/decklists?match=...&start=..."). Used to seed initial filter

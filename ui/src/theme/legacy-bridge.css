@@ -1,0 +1,18 @@
+/* Maps the variables styles.css pages use onto the theme tokens so they follow
+   light and dark mode. The attribute selector outranks styles.css's plain :root. */
+:root[data-mantine-color-scheme] {
+  --page-background: var(--se-page);
+  --card-background: var(--se-card);
+  --table-background: var(--se-card);
+  --table-row-hover: color-mix(in srgb, var(--se-border) 60%, var(--se-card));
+  --table-header-background: color-mix(in srgb, var(--se-border) 60%, var(--se-card));
+  --white: var(--se-text);
+  --text-muted: var(--se-muted);
+  --border: var(--se-border);
+  --primary: var(--mantine-primary-color-filled);
+  --primary-hover: var(--mantine-primary-color-filled-hover);
+  --success: var(--se-good);
+  --danger: var(--se-bad);
+  --highlight: color-mix(in srgb, var(--mantine-primary-color-filled) 27%, transparent);
+  --highlight-intense: var(--mantine-primary-color-filled);
+}

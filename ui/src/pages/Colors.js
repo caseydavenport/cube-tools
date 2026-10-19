@@ -23,6 +23,7 @@ import {
   Legend,
 } from 'chart.js';
 import { Line, Bar } from 'react-chartjs-2';
+import { chartTextColor } from "../theme/chartColors.js"
 
 // Register chart JS objects that we need to use.
 ChartJS.register(
@@ -737,7 +738,7 @@ function ColorPerformanceDeltaChart(input) {
       title: {
         display: true,
         text: "Net performance vs cube average (win %)",
-        color: "#FFF",
+        color: chartTextColor(),
         font: { size: "16pt" },
       },
       legend: { display: false },
@@ -752,11 +753,11 @@ function ColorPerformanceDeltaChart(input) {
       },
     },
     scales: {
-      x: { ticks: { color: "#FFF", font: { size: 14 } }, grid: { display: false } },
+      x: { ticks: { color: chartTextColor(), font: { size: 14 } }, grid: { display: false } },
       y: {
-        title: { display: true, text: "Δ win % vs 50%", color: "#FFF", font: { size: 14 } },
-        ticks: { color: "#FFF", font: { size: 14 }, callback: (v) => (v > 0 ? "+" : "") + v + "%" },
-        grid: { color: (ctx) => (ctx.tick.value === 0 ? "#FFF" : "rgba(255,255,255,0.1)") },
+        title: { display: true, text: "Δ win % vs 50%", color: chartTextColor(), font: { size: 14 } },
+        ticks: { color: chartTextColor(), font: { size: 14 }, callback: (v) => (v > 0 ? "+" : "") + v + "%" },
+        grid: { color: (ctx) => (ctx.tick.value === 0 ? chartTextColor() : "rgba(255,255,255,0.1)") },
       },
     },
   }
@@ -1022,14 +1023,14 @@ function ColorRateChart(input) {
       title: {
         display: true,
         text: title,
-        color: "#FFF",
+        color: chartTextColor(),
         font: {
           size: "16pt",
         },
       },
       legend: {
         labels: {
-          color: "#FFF",
+          color: chartTextColor(),
           font: {
             size: "16pt",
           },

@@ -19,6 +19,7 @@ import {
   BarElement,
 } from 'chart.js';
 import { Scatter, Line, Bar, Pie } from 'react-chartjs-2';
+import { chartTextColor } from "../theme/chartColors.js"
 
 // Register chart JS objects that we need to use.
 ChartJS.register(
@@ -33,7 +34,6 @@ ChartJS.register(
   Legend
 );
 
-const winPctColor = "#fff"
 const winColor = Green
 const lossColor = Black // "#61892f"
 const inDeckColor = "#C97BF4"
@@ -55,7 +55,7 @@ export const DeckScatterAxes = [
 const chartHeight = "1000px"
 const chartWidth = "300px"
 const ticks = {
-  color: "#FFF",
+  get color() { return chartTextColor() },
   font: {
     size: 16,
   },
@@ -444,14 +444,14 @@ function WinsByManaCost(input) {
       title: {
         display: true,
         text: "Wins by CMC",
-        color: "#FFF",
+        color: chartTextColor(),
         font: {
           size: "16pt",
         },
       },
       legend: {
         labels: {
-          color: "#FFF",
+          color: chartTextColor(),
           font: {
             size: "16pt",
           },
@@ -485,8 +485,8 @@ function WinsByManaCost(input) {
         type: "line",
         label: 'Win %',
         data: percentages,
-        borderColor: winPctColor,
-        backgroundColor: winPctColor,
+        borderColor: chartTextColor(),
+        backgroundColor: chartTextColor(),
       },
       {
         label: 'Wins',
@@ -552,14 +552,14 @@ function WinsByCardType(input) {
       title: {
         display: true,
         text: "Wins by # " + input.type,
-        color: "#FFF",
+        color: chartTextColor(),
         font: {
           size: "16pt",
         },
       },
       legend: {
         labels: {
-          color: "#FFF",
+          color: chartTextColor(),
           font: {
             size: "16pt",
           },
@@ -597,8 +597,8 @@ function WinsByCardType(input) {
         type: "line",
         label: 'Win %',
         data: percentages,
-        borderColor: winPctColor,
-        backgroundColor: winPctColor,
+        borderColor: chartTextColor(),
+        backgroundColor: chartTextColor(),
       },
       {
         label: 'Wins',
@@ -636,14 +636,14 @@ function WinsByNonBasicLandDensity(input) {
       title: {
         display: true,
         text: "Wins by # nonbasic lands",
-        color: "#FFF",
+        color: chartTextColor(),
         font: {
           size: "16pt",
         },
       },
       legend: {
         labels: {
-          color: "#FFF",
+          color: chartTextColor(),
           font: {
             size: "16pt",
           },
@@ -677,8 +677,8 @@ function WinsByNonBasicLandDensity(input) {
         type: "line",
         label: 'Win %',
         data: percentages,
-        borderColor: winPctColor,
-        backgroundColor: winPctColor,
+        borderColor: chartTextColor(),
+        backgroundColor: chartTextColor(),
       },
       {
         label: 'Wins',
@@ -740,14 +740,14 @@ function WinsByOracleText(input) {
       title: {
         display: true,
         text: input.title,
-        color: "#FFF",
+        color: chartTextColor(),
         font: {
           size: "16pt",
         },
       },
       legend: {
         labels: {
-          color: "#FFF",
+          color: chartTextColor(),
           font: {
             size: "16pt",
           },
@@ -781,8 +781,8 @@ function WinsByOracleText(input) {
         type: "line",
         label: 'Win %',
         data: percentages,
-        borderColor: winPctColor,
-        backgroundColor: winPctColor,
+        borderColor: chartTextColor(),
+        backgroundColor: chartTextColor(),
       },
       {
         label: 'Wins',
@@ -830,14 +830,14 @@ function WinsByNumberOfColors(input) {
       title: {
         display: true,
         text: "Wins by # colors",
-        color: "#FFF",
+        color: chartTextColor(),
         font: {
           size: "16pt",
         },
       },
       legend: {
         labels: {
-          color: "#FFF",
+          color: chartTextColor(),
           font: {
             size: "16pt",
           },
@@ -867,8 +867,8 @@ function WinsByNumberOfColors(input) {
         type: "line",
         label: 'Win %',
         data: percentages,
-        borderColor: winPctColor,
-        backgroundColor: winPctColor,
+        borderColor: chartTextColor(),
+        backgroundColor: chartTextColor(),
       },
       {
         type: "bar",
@@ -940,14 +940,14 @@ function OracleTextByColor(input) {
       title: {
         display: true,
         text: input.title + ` (bucket size = ${input.parsed.bucketSize} drafts)`,
-        color: "#FFF",
+        color: chartTextColor(),
         font: {
           size: "16pt",
         },
       },
       legend: {
         labels: {
-          color: "#FFF",
+          color: chartTextColor(),
           font: {
             size: "16pt",
           },
@@ -1012,14 +1012,14 @@ function OracleTextOverTimeChart(input) {
       title: {
         display: true,
         text: input.title + ` (bucket size = ${input.parsed.bucketSize} drafts)`,
-        color: "#FFF",
+        color: chartTextColor(),
         font: {
           size: "16pt",
         },
       },
       legend: {
         labels: {
-          color: "#FFF",
+          color: chartTextColor(),
           font: {
             size: "16pt",
           },
@@ -1076,8 +1076,8 @@ function DeckManaValueChart(input) {
       {
         label: 'Average Mana Value',
         data: manaValues,
-        borderColor: winPctColor,
-        backgroundColor: winPctColor,
+        borderColor: chartTextColor(),
+        backgroundColor: chartTextColor(),
       },
   ]
 
@@ -1089,14 +1089,14 @@ function DeckManaValueChart(input) {
       title: {
         display: true,
         text: `Deck Avg. Mana Value (bucket size = ${input.parsed.bucketSize} drafts)`,
-        color: "#FFF",
+        color: chartTextColor(),
         font: {
           size: "16pt",
         },
       },
       legend: {
         labels: {
-          color: "#FFF",
+          color: chartTextColor(),
           font: {
             size: "16pt",
           },
@@ -1205,14 +1205,14 @@ function DeckBasicLandCountChart(input) {
       title: {
         display: true,
         text: `Avg. basics per deck (bucket size = ${input.parsed.bucketSize} drafts)`,
-        color: "#FFF",
+        color: chartTextColor(),
         font: {
           size: "16pt",
         },
       },
       legend: {
         labels: {
-          color: "#FFF",
+          color: chartTextColor(),
           font: {
             size: "16pt",
           },
@@ -1289,14 +1289,14 @@ function SideboardSizeOverTimeChart(input) {
       title: {
         display: true,
         text: `Sideboard size (bucket size = ${input.parsed.bucketSize} drafts)`,
-        color: "#FFF",
+        color: chartTextColor(),
         font: {
           size: "16pt",
         },
       },
       legend: {
         labels: {
-          color: "#FFF",
+          color: chartTextColor(),
           font: {
             size: "16pt",
           },
@@ -1364,14 +1364,14 @@ function NumColorsOverTimeChart(input) {
       title: {
         display: true,
         text: `# Colors per-deck (bucket size = ${input.parsed.bucketSize} drafts)`,
-        color: "#FFF",
+        color: chartTextColor(),
         font: {
           size: "16pt",
         },
       },
       legend: {
         labels: {
-          color: "#FFF",
+          color: chartTextColor(),
           font: {
             size: "16pt",
           },
@@ -1432,14 +1432,14 @@ function ManaCostByOracleTextOverTime(input) {
       title: {
         display: true,
         text: input.title + ` (bucket size = ${input.parsed.bucketSize} drafts)`,
-        color: "#FFF",
+        color: chartTextColor(),
         font: {
           size: "16pt",
         },
       },
       legend: {
         labels: {
-          color: "#FFF",
+          color: chartTextColor(),
           font: {
             size: "16pt",
           },
@@ -1536,14 +1536,14 @@ function DeckGraph(input) {
       title: {
         display: true,
         text: title,
-        color: "#FFF",
+        color: chartTextColor(),
         font: {
           size: "16pt",
         },
       },
       legend: {
         labels: {
-          color: "#FFF",
+          color: chartTextColor(),
           font: {
             size: "16pt",
           },
@@ -1652,14 +1652,14 @@ function NumColorsPieChart(input) {
       title: {
         display: true,
         text: title,
-        color: "#FFF",
+        color: chartTextColor(),
         font: {
           size: "16pt",
         },
       },
       legend: {
         labels: {
-          color: "#FFF",
+          color: chartTextColor(),
           font: {
             size: "16pt",
           },

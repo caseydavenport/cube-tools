@@ -12,6 +12,7 @@ import {
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
 import { bucketXScale } from "../utils/Buckets.js";
+import { chartTextColor } from "../theme/chartColors.js"
 
 ChartJS.register(
   CategoryScale,
@@ -124,7 +125,7 @@ function HealthChart({ labels, data, title, color, min, max, description }) {
       title: {
         display: true,
         text: title,
-        color: "#FFF",
+        color: chartTextColor(),
         font: { size: "16pt" },
       },
       legend: {
