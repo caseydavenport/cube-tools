@@ -1166,7 +1166,7 @@ function PlayerFrame(input) {
   let interaction = 0
   for (let card of cards) {
     // Creature
-    if ((card.types || []).includes("Creature")) {
+    if (card.types.includes("Creature")) {
       creatures += 1
     }
 
@@ -1638,7 +1638,7 @@ const typePriority = [
 ]
 
 function getType(card) {
-  const types = card.types || []
+  const types = card.types
   for (let t of typePriority) {
     if (types.includes(t)) {
       return t

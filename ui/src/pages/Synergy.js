@@ -270,7 +270,7 @@ function SynergyFocalCompare({ synergyCompare, cube, onCardSelected }) {
 
   const colorMap = {};
   if (cube && cube.cards) {
-    for (const c of cube.cards) colorMap[c.name] = c.colors || [];
+    for (const c of cube.cards) colorMap[c.name] = c.colors;
   }
 
   const winPlay = synergyCompare?.winning?.card_play_counts || {};
@@ -429,7 +429,7 @@ function SynergyScatter({ synergyData, cube, matchStr, onCardSelected }) {
 
   const colorMap = {};
   if (cube && cube.cards) {
-    for (const card of cube.cards) colorMap[card.name] = card.colors || [];
+    for (const card of cube.cards) colorMap[card.name] = card.colors;
   }
 
   // Narrow to the colors picked in the global filter so the plot shows just those
@@ -688,7 +688,7 @@ function SynergyHubCompare({ synergyData, cube, onCardSelected }) {
 
   const colorMap = {};
   if (cube && cube.cards) {
-    for (const card of cube.cards) colorMap[card.name] = card.colors || [];
+    for (const card of cube.cards) colorMap[card.name] = card.colors;
   }
 
   // The full pool feeds both the shared axes and each chart's per-color slice.
@@ -944,7 +944,7 @@ function SynergyNetworkGraph({ synergyData, cube, matchStr, onCardSelected }) {
     const map = {};
     if (cube && cube.cards) {
       for (const card of cube.cards) {
-        map[card.name] = card.colors || [];
+        map[card.name] = card.colors;
       }
     }
     return map;
