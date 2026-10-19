@@ -1,6 +1,7 @@
 package ocr
 
 import (
+	"encoding/json"
 	"net/http/httptest"
 	"strings"
 	"testing"
@@ -68,5 +69,41 @@ func TestSessionSaveMergesPlayers(t *testing.T) {
 	}
 	if s.Players["p2"] == nil {
 		t.Fatalf("p2 missing: %+v", s.Players)
+	}
+}
+
+func TestSessionResponsesCarryReviews(t *testing.T) {
+	root := t.TempDir()
+	d := newDraft(t, root, types.DraftMetadata{})
+
+	rs := draftReq(t, "POST", "/session", d)
+	rs.Body = bodyOf(`{"players":{"p1":{"status":"in_progress","pool_entries":[{"card_name":"Brainstorm","count":44}],"basics":{"Island":3}}}}`)
+	ws := httptest.NewRecorder()
+	SessionSaveHandlerWithRoot(root).ServeHTTP(ws, rs)
+	if ws.Code != 200 {
+		t.Fatalf("save status = %d body=%s", ws.Code, ws.Body.String())
+	}
+
+	rg := draftReq(t, "GET", "/session", d)
+	wg := httptest.NewRecorder()
+	SessionGetHandlerWithRoot(root).ServeHTTP(wg, rg)
+
+	for name, body := range map[string]string{"save": ws.Body.String(), "get": wg.Body.String()} {
+		var resp struct {
+			Reviews map[string]PlayerReview `json:"reviews"`
+		}
+		if err := json.Unmarshal([]byte(body), &resp); err != nil {
+			t.Fatalf("%s: decode %q: %v", name, body, err)
+		}
+		got, ok := resp.Reviews["p1"]
+		if !ok {
+			t.Fatalf("%s: no review for p1 in %s", name, body)
+		}
+		if !hasWarning(got.Warnings, "Pool has 44 cards (expected 45)") {
+			t.Fatalf("%s: warnings = %v", name, got.Warnings)
+		}
+		if got.Breakdown != (Breakdown{Cards: 3, Lands: 3, Basics: 3}) {
+			t.Fatalf("%s: breakdown = %+v", name, got.Breakdown)
+		}
 	}
 }

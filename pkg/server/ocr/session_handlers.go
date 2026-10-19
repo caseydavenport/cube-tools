@@ -4,7 +4,13 @@ import (
 	"encoding/json"
 	"maps"
 	"net/http"
+	"strings"
 	"sync"
+
+	"github.com/caseydavenport/cube-tools/pkg/drafts"
+	"github.com/caseydavenport/cube-tools/pkg/server"
+	"github.com/caseydavenport/cube-tools/pkg/types"
+	"github.com/sirupsen/logrus"
 )
 
 // sessionSaveMu serializes the load-merge-write in SessionSaveHandler. The
@@ -26,7 +32,7 @@ func SessionGetHandlerWithRoot(dataRoot string) http.Handler {
 			http.Error(rw, "Internal server error", http.StatusInternalServerError)
 			return
 		}
-		writeJSON(rw, s)
+		writeJSON(rw, withReviews(dataRoot, server.CubeFromRequest(r), draft, s, s.Players))
 	})
 }
 
@@ -64,6 +70,34 @@ func SessionSaveHandlerWithRoot(dataRoot string) http.Handler {
 			http.Error(rw, "Internal server error", http.StatusInternalServerError)
 			return
 		}
-		rw.WriteHeader(http.StatusOK)
+		writeJSON(rw, withReviews(dataRoot, server.CubeFromRequest(r), draft, s, posted.Players))
 	})
+}
+
+// sessionResponse is a session as the client reads it: the saved work plus each
+// player's review, which is computed per response and never saved.
+type sessionResponse struct {
+	*Session
+	Reviews map[string]PlayerReview `json:"reviews"`
+}
+
+// withReviews pairs the session with the reviews of the given players. Land
+// flags come from the draft's cube; without one, no card counts as a land
+// rather than failing the request.
+func withReviews(dataRoot, cube string, draft drafts.Draft, s *Session, players map[string]*PlayerWork) sessionResponse {
+	lands := map[string]bool{}
+	if cl, err := loadCubeForDraft(dataRoot, cube, draft); err != nil {
+		logrus.WithError(err).Warn("no cube for OCR review land counts")
+	} else {
+		for _, name := range cl.Names() {
+			lands[name] = strings.Contains(types.GetOracleData(name).TypeLine, "Land")
+		}
+	}
+	out := sessionResponse{Session: s, Reviews: map[string]PlayerReview{}}
+	for id := range players {
+		if pw := s.Players[id]; pw != nil {
+			out.Reviews[id] = reviewPlayer(pw, func(name string) bool { return lands[name] })
+		}
+	}
+	return out
 }
