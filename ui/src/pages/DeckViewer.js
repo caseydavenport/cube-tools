@@ -24,12 +24,8 @@ import { useSearchParams } from "react-router-dom"
 import { addToComparison, comparisonMap, formatCompare, parseCompare } from "../utils/Compare.js"
 import { useArrowNav } from "../hooks/useArrowNav.js"
 import { draftLabel, compareDrafts } from "../utils/DraftInfo.js"
-
-// deckRef is the opaque selection token for a deck: its draft plus its opaque
-// id. Unique across drafts; never split the id back out of it.
-export function deckRef(d) {
-  return `${d.metadata.draft_id}/${d.id}`
-}
+import { deckRef } from "../decks/deckModel.js"
+import { getType, landCategory, LAND_ORDER as landOrder } from "../decks/decklist.js"
 
 // This function builds the DeckViewer widget for selecting and viewing statistics
 // about a particular deck.
@@ -133,9 +129,6 @@ export function DeckViewer(props) {
   const [viewMode, setViewMode] = useState("Text");
 
   // What to sort the deck list by.
-  const sortOptions = [
-    "Date", "Wins"
-  ]
   const [deckSort, setDeckSort] = useState("date");
   function onDeckSort(event) {
     setDeckSort(event.currentTarget.id)
@@ -401,22 +394,6 @@ function getMacro(deck) {
   }
 }
 
-// DropdownSelector is a dropdown selector that sits right below the main navbar.
-export function DropdownSelector({ label, value, options, onChange }) {
-  return (
-   <label className="dropdown">
-    {label}
-     <select className="select" value={value} onChange={onChange}>
-       {
-         options.map((option) => (
-           <option key={option.label} className="select-option" file={option.value}>{option.value}</option>
-         ))
-       }
-     </select>
-   </label>
-  )
-}
-
 function FilteredDecks(input) {
   const decks = input.decks;
   const draftToColor = input.draftToColor;
@@ -517,30 +494,6 @@ function gameWinPercent(deck) {
   let wins = Wins(deck)
   let losses = Losses(deck)
   return wins / (wins + losses) || 0
-}
-
-
-function DeckTableCell(input) {
-  let deck = input.deck
-  let record = MatchWins(input.deck) + "-" + MatchLosses(input.deck) + "-" + MatchDraws(input.deck)
-  if (MatchWins(deck) == 0 && MatchLosses(deck) == 0 && MatchDraws(deck) == 0) {
-    record = "N/A"
-  }
-  let winPercent = Math.round(100 * gameWinPercent(input.deck))
-  let macro = getMacro(input.deck)
-  let ref = deckRef(deck)
-  return (
-      <table className="deck-meta-table">
-      <tbody>
-        <tr className="deck-entry" style={{"--background-color": input.color}}>
-          <td style={{"width": "25%", "paddingLeft": "10px"}} id={ref} idx={input.idx} onClick={input.onDeckClicked} key="date">{deck.date}</td>
-          <td style={{"width": "30%", "paddingRight": "10px"}} id={ref} idx={input.idx} onClick={input.onDeckClicked} key="player">{deck.player}</td>
-          <td style={{"width": "25%", "paddingLeft": "10px"}} id={ref} idx={input.idx} onClick={input.onDeckClicked} key="wins">{record} ({winPercent}%)</td>
-          <td style={{"width": "20%", "paddingRight": "10px"}} id={ref} idx={input.idx} onClick={input.onDeckClicked} key="macro">{macro}</td>
-        </tr>
-      </tbody>
-      </table>
-  );
 }
 
 
@@ -1597,77 +1550,4 @@ function CardList({player, cards, deck, sb, opts, matchStr, basicsOnly, hovered,
       </div>
     </div>
   );
-}
-
-// cardSort sorts cards by type, followed by card name.
-function cardSort(a, b) {
-  // Top level is sorted by card type.
-  let typeA = getType(a.props.card)
-  let typeB = getType(b.props.card)
-  if (typeA == typeB) {
-    // They are the same type. Compare based on name.
-    if (a.props.card.name < b.props.card.name) {
-      return -1
-    } else {
-     return 1
-   }
-  }
-
-  // Cards are not the same type. Sort based on card type.
-  if (typeA < typeB) {
-    return -1
-  } else if (typeA > typeB) {
-    return 1
-  }
-  return 0
-}
-
-// typePriority orders the real card types we care about. A card's types array
-// mixes supertypes (Legendary, Snow) with several types (e.g. "Legendary
-// Artifact Equipment"), so we walk this list and take the first match rather
-// than card.types[0], which would wrongly return "Legendary".
-const typePriority = [
-  "Creature",
-  "Planeswalker",
-  "Instant",
-  "Sorcery",
-  "Enchantment",
-  "Artifact",
-  "Basic",
-  "Land",
-]
-
-function getType(card) {
-  const types = card.types
-  for (let t of typePriority) {
-    if (types.includes(t)) {
-      return t
-    }
-  }
-  return types[0] || "Unknown"
-}
-
-// landOrder is the sub-heading order for the Lands section.
-const landOrder = ["Basics", "Fetchables", "Fetches", "Other"]
-
-// landCategory buckets a land for the Lands section:
-//   - Basics:     basic lands.
-//   - Fetches:    fetch lands that sacrifice to search out a land.
-//   - Fetchables: nonbasic lands with a basic land type, so a fetch can grab
-//                 them. The tell is the mana ability printed as parenthesized
-//                 reminder text - "({T}: Add ...)" - which only lands that draw
-//                 mana from a basic land type carry.
-//   - Other:      everything else (utility lands, manlands, canopy lands, ...).
-function landCategory(card) {
-  if (IsBasicLand(card)) {
-    return "Basics"
-  }
-  let text = card.oracle_text || ""
-  if (/Sacrifice this land: Search your library for/.test(text)) {
-    return "Fetches"
-  }
-  if (/\(\{T\}: Add /.test(text)) {
-    return "Fetchables"
-  }
-  return "Other"
 }

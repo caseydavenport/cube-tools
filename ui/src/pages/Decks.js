@@ -2,7 +2,7 @@ import React from 'react'
 import { AverageCMC, IsBasicLand, Pct, SortFunc } from "../utils/Utils.js"
 import { Red, Green, Black, White, Blue, Colors } from "../utils/Colors.js"
 import { Wins, Losses } from "../utils/Deck.js"
-import { deckRef } from "./DeckViewer.js"
+import { deckRef } from "../decks/deckModel.js"
 import { BucketName, DeckBuckets, bucketXScale } from "../utils/Buckets.js"
 import { DropdownHeader, NumericInput, Checkbox, DateSelector } from "../components/Dropdown.js"
 
