@@ -5,6 +5,8 @@ import (
 	"net/http"
 
 	"github.com/caseydavenport/cube-tools/pkg/cubes"
+	"github.com/caseydavenport/cube-tools/pkg/server/httperr"
+	"github.com/caseydavenport/cube-tools/pkg/storage"
 )
 
 type ctxKey int
@@ -39,6 +41,26 @@ func WithCube(reg *cubes.Registry, h http.Handler) http.Handler {
 		}
 		ctx := ContextWithCube(r.Context(), id)
 		h.ServeHTTP(rw, r.WithContext(ctx))
+	})
+}
+
+// WritableChecker reports whether a cube accepts writes. *storage.Store
+// satisfies it.
+type WritableChecker interface {
+	Writable(cube string) bool
+}
+
+// RequireWritable refuses the request with 403 when the request's cube is
+// read-only, and otherwise passes it to h. It guards handlers that write under
+// data/<cube> directly instead of through the store, which would otherwise
+// skip the store's read-only check. Wrap it inside WithCube so the cube is set.
+func RequireWritable(wc WritableChecker, h http.Handler) http.Handler {
+	return http.HandlerFunc(func(rw http.ResponseWriter, r *http.Request) {
+		if !wc.Writable(CubeFromRequest(r)) {
+			httperr.WriteStoreError(rw, storage.ErrReadOnly, "read-only cube")
+			return
+		}
+		h.ServeHTTP(rw, r)
 	})
 }
 

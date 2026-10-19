@@ -50,6 +50,12 @@ func main() {
 	fileBackend := file.New(provider)
 	ccBackend := cubecobra.New(commands.DefaultCubeCobraURL, provider)
 	deckStore := storage.NewStore(router.New(fileBackend, ccBackend), storage.WithPlayers(players.FileSource{DataRoot: "data"}))
+
+	// writeRoute is for handlers that write under data/<cube> directly rather
+	// than through deckStore, so they need their own read-only check.
+	writeRoute := func(pattern string, h http.Handler) {
+		cubeRoute(pattern, server.RequireWritable(deckStore, h))
+	}
 	edgesFor := func(cubeID string) ([]graph.Edge, error) {
 		return stats.EdgesForCube(deckStore, provider, cubeID)
 	}
@@ -90,24 +96,24 @@ func main() {
 	cubeRoute("GET /api/{cube}/ocr/drafts/{draft_id}/cards", ocrhttp.CardsHandler("data"))
 	cubeRoute("GET /api/{cube}/ocr/drafts/{draft_id}/consistency", ocrhttp.ConsistencyHandler("data"))
 	cubeRoute("GET /api/{cube}/ocr/drafts/{draft_id}/session", ocrhttp.SessionGetHandler("data"))
-	cubeRoute("POST /api/{cube}/ocr/drafts/{draft_id}/session", ocrhttp.SessionSaveHandler("data"))
-	cubeRoute("POST /api/{cube}/ocr/drafts/{draft_id}/players/{player}/confirm", ocrhttp.ConfirmHandler("data"))
+	writeRoute("POST /api/{cube}/ocr/drafts/{draft_id}/session", ocrhttp.SessionSaveHandler("data"))
+	writeRoute("POST /api/{cube}/ocr/drafts/{draft_id}/players/{player}/confirm", ocrhttp.ConfirmHandler("data"))
 	cubeRoute("GET /api/{cube}/ocr/drafts/{draft_id}/img/{path...}", ocrhttp.ImageHandler("data"))
 	cubeRoute("POST /api/{cube}/ocr/drafts/{draft_id}/detect", ocrhttp.DetectHandler(det, "data"))
 	cubeRoute("POST /api/{cube}/ocr/drafts/{draft_id}/region", ocrhttp.RegionHandler(det, "data"))
-	cubeRoute("POST /api/{cube}/ocr/drafts/{draft_id}/rotate", ocrhttp.RotateHandler("data"))
-	cubeRoute("POST /api/{cube}/ocr/drafts/{draft_id}/scan", ocrhttp.ScanStartHandler(det, "data"))
+	writeRoute("POST /api/{cube}/ocr/drafts/{draft_id}/rotate", ocrhttp.RotateHandler("data"))
+	writeRoute("POST /api/{cube}/ocr/drafts/{draft_id}/scan", ocrhttp.ScanStartHandler(det, "data"))
 	cubeRoute("GET /api/{cube}/ocr/drafts/{draft_id}/scan", ocrhttp.ScanStatusHandler("data"))
 
 	// Text and Hedron import endpoints.
 	cubeRoute("GET /api/{cube}/import/cards", importer.ImportCardsHandler(provider))
 	cubeRoute("POST /api/{cube}/import/parse", importer.ParseHandler(provider))
 	cubeRoute("POST /api/{cube}/import/parse-dir", importer.ParseDirHandler(provider))
-	cubeRoute("POST /api/{cube}/import/commit", importer.CommitHandler(provider, "data"))
+	writeRoute("POST /api/{cube}/import/commit", importer.CommitHandler(provider, "data"))
 	cubeRoute("POST /api/{cube}/import/check", importer.CheckHandler(provider))
 	cubeRoute("GET /api/{cube}/import/hedron", importer.HedronListHandler())
-	cubeRoute("POST /api/{cube}/import/hedron", importer.HedronImportHandler())
-	cubeRoute("POST /api/{cube}/import/photos", importer.PhotoImportHandler())
+	writeRoute("POST /api/{cube}/import/hedron", importer.HedronImportHandler())
+	writeRoute("POST /api/{cube}/import/photos", importer.PhotoImportHandler())
 
 	fmt.Println("Server listening on port 8888")
 	if err := http.ListenAndServe(":8888", mux); err != nil {
