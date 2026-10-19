@@ -6,15 +6,10 @@ import { White, Blue, Black, Red, Green } from "../utils/Colors.js"
 import { useCube } from "../contexts/CubeContext.js"
 import { isReadOnly } from "../utils/readonly.js"
 import { CardImageURL } from "../utils/Utils.js"
+import { CARD_REF_PREFIX, cardRefName } from "../utils/DesignRules.js"
 import { buildDeckSubgraph, rankByDegree, greedyModularityCommunities, dominantLabel, NEUTRAL } from "../utils/DeckGraph"
 
-// Wire entries are group names, except entries prefixed "card:" which reference
-// a single card directly. cardRefName strips the prefix, or returns null for
-// plain group entries.
-export const CARD_REF_PREFIX = "card:"
-export function cardRefName(entry) {
-  return entry && entry.startsWith(CARD_REF_PREFIX) ? entry.slice(CARD_REF_PREFIX.length) : null
-}
+export { CARD_REF_PREFIX, cardRefName }
 
 // The design map is a drill-in explorer. Focus is a stack of levels the user has
 // drilled through, so the breadcrumb can climb back out:
