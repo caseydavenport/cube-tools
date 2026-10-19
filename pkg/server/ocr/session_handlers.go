@@ -31,7 +31,7 @@ func SessionGetHandlerWithRoot(dataRoot string) http.Handler {
 			http.Error(rw, "Internal server error", http.StatusInternalServerError)
 			return
 		}
-		writeJSON(rw, withReviews(dataRoot, server.CubeFromRequest(r), draft, s, s.Players))
+		writeJSON(rw, withReviews(cubeLands(dataRoot, server.CubeFromRequest(r), draft), s, s.Players))
 	})
 }
 
@@ -49,6 +49,10 @@ func SessionSaveHandlerWithRoot(dataRoot string) http.Handler {
 			http.Error(rw, "Invalid request", http.StatusBadRequest)
 			return
 		}
+
+		// The cube can come from CubeCobra, so load it before taking the lock
+		// rather than making every other save wait on the network.
+		lands := cubeLands(dataRoot, server.CubeFromRequest(r), draft)
 
 		sessionSaveMu.Lock()
 		defer sessionSaveMu.Unlock()
@@ -69,7 +73,7 @@ func SessionSaveHandlerWithRoot(dataRoot string) http.Handler {
 			http.Error(rw, "Internal server error", http.StatusInternalServerError)
 			return
 		}
-		writeJSON(rw, withReviews(dataRoot, server.CubeFromRequest(r), draft, s, posted.Players))
+		writeJSON(rw, withReviews(lands, s, posted.Players))
 	})
 }
 
@@ -80,9 +84,9 @@ type sessionResponse struct {
 	Reviews map[string]PlayerReview `json:"reviews"`
 }
 
-// withReviews pairs the session with the reviews of the given players.
-func withReviews(dataRoot, cube string, draft drafts.Draft, s *Session, players map[string]*PlayerWork) sessionResponse {
-	lands := cubeLands(dataRoot, cube, draft)
+// withReviews pairs the session with the reviews of the given players, using
+// lands to tell which cards are lands.
+func withReviews(lands map[string]bool, s *Session, players map[string]*PlayerWork) sessionResponse {
 	out := sessionResponse{Session: s, Reviews: map[string]PlayerReview{}}
 	for id := range players {
 		if pw := s.Players[id]; pw != nil {

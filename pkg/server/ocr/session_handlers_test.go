@@ -109,3 +109,49 @@ func TestSessionResponsesCarryReviews(t *testing.T) {
 		}
 	}
 }
+
+// blockingCubeSource holds every cube load open until release closes, and
+// signals entered when one starts, standing in for a slow CubeCobra.
+type blockingCubeSource struct {
+	entered chan struct{}
+	release chan struct{}
+}
+
+func (b blockingCubeSource) Current(string) (*types.Cube, error) {
+	b.entered <- struct{}{}
+	<-b.release
+	return cubeOf("Brainstorm"), nil
+}
+
+func (b blockingCubeSource) Refresh(cube string) (*types.Cube, error) {
+	return b.Current(cube)
+}
+
+// TestSessionSaveDoesNotHoldLockDuringCubeLoad checks that a slow cube load
+// for the review doesn't hold the save lock, so other saves don't queue behind
+// a network fetch.
+func TestSessionSaveDoesNotHoldLockDuringCubeLoad(t *testing.T) {
+	root := t.TempDir()
+	d := newDraft(t, root, types.DraftMetadata{})
+	src := blockingCubeSource{entered: make(chan struct{}), release: make(chan struct{})}
+	withCubeSource(t, src)
+
+	rs := draftReq(t, "POST", "/session", d)
+	rs.Body = bodyOf(`{"players":{"p1":{"status":"in_progress"}}}`)
+	done := make(chan struct{})
+	go func() {
+		SessionSaveHandlerWithRoot(root).ServeHTTP(httptest.NewRecorder(), rs)
+		close(done)
+	}()
+
+	<-src.entered
+	locked := sessionSaveMu.TryLock()
+	if locked {
+		sessionSaveMu.Unlock()
+	}
+	close(src.release)
+	<-done
+	if !locked {
+		t.Fatal("the save lock was held while the cube loaded")
+	}
+}
