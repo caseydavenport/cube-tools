@@ -104,6 +104,15 @@ function compareNewestFirst(a, b) {
   return b.id - a.id
 }
 
+// deckCount is how many decks the index lists for a draft. The server sends
+// null rather than an empty list for a draft with no decks.
+export function deckCount(draft) {
+  if (!draft.decks) {
+    return 0
+  }
+  return draft.decks.length
+}
+
 // recentDrafts returns the cube's newest drafts, at most limit of them, ready to
 // show: id, name, date badge, player count (one deck per player), winner, and
 // whether the draft has a pick log (which the Drafts page needs to open it).
@@ -120,7 +129,7 @@ export function recentDrafts(index, decks, limit = 5) {
       id: draft.id,
       name: draftName(draft),
       badge: dateBadge(draft.date),
-      players: draft.decks.length,
+      players: deckCount(draft),
       winner: draftWinner(draftDecks),
       hasLog: draft.has_log,
     }

@@ -77,3 +77,10 @@ test("an anonymous winner is reported by seat, not by its seat label", () => {
   const decks = [seat6, deck(46, "Joan", 1, 1)]
   assert.deepEqual(draftWinner(decks), { player: null, seat: 6, colors: ["B", "G"], record: "2-0-1", undefeated: false })
 })
+
+test("a draft the index lists with no decks counts zero players", () => {
+  const index = { drafts: [{ id: 9, date: "2026-10-01", has_log: false, decks: null }] }
+  const rows = recentDrafts(index, [])
+  assert.equal(rows[0].players, 0)
+  assert.equal(rows[0].winner, null)
+})

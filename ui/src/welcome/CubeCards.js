@@ -5,6 +5,7 @@ import { IconPlus } from "@tabler/icons-react"
 import { EmptyState } from "../components/kit/EmptyState.js"
 import { MANA, PRIMARY_SHADES } from "../theme/tokens.js"
 import { fetchJson } from "../utils/fetchJson.js"
+import { deckCount } from "../home/recentDrafts.js"
 
 // BANDS are the gradient stripes across the top of each cube card, used in turn.
 const BANDS = [
@@ -18,7 +19,7 @@ function countsFrom(index) {
   const drafts = index.drafts || []
   let decks = 0
   for (const draft of drafts) {
-    decks += draft.decks.length
+    decks += deckCount(draft)
   }
   return { drafts: drafts.length, decks }
 }
