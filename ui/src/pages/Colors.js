@@ -38,8 +38,6 @@ ChartJS.register(
   Legend
 );
 
-// Human-readable names for color identities, used to label delta bars.
-
 export function ColorWidget(input) {
   const [leftChart, setLeftChart] = React.useState("builds")
   const [rightChart, setRightChart] = React.useState("wins")

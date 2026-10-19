@@ -102,7 +102,6 @@ const METRIC_OPTS = [
   { value: "games", label: "Games" },
 ]
 
-
 function isColorDim(dim) {
   return dim === "color" || dim === "opponent_color"
 }

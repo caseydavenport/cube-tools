@@ -1,7 +1,7 @@
 // Turns the server's stats responses into the headline numbers the cube home
-// shows. Every function here is pure and returns null (or an empty list) when
-// the response is missing or has nothing that qualifies, so the page can show
-// an empty state instead of blank or NaN values.
+// shows. Every function here is pure. Those that read a stats response return
+// null (or an empty list) when it's missing or has nothing that qualifies, so
+// the page can show an empty state instead of blank or NaN values.
 import { colorName, WUBRG } from "../utils/colorNames.js"
 
 // The three macro archetypes. The archetype stats also include free-form tags,
