@@ -1,5 +1,4 @@
-import { useEffect, useMemo, useState } from "react"
-import { decorateDeck } from "../utils/Fetch.js"
+import { useEffect, useState } from "react"
 import { personLabel } from "../utils/Players.js"
 import {
   countSummary, bestArchetype, bestColorPair, colorWinRates, hottestCard, topPlayers,
@@ -15,7 +14,7 @@ function sourcesFor(cube) {
     cubes: "/api/cubes",
     cardList: `/api/${cube}/cube`,
     index: `/api/${cube}/index`,
-    decks: `/api/${cube}/decks`,
+    decks: `/api/${cube}/decks/summary`,
     archetypes: `/api/${cube}/stats/archetypes`,
     colors: `/api/${cube}/stats/colors`,
     cards: `/api/${cube}/stats/cards?min_games=20`,
@@ -73,14 +72,12 @@ function useCubeResponses(cube) {
 export function useCubeHome(cube) {
   const { raw, errors } = useCubeResponses(cube)
 
-  // The server's decks need client-side decoration (colors, averages) before
-  // the selectors read them. Memoized so it runs once per decks response.
-  const decks = useMemo(() => {
-    if (!raw.decks) {
-      return undefined
-    }
-    return (raw.decks.decks || []).map(decorateDeck)
-  }, [raw.decks])
+  // The deck summary is a slim list (who, which draft, colors, record) that the
+  // server builds for this page, so it needs no client-side decoration.
+  let decks
+  if (raw.decks) {
+    decks = raw.decks.decks || []
+  }
 
   const home = {
     meta: cubeMeta(raw.cubes, errors.cubes, cube),
