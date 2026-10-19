@@ -50,6 +50,8 @@ type WritableChecker interface {
 	Writable(cube string) bool
 }
 
+var _ WritableChecker = &storage.Store{}
+
 // RequireWritable refuses the request with 403 when the request's cube is
 // read-only, and otherwise passes it to h. It guards handlers that write under
 // data/<cube> directly instead of through the store, which would otherwise
