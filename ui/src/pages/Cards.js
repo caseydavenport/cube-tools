@@ -2,6 +2,9 @@ import React from 'react'
 import { IsBasicLand, SortFunc, CardImageURL } from "../utils/Utils.js"
 import { DropdownHeader, NumericInput, Checkbox, DateSelector } from "../components/Dropdown.js"
 import { HoverInfo } from "../components/kit/HoverInfo.js"
+import { asEvent } from "../components/kit/controls.js"
+import { SegmentedControl } from "@mantine/core"
+import { availableValue, hasData, visibleItems } from "../utils/dataKinds.js"
 import { PillSearchInput } from "../components/PillSearchInput.js"
 import { Section, SectionNav } from "../components/PageSections.js"
 import { Wins, Losses } from "../utils/Deck.js"
@@ -22,7 +25,7 @@ import {
   Legend,
 } from 'chart.js';
 import { Line, Bar, Scatter } from 'react-chartjs-2';
-import { currentChartTheme, deltaFill } from "../theme/chartTheme.js"
+import { currentChartTheme, deltaFill, seriesColor } from "../theme/chartTheme.js"
 
 // Register chart JS objects that we need to use.
 ChartJS.register(
@@ -36,8 +39,6 @@ ChartJS.register(
 );
 
 // Chart configuration.
-const chartHeight = "1000px"
-const chartWidth = "300px"
 const ticks = {
   font: {
     size: 16,
@@ -69,30 +70,32 @@ export const InControlOption = "in Control Win %"
 export const InMidrangeOption = "in Midrange Win %"
 export const WordCountOption = "Word Count"
 
+// CardScatterAxes are the measures the scatter plot can put on an axis. needs
+// lists the data a measure is built from, so a cube without it doesn't offer it.
 export const CardScatterAxes = [
   {label: NumDecksOption, value: NumDecksOption},
-  {label: NumSideboardOption, value: NumSideboardOption},
-  {label: MainboardPercentOption, value: MainboardPercentOption},
-  {label: SideboardPercentOption, value: SideboardPercentOption},
-  {label: WinPercentOption, value: WinPercentOption},
-  {label: WinPercentVsAvgOption, value: WinPercentVsAvgOption},
-  {label: PercentOfWinsOption, value: PercentOfWinsOption},
-  {label: NumberOfWinsOption, value: NumberOfWinsOption},
-  {label: ExpectedWinPercentOption, value: ExpectedWinPercentOption},
-  {label: ELOOption, value: ELOOption},
-  {label: MatchELOOption, value: MatchELOOption},
-  {label: NumGamesOption, value: NumGamesOption},
+  {label: NumSideboardOption, value: NumSideboardOption, needs: ["sideboards"]},
+  {label: MainboardPercentOption, value: MainboardPercentOption, needs: ["sideboards"]},
+  {label: SideboardPercentOption, value: SideboardPercentOption, needs: ["sideboards"]},
+  {label: WinPercentOption, value: WinPercentOption, needs: ["results"]},
+  {label: WinPercentVsAvgOption, value: WinPercentVsAvgOption, needs: ["results"]},
+  {label: PercentOfWinsOption, value: PercentOfWinsOption, needs: ["results"]},
+  {label: NumberOfWinsOption, value: NumberOfWinsOption, needs: ["results"]},
+  {label: ExpectedWinPercentOption, value: ExpectedWinPercentOption, needs: ["results"]},
+  {label: ELOOption, value: ELOOption, needs: ["sideboards"]},
+  {label: MatchELOOption, value: MatchELOOption, needs: ["results"]},
+  {label: NumGamesOption, value: NumGamesOption, needs: ["results"]},
   {label: ManaValueOption, value: ManaValueOption},
   {label: NumPlayersOption, value: NumPlayersOption},
-  {label: DraftOrderOption, value: DraftOrderOption},
-  {label: NumTrophiesOption, value: NumTrophiesOption},
-  {label: NumLastPlaceOption, value: NumLastPlaceOption},
-  {label: VersusAggroOption, value: VersusAggroOption},
-  {label: VersusControlOption, value: VersusControlOption},
-  {label: VersusMidrangeOption, value: VersusMidrangeOption},
-  {label: InAggroOption, value: InAggroOption},
-  {label: InControlOption, value: InControlOption},
-  {label: InMidrangeOption, value: InMidrangeOption},
+  {label: DraftOrderOption, value: DraftOrderOption, needs: ["pick_logs"]},
+  {label: NumTrophiesOption, value: NumTrophiesOption, needs: ["results"]},
+  {label: NumLastPlaceOption, value: NumLastPlaceOption, needs: ["results"]},
+  {label: VersusAggroOption, value: VersusAggroOption, needs: ["results", "archetypes"]},
+  {label: VersusControlOption, value: VersusControlOption, needs: ["results", "archetypes"]},
+  {label: VersusMidrangeOption, value: VersusMidrangeOption, needs: ["results", "archetypes"]},
+  {label: InAggroOption, value: InAggroOption, needs: ["results", "archetypes"]},
+  {label: InControlOption, value: InControlOption, needs: ["results", "archetypes"]},
+  {label: InMidrangeOption, value: InMidrangeOption, needs: ["results", "archetypes"]},
   {label: WordCountOption, value: WordCountOption},
 ]
 
@@ -162,10 +165,23 @@ const CARD_SECTIONS = [
   { id: "stats", label: "Stats" },
   { id: "trends", label: "Trends" },
   { id: "plots", label: "Plots" },
-  { id: "pickorder", label: "Pick Order" },
+  { id: "pickorder", label: "Pick Order", needs: ["pick_logs"] },
+]
+
+// CARD_STATS_TYPES are the views of the card stats table. The archetype views
+// break win rates down by archetype, so they need archetype labels.
+const CARD_STATS_TYPES = [
+  { label: "Overview", value: "Overview" },
+  { label: "Metadata", value: "Metadata" },
+  { label: "Versus archetype", value: "Versus archetype", needs: ["results", "archetypes"] },
+  { label: "By archetype", value: "By archetype", needs: ["results", "archetypes"] },
 ]
 
 export function CardWidget(input) {
+  // SectionNav wants the same list object between renders, so the visible
+  // sections are only recomputed when the cube's data info changes.
+  const sections = React.useMemo(() => visibleItems(CARD_SECTIONS, input.info), [input.info])
+
   if (!input.show) {
     return null
   }
@@ -177,7 +193,7 @@ export function CardWidget(input) {
 
   return (
     <div className="analyze-page">
-      <SectionNav sections={CARD_SECTIONS} />
+      <SectionNav sections={sections} />
       <CardWidgetOptions {...input} {...matchInput} />
 
       <Section id="stats">
@@ -186,20 +202,52 @@ export function CardWidget(input) {
       </Section>
 
       <Section id="trends" heading="Trends">
-        <WinrateChart {...input} />
-        <PlayRateChart {...input} />
-        <ELOChart {...input} />
+        <TrendCharts {...input} />
       </Section>
 
       <Section id="plots" heading="Plots">
         <CardGraph {...input} />
       </Section>
 
-      <Section id="pickorder" heading="Pick Order">
-        <PickOrderSection pickInfo={input.parsed.pickInfo} />
-      </Section>
+      <PickOrderPart {...input} />
     </div>
   );
+}
+
+// TrendCharts are the Trends section's charts over time. The win rate chart
+// needs match results, and the pick ELO chart needs sideboards, since pick
+// order is read from what was mainboarded versus sideboarded.
+function TrendCharts(input) {
+  let winrate = null
+  if (hasData(input.info, "results")) {
+    winrate = <WinrateChart {...input} />
+  }
+
+  let elo = null
+  if (hasData(input.info, "sideboards")) {
+    elo = <ELOChart {...input} />
+  }
+
+  return (
+    <>
+      {winrate}
+      <PlayRateChart {...input} />
+      {elo}
+    </>
+  )
+}
+
+// PickOrderPart is the Pick order section, shown only for cubes with pick logs.
+function PickOrderPart(input) {
+  if (!hasData(input.info, "pick_logs")) {
+    return null
+  }
+
+  return (
+    <Section id="pickorder" heading="Pick Order">
+      <PickOrderSection pickInfo={input.parsed.pickInfo} />
+    </Section>
+  )
 }
 
 function colorSort(card) {
@@ -331,7 +379,7 @@ function deckLinkHref(card, input) {
 // link that opens the decks which mainboarded the card in a new tab.
 function cardNameCell(card, input, key) {
   return (
-    <HoverInfo key={key} title="Played by" info={CardMainboardTooltipContent(card)} position="right">
+    <HoverInfo key={key} title="Played by" info={CardMainboardTooltipContent(card, input.info)} position="right">
       <td id={card.name} onClick={input.onCardSelected}>
         <a href={card.url} target="_blank" rel="noopener noreferrer">{card.name}</a>
         {" "}
@@ -422,7 +470,10 @@ function deltaExpCell(card, input, key) {
     return <td key={key} id={card.name} onClick={input.onCardSelected} style={{ color: "var(--text-muted)" }}>—</td>
   }
   const d = Math.round(card.win_percent - card.expected_win_percent)
-  const color = d >= 0 ? "rgb(120, 200, 120)" : "rgb(220, 120, 120)"
+  let color = "var(--se-bad)"
+  if (d >= 0) {
+    color = "var(--se-good)"
+  }
   return <td key={key} id={card.name} onClick={input.onCardSelected} style={{ color }}>{d > 0 ? "+" : ""}{d}</td>
 }
 
@@ -435,6 +486,7 @@ const cardColumn = {
   cell: cardNameCell,
 }
 const gamesColumn = {
+  needs: ["results"],
   id: "games", text: "# Games", tip: "Number of games played by decks that included this card.",
   cell: (c, i, k) => valueCell(c, i, k, c.total_games),
 }
@@ -442,11 +494,11 @@ const gamesColumn = {
 const OVERVIEW_COLUMNS = [
   colorsColumn,
   cardColumn,
-  { id: "mainboarded", text: "Deck%", tip: "Percentage of drafts this card is mainboarded. Hover for exact board counts.", cell: deckPctCell },
-  { id: "wins", text: "Win%", tip: "Win rate of decks that mainboard this card. Greyed when it can't be told apart from a coin flip at the chosen confidence. Hover for the confidence interval and record.", cell: winPctCell },
-  { id: "delta_exp", text: "Δ Exp", tip: "Win% minus expected win% - how the card over/underperforms relative to the players who ran it.", cell: deltaExpCell },
-  { id: "elo", text: "Pick ELO", tip: "An ELO ranking based on card pick order in packs.", cell: (c, i, k) => valueCell(c, i, k, c.elo) },
-  { id: "match_elo", text: "Match ELO", tip: "An ELO ranking computed from match results, weighted by opponent strength.", cell: (c, i, k) => valueCell(c, i, k, c.match_elo) },
+  { needs: ["sideboards"], id: "mainboarded", text: "Deck%", tip: "Percentage of drafts this card is mainboarded. Hover for exact board counts.", cell: deckPctCell },
+  { needs: ["results"], id: "wins", text: "Win%", tip: "Win rate of decks that mainboard this card. Greyed when it can't be told apart from a coin flip at the chosen confidence. Hover for the confidence interval and record.", cell: winPctCell },
+  { needs: ["results"], id: "delta_exp", text: "Δ Exp", tip: "Win% minus expected win% - how the card over/underperforms relative to the players who ran it.", cell: deltaExpCell },
+  { needs: ["sideboards"], id: "elo", text: "Pick ELO", tip: "An ELO ranking based on card pick order in packs.", cell: (c, i, k) => valueCell(c, i, k, c.elo) },
+  { needs: ["results"], id: "match_elo", text: "Match ELO", tip: "An ELO ranking computed from match results, weighted by opponent strength.", cell: (c, i, k) => valueCell(c, i, k, c.match_elo) },
   { id: "lastPlayed", text: "Last played", tip: "Date of the draft this card was last mainboarded.", cell: (c, i, k) => valueCell(c, i, k, c.last_mainboarded) },
 ]
 
@@ -454,27 +506,30 @@ const METADATA_COLUMNS = [
   colorsColumn,
   cardColumn,
   { id: "wordcount", text: "Words", tip: "Words in the card's oracle text, excluding reminder text.", cell: (c, i, k) => valueCell(c, i, k, c.word_count) },
-  { id: "labels", text: "# Labels", tip: "Number of unique archetype labels that have mainboarded this card.", cell: (c, i, k) => valueCell(c, i, k, Object.entries(c.archetypes).length) },
+  { needs: ["archetypes"], id: "labels", text: "# Tags", tip: "Number of unique tags on decks that have mainboarded this card.", cell: (c, i, k) => valueCell(c, i, k, Object.entries(c.archetypes).length) },
   gamesColumn,
   { id: "players", text: "# Players", tip: "Number of unique players who have mainboarded this card.", cell: (c, i, k) => valueCell(c, i, k, Object.entries(c.players).length) },
 ]
 
 const VS_ARCH_COLUMNS = [
   colorsColumn, cardColumn, gamesColumn,
-  { id: "vsaggro", text: "vs Aggro", tip: "Win rate when this card's deck plays against aggro archetypes.", cell: (c, i, k) => valueCell(c, i, k, `${c.against_archetype.aggro.win_percent.toFixed(0)}%`) },
-  { id: "vscontrol", text: "vs Control", tip: "Win rate when this card's deck plays against control archetypes.", cell: (c, i, k) => valueCell(c, i, k, `${c.against_archetype.control.win_percent.toFixed(0)}%`) },
-  { id: "vsmidrange", text: "vs Midrange", tip: "Win rate when this card's deck plays against midrange archetypes.", cell: (c, i, k) => valueCell(c, i, k, `${c.against_archetype.midrange.win_percent.toFixed(0)}%`) },
+  { needs: ["results", "archetypes"], id: "vsaggro", text: "vs Aggro", tip: "Win rate when this card's deck plays against aggro archetypes.", cell: (c, i, k) => valueCell(c, i, k, `${c.against_archetype.aggro.win_percent.toFixed(0)}%`) },
+  { needs: ["results", "archetypes"], id: "vscontrol", text: "vs Control", tip: "Win rate when this card's deck plays against control archetypes.", cell: (c, i, k) => valueCell(c, i, k, `${c.against_archetype.control.win_percent.toFixed(0)}%`) },
+  { needs: ["results", "archetypes"], id: "vsmidrange", text: "vs Midrange", tip: "Win rate when this card's deck plays against midrange archetypes.", cell: (c, i, k) => valueCell(c, i, k, `${c.against_archetype.midrange.win_percent.toFixed(0)}%`) },
 ]
 
 const BY_ARCH_COLUMNS = [
   colorsColumn, cardColumn, gamesColumn,
-  { id: "inaggro", text: "in Aggro", tip: "Win rate of this card when played in aggro decks.", cell: (c, i, k) => valueCell(c, i, k, `${c.by_archetype.aggro.win_percent.toFixed(0)}%`) },
-  { id: "incontrol", text: "in Control", tip: "Win rate of this card when played in control decks.", cell: (c, i, k) => valueCell(c, i, k, `${c.by_archetype.control.win_percent.toFixed(0)}%`) },
-  { id: "inmidrange", text: "in Midrange", tip: "Win rate of this card when played in midrange decks.", cell: (c, i, k) => valueCell(c, i, k, `${c.by_archetype.midrange.win_percent.toFixed(0)}%`) },
+  { needs: ["results", "archetypes"], id: "inaggro", text: "in Aggro", tip: "Win rate of this card when played in aggro decks.", cell: (c, i, k) => valueCell(c, i, k, `${c.by_archetype.aggro.win_percent.toFixed(0)}%`) },
+  { needs: ["results", "archetypes"], id: "incontrol", text: "in Control", tip: "Win rate of this card when played in control decks.", cell: (c, i, k) => valueCell(c, i, k, `${c.by_archetype.control.win_percent.toFixed(0)}%`) },
+  { needs: ["results", "archetypes"], id: "inmidrange", text: "in Midrange", tip: "Win rate of this card when played in midrange decks.", cell: (c, i, k) => valueCell(c, i, k, `${c.by_archetype.midrange.win_percent.toFixed(0)}%`) },
 ]
 
-// CardStatsTable renders a list of column descriptors over the card list.
-function CardStatsTable(cards, columns, input) {
+// CardStatsTable renders a list of column descriptors over the card list,
+// leaving out columns that need data the cube doesn't have.
+function CardStatsTable(cards, allColumns, input) {
+  const columns = visibleItems(allColumns, input.info)
+
   return (
     <div className="table-scroll">
       <table className="widget-table">
@@ -527,7 +582,7 @@ function CardWidgetTable(input) {
   for (let [name, card] of input.cardData) {
     cards.push(card)
   }
-  switch (input.dropdownSelection) {
+  switch (availableValue(input.dropdownSelection, CARD_STATS_TYPES, input.info)) {
     case "Metadata":
       return CardStatsTable(cards, METADATA_COLUMNS, input)
     case "Versus archetype":
@@ -563,11 +618,12 @@ function CardWidgetOptions(input) {
           Showing {num} cards
         </div>
 
-        <DropdownHeader
-          label="Stats type"
-          options={input.cardWidgetOpts}
-          value={input.dropdownSelection}
-          onChange={input.onSelected}
+        <SegmentedControl
+          size="xs"
+          aria-label="Stats type"
+          data={visibleItems(CARD_STATS_TYPES, input.info)}
+          value={availableValue(input.dropdownSelection, CARD_STATS_TYPES, input.info)}
+          onChange={value => input.onSelected(asEvent(value))}
         />
 
         <DropdownHeader
@@ -584,17 +640,29 @@ function CardWidgetOptions(input) {
           onChange={input.onTagFilterSelected}
         />
 
-        <Checkbox
-          text="Significant only"
-          checked={input.significantOnly}
-          onChange={input.onSignificantOnlyToggled}
-        />
+        <SignificantOnly {...input} />
       </div>
     </div>
   );
 }
 
-function CardMainboardTooltipContent(card) {
+// SignificantOnly is the checkbox that keeps only cards whose win rate beats a
+// coin flip. It needs match results to mean anything.
+function SignificantOnly(input) {
+  if (!hasData(input.info, "results")) {
+    return null
+  }
+
+  return (
+    <Checkbox
+      text="Significant only"
+      checked={input.significantOnly}
+      onChange={input.onSignificantOnlyToggled}
+    />
+  )
+}
+
+function CardMainboardTooltipContent(card, info) {
   let mainboarders = []
   let players = Object.entries(card.players)
   for (let [name, num] of players) {
@@ -621,6 +689,13 @@ function CardMainboardTooltipContent(card) {
     .map(([name, num]) => ({name: name, num: num}))
     .sort((a, b) => b.num - a.num)
 
+  // The # SB column needs sideboards, which some cubes don't record.
+  const showSideboard = hasData(info, "sideboards")
+  let sideboardHeader = null
+  if (showSideboard) {
+    sideboardHeader = <th style={{"padding": "4px 8px", "textAlign": "center"}}># SB</th>
+  }
+
   return (
     <div style={{"display": "flex", "flexDirection": "row", "gap": "12px", "alignItems": "flex-start"}}>
       <img
@@ -633,44 +708,60 @@ function CardMainboardTooltipContent(card) {
           <tr style={{"borderBottom": "2px solid var(--border)", "textAlign": "left", "color": "var(--text-muted)"}}>
             <th style={{"padding": "4px 8px"}}>Player</th>
             <th style={{"padding": "4px 8px", "textAlign": "center"}}># MB</th>
-            <th style={{"padding": "4px 8px", "textAlign": "center"}}># SB</th>
+            {sideboardHeader}
           </tr>
         </thead>
         <tbody>
         {
           mainboarders.map(function(row) {
+            let sideboardCell = null
+            if (showSideboard) {
+              sideboardCell = <td style={{"padding": "4px 8px", "textAlign": "center"}}>{row.sb}</td>
+            }
             return (
               <tr sort={row.num} key={row.name} style={{"borderBottom": "1px solid var(--border)"}}>
                 <td style={{"padding": "4px 8px", "whiteSpace": "nowrap"}}>{row.name}</td>
                 <td style={{"padding": "4px 8px", "textAlign": "center"}}>{row.mb}</td>
-                <td style={{"padding": "4px 8px", "textAlign": "center"}}>{row.sb}</td>
+                {sideboardCell}
               </tr>
             );
           }).sort(SortFunc)
         }
         </tbody>
       </table>
-      <table style={{"borderCollapse": "collapse", "fontSize": "0.85rem", "width": "100%"}}>
-        <thead>
-          <tr style={{"borderBottom": "2px solid var(--border)", "textAlign": "left", "color": "var(--text-muted)"}}>
-            <th style={{"padding": "4px 8px"}}>Archetype</th>
-            <th style={{"padding": "4px 8px", "textAlign": "center"}}># MB</th>
-          </tr>
-        </thead>
-        <tbody>
-        {
-          labels.map(function(row) {
-            return (
-              <tr key={row.name} style={{"borderBottom": "1px solid var(--border)"}}>
-                <td style={{"padding": "4px 8px", "whiteSpace": "nowrap"}}>{row.name}</td>
-                <td style={{"padding": "4px 8px", "textAlign": "center"}}>{row.num}</td>
-              </tr>
-            );
-          })
-        }
-        </tbody>
-      </table>
+      <ArchetypeCounts labels={labels} info={info} />
     </div>
+  );
+}
+
+// ArchetypeCounts is the name popover's table of the archetype tags on decks
+// that mainboarded the card. Cubes without archetype labels don't show it.
+function ArchetypeCounts({ labels, info }) {
+  if (!hasData(info, "archetypes")) {
+    return null
+  }
+
+  return (
+    <table style={{"borderCollapse": "collapse", "fontSize": "0.85rem", "width": "100%"}}>
+      <thead>
+        <tr style={{"borderBottom": "2px solid var(--border)", "textAlign": "left", "color": "var(--text-muted)"}}>
+          <th style={{"padding": "4px 8px"}}>Archetype</th>
+          <th style={{"padding": "4px 8px", "textAlign": "center"}}># MB</th>
+        </tr>
+      </thead>
+      <tbody>
+      {
+        labels.map(function(row) {
+          return (
+            <tr key={row.name} style={{"borderBottom": "1px solid var(--border)"}}>
+              <td style={{"padding": "4px 8px", "whiteSpace": "nowrap"}}>{row.name}</td>
+              <td style={{"padding": "4px 8px", "textAlign": "center"}}>{row.num}</td>
+            </tr>
+          );
+        })
+      }
+      </tbody>
+    </table>
   );
 }
 
@@ -714,22 +805,26 @@ function PlayRateChart(input) {
       {
         label: 'Mainboard %',
         data: mb,
-        borderColor: "#0F0",
-        backgroundColor: "#0F0",
-      },
-      {
-        label: 'Sideboard %',
-        data: sb,
-        borderColor: "#FF0",
-        backgroundColor: "#FF0",
-      },
-      {
-        label: 'Playable sb %',
-        data: playableSb,
-        borderColor: "#F00",
-        backgroundColor: "#F00",
+        borderColor: seriesColor(0),
+        backgroundColor: seriesColor(0),
       },
   ]
+
+  // The sideboard lines need sideboards, which some cubes don't record.
+  if (hasData(input.info, "sideboards")) {
+    dataset.push({
+      label: 'Sideboard %',
+      data: sb,
+      borderColor: seriesColor(2),
+      backgroundColor: seriesColor(2),
+    })
+    dataset.push({
+      label: 'Playable sb %',
+      data: playableSb,
+      borderColor: seriesColor(3),
+      backgroundColor: seriesColor(3),
+    })
+  }
 
 
   let title = `${name} % (bucket size = ${input.bucketSize} drafts)`
@@ -770,7 +865,7 @@ function PlayRateChart(input) {
   const data = {labels, datasets: dataset};
   return (
     <div className="chart-container" align="center">
-      <div align="center" style={{"height": chartHeight, "width": "100%"}}>
+      <div align="center" className="stats-chart stats-chart-tall">
         <Line className="chart" options={options} data={data} />
       </div>
     </div>
@@ -820,8 +915,8 @@ function ELOChart(input) {
       {
         label: 'ELO',
         data: elo,
-        borderColor: "#F0F",
-        backgroundColor: "#F0F",
+        borderColor: seriesColor(6),
+        backgroundColor: seriesColor(6),
       },
   ]
 
@@ -864,7 +959,7 @@ function ELOChart(input) {
   const data = {labels, datasets: dataset};
   return (
     <div className="chart-container" align="center">
-      <div align="center" style={{"height": chartHeight, "width": "100%"}}>
+      <div align="center" className="stats-chart stats-chart-tall">
         <Line className="chart" options={options} data={data} />
       </div>
     </div>
@@ -912,14 +1007,14 @@ function WinrateChart(input) {
       {
         label: 'Win %',
         data: wins,
-        borderColor: "#0F0",
-        backgroundColor: "#0F0",
+        borderColor: seriesColor(0),
+        backgroundColor: seriesColor(0),
       },
       {
         label: '% of all Wins',
         data: pows,
-        borderColor: "#FF0",
-        backgroundColor: "#FF0",
+        borderColor: seriesColor(2),
+        backgroundColor: seriesColor(2),
       },
   ]
 
@@ -961,7 +1056,7 @@ function WinrateChart(input) {
   const data = {labels, datasets: dataset};
   return (
     <div className="chart-container" align="center">
-      <div align="center" style={{"height": chartHeight, "width": "100%"}}>
+      <div align="center" className="stats-chart stats-chart-tall">
         <Line className="chart" options={options} data={data} />
       </div>
     </div>
@@ -969,8 +1064,9 @@ function WinrateChart(input) {
 }
 
 // scatterPointColor colors one card on the scatter plot from its kind: the
-// selected card in the text color, a card with no games muted, and otherwise
-// good or bad by how far its win rate sits from the cube average.
+// selected card in the text color, a card with no games muted, every card the
+// same color on a cube without results, and otherwise good or bad by how far
+// its win rate sits from the cube average.
 function scatterPointColor(kind) {
   const theme = currentChartTheme()
   if (kind === "selected") {
@@ -979,14 +1075,18 @@ function scatterPointColor(kind) {
   if (kind === "noGames") {
     return theme.muted
   }
+  if (kind === "plain") {
+    return seriesColor(0)
+  }
   return deltaFill(kind)
 }
 
 function CardGraph(input) {
 
-  // Determine what to show on each axis.
-  let xAxis = input.xAxis
-  let yAxis = input.yAxis
+  // Determine what to show on each axis. A remembered axis the cube can't
+  // fill (Pick ELO without sideboards) falls back to one it can.
+  let xAxis = availableValue(input.xAxis, CardScatterAxes, input.info)
+  let yAxis = availableValue(input.yAxis, CardScatterAxes, input.info)
 
   // Labels for each data point.
   var labels = []
@@ -1036,6 +1136,10 @@ function CardGraph(input) {
     } else if (games <= 0) {
       pointKinds.push("noGames")
       sizes.push(3)
+    } else if (!hasData(input.info, "results")) {
+      // Without match results there's no win rate to color by.
+      pointKinds.push("plain")
+      sizes.push(3)
     } else {
       pointKinds.push(card.win_percent - CUBE_AVG_WIN_PERCENT)
       sizes.push(3)
@@ -1061,7 +1165,7 @@ function CardGraph(input) {
       type: "line",
       label: "Cube average",
       data: [{x: xMin, y: 0}, {x: xMax, y: 0}],
-      borderColor: "#888",
+      borderColor: () => currentChartTheme().muted,
       borderDash: [6, 6],
       pointRadius: 0,
       pointHoverRadius: 0,
@@ -1073,7 +1177,7 @@ function CardGraph(input) {
       type: "line",
       label: "Cube average",
       data: [{x: 0, y: yMin}, {x: 0, y: yMax}],
-      borderColor: "#888",
+      borderColor: () => currentChartTheme().muted,
       borderDash: [6, 6],
       pointRadius: 0,
       pointHoverRadius: 0,
@@ -1152,35 +1256,23 @@ function CardGraph(input) {
       <div className="selector-group" style={{"justifyContent": "center", "marginBottom": "1rem"}}>
         <DropdownHeader
           label="X Axis"
-          options={CardScatterAxes}
-          value={input.xAxis}
+          options={visibleItems(CardScatterAxes, input.info)}
+          value={xAxis}
           onChange={input.onXAxisSelected}
         />
         <DropdownHeader
           label="Y Axis"
-          options={CardScatterAxes}
-          value={input.yAxis}
+          options={visibleItems(CardScatterAxes, input.info)}
+          value={yAxis}
           onChange={input.onYAxisSelected}
         />
       </div>
 
-      <div align="center" style={{"height": "800px", "width": "100%"}}>
+      <div align="center" className="stats-chart stats-chart-scatter">
         <Scatter className="chart" options={options} data={data} />
       </div>
     </div>
   );
-}
-
-// reputationColor maps a card's color identity to a point color: its mana color
-// for mono, gold for multicolor, grey for colorless.
-function reputationColor(identity) {
-  if (!identity || identity.length === 0) {
-    return "#b0b0b0"
-  }
-  if (identity.length === 1) {
-    return Colors.get(identity[0]) || "#b0b0b0"
-  }
-  return "#d4af37"
 }
 
 function getScales(axis, force) {

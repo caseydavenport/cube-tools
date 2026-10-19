@@ -4,3 +4,23 @@
 .stats-summary {
   white-space: nowrap;
 }
+
+/* Chart boxes. Chart.js fills whatever height its box has. */
+.stats-chart {
+  width: 100%;
+}
+
+.stats-chart-tall {
+  height: 1000px;
+}
+
+.stats-chart-scatter {
+  height: 800px;
+}
+
+@media (max-width: 48em) {
+  .stats-chart-tall,
+  .stats-chart-scatter {
+    height: 480px;
+  }
+}
