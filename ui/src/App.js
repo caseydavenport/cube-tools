@@ -15,6 +15,7 @@ import { CubeProvider } from './contexts/CubeContext.js';
 import Landing from './pages/Landing.js';
 import Overview from './pages/Overview.js';
 import ImportHub from './pages/ImportHub.js';
+import NotFound from './pages/NotFound.js';
 import { MantineProvider } from "@mantine/core";
 import { theme, cssVariablesResolver } from "./theme/theme.js";
 
@@ -22,7 +23,7 @@ import "./styles.css";
 import "./theme/legacy-bridge.css";
 
 // hashParams reads the query string that follows the route in a HashRouter URL
-// (e.g. "#/cube/decklists?match=...&start=..."). Used to seed initial filter
+// (e.g. "#/cube/decks?match=...&start=..."). Used to seed initial filter
 // state from a deep link.
 function hashParams() {
   const h = window.location.hash || ""
@@ -100,18 +101,18 @@ export default function Main() {
           <Route index element={<Overview />} />
           <Route path='cards' element={<StatsViewer view='cards' {...statsProps} />} />
           <Route path='colors' element={<StatsViewer view='colors' {...statsProps} />} />
-          <Route path='explore' element={<ExplorePage {...statsProps} />} />
+          <Route path='charts' element={<ExplorePage {...statsProps} />} />
           <Route path='removal' element={<RemovalPage {...statsProps} />} />
           <Route path='packages' element={<Packages {...statsProps} />} />
-          <Route path='types' element={<StatsViewer view='types' {...statsProps} />} />
-          <Route path='deckstats' element={<StatsViewer view='deckstats' {...statsProps} />} />
+          <Route path='archetypes' element={<StatsViewer view='types' {...statsProps} />} />
+          <Route path='deck-stats' element={<StatsViewer view='deckstats' {...statsProps} />} />
           <Route path='drafts' element={<DraftsPage {...statsProps} />} />
           <Route path='players' element={<PlayersPage {...statsProps} />} />
           <Route path='synergy' element={<StatsViewer view='synergy' {...statsProps} />} />
           <Route path='health' element={<StatsViewer view='health' {...statsProps} />} />
-          <Route path='designmap' element={<StatsViewer view='designmap' {...statsProps} />} />
-          <Route path='design-editor' element={<DesignEditorPage />} />
-          <Route path='decklists' element={
+          <Route path='synergy-map' element={<StatsViewer view='designmap' {...statsProps} />} />
+          <Route path='rules-editor' element={<DesignEditorPage />} />
+          <Route path='decks' element={
             <DeckViewer
               startDate={startDate}
               endDate={endDate}
@@ -123,7 +124,9 @@ export default function Main() {
           } />
           <Route path='import' element={<ImportHub />} />
           <Route path='import/:mode' element={<ImportHub />} />
+          <Route path='*' element={<NotFound />} />
         </Route>
+        <Route path='*' element={<NotFound />} />
       </Routes>
     </Router>
     </div>

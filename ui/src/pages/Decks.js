@@ -1520,13 +1520,13 @@ function DeckGraph(input) {
     onClick: function(evt, element) {},
     scales: {
       y: {
-        title: {display: true, text: yAxis, font: {size: 20, weight: "bold"}, color: "white"},
+        title: {display: true, text: yAxis, font: {size: 20, weight: "bold"}, color: chartTextColor()},
         min: getScales(yAxis, false)[0],
         max: getScales(yAxis, false)[1],
         ticks: ticks,
       },
       x: {
-        title: {display: true, text: xAxis, font: {size: 20, weight: "bold"}, color: "white"},
+        title: {display: true, text: xAxis, font: {size: 20, weight: "bold"}, color: chartTextColor()},
         min: getScales(xAxis, false)[0],
         max: getScales(xAxis, false)[1],
         ticks: ticks,

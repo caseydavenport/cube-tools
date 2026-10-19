@@ -13,6 +13,7 @@ import {
 } from 'chart.js'
 import { Line, Bar } from 'react-chartjs-2'
 import { isAnonymous } from "../utils/Players.js"
+import { chartTextColor } from "../theme/chartColors.js"
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, BarElement, Title, Tooltip, Legend)
 
@@ -380,7 +381,7 @@ function PivotTable({ result, groupBy, metric, confidence }) {
   const options = {
     responsive: true, maintainAspectRatio: false,
     plugins: { legend: { display: false } },
-    scales: { y: { min: 0, max: 100, ticks: { color: "white" } }, x: { ticks: { color: "white" } } },
+    scales: { y: { min: 0, max: 100, ticks: { color: chartTextColor() } }, x: { ticks: { color: chartTextColor() } } },
   }
 
   return (
@@ -510,10 +511,10 @@ function PivotLineChart({ result, groupBy, splitBy, metric }) {
   const yMax = metric === "win_pct" ? 100 : undefined
   const options = {
     responsive: true, maintainAspectRatio: false,
-    plugins: { legend: { labels: { color: "white" } } },
+    plugins: { legend: { labels: { color: chartTextColor() } } },
     scales: {
       x: bucketXScale,
-      y: { min: 0, max: yMax, ticks: { color: "white" } },
+      y: { min: 0, max: yMax, ticks: { color: chartTextColor() } },
     },
   }
 

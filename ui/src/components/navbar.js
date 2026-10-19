@@ -70,23 +70,23 @@ function CubeDropdown() {
 const SECTIONS = [
   { label: "Overview", views: [{ label: "Overview", path: "" }] },
   { label: "Browse", views: [
-    { label: "Decklists", path: "decklists" },
+    { label: "Decklists", path: "decks" },
     { label: "Drafts", path: "drafts" },
     { label: "Players", path: "players" },
   ]},
   { label: "Analyze", views: [
     { label: "Cards", path: "cards" },
     { label: "Colors", path: "colors" },
-    { label: "Explore", path: "explore" },
+    { label: "Explore", path: "charts" },
     { label: "Removal", path: "removal" },
-    { label: "Archetypes", path: "types" },
-    { label: "Decks", path: "deckstats" },
+    { label: "Archetypes", path: "archetypes" },
+    { label: "Decks", path: "deck-stats" },
     { label: "Packages", path: "packages" },
   ]},
   { label: "Design", views: [
     { label: "Synergy", path: "synergy" },
-    { label: "Map", path: "designmap" },
-    { label: "Editor", path: "design-editor" },
+    { label: "Map", path: "synergy-map" },
+    { label: "Editor", path: "rules-editor" },
     { label: "Health", path: "health" },
   ]},
 ];
@@ -102,7 +102,7 @@ const Navbar = () => {
   const view = parts[1] || "";
   const activeSection = SECTIONS.find(s => s.views.some(v => v.path === view));
   const activeViews = activeSection
-    ? activeSection.views.filter(v => !(readOnly && v.path === "design-editor"))
+    ? activeSection.views.filter(v => !(readOnly && v.path === "rules-editor"))
     : [];
 
   function viewTo(path) {

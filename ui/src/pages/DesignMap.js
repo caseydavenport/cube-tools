@@ -83,7 +83,7 @@ export function DesignMapWidget({ show, designGraphData, cards, onCardSelected }
         <div className="dm-empty">
           <p>No design map yet.</p>
           <p className="dm-muted">
-            Use the <a className="dm-linkbtn" href={`#/${cube}/design-editor`}>Design Editor</a> to define
+            Use the <a className="dm-linkbtn" href={`#/${cube}/rules-editor`}>Rules editor</a> to define
             groups (card queries) and links (how groups relate). The map is built from those rules.
           </p>
         </div>
@@ -743,7 +743,7 @@ function editorHref(cube, card, vs) {
     p.set("vs", vs)
     p.set("view", "compare")
   }
-  return `${window.location.pathname}#/${cube}/design-editor?${p.toString()}`
+  return `${window.location.pathname}#/${cube}/rules-editor?${p.toString()}`
 }
 
 // CardSynergyMap renders an arbitrary pool of cards (e.g. a decklist) as a force

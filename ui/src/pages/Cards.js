@@ -329,7 +329,7 @@ function deckLinkHref(card, input) {
   if (input.startDate) params.set("start", input.startDate)
   if (input.endDate) params.set("end", input.endDate)
   params.set("match", query)
-  return `${window.location.pathname}#/${currentCubeId()}/decklists?${params.toString()}`
+  return `${window.location.pathname}#/${currentCubeId()}/decks?${params.toString()}`
 }
 
 // cardNameCell renders the clickable card name with a "played by" popover, plus a
@@ -765,10 +765,10 @@ function PlayRateChart(input) {
         min: 0,
         max: 100,
         ticks: ticks,
-        title: {display: true, text: "Pick %", font: {size: 20, weight: "bold"}, color: "white"},
+        title: {display: true, text: "Pick %", font: {size: 20, weight: "bold"}, color: chartTextColor()},
       },
       x: {
-        title: {display: true, text: "Dates", font: {size: 20, weight: "bold"}, color: "white"},
+        title: {display: true, text: "Dates", font: {size: 20, weight: "bold"}, color: chartTextColor()},
         ticks: bucketTicks,
       },
     },
@@ -858,13 +858,13 @@ function ELOChart(input) {
     maintainAspectRatio: false,
     scales: {
       y: {
-        title: {display: true, text: "Pick ELO", font: {size: 20, weight: "bold"}, color: "white"},
+        title: {display: true, text: "Pick ELO", font: {size: 20, weight: "bold"}, color: chartTextColor()},
         min: min-50,
         max: max+50,
         ticks: ticks,
       },
       x: {
-        title: {display: true, text: "Dates", font: {size: 20, weight: "bold"}, color: "white"},
+        title: {display: true, text: "Dates", font: {size: 20, weight: "bold"}, color: chartTextColor()},
         ticks: bucketTicks,
       },
     },
@@ -957,13 +957,13 @@ function WinrateChart(input) {
     maintainAspectRatio: false,
     scales: {
       y: {
-        title: {display: true, text: "Win %", font: {size: 20, weight: "bold"}, color: "white"},
+        title: {display: true, text: "Win %", font: {size: 20, weight: "bold"}, color: chartTextColor()},
         min: 0,
         max: 100,
         ticks: ticks,
       },
       x: {
-        title: {display: true, text: "Dates", font: {size: 20, weight: "bold"}, color: "white"},
+        title: {display: true, text: "Dates", font: {size: 20, weight: "bold"}, color: chartTextColor()},
         ticks: bucketTicks,
       },
     },
@@ -1111,13 +1111,13 @@ function CardGraph(input) {
     onClick: function(evt, element) {},
     scales: {
       y: {
-        title: {display: true, text: yAxis, font: {size: 20, weight: "bold"}, color: "white"},
+        title: {display: true, text: yAxis, font: {size: 20, weight: "bold"}, color: chartTextColor()},
         min: getScales(yAxis, false)[0],
         max: getScales(yAxis, false)[1],
         ticks: axisTicks(yAxis),
       },
       x: {
-        title: {display: true, text: xAxis, font: {size: 20, weight: "bold"}, color: "white"},
+        title: {display: true, text: xAxis, font: {size: 20, weight: "bold"}, color: chartTextColor()},
         min: getScales(xAxis, false)[0],
         max: getScales(xAxis, false)[1],
         ticks: axisTicks(xAxis),

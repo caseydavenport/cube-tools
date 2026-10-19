@@ -106,7 +106,7 @@ export default function ImportReview({ cube, initialDecks, initialReport, date, 
     return (
       <div className="import-review done">
         <p>Imported draft <code>{draftLabel({ id: done, date, event_name: eventName })}</code>.</p>
-        <a href={`#/${cube}/decklists`}>View decklists</a>
+        <a href={`#/${cube}/decks`}>View decklists</a>
       </div>
     );
   }
