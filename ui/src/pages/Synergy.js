@@ -1,9 +1,8 @@
 import React, { useRef, useEffect, useCallback, useState } from 'react'
 import { SortFunc } from "../utils/Utils.js"
 import { NumericInput, Checkbox, DropdownHeader } from "../components/Dropdown.js"
+import { HoverInfo } from "../components/kit/HoverInfo.js"
 import { White, Blue, Black, Red, Green } from "../utils/Colors.js"
-import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
-import Popover from 'react-bootstrap/Popover';
 import { Scatter } from 'react-chartjs-2';
 import { Chart as ChartJS, LinearScale, PointElement, Tooltip, Legend, Title } from 'chart.js';
 import { currentChartTheme, withAlpha } from "../theme/chartTheme.js"
@@ -94,11 +93,9 @@ export function SynergyWidget(input) {
 
 function OptionTooltip({ id, header, tip, children }) {
   return (
-    <OverlayTrigger placement="bottom" delay={{ show: 100, hide: 100 }} overlay={
-      <Popover id={id}><Popover.Header as="h3">{header}</Popover.Header><Popover.Body>{tip}</Popover.Body></Popover>
-    }>
+    <HoverInfo title={header} info={tip} position="bottom">
       <div>{children}</div>
-    </OverlayTrigger>
+    </HoverInfo>
   );
 }
 
@@ -108,13 +105,9 @@ function OptionTooltip({ id, header, tip, children }) {
 function ChartTitle({ title, description, align = "center" }) {
   return (
     <h4 style={{color: "var(--primary)", marginBottom: "0.5rem", textAlign: align}}>
-      <OverlayTrigger placement="bottom" delay={{ show: 100, hide: 100 }} overlay={
-        <Popover id={`chart-${title}`} style={{maxWidth: "440px"}}>
-          <Popover.Body style={{fontSize: "0.85em"}}>{description}</Popover.Body>
-        </Popover>
-      }>
+      <HoverInfo info={description} position="bottom" width={440}>
         <span style={{cursor: "help"}}>{title} <span style={{fontSize: "0.7em", opacity: 0.6}}>ⓘ</span></span>
-      </OverlayTrigger>
+      </HoverInfo>
     </h4>
   );
 }
@@ -198,9 +191,9 @@ function SynergyWidgetTable(input) {
           <tr><td colSpan="6" className="header-cell" style={{"textAlign": "center", "fontWeight": "bold", "background": "var(--primary)", "color": "var(--page-background)"}}>Synergistic Pairs</td></tr>
           <tr>
           {headers.map((hdr, i) => (
-            <OverlayTrigger key={i} placement="top" delay={{ show: 100, hide: 100 }} overlay={<Popover id="popover-basic"><Popover.Header as="h3">{hdr.text}</Popover.Header><Popover.Body>{hdr.tip}</Popover.Body></Popover>}>
+            <HoverInfo key={i} title={hdr.text} info={hdr.tip}>
               <td onClick={input.onHeaderClick} id={hdr.id} className="header-cell">{hdr.text}</td>
-            </OverlayTrigger>
+            </HoverInfo>
           ))}
           </tr>
         </thead>
@@ -236,9 +229,9 @@ function FocalPointsTable(input) {
           <tr><td colSpan="3" className="header-cell" style={{"textAlign": "center", "fontWeight": "bold", "background": "var(--primary)", "color": "var(--page-background)"}}>Archetype Focal Points</td></tr>
           <tr>
             {headers.map((hdr, i) => (
-              <OverlayTrigger key={i} placement="top" delay={{ show: 100, hide: 100 }} overlay={<Popover id="popover-basic"><Popover.Header as="h3">{hdr.text}</Popover.Header><Popover.Body>{hdr.tip}</Popover.Body></Popover>}>
+              <HoverInfo key={i} title={hdr.text} info={hdr.tip}>
                 <td className="header-cell">{hdr.text}</td>
-              </OverlayTrigger>
+              </HoverInfo>
             ))}
           </tr>
         </thead>

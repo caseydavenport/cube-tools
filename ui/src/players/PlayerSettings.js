@@ -1,6 +1,7 @@
 import React from "react"
-import { ActionIcon, Group, NumberInput, Popover, Select, Stack } from "@mantine/core"
-import { IconAdjustments, IconSortAscending, IconSortDescending } from "@tabler/icons-react"
+import { ActionIcon, Group, NumberInput, Select } from "@mantine/core"
+import { IconSortAscending, IconSortDescending } from "@tabler/icons-react"
+import { SettingsPopover } from "../components/kit/SettingsPopover.js"
 
 // SORT_OPTIONS are the orders the player list offers, by the stats column each
 // one sorts on.
@@ -32,39 +33,30 @@ export function PlayerSettings({ filters, copy }) {
   }
 
   return (
-    <Popover position="bottom-end" shadow="md">
-      <Popover.Target>
-        <ActionIcon variant="default" size="md" aria-label={copy.settings}>
-          <IconAdjustments size={16} />
-        </ActionIcon>
-      </Popover.Target>
-      <Popover.Dropdown>
-        <Stack gap="xs">
-          <NumberInput
-            size="xs"
-            label={copy.minGames}
-            min={0}
-            value={filters.minGames}
-            onChange={value => filters.setMinGames(Number(value) || 0)}
-          />
-          <Group gap={4} align="flex-end" wrap="nowrap">
-            <Select
-              size="xs"
-              label={copy.sort}
-              data={sortData}
-              value={filters.playerSortBy || "name"}
-              onChange={onSort}
-              allowDeselect={false}
-              comboboxProps={{ withinPortal: false }}
-            />
-            <SortDirection
-              inverted={filters.playerSortInvert}
-              onToggle={() => filters.setPlayerSortInvert(!filters.playerSortInvert)}
-              copy={copy}
-            />
-          </Group>
-        </Stack>
-      </Popover.Dropdown>
-    </Popover>
+    <SettingsPopover label={copy.settings}>
+      <NumberInput
+        size="xs"
+        label={copy.minGames}
+        min={0}
+        value={filters.minGames}
+        onChange={value => filters.setMinGames(Number(value) || 0)}
+      />
+      <Group gap={4} align="flex-end" wrap="nowrap">
+        <Select
+          size="xs"
+          label={copy.sort}
+          data={sortData}
+          value={filters.playerSortBy || "name"}
+          onChange={onSort}
+          allowDeselect={false}
+          comboboxProps={{ withinPortal: false }}
+        />
+        <SortDirection
+          inverted={filters.playerSortInvert}
+          onToggle={() => filters.setPlayerSortInvert(!filters.playerSortInvert)}
+          copy={copy}
+        />
+      </Group>
+    </SettingsPopover>
   )
 }

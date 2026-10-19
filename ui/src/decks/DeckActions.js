@@ -1,6 +1,7 @@
 import React, { useState } from "react"
-import { ActionIcon, Button, Popover, Select, Tooltip } from "@mantine/core"
-import { IconAdjustments, IconChevronLeft, IconChevronRight, IconColumns, IconCopy } from "@tabler/icons-react"
+import { ActionIcon, Button, Select, Tooltip } from "@mantine/core"
+import { IconChevronLeft, IconChevronRight, IconColumns, IconCopy } from "@tabler/icons-react"
+import { SettingsPopover } from "../components/kit/SettingsPopover.js"
 import { copyListText, deckRef, resolveSelectedDeck } from "./deckModel.js"
 
 // COPIED_TOOLTIP_MS is how long "Copied" shows after copying a list.
@@ -44,29 +45,22 @@ function neighborRef(decks, selectedRef, step) {
 // SortSettings is the settings popover with the list's sort order.
 function SortSettings({ page, copy }) {
   return (
-    <Popover position="bottom-end" shadow="md">
-      <Popover.Target>
-        <ActionIcon variant="default" size="md" aria-label={copy.settings}>
-          <IconAdjustments size={16} />
-        </ActionIcon>
-      </Popover.Target>
-      <Popover.Dropdown>
-        <Select
-          size="xs"
-          label={copy.sort}
-          value={page.sort}
-          onChange={value => page.setSort(value)}
-          allowDeselect={false}
-          comboboxProps={{ withinPortal: false }}
-          data={[
-            { label: copy.sortDate, value: "date" },
-            { label: copy.sortPlayer, value: "player" },
-            { label: copy.sortRecord, value: "record" },
-            { label: copy.sortArchetype, value: "archetype" },
-          ]}
-        />
-      </Popover.Dropdown>
-    </Popover>
+    <SettingsPopover label={copy.settings}>
+      <Select
+        size="xs"
+        label={copy.sort}
+        value={page.sort}
+        onChange={value => page.setSort(value)}
+        allowDeselect={false}
+        comboboxProps={{ withinPortal: false }}
+        data={[
+          { label: copy.sortDate, value: "date" },
+          { label: copy.sortPlayer, value: "player" },
+          { label: copy.sortRecord, value: "record" },
+          { label: copy.sortArchetype, value: "archetype" },
+        ]}
+      />
+    </SettingsPopover>
   )
 }
 

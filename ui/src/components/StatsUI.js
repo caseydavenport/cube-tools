@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, TextInput, NumericInput, DateSelector, DropdownHeader } from "../components/Dropdown.js";
+import { Button, NumericInput, DateSelector, DropdownHeader } from "../components/Dropdown.js";
 import { PillSearchInput } from "../components/PillSearchInput.js";
 import { WIN_CONFIDENCE_OPTS } from "../utils/Stats.js";
 import { personLabel } from "../utils/Players.js"

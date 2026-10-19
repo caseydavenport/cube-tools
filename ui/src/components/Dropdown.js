@@ -1,7 +1,21 @@
-import React, { useState, useRef, useMemo } from 'react'
-import { QueryTermMetadata } from '../utils/Query.js'
+import React from 'react'
+import { Button as MantineButton, Checkbox as MantineCheckbox, Group, NativeSelect, NumberInput, Text, TextInput } from "@mantine/core"
+import { asEvent, optionKey } from "./kit/controls.js"
 
-// DropdownHeader is a dropdown selector that sits on top of a widget.
+// The stats pages' shared controls. Each keeps the props and change-event
+// shape its callers have always used, and renders the matching Mantine input,
+// so every page picks up the kit's look without changing its own code.
+
+// ControlLabel is the short label shown to the left of a control.
+function ControlLabel({ children }) {
+  if (children == null || children === "") {
+    return null
+  }
+  return <Text size="sm" component="span">{children}</Text>
+}
+
+// DropdownHeader is a labeled dropdown of { label, value } options. onChange
+// gets the browser change event, so callers read e.target.value.
 export function DropdownHeader({ label, value, options, onChange, className }) {
   if (className == null) {
     className = "dropdown"
@@ -9,252 +23,85 @@ export function DropdownHeader({ label, value, options, onChange, className }) {
   if (options == null) {
     options = []
   }
+
+  // Screen readers get the label only when it's plain text.
+  let ariaLabel = undefined
+  if (typeof label === "string") {
+    ariaLabel = label
+  }
+
   return (
-   <div className={className}>
-    {label}
-     <select className="text-input" value={value} onChange={onChange}>
-       {
-         options.map((option) => (
-           <option key={option.label} className="select-option" value={option.value}>{option.label}</option>
-         ))
-       }
-     </select>
-   </div>
+    <Group gap={6} wrap="nowrap" className={className}>
+      <ControlLabel>{label}</ControlLabel>
+      <NativeSelect size="xs" value={value} onChange={onChange} aria-label={ariaLabel}>
+        {options.map((option, index) => (
+          <option key={optionKey(option, index)} value={option.value}>{option.label}</option>
+        ))}
+      </NativeSelect>
+    </Group>
   )
 }
 
-export function Checkbox(input) {
-  let className = "dropdown"
-  if (input.className != null) {
-    className = input.className
+// Checkbox is a labeled checkbox. The id goes on the input itself, since some
+// callers read e.currentTarget.id to tell their checkboxes apart.
+export function Checkbox({ id, text, checked, onChange, className }) {
+  if (className == null) {
+    className = "dropdown"
   }
 
   return (
-    <div className={className}>
-      <label style={{"paddingRight": "10px"}}>
-        {input.text}
-      </label>
-      <input id={input.id} checked={input.checked} onChange={input.onChange} type="checkbox" />
-    </div>
-  );
-}
-
-export function NumericInput(input) {
-  let className = "dropdown"
-  if (input.className != null) {
-    className = input.className
-  }
-  return (
-    <div className={className}>
-      <label style={{"paddingRight": "10px"}}>
-        {input.label}
-      </label>
-      <input onChange={input.onChange} value={input.value} className="numeric-input" type="number" />
-    </div>
-  );
-}
-
-export function TextInput(input) {
-  let className = "dropdown"
-  if (input.className != "") {
-    className = input.className
-  }
-  let inputClass = "text-input"
-  if (input.big) {
-    inputClass = "search-bar"
-    className = "search-bar-container"
-  }
-
-  if (!input.big) {
-    return (
-      <div className={className}>
-        {input.label}
-        <input
-          placeholder={input.placeholder}
-          onChange={input.onChange}
-          className={inputClass}
-          value={input.value}
-          type="text"
-        />
-      </div>
-    );
-  }
-
-  return <SearchBarWithAutocomplete input={input} className={className} inputClass={inputClass} />
-}
-
-// Pure helper functions — defined outside the component to avoid recreation on every render.
-function getCurrentFragment(value) {
-  const parts = value.split(" ")
-  return parts[parts.length - 1] || ""
-}
-
-function computeSuggestions(fragment) {
-  const lower = fragment.toLowerCase()
-
-  // If the fragment contains an operator, no more term suggestions needed.
-  if (lower && QueryTermMetadata.some(m => m.operators.some(op => lower.startsWith(m.term + op)))) {
-    return []
-  }
-
-  // If empty, show all terms.
-  if (!lower) {
-    return QueryTermMetadata
-  }
-
-  // Filter to matching terms.
-  return QueryTermMetadata.filter(m => m.term.startsWith(lower))
-}
-
-function computeHelpText(fragment) {
-  const lower = fragment.toLowerCase()
-  for (const meta of QueryTermMetadata) {
-    for (const op of meta.operators) {
-      if (lower.startsWith(meta.term + op)) {
-        const valueHint = meta.valueType === "number" ? "number" : meta.valueType === "color" ? "color code (e.g. ug, wbr)" : "text"
-        return `Expects ${valueHint} — e.g. ${meta.example}`
-      }
-    }
-  }
-  return null
-}
-
-function SearchBarWithAutocomplete({ input, className, inputClass }) {
-  const [showDropdown, setShowDropdown] = useState(false)
-  const [selectedIdx, setSelectedIdx] = useState(0)
-  const blurTimeout = useRef(null)
-  const inputRef = useRef(null)
-  const prevFragmentRef = useRef("")
-
-  const fragment = getCurrentFragment(input.value || "")
-  const suggestions = useMemo(() => computeSuggestions(fragment), [fragment])
-  const helpText = useMemo(() => computeHelpText(fragment), [fragment])
-
-  // Reset selectedIdx when fragment changes, without a useEffect / extra render cycle.
-  // Instead, track the previous fragment in a ref and clamp inline.
-  let effectiveIdx = selectedIdx
-  if (fragment !== prevFragmentRef.current) {
-    prevFragmentRef.current = fragment
-    effectiveIdx = 0
-  }
-  if (suggestions.length > 0) {
-    effectiveIdx = Math.min(effectiveIdx, suggestions.length - 1)
-  } else {
-    effectiveIdx = 0
-  }
-
-  function applySuggestion(meta) {
-    const value = input.value || ""
-    const parts = value.split(" ")
-    parts[parts.length - 1] = meta.term + meta.operators[0]
-    const newValue = parts.join(" ")
-    input.onChange({ target: { value: newValue } })
-    if (inputRef.current) {
-      inputRef.current.focus()
-    }
-  }
-
-  function onKeyDown(e) {
-    if (!showDropdown) return
-
-    if (suggestions.length > 0) {
-      if (e.key === "ArrowDown") {
-        e.preventDefault()
-        setSelectedIdx(Math.min(effectiveIdx + 1, suggestions.length - 1))
-      } else if (e.key === "ArrowUp") {
-        e.preventDefault()
-        setSelectedIdx(Math.max(effectiveIdx - 1, 0))
-      } else if (e.key === "Tab" || e.key === "Enter") {
-        if (fragment.length > 0) {
-          e.preventDefault()
-          applySuggestion(suggestions[effectiveIdx])
-        }
-      }
-    }
-
-    if (e.key === "Escape") {
-      setShowDropdown(false)
-    }
-  }
-
-  function onFocus() {
-    if (blurTimeout.current) {
-      clearTimeout(blurTimeout.current)
-    }
-    setShowDropdown(true)
-  }
-
-  function onBlur() {
-    blurTimeout.current = setTimeout(() => {
-      setShowDropdown(false)
-    }, 150)
-  }
-
-  const showPanel = showDropdown && (suggestions.length > 0 || helpText)
-
-  return (
-    <div className={className} style={{position: "relative"}}>
-      {input.label}
-      <input
-        ref={inputRef}
-        placeholder={input.placeholder}
-        onChange={input.onChange}
-        onKeyDown={onKeyDown}
-        onFocus={onFocus}
-        onBlur={onBlur}
-        className={inputClass}
-        value={input.value}
-        type="text"
-      />
-      {showPanel && (
-        <div className="search-autocomplete">
-          {helpText && (
-            <div className="search-autocomplete-help">{helpText}</div>
-          )}
-          {suggestions.map((meta, idx) => (
-            <div
-              key={meta.term}
-              className={"search-autocomplete-item" + (idx === effectiveIdx ? " search-autocomplete-item-selected" : "")}
-              onMouseDown={(e) => {
-                e.preventDefault()
-                applySuggestion(meta)
-              }}
-              onMouseEnter={() => setSelectedIdx(idx)}
-            >
-              <span className="search-autocomplete-term">{meta.term}{meta.operators[0]}</span>
-              <span className="search-autocomplete-detail">{meta.description}</span>
-              <span className="search-autocomplete-example">{meta.example}</span>
-            </div>
-          ))}
-        </div>
-      )}
-    </div>
-  );
-}
-
-export function DateSelector(input) {
-  return (
-    <div className="dropdown date-selector">
-      <label style={{"paddingRight": "10px"}}>{input.label}</label>
-      <input
-        type="date"
-        id={input.id}
-        value={input.value}
-        onChange={input.onChange}
-      />
-    </div>
+    <MantineCheckbox
+      className={className}
+      id={id}
+      size="xs"
+      label={text}
+      labelPosition="left"
+      checked={checked}
+      onChange={onChange}
+    />
   )
 }
 
-
-export function Button(input) {
-  let className="button"
-  if (input.checked) {
-    className="button-selected"
+// NumericInput is a labeled number box. Mantine reports the number itself, so
+// it's wrapped in an event shape for callers that read e.target.value.
+export function NumericInput({ label, value, onChange, className }) {
+  if (className == null) {
+    className = "dropdown"
   }
+
+  function onNumber(number) {
+    onChange(asEvent(number))
+  }
+
   return (
-    <div className="dropdown">
-      <button className={className} onClick={input.onClick}>{input.text}</button>
-    </div>
+    <Group gap={6} wrap="nowrap" className={className}>
+      <ControlLabel>{label}</ControlLabel>
+      <NumberInput size="xs" w={80} value={value} onChange={onNumber} aria-label={label} />
+    </Group>
+  )
+}
+
+// DateSelector is a labeled date box. onChange gets the browser change event,
+// with the date as "YYYY-MM-DD" in e.target.value.
+export function DateSelector({ label, id, value, onChange }) {
+  return (
+    <Group gap={6} wrap="nowrap" className="dropdown date-selector">
+      <ControlLabel>{label}</ControlLabel>
+      <TextInput size="xs" type="date" id={id} value={value} onChange={onChange} aria-label={label} />
+    </Group>
+  )
+}
+
+// Button is a small button; checked draws it filled, as a toggle that's on.
+export function Button({ text, onClick, checked }) {
+  let variant = "default"
+  if (checked) {
+    variant = "filled"
+  }
+
+  return (
+    <MantineButton size="xs" variant={variant} onClick={onClick}>
+      {text}
+    </MantineButton>
   )
 }

@@ -2,16 +2,12 @@ import React from 'react'
 import { IsBasicLand, MinWinningPctDecks, Pct, SortFunc, StringToColor } from "../utils/Utils.js"
 import { Trophies, LastPlaceFinishes, Winning, Losing, Wins, Losses } from "../utils/Deck.js"
 import { DropdownHeader, NumericInput, Checkbox, DateSelector } from "../components/Dropdown.js"
+import { HoverInfo } from "../components/kit/HoverInfo.js"
 import { Section, SectionNav } from "../components/PageSections.js"
 import { BucketName, bucketXScale } from "../utils/Buckets.js"
 import { Red, Green, Black, White, Blue, Colors, ColorImages, CUBE_AVG_WIN_PERCENT } from "../utils/Colors.js"
 import { winInterval } from "../utils/Stats.js"
 
-import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
-import Popover from 'react-bootstrap/Popover';
-import {
-  Tooltip as TooltipJS,
-} from 'react-bootstrap';
 
 import {
   Chart as ChartJS,
@@ -253,21 +249,9 @@ function ArchetypeTableHeader(input) {
         {
           archetypeHeaders.map(function(hdr, i) {
             return (
-              <OverlayTrigger
-                key={i}
-                placement="top"
-                delay={{ show: 100, hide: 100 }}
-                overlay={
-                  <Popover id="popover-basic">
-                    <Popover.Header as="h3">{hdr.text}</Popover.Header>
-                    <Popover.Body>
-                      {hdr.tip}
-                    </Popover.Body>
-                  </Popover>
-                }
-              >
+              <HoverInfo key={i} title={hdr.text} info={hdr.tip}>
                 <td onClick={input.onHeaderClick} id={hdr.id} className="header-cell">{hdr.text}</td>
-              </OverlayTrigger>
+              </HoverInfo>
             );
           })
         }
@@ -524,21 +508,9 @@ function TopCardsInArchetypeWidget(input) {
             {
               headers.map(function(hdr, i) {
                 return (
-                  <OverlayTrigger
-                    key={i}
-                    placement="top"
-                    delay={{ show: 100, hide: 100 }}
-                    overlay={
-                      <Popover id="popover-basic">
-                        <Popover.Header as="h3">{hdr.text}</Popover.Header>
-                        <Popover.Body>
-                          {hdr.tip}
-                        </Popover.Body>
-                      </Popover>
-                    }
-                  >
+                  <HoverInfo key={i} title={hdr.text} info={hdr.tip}>
                     <td id={hdr.id} onClick={() => onSort(hdr.id)} className="header-cell">{hdr.text}</td>
-                  </OverlayTrigger>
+                  </HoverInfo>
                 );
               })
             }

@@ -1,6 +1,7 @@
 import React from 'react'
 import { IsBasicLand, SortFunc, CardImageURL } from "../utils/Utils.js"
 import { DropdownHeader, NumericInput, Checkbox, DateSelector } from "../components/Dropdown.js"
+import { HoverInfo } from "../components/kit/HoverInfo.js"
 import { PillSearchInput } from "../components/PillSearchInput.js"
 import { Section, SectionNav } from "../components/PageSections.js"
 import { Wins, Losses } from "../utils/Deck.js"
@@ -9,11 +10,6 @@ import { ColorImages, Colors, CUBE_AVG_WIN_PERCENT } from "../utils/Colors.js"
 import { CardMatches, DeckMatches } from "../utils/Query.js"
 import { bucketTicks } from "../utils/Buckets.js"
 
-import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
-import Popover from 'react-bootstrap/Popover';
-import {
-  Tooltip as TooltipJS,
-} from 'react-bootstrap';
 
 import {
   Chart as ChartJS,
@@ -335,13 +331,7 @@ function deckLinkHref(card, input) {
 // link that opens the decks which mainboarded the card in a new tab.
 function cardNameCell(card, input, key) {
   return (
-    <OverlayTrigger key={key} placement="right" delay={{ show: 500, hide: 100 }}
-      overlay={
-        <Popover id="popover-basic" style={{ maxWidth: 'none' }}>
-          <Popover.Header as="h3">Played by</Popover.Header>
-          <Popover.Body>{CardMainboardTooltipContent(card)}</Popover.Body>
-        </Popover>
-      }>
+    <HoverInfo key={key} title="Played by" info={CardMainboardTooltipContent(card)} position="right">
       <td id={card.name} onClick={input.onCardSelected}>
         <a href={card.url} target="_blank" rel="noopener noreferrer">{card.name}</a>
         {" "}
@@ -349,7 +339,7 @@ function cardNameCell(card, input, key) {
           title="Open decks that mainboarded this card (same filters & time range)"
           onClick={(e) => e.stopPropagation()}>⧉</a>
       </td>
-    </OverlayTrigger>
+    </HoverInfo>
   )
 }
 
@@ -361,15 +351,9 @@ function valueCell(card, input, key, value) {
 // popoverValueCell is a clickable value cell with an on-hover detail popover.
 function popoverValueCell(card, input, key, value, title, body) {
   return (
-    <OverlayTrigger key={key} placement="top" delay={{ show: 150, hide: 100 }}
-      overlay={
-        <Popover id="popover-basic">
-          <Popover.Header as="h3">{title}</Popover.Header>
-          <Popover.Body>{body}</Popover.Body>
-        </Popover>
-      }>
+    <HoverInfo key={key} title={title} info={body}>
       <td id={card.name} onClick={input.onCardSelected}>{value}</td>
-    </OverlayTrigger>
+    </HoverInfo>
   )
 }
 
@@ -498,17 +482,11 @@ function CardStatsTable(cards, columns, input) {
           <tr>
             {columns.map(function (hdr, i) {
               return (
-                <OverlayTrigger key={i} placement="top" delay={{ show: 100, hide: 100 }}
-                  overlay={
-                    <Popover id="popover-basic">
-                      <Popover.Header as="h3">{hdr.text}</Popover.Header>
-                      <Popover.Body>{hdr.tip}</Popover.Body>
-                    </Popover>
-                  }>
+                <HoverInfo key={i} title={hdr.text} info={hdr.tip}>
                   <td onClick={input.onHeaderClick} id={hdr.id} className="header-cell">
                     {hdr.text}{input.sortBy === hdr.id ? (input.sortInvert ? " ▲" : " ▼") : ""}
                   </td>
-                </OverlayTrigger>
+                </HoverInfo>
               )
             })}
           </tr>
@@ -1335,19 +1313,9 @@ function PickOrderSection({ pickInfo }) {
           <thead className="table-header">
             <tr>
               {headers.map((hdr) => (
-                <OverlayTrigger
-                  key={hdr.id}
-                  placement="top"
-                  delay={{ show: 100, hide: 100 }}
-                  overlay={
-                    <Popover id="popover-basic">
-                      <Popover.Header as="h3">{hdr.text}</Popover.Header>
-                      <Popover.Body>{hdr.tip}</Popover.Body>
-                    </Popover>
-                  }
-                >
+                <HoverInfo key={hdr.id} title={hdr.text} info={hdr.tip}>
                   <td onClick={onHeaderClick} id={hdr.id} className="header-cell">{hdr.text}</td>
-                </OverlayTrigger>
+                </HoverInfo>
               ))}
             </tr>
           </thead>
@@ -1436,18 +1404,9 @@ function PickOrderSection({ pickInfo }) {
 
               return (
                 <tr sort={sort} className="widget-table-row" key={pick.name}>
-                  <OverlayTrigger
-                    placement="right"
-                    delay={{ show: 500, hide: 100 }}
-                    overlay={
-                      <Popover id="popover-basic" style={{ maxWidth: 'none' }}>
-                        <Popover.Header as="h3">{pick.name}</Popover.Header>
-                        <Popover.Body>{PickOrderTooltip(pick)}</Popover.Body>
-                      </Popover>
-                    }
-                  >
+                  <HoverInfo title={pick.name} info={PickOrderTooltip(pick)} position="right">
                     <td><a href={pick.card.url} target="_blank" rel="noopener noreferrer">{pick.name}</a></td>
-                  </OverlayTrigger>
+                  </HoverInfo>
                   <td>{pick.count}</td>
                   <td>{firstPicks}</td>
                   <td>{avgPack1Pick}</td>

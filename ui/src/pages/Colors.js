@@ -1,15 +1,11 @@
 import React from 'react'
 import { DropdownHeader, NumericInput, DateSelector } from "../components/Dropdown.js"
+import { HoverInfo } from "../components/kit/HoverInfo.js"
 import { Colors, ColorImages, GetColorIdentity, primaryColorPair, CUBE_AVG_WIN_PERCENT, guildColor } from "../utils/Colors.js"
 import { Trophies, LastPlaceFinishes, Wins, Losses } from "../utils/Deck.js"
 import { bucketXScale } from "../utils/Buckets.js"
 import { AverageWordCount, CountManaPips, IsBasicLand, MinWinningPctDecks, Pct, SortFunc } from "../utils/Utils.js"
 
-import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
-import Popover from 'react-bootstrap/Popover';
-import {
-  Tooltip as TooltipJS,
-} from 'react-bootstrap';
 
 import {
   Chart as ChartJS,
@@ -296,21 +292,9 @@ function ColorStatsTable(input) {
             {
               headers.map(function(hdr, i) {
                 return (
-                  <OverlayTrigger
-                    key={i}
-                    placement="top"
-                    delay={{ show: 100, hide: 100 }}
-                    overlay={
-                      <Popover id="popover-basic">
-                        <Popover.Header as="h3">{hdr.text}</Popover.Header>
-                        <Popover.Body>
-                          {hdr.tip}
-                        </Popover.Body>
-                      </Popover>
-                    }
-                  >
+                  <HoverInfo key={i} title={hdr.text} info={hdr.tip}>
                     <td onClick={input.onClick} id={hdr.id} className="header-cell">{hdr.text}</td>
-                  </OverlayTrigger>
+                  </HoverInfo>
                 );
               })
             }
@@ -1115,19 +1099,7 @@ function ColorMatchupHeatmap({ matchupData, colorType }) {
                   const winPct = total > 0 ? record.win_pct : 0;
 
                   return (
-                    <OverlayTrigger
-                      key={oppColor}
-                      placement="top"
-                      delay={{ show: 100, hide: 100 }}
-                      overlay={
-                        <Popover id={`matchup-${myColor}-${oppColor}`}>
-                          <Popover.Header as="h3">{colorGroupNames[myColor]} vs {colorGroupNames[oppColor]}</Popover.Header>
-                          <Popover.Body>
-                            {wins}W - {losses}L ({total} games)
-                          </Popover.Body>
-                        </Popover>
-                      }
-                    >
+                    <HoverInfo key={oppColor} title={<>{colorGroupNames[myColor]} vs {colorGroupNames[oppColor]}</>} info={<>{wins}W - {losses}L ({total} games)</>}>
                       <td style={{
                         background: cellColor(winPct, total),
                         textAlign: "center",
@@ -1136,7 +1108,7 @@ function ColorMatchupHeatmap({ matchupData, colorType }) {
                       }}>
                         {total > 0 ? `${Math.round(winPct)}%` : ""}
                       </td>
-                    </OverlayTrigger>
+                    </HoverInfo>
                   );
                 })}
               </tr>

@@ -1,4 +1,6 @@
 import React from 'react'
+import { ActionIcon, Button, TextInput } from "@mantine/core"
+import { IconPlus, IconX } from "@tabler/icons-react"
 import { DropdownHeader, NumericInput } from "./Dropdown.js"
 
 // PREDICATE_DIMS are the deck attributes a filter can test. `kind` drives which
@@ -77,11 +79,15 @@ export function PredicateBuilder({ predicates, onChange, meta }) {
               meta={meta}
               onChange={(v) => update(i, { ...p, value: v })}
             />
-            <button className="predicate-remove" onClick={() => remove(i)} title="Remove filter">✕</button>
+            <ActionIcon variant="subtle" color="gray" size="sm" aria-label="Remove filter" onClick={() => remove(i)}>
+              <IconX size={14} />
+            </ActionIcon>
           </div>
         )
       })}
-      <button className="button predicate-add" onClick={add}>+ Add filter</button>
+      <Button size="xs" variant="default" leftSection={<IconPlus size={14} />} className="predicate-add" onClick={add}>
+        Add filter
+      </Button>
     </div>
   )
 }
@@ -96,16 +102,21 @@ function ValueControl({ dm, value, meta, onChange }) {
     return <DropdownHeader label="" value={value} options={options} onChange={(e) => onChange(e.target.value)} />
   }
   // color letters (WUBRG) or a card query string.
-  const placeholder = dm.kind === "color" ? "WUBRG" : "e.g. o:flying t:creature"
+  let placeholder = "e.g. o:flying t:creature"
+  let width = 180
+  if (dm.kind === "color") {
+    placeholder = "WUBRG"
+    width = 80
+  }
+
   return (
-    <div className="dropdown">
-      <input
-        className="text-input"
-        style={dm.kind === "query" ? { minWidth: "180px" } : { width: "80px" }}
-        value={value}
-        placeholder={placeholder}
-        onChange={(e) => onChange(e.target.value)}
-      />
-    </div>
+    <TextInput
+      size="xs"
+      w={width}
+      value={value}
+      placeholder={placeholder}
+      aria-label={dm.label}
+      onChange={(e) => onChange(e.target.value)}
+    />
   )
 }
