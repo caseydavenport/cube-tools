@@ -98,7 +98,7 @@ func HydrateCard(name string) Card {
 		// No oracle match, so the returned card has no types, colors, etc.
 		// Log the name so we can track down decks referencing unknown cards.
 		logrus.WithField("card", name).Warn("no oracle data for card name")
-		return Card{Name: name}
+		return withLists(Card{Name: name})
 	}
 	return FromOracle(o)
 }

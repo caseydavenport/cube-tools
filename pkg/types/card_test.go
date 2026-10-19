@@ -1,9 +1,11 @@
 package types
 
 import (
+	"encoding/json"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 )
 
 // --- IsBasicLand ---
@@ -501,4 +503,38 @@ func TestIsInteraction_CrossCategory(t *testing.T) {
 
 	// Heartfire Hero is not interaction - regression check
 	assert.False(t, Card{OracleText: "When Heartfire Hero dies, it deals damage equal to its power to each opponent."}.IsInteraction())
+}
+
+func TestCardJSONAlwaysHasLists(t *testing.T) {
+	for name, card := range map[string]Card{
+		"no oracle data":     HydrateCard("Ozzy's Unknown Card"),
+		"oracle data, empty": FromOracle(OracleCard{Name: "Ozzy's Blank Card"}),
+	} {
+		b, err := json.Marshal(card)
+		require.NoError(t, err, name)
+		s := string(b)
+		assert.Contains(t, s, `"types":[]`, name)
+		assert.Contains(t, s, `"colors":[]`, name)
+		assert.Contains(t, s, `"color_identity":[]`, name)
+	}
+}
+
+func TestCardJSONKeepsLists(t *testing.T) {
+	b, err := json.Marshal(Card{Name: "Grizzly Bears", Types: []string{"Creature"}, Colors: []string{"G"}, ColorIdentity: []string{"G"}})
+	require.NoError(t, err)
+	var got Card
+	require.NoError(t, json.Unmarshal(b, &got))
+	assert.Equal(t, []string{"Creature"}, got.Types)
+	assert.Equal(t, []string{"G"}, got.Colors)
+	assert.Equal(t, []string{"G"}, got.ColorIdentity)
+}
+
+func TestCardJSONEmbeddedKeepsOuterFields(t *testing.T) {
+	type withStats struct {
+		Card
+		Players map[string]int `json:"players"`
+	}
+	b, err := json.Marshal(withStats{Card: Card{Name: "Grizzly Bears"}, Players: map[string]int{"Ozzy": 1}})
+	require.NoError(t, err)
+	assert.Contains(t, string(b), `"players":{"Ozzy":1}`)
 }

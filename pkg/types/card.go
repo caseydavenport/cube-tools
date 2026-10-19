@@ -11,7 +11,7 @@ import (
 // Basic representation of a card.
 type Card struct {
 	Name          string   `json:"name"`
-	Types         []string `json:"types,omitempty"`
+	Types         []string `json:"types"`
 	SubTypes      []string `json:"sub_types,omitempty"`
 	CMC           int      `json:"cmc"`
 	Image         string   `json:"image"`
@@ -273,6 +273,19 @@ func FromOracle(o OracleCard) Card {
 		}
 	}
 
+	return withLists(c)
+}
+
+// withLists replaces missing types, colors and color identity with empty
+// lists, so the JSON the UI reads always has them. Card has no MarshalJSON for
+// this, because structs that embed Card would inherit it and lose their own
+// fields.
+func withLists(c Card) Card {
+	for _, list := range []*[]string{&c.Types, &c.Colors, &c.ColorIdentity} {
+		if *list == nil {
+			*list = []string{}
+		}
+	}
 	return c
 }
 
