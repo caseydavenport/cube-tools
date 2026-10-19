@@ -8,9 +8,7 @@ import (
 	"github.com/caseydavenport/cube-tools/pkg/types"
 )
 
-func CardsHandler() http.Handler { return CardsHandlerWithRoot("data") }
-
-func CardsHandlerWithRoot(dataRoot string) http.Handler {
+func CardsHandler(dataRoot string) http.Handler {
 	return http.HandlerFunc(func(rw http.ResponseWriter, r *http.Request) {
 		draft, ok := draftFromRequest(dataRoot, r)
 		if !ok {

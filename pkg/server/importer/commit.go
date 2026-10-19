@@ -71,10 +71,7 @@ func checkPlayerIDs(dataRoot string, decks []ParsedDeck) error {
 }
 
 // CommitHandler writes a reviewed draft to disk.
-func CommitHandler(src types.CubeSource) http.Handler { return CommitHandlerWithRoot(src, "data") }
-
-// CommitHandlerWithRoot is CommitHandler with an overridable data root.
-func CommitHandlerWithRoot(src types.CubeSource, dataRoot string) http.Handler {
+func CommitHandler(src types.CubeSource, dataRoot string) http.Handler {
 	return http.HandlerFunc(func(rw http.ResponseWriter, r *http.Request) {
 		cube := server.CubeFromRequest(r)
 		if cube == "" {

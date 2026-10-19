@@ -32,7 +32,7 @@ func (scanFakeDetector) MatchRegion(_ string, box ocrpkg.Bbox, _ *types.Cube) (o
 
 func startScan(t *testing.T, root string, d drafts.Draft) {
 	t.Helper()
-	h := ScanStartHandlerWithRoot(scanFakeDetector{}, root)
+	h := ScanStartHandler(scanFakeDetector{}, root)
 	r := draftReq(t, "POST", "/scan", d)
 	w := httptest.NewRecorder()
 	h.ServeHTTP(w, r)

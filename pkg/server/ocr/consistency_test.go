@@ -230,7 +230,7 @@ func TestConsistencyHandler(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	h := ConsistencyHandlerWithRoot(root)
+	h := ConsistencyHandler(root)
 	r := draftReq(t, "GET", "/consistency", d)
 	w := httptest.NewRecorder()
 	h.ServeHTTP(w, r)

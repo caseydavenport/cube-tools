@@ -47,9 +47,7 @@ func buildDeck(existing *types.Deck, req ConfirmRequest) *types.Deck {
 	return d
 }
 
-func ConfirmHandler() http.Handler { return ConfirmHandlerWithRoot("data") }
-
-func ConfirmHandlerWithRoot(dataRoot string) http.Handler {
+func ConfirmHandler(dataRoot string) http.Handler {
 	return http.HandlerFunc(func(rw http.ResponseWriter, r *http.Request) {
 		draft, ok := draftFromRequest(dataRoot, r)
 		player := r.PathValue("player")

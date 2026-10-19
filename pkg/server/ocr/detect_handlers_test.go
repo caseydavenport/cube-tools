@@ -53,7 +53,7 @@ func TestDetectHandler(t *testing.T) {
 	writeFile(t, filepath.Join(d.Dir, rel), "x")
 
 	fd := &fakeDetector{}
-	h := DetectHandlerWithRoot(fd, root)
+	h := DetectHandler(fd, root)
 	r := draftReq(t, "POST", "/detect", d)
 	r.Body = bodyOf(`{"photo":"` + rel + `"}`)
 	w := httptest.NewRecorder()
@@ -83,7 +83,7 @@ func TestRegionHandlerRejectsTraversal(t *testing.T) {
 	d := setupCube(t, root)
 	other := newDraft(t, root, types.DraftMetadata{})
 	writeFile(t, filepath.Join(other.Dir, "img", "p1", "a.jpg"), "x")
-	h := RegionHandlerWithRoot(&fakeDetector{}, root)
+	h := RegionHandler(&fakeDetector{}, root)
 	for _, photo := range []string{"../../etc/passwd", "../" + filepath.Base(other.Dir) + "/img/p1/a.jpg", "/etc/passwd"} {
 		r := draftReq(t, "POST", "/region", d)
 		r.Body = bodyOf(`{"photo":"` + photo + `","box":{"X":0,"Y":0,"Width":1,"Height":1}}`)
@@ -99,16 +99,16 @@ func TestUnknownDraftIs404(t *testing.T) {
 	root := t.TempDir()
 	setupCube(t, root)
 	handlers := map[string]http.Handler{
-		"detect":      DetectHandlerWithRoot(&fakeDetector{}, root),
-		"region":      RegionHandlerWithRoot(&fakeDetector{}, root),
-		"rotate":      RotateHandlerWithRoot(root),
-		"image":       ImageHandlerWithRoot(root),
-		"detail":      DraftDetailHandlerWithRoot(root),
-		"cards":       CardsHandlerWithRoot(root),
-		"consistency": ConsistencyHandlerWithRoot(root),
-		"session":     SessionGetHandlerWithRoot(root),
-		"confirm":     ConfirmHandlerWithRoot(root),
-		"scan":        ScanStatusHandlerWithRoot(root),
+		"detect":      DetectHandler(&fakeDetector{}, root),
+		"region":      RegionHandler(&fakeDetector{}, root),
+		"rotate":      RotateHandler(root),
+		"image":       ImageHandler(root),
+		"detail":      DraftDetailHandler(root),
+		"cards":       CardsHandler(root),
+		"consistency": ConsistencyHandler(root),
+		"session":     SessionGetHandler(root),
+		"confirm":     ConfirmHandler(root),
+		"scan":        ScanStatusHandler(root),
 	}
 	for name, h := range handlers {
 		for _, id := range []string{"99", "abc", "0001_2026-01-17", "../1"} {

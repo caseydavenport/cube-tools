@@ -169,9 +169,7 @@ func attachCaptures(report *ConsistencyReport, sess *Session) {
 	}
 }
 
-func ConsistencyHandler() http.Handler { return ConsistencyHandlerWithRoot("data") }
-
-func ConsistencyHandlerWithRoot(dataRoot string) http.Handler {
+func ConsistencyHandler(dataRoot string) http.Handler {
 	return http.HandlerFunc(func(rw http.ResponseWriter, r *http.Request) {
 		draft, ok := draftFromRequest(dataRoot, r)
 		if !ok {

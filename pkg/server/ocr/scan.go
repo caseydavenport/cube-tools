@@ -107,9 +107,7 @@ func buildScanWorklist(draft drafts.Draft) ([]scanItem, error) {
 	return items, nil
 }
 
-func ScanStartHandler(det Detector) http.Handler { return ScanStartHandlerWithRoot(det, "data") }
-
-func ScanStartHandlerWithRoot(det Detector, dataRoot string) http.Handler {
+func ScanStartHandler(det Detector, dataRoot string) http.Handler {
 	return http.HandlerFunc(func(rw http.ResponseWriter, r *http.Request) {
 		cube := server.CubeFromRequest(r)
 		draft, ok := draftFromRequest(dataRoot, r)
@@ -149,11 +147,9 @@ func ScanStartHandlerWithRoot(det Detector, dataRoot string) http.Handler {
 	})
 }
 
-func ScanStatusHandler() http.Handler { return ScanStatusHandlerWithRoot("data") }
-
-// ScanStatusHandlerWithRoot reports the progress of a draft's photo scan,
+// ScanStatusHandler reports the progress of a draft's photo scan,
 // finding the draft under dataRoot.
-func ScanStatusHandlerWithRoot(dataRoot string) http.Handler {
+func ScanStatusHandler(dataRoot string) http.Handler {
 	return http.HandlerFunc(func(rw http.ResponseWriter, r *http.Request) {
 		draft, ok := draftFromRequest(dataRoot, r)
 		if !ok {

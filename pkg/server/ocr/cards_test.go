@@ -16,7 +16,7 @@ func TestCardsHandler(t *testing.T) {
 	// The draft's cube snapshot: two of "Misty Rainforest", one "Brainstorm".
 	writeFile(t, filepath.Join(d.Dir, "cube-snapshot.json"), `{"cards":[{"name":"Brainstorm"},{"name":"Misty Rainforest"},{"name":"Misty Rainforest"}]}`)
 
-	h := CardsHandlerWithRoot(root)
+	h := CardsHandler(root)
 	r := draftReq(t, "GET", "/cards", d)
 	w := httptest.NewRecorder()
 	h.ServeHTTP(w, r)

@@ -22,7 +22,7 @@ func TestImageHandlerServesFile(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	h := ImageHandlerWithRoot(root)
+	h := ImageHandler(root)
 	r := draftReq(t, "GET", "/img/"+rel, d)
 	r.SetPathValue("path", rel)
 	w := httptest.NewRecorder()
@@ -41,7 +41,7 @@ func TestImageHandlerRefusesEscape(t *testing.T) {
 	d := newDraft(t, root, types.DraftMetadata{})
 	other := newDraft(t, root, types.DraftMetadata{})
 	writeFile(t, filepath.Join(other.Dir, "img", "a.jpg"), "x")
-	h := ImageHandlerWithRoot(root)
+	h := ImageHandler(root)
 	for _, path := range []string{"../" + filepath.Base(other.Dir) + "/img/a.jpg", "/etc/passwd", "../../etc/passwd"} {
 		r := draftReq(t, "GET", "/img/x", d)
 		r.SetPathValue("path", path)

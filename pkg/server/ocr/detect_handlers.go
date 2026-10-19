@@ -50,9 +50,7 @@ func sleeveColorFor(dataRoot, cube string) string {
 	return c.SleeveColor
 }
 
-func DetectHandler(det Detector) http.Handler { return DetectHandlerWithRoot(det, "data") }
-
-func DetectHandlerWithRoot(det Detector, dataRoot string) http.Handler {
+func DetectHandler(det Detector, dataRoot string) http.Handler {
 	return http.HandlerFunc(func(rw http.ResponseWriter, r *http.Request) {
 		cube := server.CubeFromRequest(r)
 		draft, ok := draftFromRequest(dataRoot, r)
@@ -83,9 +81,7 @@ func DetectHandlerWithRoot(det Detector, dataRoot string) http.Handler {
 	})
 }
 
-func RegionHandler(det Detector) http.Handler { return RegionHandlerWithRoot(det, "data") }
-
-func RegionHandlerWithRoot(det Detector, dataRoot string) http.Handler {
+func RegionHandler(det Detector, dataRoot string) http.Handler {
 	return http.HandlerFunc(func(rw http.ResponseWriter, r *http.Request) {
 		cube := server.CubeFromRequest(r)
 		draft, ok := draftFromRequest(dataRoot, r)

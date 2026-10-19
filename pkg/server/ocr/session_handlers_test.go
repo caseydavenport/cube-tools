@@ -13,7 +13,7 @@ func TestSessionSaveThenGet(t *testing.T) {
 	root := t.TempDir()
 	d := newDraft(t, root, types.DraftMetadata{})
 
-	save := SessionSaveHandlerWithRoot(root)
+	save := SessionSaveHandler(root)
 	rs := draftReq(t, "POST", "/session", d)
 	rs.Body = bodyOf(`{"draft_id":7,"players":{"p3":{"status":"in_progress","pool_entries":[{"card_name":"Brainstorm","count":1}],"basics":{},"photos_done":{}}}}`)
 	ws := httptest.NewRecorder()
@@ -22,7 +22,7 @@ func TestSessionSaveThenGet(t *testing.T) {
 		t.Fatalf("save status = %d body=%s", ws.Code, ws.Body.String())
 	}
 
-	get := SessionGetHandlerWithRoot(root)
+	get := SessionGetHandler(root)
 	rg := draftReq(t, "GET", "/session", d)
 	wg := httptest.NewRecorder()
 	get.ServeHTTP(wg, rg)
@@ -46,7 +46,7 @@ func TestSessionSaveThenGet(t *testing.T) {
 func TestSessionSaveMergesPlayers(t *testing.T) {
 	root := t.TempDir()
 	d := newDraft(t, root, types.DraftMetadata{})
-	save := SessionSaveHandlerWithRoot(root)
+	save := SessionSaveHandler(root)
 
 	post := func(body string) {
 		rs := draftReq(t, "POST", "/session", d)
@@ -79,14 +79,14 @@ func TestSessionResponsesCarryReviews(t *testing.T) {
 	rs := draftReq(t, "POST", "/session", d)
 	rs.Body = bodyOf(`{"players":{"p1":{"status":"in_progress","pool_entries":[{"card_name":"Brainstorm","count":44}],"basics":{"Island":3}}}}`)
 	ws := httptest.NewRecorder()
-	SessionSaveHandlerWithRoot(root).ServeHTTP(ws, rs)
+	SessionSaveHandler(root).ServeHTTP(ws, rs)
 	if ws.Code != 200 {
 		t.Fatalf("save status = %d body=%s", ws.Code, ws.Body.String())
 	}
 
 	rg := draftReq(t, "GET", "/session", d)
 	wg := httptest.NewRecorder()
-	SessionGetHandlerWithRoot(root).ServeHTTP(wg, rg)
+	SessionGetHandler(root).ServeHTTP(wg, rg)
 
 	bodies := map[string]string{
 		"save": ws.Body.String(),
@@ -140,7 +140,7 @@ func TestSessionSaveDoesNotHoldLockDuringCubeLoad(t *testing.T) {
 	rs.Body = bodyOf(`{"players":{"p1":{"status":"in_progress"}}}`)
 	done := make(chan struct{})
 	go func() {
-		SessionSaveHandlerWithRoot(root).ServeHTTP(httptest.NewRecorder(), rs)
+		SessionSaveHandler(root).ServeHTTP(httptest.NewRecorder(), rs)
 		close(done)
 	}()
 

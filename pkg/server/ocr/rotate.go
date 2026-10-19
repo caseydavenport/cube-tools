@@ -22,13 +22,11 @@ type rotateRequest struct {
 	Direction string `json:"direction"`
 }
 
-func RotateHandler() http.Handler { return RotateHandlerWithRoot("data") }
-
-// RotateHandlerWithRoot rotates a draft photo 90 degrees in place. Detection,
+// RotateHandler rotates a draft photo 90 degrees in place. Detection,
 // region-matching, and display all read the file from disk, so rotating the
 // file itself keeps every view consistent without threading orientation
 // through each endpoint.
-func RotateHandlerWithRoot(dataRoot string) http.Handler {
+func RotateHandler(dataRoot string) http.Handler {
 	return http.HandlerFunc(func(rw http.ResponseWriter, r *http.Request) {
 		draft, ok := draftFromRequest(dataRoot, r)
 		if !ok {

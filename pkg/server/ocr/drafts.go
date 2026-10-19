@@ -66,9 +66,7 @@ func playerStatus(pw *PlayerWork, hasDeck bool) string {
 	return "unstarted"
 }
 
-func DraftsHandler() http.Handler { return DraftsHandlerWithRoot("data") }
-
-func DraftsHandlerWithRoot(dataRoot string) http.Handler {
+func DraftsHandler(dataRoot string) http.Handler {
 	return http.HandlerFunc(func(rw http.ResponseWriter, r *http.Request) {
 		cube := server.CubeFromRequest(r)
 		all, err := drafts.List(filepath.Join(dataRoot, cube))
@@ -121,9 +119,7 @@ func DraftsHandlerWithRoot(dataRoot string) http.Handler {
 	})
 }
 
-func DraftDetailHandler() http.Handler { return DraftDetailHandlerWithRoot("data") }
-
-func DraftDetailHandlerWithRoot(dataRoot string) http.Handler {
+func DraftDetailHandler(dataRoot string) http.Handler {
 	return http.HandlerFunc(func(rw http.ResponseWriter, r *http.Request) {
 		draft, ok := draftFromRequest(dataRoot, r)
 		if !ok {

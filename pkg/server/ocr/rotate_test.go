@@ -70,7 +70,7 @@ func TestRotateHandlerClockwise(t *testing.T) {
 	// the red moved to the right half (the top edge rotates to the right edge).
 	writeTestJPEG(t, full, 40, 20)
 
-	h := RotateHandlerWithRoot(root)
+	h := RotateHandler(root)
 	r := draftReq(t, "POST", "/rotate", d)
 	r.Body = bodyOf(`{"photo":"` + rel + `","direction":"cw"}`)
 	w := httptest.NewRecorder()
@@ -94,7 +94,7 @@ func TestRotateHandlerClockwise(t *testing.T) {
 
 func TestRotateHandlerRejectsBadDir(t *testing.T) {
 	root := t.TempDir()
-	h := RotateHandlerWithRoot(root)
+	h := RotateHandler(root)
 	r := draftReq(t, "POST", "/rotate", newDraft(t, root, types.DraftMetadata{}))
 	r.Body = bodyOf(`{"photo":"x/y.jpg","direction":"sideways"}`)
 	w := httptest.NewRecorder()
@@ -106,7 +106,7 @@ func TestRotateHandlerRejectsBadDir(t *testing.T) {
 
 func TestRotateHandlerRejectsTraversal(t *testing.T) {
 	root := t.TempDir()
-	h := RotateHandlerWithRoot(root)
+	h := RotateHandler(root)
 	r := draftReq(t, "POST", "/rotate", newDraft(t, root, types.DraftMetadata{}))
 	r.Body = bodyOf(`{"photo":"../../etc/passwd","direction":"cw"}`)
 	w := httptest.NewRecorder()

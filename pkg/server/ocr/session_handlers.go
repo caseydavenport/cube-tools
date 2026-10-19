@@ -17,9 +17,7 @@ import (
 // players would otherwise race on the shared session file and lose work.
 var sessionSaveMu sync.Mutex
 
-func SessionGetHandler() http.Handler { return SessionGetHandlerWithRoot("data") }
-
-func SessionGetHandlerWithRoot(dataRoot string) http.Handler {
+func SessionGetHandler(dataRoot string) http.Handler {
 	return http.HandlerFunc(func(rw http.ResponseWriter, r *http.Request) {
 		draft, ok := draftFromRequest(dataRoot, r)
 		if !ok {
@@ -35,9 +33,7 @@ func SessionGetHandlerWithRoot(dataRoot string) http.Handler {
 	})
 }
 
-func SessionSaveHandler() http.Handler { return SessionSaveHandlerWithRoot("data") }
-
-func SessionSaveHandlerWithRoot(dataRoot string) http.Handler {
+func SessionSaveHandler(dataRoot string) http.Handler {
 	return http.HandlerFunc(func(rw http.ResponseWriter, r *http.Request) {
 		draft, ok := draftFromRequest(dataRoot, r)
 		if !ok {

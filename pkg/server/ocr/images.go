@@ -9,10 +9,7 @@ import (
 )
 
 // ImageHandler serves a draft's photos, addressed relative to the draft.
-func ImageHandler() http.Handler { return ImageHandlerWithRoot("data") }
-
-// ImageHandlerWithRoot is ImageHandler with an injectable data root for tests.
-func ImageHandlerWithRoot(dataRoot string) http.Handler {
+func ImageHandler(dataRoot string) http.Handler {
 	return http.HandlerFunc(func(rw http.ResponseWriter, r *http.Request) {
 		draft, ok := draftFromRequest(dataRoot, r)
 		if !ok {

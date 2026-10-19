@@ -58,7 +58,7 @@ func TestDraftDetailHandler(t *testing.T) {
 	writeFile(t, filepath.Join(d.Dir, "img", "p3", "checkin-1.jpg"), "x")
 
 	mux := http.NewServeMux()
-	mux.Handle("GET /api/{cube}/ocr/drafts/{draft_id}", DraftDetailHandlerWithRoot(root))
+	mux.Handle("GET /api/{cube}/ocr/drafts/{draft_id}", DraftDetailHandler(root))
 
 	t.Run("valid draft with one player returns 200", func(t *testing.T) {
 		w := httptest.NewRecorder()
@@ -103,7 +103,7 @@ func TestDraftsHandlerListsNumberedDraftsNewestFirst(t *testing.T) {
 	deck.ID = 3
 	writeDeck(t, older, deck)
 
-	h := DraftsHandlerWithRoot(root)
+	h := DraftsHandler(root)
 	r := reqWithCube(t, "GET", "/api/polyverse/ocr/drafts", "polyverse")
 	w := httptest.NewRecorder()
 	h.ServeHTTP(w, r)
@@ -142,7 +142,7 @@ func TestDraftsHandlerReportsConflicts(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	h := DraftsHandlerWithRoot(root)
+	h := DraftsHandler(root)
 	r := reqWithCube(t, "GET", "/api/polyverse/ocr/drafts", "polyverse")
 	w := httptest.NewRecorder()
 	h.ServeHTTP(w, r)

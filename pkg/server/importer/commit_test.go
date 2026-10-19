@@ -39,7 +39,7 @@ func TestCommitCreatesNumberedDraft(t *testing.T) {
 			{Player: "p2", Mainboard: []CountedCard{{Name: "Monastery Mentor", Count: 1}}},
 		},
 	}
-	rw := postJSON(t, CommitHandlerWithRoot(src, root), "polyverse", "/api/polyverse/import/commit", body)
+	rw := postJSON(t, CommitHandler(src, root), "polyverse", "/api/polyverse/import/commit", body)
 	if rw.Code != http.StatusOK {
 		t.Fatalf("status %d: %s", rw.Code, rw.Body.String())
 	}
@@ -100,7 +100,7 @@ func TestCommitHandlerRejectsBadDate(t *testing.T) {
 	root := t.TempDir()
 	src := testCubeSource("polyverse", []string{"Monastery Mentor"})
 	body := CommitRequest{Date: "../escape", Decks: []ParsedDeck{{Player: "casey"}}}
-	rw := postJSON(t, CommitHandlerWithRoot(src, root), "polyverse", "/api/polyverse/import/commit", body)
+	rw := postJSON(t, CommitHandler(src, root), "polyverse", "/api/polyverse/import/commit", body)
 	if rw.Code != http.StatusBadRequest {
 		t.Fatalf("want 400 for bad date, got %d", rw.Code)
 	}
@@ -125,7 +125,7 @@ func TestCommitRejectsBadPlayerIDs(t *testing.T) {
 	}
 	for name, ids := range playerIDsByCase {
 		body := CommitRequest{Date: "2026-06-30", Decks: []ParsedDeck{{PlayerID: ids[0]}, {PlayerID: ids[1]}}}
-		rw := postJSON(t, CommitHandlerWithRoot(src, root), "polyverse", "/api/polyverse/import/commit", body)
+		rw := postJSON(t, CommitHandler(src, root), "polyverse", "/api/polyverse/import/commit", body)
 		if rw.Code != http.StatusBadRequest {
 			t.Errorf("%s: status %d, want 400", name, rw.Code)
 		}

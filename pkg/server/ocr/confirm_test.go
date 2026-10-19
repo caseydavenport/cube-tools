@@ -86,7 +86,7 @@ func TestConfirmFindsDeckByID(t *testing.T) {
 		writeDeck(t, d, deck)
 	}
 
-	h := ConfirmHandlerWithRoot(root)
+	h := ConfirmHandler(root)
 	r := draftReq(t, "POST", "/players/p3/confirm", d)
 	r.SetPathValue("player", "p3")
 	r.Body = bodyOf(`{"pool":[{"name":"Brainstorm","count":1}]}`)
@@ -117,7 +117,7 @@ func TestConfirmFindsDeckByID(t *testing.T) {
 func TestConfirmRejectsBadPlayer(t *testing.T) {
 	root := t.TempDir()
 	d := newDraft(t, root, types.DraftMetadata{})
-	h := ConfirmHandlerWithRoot(root)
+	h := ConfirmHandler(root)
 	for _, player := range []string{"casey", "p0", "p", "p1x", "../p1"} {
 		r := draftReq(t, "POST", "/players/x/confirm", d)
 		r.SetPathValue("player", player)
