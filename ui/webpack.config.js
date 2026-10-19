@@ -11,7 +11,7 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      title: 'Cube Tools',
+      title: 'Sylvan Echoes',
     }),
   ],
   devServer: {

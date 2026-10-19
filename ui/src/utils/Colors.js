@@ -1,5 +1,6 @@
 import React from 'react'
 import { CountManaPips } from './Utils.js'
+import { MANA } from '../theme/tokens.js'
 
 // GetColorIdentity returns all the color identities of this deck.
 // e.g., a WUG deck will return [W, U, G, WU, WG, UG, WUG]
@@ -51,11 +52,11 @@ export const CUBE_AVG_WIN_PERCENT = 50
 export const deltaPositiveFill = "rgba(40, 167, 69, 0.85)"
 export const deltaNegativeFill = "rgba(220, 53, 69, 0.85)"
 
-export let White = "#f3e29d"
-export let Blue = "#80c1e7"
-export let Black = "#9c91c9"
-export let Red = "#f08676"
-export let Green = "#93c775"
+export let White = MANA.W
+export let Blue = MANA.U
+export let Black = MANA.B
+export let Red = MANA.R
+export let Green = MANA.G
 export let Colors = new Map([
   ["W", White],
   ["U", Blue],

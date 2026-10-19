@@ -5,6 +5,7 @@ import App from "./App";
 
 // Importing the Bootstrap CSS
 import 'bootstrap/dist/css/bootstrap.css';
+import '@mantine/core/styles.css';
 
 function component() {
   const element = document.createElement('div');

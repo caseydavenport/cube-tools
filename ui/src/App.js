@@ -15,6 +15,8 @@ import { CubeProvider } from './contexts/CubeContext.js';
 import Landing from './pages/Landing.js';
 import Overview from './pages/Overview.js';
 import ImportHub from './pages/ImportHub.js';
+import { MantineProvider } from "@mantine/core";
+import { theme, cssVariablesResolver } from "./theme/theme.js";
 
 import "./styles.css";
 
@@ -86,6 +88,7 @@ export default function Main() {
   };
 
    return (
+    <MantineProvider theme={theme} cssVariablesResolver={cssVariablesResolver} defaultColorScheme="auto">
     <div>
     <Router>
       <NavBar />
@@ -123,5 +126,6 @@ export default function Main() {
       </Routes>
     </Router>
     </div>
+    </MantineProvider>
   );
 }
