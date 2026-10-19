@@ -26,15 +26,17 @@ func fullDraft() []CountedCard {
 	return out
 }
 
+type checkDraftCase struct {
+	name       string
+	cards      []CountedCard
+	want       []Discrepancy
+	seenInCube int
+	seenTotal  int
+	conflicts  int
+}
+
 func TestCheckDraft(t *testing.T) {
-	for _, tc := range []struct {
-		name       string
-		cards      []CountedCard
-		want       []Discrepancy
-		seenInCube int
-		seenTotal  int
-		conflicts  int
-	}{
+	for _, tc := range []checkDraftCase{
 		{name: "full draft is clean", cards: fullDraft(), seenInCube: 13, seenTotal: 13},
 		{
 			name:       "names match case-insensitively",
@@ -71,7 +73,7 @@ func TestCheckDraft(t *testing.T) {
 			assert.Equal(t, tc.want, got.Discrepancies)
 			assert.Equal(t, 13, got.CubeTotal)
 			assert.Equal(t, tc.seenInCube, got.SeenInCube)
-			assert.Equal(t, tc.seenTotal, got.SeenTotal)
+			assert.Equal(t, tc.seenTotal, got.SeenTotal())
 			assert.Equal(t, tc.conflicts, got.Conflicts())
 		})
 	}

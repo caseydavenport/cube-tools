@@ -40,8 +40,8 @@ type ConsistencyReport struct {
 	SeenTotal     int           `json:"seen_total"`
 }
 
-// deckCards returns every non-basic counted card across a deck's pool,
-// mainboard, and sideboard.
+// deckCards returns every counted card across a deck's pool, mainboard, and
+// sideboard, basics included.
 func deckCards(d ParsedDeck) []CountedCard {
 	out := []CountedCard{}
 	out = append(out, d.Pool...)
@@ -52,8 +52,7 @@ func deckCards(d ParsedDeck) []CountedCard {
 
 // CheckConsistency compares the summed non-basic cards across every parsed deck
 // against the cube list, reporting cards that are over-represented, missing, or
-// not in the cube at all. Missing cards don't make a draft unclean, since a
-// draft with empty seats always has some.
+// not in the cube at all. Missing cards don't make a draft unclean.
 func CheckConsistency(cube *types.Cube, decks []ParsedDeck) ConsistencyReport {
 	var cards []CountedCard
 	for _, d := range decks {

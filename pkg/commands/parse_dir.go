@@ -273,12 +273,12 @@ func writeCubeSnapshot(cube string, draft drafts.Draft) error {
 	return draft.SaveSnapshot(c)
 }
 
-// checkDraftConsistency compares the draft's cards with the cube. Missing
-// cards only warn, since a draft with empty seats always has some; extra
-// copies and cards the cube doesn't have fail the check.
+// checkDraftConsistency compares the draft's cards with the cube and logs each
+// discrepancy. Missing cards only warn; extra copies and cards the cube doesn't
+// have fail the check.
 func checkDraftConsistency(logc *logrus.Entry, cube *types.Cube, seen []types.CountedCard) error {
 	check := cube.CheckDraft(seen)
-	logc.WithFields(logrus.Fields{"cube": check.CubeTotal, "seen": check.SeenTotal}).Info("Checked draft against the cube.")
+	logc.WithFields(logrus.Fields{"cube": check.CubeTotal, "seen": check.SeenTotal()}).Info("Checked draft against the cube.")
 	for _, d := range check.Discrepancies {
 		l := logc.WithFields(logrus.Fields{"name": d.CardName, "seen": d.Seen, "cube": d.Cube})
 		switch d.Kind {

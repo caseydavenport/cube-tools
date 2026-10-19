@@ -69,15 +69,15 @@ func buildConsistencyReport(cl *types.Cube, sess *Session, playersTotal int) Con
 		if pw == nil {
 			continue
 		}
-		if mine := draftedCards(pw); len(mine) > 0 {
-			cards = append(cards, mine...)
+		if drafted := draftedCards(pw); len(drafted) > 0 {
+			cards = append(cards, drafted...)
 			counted++
 		}
 	}
 	check := cl.CheckDraft(cards)
 
 	report := ConsistencyReport{
-		PoolTotal:      check.SeenTotal,
+		PoolTotal:      check.SeenTotal(),
 		CubeTotal:      check.CubeTotal,
 		PlayersCounted: counted,
 		PlayersTotal:   playersTotal,

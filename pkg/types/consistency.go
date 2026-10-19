@@ -40,20 +40,17 @@ type DraftCheck struct {
 	// Discrepancies is nil when every card matches.
 	Discrepancies []Discrepancy
 
-	// CubeTotal counts every card in the cube.
-	CubeTotal int
-
-	// SeenInCube counts the draft's copies of cube cards; SeenTotal also
-	// counts cards the cube doesn't have.
+	// CubeTotal counts every card in the cube, and SeenInCube counts the
+	// draft's copies of those cards.
+	CubeTotal  int
 	SeenInCube int
-	SeenTotal  int
 }
 
 // Conflicts counts the discrepancies that mean a draft was entered wrongly:
 // over-counts and cards not in the cube.
-func (r DraftCheck) Conflicts() int {
+func (dc DraftCheck) Conflicts() int {
 	n := 0
-	for _, d := range r.Discrepancies {
+	for _, d := range dc.Discrepancies {
 		if d.Kind != DiscrepancyMissing {
 			n++
 		}
@@ -61,19 +58,31 @@ func (r DraftCheck) Conflicts() int {
 	return n
 }
 
+// SeenTotal counts every copy in the draft, including cards the cube doesn't
+// have.
+func (dc DraftCheck) SeenTotal() int {
+	total := dc.SeenInCube
+	for _, d := range dc.Discrepancies {
+		if d.Kind == DiscrepancyUnknown {
+			total += d.Seen
+		}
+	}
+	return total
+}
+
 // CheckDraft compares the draft's cards with the cube. Names match without
 // regard to case, and basic lands are skipped since every deck brings its own.
 // A cube card is reported under the cube's spelling, and an unknown card under
 // the last spelling in cards.
 func (c *Cube) CheckDraft(cards []CountedCard) DraftCheck {
-	seen := map[string]int{}
+	numSeen := map[string]int{}
 	spelling := map[string]string{}
 	for _, card := range cards {
 		if card.Count <= 0 || IsBasic(card.Name) {
 			continue
 		}
 		key := strings.ToLower(card.Name)
-		seen[key] += card.Count
+		numSeen[key] += card.Count
 		spelling[key] = card.Name
 	}
 
@@ -86,7 +95,7 @@ func (c *Cube) CheckDraft(cards []CountedCard) DraftCheck {
 		}
 		inCube[key] = true
 		want := c.MaxCopies(name)
-		got := seen[key]
+		got := numSeen[key]
 		out.CubeTotal += want
 		out.SeenInCube += got
 		switch {
@@ -96,8 +105,7 @@ func (c *Cube) CheckDraft(cards []CountedCard) DraftCheck {
 			out.Discrepancies = append(out.Discrepancies, Discrepancy{CardName: name, Seen: got, Cube: want, Kind: DiscrepancyMissing})
 		}
 	}
-	for key, got := range seen {
-		out.SeenTotal += got
+	for key, got := range numSeen {
 		if !inCube[key] {
 			out.Discrepancies = append(out.Discrepancies, Discrepancy{CardName: spelling[key], Seen: got, Kind: DiscrepancyUnknown})
 		}

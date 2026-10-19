@@ -4,9 +4,10 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/caseydavenport/cube-tools/pkg/types"
 	"github.com/sirupsen/logrus"
 	"github.com/stretchr/testify/assert"
+
+	"github.com/caseydavenport/cube-tools/pkg/types"
 )
 
 // singletonCube holds n singleton cards, "Card 1" through "Card n".
