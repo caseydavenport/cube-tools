@@ -1,8 +1,11 @@
 import React from "react"
-import { Badge, Text } from "@mantine/core"
-import { ColorImages } from "../utils/Colors.js"
+import { Text } from "@mantine/core"
 import { Losses, MatchDraws, MatchLosses, MatchWins, Wins } from "../utils/Deck.js"
-import { archetypeLabel } from "./deckModel.js"
+import { PlayerEdit } from "./edits/PlayerEdit.js"
+import { ColorsEdit } from "./edits/ColorsEdit.js"
+import { ArchetypeEdit } from "./edits/ArchetypeEdit.js"
+import { TagsEdit } from "./edits/TagsEdit.js"
+import { RecordEdit } from "./edits/RecordEdit.js"
 
 // matchRecordText is a deck's match record as "W-L-D".
 function matchRecordText(deck) {
@@ -46,35 +49,25 @@ function RecordSummary({ deck, copy }) {
   )
 }
 
-// Tags shows the deck's free-form tags as pills.
-export function Tags({ tags }) {
-  return (
-    <div className="deck-tags">
-      {tags.map(tag => (
-        <span key={tag} className="deck-tag">{tag}</span>
-      ))}
-    </div>
-  )
-}
-
 // IdentityCard is the top card of a deck's details: who played it, its colors
-// and archetype, which draft it came from, its tags, and its record.
-export function IdentityCard({ deck, copy }) {
-  const archetype = archetypeLabel(deck)
-
+// and archetype, which draft it came from, its tags, and its record. On
+// writable cubes each of those has a pencil to edit it in place.
+export function IdentityCard({ cube, deck, edits, tagSuggestions, copy }) {
   return (
     <section className="kit-card deck-identity">
       <div className="deck-identity-main">
         <div className="deck-identity-name">
-          <h2 className="deck-player">{deck.player}</h2>
-          <span className="deck-mana">{ColorImages(deck.colors)}</span>
-          {archetype && <Badge variant="light" radius="xl">{archetype}</Badge>}
+          <PlayerEdit cube={cube} deck={deck} edits={edits} copy={copy} />
+          <ColorsEdit deck={deck} edits={edits} copy={copy} />
+          <ArchetypeEdit deck={deck} edits={edits} copy={copy} />
         </div>
         <Text className="deck-muted">{draftLine(deck, copy)}</Text>
-        <Tags tags={deck.labels || []} />
+        <TagsEdit deck={deck} edits={edits} suggestions={tagSuggestions} copy={copy} />
       </div>
 
-      <RecordSummary deck={deck} copy={copy} />
+      <RecordEdit cube={cube} deck={deck} edits={edits} copy={copy}>
+        <RecordSummary deck={deck} copy={copy} />
+      </RecordEdit>
     </section>
   )
 }

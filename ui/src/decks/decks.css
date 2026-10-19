@@ -238,3 +238,56 @@
   color: var(--se-text);
   font-size: 14px;
 }
+
+/* Inline edits */
+
+.deck-inline-editor {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.deck-chip-mana .mana-symbol {
+  width: 14px;
+  height: 14px;
+  vertical-align: middle;
+}
+
+.deck-tag-editable {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  padding-right: 3px;
+}
+
+.deck-tag-add {
+  font: inherit;
+  font-size: 11px;
+  padding: 3px 9px;
+  border-radius: 999px;
+  border: 1px dashed var(--se-border);
+  background: none;
+  color: var(--se-muted);
+  cursor: pointer;
+}
+
+.deck-tag-add:hover {
+  color: var(--mantine-primary-color-filled);
+  border-color: var(--mantine-primary-color-filled);
+}
+
+.deck-record-edit {
+  align-items: flex-start;
+}
+
+.deck-save-error {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border-radius: var(--mantine-radius-md);
+  background: var(--mantine-color-red-light);
+  color: var(--mantine-color-red-light-color);
+  font-size: 13px;
+}

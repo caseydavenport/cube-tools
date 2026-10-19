@@ -78,7 +78,8 @@ export async function LoadDrafts(cube, onLoad, start, end) {
 // SaveDeckMeta writes a deck's annotations (macro archetype, labels, color
 // override, notes) for the deck identified by (draft_id, id) and returns the
 // updated, decorated deck. notes is optional: omitted (undefined) it drops out
-// of the JSON body and the server leaves the existing notes untouched.
+// of the JSON body and the server leaves the existing notes untouched. A failed
+// save throws with the server's message.
 export async function SaveDeckMeta(cube, { draft_id, id, macro_archetype, labels, colors, notes }) {
   const resp = await fetch(`/api/${cube}/decks/update`, {
     method: "POST",
@@ -88,7 +89,7 @@ export async function SaveDeckMeta(cube, { draft_id, id, macro_archetype, labels
     body: JSON.stringify({ draft_id, id, macro_archetype, labels, colors, notes }),
   });
   if (!resp.ok) {
-    throw new Error("Failed to save deck metadata");
+    throw new Error((await resp.text()).trim() || "Failed to save deck metadata");
   }
   let d = await resp.json();
   return decorateDeck(d);

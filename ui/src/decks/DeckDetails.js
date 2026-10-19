@@ -1,6 +1,8 @@
 import React from "react"
+import { CloseButton } from "@mantine/core"
 import { EmptyState } from "../components/kit/EmptyState.js"
-import { resolveSelectedDeck } from "./deckModel.js"
+import { deckRef, resolveSelectedDeck } from "./deckModel.js"
+import { useDeckEdits } from "./useDeckEdits.js"
 import { IdentityCard } from "./IdentityCard.js"
 import { DeckStatTiles } from "./DeckStatTiles.js"
 import { ManaThemesCard } from "./ManaThemesCard.js"
@@ -9,12 +11,30 @@ import { DecklistCard } from "./DecklistCard.js"
 import { NotesCard } from "./NotesCard.js"
 import { CompareView } from "./CompareView.js"
 
+// SaveError is the one line under the identity card that reports a failed
+// save, whichever field it was, with a button to dismiss it.
+function SaveError({ edits, copy }) {
+  if (!edits.error) {
+    return null
+  }
+
+  return (
+    <div className="deck-save-error" role="alert">
+      <span>{edits.error}</span>
+      <CloseButton size="sm" aria-label={copy.dismiss} onClick={edits.clearError} />
+    </div>
+  )
+}
+
 // SelectedDeck lays out one deck's details, top to bottom: who and what, the
 // numbers, mana and themes beside the matches, the cards, then the notes.
 function SelectedDeck({ deck, page, copy }) {
+  const edits = useDeckEdits(page.cube, deck, page.onDecksUpdated)
+
   return (
     <div className="deck-details">
-      <IdentityCard deck={deck} copy={copy} />
+      <IdentityCard cube={page.cube} deck={deck} edits={edits} tagSuggestions={page.archetypes} copy={copy} />
+      <SaveError edits={edits} copy={copy} />
       <DeckStatTiles deck={deck} copy={copy} />
 
       <div className="deck-details-pair">
@@ -23,7 +43,7 @@ function SelectedDeck({ deck, page, copy }) {
       </div>
 
       <DecklistCard deck={deck} page={page} copy={copy} />
-      <NotesCard deck={deck} copy={copy} />
+      <NotesCard deck={deck} edits={edits} copy={copy} />
     </div>
   )
 }
@@ -44,5 +64,7 @@ export function DeckDetails({ page, copy }) {
   if (selected.status === "missing") {
     return <EmptyState>{copy.deckNotInList}</EmptyState>
   }
-  return <SelectedDeck deck={selected.deck} page={page} copy={copy} />
+  // The key gives each deck its own copy of SelectedDeck, so an open editor or
+  // an error message doesn't carry over when the selection moves on.
+  return <SelectedDeck key={deckRef(selected.deck)} deck={selected.deck} page={page} copy={copy} />
 }

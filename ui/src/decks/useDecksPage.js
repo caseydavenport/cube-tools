@@ -213,6 +213,7 @@ export function useDecksPage(cube, props) {
   }
 
   return {
+    cube,
     decks,
     sortedDecks,
     sort,
