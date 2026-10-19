@@ -5,21 +5,26 @@ import { useEffect, useState } from 'react'
 const known = new Map()
 const pending = new Map()
 
-function fetchWritable(cube) {
+// fetchWritable resolves to the server's answer for a cube, or undefined if
+// the request fails. Failures aren't cached, so the next caller asks again
+// instead of seeing a writable cube as read-only until reload.
+export function fetchWritable(cube) {
+  if (known.has(cube)) return Promise.resolve(known.get(cube))
   if (!pending.has(cube)) {
     pending.set(cube, fetch(`/api/${cube}/info`)
-      .then(r => r.ok ? r.json() : { writable: false })
+      .then(r => r.ok ? r.json() : Promise.reject(new Error(`info ${r.status}`)))
       .then(d => { known.set(cube, !!d.writable); return known.get(cube) })
-      .catch(() => false))
+      .catch(() => undefined)
+      .finally(() => pending.delete(cube)))
   }
   return pending.get(cube)
 }
 
-// useCubeWritable reports whether the server lets this cube be edited. It's
-// false until the server answers, and if the request fails, so write controls
-// never flash on a read-only cube.
+// useCubeWritable reports whether the server lets this cube be edited: true,
+// false, or undefined until the server answers or if the request fails. Callers
+// that only hide write controls can treat undefined as read-only.
 export function useCubeWritable(cube) {
-  const cached = cube => !!cube && known.get(cube) === true
+  const cached = cube => cube ? known.get(cube) : undefined
   // The answer is stored with the cube it's for, so a component that switches
   // cubes never shows the previous cube's answer, even for one frame.
   const [state, setState] = useState(() => ({ cube, writable: cached(cube) }))
