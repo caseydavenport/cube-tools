@@ -116,7 +116,7 @@ func main() {
 	writeRoute("POST /api/{cube}/import/photos", importer.PhotoImportHandler())
 
 	fmt.Println("Server listening on port 8888")
-	if err := http.ListenAndServe(":8888", mux); err != nil {
+	if err := http.ListenAndServe(":8888", server.Gzip(mux)); err != nil {
 		fmt.Println(err)
 	}
 }
