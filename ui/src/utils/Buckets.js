@@ -1,7 +1,6 @@
 import React from 'react'
 import { Wins, Losses } from "./Deck.js"
 import { compareDrafts } from "./DraftInfo.js"
-import { chartTextColor } from "../theme/chartColors.js"
 
 // groupDrafts turns a list of decks into a list of drafts, each holding the
 // draft info and its decks, ordered by date and then id.
@@ -69,9 +68,6 @@ export function BucketName(bucket) {
 // label), so we thin them ourselves. Labels are already clean start dates
 // (BucketName for client buckets, the bucket "start" field for server buckets).
 export const bucketTicks = {
-  // A function, so Chart.js asks for the color each time it draws and charts
-  // follow the light/dark setting.
-  color: () => chartTextColor(),
   autoSkip: false,
   maxRotation: 0,
   minRotation: 0,

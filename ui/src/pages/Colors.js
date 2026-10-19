@@ -1,6 +1,6 @@
 import React from 'react'
 import { DropdownHeader, NumericInput, DateSelector } from "../components/Dropdown.js"
-import { Colors, ColorImages, GetColorIdentity, primaryColorPair, CUBE_AVG_WIN_PERCENT, deltaPositiveFill, deltaNegativeFill, guildColor } from "../utils/Colors.js"
+import { Colors, ColorImages, GetColorIdentity, primaryColorPair, CUBE_AVG_WIN_PERCENT, guildColor } from "../utils/Colors.js"
 import { Trophies, LastPlaceFinishes, Wins, Losses } from "../utils/Deck.js"
 import { bucketXScale } from "../utils/Buckets.js"
 import { AverageWordCount, CountManaPips, IsBasicLand, MinWinningPctDecks, Pct, SortFunc } from "../utils/Utils.js"
@@ -23,7 +23,7 @@ import {
   Legend,
 } from 'chart.js';
 import { Line, Bar } from 'react-chartjs-2';
-import { chartTextColor } from "../theme/chartColors.js"
+import { deltaFill, zeroLineGrid } from "../theme/chartTheme.js"
 import { colorName } from "../utils/colorNames.js"
 
 // Register chart JS objects that we need to use.
@@ -708,7 +708,8 @@ function ColorPerformanceDeltaChart(input) {
 
   const labels = rows.map(r => colorName(r.color))
   const deltas = rows.map(r => r.delta)
-  const barColors = rows.map(r => (r.delta >= 0 ? deltaPositiveFill : deltaNegativeFill))
+  // A function, so Chart.js picks the bar colors again when the scheme changes.
+  const barColors = ctx => deltaFill(rows[ctx.dataIndex].delta)
 
   const data = {
     labels,
@@ -730,7 +731,6 @@ function ColorPerformanceDeltaChart(input) {
       title: {
         display: true,
         text: "Net performance vs cube average (win %)",
-        color: chartTextColor(),
         font: { size: "16pt" },
       },
       legend: { display: false },
@@ -745,11 +745,11 @@ function ColorPerformanceDeltaChart(input) {
       },
     },
     scales: {
-      x: { ticks: { color: chartTextColor(), font: { size: 14 } }, grid: { display: false } },
+      x: { ticks: { font: { size: 14 } }, grid: { display: false } },
       y: {
-        title: { display: true, text: "Δ win % vs 50%", color: chartTextColor(), font: { size: 14 } },
-        ticks: { color: chartTextColor(), font: { size: 14 }, callback: (v) => (v > 0 ? "+" : "") + v + "%" },
-        grid: { color: (ctx) => (ctx.tick.value === 0 ? chartTextColor() : "rgba(255,255,255,0.1)") },
+        title: { display: true, text: "Δ win % vs 50%", font: { size: 14 } },
+        ticks: { font: { size: 14 }, callback: (v) => (v > 0 ? "+" : "") + v + "%" },
+        grid: { color: (ctx) => zeroLineGrid(ctx) },
       },
     },
   }
@@ -1002,14 +1002,12 @@ function ColorRateChart(input) {
       title: {
         display: true,
         text: title,
-        color: chartTextColor(),
         font: {
           size: "16pt",
         },
       },
       legend: {
         labels: {
-          color: chartTextColor(),
           font: {
             size: "16pt",
           },

@@ -4,6 +4,7 @@ import { AppShell, Burger, Group, Text } from "@mantine/core"
 import { useDisclosure, useMediaQuery } from "@mantine/hooks"
 import { SITE_NAME } from "../brand.js"
 import { useCubeInfo } from "../utils/useCubeWritable.js"
+import { ChartSchemeSync } from "./ChartSchemeSync.js"
 import { Sidebar } from "./Sidebar.js"
 import { readCollapsed, writeCollapsed } from "./sidebarPrefs.js"
 import { pageSegment } from "./paths.js"
@@ -89,6 +90,7 @@ export function AppLayout({ children }) {
         />
       </AppShell.Navbar>
 
+      <ChartSchemeSync />
       <AppShell.Main className="se-main">{children}</AppShell.Main>
     </AppShell>
   )

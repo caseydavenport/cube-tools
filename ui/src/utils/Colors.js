@@ -47,11 +47,6 @@ let order = {
 // net positive; below it is a net negative.
 export const CUBE_AVG_WIN_PERCENT = 50
 
-// Shared red/green fills for performance-delta visuals. Green when a row beats the
-// cube-wide average win rate, red when it trails. Matches the matchup heatmap palette.
-export const deltaPositiveFill = "rgba(40, 167, 69, 0.85)"
-export const deltaNegativeFill = "rgba(220, 53, 69, 0.85)"
-
 export let White = MANA.W
 export let Blue = MANA.U
 export let Black = MANA.B

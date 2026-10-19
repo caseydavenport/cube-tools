@@ -17,7 +17,7 @@ import {
   Legend,
 } from 'chart.js';
 import { Line, Bar } from 'react-chartjs-2';
-import { chartTextColor } from "../theme/chartColors.js"
+import { currentChartTheme } from "../theme/chartTheme.js"
 
 // Register chart JS objects that we need to use.
 ChartJS.register(
@@ -537,8 +537,8 @@ function WinRateChart(input) {
       {
         label: 'Win %',
         data: values,
-        borderColor: chartTextColor(),
-        backgroundColor: chartTextColor(),
+        borderColor: () => currentChartTheme().text,
+        backgroundColor: () => currentChartTheme().text,
       },
   ]
 
@@ -558,14 +558,12 @@ function WinRateChart(input) {
       title: {
         display: true,
         text: title,
-        color: chartTextColor(),
         font: {
           size: "16pt",
         },
       },
       legend: {
         labels: {
-          color: chartTextColor(),
           font: {
             size: "16pt",
           },

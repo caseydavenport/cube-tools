@@ -1,6 +1,6 @@
 import { test } from "node:test"
 import assert from "node:assert/strict"
-import { LIGHT, DARK, PRIMARY_SHADES, MANA } from "./tokens.js"
+import { LIGHT, DARK, PRIMARY_SHADES, MANA, SERIES } from "./tokens.js"
 
 const HEX = /^#[0-9a-f]{6}$/
 
@@ -16,4 +16,13 @@ test("the primary palette has ten shades for Mantine", () => {
 
 test("mana colors cover WUBRG", () => {
   assert.deepEqual(Object.keys(MANA).sort(), ["B", "G", "R", "U", "W"])
+})
+
+test("the chart series palette has eight colors, none of them a mana color", () => {
+  assert.equal(SERIES.length, 8)
+  const mana = Object.values(MANA)
+  for (const v of SERIES) {
+    assert.match(v, HEX)
+    assert.ok(!mana.includes(v), v)
+  }
 })

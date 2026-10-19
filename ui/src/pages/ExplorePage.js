@@ -13,7 +13,7 @@ import {
 } from 'chart.js'
 import { Line, Bar } from 'react-chartjs-2'
 import { isAnonymous } from "../utils/Players.js"
-import { chartTextColor } from "../theme/chartColors.js"
+import { currentChartTheme, withAlpha } from "../theme/chartTheme.js"
 import { colorName } from "../utils/colorNames.js"
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, BarElement, Title, Tooltip, Legend)
@@ -33,7 +33,7 @@ const winErrorBars = {
       if (!margins) return
       const meta = chart.getDatasetMeta(di)
       ctx.save()
-      ctx.strokeStyle = "rgba(255, 255, 255, 0.7)"
+      ctx.strokeStyle = withAlpha(currentChartTheme().text, 0.7)
       ctx.lineWidth = 1.5
       meta.data.forEach((bar, i) => {
         const m = margins[i]
@@ -374,7 +374,7 @@ function PivotTable({ result, groupBy, metric, confidence }) {
   const options = {
     responsive: true, maintainAspectRatio: false,
     plugins: { legend: { display: false } },
-    scales: { y: { min: 0, max: 100, ticks: { color: chartTextColor() } }, x: { ticks: { color: chartTextColor() } } },
+    scales: { y: { min: 0, max: 100 }, x: {} },
   }
 
   return (
@@ -504,10 +504,10 @@ function PivotLineChart({ result, groupBy, splitBy, metric }) {
   const yMax = metric === "win_pct" ? 100 : undefined
   const options = {
     responsive: true, maintainAspectRatio: false,
-    plugins: { legend: { labels: { color: chartTextColor() } } },
+    
     scales: {
       x: bucketXScale,
-      y: { min: 0, max: yMax, ticks: { color: chartTextColor() } },
+      y: { min: 0, max: yMax },
     },
   }
 

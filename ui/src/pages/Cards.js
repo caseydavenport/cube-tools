@@ -5,7 +5,7 @@ import { PillSearchInput } from "../components/PillSearchInput.js"
 import { Section, SectionNav } from "../components/PageSections.js"
 import { Wins, Losses } from "../utils/Deck.js"
 import { ApplyTooltip } from "../utils/Tooltip.js"
-import { ColorImages, Colors, CUBE_AVG_WIN_PERCENT, deltaPositiveFill, deltaNegativeFill } from "../utils/Colors.js"
+import { ColorImages, Colors, CUBE_AVG_WIN_PERCENT } from "../utils/Colors.js"
 import { CardMatches, DeckMatches } from "../utils/Query.js"
 import { bucketTicks } from "../utils/Buckets.js"
 
@@ -26,7 +26,7 @@ import {
   Legend,
 } from 'chart.js';
 import { Line, Bar, Scatter } from 'react-chartjs-2';
-import { chartTextColor } from "../theme/chartColors.js"
+import { currentChartTheme, deltaFill } from "../theme/chartTheme.js"
 
 // Register chart JS objects that we need to use.
 ChartJS.register(
@@ -43,9 +43,6 @@ ChartJS.register(
 const chartHeight = "1000px"
 const chartWidth = "300px"
 const ticks = {
-  // A function, so Chart.js asks for the color each time it draws and charts
-  // follow the light/dark setting.
-  color: () => chartTextColor(),
   font: {
     size: 16,
   },
@@ -767,10 +764,10 @@ function PlayRateChart(input) {
         min: 0,
         max: 100,
         ticks: ticks,
-        title: {display: true, text: "Pick %", font: {size: 20, weight: "bold"}, color: chartTextColor()},
+        title: {display: true, text: "Pick %", font: {size: 20, weight: "bold"}},
       },
       x: {
-        title: {display: true, text: "Dates", font: {size: 20, weight: "bold"}, color: chartTextColor()},
+        title: {display: true, text: "Dates", font: {size: 20, weight: "bold"}},
         ticks: bucketTicks,
       },
     },
@@ -778,14 +775,12 @@ function PlayRateChart(input) {
       title: {
         display: true,
         text: title,
-        color: chartTextColor(),
         font: {
           size: "16pt",
         },
       },
       legend: {
         labels: {
-          color: chartTextColor(),
           font: {
             size: "16pt",
           },
@@ -860,13 +855,13 @@ function ELOChart(input) {
     maintainAspectRatio: false,
     scales: {
       y: {
-        title: {display: true, text: "Pick ELO", font: {size: 20, weight: "bold"}, color: chartTextColor()},
+        title: {display: true, text: "Pick ELO", font: {size: 20, weight: "bold"}},
         min: min-50,
         max: max+50,
         ticks: ticks,
       },
       x: {
-        title: {display: true, text: "Dates", font: {size: 20, weight: "bold"}, color: chartTextColor()},
+        title: {display: true, text: "Dates", font: {size: 20, weight: "bold"}},
         ticks: bucketTicks,
       },
     },
@@ -874,14 +869,12 @@ function ELOChart(input) {
       title: {
         display: true,
         text: title,
-        color: chartTextColor(),
         font: {
           size: "16pt",
         },
       },
       legend: {
         labels: {
-          color: chartTextColor(),
           font: {
             size: "16pt",
           },
@@ -959,13 +952,13 @@ function WinrateChart(input) {
     maintainAspectRatio: false,
     scales: {
       y: {
-        title: {display: true, text: "Win %", font: {size: 20, weight: "bold"}, color: chartTextColor()},
+        title: {display: true, text: "Win %", font: {size: 20, weight: "bold"}},
         min: 0,
         max: 100,
         ticks: ticks,
       },
       x: {
-        title: {display: true, text: "Dates", font: {size: 20, weight: "bold"}, color: chartTextColor()},
+        title: {display: true, text: "Dates", font: {size: 20, weight: "bold"}},
         ticks: bucketTicks,
       },
     },
@@ -973,14 +966,12 @@ function WinrateChart(input) {
       title: {
         display: true,
         text: title,
-        color: chartTextColor(),
         font: {
           size: "16pt",
         },
       },
       legend: {
         labels: {
-          color: chartTextColor(),
           font: {
             size: "16pt",
           },
@@ -999,6 +990,20 @@ function WinrateChart(input) {
   );
 }
 
+// scatterPointColor colors one card on the scatter plot from its kind: the
+// selected card in the text color, a card with no games muted, and otherwise
+// good or bad by how far its win rate sits from the cube average.
+function scatterPointColor(kind) {
+  const theme = currentChartTheme()
+  if (kind === "selected") {
+    return theme.text
+  }
+  if (kind === "noGames") {
+    return theme.muted
+  }
+  return deltaFill(kind)
+}
+
 function CardGraph(input) {
 
   // Determine what to show on each axis.
@@ -1007,7 +1012,7 @@ function CardGraph(input) {
 
   // Labels for each data point.
   var labels = []
-  var backgroundColors = []
+  var pointKinds = []
   var sizes = []
 
   let name = yAxis + " vs. " + xAxis
@@ -1048,13 +1053,13 @@ function CardGraph(input) {
     // drawn in the theme's text color so it stands out from the red/green field.
     let games = card.total_games || 0
     if (card.name === input.selectedCard) {
-      backgroundColors.push(chartTextColor())
+      pointKinds.push("selected")
       sizes.push(10)
     } else if (games <= 0) {
-      backgroundColors.push("#b0b0b0")
+      pointKinds.push("noGames")
       sizes.push(3)
     } else {
-      backgroundColors.push(card.win_percent >= CUBE_AVG_WIN_PERCENT ? deltaPositiveFill : deltaNegativeFill)
+      pointKinds.push(card.win_percent - CUBE_AVG_WIN_PERCENT)
       sizes.push(3)
     }
     values.push({"x": x, "y": y})
@@ -1064,7 +1069,8 @@ function CardGraph(input) {
       {
         label: "All cards",
         data: values,
-        pointBackgroundColor: backgroundColors,
+        // A function, so Chart.js colors the points again when the scheme changes.
+        pointBackgroundColor: ctx => scatterPointColor(pointKinds[ctx.dataIndex]),
         pointRadius: sizes,
         pointHoverRadius: 10,
       },
@@ -1113,13 +1119,13 @@ function CardGraph(input) {
     onClick: function(evt, element) {},
     scales: {
       y: {
-        title: {display: true, text: yAxis, font: {size: 20, weight: "bold"}, color: chartTextColor()},
+        title: {display: true, text: yAxis, font: {size: 20, weight: "bold"}},
         min: getScales(yAxis, false)[0],
         max: getScales(yAxis, false)[1],
         ticks: axisTicks(yAxis),
       },
       x: {
-        title: {display: true, text: xAxis, font: {size: 20, weight: "bold"}, color: chartTextColor()},
+        title: {display: true, text: xAxis, font: {size: 20, weight: "bold"}},
         min: getScales(xAxis, false)[0],
         max: getScales(xAxis, false)[1],
         ticks: axisTicks(xAxis),
@@ -1129,7 +1135,6 @@ function CardGraph(input) {
       title: {
         display: true,
         text: title,
-        color: chartTextColor(),
         font: {
           size: "16pt",
         },
@@ -1155,7 +1160,6 @@ function CardGraph(input) {
       },
       legend: {
         labels: {
-          color: chartTextColor(),
           font: {
             size: "16pt",
           },

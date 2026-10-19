@@ -42,3 +42,10 @@ export const MANA = {
   R: "#f08676",
   G: "#93c775",
 }
+
+// SERIES colors chart lines and bars that don't stand for a Magic color. Each
+// reads on both the light and dark page, and none matches a MANA color.
+export const SERIES = [
+  "#8b5cf6", "#14b8a6", "#f59e0b", "#f43f5e",
+  "#0ea5e9", "#84cc16", "#d946ef", "#64748b",
+]

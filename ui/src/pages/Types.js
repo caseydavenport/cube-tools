@@ -4,7 +4,7 @@ import { Trophies, LastPlaceFinishes, Winning, Losing, Wins, Losses } from "../u
 import { DropdownHeader, NumericInput, Checkbox, DateSelector } from "../components/Dropdown.js"
 import { Section, SectionNav } from "../components/PageSections.js"
 import { BucketName, bucketXScale } from "../utils/Buckets.js"
-import { Red, Green, Black, White, Blue, Colors, ColorImages, CUBE_AVG_WIN_PERCENT, deltaPositiveFill, deltaNegativeFill } from "../utils/Colors.js"
+import { Red, Green, Black, White, Blue, Colors, ColorImages, CUBE_AVG_WIN_PERCENT } from "../utils/Colors.js"
 import { winInterval } from "../utils/Stats.js"
 
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
@@ -27,7 +27,7 @@ import {
 } from 'chart.js';
 import { Line, Bar, Pie } from 'react-chartjs-2';
 import { personLabel } from "../utils/Players.js"
-import { chartTextColor } from "../theme/chartColors.js"
+import { currentChartTheme, deltaFill, zeroLineGrid } from "../theme/chartTheme.js"
 
 // Register chart JS objects that we need to use.
 ChartJS.register(
@@ -891,14 +891,12 @@ function MicroArchetypesChart(input) {
       title: {
         display: true,
         text: title,
-        color: chartTextColor(),
         font: {
           size: "16pt",
         },
       },
       legend: {
         labels: {
-          color: chartTextColor(),
           font: {
             size: "16pt",
           },
@@ -943,7 +941,8 @@ function MacroArchetypeDeltaChart(input) {
 
   const labels = rows.map(r => r.type.charAt(0).toUpperCase() + r.type.slice(1))
   const deltas = rows.map(r => r.delta)
-  const barColors = rows.map(r => (r.delta >= 0 ? deltaPositiveFill : deltaNegativeFill))
+  // A function, so Chart.js picks the bar colors again when the scheme changes.
+  const barColors = ctx => deltaFill(rows[ctx.dataIndex].delta)
 
   const data = {
     labels,
@@ -965,7 +964,6 @@ function MacroArchetypeDeltaChart(input) {
       title: {
         display: true,
         text: "Net performance vs cube average (win %)",
-        color: chartTextColor(),
         font: { size: "16pt" },
       },
       legend: { display: false },
@@ -980,11 +978,11 @@ function MacroArchetypeDeltaChart(input) {
       },
     },
     scales: {
-      x: { ticks: { color: chartTextColor(), font: { size: 14 } }, grid: { display: false } },
+      x: { ticks: { font: { size: 14 } }, grid: { display: false } },
       y: {
-        title: { display: true, text: "Δ win % vs 50%", color: chartTextColor(), font: { size: 14 } },
-        ticks: { color: chartTextColor(), font: { size: 14 }, callback: (v) => (v > 0 ? "+" : "") + v + "%" },
-        grid: { color: (ctx) => (ctx.tick.value === 0 ? chartTextColor() : "rgba(255,255,255,0.1)") },
+        title: { display: true, text: "Δ win % vs 50%", font: { size: 14 } },
+        ticks: { font: { size: 14 }, callback: (v) => (v > 0 ? "+" : "") + v + "%" },
+        grid: { color: (ctx) => zeroLineGrid(ctx) },
       },
     },
   }
@@ -1097,14 +1095,12 @@ function MacroArchetypesChart(input) {
       title: {
         display: true,
         text: title,
-        color: chartTextColor(),
         font: {
           size: "16pt",
         },
       },
       legend: {
         labels: {
-          color: chartTextColor(),
           font: {
             size: "16pt",
           },
@@ -1169,14 +1165,12 @@ function MacroArchetypesPieChart(input) {
       title: {
         display: true,
         text: title,
-        color: chartTextColor(),
         font: {
           size: "16pt",
         },
       },
       legend: {
         labels: {
-          color: chartTextColor(),
           font: {
             size: "16pt",
           },
@@ -1219,14 +1213,12 @@ function WinsByMatchup(input) {
       title: {
         display: true,
         text: "Matchup data for " + matchup.name,
-        color: chartTextColor(),
         font: {
           size: "16pt",
         },
       },
       legend: {
         labels: {
-          color: chartTextColor(),
           font: {
             size: "16pt",
           },
@@ -1286,8 +1278,8 @@ function WinsByMatchup(input) {
         type: "line",
         label: 'Win %',
         data: percentages,
-        borderColor: chartTextColor(),
-        backgroundColor: chartTextColor(),
+        borderColor: () => currentChartTheme().text,
+        backgroundColor: () => currentChartTheme().text,
       },
       {
         label: 'Wins',

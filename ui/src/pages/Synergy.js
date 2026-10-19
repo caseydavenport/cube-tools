@@ -6,7 +6,7 @@ import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Popover from 'react-bootstrap/Popover';
 import { Scatter } from 'react-chartjs-2';
 import { Chart as ChartJS, LinearScale, PointElement, Tooltip, Legend, Title } from 'chart.js';
-import { chartTextColor } from "../theme/chartColors.js"
+import { currentChartTheme, withAlpha } from "../theme/chartTheme.js"
 
 ChartJS.register(LinearScale, PointElement, Tooltip, Legend, Title);
 
@@ -313,7 +313,7 @@ function SynergyFocalCompare({ synergyCompare, cube, onCardSelected }) {
       const { ctx, chartArea, scales } = chart;
       if (!chartArea) return;
       ctx.save();
-      ctx.strokeStyle = "rgba(255,255,255,0.4)";
+      ctx.strokeStyle = withAlpha(currentChartTheme().text, 0.4);
       ctx.lineWidth = 1.5;
       ctx.setLineDash([6, 6]);
       ctx.beginPath();
@@ -327,9 +327,7 @@ function SynergyFocalCompare({ synergyCompare, cube, onCardSelected }) {
   const axis = (text) => ({
     min: 0,
     max: max * 1.05,
-    title: { display: true, text, color: chartTextColor(), font: { size: 14 } },
-    ticks: { color: chartTextColor() },
-    grid: { color: "rgba(255,255,255,0.08)" },
+    title: { display: true, text, font: { size: 14 } },
   });
 
   const options = {
@@ -568,7 +566,7 @@ function SynergyScatter({ synergyData, cube, matchStr, onCardSelected }) {
       const px = scales.x.getPixelForValue(medX);
       const py = scales.y.getPixelForValue(medY);
       ctx.save();
-      ctx.strokeStyle = "rgba(255,255,255,0.6)";
+      ctx.strokeStyle = withAlpha(currentChartTheme().text, 0.6);
       ctx.lineWidth = 1.5;
       ctx.beginPath();
       ctx.moveTo(px, chartArea.top);
@@ -592,16 +590,12 @@ function SynergyScatter({ synergyData, cube, matchStr, onCardSelected }) {
       x: {
         min: xMin,
         max: xMax,
-        title: { display: true, text: "Play rate (% of drafts opened, shrunk)", color: chartTextColor(), font: { size: 14 } },
-        ticks: { color: chartTextColor() },
-        grid: { color: "rgba(255,255,255,0.08)" },
+        title: { display: true, text: "Play rate (% of drafts opened, shrunk)", font: { size: 14 } },
       },
       y: {
         min: yMin,
         max: yMax,
-        title: { display: true, text: "Avg partner lift (synergy intensity, shrunk)", color: chartTextColor(), font: { size: 14 } },
-        ticks: { color: chartTextColor() },
-        grid: { color: "rgba(255,255,255,0.08)" },
+        title: { display: true, text: "Avg partner lift (synergy intensity, shrunk)", font: { size: 14 } },
       },
     },
     plugins: {
@@ -849,7 +843,7 @@ function SynergyHubChart({ pool, colorMap, scale, color, selectedName, onColorCh
       label: "Cards",
       data: points,
       pointBackgroundColor: points.map(p => cardDisplayColor(colorMap[p.name])),
-      pointBorderColor: points.map(p => isSelected(p) ? chartTextColor() : "rgba(0,0,0,0.4)"),
+      pointBorderColor: points.map(p => isSelected(p) ? currentChartTheme().text : "rgba(0,0,0,0.4)"),
       pointBorderWidth: points.map(p => isSelected(p) ? 3 : 1),
       pointRadius: points.map(p => isSelected(p) ? 8 : 5),
       pointHoverRadius: points.map(p => isSelected(p) ? 10 : 8),
@@ -864,7 +858,7 @@ function SynergyHubChart({ pool, colorMap, scale, color, selectedName, onColorCh
       const px = scales.x.getPixelForValue(scale.medX);
       const py = scales.y.getPixelForValue(scale.medY);
       ctx.save();
-      ctx.strokeStyle = "rgba(255,255,255,0.6)";
+      ctx.strokeStyle = withAlpha(currentChartTheme().text, 0.6);
       ctx.lineWidth = 1.5;
       ctx.beginPath();
       ctx.moveTo(px, chartArea.top);
@@ -887,16 +881,12 @@ function SynergyHubChart({ pool, colorMap, scale, color, selectedName, onColorCh
       x: {
         min: 0,
         max: scale.xMax,
-        title: { display: true, text: "Synergy breadth per deck", color: chartTextColor(), font: { size: 14 } },
-        ticks: { color: chartTextColor() },
-        grid: { color: "rgba(255,255,255,0.08)" },
+        title: { display: true, text: "Synergy breadth per deck", font: { size: 14 } },
       },
       y: {
         min: scale.yMin,
         max: scale.yMax,
-        title: { display: true, text: "Peak partner synergy (depth)", color: chartTextColor(), font: { size: 14 } },
-        ticks: { color: chartTextColor() },
-        grid: { color: "rgba(255,255,255,0.08)" },
+        title: { display: true, text: "Peak partner synergy (depth)", font: { size: 14 } },
       },
     },
     plugins: {
@@ -1111,7 +1101,7 @@ function SynergyNetworkGraph({ synergyData, cube, matchStr, onCardSelected }) {
         const node = nodes.find(n => n.id === hovered);
         if (node) {
           ctx.font = "13px monospace";
-          ctx.fillStyle = chartTextColor();
+          ctx.fillStyle = currentChartTheme().text;
           ctx.textAlign = "center";
           const tag = node.peak > 0 ? `  (focal ${node.focalScore.toFixed(0)}, peak ${node.peak.toFixed(2)}x)` : "";
           ctx.fillText(node.id + tag, node.x, node.y - node.radius - 6);
