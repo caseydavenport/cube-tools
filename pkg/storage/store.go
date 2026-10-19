@@ -11,12 +11,12 @@ import (
 	"github.com/caseydavenport/cube-tools/pkg/types"
 )
 
-// Store adds enrichment, caching, and filtering on top of a DeckBackend. It
+// Store adds enrichment, caching, and filtering on top of a Backend. It
 // implements DeckStorage, so server handlers depend on it, not on any concrete
 // backend.
 type Store struct {
 	sync.Mutex
-	backend DeckBackend
+	backend Backend
 	players PlayerSource
 	caches  map[string]*cubeCache
 }
@@ -32,7 +32,7 @@ type cubeCache struct {
 const cacheTTL = 10 * time.Second
 
 // NewStore wraps a backend with caching, name resolution and enrichment.
-func NewStore(backend DeckBackend, opts ...StoreOption) *Store {
+func NewStore(backend Backend, opts ...StoreOption) *Store {
 	s := &Store{backend: backend}
 	for _, o := range opts {
 		o(s)
@@ -114,16 +114,15 @@ func (s *Store) cacheForLocked(cube string) (*cubeCache, error) {
 
 // UpdateDeckMeta applies an annotation write to one deck, saves it,
 // invalidates the cube's cache, and returns the freshly enriched deck. It
-// returns ErrUnsupported if the backend can't write and ErrDeckNotFound if the
+// returns ErrReadOnly if the cube can't be written and ErrDeckNotFound if the
 // draft has no deck with w.DeckID.
 func (s *Store) UpdateDeckMeta(cube string, w DeckMetaWrite) (*Deck, error) {
-	backend, ok := s.backend.(DraftBackend)
-	if !ok {
-		return nil, ErrUnsupported
+	if !s.backend.Writable(cube) {
+		return nil, ErrReadOnly
 	}
 	s.Lock()
 	defer s.Unlock()
-	decks, err := backend.LoadDraft(cube, w.DraftID)
+	decks, err := s.backend.LoadDraft(cube, w.DraftID)
 	if err != nil {
 		return nil, err
 	}
@@ -140,7 +139,7 @@ func (s *Store) UpdateDeckMeta(cube string, w DeckMetaWrite) (*Deck, error) {
 	if w.Notes != nil {
 		target.Notes = *w.Notes
 	}
-	if err := backend.SaveDecks(cube, w.DraftID, []*Deck{target}); err != nil {
+	if err := s.backend.SaveDecks(cube, w.DraftID, []*Deck{target}); err != nil {
 		return nil, err
 	}
 	changed, err := s.reloadLocked(cube, w.DraftID, []*Deck{target})
@@ -153,18 +152,17 @@ func (s *Store) UpdateDeckMeta(cube string, w DeckMetaWrite) (*Deck, error) {
 // SaveDeckRecord applies a record edit: it reassigns the deck's player and
 // replaces its matches, mirroring the per-round results onto its opponents.
 // It saves every changed deck, invalidates the cube's cache, and returns them
-// freshly enriched. It returns ErrUnsupported if the backend can't write,
+// freshly enriched. It returns ErrReadOnly if the cube can't be written,
 // ErrDeckNotFound if the draft has no deck with e.DeckID, ErrUnknownPlayer for
 // a player ID not in the list, and ErrPlayerExists if another deck in the
 // draft already has that player.
 func (s *Store) SaveDeckRecord(cube string, e RecordEdit) ([]*Deck, error) {
-	backend, ok := s.backend.(DraftBackend)
-	if !ok {
-		return nil, ErrUnsupported
+	if !s.backend.Writable(cube) {
+		return nil, ErrReadOnly
 	}
 	s.Lock()
 	defer s.Unlock()
-	decks, err := backend.LoadDraft(cube, e.DraftID)
+	decks, err := s.backend.LoadDraft(cube, e.DraftID)
 	if err != nil {
 		return nil, err
 	}
@@ -194,7 +192,7 @@ func (s *Store) SaveDeckRecord(cube string, e RecordEdit) ([]*Deck, error) {
 			changed = append(changed, byTD[td])
 		}
 	}
-	if err := backend.SaveDecks(cube, e.DraftID, changed); err != nil {
+	if err := s.backend.SaveDecks(cube, e.DraftID, changed); err != nil {
 		return nil, err
 	}
 	return s.reloadLocked(cube, e.DraftID, changed)
@@ -254,42 +252,32 @@ func findDeck(decks []*Deck, id int) *Deck {
 	return nil
 }
 
-// GetRules returns the cube's design-map rules, or ErrUnsupported if the
-// backend has none.
+// Writable reports whether the cube accepts writes.
+func (s *Store) Writable(cube string) bool {
+	return s.backend.Writable(cube)
+}
+
+// GetRules returns the cube's design-map rules.
 func (s *Store) GetRules(cube string) (*design.DesignMapConfig, error) {
-	b, ok := s.backend.(RulesBackend)
-	if !ok {
-		return nil, ErrUnsupported
-	}
-	return b.GetRules(cube)
+	return s.backend.GetRules(cube)
 }
 
-// PutRules writes the cube's design-map rules, or returns ErrUnsupported if
-// the backend has none.
+// PutRules writes the cube's design-map rules, or returns ErrReadOnly if the
+// cube can't be written.
 func (s *Store) PutRules(cube string, rules *design.DesignMapConfig) error {
-	b, ok := s.backend.(RulesBackend)
-	if !ok {
-		return ErrUnsupported
+	if !s.backend.Writable(cube) {
+		return ErrReadOnly
 	}
-	return b.PutRules(cube, rules)
+	return s.backend.PutRules(cube, rules)
 }
 
-// Index returns the cube's path-free draft/deck index, or ErrUnsupported if
-// the backend has none.
+// Index returns the cube's path-free draft/deck index.
 func (s *Store) Index(cube string) (*CubeIndex, error) {
-	b, ok := s.backend.(IndexBackend)
-	if !ok {
-		return nil, ErrUnsupported
-	}
-	return b.Index(cube)
+	return s.backend.Index(cube)
 }
 
-// GetDraftLog returns a draft's raw log, or ErrUnsupported if the backend has
+// GetDraftLog returns a draft's raw log, or ErrUnsupported if the cube keeps
 // none.
 func (s *Store) GetDraftLog(cube string, draftID int) (json.RawMessage, error) {
-	b, ok := s.backend.(DraftLogBackend)
-	if !ok {
-		return nil, ErrUnsupported
-	}
-	return b.GetDraftLog(cube, draftID)
+	return s.backend.GetDraftLog(cube, draftID)
 }

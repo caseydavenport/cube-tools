@@ -2,11 +2,11 @@ package decks
 
 import (
 	"encoding/json"
-	"errors"
 	"net/http"
 	"time"
 
 	"github.com/caseydavenport/cube-tools/pkg/server/deckquery"
+	"github.com/caseydavenport/cube-tools/pkg/server/httperr"
 	"github.com/caseydavenport/cube-tools/pkg/server/query"
 	"github.com/caseydavenport/cube-tools/pkg/storage"
 	"github.com/caseydavenport/cube-tools/pkg/types"
@@ -102,7 +102,7 @@ func (h *updateDeckHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 		Colors:         req.Colors,
 		Notes:          req.Notes,
 	})
-	if writeStoreError(rw, err, "Failed to update deck metadata") {
+	if httperr.WriteStoreError(rw, err, "Failed to update deck metadata") {
 		return
 	}
 	writeJSON(rw, updated)
@@ -148,32 +148,10 @@ func (h *updateDeckRecordHandler) ServeHTTP(rw http.ResponseWriter, r *http.Requ
 		PlayerID: req.PlayerID,
 		Matches:  req.Matches,
 	})
-	if writeStoreError(rw, err, "Failed to save deck record") {
+	if httperr.WriteStoreError(rw, err, "Failed to save deck record") {
 		return
 	}
 	writeJSON(rw, DecksResponse{Decks: changed})
-}
-
-// writeStoreError maps a deck-write error to its HTTP status and writes it,
-// reporting whether there was an error. Unexpected errors are logged with msg
-// and returned as 500.
-func writeStoreError(rw http.ResponseWriter, err error, msg string) bool {
-	switch {
-	case err == nil:
-		return false
-	case errors.Is(err, storage.ErrDeckNotFound):
-		http.Error(rw, "Deck not found", http.StatusNotFound)
-	case errors.Is(err, storage.ErrPlayerExists):
-		http.Error(rw, "That player already has a deck in this draft", http.StatusConflict)
-	case errors.Is(err, storage.ErrUnknownPlayer):
-		http.Error(rw, "Unknown player", http.StatusBadRequest)
-	case errors.Is(err, storage.ErrUnsupported):
-		http.Error(rw, "Not supported for this cube", http.StatusBadRequest)
-	default:
-		logrus.WithError(err).Error(msg)
-		http.Error(rw, "Internal server error", http.StatusInternalServerError)
-	}
-	return true
 }
 
 // writeJSON writes v as a JSON response body.

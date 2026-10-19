@@ -8,9 +8,15 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+// fakeBackend serves fixed decks. Methods it doesn't define panic through the
+// nil embedded Backend, so a test that reaches one fails loudly.
 type fakeBackend struct {
-	decks []*Deck
+	Backend
+	decks    []*Deck
+	readOnly bool
 }
+
+func (f *fakeBackend) Writable(string) bool { return !f.readOnly }
 
 func (f *fakeBackend) RawDecks(cube string) ([]*Deck, error) {
 	out := make([]*Deck, len(f.decks))
@@ -37,13 +43,15 @@ func TestStore_ListEnriches(t *testing.T) {
 	assert.Equal(t, 1, a.Stats.MatchWins)
 }
 
-func TestStore_WritesUnsupported(t *testing.T) {
-	s := NewStore(&fakeBackend{})
+func TestStoreWritesRefuseReadOnlyCube(t *testing.T) {
+	s := NewStore(&fakeBackend{readOnly: true})
+	assert.False(t, s.Writable("c"))
 	_, err := s.UpdateDeckMeta("c", DeckMetaWrite{DraftID: 1, DeckID: 1, MacroArchetype: "aggro"})
-	assert.ErrorIs(t, err, ErrUnsupported)
+	assert.ErrorIs(t, err, ErrReadOnly)
 	id := 1
 	_, err = s.SaveDeckRecord("c", RecordEdit{DraftID: 1, DeckID: 1, PlayerID: &id})
-	assert.ErrorIs(t, err, ErrUnsupported)
+	assert.ErrorIs(t, err, ErrReadOnly)
+	assert.ErrorIs(t, s.PutRules("c", nil), ErrReadOnly)
 }
 
 // rosterSource is a fixed player list for Store tests.

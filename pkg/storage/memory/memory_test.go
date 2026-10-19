@@ -6,7 +6,6 @@ import (
 	"testing"
 
 	"github.com/caseydavenport/cube-tools/pkg/design"
-	"github.com/caseydavenport/cube-tools/pkg/players"
 	"github.com/caseydavenport/cube-tools/pkg/storage"
 	"github.com/caseydavenport/cube-tools/pkg/types"
 	"github.com/stretchr/testify/assert"
@@ -23,30 +22,9 @@ func deck(player string, draft int, matches []types.Match) *storage.Deck {
 
 func TestMemoryConformance(t *testing.T) {
 	b := New()
-	b.SeedPlayers(players.Player{ID: 1, Name: "Alice"}, players.Player{ID: 2, Name: "Bob"}, players.Player{ID: 3, Name: "Carol"})
-	alice := deck("", 1, []types.Match{{
-		Opponent: "Bob", OpponentID: 2, Round: 1, Wins: 2, Losses: 0, Winner: "Alice",
-		Games: []types.Game{{Won: true}, {Won: true}},
-	}})
-	alice.PlayerID = 1
-	bob := deck("", 1, []types.Match{{
-		Opponent: "Alice", OpponentID: 1, Round: 1, Wins: 0, Losses: 2, Winner: "Alice",
-		Games: []types.Game{{}, {}},
-	}})
-	bob.PlayerID = 2
-	b.Seed("conf", alice, bob)
-	b.SeedIndex("conf", &storage.CubeIndex{
-		Drafts: []storage.IndexedDraft{
-			{
-				DraftInfo: storage.DraftInfo{ID: 1, Date: "2024-01-01"},
-				HasLog:    true,
-				Decks:     []storage.IndexedDeck{{ID: 1}, {ID: 2}},
-			},
-		},
-	})
-	b.SeedDraftLog("conf", 1, json.RawMessage(`{"picks":[]}`))
-	s := storage.NewStore(b, storage.WithPlayers(b))
-	storage.RunDeckConformance(t, s, storage.Detect(b))
+	SeedConformance(b)
+	b.SetReadOnly("ro")
+	storage.RunConformance(t, storage.NewStore(b, storage.WithPlayers(b)), "ro")
 }
 
 func TestMemorySeedNumbersDecksPerDraft(t *testing.T) {

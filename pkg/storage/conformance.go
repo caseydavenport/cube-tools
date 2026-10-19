@@ -1,18 +1,18 @@
 package storage
 
 import (
-	"errors"
 	"testing"
 
 	"github.com/caseydavenport/cube-tools/pkg/design"
 	"github.com/stretchr/testify/assert"
 )
 
-// RunDeckConformance checks the deck-storage contract against a Store seeded
-// with the canonical dataset: players Alice (1), Bob (2) and Carol (3); cube
-// "conf" with draft 1 holding Alice's deck (id 1, 2-0 vs Bob in round 1, two
-// games) and Bob's (id 2, the mirror). caps picks the optional behaviors.
-func RunDeckConformance(t *testing.T, s *Store, caps Capabilities) {
+// RunConformance checks the storage contract against a Store seeded with the
+// canonical dataset: players Alice (1), Bob (2) and Carol (3); cube "conf"
+// with draft 1 holding Alice's deck (id 1, 2-0 vs Bob in round 1, two games)
+// and Bob's (id 2, the mirror). readOnlyCube names a cube the backend refuses
+// writes to, or is empty when the backend has none.
+func RunConformance(t *testing.T, s *Store, readOnlyCube string) {
 	t.Helper()
 
 	decks, err := s.List("conf", nil)
@@ -36,14 +36,29 @@ func RunDeckConformance(t *testing.T, s *Store, caps Capabilities) {
 	assert.Len(t, filtered, 1)
 	assert.Equal(t, "Alice", filtered[0].Player)
 
-	if caps.WriteDecks {
-		runAnnotationConformance(t, s)
-		runRecordConformance(t, s)
+	assert.True(t, s.Writable("conf"))
+	runAnnotationConformance(t, s)
+	runRecordConformance(t, s)
+	runRulesConformance(t, s)
+	runIndexConformance(t, s)
+	runDraftLogConformance(t, s)
+	if readOnlyCube != "" {
+		runReadOnlyConformance(t, s, readOnlyCube)
 	}
+}
 
-	RunRulesConformance(t, s, caps)
-	RunIndexConformance(t, s)
-	RunDraftLogConformance(t, s)
+// runReadOnlyConformance checks that every write to a read-only cube is
+// refused with ErrReadOnly.
+func runReadOnlyConformance(t *testing.T, s *Store, cube string) {
+	t.Helper()
+	assert.False(t, s.Writable(cube))
+
+	_, err := s.UpdateDeckMeta(cube, DeckMetaWrite{DraftID: 1, DeckID: 1, MacroArchetype: "Aggro"})
+	assert.ErrorIs(t, err, ErrReadOnly)
+	playerID := 1
+	_, err = s.SaveDeckRecord(cube, RecordEdit{DraftID: 1, DeckID: 1, PlayerID: &playerID})
+	assert.ErrorIs(t, err, ErrReadOnly)
+	assert.ErrorIs(t, s.PutRules(cube, &design.DesignMapConfig{}), ErrReadOnly)
 }
 
 // deckByPlayer lists the cube and returns the named player's deck, failing the
@@ -136,14 +151,10 @@ func runRecordConformance(t *testing.T, s *Store) {
 	assert.Equal(t, "Alice", deckByPlayer(t, s, "Bob").Matches[0].Opponent)
 }
 
-// RunRulesConformance checks design-map rules round-tripping when caps.Rules
-// is set: writing a small config and reading it back returns equal groups and
-// links.
-func RunRulesConformance(t *testing.T, s *Store, caps Capabilities) {
+// runRulesConformance checks that a small design-map config written and read
+// back returns equal groups and links.
+func runRulesConformance(t *testing.T, s *Store) {
 	t.Helper()
-	if !caps.Rules {
-		return
-	}
 
 	rules := &design.DesignMapConfig{
 		Groups: []design.Group{{Name: "Aggro"}},
@@ -157,17 +168,12 @@ func RunRulesConformance(t *testing.T, s *Store, caps Capabilities) {
 	assert.Equal(t, rules.Links, got.Links)
 }
 
-// RunIndexConformance checks the read-only cube index against the canonical
-// dataset's draft 1 and its two decks. Index has no capability flag, so a
-// backend that doesn't implement it is expected to return ErrUnsupported,
-// which this skips rather than fails on.
-func RunIndexConformance(t *testing.T, s *Store) {
+// runIndexConformance checks the cube index against the canonical dataset's
+// draft 1 and its two decks.
+func runIndexConformance(t *testing.T, s *Store) {
 	t.Helper()
 
 	idx, err := s.Index("conf")
-	if errors.Is(err, ErrUnsupported) {
-		return
-	}
 	if !assert.NoError(t, err) {
 		return
 	}
@@ -179,17 +185,11 @@ func RunIndexConformance(t *testing.T, s *Store) {
 	assert.ElementsMatch(t, []IndexedDeck{{ID: 1}, {ID: 2}}, draft.Decks)
 }
 
-// RunDraftLogConformance checks that a seeded draft log round-trips through
-// GetDraftLog. Like Index, GetDraftLog has no capability flag; a backend that
-// doesn't implement it is expected to return ErrUnsupported, which this skips
-// rather than fails on.
-func RunDraftLogConformance(t *testing.T, s *Store) {
+// runDraftLogConformance checks that the seeded draft log round-trips.
+func runDraftLogConformance(t *testing.T, s *Store) {
 	t.Helper()
 
 	got, err := s.GetDraftLog("conf", 1)
-	if errors.Is(err, ErrUnsupported) {
-		return
-	}
 	assert.NoError(t, err)
 	assert.JSONEq(t, `{"picks":[]}`, string(got))
 }

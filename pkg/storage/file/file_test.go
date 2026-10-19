@@ -55,7 +55,7 @@ func TestFileConformance(t *testing.T) {
 	writeConfFixture(t, root)
 	writeConfDraftLog(t, root)
 	s := NewStore(nil)
-	storage.RunDeckConformance(t, s, storage.Detect(New(nil)))
+	storage.RunConformance(t, s, "")
 }
 
 func TestFileRawDecksBlanksPath(t *testing.T) {

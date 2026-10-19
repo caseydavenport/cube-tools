@@ -28,9 +28,8 @@ type CCBackend interface {
 }
 
 // Router dispatches storage operations by cube id: cc: cubes go to the
-// read-only CubeCobra backend, everything else to the file backend. It
-// implements every storage capability interface; writes against a cc: cube
-// return storage.ErrUnsupported.
+// read-only CubeCobra backend, everything else to the file backend. Writes
+// against a cc: cube return storage.ErrReadOnly.
 type Router struct {
 	file FileBackend
 	cc   CCBackend
@@ -71,10 +70,10 @@ func (r *Router) LoadDraft(cube string, draftID int) ([]*storage.Deck, error) {
 }
 
 // SaveDecks writes a registry cube's decks through the file backend, returning
-// ErrUnsupported for CubeCobra cubes.
+// ErrReadOnly for CubeCobra cubes.
 func (r *Router) SaveDecks(cube string, draftID int, decks []*storage.Deck) error {
 	if cubes.IsCubeCobra(cube) {
-		return storage.ErrUnsupported
+		return storage.ErrReadOnly
 	}
 	return r.file.SaveDecks(cube, draftID, decks)
 }
@@ -88,7 +87,7 @@ func (r *Router) GetRules(cube string) (*design.DesignMapConfig, error) {
 
 func (r *Router) PutRules(cube string, rules *design.DesignMapConfig) error {
 	if cubes.IsCubeCobra(cube) {
-		return storage.ErrUnsupported
+		return storage.ErrReadOnly
 	}
 	return r.file.PutRules(cube, rules)
 }
@@ -102,10 +101,10 @@ func (r *Router) GetDraftLog(cube string, draftID int) (json.RawMessage, error) 
 	return r.file.GetDraftLog(cube, draftID)
 }
 
-var (
-	_ storage.DeckBackend     = (*Router)(nil)
-	_ storage.IndexBackend    = (*Router)(nil)
-	_ storage.DraftBackend    = (*Router)(nil)
-	_ storage.RulesBackend    = (*Router)(nil)
-	_ storage.DraftLogBackend = (*Router)(nil)
-)
+// Writable reports whether the cube accepts writes: registry cubes do, and
+// CubeCobra cubes don't.
+func (r *Router) Writable(cube string) bool {
+	return !cubes.IsCubeCobra(cube)
+}
+
+var _ storage.Backend = (*Router)(nil)

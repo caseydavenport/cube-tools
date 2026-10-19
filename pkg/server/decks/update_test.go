@@ -139,10 +139,10 @@ func TestUpdateDeckRecordHandler_BadRequest(t *testing.T) {
 	require.Equal(t, http.StatusBadRequest, post(t, h, "testcube", "/decks/record", `{not json`).Code)
 }
 
-func TestWritesToCubeCobraCubeAreBadRequest(t *testing.T) {
+func TestWritesToCubeCobraCubeAreForbidden(t *testing.T) {
 	store := storage.NewStore(router.New(seededBackend(), nil))
 	rec := post(t, UpdateDeckHandler(store), "cc:polyversal", "/decks/update", `{"draft_id": 1, "id": 1}`)
-	require.Equal(t, http.StatusBadRequest, rec.Code)
+	require.Equal(t, http.StatusForbidden, rec.Code)
 	rec = post(t, UpdateDeckRecordHandler(store), "cc:polyversal", "/decks/record", `{"draft_id": 1, "id": 1, "player_id": 3}`)
-	require.Equal(t, http.StatusBadRequest, rec.Code)
+	require.Equal(t, http.StatusForbidden, rec.Code)
 }

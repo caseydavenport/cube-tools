@@ -7,6 +7,7 @@ import (
 
 	"github.com/caseydavenport/cube-tools/pkg/design"
 	"github.com/caseydavenport/cube-tools/pkg/storage"
+	"github.com/caseydavenport/cube-tools/pkg/storage/memory"
 )
 
 type fakeFile struct {
@@ -77,14 +78,14 @@ func TestRouterWritesGatedForCC(t *testing.T) {
 		t.Fatalf("registry LoadDraft errored: %v", err)
 	}
 
-	if err := r.SaveDecks("cc:polyversal", 1, nil); !errors.Is(err, storage.ErrUnsupported) {
-		t.Errorf("cc SaveDecks err = %v, want ErrUnsupported", err)
+	if err := r.SaveDecks("cc:polyversal", 1, nil); !errors.Is(err, storage.ErrReadOnly) {
+		t.Errorf("cc SaveDecks err = %v, want ErrReadOnly", err)
 	}
 	if _, err := r.LoadDraft("cc:polyversal", 1); !errors.Is(err, storage.ErrUnsupported) {
 		t.Errorf("cc LoadDraft err = %v, want ErrUnsupported", err)
 	}
-	if err := r.PutRules("cc:polyversal", &design.DesignMapConfig{}); !errors.Is(err, storage.ErrUnsupported) {
-		t.Errorf("cc PutRules err = %v, want ErrUnsupported", err)
+	if err := r.PutRules("cc:polyversal", &design.DesignMapConfig{}); !errors.Is(err, storage.ErrReadOnly) {
+		t.Errorf("cc PutRules err = %v, want ErrReadOnly", err)
 	}
 	if _, err := r.GetDraftLog("cc:polyversal", 1); !errors.Is(err, storage.ErrUnsupported) {
 		t.Errorf("cc GetDraftLog err = %v, want ErrUnsupported", err)
@@ -100,4 +101,23 @@ func TestRouterCCRulesBaseline(t *testing.T) {
 	if ff.rulesCube != baselineRulesCube {
 		t.Errorf("cc GetRules read rules for %q, want baseline %q", ff.rulesCube, baselineRulesCube)
 	}
+}
+
+func TestRouterWritable(t *testing.T) {
+	r := New(&fakeFile{}, fakeCC{})
+	if !r.Writable("polyverse") {
+		t.Error("registry cube should be writable")
+	}
+	if r.Writable("cc:polyversal") {
+		t.Error("cc cube should be read-only")
+	}
+}
+
+// TestRouterConformance runs the storage contract through the router, with the
+// memory backend standing in for files and a CubeCobra stub for cc: cubes.
+func TestRouterConformance(t *testing.T) {
+	mem := memory.New()
+	memory.SeedConformance(mem)
+	s := storage.NewStore(New(mem, fakeCC{}), storage.WithPlayers(mem))
+	storage.RunConformance(t, s, "cc:conf")
 }

@@ -2,10 +2,11 @@ package server
 
 import (
 	"encoding/json"
-	"errors"
+	"fmt"
 	"net/http"
 	"strconv"
 
+	"github.com/caseydavenport/cube-tools/pkg/server/httperr"
 	"github.com/caseydavenport/cube-tools/pkg/storage"
 	"github.com/caseydavenport/cube-tools/pkg/types"
 	"github.com/sirupsen/logrus"
@@ -40,14 +41,7 @@ func CubeIndexHandler(store *storage.Store) http.Handler {
 			return
 		}
 		index, err := store.Index(cube)
-		if err != nil {
-			switch {
-			case errors.Is(err, storage.ErrUnsupported):
-				http.Error(rw, "Not supported", http.StatusNotImplemented)
-			default:
-				logrus.WithError(err).WithField("cube", cube).Error("Failed to load cube index")
-				http.Error(rw, "Internal server error", http.StatusInternalServerError)
-			}
+		if httperr.WriteStoreError(rw, err, "Failed to load cube index for "+cube) {
 			return
 		}
 		rw.Header().Set("Content-Type", "application/json")
@@ -65,16 +59,7 @@ func DraftLogHandler(store *storage.Store) http.Handler {
 			return
 		}
 		raw, err := store.GetDraftLog(cube, draftID)
-		if err != nil {
-			switch {
-			case errors.Is(err, storage.ErrDeckNotFound):
-				http.NotFound(rw, r)
-			case errors.Is(err, storage.ErrUnsupported):
-				http.Error(rw, "Not supported", http.StatusNotImplemented)
-			default:
-				logrus.WithError(err).WithFields(logrus.Fields{"cube": cube, "draft_id": draftID}).Error("Failed to load draft log")
-				http.Error(rw, "Internal server error", http.StatusInternalServerError)
-			}
+		if httperr.WriteStoreError(rw, err, fmt.Sprintf("Failed to load draft log %s/%d", cube, draftID)) {
 			return
 		}
 		rw.Header().Set("Content-Type", "application/json")

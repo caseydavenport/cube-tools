@@ -13,6 +13,7 @@ import (
 	"github.com/caseydavenport/cube-tools/pkg/design"
 	"github.com/caseydavenport/cube-tools/pkg/server"
 	"github.com/caseydavenport/cube-tools/pkg/server/deckquery"
+	"github.com/caseydavenport/cube-tools/pkg/server/httperr"
 	"github.com/caseydavenport/cube-tools/pkg/storage"
 	"github.com/caseydavenport/cube-tools/pkg/types"
 	"github.com/sirupsen/logrus"
@@ -1302,12 +1303,7 @@ func SaveDesignRulesHandler(store *storage.Store) http.Handler {
 			http.Error(rw, "no cube in request", http.StatusForbidden)
 			return
 		}
-		if err := store.PutRules(cubeID, &config); err != nil {
-			if errors.Is(err, storage.ErrUnsupported) {
-				http.Error(rw, "Not supported", http.StatusNotImplemented)
-				return
-			}
-			http.Error(rw, "could not save config", http.StatusInternalServerError)
+		if httperr.WriteStoreError(rw, store.PutRules(cubeID, &config), "could not save config for "+cubeID) {
 			return
 		}
 

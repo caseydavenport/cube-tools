@@ -20,6 +20,7 @@ type Backend struct {
 	index     map[string]*storage.CubeIndex
 	draftLogs map[string]json.RawMessage
 	players   *players.List
+	readOnly  map[string]bool
 }
 
 var _ storage.PlayerSource = &Backend{}
@@ -31,7 +32,23 @@ func New() *Backend {
 		rules:     map[string]*design.DesignMapConfig{},
 		index:     map[string]*storage.CubeIndex{},
 		draftLogs: map[string]json.RawMessage{},
+		readOnly:  map[string]bool{},
 	}
+}
+
+// SetReadOnly makes the backend refuse writes to cube, so tests can cover the
+// read-only path without the router.
+func (b *Backend) SetReadOnly(cube string) {
+	b.mu.Lock()
+	defer b.mu.Unlock()
+	b.readOnly[cube] = true
+}
+
+// Writable reports whether cube accepts writes.
+func (b *Backend) Writable(cube string) bool {
+	b.mu.Lock()
+	defer b.mu.Unlock()
+	return !b.readOnly[cube]
 }
 
 // draftLogKey builds the map key for a draft's log.
