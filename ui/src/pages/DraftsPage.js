@@ -37,6 +37,9 @@ const COPY = {
   player: "Player",
   choosePlayer: "Choose a player",
   pick: "Pick",
+  pickOf: "of",
+  previousPick: "Previous pick",
+  nextPick: "Next pick",
 }
 
 // winnerText is the muted detail at the right of a draft's row: who won.

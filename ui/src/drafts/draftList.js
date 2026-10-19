@@ -65,3 +65,18 @@ export function pickLogSection(cubeHasLogs, draftHasLog) {
   }
   return "empty"
 }
+
+// stepPick moves the pick log browser by step picks (1 for next, -1 for
+// previous) and keeps the result between the first pick and the last. A
+// player with no picks stays on pick 1.
+export function stepPick(pick, step, pickCount) {
+  const next = pick + step
+
+  if (next > pickCount) {
+    return Math.max(pickCount, 1)
+  }
+  if (next < 1) {
+    return 1
+  }
+  return next
+}

@@ -1,6 +1,6 @@
 import { test } from "node:test"
 import assert from "node:assert/strict"
-import { draftList, pickLogSection } from "./draftList.js"
+import { draftList, pickLogSection, stepPick } from "./draftList.js"
 
 // draft builds an index entry.
 function draft(id, date, { decks = [1, 2], hasLog = false, name = "" } = {}) {
@@ -65,4 +65,18 @@ test("pickLogSection shows the browser, an empty state, or nothing", () => {
   assert.equal(pickLogSection(true, false), "empty")
   assert.equal(pickLogSection(false, false), "hidden")
   assert.equal(pickLogSection(undefined, false), "empty")
+})
+
+test("stepPick moves forward and back through the picks", () => {
+  assert.equal(stepPick(1, 1, 45), 2)
+  assert.equal(stepPick(20, -1, 45), 19)
+})
+
+test("stepPick stops at the first and last pick", () => {
+  assert.equal(stepPick(1, -1, 45), 1)
+  assert.equal(stepPick(45, 1, 45), 45)
+})
+
+test("stepPick stays on pick 1 when there are no picks", () => {
+  assert.equal(stepPick(1, 1, 0), 1)
 })
