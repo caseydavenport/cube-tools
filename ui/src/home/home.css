@@ -173,3 +173,9 @@
   width: 20px;
   height: 20px;
 }
+
+/* Row links keep the normal text color, as visited links would turn violet. */
+a.home-row-link,
+a.home-row-link:visited {
+  color: var(--se-text);
+}

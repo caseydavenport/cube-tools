@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from "react-router-dom"
 import { Button, Group, Menu, Text, TextInput, UnstyledButton } from "@mantine/core"
 import { IconRefresh, IconSelector } from "@tabler/icons-react"
 import { switchCubeInPath } from "./paths.js"
+import { parseCubeCobraInput } from "../welcome/cubecobra.js"
 
 // CubeCobra cubes have ids like "cc:polyversal"; local cubes have plain ids.
 const CC_PREFIX = "cc:"
@@ -103,18 +104,27 @@ function SwitcherButton({ name, isCC, collapsed, ...menuTargetProps }) {
   )
 }
 
-// OpenCubeCobraForm is the menu's text box for opening any CubeCobra cube by id.
+// OpenCubeCobraForm is the menu's text box for opening any CubeCobra cube by
+// id or link. Text that isn't either shows a short error instead of opening.
 function OpenCubeCobraForm({ onOpen }) {
-  const [id, setId] = useState("")
+  const [text, setText] = useState("")
+  const [invalid, setInvalid] = useState(false)
 
   function submit(e) {
     e.preventDefault()
-    const trimmed = id.trim()
-    if (trimmed === "") {
+    const id = parseCubeCobraInput(text)
+    if (id === null) {
+      setInvalid(true)
       return
     }
-    setId("")
-    onOpen(trimmed)
+    setText("")
+    setInvalid(false)
+    onOpen(id)
+  }
+
+  function change(e) {
+    setText(e.currentTarget.value)
+    setInvalid(false)
   }
 
   return (
@@ -122,9 +132,10 @@ function OpenCubeCobraForm({ onOpen }) {
       <Group gap={6} wrap="nowrap">
         <TextInput
           size="xs"
-          placeholder="CubeCobra ID"
-          value={id}
-          onChange={e => setId(e.currentTarget.value)}
+          placeholder="CubeCobra link or ID"
+          value={text}
+          onChange={change}
+          error={invalid ? "Not a CubeCobra link or ID" : null}
           style={{ flex: 1 }}
         />
         <Button size="xs" type="submit">Open</Button>

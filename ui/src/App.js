@@ -11,7 +11,7 @@ import { DesignEditorPage } from './pages/DesignEditorPage.js'
 import {InitialDates} from './components/StatsUI.js'
 import { useState } from "react";
 import { CubeProvider } from './contexts/CubeContext.js';
-import Landing from './pages/Landing.js';
+import Welcome from './pages/Welcome.js';
 import CubeHome from './pages/CubeHome.js';
 import ImportHub from './pages/ImportHub.js';
 import NotFound from './pages/NotFound.js';
@@ -95,7 +95,7 @@ export default function Main() {
     <Router>
       <UrlStateSync startDate={startDate} endDate={endDate} matchStr={matchStr} />
       <Routes>
-        <Route path='/' element={<Landing />} />
+        <Route path='/' element={<Welcome />} />
         <Route path='/:cube' element={<CubeProvider><AppLayout><Outlet /></AppLayout></CubeProvider>}>
           <Route index element={<CubeHome />} />
           <Route path='cards' element={<StatsViewer view='cards' {...statsProps} />} />

@@ -1,0 +1,127 @@
+/* Welcome page layout. Colors come from the theme tokens. */
+
+.welcome-page {
+  min-height: 100vh;
+  background: var(--se-page);
+  color: var(--se-text);
+}
+
+.welcome-topbar {
+  padding: 12px 24px;
+  border-bottom: 1px solid var(--se-border);
+  background: var(--se-card);
+}
+
+.welcome-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+.welcome-muted {
+  font-size: 12px;
+  color: var(--se-muted);
+}
+
+.welcome-section-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--se-muted);
+  margin-bottom: 8px;
+}
+
+/* Hero */
+
+.welcome-hero {
+  display: flex;
+  gap: 24px;
+  padding: 32px;
+  border-radius: var(--mantine-radius-lg);
+  background: linear-gradient(120deg, var(--se-sidebar-from), var(--se-sidebar-to));
+}
+
+.welcome-hero-main {
+  flex: 1;
+  min-width: 0;
+  max-width: 640px;
+}
+
+.welcome-title {
+  font-size: 32px;
+  line-height: 1.15;
+}
+
+.welcome-pitch {
+  margin: 8px 0 18px;
+  color: var(--se-muted);
+}
+
+.welcome-cc-input {
+  flex: 1;
+}
+
+/* Cube cards */
+
+.welcome-cube-card {
+  display: block;
+  overflow: hidden;
+  transition: border-color 0.15s ease;
+}
+
+.welcome-cube-card:hover {
+  border-color: var(--mantine-primary-color-filled);
+}
+
+.welcome-cube-band {
+  height: 48px;
+}
+
+.welcome-cube-band-any {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--se-muted);
+  background: color-mix(in srgb, var(--se-border) 60%, var(--se-card));
+}
+
+.welcome-cube-any {
+  border-style: dashed;
+}
+
+.welcome-cube-body {
+  padding: 10px 14px 12px;
+}
+
+/* Feature tiles */
+
+.welcome-feature {
+  display: block;
+  padding: 14px 16px;
+  transition: border-color 0.15s ease;
+}
+
+.welcome-feature:hover {
+  border-color: var(--mantine-primary-color-filled);
+}
+
+.welcome-feature-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--mantine-radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--se-text);
+}
+
+@media (max-width: 48em) {
+  .welcome-hero {
+    padding: 20px;
+  }
+
+  .welcome-title {
+    font-size: 26px;
+  }
+}

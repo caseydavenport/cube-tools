@@ -1,13 +1,14 @@
 import React, { Fragment } from "react"
 import { Link } from "react-router-dom"
-import { NavLink, ScrollArea, Text, Tooltip, useComputedColorScheme, useMantineColorScheme } from "@mantine/core"
+import { NavLink, ScrollArea, Text, Tooltip } from "@mantine/core"
 import {
-  IconLayoutSidebarLeftCollapse, IconLayoutSidebarLeftExpand, IconMoon, IconSun, IconUpload,
+  IconLayoutSidebarLeftCollapse, IconLayoutSidebarLeftExpand, IconUpload,
 } from "@tabler/icons-react"
 import { NAV_GROUPS, pageAvailability } from "../nav/sections.js"
 import { ICONS } from "./icons.js"
 import { CubeSwitcher } from "./CubeSwitcher.js"
 import { pageHref } from "./paths.js"
+import { useColorSchemeToggle } from "./useColorSchemeToggle.js"
 
 const ICON_SIZE = 18
 
@@ -86,9 +87,7 @@ function SidebarGroup({ group, cube, page, info, collapsed }) {
 // (only on cubes known to be writable), the light/dark switch, and the
 // collapse toggle (desktop only).
 function SidebarFooter({ cube, page, info, collapsed, onToggleCollapsed, showCollapseToggle }) {
-  const { toggleColorScheme } = useMantineColorScheme()
-  const scheme = useComputedColorScheme("light")
-  const isDark = scheme === "dark"
+  const colorScheme = useColorSchemeToggle()
 
   return (
     <div className="se-bottom">
@@ -105,9 +104,9 @@ function SidebarFooter({ cube, page, info, collapsed, onToggleCollapsed, showCol
 
       <SidebarItem
         component="button"
-        onClick={toggleColorScheme}
-        label={isDark ? "Light mode" : "Dark mode"}
-        icon={isDark ? IconSun : IconMoon}
+        onClick={colorScheme.toggle}
+        label={colorScheme.label}
+        icon={colorScheme.Icon}
         collapsed={collapsed}
       />
 
