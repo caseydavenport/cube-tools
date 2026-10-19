@@ -21,6 +21,7 @@ const COPY = {
   featuresLabel: "What you can do here",
   drafts: "drafts",
   decks: "decks",
+  cubesError: "Couldn't load the cubes",
   anyCube: "Any CubeCobra cube",
   anyCubeDetail: "Card stats and design tools, no drafts needed",
   decksTitle: "Browse decks",

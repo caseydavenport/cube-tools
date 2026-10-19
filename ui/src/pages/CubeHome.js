@@ -28,6 +28,7 @@ const COPY = {
   colorsLink: "Colors ›",
   topPlayers: "Top players, 5+ decks",
   playersLink: "Players ›",
+  seat: "Seat",
   noData: "Nothing to show yet",
   error: "Couldn't load this",
 }

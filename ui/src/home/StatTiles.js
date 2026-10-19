@@ -10,10 +10,64 @@ function percent(value) {
   return `${Math.round(value)}%`
 }
 
-// HomeTile wraps a StatTile with the block rules every tile shares: the
-// missing-data reason, a failed request, loading, and "nothing qualifies yet".
-// tileFor turns the loaded value into the tile's value, accent, and detail.
-function HomeTile({ label, href, state, value, error, copy, tileFor }) {
+// capitalize upper-cases a word's first letter: "aggro" becomes "Aggro".
+function capitalize(word) {
+  return word.charAt(0).toUpperCase() + word.slice(1)
+}
+
+// Each ...TileText function below turns one tile's loaded value into what the
+// tile shows: shown (the big value), accent (the colored note beside it), and
+// detail (the small line underneath).
+
+// draftsTileText fills the drafts tile: the draft count, then decks and players.
+function draftsTileText(summary, copy) {
+  return {
+    shown: summary.drafts,
+    detail: `${summary.decks} ${copy.decks} · ${summary.players} ${copy.players}`,
+  }
+}
+
+// archetypeTileText fills the best-archetype tile: its name, win rate, and share
+// of decks.
+function archetypeTileText(archetype, copy) {
+  return {
+    shown: capitalize(archetype.name),
+    accent: percent(archetype.winPercent),
+    detail: `${percent(archetype.buildPercent)} ${copy.ofDecks}`,
+  }
+}
+
+// colorPairTileText fills the best-color-pair tile: the pair's mana icons and
+// guild name, its win rate, and how many decks played it.
+function colorPairTileText(pair, copy) {
+  const iconsAndName = (
+    <>
+      {ColorImages(pair.identity)}
+      {pair.name}
+    </>
+  )
+  return {
+    shown: iconsAndName,
+    accent: percent(pair.winPercent),
+    detail: `${pair.decks} ${copy.decks}`,
+  }
+}
+
+// cardTileText fills the hottest-card tile: the card's name and how many points
+// its win rate beats its expected win rate by.
+function cardTileText(card, copy) {
+  return {
+    shown: card.name,
+    accent: `+${card.delta}`,
+    detail: copy.cardDetail,
+  }
+}
+
+// HomeTile wraps a StatTile with the rules every tile shares, checked in order:
+// the missing-data reason, a failed request, loading, and "nothing qualifies
+// yet". Only then does tileText turn the value into what the tile shows.
+// (BlockBody applies the same order to the larger cards.)
+function HomeTile({ label, href, state, value, error, copy, tileText }) {
   if (!state.available) {
     return <StatTile label={label} value="–" detail={state.reason} />
   }
@@ -27,8 +81,8 @@ function HomeTile({ label, href, state, value, error, copy, tileFor }) {
     return <StatTile label={label} value="–" detail={copy.noData} href={href} />
   }
 
-  const { shown, accent, detail } = tileFor(value)
-  return <StatTile label={label} value={shown} accent={accent} detail={detail} href={href} />
+  const text = tileText(value, copy)
+  return <StatTile label={label} value={text.shown} accent={text.accent} detail={text.detail} href={href} />
 }
 
 // StatTiles is the row of four headline tiles: drafts, best archetype, best
@@ -45,7 +99,7 @@ export function StatTiles({ cube, home, info, copy }) {
         value={home.summary}
         error={errors.decks}
         copy={copy}
-        tileFor={s => ({ shown: s.drafts, detail: `${s.decks} ${copy.decks} · ${s.players} ${copy.players}` })}
+        tileText={draftsTileText}
       />
 
       <HomeTile
@@ -55,11 +109,7 @@ export function StatTiles({ cube, home, info, copy }) {
         value={home.archetype}
         error={errors.archetypes}
         copy={copy}
-        tileFor={a => ({
-          shown: a.name.charAt(0).toUpperCase() + a.name.slice(1),
-          accent: percent(a.winPercent),
-          detail: `${percent(a.buildPercent)} ${copy.ofDecks}`,
-        })}
+        tileText={archetypeTileText}
       />
 
       <HomeTile
@@ -69,11 +119,7 @@ export function StatTiles({ cube, home, info, copy }) {
         value={home.colorPair}
         error={errors.colors}
         copy={copy}
-        tileFor={p => ({
-          shown: <>{ColorImages(p.identity)}{p.name}</>,
-          accent: percent(p.winPercent),
-          detail: `${p.decks} ${copy.decks}`,
-        })}
+        tileText={colorPairTileText}
       />
 
       <HomeTile
@@ -83,7 +129,7 @@ export function StatTiles({ cube, home, info, copy }) {
         value={home.card}
         error={errors.cards}
         copy={copy}
-        tileFor={c => ({ shown: c.name, accent: `+${c.delta}`, detail: copy.cardDetail })}
+        tileText={cardTileText}
       />
     </SimpleGrid>
   )

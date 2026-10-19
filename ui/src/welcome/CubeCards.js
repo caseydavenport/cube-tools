@@ -2,7 +2,9 @@ import React, { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
 import { SimpleGrid, Text, UnstyledButton } from "@mantine/core"
 import { IconPlus } from "@tabler/icons-react"
+import { EmptyState } from "../components/kit/EmptyState.js"
 import { MANA, PRIMARY_SHADES } from "../theme/tokens.js"
+import { fetchJson } from "../utils/fetchJson.js"
 
 // BANDS are the gradient stripes across the top of each cube card, used in turn.
 const BANDS = [
@@ -21,30 +23,58 @@ function countsFrom(index) {
   return { drafts: drafts.length, decks }
 }
 
-// useHostedCubes loads the cubes this site hosts and, for each, its draft and
-// deck counts. Counts fill in per cube as their requests answer.
+// loadCounts fetches each cube's draft index and reports its counts through
+// onCounts as each one arrives. A cube whose index fails just shows no counts.
+// isStale says whether the page has gone away, so late answers are dropped.
+function loadCounts(cubes, onCounts, isStale) {
+  for (const cube of cubes) {
+    fetchJson(`/api/${cube.id}/index`)
+      .then(index => {
+        if (!isStale()) {
+          onCounts(cube.id, countsFrom(index))
+        }
+      })
+      .catch(() => {})
+  }
+}
+
+// useHostedCubes loads the cubes this site hosts, then each one's draft and deck
+// counts. failed is true when the cube list itself couldn't load.
 function useHostedCubes() {
   const [cubes, setCubes] = useState([])
   const [counts, setCounts] = useState({})
+  const [failed, setFailed] = useState(false)
 
   useEffect(() => {
-    fetch("/api/cubes")
-      .then(r => r.json())
+    // The cleanup below marks these requests stale if the page goes away.
+    let stale = false
+    const isStale = () => stale
+
+    function addCounts(cubeId, cubeCounts) {
+      setCounts(prev => ({ ...prev, [cubeId]: cubeCounts }))
+    }
+
+    fetchJson("/api/cubes")
       .then(data => {
+        if (stale) {
+          return
+        }
         const list = data.cubes || []
         setCubes(list)
-
-        for (const cube of list) {
-          fetch(`/api/${cube.id}/index`)
-            .then(r => r.json())
-            .then(index => setCounts(prev => ({ ...prev, [cube.id]: countsFrom(index) })))
-            .catch(() => {})
+        loadCounts(list, addCounts, isStale)
+      })
+      .catch(() => {
+        if (!stale) {
+          setFailed(true)
         }
       })
-      .catch(() => setCubes([]))
+
+    return () => {
+      stale = true
+    }
   }, [])
 
-  return { cubes, counts }
+  return { cubes, counts, failed }
 }
 
 // CubeCard is one hosted cube: a colored band, its name, description, and counts.
@@ -85,12 +115,14 @@ function AnyCubeCobraCard({ copy, onPick }) {
   )
 }
 
-// CubeCards lists the hosted cubes, then the card for any CubeCobra cube.
+// CubeCards lists the hosted cubes, then the card for any CubeCobra cube. If
+// the cube list fails to load, a short message takes the hosted cubes' place.
 export function CubeCards({ copy, onPickCubeCobra }) {
-  const { cubes, counts } = useHostedCubes()
+  const { cubes, counts, failed } = useHostedCubes()
 
   return (
     <SimpleGrid cols={{ base: 1, xs: 2, md: 3 }} spacing="md">
+      {failed && <EmptyState>{copy.cubesError}</EmptyState>}
       {cubes.map((cube, i) => (
         <CubeCard key={cube.id} cube={cube} counts={counts[cube.id]} band={BANDS[i % BANDS.length]} copy={copy} />
       ))}

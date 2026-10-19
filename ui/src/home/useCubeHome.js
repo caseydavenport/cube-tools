@@ -5,6 +5,8 @@ import {
   countSummary, bestArchetype, bestColorPair, colorWinRates, hottestCard, topPlayers,
 } from "./homeStats.js"
 import { recentDrafts } from "./recentDrafts.js"
+import { cubeMeta } from "./cubeMeta.js"
+import { fetchJson } from "../utils/fetchJson.js"
 
 // sourcesFor lists every request the cube home makes, by name. No dates are
 // sent, which the server treats as all time.
@@ -19,15 +21,6 @@ function sourcesFor(cube) {
     cards: `/api/${cube}/stats/cards?min_games=20`,
     players: `/api/${cube}/stats/players`,
   }
-}
-
-// fetchJson fetches a URL and parses its JSON, failing on a non-2xx status.
-async function fetchJson(url) {
-  const response = await fetch(url)
-  if (!response.ok) {
-    throw new Error(`${response.status} ${response.statusText}`)
-  }
-  return response.json()
 }
 
 // emptyState is the state for a cube whose requests haven't answered yet.
@@ -74,16 +67,6 @@ function useCubeResponses(cube) {
   return state
 }
 
-// cubeMeta finds this cube's entry (name, description) in the /api/cubes list.
-// CubeCobra cubes aren't listed, so they get a stand-in with their id as name.
-function cubeMeta(cubesResponse, cube) {
-  const listed = (cubesResponse.cubes || []).find(c => c.id === cube)
-  if (listed) {
-    return listed
-  }
-  return { id: cube, name: cube.replace(/^cc:/, "") }
-}
-
 // useCubeHome loads everything the cube home shows. Each field is undefined
 // while its requests are still loading, then holds the selector's result.
 // errors maps a source name to a short message when its request failed.
@@ -100,7 +83,7 @@ export function useCubeHome(cube) {
   }, [raw.decks])
 
   const home = {
-    meta: undefined,
+    meta: cubeMeta(raw.cubes, errors.cubes, cube),
     cardCount: undefined,
     summary: undefined,
     archetype: undefined,
@@ -112,9 +95,6 @@ export function useCubeHome(cube) {
     errors,
   }
 
-  if (raw.cubes) {
-    home.meta = cubeMeta(raw.cubes, cube)
-  }
   if (raw.cardList) {
     home.cardCount = (raw.cardList.cards || []).length
   }
@@ -122,9 +102,7 @@ export function useCubeHome(cube) {
     home.summary = countSummary(decks, personLabel)
   }
   if (decks && raw.index) {
-    // Winners are named by their plain player or seat name ("p6"): each row is
-    // already one draft, so personLabel's "(draft N)" suffix would repeat it.
-    home.recent = recentDrafts(raw.index, decks, deck => deck.player)
+    home.recent = recentDrafts(raw.index, decks)
   }
   if (raw.archetypes) {
     home.archetype = bestArchetype(raw.archetypes)

@@ -22,17 +22,27 @@ function DateBadge({ badge }) {
   )
 }
 
-// WinnerCell shows who won a draft: a trophy, their colors, name, and record.
-function WinnerCell({ winner }) {
+// winnerName is how a winner is named: the player, or for an anonymous seat,
+// "Seat 6" (seat labels like "p6" repeat in every draft).
+function winnerName(winner, copy) {
+  if (winner.player) {
+    return winner.player
+  }
+  return `${copy.seat} ${winner.seat}`
+}
+
+// WinnerCell shows who won a draft: their colors, name, and record. The trophy
+// appears only for an undefeated deck, matching what a trophy means elsewhere.
+function WinnerCell({ winner, copy }) {
   if (!winner) {
     return null
   }
   return (
     <div className="home-winner">
       <div className="home-winner-name">
-        <IconTrophy size={14} stroke={1.8} className="home-trophy" />
+        {winner.undefeated && <IconTrophy size={14} stroke={1.8} className="home-trophy" />}
         {ColorImages(winner.colors)}
-        <span>{winner.player}</span>
+        <span>{winnerName(winner, copy)}</span>
       </div>
       <Text className="home-muted-small">{winner.record}</Text>
     </div>
@@ -49,7 +59,7 @@ function DraftRow({ cube, draft, copy }) {
         <Text fw={600} size="sm" truncate>{draft.name}</Text>
         <Text className="home-muted-small">{draft.players} {copy.players}</Text>
       </div>
-      <WinnerCell winner={draft.winner} />
+      <WinnerCell winner={draft.winner} copy={copy} />
     </>
   )
 

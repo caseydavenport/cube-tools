@@ -109,3 +109,10 @@ test("topPlayers keeps players with enough decks, best first, capped", () => {
   ])
   assert.deepEqual(topPlayers(undefined), [])
 })
+
+test("hottestCard is null when no card beats its expected win rate", () => {
+  const response = {
+    all: { data: { "Bad Card": { name: "Bad Card", win_percent: 44, expected_win_percent: 47 } } },
+  }
+  assert.equal(hottestCard(response), null)
+})

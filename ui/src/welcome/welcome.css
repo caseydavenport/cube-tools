@@ -113,7 +113,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--se-text);
+  color: var(--mantine-primary-color-filled);
+  background: color-mix(in srgb, var(--mantine-primary-color-filled) 14%, transparent);
 }
 
 @media (max-width: 48em) {

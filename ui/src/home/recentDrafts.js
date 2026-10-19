@@ -1,5 +1,6 @@
 // Builds the cube home's "Recent drafts" list: each draft's date badge, name,
 // player count, and winner. Pure functions, tested in recentDrafts.test.mjs.
+import { isAnonymous } from "../utils/Players.js"
 
 const MONTHS = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"]
 
@@ -51,10 +52,23 @@ function bestByRecord(decks) {
   return sorted[0]
 }
 
+// winnerFrom describes the winning deck for display. An anonymous seat has no
+// player name, so it's reported by seat number instead of its "p6" label, which
+// every draft reuses.
+function winnerFrom(deck, undefeated) {
+  let player = deck.player
+  let seat = null
+  if (isAnonymous(deck)) {
+    player = null
+    seat = deck.seat || deck.id
+  }
+  return { player, seat, colors: deck.colors, record: recordText(deck.stats), undefeated }
+}
+
 // draftWinner picks the deck that won a draft. A single undefeated (trophy) deck
 // wins; otherwise the deck with the best match record does. A tie, or a draft
-// with no results, has no winner. Returns the player, colors, and record.
-export function draftWinner(decks, labelOf = d => d.player) {
+// with no results, has no winner. undefeated says which rule picked it.
+export function draftWinner(decks) {
   const withStats = decks.filter(d => d.stats)
 
   const trophyDecks = withStats.filter(d => d.stats.trophies > 0)
@@ -68,7 +82,7 @@ export function draftWinner(decks, labelOf = d => d.player) {
   if (!winner) {
     return null
   }
-  return { player: labelOf(winner), colors: winner.colors, record: recordText(winner.stats) }
+  return winnerFrom(winner, trophyDecks.length === 1)
 }
 
 // draftName is how a draft is titled in the list: its event name with any
@@ -93,7 +107,7 @@ function compareNewestFirst(a, b) {
 // recentDrafts returns the cube's newest drafts, at most limit of them, ready to
 // show: id, name, date badge, player count (one deck per player), winner, and
 // whether the draft has a pick log (which the Drafts page needs to open it).
-export function recentDrafts(index, decks, labelOf, limit = 5) {
+export function recentDrafts(index, decks, limit = 5) {
   if (!index || !index.drafts) {
     return []
   }
@@ -107,7 +121,7 @@ export function recentDrafts(index, decks, labelOf, limit = 5) {
       name: draftName(draft),
       badge: dateBadge(draft.date),
       players: draft.decks.length,
-      winner: draftWinner(draftDecks, labelOf),
+      winner: draftWinner(draftDecks),
       hasLog: draft.has_log,
     }
   })

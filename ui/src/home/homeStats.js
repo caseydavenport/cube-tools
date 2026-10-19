@@ -105,7 +105,11 @@ export function hottestCard(response) {
     return null
   }
 
+  // A card only counts as "hot" when it actually beats its expected win rate.
   const delta = Math.round(best.win_percent - best.expected_win_percent)
+  if (delta <= 0) {
+    return null
+  }
   return { name: best.name, delta, winPercent: best.win_percent }
 }
 

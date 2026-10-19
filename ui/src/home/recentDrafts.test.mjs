@@ -24,12 +24,12 @@ test("dateBadge rejects other date formats", () => {
 
 test("the single undefeated deck wins", () => {
   const decks = [deck(1, "Ozzy", 3, 0, 0, 1), deck(1, "Joan", 2, 1)]
-  assert.deepEqual(draftWinner(decks), { player: "Ozzy", colors: ["B", "G"], record: "3-0" })
+  assert.deepEqual(draftWinner(decks), { player: "Ozzy", seat: null, colors: ["B", "G"], record: "3-0", undefeated: true })
 })
 
 test("without a single undefeated deck, the best record wins", () => {
   const decks = [deck(1, "Ozzy", 2, 0, 1), deck(1, "Joan", 2, 1), deck(1, "Stevie", 1, 1, 1)]
-  assert.deepEqual(draftWinner(decks), { player: "Ozzy", colors: ["B", "G"], record: "2-0-1" })
+  assert.deepEqual(draftWinner(decks), { player: "Ozzy", seat: null, colors: ["B", "G"], record: "2-0-1", undefeated: false })
 })
 
 test("two undefeated decks fall back to record, and a tie there means no winner", () => {
@@ -52,7 +52,7 @@ test("recentDrafts lists the newest drafts first with names, player counts, and 
   }
   const decks = [deck(6, "Ozzy", 3, 0, 0, 1), deck(6, "Joan", 0, 3), deck(7, "Freddie", 0, 0)]
 
-  const rows = recentDrafts(index, decks, d => d.player, 2)
+  const rows = recentDrafts(index, decks, 2)
 
   assert.deepEqual(rows, [
     { id: 7, name: "Draft #7", badge: { day: "21", month: "JUN" }, players: 1, winner: null, hasLog: false },
@@ -61,12 +61,19 @@ test("recentDrafts lists the newest drafts first with names, player counts, and 
       name: "Boston Cube Party (Morning)",
       badge: { day: "21", month: "JUN" },
       players: 2,
-      winner: { player: "Ozzy", colors: ["B", "G"], record: "3-0" },
+      winner: { player: "Ozzy", seat: null, colors: ["B", "G"], record: "3-0", undefeated: true },
       hasLog: true,
     },
   ])
 })
 
 test("recentDrafts of a missing index is empty", () => {
-  assert.deepEqual(recentDrafts(undefined, [], d => d.player), [])
+  assert.deepEqual(recentDrafts(undefined, []), [])
+})
+
+test("an anonymous winner is reported by seat, not by its seat label", () => {
+  const seat6 = deck(46, "p6", 2, 0, 1)
+  seat6.seat = 6
+  const decks = [seat6, deck(46, "Joan", 1, 1)]
+  assert.deepEqual(draftWinner(decks), { player: null, seat: 6, colors: ["B", "G"], record: "2-0-1", undefeated: false })
 })

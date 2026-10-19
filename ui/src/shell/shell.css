@@ -135,3 +135,17 @@
   border-top: 1px solid var(--se-border);
   padding-top: 8px;
 }
+
+/* The old global a:visited rule in styles.css would turn visited sidebar links
+   violet, which looks like the active page. Keep each state's own color. */
+a.se-item:visited {
+  color: var(--se-text);
+}
+
+a.se-item.se-dim:visited {
+  color: var(--se-muted);
+}
+
+a.se-item[data-active]:visited {
+  color: var(--mantine-primary-color-filled);
+}
