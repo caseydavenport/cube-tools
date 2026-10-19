@@ -45,6 +45,13 @@ export function recordsByOpponent(decks) {
   return Array.from(byOpponent.values())
 }
 
+// playerNameMatches reports whether a player: search value names this player.
+// It takes the whole name, ignoring case and quotes, so p3 doesn't also match
+// seat p30. The server's query engine uses the same rule.
+export function playerNameMatches(player, value) {
+  return (player || "").toLowerCase() === value.replace(/"/g, "").toLowerCase()
+}
+
 // matchPlayerByName returns the id of the player whose name matches hint,
 // ignoring case and surrounding space, or 0.
 export function matchPlayerByName(players, hint) {

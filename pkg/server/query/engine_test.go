@@ -322,6 +322,12 @@ func TestDeckMatches_PlayerTerm(t *testing.T) {
 	assert.False(t, DeckMatches(d, "player:Bob"))
 }
 
+func TestDeckMatches_PlayerTermIsWholeName(t *testing.T) {
+	assert.False(t, DeckMatches(&mockDeck{player: "p30"}, "player:p3"))
+	assert.False(t, DeckMatches(&mockDeck{player: "Joan Jett"}, "player:Joan"))
+	assert.True(t, DeckMatches(&mockDeck{player: "Joan Jett"}, `player:"joan jett"`))
+}
+
 func TestDeckMatches_DcolorExact(t *testing.T) {
 	d := &mockDeck{colors: []string{"R", "W"}}
 	assert.True(t, DeckMatches(d, "dcolor=RW"))

@@ -97,7 +97,9 @@ func DeckMatchesBoardGraph(d Deck, matchStr, board string, edges []graph.Edge) b
 			} else if strings.HasPrefix(term, "player:") {
 				val := strings.TrimPrefix(term, "player:")
 				val = strings.Trim(val, "\"")
-				if !strings.Contains(strings.ToLower(d.GetPlayer()), strings.ToLower(val)) {
+
+				// A whole name, so player:p3 doesn't also pick up seat p30.
+				if !strings.EqualFold(d.GetPlayer(), val) {
 					return false
 				}
 			} else if strings.HasPrefix(term, "event:") {

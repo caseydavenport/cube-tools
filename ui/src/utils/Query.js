@@ -1,5 +1,6 @@
 import { CombineColors } from "../utils/Colors.js"
 import { eventTerms } from "../utils/DraftInfo.js"
+import { playerNameMatches } from "../utils/Players.js"
 
 
 export const QueryTerms = [
@@ -38,7 +39,7 @@ export const QueryTermMetadata = [
   { term: "drafts", description: "Number of drafts", operators: ["<", ">", "="], valueType: "number", example: "drafts>3" },
   { term: "winpct", description: "Win percentage", operators: ["<", ">", "="], valueType: "number", example: "winpct>50" },
   { term: "arch", description: "Deck archetype", operators: [":"], valueType: "text", example: "arch:aggro", isDeckOnly: true },
-  { term: "player", description: "Player name", operators: [":"], valueType: "text", example: "player:casey", isDeckOnly: true },
+  { term: "player", description: "Player name", operators: [":"], valueType: "text", example: 'player:"Joan Jett"', isDeckOnly: true },
   { term: "event", description: "Draft / event ID", operators: [":"], valueType: "text", example: "event:ccc2025", isDeckOnly: true },
   { term: "draftSize", description: "Draft size", operators: ["<", ">", "="], valueType: "number", example: "draftSize>6", isDeckOnly: true },
   { term: "minCards", description: "Min matching cards", operators: [":"], valueType: "number", example: "minCards:3", isDeckOnly: true },
@@ -238,8 +239,7 @@ export function DeckMatches(deck, matchStr, mbsb) {
       if (term.startsWith("arch:") || term.startsWith("arch!=")) {
         if (!deckTypeMatches(term, deck)) return false;
       } else if (term.startsWith("player:")) {
-        const val = term.replace("player:", "").replace(/"/g, "").toLowerCase()
-        if (!deck.player.toLowerCase().includes(val)) return false;
+        if (!playerNameMatches(deck.player, term.replace("player:", ""))) return false;
       } else if (term.startsWith("event:")) {
         const val = term.replace("event:", "").replace(/"/g, "").toLowerCase()
         if (!eventTerms(deck.draft).some((t) => t.toLowerCase().includes(val))) return false;

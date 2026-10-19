@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo, useRef, useLayoutEffect } from 'react'
 import { LoadCube, LoadDecks, SaveDeckMeta, SaveDeckRecord } from "../utils/Fetch.js"
 import { seedRecordEditor, buildMatches, mergeChangedDecks, emptyRow, opponentOptions } from "../utils/RecordEditor.js"
-import { fetchPlayers } from "../utils/Players.js"
+import { fetchPlayers, isAnonymous } from "../utils/Players.js"
 import { PlayerPicker } from "../components/PlayerPicker.js"
 import { useCube } from "../contexts/CubeContext.js"
 import { useCubeWritable } from "../utils/useCubeWritable.js"
@@ -282,7 +282,7 @@ export function DeckViewer(props) {
   const playerNames = useMemo(() => {
     let seen = new Set();
     for (let deck of decks) {
-      if (deck.player) seen.add(deck.player);
+      if (deck.player && !isAnonymous(deck)) seen.add(deck.player);
     }
     return Array.from(seen).sort();
   }, [decks]);

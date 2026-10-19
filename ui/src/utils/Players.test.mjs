@@ -1,6 +1,6 @@
 import { test } from "node:test"
 import assert from "node:assert/strict"
-import { isAnonymous, isSeatLabel, matchPlayerByName, personLabel, playerOptions, recordsByOpponent } from "./Players.js"
+import { isAnonymous, isSeatLabel, matchPlayerByName, personLabel, playerNameMatches, playerOptions, recordsByOpponent } from "./Players.js"
 
 test("a deck with no player id showing its seat label is anonymous", () => {
   assert.equal(isAnonymous({ id: 3, player: "p3" }), true)
@@ -47,4 +47,10 @@ test("recordsByOpponent counts ties apart from wins and skips seats", () => {
     { opponent: "p3", winner: "Joan" },
   ] }]
   assert.deepEqual(recordsByOpponent(decks), [{ name: "Ozzy", wins: 1, losses: 1, ties: 2 }])
+})
+
+test("playerNameMatches takes the whole name, ignoring case and quotes", () => {
+  assert.equal(playerNameMatches("p30", "p3"), false)
+  assert.equal(playerNameMatches("Joan Jett", "Joan"), false)
+  assert.equal(playerNameMatches("Joan Jett", '"joan jett"'), true)
 })
