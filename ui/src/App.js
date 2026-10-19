@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { HashRouter as Router, Routes, Route, Outlet, useSearchParams } from "react-router-dom";
-import {DeckViewer} from './pages/DeckViewer.js'
+import { DecksPage } from './pages/DecksPage.js'
 import {StatsViewer} from './pages/Stats.js'
 import { PlayersPage } from './pages/PlayersPage.js'
 import { DraftsPage } from './pages/DraftsPage.js'
@@ -119,7 +119,7 @@ export default function Main() {
           <Route path='health' element={<StatsViewer view='health' {...statsProps} />} />
           <Route path='synergy-map' element={<StatsViewer view='designmap' {...statsProps} />} />
           <Route path='rules-editor' element={<DesignEditorPage />} />
-          <Route path='decks' element={<DeckViewer {...statsProps} />} />
+          <Route path='decks' element={<DecksPage {...statsProps} />} />
           <Route path='import' element={<ImportHub />} />
           <Route path='import/:mode' element={<ImportHub />} />
           <Route path='*' element={<NotFound />} />

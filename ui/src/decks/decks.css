@@ -1,0 +1,240 @@
+/* The Decks page. Colors come from the theme tokens. */
+
+.deck-list-summary {
+  padding: 4px 10px 8px;
+  font-size: 12px;
+  color: var(--se-muted);
+}
+
+.deck-row-name {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+}
+
+.deck-row-mana > div {
+  display: inline-flex;
+  gap: 2px;
+}
+
+.deck-row-mana .mana-symbol {
+  width: 14px;
+  height: 14px;
+}
+
+/* Details */
+
+.deck-details {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  max-width: 1200px;
+}
+
+.deck-muted {
+  color: var(--se-muted);
+  font-size: 12px;
+}
+
+.deck-identity {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 14px 16px;
+}
+
+.deck-identity-main {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.deck-identity-name {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+}
+
+.deck-player {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--se-text);
+}
+
+.deck-mana > div {
+  display: inline-flex;
+  gap: 3px;
+}
+
+.deck-mana .mana-symbol {
+  width: 18px;
+  height: 18px;
+}
+
+.deck-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 4px;
+}
+
+.deck-tag {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 9px;
+  border-radius: 999px;
+  background: var(--mantine-primary-color-light);
+  color: var(--mantine-primary-color-light-color);
+}
+
+.deck-identity-record {
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.deck-record {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--se-text);
+}
+
+.deck-record small {
+  margin-left: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--se-muted);
+}
+
+.deck-stat-tiles {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.deck-details-pair {
+  display: grid;
+  grid-template-columns: 1.3fr 1fr;
+  gap: 14px;
+}
+
+@media (max-width: 47.99em) {
+  .deck-stat-tiles {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .deck-details-pair {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .deck-identity {
+    flex-direction: column;
+  }
+
+  .deck-identity-record {
+    text-align: left;
+  }
+}
+
+/* Mana symbols and themes */
+
+.deck-themes-title {
+  margin-top: 14px;
+  margin-bottom: 8px;
+}
+
+.deck-themes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.deck-theme {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 9px;
+  border-radius: 999px;
+  background: var(--mantine-color-orange-light);
+  color: var(--mantine-color-orange-light-color);
+}
+
+.deck-theme-rank {
+  margin-left: 4px;
+  font-weight: 500;
+  opacity: 0.75;
+}
+
+/* Matches */
+
+.deck-match {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 5px 0;
+  border-bottom: 1px solid var(--se-border);
+  font-size: 13px;
+}
+
+.deck-match:last-child {
+  border-bottom: none;
+}
+
+.deck-round {
+  margin-right: 6px;
+}
+
+.deck-opponent,
+.deck-opponent:visited {
+  color: var(--se-text);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.deck-opponent:hover {
+  color: var(--mantine-primary-color-filled);
+}
+
+.deck-win {
+  color: var(--se-good);
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.deck-loss {
+  color: var(--se-bad);
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.deck-draw {
+  color: var(--se-muted);
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+/* Deck card */
+
+.deck-toggles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.deck-images-title {
+  padding: 4px 0;
+  margin-bottom: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--se-muted);
+  border-bottom: 2px solid var(--mantine-primary-color-filled);
+  text-align: center;
+}
+
+.deck-notes {
+  color: var(--se-text);
+  font-size: 14px;
+}

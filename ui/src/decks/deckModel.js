@@ -86,10 +86,15 @@ export function sortDecks(decks, key) {
 }
 
 // draftHeader is the label over a draft's decks in the list, such as
-// "GOODBYE SF · JUL 26".
+// "GOODBYE SF · JUL 26". A flight is named too, so two flights on the same day
+// can be told apart.
 function draftHeader(deck) {
   const draft = deck.draft || {}
-  const name = (draft.event_name || `Draft #${deck.metadata.draft_id}`).toUpperCase()
+  let name = draft.event_name || `Draft #${deck.metadata.draft_id}`
+  if (draft.flight) {
+    name += ` (${draft.flight})`
+  }
+  name = name.toUpperCase()
 
   const badge = dateBadge(draft.date || deck.date)
   if (!badge) {
@@ -283,4 +288,36 @@ export function copyListText(cards) {
     text += `${count}x ${name}\n`
   }
   return text
+}
+
+// boardCards returns the cards on one of a deck's boards ("Mainboard",
+// "Sideboard", or "Pool"), or an empty list when the deck doesn't have it.
+export function boardCards(deck, board) {
+  let cards = deck.mainboard
+  if (board === "Sideboard") {
+    cards = deck.sideboard
+  } else if (board === "Pool") {
+    cards = deck.pool
+  }
+  return cards || []
+}
+
+// deckCounts counts a list's cards, creatures, and interaction (removal and
+// counterspells), for the stat tiles. A card counts as interaction when its
+// rules text contains any of the given phrases.
+export function deckCounts(cards, interactionPhrases) {
+  let creatures = 0
+  let interaction = 0
+
+  for (const card of cards) {
+    if ((card.types || []).includes("Creature")) {
+      creatures += 1
+    }
+
+    const text = (card.oracle_text || "").toLowerCase()
+    if (interactionPhrases.some(phrase => text.match(phrase))) {
+      interaction += 1
+    }
+  }
+  return { cards: cards.length, creatures, interaction }
 }

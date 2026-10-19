@@ -2,6 +2,8 @@ import { test } from "node:test"
 import assert from "node:assert/strict"
 import {
   archetypeLabel,
+  boardCards,
+  deckCounts,
   copyListText,
   deckRef,
   groupByDraft,
@@ -73,6 +75,12 @@ test("groupByDraft makes one labeled group per draft", () => {
   assert.equal(groups[1].label, "DRAFT #40 · JAN 10")
 })
 
+test("a draft's header names its flight", () => {
+  const d = deck()
+  d.draft.flight = "A"
+  assert.equal(groupByDraft([d])[0].label, "GOODBYE SF (A) · JUL 26")
+})
+
 test("listSummary totals the decks' match records", () => {
   const summary = listSummary([deck({ wins: 3, losses: 0 }), deck({ wins: 1, losses: 2, draws: 1 })])
   assert.deepEqual(summary, { count: 2, wins: 4, losses: 2, draws: 1, winPercent: 67 })
@@ -132,4 +140,20 @@ test("leansInto skips manabase and small groups", () => {
 test("copyListText writes one line per card name with its count", () => {
   const cards = [{ name: "Lightning Bolt" }, { name: "Opt" }, { name: "Lightning Bolt" }]
   assert.equal(copyListText(cards), "2x Lightning Bolt\n1x Opt\n")
+})
+
+test("boardCards picks the chosen board, empty when the deck lacks it", () => {
+  const d = { mainboard: [{ name: "Opt" }], sideboard: null, pool: [{ name: "Opt" }, { name: "Shock" }] }
+  assert.deepEqual(boardCards(d, "Mainboard"), [{ name: "Opt" }])
+  assert.deepEqual(boardCards(d, "Sideboard"), [])
+  assert.equal(boardCards(d, "Pool").length, 2)
+})
+
+test("deckCounts counts cards, creatures, and interaction", () => {
+  const cards = [
+    { name: "Goblin Guide", types: ["Creature"], oracle_text: "Haste" },
+    { name: "Doom Blade", types: ["Instant"], oracle_text: "Destroy target nonblack creature." },
+    { name: "Opt", types: ["Instant"], oracle_text: "Scry 1. Draw a card." },
+  ]
+  assert.deepEqual(deckCounts(cards, ["destroy target"]), { cards: 3, creatures: 1, interaction: 1 })
 })
