@@ -51,20 +51,34 @@ func deckPath(dir string, id int) string {
 // names unresolved and each deck's stored path set to the file it came from.
 // It errors on a deck file that won't load.
 func (d Draft) Decks() ([]*types.Deck, error) {
-	files, err := deckFiles(d.Dir)
+	decks, skipped, err := d.ReadableDecks()
 	if err != nil {
 		return nil, err
 	}
-	decks := make([]*types.Deck, 0, len(files))
+	if len(skipped) > 0 {
+		return nil, skipped[0]
+	}
+	return decks, nil
+}
+
+// ReadableDecks is Decks for readers that would rather show a draft's good
+// decks than none of them. A deck file that won't load is left out, and its
+// error is returned in skipped. err is only for a directory that can't be listed.
+func (d Draft) ReadableDecks() (decks []*types.Deck, skipped []error, err error) {
+	files, err := deckFiles(d.Dir)
+	if err != nil {
+		return nil, nil, err
+	}
 	for _, path := range files {
 		deck, err := types.LoadDeck(path)
 		if err != nil {
-			return nil, fmt.Errorf("load deck %s: %w", path, err)
+			skipped = append(skipped, fmt.Errorf("load deck %s: %w", path, err))
+			continue
 		}
 		deck.Metadata.Path = path
 		decks = append(decks, deck)
 	}
-	return decks, nil
+	return decks, skipped, nil
 }
 
 // Deck returns the deck with the given ID, or ErrNotFound. Older decks may

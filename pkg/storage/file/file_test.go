@@ -335,3 +335,26 @@ func TestFileRawDecksSeesNewDeckWithoutReindex(t *testing.T) {
 	assert.NoError(t, err)
 	assert.Len(t, got, 3)
 }
+
+func TestFileReadsSkipOnlyTheUnreadableDeck(t *testing.T) {
+	root := t.TempDir()
+	t.Chdir(root)
+	writeConfFixture(t, root)
+	broken := filepath.Join(root, "data/conf/0001_2024-01-01/carol.json")
+	assert.NoError(t, os.WriteFile(broken, []byte("{not json"), 0o644))
+	b := New(nil)
+
+	got, err := b.RawDecks("conf")
+	assert.NoError(t, err)
+	assert.Len(t, got, 2)
+	for _, d := range got {
+		assert.Equal(t, 3, d.DraftSize, "the unreadable deck still took a seat")
+	}
+
+	index, err := b.Index("conf")
+	assert.NoError(t, err)
+	if !assert.Len(t, index.Drafts, 1) {
+		return
+	}
+	assert.ElementsMatch(t, []storage.IndexedDeck{{ID: 1}, {ID: 2}}, index.Drafts[0].Decks)
+}

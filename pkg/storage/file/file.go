@@ -50,15 +50,14 @@ func (b *Backend) RawDecks(cube string) ([]*storage.Deck, error) {
 
 	var decks []*storage.Deck
 	for _, draft := range all {
-		loaded, err := draft.Decks()
-		if err != nil {
-			logrus.WithError(err).WithField("draft", draft.ID).Warn("Failed to load draft decks")
+		loaded, seats, ok := readableDecks(draft)
+		if !ok {
 			continue
 		}
 		info := storage.NewDraftInfo(draft.DraftMetadata)
 		for _, d := range loaded {
 			deck := &storage.Deck{Deck: *d}
-			deck.DraftSize = len(loaded)
+			deck.DraftSize = seats
 			deck.Draft = info
 			deck.Metadata.Path = ""
 			decks = append(decks, deck)
@@ -164,9 +163,8 @@ func (b *Backend) Index(cube string) (*storage.CubeIndex, error) {
 	}
 	out := &storage.CubeIndex{Drafts: []storage.IndexedDraft{}}
 	for _, draft := range all {
-		decks, err := draft.Decks()
-		if err != nil {
-			logrus.WithError(err).WithField("draft", draft.ID).Warn("Failed to load draft decks")
+		decks, _, ok := readableDecks(draft)
+		if !ok {
 			continue
 		}
 		id := storage.IndexedDraft{DraftInfo: storage.NewDraftInfo(draft.DraftMetadata), HasLog: draft.HasLog()}
@@ -238,4 +236,21 @@ func overlayCubeCards(cards []types.Card, cube map[string]cubeCard) {
 			cards[i].Tags = cc.tags
 		}
 	}
+}
+
+// readableDecks loads a draft's decks for the cube-wide reads, logging and
+// leaving out any deck file that won't load so one bad file doesn't hide the
+// rest of its draft. seats counts the unreadable decks too. ok is false when
+// the draft's directory can't be listed.
+func readableDecks(draft drafts.Draft) (decks []*types.Deck, seats int, ok bool) {
+	logc := logrus.WithField("draft", draft.ID)
+	decks, skipped, err := draft.ReadableDecks()
+	if err != nil {
+		logc.WithError(err).Warn("Failed to load draft decks")
+		return nil, 0, false
+	}
+	for _, err := range skipped {
+		logc.WithError(err).Warn("Skipping unreadable deck")
+	}
+	return decks, len(decks) + len(skipped), true
 }
