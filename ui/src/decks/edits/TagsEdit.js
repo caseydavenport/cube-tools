@@ -59,18 +59,21 @@ function TagInput({ tags, suggestions, onAdd, onClose, copy }) {
   )
 }
 
-// EditableTag is one tag pill with a small remove button.
-function EditableTag({ tag, onRemove, copy }) {
+// EditableTag is one tag pill with a small remove button, disabled while a save
+// is in flight.
+function EditableTag({ tag, onRemove, disabled, copy }) {
   return (
     <span className="deck-tag deck-tag-editable">
       {tag}
-      <CloseButton size="xs" aria-label={`${copy.removeTag} ${tag}`} onClick={() => onRemove(tag)} />
+      <CloseButton size="xs" aria-label={`${copy.removeTag} ${tag}`} disabled={disabled} onClick={() => onRemove(tag)} />
     </span>
   )
 }
 
 // TagsEdit is the row of tag pills under the player's name. On writable cubes
 // each pill can be removed and a "+ tag" chip adds one, saving on each change.
+// The controls lock while a save is in flight, since each save sends the whole
+// tag list and a second one could undo the first.
 export function TagsEdit({ deck, edits, suggestions, copy }) {
   const [adding, setAdding] = useState(false)
   const tags = deck.labels || []
@@ -88,12 +91,12 @@ export function TagsEdit({ deck, edits, suggestions, copy }) {
   return (
     <div className="deck-tags">
       {tags.map(tag => (
-        <EditableTag key={tag} tag={tag} onRemove={t => save(removeTag(tags, t))} copy={copy} />
+        <EditableTag key={tag} tag={tag} onRemove={t => save(removeTag(tags, t))} disabled={edits.saving} copy={copy} />
       ))}
 
       {adding && <TagInput tags={tags} suggestions={suggestions} onAdd={save} onClose={() => setAdding(false)} copy={copy} />}
       {!adding && (
-        <button type="button" className="deck-tag-add" onClick={() => setAdding(true)}>
+        <button type="button" className="deck-tag-add" disabled={edits.saving} onClick={() => setAdding(true)}>
           {copy.plusTag}
         </button>
       )}

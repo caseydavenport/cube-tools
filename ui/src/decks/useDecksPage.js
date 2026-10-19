@@ -142,6 +142,8 @@ export function useDecksPage(cube, props) {
   const [board, setBoard] = useState("Mainboard")
   const [view, setView] = useState("Text")
   const [decks, setDecks] = useState([])
+  const [loaded, setLoaded] = useState(false)
+  const [saveError, setSaveError] = useState(null)
   const [cubeData, setCubeData] = useState({ cards: [] })
 
   // The board is part of the request because the filter's card terms match
@@ -154,6 +156,7 @@ export function useDecksPage(cube, props) {
     function onLoaded(list) {
       if (alive) {
         setDecks([...list])
+        setLoaded(true)
       }
     }
 
@@ -187,9 +190,19 @@ export function useDecksPage(cube, props) {
     setDecks(prev => mergeChangedDecks(prev, changed))
   }
 
+  // reportSaveError records a failed save with the deck it was for, so the
+  // details can say which deck failed even after the viewer moved on.
+  function reportSaveError(deck, message) {
+    setSaveError({ ref: deckRef(deck), player: deck.player, message })
+  }
+
   return {
     cube,
     decks,
+    loaded,
+    saveError,
+    reportSaveError,
+    clearSaveError: () => setSaveError(null),
     sortedDecks,
     sort,
     setSort,

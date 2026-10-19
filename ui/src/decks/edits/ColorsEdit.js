@@ -9,7 +9,8 @@ const COLORS = ["W", "U", "B", "R", "G"]
 
 // ColorChips is the open colors editor: a toggle chip per color, and an
 // "Inferred" chip that drops the override so the colors come from the cards
-// again. Each click saves; the check button closes the editor.
+// again. Each click saves; the check button closes the editor. The chips lock
+// while a save is in flight, so a second click can't undo the first.
 function ColorChips({ deck, edits, done, copy }) {
   const override = deck.colors_override || []
   const inferred = override.length === 0
@@ -27,11 +28,11 @@ function ColorChips({ deck, edits, done, copy }) {
   return (
     <Group gap={4} className="deck-inline-editor">
       {COLORS.map(color => (
-        <Chip key={color} size="xs" checked={(deck.colors || []).includes(color)} onChange={() => onToggle(color)}>
+        <Chip key={color} size="xs" disabled={edits.saving} checked={(deck.colors || []).includes(color)} onChange={() => onToggle(color)}>
           <span className="deck-chip-mana">{ColorImages(color)}</span>
         </Chip>
       ))}
-      <Chip size="xs" variant="outline" checked={inferred} onChange={onInferred}>
+      <Chip size="xs" variant="outline" disabled={edits.saving} checked={inferred} onChange={onInferred}>
         {copy.inferred}
       </Chip>
       <ActionIcon variant="subtle" size="sm" aria-label={copy.done} onClick={done}>

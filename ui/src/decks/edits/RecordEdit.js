@@ -100,9 +100,13 @@ function RecordForm({ cube, deck, edits, done, copy }) {
   const [editor, setEditor] = useState(() => seedRecordEditor(deck))
   const draftDecks = useDraftDecks(cube, deck, true)
 
-  function save() {
-    edits.saveRecord(copy.record, { matches: buildMatches(editor, deck) })
-    done()
+  // save closes the popover only once the save works; on failure the entered
+  // rounds stay here to retry, and the error line says why.
+  async function save() {
+    const saved = await edits.saveRecord(copy.record, { matches: buildMatches(editor, deck) })
+    if (saved) {
+      done()
+    }
   }
 
   return (
@@ -122,7 +126,7 @@ function RecordForm({ cube, deck, edits, done, copy }) {
 
       <Group justify="flex-end" gap="xs">
         <Button variant="default" size="xs" onClick={done}>{copy.cancel}</Button>
-        <Button size="xs" onClick={save}>{copy.save}</Button>
+        <Button size="xs" onClick={save} loading={edits.saving}>{copy.save}</Button>
       </Group>
     </Stack>
   )

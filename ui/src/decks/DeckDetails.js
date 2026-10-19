@@ -11,17 +11,24 @@ import { DecklistCard } from "./DecklistCard.js"
 import { NotesCard } from "./NotesCard.js"
 import { CompareView } from "./CompareView.js"
 
-// SaveError is the one line under the identity card that reports a failed
-// save, whichever field it was, with a button to dismiss it.
-function SaveError({ edits, copy }) {
-  if (!edits.error) {
+// SaveError is the one line under the identity card that reports the last
+// failed save, whichever field it was. A failure on another deck (the viewer
+// moved on before it answered) names that deck's player.
+function SaveError({ deck, page, copy }) {
+  const error = page.saveError
+  if (!error) {
     return null
+  }
+
+  let message = error.message
+  if (error.ref !== deckRef(deck)) {
+    message = `${error.player}: ${error.message}`
   }
 
   return (
     <div className="deck-save-error" role="alert">
-      <span>{edits.error}</span>
-      <CloseButton size="sm" aria-label={copy.dismiss} onClick={edits.clearError} />
+      <span>{message}</span>
+      <CloseButton size="sm" aria-label={copy.dismiss} onClick={page.clearSaveError} />
     </div>
   )
 }
@@ -29,12 +36,12 @@ function SaveError({ edits, copy }) {
 // SelectedDeck lays out one deck's details, top to bottom: who and what, the
 // numbers, mana and themes beside the matches, the cards, then the notes.
 function SelectedDeck({ deck, page, copy }) {
-  const edits = useDeckEdits(page.cube, deck, page.onDecksUpdated)
+  const edits = useDeckEdits(page.cube, deck, page)
 
   return (
     <div className="deck-details">
       <IdentityCard cube={page.cube} deck={deck} edits={edits} tagSuggestions={page.archetypes} copy={copy} />
-      <SaveError edits={edits} copy={copy} />
+      <SaveError deck={deck} page={page} copy={copy} />
       <DeckStatTiles deck={deck} copy={copy} />
 
       <div className="deck-details-pair">
@@ -55,6 +62,11 @@ function SelectedDeck({ deck, page, copy }) {
 export function DeckDetails({ page, copy }) {
   if (page.comparison.size > 1) {
     return <CompareView comparison={page.comparison} page={page} copy={copy} />
+  }
+
+  // Until the first list arrives every ref would look missing, so wait.
+  if (!page.loaded) {
+    return <EmptyState>{copy.loading}</EmptyState>
   }
 
   const selected = resolveSelectedDeck(page.decks, page.selection.selectedRef)

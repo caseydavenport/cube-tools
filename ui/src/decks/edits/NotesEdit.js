@@ -8,11 +8,18 @@ import { inlineEditKeys } from "../../components/kit/inlineEditKeys.js"
 export function NotesEdit({ deck, edits, done, copy }) {
   const [text, setText] = useState(deck.notes || "")
 
-  function save() {
-    if (text !== (deck.notes || "")) {
-      edits.saveMeta(copy.notes, { notes: text })
+  // save closes the editor only once the save works; on failure the text stays
+  // here to retry, and the error line says why.
+  async function save() {
+    if (text === (deck.notes || "")) {
+      done()
+      return
     }
-    done()
+
+    const saved = await edits.saveMeta(copy.notes, { notes: text })
+    if (saved) {
+      done()
+    }
   }
 
   function onKeyDown(event) {
@@ -34,7 +41,7 @@ export function NotesEdit({ deck, edits, done, copy }) {
       />
       <Group justify="flex-end" gap="xs" mt="xs">
         <Button variant="default" size="xs" onClick={done}>{copy.cancel}</Button>
-        <Button size="xs" onClick={save}>{copy.save}</Button>
+        <Button size="xs" onClick={save} loading={edits.saving}>{copy.save}</Button>
       </Group>
     </>
   )

@@ -6,22 +6,27 @@ import { annotationPayload, saveErrorText } from "./deckEdits.js"
 
 // useDeckEdits is how the deck details save changes. editable is true only once
 // the cube is known to be writable, so read-only cubes never show a pencil.
-// Each save merges what the server sent back into the deck list; a failure
-// sets error to a message naming the field, for the error line to show.
-export function useDeckEdits(cube, deck, onDecksUpdated) {
+// Each save merges what the server sent back into the deck list. A failure is
+// reported to the page, not kept here, so it still shows if the viewer has
+// moved to another deck by the time the save fails. saving is true while a
+// save is in flight, so editors can lock their controls and two quick changes
+// can't overwrite each other.
+export function useDeckEdits(cube, deck, page) {
   const editable = useCubeWritable(cube) === true
   const [saving, setSaving] = useState(false)
-  const [error, setError] = useState(null)
 
   // run wraps one save: it clears the last error, marks the save in flight, and
-  // on failure records which field failed.
+  // on failure reports which field failed. It returns whether the save worked,
+  // so an editor holding typed text can stay open when it didn't.
   async function run(what, save) {
-    setError(null)
+    page.clearSaveError()
     setSaving(true)
     try {
-      onDecksUpdated(await save())
+      page.onDecksUpdated(await save())
+      return true
     } catch (err) {
-      setError(saveErrorText(what, err))
+      page.reportSaveError(deck, saveErrorText(what, err))
+      return false
     } finally {
       setSaving(false)
     }
@@ -47,7 +52,7 @@ export function useDeckEdits(cube, deck, onDecksUpdated) {
     }))
   }
 
-  return { editable, saving, error, clearError: () => setError(null), saveMeta, saveRecord }
+  return { editable, saving, saveMeta, saveRecord }
 }
 
 // useDraftDecks loads every deck in a deck's draft, ignoring the page's filter,

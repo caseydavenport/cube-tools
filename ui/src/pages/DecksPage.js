@@ -39,6 +39,7 @@ const COPY = {
 
   decksLower: "decks",
   noRecord: "no matches",
+  loading: "Loading…",
   pickDeck: "Pick a deck from the list",
   deckNotInList: "That deck isn't in the current list",
 

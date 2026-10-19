@@ -47,7 +47,8 @@ function ArchetypeSelect({ deck, edits, done, copy }) {
 
 // ArchetypeEdit is the archetype badge beside the player's name. On writable
 // cubes a pencil swaps it for a dropdown, and a deck with no archetype shows a
-// muted placeholder so there's something to click.
+// muted placeholder so there's something to click. The pencil hides while
+// another annotation save is in flight.
 export function ArchetypeEdit({ deck, edits, copy }) {
   const label = archetypeLabel(deck)
 
@@ -60,7 +61,7 @@ export function ArchetypeEdit({ deck, edits, copy }) {
 
   return (
     <EditableField
-      editable={edits.editable}
+      editable={edits.editable && !edits.saving}
       label={copy.archetype}
       display={display}
       renderEditor={({ done }) => <ArchetypeSelect deck={deck} edits={edits} done={done} copy={copy} />}
