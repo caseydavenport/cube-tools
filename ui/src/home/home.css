@@ -1,0 +1,175 @@
+/* Cube home layout. Colors come from the theme tokens. */
+
+.home-page {
+  max-width: 1280px;
+  padding: 20px 24px 32px;
+}
+
+.home-title {
+  font-size: 22px;
+}
+
+.home-subtitle {
+  font-size: 13px;
+  color: var(--se-muted);
+}
+
+.home-muted-small {
+  font-size: 12px;
+  color: var(--se-muted);
+}
+
+/* Rows shared by recent drafts and top players */
+
+.home-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 4px;
+  border-top: 1px solid var(--se-border);
+  color: var(--se-text);
+}
+
+.home-row:first-of-type {
+  border-top: none;
+}
+
+.home-row-link {
+  border-radius: var(--mantine-radius-sm);
+}
+
+.home-row-link:hover {
+  background: color-mix(in srgb, var(--se-border) 45%, transparent);
+}
+
+.home-row-main {
+  flex: 1;
+  min-width: 0;
+}
+
+/* Recent drafts */
+
+.home-date-badge {
+  flex: none;
+  width: 38px;
+  height: 38px;
+  border-radius: var(--mantine-radius-md);
+  background: color-mix(in srgb, var(--mantine-primary-color-filled) 14%, var(--se-card));
+  color: var(--mantine-primary-color-filled);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+
+.home-date-day {
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.home-date-month {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  margin-top: 2px;
+}
+
+.home-winner {
+  text-align: right;
+}
+
+.home-winner-name {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 4px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.home-winner-name .mana-symbol {
+  width: 16px;
+  height: 16px;
+}
+
+.home-trophy {
+  color: var(--mantine-color-yellow-6);
+}
+
+/* Win rate by color */
+
+.home-color-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 5px 0;
+}
+
+.home-color-row .mana-symbol {
+  width: 20px;
+  height: 20px;
+}
+
+.home-bar-track {
+  position: relative;
+  flex: 1;
+  height: 8px;
+  border-radius: 4px;
+  background: color-mix(in srgb, var(--se-border) 70%, var(--se-card));
+}
+
+.home-bar-fill {
+  height: 100%;
+  border-radius: 4px;
+}
+
+.home-bar-tick {
+  position: absolute;
+  top: -3px;
+  width: 2px;
+  height: 14px;
+  background: var(--se-muted);
+}
+
+.home-bar-value {
+  width: 38px;
+  text-align: right;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+/* Top players */
+
+.home-rank {
+  flex: none;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 700;
+  background: color-mix(in srgb, var(--se-border) 70%, var(--se-card));
+  color: var(--se-muted);
+}
+
+.home-rank-first {
+  background: color-mix(in srgb, var(--mantine-color-yellow-4) 45%, var(--se-card));
+  color: var(--se-text);
+}
+
+.home-player-rate {
+  width: 40px;
+  text-align: right;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+/* Tiles: mana icons inside a tile value */
+
+.kit-tile-value .mana-symbol {
+  width: 20px;
+  height: 20px;
+}
