@@ -14,19 +14,19 @@ export const theme = createTheme({
 // schemeVars turns one palette (LIGHT or DARK) into CSS variables. It also
 // overrides Mantine's own body background and text colors so Mantine components
 // and plain CSS pages use the same palette.
-function schemeVars(t) {
+function schemeVars(palette) {
   return {
-    "--se-page": t.page,
-    "--se-card": t.card,
-    "--se-text": t.text,
-    "--se-muted": t.muted,
-    "--se-border": t.border,
-    "--se-sidebar-from": t.sidebarFrom,
-    "--se-sidebar-to": t.sidebarTo,
-    "--se-good": t.good,
-    "--se-bad": t.bad,
-    "--mantine-color-body": t.page,
-    "--mantine-color-text": t.text,
+    "--se-page": palette.page,
+    "--se-card": palette.card,
+    "--se-text": palette.text,
+    "--se-muted": palette.muted,
+    "--se-border": palette.border,
+    "--se-sidebar-from": palette.sidebarFrom,
+    "--se-sidebar-to": palette.sidebarTo,
+    "--se-good": palette.good,
+    "--se-bad": palette.bad,
+    "--mantine-color-body": palette.page,
+    "--mantine-color-text": palette.text,
   }
 }
 

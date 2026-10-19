@@ -1045,7 +1045,7 @@ function CardGraph(input) {
     // Color every point by whether the card is a net positive or net negative
     // relative to the cube average (green over 50%, red under). Cards with no games
     // have no meaningful win rate, so they stay neutral grey. The selected card is
-    // highlighted white so it stands out from the red/green field.
+    // drawn in the theme's text color so it stands out from the red/green field.
     let games = card.total_games || 0
     if (card.name === input.selectedCard) {
       backgroundColors.push(chartTextColor())

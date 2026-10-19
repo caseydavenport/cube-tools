@@ -60,14 +60,14 @@ func cubeInfo(store *storage.Store, cube string) (CubeInfo, error) {
 		}
 	}
 
-	idx, err := store.Index(cube)
+	index, err := store.Index(cube)
 	if errors.Is(err, storage.ErrUnsupported) {
 		return info, nil
 	}
 	if err != nil {
 		return CubeInfo{}, err
 	}
-	for _, draft := range idx.Drafts {
+	for _, draft := range index.Drafts {
 		if draft.HasLog {
 			info.PickLogs = true
 		}
