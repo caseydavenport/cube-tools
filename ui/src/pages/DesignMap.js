@@ -10,8 +10,6 @@ import { CARD_REF_PREFIX, cardRefName, effectiveCards, matchKey, membershipsByCa
 import { useDesignMatch } from "../utils/useDesignMatch.js"
 import { buildDeckSubgraph, rankByDegree, greedyModularityCommunities, dominantLabel, NEUTRAL } from "../utils/DeckGraph"
 
-export { CARD_REF_PREFIX, cardRefName }
-
 // The design map is a drill-in explorer. Focus is a stack of levels the user has
 // drilled through, so the breadcrumb can climb back out:
 //   themes            -> the whole set of groups (the overview constellation)
@@ -437,11 +435,10 @@ function GroupDetail({ cube, focus, groups, groupNodes, links, groupColor, onDri
 
 // Fetch which groups a given card belongs to, with the condition(s) that matched.
 function useCardMemberships(cube, cardName, groups) {
-  const request = requestForGroups(cardName ? (groups || []).map(g => g.name) : [], groups)
-  const { cards } = useDesignMatch(cube, request, { key: matchKey(request, groups) })
+  const memberships = useAllMemberships(cube, cardName ? groups : [])
   return useMemo(
-    () => (membershipsByCard(cards)[cardName] || []).map(m => ({ name: m.group, conds: m.conds })),
-    [cards, cardName],
+    () => (memberships[cardName] || []).map(m => ({ name: m.group, conds: m.conds })),
+    [memberships, cardName],
   )
 }
 

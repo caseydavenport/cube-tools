@@ -9,11 +9,11 @@ export function useDesignMatch(cube, request, { debounceMs = 0, key } = {}) {
   const [cards, setCards] = useState([])
   // Loading from the first render, so callers don't read an empty result as final.
   const [loading, setLoading] = useState(() => request.conditions.length > 0)
-  const seq = useRef(0)
+  const latestRequest = useRef(0)
   const effectKey = key ?? matchKey(request, [])
 
   useEffect(() => {
-    const mine = ++seq.current
+    const thisRequest = ++latestRequest.current
     if (request.conditions.length === 0) {
       setCards([])
       setLoading(false)
@@ -27,15 +27,15 @@ export function useDesignMatch(cube, request, { debounceMs = 0, key } = {}) {
         body: JSON.stringify(request),
       })
         .then(r => r.json())
-        .then(d => { if (mine === seq.current) { setCards(d.cards || []); setLoading(false) } })
-        .catch(() => { if (mine === seq.current) { setCards([]); setLoading(false) } })
+        .then(d => { if (thisRequest === latestRequest.current) { setCards(d.cards || []); setLoading(false) } })
+        .catch(() => { if (thisRequest === latestRequest.current) { setCards([]); setLoading(false) } })
     }
     const timer = debounceMs > 0 ? setTimeout(run, debounceMs) : null
     if (!timer) run()
     return () => {
       if (timer) clearTimeout(timer)
       // Unmount or a newer request makes any in-flight response stale.
-      seq.current++
+      latestRequest.current++
     }
   }, [cube, effectKey])
 

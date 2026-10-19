@@ -9,10 +9,10 @@ import {
   saveDesignMap,
   cleanWires,
   ruleColor,
-  cardRefName,
   GroupEditModal,
   LinkEditModal,
 } from './DesignMap.js'
+import { cardRefName } from '../utils/DesignRules.js'
 
 // Rebuild a group with the given exclude list, dropping the key entirely when
 // empty so saved JSON doesn't grow "exclude": [] on every group.

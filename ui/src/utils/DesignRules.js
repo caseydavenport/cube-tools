@@ -40,8 +40,8 @@ export function requestForGroups(names, groups) {
 // group lets the server apply its saved exclusions; without one, nothing is
 // marked excluded.
 export function requestForConditions(conditions, groupName) {
-  const conds = (conditions || []).map(c => c.trim()).filter(c => c)
-  return { conditions: conds, groups: groupName ? conds.map(() => groupName) : [] }
+  const trimmed = (conditions || []).map(c => c.trim()).filter(c => c)
+  return { conditions: trimmed, groups: groupName ? trimmed.map(() => groupName) : [] }
 }
 
 // effectiveCards drops conditions a group excludes, and then cards with no
