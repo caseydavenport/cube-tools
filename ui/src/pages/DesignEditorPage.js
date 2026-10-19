@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useMemo, useRef, useLayoutEffect } from 'react'
 import { useSearchParams } from 'react-router-dom'
+import { Alert, ActionIcon, Autocomplete, Button, SegmentedControl, TextInput, UnstyledButton } from '@mantine/core'
+import { IconPlus, IconSearch } from '@tabler/icons-react'
 import { useCube } from '../contexts/CubeContext.js'
 import { CardImageURL } from '../utils/Utils.js'
 import { ColorImages } from '../utils/Colors.js'
@@ -14,6 +16,35 @@ import {
 } from './DesignMap.js'
 import { cardRefName } from '../utils/DesignRules.js'
 import { useCubeWritable } from '../utils/useCubeWritable.js'
+import { PageToolbar } from '../toolbar/PageToolbar.js'
+
+// COPY holds the text this page adds in the toolbar and read-only notice.
+// Placeholders for Casey to replace.
+const COPY = {
+  title: 'Rules editor',
+  readOnly: 'This cube is read-only',
+  viewsLabel: 'Rules editor view',
+  overview: 'Overview',
+  audit: 'Audit',
+  review: 'Review',
+  compare: 'Compare',
+}
+
+// TOOLBAR_VIEWS are the view= values the toolbar switches between. Overview is
+// the empty value; the control needs a non-empty one, so it uses 'overview'.
+const TOOLBAR_VIEWS = ['audit', 'review', 'compare']
+
+// toolbarValue maps the view= parameter to the toolbar segment it lights up.
+// Group and link views ('g:…', 'l:…') light up none, so it returns null.
+function toolbarValue(view) {
+  if (view === '') {
+    return 'overview'
+  }
+  if (TOOLBAR_VIEWS.includes(view)) {
+    return view
+  }
+  return null
+}
 
 // Rebuild a group with the given exclude list, dropping the key entirely when
 // empty so saved JSON doesn't grow "exclude": [] on every group.
@@ -306,12 +337,22 @@ export function DesignEditorPage() {
     return whyLinked(focal, vs, edges, linkByLabel, cardGroups)
   }, [focal, vs, edges, linkByLabel, cardGroups])
 
+  // Edit controls only show once the server says the cube is writable; the
+  // read-only notice waits for it to say it isn't, so it doesn't flash on load.
+  const canEdit = writable === true
+
+  const toolbar = (
+    <EditorToolbar
+      view={view} auditCount={data ? audit.structural : 0}
+      compareReady={Boolean(focal && vs)} onSelectView={selectView}
+    />
+  )
+
   if (!data) {
-    return <div className="de-page"><div className="de-loading">Loading design map…</div></div>
-  }
-  // The sidebar dims the editor on read-only cubes, but its link and a URL still reach it.
-  if (writable !== true) {
-    return <div className="de-page"><div className="de-loading">This cube is read-only, so its design rules can't be edited here.</div></div>
+    return <>
+      {toolbar}
+      <div className="de-page"><div className="de-loading">Loading design map…</div></div>
+    </>
   }
 
   function openGroup(name) {
@@ -335,7 +376,7 @@ export function DesignEditorPage() {
       cardGroups={cardGroups} nodeByName={nodeByName}
       linksTouching={links.filter(l => (l.wires || []).some(w => (w.sources || []).includes(g.name) || (w.targets || []).includes(g.name)))}
       linkIndex={linkIndex} warn={groupWarn(g.name)}
-      onEdit={() => openGroup(g.name)} onDelete={() => deleteGroup(g.name)}
+      canEdit={canEdit} onEdit={() => openGroup(g.name)} onDelete={() => deleteGroup(g.name)}
       onExclude={(card) => setCardExcluded(g.name, card, true)}
       onRestore={(card) => setCardExcluded(g.name, card, false)}
       onSelectLink={selectLink} onFocusCard={setFocal} onHoverCard={setHoverCard}
@@ -347,7 +388,7 @@ export function DesignEditorPage() {
       link={l} color={ruleColor(linkIndex[l.label])}
       edgeCount={linkEdgeCounts[l.label] || 0}
       groupIndex={groupIndex} groupCards={groupCards} warn={linkWarn(l.label)}
-      onEdit={() => openLink(l.label)} onDelete={() => deleteLink(l.label)}
+      canEdit={canEdit} onEdit={() => openLink(l.label)} onDelete={() => deleteLink(l.label)}
       onSelectGroup={selectGroup} onFocusCard={setFocal}
     />
   } else if (view === 'audit') {
@@ -374,7 +415,7 @@ export function DesignEditorPage() {
     detail = <CompareDetail
       focal={focal} vs={vs} between={between} nodeByName={nodeByName}
       cardGroups={cardGroups} groupIndex={groupIndex} linkIndex={linkIndex}
-      onSelectGroup={selectGroup} onSelectLink={selectLink} onEditLink={openLink}
+      canEdit={canEdit} onSelectGroup={selectGroup} onSelectLink={selectLink} onEditLink={openLink}
       onSwap={swapCards} onClear={() => setVs('')}
     />
   } else {
@@ -385,18 +426,21 @@ export function DesignEditorPage() {
     />
   }
 
-  return (
-    <div className={'de-page' + (view === 'review' ? ' de-page-review' : '')}>
-      <datalist id="de-card-names">
-        {names.map(n => <option key={n} value={n} />)}
-      </datalist>
+  let readOnlyNotice = null
+  if (writable === false) {
+    readOnlyNotice = <Alert className="de-readonly" color="gray" variant="light">{COPY.readOnly}</Alert>
+  }
 
+  return (
+    <>
+    {toolbar}
+    {readOnlyNotice}
+    <div className={'de-page' + (view === 'review' ? ' de-page-review' : '')}>
       <Registry
         groups={groups} links={links} view={view}
         groupCards={groupCards} linkEdgeCounts={linkEdgeCounts}
-        groupWarn={groupWarn} linkWarn={linkWarn} auditCount={audit.structural}
-        compareReady={Boolean(focal && vs)}
-        onSelectView={selectView} onSelectGroup={selectGroup} onSelectLink={selectLink}
+        groupWarn={groupWarn} linkWarn={linkWarn} canEdit={canEdit}
+        onSelectGroup={selectGroup} onSelectLink={selectLink}
         onNewGroup={() => setGroupEditor({ original: null })}
         onNewLink={() => setLinkEditor({ original: null })}
       />
@@ -442,14 +486,46 @@ export function DesignEditorPage() {
         />
       }
     </div>
+    </>
   )
 }
 
-// Registry is the left rail: pinned Overview/Audit/Compare rows, then every group
-// and link with live counts and warning dots. One filter box narrows both lists.
+// EditorToolbar is the page toolbar: the title and a switch between the
+// rulebook-wide views. Compare needs two cards picked in the card lens, and
+// Audit carries a count of structural issues when there are any.
+function EditorToolbar({ view, auditCount, compareReady, onSelectView }) {
+  let auditLabel = COPY.audit
+  if (auditCount > 0) {
+    auditLabel = <span className="de-view-label">{COPY.audit}<span className="de-badge-warn">{auditCount}</span></span>
+  }
+
+  const views = [
+    { value: 'overview', label: COPY.overview },
+    { value: 'audit', label: auditLabel },
+    { value: 'review', label: COPY.review },
+    { value: 'compare', label: COPY.compare, disabled: !compareReady },
+  ]
+
+  function onChange(value) {
+    if (value === 'overview') {
+      onSelectView('')
+    } else {
+      onSelectView(value)
+    }
+  }
+
+  return (
+    <PageToolbar title={COPY.title}>
+      <SegmentedControl size="xs" aria-label={COPY.viewsLabel} data={views} value={toolbarValue(view)} onChange={onChange} />
+    </PageToolbar>
+  )
+}
+
+// Registry is the left rail: every group and link with live counts and warning
+// dots. One filter box narrows both lists.
 function Registry({
-  groups, links, view, groupCards, linkEdgeCounts, groupWarn, linkWarn, auditCount,
-  compareReady, onSelectView, onSelectGroup, onSelectLink, onNewGroup, onNewLink,
+  groups, links, view, groupCards, linkEdgeCounts, groupWarn, linkWarn, canEdit,
+  onSelectGroup, onSelectLink, onNewGroup, onNewLink,
 }) {
   const [filter, setFilter] = useState('')
   const [closed, setClosed] = useState({})
@@ -461,38 +537,17 @@ function Registry({
 
   return (
     <aside className="de-registry">
-      <input
-        className="de-search" placeholder="Filter groups & links…" value={filter}
-        onChange={e => setFilter(e.target.value)} spellCheck={false}
+      <TextInput
+        size="xs" leftSection={<IconSearch size={14} />}
+        placeholder="Filter groups & links…" aria-label="Filter groups and links"
+        value={filter} onChange={e => setFilter(e.target.value)} spellCheck={false}
       />
-
-      <div className="de-reg-pinned">
-        <button className={'de-row' + (view === '' ? ' de-row-active' : '')} onClick={() => onSelectView('')}>
-          <span className="de-row-icon">◈</span>
-          <span className="de-row-name">Overview</span>
-        </button>
-        <button className={'de-row' + (view === 'audit' ? ' de-row-active' : '')} onClick={() => onSelectView('audit')}>
-          <span className="de-row-icon">✓</span>
-          <span className="de-row-name">Audit</span>
-          {auditCount > 0 && <span className="de-badge-warn">{auditCount}</span>}
-        </button>
-        <button className={'de-row' + (view === 'review' ? ' de-row-active' : '')} onClick={() => onSelectView('review')}>
-          <span className="de-row-icon">»</span>
-          <span className="de-row-name">Review</span>
-        </button>
-        {compareReady &&
-          <button className={'de-row' + (view === 'compare' ? ' de-row-active' : '')} onClick={() => onSelectView('compare')}>
-            <span className="de-row-icon">⇄</span>
-            <span className="de-row-name">Compare</span>
-          </button>
-        }
-      </div>
 
       <div className="de-reg-head" onClick={() => toggle('groups')} role="button" aria-expanded={isOpen('groups')}>
         <span className="de-reg-caret">{isOpen('groups') ? '▾' : '▸'}</span>
         <span>Groups</span>
         <span className="de-reg-count">{groups.length}</span>
-        <button className="de-add" onClick={e => { e.stopPropagation(); onNewGroup() }} title="New group">+</button>
+        {canEdit && <AddButton label="New group" onClick={onNewGroup} />}
       </div>
       {isOpen('groups') && <div className="de-reg-list">
         {shownGroups.map(g => {
@@ -500,8 +555,8 @@ function Registry({
           const active = view === 'g:' + g.name
           const color = ruleColor(groups.indexOf(g))
           return (
-            <button
-              key={g.name} className={'de-row' + (active ? ' de-row-active' : '')}
+            <UnstyledButton
+              key={g.name} className="de-row" data-active={active || undefined}
               style={active ? { boxShadow: `inset 3px 0 0 ${color}` } : undefined}
               onClick={() => onSelectGroup(g.name)}
             >
@@ -509,7 +564,7 @@ function Registry({
               <span className="de-row-name">{g.name}</span>
               {warn && <span className="de-warn-dot" title={warn} />}
               <span className="de-row-count">{groupCards[g.name]?.card_count ?? (groupCards[g.name]?.cards || []).length}</span>
-            </button>
+            </UnstyledButton>
           )
         })}
         {shownGroups.length === 0 && <div className="de-muted">No groups match.</div>}
@@ -519,7 +574,7 @@ function Registry({
         <span className="de-reg-caret">{isOpen('links') ? '▾' : '▸'}</span>
         <span>Links</span>
         <span className="de-reg-count">{links.length}</span>
-        <button className="de-add" onClick={e => { e.stopPropagation(); onNewLink() }} title="New link">+</button>
+        {canEdit && <AddButton label="New link" onClick={onNewLink} />}
       </div>
       {isOpen('links') && <div className="de-reg-list">
         {shownLinks.map(l => {
@@ -527,8 +582,8 @@ function Registry({
           const active = view === 'l:' + l.label
           const color = ruleColor(links.indexOf(l))
           return (
-            <button
-              key={l.label} className={'de-row' + (active ? ' de-row-active' : '')}
+            <UnstyledButton
+              key={l.label} className="de-row" data-active={active || undefined}
               style={active ? { boxShadow: `inset 3px 0 0 ${color}` } : undefined}
               onClick={() => onSelectLink(l.label)}
             >
@@ -536,12 +591,27 @@ function Registry({
               <span className="de-row-name">{l.label}</span>
               {warn && <span className="de-warn-dot" title={warn} />}
               <span className="de-row-count">{linkEdgeCounts[l.label] || 0}</span>
-            </button>
+            </UnstyledButton>
           )
         })}
         {shownLinks.length === 0 && <div className="de-muted">No links match.</div>}
       </div>}
     </aside>
+  )
+}
+
+// AddButton is the + on a registry heading. The heading itself folds the list
+// open and shut, so the click stops here instead of also toggling it.
+function AddButton({ label, onClick }) {
+  function handleClick(e) {
+    e.stopPropagation()
+    onClick()
+  }
+
+  return (
+    <ActionIcon variant="default" size="sm" aria-label={label} title={label} onClick={handleClick}>
+      <IconPlus size={12} />
+    </ActionIcon>
   )
 }
 
@@ -581,10 +651,10 @@ function Overview({ nodes, groups, links, edges, audit, membershipsLoading, card
         <div className="de-ok">✓ No structural issues — every group matches cards and is wired to a link.</div>
       }
       {audit.structural > 0 &&
-        <button className="de-audit-cta" onClick={onAudit}>
+        <UnstyledButton className="de-audit-cta" onClick={onAudit}>
           <span className="de-warn-dot" />
           {audit.structural} structural issue{audit.structural === 1 ? '' : 's'} — open the audit board
-        </button>
+        </UnstyledButton>
       }
     </div>
   )
@@ -604,7 +674,7 @@ function Vital({ value, label }) {
 // card image, so scanning a group for intruders is fast.
 function GroupDetail({
   group, color, members, excluded, cardGroups, nodeByName, linksTouching, linkIndex, warn,
-  onEdit, onDelete, onExclude, onRestore, onSelectLink, onFocusCard, onHoverCard,
+  canEdit, onEdit, onDelete, onExclude, onRestore, onSelectLink, onFocusCard, onHoverCard,
 }) {
   const [confirming, setConfirming] = useState(false)
   const memberConds = (name) => (cardGroups[name] || []).find(m => m.group === group.name)?.conds || []
@@ -617,14 +687,7 @@ function GroupDetail({
         <span className="de-pane-sub">
           {members.length} card{members.length === 1 ? '' : 's'}{excluded.length > 0 && ` · ${excluded.length} excluded`}
         </span>
-        <span className="de-pane-actions">
-          <button className="de-btn" onClick={onEdit}>Edit</button>
-          {!confirming && <button className="de-btn de-btn-danger" onClick={() => setConfirming(true)}>Delete</button>}
-          {confirming && <>
-            <button className="de-btn de-btn-danger" onClick={onDelete}>Confirm delete</button>
-            <button className="de-btn" onClick={() => setConfirming(false)}>Keep</button>
-          </>}
-        </span>
+        {canEdit && <EditActions confirming={confirming} setConfirming={setConfirming} onEdit={onEdit} onDelete={onDelete} />}
       </div>
       {warn && <div className="de-warn-note">⚠ {warn}</div>}
 
@@ -636,7 +699,7 @@ function GroupDetail({
       <div className="de-subhead">Wired into {linksTouching.length ? `(${linksTouching.length})` : ''}</div>
       {linksTouching.length === 0 && <div className="de-muted">No links use this group — its cards get no edges from it.</div>}
       {linksTouching.map(l => (
-        <button key={l.label} className="de-wire" onClick={() => onSelectLink(l.label)}>
+        <UnstyledButton key={l.label} className="de-wire" onClick={() => onSelectLink(l.label)}>
           <span className="dm-swatch" style={{ background: ruleColor(linkIndex[l.label] ?? 0) }} />
           <span className="de-wire-label">{l.label}</span>
           <span className="de-wire-ends">
@@ -648,14 +711,14 @@ function GroupDetail({
               </span>
             ))}
           </span>
-        </button>
+        </UnstyledButton>
       ))}
 
       <div className="de-subhead">Members</div>
       {members.length === 0 && <div className="de-muted">No cards match these conditions.</div>}
       <div className="de-roster" onMouseLeave={() => onHoverCard('')}>
         {members.map(name => (
-          <button
+          <UnstyledButton
             key={name} className="de-member"
             onClick={() => onFocusCard(name)}
             onMouseEnter={() => onHoverCard(name)}
@@ -670,11 +733,13 @@ function GroupDetail({
               </span>
             }
             <code className="de-member-cond">{memberConds(name).join(' · ')}</code>
-            <span
-              className="de-member-x" title="Exclude from this group"
-              onClick={e => { e.stopPropagation(); onExclude(name) }}
-            >×</span>
-          </button>
+            {canEdit &&
+              <span
+                className="de-member-x" title="Exclude from this group"
+                onClick={e => { e.stopPropagation(); onExclude(name) }}
+              >×</span>
+            }
+          </UnstyledButton>
         ))}
       </div>
 
@@ -682,7 +747,7 @@ function GroupDetail({
         <div className="de-subhead">Excluded ({excluded.length})</div>
         <div className="de-roster" onMouseLeave={() => onHoverCard('')}>
           {excluded.map(name => (
-            <button
+            <UnstyledButton
               key={name} className="de-member de-member-excluded"
               onClick={() => onFocusCard(name)}
               onMouseEnter={() => onHoverCard(name)}
@@ -692,15 +757,37 @@ function GroupDetail({
               <span className="de-pips">{ColorImages(nodeByName[name]?.colors)}</span>
               <span className="de-member-name">{name}</span>
               <span className="de-excluded-tag">excluded</span>
-              <span
-                className="de-member-x" title="Restore to this group"
-                onClick={e => { e.stopPropagation(); onRestore(name) }}
-              >↺</span>
-            </button>
+              {canEdit &&
+                <span
+                  className="de-member-x" title="Restore to this group"
+                  onClick={e => { e.stopPropagation(); onRestore(name) }}
+                >↺</span>
+              }
+            </UnstyledButton>
           ))}
         </div>
       </>}
     </div>
+  )
+}
+
+// EditActions are the Edit and Delete buttons on a group or link. Delete asks
+// once more before it saves.
+function EditActions({ confirming, setConfirming, onEdit, onDelete }) {
+  if (confirming) {
+    return (
+      <span className="de-pane-actions">
+        <Button size="xs" color="red" variant="light" onClick={onDelete}>Confirm delete</Button>
+        <Button size="xs" variant="default" onClick={() => setConfirming(false)}>Keep</Button>
+      </span>
+    )
+  }
+
+  return (
+    <span className="de-pane-actions">
+      <Button size="xs" variant="default" onClick={onEdit}>Edit</Button>
+      <Button size="xs" color="red" variant="light" onClick={() => setConfirming(true)}>Delete</Button>
+    </span>
   )
 }
 
@@ -711,7 +798,7 @@ function Emph({ me, name }) {
 
 // LinkDetail shows one link as a wiring diagram: source groups on the left,
 // target groups on the right, one thread per declared wire pair.
-function LinkDetail({ link, color, edgeCount, groupIndex, groupCards, warn, onEdit, onDelete, onSelectGroup, onFocusCard }) {
+function LinkDetail({ link, color, edgeCount, groupIndex, groupCards, warn, canEdit, onEdit, onDelete, onSelectGroup, onFocusCard }) {
   const [confirming, setConfirming] = useState(false)
   const chip = (name) => {
     // A card: ref is a single-card end. Known iff the pseudo-group resolved it.
@@ -755,14 +842,7 @@ function LinkDetail({ link, color, edgeCount, groupIndex, groupCards, warn, onEd
         <span className="dm-swatch dm-swatch-lg" style={{ background: color }} />
         <h3 className="de-pane-title">{link.label}</h3>
         <span className="de-pane-sub">{edgeCount} card edge{edgeCount === 1 ? '' : 's'}</span>
-        <span className="de-pane-actions">
-          <button className="de-btn" onClick={onEdit}>Edit</button>
-          {!confirming && <button className="de-btn de-btn-danger" onClick={() => setConfirming(true)}>Delete</button>}
-          {confirming && <>
-            <button className="de-btn de-btn-danger" onClick={onDelete}>Confirm delete</button>
-            <button className="de-btn" onClick={() => setConfirming(false)}>Keep</button>
-          </>}
-        </span>
+        {canEdit && <EditActions confirming={confirming} setConfirming={setConfirming} onEdit={onEdit} onDelete={onDelete} />}
       </div>
       {warn && <div className="de-warn-note">⚠ {warn}</div>}
 
@@ -779,7 +859,7 @@ function LinkDetail({ link, color, edgeCount, groupIndex, groupCards, warn, onEd
 // flank a loom of the group-to-group bridges that connect them, colored by rule.
 function CompareDetail({
   focal, vs, between, nodeByName, cardGroups, groupIndex, linkIndex,
-  onSelectGroup, onSelectLink, onEditLink, onSwap, onClear,
+  canEdit, onSelectGroup, onSelectLink, onEditLink, onSwap, onClear,
 }) {
   const chipFor = (name) => {
     // Direct card: refs render as the card name, with no group to select.
@@ -807,8 +887,8 @@ function CompareDetail({
         <h3 className="de-pane-title">Compare</h3>
         <span className="de-pane-sub">{between.length} link{between.length === 1 ? '' : 's'} between</span>
         <span className="de-pane-actions">
-          <button className="de-btn" onClick={onSwap}>⇄ Swap</button>
-          <button className="de-btn" onClick={onClear}>Clear</button>
+          <Button size="xs" variant="default" onClick={onSwap}>⇄ Swap</Button>
+          <Button size="xs" variant="default" onClick={onClear}>Clear</Button>
         </span>
       </div>
 
@@ -829,11 +909,13 @@ function CompareDetail({
 
       {between.map(r => (
         <div key={r.label} className="de-linkgroup">
-          <button className="de-wire" onClick={() => onSelectLink(r.label)}>
+          <UnstyledButton className="de-wire" onClick={() => onSelectLink(r.label)}>
             <span className="dm-swatch" style={{ background: ruleColor(linkIndex[r.label] ?? 0) }} />
             <span className="de-wire-label">{r.label}</span>
-            <span className="de-edit-hint" onClick={e => { e.stopPropagation(); onEditLink(r.label) }}>edit ▸</span>
-          </button>
+            {canEdit &&
+              <span className="de-edit-hint" onClick={e => { e.stopPropagation(); onEditLink(r.label) }}>edit ▸</span>
+            }
+          </UnstyledButton>
           {r.bridges.map((b, i) => (
             <div key={i} className="de-why">
               <span className="de-why-group">{cardRefName(b.focusGroup) ? <em>direct</em> : b.focusGroup}</span>
@@ -865,12 +947,12 @@ function AuditBoard({
         </span>
       </div>
 
-      <button className="de-review-cta" onClick={onReview}>
+      <UnstyledButton className="de-review-cta" onClick={onReview}>
         <span className="de-review-cta-icon">»</span>
         <span>
           <b>Card-by-card review</b> — step through every card with <kbd>←</kbd> <kbd>→</kbd> and check its groups
         </span>
-      </button>
+      </UnstyledButton>
 
       <AuditSection
         title="Empty groups" count={audit.emptyGroups.length}
@@ -878,9 +960,9 @@ function AuditBoard({
         okMsg="Every group matches at least one card."
       >
         {audit.emptyGroups.map(n => (
-          <button key={n} className="de-chip" onClick={() => onSelectGroup(n)}>
-            <span className="dm-swatch" style={{ background: ruleColor(groupIndex[n] ?? 0) }} />{n}
-          </button>
+          <ChipButton key={n} lead={<span className="dm-swatch" style={{ background: ruleColor(groupIndex[n] ?? 0) }} />} onClick={() => onSelectGroup(n)}>
+            {n}
+          </ChipButton>
         ))}
       </AuditSection>
 
@@ -890,9 +972,9 @@ function AuditBoard({
         okMsg="Every group is wired into at least one link."
       >
         {audit.unlinkedGroups.map(n => (
-          <button key={n} className="de-chip" onClick={() => onSelectGroup(n)}>
-            <span className="dm-swatch" style={{ background: ruleColor(groupIndex[n] ?? 0) }} />{n}
-          </button>
+          <ChipButton key={n} lead={<span className="dm-swatch" style={{ background: ruleColor(groupIndex[n] ?? 0) }} />} onClick={() => onSelectGroup(n)}>
+            {n}
+          </ChipButton>
         ))}
       </AuditSection>
 
@@ -902,11 +984,10 @@ function AuditBoard({
         okMsg="Every wire has valid sources and targets."
       >
         {audit.brokenLinks.map(b => (
-          <button key={b.label} className="de-chip" onClick={() => onSelectLink(b.label)}>
-            <span className="dm-swatch" style={{ background: ruleColor(linkIndex[b.label] ?? 0) }} />
+          <ChipButton key={b.label} lead={<span className="dm-swatch" style={{ background: ruleColor(linkIndex[b.label] ?? 0) }} />} onClick={() => onSelectLink(b.label)}>
             {b.label}
             <span className="de-chip-sub">{b.missing.length ? `missing: ${b.missing.join(', ')}` : 'empty wire side'}</span>
-          </button>
+          </ChipButton>
         ))}
       </AuditSection>
 
@@ -916,11 +997,10 @@ function AuditBoard({
         okMsg="Every excluded card name exists in the cube."
       >
         {audit.staleExcludes.map(s => (
-          <button key={s.group + '>' + s.name} className="de-chip" onClick={() => onSelectGroup(s.group)}>
-            <span className="dm-swatch" style={{ background: ruleColor(groupIndex[s.group] ?? 0) }} />
+          <ChipButton key={s.group + '>' + s.name} lead={<span className="dm-swatch" style={{ background: ruleColor(groupIndex[s.group] ?? 0) }} />} onClick={() => onSelectGroup(s.group)}>
             {s.group}
             <span className="de-chip-sub">excludes: {s.name}</span>
-          </button>
+          </ChipButton>
         ))}
       </AuditSection>
 
@@ -932,11 +1012,10 @@ function AuditBoard({
         okMsg="No two links wire the same pair of groups."
       >
         {audit.duplicatePairs.flatMap(d => d.labels.map(label => (
-          <button key={d.key + '>' + label} className="de-chip" onClick={() => onSelectLink(label)}>
-            <span className="dm-swatch" style={{ background: ruleColor(linkIndex[label] ?? 0) }} />
+          <ChipButton key={d.key + '>' + label} lead={<span className="dm-swatch" style={{ background: ruleColor(linkIndex[label] ?? 0) }} />} onClick={() => onSelectLink(label)}>
             {label}
             <span className="de-chip-sub">{d.groups[0]} ↔ {d.groups[1]}</span>
-          </button>
+          </ChipButton>
         )))}
       </AuditSection>
 
@@ -946,11 +1025,10 @@ function AuditBoard({
         okMsg="No two groups share most of their members."
       >
         {audit.similarGroups.flatMap(s => [s.a, s.b].map(name => (
-          <button key={s.a + '>' + s.b + '>' + name} className="de-chip" onClick={() => onSelectGroup(name)}>
-            <span className="dm-swatch" style={{ background: ruleColor(groupIndex[name] ?? 0) }} />
+          <ChipButton key={s.a + '>' + s.b + '>' + name} lead={<span className="dm-swatch" style={{ background: ruleColor(groupIndex[name] ?? 0) }} />} onClick={() => onSelectGroup(name)}>
             {name}
             <span className="de-chip-sub">{s.pct}% same as {name === s.a ? s.b : s.a}</span>
-          </button>
+          </ChipButton>
         )))}
       </AuditSection>
 
@@ -960,14 +1038,14 @@ function AuditBoard({
         okMsg="Every card is in at least one group."
       >
         {(audit.ungroupedCards || []).map(n => (
-          <button
-            key={n} className="de-chip"
+          <ChipButton
+            key={n} lead={<span className="de-pips">{ColorImages(nodeByName[n]?.colors)}</span>}
             onClick={() => onFocusCard(n)}
             onMouseEnter={() => onHoverCard(n)} onMouseLeave={() => onHoverCard('')}
             onFocus={() => onHoverCard(n)} onBlur={() => onHoverCard('')}
           >
-            <span className="de-pips">{ColorImages(nodeByName[n]?.colors)}</span>{n}
-          </button>
+            {n}
+          </ChipButton>
         ))}
       </AuditSection>
 
@@ -977,14 +1055,14 @@ function AuditBoard({
         okMsg="Every grouped card has at least one edge."
       >
         {(audit.isolatedCards || []).map(n => (
-          <button
-            key={n} className="de-chip"
+          <ChipButton
+            key={n} lead={<span className="de-pips">{ColorImages(nodeByName[n]?.colors)}</span>}
             onClick={() => onFocusCard(n)}
             onMouseEnter={() => onHoverCard(n)} onMouseLeave={() => onHoverCard('')}
             onFocus={() => onHoverCard(n)} onBlur={() => onHoverCard('')}
           >
-            <span className="de-pips">{ColorImages(nodeByName[n]?.colors)}</span>{n}
-          </button>
+            {n}
+          </ChipButton>
         ))}
       </AuditSection>
     </div>
@@ -996,17 +1074,27 @@ function AuditSection({ title, count, blurb, okMsg, children }) {
   const ok = count === 0
   return (
     <section className="de-audit-section">
-      <button className="de-audit-head" onClick={() => setOpen(o => !o)} aria-expanded={open}>
+      <UnstyledButton className="de-audit-head" onClick={() => setOpen(o => !o)} aria-expanded={open}>
         <span className={'de-audit-mark' + (ok ? ' de-audit-ok' : '')}>{ok ? '✓' : count ?? '…'}</span>
         <span className="de-audit-title">{title}</span>
         <span className="de-audit-caret">{open ? '▾' : '▸'}</span>
-      </button>
+      </UnstyledButton>
       {open && <>
         <p className="de-audit-blurb">{ok ? okMsg : blurb}</p>
         {count === null && <div className="de-muted">Measuring memberships…</div>}
         {!ok && count !== null && <div className="de-chips">{children}</div>}
       </>}
     </section>
+  )
+}
+
+// ChipButton is one small clickable item in an audit list or link summary: lead
+// is the color swatch or mana pips in front of the label.
+function ChipButton({ lead, children, ...buttonProps }) {
+  return (
+    <Button size="compact-xs" variant="light" className="de-chip" leftSection={lead} {...buttonProps}>
+      {children}
+    </Button>
   )
 }
 
@@ -1058,8 +1146,8 @@ function ReviewDetail({
           <span className="de-review-jump">
             <CardSearch key={card} value="" onPick={(n) => n && onGo(n)} names={names} placeholder="Jump to card…" />
           </span>
-          <button className="de-btn" onClick={() => go(-1)} disabled={idx === 0}>← Prev</button>
-          <button className="de-btn" onClick={() => go(1)} disabled={idx === names.length - 1}>Next →</button>
+          <Button size="xs" variant="default" onClick={() => go(-1)} disabled={idx === 0}>← Prev</Button>
+          <Button size="xs" variant="default" onClick={() => go(1)} disabled={idx === names.length - 1}>Next →</Button>
         </span>
       </div>
       <div className="de-review-progress">
@@ -1079,22 +1167,21 @@ function ReviewDetail({
           <div className="de-subhead">In groups {memberships.length ? `(${memberships.length})` : ''}</div>
           {membershipsLoading && <div className="de-muted">Measuring…</div>}
           {memberships.map(m => (
-            <button key={m.group} className="de-review-group" onClick={() => onSelectGroup(m.group)}
+            <UnstyledButton key={m.group} className="de-review-group" onClick={() => onSelectGroup(m.group)}
               style={{ boxShadow: `inset 3px 0 0 ${ruleColor(groupIndex[m.group] ?? 0)}` }}>
               <span className="de-review-group-name">{m.group}</span>
               <code className="de-conds">{(m.conds || []).join(' · ')}</code>
-            </button>
+            </UnstyledButton>
           ))}
 
           <div className="de-subhead">Linked cards {neighbors.length ? `(${new Set(neighbors.map(n => n.name)).size})` : ''}</div>
           {!membershipsLoading && ruleCounts.length === 0 && !ungrouped && <div className="de-muted">No links from this card.</div>}
           <div className="de-chips de-review-rules">
             {ruleCounts.map(([label, count]) => (
-              <button key={label} className="de-chip" onClick={() => onSelectLink(label)}>
-                <span className="dm-swatch" style={{ background: ruleColor(linkIndex[label] ?? 0) }} />
+              <ChipButton key={label} lead={<span className="dm-swatch" style={{ background: ruleColor(linkIndex[label] ?? 0) }} />} onClick={() => onSelectLink(label)}>
                 {label}
                 <span className="de-chip-count">{count}</span>
-              </button>
+              </ChipButton>
             ))}
           </div>
         </div>
@@ -1146,16 +1233,16 @@ function CardLens({
           {membershipsLoading && <div className="de-muted">Measuring…</div>}
           {!membershipsLoading && memberships.length === 0 && <div className="de-muted">Not in any group.</div>}
           {memberships.map(m => (
-            <button key={m.group} className="de-lens-group" onClick={() => onSelectGroup(m.group)}
+            <UnstyledButton key={m.group} className="de-lens-group" onClick={() => onSelectGroup(m.group)}
               style={{ boxShadow: `inset 3px 0 0 ${ruleColor(groupIndex[m.group] ?? 0)}` }}>
               <span className="de-lens-group-name">{m.group}</span>
               <code className="de-conds">{(m.conds || []).join(' · ')}</code>
-            </button>
+            </UnstyledButton>
           ))}
 
           <div className="de-subhead">Compare</div>
           <CardSearch value={vs} onPick={onPickVs} names={names} placeholder="Compare with another card…" />
-          {focal && vs && <button className="de-btn de-compare-btn" onClick={onCompare}>View links between ⇄</button>}
+          {focal && vs && <Button size="xs" variant="default" fullWidth className="de-compare-btn" onClick={onCompare}>View links between ⇄</Button>}
         </div>
 
         <div className="de-lens-col de-lens-col-links">
@@ -1164,14 +1251,14 @@ function CardLens({
           <div className="de-lens-links" onMouseLeave={() => onHoverCard('')}>
             {byLabel.map(([label, cards]) => (
               <div key={label} className="de-lens-rule" style={{ borderLeft: `3px solid ${ruleColor(linkIndex[label] ?? 0)}` }}>
-                <button className="de-lens-rule-label" onClick={() => onSelectLink(label)}>{label}</button>
+                <UnstyledButton className="de-lens-rule-label" onClick={() => onSelectLink(label)}>{label}</UnstyledButton>
                 {cards.map(c => (
-                  <button
+                  <UnstyledButton
                     key={c} className="de-lens-linked"
                     onClick={() => onPickVs(c)}
                     onMouseEnter={() => onHoverCard(c)} onFocus={() => onHoverCard(c)}
                     title="Compare with this card"
-                  >{c}</button>
+                  >{c}</UnstyledButton>
                 ))}
               </div>
             ))}
@@ -1216,7 +1303,10 @@ function Loom({ left, right, threads }) {
   }, [depKey])
 
   const chipEl = (side) => (c) => {
-    const Tag = c.onClick ? 'button' : 'span'
+    let Tag = 'span'
+    if (c.onClick) {
+      Tag = UnstyledButton
+    }
     return (
       <Tag
         key={c.key} className="de-loom-chip" onClick={c.onClick}
@@ -1240,26 +1330,28 @@ function Loom({ left, right, threads }) {
   )
 }
 
-// CardSearch is a name-autocomplete input backed by the shared <datalist>. It only
-// commits a pick when the typed text exactly matches a known card (so partial typing
-// doesn't write junk to the URL); clearing the box clears the selection.
+// CardSearch is a card-name autocomplete. It only commits a pick when the typed
+// text exactly matches a known card (so partial typing doesn't write junk to the
+// URL); clearing the box clears the selection.
 function CardSearch({ value, onPick, names, placeholder }) {
   const [text, setText] = useState(value || '')
   const nameSet = useMemo(() => new Set(names), [names])
   useEffect(() => { setText(value || '') }, [value])
+
+  function onChange(typed) {
+    setText(typed)
+    if (typed === '') {
+      onPick('')
+    } else if (nameSet.has(typed)) {
+      onPick(typed)
+    }
+  }
+
   return (
-    <input
-      className="de-search"
-      list="de-card-names"
-      placeholder={placeholder}
-      value={text}
-      onChange={(e) => {
-        const v = e.target.value
-        setText(v)
-        if (v === '') onPick('')
-        else if (nameSet.has(v)) onPick(v)
-      }}
-      spellCheck={false}
+    <Autocomplete
+      className="de-card-search" size="xs" data={names} limit={20}
+      placeholder={placeholder} aria-label={placeholder}
+      value={text} onChange={onChange} spellCheck={false}
     />
   )
 }

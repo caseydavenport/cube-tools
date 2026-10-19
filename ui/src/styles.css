@@ -2124,13 +2124,8 @@ table {
 .de-pips { display: inline-flex; flex-shrink: 0; flex-wrap: nowrap; }
 .de-pips .mana-symbol { width: 16px; height: 16px; }
 
-.de-search {
-  width: 100%; box-sizing: border-box;
-  background: var(--page-background); color: var(--white);
-  border: 1px solid var(--border); border-radius: 8px;
-  padding: 0.5rem 0.7rem; font-size: 0.9rem; font-family: inherit;
-}
-.de-search:focus { outline: none; border-color: var(--primary); }
+.de-readonly { margin: 1.25rem 1.5rem 0; }
+.de-view-label { display: inline-flex; align-items: center; gap: 0.35rem; }
 
 .de-subhead {
   font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;
@@ -2144,7 +2139,6 @@ table {
   background: var(--card-background); border: 1px solid var(--border); border-radius: 10px;
   padding: 0.75rem; display: flex; flex-direction: column;
 }
-.de-reg-pinned { display: flex; flex-direction: column; gap: 2px; margin-top: 0.6rem; }
 .de-reg-head {
   display: flex; align-items: center; gap: 0.4rem;
   font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;
@@ -2154,12 +2148,6 @@ table {
 .de-reg-head { cursor: pointer; user-select: none; }
 .de-reg-caret { font-size: 0.65rem; }
 .de-reg-count { margin-left: auto; font-weight: 500; font-variant-numeric: tabular-nums; }
-.de-add {
-  width: 20px; height: 20px; line-height: 1; border-radius: 6px; cursor: pointer;
-  border: 1px solid var(--border); background: var(--table-header-background);
-  color: var(--white); font-size: 0.85rem; padding: 0;
-}
-.de-add:hover { background: var(--table-row-hover); }
 .de-reg-list { display: flex; flex-direction: column; gap: 1px; }
 
 .de-row {
@@ -2168,9 +2156,15 @@ table {
   padding: 0.3rem 0.5rem; color: var(--white); font-family: inherit; font-size: 0.85rem;
   text-align: left;
 }
-.de-row:hover { background: var(--table-row-hover); }
-.de-row-active { background: var(--highlight); }
-.de-row-icon { width: 14px; text-align: center; color: var(--text-muted); flex-shrink: 0; }
+.de-row:not([data-active]):hover { background: var(--table-row-hover); }
+
+/* The selected row matches the sidebar's selected page: primary-colored text
+   on a light tint of the primary color. */
+.de-row[data-active] {
+  color: var(--mantine-primary-color-filled);
+  background: var(--mantine-primary-color-light);
+}
+.de-row[data-active] .de-row-name { font-weight: 600; }
 .de-row-name {
   flex: 1 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
   font-weight: 500;
@@ -2196,14 +2190,6 @@ table {
 .de-pane-title { margin: 0; font-size: 1.15rem; }
 .de-pane-sub { color: var(--text-muted); font-size: 0.82rem; }
 .de-pane-actions { margin-left: auto; display: flex; gap: 0.4rem; }
-.de-btn {
-  border: 1px solid var(--border); background: var(--table-header-background);
-  color: var(--white); border-radius: 8px; padding: 0.3rem 0.7rem;
-  font-size: 0.8rem; font-weight: 600; cursor: pointer; font-family: inherit;
-}
-.de-btn:hover { background: var(--table-row-hover); }
-.de-btn-danger { color: var(--danger); border-color: #f8717155; }
-.de-btn-danger:hover { background: #f8717122; }
 .de-warn-note {
   color: var(--warn); background: #fbbf2411; border: 1px solid #fbbf2433;
   border-radius: 8px; padding: 0.45rem 0.7rem; font-size: 0.85rem; margin-top: 0.6rem;
@@ -2375,13 +2361,7 @@ button.de-loom-chip:hover { border-color: var(--primary); }
   display: flex; flex-wrap: wrap; gap: 0.35rem; margin-left: 2.3rem;
   max-height: 240px; overflow-y: auto;
 }
-.de-chip {
-  display: inline-flex; align-items: center; gap: 0.4rem;
-  background: var(--page-background); border: 1px solid var(--border);
-  border-radius: 999px; padding: 0.22rem 0.7rem; color: var(--white);
-  font-family: inherit; font-size: 0.8rem; font-weight: 500; cursor: pointer;
-}
-.de-chip:hover { border-color: var(--primary); }
+.de-chip .mantine-Button-label { gap: 0.4rem; }
 .de-chip-sub { color: var(--danger); font-size: 0.72rem; }
 
 /* --- Card lens (right rail) --- */
@@ -2436,7 +2416,7 @@ button.de-loom-chip:hover { border-color: var(--primary); }
 }
 .de-review-cta:hover { background: #38bdf822; }
 .de-page-review { grid-template-columns: 250px minmax(0, 1fr); }
-.de-review-jump .de-search { width: 200px; margin: 0; }
+.de-review-jump .de-card-search { width: 200px; }
 .de-review-cta-icon { color: var(--primary); font-size: 1.1rem; font-weight: 700; }
 .de-review-progress {
   height: 6px; border-radius: 999px; background: var(--page-background);
@@ -2468,8 +2448,6 @@ button.de-loom-chip:hover { border-color: var(--primary); }
   background: var(--page-background); border: 1px solid var(--border);
   border-bottom-width: 2px; border-radius: 4px; padding: 0.05rem 0.35rem;
 }
-.de-btn:disabled { opacity: 0.4; cursor: default; }
-.de-btn:disabled:hover { background: var(--table-header-background); }
 @media (max-width: 700px) { .de-review { grid-template-columns: 1fr; } .de-review-img { max-width: 230px; } }
 
 /* Status toast */
