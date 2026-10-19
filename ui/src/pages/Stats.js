@@ -36,6 +36,7 @@ const COPY = {
   decks: "decks",
   players: "players",
   colorStats: "Color stats",
+  noHealthData: "No health data",
 
   allTime: "All time",
   last12Months: "Last 12 months",
@@ -238,6 +239,7 @@ export function StatsViewer(props) {
     widget = (
       <HealthWidget
         info={info}
+        copy={COPY}
         show={true} healthData={healthData} bucketSize={bucketSize}
       />
     )

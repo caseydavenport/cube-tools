@@ -58,3 +58,47 @@
     grid-template-columns: minmax(0, 1fr);
   }
 }
+
+/* The Synergy page: two blocks side by side, stacked on narrow screens. */
+.synergy-container > * + * {
+  margin-top: 16px;
+}
+
+.synergy-pair-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 24px;
+  align-items: start;
+}
+
+/* Two hub charts with the selected card's details between them. */
+.synergy-hub-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  gap: 24px;
+  align-items: start;
+}
+
+@media (max-width: 62em) {
+  .synergy-pair-grid,
+  .synergy-hub-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* The Health page: two charts to a row, one on narrow screens. */
+.health-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 32px;
+}
+
+.health-chart {
+  height: 500px;
+}
+
+@media (max-width: 62em) {
+  .health-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

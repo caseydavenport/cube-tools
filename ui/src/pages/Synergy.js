@@ -1,27 +1,37 @@
 import React, { useRef, useEffect, useCallback, useState } from 'react'
+import { useComputedColorScheme } from "@mantine/core"
 import { SortFunc } from "../utils/Utils.js"
 import { NumericInput, Checkbox, DropdownHeader } from "../components/Dropdown.js"
 import { HoverInfo } from "../components/kit/HoverInfo.js"
+import { SectionCard } from "../components/kit/SectionCard.js"
+import { hasData, visibleItems } from "../utils/dataKinds.js"
 import { White, Blue, Black, Red, Green } from "../utils/Colors.js"
 import { Scatter } from 'react-chartjs-2';
 import { Chart as ChartJS, LinearScale, PointElement, Tooltip, Legend, Title } from 'chart.js';
-import { currentChartTheme, withAlpha } from "../theme/chartTheme.js"
+import { currentChartTheme, seriesColor, withAlpha } from "../theme/chartTheme.js"
 
 ChartJS.register(LinearScale, PointElement, Tooltip, Legend, Title);
 
 // Display color for a card based on its MTG color identity. Shared by the
-// network graph and the popularity/synergy scatter.
+// network graph and the popularity/synergy scatter. Colorless is muted and
+// multicolor is the series palette's gold.
 function cardDisplayColor(colors) {
-  if (!colors || colors.length === 0) return "#aaa"; // colorless
-  if (colors.length > 1) return "#daa520"; // multicolor gold
+  if (!colors || colors.length === 0) return currentChartTheme().muted;
+  if (colors.length > 1) return seriesColor(2);
   switch (colors[0]) {
     case "W": return White;
     case "U": return Blue;
     case "B": return Black;
     case "R": return Red;
     case "G": return Green;
-    default: return "#aaa";
+    default: return currentChartTheme().muted;
   }
+}
+
+// pointOutline is the thin ring around scatter points, drawn in a faint text
+// color so points stand apart on either background.
+function pointOutline() {
+  return withAlpha(currentChartTheme().text, 0.4);
 }
 
 // colorsFromMatch pulls the color letters out of the global deck filter, so a
@@ -50,14 +60,18 @@ function cardInColors(colors, colorSet) {
 }
 
 export function SynergyWidget(input) {
+  // Reading the color scheme re-renders the page when it changes, so the chart
+  // colors computed below follow light and dark mode.
+  useComputedColorScheme("light")
+
   if (!input.show) {
     return null
   }
 
   return (
-    <div className="synergy-container" style={{"padding": "1rem"}}>
+    <div className="synergy-container">
       <SynergyWidgetOptions {...input} />
-      <div style={{"marginTop": "1rem", "display": "grid", "gridTemplateColumns": "1fr 1fr", "gap": "2rem", "alignItems": "start"}}>
+      <div className="synergy-pair-grid synergy-charts">
         <SynergyNetworkGraph
           synergyData={input.synergyData}
           cube={input.cube}
@@ -71,24 +85,40 @@ export function SynergyWidget(input) {
           onCardSelected={input.onCardSelected}
         />
       </div>
-      <div style={{"marginTop": "1rem"}}>
+      <div className="synergy-block">
         <SynergyHubCompare
           synergyData={input.synergyData}
           cube={input.cube}
           onCardSelected={input.onCardSelected}
         />
       </div>
-      <div className="synergy-grid" style={{"marginTop": "1rem", "display": "grid", "gridTemplateColumns": "1fr 1fr", "gap": "2rem"}}>
-        <SynergyWidgetTable {...input} />
-        <FocalPointsTable {...input} />
+      <div className="synergy-pair-grid synergy-tables">
+        <SectionCard title="Synergistic Pairs">
+          <SynergyWidgetTable {...input} />
+        </SectionCard>
+        <SectionCard title="Archetype Focal Points">
+          <FocalPointsTable {...input} />
+        </SectionCard>
       </div>
-      <SynergyFocalCompare
-        synergyCompare={input.synergyCompare}
-        cube={input.cube}
-        onCardSelected={input.onCardSelected}
-      />
+      <FocalCompare {...input} />
     </div>
   );
+}
+
+// FocalCompare compares build-around strength in winning and losing decks, so
+// it needs match results.
+function FocalCompare(input) {
+  if (!hasData(input.info, "results")) {
+    return null
+  }
+
+  return (
+    <SynergyFocalCompare
+      synergyCompare={input.synergyCompare}
+      cube={input.cube}
+      onCardSelected={input.onCardSelected}
+    />
+  )
 }
 
 function OptionTooltip({ id, header, tip, children }) {
@@ -148,16 +178,28 @@ function SynergyWidgetOptions(input) {
             onChange={input.onColorAdjustChanged}
           />
         </OptionTooltip>
-        <OptionTooltip id="tip-record" header="Deck Record" tip="Restrict the source decks by match record. 'Winning' keeps decks that went 2-1 or better, 'losing' keeps 1-2 or worse. Compare the two to see which cards rise or fall between winning and losing decks.">
-          <DropdownHeader
-            label="Record"
-            value={input.record}
-            options={[{ label: "All decks", value: "all" }, { label: "Winning (2-1+)", value: "winning" }, { label: "Losing (1-2-)", value: "losing" }]}
-            onChange={input.onRecordChanged}
-          />
-        </OptionTooltip>
+        <RecordOption {...input} />
       </div>
     </div>
+  );
+}
+
+// RecordOption narrows the source decks to winning or losing records. Cubes
+// without match results have no records to narrow by, so it's left out.
+function RecordOption(input) {
+  if (!hasData(input.info, "results")) {
+    return null
+  }
+
+  return (
+    <OptionTooltip id="tip-record" header="Deck Record" tip="Restrict the source decks by match record. 'Winning' keeps decks that went 2-1 or better, 'losing' keeps 1-2 or worse. Compare the two to see which cards rise or fall between winning and losing decks.">
+      <DropdownHeader
+        label="Record"
+        value={input.record}
+        options={[{ label: "All decks", value: "all" }, { label: "Winning (2-1+)", value: "winning" }, { label: "Losing (1-2-)", value: "losing" }]}
+        onChange={input.onRecordChanged}
+      />
+    </OptionTooltip>
   );
 }
 
@@ -175,20 +217,20 @@ function sortValue(sortBy, pair) {
 
 function SynergyWidgetTable(input) {
   let pairs = input.synergyData.pairs || []
-  let headers = [
+  let headers = visibleItems([
     { id: "card1", text: "Card 1", tip: "First card in pair." },
     { id: "card2", text: "Card 2", tip: "Second card in pair." },
-    { id: "winpercent", text: "Win %", tip: "Aggregate win % of decks with both." },
+    { id: "winpercent", text: "Win %", tip: "Aggregate win % of decks with both.", needs: ["results"] },
     { id: "count", text: "#", tip: "Number of decks." },
     { id: "synergy", text: "Syn", tip: "Lift score. >1 = appears together more than expected." },
     { id: "saturation", text: "Sat", tip: "Realized fraction: how many of the rarer card's decks this pair filled (count / min plays of the two cards). High = the pair is near its co-occurrence ceiling; low = headroom left." },
-  ]
+  ], input.info)
+  const showWinPercent = hasData(input.info, "results")
 
   return (
     <div className="widget-scroll">
       <table className="widget-table">
         <thead className="table-header">
-          <tr><td colSpan="6" className="header-cell" style={{"textAlign": "center", "fontWeight": "bold", "background": "var(--primary)", "color": "var(--page-background)"}}>Synergistic Pairs</td></tr>
           <tr>
           {headers.map((hdr, i) => (
             <HoverInfo key={i} title={hdr.text} info={hdr.tip}>
@@ -202,7 +244,7 @@ function SynergyWidgetTable(input) {
             <tr className="widget-table-row" sort={sortValue(input.sortBy, pair)} key={i}>
               <td id={pair.card1} onClick={input.onCardSelected}>{pair.card1}</td>
               <td id={pair.card2} onClick={input.onCardSelected}>{pair.card2}</td>
-              <td>{pair.win_percent.toFixed(0)}%</td>
+              <WinPercentCell pair={pair} show={showWinPercent} />
               <td>{pair.count}</td>
               <td>{pair.synergy_score.toFixed(2)}x</td>
               <td>{pair.saturation != null ? `${Math.round(pair.saturation * 100)}%` : ""}</td>
@@ -212,6 +254,14 @@ function SynergyWidgetTable(input) {
       </table>
     </div>
   );
+}
+
+// WinPercentCell is a pair's win rate, left out on cubes without results.
+function WinPercentCell({ pair, show }) {
+  if (!show) {
+    return null
+  }
+  return <td>{pair.win_percent.toFixed(0)}%</td>
 }
 
 function FocalPointsTable(input) {
@@ -226,7 +276,6 @@ function FocalPointsTable(input) {
     <div className="widget-scroll">
       <table className="widget-table">
         <thead className="table-header">
-          <tr><td colSpan="3" className="header-cell" style={{"textAlign": "center", "fontWeight": "bold", "background": "var(--primary)", "color": "var(--page-background)"}}>Archetype Focal Points</td></tr>
           <tr>
             {headers.map((hdr, i) => (
               <HoverInfo key={i} title={hdr.text} info={hdr.tip}>
@@ -247,6 +296,18 @@ function FocalPointsTable(input) {
       </table>
     </div>
   );
+}
+
+// deltaTextColor colors a change: good when it rose, bad when it fell, muted
+// when it held still.
+function deltaTextColor(delta) {
+  if (delta > 0) {
+    return "var(--se-good)"
+  }
+  if (delta < 0) {
+    return "var(--se-bad)"
+  }
+  return "var(--text-muted)"
 }
 
 // SynergyFocalCompare shows how each card's focal score (build-around hub strength)
@@ -293,7 +354,7 @@ function SynergyFocalCompare({ synergyCompare, cube, onCardSelected }) {
       label: "Cards",
       data: points,
       pointBackgroundColor: points.map(p => cardDisplayColor(colorMap[p.name])),
-      pointBorderColor: "rgba(0,0,0,0.4)",
+      pointBorderColor: pointOutline(),
       pointRadius: 5,
       pointHoverRadius: 8,
     }],
@@ -376,7 +437,7 @@ function SynergyFocalCompare({ synergyCompare, cube, onCardSelected }) {
       <ChartTitle title="Focal Score: Winning vs Losing" description={
         "Each card's focal score (hub strength) in winning vs losing decks. Above the diagonal = bigger hub when winning, below = when losing. A point on an axis formed no synergy in that pool (itself signal), not absent from it. Sliced pools score lower, so drop the synergy min-decks slider to fill the comparison in. Hover for deck counts; click a card to select."
       } />
-      <div className="synergy-grid" style={{display: "grid", gridTemplateColumns: "1fr 1fr", gap: "2rem", alignItems: "start"}}>
+      <div className="synergy-pair-grid">
         <div style={{width: "min(600px, 100%)", aspectRatio: "1 / 1", margin: "0 auto"}}>
           <Scatter options={options} data={data} plugins={[diagonalLine]} />
         </div>
@@ -398,7 +459,7 @@ function SynergyFocalCompare({ synergyCompare, cube, onCardSelected }) {
                   <td onClick={onCardSelected} id={r.name}>{r.name}</td>
                   <td>{r.win.toFixed(2)}</td>
                   <td>{r.lose.toFixed(2)}</td>
-                  <td style={{color: r.delta > 0 ? "#7ad17a" : r.delta < 0 ? "#d17a7a" : "var(--text-muted)"}}>{r.delta >= 0 ? "+" : ""}{r.delta.toFixed(2)}</td>
+                  <td style={{color: deltaTextColor(r.delta)}}>{r.delta >= 0 ? "+" : ""}{r.delta.toFixed(2)}</td>
                 </tr>
               ))}
             </tbody>
@@ -542,7 +603,7 @@ function SynergyScatter({ synergyData, cube, matchStr, onCardSelected }) {
       // Below-floor cards (only shown in the fallback) render as hollow rings so
       // they read as context rather than as cards that cleared the noise floor.
       pointBackgroundColor: points.map(p => p.belowFloor ? "transparent" : cardDisplayColor(colorMap[p.name])),
-      pointBorderColor: points.map(p => p.belowFloor ? cardDisplayColor(colorMap[p.name]) : "rgba(0,0,0,0.4)"),
+      pointBorderColor: points.map(p => p.belowFloor ? cardDisplayColor(colorMap[p.name]) : pointOutline()),
       pointBorderWidth: points.map(p => p.belowFloor ? 1.5 : 1),
       pointRadius: points.map(p => p.belowFloor ? 4 : 5),
       pointHoverRadius: 8,
@@ -726,7 +787,7 @@ function SynergyHubCompare({ synergyData, cube, onCardSelected }) {
       <ChartTitle title="Synergy Hub vs Support" description={
         "Breadth (x, total synergy across all partners divided by the decks the card appeared in, so play count doesn't inflate it) vs depth (y, strongest single pair). Bottom-right = support glue (broad, no strong pair), top-right = true hub (broad and deep), top-left = niche build-around (one intense pair), bottom-left = incidental. Crosshairs mark the medians; click a point to see its details between the charts. Pick a color per chart to compare the shape of one color against another."
       } />
-      <div style={{display: "grid", gridTemplateColumns: "minmax(0,1fr) auto minmax(0,1fr)", gap: "1.5rem", alignItems: "start"}}>
+      <div className="synergy-hub-grid">
         <SynergyHubChart
           pool={pool}
           colorMap={colorMap}
@@ -760,15 +821,15 @@ function HubCardDetail({ point, colorMap }) {
     width: "240px",
     minHeight: "120px",
     padding: "0.75rem",
-    border: "1px solid rgba(255,255,255,0.15)",
+    border: "1px solid var(--se-border)",
     borderRadius: "6px",
-    background: "rgba(255,255,255,0.03)",
+    background: "var(--se-card)",
     fontSize: "0.85em",
   };
 
   if (!point) {
     return (
-      <div style={{...panel, color: "#888", textAlign: "center", display: "flex", alignItems: "center", justifyContent: "center"}}>
+      <div style={{...panel, color: "var(--se-muted)", textAlign: "center", display: "flex", alignItems: "center", justifyContent: "center"}}>
         Click a point for card details.
       </div>
     );
@@ -797,13 +858,13 @@ function HubCardDetail({ point, colorMap }) {
           {row("Decks", point.deckCount)}
         </tbody>
       </table>
-      <div style={{color: "var(--text-muted)", borderTop: "1px solid rgba(255,255,255,0.1)", paddingTop: "0.4rem", marginBottom: "0.3rem"}}>
+      <div style={{color: "var(--text-muted)", borderTop: "1px solid var(--se-border)", paddingTop: "0.4rem", marginBottom: "0.3rem"}}>
         Top partners <span style={{opacity: 0.7}}>(lift · saturation)</span>
       </div>
       <table style={{width: "100%"}}>
         <tbody>
           {point.topPartners.length === 0
-            ? <tr><td style={{color: "#888"}}>None above threshold</td></tr>
+            ? <tr><td style={{color: "var(--se-muted)"}}>None above threshold</td></tr>
             : point.topPartners.map((name, i) => (
               <tr key={name}>
                 <td style={{color: cardDisplayColor(colorMap[name]), paddingRight: "0.75rem"}}>{name}</td>
@@ -836,7 +897,7 @@ function SynergyHubChart({ pool, colorMap, scale, color, selectedName, onColorCh
       label: "Cards",
       data: points,
       pointBackgroundColor: points.map(p => cardDisplayColor(colorMap[p.name])),
-      pointBorderColor: points.map(p => isSelected(p) ? currentChartTheme().text : "rgba(0,0,0,0.4)"),
+      pointBorderColor: points.map(p => isSelected(p) ? currentChartTheme().text : pointOutline()),
       pointBorderWidth: points.map(p => isSelected(p) ? 3 : 1),
       pointRadius: points.map(p => isSelected(p) ? 8 : 5),
       pointHoverRadius: points.map(p => isSelected(p) ? 10 : 8),
@@ -907,10 +968,27 @@ function SynergyHubChart({ pool, colorMap, scale, color, selectedName, onColorCh
       <div style={{width: "min(500px, 100%)", aspectRatio: "1 / 1", margin: "0 auto"}}>
         {points.length > 0
           ? <Scatter options={options} data={data} plugins={[medianLines]} />
-          : <div style={{color: "#888", paddingTop: "2rem"}}>No cards in this color.</div>}
+          : <div style={{color: "var(--se-muted)", paddingTop: "2rem"}}>No cards in this color.</div>}
       </div>
     </div>
   );
+}
+
+// nodeFill is a network node's color, read at draw time so it follows the
+// scheme: its card's color identity for a hub, muted for a pulled-in partner.
+function nodeFill(node) {
+  if (!node.primary) {
+    return currentChartTheme().muted;
+  }
+  return cardDisplayColor(node.colors);
+}
+
+// nodeOutline rings the hovered node in the text color and the rest faintly.
+function nodeOutline(node, hovered) {
+  if (hovered === node.id) {
+    return currentChartTheme().text;
+  }
+  return withAlpha(currentChartTheme().text, 0.35);
 }
 
 function SynergyNetworkGraph({ synergyData, cube, matchStr, onCardSelected }) {
@@ -934,10 +1012,14 @@ function SynergyNetworkGraph({ synergyData, cube, matchStr, onCardSelected }) {
     return map;
   }, [cube]);
 
-  // Get a display color for a card based on its MTG colors.
-  function getNodeColor(colors) {
-    return cardDisplayColor(colors);
-  }
+  // Repaint with the new colors when the scheme changes. Only the drawing is
+  // redone, so the nodes stay where the layout put them.
+  const scheme = useComputedColorScheme("light");
+  useEffect(() => {
+    if (drawRef.current) {
+      drawRef.current();
+    }
+  }, [scheme]);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -998,7 +1080,7 @@ function SynergyNetworkGraph({ synergyData, cube, matchStr, onCardSelected }) {
         vy: 0,
         // Satellites get a small fixed dot; primaries scale with focal score.
         radius: def.primary ? Math.max(4, Math.min(14, 3 + def.focal * 0.5)) : 3.5,
-        color: def.primary ? getNodeColor(colorMap[def.name]) : "#666",
+        colors: colorMap[def.name],
         primary: def.primary,
         focalScore: def.focal,
         peak: peakByName[def.name] || 0,
@@ -1064,7 +1146,7 @@ function SynergyNetworkGraph({ synergyData, cube, matchStr, onCardSelected }) {
         ctx.beginPath();
         ctx.moveTo(s.x, s.y);
         ctx.lineTo(t.x, t.y);
-        ctx.strokeStyle = `rgba(90, 200, 120, ${alpha})`;
+        ctx.strokeStyle = withAlpha(seriesColor(1), alpha);
         ctx.lineWidth = (connected ? 1.5 : 1) * (1 + 4 * edge.strength);
         ctx.stroke();
       }
@@ -1076,15 +1158,15 @@ function SynergyNetworkGraph({ synergyData, cube, matchStr, onCardSelected }) {
         if (node.primary && node.depth > 0) {
           ctx.beginPath();
           ctx.arc(node.x, node.y, node.radius + 2, 0, 2 * Math.PI);
-          ctx.strokeStyle = `rgba(255, 209, 71, ${0.2 + 0.7 * node.depth})`;
+          ctx.strokeStyle = withAlpha(seriesColor(2), 0.2 + 0.7 * node.depth);
           ctx.lineWidth = 1 + 3 * node.depth;
           ctx.stroke();
         }
         ctx.beginPath();
         ctx.arc(node.x, node.y, node.radius, 0, 2 * Math.PI);
-        ctx.fillStyle = node.color;
+        ctx.fillStyle = nodeFill(node);
         ctx.fill();
-        ctx.strokeStyle = hovered === node.id ? "#fff" : "rgba(0,0,0,0.5)";
+        ctx.strokeStyle = nodeOutline(node, hovered);
         ctx.lineWidth = hovered === node.id ? 2 : 1;
         ctx.stroke();
       }
@@ -1266,7 +1348,7 @@ function SynergyNetworkGraph({ synergyData, cube, matchStr, onCardSelected }) {
     <div style={{textAlign: "center"}}>
       <ChartTitle title="Synergy Network Graph" description={
         <>
-          Node size = focal score (breadth), color = identity, <span style={{color: "#ffd147"}}>gold ring</span> = peak pair (depth). A big ring-less node is support glue, not a hub. <span style={{color: "#888"}}>Gray nodes</span> are below-cut partners pulled in so their hubs aren't left floating. Links scale with synergy. Hover to name, click to select, drag to move.
+          Node size = focal score (breadth), color = identity, <span style={{color: seriesColor(2)}}>gold ring</span> = peak pair (depth). A big ring-less node is support glue, not a hub. <span style={{color: "var(--se-muted)"}}>Gray nodes</span> are below-cut partners pulled in so their hubs aren't left floating. Links scale with synergy. Hover to name, click to select, drag to move.
         </>
       } />
       <canvas
