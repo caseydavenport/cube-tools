@@ -3,8 +3,8 @@ import { AverageCMC, IsBasicLand, Pct, SortFunc } from "../utils/Utils.js"
 import { Red, Green, Black, White, Blue, Colors } from "../utils/Colors.js"
 import { Wins, Losses } from "../utils/Deck.js"
 import { deckRef } from "../decks/deckModel.js"
-import { BucketName, DeckBuckets, bucketXScale } from "../utils/Buckets.js"
-import { DropdownHeader, NumericInput, Checkbox, DateSelector } from "../components/Dropdown.js"
+import { BucketName, DeckBuckets, bucketXScale, largeTicks } from "../utils/Buckets.js"
+import { DropdownHeader } from "../components/Dropdown.js"
 
 import {
   Chart as ChartJS,
@@ -19,7 +19,8 @@ import {
   BarElement,
 } from 'chart.js';
 import { Scatter, Line, Bar, Pie } from 'react-chartjs-2';
-import { currentChartTheme } from "../theme/chartTheme.js"
+import { currentChartTheme, seriesColor, withAlpha } from "../theme/chartTheme.js"
+import { availableValue, hasData, visibleItems } from "../utils/dataKinds.js"
 
 // Register chart JS objects that we need to use.
 ChartJS.register(
@@ -34,10 +35,12 @@ ChartJS.register(
   Legend
 );
 
-const winColor = Green
-const lossColor = Black // "#61892f"
-const inDeckColor = "#C97BF4"
-const inSideboardColor = "#ffaf12"
+// Wins and losses are good and bad; in-deck and in-sideboard lines are two
+// series colors. Functions, so Chart.js picks them again on a scheme change.
+const winColor = () => currentChartTheme().goodFill
+const lossColor = () => currentChartTheme().badFill
+const inDeckColor = seriesColor(0)
+const inSideboardColor = seriesColor(2)
 
 const NumInteractionOption = "# interaction"
 const NumCreaturesOption = "# creatures"
@@ -46,19 +49,10 @@ const AvgManaValueOption = "avg. mana value"
 export const DeckScatterAxes = [
   {label: NumInteractionOption, value: NumInteractionOption},
   {label: NumCreaturesOption, value: NumCreaturesOption},
-  {label: WinPercentOption, value: WinPercentOption},
+  {label: WinPercentOption, value: WinPercentOption, needs: ["results"]},
   {label: AvgManaValueOption, value: AvgManaValueOption},
 ]
 
-// Chart configuration.
-// TODO: Standardize with Cards.js
-const chartHeight = "1000px"
-const chartWidth = "300px"
-const ticks = {
-  font: {
-    size: 16,
-  },
-}
 
 
 // This is imperfect, but matches most removal spells.
@@ -142,6 +136,37 @@ export function DeckSplits(deck) {
   return [creatures, interaction]
 }
 
+// DECK_CHART_OPTIONS are the charts the two pickers offer. needs lists the data
+// a chart is built from: the wins charts need match results, and the
+// sideboard size chart needs sideboards.
+const DECK_CHART_OPTIONS = [
+  { label: "Wins by Mana Cost", value: "wins_mana_cost", needs: ["results"] },
+  { label: "Wins by # Creatures", value: "wins_creature", needs: ["results"] },
+  { label: "Wins by # Sorceries", value: "wins_sorcery", needs: ["results"] },
+  { label: "Wins by # Instants", value: "wins_instant", needs: ["results"] },
+  { label: "Wins by # Planeswalkers", value: "wins_planeswalker", needs: ["results"] },
+  { label: "Wins by # Enchantments", value: "wins_enchantment", needs: ["results"] },
+  { label: "Wins by # Lands", value: "wins_land", needs: ["results"] },
+  { label: "Wins by # Non-basic Lands", value: "wins_nonbasic", needs: ["results"] },
+  { label: "Wins by # Colors", value: "wins_num_colors", needs: ["results"] },
+  { label: "Pie: # Colors", value: "pie_num_colors" },
+  { label: "Deck Avg. Mana Value", value: "deck_avg_mana" },
+  { label: "Wins by # Counterspells", value: "wins_counterspells", needs: ["results"] },
+  { label: "Wins by # Removal", value: "wins_removal", needs: ["results"] },
+  { label: "Wins by # Card Draw", value: "wins_card_draw", needs: ["results"] },
+  { label: "Wins by # Lifegain", value: "wins_lifegain", needs: ["results"] },
+  { label: "Wins by # Graveyard", value: "wins_graveyard", needs: ["results"] },
+  { label: "Wins by # Discard", value: "wins_discard", needs: ["results"] },
+  { label: "Avg. Basics per Deck", value: "total_basics" },
+  { label: "Interaction by Color", value: "interaction_color" },
+  { label: "Avg. Removal per-deck", value: "avg_removal" },
+  { label: "Avg. Counterspells per-deck", value: "avg_counterspells" },
+  { label: "Sideboard Size", value: "sideboard_size", needs: ["sideboards"] },
+  { label: "Removal Mana Cost", value: "removal_mana_cost" },
+  { label: "Avg. # Colors over time", value: "avg_colors_time" },
+  { label: "Deck Scatter Plot", value: "deck_scatter" },
+]
+
 export function DeckWidget(input) {
   const [leftChart, setLeftChart] = React.useState("wins_mana_cost")
   const [rightChart, setRightChart] = React.useState("wins_creature")
@@ -158,33 +183,10 @@ export function DeckWidget(input) {
     return null
   }
 
-  const chartOptions = [
-    { label: "Wins by Mana Cost", value: "wins_mana_cost" },
-    { label: "Wins by # Creatures", value: "wins_creature" },
-    { label: "Wins by # Sorceries", value: "wins_sorcery" },
-    { label: "Wins by # Instants", value: "wins_instant" },
-    { label: "Wins by # Planeswalkers", value: "wins_planeswalker" },
-    { label: "Wins by # Enchantments", value: "wins_enchantment" },
-    { label: "Wins by # Lands", value: "wins_land" },
-    { label: "Wins by # Non-basic Lands", value: "wins_nonbasic" },
-    { label: "Wins by # Colors", value: "wins_num_colors" },
-    { label: "Pie: # Colors", value: "pie_num_colors" },
-    { label: "Deck Avg. Mana Value", value: "deck_avg_mana" },
-    { label: "Wins by # Counterspells", value: "wins_counterspells" },
-    { label: "Wins by # Removal", value: "wins_removal" },
-    { label: "Wins by # Card Draw", value: "wins_card_draw" },
-    { label: "Wins by # Lifegain", value: "wins_lifegain" },
-    { label: "Wins by # Graveyard", value: "wins_graveyard" },
-    { label: "Wins by # Discard", value: "wins_discard" },
-    { label: "Avg. Basics per Deck", value: "total_basics" },
-    { label: "Interaction by Color", value: "interaction_color" },
-    { label: "Avg. Removal per-deck", value: "avg_removal" },
-    { label: "Avg. Counterspells per-deck", value: "avg_counterspells" },
-    { label: "Sideboard Size", value: "sideboard_size" },
-    { label: "Removal Mana Cost", value: "removal_mana_cost" },
-    { label: "Avg. # Colors over time", value: "avg_colors_time" },
-    { label: "Deck Scatter Plot", value: "deck_scatter" },
-  ]
+  // A chosen chart the cube can't fill falls back to one it can.
+  const chartOptions = visibleItems(DECK_CHART_OPTIONS, input.info)
+  const left = availableValue(leftChart, DECK_CHART_OPTIONS, input.info)
+  const right = availableValue(rightChart, DECK_CHART_OPTIONS, input.info)
 
   const renderChart = (chartId) => {
     switch (chartId) {
@@ -207,10 +209,10 @@ export function DeckWidget(input) {
       case "wins_discard": return <WinsByOracleText title="Wins by # discard spells" parsed={input.parsed} decks={input.decks} matches={["discard"]} />;
       case "total_basics": return <DeckBasicLandCountChart decks={input.decks} parsed={input.parsed} />;
       case "interaction_color": return <OracleTextByColor title="Interaction by color" parsed={input.parsed} data={data} />;
-      case "avg_removal": return <OracleTextOverTimeChart title="Avg. removal per-deck" parsed={input.parsed} matches={RemovalMatches} data={data} />;
-      case "avg_counterspells": return <OracleTextOverTimeChart title="Avg. counterspells per-deck" parsed={input.parsed} matches={CounterspellMatches} data={data} />;
+      case "avg_removal": return <OracleTextOverTimeChart info={input.info} title="Avg. removal per-deck" parsed={input.parsed} matches={RemovalMatches} data={data} />;
+      case "avg_counterspells": return <OracleTextOverTimeChart info={input.info} title="Avg. counterspells per-deck" parsed={input.parsed} matches={CounterspellMatches} data={data} />;
       case "sideboard_size": return <SideboardSizeOverTimeChart decks={input.decks} parsed={input.parsed} />;
-      case "removal_mana_cost": return <ManaCostByOracleTextOverTime title="Removal mana cost" parsed={input.parsed} decks={input.decks} matches={RemovalMatches} data={data} />;
+      case "removal_mana_cost": return <ManaCostByOracleTextOverTime info={input.info} title="Removal mana cost" parsed={input.parsed} decks={input.decks} matches={RemovalMatches} data={data} />;
       case "avg_colors_time": return <NumColorsOverTimeChart decks={input.decks} parsed={input.parsed} />;
       case "deck_scatter": return <DeckGraph {...input} />;
       default: return null;
@@ -224,23 +226,32 @@ export function DeckWidget(input) {
           <DropdownHeader
             label="Left Chart"
             options={chartOptions}
-            value={leftChart}
+            value={left}
             onChange={(e) => setLeftChart(e.target.value)}
           />
           <DropdownHeader
             label="Right Chart"
             options={chartOptions}
-            value={rightChart}
+            value={right}
             onChange={(e) => setRightChart(e.target.value)}
           />
         </div>
       </div>
       <div className="chart-grid">
-        {renderChart(leftChart)}
-        {renderChart(rightChart)}
+        {renderChart(left)}
+        {renderChart(right)}
       </div>
     </div>
   )
+}
+
+// average divides total by count, or gives null for an empty bucket so the
+// chart leaves a gap instead of plotting NaN.
+function average(total, count) {
+  if (count === 0) {
+    return null
+  }
+  return total / count
 }
 
 // BuildGraphData is common logic to calculate various bit of data for plotting graphs, so that we don't
@@ -500,7 +511,7 @@ function WinsByManaCost(input) {
 
   return (
     <div style={{"height":"700px", "width":"100%"}}>
-      <Bar height={"300px"} width={"300px"} options={options} data={data} />;
+      <Bar height={"300px"} width={"300px"} options={options} data={data} />
     </div>
   );
 }
@@ -611,7 +622,7 @@ function WinsByCardType(input) {
 
   return (
     <div style={{"height":"700px", "width":"100%"}}>
-      <Bar height={"300px"} width={"300px"} options={options} data={data} />;
+      <Bar height={"300px"} width={"300px"} options={options} data={data} />
     </div>
   );
 }
@@ -689,7 +700,7 @@ function WinsByNonBasicLandDensity(input) {
 
   return (
     <div style={{"height":"700px", "width":"100%"}}>
-      <Bar height={"300px"} width={"300px"} options={options} data={data} />;
+      <Bar height={"300px"} width={"300px"} options={options} data={data} />
     </div>
   );
 }
@@ -791,7 +802,7 @@ function WinsByOracleText(input) {
 
   return (
     <div style={{"height":"700px", "width":"100%"}}>
-      <Bar height={"300px"} width={"300px"} options={options} data={data} />;
+      <Bar height={"300px"} width={"300px"} options={options} data={data} />
     </div>
   );
 }
@@ -876,7 +887,7 @@ function WinsByNumberOfColors(input) {
 
   return (
     <div style={{"height":"700px", "width":"100%"}}>
-      <Bar height={"300px"} width={"300px"} options={options} data={data} />;
+      <Bar height={"300px"} width={"300px"} options={options} data={data} />
     </div>
   );
 }
@@ -970,13 +981,17 @@ function OracleTextOverTimeChart(input) {
         borderColor: inDeckColor,
         backgroundColor: inDeckColor,
       },
-      {
-        label: 'Avg. per-sideboard',
-        data: sbValues,
-        borderColor: inSideboardColor,
-        backgroundColor: inSideboardColor,
-      },
   ]
+
+  // The sideboard line needs sideboards, which some cubes don't record.
+  if (hasData(input.info, "sideboards")) {
+    dataset.push({
+      label: 'Avg. per-sideboard',
+      data: sbValues,
+      borderColor: inSideboardColor,
+      backgroundColor: inSideboardColor,
+    })
+  }
 
   // Find the minimum Y value, to set the scale appropriately.
   let minY = 10
@@ -1235,14 +1250,14 @@ function SideboardSizeOverTimeChart(input) {
     // Calculate the average value for this bucket.
     let total = 0
     for (let deck of decks) {
-      if (deck.sideboard.length == 0) {
+      if (!deck.sideboard || deck.sideboard.length == 0) {
         continue
       }
 
       total += deck.sideboard.length
       numDecks += 1
     }
-    sizes.push(total / numDecks)
+    sizes.push(average(total, numDecks))
   }
 
   let dataset = [
@@ -1323,7 +1338,7 @@ function NumColorsOverTimeChart(input) {
       total += deck.colors.length
       numDecks += 1
     }
-    sizes.push(total / numDecks)
+    sizes.push(average(total, numDecks))
   }
 
   let dataset = [
@@ -1380,13 +1395,17 @@ function ManaCostByOracleTextOverTime(input) {
         borderColor: inDeckColor,
         backgroundColor: inDeckColor,
       },
-      {
-        label: 'Avg. in-sideboard',
-        data: sbValues,
-        borderColor: inSideboardColor,
-        backgroundColor: inSideboardColor,
-      },
   ]
+
+  // The sideboard line needs sideboards, which some cubes don't record.
+  if (hasData(input.info, "sideboards")) {
+    dataset.push({
+      label: 'Avg. in-sideboard',
+      data: sbValues,
+      borderColor: inSideboardColor,
+      backgroundColor: inSideboardColor,
+    })
+  }
 
   // Find the minimum Y value, to set the scale appropriately.
   let minY = 10
@@ -1432,15 +1451,26 @@ function ManaCostByOracleTextOverTime(input) {
 }
 
 
+// deckPointColor colors one deck on the scatter plot: the selected deck in
+// the text color, every other deck in the first series color.
+function deckPointColor(kind) {
+  if (kind === "selected") {
+    return currentChartTheme().text
+  }
+  return seriesColor(0)
+}
+
 function DeckGraph(input) {
 
   // Determine what to show on each axis.
-  let xAxis = input.xAxis
-  let yAxis = input.yAxis
+  // A remembered axis the cube can't fill (win % without results) falls back
+  // to one it can.
+  let xAxis = availableValue(input.xAxis, DeckScatterAxes, input.info)
+  let yAxis = availableValue(input.yAxis, DeckScatterAxes, input.info)
 
   // Labels for each data point.
   var labels = []
-  var backgroundColors = []
+  var pointKinds = []
   var sizes = []
 
   let name = yAxis + " vs. " + xAxis
@@ -1465,12 +1495,12 @@ function DeckGraph(input) {
     let name = deck.player + " (" + deck.date + ")"
     labels.push(name)
 
-    // Default to green, but highlight in red if it is the selected card.
+    // The selected deck stands out in the text color.
     if (name === input.selectedCard) {
-      backgroundColors.push("#F00")
+      pointKinds.push("selected")
       sizes.push(10)
     } else {
-      backgroundColors.push("#0F0")
+      pointKinds.push("plain")
       sizes.push(3)
     }
     values.push({"x": x, "y": y})
@@ -1480,7 +1510,8 @@ function DeckGraph(input) {
       {
         label: "All decks",
         data: values,
-        pointBackgroundColor: backgroundColors,
+        // A function, so Chart.js colors the points again when the scheme changes.
+        pointBackgroundColor: ctx => deckPointColor(pointKinds[ctx.dataIndex]),
         pointRadius: sizes,
         pointHoverRadius: 10,
       },
@@ -1498,13 +1529,13 @@ function DeckGraph(input) {
         title: {display: true, text: yAxis, font: {size: 20, weight: "bold"}},
         min: getScales(yAxis, false)[0],
         max: getScales(yAxis, false)[1],
-        ticks: ticks,
+        ticks: largeTicks,
       },
       x: {
         title: {display: true, text: xAxis, font: {size: 20, weight: "bold"}},
         min: getScales(xAxis, false)[0],
         max: getScales(xAxis, false)[1],
-        ticks: ticks,
+        ticks: largeTicks,
       },
     },
     plugins: {
@@ -1531,14 +1562,14 @@ function DeckGraph(input) {
       <div className="selector-group" style={{"justifyContent": "center", "marginBottom": "1rem"}}>
         <DropdownHeader
           label="X Axis"
-          options={DeckScatterAxes}
-          value={input.xAxis}
+          options={visibleItems(DeckScatterAxes, input.info)}
+          value={xAxis}
           onChange={input.onXAxisSelected}
         />
         <DropdownHeader
           label="Y Axis"
-          options={DeckScatterAxes}
-          value={input.yAxis}
+          options={visibleItems(DeckScatterAxes, input.info)}
+          value={yAxis}
           onChange={input.onYAxisSelected}
         />
       </div>
@@ -1599,20 +1630,8 @@ function NumColorsPieChart(input) {
       {
         label: title,
         data: graphData,
-        backgroundColor: [
-          'rgba(255, 99, 132, 0.2)',
-          'rgba(255, 206, 86, 0.2)',
-          'rgba(54, 162, 235, 0.2)',
-          'rgba(94, 122, 135, 0.2)',
-          'rgba(140, 50, 155, 0.2)',
-        ],
-        borderColor: [
-          'rgba(255, 99, 132, 1)',
-          'rgba(255, 206, 86, 1)',
-          'rgba(54, 162, 235, 1)',
-          'rgba(94, 122, 135, 1)',
-          'rgba(140, 50, 155, 1)',
-        ],
+        backgroundColor: graphData.map((_, i) => withAlpha(seriesColor(i), 0.35)),
+        borderColor: graphData.map((_, i) => seriesColor(i)),
         borderWidth: 1,
       },
     ],

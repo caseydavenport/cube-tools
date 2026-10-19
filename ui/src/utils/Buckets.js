@@ -62,6 +62,13 @@ export function BucketName(bucket) {
   return bucket[0].draft.date
 }
 
+// largeTicks is the tick label style for the big stats charts.
+export const largeTicks = {
+  font: {
+    size: 16,
+  },
+}
+
 // Shared x-axis tick config for bucketed time-series charts: blank out all but
 // every Nth label so only ~6 evenly spaced dates show. chart.js's autoSkip
 // won't reliably cap a category axis (it just shrinks the font and keeps every

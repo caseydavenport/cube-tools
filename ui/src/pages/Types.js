@@ -1,11 +1,12 @@
 import React from 'react'
-import { IsBasicLand, MinWinningPctDecks, Pct, SortFunc, StringToColor } from "../utils/Utils.js"
+import { IsBasicLand, MinWinningPctDecks, Pct, SortFunc } from "../utils/Utils.js"
 import { Trophies, LastPlaceFinishes, Winning, Losing, Wins, Losses } from "../utils/Deck.js"
-import { DropdownHeader, NumericInput, Checkbox, DateSelector } from "../components/Dropdown.js"
+import { DropdownHeader, NumericInput, Checkbox } from "../components/Dropdown.js"
 import { HoverInfo } from "../components/kit/HoverInfo.js"
+import { availableValue, visibleItems } from "../utils/dataKinds.js"
 import { Section, SectionNav } from "../components/PageSections.js"
 import { BucketName, bucketXScale } from "../utils/Buckets.js"
-import { Red, Green, Black, White, Blue, Colors, ColorImages, CUBE_AVG_WIN_PERCENT } from "../utils/Colors.js"
+import { ColorImages, CUBE_AVG_WIN_PERCENT } from "../utils/Colors.js"
 import { winInterval } from "../utils/Stats.js"
 
 
@@ -23,7 +24,7 @@ import {
 } from 'chart.js';
 import { Line, Bar, Pie } from 'react-chartjs-2';
 import { personLabel } from "../utils/Players.js"
-import { currentChartTheme, deltaFill, zeroLineGrid } from "../theme/chartTheme.js"
+import { currentChartTheme, deltaFill, seriesColor, withAlpha, zeroLineGrid } from "../theme/chartTheme.js"
 
 // Register chart JS objects that we need to use.
 ChartJS.register(
@@ -42,8 +43,30 @@ ChartJS.register(
 // Set a default here that roughly maps to once every 4 drafts.
 const watermark = 100 * 1 / 32
 
-const winColor = Green
-const lossColor = Black // "#61892f"
+
+// CHART_OPTIONS are the Trends charts. needs lists the data each is built
+// from, so a cube without match results doesn't offer the win charts.
+const CHART_OPTIONS = [
+  { label: "Archetype Δ vs avg", value: "macro_delta", needs: ["results"] },
+  { label: "Archetype Build %", value: "macro_builds" },
+  { label: "Archetype Win %", value: "macro_wins", needs: ["results"] },
+  { label: "Archetype % of wins", value: "macro_pwin", needs: ["results"] },
+  { label: "Archetype Winning %", value: "macro_winning_pct", needs: ["results"] },
+  { label: "Archetype Trophy %", value: "macro_trophy_pct", needs: ["results"] },
+  { label: "Archetype Last Place %", value: "macro_lastplace_pct", needs: ["results"] },
+  { label: "Archetype CMC", value: "macro_cmc" },
+  { label: "Matchup: Aggro", value: "matchup_aggro", needs: ["results"] },
+  { label: "Matchup: Midrange", value: "matchup_midrange", needs: ["results"] },
+  { label: "Matchup: Control", value: "matchup_control", needs: ["results"] },
+  { label: "Pie: Builds", value: "pie_builds" },
+  { label: "Pie: Wins", value: "pie_wins", needs: ["results"] },
+  { label: "Tag Build %", value: "micro_builds" },
+  { label: "Tag Win %", value: "micro_wins", needs: ["results"] },
+  { label: "Tag Winning %", value: "micro_winning_pct", needs: ["results"] },
+  { label: "Tag Trophy %", value: "micro_trophy_pct", needs: ["results"] },
+  { label: "Tag Last Place %", value: "micro_lastplace_pct", needs: ["results"] },
+  { label: "Tag % of wins", value: "micro_pwin", needs: ["results"] },
+]
 
 const ARCH_SECTIONS = [
   { id: "archetypes", label: "Archetypes" },
@@ -59,27 +82,10 @@ export function ArchetypeWidget(input) {
     return null
   }
 
-  const chartOptions = [
-    { label: "Macro Δ vs avg", value: "macro_delta" },
-    { label: "Macro Build %", value: "macro_builds" },
-    { label: "Macro Win %", value: "macro_wins" },
-    { label: "Macro % of wins", value: "macro_pwin" },
-    { label: "Macro Winning %", value: "macro_winning_pct" },
-    { label: "Macro Trophy %", value: "macro_trophy_pct" },
-    { label: "Macro Last Place %", value: "macro_lastplace_pct" },
-    { label: "Macro CMC", value: "macro_cmc" },
-    { label: "Matchup: Aggro", value: "matchup_aggro" },
-    { label: "Matchup: Midrange", value: "matchup_midrange" },
-    { label: "Matchup: Control", value: "matchup_control" },
-    { label: "Pie: Builds", value: "pie_builds" },
-    { label: "Pie: Wins", value: "pie_wins" },
-    { label: "Micro Build %", value: "micro_builds" },
-    { label: "Micro Win %", value: "micro_wins" },
-    { label: "Micro Winning %", value: "micro_winning_pct" },
-    { label: "Micro Trophy %", value: "micro_trophy_pct" },
-    { label: "Micro Last Place %", value: "micro_lastplace_pct" },
-    { label: "Micro % of wins", value: "micro_pwin" },
-  ]
+  // A chosen chart the cube can't fill falls back to one it can.
+  const chartOptions = visibleItems(CHART_OPTIONS, input.info)
+  const left = availableValue(leftChart, CHART_OPTIONS, input.info)
+  const right = availableValue(rightChart, CHART_OPTIONS, input.info)
 
   const renderChart = (chartId) => {
     switch (chartId) {
@@ -124,6 +130,7 @@ export function ArchetypeWidget(input) {
           onHeaderClick={input.onHeaderClick}
           handleRowClick={input.handleRowClick}
           selectedArchetype={input.selectedArchetype}
+          info={input.info}
         />
       </Section>
 
@@ -157,20 +164,20 @@ export function ArchetypeWidget(input) {
             <DropdownHeader
               label="Left Chart"
               options={chartOptions}
-              value={leftChart}
+              value={left}
               onChange={(e) => setLeftChart(e.target.value)}
             />
             <DropdownHeader
               label="Right Chart"
               options={chartOptions}
-              value={rightChart}
+              value={right}
               onChange={(e) => setRightChart(e.target.value)}
             />
           </div>
         </div>
         <div className="chart-grid">
-          {renderChart(leftChart)}
-          {renderChart(rightChart)}
+          {renderChart(left)}
+          {renderChart(right)}
         </div>
       </Section>
     </div>
@@ -179,77 +186,159 @@ export function ArchetypeWidget(input) {
 
 const macroArchetypes = new Set(["aggro", "midrange", "control"]);
 
-const archetypeHeaders = [
+// ARCHETYPE_COLUMNS are the archetype and tag tables' columns. Each draws its
+// own header and cell; needs lists the data a column is built from, so cubes
+// without match results show no win columns.
+const ARCHETYPE_COLUMNS = [
   {
     id: "type",
     text: "Tag",
-    tip: "Archetype (aggro / midrange / control) or tag applied to a deck. A deck may have multiple tags"
+    tip: "Archetype (aggro / midrange / control) or tag applied to a deck. A deck may have multiple tags",
+    cell: (t, input) => <td id={t.type} onClick={input.handleRowClick} key="type">{t.type}</td>,
   },
   {
     id: "build_percent",
     text: "Build %",
     tip: "Percentage of all built decks that have this archetype / tag.",
+    cell: (t) => <td key="build_percent">{t.build_percent.toFixed(0)}%</td>,
   },
   {
     id: "win_percent",
     text: "Win %",
     tip: "Win percentage of decks that have this archetype / tag. Greyed when it can't be told apart from a coin flip at the chosen confidence; hover for the interval.",
+    needs: ["results"],
+    cell: (t) => <ArchetypeWinCell key="win_percent" stats={t} />,
   },
   {
     id: "pwin",
     text: "% of wins",
     tip: "Number of wins from decks with this tag, divided by the total number of wins across all decks.",
+    needs: ["results"],
+    cell: (t) => <td key="pwin">{t.percent_of_wins.toFixed(0)}%</td>,
   },
   {
     id: "trophies",
     text: "Trophies",
     tip: "Number of 3-0 decks of this archetype / tag.",
+    needs: ["results"],
+    cell: (t) => <td key="trophies">{t.trophies}</td>,
   },
   {
     id: "lastplace",
     text: "Last place",
     tip: "Number of 0-3 decks of this archetype / tag.",
+    needs: ["results"],
+    cell: (t) => <td key="lastplace">{t.last_place}</td>,
   },
   {
     id: "winning",
     text: "Winning",
     tip: "Number of 2-1 or better.",
+    needs: ["results"],
+    cell: (t) => <td key="winning">{t.winning}</td>,
   },
   {
     id: "losing",
     text: "Losing",
     tip: "Number of 1-2 or worse.",
+    needs: ["results"],
+    cell: (t) => <td key="losing">{t.losing}</td>,
   },
   {
     id: "winning_pct",
     text: "Winning %",
     tip: "Percentage of decks with a 2-1 or better match record.",
+    needs: ["results"],
+    cell: (t) => <td key="winning_pct">{winningPercentText(t)}</td>,
   },
   {
     id: "num",
     text: "# Decks",
     tip: "Total number of decks with this archetype / tag.",
+    cell: (t) => <td key="num">{t.count}</td>,
   },
   {
     id: "shared",
     text: "Avg other types",
     tip: "Average number of other tags applied to decks with this archetype / tag.",
+    cell: (t) => <td key="shared">{t.avg_shared}</td>,
   },
   {
     id: "avg_word_count",
     text: "Avg Words",
     tip: "Average word count per non-land card in decks with this archetype, excluding reminder text.",
+    cell: (t) => <td key="avg_word_count">{t.avg_word_count}</td>,
   },
 ];
+
+// winningPercentText is the share of decks with a winning record, or a dash
+// when there are too few decks to say.
+function winningPercentText(t) {
+  if (t.count < MinWinningPctDecks) {
+    return "—"
+  }
+  return Pct(t.winning, t.count) + "%"
+}
+
+// ArchetypeWinCell shows a win rate, greyed when it can't be told apart from a
+// coin flip, with the confidence interval on hover.
+function ArchetypeWinCell({ stats }) {
+  let style = undefined
+  let title = undefined
+  if (stats.win_percent_low != null) {
+    if (!stats.significant) {
+      style = { color: "var(--text-muted)" }
+    }
+    let verdict = "not distinguishable from 50%"
+    if (stats.significant) {
+      verdict = "distinguishable from 50%"
+    }
+    title = `${stats.win_percent_low.toFixed(0)}–${stats.win_percent_high.toFixed(0)}% · ${verdict}`
+  }
+  return <td style={style} title={title}>{stats.win_percent.toFixed(0)}%</td>
+}
+
+// archetypeSortValue is the value a row sorts by for the clicked column,
+// build rate unless another column was clicked.
+function archetypeSortValue(t, sortBy) {
+  switch (sortBy) {
+    case "type":
+      return t.type
+    case "win_percent":
+      return t.win_percent
+    case "shared":
+      return t.avg_shared
+    case "num":
+      return t.count
+    case "pwin":
+      return t.percent_of_wins
+    case "trophies":
+      return t.trophies
+    case "lastplace":
+      return t.last_place
+    case "winning":
+      return t.winning
+    case "losing":
+      return t.losing
+    case "winning_pct":
+      if (t.count >= MinWinningPctDecks) {
+        return t.winning / t.count
+      }
+      return -1
+    case "avg_word_count":
+      return t.avg_word_count
+  }
+  return t.build_percent
+}
 
 function ArchetypeTableHeader(input) {
   return (
     <thead className="table-header">
       <tr>
         {
-          archetypeHeaders.map(function(hdr, i) {
+          input.columns.map(function(hdr) {
             return (
-              <HoverInfo key={i} title={hdr.text} info={hdr.tip}>
+              <HoverInfo key={hdr.id} title={hdr.text} info={hdr.tip}>
                 <td onClick={input.onHeaderClick} id={hdr.id} className="header-cell">{hdr.text}</td>
               </HoverInfo>
             );
@@ -265,60 +354,9 @@ function ArchetypeTableRows(input) {
     <tbody>
       {
         input.data.map(function(t) {
-          let sort = t.build_percent
-          switch (input.sortBy) {
-            case "type":
-              sort = t.type;
-              break;
-            case "win_percent":
-              sort = t.win_percent;
-              break;
-            case "shared":
-              sort = t.avg_shared;
-              break;
-            case "num":
-              sort = t.count;
-              break;
-            case "pwin":
-              sort = t.percent_of_wins;
-              break;
-            case "trophies":
-              sort = t.trophies;
-              break;
-            case "lastplace":
-              sort = t.last_place;
-              break;
-            case "winning":
-              sort = t.winning;
-              break;
-            case "losing":
-              sort = t.losing;
-              break;
-            case "winning_pct":
-              sort = t.count >= MinWinningPctDecks ? t.winning / t.count : -1;
-              break;
-            case "avg_word_count":
-              sort = t.avg_word_count;
-              break;
-          }
           return (
-            <tr key={t.type} sort={sort} className="widget-table-row">
-              <td id={t.type} onClick={input.handleRowClick} key="type">{t.type}</td>
-              <td key="build_percent">{t.build_percent.toFixed(0)}%</td>
-              <td key="win_percent"
-                style={t.win_percent_low != null && !t.significant ? { color: "var(--text-muted)" } : undefined}
-                title={t.win_percent_low != null ? `${t.win_percent_low.toFixed(0)}–${t.win_percent_high.toFixed(0)}% · ${t.significant ? "distinguishable from 50%" : "not distinguishable from 50%"}` : undefined}>
-                {t.win_percent.toFixed(0)}%
-              </td>
-              <td key="pwin">{t.percent_of_wins.toFixed(0)}%</td>
-              <td key="trophies">{t.trophies}</td>
-              <td key="lastplace">{t.last_place}</td>
-              <td key="winning">{t.winning}</td>
-              <td key="losing">{t.losing}</td>
-              <td key="winning_pct">{t.count >= MinWinningPctDecks ? Pct(t.winning, t.count) + "%" : "—"}</td>
-              <td key="num">{t.count}</td>
-              <td key="shared">{t.avg_shared}</td>
-              <td key="avg_word_count">{t.avg_word_count}</td>
+            <tr key={t.type} sort={archetypeSortValue(t, input.sortBy)} className="widget-table-row">
+              {input.columns.map(column => column.cell(t, input))}
             </tr>
           )
         }).sort(SortFunc)
@@ -341,26 +379,45 @@ function ArchetypeStatsTable(input) {
     }
   }
 
-  return (
-    <div>
-      <h3 className="section-heading">Macro Archetypes</h3>
-      <div className="table-scroll">
-        <table className="widget-table">
-          <ArchetypeTableHeader onHeaderClick={input.onHeaderClick} />
-          <ArchetypeTableRows data={macroData} sortBy={input.sortBy} handleRowClick={input.handleRowClick} />
-        </table>
-      </div>
-      {microData.length > 0 && <>
-        <h3 className="section-heading" style={{marginTop: "1.5rem"}}>Micro Archetypes</h3>
+  const columns = visibleItems(ARCHETYPE_COLUMNS, input.info)
+
+  // The tags table only shows when some tag is common enough to list.
+  let tagsTable = null
+  if (microData.length > 0) {
+    tagsTable = (
+      <>
+        <h3 className="section-heading kit-section-title" style={{marginTop: "1.5rem"}}>Tags</h3>
         <div className="table-scroll">
           <table className="widget-table">
-            <ArchetypeTableHeader onHeaderClick={input.onHeaderClick} />
-            <ArchetypeTableRows data={microData} sortBy={input.sortBy} handleRowClick={input.handleRowClick} />
+            <ArchetypeTableHeader columns={columns} onHeaderClick={input.onHeaderClick} />
+            <ArchetypeTableRows columns={columns} data={microData} sortBy={input.sortBy} handleRowClick={input.handleRowClick} />
           </table>
         </div>
-      </>}
+      </>
+    )
+  }
+
+  return (
+    <div>
+      <h3 className="section-heading kit-section-title">Archetypes</h3>
+      <div className="table-scroll">
+        <table className="widget-table">
+          <ArchetypeTableHeader columns={columns} onHeaderClick={input.onHeaderClick} />
+          <ArchetypeTableRows columns={columns} data={macroData} sortBy={input.sortBy} handleRowClick={input.handleRowClick} />
+        </table>
+      </div>
+      {tagsTable}
     </div>
   );
+}
+
+// archetypeShare is the percent of an archetype's decks that played a card,
+// or 0 when the archetype has no decks in the current range.
+function archetypeShare(count, archetype) {
+  if (!archetype || !archetype.count) {
+    return 0
+  }
+  return Math.round(count / archetype.count * 100)
 }
 
 export function ColorPickerHeader(input) {
@@ -526,7 +583,7 @@ function TopCardsInArchetypeWidget(input) {
               }
 
               let count = cardArch.get(input.selectedArchetype)
-              let percentage = Math.round(count / archetypes.get(input.selectedArchetype).count * 100)
+              let percentage = archetypeShare(count, archetypes.get(input.selectedArchetype))
               let correlation = Math.round(count / card.mainboard * 100)
               let focal = Math.round((percentage / 100) * (correlation / 100) * 100)
 
@@ -824,13 +881,15 @@ function MicroArchetypesChart(input) {
   }
 
   let chartDataset = []
+  let index = 0
   for (let [arch, data] of datasets) {
     chartDataset.push({
       label: arch,
       data: data,
-      borderColor: StringToColor(arch),
-      backgroundColor: StringToColor(arch),
+      borderColor: seriesColor(index),
+      backgroundColor: seriesColor(index),
     })
+    index += 1
   }
 
   let title = `Build rate (bucket size = ${input.bucketSize} drafts)`
@@ -1020,20 +1079,20 @@ function MacroArchetypesChart(input) {
       {
         label: 'Aggro',
         data: datasets.get("aggro"),
-        borderColor: Colors.get("R"),
-        backgroundColor: Colors.get("R"),
+        borderColor: archetypeColor("aggro"),
+        backgroundColor: archetypeColor("aggro"),
       },
       {
         label: 'Midrange',
         data: datasets.get("midrange"),
-        borderColor: Colors.get("G"),
-        backgroundColor: Colors.get("G"),
+        borderColor: archetypeColor("midrange"),
+        backgroundColor: archetypeColor("midrange"),
       },
       {
         label: 'Control',
         data: datasets.get("control"),
-        borderColor: Colors.get("U"),
-        backgroundColor: Colors.get("U"),
+        borderColor: archetypeColor("control"),
+        backgroundColor: archetypeColor("control"),
       },
   ]
 
@@ -1089,42 +1148,60 @@ function MacroArchetypesChart(input) {
   );
 }
 
+// ARCHETYPE_SERIES picks each archetype's chart color from the series palette,
+// so aggro, midrange, and control look the same on every chart on the page.
+// They're not Magic colors, so they don't use the mana palette.
+const ARCHETYPE_SERIES = { aggro: 3, midrange: 1, control: 4 }
+
+// archetypeColor returns an archetype's chart color.
+function archetypeColor(archetype) {
+  return seriesColor(ARCHETYPE_SERIES[archetype])
+}
+
+// PIE_ARCHETYPES are the archetypes the pie charts split decks into.
+const PIE_ARCHETYPES = [
+  { key: "aggro", label: "Aggro" },
+  { key: "midrange", label: "Midrange" },
+  { key: "control", label: "Control" },
+]
+
+// MacroArchetypesPieChart splits decks, or wins, between the archetypes. An
+// archetype with no decks in the range is left out rather than breaking the
+// chart.
 function MacroArchetypesPieChart(input) {
   let stats = input.parsed.archetypeData
 
   let title = `Decks`
-  let graphData = [
-    stats.get("aggro").count,
-    stats.get("midrange").count,
-    stats.get("control").count,
-  ]
+  let field = "count"
+  if (input.dataset === "wins") {
+    title = `Wins`
+    field = "wins"
+  }
 
-  switch (input.dataset) {
-    case "wins":
-      title = `Wins`
-      graphData = [
-        stats.get("aggro").wins,
-        stats.get("midrange").wins,
-        stats.get("control").wins,
-      ]
+  const labels = []
+  const graphData = []
+  const fills = []
+  const borders = []
+  for (const archetype of PIE_ARCHETYPES) {
+    const archetypeStats = stats.get(archetype.key)
+    if (!archetypeStats) {
+      continue
+    }
+    const color = archetypeColor(archetype.key)
+    labels.push(archetype.label)
+    graphData.push(archetypeStats[field])
+    fills.push(withAlpha(color, 0.35))
+    borders.push(color)
   }
 
   let data = {
-    labels: ['Aggro', 'Midrange', 'Control'],
+    labels,
     datasets: [
       {
         label: title,
         data: graphData,
-        backgroundColor: [
-          'rgba(255, 99, 132, 0.2)',
-          'rgba(255, 206, 86, 0.2)',
-          'rgba(54, 162, 235, 0.2)',
-        ],
-        borderColor: [
-          'rgba(255, 99, 132, 1)',
-          'rgba(255, 206, 86, 1)',
-          'rgba(54, 162, 235, 1)',
-        ],
+        backgroundColor: fills,
+        borderColor: borders,
         borderWidth: 1,
       },
     ],
@@ -1256,12 +1333,12 @@ function WinsByMatchup(input) {
       {
         label: 'Wins',
         data: winsData,
-        backgroundColor: winColor,
+        backgroundColor: () => currentChartTheme().goodFill,
       },
       {
         label: 'Losses',
         data: lossData,
-        backgroundColor: lossColor,
+        backgroundColor: () => currentChartTheme().badFill,
       },
 
     ],
@@ -1269,7 +1346,7 @@ function WinsByMatchup(input) {
 
   return (
     <div style={{"height":"700px", "width":"100%"}}>
-      <Bar height={"300px"} width={"300px"} options={options} data={data} />;
+      <Bar height={"300px"} width={"300px"} options={options} data={data} />
     </div>
   );
 }

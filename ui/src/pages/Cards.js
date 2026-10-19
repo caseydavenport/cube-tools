@@ -1,6 +1,6 @@
 import React from 'react'
 import { IsBasicLand, SortFunc, CardImageURL } from "../utils/Utils.js"
-import { DropdownHeader, NumericInput, Checkbox, DateSelector } from "../components/Dropdown.js"
+import { DropdownHeader, NumericInput, Checkbox } from "../components/Dropdown.js"
 import { HoverInfo } from "../components/kit/HoverInfo.js"
 import { asEvent } from "../components/kit/controls.js"
 import { SegmentedControl } from "@mantine/core"
@@ -11,7 +11,7 @@ import { Wins, Losses } from "../utils/Deck.js"
 import { ApplyTooltip } from "../utils/Tooltip.js"
 import { ColorImages, Colors, CUBE_AVG_WIN_PERCENT } from "../utils/Colors.js"
 import { CardMatches, DeckMatches } from "../utils/Query.js"
-import { bucketTicks } from "../utils/Buckets.js"
+import { bucketTicks, largeTicks } from "../utils/Buckets.js"
 
 
 import {
@@ -39,11 +39,6 @@ ChartJS.register(
 );
 
 // Chart configuration.
-const ticks = {
-  font: {
-    size: 16,
-  },
-}
 
 export const NumDecksOption = "# Decks"
 export const NumSideboardOption = "# Sideboard"
@@ -836,7 +831,7 @@ function PlayRateChart(input) {
       y: {
         min: 0,
         max: 100,
-        ticks: ticks,
+        ticks: largeTicks,
         title: {display: true, text: "Pick %", font: {size: 20, weight: "bold"}},
       },
       x: {
@@ -931,7 +926,7 @@ function ELOChart(input) {
         title: {display: true, text: "Pick ELO", font: {size: 20, weight: "bold"}},
         min: min-50,
         max: max+50,
-        ticks: ticks,
+        ticks: largeTicks,
       },
       x: {
         title: {display: true, text: "Dates", font: {size: 20, weight: "bold"}},
@@ -1028,7 +1023,7 @@ function WinrateChart(input) {
         title: {display: true, text: "Win %", font: {size: 20, weight: "bold"}},
         min: 0,
         max: 100,
-        ticks: ticks,
+        ticks: largeTicks,
       },
       x: {
         title: {display: true, text: "Dates", font: {size: 20, weight: "bold"}},
@@ -1190,9 +1185,9 @@ function CardGraph(input) {
   // Signed-percent ticks for the win-delta axis, plain ticks otherwise.
   let axisTicks = function(axis) {
     if (axis === WinPercentVsAvgOption) {
-      return {...ticks, callback: (v) => (v > 0 ? "+" : "") + v + "%"}
+      return {...largeTicks, callback: (v) => (v > 0 ? "+" : "") + v + "%"}
     }
-    return ticks
+    return largeTicks
   }
 
   const options = {
