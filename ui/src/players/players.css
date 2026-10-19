@@ -1,0 +1,31 @@
+/* The Players page. Its cards share the deck page's card styles (decks.css). */
+
+.player-stat-tiles {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 10px;
+}
+
+@media (max-width: 74.99em) {
+  .player-stat-tiles {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 47.99em) {
+  .player-stat-tiles {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.player-rename-error {
+  margin-top: 4px;
+  font-size: 12px;
+  color: var(--se-bad);
+}
+
+/* The stats tables fill their cards. */
+.deck-details .kit-section .widget-table {
+  width: 100%;
+  margin: 0;
+}

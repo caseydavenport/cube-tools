@@ -1,9 +1,9 @@
-import React, { useRef, useState } from 'react'
+import React from 'react'
 import { AverageWordCount, IsBasicLand, SortFunc } from "../utils/Utils.js"
 import { ColorImages } from "../utils/Colors.js"
 import { Trophies, LastPlaceFinishes, Wins, Losses } from "../utils/Deck.js"
 import { BucketName, bucketXScale } from "../utils/Buckets.js"
-import { CollapsibleIndex } from "../components/BrowseLayout.js"
+import { SectionCard } from "../components/kit/SectionCard.js"
 import { isAnonymous, recordsByOpponent } from "../utils/Players.js"
 
 import {
@@ -211,123 +211,26 @@ export function playerRowsInOrder(input) {
   rows.sort((a, b) => {
     let sa = playerSortValue(a, input.sortBy)
     let sb = playerSortValue(b, input.sortBy)
-    let cmp = sa > sb ? -1 : sa < sb ? 1 : 0
-    // Numeric columns honor the invert toggle; the name fallback stays as-is.
-    if (input.invertSort && typeof sa === "number") cmp = -cmp
+
+    // Names sort A to Z; numbers sort highest first.
+    let cmp
+    if (typeof sa === "string") {
+      cmp = sa.localeCompare(sb)
+    } else {
+      cmp = sa > sb ? -1 : sa < sb ? 1 : 0
+    }
+
+    if (input.invertSort) {
+      cmp = -cmp
+    }
     return cmp
   })
   return rows
 }
 
-export function PlayerTable(input) {
-  const rows = playerRowsInOrder(input)
-  const selectedRowRef = useRef(null)
-
-  return (
-    <CollapsibleIndex
-      title={rows.length + " Players"}
-      collapsed={input.collapsed}
-      onToggleCollapse={input.onToggleCollapse}
-      selectedRef={selectedRowRef}
-    >
-      <table className="widget-table" style={{"border": "none", "borderRadius": "0"}}>
-        <thead className="table-header">
-          <tr>
-            <td onClick={input.onHeaderClick} id="name" className="header-cell">Player</td>
-            <td onClick={input.onHeaderClick} id="num_decks" className="header-cell">Decks</td>
-            <td onClick={input.onHeaderClick} id="games" className="header-cell">Games</td>
-            <td onClick={input.onHeaderClick} id="win_percent" className="header-cell">Won</td>
-            <td onClick={input.onHeaderClick} id="loss_percent" className="header-cell">Lost</td>
-            <td onClick={input.onHeaderClick} id="opponent_win_percentage" className="header-cell">Opp. Win %</td>
-            <td onClick={input.onHeaderClick} id="trophies" className="header-cell">Trophies</td>
-            <td onClick={input.onHeaderClick} id="last_place" className="header-cell">Last place</td>
-            <td onClick={input.onHeaderClick} id="white_percent" className="header-cell">{ColorImages("W")}</td>
-            <td onClick={input.onHeaderClick} id="blue_percent" className="header-cell">{ColorImages("U")}</td>
-            <td onClick={input.onHeaderClick} id="black_percent" className="header-cell">{ColorImages("B")}</td>
-            <td onClick={input.onHeaderClick} id="red_percent" className="header-cell">{ColorImages("R")}</td>
-            <td onClick={input.onHeaderClick} id="green_percent" className="header-cell">{ColorImages("G")}</td>
-            <td onClick={input.onHeaderClick} id="uniqueness" className="header-cell">Uniq</td>
-            <td onClick={input.onHeaderClick} id="avg_word_count" className="header-cell">Avg Words</td>
-          </tr>
-        </thead>
-        <tbody>
-        {
-          rows.map(function(row) {
-            let className = "widget-table-row"
-            const isSelected = row.name === input.player
-            if (isSelected) className += " button-selected"
-            return (
-              <tr ref={isSelected ? selectedRowRef : null} id={row.name} className={className} key={row.name} onClick={input.handleRowClick}>
-                <td id={row.name}>{row.name}</td>
-                <td>{row.num_decks}</td>
-                <td>{row.games}</td>
-                <td>{row.win_percent.toFixed(0)}%</td>
-                <td>{row.loss_percent.toFixed(0)}%</td>
-                <td>{row.opponent_win_percentage.toFixed(0)}%</td>
-                <td>{row.trophies}</td>
-                <td>{row.last_place}</td>
-                <td>{row.white_percent.toFixed(0)}%</td>
-                <td>{row.blue_percent.toFixed(0)}%</td>
-                <td>{row.black_percent.toFixed(0)}%</td>
-                <td>{row.red_percent.toFixed(0)}%</td>
-                <td>{row.green_percent.toFixed(0)}%</td>
-                <td>{row.uniqueness != null ? row.uniqueness.toFixed(0) + "%" : "—"}</td>
-                <td>{row.avg_word_count || 0}</td>
-              </tr>
-            )
-          })
-        }
-        </tbody>
-      </table>
-    </CollapsibleIndex>
-  );
-}
-
-// PlayerNameEditor shows a player's name with a control to rename them in the
-// global player list. onRename returns a promise that rejects with the
-// server's message, which is shown inline.
-function PlayerNameEditor({ name, onRename }) {
-  const [editing, setEditing] = useState(false)
-  const [draft, setDraft] = useState(name)
-  const [error, setError] = useState(null)
-
-  const submit = async () => {
-    setError(null)
-    try {
-      await onRename(draft)
-      setEditing(false)
-    } catch (e) {
-      setError(e.message)
-    }
-  }
-
-  if (!editing) {
-    return (
-      <h2 className="deck-summary-name">
-        {name}{" "}
-        <button type="button" className="link-button" onClick={() => { setDraft(name); setEditing(true) }}>Rename</button>
-      </h2>
-    )
-  }
-  return (
-    <span>
-      <input
-        className="deck-summary-name-input"
-        autoFocus
-        value={draft}
-        onChange={(e) => setDraft(e.target.value)}
-        onKeyDown={(e) => {
-          if (e.key === "Enter") submit()
-          if (e.key === "Escape") setEditing(false)
-        }}
-      />
-      <button type="button" onClick={submit} disabled={!draft.trim() || draft === name}>Save</button>
-      <button type="button" onClick={() => setEditing(false)}>Cancel</button>
-      {error ? <span className="error">{error}</span> : null}
-    </span>
-  )
-}
-
+// PlayerDetailsPanel shows the selected player's records: against each
+// opponent, by archetype, by color, and their win rate over time. header is the
+// summary card shown above them; copy holds the section titles.
 export function PlayerDetailsPanel(input) {
   // Defensive checks for initialization
   if (!input.player || !input.parsed || !input.parsed.playerData) {
@@ -358,6 +261,7 @@ export function PlayerDetailsPanel(input) {
     m.set("name", n)
     m.set("wins", 0)
     m.set("losses", 0)
+    m.set("count", 0)
     return m
   }
 
@@ -407,209 +311,188 @@ export function PlayerDetailsPanel(input) {
 
   let oppRows = recordsByOpponent(decks)
 
-  // Compact summary bar across the top, mirroring the deck detail header.
-  const summaryMetrics = [
-    <span className="metric"><strong>{playerEntry.num_decks}</strong> decks</span>,
-    <span className="metric"><strong>{playerEntry.games}</strong> games</span>,
-    <span className="metric"><strong>{playerEntry.trophies}</strong> trophies</span>,
-    <span className="metric"><strong>{playerEntry.last_place}</strong> last</span>,
-    <span className="metric">Opp <strong>{playerEntry.opponent_win_percentage.toFixed(0)}%</strong></span>,
-    playerEntry.uniqueness != null ? <span className="metric">Uniq <strong>{playerEntry.uniqueness.toFixed(0)}%</strong></span> : null,
-  ].filter(Boolean)
-
   return (
-    <div>
-      <div className="player-frame deck-summary">
-        <div className="deck-summary-header">
-          <div className="deck-summary-identity">
-            {input.onRename && playerEntry.id
-              ? <PlayerNameEditor key={playerEntry.id} name={input.player} onRename={input.onRename} />
-              : <h2 className="deck-summary-name">{input.player}</h2>}
-            <span className="deck-summary-record">
-              {playerEntry.win_percent.toFixed(0)}% <span className="muted">({playerEntry.wins}-{playerEntry.losses})</span>
-            </span>
-          </div>
-        </div>
-        <div className="deck-summary-metrics">
-          {summaryMetrics.map((m, i) => (
-            <React.Fragment key={i}>
-              {i > 0 && <span className="sep">·</span>}
-              {m}
-            </React.Fragment>
-          ))}
-        </div>
-      </div>
+    <div className="deck-details">
+      {input.header}
 
-      <table className="widget-table">
-        <thead className="table-header">
-          <tr>
-            <td onClick={input.onOppHeaderClick} id="name" className="header-cell">Opponent (min {minGames} games)</td>
-            <td onClick={input.onOppHeaderClick} id="win_pct" className="header-cell">Win %</td>
-            <td onClick={input.onOppHeaderClick} id="games" className="header-cell">Games</td>
-          </tr>
-        </thead>
-        <tbody>
-          {
-            oppRows.map(function(opponent) {
-              // Filter out any opponent that doesn't meet the minimum games requirement.
-              if (opponent.wins + opponent.losses < minGames) {
-                return
-              }
-              let win_pct = Math.round(opponent.wins / (opponent.wins + opponent.losses) * 100)
-              let sort = win_pct
-              switch (input.oppSortBy) {
-                case "name":
-                  sort = opponent.name
-                  break;
-                case "win_pct":
-                  sort = win_pct
-                  break;
-                case "games":
-                  sort = opponent.wins + opponent.losses
-                  break;
-              }
-              if (input.oppSortInvert && typeof sort === 'number') {
-                sort = -1 * sort
-              }
-              // Opponents who are themselves in the roster link to their page.
-              const canLink = input.onSelectPlayer && playerData.has(opponent.name)
-              return (
-                <tr key={opponent.name} sort={sort} className="widget-table-row">
-                  <td key="name" className={canLink ? "xlink" : undefined} onClick={canLink ? () => input.onSelectPlayer(opponent.name) : undefined}>{opponent.name}</td>
-                  <td key="win_pct">{win_pct}%</td>
-                  <td key="total">{opponent.wins + opponent.losses}</td>
-                </tr>
-              )
-            }).sort(SortFunc)
-          }
-        </tbody>
-      </table>
+      <SectionCard title={input.copy.opponents}>
+        <table className="widget-table">
+          <thead className="table-header">
+            <tr>
+              <td onClick={input.onOppHeaderClick} id="name" className="header-cell">Opponent (min {minGames} games)</td>
+              <td onClick={input.onOppHeaderClick} id="win_pct" className="header-cell">Win %</td>
+              <td onClick={input.onOppHeaderClick} id="games" className="header-cell">Games</td>
+            </tr>
+          </thead>
+          <tbody>
+            {
+              oppRows.map(function(opponent) {
+                // Filter out any opponent that doesn't meet the minimum games requirement.
+                if (opponent.wins + opponent.losses < minGames) {
+                  return
+                }
+                let win_pct = Math.round(opponent.wins / (opponent.wins + opponent.losses) * 100)
+                let sort = win_pct
+                switch (input.oppSortBy) {
+                  case "name":
+                    sort = opponent.name
+                    break;
+                  case "win_pct":
+                    sort = win_pct
+                    break;
+                  case "games":
+                    sort = opponent.wins + opponent.losses
+                    break;
+                }
+                if (input.oppSortInvert && typeof sort === 'number') {
+                  sort = -1 * sort
+                }
+                // Opponents who are themselves in the roster link to their page.
+                const canLink = input.onSelectPlayer && playerData.has(opponent.name)
+                return (
+                  <tr key={opponent.name} sort={sort} className="widget-table-row">
+                    <td key="name" className={canLink ? "xlink" : undefined} onClick={canLink ? () => input.onSelectPlayer(opponent.name) : undefined}>{opponent.name}</td>
+                    <td key="win_pct">{win_pct}%</td>
+                    <td key="total">{opponent.wins + opponent.losses}</td>
+                  </tr>
+                )
+              }).sort(SortFunc)
+            }
+          </tbody>
+        </table>
+      </SectionCard>
 
-      <table className="widget-table">
-        <thead className="table-header">
-          <tr>
-            <td onClick={input.onPlayerArchHeaderClick} id="name" className="header-cell">Arch</td>
-            <td onClick={input.onPlayerArchHeaderClick} id="build" className="header-cell">Build %</td>
-            <td onClick={input.onPlayerArchHeaderClick} id="win_pct" className="header-cell">Win %</td>
-            <td onClick={input.onPlayerArchHeaderClick} id="wins" className="header-cell">Wins</td>
-            <td onClick={input.onPlayerArchHeaderClick} id="losses" className="header-cell">Losses</td>
-          </tr>
-        </thead>
-        <tbody>
-          {
-            archRows.map(function(arch) {
-              let wins = arch.get("wins")
-              let loss = arch.get("losses")
-              let name = arch.get("name")
-              let count = arch.get("count")
-              let win_pct = 0
-              let bld_pct = 0
-              if (wins + loss > 0) {
-                win_pct = Math.round(100 * wins / (wins + loss))
-              }
-              if (totalPlayerDecks > 0) {
-                bld_pct = Math.round(100 * count / totalPlayerDecks)
-              }
+      <SectionCard title={input.copy.archetypes}>
+        <table className="widget-table">
+          <thead className="table-header">
+            <tr>
+              <td onClick={input.onPlayerArchHeaderClick} id="name" className="header-cell">Arch</td>
+              <td onClick={input.onPlayerArchHeaderClick} id="build" className="header-cell">Build %</td>
+              <td onClick={input.onPlayerArchHeaderClick} id="win_pct" className="header-cell">Win %</td>
+              <td onClick={input.onPlayerArchHeaderClick} id="wins" className="header-cell">Wins</td>
+              <td onClick={input.onPlayerArchHeaderClick} id="losses" className="header-cell">Losses</td>
+            </tr>
+          </thead>
+          <tbody>
+            {
+              archRows.map(function(arch) {
+                let wins = arch.get("wins")
+                let loss = arch.get("losses")
+                let name = arch.get("name")
+                let count = arch.get("count")
+                let win_pct = 0
+                let bld_pct = 0
+                if (wins + loss > 0) {
+                  win_pct = Math.round(100 * wins / (wins + loss))
+                }
+                if (totalPlayerDecks > 0) {
+                  bld_pct = Math.round(100 * count / totalPlayerDecks)
+                }
 
-              let sort = bld_pct
-              switch (input.playerArchSortBy) {
-                case "name":
-                  sort = name;
-                  break;
-                case "build":
-                  sort = bld_pct;
-                  break;
-                case "win_pct":
-                  sort = win_pct;
-                  break;
-                case "wins":
-                  sort = wins;
-                  break;
-                case "losses":
-                  sort = loss;
-                  break;
-              }
-              if (input.playerArchSortInvert && typeof sort === 'number') {
-                sort = -1 * sort
-              }
+                let sort = bld_pct
+                switch (input.playerArchSortBy) {
+                  case "name":
+                    sort = name;
+                    break;
+                  case "build":
+                    sort = bld_pct;
+                    break;
+                  case "win_pct":
+                    sort = win_pct;
+                    break;
+                  case "wins":
+                    sort = wins;
+                    break;
+                  case "losses":
+                    sort = loss;
+                    break;
+                }
+                if (input.playerArchSortInvert && typeof sort === 'number') {
+                  sort = -1 * sort
+                }
 
-              return (
-                <tr key={name} sort={sort} className="widget-table-row">
-                  <td key="name">{name}</td>
-                  <td key="bld_pct">{bld_pct}%</td>
-                  <td key="win_pct">{win_pct}%</td>
-                  <td key="wins">{wins}</td>
-                  <td key="losses">{loss}</td>
-                </tr>
-              )
-            }).sort(SortFunc)
-          }
-        </tbody>
-      </table>
+                return (
+                  <tr key={name} sort={sort} className="widget-table-row">
+                    <td key="name">{name}</td>
+                    <td key="bld_pct">{bld_pct}%</td>
+                    <td key="win_pct">{win_pct}%</td>
+                    <td key="wins">{wins}</td>
+                    <td key="losses">{loss}</td>
+                  </tr>
+                )
+              }).sort(SortFunc)
+            }
+          </tbody>
+        </table>
+      </SectionCard>
 
-      <table className="widget-table">
-        <thead className="table-header">
-          <tr>
-            <td onClick={input.onPlayerColorHeaderClick} id="name" className="header-cell">Color</td>
-            <td onClick={input.onPlayerColorHeaderClick} id="build_pct" className="header-cell">Build %</td>
-            <td onClick={input.onPlayerColorHeaderClick} id="win_pct" className="header-cell">Win %</td>
-            <td onClick={input.onPlayerColorHeaderClick} id="wins" className="header-cell">Wins</td>
-            <td onClick={input.onPlayerColorHeaderClick} id="losses" className="header-cell">Losses</td>
-          </tr>
-        </thead>
-        <tbody>
-          {
-            colorRows.map(function(arch) {
-              let wins = arch.get("wins")
-              let loss = arch.get("losses")
-              let name = arch.get("name")
-              let count = arch.get("count")
-              let win_pct = 0
-              let bld_pct = 0
-              if (wins + loss > 0) {
-                win_pct = Math.round(100 * wins / (wins + loss))
-              }
-              if (totalPlayerDecks > 0) {
-                bld_pct = Math.round(100 * count / totalPlayerDecks)
-              }
+      <SectionCard title={input.copy.colors}>
+        <table className="widget-table">
+          <thead className="table-header">
+            <tr>
+              <td onClick={input.onPlayerColorHeaderClick} id="name" className="header-cell">Color</td>
+              <td onClick={input.onPlayerColorHeaderClick} id="build_pct" className="header-cell">Build %</td>
+              <td onClick={input.onPlayerColorHeaderClick} id="win_pct" className="header-cell">Win %</td>
+              <td onClick={input.onPlayerColorHeaderClick} id="wins" className="header-cell">Wins</td>
+              <td onClick={input.onPlayerColorHeaderClick} id="losses" className="header-cell">Losses</td>
+            </tr>
+          </thead>
+          <tbody>
+            {
+              colorRows.map(function(arch) {
+                let wins = arch.get("wins")
+                let loss = arch.get("losses")
+                let name = arch.get("name")
+                let count = arch.get("count")
+                let win_pct = 0
+                let bld_pct = 0
+                if (wins + loss > 0) {
+                  win_pct = Math.round(100 * wins / (wins + loss))
+                }
+                if (totalPlayerDecks > 0) {
+                  bld_pct = Math.round(100 * count / totalPlayerDecks)
+                }
 
-              let sort = bld_pct
-              switch (input.playerColorSortBy) {
-                case "name":
-                  sort = name;
-                  break;
-                case "build_pct":
-                  sort = bld_pct;
-                  break;
-                case "win_pct":
-                  sort = win_pct;
-                  break;
-                case "wins":
-                  sort = wins;
-                  break;
-                case "losses":
-                  sort = loss;
-                  break;
-              }
-              if (input.playerColorSortInvert && typeof sort === 'number') {
-                sort = -1 * sort
-              }
+                let sort = bld_pct
+                switch (input.playerColorSortBy) {
+                  case "name":
+                    sort = name;
+                    break;
+                  case "build_pct":
+                    sort = bld_pct;
+                    break;
+                  case "win_pct":
+                    sort = win_pct;
+                    break;
+                  case "wins":
+                    sort = wins;
+                    break;
+                  case "losses":
+                    sort = loss;
+                    break;
+                }
+                if (input.playerColorSortInvert && typeof sort === 'number') {
+                  sort = -1 * sort
+                }
 
-              return (
-                <tr key={name} sort={sort} className="widget-table-row">
-                  <td key="name">{ColorImages(name)}</td>
-                  <td key="bld_pct">{bld_pct}%</td>
-                  <td key="win_pct">{win_pct}%</td>
-                  <td key="wins">{wins}</td>
-                  <td key="losses">{loss}</td>
-                </tr>
-              )
-            }).sort(SortFunc)
-          }
-        </tbody>
-      </table>
+                return (
+                  <tr key={name} sort={sort} className="widget-table-row">
+                    <td key="name">{ColorImages(name)}</td>
+                    <td key="bld_pct">{bld_pct}%</td>
+                    <td key="win_pct">{win_pct}%</td>
+                    <td key="wins">{wins}</td>
+                    <td key="losses">{loss}</td>
+                  </tr>
+                )
+              }).sort(SortFunc)
+            }
+          </tbody>
+        </table>
+      </SectionCard>
 
-      <WinRateChart dataset="wins" {...input} />
+      <SectionCard title={input.copy.winRateOverTime}>
+          <WinRateChart dataset="wins" {...input} />
+      </SectionCard>
 
     </div>
   );

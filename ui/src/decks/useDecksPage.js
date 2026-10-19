@@ -4,33 +4,8 @@ import { LoadCube, LoadDecks } from "../utils/Fetch.js"
 import { mergeChangedDecks } from "../utils/RecordEditor.js"
 import { isAnonymous } from "../utils/Players.js"
 import { addToComparison, comparisonMap, formatCompare, parseCompare } from "../utils/Compare.js"
+import { useDebouncedFilter } from "../hooks/useDebouncedFilter.js"
 import { deckRef, sortDecks } from "./deckModel.js"
-
-// FILTER_DELAY_MS is how long the deck filter waits after typing stops before
-// it reloads the list, so each keystroke doesn't fetch.
-const FILTER_DELAY_MS = 300
-
-// useDebouncedFilter holds the deck filter as typed and the settled value the
-// list loads with. The settled value is also passed to onSettled, which keeps
-// the app-wide filter (and the URL) in step.
-function useDebouncedFilter(initial, onSettled) {
-  const [typed, setTyped] = useState(initial || "")
-  const [settled, setSettled] = useState(initial || "")
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setSettled(typed)
-      if (onSettled) {
-        onSettled({ target: { value: typed } })
-      }
-    }, FILTER_DELAY_MS)
-
-    // Typing again before the delay ends cancels this timer and starts a new one.
-    return () => clearTimeout(timer)
-  }, [typed])
-
-  return { typed, setTyped, settled }
-}
 
 // useJson fetches a JSON endpoint once per url, giving fallback until it
 // loads or if it fails. The alive flag drops a response that arrives after the

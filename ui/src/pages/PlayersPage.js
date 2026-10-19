@@ -1,147 +1,232 @@
-import React, { useState, useEffect, useMemo } from 'react'
-import { useStatsFilters, useStatsData } from "./StatsHooks.js"
+import React, { useEffect, useMemo, useState } from "react"
+import { useStatsData, useStatsFilters } from "./StatsHooks.js"
+import { useCube } from "../contexts/CubeContext.js"
+import { PlayerDetailsPanel, playerRowsInOrder } from "./Players.js"
 import { useSelection } from "../hooks/useSelection.js"
-import { BrowseLayout, BrowseEmptyState } from "../components/BrowseLayout.js"
-import { PlayerTable, PlayerDetailsPanel, playerRowsInOrder } from "./Players.js"
-import { PillSearchInput } from "../components/PillSearchInput.js"
-import { Button, DateSelector, NumericInput } from "../components/Dropdown.js"
 import { useArrowNav } from "../hooks/useArrowNav.js"
-import { fetchPlayers, renamePlayer, isAnonymous } from "../utils/Players.js"
+import { useDebouncedFilter } from "../hooks/useDebouncedFilter.js"
+import { useCubeWritable } from "../utils/useCubeWritable.js"
+import { fetchPlayers, isAnonymous } from "../utils/Players.js"
+import { PillSearchInput } from "../components/PillSearchInput.js"
+import { ListDetail } from "../components/kit/ListDetail.js"
+import { EmptyState } from "../components/kit/EmptyState.js"
+import { PageToolbar } from "../toolbar/PageToolbar.js"
+import { DateRangeMenu } from "../toolbar/DateRangeMenu.js"
+import { PlayerList } from "../players/PlayerList.js"
+import { PlayerSettings } from "../players/PlayerSettings.js"
+import { PlayerSummaryCard } from "../players/PlayerSummaryCard.js"
+import "../decks/decks.css"
+import "../players/players.css"
 
-// PlayersPage is the Browse > Players master-detail page: a roster index on the
-// left, the selected player's detail (records vs opponents, by archetype, by
-// color, and a win-rate-over-time chart) on the right.
-export function PlayersPage(props) {
-  const [refresh, setRefresh] = useState(1);
+// COPY holds every piece of text on the Players page. These are placeholders
+// for Casey to replace.
+const COPY = {
+  title: "Players",
+  filterPlaceholder: "Filter decks",
 
-  // Debounced global deck filter, same pattern as StatsViewer.
-  const [typingStr, setTypingStr] = useState(props.matchStr || "");
-  const [debouncedMatchStr, setDebouncedMatchStr] = useState(props.matchStr || "");
+  allTime: "All time",
+  last12Months: "Last 12 months",
+  customRange: "Custom range",
+  from: "From",
+  to: "To",
+  apply: "Apply",
+
+  settings: "List settings",
+  minGames: "Min games",
+  sort: "Sort by",
+  reverseSort: "Reverse order",
+  sortLabels: {
+    name: "Player",
+    num_decks: "Decks",
+    games: "Games",
+    win_percent: "Win %",
+    trophies: "Trophies",
+  },
+
+  playersLower: "players",
+  deckLower: "deck",
+  decksLower: "decks",
+  pickPlayer: "Pick a player from the list",
+
+  games: "games",
+  decks: "Decks",
+  gamesTile: "Games",
+  trophies: "Trophies",
+  lastPlace: "Last place",
+  opponentWinPercent: "Opponent win %",
+  uniqueness: "Uniqueness",
+  avgWords: "Avg words",
+
+  renameLabel: "name",
+  renameError: "Couldn't rename",
+
+  opponents: "Opponents",
+  archetypes: "Archetypes",
+  colors: "Colors",
+  winRateOverTime: "Win rate over time",
+}
+
+// usePlayerList loads the global player list, again whenever refresh changes
+// (after a rename). The page uses it to map between a player's id, which the
+// URL carries so links survive renames, and their name, which the stats use.
+function usePlayerList(refresh) {
+  const [players, setPlayers] = useState([])
+
   useEffect(() => {
-    const t = setTimeout(() => setDebouncedMatchStr(typingStr), 300);
-    return () => clearTimeout(t);
-  }, [typingStr]);
+    let alive = true
+    fetchPlayers()
+      .then(list => {
+        if (alive) {
+          setPlayers(list)
+        }
+      })
+      .catch(() => {})
+    return () => {
+      alive = false
+    }
+  }, [refresh])
 
-  const filters = useStatsFilters();
+  return players
+}
+
+// usePlayerSelection reads the ?player= selection, an id for players in the
+// list or a name for those outside it (a CubeCobra cube's), and maps it to a
+// name. selectionFor goes the other way, for building row links.
+function usePlayerSelection(players) {
+  const [selected, setSelected] = useSelection("player")
+
+  const entry = players.find(p => String(p.id) === selected)
+  let name = ""
+  if (entry) {
+    name = entry.name
+  } else if (!/^\d+$/.test(selected)) {
+    name = selected
+  }
+
+  function selectionFor(playerName) {
+    const player = players.find(p => p.name === playerName)
+    if (player) {
+      return String(player.id)
+    }
+    return playerName
+  }
+
+  return { name, id: entry ? entry.id : null, selectionFor, select: playerName => setSelected(selectionFor(playerName)) }
+}
+
+// detailProps wires the stats tables' sort headers to the shared filter state,
+// the way the stats pages pass them to PlayerDetailsPanel.
+function detailProps(filters) {
+  // headerClick returns a click handler for a table's headers: a new column
+  // sorts by it, and clicking the same column again reverses the order.
+  function headerClick(sortBy, setSortBy, invert, setInvert) {
+    return event => {
+      if (sortBy === event.currentTarget.id) {
+        setInvert(!invert)
+      } else {
+        setInvert(false)
+        setSortBy(event.currentTarget.id)
+      }
+    }
+  }
+
+  return {
+    bucketSize: filters.bucketSize,
+    oppSortBy: filters.oppSortBy,
+    oppSortInvert: filters.oppSortInvert,
+    onOppHeaderClick: headerClick(filters.oppSortBy, filters.setOppSortBy, filters.oppSortInvert, filters.setOppSortInvert),
+    playerArchSortBy: filters.playerArchSortBy,
+    playerArchSortInvert: filters.playerArchSortInvert,
+    onPlayerArchHeaderClick: headerClick(filters.playerArchSortBy, filters.setPlayerArchSortBy, filters.playerArchSortInvert, filters.setPlayerArchSortInvert),
+    playerColorSortBy: filters.playerColorSortBy,
+    playerColorSortInvert: filters.playerColorSortInvert,
+    onPlayerColorHeaderClick: headerClick(filters.playerColorSortBy, filters.setPlayerColorSortBy, filters.playerColorSortInvert, filters.setPlayerColorSortInvert),
+  }
+}
+
+// PlayersPage lists the cube's players beside the selected player's records.
+// The toolbar holds the date range, the deck filter (kept in the URL like on
+// Decks), and the list settings. props carry the app-wide dates and filter.
+export function PlayersPage(props) {
+  const cubeId = useCube()
+  const [refresh, setRefresh] = useState(1)
+  const filter = useDebouncedFilter(props.matchStr, props.onMatchUpdated)
+  const filters = useStatsFilters()
+
   const dataProps = useMemo(() => ({
     startDate: props.startDate,
     endDate: props.endDate,
-    matchStr: debouncedMatchStr,
-  }), [props.startDate, props.endDate, debouncedMatchStr]);
-  const data = useStatsData(filters, dataProps, refresh);
-  const { cube, parsed } = data;
+    matchStr: filter.settled,
+  }), [props.startDate, props.endDate, filter.settled])
+  const { cube, parsed } = useStatsData(filters, dataProps, refresh)
 
-  // The URL carries the player's id so links survive renames; the roster
-  // and stats are keyed by name, so map between the two.
-  const [selectedID, setSelectedID] = useSelection("player");
-  const [players, setPlayers] = useState([]);
-  useEffect(() => {
-    let alive = true;
-    fetchPlayers().then((list) => { if (alive) setPlayers(list); }).catch(() => {});
-    return () => { alive = false; };
-  }, [refresh]);
-  // A player not in the list (a CubeCobra cube's) is selected by name.
-  const selectedEntry = players.find((p) => String(p.id) === selectedID);
-  const selectedPlayer = selectedEntry ? selectedEntry.name : (/^\d+$/.test(selectedID || "") ? "" : selectedID);
-  const setSelectedPlayer = (name) => {
-    const p = players.find((p) => p.name === name);
-    setSelectedID(p ? String(p.id) : name);
-  };
-  const onRename = async (name) => {
-    await renamePlayer(selectedEntry.id, name);
-    setRefresh((r) => r + 1);
-  };
+  const editable = useCubeWritable(cubeId) === true
+  const players = usePlayerList(refresh)
+  const selection = usePlayerSelection(players)
 
-  // Picking a player collapses the index so the detail gets the screen; the
-  // header toggles it back open.
-  const [indexCollapsed, setIndexCollapsed] = useState(false);
+  const rows = playerRowsInOrder({
+    parsed,
+    minGames: filters.minGames,
+    sortBy: filters.playerSortBy,
+    invertSort: filters.playerSortInvert,
+  })
 
-  const {
-    playerSortBy, setPlayerSortBy, playerSortInvert, setPlayerSortInvert,
-    oppSortBy, setOppSortBy, oppSortInvert, setOppSortInvert,
-    playerArchSortBy, setPlayerArchSortBy, playerArchSortInvert, setPlayerArchSortInvert,
-    playerColorSortBy, setPlayerColorSortBy, playerColorSortInvert, setPlayerColorSortInvert,
-    minGames, setMinGames, bucketSize,
-  } = filters;
+  // The left and right arrow keys step through the list.
+  useArrowNav(rows, selection.name, row => row.name, selection.select)
 
   const playerNames = useMemo(() => {
-    let seen = new Set();
-    for (let d of parsed.filteredDecks) if (d.player && !isAnonymous(d)) seen.add(d.player);
-    return Array.from(seen).sort();
-  }, [parsed.filteredDecks]);
+    const names = new Set()
+    for (const deck of parsed.filteredDecks) {
+      if (deck.player && !isAnonymous(deck)) {
+        names.add(deck.player)
+      }
+    }
+    return [...names].sort()
+  }, [parsed.filteredDecks])
 
-  // Shared props for both the roster table and the detail panel. Mirrors the
-  // wiring StatsViewer used to pass to PlayerWidget.
-  const widgetProps = {
-    parsed,
-    decks: parsed.filteredDecks,
-    bucketSize,
-    sortBy: playerSortBy,
-    invertSort: playerSortInvert,
-    onHeaderClick: (e) => {
-      if (playerSortBy === e.currentTarget.id) setPlayerSortInvert(!playerSortInvert);
-      else { setPlayerSortInvert(false); setPlayerSortBy(e.currentTarget.id); }
-    },
-    oppSortBy, oppSortInvert,
-    onOppHeaderClick: (e) => {
-      if (oppSortBy === e.currentTarget.id) setOppSortInvert(!oppSortInvert);
-      else { setOppSortInvert(false); setOppSortBy(e.currentTarget.id); }
-    },
-    playerArchSortBy, playerArchSortInvert,
-    onPlayerArchHeaderClick: (e) => {
-      if (playerArchSortBy === e.currentTarget.id) setPlayerArchSortInvert(!playerArchSortInvert);
-      else { setPlayerArchSortInvert(false); setPlayerArchSortBy(e.currentTarget.id); }
-    },
-    playerColorSortBy, playerColorSortInvert,
-    onPlayerColorHeaderClick: (e) => {
-      if (playerColorSortBy === e.currentTarget.id) setPlayerColorSortInvert(!playerColorSortInvert);
-      else { setPlayerColorSortInvert(false); setPlayerColorSortBy(e.currentTarget.id); }
-    },
-    handleRowClick: (e) => { setSelectedPlayer(e.currentTarget.id); setIndexCollapsed(true); },
-    player: selectedPlayer,
-    minGames,
-    onMinGamesSelected: (e) => setMinGames(e.target.value),
-    collapsed: indexCollapsed,
-    onToggleCollapse: () => setIndexCollapsed((c) => !c),
-    onSelectPlayer: (name) => setSelectedPlayer(name),
-    onRename: selectedEntry ? onRename : null,
-  };
+  const row = parsed.playerData.get(selection.name)
 
-  // Left/right arrows step through the roster in its current sort order.
-  const orderedRows = playerRowsInOrder(widgetProps);
-  useArrowNav(orderedRows, selectedPlayer, (r) => r.name, (name) => setSelectedPlayer(name));
-
-  const filterBar = (
-    <>
-      <div className="selector-group">
-        <Button text="Refresh" onClick={() => setRefresh((r) => r + 1)} />
-        <DateSelector label="From" id="from" value={props.startDate} onChange={props.onStartSelected} />
-        <DateSelector label="To" id="to" value={props.endDate} onChange={props.onEndSelected} />
-        <NumericInput label="Min games" min={0} value={minGames} onChange={(e) => setMinGames(e.target.value)} />
-      </div>
-      <div className="search-group">
-        <PillSearchInput
-          label="Filter decks"
-          placeholder="Search cards (e.g. color:ug, cmc<3, t:creature)"
-          value={typingStr}
-          cardNames={cube.cards.map((c) => c.name)}
-          playerNames={playerNames}
-          onChange={(e) => setTypingStr(e.target.value)}
-        />
-      </div>
-    </>
-  );
+  let detail = <EmptyState>{COPY.pickPlayer}</EmptyState>
+  if (row) {
+    const header = (
+      <PlayerSummaryCard
+        row={row}
+        playerId={selection.id}
+        editable={editable}
+        onRenamed={() => setRefresh(r => r + 1)}
+        copy={COPY}
+      />
+    )
+    detail = (
+      <PlayerDetailsPanel
+        {...detailProps(filters)}
+        parsed={parsed}
+        decks={parsed.filteredDecks}
+        player={selection.name}
+        onSelectPlayer={selection.select}
+        header={header}
+        copy={COPY}
+      />
+    )
+  }
 
   return (
-    <BrowseLayout
-      stacked
-      filters={filterBar}
-      index={<PlayerTable {...widgetProps} />}
-      detail={
-        selectedPlayer
-          ? <PlayerDetailsPanel {...widgetProps} />
-          : <BrowseEmptyState message="Select a player to see their stats." />
-      }
-    />
-  );
+    <>
+      <PageToolbar title={COPY.title} actions={<PlayerSettings filters={filters} copy={COPY} />}>
+        <DateRangeMenu start={props.startDate} end={props.endDate} onChange={props.onRangeChange} copy={COPY} />
+        <PillSearchInput
+          placeholder={COPY.filterPlaceholder}
+          value={filter.typed}
+          cardNames={cube.cards.map(c => c.name)}
+          playerNames={playerNames}
+          onChange={event => filter.setTyped(event.target.value)}
+        />
+      </PageToolbar>
+
+      <ListDetail
+        list={<PlayerList rows={rows} selectedName={selection.name} selectionFor={selection.selectionFor} copy={COPY} />}
+        detail={detail}
+      />
+    </>
+  )
 }
