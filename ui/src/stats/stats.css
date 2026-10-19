@@ -24,3 +24,37 @@
     height: 480px;
   }
 }
+
+/* Tables wider than the window scroll sideways inside their card. */
+.stats-table-wrap {
+  overflow-x: auto;
+}
+
+/* The Colors page: the stats table across the top, the two charts over time
+   side by side, then the wide charts. One column on narrow screens. */
+.colors-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 16px;
+}
+
+.colors-wide {
+  grid-column: 1 / -1;
+  min-width: 0;
+}
+
+/* A wide block whose chart has nothing to draw stays out of the way. */
+.colors-wide:empty,
+.colors-chart-card:empty {
+  display: none;
+}
+
+.colors-chart-card {
+  padding: 16px;
+}
+
+@media (max-width: 62em) {
+  .colors-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

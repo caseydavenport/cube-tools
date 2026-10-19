@@ -35,6 +35,7 @@ const COPY = {
   drafts: "drafts",
   decks: "decks",
   players: "players",
+  colorStats: "Color stats",
 
   allTime: "All time",
   last12Months: "Last 12 months",
@@ -151,6 +152,7 @@ export function StatsViewer(props) {
     widget = (
       <ColorWidget
         info={info}
+        copy={COPY}
         parsed={parsed} ddOpts={[{ label: "Mono", value: "Mono" }, { label: "Dual", value: "Dual" }, { label: "Trio", value: "Trio" }]}
         colorTypeSelection={colorTypeSelection} onSelected={(e) => setColorTypeSelection(e.target.value)}
         onBucketSelected={(e) => setSelectedBucket(e.target.value)}

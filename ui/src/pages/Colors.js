@@ -1,6 +1,11 @@
 import React from 'react'
-import { DropdownHeader, NumericInput, DateSelector } from "../components/Dropdown.js"
+import { DropdownHeader } from "../components/Dropdown.js"
 import { HoverInfo } from "../components/kit/HoverInfo.js"
+import { SectionCard } from "../components/kit/SectionCard.js"
+import { asEvent } from "../components/kit/controls.js"
+import { Group, SegmentedControl } from "@mantine/core"
+import { availableValue, hasData, visibleItems } from "../utils/dataKinds.js"
+import { goodBadTint } from "../stats/tints.js"
 import { Colors, ColorImages, GetColorIdentity, primaryColorPair, CUBE_AVG_WIN_PERCENT, guildColor } from "../utils/Colors.js"
 import { Trophies, LastPlaceFinishes, Wins, Losses } from "../utils/Deck.js"
 import { bucketXScale } from "../utils/Buckets.js"
@@ -34,116 +39,121 @@ ChartJS.register(
   Legend
 );
 
+// CHART_OPTIONS are the measures the two charts over time can show. needs
+// lists the data a measure is built from, so a cube without it doesn't offer it.
+const CHART_OPTIONS = [
+  { label: "Build %", value: "builds" },
+  { label: "Win %", value: "wins", needs: ["results"] },
+  { label: "Pick %", value: "pick_percentage" },
+  { label: "Avg Deck Devotion", value: "splash" },
+  { label: "VP %", value: "vps_pct", needs: ["results"] },
+  { label: "Victory Points", value: "vps", needs: ["results"] },
+  { label: "% of wins", value: "percent_of_wins", needs: ["results"] },
+  { label: "Winning %", value: "winning_pct", needs: ["results"] },
+  { label: "Trophy %", value: "trophy_pct", needs: ["results"] },
+  { label: "Last Place %", value: "lastplace_pct", needs: ["results"] },
+]
+
+// chartLabel returns the label of a chart option, for its card's title.
+function chartLabel(value) {
+  for (const option of CHART_OPTIONS) {
+    if (option.value === value) {
+      return option.label
+    }
+  }
+  return ""
+}
+
+// ColorWidget is the Colors page: the stats table by color, two charts over
+// time side by side, and, for cubes with match results, the win rate against
+// the cube average and the matchup heatmap.
 export function ColorWidget(input) {
   const [leftChart, setLeftChart] = React.useState("builds")
   const [rightChart, setRightChart] = React.useState("wins")
 
   if (!input.show) {
-    return
+    return null
   }
 
-  const chartOptions = [
-    { label: "Build %", value: "builds" },
-    { label: "Win %", value: "wins" },
-    { label: "Pick %", value: "pick_percentage" },
-    { label: "Avg Deck Devotion", value: "splash" },
-    { label: "VP %", value: "vps_pct" },
-    { label: "Victory Points", value: "vps" },
-    { label: "% of wins", value: "percent_of_wins" },
-    { label: "Winning %", value: "winning_pct" },
-    { label: "Trophy %", value: "trophy_pct" },
-    { label: "Last Place %", value: "lastplace_pct" },
-  ]
+  // A chosen chart the cube can't fill falls back to one it can.
+  const options = visibleItems(CHART_OPTIONS, input.info)
+  const left = availableValue(leftChart, CHART_OPTIONS, input.info)
+  const right = availableValue(rightChart, CHART_OPTIONS, input.info)
 
   return (
-    <div className="analyze-page">
-      <table style={{"width": "100%"}}>
-        <tbody>
-          <tr key="1">
-            <td colSpan="2">
-              <ColorStatsTable
-                parsed={input.parsed}
-                colorData={input.parsed.colorData}
-                ddOpts={input.ddOpts}
-                colorTypeSelection={input.colorTypeSelection}
-                decks={input.decks}
-                onSelected={input.onSelected}
-                onClick={input.onHeaderClick}
-                sortBy={input.colorSortBy}
-                colorMode={input.colorMode}
-                onColorModeChanged={input.onColorModeChanged}
-                selectedBucket={input.selectedBucket}
-                onBucketSelected={input.onBucketSelected}
-              />
-            </td>
-          </tr>
+    <div className="analyze-page colors-grid">
+      <div className="colors-wide">
+        <SectionCard title={input.copy.colorStats} action={<TableHeader {...input} />}>
+          <ColorStatsTable
+            parsed={input.parsed}
+            colorData={input.parsed.colorData}
+            colorTypeSelection={input.colorTypeSelection}
+            decks={input.decks}
+            onClick={input.onHeaderClick}
+            sortBy={input.colorSortBy}
+            selectedBucket={input.selectedBucket}
+            info={input.info}
+          />
+        </SectionCard>
+      </div>
 
-          <tr key="charts-header">
-            <td style={{"paddingTop": "50px", "width": "50%"}}>
-              <div className="selector-group" style={{"justifyContent": "center"}}>
-                <DropdownHeader
-                  label="Left Chart"
-                  options={chartOptions}
-                  value={leftChart}
-                  onChange={(e) => setLeftChart(e.target.value)}
-                />
-              </div>
-            </td>
-            <td style={{"paddingTop": "50px", "width": "50%"}}>
-              <div className="selector-group" style={{"justifyContent": "center"}}>
-                <DropdownHeader
-                  label="Right Chart"
-                  options={chartOptions}
-                  value={rightChart}
-                  onChange={(e) => setRightChart(e.target.value)}
-                />
-              </div>
-            </td>
-          </tr>
+      <RateChartCard {...input} dataset={left} options={options} onChange={setLeftChart} />
+      <RateChartCard {...input} dataset={right} options={options} onChange={setRightChart} />
 
-          <tr key="charts-body">
-            <td style={{"width": "50%"}}>
-              <ColorRateChart
-                parsed={input.parsed}
-                colorData={input.parsed.colorData}
-                decks={input.decks}
-                dataset={leftChart}
-                colorMode={input.colorTypeSelection}
-                bucketSize={input.bucketSize}
-              />
-            </td>
-            <td style={{"width": "50%"}}>
-              <ColorRateChart
-                parsed={input.parsed}
-                colorData={input.parsed.colorData}
-                decks={input.decks}
-                dataset={rightChart}
-                colorMode={input.colorTypeSelection}
-                bucketSize={input.bucketSize}
-              />
-            </td>
-          </tr>
-
-          <tr key="delta-chart">
-            <td colSpan="2" style={{"paddingTop": "50px"}}>
-              <ColorPerformanceDeltaChart
-                parsed={input.parsed}
-                colorData={input.parsed.colorData}
-                colorTypeSelection={input.colorTypeSelection}
-                selectedBucket={input.selectedBucket}
-              />
-            </td>
-          </tr>
-
-          <tr key="matchup-heatmap">
-            <td colSpan="2" style={{"paddingTop": "50px"}}>
-              <ColorMatchupHeatmap matchupData={input.colorMatchupData} colorType={input.colorTypeSelection} />
-            </td>
-          </tr>
-        </tbody>
-      </table>
+      <ResultsCharts {...input} />
     </div>
   );
+}
+
+// RateChartCard is one of the two charts over time, in a card titled with what
+// it shows and a dropdown in the corner to pick another measure.
+function RateChartCard(input) {
+  const picker = (
+    <DropdownHeader
+      label=""
+      options={input.options}
+      value={input.dataset}
+      onChange={(e) => input.onChange(e.target.value)}
+    />
+  )
+
+  return (
+    <SectionCard title={chartLabel(input.dataset)} action={picker}>
+      <ColorRateChart
+        parsed={input.parsed}
+        colorData={input.parsed.colorData}
+        decks={input.decks}
+        dataset={input.dataset}
+        colorMode={input.colorTypeSelection}
+        bucketSize={input.bucketSize}
+      />
+    </SectionCard>
+  )
+}
+
+// ResultsCharts are the win rate against the cube average and the matchup
+// heatmap. Both are built from match results, so cubes without them skip both.
+function ResultsCharts(input) {
+  if (!hasData(input.info, "results")) {
+    return null
+  }
+
+  return (
+    <>
+      <div className="colors-wide">
+        <ColorPerformanceDeltaChart
+          parsed={input.parsed}
+          colorData={input.parsed.colorData}
+          colorTypeSelection={input.colorTypeSelection}
+          selectedBucket={input.selectedBucket}
+        />
+      </div>
+
+      <div className="colors-wide kit-card colors-chart-card">
+        <ColorMatchupHeatmap matchupData={input.colorMatchupData} colorType={input.colorTypeSelection} />
+      </div>
+    </>
+  )
 }
 
 // colorIsDisplayed returns true if the given color identity should be displayed - e.g.,
@@ -157,6 +167,208 @@ function colorIsDisplayed(color, selection) {
     return false
   }
   return true
+}
+
+// COLOR_COLUMNS are the stats table's columns. Each one draws its own header
+// and cell; needs lists the data a column is built from, and monoOnly marks a
+// column that only makes sense for single colors.
+const COLOR_COLUMNS = [
+  {
+    id: "color",
+    text: "Color",
+    tip: "The color or colors of the deck. If 'strict' is checked, the row includes data only from decks that are exactly this color. Otherwise, the row includes data from any decks that include this color/colors.",
+    cell: (color) => <td key="color">{ColorImages(color.color)}</td>,
+  },
+  {
+    id: "win",
+    text: "Win %",
+    tip: "Percentage of games played by this color/colors that were wins. Greyed when it can't be told apart from a coin flip at the chosen confidence; hover for the interval.",
+    needs: ["results"],
+    cell: (color) => <WinPercentCell key="win" color={color} />,
+  },
+  {
+    id: "delta",
+    text: "Δ vs avg",
+    tip: "Win rate relative to the cube-wide average (50%). Positive (green) means this color wins more than its share of games; negative (red) means it loses more.",
+    needs: ["results"],
+    cell: (color) => <DeltaCell key="delta" color={color} />,
+  },
+  {
+    id: "build",
+    text: "Build %",
+    tip: "Percentages of all built decks that include this color/colors.",
+    cell: (color) => <td key="build">{color.build_percent.toFixed(0)}%</td>,
+  },
+  {
+    id: "pwin",
+    text: "% of wins",
+    tip: "Share of wins among rows of this same identity length (mono, dual, tri). Sums to ~100% within each view.",
+    needs: ["results"],
+    cell: (color) => <td key="pwin">{color.percent_of_wins.toFixed(0)}%</td>,
+  },
+  {
+    id: "vps",
+    text: "Victory point %",
+    tip: "Weighted win contribution of this color, as a percentage of total wins across all decks.",
+    needs: ["results"],
+    cell: (color, totals) => <td key="vps">{Pct(color.victory_points, totals.victoryPoints)}%</td>,
+  },
+  {
+    id: "trophies",
+    text: "Trophies",
+    tip: "Number of 3-0 decks of this color.",
+    needs: ["results"],
+    cell: (color) => <td key="trophies">{color.trophies}</td>,
+  },
+  {
+    id: "lastplace",
+    text: "Last place",
+    tip: "Number of 0-3 decks of this color.",
+    needs: ["results"],
+    cell: (color) => <td key="lastplace">{color.last_place}</td>,
+  },
+  {
+    id: "winning",
+    text: "Winning",
+    tip: "Number of 2-1 or better.",
+    needs: ["results"],
+    cell: (color) => <td key="winning">{color.top_half}</td>,
+  },
+  {
+    id: "losing",
+    text: "Losing",
+    tip: "Number of 1-2 or worse.",
+    needs: ["results"],
+    cell: (color) => <td key="losing">{color.bottom_half}</td>,
+  },
+  {
+    id: "winning_pct",
+    text: "Winning %",
+    tip: "Percentage of decks with a 2-1 or better match record.",
+    needs: ["results"],
+    cell: (color) => <td key="winning_pct">{winningPercentText(color)}</td>,
+  },
+  {
+    id: "decks",
+    text: "# Decks",
+    tip: "Number of decks in this row.",
+    cell: (color) => <td key="decks">{color.num_decks}</td>,
+  },
+  {
+    id: "picks",
+    text: "Pick %",
+    tip: "This color's share of all mainboarded cards across every deck. Sums to ~100% across rows.",
+    monoOnly: true,
+    cell: (color) => <td key="picks">{color.total_pick_percentage}%</td>,
+  },
+  {
+    id: "splash",
+    text: "Avg Deck Devotion",
+    tip: "For each deck, the fraction of colored mana symbols matching this color identity, then averaged across decks. Each deck contributes equally regardless of size.",
+    cell: (color) => <td key="splash">{color.average_deck_percentage}%</td>,
+  },
+  {
+    id: "avg_word_count",
+    text: "Avg Words",
+    tip: "Average word count per non-land card in decks with this color, excluding reminder text.",
+    cell: (color) => <td key="avg_word_count">{color.avg_word_count || 0}</td>,
+  },
+]
+
+// shownColumns returns the stats table's columns for this cube and color type:
+// columns needing data the cube lacks are dropped, as are single-color columns
+// when pairs or trios are shown. Header and cells both come from this list.
+function shownColumns(info, colorType) {
+  const columns = []
+  for (const column of visibleItems(COLOR_COLUMNS, info)) {
+    if (column.monoOnly && colorType !== "Mono") {
+      continue
+    }
+    columns.push(column)
+  }
+  return columns
+}
+
+// winningPercentText is the share of decks with a winning record, or a dash
+// for colors with too few decks to say.
+function winningPercentText(color) {
+  if (color.num_decks < MinWinningPctDecks) {
+    return "—"
+  }
+  return Pct(color.top_half, color.num_decks) + "%"
+}
+
+// WinPercentCell shows a color's win rate, greyed when it can't be told apart
+// from a coin flip, with the confidence interval on hover.
+function WinPercentCell({ color }) {
+  const hasCI = color.win_percent_low != null
+
+  let style = undefined
+  let title = undefined
+  if (hasCI) {
+    if (!color.significant) {
+      style = { color: "var(--text-muted)" }
+    }
+    let verdict = "not distinguishable from 50%"
+    if (color.significant) {
+      verdict = "distinguishable from 50%"
+    }
+    title = `${color.win_percent_low.toFixed(0)}–${color.win_percent_high.toFixed(0)}% · ${verdict}`
+  }
+
+  return <td style={style} title={title}>{color.win_percent.toFixed(0)}%</td>
+}
+
+// DeltaCell shows a color's win rate above or below the cube average, signed
+// and colored good or bad.
+function DeltaCell({ color }) {
+  const delta = color.win_percent - CUBE_AVG_WIN_PERCENT
+
+  let className = "negative"
+  let sign = ""
+  if (delta >= 0) {
+    className = "positive"
+    sign = "+"
+  }
+  return <td className={className}>{sign + delta.toFixed(0) + "%"}</td>
+}
+
+// colorSortValue is the value a row sorts by for the chosen column, win rate
+// unless another column was clicked.
+function colorSortValue(color, sortBy) {
+  if (sortBy === "delta") {
+    return color.win_percent - CUBE_AVG_WIN_PERCENT
+  } else if (sortBy === "build") {
+    return color.build_percent
+  } else if (sortBy === "decks") {
+    return color.num_decks
+  } else if (sortBy === "color") {
+    return color.color
+  } else if (sortBy === "picks") {
+    return color.total_pick_percentage
+  } else if (sortBy === "splash") {
+    return color.average_deck_percentage
+  } else if (sortBy === "pwin") {
+    return color.percent_of_wins
+  } else if (sortBy === "vps") {
+    return color.victory_points
+  } else if (sortBy === "trophies") {
+    return color.trophies
+  } else if (sortBy === "lastplace") {
+    return color.last_place
+  } else if (sortBy === "winning") {
+    return color.top_half
+  } else if (sortBy === "losing") {
+    return color.bottom_half
+  } else if (sortBy === "winning_pct") {
+    if (color.num_decks >= MinWinningPctDecks) {
+      return color.top_half / color.num_decks
+    }
+    return -1
+  } else if (sortBy === "avg_word_count") {
+    return color.avg_word_count || 0
+  }
+  return color.win_percent
 }
 
 // ColorStatsTable displays the win percentages and records by color.
@@ -181,13 +393,6 @@ function ColorStatsTable(input) {
     }
   }
 
-  // We conditionally show / hide a few of the columns, because they are only
-  // applicable when mono-color is displayed.
-  let headerStyleFields = {}
-  if (input.colorTypeSelection !== "Mono") {
-    headerStyleFields.display = "none"
-  }
-
   // Determine which rates to show, filtering out those which do not match the selected
   // color mode dropdown.
   let filtered = new Array();
@@ -204,95 +409,18 @@ function ColorStatsTable(input) {
     totalVictoryPoints += d.victory_points
   }
 
-  let headers = [
-    {
-      id: "color",
-      text: "Color",
-      tip: "The color or colors of the deck. If 'strict' is checked, the row includes data only from decks that are exactly this color. Otherwise, the row includes data from any decks that include this color/colors."
-    },
-    {
-      id: "win",
-      text: "Win %",
-      tip: "Percentage of games played by this color/colors that were wins. Greyed when it can't be told apart from a coin flip at the chosen confidence; hover for the interval.",
-    },
-    {
-      id: "delta",
-      text: "Δ vs avg",
-      tip: "Win rate relative to the cube-wide average (50%). Positive (green) means this color wins more than its share of games; negative (red) means it loses more.",
-    },
-    {
-      id: "build",
-      text: "Build %",
-      tip: "Percentages of all built decks that include this color/colors.",
-    },
-    {
-      id: "pwin",
-      text: "% of wins",
-      tip: "Share of wins among rows of this same identity length (mono, dual, tri). Sums to ~100% within each view.",
-    },
-    {
-      id: "vps",
-      text: "Victory point %",
-      tip: "Weighted win contribution of this color, as a percentage of total wins across all decks.",
-    },
-    {
-      id: "trophies",
-      text: "Trophies",
-      tip: "Number of 3-0 decks of this color.",
-    },
-    {
-      id: "lastplace",
-      text: "Last place",
-      tip: "Number of 0-3 decks of this color.",
-    },
-    {
-      id: "winning",
-      text: "Winning",
-      tip: "Number of 2-1 or better.",
-    },
-    {
-      id: "losing",
-      text: "Losing",
-      tip: "Number of 1-2 or worse.",
-    },
-    {
-      id: "winning_pct",
-      text: "Winning %",
-      tip: "Percentage of decks with a 2-1 or better match record.",
-    },
-    {
-      id: "decks",
-      text: "# Decks",
-      tip: "Number of decks in this row.",
-    },
-    {
-      id: "picks",
-      text: "Pick %",
-      tip: "This color's share of all mainboarded cards across every deck. Sums to ~100% across rows.",
-    },
-    {
-      id: "splash",
-      text: "Avg Deck Devotion",
-      tip: "For each deck, the fraction of colored mana symbols matching this color identity, then averaged across decks. Each deck contributes equally regardless of size.",
-    },
-    {
-      id: "avg_word_count",
-      text: "Avg Words",
-      tip: "Average word count per non-land card in decks with this color, excluding reminder text.",
-    },
-  ]
+  const columns = shownColumns(input.info, input.colorTypeSelection)
+  const totals = { victoryPoints: totalVictoryPoints }
 
   return (
-    <div>
-      <TableHeader {...input} />
-
+    <div className="stats-table-wrap">
       <table className="widget-table">
         <thead className="table-header">
           <tr key="header">
             {
-              headers.map(function(hdr, i) {
+              columns.map(function(hdr) {
                 return (
-                  <HoverInfo key={i} title={hdr.text} info={hdr.tip}>
+                  <HoverInfo key={hdr.id} title={hdr.text} info={hdr.tip}>
                     <td onClick={input.onClick} id={hdr.id} className="header-cell">{hdr.text}</td>
                   </HoverInfo>
                 );
@@ -303,70 +431,9 @@ function ColorStatsTable(input) {
         <tbody>
           {
             filtered.map(function(color, idx) {
-
-              // Determine what we're sorting by. Default to sorting by win percentage.
-              let sort = color.win_percent
-              if (input.sortBy === "delta") {
-                sort = color.win_percent - CUBE_AVG_WIN_PERCENT
-              } else if (input.sortBy === "build") {
-                sort = color.build_percent
-              } else if (input.sortBy === "decks") {
-                sort = color.num_decks
-              } else if (input.sortBy === "color") {
-                sort = color.color
-              } else if (input.sortBy === "picks") {
-                sort = color.total_pick_percentage
-              } else if (input.sortBy === "splash") {
-                sort = color.average_deck_percentage
-              } else if (input.sortBy === "pwin") {
-                sort = color.percent_of_wins
-              } else if (input.sortBy === "vps") {
-                sort = color.victory_points
-              } else if (input.sortBy === "trophies") {
-                sort = color.trophies
-              } else if (input.sortBy === "lastplace") {
-                sort = color.last_place
-              } else if (input.sortBy === "winning") {
-                sort = color.top_half
-              } else if (input.sortBy === "losing") {
-                sort = color.bottom_half
-              } else if (input.sortBy === "winning_pct") {
-                sort = color.num_decks >= MinWinningPctDecks ? color.top_half / color.num_decks : -1
-              } else if (input.sortBy === "avg_word_count") {
-                sort = color.avg_word_count || 0
-              }
-
-              let img = ColorImages(color.color)
-              let vpsPercentage = Pct(color.victory_points, totalVictoryPoints)
-
-              // Grey the win rate when it can't be told apart from a coin flip.
-              let hasCI = color.win_percent_low != null
-              let winMuted = hasCI && !color.significant
-
               return (
-                <tr key={idx} sort={sort} className="widget-table-row">
-                  <td>{img}</td>
-                  <td
-                    style={winMuted ? { color: "var(--text-muted)" } : undefined}
-                    title={hasCI ? `${color.win_percent_low.toFixed(0)}–${color.win_percent_high.toFixed(0)}% · ${color.significant ? "distinguishable from 50%" : "not distinguishable from 50%"}` : undefined}
-                  >
-                    {color.win_percent.toFixed(0)}%
-                  </td>
-                  <td className={color.win_percent - CUBE_AVG_WIN_PERCENT >= 0 ? "positive" : "negative"}>
-                    {(color.win_percent - CUBE_AVG_WIN_PERCENT >= 0 ? "+" : "") + (color.win_percent - CUBE_AVG_WIN_PERCENT).toFixed(0) + "%"}
-                  </td>
-                  <td>{color.build_percent.toFixed(0)}%</td>
-                  <td>{color.percent_of_wins.toFixed(0)}%</td>
-                  <td>{vpsPercentage}%</td>
-                  <td>{color.trophies}</td>
-                  <td>{color.last_place}</td>
-                  <td>{color.top_half}</td>
-                  <td>{color.bottom_half}</td>
-                  <td>{color.num_decks >= MinWinningPctDecks ? Pct(color.top_half, color.num_decks) + "%" : "—"}</td>
-                  <td>{color.num_decks}</td>
-                  <td style={headerStyleFields}>{color.total_pick_percentage}%</td>
-                  <td>{color.average_deck_percentage}%</td>
-                  <td>{color.avg_word_count || 0}</td>
+                <tr key={idx} sort={colorSortValue(color, input.sortBy)} className="widget-table-row">
+                  {columns.map(column => column.cell(color, totals))}
                 </tr>
               );
             }).sort(SortFunc)
@@ -377,6 +444,8 @@ function ColorStatsTable(input) {
   );
 }
 
+// TableHeader holds the stats table's controls: mono, pairs, or trios; which
+// time bucket to look at; and how a deck's colors are counted.
 function TableHeader(input) {
   // Build selected bucket dropdown.
   let bucketNames = new Array();
@@ -391,13 +460,13 @@ function TableHeader(input) {
   }
 
   return (
-    <div className="selector-group" style={{"justifyContent": "center", "marginBottom": "1rem"}}>
-      <DropdownHeader
-        label="Color type"
-        className="dropdown"
-        options={input.ddOpts}
+    <Group gap="sm" wrap="wrap" justify="flex-end">
+      <SegmentedControl
+        size="xs"
+        aria-label="Color type"
+        data={input.ddOpts}
         value={input.colorTypeSelection}
-        onChange={input.onSelected}
+        onChange={value => input.onSelected(asEvent(value))}
       />
 
       <DropdownHeader
@@ -419,7 +488,7 @@ function TableHeader(input) {
         value={input.colorMode}
         onChange={input.onColorModeChanged}
       />
-    </div>
+    </Group>
   )
 }
 
@@ -831,7 +900,6 @@ function ColorRateChart(input) {
 
   // Configuration for datasets.
   let hoverBorderWidth = 4;
-  let hoverBorderColor = "red"
 
   let monoColorDatasets = [
       {
@@ -839,7 +907,6 @@ function ColorRateChart(input) {
         data: colorDatasets.get("W"),
         borderColor: Colors.get("W"),
         backgroundColor: Colors.get("W"),
-        hoverBorderColor: hoverBorderColor,
         hoverBorderWidth: hoverBorderWidth,
       },
       {
@@ -847,7 +914,6 @@ function ColorRateChart(input) {
         data: colorDatasets.get("U"),
         borderColor: Colors.get("U"),
         backgroundColor: Colors.get("U"),
-        hoverBorderColor: hoverBorderColor,
         hoverBorderWidth: hoverBorderWidth,
       },
       {
@@ -855,7 +921,6 @@ function ColorRateChart(input) {
         data: colorDatasets.get("B"),
         borderColor: Colors.get("B"),
         backgroundColor: Colors.get("B"),
-        hoverBorderColor: hoverBorderColor,
         hoverBorderWidth: hoverBorderWidth,
       },
       {
@@ -863,7 +928,6 @@ function ColorRateChart(input) {
         data: colorDatasets.get("R"),
         borderColor: Colors.get("R"),
         backgroundColor: Colors.get("R"),
-        hoverBorderColor: hoverBorderColor,
         hoverBorderWidth: hoverBorderWidth,
       },
       {
@@ -871,7 +935,6 @@ function ColorRateChart(input) {
         data: colorDatasets.get("G"),
         borderColor: Colors.get("G"),
         backgroundColor: Colors.get("G"),
-        hoverBorderColor: hoverBorderColor,
         hoverBorderWidth: hoverBorderWidth,
       },
   ]
@@ -884,7 +947,6 @@ function ColorRateChart(input) {
       data: colorDatasets.get(color),
       borderColor: guildColor(color),
       backgroundColor: guildColor(color),
-      hoverBorderColor: hoverBorderColor,
       hoverBorderWidth: hoverBorderWidth,
     })
   }
@@ -896,7 +958,6 @@ function ColorRateChart(input) {
       data: colorDatasets.get(color),
       borderColor: guildColor(color),
       backgroundColor: guildColor(color),
-      hoverBorderColor: hoverBorderColor,
       hoverBorderWidth: hoverBorderWidth,
     })
   }
@@ -1046,15 +1107,8 @@ function ColorMatchupHeatmap({ matchupData, colorType }) {
   // Compute cell background color: green for >50%, red for <50%, gray for mirror/low data.
   function cellColor(winPct, totalGames) {
     if (totalGames < 10) return "var(--card-background)";
-    // Scale from red (0%) through neutral (50%) to green (100%).
-    const t = Math.max(0, Math.min(1, winPct / 100));
-    if (t >= 0.5) {
-      const g = (t - 0.5) * 2; // 0 to 1
-      return `rgba(40, 167, 69, ${0.15 + g * 0.55})`;
-    } else {
-      const r = (0.5 - t) * 2; // 0 to 1
-      return `rgba(220, 53, 69, ${0.15 + r * 0.55})`;
-    }
+    // Scale from bad (0%) through neutral (50%) to good (100%).
+    return goodBadTint((winPct - 50) / 50);
   }
 
   const title = colorType === "Mono" ? "Mono-Color" : colorType === "Trio" ? "Trio-Color" : "Color Pair";
