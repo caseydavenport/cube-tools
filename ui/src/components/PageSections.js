@@ -7,7 +7,7 @@ import React from 'react';
 export function Section({ id, heading, children }) {
   return (
     <section id={id} className="page-section">
-      {heading && <h3 className="section-heading">{heading}</h3>}
+      {heading && <h3 className="section-heading kit-section-title">{heading}</h3>}
       {children}
     </section>
   );

@@ -1,8 +1,8 @@
 /* The sticky page toolbar and its date range menu. */
 
 :root {
-  /* The toolbar's height on one row. The list-and-detail layout sizes its
-     columns to fill the window below it. */
+  /* The toolbar's height before it measures itself. PageToolbar then sets
+     the real height, so layouts below it can sit just under it. */
   --toolbar-height: 56px;
 }
 

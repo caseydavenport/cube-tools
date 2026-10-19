@@ -7,11 +7,48 @@ import { SynergyWidget } from "./Synergy.js";
 import { HealthWidget } from "./Health.js";
 import { DesignMapWidget } from "./DesignMap.js";
 import { useStatsFilters, useStatsData } from "./StatsHooks.js";
-import { SelectorBar } from "../components/StatsUI.js";
 import { isAnonymous } from "../utils/Players.js"
+import { useCube } from "../contexts/CubeContext.js"
+import { useCubeInfo } from "../utils/useCubeWritable.js"
+import { PageToolbar } from "../toolbar/PageToolbar.js"
+import { StatsToolbar } from "../stats/StatsToolbar.js"
+import { StatsSettings } from "../stats/StatsSettings.js"
 
-// StatsViewer displays stats spanning the selected drafts.
+// COPY holds the text the stats pages add around their widgets: page titles,
+// the toolbar, and its settings. Placeholders for Casey to replace.
+const COPY = {
+  titles: {
+    cards: "Cards",
+    colors: "Colors",
+    types: "Archetypes",
+    deckstats: "Deck stats",
+    synergy: "Synergy",
+    health: "Health",
+    designmap: "Synergy map",
+  },
+  filterPlaceholder: "Filter decks",
+  refresh: "Refresh",
+  settings: "Settings",
+  bucketSize: "Bucket size",
+  draftSize: "Draft size",
+  winConfidence: "Win % confidence",
+  drafts: "drafts",
+  decks: "decks",
+  players: "players",
+
+  allTime: "All time",
+  last12Months: "Last 12 months",
+  customRange: "Custom range",
+  from: "From",
+  to: "To",
+  apply: "Apply",
+}
+
+// StatsViewer displays stats spanning the selected drafts. props.view picks
+// which page to show; each one sits under the shared stats toolbar and is told
+// what data the cube has (info), so it can hide what the cube can't fill.
 export function StatsViewer(props) {
+  const info = useCubeInfo(useCube());
   const [refresh, setRefresh] = useState(1);
   const triggerRefresh = () => setRefresh(prev => prev + 1);
 
@@ -68,15 +105,6 @@ export function StatsViewer(props) {
     colorAdjust, setColorAdjust, synergyRecord, setSynergyRecord, synergySortBy, setSynergySortBy,
   } = filters;
 
-  // Map view prop to display index:
-  // colors=0, types=1, cards=2, deckstats=3, drafts=4, players=5, synergy=6, health=7, designmap=8
-  const viewIndexMap = {
-    colors: 0, types: 1, cards: 2, deckstats: 3,
-    drafts: 4, players: 5, synergy: 6, health: 7, designmap: 8,
-  };
-  const activeIdx = viewIndexMap[props.view] ?? 0;
-  const display = Array.from({ length: 9 }, (_, i) => i === activeIdx);
-
   const playerNames = useMemo(() => {
     let seen = new Set();
     for (let deck of decks) {
@@ -98,130 +126,156 @@ export function StatsViewer(props) {
     return Array.from(seen).sort();
   }, [decks]);
 
+  // Only the widget for this page is rendered; the rest of the data stays
+  // loaded for when the viewer switches pages.
+  let widget = null
+  if (props.view === "synergy") {
+    widget = (
+      <SynergyWidget
+        info={info}
+        show={true} synergyData={synergyData} synergyCompare={synergyCompare} cube={cube} matchStr={debouncedMatchStr} minSynergyDecks={minSynergyDecks}
+        onMinSynergyDecksChanged={(e) => setMinSynergyDecks(e.target.value)}
+        focalThreshold={focalThreshold}
+        onFocalThresholdChanged={(e) => setFocalThreshold(e.target.value)}
+        smoothingK={smoothingK}
+        onSmoothingKChanged={(e) => setSmoothingK(e.target.value)}
+        colorAdjust={colorAdjust}
+        onColorAdjustChanged={() => setColorAdjust(!colorAdjust)}
+        record={synergyRecord}
+        onRecordChanged={(e) => setSynergyRecord(e.target.value)}
+        onHeaderClick={(e) => setSynergySortBy(e.currentTarget.id)}
+        sortBy={synergySortBy} onCardSelected={(e) => setSelectedCard(e.currentTarget.id)}
+      />
+    )
+  } else if (props.view === "colors") {
+    widget = (
+      <ColorWidget
+        info={info}
+        parsed={parsed} ddOpts={[{ label: "Mono", value: "Mono" }, { label: "Dual", value: "Dual" }, { label: "Trio", value: "Trio" }]}
+        colorTypeSelection={colorTypeSelection} onSelected={(e) => setColorTypeSelection(e.target.value)}
+        onBucketSelected={(e) => setSelectedBucket(e.target.value)}
+        decks={parsed.filteredDecks} onHeaderClick={(e) => setColorSortBy(e.currentTarget.id)}
+        colorSortBy={colorSortBy} bucketSize={bucketSize} colorMode={colorMode}
+        onColorModeChanged={(e) => setColorMode(e.target.value)}
+        selectedBucket={selectedBucket} show={true}
+        colorMatchupData={colorMatchupData}
+      />
+    )
+  } else if (props.view === "types") {
+    widget = (
+      <ArchetypeWidget
+        info={info}
+        parsed={parsed} cardData={cardData} decks={decks} cube={cube}
+        show={true} bucketSize={bucketSize} matchups={archetypeMatchups}
+        dropdownSelection={colorTypeSelection} onSelected={(e) => setCardWidgetSelection(e.target.value)}
+        colorWidgetOpts={[{ label: "", value: "" }, { label: "Red", value: "R" }, { label: "Blue", value: "U" }, { label: "Green", value: "G" }, { label: "Black", value: "B" }, { label: "White", value: "W" }]}
+        colorSelection={cardWidgetColorSelection} onColorSelected={(e) => setCardWidgetColorSelection(e.target.value)}
+        archetypeDropdownOptions={archetypeDropdownOptions}
+        selectedArchetype={selectedArchetype} onArchetypeSelected={(e) => setSelectedArchetype(e.target.value)}
+        onColorChecked={(e) => {
+          let updated = [...colorCheckboxes];
+          const colorMap = { W: 0, U: 1, B: 2, R: 3, G: 4 };
+          updated[colorMap[e.currentTarget.id]] = !updated[colorMap[e.currentTarget.id]];
+          setColorCheckboxes(updated);
+        }}
+        colorCheckboxes={colorCheckboxes} onMinDraftsSelected={(e) => setMinDrafts(e.target.value)}
+        minDrafts={minDrafts} onMinGamesSelected={(e) => setMinGames(e.target.value)}
+        minDecksInArch={minGames} sortBy={sortBy} onHeaderClick={(e) => setSortBy(e.currentTarget.id)}
+        handleRowClick={(e) => setSelectedArchetype(e.currentTarget.id)}
+      />
+    )
+  } else if (props.view === "cards") {
+    widget = (
+      <CardWidget
+        info={info}
+        parsed={parsed} matchStr={debouncedMatchStr} startDate={props.startDate} endDate={props.endDate}
+        cardData={cardData} cardDataBucketed={cardDataBucketed}
+        decks={parsed.filteredDecks} dropdownSelection={cardWidgetSelection}
+        cardFilter={cardFilter} onCardFilterSelected={(e) => setCardFilter(e.target.value)}
+        tagFilter={tagFilter} onTagFilterSelected={(e) => setTagFilter(e.target.value)}
+        cardWidgetOpts={[{ label: "Overview", value: "Overview" }, { label: "Metadata", value: "Metadata" }, { label: "Versus archetype", value: "Versus archetype" }, { label: "By archetype", value: "By archetype" }]}
+        onSelected={(e) => setCardWidgetSelection(e.target.value)}
+        onCardSelected={(e) => setSelectedCard(e.currentTarget.id)}
+        selectedCard={selectedCard}
+        colorWidgetOpts={[{ label: "", value: "" }, { label: "Red", value: "R" }, { label: "Blue", value: "U" }, { label: "Green", value: "G" }, { label: "Black", value: "B" }, { label: "White", value: "W" }]}
+        colorSelection={cardWidgetColorSelection} onColorSelected={(e) => setCardWidgetColorSelection(e.target.value)}
+        minDrafts={minDrafts} onMinDraftsSelected={(e) => setMinDrafts(e.target.value)}
+        minGames={minGames} onMinGamesSelected={(e) => setMinGames(e.target.value)}
+        winConfidence={winConfidence} onWinConfidenceSelected={(e) => setWinConfidence(e.target.value)}
+        significantOnly={significantOnly} onSignificantOnlyToggled={(e) => setSignificantOnly(e.target.checked)}
+        minPlayers={minPlayers} maxPlayers={maxPlayers} onMinPlayersSelected={(e) => setMinPlayers(e.target.value)}
+        onMaxPlayersSelected={(e) => setMaxPlayers(e.target.value)}
+        onHeaderClick={(e) => {
+          const id = e.currentTarget.id
+          if (id === cardWidgetSortBy) {
+            setCardWidgetSortInvert(v => !v)
+          } else {
+            setCardWidgetSortBy(id)
+            setCardWidgetSortInvert(false)
+          }
+        }}
+        manaValue={manaValue} onManaValueSelected={(e) => setManaValue(e.target.value)}
+        sortBy={cardWidgetSortBy} sortInvert={cardWidgetSortInvert} bucketSize={bucketSize} cube={cube}
+        xAxis={cardXAxis} yAxis={cardYAxis} onXAxisSelected={(e) => setCardXAxis(e.target.value)}
+        onYAxisSelected={(e) => setCardYAxis(e.target.value)}
+        show={true}
+        localMatchStr={localMatchStr}
+        onLocalMatchUpdated={(e) => setLocalMatchStr(e.target.value)}
+        cardNames={cube.cards.map(c => c.name)}
+      />
+    )
+  } else if (props.view === "deckstats") {
+    widget = (
+      <DeckWidget
+        info={info}
+        parsed={parsed} graphData={graphData} decks={parsed.filteredDecks} show={true}
+        xAxis={deckXAxis} yAxis={deckYAxis} onXAxisSelected={(e) => setDeckXAxis(e.target.value)}
+        onYAxisSelected={(e) => setDeckYAxis(e.target.value)}
+      />
+    )
+  } else if (props.view === "health") {
+    widget = (
+      <HealthWidget
+        info={info}
+        show={true} healthData={healthData} bucketSize={bucketSize}
+      />
+    )
+  } else if (props.view === "designmap") {
+    widget = (
+      <DesignMapWidget
+        info={info}
+        show={true} designGraphData={designGraphData} cards={cube.cards}
+        onCardSelected={(e) => setSelectedCard(e.currentTarget.id)}
+      />
+    )
+  }
+
+  // The synergy map is built from the cube list and its rules, not from decks
+  // or dates, so its toolbar has only the title.
+  if (props.view === "designmap") {
+    return (
+      <div id="root" className="stats-root">
+        <PageToolbar title={COPY.titles.designmap} />
+        <div id="widgets" className="house-for-widgets">{widget}</div>
+      </div>
+    )
+  }
+
   return (
     <div id="root" className="stats-root">
-      {/* The design map is built from the cube list and its rules, not from decks
-          or date ranges, so the deck/date filter bar has nothing to act on there. */}
-      {props.view !== "designmap" && (
-        <SelectorBar
-          triggerRefresh={triggerRefresh}
-          startDate={props.startDate}
-          onStartSelected={props.onStartSelected}
-          endDate={props.endDate}
-          onEndSelected={props.onEndSelected}
-          bucketSize={bucketSize}
-          onBucketsChanged={(e) => setBucketSize(Math.max(1, e.target.value))}
-          minDraftSize={minDraftSize}
-          onMinDraftSizeChanged={(e) => setMinDraftSize(e.target.value)}
-          winConfidence={winConfidence}
-          onWinConfidenceSelected={(e) => setWinConfidence(e.target.value)}
-          parsed={parsed}
-          matchStr={typingStr}
-          cardNames={cube.cards.map(c => c.name)}
-          playerNames={playerNames}
-          archetypes={archetypes}
-          onMatchUpdated={(e) => setTypingStr(e.target.value)}
-        />
-      )}
+      <StatsToolbar
+        title={COPY.titles[props.view]}
+        props={props}
+        filter={typingStr}
+        onFilterChange={(e) => setTypingStr(e.target.value)}
+        settings={<StatsSettings filters={filters} copy={COPY} />}
+        onRefresh={triggerRefresh}
+        decks={parsed.filteredDecks || []}
+        filterSuggestions={{ cardNames: cube.cards.map(c => c.name), playerNames, archetypes }}
+        copy={COPY}
+      />
 
-      <div id="widgets" className="house-for-widgets">
-        <SynergyWidget
-          show={display[6]} synergyData={synergyData} synergyCompare={synergyCompare} cube={cube} matchStr={debouncedMatchStr} minSynergyDecks={minSynergyDecks}
-          onMinSynergyDecksChanged={(e) => setMinSynergyDecks(e.target.value)}
-          focalThreshold={focalThreshold}
-          onFocalThresholdChanged={(e) => setFocalThreshold(e.target.value)}
-          smoothingK={smoothingK}
-          onSmoothingKChanged={(e) => setSmoothingK(e.target.value)}
-          colorAdjust={colorAdjust}
-          onColorAdjustChanged={() => setColorAdjust(!colorAdjust)}
-          record={synergyRecord}
-          onRecordChanged={(e) => setSynergyRecord(e.target.value)}
-          onHeaderClick={(e) => setSynergySortBy(e.currentTarget.id)}
-          sortBy={synergySortBy} onCardSelected={(e) => setSelectedCard(e.currentTarget.id)}
-        />
-
-        <ColorWidget
-          parsed={parsed} ddOpts={[{ label: "Mono", value: "Mono" }, { label: "Dual", value: "Dual" }, { label: "Trio", value: "Trio" }]}
-          colorTypeSelection={colorTypeSelection} onSelected={(e) => setColorTypeSelection(e.target.value)}
-          onBucketSelected={(e) => setSelectedBucket(e.target.value)}
-          decks={parsed.filteredDecks} onHeaderClick={(e) => setColorSortBy(e.currentTarget.id)}
-          colorSortBy={colorSortBy} bucketSize={bucketSize} colorMode={colorMode}
-          onColorModeChanged={(e) => setColorMode(e.target.value)}
-          selectedBucket={selectedBucket} show={display[0]}
-          colorMatchupData={colorMatchupData}
-        />
-
-        <ArchetypeWidget
-          parsed={parsed} cardData={cardData} decks={decks} cube={cube}
-          show={display[1]} bucketSize={bucketSize} matchups={archetypeMatchups}
-          dropdownSelection={colorTypeSelection} onSelected={(e) => setCardWidgetSelection(e.target.value)}
-          colorWidgetOpts={[{ label: "", value: "" }, { label: "Red", value: "R" }, { label: "Blue", value: "U" }, { label: "Green", value: "G" }, { label: "Black", value: "B" }, { label: "White", value: "W" }]}
-          colorSelection={cardWidgetColorSelection} onColorSelected={(e) => setCardWidgetColorSelection(e.target.value)}
-          archetypeDropdownOptions={archetypeDropdownOptions}
-          selectedArchetype={selectedArchetype} onArchetypeSelected={(e) => setSelectedArchetype(e.target.value)}
-          onColorChecked={(e) => {
-            let updated = [...colorCheckboxes];
-            const colorMap = { W: 0, U: 1, B: 2, R: 3, G: 4 };
-            updated[colorMap[e.currentTarget.id]] = !updated[colorMap[e.currentTarget.id]];
-            setColorCheckboxes(updated);
-          }}
-          colorCheckboxes={colorCheckboxes} onMinDraftsSelected={(e) => setMinDrafts(e.target.value)}
-          minDrafts={minDrafts} onMinGamesSelected={(e) => setMinGames(e.target.value)}
-          minDecksInArch={minGames} sortBy={sortBy} onHeaderClick={(e) => setSortBy(e.currentTarget.id)}
-          handleRowClick={(e) => setSelectedArchetype(e.currentTarget.id)}
-        />
-
-        <CardWidget
-          parsed={parsed} matchStr={debouncedMatchStr} startDate={props.startDate} endDate={props.endDate}
-          cardData={cardData} cardDataBucketed={cardDataBucketed}
-          decks={parsed.filteredDecks} dropdownSelection={cardWidgetSelection}
-          cardFilter={cardFilter} onCardFilterSelected={(e) => setCardFilter(e.target.value)}
-          tagFilter={tagFilter} onTagFilterSelected={(e) => setTagFilter(e.target.value)}
-          cardWidgetOpts={[{ label: "Overview", value: "Overview" }, { label: "Metadata", value: "Metadata" }, { label: "Versus archetype", value: "Versus archetype" }, { label: "By archetype", value: "By archetype" }]}
-          onSelected={(e) => setCardWidgetSelection(e.target.value)}
-          onCardSelected={(e) => setSelectedCard(e.currentTarget.id)}
-          selectedCard={selectedCard}
-          colorWidgetOpts={[{ label: "", value: "" }, { label: "Red", value: "R" }, { label: "Blue", value: "U" }, { label: "Green", value: "G" }, { label: "Black", value: "B" }, { label: "White", value: "W" }]}
-          colorSelection={cardWidgetColorSelection} onColorSelected={(e) => setCardWidgetColorSelection(e.target.value)}
-          minDrafts={minDrafts} onMinDraftsSelected={(e) => setMinDrafts(e.target.value)}
-          minGames={minGames} onMinGamesSelected={(e) => setMinGames(e.target.value)}
-          winConfidence={winConfidence} onWinConfidenceSelected={(e) => setWinConfidence(e.target.value)}
-          significantOnly={significantOnly} onSignificantOnlyToggled={(e) => setSignificantOnly(e.target.checked)}
-          minPlayers={minPlayers} maxPlayers={maxPlayers} onMinPlayersSelected={(e) => setMinPlayers(e.target.value)}
-          onMaxPlayersSelected={(e) => setMaxPlayers(e.target.value)}
-          onHeaderClick={(e) => {
-            const id = e.currentTarget.id
-            if (id === cardWidgetSortBy) {
-              setCardWidgetSortInvert(v => !v)
-            } else {
-              setCardWidgetSortBy(id)
-              setCardWidgetSortInvert(false)
-            }
-          }}
-          manaValue={manaValue} onManaValueSelected={(e) => setManaValue(e.target.value)}
-          sortBy={cardWidgetSortBy} sortInvert={cardWidgetSortInvert} bucketSize={bucketSize} cube={cube}
-          xAxis={cardXAxis} yAxis={cardYAxis} onXAxisSelected={(e) => setCardXAxis(e.target.value)}
-          onYAxisSelected={(e) => setCardYAxis(e.target.value)}
-          show={display[2]}
-          localMatchStr={localMatchStr}
-          onLocalMatchUpdated={(e) => setLocalMatchStr(e.target.value)}
-          cardNames={cube.cards.map(c => c.name)}
-        />
-
-        <DeckWidget
-          parsed={parsed} graphData={graphData} decks={parsed.filteredDecks} show={display[3]}
-          xAxis={deckXAxis} yAxis={deckYAxis} onXAxisSelected={(e) => setDeckXAxis(e.target.value)}
-          onYAxisSelected={(e) => setDeckYAxis(e.target.value)}
-        />
-
-        <HealthWidget
-          show={display[7]} healthData={healthData} bucketSize={bucketSize}
-        />
-        <DesignMapWidget
-          show={display[8]} designGraphData={designGraphData} cards={cube.cards}
-          onCardSelected={(e) => setSelectedCard(e.currentTarget.id)}
-        />
-      </div>
+      <div id="widgets" className="house-for-widgets">{widget}</div>
     </div>
   );
 }

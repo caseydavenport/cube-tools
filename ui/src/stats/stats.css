@@ -1,0 +1,6 @@
+/* Shared styles for the stats pages. */
+
+/* The toolbar's count of drafts, decks, and players stays on one line. */
+.stats-summary {
+  white-space: nowrap;
+}

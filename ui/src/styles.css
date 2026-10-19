@@ -488,7 +488,7 @@ table {
    sticky section nav. */
 .page-section {
   margin-bottom: 2.5rem;
-  scroll-margin-top: calc(var(--selectorbar-height, 0px) + 64px);
+  scroll-margin-top: calc(var(--app-shell-header-offset, 0px) + var(--toolbar-height) + 64px);
 }
 
 /* Muted note shown in place of content that needs a selection first. */
@@ -535,8 +535,8 @@ table {
    highlights the section currently in view. */
 .section-nav {
   position: sticky;
-  top: var(--selectorbar-height, 0px);
-  z-index: 90;
+  top: calc(var(--app-shell-header-offset, 0px) + var(--toolbar-height));
+  z-index: 40;
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;

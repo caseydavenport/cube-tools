@@ -1,6 +1,6 @@
 import { test } from "node:test"
 import assert from "node:assert/strict"
-import { presetRange, rangeLabel, rangePreset } from "./dateRanges.js"
+import { initialDates, presetRange, rangeLabel, rangePreset, todayString } from "./dateRanges.js"
 
 const COPY = { allTime: "All time", last12Months: "Last 12 months" }
 
@@ -29,4 +29,12 @@ test("rangeLabel names a preset or shows a custom range's dates", () => {
   assert.equal(rangeLabel("1990-09-15", "2026-10-19", "2026-10-19", COPY), "All time")
   assert.equal(rangeLabel("2025-10-19", "2026-10-19", "2026-10-19", COPY), "Last 12 months")
   assert.equal(rangeLabel("2026-01-01", "2026-03-01", "2026-10-19", COPY), "2026-01-01 – 2026-03-01")
+})
+
+test("todayString formats a local date as YYYY-MM-DD", () => {
+  assert.equal(todayString(new Date(2026, 9, 5)), "2026-10-05")
+})
+
+test("the initial range is all time up to today", () => {
+  assert.deepEqual(initialDates("2026-10-19"), ["1990-09-15", "2026-10-19"])
 })

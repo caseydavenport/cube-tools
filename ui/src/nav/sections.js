@@ -1,3 +1,5 @@
+import { hasData } from "../utils/dataKinds.js"
+
 // The sidebar's page model: which pages exist, how they group, and what data
 // each needs before it has anything to show.
 
@@ -60,21 +62,12 @@ export const NAV_GROUPS = [
   },
 ]
 
-// isMissing reports whether the cube lacks one kind of data. Unknown data (an
-// undefined key) counts as present, so a slow or failed info request never dims
-// pages. Writability is the exception: it must be known to be true.
-function isMissing(key, info) {
-  if (key === "writable") {
-    return info.writable !== true
-  }
-  return info[key] === false
-}
 
 // pageAvailability reports whether a cube has the data a page needs, and if not,
 // the reason for the first missing piece.
 export function pageAvailability(page, info) {
   for (const key of page.needs) {
-    if (isMissing(key, info)) {
+    if (!hasData(info, key)) {
       return { available: false, reason: REASONS[key] }
     }
   }

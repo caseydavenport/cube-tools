@@ -8,7 +8,7 @@ import { ExplorePage } from './pages/ExplorePage.js'
 import { RemovalPage } from './pages/RemovalPage.js'
 import { Packages } from './pages/Packages.js'
 import { DesignEditorPage } from './pages/DesignEditorPage.js'
-import {InitialDates} from './components/StatsUI.js'
+import { initialDates, todayString } from './toolbar/dateRanges.js'
 import { useState } from "react";
 import { CubeProvider } from './contexts/CubeContext.js';
 import Welcome from './pages/Welcome.js';
@@ -64,7 +64,7 @@ export default function Main() {
   // deep link (e.g. "decks that mainboarded card X, same time range") opened in a
   // fresh tab reproduces those filters. Falls back to defaults when absent.
   const hashQuery = hashParams()
-  let [start, end ] = InitialDates()
+  let [start, end ] = initialDates(todayString())
   const [startDate, setStartDate] = useState(hashQuery.get("start") || start);
   const [endDate, setEndDate] = useState(hashQuery.get("end") || end);
   function onStartSelected(event) {

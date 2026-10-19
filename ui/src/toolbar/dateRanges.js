@@ -4,8 +4,23 @@
 // dateRanges.test.mjs.
 
 // ALL_TIME_START is the start of the "All time" range, early enough to come
-// before any draft. It's the same value InitialDates() uses as the default.
+// before any draft. It's also where the app's default range starts.
 export const ALL_TIME_START = "1990-09-15"
+
+// todayString returns a date as "YYYY-MM-DD" in the viewer's own time zone,
+// so "today" is the day on the viewer's calendar.
+export function todayString(date = new Date()) {
+  const year = date.getFullYear()
+  const month = String(date.getMonth() + 1).padStart(2, "0")
+  const day = String(date.getDate()).padStart(2, "0")
+  return `${year}-${month}-${day}`
+}
+
+// initialDates returns the app's default date range, [start, end]: all time,
+// up to today.
+export function initialDates(today) {
+  return [ALL_TIME_START, today]
+}
 
 // oneYearEarlier returns the same calendar day a year before date. Feb 29 has no
 // match in the year before, so it becomes Feb 28.

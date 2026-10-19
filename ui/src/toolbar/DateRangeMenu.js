@@ -1,14 +1,8 @@
 import React, { useState } from "react"
 import { Button, Divider, Popover, Stack, TextInput, UnstyledButton } from "@mantine/core"
 import { IconCalendar, IconChevronDown } from "@tabler/icons-react"
-import { InitialDates } from "../components/StatsUI.js"
-import { presetRange, rangeLabel, rangePreset } from "./dateRanges.js"
+import { presetRange, rangeLabel, rangePreset, todayString } from "./dateRanges.js"
 import "./toolbar.css"
-
-// today returns today's date as "YYYY-MM-DD" in the viewer's time zone.
-function today() {
-  return InitialDates()[1]
-}
 
 // PresetOption is one row in the menu that picks a preset range. The current
 // preset is shown in the primary color.
@@ -62,7 +56,7 @@ function CustomRangeForm({ start, end, onApply, copy }) {
 // fight with typing in the custom range's date inputs.
 export function DateRangeMenu({ start, end, onChange, copy }) {
   const [opened, setOpened] = useState(false)
-  const now = today()
+  const now = todayString()
   const preset = rangePreset(start, end, now)
 
   // choose applies a range and closes the popover.
