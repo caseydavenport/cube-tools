@@ -41,7 +41,7 @@ func (d *archetypesHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 	logrus.WithField("params", dr).Info("/api/archetypes")
 
 	// Get all of the decks from the store.
-	resp := ArchetypesResponse{}
+	resp := ArchetypesResponse{Items: []ArchetypeData{}}
 	decks, err := d.q.Decks(CubeFromRequest(r), dr)
 	if err != nil {
 		logrus.WithError(err).Error("could not load decks")

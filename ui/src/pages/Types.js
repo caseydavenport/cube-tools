@@ -1193,9 +1193,15 @@ function MacroArchetypesPieChart(input) {
 }
 
 function WinsByMatchup(input) {
+  // The server sends no items when no deck has an archetype.
+  const items = input.matchups?.items || []
+  if (items.length === 0) {
+    return null
+  }
+
   // For now, just use the first matchup.
-  let matchup = input.matchups.items[0]
-  for (let m of input.matchups.items) {
+  let matchup = items[0]
+  for (let m of items) {
     if (m.name == input.focus) {
       matchup = m;
       break;

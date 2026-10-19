@@ -130,7 +130,7 @@ export function useStatsData(filters, props, refresh) {
   const [decks, setDecks] = useState([]);
   const [cube, setCube] = useState({ "cards": [] });
   const [drafts, setDrafts] = useState(null);
-  const [archetypeMatchups, setArchetypeMatchups] = useState([]);
+  const [archetypeMatchups, setArchetypeMatchups] = useState({ items: [] });
   const [cardData, setCardData] = useState(new Map());
   const [cardDataBucketed, setCardDataBucketed] = useState([]);
   const [colorData, setColorData] = useState(new Map());

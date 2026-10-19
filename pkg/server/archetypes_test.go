@@ -118,6 +118,17 @@ func TestArchetypesHandler_DrawsExcluded(t *testing.T) {
 	t.Fatal("expected aggro vs control matchup data")
 }
 
+func TestArchetypesHandlerNoArchetypesSendsEmptyItems(t *testing.T) {
+	// The UI indexes into items, so a cube with no labeled decks must get an
+	// empty list rather than null.
+	decks := []*storage.Deck{makeStorageDeck("Freddie", 1, nil, nil, nil)}
+	handler := &archetypesHandler{q: deckquery.New(&mockDeckStorage{decks: decks}, nil, nil)}
+	rr := httptest.NewRecorder()
+	handler.ServeHTTP(rr, httptest.NewRequest(http.MethodGet, "/api/archetypes", nil))
+	require.Equal(t, http.StatusOK, rr.Code)
+	assert.JSONEq(t, `{"items":[]}`, rr.Body.String())
+}
+
 // stubCubeCobra serves fixed decks for cc: cubes, standing in for the
 // read-only CubeCobra backend behind the router.
 type stubCubeCobra struct {
