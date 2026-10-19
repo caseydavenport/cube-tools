@@ -49,6 +49,8 @@ type gzipResponseWriter struct {
 	gz          *gzip.Writer
 }
 
+var _ http.ResponseWriter = &gzipResponseWriter{}
+
 // WriteHeader records the status; it's sent with the first body bytes, or by
 // finish if there are none.
 func (w *gzipResponseWriter) WriteHeader(status int) {

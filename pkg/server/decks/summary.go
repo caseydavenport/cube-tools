@@ -1,7 +1,6 @@
 package decks
 
 import (
-	"encoding/json"
 	"net/http"
 
 	"github.com/sirupsen/logrus"
@@ -61,10 +60,7 @@ func SummaryHandler(store storage.DeckStorage) http.Handler {
 			resp.Decks = append(resp.Decks, summarize(d))
 		}
 
-		rw.Header().Set("Content-Type", "application/json")
-		if err := json.NewEncoder(rw).Encode(resp); err != nil {
-			logrus.WithError(err).WithField("cube", cube).Warn("Failed to write deck summary response")
-		}
+		writeJSON(rw, resp)
 	})
 }
 
