@@ -187,9 +187,8 @@ func parseDeckDir(deckDir, fileType, date string) error {
 
 	logc.WithField("numPlayers", len(workMap)).Info("Processing deck files.")
 
-	// Track each non-basic card we see in the deck files. We'll use this to do a consistency check on the
-	// draft to make sure all cards are present and accounted for.
-	seenInDraft := map[string]int{}
+	// Every card in the deck files, to check against the cube.
+	var seenInDraft []types.CountedCard
 
 	var errs []error
 	var decks []*types.Deck
@@ -211,31 +210,23 @@ func parseDeckDir(deckDir, fileType, date string) error {
 		}
 		decks = append(decks, d)
 
-		// Mark the non-basic cards as seen.
 		for _, c := range d.AllCards() {
-			if c.IsBasicLand() {
-				continue
-			}
-			// Increment the count of this card in the seen map.
-			seenInDraft[c.Name]++
+			seenInDraft = append(seenInDraft, types.CountedCard{Name: c.Name, Count: 1})
 		}
 	}
-	totalDrafted := 0
-	for _, c := range seenInDraft {
-		totalDrafted += c
-	}
-	logrus.WithFields(logrus.Fields{
-		"numUniqueCards": len(seenInDraft),
-		"totalDrafted":   totalDrafted,
-	}).Info("Total cards seen in deck lists.")
 
 	// If we hit any errors, return now before we write out any files.
 	if len(errs) > 0 {
 		return fmt.Errorf("%d decks failed to parse, not writing output files: %w", len(errs), errors.Join(errs...))
 	}
 
-	// Check that the seen cards in the draft match the expected counts based on the latest cube snapshot.
-	if err = checkDraftConsistency(logc, cubeFlag, seenInDraft); err != nil {
+	// A cube that won't load fails even with --force, which can only skip a
+	// check that ran.
+	cube, err := liveCube(cubeFlag)
+	if err != nil {
+		return fmt.Errorf("load cube %s: %w", cubeFlag, err)
+	}
+	if err = checkDraftConsistency(logc, cube, seenInDraft); err != nil {
 		if !force {
 			return fmt.Errorf("draft consistency check failed, not writing output files: %w", err)
 		}
@@ -282,51 +273,25 @@ func writeCubeSnapshot(cube string, draft drafts.Draft) error {
 	return draft.SaveSnapshot(c)
 }
 
-// checkDraftConsistency checks that the seen cards in the draft match the expected counts based on the latest cube snapshot.
-func checkDraftConsistency(logc *logrus.Entry, cubeID string, seenInDraft map[string]int) error {
-	passed := true
-
-	// Load the current cube from Cube Cobra and count the unique cards we expect to see.
-	cube, err := liveCube(cubeID)
-	if err != nil {
-		logc.WithError(err).Fatal("Failed to load cube.")
-	}
-
-	// Count the number of unique cards in the cube (and track duplicates).
-	cubeCards := map[string]int{}
-	for _, c := range cube.Cards {
-		cubeCards[c.Name]++
-	}
-	logc.WithField("num", len(cubeCards)).Info("Total unique cards in latest cube snapshot.")
-
-	// Expect each seen card to match the count in the cube snapshot.
-	for name, count := range seenInDraft {
-		if c, ok := cubeCards[name]; ok {
-			if count != c {
-				logc.WithFields(logrus.Fields{"name": name, "seen": count}).Error("Card count mismatch between seen decks and cube snapshot.")
-				passed = false
-			}
-		} else {
-			logc.WithField("name", name).Error("Card seen in decks but not in cube snapshot.")
-			passed = false
+// checkDraftConsistency compares the draft's cards with the cube. Missing
+// cards only warn, since a draft with empty seats always has some; extra
+// copies and cards the cube doesn't have fail the check.
+func checkDraftConsistency(logc *logrus.Entry, cube *types.Cube, seen []types.CountedCard) error {
+	check := cube.CheckDraft(seen)
+	logc.WithFields(logrus.Fields{"cube": check.CubeTotal, "seen": check.SeenTotal}).Info("Checked draft against the cube.")
+	for _, d := range check.Discrepancies {
+		l := logc.WithFields(logrus.Fields{"name": d.CardName, "seen": d.Seen, "cube": d.Cube})
+		switch d.Kind {
+		case types.DiscrepancyMissing:
+			l.Warn("Cube card missing from the deck files.")
+		case types.DiscrepancyOver:
+			l.Error("More copies in the deck files than the cube has.")
+		case types.DiscrepancyUnknown:
+			l.Error("Card in the deck files isn't in the cube.")
 		}
 	}
-
-	// Expect each card in the cube snapshot to be seen the correct number of times.
-	for name, count := range cubeCards {
-		if c, ok := seenInDraft[name]; ok {
-			if count != c {
-				logc.WithFields(logrus.Fields{"name": name, "expected": count}).Error("Card count mismatch between cube snapshot and seen decks.")
-				passed = false
-			}
-		} else {
-			logc.WithField("name", name).Error("Card in cube snapshot but not seen in decks.")
-			passed = false
-		}
-	}
-
-	if !passed {
-		return fmt.Errorf("draft consistency check failed")
+	if n := check.Conflicts(); n > 0 {
+		return fmt.Errorf("%d cards don't match the cube", n)
 	}
 	return nil
 }
