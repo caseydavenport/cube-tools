@@ -6,7 +6,8 @@ import { White, Blue, Black, Red, Green } from "../utils/Colors.js"
 import { useCube } from "../contexts/CubeContext.js"
 import { isReadOnly } from "../utils/readonly.js"
 import { CardImageURL } from "../utils/Utils.js"
-import { CARD_REF_PREFIX, cardRefName } from "../utils/DesignRules.js"
+import { CARD_REF_PREFIX, cardRefName, effectiveCards, matchKey, membershipsByCard, requestForConditions, requestForGroups } from "../utils/DesignRules.js"
+import { useDesignMatch } from "../utils/useDesignMatch.js"
 import { buildDeckSubgraph, rankByDegree, greedyModularityCommunities, dominantLabel, NEUTRAL } from "../utils/DeckGraph"
 
 export { CARD_REF_PREFIX, cardRefName }
@@ -236,72 +237,13 @@ function Legend({ groupNodes, groupColor, focus, hovered, onHover, onPick }) {
 
 // --- Detail rail (the readable substance) ------------------------------------
 
-// Fetch which cards match a set of conditions, each annotated with the condition(s)
-// it matched - the "why" behind group membership.
-function useMatchCards(cube, conditions, groups) {
-  const [cards, setCards] = useState([])
-  const [loading, setLoading] = useState(false)
-  const debounceRef = useRef(null)
-  const key = (conditions || []).join("|") + "::" + (groups || []).join("|")
-  useEffect(() => {
-    if (debounceRef.current) clearTimeout(debounceRef.current)
-    const conds = (conditions || []).filter(c => c)
-    if (conds.length === 0) { setCards([]); return }
-    setLoading(true)
-    debounceRef.current = setTimeout(() => {
-      fetch(`/api/${cube}/stats/design-graph/match`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ conditions: conds, groups: groups || [] }),
-      })
-        .then(r => r.json())
-        .then(d => { setCards(d.cards || []); setLoading(false) })
-        .catch(() => { setCards([]); setLoading(false) })
-    }, 200)
-    return () => { if (debounceRef.current) clearTimeout(debounceRef.current) }
-  }, [cube, key])
-  return { cards, loading }
-}
-
 // Fetch every card's group memberships once, each with the specific condition(s)
 // that matched. Returns name -> [{ group, conds: [...] }]. Used to explain exactly
 // why two cards are linked (which group each sits in, via which rule).
 export function useAllMemberships(cube, groups) {
-  const [map, setMap] = useState({})
-  const key = (groups || []).map(g => g.name + ":" + (g.conditions || []).join(",")).join("|")
-  useEffect(() => {
-    const conditions = []
-    const labels = []
-    for (const g of (groups || [])) {
-      for (const c of (g.conditions || [])) { conditions.push(c); labels.push(g.name) }
-    }
-    if (conditions.length === 0) { setMap({}); return }
-    let alive = true
-    fetch(`/api/${cube}/stats/design-graph/match`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ conditions, groups: labels }),
-    })
-      .then(r => r.json())
-      .then(d => {
-        if (!alive) return
-        const m = {}
-        for (const card of (d.cards || [])) {
-          const byGroup = {}
-          for (const mc of card.conditions) {
-            // An excluded condition means the group carves this card out.
-            if (!mc.group || mc.excluded) continue
-            if (!byGroup[mc.group]) byGroup[mc.group] = []
-            byGroup[mc.group].push(mc.condition)
-          }
-          m[card.name] = Object.entries(byGroup).map(([group, conds]) => ({ group, conds }))
-        }
-        setMap(m)
-      })
-      .catch(() => { if (alive) setMap({}) })
-    return () => { alive = false }
-  }, [cube, key])
-  return map
+  const request = requestForGroups((groups || []).map(g => g.name), groups)
+  const { cards } = useDesignMatch(cube, request, { key: matchKey(request, groups) })
+  return useMemo(() => membershipsByCard(cards), [cards])
 }
 
 // Explain why two cards are linked: for each rule connecting them, the specific
@@ -398,7 +340,12 @@ function Stat({ label, value }) {
 function GroupDetail({ cube, focus, groups, groupNodes, links, groupColor, onDrill, onHover, hovered, nodeMap }) {
   const group = groups.find(g => g.name === focus.group)
   const gnode = groupNodes.find(g => g.name === focus.group)
-  const { cards, loading } = useMatchCards(cube, group ? group.conditions : [], null)
+  const request = requestForConditions(group ? group.conditions : [], group ? group.name : null)
+  const match = useDesignMatch(cube, request, { debounceMs: 200 })
+  // The server marks the group's saved exclusions; hide those so the list
+  // matches the group's card count.
+  const cards = useMemo(() => effectiveCards(match.cards), [match.cards])
+  const loading = match.loading
   const color = groupColor(focus.group)
 
   // Which other groups this one links to, and via which link labels.
@@ -490,38 +437,12 @@ function GroupDetail({ cube, focus, groups, groupNodes, links, groupColor, onDri
 
 // Fetch which groups a given card belongs to, with the condition(s) that matched.
 function useCardMemberships(cube, cardName, groups) {
-  const [memberships, setMemberships] = useState([])
-  useEffect(() => {
-    if (!cardName || !groups || groups.length === 0) { setMemberships([]); return }
-    const conditions = []
-    const groupLabels = []
-    for (const g of groups) {
-      for (const c of (g.conditions || [])) { conditions.push(c); groupLabels.push(g.name) }
-    }
-    if (conditions.length === 0) { setMemberships([]); return }
-    let alive = true
-    fetch(`/api/${cube}/stats/design-graph/match`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ conditions, groups: groupLabels }),
-    })
-      .then(r => r.json())
-      .then(d => {
-        if (!alive) return
-        const card = (d.cards || []).find(c => c.name === cardName)
-        if (!card) { setMemberships([]); return }
-        const byGroup = {}
-        for (const mc of card.conditions) {
-          if (!mc.group) continue
-          if (!byGroup[mc.group]) byGroup[mc.group] = []
-          byGroup[mc.group].push(mc.condition)
-        }
-        setMemberships(Object.entries(byGroup).map(([name, conds]) => ({ name, conds })))
-      })
-      .catch(() => { if (alive) setMemberships([]) })
-    return () => { alive = false }
-  }, [cube, cardName, groups])
-  return memberships
+  const request = requestForGroups(cardName ? (groups || []).map(g => g.name) : [], groups)
+  const { cards } = useDesignMatch(cube, request, { key: matchKey(request, groups) })
+  return useMemo(
+    () => (membershipsByCard(cards)[cardName] || []).map(m => ({ name: m.group, conds: m.conds })),
+    [cards, cardName],
+  )
 }
 
 function CardDetail({ cube, focus, groups, edges, links, nodeMap, groupColor, onDrill, onHover, hovered }) {
@@ -1381,53 +1302,22 @@ export function GroupEditModal({ group, color, onSave, onCancel }) {
   const [editName, setEditName] = useState(group.name)
   const [editConditions, setEditConditions] = useState([...(group.conditions || [""])])
   const [editExclude, setEditExclude] = useState([...(group.exclude || [])])
-  const [matchedCards, setMatchedCards] = useState([])
-  const [loading, setLoading] = useState(false)
   const [highlightCondition, setHighlightCondition] = useState(null)
   const [highlightCard, setHighlightCard] = useState(null)
-  const debounceRef = useRef(null)
-  // Baseline: the cards matching the group as currently saved, so the live preview
-  // can show which cards the pending edits add (green) or remove (red).
-  const [baseline, setBaseline] = useState(null)
 
-  // Fetch matching cards whenever conditions change (debounced).
-  useEffect(() => {
-    if (debounceRef.current) clearTimeout(debounceRef.current)
-    const conditions = editConditions.map(c => c.trim()).filter(c => c)
-    if (conditions.length === 0) {
-      setMatchedCards([])
-      return
-    }
-    setLoading(true)
-    debounceRef.current = setTimeout(() => {
-      fetch(`/api/${cube}/stats/design-graph/match`, {
-        method: "POST",
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify({ conditions }),
-      })
-        .then(r => r.json())
-        .then(data => { setMatchedCards(data.cards || []); setLoading(false) })
-        .catch(() => { setMatchedCards([]); setLoading(false) })
-    }, 300)
-    return () => { if (debounceRef.current) clearTimeout(debounceRef.current) }
-  }, [editConditions])
+  // Live preview of the unsaved conditions. No group name is sent, so nothing is
+  // marked excluded; the unsaved exclude list is applied below instead.
+  const live = useDesignMatch(cube, requestForConditions(editConditions, null), { debounceMs: 300 })
+  const matchedCards = live.cards
+  const loading = live.loading
 
-  // Fetch the saved group's members once (the diff baseline). A brand-new group
-  // (no saved conditions) has an empty baseline, so every match reads as added.
-  useEffect(() => {
-    const conditions = (group.conditions || []).map(c => c.trim()).filter(c => c)
-    if (conditions.length === 0) { setBaseline(new Set()); return }
-    let alive = true
-    fetch(`/api/${cube}/stats/design-graph/match`, {
-      method: "POST",
-      headers: {"Content-Type": "application/json"},
-      body: JSON.stringify({ conditions }),
-    })
-      .then(r => r.json())
-      .then(d => { if (alive) setBaseline(new Set((d.cards || []).map(c => c.name))) })
-      .catch(() => { if (alive) setBaseline(new Set()) })
-    return () => { alive = false }
-  }, [cube, (group.conditions || []).join("|")])
+  // Baseline: the saved group's members, so the preview can mark adds and
+  // removes. A brand-new group has an empty baseline, so every match reads as added.
+  const saved = useDesignMatch(cube, requestForConditions(group.conditions, null))
+  const baseline = React.useMemo(
+    () => saved.loading ? null : new Set(saved.cards.map(c => c.name)),
+    [saved.cards, saved.loading],
+  )
 
   // Diff the live match against the baseline: added = now-matching but weren't;
   // removed = were matching but no longer are (so they aren't in matchedCards).
@@ -1695,61 +1585,12 @@ export function GroupEditModal({ group, color, onSave, onCancel }) {
 }
 
 // Resolve group names to their combined conditions, then fetch matching cards.
-// Returns {cards: [{name, conditions: [{condition, group?}]}], loading}.
+// Cards a group excludes are dropped. Returns {cards: [{name, conditions}], loading}.
 function useFetchGroupCards(selectedGroupNames, allGroups) {
   const cube = useCube()
-  const [cards, setCards] = useState([])
-  const [loading, setLoading] = useState(false)
-  const debounceRef = useRef(null)
-
-  useEffect(() => {
-    if (debounceRef.current) clearTimeout(debounceRef.current)
-    const names = (selectedGroupNames || []).filter(n => n)
-    if (names.length === 0) { setCards([]); return }
-
-    // Build parallel conditions and groups arrays so the backend can label each.
-    const groupMap = {}
-    for (const g of allGroups) groupMap[g.name] = g.conditions || []
-    const conditions = []
-    const groups = []
-    for (const n of names) {
-      // A card: entry matches by name instead of by group conditions.
-      const refName = cardRefName(n)
-      if (refName) {
-        conditions.push(`n:"${refName}"`)
-        groups.push(n)
-        continue
-      }
-      for (const c of (groupMap[n] || [])) {
-        conditions.push(c)
-        groups.push(n)
-      }
-    }
-    if (conditions.length === 0) { setCards([]); return }
-
-    setLoading(true)
-    debounceRef.current = setTimeout(() => {
-      fetch(`/api/${cube}/stats/design-graph/match`, {
-        method: "POST",
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify({ conditions, groups }),
-      })
-        .then(r => r.json())
-        .then(data => {
-          // Drop conditions negated by a group's exclude list; a card with no
-          // surviving conditions isn't an effective member of any selection.
-          const effective = (data.cards || [])
-            .map(c => ({ ...c, conditions: (c.conditions || []).filter(mc => !mc.excluded) }))
-            .filter(c => c.conditions.length > 0)
-          setCards(effective)
-          setLoading(false)
-        })
-        .catch(() => { setCards([]); setLoading(false) })
-    }, 300)
-    return () => { if (debounceRef.current) clearTimeout(debounceRef.current) }
-  }, [selectedGroupNames.join(","), allGroups])
-
-  return { cards, loading }
+  const request = requestForGroups(selectedGroupNames, allGroups)
+  const { cards, loading } = useDesignMatch(cube, request, { debounceMs: 300, key: matchKey(request, allGroups) })
+  return { cards: useMemo(() => effectiveCards(cards), [cards]), loading }
 }
 
 export function LinkEditModal({ link, color, groupNames, cardNames, groups, onSave, onCancel, onGroupSaved }) {
