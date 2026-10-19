@@ -74,6 +74,13 @@ export default function Main() {
     setEndDate(event.target.value)
   }
 
+  // onRangeChange sets both ends of the date range at once, for the page
+  // toolbar's date range menu.
+  function onRangeChange(start, end) {
+    setStartDate(start)
+    setEndDate(end)
+  }
+
   // For matching decks and cards.
   const [matchStr, setMatchStr] = useState(hashQuery.get("match") || "");
   function onMatchUpdated(event) {
@@ -85,6 +92,7 @@ export default function Main() {
     endDate,
     onStartSelected,
     onEndSelected,
+    onRangeChange,
     matchStr,
     onMatchUpdated,
   };
@@ -111,16 +119,7 @@ export default function Main() {
           <Route path='health' element={<StatsViewer view='health' {...statsProps} />} />
           <Route path='synergy-map' element={<StatsViewer view='designmap' {...statsProps} />} />
           <Route path='rules-editor' element={<DesignEditorPage />} />
-          <Route path='decks' element={
-            <DeckViewer
-              startDate={startDate}
-              endDate={endDate}
-              onStartSelected={onStartSelected}
-              onEndSelected={onEndSelected}
-              matchStr={matchStr}
-              onMatchUpdated={onMatchUpdated}
-            />
-          } />
+          <Route path='decks' element={<DeckViewer {...statsProps} />} />
           <Route path='import' element={<ImportHub />} />
           <Route path='import/:mode' element={<ImportHub />} />
           <Route path='*' element={<NotFound />} />

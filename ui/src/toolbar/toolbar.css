@@ -1,0 +1,85 @@
+/* The sticky page toolbar and its date range menu. */
+
+:root {
+  /* The toolbar's height on one row. The list-and-detail layout sizes its
+     columns to fill the window below it. */
+  --toolbar-height: 56px;
+}
+
+.se-toolbar {
+  position: sticky;
+  /* On phones the app's top bar is fixed above the page; Mantine publishes its
+     height in this variable, and it's 0 on desktop. */
+  top: var(--app-shell-header-offset, 0px);
+  z-index: 50;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 16px;
+  min-height: var(--toolbar-height);
+  padding: 8px 20px;
+  background: var(--se-page);
+  border-bottom: 1px solid var(--se-border);
+}
+
+.se-toolbar-title {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--se-text);
+  white-space: nowrap;
+}
+
+.se-toolbar-filters {
+  display: flex;
+  flex: 1 1 320px;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+/* The deck filter takes whatever width the date menu leaves. */
+.se-toolbar-filters > .search-bar-container {
+  flex: 1;
+  min-width: 0;
+}
+
+.se-toolbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-left: auto;
+}
+
+@media (max-width: 47.99em) {
+  .se-toolbar {
+    padding: 8px 16px;
+  }
+}
+
+/* Date range menu */
+
+.se-range-custom {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 8px;
+}
+
+.se-range-option {
+  display: block;
+  width: 100%;
+  padding: 6px 10px;
+  border-radius: var(--mantine-radius-sm);
+  font-size: 14px;
+  color: var(--se-text);
+}
+
+.se-range-option:hover {
+  background: var(--mantine-color-default-hover);
+}
+
+.se-range-option-selected {
+  color: var(--mantine-primary-color-filled);
+  font-weight: 600;
+}
