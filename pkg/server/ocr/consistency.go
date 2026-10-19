@@ -49,14 +49,6 @@ type ConsistencyReport struct {
 	Discrepancies  []Discrepancy `json:"discrepancies"`
 }
 
-// over and unknown are real OCR errors regardless of progress, so they sort
-// ahead of missing (which is expected until every player is scanned).
-var discrepancyOrder = map[string]int{
-	"unknown": 0,
-	"over":    1,
-	"missing": 2,
-}
-
 // Conflicts counts the discrepancies that are real OCR errors (over-counts and
 // names not in the cube), ignoring "missing" which is expected until every
 // player is scanned. The draft list uses this for a per-draft warning badge.
@@ -71,78 +63,48 @@ func (r ConsistencyReport) Conflicts() int {
 }
 
 func buildConsistencyReport(cl *types.Cube, sess *Session, playersTotal int) ConsistencyReport {
-	// Each player's drafted cards summed across the draft, keyed by lowercased
-	// name so they line up with the cube's case-insensitive copy counts. Basics
-	// are entered through their own control and aren't part of the cube list, so
-	// they're skipped in deckCounts.
-	pooled := map[string]int{}
-	display := map[string]string{}
+	var cards []types.CountedCard
 	counted := 0
 	for _, pw := range sess.Players {
 		if pw == nil {
 			continue
 		}
-		if deckCounts(pw, pooled, display) {
+		if mine := draftedCards(pw); len(mine) > 0 {
+			cards = append(cards, mine...)
 			counted++
 		}
 	}
+	check := cl.CheckDraft(cards)
 
-	report := ConsistencyReport{PlayersCounted: counted, PlayersTotal: playersTotal}
-	inCube := map[string]bool{}
-	for _, name := range cl.Names() {
-		want := cl.MaxCopies(name)
-		report.CubeTotal += want
-		key := strings.ToLower(name)
-		inCube[key] = true
-		if got := pooled[key]; got != want {
-			kind := "missing"
-			if got > want {
-				kind = "over"
-			}
-			report.Discrepancies = append(report.Discrepancies, Discrepancy{CardName: name, Pooled: got, Cube: want, Kind: kind})
-		}
+	report := ConsistencyReport{
+		PoolTotal:      check.SeenTotal,
+		CubeTotal:      check.CubeTotal,
+		PlayersCounted: counted,
+		PlayersTotal:   playersTotal,
 	}
-	for key, got := range pooled {
-		report.PoolTotal += got
-		if !inCube[key] {
-			report.Discrepancies = append(report.Discrepancies, Discrepancy{CardName: display[key], Pooled: got, Cube: 0, Kind: "unknown"})
-		}
+	for _, d := range check.Discrepancies {
+		report.Discrepancies = append(report.Discrepancies, Discrepancy{CardName: d.CardName, Pooled: d.Seen, Cube: d.Cube, Kind: string(d.Kind)})
 	}
 	attachCaptures(&report, sess)
-	sort.Slice(report.Discrepancies, func(i, j int) bool {
-		a, b := report.Discrepancies[i], report.Discrepancies[j]
-		if a.Kind != b.Kind {
-			return discrepancyOrder[a.Kind] < discrepancyOrder[b.Kind]
-		}
-		return a.CardName < b.CardName
-	})
 	return report
 }
 
-// deckCounts adds a player's drafted non-basic cards to counts (keyed by
-// lowercased name, with a real-cased name recorded in display) and reports
-// whether it added anything. A pool scan stores the full pool, which is the 45
-// drafted cards, so use it directly. A deck-only scan has no pool, so its
-// mainboard plus hand-tracked sideboard is the same list. Mirrors
-// poolCountsFromDeck's pool-then-deck fallback.
-func deckCounts(pw *PlayerWork, counts map[string]int, display map[string]string) bool {
-	had := false
+// draftedCards returns a player's drafted non-basic cards. A pool scan stores
+// the full pool, which is the 45 drafted cards, so use it directly. A
+// deck-only scan has no pool, so its mainboard plus hand-tracked sideboard is
+// the same list. Mirrors poolCountsFromDeck's pool-then-deck fallback.
+func draftedCards(pw *PlayerWork) []types.CountedCard {
+	var out []types.CountedCard
 	add := func(name string, n int) {
-		if n <= 0 || types.IsBasic(name) {
-			return
+		if n > 0 && !types.IsBasic(name) {
+			out = append(out, types.CountedCard{Name: name, Count: n})
 		}
-		key := strings.ToLower(name)
-		counts[key] += n
-		if _, ok := display[key]; !ok {
-			display[key] = name
-		}
-		had = true
 	}
 	if len(pw.PoolEntries) > 0 {
 		for _, e := range pw.PoolEntries {
 			add(e.CardName, e.Count)
 		}
-		return had
+		return out
 	}
 	for _, e := range pw.MainboardEntries {
 		add(e.CardName, e.Count)
@@ -150,7 +112,7 @@ func deckCounts(pw *PlayerWork, counts map[string]int, display map[string]string
 	for name, n := range pw.Sideboard {
 		add(name, n)
 	}
-	return had
+	return out
 }
 
 // attachCaptures fills in the pool boxes behind each over/unknown discrepancy
