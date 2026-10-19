@@ -54,7 +54,8 @@ function bestByRecord(decks) {
 
 // winnerFrom describes the winning deck for display. An anonymous seat has no
 // player name, so it's reported by seat number instead of its "p6" label, which
-// every draft reuses.
+// every draft reuses. playerId is set when the winner is in the player list, so
+// pages can link to them.
 function winnerFrom(deck, undefeated) {
   let player = deck.player
   let seat = null
@@ -62,7 +63,7 @@ function winnerFrom(deck, undefeated) {
     player = null
     seat = deck.seat || deck.id
   }
-  return { player, seat, colors: deck.colors, record: recordText(deck.stats), undefeated }
+  return { player, seat, colors: deck.colors, record: recordText(deck.stats), undefeated, playerId: deck.player_id || null }
 }
 
 // draftWinner picks the deck that won a draft. A single undefeated (trophy) deck
@@ -87,7 +88,7 @@ export function draftWinner(decks) {
 
 // draftName is how a draft is titled in the list: its event name with any
 // flight in parentheses, or "Draft #<id>" when it has no name.
-function draftName(draft) {
+export function draftName(draft) {
   let name = draft.event_name || `Draft #${draft.id}`
   if (draft.flight) {
     name += ` (${draft.flight})`
@@ -97,7 +98,7 @@ function draftName(draft) {
 
 // compareNewestFirst orders drafts by date, newest first, then by id, highest
 // first, so two drafts on the same day keep a stable order.
-function compareNewestFirst(a, b) {
+export function compareNewestFirst(a, b) {
   if (a.date !== b.date) {
     return a.date < b.date ? 1 : -1
   }
@@ -114,8 +115,7 @@ export function deckCount(draft) {
 }
 
 // recentDrafts returns the cube's newest drafts, at most limit of them, ready to
-// show: id, name, date badge, player count (one deck per player), winner, and
-// whether the draft has a pick log (which the Drafts page needs to open it).
+// show: id, name, date badge, player count (one deck per player), and winner.
 export function recentDrafts(index, decks, limit = 5) {
   if (!index || !index.drafts) {
     return []
@@ -131,7 +131,6 @@ export function recentDrafts(index, decks, limit = 5) {
       badge: dateBadge(draft.date),
       players: deckCount(draft),
       winner: draftWinner(draftDecks),
-      hasLog: draft.has_log,
     }
   })
 }

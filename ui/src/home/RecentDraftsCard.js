@@ -49,8 +49,7 @@ function WinnerCell({ winner, copy }) {
   )
 }
 
-// DraftRow is one recent draft. Drafts with a pick log link to the Drafts page,
-// which can only open those; the rest are plain rows for now.
+// DraftRow is one recent draft, linking to it on the Drafts page.
 function DraftRow({ cube, draft, copy }) {
   const content = (
     <>
@@ -63,14 +62,11 @@ function DraftRow({ cube, draft, copy }) {
     </>
   )
 
-  if (draft.hasLog) {
-    return (
-      <UnstyledButton component={Link} to={`${pageHref(cube, "drafts")}?draft=${draft.id}`} className="home-row home-row-link">
-        {content}
-      </UnstyledButton>
-    )
-  }
-  return <div className="home-row">{content}</div>
+  return (
+    <UnstyledButton component={Link} to={`${pageHref(cube, "drafts")}?draft=${draft.id}`} className="home-row home-row-link">
+      {content}
+    </UnstyledButton>
+  )
 }
 
 // RecentDraftsCard lists the cube's newest drafts with their winners.

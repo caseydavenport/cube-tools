@@ -1,128 +1,97 @@
-import React, { useState, useEffect, useMemo } from 'react'
-import { useParams, useNavigate } from "react-router-dom"
-import { useStatsFilters, useStatsData } from "./StatsHooks.js"
-import { useSelection } from "../hooks/useSelection.js"
+import React from "react"
+import { useCube } from "../contexts/CubeContext.js"
 import { useArrowNav } from "../hooks/useArrowNav.js"
-import { BrowseLayout, BrowseEmptyState } from "../components/BrowseLayout.js"
-import { DraftIndex, DraftPackBrowser, draftRows } from "./Drafts.js"
-import { Button, DateSelector } from "../components/Dropdown.js"
+import { ListDetail, ListRow } from "../components/kit/ListDetail.js"
+import { EmptyState } from "../components/kit/EmptyState.js"
+import { PageToolbar } from "../toolbar/PageToolbar.js"
+import { DateRangeMenu } from "../toolbar/DateRangeMenu.js"
+import { useDraftsPage } from "../drafts/useDraftsPage.js"
+import { DraftDetails } from "../drafts/DraftDetails.js"
+import "../decks/decks.css"
+import "../drafts/drafts.css"
 
-// DraftsPage is the Browse > Drafts master-detail page: a list of drafts on the
-// left, and the selected draft's pack-by-pack browser on the right.
+// COPY holds every piece of text on the Drafts page. These are placeholders for
+// Casey to replace.
+const COPY = {
+  title: "Drafts",
+
+  allTime: "All time",
+  last12Months: "Last 12 months",
+  customRange: "Custom range",
+  from: "From",
+  to: "To",
+  apply: "Apply",
+
+  pickDraft: "Pick a draft from the list",
+  noDrafts: "No drafts in this date range",
+  loading: "Loading…",
+  error: "Couldn't load drafts",
+
+  players: "players",
+  seat: "Seat",
+  noWinner: "No winner recorded",
+  seeDecks: "See this draft's decks",
+
+  pickLog: "Pick log",
+  noPickLog: "No pick log for this draft",
+  player: "Player",
+  choosePlayer: "Choose a player",
+  pick: "Pick",
+}
+
+// winnerText is the muted detail at the right of a draft's row: who won.
+function winnerText(winner, copy) {
+  if (!winner) {
+    return ""
+  }
+  if (winner.player) {
+    return winner.player
+  }
+  return `${copy.seat} ${winner.seat}`
+}
+
+// DraftListPane is the left pane: one row per draft in the date range.
+function DraftListPane({ page, copy }) {
+  if (page.error) {
+    return <EmptyState>{copy.error}</EmptyState>
+  }
+  if (page.loading) {
+    return <EmptyState>{copy.loading}</EmptyState>
+  }
+  if (page.drafts.length === 0) {
+    return <EmptyState>{copy.noDrafts}</EmptyState>
+  }
+
+  return page.drafts.map(draft => (
+    <ListRow
+      key={draft.id}
+      href={`?draft=${draft.id}`}
+      selected={String(draft.id) === page.selectedId}
+      primary={draft.label}
+      secondary={winnerText(draft.winner, copy)}
+    />
+  ))
+}
+
+// DraftsPage lists every draft in the date range, with the selected draft's
+// summary and pick log beside it. props carry the app-wide date range.
 export function DraftsPage(props) {
-  const [refresh, setRefresh] = useState(1);
-  const { cube } = useParams();
-  const navigate = useNavigate();
+  const cube = useCube()
+  const page = useDraftsPage(cube, props)
 
-  // Picking a draft collapses the index so the pack browser gets the screen;
-  // the header toggles it back open.
-  const [indexCollapsed, setIndexCollapsed] = useState(false);
-
-  const filters = useStatsFilters();
-  const dataProps = useMemo(() => ({
-    startDate: props.startDate,
-    endDate: props.endDate,
-    matchStr: "",
-  }), [props.startDate, props.endDate]);
-  const data = useStatsData(filters, dataProps, refresh);
-  const { drafts, parsed } = data;
-
-  // Selected draft (by id), plus pack-browser sub-selections.
-  const [selectedDraftLog, setSelectedDraftLog] = useSelection("draft");
-  const [selectedDraftPlayer, setSelectedDraftPlayer] = useState("");
-  const [draftPlayers, setDraftPlayers] = useState([]);
-  const [draftPacks, setDraftPacks] = useState([]);
-  const [selectedPack, setSelectedPack] = useState(1);
-
-  // When a draft is selected (from the index or restored from the URL),
-  // populate its player dropdown.
-  useEffect(() => {
-    let users = [{ label: "", value: "" }];
-    for (let draft of Object.values(drafts || {})) {
-      if (String(draft.draft.id) === selectedDraftLog) {
-        for (let user of Object.values(draft.users)) {
-          if (!user.isBot) users.push({ label: user.userID, value: user.userName });
-        }
-      }
-    }
-    setDraftPlayers(users);
-    setSelectedDraftPlayer("");
-    setDraftPacks([]);
-    setSelectedPack(1);
-  }, [selectedDraftLog, drafts]);
-
-  const onDraftPlayerSelected = (event) => {
-    setSelectedDraftPlayer(event.target.value);
-    let numPicks = 0;
-    for (let draft of Object.values(drafts || {})) {
-      if (String(draft.draft.id) === selectedDraftLog) {
-        for (let user of Object.values(draft.users)) {
-          if (user.userName === event.target.value) {
-            numPicks = user.picks.length;
-            break;
-          }
-        }
-        break;
-      }
-    }
-    let pickOpts = [];
-    for (let i = 1; i <= numPicks; i++) pickOpts.push({ label: i, value: i });
-    setDraftPacks(pickOpts);
-    setSelectedPack(1);
-  };
-
-  // The index rows in display order (newest first), plus the selected
-  // draft's summary for the detail header.
-  const rows = draftRows(drafts || {}, parsed.filteredDecks);
-  const selectedSummary = rows.find((r) => r.id === selectedDraftLog) || null;
-
-  // Left/right arrows step through the drafts in the index order.
-  useArrowNav(rows, selectedDraftLog, (r) => r.id, (id) => setSelectedDraftLog(id));
-
-  const browserProps = {
-    drafts: drafts || {},
-    draftPlayers,
-    selectedPlayer: selectedDraftPlayer,
-    onDraftPlayerSelected,
-    draftPacks,
-    selectedPack,
-    onPackSelected: (e) => setSelectedPack(e.target.value),
-    selectedDraftLog,
-    summary: selectedSummary,
-    // The index is the draft selector in Browse, so DraftPackWidgetOptions hides
-    // its own Draft dropdown when handed a single-entry list.
-    draftLogs: [{ label: selectedSummary ? selectedSummary.label : selectedDraftLog, value: selectedDraftLog }],
-    onDraftLogSelected: () => {},
-  };
-
-  const filterBar = (
-    <div className="selector-group">
-      <Button text="Refresh" onClick={() => setRefresh((r) => r + 1)} />
-      <DateSelector label="From" id="from" value={props.startDate} onChange={props.onStartSelected} />
-      <DateSelector label="To" id="to" value={props.endDate} onChange={props.onEndSelected} />
-    </div>
-  );
+  // The left and right arrow keys step through the list.
+  useArrowNav(page.drafts, page.selectedId, draft => String(draft.id), page.select)
 
   return (
-    <BrowseLayout
-      stacked
-      filters={filterBar}
-      index={
-        <DraftIndex
-          drafts={drafts || {}}
-          decks={parsed.filteredDecks}
-          selected={selectedDraftLog}
-          onSelect={(e) => { setSelectedDraftLog(e.currentTarget.id); setIndexCollapsed(true); }}
-          collapsed={indexCollapsed}
-          onToggleCollapse={() => setIndexCollapsed((c) => !c)}
-          onSelectWinner={(id) => navigate(`/${cube}/players?player=${id}`)}
-        />
-      }
-      detail={
-        selectedDraftLog
-          ? <DraftPackBrowser {...browserProps} />
-          : <BrowseEmptyState message="Select a draft to browse its packs." />
-      }
-    />
-  );
+    <>
+      <PageToolbar title={COPY.title}>
+        <DateRangeMenu start={props.startDate} end={props.endDate} onChange={props.onRangeChange} copy={COPY} />
+      </PageToolbar>
+
+      <ListDetail
+        list={<DraftListPane page={page} copy={COPY} />}
+        detail={<DraftDetails page={page} copy={COPY} />}
+      />
+    </>
+  )
 }

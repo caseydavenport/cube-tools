@@ -15,7 +15,7 @@ test("a card-list-only cube keeps cube-data pages and dims play data", () => {
   assert.equal(reason("decks", CARD_LIST_ONLY), "needs decks")
   assert.equal(reason("archetypes", CARD_LIST_ONLY), "needs decks")
   assert.equal(reason("charts", CARD_LIST_ONLY), "needs decks")
-  assert.equal(reason("drafts", CARD_LIST_ONLY), "needs pick logs")
+  assert.equal(reason("drafts", CARD_LIST_ONLY), "needs decks")
   assert.equal(reason("rules-editor", CARD_LIST_ONLY), "read-only")
 })
 
@@ -23,7 +23,7 @@ test("a CubeCobra cube with records dims only what it lacks", () => {
   assert.equal(reason("decks", CC_WITH_RECORDS), null)
   assert.equal(reason("charts", CC_WITH_RECORDS), null)
   assert.equal(reason("archetypes", CC_WITH_RECORDS), "needs archetypes")
-  assert.equal(reason("drafts", CC_WITH_RECORDS), "needs pick logs")
+  assert.equal(reason("drafts", CC_WITH_RECORDS), null)
 })
 
 test("a full local cube has every page available", () => {

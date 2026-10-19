@@ -1,0 +1,18 @@
+/* The Drafts page. Its cards share the deck page's card styles (decks.css). */
+
+.draft-winner {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 6px;
+  font-size: 14px;
+  color: var(--se-text);
+}
+
+.draft-winner .mantine-Anchor-root {
+  font-size: 14px;
+}
+
+.draft-winner .tabler-icon-trophy {
+  color: var(--mantine-color-yellow-6);
+}

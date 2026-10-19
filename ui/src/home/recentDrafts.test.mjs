@@ -24,12 +24,12 @@ test("dateBadge rejects other date formats", () => {
 
 test("the single undefeated deck wins", () => {
   const decks = [deck(1, "Ozzy", 3, 0, 0, 1), deck(1, "Joan", 2, 1)]
-  assert.deepEqual(draftWinner(decks), { player: "Ozzy", seat: null, colors: ["B", "G"], record: "3-0", undefeated: true })
+  assert.deepEqual(draftWinner(decks), { player: "Ozzy", seat: null, colors: ["B", "G"], record: "3-0", undefeated: true, playerId: null })
 })
 
 test("without a single undefeated deck, the best record wins", () => {
   const decks = [deck(1, "Ozzy", 2, 0, 1), deck(1, "Joan", 2, 1), deck(1, "Stevie", 1, 1, 1)]
-  assert.deepEqual(draftWinner(decks), { player: "Ozzy", seat: null, colors: ["B", "G"], record: "2-0-1", undefeated: false })
+  assert.deepEqual(draftWinner(decks), { player: "Ozzy", seat: null, colors: ["B", "G"], record: "2-0-1", undefeated: false, playerId: null })
 })
 
 test("two undefeated decks fall back to record, and a tie there means no winner", () => {
@@ -55,14 +55,13 @@ test("recentDrafts lists the newest drafts first with names, player counts, and 
   const rows = recentDrafts(index, decks, 2)
 
   assert.deepEqual(rows, [
-    { id: 7, name: "Draft #7", badge: { day: "21", month: "JUN" }, players: 1, winner: null, hasLog: false },
+    { id: 7, name: "Draft #7", badge: { day: "21", month: "JUN" }, players: 1, winner: null },
     {
       id: 6,
       name: "Boston Cube Party (Morning)",
       badge: { day: "21", month: "JUN" },
       players: 2,
-      winner: { player: "Ozzy", seat: null, colors: ["B", "G"], record: "3-0", undefeated: true },
-      hasLog: true,
+      winner: { player: "Ozzy", seat: null, colors: ["B", "G"], record: "3-0", undefeated: true, playerId: null },
     },
   ])
 })
@@ -75,7 +74,7 @@ test("an anonymous winner is reported by seat, not by its seat label", () => {
   const seat6 = deck(46, "p6", 2, 0, 1)
   seat6.seat = 6
   const decks = [seat6, deck(46, "Joan", 1, 1)]
-  assert.deepEqual(draftWinner(decks), { player: null, seat: 6, colors: ["B", "G"], record: "2-0-1", undefeated: false })
+  assert.deepEqual(draftWinner(decks), { player: null, seat: 6, colors: ["B", "G"], record: "2-0-1", undefeated: false, playerId: null })
 })
 
 test("a draft the index lists with no decks counts zero players", () => {
@@ -83,4 +82,10 @@ test("a draft the index lists with no decks counts zero players", () => {
   const rows = recentDrafts(index, [])
   assert.equal(rows[0].players, 0)
   assert.equal(rows[0].winner, null)
+})
+
+test("the winner carries the player's id when they have one", () => {
+  const winner = deck(1, "Ozzy", 3, 0, 0, 1)
+  winner.player_id = 7
+  assert.equal(draftWinner([winner]).playerId, 7)
 })

@@ -38,7 +38,7 @@ export const NAV_GROUPS = [
     dividerAfter: "players",
     pages: [
       { label: "Decks", path: "decks", icon: "decks", needs: ["decks"] },
-      { label: "Drafts", path: "drafts", icon: "drafts", needs: ["pick_logs"] },
+      { label: "Drafts", path: "drafts", icon: "drafts", needs: ["decks"] },
       { label: "Players", path: "players", icon: "players", needs: ["decks"] },
       { label: "Cards", path: "cards", icon: "cards", needs: ["decks"] },
       { label: "Colors", path: "colors", icon: "colors", needs: ["decks"] },
