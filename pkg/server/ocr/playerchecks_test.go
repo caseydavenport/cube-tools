@@ -157,15 +157,29 @@ func TestDeckWarningsPoolPlayerIgnoresStaleSideboard(t *testing.T) {
 }
 
 func TestReviewBreakdown(t *testing.T) {
-	lands := map[string]bool{"Flooded Strand": true, "Polluted Delta": true}
-	pw := &PlayerWork{
-		PoolEntries: []PoolEntry{entry("Brainstorm", 21), entry("Flooded Strand", 1), entry("Polluted Delta", 1), entry("Ozzy's Bat", 22)},
-		MainboardEntries: []PoolEntry{
-			entry("Brainstorm", 20), entry("Flooded Strand", 1), entry("Polluted Delta", 1), entry("Ozzy's Bat", 1),
-		},
-		Basics: map[string]int{"Plains": 9, "Island": 8},
+	lands := map[string]bool{
+		"Flooded Strand": true,
+		"Polluted Delta": true,
 	}
-	got := reviewPlayer(pw, func(name string) bool { return lands[name] })
+	work := &PlayerWork{
+		PoolEntries: []PoolEntry{
+			entry("Brainstorm", 21),
+			entry("Flooded Strand", 1),
+			entry("Polluted Delta", 1),
+			entry("Ozzy's Bat", 22),
+		},
+		MainboardEntries: []PoolEntry{
+			entry("Brainstorm", 20),
+			entry("Flooded Strand", 1),
+			entry("Polluted Delta", 1),
+			entry("Ozzy's Bat", 1),
+		},
+		Basics: map[string]int{
+			"Plains": 9,
+			"Island": 8,
+		},
+	}
+	got := reviewPlayer(work, lands)
 	if got.Breakdown != (Breakdown{Cards: 40, Lands: 19, Basics: 17}) {
 		t.Fatalf("breakdown = %+v, want cards 40, lands 19, basics 17", got.Breakdown)
 	}

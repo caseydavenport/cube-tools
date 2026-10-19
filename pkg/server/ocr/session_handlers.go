@@ -4,13 +4,12 @@ import (
 	"encoding/json"
 	"maps"
 	"net/http"
-	"strings"
 	"sync"
+
+	"github.com/sirupsen/logrus"
 
 	"github.com/caseydavenport/cube-tools/pkg/drafts"
 	"github.com/caseydavenport/cube-tools/pkg/server"
-	"github.com/caseydavenport/cube-tools/pkg/types"
-	"github.com/sirupsen/logrus"
 )
 
 // sessionSaveMu serializes the load-merge-write in SessionSaveHandler. The
@@ -81,23 +80,29 @@ type sessionResponse struct {
 	Reviews map[string]PlayerReview `json:"reviews"`
 }
 
-// withReviews pairs the session with the reviews of the given players. Land
-// flags come from the draft's cube; without one, no card counts as a land
-// rather than failing the request.
+// withReviews pairs the session with the reviews of the given players.
 func withReviews(dataRoot, cube string, draft drafts.Draft, s *Session, players map[string]*PlayerWork) sessionResponse {
-	lands := map[string]bool{}
-	if cl, err := loadCubeForDraft(dataRoot, cube, draft); err != nil {
-		logrus.WithError(err).Warn("no cube for OCR review land counts")
-	} else {
-		for _, name := range cl.Names() {
-			lands[name] = strings.Contains(types.GetOracleData(name).TypeLine, "Land")
-		}
-	}
+	lands := cubeLands(dataRoot, cube, draft)
 	out := sessionResponse{Session: s, Reviews: map[string]PlayerReview{}}
 	for id := range players {
 		if pw := s.Players[id]; pw != nil {
-			out.Reviews[id] = reviewPlayer(pw, func(name string) bool { return lands[name] })
+			out.Reviews[id] = reviewPlayer(pw, lands)
 		}
 	}
 	return out
+}
+
+// cubeLands flags which of the draft's cube cards are lands. Without a cube, no
+// card counts as a land rather than failing the request.
+func cubeLands(dataRoot, cube string, draft drafts.Draft) map[string]bool {
+	lands := map[string]bool{}
+	cl, err := loadCubeForDraft(dataRoot, cube, draft)
+	if err != nil {
+		logrus.WithError(err).Warn("no cube for OCR review land counts")
+		return lands
+	}
+	for _, name := range cl.Names() {
+		lands[name] = isLandCard(name)
+	}
+	return lands
 }

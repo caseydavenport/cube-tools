@@ -60,3 +60,19 @@ type CardInfo struct {
 	MaxCopies int    `json:"max_copies"`
 	IsLand    bool   `json:"is_land"`
 }
+
+// Breakdown sums a player's mainboard for the review page: every card with
+// basics included, the lands among them, and the basics alone.
+type Breakdown struct {
+	Cards  int `json:"cards"`
+	Lands  int `json:"lands"`
+	Basics int `json:"basics"`
+}
+
+// PlayerReview is what the review page shows about a player's cards: the
+// warnings and the mainboard breakdown. It's computed per response, never
+// saved.
+type PlayerReview struct {
+	Warnings  []string  `json:"warnings"`
+	Breakdown Breakdown `json:"breakdown"`
+}

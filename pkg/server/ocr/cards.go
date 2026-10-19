@@ -24,9 +24,14 @@ func CardsHandlerWithRoot(dataRoot string) http.Handler {
 		}
 		var cards []CardInfo
 		for _, name := range cl.Names() {
-			isLand := strings.Contains(types.GetOracleData(name).TypeLine, "Land")
-			cards = append(cards, CardInfo{Name: name, MaxCopies: cl.MaxCopies(name), IsLand: isLand})
+			cards = append(cards, CardInfo{Name: name, MaxCopies: cl.MaxCopies(name), IsLand: isLandCard(name)})
 		}
 		writeJSON(rw, map[string]any{"cards": cards})
 	})
+}
+
+// isLandCard reports whether a card's oracle type line makes it a land. A card
+// with no oracle data isn't one.
+func isLandCard(name string) bool {
+	return strings.Contains(types.GetOracleData(name).TypeLine, "Land")
 }

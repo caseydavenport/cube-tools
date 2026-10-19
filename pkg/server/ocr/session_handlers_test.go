@@ -88,10 +88,12 @@ func TestSessionResponsesCarryReviews(t *testing.T) {
 	wg := httptest.NewRecorder()
 	SessionGetHandlerWithRoot(root).ServeHTTP(wg, rg)
 
-	for name, body := range map[string]string{"save": ws.Body.String(), "get": wg.Body.String()} {
-		var resp struct {
-			Reviews map[string]PlayerReview `json:"reviews"`
-		}
+	bodies := map[string]string{
+		"save": ws.Body.String(),
+		"get":  wg.Body.String(),
+	}
+	for name, body := range bodies {
+		var resp sessionResponse
 		if err := json.Unmarshal([]byte(body), &resp); err != nil {
 			t.Fatalf("%s: decode %q: %v", name, body, err)
 		}

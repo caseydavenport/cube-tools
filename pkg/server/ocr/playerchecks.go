@@ -163,25 +163,9 @@ func countedFromEntries(entries []PoolEntry) []types.CountedCard {
 	return out
 }
 
-// Breakdown sums a player's mainboard for the review page: every card with
-// basics included, the lands among them, and the basics alone.
-type Breakdown struct {
-	Cards  int `json:"cards"`
-	Lands  int `json:"lands"`
-	Basics int `json:"basics"`
-}
-
-// PlayerReview is what the review page shows about a player's cards: the
-// warnings and the mainboard breakdown. It's computed per response, never
-// saved.
-type PlayerReview struct {
-	Warnings  []string  `json:"warnings"`
-	Breakdown Breakdown `json:"breakdown"`
-}
-
-// reviewPlayer builds a player's review from their saved lists. isLand says
-// whether a non-basic card is a land; a card it doesn't know isn't one.
-func reviewPlayer(pw *PlayerWork, isLand func(string) bool) PlayerReview {
+// reviewPlayer builds a player's review from their saved lists. lands flags the
+// non-basic cards that are lands; a card missing from it isn't one.
+func reviewPlayer(pw *PlayerWork, lands map[string]bool) PlayerReview {
 	out := PlayerReview{Warnings: deckWarnings(pw)}
 	if out.Warnings == nil {
 		out.Warnings = []string{}
@@ -196,7 +180,7 @@ func reviewPlayer(pw *PlayerWork, isLand func(string) bool) PlayerReview {
 			continue
 		}
 		out.Breakdown.Cards += e.Count
-		if isLand(e.CardName) {
+		if lands[e.CardName] {
 			out.Breakdown.Lands += e.Count
 		}
 	}
