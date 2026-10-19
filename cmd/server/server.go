@@ -57,6 +57,7 @@ func main() {
 	mux.Handle("POST /api/players", server.PlayerAddHandler("data"))
 	mux.Handle("PATCH /api/players/{id}", server.PlayerRenameHandler("data", deckStore))
 	cubeRoute("GET /api/{cube}/cube", server.CubeContentHandler(provider))
+	cubeRoute("GET /api/{cube}/info", server.CubeInfoHandler(deckStore))
 	cubeRoute("GET /api/{cube}/index", server.CubeIndexHandler(deckStore))
 	cubeRoute("GET /api/{cube}/drafts/{draft_id}/log", server.DraftLogHandler(deckStore))
 	cubeRoute("GET /api/{cube}/decks", decks.DeckHandler(deckStore, edgesFor))

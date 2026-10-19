@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import "./navbar.css"
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { Button } from "./Dropdown.js";
-import { isReadOnly } from "../utils/readonly.js";
+import { useCubeWritable } from "../utils/useCubeWritable.js";
 
 function CubeDropdown() {
   const [cubes, setCubes] = useState([]);
@@ -95,9 +95,8 @@ const Navbar = () => {
   const location = useLocation();
   const parts = location.pathname.split('/').filter(Boolean);
   const cube = parts[0] || null;
+  const readOnly = !useCubeWritable(cube);
   if (!cube) return null;
-
-  const readOnly = isReadOnly(cube);
 
   // The segment after the cube id picks the active view; "" is Overview.
   const view = parts[1] || "";

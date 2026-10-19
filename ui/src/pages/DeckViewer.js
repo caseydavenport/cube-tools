@@ -4,7 +4,7 @@ import { seedRecordEditor, buildMatches, mergeChangedDecks, emptyRow, opponentOp
 import { fetchPlayers } from "../utils/Players.js"
 import { PlayerPicker } from "../components/PlayerPicker.js"
 import { useCube } from "../contexts/CubeContext.js"
-import { isReadOnly } from "../utils/readonly.js"
+import { useCubeWritable } from "../utils/useCubeWritable.js"
 import { Record, MatchRecord, Wins, Losses, Draws, MatchWins, MatchLosses, MatchDraws, InDeckColor } from "../utils/Deck.js"
 import { RemovalMatches, CounterspellMatches } from "../pages/Decks.js"
 import { SortFunc, StringToColor, CheckboxesToColors, IsBasicLand, CardImageURL, CountManaPips } from "../utils/Utils.js"
@@ -925,7 +925,7 @@ function displayDeck(input) {
 }
 
 function DeckReport(input) {
-  const readOnly = isReadOnly(input.cube);
+  const readOnly = !useCubeWritable(input.cube);
   const notes = input.deck.notes || "";
   const [isEditing, setIsEditing] = useState(false);
   const [editContent, setEditContent] = useState(notes);
@@ -1033,7 +1033,7 @@ function saveAnnotations(cube, deck, { macro, labels, colors, notes }) {
 function PlayerFrame(input) {
   let deck = input.deck
   const cube = input.cube
-  const readOnly = isReadOnly(cube)
+  const readOnly = !useCubeWritable(cube)
   const onDecksUpdated = input.onDecksUpdated
   const [saveError, setSaveError] = useState(null)
 

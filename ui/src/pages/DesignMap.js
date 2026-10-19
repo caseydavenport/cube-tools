@@ -4,7 +4,6 @@ import ForceGraph2D from 'react-force-graph-2d'
 import { forceX, forceY, forceCollide } from 'd3-force-3d'
 import { White, Blue, Black, Red, Green } from "../utils/Colors.js"
 import { useCube } from "../contexts/CubeContext.js"
-import { isReadOnly } from "../utils/readonly.js"
 import { CardImageURL } from "../utils/Utils.js"
 import { CARD_REF_PREFIX, cardRefName, effectiveCards, matchKey, membershipsByCard, requestForConditions, requestForGroups } from "../utils/DesignRules.js"
 import { useDesignMatch } from "../utils/useDesignMatch.js"
@@ -930,12 +929,9 @@ export function CardSynergyMap({ cards, edges, links }) {
   )
 }
 
+// saveDesignMap posts the rules. Callers only offer saving on writable cubes;
+// the server refuses a read-only cube with a 403.
 export function saveDesignMap(cube, groups, links, onRulesChanged, onStatus) {
-  // CubeCobra cubes have no writable backend - nothing to save.
-  if (isReadOnly(cube)) {
-    if (onStatus) onStatus("")
-    return
-  }
   fetch(`/api/${cube}/save-design-rules`, {
     method: "POST",
     headers: {"Content-Type": "application/json"},
