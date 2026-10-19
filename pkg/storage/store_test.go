@@ -16,7 +16,9 @@ type fakeBackend struct {
 	readOnly bool
 }
 
-func (f *fakeBackend) Writable(string) bool { return !f.readOnly }
+func (f *fakeBackend) Writable(string) bool {
+	return !f.readOnly
+}
 
 func (f *fakeBackend) RawDecks(cube string) ([]*Deck, error) {
 	out := make([]*Deck, len(f.decks))

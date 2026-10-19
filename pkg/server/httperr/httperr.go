@@ -6,8 +6,9 @@ import (
 	"errors"
 	"net/http"
 
-	"github.com/caseydavenport/cube-tools/pkg/storage"
 	"github.com/sirupsen/logrus"
+
+	"github.com/caseydavenport/cube-tools/pkg/storage"
 )
 
 // WriteStoreError writes the response for a storage error and reports whether

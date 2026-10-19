@@ -7,8 +7,9 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"github.com/caseydavenport/cube-tools/pkg/storage"
 	"github.com/stretchr/testify/assert"
+
+	"github.com/caseydavenport/cube-tools/pkg/storage"
 )
 
 func TestWriteStoreError(t *testing.T) {

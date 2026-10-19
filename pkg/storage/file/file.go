@@ -29,11 +29,13 @@ func New(src types.CubeSource) *Backend {
 
 // NewStore wires a filesystem backend into a Store that resolves player names
 // from data/players.json.
-// Writable reports that every file cube accepts writes.
-func (b *Backend) Writable(string) bool { return true }
-
 func NewStore(src types.CubeSource) *storage.Store {
 	return storage.NewStore(New(src), storage.WithPlayers(players.FileSource{DataRoot: "data"}))
+}
+
+// Writable reports that every file cube accepts writes.
+func (b *Backend) Writable(string) bool {
+	return true
 }
 
 // RawDecks loads every deck in the cube's draft directories, overlays cube

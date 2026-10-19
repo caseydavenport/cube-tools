@@ -11,15 +11,6 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func deck(player string, draft int, matches []types.Match) *storage.Deck {
-	d := &storage.Deck{}
-	d.Player = player
-	d.Metadata.DraftID = draft
-	d.Date = "2024-01-01"
-	d.Matches = matches
-	return d
-}
-
 func TestMemoryConformance(t *testing.T) {
 	b := New()
 	SeedConformance(b)
@@ -29,7 +20,7 @@ func TestMemoryConformance(t *testing.T) {
 
 func TestMemorySeedNumbersDecksPerDraft(t *testing.T) {
 	b := New()
-	b.Seed("c", deck("Alice", 1, nil), deck("Bob", 1, nil), deck("Alice", 2, nil))
+	b.Seed("c", seedDeck("Alice", 1, nil), seedDeck("Bob", 1, nil), seedDeck("Alice", 2, nil))
 	got, err := b.RawDecks("c")
 	assert.NoError(t, err)
 	ids := map[string]int{}
@@ -45,7 +36,7 @@ func TestMemorySeedNumbersDecksPerDraft(t *testing.T) {
 
 func TestMemoryLoadDraftReturnsCopies(t *testing.T) {
 	b := New()
-	b.Seed("c", deck("Alice", 1, nil))
+	b.Seed("c", seedDeck("Alice", 1, nil))
 	got, err := b.LoadDraft("c", 1)
 	assert.NoError(t, err)
 	got[0].Player = "changed"
@@ -61,8 +52,8 @@ func TestMemoryLoadDraftReturnsCopies(t *testing.T) {
 func TestMemoryBackend_UpdateRoundTrips(t *testing.T) {
 	b := New()
 	b.Seed("cubeA",
-		deck("Alice", 1, []types.Match{{Opponent: "Bob", Wins: 2, Losses: 0}}),
-		deck("Bob", 1, []types.Match{{Opponent: "Alice", Wins: 0, Losses: 2}}),
+		seedDeck("Alice", 1, []types.Match{{Opponent: "Bob", Wins: 2, Losses: 0}}),
+		seedDeck("Bob", 1, []types.Match{{Opponent: "Alice", Wins: 0, Losses: 2}}),
 	)
 	s := storage.NewStore(b)
 
