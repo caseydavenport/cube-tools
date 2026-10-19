@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button as MantineButton, Checkbox as MantineCheckbox, Group, NativeSelect, NumberInput, Text, TextInput } from "@mantine/core"
+import { Button as MantineButton, Checkbox as MantineCheckbox, Group, NativeSelect, NumberInput, Text } from "@mantine/core"
 import { asEvent, optionKey } from "./kit/controls.js"
 
 // The stats pages' shared controls. Each keeps the props and change-event
@@ -77,17 +77,6 @@ export function NumericInput({ label, value, onChange, className }) {
     <Group gap={6} wrap="nowrap" className={className}>
       <ControlLabel>{label}</ControlLabel>
       <NumberInput size="xs" w={80} value={value} onChange={onNumber} aria-label={label} />
-    </Group>
-  )
-}
-
-// DateSelector is a labeled date box. onChange gets the browser change event,
-// with the date as "YYYY-MM-DD" in e.target.value.
-export function DateSelector({ label, id, value, onChange }) {
-  return (
-    <Group gap={6} wrap="nowrap" className="dropdown date-selector">
-      <ControlLabel>{label}</ControlLabel>
-      <TextInput size="xs" type="date" id={id} value={value} onChange={onChange} aria-label={label} />
     </Group>
   )
 }

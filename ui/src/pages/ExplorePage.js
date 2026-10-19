@@ -1,6 +1,16 @@
 import React, { useState, useEffect, useMemo } from 'react'
+import { ActionIcon, Chip, Select, useComputedColorScheme } from "@mantine/core"
+import { IconRefresh } from "@tabler/icons-react"
 import { useCube } from "../contexts/CubeContext.js"
-import { DropdownHeader, DateSelector, NumericInput, Button } from "../components/Dropdown.js"
+import { DropdownHeader, NumericInput, Button } from "../components/Dropdown.js"
+import { SectionCard } from "../components/kit/SectionCard.js"
+import { SettingsPopover } from "../components/kit/SettingsPopover.js"
+import { DateRangeMenu } from "../toolbar/DateRangeMenu.js"
+import { PageToolbar } from "../toolbar/PageToolbar.js"
+import { goodBadTint } from "../stats/tints.js"
+import { availableValue, visibleItems } from "../utils/dataKinds.js"
+import { useCubeInfo } from "../utils/useCubeWritable.js"
+import "../stats/stats.css"
 import { WIN_CONFIDENCE_OPTS } from "../utils/Stats.js"
 import { PredicateBuilder } from "../components/PredicateBuilder.js"
 import { bucketXScale } from "../utils/Buckets.js"
@@ -13,7 +23,7 @@ import {
 } from 'chart.js'
 import { Line, Bar } from 'react-chartjs-2'
 import { isAnonymous } from "../utils/Players.js"
-import { currentChartTheme, withAlpha } from "../theme/chartTheme.js"
+import { currentChartTheme, seriesColor, withAlpha } from "../theme/chartTheme.js"
 import { colorName } from "../utils/colorNames.js"
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, BarElement, Title, Tooltip, Legend)
@@ -53,16 +63,35 @@ const winErrorBars = {
 }
 ChartJS.register(winErrorBars)
 
+// COPY holds the text this page adds around its charts. Placeholders for Casey
+// to replace.
+const COPY = {
+  title: "Charts",
+  slice: "Slice",
+  refresh: "Refresh",
+  settings: "Settings",
+  winConfidence: "Win % confidence",
+
+  allTime: "All time",
+  last12Months: "Last 12 months",
+  customRange: "Custom range",
+  from: "From",
+  to: "To",
+  apply: "Apply",
+}
+
 // The Explore view is a general deck-slicing pivot: group decks/games by a
 // dimension, optionally split by a second, over a filtered subpopulation, and
 // read a win-rate metric. Compute is server-side (POST /stats/pivot); this page
 // only builds the request and renders the response.
 
 // Dimensions usable for group-by. Color dims also expose granularity + mode.
+// needs lists the data a dimension is read from: archetypes and tags need
+// archetype labels, and opponent dimensions need match results.
 const GROUP_DIMS = [
   { value: "color", label: "Color", color: true },
-  { value: "archetype", label: "Archetype" },
-  { value: "label", label: "Label" },
+  { value: "archetype", label: "Archetype", needs: ["archetypes"] },
+  { value: "label", label: "Label", needs: ["archetypes"] },
   { value: "player", label: "Player" },
   { value: "time", label: "Time" },
   { value: "removal", label: "Removal count" },
@@ -76,11 +105,11 @@ const GROUP_DIMS = [
 
 const SPLIT_DIMS = [
   { value: "", label: "(none)" },
-  { value: "opponent_color", label: "Opponent color", color: true },
-  { value: "opponent_archetype", label: "Opponent archetype" },
-  { value: "opponent_removal", label: "Opponent removal count" },
-  { value: "opponent_creatures", label: "Opponent creature count" },
-  { value: "opponent_avg_cmc", label: "Opponent avg mana value" },
+  { value: "opponent_color", label: "Opponent color", color: true, needs: ["results"] },
+  { value: "opponent_archetype", label: "Opponent archetype", needs: ["results", "archetypes"] },
+  { value: "opponent_removal", label: "Opponent removal count", needs: ["results"] },
+  { value: "opponent_creatures", label: "Opponent creature count", needs: ["results"] },
+  { value: "opponent_avg_cmc", label: "Opponent avg mana value", needs: ["results"] },
   ...GROUP_DIMS,
 ]
 
@@ -116,11 +145,9 @@ function cellGames(c) {
   return (c.wins || 0) + (c.losses || 0) + (c.draws || 0)
 }
 
-// absColor scales a win% from red (0) through neutral (50) to green (100).
+// absColor scales a win% from bad (0) through neutral (50) to good (100).
 function absColor(winPct) {
-  const t = Math.max(0, Math.min(1, winPct / 100))
-  if (t >= 0.5) return `rgba(40, 167, 69, ${0.15 + (t - 0.5) * 2 * 0.55})`
-  return `rgba(220, 53, 69, ${0.15 + (0.5 - t) * 2 * 0.55})`
+  return goodBadTint((winPct - 50) / 50)
 }
 
 // winColor tints a win% cell red/green vs 50%, but only when the rate is
@@ -135,10 +162,10 @@ function winColor(c) {
 }
 
 // barColor tints a group's bar by its color identity (shared guildColor scheme).
-// Non-color dimensions fall back to green.
+// Non-color dimensions fall back to the first series color.
 function barColor(dim, key) {
   if (isColorDim(dim) && key) return guildColor(key)
-  return "rgba(40, 167, 69, 0.7)"
+  return withAlpha(seriesColor(0), 0.7)
 }
 
 function metricText(metric, c) {
@@ -174,8 +201,15 @@ function ciTooltip(c, confidence) {
   return `${rec} (${games} games)\n${level}% CI: ${c.win_pct}% ±${s.margin.toFixed(1)} (${s.lo.toFixed(0)}–${s.hi.toFixed(0)}%)\n${s.significant ? "distinguishable from 50%" : "not distinguishable from 50%"}`
 }
 
+// ExplorePage is the Charts page: the toolbar with its date range, refresh, and
+// confidence setting, then the slice controls and the pivot they produce.
 export function ExplorePage(props) {
   const cubeID = useCube()
+  const info = useCubeInfo(cubeID)
+
+  // Reading the color scheme re-renders the page when it changes, so chart
+  // colors computed while rendering follow light and dark mode.
+  useComputedColorScheme("light")
   const [refresh, setRefresh] = useState(1)
 
   const [groupBy, setGroupBy] = useState({ dim: "color", granularity: 1, color_mode: "inclusive" })
@@ -193,7 +227,13 @@ export function ExplorePage(props) {
 
   const start = props.startDate || ""
   const end = props.endDate || ""
-  const usesTime = groupBy.dim === "time" || splitBy.dim === "time"
+
+  // A chosen dimension the cube can't fill falls back to one it can.
+  const groupDim = availableValue(groupBy.dim, GROUP_DIMS, info)
+  const splitDim = availableValue(splitBy.dim, SPLIT_DIMS, info)
+  const shownGroupBy = useMemo(() => ({ ...groupBy, dim: groupDim }), [groupBy, groupDim])
+  const shownSplitBy = useMemo(() => ({ ...splitBy, dim: splitDim }), [splitBy, splitDim])
+  const usesTime = groupDim === "time" || splitDim === "time"
 
   // Pull the known archetypes / players / labels for the filter dropdowns.
   useEffect(() => {
@@ -228,8 +268,8 @@ export function ExplorePage(props) {
   useEffect(() => {
     const body = {
       start, end,
-      group_by: groupBy,
-      split_by: splitBy,
+      group_by: shownGroupBy,
+      split_by: shownSplitBy,
       bucket_size: usesTime ? Number(bucketSize) : 0,
       predicates: predicates.filter(p => p.dim === "card_query" ? p.value !== "" : p.value !== ""),
       exclude_players: [...excluded],
@@ -243,7 +283,7 @@ export function ExplorePage(props) {
       .then(r => r.json())
       .then(setResult)
       .catch(() => setResult(null))
-  }, [cubeID, start, end, groupBy, splitBy, bucketSize, predicates, refresh, usesTime, excluded, confidence])
+  }, [cubeID, start, end, shownGroupBy, shownSplitBy, bucketSize, predicates, refresh, usesTime, excluded, confidence])
 
   function togglePlayer(name) {
     setExcluded(prev => {
@@ -254,87 +294,104 @@ export function ExplorePage(props) {
     })
   }
 
+  const actions = (
+    <>
+      <ActionIcon variant="default" size="md" aria-label={COPY.refresh} onClick={() => setRefresh(r => r + 1)}>
+        <IconRefresh size={16} />
+      </ActionIcon>
+      <SettingsPopover label={COPY.settings}>
+        <Select
+          size="xs"
+          label={COPY.winConfidence}
+          data={WIN_CONFIDENCE_OPTS}
+          value={confidence}
+          onChange={setConfidence}
+          allowDeselect={false}
+          comboboxProps={{ withinPortal: false }}
+        />
+      </SettingsPopover>
+    </>
+  )
+
   const controls = (
-    <div className="explore-controls">
-      <div className="selector-group">
-        <Button text="Refresh" onClick={() => setRefresh(r => r + 1)} />
-        <DateSelector label="From" id="explore-from" value={start} onChange={props.onStartSelected} />
-        <DateSelector label="To" id="explore-to" value={end} onChange={props.onEndSelected} />
-      </div>
-
-      <div className="selector-group">
-        <DropdownHeader label="Group by" value={groupBy.dim} options={GROUP_DIMS}
-          onChange={(e) => setGroupBy({ ...groupBy, dim: e.target.value })} />
-        {isColorDim(groupBy.dim) && (
-          <>
-            <DropdownHeader label="" value={groupBy.granularity} options={GRANULARITY_OPTS}
-              onChange={(e) => setGroupBy({ ...groupBy, granularity: Number(e.target.value) })} />
-            <DropdownHeader label="" value={groupBy.color_mode} options={COLOR_MODE_OPTS}
-              onChange={(e) => setGroupBy({ ...groupBy, color_mode: e.target.value })} />
-          </>
-        )}
-
-        <DropdownHeader label="Split by" value={splitBy.dim} options={SPLIT_DIMS}
-          onChange={(e) => setSplitBy({ ...splitBy, dim: e.target.value })} />
-        {isColorDim(splitBy.dim) && (
-          <>
-            <DropdownHeader label="" value={splitBy.granularity} options={GRANULARITY_OPTS}
-              onChange={(e) => setSplitBy({ ...splitBy, granularity: Number(e.target.value) })} />
-            <DropdownHeader label="" value={splitBy.color_mode} options={COLOR_MODE_OPTS}
-              onChange={(e) => setSplitBy({ ...splitBy, color_mode: e.target.value })} />
-          </>
-        )}
-
-        <DropdownHeader label="Metric" value={metric} options={METRIC_OPTS}
-          onChange={(e) => setMetric(e.target.value)} />
-
-        <DropdownHeader label="Win% confidence" value={confidence} options={WIN_CONFIDENCE_OPTS}
-          onChange={(e) => setConfidence(e.target.value)} />
-        {usesTime && (
-          <NumericInput label="Bucket" value={bucketSize}
-            onChange={(e) => setBucketSize(Math.max(1, Number(e.target.value)))} />
-        )}
-      </div>
-
-      {meta.playerFreq.length > 0 && (
-        <div className="player-filter">
-          <div className="player-filter-head" style={{ cursor: "pointer" }} onClick={() => setPlayersOpen(o => !o)}>
-            <span className="caret">{playersOpen ? "▾" : "▸"}</span>
-            <span className="section-heading">Players</span>
-            <span className="player-filter-hint">
-              {excluded.size > 0
-                ? `${excluded.size} excluded (${meta.playerFreq.length - excluded.size} kept)`
-                : "all included - expand to exclude players and their games"}
-            </span>
-          </div>
-          {playersOpen && (
+    <SectionCard title={COPY.slice}>
+      <div className="explore-controls">
+        <div className="selector-group">
+          <DropdownHeader label="Group by" value={groupDim} options={visibleItems(GROUP_DIMS, info)}
+            onChange={(e) => setGroupBy({ ...groupBy, dim: e.target.value })} />
+          {isColorDim(groupDim) && (
             <>
-              <div className="selector-group" style={{ gap: "0.5rem" }}>
-                <Button text="Select all" onClick={() => setExcluded(new Set())} />
-                <Button text="Deselect all" onClick={() => setExcluded(new Set(meta.playerFreq.map(p => p.name)))} />
-              </div>
-              <div className="player-checkboxes">
-                {meta.playerFreq.map(p => (
-                  <label key={p.name} className={"player-chip" + (excluded.has(p.name) ? " excluded" : "")}>
-                    <input type="checkbox" checked={!excluded.has(p.name)} onChange={() => togglePlayer(p.name)} />
-                    {p.name} <span className="player-count">{p.count}</span>
-                  </label>
-                ))}
-              </div>
+              <DropdownHeader label="" value={groupBy.granularity} options={GRANULARITY_OPTS}
+                onChange={(e) => setGroupBy({ ...groupBy, granularity: Number(e.target.value) })} />
+              <DropdownHeader label="" value={groupBy.color_mode} options={COLOR_MODE_OPTS}
+                onChange={(e) => setGroupBy({ ...groupBy, color_mode: e.target.value })} />
             </>
           )}
-        </div>
-      )}
 
-      <PredicateBuilder predicates={predicates} onChange={setPredicates} meta={meta} />
-    </div>
+          <DropdownHeader label="Split by" value={splitDim} options={visibleItems(SPLIT_DIMS, info)}
+            onChange={(e) => setSplitBy({ ...splitBy, dim: e.target.value })} />
+          {isColorDim(splitDim) && (
+            <>
+              <DropdownHeader label="" value={splitBy.granularity} options={GRANULARITY_OPTS}
+                onChange={(e) => setSplitBy({ ...splitBy, granularity: Number(e.target.value) })} />
+              <DropdownHeader label="" value={splitBy.color_mode} options={COLOR_MODE_OPTS}
+                onChange={(e) => setSplitBy({ ...splitBy, color_mode: e.target.value })} />
+            </>
+          )}
+
+          <DropdownHeader label="Metric" value={metric} options={METRIC_OPTS}
+            onChange={(e) => setMetric(e.target.value)} />
+
+          {usesTime && (
+            <NumericInput label="Bucket" value={bucketSize}
+              onChange={(e) => setBucketSize(Math.max(1, Number(e.target.value)))} />
+          )}
+        </div>
+
+        {meta.playerFreq.length > 0 && (
+          <div className="player-filter">
+            <div className="player-filter-head" style={{ cursor: "pointer" }} onClick={() => setPlayersOpen(o => !o)}>
+              <span className="caret">{playersOpen ? "▾" : "▸"}</span>
+              <span className="section-heading">Players</span>
+              <span className="player-filter-hint">
+                {excluded.size > 0
+                  ? `${excluded.size} excluded (${meta.playerFreq.length - excluded.size} kept)`
+                  : "all included - expand to exclude players and their games"}
+              </span>
+            </div>
+            {playersOpen && (
+              <>
+                <div className="selector-group" style={{ gap: "0.5rem" }}>
+                  <Button text="Select all" onClick={() => setExcluded(new Set())} />
+                  <Button text="Deselect all" onClick={() => setExcluded(new Set(meta.playerFreq.map(p => p.name)))} />
+                </div>
+                <div className="player-checkboxes">
+                  {meta.playerFreq.map(p => (
+                    <Chip key={p.name} size="xs" checked={!excluded.has(p.name)} onChange={() => togglePlayer(p.name)}>
+                      {p.name} <span className="player-count">{p.count}</span>
+                    </Chip>
+                  ))}
+                </div>
+              </>
+            )}
+          </div>
+        )}
+
+        <PredicateBuilder predicates={predicates} onChange={setPredicates} meta={meta} />
+      </div>
+    </SectionCard>
   )
 
   return (
-    <div className="analyze-page explore-page">
-      {controls}
-      <ExploreResult result={result} groupBy={groupBy} splitBy={splitBy} metric={metric} usesTime={usesTime} confidence={confidence} />
-    </div>
+    <>
+      <PageToolbar title={COPY.title} actions={actions}>
+        <DateRangeMenu start={props.startDate} end={props.endDate} onChange={props.onRangeChange} copy={COPY} />
+      </PageToolbar>
+      <div className="analyze-page explore-page">
+        {controls}
+        <ExploreResult result={result} groupBy={shownGroupBy} splitBy={shownSplitBy} metric={metric} usesTime={usesTime} confidence={confidence} />
+      </div>
+    </>
   )
 }
 
@@ -492,12 +549,11 @@ function PivotLineChart({ result, groupBy, splitBy, metric }) {
     }))
   }
 
-  const palette = ["#28a745", "#007bff", "#6f42c1", "#fd7e14", "#e83e8c", "#20c997", "#dc3545", "#ffc107"]
   const datasets = series.map((s, i) => ({
     label: keyLabel(seriesDim, s.key),
     data: s.points,
-    borderColor: palette[i % palette.length],
-    backgroundColor: palette[i % palette.length],
+    borderColor: seriesColor(i),
+    backgroundColor: seriesColor(i),
     spanGaps: true,
   }))
 
