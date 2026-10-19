@@ -63,12 +63,15 @@ func (d Draft) Decks() ([]*types.Deck, error) {
 
 // ReadableDecks is Decks for readers that would rather show a draft's good
 // decks than none of them. A deck file that won't load is left out, and its
-// error is returned in skipped. err is only for a directory that can't be listed.
-func (d Draft) ReadableDecks() (decks []*types.Deck, skipped []error, err error) {
+// error goes in the second result. The final error is only for a directory
+// that can't be listed.
+func (d Draft) ReadableDecks() ([]*types.Deck, []error, error) {
 	files, err := deckFiles(d.Dir)
 	if err != nil {
 		return nil, nil, err
 	}
+	var decks []*types.Deck
+	var skipped []error
 	for _, path := range files {
 		deck, err := types.LoadDeck(path)
 		if err != nil {

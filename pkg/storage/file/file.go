@@ -240,9 +240,9 @@ func overlayCubeCards(cards []types.Card, cube map[string]cubeCard) {
 
 // readableDecks loads a draft's decks for the cube-wide reads, logging and
 // leaving out any deck file that won't load so one bad file doesn't hide the
-// rest of its draft. seats counts the unreadable decks too. ok is false when
-// the draft's directory can't be listed.
-func readableDecks(draft drafts.Draft) (decks []*types.Deck, seats int, ok bool) {
+// rest of its draft. The returned seat count includes the unreadable decks.
+// The bool is false when the draft's directory can't be listed.
+func readableDecks(draft drafts.Draft) ([]*types.Deck, int, bool) {
 	logc := logrus.WithField("draft", draft.ID)
 	decks, skipped, err := draft.ReadableDecks()
 	if err != nil {
