@@ -1,0 +1,135 @@
+.se-sidebar {
+  background: linear-gradient(180deg, var(--se-sidebar-from), var(--se-sidebar-to));
+  border-right: 1px solid var(--se-border);
+}
+
+.se-topbar {
+  background: var(--se-sidebar-from);
+  border-bottom: 1px solid var(--se-border);
+}
+
+.se-main {
+  background: var(--se-page);
+  min-height: 100vh;
+}
+
+.se-sidebar-inner {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 12px 8px;
+  gap: 8px;
+}
+
+.se-switcher {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 6px;
+  border-radius: var(--mantine-radius-md);
+}
+
+.se-switcher:hover {
+  background: color-mix(in srgb, var(--se-card) 60%, transparent);
+}
+
+.se-switcher-text {
+  flex: 1;
+  min-width: 0;
+}
+
+.se-logo {
+  flex: none;
+  width: 30px;
+  height: 30px;
+  border-radius: 9px;
+  background: linear-gradient(135deg, #a78bfa, #7c3aed 45%, #f472b6);
+}
+
+.se-muted {
+  color: var(--se-muted);
+}
+
+.se-cc-form {
+  padding: 4px 8px 8px;
+}
+
+.se-groups {
+  flex: 1;
+}
+
+.se-group + .se-group {
+  margin-top: 10px;
+}
+
+.se-group-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--se-muted);
+  padding: 4px 10px 4px;
+}
+
+.se-group-line,
+.se-divider {
+  height: 1px;
+  background: var(--se-border);
+  margin: 6px 10px;
+}
+
+.se-item {
+  border-radius: var(--mantine-radius-md);
+  color: var(--se-text);
+  padding: 6px 8px;
+}
+
+.se-item .mantine-NavLink-section[data-position="left"] {
+  margin-inline-end: 10px;
+}
+
+.se-item:not([data-active]):hover {
+  background: color-mix(in srgb, var(--se-card) 60%, transparent);
+}
+
+.se-item[data-active] {
+  color: var(--mantine-primary-color-filled);
+  font-weight: 600;
+  background: var(--se-card);
+  box-shadow: 0 1px 2px rgb(0 0 0 / 0.06);
+}
+
+.se-dim {
+  color: var(--se-muted);
+  opacity: 0.6;
+}
+
+.se-reason {
+  font-size: 9.5px;
+  white-space: nowrap;
+  color: var(--se-muted);
+}
+
+.se-collapsed .se-item {
+  justify-content: center;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.se-collapsed .se-item .mantine-NavLink-section {
+  margin: 0;
+}
+
+.se-collapsed .se-item .mantine-NavLink-body {
+  display: none;
+}
+
+.se-collapsed .se-switcher {
+  justify-content: center;
+}
+
+.se-bottom {
+  border-top: 1px solid var(--se-border);
+  padding-top: 8px;
+}

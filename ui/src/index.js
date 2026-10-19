@@ -1,11 +1,10 @@
 import React, { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import ReactDOM from "react-dom/client";
-import App from "./App";
-
-// Importing the Bootstrap CSS
+// Library CSS loads before App so the app's own styles override it.
 import 'bootstrap/dist/css/bootstrap.css';
 import '@mantine/core/styles.css';
+import App from "./App";
 
 function component() {
   const element = document.createElement('div');

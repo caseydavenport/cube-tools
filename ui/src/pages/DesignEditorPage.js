@@ -309,7 +309,7 @@ export function DesignEditorPage() {
   if (!data) {
     return <div className="de-page"><div className="de-loading">Loading design map…</div></div>
   }
-  // The navbar hides the editor on read-only cubes, but a URL can still reach it.
+  // The sidebar dims the editor on read-only cubes, but its link and a URL still reach it.
   if (writable !== true) {
     return <div className="de-page"><div className="de-loading">This cube is read-only, so its design rules can't be edited here.</div></div>
   }

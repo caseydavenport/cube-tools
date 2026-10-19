@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react'
 import { HashRouter as Router, Routes, Route, Outlet, useSearchParams } from "react-router-dom";
 import {DeckViewer} from './pages/DeckViewer.js'
-import NavBar from './components/navbar.js'
 import {StatsViewer} from './pages/Stats.js'
 import { PlayersPage } from './pages/PlayersPage.js'
 import { DraftsPage } from './pages/DraftsPage.js'
@@ -16,6 +15,7 @@ import Landing from './pages/Landing.js';
 import Overview from './pages/Overview.js';
 import ImportHub from './pages/ImportHub.js';
 import NotFound from './pages/NotFound.js';
+import { AppLayout } from './shell/AppLayout.js';
 import { MantineProvider } from "@mantine/core";
 import { theme, cssVariablesResolver } from "./theme/theme.js";
 
@@ -93,11 +93,10 @@ export default function Main() {
     <MantineProvider theme={theme} cssVariablesResolver={cssVariablesResolver} defaultColorScheme="auto">
     <div>
     <Router>
-      <NavBar />
       <UrlStateSync startDate={startDate} endDate={endDate} matchStr={matchStr} />
       <Routes>
         <Route path='/' element={<Landing />} />
-        <Route path='/:cube' element={<CubeProvider><Outlet /></CubeProvider>}>
+        <Route path='/:cube' element={<CubeProvider><AppLayout><Outlet /></AppLayout></CubeProvider>}>
           <Route index element={<Overview />} />
           <Route path='cards' element={<StatsViewer view='cards' {...statsProps} />} />
           <Route path='colors' element={<StatsViewer view='colors' {...statsProps} />} />
