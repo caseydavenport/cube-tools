@@ -1,6 +1,7 @@
 package ocr
 
 import (
+	"strings"
 	"testing"
 
 	"github.com/caseydavenport/cube-tools/pkg/types"
@@ -136,4 +137,39 @@ func TestDeckWarnings(t *testing.T) {
 			t.Fatalf("expected mainboard-size warning, got %v", w)
 		}
 	})
+}
+
+func TestDeckWarningsPoolPlayerIgnoresStaleSideboard(t *testing.T) {
+	// A pool player's sideboard is the pool minus the mainboard, as the review
+	// page shows it. A saved hand-tracked map left over from a deck-only scan
+	// mustn't change the total.
+	pw := &PlayerWork{
+		PoolEntries:      []PoolEntry{entry("Brainstorm", 45)},
+		MainboardEntries: []PoolEntry{entry("Brainstorm", 23)},
+		Sideboard:        map[string]int{"Counterspell": 3},
+		Basics:           map[string]int{"Island": 17},
+	}
+	for _, w := range deckWarnings(pw) {
+		if strings.HasPrefix(w, "Mainboard + sideboard") {
+			t.Fatalf("pool player got a stale-sideboard size warning: %q", w)
+		}
+	}
+}
+
+func TestReviewBreakdown(t *testing.T) {
+	lands := map[string]bool{"Flooded Strand": true, "Polluted Delta": true}
+	pw := &PlayerWork{
+		PoolEntries: []PoolEntry{entry("Brainstorm", 21), entry("Flooded Strand", 1), entry("Polluted Delta", 1), entry("Ozzy's Bat", 22)},
+		MainboardEntries: []PoolEntry{
+			entry("Brainstorm", 20), entry("Flooded Strand", 1), entry("Polluted Delta", 1), entry("Ozzy's Bat", 1),
+		},
+		Basics: map[string]int{"Plains": 9, "Island": 8},
+	}
+	got := reviewPlayer(pw, func(name string) bool { return lands[name] })
+	if got.Breakdown != (Breakdown{Cards: 40, Lands: 19, Basics: 17}) {
+		t.Fatalf("breakdown = %+v, want cards 40, lands 19, basics 17", got.Breakdown)
+	}
+	if len(got.Warnings) != 0 {
+		t.Fatalf("expected no warnings, got %v", got.Warnings)
+	}
 }

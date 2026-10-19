@@ -73,9 +73,9 @@ func equalCounts(a, b map[string]int) bool {
 	return true
 }
 
-// deckWarnings mirrors the client cross-check (ui/src/utils/CrossCheck.js) from
-// the session's saved derived lists, so the draft view can flag a confirmed deck
-// whose pool/mainboard doesn't add up without opening each player.
+// deckWarnings checks a player's saved lists for cards that don't add up. The
+// review page shows them while editing, and the draft view uses them to flag a
+// confirmed deck without opening each player.
 func deckWarnings(pw *PlayerWork) []string {
 	if pw == nil {
 		return nil
@@ -119,8 +119,7 @@ func deckWarnings(pw *PlayerWork) []string {
 	}
 
 	// A drafted deck is 45 non-basic cards. Unlike the checks above this runs
-	// even for a deck-only scan - it's that scan's only size guard. Mirrors
-	// deckSizeWarnings in ui/src/utils/CrossCheck.js.
+	// even for a deck-only scan - it's that scan's only size guard.
 	if total := nonBasicDeckTotal(pw); total > 0 && total != 45 {
 		w = append(w, fmt.Sprintf("Mainboard + sideboard has %d non-basic cards (expected 45)", total))
 	}
@@ -128,9 +127,9 @@ func deckWarnings(pw *PlayerWork) []string {
 }
 
 // nonBasicDeckTotal counts the non-basic cards across a player's mainboard and
-// sideboard. The sideboard is the hand-tracked map for a deck-only scan, or
-// derived from pool minus mainboard for a pool scan, matching how the client
-// and confirm split the two.
+// sideboard. A player with a pool has the sideboard derived from pool minus
+// mainboard, and a deck-only scan uses the hand-tracked map, matching how the
+// review page and confirm split the two.
 func nonBasicDeckTotal(pw *PlayerWork) int {
 	total := 0
 	for _, e := range pw.MainboardEntries {
@@ -138,7 +137,7 @@ func nonBasicDeckTotal(pw *PlayerWork) int {
 			total += e.Count
 		}
 	}
-	if len(pw.Sideboard) > 0 {
+	if len(pw.PoolEntries) == 0 {
 		for name, n := range pw.Sideboard {
 			if !types.IsBasic(name) {
 				total += n
@@ -160,6 +159,46 @@ func countedFromEntries(entries []PoolEntry) []types.CountedCard {
 	out := make([]types.CountedCard, len(entries))
 	for i, e := range entries {
 		out[i] = types.CountedCard{Name: e.CardName, Count: e.Count}
+	}
+	return out
+}
+
+// Breakdown sums a player's mainboard for the review page: every card with
+// basics included, the lands among them, and the basics alone.
+type Breakdown struct {
+	Cards  int `json:"cards"`
+	Lands  int `json:"lands"`
+	Basics int `json:"basics"`
+}
+
+// PlayerReview is what the review page shows about a player's cards: the
+// warnings and the mainboard breakdown. It's computed per response, never
+// saved.
+type PlayerReview struct {
+	Warnings  []string  `json:"warnings"`
+	Breakdown Breakdown `json:"breakdown"`
+}
+
+// reviewPlayer builds a player's review from their saved lists. isLand says
+// whether a non-basic card is a land; a card it doesn't know isn't one.
+func reviewPlayer(pw *PlayerWork, isLand func(string) bool) PlayerReview {
+	out := PlayerReview{Warnings: deckWarnings(pw)}
+	if out.Warnings == nil {
+		out.Warnings = []string{}
+	}
+	for _, n := range pw.Basics {
+		out.Breakdown.Basics += n
+	}
+	out.Breakdown.Cards = out.Breakdown.Basics
+	out.Breakdown.Lands = out.Breakdown.Basics
+	for _, e := range pw.MainboardEntries {
+		if types.IsBasic(e.CardName) {
+			continue
+		}
+		out.Breakdown.Cards += e.Count
+		if isLand(e.CardName) {
+			out.Breakdown.Lands += e.Count
+		}
 	}
 	return out
 }
