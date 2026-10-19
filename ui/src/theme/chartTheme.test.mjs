@@ -26,6 +26,7 @@ test("the chart theme comes from the scheme's tokens", () => {
   assert.equal(chartThemeFor("light").text, LIGHT.text)
   assert.equal(chartThemeFor("dark").grid, withAlpha(DARK.text, 0.1))
   assert.equal(chartThemeFor("dark").goodFill, withAlpha(DARK.good, 0.85))
+  assert.equal(chartThemeFor("light").background, LIGHT.page)
 })
 
 test("series colors cycle through the palette", () => {

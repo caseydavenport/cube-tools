@@ -2,7 +2,10 @@ import React, { useRef, useEffect, useState, useMemo } from 'react'
 import ReactDOM from 'react-dom'
 import ForceGraph2D from 'react-force-graph-2d'
 import { forceX, forceY, forceCollide } from 'd3-force-3d'
+import { Anchor, Breadcrumbs, Modal, NativeSelect, SegmentedControl, Text, TextInput, UnstyledButton, Button, ActionIcon, useComputedColorScheme } from "@mantine/core"
+import { IconArrowBackUp, IconPencil, IconPlus, IconSearch, IconX } from "@tabler/icons-react"
 import { White, Blue, Black, Red, Green } from "../utils/Colors.js"
+import { currentChartTheme, seriesColor, withAlpha } from "../theme/chartTheme.js"
 import { useCube } from "../contexts/CubeContext.js"
 import { CardImageURL } from "../utils/Utils.js"
 import { CARD_REF_PREFIX, cardRefName, effectiveCards, matchKey, membershipsByCard, requestForConditions, requestForGroups } from "../utils/DesignRules.js"
@@ -141,33 +144,37 @@ export function DesignMapWidget({ show, designGraphData, cards, onCardSelected }
 
 // --- Breadcrumb --------------------------------------------------------------
 
+// Breadcrumb shows the drill-in path, "All themes" first, and climbs back to
+// any earlier step when clicked. The current step is plain text, colored with
+// its group's color when it's a group.
 function Breadcrumb({ trail, onCrumb, groupColor }) {
   function label(step) {
     if (step.level === "themes") return "All themes"
     if (step.level === "group") return step.group
     return step.card
   }
+
   return (
-    <nav className="dm-crumbs" aria-label="Map location">
-      {trail.map((step, i) => {
-        const last = i === trail.length - 1
-        const color = step.level === "group" ? groupColor(step.group) : "var(--primary)"
-        return (
-          <span key={i} className="dm-crumb-wrap">
-            {i > 0 && <span className="dm-crumb-sep">›</span>}
-            <button
-              className={last ? "dm-crumb dm-crumb-current" : "dm-crumb"}
-              style={last && step.level !== "themes" ? { color } : undefined}
-              onClick={() => onCrumb(i)}
-              disabled={last}
-            >
-              {label(step)}
-            </button>
-          </span>
-        )
-      })}
-    </nav>
+    <Breadcrumbs className="dm-crumbs" separator="›" aria-label="Map location">
+      {trail.map((step, i) => (
+        <Crumb key={i} step={step} last={i === trail.length - 1} label={label(step)} onClick={() => onCrumb(i)} groupColor={groupColor} />
+      ))}
+    </Breadcrumbs>
   )
+}
+
+// Crumb is one breadcrumb step: a link back for earlier steps, plain text for
+// the step the map is on.
+function Crumb({ step, last, label, onClick, groupColor }) {
+  if (!last) {
+    return <Anchor component="button" type="button" size="sm" onClick={onClick}>{label}</Anchor>
+  }
+
+  let color = undefined
+  if (step.level === "group") {
+    color = groupColor(step.group)
+  }
+  return <Text size="sm" fw={600} c={color}>{label}</Text>
 }
 
 // --- Legend (searchable table of contents) -----------------------------------
@@ -197,23 +204,30 @@ function Legend({ groupNodes, groupColor, focus, hovered, onHover, onPick }) {
         <span className="section-heading" style={{ margin: 0 }}>Themes</span>
         <span className="dm-count">{themes.length}</span>
       </div>
-      <input
+      <TextInput
         className="dm-search"
+        size="xs"
+        leftSection={<IconSearch size={14} />}
         placeholder="Filter themes…"
+        aria-label="Filter themes"
         value={query}
         onChange={e => setQuery(e.target.value)}
       />
       <div className="dm-sortrow">
-        {[["size", "Size"], ["name", "A–Z"]].map(([k, l]) => (
-          <button key={k} className={sort === k ? "dm-sort dm-sort-on" : "dm-sort"} onClick={() => setSort(k)}>{l}</button>
-        ))}
+        <SegmentedControl
+          size="xs"
+          aria-label="Sort themes"
+          data={[{ value: "size", label: "Size" }, { value: "name", label: "A–Z" }]}
+          value={sort}
+          onChange={setSort}
+        />
       </div>
       <div className="dm-legend-list">
         {rows.map(g => {
           const on = activeGroup === g.name
           const hot = hovered === g.name
           return (
-            <button
+            <UnstyledButton
               key={g.name}
               className={"dm-legend-row" + (on ? " dm-legend-on" : "") + (hot ? " dm-legend-hot" : "")}
               onMouseEnter={() => onHover(g.name)}
@@ -223,7 +237,7 @@ function Legend({ groupNodes, groupColor, focus, hovered, onHover, onPick }) {
               <span className="dm-swatch" style={{ background: groupColor(g.name) }} />
               <span className="dm-legend-name">{g.name}</span>
               <span className="dm-legend-count">{g.card_count}</span>
-            </button>
+            </UnstyledButton>
           )
         })}
         {rows.length === 0 && <p className="dm-muted dm-pad">No themes match.</p>}
@@ -315,10 +329,10 @@ function OverviewDetail({ groupNodes, links, nodeMap, onDrill }) {
       <div className="dm-subhead">Largest themes</div>
       <div className="dm-detail-list">
         {biggest.map(g => (
-          <button key={g.name} className="dm-detail-row" onClick={() => onDrill({ level: "group", group: g.name })}>
+          <UnstyledButton key={g.name} className="dm-detail-row" onClick={() => onDrill({ level: "group", group: g.name })}>
             <span className="dm-legend-name">{g.name}</span>
             <span className="dm-legend-count">{g.card_count}</span>
-          </button>
+          </UnstyledButton>
         ))}
       </div>
     </div>
@@ -385,7 +399,7 @@ function GroupDetail({ cube, focus, groups, groupNodes, links, groupColor, onDri
               const cardName = cardRefName(lg.name)
               const color = cardName ? getNodeColor((nodeMap[cardName] || {}).colors) : groupColor(lg.name)
               return (
-                <button
+                <UnstyledButton
                   key={lg.name}
                   className="dm-chip"
                   style={{ borderColor: color, color }}
@@ -393,7 +407,7 @@ function GroupDetail({ cube, focus, groups, groupNodes, links, groupColor, onDri
                   onClick={() => onDrill(cardName ? { level: "card", card: cardName } : { level: "group", group: lg.name })}
                 >
                   {cardName || lg.name}
-                </button>
+                </UnstyledButton>
               )
             })}
           </div>
@@ -483,7 +497,7 @@ function CardDetail({ cube, focus, groups, edges, links, nodeMap, groupColor, on
           <div className="dm-subhead">In themes</div>
           <div className="dm-chiprow">
             {memberships.map(m => (
-              <button
+              <UnstyledButton
                 key={m.name}
                 className="dm-chip"
                 style={{ borderColor: groupColor(m.name), color: groupColor(m.name) }}
@@ -491,7 +505,7 @@ function CardDetail({ cube, focus, groups, edges, links, nodeMap, groupColor, on
                 onClick={() => onDrill({ level: "group", group: m.name })}
               >
                 {m.name}
-              </button>
+              </UnstyledButton>
             ))}
           </div>
         </>
@@ -510,7 +524,7 @@ function CardDetail({ cube, focus, groups, edges, links, nodeMap, groupColor, on
             {r.cards.map(name => {
               const node = nodeMap[name] || { colors: [] }
               return (
-                <button
+                <UnstyledButton
                   key={name}
                   className={"dm-detail-row" + (hovered === name ? " dm-legend-hot" : "")}
                   onMouseEnter={() => onHover(name)}
@@ -519,7 +533,7 @@ function CardDetail({ cube, focus, groups, edges, links, nodeMap, groupColor, on
                 >
                   <span className="dm-dot" style={{ background: getNodeColor(node.colors) }} />
                   <span className="dm-ellipsis">{name}</span>
-                </button>
+                </UnstyledButton>
               )
             })}
           </div>
@@ -850,8 +864,13 @@ export function CardSynergyMap({ cards, edges, links }) {
       <div className="dm-panel dm-map dm-deckmap-main">
         <div className="dm-map-toolbar">
           <span className="dm-map-toolbar-label">Color by</span>
-          <button className={"dm-sort" + (colorBy === "identity" ? " dm-sort-on" : "")} onClick={() => setColorBy("identity")}>Identity</button>
-          <button className={"dm-sort" + (colorBy === "community" ? " dm-sort-on" : "")} onClick={() => setColorBy("community")}>Community</button>
+          <SegmentedControl
+            size="xs"
+            aria-label="Color by"
+            data={[{ value: "identity", label: "Identity" }, { value: "community", label: "Community" }]}
+            value={colorBy}
+            onChange={setColorBy}
+          />
         </div>
         <ForceGraph
           nodes={simNodes}
@@ -874,7 +893,7 @@ export function CardSynergyMap({ cards, edges, links }) {
           {topLinked.length === 0 ? (
             <p className="dm-muted dm-pad">No linked cards.</p>
           ) : topLinked.map(r => (
-            <button
+            <UnstyledButton
               key={r.card}
               className={"dm-legend-row" + (selected === r.card ? " dm-legend-on" : "")}
               onClick={() => setSelected(prev => prev === r.card ? null : r.card)}
@@ -883,7 +902,7 @@ export function CardSynergyMap({ cards, edges, links }) {
             >
               <span className="dm-legend-name">{r.card}</span>
               <span className="dm-legend-count">{r.weightedDegree}·{r.degree}</span>
-            </button>
+            </UnstyledButton>
           ))}
           <div className="dm-subhead">Communities</div>
           {analytics.communities.length === 0 ? (
@@ -962,28 +981,19 @@ export function cleanWires(rawWires) {
   return wires.length > 0 ? wires : null
 }
 
+// RuleInput is a labeled text box for one part of a rule, such as a group's
+// name, in the monospace face the rule syntax reads best in.
 function RuleInput({ label, value, onChange, placeholder }) {
   return (
-    <div style={{marginBottom: "0.35rem"}}>
-      <label style={{fontSize: "0.7em", color: "var(--text-muted)", display: "block", marginBottom: "2px"}}>{label}</label>
-      <input
-        type="text"
-        value={value}
-        onChange={e => onChange(e.target.value)}
-        placeholder={placeholder}
-        style={{
-          width: "100%",
-          background: "var(--card-background)",
-          color: "var(--text-color)",
-          border: "1px solid var(--card-background)",
-          borderRadius: "4px",
-          padding: "4px 6px",
-          fontSize: "0.8em",
-          fontFamily: "monospace",
-          boxSizing: "border-box",
-        }}
-      />
-    </div>
+    <TextInput
+      size="xs"
+      mb={6}
+      label={label}
+      value={value}
+      onChange={e => onChange(e.target.value)}
+      placeholder={placeholder}
+      classNames={{ input: "dm-mono" }}
+    />
   )
 }
 
@@ -1002,27 +1012,12 @@ function GroupMultiSelect({ label, values, onChange, groupNames, cardNames, onEd
     onChange([...values, ""])
   }
 
-  const selectStyle = {
-    flex: 1,
-    // Long card option labels would otherwise set the select's minimum width and
-    // push the edit/remove buttons out of the row (flex min-width:auto).
-    minWidth: 0,
-    background: "var(--card-background)",
-    color: "var(--text-color)",
-    border: "1px solid var(--card-background)",
-    borderRadius: "4px",
-    padding: "4px 6px",
-    fontSize: "0.8em",
-    fontFamily: "monospace",
-    boxSizing: "border-box",
-  }
-
   return (
     <div style={{marginBottom: "0.35rem"}}>
       <label style={{fontSize: "0.7em", color: "var(--text-muted)", display: "block", marginBottom: "2px"}}>{label}</label>
       {values.map((v, i) => (
         <div key={i} style={{display: "flex", gap: "4px", marginBottom: "3px", alignItems: "center"}}>
-          <select value={v} onChange={e => updateAt(i, e.target.value)} style={selectStyle}>
+          <NativeSelect size="xs" className="dm-grow" classNames={{ input: "dm-mono" }} aria-label={label} value={v} onChange={e => updateAt(i, e.target.value)}>
             <option value="">{cardNames ? "-- Select group or card --" : "-- Select group --"}</option>
             <optgroup label="Groups">
               {groupNames.map(name => (
@@ -1036,36 +1031,24 @@ function GroupMultiSelect({ label, values, onChange, groupNames, cardNames, onEd
                 ))}
               </optgroup>
             )}
-          </select>
+          </NativeSelect>
           {onEditGroup && v && !cardRefName(v) && (
-            <button
+            <ActionIcon variant="subtle" color="gray" size="sm" aria-label="Edit group"
               onClick={() => onEditGroup(v)}
               title="Edit group"
-              style={{
-                background: "transparent", border: "none", color: "var(--text-muted)",
-                cursor: "pointer", fontSize: "0.8em", lineHeight: "1", padding: "0 2px",
-              }}
-            >&#9998;</button>
+            ><IconPencil size={14} /></ActionIcon>
           )}
           {values.length > 1 && (
-            <button
+            <ActionIcon variant="subtle" color="gray" size="sm" aria-label="Remove"
               onClick={() => removeAt(i)}
               title="Remove"
-              style={{
-                background: "transparent", border: "none", color: "var(--text-muted)",
-                cursor: "pointer", fontSize: "1em", lineHeight: "1", padding: "0 2px",
-              }}
-            >&times;</button>
+            ><IconX size={14} /></ActionIcon>
           )}
         </div>
       ))}
-      <button
+      <Button size="compact-xs" variant="subtle" color="gray" leftSection={<IconPlus size={12} />}
         onClick={addSlot}
-        style={{
-          background: "transparent", border: "none", color: "var(--text-muted)",
-          cursor: "pointer", fontSize: "0.75em", padding: "0",
-        }}
-      >+ Add group</button>
+      >Add group</Button>
     </div>
   )
 }
@@ -1119,7 +1102,7 @@ function ConditionTooltip({ children, conditions, style, onClick }) {
           zIndex: 9999,
           whiteSpace: "nowrap",
           pointerEvents: "none",
-          boxShadow: "0 4px 12px rgba(0,0,0,0.5)",
+          boxShadow: "var(--mantine-shadow-md)",
         }}>
           <div style={{fontSize: "11px", fontWeight: "bold", color: "var(--text-muted)", textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: "4px"}}>
             Matched Conditions
@@ -1188,43 +1171,27 @@ function ClauseInputs({ label, connects, onChange, placeholder, highlightedCondi
               transition: "opacity 0.15s",
             }}
           >
-            <input
-              type="text"
+            <TextInput
+              size="xs"
+              className="dm-grow"
+              classNames={{ input: "dm-mono" }}
+              aria-label={label}
               value={c}
               onChange={e => updateAt(i, e.target.value)}
               placeholder={placeholder}
-              style={{
-                flex: 1,
-                background: "var(--card-background)",
-                color: "var(--text-color)",
-                border: "1px solid var(--card-background)",
-                borderRadius: "4px",
-                padding: "4px 6px",
-                fontSize: "0.8em",
-                fontFamily: "monospace",
-                boxSizing: "border-box",
-              }}
             />
             {connects.length > 1 && (
-              <button
+              <ActionIcon variant="subtle" color="gray" size="sm" aria-label="Remove clause"
                 onClick={(e) => { e.stopPropagation(); removeAt(i) }}
                 title="Remove clause"
-                style={{
-                  background: "transparent", border: "none", color: "var(--text-muted)",
-                  cursor: "pointer", fontSize: "1em", lineHeight: "1", padding: "0 2px",
-                }}
-              >&times;</button>
+              ><IconX size={14} /></ActionIcon>
             )}
           </div>
         )
       })}
-      <button
+      <Button size="compact-xs" variant="subtle" color="gray" leftSection={<IconPlus size={12} />}
         onClick={addClause}
-        style={{
-          background: "transparent", border: "none", color: "var(--text-muted)",
-          cursor: "pointer", fontSize: "0.75em", padding: "0",
-        }}
-      >+ Add OR clause</button>
+      >Add OR clause</Button>
     </div>
   )
 }
@@ -1246,21 +1213,13 @@ function ExcludeInputs({ values, onChange, options }) {
       <label style={{fontSize: "0.7em", color: "var(--text-muted)", display: "block", marginBottom: "2px"}}>Exclude cards</label>
       {values.map((v, i) => (
         <div key={i} style={{display: "flex", gap: "4px", marginBottom: "3px", alignItems: "center"}}>
-          <select
+          <NativeSelect
+            size="xs"
+            className="dm-grow"
+            classNames={{ input: "dm-mono" }}
+            aria-label="Exclude card"
             value={v}
             onChange={e => updateAt(i, e.target.value)}
-            style={{
-              flex: 1,
-              minWidth: 0,
-              background: "var(--card-background)",
-              color: "var(--text-color)",
-              border: "1px solid var(--card-background)",
-              borderRadius: "4px",
-              padding: "4px 6px",
-              fontSize: "0.8em",
-              fontFamily: "monospace",
-              boxSizing: "border-box",
-            }}
           >
             <option value="">-- Select card --</option>
             <optgroup label="Cards">
@@ -1268,24 +1227,16 @@ function ExcludeInputs({ values, onChange, options }) {
                 <option key={name} value={name}>{name}</option>
               ))}
             </optgroup>
-          </select>
-          <button
+          </NativeSelect>
+          <ActionIcon variant="subtle" color="gray" size="sm" aria-label="Remove exclusion"
             onClick={() => removeAt(i)}
             title="Remove exclusion"
-            style={{
-              background: "transparent", border: "none", color: "var(--text-muted)",
-              cursor: "pointer", fontSize: "1em", lineHeight: "1", padding: "0 2px",
-            }}
-          >&times;</button>
+          ><IconX size={14} /></ActionIcon>
         </div>
       ))}
-      <button
+      <Button size="compact-xs" variant="subtle" color="gray" leftSection={<IconPlus size={12} />}
         onClick={() => onChange([...values, ""])}
-        style={{
-          background: "transparent", border: "none", color: "var(--text-muted)",
-          cursor: "pointer", fontSize: "0.75em", padding: "0",
-        }}
-      >+ Exclude a card</button>
+      >Exclude a card</Button>
     </div>
   )
 }
@@ -1329,13 +1280,6 @@ export function GroupEditModal({ group, color, onSave, onCancel }) {
     setHighlightCondition(null)
     setHighlightCard(null)
   }, [editConditions])
-
-  // Close on Escape key.
-  useEffect(() => {
-    function handleKey(e) { if (e.key === "Escape") onCancel() }
-    window.addEventListener("keydown", handleKey)
-    return () => window.removeEventListener("keydown", handleKey)
-  }, [onCancel])
 
   // Build the set of conditions that should be highlighted on the left side.
   // When a card is clicked, highlight the conditions it matched.
@@ -1388,20 +1332,8 @@ export function GroupEditModal({ group, color, onSave, onCancel }) {
   const excludedMatchCount = matchedCards.filter(c => excludedSet.has(c.name)).length
 
   return (
-    <div
-      onClick={onCancel}
-      style={{
-        position: "fixed",
-        top: 0, left: 0, right: 0, bottom: 0,
-        background: "rgba(0,0,0,0.7)",
-        zIndex: 1000,
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-      }}
-    >
+    <Modal opened onClose={onCancel} withCloseButton={false} centered size="auto" padding={0} radius="md">
       <div
-        onClick={e => e.stopPropagation()}
         style={{
           background: "var(--card-background)",
           borderRadius: "10px",
@@ -1493,8 +1425,8 @@ export function GroupEditModal({ group, color, onSave, onCancel }) {
             <ExcludeInputs values={editExclude} onChange={setEditExclude} options={excludeOptions} />
           </div>
           <div style={{display: "flex", gap: "0.5rem", marginTop: "1rem"}}>
-            <button onClick={() => onSave({ name: editName, conditions: editConditions, exclude: editExclude })} className="button" style={{fontSize: "0.85em"}}>Save</button>
-            <button onClick={onCancel} className="button" style={{fontSize: "0.85em"}}>Cancel</button>
+            <Button size="xs" variant="filled" onClick={() => onSave({ name: editName, conditions: editConditions, exclude: editExclude })}>Save</Button>
+            <Button size="xs" variant="default" onClick={onCancel}>Cancel</Button>
           </div>
         </div>
 
@@ -1511,8 +1443,8 @@ export function GroupEditModal({ group, color, onSave, onCancel }) {
               {loading ? "..." : `(${matchedCards.length - excludedMatchCount})`}
               {!loading && excludedMatchCount > 0 && ` · ${excludedMatchCount} excluded`}
             </span>
-            {addedSet.size > 0 && <span style={{fontSize: "0.85em", marginLeft: "0.5rem", color: "#3fb950"}}>+{addedSet.size}</span>}
-            {removedCards.length > 0 && <span style={{fontSize: "0.85em", marginLeft: "0.35rem", color: "#f85149"}}>−{removedCards.length}</span>}
+            {addedSet.size > 0 && <span style={{fontSize: "0.85em", marginLeft: "0.5rem", color: "var(--se-good)"}}>+{addedSet.size}</span>}
+            {removedCards.length > 0 && <span style={{fontSize: "0.85em", marginLeft: "0.35rem", color: "var(--se-bad)"}}>−{removedCards.length}</span>}
           </h4>
           <div style={{flex: 1, overflowY: "auto"}}>
             {matchedCards.length === 0 && !loading && (
@@ -1534,7 +1466,7 @@ export function GroupEditModal({ group, color, onSave, onCancel }) {
                     alignItems: "center",
                     gap: "4px",
                     fontSize: "0.8em",
-                    color: added ? "#3fb950" : "var(--text-color)",
+                    color: added ? "var(--se-good)" : "var(--se-text)",
                     fontWeight: added ? 600 : "normal",
                     padding: "2px 4px",
                     borderRadius: "3px",
@@ -1546,14 +1478,10 @@ export function GroupEditModal({ group, color, onSave, onCancel }) {
                 >
                   <span style={{flex: 1, minWidth: 0, textDecoration: excluded ? "line-through" : "none"}}>{added ? `+ ${card.name}` : card.name}</span>
                   {excluded && <span className="de-excluded-tag">excluded</span>}
-                  <button
+                  <ActionIcon variant="subtle" color="gray" size="sm" aria-label={excluded ? "Restore to group" : "Exclude from group"}
                     onClick={e => { e.stopPropagation(); toggleExclude(card.name) }}
                     title={excluded ? "Restore to group" : "Exclude from group"}
-                    style={{
-                      background: "transparent", border: "none", color: "var(--text-muted)",
-                      cursor: "pointer", fontSize: "1em", lineHeight: "1", padding: "0 2px",
-                    }}
-                  >{excluded ? "↺" : "×"}</button>
+                  >{excluded ? <IconArrowBackUp size={14} /> : <IconX size={14} />}</ActionIcon>
                 </ConditionTooltip>
               )
             })}
@@ -1562,7 +1490,7 @@ export function GroupEditModal({ group, color, onSave, onCancel }) {
                 key={"rm-" + name}
                 style={{
                   fontSize: "0.8em",
-                  color: "#f85149",
+                  color: "var(--se-bad)",
                   textDecoration: "line-through",
                   padding: "2px 4px",
                 }}
@@ -1573,7 +1501,7 @@ export function GroupEditModal({ group, color, onSave, onCancel }) {
           </div>
         </div>
       </div>
-    </div>
+    </Modal>
   )
 }
 
@@ -1619,18 +1547,6 @@ export function LinkEditModal({ link, color, groupNames, cardNames, groups, onSa
   const editingGroup = editingGroupName ? groups.find(g => g.name === editingGroupName) : null
   const editingGroupIndex = editingGroupName ? groups.findIndex(g => g.name === editingGroupName) : -1
 
-  // Close on Escape key.
-  useEffect(() => {
-    function handleKey(e) {
-      if (e.key === "Escape") {
-        if (editingGroupName) setEditingGroupName(null)
-        else onCancel()
-      }
-    }
-    window.addEventListener("keydown", handleKey)
-    return () => window.removeEventListener("keydown", handleKey)
-  }, [onCancel, editingGroupName])
-
   function renderCardList(label, { cards, loading }) {
     return (
       <div style={{
@@ -1659,7 +1575,7 @@ export function LinkEditModal({ link, color, groupNames, cardNames, groups, onSa
                 : null}
               style={{
                 fontSize: "0.8em",
-                color: "var(--text-color)",
+                color: "var(--se-text)",
                 padding: "2px 4px",
                 borderRadius: "3px",
               }}
@@ -1672,21 +1588,13 @@ export function LinkEditModal({ link, color, groupNames, cardNames, groups, onSa
     )
   }
 
+  // React passes key presses up the component tree, so Escape in the group
+  // dialog would also reach this one. Only the top dialog should close.
+  const closeOnEscape = editingGroupName === null
+
   return (
-    <div
-      onClick={onCancel}
-      style={{
-        position: "fixed",
-        top: 0, left: 0, right: 0, bottom: 0,
-        background: "rgba(0,0,0,0.7)",
-        zIndex: 1000,
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-      }}
-    >
+    <Modal opened onClose={onCancel} closeOnEscape={closeOnEscape} withCloseButton={false} centered size="auto" padding={0} radius="md">
       <div
-        onClick={e => e.stopPropagation()}
         style={{
           background: "var(--card-background)",
           borderRadius: "10px",
@@ -1731,24 +1639,21 @@ export function LinkEditModal({ link, color, groupNames, cardNames, groups, onSa
                   <span style={{fontSize: "0.75em", fontWeight: "bold", color: wi === activeWire ? color : "var(--text-muted)"}}>
                     Wire {wi + 1}
                   </span>
-                  <button
+                  <ActionIcon variant="subtle" color="gray" size="sm" aria-label="Remove wire"
                     onClick={(e) => { e.stopPropagation(); removeWire(wi); }}
                     title="Remove wire"
-                    style={{background: "transparent", border: "none", color: "var(--text-muted)", cursor: "pointer", fontSize: "1em", lineHeight: "1", padding: "0 2px"}}
-                  >
-                    &times;
-                  </button>
+                  ><IconX size={14} /></ActionIcon>
                 </div>
               )}
               <GroupMultiSelect label="Sources" values={w.sources} onChange={(v) => updateWire(wi, { sources: v })} groupNames={groupNames} cardNames={cardNames} onEditGroup={setEditingGroupName} />
               <GroupMultiSelect label="Targets" values={w.targets} onChange={(v) => updateWire(wi, { targets: v })} groupNames={groupNames} cardNames={cardNames} onEditGroup={setEditingGroupName} />
             </div>
           ))}
-          <button onClick={addWire} className="button" style={{fontSize: "0.8em", alignSelf: "flex-start"}}>+ Add wire</button>
+          <Button size="xs" variant="subtle" leftSection={<IconPlus size={14} />} onClick={addWire}>Add wire</Button>
           <div style={{flex: 1}} />
           <div style={{display: "flex", gap: "0.5rem", marginTop: "1rem"}}>
-            <button onClick={() => onSave({ label: editLabel, wires: editWires })} className="button" style={{fontSize: "0.85em"}}>Save</button>
-            <button onClick={onCancel} className="button" style={{fontSize: "0.85em"}}>Cancel</button>
+            <Button size="xs" variant="filled" onClick={() => onSave({ label: editLabel, wires: editWires })}>Save</Button>
+            <Button size="xs" variant="default" onClick={onCancel}>Cancel</Button>
           </div>
         </div>
 
@@ -1778,7 +1683,7 @@ export function LinkEditModal({ link, color, groupNames, cardNames, groups, onSa
           onCancel={() => setEditingGroupName(null)}
         />
       )}
-    </div>
+    </Modal>
   )
 }
 
@@ -1803,6 +1708,11 @@ export function ruleColor(index) {
 // target, weight, color?}. The library owns the physics, pan/zoom, and drag; we
 // keep the look by painting the nodes and edges ourselves.
 function ForceGraph({ nodes, edges, showLabels, colorBy, hoveredId, selectedId, highlightIds, onHover, onSelect }) {
+  // Reading the color scheme re-renders the graph when it changes, which hands
+  // the library new paint functions and repaints in the new colors. The node
+  // layout is kept, since the graph data doesn't change.
+  useComputedColorScheme("light")
+
   const fgRef = useRef(null)
   const containerRef = useRef(null)
   const [size, setSize] = useState({ width: 900, height: 620 })
@@ -1874,6 +1784,7 @@ function ForceGraph({ nodes, edges, showLabels, colorBy, hoveredId, selectedId, 
   const neighbors = focusId ? adjacency[focusId] : null
 
   const paintNode = (node, ctx, globalScale) => {
+    const theme = currentChartTheme()
     const isFocus = node.id === focusId
     const isNeighbor = neighbors && neighbors.has(node.id)
     const dimmed = hlSet ? !hlSet.has(node.id) : (focusId && !isFocus && !isNeighbor)
@@ -1883,7 +1794,7 @@ function ForceGraph({ nodes, edges, showLabels, colorBy, hoveredId, selectedId, 
     ctx.fillStyle = dimmed ? hexToRGBA(fill, 0.18) : fill
     ctx.fill()
     ctx.lineWidth = (isFocus ? 2.5 : 1) / globalScale
-    ctx.strokeStyle = isFocus ? "#f8fafc" : (dimmed ? "rgba(0,0,0,0.3)" : "rgba(0,0,0,0.55)")
+    ctx.strokeStyle = nodeRing(theme, isFocus, dimmed)
     ctx.stroke()
 
     // Labels: all of them when showLabels, otherwise just the focused/hovered one.
@@ -1895,10 +1806,11 @@ function ForceGraph({ nodes, edges, showLabels, colorBy, hoveredId, selectedId, 
     ctx.lineJoin = "round"
     const text = node.count != null ? `${node.label} (${node.count})` : node.label
     const ty = node.y - node.radius - 5 / globalScale
+    // A halo in the page color keeps the label readable over links and nodes.
     ctx.lineWidth = 3 / globalScale
-    ctx.strokeStyle = "rgba(15,23,42,0.9)"
+    ctx.strokeStyle = withAlpha(theme.background, 0.9)
     ctx.strokeText(text, node.x, ty)
-    ctx.fillStyle = isFocus ? "#f8fafc" : "rgba(226,232,240,0.85)"
+    ctx.fillStyle = labelColor(theme, isFocus)
     ctx.fillText(text, node.x, ty)
   }
 
@@ -1917,7 +1829,7 @@ function ForceGraph({ nodes, edges, showLabels, colorBy, hoveredId, selectedId, 
       ? (hlSet.has(s.id) && hlSet.has(t.id))
       : (focusId && (s.id === focusId || t.id === focusId))
     const dimmed = (hlSet || focusId) && !touches
-    const base = link.color || "#7c8aa0"
+    const base = link.color || currentChartTheme().muted
     // At rest the web stays subdued so the nodes still read as a constellation;
     // focusing a node lights up just the edges that touch it, and a hovered
     // community lights the edges inside it.
@@ -1940,7 +1852,7 @@ function ForceGraph({ nodes, edges, showLabels, colorBy, hoveredId, selectedId, 
         width={size.width}
         height={size.height}
         graphData={graphData}
-        backgroundColor="rgba(0,0,0,0)"
+        backgroundColor="transparent"
         cooldownTicks={200}
         d3VelocityDecay={0.3}
         nodeCanvasObject={paintNode}
@@ -1956,18 +1868,41 @@ function ForceGraph({ nodes, edges, showLabels, colorBy, hoveredId, selectedId, 
   )
 }
 
+// nodeRing is a node's outline: the text color on the focused node, and a
+// faint text color, fainter still when dimmed, on the rest.
+function nodeRing(theme, isFocus, dimmed) {
+  if (isFocus) {
+    return theme.text
+  }
+  if (dimmed) {
+    return withAlpha(theme.text, 0.15)
+  }
+  return withAlpha(theme.text, 0.35)
+}
+
+// labelColor is a node label's color: full text color when focused, slightly
+// softer otherwise.
+function labelColor(theme, isFocus) {
+  if (isFocus) {
+    return theme.text
+  }
+  return withAlpha(theme.text, 0.85)
+}
+
+// getNodeColor colors a card by its color identity: its mana color for mono,
+// gold for multicolor, muted for colorless.
 export function getNodeColor(colors) {
   // Must be 6-digit hex: hexToRGBA slices out the channel pairs, and a
   // 3-digit form produces an invalid rgba() that canvas silently ignores.
-  if (!colors || colors.length === 0) return "#aaaaaa"
-  if (colors.length > 1) return "#daa520"
+  if (!colors || colors.length === 0) return currentChartTheme().muted
+  if (colors.length > 1) return seriesColor(2)
   switch (colors[0]) {
     case "W": return White
     case "U": return Blue
     case "B": return Black
     case "R": return Red
     case "G": return Green
-    default: return "#aaaaaa"
+    default: return currentChartTheme().muted
   }
 }
 
