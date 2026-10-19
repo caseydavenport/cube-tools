@@ -13,6 +13,7 @@ import {
   LinkEditModal,
 } from './DesignMap.js'
 import { cardRefName } from '../utils/DesignRules.js'
+import { useCubeWritable } from '../utils/useCubeWritable.js'
 
 // Rebuild a group with the given exclude list, dropping the key entirely when
 // empty so saved JSON doesn't grow "exclude": [] on every group.
@@ -41,6 +42,7 @@ function renameInLink(link, oldName, newName) {
 // Selection lives in the URL (card, vs, view) so any state is shareable.
 export function DesignEditorPage() {
   const cube = useCube()
+  const writable = useCubeWritable(cube)
   const [params, setParams] = useSearchParams()
   const focal = params.get('card') || ''
   const vs = params.get('vs') || ''
@@ -306,6 +308,10 @@ export function DesignEditorPage() {
 
   if (!data) {
     return <div className="de-page"><div className="de-loading">Loading design map…</div></div>
+  }
+  // The navbar hides the editor on read-only cubes, but a URL can still reach it.
+  if (writable !== true) {
+    return <div className="de-page"><div className="de-loading">This cube is read-only, so its design rules can't be edited here.</div></div>
   }
 
   function openGroup(name) {
