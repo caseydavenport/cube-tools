@@ -186,7 +186,7 @@ export function DeckWidget(input) {
   // A chosen chart the cube can't fill falls back to one it can.
   const chartOptions = visibleItems(DECK_CHART_OPTIONS, input.info)
   const left = availableValue(leftChart, DECK_CHART_OPTIONS, input.info)
-  const right = availableValue(rightChart, DECK_CHART_OPTIONS, input.info)
+  const right = availableValue(rightChart, DECK_CHART_OPTIONS, input.info, left)
 
   const renderChart = (chartId) => {
     switch (chartId) {
@@ -1466,7 +1466,7 @@ function DeckGraph(input) {
   // A remembered axis the cube can't fill (win % without results) falls back
   // to one it can.
   let xAxis = availableValue(input.xAxis, DeckScatterAxes, input.info)
-  let yAxis = availableValue(input.yAxis, DeckScatterAxes, input.info)
+  let yAxis = availableValue(input.yAxis, DeckScatterAxes, input.info, xAxis)
 
   // Labels for each data point.
   var labels = []

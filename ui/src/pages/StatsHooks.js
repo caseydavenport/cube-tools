@@ -128,6 +128,7 @@ export function useStatsFilters() {
 export function useStatsData(filters, props, refresh) {
   const cubeID = useCube();
   const [decks, setDecks] = useState([]);
+  const [decksLoaded, setDecksLoaded] = useState(false);
   const [cube, setCube] = useState({ "cards": [] });
   const [drafts, setDrafts] = useState(null);
   const [archetypeMatchups, setArchetypeMatchups] = useState({ items: [] });
@@ -152,8 +153,14 @@ export function useStatsData(filters, props, refresh) {
 
   // Initial Load
   useEffect(() => {
+    // Pages tell "still loading" from "no decks match" by whether this has run.
+    function onDecks(loaded) {
+      setDecks(loaded);
+      setDecksLoaded(true);
+    }
+
     Promise.all([
-      LoadDecks(cubeID, setDecks, startDate, endDate, minDraftSize, "", props.matchStr),
+      LoadDecks(cubeID, onDecks, startDate, endDate, minDraftSize, "", props.matchStr),
       LoadDrafts(cubeID, setDrafts, startDate, endDate),
       LoadCube(cubeID, setCube),
       LoadArchetypeData(cubeID, setArchetypeMatchups, startDate, endDate, minDraftSize, "", props.matchStr),
@@ -338,7 +345,7 @@ export function useStatsData(filters, props, refresh) {
   }, [drafts]);
 
   return {
-    decks, cube, drafts, archetypeMatchups, cardData, cardDataBucketed,
+    decks, decksLoaded, cube, drafts, archetypeMatchups, cardData, cardDataBucketed,
     colorData, colorDataBucketed, synergyData, synergyCompare, colorMatchupData, healthData,
     designGraphData, parsed, graphData, archetypeDropdownOptions, draftLogs
   };

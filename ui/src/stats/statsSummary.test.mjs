@@ -1,6 +1,6 @@
 import { test } from "node:test"
 import assert from "node:assert/strict"
-import { statsSummary } from "./statsSummary.js"
+import { noDecksMatch, statsSummary } from "./statsSummary.js"
 
 // deck builds a deck in a draft, played by a named player.
 function deck(draftId, player) {
@@ -19,4 +19,21 @@ test("the same player across drafts counts once", () => {
 
 test("no decks gives zeros", () => {
   assert.deepEqual(statsSummary([]), { drafts: 0, decks: 0, players: 0 })
+})
+
+test("no-match line waits for the decks to load", () => {
+  assert.equal(noDecksMatch("cards", false, []), false)
+})
+
+test("no-match line shows when loaded decks are all filtered out", () => {
+  assert.equal(noDecksMatch("cards", true, []), true)
+})
+
+test("no-match line stays hidden when some decks match", () => {
+  assert.equal(noDecksMatch("colors", true, [{}]), false)
+})
+
+test("no-match line skips pages the deck filter doesn't drive", () => {
+  assert.equal(noDecksMatch("health", true, []), false)
+  assert.equal(noDecksMatch("designmap", true, []), false)
 })

@@ -32,13 +32,21 @@ export function visibleItems(items, info) {
 
 // availableValue returns value when its item is visible, otherwise the first
 // visible item's value, or null when nothing is. It keeps a default or a
-// remembered choice from pointing at an option the cube can't show.
-export function availableValue(value, items, info) {
+// remembered choice from pointing at an option the cube can't show. For a pair
+// of pickers, avoid is the other picker's value: the fallback skips it unless
+// it's the only option left, so the two don't land on the same thing.
+export function availableValue(value, items, info, avoid = null) {
   const visible = visibleItems(items, info)
 
   for (const item of visible) {
     if (item.value === value) {
       return value
+    }
+  }
+
+  for (const item of visible) {
+    if (item.value !== avoid) {
+      return item.value
     }
   }
 

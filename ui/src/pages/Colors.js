@@ -78,7 +78,7 @@ export function ColorWidget(input) {
   // A chosen chart the cube can't fill falls back to one it can.
   const options = visibleItems(CHART_OPTIONS, input.info)
   const left = availableValue(leftChart, CHART_OPTIONS, input.info)
-  const right = availableValue(rightChart, CHART_OPTIONS, input.info)
+  const right = availableValue(rightChart, CHART_OPTIONS, input.info, left)
 
   return (
     <div className="analyze-page colors-grid">

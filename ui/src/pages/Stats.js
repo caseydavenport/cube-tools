@@ -13,6 +13,8 @@ import { useCubeInfo } from "../utils/useCubeWritable.js"
 import { PageToolbar } from "../toolbar/PageToolbar.js"
 import { StatsToolbar } from "../stats/StatsToolbar.js"
 import { StatsSettings } from "../stats/StatsSettings.js"
+import { noDecksMatch } from "../stats/statsSummary.js"
+import { EmptyState } from "../components/kit/EmptyState.js"
 
 // COPY holds the text the stats pages add around their widgets: page titles,
 // the toolbar, and its settings. Placeholders for Casey to replace.
@@ -37,6 +39,7 @@ const COPY = {
   players: "players",
   colorStats: "Color stats",
   noHealthData: "No health data",
+  noMatchingDecks: "No decks match this filter",
 
   allTime: "All time",
   last12Months: "Last 12 months",
@@ -81,7 +84,7 @@ export function StatsViewer(props) {
   const data = useStatsData(filters, debouncedProps, refresh);
 
   const {
-    decks, cube, archetypeMatchups, cardData, cardDataBucketed,
+    decks, decksLoaded, cube, archetypeMatchups, cardData, cardDataBucketed,
     colorData, colorDataBucketed, synergyData, synergyCompare, colorMatchupData, healthData,
     designGraphData, parsed, graphData, archetypeDropdownOptions,
   } = data;
@@ -264,6 +267,11 @@ export function StatsViewer(props) {
     )
   }
 
+  let noMatches = null
+  if (noDecksMatch(props.view, decksLoaded, parsed.filteredDecks)) {
+    noMatches = <EmptyState>{COPY.noMatchingDecks}</EmptyState>
+  }
+
   return (
     <div id="root" className="stats-root">
       <StatsToolbar
@@ -278,7 +286,10 @@ export function StatsViewer(props) {
         copy={COPY}
       />
 
-      <div id="widgets" className="house-for-widgets">{widget}</div>
+      <div id="widgets" className="house-for-widgets">
+        {noMatches}
+        {widget}
+      </div>
     </div>
   );
 }

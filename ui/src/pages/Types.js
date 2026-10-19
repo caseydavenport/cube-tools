@@ -85,7 +85,7 @@ export function ArchetypeWidget(input) {
   // A chosen chart the cube can't fill falls back to one it can.
   const chartOptions = visibleItems(CHART_OPTIONS, input.info)
   const left = availableValue(leftChart, CHART_OPTIONS, input.info)
-  const right = availableValue(rightChart, CHART_OPTIONS, input.info)
+  const right = availableValue(rightChart, CHART_OPTIONS, input.info, left)
 
   const renderChart = (chartId) => {
     switch (chartId) {

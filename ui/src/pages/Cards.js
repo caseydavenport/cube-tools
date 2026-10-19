@@ -1081,7 +1081,7 @@ function CardGraph(input) {
   // Determine what to show on each axis. A remembered axis the cube can't
   // fill (Pick ELO without sideboards) falls back to one it can.
   let xAxis = availableValue(input.xAxis, CardScatterAxes, input.info)
-  let yAxis = availableValue(input.yAxis, CardScatterAxes, input.info)
+  let yAxis = availableValue(input.yAxis, CardScatterAxes, input.info, xAxis)
 
   // Labels for each data point.
   var labels = []

@@ -48,3 +48,20 @@ test("availableValue falls back to the first visible item", () => {
 test("availableValue is null when nothing is visible", () => {
   assert.equal(availableValue("x", [], {}), null)
 })
+
+// The Cards scatter's real axis order: on CubeCobra, Y's Pick ELO default
+// would fall back to # Decks, which is also X's default.
+const NO_RESULTS_INFO = { decks: true, results: false, sideboards: false }
+const CARD_AXES = [{ value: "# Decks" }, { value: "Pick ELO", needs: ["sideboards"] }, { value: "Win %", needs: ["results"] }]
+
+test("availableValue's fallback skips the value the other picker shows", () => {
+  assert.equal(availableValue("Pick ELO", CARD_AXES, CC_INFO, "# Decks"), "Win %")
+})
+
+test("availableValue keeps a visible value even when the other picker shows it", () => {
+  assert.equal(availableValue("# Decks", CARD_AXES, CC_INFO, "# Decks"), "# Decks")
+})
+
+test("availableValue falls back to the avoided value when it's the only one", () => {
+  assert.equal(availableValue("Pick ELO", CARD_AXES, NO_RESULTS_INFO, "# Decks"), "# Decks")
+})

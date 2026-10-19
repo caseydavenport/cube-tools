@@ -230,7 +230,7 @@ export function ExplorePage(props) {
 
   // A chosen dimension the cube can't fill falls back to one it can.
   const groupDim = availableValue(groupBy.dim, GROUP_DIMS, info)
-  const splitDim = availableValue(splitBy.dim, SPLIT_DIMS, info)
+  const splitDim = availableValue(splitBy.dim, SPLIT_DIMS, info, groupDim)
   const shownGroupBy = useMemo(() => ({ ...groupBy, dim: groupDim }), [groupBy, groupDim])
   const shownSplitBy = useMemo(() => ({ ...splitBy, dim: splitDim }), [splitBy, splitDim])
   const usesTime = groupDim === "time" || splitDim === "time"

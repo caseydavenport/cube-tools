@@ -49,6 +49,13 @@ export function seriesColor(index) {
 // that paints a canvas by hand calls it at draw time, so the next redraw after
 // a scheme change picks up the new colors.
 export function currentChartTheme() {
+  // Mantine marks the page before re-rendering for a switch, so this is right
+  // even during that render, before applyChartTheme's effect has run.
+  const onPage = pageScheme()
+  if (onPage !== null) {
+    return chartThemeFor(onPage)
+  }
+
   if (appliedScheme !== null) {
     return chartThemeFor(appliedScheme)
   }
@@ -125,6 +132,20 @@ function replaceColor(part, from, to) {
 // made before the app applies one.
 export function resetChartTheme() {
   appliedScheme = null
+}
+
+// pageScheme returns the scheme Mantine has marked on the page, or null when
+// there's no page (node tests) or no mark yet.
+function pageScheme() {
+  if (typeof document === "undefined") {
+    return null
+  }
+
+  const scheme = document.documentElement.getAttribute("data-mantine-color-scheme")
+  if (scheme === "dark" || scheme === "light") {
+    return scheme
+  }
+  return null
 }
 
 // prefersDark reports whether the page is about to use dark mode: the viewer's

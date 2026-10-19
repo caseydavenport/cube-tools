@@ -98,3 +98,17 @@ test("a scheme change recolors scale colors copied from the old defaults", () =>
   assert.equal(y.ticks.color, "#123456")
   assert.equal(y.grid.color, ownGrid)
 })
+
+// Mantine marks the page with the new scheme as soon as it switches, before
+// the effect that calls applyChartTheme runs. Colors picked while the page
+// re-renders for the switch must already be the new scheme's.
+test("the scheme Mantine has put on the page wins over the last applied one", () => {
+  const { chartJS } = fakeChartJS()
+  applyChartTheme(chartJS, "light")
+  globalThis.document = { documentElement: { getAttribute: () => "dark" } }
+  try {
+    assert.equal(currentChartTheme().text, DARK.text)
+  } finally {
+    delete globalThis.document
+  }
+})

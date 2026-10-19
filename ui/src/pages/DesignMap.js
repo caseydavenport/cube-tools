@@ -20,6 +20,11 @@ import { buildDeckSubgraph, rankByDegree, greedyModularityCommunities, dominantL
 // Selecting anywhere (legend, map, detail rail) drives all three panels in sync.
 export function DesignMapWidget({ show, designGraphData, cards, onCardSelected }) {
   const cube = useCube()
+
+  // Reading the color scheme re-renders the panels when it changes, so the
+  // color dots worked out while rendering pick up the new scheme.
+  useComputedColorScheme("light")
+
   const [trail, setTrail] = useState([{ level: "themes" }])
   const [hovered, setHovered] = useState(null)
 
@@ -594,7 +599,7 @@ function DrillMap({ focus, nodeMap, edges, groupNodes, groupEdges, links, groupC
           return {
             id: g.name,
             radius: 8,
-            color: getNodeColor((nodeMap[refName] || {}).colors),
+            color: cardColor((nodeMap[refName] || {}).colors),
             label: refName,
           }
         }
@@ -624,7 +629,7 @@ function DrillMap({ focus, nodeMap, edges, groupNodes, groupEdges, links, groupC
         return {
           id: n,
           radius: Math.max(6, Math.min(18, 6 + ((c.connection_count || 0) / max) * 12)),
-          color: getNodeColor(c.colors),
+          color: cardColor(c.colors),
           label: n,
         }
       })
@@ -649,7 +654,7 @@ function DrillMap({ focus, nodeMap, edges, groupNodes, groupEdges, links, groupC
       return {
         id: n,
         radius: n === center ? 16 : 9,
-        color: getNodeColor(c.colors),
+        color: cardColor(c.colors),
         label: n,
       }
     })
@@ -826,7 +831,7 @@ export function CardSynergyMap({ cards, edges, links }) {
     const sn = [...names].map(n => ({
       id: n,
       radius: Math.max(5, Math.min(12, 5 + ((degree[n] || 0) / max) * 7)),
-      color: getNodeColor((byName.get(n) || {}).colors),
+      color: cardColor((byName.get(n) || {}).colors),
       communityColor: analytics.communityColorOf[n] || NEUTRAL,
       label: n,
     }))
@@ -1788,7 +1793,12 @@ function ForceGraph({ nodes, edges, showLabels, colorBy, hoveredId, selectedId, 
     const isFocus = node.id === focusId
     const isNeighbor = neighbors && neighbors.has(node.id)
     const dimmed = hlSet ? !hlSet.has(node.id) : (focusId && !isFocus && !isNeighbor)
-    const fill = colorBy === "community" && node.communityColor ? node.communityColor : node.color
+    let fill = node.color
+    if (colorBy === "community" && node.communityColor) {
+      fill = node.communityColor
+    } else if (fill === null) {
+      fill = theme.muted
+    }
     ctx.beginPath()
     ctx.arc(node.x, node.y, node.radius, 0, 2 * Math.PI)
     ctx.fillStyle = dimmed ? hexToRGBA(fill, 0.18) : fill
@@ -1891,6 +1901,16 @@ function labelColor(theme, isFocus) {
 
 // getNodeColor colors a card by its color identity: its mana color for mono,
 // gold for multicolor, muted for colorless.
+// cardColor is the color a graph node keeps for a card, or null for a
+// colorless card: its gray follows the color scheme, so the paint callback
+// picks it at draw time instead of the node holding a stale one.
+function cardColor(colors) {
+  if (!colors || colors.length === 0) {
+    return null
+  }
+  return getNodeColor(colors)
+}
+
 export function getNodeColor(colors) {
   // Must be 6-digit hex: hexToRGBA slices out the channel pairs, and a
   // 3-digit form produces an invalid rgba() that canvas silently ignores.
