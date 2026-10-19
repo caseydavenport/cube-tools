@@ -80,6 +80,7 @@ export async function SaveOCRSession(cube, draftId, session) {
     body: JSON.stringify(session),
   });
   if (!r.ok) throw new Error("save session failed");
+  return await r.json();
 }
 
 export async function ConfirmPlayer(cube, draftId, player, payload) {

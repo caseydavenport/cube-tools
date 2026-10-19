@@ -3,7 +3,7 @@ import { PhotoViewer } from './PhotoViewer.js';
 import { PoolList, Snippet, Autocomplete } from './PoolList.js';
 import { deriveList, boxCountByName, unmatchedRows, basicCountsInBoxes, resolvedCaptures } from '../utils/Reconcile.js';
 import { DetectPhoto, LoadOCRCards, LoadOCRSession, SaveOCRSession, MatchRegion, ConfirmPlayer, RotatePhoto } from '../utils/OCRFetch.js';
-import { allWarnings, previewSideboard, mainboardBreakdown } from '../utils/CrossCheck.js';
+import { previewSideboard } from '../utils/CrossCheck.js';
 
 // PlayerWorkspace is the per-player OCR screen: reconcile the detected pool and
 // deck against the photos across the pool/deck/confirm tabs, then write the deck.
@@ -45,10 +45,6 @@ export function PlayerWorkspace({ cube, draft, player, onConfirmed }) {
   const idRef = useRef(0);
   const nextId = () => `m${++idRef.current}`;
 
-  const cardsByName = React.useMemo(() => {
-    const m = {}; cards.forEach(c => { m[c.name] = c; }); return m;
-  }, [cards]);
-
   const pool = React.useMemo(() => deriveList(boxes, overrides), [boxes, overrides]);
   const mainboard = React.useMemo(() => deriveList(deckBoxes, deckOverrides), [deckBoxes, deckOverrides]);
   const poolUnmatched = React.useMemo(() => unmatchedRows(boxes), [boxes]);
@@ -83,13 +79,17 @@ export function PlayerWorkspace({ cube, draft, player, onConfirmed }) {
   const sideboardNames = React.useMemo(
     () => new Set(sideboardList.map(e => e.card_name)), [sideboardList]);
 
-  const warnings = allWarnings(pool, mainboard, sideboardList, basics);
-  const breakdown = mainboardBreakdown(mainboard, basics, cardsByName);
+  // Warnings and the mainboard breakdown come from the server with each load
+  // and save, so the rules live in one place (pkg/server/ocr/playerchecks.go).
+  const [review, setReview] = useState(null);
+  const warnings = review ? review.warnings : [];
+  const breakdown = review ? review.breakdown : { cards: 0, lands: 0, basics: 0 };
 
   // Load cards + saved session once.
   useEffect(() => {
     LoadOCRCards(cube, draftId).then(setCards);
     LoadOCRSession(cube, draftId).then(s => {
+      setReview((s.reviews && s.reviews[player.id]) || null);
       const pw = s.players && s.players[player.id];
       if (pw) {
         // Dedupe by id: a box id is unique per box, so two entries sharing one
@@ -128,7 +128,7 @@ export function PlayerWorkspace({ cube, draft, player, onConfirmed }) {
           boxes, deck_boxes: deckBoxes, overrides, deck_overrides: deckOverrides, basics, sideboard,
           pool_entries: pool, mainboard_entries: mainboard,
         } },
-      }).catch(() => {});
+      }).then(s => { if (s.reviews && s.reviews[player.id]) setReview(s.reviews[player.id]); }).catch(() => {});
     }, 800);
     return () => clearTimeout(t);
     // eslint-disable-next-line react-hooks/exhaustive-deps

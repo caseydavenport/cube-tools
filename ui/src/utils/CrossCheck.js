@@ -1,18 +1,5 @@
 import { isBasic } from './Reconcile.js';
 
-// totalBasics sums a name->count basics map.
-function totalBasics(basics) {
-  return basics ? Object.values(basics).reduce((s, n) => s + n, 0) : 0;
-}
-
-// poolWarnings flags a pool that isn't the expected 45 cards.
-function poolWarnings(pool) {
-  const total = pool.reduce((s, e) => s + e.count, 0);
-  const w = [];
-  if (total !== 45) w.push(`Pool has ${total} cards (expected 45)`);
-  return w;
-}
-
 // previewSideboard returns what's left of the pool once the mainboard is
 // removed - the implied sideboard. Basics played in the deck don't count
 // against the pool.
@@ -25,61 +12,4 @@ export function previewSideboard(pool, mainboard) {
     if (remaining > 0) side.push({ card_name: e.card_name, count: remaining });
   });
   return side;
-}
-
-// mainboardWarnings flags deck cards that are missing from the pool or exceed
-// their pool count, plus a mainboard outside the ~40-card range.
-function mainboardWarnings(pool, mainboard, basics) {
-  const poolCounts = {};
-  pool.forEach(e => { poolCounts[e.card_name] = e.count; });
-  const w = [];
-  mainboard.forEach(e => {
-    if (isBasic(e.card_name)) return;
-    if (!poolCounts[e.card_name]) w.push(`"${e.card_name}" is in the deck but not the pool`);
-    else if (e.count > poolCounts[e.card_name]) w.push(`"${e.card_name}" x${e.count} exceeds pool (${poolCounts[e.card_name]})`);
-  });
-  const draftedCards = mainboard.reduce((s, e) => s + e.count, 0);
-  const size = draftedCards + totalBasics(basics);
-  if (size > 0 && (size < 38 || size > 46)) w.push(`Mainboard has ${size} cards (expected ~40)`);
-  return w;
-}
-
-// deckSizeWarnings flags a drafted deck whose mainboard + sideboard (basics
-// excluded) isn't the 45 cards each player drafts. It's the only size check a
-// deck-only scan gets - there's no pool to cross-check against - and a useful
-// second opinion on a pool scan.
-function deckSizeWarnings(mainboard, sideboard) {
-  const nonBasic = list => list.reduce((s, e) => s + (isBasic(e.card_name) ? 0 : e.count), 0);
-  const total = nonBasic(mainboard) + nonBasic(sideboard);
-  const w = [];
-  if (total > 0 && total !== 45) w.push(`Mainboard + sideboard has ${total} non-basic cards (expected 45)`);
-  return w;
-}
-
-// allWarnings aggregates every check across the pool and deck so the same list
-// shows on every tab; fixing a deck warning often means editing the pool. A
-// deck-only scan has no pool photos, so the pool-relative checks are skipped -
-// but the deck-size check still runs (mirrors deckWarnings in
-// pkg/server/ocr/playerchecks.go).
-export function allWarnings(pool, mainboard, sideboard, basics) {
-  const deckSize = deckSizeWarnings(mainboard, sideboard);
-  if (pool.length === 0) return deckSize;
-  return [...poolWarnings(pool), ...mainboardWarnings(pool, mainboard, basics), ...deckSize];
-}
-
-// mainboardBreakdown reports cards / lands / basics for the deck. Lands counts
-// non-basic lands (via the card's is_land flag) plus every basic.
-export function mainboardBreakdown(mainboard, basics, cardsByName) {
-  const basicLands = totalBasics(basics);
-  let draftedCards = 0, nonBasicLands = 0;
-  mainboard.forEach(e => {
-    if (isBasic(e.card_name)) return;
-    draftedCards += e.count;
-    if (cardsByName[e.card_name] && cardsByName[e.card_name].is_land) nonBasicLands += e.count;
-  });
-  return {
-    cards: draftedCards + basicLands,
-    lands: nonBasicLands + basicLands,
-    basics: basicLands,
-  };
 }
