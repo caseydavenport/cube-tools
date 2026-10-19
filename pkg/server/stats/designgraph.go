@@ -159,8 +159,8 @@ func DesignGraphHandler(store storage.DeckStorage, src types.CubeSource) http.Ha
 // same builder as /api/stats/design-graph. Unlike the handler, a missing or
 // malformed cube-rules.json is a hard error, not an empty-config fallback, so a
 // caller fails loudly rather than getting an edgeless graph - except when the
-// backend simply doesn't support rules (e.g. a read-only cc: cube), which is
-// treated as an empty config since that cube legitimately has none. Paths
+// store reports ErrUnsupported (only test stores do), which is treated as an
+// empty config. Paths
 // resolve from the working directory, so run from the repo root.
 func DesignGraphForCube(store storage.DeckStorage, src types.CubeSource, cubeID string) (DesignGraphResponse, error) {
 	cube, err := src.Current(cubeID)

@@ -1074,7 +1074,7 @@ function PlayerFrame(input) {
     let alive = true
     LoadDecks(cube, (list) => { if (alive) setDraftDecks(list) }, deck.date, deck.date, 0, "", "", "")
     return () => { alive = false }
-  }, [cube, deckRef(deck), input.decks])
+  }, [cube, deckRef(deck), input.decks, readOnly])
 
   // Build the WUBRG checkbox array from the deck's effective colors.
   const colorBools = ["W", "U", "B", "R", "G"].map((c) => (deck.colors || []).includes(c))

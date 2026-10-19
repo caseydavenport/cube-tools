@@ -19,13 +19,15 @@ function fetchWritable(cube) {
 // false until the server answers, and if the request fails, so write controls
 // never flash on a read-only cube.
 export function useCubeWritable(cube) {
-  const [writable, setWritable] = useState(() => !!cube && known.get(cube) === true)
+  const cached = cube => !!cube && known.get(cube) === true
+  // The answer is stored with the cube it's for, so a component that switches
+  // cubes never shows the previous cube's answer, even for one frame.
+  const [state, setState] = useState(() => ({ cube, writable: cached(cube) }))
   useEffect(() => {
-    if (!cube) { setWritable(false); return }
-    if (known.has(cube)) { setWritable(known.get(cube)); return }
+    if (!cube || known.has(cube)) return
     let alive = true
-    fetchWritable(cube).then(w => { if (alive) setWritable(w) })
+    fetchWritable(cube).then(w => { if (alive) setState({ cube, writable: w }) })
     return () => { alive = false }
   }, [cube])
-  return writable
+  return state.cube === cube ? state.writable : cached(cube)
 }

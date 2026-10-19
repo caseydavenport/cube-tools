@@ -172,8 +172,8 @@ type DeckStorage interface {
 	List(cube string, req *DecksRequest) ([]*Deck, error)
 	UpdateDeckMeta(cube string, w DeckMetaWrite) (*Deck, error)
 
-	// GetRules returns the cube's design-map rules, or ErrUnsupported if the
-	// backend has none (e.g. a read-only cc: cube).
+	// GetRules returns the cube's design-map rules. CubeCobra cubes get
+	// polyverse's rules, since CubeCobra has none.
 	GetRules(cube string) (*design.DesignMapConfig, error)
 }
 

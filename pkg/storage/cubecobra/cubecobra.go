@@ -21,9 +21,9 @@ import (
 const fetchTTL = 60 * time.Second
 
 // Backend is a read-only deck source for a public CubeCobra cube, loaded on
-// demand via the analysisdata endpoint. It implements DeckBackend and IndexBackend;
-// it has no writers, so Store reports ErrUnsupported for notes, rules, deck
-// metadata, and draft logs.
+// demand via the analysisdata endpoint. It only reads decks and the index; the
+// router answers everything else for cc: cubes, refusing writes with
+// ErrReadOnly.
 type Backend struct {
 	baseURL string
 	src     types.CubeSource
