@@ -10,7 +10,7 @@ const CARD_REFERENCE = /\[\[(.*?)\]\]/g
 
 // linkCardReferences turns each [[Card Name]] in the notes into a bold markdown
 // link to the card, when the card is in the deck; others become plain names.
-export function linkCardReferences(notes, deck) {
+function linkCardReferences(notes, deck) {
   const urls = new Map()
   for (const card of [...(deck.mainboard || []), ...(deck.sideboard || [])]) {
     urls.set(card.name, card.url)

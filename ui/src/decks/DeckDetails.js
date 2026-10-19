@@ -76,6 +76,7 @@ export function DeckDetails({ page, copy }) {
   if (selected.status === "missing") {
     return <EmptyState>{copy.deckNotInList}</EmptyState>
   }
+
   // The key gives each deck its own copy of SelectedDeck, so an open editor or
   // an error message doesn't carry over when the selection moves on.
   return <SelectedDeck key={deckRef(selected.deck)} deck={selected.deck} page={page} copy={copy} />

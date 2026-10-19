@@ -89,7 +89,11 @@ export async function SaveDeckMeta(cube, { draft_id, id, macro_archetype, labels
     body: JSON.stringify({ draft_id, id, macro_archetype, labels, colors, notes }),
   });
   if (!resp.ok) {
-    throw new Error((await resp.text()).trim() || "Failed to save deck metadata");
+    let message = (await resp.text()).trim();
+    if (message === "") {
+      message = "Failed to save deck metadata";
+    }
+    throw new Error(message);
   }
   let d = await resp.json();
   return decorateDeck(d);

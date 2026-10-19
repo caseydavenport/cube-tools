@@ -51,7 +51,11 @@ function RoundsForm({ editor, setEditor, options, deck, copy }) {
   // updateRow merges changed fields into one row. The function form of
   // setEditor works from the latest state, so quick edits can't undo each other.
   function updateRow(index, fields) {
-    setEditor(prev => ({ ...prev, rows: prev.rows.map((r, i) => (i === index ? { ...r, ...fields } : r)) }))
+    setEditor(prev => {
+      const rows = [...prev.rows]
+      rows[index] = { ...rows[index], ...fields }
+      return { ...prev, rows }
+    })
   }
 
   function removeRow(index) {

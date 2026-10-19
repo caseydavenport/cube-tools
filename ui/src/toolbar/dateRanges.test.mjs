@@ -1,11 +1,10 @@
 import { test } from "node:test"
 import assert from "node:assert/strict"
-import { ALL_TIME_START, presetRange, rangeLabel, rangePreset } from "./dateRanges.js"
+import { presetRange, rangeLabel, rangePreset } from "./dateRanges.js"
 
 const COPY = { allTime: "All time", last12Months: "Last 12 months" }
 
 test("all time runs from the first draft date to today", () => {
-  assert.equal(ALL_TIME_START, "1990-09-15")
   assert.deepEqual(presetRange("all", "2026-10-19"), { start: "1990-09-15", end: "2026-10-19" })
 })
 

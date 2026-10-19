@@ -2,6 +2,7 @@
 // every draft in the date range, newest first, with its winner. Pure functions,
 // tested in draftList.test.mjs.
 import { compareNewestFirst, deckCount, draftName, draftWinner } from "../home/recentDrafts.js"
+import { deckRef } from "../decks/deckModel.js"
 
 // inRange reports whether a "YYYY-MM-DD" date falls in the range, ends
 // included. Dates in this form sort as text, so plain comparison works.
@@ -15,8 +16,14 @@ function firstDeckRef(draftDecks) {
   if (draftDecks.length === 0) {
     return null
   }
-  const first = draftDecks.reduce((a, b) => (b.id < a.id ? b : a))
-  return `${first.metadata.draft_id}/${first.id}`
+
+  let first = draftDecks[0]
+  for (const deck of draftDecks) {
+    if (deck.id < first.id) {
+      first = deck
+    }
+  }
+  return deckRef(first)
 }
 
 // draftList returns every draft whose date falls in the range, newest first,

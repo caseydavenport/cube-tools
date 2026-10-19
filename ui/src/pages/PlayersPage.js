@@ -111,7 +111,17 @@ function usePlayerSelection(players) {
     return playerName
   }
 
-  return { name, id: entry ? entry.id : null, selectionFor, select: playerName => setSelected(selectionFor(playerName)) }
+  let id = null
+  if (entry) {
+    id = entry.id
+  }
+
+  // select picks a player by name, storing their id in the URL when they have one.
+  function select(playerName) {
+    setSelected(selectionFor(playerName))
+  }
+
+  return { name, id, selectionFor, select }
 }
 
 // detailProps wires the stats tables' sort headers to the shared filter state,

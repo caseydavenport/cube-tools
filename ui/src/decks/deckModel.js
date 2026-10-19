@@ -234,6 +234,15 @@ export function matchRows(deck, decks) {
   })
 }
 
+// compareLeanings orders leansInto's groups by how many decks they beat, most
+// first, and then by how many of their cards the deck runs.
+function compareLeanings(a, b) {
+  if (a.below !== b.below) {
+    return b.below - a.below
+  }
+  return b.count - a.count
+}
+
 // leansInto ranks the design-map groups a deck leans into: for each group, the
 // fraction of decks in the cube that run fewer of its cards than this one does.
 // A group needs at least 3 cards here and to beat 60% of decks to count, and
@@ -266,7 +275,7 @@ export function leansInto(groupDistributions, cards, limit = 5) {
     ranked.push({ name: group.name, count, below })
   }
 
-  ranked.sort((a, b) => b.below - a.below || b.count - a.count)
+  ranked.sort(compareLeanings)
 
   return ranked.slice(0, limit).map(group => ({
     name: group.name,

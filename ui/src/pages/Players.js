@@ -200,6 +200,17 @@ function playerSortValue(row, sortBy) {
   }
 }
 
+// compareHighestFirst orders two numbers so the larger one comes first.
+function compareHighestFirst(a, b) {
+  if (a > b) {
+    return -1
+  }
+  if (a < b) {
+    return 1
+  }
+  return 0
+}
+
 // playerRowsInOrder returns the roster rows meeting the min-games cutoff, in the
 // table's current sort order.
 export function playerRowsInOrder(input) {
@@ -217,7 +228,7 @@ export function playerRowsInOrder(input) {
     if (typeof sa === "string") {
       cmp = sa.localeCompare(sb)
     } else {
-      cmp = sa > sb ? -1 : sa < sb ? 1 : 0
+      cmp = compareHighestFirst(sa, sb)
     }
 
     if (input.invertSort) {
@@ -491,7 +502,7 @@ export function PlayerDetailsPanel(input) {
       </SectionCard>
 
       <SectionCard title={input.copy.winRateOverTime}>
-          <WinRateChart dataset="wins" {...input} />
+        <WinRateChart dataset="wins" {...input} />
       </SectionCard>
 
     </div>
