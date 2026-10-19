@@ -10,6 +10,10 @@ export const REASONS = {
   writable: "read-only",
 }
 
+// NAV_GROUPS lists the sidebar groups in display order. A page's path is the URL
+// segment after the cube id ("" is Home), icon names an entry in shell/icons.js,
+// and needs lists the data keys it requires, checked in order. dividerAfter is
+// the path of the page a thin divider follows.
 export const NAV_GROUPS = [
   {
     id: "home",
@@ -56,14 +60,23 @@ export const NAV_GROUPS = [
   },
 ]
 
+// isMissing reports whether the cube lacks one kind of data. Unknown data (an
+// undefined key) counts as present, so a slow or failed info request never dims
+// pages. Writability is the exception: it must be known to be true.
+function isMissing(key, info) {
+  if (key === "writable") {
+    return info.writable !== true
+  }
+  return info[key] === false
+}
+
 // pageAvailability reports whether a cube has the data a page needs, and if not,
-// the reason for the first missing piece. Unknown data counts as present so a
-// slow or failed info request never dims pages, except writability, which must
-// be known to be true.
+// the reason for the first missing piece.
 export function pageAvailability(page, info) {
   for (const key of page.needs) {
-    const missing = key === "writable" ? info[key] !== true : info[key] === false
-    if (missing) return { available: false, reason: REASONS[key] }
+    if (isMissing(key, info)) {
+      return { available: false, reason: REASONS[key] }
+    }
   }
   return { available: true, reason: null }
 }

@@ -55,7 +55,9 @@ export const DeckScatterAxes = [
 const chartHeight = "1000px"
 const chartWidth = "300px"
 const ticks = {
-  get color() { return chartTextColor() },
+  // A function, so Chart.js asks for the color each time it draws and charts
+  // follow the light/dark setting.
+  color: () => chartTextColor(),
   font: {
     size: 16,
   },

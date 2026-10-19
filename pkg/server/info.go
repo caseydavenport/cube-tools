@@ -49,9 +49,15 @@ func cubeInfo(store *storage.Store, cube string) (CubeInfo, error) {
 	}
 	info.Decks = len(decks) > 0
 	for _, d := range decks {
-		info.Results = info.Results || len(d.Matches) > 0 || len(d.Games) > 0
-		info.Archetypes = info.Archetypes || d.Macro() != ""
-		info.Sideboards = info.Sideboards || len(d.Sideboard) > 0
+		if len(d.Matches) > 0 || len(d.Games) > 0 {
+			info.Results = true
+		}
+		if d.Macro() != "" {
+			info.Archetypes = true
+		}
+		if len(d.Sideboard) > 0 {
+			info.Sideboards = true
+		}
 	}
 
 	idx, err := store.Index(cube)
@@ -62,7 +68,9 @@ func cubeInfo(store *storage.Store, cube string) (CubeInfo, error) {
 		return CubeInfo{}, err
 	}
 	for _, draft := range idx.Drafts {
-		info.PickLogs = info.PickLogs || draft.HasLog
+		if draft.HasLog {
+			info.PickLogs = true
+		}
 	}
 	return info, nil
 }

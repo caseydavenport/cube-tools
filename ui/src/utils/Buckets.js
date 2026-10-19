@@ -69,7 +69,9 @@ export function BucketName(bucket) {
 // label), so we thin them ourselves. Labels are already clean start dates
 // (BucketName for client buckets, the bucket "start" field for server buckets).
 export const bucketTicks = {
-  get color() { return chartTextColor() },
+  // A function, so Chart.js asks for the color each time it draws and charts
+  // follow the light/dark setting.
+  color: () => chartTextColor(),
   autoSkip: false,
   maxRotation: 0,
   minRotation: 0,

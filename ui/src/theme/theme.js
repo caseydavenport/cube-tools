@@ -1,6 +1,8 @@
 import { createTheme } from "@mantine/core"
 import { PRIMARY_SHADES, LIGHT, DARK, MANA } from "./tokens.js"
 
+// theme is the Mantine theme: the "sylvan" violet scale as the primary color
+// (a lighter shade in dark mode so it stays readable), the font, and corner radius.
 export const theme = createTheme({
   primaryColor: "sylvan",
   primaryShade: { light: 6, dark: 4 },
@@ -9,6 +11,9 @@ export const theme = createTheme({
   defaultRadius: "md",
 })
 
+// schemeVars turns one palette (LIGHT or DARK) into CSS variables. It also
+// overrides Mantine's own body background and text colors so Mantine components
+// and plain CSS pages use the same palette.
 function schemeVars(t) {
   return {
     "--se-page": t.page,

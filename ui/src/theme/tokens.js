@@ -7,6 +7,8 @@ export const PRIMARY_SHADES = [
   "#8b5cf6", "#7c3aed", "#6d28d9", "#5b21b6", "#4c1d95",
 ]
 
+// LIGHT is the light-mode palette: page and card backgrounds, text and muted
+// text, borders, the sidebar gradient's two ends, and good/bad result colors.
 export const LIGHT = {
   page: "#fbf8f4",
   card: "#ffffff",
@@ -19,6 +21,7 @@ export const LIGHT = {
   bad: "#e11d48",
 }
 
+// DARK is the dark-mode palette, with the same keys as LIGHT.
 export const DARK = {
   page: "#1a1625",
   card: "#231d31",

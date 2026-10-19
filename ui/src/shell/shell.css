@@ -55,8 +55,10 @@
   padding: 4px 8px 8px;
 }
 
+/* min-height: 0 lets the list shrink and scroll instead of pushing the footer off screen. */
 .se-groups {
   flex: 1;
+  min-height: 0;
 }
 
 .se-group + .se-group {
