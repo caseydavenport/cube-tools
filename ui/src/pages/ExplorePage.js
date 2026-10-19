@@ -14,6 +14,7 @@ import {
 import { Line, Bar } from 'react-chartjs-2'
 import { isAnonymous } from "../utils/Players.js"
 import { chartTextColor } from "../theme/chartColors.js"
+import { colorName } from "../utils/colorNames.js"
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, BarElement, Title, Tooltip, Legend)
 
@@ -101,13 +102,6 @@ const METRIC_OPTS = [
   { value: "games", label: "Games" },
 ]
 
-const COLOR_NAMES = {
-  W: "White", U: "Blue", B: "Black", R: "Red", G: "Green",
-  WU: "Azorius", WB: "Orzhov", WR: "Boros", WG: "Selesnya",
-  UB: "Dimir", UR: "Izzet", UG: "Simic", BR: "Rakdos", BG: "Golgari", RG: "Gruul",
-  WUB: "Esper", WUR: "Jeskai", WUG: "Bant", WBR: "Mardu", WBG: "Abzan",
-  WRG: "Naya", UBR: "Grixis", UBG: "Sultai", URG: "Temur", BRG: "Jund",
-}
 
 function isColorDim(dim) {
   return dim === "color" || dim === "opponent_color"
@@ -115,7 +109,7 @@ function isColorDim(dim) {
 
 function keyLabel(dim, key) {
   if (key === "") return "Overall"
-  if (isColorDim(dim)) return COLOR_NAMES[key] || key
+  if (isColorDim(dim)) return colorName(key)
   return key
 }
 

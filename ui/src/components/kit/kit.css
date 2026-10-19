@@ -1,0 +1,98 @@
+/* Shared building blocks used across pages. Colors come from the theme tokens. */
+
+.kit-card {
+  background: var(--se-card);
+  border: 1px solid var(--se-border);
+  border-radius: var(--mantine-radius-md);
+  color: var(--se-text);
+}
+
+/* Stat tile */
+
+.kit-tile {
+  display: block;
+  padding: 14px 16px;
+  min-width: 0;
+}
+
+.kit-tile-link {
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.kit-tile-link:hover {
+  border-color: var(--mantine-primary-color-filled);
+  box-shadow: 0 2px 8px rgb(0 0 0 / 0.06);
+}
+
+.kit-tile-label {
+  font-size: 12px;
+  color: var(--se-muted);
+}
+
+.kit-tile-value-row {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  margin-top: 2px;
+  min-width: 0;
+}
+
+.kit-tile-value {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1.2;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.kit-tile-accent {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--se-good);
+  white-space: nowrap;
+}
+
+.kit-tile-detail {
+  font-size: 12px;
+  color: var(--se-muted);
+  margin-top: 2px;
+}
+
+/* Section card */
+
+.kit-section {
+  padding: 14px 16px;
+}
+
+.kit-section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.kit-section-title {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--se-muted);
+}
+
+.kit-section-link {
+  font-size: 12px;
+  font-weight: 600;
+}
+
+/* Empty state */
+
+.kit-empty {
+  color: var(--se-muted);
+  font-size: 13px;
+  text-align: center;
+  padding: 16px 8px;
+}

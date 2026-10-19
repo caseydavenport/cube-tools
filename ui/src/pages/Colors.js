@@ -24,6 +24,7 @@ import {
 } from 'chart.js';
 import { Line, Bar } from 'react-chartjs-2';
 import { chartTextColor } from "../theme/chartColors.js"
+import { colorName } from "../utils/colorNames.js"
 
 // Register chart JS objects that we need to use.
 ChartJS.register(
@@ -38,13 +39,6 @@ ChartJS.register(
 );
 
 // Human-readable names for color identities, used to label delta bars.
-const colorIdentityNames = new Map([
-  ["W", "White"], ["U", "Blue"], ["B", "Black"], ["R", "Red"], ["G", "Green"],
-  ["WU", "Azorius"], ["WB", "Orzhov"], ["WR", "Boros"], ["WG", "Selesnya"],
-  ["UB", "Dimir"], ["UR", "Izzet"], ["UG", "Simic"], ["BR", "Rakdos"], ["BG", "Golgari"], ["RG", "Gruul"],
-  ["WUB", "Esper"], ["WUR", "Jeskai"], ["WUG", "Bant"], ["WBR", "Mardu"], ["WBG", "Abzan"],
-  ["WRG", "Naya"], ["UBR", "Grixis"], ["UBG", "Sultai"], ["URG", "Temur"], ["BRG", "Jund"],
-])
 
 export function ColorWidget(input) {
   const [leftChart, setLeftChart] = React.useState("builds")
@@ -714,7 +708,7 @@ function ColorPerformanceDeltaChart(input) {
     return null
   }
 
-  const labels = rows.map(r => colorIdentityNames.get(r.color) || r.color)
+  const labels = rows.map(r => colorName(r.color))
   const deltas = rows.map(r => r.delta)
   const barColors = rows.map(r => (r.delta >= 0 ? deltaPositiveFill : deltaNegativeFill))
 
@@ -775,19 +769,6 @@ function ColorRateChart(input) {
   // Split the given decks into fixed-size buckets.
   // Each bucket will contain N drafts worth of deck information.
   let buckets = input.parsed.colorDataBucketed;
-
-  // Mapping of colors to human-readable names.
-  let colorNames = new Map();
-  colorNames.set("WU", "Azorius")
-  colorNames.set("WB", "Orzhov")
-  colorNames.set("WR", "Boros")
-  colorNames.set("WG", "Selesnya")
-  colorNames.set("UB", "Dimir")
-  colorNames.set("UR", "Izzet")
-  colorNames.set("BR", "Rakdos")
-  colorNames.set("BG", "Golgari")
-  colorNames.set("RG", "Gruul")
-  colorNames.set("UG", "Simic")
 
   // Use the starting date of the bucket as the label. This is just an approximation,
   // as the bucket really includes a variable set of dates, but it allows the viewer to
@@ -917,7 +898,7 @@ function ColorRateChart(input) {
   let dualColorDatasets = []
   for (let color of dualColors) {
     dualColorDatasets.push({
-      label: colorNames.get(color) ?? color,
+      label: colorName(color),
       data: colorDatasets.get(color),
       borderColor: guildColor(color),
       backgroundColor: guildColor(color),
@@ -929,7 +910,7 @@ function ColorRateChart(input) {
   let triColorDatasets = []
   for (let color of triColors) {
     triColorDatasets.push({
-      label: colorNames.get(color) ?? color,
+      label: colorName(color),
       data: colorDatasets.get(color),
       borderColor: guildColor(color),
       backgroundColor: guildColor(color),
