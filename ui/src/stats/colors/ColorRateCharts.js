@@ -9,6 +9,7 @@ import { Line, Bar } from 'react-chartjs-2'
 import { deltaFill, zeroLineGrid } from "../../theme/chartTheme.js"
 import { colorName } from "../../utils/colorNames.js"
 import { colorIsDisplayed } from "./ColorStatsTable.js"
+import { COLORS_COPY } from "./copy.js"
 
 // ColorPerformanceDeltaChart shows, at a glance, which colors are net positive or
 // net negative relative to the cube-wide average win rate. Each bar is a color's
@@ -55,7 +56,7 @@ export function ColorPerformanceDeltaChart(input) {
     labels,
     datasets: [
       {
-        label: "Win rate vs cube average",
+        label: COLORS_COPY.rateCharts.deltaDatasetLabel,
         data: deltas,
         backgroundColor: barColors,
         borderColor: barColors,
@@ -70,7 +71,7 @@ export function ColorPerformanceDeltaChart(input) {
     plugins: {
       title: {
         display: true,
-        text: "Net performance vs cube average (win %)",
+        text: COLORS_COPY.rateCharts.deltaTitle,
         font: { size: "16pt" },
       },
       legend: { display: false },
@@ -79,7 +80,12 @@ export function ColorPerformanceDeltaChart(input) {
           label: function(ctx) {
             let r = rows[ctx.dataIndex]
             let sign = r.delta >= 0 ? "+" : ""
-            return `${sign}${r.delta.toFixed(1)}% (win ${r.winPercent.toFixed(0)}%, ${r.numDecks} decks)`
+            return COLORS_COPY.rateCharts.deltaTooltip({
+              sign: sign,
+              delta: r.delta.toFixed(1),
+              winPercent: r.winPercent.toFixed(0),
+              numDecks: r.numDecks,
+            })
           },
         },
       },
@@ -87,7 +93,7 @@ export function ColorPerformanceDeltaChart(input) {
     scales: {
       x: { ticks: { font: { size: 14 } }, grid: { display: false } },
       y: {
-        title: { display: true, text: "Δ win % vs 50%", font: { size: 14 } },
+        title: { display: true, text: COLORS_COPY.rateCharts.deltaAxisTitle, font: { size: 14 } },
         ticks: { font: { size: 14 }, callback: (v) => (v > 0 ? "+" : "") + v + "%" },
         grid: { color: (ctx) => zeroLineGrid(ctx) },
       },
@@ -190,35 +196,35 @@ export function ColorRateChart(input) {
 
   let monoColorDatasets = [
       {
-        label: 'White',
+        label: COLORS_COPY.rateCharts.white,
         data: colorDatasets.get("W"),
         borderColor: Colors.get("W"),
         backgroundColor: Colors.get("W"),
         hoverBorderWidth: hoverBorderWidth,
       },
       {
-        label: 'Blue',
+        label: COLORS_COPY.rateCharts.blue,
         data: colorDatasets.get("U"),
         borderColor: Colors.get("U"),
         backgroundColor: Colors.get("U"),
         hoverBorderWidth: hoverBorderWidth,
       },
       {
-        label: 'Black',
+        label: COLORS_COPY.rateCharts.black,
         data: colorDatasets.get("B"),
         borderColor: Colors.get("B"),
         backgroundColor: Colors.get("B"),
         hoverBorderWidth: hoverBorderWidth,
       },
       {
-        label: 'Red',
+        label: COLORS_COPY.rateCharts.red,
         data: colorDatasets.get("R"),
         borderColor: Colors.get("R"),
         backgroundColor: Colors.get("R"),
         hoverBorderWidth: hoverBorderWidth,
       },
       {
-        label: 'Green',
+        label: COLORS_COPY.rateCharts.green,
         data: colorDatasets.get("G"),
         borderColor: Colors.get("G"),
         backgroundColor: Colors.get("G"),
@@ -258,37 +264,37 @@ export function ColorRateChart(input) {
       dataset = triColorDatasets
   }
 
-  let title = `Build % (bucket size = ${input.bucketSize} drafts)`
+  let title = COLORS_COPY.rateCharts.buildsTitle(input.bucketSize)
   switch (input.dataset) {
     case "wins":
-      title = `Win % (buckets size = ${input.bucketSize} drafts)`
+      title = COLORS_COPY.rateCharts.winsTitle(input.bucketSize)
       break;
     case "vps":
-      title = `Victory points (bucket size = ${input.bucketSize} drafts)`
+      title = COLORS_COPY.rateCharts.vpsTitle(input.bucketSize)
       break;
     case "possible_vps":
-      title = `Possible victory points (bucket size = ${input.bucketSize} drafts)`
+      title = COLORS_COPY.rateCharts.possibleVpsTitle(input.bucketSize)
       break;
     case "vps_pct":
-      title = `Percentage of victory points (bucket size = ${input.bucketSize} drafts)`
+      title = COLORS_COPY.rateCharts.vpsPctTitle(input.bucketSize)
       break;
     case "pick_percentage":
-      title = `Percentage of mainboard picks (bucket size = ${input.bucketSize} drafts)`
+      title = COLORS_COPY.rateCharts.pickPercentageTitle(input.bucketSize)
       break;
     case "splash":
-      title = `Avg. percentage of decks (bucket size = ${input.bucketSize} drafts)`
+      title = COLORS_COPY.rateCharts.splashTitle(input.bucketSize)
       break;
     case "percent_of_wins":
-      title = `Percent of wins (bucket size = ${input.bucketSize} drafts)`
+      title = COLORS_COPY.rateCharts.percentOfWinsTitle(input.bucketSize)
       break;
     case "winning_pct":
-      title = `Winning % (bucket size = ${input.bucketSize} drafts)`
+      title = COLORS_COPY.rateCharts.winningPctTitle(input.bucketSize)
       break;
     case "trophy_pct":
-      title = `Trophy % (bucket size = ${input.bucketSize} drafts)`
+      title = COLORS_COPY.rateCharts.trophyPctTitle(input.bucketSize)
       break;
     case "lastplace_pct":
-      title = `Last place % (bucket size = ${input.bucketSize} drafts)`
+      title = COLORS_COPY.rateCharts.lastPlacePctTitle(input.bucketSize)
       break;
   }
 

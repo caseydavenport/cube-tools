@@ -3,20 +3,13 @@
 import React from 'react'
 import { HoverInfo } from "../../components/kit/HoverInfo.js"
 import { goodBadTint } from "../tints.js"
+import { COLORS_COPY } from "./copy.js"
 
 const monoColors = ["W", "U", "B", "R", "G"];
 
 const dualColors = ["WU", "WB", "WR", "WG", "UB", "UR", "UG", "BR", "BG", "RG"];
 
 const trioColors = ["WUB", "WUR", "WUG", "WBR", "WBG", "WRG", "UBR", "UBG", "URG", "BRG"];
-
-const colorGroupNames = {
-  W: "White", U: "Blue", B: "Black", R: "Red", G: "Green",
-  WU: "Azorius", WB: "Orzhov", WR: "Boros", WG: "Selesnya",
-  UB: "Dimir", UR: "Izzet", UG: "Simic", BR: "Rakdos", BG: "Golgari", RG: "Gruul",
-  WUB: "Esper", WUR: "Jeskai", WUG: "Bant", WBR: "Mardu", WBG: "Abzan",
-  WRG: "Naya", UBR: "Grixis", UBG: "Sultai", URG: "Temur", BRG: "Jund",
-};
 
 export function ColorMatchupHeatmap({ matchupData, colorType }) {
   const [sortColumn, setSortColumn] = React.useState(null);
@@ -48,12 +41,14 @@ export function ColorMatchupHeatmap({ matchupData, colorType }) {
     return goodBadTint((winPct - 50) / 50);
   }
 
-  const title = colorType === "Mono" ? "Mono-Color" : colorType === "Trio" ? "Trio-Color" : "Color Pair";
+  let title = COLORS_COPY.heatmap.pairTitle;
+  if (colorType === "Mono") title = COLORS_COPY.heatmap.monoTitle;
+  else if (colorType === "Trio") title = COLORS_COPY.heatmap.trioTitle;
 
   return (
     <div>
       <h4 style={{textAlign: "center", color: "var(--primary)", marginBottom: "1rem"}}>
-        {title} Matchup Heatmap
+        {title}
       </h4>
       <div style={{overflowX: "auto"}}>
         <table className="widget-table" style={{margin: "0 auto", fontSize: "0.85em"}}>
@@ -66,7 +61,7 @@ export function ColorMatchupHeatmap({ matchupData, colorType }) {
                   background: sortColumn === cp ? "var(--primary)" : undefined,
                   color: sortColumn === cp ? "var(--page-background)" : undefined,
                 }} onClick={() => setSortColumn(sortColumn === cp ? null : cp)}>
-                  {colorGroupNames[cp] || cp}
+                  {COLORS_COPY.heatmap.groupNames[cp] || cp}
                 </td>
               ))}
             </tr>
@@ -74,7 +69,7 @@ export function ColorMatchupHeatmap({ matchupData, colorType }) {
           <tbody>
             {sortedRows.map(myColor => (
               <tr key={myColor} className="widget-table-row">
-                <td className="header-cell" style={{fontWeight: "bold"}}>{colorGroupNames[myColor] || myColor}</td>
+                <td className="header-cell" style={{fontWeight: "bold"}}>{COLORS_COPY.heatmap.groupNames[myColor] || myColor}</td>
                 {groups.map(oppColor => {
                   if (myColor === oppColor) {
                     return (
@@ -90,7 +85,7 @@ export function ColorMatchupHeatmap({ matchupData, colorType }) {
                   const winPct = total > 0 ? record.win_pct : 0;
 
                   return (
-                    <HoverInfo key={oppColor} title={<>{colorGroupNames[myColor]} vs {colorGroupNames[oppColor]}</>} info={<>{wins}W - {losses}L ({total} games)</>}>
+                    <HoverInfo key={oppColor} title={COLORS_COPY.heatmap.cellTitle({ mine: COLORS_COPY.heatmap.groupNames[myColor], opponent: COLORS_COPY.heatmap.groupNames[oppColor] })} info={COLORS_COPY.heatmap.cellRecord({ wins, losses, total })}>
                       <td style={{
                         background: cellColor(winPct, total),
                         textAlign: "center",

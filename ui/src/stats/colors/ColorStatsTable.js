@@ -8,6 +8,7 @@ import { Group, SegmentedControl } from "@mantine/core"
 import { ColorImages, CUBE_AVG_WIN_PERCENT } from "../../utils/Colors.js"
 import { MinWinningPctDecks, Pct, SortFunc } from "../../utils/Utils.js"
 import { colorColumnShown, shownColorSort } from "./colorSort.js"
+import { COLORS_COPY } from "./copy.js"
 
 // colorIsDisplayed returns true if the given color identity should be displayed - e.g.,
 // if Dual is selected, mono and trio colors are filtered out.
@@ -28,102 +29,102 @@ export function colorIsDisplayed(color, selection) {
 const COLOR_COLUMNS = [
   {
     id: "color",
-    text: "Color",
-    tip: "The color or colors of the deck. If 'strict' is checked, the row includes data only from decks that are exactly this color. Otherwise, the row includes data from any decks that include this color/colors.",
+    text: COLORS_COPY.statsTable.color.text,
+    tip: COLORS_COPY.statsTable.color.tip,
     cell: (color) => <td key="color">{ColorImages(color.color)}</td>,
   },
   {
     id: "win",
-    text: "Win %",
-    tip: "Percentage of games played by this color/colors that were wins. Greyed when it can't be told apart from a coin flip at the chosen confidence; hover for the interval.",
+    text: COLORS_COPY.statsTable.winPct.text,
+    tip: COLORS_COPY.statsTable.winPct.tip,
     needs: ["results"],
     cell: (color) => <WinPercentCell key="win" color={color} />,
   },
   {
     id: "delta",
-    text: "Δ vs avg",
-    tip: "Win rate relative to the cube-wide average (50%). Positive (green) means this color wins more than its share of games; negative (red) means it loses more.",
+    text: COLORS_COPY.statsTable.delta.text,
+    tip: COLORS_COPY.statsTable.delta.tip,
     needs: ["results"],
     cell: (color) => <DeltaCell key="delta" color={color} />,
   },
   {
     id: "build",
-    text: "Build %",
-    tip: "Percentages of all built decks that include this color/colors.",
+    text: COLORS_COPY.statsTable.buildPct.text,
+    tip: COLORS_COPY.statsTable.buildPct.tip,
     cell: (color) => <td key="build">{color.build_percent.toFixed(0)}%</td>,
   },
   {
     id: "pwin",
-    text: "% of wins",
-    tip: "Share of wins among rows of this same identity length (mono, dual, tri). Sums to ~100% within each view.",
+    text: COLORS_COPY.statsTable.percentOfWins.text,
+    tip: COLORS_COPY.statsTable.percentOfWins.tip,
     needs: ["results"],
     cell: (color) => <td key="pwin">{color.percent_of_wins.toFixed(0)}%</td>,
   },
   {
     id: "vps",
-    text: "Victory point %",
-    tip: "Weighted win contribution of this color, as a percentage of total wins across all decks.",
+    text: COLORS_COPY.statsTable.victoryPointPct.text,
+    tip: COLORS_COPY.statsTable.victoryPointPct.tip,
     needs: ["results"],
     cell: (color, totals) => <td key="vps">{Pct(color.victory_points, totals.victoryPoints)}%</td>,
   },
   {
     id: "trophies",
-    text: "Trophies",
-    tip: "Number of 3-0 decks of this color.",
+    text: COLORS_COPY.statsTable.trophies.text,
+    tip: COLORS_COPY.statsTable.trophies.tip,
     needs: ["results"],
     cell: (color) => <td key="trophies">{color.trophies}</td>,
   },
   {
     id: "lastplace",
-    text: "Last place",
-    tip: "Number of 0-3 decks of this color.",
+    text: COLORS_COPY.statsTable.lastPlace.text,
+    tip: COLORS_COPY.statsTable.lastPlace.tip,
     needs: ["results"],
     cell: (color) => <td key="lastplace">{color.last_place}</td>,
   },
   {
     id: "winning",
-    text: "Winning",
-    tip: "Number of 2-1 or better.",
+    text: COLORS_COPY.statsTable.winning.text,
+    tip: COLORS_COPY.statsTable.winning.tip,
     needs: ["results"],
     cell: (color) => <td key="winning">{color.top_half}</td>,
   },
   {
     id: "losing",
-    text: "Losing",
-    tip: "Number of 1-2 or worse.",
+    text: COLORS_COPY.statsTable.losing.text,
+    tip: COLORS_COPY.statsTable.losing.tip,
     needs: ["results"],
     cell: (color) => <td key="losing">{color.bottom_half}</td>,
   },
   {
     id: "winning_pct",
-    text: "Winning %",
-    tip: "Percentage of decks with a 2-1 or better match record.",
+    text: COLORS_COPY.statsTable.winningPct.text,
+    tip: COLORS_COPY.statsTable.winningPct.tip,
     needs: ["results"],
     cell: (color) => <td key="winning_pct">{winningPercentText(color)}</td>,
   },
   {
     id: "decks",
-    text: "# Decks",
-    tip: "Number of decks in this row.",
+    text: COLORS_COPY.statsTable.decks.text,
+    tip: COLORS_COPY.statsTable.decks.tip,
     cell: (color) => <td key="decks">{color.num_decks}</td>,
   },
   {
     id: "picks",
-    text: "Pick %",
-    tip: "This color's share of all mainboarded cards across every deck. Sums to ~100% across rows.",
+    text: COLORS_COPY.statsTable.pickPct.text,
+    tip: COLORS_COPY.statsTable.pickPct.tip,
     monoOnly: true,
     cell: (color) => <td key="picks">{color.total_pick_percentage}%</td>,
   },
   {
     id: "splash",
-    text: "Avg Deck Devotion",
-    tip: "For each deck, the fraction of colored mana symbols matching this color identity, then averaged across decks. Each deck contributes equally regardless of size.",
+    text: COLORS_COPY.statsTable.devotion.text,
+    tip: COLORS_COPY.statsTable.devotion.tip,
     cell: (color) => <td key="splash">{color.average_deck_percentage}%</td>,
   },
   {
     id: "avg_word_count",
-    text: "Avg Words",
-    tip: "Average word count per non-land card in decks with this color, excluding reminder text.",
+    text: COLORS_COPY.statsTable.avgWords.text,
+    tip: COLORS_COPY.statsTable.avgWords.tip,
     cell: (color) => <td key="avg_word_count">{color.avg_word_count || 0}</td>,
   },
 ]
@@ -155,11 +156,15 @@ function WinPercentCell({ color }) {
     if (!color.significant) {
       style = { color: "var(--text-muted)" }
     }
-    let verdict = "not distinguishable from 50%"
+    let verdict = COLORS_COPY.statsTable.notDistinguishable
     if (color.significant) {
-      verdict = "distinguishable from 50%"
+      verdict = COLORS_COPY.statsTable.distinguishable
     }
-    title = `${color.win_percent_low.toFixed(0)}–${color.win_percent_high.toFixed(0)}% · ${verdict}`
+    title = COLORS_COPY.statsTable.winInterval({
+      low: color.win_percent_low.toFixed(0),
+      high: color.win_percent_high.toFixed(0),
+      verdict: verdict,
+    })
   }
 
   return <td style={style} title={title}>{color.win_percent.toFixed(0)}%</td>
@@ -296,7 +301,11 @@ export function ColorStatsTable(input) {
 export function TableHeader(input) {
   // Build selected bucket dropdown.
   let bucketNames = new Array();
-  bucketNames.push({label: "ALL", value: "ALL"});
+  bucketNames.push({
+    label: COLORS_COPY.statsTable.allBuckets,
+    // copy-ok: the value Stats.js and the table compare selectedBucket against
+    value: "ALL",
+  });
   for (let bucket of input.parsed.colorDataBucketed) {
     bucketNames.push(
       {
@@ -310,14 +319,14 @@ export function TableHeader(input) {
     <Group gap="sm" wrap="wrap" justify="flex-end">
       <SegmentedControl
         size="xs"
-        aria-label="Color type"
+        aria-label={COLORS_COPY.statsTable.colorTypeLabel}
         data={input.ddOpts}
         value={input.colorTypeSelection}
         onChange={value => input.onSelected(asEvent(value))}
       />
 
       <DropdownHeader
-        label="Bucket"
+        label={COLORS_COPY.statsTable.bucketLabel}
         className="dropdown"
         options={bucketNames}
         value={input.selectedBucket}
@@ -325,12 +334,12 @@ export function TableHeader(input) {
       />
 
       <DropdownHeader
-        label="Color mode"
+        label={COLORS_COPY.statsTable.colorModeLabel}
         className="dropdown"
         options={[
-          { label: "Inclusive", value: "inclusive" },
-          { label: "Exact", value: "exact" },
-          { label: "Primary pair", value: "primary" },
+          { label: COLORS_COPY.statsTable.modeInclusive, value: "inclusive" },
+          { label: COLORS_COPY.statsTable.modeExact, value: "exact" },
+          { label: COLORS_COPY.statsTable.modePrimary, value: "primary" },
         ]}
         value={input.colorMode}
         onChange={input.onColorModeChanged}

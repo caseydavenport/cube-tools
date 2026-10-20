@@ -9,6 +9,7 @@ import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement
 import { ColorStatsTable, TableHeader } from "./ColorStatsTable.js"
 import { ColorPerformanceDeltaChart, ColorRateChart } from "./ColorRateCharts.js"
 import { ColorMatchupHeatmap } from "./ColorMatchupHeatmap.js"
+import { COLORS_COPY } from "./copy.js"
 
 // Register chart JS objects that we need to use.
 ChartJS.register(
@@ -25,16 +26,16 @@ ChartJS.register(
 // CHART_OPTIONS are the measures the two charts over time can show. needs
 // lists the data a measure is built from, so a cube without it doesn't offer it.
 const CHART_OPTIONS = [
-  { label: "Build %", value: "builds" },
-  { label: "Win %", value: "wins", needs: ["results"] },
-  { label: "Pick %", value: "pick_percentage" },
-  { label: "Avg Deck Devotion", value: "splash" },
-  { label: "VP %", value: "vps_pct", needs: ["results"] },
-  { label: "Victory Points", value: "vps", needs: ["results"] },
-  { label: "% of wins", value: "percent_of_wins", needs: ["results"] },
-  { label: "Winning %", value: "winning_pct", needs: ["results"] },
-  { label: "Trophy %", value: "trophy_pct", needs: ["results"] },
-  { label: "Last Place %", value: "lastplace_pct", needs: ["results"] },
+  { label: COLORS_COPY.widget.chartBuilds, value: "builds" },
+  { label: COLORS_COPY.widget.chartWins, value: "wins", needs: ["results"] },
+  { label: COLORS_COPY.widget.chartPicks, value: "pick_percentage" },
+  { label: COLORS_COPY.widget.chartSplash, value: "splash" },
+  { label: COLORS_COPY.widget.chartVpPct, value: "vps_pct", needs: ["results"] },
+  { label: COLORS_COPY.widget.chartVps, value: "vps", needs: ["results"] },
+  { label: COLORS_COPY.widget.chartPercentOfWins, value: "percent_of_wins", needs: ["results"] },
+  { label: COLORS_COPY.widget.chartWinningPct, value: "winning_pct", needs: ["results"] },
+  { label: COLORS_COPY.widget.chartTrophyPct, value: "trophy_pct", needs: ["results"] },
+  { label: COLORS_COPY.widget.chartLastPlacePct, value: "lastplace_pct", needs: ["results"] },
 ]
 
 // chartLabel returns the label of a chart option, for its card's title.
