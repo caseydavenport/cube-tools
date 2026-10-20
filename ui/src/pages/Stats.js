@@ -3,7 +3,7 @@ import { ColorWidget } from "../stats/colors/ColorWidget.js";
 import { ArchetypeWidget } from "../stats/archetypes/ArchetypeWidget.js";
 import { DeckWidget } from "../stats/deckstats/DeckWidget.js";
 import { CardWidget } from "../stats/cards/CardWidget.js";
-import { SynergyWidget } from "./Synergy.js";
+import { SynergyWidget } from "../stats/synergy/SynergyWidget.js";
 import { HealthWidget } from "./Health.js";
 import { DesignMapWidget } from "./DesignMap.js";
 import { useStatsFilters, useStatsData } from "./StatsHooks.js";
