@@ -14,6 +14,8 @@ export function useLoaded(cube, needed, load, deps, initialValue) {
   const [state, setState] = useState({ key: null, value: undefined, failed: false })
   const key = loadKey(cube, deps)
 
+  // The dependency list spreads deps so each caller's own inputs (dates,
+  // filters) count, alongside the cube and whether the page needs this data.
   useEffect(() => {
     if (!needed) {
       return
@@ -29,9 +31,6 @@ export function useLoaded(cube, needed, load, deps, initialValue) {
     // Returning cancel makes React call it before the next load and when the
     // page goes away, so an answer that's out of date is dropped.
     return startLoad(load, onValue, onFailure)
-
-    // The list is spread so each caller's own inputs (dates, filters) count as
-    // dependencies, alongside the cube and whether the page needs this data.
   }, [cube, needed, ...deps])
 
   return shownState(state, key, initialValue)

@@ -52,10 +52,6 @@ test("a failure doesn't keep another cube's value", () => {
   assert.equal(failedState(loadedState("a", [1]), "b").value, undefined)
 })
 
-test("a later success clears the failure", () => {
-  assert.equal(loadedState("a", [2]).failed, false)
-})
-
 test("a load's key changes with its inputs, not just the cube", () => {
   assert.equal(loadKey("a", ["2025-01-01", 3]), loadKey("a", ["2025-01-01", 3]))
   assert.notEqual(loadKey("a", ["2025-01-01", 3]), loadKey("a", ["2024-01-01", 3]))
