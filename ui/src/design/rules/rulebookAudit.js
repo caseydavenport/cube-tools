@@ -6,7 +6,8 @@ import { cardRefName } from '../../utils/DesignRules.js'
 // auditRulebook runs the editor's health checks. Structural issues (wrong by
 // definition, like a link naming a missing group) are counted in structural for
 // the toolbar badge; the coverage lists (judgment calls) only show on the audit
-// board. Card lists are null while memberships are still loading.
+// board. ungroupedCards and isolatedCards are null while memberships are
+// still loading.
 export function auditRulebook({ links, groups, groupNames, groupCards, names, cardGroups, membershipsLoading, neighborsOf }) {
   const groupSet = new Set(groupNames)
   const cardSet = new Set(names)

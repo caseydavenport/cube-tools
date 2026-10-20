@@ -3,7 +3,8 @@
 // git ref, with its leading comments, and checks each one appears word for word
 // in exactly one of the new files. Adding or dropping `export` is allowed.
 //
-// Give every path from the repo root; it works from any directory, including
+// Give each path from the repo root or as an absolute path. It works from any
+// directory, including through
 // `npm --prefix ui run compare-moved -- <ref> <old files…> -- <new files…>`:
 //   node ui/scripts/compare-moved.mjs <ref> <old files…> -- <new files…>
 // It exits 1 if a declaration changed, went missing, or appears twice.

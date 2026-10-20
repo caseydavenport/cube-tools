@@ -1,4 +1,3 @@
-
 export function IDToName(log, id) {
   return log.carddata[id].name
 }

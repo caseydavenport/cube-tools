@@ -6,8 +6,7 @@ import { hasData } from "../utils/dataKinds.js"
 // StatsSettings are the knobs in the stats toolbar's settings popover: how
 // many drafts go in each trend bucket, the smallest draft to count, and how
 // sure a win rate must be before it's shown as different from a coin flip.
-// filters is the page's useStatsFilters state; info is the cube's data kinds,
-// and the win-rate knob only shows when the cube has results.
+// filters is the page's useStatsFilters state; info is the cube's data kinds.
 export function StatsSettings({ filters, info, copy }) {
   // onBucketSize keeps at least one draft per bucket, including when the box
   // is cleared (0) or holds something that isn't a number (NaN).
