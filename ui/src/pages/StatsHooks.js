@@ -309,7 +309,7 @@ export function useStatsData(filters, props, refresh, view) {
   };
   const failed = ALL_SOURCES.filter(name => needs(name) && sources[name].failed);
 
-  // The names the rest of this hook and the pages already use.
+  // Each loaded value under the name the rest of this hook and the pages read.
   const decks = decksSource.value;
   const decksLoaded = decksSource.loaded;
   const cube = cubeSource.value;

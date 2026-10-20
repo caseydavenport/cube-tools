@@ -130,8 +130,8 @@ export function StatsViewer(props) {
     return Array.from(seen).sort();
   }, [decks]);
 
-  // Only the widget for this page is rendered; the rest of the data stays
-  // loaded for when the viewer switches pages.
+  // Only the widget for this page is rendered, and useStatsData loads only
+  // the data this page reads.
   let widget = null
   if (props.view === "synergy") {
     widget = (
