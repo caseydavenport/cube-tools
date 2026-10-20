@@ -2,11 +2,15 @@
 // that only moves text into COPY can prove the pages read the same after it.
 // It drives headless Chrome over the DevTools protocol and needs nothing else.
 //
-//   node ui/scripts/text-snapshot.mjs take <out.json> [--shots <dir>]
+//   node ui/scripts/text-snapshot.mjs take <out.json> [--shots <dir>] [--scheme light|dark] [--width <px>]
 //   node ui/scripts/text-snapshot.mjs compare <a.json> <b.json> [routes…]
+//   node ui/scripts/text-snapshot.mjs compare-shots <a.json> <b.json> [--out <dir>]
 //
 // take expects Chrome with --remote-debugging-port=9333 and the UI on :6061
-// (UI_PORT overrides it). compare exits 1 if any route's text differs.
+// (UI_PORT overrides it). The scheme defaults to light and the width to 1680.
+// compare exits 1 if any route's text differs. compare-shots prints the share
+// of pixels that changed per route, and with --out writes a PNG of each
+// differing route with the changed pixels in magenta; it exits 1 on any change.
 
 import { Buffer } from "node:buffer"
 import { mkdirSync, readFileSync, writeFileSync, existsSync } from "node:fs"
@@ -20,6 +24,11 @@ const UI_PORT = process.env.UI_PORT || "6061"
 const PAGES = ["cards", "colors", "health", "players", "archetypes", "deck-stats", "synergy", "charts", "removal", "packages", "synergy-map", "rules-editor"]
 const CUBES = ["polyverse", "cc:polyversal"]
 
+// The routes outside the stats pages, on every cube, and the import flow's
+// modes, which only the local cube has.
+const CUBE_ROUTES = ["", "decks", "drafts"]
+const IMPORT_MODES = ["paste", "upload", "dir", "hedron", "photos", "ocr"]
+
 // EMPTY_MATCH is a filter no deck passes, so each page shows its empty states.
 const EMPTY_MATCH = "?match=player%3Anobodyatall"
 
@@ -29,8 +38,11 @@ export const ROUTES = buildRoutes()
 // Attributes whose values people see on hover or in an empty input.
 const RECORDED_ATTRIBUTES = ["title", "aria-label", "placeholder", "alt"]
 
-// The browser window size, fixed so screenshots line up between runs.
-const VIEWPORT = { width: 1680, height: 1200, deviceScaleFactor: 1, mobile: false }
+// The browser window's default width and its height, fixed so screenshots
+// line up between runs.
+const DEFAULT_WIDTH = 1680
+const VIEWPORT_HEIGHT = 1200
+const SCHEMES = ["light", "dark"]
 
 // How long the network must stay quiet, and the extra wait after that.
 const IDLE_MS = 500
@@ -49,7 +61,38 @@ function buildRoutes() {
   for (const page of PAGES) {
     routes.push(`${CUBES[0]}/${page}${EMPTY_MATCH}`)
   }
+
+  routes.push("welcome")
+  for (const cube of CUBES) {
+    for (const page of CUBE_ROUTES) {
+      routes.push(page === "" ? cube : `${cube}/${page}`)
+    }
+  }
+  routes.push(`${CUBES[0]}/import`)
+  for (const mode of IMPORT_MODES) {
+    routes.push(`${CUBES[0]}/import/${mode}`)
+  }
   return routes
+}
+
+// routeHash returns the part of the URL after "#" that loads a route. The
+// welcome page is the site's root.
+export function routeHash(route) {
+  if (route === "welcome") {
+    return "/"
+  }
+  return `/${route}`
+}
+
+// shotName returns the screenshot file name for a route, with the scheme and
+// width in it so takes into one folder don't overwrite each other.
+export function shotName(route, scheme, width) {
+  return `${route.replace(/[^A-Za-z0-9-]+/g, "_")}-${scheme}-${width}.png`
+}
+
+// viewport returns the browser window settings for a width.
+function viewport(width, height = VIEWPORT_HEIGHT) {
+  return { width, height, deviceScaleFactor: 1, mobile: false }
 }
 
 // compareSnapshots returns, for each route that differs between snapshots a
@@ -273,9 +316,9 @@ async function waitForIdle(requests, route) {
 }
 
 // READ_PAGE runs in the page. It returns the visible text lines of the main
-// area and toolbar, plus their hover and placeholder values and option labels.
+// area and toolbar (or the welcome page, which has neither), plus their hover and placeholder values and option labels.
 const READ_PAGE = `(() => {
-  const found = [...document.querySelectorAll(".se-toolbar, .se-main")]
+  const found = [...document.querySelectorAll(".se-toolbar, .se-main, .welcome-page")]
   const roots = found.filter(el => !found.some(other => other !== el && other.contains(el)))
   const lines = []
   const attrs = []
@@ -305,14 +348,15 @@ const HIDE_OVERLAY = `document.getElementById("webpack-dev-server-client-overlay
 
 // visit loads one route from a blank page, waits for it to settle, and
 // returns its text, saving a screenshot into shotsDir when one is given.
-async function visit(tab, requests, route, shotsDir) {
+// `look` is { scheme, width }.
+async function visit(tab, requests, route, shotsDir, look) {
   const blank = tab.once("Page.loadEventFired")
   await tab.send("Page.navigate", { url: "about:blank" })
   await blank
   requests.reset()
 
   const loaded = tab.once("Page.loadEventFired")
-  await tab.send("Page.navigate", { url: `http://localhost:${UI_PORT}/#/${route}` })
+  await tab.send("Page.navigate", { url: `http://localhost:${UI_PORT}/#${routeHash(route)}` })
   await loaded
   await waitForIdle(requests, route)
   await sleep(SETTLE_MS)
@@ -320,12 +364,12 @@ async function visit(tab, requests, route, shotsDir) {
   const result = await tab.send("Runtime.evaluate", { expression: READ_PAGE, returnByValue: true })
   const entry = { lines: result.result.value.lines, attrs: result.result.value.attrs, shot: null }
   if (entry.lines.length === 0) {
-    console.warn(`${route}: no text found under .se-main or .se-toolbar`)
+    console.warn(`${route}: no text found under .se-main, .se-toolbar or .welcome-page`)
   }
 
   if (shotsDir) {
-    entry.shot = route.replace(/[^A-Za-z0-9-]+/g, "_") + ".png"
-    await saveShot(tab, path.join(shotsDir, entry.shot))
+    entry.shot = shotName(route, look.scheme, look.width)
+    await saveShot(tab, path.join(shotsDir, entry.shot), look.width)
   }
   return entry
 }
@@ -333,22 +377,22 @@ async function visit(tab, requests, route, shotsDir) {
 // saveShot screenshots the whole page into file. It grows the window to the
 // page's full height first and waits for charts to redraw at that size, which
 // gives the same picture every run.
-async function saveShot(tab, file) {
+async function saveShot(tab, file, width) {
   await tab.send("Runtime.evaluate", { expression: HIDE_OVERLAY })
   const metrics = await tab.send("Page.getLayoutMetrics")
   const height = Math.ceil(metrics.cssContentSize.height)
-  await tab.send("Emulation.setDeviceMetricsOverride", { ...VIEWPORT, height })
+  await tab.send("Emulation.setDeviceMetricsOverride", viewport(width, height))
   await sleep(SETTLE_MS)
   await tab.send("Runtime.evaluate", { expression: HIDE_OVERLAY })
 
   const shot = await tab.send("Page.captureScreenshot", { format: "png" })
   writeFileSync(file, Buffer.from(shot.data, "base64"))
-  await tab.send("Emulation.setDeviceMetricsOverride", VIEWPORT)
+  await tab.send("Emulation.setDeviceMetricsOverride", viewport(width))
 }
 
-// take visits every route in ROUTES in the light scheme and writes the
-// snapshot to outFile.
-async function take(outFile, shotsDir) {
+// take visits every route in ROUTES in the given color scheme and window
+// width, and writes the snapshot to outFile.
+async function take(outFile, shotsDir, look) {
   if (shotsDir) {
     shotsDir = path.resolve(shotsDir)
     mkdirSync(shotsDir, { recursive: true })
@@ -358,16 +402,16 @@ async function take(outFile, shotsDir) {
   const requests = trackRequests(tab)
   await tab.send("Page.enable")
   await tab.send("Network.enable")
-  await tab.send("Emulation.setDeviceMetricsOverride", VIEWPORT)
-  await tab.send("Emulation.setEmulatedMedia", { features: [{ name: "prefers-color-scheme", value: "light" }] })
+  await tab.send("Emulation.setDeviceMetricsOverride", viewport(look.width))
+  await tab.send("Emulation.setEmulatedMedia", { features: [{ name: "prefers-color-scheme", value: look.scheme }] })
   await tab.send("Page.addScriptToEvaluateOnNewDocument", {
-    source: `try { localStorage.setItem("mantine-color-scheme-value", "light") } catch {}`,
+    source: `try { localStorage.setItem("mantine-color-scheme-value", ${JSON.stringify(look.scheme)}) } catch {}`,
   })
 
-  const snapshot = { taken: new Date().toISOString(), uiPort: UI_PORT, shots: shotsDir || null, routes: {} }
+  const snapshot = { taken: new Date().toISOString(), uiPort: UI_PORT, scheme: look.scheme, width: look.width, shots: shotsDir || null, routes: {} }
   try {
     for (const route of ROUTES) {
-      snapshot.routes[route] = await visit(tab, requests, route, shotsDir)
+      snapshot.routes[route] = await visit(tab, requests, route, shotsDir, look)
       console.log(`${route}: ${snapshot.routes[route].lines.length} lines`)
     }
   } finally {
@@ -402,20 +446,147 @@ function compare(fileA, fileB, routes) {
   }
 }
 
+// PIXEL_DIFF runs in the page. Given two PNGs as base64 strings it draws each
+// onto a canvas, counts the pixels whose color differs (pixels outside the
+// smaller image count as changed), and returns the count, the total, and a
+// PNG data URL of the second image with the changed pixels in magenta.
+const PIXEL_DIFF = `async (aBase64, bBase64) => {
+  const load = base64 => new Promise((resolve, reject) => {
+    const image = new Image()
+    image.onload = () => resolve(image)
+    image.onerror = () => reject(new Error("cannot decode image"))
+    image.src = "data:image/png;base64," + base64
+  })
+  const [a, b] = await Promise.all([load(aBase64), load(bBase64)])
+  const width = Math.max(a.width, b.width)
+  const height = Math.max(a.height, b.height)
+  const pixels = image => {
+    const canvas = document.createElement("canvas")
+    canvas.width = width
+    canvas.height = height
+    const context = canvas.getContext("2d", { willReadFrequently: true })
+    context.drawImage(image, 0, 0)
+    return context.getImageData(0, 0, width, height)
+  }
+  const dataA = pixels(a)
+  const dataB = pixels(b)
+  let changed = 0
+  for (let i = 0; i < dataA.data.length; i += 4) {
+    const same = dataA.data[i] === dataB.data[i] && dataA.data[i + 1] === dataB.data[i + 1] &&
+      dataA.data[i + 2] === dataB.data[i + 2] && dataA.data[i + 3] === dataB.data[i + 3]
+    if (!same) {
+      changed++
+      dataB.data[i] = 255
+      dataB.data[i + 1] = 0
+      dataB.data[i + 2] = 255
+      dataB.data[i + 3] = 255
+    }
+  }
+  const out = document.createElement("canvas")
+  out.width = width
+  out.height = height
+  out.getContext("2d").putImageData(dataB, 0, 0)
+  return { changed, total: width * height, diff: out.toDataURL("image/png"), sizeA: [a.width, a.height], sizeB: [b.width, b.height] }
+}`
+
+// percentChanged formats a changed-pixel share: "0.00%" only when nothing
+// changed, and "<0.01%" when a few pixels did.
+export function percentChanged(changed, total) {
+  if (changed === 0 || total === 0) {
+    return "0.00%"
+  }
+  const percent = changed / total * 100
+  if (percent < 0.005) {
+    return "<0.01%"
+  }
+  return `${percent.toFixed(2)}%`
+}
+
+// compareShots prints, for each route both snapshots have a screenshot of, the
+// share of changed pixels. With outDir it writes a PNG per differing route.
+// It exits 1 if any route differs or lacks a screenshot.
+async function compareShots(fileA, fileB, outDir) {
+  const a = JSON.parse(readFileSync(fileA, "utf8"))
+  const b = JSON.parse(readFileSync(fileB, "utf8"))
+  if (outDir) {
+    outDir = path.resolve(outDir)
+    mkdirSync(outDir, { recursive: true })
+  }
+
+  const tab = await openTab()
+  let differing = 0
+  try {
+    await tab.send("Runtime.enable")
+    for (const route of matchingRoutes(a, b, [])) {
+      const before = shotBytes(a, route)
+      const after = shotBytes(b, route)
+      if (before === null || after === null) {
+        console.log(`${route}: no screenshot in ${before === null ? fileA : fileB}`)
+        differing++
+        continue
+      }
+
+      const call = `(${PIXEL_DIFF})(${JSON.stringify(before.toString("base64"))}, ${JSON.stringify(after.toString("base64"))})`
+      const result = await tab.send("Runtime.evaluate", { expression: call, awaitPromise: true, returnByValue: true })
+      if (result.exceptionDetails) {
+        throw new Error(`${route}: ${result.exceptionDetails.exception.description}`)
+      }
+      const { changed, total, diff, sizeA, sizeB } = result.result.value
+
+      let note = ""
+      if (sizeA[0] !== sizeB[0] || sizeA[1] !== sizeB[1]) {
+        note = `  (size ${sizeA.join("x")} vs ${sizeB.join("x")})`
+      }
+      console.log(`${route}: ${percentChanged(changed, total)}${note}`)
+      if (changed > 0) {
+        differing++
+        if (outDir) {
+          const png = Buffer.from(diff.slice(diff.indexOf(",") + 1), "base64")
+          writeFileSync(path.join(outDir, b.routes[route].shot), png)
+        }
+      }
+    }
+  } finally {
+    await tab.close()
+  }
+
+  console.log(`${differing} route(s) with different screenshots`)
+  if (differing > 0) {
+    process.exit(1)
+  }
+}
+
+// option removes "--name value" from args and returns the value, or the
+// fallback when the option isn't there.
+function option(args, name, fallback) {
+  const at = args.indexOf(name)
+  if (at === -1) {
+    return fallback
+  }
+  const value = args[at + 1]
+  args.splice(at, 2)
+  return value
+}
+
 // main reads the command and its arguments.
 async function main() {
   const [command, ...args] = process.argv.slice(2)
   if (command === "take") {
-    const shotsAt = args.indexOf("--shots")
-    let shotsDir = null
-    if (shotsAt !== -1) {
-      shotsDir = args[shotsAt + 1]
+    const shotsDir = option(args, "--shots", null)
+    const scheme = option(args, "--scheme", "light")
+    const width = Number(option(args, "--width", DEFAULT_WIDTH))
+    if (!SCHEMES.includes(scheme) || !(width > 0)) {
+      console.error("--scheme must be light or dark and --width a number of pixels")
+      process.exit(2)
     }
-    await take(args[0], shotsDir)
+    await take(args[0], shotsDir, { scheme, width })
   } else if (command === "compare") {
     compare(args[0], args[1], args.slice(2))
+  } else if (command === "compare-shots") {
+    const outDir = option(args, "--out", null)
+    await compareShots(args[0], args[1], outDir)
   } else {
-    console.error("usage: text-snapshot.mjs take <out.json> [--shots <dir>] | compare <a.json> <b.json> [routes…]")
+    console.error("usage: text-snapshot.mjs take <out.json> [--shots <dir>] [--scheme light|dark] [--width <px>] | compare <a.json> <b.json> [routes…] | compare-shots <a.json> <b.json> [--out <dir>]")
     process.exit(2)
   }
 }

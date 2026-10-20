@@ -37,6 +37,7 @@
     "check": "node scripts/check-code.mjs",
     "compare-moved": "node scripts/compare-moved.mjs",
     "check-copy": "node scripts/check-copy.mjs",
+    "check-css": "node scripts/check-css.mjs",
     "text-snapshot": "node scripts/text-snapshot.mjs"
   },
   "browserslist": {
