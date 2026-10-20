@@ -105,7 +105,7 @@ export function classNamesIn(jsSource) {
       addTokens(names, node.value)
     } else if (node.type === "TemplateLiteral") {
       for (let i = 0; i < node.quasis.length; i++) {
-        addTemplateTokens(names, node.quasis[i].value.cooked || "")
+        addTokens(names, node.quasis[i].value.cooked || "")
       }
     }
   })
@@ -119,13 +119,6 @@ function addTokens(names, text) {
       names.add(token)
     }
   }
-}
-
-// addTemplateTokens adds a template piece's tokens. The piece before a `${`
-// ends with the front of a name, such as "deck-row-", which isNamed reads as a
-// prefix because it ends in a dash or underscore.
-function addTemplateTokens(names, text) {
-  addTokens(names, text)
 }
 
 // isNamed says whether a class is used: some JavaScript string names it, or
@@ -143,11 +136,21 @@ function isNamed(name, names) {
   return false
 }
 
-// blankComments replaces CSS comments and string contents with spaces, keeping
-// newlines, so later scans see only code and keep their line numbers.
+// blankOut replaces every character but newlines with a space, so text can be
+// hidden from a scan without moving the line numbers.
+function blankOut(text) {
+  return text.replace(/[^\n]/g, " ")
+}
+
+// withoutComments blanks out a stylesheet's comments.
+function withoutComments(css) {
+  return css.replace(/\/\*[\s\S]*?\*\//g, blankOut)
+}
+
+// blankComments blanks out a stylesheet's comments and string contents, so
+// later scans see only code.
 function blankComments(css) {
-  const blank = text => text.replace(/[^\n]/g, " ")
-  return css.replace(/\/\*[\s\S]*?\*\//g, blank).replace(/"(?:[^"\\\n]|\\.)*"|'(?:[^'\\\n]|\\.)*'/g, blank)
+  return withoutComments(css).replace(/"(?:[^"\\\n]|\\.)*"|'(?:[^'\\\n]|\\.)*'/g, blankOut)
 }
 
 // selectorClasses lists each class selector in a stylesheet as { name, line },
@@ -243,7 +246,7 @@ export function colorFindings(text, kind) {
 
 // cssColors finds the colors in a stylesheet's code, not its comments.
 function cssColors(css) {
-  const code = css.replace(/\/\*[\s\S]*?\*\//g, comment => comment.replace(/[^\n]/g, " "))
+  const code = withoutComments(css)
   const found = []
   const lines = code.split("\n")
   for (let i = 0; i < lines.length; i++) {
@@ -383,7 +386,11 @@ function allClassNames() {
   const names = new Set()
   for (const file of filesUnder(SRC_DIR)) {
     if (file.endsWith(".js")) {
-      for (const name of classNamesIn(readFileSync(file, "utf8"))) {
+      const source = readFileSync(file, "utf8")
+      if (parseJs(source) === null) {
+        console.error(`${path.relative(process.cwd(), file)}: does not parse, so its class names are not counted`)
+      }
+      for (const name of classNamesIn(source)) {
         names.add(name)
       }
     }

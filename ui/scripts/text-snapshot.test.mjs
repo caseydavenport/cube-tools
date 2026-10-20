@@ -1,6 +1,6 @@
 import { test } from "node:test"
 import assert from "node:assert/strict"
-import { compareSnapshots, percentChanged, ROUTES, routeHash, shotName } from "./text-snapshot.mjs"
+import { compareSnapshots, percentChanged, ROUTES, formatBox, growBox, routeHash, shotName, unfinishedRoutes } from "./text-snapshot.mjs"
 
 // snapshotWith builds a one-route snapshot holding the given lines.
 function snapshotWith(lines) {
@@ -38,4 +38,28 @@ test("percentChanged reads 0.00% when nothing changed", () => {
   assert.equal(percentChanged(0, 1000), "0.00%")
   assert.equal(percentChanged(5, 1000), "0.50%")
   assert.equal(percentChanged(5, 10000000), "<0.01%")
+})
+
+test("unfinishedRoutes lists pages showing a loading or error message", () => {
+  const snapshot = {
+    routes: {
+      ok: { lines: ["Cards", "12 decks"] },
+      loading: { lines: ["Decks", "Loading…"] },
+      failed: { lines: ["Couldn't load this"] },
+    },
+  }
+  assert.deepEqual(unfinishedRoutes(snapshot), [
+    { route: "loading", marker: "Loading" },
+    { route: "failed", marker: "Couldn't load" },
+  ])
+})
+
+test("growBox grows a box around each pixel and formatBox describes it", () => {
+  let box = growBox(null, 5, 7)
+  assert.deepEqual(box, { x0: 5, y0: 7, x1: 5, y1: 7 })
+  box = growBox(box, 2, 9)
+  box = growBox(box, 6, 3)
+  assert.deepEqual(box, { x0: 2, y0: 3, x1: 6, y1: 9 })
+  assert.equal(formatBox(box), "2,3 to 6,9 (5 x 7)")
+  assert.equal(formatBox(null), "none")
 })

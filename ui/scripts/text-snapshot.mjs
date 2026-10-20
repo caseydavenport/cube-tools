@@ -4,13 +4,15 @@
 //
 //   node ui/scripts/text-snapshot.mjs take <out.json> [--shots <dir>] [--scheme light|dark] [--width <px>]
 //   node ui/scripts/text-snapshot.mjs compare <a.json> <b.json> [routes…]
-//   node ui/scripts/text-snapshot.mjs compare-shots <a.json> <b.json> [--out <dir>]
+//   node ui/scripts/text-snapshot.mjs compare-shots <a.json> <b.json> [--out <dir>] [--json <file>]
 //
 // take expects Chrome with --remote-debugging-port=9333 and the UI on :6061
 // (UI_PORT overrides it). The scheme defaults to light and the width to 1680.
 // compare exits 1 if any route's text differs. compare-shots prints the share
 // of pixels that changed per route, and with --out writes a PNG of each
-// differing route with the changed pixels in magenta; it exits 1 on any change.
+// differing route with the changed pixels in magenta, and --json saves each
+// route's changed-pixel count and box. Each line shows the count and the box
+// of changed pixels. It exits 1 on any change.
 
 import { Buffer } from "node:buffer"
 import { mkdirSync, readFileSync, writeFileSync, existsSync } from "node:fs"
@@ -23,6 +25,10 @@ const UI_PORT = process.env.UI_PORT || "6061"
 // The page slugs whose text is moving into COPY, and the cubes to load them on.
 const PAGES = ["cards", "colors", "health", "players", "archetypes", "deck-stats", "synergy", "charts", "removal", "packages", "synergy-map", "rules-editor"]
 const CUBES = ["polyverse", "cc:polyversal"]
+
+// UNFINISHED_MARKERS are texts a page shows while it waits for the backend or
+// after a request failed. A snapshot containing one was taken too early.
+const UNFINISHED_MARKERS = ["Loading", "Couldn't load"]
 
 // The routes outside the stats pages, on every cube, and the import flow's
 // modes, which only the local cube has.
@@ -73,6 +79,47 @@ function buildRoutes() {
     routes.push(`${CUBES[0]}/import/${mode}`)
   }
   return routes
+}
+
+// unfinishedMarker returns the first UNFINISHED_MARKERS text in a route's
+// lines, or null when the page looks fully loaded.
+export function unfinishedMarker(lines) {
+  for (const marker of UNFINISHED_MARKERS) {
+    if (lines.some(line => line.includes(marker))) {
+      return marker
+    }
+  }
+  return null
+}
+
+// unfinishedRoutes lists { route, marker } for each route in a snapshot whose
+// text shows a loading or error message.
+export function unfinishedRoutes(snapshot) {
+  const found = []
+  for (const [route, entry] of Object.entries(snapshot.routes)) {
+    const marker = unfinishedMarker(entry.lines)
+    if (marker !== null) {
+      found.push({ route, marker })
+    }
+  }
+  return found
+}
+
+// growBox returns the box { x0, y0, x1, y1 } (inclusive pixel corners) that
+// holds the given box and the pixel at x, y. A null box starts a new one.
+export function growBox(box, x, y) {
+  if (box === null) {
+    return { x0: x, y0: y, x1: x, y1: y }
+  }
+  return { x0: Math.min(box.x0, x), y0: Math.min(box.y0, y), x1: Math.max(box.x1, x), y1: Math.max(box.y1, y) }
+}
+
+// formatBox describes a changed-pixel box as "x0,y0 to x1,y1 (W x H)".
+export function formatBox(box) {
+  if (box === null) {
+    return "none"
+  }
+  return `${box.x0},${box.y0} to ${box.x1},${box.y1} (${box.x1 - box.x0 + 1} x ${box.y1 - box.y0 + 1})`
 }
 
 // routeHash returns the part of the URL after "#" that loads a route. The
@@ -316,7 +363,8 @@ async function waitForIdle(requests, route) {
 }
 
 // READ_PAGE runs in the page. It returns the visible text lines of the main
-// area and toolbar (or the welcome page, which has neither), plus their hover and placeholder values and option labels.
+// area and toolbar (or the welcome page, which has neither), plus their hover
+// and placeholder values and option labels.
 const READ_PAGE = `(() => {
   const found = [...document.querySelectorAll(".se-toolbar, .se-main, .welcome-page")]
   const roots = found.filter(el => !found.some(other => other !== el && other.contains(el)))
@@ -365,6 +413,10 @@ async function visit(tab, requests, route, shotsDir, look) {
   const entry = { lines: result.result.value.lines, attrs: result.result.value.attrs, shot: null }
   if (entry.lines.length === 0) {
     console.warn(`${route}: no text found under .se-main, .se-toolbar or .welcome-page`)
+  }
+  const marker = unfinishedMarker(entry.lines)
+  if (marker !== null) {
+    console.warn(`${route}: shows "${marker}"; the backend may be down or slow`)
   }
 
   if (shotsDir) {
@@ -419,6 +471,14 @@ async function take(outFile, shotsDir, look) {
   }
   writeFileSync(outFile, JSON.stringify(snapshot, null, 2) + "\n")
   console.log(`wrote ${ROUTES.length} routes to ${outFile}`)
+
+  const unfinished = unfinishedRoutes(snapshot)
+  if (unfinished.length > 0) {
+    console.warn(`${unfinished.length} route(s) look unfinished:`)
+    for (const { route, marker } of unfinished) {
+      console.warn(`  ${route} ("${marker}")`)
+    }
+  }
 }
 
 // compare prints how two snapshot files differ and exits 1 if their text does.
@@ -451,6 +511,7 @@ function compare(fileA, fileB, routes) {
 // smaller image count as changed), and returns the count, the total, and a
 // PNG data URL of the second image with the changed pixels in magenta.
 const PIXEL_DIFF = `async (aBase64, bBase64) => {
+  const growBox = ${growBox.toString()}
   const load = base64 => new Promise((resolve, reject) => {
     const image = new Image()
     image.onload = () => resolve(image)
@@ -471,11 +532,13 @@ const PIXEL_DIFF = `async (aBase64, bBase64) => {
   const dataA = pixels(a)
   const dataB = pixels(b)
   let changed = 0
+  let box = null
   for (let i = 0; i < dataA.data.length; i += 4) {
     const same = dataA.data[i] === dataB.data[i] && dataA.data[i + 1] === dataB.data[i + 1] &&
       dataA.data[i + 2] === dataB.data[i + 2] && dataA.data[i + 3] === dataB.data[i + 3]
     if (!same) {
       changed++
+      box = growBox(box, (i / 4) % width, Math.floor(i / 4 / width))
       dataB.data[i] = 255
       dataB.data[i + 1] = 0
       dataB.data[i + 2] = 255
@@ -486,7 +549,7 @@ const PIXEL_DIFF = `async (aBase64, bBase64) => {
   out.width = width
   out.height = height
   out.getContext("2d").putImageData(dataB, 0, 0)
-  return { changed, total: width * height, diff: out.toDataURL("image/png"), sizeA: [a.width, a.height], sizeB: [b.width, b.height] }
+  return { changed, box, total: width * height, diff: out.toDataURL("image/png"), sizeA: [a.width, a.height], sizeB: [b.width, b.height] }
 }`
 
 // percentChanged formats a changed-pixel share: "0.00%" only when nothing
@@ -505,7 +568,7 @@ export function percentChanged(changed, total) {
 // compareShots prints, for each route both snapshots have a screenshot of, the
 // share of changed pixels. With outDir it writes a PNG per differing route.
 // It exits 1 if any route differs or lacks a screenshot.
-async function compareShots(fileA, fileB, outDir) {
+async function compareShots(fileA, fileB, outDir, jsonFile) {
   const a = JSON.parse(readFileSync(fileA, "utf8"))
   const b = JSON.parse(readFileSync(fileB, "utf8"))
   if (outDir) {
@@ -515,6 +578,7 @@ async function compareShots(fileA, fileB, outDir) {
 
   const tab = await openTab()
   let differing = 0
+  const measured = {}
   try {
     await tab.send("Runtime.enable")
     for (const route of matchingRoutes(a, b, [])) {
@@ -531,13 +595,14 @@ async function compareShots(fileA, fileB, outDir) {
       if (result.exceptionDetails) {
         throw new Error(`${route}: ${result.exceptionDetails.exception.description}`)
       }
-      const { changed, total, diff, sizeA, sizeB } = result.result.value
+      const { changed, box, total, diff, sizeA, sizeB } = result.result.value
+      measured[route] = { changed, box }
 
       let note = ""
       if (sizeA[0] !== sizeB[0] || sizeA[1] !== sizeB[1]) {
         note = `  (size ${sizeA.join("x")} vs ${sizeB.join("x")})`
       }
-      console.log(`${route}: ${percentChanged(changed, total)}${note}`)
+      console.log(`${route}: ${percentChanged(changed, total)} (${changed} px, box ${formatBox(box)})${note}`)
       if (changed > 0) {
         differing++
         if (outDir) {
@@ -550,6 +615,9 @@ async function compareShots(fileA, fileB, outDir) {
     await tab.close()
   }
 
+  if (jsonFile) {
+    writeFileSync(jsonFile, JSON.stringify(measured, null, 2) + "\n")
+  }
   console.log(`${differing} route(s) with different screenshots`)
   if (differing > 0) {
     process.exit(1)
@@ -584,9 +652,10 @@ async function main() {
     compare(args[0], args[1], args.slice(2))
   } else if (command === "compare-shots") {
     const outDir = option(args, "--out", null)
-    await compareShots(args[0], args[1], outDir)
+    const jsonFile = option(args, "--json", null)
+    await compareShots(args[0], args[1], outDir, jsonFile)
   } else {
-    console.error("usage: text-snapshot.mjs take <out.json> [--shots <dir>] [--scheme light|dark] [--width <px>] | compare <a.json> <b.json> [routes…] | compare-shots <a.json> <b.json> [--out <dir>]")
+    console.error("usage: text-snapshot.mjs take <out.json> [--shots <dir>] [--scheme light|dark] [--width <px>] | compare <a.json> <b.json> [routes…] | compare-shots <a.json> <b.json> [--out <dir>] [--json <file>]")
     process.exit(2)
   }
 }
