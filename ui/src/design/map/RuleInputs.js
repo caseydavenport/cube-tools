@@ -1,0 +1,268 @@
+// The inputs the group and link dialogs share: a rule text box, group
+// pickers, OR clauses, excluded cards, and the why-it-matched tooltip.
+
+import React, { useRef, useState } from 'react'
+import ReactDOM from 'react-dom'
+import { NativeSelect, TextInput, Button, ActionIcon } from "@mantine/core"
+import { IconPencil, IconPlus, IconX } from "@tabler/icons-react"
+import { CARD_REF_PREFIX, cardRefName } from "../../utils/DesignRules.js"
+
+// RuleInput is a labeled text box for one part of a rule, such as a group's
+// name, in the monospace face the rule syntax reads best in.
+export function RuleInput({ label, value, onChange, placeholder }) {
+  return (
+    <TextInput
+      size="xs"
+      mb={6}
+      label={label}
+      value={value}
+      onChange={e => onChange(e.target.value)}
+      placeholder={placeholder}
+      classNames={{ input: "dm-mono" }}
+    />
+  )
+}
+
+export function GroupMultiSelect({ label, values, onChange, groupNames, cardNames, onEditGroup }) {
+  function updateAt(i, val) {
+    const next = [...values]
+    next[i] = val
+    onChange(next)
+  }
+  function removeAt(i) {
+    const next = values.filter((_, idx) => idx !== i)
+    if (next.length === 0) next.push("")
+    onChange(next)
+  }
+  function addSlot() {
+    onChange([...values, ""])
+  }
+
+  return (
+    <div style={{marginBottom: "0.35rem"}}>
+      <label style={{fontSize: "0.7em", color: "var(--text-muted)", display: "block", marginBottom: "2px"}}>{label}</label>
+      {values.map((v, i) => (
+        <div key={i} style={{display: "flex", gap: "4px", marginBottom: "3px", alignItems: "center"}}>
+          <NativeSelect size="xs" className="dm-grow" classNames={{ input: "dm-mono" }} aria-label={label} value={v} onChange={e => updateAt(i, e.target.value)}>
+            <option value="">{cardNames ? "-- Select group or card --" : "-- Select group --"}</option>
+            <optgroup label="Groups">
+              {groupNames.map(name => (
+                <option key={name} value={name}>{name}</option>
+              ))}
+            </optgroup>
+            {cardNames && cardNames.length > 0 && (
+              <optgroup label="Cards">
+                {cardNames.map(name => (
+                  <option key={CARD_REF_PREFIX + name} value={CARD_REF_PREFIX + name}>{name}</option>
+                ))}
+              </optgroup>
+            )}
+          </NativeSelect>
+          {onEditGroup && v && !cardRefName(v) && (
+            <ActionIcon variant="subtle" color="gray" size="sm" aria-label="Edit group"
+              onClick={() => onEditGroup(v)}
+              title="Edit group"
+            ><IconPencil size={14} /></ActionIcon>
+          )}
+          {values.length > 1 && (
+            <ActionIcon variant="subtle" color="gray" size="sm" aria-label="Remove"
+              onClick={() => removeAt(i)}
+              title="Remove"
+            ><IconX size={14} /></ActionIcon>
+          )}
+        </div>
+      ))}
+      <Button size="compact-xs" variant="subtle" color="gray" leftSection={<IconPlus size={12} />}
+        onClick={addSlot}
+      >Add group</Button>
+    </div>
+  )
+}
+
+export function ConditionTooltip({ children, conditions, style, onClick }) {
+  const [show, setShow] = useState(false)
+  const [pos, setPos] = useState(null)
+  const timeoutRef = useRef(null)
+  const elRef = useRef(null)
+  function handleEnter() {
+    if (timeoutRef.current) clearTimeout(timeoutRef.current)
+    if (elRef.current) {
+      const rect = elRef.current.getBoundingClientRect()
+      // Anchor the tooltip on whichever side has room. In the right-hand detail
+      // rail there's no space to the right, so grow leftward instead of clipping.
+      if (rect.right > window.innerWidth * 0.55) {
+        setPos({ top: rect.top + rect.height / 2, right: window.innerWidth - rect.left + 6 })
+      } else {
+        setPos({ top: rect.top + rect.height / 2, left: rect.right + 6 })
+      }
+    }
+    setShow(true)
+  }
+  function handleLeave() {
+    if (timeoutRef.current) clearTimeout(timeoutRef.current)
+    setShow(false)
+  }
+  if (!conditions || conditions.length === 0) {
+    return <div style={style} onClick={onClick}>{children}</div>
+  }
+  return (
+    <div
+      ref={elRef}
+      onMouseEnter={handleEnter}
+      onMouseLeave={handleLeave}
+      onClick={onClick}
+      style={{...style, background: show ? "var(--table-row-hover)" : (style && style.background) || "transparent"}}
+    >
+      {children}
+      {show && pos && ReactDOM.createPortal(
+        <div style={{
+          position: "fixed",
+          left: pos.left,
+          right: pos.right,
+          top: pos.top,
+          transform: "translateY(-50%)",
+          background: "var(--card-background)",
+          border: "1px solid var(--text-muted)",
+          borderRadius: "6px",
+          padding: "8px 12px",
+          zIndex: 9999,
+          whiteSpace: "nowrap",
+          pointerEvents: "none",
+          boxShadow: "var(--mantine-shadow-md)",
+        }}>
+          <div style={{fontSize: "11px", fontWeight: "bold", color: "var(--text-muted)", textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: "4px"}}>
+            Matched Conditions
+          </div>
+          <table style={{borderCollapse: "collapse"}}>
+            <tbody>
+              {conditions.map((mc, i) => (
+                <tr key={i}>
+                  {mc.group != null && (
+                    <td style={{
+                      fontSize: "12px",
+                      color: "var(--primary)",
+                      fontWeight: "bold",
+                      paddingRight: "10px",
+                      paddingTop: "2px",
+                      paddingBottom: "2px",
+                      verticalAlign: "top",
+                    }}>{mc.group}</td>
+                  )}
+                  <td style={{
+                    fontSize: "12px",
+                    fontFamily: "monospace",
+                    color: "var(--white)",
+                    paddingTop: "2px",
+                    paddingBottom: "2px",
+                  }}>{mc.condition}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>,
+        document.body,
+      )}
+    </div>
+  )
+}
+
+export function ClauseInputs({ label, connects, onChange, placeholder, highlightedConditions, onConditionClick }) {
+  function updateAt(i, val) {
+    const next = [...connects]
+    next[i] = val
+    onChange(next)
+  }
+  function removeAt(i) {
+    const next = connects.filter((_, idx) => idx !== i)
+    if (next.length === 0) next.push("")
+    onChange(next)
+  }
+  function addClause() {
+    onChange([...connects, ""])
+  }
+  return (
+    <div style={{marginBottom: "0.35rem"}}>
+      <label style={{fontSize: "0.7em", color: "var(--text-muted)", display: "block", marginBottom: "2px"}}>{label} (OR)</label>
+      {connects.map((c, i) => {
+        const trimmed = c.trim()
+        const dimmed = highlightedConditions && trimmed && !highlightedConditions.has(trimmed)
+        return (
+          <div
+            key={i}
+            onClick={onConditionClick && trimmed ? () => onConditionClick(trimmed) : undefined}
+            style={{
+              display: "flex", gap: "4px", marginBottom: "3px", alignItems: "center",
+              opacity: dimmed ? 0.3 : 1,
+              cursor: onConditionClick && trimmed ? "pointer" : undefined,
+              transition: "opacity 0.15s",
+            }}
+          >
+            <TextInput
+              size="xs"
+              className="dm-grow"
+              classNames={{ input: "dm-mono" }}
+              aria-label={label}
+              value={c}
+              onChange={e => updateAt(i, e.target.value)}
+              placeholder={placeholder}
+            />
+            {connects.length > 1 && (
+              <ActionIcon variant="subtle" color="gray" size="sm" aria-label="Remove clause"
+                onClick={(e) => { e.stopPropagation(); removeAt(i) }}
+                title="Remove clause"
+              ><IconX size={14} /></ActionIcon>
+            )}
+          </div>
+        )
+      })}
+      <Button size="compact-xs" variant="subtle" color="gray" leftSection={<IconPlus size={12} />}
+        onClick={addClause}
+      >Add OR clause</Button>
+    </div>
+  )
+}
+
+// ExcludeInputs manages a group's excluded-card list: one select per exclusion,
+// offering the currently matched cards (plus any stale saved excludes). Unlike
+// GroupMultiSelect the list may be empty, so rows only exist once added.
+export function ExcludeInputs({ values, onChange, options }) {
+  function updateAt(i, val) {
+    const next = [...values]
+    next[i] = val
+    onChange(next)
+  }
+  function removeAt(i) {
+    onChange(values.filter((_, idx) => idx !== i))
+  }
+  return (
+    <div style={{marginTop: "0.75rem"}}>
+      <label style={{fontSize: "0.7em", color: "var(--text-muted)", display: "block", marginBottom: "2px"}}>Exclude cards</label>
+      {values.map((v, i) => (
+        <div key={i} style={{display: "flex", gap: "4px", marginBottom: "3px", alignItems: "center"}}>
+          <NativeSelect
+            size="xs"
+            className="dm-grow"
+            classNames={{ input: "dm-mono" }}
+            aria-label="Exclude card"
+            value={v}
+            onChange={e => updateAt(i, e.target.value)}
+          >
+            <option value="">-- Select card --</option>
+            <optgroup label="Cards">
+              {options.map(name => (
+                <option key={name} value={name}>{name}</option>
+              ))}
+            </optgroup>
+          </NativeSelect>
+          <ActionIcon variant="subtle" color="gray" size="sm" aria-label="Remove exclusion"
+            onClick={() => removeAt(i)}
+            title="Remove exclusion"
+          ><IconX size={14} /></ActionIcon>
+        </div>
+      ))}
+      <Button size="compact-xs" variant="subtle" color="gray" leftSection={<IconPlus size={12} />}
+        onClick={() => onChange([...values, ""])}
+      >Exclude a card</Button>
+    </div>
+  )
+}

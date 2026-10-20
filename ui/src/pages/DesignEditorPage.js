@@ -5,15 +5,10 @@ import { IconPlus, IconSearch } from '@tabler/icons-react'
 import { useCube } from '../contexts/CubeContext.js'
 import { CardImageURL } from '../utils/Utils.js'
 import { ColorImages } from '../utils/Colors.js'
-import {
-  useAllMemberships,
-  whyLinked,
-  saveDesignMap,
-  cleanWires,
-  ruleColor,
-  GroupEditModal,
-  LinkEditModal,
-} from './DesignMap.js'
+import { useAllMemberships, whyLinked, saveDesignMap, cleanWires } from '../design/map/designData.js'
+import { ruleColor } from '../design/map/ruleColors.js'
+import { GroupEditModal } from '../design/map/GroupEditModal.js'
+import { LinkEditModal } from '../design/map/LinkEditModal.js'
 import { cardRefName } from '../utils/DesignRules.js'
 import { useCubeWritable } from '../utils/useCubeWritable.js'
 import { PageToolbar } from '../toolbar/PageToolbar.js'

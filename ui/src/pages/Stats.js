@@ -5,7 +5,7 @@ import { DeckWidget } from "../stats/deckstats/DeckWidget.js";
 import { CardWidget } from "../stats/cards/CardWidget.js";
 import { SynergyWidget } from "../stats/synergy/SynergyWidget.js";
 import { HealthWidget } from "./Health.js";
-import { DesignMapWidget } from "./DesignMap.js";
+import { DesignMapWidget } from "../design/map/DesignMapWidget.js";
 import { useStatsFilters, useStatsData } from "./StatsHooks.js";
 import { isAnonymous } from "../utils/Players.js"
 import { useCube } from "../contexts/CubeContext.js"
