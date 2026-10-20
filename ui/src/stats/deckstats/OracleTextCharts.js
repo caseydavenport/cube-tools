@@ -7,6 +7,7 @@ import { Line } from 'react-chartjs-2'
 import { hasData } from "../../utils/dataKinds.js"
 import { CounterspellMatches, RemovalMatches } from "../../utils/cardMatches.js"
 import { inDeckColor, inSideboardColor } from "./deckChartHelpers.js"
+import { DECKSTATS_COPY } from "./copy.js"
 
 export function OracleTextByColor(input) {
 
@@ -16,31 +17,31 @@ export function OracleTextByColor(input) {
 
   let dataset = [
       {
-        label: 'W',
+        label: DECKSTATS_COPY.oracleText.whiteSeries,
         data: valuesByColor.get("W"),
         borderColor: White,
         backgroundColor: White,
       },
       {
-        label: 'U',
+        label: DECKSTATS_COPY.oracleText.blueSeries,
         data: valuesByColor.get("U"),
         borderColor: Blue,
         backgroundColor: Blue,
       },
       {
-        label: 'B',
+        label: DECKSTATS_COPY.oracleText.blackSeries,
         data: valuesByColor.get("B"),
         borderColor: Black,
         backgroundColor: Black,
       },
       {
-        label: 'R',
+        label: DECKSTATS_COPY.oracleText.redSeries,
         data: valuesByColor.get("R"),
         borderColor: Red,
         backgroundColor: Red,
       },
       {
-        label: 'G',
+        label: DECKSTATS_COPY.oracleText.greenSeries,
         data: valuesByColor.get("G"),
         borderColor: Green,
         backgroundColor: Green,
@@ -54,7 +55,7 @@ export function OracleTextByColor(input) {
     plugins: {
       title: {
         display: true,
-        text: input.title + ` (bucket size = ${input.parsed.bucketSize} drafts)`,
+        text: DECKSTATS_COPY.oracleText.titleWithBucketSize(input.title, input.parsed.bucketSize),
         font: {
           size: "16pt",
         },
@@ -91,7 +92,7 @@ export function OracleTextOverTimeChart(input) {
 
   let dataset = [
       {
-        label: 'Avg. per-deck',
+        label: DECKSTATS_COPY.oracleText.perDeckSeries,
         data: mbValues,
         borderColor: inDeckColor,
         backgroundColor: inDeckColor,
@@ -101,7 +102,7 @@ export function OracleTextOverTimeChart(input) {
   // The sideboard line needs sideboards, which some cubes don't record.
   if (hasData(input.info, "sideboards")) {
     dataset.push({
-      label: 'Avg. per-sideboard',
+      label: DECKSTATS_COPY.oracleText.perSideboardSeries,
       data: sbValues,
       borderColor: inSideboardColor,
       backgroundColor: inSideboardColor,
@@ -128,7 +129,7 @@ export function OracleTextOverTimeChart(input) {
     plugins: {
       title: {
         display: true,
-        text: input.title + ` (bucket size = ${input.parsed.bucketSize} drafts)`,
+        text: DECKSTATS_COPY.oracleText.titleWithBucketSize(input.title, input.parsed.bucketSize),
         font: {
           size: "16pt",
         },
@@ -161,7 +162,7 @@ export function ManaCostByOracleTextOverTime(input) {
 
   let dataset = [
       {
-        label: 'Avg. in-deck',
+        label: DECKSTATS_COPY.oracleText.inDeckSeries,
         data: mbValues,
         borderColor: inDeckColor,
         backgroundColor: inDeckColor,
@@ -171,7 +172,7 @@ export function ManaCostByOracleTextOverTime(input) {
   // The sideboard line needs sideboards, which some cubes don't record.
   if (hasData(input.info, "sideboards")) {
     dataset.push({
-      label: 'Avg. in-sideboard',
+      label: DECKSTATS_COPY.oracleText.inSideboardSeries,
       data: sbValues,
       borderColor: inSideboardColor,
       backgroundColor: inSideboardColor,
@@ -198,7 +199,7 @@ export function ManaCostByOracleTextOverTime(input) {
     plugins: {
       title: {
         display: true,
-        text: input.title + ` (bucket size = ${input.parsed.bucketSize} drafts)`,
+        text: DECKSTATS_COPY.oracleText.titleWithBucketSize(input.title, input.parsed.bucketSize),
         font: {
           size: "16pt",
         },

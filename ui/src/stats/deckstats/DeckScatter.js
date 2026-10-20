@@ -10,14 +10,16 @@ import { Scatter } from 'react-chartjs-2'
 import { currentChartTheme, seriesColor } from "../../theme/chartTheme.js"
 import { availableValue, visibleItems } from "../../utils/dataKinds.js"
 import { DeckSplits } from "../../utils/cardMatches.js"
+import { DECKSTATS_COPY } from "./copy.js"
 
-const NumInteractionOption = "# interaction"
+// These double as the values getValue switches on.
+const NumInteractionOption = DECKSTATS_COPY.scatter.axisInteraction
 
-const NumCreaturesOption = "# creatures"
+const NumCreaturesOption = DECKSTATS_COPY.scatter.axisCreatures
 
-const WinPercentOption = "win %"
+const WinPercentOption = DECKSTATS_COPY.scatter.axisWinPercent
 
-const AvgManaValueOption = "avg. mana value"
+const AvgManaValueOption = DECKSTATS_COPY.scatter.axisAvgManaValue
 
 const DeckScatterAxes = [
   {label: NumInteractionOption, value: NumInteractionOption},
@@ -47,8 +49,6 @@ export function DeckGraph(input) {
   var labels = []
   var pointKinds = []
   var sizes = []
-
-  let name = yAxis + " vs. " + xAxis
 
   // values is an array of maps with keys 'x' and 'y'.
   var values = []
@@ -83,7 +83,7 @@ export function DeckGraph(input) {
 
   let dataset = [
       {
-        label: "All decks",
+        label: DECKSTATS_COPY.scatter.datasetLabel,
         data: values,
         // A function, so Chart.js colors the points again when the scheme changes.
         pointBackgroundColor: ctx => deckPointColor(pointKinds[ctx.dataIndex]),
@@ -93,7 +93,7 @@ export function DeckGraph(input) {
   ]
 
 
-  let title = `${name} (all drafts)`
+  let title = DECKSTATS_COPY.scatter.title(yAxis, xAxis)
 
   const options = {
     responsive: true,
@@ -136,13 +136,13 @@ export function DeckGraph(input) {
     <div className="chart-container">
       <div className="selector-group" style={{"justifyContent": "center", "marginBottom": "1rem"}}>
         <DropdownHeader
-          label="X Axis"
+          label={DECKSTATS_COPY.scatter.xAxisLabel}
           options={visibleItems(DeckScatterAxes, input.info)}
           value={xAxis}
           onChange={input.onXAxisSelected}
         />
         <DropdownHeader
-          label="Y Axis"
+          label={DECKSTATS_COPY.scatter.yAxisLabel}
           options={visibleItems(DeckScatterAxes, input.info)}
           value={yAxis}
           onChange={input.onYAxisSelected}

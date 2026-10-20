@@ -6,6 +6,7 @@ import { Wins, Losses } from "../../utils/Deck.js"
 import { Bar } from 'react-chartjs-2'
 import { currentChartTheme } from "../../theme/chartTheme.js"
 import { lossColor, winColor } from "./deckChartHelpers.js"
+import { DECKSTATS_COPY } from "./copy.js"
 
 export function WinsByOracleText(input) {
   let bucketSize = 3
@@ -83,18 +84,18 @@ export function WinsByOracleText(input) {
     datasets: [
       {
         type: "line",
-        label: 'Win %',
+        label: DECKSTATS_COPY.winsCharts.winPercentSeries,
         data: percentages,
         borderColor: () => currentChartTheme().text,
         backgroundColor: () => currentChartTheme().text,
       },
       {
-        label: 'Wins',
+        label: DECKSTATS_COPY.winsCharts.winsSeries,
         data: winsData,
         backgroundColor: winColor,
       },
       {
-        label: 'Losses',
+        label: DECKSTATS_COPY.winsCharts.lossesSeries,
         data: lossData,
         backgroundColor: lossColor,
       },
@@ -133,7 +134,7 @@ export function WinsByNumberOfColors(input) {
     plugins: {
       title: {
         display: true,
-        text: "Wins by # colors",
+        text: DECKSTATS_COPY.winsByTextAndColors.numColorsTitle,
         font: {
           size: "16pt",
         },
@@ -167,20 +168,20 @@ export function WinsByNumberOfColors(input) {
     datasets: [
       {
         type: "line",
-        label: 'Win %',
+        label: DECKSTATS_COPY.winsCharts.winPercentSeries,
         data: percentages,
         borderColor: () => currentChartTheme().text,
         backgroundColor: () => currentChartTheme().text,
       },
       {
         type: "bar",
-        label: 'Wins',
+        label: DECKSTATS_COPY.winsCharts.winsSeries,
         data: winsData,
         backgroundColor: winColor,
       },
       {
         type: "bar",
-        label: 'Losses',
+        label: DECKSTATS_COPY.winsCharts.lossesSeries,
         data: lossData,
         backgroundColor: lossColor,
       },

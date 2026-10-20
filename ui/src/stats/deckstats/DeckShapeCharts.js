@@ -7,6 +7,7 @@ import { BucketName, bucketXScale } from "../../utils/Buckets.js"
 import { Line, Pie } from 'react-chartjs-2'
 import { currentChartTheme, seriesColor, withAlpha } from "../../theme/chartTheme.js"
 import { average, inDeckColor, inSideboardColor } from "./deckChartHelpers.js"
+import { DECKSTATS_COPY } from "./copy.js"
 
 export function DeckManaValueChart(input) {
   let buckets = input.parsed.deckBuckets
@@ -45,7 +46,7 @@ export function DeckManaValueChart(input) {
 
   let dataset = [
       {
-        label: 'Average Mana Value',
+        label: DECKSTATS_COPY.shapeCharts.manaValueSeries,
         data: manaValues,
         borderColor: () => currentChartTheme().text,
         backgroundColor: () => currentChartTheme().text,
@@ -59,7 +60,7 @@ export function DeckManaValueChart(input) {
     plugins: {
       title: {
         display: true,
-        text: `Deck Avg. Mana Value (bucket size = ${input.parsed.bucketSize} drafts)`,
+        text: DECKSTATS_COPY.shapeCharts.manaValueTitle(input.parsed.bucketSize),
         font: {
           size: "16pt",
         },
@@ -135,31 +136,31 @@ export function DeckBasicLandCountChart(input) {
 
   let dataset = [
       {
-        label: 'Plains',
+        label: DECKSTATS_COPY.shapeCharts.plainsSeries,
         data: lands.get("Plains"),
         borderColor: White,
         backgroundColor: White,
       },
       {
-        label: 'Islands',
+        label: DECKSTATS_COPY.shapeCharts.islandsSeries,
         data: lands.get("Island"),
         borderColor: Blue,
         backgroundColor: Blue,
       },
       {
-        label: 'Swamps',
+        label: DECKSTATS_COPY.shapeCharts.swampsSeries,
         data: lands.get("Swamp"),
         borderColor: Black,
         backgroundColor: Black,
       },
       {
-        label: 'Mountains',
+        label: DECKSTATS_COPY.shapeCharts.mountainsSeries,
         data: lands.get("Mountain"),
         borderColor: Red,
         backgroundColor: Red,
       },
       {
-        label: 'Forests',
+        label: DECKSTATS_COPY.shapeCharts.forestsSeries,
         data: lands.get("Forest"),
         borderColor: Green,
         backgroundColor: Green,
@@ -173,7 +174,7 @@ export function DeckBasicLandCountChart(input) {
     plugins: {
       title: {
         display: true,
-        text: `Avg. basics per deck (bucket size = ${input.parsed.bucketSize} drafts)`,
+        text: DECKSTATS_COPY.shapeCharts.basicsTitle(input.parsed.bucketSize),
         font: {
           size: "16pt",
         },
@@ -233,7 +234,7 @@ export function SideboardSizeOverTimeChart(input) {
 
   let dataset = [
       {
-        label: 'Avg. sideboard size',
+        label: DECKSTATS_COPY.shapeCharts.sideboardSeries,
         data: sizes,
         borderColor: inSideboardColor,
         backgroundColor: inSideboardColor,
@@ -255,7 +256,7 @@ export function SideboardSizeOverTimeChart(input) {
     plugins: {
       title: {
         display: true,
-        text: `Sideboard size (bucket size = ${input.parsed.bucketSize} drafts)`,
+        text: DECKSTATS_COPY.shapeCharts.sideboardTitle(input.parsed.bucketSize),
         font: {
           size: "16pt",
         },
@@ -314,7 +315,7 @@ export function NumColorsOverTimeChart(input) {
 
   let dataset = [
       {
-        label: 'Avg. # colors',
+        label: DECKSTATS_COPY.shapeCharts.numColorsSeries,
         data: sizes,
         borderColor: inDeckColor,
         backgroundColor: inDeckColor,
@@ -328,7 +329,7 @@ export function NumColorsOverTimeChart(input) {
     plugins: {
       title: {
         display: true,
-        text: `# Colors per-deck (bucket size = ${input.parsed.bucketSize} drafts)`,
+        text: DECKSTATS_COPY.shapeCharts.numColorsTitle(input.parsed.bucketSize),
         font: {
           size: "16pt",
         },
@@ -352,7 +353,7 @@ export function NumColorsOverTimeChart(input) {
 }
 
 export function NumColorsPieChart(input) {
-  let title = `# Colors`
+  let title = DECKSTATS_COPY.shapeCharts.pieTitle
   let graphData = [0, 0, 0, 0, 0]
   let labels = ["1", "2", "3", "4", "5"]
 

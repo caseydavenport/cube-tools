@@ -6,6 +6,7 @@ import { Wins, Losses } from "../../utils/Deck.js"
 import { Bar } from 'react-chartjs-2'
 import { currentChartTheme } from "../../theme/chartTheme.js"
 import { lossColor, winColor } from "./deckChartHelpers.js"
+import { DECKSTATS_COPY } from "./copy.js"
 
 export function WinsByManaCost(input) {
   const options = {
@@ -18,7 +19,7 @@ export function WinsByManaCost(input) {
     plugins: {
       title: {
         display: true,
-        text: "Wins by CMC",
+        text: DECKSTATS_COPY.winsByDeckShape.manaCostTitle,
         font: {
           size: "16pt",
         },
@@ -56,18 +57,18 @@ export function WinsByManaCost(input) {
     datasets: [
       {
         type: "line",
-        label: 'Win %',
+        label: DECKSTATS_COPY.winsCharts.winPercentSeries,
         data: percentages,
         borderColor: () => currentChartTheme().text,
         backgroundColor: () => currentChartTheme().text,
       },
       {
-        label: 'Wins',
+        label: DECKSTATS_COPY.winsCharts.winsSeries,
         data: winsData,
         backgroundColor: winColor,
       },
       {
-        label: 'Losses',
+        label: DECKSTATS_COPY.winsCharts.lossesSeries,
         data: lossData,
         backgroundColor: lossColor,
       },
@@ -124,7 +125,7 @@ export function WinsByCardType(input) {
     plugins: {
       title: {
         display: true,
-        text: "Wins by # " + input.type,
+        text: DECKSTATS_COPY.winsByDeckShape.cardTypeTitle(input.type),
         font: {
           size: "16pt",
         },
@@ -166,18 +167,18 @@ export function WinsByCardType(input) {
     datasets: [
       {
         type: "line",
-        label: 'Win %',
+        label: DECKSTATS_COPY.winsCharts.winPercentSeries,
         data: percentages,
         borderColor: () => currentChartTheme().text,
         backgroundColor: () => currentChartTheme().text,
       },
       {
-        label: 'Wins',
+        label: DECKSTATS_COPY.winsCharts.winsSeries,
         data: winsData,
         backgroundColor: winColor,
       },
       {
-        label: 'Losses',
+        label: DECKSTATS_COPY.winsCharts.lossesSeries,
         data: lossData,
         backgroundColor: lossColor,
       },
@@ -206,7 +207,7 @@ export function WinsByNonBasicLandDensity(input) {
     plugins: {
       title: {
         display: true,
-        text: "Wins by # nonbasic lands",
+        text: DECKSTATS_COPY.winsByDeckShape.nonbasicLandsTitle,
         font: {
           size: "16pt",
         },
@@ -244,18 +245,18 @@ export function WinsByNonBasicLandDensity(input) {
     datasets: [
       {
         type: "line",
-        label: 'Win %',
+        label: DECKSTATS_COPY.winsCharts.winPercentSeries,
         data: percentages,
         borderColor: () => currentChartTheme().text,
         backgroundColor: () => currentChartTheme().text,
       },
       {
-        label: 'Wins',
+        label: DECKSTATS_COPY.winsCharts.winsSeries,
         data: winsData,
         backgroundColor: winColor,
       },
       {
-        label: 'Losses',
+        label: DECKSTATS_COPY.winsCharts.lossesSeries,
         data: lossData,
         backgroundColor: lossColor,
       },
