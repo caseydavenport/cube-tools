@@ -15,6 +15,11 @@ export const COLORS_COPY = {
     chartWinningPct: "Winning %",
     chartTrophyPct: "Trophy %",
     chartLastPlacePct: "Last Place %",
+
+    // The color-type control, which Stats.js builds.
+    typeMono: "Mono",
+    typeDual: "Dual",
+    typeTrio: "Trio",
   },
 
   // ColorStatsTable.js: the column headers with their hover text, the win

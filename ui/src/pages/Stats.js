@@ -16,6 +16,8 @@ import { StatsSettings } from "../stats/StatsSettings.js"
 import { noDecksMatch } from "../stats/statsSummary.js"
 import { EmptyState } from "../components/kit/EmptyState.js"
 import { LoadFailedNotice } from "../stats/LoadFailedNotice.js"
+import { COLORS_COPY } from "../stats/colors/copy.js"
+import { ARCHETYPES_COPY } from "../stats/archetypes/copy.js"
 
 // COPY holds the text the stats pages add around their widgets: page titles,
 // the toolbar, and its settings. Placeholders for Casey to replace.
@@ -156,7 +158,11 @@ export function StatsViewer(props) {
       <ColorWidget
         info={info}
         copy={COPY}
-        parsed={parsed} ddOpts={[{ label: "Mono", value: "Mono" }, { label: "Dual", value: "Dual" }, { label: "Trio", value: "Trio" }]}
+        parsed={parsed} ddOpts={[
+          { label: COLORS_COPY.widget.typeMono, value: "Mono" },
+          { label: COLORS_COPY.widget.typeDual, value: "Dual" },
+          { label: COLORS_COPY.widget.typeTrio, value: "Trio" },
+        ]}
         colorTypeSelection={colorTypeSelection} onSelected={(e) => setColorTypeSelection(e.target.value)}
         onBucketSelected={(e) => setSelectedBucket(e.target.value)}
         decks={parsed.filteredDecks} onHeaderClick={(e) => setColorSortBy(e.currentTarget.id)}
@@ -173,7 +179,14 @@ export function StatsViewer(props) {
         parsed={parsed} cardData={cardData} decks={decks} cube={cube}
         show={true} bucketSize={bucketSize} matchups={archetypeMatchups}
         dropdownSelection={colorTypeSelection} onSelected={(e) => setCardWidgetSelection(e.target.value)}
-        colorWidgetOpts={[{ label: "", value: "" }, { label: "Red", value: "R" }, { label: "Blue", value: "U" }, { label: "Green", value: "G" }, { label: "Black", value: "B" }, { label: "White", value: "W" }]}
+        colorWidgetOpts={[
+          { label: "", value: "" },
+          { label: ARCHETYPES_COPY.topCards.colorRed, value: "R" },
+          { label: ARCHETYPES_COPY.topCards.colorBlue, value: "U" },
+          { label: ARCHETYPES_COPY.topCards.colorGreen, value: "G" },
+          { label: ARCHETYPES_COPY.topCards.colorBlack, value: "B" },
+          { label: ARCHETYPES_COPY.topCards.colorWhite, value: "W" },
+        ]}
         colorSelection={cardWidgetColorSelection} onColorSelected={(e) => setCardWidgetColorSelection(e.target.value)}
         archetypeDropdownOptions={archetypeDropdownOptions}
         selectedArchetype={selectedArchetype} onArchetypeSelected={(e) => setSelectedArchetype(e.target.value)}
@@ -201,7 +214,6 @@ export function StatsViewer(props) {
         onSelected={(e) => setCardWidgetSelection(e.target.value)}
         onCardSelected={(e) => setSelectedCard(e.currentTarget.id)}
         selectedCard={selectedCard}
-        colorWidgetOpts={[{ label: "", value: "" }, { label: "Red", value: "R" }, { label: "Blue", value: "U" }, { label: "Green", value: "G" }, { label: "Black", value: "B" }, { label: "White", value: "W" }]}
         colorSelection={cardWidgetColorSelection} onColorSelected={(e) => setCardWidgetColorSelection(e.target.value)}
         minDrafts={minDrafts} onMinDraftsSelected={(e) => setMinDrafts(e.target.value)}
         minGames={minGames} onMinGamesSelected={(e) => setMinGames(e.target.value)}

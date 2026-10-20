@@ -130,6 +130,14 @@ export const ARCHETYPES_COPY = {
   topCards: {
     archetype: "Archetype",
     color: "Color",
+
+    // The color dropdown's choices, which Stats.js builds.
+    colorRed: "Red",
+    colorBlue: "Blue",
+    colorGreen: "Green",
+    colorBlack: "Black",
+    colorWhite: "White",
+
     minPicks: "Min picks",
     decksInArch: "Decks in arch",
     card: {

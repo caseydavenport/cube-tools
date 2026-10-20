@@ -21,6 +21,7 @@ const IN_SCOPE = [
   "src/stats/colors",
   "src/pages/Health.js",
   "src/pages/Players.js",
+  "src/pages/Stats.js",
   "src/stats/archetypes",
   "src/stats/deckstats",
   "src/stats/synergy",
