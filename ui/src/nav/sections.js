@@ -62,7 +62,6 @@ export const NAV_GROUPS = [
   },
 ]
 
-
 // pageAvailability reports whether a cube has the data a page needs, and if not,
 // the reason for the first missing piece.
 export function pageAvailability(page, info) {

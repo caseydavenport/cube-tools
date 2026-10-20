@@ -199,7 +199,7 @@ export function StatsViewer(props) {
         decks={parsed.filteredDecks} dropdownSelection={cardWidgetSelection}
         cardFilter={cardFilter} onCardFilterSelected={(e) => setCardFilter(e.target.value)}
         tagFilter={tagFilter} onTagFilterSelected={(e) => setTagFilter(e.target.value)}
-          onSelected={(e) => setCardWidgetSelection(e.target.value)}
+        onSelected={(e) => setCardWidgetSelection(e.target.value)}
         onCardSelected={(e) => setSelectedCard(e.currentTarget.id)}
         selectedCard={selectedCard}
         colorWidgetOpts={[{ label: "", value: "" }, { label: "Red", value: "R" }, { label: "Blue", value: "U" }, { label: "Green", value: "G" }, { label: "Black", value: "B" }, { label: "White", value: "W" }]}

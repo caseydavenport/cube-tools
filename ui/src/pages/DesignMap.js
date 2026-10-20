@@ -1801,7 +1801,7 @@ function ForceGraph({ nodes, edges, showLabels, colorBy, hoveredId, selectedId, 
     }
     ctx.beginPath()
     ctx.arc(node.x, node.y, node.radius, 0, 2 * Math.PI)
-    ctx.fillStyle = dimmed ? hexToRGBA(fill, 0.18) : fill
+    ctx.fillStyle = dimmed ? withAlpha(fill, 0.18) : fill
     ctx.fill()
     ctx.lineWidth = (isFocus ? 2.5 : 1) / globalScale
     ctx.strokeStyle = nodeRing(theme, isFocus, dimmed)
@@ -1850,7 +1850,7 @@ function ForceGraph({ nodes, edges, showLabels, colorBy, hoveredId, selectedId, 
     ctx.beginPath()
     ctx.moveTo(s.x, s.y)
     ctx.lineTo(t.x, t.y)
-    ctx.strokeStyle = hexToRGBA(base, alpha)
+    ctx.strokeStyle = withAlpha(base, alpha)
     ctx.lineWidth = (touches ? 1.6 : Math.max(1, Math.min(2.5, link.weight * 0.4))) / globalScale
     ctx.stroke()
   }
@@ -1899,8 +1899,6 @@ function labelColor(theme, isFocus) {
   return withAlpha(theme.text, 0.85)
 }
 
-// getNodeColor colors a card by its color identity: its mana color for mono,
-// gold for multicolor, muted for colorless.
 // cardColor is the color a graph node keeps for a card, or null for a
 // colorless card: its gray follows the color scheme, so the paint callback
 // picks it at draw time instead of the node holding a stale one.
@@ -1911,8 +1909,10 @@ function cardColor(colors) {
   return getNodeColor(colors)
 }
 
+// getNodeColor colors a card by its color identity: its mana color for mono,
+// gold for multicolor, muted for colorless.
 export function getNodeColor(colors) {
-  // Must be 6-digit hex: hexToRGBA slices out the channel pairs, and a
+  // Must be 6-digit hex: withAlpha slices out the channel pairs, and a
   // 3-digit form produces an invalid rgba() that canvas silently ignores.
   if (!colors || colors.length === 0) return currentChartTheme().muted
   if (colors.length > 1) return seriesColor(2)
@@ -1924,11 +1924,4 @@ export function getNodeColor(colors) {
     case "G": return Green
     default: return currentChartTheme().muted
   }
-}
-
-function hexToRGBA(hex, alpha) {
-  const r = parseInt(hex.slice(1, 3), 16)
-  const g = parseInt(hex.slice(3, 5), 16)
-  const b = parseInt(hex.slice(5, 7), 16)
-  return `rgba(${r},${g},${b},${alpha})`
 }

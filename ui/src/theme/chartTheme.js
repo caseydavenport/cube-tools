@@ -121,7 +121,8 @@ function recolorScales(chart, previous, theme) {
   }
 }
 
-// replaceColor sets part.color to to when it still holds from.
+// replaceColor changes part.color from one color to another, but only when
+// part still holds the from color, so a color a chart set itself is kept.
 function replaceColor(part, from, to) {
   if (part && part.color === from) {
     part.color = to

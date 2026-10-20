@@ -1,5 +1,5 @@
 import React from 'react'
-import { IsBasicLand, MinWinningPctDecks, Pct, SortFunc } from "../utils/Utils.js"
+import { MinWinningPctDecks, Pct, SortFunc } from "../utils/Utils.js"
 import { Trophies, LastPlaceFinishes, Winning, Losing, Wins, Losses } from "../utils/Deck.js"
 import { DropdownHeader, NumericInput, Checkbox } from "../components/Dropdown.js"
 import { HoverInfo } from "../components/kit/HoverInfo.js"

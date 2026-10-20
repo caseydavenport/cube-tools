@@ -3,7 +3,7 @@ import { AverageCMC, IsBasicLand, Pct, SortFunc } from "../utils/Utils.js"
 import { Red, Green, Black, White, Blue, Colors } from "../utils/Colors.js"
 import { Wins, Losses } from "../utils/Deck.js"
 import { deckRef } from "../decks/deckModel.js"
-import { BucketName, DeckBuckets, bucketXScale, largeTicks } from "../utils/Buckets.js"
+import { BucketName, bucketXScale, largeTicks } from "../utils/Buckets.js"
 import { DropdownHeader } from "../components/Dropdown.js"
 
 import {
@@ -35,8 +35,9 @@ ChartJS.register(
   Legend
 );
 
-// Wins and losses are good and bad; in-deck and in-sideboard lines are two
-// series colors. Functions, so Chart.js picks them again on a scheme change.
+// Wins and losses are good and bad, read by functions so Chart.js picks them
+// again on a scheme change. In-deck and in-sideboard lines are two series
+// colors, which are the same in both schemes.
 const winColor = () => currentChartTheme().goodFill
 const lossColor = () => currentChartTheme().badFill
 const inDeckColor = seriesColor(0)

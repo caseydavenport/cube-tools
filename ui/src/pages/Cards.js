@@ -657,6 +657,9 @@ function SignificantOnly(input) {
   )
 }
 
+// CardMainboardTooltipContent is the card name popover: the card image, a
+// table of the players who mainboarded or sideboarded it, and its archetype
+// counts. The sideboard column only shows for cubes that record sideboards.
 function CardMainboardTooltipContent(card, info) {
   let mainboarders = []
   let players = Object.entries(card.players)
