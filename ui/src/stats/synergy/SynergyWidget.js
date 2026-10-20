@@ -13,6 +13,7 @@ import { SynergyHubCompare } from "./SynergyHub.js"
 import { FocalPointsTable, SynergyWidgetTable } from "./SynergyTables.js"
 import { SynergyFocalCompare } from "./SynergyFocalCompare.js"
 import { OptionTooltip } from "./synergyParts.js"
+import { SYNERGY_COPY } from "./copy.js"
 
 ChartJS.register(LinearScale, PointElement, Tooltip, Legend, Title);
 
@@ -50,10 +51,10 @@ export function SynergyWidget(input) {
         />
       </div>
       <div className="synergy-pair-grid synergy-tables">
-        <SectionCard title="Synergistic Pairs">
+        <SectionCard title={SYNERGY_COPY.widget.pairsTitle}>
           <SynergyWidgetTable {...input} />
         </SectionCard>
-        <SectionCard title="Archetype Focal Points">
+        <SectionCard title={SYNERGY_COPY.widget.focalPointsTitle}>
           <FocalPointsTable {...input} />
         </SectionCard>
       </div>
@@ -84,32 +85,32 @@ function SynergyWidgetOptions(input) {
     <div className="scroll-container-large-header" style={{"width": "100%", "margin": "0"}}>
       <div className="selector-group">
         <div className="selection-cell">
-          Showing top {pairs.length} synergistic pairs
+          {SYNERGY_COPY.widget.showingPairs({ count: pairs.length })}
         </div>
-        <OptionTooltip id="tip-min-decks" header="Min Decks" tip="Minimum co-occurrences to include a pair.">
+        <OptionTooltip id="tip-min-decks" header={SYNERGY_COPY.widget.minDecksHeader} tip={SYNERGY_COPY.widget.minDecksTip}>
           <NumericInput
-            label="Min decks"
+            label={SYNERGY_COPY.widget.minDecksLabel}
             value={input.minSynergyDecks}
             onChange={input.onMinSynergyDecksChanged}
           />
         </OptionTooltip>
-        <OptionTooltip id="tip-focal" header="Focal Threshold" tip="Min synergy score for a partner to count toward focal score.">
+        <OptionTooltip id="tip-focal" header={SYNERGY_COPY.widget.focalThresholdHeader} tip={SYNERGY_COPY.widget.focalThresholdTip}>
           <NumericInput
-            label="Focal threshold"
+            label={SYNERGY_COPY.widget.focalThresholdLabel}
             value={input.focalThreshold}
             onChange={input.onFocalThresholdChanged}
           />
         </OptionTooltip>
-        <OptionTooltip id="tip-smoothing" header="Smoothing K" tip="Dampens noisy scores from low-sample pairs. Higher K = more conservative. 0 = no smoothing.">
+        <OptionTooltip id="tip-smoothing" header={SYNERGY_COPY.widget.smoothingHeader} tip={SYNERGY_COPY.widget.smoothingTip}>
           <NumericInput
-            label="Smoothing K"
+            label={SYNERGY_COPY.widget.smoothingLabel}
             value={input.smoothingK}
             onChange={input.onSmoothingKChanged}
           />
         </OptionTooltip>
-        <OptionTooltip id="tip-color-adjust" header="Color Adjust" tip="Adjust expected co-occurrence for color bias. When on, same-color pairs are compared against decks that could cast both cards, preventing inflated scores.">
+        <OptionTooltip id="tip-color-adjust" header={SYNERGY_COPY.widget.colorAdjustHeader} tip={SYNERGY_COPY.widget.colorAdjustTip}>
           <Checkbox
-            text="Color adjust"
+            text={SYNERGY_COPY.widget.colorAdjustLabel}
             checked={input.colorAdjust}
             onChange={input.onColorAdjustChanged}
           />
@@ -128,11 +129,11 @@ function RecordOption(input) {
   }
 
   return (
-    <OptionTooltip id="tip-record" header="Deck Record" tip="Restrict the source decks by match record. 'Winning' keeps decks that went 2-1 or better, 'losing' keeps 1-2 or worse. Compare the two to see which cards rise or fall between winning and losing decks.">
+    <OptionTooltip id="tip-record" header={SYNERGY_COPY.widget.recordHeader} tip={SYNERGY_COPY.widget.recordTip}>
       <DropdownHeader
-        label="Record"
+        label={SYNERGY_COPY.widget.recordLabel}
         value={input.record}
-        options={[{ label: "All decks", value: "all" }, { label: "Winning (2-1+)", value: "winning" }, { label: "Losing (1-2-)", value: "losing" }]}
+        options={[{ label: SYNERGY_COPY.widget.recordAll, value: "all" }, { label: SYNERGY_COPY.widget.recordWinning, value: "winning" }, { label: SYNERGY_COPY.widget.recordLosing, value: "losing" }]}
         onChange={input.onRecordChanged}
       />
     </OptionTooltip>

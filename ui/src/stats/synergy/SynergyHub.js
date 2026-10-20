@@ -7,19 +7,20 @@ import { Scatter } from 'react-chartjs-2'
 import { currentChartTheme, withAlpha } from "../../theme/chartTheme.js"
 import { cardDisplayColor, median, pointOutline } from "./synergyHelpers.js"
 import { ChartTitle } from "./synergyParts.js"
+import { SYNERGY_COPY } from "./copy.js"
 
 // The color buckets offered by each hub-scatter dropdown. Mono colors use the
 // "identity contains this color" rule (so a UW card shows under both White and
 // Blue); gold is multicolor, colorless is no color identity.
 const HUB_COLOR_OPTIONS = [
-  { label: "All colors", value: "all" },
-  { label: "White", value: "W" },
-  { label: "Blue", value: "U" },
-  { label: "Black", value: "B" },
-  { label: "Red", value: "R" },
-  { label: "Green", value: "G" },
-  { label: "Multicolor", value: "gold" },
-  { label: "Colorless", value: "colorless" },
+  { label: SYNERGY_COPY.hub.colorAll, value: "all" },
+  { label: SYNERGY_COPY.hub.colorWhite, value: "W" },
+  { label: SYNERGY_COPY.hub.colorBlue, value: "U" },
+  { label: SYNERGY_COPY.hub.colorBlack, value: "B" },
+  { label: SYNERGY_COPY.hub.colorRed, value: "R" },
+  { label: SYNERGY_COPY.hub.colorGreen, value: "G" },
+  { label: SYNERGY_COPY.hub.colorMulticolor, value: "gold" },
+  { label: SYNERGY_COPY.hub.colorColorless, value: "colorless" },
 ];
 
 // MIN_HUB_DECK_COUNT guards the hub scatter's per-deck breadth axis. Breadth is
@@ -101,9 +102,7 @@ export function SynergyHubCompare({ synergyData, cube, onCardSelected }) {
 
   return (
     <div style={{textAlign: "center"}}>
-      <ChartTitle title="Synergy Hub vs Support" description={
-        "Breadth (x, total synergy across all partners divided by the decks the card appeared in, so play count doesn't inflate it) vs depth (y, strongest single pair). Bottom-right = support glue (broad, no strong pair), top-right = true hub (broad and deep), top-left = niche build-around (one intense pair), bottom-left = incidental. Crosshairs mark the medians; click a point to see its details between the charts. Pick a color per chart to compare the shape of one color against another."
-      } />
+      <ChartTitle title={SYNERGY_COPY.hub.title} description={SYNERGY_COPY.hub.description} />
       <div className="synergy-hub-grid">
         <SynergyHubChart
           pool={pool}
@@ -138,6 +137,7 @@ function HubCardDetail({ point, colorMap }) {
     width: "240px",
     minHeight: "120px",
     padding: "0.75rem",
+    // copy-ok: CSS value
     border: "1px solid var(--se-border)",
     borderRadius: "6px",
     background: "var(--se-card)",
@@ -147,7 +147,7 @@ function HubCardDetail({ point, colorMap }) {
   if (!point) {
     return (
       <div style={{...panel, color: "var(--se-muted)", textAlign: "center", display: "flex", alignItems: "center", justifyContent: "center"}}>
-        Click a point for card details.
+        {SYNERGY_COPY.hub.detailHint}
       </div>
     );
   }
@@ -159,7 +159,7 @@ function HubCardDetail({ point, colorMap }) {
     </tr>
   );
 
-  const peakWith = point.peakPartner ? ` (${point.peakPartner})` : "";
+  const peakWith = point.peakPartner ? SYNERGY_COPY.hub.detailPeakWith({ partner: point.peakPartner }) : "";
   const pct = (v) => v != null ? `${Math.round(v * 100)}%` : "";
 
   return (
@@ -169,25 +169,25 @@ function HubCardDetail({ point, colorMap }) {
       </div>
       <table style={{width: "100%", marginBottom: "0.6rem"}}>
         <tbody>
-          {row("Breadth / deck (x)", point.density.toFixed(2))}
-          {row("Peak synergy (y)", `${point.peak.toFixed(2)}x · ${pct(point.peakSaturation)}${peakWith}`)}
-          {row("Focal score", point.focalScore.toFixed(1))}
-          {row("Decks", point.deckCount)}
+          {row(SYNERGY_COPY.hub.detailBreadth, point.density.toFixed(2))}
+          {row(SYNERGY_COPY.hub.detailPeak, SYNERGY_COPY.hub.detailPeakValue({ peak: point.peak.toFixed(2), saturation: pct(point.peakSaturation), peakWith: peakWith }))}
+          {row(SYNERGY_COPY.hub.detailFocalScore, point.focalScore.toFixed(1))}
+          {row(SYNERGY_COPY.hub.detailDecks, point.deckCount)}
         </tbody>
       </table>
       <div style={{color: "var(--text-muted)", borderTop: "1px solid var(--se-border)", paddingTop: "0.4rem", marginBottom: "0.3rem"}}>
-        Top partners <span style={{opacity: 0.7}}>(lift · saturation)</span>
+        {SYNERGY_COPY.hub.detailTopPartners} <span style={{opacity: 0.7}}>{SYNERGY_COPY.hub.detailTopPartnersKey}</span>
       </div>
       <table style={{width: "100%"}}>
         <tbody>
           {point.topPartners.length === 0
-            ? <tr><td style={{color: "var(--se-muted)"}}>None above threshold</td></tr>
+            ? <tr><td style={{color: "var(--se-muted)"}}>{SYNERGY_COPY.hub.detailNoPartners}</td></tr>
             : point.topPartners.map((name, i) => (
               <tr key={name}>
                 <td style={{color: cardDisplayColor(colorMap[name]), paddingRight: "0.75rem"}}>{name}</td>
                 <td style={{textAlign: "right", fontVariantNumeric: "tabular-nums", whiteSpace: "nowrap"}}>
-                  {point.topPartnerSynergies[i] != null ? `${point.topPartnerSynergies[i].toFixed(2)}x` : ""}
-                  {point.topPartnerSaturations[i] != null ? ` · ${pct(point.topPartnerSaturations[i])}` : ""}
+                  {point.topPartnerSynergies[i] != null ? SYNERGY_COPY.hub.detailPartnerLift({ lift: point.topPartnerSynergies[i].toFixed(2) }) : ""}
+                  {point.topPartnerSaturations[i] != null ? SYNERGY_COPY.hub.detailPartnerSaturation({ saturation: pct(point.topPartnerSaturations[i]) }) : ""}
                 </td>
               </tr>
             ))}
@@ -211,7 +211,7 @@ function SynergyHubChart({ pool, colorMap, scale, color, selectedName, onColorCh
 
   const data = {
     datasets: [{
-      label: "Cards",
+      label: SYNERGY_COPY.hub.datasetLabel,
       data: points,
       pointBackgroundColor: points.map(p => cardDisplayColor(colorMap[p.name])),
       pointBorderColor: points.map(p => isSelected(p) ? currentChartTheme().text : pointOutline()),
@@ -252,12 +252,12 @@ function SynergyHubChart({ pool, colorMap, scale, color, selectedName, onColorCh
       x: {
         min: 0,
         max: scale.xMax,
-        title: { display: true, text: "Synergy breadth per deck", font: { size: 14 } },
+        title: { display: true, text: SYNERGY_COPY.hub.xAxisTitle, font: { size: 14 } },
       },
       y: {
         min: scale.yMin,
         max: scale.yMax,
-        title: { display: true, text: "Peak partner synergy (depth)", font: { size: 14 } },
+        title: { display: true, text: SYNERGY_COPY.hub.yAxisTitle, font: { size: 14 } },
       },
     },
     plugins: {
@@ -266,8 +266,15 @@ function SynergyHubChart({ pool, colorMap, scale, color, selectedName, onColorCh
         callbacks: {
           label: (item) => {
             const p = points[item.dataIndex];
-            const peakWith = p.peakPartner ? ` with ${p.peakPartner}` : "";
-            return `${p.name}: ${p.density.toFixed(2)} breadth/deck (focal ${p.focalScore.toFixed(1)} over ${p.deckCount} decks), peak ${p.peak.toFixed(2)}x${peakWith}`;
+            const peakWith = p.peakPartner ? SYNERGY_COPY.hub.tooltipPeakWith({ partner: p.peakPartner }) : "";
+            return SYNERGY_COPY.hub.tooltipLabel({
+              name: p.name,
+              breadth: p.density.toFixed(2),
+              focal: p.focalScore.toFixed(1),
+              decks: p.deckCount,
+              peak: p.peak.toFixed(2),
+              peakWith: peakWith,
+            });
           },
         },
       },
@@ -277,7 +284,7 @@ function SynergyHubChart({ pool, colorMap, scale, color, selectedName, onColorCh
   return (
     <div style={{textAlign: "center"}}>
       <DropdownHeader
-        label="Color"
+        label={SYNERGY_COPY.hub.colorDropdownLabel}
         value={color}
         options={HUB_COLOR_OPTIONS}
         onChange={onColorChange}
@@ -285,7 +292,7 @@ function SynergyHubChart({ pool, colorMap, scale, color, selectedName, onColorCh
       <div style={{width: "min(500px, 100%)", aspectRatio: "1 / 1", margin: "0 auto"}}>
         {points.length > 0
           ? <Scatter options={options} data={data} plugins={[medianLines]} />
-          : <div style={{color: "var(--se-muted)", paddingTop: "2rem"}}>No cards in this color.</div>}
+          : <div style={{color: "var(--se-muted)", paddingTop: "2rem"}}>{SYNERGY_COPY.hub.noCards}</div>}
       </div>
     </div>
   );

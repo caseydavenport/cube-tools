@@ -6,6 +6,7 @@ import { currentChartTheme, withAlpha } from "../../theme/chartTheme.js"
 import { cardDisplayColor, pointOutline } from "./synergyHelpers.js"
 import { ChartTitle } from "./synergyParts.js"
 import { deltaTextColor } from "./SynergyTables.js"
+import { SYNERGY_COPY } from "./copy.js"
 
 // SynergyFocalCompare shows how each card's focal score (build-around hub strength)
 // shifts between winning and losing decks: a scatter of losing focal (x) vs winning
@@ -48,7 +49,7 @@ export function SynergyFocalCompare({ synergyCompare, cube, onCardSelected }) {
 
   const data = {
     datasets: [{
-      label: "Cards",
+      label: SYNERGY_COPY.focalCompare.datasetLabel,
       data: points,
       pointBackgroundColor: points.map(p => cardDisplayColor(colorMap[p.name])),
       pointBorderColor: pointOutline(),
@@ -90,8 +91,8 @@ export function SynergyFocalCompare({ synergyCompare, cube, onCardSelected }) {
       }
     },
     scales: {
-      x: axis("Focal score in losing decks"),
-      y: axis("Focal score in winning decks"),
+      x: axis(SYNERGY_COPY.focalCompare.xAxisTitle),
+      y: axis(SYNERGY_COPY.focalCompare.yAxisTitle),
     },
     plugins: {
       legend: { display: false },
@@ -99,8 +100,17 @@ export function SynergyFocalCompare({ synergyCompare, cube, onCardSelected }) {
         callbacks: {
           label: (item) => {
             const p = points[item.dataIndex];
-            const dir = p.delta > 0 ? "winning" : p.delta < 0 ? "losing" : "even";
-            return `${p.name}: focal ${p.win.toFixed(1)} winning (${p.winDecks} decks) / ${p.lose.toFixed(1)} losing (${p.loseDecks} decks), Δ ${p.delta >= 0 ? "+" : ""}${p.delta.toFixed(1)} leans ${dir}`;
+            const dir = p.delta > 0 ? SYNERGY_COPY.focalCompare.tooltipWinning : p.delta < 0 ? SYNERGY_COPY.focalCompare.tooltipLosing : SYNERGY_COPY.focalCompare.tooltipEven;
+            return SYNERGY_COPY.focalCompare.tooltipLabel({
+              name: p.name,
+              win: p.win.toFixed(1),
+              winDecks: p.winDecks,
+              lose: p.lose.toFixed(1),
+              loseDecks: p.loseDecks,
+              sign: p.delta >= 0 ? "+" : "",
+              delta: p.delta.toFixed(1),
+              dir: dir,
+            });
           },
         },
       },
@@ -123,17 +133,15 @@ export function SynergyFocalCompare({ synergyCompare, cube, onCardSelected }) {
     }
   };
   const headers = [
-    { id: "name", text: "Card" },
-    { id: "win", text: "Winning" },
-    { id: "lose", text: "Losing" },
-    { id: "delta", text: "Δ (W-L)" },
+    { id: "name", text: SYNERGY_COPY.focalCompare.headerCard },
+    { id: "win", text: SYNERGY_COPY.focalCompare.headerWinning },
+    { id: "lose", text: SYNERGY_COPY.focalCompare.headerLosing },
+    { id: "delta", text: SYNERGY_COPY.focalCompare.headerDelta },
   ];
 
   return (
     <div style={{marginTop: "1.5rem"}}>
-      <ChartTitle title="Focal Score: Winning vs Losing" description={
-        "Each card's focal score (hub strength) in winning vs losing decks. Above the diagonal = bigger hub when winning, below = when losing. A point on an axis formed no synergy in that pool (itself signal), not absent from it. Sliced pools score lower, so drop the synergy min-decks slider to fill the comparison in. Hover for deck counts; click a card to select."
-      } />
+      <ChartTitle title={SYNERGY_COPY.focalCompare.title} description={SYNERGY_COPY.focalCompare.description} />
       <div className="synergy-pair-grid">
         <div style={{width: "min(600px, 100%)", aspectRatio: "1 / 1", margin: "0 auto"}}>
           <Scatter options={options} data={data} plugins={[diagonalLine]} />
@@ -141,7 +149,7 @@ export function SynergyFocalCompare({ synergyCompare, cube, onCardSelected }) {
         <div className="widget-scroll">
           <table className="widget-table">
             <thead className="table-header">
-              <tr><td colSpan="4" className="header-cell" style={{textAlign: "center", fontWeight: "bold", background: "var(--primary)", color: "var(--page-background)"}}>Winning vs Losing Focal</td></tr>
+              <tr><td colSpan="4" className="header-cell" style={{textAlign: "center", fontWeight: "bold", background: "var(--primary)", color: "var(--page-background)"}}>{SYNERGY_COPY.focalCompare.tableTitle}</td></tr>
               <tr>
                 {headers.map((hdr, i) => (
                   <td key={i} className="header-cell" style={{cursor: "pointer"}} onClick={() => onHeader(hdr.id)}>

@@ -5,6 +5,7 @@ import { Scatter } from 'react-chartjs-2'
 import { currentChartTheme, withAlpha } from "../../theme/chartTheme.js"
 import { cardDisplayColor, cardInColors, colorsFromMatch, pointOutline } from "./synergyHelpers.js"
 import { ChartTitle } from "./synergyParts.js"
+import { SYNERGY_COPY } from "./copy.js"
 
 // SynergyScatter plots cards with statistically significant synergy by how often
 // they're played (x) against their average partner lift (y). Cards below the
@@ -134,7 +135,7 @@ export function SynergyScatter({ synergyData, cube, matchStr, onCardSelected }) 
 
   const data = {
     datasets: [{
-      label: "Cards",
+      label: SYNERGY_COPY.scatter.datasetLabel,
       data: points,
       // Below-floor cards (only shown in the fallback) render as hollow rings so
       // they read as context rather than as cards that cleared the noise floor.
@@ -180,12 +181,12 @@ export function SynergyScatter({ synergyData, cube, matchStr, onCardSelected }) 
       x: {
         min: xMin,
         max: xMax,
-        title: { display: true, text: "Play rate (% of drafts opened, shrunk)", font: { size: 14 } },
+        title: { display: true, text: SYNERGY_COPY.scatter.xAxisTitle, font: { size: 14 } },
       },
       y: {
         min: yMin,
         max: yMax,
-        title: { display: true, text: "Avg partner lift (synergy intensity, shrunk)", font: { size: 14 } },
+        title: { display: true, text: SYNERGY_COPY.scatter.yAxisTitle, font: { size: 14 } },
       },
     },
     plugins: {
@@ -194,8 +195,18 @@ export function SynergyScatter({ synergyData, cube, matchStr, onCardSelected }) 
         callbacks: {
           label: (item) => {
             const p = points[item.dataIndex];
-            const flag = p.belowFloor ? " [below noise floor]" : "";
-            return `${p.name}${flag}: maindecked ${p.playedDrafts}/${p.openedDrafts} drafts opened (${p.rawRate.toFixed(1)}% raw, ${p.x.toFixed(1)}% adj), avg lift ${p.rawLift.toFixed(2)} raw / ${p.y.toFixed(2)} adj, focal ${p.focalScore.toFixed(1)}`;
+            const flag = p.belowFloor ? SYNERGY_COPY.scatter.tooltipBelowFloor : "";
+            return SYNERGY_COPY.scatter.tooltipLabel({
+              name: p.name,
+              flag: flag,
+              played: p.playedDrafts,
+              opened: p.openedDrafts,
+              rawRate: p.rawRate.toFixed(1),
+              adjRate: p.x.toFixed(1),
+              rawLift: p.rawLift.toFixed(2),
+              adjLift: p.y.toFixed(2),
+              focal: p.focalScore.toFixed(1),
+            });
           },
         },
       },
@@ -204,12 +215,12 @@ export function SynergyScatter({ synergyData, cube, matchStr, onCardSelected }) 
 
   return (
     <div style={{textAlign: "center"}}>
-      <ChartTitle title="Popularity vs Synergy" description={
+      <ChartTitle title={SYNERGY_COPY.scatter.title} description={
         <>
           {usingFallback
-            ? `Top ${shown.length} by synergy intensity (only ${aboveFloor.length} of ${stats.length} clear the noise floor, avg lift ≥ ${noiseFloor.toFixed(2)}); hollow points sit below it. `
-            : `${aboveFloor.length} of ${stats.length} cards clear this pool's noise floor (avg lift ≥ ${noiseFloor.toFixed(2)}). `}
-          Play rate (x) vs average partner lift (y, synergy per partner), colored by identity. Both are shrunk toward the field average so tiny samples don't sit at the extremes (hover for raw). Left = niche build-arounds, right = archetype cores. Crosshairs mark the medians; click a point to select.
+            ? SYNERGY_COPY.scatter.fallbackIntro({ shown: shown.length, above: aboveFloor.length, total: stats.length, floor: noiseFloor.toFixed(2) })
+            : SYNERGY_COPY.scatter.normalIntro({ above: aboveFloor.length, total: stats.length, floor: noiseFloor.toFixed(2) })}
+          {SYNERGY_COPY.scatter.description}
         </>
       } />
       <div style={{width: "min(600px, 100%)", aspectRatio: "1 / 1", margin: "0 auto"}}>

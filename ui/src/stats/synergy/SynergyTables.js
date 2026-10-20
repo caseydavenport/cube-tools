@@ -4,6 +4,7 @@ import React from 'react'
 import { SortFunc } from "../../utils/Utils.js"
 import { HoverInfo } from "../../components/kit/HoverInfo.js"
 import { hasData, visibleItems } from "../../utils/dataKinds.js"
+import { SYNERGY_COPY } from "./copy.js"
 
 function sortValue(sortBy, pair) {
   switch (sortBy) {
@@ -20,12 +21,12 @@ function sortValue(sortBy, pair) {
 export function SynergyWidgetTable(input) {
   let pairs = input.synergyData.pairs || []
   let headers = visibleItems([
-    { id: "card1", text: "Card 1", tip: "First card in pair." },
-    { id: "card2", text: "Card 2", tip: "Second card in pair." },
-    { id: "winpercent", text: "Win %", tip: "Aggregate win % of decks with both.", needs: ["results"] },
-    { id: "count", text: "#", tip: "Number of decks." },
-    { id: "synergy", text: "Syn", tip: "Lift score. >1 = appears together more than expected." },
-    { id: "saturation", text: "Sat", tip: "Realized fraction: how many of the rarer card's decks this pair filled (count / min plays of the two cards). High = the pair is near its co-occurrence ceiling; low = headroom left." },
+    { id: "card1", text: SYNERGY_COPY.tables.pairCard1, tip: SYNERGY_COPY.tables.pairCard1Tip },
+    { id: "card2", text: SYNERGY_COPY.tables.pairCard2, tip: SYNERGY_COPY.tables.pairCard2Tip },
+    { id: "winpercent", text: SYNERGY_COPY.tables.pairWinPercent, tip: SYNERGY_COPY.tables.pairWinPercentTip, needs: ["results"] },
+    { id: "count", text: SYNERGY_COPY.tables.pairCount, tip: SYNERGY_COPY.tables.pairCountTip },
+    { id: "synergy", text: SYNERGY_COPY.tables.pairSynergy, tip: SYNERGY_COPY.tables.pairSynergyTip },
+    { id: "saturation", text: SYNERGY_COPY.tables.pairSaturation, tip: SYNERGY_COPY.tables.pairSaturationTip },
   ], input.info)
   const showWinPercent = hasData(input.info, "results")
 
@@ -48,7 +49,7 @@ export function SynergyWidgetTable(input) {
               <td id={pair.card2} onClick={input.onCardSelected}>{pair.card2}</td>
               <WinPercentCell pair={pair} show={showWinPercent} />
               <td>{pair.count}</td>
-              <td>{pair.synergy_score.toFixed(2)}x</td>
+              <td>{pair.synergy_score.toFixed(2)}{SYNERGY_COPY.tables.liftSuffix}</td>
               <td>{pair.saturation != null ? `${Math.round(pair.saturation * 100)}%` : ""}</td>
             </tr>
           )).sort(SortFunc)}
@@ -69,9 +70,9 @@ function WinPercentCell({ pair, show }) {
 export function FocalPointsTable(input) {
   let stats = input.synergyData.focal_stats || []
   let headers = [
-    { id: "card_name", text: "Card", tip: "Card Name" },
-    { id: "focal_score", text: "Score", tip: "Sum of synergy scores for partners above the focal threshold. High = build-around card." },
-    { id: "partners", text: "Top Partners", tip: "Cards that most frequently appear with this card." },
+    { id: "card_name", text: SYNERGY_COPY.tables.focalCard, tip: SYNERGY_COPY.tables.focalCardTip },
+    { id: "focal_score", text: SYNERGY_COPY.tables.focalScore, tip: SYNERGY_COPY.tables.focalScoreTip },
+    { id: "partners", text: SYNERGY_COPY.tables.focalPartners, tip: SYNERGY_COPY.tables.focalPartnersTip },
   ]
 
   return (

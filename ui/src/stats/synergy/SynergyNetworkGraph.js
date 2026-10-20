@@ -6,6 +6,7 @@ import { useComputedColorScheme } from "@mantine/core"
 import { currentChartTheme, seriesColor, withAlpha } from "../../theme/chartTheme.js"
 import { cardDisplayColor, cardInColors, colorsFromMatch } from "./synergyHelpers.js"
 import { ChartTitle } from "./synergyParts.js"
+import { SYNERGY_COPY } from "./copy.js"
 
 // nodeFill is a network node's color, read at draw time so it follows the
 // scheme: its card's color identity for a hub, muted for a pulled-in partner.
@@ -211,7 +212,7 @@ export function SynergyNetworkGraph({ synergyData, cube, matchStr, onCardSelecte
           ctx.font = "13px monospace";
           ctx.fillStyle = currentChartTheme().text;
           ctx.textAlign = "center";
-          const tag = node.peak > 0 ? `  (focal ${node.focalScore.toFixed(0)}, peak ${node.peak.toFixed(2)}x)` : "";
+          const tag = node.peak > 0 ? SYNERGY_COPY.networkGraph.hoverTag({ focal: node.focalScore.toFixed(0), peak: node.peak.toFixed(2) }) : "";
           ctx.fillText(node.id + tag, node.x, node.y - node.radius - 6);
         }
       }
@@ -379,9 +380,9 @@ export function SynergyNetworkGraph({ synergyData, cube, matchStr, onCardSelecte
 
   return (
     <div style={{textAlign: "center"}}>
-      <ChartTitle title="Synergy Network Graph" description={
+      <ChartTitle title={SYNERGY_COPY.networkGraph.title} description={
         <>
-          Node size = focal score (breadth), color = identity, <span style={{color: seriesColor(2)}}>gold ring</span> = peak pair (depth). A big ring-less node is support glue, not a hub. <span style={{color: "var(--se-muted)"}}>Gray nodes</span> are below-cut partners pulled in so their hubs aren't left floating. Links scale with synergy. Hover to name, click to select, drag to move.
+          {SYNERGY_COPY.networkGraph.descriptionStart}<span style={{color: seriesColor(2)}}>{SYNERGY_COPY.networkGraph.descriptionGoldRing}</span>{SYNERGY_COPY.networkGraph.descriptionMiddle}<span style={{color: "var(--se-muted)"}}>{SYNERGY_COPY.networkGraph.descriptionGrayNodes}</span>{SYNERGY_COPY.networkGraph.descriptionEnd}
         </>
       } />
       <canvas
