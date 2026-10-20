@@ -81,7 +81,7 @@ export function StatsViewer(props) {
   }), [props.startDate, props.endDate, props.onStartSelected, props.onEndSelected, debouncedMatchStr]);
 
   const filters = useStatsFilters();
-  const data = useStatsData(filters, debouncedProps, refresh);
+  const data = useStatsData(filters, debouncedProps, refresh, props.view);
 
   const {
     decks, decksLoaded, cube, archetypeMatchups, cardData, cardDataBucketed,

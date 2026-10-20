@@ -168,7 +168,7 @@ export function PlayersPage(props) {
     endDate: props.endDate,
     matchStr: filter.settled,
   }), [props.startDate, props.endDate, filter.settled])
-  const { cube, parsed } = useStatsData(filters, dataProps, refresh)
+  const { cube, parsed } = useStatsData(filters, dataProps, refresh, "players")
 
   const editable = useCubeWritable(cubeId) === true
   const players = usePlayerList(refresh)

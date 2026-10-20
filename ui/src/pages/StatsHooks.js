@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useMemo } from 'react';
 import { LoadCube, LoadDecks, LoadArchetypeData, LoadDrafts } from "../utils/Fetch.js";
 import { useCube } from "../contexts/CubeContext.js";
 import { ArchetypeData } from "../stats/archetypes/archetypeData.js";
@@ -11,6 +11,11 @@ import { BuildGraphData } from "../stats/deckstats/graphData.js";
 import { CheckboxesToColors } from "../utils/Utils.js";
 import { useCubeInfo } from "../utils/useCubeWritable.js";
 import { requestFilters } from "../stats/hiddenFilters.js";
+import { fetchJson } from "../utils/fetchJson.js";
+import { fromCallback } from "../stats/loading.js";
+import { statsUrl } from "../stats/statsUrls.js";
+import { ALL_SOURCES, viewNeeds } from "../stats/viewSources.js";
+import { useLoaded } from "../stats/useLoaded.js";
 
 export function useStatsFilters() {
   const [bucketSize, setBucketSize] = useState(5);
@@ -126,146 +131,201 @@ export function useStatsFilters() {
   };
 }
 
-export function useStatsData(filters, props, refresh) {
+// Starting values for data that hasn't loaded yet. They're shared constants so
+// they stay the same object between renders, which keeps the useMemo blocks
+// below from recomputing for nothing.
+const NO_DECKS = [];
+const NO_CUBE = { "cards": [] };
+const NO_MATCHUPS = { items: [] };
+const NO_MAP = new Map();
+const NO_LIST = [];
+const NO_OBJECT = {};
+const NO_COMPARE = { winning: null, losing: null };
+
+// The functions below reshape a stats endpoint's answer into what the pages read.
+
+// toAllData turns a card or color stats answer into a map by name.
+function toAllData(response) {
+  return new Map(Object.entries(response.all.data));
+}
+
+// toBuckets returns the time buckets of a stats-over-time answer.
+function toBuckets(response) {
+  return Array.from(response.buckets);
+}
+
+// toArchetypeStats turns the archetypes answer into a map by archetype, with
+// its nested objects as maps too.
+function toArchetypeStats(response) {
+  const archetypes = new Map();
+  for (const [name, data] of Object.entries(response.archetypes)) {
+    archetypes.set(name, {
+      ...data,
+      shared_with: new Map(Object.entries(data.shared_with || {})),
+      players: new Map(Object.entries(data.players || {})),
+    });
+  }
+  return archetypes;
+}
+
+// toPlayerStats turns the players answer into a map by player, with each
+// player's cards, archetypes, and colors as maps.
+function toPlayerStats(response) {
+  const players = new Map();
+  for (const [name, data] of Object.entries(response.players)) {
+    players.set(name, {
+      ...data,
+      cards: new Map(Object.entries(data.unique_cards || {}).map(([cardName, count]) => [cardName, { name: cardName, count }])),
+      archetype_stats: new Map(Object.entries(data.archetype_stats || {})),
+      color_stats: new Map(Object.entries(data.color_stats || {})),
+    });
+  }
+  return players;
+}
+
+// useStatsData loads the data a stats page shows and works out the values the
+// widgets share. view is the page (cards, colors, types, deckstats, synergy,
+// health, designmap, or players); only that page's data is fetched, and all of
+// it is fetched again when the cube changes. failed lists the page's data that
+// didn't load.
+export function useStatsData(filters, props, refresh, view) {
   const cubeID = useCube();
-  const [decks, setDecks] = useState([]);
-  const [decksLoaded, setDecksLoaded] = useState(false);
-  const [cube, setCube] = useState({ "cards": [] });
-  const [drafts, setDrafts] = useState(null);
-  const [archetypeMatchups, setArchetypeMatchups] = useState({ items: [] });
-  const [cardData, setCardData] = useState(new Map());
-  const [cardDataBucketed, setCardDataBucketed] = useState([]);
-  const [colorData, setColorData] = useState(new Map());
-  const [colorDataBucketed, setColorDataBucketed] = useState([]);
-  const [archetypeStats, setArchetypeStats] = useState(new Map());
-  const [playerStats, setPlayerStats] = useState(new Map());
-  const [synergyData, setSynergyData] = useState([]);
-  const [synergyCompare, setSynergyCompare] = useState({ winning: null, losing: null });
-  const [colorMatchupData, setColorMatchupData] = useState({});
-  const [healthData, setHealthData] = useState([]);
-  const [designGraphData, setDesignGraphData] = useState({});
+  const info = useCubeInfo(cubeID);
 
   const { startDate, endDate } = props;
+  const match = props.matchStr || "";
   const {
     minDraftSize, cardWidgetColorSelection, minDrafts,
     minGames, winConfidence, bucketSize, colorMode, minSynergyDecks,
-    focalThreshold, smoothingK, colorAdjust,
+    focalThreshold, smoothingK, colorAdjust, colorTypeSelection,
   } = filters;
 
   // A control the cube hides doesn't filter, even if it was set on another cube.
-  const { significantOnly, synergyRecord } = requestFilters(filters, useCubeInfo(cubeID));
+  const { significantOnly, synergyRecord } = requestFilters(filters, info);
 
-  // Initial Load
-  useEffect(() => {
-    // Pages tell "still loading" from "no decks match" by whether this has run.
-    function onDecks(loaded) {
-      setDecks(loaded);
-      setDecksLoaded(true);
-    }
+  // needs reports whether this page shows a source, so its request is skipped otherwise.
+  const needs = source => viewNeeds(view, source);
 
-    Promise.all([
-      LoadDecks(cubeID, onDecks, startDate, endDate, minDraftSize, "", props.matchStr),
-      LoadDrafts(cubeID, setDrafts, startDate, endDate),
-      LoadCube(cubeID, setCube),
-      LoadArchetypeData(cubeID, setArchetypeMatchups, startDate, endDate, minDraftSize, "", props.matchStr),
-    ]);
-  }, [refresh, startDate, endDate, minDraftSize, props.matchStr]);
+  const decksSource = useLoaded(cubeID, needs("decks"),
+    () => fromCallback(resolve => LoadDecks(cubeID, resolve, startDate, endDate, minDraftSize, "", match)),
+    [startDate, endDate, minDraftSize, match, refresh], NO_DECKS);
 
-  // Card Data
-  useEffect(() => {
-    fetch(`/api/${cubeID}/stats/cards?color=${cardWidgetColorSelection}&min_drafts=${minDrafts}&min_games=${minGames}&confidence=${winConfidence}&significant_only=${significantOnly}&start=${startDate}&end=${endDate}&size=${minDraftSize}&match=${encodeURIComponent(props.matchStr || "")}`)
-      .then(r => r.json())
-      .then(d => setCardData(new Map(Object.entries(d.all.data))));
-  }, [cardWidgetColorSelection, minDrafts, minGames, winConfidence, significantOnly, startDate, endDate, minDraftSize, props.matchStr, refresh]);
+  const cubeSource = useLoaded(cubeID, needs("cube"),
+    () => fromCallback(resolve => LoadCube(cubeID, resolve)),
+    [refresh], NO_CUBE);
 
-  useEffect(() => {
-    fetch(`/api/${cubeID}/stats/cards?color=${cardWidgetColorSelection}&min_drafts=${minDrafts}&min_games=${minGames}&bucket_size=${bucketSize}&sliding=true&match=${encodeURIComponent(props.matchStr || "")}`)
-      .then(r => r.json())
-      .then(d => setCardDataBucketed(Array.from(d.buckets)));
-  }, [cardWidgetColorSelection, minDrafts, minGames, bucketSize, props.matchStr, refresh]);
+  const draftsSource = useLoaded(cubeID, needs("drafts"),
+    () => fromCallback(resolve => LoadDrafts(cubeID, resolve, startDate, endDate)),
+    [startDate, endDate, refresh], null);
 
-  // Color Data
-  useEffect(() => {
-    fetch(`/api/${cubeID}/stats/colors?start=${startDate}&end=${endDate}&size=${minDraftSize}&color_mode=${colorMode}&confidence=${winConfidence}&match=${encodeURIComponent(props.matchStr || "")}`)
-      .then(r => r.json())
-      .then(d => setColorData(new Map(Object.entries(d.all.data))));
-  }, [colorMode, winConfidence, startDate, endDate, minDraftSize, props.matchStr, refresh]);
+  const matchupsSource = useLoaded(cubeID, needs("archetypeMatchups"),
+    () => fromCallback(resolve => LoadArchetypeData(cubeID, resolve, startDate, endDate, minDraftSize, "", match)),
+    [startDate, endDate, minDraftSize, match, refresh], NO_MATCHUPS);
 
-  useEffect(() => {
-    fetch(`/api/${cubeID}/stats/colors?start=${startDate}&end=${endDate}&size=${minDraftSize}&color_mode=${colorMode}&bucket_size=${bucketSize}&sliding=true&match=${encodeURIComponent(props.matchStr || "")}`)
-      .then(r => r.json())
-      .then(d => setColorDataBucketed(Array.from(d.buckets)));
-  }, [colorMode, bucketSize, startDate, endDate, minDraftSize, props.matchStr, refresh]);
+  const cardStatsSource = useLoaded(cubeID, needs("cardStats"),
+    () => fetchJson(statsUrl(cubeID, "cards", {
+      color: cardWidgetColorSelection, min_drafts: minDrafts, min_games: minGames, confidence: winConfidence,
+      significant_only: significantOnly, start: startDate, end: endDate, size: minDraftSize, match,
+    })).then(toAllData),
+    [cardWidgetColorSelection, minDrafts, minGames, winConfidence, significantOnly, startDate, endDate, minDraftSize, match, refresh], NO_MAP);
 
-  // Archetype & Player Stats (Aggregated)
-  useEffect(() => {
-    fetch(`/api/${cubeID}/stats/archetypes?start=${startDate}&end=${endDate}&size=${minDraftSize}&confidence=${winConfidence}&match=${encodeURIComponent(props.matchStr || "")}`)
-      .then(r => r.json())
-      .then(d => {
-        const archetypes = new Map();
-        for (const [name, data] of Object.entries(d.archetypes)) {
-          archetypes.set(name, {
-            ...data,
-            shared_with: new Map(Object.entries(data.shared_with || {})),
-            players: new Map(Object.entries(data.players || {})),
-          });
-        }
-        setArchetypeStats(archetypes);
-      });
+  const cardStatsOverTimeSource = useLoaded(cubeID, needs("cardStatsOverTime"),
+    () => fetchJson(statsUrl(cubeID, "cards", {
+      color: cardWidgetColorSelection, min_drafts: minDrafts, min_games: minGames, bucket_size: bucketSize, sliding: true, match,
+    })).then(toBuckets),
+    [cardWidgetColorSelection, minDrafts, minGames, bucketSize, match, refresh], NO_LIST);
 
-    fetch(`/api/${cubeID}/stats/players?start=${startDate}&end=${endDate}&size=${minDraftSize}&match=${encodeURIComponent(props.matchStr || "")}`)
-      .then(r => r.json())
-      .then(d => {
-        const players = new Map();
-        for (const [name, data] of Object.entries(d.players)) {
-          players.set(name, {
-            ...data,
-            cards: new Map(Object.entries(data.unique_cards || {}).map(([cardName, count]) => [cardName, { name: cardName, count }])),
-            archetype_stats: new Map(Object.entries(data.archetype_stats || {})),
-            color_stats: new Map(Object.entries(data.color_stats || {})),
-          });
-        }
-        setPlayerStats(players);
-      });
-  }, [startDate, endDate, minDraftSize, winConfidence, props.matchStr, refresh]);
+  const colorStatsSource = useLoaded(cubeID, needs("colorStats"),
+    () => fetchJson(statsUrl(cubeID, "colors", {
+      start: startDate, end: endDate, size: minDraftSize, color_mode: colorMode, confidence: winConfidence, match,
+    })).then(toAllData),
+    [colorMode, winConfidence, startDate, endDate, minDraftSize, match, refresh], NO_MAP);
 
-  // Synergy Data
-  useEffect(() => {
-    fetch(`/api/${cubeID}/stats/synergy?min_decks=${minSynergyDecks}&focal_threshold=${focalThreshold}&smoothing_k=${smoothingK}&color_adjust=${colorAdjust}&record=${synergyRecord}&start=${startDate}&end=${endDate}&size=${minDraftSize}&match=${encodeURIComponent(props.matchStr || "")}`)
-      .then(r => r.json())
-      .then(d => setSynergyData(d));
-  }, [minSynergyDecks, focalThreshold, smoothingK, colorAdjust, synergyRecord, minDraftSize, startDate, endDate, props.matchStr, refresh]);
+  const colorStatsOverTimeSource = useLoaded(cubeID, needs("colorStatsOverTime"),
+    () => fetchJson(statsUrl(cubeID, "colors", {
+      start: startDate, end: endDate, size: minDraftSize, color_mode: colorMode, bucket_size: bucketSize, sliding: true, match,
+    })).then(toBuckets),
+    [colorMode, bucketSize, startDate, endDate, minDraftSize, match, refresh], NO_LIST);
 
-  // Comparison view data: fetch both pools regardless of the synergyRecord toggle,
-  // so we can show how a card's focal score shifts between winning and losing.
-  useEffect(() => {
-    const base = `min_decks=${minSynergyDecks}&focal_threshold=${focalThreshold}&smoothing_k=${smoothingK}&color_adjust=${colorAdjust}&start=${startDate}&end=${endDate}&size=${minDraftSize}&match=${encodeURIComponent(props.matchStr || "")}`;
-    Promise.all([
-      fetch(`/api/${cubeID}/stats/synergy?${base}&record=winning`).then(r => r.json()),
-      fetch(`/api/${cubeID}/stats/synergy?${base}&record=losing`).then(r => r.json()),
-    ]).then(([w, l]) => setSynergyCompare({ winning: w, losing: l }));
-  }, [minSynergyDecks, focalThreshold, smoothingK, colorAdjust, minDraftSize, startDate, endDate, props.matchStr, refresh]);
+  const archetypeStatsSource = useLoaded(cubeID, needs("archetypeStats"),
+    () => fetchJson(statsUrl(cubeID, "archetypes", {
+      start: startDate, end: endDate, size: minDraftSize, confidence: winConfidence, match,
+    })).then(toArchetypeStats),
+    [startDate, endDate, minDraftSize, winConfidence, match, refresh], NO_MAP);
 
-  // Color Matchup Data
-  useEffect(() => {
-    fetch(`/api/${cubeID}/stats/color-matchups?start=${startDate}&end=${endDate}&size=${minDraftSize}&color_mode=${colorMode}&color_type=${filters.colorTypeSelection}&match=${encodeURIComponent(props.matchStr || "")}`)
-      .then(r => r.json())
-      .then(d => setColorMatchupData(d.matchups || {}));
-  }, [startDate, endDate, minDraftSize, colorMode, filters.colorTypeSelection, props.matchStr, refresh]);
+  const playerStatsSource = useLoaded(cubeID, needs("playerStats"),
+    () => fetchJson(statsUrl(cubeID, "players", {
+      start: startDate, end: endDate, size: minDraftSize, match,
+    })).then(toPlayerStats),
+    [startDate, endDate, minDraftSize, match, refresh], NO_MAP);
 
-  // Design Graph Data
-  useEffect(() => {
-    fetch(`/api/${cubeID}/stats/design-graph`)
-      .then(r => r.json())
-      .then(d => setDesignGraphData(d));
-  }, [refresh]);
+  // The synergy settings both synergy requests share.
+  const synergyParams = {
+    min_decks: minSynergyDecks, focal_threshold: focalThreshold, smoothing_k: smoothingK, color_adjust: colorAdjust,
+  };
 
-  // Health Data
-  useEffect(() => {
-    fetch(`/api/${cubeID}/stats/health?bucket_size=${bucketSize}&sliding=true&start=${startDate}&end=${endDate}&size=${minDraftSize}&match=${encodeURIComponent(props.matchStr || "")}`)
-      .then(r => r.json())
-      .then(d => setHealthData(d.buckets || []));
-  }, [bucketSize, startDate, endDate, minDraftSize, props.matchStr, refresh]);
+  const synergySource = useLoaded(cubeID, needs("synergy"),
+    () => fetchJson(statsUrl(cubeID, "synergy", {
+      ...synergyParams, record: synergyRecord, start: startDate, end: endDate, size: minDraftSize, match,
+    })),
+    [minSynergyDecks, focalThreshold, smoothingK, colorAdjust, synergyRecord, minDraftSize, startDate, endDate, match, refresh], NO_LIST);
+
+  // The comparison view loads both pools regardless of the record toggle, so
+  // it can show how a card's focal score shifts between winning and losing.
+  const synergyCompareSource = useLoaded(cubeID, needs("synergyCompare"),
+    () => {
+      const base = { ...synergyParams, start: startDate, end: endDate, size: minDraftSize, match };
+      return Promise.all([
+        fetchJson(statsUrl(cubeID, "synergy", { ...base, record: "winning" })),
+        fetchJson(statsUrl(cubeID, "synergy", { ...base, record: "losing" })),
+      ]).then(([winning, losing]) => ({ winning, losing }));
+    },
+    [minSynergyDecks, focalThreshold, smoothingK, colorAdjust, minDraftSize, startDate, endDate, match, refresh], NO_COMPARE);
+
+  const colorMatchupsSource = useLoaded(cubeID, needs("colorMatchups"),
+    () => fetchJson(statsUrl(cubeID, "color-matchups", {
+      start: startDate, end: endDate, size: minDraftSize, color_mode: colorMode, color_type: colorTypeSelection, match,
+    })).then(response => response.matchups || {}),
+    [startDate, endDate, minDraftSize, colorMode, colorTypeSelection, match, refresh], NO_OBJECT);
+
+  const designGraphSource = useLoaded(cubeID, needs("designGraph"),
+    () => fetchJson(`/api/${cubeID}/stats/design-graph`),
+    [refresh], NO_OBJECT);
+
+  const healthSource = useLoaded(cubeID, needs("health"),
+    () => fetchJson(statsUrl(cubeID, "health", {
+      bucket_size: bucketSize, sliding: true, start: startDate, end: endDate, size: minDraftSize, match,
+    })).then(response => response.buckets || []),
+    [bucketSize, startDate, endDate, minDraftSize, match, refresh], NO_LIST);
+
+  // Each source by its name in viewSources.js, to list the ones that failed.
+  const sources = {
+    decks: decksSource, cube: cubeSource, drafts: draftsSource, archetypeMatchups: matchupsSource,
+    cardStats: cardStatsSource, cardStatsOverTime: cardStatsOverTimeSource,
+    colorStats: colorStatsSource, colorStatsOverTime: colorStatsOverTimeSource, colorMatchups: colorMatchupsSource,
+    archetypeStats: archetypeStatsSource, playerStats: playerStatsSource,
+    synergy: synergySource, synergyCompare: synergyCompareSource,
+    designGraph: designGraphSource, health: healthSource,
+  };
+  const failed = ALL_SOURCES.filter(name => needs(name) && sources[name].failed);
+
+  // The names the rest of this hook and the pages already use.
+  const decks = decksSource.value;
+  const decksLoaded = decksSource.loaded;
+  const cube = cubeSource.value;
+  const drafts = draftsSource.value;
+  const archetypeMatchups = matchupsSource.value;
+  const cardData = cardStatsSource.value;
+  const cardDataBucketed = cardStatsOverTimeSource.value;
+  const colorData = colorStatsSource.value;
+  const colorDataBucketed = colorStatsOverTimeSource.value;
+  const archetypeStats = archetypeStatsSource.value;
+  const playerStats = playerStatsSource.value;
+  const synergyData = synergySource.value;
+  const synergyCompare = synergyCompareSource.value;
+  const colorMatchupData = colorMatchupsSource.value;
+  const designGraphData = designGraphSource.value;
+  const healthData = healthSource.value;
 
   // Derived Data
   const filteredDecks = useMemo(() => {
@@ -351,6 +411,6 @@ export function useStatsData(filters, props, refresh) {
   return {
     decks, decksLoaded, cube, drafts, archetypeMatchups, cardData, cardDataBucketed,
     colorData, colorDataBucketed, synergyData, synergyCompare, colorMatchupData, healthData,
-    designGraphData, parsed, graphData, archetypeDropdownOptions, draftLogs
+    designGraphData, parsed, graphData, archetypeDropdownOptions, draftLogs, failed,
   };
 }

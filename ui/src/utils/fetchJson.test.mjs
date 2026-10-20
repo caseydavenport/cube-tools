@@ -16,3 +16,8 @@ test("fetchJson rejects a failed response with its status", async () => {
   stubFetch({ ok: false, status: 500, statusText: "Internal Server Error", json: () => Promise.resolve({}) })
   await assert.rejects(fetchJson("/api/cubes"), /500 Internal Server Error/)
 })
+
+test("fetchJson rejects a body that isn't JSON", async () => {
+  stubFetch({ ok: true, json: () => Promise.reject(new SyntaxError("Unexpected token <")) })
+  await assert.rejects(fetchJson("/api/cubes"), SyntaxError)
+})
