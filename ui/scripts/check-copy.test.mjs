@@ -54,3 +54,14 @@ test("reports a COPY key that doesn't exist", async () => {
 test("a computed member isn't checked", async () => {
   assert.deepEqual(await findingsFor("computed.js"), [])
 })
+
+test("reports a key missing from the page's own COPY", async () => {
+  const findings = await checkCopy([fixture("own-copy.js")])
+  assert.deepEqual(findings.map(f => f.kind), ["missing-copy-key"])
+  assert.equal(findings[0].text, "COPY.table.wins")
+  assert.equal(findings[0].line, 4)
+})
+
+test("a spread in the page's own COPY means any key might exist", async () => {
+  assert.deepEqual(await findingsFor("own-copy-spread.js"), [])
+})
