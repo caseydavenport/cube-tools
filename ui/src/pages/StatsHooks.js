@@ -3,7 +3,7 @@ import { LoadCube, LoadDecks, LoadArchetypeData, LoadDrafts } from "../utils/Fet
 import { useCube } from "../contexts/CubeContext.js";
 import { ArchetypeData } from "./Types.js";
 import { PlayerData } from "./Players.js";
-import { GetColorStats } from "./Colors.js";
+import { GetColorStats } from "../stats/colors/colorStats.js";
 import { DeckBuckets } from "../utils/Buckets.js";
 import { AggregatedPickInfo } from "../utils/DraftLog.js";
 import { draftLabel } from "../utils/DraftInfo.js";
