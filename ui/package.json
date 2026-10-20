@@ -35,7 +35,9 @@
     "start": "npx webpack serve",
     "build": "npx webpack",
     "check": "node scripts/check-code.mjs",
-    "compare-moved": "node scripts/compare-moved.mjs"
+    "compare-moved": "node scripts/compare-moved.mjs",
+    "check-copy": "node scripts/check-copy.mjs",
+    "text-snapshot": "node scripts/text-snapshot.mjs"
   },
   "browserslist": {
     "production": [
