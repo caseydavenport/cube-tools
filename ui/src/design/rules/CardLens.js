@@ -5,6 +5,7 @@ import { Autocomplete, Button, UnstyledButton } from '@mantine/core'
 import { CardImageURL } from '../../utils/Utils.js'
 import { ColorImages } from '../../utils/Colors.js'
 import { ruleColor } from '../map/ruleColors.js'
+import { RULES_COPY } from "./copy.js"
 
 // CardLens is the right rail: pick any card and see its image, which groups hold
 // it (and via which condition), and every card it links to, grouped by rule.
@@ -16,7 +17,7 @@ export function CardLens({
   const byLabel = useMemo(() => {
     const m = {}
     for (const n of neighbors) {
-      for (const l of (n.labels.length ? n.labels : ['(unlabeled)'])) {
+      for (const l of (n.labels.length ? n.labels : [RULES_COPY.cardLens.unlabeled])) {
         (m[l] = m[l] || []).push(n.name)
       }
     }
@@ -28,8 +29,8 @@ export function CardLens({
   return (
     <aside className="de-lens">
       <div className="de-lens-media">
-        <CardSearch value={focal} onPick={onPickFocal} names={names} placeholder="Search a card…" />
-        {!focal && <div className="de-empty">Search a card to inspect its groups and links.</div>}
+        <CardSearch value={focal} onPick={onPickFocal} names={names} placeholder={RULES_COPY.cardLens.searchPlaceholder} />
+        {!focal && <div className="de-empty">{RULES_COPY.cardLens.searchPrompt}</div>}
         {focal && <>
           <img className="de-lens-img" src={CardImageURL({ name: focal })} alt={focal} />
           <div className="de-lens-name">
@@ -41,9 +42,9 @@ export function CardLens({
 
       {focal && <div className="de-lens-body">
         <div className="de-lens-col">
-          <div className="de-subhead">In groups {memberships.length ? `(${memberships.length})` : ''}</div>
-          {membershipsLoading && <div className="de-muted">Measuring…</div>}
-          {!membershipsLoading && memberships.length === 0 && <div className="de-muted">Not in any group.</div>}
+          <div className="de-subhead">{RULES_COPY.cardLens.inGroups(memberships.length)}</div>
+          {membershipsLoading && <div className="de-muted">{RULES_COPY.cardLens.measuring}</div>}
+          {!membershipsLoading && memberships.length === 0 && <div className="de-muted">{RULES_COPY.cardLens.notInAnyGroup}</div>}
           {memberships.map(m => (
             <UnstyledButton key={m.group} className="de-lens-group" onClick={() => onSelectGroup(m.group)}
               style={{ boxShadow: `inset 3px 0 0 ${ruleColor(groupIndex[m.group] ?? 0)}` }}>
@@ -52,14 +53,14 @@ export function CardLens({
             </UnstyledButton>
           ))}
 
-          <div className="de-subhead">Compare</div>
-          <CardSearch value={vs} onPick={onPickVs} names={names} placeholder="Compare with another card…" />
-          {focal && vs && <Button size="xs" variant="default" fullWidth className="de-compare-btn" onClick={onCompare}>View links between ⇄</Button>}
+          <div className="de-subhead">{RULES_COPY.cardLens.compareHeading}</div>
+          <CardSearch value={vs} onPick={onPickVs} names={names} placeholder={RULES_COPY.cardLens.comparePlaceholder} />
+          {focal && vs && <Button size="xs" variant="default" fullWidth className="de-compare-btn" onClick={onCompare}>{RULES_COPY.cardLens.viewLinksBetween}</Button>}
         </div>
 
         <div className="de-lens-col de-lens-col-links">
-          <div className="de-subhead">Linked cards {neighbors.length ? `(${new Set(neighbors.map(n => n.name)).size})` : ''}</div>
-          {byLabel.length === 0 && <div className="de-muted">No links from this card.</div>}
+          <div className="de-subhead">{RULES_COPY.cardLens.linkedCards(neighbors.length ? new Set(neighbors.map(n => n.name)).size : 0)}</div>
+          {byLabel.length === 0 && <div className="de-muted">{RULES_COPY.cardLens.noLinks}</div>}
           <div className="de-lens-links" onMouseLeave={() => onHoverCard('')}>
             {byLabel.map(([label, cards]) => (
               <div key={label} className="de-lens-rule" style={{ borderLeft: `3px solid ${ruleColor(linkIndex[label] ?? 0)}` }}>
@@ -69,7 +70,7 @@ export function CardLens({
                     key={c} className="de-lens-linked"
                     onClick={() => onPickVs(c)}
                     onMouseEnter={() => onHoverCard(c)} onFocus={() => onHoverCard(c)}
-                    title="Compare with this card"
+                    title={RULES_COPY.cardLens.compareWithThisCard}
                   >{c}</UnstyledButton>
                 ))}
               </div>

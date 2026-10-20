@@ -4,6 +4,7 @@
 import React from 'react'
 import { Button } from '@mantine/core'
 import { cardRefName } from '../../utils/DesignRules.js'
+import { RULES_COPY } from "./copy.js"
 
 // EditActions are the Edit and Delete buttons on a group or link. Delete asks
 // once more before it saves.
@@ -11,16 +12,16 @@ export function EditActions({ confirming, setConfirming, onEdit, onDelete }) {
   if (confirming) {
     return (
       <span className="de-pane-actions">
-        <Button size="xs" color="red" variant="light" onClick={onDelete}>Confirm delete</Button>
-        <Button size="xs" variant="default" onClick={() => setConfirming(false)}>Keep</Button>
+        <Button size="xs" color="red" variant="light" onClick={onDelete}>{RULES_COPY.parts.confirmDelete}</Button>
+        <Button size="xs" variant="default" onClick={() => setConfirming(false)}>{RULES_COPY.parts.keep}</Button>
       </span>
     )
   }
 
   return (
     <span className="de-pane-actions">
-      <Button size="xs" variant="default" onClick={onEdit}>Edit</Button>
-      <Button size="xs" color="red" variant="light" onClick={() => setConfirming(true)}>Delete</Button>
+      <Button size="xs" variant="default" onClick={onEdit}>{RULES_COPY.parts.edit}</Button>
+      <Button size="xs" color="red" variant="light" onClick={() => setConfirming(true)}>{RULES_COPY.parts.delete}</Button>
     </span>
   )
 }

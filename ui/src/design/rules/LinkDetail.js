@@ -5,6 +5,7 @@ import { ruleColor } from '../map/ruleColors.js'
 import { cardRefName } from '../../utils/DesignRules.js'
 import { EditActions } from "./rulesParts.js"
 import { Loom } from "./Loom.js"
+import { RULES_COPY } from "./copy.js"
 
 // LinkDetail shows one link as a wiring diagram: source groups on the left,
 // target groups on the right, one thread per declared wire pair.
@@ -19,7 +20,7 @@ export function LinkDetail({ link, color, edgeCount, groupIndex, groupCards, war
         key: name,
         color: known ? 'var(--text-muted)' : 'var(--danger)',
         label: refName,
-        sub: known ? 'card' : 'missing card',
+        sub: known ? RULES_COPY.link.subCard : RULES_COPY.link.subMissingCard,
         onClick: known && onFocusCard ? () => onFocusCard(refName) : undefined,
       }
     }
@@ -28,8 +29,8 @@ export function LinkDetail({ link, color, edgeCount, groupIndex, groupCards, war
       color: groupIndex[name] !== undefined ? ruleColor(groupIndex[name]) : 'var(--danger)',
       label: name,
       sub: groupIndex[name] !== undefined
-        ? `${groupCards[name]?.card_count ?? (groupCards[name]?.cards || []).length} cards`
-        : 'missing group',
+        ? RULES_COPY.link.subCardCount(groupCards[name]?.card_count ?? (groupCards[name]?.cards || []).length)
+        : RULES_COPY.link.subMissingGroup,
       onClick: groupIndex[name] !== undefined ? () => onSelectGroup(name) : undefined,
     }
   }
@@ -51,16 +52,14 @@ export function LinkDetail({ link, color, edgeCount, groupIndex, groupCards, war
       <div className="de-pane-head">
         <span className="dm-swatch dm-swatch-lg" style={{ background: color }} />
         <h3 className="de-pane-title">{link.label}</h3>
-        <span className="de-pane-sub">{edgeCount} card edge{edgeCount === 1 ? '' : 's'}</span>
+        <span className="de-pane-sub">{RULES_COPY.link.edgeCount(edgeCount)}</span>
         {canEdit && <EditActions confirming={confirming} setConfirming={setConfirming} onEdit={onEdit} onDelete={onDelete} />}
       </div>
       {warn && <div className="de-warn-note">⚠ {warn}</div>}
 
-      <div className="de-loom-labels"><span>Sources</span><span>Targets</span></div>
+      <div className="de-loom-labels"><span>{RULES_COPY.link.sources}</span><span>{RULES_COPY.link.targets}</span></div>
       <Loom left={left} right={right} threads={threads} />
-      <p className="de-muted de-loom-note">
-        Within each wire, every card in a source group links to every card in a target group.
-      </p>
+      <p className="de-muted de-loom-note">{RULES_COPY.link.note}</p>
     </div>
   )
 }

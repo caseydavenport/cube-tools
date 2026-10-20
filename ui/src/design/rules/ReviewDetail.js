@@ -7,6 +7,7 @@ import { ColorImages } from '../../utils/Colors.js'
 import { ruleColor } from '../map/ruleColors.js'
 import { CardSearch } from "./CardLens.js"
 import { ChipButton } from "./rulesParts.js"
+import { RULES_COPY } from "./copy.js"
 
 // ReviewDetail steps through every card in the cube, one per screen, so a full
 // membership pass is just holding the right-arrow key. Position rides in the
@@ -37,7 +38,7 @@ export function ReviewDetail({
   const ruleCounts = useMemo(() => {
     const m = {}
     for (const n of neighbors) {
-      for (const l of (n.labels.length ? n.labels : ['(unlabeled)'])) {
+      for (const l of (n.labels.length ? n.labels : [RULES_COPY.review.unlabeled])) {
         (m[l] = m[l] || new Set()).add(n.name)
       }
     }
@@ -50,14 +51,14 @@ export function ReviewDetail({
   return (
     <div className="de-pane">
       <div className="de-pane-head">
-        <h3 className="de-pane-title">Review</h3>
-        <span className="de-pane-sub">{idx + 1} of {names.length}</span>
+        <h3 className="de-pane-title">{RULES_COPY.review.heading}</h3>
+        <span className="de-pane-sub">{RULES_COPY.review.position({ number: idx + 1, total: names.length })}</span>
         <span className="de-pane-actions">
           <span className="de-review-jump">
-            <CardSearch key={card} value="" onPick={(n) => n && onGo(n)} names={names} placeholder="Jump to card…" />
+            <CardSearch key={card} value="" onPick={(n) => n && onGo(n)} names={names} placeholder={RULES_COPY.review.jumpPlaceholder} />
           </span>
-          <Button size="xs" variant="default" onClick={() => go(-1)} disabled={idx === 0}>← Prev</Button>
-          <Button size="xs" variant="default" onClick={() => go(1)} disabled={idx === names.length - 1}>Next →</Button>
+          <Button size="xs" variant="default" onClick={() => go(-1)} disabled={idx === 0}>{RULES_COPY.review.prev}</Button>
+          <Button size="xs" variant="default" onClick={() => go(1)} disabled={idx === names.length - 1}>{RULES_COPY.review.next}</Button>
         </span>
       </div>
       <div className="de-review-progress">
@@ -71,11 +72,11 @@ export function ReviewDetail({
             {node && <span className="de-pips">{ColorImages(node.colors)}</span>}
             {card}
           </div>
-          {ungrouped && <div className="de-warn-note">⚠ In no groups — invisible to the synergy map.</div>}
-          {isolated && <div className="de-warn-note">⚠ Grouped, but no edges — all of its groups are unlinked.</div>}
+          {ungrouped && <div className="de-warn-note">{RULES_COPY.review.ungrouped}</div>}
+          {isolated && <div className="de-warn-note">{RULES_COPY.review.isolated}</div>}
 
-          <div className="de-subhead">In groups {memberships.length ? `(${memberships.length})` : ''}</div>
-          {membershipsLoading && <div className="de-muted">Measuring…</div>}
+          <div className="de-subhead">{RULES_COPY.review.inGroups(memberships.length)}</div>
+          {membershipsLoading && <div className="de-muted">{RULES_COPY.review.measuring}</div>}
           {memberships.map(m => (
             <UnstyledButton key={m.group} className="de-review-group" onClick={() => onSelectGroup(m.group)}
               style={{ boxShadow: `inset 3px 0 0 ${ruleColor(groupIndex[m.group] ?? 0)}` }}>
@@ -84,8 +85,8 @@ export function ReviewDetail({
             </UnstyledButton>
           ))}
 
-          <div className="de-subhead">Linked cards {neighbors.length ? `(${new Set(neighbors.map(n => n.name)).size})` : ''}</div>
-          {!membershipsLoading && ruleCounts.length === 0 && !ungrouped && <div className="de-muted">No links from this card.</div>}
+          <div className="de-subhead">{RULES_COPY.review.linkedCards(neighbors.length ? new Set(neighbors.map(n => n.name)).size : 0)}</div>
+          {!membershipsLoading && ruleCounts.length === 0 && !ungrouped && <div className="de-muted">{RULES_COPY.review.noLinks}</div>}
           <div className="de-chips de-review-rules">
             {ruleCounts.map(([label, count]) => (
               <ChipButton key={label} lead={<span className="dm-swatch" style={{ background: ruleColor(linkIndex[label] ?? 0) }} />} onClick={() => onSelectLink(label)}>
@@ -98,7 +99,7 @@ export function ReviewDetail({
       </div>
 
       <div className="de-review-hint">
-        <kbd>←</kbd> previous · <kbd>→</kbd> next — position is saved in the URL, come back anytime.
+        <kbd>←</kbd>{RULES_COPY.review.hintPrevious}<kbd>→</kbd>{RULES_COPY.review.hintNext}
       </div>
     </div>
   )

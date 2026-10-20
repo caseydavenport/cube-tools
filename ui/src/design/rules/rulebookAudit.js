@@ -2,6 +2,7 @@
 // node tests can run them.
 
 import { cardRefName } from '../../utils/DesignRules.js'
+import { RULES_COPY } from "./copy.js"
 
 // auditRulebook runs the editor's health checks. Structural issues (wrong by
 // definition, like a link naming a missing group) are counted in structural for
@@ -82,10 +83,10 @@ export function auditRulebook({ links, groups, groupNames, groupCards, names, ca
 // groupWarning describes what's wrong with one group, or returns null.
 export function groupWarning(audit, name) {
   const msgs = []
-  if (audit.emptyGroups.includes(name)) msgs.push('Matches no cards')
-  if (audit.unlinkedGroups.includes(name)) msgs.push('No link uses this group')
+  if (audit.emptyGroups.includes(name)) msgs.push(RULES_COPY.rulebookAudit.groupEmpty)
+  if (audit.unlinkedGroups.includes(name)) msgs.push(RULES_COPY.rulebookAudit.groupUnlinked)
   const stale = audit.staleExcludes.filter(s => s.group === name).map(s => s.name)
-  if (stale.length) msgs.push(`Excludes unknown card${stale.length === 1 ? '' : 's'}: ${stale.join(', ')}`)
+  if (stale.length) msgs.push(RULES_COPY.rulebookAudit.staleExcludes({ count: stale.length, names: stale.join(', ') }))
   return msgs.length ? msgs.join('; ') : null
 }
 
@@ -93,5 +94,5 @@ export function groupWarning(audit, name) {
 export function linkWarning(audit, label) {
   const b = audit.brokenLinks.find(x => x.label === label)
   if (!b) return null
-  return b.missing.length ? `References missing group/card: ${b.missing.join(', ')}` : 'A wire is missing a source or target'
+  return b.missing.length ? RULES_COPY.rulebookAudit.linkMissing(b.missing.join(', ')) : RULES_COPY.rulebookAudit.linkOneSided
 }

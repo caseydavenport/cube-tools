@@ -2,6 +2,8 @@
 
 import React from 'react'
 import { UnstyledButton } from '@mantine/core'
+import { RichText } from "../../components/kit/RichText.js"
+import { RULES_COPY } from "./copy.js"
 
 // Overview is the resting state of the detail pane: rulebook vitals, group
 // coverage, and a pointer at anything the audit flagged.
@@ -11,37 +13,33 @@ export function Overview({ nodes, groups, links, edges, audit, membershipsLoadin
   return (
     <div className="de-pane">
       <div className="de-pane-head">
-        <h3 className="de-pane-title">Design Editor</h3>
+        <h3 className="de-pane-title">{RULES_COPY.overview.heading}</h3>
       </div>
-      <p className="de-lede">
-        The rulebook behind the synergy map: <b>groups</b> are card sets defined by query
-        conditions, <b>links</b> wire groups together. Pick one on the left, or search a
-        card on the right to see where it sits.
-      </p>
+      <p className="de-lede"><RichText parts={RULES_COPY.overview.lede} /></p>
 
       <div className="de-vitals">
-        <Vital value={nodes.length} label="cards" />
-        <Vital value={groups.length} label="groups" />
-        <Vital value={links.length} label="links" />
-        <Vital value={edges.length} label="card edges" />
+        <Vital value={nodes.length} label={RULES_COPY.overview.vitalCards} />
+        <Vital value={groups.length} label={RULES_COPY.overview.vitalGroups} />
+        <Vital value={links.length} label={RULES_COPY.overview.vitalLinks} />
+        <Vital value={edges.length} label={RULES_COPY.overview.vitalEdges} />
       </div>
 
-      <div className="de-subhead">Group coverage</div>
+      <div className="de-subhead">{RULES_COPY.overview.coverageHeading}</div>
       <div className="de-coverage">
         <div className="de-coverage-bar"><div className="de-coverage-fill" style={{ width: pct + '%' }} /></div>
         <span className="de-coverage-num">
-          {grouped === null ? 'measuring…' : `${grouped} of ${nodes.length} cards in at least one group (${pct}%)`}
+          {grouped === null ? RULES_COPY.overview.coverageMeasuring : RULES_COPY.overview.coverage({ grouped, total: nodes.length, pct })}
         </span>
       </div>
 
-      <div className="de-subhead">Health</div>
+      <div className="de-subhead">{RULES_COPY.overview.healthHeading}</div>
       {audit.structural === 0 &&
-        <div className="de-ok">✓ No structural issues — every group matches cards and is wired to a link.</div>
+        <div className="de-ok">{RULES_COPY.overview.healthOk}</div>
       }
       {audit.structural > 0 &&
         <UnstyledButton className="de-audit-cta" onClick={onAudit}>
           <span className="de-warn-dot" />
-          {audit.structural} structural issue{audit.structural === 1 ? '' : 's'} — open the audit board
+          {RULES_COPY.overview.healthIssues(audit.structural)}
         </UnstyledButton>
       }
     </div>

@@ -4,6 +4,7 @@ import React, { useState } from 'react'
 import { ActionIcon, TextInput, UnstyledButton } from '@mantine/core'
 import { IconPlus, IconSearch } from '@tabler/icons-react'
 import { ruleColor } from '../map/ruleColors.js'
+import { RULES_COPY } from "./copy.js"
 
 // Registry is the left rail: every group and link with live counts and warning
 // dots. One filter box narrows both lists.
@@ -23,15 +24,15 @@ export function Registry({
     <aside className="de-registry">
       <TextInput
         size="xs" leftSection={<IconSearch size={14} />}
-        placeholder="Filter groups & links…" aria-label="Filter groups and links"
+        placeholder={RULES_COPY.registry.filterPlaceholder} aria-label={RULES_COPY.registry.filterLabel}
         value={filter} onChange={e => setFilter(e.target.value)} spellCheck={false}
       />
 
       <div className="de-reg-head" onClick={() => toggle('groups')} role="button" aria-expanded={isOpen('groups')}>
         <span className="de-reg-caret">{isOpen('groups') ? '▾' : '▸'}</span>
-        <span>Groups</span>
+        <span>{RULES_COPY.registry.groupsHeading}</span>
         <span className="de-reg-count">{groups.length}</span>
-        {canEdit && <AddButton label="New group" onClick={onNewGroup} />}
+        {canEdit && <AddButton label={RULES_COPY.registry.newGroup} onClick={onNewGroup} />}
       </div>
       {isOpen('groups') && <div className="de-reg-list">
         {shownGroups.map(g => {
@@ -51,14 +52,14 @@ export function Registry({
             </UnstyledButton>
           )
         })}
-        {shownGroups.length === 0 && <div className="de-muted">No groups match.</div>}
+        {shownGroups.length === 0 && <div className="de-muted">{RULES_COPY.registry.noGroups}</div>}
       </div>}
 
       <div className="de-reg-head" onClick={() => toggle('links')} role="button" aria-expanded={isOpen('links')}>
         <span className="de-reg-caret">{isOpen('links') ? '▾' : '▸'}</span>
-        <span>Links</span>
+        <span>{RULES_COPY.registry.linksHeading}</span>
         <span className="de-reg-count">{links.length}</span>
-        {canEdit && <AddButton label="New link" onClick={onNewLink} />}
+        {canEdit && <AddButton label={RULES_COPY.registry.newLink} onClick={onNewLink} />}
       </div>
       {isOpen('links') && <div className="de-reg-list">
         {shownLinks.map(l => {
@@ -78,7 +79,7 @@ export function Registry({
             </UnstyledButton>
           )
         })}
-        {shownLinks.length === 0 && <div className="de-muted">No links match.</div>}
+        {shownLinks.length === 0 && <div className="de-muted">{RULES_COPY.registry.noLinks}</div>}
       </div>}
     </aside>
   )

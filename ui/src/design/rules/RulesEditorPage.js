@@ -13,7 +13,7 @@ import { LinkEditModal } from '../map/LinkEditModal.js'
 import { useCubeWritable } from '../../utils/useCubeWritable.js'
 import { renameInLink, withExclude } from "./rulebookEdits.js"
 import { auditRulebook, groupWarning, linkWarning } from "./rulebookAudit.js"
-import { COPY, EditorToolbar } from "./EditorToolbar.js"
+import { EditorToolbar } from "./EditorToolbar.js"
 import { GroupDetail } from "./GroupDetail.js"
 import { LinkDetail } from "./LinkDetail.js"
 import { AuditBoard } from "./AuditBoard.js"
@@ -22,6 +22,7 @@ import { CompareDetail } from "./CompareDetail.js"
 import { Overview } from "./Overview.js"
 import { Registry } from "./Registry.js"
 import { CardLens } from "./CardLens.js"
+import { RULES_COPY } from "./copy.js"
 
 // DesignEditorPage is the workbench for the design rulebook. Three panes:
 // a registry of every group and link (browse, create, spot problems), a detail
@@ -129,7 +130,8 @@ export function DesignEditorPage() {
   // --- save/delete handlers ------------------------------------------------------
   function saveGroup(updated) {
     const conditions = updated.conditions.map(c => c.trim()).filter(Boolean)
-    if (conditions.length === 0) { setStatus('At least one condition is required.'); return }
+    if (conditions.length === 0) { setStatus(RULES_COPY.page.conditionRequired); return }
+    // copy-ok: name saved to the rules file
     const newName = updated.name.trim() || 'Untitled group'
     const entry = withExclude({ name: newName, conditions }, (updated.exclude || []).filter(Boolean))
     const orig = groupEditor?.original
@@ -150,8 +152,9 @@ export function DesignEditorPage() {
   function saveLink(updated) {
     const wires = cleanWires(updated.wires)
     if (!wires) {
-      setStatus('Every wire needs at least one source and one target group.'); return
+      setStatus(RULES_COPY.page.wireNeedsEnds); return
     }
+    // copy-ok: name saved to the rules file
     const label = updated.label.trim() || 'Untitled link'
     const orig = linkEditor?.original
     const entry = { label, wires }
@@ -166,8 +169,9 @@ export function DesignEditorPage() {
   // Group edits triggered from inside the link editor (by group index).
   const saveGroupByIndex = (idx, updated) => {
     const conditions = updated.conditions.map(c => c.trim()).filter(Boolean)
-    if (conditions.length === 0) { setStatus('At least one condition is required.'); return }
+    if (conditions.length === 0) { setStatus(RULES_COPY.page.conditionRequired); return }
     const orig = groups[idx]
+    // copy-ok: name saved to the rules file
     const newName = updated.name.trim() || 'Untitled group'
     const entry = withExclude({ name: newName, conditions }, (updated.exclude || []).filter(Boolean))
     const newGroups = groups.map((g, i) => i === idx ? entry : g)
@@ -231,7 +235,7 @@ export function DesignEditorPage() {
   if (!data) {
     return <>
       {toolbar}
-      <div className="de-page"><div className="de-loading">Loading design map…</div></div>
+      <div className="de-page"><div className="de-loading">{RULES_COPY.page.loading}</div></div>
     </>
   }
 
@@ -308,7 +312,7 @@ export function DesignEditorPage() {
 
   let readOnlyNotice = null
   if (writable === false) {
-    readOnlyNotice = <Alert className="de-readonly" color="gray" variant="light">{COPY.readOnly}</Alert>
+    readOnlyNotice = <Alert className="de-readonly" color="gray" variant="light">{RULES_COPY.toolbar.readOnly}</Alert>
   }
 
   return (

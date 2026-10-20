@@ -1,20 +1,9 @@
-// The Rules editor's toolbar and its view switch, and the page's copy.
+// The Rules editor's toolbar and its view switch.
 
 import React from 'react'
 import { SegmentedControl } from '@mantine/core'
 import { PageToolbar } from '../../toolbar/PageToolbar.js'
-
-// COPY holds the text this page adds in the toolbar and read-only notice.
-// Placeholders for Casey to replace.
-export const COPY = {
-  title: 'Rules editor',
-  readOnly: 'This cube is read-only',
-  viewsLabel: 'Rules editor view',
-  overview: 'Overview',
-  audit: 'Audit',
-  review: 'Review',
-  compare: 'Compare',
-}
+import { RULES_COPY } from "./copy.js"
 
 // TOOLBAR_VIEWS are the view= values the toolbar switches between. Overview is
 // the empty value; the control needs a non-empty one, so it uses 'overview'.
@@ -36,16 +25,16 @@ function toolbarValue(view) {
 // rulebook-wide views. Compare needs two cards picked in the card lens, and
 // Audit carries a count of structural issues when there are any.
 export function EditorToolbar({ view, auditCount, compareReady, onSelectView }) {
-  let auditLabel = COPY.audit
+  let auditLabel = RULES_COPY.toolbar.audit
   if (auditCount > 0) {
-    auditLabel = <span className="de-view-label">{COPY.audit}<span className="de-badge-warn">{auditCount}</span></span>
+    auditLabel = <span className="de-view-label">{RULES_COPY.toolbar.audit}<span className="de-badge-warn">{auditCount}</span></span>
   }
 
   const views = [
-    { value: 'overview', label: COPY.overview },
+    { value: 'overview', label: RULES_COPY.toolbar.overview },
     { value: 'audit', label: auditLabel },
-    { value: 'review', label: COPY.review },
-    { value: 'compare', label: COPY.compare, disabled: !compareReady },
+    { value: 'review', label: RULES_COPY.toolbar.review },
+    { value: 'compare', label: RULES_COPY.toolbar.compare, disabled: !compareReady },
   ]
 
   function onChange(value) {
@@ -57,8 +46,8 @@ export function EditorToolbar({ view, auditCount, compareReady, onSelectView }) 
   }
 
   return (
-    <PageToolbar title={COPY.title}>
-      <SegmentedControl size="xs" aria-label={COPY.viewsLabel} data={views} value={toolbarValue(view)} onChange={onChange} />
+    <PageToolbar title={RULES_COPY.toolbar.title}>
+      <SegmentedControl size="xs" aria-label={RULES_COPY.toolbar.viewsLabel} data={views} value={toolbarValue(view)} onChange={onChange} />
     </PageToolbar>
   )
 }
