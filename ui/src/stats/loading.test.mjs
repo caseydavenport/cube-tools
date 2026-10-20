@@ -1,6 +1,6 @@
 import { test } from "node:test"
 import assert from "node:assert/strict"
-import { failedState, fromCallback, loadedState, shownState, startLoad } from "./loading.js"
+import { failedState, fromCallback, loadKey, loadedState, shownState, startLoad } from "./loading.js"
 
 // settle lets pending promise callbacks run.
 const settle = () => new Promise(resolve => setTimeout(resolve, 0))
@@ -45,7 +45,7 @@ test("a value for this cube is shown", () => {
 })
 
 test("a failure keeps this cube's last value", () => {
-  assert.deepEqual(failedState(loadedState("a", [1]), "a"), { cube: "a", value: [1], failed: true })
+  assert.deepEqual(failedState(loadedState("a", [1]), "a"), { key: "a", value: [1], failed: true })
 })
 
 test("a failure doesn't keep another cube's value", () => {
@@ -54,4 +54,15 @@ test("a failure doesn't keep another cube's value", () => {
 
 test("a later success clears the failure", () => {
   assert.equal(loadedState("a", [2]).failed, false)
+})
+
+test("a load's key changes with its inputs, not just the cube", () => {
+  assert.equal(loadKey("a", ["2025-01-01", 3]), loadKey("a", ["2025-01-01", 3]))
+  assert.notEqual(loadKey("a", ["2025-01-01", 3]), loadKey("a", ["2024-01-01", 3]))
+  assert.notEqual(loadKey("a", ["x"]), loadKey("b", ["x"]))
+})
+
+test("a value loaded for other inputs isn't shown", () => {
+  const old = loadedState(loadKey("a", ["all time"]), [1])
+  assert.equal(shownState(old, loadKey("a", ["last 12 months"]), []).loaded, false)
 })

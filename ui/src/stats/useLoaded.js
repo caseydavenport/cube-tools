@@ -1,17 +1,18 @@
 // useLoaded is the React hook behind each piece of stats data: it loads when
 // the page needs it, reloads when the cube or its inputs change, and never
-// shows a value that belongs to another cube.
+// shows a value loaded for another cube or other inputs.
 
 import { useEffect, useState } from "react"
-import { failedState, loadedState, shownState, startLoad } from "./loading.js"
+import { failedState, loadKey, loadedState, shownState, startLoad } from "./loading.js"
 
 // useLoaded runs load() when needed is true, and again whenever cube, needed,
 // or any entry of deps changes. load returns a promise of the value. It
-// returns { value, loaded, failed }: value is initialValue until this cube's
-// answer arrives. When needed is false nothing loads, and a value loaded
-// earlier stays available.
+// returns { value, loaded, failed }: value is initialValue until the answer
+// for this cube and these deps arrives. When needed is false nothing loads,
+// and a value loaded earlier stays available while its inputs are unchanged.
 export function useLoaded(cube, needed, load, deps, initialValue) {
-  const [state, setState] = useState({ cube: null, value: undefined, failed: false })
+  const [state, setState] = useState({ key: null, value: undefined, failed: false })
+  const key = loadKey(cube, deps)
 
   useEffect(() => {
     if (!needed) {
@@ -19,10 +20,10 @@ export function useLoaded(cube, needed, load, deps, initialValue) {
     }
 
     function onValue(value) {
-      setState(loadedState(cube, value))
+      setState(loadedState(key, value))
     }
     function onFailure() {
-      setState(previous => failedState(previous, cube))
+      setState(previous => failedState(previous, key))
     }
 
     // Returning cancel makes React call it before the next load and when the
@@ -33,5 +34,5 @@ export function useLoaded(cube, needed, load, deps, initialValue) {
     // dependencies, alongside the cube and whether the page needs this data.
   }, [cube, needed, ...deps])
 
-  return shownState(state, cube, initialValue)
+  return shownState(state, key, initialValue)
 }
