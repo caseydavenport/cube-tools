@@ -330,9 +330,9 @@ export function PlayerDetailsPanel(input) {
         <table className="widget-table">
           <thead className="table-header">
             <tr>
-              <td onClick={input.onOppHeaderClick} id="name" className="header-cell">Opponent (min {minGames} games)</td>
-              <td onClick={input.onOppHeaderClick} id="win_pct" className="header-cell">Win %</td>
-              <td onClick={input.onOppHeaderClick} id="games" className="header-cell">Games</td>
+              <td onClick={input.onOppHeaderClick} id="name" className="header-cell">{input.copy.details.opponentHeader({ minGames })}</td>
+              <td onClick={input.onOppHeaderClick} id="win_pct" className="header-cell">{input.copy.details.winPct}</td>
+              <td onClick={input.onOppHeaderClick} id="games" className="header-cell">{input.copy.details.games}</td>
             </tr>
           </thead>
           <tbody>
@@ -377,11 +377,11 @@ export function PlayerDetailsPanel(input) {
         <table className="widget-table">
           <thead className="table-header">
             <tr>
-              <td onClick={input.onPlayerArchHeaderClick} id="name" className="header-cell">Arch</td>
-              <td onClick={input.onPlayerArchHeaderClick} id="build" className="header-cell">Build %</td>
-              <td onClick={input.onPlayerArchHeaderClick} id="win_pct" className="header-cell">Win %</td>
-              <td onClick={input.onPlayerArchHeaderClick} id="wins" className="header-cell">Wins</td>
-              <td onClick={input.onPlayerArchHeaderClick} id="losses" className="header-cell">Losses</td>
+              <td onClick={input.onPlayerArchHeaderClick} id="name" className="header-cell">{input.copy.details.arch}</td>
+              <td onClick={input.onPlayerArchHeaderClick} id="build" className="header-cell">{input.copy.details.buildPct}</td>
+              <td onClick={input.onPlayerArchHeaderClick} id="win_pct" className="header-cell">{input.copy.details.winPct}</td>
+              <td onClick={input.onPlayerArchHeaderClick} id="wins" className="header-cell">{input.copy.details.wins}</td>
+              <td onClick={input.onPlayerArchHeaderClick} id="losses" className="header-cell">{input.copy.details.losses}</td>
             </tr>
           </thead>
           <tbody>
@@ -441,11 +441,11 @@ export function PlayerDetailsPanel(input) {
         <table className="widget-table">
           <thead className="table-header">
             <tr>
-              <td onClick={input.onPlayerColorHeaderClick} id="name" className="header-cell">Color</td>
-              <td onClick={input.onPlayerColorHeaderClick} id="build_pct" className="header-cell">Build %</td>
-              <td onClick={input.onPlayerColorHeaderClick} id="win_pct" className="header-cell">Win %</td>
-              <td onClick={input.onPlayerColorHeaderClick} id="wins" className="header-cell">Wins</td>
-              <td onClick={input.onPlayerColorHeaderClick} id="losses" className="header-cell">Losses</td>
+              <td onClick={input.onPlayerColorHeaderClick} id="name" className="header-cell">{input.copy.details.color}</td>
+              <td onClick={input.onPlayerColorHeaderClick} id="build_pct" className="header-cell">{input.copy.details.buildPct}</td>
+              <td onClick={input.onPlayerColorHeaderClick} id="win_pct" className="header-cell">{input.copy.details.winPct}</td>
+              <td onClick={input.onPlayerColorHeaderClick} id="wins" className="header-cell">{input.copy.details.wins}</td>
+              <td onClick={input.onPlayerColorHeaderClick} id="losses" className="header-cell">{input.copy.details.losses}</td>
             </tr>
           </thead>
           <tbody>
@@ -535,7 +535,7 @@ function WinRateChart(input) {
 
   let dataset = [
       {
-        label: 'Win %',
+        label: input.copy.details.winPct,
         data: values,
         borderColor: () => currentChartTheme().text,
         backgroundColor: () => currentChartTheme().text,
@@ -543,10 +543,10 @@ function WinRateChart(input) {
   ]
 
 
-  let title = `Build % (bucket size = ${input.bucketSize} drafts)`
+  let title = input.copy.details.buildTitle({ bucketSize: input.bucketSize })
   switch (input.dataset) {
     case "wins":
-      title = `Win % (buckets size = ${input.bucketSize} drafts)`
+      title = input.copy.details.winTitle({ bucketSize: input.bucketSize })
       break
   }
 

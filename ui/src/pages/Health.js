@@ -26,47 +26,74 @@ ChartJS.register(
   Legend
 );
 
+// COPY holds every piece of text on the Health page. These are placeholders
+// for Casey to replace.
+const COPY = {
+  chartTitle: ({ name, bucketSize }) => `${name} (bucket size = ${bucketSize} drafts)`,
+
+  archetypeEvenness: {
+    name: "Archetype Evenness",
+    description: "Shannon entropy of macro archetype distribution (aggro/midrange/control), normalized 0-1. Higher = more balanced.",
+  },
+  colorBalance: {
+    name: "Color Balance StdDev",
+    description: "Standard deviation of win rates across the 10 dual color pairs. Lower = more balanced.",
+  },
+  trophyGini: {
+    name: "Trophy Gini Coefficient",
+    description: "Gini coefficient of trophy counts across macro archetypes. Lower = more evenly distributed trophies.",
+  },
+  avgWordCount: {
+    name: "Avg Word Count",
+    description: "Average word count per non-land mainboarded card, excluding reminder text. Higher = wordier cards being played.",
+  },
+  numDecks: {
+    name: "Decks per Bucket",
+    description: "Number of decks in each bucket, for context.",
+  },
+}
+
 // HEALTH_CHARTS are the charts of how balanced the cube plays over time. needs
 // lists the data each is built from: trophies and color win rates need match
 // results, and archetype evenness needs archetype labels.
 const HEALTH_CHARTS = [
   {
     field: "archetype_evenness",
-    name: "Archetype Evenness",
+    name: COPY.archetypeEvenness.name,
     needs: ["archetypes"],
     min: 0,
     max: 1,
-    description: "Shannon entropy of macro archetype distribution (aggro/midrange/control), normalized 0-1. Higher = more balanced.",
+    description: COPY.archetypeEvenness.description,
   },
   {
     field: "color_balance_stddev",
-    name: "Color Balance StdDev",
+    name: COPY.colorBalance.name,
     needs: ["results"],
     min: 0,
     max: null,
-    description: "Standard deviation of win rates across the 10 dual color pairs. Lower = more balanced.",
+    description: COPY.colorBalance.description,
   },
   {
     field: "trophy_gini",
-    name: "Trophy Gini Coefficient",
+    name: COPY.trophyGini.name,
     needs: ["results"],
     min: 0,
     max: 1,
-    description: "Gini coefficient of trophy counts across macro archetypes. Lower = more evenly distributed trophies.",
+    description: COPY.trophyGini.description,
   },
   {
     field: "avg_word_count",
-    name: "Avg Word Count",
+    name: COPY.avgWordCount.name,
     min: null,
     max: null,
-    description: "Average word count per non-land mainboarded card, excluding reminder text. Higher = wordier cards being played.",
+    description: COPY.avgWordCount.description,
   },
   {
     field: "num_decks",
-    name: "Decks per Bucket",
+    name: COPY.numDecks.name,
     min: 0,
     max: null,
-    description: "Number of decks in each bucket, for context.",
+    description: COPY.numDecks.description,
   },
 ]
 
@@ -92,7 +119,7 @@ export function HealthWidget(input) {
           <HealthChart
             labels={labels}
             data={buckets.map(b => b[chart.field])}
-            title={`${chart.name} (bucket size = ${input.bucketSize} drafts)`}
+            title={COPY.chartTitle({ name: chart.name, bucketSize: input.bucketSize })}
             color={seriesColor(index)}
             min={chart.min}
             max={chart.max}

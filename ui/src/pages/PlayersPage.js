@@ -67,6 +67,19 @@ const COPY = {
   archetypes: "Archetypes",
   colors: "Colors",
   winRateOverTime: "Win rate over time",
+
+  details: {
+    opponentHeader: ({ minGames }) => `Opponent (min ${minGames} games)`,
+    winPct: "Win %",
+    games: "Games",
+    arch: "Arch",
+    buildPct: "Build %",
+    wins: "Wins",
+    losses: "Losses",
+    color: "Color",
+    buildTitle: ({ bucketSize }) => `Build % (bucket size = ${bucketSize} drafts)`,
+    winTitle: ({ bucketSize }) => `Win % (buckets size = ${bucketSize} drafts)`,
+  },
 }
 
 // usePlayerList loads the global player list, again whenever refresh changes
