@@ -1,6 +1,7 @@
 // The archetype charts: share and win rate over time, change against the
 // average, and the share pie.
 
+import { ARCHETYPES_COPY } from "./copy.js"
 import React from 'react'
 import { MinWinningPctDecks, Pct } from "../../utils/Utils.js"
 import { BucketName, bucketXScale } from "../../utils/Buckets.js"
@@ -44,7 +45,7 @@ export function MacroArchetypeDeltaChart(input) {
     labels,
     datasets: [
       {
-        label: "Win rate vs cube average",
+        label: ARCHETYPES_COPY.charts.deltaSeries,
         data: deltas,
         backgroundColor: barColors,
         borderColor: barColors,
@@ -59,7 +60,7 @@ export function MacroArchetypeDeltaChart(input) {
     plugins: {
       title: {
         display: true,
-        text: "Net performance vs cube average (win %)",
+        text: ARCHETYPES_COPY.charts.deltaTitle,
         font: { size: "16pt" },
       },
       legend: { display: false },
@@ -68,7 +69,7 @@ export function MacroArchetypeDeltaChart(input) {
           label: function(ctx) {
             let r = rows[ctx.dataIndex]
             let sign = r.delta >= 0 ? "+" : ""
-            return `${sign}${r.delta.toFixed(1)}% (win ${r.winPercent.toFixed(0)}%, ${r.count} decks)`
+            return ARCHETYPES_COPY.charts.deltaTooltip({ sign: sign, delta: r.delta.toFixed(1), winPercent: r.winPercent.toFixed(0), count: r.count })
           },
         },
       },
@@ -76,7 +77,7 @@ export function MacroArchetypeDeltaChart(input) {
     scales: {
       x: { ticks: { font: { size: 14 } }, grid: { display: false } },
       y: {
-        title: { display: true, text: "Δ win % vs 50%", font: { size: 14 } },
+        title: { display: true, text: ARCHETYPES_COPY.charts.deltaAxis, font: { size: 14 } },
         ticks: { font: { size: 14 }, callback: (v) => (v > 0 ? "+" : "") + v + "%" },
         grid: { color: (ctx) => zeroLineGrid(ctx) },
       },
@@ -142,44 +143,44 @@ export function MacroArchetypesChart(input) {
 
   let chartDataset = [
       {
-        label: 'Aggro',
+        label: ARCHETYPES_COPY.charts.aggro,
         data: datasets.get("aggro"),
         borderColor: archetypeColor("aggro"),
         backgroundColor: archetypeColor("aggro"),
       },
       {
-        label: 'Midrange',
+        label: ARCHETYPES_COPY.charts.midrange,
         data: datasets.get("midrange"),
         borderColor: archetypeColor("midrange"),
         backgroundColor: archetypeColor("midrange"),
       },
       {
-        label: 'Control',
+        label: ARCHETYPES_COPY.charts.control,
         data: datasets.get("control"),
         borderColor: archetypeColor("control"),
         backgroundColor: archetypeColor("control"),
       },
   ]
 
-  let title = `Build rate (bucket size = ${input.bucketSize} drafts)`
+  let title = ARCHETYPES_COPY.charts.buildRateTitle({ bucketSize: input.bucketSize })
   switch (input.dataset) {
     case "wins":
-      title = `Win rate (bucket size = ${input.bucketSize} drafts)`
+      title = ARCHETYPES_COPY.charts.winRateTitle({ bucketSize: input.bucketSize })
       break;
     case "cmc":
-      title = `Avg. mana value (bucket size = ${input.bucketSize} drafts)`
+      title = ARCHETYPES_COPY.charts.avgManaValueTitle({ bucketSize: input.bucketSize })
       break
     case "percent_of_wins":
-      title = `Percent of all wins (bucket size = ${input.bucketSize} drafts)`
+      title = ARCHETYPES_COPY.charts.percentOfAllWinsTitle({ bucketSize: input.bucketSize })
       break
     case "winning_pct":
-      title = `Winning % (bucket size = ${input.bucketSize} drafts)`
+      title = ARCHETYPES_COPY.charts.winningPctTitle({ bucketSize: input.bucketSize })
       break
     case "trophy_pct":
-      title = `Trophy % (bucket size = ${input.bucketSize} drafts)`
+      title = ARCHETYPES_COPY.charts.trophyPctTitle({ bucketSize: input.bucketSize })
       break
     case "lastplace_pct":
-      title = `Last place % (bucket size = ${input.bucketSize} drafts)`
+      title = ARCHETYPES_COPY.charts.lastPlacePctTitle({ bucketSize: input.bucketSize })
       break
   }
 
@@ -215,9 +216,9 @@ export function MacroArchetypesChart(input) {
 
 // PIE_ARCHETYPES are the archetypes the pie charts split decks into.
 const PIE_ARCHETYPES = [
-  { key: "aggro", label: "Aggro" },
-  { key: "midrange", label: "Midrange" },
-  { key: "control", label: "Control" },
+  { key: "aggro", label: ARCHETYPES_COPY.charts.aggro },
+  { key: "midrange", label: ARCHETYPES_COPY.charts.midrange },
+  { key: "control", label: ARCHETYPES_COPY.charts.control },
 ]
 
 // MacroArchetypesPieChart splits decks, or wins, between the archetypes. An
@@ -226,10 +227,10 @@ const PIE_ARCHETYPES = [
 export function MacroArchetypesPieChart(input) {
   let stats = input.parsed.archetypeData
 
-  let title = `Decks`
+  let title = ARCHETYPES_COPY.charts.pieDecks
   let field = "count"
   if (input.dataset === "wins") {
-    title = `Wins`
+    title = ARCHETYPES_COPY.charts.pieWins
     field = "wins"
   }
 

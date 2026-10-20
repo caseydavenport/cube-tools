@@ -1,5 +1,6 @@
 // The chart of tags over time. The code calls tags "micro archetypes".
 
+import { ARCHETYPES_COPY } from "./copy.js"
 import React from 'react'
 import { MinWinningPctDecks, Pct } from "../../utils/Utils.js"
 import { BucketName, bucketXScale } from "../../utils/Buckets.js"
@@ -97,25 +98,25 @@ export function MicroArchetypesChart(input) {
     index += 1
   }
 
-  let title = `Build rate (bucket size = ${input.bucketSize} drafts)`
+  let title = ARCHETYPES_COPY.tagCharts.buildRateTitle({ bucketSize: input.bucketSize })
   switch (input.dataset) {
     case "wins":
-      title = `Win rate (bucket size = ${input.bucketSize} drafts)`
+      title = ARCHETYPES_COPY.tagCharts.winRateTitle({ bucketSize: input.bucketSize })
       break;
     case "cmc":
-      title = `Avg. mana value (bucket size = ${input.bucketSize} drafts)`
+      title = ARCHETYPES_COPY.tagCharts.avgManaValueTitle({ bucketSize: input.bucketSize })
       break
     case "percent_of_wins":
-      title = `Percent of wins (bucket size = ${input.bucketSize} drafts)`
+      title = ARCHETYPES_COPY.tagCharts.percentOfWinsTitle({ bucketSize: input.bucketSize })
       break;
     case "winning_pct":
-      title = `Winning % (bucket size = ${input.bucketSize} drafts)`
+      title = ARCHETYPES_COPY.tagCharts.winningPctTitle({ bucketSize: input.bucketSize })
       break;
     case "trophy_pct":
-      title = `Trophy % (bucket size = ${input.bucketSize} drafts)`
+      title = ARCHETYPES_COPY.tagCharts.trophyPctTitle({ bucketSize: input.bucketSize })
       break;
     case "lastplace_pct":
-      title = `Last place % (bucket size = ${input.bucketSize} drafts)`
+      title = ARCHETYPES_COPY.tagCharts.lastPlacePctTitle({ bucketSize: input.bucketSize })
       break;
   }
 

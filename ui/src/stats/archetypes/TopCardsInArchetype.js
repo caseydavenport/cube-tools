@@ -1,6 +1,7 @@
 // The top cards in each archetype, with a color picker and a details panel
 // for the picked archetype.
 
+import { ARCHETYPES_COPY } from "./copy.js"
 import React from 'react'
 import { SortFunc } from "../../utils/Utils.js"
 import { DropdownHeader, NumericInput, Checkbox } from "../../components/Dropdown.js"
@@ -49,27 +50,27 @@ function TopCardsInArchetypeWidgetOptions(input) {
   return (
     <div className="selector-group">
       <DropdownHeader
-        label="Archetype"
+        label={ARCHETYPES_COPY.topCards.archetype}
         options={input.archetypeDropdownOptions}
         value={input.selectedArchetype}
         onChange={input.onArchetypeSelected}
       />
 
       <DropdownHeader
-        label="Color"
+        label={ARCHETYPES_COPY.topCards.color}
         options={input.colorWidgetOpts}
         value={input.colorSelection}
         onChange={input.onColorSelected}
       />
 
       <NumericInput
-        label="Min picks"
+        label={ARCHETYPES_COPY.topCards.minPicks}
         value={input.minDrafts}
         onChange={input.onMinDraftsSelected}
       />
 
       <NumericInput
-        label="Decks in arch"
+        label={ARCHETYPES_COPY.topCards.decksInArch}
         value={input.minDecksInArch}
         onChange={input.onMinGamesSelected}
       />
@@ -115,28 +116,28 @@ export function TopCardsInArchetypeWidget(input) {
   let headers = [
     {
       id: "card",
-      text: "Card",
-      tip: "The card's name."
+      text: ARCHETYPES_COPY.topCards.card.text,
+      tip: ARCHETYPES_COPY.topCards.card.tip,
     },
     {
       id: "focal",
-      text: "Focal Score",
-      tip: "Combines include rate and correlation to identify cards that define the archetype. High scores indicate cards that are both common in this archetype and rarely seen outside of it.",
+      text: ARCHETYPES_COPY.topCards.focalScore.text,
+      tip: ARCHETYPES_COPY.topCards.focalScore.tip,
     },
     {
       id: "decks",
-      text: "# Decks",
-      tip: "Number of times this card has been mainboarded in decks with the selected archetype / tag.",
+      text: ARCHETYPES_COPY.topCards.numDecks.text,
+      tip: ARCHETYPES_COPY.topCards.numDecks.tip,
     },
     {
       id: "include_rate",
-      text: "Include rate",
-      tip: "Percentage of decks in the selected archetype / tag that include this card.",
+      text: ARCHETYPES_COPY.topCards.includeRate.text,
+      tip: ARCHETYPES_COPY.topCards.includeRate.tip,
     },
     {
       id: "correlation",
-      text: "Correlation",
-      tip: "How correlated this card is with the selected archetype / tag. Percentage of decks that this card has been mainboarded in that have the selected archetype / tag.",
+      text: ARCHETYPES_COPY.topCards.correlation.text,
+      tip: ARCHETYPES_COPY.topCards.correlation.tip,
     },
   ]
 
@@ -145,7 +146,7 @@ export function TopCardsInArchetypeWidget(input) {
       <div className="controls-panel">
         <TopCardsInArchetypeWidgetOptions {...input} />
       </div>
-      <h3 className="section-heading">Top Cards in Archetype</h3>
+      <h3 className="section-heading">{ARCHETYPES_COPY.topCards.heading}</h3>
       <div className="table-scroll">
       <table className="widget-table">
         <thead className="table-header">
@@ -223,13 +224,13 @@ export function ArchetypeDetailsPanel(input) {
   return (
     <div className="detail-grid">
       <div>
-        <h3 className="section-heading">Paired With</h3>
+        <h3 className="section-heading">{ARCHETYPES_COPY.topCards.pairedWith}</h3>
         <div className="table-scroll">
         <table className="widget-table">
           <thead className="table-header">
             <tr>
-              <td onClick={input.onHeaderClick} id="name" className="header-cell">Archetype</td>
-              <td onClick={input.onHeaderClick} id="num" className="header-cell">#</td>
+              <td onClick={input.onHeaderClick} id="name" className="header-cell">{ARCHETYPES_COPY.topCards.pairedArchetype}</td>
+              <td onClick={input.onHeaderClick} id="num" className="header-cell">{ARCHETYPES_COPY.topCards.countHeader}</td>
             </tr>
           </thead>
           <tbody>
@@ -249,13 +250,13 @@ export function ArchetypeDetailsPanel(input) {
       </div>
 
       <div>
-        <h3 className="section-heading">Played By</h3>
+        <h3 className="section-heading">{ARCHETYPES_COPY.topCards.playedBy}</h3>
         <div className="table-scroll">
         <table className="widget-table">
           <thead className="table-header">
             <tr>
-              <td onClick={input.onHeaderClick} id="name" className="header-cell">Player</td>
-              <td onClick={input.onHeaderClick} id="num" className="header-cell">#</td>
+              <td onClick={input.onHeaderClick} id="name" className="header-cell">{ARCHETYPES_COPY.topCards.playedByPlayer}</td>
+              <td onClick={input.onHeaderClick} id="num" className="header-cell">{ARCHETYPES_COPY.topCards.countHeader}</td>
             </tr>
           </thead>
           <tbody>

@@ -1,6 +1,7 @@
 // The Archetypes stats page: the archetype table, top cards, and the charts.
 // The pieces live in the other files here.
 
+import { ARCHETYPES_COPY } from "./copy.js"
 import React from 'react'
 import { DropdownHeader } from "../../components/Dropdown.js"
 import { availableValue, visibleItems } from "../../utils/dataKinds.js"
@@ -28,31 +29,31 @@ ChartJS.register(
 // CHART_OPTIONS are the Trends charts. needs lists the data each is built
 // from, so a cube without match results doesn't offer the win charts.
 const CHART_OPTIONS = [
-  { label: "Archetype Δ vs avg", value: "macro_delta", needs: ["results"] },
-  { label: "Archetype Build %", value: "macro_builds" },
-  { label: "Archetype Win %", value: "macro_wins", needs: ["results"] },
-  { label: "Archetype % of wins", value: "macro_pwin", needs: ["results"] },
-  { label: "Archetype Winning %", value: "macro_winning_pct", needs: ["results"] },
-  { label: "Archetype Trophy %", value: "macro_trophy_pct", needs: ["results"] },
-  { label: "Archetype Last Place %", value: "macro_lastplace_pct", needs: ["results"] },
-  { label: "Archetype CMC", value: "macro_cmc" },
-  { label: "Matchup: Aggro", value: "matchup_aggro", needs: ["results"] },
-  { label: "Matchup: Midrange", value: "matchup_midrange", needs: ["results"] },
-  { label: "Matchup: Control", value: "matchup_control", needs: ["results"] },
-  { label: "Pie: Builds", value: "pie_builds" },
-  { label: "Pie: Wins", value: "pie_wins", needs: ["results"] },
-  { label: "Tag Build %", value: "micro_builds" },
-  { label: "Tag Win %", value: "micro_wins", needs: ["results"] },
-  { label: "Tag Winning %", value: "micro_winning_pct", needs: ["results"] },
-  { label: "Tag Trophy %", value: "micro_trophy_pct", needs: ["results"] },
-  { label: "Tag Last Place %", value: "micro_lastplace_pct", needs: ["results"] },
-  { label: "Tag % of wins", value: "micro_pwin", needs: ["results"] },
+  { label: ARCHETYPES_COPY.widget.chartDelta, value: "macro_delta", needs: ["results"] },
+  { label: ARCHETYPES_COPY.widget.chartBuilds, value: "macro_builds" },
+  { label: ARCHETYPES_COPY.widget.chartWins, value: "macro_wins", needs: ["results"] },
+  { label: ARCHETYPES_COPY.widget.chartPercentOfWins, value: "macro_pwin", needs: ["results"] },
+  { label: ARCHETYPES_COPY.widget.chartWinningPct, value: "macro_winning_pct", needs: ["results"] },
+  { label: ARCHETYPES_COPY.widget.chartTrophyPct, value: "macro_trophy_pct", needs: ["results"] },
+  { label: ARCHETYPES_COPY.widget.chartLastPlacePct, value: "macro_lastplace_pct", needs: ["results"] },
+  { label: ARCHETYPES_COPY.widget.chartCmc, value: "macro_cmc" },
+  { label: ARCHETYPES_COPY.widget.matchupAggro, value: "matchup_aggro", needs: ["results"] },
+  { label: ARCHETYPES_COPY.widget.matchupMidrange, value: "matchup_midrange", needs: ["results"] },
+  { label: ARCHETYPES_COPY.widget.matchupControl, value: "matchup_control", needs: ["results"] },
+  { label: ARCHETYPES_COPY.widget.pieBuilds, value: "pie_builds" },
+  { label: ARCHETYPES_COPY.widget.pieWins, value: "pie_wins", needs: ["results"] },
+  { label: ARCHETYPES_COPY.widget.tagBuilds, value: "micro_builds" },
+  { label: ARCHETYPES_COPY.widget.tagWins, value: "micro_wins", needs: ["results"] },
+  { label: ARCHETYPES_COPY.widget.tagWinningPct, value: "micro_winning_pct", needs: ["results"] },
+  { label: ARCHETYPES_COPY.widget.tagTrophyPct, value: "micro_trophy_pct", needs: ["results"] },
+  { label: ARCHETYPES_COPY.widget.tagLastPlacePct, value: "micro_lastplace_pct", needs: ["results"] },
+  { label: ARCHETYPES_COPY.widget.tagPercentOfWins, value: "micro_pwin", needs: ["results"] },
 ]
 
 const ARCH_SECTIONS = [
-  { id: "archetypes", label: "Archetypes" },
-  { id: "selected-archetype", label: "Selected Archetype" },
-  { id: "trends", label: "Trends" },
+  { id: "archetypes", label: ARCHETYPES_COPY.widget.sectionArchetypes },
+  { id: "selected-archetype", label: ARCHETYPES_COPY.widget.sectionSelected },
+  { id: "trends", label: ARCHETYPES_COPY.widget.sectionTrends },
 ]
 
 export function ArchetypeWidget(input) {
@@ -98,7 +99,7 @@ export function ArchetypeWidget(input) {
       <SectionNav sections={ARCH_SECTIONS} />
 
       <div className="controls-panel">
-        <span className="section-heading">Colors</span>
+        <span className="section-heading">{ARCHETYPES_COPY.widget.colors}</span>
         <ColorPickerHeader display={input.colorCheckboxes} onChecked={input.onColorChecked} />
       </div>
 
@@ -115,7 +116,7 @@ export function ArchetypeWidget(input) {
         />
       </Section>
 
-      <Section id="selected-archetype" heading={`Selected — ${input.selectedArchetype}`}>
+      <Section id="selected-archetype" heading={ARCHETYPES_COPY.widget.selectedHeading({ archetype: input.selectedArchetype })}>
         <TopCardsInArchetypeWidget
           parsed={input.parsed}
           cardData={input.cardData}
@@ -139,17 +140,17 @@ export function ArchetypeWidget(input) {
         />
       </Section>
 
-      <Section id="trends" heading="Trends">
+      <Section id="trends" heading={ARCHETYPES_COPY.widget.trendsHeading}>
         <div className="controls-panel">
           <div className="selector-group" style={{"justifyContent": "center"}}>
             <DropdownHeader
-              label="Left Chart"
+              label={ARCHETYPES_COPY.widget.leftChart}
               options={chartOptions}
               value={left}
               onChange={(e) => setLeftChart(e.target.value)}
             />
             <DropdownHeader
-              label="Right Chart"
+              label={ARCHETYPES_COPY.widget.rightChart}
               options={chartOptions}
               value={right}
               onChange={(e) => setRightChart(e.target.value)}

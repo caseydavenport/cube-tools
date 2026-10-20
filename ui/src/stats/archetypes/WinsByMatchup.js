@@ -1,5 +1,6 @@
 // The chart of one archetype's wins and losses against each of the others.
 
+import { ARCHETYPES_COPY } from "./copy.js"
 import React from 'react'
 import { Pct } from "../../utils/Utils.js"
 import { Bar } from 'react-chartjs-2'
@@ -31,7 +32,7 @@ export function WinsByMatchup(input) {
     plugins: {
       title: {
         display: true,
-        text: "Matchup data for " + matchup.name,
+        text: ARCHETYPES_COPY.matchup.title({ name: matchup.name }),
         font: {
           size: "16pt",
         },
@@ -95,18 +96,18 @@ export function WinsByMatchup(input) {
     datasets: [
       {
         type: "line",
-        label: 'Win %',
+        label: ARCHETYPES_COPY.matchup.winPct,
         data: percentages,
         borderColor: () => currentChartTheme().text,
         backgroundColor: () => currentChartTheme().text,
       },
       {
-        label: 'Wins',
+        label: ARCHETYPES_COPY.matchup.wins,
         data: winsData,
         backgroundColor: () => currentChartTheme().goodFill,
       },
       {
-        label: 'Losses',
+        label: ARCHETYPES_COPY.matchup.losses,
         data: lossData,
         backgroundColor: () => currentChartTheme().badFill,
       },
