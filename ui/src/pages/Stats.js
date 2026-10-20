@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { ColorWidget } from "../stats/colors/ColorWidget.js";
 import { ArchetypeWidget } from "../stats/archetypes/ArchetypeWidget.js";
-import { DeckWidget } from "./Decks.js";
+import { DeckWidget } from "../stats/deckstats/DeckWidget.js";
 import { CardWidget } from "../stats/cards/CardWidget.js";
 import { SynergyWidget } from "./Synergy.js";
 import { HealthWidget } from "./Health.js";

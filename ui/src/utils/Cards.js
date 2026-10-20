@@ -1,4 +1,4 @@
-import { RemovalMatches, CounterspellMatches } from "../pages/Decks.js"
+import { RemovalMatches, CounterspellMatches } from "./cardMatches.js"
 
 export function IsInteraction(card) {
   for (let match of RemovalMatches.concat(CounterspellMatches)) {

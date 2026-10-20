@@ -112,6 +112,7 @@ export function sortValue(sortBy, card) {
 // default "Overview" mode puts play rate and win rate side by side, with the
 // exact board counts and win detail tucked into per-cell hover popovers.
 // ---------------------------------------------------------------------------
+
 // currentCubeId pulls the cube segment out of the HashRouter URL (#/{cube}/...).
 function currentCubeId() {
   const m = (window.location.hash || "").match(/#\/([^/?]+)/)

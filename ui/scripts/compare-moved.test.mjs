@@ -48,3 +48,10 @@ test("reports the same name declared in two new files", () => {
   ])
   assert.deepEqual(result.duplicated, ["B"])
 })
+
+test("a file header above the first declaration isn't part of its comments", () => {
+  const result = compareMoved(OLD, [
+    { path: "one.js", text: "// One holds a.\n\n// a adds one.\nfunction a(x) {\n  return x + 1\n}\n// B is a constant.\nconst B = 2\n" },
+  ])
+  assert.deepEqual(result.changed, [])
+})

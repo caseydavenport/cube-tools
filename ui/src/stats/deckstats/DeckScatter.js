@@ -1,0 +1,185 @@
+// The Deck stats scatter plot: the axis choices and how each deck's point is
+// placed and colored.
+
+import React from 'react'
+import { AverageCMC, Pct } from "../../utils/Utils.js"
+import { Wins, Losses } from "../../utils/Deck.js"
+import { largeTicks } from "../../utils/Buckets.js"
+import { DropdownHeader } from "../../components/Dropdown.js"
+import { Scatter } from 'react-chartjs-2'
+import { currentChartTheme, seriesColor } from "../../theme/chartTheme.js"
+import { availableValue, visibleItems } from "../../utils/dataKinds.js"
+import { DeckSplits } from "../../utils/cardMatches.js"
+
+const NumInteractionOption = "# interaction"
+
+const NumCreaturesOption = "# creatures"
+
+const WinPercentOption = "win %"
+
+const AvgManaValueOption = "avg. mana value"
+
+const DeckScatterAxes = [
+  {label: NumInteractionOption, value: NumInteractionOption},
+  {label: NumCreaturesOption, value: NumCreaturesOption},
+  {label: WinPercentOption, value: WinPercentOption, needs: ["results"]},
+  {label: AvgManaValueOption, value: AvgManaValueOption},
+]
+
+// deckPointColor colors one deck on the scatter plot: the selected deck in
+// the text color, every other deck in the first series color.
+function deckPointColor(kind) {
+  if (kind === "selected") {
+    return currentChartTheme().text
+  }
+  return seriesColor(0)
+}
+
+export function DeckGraph(input) {
+
+  // Determine what to show on each axis.
+  // A remembered axis the cube can't fill (win % without results) falls back
+  // to one it can.
+  let xAxis = availableValue(input.xAxis, DeckScatterAxes, input.info)
+  let yAxis = availableValue(input.yAxis, DeckScatterAxes, input.info, xAxis)
+
+  // Labels for each data point.
+  var labels = []
+  var pointKinds = []
+  var sizes = []
+
+  let name = yAxis + " vs. " + xAxis
+
+  // values is an array of maps with keys 'x' and 'y'.
+  var values = []
+  for (let deck of input.parsed.filteredDecks) {
+    if (!deck.mainboard || deck.mainboard.length == 0) {
+      continue
+    }
+
+    var x = null
+    var y = null
+
+    x = getValue(xAxis, deck, input.parsed.archetypeData, input.parsed.playerData, input.parsed.filteredDecks, input.parsed.pickInfo)
+    y = getValue(yAxis, deck, input.parsed.archetypeData, input.parsed.playerData, input.parsed.filteredDecks, input.parsed.pickInfo)
+
+    if (x === null || y === null) {
+      continue
+    }
+
+    let name = deck.player + " (" + deck.date + ")"
+    labels.push(name)
+
+    // The selected deck stands out in the text color.
+    if (name === input.selectedCard) {
+      pointKinds.push("selected")
+      sizes.push(10)
+    } else {
+      pointKinds.push("plain")
+      sizes.push(3)
+    }
+    values.push({"x": x, "y": y})
+  }
+
+  let dataset = [
+      {
+        label: "All decks",
+        data: values,
+        // A function, so Chart.js colors the points again when the scheme changes.
+        pointBackgroundColor: ctx => deckPointColor(pointKinds[ctx.dataIndex]),
+        pointRadius: sizes,
+        pointHoverRadius: 10,
+      },
+  ]
+
+
+  let title = `${name} (all drafts)`
+
+  const options = {
+    responsive: true,
+    maintainAspectRatio: false,
+    onClick: function(evt, element) {},
+    scales: {
+      y: {
+        title: {display: true, text: yAxis, font: {size: 20, weight: "bold"}},
+        min: getScales(yAxis, false)[0],
+        max: getScales(yAxis, false)[1],
+        ticks: largeTicks,
+      },
+      x: {
+        title: {display: true, text: xAxis, font: {size: 20, weight: "bold"}},
+        min: getScales(xAxis, false)[0],
+        max: getScales(xAxis, false)[1],
+        ticks: largeTicks,
+      },
+    },
+    plugins: {
+      title: {
+        display: true,
+        text: title,
+        font: {
+          size: "16pt",
+        },
+      },
+      legend: {
+        labels: {
+          font: {
+            size: "16pt",
+          },
+        },
+      },
+    },
+  };
+
+  const data = {labels, datasets: dataset};
+  return (
+    <div className="chart-container">
+      <div className="selector-group" style={{"justifyContent": "center", "marginBottom": "1rem"}}>
+        <DropdownHeader
+          label="X Axis"
+          options={visibleItems(DeckScatterAxes, input.info)}
+          value={xAxis}
+          onChange={input.onXAxisSelected}
+        />
+        <DropdownHeader
+          label="Y Axis"
+          options={visibleItems(DeckScatterAxes, input.info)}
+          value={yAxis}
+          onChange={input.onYAxisSelected}
+        />
+      </div>
+
+      <div align="center" style={{"minHeight": "700px"}}>
+        <Scatter className="chart" options={options} data={data} />
+      </div>
+    </div>
+  );
+}
+
+function getScales(axis, force) {
+  // TODO: Can uncomment this when there are % based stat options.
+  // if (force) {
+  //   switch (axis) {
+  //     case NumInteractionOption:
+  //     case NumCreaturesOption:
+  //       return [0, 100]
+  //   }
+  // }
+  return [null, null]
+}
+
+function getValue(axis, deck, archetypeData, playerData, decks, draftData) {
+  let [creatures, interaction] = DeckSplits(deck)
+
+  switch (axis) {
+    case NumInteractionOption:
+      return interaction
+    case NumCreaturesOption:
+      return creatures
+    case WinPercentOption:
+      return Pct(Wins(deck), Wins(deck) + Losses(deck))
+    case AvgManaValueOption:
+      return AverageCMC({deck: deck})
+  }
+  return null
+}

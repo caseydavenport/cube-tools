@@ -71,7 +71,7 @@ function declarations(source) {
       inner = node.declaration
     }
 
-    const comments = (node.leadingComments || []).map(c => source.slice(c.start, c.end))
+    const comments = attachedComments(source, node).map(c => source.slice(c.start, c.end))
     const text = [...comments, source.slice(inner.start, node.end)].join("\n")
 
     const name = declarationName(inner)
@@ -82,6 +82,24 @@ function declarations(source) {
     }
   }
   return decls
+}
+
+// attachedComments returns the comments directly above a node: the last run
+// of leading comments with no blank line between them and the node. A file's
+// header comment, set off by a blank line, isn't part of the declaration.
+function attachedComments(source, node) {
+  const comments = node.leadingComments || []
+  const attached = []
+  let end = node.start
+  for (let i = comments.length - 1; i >= 0; i--) {
+    const gap = source.slice(comments[i].end, end)
+    if ((gap.match(/\n/g) || []).length > 1) {
+      break
+    }
+    attached.unshift(comments[i])
+    end = comments[i].start
+  }
+  return attached
 }
 
 // declarationName returns the name a function, class, or variable declaration

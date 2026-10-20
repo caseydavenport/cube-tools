@@ -1,6 +1,6 @@
 import React from "react"
 import { StatTile } from "../components/kit/StatTile.js"
-import { CounterspellMatches, RemovalMatches } from "../pages/Decks.js"
+import { CounterspellMatches, RemovalMatches } from "../utils/cardMatches.js"
 import { deckCounts } from "./deckModel.js"
 
 const INTERACTION_PHRASES = RemovalMatches.concat(CounterspellMatches)

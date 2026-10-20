@@ -7,7 +7,7 @@ import { GetColorStats } from "../stats/colors/colorStats.js";
 import { DeckBuckets } from "../utils/Buckets.js";
 import { AggregatedPickInfo } from "../utils/DraftLog.js";
 import { draftLabel } from "../utils/DraftInfo.js";
-import { BuildGraphData } from "./Decks.js";
+import { BuildGraphData } from "../stats/deckstats/graphData.js";
 import { CheckboxesToColors } from "../utils/Utils.js";
 
 export function useStatsFilters() {

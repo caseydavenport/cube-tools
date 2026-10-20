@@ -11,6 +11,7 @@ import { currentChartTheme, deltaFill, seriesColor } from "../../theme/chartThem
 import { shouldSkip } from "./CardStatsTable.js"
 
 // Chart configuration.
+
 const NumDecksOption = "# Decks"
 
 const NumSideboardOption = "# Sideboard"
