@@ -67,7 +67,7 @@ func TestPivot_ColorExcludesBlack(t *testing.T) {
 	group := dim("color", 1, "inclusive")
 
 	// Without the predicate, White is propped up by the WB deck: 3-1.
-	all := computePivot(decks, &PivotRequest{GroupBy: group}, nil, nil)
+	all := computePivot(decks, decks, &PivotRequest{GroupBy: group}, nil, nil)
 	w := rowByKey(all, "W")
 	require.NotNil(t, w)
 	assert.Equal(t, 3, w.Cells[""].Wins)
@@ -75,7 +75,7 @@ func TestPivot_ColorExcludesBlack(t *testing.T) {
 	assert.NotNil(t, rowByKey(all, "B"), "B row present when unfiltered")
 
 	// Excluding black, only the mono-white deck remains: 1-1 (50%).
-	filtered := computePivot(decks, &PivotRequest{
+	filtered := computePivot(decks, decks, &PivotRequest{
 		GroupBy:    group,
 		Predicates: []PivotPredicate{{Dim: "color", Op: "excludes", Value: "B"}},
 	}, nil, nil)
@@ -94,7 +94,7 @@ func TestPivot_DualGuildPairs(t *testing.T) {
 		makePivotDeck("Alice", 1, "2025-01-01", []string{"W", "U"}, "control", nil, []types.Game{{Opponent: "Bob", Winner: "Alice"}}),
 		makePivotDeck("Carol", 1, "2025-01-01", []string{"B", "G"}, "midrange", nil, []types.Game{{Opponent: "Dave", Winner: "Eve"}}),
 	}
-	resp := computePivot(decks, &PivotRequest{GroupBy: dim("color", 2, "exact")}, nil, nil)
+	resp := computePivot(decks, decks, &PivotRequest{GroupBy: dim("color", 2, "exact")}, nil, nil)
 
 	wu := rowByKey(resp, "WU")
 	require.NotNil(t, wu)
@@ -114,7 +114,7 @@ func TestPivot_OpponentColorMatchup(t *testing.T) {
 		makePivotDeck("Alice", 1, "2025-01-01", []string{"W"}, "", nil, []types.Game{{Opponent: "Bob", Winner: "Alice"}}),
 		makePivotDeck("Bob", 1, "2025-01-01", []string{"R"}, "", nil, []types.Game{{Opponent: "Alice", Winner: "Alice"}}),
 	}
-	resp := computePivot(decks, &PivotRequest{
+	resp := computePivot(decks, decks, &PivotRequest{
 		GroupBy: dim("color", 1, "inclusive"),
 		SplitBy: dim("opponent_color", 1, "inclusive"),
 	}, nil, nil)
@@ -137,6 +137,24 @@ func TestPivot_OpponentColorMatchup(t *testing.T) {
 	assert.Equal(t, "", resp.Columns[0])
 }
 
+// The deck filter narrows the subject decks, but opponents still resolve from
+// every deck, so Ozzy's game against Stevie lands in the R column even though
+// Stevie's deck isn't a subject.
+func TestPivot_DeckFilterKeepsOpponents(t *testing.T) {
+	ozzy := makePivotDeck("Ozzy", 1, "2026-01-01", []string{"W"}, "", nil, []types.Game{{Opponent: "Stevie", Winner: "Ozzy"}})
+	stevie := makePivotDeck("Stevie", 1, "2026-01-01", []string{"R"}, "", nil, []types.Game{{Opponent: "Ozzy", Winner: "Ozzy"}})
+	resp := computePivot([]*storage.Deck{ozzy, stevie}, []*storage.Deck{ozzy}, &PivotRequest{
+		GroupBy: dim("color", 1, "inclusive"),
+		SplitBy: dim("opponent_color", 1, "inclusive"),
+	}, nil, nil)
+
+	w := rowByKey(resp, "W")
+	require.NotNil(t, w)
+	require.NotNil(t, w.Cells["R"])
+	assert.Equal(t, 1, w.Cells["R"].Wins)
+	assert.Nil(t, rowByKey(resp, "R"), "Stevie's deck isn't a subject")
+}
+
 // A numeric composition predicate filters on the per-deck count.
 func TestPivot_CompositionPredicate(t *testing.T) {
 	removalCard := types.Card{Name: "Doom Blade", Colors: []string{"B"}, OracleText: "Destroy target creature."}
@@ -156,7 +174,7 @@ func TestPivot_CompositionPredicate(t *testing.T) {
 		// 0 removal - filtered out.
 		makePivotDeck("Carol", 1, "2025-01-01", []string{"B"}, "aggro", []types.Card{vanilla, vanilla}, []types.Game{{Opponent: "Dave", Winner: "Dave"}}),
 	}
-	resp := computePivot(decks, &PivotRequest{
+	resp := computePivot(decks, decks, &PivotRequest{
 		GroupBy:    dim("color", 1, "inclusive"),
 		Predicates: []PivotPredicate{{Dim: "removal", Op: "gte", Value: "3"}},
 	}, nil, nil)
@@ -174,7 +192,7 @@ func TestPivot_TimeGrouping(t *testing.T) {
 		makePivotDeck("Alice", 1, "2025-01-01", []string{"R"}, "", nil, []types.Game{{Opponent: "Bob", Winner: "Alice"}}),
 		makePivotDeck("Carol", 2, "2025-02-01", []string{"R"}, "", nil, []types.Game{{Opponent: "Dave", Winner: "Dave"}}),
 	}
-	resp := computePivot(decks, &PivotRequest{GroupBy: dim("time", 0, ""), BucketSize: 1}, nil, nil)
+	resp := computePivot(decks, decks, &PivotRequest{GroupBy: dim("time", 0, ""), BucketSize: 1}, nil, nil)
 
 	require.Len(t, resp.Rows, 2)
 	jan := rowByKey(resp, "2025-01-01")
@@ -205,7 +223,7 @@ func TestPivot_ExcludePlayers(t *testing.T) {
 			{Opponent: "Bob", Winner: "Bob"},     // dropped: vs excluded Bob
 		}),
 	}
-	resp := computePivot(decks, &PivotRequest{
+	resp := computePivot(decks, decks, &PivotRequest{
 		GroupBy:        dim("color", 1, "inclusive"),
 		ExcludePlayers: []string{"bob"}, // case-insensitive
 	}, nil, nil)
@@ -269,7 +287,7 @@ func TestPivot_OpponentCompositionSplit(t *testing.T) {
 		makePivotDeck("Carol", 1, "2025-01-01", []string{"W"}, "aggro", nil, []types.Game{{Opponent: "Alice", Winner: "Alice"}}),
 	}
 
-	resp := computePivot(decks, &PivotRequest{
+	resp := computePivot(decks, decks, &PivotRequest{
 		GroupBy: dim("color", 1, "inclusive"),
 		SplitBy: dim("opponent_creatures", 0, ""),
 	}, nil, nil)
@@ -283,7 +301,7 @@ func TestPivot_OpponentCompositionSplit(t *testing.T) {
 	// Alice's opponent). Carol's empty mainboard adds no zero bucket.
 	assert.Equal(t, []string{"", "0-8", "12-14"}, resp.Columns)
 
-	byArch := computePivot(decks, &PivotRequest{
+	byArch := computePivot(decks, decks, &PivotRequest{
 		GroupBy: dim("color", 1, "inclusive"),
 		SplitBy: dim("opponent_archetype", 0, ""),
 	}, nil, nil)

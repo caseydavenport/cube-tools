@@ -54,6 +54,11 @@ type PivotRequest struct {
 	BucketSize int              `json:"bucket_size"`
 	Predicates []PivotPredicate `json:"predicates"`
 
+	// Match is the page's deck filter. It narrows the subject decks, while
+	// opponents and time buckets still come from every deck in the date range,
+	// as with Predicates.
+	Match string `json:"match,omitempty"`
+
 	// ExcludePlayers drops these players entirely - both their own decks and
 	// any game played against them - so a few heavy, outlier players can be
 	// removed from the aggregate rather than skewing it.
@@ -130,14 +135,21 @@ func (h *pivotHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 		}
 	}
 
-	// Date range filters the whole population up front. Predicates then carve
-	// out the subject decks, but the opponent index is built over the full
-	// date-filtered set so matchup opponents always resolve even when a
-	// predicate would have excluded them as a subject.
+	// The deck filter and predicates pick the subject decks. Opponents come from
+	// every deck in the date range, so they resolve even when a filter would
+	// exclude them as subjects.
 	allDecks, err := h.q.Decks(cubeID, &storage.DecksRequest{Start: req.Start, End: req.End})
 	if err != nil {
 		http.Error(rw, "could not load decks", http.StatusInternalServerError)
 		return
+	}
+	subjects := allDecks
+	if req.Match != "" {
+		subjects, err = h.q.Decks(cubeID, &storage.DecksRequest{Start: req.Start, End: req.End, Match: req.Match})
+		if err != nil {
+			http.Error(rw, "could not load decks", http.StatusInternalServerError)
+			return
+		}
 	}
 
 	edges, err := pivotEdges(h.q, cubeID, req.Predicates)
@@ -147,7 +159,7 @@ func (h *pivotHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	resp := computePivot(allDecks, &req, cubeCards, edges)
+	resp := computePivot(allDecks, subjects, &req, cubeCards, edges)
 
 	b, err := json.Marshal(resp)
 	if err != nil {
@@ -171,7 +183,11 @@ func pivotEdges(q *deckquery.Query, cubeID string, preds []PivotPredicate) ([]gr
 	return nil, nil
 }
 
-func computePivot(allDecks []*storage.Deck, req *PivotRequest, cubeCards map[string]types.Card, edges []graph.Edge) *PivotResponse {
+// computePivot aggregates the subject decks' games into the request's group and
+// split cells. allDecks is the whole date range: opponents and time buckets come
+// from it, so narrowing the subjects with the deck filter doesn't lose an
+// opponent or shift the time axis.
+func computePivot(allDecks, subjects []*storage.Deck, req *PivotRequest, cubeCards map[string]types.Card, edges []graph.Edge) *PivotResponse {
 	idx := storage.NewOpponentIndex(allDecks)
 
 	// A time dimension needs a stable draft->bucket label map, built over the
@@ -220,7 +236,7 @@ func computePivot(allDecks []*storage.Deck, req *PivotRequest, cubeCards map[str
 		return cell
 	}
 
-	for _, d := range allDecks {
+	for _, d := range subjects {
 		if excluded[strings.ToLower(d.Player)] {
 			continue
 		}

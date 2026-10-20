@@ -63,8 +63,12 @@ func (h *packageStatsHandler) ServeHTTP(rw http.ResponseWriter, r *http.Request)
 	}
 
 	// The design graph is cube-wide; only the decks it's measured over follow
-	// the date range.
-	dr := &storage.DecksRequest{Start: query.GetString(r, "start"), End: query.GetString(r, "end")}
+	// the date range and the deck filter.
+	dr := &storage.DecksRequest{
+		Start: query.GetString(r, "start"),
+		End:   query.GetString(r, "end"),
+		Match: query.GetString(r, "match"),
+	}
 	allDecks, err := h.q.Decks(cubeID, dr)
 	if err != nil {
 		http.Error(rw, "could not load decks", http.StatusInternalServerError)

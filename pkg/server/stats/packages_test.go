@@ -138,3 +138,11 @@ func TestPackageStats_EmptyDecksExcludedFromDenominator(t *testing.T) {
 	gy := statFor(t, resp, "Graveyard")
 	assert.Equal(t, 1.0, gy.BuildRate)
 }
+
+// A deck filter that matches nothing leaves no decks, which should give no
+// label rows rather than rows at a 0% build rate.
+func TestPackageStats_NoDecksGivesNoLabels(t *testing.T) {
+	resp := packageStats(packageTestGraph(), nil, 0.8)
+	assert.Equal(t, 0, resp.PopulatedDecks)
+	assert.Empty(t, resp.Packages)
+}

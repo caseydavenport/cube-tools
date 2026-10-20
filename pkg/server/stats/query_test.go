@@ -123,6 +123,7 @@ func TestFilteredHandlersMatchDecksPage(t *testing.T) {
 		"players":        PlayerStatsHandler,
 		"color-matchups": ColorMatchupHandler,
 		"health":         HealthStatsHandler,
+		"packages":       PackageStatsHandler,
 	} {
 		t.Run(name, func(t *testing.T) {
 			spy := newSpy()
@@ -131,6 +132,16 @@ func TestFilteredHandlersMatchDecksPage(t *testing.T) {
 			assert.Equal(t, decksSpy.lastPlayers, spy.lastPlayers)
 		})
 	}
+
+	// Pivot reads its subject decks last, after the whole date range it finds
+	// opponents in.
+	t.Run("pivot", func(t *testing.T) {
+		spy := newSpy()
+		body := `{"match":"community:graveyard","group_by":{"dim":"player"}}`
+		rec := serve(t, PivotHandler(spy, stubCubes{}), http.MethodPost, "/api/testcube/stats/pivot", body)
+		require.Equal(t, http.StatusOK, rec.Code, rec.Body.String())
+		assert.Equal(t, decksSpy.lastPlayers, spy.lastPlayers)
+	})
 }
 
 // populationCase is one handler request and the deck population it should
@@ -151,10 +162,7 @@ func TestWholePopulationHandlersKeepPopulation(t *testing.T) {
 	for _, tc := range []populationCase{
 		{"removal", func(s storage.DeckStorage) http.Handler { return RemovalHandler(s, stubCubes{}) }, http.MethodGet, "/stats/removal?" + filters, "", storage.DecksRequest{}},
 		{"removal with dates", func(s storage.DeckStorage) http.Handler { return RemovalHandler(s, stubCubes{}) }, http.MethodGet, "/stats/removal?" + filters + dates, "", dateRange},
-		{"packages", func(s storage.DeckStorage) http.Handler { return PackageStatsHandler(s, stubCubes{}) }, http.MethodGet, "/stats/packages?" + filters, "", storage.DecksRequest{}},
-		{"packages with dates", func(s storage.DeckStorage) http.Handler { return PackageStatsHandler(s, stubCubes{}) }, http.MethodGet, "/stats/packages?" + filters + dates, "", dateRange},
 		{"group distributions", func(s storage.DeckStorage) http.Handler { return GroupDistributionsHandler(s, stubCubes{}) }, http.MethodGet, "/stats/group-distributions?" + filters + dates, "", storage.DecksRequest{}},
-		{"pivot", func(s storage.DeckStorage) http.Handler { return PivotHandler(s, stubCubes{}) }, http.MethodPost, "/stats/pivot?" + filters, `{"start":"2026-01-01","end":"2026-06-30"}`, dateRange},
 	} {
 		t.Run(tc.name, func(t *testing.T) {
 			spy := newSpy()
@@ -169,6 +177,44 @@ func TestWholePopulationHandlersKeepPopulation(t *testing.T) {
 			}
 		})
 	}
+}
+
+// TestDeckFilterHandlersReadOnlyTheFilter checks that packages and pivot take
+// the deck filter from the page and nothing else, and that pivot still reads the
+// whole date range for opponents.
+func TestDeckFilterHandlersReadOnlyTheFilter(t *testing.T) {
+	const filters = "player=Ozzy&match=arch:aggro&size=99&board=Sideboard"
+	const dates = "&start=2026-01-01&end=2026-06-30"
+	dateRange := storage.DecksRequest{Start: "2026-01-01", End: "2026-06-30"}
+	filtered := storage.DecksRequest{Start: "2026-01-01", End: "2026-06-30", Match: "arch:aggro"}
+
+	t.Run("packages", func(t *testing.T) {
+		spy := newSpy()
+		rec := serve(t, PackageStatsHandler(spy, stubCubes{}), http.MethodGet, "/api/testcube/stats/packages?"+filters+dates, "")
+		require.Equal(t, http.StatusOK, rec.Code, rec.Body.String())
+
+		// The design graph's card-name pass always reads every deck.
+		assert.Contains(t, spy.requests, filtered)
+		for _, got := range spy.requests {
+			assert.Contains(t, []storage.DecksRequest{{}, filtered}, got)
+		}
+	})
+
+	t.Run("pivot with a filter", func(t *testing.T) {
+		spy := newSpy()
+		body := `{"start":"2026-01-01","end":"2026-06-30","match":"arch:aggro"}`
+		rec := serve(t, PivotHandler(spy, stubCubes{}), http.MethodPost, "/api/testcube/stats/pivot?"+filters, body)
+		require.Equal(t, http.StatusOK, rec.Code, rec.Body.String())
+		assert.Equal(t, []storage.DecksRequest{dateRange, filtered}, spy.requests)
+	})
+
+	t.Run("pivot without a filter", func(t *testing.T) {
+		spy := newSpy()
+		body := `{"start":"2026-01-01","end":"2026-06-30"}`
+		rec := serve(t, PivotHandler(spy, stubCubes{}), http.MethodPost, "/api/testcube/stats/pivot?"+filters, body)
+		require.Equal(t, http.StatusOK, rec.Code, rec.Body.String())
+		assert.Equal(t, []storage.DecksRequest{dateRange}, spy.requests)
+	})
 }
 
 func TestDeckCardNamesUsesGivenStore(t *testing.T) {
