@@ -88,8 +88,8 @@ export const CARDS_COPY = {
   // CardTooltip.js: the tables in the card name popover.
   tooltip: {
     player: "Player",
-    mainboardCount: "# MB",
-    sideboardCount: "# SB",
+    mainboardCount: "Played",
+    sideboardCount: "Sideboarded",
     archetype: "Archetype",
   },
 
