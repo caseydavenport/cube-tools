@@ -9,56 +9,57 @@ import { largeTicks } from "../../utils/Buckets.js"
 import { Scatter } from 'react-chartjs-2'
 import { currentChartTheme, deltaFill, seriesColor } from "../../theme/chartTheme.js"
 import { shouldSkip } from "./CardStatsTable.js"
+import { CARDS_COPY } from "./copy.js"
 
 // Chart configuration.
 
-const NumDecksOption = "# Decks"
+const NumDecksOption = CARDS_COPY.scatter.axisNumDecks
 
-const NumSideboardOption = "# Sideboard"
+const NumSideboardOption = CARDS_COPY.scatter.axisNumSideboard
 
-const MainboardPercentOption = "Mainboard %"
+const MainboardPercentOption = CARDS_COPY.scatter.axisMainboardPercent
 
-const SideboardPercentOption = "Sideboard %"
+const SideboardPercentOption = CARDS_COPY.scatter.axisSideboardPercent
 
-const WinPercentOption = "Win %"
+const WinPercentOption = CARDS_COPY.scatter.axisWinPercent
 
-const WinPercentVsAvgOption = "Win % vs avg"
+const WinPercentVsAvgOption = CARDS_COPY.scatter.axisWinPercentVsAvg
 
-const PercentOfWinsOption = "% of Wins"
+const PercentOfWinsOption = CARDS_COPY.scatter.axisPercentOfWins
 
-const NumberOfWinsOption = "# Wins"
+const NumberOfWinsOption = CARDS_COPY.scatter.axisNumWins
 
-const ExpectedWinPercentOption = "Expected Win %"
+const ExpectedWinPercentOption = CARDS_COPY.scatter.axisExpectedWinPercent
 
-const ELOOption = "Pick ELO"
+const ELOOption = CARDS_COPY.scatter.axisPickElo
 
-const MatchELOOption = "Match ELO"
+const MatchELOOption = CARDS_COPY.scatter.axisMatchElo
 
-const NumGamesOption = "# Games"
+const NumGamesOption = CARDS_COPY.scatter.axisNumGames
 
-const ManaValueOption = "Mana Value"
+const ManaValueOption = CARDS_COPY.scatter.axisManaValue
 
-const NumPlayersOption = "# Players"
+const NumPlayersOption = CARDS_COPY.scatter.axisNumPlayers
 
-const DraftOrderOption = "Avg. draft pick"
+const DraftOrderOption = CARDS_COPY.scatter.axisDraftPick
 
-const NumTrophiesOption = "# Trophies"
+const NumTrophiesOption = CARDS_COPY.scatter.axisNumTrophies
 
-const NumLastPlaceOption = "# Last place"
+const NumLastPlaceOption = CARDS_COPY.scatter.axisNumLastPlace
 
-const VersusAggroOption = "vs Aggro Win %"
+const VersusAggroOption = CARDS_COPY.scatter.axisVsAggro
 
-const VersusControlOption = "vs Control Win %"
+const VersusControlOption = CARDS_COPY.scatter.axisVsControl
 
-const VersusMidrangeOption = "vs Midrange Win %"
+const VersusMidrangeOption = CARDS_COPY.scatter.axisVsMidrange
 
-const InAggroOption = "in Aggro Win %"
+const InAggroOption = CARDS_COPY.scatter.axisInAggro
 
-const InControlOption = "in Control Win %"
+const InControlOption = CARDS_COPY.scatter.axisInControl
 
-const InMidrangeOption = "in Midrange Win %"
+const InMidrangeOption = CARDS_COPY.scatter.axisInMidrange
 
-const WordCountOption = "Word Count"
+const WordCountOption = CARDS_COPY.scatter.axisWordCount
 
 // CardScatterAxes are the measures the scatter plot can put on an axis. needs
 // lists the data a measure is built from, so a cube without it doesn't offer it.
@@ -119,8 +120,6 @@ export function CardGraph(input) {
   var pointKinds = []
   var sizes = []
 
-  let name = yAxis + " vs. " + xAxis
-
   // Track the plotted range so we can span a baseline line across the whole axis.
   let xMin = Infinity, xMax = -Infinity, yMin = Infinity, yMax = -Infinity
   let track = function(v, isX) {
@@ -175,7 +174,7 @@ export function CardGraph(input) {
 
   let dataset = [
       {
-        label: "All cards",
+        label: CARDS_COPY.scatter.allCardsLabel,
         data: values,
         // A function, so Chart.js colors the points again when the scheme changes.
         pointBackgroundColor: ctx => scatterPointColor(pointKinds[ctx.dataIndex]),
@@ -189,7 +188,7 @@ export function CardGraph(input) {
   if (yAxis === WinPercentVsAvgOption && isFinite(xMin) && isFinite(xMax)) {
     dataset.push({
       type: "line",
-      label: "Cube average",
+      label: CARDS_COPY.scatter.cubeAverageLabel,
       data: [{x: xMin, y: 0}, {x: xMax, y: 0}],
       borderColor: () => currentChartTheme().muted,
       borderDash: [6, 6],
@@ -201,7 +200,7 @@ export function CardGraph(input) {
   if (xAxis === WinPercentVsAvgOption && isFinite(yMin) && isFinite(yMax)) {
     dataset.push({
       type: "line",
-      label: "Cube average",
+      label: CARDS_COPY.scatter.cubeAverageLabel,
       data: [{x: 0, y: yMin}, {x: 0, y: yMax}],
       borderColor: () => currentChartTheme().muted,
       borderDash: [6, 6],
@@ -211,7 +210,7 @@ export function CardGraph(input) {
     })
   }
 
-  let title = `${name} (all drafts)`
+  let title = CARDS_COPY.scatter.title({ y: yAxis, x: xAxis })
 
   // Signed-percent ticks for the win-delta axis, plain ticks otherwise.
   let axisTicks = function(axis) {
@@ -262,7 +261,13 @@ export function CardGraph(input) {
               }
               return v
             }
-            return `${labels[ctx.dataIndex]}: ${xAxis} ${fmt(xAxis, ctx.parsed.x)}, ${yAxis} ${fmt(yAxis, ctx.parsed.y)}`
+            return CARDS_COPY.scatter.pointLabel({
+              card: labels[ctx.dataIndex],
+              x: xAxis,
+              xValue: fmt(xAxis, ctx.parsed.x),
+              y: yAxis,
+              yValue: fmt(yAxis, ctx.parsed.y),
+            })
           },
         },
       },
@@ -281,13 +286,13 @@ export function CardGraph(input) {
     <div className="chart-container">
       <div className="selector-group" style={{"justifyContent": "center", "marginBottom": "1rem"}}>
         <DropdownHeader
-          label="X Axis"
+          label={CARDS_COPY.scatter.xAxisLabel}
           options={visibleItems(CardScatterAxes, input.info)}
           value={xAxis}
           onChange={input.onXAxisSelected}
         />
         <DropdownHeader
-          label="Y Axis"
+          label={CARDS_COPY.scatter.yAxisLabel}
           options={visibleItems(CardScatterAxes, input.info)}
           value={yAxis}
           onChange={input.onYAxisSelected}

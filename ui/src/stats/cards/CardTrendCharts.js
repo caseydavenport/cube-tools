@@ -5,6 +5,7 @@ import { hasData } from "../../utils/dataKinds.js"
 import { bucketTicks, largeTicks } from "../../utils/Buckets.js"
 import { Line } from 'react-chartjs-2'
 import { seriesColor } from "../../theme/chartTheme.js"
+import { CARDS_COPY } from "./copy.js"
 
 export function PlayRateChart(input) {
   // Split the given decks into fixed-size buckets.
@@ -21,7 +22,7 @@ export function PlayRateChart(input) {
 
   let name = input.selectedCard
   if (name == "") {
-    return <p className="section-hint">Select a card to chart its play rate over time.</p>
+    return <p className="section-hint">{CARDS_COPY.trendCharts.pickRateEmpty}</p>
   }
 
   var mb = []
@@ -44,7 +45,7 @@ export function PlayRateChart(input) {
 
   let dataset = [
       {
-        label: 'Mainboard %',
+        label: CARDS_COPY.trendCharts.mainboardLabel,
         data: mb,
         borderColor: seriesColor(0),
         backgroundColor: seriesColor(0),
@@ -54,13 +55,13 @@ export function PlayRateChart(input) {
   // The sideboard lines need sideboards, which some cubes don't record.
   if (hasData(input.info, "sideboards")) {
     dataset.push({
-      label: 'Sideboard %',
+      label: CARDS_COPY.trendCharts.sideboardLabel,
       data: sb,
       borderColor: seriesColor(2),
       backgroundColor: seriesColor(2),
     })
     dataset.push({
-      label: 'Playable sb %',
+      label: CARDS_COPY.trendCharts.playableSideboardLabel,
       data: playableSb,
       borderColor: seriesColor(3),
       backgroundColor: seriesColor(3),
@@ -68,7 +69,7 @@ export function PlayRateChart(input) {
   }
 
 
-  let title = `${name} % (bucket size = ${input.bucketSize} drafts)`
+  let title = CARDS_COPY.trendCharts.pickRateTitle({ name: name, bucketSize: input.bucketSize })
 
   const options = {
     responsive: true,
@@ -78,10 +79,10 @@ export function PlayRateChart(input) {
         min: 0,
         max: 100,
         ticks: largeTicks,
-        title: {display: true, text: "Pick %", font: {size: 20, weight: "bold"}},
+        title: {display: true, text: CARDS_COPY.trendCharts.pickRateAxis, font: {size: 20, weight: "bold"}},
       },
       x: {
-        title: {display: true, text: "Dates", font: {size: 20, weight: "bold"}},
+        title: {display: true, text: CARDS_COPY.trendCharts.datesAxis, font: {size: 20, weight: "bold"}},
         ticks: bucketTicks,
       },
     },
@@ -128,7 +129,7 @@ export function ELOChart(input) {
 
   let name = input.selectedCard
   if (name == "") {
-    return <p className="section-hint">Select a card to chart its ELO over time.</p>
+    return <p className="section-hint">{CARDS_COPY.trendCharts.eloEmpty}</p>
   }
 
   let min = 850
@@ -154,7 +155,7 @@ export function ELOChart(input) {
 
   let dataset = [
       {
-        label: 'ELO',
+        label: CARDS_COPY.trendCharts.eloLabel,
         data: elo,
         borderColor: seriesColor(6),
         backgroundColor: seriesColor(6),
@@ -162,20 +163,20 @@ export function ELOChart(input) {
   ]
 
 
-  let title = `${name} ELO (bucket size = ${input.bucketSize} drafts)`
+  let title = CARDS_COPY.trendCharts.eloTitle({ name: name, bucketSize: input.bucketSize })
 
   const options = {
     responsive: true,
     maintainAspectRatio: false,
     scales: {
       y: {
-        title: {display: true, text: "Pick ELO", font: {size: 20, weight: "bold"}},
+        title: {display: true, text: CARDS_COPY.trendCharts.eloAxis, font: {size: 20, weight: "bold"}},
         min: min-50,
         max: max+50,
         ticks: largeTicks,
       },
       x: {
-        title: {display: true, text: "Dates", font: {size: 20, weight: "bold"}},
+        title: {display: true, text: CARDS_COPY.trendCharts.datesAxis, font: {size: 20, weight: "bold"}},
         ticks: bucketTicks,
       },
     },
@@ -222,7 +223,7 @@ export function WinrateChart(input) {
 
   let name = input.selectedCard
   if (name == "") {
-    return <p className="section-hint">Select a card to chart its win rate over time.</p>
+    return <p className="section-hint">{CARDS_COPY.trendCharts.winRateEmpty}</p>
   }
 
   var wins = []
@@ -246,33 +247,33 @@ export function WinrateChart(input) {
 
   let dataset = [
       {
-        label: 'Win %',
+        label: CARDS_COPY.trendCharts.winLabel,
         data: wins,
         borderColor: seriesColor(0),
         backgroundColor: seriesColor(0),
       },
       {
-        label: '% of all Wins',
+        label: CARDS_COPY.trendCharts.allWinsLabel,
         data: pows,
         borderColor: seriesColor(2),
         backgroundColor: seriesColor(2),
       },
   ]
 
-  let title = `${name} win % (bucket size = ${input.bucketSize} drafts)`
+  let title = CARDS_COPY.trendCharts.winRateTitle({ name: name, bucketSize: input.bucketSize })
 
   const options = {
     responsive: true,
     maintainAspectRatio: false,
     scales: {
       y: {
-        title: {display: true, text: "Win %", font: {size: 20, weight: "bold"}},
+        title: {display: true, text: CARDS_COPY.trendCharts.winRateAxis, font: {size: 20, weight: "bold"}},
         min: 0,
         max: 100,
         ticks: largeTicks,
       },
       x: {
-        title: {display: true, text: "Dates", font: {size: 20, weight: "bold"}},
+        title: {display: true, text: CARDS_COPY.trendCharts.datesAxis, font: {size: 20, weight: "bold"}},
         ticks: bucketTicks,
       },
     },

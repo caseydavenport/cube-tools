@@ -9,6 +9,7 @@ import { CardWidgetOptions, CardWidgetTable, matchOpts, tagOpts } from "./CardSt
 import { CardGraph } from "./CardScatter.js"
 import { ELOChart, PlayRateChart, WinrateChart } from "./CardTrendCharts.js"
 import { PickOrderSection } from "./PickOrder.js"
+import { CARDS_COPY } from "./copy.js"
 
 // Register chart JS objects that we need to use.
 ChartJS.register(
@@ -22,10 +23,10 @@ ChartJS.register(
 );
 
 const CARD_SECTIONS = [
-  { id: "stats", label: "Stats" },
-  { id: "trends", label: "Trends" },
-  { id: "plots", label: "Plots" },
-  { id: "pickorder", label: "Pick Order", needs: ["pick_logs"] },
+  { id: "stats", label: CARDS_COPY.widget.sectionStats },
+  { id: "trends", label: CARDS_COPY.widget.sectionTrends },
+  { id: "plots", label: CARDS_COPY.widget.sectionPlots },
+  { id: "pickorder", label: CARDS_COPY.widget.sectionPickOrder, needs: ["pick_logs"] },
 ]
 
 export function CardWidget(input) {
@@ -48,15 +49,15 @@ export function CardWidget(input) {
       <CardWidgetOptions {...input} {...matchInput} />
 
       <Section id="stats">
-        <h3 className="section-heading">Card Stats</h3>
+        <h3 className="section-heading">{CARDS_COPY.widget.statsHeading}</h3>
         <CardWidgetTable {...input} />
       </Section>
 
-      <Section id="trends" heading="Trends">
+      <Section id="trends" heading={CARDS_COPY.widget.trendsHeading}>
         <TrendCharts {...input} />
       </Section>
 
-      <Section id="plots" heading="Plots">
+      <Section id="plots" heading={CARDS_COPY.widget.plotsHeading}>
         <CardGraph {...input} />
       </Section>
 
@@ -95,7 +96,7 @@ function PickOrderPart(input) {
   }
 
   return (
-    <Section id="pickorder" heading="Pick Order">
+    <Section id="pickorder" heading={CARDS_COPY.widget.pickOrderHeading}>
       <PickOrderSection pickInfo={input.parsed.pickInfo} />
     </Section>
   )

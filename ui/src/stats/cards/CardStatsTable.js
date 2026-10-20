@@ -9,17 +9,18 @@ import { SegmentedControl } from "@mantine/core"
 import { availableValue, hasData, visibleItems } from "../../utils/dataKinds.js"
 import { PillSearchInput } from "../../components/PillSearchInput.js"
 import { CardMatches } from "../../utils/Query.js"
+import { CARDS_COPY } from "./copy.js"
 import { BY_ARCH_COLUMNS, METADATA_COLUMNS, OVERVIEW_COLUMNS, VS_ARCH_COLUMNS, sortValue } from "./cardColumns.js"
 
-const Interaction = "All interaction"
+const Interaction = CARDS_COPY.statsTable.matchInteraction
 
-const Counterspells = "Counterspells"
+const Counterspells = CARDS_COPY.statsTable.matchCounterspells
 
-const Removal = "Removal"
+const Removal = CARDS_COPY.statsTable.matchRemoval
 
-const Land = "Land"
+const Land = CARDS_COPY.statsTable.matchLand
 
-const Nonland = "Nonland"
+const Nonland = CARDS_COPY.statsTable.matchNonland
 
 export const matchOpts = [
   {label: "", value:""},
@@ -37,9 +38,9 @@ export const matchOpts = [
 // useful to filter on.
 export const tagOpts = [
   {label: "", value: ""},
-  {label: "DNA", value: "🧬"},
-  {label: "Watch", value: "watch"},
-  {label: "Remove", value: "remove"},
+  {label: CARDS_COPY.statsTable.tagDna, value: "🧬"},
+  {label: CARDS_COPY.statsTable.tagWatch, value: "watch"},
+  {label: CARDS_COPY.statsTable.tagRemove, value: "remove"},
 ]
 
 // shouldSkip returns true if the card should be skipped, and false otherwise.
@@ -79,11 +80,16 @@ export function shouldSkip(card, input) {
 
 // CARD_STATS_TYPES are the views of the card stats table. The archetype views
 // break win rates down by archetype, so they need archetype labels.
+const OverviewType = CARDS_COPY.statsTable.typeOverview
+const MetadataType = CARDS_COPY.statsTable.typeMetadata
+const VersusArchetypeType = CARDS_COPY.statsTable.typeVersusArchetype
+const ByArchetypeType = CARDS_COPY.statsTable.typeByArchetype
+
 const CARD_STATS_TYPES = [
-  { label: "Overview", value: "Overview" },
-  { label: "Metadata", value: "Metadata" },
-  { label: "Versus archetype", value: "Versus archetype", needs: ["results", "archetypes"] },
-  { label: "By archetype", value: "By archetype", needs: ["results", "archetypes"] },
+  { label: OverviewType, value: OverviewType },
+  { label: MetadataType, value: MetadataType },
+  { label: VersusArchetypeType, value: VersusArchetypeType, needs: ["results", "archetypes"] },
+  { label: ByArchetypeType, value: ByArchetypeType, needs: ["results", "archetypes"] },
 ]
 
 // CardStatsTable renders a list of column descriptors over the card list,
@@ -144,11 +150,11 @@ export function CardWidgetTable(input) {
     cards.push(card)
   }
   switch (availableValue(input.dropdownSelection, CARD_STATS_TYPES, input.info)) {
-    case "Metadata":
+    case MetadataType:
       return CardStatsTable(cards, METADATA_COLUMNS, input)
-    case "Versus archetype":
+    case VersusArchetypeType:
       return CardStatsTable(cards, VS_ARCH_COLUMNS, input)
-    case "By archetype":
+    case ByArchetypeType:
       return CardStatsTable(cards, BY_ARCH_COLUMNS, input)
     default:
       return CardStatsTable(cards, OVERVIEW_COLUMNS, input)
@@ -167,8 +173,8 @@ export function CardWidgetOptions(input) {
   return (
     <div className="controls-panel">
       <PillSearchInput
-        label="Filter Cards"
-        placeholder="Search visible cards (e.g. name:bolt, t:creature)"
+        label={CARDS_COPY.statsTable.filterLabel}
+        placeholder={CARDS_COPY.statsTable.filterPlaceholder}
         value={input.localMatchStr}
         onChange={input.onLocalMatchUpdated}
         cardNames={input.cardNames}
@@ -176,26 +182,26 @@ export function CardWidgetOptions(input) {
 
       <div className="selector-group" style={{justifyContent: 'flex-start', flexWrap: 'wrap', gap: '1rem', marginTop: '1rem'}}>
         <div className="selection-cell" style={{"fontWeight": "bold", "color": "var(--primary)", "minWidth": "120px"}}>
-          Showing {num} cards
+          {CARDS_COPY.statsTable.showing(num)}
         </div>
 
         <SegmentedControl
           size="xs"
-          aria-label="Stats type"
+          aria-label={CARDS_COPY.statsTable.statsTypeLabel}
           data={visibleItems(CARD_STATS_TYPES, input.info)}
           value={availableValue(input.dropdownSelection, CARD_STATS_TYPES, input.info)}
           onChange={value => input.onSelected(asEvent(value))}
         />
 
         <DropdownHeader
-          label="Match"
+          label={CARDS_COPY.statsTable.matchLabel}
           options={input.matchOpts}
           value={input.cardFilter}
           onChange={input.onCardFilterSelected}
         />
 
         <DropdownHeader
-          label="Tag"
+          label={CARDS_COPY.statsTable.tagLabel}
           options={input.tagOpts}
           value={input.tagFilter}
           onChange={input.onTagFilterSelected}
@@ -216,7 +222,7 @@ function SignificantOnly(input) {
 
   return (
     <Checkbox
-      text="Significant only"
+      text={CARDS_COPY.statsTable.significantOnly}
       checked={input.significantOnly}
       onChange={input.onSignificantOnlyToggled}
     />

@@ -4,6 +4,7 @@ import React from 'react'
 import { SortFunc, CardImageURL } from "../../utils/Utils.js"
 import { NumericInput } from "../../components/Dropdown.js"
 import { HoverInfo } from "../../components/kit/HoverInfo.js"
+import { CARDS_COPY } from "./copy.js"
 
 // PickOrderSection shows per-card draft pick statistics aggregated across all
 // drafts (how early each card tends to be taken, how often it's first-picked,
@@ -34,25 +35,25 @@ export function PickOrderSection({ pickInfo }) {
   }
 
   let headers = [
-    { id: "name", text: "Card name", tip: "The card's name." },
-    { id: "count", text: "# Drafts", tip: "Number of drafts that have included this card." },
-    { id: "p1p1", text: "# P1P1", tip: "Number of times this card has been selected pick 1 of pack 1." },
-    { id: "avgp1pick", text: "Avg. p1 pick", tip: "Average pick, limited exclusively to instances where this card was present in pack #1." },
-    { id: "avgpick", text: "Avg. pick", tip: "Average pick for this card within a pack (i.e., out of 15)." },
-    { id: "avgpickabs", text: "Avg. pick (abs)", tip: "Average pick for this card across all packs (i.e., out of 45). Mostly silly, but fun to look at." },
-    { id: "stddev", text: "Pick deviation", tip: "Pick order standard deviation. A higher number means this card has a higher variance in pick order." },
-    { id: "p1burn", text: "# P1 Burns", tip: "For drafts that burn cards, the number of times this card was burned in pack #1." },
-    { id: "burn", text: "# Burns", tip: "For drafts that burn cards, the number of times that this card was burned in total." },
+    { id: "name", text: CARDS_COPY.pickOrder.cardName.text, tip: CARDS_COPY.pickOrder.cardName.tip },
+    { id: "count", text: CARDS_COPY.pickOrder.drafts.text, tip: CARDS_COPY.pickOrder.drafts.tip },
+    { id: "p1p1", text: CARDS_COPY.pickOrder.p1p1.text, tip: CARDS_COPY.pickOrder.p1p1.tip },
+    { id: "avgp1pick", text: CARDS_COPY.pickOrder.avgP1Pick.text, tip: CARDS_COPY.pickOrder.avgP1Pick.tip },
+    { id: "avgpick", text: CARDS_COPY.pickOrder.avgPick.text, tip: CARDS_COPY.pickOrder.avgPick.tip },
+    { id: "avgpickabs", text: CARDS_COPY.pickOrder.avgPickAbs.text, tip: CARDS_COPY.pickOrder.avgPickAbs.tip },
+    { id: "stddev", text: CARDS_COPY.pickOrder.pickDeviation.text, tip: CARDS_COPY.pickOrder.pickDeviation.tip },
+    { id: "p1burn", text: CARDS_COPY.pickOrder.p1Burns.text, tip: CARDS_COPY.pickOrder.p1Burns.tip },
+    { id: "burn", text: CARDS_COPY.pickOrder.burns.text, tip: CARDS_COPY.pickOrder.burns.tip },
   ];
 
   return (
     <div className="controls-panel">
       <div className="selector-group" style={{ justifyContent: "center" }}>
-        <NumericInput label="Min dev" value={minDeviation} onChange={(e) => setMinDeviation(e.target.value)} />
-        <NumericInput label="Max dev" value={maxDeviation} onChange={(e) => setMaxDeviation(e.target.value)} />
-        <NumericInput label="Min drafts" value={minDrafts} onChange={(e) => setMinDrafts(e.target.value)} />
-        <NumericInput label="Min avg" value={minAvgPick} onChange={(e) => setMinAvgPick(e.target.value)} />
-        <NumericInput label="Max avg" value={maxAvgPick} onChange={(e) => setMaxAvgPick(e.target.value)} />
+        <NumericInput label={CARDS_COPY.pickOrder.minDev} value={minDeviation} onChange={(e) => setMinDeviation(e.target.value)} />
+        <NumericInput label={CARDS_COPY.pickOrder.maxDev} value={maxDeviation} onChange={(e) => setMaxDeviation(e.target.value)} />
+        <NumericInput label={CARDS_COPY.pickOrder.minDrafts} value={minDrafts} onChange={(e) => setMinDrafts(e.target.value)} />
+        <NumericInput label={CARDS_COPY.pickOrder.minAvg} value={minAvgPick} onChange={(e) => setMinAvgPick(e.target.value)} />
+        <NumericInput label={CARDS_COPY.pickOrder.maxAvg} value={maxAvgPick} onChange={(e) => setMaxAvgPick(e.target.value)} />
       </div>
       <div className="table-scroll" style={{ marginTop: "1rem" }}>
         <table className="widget-table">
@@ -184,10 +185,10 @@ function PickOrderTooltip(pick) {
       <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "0.85rem" }}>
         <thead>
           <tr style={{ borderBottom: "2px solid var(--border)", textAlign: "left", color: "var(--text-muted)" }}>
-            <th style={{ padding: "4px 8px" }}>Date</th>
-            <th style={{ padding: "4px 8px" }}>Player</th>
-            <th style={{ padding: "4px 8px", textAlign: "center" }}>Pack</th>
-            <th style={{ padding: "4px 8px", textAlign: "center" }}>Pick</th>
+            <th style={{ padding: "4px 8px" }}>{CARDS_COPY.pickOrder.date}</th>
+            <th style={{ padding: "4px 8px" }}>{CARDS_COPY.pickOrder.player}</th>
+            <th style={{ padding: "4px 8px", textAlign: "center" }}>{CARDS_COPY.pickOrder.pack}</th>
+            <th style={{ padding: "4px 8px", textAlign: "center" }}>{CARDS_COPY.pickOrder.pick}</th>
           </tr>
         </thead>
         <tbody>

@@ -4,6 +4,7 @@
 import React from 'react'
 import { SortFunc, CardImageURL } from "../../utils/Utils.js"
 import { hasData } from "../../utils/dataKinds.js"
+import { CARDS_COPY } from "./copy.js"
 
 // CardMainboardTooltipContent is the card name popover: the card image, a
 // table of the players who mainboarded or sideboarded it, and its archetype
@@ -39,7 +40,7 @@ export function CardMainboardTooltipContent(card, info) {
   const showSideboard = hasData(info, "sideboards")
   let sideboardHeader = null
   if (showSideboard) {
-    sideboardHeader = <th style={{"padding": "4px 8px", "textAlign": "center"}}># SB</th>
+    sideboardHeader = <th style={{"padding": "4px 8px", "textAlign": "center"}}>{CARDS_COPY.tooltip.sideboardCount}</th>
   }
 
   return (
@@ -52,8 +53,8 @@ export function CardMainboardTooltipContent(card, info) {
       <table style={{"borderCollapse": "collapse", "fontSize": "0.85rem", "width": "100%"}}>
         <thead>
           <tr style={{"borderBottom": "2px solid var(--border)", "textAlign": "left", "color": "var(--text-muted)"}}>
-            <th style={{"padding": "4px 8px"}}>Player</th>
-            <th style={{"padding": "4px 8px", "textAlign": "center"}}># MB</th>
+            <th style={{"padding": "4px 8px"}}>{CARDS_COPY.tooltip.player}</th>
+            <th style={{"padding": "4px 8px", "textAlign": "center"}}>{CARDS_COPY.tooltip.mainboardCount}</th>
             {sideboardHeader}
           </tr>
         </thead>
@@ -91,8 +92,8 @@ function ArchetypeCounts({ labels, info }) {
     <table style={{"borderCollapse": "collapse", "fontSize": "0.85rem", "width": "100%"}}>
       <thead>
         <tr style={{"borderBottom": "2px solid var(--border)", "textAlign": "left", "color": "var(--text-muted)"}}>
-          <th style={{"padding": "4px 8px"}}>Archetype</th>
-          <th style={{"padding": "4px 8px", "textAlign": "center"}}># MB</th>
+          <th style={{"padding": "4px 8px"}}>{CARDS_COPY.tooltip.archetype}</th>
+          <th style={{"padding": "4px 8px", "textAlign": "center"}}>{CARDS_COPY.tooltip.mainboardCount}</th>
         </tr>
       </thead>
       <tbody>

@@ -5,6 +5,7 @@ import React from 'react'
 import { HoverInfo } from "../../components/kit/HoverInfo.js"
 import { ColorImages } from "../../utils/Colors.js"
 import { CardMainboardTooltipContent } from "./CardTooltip.js"
+import { CARDS_COPY } from "./copy.js"
 
 function colorSort(card) {
   if (card.colors == null || card.colors.length === 0) {
@@ -135,12 +136,12 @@ function deckLinkHref(card, input) {
 // link that opens the decks which mainboarded the card in a new tab.
 function cardNameCell(card, input, key) {
   return (
-    <HoverInfo key={key} title="Played by" info={CardMainboardTooltipContent(card, input.info)} position="right">
+    <HoverInfo key={key} title={CARDS_COPY.columns.playedByTitle} info={CardMainboardTooltipContent(card, input.info)} position="right">
       <td id={card.name} onClick={input.onCardSelected}>
         <a href={card.url} target="_blank" rel="noopener noreferrer">{card.name}</a>
         {" "}
         <a className="deck-link" href={deckLinkHref(card, input)} target="_blank" rel="noopener noreferrer"
-          title="Open decks that mainboarded this card (same filters & time range)"
+          title={CARDS_COPY.columns.deckLinkTip}
           onClick={(e) => e.stopPropagation()}>⧉</a>
       </td>
     </HoverInfo>
@@ -181,11 +182,11 @@ function popoverTable(rows) {
 
 function deckPctCell(card, input, key) {
   const body = popoverTable([
-    ["Mainboarded", card.mainboard],
-    ["Sideboarded", card.sideboard],
-    ["Playable sideboard", card.playable_sideboard],
+    [CARDS_COPY.columns.mainboarded, card.mainboard],
+    [CARDS_COPY.columns.sideboarded, card.sideboard],
+    [CARDS_COPY.columns.playableSideboard, card.playable_sideboard],
   ])
-  return popoverValueCell(card, input, key, `${card.mainboard_percent.toFixed(0)}%`, "Board counts", body)
+  return popoverValueCell(card, input, key, `${card.mainboard_percent.toFixed(0)}%`, CARDS_COPY.columns.boardCountsTitle, body)
 }
 
 // winPctCell shows win rate next to its Wilson confidence interval, muted when
@@ -196,16 +197,16 @@ function winPctCell(card, input, key) {
   const confPct = Math.round(parseFloat(input.winConfidence || "0.8") * 100)
 
   const rows = [
-    ["Record", `${card.wins}-${card.losses}-${card.draws}`],
-    ["Win %", `${card.win_percent.toFixed(0)}%`],
+    [CARDS_COPY.columns.record, `${card.wins}-${card.losses}-${card.draws}`],
+    [CARDS_COPY.columns.winPercent, `${card.win_percent.toFixed(0)}%`],
   ]
   if (hasCI) {
-    rows.push([`${confPct}% interval`, `${card.win_percent_low.toFixed(0)}% – ${card.win_percent_high.toFixed(0)}%`])
-    rows.push(["Beats a coin flip", card.significant ? "yes" : "no"])
+    rows.push([CARDS_COPY.columns.interval(confPct), `${card.win_percent_low.toFixed(0)}% – ${card.win_percent_high.toFixed(0)}%`])
+    rows.push([CARDS_COPY.columns.beatsCoinFlip, card.significant ? CARDS_COPY.columns.yes : CARDS_COPY.columns.no])
   }
-  rows.push(["Trophies (3-0)", card.trophies])
-  rows.push(["Last place (0-3)", card.last_place])
-  rows.push(["% of all wins", `${card.percent_of_wins.toFixed(0)}%`])
+  rows.push([CARDS_COPY.columns.trophies, card.trophies])
+  rows.push([CARDS_COPY.columns.lastPlace, card.last_place])
+  rows.push([CARDS_COPY.columns.percentOfWins, `${card.percent_of_wins.toFixed(0)}%`])
   const body = popoverTable(rows)
 
   // A non-significant win rate is greyed so the eye skips the coin-flips. The
@@ -216,7 +217,7 @@ function winPctCell(card, input, key) {
       {card.win_percent.toFixed(0)}%
     </span>
   )
-  return popoverValueCell(card, input, key, value, "Win detail", body)
+  return popoverValueCell(card, input, key, value, CARDS_COPY.columns.winDetailTitle, body)
 }
 
 // deltaExpCell shows Win% minus expected Win%, coloured. Blank when there's no
@@ -234,51 +235,51 @@ function deltaExpCell(card, input, key) {
 }
 
 const colorsColumn = {
-  id: "colors", text: "Color Identity", tip: "Color identity of the card.",
+  id: "colors", text: CARDS_COPY.columns.colorIdentity.text, tip: CARDS_COPY.columns.colorIdentity.tip,
   cell: (card, input, key) => <td key={key}>{ColorImages(card.color_identity)}</td>,
 }
 
 const cardColumn = {
-  id: "card", text: "Card", tip: "Card name. Click a row cell to focus the card in the graphs below.",
+  id: "card", text: CARDS_COPY.columns.card.text, tip: CARDS_COPY.columns.card.tip,
   cell: cardNameCell,
 }
 
 const gamesColumn = {
   needs: ["results"],
-  id: "games", text: "# Games", tip: "Number of games played by decks that included this card.",
+  id: "games", text: CARDS_COPY.columns.games.text, tip: CARDS_COPY.columns.games.tip,
   cell: (c, i, k) => valueCell(c, i, k, c.total_games),
 }
 
 export const OVERVIEW_COLUMNS = [
   colorsColumn,
   cardColumn,
-  { needs: ["sideboards"], id: "mainboarded", text: "Deck%", tip: "Percentage of drafts this card is mainboarded. Hover for exact board counts.", cell: deckPctCell },
-  { needs: ["results"], id: "wins", text: "Win%", tip: "Win rate of decks that mainboard this card. Greyed when it can't be told apart from a coin flip at the chosen confidence. Hover for the confidence interval and record.", cell: winPctCell },
-  { needs: ["results"], id: "delta_exp", text: "Δ Exp", tip: "Win% minus expected win% - how the card over/underperforms relative to the players who ran it.", cell: deltaExpCell },
-  { needs: ["sideboards"], id: "elo", text: "Pick ELO", tip: "An ELO ranking based on card pick order in packs.", cell: (c, i, k) => valueCell(c, i, k, c.elo) },
-  { needs: ["results"], id: "match_elo", text: "Match ELO", tip: "An ELO ranking computed from match results, weighted by opponent strength.", cell: (c, i, k) => valueCell(c, i, k, c.match_elo) },
-  { id: "lastPlayed", text: "Last played", tip: "Date of the draft this card was last mainboarded.", cell: (c, i, k) => valueCell(c, i, k, c.last_mainboarded) },
+  { needs: ["sideboards"], id: "mainboarded", text: CARDS_COPY.columns.deckPct.text, tip: CARDS_COPY.columns.deckPct.tip, cell: deckPctCell },
+  { needs: ["results"], id: "wins", text: CARDS_COPY.columns.winPct.text, tip: CARDS_COPY.columns.winPct.tip, cell: winPctCell },
+  { needs: ["results"], id: "delta_exp", text: CARDS_COPY.columns.deltaExp.text, tip: CARDS_COPY.columns.deltaExp.tip, cell: deltaExpCell },
+  { needs: ["sideboards"], id: "elo", text: CARDS_COPY.columns.pickElo.text, tip: CARDS_COPY.columns.pickElo.tip, cell: (c, i, k) => valueCell(c, i, k, c.elo) },
+  { needs: ["results"], id: "match_elo", text: CARDS_COPY.columns.matchElo.text, tip: CARDS_COPY.columns.matchElo.tip, cell: (c, i, k) => valueCell(c, i, k, c.match_elo) },
+  { id: "lastPlayed", text: CARDS_COPY.columns.lastPlayed.text, tip: CARDS_COPY.columns.lastPlayed.tip, cell: (c, i, k) => valueCell(c, i, k, c.last_mainboarded) },
 ]
 
 export const METADATA_COLUMNS = [
   colorsColumn,
   cardColumn,
-  { id: "wordcount", text: "Words", tip: "Words in the card's oracle text, excluding reminder text.", cell: (c, i, k) => valueCell(c, i, k, c.word_count) },
-  { needs: ["archetypes"], id: "labels", text: "# Tags", tip: "Number of unique tags on decks that have mainboarded this card.", cell: (c, i, k) => valueCell(c, i, k, Object.entries(c.archetypes).length) },
+  { id: "wordcount", text: CARDS_COPY.columns.words.text, tip: CARDS_COPY.columns.words.tip, cell: (c, i, k) => valueCell(c, i, k, c.word_count) },
+  { needs: ["archetypes"], id: "labels", text: CARDS_COPY.columns.tags.text, tip: CARDS_COPY.columns.tags.tip, cell: (c, i, k) => valueCell(c, i, k, Object.entries(c.archetypes).length) },
   gamesColumn,
-  { id: "players", text: "# Players", tip: "Number of unique players who have mainboarded this card.", cell: (c, i, k) => valueCell(c, i, k, Object.entries(c.players).length) },
+  { id: "players", text: CARDS_COPY.columns.players.text, tip: CARDS_COPY.columns.players.tip, cell: (c, i, k) => valueCell(c, i, k, Object.entries(c.players).length) },
 ]
 
 export const VS_ARCH_COLUMNS = [
   colorsColumn, cardColumn, gamesColumn,
-  { needs: ["results", "archetypes"], id: "vsaggro", text: "vs Aggro", tip: "Win rate when this card's deck plays against aggro archetypes.", cell: (c, i, k) => valueCell(c, i, k, `${c.against_archetype.aggro.win_percent.toFixed(0)}%`) },
-  { needs: ["results", "archetypes"], id: "vscontrol", text: "vs Control", tip: "Win rate when this card's deck plays against control archetypes.", cell: (c, i, k) => valueCell(c, i, k, `${c.against_archetype.control.win_percent.toFixed(0)}%`) },
-  { needs: ["results", "archetypes"], id: "vsmidrange", text: "vs Midrange", tip: "Win rate when this card's deck plays against midrange archetypes.", cell: (c, i, k) => valueCell(c, i, k, `${c.against_archetype.midrange.win_percent.toFixed(0)}%`) },
+  { needs: ["results", "archetypes"], id: "vsaggro", text: CARDS_COPY.columns.vsAggro.text, tip: CARDS_COPY.columns.vsAggro.tip, cell: (c, i, k) => valueCell(c, i, k, `${c.against_archetype.aggro.win_percent.toFixed(0)}%`) },
+  { needs: ["results", "archetypes"], id: "vscontrol", text: CARDS_COPY.columns.vsControl.text, tip: CARDS_COPY.columns.vsControl.tip, cell: (c, i, k) => valueCell(c, i, k, `${c.against_archetype.control.win_percent.toFixed(0)}%`) },
+  { needs: ["results", "archetypes"], id: "vsmidrange", text: CARDS_COPY.columns.vsMidrange.text, tip: CARDS_COPY.columns.vsMidrange.tip, cell: (c, i, k) => valueCell(c, i, k, `${c.against_archetype.midrange.win_percent.toFixed(0)}%`) },
 ]
 
 export const BY_ARCH_COLUMNS = [
   colorsColumn, cardColumn, gamesColumn,
-  { needs: ["results", "archetypes"], id: "inaggro", text: "in Aggro", tip: "Win rate of this card when played in aggro decks.", cell: (c, i, k) => valueCell(c, i, k, `${c.by_archetype.aggro.win_percent.toFixed(0)}%`) },
-  { needs: ["results", "archetypes"], id: "incontrol", text: "in Control", tip: "Win rate of this card when played in control decks.", cell: (c, i, k) => valueCell(c, i, k, `${c.by_archetype.control.win_percent.toFixed(0)}%`) },
-  { needs: ["results", "archetypes"], id: "inmidrange", text: "in Midrange", tip: "Win rate of this card when played in midrange decks.", cell: (c, i, k) => valueCell(c, i, k, `${c.by_archetype.midrange.win_percent.toFixed(0)}%`) },
+  { needs: ["results", "archetypes"], id: "inaggro", text: CARDS_COPY.columns.inAggro.text, tip: CARDS_COPY.columns.inAggro.tip, cell: (c, i, k) => valueCell(c, i, k, `${c.by_archetype.aggro.win_percent.toFixed(0)}%`) },
+  { needs: ["results", "archetypes"], id: "incontrol", text: CARDS_COPY.columns.inControl.text, tip: CARDS_COPY.columns.inControl.tip, cell: (c, i, k) => valueCell(c, i, k, `${c.by_archetype.control.win_percent.toFixed(0)}%`) },
+  { needs: ["results", "archetypes"], id: "inmidrange", text: CARDS_COPY.columns.inMidrange.text, tip: CARDS_COPY.columns.inMidrange.tip, cell: (c, i, k) => valueCell(c, i, k, `${c.by_archetype.midrange.win_percent.toFixed(0)}%`) },
 ]
