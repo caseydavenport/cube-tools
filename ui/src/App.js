@@ -7,7 +7,7 @@ import { DraftsPage } from './pages/DraftsPage.js'
 import { ExplorePage } from './pages/ExplorePage.js'
 import { RemovalPage } from './pages/RemovalPage.js'
 import { Packages } from './pages/Packages.js'
-import { DesignEditorPage } from './pages/DesignEditorPage.js'
+import { DesignEditorPage } from './design/rules/RulesEditorPage.js'
 import { initialDates, todayString } from './toolbar/dateRanges.js'
 import { useState } from "react";
 import { CubeProvider } from './contexts/CubeContext.js';
