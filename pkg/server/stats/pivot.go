@@ -54,9 +54,8 @@ type PivotRequest struct {
 	BucketSize int              `json:"bucket_size"`
 	Predicates []PivotPredicate `json:"predicates"`
 
-	// Match is the page's deck filter. It narrows the subject decks, while
-	// opponents and time buckets still come from every deck in the date range,
-	// as with Predicates.
+	// Match is the page's deck filter. Like Predicates, it narrows only the
+	// subject decks.
 	Match string `json:"match,omitempty"`
 
 	// ExcludePlayers drops these players entirely - both their own decks and
@@ -184,9 +183,10 @@ func pivotEdges(q *deckquery.Query, cubeID string, preds []PivotPredicate) ([]gr
 }
 
 // computePivot aggregates the subject decks' games into the request's group and
-// split cells. allDecks is the whole date range: opponents and time buckets come
-// from it, so narrowing the subjects with the deck filter doesn't lose an
-// opponent or shift the time axis.
+// split cells. allDecks is the whole date range: opponents and time bucket
+// boundaries come from it, so narrowing the subjects with the deck filter
+// doesn't lose an opponent or move a bucket's dates. A bucket with no subject
+// games still gets no row or column.
 func computePivot(allDecks, subjects []*storage.Deck, req *PivotRequest, cubeCards map[string]types.Card, edges []graph.Edge) *PivotResponse {
 	idx := storage.NewOpponentIndex(allDecks)
 
