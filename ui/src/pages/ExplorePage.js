@@ -85,6 +85,92 @@ const COPY = {
   from: "From",
   to: "To",
   apply: "Apply",
+
+  dims: {
+    color: "Color",
+    archetype: "Archetype",
+    label: "Label",
+    player: "Player",
+    time: "Time",
+    removal: "Removal count",
+    interaction: "Interaction count",
+    counterspell: "Counterspell count",
+    creatures: "Creature count",
+    lands: "Land count",
+    avgCmc: "Avg mana value",
+    dna: "DNA count",
+    none: "(none)",
+    opponentColor: "Opponent color",
+    opponentArchetype: "Opponent archetype",
+    opponentRemoval: "Opponent removal count",
+    opponentCreatures: "Opponent creature count",
+    opponentAvgCmc: "Opponent avg mana value",
+  },
+  granularity: { mono: "Mono", dual: "Dual", trio: "Trio" },
+  colorMode: { inclusive: "Inclusive", exact: "Exact", primary: "Primary" },
+  metrics: { winPct: "Win %", record: "Record", games: "Games" },
+
+  controls: {
+    groupBy: "Group by",
+    splitBy: "Split by",
+    metric: "Metric",
+    bucket: "Bucket",
+    players: "Players",
+    selectAll: "Select all",
+    deselectAll: "Deselect all",
+    allIncluded: "all included - expand to exclude players and their games",
+    excludedSummary: ({ excluded, kept }) => `${excluded} excluded (${kept} kept)`,
+  },
+
+  result: {
+    empty: "No decks match this slice.",
+    overall: "Overall",
+  },
+
+  pivotTable: {
+    winPct: "Win %",
+    record: "Record",
+    decks: "Decks",
+  },
+
+  tooltip: {
+    record: ({ wins, losses, draws }) => `${wins}W-${losses}L${draws ? "-" + draws + "D" : ""}`,
+    noGames: ({ record }) => `${record} (0 games)`,
+    summary: ({ record, games, level, winPct, margin, low, high, significant }) =>
+      `${record} (${games} games)\n${level}% CI: ${winPct}% ±${margin.toFixed(1)} (${low.toFixed(0)}–${high.toFixed(0)}%)\n${significant ? "distinguishable from 50%" : "not distinguishable from 50%"}`,
+  },
+
+  predicates: {
+    dims: {
+      color: "Color",
+      archetype: "Archetype",
+      label: "Label",
+      player: "Player",
+      removal: "Removal count",
+      interaction: "Interaction count",
+      counterspell: "Counterspell count",
+      creatures: "Creature count",
+      lands: "Land count",
+      avgCmc: "Avg mana value",
+      dna: "DNA count",
+      cardQuery: "Card query",
+    },
+    ops: {
+      contains: "contains",
+      excludes: "excludes",
+      is: "is",
+      isNot: "is not",
+      atLeast: "≥",
+      atMost: "≤",
+      equals: "=",
+      matches: "matches",
+    },
+    removeFilter: "Remove filter",
+    addFilter: "Add filter",
+    noChoice: "—",
+    queryPlaceholder: "e.g. o:flying t:creature",
+    colorPlaceholder: "WUBRG",
+  },
 }
 
 // The Explore view is a general deck-slicing pivot: group decks/games by a
@@ -96,46 +182,46 @@ const COPY = {
 // needs lists the data a dimension is read from: archetypes and tags need
 // archetype labels, and opponent dimensions need match results.
 const GROUP_DIMS = [
-  { value: "color", label: "Color", color: true },
-  { value: "archetype", label: "Archetype", needs: ["archetypes"] },
-  { value: "label", label: "Label", needs: ["archetypes"] },
-  { value: "player", label: "Player" },
-  { value: "time", label: "Time" },
-  { value: "removal", label: "Removal count" },
-  { value: "interaction", label: "Interaction count" },
-  { value: "counterspell", label: "Counterspell count" },
-  { value: "creatures", label: "Creature count" },
-  { value: "lands", label: "Land count" },
-  { value: "avg_cmc", label: "Avg mana value" },
-  { value: "dna", label: "DNA count" },
+  { value: "color", label: COPY.dims.color, color: true },
+  { value: "archetype", label: COPY.dims.archetype, needs: ["archetypes"] },
+  { value: "label", label: COPY.dims.label, needs: ["archetypes"] },
+  { value: "player", label: COPY.dims.player },
+  { value: "time", label: COPY.dims.time },
+  { value: "removal", label: COPY.dims.removal },
+  { value: "interaction", label: COPY.dims.interaction },
+  { value: "counterspell", label: COPY.dims.counterspell },
+  { value: "creatures", label: COPY.dims.creatures },
+  { value: "lands", label: COPY.dims.lands },
+  { value: "avg_cmc", label: COPY.dims.avgCmc },
+  { value: "dna", label: COPY.dims.dna },
 ]
 
 const SPLIT_DIMS = [
-  { value: "", label: "(none)" },
-  { value: "opponent_color", label: "Opponent color", color: true, needs: ["results"] },
-  { value: "opponent_archetype", label: "Opponent archetype", needs: ["results", "archetypes"] },
-  { value: "opponent_removal", label: "Opponent removal count", needs: ["results"] },
-  { value: "opponent_creatures", label: "Opponent creature count", needs: ["results"] },
-  { value: "opponent_avg_cmc", label: "Opponent avg mana value", needs: ["results"] },
+  { value: "", label: COPY.dims.none },
+  { value: "opponent_color", label: COPY.dims.opponentColor, color: true, needs: ["results"] },
+  { value: "opponent_archetype", label: COPY.dims.opponentArchetype, needs: ["results", "archetypes"] },
+  { value: "opponent_removal", label: COPY.dims.opponentRemoval, needs: ["results"] },
+  { value: "opponent_creatures", label: COPY.dims.opponentCreatures, needs: ["results"] },
+  { value: "opponent_avg_cmc", label: COPY.dims.opponentAvgCmc, needs: ["results"] },
   ...GROUP_DIMS,
 ]
 
 const GRANULARITY_OPTS = [
-  { value: 1, label: "Mono" },
-  { value: 2, label: "Dual" },
-  { value: 3, label: "Trio" },
+  { value: 1, label: COPY.granularity.mono },
+  { value: 2, label: COPY.granularity.dual },
+  { value: 3, label: COPY.granularity.trio },
 ]
 
 const COLOR_MODE_OPTS = [
-  { value: "inclusive", label: "Inclusive" },
-  { value: "exact", label: "Exact" },
-  { value: "primary", label: "Primary" },
+  { value: "inclusive", label: COPY.colorMode.inclusive },
+  { value: "exact", label: COPY.colorMode.exact },
+  { value: "primary", label: COPY.colorMode.primary },
 ]
 
 const METRIC_OPTS = [
-  { value: "win_pct", label: "Win %" },
-  { value: "record", label: "Record" },
-  { value: "games", label: "Games" },
+  { value: "win_pct", label: COPY.metrics.winPct },
+  { value: "record", label: COPY.metrics.record },
+  { value: "games", label: COPY.metrics.games },
 ]
 
 function isColorDim(dim) {
@@ -143,7 +229,7 @@ function isColorDim(dim) {
 }
 
 function keyLabel(dim, key) {
-  if (key === "") return "Overall"
+  if (key === "") return COPY.result.overall
   if (isColorDim(dim)) return colorName(key)
   return key
 }
@@ -201,11 +287,20 @@ function winCI(c) {
 function ciTooltip(c, confidence) {
   if (!c) return ""
   const games = cellGames(c)
-  const rec = `${c.wins}W-${c.losses}L${c.draws ? "-" + c.draws + "D" : ""}`
+  const record = COPY.tooltip.record({ wins: c.wins, losses: c.losses, draws: c.draws })
   const s = winCI(c)
-  if (!s) return `${rec} (0 games)`
+  if (!s) return COPY.tooltip.noGames({ record })
   const level = Math.round(parseFloat(confidence || "0.8") * 100)
-  return `${rec} (${games} games)\n${level}% CI: ${c.win_pct}% ±${s.margin.toFixed(1)} (${s.lo.toFixed(0)}–${s.hi.toFixed(0)}%)\n${s.significant ? "distinguishable from 50%" : "not distinguishable from 50%"}`
+  return COPY.tooltip.summary({
+    record,
+    games,
+    level,
+    winPct: c.win_pct,
+    margin: s.margin,
+    low: s.lo,
+    high: s.hi,
+    significant: s.significant,
+  })
 }
 
 // ExplorePage is the Charts page: the toolbar with its date range, deck filter,
@@ -304,7 +399,7 @@ export function ExplorePage(props) {
     <SectionCard title={COPY.slice}>
       <div className="explore-controls">
         <div className="selector-group">
-          <DropdownHeader label="Group by" value={groupDim} options={visibleItems(GROUP_DIMS, info)}
+          <DropdownHeader label={COPY.controls.groupBy} value={groupDim} options={visibleItems(GROUP_DIMS, info)}
             onChange={(e) => setGroupBy({ ...groupBy, dim: e.target.value })} />
           {isColorDim(groupDim) && (
             <>
@@ -315,7 +410,7 @@ export function ExplorePage(props) {
             </>
           )}
 
-          <DropdownHeader label="Split by" value={splitDim} options={visibleItems(SPLIT_DIMS, info)}
+          <DropdownHeader label={COPY.controls.splitBy} value={splitDim} options={visibleItems(SPLIT_DIMS, info)}
             onChange={(e) => setSplitBy({ ...splitBy, dim: e.target.value })} />
           {isColorDim(splitDim) && (
             <>
@@ -326,11 +421,11 @@ export function ExplorePage(props) {
             </>
           )}
 
-          <DropdownHeader label="Metric" value={metric} options={METRIC_OPTS}
+          <DropdownHeader label={COPY.controls.metric} value={metric} options={METRIC_OPTS}
             onChange={(e) => setMetric(e.target.value)} />
 
           {usesTime && (
-            <NumericInput label="Bucket" value={bucketSize}
+            <NumericInput label={COPY.controls.bucket} value={bucketSize}
               onChange={(e) => setBucketSize(Math.max(1, Number(e.target.value)))} />
           )}
         </div>
@@ -339,18 +434,18 @@ export function ExplorePage(props) {
           <div className="player-filter">
             <div className="player-filter-head" style={{ cursor: "pointer" }} onClick={() => setPlayersOpen(o => !o)}>
               <span className="caret">{playersOpen ? "▾" : "▸"}</span>
-              <span className="section-heading">Players</span>
+              <span className="section-heading">{COPY.controls.players}</span>
               <span className="player-filter-hint">
                 {excluded.size > 0
-                  ? `${excluded.size} excluded (${meta.playerFreq.length - excluded.size} kept)`
-                  : "all included - expand to exclude players and their games"}
+                  ? COPY.controls.excludedSummary({ excluded: excluded.size, kept: meta.playerFreq.length - excluded.size })
+                  : COPY.controls.allIncluded}
               </span>
             </div>
             {playersOpen && (
               <>
                 <div className="selector-group" style={{ gap: "0.5rem" }}>
-                  <Button text="Select all" onClick={() => setExcluded(new Set())} />
-                  <Button text="Deselect all" onClick={() => setExcluded(new Set(meta.playerFreq.map(p => p.name)))} />
+                  <Button text={COPY.controls.selectAll} onClick={() => setExcluded(new Set())} />
+                  <Button text={COPY.controls.deselectAll} onClick={() => setExcluded(new Set(meta.playerFreq.map(p => p.name)))} />
                 </div>
                 <div className="player-checkboxes">
                   {meta.playerFreq.map(p => (
@@ -364,7 +459,7 @@ export function ExplorePage(props) {
           </div>
         )}
 
-        <PredicateBuilder predicates={predicates} onChange={setPredicates} meta={meta} />
+        <PredicateBuilder predicates={predicates} onChange={setPredicates} meta={meta} copy={COPY.predicates} />
       </div>
     </SectionCard>
   )
@@ -390,7 +485,7 @@ export function ExplorePage(props) {
 
 function ExploreResult({ result, groupBy, splitBy, metric, usesTime, confidence }) {
   if (!result || !result.rows || result.rows.length === 0) {
-    return <div className="browse-empty">No decks match this slice.</div>
+    return <div className="browse-empty">{COPY.result.empty}</div>
   }
   if (usesTime) {
     return <PivotLineChart result={result} groupBy={groupBy} splitBy={splitBy} metric={metric} />
@@ -413,7 +508,7 @@ function PivotTable({ result, groupBy, metric, confidence }) {
   const chartData = {
     labels,
     datasets: [{
-      label: "Win %",
+      label: COPY.pivotTable.winPct,
       data,
       backgroundColor: barColors,
       borderColor: barColors,
@@ -434,9 +529,9 @@ function PivotTable({ result, groupBy, metric, confidence }) {
           <thead>
             <tr>
               <td className="header-cell">{groupLabel(groupBy.dim)}</td>
-              <td className="header-cell">Win %</td>
-              <td className="header-cell">Record</td>
-              <td className="header-cell">Decks</td>
+              <td className="header-cell">{COPY.pivotTable.winPct}</td>
+              <td className="header-cell">{COPY.pivotTable.record}</td>
+              <td className="header-cell">{COPY.pivotTable.decks}</td>
             </tr>
           </thead>
           <tbody>

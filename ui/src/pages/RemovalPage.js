@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { SegmentedControl } from "@mantine/core"
 import { useCube } from "../contexts/CubeContext.js"
 import { DropdownHeader } from "../components/Dropdown.js"
+import { RichText } from "../components/kit/RichText.js"
 import { SectionCard } from "../components/kit/SectionCard.js"
 import { DateRangeMenu } from "../toolbar/DateRangeMenu.js"
 import { PageToolbar } from "../toolbar/PageToolbar.js"
@@ -18,6 +19,7 @@ const COPY = {
   title: "Removal",
   tableTitle: "Spot removal",
   coverage: "Coverage",
+  loading: "Loading removal…",
 
   allTime: "All time",
   last12Months: "Last 12 months",
@@ -25,6 +27,35 @@ const COPY = {
   from: "From",
   to: "To",
   apply: "Apply",
+
+  coverageOpts: { raw: "Raw (cube)", played: "Play-weighted" },
+  colors: { all: "All colors", W: "White", U: "Blue", B: "Black", R: "Red", G: "Green" },
+  colorLabel: "Color",
+  summary: ({ rows, creatures, excluded }) =>
+    `${rows} spot-removal rows · ${creatures} creatures · ${excluded} non-spot excluded`,
+
+  columns: {
+    card: "Card",
+    cost: "Cost",
+    kind: "Kind",
+    restriction: "Restriction",
+    targets: "Targets (% cube)",
+    percentPlayed: "% of played",
+    maxMv: "Max MV",
+    reach: "Reach Δ",
+    avg: "Avg Δ",
+  },
+
+  costTitle: ({ manaCost, mv }) => `printed ${manaCost} (MV ${mv})`,
+  scalable: "scalable — depends on mana invested",
+
+  hint: [
+    "Cost is the effective mana to fire the removal (delve, X≈3, reduced/activated costs); * marks an adjusted cost (hover for printed). ",
+    { bold: "Reach Δ" },
+    " = priciest threat it can answer minus cost;",
+    { bold: " Avg Δ" },
+    " = typical threat it kills minus cost. Multi-mode cards (kicker/revolt) show one row per mode. Classification is heuristic; sweepers, edicts, and bounce/tap are excluded.",
+  ],
 }
 
 // The Removal page scores each piece of spot removal by how much of the cube's
@@ -40,14 +71,14 @@ const COPY = {
 // cube's creatures, or weighted by how often each creature was played, which
 // needs decks.
 const COVERAGE_OPTS = [
-  { value: "raw", label: "Raw (cube)" },
-  { value: "played", label: "Play-weighted", needs: ["decks"] },
+  { value: "raw", label: COPY.coverageOpts.raw },
+  { value: "played", label: COPY.coverageOpts.played, needs: ["decks"] },
 ]
 
 const COLOR_OPTS = [
-  { value: "", label: "All colors" },
-  { value: "W", label: "White" }, { value: "U", label: "Blue" }, { value: "B", label: "Black" },
-  { value: "R", label: "Red" }, { value: "G", label: "Green" },
+  { value: "", label: COPY.colors.all },
+  { value: "W", label: COPY.colors.W }, { value: "U", label: COPY.colors.U }, { value: "B", label: COPY.colors.B },
+  { value: "R", label: COPY.colors.R }, { value: "G", label: COPY.colors.G },
 ]
 
 // effColor tints an efficiency delta: good when the spell answers threats
@@ -91,7 +122,7 @@ export function RemovalPage(props) {
     return (
       <>
         {toolbar}
-        <div className="analyze-page"><div className="browse-empty">Loading removal…</div></div>
+        <div className="analyze-page"><div className="browse-empty">{COPY.loading}</div></div>
       </>
     )
   }
@@ -131,9 +162,9 @@ export function RemovalPage(props) {
         value={shownMode}
         onChange={setMode}
       />
-      <DropdownHeader label="Color" value={colorFilter} options={COLOR_OPTS} onChange={e => setColorFilter(e.target.value)} />
+      <DropdownHeader label={COPY.colorLabel} value={colorFilter} options={COLOR_OPTS} onChange={e => setColorFilter(e.target.value)} />
       <span className="player-filter-hint">
-        {rows.length} spot-removal rows · {data.creature_count} creatures · {data.excluded} non-spot excluded
+        {COPY.summary({ rows: rows.length, creatures: data.creature_count, excluded: data.excluded })}
       </span>
     </div>
   )
@@ -147,27 +178,27 @@ export function RemovalPage(props) {
             <table className="widget-table" style={{ width: "100%" }}>
               <thead>
                 <tr>
-                  {header("name", "Card", false)}
-                  {header("cost", "Cost")}
-                  <td className="header-cell">Kind</td>
-                  <td className="header-cell">Restriction</td>
-                  {header("coverage", shownMode === "raw" ? "Targets (% cube)" : "% of played")}
-                  <td className="header-cell" style={{ textAlign: "right" }}>Max MV</td>
-                  {header("reach", "Reach Δ")}
-                  {header("avg", "Avg Δ")}
+                  {header("name", COPY.columns.card, false)}
+                  {header("cost", COPY.columns.cost)}
+                  <td className="header-cell">{COPY.columns.kind}</td>
+                  <td className="header-cell">{COPY.columns.restriction}</td>
+                  {header("coverage", shownMode === "raw" ? COPY.columns.targets : COPY.columns.percentPlayed)}
+                  <td className="header-cell" style={{ textAlign: "right" }}>{COPY.columns.maxMv}</td>
+                  {header("reach", COPY.columns.reach)}
+                  {header("avg", COPY.columns.avg)}
                 </tr>
               </thead>
               <tbody>
                 {rows.map(c => (
                   <tr key={c.name} className="widget-table-row">
                     <td className="header-cell" style={{ fontWeight: "bold" }}>{c.name}</td>
-                    <td style={{ textAlign: "right" }} title={c.mana_cost && c.eff_cost !== c.mv ? `printed ${c.mana_cost} (MV ${c.mv})` : c.mana_cost}>
+                    <td style={{ textAlign: "right" }} title={c.mana_cost && c.eff_cost !== c.mv ? COPY.costTitle({ manaCost: c.mana_cost, mv: c.mv }) : c.mana_cost}>
                       {c.eff_cost}{c.eff_cost !== c.mv ? "*" : ""}
                     </td>
                     <td>{c.kind}</td>
                     <td style={{ color: "var(--text-muted)" }}>{c.restriction}</td>
                     {c.scalable ? (
-                      <td style={{ textAlign: "center", color: "var(--text-muted)" }} colSpan={4}>scalable — depends on mana invested</td>
+                      <td style={{ textAlign: "center", color: "var(--text-muted)" }} colSpan={4}>{COPY.scalable}</td>
                     ) : (
                       <>
                         <td style={{ textAlign: "right" }}>
@@ -185,10 +216,7 @@ export function RemovalPage(props) {
           </div>
         </SectionCard>
         <p className="player-filter-hint" style={{ marginTop: "1rem" }}>
-          Cost is the effective mana to fire the removal (delve, X≈3, reduced/activated costs); * marks an
-          adjusted cost (hover for printed). <b>Reach Δ</b> = priciest threat it can answer minus cost;
-          <b> Avg Δ</b> = typical threat it kills minus cost. Multi-mode cards (kicker/revolt) show one row
-          per mode. Classification is heuristic; sweepers, edicts, and bounce/tap are excluded.
+          <RichText parts={COPY.hint} />
         </p>
       </div>
     </>
