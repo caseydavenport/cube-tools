@@ -2,7 +2,7 @@
 // that only moves text into COPY can prove the pages read the same after it.
 // It drives headless Chrome over the DevTools protocol and needs nothing else.
 //
-//   node ui/scripts/text-snapshot.mjs take <out.json> [--shots <dir>] [--scheme light|dark] [--width <px>]
+//   node ui/scripts/text-snapshot.mjs take <out.json> [--shots <dir>] [--scheme light|dark] [--width <px>] [--only <route,route>]
 //   node ui/scripts/text-snapshot.mjs compare <a.json> <b.json> [routes…]
 //   node ui/scripts/text-snapshot.mjs compare-shots <a.json> <b.json> [--out <dir>] [--json <file>]
 //
@@ -81,13 +81,21 @@ function buildRoutes() {
   return routes
 }
 
+// EMPTY_COUNTS is what the stats pages show before any deck data has arrived.
+// A route with a filter in its query is meant to match nothing, so it may.
+const EMPTY_COUNTS = "0 drafts · 0 decks"
+
 // unfinishedMarker returns the first UNFINISHED_MARKERS text in a route's
-// lines, or null when the page looks fully loaded.
-export function unfinishedMarker(lines) {
+// lines, EMPTY_COUNTS when an unfiltered route shows it, or null when the page
+// looks fully loaded.
+export function unfinishedMarker(lines, route = "") {
   for (const marker of UNFINISHED_MARKERS) {
     if (lines.some(line => line.includes(marker))) {
       return marker
     }
+  }
+  if (!route.includes("match=") && lines.some(line => line.includes(EMPTY_COUNTS))) {
+    return EMPTY_COUNTS
   }
   return null
 }
@@ -97,7 +105,7 @@ export function unfinishedMarker(lines) {
 export function unfinishedRoutes(snapshot) {
   const found = []
   for (const [route, entry] of Object.entries(snapshot.routes)) {
-    const marker = unfinishedMarker(entry.lines)
+    const marker = unfinishedMarker(entry.lines, route)
     if (marker !== null) {
       found.push({ route, marker })
     }
@@ -414,7 +422,7 @@ async function visit(tab, requests, route, shotsDir, look) {
   if (entry.lines.length === 0) {
     console.warn(`${route}: no text found under .se-main, .se-toolbar or .welcome-page`)
   }
-  const marker = unfinishedMarker(entry.lines)
+  const marker = unfinishedMarker(entry.lines, route)
   if (marker !== null) {
     console.warn(`${route}: shows "${marker}"; the backend may be down or slow`)
   }
@@ -422,6 +430,16 @@ async function visit(tab, requests, route, shotsDir, look) {
   if (shotsDir) {
     entry.shot = shotName(route, look.scheme, look.width)
     await saveShot(tab, path.join(shotsDir, entry.shot), look.width)
+  }
+  return entry
+}
+
+// visitSettled visits a route, and revisits it up to twice more while its text
+// still looks unfinished, since a slow backend answer often lands on a retry.
+async function visitSettled(tab, requests, route, shotsDir, look) {
+  let entry = await visit(tab, requests, route, shotsDir, look)
+  for (let attempt = 1; attempt < 3 && unfinishedMarker(entry.lines, route) !== null; attempt++) {
+    entry = await visit(tab, requests, route, shotsDir, look)
   }
   return entry
 }
@@ -444,7 +462,7 @@ async function saveShot(tab, file, width) {
 
 // take visits every route in ROUTES in the given color scheme and window
 // width, and writes the snapshot to outFile.
-async function take(outFile, shotsDir, look) {
+async function take(outFile, shotsDir, look, routes) {
   if (shotsDir) {
     shotsDir = path.resolve(shotsDir)
     mkdirSync(shotsDir, { recursive: true })
@@ -462,15 +480,15 @@ async function take(outFile, shotsDir, look) {
 
   const snapshot = { taken: new Date().toISOString(), uiPort: UI_PORT, scheme: look.scheme, width: look.width, shots: shotsDir || null, routes: {} }
   try {
-    for (const route of ROUTES) {
-      snapshot.routes[route] = await visit(tab, requests, route, shotsDir, look)
+    for (const route of routes) {
+      snapshot.routes[route] = await visitSettled(tab, requests, route, shotsDir, look)
       console.log(`${route}: ${snapshot.routes[route].lines.length} lines`)
     }
   } finally {
     await tab.close()
   }
   writeFileSync(outFile, JSON.stringify(snapshot, null, 2) + "\n")
-  console.log(`wrote ${ROUTES.length} routes to ${outFile}`)
+  console.log(`wrote ${routes.length} routes to ${outFile}`)
 
   const unfinished = unfinishedRoutes(snapshot)
   if (unfinished.length > 0) {
@@ -647,7 +665,12 @@ async function main() {
       console.error("--scheme must be light or dark and --width a number of pixels")
       process.exit(2)
     }
-    await take(args[0], shotsDir, { scheme, width })
+    const only = option(args, "--only", null)
+    let routes = ROUTES
+    if (only) {
+      routes = only.split(",")
+    }
+    await take(args[0], shotsDir, { scheme, width }, routes)
   } else if (command === "compare") {
     compare(args[0], args[1], args.slice(2))
   } else if (command === "compare-shots") {
@@ -655,7 +678,7 @@ async function main() {
     const jsonFile = option(args, "--json", null)
     await compareShots(args[0], args[1], outDir, jsonFile)
   } else {
-    console.error("usage: text-snapshot.mjs take <out.json> [--shots <dir>] [--scheme light|dark] [--width <px>] | compare <a.json> <b.json> [routes…] | compare-shots <a.json> <b.json> [--out <dir>] [--json <file>]")
+    console.error("usage: text-snapshot.mjs take <out.json> [--shots <dir>] [--scheme light|dark] [--width <px>] [--only <route,route>] | compare <a.json> <b.json> [routes…] | compare-shots <a.json> <b.json> [--out <dir>] [--json <file>]")
     process.exit(2)
   }
 }

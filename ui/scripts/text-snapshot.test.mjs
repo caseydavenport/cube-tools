@@ -63,3 +63,14 @@ test("growBox grows a box around each pixel and formatBox describes it", () => {
   assert.equal(formatBox(box), "2,3 to 6,9 (5 x 7)")
   assert.equal(formatBox(null), "none")
 })
+
+test("unfinishedRoutes flags empty counts except on a filtered route", () => {
+  const snapshot = {
+    routes: {
+      "cc:polyversal/cards": { lines: ["0 drafts · 0 decks · 0 players"] },
+      "polyverse/cards?match=player%3Anobodyatall": { lines: ["0 drafts · 0 decks · 0 players"] },
+      "polyverse/cards": { lines: ["47 drafts · 264 decks · 138 players"] },
+    },
+  }
+  assert.deepEqual(unfinishedRoutes(snapshot), [{ route: "cc:polyversal/cards", marker: "0 drafts · 0 decks" }])
+})
