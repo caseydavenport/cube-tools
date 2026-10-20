@@ -7,6 +7,7 @@ import { cardRefName } from "../../utils/DesignRules.js"
 import { edgeColorFor, whyLinked } from "./designData.js"
 import { ForceGraph, cardColor, getNodeColor } from "./ForceGraph.js"
 import { ruleColor } from "./ruleColors.js"
+import { MAP_COPY } from "./copy.js"
 
 // --- Drill map (the leveled constellation) -----------------------------------
 
@@ -76,8 +77,11 @@ export function DrillMap({ focus, nodeMap, edges, groupNodes, groupEdges, links,
         color: edgeColorFor(e.labels, linkIndex),
       }))
       const nRefs = sn.filter(n => cardRefName(n.id)).length
-      const counts = nRefs ? `${sn.length - nRefs} themes + ${nRefs} cards` : `${sn.length} themes`
-      return { simNodes: sn, simEdges: se, showLabels: true, caption: `${counts} · click to drill in` }
+      let themesCaption = MAP_COPY.drillMap.captionThemes({ themes: sn.length })
+      if (nRefs) {
+        themesCaption = MAP_COPY.drillMap.captionThemesAndCards({ themes: sn.length - nRefs, cards: nRefs })
+      }
+      return { simNodes: sn, simEdges: se, showLabels: true, caption: themesCaption }
     }
 
     if (focus.level === "group") {
@@ -96,7 +100,7 @@ export function DrillMap({ focus, nodeMap, edges, groupNodes, groupEdges, links,
       const se = edges
         .filter(e => names.has(e.source) && names.has(e.target))
         .map(e => ({ source: e.source, target: e.target, weight: e.weight, color: edgeColorFor(e.rule_labels, linkIndex) }))
-      return { simNodes: sn, simEdges: se, showLabels: sn.length <= 34, caption: `${sn.length} cards in ${focus.group} · click a card` }
+      return { simNodes: sn, simEdges: se, showLabels: sn.length <= 34, caption: MAP_COPY.drillMap.captionGroup({ cards: sn.length, group: focus.group }) }
     }
 
     // card level: the focused card and its direct neighbors.
@@ -121,7 +125,7 @@ export function DrillMap({ focus, nodeMap, edges, groupNodes, groupEdges, links,
     const se = edges
       .filter(e => nbrs.has(e.source) && nbrs.has(e.target) && (e.source === center || e.target === center))
       .map(e => ({ source: e.source, target: e.target, weight: e.weight, color: edgeColorFor(e.rule_labels, linkIndex) }))
-    return { simNodes: sn, simEdges: se, showLabels: true, caption: `${sn.length - 1} cards linked to ${center}` }
+    return { simNodes: sn, simEdges: se, showLabels: true, caption: MAP_COPY.drillMap.captionCard({ cards: sn.length - 1, card: center }) }
   }, [focus, groupNodes, groupEdges, edges, nodeMap])
 
   return (
@@ -164,16 +168,16 @@ export function DrillMap({ focus, nodeMap, edges, groupNodes, groupEdges, links,
                 <span className="dm-swatch" style={{ background: ruleColor(linkIndex[w.label] ?? 0) }} /> {w.label}
               </div>
               {w.bridges.length === 0 && (
-                <div className="dm-why-line dm-muted">shared rule</div>
+                <div className="dm-why-line dm-muted">{MAP_COPY.drillMap.sharedRule}</div>
               )}
               {w.bridges.map((b, i) => (
                 <div key={i} className="dm-why-bridge">
                   <div className="dm-why-line">
-                    <span className="dm-why-card">{focus.card}</span> {cardRefName(b.focusGroup) ? <b>linked directly</b> : <>in <b>{b.focusGroup}</b></>}
+                    <span className="dm-why-card">{focus.card}</span> {cardRefName(b.focusGroup) ? <b>{MAP_COPY.drillMap.linkedDirectly}</b> : <>{MAP_COPY.drillMap.inGroup} <b>{b.focusGroup}</b></>}
                     {b.focusConds[0] && <span className="dm-why-cond">{b.focusConds[0]}</span>}
                   </div>
                   <div className="dm-why-line">
-                    <span className="dm-why-card">{hovered}</span> {cardRefName(b.neighGroup) ? <b>linked directly</b> : <>in <b>{b.neighGroup}</b></>}
+                    <span className="dm-why-card">{hovered}</span> {cardRefName(b.neighGroup) ? <b>{MAP_COPY.drillMap.linkedDirectly}</b> : <>{MAP_COPY.drillMap.inGroup} <b>{b.neighGroup}</b></>}
                     {b.neighConds[0] && <span className="dm-why-cond">{b.neighConds[0]}</span>}
                   </div>
                 </div>

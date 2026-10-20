@@ -8,6 +8,7 @@ import { getNodeColor } from "./ForceGraph.js"
 import { ConditionTooltip } from "./RuleInputs.js"
 import { useCardMemberships } from "./designData.js"
 import { readableRuleColor, ruleColor } from "./ruleColors.js"
+import { MAP_COPY } from "./copy.js"
 
 export function DetailPanel(props) {
   const { focus } = props
@@ -26,15 +27,15 @@ function OverviewDetail({ groupNodes, links, nodeMap, onDrill }) {
   const unconnected = Object.values(nodeMap).filter(n => (n.connection_count || 0) === 0).length
   return (
     <div className="dm-panel dm-detail">
-      <span className="section-heading">Overview</span>
+      <span className="section-heading">{MAP_COPY.details.overview}</span>
       <div className="dm-statgrid">
-        <Stat label="Themes" value={themes.length} />
-        <Stat label="Links" value={links.length} />
-        <Stat label="Cards" value={totalCards} />
-        <Stat label="Unlinked" value={unconnected} />
+        <Stat label={MAP_COPY.details.statThemes} value={themes.length} />
+        <Stat label={MAP_COPY.details.statLinks} value={links.length} />
+        <Stat label={MAP_COPY.details.statCards} value={totalCards} />
+        <Stat label={MAP_COPY.details.statUnlinked} value={unconnected} />
       </div>
-      <p className="dm-hint">Click a theme in the map or legend to drill in.</p>
-      <div className="dm-subhead">Largest themes</div>
+      <p className="dm-hint">{MAP_COPY.details.drillHint}</p>
+      <div className="dm-subhead">{MAP_COPY.details.largestThemes}</div>
       <div className="dm-detail-list">
         {biggest.map(g => (
           <UnstyledButton key={g.name} className="dm-detail-row" onClick={() => onDrill({ level: "group", group: g.name })}>
@@ -99,7 +100,7 @@ function GroupDetail({ cube, focus, groups, groupNodes, links, groupColor, onDri
 
       {linkedGroups.length > 0 && (
         <>
-          <div className="dm-subhead">Links to</div>
+          <div className="dm-subhead">{MAP_COPY.details.linksTo}</div>
           <div className="dm-chiprow">
             {linkedGroups.map(lg => {
               // A card: ref links to a single card, not a group - color it like the
@@ -111,7 +112,7 @@ function GroupDetail({ cube, focus, groups, groupNodes, links, groupColor, onDri
                   key={lg.name}
                   className="dm-chip"
                   style={{ borderColor: color, color: readableRuleColor(color) }}
-                  title={"via " + lg.labels.join(", ")}
+                  title={MAP_COPY.details.viaLabels({ labels: lg.labels.join(", ") })}
                   onClick={() => onDrill(cardName ? { level: "card", card: cardName } : { level: "group", group: lg.name })}
                 >
                   {cardName || lg.name}
@@ -122,7 +123,7 @@ function GroupDetail({ cube, focus, groups, groupNodes, links, groupColor, onDri
         </>
       )}
 
-      <div className="dm-subhead">Cards {loading ? "…" : `(${sorted.length})`} <span className="dm-why-note">hover a card for why it matched</span></div>
+      <div className="dm-subhead">{MAP_COPY.details.cardsHeading} {loading ? "…" : `(${sorted.length})`} <span className="dm-why-note">{MAP_COPY.details.hoverForWhy}</span></div>
       <div className="dm-detail-list">
         {sorted.map(c => {
           const node = nodeMap[c.name] || { colors: [] }
@@ -168,7 +169,7 @@ function CardDetail({ cube, focus, groups, edges, links, nodeMap, groupColor, on
       if (!other) continue
       // Skip neighbors cut from the cube; the editor is cube-only.
       if (!nodeMap[other]) continue
-      for (const label of (e.rule_labels || ["(unlabeled)"])) {
+      for (const label of (e.rule_labels || [MAP_COPY.details.unlabeledRule])) {
         if (!map[label]) map[label] = new Set()
         map[label].add(other)
       }
@@ -188,12 +189,12 @@ function CardDetail({ cube, focus, groups, edges, links, nodeMap, groupColor, on
         {card.name}
       </div>
       {card.types && card.types.length > 0 && (
-        <div className="dm-types">{card.types.join(" · ")}{typeof card.cmc === "number" ? ` · ${card.cmc} MV` : ""}</div>
+        <div className="dm-types">{card.types.join(" · ")}{typeof card.cmc === "number" ? MAP_COPY.details.cardMv({ cmc: card.cmc }) : ""}</div>
       )}
 
       {memberships.length > 0 && (
         <>
-          <div className="dm-subhead">In themes</div>
+          <div className="dm-subhead">{MAP_COPY.details.inThemes}</div>
           <div className="dm-chiprow">
             {memberships.map(m => (
               <UnstyledButton
@@ -210,8 +211,8 @@ function CardDetail({ cube, focus, groups, edges, links, nodeMap, groupColor, on
         </>
       )}
 
-      <div className="dm-subhead">Linked cards {byRule.length > 0 ? `(${new Set(byRule.flatMap(r => r.cards)).size})` : ""}</div>
-      {byRule.length === 0 && <p className="dm-muted dm-pad">No links from this card.</p>}
+      <div className="dm-subhead">{MAP_COPY.details.linkedCards} {byRule.length > 0 ? `(${new Set(byRule.flatMap(r => r.cards)).size})` : ""}</div>
+      {byRule.length === 0 && <p className="dm-muted dm-pad">{MAP_COPY.details.noLinksFromCard}</p>}
       {byRule.map(r => {
         const li = linkIndex[r.label]
         const color = li != null ? ruleColor(li) : "var(--text-muted)"

@@ -6,6 +6,7 @@ import { useCube } from "../../contexts/CubeContext.js"
 import { CARD_REF_PREFIX, effectiveCards, matchKey, membershipsByCard, requestForGroups } from "../../utils/DesignRules.js"
 import { useDesignMatch } from "../../utils/useDesignMatch.js"
 import { RULE_COLORS } from "./ruleColors.js"
+import { MAP_COPY } from "./copy.js"
 
 // --- Detail rail (the readable substance) ------------------------------------
 
@@ -103,10 +104,10 @@ export function saveDesignMap(cube, groups, links, onRulesChanged, onStatus) {
       if (onStatus) onStatus("")
       if (onRulesChanged) onRulesChanged()
     } else {
-      if (onStatus) onStatus("Save failed: " + r.statusText)
+      if (onStatus) onStatus(MAP_COPY.designData.saveFailed({ reason: r.statusText }))
     }
   }).catch(e => {
-    if (onStatus) onStatus("Save failed: " + e.message)
+    if (onStatus) onStatus(MAP_COPY.designData.saveFailed({ reason: e.message }))
   })
 }
 

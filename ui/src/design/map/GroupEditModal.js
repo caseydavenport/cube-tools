@@ -7,6 +7,7 @@ import { useCube } from "../../contexts/CubeContext.js"
 import { requestForConditions } from "../../utils/DesignRules.js"
 import { useDesignMatch } from "../../utils/useDesignMatch.js"
 import { ClauseInputs, ConditionTooltip, ExcludeInputs, RuleInput } from "./RuleInputs.js"
+import { MAP_COPY } from "./copy.js"
 
 export function GroupEditModal({ group, color, onSave, onCancel }) {
   const cube = useCube()
@@ -122,19 +123,19 @@ export function GroupEditModal({ group, color, onSave, onCancel }) {
           lineHeight: "1.8",
         }}>
           <h4 style={{color: "var(--text-muted)", margin: "0 0 0.75rem 0", fontSize: "0.85rem"}}>
-            Query Reference
+            {MAP_COPY.groupEdit.queryReference}
           </h4>
           <table style={{borderCollapse: "collapse", width: "100%"}}>
             <tbody>
               {[
-                ["n:", "name"],
-                ["o:", "oracle text"],
-                ["t:", "type"],
-                ["st:", "subtype"],
-                ["c:", "color (WUBRG)"],
-                ["m:", "mana cost"],
-                ["cmc:", "mana value"],
-                ["is:", "keyword"],
+                ["n:", MAP_COPY.groupEdit.queryName],
+                ["o:", MAP_COPY.groupEdit.queryOracle],
+                ["t:", MAP_COPY.groupEdit.queryType],
+                ["st:", MAP_COPY.groupEdit.querySubtype],
+                ["c:", MAP_COPY.groupEdit.queryColor],
+                ["m:", MAP_COPY.groupEdit.queryManaCost],
+                ["cmc:", MAP_COPY.groupEdit.queryManaValue],
+                ["is:", MAP_COPY.groupEdit.queryKeyword],
               ].map(([prefix, desc]) => (
                 <tr key={prefix}>
                   <td style={{color: "var(--primary)", fontFamily: "monospace", fontWeight: "bold", paddingRight: "8px", whiteSpace: "nowrap"}}>{prefix}</td>
@@ -144,28 +145,29 @@ export function GroupEditModal({ group, color, onSave, onCancel }) {
             </tbody>
           </table>
           <div style={{borderTop: "1px solid var(--card-background)", margin: "0.5rem 0", paddingTop: "0.5rem"}}>
-            <div style={{color: "var(--text-muted)", marginBottom: "0.25rem", fontWeight: "bold", fontSize: "0.85em"}}>Comparisons</div>
+            <div style={{color: "var(--text-muted)", marginBottom: "0.25rem", fontWeight: "bold", fontSize: "0.85em"}}>{MAP_COPY.groupEdit.comparisons}</div>
             <div style={{color: "var(--text-muted)", fontFamily: "monospace"}}>
-              cmc&lt;=N &nbsp; cmc&gt;=N<br/>
-              pow&lt;=N &nbsp; tou&gt;=N
+              {MAP_COPY.groupEdit.comparisonsCmc}<br/>
+              {MAP_COPY.groupEdit.comparisonsPowTou}
             </div>
           </div>
           <div style={{borderTop: "1px solid var(--card-background)", margin: "0.5rem 0", paddingTop: "0.5rem"}}>
-            <div style={{color: "var(--text-muted)", marginBottom: "0.25rem", fontWeight: "bold", fontSize: "0.85em"}}>is: keywords</div>
+            <div style={{color: "var(--text-muted)", marginBottom: "0.25rem", fontWeight: "bold", fontSize: "0.85em"}}>{MAP_COPY.groupEdit.isKeywords}</div>
             <div style={{color: "var(--text-muted)", fontFamily: "monospace", fontSize: "0.9em"}}>
-              creature, land,<br/>
-              removal, counterspell,<br/>
-              interaction, handhate
+              {MAP_COPY.groupEdit.keywordsLine1}<br/>
+              {MAP_COPY.groupEdit.keywordsLine2}<br/>
+              {MAP_COPY.groupEdit.keywordsLine3}
             </div>
           </div>
           <div style={{borderTop: "1px solid var(--card-background)", margin: "0.5rem 0", paddingTop: "0.5rem"}}>
-            <div style={{color: "var(--text-muted)", marginBottom: "0.25rem", fontWeight: "bold", fontSize: "0.85em"}}>Operators</div>
+            <div style={{color: "var(--text-muted)", marginBottom: "0.25rem", fontWeight: "bold", fontSize: "0.85em"}}>{MAP_COPY.groupEdit.operators}</div>
             <div style={{color: "var(--text-muted)", fontSize: "0.9em"}}>
-              <code style={{color: "var(--primary)"}}>!</code> negate<br/>
-              <code style={{color: "var(--primary)"}}>OR</code> disjunction<br/>
-              <code style={{color: "var(--primary)"}}>()</code> grouping<br/>
-              <code style={{color: "var(--primary)"}}>""</code> quoted phrase<br/>
-              <code style={{color: "var(--primary)"}}>*</code> wildcard
+              <code style={{color: "var(--primary)"}}>!</code> {MAP_COPY.groupEdit.operatorNegate}<br/>
+              {/* copy-ok: query operator */}
+              <code style={{color: "var(--primary)"}}>OR</code> {MAP_COPY.groupEdit.operatorOr}<br/>
+              <code style={{color: "var(--primary)"}}>()</code> {MAP_COPY.groupEdit.operatorGrouping}<br/>
+              <code style={{color: "var(--primary)"}}>""</code> {MAP_COPY.groupEdit.operatorQuote}<br/>
+              <code style={{color: "var(--primary)"}}>*</code> {MAP_COPY.groupEdit.operatorWildcard}
             </div>
           </div>
         </div>
@@ -179,21 +181,21 @@ export function GroupEditModal({ group, color, onSave, onCancel }) {
           flexDirection: "column",
         }}>
           <h4 style={{color, margin: "0 0 1rem 0", fontSize: "1rem"}}>
-            Edit Group
+            {MAP_COPY.groupEdit.editGroup}
           </h4>
-          <RuleInput label="Name" value={editName} onChange={setEditName} placeholder="e.g. Mill Enablers" />
+          <RuleInput label={MAP_COPY.groupEdit.nameLabel} value={editName} onChange={setEditName} placeholder={MAP_COPY.groupEdit.namePlaceholder} />
           <div style={{flex: 1}}>
             <ClauseInputs
-              label="Conditions" connects={editConditions}
-              onChange={setEditConditions} placeholder="e.g. o:mill"
+              label={MAP_COPY.groupEdit.conditionsLabel} connects={editConditions}
+              onChange={setEditConditions} placeholder={MAP_COPY.groupEdit.conditionsPlaceholder}
               highlightedConditions={highlightedConditions}
               onConditionClick={handleConditionClick}
             />
             <ExcludeInputs values={editExclude} onChange={setEditExclude} options={excludeOptions} />
           </div>
           <div style={{display: "flex", gap: "0.5rem", marginTop: "1rem"}}>
-            <Button size="xs" variant="filled" onClick={() => onSave({ name: editName, conditions: editConditions, exclude: editExclude })}>Save</Button>
-            <Button size="xs" variant="default" onClick={onCancel}>Cancel</Button>
+            <Button size="xs" variant="filled" onClick={() => onSave({ name: editName, conditions: editConditions, exclude: editExclude })}>{MAP_COPY.groupEdit.save}</Button>
+            <Button size="xs" variant="default" onClick={onCancel}>{MAP_COPY.groupEdit.cancel}</Button>
           </div>
         </div>
 
@@ -205,10 +207,10 @@ export function GroupEditModal({ group, color, onSave, onCancel }) {
           flexDirection: "column",
         }}>
           <h4 style={{color: "var(--text-muted)", margin: "0 0 0.5rem 0", fontSize: "1rem"}}>
-            Matching Cards
+            {MAP_COPY.groupEdit.matchingCards}
             <span style={{fontWeight: "normal", fontSize: "0.85em", marginLeft: "0.5rem"}}>
               {loading ? "..." : `(${matchedCards.length - excludedMatchCount})`}
-              {!loading && excludedMatchCount > 0 && ` · ${excludedMatchCount} excluded`}
+              {!loading && excludedMatchCount > 0 && MAP_COPY.groupEdit.excludedCount({ count: excludedMatchCount })}
             </span>
             {addedSet.size > 0 && <span style={{fontSize: "0.85em", marginLeft: "0.5rem", color: "var(--se-good)"}}>+{addedSet.size}</span>}
             {removedCards.length > 0 && <span style={{fontSize: "0.85em", marginLeft: "0.35rem", color: "var(--se-bad)"}}>−{removedCards.length}</span>}
@@ -216,7 +218,7 @@ export function GroupEditModal({ group, color, onSave, onCancel }) {
           <div style={{flex: 1, overflowY: "auto"}}>
             {matchedCards.length === 0 && !loading && (
               <p style={{color: "var(--text-muted)", fontSize: "0.85em", fontStyle: "italic"}}>
-                No matching cards.
+                {MAP_COPY.groupEdit.noMatchingCards}
               </p>
             )}
             {matchedCards.map(card => {
@@ -244,10 +246,10 @@ export function GroupEditModal({ group, color, onSave, onCancel }) {
                   }}
                 >
                   <span style={{flex: 1, minWidth: 0, textDecoration: excluded ? "line-through" : "none"}}>{added ? `+ ${card.name}` : card.name}</span>
-                  {excluded && <span className="de-excluded-tag">excluded</span>}
-                  <ActionIcon variant="subtle" color="gray" size="sm" aria-label={excluded ? "Restore to group" : "Exclude from group"}
+                  {excluded && <span className="de-excluded-tag">{MAP_COPY.groupEdit.excludedTag}</span>}
+                  <ActionIcon variant="subtle" color="gray" size="sm" aria-label={excluded ? MAP_COPY.groupEdit.restoreToGroup : MAP_COPY.groupEdit.excludeFromGroup}
                     onClick={e => { e.stopPropagation(); toggleExclude(card.name) }}
-                    title={excluded ? "Restore to group" : "Exclude from group"}
+                    title={excluded ? MAP_COPY.groupEdit.restoreToGroup : MAP_COPY.groupEdit.excludeFromGroup}
                   >{excluded ? <IconArrowBackUp size={14} /> : <IconX size={14} />}</ActionIcon>
                 </ConditionTooltip>
               )

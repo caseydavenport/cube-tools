@@ -6,6 +6,7 @@ import { forceX, forceY, forceCollide } from 'd3-force-3d'
 import { useComputedColorScheme } from "@mantine/core"
 import { White, Blue, Black, Red, Green } from "../../utils/Colors.js"
 import { currentChartTheme, seriesColor, withAlpha } from "../../theme/chartTheme.js"
+import { MAP_COPY } from "./copy.js"
 
 // ForceGraph is a force-directed canvas renderer built on react-force-graph-2d.
 // It draws whatever nodes and edges it's handed - theme constellation, a group's
@@ -115,7 +116,7 @@ export function ForceGraph({ nodes, edges, showLabels, colorBy, hoveredId, selec
     ctx.font = `${fontSize}px Inter, sans-serif`
     ctx.textAlign = "center"
     ctx.lineJoin = "round"
-    const text = node.count != null ? `${node.label} (${node.count})` : node.label
+    const text = node.count != null ? MAP_COPY.forceGraph.nodeLabelWithCount({ label: node.label, count: node.count }) : node.label
     const ty = node.y - node.radius - 5 / globalScale
     // A halo in the page color keeps the label readable over links and nodes.
     ctx.lineWidth = 3 / globalScale

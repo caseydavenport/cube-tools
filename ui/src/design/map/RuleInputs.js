@@ -6,6 +6,7 @@ import ReactDOM from 'react-dom'
 import { NativeSelect, TextInput, Button, ActionIcon } from "@mantine/core"
 import { IconPencil, IconPlus, IconX } from "@tabler/icons-react"
 import { CARD_REF_PREFIX, cardRefName } from "../../utils/DesignRules.js"
+import { MAP_COPY } from "./copy.js"
 
 // RuleInput is a labeled text box for one part of a rule, such as a group's
 // name, in the monospace face the rule syntax reads best in.
@@ -44,14 +45,14 @@ export function GroupMultiSelect({ label, values, onChange, groupNames, cardName
       {values.map((v, i) => (
         <div key={i} style={{display: "flex", gap: "4px", marginBottom: "3px", alignItems: "center"}}>
           <NativeSelect size="xs" className="dm-grow" classNames={{ input: "dm-mono" }} aria-label={label} value={v} onChange={e => updateAt(i, e.target.value)}>
-            <option value="">{cardNames ? "-- Select group or card --" : "-- Select group --"}</option>
-            <optgroup label="Groups">
+            <option value="">{cardNames ? MAP_COPY.ruleInputs.selectGroupOrCard : MAP_COPY.ruleInputs.selectGroup}</option>
+            <optgroup label={MAP_COPY.ruleInputs.groupsOption}>
               {groupNames.map(name => (
                 <option key={name} value={name}>{name}</option>
               ))}
             </optgroup>
             {cardNames && cardNames.length > 0 && (
-              <optgroup label="Cards">
+              <optgroup label={MAP_COPY.ruleInputs.cardsOption}>
                 {cardNames.map(name => (
                   <option key={CARD_REF_PREFIX + name} value={CARD_REF_PREFIX + name}>{name}</option>
                 ))}
@@ -59,22 +60,22 @@ export function GroupMultiSelect({ label, values, onChange, groupNames, cardName
             )}
           </NativeSelect>
           {onEditGroup && v && !cardRefName(v) && (
-            <ActionIcon variant="subtle" color="gray" size="sm" aria-label="Edit group"
+            <ActionIcon variant="subtle" color="gray" size="sm" aria-label={MAP_COPY.ruleInputs.editGroup}
               onClick={() => onEditGroup(v)}
-              title="Edit group"
+              title={MAP_COPY.ruleInputs.editGroup}
             ><IconPencil size={14} /></ActionIcon>
           )}
           {values.length > 1 && (
-            <ActionIcon variant="subtle" color="gray" size="sm" aria-label="Remove"
+            <ActionIcon variant="subtle" color="gray" size="sm" aria-label={MAP_COPY.ruleInputs.remove}
               onClick={() => removeAt(i)}
-              title="Remove"
+              title={MAP_COPY.ruleInputs.remove}
             ><IconX size={14} /></ActionIcon>
           )}
         </div>
       ))}
       <Button size="compact-xs" variant="subtle" color="gray" leftSection={<IconPlus size={12} />}
         onClick={addSlot}
-      >Add group</Button>
+      >{MAP_COPY.ruleInputs.addGroup}</Button>
     </div>
   )
 }
@@ -131,7 +132,7 @@ export function ConditionTooltip({ children, conditions, style, onClick }) {
           boxShadow: "var(--mantine-shadow-md)",
         }}>
           <div style={{fontSize: "11px", fontWeight: "bold", color: "var(--text-muted)", textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: "4px"}}>
-            Matched Conditions
+            {MAP_COPY.ruleInputs.matchedConditions}
           </div>
           <table style={{borderCollapse: "collapse"}}>
             <tbody>
@@ -182,7 +183,7 @@ export function ClauseInputs({ label, connects, onChange, placeholder, highlight
   }
   return (
     <div style={{marginBottom: "0.35rem"}}>
-      <label style={{fontSize: "0.7em", color: "var(--text-muted)", display: "block", marginBottom: "2px"}}>{label} (OR)</label>
+      <label style={{fontSize: "0.7em", color: "var(--text-muted)", display: "block", marginBottom: "2px"}}>{label} {MAP_COPY.ruleInputs.orSuffix}</label>
       {connects.map((c, i) => {
         const trimmed = c.trim()
         const dimmed = highlightedConditions && trimmed && !highlightedConditions.has(trimmed)
@@ -207,9 +208,9 @@ export function ClauseInputs({ label, connects, onChange, placeholder, highlight
               placeholder={placeholder}
             />
             {connects.length > 1 && (
-              <ActionIcon variant="subtle" color="gray" size="sm" aria-label="Remove clause"
+              <ActionIcon variant="subtle" color="gray" size="sm" aria-label={MAP_COPY.ruleInputs.removeClause}
                 onClick={(e) => { e.stopPropagation(); removeAt(i) }}
-                title="Remove clause"
+                title={MAP_COPY.ruleInputs.removeClause}
               ><IconX size={14} /></ActionIcon>
             )}
           </div>
@@ -217,7 +218,7 @@ export function ClauseInputs({ label, connects, onChange, placeholder, highlight
       })}
       <Button size="compact-xs" variant="subtle" color="gray" leftSection={<IconPlus size={12} />}
         onClick={addClause}
-      >Add OR clause</Button>
+      >{MAP_COPY.ruleInputs.addOrClause}</Button>
     </div>
   )
 }
@@ -236,33 +237,33 @@ export function ExcludeInputs({ values, onChange, options }) {
   }
   return (
     <div style={{marginTop: "0.75rem"}}>
-      <label style={{fontSize: "0.7em", color: "var(--text-muted)", display: "block", marginBottom: "2px"}}>Exclude cards</label>
+      <label style={{fontSize: "0.7em", color: "var(--text-muted)", display: "block", marginBottom: "2px"}}>{MAP_COPY.ruleInputs.excludeCards}</label>
       {values.map((v, i) => (
         <div key={i} style={{display: "flex", gap: "4px", marginBottom: "3px", alignItems: "center"}}>
           <NativeSelect
             size="xs"
             className="dm-grow"
             classNames={{ input: "dm-mono" }}
-            aria-label="Exclude card"
+            aria-label={MAP_COPY.ruleInputs.excludeCardLabel}
             value={v}
             onChange={e => updateAt(i, e.target.value)}
           >
-            <option value="">-- Select card --</option>
-            <optgroup label="Cards">
+            <option value="">{MAP_COPY.ruleInputs.selectCard}</option>
+            <optgroup label={MAP_COPY.ruleInputs.cardsOption}>
               {options.map(name => (
                 <option key={name} value={name}>{name}</option>
               ))}
             </optgroup>
           </NativeSelect>
-          <ActionIcon variant="subtle" color="gray" size="sm" aria-label="Remove exclusion"
+          <ActionIcon variant="subtle" color="gray" size="sm" aria-label={MAP_COPY.ruleInputs.removeExclusion}
             onClick={() => removeAt(i)}
-            title="Remove exclusion"
+            title={MAP_COPY.ruleInputs.removeExclusion}
           ><IconX size={14} /></ActionIcon>
         </div>
       ))}
       <Button size="compact-xs" variant="subtle" color="gray" leftSection={<IconPlus size={12} />}
         onClick={() => onChange([...values, ""])}
-      >Exclude a card</Button>
+      >{MAP_COPY.ruleInputs.excludeACard}</Button>
     </div>
   )
 }

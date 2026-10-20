@@ -8,6 +8,7 @@ import { RULE_COLORS, ruleColor } from "./ruleColors.js"
 import { edgeColorFor, editorHref } from "./designData.js"
 import { ForceGraph, cardColor } from "./ForceGraph.js"
 import { CardPreview } from "./DrillMap.js"
+import { MAP_COPY } from "./copy.js"
 
 // CardSynergyMap renders an arbitrary pool of cards (e.g. a decklist) as a force
 // graph wired by the design rules - the same engine as the design map, scoped to
@@ -86,7 +87,7 @@ export function CardSynergyMap({ cards, edges, links }) {
   useEffect(() => { setHovered(null); setSelected(null); setHoveredCommunity(null) }, [byName])
 
   if (simNodes.length === 0) {
-    return <p className="dm-muted dm-pad">No cards to map.</p>
+    return <p className="dm-muted dm-pad">{MAP_COPY.cardSynergyMap.noCards}</p>
   }
 
   const previewName = (hovered && byName.has(hovered)) ? hovered : selected
@@ -112,11 +113,11 @@ export function CardSynergyMap({ cards, edges, links }) {
     <div className="dm-deckmap-layout">
       <div className="dm-panel dm-map dm-deckmap-main">
         <div className="dm-map-toolbar">
-          <span className="dm-map-toolbar-label">Color by</span>
+          <span className="dm-map-toolbar-label">{MAP_COPY.cardSynergyMap.colorBy}</span>
           <SegmentedControl
             size="xs"
-            aria-label="Color by"
-            data={[{ value: "identity", label: "Identity" }, { value: "community", label: "Community" }]}
+            aria-label={MAP_COPY.cardSynergyMap.colorBy}
+            data={[{ value: "identity", label: MAP_COPY.cardSynergyMap.colorByIdentity }, { value: "community", label: MAP_COPY.cardSynergyMap.colorByCommunity }]}
             value={colorBy}
             onChange={setColorBy}
           />
@@ -133,14 +134,14 @@ export function CardSynergyMap({ cards, edges, links }) {
           onSelect={(id) => setSelected(prev => prev === id ? null : id)}
         />
         <div className="dm-map-caption">
-          {simNodes.length} cards · {simEdges.length} links · {analytics.communities.length} clusters (Q {analytics.q.toFixed(2)}) · hover to trace, click to pin
+          {MAP_COPY.cardSynergyMap.caption({ cards: simNodes.length, links: simEdges.length, clusters: analytics.communities.length, q: analytics.q.toFixed(2) })}
         </div>
       </div>
       <aside className="dm-deckmap-side">
         <div className="dm-panel dm-deckmap-stats">
-          <div className="dm-subhead">Most linked</div>
+          <div className="dm-subhead">{MAP_COPY.cardSynergyMap.mostLinked}</div>
           {topLinked.length === 0 ? (
-            <p className="dm-muted dm-pad">No linked cards.</p>
+            <p className="dm-muted dm-pad">{MAP_COPY.cardSynergyMap.noLinkedCards}</p>
           ) : topLinked.map(r => (
             <UnstyledButton
               key={r.card}
@@ -153,9 +154,9 @@ export function CardSynergyMap({ cards, edges, links }) {
               <span className="dm-legend-count">{r.weightedDegree}·{r.degree}</span>
             </UnstyledButton>
           ))}
-          <div className="dm-subhead">Communities</div>
+          <div className="dm-subhead">{MAP_COPY.cardSynergyMap.communities}</div>
           {analytics.communities.length === 0 ? (
-            <p className="dm-muted dm-pad">No clusters.</p>
+            <p className="dm-muted dm-pad">{MAP_COPY.cardSynergyMap.noClusters}</p>
           ) : analytics.communities.map((c, i) => (
             <div
               key={i}
@@ -164,7 +165,7 @@ export function CardSynergyMap({ cards, edges, links }) {
               onMouseLeave={() => setHoveredCommunity(null)}
             >
               <span className="dm-swatch" style={{ background: c.color }} />
-              <span className="dm-legend-name">{c.label || "mixed"}</span>
+              <span className="dm-legend-name">{c.label || MAP_COPY.cardSynergyMap.mixedCommunity}</span>
               <span className="dm-legend-count">{c.size}</span>
             </div>
           ))}
@@ -173,18 +174,18 @@ export function CardSynergyMap({ cards, edges, links }) {
           <div className="dm-panel dm-deckmap-stats">
             <div className="dm-linked-head">
               <span className="dm-legend-name">{selected}</span>
-              <a className="dm-editor-link" href={editorHref(cube, selected)} target="_blank" rel="noopener noreferrer" title="Open in the design editor">⧉</a>
+              <a className="dm-editor-link" href={editorHref(cube, selected)} target="_blank" rel="noopener noreferrer" title={MAP_COPY.cardSynergyMap.openInEditor}>⧉</a>
             </div>
             {linkedTo.length === 0 ? (
-              <p className="dm-muted dm-pad">No links in this pool.</p>
+              <p className="dm-muted dm-pad">{MAP_COPY.cardSynergyMap.noLinksInPool}</p>
             ) : (
               <>
-                <div className="dm-subhead">Linked with</div>
+                <div className="dm-subhead">{MAP_COPY.cardSynergyMap.linkedWith}</div>
                 {linkedTo.map(n => (
                   <div key={n.card} className="dm-legend-row dm-legend-static">
                     <span className="dm-legend-name">{n.card}</span>
                     <span className="dm-legend-count">{n.weight}</span>
-                    <a className="dm-editor-link" href={editorHref(cube, selected, n.card)} target="_blank" rel="noopener noreferrer" title={`Compare with ${selected} in the editor`}>⧉</a>
+                    <a className="dm-editor-link" href={editorHref(cube, selected, n.card)} target="_blank" rel="noopener noreferrer" title={MAP_COPY.cardSynergyMap.compareInEditor({ card: selected })}>⧉</a>
                   </div>
                 ))}
               </>

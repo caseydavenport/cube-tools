@@ -9,6 +9,7 @@ import { ruleColor } from "./ruleColors.js"
 import { useAllMemberships } from "./designData.js"
 import { DrillMap } from "./DrillMap.js"
 import { DetailPanel } from "./MapDetails.js"
+import { MAP_COPY } from "./copy.js"
 
 // The design map is a drill-in explorer. Focus is a stack of levels the user has
 // drilled through, so the breadcrumb can climb back out:
@@ -87,10 +88,9 @@ export function DesignMapWidget({ show, designGraphData, cards, onCardSelected }
     return (
       <div className="dm-explore">
         <div className="dm-empty">
-          <p>No design map yet.</p>
+          <p>{MAP_COPY.widget.emptyTitle}</p>
           <p className="dm-muted">
-            Use the <a className="dm-linkbtn" href={`#/${cube}/rules-editor`}>Rules editor</a> to define
-            groups (card queries) and links (how groups relate). The map is built from those rules.
+            {MAP_COPY.widget.emptyHintBefore}<a className="dm-linkbtn" href={`#/${cube}/rules-editor`}>{MAP_COPY.widget.emptyHintLink}</a>{MAP_COPY.widget.emptyHintAfter}
           </p>
         </div>
       </div>
@@ -152,13 +152,13 @@ export function DesignMapWidget({ show, designGraphData, cards, onCardSelected }
 // its group's color when it's a group.
 function Breadcrumb({ trail, onCrumb, groupColor }) {
   function label(step) {
-    if (step.level === "themes") return "All themes"
+    if (step.level === "themes") return MAP_COPY.widget.allThemes
     if (step.level === "group") return step.group
     return step.card
   }
 
   return (
-    <Breadcrumbs className="dm-crumbs" separator="›" aria-label="Map location">
+    <Breadcrumbs className="dm-crumbs" separator="›" aria-label={MAP_COPY.widget.mapLocation}>
       {trail.map((step, i) => (
         <Crumb key={i} step={step} last={i === trail.length - 1} label={label(step)} onClick={() => onCrumb(i)} groupColor={groupColor} />
       ))}
@@ -204,23 +204,23 @@ function Legend({ groupNodes, groupColor, focus, hovered, onHover, onPick }) {
   return (
     <div className="dm-panel dm-legend">
       <div className="dm-legend-head">
-        <span className="section-heading" style={{ margin: 0 }}>Themes</span>
+        <span className="section-heading" style={{ margin: 0 }}>{MAP_COPY.widget.themesHeading}</span>
         <span className="dm-count">{themes.length}</span>
       </div>
       <TextInput
         className="dm-search"
         size="xs"
         leftSection={<IconSearch size={14} />}
-        placeholder="Filter themes…"
-        aria-label="Filter themes"
+        placeholder={MAP_COPY.widget.filterPlaceholder}
+        aria-label={MAP_COPY.widget.filterLabel}
         value={query}
         onChange={e => setQuery(e.target.value)}
       />
       <div className="dm-sortrow">
         <SegmentedControl
           size="xs"
-          aria-label="Sort themes"
-          data={[{ value: "size", label: "Size" }, { value: "name", label: "A–Z" }]}
+          aria-label={MAP_COPY.widget.sortLabel}
+          data={[{ value: "size", label: MAP_COPY.widget.sortSize }, { value: "name", label: MAP_COPY.widget.sortName }]}
           value={sort}
           onChange={setSort}
         />
@@ -243,7 +243,7 @@ function Legend({ groupNodes, groupColor, focus, hovered, onHover, onPick }) {
             </UnstyledButton>
           )
         })}
-        {rows.length === 0 && <p className="dm-muted dm-pad">No themes match.</p>}
+        {rows.length === 0 && <p className="dm-muted dm-pad">{MAP_COPY.widget.noThemesMatch}</p>}
       </div>
     </div>
   )
