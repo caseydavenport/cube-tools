@@ -48,7 +48,7 @@ export const DECKSTATS_COPY = {
     titleRemovalManaCost: "Removal mana cost",
   },
 
-  // DeckScatter.js: the axis choices and the chart's labels.
+  // DeckScatter.js and scatterAxes.js: the axis labels and the chart's labels.
   scatter: {
     // These are both the dropdown labels and the values the plot switches on.
     axisInteraction: "# interaction",

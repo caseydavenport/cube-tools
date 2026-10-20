@@ -93,7 +93,7 @@ export const CARDS_COPY = {
     archetype: "Archetype",
   },
 
-  // CardScatter.js: the axis choices (also the values the plot switches on),
+  // CardScatter.js and scatterAxes.js: the axis labels (values are fixed in code),
   // the chart's labels, and its hover text.
   scatter: {
     axisNumDecks: "# Decks",

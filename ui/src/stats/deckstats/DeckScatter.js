@@ -1,5 +1,5 @@
-// The Deck stats scatter plot: the axis choices and how each deck's point is
-// placed and colored.
+// The Deck stats scatter plot: how each deck's point is placed and colored.
+// The axis choices live in scatterAxes.js.
 
 import React from 'react'
 import { AverageCMC, Pct } from "../../utils/Utils.js"
@@ -11,22 +11,7 @@ import { currentChartTheme, seriesColor } from "../../theme/chartTheme.js"
 import { availableValue, visibleItems } from "../../utils/dataKinds.js"
 import { DeckSplits } from "../../utils/cardMatches.js"
 import { DECKSTATS_COPY } from "./copy.js"
-
-// These double as the values getValue switches on.
-const NumInteractionOption = DECKSTATS_COPY.scatter.axisInteraction
-
-const NumCreaturesOption = DECKSTATS_COPY.scatter.axisCreatures
-
-const WinPercentOption = DECKSTATS_COPY.scatter.axisWinPercent
-
-const AvgManaValueOption = DECKSTATS_COPY.scatter.axisAvgManaValue
-
-const DeckScatterAxes = [
-  {label: NumInteractionOption, value: NumInteractionOption},
-  {label: NumCreaturesOption, value: NumCreaturesOption},
-  {label: WinPercentOption, value: WinPercentOption, needs: ["results"]},
-  {label: AvgManaValueOption, value: AvgManaValueOption},
-]
+import { DeckAxis, DeckScatterAxes, axisLabel } from "../scatterAxes.js"
 
 // deckPointColor colors one deck on the scatter plot: the selected deck in
 // the text color, every other deck in the first series color.
@@ -93,7 +78,7 @@ export function DeckGraph(input) {
   ]
 
 
-  let title = DECKSTATS_COPY.scatter.title(yAxis, xAxis)
+  let title = DECKSTATS_COPY.scatter.title(axisLabel(DeckScatterAxes, yAxis), axisLabel(DeckScatterAxes, xAxis))
 
   const options = {
     responsive: true,
@@ -101,13 +86,13 @@ export function DeckGraph(input) {
     onClick: function(evt, element) {},
     scales: {
       y: {
-        title: {display: true, text: yAxis, font: {size: 20, weight: "bold"}},
+        title: {display: true, text: axisLabel(DeckScatterAxes, yAxis), font: {size: 20, weight: "bold"}},
         min: getScales(yAxis, false)[0],
         max: getScales(yAxis, false)[1],
         ticks: largeTicks,
       },
       x: {
-        title: {display: true, text: xAxis, font: {size: 20, weight: "bold"}},
+        title: {display: true, text: axisLabel(DeckScatterAxes, xAxis), font: {size: 20, weight: "bold"}},
         min: getScales(xAxis, false)[0],
         max: getScales(xAxis, false)[1],
         ticks: largeTicks,
@@ -160,8 +145,8 @@ function getScales(axis, force) {
   // TODO: Can uncomment this when there are % based stat options.
   // if (force) {
   //   switch (axis) {
-  //     case NumInteractionOption:
-  //     case NumCreaturesOption:
+  //     case DeckAxis.interaction:
+  //     case DeckAxis.creatures:
   //       return [0, 100]
   //   }
   // }
@@ -172,13 +157,13 @@ function getValue(axis, deck, archetypeData, playerData, decks, draftData) {
   let [creatures, interaction] = DeckSplits(deck)
 
   switch (axis) {
-    case NumInteractionOption:
+    case DeckAxis.interaction:
       return interaction
-    case NumCreaturesOption:
+    case DeckAxis.creatures:
       return creatures
-    case WinPercentOption:
+    case DeckAxis.winPercent:
       return Pct(Wins(deck), Wins(deck) + Losses(deck))
-    case AvgManaValueOption:
+    case DeckAxis.avgManaValue:
       return AverageCMC({deck: deck})
   }
   return null

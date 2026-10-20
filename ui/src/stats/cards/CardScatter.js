@@ -1,5 +1,5 @@
-// The Cards scatter plot: the axis choices and how each card's point is
-// placed and colored.
+// The Cards scatter plot: how each card's point is placed and colored. The
+// axis choices live in scatterAxes.js.
 
 import React from 'react'
 import { DropdownHeader } from "../../components/Dropdown.js"
@@ -10,85 +10,7 @@ import { Scatter } from 'react-chartjs-2'
 import { currentChartTheme, deltaFill, seriesColor } from "../../theme/chartTheme.js"
 import { shouldSkip } from "./CardStatsTable.js"
 import { CARDS_COPY } from "./copy.js"
-
-// Chart configuration.
-
-const NumDecksOption = CARDS_COPY.scatter.axisNumDecks
-
-const NumSideboardOption = CARDS_COPY.scatter.axisNumSideboard
-
-const MainboardPercentOption = CARDS_COPY.scatter.axisMainboardPercent
-
-const SideboardPercentOption = CARDS_COPY.scatter.axisSideboardPercent
-
-const WinPercentOption = CARDS_COPY.scatter.axisWinPercent
-
-const WinPercentVsAvgOption = CARDS_COPY.scatter.axisWinPercentVsAvg
-
-const PercentOfWinsOption = CARDS_COPY.scatter.axisPercentOfWins
-
-const NumberOfWinsOption = CARDS_COPY.scatter.axisNumWins
-
-const ExpectedWinPercentOption = CARDS_COPY.scatter.axisExpectedWinPercent
-
-const ELOOption = CARDS_COPY.scatter.axisPickElo
-
-const MatchELOOption = CARDS_COPY.scatter.axisMatchElo
-
-const NumGamesOption = CARDS_COPY.scatter.axisNumGames
-
-const ManaValueOption = CARDS_COPY.scatter.axisManaValue
-
-const NumPlayersOption = CARDS_COPY.scatter.axisNumPlayers
-
-const DraftOrderOption = CARDS_COPY.scatter.axisDraftPick
-
-const NumTrophiesOption = CARDS_COPY.scatter.axisNumTrophies
-
-const NumLastPlaceOption = CARDS_COPY.scatter.axisNumLastPlace
-
-const VersusAggroOption = CARDS_COPY.scatter.axisVsAggro
-
-const VersusControlOption = CARDS_COPY.scatter.axisVsControl
-
-const VersusMidrangeOption = CARDS_COPY.scatter.axisVsMidrange
-
-const InAggroOption = CARDS_COPY.scatter.axisInAggro
-
-const InControlOption = CARDS_COPY.scatter.axisInControl
-
-const InMidrangeOption = CARDS_COPY.scatter.axisInMidrange
-
-const WordCountOption = CARDS_COPY.scatter.axisWordCount
-
-// CardScatterAxes are the measures the scatter plot can put on an axis. needs
-// lists the data a measure is built from, so a cube without it doesn't offer it.
-const CardScatterAxes = [
-  {label: NumDecksOption, value: NumDecksOption},
-  {label: NumSideboardOption, value: NumSideboardOption, needs: ["sideboards"]},
-  {label: MainboardPercentOption, value: MainboardPercentOption, needs: ["sideboards"]},
-  {label: SideboardPercentOption, value: SideboardPercentOption, needs: ["sideboards"]},
-  {label: WinPercentOption, value: WinPercentOption, needs: ["results"]},
-  {label: WinPercentVsAvgOption, value: WinPercentVsAvgOption, needs: ["results"]},
-  {label: PercentOfWinsOption, value: PercentOfWinsOption, needs: ["results"]},
-  {label: NumberOfWinsOption, value: NumberOfWinsOption, needs: ["results"]},
-  {label: ExpectedWinPercentOption, value: ExpectedWinPercentOption, needs: ["results"]},
-  {label: ELOOption, value: ELOOption, needs: ["sideboards"]},
-  {label: MatchELOOption, value: MatchELOOption, needs: ["results"]},
-  {label: NumGamesOption, value: NumGamesOption, needs: ["results"]},
-  {label: ManaValueOption, value: ManaValueOption},
-  {label: NumPlayersOption, value: NumPlayersOption},
-  {label: DraftOrderOption, value: DraftOrderOption, needs: ["pick_logs"]},
-  {label: NumTrophiesOption, value: NumTrophiesOption, needs: ["results"]},
-  {label: NumLastPlaceOption, value: NumLastPlaceOption, needs: ["results"]},
-  {label: VersusAggroOption, value: VersusAggroOption, needs: ["results", "archetypes"]},
-  {label: VersusControlOption, value: VersusControlOption, needs: ["results", "archetypes"]},
-  {label: VersusMidrangeOption, value: VersusMidrangeOption, needs: ["results", "archetypes"]},
-  {label: InAggroOption, value: InAggroOption, needs: ["results", "archetypes"]},
-  {label: InControlOption, value: InControlOption, needs: ["results", "archetypes"]},
-  {label: InMidrangeOption, value: InMidrangeOption, needs: ["results", "archetypes"]},
-  {label: WordCountOption, value: WordCountOption},
-]
+import { CardAxis, CardScatterAxes, axisLabel } from "../scatterAxes.js"
 
 // scatterPointColor colors one card on the scatter plot from its kind: the
 // selected card in the text color, a card with no games muted, every card the
@@ -185,7 +107,7 @@ export function CardGraph(input) {
 
   // When an axis shows the win-rate delta, draw a dashed cube-average baseline at
   // zero so over/underperformers read at a glance.
-  if (yAxis === WinPercentVsAvgOption && isFinite(xMin) && isFinite(xMax)) {
+  if (yAxis === CardAxis.winPercentVsAvg && isFinite(xMin) && isFinite(xMax)) {
     dataset.push({
       type: "line",
       label: CARDS_COPY.scatter.cubeAverageLabel,
@@ -197,7 +119,7 @@ export function CardGraph(input) {
       fill: false,
     })
   }
-  if (xAxis === WinPercentVsAvgOption && isFinite(yMin) && isFinite(yMax)) {
+  if (xAxis === CardAxis.winPercentVsAvg && isFinite(yMin) && isFinite(yMax)) {
     dataset.push({
       type: "line",
       label: CARDS_COPY.scatter.cubeAverageLabel,
@@ -210,11 +132,11 @@ export function CardGraph(input) {
     })
   }
 
-  let title = CARDS_COPY.scatter.title({ y: yAxis, x: xAxis })
+  let title = CARDS_COPY.scatter.title({ y: axisLabel(CardScatterAxes, yAxis), x: axisLabel(CardScatterAxes, xAxis) })
 
   // Signed-percent ticks for the win-delta axis, plain ticks otherwise.
   let axisTicks = function(axis) {
-    if (axis === WinPercentVsAvgOption) {
+    if (axis === CardAxis.winPercentVsAvg) {
       return {...largeTicks, callback: (v) => (v > 0 ? "+" : "") + v + "%"}
     }
     return largeTicks
@@ -226,13 +148,13 @@ export function CardGraph(input) {
     onClick: function(evt, element) {},
     scales: {
       y: {
-        title: {display: true, text: yAxis, font: {size: 20, weight: "bold"}},
+        title: {display: true, text: axisLabel(CardScatterAxes, yAxis), font: {size: 20, weight: "bold"}},
         min: getScales(yAxis, false)[0],
         max: getScales(yAxis, false)[1],
         ticks: axisTicks(yAxis),
       },
       x: {
-        title: {display: true, text: xAxis, font: {size: 20, weight: "bold"}},
+        title: {display: true, text: axisLabel(CardScatterAxes, xAxis), font: {size: 20, weight: "bold"}},
         min: getScales(xAxis, false)[0],
         max: getScales(xAxis, false)[1],
         ticks: axisTicks(xAxis),
@@ -256,16 +178,16 @@ export function CardGraph(input) {
               if (v == null) {
                 return "—"
               }
-              if (axis === WinPercentVsAvgOption) {
+              if (axis === CardAxis.winPercentVsAvg) {
                 return (v > 0 ? "+" : "") + v.toFixed(1) + "%"
               }
               return v
             }
             return CARDS_COPY.scatter.pointLabel({
               card: labels[ctx.dataIndex],
-              x: xAxis,
+              x: axisLabel(CardScatterAxes, xAxis),
               xValue: fmt(xAxis, ctx.parsed.x),
-              y: yAxis,
+              y: axisLabel(CardScatterAxes, yAxis),
               yValue: fmt(yAxis, ctx.parsed.y),
             })
           },
@@ -309,10 +231,10 @@ export function CardGraph(input) {
 function getScales(axis, force) {
   if (force) {
     switch (axis) {
-      case MainboardPercentOption:
-      case SideboardPercentOption:
-      case WinPercentOption:
-      case ExpectedWinPercentOption:
+      case CardAxis.mainboardPercent:
+      case CardAxis.sideboardPercent:
+      case CardAxis.winPercent:
+      case CardAxis.expectedWinPercent:
         return [0, 100]
     }
   }
@@ -321,62 +243,62 @@ function getScales(axis, force) {
 
 function getValue(axis, card, archetypeData, playerData, decks, draftData) {
   switch (axis) {
-    case NumGamesOption:
+    case CardAxis.numGames:
       return card.total_games
-    case MainboardPercentOption:
+    case CardAxis.mainboardPercent:
       return card.mainboard_percent
-    case SideboardPercentOption:
+    case CardAxis.sideboardPercent:
       return card.sideboard_percent
-    case ELOOption:
+    case CardAxis.pickElo:
       return card.elo
-    case MatchELOOption:
+    case CardAxis.matchElo:
       return card.match_elo
-    case WinPercentOption:
+    case CardAxis.winPercent:
       return card.win_percent
-    case WinPercentVsAvgOption:
+    case CardAxis.winPercentVsAvg:
       // Win rate relative to the cube-wide average. Only meaningful once the card
       // has played games; unplayed cards return null so they drop off the axis.
       if (!card.total_games || card.total_games <= 0) {
         return null
       }
       return card.win_percent - CUBE_AVG_WIN_PERCENT
-    case PercentOfWinsOption:
+    case CardAxis.percentOfWins:
       return card.percent_of_wins
-    case NumberOfWinsOption:
+    case CardAxis.numWins:
       return card.wins
-    case NumDecksOption:
+    case CardAxis.numDecks:
       return card.mainboard
-    case NumSideboardOption:
+    case CardAxis.numSideboard:
       return card.sideboard
-    case ManaValueOption:
+    case CardAxis.manaValue:
       return card.cmc
-    case NumPlayersOption:
+    case CardAxis.numPlayers:
       return Object.entries(card.players).length
-    case ExpectedWinPercentOption:
+    case CardAxis.expectedWinPercent:
       return card.expected_win_percent
-    case NumTrophiesOption:
+    case CardAxis.numTrophies:
       return card.trophies
-    case NumLastPlaceOption:
+    case CardAxis.numLastPlace:
       return card.last_place
-    case DraftOrderOption:
+    case CardAxis.draftPick:
       let pick = draftData.get(card.name)
       if (pick == null) {
         return null
       }
       return Math.round(pick.pickNumSum / pick.count * 10) / 10
-    case VersusAggroOption:
+    case CardAxis.vsAggro:
       return card.against_archetype.aggro.win_percent
-    case VersusMidrangeOption:
+    case CardAxis.vsMidrange:
       return card.against_archetype.midrange.win_percent
-    case VersusControlOption:
+    case CardAxis.vsControl:
       return card.against_archetype.control.win_percent
-    case InAggroOption:
+    case CardAxis.inAggro:
       return card.by_archetype.aggro.win_percent
-    case InMidrangeOption:
+    case CardAxis.inMidrange:
       return card.by_archetype.midrange.win_percent
-    case InControlOption:
+    case CardAxis.inControl:
       return card.by_archetype.control.win_percent
-    case WordCountOption:
+    case CardAxis.wordCount:
       return card.word_count
   }
   return null

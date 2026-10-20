@@ -16,6 +16,7 @@ import { fromCallback } from "../stats/loading.js";
 import { statsUrl } from "../stats/statsUrls.js";
 import { ALL_SOURCES, viewNeeds } from "../stats/viewSources.js";
 import { useLoaded } from "../stats/useLoaded.js";
+import { DEFAULT_CARD_X_AXIS, DEFAULT_CARD_Y_AXIS, DEFAULT_DECK_X_AXIS, DEFAULT_DECK_Y_AXIS } from "../stats/scatterAxes.js";
 
 export function useStatsFilters() {
   const [bucketSize, setBucketSize] = useState(5);
@@ -39,10 +40,10 @@ export function useStatsFilters() {
   const [cardWidgetColorSelection, setCardWidgetColorSelection] = useState("");
   const [cardWidgetSortBy, setCardWidgetSortBy] = useState("");
   const [cardWidgetSortInvert, setCardWidgetSortInvert] = useState(false);
-  const [cardXAxis, setCardXAxis] = useState("# Decks");
-  const [cardYAxis, setCardYAxis] = useState("Pick ELO");
-  const [deckXAxis, setDeckXAxis] = useState("# creatures");
-  const [deckYAxis, setDeckYAxis] = useState("# interaction");
+  const [cardXAxis, setCardXAxis] = useState(DEFAULT_CARD_X_AXIS);
+  const [cardYAxis, setCardYAxis] = useState(DEFAULT_CARD_Y_AXIS);
+  const [deckXAxis, setDeckXAxis] = useState(DEFAULT_DECK_X_AXIS);
+  const [deckYAxis, setDeckYAxis] = useState(DEFAULT_DECK_Y_AXIS);
   const [draftSortBy, setDraftSortBy] = useState("p1p1");
   const [draftSortInvert, setDraftSortInvert] = useState(false);
   const [minDeviation, setMinDeviation] = useState(0);
