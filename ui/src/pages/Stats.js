@@ -15,6 +15,7 @@ import { StatsToolbar } from "../stats/StatsToolbar.js"
 import { StatsSettings } from "../stats/StatsSettings.js"
 import { noDecksMatch } from "../stats/statsSummary.js"
 import { EmptyState } from "../components/kit/EmptyState.js"
+import { LoadFailedNotice } from "../stats/LoadFailedNotice.js"
 
 // COPY holds the text the stats pages add around their widgets: page titles,
 // the toolbar, and its settings. Placeholders for Casey to replace.
@@ -40,6 +41,8 @@ const COPY = {
   colorStats: "Color stats",
   noHealthData: "No health data",
   noMatchingDecks: "No decks match this filter",
+  loadFailed: "Some of this page's data didn't load.",
+  retry: "Try again",
 
   allTime: "All time",
   last12Months: "Last 12 months",
@@ -86,7 +89,7 @@ export function StatsViewer(props) {
   const {
     decks, decksLoaded, cube, archetypeMatchups, cardData, cardDataBucketed,
     synergyData, synergyCompare, colorMatchupData, healthData,
-    designGraphData, parsed, graphData, archetypeDropdownOptions,
+    designGraphData, parsed, graphData, archetypeDropdownOptions, failed,
   } = data;
 
   // Destructure filter setters for the SelectorBar and Widgets
@@ -258,7 +261,10 @@ export function StatsViewer(props) {
     return (
       <div id="root" className="stats-root">
         <PageToolbar title={COPY.titles.designmap} />
-        <div id="widgets" className="house-for-widgets">{widget}</div>
+        <div id="widgets" className="house-for-widgets">
+          <LoadFailedNotice failed={failed} onRetry={triggerRefresh} copy={COPY} />
+          {widget}
+        </div>
       </div>
     )
   }
@@ -283,6 +289,7 @@ export function StatsViewer(props) {
       />
 
       <div id="widgets" className="house-for-widgets">
+        <LoadFailedNotice failed={failed} onRetry={triggerRefresh} copy={COPY} />
         {noMatches}
         {widget}
       </div>

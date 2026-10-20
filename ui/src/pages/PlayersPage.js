@@ -17,11 +17,14 @@ import { PlayerSettings } from "../players/PlayerSettings.js"
 import { PlayerSummaryCard } from "../players/PlayerSummaryCard.js"
 import "../decks/decks.css"
 import "../players/players.css"
+import { LoadFailedNotice } from "../stats/LoadFailedNotice.js"
 
 // COPY holds every piece of text on the Players page. These are placeholders
 // for Casey to replace.
 const COPY = {
   title: "Players",
+  loadFailed: "Some of this page's data didn't load.",
+  retry: "Try again",
   filterPlaceholder: "Filter decks",
 
   allTime: "All time",
@@ -168,7 +171,7 @@ export function PlayersPage(props) {
     endDate: props.endDate,
     matchStr: filter.settled,
   }), [props.startDate, props.endDate, filter.settled])
-  const { cube, parsed } = useStatsData(filters, dataProps, refresh, "players")
+  const { cube, parsed, failed } = useStatsData(filters, dataProps, refresh, "players")
 
   const editable = useCubeWritable(cubeId) === true
   const players = usePlayerList(refresh)
@@ -232,6 +235,10 @@ export function PlayersPage(props) {
           onChange={event => filter.setTyped(event.target.value)}
         />
       </PageToolbar>
+
+      <div className="players-notice">
+        <LoadFailedNotice failed={failed} onRetry={() => setRefresh(r => r + 1)} copy={COPY} />
+      </div>
 
       <ListDetail
         list={<PlayerList rows={rows} selectedName={selection.name} selectionFor={selection.selectionFor} copy={COPY} />}

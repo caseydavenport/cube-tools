@@ -141,3 +141,8 @@
   color: inherit;
   opacity: 0.7;
 }
+
+/* The failed-data notice sits above the page content. */
+.load-failed-notice { margin-bottom: 1rem; }
+.players-notice:empty { display: none; }
+.players-notice { padding: 1rem 1.5rem 0; }
