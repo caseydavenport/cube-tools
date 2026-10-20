@@ -3,7 +3,8 @@
 // git ref, with its leading comments, and checks each one appears word for word
 // in exactly one of the new files. Adding or dropping `export` is allowed.
 //
-// Run from the repo root:
+// Give every path from the repo root; it works from any directory, including
+// `npm --prefix ui run compare-moved -- <ref> <old files…> -- <new files…>`:
 //   node ui/scripts/compare-moved.mjs <ref> <old files…> -- <new files…>
 // It exits 1 if a declaration changed, went missing, or appears twice.
 
@@ -123,9 +124,23 @@ function bindingName(id) {
   return "<pattern>"
 }
 
+// repoPath turns a path into one relative to the repo root, which is what
+// `git show ref:path` needs. Relative paths are taken as already from the root.
+export function repoPath(file, root) {
+  if (path.isAbsolute(file)) {
+    return path.relative(root, file)
+  }
+  return file
+}
+
+// gitRoot returns the repo's top folder.
+function gitRoot() {
+  return execFileSync("git", ["rev-parse", "--show-toplevel"], { encoding: "utf8", cwd: UI_DIR }).trim()
+}
+
 // readAtRef reads a file as it was at a git ref.
-function readAtRef(ref, file) {
-  return execFileSync("git", ["show", `${ref}:${file}`], { encoding: "utf8", maxBuffer: 64 * 1024 * 1024 })
+function readAtRef(ref, file, root) {
+  return execFileSync("git", ["show", `${ref}:${file}`], { encoding: "utf8", cwd: root, maxBuffer: 64 * 1024 * 1024 })
 }
 
 // main parses `<ref> <old files…> -- <new files…>`, compares, and prints the lists.
@@ -138,8 +153,9 @@ function main() {
   }
 
   const ref = args[0]
-  const oldSources = args.slice(1, split).map(p => ({ path: p, text: readAtRef(ref, p) }))
-  const newSources = args.slice(split + 1).map(p => ({ path: p, text: readFileSync(p, "utf8") }))
+  const root = gitRoot()
+  const oldSources = args.slice(1, split).map(p => ({ path: p, text: readAtRef(ref, repoPath(p, root), root) }))
+  const newSources = args.slice(split + 1).map(p => ({ path: p, text: readFileSync(path.join(root, repoPath(p, root)), "utf8") }))
   const result = compareMoved(oldSources, newSources)
 
   for (const key of ["changed", "missing", "duplicated", "added"]) {

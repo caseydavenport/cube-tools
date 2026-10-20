@@ -1,6 +1,6 @@
 import { test } from "node:test"
 import assert from "node:assert/strict"
-import { compareMoved } from "./compare-moved.mjs"
+import { compareMoved, repoPath } from "./compare-moved.mjs"
 
 const OLD = [{
   path: "old.js",
@@ -54,4 +54,9 @@ test("a file header above the first declaration isn't part of its comments", () 
     { path: "one.js", text: "// One holds a.\n\n// a adds one.\nfunction a(x) {\n  return x + 1\n}\n// B is a constant.\nconst B = 2\n" },
   ])
   assert.deepEqual(result.changed, [])
+})
+
+test("paths are read from the repo root, wherever the script runs", () => {
+  assert.equal(repoPath("ui/src/x.js", "/repo"), "ui/src/x.js")
+  assert.equal(repoPath("/repo/ui/src/x.js", "/repo"), "ui/src/x.js")
 })

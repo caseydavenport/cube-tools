@@ -11,3 +11,9 @@ test("a hidden sort column falls back to Build %", () => {
 test("a visible sort column stays", () => {
   assert.equal(shownColorSort("win", COLUMNS, { results: true }), "win")
 })
+
+test("a mono-only sort column falls back outside Mono", () => {
+  const columns = [{ id: "picks", monoOnly: true }, { id: "build" }]
+  assert.equal(shownColorSort("picks", columns, {}, "Dual"), "build")
+  assert.equal(shownColorSort("picks", columns, {}, "Mono"), "picks")
+})

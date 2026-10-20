@@ -5,10 +5,9 @@ import { DropdownHeader } from "../../components/Dropdown.js"
 import { HoverInfo } from "../../components/kit/HoverInfo.js"
 import { asEvent } from "../../components/kit/controls.js"
 import { Group, SegmentedControl } from "@mantine/core"
-import { visibleItems } from "../../utils/dataKinds.js"
 import { ColorImages, CUBE_AVG_WIN_PERCENT } from "../../utils/Colors.js"
 import { MinWinningPctDecks, Pct, SortFunc } from "../../utils/Utils.js"
-import { shownColorSort } from "./colorSort.js"
+import { colorColumnShown, shownColorSort } from "./colorSort.js"
 
 // colorIsDisplayed returns true if the given color identity should be displayed - e.g.,
 // if Dual is selected, mono and trio colors are filtered out.
@@ -133,14 +132,7 @@ const COLOR_COLUMNS = [
 // columns needing data the cube lacks are dropped, as are single-color columns
 // when pairs or trios are shown. Header and cells both come from this list.
 function shownColumns(info, colorType) {
-  const columns = []
-  for (const column of visibleItems(COLOR_COLUMNS, info)) {
-    if (column.monoOnly && colorType !== "Mono") {
-      continue
-    }
-    columns.push(column)
-  }
-  return columns
+  return COLOR_COLUMNS.filter(column => colorColumnShown(column, info, colorType))
 }
 
 // winningPercentText is the share of decks with a winning record, or a dash
@@ -264,6 +256,7 @@ export function ColorStatsTable(input) {
   }
 
   const columns = shownColumns(input.info, input.colorTypeSelection)
+  const sortBy = shownColorSort(input.sortBy, COLOR_COLUMNS, input.info, input.colorTypeSelection)
   const totals = { victoryPoints: totalVictoryPoints }
 
   return (
@@ -286,7 +279,7 @@ export function ColorStatsTable(input) {
           {
             filtered.map(function(color, idx) {
               return (
-                <tr key={idx} sort={colorSortValue(color, shownColorSort(input.sortBy, COLOR_COLUMNS, input.info))} className="widget-table-row">
+                <tr key={idx} sort={colorSortValue(color, sortBy)} className="widget-table-row">
                   {columns.map(column => column.cell(color, totals))}
                 </tr>
               );
