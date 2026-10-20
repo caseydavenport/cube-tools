@@ -8,6 +8,7 @@ import { Group, SegmentedControl } from "@mantine/core"
 import { visibleItems } from "../../utils/dataKinds.js"
 import { ColorImages, CUBE_AVG_WIN_PERCENT } from "../../utils/Colors.js"
 import { MinWinningPctDecks, Pct, SortFunc } from "../../utils/Utils.js"
+import { shownColorSort } from "./colorSort.js"
 
 // colorIsDisplayed returns true if the given color identity should be displayed - e.g.,
 // if Dual is selected, mono and trio colors are filtered out.
@@ -285,7 +286,7 @@ export function ColorStatsTable(input) {
           {
             filtered.map(function(color, idx) {
               return (
-                <tr key={idx} sort={colorSortValue(color, input.sortBy)} className="widget-table-row">
+                <tr key={idx} sort={colorSortValue(color, shownColorSort(input.sortBy, COLOR_COLUMNS, input.info))} className="widget-table-row">
                   {columns.map(column => column.cell(color, totals))}
                 </tr>
               );

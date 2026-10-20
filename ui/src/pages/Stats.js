@@ -275,7 +275,7 @@ export function StatsViewer(props) {
         props={props}
         filter={typingStr}
         onFilterChange={(e) => setTypingStr(e.target.value)}
-        settings={<StatsSettings filters={filters} copy={COPY} />}
+        settings={<StatsSettings filters={filters} info={info} copy={COPY} />}
         onRefresh={triggerRefresh}
         decks={parsed.filteredDecks || []}
         filterSuggestions={{ cardNames: cube.cards.map(c => c.name), playerNames, archetypes }}

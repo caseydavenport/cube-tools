@@ -14,3 +14,10 @@ export const RULE_COLORS = [
 export function ruleColor(index) {
   return RULE_COLORS[index % RULE_COLORS.length]
 }
+
+// readableRuleColor is a rule's color for text. Some rule colors are pale, so
+// it mixes the color toward the scheme's text color: darker in light mode,
+// still light in dark mode, and the hue stays recognizable.
+export function readableRuleColor(color) {
+  return `color-mix(in srgb, ${color} 45%, var(--se-text))`
+}

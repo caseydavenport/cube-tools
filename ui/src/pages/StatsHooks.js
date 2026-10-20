@@ -9,6 +9,8 @@ import { AggregatedPickInfo } from "../utils/DraftLog.js";
 import { draftLabel } from "../utils/DraftInfo.js";
 import { BuildGraphData } from "../stats/deckstats/graphData.js";
 import { CheckboxesToColors } from "../utils/Utils.js";
+import { useCubeInfo } from "../utils/useCubeWritable.js";
+import { requestFilters } from "../stats/hiddenFilters.js";
 
 export function useStatsFilters() {
   const [bucketSize, setBucketSize] = useState(5);
@@ -146,9 +148,12 @@ export function useStatsData(filters, props, refresh) {
   const { startDate, endDate } = props;
   const {
     minDraftSize, cardWidgetColorSelection, minDrafts,
-    minGames, winConfidence, significantOnly, bucketSize, colorMode, minSynergyDecks,
-    focalThreshold, smoothingK, colorAdjust, synergyRecord
+    minGames, winConfidence, bucketSize, colorMode, minSynergyDecks,
+    focalThreshold, smoothingK, colorAdjust,
   } = filters;
+
+  // A control the cube hides doesn't filter, even if it was set on another cube.
+  const { significantOnly, synergyRecord } = requestFilters(filters, useCubeInfo(cubeID));
 
   // Initial Load
   useEffect(() => {

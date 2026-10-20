@@ -7,7 +7,7 @@ import { useDesignMatch } from "../../utils/useDesignMatch.js"
 import { getNodeColor } from "./ForceGraph.js"
 import { ConditionTooltip } from "./RuleInputs.js"
 import { useCardMemberships } from "./designData.js"
-import { ruleColor } from "./ruleColors.js"
+import { readableRuleColor, ruleColor } from "./ruleColors.js"
 
 export function DetailPanel(props) {
   const { focus } = props
@@ -110,7 +110,7 @@ function GroupDetail({ cube, focus, groups, groupNodes, links, groupColor, onDri
                 <UnstyledButton
                   key={lg.name}
                   className="dm-chip"
-                  style={{ borderColor: color, color }}
+                  style={{ borderColor: color, color: readableRuleColor(color) }}
                   title={"via " + lg.labels.join(", ")}
                   onClick={() => onDrill(cardName ? { level: "card", card: cardName } : { level: "group", group: lg.name })}
                 >
@@ -199,7 +199,7 @@ function CardDetail({ cube, focus, groups, edges, links, nodeMap, groupColor, on
               <UnstyledButton
                 key={m.name}
                 className="dm-chip"
-                style={{ borderColor: groupColor(m.name), color: groupColor(m.name) }}
+                style={{ borderColor: groupColor(m.name), color: readableRuleColor(groupColor(m.name)) }}
                 title={m.conds.join(", ")}
                 onClick={() => onDrill({ level: "group", group: m.name })}
               >
