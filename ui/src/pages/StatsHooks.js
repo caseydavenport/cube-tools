@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo } from 'react';
 import { LoadCube, LoadDecks, LoadArchetypeData, LoadDrafts } from "../utils/Fetch.js";
 import { useCube } from "../contexts/CubeContext.js";
-import { ArchetypeData } from "./Types.js";
+import { ArchetypeData } from "../stats/archetypes/archetypeData.js";
 import { PlayerData } from "./Players.js";
 import { GetColorStats } from "../stats/colors/colorStats.js";
 import { DeckBuckets } from "../utils/Buckets.js";
