@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react"
 import { useSearchParams } from "react-router-dom"
 import { LoadCube, LoadDecks } from "../utils/Fetch.js"
 import { mergeChangedDecks } from "../utils/RecordEditor.js"
-import { isAnonymous } from "../utils/Players.js"
+import { filterSuggestions } from "./filterSuggestions.js"
 import { addToComparison, comparisonMap, formatCompare, parseCompare } from "../utils/Compare.js"
 import { useDebouncedFilter } from "../hooks/useDebouncedFilter.js"
 import { deckRef, sortDecks } from "./deckModel.js"
@@ -52,35 +52,6 @@ function buildSynergy(edges) {
     add(edge.target, edge.source, edge.rule_labels)
   }
   return synergy
-}
-
-// filterSuggestions lists the player names, archetypes and tags, and event codes
-// in the loaded decks, for the deck filter's autocomplete.
-function filterSuggestions(decks) {
-  const players = new Set()
-  const archetypes = new Set()
-  const eventCodes = new Set()
-
-  for (const deck of decks) {
-    if (deck.player && !isAnonymous(deck)) {
-      players.add(deck.player)
-    }
-    if (deck.macro_archetype) {
-      archetypes.add(deck.macro_archetype)
-    }
-    for (const label of deck.labels || []) {
-      archetypes.add(label)
-    }
-    if (deck.draft && deck.draft.event_code) {
-      eventCodes.add(deck.draft.event_code)
-    }
-  }
-
-  return {
-    playerNames: [...players].sort(),
-    archetypes: [...archetypes].sort(),
-    eventCodes: [...eventCodes].sort(),
-  }
 }
 
 // useDeckSelection reads and writes the selected deck (?deck=) and the decks

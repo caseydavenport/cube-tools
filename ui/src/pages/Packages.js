@@ -1,13 +1,19 @@
 import React, { useState, useEffect } from 'react'
 import { Select } from "@mantine/core"
 import { useCube } from "../contexts/CubeContext.js"
+import { PillSearchInput } from "../components/PillSearchInput.js"
 import { SectionCard } from "../components/kit/SectionCard.js"
 import { SettingsPopover } from "../components/kit/SettingsPopover.js"
 import { DateRangeMenu } from "../toolbar/DateRangeMenu.js"
 import { PageToolbar } from "../toolbar/PageToolbar.js"
 import { SortHeader } from "../stats/sortHeader.js"
 import { compareBy } from "../stats/sortOrder.js"
+import { startLoad } from "../stats/loading.js"
+import { packagesUrl } from "../stats/pageRequests.js"
 import { goodBadTint } from "../stats/tints.js"
+import { useFilterSuggestions } from "../stats/useFilterSuggestions.js"
+import { useDebouncedFilter } from "../hooks/useDebouncedFilter.js"
+import { fetchJson } from "../utils/fetchJson.js"
 import { WIN_CONFIDENCE_OPTS } from "../utils/Stats.js"
 import "../stats/stats.css"
 
@@ -18,6 +24,8 @@ const COPY = {
   tableTitle: "Rule labels",
   settings: "Settings",
   confidence: "Build-rate confidence",
+  filterPlaceholder: "Filter decks",
+  noPackages: "No packages in these decks.",
 
   allTime: "All time",
   last12Months: "Last 12 months",
@@ -48,8 +56,8 @@ function ciTooltip(s, populated, confidence) {
     `${level}% CI: ${pct(s.buildRate)} (${pct(s.buildRateLow)}–${pct(s.buildRateHigh)})`
 }
 
-// Packages is the Packages page: the toolbar with its date range and
-// confidence setting, then the table of rule labels.
+// Packages is the Packages page: the toolbar with its date range, deck filter,
+// and confidence setting, then the table of rule labels.
 export function Packages(props) {
   const cubeID = useCube()
   const start = props.startDate || ""
@@ -57,16 +65,15 @@ export function Packages(props) {
   const [data, setData] = useState(null)
   const [confidence, setConfidence] = useState("0.8")
   const [sort, setSort] = useState({ key: "buildRate", dir: "desc" })
+  const filter = useDebouncedFilter(props.matchStr, props.onMatchUpdated)
+  const { suggestions } = useFilterSuggestions(cubeID, start, end)
 
   useEffect(() => {
-    const p = new URLSearchParams({ confidence })
-    if (start) p.set("start", start)
-    if (end) p.set("end", end)
-    fetch(`/api/${cubeID}/stats/packages?${p}`)
-      .then(r => r.json())
-      .then(setData)
-      .catch(() => setData(null))
-  }, [cubeID, confidence, start, end])
+    const url = packagesUrl(cubeID, { confidence, start, end, match: filter.settled })
+
+    // Returning cancel drops an answer for an older filter that arrives late.
+    return startLoad(() => fetchJson(url), setData, () => setData(null))
+  }, [cubeID, confidence, start, end, filter.settled])
 
   const settings = (
     <SettingsPopover label={COPY.settings}>
@@ -85,6 +92,12 @@ export function Packages(props) {
   const toolbar = (
     <PageToolbar title={COPY.title} actions={settings}>
       <DateRangeMenu start={props.startDate} end={props.endDate} onChange={props.onRangeChange} copy={COPY} />
+      <PillSearchInput
+        placeholder={COPY.filterPlaceholder}
+        value={filter.typed}
+        onChange={event => filter.setTyped(event.target.value)}
+        {...suggestions}
+      />
     </PageToolbar>
   )
 
@@ -118,41 +131,51 @@ export function Packages(props) {
     </span>
   )
 
+  // A filter that matches no packaged decks shows a line, not a bare header.
+  let table
+  if (rows.length === 0) {
+    table = <div className="browse-empty">{COPY.noPackages}</div>
+  } else {
+    table = (
+      <div className="stats-table-wrap">
+        <table className="widget-table" style={{ width: "100%" }}>
+          <thead>
+            <tr>
+              {header("label", "Label", false)}
+              {header("buildRate", "Build rate")}
+              {header("package", "Packages")}
+              {header("has3", "Has 3+")}
+              {header("commitmentRatio", "Commitment")}
+            </tr>
+          </thead>
+          <tbody>
+            {rows.map(s => (
+              <tr key={s.label} className="widget-table-row">
+                <td className="header-cell" style={{ fontWeight: "bold" }}>{s.label}</td>
+                <td style={{ textAlign: "right", background: rateColor(s.buildRate) }} title={ciTooltip(s, data.populatedDecks, confidence)}>
+                  {pct(s.buildRate)}
+                </td>
+                <td style={{ textAlign: "right" }}>{s.package}</td>
+                <td style={{ textAlign: "right" }} title={`${s.has3} decks carry 3+ of this label's cards (${pct(s.has3Rate)} of populated)`}>
+                  {s.has3} <span style={{ color: "var(--text-muted)" }}>({pct(s.has3Rate)})</span>
+                </td>
+                <td style={{ textAlign: "right", background: rateColor(s.commitmentRatio) }} title="package decks / has-3 decks: how often the cards, once present, actually form a package">
+                  {s.commitmentRatio.toFixed(2)}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    )
+  }
+
   return (
     <>
       {toolbar}
       <div className="analyze-page">
         <SectionCard title={COPY.tableTitle} action={summary}>
-          <div className="stats-table-wrap">
-            <table className="widget-table" style={{ width: "100%" }}>
-              <thead>
-                <tr>
-                  {header("label", "Label", false)}
-                  {header("buildRate", "Build rate")}
-                  {header("package", "Packages")}
-                  {header("has3", "Has 3+")}
-                  {header("commitmentRatio", "Commitment")}
-                </tr>
-              </thead>
-              <tbody>
-                {rows.map(s => (
-                  <tr key={s.label} className="widget-table-row">
-                    <td className="header-cell" style={{ fontWeight: "bold" }}>{s.label}</td>
-                    <td style={{ textAlign: "right", background: rateColor(s.buildRate) }} title={ciTooltip(s, data.populatedDecks, confidence)}>
-                      {pct(s.buildRate)}
-                    </td>
-                    <td style={{ textAlign: "right" }}>{s.package}</td>
-                    <td style={{ textAlign: "right" }} title={`${s.has3} decks carry 3+ of this label's cards (${pct(s.has3Rate)} of populated)`}>
-                      {s.has3} <span style={{ color: "var(--text-muted)" }}>({pct(s.has3Rate)})</span>
-                    </td>
-                    <td style={{ textAlign: "right", background: rateColor(s.commitmentRatio) }} title="package decks / has-3 decks: how often the cards, once present, actually form a package">
-                      {s.commitmentRatio.toFixed(2)}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+          {table}
         </SectionCard>
         <p className="player-filter-hint" style={{ marginTop: "1rem" }}>
           A deck is <b>populated</b> if it has any non-basic mainboard card. <b>Has 3+</b> counts decks
