@@ -1,5 +1,4 @@
-import React, { StrictMode } from "react";
-import { createRoot } from "react-dom/client";
+import React from "react";
 import ReactDOM from "react-dom/client";
 // Library CSS loads before App so the app's own styles override it.
 import 'bootstrap/dist/css/bootstrap.css';

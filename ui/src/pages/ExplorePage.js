@@ -527,7 +527,6 @@ function PivotHeatmap({ result, groupBy, splitBy, metric, confidence }) {
 // dimension becomes one line per key.
 function PivotLineChart({ result, groupBy, splitBy, metric }) {
   const groupIsTime = groupBy.dim === "time"
-  const timeDim = groupIsTime ? groupBy.dim : splitBy.dim
   const seriesDim = groupIsTime ? splitBy.dim : groupBy.dim
 
   let xLabels, series

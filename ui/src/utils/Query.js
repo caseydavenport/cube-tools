@@ -856,18 +856,6 @@ function isDeckTypeTerm(term) {
   return term.startsWith("arch:") || term.startsWith("arch!=")
 }
 
-function deckTypesMatch(terms, deck) {
-  for (let term of terms) {
-    if (!isDeckTypeTerm(term)) {
-      continue
-    }
-    if (deckTypeMatches(term, deck)) {
-      return true
-    }
-  }
-  return false
-}
-
 function deckTypeMatches(term, deck) {
   if (!isDeckTypeTerm(term)) {
     // Not a deck type query - always matches.

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { LoadCube, LoadDecks, LoadArchetypeData, LoadDrafts } from "../utils/Fetch.js";
 import { useCube } from "../contexts/CubeContext.js";
 import { ArchetypeData } from "./Types.js";
@@ -7,7 +7,6 @@ import { GetColorStats } from "./Colors.js";
 import { DeckBuckets } from "../utils/Buckets.js";
 import { AggregatedPickInfo } from "../utils/DraftLog.js";
 import { draftLabel } from "../utils/DraftInfo.js";
-import { DeckMatches } from "../utils/Query.js";
 import { BuildGraphData } from "./Decks.js";
 import { CheckboxesToColors } from "../utils/Utils.js";
 

@@ -85,13 +85,13 @@ export function StatsViewer(props) {
 
   const {
     decks, decksLoaded, cube, archetypeMatchups, cardData, cardDataBucketed,
-    colorData, colorDataBucketed, synergyData, synergyCompare, colorMatchupData, healthData,
+    synergyData, synergyCompare, colorMatchupData, healthData,
     designGraphData, parsed, graphData, archetypeDropdownOptions,
   } = data;
 
   // Destructure filter setters for the SelectorBar and Widgets
   const {
-    bucketSize, setBucketSize, playerMatch, setPlayerMatch, minDraftSize, setMinDraftSize,
+    bucketSize,
     manaValue, setManaValue, selectedBucket, setSelectedBucket, colorTypeSelection, setColorTypeSelection,
     colorSortBy, setColorSortBy, colorMode, setColorMode, colorCheckboxes, setColorCheckboxes,
     cardWidgetSelection, setCardWidgetSelection, minDrafts, setMinDrafts, minGames, setMinGames,
@@ -100,11 +100,7 @@ export function StatsViewer(props) {
     cardFilter, setCardFilter, tagFilter, setTagFilter, cardWidgetColorSelection, setCardWidgetColorSelection,
     cardWidgetSortBy, setCardWidgetSortBy, cardWidgetSortInvert, setCardWidgetSortInvert, cardXAxis, setCardXAxis, cardYAxis, setCardYAxis,
     deckXAxis, setDeckXAxis, deckYAxis, setDeckYAxis,
-    playerSortBy, setPlayerSortBy, playerSortInvert, setPlayerSortInvert,
-    oppSortBy, setOppSortBy, oppSortInvert, setOppSortInvert,
-    playerArchSortBy, setPlayerArchSortBy, playerArchSortInvert, setPlayerArchSortInvert,
-    playerColorSortBy, setPlayerColorSortBy, playerColorSortInvert, setPlayerColorSortInvert,
-    selectedPlayer, setSelectedPlayer, selectedArchetype, setSelectedArchetype,
+    selectedArchetype, setSelectedArchetype,
     sortBy, setSortBy, minSynergyDecks, setMinSynergyDecks,
     focalThreshold, setFocalThreshold, smoothingK, setSmoothingK,
     colorAdjust, setColorAdjust, synergyRecord, setSynergyRecord, synergySortBy, setSynergySortBy,

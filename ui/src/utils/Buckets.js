@@ -1,5 +1,4 @@
-import React from 'react'
-import { Wins, Losses } from "./Deck.js"
+import { Wins } from "./Deck.js"
 import { compareDrafts } from "./DraftInfo.js"
 
 // groupDrafts turns a list of decks into a list of drafts, each holding the
@@ -32,7 +31,6 @@ function deckBucketsDiscrete(decks, bucketSize) {
   for (let i = drafts.length; i >= bucketSize; i-=bucketSize) {
     let bucket = new Array()
     for (var j = 1; j <= bucketSize; j++) {
-      let k = i-j
       bucket.push(drafts[i-j])
     }
     buckets.push(bucket)

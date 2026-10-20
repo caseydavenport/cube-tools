@@ -1,5 +1,4 @@
 import { AverageCMC, AverageWordCount, ExtractColors } from "../utils/Utils.js"
-import { IsBasicLand } from "../utils/Utils.js"
 
 export async function LoadCube(cube, onFetch) {
   const resp = await fetch(`/api/${cube}/cube`);

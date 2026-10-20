@@ -1,5 +1,5 @@
 import React from 'react'
-import { IsBasicLand, SortFunc, CardImageURL } from "../utils/Utils.js"
+import { SortFunc, CardImageURL } from "../utils/Utils.js"
 import { DropdownHeader, NumericInput, Checkbox } from "../components/Dropdown.js"
 import { HoverInfo } from "../components/kit/HoverInfo.js"
 import { asEvent } from "../components/kit/controls.js"
@@ -7,10 +7,8 @@ import { SegmentedControl } from "@mantine/core"
 import { availableValue, hasData, visibleItems } from "../utils/dataKinds.js"
 import { PillSearchInput } from "../components/PillSearchInput.js"
 import { Section, SectionNav } from "../components/PageSections.js"
-import { Wins, Losses } from "../utils/Deck.js"
-import { ApplyTooltip } from "../utils/Tooltip.js"
-import { ColorImages, Colors, CUBE_AVG_WIN_PERCENT } from "../utils/Colors.js"
-import { CardMatches, DeckMatches } from "../utils/Query.js"
+import { ColorImages, CUBE_AVG_WIN_PERCENT } from "../utils/Colors.js"
+import { CardMatches } from "../utils/Query.js"
 import { bucketTicks, largeTicks } from "../utils/Buckets.js"
 
 
@@ -24,7 +22,7 @@ import {
   Tooltip,
   Legend,
 } from 'chart.js';
-import { Line, Bar, Scatter } from 'react-chartjs-2';
+import { Line, Scatter } from 'react-chartjs-2';
 import { currentChartTheme, deltaFill, seriesColor } from "../theme/chartTheme.js"
 
 // Register chart JS objects that we need to use.

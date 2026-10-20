@@ -1,6 +1,6 @@
 import React from 'react'
-import { AverageCMC, IsBasicLand, Pct, SortFunc } from "../utils/Utils.js"
-import { Red, Green, Black, White, Blue, Colors } from "../utils/Colors.js"
+import { AverageCMC, Pct } from "../utils/Utils.js"
+import { Red, Green, Black, White, Blue } from "../utils/Colors.js"
 import { Wins, Losses } from "../utils/Deck.js"
 import { deckRef } from "../decks/deckModel.js"
 import { BucketName, bucketXScale, largeTicks } from "../utils/Buckets.js"
@@ -894,7 +894,6 @@ function WinsByNumberOfColors(input) {
 }
 
 function OracleTextByColor(input) {
-  let buckets = input.parsed.deckBuckets
 
   const labels = input.data.labels
 
@@ -1382,7 +1381,6 @@ function NumColorsOverTimeChart(input) {
 }
 
 function ManaCostByOracleTextOverTime(input) {
-  let buckets = input.parsed.deckBuckets
 
   const labels = input.data.labels
 
