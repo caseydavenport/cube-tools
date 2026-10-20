@@ -2,7 +2,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { ColorWidget } from "./Colors.js";
 import { ArchetypeWidget } from "./Types.js";
 import { DeckWidget } from "./Decks.js";
-import { CardWidget } from "./Cards.js";
+import { CardWidget } from "../stats/cards/CardWidget.js";
 import { SynergyWidget } from "./Synergy.js";
 import { HealthWidget } from "./Health.js";
 import { DesignMapWidget } from "./DesignMap.js";
