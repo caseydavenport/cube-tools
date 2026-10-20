@@ -21,3 +21,13 @@ test("fetchJson rejects a body that isn't JSON", async () => {
   stubFetch({ ok: true, json: () => Promise.reject(new SyntaxError("Unexpected token <")) })
   await assert.rejects(fetchJson("/api/cubes"), SyntaxError)
 })
+
+test("fetchJson passes its options to fetch", async () => {
+  let seen = null
+  globalThis.fetch = (url, options) => {
+    seen = options
+    return Promise.resolve({ ok: true, json: () => Promise.resolve({}) })
+  }
+  await fetchJson("/api/cubes", { method: "POST" })
+  assert.equal(seen && seen.method, "POST")
+})

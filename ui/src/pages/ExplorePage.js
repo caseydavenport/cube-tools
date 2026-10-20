@@ -3,11 +3,18 @@ import { ActionIcon, Chip, Select, useComputedColorScheme } from "@mantine/core"
 import { IconRefresh } from "@tabler/icons-react"
 import { useCube } from "../contexts/CubeContext.js"
 import { DropdownHeader, NumericInput, Button } from "../components/Dropdown.js"
+import { PillSearchInput } from "../components/PillSearchInput.js"
 import { SectionCard } from "../components/kit/SectionCard.js"
 import { SettingsPopover } from "../components/kit/SettingsPopover.js"
 import { DateRangeMenu } from "../toolbar/DateRangeMenu.js"
 import { PageToolbar } from "../toolbar/PageToolbar.js"
+import { startLoad } from "../stats/loading.js"
+import { pivotRequest } from "../stats/pageRequests.js"
+import { pivotMeta } from "../stats/pivotMeta.js"
 import { goodBadTint } from "../stats/tints.js"
+import { useFilterSuggestions } from "../stats/useFilterSuggestions.js"
+import { useDebouncedFilter } from "../hooks/useDebouncedFilter.js"
+import { fetchJson } from "../utils/fetchJson.js"
 import { availableValue, visibleItems } from "../utils/dataKinds.js"
 import { useCubeInfo } from "../utils/useCubeWritable.js"
 import "../stats/stats.css"
@@ -22,7 +29,6 @@ import {
   Title, Tooltip, Legend,
 } from 'chart.js'
 import { Line, Bar } from 'react-chartjs-2'
-import { isAnonymous } from "../utils/Players.js"
 import { currentChartTheme, seriesColor, withAlpha } from "../theme/chartTheme.js"
 import { colorName } from "../utils/colorNames.js"
 
@@ -71,6 +77,7 @@ const COPY = {
   refresh: "Refresh",
   settings: "Settings",
   winConfidence: "Win % confidence",
+  filterPlaceholder: "Filter decks",
 
   allTime: "All time",
   last12Months: "Last 12 months",
@@ -201,8 +208,9 @@ function ciTooltip(c, confidence) {
   return `${rec} (${games} games)\n${level}% CI: ${c.win_pct}% ±${s.margin.toFixed(1)} (${s.lo.toFixed(0)}–${s.hi.toFixed(0)}%)\n${s.significant ? "distinguishable from 50%" : "not distinguishable from 50%"}`
 }
 
-// ExplorePage is the Charts page: the toolbar with its date range, refresh, and
-// confidence setting, then the slice controls and the pivot they produce.
+// ExplorePage is the Charts page: the toolbar with its date range, deck filter,
+// refresh, and confidence setting, then the slice controls and the pivot they
+// produce.
 export function ExplorePage(props) {
   const cubeID = useCube()
   const info = useCubeInfo(cubeID)
@@ -220,13 +228,18 @@ export function ExplorePage(props) {
   const [predicates, setPredicates] = useState([])
 
   const [result, setResult] = useState(null)
-  const [meta, setMeta] = useState({ archetypes: [], players: [], labels: [], playerFreq: [] })
   // Players unchecked in the player filter - dropped from the aggregate entirely.
   const [excluded, setExcluded] = useState(new Set())
   const [playersOpen, setPlayersOpen] = useState(false)
 
   const start = props.startDate || ""
   const end = props.endDate || ""
+  const filter = useDebouncedFilter(props.matchStr, props.onMatchUpdated)
+
+  // The date range's unfiltered decks feed both the filter's autocomplete and
+  // the player chips and predicate dropdowns below.
+  const { decks, suggestions } = useFilterSuggestions(cubeID, start, end)
+  const meta = useMemo(() => pivotMeta(decks), [decks])
 
   // A chosen dimension the cube can't fill falls back to one it can.
   const groupDim = availableValue(groupBy.dim, GROUP_DIMS, info)
@@ -235,55 +248,29 @@ export function ExplorePage(props) {
   const shownSplitBy = useMemo(() => ({ ...splitBy, dim: splitDim }), [splitBy, splitDim])
   const usesTime = groupDim === "time" || splitDim === "time"
 
-  // Pull the known archetypes / players / labels for the filter dropdowns.
-  useEffect(() => {
-    const p = new URLSearchParams()
-    if (start) p.set("start", start)
-    if (end) p.set("end", end)
-    fetch(`/api/${cubeID}/decks?${p}`)
-      .then(r => r.json())
-      .then(d => {
-        const arch = new Set(), labels = new Set(), playerCounts = {}
-        for (const deck of d.decks || []) {
-          if (deck.macro_archetype) arch.add(deck.macro_archetype)
-          if (deck.player && !isAnonymous(deck)) playerCounts[deck.player] = (playerCounts[deck.player] || 0) + 1
-          for (const l of deck.labels || []) labels.add(l)
-        }
-        // Sort players by deck count (heavy players first, so outliers are easy
-        // to find and uncheck), tie-broken alphabetically.
-        const playerFreq = Object.entries(playerCounts)
-          .map(([name, count]) => ({ name, count }))
-          .sort((a, b) => b.count - a.count || a.name.localeCompare(b.name))
-        setMeta({
-          archetypes: [...arch].sort(),
-          players: playerFreq.map(p => p.name).sort(),
-          labels: [...labels].sort(),
-          playerFreq,
-        })
-      })
-      .catch(() => {})
-  }, [cubeID, start, end])
-
   // Run the pivot whenever the query changes.
   useEffect(() => {
-    const body = {
-      start, end,
-      group_by: shownGroupBy,
-      split_by: shownSplitBy,
-      bucket_size: usesTime ? Number(bucketSize) : 0,
-      predicates: predicates.filter(p => p.dim === "card_query" ? p.value !== "" : p.value !== ""),
-      exclude_players: [...excluded],
-      confidence: Number(confidence),
-    }
-    fetch(`/api/${cubeID}/stats/pivot`, {
+    const body = pivotRequest({
+      start,
+      end,
+      groupBy: shownGroupBy,
+      splitBy: shownSplitBy,
+      bucketSize,
+      usesTime,
+      predicates,
+      excluded,
+      confidence,
+      match: filter.settled,
+    })
+    const options = {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(body),
-    })
-      .then(r => r.json())
-      .then(setResult)
-      .catch(() => setResult(null))
-  }, [cubeID, start, end, shownGroupBy, shownSplitBy, bucketSize, predicates, refresh, usesTime, excluded, confidence])
+    }
+
+    // Returning cancel drops an answer for an older query that arrives late.
+    return startLoad(() => fetchJson(`/api/${cubeID}/stats/pivot`, options), setResult, () => setResult(null))
+  }, [cubeID, start, end, shownGroupBy, shownSplitBy, bucketSize, predicates, refresh, usesTime, excluded, confidence, filter.settled])
 
   function togglePlayer(name) {
     setExcluded(prev => {
@@ -386,6 +373,12 @@ export function ExplorePage(props) {
     <>
       <PageToolbar title={COPY.title} actions={actions}>
         <DateRangeMenu start={props.startDate} end={props.endDate} onChange={props.onRangeChange} copy={COPY} />
+        <PillSearchInput
+          placeholder={COPY.filterPlaceholder}
+          value={filter.typed}
+          onChange={event => filter.setTyped(event.target.value)}
+          {...suggestions}
+        />
       </PageToolbar>
       <div className="analyze-page explore-page">
         {controls}
