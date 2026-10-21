@@ -1,0 +1,79 @@
+/* The few browser-reset rules the pages relied on from Bootstrap's reboot.
+   Mantine's own stylesheet already sets box-sizing, the body font and input fonts,
+   so only the rules that changed how a page looked without Bootstrap are kept. */
+
+/* Headings start flush with their container, with tighter lines than body text. */
+h1, h2, h3, h4, h5, h6 {
+  margin-top: 0;
+  line-height: 1.2;
+}
+
+/* Section titles such as Synergy's are h4s. Below 1200px they shrink with the window. */
+h4 {
+  font-size: calc(1.275rem + 0.3vw);
+}
+
+@media (min-width: 1200px) {
+  h4 {
+    font-size: 1.5rem;
+  }
+}
+
+/* Paragraphs get space below only, so a hint sits right under its heading. */
+p {
+  margin-top: 0;
+  margin-bottom: 1rem;
+}
+
+/* Icons and mana symbols line up with the middle of the text beside them. */
+img,
+svg {
+  vertical-align: middle;
+}
+
+/* Checkboxes and other native controls sit flush instead of taking the browser's margin. */
+input,
+button,
+select,
+optgroup,
+textarea {
+  margin: 0;
+}
+
+/* Plain buttons, such as the deck tag "+" button, are drawn as buttons, not native controls. */
+button,
+[type=button],
+[type=reset],
+[type=submit] {
+  -webkit-appearance: button;
+}
+
+/* Long rule conditions in code tags wrap instead of running out of their box. */
+code {
+  word-wrap: break-word;
+}
+
+/* Without this, Chrome pads the inside of a date input, which makes it 2px taller
+   and spreads out the digits. */
+::-webkit-datetime-edit-fields-wrapper,
+::-webkit-datetime-edit-text,
+::-webkit-datetime-edit-minute,
+::-webkit-datetime-edit-hour-field,
+::-webkit-datetime-edit-day-field,
+::-webkit-datetime-edit-month-field,
+::-webkit-datetime-edit-year-field {
+  padding: 0;
+}
+
+/* Not a reset: components/Dropdown.js reuses Bootstrap's "dropdown" class name, and
+   Bootstrap made it positioned, which changes how Chrome draws the text inside it. */
+.dropdown {
+  position: relative;
+}
+
+/* A file input's "Choose Files" button is drawn as a plain button in the page font,
+   which gives it the line height the import forms were laid out with. */
+::file-selector-button {
+  font: inherit;
+  -webkit-appearance: button;
+}

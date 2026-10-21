@@ -1,7 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 // Library CSS loads before App so the app's own styles override it.
-import 'bootstrap/dist/css/bootstrap.css';
 import '@mantine/core/styles.css';
 import App from "./App";
 

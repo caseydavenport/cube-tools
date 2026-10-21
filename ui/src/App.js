@@ -19,6 +19,7 @@ import { AppLayout } from './shell/AppLayout.js';
 import { MantineProvider } from "@mantine/core";
 import { theme, cssVariablesResolver } from "./theme/theme.js";
 
+import "./theme/base.css";
 import "./styles.css";
 import "./theme/legacy-bridge.css";
 
