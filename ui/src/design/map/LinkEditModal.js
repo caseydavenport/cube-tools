@@ -9,6 +9,7 @@ import { ConditionTooltip, GroupMultiSelect, RuleInput } from "./RuleInputs.js"
 import { GroupEditModal } from "./GroupEditModal.js"
 import { ruleColor } from "./ruleColors.js"
 import { MAP_COPY } from "./copy.js"
+import "./map.css"
 
 export function LinkEditModal({ link, color, groupNames, cardNames, groups, onSave, onCancel, onGroupSaved }) {
   const [editLabel, setEditLabel] = useState(link.label || "")
@@ -45,21 +46,16 @@ export function LinkEditModal({ link, color, groupNames, cardNames, groups, onSa
 
   function renderCardList(label, { cards, loading }) {
     return (
-      <div style={{
-        padding: "1.25rem",
-        overflowY: "auto",
-        display: "flex",
-        flexDirection: "column",
-      }}>
-        <h4 style={{color: "var(--se-muted)", margin: "0 0 0.5rem 0", fontSize: "1rem"}}>
+      <div className="edit-modal-side-panel">
+        <h4 className="edit-modal-heading">
           {label}
-          <span style={{fontWeight: "normal", fontSize: "0.85em", marginLeft: "0.5rem"}}>
+          <span className="edit-modal-count">
             {loading ? "..." : `(${cards.length})`}
           </span>
         </h4>
-        <div style={{flex: 1, overflowY: "auto"}}>
+        <div className="edit-modal-list">
           {cards.length === 0 && !loading && (
-            <p style={{color: "var(--se-muted)", fontSize: "0.85em", fontStyle: "italic"}}>
+            <p className="edit-modal-empty">
               {MAP_COPY.linkEdit.noMatchingCards}
             </p>
           )}
@@ -69,12 +65,7 @@ export function LinkEditModal({ link, color, groupNames, cardNames, groups, onSa
               conditions={card.conditions && card.conditions.length > 0
                 ? card.conditions
                 : null}
-              style={{
-                fontSize: "0.8em",
-                color: "var(--se-text)",
-                padding: "2px 4px",
-                borderRadius: "3px",
-              }}
+              className="link-condition-item"
             >
               {card.name}
             </ConditionTooltip>
@@ -106,14 +97,7 @@ export function LinkEditModal({ link, color, groupNames, cardNames, groups, onSa
         {renderCardList(editWires.length > 1 ? MAP_COPY.linkEdit.sourceCardsWire({ wire: activeWire + 1 }) : MAP_COPY.linkEdit.sourceCards, sourceCards)}
 
         {/* Center: edit form */}
-        <div style={{
-          padding: "1.25rem",
-          overflowY: "auto",
-          borderLeft: "1px solid var(--se-page)",
-          borderRight: "1px solid var(--se-page)",
-          display: "flex",
-          flexDirection: "column",
-        }}>
+        <div className="link-edit-panel">
           <h4 style={{color, margin: "0 0 1rem 0", fontSize: "1rem"}}>
             {MAP_COPY.linkEdit.editLink}
           </h4>
@@ -131,7 +115,7 @@ export function LinkEditModal({ link, color, groupNames, cardNames, groups, onSa
               }}
             >
               {editWires.length > 1 && (
-                <div style={{display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "0.35rem"}}>
+                <div className="link-edit-field-header">
                   <span style={{fontSize: "0.75em", fontWeight: "bold", color: wi === activeWire ? color : "var(--se-muted)"}}>
                     {MAP_COPY.linkEdit.wireTitle({ wire: wi + 1 })}
                   </span>
@@ -146,8 +130,8 @@ export function LinkEditModal({ link, color, groupNames, cardNames, groups, onSa
             </div>
           ))}
           <Button size="xs" variant="subtle" leftSection={<IconPlus size={14} />} onClick={addWire}>{MAP_COPY.linkEdit.addWire}</Button>
-          <div style={{flex: 1}} />
-          <div style={{display: "flex", gap: "0.5rem", marginTop: "1rem"}}>
+          <div className="edit-modal-fill" />
+          <div className="edit-modal-actions">
             <Button size="xs" variant="filled" onClick={() => onSave({ label: editLabel, wires: editWires })}>{MAP_COPY.linkEdit.save}</Button>
             <Button size="xs" variant="default" onClick={onCancel}>{MAP_COPY.linkEdit.cancel}</Button>
           </div>

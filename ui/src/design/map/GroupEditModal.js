@@ -9,6 +9,7 @@ import { useDesignMatch } from "../../utils/useDesignMatch.js"
 import { ClauseInputs, ConditionTooltip, ExcludeInputs, RuleInput } from "./RuleInputs.js"
 import { MAP_COPY } from "./copy.js"
 import "../rules/rules.css"
+import "./map.css"
 
 export function GroupEditModal({ group, color, onSave, onCancel }) {
   const cube = useCube()
@@ -115,18 +116,11 @@ export function GroupEditModal({ group, color, onSave, onCancel }) {
         }}
       >
         {/* Left: query syntax reference */}
-        <div style={{
-          padding: "1rem",
-          overflowY: "auto",
-          background: "var(--se-page)",
-          borderRight: "1px solid var(--se-card)",
-          fontSize: "0.8em",
-          lineHeight: "1.8",
-        }}>
-          <h4 style={{color: "var(--se-muted)", margin: "0 0 0.75rem 0", fontSize: "0.85rem"}}>
+        <div className="group-help-panel">
+          <h4 className="group-help-title">
             {MAP_COPY.groupEdit.queryReference}
           </h4>
-          <table style={{borderCollapse: "collapse", width: "100%"}}>
+          <table className="group-help-table">
             <tbody>
               {[
                 ["n:", MAP_COPY.groupEdit.queryName],
@@ -139,53 +133,47 @@ export function GroupEditModal({ group, color, onSave, onCancel }) {
                 ["is:", MAP_COPY.groupEdit.queryKeyword],
               ].map(([prefix, desc]) => (
                 <tr key={prefix}>
-                  <td style={{color: "var(--mantine-primary-color-filled)", fontFamily: "monospace", fontWeight: "bold", paddingRight: "8px", whiteSpace: "nowrap"}}>{prefix}</td>
-                  <td style={{color: "var(--se-muted)"}}>{desc}</td>
+                  <td className="group-help-key">{prefix}</td>
+                  <td className="group-help-desc">{desc}</td>
                 </tr>
               ))}
             </tbody>
           </table>
-          <div style={{borderTop: "1px solid var(--se-card)", margin: "0.5rem 0", paddingTop: "0.5rem"}}>
-            <div style={{color: "var(--se-muted)", marginBottom: "0.25rem", fontWeight: "bold", fontSize: "0.85em"}}>{MAP_COPY.groupEdit.comparisons}</div>
-            <div style={{color: "var(--se-muted)", fontFamily: "monospace"}}>
+          <div className="group-help-section">
+            <div className="group-help-section-title">{MAP_COPY.groupEdit.comparisons}</div>
+            <div className="group-help-mono">
               {MAP_COPY.groupEdit.comparisonsCmc}<br/>
               {MAP_COPY.groupEdit.comparisonsPowTou}
             </div>
           </div>
-          <div style={{borderTop: "1px solid var(--se-card)", margin: "0.5rem 0", paddingTop: "0.5rem"}}>
-            <div style={{color: "var(--se-muted)", marginBottom: "0.25rem", fontWeight: "bold", fontSize: "0.85em"}}>{MAP_COPY.groupEdit.isKeywords}</div>
-            <div style={{color: "var(--se-muted)", fontFamily: "monospace", fontSize: "0.9em"}}>
+          <div className="group-help-section">
+            <div className="group-help-section-title">{MAP_COPY.groupEdit.isKeywords}</div>
+            <div className="group-help-mono-small">
               {MAP_COPY.groupEdit.keywordsLine1}<br/>
               {MAP_COPY.groupEdit.keywordsLine2}<br/>
               {MAP_COPY.groupEdit.keywordsLine3}
             </div>
           </div>
-          <div style={{borderTop: "1px solid var(--se-card)", margin: "0.5rem 0", paddingTop: "0.5rem"}}>
-            <div style={{color: "var(--se-muted)", marginBottom: "0.25rem", fontWeight: "bold", fontSize: "0.85em"}}>{MAP_COPY.groupEdit.operators}</div>
-            <div style={{color: "var(--se-muted)", fontSize: "0.9em"}}>
-              <code style={{color: "var(--mantine-primary-color-filled)"}}>!</code> {MAP_COPY.groupEdit.operatorNegate}<br/>
+          <div className="group-help-section">
+            <div className="group-help-section-title">{MAP_COPY.groupEdit.operators}</div>
+            <div className="group-help-note">
+              <code className="group-help-code">!</code> {MAP_COPY.groupEdit.operatorNegate}<br/>
               {/* copy-ok: query operator */}
-              <code style={{color: "var(--mantine-primary-color-filled)"}}>OR</code> {MAP_COPY.groupEdit.operatorOr}<br/>
-              <code style={{color: "var(--mantine-primary-color-filled)"}}>()</code> {MAP_COPY.groupEdit.operatorGrouping}<br/>
-              <code style={{color: "var(--mantine-primary-color-filled)"}}>""</code> {MAP_COPY.groupEdit.operatorQuote}<br/>
-              <code style={{color: "var(--mantine-primary-color-filled)"}}>*</code> {MAP_COPY.groupEdit.operatorWildcard}
+              <code className="group-help-code">OR</code> {MAP_COPY.groupEdit.operatorOr}<br/>
+              <code className="group-help-code">()</code> {MAP_COPY.groupEdit.operatorGrouping}<br/>
+              <code className="group-help-code">""</code> {MAP_COPY.groupEdit.operatorQuote}<br/>
+              <code className="group-help-code">*</code> {MAP_COPY.groupEdit.operatorWildcard}
             </div>
           </div>
         </div>
 
         {/* Center: edit form */}
-        <div style={{
-          padding: "1.25rem",
-          overflowY: "auto",
-          borderRight: "1px solid var(--se-page)",
-          display: "flex",
-          flexDirection: "column",
-        }}>
+        <div className="group-edit-panel">
           <h4 style={{color, margin: "0 0 1rem 0", fontSize: "1rem"}}>
             {MAP_COPY.groupEdit.editGroup}
           </h4>
           <RuleInput label={MAP_COPY.groupEdit.nameLabel} value={editName} onChange={setEditName} placeholder={MAP_COPY.groupEdit.namePlaceholder} />
-          <div style={{flex: 1}}>
+          <div className="edit-modal-fill">
             <ClauseInputs
               label={MAP_COPY.groupEdit.conditionsLabel} connects={editConditions}
               onChange={setEditConditions} placeholder={MAP_COPY.groupEdit.conditionsPlaceholder}
@@ -194,31 +182,26 @@ export function GroupEditModal({ group, color, onSave, onCancel }) {
             />
             <ExcludeInputs values={editExclude} onChange={setEditExclude} options={excludeOptions} />
           </div>
-          <div style={{display: "flex", gap: "0.5rem", marginTop: "1rem"}}>
+          <div className="edit-modal-actions">
             <Button size="xs" variant="filled" onClick={() => onSave({ name: editName, conditions: editConditions, exclude: editExclude })}>{MAP_COPY.groupEdit.save}</Button>
             <Button size="xs" variant="default" onClick={onCancel}>{MAP_COPY.groupEdit.cancel}</Button>
           </div>
         </div>
 
         {/* Right: matching cards preview */}
-        <div style={{
-          padding: "1.25rem",
-          overflowY: "auto",
-          display: "flex",
-          flexDirection: "column",
-        }}>
-          <h4 style={{color: "var(--se-muted)", margin: "0 0 0.5rem 0", fontSize: "1rem"}}>
+        <div className="edit-modal-side-panel">
+          <h4 className="edit-modal-heading">
             {MAP_COPY.groupEdit.matchingCards}
-            <span style={{fontWeight: "normal", fontSize: "0.85em", marginLeft: "0.5rem"}}>
+            <span className="edit-modal-count">
               {loading ? "..." : `(${matchedCards.length - excludedMatchCount})`}
               {!loading && excludedMatchCount > 0 && MAP_COPY.groupEdit.excludedCount({ count: excludedMatchCount })}
             </span>
-            {addedSet.size > 0 && <span style={{fontSize: "0.85em", marginLeft: "0.5rem", color: "var(--se-good)"}}>+{addedSet.size}</span>}
-            {removedCards.length > 0 && <span style={{fontSize: "0.85em", marginLeft: "0.35rem", color: "var(--se-bad)"}}>−{removedCards.length}</span>}
+            {addedSet.size > 0 && <span className="edit-modal-added">+{addedSet.size}</span>}
+            {removedCards.length > 0 && <span className="edit-modal-removed">−{removedCards.length}</span>}
           </h4>
-          <div style={{flex: 1, overflowY: "auto"}}>
+          <div className="edit-modal-list">
             {matchedCards.length === 0 && !loading && (
-              <p style={{color: "var(--se-muted)", fontSize: "0.85em", fontStyle: "italic"}}>
+              <p className="edit-modal-empty">
                 {MAP_COPY.groupEdit.noMatchingCards}
               </p>
             )}
@@ -258,12 +241,7 @@ export function GroupEditModal({ group, color, onSave, onCancel }) {
             {removedCards.map(name => (
               <div
                 key={"rm-" + name}
-                style={{
-                  fontSize: "0.8em",
-                  color: "var(--se-bad)",
-                  textDecoration: "line-through",
-                  padding: "2px 4px",
-                }}
+                className="group-removed-item"
               >
                 − {name}
               </div>

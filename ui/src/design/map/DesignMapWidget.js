@@ -205,7 +205,7 @@ function Legend({ groupNodes, groupColor, focus, hovered, onHover, onPick }) {
   return (
     <div className="dm-panel dm-legend">
       <div className="dm-legend-head">
-        <span className="section-heading" style={{ margin: 0 }}>{MAP_COPY.widget.themesHeading}</span>
+        <span className="section-heading dm-no-margin">{MAP_COPY.widget.themesHeading}</span>
         <span className="dm-count">{themes.length}</span>
       </div>
       <TextInput

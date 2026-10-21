@@ -9,6 +9,7 @@ import { ConditionTooltip } from "./RuleInputs.js"
 import { useCardMemberships } from "./designData.js"
 import { readableRuleColor, ruleColor } from "./ruleColors.js"
 import { MAP_COPY } from "./copy.js"
+import "./map.css"
 
 export function DetailPanel(props) {
   const { focus } = props
@@ -142,7 +143,7 @@ function GroupDetail({ cube, focus, groups, groupNodes, links, groupColor, onDri
               <span
                 onMouseEnter={() => onHover(c.name)}
                 onMouseLeave={() => onHover(null)}
-                style={{ display: "flex", alignItems: "center", gap: "6px", flex: 1, minWidth: 0 }}
+                className="dm-details-name"
               >
                 <span className="dm-dot" style={{ background: getNodeColor(node.colors) }} />
                 <span className="dm-ellipsis">{c.name}</span>

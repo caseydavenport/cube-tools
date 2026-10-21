@@ -7,6 +7,7 @@ import { NativeSelect, TextInput, Button, ActionIcon } from "@mantine/core"
 import { IconPencil, IconPlus, IconX } from "@tabler/icons-react"
 import { CARD_REF_PREFIX, cardRefName } from "../../utils/DesignRules.js"
 import { MAP_COPY } from "./copy.js"
+import "./map.css"
 
 // RuleInput is a labeled text box for one part of a rule, such as a group's
 // name, in the monospace face the rule syntax reads best in.
@@ -40,10 +41,10 @@ export function GroupMultiSelect({ label, values, onChange, groupNames, cardName
   }
 
   return (
-    <div style={{marginBottom: "0.35rem"}}>
-      <label style={{fontSize: "0.7em", color: "var(--se-muted)", display: "block", marginBottom: "2px"}}>{label}</label>
+    <div className="rule-input-field">
+      <label className="rule-input-label">{label}</label>
       {values.map((v, i) => (
-        <div key={i} style={{display: "flex", gap: "4px", marginBottom: "3px", alignItems: "center"}}>
+        <div key={i} className="rule-input-row">
           <NativeSelect size="xs" className="dm-grow" classNames={{ input: "dm-mono" }} aria-label={label} value={v} onChange={e => updateAt(i, e.target.value)}>
             <option value="">{cardNames ? MAP_COPY.ruleInputs.selectGroupOrCard : MAP_COPY.ruleInputs.selectGroup}</option>
             <optgroup label={MAP_COPY.ruleInputs.groupsOption}>
@@ -80,7 +81,7 @@ export function GroupMultiSelect({ label, values, onChange, groupNames, cardName
   )
 }
 
-export function ConditionTooltip({ children, conditions, style, onClick }) {
+export function ConditionTooltip({ children, conditions, style, className, onClick }) {
   const [show, setShow] = useState(false)
   const [pos, setPos] = useState(null)
   const timeoutRef = useRef(null)
@@ -104,7 +105,7 @@ export function ConditionTooltip({ children, conditions, style, onClick }) {
     setShow(false)
   }
   if (!conditions || conditions.length === 0) {
-    return <div style={style} onClick={onClick}>{children}</div>
+    return <div className={className} style={style} onClick={onClick}>{children}</div>
   }
   return (
     <div
@@ -112,6 +113,7 @@ export function ConditionTooltip({ children, conditions, style, onClick }) {
       onMouseEnter={handleEnter}
       onMouseLeave={handleLeave}
       onClick={onClick}
+      className={className}
       style={{...style, background: show ? "color-mix(in srgb, var(--se-border) 60%, var(--se-card))" : (style && style.background) || "transparent"}}
     >
       {children}
@@ -131,31 +133,17 @@ export function ConditionTooltip({ children, conditions, style, onClick }) {
           pointerEvents: "none",
           boxShadow: "var(--mantine-shadow-md)",
         }}>
-          <div style={{fontSize: "11px", fontWeight: "bold", color: "var(--se-muted)", textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: "4px"}}>
+          <div className="rule-summary-heading">
             {MAP_COPY.ruleInputs.matchedConditions}
           </div>
-          <table style={{borderCollapse: "collapse"}}>
+          <table className="rule-summary-table">
             <tbody>
               {conditions.map((mc, i) => (
                 <tr key={i}>
                   {mc.group != null && (
-                    <td style={{
-                      fontSize: "12px",
-                      color: "var(--mantine-primary-color-filled)",
-                      fontWeight: "bold",
-                      paddingRight: "10px",
-                      paddingTop: "2px",
-                      paddingBottom: "2px",
-                      verticalAlign: "top",
-                    }}>{mc.group}</td>
+                    <td className="rule-summary-key">{mc.group}</td>
                   )}
-                  <td style={{
-                    fontSize: "12px",
-                    fontFamily: "monospace",
-                    color: "var(--se-text)",
-                    paddingTop: "2px",
-                    paddingBottom: "2px",
-                  }}>{mc.condition}</td>
+                  <td className="rule-summary-value">{mc.condition}</td>
                 </tr>
               ))}
             </tbody>
@@ -182,8 +170,8 @@ export function ClauseInputs({ label, connects, onChange, placeholder, highlight
     onChange([...connects, ""])
   }
   return (
-    <div style={{marginBottom: "0.35rem"}}>
-      <label style={{fontSize: "0.7em", color: "var(--se-muted)", display: "block", marginBottom: "2px"}}>{label} {MAP_COPY.ruleInputs.orSuffix}</label>
+    <div className="rule-input-field">
+      <label className="rule-input-label">{label} {MAP_COPY.ruleInputs.orSuffix}</label>
       {connects.map((c, i) => {
         const trimmed = c.trim()
         const dimmed = highlightedConditions && trimmed && !highlightedConditions.has(trimmed)
@@ -236,10 +224,10 @@ export function ExcludeInputs({ values, onChange, options }) {
     onChange(values.filter((_, idx) => idx !== i))
   }
   return (
-    <div style={{marginTop: "0.75rem"}}>
-      <label style={{fontSize: "0.7em", color: "var(--se-muted)", display: "block", marginBottom: "2px"}}>{MAP_COPY.ruleInputs.excludeCards}</label>
+    <div className="rule-input-section">
+      <label className="rule-input-label">{MAP_COPY.ruleInputs.excludeCards}</label>
       {values.map((v, i) => (
-        <div key={i} style={{display: "flex", gap: "4px", marginBottom: "3px", alignItems: "center"}}>
+        <div key={i} className="rule-input-row">
           <NativeSelect
             size="xs"
             className="dm-grow"
