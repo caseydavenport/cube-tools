@@ -44,8 +44,8 @@
   font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;
   color: var(--se-muted); margin: 0.9rem 0 0.3rem;
   padding-bottom: 0.25rem; border-bottom: 1px solid var(--se-border);
+  cursor: pointer; user-select: none;
 }
-.de-reg-head { cursor: pointer; user-select: none; }
 .de-reg-caret { font-size: 0.65rem; }
 .de-reg-count { margin-left: auto; font-weight: 500; font-variant-numeric: tabular-nums; }
 .de-reg-list { display: flex; flex-direction: column; gap: 1px; }

@@ -1,6 +1,6 @@
-/* The few browser-reset rules the pages relied on from Bootstrap's reboot.
-   Mantine's own stylesheet already sets box-sizing, the body font and input fonts,
-   so only the rules that changed how a page looked without Bootstrap are kept. */
+/* The few browser-reset rules the pages need from Bootstrap's reboot. Mantine's
+   own stylesheet already sets box-sizing, the body font and input fonts, so only
+   the rules that change how a page looks are here. */
 
 /* Headings start flush with their container, with tighter lines than body text. */
 h1, h2, h3, h4, h5, h6 {

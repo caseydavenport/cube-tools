@@ -1,5 +1,5 @@
-// Design tokens shared by the Mantine theme. Kept free of
-// imports so node tests can load it directly.
+// Design tokens shared by the Mantine theme. Kept free of imports so node
+// tests can load it directly.
 
 // PRIMARY_SHADES is the "sylvan" violet scale Mantine needs, lightest first.
 export const PRIMARY_SHADES = [

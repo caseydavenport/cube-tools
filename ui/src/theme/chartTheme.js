@@ -159,7 +159,7 @@ function tooltipDefaults(chartJS) {
 // its tooltip through chartTooltip, so it follows a scheme switch without a
 // re-render. previous holds a copy of the tooltip defaults before the switch.
 function recolorTooltip(chart, previous, theme) {
-  const plugins = chart.config && chart.config.options && chart.config.options.plugins
+  const plugins = chart.config?.options?.plugins
   if (!plugins || !plugins.tooltip) {
     return
   }

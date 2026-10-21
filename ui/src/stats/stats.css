@@ -199,16 +199,6 @@
   cursor: pointer;
 }
 
-.widget-table-row {
-  border-bottom: 1px solid var(--se-border);
-  transition: background 0.2s ease;
-  height: 48px;
-}
-
-.widget-table-row:hover {
-  background: color-mix(in srgb, var(--se-border) 60%, var(--se-card));
-}
-
 .widget-table-row td {
   padding: 0 1rem;
   font-size: 0.95rem;

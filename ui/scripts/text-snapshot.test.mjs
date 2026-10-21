@@ -18,7 +18,7 @@ test("a changed line shows as missing and added", () => {
   assert.deepEqual(compareSnapshots(before, after, ["cards"]), [{ route: "cards", missing: ["# Games"], added: ["#Games"] }])
 })
 
-test("routes cover the new pages", () => {
+test("routes cover the welcome, deck, draft and import pages", () => {
   for (const route of ["welcome", "polyverse", "polyverse/decks", "polyverse/import/ocr", "cc:polyversal", "cc:polyversal/drafts"]) {
     assert.ok(ROUTES.includes(route), route)
   }

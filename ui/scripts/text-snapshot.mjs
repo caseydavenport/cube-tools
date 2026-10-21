@@ -8,11 +8,10 @@
 //
 // take expects Chrome with --remote-debugging-port=9333 and the UI on :6061
 // (UI_PORT overrides it). The scheme defaults to light and the width to 1680.
-// compare exits 1 if any route's text differs. compare-shots prints the share
-// of pixels that changed per route, and with --out writes a PNG of each
-// differing route with the changed pixels in magenta, and --json saves each
-// route's changed-pixel count and box. Each line shows the count and the box
-// of changed pixels. It exits 1 on any change.
+// compare exits 1 if any route's text differs. compare-shots prints, per
+// route, the share, count and bounding box of pixels that changed. --out writes
+// a PNG of each differing route with the changed pixels in magenta, and --json
+// saves each route's count and box. It exits 1 on any change.
 
 import { Buffer } from "node:buffer"
 import { mkdirSync, readFileSync, writeFileSync, existsSync } from "node:fs"

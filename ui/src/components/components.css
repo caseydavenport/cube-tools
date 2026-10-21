@@ -109,9 +109,6 @@ html .section-nav a {
    Bootstrap made it positioned, which changes how Chrome draws the text inside it. */
 .dropdown {
   position: relative;
-}
-
-.dropdown {
   display: flex;
   align-items: center;
   gap: 0.5rem;

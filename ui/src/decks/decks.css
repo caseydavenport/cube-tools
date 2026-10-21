@@ -278,23 +278,17 @@
 
 /* The img prefix keeps the .cardimage rules above .button-selected, which loads after this file. */
 img.cardimage {
-  border-radius: 8px;
-  transition: transform 0.2s;
+  width: 120px;
+  height: auto;
+  border-radius: 6px;
+  margin: 2px;
+  transition: transform 0.1s ease;
   box-shadow: 0 4px 6px color-mix(in srgb, var(--se-shadow) 30%, transparent);
 }
 
 .cardimage:hover {
   transform: scale(1.05) rotate(1deg);
   z-index: 10;
-}
-
-/* Card Image Sizing */
-img.cardimage {
-  width: 120px; /* Reduced from 200px */
-  height: auto;
-  border-radius: 6px;
-  margin: 2px;
-  transition: transform 0.1s ease;
 }
 
 .cardimage-selected {

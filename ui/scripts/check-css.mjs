@@ -1,6 +1,6 @@
 // check-css finds styling left over from before the theme: CSS classes no
 // JavaScript names, Bootstrap imports, raw colors, and inline styles made only
-// of literal values. Later tasks of the cleanup plan work from its findings.
+// of literal values.
 //
 // Run it from anywhere: `node ui/scripts/check-css.mjs [--only kind,kind] [files…]`.
 // With no files it checks every .js and .css file under ui/src. It prints
@@ -54,9 +54,9 @@ function parseJs(source) {
   }
 }
 
-// forEachNode calls fn on the node and every node below it.
-function forEachNode(node, fn) {
-  fn(node)
+// forEachNode calls visit on the node and every node below it.
+function forEachNode(node, visit) {
+  visit(node)
   for (const key of Object.keys(node)) {
     if (key === "loc" || key === "leadingComments" || key === "trailingComments" || key === "innerComments") {
       continue
@@ -65,11 +65,11 @@ function forEachNode(node, fn) {
     if (Array.isArray(value)) {
       for (const child of value) {
         if (child && typeof child.type === "string") {
-          forEachNode(child, fn)
+          forEachNode(child, visit)
         }
       }
     } else if (value && typeof value.type === "string") {
-      forEachNode(value, fn)
+      forEachNode(value, visit)
     }
   }
 }
@@ -93,7 +93,7 @@ function withoutSkipped(source, kind, findings) {
 // classNamesIn returns the class names a JavaScript file might use: every
 // whitespace-separated token of its string literals, plus the literal text
 // before each `${` in a template literal, which ends in "-" or "_" when it is
-// the front of a name built at runtime. unusedClasses treats those as prefixes.
+// the front of a name built at runtime. isNamed treats those as prefixes.
 export function classNamesIn(jsSource) {
   const names = new Set()
   const program = parseJs(jsSource)
@@ -104,8 +104,8 @@ export function classNamesIn(jsSource) {
     if (node.type === "StringLiteral" || node.type === "JSXText") {
       addTokens(names, node.value)
     } else if (node.type === "TemplateLiteral") {
-      for (let i = 0; i < node.quasis.length; i++) {
-        addTokens(names, node.quasis[i].value.cooked || "")
+      for (const quasi of node.quasis) {
+        addTokens(names, quasi.value.cooked || "")
       }
     }
   })
@@ -378,7 +378,7 @@ function isImportFile(file) {
 
 // isThemeFile says whether a file is under ui/src/theme/, where raw colors live.
 function isThemeFile(file) {
-  return path.relative(path.join(SRC_DIR, "theme"), file).startsWith("..") === false
+  return !path.relative(path.join(SRC_DIR, "theme"), file).startsWith("..")
 }
 
 // allClassNames collects the class names every JavaScript file under src uses.

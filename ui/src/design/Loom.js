@@ -10,7 +10,7 @@ import "./loom.css"
 // chipFor is the Loom chip for one end of a bridge: a group, colored by its
 // rule color and selectable when onSelectGroup is given, or a direct card
 // reference, shown as a muted chip with the card's name.
-export function chipFor(name, groupIndex, onSelectGroup) {
+function chipFor(name, groupIndex, onSelectGroup) {
   const refName = cardRefName(name)
   if (refName) {
     return { key: name, color: 'var(--se-muted)', label: refName }
