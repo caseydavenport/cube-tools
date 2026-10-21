@@ -331,6 +331,12 @@
   flex-direction: column;
 }
 
+/* A tall form scrolls instead of squashing its rows. Mantine buttons hide
+   overflow, so without this the "Add wire" button shrinks to nothing. */
+.link-edit-panel > * {
+  flex-shrink: 0;
+}
+
 .link-edit-field-header {
   display: flex;
   justify-content: space-between;
