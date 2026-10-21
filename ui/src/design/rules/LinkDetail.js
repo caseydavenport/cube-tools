@@ -18,7 +18,7 @@ export function LinkDetail({ link, color, edgeCount, groupIndex, groupCards, war
       const known = (groupCards[name]?.card_count ?? 0) > 0
       return {
         key: name,
-        color: known ? 'var(--text-muted)' : 'var(--danger)',
+        color: known ? 'var(--se-muted)' : 'var(--se-bad)',
         label: refName,
         sub: known ? RULES_COPY.link.subCard : RULES_COPY.link.subMissingCard,
         onClick: known && onFocusCard ? () => onFocusCard(refName) : undefined,
@@ -26,7 +26,7 @@ export function LinkDetail({ link, color, edgeCount, groupIndex, groupCards, war
     }
     return {
       key: name,
-      color: groupIndex[name] !== undefined ? ruleColor(groupIndex[name]) : 'var(--danger)',
+      color: groupIndex[name] !== undefined ? ruleColor(groupIndex[name]) : 'var(--se-bad)',
       label: name,
       sub: groupIndex[name] !== undefined
         ? RULES_COPY.link.subCardCount(groupCards[name]?.card_count ?? (groupCards[name]?.cards || []).length)

@@ -181,7 +181,7 @@ export function CardWidgetOptions(input) {
       />
 
       <div className="selector-group" style={{justifyContent: 'flex-start', flexWrap: 'wrap', gap: '1rem', marginTop: '1rem'}}>
-        <div className="selection-cell" style={{"fontWeight": "bold", "color": "var(--primary)", "minWidth": "120px"}}>
+        <div className="selection-cell" style={{"fontWeight": "bold", "color": "var(--mantine-primary-color-filled)", "minWidth": "120px"}}>
           {CARDS_COPY.statsTable.showing(num)}
         </div>
 

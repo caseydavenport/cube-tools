@@ -255,7 +255,7 @@ function absColor(winPct) {
 function winColor(c) {
   if (!c) return undefined
   const s = winCI(c)
-  if (!s || !s.significant) return "var(--card-background)"
+  if (!s || !s.significant) return "var(--se-card)"
   return absColor(c.win_pct)
 }
 
@@ -583,8 +583,8 @@ function PivotHeatmap({ result, groupBy, splitBy, metric, confidence }) {
               <td key={col} className="header-cell"
                 style={{
                   textAlign: "center", minWidth: "60px", cursor: "pointer",
-                  background: sortColumn === col ? "var(--primary)" : undefined,
-                  color: sortColumn === col ? "var(--page-background)" : undefined,
+                  background: sortColumn === col ? "var(--mantine-primary-color-filled)" : undefined,
+                  color: sortColumn === col ? "var(--se-page)" : undefined,
                 }}
                 onClick={() => setSortColumn(sortColumn === col ? null : col)}>
                 {keyLabel(splitBy.dim, col)}

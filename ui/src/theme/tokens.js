@@ -1,4 +1,4 @@
-// Design tokens shared by the Mantine theme and the legacy CSS bridge. Kept free of
+// Design tokens shared by the Mantine theme. Kept free of
 // imports so node tests can load it directly.
 
 // PRIMARY_SHADES is the "sylvan" violet scale Mantine needs, lightest first.
@@ -8,7 +8,7 @@ export const PRIMARY_SHADES = [
 ]
 
 // LIGHT is the light-mode palette: page and card backgrounds, text and muted
-// text, borders, the sidebar gradient's two ends, good/bad result colors, and
+// text, borders, the sidebar gradient's two ends, good/bad/warn result colors, shadow (the color shadows are mixed from), and
 // shadowPop, the soft shadow under popovers and card image previews.
 export const LIGHT = {
   page: "#fbf8f4",
@@ -20,6 +20,8 @@ export const LIGHT = {
   sidebarTo: "#ffe4e1",
   good: "#16a34a",
   bad: "#e11d48",
+  warn: "#b45309",
+  shadow: "#2a2238",
   shadowPop: "0 14px 34px -10px rgb(42 34 56 / 0.22), 0 2px 6px rgb(42 34 56 / 0.06)",
 }
 
@@ -35,6 +37,8 @@ export const DARK = {
   sidebarTo: "#3a1f2c",
   good: "#4ade80",
   bad: "#fb7185",
+  warn: "#fbbf24",
+  shadow: "#000000",
   shadowPop: "0 18px 44px -10px rgb(0 0 0 / 0.7), 0 2px 8px rgb(0 0 0 / 0.35)",
 }
 

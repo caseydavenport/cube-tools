@@ -41,7 +41,7 @@ export function GroupMultiSelect({ label, values, onChange, groupNames, cardName
 
   return (
     <div style={{marginBottom: "0.35rem"}}>
-      <label style={{fontSize: "0.7em", color: "var(--text-muted)", display: "block", marginBottom: "2px"}}>{label}</label>
+      <label style={{fontSize: "0.7em", color: "var(--se-muted)", display: "block", marginBottom: "2px"}}>{label}</label>
       {values.map((v, i) => (
         <div key={i} style={{display: "flex", gap: "4px", marginBottom: "3px", alignItems: "center"}}>
           <NativeSelect size="xs" className="dm-grow" classNames={{ input: "dm-mono" }} aria-label={label} value={v} onChange={e => updateAt(i, e.target.value)}>
@@ -112,7 +112,7 @@ export function ConditionTooltip({ children, conditions, style, onClick }) {
       onMouseEnter={handleEnter}
       onMouseLeave={handleLeave}
       onClick={onClick}
-      style={{...style, background: show ? "var(--table-row-hover)" : (style && style.background) || "transparent"}}
+      style={{...style, background: show ? "color-mix(in srgb, var(--se-border) 60%, var(--se-card))" : (style && style.background) || "transparent"}}
     >
       {children}
       {show && pos && ReactDOM.createPortal(
@@ -122,8 +122,8 @@ export function ConditionTooltip({ children, conditions, style, onClick }) {
           right: pos.right,
           top: pos.top,
           transform: "translateY(-50%)",
-          background: "var(--card-background)",
-          border: "1px solid var(--text-muted)",
+          background: "var(--se-card)",
+          border: "1px solid var(--se-muted)",
           borderRadius: "6px",
           padding: "8px 12px",
           zIndex: 9999,
@@ -131,7 +131,7 @@ export function ConditionTooltip({ children, conditions, style, onClick }) {
           pointerEvents: "none",
           boxShadow: "var(--mantine-shadow-md)",
         }}>
-          <div style={{fontSize: "11px", fontWeight: "bold", color: "var(--text-muted)", textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: "4px"}}>
+          <div style={{fontSize: "11px", fontWeight: "bold", color: "var(--se-muted)", textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: "4px"}}>
             {MAP_COPY.ruleInputs.matchedConditions}
           </div>
           <table style={{borderCollapse: "collapse"}}>
@@ -141,7 +141,7 @@ export function ConditionTooltip({ children, conditions, style, onClick }) {
                   {mc.group != null && (
                     <td style={{
                       fontSize: "12px",
-                      color: "var(--primary)",
+                      color: "var(--mantine-primary-color-filled)",
                       fontWeight: "bold",
                       paddingRight: "10px",
                       paddingTop: "2px",
@@ -152,7 +152,7 @@ export function ConditionTooltip({ children, conditions, style, onClick }) {
                   <td style={{
                     fontSize: "12px",
                     fontFamily: "monospace",
-                    color: "var(--white)",
+                    color: "var(--se-text)",
                     paddingTop: "2px",
                     paddingBottom: "2px",
                   }}>{mc.condition}</td>
@@ -183,7 +183,7 @@ export function ClauseInputs({ label, connects, onChange, placeholder, highlight
   }
   return (
     <div style={{marginBottom: "0.35rem"}}>
-      <label style={{fontSize: "0.7em", color: "var(--text-muted)", display: "block", marginBottom: "2px"}}>{label} {MAP_COPY.ruleInputs.orSuffix}</label>
+      <label style={{fontSize: "0.7em", color: "var(--se-muted)", display: "block", marginBottom: "2px"}}>{label} {MAP_COPY.ruleInputs.orSuffix}</label>
       {connects.map((c, i) => {
         const trimmed = c.trim()
         const dimmed = highlightedConditions && trimmed && !highlightedConditions.has(trimmed)
@@ -237,7 +237,7 @@ export function ExcludeInputs({ values, onChange, options }) {
   }
   return (
     <div style={{marginTop: "0.75rem"}}>
-      <label style={{fontSize: "0.7em", color: "var(--text-muted)", display: "block", marginBottom: "2px"}}>{MAP_COPY.ruleInputs.excludeCards}</label>
+      <label style={{fontSize: "0.7em", color: "var(--se-muted)", display: "block", marginBottom: "2px"}}>{MAP_COPY.ruleInputs.excludeCards}</label>
       {values.map((v, i) => (
         <div key={i} style={{display: "flex", gap: "4px", marginBottom: "3px", alignItems: "center"}}>
           <NativeSelect

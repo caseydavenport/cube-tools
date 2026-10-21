@@ -63,7 +63,7 @@ export function ColorMatchupHeatmap({ matchupData, colorType }) {
 
   // Compute cell background color: green for >50%, red for <50%, gray for mirror/low data.
   function cellColor(winPct, totalGames) {
-    if (totalGames < 10) return "var(--card-background)";
+    if (totalGames < 10) return "var(--se-card)";
     // Scale from bad (0%) through neutral (50%) to good (100%).
     return goodBadTint((winPct - 50) / 50);
   }
@@ -74,7 +74,7 @@ export function ColorMatchupHeatmap({ matchupData, colorType }) {
 
   return (
     <div>
-      <h4 style={{textAlign: "center", color: "var(--primary)", marginBottom: "1rem"}}>
+      <h4 style={{textAlign: "center", color: "var(--mantine-primary-color-filled)", marginBottom: "1rem"}}>
         {title}
       </h4>
       <div style={{overflowX: "auto"}}>
@@ -85,8 +85,8 @@ export function ColorMatchupHeatmap({ matchupData, colorType }) {
               {groups.map(cp => (
                 <td key={cp} className="header-cell" style={{
                   textAlign: "center", minWidth: "65px", cursor: "pointer",
-                  background: sortColumn === cp ? "var(--primary)" : undefined,
-                  color: sortColumn === cp ? "var(--page-background)" : undefined,
+                  background: sortColumn === cp ? "var(--mantine-primary-color-filled)" : undefined,
+                  color: sortColumn === cp ? "var(--se-page)" : undefined,
                 }} onClick={() => setSortColumn(sortColumn === cp ? null : cp)}>
                   {COLORS_COPY.heatmap.groupNames[cp] || cp}
                 </td>
@@ -100,7 +100,7 @@ export function ColorMatchupHeatmap({ matchupData, colorType }) {
                 {groups.map(oppColor => {
                   if (myColor === oppColor) {
                     return (
-                      <td key={oppColor} style={{background: "var(--page-background)", textAlign: "center", color: "var(--text-muted)"}}>
+                      <td key={oppColor} style={{background: "var(--se-page)", textAlign: "center", color: "var(--se-muted)"}}>
                         -
                       </td>
                     );

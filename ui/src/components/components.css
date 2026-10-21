@@ -1,7 +1,7 @@
 /* Styles for the shared components: pill search, page sections, dropdowns and the predicate builder. */
 
 .player-frame-title {
-  color: var(--text-muted);
+  color: var(--se-muted);
   text-transform: uppercase;
   font-size: 0.85rem;
   font-weight: 700;
@@ -26,15 +26,15 @@
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
-  background: var(--page-background);
+  background: var(--se-page);
   padding: 0.6rem 0;
   margin-bottom: 1rem;
-  border-bottom: 1px solid var(--border);
+  border-bottom: 1px solid var(--se-border);
 }
 
 /* The html prefix keeps this above the global a:visited color, which loads after this file. */
 html .section-nav a {
-  color: var(--text-muted);
+  color: var(--se-muted);
   font-weight: 500;
   font-size: 0.875rem;
   padding: 0.3rem 0.75rem;
@@ -44,13 +44,13 @@ html .section-nav a {
 }
 
 .section-nav a:hover {
-  color: var(--white);
-  background: var(--table-row-hover);
+  color: var(--se-text);
+  background: color-mix(in srgb, var(--se-border) 60%, var(--se-card));
 }
 
 .section-nav a.active {
-  color: var(--primary);
-  background: var(--highlight);
+  color: var(--mantine-primary-color-filled);
+  background: color-mix(in srgb, var(--mantine-primary-color-filled) 27%, transparent);
 }
 
 .search-bar-container {
@@ -64,10 +64,10 @@ html .section-nav a {
   left: 0;
   right: 0;
   z-index: 200;
-  background: var(--card-background);
-  border: 1px solid var(--border);
+  background: var(--se-card);
+  border: 1px solid var(--se-border);
   border-radius: 0 0 8px 8px;
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 10px 15px -3px color-mix(in srgb, var(--se-shadow) 30%, transparent);
   max-height: 300px;
   overflow-y: auto;
   margin-top: -1px;
@@ -84,24 +84,24 @@ html .section-nav a {
 
 .search-autocomplete-item:hover,
 .search-autocomplete-item-selected {
-  background: var(--table-row-hover);
+  background: color-mix(in srgb, var(--se-border) 60%, var(--se-card));
 }
 
 .search-autocomplete-term {
   font-family: 'Fira Code', monospace;
-  color: var(--primary);
+  color: var(--mantine-primary-color-filled);
   font-weight: 600;
   min-width: 80px;
 }
 
 .search-autocomplete-detail {
-  color: var(--text-muted);
+  color: var(--se-muted);
   font-size: 0.9rem;
   flex: 1;
 }
 
 .search-autocomplete-example {
-  color: var(--text-muted);
+  color: var(--se-muted);
   font-size: 0.8rem;
   font-family: 'Fira Code', monospace;
   opacity: 0.6;
@@ -109,9 +109,9 @@ html .section-nav a {
 
 .search-autocomplete-help {
   padding: 0.5rem 1rem;
-  color: var(--text-muted);
+  color: var(--se-muted);
   font-size: 0.85rem;
-  border-bottom: 1px solid var(--border);
+  border-bottom: 1px solid var(--se-border);
   font-style: italic;
 }
 
@@ -133,8 +133,8 @@ html .section-nav a {
   flex-wrap: wrap;
   align-items: center;
   gap: 0.5rem;
-  background: var(--page-background);
-  border: 1px solid var(--border);
+  background: var(--se-page);
+  border: 1px solid var(--se-border);
   padding: 0.5rem 0.75rem;
   border-radius: 8px;
   min-height: 48px;
@@ -144,22 +144,22 @@ html .section-nav a {
 }
 
 .pill-search-container:focus-within {
-  border-color: var(--primary);
-  box-shadow: 0 0 0 2px var(--highlight);
+  border-color: var(--mantine-primary-color-filled);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--mantine-primary-color-filled) 27%, transparent);
 }
 
 .search-pill {
   display: flex;
   align-items: center;
   gap: 0.35rem;
-  background: var(--table-header-background);
-  color: var(--primary);
+  background: color-mix(in srgb, var(--se-border) 60%, var(--se-card));
+  color: var(--mantine-primary-color-filled);
   padding: 0.25rem 0.6rem;
   border-radius: 6px;
   font-size: 0.9rem;
   font-weight: 600;
   font-family: 'Fira Code', monospace;
-  border: 1px solid var(--border);
+  border: 1px solid var(--se-border);
   animation: pill-in 0.2s ease-out;
 }
 
@@ -177,13 +177,13 @@ html .section-nav a {
   height: 16px;
   border-radius: 50%;
   font-size: 12px;
-  color: var(--text-muted);
+  color: var(--se-muted);
   transition: all 0.1s ease;
 }
 
 .search-pill-remove:hover {
-  background: var(--danger);
-  color: var(--white);
+  background: var(--se-bad);
+  color: var(--se-text);
 }
 
 .pill-input {
@@ -191,32 +191,32 @@ html .section-nav a {
   min-width: 120px;
   background: transparent;
   border: none;
-  color: var(--white);
+  color: var(--se-text);
   font-size: 1rem;
   padding: 0.25rem 0;
   outline: none;
 }
 
 .pill-input::placeholder {
-  color: var(--text-muted);
+  color: var(--se-muted);
   opacity: 0.7;
 }
 
 .search-pill-invalid {
-  background: rgba(248, 113, 113, 0.2);
-  color: var(--danger);
-  border-color: var(--danger);
+  background: color-mix(in srgb, var(--se-bad) 20%, transparent);
+  color: var(--se-bad);
+  border-color: var(--se-bad);
 }
 
 .search-pill-deck {
-  color: var(--secondary);
+  color: var(--mantine-primary-color-filled);
 }
 
 .predicate-builder {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-  border-top: 1px solid var(--border);
+  border-top: 1px solid var(--se-border);
   padding-top: 0.75rem;
 }
 .predicate-row {

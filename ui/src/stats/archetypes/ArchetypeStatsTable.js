@@ -108,7 +108,7 @@ function ArchetypeWinCell({ stats }) {
   let title = undefined
   if (stats.win_percent_low != null) {
     if (!stats.significant) {
-      style = { color: "var(--text-muted)" }
+      style = { color: "var(--se-muted)" }
     }
     let verdict = ARCHETYPES_COPY.statsTable.notDistinguishable
     if (stats.significant) {

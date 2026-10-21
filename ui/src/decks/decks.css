@@ -296,7 +296,7 @@
 img.cardimage {
   border-radius: 8px;
   transition: transform 0.2s;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+  box-shadow: 0 4px 6px color-mix(in srgb, var(--se-shadow) 30%, transparent);
 }
 
 .cardimage:hover {
@@ -318,7 +318,7 @@ img.cardimage {
   height: auto;
   border-radius: 6px;
   margin: 2px;
-  box-shadow: 0 0 0 3px var(--primary);
+  box-shadow: 0 0 0 3px var(--mantine-primary-color-filled);
 }
 
 .flexhouse {
@@ -357,8 +357,8 @@ img.cardimage {
 
 /* Column header: CMC=2, Lands, etc. */
 .deck-cards .decklist-title {
-  background: var(--table-header-background);
-  color: var(--text-muted);
+  background: color-mix(in srgb, var(--se-border) 60%, var(--se-card));
+  color: var(--se-muted);
   font-size: 0.875rem;
   text-transform: uppercase;
   letter-spacing: 0.05em;
@@ -379,7 +379,7 @@ img.cardimage {
 
 /* Small divider that labels each card type within a column. */
 .deck-cards .type-subheading {
-  color: var(--text-muted);
+  color: var(--se-muted);
   font-size: 0.7rem;
   text-transform: uppercase;
   letter-spacing: 0.05em;
@@ -393,16 +393,16 @@ img.cardimage {
   align-items: center;
   gap: 0.4rem;
   padding: 0.35rem 0.75rem;
-  border-bottom: 1px solid var(--border);
+  border-bottom: 1px solid var(--se-border);
   background-color: var(--background-color);
-  color: var(--white);
+  color: var(--se-text);
   text-decoration: none;
   line-height: 1.2;
   transition: background 0.2s ease;
 }
 
 .deck-cards .decklist-row:hover {
-  background: var(--table-row-hover);
+  background: color-mix(in srgb, var(--se-border) 60%, var(--se-card));
 }
 
 .deck-cards .decklist-pip {
@@ -436,8 +436,8 @@ img.cardimage {
   border: none;
   border-radius: 0;
   box-shadow: none;
-  background: var(--primary) !important;
-  color: var(--page-background) !important;
+  background: var(--mantine-primary-color-filled) !important;
+  color: var(--se-page) !important;
 }
 
 .deck-images-columns {
@@ -451,8 +451,8 @@ img.cardimage {
 }
 
 .deck-images-group {
-  background: var(--card-background);
-  border: 1px solid var(--border);
+  background: var(--se-card);
+  border: 1px solid var(--se-border);
   border-radius: 12px;
   padding: 1rem;
   min-width: 180px;
@@ -505,7 +505,7 @@ img.cardimage {
   z-index: 4;
 }
 .synergy-lines line {
-  stroke: var(--primary);
+  stroke: var(--mantine-primary-color-filled);
   stroke-width: 2;
   stroke-linecap: round;
   opacity: 0.85;
@@ -515,8 +515,8 @@ img.cardimage {
    rail; everything else fades back so the connections read at a glance. */
 .deck-cards .decklist-row.synergy-source,
 .deck-cards .decklist-row.synergy-linked {
-  background: var(--table-row-hover);
-  box-shadow: inset 3px 0 0 var(--primary);
+  background: color-mix(in srgb, var(--se-border) 60%, var(--se-card));
+  box-shadow: inset 3px 0 0 var(--mantine-primary-color-filled);
   position: relative;
   z-index: 5;
 }

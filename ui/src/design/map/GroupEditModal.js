@@ -104,7 +104,7 @@ export function GroupEditModal({ group, color, onSave, onCancel }) {
     <Modal opened onClose={onCancel} withCloseButton={false} centered size="auto" padding={0} radius="md">
       <div
         style={{
-          background: "var(--card-background)",
+          background: "var(--se-card)",
           borderRadius: "10px",
           border: `2px solid ${color}`,
           width: "min(1100px, 95vw)",
@@ -118,12 +118,12 @@ export function GroupEditModal({ group, color, onSave, onCancel }) {
         <div style={{
           padding: "1rem",
           overflowY: "auto",
-          background: "var(--page-background)",
-          borderRight: "1px solid var(--card-background)",
+          background: "var(--se-page)",
+          borderRight: "1px solid var(--se-card)",
           fontSize: "0.8em",
           lineHeight: "1.8",
         }}>
-          <h4 style={{color: "var(--text-muted)", margin: "0 0 0.75rem 0", fontSize: "0.85rem"}}>
+          <h4 style={{color: "var(--se-muted)", margin: "0 0 0.75rem 0", fontSize: "0.85rem"}}>
             {MAP_COPY.groupEdit.queryReference}
           </h4>
           <table style={{borderCollapse: "collapse", width: "100%"}}>
@@ -139,36 +139,36 @@ export function GroupEditModal({ group, color, onSave, onCancel }) {
                 ["is:", MAP_COPY.groupEdit.queryKeyword],
               ].map(([prefix, desc]) => (
                 <tr key={prefix}>
-                  <td style={{color: "var(--primary)", fontFamily: "monospace", fontWeight: "bold", paddingRight: "8px", whiteSpace: "nowrap"}}>{prefix}</td>
-                  <td style={{color: "var(--text-muted)"}}>{desc}</td>
+                  <td style={{color: "var(--mantine-primary-color-filled)", fontFamily: "monospace", fontWeight: "bold", paddingRight: "8px", whiteSpace: "nowrap"}}>{prefix}</td>
+                  <td style={{color: "var(--se-muted)"}}>{desc}</td>
                 </tr>
               ))}
             </tbody>
           </table>
-          <div style={{borderTop: "1px solid var(--card-background)", margin: "0.5rem 0", paddingTop: "0.5rem"}}>
-            <div style={{color: "var(--text-muted)", marginBottom: "0.25rem", fontWeight: "bold", fontSize: "0.85em"}}>{MAP_COPY.groupEdit.comparisons}</div>
-            <div style={{color: "var(--text-muted)", fontFamily: "monospace"}}>
+          <div style={{borderTop: "1px solid var(--se-card)", margin: "0.5rem 0", paddingTop: "0.5rem"}}>
+            <div style={{color: "var(--se-muted)", marginBottom: "0.25rem", fontWeight: "bold", fontSize: "0.85em"}}>{MAP_COPY.groupEdit.comparisons}</div>
+            <div style={{color: "var(--se-muted)", fontFamily: "monospace"}}>
               {MAP_COPY.groupEdit.comparisonsCmc}<br/>
               {MAP_COPY.groupEdit.comparisonsPowTou}
             </div>
           </div>
-          <div style={{borderTop: "1px solid var(--card-background)", margin: "0.5rem 0", paddingTop: "0.5rem"}}>
-            <div style={{color: "var(--text-muted)", marginBottom: "0.25rem", fontWeight: "bold", fontSize: "0.85em"}}>{MAP_COPY.groupEdit.isKeywords}</div>
-            <div style={{color: "var(--text-muted)", fontFamily: "monospace", fontSize: "0.9em"}}>
+          <div style={{borderTop: "1px solid var(--se-card)", margin: "0.5rem 0", paddingTop: "0.5rem"}}>
+            <div style={{color: "var(--se-muted)", marginBottom: "0.25rem", fontWeight: "bold", fontSize: "0.85em"}}>{MAP_COPY.groupEdit.isKeywords}</div>
+            <div style={{color: "var(--se-muted)", fontFamily: "monospace", fontSize: "0.9em"}}>
               {MAP_COPY.groupEdit.keywordsLine1}<br/>
               {MAP_COPY.groupEdit.keywordsLine2}<br/>
               {MAP_COPY.groupEdit.keywordsLine3}
             </div>
           </div>
-          <div style={{borderTop: "1px solid var(--card-background)", margin: "0.5rem 0", paddingTop: "0.5rem"}}>
-            <div style={{color: "var(--text-muted)", marginBottom: "0.25rem", fontWeight: "bold", fontSize: "0.85em"}}>{MAP_COPY.groupEdit.operators}</div>
-            <div style={{color: "var(--text-muted)", fontSize: "0.9em"}}>
-              <code style={{color: "var(--primary)"}}>!</code> {MAP_COPY.groupEdit.operatorNegate}<br/>
+          <div style={{borderTop: "1px solid var(--se-card)", margin: "0.5rem 0", paddingTop: "0.5rem"}}>
+            <div style={{color: "var(--se-muted)", marginBottom: "0.25rem", fontWeight: "bold", fontSize: "0.85em"}}>{MAP_COPY.groupEdit.operators}</div>
+            <div style={{color: "var(--se-muted)", fontSize: "0.9em"}}>
+              <code style={{color: "var(--mantine-primary-color-filled)"}}>!</code> {MAP_COPY.groupEdit.operatorNegate}<br/>
               {/* copy-ok: query operator */}
-              <code style={{color: "var(--primary)"}}>OR</code> {MAP_COPY.groupEdit.operatorOr}<br/>
-              <code style={{color: "var(--primary)"}}>()</code> {MAP_COPY.groupEdit.operatorGrouping}<br/>
-              <code style={{color: "var(--primary)"}}>""</code> {MAP_COPY.groupEdit.operatorQuote}<br/>
-              <code style={{color: "var(--primary)"}}>*</code> {MAP_COPY.groupEdit.operatorWildcard}
+              <code style={{color: "var(--mantine-primary-color-filled)"}}>OR</code> {MAP_COPY.groupEdit.operatorOr}<br/>
+              <code style={{color: "var(--mantine-primary-color-filled)"}}>()</code> {MAP_COPY.groupEdit.operatorGrouping}<br/>
+              <code style={{color: "var(--mantine-primary-color-filled)"}}>""</code> {MAP_COPY.groupEdit.operatorQuote}<br/>
+              <code style={{color: "var(--mantine-primary-color-filled)"}}>*</code> {MAP_COPY.groupEdit.operatorWildcard}
             </div>
           </div>
         </div>
@@ -177,7 +177,7 @@ export function GroupEditModal({ group, color, onSave, onCancel }) {
         <div style={{
           padding: "1.25rem",
           overflowY: "auto",
-          borderRight: "1px solid var(--page-background)",
+          borderRight: "1px solid var(--se-page)",
           display: "flex",
           flexDirection: "column",
         }}>
@@ -207,7 +207,7 @@ export function GroupEditModal({ group, color, onSave, onCancel }) {
           display: "flex",
           flexDirection: "column",
         }}>
-          <h4 style={{color: "var(--text-muted)", margin: "0 0 0.5rem 0", fontSize: "1rem"}}>
+          <h4 style={{color: "var(--se-muted)", margin: "0 0 0.5rem 0", fontSize: "1rem"}}>
             {MAP_COPY.groupEdit.matchingCards}
             <span style={{fontWeight: "normal", fontSize: "0.85em", marginLeft: "0.5rem"}}>
               {loading ? "..." : `(${matchedCards.length - excludedMatchCount})`}
@@ -218,7 +218,7 @@ export function GroupEditModal({ group, color, onSave, onCancel }) {
           </h4>
           <div style={{flex: 1, overflowY: "auto"}}>
             {matchedCards.length === 0 && !loading && (
-              <p style={{color: "var(--text-muted)", fontSize: "0.85em", fontStyle: "italic"}}>
+              <p style={{color: "var(--se-muted)", fontSize: "0.85em", fontStyle: "italic"}}>
                 {MAP_COPY.groupEdit.noMatchingCards}
               </p>
             )}
@@ -243,7 +243,7 @@ export function GroupEditModal({ group, color, onSave, onCancel }) {
                     cursor: "pointer",
                     opacity: dimmed ? 0.3 : (excluded ? 0.45 : 1),
                     transition: "opacity 0.15s",
-                    background: highlightCard === card.name ? "var(--page-background)" : "transparent",
+                    background: highlightCard === card.name ? "var(--se-page)" : "transparent",
                   }}
                 >
                   <span style={{flex: 1, minWidth: 0, textDecoration: excluded ? "line-through" : "none"}}>{added ? `+ ${card.name}` : card.name}</span>

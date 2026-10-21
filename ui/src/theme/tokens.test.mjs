@@ -35,3 +35,10 @@ test("the chart series palette has eight colors, none of them a mana color", () 
     assert.ok(!mana.includes(v), v)
   }
 })
+
+test("warn is a darker amber in light mode and a lighter one in dark, and shadow mixes from ink or black", () => {
+  assert.equal(LIGHT.warn, "#b45309")
+  assert.equal(DARK.warn, "#fbbf24")
+  assert.equal(LIGHT.shadow, "#2a2238")
+  assert.equal(DARK.shadow, "#000000")
+})

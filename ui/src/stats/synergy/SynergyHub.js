@@ -154,7 +154,7 @@ function HubCardDetail({ point, colorMap }) {
 
   const row = (label, value) => (
     <tr>
-      <td style={{color: "var(--text-muted)", paddingRight: "0.75rem", whiteSpace: "nowrap"}}>{label}</td>
+      <td style={{color: "var(--se-muted)", paddingRight: "0.75rem", whiteSpace: "nowrap"}}>{label}</td>
       <td style={{textAlign: "right", fontVariantNumeric: "tabular-nums"}}>{value}</td>
     </tr>
   );
@@ -175,7 +175,7 @@ function HubCardDetail({ point, colorMap }) {
           {row(SYNERGY_COPY.hub.detailDecks, point.deckCount)}
         </tbody>
       </table>
-      <div style={{color: "var(--text-muted)", borderTop: "1px solid var(--se-border)", paddingTop: "0.4rem", marginBottom: "0.3rem"}}>
+      <div style={{color: "var(--se-muted)", borderTop: "1px solid var(--se-border)", paddingTop: "0.4rem", marginBottom: "0.3rem"}}>
         {SYNERGY_COPY.hub.detailTopPartners} <span style={{opacity: 0.7}}>{SYNERGY_COPY.hub.detailTopPartnersKey}</span>
       </div>
       <table style={{width: "100%"}}>

@@ -17,7 +17,7 @@ export function OptionTooltip({ id, header, tip, children }) {
 // want it. The ⓘ marks that there's something to hover.
 export function ChartTitle({ title, description, align = "center" }) {
   return (
-    <h4 style={{color: "var(--primary)", marginBottom: "0.5rem", textAlign: align}}>
+    <h4 style={{color: "var(--mantine-primary-color-filled)", marginBottom: "0.5rem", textAlign: align}}>
       <HoverInfo info={description} position="bottom" width={440}>
         <span style={{cursor: "help"}}>{title} <span style={{fontSize: "0.7em", opacity: 0.6}}>ⓘ</span></span>
       </HoverInfo>

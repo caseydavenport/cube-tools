@@ -44,6 +44,7 @@
   width: 30px;
   height: 30px;
   border-radius: 9px;
+  /* color-ok: the logo mark keeps its brand gradient in both schemes. */
   background: linear-gradient(135deg, #a78bfa, #7c3aed 45%, #f472b6);
 }
 
@@ -100,7 +101,7 @@
   color: var(--mantine-primary-color-filled);
   font-weight: 600;
   background: var(--se-card);
-  box-shadow: 0 1px 2px rgb(0 0 0 / 0.06);
+  box-shadow: 0 1px 2px color-mix(in srgb, var(--se-shadow) 6%, transparent);
 }
 
 .se-dim {

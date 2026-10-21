@@ -197,7 +197,7 @@ function winPctCell(card, input, key) {
   // interval itself lives in the hover popover to keep the column uncluttered.
   const muted = hasCI && !card.significant
   const value = (
-    <span style={{ color: muted ? "var(--text-muted)" : undefined }}>
+    <span style={{ color: muted ? "var(--se-muted)" : undefined }}>
       {card.win_percent.toFixed(0)}%
     </span>
   )
@@ -208,7 +208,7 @@ function winPctCell(card, input, key) {
 // expected win % (too few games to establish a baseline).
 function deltaExpCell(card, input, key) {
   if (!card.expected_win_percent) {
-    return <td key={key} id={card.name} onClick={input.onCardSelected} style={{ color: "var(--text-muted)" }}>—</td>
+    return <td key={key} id={card.name} onClick={input.onCardSelected} style={{ color: "var(--se-muted)" }}>—</td>
   }
   const d = Math.round(card.win_percent - card.expected_win_percent)
   let color = "var(--se-bad)"

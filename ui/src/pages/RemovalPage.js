@@ -211,9 +211,9 @@ export function RemovalPage(props) {
                       {c.eff_cost}{c.eff_cost !== c.mv ? "*" : ""}
                     </td>
                     <td>{c.kind}</td>
-                    <td style={{ color: "var(--text-muted)" }}>{c.restriction}</td>
+                    <td style={{ color: "var(--se-muted)" }}>{c.restriction}</td>
                     {c.scalable ? (
-                      <td style={{ textAlign: "center", color: "var(--text-muted)" }} colSpan={4}>{COPY.scalable}</td>
+                      <td style={{ textAlign: "center", color: "var(--se-muted)" }} colSpan={4}>{COPY.scalable}</td>
                     ) : (
                       <>
                         <td style={{ textAlign: "right" }}>

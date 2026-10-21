@@ -136,7 +136,7 @@ function GroupDetail({ cube, focus, groups, groupNodes, links, groupColor, onDri
                 display: "flex", alignItems: "center", gap: "6px",
                 padding: "3px 6px", borderRadius: "4px", cursor: "pointer",
                 fontSize: "0.85em",
-                background: hovered === c.name ? "var(--page-background)" : "transparent",
+                background: hovered === c.name ? "var(--se-page)" : "transparent",
               }}
             >
               <span
@@ -215,7 +215,7 @@ function CardDetail({ cube, focus, groups, edges, links, nodeMap, groupColor, on
       {byRule.length === 0 && <p className="dm-muted dm-pad">{MAP_COPY.details.noLinksFromCard}</p>}
       {byRule.map(r => {
         const li = linkIndex[r.label]
-        const color = li != null ? ruleColor(li) : "var(--text-muted)"
+        const color = li != null ? ruleColor(li) : "var(--se-muted)"
         return (
           <div key={r.label} className="dm-rulegroup">
             <div className="dm-rulelabel" style={{ color }}>

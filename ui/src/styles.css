@@ -1,47 +1,28 @@
-:root {
-  --page-background: #0f172a; /* Slate 900 */
-  --card-background: #1e293b; /* Slate 800 */
-  --table-background: #1e293b;
-  --table-row-hover: #334155; /* Slate 700 */
-  --table-header-background: #334155;
-  --primary: #38bdf8; /* Sky 400 */
-  --primary-hover: #0ea5e9; /* Sky 500 */
-  --secondary: #818cf8; /* Indigo 400 */
-  --accent: #f472b6; /* Pink 400 */
-  --success: #4ade80; /* Green 400 */
-  --danger: #f87171; /* Red 400 */
-  --white: #f8fafc; /* Slate 50 */
-  --text-muted: #94a3b8; /* Slate 400 */
-  --border: #334155;
-  --highlight: #38bdf844;
-  --highlight-intense: #38bdf8;
-}
-
 * {
   box-sizing: border-box;
 }
 
 html a, a:hover, a:visited, a:active {
-  color: var(--primary);
+  color: var(--mantine-primary-color-filled);
   text-decoration: none;
   transition: color 0.2s ease;
 }
 
 html a:hover {
-  color: var(--primary-hover);
+  color: var(--mantine-primary-color-filled-hover);
 }
 
 html body {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   margin: 0;
   padding: 0;
-  background: var(--page-background);
-  color: var(--white);
+  background: var(--se-page);
+  color: var(--se-text);
   -webkit-font-smoothing: antialiased;
 }
 
 h1, h2, h3, h4, h5, h6 {
-  color: var(--white);
+  color: var(--se-text);
   font-weight: 600;
   letter-spacing: -0.025em;
 }
@@ -52,7 +33,7 @@ h3 { font-size: 1.5rem; margin-bottom: 1rem; }
 
 code {
   font-family: 'Fira Code', monospace;
-  background: var(--table-background);
+  background: var(--se-card);
   padding: 0.2rem 0.4rem;
   border-radius: 4px;
 }
@@ -73,7 +54,7 @@ table {
   width: 100%;
   max-width: 420px;
   height: 22px;
-  border: 1px solid var(--border);
+  border: 1px solid var(--se-border);
   border-radius: 6px;
   overflow: hidden;
 }
@@ -87,6 +68,7 @@ table {
   padding: 0 0.3rem;
   font-size: 0.8rem;
   font-weight: 600;
+  /* color-ok: the pip text sits on a mana color, which is the same in both schemes. */
   color: #1a1a1a;
 }
 
@@ -98,7 +80,7 @@ table {
    opponent's player page). */
 .xlink {
   cursor: pointer;
-  color: var(--primary);
+  color: var(--mantine-primary-color-filled);
 }
 
 .xlink:hover {
@@ -111,38 +93,38 @@ table {
   border-radius: 8px;
   font-weight: 600;
   cursor: pointer;
-  border: 1px solid var(--border);
+  border: 1px solid var(--se-border);
   transition: all 0.2s ease;
-  background: var(--table-header-background);
-  color: var(--white);
+  background: color-mix(in srgb, var(--se-border) 60%, var(--se-card));
+  color: var(--se-text);
 }
 
 .button:hover {
-  background: var(--table-row-hover);
+  background: color-mix(in srgb, var(--se-border) 60%, var(--se-card));
   transform: translateY(-1px);
 }
 
 .button-selected {
-  background: var(--primary) !important;
-  color: var(--page-background) !important;
-  box-shadow: inset 0 0 0 2px var(--primary-hover), 0 0 15px var(--highlight);
+  background: var(--mantine-primary-color-filled) !important;
+  color: var(--se-page) !important;
+  box-shadow: inset 0 0 0 2px var(--mantine-primary-color-filled-hover), 0 0 15px color-mix(in srgb, var(--mantine-primary-color-filled) 27%, transparent);
 }
 
 .button-selected td,
 .button-selected td a {
-  color: var(--page-background) !important;
+  color: var(--se-page) !important;
   background: transparent !important;
 }
 
 .button-selected:hover {
-  background: var(--primary-hover) !important;
+  background: var(--mantine-primary-color-filled-hover) !important;
 }
 
 /* Form Inputs */
 .text-input, select {
-  background: var(--page-background);
-  border: 1px solid var(--border);
-  color: var(--white);
+  background: var(--se-page);
+  border: 1px solid var(--se-border);
+  color: var(--se-text);
   padding: 0.5rem;
   border-radius: 6px;
   outline: none;
@@ -150,12 +132,12 @@ table {
 }
 
 .text-input:focus {
-  border-color: var(--primary);
+  border-color: var(--mantine-primary-color-filled);
 }
 
 /* Section heading - matches the uppercase muted label style used elsewhere. */
 .section-heading {
-  color: var(--text-muted);
+  color: var(--se-muted);
   text-transform: uppercase;
   font-size: 0.85rem;
   font-weight: 700;
@@ -174,16 +156,16 @@ table {
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--page-background);
+  background: var(--se-page);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--border);
+  background: var(--se-border);
   border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--text-muted);
+  background: var(--se-muted);
 }
 
 .dm-swatch { width: 11px; height: 11px; border-radius: 3px; flex-shrink: 0; display: inline-block; }

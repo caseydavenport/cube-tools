@@ -150,7 +150,7 @@ export function SynergyFocalCompare({ synergyCompare, cube, onCardSelected }) {
         <div className="widget-scroll">
           <table className="widget-table">
             <thead className="table-header">
-              <tr><td colSpan="4" className="header-cell" style={{textAlign: "center", fontWeight: "bold", background: "var(--primary)", color: "var(--page-background)"}}>{SYNERGY_COPY.focalCompare.tableTitle}</td></tr>
+              <tr><td colSpan="4" className="header-cell" style={{textAlign: "center", fontWeight: "bold", background: "var(--mantine-primary-color-filled)", color: "var(--se-page)"}}>{SYNERGY_COPY.focalCompare.tableTitle}</td></tr>
               <tr>
                 {headers.map((hdr, i) => {
                   const cell = (

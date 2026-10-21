@@ -205,7 +205,7 @@ export function Packages(props) {
                 </td>
                 <td style={{ textAlign: "right" }}>{s.package}</td>
                 <td style={{ textAlign: "right" }} title={COPY.tooltips.has3({ has3: s.has3, rate: pct(s.has3Rate) })}>
-                  {s.has3} <span style={{ color: "var(--text-muted)" }}>({pct(s.has3Rate)})</span>
+                  {s.has3} <span style={{ color: "var(--se-muted)" }}>({pct(s.has3Rate)})</span>
                 </td>
                 <td style={{ textAlign: "right", background: rateColor(s.commitmentRatio) }} title={COPY.tooltips.commitment}>
                   {s.commitmentRatio.toFixed(2)}

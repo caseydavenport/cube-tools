@@ -92,7 +92,7 @@ export function FocalPointsTable(input) {
             <tr className="widget-table-row" sort={stat.focal_score} key={i}>
               <td onClick={input.onCardSelected} id={stat.card_name}>{stat.card_name}</td>
               <td>{stat.focal_score.toFixed(2)}</td>
-              <td style={{"fontSize": "0.85em", "color": "var(--text-muted)"}}>{stat.top_partners.join(", ")}</td>
+              <td style={{"fontSize": "0.85em", "color": "var(--se-muted)"}}>{stat.top_partners.join(", ")}</td>
             </tr>
           )).sort(SortFunc)}
         </tbody>
@@ -110,5 +110,5 @@ export function deltaTextColor(delta) {
   if (delta < 0) {
     return "var(--se-bad)"
   }
-  return "var(--text-muted)"
+  return "var(--se-muted)"
 }

@@ -51,7 +51,7 @@ export function LinkEditModal({ link, color, groupNames, cardNames, groups, onSa
         display: "flex",
         flexDirection: "column",
       }}>
-        <h4 style={{color: "var(--text-muted)", margin: "0 0 0.5rem 0", fontSize: "1rem"}}>
+        <h4 style={{color: "var(--se-muted)", margin: "0 0 0.5rem 0", fontSize: "1rem"}}>
           {label}
           <span style={{fontWeight: "normal", fontSize: "0.85em", marginLeft: "0.5rem"}}>
             {loading ? "..." : `(${cards.length})`}
@@ -59,7 +59,7 @@ export function LinkEditModal({ link, color, groupNames, cardNames, groups, onSa
         </h4>
         <div style={{flex: 1, overflowY: "auto"}}>
           {cards.length === 0 && !loading && (
-            <p style={{color: "var(--text-muted)", fontSize: "0.85em", fontStyle: "italic"}}>
+            <p style={{color: "var(--se-muted)", fontSize: "0.85em", fontStyle: "italic"}}>
               {MAP_COPY.linkEdit.noMatchingCards}
             </p>
           )}
@@ -92,7 +92,7 @@ export function LinkEditModal({ link, color, groupNames, cardNames, groups, onSa
     <Modal opened onClose={onCancel} closeOnEscape={closeOnEscape} withCloseButton={false} centered size="auto" padding={0} radius="md">
       <div
         style={{
-          background: "var(--card-background)",
+          background: "var(--se-card)",
           borderRadius: "10px",
           border: `2px solid ${color}`,
           width: "min(1100px, 95vw)",
@@ -109,8 +109,8 @@ export function LinkEditModal({ link, color, groupNames, cardNames, groups, onSa
         <div style={{
           padding: "1.25rem",
           overflowY: "auto",
-          borderLeft: "1px solid var(--page-background)",
-          borderRight: "1px solid var(--page-background)",
+          borderLeft: "1px solid var(--se-page)",
+          borderRight: "1px solid var(--se-page)",
           display: "flex",
           flexDirection: "column",
         }}>
@@ -123,7 +123,7 @@ export function LinkEditModal({ link, color, groupNames, cardNames, groups, onSa
               key={wi}
               onClick={() => setActiveWire(wi)}
               style={{
-                border: `1px solid ${wi === activeWire ? color : "var(--page-background)"}`,
+                border: `1px solid ${wi === activeWire ? color : "var(--se-page)"}`,
                 borderRadius: "6px",
                 padding: "0.5rem 0.6rem",
                 marginBottom: "0.6rem",
@@ -132,7 +132,7 @@ export function LinkEditModal({ link, color, groupNames, cardNames, groups, onSa
             >
               {editWires.length > 1 && (
                 <div style={{display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "0.35rem"}}>
-                  <span style={{fontSize: "0.75em", fontWeight: "bold", color: wi === activeWire ? color : "var(--text-muted)"}}>
+                  <span style={{fontSize: "0.75em", fontWeight: "bold", color: wi === activeWire ? color : "var(--se-muted)"}}>
                     {MAP_COPY.linkEdit.wireTitle({ wire: wi + 1 })}
                   </span>
                   <ActionIcon variant="subtle" color="gray" size="sm" aria-label={MAP_COPY.linkEdit.removeWire}

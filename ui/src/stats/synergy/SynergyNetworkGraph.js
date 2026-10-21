@@ -390,9 +390,9 @@ export function SynergyNetworkGraph({ synergyData, cube, matchStr, onCardSelecte
         width={900}
         height={600}
         style={{
-          border: "1px solid var(--card-background)",
+          border: "1px solid var(--se-card)",
           borderRadius: "8px",
-          background: "var(--page-background)",
+          background: "var(--se-page)",
           maxWidth: "100%",
         }}
         onMouseMove={handleMouseMove}

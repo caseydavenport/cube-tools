@@ -25,6 +25,8 @@ function schemeVars(palette) {
     "--se-sidebar-to": palette.sidebarTo,
     "--se-good": palette.good,
     "--se-bad": palette.bad,
+    "--se-warn": palette.warn,
+    "--se-shadow": palette.shadow,
     "--se-shadow-pop": palette.shadowPop,
     "--mantine-color-body": palette.page,
     "--mantine-color-text": palette.text,
@@ -32,7 +34,7 @@ function schemeVars(palette) {
 }
 
 // cssVariablesResolver publishes the tokens as --se-* variables so plain CSS,
-// including the legacy bridge, can follow the active color scheme.
+// can follow the active color scheme.
 export function cssVariablesResolver() {
   return {
     variables: {

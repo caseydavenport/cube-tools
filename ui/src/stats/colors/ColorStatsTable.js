@@ -156,7 +156,7 @@ function WinPercentCell({ color }) {
   let style = undefined
   let verdict = COLORS_COPY.statsTable.distinguishable
   if (!color.significant) {
-    style = { color: "var(--text-muted)" }
+    style = { color: "var(--se-muted)" }
     verdict = COLORS_COPY.statsTable.notDistinguishable
   }
   const rows = [{
