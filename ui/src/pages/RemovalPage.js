@@ -48,7 +48,6 @@ const COPY = {
     avg: "Avg Δ",
   },
 
-  // draft: explainers for the table's column headers.
   columnTips: {
     cost: "Effective mana to cast the removal. A * marks an adjusted cost, such as delve, X, or a reduced or activated cost.",
     kind: "The way the card removes a creature.",

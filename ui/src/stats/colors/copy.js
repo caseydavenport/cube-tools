@@ -89,7 +89,6 @@ export const COLORS_COPY = {
     notDistinguishable: "not distinguishable from 50%",
     distinguishable: "distinguishable from 50%",
     winInterval: ({ low, high }) => `${low}–${high}%`,
-    // draft: label for the confidence interval row in the Win % popover.
     winIntervalLabel: "Win % interval",
 
     colorTypeLabel: "Color type",
@@ -144,7 +143,6 @@ export const COLORS_COPY = {
 
     cellTitle: ({ mine, opponent }) => `${mine} vs ${opponent}`,
     cellRecord: ({ wins, losses, total }) => `${wins}W - ${losses}L (${total} games)`,
-    // draft: label for the record row in a heatmap cell's popover.
     cellRecordLabel: "Record",
   },
 }

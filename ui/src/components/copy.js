@@ -12,7 +12,6 @@ export const COMPONENTS_COPY = {
     hasDeck: " (has a deck here)",
   },
   pillSearchInput: {
-    // draft: Casey to rewrite
     removePill: (term) => `Remove ${term}`,
   },
 }

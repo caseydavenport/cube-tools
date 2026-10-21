@@ -50,7 +50,6 @@ export const MAP_COPY = {
     captionGroup: ({ cards, group }) => `${cards} cards in ${group} · click a card`,
     captionCard: ({ cards, card }) => `${cards} cards linked to ${card}`,
     sharedRule: "shared rule",
-    // draft: the why-linked tip's title row and column names.
     between: "⇄",
     linkCount: ({ count }) => (count === 1 ? "1 link" : `${count} links`),
     cardGroups: ({ card }) => `${card}'s groups`,

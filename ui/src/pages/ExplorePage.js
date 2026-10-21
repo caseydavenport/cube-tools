@@ -133,7 +133,6 @@ const COPY = {
     winPct: "Win %",
     record: "Record",
     decks: "Decks",
-    // draft: explainers for the pivot table's column headers.
     winPctTip: "Share of games won by decks in this group. Tinted only when it can be told apart from a coin flip at the chosen confidence.",
     recordTip: "Games won, lost and drawn by decks in this group.",
     decksTip: "Number of decks in this group.",
@@ -653,7 +652,7 @@ function PivotLineChart({ result, groupBy, splitBy, metric }) {
   const yMax = metric === "win_pct" ? 100 : undefined
   const options = {
     responsive: true, maintainAspectRatio: false,
-    
+
     scales: {
       x: bucketXScale,
       y: { min: 0, max: yMax },

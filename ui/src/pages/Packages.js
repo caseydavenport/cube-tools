@@ -47,7 +47,6 @@ const COPY = {
     commitment: "Commitment",
   },
 
-  // draft: explainers for the table's column headers.
   columnTips: {
     buildRate: "Packages built divided by populated decks.",
     packages: "Decks where this label's cards clustered into a package of three or more cards.",

@@ -77,7 +77,6 @@ const COPY = {
     wins: "Wins",
     losses: "Losses",
     color: "Color",
-    // draft: explainers for the player tables' column headers.
     opponentWinPctTip: "Share of the player's games against this opponent that they won.",
     gamesTip: "Number of games the player has played against this opponent.",
     archBuildPctTip: "Share of the player's decks that were this archetype.",
