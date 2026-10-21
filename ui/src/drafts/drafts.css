@@ -9,10 +9,12 @@
   color: var(--se-text);
 }
 
+/* style-ok: overrides Mantine's markup */
 .draft-winner .mantine-Anchor-root {
   font-size: 14px;
 }
 
+/* style-ok: overrides Mantine's markup */
 .draft-winner .tabler-icon-trophy {
   color: var(--mantine-color-yellow-6);
 }

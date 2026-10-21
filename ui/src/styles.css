@@ -63,17 +63,6 @@ table {
   width: 100%;
 }
 
-/* Modern Card Frame */
-.player-frame {
-  background: var(--card-background);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 1.5rem;
-  margin: 0 0 1.5rem 0;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-  width: 100%;
-}
-
 .player-frame-title {
   color: var(--text-muted);
   text-transform: uppercase;
@@ -82,119 +71,6 @@ table {
   letter-spacing: 0.05em;
   display: block;
   margin-bottom: 0.25rem;
-}
-
-.player-frame-value {
-  color: var(--white);
-  font-size: 1.1rem;
-  font-weight: 500;
-}
-
-.stat-item {
-  display: flex;
-  flex-direction: column;
-}
-
-/* Deck summary: compact detail-pane header (identity, controls, metrics, matches) */
-.deck-summary {
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-  padding: 1rem 1.25rem;
-}
-
-.deck-summary-header {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.5rem 1rem;
-}
-
-.deck-summary-identity {
-  display: flex;
-  align-items: baseline;
-  flex-wrap: wrap;
-  gap: 0.6rem 0.9rem;
-}
-
-.deck-summary-name {
-  margin: 0;
-  color: var(--primary);
-  font-size: 1.2rem;
-  line-height: 1.1;
-}
-
-.deck-summary-name-input {
-  margin: 0;
-  font-size: 1.2rem;
-  line-height: 1.1;
-  color: var(--primary);
-  background: var(--page-background);
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  padding: 0.25rem 0.5rem;
-  outline: none;
-  transition: border-color 0.2s;
-}
-
-.deck-summary-name-input:focus {
-  border-color: var(--primary);
-}
-
-.deck-summary-record {
-  font-size: 1.15rem;
-  font-weight: 600;
-  color: var(--white);
-}
-
-.deck-summary-record .muted {
-  color: var(--text-muted);
-  font-weight: 500;
-  font-size: 0.95rem;
-}
-
-.deck-summary-controls {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 0.5rem 0.6rem;
-}
-
-.deck-summary-colors {
-  display: flex;
-  align-items: center;
-  gap: 0.25rem;
-  font-size: 1.2rem;
-  cursor: pointer;
-}
-
-.deck-summary-colors .caret {
-  font-size: 0.7rem;
-  opacity: 0.6;
-}
-
-.deck-summary-metrics {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 0.35rem 0.6rem;
-  color: var(--text-muted);
-  font-size: 0.9rem;
-}
-
-.deck-summary-metrics .metric strong {
-  color: var(--white);
-  font-weight: 600;
-}
-
-.deck-summary-metrics .metric.event {
-  font-size: 0.8rem;
-  opacity: 0.75;
-}
-
-.deck-summary-metrics .sep {
-  color: var(--border);
 }
 
 .mana-pip-bar {
@@ -226,85 +102,6 @@ table {
 
 .mana-pip-seg .mana-symbol {
   display: block;
-}
-
-.deck-summary-matches {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.4rem;
-}
-
-.match-pill {
-  background: var(--table-header-background);
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  padding: 0.25rem 0.7rem;
-  font-size: 0.8rem;
-}
-
-.match-pill.link {
-  cursor: pointer;
-  transition: border-color 0.15s ease, background 0.15s ease;
-}
-
-.match-pill.link:hover {
-  border-color: var(--primary);
-  background: var(--card-background);
-}
-
-.match-pill .round {
-  opacity: 0.6;
-  margin-right: 0.4rem;
-}
-
-.match-pill .opp {
-  font-weight: 600;
-  margin-right: 0.4rem;
-}
-
-.match-pill .opp.unknown {
-  font-style: italic;
-  opacity: 0.7;
-}
-
-.match-pill .res.win {
-  color: var(--success);
-}
-
-.match-pill .res.loss {
-  color: var(--danger);
-}
-
-.match-pill .score {
-  margin-left: 0.4rem;
-  opacity: 0.7;
-}
-
-.deck-summary-groups {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 0.4rem;
-}
-
-.deck-summary-groups-label {
-  color: var(--text-muted);
-  font-size: 0.8rem;
-  margin-right: 0.1rem;
-}
-
-.group-chip {
-  background: var(--table-header-background);
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  padding: 0.2rem 0.6rem;
-  font-size: 0.8rem;
-  cursor: default;
-}
-
-.group-chip-pct {
-  color: var(--text-muted);
-  margin-left: 0.2rem;
 }
 
 /* Cross-link cell: a table cell that navigates to a related record (e.g. an
@@ -350,21 +147,6 @@ table {
   background: var(--table-row-hover);
 }
 
-/* Landing page */
-.landing {
-  padding: 2rem;
-}
-
-.landing ul {
-  list-style: none;
-  padding: 0;
-}
-
-.landing li {
-  margin: 0.5rem 0;
-  font-size: 1.1rem;
-}
-
 .widget-table-row td {
   padding: 0 1rem;
   font-size: 0.95rem;
@@ -395,8 +177,6 @@ table {
   box-shadow: inset 0 0 0 2px var(--primary-hover), 0 0 15px var(--highlight);
 }
 
-.button-selected .deck-meta-table,
-.button-selected .deck-entry,
 .button-selected td,
 .button-selected td a {
   color: var(--page-background) !important;
@@ -408,7 +188,7 @@ table {
 }
 
 /* Form Inputs */
-.text-input, .numeric-input, select {
+.text-input, select {
   background: var(--page-background);
   border: 1px solid var(--border);
   color: var(--white);
@@ -418,7 +198,7 @@ table {
   transition: border-color 0.2s;
 }
 
-.text-input:focus, .numeric-input:focus {
+.text-input:focus {
   border-color: var(--primary);
 }
 
@@ -427,34 +207,11 @@ table {
   padding-top: 1rem;
 }
 
-/* Selector Bar Layout */
-.selectorbar {
-  background: var(--card-background);
-  padding: 1.5rem;
-  border-radius: 12px;
-  margin: 0 auto 1rem;
-  max-width: 1400px;
-  border: 1px solid var(--border);
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-
-  /* Travels with the page so the filters/dates stay reachable while scrolling. */
-  position: sticky;
-  top: 0;
-  z-index: 100;
-}
-
 .selector-group {
   display: flex;
   flex-wrap: wrap;
   gap: 1rem;
   align-items: center;
-}
-
-.search-group {
-  width: 100%;
 }
 
 /* Shared Analyze page shell. Every Analyze page lives in this centered column
@@ -566,19 +323,6 @@ table {
   background: var(--highlight);
 }
 
-.navigation-group {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-top: 1px solid var(--border);
-  padding-top: 1rem;
-}
-
-.nav-buttons {
-  display: flex;
-  gap: 0.5rem;
-}
-
 .search-bar-container {
   width: 100%;
   position: relative;
@@ -641,47 +385,10 @@ table {
   font-style: italic;
 }
 
-.search-bar {
-  width: 100%;
-  background: var(--page-background);
-  border: 1px solid var(--border);
-  color: var(--white);
-  padding: 0.75rem 1rem;
-  border-radius: 8px;
-  font-size: 1rem;
-}
-
-.search-bar:focus {
-  border-color: var(--primary);
-  box-shadow: 0 0 0 2px var(--highlight);
-  outline: none;
-}
-
 .dropdown {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-}
-
-.date-selector input {
-  background: var(--page-background);
-  border: 1px solid var(--border);
-  color: var(--white);
-  padding: 0.5rem;
-  border-radius: 6px;
-  outline: none;
-  transition: all 0.2s ease;
-  font-family: inherit;
-}
-
-.date-selector input:focus {
-  border-color: var(--primary);
-  box-shadow: 0 0 0 2px var(--highlight);
-}
-
-.date-selector input::-webkit-calendar-picker-indicator {
-  filter: invert(1);
-  cursor: pointer;
 }
 
 /* Charts */
@@ -712,11 +419,6 @@ table {
 .house-for-widgets {
   display: block;
   padding: 1rem;
-}
-
-.scroll-container-large {
-  width: 95%;
-  margin: 1rem auto;
 }
 
 .scroll-container-large-header {
@@ -756,46 +458,10 @@ table {
   z-index: 10;
 }
 
-.deck-entry {
-  background-color: var(--background-color);
-}
-
-.deck-entry:hover {
-  background: var(--table-row-hover);
-}
-
-/* Archetype Widget Layout */
-.archetype-container {
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
-  padding: 1rem;
-}
-
-.archetype-top-section {
-  display: flex;
-  gap: 1.5rem;
-  align-items: flex-start;
-}
-
-.archetype-stats-wrapper { flex: 2; }
-.archetype-cards-wrapper { flex: 1.5; }
-.archetype-details-wrapper { flex: 1; }
-
-.archetype-charts-section {
-  display: flex;
-  flex-direction: column;
-  gap: 3rem;
-}
-
-.chart-grid, .matchup-section, .pie-section, .micro-archetype-section {
+.chart-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(min(400px, 100%), 1fr));
   gap: 2rem;
-}
-
-.pie-section {
-  grid-template-columns: repeat(2, 1fr);
 }
 
 .widget-scroll {
@@ -803,130 +469,6 @@ table {
   overflow-y: auto;
   border: 1px solid var(--border);
   border-radius: 12px;
-}
-
-/* Deck Viewer Layout */
-.deck-viewer-container {
-  display: flex;
-  gap: 1.5rem;
-  padding: 1rem;
-  height: calc(100vh - 200px); /* Adjust based on header/selector height */
-  overflow: hidden;
-}
-
-.deck-list-sidebar {
-  flex: 0 0 550px;
-  overflow-y: auto;
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  background: var(--card-background);
-}
-
-.deck-main-content {
-  flex: 1;
-  overflow-y: auto;
-  padding-right: 1rem;
-}
-
-/* Browse master-detail shell. Shared by Decklists, Drafts, and Players.
-   Mirrors the Analyze shell's centered column and primitives, but arranges an
-   index rail beside a detail pane instead of stacked sections. */
-.browse-page {
-  max-width: 1400px;
-  margin: 0 auto;
-  padding: 0 1rem 1rem;
-}
-
-/* Light sticky filter header - only browse-relevant controls (search, dates,
-   and per-page selectors), not the Analyze chart-tuning controls. */
-.browse-filters {
-  background: var(--card-background);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 1rem 1.5rem;
-  margin: 1rem 0;
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  position: sticky;
-  top: 0;
-  z-index: 100;
-}
-
-/* Index rail beside the detail pane; each scrolls independently. */
-.browse-body {
-  display: flex;
-  gap: 1.5rem;
-  height: calc(100vh - 220px);
-}
-
-.browse-index {
-  flex: 0 0 480px;
-  overflow-y: auto;
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  background: var(--card-background);
-}
-
-.browse-detail {
-  flex: 1;
-  overflow-y: auto;
-  padding-right: 1rem;
-}
-
-/* Stacked variant (Decklists): index full-width on top, detail full-width
-   below. The detail holds the card-columns-by-mana-value explorer; stacking
-   gives it the full column width so all columns fit without scrolling
-   sideways. Keeps the same centered 1400px column as the other Browse pages. */
-.browse-stacked .browse-body {
-  flex-direction: column;
-  height: auto;
-}
-
-.browse-stacked .browse-index {
-  flex: 0 0 auto;
-  max-height: 60vh;
-}
-
-/* Collapsible deck list. The header is a sticky toggle bar; the body slides
-   open/closed via the grid-rows 1fr<->0fr trick (animatable, unlike height:auto). */
-.decklist-index-header {
-  background: var(--table-header-background);
-  color: var(--text-muted);
-  text-align: center;
-  padding: 1rem;
-  font-weight: 600;
-  font-size: 0.875rem;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  cursor: pointer;
-  position: sticky;
-  top: 0;
-  z-index: 2;
-  border-bottom: 1px solid var(--border);
-}
-
-.decklist-index-header .caret {
-  margin-right: 0.5rem;
-}
-
-.decklist-index-body {
-  display: grid;
-  grid-template-rows: 1fr;
-  transition: grid-template-rows 0.45s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.decklist-index-body.collapsed {
-  grid-template-rows: 0fr;
-}
-
-.decklist-index-body-inner {
-  overflow: hidden;
-  min-height: 0;
-}
-
-.browse-stacked .browse-detail {
-  overflow-y: visible;
 }
 
 /* Placeholder shown in the detail pane before a record is selected. */
@@ -937,11 +479,6 @@ table {
   height: 100%;
   color: var(--text-muted);
   font-size: 1.1rem;
-}
-
-.filtered-decks {
-  width: 100%;
-  max-height: none;
 }
 
 .widget-table-row {
@@ -1090,12 +627,6 @@ table {
   color: var(--page-background) !important;
 }
 
-.flex-column-gap {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-}
-
 .deck-images-columns {
   display: flex;
   flex-direction: row;
@@ -1143,45 +674,6 @@ table {
 .card-stack-item:hover {
   transform: translateY(-10px);
   z-index: 100;
-}
-
-/* Popover / Tooltip Styling */
-.popover {
-  background-color: var(--card-background) !important;
-  border: 1px solid var(--border) !important;
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.2);
-  max-width: 400px;
-}
-
-.popover-header {
-  background-color: var(--page-background) !important;
-  color: var(--primary) !important;
-  border-bottom: 1px solid var(--border) !important;
-  font-weight: 700 !important;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  font-size: 0.875rem;
-}
-
-.popover-body {
-  color: var(--white) !important;
-  background-color: var(--card-background) !important;
-}
-
-.bs-popover-top > .popover-arrow::after, .bs-popover-auto[data-popper-placement^="top"] > .popover-arrow::after {
-  border-top-color: var(--card-background) !important;
-}
-
-.bs-popover-bottom > .popover-arrow::after, .bs-popover-auto[data-popper-placement^="bottom"] > .popover-arrow::after {
-  border-bottom-color: var(--page-background) !important;
-}
-
-.bs-popover-start > .popover-arrow::after, .bs-popover-auto[data-popper-placement^="left"] > .popover-arrow::after {
-  border-left-color: var(--card-background) !important;
-}
-
-.bs-popover-end > .popover-arrow::after, .bs-popover-auto[data-popper-placement^="right"] > .popover-arrow::after {
-  border-right-color: var(--card-background) !important;
 }
 
 
@@ -1432,16 +924,6 @@ table {
 .ocr-thumbs button:hover { transform: translateY(-2px); }
 .ocr-thumbs button.active { border-color: var(--primary); box-shadow: 0 0 0 1px var(--primary); }
 .ocr-thumbs img { width: 84px; display: block; }
-
-.ocr-progress {
-  font-size: 0.85em; color: var(--text-muted); margin-bottom: 12px;
-  display: inline-flex; align-items: center; gap: 8px;
-}
-.ocr-progress::before {
-  content: ""; width: 10px; height: 10px; border-radius: 50%;
-  border: 2px solid var(--primary); border-top-color: transparent;
-  animation: ocr-spin 0.7s linear infinite;
-}
 @keyframes ocr-spin { to { transform: rotate(360deg); } }
 
 /* card-style right panel */
@@ -1982,15 +1464,6 @@ table {
   gap: 0.5rem;
   align-items: center;
 }
-.predicate-remove {
-  background: none;
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  color: var(--text-muted);
-  cursor: pointer;
-  padding: 0.15rem 0.5rem;
-}
-.predicate-remove:hover { color: #dc3545; border-color: #dc3545; }
 .predicate-add { align-self: flex-start; }
 
 /* Explore player filter: checkbox chips to opt players in/out of the aggregate. */
@@ -2014,25 +1487,7 @@ table {
   max-height: 132px;
   overflow-y: auto;
 }
-.player-chip {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.3rem;
-  font-size: 0.85rem;
-  padding: 0.1rem 0.4rem;
-  border-radius: 6px;
-  cursor: pointer;
-  white-space: nowrap;
-}
-.player-chip.excluded { opacity: 0.45; text-decoration: line-through; }
-.player-chip input { cursor: pointer; }
 .player-count { color: var(--text-muted); font-size: 0.75rem; }
-
-/* Compact key/value table used inside Cards page hover popovers. */
-.popover-table { border-collapse: collapse; width: 100%; }
-.popover-table td { padding: 2px 0; font-size: 0.85rem; }
-.popover-table-label { color: var(--text-muted); padding-right: 1.25rem !important; }
-.popover-table-value { text-align: right; font-weight: 600; }
 
 /* Cards table: link to the decks that mainboarded a card. */
 .deck-link { color: var(--text-muted); text-decoration: none; font-size: 0.9em; }
@@ -2311,6 +1766,7 @@ table {
   display: flex; flex-wrap: wrap; gap: 0.35rem; margin-left: 2.3rem;
   max-height: 240px; overflow-y: auto;
 }
+/* style-ok: overrides Mantine's markup */
 .de-chip .mantine-Button-label { gap: 0.4rem; }
 .de-chip-sub { color: var(--danger); font-size: 0.72rem; }
 

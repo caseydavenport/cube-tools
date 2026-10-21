@@ -87,6 +87,7 @@
   padding: 6px 8px;
 }
 
+/* style-ok: overrides Mantine's markup */
 .se-item .mantine-NavLink-section[data-position="left"] {
   margin-inline-end: 10px;
 }
@@ -119,10 +120,12 @@
   padding-right: 0;
 }
 
+/* style-ok: overrides Mantine's markup */
 .se-collapsed .se-item .mantine-NavLink-section {
   margin: 0;
 }
 
+/* style-ok: overrides Mantine's markup */
 .se-collapsed .se-item .mantine-NavLink-body {
   display: none;
 }
