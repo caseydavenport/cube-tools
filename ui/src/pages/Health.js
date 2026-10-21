@@ -13,7 +13,7 @@ import {
 import { Line } from 'react-chartjs-2';
 import { bucketXScale } from "../utils/Buckets.js";
 import { EmptyState } from "../components/kit/EmptyState.js"
-import { seriesColor } from "../theme/chartTheme.js"
+import { chartTooltip, currentChartTheme, seriesColor } from "../theme/chartTheme.js"
 import { visibleItems } from "../utils/dataKinds.js"
 
 ChartJS.register(
@@ -162,11 +162,11 @@ function HealthChart({ labels, data, title, color, min, max, description }) {
       legend: {
         display: false,
       },
-      tooltip: {
+      tooltip: chartTooltip(currentChartTheme(), {
         callbacks: {
           footer: () => description,
         },
-      },
+      }),
     },
   };
 

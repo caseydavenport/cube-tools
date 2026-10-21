@@ -4,6 +4,7 @@ import { IconRefresh } from "@tabler/icons-react"
 import { useCube } from "../contexts/CubeContext.js"
 import { DropdownHeader, NumericInput, Button } from "../components/Dropdown.js"
 import { PillSearchInput } from "../components/PillSearchInput.js"
+import { HoverInfo } from "../components/kit/HoverInfo.js"
 import { SectionCard } from "../components/kit/SectionCard.js"
 import { SettingsPopover } from "../components/kit/SettingsPopover.js"
 import { DateRangeMenu } from "../toolbar/DateRangeMenu.js"
@@ -131,6 +132,10 @@ const COPY = {
     winPct: "Win %",
     record: "Record",
     decks: "Decks",
+    // draft: explainers for the pivot table's column headers.
+    winPctTip: "Share of games won by decks in this group. Tinted only when it can be told apart from a coin flip at the chosen confidence.",
+    recordTip: "Games won, lost and drawn by decks in this group.",
+    decksTip: "Number of decks in this group.",
   },
 
   tooltip: {
@@ -529,9 +534,9 @@ function PivotTable({ result, groupBy, metric, confidence }) {
           <thead>
             <tr>
               <td className="header-cell">{groupLabel(groupBy.dim)}</td>
-              <td className="header-cell">{COPY.pivotTable.winPct}</td>
-              <td className="header-cell">{COPY.pivotTable.record}</td>
-              <td className="header-cell">{COPY.pivotTable.decks}</td>
+              <HoverInfo title={COPY.pivotTable.winPct} info={COPY.pivotTable.winPctTip}><td className="header-cell">{COPY.pivotTable.winPct}</td></HoverInfo>
+              <HoverInfo title={COPY.pivotTable.record} info={COPY.pivotTable.recordTip}><td className="header-cell">{COPY.pivotTable.record}</td></HoverInfo>
+              <HoverInfo title={COPY.pivotTable.decks} info={COPY.pivotTable.decksTip}><td className="header-cell">{COPY.pivotTable.decks}</td></HoverInfo>
             </tr>
           </thead>
           <tbody>

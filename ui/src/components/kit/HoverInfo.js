@@ -59,15 +59,8 @@ export function useEscapeToClose() {
 export function HoverInfo({ title, info, width, position = "top", lead, badge, children }) {
   const escape = useEscapeToClose()
 
-  // Mantine gives the target the card's id, so pass the child's own id through.
-  // Sortable headers and clickable cells read it back on click.
-  let id = undefined
-  if (children && children.props && children.props.id) {
-    id = String(children.props.id)
-  }
-
   return (
-    <HoverCard {...HOVER_PROPS} {...escape} id={id} width={width} position={position} withArrow classNames={popClasses(width, info)}>
+    <HoverCard {...HOVER_PROPS} {...escape} id={targetId(children)} width={width} position={position} withArrow classNames={popClasses(width, info)}>
       <HoverCard.Target>{markTarget(children, info)}</HoverCard.Target>
       <HoverCard.Dropdown>
         <PopTitle title={title} lead={lead} badge={badge} />
@@ -75,6 +68,16 @@ export function HoverInfo({ title, info, width, position = "top", lead, badge, c
       </HoverCard.Dropdown>
     </HoverCard>
   )
+}
+
+// targetId returns the child's own id as a string, or undefined. Mantine gives
+// a hover target the card's id, so each hover passes the child's through:
+// sortable headers and clickable cells read it back on click.
+export function targetId(child) {
+  if (child && child.props && child.props.id) {
+    return String(child.props.id)
+  }
+  return undefined
 }
 
 // popClasses gives the kit-pop shell, plus kit-pop-prose to wrap plain text

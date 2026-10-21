@@ -166,6 +166,9 @@ export const ARCHETYPES_COPY = {
     playedBy: "Played By",
     playedByPlayer: "Player",
     countHeader: "#",
+    // draft: explainers for the "#" header of the Paired With and Played By tables.
+    pairedCountTip: "Number of decks of the selected archetype or tag that also carry the paired archetype.",
+    playedByCountTip: "Number of decks of the selected archetype or tag that this player built.",
   },
 
   // WinsByMatchup.js: the chart title and series labels.

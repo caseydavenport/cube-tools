@@ -46,6 +46,14 @@ const COPY = {
     commitment: "Commitment",
   },
 
+  // draft: explainers for the table's column headers.
+  columnTips: {
+    buildRate: "Packages built divided by populated decks.",
+    packages: "Decks where this label's cards clustered into a package of three or more cards.",
+    has3: "Decks carrying at least three cards that touch this label.",
+    commitment: "Package decks divided by has-3 decks: how often the cards, once present, form a package.",
+  },
+
   tooltips: {
     buildRate: ({ packages, populated, level, rate, low, high }) =>
       `${packages} of ${populated} populated decks built this package\n` +
@@ -161,8 +169,8 @@ export function Packages(props) {
   const rows = [...(data.packages || [])].sort(compareBy(sortVal[sort.key], sort.dir))
 
   // header is one column's sortable header cell.
-  function header(key, label, numeric = true) {
-    return <SortHeader sortKey={key} label={label} sort={sort} setSort={setSort} numeric={numeric} />
+  function header(key, label, tip, numeric = true) {
+    return <SortHeader sortKey={key} label={label} tip={tip} sort={sort} setSort={setSort} numeric={numeric} />
   }
 
   const summary = (
@@ -181,11 +189,11 @@ export function Packages(props) {
         <table className="widget-table" style={{ width: "100%" }}>
           <thead>
             <tr>
-              {header("label", COPY.columns.label, false)}
-              {header("buildRate", COPY.columns.buildRate)}
-              {header("package", COPY.columns.packages)}
-              {header("has3", COPY.columns.has3)}
-              {header("commitmentRatio", COPY.columns.commitment)}
+              {header("label", COPY.columns.label, undefined, false)}
+              {header("buildRate", COPY.columns.buildRate, COPY.columnTips.buildRate)}
+              {header("package", COPY.columns.packages, COPY.columnTips.packages)}
+              {header("has3", COPY.columns.has3, COPY.columnTips.has3)}
+              {header("commitmentRatio", COPY.columns.commitment, COPY.columnTips.commitment)}
             </tr>
           </thead>
           <tbody>

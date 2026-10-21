@@ -3,6 +3,7 @@
 import React from 'react'
 import { DropdownHeader } from "../../components/Dropdown.js"
 import { HoverInfo } from "../../components/kit/HoverInfo.js"
+import { HoverStats } from "../../components/kit/HoverStats.js"
 import { asEvent } from "../../components/kit/controls.js"
 import { Group, SegmentedControl } from "@mantine/core"
 import { ColorImages, CUBE_AVG_WIN_PERCENT } from "../../utils/Colors.js"
@@ -148,26 +149,30 @@ function winningPercentText(color) {
 // WinPercentCell shows a color's win rate, greyed when it can't be told apart
 // from a coin flip, with the confidence interval on hover.
 function WinPercentCell({ color }) {
-  const hasCI = color.win_percent_low != null
-
-  let style = undefined
-  let title = undefined
-  if (hasCI) {
-    if (!color.significant) {
-      style = { color: "var(--text-muted)" }
-    }
-    let verdict = COLORS_COPY.statsTable.notDistinguishable
-    if (color.significant) {
-      verdict = COLORS_COPY.statsTable.distinguishable
-    }
-    title = COLORS_COPY.statsTable.winInterval({
-      low: color.win_percent_low.toFixed(0),
-      high: color.win_percent_high.toFixed(0),
-      verdict: verdict,
-    })
+  const text = color.win_percent.toFixed(0) + "%"
+  if (color.win_percent_low == null) {
+    return <td>{text}</td>
   }
 
-  return <td style={style} title={title}>{color.win_percent.toFixed(0)}%</td>
+  let style = undefined
+  let verdict = COLORS_COPY.statsTable.distinguishable
+  if (!color.significant) {
+    style = { color: "var(--text-muted)" }
+    verdict = COLORS_COPY.statsTable.notDistinguishable
+  }
+  const rows = [{
+    label: COLORS_COPY.statsTable.winIntervalLabel,
+    value: COLORS_COPY.statsTable.winInterval({
+      low: color.win_percent_low.toFixed(0),
+      high: color.win_percent_high.toFixed(0),
+    }),
+  }]
+
+  return (
+    <HoverStats rows={rows} footer={verdict}>
+      <td style={style}>{text}</td>
+    </HoverStats>
+  )
 }
 
 // DeltaCell shows a color's win rate above or below the cube average, signed

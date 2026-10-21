@@ -2,7 +2,7 @@
 
 import React from 'react'
 import { Scatter } from 'react-chartjs-2'
-import { currentChartTheme, withAlpha } from "../../theme/chartTheme.js"
+import { chartTooltip, currentChartTheme, withAlpha } from "../../theme/chartTheme.js"
 import { cardDisplayColor, cardInColors, colorsFromMatch, pointOutline } from "./synergyHelpers.js"
 import { ChartTitle } from "./synergyParts.js"
 import { SYNERGY_COPY } from "./copy.js"
@@ -191,7 +191,7 @@ export function SynergyScatter({ synergyData, cube, matchStr, onCardSelected }) 
     },
     plugins: {
       legend: { display: false },
-      tooltip: {
+      tooltip: chartTooltip(currentChartTheme(), {
         callbacks: {
           label: (item) => {
             const p = points[item.dataIndex];
@@ -209,7 +209,7 @@ export function SynergyScatter({ synergyData, cube, matchStr, onCardSelected }) 
             });
           },
         },
-      },
+      }),
     },
   };
 

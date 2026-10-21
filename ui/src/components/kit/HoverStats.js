@@ -3,8 +3,8 @@
 
 import React from "react"
 import { HoverCard } from "@mantine/core"
-import { HOVER_PROPS, POP_CLASSES, PopTitle, useEscapeToClose } from "./HoverInfo.js"
-import { meterWidth, toneClass } from "./hoverStats.js"
+import { HOVER_PROPS, POP_CLASSES, PopTitle, targetId, useEscapeToClose } from "./HoverInfo.js"
+import { meterWidth, toneClass } from "./hoverStatsHelpers.js"
 
 // HoverStats shows rows of numbers while the pointer rests on its child. Each
 // row is { label, value, tone, share, ends }: tone "good" or "bad" tints the
@@ -14,7 +14,7 @@ export function HoverStats({ title, lead, badge, rows = [], footer, width, posit
   const escape = useEscapeToClose()
 
   return (
-    <HoverCard {...HOVER_PROPS} {...escape} width={width} position={position} withArrow classNames={POP_CLASSES}>
+    <HoverCard {...HOVER_PROPS} {...escape} id={targetId(children)} width={width} position={position} withArrow classNames={POP_CLASSES}>
       <HoverCard.Target>{children}</HoverCard.Target>
       <HoverCard.Dropdown>
         <PopTitle title={title} lead={lead} badge={badge} />

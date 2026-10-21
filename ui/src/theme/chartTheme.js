@@ -17,7 +17,8 @@ export function withAlpha(hex, alpha) {
 }
 
 // chartThemeFor returns the colors charts use in one color scheme: text,
-// muted text, the page background (for halos behind canvas labels), grid
+// muted text, the page background (for halos behind canvas labels), the card
+// and border colors (for tooltips), grid
 // lines, the emphasized zero line, and the good/bad colors as solid lines and
 // as bar fills.
 export function chartThemeFor(scheme) {
@@ -30,6 +31,8 @@ export function chartThemeFor(scheme) {
     text: tokens.text,
     muted: tokens.muted,
     background: tokens.page,
+    card: tokens.card,
+    border: tokens.border,
     grid: withAlpha(tokens.text, 0.1),
     zeroLine: withAlpha(tokens.text, 0.5),
     good: tokens.good,
@@ -37,6 +40,39 @@ export function chartThemeFor(scheme) {
     goodFill: withAlpha(tokens.good, 0.85),
     badFill: withAlpha(tokens.bad, 0.85),
   }
+}
+
+// chartTooltip builds a Chart.js plugins.tooltip config that matches the
+// popover shell: card background, border, 10px corners, a weight-600 title in
+// the text color and a muted body. overrides, such as a chart's callbacks, are
+// merged on top. An override object (callbacks, titleFont) is merged one level
+// deep, so it adds to the theme's setting instead of replacing it.
+export function chartTooltip(theme, overrides = {}) {
+  const tooltip = {
+    backgroundColor: theme.card,
+    borderColor: theme.border,
+    borderWidth: 1,
+    cornerRadius: 10,
+    padding: 10,
+    titleColor: theme.text,
+    titleFont: { weight: 600 },
+    bodyColor: theme.muted,
+    footerColor: theme.muted,
+  }
+
+  for (const [key, value] of Object.entries(overrides)) {
+    if (isPlainObject(value) && isPlainObject(tooltip[key])) {
+      tooltip[key] = { ...tooltip[key], ...value }
+    } else {
+      tooltip[key] = value
+    }
+  }
+  return tooltip
+}
+
+// isPlainObject reports whether value is a plain {} object, not an array or null.
+function isPlainObject(value) {
+  return value !== null && typeof value === "object" && !Array.isArray(value)
 }
 
 // seriesColor picks the color for the index-th line or bar series in a chart
@@ -97,10 +133,43 @@ export function applyChartTheme(chartJS, scheme) {
 
   chartJS.defaults.color = theme.text
   chartJS.defaults.borderColor = theme.grid
+  const previousTooltip = { ...tooltipDefaults(chartJS) }
+  Object.assign(tooltipDefaults(chartJS), chartTooltip(theme))
 
   for (const chart of Object.values(chartJS.instances)) {
     recolorScales(chart, previous, theme)
+    recolorTooltip(chart, previousTooltip, theme)
     chart.update("none")
+  }
+}
+
+// tooltipDefaults returns Chart.js's default tooltip settings object, creating
+// it when chartJS has none (as in the test fake), so charts with no tooltip
+// config of their own still get the popover look.
+function tooltipDefaults(chartJS) {
+  if (!chartJS.defaults.plugins) {
+    chartJS.defaults.plugins = {}
+  }
+  if (!chartJS.defaults.plugins.tooltip) {
+    chartJS.defaults.plugins.tooltip = {}
+  }
+  return chartJS.defaults.plugins.tooltip
+}
+
+// recolorTooltip swaps the old scheme's tooltip colors in a chart that built
+// its tooltip through chartTooltip, so it follows a scheme switch without a
+// re-render. previous holds a copy of the tooltip defaults before the switch.
+function recolorTooltip(chart, previous, theme) {
+  const plugins = chart.config && chart.config.options && chart.config.options.plugins
+  if (!plugins || !plugins.tooltip) {
+    return
+  }
+
+  const next = chartTooltip(theme)
+  for (const key of ["backgroundColor", "borderColor", "titleColor", "bodyColor", "footerColor"]) {
+    if (plugins.tooltip[key] === previous[key]) {
+      plugins.tooltip[key] = next[key]
+    }
   }
 }
 

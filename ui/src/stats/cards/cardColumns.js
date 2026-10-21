@@ -3,6 +3,7 @@
 
 import React from 'react'
 import { HoverInfo } from "../../components/kit/HoverInfo.js"
+import { HoverStats } from "../../components/kit/HoverStats.js"
 import { ColorImages } from "../../utils/Colors.js"
 import { CardMainboardTooltipContent } from "./CardTooltip.js"
 import { CARDS_COPY } from "./copy.js"
@@ -136,7 +137,7 @@ function deckLinkHref(card, input) {
 // link that opens the decks which mainboarded the card in a new tab.
 function cardNameCell(card, input, key) {
   return (
-    <HoverInfo key={key} title={CARDS_COPY.columns.playedByTitle} info={CardMainboardTooltipContent(card, input.info)} position="right">
+    <HoverInfo key={key} title={CARDS_COPY.columns.playedByTitle} info={<CardMainboardTooltipContent card={card} info={input.info} />} position="right">
       <td id={card.name} onClick={input.onCardSelected}>
         <a href={card.url} target="_blank" rel="noopener noreferrer">{card.name}</a>
         {" "}
@@ -153,40 +154,24 @@ function valueCell(card, input, key, value) {
   return <td key={key} id={card.name} onClick={input.onCardSelected}>{value}</td>
 }
 
-// popoverValueCell is a clickable value cell with an on-hover detail popover.
-function popoverValueCell(card, input, key, value, title, body) {
+// statsValueCell is a clickable value cell with an on-hover popover of
+// label-and-value rows.
+function statsValueCell(card, input, key, value, title, rows) {
   return (
-    <HoverInfo key={key} title={title} info={body}>
+    <HoverStats key={key} title={title} rows={rows}>
       <td id={card.name} onClick={input.onCardSelected}>{value}</td>
-    </HoverInfo>
+    </HoverStats>
   )
 }
 
 // deckPctCell shows mainboard rate, with exact mainboard/sideboard counts on hover.
-// popoverTable renders label/value rows as a compact two-column table for
-// popover bodies.
-function popoverTable(rows) {
-  return (
-    <table className="popover-table">
-      <tbody>
-        {rows.map(([label, value], i) => (
-          <tr key={i}>
-            <td className="popover-table-label">{label}</td>
-            <td className="popover-table-value">{value}</td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
-  )
-}
-
 function deckPctCell(card, input, key) {
-  const body = popoverTable([
-    [CARDS_COPY.columns.mainboarded, card.mainboard],
-    [CARDS_COPY.columns.sideboarded, card.sideboard],
-    [CARDS_COPY.columns.playableSideboard, card.playable_sideboard],
-  ])
-  return popoverValueCell(card, input, key, `${card.mainboard_percent.toFixed(0)}%`, CARDS_COPY.columns.boardCountsTitle, body)
+  const rows = [
+    { label: CARDS_COPY.columns.mainboarded, value: card.mainboard },
+    { label: CARDS_COPY.columns.sideboarded, value: card.sideboard },
+    { label: CARDS_COPY.columns.playableSideboard, value: card.playable_sideboard },
+  ]
+  return statsValueCell(card, input, key, `${card.mainboard_percent.toFixed(0)}%`, CARDS_COPY.columns.boardCountsTitle, rows)
 }
 
 // winPctCell shows win rate next to its Wilson confidence interval, muted when
@@ -197,17 +182,16 @@ function winPctCell(card, input, key) {
   const confPct = Math.round(parseFloat(input.winConfidence || "0.8") * 100)
 
   const rows = [
-    [CARDS_COPY.columns.record, `${card.wins}-${card.losses}-${card.draws}`],
-    [CARDS_COPY.columns.winPercent, `${card.win_percent.toFixed(0)}%`],
+    { label: CARDS_COPY.columns.record, value: `${card.wins}-${card.losses}-${card.draws}` },
+    { label: CARDS_COPY.columns.winPercent, value: `${card.win_percent.toFixed(0)}%`, share: card.win_percent / 100 },
   ]
   if (hasCI) {
-    rows.push([CARDS_COPY.columns.interval(confPct), `${card.win_percent_low.toFixed(0)}% – ${card.win_percent_high.toFixed(0)}%`])
-    rows.push([CARDS_COPY.columns.beatsCoinFlip, card.significant ? CARDS_COPY.columns.yes : CARDS_COPY.columns.no])
+    rows.push({ label: CARDS_COPY.columns.interval(confPct), value: `${card.win_percent_low.toFixed(0)}% – ${card.win_percent_high.toFixed(0)}%` })
+    rows.push({ label: CARDS_COPY.columns.beatsCoinFlip, value: card.significant ? CARDS_COPY.columns.yes : CARDS_COPY.columns.no })
   }
-  rows.push([CARDS_COPY.columns.trophies, card.trophies])
-  rows.push([CARDS_COPY.columns.lastPlace, card.last_place])
-  rows.push([CARDS_COPY.columns.percentOfWins, `${card.percent_of_wins.toFixed(0)}%`])
-  const body = popoverTable(rows)
+  rows.push({ label: CARDS_COPY.columns.trophies, value: card.trophies })
+  rows.push({ label: CARDS_COPY.columns.lastPlace, value: card.last_place })
+  rows.push({ label: CARDS_COPY.columns.percentOfWins, value: `${card.percent_of_wins.toFixed(0)}%`, share: card.percent_of_wins / 100 })
 
   // A non-significant win rate is greyed so the eye skips the coin-flips. The
   // interval itself lives in the hover popover to keep the column uncluttered.
@@ -217,7 +201,7 @@ function winPctCell(card, input, key) {
       {card.win_percent.toFixed(0)}%
     </span>
   )
-  return popoverValueCell(card, input, key, value, CARDS_COPY.columns.winDetailTitle, body)
+  return statsValueCell(card, input, key, value, CARDS_COPY.columns.winDetailTitle, rows)
 }
 
 // deltaExpCell shows Win% minus expected Win%, coloured. Blank when there's no

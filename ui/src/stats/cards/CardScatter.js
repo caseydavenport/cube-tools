@@ -7,7 +7,7 @@ import { availableValue, hasData, visibleItems } from "../../utils/dataKinds.js"
 import { CUBE_AVG_WIN_PERCENT } from "../../utils/Colors.js"
 import { largeTicks } from "../../utils/Buckets.js"
 import { Scatter } from 'react-chartjs-2'
-import { currentChartTheme, deltaFill, seriesColor } from "../../theme/chartTheme.js"
+import { chartTooltip, currentChartTheme, deltaFill, seriesColor } from "../../theme/chartTheme.js"
 import { shouldSkip } from "./CardStatsTable.js"
 import { CARDS_COPY } from "./copy.js"
 import { CardAxis, CardScatterAxes, axisLabel } from "../scatterAxes.js"
@@ -168,7 +168,7 @@ export function CardGraph(input) {
           size: "16pt",
         },
       },
-      tooltip: {
+      tooltip: chartTooltip(currentChartTheme(), {
         callbacks: {
           label: function(ctx) {
             if (ctx.datasetIndex !== 0) {
@@ -192,7 +192,7 @@ export function CardGraph(input) {
             })
           },
         },
-      },
+      }),
       legend: {
         labels: {
           font: {

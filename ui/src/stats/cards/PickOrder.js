@@ -1,9 +1,11 @@
 // The Pick order section: where each card tends to be picked in a draft.
 
 import React from 'react'
-import { SortFunc, CardImageURL } from "../../utils/Utils.js"
+import { SortFunc } from "../../utils/Utils.js"
 import { NumericInput } from "../../components/Dropdown.js"
 import { HoverInfo } from "../../components/kit/HoverInfo.js"
+import { HoverTable } from "../../components/kit/HoverTable.js"
+import { CardPopBody } from "./CardTooltip.js"
 import { CARDS_COPY } from "./copy.js"
 
 // PickOrderSection shows per-card draft pick statistics aggregated across all
@@ -151,7 +153,7 @@ export function PickOrderSection({ pickInfo }) {
 
               return (
                 <tr sort={sort} className="widget-table-row" key={pick.name}>
-                  <HoverInfo title={pick.name} info={PickOrderTooltip(pick)} position="right">
+                  <HoverInfo title={pick.name} info={<PickOrderTooltip pick={pick} />} position="right">
                     <td><a href={pick.card.url} target="_blank" rel="noopener noreferrer">{pick.name}</a></td>
                   </HoverInfo>
                   <td>{pick.count}</td>
@@ -173,38 +175,18 @@ export function PickOrderSection({ pickInfo }) {
 }
 
 // PickOrderTooltip lists every individual pick of a card across drafts.
-function PickOrderTooltip(pick) {
-  let k = 0
+function PickOrderTooltip({ pick }) {
+  const columns = [
+    { key: "date", label: CARDS_COPY.pickOrder.date },
+    { key: "player", label: CARDS_COPY.pickOrder.player },
+    { key: "pack", label: CARDS_COPY.pickOrder.pack, align: "center" },
+    { key: "pick", label: CARDS_COPY.pickOrder.pick, align: "center" },
+  ]
+  const rows = pick.picks.map(p => ({ date: p.date, player: p.player, pack: p.pack + 1, pick: p.pick + 1 }))
+
   return (
-    <div style={{ display: "flex", flexDirection: "row", gap: "12px", alignItems: "flex-start" }}>
-      <img
-        src={CardImageURL(pick)}
-        alt={pick.name}
-        style={{ width: '200px', display: 'block', borderRadius: '8px', flexShrink: 0 }}
-      />
-      <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "0.85rem" }}>
-        <thead>
-          <tr style={{ borderBottom: "2px solid var(--border)", textAlign: "left", color: "var(--text-muted)" }}>
-            <th style={{ padding: "4px 8px" }}>{CARDS_COPY.pickOrder.date}</th>
-            <th style={{ padding: "4px 8px" }}>{CARDS_COPY.pickOrder.player}</th>
-            <th style={{ padding: "4px 8px", textAlign: "center" }}>{CARDS_COPY.pickOrder.pack}</th>
-            <th style={{ padding: "4px 8px", textAlign: "center" }}>{CARDS_COPY.pickOrder.pick}</th>
-          </tr>
-        </thead>
-        <tbody>
-          {pick.picks.map(function (p) {
-            k += 1
-            return (
-              <tr key={k} style={{ borderBottom: "1px solid var(--border)" }}>
-                <td style={{ padding: "4px 8px" }}>{p.date}</td>
-                <td style={{ padding: "4px 8px" }}>{p.player}</td>
-                <td style={{ padding: "4px 8px", textAlign: "center" }}>{p.pack + 1}</td>
-                <td style={{ padding: "4px 8px", textAlign: "center" }}>{p.pick + 1}</td>
-              </tr>
-            )
-          })}
-        </tbody>
-      </table>
-    </div>
+    <CardPopBody card={pick}>
+      <HoverTable columns={columns} rows={rows} />
+    </CardPopBody>
   )
 }

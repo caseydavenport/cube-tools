@@ -7,7 +7,7 @@ import { MinWinningPctDecks, Pct } from "../../utils/Utils.js"
 import { BucketName, bucketXScale } from "../../utils/Buckets.js"
 import { CUBE_AVG_WIN_PERCENT } from "../../utils/Colors.js"
 import { Line, Bar, Pie } from 'react-chartjs-2'
-import { deltaFill, withAlpha, zeroLineGrid } from "../../theme/chartTheme.js"
+import { chartTooltip, currentChartTheme, deltaFill, withAlpha, zeroLineGrid } from "../../theme/chartTheme.js"
 import { archetypeColor, macroArchetypes } from "./archetypeHelpers.js"
 
 // MacroArchetypeDeltaChart shows which macro archetypes are net positive or net
@@ -64,7 +64,7 @@ export function MacroArchetypeDeltaChart(input) {
         font: { size: "16pt" },
       },
       legend: { display: false },
-      tooltip: {
+      tooltip: chartTooltip(currentChartTheme(), {
         callbacks: {
           label: function(ctx) {
             let r = rows[ctx.dataIndex]
@@ -72,7 +72,7 @@ export function MacroArchetypeDeltaChart(input) {
             return ARCHETYPES_COPY.charts.deltaTooltip({ sign: sign, delta: r.delta.toFixed(1), winPercent: r.winPercent.toFixed(0), count: r.count })
           },
         },
-      },
+      }),
     },
     scales: {
       x: { ticks: { font: { size: 14 } }, grid: { display: false } },

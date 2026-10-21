@@ -6,7 +6,7 @@ import { Colors, CUBE_AVG_WIN_PERCENT, guildColor } from "../../utils/Colors.js"
 import { bucketXScale } from "../../utils/Buckets.js"
 import { MinWinningPctDecks, Pct } from "../../utils/Utils.js"
 import { Line, Bar } from 'react-chartjs-2'
-import { deltaFill, zeroLineGrid } from "../../theme/chartTheme.js"
+import { chartTooltip, currentChartTheme, deltaFill, zeroLineGrid } from "../../theme/chartTheme.js"
 import { colorName } from "../../utils/colorNames.js"
 import { colorIsDisplayed } from "./ColorStatsTable.js"
 import { COLORS_COPY } from "./copy.js"
@@ -75,7 +75,7 @@ export function ColorPerformanceDeltaChart(input) {
         font: { size: "16pt" },
       },
       legend: { display: false },
-      tooltip: {
+      tooltip: chartTooltip(currentChartTheme(), {
         callbacks: {
           label: function(ctx) {
             let r = rows[ctx.dataIndex]
@@ -88,7 +88,7 @@ export function ColorPerformanceDeltaChart(input) {
             })
           },
         },
-      },
+      }),
     },
     scales: {
       x: { ticks: { font: { size: 14 } }, grid: { display: false } },

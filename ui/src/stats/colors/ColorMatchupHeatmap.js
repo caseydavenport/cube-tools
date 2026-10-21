@@ -1,7 +1,8 @@
 // The heatmap of how each color group does against each other color group.
 
 import React from 'react'
-import { HoverInfo } from "../../components/kit/HoverInfo.js"
+import { HoverStats } from "../../components/kit/HoverStats.js"
+import { ColorImages } from "../../utils/Colors.js"
 import { goodBadTint } from "../tints.js"
 import { COLORS_COPY } from "./copy.js"
 
@@ -10,6 +11,32 @@ const monoColors = ["W", "U", "B", "R", "G"];
 const dualColors = ["WU", "WB", "WR", "WG", "UB", "UR", "UG", "BR", "BG", "RG"];
 
 const trioColors = ["WUB", "WUR", "WUG", "WBR", "WBG", "WRG", "UBR", "UBG", "URG", "BRG"];
+
+// cellRows is the record row of a heatmap cell's popover. With games played, a
+// meter under it shows the share won, and names both sides: the row's color
+// group on the left and its opponent on the right.
+function cellRows(myColor, oppColor, wins, losses) {
+  const total = wins + losses
+  const row = {
+    label: COLORS_COPY.heatmap.cellRecordLabel,
+    value: COLORS_COPY.heatmap.cellRecord({ wins, losses, total }),
+  }
+  if (total > 0) {
+    row.share = wins / total
+    row.ends = [sideLabel(myColor), sideLabel(oppColor)]
+  }
+  return [row]
+}
+
+// sideLabel is a color group's pips followed by its guild or shard name.
+function sideLabel(colors) {
+  return (
+    <span className="stats-pop-side">
+      {ColorImages(colors)}
+      {COLORS_COPY.heatmap.groupNames[colors] || colors}
+    </span>
+  )
+}
 
 export function ColorMatchupHeatmap({ matchupData, colorType }) {
   const [sortColumn, setSortColumn] = React.useState(null);
@@ -85,7 +112,7 @@ export function ColorMatchupHeatmap({ matchupData, colorType }) {
                   const winPct = total > 0 ? record.win_pct : 0;
 
                   return (
-                    <HoverInfo key={oppColor} title={COLORS_COPY.heatmap.cellTitle({ mine: COLORS_COPY.heatmap.groupNames[myColor], opponent: COLORS_COPY.heatmap.groupNames[oppColor] })} info={COLORS_COPY.heatmap.cellRecord({ wins, losses, total })}>
+                    <HoverStats key={oppColor} title={COLORS_COPY.heatmap.cellTitle({ mine: COLORS_COPY.heatmap.groupNames[myColor], opponent: COLORS_COPY.heatmap.groupNames[oppColor] })} rows={cellRows(myColor, oppColor, wins, losses)}>
                       <td style={{
                         background: cellColor(winPct, total),
                         textAlign: "center",
@@ -94,7 +121,7 @@ export function ColorMatchupHeatmap({ matchupData, colorType }) {
                       }}>
                         {total > 0 ? `${Math.round(winPct)}%` : ""}
                       </td>
-                    </HoverInfo>
+                    </HoverStats>
                   );
                 })}
               </tr>

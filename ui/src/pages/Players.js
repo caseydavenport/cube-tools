@@ -3,6 +3,7 @@ import { AverageWordCount, IsBasicLand, SortFunc } from "../utils/Utils.js"
 import { ColorImages } from "../utils/Colors.js"
 import { Trophies, LastPlaceFinishes, Wins, Losses } from "../utils/Deck.js"
 import { BucketName, bucketXScale } from "../utils/Buckets.js"
+import { HoverInfo } from "../components/kit/HoverInfo.js"
 import { SectionCard } from "../components/kit/SectionCard.js"
 import { isAnonymous, recordsByOpponent } from "../utils/Players.js"
 
@@ -331,8 +332,12 @@ export function PlayerDetailsPanel(input) {
           <thead className="table-header">
             <tr>
               <td onClick={input.onOppHeaderClick} id="name" className="header-cell">{input.copy.details.opponentHeader({ minGames })}</td>
-              <td onClick={input.onOppHeaderClick} id="win_pct" className="header-cell">{input.copy.details.winPct}</td>
-              <td onClick={input.onOppHeaderClick} id="games" className="header-cell">{input.copy.details.games}</td>
+              <HoverInfo title={input.copy.details.winPct} info={input.copy.details.opponentWinPctTip}>
+                <td onClick={input.onOppHeaderClick} id="win_pct" className="header-cell">{input.copy.details.winPct}</td>
+              </HoverInfo>
+              <HoverInfo title={input.copy.details.games} info={input.copy.details.gamesTip}>
+                <td onClick={input.onOppHeaderClick} id="games" className="header-cell">{input.copy.details.games}</td>
+              </HoverInfo>
             </tr>
           </thead>
           <tbody>
@@ -378,10 +383,18 @@ export function PlayerDetailsPanel(input) {
           <thead className="table-header">
             <tr>
               <td onClick={input.onPlayerArchHeaderClick} id="name" className="header-cell">{input.copy.details.arch}</td>
-              <td onClick={input.onPlayerArchHeaderClick} id="build" className="header-cell">{input.copy.details.buildPct}</td>
-              <td onClick={input.onPlayerArchHeaderClick} id="win_pct" className="header-cell">{input.copy.details.winPct}</td>
-              <td onClick={input.onPlayerArchHeaderClick} id="wins" className="header-cell">{input.copy.details.wins}</td>
-              <td onClick={input.onPlayerArchHeaderClick} id="losses" className="header-cell">{input.copy.details.losses}</td>
+              <HoverInfo title={input.copy.details.buildPct} info={input.copy.details.archBuildPctTip}>
+                <td onClick={input.onPlayerArchHeaderClick} id="build" className="header-cell">{input.copy.details.buildPct}</td>
+              </HoverInfo>
+              <HoverInfo title={input.copy.details.winPct} info={input.copy.details.winPctTip}>
+                <td onClick={input.onPlayerArchHeaderClick} id="win_pct" className="header-cell">{input.copy.details.winPct}</td>
+              </HoverInfo>
+              <HoverInfo title={input.copy.details.wins} info={input.copy.details.winsTip}>
+                <td onClick={input.onPlayerArchHeaderClick} id="wins" className="header-cell">{input.copy.details.wins}</td>
+              </HoverInfo>
+              <HoverInfo title={input.copy.details.losses} info={input.copy.details.lossesTip}>
+                <td onClick={input.onPlayerArchHeaderClick} id="losses" className="header-cell">{input.copy.details.losses}</td>
+              </HoverInfo>
             </tr>
           </thead>
           <tbody>
@@ -442,10 +455,18 @@ export function PlayerDetailsPanel(input) {
           <thead className="table-header">
             <tr>
               <td onClick={input.onPlayerColorHeaderClick} id="name" className="header-cell">{input.copy.details.color}</td>
-              <td onClick={input.onPlayerColorHeaderClick} id="build_pct" className="header-cell">{input.copy.details.buildPct}</td>
-              <td onClick={input.onPlayerColorHeaderClick} id="win_pct" className="header-cell">{input.copy.details.winPct}</td>
-              <td onClick={input.onPlayerColorHeaderClick} id="wins" className="header-cell">{input.copy.details.wins}</td>
-              <td onClick={input.onPlayerColorHeaderClick} id="losses" className="header-cell">{input.copy.details.losses}</td>
+              <HoverInfo title={input.copy.details.buildPct} info={input.copy.details.colorBuildPctTip}>
+                <td onClick={input.onPlayerColorHeaderClick} id="build_pct" className="header-cell">{input.copy.details.buildPct}</td>
+              </HoverInfo>
+              <HoverInfo title={input.copy.details.winPct} info={input.copy.details.winPctTip}>
+                <td onClick={input.onPlayerColorHeaderClick} id="win_pct" className="header-cell">{input.copy.details.winPct}</td>
+              </HoverInfo>
+              <HoverInfo title={input.copy.details.wins} info={input.copy.details.winsTip}>
+                <td onClick={input.onPlayerColorHeaderClick} id="wins" className="header-cell">{input.copy.details.wins}</td>
+              </HoverInfo>
+              <HoverInfo title={input.copy.details.losses} info={input.copy.details.lossesTip}>
+                <td onClick={input.onPlayerColorHeaderClick} id="losses" className="header-cell">{input.copy.details.losses}</td>
+              </HoverInfo>
             </tr>
           </thead>
           <tbody>

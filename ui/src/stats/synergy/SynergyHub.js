@@ -4,7 +4,7 @@
 import React, { useState } from 'react'
 import { DropdownHeader } from "../../components/Dropdown.js"
 import { Scatter } from 'react-chartjs-2'
-import { currentChartTheme, withAlpha } from "../../theme/chartTheme.js"
+import { chartTooltip, currentChartTheme, withAlpha } from "../../theme/chartTheme.js"
 import { cardDisplayColor, median, pointOutline } from "./synergyHelpers.js"
 import { ChartTitle } from "./synergyParts.js"
 import { SYNERGY_COPY } from "./copy.js"
@@ -262,7 +262,7 @@ function SynergyHubChart({ pool, colorMap, scale, color, selectedName, onColorCh
     },
     plugins: {
       legend: { display: false },
-      tooltip: {
+      tooltip: chartTooltip(currentChartTheme(), {
         callbacks: {
           label: (item) => {
             const p = points[item.dataIndex];
@@ -277,7 +277,7 @@ function SynergyHubChart({ pool, colorMap, scale, color, selectedName, onColorCh
             });
           },
         },
-      },
+      }),
     },
   };
 

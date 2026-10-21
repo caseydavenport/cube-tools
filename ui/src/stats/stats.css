@@ -146,3 +146,32 @@
 .load-failed-notice { margin-bottom: 1rem; }
 .players-notice:empty { display: none; }
 .players-notice { padding: 1rem 1.5rem 0; }
+
+/* The card name popovers on the Cards and Pick order tables: the card image
+   on the left, then the tables. */
+.stats-card-pop {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+}
+
+.stats-card-pop-image {
+  flex-shrink: 0;
+  width: 200px;
+}
+
+.stats-card-pop .kit-pop-table td:first-child {
+  white-space: nowrap;
+}
+
+/* A color group's pips beside its name, under a heatmap popover's meter. */
+.stats-pop-side {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.stats-pop-side .mana-symbol {
+  width: 14px;
+  height: 14px;
+}

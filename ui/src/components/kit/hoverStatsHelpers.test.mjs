@@ -1,6 +1,6 @@
 import { test } from "node:test"
 import assert from "node:assert/strict"
-import { meterWidth, toneClass } from "./hoverStats.js"
+import { meterWidth, toneClass } from "./hoverStatsHelpers.js"
 
 test("meterWidth clamps and formats", () => {
   assert.equal(meterWidth(0.425), "42.5%")

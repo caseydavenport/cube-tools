@@ -139,5 +139,9 @@ export const SYNERGY_COPY = {
     headerWinning: "Winning",
     headerLosing: "Losing",
     headerDelta: "Δ (W-L)",
+    // draft: explainers for the focal compare table's column headers.
+    headerWinningTip: "The card's focal score (hub strength) in winning decks only.",
+    headerLosingTip: "The card's focal score (hub strength) in losing decks only.",
+    headerDeltaTip: "Winning focal score minus losing focal score. Positive means the card is a bigger hub in winning decks.",
   },
 }

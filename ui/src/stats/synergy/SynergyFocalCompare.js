@@ -2,8 +2,9 @@
 
 import React, { useState } from 'react'
 import { Scatter } from 'react-chartjs-2'
-import { currentChartTheme, withAlpha } from "../../theme/chartTheme.js"
+import { chartTooltip, currentChartTheme, withAlpha } from "../../theme/chartTheme.js"
 import { cardDisplayColor, pointOutline } from "./synergyHelpers.js"
+import { HoverInfo } from "../../components/kit/HoverInfo.js"
 import { ChartTitle } from "./synergyParts.js"
 import { deltaTextColor } from "./SynergyTables.js"
 import { SYNERGY_COPY } from "./copy.js"
@@ -96,7 +97,7 @@ export function SynergyFocalCompare({ synergyCompare, cube, onCardSelected }) {
     },
     plugins: {
       legend: { display: false },
-      tooltip: {
+      tooltip: chartTooltip(currentChartTheme(), {
         callbacks: {
           label: (item) => {
             const p = points[item.dataIndex];
@@ -113,7 +114,7 @@ export function SynergyFocalCompare({ synergyCompare, cube, onCardSelected }) {
             });
           },
         },
-      },
+      }),
     },
   };
 
@@ -134,9 +135,9 @@ export function SynergyFocalCompare({ synergyCompare, cube, onCardSelected }) {
   };
   const headers = [
     { id: "name", text: SYNERGY_COPY.focalCompare.headerCard },
-    { id: "win", text: SYNERGY_COPY.focalCompare.headerWinning },
-    { id: "lose", text: SYNERGY_COPY.focalCompare.headerLosing },
-    { id: "delta", text: SYNERGY_COPY.focalCompare.headerDelta },
+    { id: "win", text: SYNERGY_COPY.focalCompare.headerWinning, tip: SYNERGY_COPY.focalCompare.headerWinningTip },
+    { id: "lose", text: SYNERGY_COPY.focalCompare.headerLosing, tip: SYNERGY_COPY.focalCompare.headerLosingTip },
+    { id: "delta", text: SYNERGY_COPY.focalCompare.headerDelta, tip: SYNERGY_COPY.focalCompare.headerDeltaTip },
   ];
 
   return (
@@ -151,11 +152,17 @@ export function SynergyFocalCompare({ synergyCompare, cube, onCardSelected }) {
             <thead className="table-header">
               <tr><td colSpan="4" className="header-cell" style={{textAlign: "center", fontWeight: "bold", background: "var(--primary)", color: "var(--page-background)"}}>{SYNERGY_COPY.focalCompare.tableTitle}</td></tr>
               <tr>
-                {headers.map((hdr, i) => (
-                  <td key={i} className="header-cell" style={{cursor: "pointer"}} onClick={() => onHeader(hdr.id)}>
-                    {hdr.text}{sortCol === hdr.id ? (sortDir === "asc" ? " ▲" : " ▼") : ""}
-                  </td>
-                ))}
+                {headers.map((hdr, i) => {
+                  const cell = (
+                    <td key={i} className="header-cell" style={{cursor: "pointer"}} onClick={() => onHeader(hdr.id)}>
+                      {hdr.text}{sortCol === hdr.id ? (sortDir === "asc" ? " ▲" : " ▼") : ""}
+                    </td>
+                  );
+                  if (!hdr.tip) {
+                    return cell;
+                  }
+                  return <HoverInfo key={i} title={hdr.text} info={hdr.tip}>{cell}</HoverInfo>;
+                })}
               </tr>
             </thead>
             <tbody>

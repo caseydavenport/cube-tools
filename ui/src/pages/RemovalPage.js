@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { SegmentedControl } from "@mantine/core"
 import { useCube } from "../contexts/CubeContext.js"
 import { DropdownHeader } from "../components/Dropdown.js"
+import { HoverInfo } from "../components/kit/HoverInfo.js"
 import { RichText } from "../components/kit/RichText.js"
 import { SectionCard } from "../components/kit/SectionCard.js"
 import { DateRangeMenu } from "../toolbar/DateRangeMenu.js"
@@ -44,6 +45,18 @@ const COPY = {
     maxMv: "Max MV",
     reach: "Reach Δ",
     avg: "Avg Δ",
+  },
+
+  // draft: explainers for the table's column headers.
+  columnTips: {
+    cost: "Effective mana to cast the removal. A * marks an adjusted cost, such as delve, X, or a reduced or activated cost.",
+    kind: "The way the card removes a creature.",
+    restriction: "Limits on which creatures the card can target.",
+    targets: "Share of the cube's creatures this removal can answer.",
+    percentPlayed: "Share of creatures played in decks that this removal can answer.",
+    maxMv: "Highest mana value of a creature the card can answer.",
+    reach: "The priciest threat it can answer, minus its cost.",
+    avg: "The typical threat it kills, minus its cost.",
   },
 
   costTitle: ({ manaCost, mv }) => `printed ${manaCost} (MV ${mv})`,
@@ -149,8 +162,8 @@ export function RemovalPage(props) {
   })
 
   // header is one column's sortable header cell.
-  function header(key, label, numeric = true) {
-    return <SortHeader sortKey={key} label={label} sort={sort} setSort={setSort} numeric={numeric} />
+  function header(key, label, tip, numeric = true) {
+    return <SortHeader sortKey={key} label={label} tip={tip} sort={sort} setSort={setSort} numeric={numeric} />
   }
 
   const controls = (
@@ -178,14 +191,16 @@ export function RemovalPage(props) {
             <table className="widget-table" style={{ width: "100%" }}>
               <thead>
                 <tr>
-                  {header("name", COPY.columns.card, false)}
-                  {header("cost", COPY.columns.cost)}
-                  <td className="header-cell">{COPY.columns.kind}</td>
-                  <td className="header-cell">{COPY.columns.restriction}</td>
-                  {header("coverage", shownMode === "raw" ? COPY.columns.targets : COPY.columns.percentPlayed)}
-                  <td className="header-cell" style={{ textAlign: "right" }}>{COPY.columns.maxMv}</td>
-                  {header("reach", COPY.columns.reach)}
-                  {header("avg", COPY.columns.avg)}
+                  {header("name", COPY.columns.card, undefined, false)}
+                  {header("cost", COPY.columns.cost, COPY.columnTips.cost)}
+                  <HoverInfo title={COPY.columns.kind} info={COPY.columnTips.kind}><td className="header-cell">{COPY.columns.kind}</td></HoverInfo>
+                  <HoverInfo title={COPY.columns.restriction} info={COPY.columnTips.restriction}><td className="header-cell">{COPY.columns.restriction}</td></HoverInfo>
+                  {shownMode === "raw"
+                    ? header("coverage", COPY.columns.targets, COPY.columnTips.targets)
+                    : header("coverage", COPY.columns.percentPlayed, COPY.columnTips.percentPlayed)}
+                  <HoverInfo title={COPY.columns.maxMv} info={COPY.columnTips.maxMv}><td className="header-cell" style={{ textAlign: "right" }}>{COPY.columns.maxMv}</td></HoverInfo>
+                  {header("reach", COPY.columns.reach, COPY.columnTips.reach)}
+                  {header("avg", COPY.columns.avg, COPY.columnTips.avg)}
                 </tr>
               </thead>
               <tbody>

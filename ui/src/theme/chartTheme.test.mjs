@@ -1,6 +1,6 @@
 import { test } from "node:test"
 import assert from "node:assert/strict"
-import { applyChartTheme, chartThemeFor, currentChartTheme, deltaFill, resetChartTheme, seriesColor, withAlpha, zeroLineGrid } from "./chartTheme.js"
+import { applyChartTheme, chartThemeFor, chartTooltip, currentChartTheme, deltaFill, resetChartTheme, seriesColor, withAlpha, zeroLineGrid } from "./chartTheme.js"
 import { LIGHT, DARK, SERIES } from "./tokens.js"
 
 // fakeBrowser stands in for the browser APIs the scheme guess reads: the saved
@@ -111,4 +111,25 @@ test("the scheme Mantine has put on the page wins over the last applied one", ()
   } finally {
     delete globalThis.document
   }
+})
+
+test("chartTooltip uses the theme and keeps overrides", () => {
+  const theme = chartThemeFor("light")
+  const label = () => "a label"
+  const tooltip = chartTooltip(theme, { callbacks: { label } })
+
+  assert.equal(tooltip.backgroundColor, LIGHT.card)
+  assert.equal(tooltip.borderColor, LIGHT.border)
+  assert.equal(tooltip.cornerRadius, 10)
+  assert.equal(tooltip.padding, 10)
+  assert.equal(tooltip.titleColor, LIGHT.text)
+  assert.equal(tooltip.titleFont.weight, 600)
+  assert.equal(tooltip.bodyColor, LIGHT.muted)
+  assert.equal(tooltip.callbacks.label, label)
+})
+
+test("chartTooltip lets an override replace a theme setting", () => {
+  const tooltip = chartTooltip(chartThemeFor("dark"), { padding: 4 })
+  assert.equal(tooltip.padding, 4)
+  assert.equal(tooltip.backgroundColor, DARK.card)
 })
