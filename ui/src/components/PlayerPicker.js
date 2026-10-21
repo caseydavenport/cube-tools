@@ -1,4 +1,6 @@
 import React, { useState } from 'react'
+import { Button, NativeSelect, TextInput } from '@mantine/core'
+import { COMPONENTS_COPY } from './copy.js'
 import { addPlayer, playerOptions } from '../utils/Players.js'
 
 // addOption is the select value that opens the inline "add player" form.
@@ -29,10 +31,11 @@ export function PlayerPicker({ players, value, onChange, onAdded, allowAnonymous
   if (adding) {
     return (
       <span className="player-picker">
-        <input
-          className={className || "text-input"}
+        <TextInput
+          size="xs"
+          className={className}
           autoFocus
-          placeholder="First Last"
+          placeholder={COMPONENTS_COPY.playerPicker.namePlaceholder}
           value={name}
           onChange={(e) => setName(e.target.value)}
           onKeyDown={(e) => {
@@ -40,30 +43,35 @@ export function PlayerPicker({ players, value, onChange, onAdded, allowAnonymous
             if (e.key === "Escape") setAdding(false)
           }}
         />
-        <button type="button" onClick={submit} disabled={!name.trim()}>Add</button>
-        <button type="button" onClick={() => { setAdding(false); setError(null) }}>Cancel</button>
+        <Button size="compact-sm" onClick={submit} disabled={!name.trim()}>{COMPONENTS_COPY.playerPicker.add}</Button>
+        <Button size="compact-sm" variant="default" onClick={() => { setAdding(false); setError(null) }}>{COMPONENTS_COPY.playerPicker.cancel}</Button>
         {error ? <span className="error">{error}</span> : null}
       </span>
     )
   }
 
+  const options = [
+    ...(allowAnonymous || !value
+      ? [{ value: "0", label: allowAnonymous ? COMPONENTS_COPY.playerPicker.anonymous : COMPONENTS_COPY.playerPicker.pickPlayer }]
+      : []),
+    ...playerOptions(players, takenIds).map((p) => {
+      const taken = p.taken && p.id !== value
+      return { value: String(p.id), label: p.name + (taken ? COMPONENTS_COPY.playerPicker.hasDeck : ""), disabled: taken }
+    }),
+    { value: addOption, label: COMPONENTS_COPY.playerPicker.addPlayer },
+  ]
+
   return (
-    <select
-      className={className || "text-input"}
-      value={value || 0}
+    <NativeSelect
+      size="xs"
+      className={className || "player-picker-select"}
+      value={String(value || 0)}
       disabled={disabled}
+      data={options}
       onChange={(e) => {
         if (e.target.value === addOption) setAdding(true)
         else onChange(Number(e.target.value))
       }}
-    >
-      {allowAnonymous || !value ? <option value={0}>{allowAnonymous ? "Anonymous" : "Pick a player…"}</option> : null}
-      {playerOptions(players, takenIds).map((p) => (
-        <option key={p.id} value={p.id} disabled={p.taken && p.id !== value}>
-          {p.name}{p.taken && p.id !== value ? " (has a deck here)" : ""}
-        </option>
-      ))}
-      <option value={addOption}>+ Add player…</option>
-    </select>
+    />
   )
 }

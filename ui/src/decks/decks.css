@@ -260,22 +260,6 @@
   padding-right: 3px;
 }
 
-.deck-tag-add {
-  font: inherit;
-  font-size: 11px;
-  padding: 3px 9px;
-  border-radius: 999px;
-  border: 1px dashed var(--se-border);
-  background: none;
-  color: var(--se-muted);
-  cursor: pointer;
-}
-
-.deck-tag-add:hover {
-  color: var(--mantine-primary-color-filled);
-  border-color: var(--mantine-primary-color-filled);
-}
-
 .deck-record-edit {
   align-items: flex-start;
 }

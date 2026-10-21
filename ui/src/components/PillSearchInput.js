@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { parseTerms, QueryTermMetadata } from '../utils/Query.js';
+import { Input, UnstyledButton } from "@mantine/core";
+import { COMPONENTS_COPY } from "./copy.js";
 import "./components.css";
 
 // Pure helper functions for autocomplete logic
@@ -343,8 +345,7 @@ export function PillSearchInput({ value, onChange, placeholder, label, cardNames
   const showPanel = showDropdown && (suggestions.length > 0 || helpText);
 
   return (
-    <div className="search-bar-container pill-search-field">
-      {label && <label className="player-frame-title pill-search-label">{label}</label>}
+    <Input.Wrapper label={label} className="search-bar-container pill-search-field">
       <div className="pill-search-container" onClick={focusInput}>
         {pillTerms.map((term, index) => {
           const isValid = isPillValid(term);
@@ -356,10 +357,14 @@ export function PillSearchInput({ value, onChange, placeholder, label, cardNames
           return (
             <div key={`${term}-${index}`} className={pillClass}>
               <span>{term}</span>
-              <div className="search-pill-remove" onClick={(e) => {
-                e.stopPropagation();
-                removePill(index);
-              }}>×</div>
+              <UnstyledButton
+                className="search-pill-remove"
+                aria-label={`${COMPONENTS_COPY.pillSearchInput.removePill} ${term}`}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  removePill(index);
+                }}
+              >×</UnstyledButton>
             </div>
           );
         })}
@@ -401,6 +406,6 @@ export function PillSearchInput({ value, onChange, placeholder, label, cardNames
           })}
         </div>
       )}
-    </div>
+    </Input.Wrapper>
   );
 }

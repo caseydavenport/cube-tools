@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react"
-import { Autocomplete, CloseButton } from "@mantine/core"
+import { Autocomplete, Button, CloseButton } from "@mantine/core"
 import { inlineEditKeys } from "../../components/kit/inlineEditKeys.js"
 import { addTag, removeTag } from "../deckEdits.js"
 
@@ -96,9 +96,9 @@ export function TagsEdit({ deck, edits, suggestions, copy }) {
 
       {adding && <TagInput tags={tags} suggestions={suggestions} onAdd={save} onClose={() => setAdding(false)} copy={copy} />}
       {!adding && (
-        <button type="button" className="deck-tag-add" disabled={edits.saving} onClick={() => setAdding(true)}>
+        <Button size="compact-xs" variant="light" disabled={edits.saving} onClick={() => setAdding(true)}>
           {copy.plusTag}
-        </button>
+        </Button>
       )}
     </div>
   )

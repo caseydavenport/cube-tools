@@ -29,6 +29,7 @@ const IN_SCOPE = [
   "src/pages/RemovalPage.js",
   "src/pages/Packages.js",
   "src/components/PredicateBuilder.js",
+  "src/components/PlayerPicker.js",
   "src/design/map",
   "src/design/rules",
 ]

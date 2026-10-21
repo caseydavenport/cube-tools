@@ -1,15 +1,5 @@
 /* Styles for the shared components: pill search, page sections, dropdowns and the predicate builder. */
 
-.player-frame-title {
-  color: var(--se-muted);
-  text-transform: uppercase;
-  font-size: 0.85rem;
-  font-weight: 700;
-  letter-spacing: 0.05em;
-  display: block;
-  margin-bottom: 0.25rem;
-}
-
 /* A content block within a page. scroll-margin keeps anchor jumps clear of the
    sticky section nav. */
 .page-section {
@@ -133,11 +123,11 @@ html .section-nav a {
   flex-wrap: wrap;
   align-items: center;
   gap: 0.5rem;
-  background: var(--se-page);
-  border: 1px solid var(--se-border);
-  padding: 0.5rem 0.75rem;
-  border-radius: 8px;
-  min-height: 48px;
+  background: var(--input-bg, var(--mantine-color-body));
+  border: 1px solid var(--input-bd, var(--mantine-color-default-border));
+  padding: 0.25rem 0.75rem;
+  border-radius: var(--input-radius, var(--mantine-radius-default));
+  min-height: var(--input-height-sm, 36px);
   width: 100%;
   transition: all 0.2s ease;
   cursor: text;
@@ -231,10 +221,18 @@ html .section-nav a {
   position: relative;
 }
 
-.pill-search-label {
-  margin-bottom: 0.5rem;
-}
-
 .pill-search-full {
   width: 100%;
+}
+
+/* The add-player form: the name box and its two buttons on one line. */
+.player-picker {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+/* Keeps the select inline with a "Player" label on the import pages. */
+.player-picker-select {
+  display: inline-block;
 }

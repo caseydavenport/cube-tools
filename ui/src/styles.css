@@ -121,7 +121,7 @@ table {
 }
 
 /* Form Inputs */
-.text-input, select {
+select {
   background: var(--se-page);
   border: 1px solid var(--se-border);
   color: var(--se-text);
@@ -129,10 +129,6 @@ table {
   border-radius: 6px;
   outline: none;
   transition: border-color 0.2s;
-}
-
-.text-input:focus {
-  border-color: var(--mantine-primary-color-filled);
 }
 
 /* Section heading - matches the uppercase muted label style used elsewhere. */
