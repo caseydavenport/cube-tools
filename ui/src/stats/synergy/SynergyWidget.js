@@ -14,6 +14,7 @@ import { FocalPointsTable, SynergyWidgetTable } from "./SynergyTables.js"
 import { SynergyFocalCompare } from "./SynergyFocalCompare.js"
 import { OptionTooltip } from "./synergyParts.js"
 import { SYNERGY_COPY } from "./copy.js"
+import "../stats.css"
 
 ChartJS.register(LinearScale, PointElement, Tooltip, Legend, Title);
 
@@ -82,7 +83,7 @@ function FocalCompare(input) {
 function SynergyWidgetOptions(input) {
   let pairs = input.synergyData.pairs || []
   return (
-    <div className="scroll-container-large-header" style={{"width": "100%", "margin": "0"}}>
+    <div className="scroll-container-large-header synergy-widget-full">
       <div className="selector-group">
         <div className="selection-cell">
           {SYNERGY_COPY.widget.showingPairs({ count: pairs.length })}

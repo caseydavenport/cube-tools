@@ -2,7 +2,13 @@
 // prototype. Every function is pure and deterministic (sorted nodes, lexical
 // tie-breaks) so repeated renders produce identical output.
 
-const NEUTRAL = "#64748b"
+import { currentChartTheme } from "../theme/chartTheme.js"
+
+// neutralColor is the muted theme color for nodes with no community color. It
+// is read when called, so it follows the light or dark scheme on screen.
+function neutralColor() {
+  return currentChartTheme().muted
+}
 
 // buildDeckSubgraph induces the subgraph on `names` from the cube-wide edge
 // list. An edge survives only when both endpoints are in the name set; every
@@ -133,7 +139,7 @@ export function dominantLabel(g, community) {
   return best
 }
 
-export { NEUTRAL }
+export { neutralColor }
 
 function partsConnected(g, a, b) {
   const inB = new Set(b)

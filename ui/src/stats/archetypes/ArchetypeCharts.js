@@ -9,6 +9,7 @@ import { CUBE_AVG_WIN_PERCENT } from "../../utils/Colors.js"
 import { Line, Bar, Pie } from 'react-chartjs-2'
 import { chartTooltip, currentChartTheme, deltaFill, withAlpha, zeroLineGrid } from "../../theme/chartTheme.js"
 import { archetypeColor, macroArchetypes } from "./archetypeHelpers.js"
+import "../stats.css"
 
 // MacroArchetypeDeltaChart shows which macro archetypes are net positive or net
 // negative relative to the cube-wide average win rate (50%). Green bars point up
@@ -85,7 +86,7 @@ export function MacroArchetypeDeltaChart(input) {
   }
 
   return (
-    <div style={{ "height": "700px" }}>
+    <div className="stats-chart-700">
       <Bar options={options} data={data} />
     </div>
   )
@@ -208,7 +209,7 @@ export function MacroArchetypesChart(input) {
 
   const data = {labels, datasets: chartDataset};
   return (
-    <div style={{"height":"700px", "width":"100%"}}>
+    <div className="stats-chart-700-full">
       <Line height={"300px"} width={"300px"} options={options} data={data} />
     </div>
   );
@@ -285,7 +286,7 @@ export function MacroArchetypesPieChart(input) {
   };
 
   return (
-    <div style={{"height":"700px", "width":"100%"}}>
+    <div className="stats-chart-700-full">
       <Pie height={"300px"} width={"300px"} options={options} data={data} />
     </div>
   );

@@ -1,6 +1,7 @@
 import React from 'react'
 import { SortFunc } from "../utils/Utils.js"
 import { CardImagePreview } from "../components/kit/CardImagePreview.js"
+import "./pages.css"
 
 // DraftPackWidget shows one pack from a pick log: the pack the selected player
 // saw at the selected pick, with the card they took highlighted. drafts maps
@@ -36,7 +37,7 @@ export function DraftPackWidget(input) {
   }
 
   return (
-    <div className="flexhouse" style={{"justifyContent": "center"}}>
+    <div className="flexhouse page-row-centered">
       {
         pack.booster.map(function(cardID) {
           // Look up the card object based on the ID.

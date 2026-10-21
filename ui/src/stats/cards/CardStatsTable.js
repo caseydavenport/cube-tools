@@ -11,6 +11,7 @@ import { PillSearchInput } from "../../components/PillSearchInput.js"
 import { CardMatches } from "../../utils/Query.js"
 import { CARDS_COPY } from "./copy.js"
 import { BY_ARCH_COLUMNS, METADATA_COLUMNS, OVERVIEW_COLUMNS, VS_ARCH_COLUMNS, sortValue } from "./cardColumns.js"
+import "../stats.css"
 
 const Interaction = CARDS_COPY.statsTable.matchInteraction
 
@@ -180,8 +181,8 @@ export function CardWidgetOptions(input) {
         cardNames={input.cardNames}
       />
 
-      <div className="selector-group" style={{justifyContent: 'flex-start', flexWrap: 'wrap', gap: '1rem', marginTop: '1rem'}}>
-        <div className="selection-cell" style={{"fontWeight": "bold", "color": "var(--mantine-primary-color-filled)", "minWidth": "120px"}}>
+      <div className="selector-group stats-detail-row">
+        <div className="selection-cell stats-detail-label">
           {CARDS_COPY.statsTable.showing(num)}
         </div>
 

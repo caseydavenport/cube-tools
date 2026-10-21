@@ -1,6 +1,7 @@
 import React from 'react'
 import { CountManaPips } from './Utils.js'
 import { MANA } from '../theme/tokens.js'
+import { currentChartTheme } from '../theme/chartTheme.js'
 
 // GetColorIdentity returns all the color identities of this deck.
 // e.g., a WUG deck will return [W, U, G, WU, WG, UG, WUG]
@@ -67,7 +68,7 @@ export let Colors = new Map([
 // shows guilds as colors uses the same scheme.
 export function guildColor(identity) {
   const parts = [...(identity || [])].map((c) => Colors.get(c)).filter(Boolean)
-  if (parts.length === 0) return "#888888"
+  if (parts.length === 0) return currentChartTheme().muted
   if (parts.length === 1) return parts[0]
   let r = 0, g = 0, b = 0
   for (const h of parts) {

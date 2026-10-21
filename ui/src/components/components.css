@@ -226,3 +226,15 @@ html .section-nav a {
   align-items: center;
 }
 .predicate-add { align-self: flex-start; }
+
+.pill-search-field {
+  position: relative;
+}
+
+.pill-search-label {
+  margin-bottom: 0.5rem;
+}
+
+.pill-search-full {
+  width: 100%;
+}

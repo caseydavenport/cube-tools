@@ -343,8 +343,8 @@ export function PillSearchInput({ value, onChange, placeholder, label, cardNames
   const showPanel = showDropdown && (suggestions.length > 0 || helpText);
 
   return (
-    <div className="search-bar-container" style={{position: 'relative'}}>
-      {label && <label className="player-frame-title" style={{marginBottom: '0.5rem'}}>{label}</label>}
+    <div className="search-bar-container pill-search-field">
+      {label && <label className="player-frame-title pill-search-label">{label}</label>}
       <div className="pill-search-container" onClick={focusInput}>
         {pillTerms.map((term, index) => {
           const isValid = isPillValid(term);
@@ -377,7 +377,7 @@ export function PillSearchInput({ value, onChange, placeholder, label, cardNames
       </div>
 
       {showPanel && (
-        <div className="search-autocomplete" style={{width: '100%'}}>
+        <div className="search-autocomplete pill-search-full">
           {helpText && (
             <div className="search-autocomplete-help">{helpText}</div>
           )}

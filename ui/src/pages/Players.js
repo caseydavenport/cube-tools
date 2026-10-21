@@ -20,6 +20,7 @@ import {
 import { Line } from 'react-chartjs-2';
 import { currentChartTheme } from "../theme/chartTheme.js"
 import "../stats/stats.css"
+import "./pages.css"
 
 // Register chart JS objects that we need to use.
 ChartJS.register(
@@ -596,7 +597,7 @@ function WinRateChart(input) {
 
   const data = {labels, datasets: dataset};
   return (
-    <div style={{"height":"500px", "width":"100%"}}>
+    <div className="page-chart-500">
       <Line height={"300px"} width={"300px"} options={options} data={data} />
     </div>
   );

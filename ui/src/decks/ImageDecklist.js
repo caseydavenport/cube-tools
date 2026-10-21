@@ -44,7 +44,7 @@ function CardImage({ card, className }) {
   return (
     <div className="card-stack-item">
       <CardImagePreview src={CardImageURL(card)} alt={card.name} width={300} position="right">
-        <img src={CardImageURL(card)} alt={card.name} className={className} style={{ width: "200px" }} />
+        <img src={CardImageURL(card)} alt={card.name} className={className + " decklist-image"} />
       </CardImagePreview>
     </div>
   )

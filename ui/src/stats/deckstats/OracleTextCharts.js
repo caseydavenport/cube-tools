@@ -8,6 +8,7 @@ import { hasData } from "../../utils/dataKinds.js"
 import { CounterspellMatches, RemovalMatches } from "../../utils/cardMatches.js"
 import { inDeckColor, inSideboardColor } from "./deckChartHelpers.js"
 import { DECKSTATS_COPY } from "./copy.js"
+import "../stats.css"
 
 export function OracleTextByColor(input) {
 
@@ -72,7 +73,7 @@ export function OracleTextByColor(input) {
 
   const data = {labels, datasets: dataset};
   return (
-    <div style={{"height":"700px", "width":"100%"}}>
+    <div className="stats-chart-700-full">
       <Line height={"300px"} width={"300px"} options={options} data={data} />
     </div>
   );
@@ -147,7 +148,7 @@ export function OracleTextOverTimeChart(input) {
   const labels = input.data.labels
   const data = {labels, datasets: dataset};
   return (
-    <div style={{"height":"700px", "width":"100%"}}>
+    <div className="stats-chart-700-full">
       <Line height={"300px"} width={"300px"} options={options} data={data} />
     </div>
   );
@@ -216,7 +217,7 @@ export function ManaCostByOracleTextOverTime(input) {
 
   const data = {labels, datasets: dataset};
   return (
-    <div style={{"height":"700px", "width":"100%"}}>
+    <div className="stats-chart-700-full">
       <Line height={"300px"} width={"300px"} options={options} data={data} />
     </div>
   );

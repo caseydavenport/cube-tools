@@ -5,6 +5,7 @@ import React from 'react'
 import { Pct } from "../../utils/Utils.js"
 import { Bar } from 'react-chartjs-2'
 import { currentChartTheme } from "../../theme/chartTheme.js"
+import "../stats.css"
 
 export function WinsByMatchup(input) {
   // The server sends no items when no deck has an archetype.
@@ -116,7 +117,7 @@ export function WinsByMatchup(input) {
   };
 
   return (
-    <div style={{"height":"700px", "width":"100%"}}>
+    <div className="stats-chart-700-full">
       <Bar height={"300px"} width={"300px"} options={options} data={data} />
     </div>
   );

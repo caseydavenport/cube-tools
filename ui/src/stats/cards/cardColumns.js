@@ -7,6 +7,7 @@ import { HoverStats } from "../../components/kit/HoverStats.js"
 import { ColorImages } from "../../utils/Colors.js"
 import { CardMainboardTooltipContent } from "./CardTooltip.js"
 import { CARDS_COPY } from "./copy.js"
+import "../stats.css"
 
 function colorSort(card) {
   if (card.colors == null || card.colors.length === 0) {
@@ -208,7 +209,7 @@ function winPctCell(card, input, key) {
 // expected win % (too few games to establish a baseline).
 function deltaExpCell(card, input, key) {
   if (!card.expected_win_percent) {
-    return <td key={key} id={card.name} onClick={input.onCardSelected} style={{ color: "var(--se-muted)" }}>—</td>
+    return <td key={key} id={card.name} onClick={input.onCardSelected} className="stats-muted">—</td>
   }
   const d = Math.round(card.win_percent - card.expected_win_percent)
   let color = "var(--se-bad)"

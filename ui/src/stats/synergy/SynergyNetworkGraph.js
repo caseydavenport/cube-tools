@@ -7,6 +7,7 @@ import { currentChartTheme, seriesColor, withAlpha } from "../../theme/chartThem
 import { cardDisplayColor, cardInColors, colorsFromMatch } from "./synergyHelpers.js"
 import { ChartTitle } from "./synergyParts.js"
 import { SYNERGY_COPY } from "./copy.js"
+import "../stats.css"
 
 // nodeFill is a network node's color, read at draw time so it follows the
 // scheme: its card's color identity for a hub, muted for a pulled-in partner.
@@ -379,22 +380,17 @@ export function SynergyNetworkGraph({ synergyData, cube, matchStr, onCardSelecte
   }
 
   return (
-    <div style={{textAlign: "center"}}>
+    <div className="stats-centered">
       <ChartTitle title={SYNERGY_COPY.networkGraph.title} description={
         <>
-          {SYNERGY_COPY.networkGraph.descriptionStart}<span style={{color: seriesColor(2)}}>{SYNERGY_COPY.networkGraph.descriptionGoldRing}</span>{SYNERGY_COPY.networkGraph.descriptionMiddle}<span style={{color: "var(--se-muted)"}}>{SYNERGY_COPY.networkGraph.descriptionGrayNodes}</span>{SYNERGY_COPY.networkGraph.descriptionEnd}
+          {SYNERGY_COPY.networkGraph.descriptionStart}<span style={{color: seriesColor(2)}}>{SYNERGY_COPY.networkGraph.descriptionGoldRing}</span>{SYNERGY_COPY.networkGraph.descriptionMiddle}<span className="stats-muted">{SYNERGY_COPY.networkGraph.descriptionGrayNodes}</span>{SYNERGY_COPY.networkGraph.descriptionEnd}
         </>
       } />
       <canvas
         ref={canvasRef}
         width={900}
         height={600}
-        style={{
-          border: "1px solid var(--se-card)",
-          borderRadius: "8px",
-          background: "var(--se-page)",
-          maxWidth: "100%",
-        }}
+        className="synergy-graph-canvas"
         onMouseMove={handleMouseMove}
         onMouseDown={handleMouseDown}
         onMouseUp={handleMouseUp}

@@ -535,3 +535,7 @@ img.cardimage {
 .deck-hover-preview img {
   width: 240px;
 }
+
+.decklist-image {
+  width: 200px;
+}

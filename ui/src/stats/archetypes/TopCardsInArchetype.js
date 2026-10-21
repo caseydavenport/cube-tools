@@ -8,10 +8,11 @@ import { DropdownHeader, NumericInput, Checkbox } from "../../components/Dropdow
 import { HoverInfo } from "../../components/kit/HoverInfo.js"
 import { ColorImages } from "../../utils/Colors.js"
 import { archetypeShare } from "./ArchetypeStatsTable.js"
+import "../stats.css"
 
 export function ColorPickerHeader(input) {
   return (
-    <div className="selector-group" style={{"padding": "0.5rem", "justifyContent": "center"}}>
+    <div className="selector-group stats-row-centered-padded">
       <Checkbox
         text={ColorImages("W")}
         id="W"

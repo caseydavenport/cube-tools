@@ -7,6 +7,7 @@ import { BucketName, bucketXScale } from "../../utils/Buckets.js"
 import { Line } from 'react-chartjs-2'
 import { seriesColor } from "../../theme/chartTheme.js"
 import { watermark } from "./archetypeHelpers.js"
+import "../stats.css"
 
 export function MicroArchetypesChart(input) {
   // Use the starting date of the bucket as the label. This is just an approximation,
@@ -144,7 +145,7 @@ export function MicroArchetypesChart(input) {
 
   const data = {labels, datasets: chartDataset};
   return (
-    <div style={{"height":"800px", "width":"100%"}}>
+    <div className="stats-chart-800-full">
       <Line height={"300px"} width={"300px"} options={options} data={data} />
     </div>
   );

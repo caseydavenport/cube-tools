@@ -389,3 +389,188 @@
 /* Cards table: link to the decks that mainboarded a card. */
 .deck-link { color: var(--se-muted); text-decoration: none; font-size: 0.9em; }
 .deck-link:hover { color: var(--mantine-primary-color-filled); }
+
+.stats-chart-700 {
+  height: 700px;
+}
+
+.stats-chart-700-full {
+  height: 700px;
+  width: 100%;
+}
+
+.section-heading.stats-section-gap-lg {
+  margin-top: 1.5rem;
+}
+
+.stats-row-centered {
+  justify-content: center;
+}
+
+.stats-chart-800-full {
+  height: 800px;
+  width: 100%;
+}
+
+.stats-row-centered-padded {
+  padding: 0.5rem;
+  justify-content: center;
+}
+
+.stats-row-centered-spaced {
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+.stats-detail-row {
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.stats-detail-label {
+  font-weight: bold;
+  color: var(--mantine-primary-color-filled);
+  min-width: 120px;
+}
+
+.stats-section-gap {
+  margin-top: 1rem;
+}
+
+.stats-muted {
+  color: var(--se-muted);
+}
+
+.heatmap-title {
+  text-align: center;
+  color: var(--mantine-primary-color-filled);
+  margin-bottom: 1rem;
+}
+
+.stats-table-scroll {
+  overflow-x: auto;
+}
+
+.stats-table-compact {
+  margin: 0 auto;
+  font-size: 0.85em;
+}
+
+.stats-col-70 {
+  min-width: 70px;
+}
+
+.stats-bold {
+  font-weight: bold;
+}
+
+.heatmap-empty-cell {
+  background: var(--se-page);
+  text-align: center;
+  color: var(--se-muted);
+}
+
+.stats-chart-420 {
+  height: 420px;
+}
+
+.stats-chart-min-700 {
+  min-height: 700px;
+}
+
+.synergy-square-600 {
+  width: min(600px, 100%);
+  aspect-ratio: 1 / 1;
+  margin: 0 auto;
+}
+
+.synergy-focal-head {
+  text-align: center;
+  font-weight: bold;
+  background: var(--mantine-primary-color-filled);
+  color: var(--se-page);
+}
+
+.stats-clickable {
+  cursor: pointer;
+}
+
+.stats-centered {
+  text-align: center;
+}
+
+.synergy-hub-label {
+  color: var(--se-muted);
+  padding-right: 0.75rem;
+  white-space: nowrap;
+}
+
+.synergy-hub-value {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.synergy-hub-table-spaced {
+  width: 100%;
+  margin-bottom: 0.6rem;
+}
+
+.synergy-hub-subhead {
+  color: var(--se-muted);
+  border-top: 1px solid var(--se-border);
+  padding-top: 0.4rem;
+  margin-bottom: 0.3rem;
+}
+
+.stats-faded {
+  opacity: 0.7;
+}
+
+.stats-full-width {
+  width: 100%;
+}
+
+.synergy-hub-value-nowrap {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.synergy-square-500 {
+  width: min(500px, 100%);
+  aspect-ratio: 1 / 1;
+  margin: 0 auto;
+}
+
+.synergy-hub-empty {
+  color: var(--se-muted);
+  padding-top: 2rem;
+}
+
+.synergy-graph-canvas {
+  border: 1px solid var(--se-card);
+  border-radius: 8px;
+  background: var(--se-page);
+  max-width: 100%;
+}
+
+.stats-muted-small {
+  font-size: 0.85em;
+  color: var(--se-muted);
+}
+
+.synergy-widget-full {
+  width: 100%;
+  margin: 0;
+}
+
+.synergy-help {
+  cursor: help;
+}
+
+.synergy-help-mark {
+  font-size: 0.7em;
+  opacity: 0.6;
+}

@@ -6,6 +6,7 @@ import { MinWinningPctDecks, Pct, SortFunc } from "../../utils/Utils.js"
 import { HoverInfo } from "../../components/kit/HoverInfo.js"
 import { visibleItems } from "../../utils/dataKinds.js"
 import { macroArchetypes, watermark } from "./archetypeHelpers.js"
+import "../stats.css"
 
 // ARCHETYPE_COLUMNS are the archetype and tag tables' columns. Each draws its
 // own header and cell; needs lists the data a column is built from, so cubes
@@ -207,7 +208,7 @@ export function ArchetypeStatsTable(input) {
   if (microData.length > 0) {
     tagsTable = (
       <>
-        <h3 className="section-heading kit-section-title" style={{marginTop: "1.5rem"}}>{ARCHETYPES_COPY.statsTable.tagsHeading}</h3>
+        <h3 className="section-heading kit-section-title stats-section-gap-lg">{ARCHETYPES_COPY.statsTable.tagsHeading}</h3>
         <div className="table-scroll">
           <table className="widget-table">
             <ArchetypeTableHeader columns={columns} onHeaderClick={input.onHeaderClick} />

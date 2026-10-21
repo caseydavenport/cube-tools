@@ -136,7 +136,7 @@ function OpenCubeCobraForm({ onOpen }) {
           value={text}
           onChange={change}
           error={invalid ? "Not a CubeCobra link or ID" : null}
-          style={{ flex: 1 }}
+          flex={1}
         />
         <Button size="xs" type="submit">Open</Button>
       </Group>

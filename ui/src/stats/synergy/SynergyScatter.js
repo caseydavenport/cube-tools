@@ -6,6 +6,7 @@ import { chartTooltip, currentChartTheme, withAlpha } from "../../theme/chartThe
 import { cardDisplayColor, cardInColors, colorsFromMatch, pointOutline } from "./synergyHelpers.js"
 import { ChartTitle } from "./synergyParts.js"
 import { SYNERGY_COPY } from "./copy.js"
+import "../stats.css"
 
 // SynergyScatter plots cards with statistically significant synergy by how often
 // they're played (x) against their average partner lift (y). Cards below the
@@ -214,7 +215,7 @@ export function SynergyScatter({ synergyData, cube, matchStr, onCardSelected }) 
   };
 
   return (
-    <div style={{textAlign: "center"}}>
+    <div className="stats-centered">
       <ChartTitle title={SYNERGY_COPY.scatter.title} description={
         <>
           {usingFallback
@@ -223,7 +224,7 @@ export function SynergyScatter({ synergyData, cube, matchStr, onCardSelected }) 
           {SYNERGY_COPY.scatter.description}
         </>
       } />
-      <div style={{width: "min(600px, 100%)", aspectRatio: "1 / 1", margin: "0 auto"}}>
+      <div className="synergy-square-600">
         <Scatter options={options} data={data} plugins={[medianLines]} />
       </div>
     </div>

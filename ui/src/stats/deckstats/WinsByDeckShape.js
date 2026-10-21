@@ -7,6 +7,7 @@ import { Bar } from 'react-chartjs-2'
 import { currentChartTheme } from "../../theme/chartTheme.js"
 import { lossColor, winColor } from "./deckChartHelpers.js"
 import { DECKSTATS_COPY } from "./copy.js"
+import "../stats.css"
 
 export function WinsByManaCost(input) {
   const options = {
@@ -76,7 +77,7 @@ export function WinsByManaCost(input) {
   };
 
   return (
-    <div style={{"height":"700px", "width":"100%"}}>
+    <div className="stats-chart-700-full">
       <Bar height={"300px"} width={"300px"} options={options} data={data} />
     </div>
   );
@@ -187,7 +188,7 @@ export function WinsByCardType(input) {
   };
 
   return (
-    <div style={{"height":"700px", "width":"100%"}}>
+    <div className="stats-chart-700-full">
       <Bar height={"300px"} width={"300px"} options={options} data={data} />
     </div>
   );
@@ -265,7 +266,7 @@ export function WinsByNonBasicLandDensity(input) {
   };
 
   return (
-    <div style={{"height":"700px", "width":"100%"}}>
+    <div className="stats-chart-700-full">
       <Bar height={"300px"} width={"300px"} options={options} data={data} />
     </div>
   );

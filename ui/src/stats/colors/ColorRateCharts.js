@@ -10,6 +10,7 @@ import { chartTooltip, currentChartTheme, deltaFill, zeroLineGrid } from "../../
 import { colorName } from "../../utils/colorNames.js"
 import { colorIsDisplayed } from "./ColorStatsTable.js"
 import { COLORS_COPY } from "./copy.js"
+import "../stats.css"
 
 // ColorPerformanceDeltaChart shows, at a glance, which colors are net positive or
 // net negative relative to the cube-wide average win rate. Each bar is a color's
@@ -102,7 +103,7 @@ export function ColorPerformanceDeltaChart(input) {
 
   return (
     <div className="chart-container">
-      <div style={{ "height": "420px" }}>
+      <div className="stats-chart-420">
         <Bar options={options} data={data} />
       </div>
     </div>
@@ -356,7 +357,7 @@ export function ColorRateChart(input) {
 
   const data = {labels, datasets: dataset};
   return (
-    <div style={{"height":"700px"}}>
+    <div className="stats-chart-700">
       <Line height={"300px"} options={options} data={data} />
     </div>
   );

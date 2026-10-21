@@ -12,6 +12,7 @@ import { availableValue, visibleItems } from "../../utils/dataKinds.js"
 import { DeckSplits } from "../../utils/cardMatches.js"
 import { DECKSTATS_COPY } from "./copy.js"
 import { DeckAxis, DeckScatterAxes, axisLabel } from "../scatterAxes.js"
+import "../stats.css"
 
 // deckPointColor colors one deck on the scatter plot: the selected deck in
 // the text color, every other deck in the first series color.
@@ -119,7 +120,7 @@ export function DeckGraph(input) {
   const data = {labels, datasets: dataset};
   return (
     <div className="chart-container">
-      <div className="selector-group" style={{"justifyContent": "center", "marginBottom": "1rem"}}>
+      <div className="selector-group stats-row-centered-spaced">
         <DropdownHeader
           label={DECKSTATS_COPY.scatter.xAxisLabel}
           options={visibleItems(DeckScatterAxes, input.info)}
@@ -134,7 +135,7 @@ export function DeckGraph(input) {
         />
       </div>
 
-      <div align="center" style={{"minHeight": "700px"}}>
+      <div align="center" className="stats-chart-min-700">
         <Scatter className="chart" options={options} data={data} />
       </div>
     </div>

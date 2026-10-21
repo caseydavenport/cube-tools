@@ -5,6 +5,7 @@ import { HoverStats } from "../../components/kit/HoverStats.js"
 import { ColorImages } from "../../utils/Colors.js"
 import { goodBadTint } from "../tints.js"
 import { COLORS_COPY } from "./copy.js"
+import "../stats.css"
 
 const monoColors = ["W", "U", "B", "R", "G"];
 
@@ -74,14 +75,14 @@ export function ColorMatchupHeatmap({ matchupData, colorType }) {
 
   return (
     <div>
-      <h4 style={{textAlign: "center", color: "var(--mantine-primary-color-filled)", marginBottom: "1rem"}}>
+      <h4 className="heatmap-title">
         {title}
       </h4>
-      <div style={{overflowX: "auto"}}>
-        <table className="widget-table" style={{margin: "0 auto", fontSize: "0.85em"}}>
+      <div className="stats-table-scroll">
+        <table className="widget-table stats-table-compact">
           <thead>
             <tr>
-              <td className="header-cell" style={{minWidth: "70px"}}></td>
+              <td className="header-cell stats-col-70"></td>
               {groups.map(cp => (
                 <td key={cp} className="header-cell" style={{
                   textAlign: "center", minWidth: "65px", cursor: "pointer",
@@ -96,11 +97,11 @@ export function ColorMatchupHeatmap({ matchupData, colorType }) {
           <tbody>
             {sortedRows.map(myColor => (
               <tr key={myColor} className="widget-table-row">
-                <td className="header-cell" style={{fontWeight: "bold"}}>{COLORS_COPY.heatmap.groupNames[myColor] || myColor}</td>
+                <td className="header-cell stats-bold">{COLORS_COPY.heatmap.groupNames[myColor] || myColor}</td>
                 {groups.map(oppColor => {
                   if (myColor === oppColor) {
                     return (
-                      <td key={oppColor} style={{background: "var(--se-page)", textAlign: "center", color: "var(--se-muted)"}}>
+                      <td key={oppColor} className="heatmap-empty-cell">
                         -
                       </td>
                     );

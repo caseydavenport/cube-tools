@@ -8,6 +8,7 @@ import { Line, Pie } from 'react-chartjs-2'
 import { currentChartTheme, seriesColor, withAlpha } from "../../theme/chartTheme.js"
 import { average, inDeckColor, inSideboardColor } from "./deckChartHelpers.js"
 import { DECKSTATS_COPY } from "./copy.js"
+import "../stats.css"
 
 export function DeckManaValueChart(input) {
   let buckets = input.parsed.deckBuckets
@@ -77,7 +78,7 @@ export function DeckManaValueChart(input) {
 
   const data = {labels, datasets: dataset};
   return (
-    <div style={{"height":"700px", "width":"100%"}}>
+    <div className="stats-chart-700-full">
       <Line height={"300px"} width={"300px"} options={options} data={data} />
     </div>
   );
@@ -191,7 +192,7 @@ export function DeckBasicLandCountChart(input) {
 
   const data = {labels, datasets: dataset};
   return (
-    <div style={{"height":"700px", "width":"100%"}}>
+    <div className="stats-chart-700-full">
       <Line height={"300px"} width={"300px"} options={options} data={data} />
     </div>
   );
@@ -273,7 +274,7 @@ export function SideboardSizeOverTimeChart(input) {
 
   const data = {labels, datasets: dataset};
   return (
-    <div style={{"height":"700px", "width":"100%"}}>
+    <div className="stats-chart-700-full">
       <Line height={"300px"} width={"300px"} options={options} data={data} />
     </div>
   );
@@ -346,7 +347,7 @@ export function NumColorsOverTimeChart(input) {
 
   const data = {labels, datasets: dataset};
   return (
-    <div style={{"height":"700px", "width":"100%"}}>
+    <div className="stats-chart-700-full">
       <Line height={"300px"} width={"300px"} options={options} data={data} />
     </div>
   );
@@ -402,7 +403,7 @@ export function NumColorsPieChart(input) {
   };
 
   return (
-    <div style={{"height":"700px", "width":"100%"}}>
+    <div className="stats-chart-700-full">
       <Pie height={"300px"} width={"300px"} options={options} data={data} />
     </div>
   );

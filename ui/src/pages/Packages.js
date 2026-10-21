@@ -17,6 +17,7 @@ import { useDebouncedFilter } from "../hooks/useDebouncedFilter.js"
 import { fetchJson } from "../utils/fetchJson.js"
 import { WIN_CONFIDENCE_OPTS } from "../utils/Stats.js"
 import "../stats/stats.css"
+import "./pages.css"
 
 // COPY holds the text this page adds around its table. Placeholders for Casey
 // to replace.
@@ -186,7 +187,7 @@ export function Packages(props) {
   } else {
     table = (
       <div className="stats-table-wrap">
-        <table className="widget-table" style={{ width: "100%" }}>
+        <table className="widget-table page-table-full">
           <thead>
             <tr>
               {header("label", COPY.columns.label, undefined, false)}
@@ -199,13 +200,13 @@ export function Packages(props) {
           <tbody>
             {rows.map(s => (
               <tr key={s.label} className="widget-table-row">
-                <td className="header-cell" style={{ fontWeight: "bold" }}>{s.label}</td>
+                <td className="header-cell page-bold-cell">{s.label}</td>
                 <td style={{ textAlign: "right", background: rateColor(s.buildRate) }} title={ciTooltip(s, data.populatedDecks, confidence)}>
                   {pct(s.buildRate)}
                 </td>
-                <td style={{ textAlign: "right" }}>{s.package}</td>
-                <td style={{ textAlign: "right" }} title={COPY.tooltips.has3({ has3: s.has3, rate: pct(s.has3Rate) })}>
-                  {s.has3} <span style={{ color: "var(--se-muted)" }}>({pct(s.has3Rate)})</span>
+                <td className="page-right-cell">{s.package}</td>
+                <td className="page-right-cell" title={COPY.tooltips.has3({ has3: s.has3, rate: pct(s.has3Rate) })}>
+                  {s.has3} <span className="page-muted">({pct(s.has3Rate)})</span>
                 </td>
                 <td style={{ textAlign: "right", background: rateColor(s.commitmentRatio) }} title={COPY.tooltips.commitment}>
                   {s.commitmentRatio.toFixed(2)}
@@ -225,7 +226,7 @@ export function Packages(props) {
         <SectionCard title={COPY.tableTitle} action={summary}>
           {table}
         </SectionCard>
-        <p className="player-filter-hint" style={{ marginTop: "1rem" }}>
+        <p className="player-filter-hint page-section-gap">
           <RichText parts={COPY.hint} />
         </p>
       </div>

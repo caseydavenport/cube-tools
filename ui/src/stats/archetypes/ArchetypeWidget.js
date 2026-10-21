@@ -12,6 +12,7 @@ import { WinsByMatchup } from "./WinsByMatchup.js"
 import { MicroArchetypesChart } from "./TagCharts.js"
 import { ArchetypeDetailsPanel, ColorPickerHeader, TopCardsInArchetypeWidget } from "./TopCardsInArchetype.js"
 import { ArchetypeStatsTable } from "./ArchetypeStatsTable.js"
+import "../stats.css"
 
 // Register chart JS objects that we need to use.
 ChartJS.register(
@@ -142,7 +143,7 @@ export function ArchetypeWidget(input) {
 
       <Section id="trends" heading={ARCHETYPES_COPY.widget.trendsHeading}>
         <div className="controls-panel">
-          <div className="selector-group" style={{"justifyContent": "center"}}>
+          <div className="selector-group stats-row-centered">
             <DropdownHeader
               label={ARCHETYPES_COPY.widget.leftChart}
               options={chartOptions}

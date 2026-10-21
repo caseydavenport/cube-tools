@@ -32,6 +32,7 @@ import {
 import { Line, Bar } from 'react-chartjs-2'
 import { currentChartTheme, seriesColor, withAlpha } from "../theme/chartTheme.js"
 import { colorName } from "../utils/colorNames.js"
+import "./pages.css"
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, BarElement, Title, Tooltip, Legend)
 
@@ -437,7 +438,7 @@ export function ExplorePage(props) {
 
         {meta.playerFreq.length > 0 && (
           <div className="player-filter">
-            <div className="player-filter-head" style={{ cursor: "pointer" }} onClick={() => setPlayersOpen(o => !o)}>
+            <div className="player-filter-head page-clickable" onClick={() => setPlayersOpen(o => !o)}>
               <span className="caret">{playersOpen ? "▾" : "▸"}</span>
               <span className="section-heading">{COPY.controls.players}</span>
               <span className="player-filter-hint">
@@ -448,7 +449,7 @@ export function ExplorePage(props) {
             </div>
             {playersOpen && (
               <>
-                <div className="selector-group" style={{ gap: "0.5rem" }}>
+                <div className="selector-group page-row-gap">
                   <Button text={COPY.controls.selectAll} onClick={() => setExcluded(new Set())} />
                   <Button text={COPY.controls.deselectAll} onClick={() => setExcluded(new Set(meta.playerFreq.map(p => p.name)))} />
                 </div>
@@ -529,8 +530,8 @@ function PivotTable({ result, groupBy, metric, confidence }) {
 
   return (
     <div>
-      <div style={{ overflowX: "auto" }}>
-        <table className="widget-table" style={{ margin: "0 auto" }}>
+      <div className="page-table-scroll">
+        <table className="widget-table page-table-centered">
           <thead>
             <tr>
               <td className="header-cell">{groupLabel(groupBy.dim)}</td>
@@ -544,19 +545,19 @@ function PivotTable({ result, groupBy, metric, confidence }) {
               const c = r.cells[""]
               return (
                 <tr key={r.key} className="widget-table-row">
-                  <td className="header-cell" style={{ fontWeight: "bold" }}>{keyLabel(groupBy.dim, r.key)}</td>
+                  <td className="header-cell page-bold-cell">{keyLabel(groupBy.dim, r.key)}</td>
                   <td title={ciTooltip(c, confidence)} style={{ textAlign: "center", background: winColor(c) }}>
                     {cellGames(c) > 0 ? `${c.win_pct}%` : "-"}
                   </td>
-                  <td style={{ textAlign: "center" }}>{c.wins}-{c.losses}{c.draws ? `-${c.draws}` : ""}</td>
-                  <td style={{ textAlign: "center" }}>{c.decks}</td>
+                  <td className="page-center-cell">{c.wins}-{c.losses}{c.draws ? `-${c.draws}` : ""}</td>
+                  <td className="page-center-cell">{c.decks}</td>
                 </tr>
               )
             })}
           </tbody>
         </table>
       </div>
-      <div style={{ height: "320px", marginTop: "2rem" }}>
+      <div className="page-chart-320">
         <Bar options={options} data={chartData} />
       </div>
     </div>
@@ -574,11 +575,11 @@ function PivotHeatmap({ result, groupBy, splitBy, metric, confidence }) {
   }
 
   return (
-    <div style={{ overflowX: "auto" }}>
-      <table className="widget-table" style={{ margin: "0 auto", fontSize: "0.85em" }}>
+    <div className="page-table-scroll">
+      <table className="widget-table page-table-compact">
         <thead>
           <tr>
-            <td className="header-cell" style={{ minWidth: "80px" }}>{groupLabel(groupBy.dim)}</td>
+            <td className="header-cell page-col-80">{groupLabel(groupBy.dim)}</td>
             {cols.map(col => (
               <td key={col} className="header-cell"
                 style={{
@@ -595,7 +596,7 @@ function PivotHeatmap({ result, groupBy, splitBy, metric, confidence }) {
         <tbody>
           {rows.map(r => (
             <tr key={r.key} className="widget-table-row">
-              <td className="header-cell" style={{ fontWeight: "bold" }}>{keyLabel(groupBy.dim, r.key)}</td>
+              <td className="header-cell page-bold-cell">{keyLabel(groupBy.dim, r.key)}</td>
               {cols.map(col => {
                 const c = r.cells[col]
                 return (
@@ -660,7 +661,7 @@ function PivotLineChart({ result, groupBy, splitBy, metric }) {
   }
 
   return (
-    <div style={{ height: "420px" }}>
+    <div className="page-chart-420">
       <Line options={options} data={{ labels: xLabels, datasets }} />
     </div>
   )

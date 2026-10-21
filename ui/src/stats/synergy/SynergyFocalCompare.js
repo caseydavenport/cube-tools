@@ -8,6 +8,7 @@ import { HoverInfo } from "../../components/kit/HoverInfo.js"
 import { ChartTitle } from "./synergyParts.js"
 import { deltaTextColor } from "./SynergyTables.js"
 import { SYNERGY_COPY } from "./copy.js"
+import "../stats.css"
 
 // SynergyFocalCompare shows how each card's focal score (build-around hub strength)
 // shifts between winning and losing decks: a scatter of losing focal (x) vs winning
@@ -141,20 +142,20 @@ export function SynergyFocalCompare({ synergyCompare, cube, onCardSelected }) {
   ];
 
   return (
-    <div style={{marginTop: "1.5rem"}}>
+    <div className="stats-section-gap-lg">
       <ChartTitle title={SYNERGY_COPY.focalCompare.title} description={SYNERGY_COPY.focalCompare.description} />
       <div className="synergy-pair-grid">
-        <div style={{width: "min(600px, 100%)", aspectRatio: "1 / 1", margin: "0 auto"}}>
+        <div className="synergy-square-600">
           <Scatter options={options} data={data} plugins={[diagonalLine]} />
         </div>
         <div className="widget-scroll">
           <table className="widget-table">
             <thead className="table-header">
-              <tr><td colSpan="4" className="header-cell" style={{textAlign: "center", fontWeight: "bold", background: "var(--mantine-primary-color-filled)", color: "var(--se-page)"}}>{SYNERGY_COPY.focalCompare.tableTitle}</td></tr>
+              <tr><td colSpan="4" className="header-cell synergy-focal-head">{SYNERGY_COPY.focalCompare.tableTitle}</td></tr>
               <tr>
                 {headers.map((hdr, i) => {
                   const cell = (
-                    <td key={i} className="header-cell" style={{cursor: "pointer"}} onClick={() => onHeader(hdr.id)}>
+                    <td key={i} className="header-cell stats-clickable" onClick={() => onHeader(hdr.id)}>
                       {hdr.text}{sortCol === hdr.id ? (sortDir === "asc" ? " ▲" : " ▼") : ""}
                     </td>
                   );

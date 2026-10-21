@@ -5,6 +5,7 @@ import { SortFunc } from "../../utils/Utils.js"
 import { HoverInfo } from "../../components/kit/HoverInfo.js"
 import { hasData, visibleItems } from "../../utils/dataKinds.js"
 import { SYNERGY_COPY } from "./copy.js"
+import "../stats.css"
 
 function sortValue(sortBy, pair) {
   switch (sortBy) {
@@ -92,7 +93,7 @@ export function FocalPointsTable(input) {
             <tr className="widget-table-row" sort={stat.focal_score} key={i}>
               <td onClick={input.onCardSelected} id={stat.card_name}>{stat.card_name}</td>
               <td>{stat.focal_score.toFixed(2)}</td>
-              <td style={{"fontSize": "0.85em", "color": "var(--se-muted)"}}>{stat.top_partners.join(", ")}</td>
+              <td className="stats-muted-small">{stat.top_partners.join(", ")}</td>
             </tr>
           )).sort(SortFunc)}
         </tbody>

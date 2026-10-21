@@ -8,6 +8,7 @@ import { chartTooltip, currentChartTheme, withAlpha } from "../../theme/chartThe
 import { cardDisplayColor, median, pointOutline } from "./synergyHelpers.js"
 import { ChartTitle } from "./synergyParts.js"
 import { SYNERGY_COPY } from "./copy.js"
+import "../stats.css"
 
 // The color buckets offered by each hub-scatter dropdown. Mono colors use the
 // "identity contains this color" rule (so a UW card shows under both White and
@@ -101,7 +102,7 @@ export function SynergyHubCompare({ synergyData, cube, onCardSelected }) {
   };
 
   return (
-    <div style={{textAlign: "center"}}>
+    <div className="stats-centered">
       <ChartTitle title={SYNERGY_COPY.hub.title} description={SYNERGY_COPY.hub.description} />
       <div className="synergy-hub-grid">
         <SynergyHubChart
@@ -154,8 +155,8 @@ function HubCardDetail({ point, colorMap }) {
 
   const row = (label, value) => (
     <tr>
-      <td style={{color: "var(--se-muted)", paddingRight: "0.75rem", whiteSpace: "nowrap"}}>{label}</td>
-      <td style={{textAlign: "right", fontVariantNumeric: "tabular-nums"}}>{value}</td>
+      <td className="synergy-hub-label">{label}</td>
+      <td className="synergy-hub-value">{value}</td>
     </tr>
   );
 
@@ -167,7 +168,7 @@ function HubCardDetail({ point, colorMap }) {
       <div style={{color: cardDisplayColor(colorMap[point.name]), fontWeight: "bold", marginBottom: "0.5rem", textAlign: "center"}}>
         {point.name}
       </div>
-      <table style={{width: "100%", marginBottom: "0.6rem"}}>
+      <table className="synergy-hub-table-spaced">
         <tbody>
           {row(SYNERGY_COPY.hub.detailBreadth, point.density.toFixed(2))}
           {row(SYNERGY_COPY.hub.detailPeak, SYNERGY_COPY.hub.detailPeakValue({ peak: point.peak.toFixed(2), saturation: pct(point.peakSaturation), peakWith: peakWith }))}
@@ -175,17 +176,17 @@ function HubCardDetail({ point, colorMap }) {
           {row(SYNERGY_COPY.hub.detailDecks, point.deckCount)}
         </tbody>
       </table>
-      <div style={{color: "var(--se-muted)", borderTop: "1px solid var(--se-border)", paddingTop: "0.4rem", marginBottom: "0.3rem"}}>
-        {SYNERGY_COPY.hub.detailTopPartners} <span style={{opacity: 0.7}}>{SYNERGY_COPY.hub.detailTopPartnersKey}</span>
+      <div className="synergy-hub-subhead">
+        {SYNERGY_COPY.hub.detailTopPartners} <span className="stats-faded">{SYNERGY_COPY.hub.detailTopPartnersKey}</span>
       </div>
-      <table style={{width: "100%"}}>
+      <table className="stats-full-width">
         <tbody>
           {point.topPartners.length === 0
-            ? <tr><td style={{color: "var(--se-muted)"}}>{SYNERGY_COPY.hub.detailNoPartners}</td></tr>
+            ? <tr><td className="stats-muted">{SYNERGY_COPY.hub.detailNoPartners}</td></tr>
             : point.topPartners.map((name, i) => (
               <tr key={name}>
                 <td style={{color: cardDisplayColor(colorMap[name]), paddingRight: "0.75rem"}}>{name}</td>
-                <td style={{textAlign: "right", fontVariantNumeric: "tabular-nums", whiteSpace: "nowrap"}}>
+                <td className="synergy-hub-value-nowrap">
                   {point.topPartnerSynergies[i] != null ? SYNERGY_COPY.hub.detailPartnerLift({ lift: point.topPartnerSynergies[i].toFixed(2) }) : ""}
                   {point.topPartnerSaturations[i] != null ? SYNERGY_COPY.hub.detailPartnerSaturation({ saturation: pct(point.topPartnerSaturations[i]) }) : ""}
                 </td>
@@ -282,17 +283,17 @@ function SynergyHubChart({ pool, colorMap, scale, color, selectedName, onColorCh
   };
 
   return (
-    <div style={{textAlign: "center"}}>
+    <div className="stats-centered">
       <DropdownHeader
         label={SYNERGY_COPY.hub.colorDropdownLabel}
         value={color}
         options={HUB_COLOR_OPTIONS}
         onChange={onColorChange}
       />
-      <div style={{width: "min(500px, 100%)", aspectRatio: "1 / 1", margin: "0 auto"}}>
+      <div className="synergy-square-500">
         {points.length > 0
           ? <Scatter options={options} data={data} plugins={[medianLines]} />
-          : <div style={{color: "var(--se-muted)", paddingTop: "2rem"}}>{SYNERGY_COPY.hub.noCards}</div>}
+          : <div className="synergy-hub-empty">{SYNERGY_COPY.hub.noCards}</div>}
       </div>
     </div>
   );

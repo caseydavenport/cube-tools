@@ -3,7 +3,7 @@
 import React, { useEffect, useState, useMemo } from 'react'
 import { SegmentedControl, UnstyledButton } from "@mantine/core"
 import { useCube } from "../../contexts/CubeContext.js"
-import { buildDeckSubgraph, rankByDegree, greedyModularityCommunities, dominantLabel, NEUTRAL } from "../../utils/DeckGraph"
+import { buildDeckSubgraph, rankByDegree, greedyModularityCommunities, dominantLabel, neutralColor } from "../../utils/DeckGraph"
 import { RULE_COLORS, ruleColor } from "./ruleColors.js"
 import { edgeColorFor, editorHref } from "./designData.js"
 import { ForceGraph, cardColor } from "./ForceGraph.js"
@@ -46,7 +46,7 @@ export function CardSynergyMap({ cards, edges, links }) {
     for (const comm of communities) {
       const label = comm.length >= 2 ? dominantLabel(g, comm) : ""
       if (!label) {
-        for (const n of comm) communityColorOf[n] = NEUTRAL
+        for (const n of comm) communityColorOf[n] = neutralColor()
         continue
       }
       let color = ruleColor(linkIndex[label] ?? 0)
@@ -77,7 +77,7 @@ export function CardSynergyMap({ cards, edges, links }) {
       id: n,
       radius: Math.max(5, Math.min(12, 5 + ((degree[n] || 0) / max) * 7)),
       color: cardColor((byName.get(n) || {}).colors),
-      communityColor: analytics.communityColorOf[n] || NEUTRAL,
+      communityColor: analytics.communityColorOf[n] || neutralColor(),
       label: n,
     }))
     return { simNodes: sn, simEdges: se }

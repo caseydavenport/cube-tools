@@ -1,0 +1,73 @@
+/* Styles for the pages in this folder. */
+
+.page-row-centered {
+  justify-content: center;
+}
+
+.page-clickable {
+  cursor: pointer;
+}
+
+.selector-group.page-row-gap {
+  gap: 0.5rem;
+}
+
+.page-table-scroll {
+  overflow-x: auto;
+}
+
+.page-table-centered {
+  margin: 0 auto;
+}
+
+.header-cell.page-bold-cell {
+  font-weight: bold;
+}
+
+.page-center-cell {
+  text-align: center;
+}
+
+.page-chart-320 {
+  height: 320px;
+  margin-top: 2rem;
+}
+
+.page-table-compact {
+  margin: 0 auto;
+  font-size: 0.85em;
+}
+
+.page-col-80 {
+  min-width: 80px;
+}
+
+.page-chart-420 {
+  height: 420px;
+}
+
+.page-table-full {
+  width: 100%;
+}
+
+.page-right-cell {
+  text-align: right;
+}
+
+.page-muted {
+  color: var(--se-muted);
+}
+
+.page-section-gap {
+  margin-top: 1rem;
+}
+
+.page-chart-500 {
+  height: 500px;
+  width: 100%;
+}
+
+.page-muted-center-cell {
+  text-align: center;
+  color: var(--se-muted);
+}

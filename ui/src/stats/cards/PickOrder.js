@@ -7,6 +7,7 @@ import { HoverInfo } from "../../components/kit/HoverInfo.js"
 import { HoverTable } from "../../components/kit/HoverTable.js"
 import { CardPopBody } from "./CardTooltip.js"
 import { CARDS_COPY } from "./copy.js"
+import "../stats.css"
 
 // PickOrderSection shows per-card draft pick statistics aggregated across all
 // drafts (how early each card tends to be taken, how often it's first-picked,
@@ -50,14 +51,14 @@ export function PickOrderSection({ pickInfo }) {
 
   return (
     <div className="controls-panel">
-      <div className="selector-group" style={{ justifyContent: "center" }}>
+      <div className="selector-group stats-row-centered">
         <NumericInput label={CARDS_COPY.pickOrder.minDev} value={minDeviation} onChange={(e) => setMinDeviation(e.target.value)} />
         <NumericInput label={CARDS_COPY.pickOrder.maxDev} value={maxDeviation} onChange={(e) => setMaxDeviation(e.target.value)} />
         <NumericInput label={CARDS_COPY.pickOrder.minDrafts} value={minDrafts} onChange={(e) => setMinDrafts(e.target.value)} />
         <NumericInput label={CARDS_COPY.pickOrder.minAvg} value={minAvgPick} onChange={(e) => setMinAvgPick(e.target.value)} />
         <NumericInput label={CARDS_COPY.pickOrder.maxAvg} value={maxAvgPick} onChange={(e) => setMaxAvgPick(e.target.value)} />
       </div>
-      <div className="table-scroll" style={{ marginTop: "1rem" }}>
+      <div className="table-scroll stats-section-gap">
         <table className="widget-table">
           <thead className="table-header">
             <tr>

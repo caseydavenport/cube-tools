@@ -3,6 +3,7 @@
 
 import React from 'react'
 import { HoverInfo } from "../../components/kit/HoverInfo.js"
+import "../stats.css"
 
 export function OptionTooltip({ id, header, tip, children }) {
   return (
@@ -19,7 +20,7 @@ export function ChartTitle({ title, description, align = "center" }) {
   return (
     <h4 style={{color: "var(--mantine-primary-color-filled)", marginBottom: "0.5rem", textAlign: align}}>
       <HoverInfo info={description} position="bottom" width={440}>
-        <span style={{cursor: "help"}}>{title} <span style={{fontSize: "0.7em", opacity: 0.6}}>ⓘ</span></span>
+        <span className="synergy-help">{title} <span className="synergy-help-mark">ⓘ</span></span>
       </HoverInfo>
     </h4>
   );

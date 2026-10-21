@@ -12,6 +12,7 @@ import { CounterspellMatches, RemovalMatches, cardDrawMatches, lifegainMatches }
 import { ManaCostByOracleTextOverTime, OracleTextByColor, OracleTextOverTimeChart } from "./OracleTextCharts.js"
 import { DeckGraph } from "./DeckScatter.js"
 import { DECKSTATS_COPY } from "./copy.js"
+import "../stats.css"
 
 // Register chart JS objects that we need to use.
 ChartJS.register(
@@ -112,7 +113,7 @@ export function DeckWidget(input) {
   return (
     <div className="analyze-page">
       <div className="controls-panel">
-        <div className="selector-group" style={{"justifyContent": "center"}}>
+        <div className="selector-group stats-row-centered">
           <DropdownHeader
             label={DECKSTATS_COPY.widget.leftChartLabel}
             options={chartOptions}

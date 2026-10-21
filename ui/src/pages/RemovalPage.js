@@ -13,6 +13,7 @@ import { goodBadTint } from "../stats/tints.js"
 import { availableValue, visibleItems } from "../utils/dataKinds.js"
 import { useCubeInfo } from "../utils/useCubeWritable.js"
 import "../stats/stats.css"
+import "./pages.css"
 
 // COPY holds the text this page adds around its table. Placeholders for Casey
 // to replace.
@@ -188,7 +189,7 @@ export function RemovalPage(props) {
       <div className="analyze-page">
         <SectionCard title={COPY.tableTitle} action={controls}>
           <div className="stats-table-wrap">
-            <table className="widget-table" style={{ width: "100%" }}>
+            <table className="widget-table page-table-full">
               <thead>
                 <tr>
                   {header("name", COPY.columns.card, undefined, false)}
@@ -198,7 +199,7 @@ export function RemovalPage(props) {
                   {shownMode === "raw"
                     ? header("coverage", COPY.columns.targets, COPY.columnTips.targets)
                     : header("coverage", COPY.columns.percentPlayed, COPY.columnTips.percentPlayed)}
-                  <HoverInfo title={COPY.columns.maxMv} info={COPY.columnTips.maxMv}><td className="header-cell" style={{ textAlign: "right" }}>{COPY.columns.maxMv}</td></HoverInfo>
+                  <HoverInfo title={COPY.columns.maxMv} info={COPY.columnTips.maxMv}><td className="header-cell page-right-cell">{COPY.columns.maxMv}</td></HoverInfo>
                   {header("reach", COPY.columns.reach, COPY.columnTips.reach)}
                   {header("avg", COPY.columns.avg, COPY.columnTips.avg)}
                 </tr>
@@ -206,20 +207,20 @@ export function RemovalPage(props) {
               <tbody>
                 {rows.map(c => (
                   <tr key={c.name} className="widget-table-row">
-                    <td className="header-cell" style={{ fontWeight: "bold" }}>{c.name}</td>
-                    <td style={{ textAlign: "right" }} title={c.mana_cost && c.eff_cost !== c.mv ? COPY.costTitle({ manaCost: c.mana_cost, mv: c.mv }) : c.mana_cost}>
+                    <td className="header-cell page-bold-cell">{c.name}</td>
+                    <td className="page-right-cell" title={c.mana_cost && c.eff_cost !== c.mv ? COPY.costTitle({ manaCost: c.mana_cost, mv: c.mv }) : c.mana_cost}>
                       {c.eff_cost}{c.eff_cost !== c.mv ? "*" : ""}
                     </td>
                     <td>{c.kind}</td>
-                    <td style={{ color: "var(--se-muted)" }}>{c.restriction}</td>
+                    <td className="page-muted">{c.restriction}</td>
                     {c.scalable ? (
-                      <td style={{ textAlign: "center", color: "var(--se-muted)" }} colSpan={4}>{COPY.scalable}</td>
+                      <td className="page-muted-center-cell" colSpan={4}>{COPY.scalable}</td>
                     ) : (
                       <>
-                        <td style={{ textAlign: "right" }}>
+                        <td className="page-right-cell">
                           {shownMode === "raw" ? `${c.targets} (${c.pct_cube}%)` : `${c.pct_played}%`}
                         </td>
-                        <td style={{ textAlign: "right" }}>{c.max_mv_killed}</td>
+                        <td className="page-right-cell">{c.max_mv_killed}</td>
                         <td style={{ textAlign: "right", background: effColor(c.reach_eff) }}>{fmtDelta(c.reach_eff)}</td>
                         <td style={{ textAlign: "right", background: effColor(avgEff(c)) }}>{fmtDelta(avgEff(c))}</td>
                       </>
@@ -230,7 +231,7 @@ export function RemovalPage(props) {
             </table>
           </div>
         </SectionCard>
-        <p className="player-filter-hint" style={{ marginTop: "1rem" }}>
+        <p className="player-filter-hint page-section-gap">
           <RichText parts={COPY.hint} />
         </p>
       </div>

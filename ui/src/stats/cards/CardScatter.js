@@ -11,6 +11,7 @@ import { chartTooltip, currentChartTheme, deltaFill, seriesColor } from "../../t
 import { shouldSkip } from "./CardStatsTable.js"
 import { CARDS_COPY } from "./copy.js"
 import { CardAxis, CardScatterAxes, axisLabel } from "../scatterAxes.js"
+import "../stats.css"
 
 // scatterPointColor colors one card on the scatter plot from its kind: the
 // selected card in the text color, a card with no games muted, every card the
@@ -206,7 +207,7 @@ export function CardGraph(input) {
   const data = {labels, datasets: dataset};
   return (
     <div className="chart-container">
-      <div className="selector-group" style={{"justifyContent": "center", "marginBottom": "1rem"}}>
+      <div className="selector-group stats-row-centered-spaced">
         <DropdownHeader
           label={CARDS_COPY.scatter.xAxisLabel}
           options={visibleItems(CardScatterAxes, input.info)}
