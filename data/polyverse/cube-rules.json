@@ -41,6 +41,12 @@
       ]
     },
     {
+      "name": "Battle cry",
+      "conditions": [
+        "o:\"battle cry\""
+      ]
+    },
+    {
       "name": "Big Instants",
       "conditions": [
         "t:instant cmc\u003e2"
@@ -376,6 +382,12 @@
       "conditions": [
         "o:landfall",
         "o:\"Whenever this land or another land you control enters\""
+      ]
+    },
+    {
+      "name": "Lands",
+      "conditions": [
+        "t:land"
       ]
     },
     {
@@ -1058,6 +1070,14 @@
             "Islands",
             "Forests"
           ]
+        },
+        {
+          "sources": [
+            "card:Field of the Dead"
+          ],
+          "targets": [
+            "Lands"
+          ]
         }
       ]
     },
@@ -1104,7 +1124,8 @@
           ],
           "targets": [
             "Aura Buffs",
-            "Counters on others"
+            "Counters on others",
+            "Battle cry"
           ]
         }
       ]
