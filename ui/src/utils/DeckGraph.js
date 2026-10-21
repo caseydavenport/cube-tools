@@ -1,6 +1,7 @@
 // Deck-subgraph analytics for the Map view, ported from the hack/deckgraph Go
-// prototype. Every function is pure and deterministic (sorted nodes, lexical
-// tie-breaks) so repeated renders produce identical output.
+// prototype. The analytics are pure and deterministic (sorted nodes, lexical
+// tie-breaks) so repeated renders produce identical output. Only neutralColor
+// reads the screen, for the color scheme.
 
 import { currentChartTheme } from "../theme/chartTheme.js"
 

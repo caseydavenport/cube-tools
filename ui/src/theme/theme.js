@@ -33,7 +33,7 @@ function schemeVars(palette) {
   }
 }
 
-// cssVariablesResolver publishes the tokens as --se-* variables so plain CSS,
+// cssVariablesResolver publishes the tokens as --se-* variables so plain CSS
 // can follow the active color scheme.
 export function cssVariablesResolver() {
   return {

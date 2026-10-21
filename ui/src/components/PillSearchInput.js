@@ -359,7 +359,7 @@ export function PillSearchInput({ value, onChange, placeholder, label, cardNames
               <span>{term}</span>
               <UnstyledButton
                 className="search-pill-remove"
-                aria-label={`${COMPONENTS_COPY.pillSearchInput.removePill} ${term}`}
+                aria-label={COMPONENTS_COPY.pillSearchInput.removePill(term)}
                 onClick={(e) => {
                   e.stopPropagation();
                   removePill(index);

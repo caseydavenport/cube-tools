@@ -13,6 +13,6 @@ export const COMPONENTS_COPY = {
   },
   pillSearchInput: {
     // draft: Casey to rewrite
-    removePill: "Remove",
+    removePill: (term) => `Remove ${term}`,
   },
 }

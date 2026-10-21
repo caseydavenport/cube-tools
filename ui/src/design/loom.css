@@ -32,7 +32,8 @@ button.de-loom-chip:hover { border-color: var(--mantine-primary-color-filled); }
   color: var(--se-muted);
 }
 .de-loom-labels span:first-child { text-align: right; }
-.de-loom-note { font-size: 0.78rem; }
+/* Paired with .de-muted, which loads later from rules.css, so it needs both classes to win. */
+.de-muted.de-loom-note { font-size: 0.78rem; }
 
 /* Compact: smaller chips and still threads, for inside a popover. */
 .de-loom-compact { gap: 0.3rem 4.25rem; margin: 0; }

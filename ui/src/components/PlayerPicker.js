@@ -50,16 +50,21 @@ export function PlayerPicker({ players, value, onChange, onAdded, allowAnonymous
     )
   }
 
-  const options = [
-    ...(allowAnonymous || !value
-      ? [{ value: "0", label: allowAnonymous ? COMPONENTS_COPY.playerPicker.anonymous : COMPONENTS_COPY.playerPicker.pickPlayer }]
-      : []),
-    ...playerOptions(players, takenIds).map((p) => {
-      const taken = p.taken && p.id !== value
-      return { value: String(p.id), label: p.name + (taken ? COMPONENTS_COPY.playerPicker.hasDeck : ""), disabled: taken }
-    }),
-    { value: addOption, label: COMPONENTS_COPY.playerPicker.addPlayer },
-  ]
+  const options = []
+  if (allowAnonymous) {
+    options.push({ value: "0", label: COMPONENTS_COPY.playerPicker.anonymous })
+  } else if (!value) {
+    options.push({ value: "0", label: COMPONENTS_COPY.playerPicker.pickPlayer })
+  }
+  for (const p of playerOptions(players, takenIds)) {
+    const taken = p.taken && p.id !== value
+    let label = p.name
+    if (taken) {
+      label += COMPONENTS_COPY.playerPicker.hasDeck
+    }
+    options.push({ value: String(p.id), label: label, disabled: taken })
+  }
+  options.push({ value: addOption, label: COMPONENTS_COPY.playerPicker.addPlayer })
 
   return (
     <NativeSelect

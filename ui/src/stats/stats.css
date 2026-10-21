@@ -151,6 +151,7 @@
    on the left, then the tables. */
 .stats-card-pop {
   display: flex;
+  flex-wrap: wrap;
   align-items: flex-start;
   gap: 14px;
 }
