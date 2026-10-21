@@ -24,6 +24,8 @@ import { Registry } from "./Registry.js"
 import { CardLens } from "./CardLens.js"
 import { RULES_COPY } from "./copy.js"
 import "../../components/kit/popover.css"
+import "./rules.css"
+import "../../decks/decks.css"
 
 // DesignEditorPage is the workbench for the design rulebook. Three panes:
 // a registry of every group and link (browse, create, spot problems), a detail

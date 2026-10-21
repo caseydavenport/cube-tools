@@ -2,6 +2,7 @@ import React from 'react'
 import { ActionIcon, Button, TextInput } from "@mantine/core"
 import { IconPlus, IconX } from "@tabler/icons-react"
 import { DropdownHeader, NumericInput } from "./Dropdown.js"
+import "./components.css"
 
 // predicateDims returns the deck attributes a filter can test, labeled from
 // `copy`. `kind` drives which operators and value control render for the row.

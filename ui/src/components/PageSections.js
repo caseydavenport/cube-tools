@@ -1,6 +1,7 @@
 // Copyright (c) 2026 Tigera, Inc. All rights reserved.
 
 import React from 'react';
+import "./components.css";
 
 // Section wraps a content block on an Analyze page with a consistent heading
 // and an id that the in-page SectionNav can jump to.

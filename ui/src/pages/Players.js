@@ -19,6 +19,7 @@ import {
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
 import { currentChartTheme } from "../theme/chartTheme.js"
+import "../stats/stats.css"
 
 // Register chart JS objects that we need to use.
 ChartJS.register(

@@ -1,6 +1,7 @@
 import React from 'react'
 import { Button as MantineButton, Checkbox as MantineCheckbox, Group, NativeSelect, NumberInput, Text } from "@mantine/core"
 import { asEvent, optionKey } from "./kit/controls.js"
+import "./components.css"
 
 // The stats pages' shared controls. Each keeps the props and change-event
 // shape its callers have always used, and renders the matching Mantine input,

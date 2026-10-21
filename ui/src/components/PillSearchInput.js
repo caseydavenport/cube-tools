@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { parseTerms, QueryTermMetadata } from '../utils/Query.js';
+import "./components.css";
 
 // Pure helper functions for autocomplete logic
 function computeSuggestions(fragment, cardNames, playerNames, archetypes, eventCodes) {

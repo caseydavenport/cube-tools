@@ -8,6 +8,7 @@ import { requestForConditions } from "../../utils/DesignRules.js"
 import { useDesignMatch } from "../../utils/useDesignMatch.js"
 import { ClauseInputs, ConditionTooltip, ExcludeInputs, RuleInput } from "./RuleInputs.js"
 import { MAP_COPY } from "./copy.js"
+import "../rules/rules.css"
 
 export function GroupEditModal({ group, color, onSave, onCancel }) {
   const cube = useCube()

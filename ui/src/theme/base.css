@@ -65,12 +65,6 @@ code {
   padding: 0;
 }
 
-/* Not a reset: components/Dropdown.js reuses Bootstrap's "dropdown" class name, and
-   Bootstrap made it positioned, which changes how Chrome draws the text inside it. */
-.dropdown {
-  position: relative;
-}
-
 /* A file input's "Choose Files" button is drawn as a plain button in the page font,
    which gives it the line height the import forms were laid out with. */
 ::file-selector-button {

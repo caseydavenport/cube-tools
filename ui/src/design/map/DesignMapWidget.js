@@ -10,6 +10,7 @@ import { useAllMemberships } from "./designData.js"
 import { DrillMap } from "./DrillMap.js"
 import { DetailPanel } from "./MapDetails.js"
 import { MAP_COPY } from "./copy.js"
+import "./map.css"
 
 // The design map is a drill-in explorer. Focus is a stack of levels the user has
 // drilled through, so the breadcrumb can climb back out:

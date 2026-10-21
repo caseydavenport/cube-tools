@@ -291,3 +291,247 @@
   color: var(--mantine-color-red-light-color);
   font-size: 13px;
 }
+
+/* The img prefix keeps the .cardimage rules above .button-selected, which loads after this file. */
+img.cardimage {
+  border-radius: 8px;
+  transition: transform 0.2s;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+}
+
+.cardimage:hover {
+  transform: scale(1.05) rotate(1deg);
+  z-index: 10;
+}
+
+/* Card Image Sizing */
+img.cardimage {
+  width: 120px; /* Reduced from 200px */
+  height: auto;
+  border-radius: 6px;
+  margin: 2px;
+  transition: transform 0.1s ease;
+}
+
+.cardimage-selected {
+  width: 120px;
+  height: auto;
+  border-radius: 6px;
+  margin: 2px;
+  box-shadow: 0 0 0 3px var(--primary);
+}
+
+.flexhouse {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+/* Deck text view: lay the CMC columns out as even-width tracks that fill the
+   page in one row, instead of the ragged content-sized wrap .flexhouse gives.
+   Empty CMC buckets render nothing, so the count varies per deck; auto-fill
+   keeps each column the same width and wraps cleanly if a deck has more. */
+.deck-columns {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1rem;
+  align-items: start;
+  margin-top: 1rem;
+}
+
+/* Lands sit in their own full-width section below the curve. The list flows
+   into newspaper-style columns so it reads short and wide instead of one tall
+   skinny column. */
+.deck-lands {
+  margin-top: 1.5rem;
+}
+
+.deck-lands .decklist-body {
+  column-width: 230px;
+  column-gap: 1.5rem;
+}
+
+.deck-cards .decklist {
+  width: 100%;
+}
+
+/* Column header: CMC=2, Lands, etc. */
+.deck-cards .decklist-title {
+  background: var(--table-header-background);
+  color: var(--text-muted);
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 600;
+  padding: 0.6rem 0.75rem;
+}
+
+/* Keep a type group intact when the lands section flows into columns, and give
+   each group (after the first) room above its divider so the sub-heading reads
+   as a clear break from the cards above it. */
+.deck-cards .type-group {
+  break-inside: avoid;
+}
+
+.deck-cards .type-group:not(:first-child) {
+  margin-top: 0.85rem;
+}
+
+/* Small divider that labels each card type within a column. */
+.deck-cards .type-subheading {
+  color: var(--text-muted);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 600;
+  padding: 0.15rem 0.75rem;
+}
+
+/* One card per row: color pips followed by the name. */
+.deck-cards .decklist-row {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.35rem 0.75rem;
+  border-bottom: 1px solid var(--border);
+  background-color: var(--background-color);
+  color: var(--white);
+  text-decoration: none;
+  line-height: 1.2;
+  transition: background 0.2s ease;
+}
+
+.deck-cards .decklist-row:hover {
+  background: var(--table-row-hover);
+}
+
+.deck-cards .decklist-pip {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+}
+
+/* Shrink the mana symbols so they sit congruently with the card name text
+   instead of towering over it. */
+.deck-cards .decklist-pip .mana-symbol {
+  width: 16px;
+  height: 16px;
+}
+
+/* Truncate long names with an ellipsis rather than wrapping to a second line
+   (min-width:0 lets the flex item shrink so the ellipsis can kick in). */
+.deck-cards .decklist-name {
+  flex: 1 1 auto;
+  min-width: 0;
+  font-size: 0.9rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Search-match highlight: reuse the button-selected coloring but strip the
+   button chrome so the row stays a row. */
+.deck-cards .decklist-row.button-selected {
+  padding: 0.35rem 0.75rem;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  background: var(--primary) !important;
+  color: var(--page-background) !important;
+}
+
+.deck-images-columns {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  align-items: flex-start;
+  overflow-x: auto;
+  padding-bottom: 2rem;
+  white-space: nowrap;
+}
+
+.deck-images-group {
+  background: var(--card-background);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1rem;
+  min-width: 180px;
+  flex-shrink: 0;
+  width: fit-content;
+  display: flex;
+  flex-direction: column;
+}
+
+.card-stacks-container {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  width: 100%;
+}
+
+.card-stack {
+  display: flex;
+  flex-direction: column;
+  width: 200px;
+}
+
+.card-stack-item {
+  margin-bottom: -210px; /* Overlap cards - show less of each card (~70px visible) */
+  transition: transform 0.2s ease;
+}
+
+.card-stack-item:last-child {
+  margin-bottom: 0;
+}
+
+.card-stack-item:hover {
+  transform: translateY(-10px);
+  z-index: 100;
+}
+
+/* Synergy hover (deck text view): hovering a card highlights the other cards it
+   links to (per the design map) and draws connector lines between them. */
+.deck-cards { position: relative; }
+
+/* SVG overlay carrying the connector lines. Sits above the columns but lets
+   mouse events through so hovering still works. */
+.synergy-lines {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: visible;
+  z-index: 4;
+}
+.synergy-lines line {
+  stroke: var(--primary);
+  stroke-width: 2;
+  stroke-linecap: round;
+  opacity: 0.85;
+}
+
+/* The hovered card and the cards it links to stay fully lit and get an accent
+   rail; everything else fades back so the connections read at a glance. */
+.deck-cards .decklist-row.synergy-source,
+.deck-cards .decklist-row.synergy-linked {
+  background: var(--table-row-hover);
+  box-shadow: inset 3px 0 0 var(--primary);
+  position: relative;
+  z-index: 5;
+}
+.deck-cards .decklist-row.synergy-source { font-weight: 700; }
+.deck-cards .decklist-row.synergy-dim { opacity: 0.3; }
+
+/* Card image preview, pinned to the viewport corner so it never covers the grid
+   or the connector lines. Driven by the same hover as the highlight. */
+.deck-hover-preview {
+  position: fixed;
+  bottom: 1rem;
+  right: 1rem;
+  z-index: 50;
+  pointer-events: none;
+}
+.deck-hover-preview img {
+  width: 240px;
+}

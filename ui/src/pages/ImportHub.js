@@ -4,6 +4,7 @@ import OCRImport from './OCRImport.js';
 import ImportWizard from './ImportWizard.js';
 import HedronImport from './HedronImport.js';
 import PhotoImport from './PhotoImport.js';
+import "./import.css";
 
 // MODES drives the picker grid and the dispatch below. `kind` selects the flow;
 // text kinds are handled by ImportWizard, image kinds by their own components.
