@@ -182,13 +182,11 @@ function WhyLinkedTip({ tipRef, focusCard, hovered, why, nodeMap, groupIndex, li
   return (
     <div ref={tipRef} className="kit-pop dm-why-tip">
       <PopTitle
-        lead={<CardDot card={nodeMap[focusCard]} />}
         title={
           <span className="dm-why-pair">
-            <span>{focusCard}</span>
+            <CardName name={focusCard} card={nodeMap[focusCard]} />
             <span className="dm-why-swap">{MAP_COPY.drillMap.between}</span>
-            <CardDot card={nodeMap[hovered]} />
-            <span>{hovered}</span>
+            <CardName name={hovered} card={nodeMap[hovered]} />
           </span>
         }
         badge={MAP_COPY.drillMap.linkCount({ count: why.length })}
@@ -206,6 +204,17 @@ function WhyLinkedTip({ tipRef, focusCard, hovered, why, nodeMap, groupIndex, li
         {why.map(w => <WhyLegendEntry key={w.label} link={w} color={ruleColor(linkIndex[w.label] ?? 0)} />)}
       </div>
     </div>
+  )
+}
+
+// CardName is a card's dot and name, kept on one line so a dot never wraps
+// away from its name.
+function CardName({ name, card }) {
+  return (
+    <span className="dm-why-card">
+      <CardDot card={card} />
+      {name}
+    </span>
   )
 }
 
