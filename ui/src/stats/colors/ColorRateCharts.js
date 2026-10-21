@@ -103,7 +103,7 @@ export function ColorPerformanceDeltaChart(input) {
 
   return (
     <div className="chart-container">
-      <div className="stats-chart-420">
+      <div className="colors-rate-chart">
         <Bar options={options} data={data} />
       </div>
     </div>
@@ -357,7 +357,7 @@ export function ColorRateChart(input) {
 
   const data = {labels, datasets: dataset};
   return (
-    <div className="stats-chart-700">
+    <div className="stats-main-chart">
       <Line height={"300px"} options={options} data={data} />
     </div>
   );

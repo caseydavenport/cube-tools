@@ -145,7 +145,7 @@ export function MicroArchetypesChart(input) {
 
   const data = {labels, datasets: chartDataset};
   return (
-    <div className="stats-chart-800-full">
+    <div className="stats-tag-chart">
       <Line height={"300px"} width={"300px"} options={options} data={data} />
     </div>
   );

@@ -290,7 +290,7 @@ function SynergyHubChart({ pool, colorMap, scale, color, selectedName, onColorCh
         options={HUB_COLOR_OPTIONS}
         onChange={onColorChange}
       />
-      <div className="synergy-square-500">
+      <div className="synergy-hub-scatter">
         {points.length > 0
           ? <Scatter options={options} data={data} plugins={[medianLines]} />
           : <div className="synergy-hub-empty">{SYNERGY_COPY.hub.noCards}</div>}

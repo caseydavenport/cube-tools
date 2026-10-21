@@ -78,7 +78,7 @@ export function DeckManaValueChart(input) {
 
   const data = {labels, datasets: dataset};
   return (
-    <div className="stats-chart-700-full">
+    <div className="stats-widget-chart">
       <Line height={"300px"} width={"300px"} options={options} data={data} />
     </div>
   );
@@ -192,7 +192,7 @@ export function DeckBasicLandCountChart(input) {
 
   const data = {labels, datasets: dataset};
   return (
-    <div className="stats-chart-700-full">
+    <div className="stats-widget-chart">
       <Line height={"300px"} width={"300px"} options={options} data={data} />
     </div>
   );
@@ -274,7 +274,7 @@ export function SideboardSizeOverTimeChart(input) {
 
   const data = {labels, datasets: dataset};
   return (
-    <div className="stats-chart-700-full">
+    <div className="stats-widget-chart">
       <Line height={"300px"} width={"300px"} options={options} data={data} />
     </div>
   );
@@ -347,7 +347,7 @@ export function NumColorsOverTimeChart(input) {
 
   const data = {labels, datasets: dataset};
   return (
-    <div className="stats-chart-700-full">
+    <div className="stats-widget-chart">
       <Line height={"300px"} width={"300px"} options={options} data={data} />
     </div>
   );
@@ -403,7 +403,7 @@ export function NumColorsPieChart(input) {
   };
 
   return (
-    <div className="stats-chart-700-full">
+    <div className="stats-widget-chart">
       <Pie height={"300px"} width={"300px"} options={options} data={data} />
     </div>
   );

@@ -214,10 +214,6 @@ html .section-nav a {
 }
 .predicate-add { align-self: flex-start; }
 
-.pill-search-field {
-  position: relative;
-}
-
 .pill-search-full {
   width: 100%;
 }

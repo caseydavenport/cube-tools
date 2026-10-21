@@ -207,8 +207,8 @@ function WhyLinkedTip({ tipRef, focusCard, hovered, why, nodeMap, groupIndex, li
   )
 }
 
-// CardName is a card's dot and name, kept on one line so a dot never wraps
-// away from its name.
+// CardName is a card's dot and name. The dot stays beside the name's first
+// line, and a long name wraps inside the tip.
 function CardName({ name, card }) {
   return (
     <span className="dm-why-card">

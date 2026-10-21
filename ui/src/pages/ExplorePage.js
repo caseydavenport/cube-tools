@@ -5,6 +5,7 @@ import { useCube } from "../contexts/CubeContext.js"
 import { DropdownHeader, NumericInput, Button } from "../components/Dropdown.js"
 import { PillSearchInput } from "../components/PillSearchInput.js"
 import { HoverInfo } from "../components/kit/HoverInfo.js"
+import { HoverStats } from "../components/kit/HoverStats.js"
 import { SectionCard } from "../components/kit/SectionCard.js"
 import { SettingsPopover } from "../components/kit/SettingsPopover.js"
 import { DateRangeMenu } from "../toolbar/DateRangeMenu.js"
@@ -140,9 +141,11 @@ const COPY = {
 
   tooltip: {
     record: ({ wins, losses, draws }) => `${wins}W-${losses}L${draws ? "-" + draws + "D" : ""}`,
-    noGames: ({ record }) => `${record} (0 games)`,
-    summary: ({ record, games, level, winPct, margin, low, high, significant }) =>
-      `${record} (${games} games)\n${level}% CI: ${winPct}% ±${margin.toFixed(1)} (${low.toFixed(0)}–${high.toFixed(0)}%)\n${significant ? "distinguishable from 50%" : "not distinguishable from 50%"}`,
+    games: ({ games }) => `${games} games`,
+    interval: ({ level }) => `${level}% CI`,
+    intervalValue: ({ winPct, margin, low, high }) => `${winPct}% ±${margin.toFixed(1)} (${low.toFixed(0)}–${high.toFixed(0)}%)`,
+    distinguishable: "distinguishable from 50%",
+    notDistinguishable: "not distinguishable from 50%",
   },
 
   predicates: {
@@ -287,25 +290,30 @@ function winCI(c) {
   return { margin: (hi - lo) / 2, lo, hi, significant: !!c.significant }
 }
 
-// ciTooltip is the hover text carrying the record, sample size, and the
-// interval + significance verdict - kept out of the cell itself to avoid clutter.
-function ciTooltip(c, confidence) {
-  if (!c) return ""
-  const games = cellGames(c)
+// withWinStats wraps a pivot table cell in a popover with its record, sample
+// size, and interval + significance verdict, kept out of the cell itself to
+// avoid clutter. A cell with no data is returned as it is.
+function withWinStats(c, confidence, cell, key) {
+  if (!c) {
+    return cell
+  }
   const record = COPY.tooltip.record({ wins: c.wins, losses: c.losses, draws: c.draws })
+  const badge = COPY.tooltip.games({ games: cellGames(c) })
   const s = winCI(c)
-  if (!s) return COPY.tooltip.noGames({ record })
+  if (!s) {
+    return <HoverStats key={key} title={record} badge={badge}>{cell}</HoverStats>
+  }
+
   const level = Math.round(parseFloat(confidence || "0.8") * 100)
-  return COPY.tooltip.summary({
-    record,
-    games,
-    level,
-    winPct: c.win_pct,
-    margin: s.margin,
-    low: s.lo,
-    high: s.hi,
-    significant: s.significant,
-  })
+  const rows = [{
+    label: COPY.tooltip.interval({ level }),
+    value: COPY.tooltip.intervalValue({ winPct: c.win_pct, margin: s.margin, low: s.lo, high: s.hi }),
+  }]
+  let verdict = COPY.tooltip.notDistinguishable
+  if (s.significant) {
+    verdict = COPY.tooltip.distinguishable
+  }
+  return <HoverStats key={key} title={record} badge={badge} rows={rows} footer={verdict}>{cell}</HoverStats>
 }
 
 // ExplorePage is the Charts page: the toolbar with its date range, deck filter,
@@ -437,7 +445,7 @@ export function ExplorePage(props) {
 
         {meta.playerFreq.length > 0 && (
           <div className="player-filter">
-            <div className="player-filter-head page-clickable" onClick={() => setPlayersOpen(o => !o)}>
+            <div className="player-filter-head stats-clickable" onClick={() => setPlayersOpen(o => !o)}>
               <span className="caret">{playersOpen ? "▾" : "▸"}</span>
               <span className="section-heading">{COPY.controls.players}</span>
               <span className="player-filter-hint">
@@ -529,7 +537,7 @@ function PivotTable({ result, groupBy, metric, confidence }) {
 
   return (
     <div>
-      <div className="page-table-scroll">
+      <div className="stats-table-scroll">
         <table className="widget-table page-table-centered">
           <thead>
             <tr>
@@ -544,10 +552,12 @@ function PivotTable({ result, groupBy, metric, confidence }) {
               const c = r.cells[""]
               return (
                 <tr key={r.key} className="widget-table-row">
-                  <td className="header-cell page-bold-cell">{keyLabel(groupBy.dim, r.key)}</td>
-                  <td title={ciTooltip(c, confidence)} style={{ textAlign: "center", background: winColor(c) }}>
-                    {cellGames(c) > 0 ? `${c.win_pct}%` : "-"}
-                  </td>
+                  <td className="header-cell stats-bold">{keyLabel(groupBy.dim, r.key)}</td>
+                  {withWinStats(c, confidence, (
+                    <td style={{ textAlign: "center", background: winColor(c) }}>
+                      {cellGames(c) > 0 ? `${c.win_pct}%` : "-"}
+                    </td>
+                  ))}
                   <td className="page-center-cell">{c.wins}-{c.losses}{c.draws ? `-${c.draws}` : ""}</td>
                   <td className="page-center-cell">{c.decks}</td>
                 </tr>
@@ -556,7 +566,7 @@ function PivotTable({ result, groupBy, metric, confidence }) {
           </tbody>
         </table>
       </div>
-      <div className="page-chart-320">
+      <div className="explore-pivot-chart">
         <Bar options={options} data={chartData} />
       </div>
     </div>
@@ -574,11 +584,11 @@ function PivotHeatmap({ result, groupBy, splitBy, metric, confidence }) {
   }
 
   return (
-    <div className="page-table-scroll">
-      <table className="widget-table page-table-compact">
+    <div className="stats-table-scroll">
+      <table className="widget-table stats-table-compact">
         <thead>
           <tr>
-            <td className="header-cell page-col-80">{groupLabel(groupBy.dim)}</td>
+            <td className="header-cell explore-heatmap-row-head">{groupLabel(groupBy.dim)}</td>
             {cols.map(col => (
               <td key={col} className="header-cell"
                 style={{
@@ -595,18 +605,18 @@ function PivotHeatmap({ result, groupBy, splitBy, metric, confidence }) {
         <tbody>
           {rows.map(r => (
             <tr key={r.key} className="widget-table-row">
-              <td className="header-cell page-bold-cell">{keyLabel(groupBy.dim, r.key)}</td>
+              <td className="header-cell stats-bold">{keyLabel(groupBy.dim, r.key)}</td>
               {cols.map(col => {
                 const c = r.cells[col]
-                return (
-                  <td key={col} title={ciTooltip(c, confidence)}
+                return withWinStats(c, confidence, (
+                  <td key={col}
                     style={{
                       textAlign: "center",
                       background: metric === "win_pct" && c ? winColor(c) : undefined,
                     }}>
                     {metricText(metric, c)}
                   </td>
-                )
+                ), col)
               })}
             </tr>
           ))}
@@ -660,7 +670,7 @@ function PivotLineChart({ result, groupBy, splitBy, metric }) {
   }
 
   return (
-    <div className="page-chart-420">
+    <div className="explore-line-chart">
       <Line options={options} data={{ labels: xLabels, datasets }} />
     </div>
   )

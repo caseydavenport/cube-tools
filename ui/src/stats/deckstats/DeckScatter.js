@@ -135,7 +135,7 @@ export function DeckGraph(input) {
         />
       </div>
 
-      <div align="center" className="stats-chart-min-700">
+      <div align="center" className="stats-deck-scatter">
         <Scatter className="chart" options={options} data={data} />
       </div>
     </div>

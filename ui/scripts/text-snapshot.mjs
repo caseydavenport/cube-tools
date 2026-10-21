@@ -26,8 +26,10 @@ const PAGES = ["cards", "colors", "health", "players", "archetypes", "deck-stats
 const CUBES = ["polyverse", "cc:polyversal"]
 
 // UNFINISHED_MARKERS are texts a page shows while it waits for the backend or
-// after a request failed. A snapshot containing one was taken too early.
-const UNFINISHED_MARKERS = ["Loading", "Couldn't load"]
+// after a request failed. A snapshot containing one was taken too early. A
+// loading text must be a whole line, so a card named "Loading Dock" is fine.
+const LOADING_TEXTS = ["Loading…", "Loading removal…", "Loading packages…", "Loading design map…"]
+const ERROR_TEXT = "Couldn't load"
 
 // The routes outside the stats pages, on every cube, and the import flow's
 // modes, which only the local cube has.
@@ -84,14 +86,17 @@ function buildRoutes() {
 // A route with a filter in its query is meant to match nothing, so it may.
 const EMPTY_COUNTS = "0 drafts · 0 decks"
 
-// unfinishedMarker returns the first UNFINISHED_MARKERS text in a route's
+// unfinishedMarker returns the first loading or error text in a route's
 // lines, EMPTY_COUNTS when an unfiltered route shows it, or null when the page
 // looks fully loaded.
 export function unfinishedMarker(lines, route = "") {
-  for (const marker of UNFINISHED_MARKERS) {
-    if (lines.some(line => line.includes(marker))) {
-      return marker
+  for (const text of LOADING_TEXTS) {
+    if (lines.includes(text)) {
+      return text
     }
+  }
+  if (lines.some(line => line.includes(ERROR_TEXT))) {
+    return ERROR_TEXT
   }
   if (!route.includes("match=") && lines.some(line => line.includes(EMPTY_COUNTS))) {
     return EMPTY_COUNTS
@@ -110,6 +115,22 @@ export function unfinishedRoutes(snapshot) {
     }
   }
   return found
+}
+
+// unknownRoutes returns the names that aren't in ROUTES, which take --only
+// would record as blank pages.
+export function unknownRoutes(names) {
+  return names.filter(name => !ROUTES.includes(name))
+}
+
+// onlyOutputProblem returns a message when a take --only run would overwrite
+// an existing file, which may be a full baseline, or null when it is safe.
+// exists tells whether a path is already there.
+export function onlyOutputProblem(isOnly, outFile, exists) {
+  if (isOnly && exists(outFile)) {
+    return `${outFile} already exists; --only writes a partial snapshot, so pick a new output path`
+  }
+  return null
 }
 
 // growBox returns the box { x0, y0, x1, y1 } (inclusive pixel corners) that
@@ -668,6 +689,14 @@ async function main() {
     let routes = ROUTES
     if (only) {
       routes = only.split(",")
+      for (const name of unknownRoutes(routes)) {
+        console.warn(`${name} is not in ROUTES; it will record a blank page`)
+      }
+    }
+    const problem = onlyOutputProblem(Boolean(only), args[0], existsSync)
+    if (problem !== null) {
+      console.error(problem)
+      process.exit(2)
     }
     await take(args[0], shotsDir, { scheme, width }, routes)
   } else if (command === "compare") {

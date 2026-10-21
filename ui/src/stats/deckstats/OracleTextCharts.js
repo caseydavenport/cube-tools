@@ -73,7 +73,7 @@ export function OracleTextByColor(input) {
 
   const data = {labels, datasets: dataset};
   return (
-    <div className="stats-chart-700-full">
+    <div className="stats-widget-chart">
       <Line height={"300px"} width={"300px"} options={options} data={data} />
     </div>
   );
@@ -148,7 +148,7 @@ export function OracleTextOverTimeChart(input) {
   const labels = input.data.labels
   const data = {labels, datasets: dataset};
   return (
-    <div className="stats-chart-700-full">
+    <div className="stats-widget-chart">
       <Line height={"300px"} width={"300px"} options={options} data={data} />
     </div>
   );
@@ -217,7 +217,7 @@ export function ManaCostByOracleTextOverTime(input) {
 
   const data = {labels, datasets: dataset};
   return (
-    <div className="stats-chart-700-full">
+    <div className="stats-widget-chart">
       <Line height={"300px"} width={"300px"} options={options} data={data} />
     </div>
   );

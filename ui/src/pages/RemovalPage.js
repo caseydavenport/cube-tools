@@ -188,7 +188,7 @@ export function RemovalPage(props) {
       <div className="analyze-page">
         <SectionCard title={COPY.tableTitle} action={controls}>
           <div className="stats-table-wrap">
-            <table className="widget-table page-table-full">
+            <table className="widget-table stats-full-width">
               <thead>
                 <tr>
                   {header("name", COPY.columns.card, undefined, false)}
@@ -206,12 +206,12 @@ export function RemovalPage(props) {
               <tbody>
                 {rows.map(c => (
                   <tr key={c.name} className="widget-table-row">
-                    <td className="header-cell page-bold-cell">{c.name}</td>
+                    <td className="header-cell stats-bold">{c.name}</td>
                     <td className="page-right-cell" title={c.mana_cost && c.eff_cost !== c.mv ? COPY.costTitle({ manaCost: c.mana_cost, mv: c.mv }) : c.mana_cost}>
                       {c.eff_cost}{c.eff_cost !== c.mv ? "*" : ""}
                     </td>
                     <td>{c.kind}</td>
-                    <td className="page-muted">{c.restriction}</td>
+                    <td className="stats-muted">{c.restriction}</td>
                     {c.scalable ? (
                       <td className="page-muted-center-cell" colSpan={4}>{COPY.scalable}</td>
                     ) : (
@@ -230,7 +230,7 @@ export function RemovalPage(props) {
             </table>
           </div>
         </SectionCard>
-        <p className="player-filter-hint page-section-gap">
+        <p className="player-filter-hint stats-section-gap">
           <RichText parts={COPY.hint} />
         </p>
       </div>

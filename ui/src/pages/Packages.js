@@ -6,6 +6,8 @@ import { RichText } from "../components/kit/RichText.js"
 import { SectionCard } from "../components/kit/SectionCard.js"
 import { SettingsPopover } from "../components/kit/SettingsPopover.js"
 import { DateRangeMenu } from "../toolbar/DateRangeMenu.js"
+import { HoverInfo } from "../components/kit/HoverInfo.js"
+import { HoverStats } from "../components/kit/HoverStats.js"
 import { PageToolbar } from "../toolbar/PageToolbar.js"
 import { SortHeader } from "../stats/sortHeader.js"
 import { compareBy } from "../stats/sortOrder.js"
@@ -55,9 +57,9 @@ const COPY = {
   },
 
   tooltips: {
-    buildRate: ({ packages, populated, level, rate, low, high }) =>
-      `${packages} of ${populated} populated decks built this package\n` +
-      `${level}% CI: ${rate} (${low}–${high})`,
+    buildRate: ({ packages, populated }) => `${packages} of ${populated} populated decks built this package`,
+    buildRateLabel: ({ level }) => `${level}% CI`,
+    buildRateRange: ({ rate, low, high }) => `${rate} (${low}–${high})`,
     has3: ({ has3, rate }) => `${has3} decks carry 3+ of this label's cards (${rate} of populated)`,
     commitment: "package decks / has-3 decks: how often the cards, once present, actually form a package",
   },
@@ -90,18 +92,22 @@ function rateColor(t) {
 
 const pct = v => `${Math.round(v * 100)}%`
 
-// ciTooltip spells out the build-rate interval behind a cell, so the table stays
-// clean but the sample and bounds are one hover away.
-function ciTooltip(s, populated, confidence) {
+// BuildRateCell is a label's build rate, tinted by the rate, with the sample
+// size and the confidence interval behind it on hover.
+function BuildRateCell({ s, populated, confidence }) {
   const level = Math.round(parseFloat(confidence || "0.8") * 100)
-  return COPY.tooltips.buildRate({
-    packages: s.package,
-    populated,
-    level,
-    rate: pct(s.buildRate),
-    low: pct(s.buildRateLow),
-    high: pct(s.buildRateHigh),
-  })
+  const rows = [{
+    label: COPY.tooltips.buildRateLabel({ level }),
+    value: COPY.tooltips.buildRateRange({ rate: pct(s.buildRate), low: pct(s.buildRateLow), high: pct(s.buildRateHigh) }),
+  }]
+
+  return (
+    <HoverStats title={COPY.tooltips.buildRate({ packages: s.package, populated })} rows={rows}>
+      <td style={{ textAlign: "right", background: rateColor(s.buildRate) }}>
+        {pct(s.buildRate)}
+      </td>
+    </HoverStats>
+  )
 }
 
 // Packages is the Packages page: the toolbar with its date range, deck filter,
@@ -186,7 +192,7 @@ export function Packages(props) {
   } else {
     table = (
       <div className="stats-table-wrap">
-        <table className="widget-table page-table-full">
+        <table className="widget-table stats-full-width">
           <thead>
             <tr>
               {header("label", COPY.columns.label, undefined, false)}
@@ -199,17 +205,19 @@ export function Packages(props) {
           <tbody>
             {rows.map(s => (
               <tr key={s.label} className="widget-table-row">
-                <td className="header-cell page-bold-cell">{s.label}</td>
-                <td style={{ textAlign: "right", background: rateColor(s.buildRate) }} title={ciTooltip(s, data.populatedDecks, confidence)}>
-                  {pct(s.buildRate)}
-                </td>
+                <td className="header-cell stats-bold">{s.label}</td>
+                <BuildRateCell s={s} populated={data.populatedDecks} confidence={confidence} />
                 <td className="page-right-cell">{s.package}</td>
-                <td className="page-right-cell" title={COPY.tooltips.has3({ has3: s.has3, rate: pct(s.has3Rate) })}>
-                  {s.has3} <span className="page-muted">({pct(s.has3Rate)})</span>
-                </td>
-                <td style={{ textAlign: "right", background: rateColor(s.commitmentRatio) }} title={COPY.tooltips.commitment}>
-                  {s.commitmentRatio.toFixed(2)}
-                </td>
+                <HoverInfo info={COPY.tooltips.has3({ has3: s.has3, rate: pct(s.has3Rate) })}>
+                  <td className="page-right-cell">
+                    {s.has3} <span className="stats-muted">({pct(s.has3Rate)})</span>
+                  </td>
+                </HoverInfo>
+                <HoverInfo info={COPY.tooltips.commitment}>
+                  <td style={{ textAlign: "right", background: rateColor(s.commitmentRatio) }}>
+                    {s.commitmentRatio.toFixed(2)}
+                  </td>
+                </HoverInfo>
               </tr>
             ))}
           </tbody>
@@ -225,7 +233,7 @@ export function Packages(props) {
         <SectionCard title={COPY.tableTitle} action={summary}>
           {table}
         </SectionCard>
-        <p className="player-filter-hint page-section-gap">
+        <p className="player-filter-hint stats-section-gap">
           <RichText parts={COPY.hint} />
         </p>
       </div>

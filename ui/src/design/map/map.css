@@ -159,7 +159,8 @@
   width: 380px; max-width: calc(100% - 28px);
 }
 .dm-why-pair { display: flex; align-items: center; flex-wrap: wrap; gap: 4px 8px; }
-.dm-why-card { display: inline-flex; align-items: center; gap: 8px; white-space: nowrap; }
+.dm-why-card { display: inline-flex; align-items: flex-start; gap: 8px; max-width: 100%; overflow-wrap: anywhere; }
+.dm-why-card .dm-dot { margin-top: 0.35em; }
 .dm-why-swap { color: var(--se-muted); font-weight: 500; }
 .dm-why-cols {
   display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 10px 2px 4px;

@@ -73,6 +73,7 @@
   color: var(--se-muted); font-size: 0.72rem; font-variant-numeric: tabular-nums;
   flex-shrink: 0;
 }
+/* Two classes so this beats .dm-swatch in styles.css, which loads after this file. */
 .dm-swatch.de-swatch-link { border-radius: 999px; height: 5px; }
 .de-warn-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--se-warn); flex-shrink: 0; }
 .de-badge-warn {

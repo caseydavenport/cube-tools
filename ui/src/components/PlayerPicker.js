@@ -40,7 +40,10 @@ export function PlayerPicker({ players, value, onChange, onAdded, allowAnonymous
           onChange={(e) => setName(e.target.value)}
           onKeyDown={(e) => {
             if (e.key === "Enter") submit()
-            if (e.key === "Escape") setAdding(false)
+            if (e.key === "Escape") {
+              e.stopPropagation()
+              setAdding(false)
+            }
           }}
         />
         <Button size="compact-sm" onClick={submit} disabled={!name.trim()}>{COMPONENTS_COPY.playerPicker.add}</Button>

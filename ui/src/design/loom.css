@@ -35,13 +35,14 @@ button.de-loom-chip:hover { border-color: var(--mantine-primary-color-filled); }
 /* Paired with .de-muted, which loads later from rules.css, so it needs both classes to win. */
 .de-muted.de-loom-note { font-size: 0.78rem; }
 
-/* Compact: smaller chips and still threads, for inside a popover. */
+/* Compact: smaller chips and still threads, for inside a popover. Long names wrap. */
 .de-loom-compact { gap: 0.3rem 4.25rem; margin: 0; }
 .de-loom-compact .de-loom-col { gap: 0.3rem; }
 .de-loom-compact .de-loom-chip {
-  box-sizing: border-box; height: 26px; gap: 6px;
-  padding: 0 9px; font-size: 12px;
+  box-sizing: border-box; min-height: 26px; gap: 6px;
+  padding: 3px 9px; font-size: 12px;
 }
+.de-loom-compact .de-loom-chip-name { white-space: normal; overflow-wrap: anywhere; }
 .de-loom-compact .dm-swatch { width: 9px; height: 9px; border-radius: 50%; }
 .de-loom-compact .de-thread { stroke-width: 2.5; opacity: 1; animation: none; stroke-dasharray: none; stroke-dashoffset: 0; }
 

@@ -82,7 +82,7 @@ export function ColorMatchupHeatmap({ matchupData, colorType }) {
         <table className="widget-table stats-table-compact">
           <thead>
             <tr>
-              <td className="header-cell stats-col-70"></td>
+              <td className="header-cell colors-heatmap-corner"></td>
               {groups.map(cp => (
                 <td key={cp} className="header-cell" style={{
                   textAlign: "center", minWidth: "65px", cursor: "pointer",

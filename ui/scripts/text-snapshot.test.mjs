@@ -1,6 +1,6 @@
 import { test } from "node:test"
 import assert from "node:assert/strict"
-import { compareSnapshots, percentChanged, ROUTES, formatBox, growBox, routeHash, shotName, unfinishedRoutes } from "./text-snapshot.mjs"
+import { compareSnapshots, percentChanged, ROUTES, formatBox, growBox, routeHash, shotName, unfinishedRoutes, unknownRoutes, onlyOutputProblem } from "./text-snapshot.mjs"
 
 // snapshotWith builds a one-route snapshot holding the given lines.
 function snapshotWith(lines) {
@@ -49,7 +49,7 @@ test("unfinishedRoutes lists pages showing a loading or error message", () => {
     },
   }
   assert.deepEqual(unfinishedRoutes(snapshot), [
-    { route: "loading", marker: "Loading" },
+    { route: "loading", marker: "Loading…" },
     { route: "failed", marker: "Couldn't load" },
   ])
 })
@@ -73,4 +73,26 @@ test("unfinishedRoutes flags empty counts except on a filtered route", () => {
     },
   }
   assert.deepEqual(unfinishedRoutes(snapshot), [{ route: "cc:polyversal/cards", marker: "0 drafts · 0 decks" }])
+})
+
+test("a card name containing Loading is not an unfinished page", () => {
+  const snapshot = { routes: { "cc:polyversal/cards": { lines: ["Cards", "Loading Dock", "Preloading Engine", "12 decks"] } } }
+  assert.deepEqual(unfinishedRoutes(snapshot), [])
+})
+
+test("each page's own loading text counts as unfinished", () => {
+  for (const text of ["Loading…", "Loading removal…", "Loading packages…", "Loading design map…"]) {
+    assert.deepEqual(unfinishedRoutes({ routes: { r: { lines: ["Title", text] } } }), [{ route: "r", marker: text }])
+  }
+})
+
+test("unknownRoutes lists names that are not in ROUTES", () => {
+  assert.deepEqual(unknownRoutes([ROUTES[0], "polyverse/cardz", "welcome"]), ["polyverse/cardz"])
+  assert.deepEqual(unknownRoutes([ROUTES[0]]), [])
+})
+
+test("onlyOutputProblem refuses an --only output that already exists", () => {
+  assert.match(onlyOutputProblem(true, "base.json", () => true), /base\.json/)
+  assert.equal(onlyOutputProblem(true, "new.json", () => false), null)
+  assert.equal(onlyOutputProblem(false, "base.json", () => true), null)
 })

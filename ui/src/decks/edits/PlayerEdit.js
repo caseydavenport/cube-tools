@@ -2,11 +2,12 @@ import React from "react"
 import { ActionIcon } from "@mantine/core"
 import { IconX } from "@tabler/icons-react"
 import { EditableField } from "../../components/kit/EditableField.js"
+import { inlineEditKeys } from "../../components/kit/inlineEditKeys.js"
 import { PlayerPicker } from "../../components/PlayerPicker.js"
 import { useDraftDecks, usePlayers } from "../useDeckEdits.js"
 
 // PlayerPickerEditor is the open player editor: the picker, which saves as soon
-// as a different player is chosen, and a button to close it unchanged.
+// as a different player is chosen, and a button, or Escape, to close it unchanged.
 function PlayerPickerEditor({ cube, deck, edits, done, copy }) {
   const { players, addPlayer } = usePlayers(true)
   const draftDecks = useDraftDecks(cube, deck, true)
@@ -21,8 +22,14 @@ function PlayerPickerEditor({ cube, deck, edits, done, copy }) {
     done()
   }
 
+  function onKeyDown(event) {
+    if (inlineEditKeys(event.key) === "cancel") {
+      done()
+    }
+  }
+
   return (
-    <span className="deck-inline-editor">
+    <span className="deck-inline-editor" onKeyDown={onKeyDown}>
       <PlayerPicker players={players} value={deck.player_id || 0} takenIds={takenIds} onAdded={addPlayer} onChange={onChange} />
       <ActionIcon variant="subtle" color="gray" size="sm" aria-label={copy.cancel} onClick={done}>
         <IconX size={14} />

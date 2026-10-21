@@ -345,7 +345,7 @@ export function PillSearchInput({ value, onChange, placeholder, label, cardNames
   const showPanel = showDropdown && (suggestions.length > 0 || helpText);
 
   return (
-    <Input.Wrapper label={label} className="search-bar-container pill-search-field">
+    <Input.Wrapper label={label} className="search-bar-container">
       <div className="pill-search-container" onClick={focusInput}>
         {pillTerms.map((term, index) => {
           const isValid = isPillValid(term);

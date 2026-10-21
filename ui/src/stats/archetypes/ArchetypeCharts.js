@@ -86,7 +86,7 @@ export function MacroArchetypeDeltaChart(input) {
   }
 
   return (
-    <div className="stats-chart-700">
+    <div className="stats-main-chart">
       <Bar options={options} data={data} />
     </div>
   )
@@ -209,7 +209,7 @@ export function MacroArchetypesChart(input) {
 
   const data = {labels, datasets: chartDataset};
   return (
-    <div className="stats-chart-700-full">
+    <div className="stats-widget-chart">
       <Line height={"300px"} width={"300px"} options={options} data={data} />
     </div>
   );
@@ -286,7 +286,7 @@ export function MacroArchetypesPieChart(input) {
   };
 
   return (
-    <div className="stats-chart-700-full">
+    <div className="stats-widget-chart">
       <Pie height={"300px"} width={"300px"} options={options} data={data} />
     </div>
   );

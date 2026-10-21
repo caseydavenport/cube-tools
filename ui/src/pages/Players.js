@@ -597,7 +597,7 @@ function WinRateChart(input) {
 
   const data = {labels, datasets: dataset};
   return (
-    <div className="page-chart-500">
+    <div className="players-line-chart">
       <Line height={"300px"} width={"300px"} options={options} data={data} />
     </div>
   );

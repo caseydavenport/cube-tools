@@ -117,7 +117,7 @@ export function WinsByMatchup(input) {
   };
 
   return (
-    <div className="stats-chart-700-full">
+    <div className="stats-widget-chart">
       <Bar height={"300px"} width={"300px"} options={options} data={data} />
     </div>
   );

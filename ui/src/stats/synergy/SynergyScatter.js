@@ -224,7 +224,7 @@ export function SynergyScatter({ synergyData, cube, matchStr, onCardSelected }) 
           {SYNERGY_COPY.scatter.description}
         </>
       } />
-      <div className="synergy-square-600">
+      <div className="synergy-scatter-box">
         <Scatter options={options} data={data} plugins={[medianLines]} />
       </div>
     </div>

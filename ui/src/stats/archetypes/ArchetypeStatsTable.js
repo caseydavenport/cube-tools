@@ -4,6 +4,7 @@ import { ARCHETYPES_COPY } from "./copy.js"
 import React from 'react'
 import { MinWinningPctDecks, Pct, SortFunc } from "../../utils/Utils.js"
 import { HoverInfo } from "../../components/kit/HoverInfo.js"
+import { HoverStats } from "../../components/kit/HoverStats.js"
 import { visibleItems } from "../../utils/dataKinds.js"
 import { macroArchetypes, watermark } from "./archetypeHelpers.js"
 import "../stats.css"
@@ -105,19 +106,29 @@ function winningPercentText(t) {
 // ArchetypeWinCell shows a win rate, greyed when it can't be told apart from a
 // coin flip, with the confidence interval on hover.
 function ArchetypeWinCell({ stats }) {
-  let style = undefined
-  let title = undefined
-  if (stats.win_percent_low != null) {
-    if (!stats.significant) {
-      style = { color: "var(--se-muted)" }
-    }
-    let verdict = ARCHETYPES_COPY.statsTable.notDistinguishable
-    if (stats.significant) {
-      verdict = ARCHETYPES_COPY.statsTable.distinguishable
-    }
-    title = ARCHETYPES_COPY.statsTable.winInterval({ low: stats.win_percent_low.toFixed(0), high: stats.win_percent_high.toFixed(0), verdict: verdict })
+  if (stats.win_percent_low == null) {
+    return <td>{stats.win_percent.toFixed(0)}%</td>
   }
-  return <td style={style} title={title}>{stats.win_percent.toFixed(0)}%</td>
+
+  let style = undefined
+  let verdict = ARCHETYPES_COPY.statsTable.distinguishable
+  if (!stats.significant) {
+    style = { color: "var(--se-muted)" }
+    verdict = ARCHETYPES_COPY.statsTable.notDistinguishable
+  }
+  const rows = [{
+    label: ARCHETYPES_COPY.statsTable.winIntervalLabel,
+    value: ARCHETYPES_COPY.statsTable.winInterval({
+      low: stats.win_percent_low.toFixed(0),
+      high: stats.win_percent_high.toFixed(0),
+    }),
+  }]
+
+  return (
+    <HoverStats rows={rows} footer={verdict}>
+      <td style={style}>{stats.win_percent.toFixed(0)}%</td>
+    </HoverStats>
+  )
 }
 
 // archetypeSortValue is the value a row sorts by for the clicked column,

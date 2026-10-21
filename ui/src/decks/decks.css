@@ -276,7 +276,7 @@
   font-size: 13px;
 }
 
-/* The img prefix keeps the .cardimage rules above .button-selected, which loads after this file. */
+/* The img prefix makes this outrank .button-selected, which loads later, so a selected image keeps this shadow, not the button glow. */
 img.cardimage {
   width: 120px;
   height: auto;

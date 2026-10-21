@@ -77,7 +77,7 @@ export function WinsByManaCost(input) {
   };
 
   return (
-    <div className="stats-chart-700-full">
+    <div className="stats-widget-chart">
       <Bar height={"300px"} width={"300px"} options={options} data={data} />
     </div>
   );
@@ -188,7 +188,7 @@ export function WinsByCardType(input) {
   };
 
   return (
-    <div className="stats-chart-700-full">
+    <div className="stats-widget-chart">
       <Bar height={"300px"} width={"300px"} options={options} data={data} />
     </div>
   );
@@ -266,7 +266,7 @@ export function WinsByNonBasicLandDensity(input) {
   };
 
   return (
-    <div className="stats-chart-700-full">
+    <div className="stats-widget-chart">
       <Bar height={"300px"} width={"300px"} options={options} data={data} />
     </div>
   );

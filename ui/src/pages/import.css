@@ -426,7 +426,8 @@
 .import-deck-head label {
   display: flex; align-items: center; gap: 6px; font-size: 0.85em; color: var(--se-muted);
 }
-.import-deck-head label input {
+/* style-ok: skips the Mantine TextInput that PlayerPicker renders */
+.import-deck-head label input:not(.mantine-Input-input) {
   background: var(--se-page); border: 1px solid var(--se-border); color: var(--se-text);
   padding: 4px 8px; border-radius: 6px; font-size: 0.95em; font-family: inherit;
 }

@@ -380,11 +380,11 @@
 .deck-link { color: var(--se-muted); text-decoration: none; font-size: 0.9em; }
 .deck-link:hover { color: var(--mantine-primary-color-filled); }
 
-.stats-chart-700 {
+.stats-main-chart {
   height: 700px;
 }
 
-.stats-chart-700-full {
+.stats-widget-chart {
   height: 700px;
   width: 100%;
 }
@@ -401,7 +401,7 @@
   justify-content: center;
 }
 
-.stats-chart-800-full {
+.stats-tag-chart {
   height: 800px;
   width: 100%;
 }
@@ -452,7 +452,7 @@
   font-size: 0.85em;
 }
 
-.stats-col-70 {
+.colors-heatmap-corner {
   min-width: 70px;
 }
 
@@ -466,15 +466,15 @@
   color: var(--se-muted);
 }
 
-.stats-chart-420 {
+.colors-rate-chart {
   height: 420px;
 }
 
-.stats-chart-min-700 {
+.stats-deck-scatter {
   min-height: 700px;
 }
 
-.synergy-square-600 {
+.synergy-scatter-box {
   width: min(600px, 100%);
   aspect-ratio: 1 / 1;
   margin: 0 auto;
@@ -532,7 +532,7 @@
   white-space: nowrap;
 }
 
-.synergy-square-500 {
+.synergy-hub-scatter {
   width: min(500px, 100%);
   aspect-ratio: 1 / 1;
   margin: 0 auto;

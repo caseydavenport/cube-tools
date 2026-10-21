@@ -145,7 +145,7 @@ export function SynergyFocalCompare({ synergyCompare, cube, onCardSelected }) {
     <div className="stats-section-gap-lg">
       <ChartTitle title={SYNERGY_COPY.focalCompare.title} description={SYNERGY_COPY.focalCompare.description} />
       <div className="synergy-pair-grid">
-        <div className="synergy-square-600">
+        <div className="synergy-scatter-box">
           <Scatter options={options} data={data} plugins={[diagonalLine]} />
         </div>
         <div className="widget-scroll">

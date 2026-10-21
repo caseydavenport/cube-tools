@@ -4,65 +4,36 @@
   justify-content: center;
 }
 
-.page-clickable {
-  cursor: pointer;
-}
-
 .selector-group.page-row-gap {
   gap: 0.5rem;
-}
-
-.page-table-scroll {
-  overflow-x: auto;
 }
 
 .page-table-centered {
   margin: 0 auto;
 }
 
-.page-bold-cell {
-  font-weight: bold;
-}
-
 .page-center-cell {
   text-align: center;
 }
 
-.page-chart-320 {
+.explore-pivot-chart {
   height: 320px;
   margin-top: 2rem;
 }
 
-.page-table-compact {
-  margin: 0 auto;
-  font-size: 0.85em;
-}
-
-.page-col-80 {
+.explore-heatmap-row-head {
   min-width: 80px;
 }
 
-.page-chart-420 {
+.explore-line-chart {
   height: 420px;
-}
-
-.page-table-full {
-  width: 100%;
 }
 
 .page-right-cell {
   text-align: right;
 }
 
-.page-muted {
-  color: var(--se-muted);
-}
-
-.page-section-gap {
-  margin-top: 1rem;
-}
-
-.page-chart-500 {
+.players-line-chart {
   height: 500px;
   width: 100%;
 }
