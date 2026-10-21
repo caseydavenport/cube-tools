@@ -149,9 +149,8 @@ function winningPercentText(color) {
 // WinPercentCell shows a color's win rate, greyed when it can't be told apart
 // from a coin flip, with the confidence interval on hover.
 function WinPercentCell({ color }) {
-  const text = color.win_percent.toFixed(0) + "%"
   if (color.win_percent_low == null) {
-    return <td>{text}</td>
+    return <td>{color.win_percent.toFixed(0)}%</td>
   }
 
   let style = undefined
@@ -170,7 +169,7 @@ function WinPercentCell({ color }) {
 
   return (
     <HoverStats rows={rows} footer={verdict}>
-      <td style={style}>{text}</td>
+      <td style={style}>{color.win_percent.toFixed(0)}%</td>
     </HoverStats>
   )
 }

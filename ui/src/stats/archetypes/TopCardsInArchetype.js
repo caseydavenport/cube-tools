@@ -231,9 +231,7 @@ export function ArchetypeDetailsPanel(input) {
             <tr>
               <td onClick={input.onHeaderClick} id="name" className="header-cell">{ARCHETYPES_COPY.topCards.pairedArchetype}</td>
               <HoverInfo title={ARCHETYPES_COPY.topCards.countHeader} info={ARCHETYPES_COPY.topCards.pairedCountTip}>
-                <HoverInfo title={ARCHETYPES_COPY.topCards.countHeader} info={ARCHETYPES_COPY.topCards.playedByCountTip}>
                 <td onClick={input.onHeaderClick} id="num" className="header-cell">{ARCHETYPES_COPY.topCards.countHeader}</td>
-              </HoverInfo>
               </HoverInfo>
             </tr>
           </thead>
@@ -260,7 +258,9 @@ export function ArchetypeDetailsPanel(input) {
           <thead className="table-header">
             <tr>
               <td onClick={input.onHeaderClick} id="name" className="header-cell">{ARCHETYPES_COPY.topCards.playedByPlayer}</td>
-              <td onClick={input.onHeaderClick} id="num" className="header-cell">{ARCHETYPES_COPY.topCards.countHeader}</td>
+              <HoverInfo title={ARCHETYPES_COPY.topCards.countHeader} info={ARCHETYPES_COPY.topCards.playedByCountTip}>
+                <td onClick={input.onHeaderClick} id="num" className="header-cell">{ARCHETYPES_COPY.topCards.countHeader}</td>
+              </HoverInfo>
             </tr>
           </thead>
           <tbody>

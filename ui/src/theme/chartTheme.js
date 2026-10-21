@@ -16,11 +16,10 @@ export function withAlpha(hex, alpha) {
   return `rgba(${r}, ${g}, ${b}, ${alpha})`
 }
 
-// chartThemeFor returns the colors charts use in one color scheme: text,
-// muted text, the page background (for halos behind canvas labels), the card
-// and border colors (for tooltips), grid
-// lines, the emphasized zero line, and the good/bad colors as solid lines and
-// as bar fills.
+// chartThemeFor returns the colors charts use in one color scheme: text, muted
+// text, the page background (for halos behind canvas labels), the card and
+// border colors (for tooltips), grid lines, the emphasized zero line, and the
+// good/bad colors as solid lines and as bar fills.
 export function chartThemeFor(scheme) {
   let tokens = LIGHT
   if (scheme === "dark") {
